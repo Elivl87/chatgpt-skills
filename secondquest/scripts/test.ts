@@ -84,13 +84,14 @@ const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as { sc
 
 // ---------------------------------------------------------------------------
 group('1. Production policy — English is the default output');
-test('production.json: default locale en, render default en, config valid', () => {
+test('production.json: default locale en, render default en, config valid, every voice official', () => {
   assert.equal(PRODUCTION.defaultLocale, 'en');
   assert.equal(PRODUCTION.render.defaultLocale, 'en');
-  noErrors(validateProduction(PRODUCTION));
+  assert.deepEqual(validateProduction(PRODUCTION), [], 'no errors and no warnings (all voices official)');
 });
-test('official English voice is am_michael @ 1.00 (en-us)', () => {
+test('official English voice is SecondQuest English Voice v1: am_michael @ 1.00 (en-us)', () => {
   const v = PRODUCTION.voices.en;
+  assert.equal(v.name, 'SecondQuest English Voice v1');
   assert.equal(v.voice, 'am_michael');
   assert.equal(v.speed, 1.0);
   assert.equal(v.lang, 'en-us');
@@ -162,9 +163,10 @@ test('on-screen text switches language via LocalText', () => {
   assert.equal(localize(marker.text, 'en'), 'YOU ARE HERE');
   assert.equal(localize(marker.text, 'es'), 'ESTÁS AQUÍ');
 });
-test('Spanish voice config parses (id or native blend)', () => {
-  parseVoiceSpec(PRODUCTION.voices.es.voice);
-  for (const c of PRODUCTION.voices.es.candidates ?? []) parseVoiceSpec(c);
+test('official Spanish voice is SecondQuest Spanish Voice v1: am_michael:0.4,em_alex:0.6 @ 1.00 (es-419)', () => {
+  const v = PRODUCTION.voices.es;
+  assert.deepEqual([v.name, v.status, v.voice, v.speed, v.lang], ['SecondQuest Spanish Voice v1', 'official', 'am_michael:0.4,em_alex:0.6', 1.0, 'es-419']);
+  assert.deepEqual(parseVoiceSpec(v.voice), { kind: 'blend', parts: [{ id: 'am_michael', weight: 0.4 }, { id: 'em_alex', weight: 0.6 }] });
   assert.throws(() => parseVoiceSpec('am_michael:0.4,em_alex:0.5'), /sum to/);
 });
 

@@ -1,5 +1,5 @@
 {
-  "notes": "SecondQuest production defaults. English is the production and default output language; other locales are fully supported but only rendered on explicit request (--locale <code>). New episodes are scaffolded from these values.",
+  "notes": "SecondQuest Production Standard. English is the production and default output language; Spanish (and any other locale) is optional and only produced/rendered on explicit request (--locale <code>). New episodes are scaffolded from these values.",
 
   "defaultLocale": "en",
   "render": {
@@ -18,14 +18,14 @@
       "lang": "en-us"
     },
     "es": {
-      "status": "provisional — official Spanish voice not selected yet",
+      "status": "official",
+      "name": "SecondQuest Spanish Voice v1",
       "engine": "kokoro",
       "model": "kokoro-v1.0.int8.onnx + voices-v1.0.bin (local)",
-      "voice": "em_alex",
+      "voice": "am_michael:0.4,em_alex:0.6",
       "speed": 1.0,
       "lang": "es-419",
-      "candidates": ["em_alex", "am_michael:0.4,em_alex:0.6", "am_michael:0.5,em_alex:0.5"],
-      "note": "voice accepts a Kokoro voice id or a native embedding blend 'a:w,b:w' (weights sum to 1). See the Spanish voice auditions."
+      "note": "Native Kokoro embedding blend: 40% am_michael + 60% em_alex (weighted sum of the style tensors). Spanish is an optional locale, produced/rendered only on explicit request (--locale es)."
     }
   },
 

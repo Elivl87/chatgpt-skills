@@ -18,7 +18,6 @@ export interface VoiceConfig {
   speed: number;
   /** espeak-ng language used to phonemize ("en-us", "es-419"). */
   lang: string;
-  candidates?: string[];
   note?: string;
 }
 
