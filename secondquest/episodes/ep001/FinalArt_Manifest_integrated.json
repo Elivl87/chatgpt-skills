@@ -1,0 +1,1231 @@
+{
+  "episode": "ep001_farming",
+  "target": "hook_final_art",
+  "duration_sec": 45.53,
+  "fps": 30,
+  "resolution": "1920x1080",
+  "scene_count": 15,
+  "asset_count": 46,
+  "source_engine": "SecondQuest Production Engine V3 FINAL / frozen",
+  "scenes": [
+    {
+      "scene": "s01_wake",
+      "start": 0.0,
+      "end": 3.388,
+      "duration": 3.388,
+      "note": "Quest wakes up. Alarm. Slight camera push.",
+      "narration": [
+        {
+          "cue": "l01",
+          "start": 0.3,
+          "end": 3.238,
+          "text": "Farming Simulator is a game where you wake up..."
+        }
+      ],
+      "assets": [
+        "ep001.bg_bedroom",
+        "ep001.alarm_clock",
+        "quest.bed_sleeping",
+        "quest.bed_awake"
+      ],
+      "texts": [],
+      "sfx": [
+        "alarm",
+        "impact"
+      ]
+    },
+    {
+      "scene": "s02_work",
+      "start": 3.388,
+      "end": 4.662,
+      "duration": 1.274,
+      "note": "Quest working at a desk. Emails and paperwork multiply.",
+      "narration": [
+        {
+          "cue": "l02",
+          "start": 3.538,
+          "end": 4.512,
+          "text": "go to work..."
+        }
+      ],
+      "assets": [
+        "ep001.bg_office",
+        "quest.desk_typing",
+        "ep001.email_icon",
+        "ep001.paper_stack"
+      ],
+      "texts": [],
+      "sfx": [
+        "whip",
+        "keyboard",
+        "notify",
+        "notify",
+        "notify",
+        "notify",
+        "impact"
+      ]
+    },
+    {
+      "scene": "s03_money",
+      "start": 4.662,
+      "end": 5.748,
+      "duration": 1.086,
+      "note": "Quest receives money. Wallet briefly becomes happy. Same office art, new framing.",
+      "narration": [
+        {
+          "cue": "l03",
+          "start": 4.762,
+          "end": 5.618,
+          "text": "make money..."
+        }
+      ],
+      "assets": [
+        "ep001.bg_office",
+        "quest.holding_paycheck",
+        "wallet.happy"
+      ],
+      "texts": [],
+      "sfx": [
+        "money",
+        "pop"
+      ]
+    },
+    {
+      "scene": "s04_tractor",
+      "start": 5.748,
+      "end": 8.353,
+      "duration": 2.605,
+      "note": "Enormous expensive tractor. Tilt-up reveal of scale. Wallet becomes worried, balance drains.",
+      "narration": [
+        {
+          "cue": "l04",
+          "start": 5.868,
+          "end": 8.023,
+          "text": "buy extremely expensive equipment..."
+        }
+      ],
+      "assets": [
+        "ep001.bg_dealership",
+        "ep001.tractor_huge",
+        "quest.looking_up_awe",
+        "wallet.happy",
+        "wallet.worried"
+      ],
+      "texts": [
+        {
+          "en": "$450,000",
+          "es": "$450.000"
+        }
+      ],
+      "sfx": [
+        "sparkle",
+        "impact",
+        "drain"
+      ]
+    },
+    {
+      "scene": "s05_home",
+      "start": 8.353,
+      "end": 11.709,
+      "duration": 3.356,
+      "note": "Quest returns home exhausted... and immediately transforms into farmer mode. He just finished working, to start working again.",
+      "narration": [
+        {
+          "cue": "l05",
+          "start": 8.473,
+          "end": 9.241,
+          "text": "and then..."
+        },
+        {
+          "cue": "l06",
+          "start": 9.791,
+          "end": 10.909,
+          "text": "go back to work."
+        }
+      ],
+      "assets": [
+        "ep001.bg_living_room",
+        "quest.exhausted_slumped",
+        "quest.farmer_gaming"
+      ],
+      "texts": [
+        {
+          "en": "LOAD SAVE",
+          "es": "CARGAR PARTIDA"
+        }
+      ],
+      "sfx": [
+        "whoosh",
+        "poof",
+        "ui_select"
+      ]
+    },
+    {
+      "scene": "s06_split",
+      "start": 11.709,
+      "end": 17.946,
+      "duration": 6.237,
+      "note": "Split screen OFFICE WORK vs FARM WORK, identical physical rhythm. The Grind wheel spins between them.",
+      "narration": [
+        {
+          "cue": "l07",
+          "start": 11.909,
+          "end": 17.596,
+          "text": "Which sounds suspiciously similar to the thing video games were invented to help us escape from."
+        }
+      ],
+      "assets": [
+        "ep001.bg_office",
+        "quest.desk_typing",
+        "ep001.bg_farm_ingame",
+        "quest.tractor_side",
+        "grind.wheel"
+      ],
+      "texts": [
+        {
+          "en": "Office work",
+          "es": "Trabajo de oficina"
+        },
+        {
+          "en": "Farm work",
+          "es": "Trabajo en la granja"
+        }
+      ],
+      "sfx": [
+        "whoosh",
+        "whoosh",
+        "keyboard",
+        "tractor",
+        "pop"
+      ]
+    },
+    {
+      "scene": "s07_dragon",
+      "start": 17.946,
+      "end": 19.658,
+      "duration": 1.712,
+      "note": "There are no dragons — dragon rises dramatically, is instantly rejected.",
+      "narration": [
+        {
+          "cue": "l08",
+          "start": 18.296,
+          "end": 19.578,
+          "text": "There are no dragons."
+        }
+      ],
+      "assets": [
+        "ep001.bg_fantasy",
+        "ep001.dragon"
+      ],
+      "texts": [],
+      "sfx": [
+        "rumble",
+        "impact",
+        "stamp",
+        "buzzer"
+      ]
+    },
+    {
+      "scene": "s08_gunfight",
+      "start": 19.658,
+      "end": 20.917,
+      "duration": 1.259,
+      "note": "No gunfights — action fantasy, rejected.",
+      "narration": [
+        {
+          "cue": "l09",
+          "start": 19.778,
+          "end": 20.837,
+          "text": "No gunfights."
+        }
+      ],
+      "assets": [
+        "ep001.bg_action",
+        "quest.action_hero"
+      ],
+      "texts": [],
+      "sfx": [
+        "whoosh",
+        "impact",
+        "stamp",
+        "buzzer"
+      ]
+    },
+    {
+      "scene": "s09_princess",
+      "start": 20.917,
+      "end": 23.027,
+      "duration": 2.11,
+      "note": "No princess to save — knight fantasy, rejected. Let the stamp breathe.",
+      "narration": [
+        {
+          "cue": "l10",
+          "start": 21.037,
+          "end": 22.477,
+          "text": "No princess to save."
+        }
+      ],
+      "assets": [
+        "ep001.bg_castle",
+        "ep001.princess_tower",
+        "quest.knight"
+      ],
+      "texts": [],
+      "sfx": [
+        "sparkle",
+        "stamp",
+        "buzzer"
+      ]
+    },
+    {
+      "scene": "s10_enemy",
+      "start": 23.027,
+      "end": 25.961,
+      "duration": 2.934,
+      "note": "Most of the time, your greatest enemy... — mock-epic hero shot, Fear peeks in, lightning.",
+      "narration": [
+        {
+          "cue": "l11",
+          "start": 23.127,
+          "end": 25.461,
+          "text": "Most of the time, your greatest enemy..."
+        }
+      ],
+      "assets": [
+        "ep001.bg_storm",
+        "quest.tractor_heroic",
+        "fear.peeking"
+      ],
+      "texts": [],
+      "sfx": [
+        "tension",
+        "rumble"
+      ]
+    },
+    {
+      "scene": "s11_field",
+      "start": 25.961,
+      "end": 29.726,
+      "duration": 3.765,
+      "note": "...is a field that's slightly larger than you expected. Dramatic pull-out: Quest + tractor become tiny. Hold for the punchline.",
+      "narration": [
+        {
+          "cue": "l12",
+          "start": 26.011,
+          "end": 28.926,
+          "text": "is a field that's slightly larger than you expected."
+        }
+      ],
+      "assets": [
+        "ep001.bg_field_huge",
+        "quest.tractor_side"
+      ],
+      "texts": [
+        {
+          "en": "YOU ARE HERE",
+          "es": "ESTÁS AQUÍ"
+        }
+      ],
+      "sfx": [
+        "wind",
+        "whoosh",
+        "pop",
+        "crickets"
+      ]
+    },
+    {
+      "scene": "s12_millions",
+      "start": 29.726,
+      "end": 33.694,
+      "duration": 3.968,
+      "note": "And yet millions of people voluntarily spend their evenings... — windows light up across the city.",
+      "narration": [
+        {
+          "cue": "l13",
+          "start": 30.026,
+          "end": 33.714,
+          "text": "And yet millions of people voluntarily spend their evenings"
+        }
+      ],
+      "assets": [
+        "ep001.bg_city_evening",
+        "ep001.window_lit"
+      ],
+      "texts": [],
+      "sfx": [
+        "pop",
+        "pop",
+        "pop"
+      ]
+    },
+    {
+      "scene": "s13_chores",
+      "start": 33.694,
+      "end": 37.796,
+      "duration": 4.102,
+      "note": "planting crops, transporting fertilizer, feeding animals... — ONE farm illustration, three shots: the camera whips station to station, XP bar fills, then pulls out to reveal all three Quests bouncing in the same grind rhythm.",
+      "narration": [
+        {
+          "cue": "l13",
+          "start": 30.026,
+          "end": 33.714,
+          "text": "And yet millions of people voluntarily spend their evenings"
+        },
+        {
+          "cue": "l14",
+          "start": 33.814,
+          "end": 34.835,
+          "text": "planting crops,"
+        },
+        {
+          "cue": "l15",
+          "start": 34.885,
+          "end": 36.382,
+          "text": "transporting fertilizer,"
+        },
+        {
+          "cue": "l16",
+          "start": 36.432,
+          "end": 37.596,
+          "text": "feeding animals..."
+        }
+      ],
+      "assets": [
+        "ep001.bg_farm_panorama",
+        "quest.farmer_planting",
+        "quest.farmer_fertilizer",
+        "quest.farmer_feeding"
+      ],
+      "texts": [],
+      "sfx": [
+        "ui_select",
+        "whip",
+        "ui_select",
+        "whip",
+        "ui_complete",
+        "whoosh"
+      ]
+    },
+    {
+      "scene": "s14_bigger_tractor",
+      "start": 37.796,
+      "end": 42.174,
+      "duration": 4.378,
+      "note": "...and getting genuinely excited about buying a bigger tractor. Bigger tractor drops from the sky. Wallet faints (callback).",
+      "narration": [
+        {
+          "cue": "l17",
+          "start": 37.896,
+          "end": 41.624,
+          "text": "and getting genuinely excited about buying a bigger tractor."
+        }
+      ],
+      "assets": [
+        "ep001.bg_dealership",
+        "ep001.tractor_bigger",
+        "quest.excited",
+        "progress.cheering",
+        "wallet.fainted"
+      ],
+      "texts": [
+        {
+          "en": "NEW TRACTOR",
+          "es": "TRACTOR NUEVO"
+        }
+      ],
+      "sfx": [
+        "whoosh",
+        "impact",
+        "ui_complete",
+        "sparkle",
+        "drain"
+      ]
+    },
+    {
+      "scene": "s15_sunset",
+      "start": 42.174,
+      "end": 45.53,
+      "duration": 3.356,
+      "note": "Quiet sunset. Quest looks over the farm. 'So... why?' SecondQuest identity beat: ~0.95 s visible, then the episode continues.",
+      "narration": [
+        {
+          "cue": "l18",
+          "start": 42.524,
+          "end": 43.139,
+          "text": "So..."
+        },
+        {
+          "cue": "l19",
+          "start": 43.689,
+          "end": 44.227,
+          "text": "why?"
+        }
+      ],
+      "assets": [
+        "ep001.bg_sunset_sky",
+        "ep001.mg_sunset_farm",
+        "quest.sitting_back",
+        "ep001.fg_fence",
+        "brand.wordmark"
+      ],
+      "texts": [],
+      "sfx": [
+        "wind",
+        "chime"
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "status": "✅",
+      "key": "fear.peeking",
+      "file": "public/characters/fear/fear_peeking.png",
+      "size": "840×1040",
+      "used_in": "s10_enemy",
+      "brief": "Fear character peeking from screen edge, trembling, big anxious eyes.",
+      "category": "Fear",
+      "integration": {
+        "status": "EXACT",
+        "source": "Part1 fear_shadow",
+        "note": ""
+      },
+      "delivered_size": "1214×1193"
+    },
+    {
+      "status": "✅",
+      "key": "grind.wheel",
+      "file": "public/characters/grind/grind_wheel.png",
+      "size": "570×570",
+      "used_in": "s06_split",
+      "brief": "The Grind: a hamster wheel on a stand, side view, empty. Spoked so rotation reads.",
+      "category": "The Grind",
+      "integration": {
+        "status": "EXACT",
+        "source": "Part1 grind_hamster_wheel",
+        "note": "Wheel with stand and hamster; `spin` became `wobble` (full rotation would turn the stand upside down)."
+      },
+      "delivered_size": "1225×1204"
+    },
+    {
+      "status": "✅",
+      "key": "progress.cheering",
+      "file": "public/characters/progress/progress_cheering.png",
+      "size": "570×750",
+      "used_in": "s14_bigger_tractor",
+      "brief": "Progress robot (progress-bar body) arms up, bar full and glowing.",
+      "category": "Progress",
+      "integration": {
+        "status": "EXACT",
+        "source": "Part1 progress_triumphant",
+        "note": ""
+      },
+      "delivered_size": "1175×1152"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.action_hero",
+      "file": "public/characters/quest/quest_action_hero.png",
+      "size": "1640×2050",
+      "used_in": "s08_gunfight",
+      "brief": "Quest in helmet and tactical vest over the hoodie, holding a chunky toy-like blaster, heroic pose. Comedic, not violent.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "QVB outfit \"Soldier\"",
+        "note": "Official outfit variant; no blaster."
+      },
+      "delivered_size": "296×808"
+    },
+    {
+      "status": "✅",
+      "key": "quest.bed_awake",
+      "file": "public/characters/quest/quest_bed_awake.png",
+      "size": "2020×1260",
+      "used_in": "s01_wake",
+      "brief": "Same bed and framing as quest_bed_sleeping (must overlay exactly). Quest bolt upright, eyes wide, hair messy, one hand slapping toward the alarm (screen right).",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "QP r1c2 + bed foot from r1c1",
+        "note": "The nightstand and clock were removed from the cut-out; the alarm is its own layer."
+      },
+      "delivered_size": "1728×1024"
+    },
+    {
+      "status": "✅",
+      "key": "quest.bed_sleeping",
+      "file": "public/characters/quest/quest_bed_sleeping.png",
+      "size": "2020×1260",
+      "used_in": "s01_wake",
+      "brief": "Quest asleep in a single bed under a blanket, 3/4 view. Bed included in the cut-out. Curly hair spilling on pillow.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "QP r1c1 (mirrored)",
+        "note": "Swap pair shares its canvas with bed_awake (pixel-aligned)."
+      },
+      "delivered_size": "1728×1024"
+    },
+    {
+      "status": "✅",
+      "key": "quest.desk_typing",
+      "file": "public/characters/quest/quest_desk_typing.png",
+      "size": "2450×2130",
+      "used_in": "s02_work, s06_split",
+      "brief": "Red hoodie, seated at an office desk with monitor and keyboard (desk included), 3/4 view facing screen left, tired neutral face, hands on keyboard.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "QP r2c4 (desk + chair + laptop)",
+        "note": "Laptop instead of a monitor."
+      },
+      "delivered_size": "1352×1384"
+    },
+    {
+      "status": "✅",
+      "key": "quest.excited",
+      "file": "public/characters/quest/quest_excited.png",
+      "size": "1000×1250",
+      "used_in": "s14_bigger_tractor",
+      "brief": "Farmer cap, both fists up, sparkling eyes, open-mouth grin. Pure joy over a vehicle.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "OR Q03_Emocionado",
+        "note": "Red hoodie, not a farmer cap."
+      },
+      "delivered_size": "428×860"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.exhausted_slumped",
+      "file": "public/characters/quest/quest_exhausted_slumped.png",
+      "size": "1870×1490",
+      "used_in": "s05_home",
+      "brief": "Collapsed on a couch (couch included), arms limp, eyes half closed, bag dropped at feet. End-of-workday energy.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "Part1 quest_exhausted_desk",
+        "note": "Exhausted at a desk (no couch). Swap pair shares its canvas with farmer_gaming."
+      },
+      "delivered_size": "1262×1065"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.farmer_feeding",
+      "file": "public/characters/quest/quest_farmer_feeding.png",
+      "size": "1340×1340",
+      "used_in": "s13_chores",
+      "brief": "Farmer cap, tossing feed from a bucket, a few chickens at his feet (included).",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "QVB outfit \"Farmer\"",
+        "note": "No chickens/bucket drawing."
+      },
+      "delivered_size": "352×820"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.farmer_fertilizer",
+      "file": "public/characters/quest/quest_farmer_fertilizer.png",
+      "size": "1340×1340",
+      "used_in": "s13_chores",
+      "brief": "Farmer cap, pushing a wheelbarrow loaded with fertilizer sacks, effortful but happy.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "QP r2c3 (pitchfork farmer)",
+        "note": "No wheelbarrow drawing."
+      },
+      "delivered_size": "1036×1680"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.farmer_gaming",
+      "file": "public/characters/quest/quest_farmer_gaming.png",
+      "size": "1870×1490",
+      "used_in": "s05_home",
+      "brief": "SAME couch/framing as quest_exhausted_slumped (swap must overlay). Now sitting forward, farmer cap on, gamepad in hands, eyes bright and focused on TV (screen right).",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "Part1 quest_excited_gamer",
+        "note": "Gamepad, eyes bright; no farmer cap."
+      },
+      "delivered_size": "1262×1065"
+    },
+    {
+      "status": "✅",
+      "key": "quest.farmer_planting",
+      "file": "public/characters/quest/quest_farmer_planting.png",
+      "size": "1140×1340",
+      "used_in": "s13_chores",
+      "brief": "Farmer cap, kneeling/bending to plant seedlings, satisfied focus.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "QP r3c1 (digging)",
+        "note": ""
+      },
+      "delivered_size": "1344×1196"
+    },
+    {
+      "status": "✅",
+      "key": "quest.holding_paycheck",
+      "file": "public/characters/quest/quest_holding_paycheck.png",
+      "size": "1610×2140",
+      "used_in": "s03_money",
+      "brief": "Standing, holding a paycheck up with both hands, small satisfied smile.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "Part1 quest_money_celebration",
+        "note": "Paycheck + cash (replaces the QP r1c4 cut-out)."
+      },
+      "delivered_size": "1088×1190"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.knight",
+      "file": "public/characters/quest/quest_knight.png",
+      "size": "1540×1920",
+      "used_in": "s09_princess",
+      "brief": "Quest in shiny armor with the red hoodie visible underneath, sword raised, gallant pose.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "QVB outfit \"RPG\"",
+        "note": "Official outfit variant (sword + cape)."
+      },
+      "delivered_size": "372×820"
+    },
+    {
+      "status": "✅",
+      "key": "quest.looking_up_awe",
+      "file": "public/characters/quest/quest_looking_up_awe.png",
+      "size": "930×1320",
+      "used_in": "s04_tractor",
+      "brief": "Standing, head tilted way back looking up screen-right, mouth open, tiny in the face of something enormous.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "QP r2c1 (Quest separated from the tractor)",
+        "note": ""
+      },
+      "delivered_size": "423×1060"
+    },
+    {
+      "status": "✅",
+      "key": "quest.sitting_back",
+      "file": "public/characters/quest/quest_sitting_back.png",
+      "size": "600×750",
+      "used_in": "s15_sunset",
+      "brief": "Back view: Quest sitting (on the fence line), farmer cap, red hoodie, curly hair visible, relaxed shoulders. Quiet, contemplative.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 6 (separated from the plate)",
+        "note": ""
+      },
+      "delivered_size": "434×854"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.tractor_heroic",
+      "file": "public/characters/quest/quest_tractor_heroic.png",
+      "size": "2340×2340",
+      "used_in": "s10_enemy",
+      "brief": "Low-angle hero shot: Quest on the tractor seat, farmer cap, squinting at the horizon like a final boss awaits. Tractor front grille dominant.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "Part1 tractor_heroic",
+        "note": "Approved heroic low-angle tractor, grille dominant; Quest not visible in the cab."
+      },
+      "delivered_size": "1233×997"
+    },
+    {
+      "status": "🔁",
+      "key": "quest.tractor_side",
+      "file": "public/characters/quest/quest_tractor_side.png",
+      "size": "2180×1610",
+      "used_in": "s06_split, s11_field",
+      "brief": "Quest in farmer cap driving a mid-size green tractor, side view facing screen left, both hands on wheel. Reused as the tiny tractor in the giant-field shot.",
+      "category": "Quest poses",
+      "integration": {
+        "status": "SUBST",
+        "source": "CO green tractor (mirrored)",
+        "note": "No \"Quest driving\" drawing; driver not visible."
+      },
+      "delivered_size": "1900×1064"
+    },
+    {
+      "status": "✅",
+      "key": "wallet.fainted",
+      "file": "public/characters/wallet/wallet_fainted.png",
+      "size": "470×330",
+      "used_in": "s14_bigger_tractor",
+      "brief": "Wallet flat on its back, X eyes / swirl eyes, one moth fluttering out.",
+      "category": "Wallet poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "Part1 wallet_exhausted",
+        "note": ""
+      },
+      "delivered_size": "1151×966"
+    },
+    {
+      "status": "✅",
+      "key": "wallet.happy",
+      "file": "public/characters/wallet/wallet_happy.png",
+      "size": "860×1010",
+      "used_in": "s03_money, s04_tractor",
+      "brief": "Wallet character stuffed with bills, beaming.",
+      "category": "Wallet poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "CO r1c1 / r1c2",
+        "note": "Swap pair shares its canvas."
+      },
+      "delivered_size": "1448×1224"
+    },
+    {
+      "status": "✅",
+      "key": "wallet.worried",
+      "file": "public/characters/wallet/wallet_worried.png",
+      "size": "540×630",
+      "used_in": "s04_tractor",
+      "brief": "Same wallet, now thin, sweating, eyes darting. Must overlay wallet_happy.",
+      "category": "Wallet poses",
+      "integration": {
+        "status": "EXACT",
+        "source": "CO r1c1 / r1c2",
+        "note": "Swap pair shares its canvas."
+      },
+      "delivered_size": "1448×1224"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_action",
+      "file": "public/episodes/ep001_farming/backgrounds/action_street.png",
+      "size": "4560×2560",
+      "used_in": "s08_gunfight",
+      "brief": "Blockbuster-style street with an (unrealistic, cartoon) explosion glow behind, sparks. Comedic, not graphic.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "OR F05 (sunset road) + V3 explosion glow",
+        "note": "No action street."
+      },
+      "delivered_size": "3216×1809"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_city_evening",
+      "file": "public/episodes/ep001_farming/backgrounds/apartments_evening.png",
+      "size": "4310×2420",
+      "used_in": "s12_millions",
+      "brief": "Front-on apartment facades at dusk, grid of dark windows filling the upper 70% (windows light up via overlays).",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "OR F07 city skyline at dusk",
+        "note": "Not a flat apartment facade."
+      },
+      "delivered_size": "3552×1998"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.bg_bedroom",
+      "file": "public/episodes/ep001_farming/backgrounds/bedroom_dawn.png",
+      "size": "4470×2510",
+      "used_in": "s01_wake",
+      "brief": "Small apartment bedroom, cool pre-dawn blue light, window upper right, nightstand right of centre, empty bed area left-centre.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "EXACT",
+        "source": "AD \"Habitación (noche)\"",
+        "note": "Thumbnail source (x16)."
+      },
+      "delivered_size": "3264×1836"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_castle",
+      "file": "public/episodes/ep001_farming/backgrounds/castle_tower.png",
+      "size": "4400×2470",
+      "used_in": "s09_princess",
+      "brief": "Storybook castle, tall tower on the right with an open window at ~x 0.75, y 0.35.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "PM header (castle on hill)",
+        "note": "No tower-window close-up."
+      },
+      "delivered_size": "3840×2160"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_fantasy",
+      "file": "public/episodes/ep001_farming/backgrounds/fantasy_crag.png",
+      "size": "4720×2650",
+      "used_in": "s07_dragon",
+      "brief": "Stormy epic fantasy landscape, jagged peaks, lava glow. Empty centre for a dragon.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "OR F09 (mountain stairs) + V3 lava glow",
+        "note": "No fantasy crag."
+      },
+      "delivered_size": "3552×1998"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.bg_farm_ingame",
+      "file": "public/episodes/ep001_farming/backgrounds/farm_ingame_day.png",
+      "size": "4630×2600",
+      "used_in": "s06_split",
+      "brief": "Bright idealised 'video game' farm field, rows of crops, road across the lower third.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 4",
+        "note": ""
+      },
+      "delivered_size": "2352×1323"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_farm_panorama",
+      "file": "public/episodes/ep001_farming/backgrounds/farm_panorama.png",
+      "size": "8490×4770",
+      "used_in": "s13_chores",
+      "brief": "Wide farm: crop rows on the left third, barn + fertilizer shed centre, animal pen right third. Camera visits each zone at 1.9x zoom.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "HE panel 4 (other crop)",
+        "note": "No wide barn/shed/pen panorama."
+      },
+      "delivered_size": "2352×1323"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.fg_fence",
+      "file": "public/episodes/ep001_farming/backgrounds/fg_fence.png",
+      "size": "5760×720",
+      "used_in": "s15_sunset",
+      "brief": "Transparent PNG strip: wooden fence rail + tall grass, dark against the sunset. Nearest parallax layer.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 6, fence layer",
+        "note": ""
+      },
+      "delivered_size": "2796×1572"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.bg_field_huge",
+      "file": "public/episodes/ep001_farming/backgrounds/field_enormous.png",
+      "size": "15370×8640",
+      "used_in": "s11_field",
+      "brief": "Flat field stretching to the horizon in every direction. IMPORTANT: the camera starts zoomed ~5x on the centre (x 0.5, y 0.64) — deliver at 7680x4320 or supply a separate high-res centre crop. **⚠ camera zooms 5.5x — supply a detail plate**",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 5",
+        "note": "The baked tiny tractor was inpainted; the engine's tractor layer replaces it."
+      },
+      "delivered_size": "7680×4320"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_living_room",
+      "file": "public/episodes/ep001_farming/backgrounds/living_room_evening.png",
+      "size": "4720×2650",
+      "used_in": "s05_home",
+      "brief": "Cosy dim living room at night, TV on the right wall (screen at ~x 0.78, y 0.42), lamp light, space left-centre for the couch.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "HE panel 3, right part (gaming desk, farm game on screen)",
+        "note": "Night room, not a living room with TV."
+      },
+      "delivered_size": "3840×2160"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.bg_office",
+      "file": "public/episodes/ep001_farming/backgrounds/office.png",
+      "size": "5270×2960",
+      "used_in": "s02_work, s03_money, s06_split",
+      "brief": "Grey open-plan office, fluorescent light, cubicles receding. Used for 3 shots with different framings, so keep it evenly detailed.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 2, right part",
+        "note": "Left part contains a baked-in Quest; crop avoids it."
+      },
+      "delivered_size": "3648×2052"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_storm",
+      "file": "public/episodes/ep001_farming/backgrounds/storm_sky.png",
+      "size": "4400×2470",
+      "used_in": "s10_enemy",
+      "brief": "Dramatic dark clouds, very low horizon line (lower 15%), for a heroic low-angle shot.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "AD \"Camino (transición)\" sky + V3 storm grade",
+        "note": "No storm plate."
+      },
+      "delivered_size": "3536×1989"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.mg_sunset_farm",
+      "file": "public/episodes/ep001_farming/backgrounds/sunset_farm_midground.png",
+      "size": "5090×1130",
+      "used_in": "s15_sunset",
+      "brief": "Transparent PNG strip: rolling fields, barn and silo silhouetted against the sunset. Parallax mid layer.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 6, midground layer",
+        "note": ""
+      },
+      "delivered_size": "2796×1572"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.bg_sunset_sky",
+      "file": "public/episodes/ep001_farming/backgrounds/sunset_sky.png",
+      "size": "4400×2470",
+      "used_in": "s15_sunset",
+      "brief": "Sky only: warm sunset gradient, sun low at ~x 0.62, soft clouds. Parallax far layer.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 6, far layer (inpainted behind the midground)",
+        "note": ""
+      },
+      "delivered_size": "2796×1572"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.bg_dealership",
+      "file": "public/episodes/ep001_farming/backgrounds/tractor_dealership.png",
+      "size": "5610×3150",
+      "used_in": "s04_tractor, s14_bigger_tractor",
+      "brief": "Outdoor tractor dealership, bunting flags, big sky, sign area top. Open space centre-right for a giant tractor.",
+      "category": "Background / environment layers",
+      "integration": {
+        "status": "SUBST",
+        "source": "AD \"Granja (entrada)\"",
+        "note": "No dealership plate."
+      },
+      "delivered_size": "3840×2160"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.alarm_clock",
+      "file": "public/episodes/ep001_farming/objects/alarm_clock.png",
+      "size": "330×330",
+      "used_in": "s01_wake",
+      "brief": "Classic twin-bell alarm clock, 6:00 on the face.",
+      "category": "Objects",
+      "integration": {
+        "status": "EXACT",
+        "source": "HE panel 1 (cut from the plate)",
+        "note": "Face shows ~11:00."
+      },
+      "delivered_size": "300×334"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.dragon",
+      "file": "public/episodes/ep001_farming/objects/dragon.png",
+      "size": "3020×2510",
+      "used_in": "s07_dragon",
+      "brief": "Classic fantasy dragon rearing up, wings spread, menacing but stylised to match the channel.",
+      "category": "Objects",
+      "integration": {
+        "status": "SUBST",
+        "source": "CO large Fear",
+        "note": "**No dragon art in the package.** Drop `objects/dragon.png` in to replace it."
+      },
+      "delivered_size": "1696×1204"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.email_icon",
+      "file": "public/episodes/ep001_farming/objects/email_icon.png",
+      "size": "330×250",
+      "used_in": "s02_work",
+      "brief": "Envelope / email notification card with a red unread badge.",
+      "category": "Objects",
+      "integration": {
+        "status": "EXACT",
+        "source": "CO paper pile (envelope + badge cut out)",
+        "note": ""
+      },
+      "delivered_size": "404×352"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.paper_stack",
+      "file": "public/episodes/ep001_farming/objects/paper_stack.png",
+      "size": "840×1050",
+      "used_in": "s02_work",
+      "brief": "Tall wobbly stack of paperwork with sticky notes.",
+      "category": "Objects",
+      "integration": {
+        "status": "EXACT",
+        "source": "CO paper pile",
+        "note": ""
+      },
+      "delivered_size": "2004×904"
+    },
+    {
+      "status": "❌",
+      "key": "ep001.princess_tower",
+      "file": "public/episodes/ep001_farming/objects/princess_window.png",
+      "size": "440×550",
+      "used_in": "s09_princess",
+      "brief": "Princess leaning out of a tower window, waving a handkerchief. Transparent.",
+      "category": "Objects",
+      "integration": {
+        "status": "MISSING",
+        "source": "—",
+        "note": "No princess art. The s09 layer was removed (the joke \"No princess to save\" still reads)."
+      },
+      "delivered_size": null
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.tractor_bigger",
+      "file": "public/episodes/ep001_farming/objects/tractor_bigger.png",
+      "size": "3380×2500",
+      "used_in": "s14_bigger_tractor",
+      "brief": "Same design language as tractor_huge but absurdly larger — double wheels, extra lights, a bow on top.",
+      "category": "Objects",
+      "integration": {
+        "status": "SUBST",
+        "source": "PM main tractor (yellow)",
+        "note": "Same 2D style, larger wheels; not green, no bow."
+      },
+      "delivered_size": "1916×1300"
+    },
+    {
+      "status": "✅",
+      "key": "ep001.tractor_huge",
+      "file": "public/episodes/ep001_farming/objects/tractor_huge.png",
+      "size": "3770×2900",
+      "used_in": "s04_tractor",
+      "brief": "Gleaming brand-new green tractor, 3/4 front view, comically huge wheels, showroom shine. No real brand logos.",
+      "category": "Objects",
+      "integration": {
+        "status": "EXACT",
+        "source": "CO green tractor",
+        "note": ""
+      },
+      "delivered_size": "1900×1064"
+    },
+    {
+      "status": "🔁",
+      "key": "ep001.window_lit",
+      "file": "public/episodes/ep001_farming/objects/window_lit.png",
+      "size": "260×320",
+      "used_in": "s12_millions",
+      "brief": "One apartment window at night: warm lamp light, silhouette of a person on a couch, TV glow showing a tiny tractor.",
+      "category": "Objects",
+      "integration": {
+        "status": "SUBST",
+        "source": "HE panel 3 (Quest gaming at night) framed as a window",
+        "note": "Brief asked for a silhouette at a window."
+      },
+      "delivered_size": "880×536"
+    },
+    {
+      "status": "✅",
+      "key": "brand.wordmark",
+      "file": "public/shared/brand/secondquest_wordmark.png",
+      "size": "1680×420",
+      "used_in": "s15_sunset",
+      "brief": "Official SecondQuest logo / wordmark, transparent. Until supplied the engine sets a typographic placeholder.",
+      "category": "Brand",
+      "integration": {
+        "status": "EXACT",
+        "source": "QVB header logo (keyed)",
+        "note": ""
+      },
+      "delivered_size": "2300×372"
+    }
+  ],
+  "batches": {
+    "A_Quest_and_recurring_characters": [
+      "fear.peeking",
+      "grind.wheel",
+      "progress.cheering",
+      "quest.action_hero",
+      "quest.bed_awake",
+      "quest.bed_sleeping",
+      "quest.desk_typing",
+      "quest.excited",
+      "quest.exhausted_slumped",
+      "quest.farmer_feeding",
+      "quest.farmer_fertilizer",
+      "quest.farmer_gaming",
+      "quest.farmer_planting",
+      "quest.holding_paycheck",
+      "quest.knight",
+      "quest.looking_up_awe",
+      "quest.sitting_back",
+      "quest.tractor_heroic",
+      "quest.tractor_side",
+      "wallet.fainted",
+      "wallet.happy",
+      "wallet.worried"
+    ],
+    "B_Core_environments": [
+      "ep001.bg_bedroom",
+      "ep001.bg_office",
+      "ep001.bg_dealership",
+      "ep001.bg_living_room",
+      "ep001.bg_farm_ingame",
+      "ep001.bg_field_huge",
+      "ep001.bg_farm_panorama",
+      "ep001.bg_sunset_sky",
+      "ep001.mg_sunset_farm",
+      "ep001.fg_fence"
+    ],
+    "C_Comedy_cutaway_environments": [
+      "ep001.bg_fantasy",
+      "ep001.bg_action",
+      "ep001.bg_castle",
+      "ep001.bg_storm",
+      "ep001.bg_city_evening"
+    ],
+    "D_Objects_and_brand": [
+      "ep001.alarm_clock",
+      "ep001.dragon",
+      "ep001.email_icon",
+      "ep001.paper_stack",
+      "ep001.princess_tower",
+      "ep001.tractor_bigger",
+      "ep001.tractor_huge",
+      "ep001.window_lit",
+      "brand.wordmark"
+    ]
+  },
+  "integration_summary": {
+    "EXACT": 26,
+    "SUBST": 19,
+    "MISSING": 1
+  }
+}

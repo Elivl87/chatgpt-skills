@@ -62,43 +62,43 @@
       "brief": "Wide farm: crop rows on the left third, barn + fertilizer shed centre, animal pen right third. Camera visits each zone at 1.9x zoom."
     },
     "ep001.bg_sunset_sky": {
-      "path": "backgrounds/sunset_sky.png", "kind": "background", "aspect": 1.7778, "color": ["#f3a45c", "#8a4f7a"],
+      "path": "backgrounds/sunset_sky.png", "kind": "background", "aspect": 1.7786, "color": ["#f3a45c", "#8a4f7a"],
       "label": "Sunset sky (far layer)",
       "brief": "Sky only: warm sunset gradient, sun low at ~x 0.62, soft clouds. Parallax far layer."
     },
     "ep001.mg_sunset_farm": {
-      "path": "backgrounds/sunset_farm_midground.png", "kind": "foreground", "aspect": 4.5, "anchor": [0.5, 1], "color": "#5b3b4e",
+      "path": "backgrounds/sunset_farm_midground.png", "kind": "foreground", "aspect": 1.7786, "anchor": [0.5, 0.5], "color": "#5b3b4e",
       "label": "Farm silhouette (mid layer)",
       "brief": "Transparent PNG strip: rolling fields, barn and silo silhouetted against the sunset. Parallax mid layer."
     },
     "ep001.fg_fence": {
-      "path": "backgrounds/fg_fence.png", "kind": "foreground", "aspect": 8.0, "anchor": [0.5, 1], "color": "#2f2226",
+      "path": "backgrounds/fg_fence.png", "kind": "foreground", "aspect": 1.7786, "anchor": [0.5, 0.5], "color": "#2f2226",
       "label": "Wooden fence (near layer)",
       "brief": "Transparent PNG strip: wooden fence rail + tall grass, dark against the sunset. Nearest parallax layer."
     },
 
     "ep001.alarm_clock": {
-      "path": "objects/alarm_clock.png", "kind": "object", "aspect": 1.0,
+      "path": "objects/alarm_clock.png", "kind": "object", "aspect": 0.8982,
       "label": "Alarm clock", "brief": "Classic twin-bell alarm clock, 6:00 on the face."
     },
     "ep001.email_icon": {
-      "path": "objects/email_icon.png", "kind": "object", "aspect": 1.3, "anchor": [0.5, 0.5],
+      "path": "objects/email_icon.png", "kind": "object", "aspect": 1.1477, "anchor": [0.5, 0.5],
       "label": "Email", "brief": "Envelope / email notification card with a red unread badge."
     },
     "ep001.paper_stack": {
-      "path": "objects/paper_stack.png", "kind": "object", "aspect": 0.8,
+      "path": "objects/paper_stack.png", "kind": "object", "aspect": 2.2168,
       "label": "Paperwork tower", "brief": "Tall wobbly stack of paperwork with sticky notes."
     },
     "ep001.tractor_huge": {
-      "path": "objects/tractor_huge.png", "kind": "object", "aspect": 1.3,
+      "path": "objects/tractor_huge.png", "kind": "object", "aspect": 1.7857,
       "label": "Enormous shiny tractor", "brief": "Gleaming brand-new green tractor, 3/4 front view, comically huge wheels, showroom shine. No real brand logos."
     },
     "ep001.tractor_bigger": {
-      "path": "objects/tractor_bigger.png", "kind": "object", "aspect": 1.35,
+      "path": "objects/tractor_bigger.png", "kind": "object", "aspect": 1.4738,
       "label": "EVEN BIGGER tractor", "brief": "Same design language as tractor_huge but absurdly larger — double wheels, extra lights, a bow on top."
     },
     "ep001.dragon": {
-      "path": "objects/dragon.png", "kind": "object", "aspect": 1.2,
+      "path": "objects/dragon.png", "kind": "object", "aspect": 1.4086,
       "label": "Epic dragon", "brief": "Classic fantasy dragon rearing up, wings spread, menacing but stylised to match the channel."
     },
     "ep001.princess_tower": {
@@ -106,7 +106,7 @@
       "label": "Princess in tower window", "brief": "Princess leaning out of a tower window, waving a handkerchief. Transparent."
     },
     "ep001.window_lit": {
-      "path": "objects/window_lit.png", "kind": "object", "aspect": 0.8, "anchor": [0.5, 0.5],
+      "path": "objects/window_lit.png", "kind": "object", "aspect": 1.6418, "anchor": [0.5, 0.5],
       "label": "Lit window, tractor on TV", "brief": "One apartment window at night: warm lamp light, silhouette of a person on a couch, TV glow showing a tiny tractor."
     }
   }
