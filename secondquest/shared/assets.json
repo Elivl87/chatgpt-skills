@@ -1,0 +1,131 @@
+{
+  "notes": "Recurring SecondQuest cast, shared by every episode. Paths starting with '/' are relative to public/. All character art: transparent PNG/WebP, feet (or base) touching the bottom edge, no drop shadow (the engine adds contact shadows). Deliver at 2x the largest on-screen size; the asset report (npm run assets) lists the recommended pixel size for each file.",
+  "characters": {
+    "quest": { "name": "Quest", "color": "#d6392f" },
+    "wallet": { "name": "Wallet", "color": "#c7963e" },
+    "progress": { "name": "Progress", "color": "#39b3d6" },
+    "grind": { "name": "The Grind", "color": "#b08457" },
+    "rng": { "name": "RNG", "color": "#9a6cff" },
+    "fear": { "name": "Fear", "color": "#6e7ea3" },
+    "inventory": { "name": "Inventory", "color": "#8d6a45" }
+  },
+  "assets": {
+    "quest.bed_sleeping": {
+      "path": "/characters/quest/quest_bed_sleeping.png", "kind": "character", "character": "quest", "aspect": 1.6,
+      "label": "asleep in bed",
+      "brief": "Quest asleep in a single bed under a blanket, 3/4 view. Bed included in the cut-out. Curly hair spilling on pillow."
+    },
+    "quest.bed_awake": {
+      "path": "/characters/quest/quest_bed_awake.png", "kind": "character", "character": "quest", "aspect": 1.6,
+      "label": "jolted awake in bed",
+      "brief": "Same bed and framing as quest_bed_sleeping (must overlay exactly). Quest bolt upright, eyes wide, hair messy, one hand slapping toward the alarm (screen right)."
+    },
+    "quest.desk_typing": {
+      "path": "/characters/quest/quest_desk_typing.png", "kind": "character", "character": "quest", "aspect": 1.15,
+      "label": "typing at office desk",
+      "brief": "Red hoodie, seated at an office desk with monitor and keyboard (desk included), 3/4 view facing screen left, tired neutral face, hands on keyboard."
+    },
+    "quest.holding_paycheck": {
+      "path": "/characters/quest/quest_holding_paycheck.png", "kind": "character", "character": "quest", "aspect": 0.75,
+      "label": "holding paycheck, pleased",
+      "brief": "Standing, holding a paycheck up with both hands, small satisfied smile."
+    },
+    "quest.looking_up_awe": {
+      "path": "/characters/quest/quest_looking_up_awe.png", "kind": "character", "character": "quest", "aspect": 0.7,
+      "label": "looking up in awe",
+      "brief": "Standing, head tilted way back looking up screen-right, mouth open, tiny in the face of something enormous."
+    },
+    "quest.exhausted_slumped": {
+      "path": "/characters/quest/quest_exhausted_slumped.png", "kind": "character", "character": "quest", "aspect": 1.25,
+      "label": "slumped on couch, exhausted",
+      "brief": "Collapsed on a couch (couch included), arms limp, eyes half closed, bag dropped at feet. End-of-workday energy."
+    },
+    "quest.farmer_gaming": {
+      "path": "/characters/quest/quest_farmer_gaming.png", "kind": "character", "character": "quest", "aspect": 1.25,
+      "label": "farmer cap + gamepad, wide awake",
+      "brief": "SAME couch/framing as quest_exhausted_slumped (swap must overlay). Now sitting forward, farmer cap on, gamepad in hands, eyes bright and focused on TV (screen right)."
+    },
+    "quest.tractor_side": {
+      "path": "/characters/quest/quest_tractor_side.png", "kind": "character", "character": "quest", "aspect": 1.35,
+      "label": "driving tractor (side view)",
+      "brief": "Quest in farmer cap driving a mid-size green tractor, side view facing screen left, both hands on wheel. Reused as the tiny tractor in the giant-field shot."
+    },
+    "quest.action_hero": {
+      "path": "/characters/quest/quest_action_hero.png", "kind": "character", "character": "quest", "aspect": 0.8,
+      "label": "action-hero fantasy",
+      "brief": "Quest in helmet and tactical vest over the hoodie, holding a chunky toy-like blaster, heroic pose. Comedic, not violent."
+    },
+    "quest.knight": {
+      "path": "/characters/quest/quest_knight.png", "kind": "character", "character": "quest", "aspect": 0.8,
+      "label": "knight fantasy",
+      "brief": "Quest in shiny armor with the red hoodie visible underneath, sword raised, gallant pose."
+    },
+    "quest.tractor_heroic": {
+      "path": "/characters/quest/quest_tractor_heroic.png", "kind": "character", "character": "quest", "aspect": 1.0,
+      "label": "heroic low angle on tractor",
+      "brief": "Low-angle hero shot: Quest on the tractor seat, farmer cap, squinting at the horizon like a final boss awaits. Tractor front grille dominant."
+    },
+    "quest.farmer_planting": {
+      "path": "/characters/quest/quest_farmer_planting.png", "kind": "character", "character": "quest", "aspect": 0.85,
+      "label": "planting crops",
+      "brief": "Farmer cap, kneeling/bending to plant seedlings, satisfied focus."
+    },
+    "quest.farmer_fertilizer": {
+      "path": "/characters/quest/quest_farmer_fertilizer.png", "kind": "character", "character": "quest", "aspect": 1.0,
+      "label": "hauling fertilizer",
+      "brief": "Farmer cap, pushing a wheelbarrow loaded with fertilizer sacks, effortful but happy."
+    },
+    "quest.farmer_feeding": {
+      "path": "/characters/quest/quest_farmer_feeding.png", "kind": "character", "character": "quest", "aspect": 1.0,
+      "label": "feeding animals",
+      "brief": "Farmer cap, tossing feed from a bucket, a few chickens at his feet (included)."
+    },
+    "quest.excited": {
+      "path": "/characters/quest/quest_excited.png", "kind": "character", "character": "quest", "aspect": 0.8,
+      "label": "genuinely, hugely excited",
+      "brief": "Farmer cap, both fists up, sparkling eyes, open-mouth grin. Pure joy over a vehicle."
+    },
+    "quest.sitting_back": {
+      "path": "/characters/quest/quest_sitting_back.png", "kind": "character", "character": "quest", "aspect": 0.8,
+      "label": "seen from behind, looking over farm",
+      "brief": "Back view: Quest sitting (on the fence line), farmer cap, red hoodie, curly hair visible, relaxed shoulders. Quiet, contemplative."
+    },
+
+    "wallet.happy": {
+      "path": "/characters/wallet/wallet_happy.png", "kind": "character", "character": "wallet", "aspect": 0.85,
+      "label": "happy, full of cash",
+      "brief": "Wallet character stuffed with bills, beaming."
+    },
+    "wallet.worried": {
+      "path": "/characters/wallet/wallet_worried.png", "kind": "character", "character": "wallet", "aspect": 0.85,
+      "label": "worried, sweating",
+      "brief": "Same wallet, now thin, sweating, eyes darting. Must overlay wallet_happy."
+    },
+    "wallet.fainted": {
+      "path": "/characters/wallet/wallet_fainted.png", "kind": "character", "character": "wallet", "aspect": 1.4,
+      "label": "fainted flat",
+      "brief": "Wallet flat on its back, X eyes / swirl eyes, one moth fluttering out."
+    },
+    "progress.cheering": {
+      "path": "/characters/progress/progress_cheering.png", "kind": "character", "character": "progress", "aspect": 0.75,
+      "label": "cheering, bar at 100%",
+      "brief": "Progress robot (progress-bar body) arms up, bar full and glowing."
+    },
+    "grind.wheel": {
+      "path": "/characters/grind/grind_wheel.png", "kind": "object", "character": "grind", "aspect": 1.0, "anchor": [0.5, 0.5],
+      "label": "hamster wheel",
+      "brief": "The Grind: a hamster wheel on a stand, side view, empty. Spoked so rotation reads."
+    },
+    "fear.peeking": {
+      "path": "/characters/fear/fear_peeking.png", "kind": "character", "character": "fear", "aspect": 0.8,
+      "label": "peeking, trembling",
+      "brief": "Fear character peeking from screen edge, trembling, big anxious eyes."
+    },
+
+    "brand.wordmark": {
+      "path": "/shared/brand/secondquest_wordmark.png", "kind": "overlay", "aspect": 4.0, "anchor": [0.5, 0.5],
+      "label": "SecondQuest wordmark",
+      "brief": "Official SecondQuest logo / wordmark, transparent. Until supplied the engine sets a typographic placeholder."
+    }
+  }
+}

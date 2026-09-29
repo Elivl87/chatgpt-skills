@@ -1,0 +1,41 @@
+{
+  "name": "secondquest",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SecondQuest production engine — config-driven Remotion pipeline for illustrated YouTube essays",
+  "type": "module",
+  "dependencies": {
+    "@remotion/bundler": "4.0.530",
+    "@remotion/cli": "4.0.530",
+    "@remotion/renderer": "4.0.530",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.530"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "studio": "remotion studio",
+    "validate": "tsx scripts/validate.ts",
+    "typecheck": "tsc -p .",
+    "assets": "tsx scripts/assets-report.ts",
+    "stills": "tsx scripts/stills.ts",
+    "render": "tsx scripts/render.ts",
+    "render:hook": "tsx scripts/render.ts ep001 hook --version v1",
+    "render:hook:4k": "tsx scripts/render.ts ep001 hook --version v1 --scale 2",
+    "audio:placeholders": "tsx scripts/placeholder-audio.ts",
+    "narration:align": "tsx scripts/align-narration.ts",
+    "narration:tts": "python3 tools/tts/placeholder_narration.py",
+    "new:episode": "tsx scripts/new-episode.ts",
+    "stems": "tsx scripts/stems.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

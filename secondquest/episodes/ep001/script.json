@@ -1,0 +1,32 @@
+{
+  "episode": "ep001",
+  "locale": "en",
+  "notes": "Approved narration, verbatim. Lines are split only at the natural beats already present in the text (ellipses / commas) so scenes can lock to each beat. pauseAfter (seconds) is used only when assembling the placeholder TTS narration; real narration timing comes from the recording itself.",
+  "lines": [
+    { "id": "l01", "text": "Farming Simulator is a game where you wake up...", "pauseAfter": 0.3 },
+    { "id": "l02", "text": "go to work...", "pauseAfter": 0.25 },
+    { "id": "l03", "text": "make money...", "pauseAfter": 0.25 },
+    { "id": "l04", "text": "buy extremely expensive equipment...", "pauseAfter": 0.45 },
+    { "id": "l05", "text": "and then...", "pauseAfter": 0.55 },
+    { "id": "l06", "text": "go back to work.", "pauseAfter": 1.0 },
+    { "id": "l07", "text": "Which sounds suspiciously similar to the thing video games were invented to help us escape from.", "pauseAfter": 0.7 },
+    { "id": "l08", "text": "There are no dragons.", "pauseAfter": 0.2 },
+    { "id": "l09", "text": "No gunfights.", "pauseAfter": 0.2 },
+    { "id": "l10", "text": "No princess to save.", "pauseAfter": 0.65 },
+    { "id": "l11", "text": "Most of the time, your greatest enemy...", "pauseAfter": 0.55 },
+    { "id": "l12", "text": "is a field that's slightly larger than you expected.", "pauseAfter": 1.1 },
+    { "id": "l13", "text": "And yet millions of people voluntarily spend their evenings", "pauseAfter": 0.1 },
+    { "id": "l14", "text": "planting crops,", "pauseAfter": 0.05 },
+    { "id": "l15", "text": "transporting fertilizer,", "pauseAfter": 0.05 },
+    { "id": "l16", "text": "feeding animals...", "pauseAfter": 0.3 },
+    { "id": "l17", "text": "and getting genuinely excited about buying a bigger tractor.", "pauseAfter": 0.9 },
+    { "id": "l18", "text": "So...", "pauseAfter": 0.55 },
+    { "id": "l19", "text": "why?", "pauseAfter": 0 }
+  ],
+  "placeholderTts": {
+    "engine": "kokoro",
+    "voice": "am_michael",
+    "speed": 1.0,
+    "leadIn": 0.3
+  }
+}

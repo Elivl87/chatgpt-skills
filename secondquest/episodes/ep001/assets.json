@@ -1,0 +1,113 @@
+{
+  "notes": "Episode-specific art for ep001. Paths are relative to public/episodes/ep001_farming/. Backgrounds: 3840x2160 (16:9) flattened illustrations with NO characters; keep the lower third readable for character placement. Objects: transparent PNG, base touching the bottom edge.",
+  "assets": {
+    "ep001.bg_bedroom": {
+      "path": "backgrounds/bedroom_dawn.png", "kind": "background", "aspect": 1.7778, "color": ["#34466e", "#1b2340"],
+      "label": "Bedroom at dawn",
+      "brief": "Small apartment bedroom, cool pre-dawn blue light, window upper right, nightstand right of centre, empty bed area left-centre."
+    },
+    "ep001.bg_office": {
+      "path": "backgrounds/office.png", "kind": "background", "aspect": 1.7778, "color": ["#9aa6b8", "#5c6677"],
+      "label": "Open-plan office",
+      "brief": "Grey open-plan office, fluorescent light, cubicles receding. Used for 3 shots with different framings, so keep it evenly detailed."
+    },
+    "ep001.bg_dealership": {
+      "path": "backgrounds/tractor_dealership.png", "kind": "background", "aspect": 1.7778, "color": ["#7fc3e8", "#d5c28f"],
+      "label": "Tractor dealership lot",
+      "brief": "Outdoor tractor dealership, bunting flags, big sky, sign area top. Open space centre-right for a giant tractor."
+    },
+    "ep001.bg_living_room": {
+      "path": "backgrounds/living_room_evening.png", "kind": "background", "aspect": 1.7778, "color": ["#43345a", "#221a2e"],
+      "label": "Living room, evening",
+      "brief": "Cosy dim living room at night, TV on the right wall (screen at ~x 0.78, y 0.42), lamp light, space left-centre for the couch."
+    },
+    "ep001.bg_farm_ingame": {
+      "path": "backgrounds/farm_ingame_day.png", "kind": "background", "aspect": 1.7778, "color": ["#8fd0ec", "#7fb35a"],
+      "label": "In-game farm field, daytime",
+      "brief": "Bright idealised 'video game' farm field, rows of crops, road across the lower third."
+    },
+    "ep001.bg_fantasy": {
+      "path": "backgrounds/fantasy_crag.png", "kind": "background", "aspect": 1.7778, "color": ["#4a2a50", "#170f1f"],
+      "label": "Epic fantasy crag",
+      "brief": "Stormy epic fantasy landscape, jagged peaks, lava glow. Empty centre for a dragon."
+    },
+    "ep001.bg_action": {
+      "path": "backgrounds/action_street.png", "kind": "background", "aspect": 1.7778, "color": ["#e0773f", "#4a2a22"],
+      "label": "Action-movie street",
+      "brief": "Blockbuster-style street with an (unrealistic, cartoon) explosion glow behind, sparks. Comedic, not graphic."
+    },
+    "ep001.bg_castle": {
+      "path": "backgrounds/castle_tower.png", "kind": "background", "aspect": 1.7778, "color": ["#7d92d4", "#48578a"],
+      "label": "Fairy-tale castle",
+      "brief": "Storybook castle, tall tower on the right with an open window at ~x 0.75, y 0.35."
+    },
+    "ep001.bg_storm": {
+      "path": "backgrounds/storm_sky.png", "kind": "background", "aspect": 1.7778, "color": ["#2c3242", "#4d5058"],
+      "label": "Ominous sky, low horizon",
+      "brief": "Dramatic dark clouds, very low horizon line (lower 15%), for a heroic low-angle shot."
+    },
+    "ep001.bg_field_huge": {
+      "path": "backgrounds/field_enormous.png", "kind": "background", "aspect": 1.7778, "color": ["#a3d5ef", "#c6ad5b"],
+      "label": "Absurdly enormous field",
+      "brief": "Flat field stretching to the horizon in every direction. IMPORTANT: the camera starts zoomed ~5x on the centre (x 0.5, y 0.64) — deliver at 7680x4320 or supply a separate high-res centre crop."
+    },
+    "ep001.bg_city_evening": {
+      "path": "backgrounds/apartments_evening.png", "kind": "background", "aspect": 1.7778, "color": ["#403d73", "#1e1d36"],
+      "label": "Apartment blocks at dusk",
+      "brief": "Front-on apartment facades at dusk, grid of dark windows filling the upper 70% (windows light up via overlays)."
+    },
+    "ep001.bg_farm_panorama": {
+      "path": "backgrounds/farm_panorama.png", "kind": "background", "aspect": 1.7778, "color": ["#94d0ec", "#7aa955"],
+      "label": "Farm panorama (3 zones)",
+      "brief": "Wide farm: crop rows on the left third, barn + fertilizer shed centre, animal pen right third. Camera visits each zone at 1.9x zoom."
+    },
+    "ep001.bg_sunset_sky": {
+      "path": "backgrounds/sunset_sky.png", "kind": "background", "aspect": 1.7778, "color": ["#f3a45c", "#8a4f7a"],
+      "label": "Sunset sky (far layer)",
+      "brief": "Sky only: warm sunset gradient, sun low at ~x 0.62, soft clouds. Parallax far layer."
+    },
+    "ep001.mg_sunset_farm": {
+      "path": "backgrounds/sunset_farm_midground.png", "kind": "foreground", "aspect": 4.5, "anchor": [0.5, 1], "color": "#5b3b4e",
+      "label": "Farm silhouette (mid layer)",
+      "brief": "Transparent PNG strip: rolling fields, barn and silo silhouetted against the sunset. Parallax mid layer."
+    },
+    "ep001.fg_fence": {
+      "path": "backgrounds/fg_fence.png", "kind": "foreground", "aspect": 8.0, "anchor": [0.5, 1], "color": "#2f2226",
+      "label": "Wooden fence (near layer)",
+      "brief": "Transparent PNG strip: wooden fence rail + tall grass, dark against the sunset. Nearest parallax layer."
+    },
+
+    "ep001.alarm_clock": {
+      "path": "objects/alarm_clock.png", "kind": "object", "aspect": 1.0,
+      "label": "Alarm clock", "brief": "Classic twin-bell alarm clock, 6:00 on the face."
+    },
+    "ep001.email_icon": {
+      "path": "objects/email_icon.png", "kind": "object", "aspect": 1.3, "anchor": [0.5, 0.5],
+      "label": "Email", "brief": "Envelope / email notification card with a red unread badge."
+    },
+    "ep001.paper_stack": {
+      "path": "objects/paper_stack.png", "kind": "object", "aspect": 0.8,
+      "label": "Paperwork tower", "brief": "Tall wobbly stack of paperwork with sticky notes."
+    },
+    "ep001.tractor_huge": {
+      "path": "objects/tractor_huge.png", "kind": "object", "aspect": 1.3,
+      "label": "Enormous shiny tractor", "brief": "Gleaming brand-new green tractor, 3/4 front view, comically huge wheels, showroom shine. No real brand logos."
+    },
+    "ep001.tractor_bigger": {
+      "path": "objects/tractor_bigger.png", "kind": "object", "aspect": 1.35,
+      "label": "EVEN BIGGER tractor", "brief": "Same design language as tractor_huge but absurdly larger — double wheels, extra lights, a bow on top."
+    },
+    "ep001.dragon": {
+      "path": "objects/dragon.png", "kind": "object", "aspect": 1.2,
+      "label": "Epic dragon", "brief": "Classic fantasy dragon rearing up, wings spread, menacing but stylised to match the channel."
+    },
+    "ep001.princess_tower": {
+      "path": "objects/princess_window.png", "kind": "object", "aspect": 0.8, "anchor": [0.5, 0.5],
+      "label": "Princess in tower window", "brief": "Princess leaning out of a tower window, waving a handkerchief. Transparent."
+    },
+    "ep001.window_lit": {
+      "path": "objects/window_lit.png", "kind": "object", "aspect": 0.8, "anchor": [0.5, 0.5],
+      "label": "Lit window, tractor on TV", "brief": "One apartment window at night: warm lamp light, silhouette of a person on a couch, TV glow showing a tiny tractor."
+    }
+  }
+}

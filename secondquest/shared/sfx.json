@@ -1,0 +1,26 @@
+{
+  "notes": "Shared sound library. Files marked PLACEHOLDER were synthesised by scripts/placeholder-audio.ts — swap in licensed / recorded sounds at the same path (or change src). Volumes are pre-mix trims; scenes can scale per event.",
+  "sfx": {
+    "alarm":       { "src": "/shared/sfx/alarm.wav",       "volume": 0.34, "label": "PLACEHOLDER digital alarm beeps" },
+    "notify":      { "src": "/shared/sfx/notify.wav",      "volume": 0.32, "label": "PLACEHOLDER UI notification ping" },
+    "keyboard":    { "src": "/shared/sfx/keyboard.wav",    "volume": 0.3,  "label": "PLACEHOLDER keyboard typing" },
+    "money":       { "src": "/shared/sfx/money.wav",       "volume": 0.4,  "label": "PLACEHOLDER cash register" },
+    "drain":       { "src": "/shared/sfx/drain.wav",       "volume": 0.36, "label": "PLACEHOLDER descending money drain" },
+    "impact":      { "src": "/shared/sfx/impact.wav",      "volume": 0.55, "label": "PLACEHOLDER low impact thump" },
+    "whoosh":      { "src": "/shared/sfx/whoosh.wav",      "volume": 0.34, "label": "PLACEHOLDER whoosh" },
+    "whip":        { "src": "/shared/sfx/whip.wav",        "volume": 0.3,  "label": "PLACEHOLDER short whip pan" },
+    "pop":         { "src": "/shared/sfx/pop.wav",         "volume": 0.3,  "label": "PLACEHOLDER cartoon pop" },
+    "poof":        { "src": "/shared/sfx/poof.wav",        "volume": 0.35, "label": "PLACEHOLDER transformation poof" },
+    "ui_select":   { "src": "/shared/sfx/ui_select.wav",   "volume": 0.34, "label": "PLACEHOLDER game menu select" },
+    "ui_complete": { "src": "/shared/sfx/ui_complete.wav", "volume": 0.34, "label": "PLACEHOLDER level-up arpeggio" },
+    "buzzer":      { "src": "/shared/sfx/buzzer.wav",      "volume": 0.26, "label": "PLACEHOLDER wrong-answer buzzer" },
+    "stamp":       { "src": "/shared/sfx/stamp.wav",       "volume": 0.5,  "label": "PLACEHOLDER rubber stamp slam" },
+    "rumble":      { "src": "/shared/sfx/rumble.wav",      "volume": 0.5,  "label": "PLACEHOLDER epic rumble" },
+    "tension":     { "src": "/shared/sfx/tension.wav",     "volume": 0.4,  "label": "PLACEHOLDER tension drone" },
+    "crickets":    { "src": "/shared/sfx/crickets.wav",    "volume": 0.3,  "label": "PLACEHOLDER awkward crickets" },
+    "sparkle":     { "src": "/shared/sfx/sparkle.wav",     "volume": 0.28, "label": "PLACEHOLDER sparkle shimmer" },
+    "tractor":     { "src": "/shared/sfx/tractor.wav",     "volume": 0.3,  "label": "PLACEHOLDER tractor engine putter" },
+    "chime":       { "src": "/shared/sfx/chime.wav",       "volume": 0.3,  "label": "PLACEHOLDER soft ident chime" },
+    "wind":        { "src": "/shared/sfx/wind.wav",        "volume": 0.22, "label": "PLACEHOLDER open-field wind" }
+  }
+}

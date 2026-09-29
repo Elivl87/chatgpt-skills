@@ -1,0 +1,102 @@
+{
+  "source": "audio/narration.wav",
+  "generatedBy": "placeholder-tts:kokoro:am_michael@1.0",
+  "duration": 44.227,
+  "cues": {
+    "l01": {
+      "start": 0.3,
+      "end": 3.238,
+      "text": "Farming Simulator is a game where you wake up..."
+    },
+    "l02": {
+      "start": 3.538,
+      "end": 4.512,
+      "text": "go to work..."
+    },
+    "l03": {
+      "start": 4.762,
+      "end": 5.618,
+      "text": "make money..."
+    },
+    "l04": {
+      "start": 5.868,
+      "end": 8.023,
+      "text": "buy extremely expensive equipment..."
+    },
+    "l05": {
+      "start": 8.473,
+      "end": 9.241,
+      "text": "and then..."
+    },
+    "l06": {
+      "start": 9.791,
+      "end": 10.909,
+      "text": "go back to work."
+    },
+    "l07": {
+      "start": 11.909,
+      "end": 17.596,
+      "text": "Which sounds suspiciously similar to the thing video games were invented to help us escape from."
+    },
+    "l08": {
+      "start": 18.296,
+      "end": 19.578,
+      "text": "There are no dragons."
+    },
+    "l09": {
+      "start": 19.778,
+      "end": 20.837,
+      "text": "No gunfights."
+    },
+    "l10": {
+      "start": 21.037,
+      "end": 22.477,
+      "text": "No princess to save."
+    },
+    "l11": {
+      "start": 23.127,
+      "end": 25.461,
+      "text": "Most of the time, your greatest enemy..."
+    },
+    "l12": {
+      "start": 26.011,
+      "end": 28.926,
+      "text": "is a field that's slightly larger than you expected."
+    },
+    "l13": {
+      "start": 30.026,
+      "end": 33.714,
+      "text": "And yet millions of people voluntarily spend their evenings"
+    },
+    "l14": {
+      "start": 33.814,
+      "end": 34.835,
+      "text": "planting crops,"
+    },
+    "l15": {
+      "start": 34.885,
+      "end": 36.382,
+      "text": "transporting fertilizer,"
+    },
+    "l16": {
+      "start": 36.432,
+      "end": 37.596,
+      "text": "feeding animals..."
+    },
+    "l17": {
+      "start": 37.896,
+      "end": 41.624,
+      "text": "and getting genuinely excited about buying a bigger tractor."
+    },
+    "l18": {
+      "start": 42.524,
+      "end": 43.139,
+      "text": "So..."
+    },
+    "l19": {
+      "start": 43.689,
+      "end": 44.227,
+      "text": "why?"
+    }
+  }
+}

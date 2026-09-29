@@ -1,0 +1,10 @@
+node_modules/
+renders/*
+!renders/.gitkeep
+!renders/*.mp4
+.remotion/
+out/
+build/
+*.log
+.DS_Store
+renders/tmp/
