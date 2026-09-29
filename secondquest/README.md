@@ -321,6 +321,22 @@ Performance:
 - Particles and noise are deterministic functions of time, so no simulation state is carried between frames.
 - Keep delivered art near the size `npm run assets` recommends; it flags oversized files.
 
+## Cloud render (GitHub Actions)
+
+Long episodes (0.3–1 GB) are rendered on GitHub and downloaded from the repo's **Releases** page. No local setup is needed.
+
+1. On GitHub, go to **Actions → "SecondQuest render" → Run workflow**.
+2. Fill in:
+   - **episode:** e.g. `ep001`;
+   - **cut:** empty means `full`, or the episode's only cut;
+   - **version:** e.g. `v3`;
+   - **locale:** `en` by default; `es` only on explicit request.
+3. The workflow (`.github/workflows/render.yml`) runs typecheck, validation and tests, renders and masters to −14 LUFS, then publishes the MP4 as a Release (up to 2 GB per file).
+4. Download it from **Releases**. Each run creates its own Release: `render-<file>-run<N>`.
+
+- **Timing:** it only runs when launched manually, never on push. A 10-minute episode takes roughly 30–60 runner minutes.
+- **Cost:** public repositories are free. Private repositories use the monthly Actions allowance (2000 min on GitHub Free).
+
 ## Current placeholder status (V3)
 
 | Element | Status |

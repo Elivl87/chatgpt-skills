@@ -1,0 +1,97 @@
+# SecondQuest — cloud render
+#
+# Renders an episode cut on a GitHub-hosted runner and publishes the MP4 as a
+# GitHub Release asset (up to 2 GB), downloadable from the repo's Releases page.
+#
+# Manual only (Actions → "SecondQuest render" → Run workflow). Never runs on push.
+# Production policy: English by default; Spanish only when locale = es is chosen explicitly.
+name: SecondQuest render
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: "Episode id (e.g. ep001)"
+        required: true
+        default: ep001
+      cut:
+        description: "Cut id (empty = the episode's 'full' cut, or its only cut)"
+        required: false
+        default: ""
+      version:
+        description: "Version label for the file name (e.g. v3)"
+        required: true
+        default: v3
+      locale:
+        description: "Language (en = production default; es only on explicit request)"
+        required: true
+        default: en
+        type: choice
+        options: [en, es]
+
+permissions:
+  contents: write # needed to create the Release
+
+concurrency:
+  group: render-${{ inputs.episode }}-${{ inputs.cut }}-${{ inputs.locale }}
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    defaults:
+      run:
+        working-directory: secondquest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: secondquest/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck, validate, test
+        run: |
+          npx tsc -p .
+          npx tsx scripts/validate.ts "${{ inputs.episode }}"
+          npm test
+
+      - name: Browser for Remotion
+        run: npx remotion browser ensure
+
+      - name: Render + master
+        env:
+          EPISODE: ${{ inputs.episode }}
+          CUT: ${{ inputs.cut }}
+          VERSION: ${{ inputs.version }}
+          LOCALE: ${{ inputs.locale }}
+        run: |
+          touch /tmp/render-start
+          args=("$EPISODE")
+          [ -n "$CUT" ] && args+=("$CUT")
+          args+=(--version "$VERSION")
+          # English is the default; pass --locale only for an explicit non-default request
+          [ "$LOCALE" != "en" ] && args+=(--locale "$LOCALE")
+          npx tsx scripts/render.ts "${args[@]}"
+          FILE=$(find renders -maxdepth 1 -name '*.mp4' -newer /tmp/render-start | head -n 1)
+          test -n "$FILE" || { echo "No MP4 produced"; exit 1; }
+          echo "FILE=$FILE" >> "$GITHUB_ENV"
+          ls -lh "$FILE"
+
+      - name: Publish as GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NAME=$(basename "$FILE" .mp4)
+          TAG="render-${NAME}-run${{ github.run_number }}"
+          SIZE=$(du -h "$FILE" | cut -f1)
+          gh release create "$TAG" "$FILE" \
+            --target "${{ github.sha }}" \
+            --title "$NAME (run ${{ github.run_number }})" \
+            --notes "SecondQuest render · episode ${{ inputs.episode }} · cut ${{ inputs.cut || 'auto' }} · locale ${{ inputs.locale }} · version ${{ inputs.version }} · ${SIZE} · commit ${{ github.sha }}"
+          echo "### ✔ Published: [$NAME]($(gh release view "$TAG" --json url -q .url))" >> "$GITHUB_STEP_SUMMARY"
