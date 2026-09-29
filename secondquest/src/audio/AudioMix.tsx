@@ -19,7 +19,7 @@ export const AudioMix: React.FC<{ cut: ResolvedCut; hasNarration: boolean; mute?
   return (
     <>
       {hasNarration && !mute.includes('narration') ? (
-        <Audio src={staticFile(narration.src)} volume={narration.volume} trimBefore={narration.trimBefore || undefined} name="narration" />
+        <Audio src={staticFile(narration.src)} volume={narration.volume} {...(narration.trimBefore ? { trimBefore: narration.trimBefore } : {})} name="narration" />
       ) : null}
 
       {(mute.includes('music') ? [] : music).map((m) => (
@@ -28,7 +28,7 @@ export const AudioMix: React.FC<{ cut: ResolvedCut; hasNarration: boolean; mute?
             src={staticFile(m.src)}
             loop={m.loop}
             loopVolumeCurveBehavior="extend"
-            trimBefore={m.offset ? Math.round(m.offset * fps) : undefined}
+            {...(m.offset ? { trimBefore: Math.round(m.offset * fps) } : {})}
             volume={(f) => {
               const t = m.startSec + f / fps;
               const g =
