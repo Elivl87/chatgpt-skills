@@ -3,6 +3,7 @@ import { AbsoluteFill, getStaticFiles, Sequence } from 'remotion';
 import { AudioMix, type AudioBus } from '../audio/AudioMix';
 import { SceneRenderer } from '../components/SceneRenderer';
 import { createAssetResolver } from '../engine/assets';
+import { localizeBundle } from '../engine/locale';
 import { resolveCut } from '../engine/timeline';
 import { EPISODES, SFX, SHARED_ASSETS } from '../episodes';
 import { ensureFonts } from '../styles/fonts';
@@ -33,7 +34,7 @@ export const useStaticFileSet = (): ((p: string) => boolean) => {
  * the scenes (with transition overlaps) → mix the audio.
  */
 export const EpisodeCut: React.FC<EpisodeCutProps> = ({ episodeId, cutId, locale, vignette = 0.32, mute }) => {
-  const bundle = EPISODES[episodeId];
+  const bundle = useMemo(() => localizeBundle(EPISODES[episodeId], locale), [episodeId, locale]);
   const hasFile = useStaticFileSet();
   const cut = useMemo(() => resolveCut(bundle, cutId, SFX, hasFile), [bundle, cutId, hasFile]);
   const resolveAsset = useMemo(

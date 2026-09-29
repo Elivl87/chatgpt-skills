@@ -143,9 +143,9 @@ const Arrow: React.FC<{ dir: 'up' | 'down'; size: number }> = ({ dir, size }) =>
 // Counter (MoneyDrain / count-up)
 // ---------------------------------------------------------------------------
 
-export const formatNumber = (v: number, prefix = '', suffix = '', signed = false): string => {
+export const formatNumber = (v: number, prefix = '', suffix = '', signed = false, locale = 'en'): string => {
   const r = Math.round(v);
-  const abs = Math.abs(r).toLocaleString('en-US');
+  const abs = Math.abs(r).toLocaleString(locale); // "450,000" (en) · "450.000" (es)
   const sign = r < 0 ? '−' : signed && r > 0 ? '+' : '';
   return `${sign}${prefix}${abs}${suffix}`;
 };
@@ -170,7 +170,7 @@ export const CounterLayerView: React.FC<{ layer: CounterLayer; index: number }> 
           </div>
         ) : null}
         <div style={{ fontFamily: theme.font.display, fontSize: size, color, lineHeight: 1, whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums', ...theme.textStroke(size * 0.07), textShadow: `0 ${size * 0.06}px 0 ${theme.color.ink}` }}>
-          {formatNumber(value, layer.prefix, layer.suffix, layer.signed)}
+          {formatNumber(value, layer.prefix, layer.suffix, layer.signed, ctx.locale)}
         </div>
       </div>
     </LayerBox>

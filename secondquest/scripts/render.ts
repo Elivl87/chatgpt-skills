@@ -5,14 +5,17 @@
  *   npm run render -- ep001 hook --version v2        # any episode / cut
  *   npm run render -- ep001 hook --scale 2           # 3840x2160
  *   npm run render -- ep001 hook --frames 0-299      # partial (fast checks)
+ *   npm run render -- ep001 hook --locale es         # Spanish narration/timings/text
  *
- * Output: renders/<cut.output>_<version>[_4k].mp4
+ * Output: renders/<cut.output>[_<locale>]_<version>[_4k].mp4  (no locale suffix for the master language)
+ *
  * Audio is mastered to YouTube's reference loudness (-14 LUFS integrated,
  * ≤ -1.5 dBTP) by scripts/master.ts; the video stream is copied untouched.
  */
 import { renderMedia } from '@remotion/renderer';
 import { mkdirSync, renameSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { compositionId, localeSuffix, localizeBundle } from '../src/engine/locale';
 import { EPISODES } from '../src/episodes';
 import { parseArgs, ROOT } from './lib';
 import { masterAudio } from './master';
@@ -28,8 +31,10 @@ const main = async () => {
   const cutId = positional[1] ?? 'hook';
   const version = String(flags.version ?? 'v1');
   const scale = Number(flags.scale ?? 1);
-  const bundle = EPISODES[episodeId];
-  if (!bundle) throw new Error(`Unknown episode "${episodeId}"`);
+  const base = EPISODES[episodeId];
+  if (!base) throw new Error(`Unknown episode "${episodeId}"`);
+  const locale = typeof flags.locale === 'string' ? flags.locale : undefined;
+  const bundle = localizeBundle(base, locale); // throws with a clear message for unknown locales
   const cut = bundle.episode.cuts[cutId];
   if (!cut) throw new Error(`Unknown cut "${cutId}" for ${episodeId}`);
 
@@ -39,12 +44,14 @@ const main = async () => {
   }
 
   const suffix = scale === 2 ? '_4k' : scale !== 1 ? `_x${scale}` : '';
-  const finalPath = join(ROOT, 'renders', `${cut.output}_${version}${suffix}.mp4`);
+  const name = `${cut.output}${localeSuffix(base, locale)}_${version}${suffix}`;
+  const finalPath = join(ROOT, 'renders', `${name}.mp4`);
   const tmpDir = join(ROOT, 'renders/tmp');
   mkdirSync(tmpDir, { recursive: true });
-  const rawPath = join(tmpDir, `${cut.output}_${version}${suffix}.raw.mp4`);
+  const rawPath = join(tmpDir, `${name}.raw.mp4`);
 
-  const { serveUrl, composition, browserExecutable } = await prepare(`${episodeId}-${cutId}`);
+  const inputProps = { episodeId, cutId, locale: locale ?? base.episode.locale };
+  const { serveUrl, composition, browserExecutable } = await prepare(compositionId(episodeId, cutId, locale, base.episode.locale), inputProps);
   const frameRange = typeof flags.frames === 'string' ? (flags.frames.split('-').map(Number) as [number, number]) : null;
   console.log(
     `Rendering ${composition.id}: ${composition.width * scale}x${composition.height * scale} @ ${composition.fps}fps, ` +
@@ -56,6 +63,7 @@ const main = async () => {
   await renderMedia({
     serveUrl,
     composition,
+    inputProps,
     codec: 'h264',
     crf: 18,
     pixelFormat: 'yuv420p',
@@ -80,8 +88,8 @@ const main = async () => {
   console.log(`Rendered in ${((Date.now() - started) / 1000).toFixed(1)}s`);
 
   // ---- mastering: loudness to YouTube reference + true-peak limiting
-  const normPath = join(tmpDir, `${cut.output}_${version}${suffix}.norm.mp4`);
-  const r = masterAudio(rawPath, normPath, join(tmpDir, `${cut.output}_${version}${suffix}`), TARGET_I, TARGET_TP);
+  const normPath = join(tmpDir, `${name}.norm.mp4`);
+  const r = masterAudio(rawPath, normPath, join(tmpDir, name), TARGET_I, TARGET_TP);
   renameSync(normPath, finalPath);
   if (!flags['keep-raw']) rmSync(rawPath, { force: true });
   console.log(`Mastered: ${r.integrated.toFixed(1)} LUFS integrated, ${r.truePeak.toFixed(1)} dBTP (gain ${r.gainDb >= 0 ? '+' : ''}${r.gainDb.toFixed(1)} dB, ${r.passes} pass(es))`);

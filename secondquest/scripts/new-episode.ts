@@ -75,7 +75,7 @@ src = src.replace(
 );
 src = src.replace(
   '  // @new-episode-entries',
-  `  ${id}: {\n    episode: ${v}Episode as unknown as EpisodeConfig,\n    script: ${v}Script as unknown as ScriptFile,\n    timings: ${v}Timings as unknown as TimingsFile,\n    scenes: ${v}Scenes as unknown as ScenesFile,\n    assets: ${v}Assets as unknown as AssetCatalog,\n  },\n  // @new-episode-entries`,
+  `  ${id}: {\n    episode: ${v}Episode as unknown as EpisodeConfig,\n    script: ${v}Script as unknown as ScriptFile,\n    timings: ${v}Timings as unknown as TimingsFile,\n    scenes: ${v}Scenes as unknown as ScenesFile,\n    assets: ${v}Assets as unknown as AssetCatalog,\n    localized: {\n      // @locales:${id} (scripts/add-locale.ts inserts above this line)\n    },\n  },\n  // @new-episode-entries`,
 );
 writeFileSync(reg, src);
 
@@ -85,4 +85,5 @@ Next:
   2. put narration at public/${assetRoot}/audio/narration.wav (or npm run narration:tts -- ${id} ...)
   3. npm run narration:align -- ${id} --normalize
   4. author episodes/${id}/scenes.json + assets.json, preview with npm run dev
-  5. npm run render -- ${id} full`);
+  5. npm run render -- ${id} full
+  (languages: npm run add:locale -- ${id} es)`);

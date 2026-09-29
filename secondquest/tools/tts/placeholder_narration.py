@@ -7,9 +7,12 @@ open-weight Kokoro TTS model, so timing / comedy / mix can be judged before the
 real voice-over exists. The output is a PLACEHOLDER: replace it with the real
 recording and run `npm run narration:align` (see README).
 
-Outputs
+Outputs (master locale)
   public/<assetRoot>/<narration.audio>   mono 48 kHz 16-bit WAV
   episodes/<ep>/timings.json             exact cue start/end per script line
+Outputs (--locale es)
+  public/<assetRoot>/<locales.es.narration>  (default audio/es/narration.wav)
+  episodes/<ep>/timings.es.json          from episodes/<ep>/script.es.json
 
 Setup (once):
   pip install kokoro-onnx soundfile numpy
@@ -17,7 +20,7 @@ Setup (once):
   https://github.com/thewh1teagle/kokoro-onnx/releases (model-files-v1.0)
 
 Usage:
-  python3 tools/tts/placeholder_narration.py ep001 --model <onnx> --voices <bin>
+  python3 tools/tts/placeholder_narration.py ep001 --model <onnx> --voices <bin> [--locale es]
 """
 import argparse
 import json
@@ -56,16 +59,28 @@ def main() -> None:
     ap.add_argument("--voices", required=True)
     ap.add_argument("--voice", default=None)
     ap.add_argument("--speed", type=float, default=None)
+    ap.add_argument("--locale", default=None, help="extra locale declared in episode.json (default: master)")
     args = ap.parse_args()
 
     ep_dir = os.path.join(ROOT, "episodes", args.episode)
     episode = json.load(open(os.path.join(ep_dir, "episode.json")))
-    script = json.load(open(os.path.join(ep_dir, "script.json")))
+    master = episode.get("locale", "en")
+    locale = args.locale or master
+    if locale == master:
+        script_file, timings_file = "script.json", "timings.json"
+        narration_rel = episode["narration"]["audio"]
+    else:
+        loc_cfg = episode.get("locales", {}).get(locale)
+        if loc_cfg is None:
+            sys.exit(f'Locale "{locale}" is not declared in episode.json (npm run add:locale -- {args.episode} {locale})')
+        script_file, timings_file = f"script.{locale}.json", f"timings.{locale}.json"
+        narration_rel = loc_cfg.get("narration", f"audio/{locale}/narration.wav")
+    script = json.load(open(os.path.join(ep_dir, script_file)))
     cfg = script.get("placeholderTts", {})
     voice = args.voice or cfg.get("voice", "am_michael")
     speed = args.speed or cfg.get("speed", 1.0)
     lead_in = cfg.get("leadIn", 0.3)
-    lang = "en-gb" if voice.startswith("b") else "en-us"
+    lang = cfg.get("lang") or ("en-gb" if voice.startswith("b") else "en-us")
 
     from kokoro_onnx import Kokoro  # imported late so --help works without it
 
@@ -88,7 +103,6 @@ def main() -> None:
     peak = float(np.max(np.abs(audio))) or 1.0
     audio = audio * (0.89 / peak)  # ~-1 dBFS peak; loudness is normalised at final mix
 
-    narration_rel = episode["narration"]["audio"]
     out_wav = os.path.join(ROOT, "public", episode["assetRoot"], narration_rel)
     os.makedirs(os.path.dirname(out_wav), exist_ok=True)
     sf.write(out_wav, audio, OUT_SR, subtype="PCM_16")
@@ -99,10 +113,10 @@ def main() -> None:
         "duration": round(len(audio) / OUT_SR, 3),
         "cues": cues,
     }
-    with open(os.path.join(ep_dir, "timings.json"), "w") as f:
+    with open(os.path.join(ep_dir, timings_file), "w") as f:
         json.dump(timings, f, indent=2)
         f.write("\n")
-    print(f"\nWrote {out_wav} ({timings['duration']:.2f}s) and timings.json")
+    print(f"\nWrote {out_wav} ({timings['duration']:.2f}s) and {timings_file}")
 
 
 if __name__ == "__main__":

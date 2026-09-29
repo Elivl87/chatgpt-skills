@@ -5,26 +5,30 @@
   "fps": 30,
   "width": 1920,
   "height": 1080,
-  "locale": "en",
 
+  "locale": "en",
   "narration": {
     "audio": "audio/narration.wav",
     "volume": 1.0
   },
+  "locales": {
+    "es": { "narration": "audio/es/narration.wav", "label": "Español" }
+  },
 
   "music": {
-    "duck": { "to": 0.4, "attack": 0.15, "release": 0.6, "lookahead": 0.1 },
+    "duck": { "to": 0.27, "attack": 0.15, "release": 0.6, "lookahead": 0.1, "sfxTo": 0.62 },
     "cues": [
       {
         "id": "bed",
         "src": "music/hook_bed.mp3",
+        "placeholder": "bed",
         "start": 0,
         "end": "l18-0.3",
-        "volume": 0.5,
+        "volume": 0.35,
         "fadeIn": 0.4,
         "fadeOut": 1.2,
         "loop": true,
-        "note": "Placeholder generated bed. Replace file or point src at a licensed track."
+        "note": "Placeholder generated bed. Replace file or point src at a licensed track. v2: -3 dB and deeper ducking so the voice always leads."
       },
       {
         "id": "dip_dragon",
@@ -45,11 +49,13 @@
       {
         "id": "sunset",
         "src": "music/hook_sunset.mp3",
+        "placeholder": "sunset",
         "start": "l17.end-0.4",
         "end": "end",
-        "volume": 0.55,
+        "volume": 0.38,
         "fadeIn": 1.0,
-        "fadeOut": 0.8
+        "fadeOut": 0.6,
+        "note": "Warm close; scaled with the bed (x0.7) so it never competes with 'So... why?'."
       }
     ]
   },

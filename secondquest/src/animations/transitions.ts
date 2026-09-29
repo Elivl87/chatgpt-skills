@@ -9,6 +9,10 @@ import { clamp01, ease } from '../utils/easing';
  * is kept alive for `duration` extra seconds underneath it. Both read the same
  * progress p (0→1) — the incoming scene applies `enter`, the outgoing `exit`.
  * Overlay colours (dip/flash) are painted by the incoming scene, on top.
+ *
+ * Editorial guidance (SecondQuest): comedy beats use hard cuts (+ camera
+ * `punch` / impact SFX / character `reaction`); keep fade/dip for landscapes,
+ * contemplative beats, emotional turns and the close. Whip = quick energy only.
  */
 
 export const DEFAULT_TRANSITION_DURATION: Record<TransitionType, number> = {
@@ -61,7 +65,7 @@ export const transitionStyle = (
     }
     case 'whip': {
       const e = ease('inOutCubic', 'inOutCubic')(p);
-      const blur = tri(p) * 28;
+      const blur = tri(p) * 11; // v2: tighter, snappier whip
       const off = phase === 'enter' ? 1 - e : -e;
       return {
         style: {
@@ -73,13 +77,13 @@ export const transitionStyle = (
     case 'zoom': {
       const e = ease('inOutCubic', 'inOutCubic')(p);
       if (phase === 'exit') {
-        return { style: { transform: `scale(${1 + e * 0.35})`, filter: `blur(${(e * 12).toFixed(1)}px)` } };
+        return { style: { transform: `scale(${1 + e * 0.35})`, filter: `blur(${(e * 5).toFixed(1)}px)` } };
       }
       return {
         style: {
           transform: `scale(${0.8 + e * 0.2})`,
           opacity: clamp01(e * 1.6),
-          filter: e < 0.99 ? `blur(${((1 - e) * 10).toFixed(1)}px)` : undefined,
+          filter: e < 0.99 ? `blur(${((1 - e) * 5).toFixed(1)}px)` : undefined,
         },
       };
     }

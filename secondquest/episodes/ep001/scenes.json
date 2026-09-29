@@ -95,7 +95,7 @@
         },
         { "type": "particles", "kind": "money", "at": "l03+0.02", "count": 14, "region": { "x": 0.28, "y": 0.42, "w": 0.1, "h": 0.1 } },
         {
-          "type": "counter", "label": "Wallet", "prefix": "$", "initial": 0, "x": 0.72, "y": 0.2, "size": 88, "show": "l03+0.05",
+          "type": "counter", "label": { "en": "Wallet", "es": "Cartera" }, "prefix": "$", "initial": 0, "x": 0.72, "y": 0.2, "size": 88, "show": "l03+0.05",
           "steps": [{ "at": "l03+0.1", "value": 2840, "duration": 0.8 }]
         }
       ],
@@ -109,12 +109,12 @@
       "id": "s04_tractor",
       "note": "Enormous expensive tractor. Tilt-up reveal of scale. Wallet becomes worried, balance drains.",
       "start": "l04-0.12",
-      "transition": { "type": "whip", "direction": "left" },
       "camera": {
         "start": { "zoom": 1.45, "x": 0.34, "y": 0.72 },
         "moves": [
           { "type": "move_to", "zoom": 1.0, "x": 0.5, "y": 0.5, "at": 0.05, "duration": 1.5, "easing": "inOutCubic" },
-          { "type": "push_in", "amount": 0.03, "at": 1.55 }
+          { "type": "push_in", "amount": 0.03, "at": 1.55 },
+          { "type": "punch", "at": "l04+0.8", "amount": 0.04, "duration": 0.3 }
         ],
         "shakes": [{ "at": "l04+0.8", "intensity": 10, "duration": 0.35 }]
       },
@@ -131,16 +131,15 @@
           "swaps": [{ "at": "l04+0.85", "asset": "wallet.worried" }],
           "animations": [{ "type": "shake", "at": "l04+0.9", "intensity": 0.5 }]
         },
-        { "type": "text", "style": "price", "text": "$450,000", "x": 0.64, "y": 0.2, "show": "l04+0.8" },
+        { "type": "text", "style": "price", "text": { "en": "$450,000", "es": "$450.000" }, "x": 0.64, "y": 0.2, "show": "l04+0.8" },
         {
-          "type": "counter", "label": "Wallet", "prefix": "$", "initial": 2840, "x": 0.22, "y": 0.2, "size": 70,
+          "type": "counter", "label": { "en": "Wallet", "es": "Cartera" }, "prefix": "$", "initial": 2840, "x": 0.22, "y": 0.2, "size": 70,
           "steps": [{ "at": "l04+1.2", "value": -447160, "duration": 0.95, "easing": "inCubic" }]
         }
       ],
       "sfx": [
-        { "id": "whip", "at": -0.05 },
         { "id": "sparkle", "at": "l04+0.2", "volume": 0.8 },
-        { "id": "impact", "at": "l04+0.8" },
+        { "id": "impact", "at": "l04+0.8", "duckTo": 0.9 },
         { "id": "drain", "at": "l04+1.2" }
       ]
     },
@@ -149,7 +148,6 @@
       "id": "s05_home",
       "note": "Quest returns home exhausted... and immediately transforms into farmer mode. He just finished working, to start working again.",
       "start": "l05-0.12",
-      "transition": { "type": "dip", "duration": 0.45 },
       "camera": {
         "start": { "zoom": 1.12, "x": 0.44, "y": 0.58 },
         "moves": [
@@ -174,12 +172,12 @@
           ]
         },
         { "type": "particles", "kind": "poof", "at": "l06-0.08", "count": 14, "region": { "x": 0.33, "y": 0.62, "w": 0.1, "h": 0.1 } },
-        { "type": "text", "style": "ui", "text": "LOAD SAVE", "x": 0.78, "y": 0.42, "size": 40, "show": "l06+0.35" }
+        { "type": "text", "style": "ui", "text": { "en": "LOAD SAVE", "es": "CARGAR PARTIDA" }, "x": 0.78, "y": 0.42, "size": 40, "show": "l06+0.35" }
       ],
       "sfx": [
         { "id": "whoosh", "at": "l06-0.2" },
-        { "id": "poof", "at": "l06-0.08" },
-        { "id": "ui_select", "at": "l06+0.35" }
+        { "id": "poof", "at": "l06-0.08", "duckTo": 0.85 },
+        { "id": "ui_select", "at": "l06+0.35", "duckTo": 0.9 }
       ]
     },
 
@@ -200,7 +198,7 @@
               "asset": "quest.desk_typing", "x": 0.44, "y": 0.99, "height": 0.82, "shadow": true,
               "animations": [{ "type": "bounce", "frequency": 1.6, "intensity": 0.7 }]
             },
-            { "type": "text", "style": "label", "text": "Office work", "x": 0.5, "y": 0.12, "size": 36, "show": 0.3 }
+            { "type": "text", "style": "label", "text": { "en": "Office work", "es": "Trabajo de oficina" }, "x": 0.5, "y": 0.12, "size": 36, "show": 0.3 }
           ]
         },
         {
@@ -213,7 +211,7 @@
               "asset": "quest.tractor_side", "x": 0.5, "y": 0.93, "height": 0.62, "shadow": true,
               "animations": [{ "type": "bounce", "frequency": 1.6, "intensity": 0.7 }]
             },
-            { "type": "text", "style": "label", "text": "Farm work", "x": 0.5, "y": 0.12, "size": 36, "show": 0.42 }
+            { "type": "text", "style": "label", "text": { "en": "Farm work", "es": "Trabajo en la granja" }, "x": 0.5, "y": 0.12, "size": 36, "show": 0.42 }
           ]
         },
         {
@@ -238,7 +236,7 @@
       "id": "s07_dragon",
       "note": "There are no dragons — dragon rises dramatically, is instantly rejected.",
       "start": "l08-0.35",
-      "transition": { "type": "flash" },
+      "transition": { "type": "flash", "duration": 0.2 },
       "camera": {
         "start": { "zoom": 1.22, "x": 0.5, "y": 0.45 },
         "moves": [{ "type": "pull_out", "amount": 0.16, "at": 0, "duration": 0.9, "easing": "outCubic" }],
@@ -261,7 +259,7 @@
       "sfx": [
         { "id": "rumble", "at": -0.05 },
         { "id": "impact", "at": 0.1, "rate": 0.8 },
-        { "id": "stamp", "at": "l08.end-0.35" },
+        { "id": "stamp", "at": "l08.end-0.35", "duckTo": 0.9 },
         { "id": "buzzer", "at": "l08.end-0.3" }
       ]
     },
@@ -287,7 +285,7 @@
       "sfx": [
         { "id": "whoosh", "at": 0 },
         { "id": "impact", "at": 0.05, "volume": 0.6 },
-        { "id": "stamp", "at": "l09.end-0.3" },
+        { "id": "stamp", "at": "l09.end-0.3", "duckTo": 0.9 },
         { "id": "buzzer", "at": "l09.end-0.25", "rate": 1.06 }
       ]
     },
@@ -320,7 +318,7 @@
       ],
       "sfx": [
         { "id": "sparkle", "at": 0.1 },
-        { "id": "stamp", "at": "l10.end-0.3" },
+        { "id": "stamp", "at": "l10.end-0.3", "duckTo": 0.9 },
         { "id": "buzzer", "at": "l10.end-0.25", "rate": 0.94 }
       ]
     },
@@ -329,7 +327,7 @@
       "id": "s10_enemy",
       "note": "Most of the time, your greatest enemy... — mock-epic hero shot, Fear peeks in, lightning.",
       "start": "l11-0.1",
-      "transition": { "type": "dip", "duration": 0.5 },
+      "transition": { "type": "dip", "duration": 0.4 },
       "camera": {
         "start": { "zoom": 1.0, "x": 0.5, "y": 0.56 },
         "moves": [{ "type": "push_in", "amount": 0.14, "easing": "inOutSine" }],
@@ -374,12 +372,12 @@
           "id": "quest", "asset": "quest.tractor_side", "x": 0.5, "y": 0.645, "height": 0.045,
           "animations": [{ "type": "drift", "to": "left", "distance": 26, "duration": 6, "easing": "linear" }, { "type": "bounce", "frequency": 3, "intensity": 0.1 }]
         },
-        { "type": "text", "style": "marker", "text": "YOU ARE HERE", "arrow": "down", "x": 0.5, "y": 0.555, "size": 28, "show": "l12.end-0.15" }
+        { "type": "text", "style": "marker", "text": { "en": "YOU ARE HERE", "es": "ESTÁS AQUÍ" }, "arrow": "down", "x": 0.5, "y": 0.555, "size": 28, "show": "l12.end-0.15" }
       ],
       "sfx": [
         { "id": "wind", "at": 0, "duration": 3.8, "fadeOut": 0.6 },
         { "id": "whoosh", "at": "l12+0.2", "rate": 0.65, "volume": 1.3 },
-        { "id": "pop", "at": "l12.end-0.15", "volume": 0.8 },
+        { "id": "pop", "at": "l12.end-0.15", "volume": 0.8, "duckTo": 0.9 },
         { "id": "crickets", "at": "l12.end+0.05", "duration": 1.2, "fadeOut": 0.3 }
       ]
     },
@@ -388,7 +386,7 @@
       "id": "s12_millions",
       "note": "And yet millions of people voluntarily spend their evenings... — windows light up across the city.",
       "start": "l13-0.3",
-      "transition": { "type": "fade", "duration": 0.5 },
+      "transition": { "type": "fade", "duration": 0.4 },
       "camera": {
         "start": { "zoom": 1.05, "x": 0.47 },
         "moves": [{ "type": "pan_right", "amount": 0.05 }, { "type": "push_in", "amount": 0.06 }]
@@ -412,10 +410,10 @@
       "id": "s13_chores",
       "note": "planting crops, transporting fertilizer, feeding animals... — ONE farm illustration, three shots: the camera whips station to station, XP bar fills, then pulls out to reveal all three Quests bouncing in the same grind rhythm.",
       "start": "l14-0.12",
-      "transition": { "type": "whip", "direction": "left" },
       "camera": {
         "start": { "zoom": 2.2, "x": 0.19, "y": 0.62 },
         "moves": [
+          { "type": "punch", "at": 0, "amount": 0.05, "duration": 0.3 },
           { "type": "move_to", "x": 0.5, "at": "l15-0.12", "duration": 0.35, "easing": "inOutCubic" },
           { "type": "move_to", "x": 0.81, "at": "l16-0.12", "duration": 0.35, "easing": "inOutCubic" },
           { "type": "move_to", "zoom": 1.0, "x": 0.5, "y": 0.5, "at": "l16+0.5", "duration": 0.5, "easing": "inOutCubic" }
@@ -427,7 +425,7 @@
         { "asset": "quest.farmer_fertilizer", "x": 0.5, "y": 0.75, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
         { "asset": "quest.farmer_feeding", "x": 0.81, "y": 0.75, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
         {
-          "type": "progress", "label": "Farm XP", "x": 0.5, "y": 0.1, "width": 0.34, "initial": 0.04,
+          "type": "progress", "label": { "en": "Farm XP", "es": "XP de granja" }, "x": 0.5, "y": 0.1, "width": 0.34, "initial": 0.04,
           "steps": [
             { "at": "l14+0.3", "value": 0.34 },
             { "at": "l15+0.3", "value": 0.67 },
@@ -436,7 +434,6 @@
         }
       ],
       "sfx": [
-        { "id": "whip", "at": -0.05 },
         { "id": "ui_select", "at": "l14+0.3" },
         { "id": "whip", "at": "l15-0.14" },
         { "id": "ui_select", "at": "l15+0.3", "rate": 1.12 },
@@ -450,7 +447,6 @@
       "id": "s14_bigger_tractor",
       "note": "...and getting genuinely excited about buying a bigger tractor. Bigger tractor drops from the sky. Wallet faints (callback).",
       "start": "l17-0.1",
-      "transition": { "type": "zoom", "duration": 0.35 },
       "camera": {
         "start": { "zoom": 1.06 },
         "moves": [{ "type": "push_in", "amount": 0.04 }, { "type": "punch", "at": "l17.end-0.9", "amount": 0.05, "duration": 0.5 }],
@@ -477,7 +473,7 @@
         },
         { "type": "particles", "kind": "confetti", "at": "l17.end-0.85", "region": { "x": 0.4, "y": 0.3, "w": 0.2, "h": 0.1 } },
         { "type": "particles", "kind": "sparkle", "at": "l17.end-0.6", "count": 14, "region": { "x": 0.5, "y": 0.1, "w": 0.4, "h": 0.6 } },
-        { "type": "text", "style": "punch", "text": "NEW TRACTOR", "x": 0.5, "y": 0.17, "show": "l17.end-0.75" },
+        { "type": "text", "style": "punch", "text": { "en": "NEW TRACTOR", "es": "TRACTOR NUEVO" }, "x": 0.5, "y": 0.17, "show": "l17.end-0.75" },
         {
           "id": "wallet", "asset": "wallet.fainted", "x": 0.09, "y": 0.99, "height": 0.13, "show": "l17.end+0.05",
           "animations": [{ "type": "slide_in", "from": "left", "distance": 320, "at": "l17.end+0.05", "duration": 0.35 }]
@@ -485,8 +481,8 @@
       ],
       "sfx": [
         { "id": "whoosh", "at": "l17.end-1.25", "rate": 0.8 },
-        { "id": "impact", "at": "l17.end-0.9" },
-        { "id": "ui_complete", "at": "l17.end-0.75" },
+        { "id": "impact", "at": "l17.end-0.9", "duckTo": 0.95 },
+        { "id": "ui_complete", "at": "l17.end-0.75", "duckTo": 0.85 },
         { "id": "sparkle", "at": "l17.end-0.6" },
         { "id": "drain", "at": "l17.end+0.05", "rate": 0.8, "volume": 0.8 }
       ]
@@ -494,10 +490,10 @@
 
     {
       "id": "s15_sunset",
-      "note": "Quiet sunset. Quest looks over the farm. 'So... why?' Brief SecondQuest identity beat.",
+      "note": "Quiet sunset. Quest looks over the farm. 'So... why?' SecondQuest identity beat: ~0.95 s visible, then the episode continues.",
       "start": "l18-0.35",
-      "end": "l19.end+2.0",
-      "transition": { "type": "fade", "duration": 0.9 },
+      "end": "l19.end+1.25",
+      "transition": { "type": "fade", "duration": 0.7 },
       "camera": {
         "start": { "zoom": 1.14, "x": 0.5, "y": 0.56 },
         "moves": [{ "type": "pull_out", "amount": 0.1, "easing": "inOutSine" }, { "type": "pan_right", "amount": 0.025 }],
@@ -515,14 +511,17 @@
         { "asset": "ep001.fg_fence", "x": 0.5, "y": 1.04, "width": 1.3, "depth": 1.0 },
         { "type": "particles", "kind": "dust", "count": 30, "color": "#ffe0a0", "region": { "x": 0.2, "y": 0.2, "w": 0.7, "h": 0.6 }, "depth": 0.85 },
         {
-          "type": "rect", "x": 0.5, "y": 0.5, "w": 1, "h": 1, "color": "rgba(8,6,14,0.55)", "depth": "screen", "show": "l19.end+0.35",
-          "animations": [{ "type": "fade_in", "at": "l19.end+0.35", "duration": 0.6 }]
+          "type": "rect", "x": 0.5, "y": 0.5, "w": 1, "h": 1, "color": "rgba(8,6,14,0.55)", "depth": "screen", "show": "l19.end+0.25",
+          "animations": [{ "type": "fade_in", "at": "l19.end+0.25", "duration": 0.3 }]
         },
-        { "type": "wordmark", "asset": "brand.wordmark", "at": "l19.end+0.45", "x": 0.5, "y": 0.5 }
+        {
+          "type": "wordmark", "asset": "brand.wordmark", "at": "l19.end+0.3", "x": 0.5, "y": 0.5,
+          "animations": [{ "type": "punch_in", "at": "l19.end+0.3", "duration": 0.28, "intensity": 0.35 }]
+        }
       ],
       "sfx": [
-        { "id": "wind", "at": 0, "duration": 5.5, "fadeOut": 1.2, "volume": 0.8 },
-        { "id": "chime", "at": "l19.end+0.45" }
+        { "id": "wind", "at": 0, "duration": 4.0, "fadeOut": 0.8, "volume": 0.8 },
+        { "id": "chime", "at": "l19.end+0.3" }
       ]
     }
   ]

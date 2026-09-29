@@ -61,6 +61,8 @@ export interface ResolvedSfx {
   fadeOut: number;
   rate: number;
   atSec: number;
+  /** Per-event duck gain override. */
+  duckTo?: number;
 }
 
 export interface ResolvedCut {
@@ -90,7 +92,7 @@ export interface EpisodeData {
   scenes: ScenesFile;
 }
 
-export const DEFAULT_DUCK: DuckConfig = { to: 0.35, attack: 0.15, release: 0.5, lookahead: 0.1, sfxTo: 0.8 };
+export const DEFAULT_DUCK: DuckConfig = { to: 0.3, attack: 0.15, release: 0.5, lookahead: 0.1, sfxTo: 0.62 };
 
 const withDuration = (t: TransitionSpec | undefined) =>
   t && t.type !== 'cut' ? { ...t, duration: t.duration ?? DEFAULT_TRANSITION_DURATION[t.type] } : undefined;
@@ -210,6 +212,7 @@ export const resolveCut = (
         fadeOut: ev.fadeOut ?? (ev.duration !== undefined || ev.end !== undefined ? 0.08 : 0),
         rate: ev.rate ?? 1,
         atSec: at - offsetSec,
+        duckTo: ev.duckTo,
       });
     }
   }

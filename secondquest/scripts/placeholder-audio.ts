@@ -1,18 +1,24 @@
 /**
  * Placeholder audio generator (deterministic, no samples, no copyright).
  *
- *   npm run audio:placeholders
+ *   npm run audio:placeholders                 # shared SFX + every episode's music
+ *   npm run audio:placeholders -- ep002        # shared SFX + one episode's music
+ *   npm run audio:placeholders -- --force      # overwrite existing files
  *
- * Writes simple synthesised SFX to public/shared/sfx/*.wav and two short
- * music cues to public/episodes/ep001_farming/music/*.mp3 so the mix, ducking
- * and timing can be judged before real sound design exists. Replace any file
- * in place (same name) with a licensed / produced version — nothing else
- * needs to change. Existing files are never overwritten unless --force.
+ * Driven entirely by configuration:
+ *   SFX   → every entry in shared/sfx.json that has a synth below, written to its `src`
+ *   music → every track cue in each episode.json, written to public/<assetRoot>/<src>
+ *           using the generator named by the cue's `placeholder` field ("bed" | "sunset")
+ * so the mix, ducking and timing can be judged before real sound design exists.
+ * Replace any file in place (same name) with a licensed / produced version —
+ * nothing else needs to change. Existing files are never overwritten unless --force.
  */
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, unlinkSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { EPISODES, SFX } from '../src/episodes';
+import type { MusicTrackCue } from '../src/schema/types';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SR = 48000;
@@ -152,7 +158,7 @@ const midi = (n: number) => 440 * Math.pow(2, (n - 69) / 12);
 
 // ------------------------------------------------------------------ SFX
 
-const SFX: Record<string, () => Buf> = {
+const SFX_SYNTHS: Record<string, () => Buf> = {
   alarm: () => {
     const b = buf(2.6);
     for (let g = 0; g < 3; g++)
@@ -385,30 +391,78 @@ const sunset = (): Buf => {
 
 // ------------------------------------------------------------------ write
 
-const sfxDir = join(ROOT, 'public/shared/sfx');
-const musicDir = join(ROOT, 'public/episodes/ep001_farming/music');
-let wrote = 0;
+/** Music generators, keyed by the `placeholder` field of a music cue. Fixed seeds → identical output every run. */
+const MUSIC_SYNTHS: Record<string, { seed: number; make: () => Buf }> = {
+  bed: { seed: 42, make: hookBed },
+  sunset: { seed: 43, make: sunset },
+};
 
-for (const [name, make] of Object.entries(SFX)) {
-  const path = join(sfxDir, `${name}.wav`);
+const PUBLIC = join(ROOT, 'public');
+const args = process.argv.slice(2).filter((a) => !a.startsWith('--'));
+const onlyEpisode = args[0];
+if (onlyEpisode && !EPISODES[onlyEpisode]) {
+  console.error(`Unknown episode "${onlyEpisode}". Known: ${Object.keys(EPISODES).join(', ')}`);
+  process.exit(1);
+}
+let wrote = 0;
+const skipped: string[] = [];
+
+// --- SFX (shared library)
+for (const [id, entry] of Object.entries(SFX.sfx)) {
+  const make = SFX_SYNTHS[id];
+  const path = join(PUBLIC, entry.src.replace(/^\//, ''));
   if (existsSync(path) && !FORCE) continue;
-  seed = [...name].reduce((a, c) => a * 31 + c.charCodeAt(0), 7);
+  if (!make) {
+    skipped.push(`sfx "${id}" (no placeholder synth; supply ${entry.src})`);
+    continue;
+  }
+  if (extname(path).toLowerCase() !== '.wav') {
+    skipped.push(`sfx "${id}" (placeholder synth writes .wav; catalog expects ${extname(path)})`);
+    continue;
+  }
+  seed = [...id].reduce((a, c) => a * 31 + c.charCodeAt(0), 7);
   writeWav(path, normalizeRms(fadeEdges(make())));
   wrote++;
 }
 
-const toMp3 = (name: string, b: Buf) => {
-  const mp3 = join(musicDir, `${name}.mp3`);
-  if (existsSync(mp3) && !FORCE) return;
-  const wav = join(musicDir, `${name}.tmp.wav`);
-  writeWav(wav, b);
-  execFileSync('npx', ['remotion', 'ffmpeg', '-y', '-loglevel', 'error', '-i', wav, '-codec:a', 'libmp3lame', '-b:a', '192k', mp3], { cwd: ROOT, stdio: 'inherit' });
-  unlinkSync(wav);
-  wrote++;
+// --- music (per episode, from episode.json)
+const rendered = new Map<string, Buf>();
+const writeAudio = (path: string, b: Buf) => {
+  const ext = extname(path).toLowerCase();
+  if (ext === '.wav') return writeWav(path, b);
+  const tmp = `${path}.tmp.wav`;
+  writeWav(tmp, b);
+  const codec = ext === '.mp3' ? ['-codec:a', 'libmp3lame', '-b:a', '192k'] : ['-codec:a', 'aac', '-b:a', '192k'];
+  execFileSync('npx', ['remotion', 'ffmpeg', '-y', '-loglevel', 'error', '-i', tmp, ...codec, path], { cwd: ROOT, stdio: 'inherit' });
+  unlinkSync(tmp);
 };
-seed = 42;
-toMp3('hook_bed', hookBed());
-seed = 43;
-toMp3('hook_sunset', sunset());
+
+for (const [epId, bundle] of Object.entries(EPISODES)) {
+  if (onlyEpisode && epId !== onlyEpisode) continue;
+  const root = bundle.episode.assetRoot.replace(/\/$/, '');
+  const cues = (bundle.episode.music?.cues ?? []).filter((c): c is MusicTrackCue => c.type !== 'automation');
+  for (const cue of cues) {
+    const path = cue.src.startsWith('/') ? join(PUBLIC, cue.src.slice(1)) : join(PUBLIC, root, cue.src);
+    if (existsSync(path) && !FORCE) continue;
+    const gen = cue.placeholder ?? 'bed';
+    const synth = MUSIC_SYNTHS[gen];
+    if (!synth) {
+      skipped.push(`${epId} music "${cue.id}" (unknown placeholder generator "${gen}"; use ${Object.keys(MUSIC_SYNTHS).join(' | ')})`);
+      continue;
+    }
+    if (!['.mp3', '.wav', '.m4a', '.aac'].includes(extname(path).toLowerCase())) {
+      skipped.push(`${epId} music "${cue.id}" (unsupported extension ${extname(path)})`);
+      continue;
+    }
+    if (!rendered.has(gen)) {
+      seed = synth.seed;
+      rendered.set(gen, synth.make());
+    }
+    mkdirSync(dirname(path), { recursive: true });
+    writeAudio(path, rendered.get(gen)!);
+    wrote++;
+  }
+}
 
 console.log(`placeholder audio: ${wrote} file(s) written${FORCE ? ' (forced)' : ''}.`);
+for (const s of skipped) console.log(`  skipped ${s}`);

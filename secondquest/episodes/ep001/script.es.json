@@ -1,0 +1,34 @@
+{
+  "episode": "ep001",
+  "locale": "es",
+  "status": "DRAFT translation for localisation testing — pending approval by the SecondQuest team (keep ids; remove this field when approved)",
+  "notes": "Same cue ids and beat splits as script.json (en, master). pauseAfter is only used by the placeholder TTS.",
+  "lines": [
+    { "id": "l01", "text": "Farming Simulator es un juego en el que te despiertas...", "pauseAfter": 0.3 },
+    { "id": "l02", "text": "vas a trabajar...", "pauseAfter": 0.25 },
+    { "id": "l03", "text": "ganas dinero...", "pauseAfter": 0.25 },
+    { "id": "l04", "text": "compras maquinaria carísima...", "pauseAfter": 0.45 },
+    { "id": "l05", "text": "y luego...", "pauseAfter": 0.55 },
+    { "id": "l06", "text": "vuelves a trabajar.", "pauseAfter": 1.0 },
+    { "id": "l07", "text": "Lo cual se parece sospechosamente a aquello de lo que los videojuegos se inventaron para ayudarnos a escapar.", "pauseAfter": 0.7 },
+    { "id": "l08", "text": "No hay dragones.", "pauseAfter": 0.2 },
+    { "id": "l09", "text": "Ni tiroteos.", "pauseAfter": 0.2 },
+    { "id": "l10", "text": "Ni princesas que rescatar.", "pauseAfter": 0.65 },
+    { "id": "l11", "text": "La mayor parte del tiempo, tu peor enemigo...", "pauseAfter": 0.55 },
+    { "id": "l12", "text": "es un campo un poco más grande de lo que esperabas.", "pauseAfter": 1.1 },
+    { "id": "l13", "text": "Y aun así, millones de personas pasan voluntariamente sus tardes", "pauseAfter": 0.1 },
+    { "id": "l14", "text": "plantando cultivos,", "pauseAfter": 0.05 },
+    { "id": "l15", "text": "transportando fertilizante,", "pauseAfter": 0.05 },
+    { "id": "l16", "text": "alimentando animales...", "pauseAfter": 0.3 },
+    { "id": "l17", "text": "y emocionándose de verdad por comprar un tractor más grande.", "pauseAfter": 0.9 },
+    { "id": "l18", "text": "Entonces...", "pauseAfter": 0.55 },
+    { "id": "l19", "text": "¿por qué?", "pauseAfter": 0 }
+  ],
+  "placeholderTts": {
+    "engine": "kokoro",
+    "voice": "em_alex",
+    "lang": "es",
+    "speed": 1.0,
+    "leadIn": 0.3
+  }
+}

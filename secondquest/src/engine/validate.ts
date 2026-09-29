@@ -1,10 +1,11 @@
 import { ANIMATION_TYPES } from '../animations/presets';
 import { DEFAULT_TRANSITION_DURATION } from '../animations/transitions';
 import type { EpisodeBundle } from '../episodes';
-import type { AssetCatalog, Layer, Scene, SfxCatalog, TimeExpr } from '../schema/types';
+import type { AssetCatalog, Layer, LocalText, Scene, SfxCatalog, TimeExpr } from '../schema/types';
 import { EASINGS } from '../utils/easing';
 import { resolveTime, type TimeContext } from '../utils/time';
 import { listAssetIds, toPublicPath } from './assets';
+import { episodeLocales, localizeBundle } from './locale';
 import { resolveCut } from './timeline';
 
 export interface Issue {
@@ -87,6 +88,7 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
   };
 
   const ids = new Set<string>();
+  const missingSounds = new Map<string, string[]>();
   let prevStart = -Infinity;
   scenes.scenes.forEach((scene: Scene, i) => {
     const w = `scenes.${scene.id}`;
@@ -115,7 +117,7 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
     for (const ev of scene.sfx ?? []) {
       const entry = sfx.sfx[ev.id];
       if (!entry) err(`${w}.sfx`, `unknown sound "${ev.id}"`);
-      else if (!hasFile(entry.src.replace(/^\//, ''))) warn(`${w}.sfx`, `sound file ${entry.src} missing — event skipped`);
+      else if (!hasFile(entry.src.replace(/^\//, ''))) missingSounds.set(ev.id, [...(missingSounds.get(ev.id) ?? []), scene.id]);
     }
     if (scene.component) warn(w, `uses custom component "${scene.component}"`);
     const ctx: TimeContext = { cues, sceneStart: start || 0, sceneEnd: end || 0, relative: true, end: end || 0 };
@@ -123,6 +125,9 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
     walkTimes({ layers: scene.layers, camera: scene.camera, sfx: scene.sfx }, w, ctx);
     prevStart = start;
   });
+
+  for (const [id, where] of missingSounds)
+    warn('sfx', `sound "${id}" (${sfx.sfx[id].src}) missing — ${where.length} event(s) skipped in ${[...new Set(where)].join(', ')}`);
 
   // --- cuts
   for (const cutId of Object.keys(episode.cuts)) {
@@ -157,3 +162,61 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
 
   return issues;
 };
+
+/**
+ * Localisation checks: every extra locale must be registered, use exactly the
+ * master script's cue ids (scenes reference them), and on-screen text should
+ * carry a translation for every locale.
+ */
+export const validateLocales = (b: EpisodeBundle): Issue[] => {
+  const issues: Issue[] = [];
+  const locales = episodeLocales(b);
+  if (locales.length < 2) return issues;
+  const masterIds = b.script.lines.map((l) => l.id);
+  for (const loc of locales.slice(1)) {
+    const data = b.localized?.[loc];
+    if (!data) {
+      issues.push({ level: 'error', where: `locales.${loc}`, message: 'declared in episode.json but script/timings are not registered in src/episodes/index.ts (npm run add:locale)' });
+      continue;
+    }
+    const ids = data.script.lines.map((l) => l.id);
+    const missing = masterIds.filter((id) => !ids.includes(id));
+    const extra = ids.filter((id) => !masterIds.includes(id));
+    if (missing.length) issues.push({ level: 'error', where: `script.${loc}.json`, message: `missing cue ids ${missing.join(', ')} (must mirror the master script)` });
+    if (extra.length) issues.push({ level: 'warn', where: `script.${loc}.json`, message: `extra cue ids ${extra.join(', ')} are not used by any scene` });
+    const status = (data.script as { status?: string }).status;
+    if (status) issues.push({ level: 'warn', where: `script.${loc}.json`, message: status });
+  }
+  const check = (text: LocalText | undefined, where: string) => {
+    if (text === undefined) return;
+    if (typeof text === 'string') {
+      if (/\p{L}/u.test(text)) issues.push({ level: 'warn', where, message: `"${text}" is not localised (same text in every language)` });
+      return;
+    }
+    const miss = locales.filter((l) => !(l in text));
+    if (miss.length) issues.push({ level: 'warn', where, message: `missing translation for ${miss.join(', ')} (falls back to ${b.episode.locale})` });
+  };
+  const walk = (layers: Layer[], where: string) =>
+    layers.forEach((l, i) => {
+      const w = `${where}.layers[${l.id ?? i}]`;
+      if (l.type === 'group') return walk(l.layers, w);
+      const t = l as { text?: LocalText; label?: LocalText; tagline?: LocalText };
+      check(t.text, `${w}.text`);
+      check(t.label, `${w}.label`);
+      check(t.tagline, `${w}.tagline`);
+    });
+  b.scenes.scenes.forEach((s) => walk(s.layers, `scenes.${s.id}`));
+  return issues;
+};
+
+/** Validate every locale of an episode (master first). */
+export const validateAllLocales = (b: EpisodeBundle, shared: AssetCatalog, sfx: SfxCatalog, hasFile: (p: string) => boolean) =>
+  episodeLocales(b).map((locale) => {
+    let issues: Issue[];
+    try {
+      issues = validateEpisode(localizeBundle(b, locale), shared, sfx, hasFile);
+    } catch (e) {
+      issues = [{ level: 'error', where: `locales.${locale}`, message: (e as Error).message }];
+    }
+    return { locale, issues };
+  });

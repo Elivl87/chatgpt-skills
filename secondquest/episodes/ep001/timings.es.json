@@ -1,0 +1,102 @@
+{
+  "source": "audio/es/narration.wav",
+  "generatedBy": "placeholder-tts:kokoro:em_alex@1.0",
+  "duration": 46.38,
+  "cues": {
+    "l01": {
+      "start": 0.3,
+      "end": 3.363,
+      "text": "Farming Simulator es un juego en el que te despiertas..."
+    },
+    "l02": {
+      "start": 3.663,
+      "end": 4.894,
+      "text": "vas a trabajar..."
+    },
+    "l03": {
+      "start": 5.144,
+      "end": 6.136,
+      "text": "ganas dinero..."
+    },
+    "l04": {
+      "start": 6.386,
+      "end": 8.206,
+      "text": "compras maquinaria car\u00edsima..."
+    },
+    "l05": {
+      "start": 8.656,
+      "end": 9.425,
+      "text": "y luego..."
+    },
+    "l06": {
+      "start": 9.975,
+      "end": 11.352,
+      "text": "vuelves a trabajar."
+    },
+    "l07": {
+      "start": 12.352,
+      "end": 18.636,
+      "text": "Lo cual se parece sospechosamente a aquello de lo que los videojuegos se inventaron para ayudarnos a escapar."
+    },
+    "l08": {
+      "start": 19.336,
+      "end": 20.421,
+      "text": "No hay dragones."
+    },
+    "l09": {
+      "start": 20.621,
+      "end": 21.667,
+      "text": "Ni tiroteos."
+    },
+    "l10": {
+      "start": 21.867,
+      "end": 23.565,
+      "text": "Ni princesas que rescatar."
+    },
+    "l11": {
+      "start": 24.215,
+      "end": 26.778,
+      "text": "La mayor parte del tiempo, tu peor enemigo..."
+    },
+    "l12": {
+      "start": 27.328,
+      "end": 30.197,
+      "text": "es un campo un poco m\u00e1s grande de lo que esperabas."
+    },
+    "l13": {
+      "start": 31.297,
+      "end": 35.037,
+      "text": "Y aun as\u00ed, millones de personas pasan voluntariamente sus tardes"
+    },
+    "l14": {
+      "start": 35.137,
+      "end": 36.456,
+      "text": "plantando cultivos,"
+    },
+    "l15": {
+      "start": 36.506,
+      "end": 38.235,
+      "text": "transportando fertilizante,"
+    },
+    "l16": {
+      "start": 38.285,
+      "end": 39.714,
+      "text": "alimentando animales..."
+    },
+    "l17": {
+      "start": 40.014,
+      "end": 43.453,
+      "text": "y emocion\u00e1ndose de verdad por comprar un tractor m\u00e1s grande."
+    },
+    "l18": {
+      "start": 44.353,
+      "end": 45.2,
+      "text": "Entonces..."
+    },
+    "l19": {
+      "start": 45.75,
+      "end": 46.38,
+      "text": "\u00bfpor qu\u00e9?"
+    }
+  }
+}

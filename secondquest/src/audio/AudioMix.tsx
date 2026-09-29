@@ -52,7 +52,7 @@ export const AudioMix: React.FC<{ cut: ResolvedCut; hasNarration: boolean; mute?
               const t = s.atSec + local;
               const dur = s.duration / fps;
               const out = s.fadeOut > 0 ? Math.min(1, Math.max(0, (dur - local) / s.fadeOut)) : 1;
-              return Math.max(0, s.volume * out * duckGain(t, speech, duck, duck.sfxTo ?? 0.8));
+              return Math.max(0, s.volume * out * duckGain(t, speech, duck, s.duckTo ?? duck.sfxTo ?? 0.62));
             }}
           />
         </Sequence>

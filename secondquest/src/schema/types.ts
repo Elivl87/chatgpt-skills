@@ -44,10 +44,26 @@ export interface EpisodeConfig {
   fps: number;
   width: number;
   height: number;
+  /** Master locale (the one scenes were authored against). */
   locale: string;
+  /** Master narration. */
   narration: { audio: string; volume?: number };
+  /**
+   * Optional additional locales. Each has its own narration + script + timings;
+   * scenes, assets and music are shared. Omit for single-language episodes.
+   * Files default to audio/<loc>/narration.wav, script.<loc>.json, timings.<loc>.json.
+   */
+  locales?: Record<string, LocaleConfig>;
   music?: MusicConfig;
   cuts: Record<string, CutConfig>;
+}
+
+export interface LocaleConfig {
+  /** Narration audio path (relative to assetRoot). */
+  narration?: string;
+  /** Narration volume override. */
+  volume?: number;
+  label?: string;
 }
 
 export interface CutConfig {
@@ -135,7 +151,7 @@ export interface DuckConfig {
   release: number;
   /** Seconds to start ducking before a line begins. */
   lookahead?: number;
-  /** Gain for sound effects while narration is speaking. Default 0.8. */
+  /** Gain for sound effects while narration is speaking. Default 0.62 (per-event `duckTo` overrides). */
   sfxTo?: number;
 }
 
@@ -152,6 +168,8 @@ export interface MusicTrackCue {
   /** Seconds into the file to start playback. */
   offset?: number;
   duck?: boolean;
+  /** Generator used by `npm run audio:placeholders` if the file is missing ("bed" | "sunset"). */
+  placeholder?: string;
   note?: string;
 }
 
@@ -181,6 +199,11 @@ export interface SfxEvent {
   fadeOut?: number;
   /** Playback rate (pitch) — cheap variation for repeated sounds. */
   rate?: number;
+  /**
+   * Gain while narration speaks, overriding music.duck.sfxTo for this event
+   * (e.g. 0.9 for an intentional punchline hit, 1 = never ducked).
+   */
+  duckTo?: number;
 }
 
 // ---------------------------------------------------------------------------

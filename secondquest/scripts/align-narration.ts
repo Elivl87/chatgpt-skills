@@ -3,6 +3,7 @@
  *
  *   npm run narration:align -- ep001
  *   npm run narration:align -- ep001 --silence 0.04 --noise -38 --normalize
+ *   npm run narration:align -- ep001 --locale es      # → timings.es.json from script.es.json
  *
  * How it works: FFmpeg silencedetect finds the pauses; the speech runs between
  * them are aligned to script lines with a text-aware dynamic program (expected
@@ -20,6 +21,7 @@
  */
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { localizeBundle } from '../src/engine/locale';
 import { EPISODES } from '../src/episodes';
 import type { TimingsFile } from '../src/schema/types';
 import { ffmpeg, measureLoudness, parseArgs, PUBLIC, ROOT } from './lib';
@@ -104,8 +106,11 @@ export const alignRuns = (segs: Span[], texts: string[]): Span[] | null => {
 const main = () => {
   const { positional, flags } = parseArgs();
   const episodeId = positional[0] ?? 'ep001';
-  const bundle = EPISODES[episodeId];
-  if (!bundle) throw new Error(`Unknown episode ${episodeId}`);
+  if (!EPISODES[episodeId]) throw new Error(`Unknown episode ${episodeId}`);
+  const locale = typeof flags.locale === 'string' ? flags.locale : undefined;
+  const bundle = localizeBundle(EPISODES[episodeId], locale);
+  const isMaster = !locale || locale === bundle.episode.locale;
+  const timingsFile = isMaster ? 'timings.json' : `timings.${locale}.json`;
   const rel = bundle.episode.narration.audio;
   const wav = join(PUBLIC, bundle.episode.assetRoot, rel);
   if (!existsSync(wav)) throw new Error(`Narration not found: ${wav}`);
@@ -142,7 +147,7 @@ const main = () => {
     process.exit(1);
   }
 
-  const previous = JSON.parse(readFileSync(join(ROOT, 'episodes', episodeId, 'timings.json'), 'utf8')) as TimingsFile;
+  const previous = JSON.parse(readFileSync(join(ROOT, 'episodes', episodeId, timingsFile), 'utf8')) as TimingsFile;
   const timings: TimingsFile = {
     source: rel,
     generatedBy: `silence-align (d=${minSilence}s, noise=${noise}dB)`,
@@ -151,7 +156,7 @@ const main = () => {
       lines.map((l, i) => [l.id, { start: Number(cues[i].start.toFixed(3)), end: Number(cues[i].end.toFixed(3)), text: typeof l.text === 'string' ? l.text : Object.values(l.text)[0] }]),
     ),
   };
-  writeFileSync(join(ROOT, 'episodes', episodeId, 'timings.json'), JSON.stringify(timings, null, 2) + '\n');
+  writeFileSync(join(ROOT, 'episodes', episodeId, timingsFile), JSON.stringify(timings, null, 2) + '\n');
 
   console.log(`Aligned ${lines.length} lines (${duration.toFixed(2)}s). Δ vs previous timings:`);
   for (const l of lines) {
@@ -159,7 +164,7 @@ const main = () => {
     const b = timings.cues[l.id];
     console.log(`  ${l.id}  ${b.start.toFixed(2)}–${b.end.toFixed(2)}s${a ? `  (${b.start - a.start >= 0 ? '+' : ''}${(b.start - a.start).toFixed(2)}s)` : ''}`);
   }
-  console.log('\nNext: npm run validate && npm run stills');
+  console.log(`\nWrote episodes/${episodeId}/${timingsFile}. Next: npm run validate && npm run stills -- ${episodeId} <cut>${isMaster ? '' : ` --locale ${locale}`}`);
 };
 
 main();
