@@ -1,0 +1,44 @@
+{
+  "notes": "SecondQuest production defaults. English is the production and default output language; other locales are fully supported but only rendered on explicit request (--locale <code>). New episodes are scaffolded from these values.",
+
+  "defaultLocale": "en",
+  "render": {
+    "defaultLocale": "en",
+    "policy": "Renders use defaultLocale unless --locale is passed explicitly. Non-default locales are never rendered as part of the normal flow."
+  },
+
+  "voices": {
+    "en": {
+      "status": "official",
+      "name": "SecondQuest English Voice v1",
+      "engine": "kokoro",
+      "model": "kokoro-v1.0.int8.onnx + voices-v1.0.bin (local)",
+      "voice": "am_michael",
+      "speed": 1.0,
+      "lang": "en-us"
+    },
+    "es": {
+      "status": "provisional — official Spanish voice not selected yet",
+      "engine": "kokoro",
+      "model": "kokoro-v1.0.int8.onnx + voices-v1.0.bin (local)",
+      "voice": "em_alex",
+      "speed": 1.0,
+      "lang": "es-419",
+      "candidates": ["em_alex", "am_michael:0.4,em_alex:0.6", "am_michael:0.5,em_alex:0.5"],
+      "note": "voice accepts a Kokoro voice id or a native embedding blend 'a:w,b:w' (weights sum to 1). See the Spanish voice auditions."
+    }
+  },
+
+  "episodeDefaults": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "narration": { "audio": "audio/narration.wav", "volume": 1.0 },
+    "music": {
+      "duck": { "to": 0.27, "attack": 0.15, "release": 0.6, "lookahead": 0.1, "sfxTo": 0.62 },
+      "bed": { "id": "bed", "src": "music/bed.mp3", "placeholder": "bed", "volume": 0.35, "fadeIn": 0.4, "fadeOut": 1.2, "loop": true }
+    }
+  },
+
+  "mastering": { "integratedLufs": -14, "truePeakDbtp": -1.5 }
+}

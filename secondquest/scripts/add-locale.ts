@@ -9,11 +9,15 @@
  *   public/<assetRoot>/audio/<loc>/    where the narration WAV goes
  * and declares the locale in episode.json + registers it in src/episodes/index.ts.
  *
+ * The language is then fully supported but, by production policy, only rendered
+ * on explicit request (--locale <loc>); English remains the default output.
+ *
  * Then: translate script.<loc>.json → record narration → `npm run narration:align -- <ep> --locale <loc>`
  * → localise on-screen text in scenes.json ({"en": "...", "<loc>": "..."}) → `npm run validate`.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { PRODUCTION } from '../src/episodes';
 import { parseArgs, PUBLIC, ROOT } from './lib';
 
 const { positional } = parseArgs();
@@ -75,6 +79,7 @@ if (!src.includes(`${V}Script `)) {
   writeFileSync(reg, src);
 }
 
+if (!PRODUCTION.voices[loc]) console.warn(`⚠ No voice for "${loc}" in shared/production.json (voices.${loc}) — add one before generating narration.`);
 console.log(`Locale "${loc}" added to ${ep}.${created.length ? `\n  created: ${created.join(', ')}` : ''}
 Next:
   1. translate episodes/${ep}/script.${loc}.json (keep ids; remove "status" when approved)

@@ -1,7 +1,10 @@
+import type { ProductionConfig, PronunciationLexicon } from '../engine/production';
 import type { AssetCatalog, EpisodeConfig, ScenesFile, ScriptFile, SfxCatalog, TimingsFile } from '../schema/types';
 
 import sharedAssets from '../../shared/assets.json';
 import sharedSfx from '../../shared/sfx.json';
+import production from '../../shared/production.json';
+import pronunciation from '../../shared/pronunciation.json';
 
 import ep001Episode from '../../episodes/ep001/episode.json';
 import ep001Script from '../../episodes/ep001/script.json';
@@ -30,6 +33,10 @@ export interface EpisodeBundle {
 
 export const SHARED_ASSETS = sharedAssets as unknown as AssetCatalog;
 export const SFX = sharedSfx as unknown as SfxCatalog;
+/** Production policy: default locale (en), official voices, episode defaults (shared/production.json). */
+export const PRODUCTION = production as unknown as ProductionConfig;
+/** Shared pronunciation overrides per locale (shared/pronunciation.json). */
+export const PRONUNCIATION = pronunciation as unknown as PronunciationLexicon;
 
 export const EPISODES: Record<string, EpisodeBundle> = {
   ep001: {

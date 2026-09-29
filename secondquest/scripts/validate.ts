@@ -8,9 +8,19 @@
  */
 import { localizeBundle } from '../src/engine/locale';
 import { resolveCut } from '../src/engine/timeline';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { episodeLocales } from '../src/engine/locale';
+import { validateNarrationVoice, validateProduction, validatePronunciation, type PronunciationLexicon } from '../src/engine/production';
 import { validateAllLocales, validateLocales, type Issue } from '../src/engine/validate';
-import { EPISODES, SFX, SHARED_ASSETS } from '../src/episodes';
-import { fmt, hasPublicFile, parseArgs } from './lib';
+import { EPISODES, PRODUCTION, PRONUNCIATION, SFX, SHARED_ASSETS } from '../src/episodes';
+import { fmt, hasPublicFile, parseArgs, ROOT } from './lib';
+
+/** Optional per-episode lexicon: episodes/<ep>/pronunciation.json. */
+export const episodeLexicon = (id: string): PronunciationLexicon | undefined => {
+  const p = join(ROOT, 'episodes', id, 'pronunciation.json');
+  return existsSync(p) ? (JSON.parse(readFileSync(p, 'utf8')) as PronunciationLexicon) : undefined;
+};
 
 const print = (issues: Issue[]) => {
   for (const i of issues) console.log(`  ${i.level === 'error' ? '✖ ERROR' : '⚠ warn '}  ${i.where}: ${i.message}`);
@@ -18,10 +28,28 @@ const print = (issues: Issue[]) => {
 
 export const runValidation = (only?: string, quiet = false): boolean => {
   let ok = true;
+  const prodIssues = validateProduction(PRODUCTION);
+  if (!quiet || prodIssues.some((i) => i.level === 'error')) {
+    console.log(`\n■ production (default locale: ${PRODUCTION.defaultLocale})`);
+    print(quiet ? prodIssues.filter((i) => i.level === 'error') : prodIssues);
+    if (!prodIssues.length) console.log('  ✔ no issues');
+  }
+  if (prodIssues.some((i) => i.level === 'error')) ok = false;
   for (const [id, bundle] of Object.entries(EPISODES)) {
     if (only && id !== only) continue;
     const perLocale = validateAllLocales(bundle, SHARED_ASSETS, SFX, hasPublicFile);
-    const localeIssues = validateLocales(bundle);
+    const locales = episodeLocales(bundle);
+    const localeIssues: Issue[] = [
+      ...validateLocales(bundle),
+      ...validatePronunciation(PRONUNCIATION, bundle, locales, 'pronunciation(shared)'),
+      ...(episodeLexicon(id) ? validatePronunciation(episodeLexicon(id)!, bundle, locales, `pronunciation(${id})`) : []),
+      ...locales.flatMap((loc) => {
+          const t = loc === bundle.episode.locale ? bundle.timings : bundle.localized?.[loc]?.timings;
+          return validateNarrationVoice(PRODUCTION, bundle, loc, t?.generatedBy, t?.tts);
+      }),
+    ];
+    if (bundle.episode.locale !== PRODUCTION.defaultLocale)
+      localeIssues.push({ level: 'warn', where: `${id}.episode.locale`, message: `master locale "${bundle.episode.locale}" differs from production default "${PRODUCTION.defaultLocale}"` });
     const errors = [...perLocale.flatMap((l) => l.issues), ...localeIssues].filter((i) => i.level === 'error');
     if (!quiet || errors.length) {
       console.log(`\n■ ${id} — ${bundle.episode.title}`);

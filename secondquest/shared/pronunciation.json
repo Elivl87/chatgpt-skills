@@ -1,0 +1,11 @@
+{
+  "notes": "Pronunciation overrides applied by the narration generator (tools/tts) before synthesis, per locale. Episodes may add episodes/<ep>/pronunciation.json with the same shape (episode entries win). Each entry matches an exact, case-sensitive phrase and replaces how it is spoken with ONE of: 'say' (respelling, phonemized in the locale's language), 'lang' (phonemize this span with another espeak language, e.g. keep English product names English inside Spanish) or 'phonemes' (literal Kokoro/IPA phonemes). Verify every entry by ear.",
+  "en": [],
+  "es": [
+    {
+      "match": "Farming Simulator",
+      "lang": "en-us",
+      "note": "Product name keeps its English pronunciation inside Spanish narration. Verify by ear."
+    }
+  ]
+}

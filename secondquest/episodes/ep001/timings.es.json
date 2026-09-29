@@ -1,102 +1,108 @@
 {
   "source": "audio/es/narration.wav",
   "generatedBy": "placeholder-tts:kokoro:em_alex@1.0",
-  "duration": 46.38,
+  "tts": {
+    "voice": "em_alex",
+    "speed": 1.0,
+    "lang": "es-419",
+    "overrides": 1
+  },
+  "duration": 46.428,
   "cues": {
     "l01": {
       "start": 0.3,
-      "end": 3.363,
+      "end": 3.287,
       "text": "Farming Simulator es un juego en el que te despiertas..."
     },
     "l02": {
-      "start": 3.663,
-      "end": 4.894,
+      "start": 3.587,
+      "end": 4.819,
       "text": "vas a trabajar..."
     },
     "l03": {
-      "start": 5.144,
-      "end": 6.136,
+      "start": 5.069,
+      "end": 6.061,
       "text": "ganas dinero..."
     },
     "l04": {
-      "start": 6.386,
-      "end": 8.206,
-      "text": "compras maquinaria car\u00edsima..."
+      "start": 6.311,
+      "end": 8.13,
+      "text": "compras maquinaria carísima..."
     },
     "l05": {
-      "start": 8.656,
-      "end": 9.425,
+      "start": 8.58,
+      "end": 9.35,
       "text": "y luego..."
     },
     "l06": {
-      "start": 9.975,
-      "end": 11.352,
+      "start": 9.9,
+      "end": 11.277,
       "text": "vuelves a trabajar."
     },
     "l07": {
-      "start": 12.352,
-      "end": 18.636,
+      "start": 12.277,
+      "end": 18.633,
       "text": "Lo cual se parece sospechosamente a aquello de lo que los videojuegos se inventaron para ayudarnos a escapar."
     },
     "l08": {
-      "start": 19.336,
-      "end": 20.421,
+      "start": 19.333,
+      "end": 20.418,
       "text": "No hay dragones."
     },
     "l09": {
-      "start": 20.621,
-      "end": 21.667,
+      "start": 20.618,
+      "end": 21.664,
       "text": "Ni tiroteos."
     },
     "l10": {
-      "start": 21.867,
-      "end": 23.565,
+      "start": 21.864,
+      "end": 23.586,
       "text": "Ni princesas que rescatar."
     },
     "l11": {
-      "start": 24.215,
-      "end": 26.778,
+      "start": 24.236,
+      "end": 26.799,
       "text": "La mayor parte del tiempo, tu peor enemigo..."
     },
     "l12": {
-      "start": 27.328,
-      "end": 30.197,
-      "text": "es un campo un poco m\u00e1s grande de lo que esperabas."
+      "start": 27.349,
+      "end": 30.218,
+      "text": "es un campo un poco más grande de lo que esperabas."
     },
     "l13": {
-      "start": 31.297,
-      "end": 35.037,
-      "text": "Y aun as\u00ed, millones de personas pasan voluntariamente sus tardes"
+      "start": 31.318,
+      "end": 35.061,
+      "text": "Y aun así, millones de personas pasan voluntariamente sus tardes"
     },
     "l14": {
-      "start": 35.137,
-      "end": 36.456,
+      "start": 35.161,
+      "end": 36.479,
       "text": "plantando cultivos,"
     },
     "l15": {
-      "start": 36.506,
-      "end": 38.235,
+      "start": 36.529,
+      "end": 38.233,
       "text": "transportando fertilizante,"
     },
     "l16": {
-      "start": 38.285,
-      "end": 39.714,
+      "start": 38.283,
+      "end": 39.712,
       "text": "alimentando animales..."
     },
     "l17": {
-      "start": 40.014,
-      "end": 43.453,
-      "text": "y emocion\u00e1ndose de verdad por comprar un tractor m\u00e1s grande."
+      "start": 40.012,
+      "end": 43.501,
+      "text": "y emocionándose de verdad por comprar un tractor más grande."
     },
     "l18": {
-      "start": 44.353,
-      "end": 45.2,
+      "start": 44.401,
+      "end": 45.248,
       "text": "Entonces..."
     },
     "l19": {
-      "start": 45.75,
-      "end": 46.38,
-      "text": "\u00bfpor qu\u00e9?"
+      "start": 45.798,
+      "end": 46.428,
+      "text": "¿por qué?"
     }
   }
 }

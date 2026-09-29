@@ -1,11 +1,15 @@
 /**
  * Single-command render: validate → render → loudness-normalise → final MP4.
  *
- *   npm run render:hook                              # ep001 hook, 1080p
+ * POLICY: English (shared/production.json → defaultLocale) is the production and
+ * default output language. Other locales render ONLY with an explicit --locale.
+ *
+ *   npm run render:hook                              # ep001 hook, English, 1080p
+ *   npm run render:episode -- ep002                  # an episode's "full" cut, English
  *   npm run render -- ep001 hook --version v2        # any episode / cut
  *   npm run render -- ep001 hook --scale 2           # 3840x2160
  *   npm run render -- ep001 hook --frames 0-299      # partial (fast checks)
- *   npm run render -- ep001 hook --locale es         # Spanish narration/timings/text
+ *   npm run render -- ep001 hook --locale es         # Spanish — explicit request only
  *
  * Output: renders/<cut.output>[_<locale>]_<version>[_4k].mp4  (no locale suffix for the master language)
  *
@@ -16,27 +20,27 @@ import { renderMedia } from '@remotion/renderer';
 import { mkdirSync, renameSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { compositionId, localeSuffix, localizeBundle } from '../src/engine/locale';
-import { EPISODES } from '../src/episodes';
+import { EPISODES, PRODUCTION } from '../src/episodes';
 import { parseArgs, ROOT } from './lib';
 import { masterAudio } from './master';
 import { prepare } from './remotion';
+import { describeTarget, resolveRenderTarget } from './render-target';
 import { runValidation } from './validate';
 
-const TARGET_I = -14;
-const TARGET_TP = -1.5;
+const TARGET_I = PRODUCTION.mastering.integratedLufs; // -14 LUFS (YouTube reference)
+const TARGET_TP = PRODUCTION.mastering.truePeakDbtp; // -1.5 dBTP
 
 const main = async () => {
   const { positional, flags } = parseArgs();
-  const episodeId = positional[0] ?? 'ep001';
-  const cutId = positional[1] ?? 'hook';
+  const target = resolveRenderTarget(positional, flags); // English unless --locale is explicit
+  const { episodeId, cutId } = target;
   const version = String(flags.version ?? 'v1');
   const scale = Number(flags.scale ?? 1);
   const base = EPISODES[episodeId];
-  if (!base) throw new Error(`Unknown episode "${episodeId}"`);
-  const locale = typeof flags.locale === 'string' ? flags.locale : undefined;
-  const bundle = localizeBundle(base, locale); // throws with a clear message for unknown locales
+  const locale = target.locale === base.episode.locale ? undefined : target.locale;
+  const bundle = localizeBundle(base, locale);
   const cut = bundle.episode.cuts[cutId];
-  if (!cut) throw new Error(`Unknown cut "${cutId}" for ${episodeId}`);
+  console.log(`Target: ${describeTarget(target)}`);
 
   if (!runValidation(episodeId, true)) {
     console.error('\nValidation failed — fix the errors above (npm run validate).');
@@ -50,7 +54,7 @@ const main = async () => {
   mkdirSync(tmpDir, { recursive: true });
   const rawPath = join(tmpDir, `${name}.raw.mp4`);
 
-  const inputProps = { episodeId, cutId, locale: locale ?? base.episode.locale };
+  const inputProps = { episodeId, cutId, locale: target.locale };
   const { serveUrl, composition, browserExecutable } = await prepare(compositionId(episodeId, cutId, locale, base.episode.locale), inputProps);
   const frameRange = typeof flags.frames === 'string' ? (flags.frames.split('-').map(Number) as [number, number]) : null;
   console.log(

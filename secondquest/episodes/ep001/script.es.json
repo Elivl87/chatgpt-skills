@@ -25,10 +25,7 @@
     { "id": "l19", "text": "¿por qué?", "pauseAfter": 0 }
   ],
   "placeholderTts": {
-    "engine": "kokoro",
-    "voice": "em_alex",
-    "lang": "es",
-    "speed": 1.0,
-    "leadIn": 0.3
+    "leadIn": 0.3,
+    "note": "Voice, speed and phonemizer come from shared/production.json (voices.<locale>)."
   }
 }

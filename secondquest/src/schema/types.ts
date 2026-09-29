@@ -95,6 +95,8 @@ export interface Cue {
 export interface TimingsFile {
   source: string;
   generatedBy?: string;
+  /** Written by the placeholder TTS tool: exact voice/speed/phonemizer used. */
+  tts?: { voice: string; speed: number; lang?: string; overrides?: number };
   duration: number;
   cues: Record<string, Cue>;
 }

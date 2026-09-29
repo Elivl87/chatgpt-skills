@@ -16,12 +16,13 @@ import { compositionId, localeSuffix, localizeBundle } from '../src/engine/local
 import { EPISODES, SFX } from '../src/episodes';
 import { hasPublicFile, parseArgs, ROOT } from './lib';
 import { prepare } from './remotion';
+import { resolveRenderTarget } from './render-target';
 
 const main = async () => {
   const { positional, flags } = parseArgs();
-  const episodeId = positional[0] ?? 'ep001';
-  const cutId = positional[1] ?? 'hook';
-  const locale = typeof flags.locale === 'string' ? flags.locale : undefined;
+  const target = resolveRenderTarget(positional.length ? positional : ['ep001', 'hook'], flags); // English unless --locale
+  const { episodeId, cutId } = target;
+  const locale = target.locale === EPISODES[episodeId].episode.locale ? undefined : target.locale;
   const bundle = localizeBundle(EPISODES[episodeId], locale);
   const cut = resolveCut(bundle, cutId, SFX, hasPublicFile);
   const scale = Number(flags.scale ?? 0.5);
@@ -40,7 +41,7 @@ const main = async () => {
 
   const outDir = join(ROOT, 'renders/review', `${episodeId}_${cutId}${localeSuffix(EPISODES[episodeId], locale)}`);
   mkdirSync(outDir, { recursive: true });
-  const inputProps = { episodeId, cutId, locale: locale ?? bundle.episode.locale };
+  const inputProps = { episodeId, cutId, locale: target.locale };
   const { serveUrl, composition, browserExecutable } = await prepare(compositionId(episodeId, cutId, locale, bundle.episode.locale), inputProps);
   for (const f of frames) {
     const output = join(outDir, `${f.label}.jpg`);

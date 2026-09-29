@@ -13,15 +13,16 @@ import { compositionId, localeSuffix } from '../src/engine/locale';
 import { EPISODES } from '../src/episodes';
 import { parseArgs, ROOT } from './lib';
 import { prepare } from './remotion';
+import { resolveRenderTarget } from './render-target';
 
 const BUSES: AudioBus[] = ['narration', 'music', 'sfx'];
 
 const main = async () => {
   const { positional, flags } = parseArgs();
-  const episodeId = positional[0] ?? 'ep001';
-  const cutId = positional[1] ?? 'hook';
-  const locale = typeof flags.locale === 'string' ? flags.locale : undefined;
+  const target = resolveRenderTarget(positional.length ? positional : ['ep001', 'hook'], flags); // English unless --locale
+  const { episodeId, cutId } = target;
   const master = EPISODES[episodeId].episode.locale;
+  const locale = target.locale === master ? undefined : target.locale;
   const outDir = join(ROOT, 'renders/stems');
   mkdirSync(outDir, { recursive: true });
   for (const bus of BUSES) {

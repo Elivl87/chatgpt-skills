@@ -4,7 +4,18 @@ Config-driven [Remotion](https://www.remotion.dev) pipeline that turns **illustr
 
 Scenes are **data, not code**. Every visual event is anchored to a narration cue, so replacing the voice-over re-times the entire edit automatically.
 
-> Current deliverable (V2): the pilot hook for *“Why Do Millions of People Play a Game About Farming?”* → `renders/secondquest_ep001_hook_v2.mp4` (English master; Spanish via `--locale es`)
+> Current deliverable (V3): the pilot hook for *“Why Do Millions of People Play a Game About Farming?”* → `renders/secondquest_ep001_hook_v3.mp4` (English).
+
+## Production policy (V3)
+
+- **English is the production and default output language.** `render`, `render:hook`, `render:episode`, `stills` and `stems` all produce English unless `--locale` is passed.
+- **Spanish is fully supported but never rendered automatically.** It is rendered only on an explicit request: `--locale es` or `npm run render:hook:es`. No command chains a Spanish render after an English one.
+- **Configuration.** All of this lives in `shared/production.json`:
+  - default locale;
+  - voices per language (English = official **SecondQuest English Voice v1**: Kokoro `am_michael` @ 1.00, `en-us`);
+  - episode defaults;
+  - mastering targets.
+- **Spanish voice.** It is **provisional** (`em_alex`, `es-419`) until the official Spanish voice is chosen. The audition candidates are listed there, and a native embedding blend such as `am_michael:0.4,em_alex:0.6` is accepted.
 
 ---
 
@@ -14,8 +25,8 @@ Scenes are **data, not code**. Every visual event is anchored to a narration cue
 cd secondquest
 npm install
 npm run dev            # Remotion Studio → pick composition "ep001-hook"
-npm run render:hook    # → renders/secondquest_ep001_hook_v2.mp4 (1080p30, -14 LUFS)
-npm run render:hook:es # → renders/secondquest_ep001_hook_es_v2.mp4 (Spanish)
+npm run render:hook    # → renders/secondquest_ep001_hook_v3.mp4 (English, 1080p30, -14 LUFS)
+npm test               # engine tests (no video rendering)
 ```
 
 Requirements: **Node ≥ 18**. Nothing else. FFmpeg ships inside Remotion (`npx remotion ffmpeg`), and Chrome is downloaded by Remotion on first render. If a Chrome/Chromium headless shell is already installed, set `REMOTION_BROWSER_EXECUTABLE=/path/to/headless_shell`. The render scripts also auto-detect Playwright's `/opt/pw-browsers`.
@@ -27,19 +38,21 @@ Optional: Python 3 + `kokoro-onnx` only if you want to regenerate the *placehold
 | Command | What it does |
 |---|---|
 | `npm run dev` | Remotion Studio (live preview; new art files show up instantly) |
-| `npm run render:hook` | Validate → render → master → `renders/secondquest_ep001_hook_v2.mp4` |
-| `npm run render:hook:es` | Same in Spanish → `renders/secondquest_ep001_hook_es_v2.mp4` |
-| `npm run render:hook:4k` | Same at 3840×2160 (`--scale 2`) |
-| `npm run render -- <ep> <cut> [--locale es] [--version v2] [--scale 2] [--frames 0-299]` | Any episode/cut/language |
+| `npm run render:hook` | Validate → render → master → `renders/secondquest_ep001_hook_v3.mp4` (**English**) |
+| `npm run render:episode -- <ep>` | Render an episode's `full` cut (or its only cut) in **English** |
+| `npm run render:hook:4k` | Same as `render:hook` at 3840×2160 (`--scale 2`) |
+| `npm run render -- <ep> [<cut>] [--version v3] [--scale 2] [--frames 0-299]` | Any episode/cut, **English** by default |
+| `npm run render -- <ep> <cut> --locale es` · `npm run render:hook:es` | Spanish — **explicit request only** |
+| `npm test` | Engine tests: policy, Spanish architecture (no MP4), overrides, ducking, timings, clipping, scaffolder. Set `KOKORO_MODEL`/`KOKORO_VOICES` to include the TTS dry-run checks. |
 | `npm run validate [-- ep001]` | Checks cues, assets, sounds, ordering and localisation; prints the timeline per language |
 | `npm run stills -- ep001 hook [--at 12.5,30] [--scale 1] [--locale es]` | Review frames per scene → `renders/review/` |
 | `npm run assets [-- ep001]` | Art status + recommended pixel sizes → `episodes/ep001/ART_STATUS.md` |
 | `npm run stems -- ep001 hook [--locale es]` | Narration / music / SFX stems → `renders/stems/` |
 | `npm run narration:align -- ep001 [--locale es] [--normalize]` | Build `timings.json` / `timings.es.json` from a real recording |
-| `npm run narration:tts -- ep001 --model … --voices … [--locale es]` | Regenerate placeholder TTS narration + timings |
+| `npm run narration:tts -- ep001 --model … --voices … [--locale es] [--dry-run]` | Regenerate placeholder TTS narration + timings with the production voice and pronunciation overrides (`--dry-run` prints phonemes only) |
 | `npm run audio:placeholders [-- ep001] [--force]` | Synthesise missing placeholder SFX (shared) and music (per episode, from `episode.json`) |
 | `npm run add:locale -- ep001 es` | Add a language to an episode (script/timings stubs + registration) |
-| `npm run new:episode -- ep002 slug "Title"` | Scaffold + register a new episode |
+| `npm run new:episode -- ep002 slug "Title"` | Scaffold + register a new episode with the official defaults |
 | `npm run typecheck` | TypeScript check |
 
 ## Project structure
@@ -193,7 +206,7 @@ The whole edit follows `timings.json`.
 
 ## Languages (localisation)
 
-English is the master language; others are added per episode. Each language has **its own narration audio, script and timings**. Scenes, assets, camera, music and SFX are shared. Because every scene is anchored to cue ids (`l01`…), the same `scenes.json` follows each language's own duration and cadence automatically.
+English is the master and default language. Others are added per episode and rendered **only on explicit request**. Each language has **its own narration audio, script and timings**. Scenes, assets, camera, music and SFX are shared. Because every scene is anchored to cue ids (`l01`…), the same `scenes.json` follows each language's own duration and cadence automatically.
 
 ```jsonc
 // episode.json
@@ -209,7 +222,8 @@ English is the master language; others are added per episode. Each language has 
 | Narration | `audio/narration.wav` | `audio/es/narration.wav` |
 | On-screen text | `"text": { "en": "YOU ARE HERE", "es": "ESTÁS AQUÍ" }` | (same field) |
 | Composition | `ep001-hook` | `ep001-hook-es` |
-| Render output | `…_hook_v2.mp4` | `…_hook_es_v2.mp4` |
+| Render output | `…_hook_v3.mp4` (default) | `…_hook_es_v3.mp4` (only with `--locale es`) |
+| Voice | `production.json → voices.en` (official) | `production.json → voices.es` (provisional) |
 
 Adding a language:
 1. `npm run add:locale -- ep001 es` creates the stubs and registers them in `src/episodes/index.ts`.
@@ -225,7 +239,30 @@ Adding a language:
 
 Counters format numbers per language (`450,000` / `450.000`). Episodes without `locales` behave exactly as before.
 
-> EP001's Spanish script is a **draft translation** made to test the pipeline (flagged by `"status"` and a validation warning), and its narration is placeholder TTS.
+> EP001's Spanish script is a **draft translation** made to test the pipeline (flagged by `"status"` and a validation warning), and its narration is placeholder TTS with the provisional Spanish voice.
+
+### Voices
+
+`shared/production.json → voices.<locale>` is the single source of truth. Each entry sets `voice` (a Kokoro id, or a native blend `a:w,b:w`), `speed` and `lang` (espeak-ng: `en-us`, `es-419`).
+- `npm run narration:tts` uses it and records the voice actually used in `timings*.json` (`tts`).
+- `npm run validate` warns if a narration was generated with a different voice or phonemizer than the configured one.
+
+### Pronunciation overrides
+
+`shared/pronunciation.json` holds the entries for all episodes, per locale. `episodes/<ep>/pronunciation.json` is optional and wins on the same phrase. The narration generator applies them before synthesis:
+
+```jsonc
+"es": [
+  { "match": "Farming Simulator", "lang": "en-us" },              // keep the English product name
+  { "match": "Zelda", "say": "Selda" },                           // respelling in the locale's language
+  { "match": "Ganon", "phonemes": "ɡˈɑːnɑn" }                      // literal phonemes
+]
+```
+
+Each entry needs exactly one of `say`, `lang` or `phonemes`.
+- **Check the result:** `npm run narration:tts -- <ep> --locale es --dry-run` shows the phonemes and which overrides fired.
+- **Validation:** `npm run validate` rejects malformed entries and warns about phrases that don't appear in the script.
+- **Always verify overrides by ear.**
 
 ## Audio
 
@@ -234,7 +271,7 @@ Counters format numbers per language (`450,000` / `450.000`). Episodes without `
   - For a royalty-free or local track, drop the file in `public/episodes/<ep>/music/` and point `src` at it.
   - For a generated track, `npm run audio:placeholders` synthesises any missing cue using the generator named in its `placeholder` field (`bed`, `sunset`). It works for any episode from its own `episode.json`.
 - **SFX.** `shared/sfx.json` maps ids to files; scenes fire them with `{ "id", "at", "volume", "duration"|"end", "fadeOut", "rate", "duckTo" }`. They duck under speech to `duck.sfxTo` (default 0.62). An intentional punchline hit can override that per event, e.g. `"duckTo": 0.9`.
-- **Hierarchy: narration > SFX > music.** EP001 uses bed volume 0.35, `duck.to` 0.27 (the music ducks ≈ −11 dB whenever the voice speaks) and `sfxTo` 0.62.
+- **Hierarchy: narration > SFX > music.** The official values live in `shared/production.json → episodeDefaults.music` and every new episode inherits them. EP001 uses bed volume 0.35, `duck.to` 0.27 (the music ducks ≈ −11 dB whenever the voice speaks) and `sfxTo` 0.62.
 - **Mastering.** `scripts/master.ts` runs automatically in every render. It measures EBU R128 loudness, applies make-up gain and a lookahead peak limiter, and iterates to **−14 LUFS integrated / ≤ −1.5 dBTP** (YouTube reference). The video stream is copied untouched.
 - **Mix review.** `npm run stems` exports each bus separately.
 
@@ -244,13 +281,20 @@ Counters format numbers per language (`450,000` / `450.000`). Episodes without `
 npm run new:episode -- ep002 zelda_maps "Why Are Zelda Maps So Satisfying?"
 ```
 
-This creates `episodes/ep002/*.json` and `public/episodes/ep002_zelda_maps/*`, and registers the episode. Then:
+This creates `episodes/ep002/*.json` and `public/episodes/ep002_zelda_maps/*`, and registers the episode. The episode is born with the official defaults from `shared/production.json`:
+- English master and English voice;
+- 1080p30;
+- music ducking 0.27 / SFX 0.62;
+- a placeholder music bed at 0.35;
+- a `full` cut.
+
+Spanish is added only on demand, with `npm run add:locale -- ep002 es`. Then:
 1. Write the script.
 2. Record, or generate placeholder narration.
 3. `narration:align`.
 4. Author `scenes.json` and `assets.json`.
 5. `npm run dev` to preview.
-6. `npm run render -- ep002 full`.
+6. `npm run audio:placeholders -- ep002 && npm run render:episode -- ep002` (English).
 
 Add more `cuts` (e.g. `hook`, `act1`, `full`) to render any scene range.
 
@@ -261,7 +305,7 @@ Add more `cuts` (e.g. `hook`, `act1`, `full`) to render any scene range.
 2. Bundles.
 3. Renders H.264 (CRF 18, yuv420p, BT.709, AAC 320k) at 30 fps.
 4. Masters the audio.
-5. Writes `renders/secondquest_ep001_hook_v1.mp4`.
+5. Writes `renders/secondquest_ep001_hook_v3.mp4`, in English. Mastering targets are read from `production.json`.
 
 Performance:
 - Frames are rendered in parallel.
@@ -269,11 +313,11 @@ Performance:
 - Particles and noise are deterministic functions of time, so no simulation state is carried between frames.
 - Keep delivered art near the size `npm run assets` recommends; it flags oversized files.
 
-## Current placeholder status (V2)
+## Current placeholder status (V3)
 
 | Element | Status |
 |---|---|
-| Narration | **Placeholder** TTS (Kokoro, open weights): `am_michael` (en), `em_alex` (es, draft translation), generated by `tools/tts/placeholder_narration.py` |
+| Narration | English: the official voice (`am_michael` @ 1.00), used as placeholder TTS until the final recording. Spanish: the provisional `em_alex` voice (`es-419`) over a draft translation. Both generated by `tools/tts/placeholder_narration.py`. |
 | Art | **All 46 referenced assets are labelled placeholders**; see `episodes/ep001/ART_STATUS.md` |
 | SFX / music | **Placeholder** deterministic synths (`scripts/placeholder-audio.ts`), with no samples and no copyrighted material |
 | Wordmark | Typographic stand-in until `public/shared/brand/secondquest_wordmark.png` exists |

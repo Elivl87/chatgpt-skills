@@ -2,7 +2,7 @@
   "name": "secondquest",
   "version": "0.1.0",
   "private": true,
-  "description": "SecondQuest production engine — config-driven Remotion pipeline for illustrated YouTube essays",
+  "description": "SecondQuest production engine \u2014 config-driven Remotion pipeline for illustrated YouTube essays",
   "type": "module",
   "dependencies": {
     "@remotion/bundler": "4.0.530",
@@ -27,15 +27,17 @@
     "assets": "tsx scripts/assets-report.ts",
     "stills": "tsx scripts/stills.ts",
     "render": "tsx scripts/render.ts",
-    "render:hook": "tsx scripts/render.ts ep001 hook --version v2",
-    "render:hook:4k": "tsx scripts/render.ts ep001 hook --version v2 --scale 2",
+    "render:hook": "tsx scripts/render.ts ep001 hook --version v3",
+    "render:hook:4k": "tsx scripts/render.ts ep001 hook --version v3 --scale 2",
     "audio:placeholders": "tsx scripts/placeholder-audio.ts",
     "narration:align": "tsx scripts/align-narration.ts",
     "narration:tts": "python3 tools/tts/placeholder_narration.py",
     "new:episode": "tsx scripts/new-episode.ts",
     "stems": "tsx scripts/stems.ts",
     "add:locale": "tsx scripts/add-locale.ts",
-    "render:hook:es": "tsx scripts/render.ts ep001 hook --version v2 --locale es"
+    "render:hook:es": "tsx scripts/render.ts ep001 hook --version v3 --locale es",
+    "render:episode": "tsx scripts/render.ts",
+    "test": "tsx scripts/test.ts"
   },
   "engines": {
     "node": ">=18"
