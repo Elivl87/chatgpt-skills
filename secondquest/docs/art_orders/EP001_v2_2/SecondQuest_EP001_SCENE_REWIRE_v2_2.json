@@ -1,0 +1,305 @@
+{
+  "version": "v2.2",
+  "method": "Explicit engine-key mappings for existing hook keys; use `used_in` to rebuild retired full.* scenes and assets whose prior `replaces` names never existed in the engine.",
+  "hook_engine_key_map": {
+    "ep001.bg_bedroom": "core.bg.quest_bedroom_morning",
+    "quest.desk_typing": "quest.default.desk_typing",
+    "quest.holding_paycheck": "quest.default.holding_paycheck",
+    "quest.exhausted_slumped": "quest.default.exhausted_slumped",
+    "quest.farmer_gaming": "quest.default.gaming_excited",
+    "ep001.dragon": "genre.fantasy.dragon",
+    "ep001.tractor_huge": "genre.farming.machine.tractor_huge",
+    "ep001.tractor_bigger": "genre.farming.machine.tractor_bigger",
+    "ep001.bg_action": "genre.war.bg_battlefield_city",
+    "quest.action_hero": "genre.war.quest_tactical_action",
+    "ep001.bg_castle": "genre.fantasy.bg_castle_rescue"
+  },
+  "retired_full_plate_policy": "All 82 full.* plate usages are rebuilt as layered compositions. No full.* retired art may appear in a render.",
+  "invalid_replaces_removed_count": 71,
+  "invalid_replaces_removed": [
+    {
+      "art_key": "core.bg.city_traffic",
+      "old_non_engine_name": "kit.bg_city_traffic"
+    },
+    {
+      "art_key": "core.bg.home_living_day",
+      "old_non_engine_name": "kit.bg_home_living_day"
+    },
+    {
+      "art_key": "core.bg.home_living_night",
+      "old_non_engine_name": "kit.bg_home_living_night"
+    },
+    {
+      "art_key": "core.bg.quest_bedroom_morning",
+      "old_non_engine_name": "core.env.quest_bedroom_morning"
+    },
+    {
+      "art_key": "core.prop.calendar_friday",
+      "old_non_engine_name": "kit.calendar_friday"
+    },
+    {
+      "art_key": "core.prop.domino_row",
+      "old_non_engine_name": "kit.domino_row"
+    },
+    {
+      "art_key": "core.prop.laundry_basket",
+      "old_non_engine_name": "kit.laundry_basket"
+    },
+    {
+      "art_key": "core.prop.mini_farm",
+      "old_non_engine_name": "kit.mini_farm"
+    },
+    {
+      "art_key": "core.prop.printer_avalanche",
+      "old_non_engine_name": "kit.printer_avalanche"
+    },
+    {
+      "art_key": "core.prop.router",
+      "old_non_engine_name": "kit.router"
+    },
+    {
+      "art_key": "core.prop.signpost_blank",
+      "old_non_engine_name": "kit.signpost"
+    },
+    {
+      "art_key": "core.prop.toolbox",
+      "old_non_engine_name": "kit.toolbox"
+    },
+    {
+      "art_key": "quest.default.arms_up_back",
+      "old_non_engine_name": "quest.arms_up_back"
+    },
+    {
+      "art_key": "quest.default.broom_bored",
+      "old_non_engine_name": "quest.broom_bored"
+    },
+    {
+      "art_key": "quest.default.drive_calm",
+      "old_non_engine_name": "quest.drive_calm"
+    },
+    {
+      "art_key": "quest.default.drive_relaxed",
+      "old_non_engine_name": "quest.drive_relaxed"
+    },
+    {
+      "art_key": "quest.default.drive_stressed",
+      "old_non_engine_name": "quest.drive_stressed"
+    },
+    {
+      "art_key": "quest.default.head_in_hands",
+      "old_non_engine_name": "quest.head_in_hands"
+    },
+    {
+      "art_key": "quest.default.holding_tray",
+      "old_non_engine_name": "quest.holding_tray"
+    },
+    {
+      "art_key": "quest.default.phone_overwhelmed",
+      "old_non_engine_name": "quest.phone_overwhelmed"
+    },
+    {
+      "art_key": "quest.default.planning_tablet",
+      "old_non_engine_name": "quest.planning_tablet"
+    },
+    {
+      "art_key": "quest.default.reading_manual",
+      "old_non_engine_name": "quest.reading_manual"
+    },
+    {
+      "art_key": "quest.default.sitting_back_turn",
+      "old_non_engine_name": "quest.sitting_back_turn"
+    },
+    {
+      "art_key": "quest.default.vacuum",
+      "old_non_engine_name": "quest.vacuum"
+    },
+    {
+      "art_key": "quest.default.walking_back",
+      "old_non_engine_name": "quest.walking_back"
+    },
+    {
+      "art_key": "quest.default.worried_seated",
+      "old_non_engine_name": "quest.worried_seated"
+    },
+    {
+      "art_key": "quest.default.wrench_fixing",
+      "old_non_engine_name": "quest.wrench_fixing"
+    },
+    {
+      "art_key": "ep001.bg_bank_office",
+      "old_non_engine_name": "kit.bg_bank_office"
+    },
+    {
+      "art_key": "ep001.bg_crossroads",
+      "old_non_engine_name": "kit.bg_crossroads"
+    },
+    {
+      "art_key": "ep001.bg_fantasy_doors",
+      "old_non_engine_name": "kit.bg_fantasy_doors"
+    },
+    {
+      "art_key": "ep001.npc.banker",
+      "old_non_engine_name": "npc.banker"
+    },
+    {
+      "art_key": "genre.building_sandbox.quest.pickaxe",
+      "old_non_engine_name": "quest.pickaxe"
+    },
+    {
+      "art_key": "genre.driving_simulation.quest.cheering_car",
+      "old_non_engine_name": "quest.cheering_car"
+    },
+    {
+      "art_key": "genre.farming.animal.chickens",
+      "old_non_engine_name": "kit.chickens"
+    },
+    {
+      "art_key": "genre.farming.animal.cow",
+      "old_non_engine_name": "kit.cow"
+    },
+    {
+      "art_key": "genre.farming.animal.pig",
+      "old_non_engine_name": "kit.pig"
+    },
+    {
+      "art_key": "genre.farming.bg_farm_aerial",
+      "old_non_engine_name": "kit.bg_farm_aerial"
+    },
+    {
+      "art_key": "genre.farming.bg_farm_storm",
+      "old_non_engine_name": "kit.bg_farm_storm"
+    },
+    {
+      "art_key": "genre.farming.bg_farm_yard",
+      "old_non_engine_name": "kit.bg_farm_yard"
+    },
+    {
+      "art_key": "genre.farming.bg_field_golden",
+      "old_non_engine_name": "kit.bg_field_golden"
+    },
+    {
+      "art_key": "genre.farming.bg_field_green",
+      "old_non_engine_name": "kit.bg_field_green"
+    },
+    {
+      "art_key": "genre.farming.bg_field_harvested",
+      "old_non_engine_name": "kit.bg_field_harvested"
+    },
+    {
+      "art_key": "genre.farming.bg_field_overhead",
+      "old_non_engine_name": "kit.bg_field_overhead"
+    },
+    {
+      "art_key": "genre.farming.bg_field_plowed",
+      "old_non_engine_name": "kit.bg_field_plowed"
+    },
+    {
+      "art_key": "genre.farming.bg_field_sprouting",
+      "old_non_engine_name": "kit.bg_field_sprouting"
+    },
+    {
+      "art_key": "genre.farming.bg_grain_yard",
+      "old_non_engine_name": "kit.bg_grain_yard"
+    },
+    {
+      "art_key": "genre.farming.bg_real_farm",
+      "old_non_engine_name": "kit.bg_real_farm"
+    },
+    {
+      "art_key": "genre.farming.bg_riverbank",
+      "old_non_engine_name": "kit.bg_riverbank"
+    },
+    {
+      "art_key": "genre.farming.bg_tractor_cab",
+      "old_non_engine_name": "kit.bg_tractor_cab"
+    },
+    {
+      "art_key": "genre.farming.bg_workshop",
+      "old_non_engine_name": "kit.bg_workshop"
+    },
+    {
+      "art_key": "genre.farming.machine.broken_tractor",
+      "old_non_engine_name": "kit.broken_tractor"
+    },
+    {
+      "art_key": "genre.farming.machine.combine",
+      "old_non_engine_name": "kit.combine"
+    },
+    {
+      "art_key": "genre.farming.machine.factory_harvester",
+      "old_non_engine_name": "kit.factory_harvester"
+    },
+    {
+      "art_key": "genre.farming.machine.grain_truck",
+      "old_non_engine_name": "kit.grain_truck"
+    },
+    {
+      "art_key": "genre.farming.machine.harvester_water",
+      "old_non_engine_name": "kit.harvester_water"
+    },
+    {
+      "art_key": "genre.farming.machine.header_12m",
+      "old_non_engine_name": "kit.header_12m"
+    },
+    {
+      "art_key": "genre.farming.machine.header_3m",
+      "old_non_engine_name": "kit.header_3m"
+    },
+    {
+      "art_key": "genre.farming.machine.header_6m",
+      "old_non_engine_name": "kit.header_6m"
+    },
+    {
+      "art_key": "genre.farming.machine.machine_clutter",
+      "old_non_engine_name": "kit.machine_clutter"
+    },
+    {
+      "art_key": "genre.farming.machine.seeder",
+      "old_non_engine_name": "kit.seeder"
+    },
+    {
+      "art_key": "genre.farming.machine.sprayer",
+      "old_non_engine_name": "kit.sprayer"
+    },
+    {
+      "art_key": "genre.farming.machine.tractor_small",
+      "old_non_engine_name": "kit.tractor_small"
+    },
+    {
+      "art_key": "genre.farming.machine.tractor_topdown",
+      "old_non_engine_name": "kit.tractor_topdown"
+    },
+    {
+      "art_key": "genre.farming.prop.farm_sign_blank",
+      "old_non_engine_name": "kit.farm_sign_blank"
+    },
+    {
+      "art_key": "genre.farming.prop.manual_book",
+      "old_non_engine_name": "kit.manual_book"
+    },
+    {
+      "art_key": "genre.farming.prop.sacks_pile",
+      "old_non_engine_name": "kit.sacks_pile"
+    },
+    {
+      "art_key": "genre.farming.prop.seedling",
+      "old_non_engine_name": "kit.seedling"
+    },
+    {
+      "art_key": "genre.farming.quest.cap_off_sunset",
+      "old_non_engine_name": "quest.cap_off_sunset"
+    },
+    {
+      "art_key": "genre.farming.quest.carrying_sacks",
+      "old_non_engine_name": "quest.carrying_sacks"
+    },
+    {
+      "art_key": "genre.farming.quest.heroic",
+      "old_non_engine_name": "quest.tractor_heroic"
+    },
+    {
+      "art_key": "genre.farming.quest.rain_huddled",
+      "old_non_engine_name": "quest.rain_huddled"
+    }
+  ]
+}
