@@ -1,0 +1,982 @@
+{
+  "project": "SecondQuest",
+  "episode": "EP001 — Why Do Millions of People Play a Game About Farming?",
+  "kit": "Level 3 layered art kit v1",
+  "total_new_files": 70,
+  "counts": {
+    "A_backgrounds": 20,
+    "B_quest_poses": 20,
+    "C_cast": 2,
+    "D_props": 28
+  },
+  "reused_existing_final_assets": "The 45 approved hook assets (Quest hook poses, Wallet, Progress, Grind, Fear, dragon, tractors, hook backgrounds, sunset layers) stay as they are and are NOT re-ordered.",
+  "rules": [
+    "2D SecondQuest editorial cartoon only (Quest Visual Bible): clean outlines, soft shadows, cinematic warm light. No 3D, no photorealism, no anime, no gameplay screenshots.",
+    "One element per file. No sheets, no collages, no storyboard frames.",
+    "NO text, numbers, UI, captions or logos baked in. Signs/boards/screens are blank; the engine writes the text (and localises it).",
+    "Backgrounds: 3840×2160, opaque, no characters; keep the lower third readable for characters.",
+    "Characters/props: transparent PNG, feet/base touching the bottom edge, no drop shadow (the engine adds contact shadows), ~2× on-screen size.",
+    "Swap sets (same canvas, same size, pixel-aligned): crop-state series, day/night living room, drive trio, sitting_back / sitting_back_turn.",
+    "Quest: red hoodie, dark curly hair, approved proportions; same face in every pose. Machines: generic, no real brand logos.",
+    "Deliver with the exact file names/paths below. Dropping a file at its path replaces the current substitute automatically."
+  ],
+  "assets": [
+    {
+      "key": "kit.bg_fantasy_doors",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/fantasy_doors.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M16"
+      ],
+      "brief": "Dim hall with three large doorways glowing different colours (red crime-city neon, blue war smoke, golden adventure ruins). Doors open, no people. Floor space centre-bottom for Quest (back view).",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_bank_office",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/bank_office.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M17"
+      ],
+      "brief": "Old-fashioned bank loan office: heavy desk front-centre, tall paper stacks, filing cabinets, framed rules on wall (no readable text). Warm, slightly oppressive light. Desk surface empty for props.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_home_living_day",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/home_living_day.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M25",
+        "M26"
+      ],
+      "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_home_living_night",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/home_living_night.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M27",
+        "M28",
+        "M29"
+      ],
+      "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+      "notes": "Must align pixel-for-pixel with bg_home_living_day (day→night swap)."
+    },
+    {
+      "key": "kit.bg_field_plowed",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/field_state_1_plowed.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M21",
+        "M23",
+        "M44"
+      ],
+      "brief": "Mid-shot farm field, rows receding to a distant treeline and barn, soil freshly plowed, bright morning. Horizon at ~40 %. Rows lead the eye centre.",
+      "notes": "Crop-state series 1/5 — all five share IDENTICAL framing/horizon/barn (swaps)."
+    },
+    {
+      "key": "kit.bg_field_sprouting",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/field_state_2_sprouting.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M21",
+        "M23",
+        "M44"
+      ],
+      "brief": "SAME framing, tiny green sprouts in every row.",
+      "notes": "Crop-state series 2/5."
+    },
+    {
+      "key": "kit.bg_field_green",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/field_state_3_green.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M21",
+        "M32",
+        "M44"
+      ],
+      "brief": "SAME framing, knee-high lush green crops.",
+      "notes": "Crop-state series 3/5."
+    },
+    {
+      "key": "kit.bg_field_golden",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/field_state_4_golden.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M21",
+        "M24",
+        "M44"
+      ],
+      "brief": "SAME framing, tall golden wheat ready to harvest, late-afternoon light.",
+      "notes": "Crop-state series 4/5."
+    },
+    {
+      "key": "kit.bg_field_harvested",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/field_state_5_harvested.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M21",
+        "M24"
+      ],
+      "brief": "SAME framing, stubble after harvest, a few straw bales.",
+      "notes": "Crop-state series 5/5."
+    },
+    {
+      "key": "kit.bg_grain_yard",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/grain_yard.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M21",
+        "M24",
+        "M26"
+      ],
+      "brief": "Grain silos and a loading yard with an elevator spout, dusty sunny day. Road across the lower third for a truck prop.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_city_traffic",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/city_traffic.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M28"
+      ],
+      "brief": "Busy city street in a jam: car rows, taillights, billboards WITHOUT readable text, late-afternoon haze. Seen from driver height.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_farm_aerial",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/farm_aerial.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M30",
+        "M34",
+        "M35",
+        "M45"
+      ],
+      "brief": "High aerial of a patchwork farm: fields, barn, silos, paths, a lake. Organised and satisfying. Room for small tractor props.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_farm_yard",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/farm_yard.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M35",
+        "M36",
+        "M41"
+      ],
+      "brief": "Farmyard mid-shot: barn, silo, animal pen with fence, feed troughs, open dirt space front for animals/props. Warm day.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_tractor_cab",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/tractor_cab.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M37",
+        "M39"
+      ],
+      "brief": "Inside a tractor cab looking out through the windshield at a sunset field; steering wheel lower-centre, seat area left EMPTY for a seated Quest pose.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_field_overhead",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/field_overhead.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M37"
+      ],
+      "brief": "Straight top-down view of long parallel crop rows filling the frame (for a top-down tractor prop driving back and forth).",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_real_farm",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/real_farm.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M40"
+      ],
+      "brief": "A rough, realistic-leaning (still cartoon) farm: muddy track, worn wooden gate with a BLANK sign board, tired fences, overcast sky.",
+      "notes": "Sign board blank — \"REAL FARMING\" is added by the engine."
+    },
+    {
+      "key": "kit.bg_farm_storm",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/farm_storm.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M41"
+      ],
+      "brief": "Farm fields under a violent storm: dark clouds, rain streaks, lightning far away, flattened crops, puddles.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_workshop",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/workshop.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M42",
+        "M43"
+      ],
+      "brief": "Farm workshop/shed: workbench, tools on pegboard, oil stains, warm work light, open space centre for a broken tractor prop.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_riverbank",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/riverbank.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M42"
+      ],
+      "brief": "Field edge ending in a river/lake bank, splashable water across the lower half, bright day.",
+      "notes": ""
+    },
+    {
+      "key": "kit.bg_crossroads",
+      "group": "A_backgrounds",
+      "file": "public/episodes/ep001_farming/kit/backgrounds/crossroads.png",
+      "kind": "background",
+      "size": "3840×2160",
+      "format": "PNG/WebP, opaque, 16:9",
+      "used_in": [
+        "M44",
+        "M45"
+      ],
+      "brief": "Farm path splitting in two at golden hour: left path back toward a distant city, right path toward a big farm. A BLANK wooden two-arrow signpost stands in the middle.",
+      "notes": "Arrow boards blank — labels come from the engine."
+    },
+    {
+      "key": "quest.worried_seated",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_worried_seated.png",
+      "kind": "character",
+      "size": "1500×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M17",
+        "M20"
+      ],
+      "brief": "Seated (chair implied, not drawn), chin on fists, wide worried eyes looking screen-left at paperwork.",
+      "notes": ""
+    },
+    {
+      "key": "quest.planning_tablet",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_planning_tablet.png",
+      "kind": "character",
+      "size": "1300×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M22",
+        "M27"
+      ],
+      "brief": "Standing, holding a tablet, confident small smile, glancing to the viewer.",
+      "notes": ""
+    },
+    {
+      "key": "quest.arms_up_back",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_arms_up_back.png",
+      "kind": "character",
+      "size": "1300×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M21",
+        "M36"
+      ],
+      "brief": "Back view, both arms raised in victory, facing the field.",
+      "notes": ""
+    },
+    {
+      "key": "quest.broom_bored",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_broom_bored.png",
+      "kind": "character",
+      "size": "1300×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M25"
+      ],
+      "brief": "Sweeping with a broom, slumped, bored face.",
+      "notes": ""
+    },
+    {
+      "key": "quest.vacuum",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_vacuum.png",
+      "kind": "character",
+      "size": "1500×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M25"
+      ],
+      "brief": "Vacuuming, eyes closed, weirdly content.",
+      "notes": ""
+    },
+    {
+      "key": "quest.pickaxe",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_pickaxe.png",
+      "kind": "character",
+      "size": "1500×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M25",
+        "M16"
+      ],
+      "brief": "Swinging a pickaxe (blocky-game energy), big grin.",
+      "notes": ""
+    },
+    {
+      "key": "quest.drive_calm",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_drive_calm.png",
+      "kind": "character",
+      "size": "1800×1600",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M26",
+        "M37"
+      ],
+      "brief": "Seated, front view, both hands on a steering wheel (wheel included), calm focus.",
+      "notes": "Swap trio — drive_calm / drive_stressed / drive_relaxed share the SAME canvas and wheel position."
+    },
+    {
+      "key": "quest.drive_stressed",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_drive_stressed.png",
+      "kind": "character",
+      "size": "1800×1600",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M28"
+      ],
+      "brief": "Same seated pose, gripping the wheel, screaming, sweat drops.",
+      "notes": "Swap trio 2/3."
+    },
+    {
+      "key": "quest.drive_relaxed",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_drive_relaxed.png",
+      "kind": "character",
+      "size": "1800×1600",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M37",
+        "M39"
+      ],
+      "brief": "Same seated pose, eyes closed, peaceful smile, loose hands.",
+      "notes": "Swap trio 3/3."
+    },
+    {
+      "key": "quest.head_in_hands",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_head_in_hands.png",
+      "kind": "character",
+      "size": "1500×1700",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M28",
+        "M42"
+      ],
+      "brief": "Sitting on the floor, head in hands, defeated.",
+      "notes": ""
+    },
+    {
+      "key": "quest.phone_overwhelmed",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_phone_overwhelmed.png",
+      "kind": "character",
+      "size": "1400×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M38"
+      ],
+      "brief": "Holding a phone, shocked face lit by the screen, slight lean back.",
+      "notes": ""
+    },
+    {
+      "key": "quest.holding_tray",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_holding_tray.png",
+      "kind": "character",
+      "size": "1600×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M29",
+        "M43"
+      ],
+      "brief": "Holding a flat tray at chest height with both hands, gentle smile looking down at it.",
+      "notes": "Tray empty — the mini-farm diorama is a separate prop placed on it."
+    },
+    {
+      "key": "quest.reading_manual",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_reading_manual.png",
+      "kind": "character",
+      "size": "1500×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M32"
+      ],
+      "brief": "Holding a huge open manual, sweating, pretending to understand.",
+      "notes": ""
+    },
+    {
+      "key": "quest.carrying_sacks",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_carrying_sacks.png",
+      "kind": "character",
+      "size": "1600×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M40"
+      ],
+      "brief": "Straining under two heavy sacks on the shoulders, gritted teeth.",
+      "notes": "Sacks included."
+    },
+    {
+      "key": "quest.rain_huddled",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_rain_huddled.png",
+      "kind": "character",
+      "size": "1600×1600",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M41"
+      ],
+      "brief": "Crouched, hugging himself, soaked hoodie, miserable.",
+      "notes": ""
+    },
+    {
+      "key": "quest.wrench_fixing",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_wrench_fixing.png",
+      "kind": "character",
+      "size": "1500×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M43"
+      ],
+      "brief": "Kneeling, tightening something with a wrench (wrench included), focused, small proud smile.",
+      "notes": ""
+    },
+    {
+      "key": "quest.walking_back",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_walking_back.png",
+      "kind": "character",
+      "size": "1200×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M36",
+        "M44"
+      ],
+      "brief": "Back view walking away into the scene, backpack on.",
+      "notes": ""
+    },
+    {
+      "key": "quest.cap_off_sunset",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_cap_off.png",
+      "kind": "character",
+      "size": "1200×2000",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M45"
+      ],
+      "brief": "Standing 3/4 back view, farmer cap in hand, looking at the horizon.",
+      "notes": ""
+    },
+    {
+      "key": "quest.sitting_back_turn",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_sitting_back_turn.png",
+      "kind": "character",
+      "size": "600×750",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M46"
+      ],
+      "brief": "SAME canvas as quest_sitting_back (hook); head turned over the shoulder toward the viewer, curious smile.",
+      "notes": "Must overlay quest_sitting_back exactly (swap for the CTA)."
+    },
+    {
+      "key": "quest.cheering_car",
+      "group": "B_quest_poses",
+      "file": "public/characters/quest/quest_supercar.png",
+      "kind": "character",
+      "size": "2600×1500",
+      "format": "PNG, transparent, feet on bottom edge",
+      "used_in": [
+        "M16"
+      ],
+      "brief": "Quest in sunglasses driving a red sports car (car included), side-3/4 view, reckless grin.",
+      "notes": "GTA gag — car included in the cut-out."
+    },
+    {
+      "key": "npc.banker",
+      "group": "C_cast",
+      "file": "public/characters/npc/banker.png",
+      "kind": "character",
+      "size": "1300×2000",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M17"
+      ],
+      "brief": "Stern banker in a dark suit and glasses holding a document (document included, text lines illegible).",
+      "notes": ""
+    },
+    {
+      "key": "progress.presenting",
+      "group": "C_cast",
+      "file": "public/characters/progress/progress_presenting.png",
+      "kind": "character",
+      "size": "900×1100",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M27",
+        "M29",
+        "M43"
+      ],
+      "brief": "Progress robot pointing to screen-right like a presenter, cheerful.",
+      "notes": ""
+    },
+    {
+      "key": "kit.tractor_small",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/tractor_small.png",
+      "kind": "object",
+      "size": "1200×900",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M21",
+        "M32",
+        "M35"
+      ],
+      "brief": "Tiny cheap old green tractor, side view facing left.",
+      "notes": ""
+    },
+    {
+      "key": "kit.seeder",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/seeder.png",
+      "kind": "object",
+      "size": "2400×1000",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M21",
+        "M32",
+        "M44"
+      ],
+      "brief": "Tractor pulling a seeder implement, side view facing left.",
+      "notes": ""
+    },
+    {
+      "key": "kit.sprayer",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/sprayer.png",
+      "kind": "object",
+      "size": "2600×1000",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M21",
+        "M32"
+      ],
+      "brief": "Tractor with wide spray booms, mist, side view facing left.",
+      "notes": ""
+    },
+    {
+      "key": "kit.combine",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/combine.png",
+      "kind": "object",
+      "size": "2400×1500",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M21",
+        "M24",
+        "M32",
+        "M44"
+      ],
+      "brief": "Green combine harvester with header, side view facing left.",
+      "notes": ""
+    },
+    {
+      "key": "kit.grain_truck",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/grain_truck.png",
+      "kind": "object",
+      "size": "2800×1200",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M21",
+        "M26"
+      ],
+      "brief": "Blue semi-truck with a grain trailer, side view facing left.",
+      "notes": ""
+    },
+    {
+      "key": "kit.factory_harvester",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/factory_harvester.png",
+      "kind": "object",
+      "size": "2600×2200",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M32"
+      ],
+      "brief": "Absurdly huge harvester that looks like a moving factory/building, front-3/4 view.",
+      "notes": ""
+    },
+    {
+      "key": "kit.header_3m",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/header_3m.png",
+      "kind": "object",
+      "size": "1200×500",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M33"
+      ],
+      "brief": "Small 3 m harvester header, side view.",
+      "notes": "Width series 1/3 — same style/perspective."
+    },
+    {
+      "key": "kit.header_6m",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/header_6m.png",
+      "kind": "object",
+      "size": "2400×600",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M33"
+      ],
+      "brief": "6 m header, same view.",
+      "notes": "Width series 2/3."
+    },
+    {
+      "key": "kit.header_12m",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/header_12m.png",
+      "kind": "object",
+      "size": "4200×700",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M33"
+      ],
+      "brief": "Enormous 12 m header, same view.",
+      "notes": "Width series 3/3."
+    },
+    {
+      "key": "kit.manual_book",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/manual_book.png",
+      "kind": "object",
+      "size": "1200×1000",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M32"
+      ],
+      "brief": "Gigantic tractor user manual with sticky notes, closed.",
+      "notes": ""
+    },
+    {
+      "key": "kit.printer_avalanche",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/printer_avalanche.png",
+      "kind": "object",
+      "size": "1600×1800",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M20"
+      ],
+      "brief": "Office printer spitting an avalanche of paper.",
+      "notes": ""
+    },
+    {
+      "key": "kit.calendar_friday",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/calendar_friday.png",
+      "kind": "object",
+      "size": "800×900",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M20"
+      ],
+      "brief": "Wall calendar page with a smiley face (NO printed word).",
+      "notes": ""
+    },
+    {
+      "key": "kit.router",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/router.png",
+      "kind": "object",
+      "size": "900×600",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M28"
+      ],
+      "brief": "Home wi-fi router, one red blinking light.",
+      "notes": ""
+    },
+    {
+      "key": "kit.mini_farm",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/mini_farm_diorama.png",
+      "kind": "object",
+      "size": "1400×900",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M29",
+        "M43"
+      ],
+      "brief": "Tabletop miniature farm diorama: tiny fields, barn, tractor.",
+      "notes": "Sits on quest.holding_tray or a table."
+    },
+    {
+      "key": "kit.domino_row",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/domino_row.png",
+      "kind": "object",
+      "size": "2600×900",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M30"
+      ],
+      "brief": "Row of cards/dominoes showing seed → sprout → tractor → coins icons (no words).",
+      "notes": ""
+    },
+    {
+      "key": "kit.cow",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/cow.png",
+      "kind": "object",
+      "size": "1400×1000",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M35",
+        "M41"
+      ],
+      "brief": "Friendly cartoon cow, side view.",
+      "notes": ""
+    },
+    {
+      "key": "kit.chickens",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/chickens.png",
+      "kind": "object",
+      "size": "1200×700",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M35"
+      ],
+      "brief": "Group of three chickens pecking.",
+      "notes": ""
+    },
+    {
+      "key": "kit.pig",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/pig.png",
+      "kind": "object",
+      "size": "1000×700",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M35"
+      ],
+      "brief": "Happy pig, side view.",
+      "notes": ""
+    },
+    {
+      "key": "kit.farm_sign_blank",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/farm_sign_blank.png",
+      "kind": "object",
+      "size": "1400×1200",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M34"
+      ],
+      "brief": "Wooden farm entrance sign on two posts, BLANK board.",
+      "notes": "\"QUEST FARM\" text added by the engine."
+    },
+    {
+      "key": "kit.machine_clutter",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/machine_clutter.png",
+      "kind": "object",
+      "size": "3000×1200",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M36"
+      ],
+      "brief": "Messy pile of parked machines and implements at odd angles.",
+      "notes": ""
+    },
+    {
+      "key": "kit.tractor_topdown",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/tractor_topdown.png",
+      "kind": "object",
+      "size": "700×1100",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M37"
+      ],
+      "brief": "Green tractor seen straight from above, driving up the frame.",
+      "notes": ""
+    },
+    {
+      "key": "kit.sacks_pile",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/sacks_pile.png",
+      "kind": "object",
+      "size": "1400×900",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M40"
+      ],
+      "brief": "Pile of heavy fertilizer/feed sacks (no printed text).",
+      "notes": ""
+    },
+    {
+      "key": "kit.broken_tractor",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/broken_tractor.png",
+      "kind": "object",
+      "size": "2200×1600",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M42",
+        "M43"
+      ],
+      "brief": "Green tractor with open hood, smoke puff, a wheel off.",
+      "notes": ""
+    },
+    {
+      "key": "kit.harvester_water",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/harvester_water.png",
+      "kind": "object",
+      "size": "2600×1500",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M42"
+      ],
+      "brief": "Yellow harvester tipped into water with a big splash.",
+      "notes": ""
+    },
+    {
+      "key": "kit.seedling",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/seedling.png",
+      "kind": "object",
+      "size": "700×900",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M43",
+        "M44"
+      ],
+      "brief": "Single sprout in soil, close-up, glowing morning light.",
+      "notes": ""
+    },
+    {
+      "key": "kit.signpost",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/signpost_blank.png",
+      "kind": "object",
+      "size": "1000×1600",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M44"
+      ],
+      "brief": "Two-arrow wooden signpost, BLANK arrows.",
+      "notes": "Labels come from the engine."
+    },
+    {
+      "key": "kit.laundry_basket",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/laundry_basket.png",
+      "kind": "object",
+      "size": "900×700",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M25",
+        "M26"
+      ],
+      "brief": "Overflowing laundry basket.",
+      "notes": ""
+    },
+    {
+      "key": "kit.toolbox",
+      "group": "D_props",
+      "file": "public/episodes/ep001_farming/kit/objects/toolbox.png",
+      "kind": "object",
+      "size": "900×600",
+      "format": "PNG, transparent, base on bottom edge",
+      "used_in": [
+        "M43"
+      ],
+      "brief": "Red toolbox, open.",
+      "notes": ""
+    }
+  ]
+}
