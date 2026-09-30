@@ -16,14 +16,14 @@
         { "type": "light", "shape": "beam", "x": 0.8, "radius": 0.34, "rotation": 24, "color": "#a9c8ff", "intensity": 0.32 },
         { "type": "particles", "kind": "dust", "count": 28, "region": { "x": 0.58, "y": 0.05, "w": 0.36, "h": 0.8 } },
         {
-          "id": "alarm", "asset": "ep001.alarm_clock", "x": 0.49, "y": 0.8, "height": 0.12, "shadow": true,
+          "id": "alarm", "asset": "ep001.alarm_clock", "x": 0.471, "y": 0.945, "height": 0.17, "shadow": true,
           "animations": [
             { "type": "shake", "at": 0, "end": "l01.end-0.75", "intensity": 1.3, "frequency": 24 },
             { "type": "nudge", "at": "l01.end-0.75", "from": "right", "intensity": 1.5 }
           ]
         },
         {
-          "id": "quest", "asset": "quest.bed_sleeping", "x": 0.21, "y": 1.06, "height": 0.55,
+          "id": "quest", "asset": "quest.bed_sleeping", "x": 0.27, "y": 1.06, "height": 0.55,
           "swaps": [{ "at": "l01.end-0.75", "asset": "quest.bed_awake" }],
           "animations": [
             { "type": "breathe", "at": 0, "end": "l01.end-0.75", "intensity": 2, "frequency": 0.35 },

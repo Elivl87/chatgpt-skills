@@ -19,7 +19,7 @@ art; the layer was removed.
 | Key | Status | Source | Note |
 |---|---|---|---|
 | quest.bed_sleeping | EXACT | QP r1c1 (mirrored) | Swap pair shares its canvas with bed_awake (pixel-aligned). |
-| quest.bed_awake | EXACT | QP r1c2 + bed foot from r1c1 | The nightstand and clock were removed from the cut-out; the alarm is its own layer. |
+| quest.bed_awake | EXACT | QP r1c2 + bed foot from r1c1 | Keeps the sheet's nightstand (also added to bed_sleeping so the swap overlays); the clock was removed from the cut-out and is its own layer standing on that nightstand. |
 | quest.desk_typing | EXACT | QP r2c4 (desk + chair + laptop) | Laptop instead of a monitor. |
 | quest.holding_paycheck | EXACT | **Part1** quest_money_celebration | Paycheck + cash (replaces the QP r1c4 cut-out). |
 | quest.looking_up_awe | EXACT | QP r2c1 (Quest separated from the tractor) | |
@@ -48,7 +48,7 @@ art; the layer was removed.
 | ep001.dragon | SUBST (stand-in) | CO large Fear | **No dragon art in the package.** Drop `objects/dragon.png` in to replace it. |
 | ep001.princess_tower | MISSING | — | No princess art. The s09 layer was removed (the joke "No princess to save" still reads). |
 | ep001.window_lit | SUBST | HE panel 3 (Quest gaming at night) framed as a window | Brief asked for a silhouette at a window. |
-| ep001.bg_bedroom | EXACT | AD "Habitación (noche)" | Thumbnail source (x16). |
+| ep001.bg_bedroom | EXACT | AD "Habitación (noche)" | The plate's own bed was painted out (wall/floor fill), so Quest's bed is the only bed in the shot. Thumbnail source (x16). |
 | ep001.bg_office | EXACT | HE panel 2, right part | Left part contains a baked-in Quest; crop avoids it. |
 | ep001.bg_dealership | SUBST | AD "Granja (entrada)" | No dealership plate. |
 | ep001.bg_living_room | SUBST | HE panel 3, right part (gaming desk, farm game on screen) | Night room, not a living room with TV. |

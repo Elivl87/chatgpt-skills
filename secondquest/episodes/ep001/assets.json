@@ -78,11 +78,11 @@
     },
 
     "ep001.alarm_clock": {
-      "path": "objects/alarm_clock.png", "kind": "object", "aspect": 0.8982,
+      "path": "objects/alarm_clock.png", "kind": "object", "aspect": 0.9048,
       "label": "Alarm clock", "brief": "Classic twin-bell alarm clock, 6:00 on the face."
     },
     "ep001.email_icon": {
-      "path": "objects/email_icon.png", "kind": "object", "aspect": 1.1477, "anchor": [0.5, 0.5],
+      "path": "objects/email_icon.png", "kind": "object", "aspect": 1.1499, "anchor": [0.5, 0.5],
       "label": "Email", "brief": "Envelope / email notification card with a red unread badge."
     },
     "ep001.paper_stack": {
@@ -94,7 +94,7 @@
       "label": "Enormous shiny tractor", "brief": "Gleaming brand-new green tractor, 3/4 front view, comically huge wheels, showroom shine. No real brand logos."
     },
     "ep001.tractor_bigger": {
-      "path": "objects/tractor_bigger.png", "kind": "object", "aspect": 1.4738,
+      "path": "objects/tractor_bigger.png", "kind": "object", "aspect": 1.4812,
       "label": "EVEN BIGGER tractor", "brief": "Same design language as tractor_huge but absurdly larger — double wheels, extra lights, a bow on top."
     },
     "ep001.dragon": {

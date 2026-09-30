@@ -534,7 +534,7 @@
         "source": "QVB outfit \"Soldier\"",
         "note": "Official outfit variant; no blaster."
       },
-      "delivered_size": "296×808"
+      "delivered_size": "275×794"
     },
     {
       "status": "✅",
@@ -547,9 +547,9 @@
       "integration": {
         "status": "EXACT",
         "source": "QP r1c2 + bed foot from r1c1",
-        "note": "The nightstand and clock were removed from the cut-out; the alarm is its own layer."
+        "note": "Keeps the sheet's nightstand (also added to bed_sleeping so the swap overlays); the clock was removed from the cut-out and is its own layer standing on that nightstand."
       },
-      "delivered_size": "1728×1024"
+      "delivered_size": "1936×1024"
     },
     {
       "status": "✅",
@@ -564,7 +564,7 @@
         "source": "QP r1c1 (mirrored)",
         "note": "Swap pair shares its canvas with bed_awake (pixel-aligned)."
       },
-      "delivered_size": "1728×1024"
+      "delivered_size": "1936×1024"
     },
     {
       "status": "✅",
@@ -594,7 +594,7 @@
         "source": "OR Q03_Emocionado",
         "note": "Red hoodie, not a farmer cap."
       },
-      "delivered_size": "428×860"
+      "delivered_size": "408×837"
     },
     {
       "status": "🔁",
@@ -624,7 +624,7 @@
         "source": "QVB outfit \"Farmer\"",
         "note": "No chickens/bucket drawing."
       },
-      "delivered_size": "352×820"
+      "delivered_size": "329×806"
     },
     {
       "status": "🔁",
@@ -699,7 +699,7 @@
         "source": "QVB outfit \"RPG\"",
         "note": "Official outfit variant (sword + cape)."
       },
-      "delivered_size": "372×820"
+      "delivered_size": "364×805"
     },
     {
       "status": "✅",
@@ -847,7 +847,7 @@
       "integration": {
         "status": "EXACT",
         "source": "AD \"Habitación (noche)\"",
-        "note": "Thumbnail source (x16)."
+        "note": "The plate's own bed was painted out (wall/floor fill), so Quest's bed is the only bed in the shot. Thumbnail source (x16)."
       },
       "delivered_size": "3264×1836"
     },
@@ -939,7 +939,7 @@
         "source": "HE panel 5",
         "note": "The baked tiny tractor was inpainted; the engine's tractor layer replaces it."
       },
-      "delivered_size": "7680×4320"
+      "delivered_size": "6400×3600"
     },
     {
       "status": "🔁",
@@ -1044,7 +1044,7 @@
         "source": "HE panel 1 (cut from the plate)",
         "note": "Face shows ~11:00."
       },
-      "delivered_size": "300×334"
+      "delivered_size": "304×336"
     },
     {
       "status": "🔁",
@@ -1074,7 +1074,7 @@
         "source": "CO paper pile (envelope + badge cut out)",
         "note": ""
       },
-      "delivered_size": "404×352"
+      "delivered_size": "399×347"
     },
     {
       "status": "✅",
@@ -1119,7 +1119,7 @@
         "source": "PM main tractor (yellow)",
         "note": "Same 2D style, larger wheels; not green, no bow."
       },
-      "delivered_size": "1916×1300"
+      "delivered_size": "1896×1280"
     },
     {
       "status": "✅",

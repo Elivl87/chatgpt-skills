@@ -11,12 +11,12 @@
   },
   "assets": {
     "quest.bed_sleeping": {
-      "path": "/characters/quest/quest_bed_sleeping.png", "kind": "character", "character": "quest", "aspect": 1.6875,
+      "path": "/characters/quest/quest_bed_sleeping.png", "kind": "character", "character": "quest", "aspect": 1.8906,
       "label": "asleep in bed",
       "brief": "Quest asleep in a single bed under a blanket, 3/4 view. Bed included in the cut-out. Curly hair spilling on pillow."
     },
     "quest.bed_awake": {
-      "path": "/characters/quest/quest_bed_awake.png", "kind": "character", "character": "quest", "aspect": 1.6875,
+      "path": "/characters/quest/quest_bed_awake.png", "kind": "character", "character": "quest", "aspect": 1.8906,
       "label": "jolted awake in bed",
       "brief": "Same bed and framing as quest_bed_sleeping (must overlay exactly). Quest bolt upright, eyes wide, hair messy, one hand slapping toward the alarm (screen right)."
     },
@@ -51,12 +51,12 @@
       "brief": "Quest in farmer cap driving a mid-size green tractor, side view facing screen left, both hands on wheel. Reused as the tiny tractor in the giant-field shot."
     },
     "quest.action_hero": {
-      "path": "/characters/quest/quest_action_hero.png", "kind": "character", "character": "quest", "aspect": 0.3663,
+      "path": "/characters/quest/quest_action_hero.png", "kind": "character", "character": "quest", "aspect": 0.3463,
       "label": "action-hero fantasy",
       "brief": "Quest in helmet and tactical vest over the hoodie, holding a chunky toy-like blaster, heroic pose. Comedic, not violent."
     },
     "quest.knight": {
-      "path": "/characters/quest/quest_knight.png", "kind": "character", "character": "quest", "aspect": 0.4537,
+      "path": "/characters/quest/quest_knight.png", "kind": "character", "character": "quest", "aspect": 0.4522,
       "label": "knight fantasy",
       "brief": "Quest in shiny armor with the red hoodie visible underneath, sword raised, gallant pose."
     },
@@ -76,12 +76,12 @@
       "brief": "Farmer cap, pushing a wheelbarrow loaded with fertilizer sacks, effortful but happy."
     },
     "quest.farmer_feeding": {
-      "path": "/characters/quest/quest_farmer_feeding.png", "kind": "character", "character": "quest", "aspect": 0.4293,
+      "path": "/characters/quest/quest_farmer_feeding.png", "kind": "character", "character": "quest", "aspect": 0.4082,
       "label": "feeding animals",
       "brief": "Farmer cap, tossing feed from a bucket, a few chickens at his feet (included)."
     },
     "quest.excited": {
-      "path": "/characters/quest/quest_excited.png", "kind": "character", "character": "quest", "aspect": 0.4977,
+      "path": "/characters/quest/quest_excited.png", "kind": "character", "character": "quest", "aspect": 0.4875,
       "label": "genuinely, hugely excited",
       "brief": "Farmer cap, both fists up, sparkling eyes, open-mouth grin. Pure joy over a vehicle."
     },
