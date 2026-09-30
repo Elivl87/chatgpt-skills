@@ -36,6 +36,25 @@ export interface ProductionConfig {
     };
   };
   mastering: { integratedLufs: number; truePeakDbtp: number };
+  audio?: { music: 'off' | 'on'; hierarchy?: string[]; policy?: string };
+  art?: ArtPolicy;
+}
+
+/** Art contract (shared/production.json "art"). See src/engine/artContract.ts. */
+export interface ArtPolicy {
+  contract: 'FINAL_ART_ONLY' | 'LEGACY';
+  manifestSchema?: string;
+  styleVersion: string;
+  characterVersion: string;
+  /** Approved path convention, relative to public/ ("art/"). */
+  pathRoot: string;
+  requiredFields: string[];
+  kinds: string[];
+  forbiddenSources: string[];
+  safeZoomDefaults: { background: number; character: number; object: number };
+  /** Minimum background size [w, h]. */
+  minBackground: [number, number];
+  policy?: string;
 }
 
 export interface PronunciationEntry {

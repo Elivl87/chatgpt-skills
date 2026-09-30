@@ -27,7 +27,11 @@ export const episodeFiles = (seed: EpisodeSeed, p: ProductionConfig) => {
       narration: { ...d.narration },
       music: {
         duck: { ...d.music.duck },
-        cues: [{ ...d.music.bed, start: 0, end: 'end', note: 'Placeholder bed (npm run audio:placeholders). Replace with the episode track.' }],
+        // SecondQuest audio policy: Narration > SFX > Ambience > Silence — no music bed unless the Producer asks for one.
+        cues:
+          p.audio?.music === 'off'
+            ? []
+            : [{ ...d.music.bed, start: 0, end: 'end', note: 'Placeholder bed (npm run audio:placeholders). Replace with the episode track.' }],
       },
       cuts: { full: { label: 'Full episode', fromScene: 's01_intro', toScene: 's01_intro', output: `secondquest_${seed.id}_full` } },
     },

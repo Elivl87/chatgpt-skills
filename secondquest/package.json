@@ -37,6 +37,7 @@
     "add:locale": "tsx scripts/add-locale.ts",
     "render:hook:es": "tsx scripts/render.ts ep001 hook --version v3 --locale es",
     "render:episode": "tsx scripts/render.ts",
+    "art:intake": "tsx scripts/art-intake.ts",
     "test": "tsx scripts/test.ts"
   },
   "engines": {

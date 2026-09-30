@@ -2,6 +2,7 @@ import type { ProductionConfig, PronunciationLexicon } from '../engine/productio
 import type { AssetCatalog, EpisodeConfig, ScenesFile, ScriptFile, SfxCatalog, TimingsFile } from '../schema/types';
 
 import sharedAssets from '../../shared/assets.json';
+import artCatalog from '../../shared/art_catalog.json';
 import sharedSfx from '../../shared/sfx.json';
 import production from '../../shared/production.json';
 import pronunciation from '../../shared/pronunciation.json';
@@ -36,7 +37,14 @@ export interface EpisodeBundle {
   localized?: Record<string, { script: ScriptFile; timings: TimingsFile }>;
 }
 
-export const SHARED_ASSETS = sharedAssets as unknown as AssetCatalog;
+/**
+ * Shared cast catalog + the FINAL_ART catalog (shared/art_catalog.json, written only by
+ * `npm run art:intake`). FINAL_ART entries override legacy entries with the same key.
+ */
+export const SHARED_ASSETS: AssetCatalog = {
+  ...(sharedAssets as unknown as AssetCatalog),
+  assets: { ...(sharedAssets as unknown as AssetCatalog).assets, ...(artCatalog as unknown as AssetCatalog).assets },
+};
 export const SFX = sharedSfx as unknown as SfxCatalog;
 /** Production policy: default locale (en), official voices, episode defaults (shared/production.json). */
 export const PRODUCTION = production as unknown as ProductionConfig;
@@ -64,3 +72,9 @@ export const EPISODES: Record<string, EpisodeBundle> = {
   },
   // @new-episode-entries (scripts/new-episode.ts inserts above this line)
 };
+
+// FINAL_ART keys always win: an episode's legacy entry with the same key is dropped.
+for (const b of Object.values(EPISODES)) {
+  const art = (artCatalog as unknown as AssetCatalog).assets;
+  b.assets = { ...b.assets, assets: Object.fromEntries(Object.entries(b.assets.assets).filter(([k]) => !(k in art))) };
+}

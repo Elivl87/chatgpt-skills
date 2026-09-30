@@ -1,5 +1,5 @@
 import { execFileSync, spawnSync } from 'node:child_process';
-import { existsSync, readdirSync } from 'node:fs';
+import { closeSync, existsSync, openSync, readdirSync, readSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -60,3 +60,49 @@ export const findBrowser = (): string | undefined => {
 };
 
 export const fmt = (s: number) => `${s.toFixed(2).padStart(6)}s`;
+
+/**
+ * Read width/height/alpha from a PNG, WebP or JPEG header (no decoding, no deps).
+ * `path` is absolute or relative to public/. Returns undefined if missing/unknown.
+ */
+export const imageInfoAt = (abs: string): { width: number; height: number; alpha: boolean } | undefined => {
+  if (!existsSync(abs)) return undefined;
+  const fd = openSync(abs, 'r');
+  const buf = Buffer.alloc(65536);
+  const n = readSync(fd, buf, 0, buf.length, 0);
+  closeSync(fd);
+  const b = buf.subarray(0, n);
+  // PNG
+  if (b.length > 29 && b.readUInt32BE(0) === 0x89504e47) {
+    const width = b.readUInt32BE(16);
+    const height = b.readUInt32BE(20);
+    const colorType = b[25];
+    const alpha = colorType === 4 || colorType === 6 || b.includes(Buffer.from('tRNS'));
+    return { width, height, alpha };
+  }
+  // WebP
+  if (b.length > 30 && b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP') {
+    const chunk = b.toString('ascii', 12, 16);
+    if (chunk === 'VP8X') return { width: 1 + b.readUIntLE(24, 3), height: 1 + b.readUIntLE(27, 3), alpha: (b[20] & 0x10) !== 0 };
+    if (chunk === 'VP8L') {
+      const bits = b.readUInt32LE(21);
+      return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1, alpha: ((bits >> 28) & 1) === 1 };
+    }
+    if (chunk === 'VP8 ') return { width: b.readUInt16LE(26) & 0x3fff, height: b.readUInt16LE(28) & 0x3fff, alpha: false };
+  }
+  // JPEG (never has alpha)
+  if (b[0] === 0xff && b[1] === 0xd8) {
+    let i = 2;
+    while (i + 9 < b.length) {
+      if (b[i] !== 0xff) return undefined;
+      const marker = b[i + 1];
+      const len = b.readUInt16BE(i + 2);
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) return { width: b.readUInt16BE(i + 7), height: b.readUInt16BE(i + 5), alpha: false };
+      i += 2 + len;
+    }
+  }
+  return undefined;
+};
+
+/** imageInfoAt() for a path relative to public/. */
+export const publicImageInfo = (publicPath: string) => imageInfoAt(join(PUBLIC, publicPath));

@@ -1,0 +1,4 @@
+{
+  "notes": "FINAL_ART catalog. Written ONLY by `npm run art:intake` from validated Creative Pipeline packages (art_manifest.json). Entries here override legacy catalog entries with the same key. Do not edit by hand.",
+  "assets": {}
+}

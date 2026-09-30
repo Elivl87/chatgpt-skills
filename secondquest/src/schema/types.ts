@@ -123,6 +123,26 @@ export interface AssetEntry {
   character?: string;
   /** Placeholder tint. Backgrounds may give [top, bottom]. */
   color?: string | [string, string];
+
+  // --- Art contract (SecondQuest Art Manifest Schema v1). Required for every
+  // image a render uses while shared/production.json art.contract = FINAL_ART_ONLY.
+  /** Must be "FINAL_ART". */
+  source?: string;
+  /** Must be "APPROVED". */
+  status?: string;
+  library_tier?: 'CORE' | 'GENRE' | 'EPISODE';
+  required?: boolean;
+  /** Declared pixel size, "3840x2160" (× or x). */
+  resolution?: string;
+  transparent?: boolean;
+  /** Max camera/layer zoom this art tolerates. Defaults per kind from production.json. */
+  safe_zoom?: number;
+  style_version?: string;
+  /** Quest assets only, e.g. "Quest_v1". */
+  character_version?: string;
+  /** Assets that swap in place share a swap_set and must share canvas size. */
+  swap_set?: string;
+  used_in?: string[];
 }
 
 export interface AssetCatalog {
@@ -188,6 +208,8 @@ export type MusicCue = MusicTrackCue | MusicAutomationCue;
 export interface MusicConfig {
   duck: DuckConfig;
   cues: MusicCue[];
+  /** Music is OFF by default (production.json audio.music). Cues only pass validation when the Producer approved them. */
+  producerApproved?: boolean;
 }
 
 export interface SfxEvent {

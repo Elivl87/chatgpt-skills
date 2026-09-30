@@ -13,13 +13,25 @@ import { join } from 'node:path';
 import { episodeLocales } from '../src/engine/locale';
 import { validateNarrationVoice, validateProduction, validatePronunciation, type PronunciationLexicon } from '../src/engine/production';
 import { validateAllLocales, validateLocales, type Issue } from '../src/engine/validate';
+import { validateArtContract, type ArtIssue } from '../src/engine/artContract';
 import { EPISODES, PRODUCTION, PRONUNCIATION, SFX, SHARED_ASSETS } from '../src/episodes';
-import { fmt, hasPublicFile, parseArgs, ROOT } from './lib';
+import { fmt, hasPublicFile, parseArgs, publicImageInfo, ROOT } from './lib';
 
 /** Optional per-episode lexicon: episodes/<ep>/pronunciation.json. */
 export const episodeLexicon = (id: string): PronunciationLexicon | undefined => {
   const p = join(ROOT, 'episodes', id, 'pronunciation.json');
   return existsSync(p) ? (JSON.parse(readFileSync(p, 'utf8')) as PronunciationLexicon) : undefined;
+};
+
+/** Art-contract report: one line per blocker, grouped by code (OK / ASSET_MISSING / NOT_FINAL_ART / …). */
+const printArt = (issues: ArtIssue[]) => {
+  const byCode = new Map<string, ArtIssue[]>();
+  for (const i of issues) byCode.set(i.code, [...(byCode.get(i.code) ?? []), i]);
+  for (const [code, list] of byCode) {
+    const errs = list.filter((i) => i.level === 'error').length;
+    console.log(`  ${errs ? '✖' : '⚠'} ${code} (${list.length})`);
+    for (const i of list) console.log(`      ${i.key.padEnd(34)} ${i.where}: ${i.message}`);
+  }
 };
 
 const print = (issues: Issue[]) => {
@@ -50,7 +62,10 @@ export const runValidation = (only?: string, quiet = false): boolean => {
     ];
     if (bundle.episode.locale !== PRODUCTION.defaultLocale)
       localeIssues.push({ level: 'warn', where: `${id}.episode.locale`, message: `master locale "${bundle.episode.locale}" differs from production default "${PRODUCTION.defaultLocale}"` });
-    const errors = [...perLocale.flatMap((l) => l.issues), ...localeIssues].filter((i) => i.level === 'error');
+    // --- art contract (FINAL_ART_ONLY) + audio policy: the render gate
+    const artIssues = validateArtContract(bundle, SHARED_ASSETS, SFX, PRODUCTION, publicImageInfo);
+    const artErrors = artIssues.filter((i) => i.level === 'error');
+    const errors = [...perLocale.flatMap((l) => l.issues), ...localeIssues, ...artErrors.map((i) => ({ level: 'error' as const, where: i.where, message: i.message }))].filter((i) => i.level === 'error');
     if (!quiet || errors.length) {
       console.log(`\n■ ${id} — ${bundle.episode.title}`);
       for (const { locale, issues } of perLocale) {
@@ -62,6 +77,10 @@ export const runValidation = (only?: string, quiet = false): boolean => {
         console.log('\n  [localisation]');
         print(quiet ? localeIssues.filter((i) => i.level === 'error') : localeIssues);
       }
+      console.log(`\n  [art contract · ${PRODUCTION.art?.contract ?? 'LEGACY'} · audio music ${PRODUCTION.audio?.music ?? 'on'}]`);
+      if (!artIssues.length) console.log('  ✔ OK — every image used is FINAL_ART / APPROVED and within safe_zoom');
+      else printArt(quiet ? artErrors : artIssues);
+      if (artErrors.length) console.log(`  → RENDER BLOCKED: ${artErrors.length} art/audio contract blocker(s)`);
     }
     if (errors.length) {
       ok = false;

@@ -26,6 +26,12 @@ import type { AssetCatalog, EpisodeConfig, ScenesFile, ScriptFile, TimingsFile }
 import { hasPublicFile, PUBLIC, ROOT } from './lib';
 import { resolveRenderTarget } from './render-target';
 import { episodeFiles, registerEpisodeSource } from './scaffold';
+import { validateArtContract, validateArtManifest, type ArtManifest, type ArtManifestEntry, type ImageInfo } from '../src/engine/artContract';
+import { intakeParts, MAX_PART_BYTES } from './art-intake';
+import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname } from 'node:path';
+import { publicImageInfo } from './lib';
 
 let passed = 0;
 let failed = 0;
@@ -293,11 +299,11 @@ test('new episode is born English, 1080p30, cut "full"', () => {
   assert.ok(e.cuts.full);
   assert.equal(e.locales, undefined, 'Spanish is opt-in (npm run add:locale)');
 });
-test('new episode gets the official mix: duck 0.27 / SFX 0.62, bed 0.35 with placeholder generator', () => {
+test('new episode gets the official mix (duck 0.27 / SFX 0.62) and NO music bed — music is off by default', () => {
   const m = scaffolded.episode.music!;
   assert.deepEqual(m.duck, PRODUCTION.episodeDefaults.music.duck);
-  const bed = m.cues[0] as { volume: number; placeholder: string; loop: boolean };
-  assert.deepEqual([bed.volume, bed.placeholder, bed.loop], [0.35, 'bed', true]);
+  assert.equal(PRODUCTION.audio?.music, 'off');
+  assert.deepEqual(m.cues, [], 'Narration > SFX > Ambience > Silence: no continuous music unless the Producer asks');
 });
 test('new episode takes its voice from production.json (no voice pinned in the script)', () => {
   assert.equal((scaffolded.script as unknown as { placeholderTts: Record<string, unknown> }).placeholderTts.voice, undefined);
@@ -315,6 +321,153 @@ test('registry insertion is correct and idempotency-guarded', () => {
   assert.ok(out.includes("import ep998Episode from '../../episodes/ep998/episode.json';"));
   assert.ok(out.includes('  ep998: {') && out.includes('// @locales:ep998'));
   assert.throws(() => registerEpisodeSource(out, 'ep998'), /already registered/);
+});
+
+
+// ---------------------------------------------------------------------------
+group('8. FINAL_ART_ONLY contract (Creative Decisions v1.1)');
+const policy = PRODUCTION.art!;
+/** Minimal PNG header (signature + IHDR) — enough for the header reader; colorType 6 = RGBA, 2 = RGB. */
+const png = (w: number, h: number, colorType = 6) => {
+  const b = Buffer.alloc(33);
+  Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]).copy(b, 0);
+  b.writeUInt32BE(13, 8);
+  b.write('IHDR', 12, 'ascii');
+  b.writeUInt32BE(w, 16);
+  b.writeUInt32BE(h, 20);
+  b[24] = 8;
+  b[25] = colorType;
+  return b;
+};
+const fin = (over: Partial<ArtManifestEntry> & { key: string; path: string }): ArtManifestEntry => ({
+  kind: 'object', library_tier: 'CORE', source: 'FINAL_ART', status: 'APPROVED', required: true, resolution: '2000x2000',
+  transparent: true, safe_zoom: 1.35, style_version: 'SecondQuest_2D_v1', used_in: ['EP001'], ...over,
+});
+/** Writes a package part: art_manifest.json + files (path → PNG buffer). */
+const part = (manifest: ArtManifest, files: Record<string, Buffer>) => {
+  const dir = mkdtempSync(join(tmpdir(), 'sq-art-'));
+  writeFileSync(join(dir, 'art_manifest.json'), JSON.stringify(manifest));
+  for (const [p, buf] of Object.entries(files)) {
+    mkdirSync(dirname(join(dir, p)), { recursive: true });
+    writeFileSync(join(dir, p), buf);
+  }
+  return dir;
+};
+const codes = (m: ArtManifest, files: Record<string, Buffer>, key: string) => {
+  const r = intakeParts([part(m, files)]);
+  return r.keys[key];
+};
+const P = (s: string) => `public/art/core/${s}`;
+
+test('policy: FINAL_ART_ONLY, SecondQuest_2D_v1, Quest_v1, root public/art, music off', () => {
+  assert.deepEqual([policy.contract, policy.styleVersion, policy.characterVersion, policy.pathRoot], ['FINAL_ART_ONLY', 'SecondQuest_2D_v1', 'Quest_v1', 'art/']);
+  assert.deepEqual(policy.safeZoomDefaults, { background: 1.2, character: 1.45, object: 1.35 });
+  assert.deepEqual(PRODUCTION.audio?.hierarchy, ['narration', 'sfx', 'ambience', 'silence']);
+});
+test('intake: a correct FINAL_ART / APPROVED entry is OK', () => {
+  const k = codes({ assets: [fin({ key: 'obj.tractor', path: P('objects/tractor.png') })] }, { [P('objects/tractor.png')]: png(2000, 2000) }, 'obj.tractor');
+  assert.deepEqual([k.status, k.codes], ['OK', ['OK']]);
+});
+for (const src of ['STORYBOARD', 'RECOVERED', 'REFERENCE', 'TEMP', 'UPSCALED_STORYBOARD', 'COLLAGE'])
+  test(`intake: source ${src} is FORBIDDEN_SOURCE`, () => {
+    const k = codes({ assets: [fin({ key: 'x', path: P('x.png'), source: src })] }, { [P('x.png')]: png(2000, 2000) }, 'x');
+    assert.equal(k.status, 'REJECTED');
+    assert.ok(k.codes.includes('FORBIDDEN_SOURCE'));
+  });
+test('intake: status other than APPROVED is rejected (NOT_APPROVED)', () => {
+  const k = codes({ assets: [fin({ key: 'x', path: P('x.png'), status: 'PENDING_ART' })] }, { [P('x.png')]: png(2000, 2000) }, 'x');
+  assert.ok(k.codes.includes('NOT_APPROVED'));
+});
+test('intake: partial delivery — a manifest entry with no file is PENDING (ASSET_MISSING), others still install', () => {
+  const r = intakeParts([part({ assets: [fin({ key: 'a', path: P('a.png') }), fin({ key: 'b', path: P('b.png') })] }, { [P('a.png')]: png(2000, 2000) })]);
+  assert.deepEqual([r.keys.a.status, r.keys.b.status, r.keys.b.codes], ['OK', 'PENDING', ['ASSET_MISSING']]);
+});
+test('intake: file size ≠ declared resolution → BAD_RESOLUTION; background below 3840×2160 → BAD_RESOLUTION', () => {
+  assert.ok(codes({ assets: [fin({ key: 'x', path: P('x.png') })] }, { [P('x.png')]: png(1000, 1000) }, 'x').codes.includes('BAD_RESOLUTION'));
+  const bg = fin({ key: 'bg', path: P('bg/farm.png'), kind: 'background', resolution: '1920x1080', transparent: false, safe_zoom: 1.2 });
+  assert.ok(codes({ assets: [bg] }, { [P('bg/farm.png')]: png(1920, 1080, 2) }, 'bg').codes.includes('BAD_RESOLUTION'));
+});
+test('intake: declared transparent but no alpha → BAD_TRANSPARENCY', () => {
+  assert.ok(codes({ assets: [fin({ key: 'x', path: P('x.png') })] }, { [P('x.png')]: png(2000, 2000, 2) }, 'x').codes.includes('BAD_TRANSPARENCY'));
+});
+test('intake: swap_set members with different canvases → SWAP_MISMATCH', () => {
+  const m = { assets: [fin({ key: 'q1', path: P('s/1.png'), swap_set: 'wake' }), fin({ key: 'q2', path: P('s/2.png'), swap_set: 'wake', resolution: '2000x1800' })] };
+  const r = intakeParts([part(m, { [P('s/1.png')]: png(2000, 2000), [P('s/2.png')]: png(2000, 1800) })]);
+  assert.ok(r.keys.q1.codes.includes('SWAP_MISMATCH') && r.keys.q2.codes.includes('SWAP_MISMATCH'));
+});
+test('intake: Quest art must be Quest_v1 → QUEST_VERSION_MISMATCH', () => {
+  const q = (v: string) => fin({ key: 'quest.idle', path: 'public/art/core/quest/idle.png', kind: 'character', safe_zoom: 1.45, character_version: v });
+  const files = { 'public/art/core/quest/idle.png': png(2000, 2000) };
+  assert.ok(codes({ assets: [q('Quest_v0')] }, files, 'quest.idle').codes.includes('QUEST_VERSION_MISMATCH'));
+  assert.equal(codes({ assets: [q('Quest_v1')] }, files, 'quest.idle').status, 'OK');
+});
+test('intake: style_version must be SecondQuest_2D_v1 → STYLE_VERSION_MISMATCH', () => {
+  assert.ok(codes({ assets: [fin({ key: 'x', path: P('x.png'), style_version: 'Old' })] }, { [P('x.png')]: png(2000, 2000) }, 'x').codes.includes('STYLE_VERSION_MISMATCH'));
+});
+test('intake: legacy kit paths (public/episodes/…/kit) fail BAD_PATH; missing fields fail MANIFEST_FIELD', () => {
+  const legacy = 'public/episodes/ep001_farming/kit/x.png';
+  assert.ok(codes({ assets: [fin({ key: 'x', path: legacy })] }, { [legacy]: png(2000, 2000) }, 'x').codes.includes('BAD_PATH'));
+  const { used_in: _u, ...noUsedIn } = fin({ key: 'y', path: P('y.png') });
+  assert.ok(codes({ assets: [noUsedIn as ArtManifestEntry] }, { [P('y.png')]: png(2000, 2000) }, 'y').codes.includes('MANIFEST_FIELD'));
+});
+test('intake: every ZIP part must carry the same manifest; parts > 29.5 MB block the package', () => {
+  const a = part({ assets: [fin({ key: 'a', path: P('a.png') })] }, { [P('a.png')]: png(2000, 2000) });
+  const b = part({ assets: [fin({ key: 'b', path: P('b.png') })] }, { [P('b.png')]: png(2000, 2000) });
+  assert.ok(intakeParts([a, b]).blockers.some((x) => x.startsWith('MANIFEST_MISMATCH')));
+  const m = { assets: [fin({ key: 'a', path: P('a.png') }), fin({ key: 'b', path: P('b.png') })] };
+  const r = intakeParts([part(m, { [P('a.png')]: png(2000, 2000) }), part(m, { [P('b.png')]: png(2000, 2000) })]);
+  assert.deepEqual([r.blockers, r.keys.a.status, r.keys.b.status], [[], 'OK', 'OK'], 'files are resolved across parts');
+  assert.ok(intakeParts([a], [MAX_PART_BYTES + 1]).blockers.some((x) => x.startsWith('PART_TOO_LARGE')));
+});
+test('intake: validateArtManifest is pure (no file → ASSET_MISSING)', () => {
+  const issues = validateArtManifest({ assets: [fin({ key: 'x', path: P('x.png') })] }, policy, () => undefined);
+  assert.deepEqual(issues.map((i) => i.code), ['ASSET_MISSING']);
+});
+
+// render gate on a synthetic episode (no files on disk: fileInfo is stubbed)
+const gateBundle = (zoomAmount: number, questFileH = 2000): [EpisodeBundle, (p: string) => ImageInfo | undefined] => {
+  const b = structuredClone(scaffolded);
+  b.scenes.scenes[0].camera = { moves: [{ type: 'push_in', amount: zoomAmount }] } as typeof b.scenes.scenes[0]['camera'];
+  const c = { source: 'FINAL_ART', status: 'APPROVED', library_tier: 'EPISODE', required: true, style_version: 'SecondQuest_2D_v1', used_in: ['EP998'] };
+  b.assets = { assets: {
+    'ep998.bg_intro': { ...c, path: '/art/episodes/ep998/bg.png', kind: 'background', aspect: 1.7778, resolution: '3840x2160', transparent: false, safe_zoom: 1.2, label: 'bg' },
+    'quest.excited': { ...c, path: '/art/core/quest/excited.png', kind: 'character', aspect: 1, resolution: `${questFileH}x${questFileH}`, transparent: true, safe_zoom: 1.45, character_version: 'Quest_v1', character: 'quest', label: 'q' },
+  } } as unknown as AssetCatalog;
+  const files: Record<string, ImageInfo> = { 'art/episodes/ep998/bg.png': { width: 3840, height: 2160, alpha: false }, 'art/core/quest/excited.png': { width: questFileH, height: questFileH, alpha: true } };
+  return [b, (p) => files[p]];
+};
+const gate = (b: EpisodeBundle, fi: (p: string) => ImageInfo | undefined) => validateArtContract(b, SHARED_ASSETS, SFX, PRODUCTION, fi);
+test('render gate: FINAL_ART episode within safe_zoom passes (OK)', () => {
+  const [b, fi] = gateBundle(0.06);
+  assert.deepEqual(gate(b, fi).filter((i) => i.level === 'error'), []);
+});
+test('render gate: a camera push beyond safe_zoom → SAFE_ZOOM (no upscaling workaround)', () => {
+  const [b, fi] = gateBundle(1.0);
+  const keys = gate(b, fi).filter((i) => i.code === 'SAFE_ZOOM').map((i) => i.key).sort();
+  assert.deepEqual(keys, ['ep998.bg_intro', 'quest.excited']);
+});
+test('render gate: art drawn taller than the file → BAD_RESOLUTION', () => {
+  const [b, fi] = gateBundle(0.06, 400);
+  assert.ok(gate(b, fi).some((i) => i.code === 'BAD_RESOLUTION' && i.key === 'quest.excited'));
+});
+test('render gate: missing file → ASSET_MISSING with exact path', () => {
+  const [b] = gateBundle(0.06);
+  const miss = gate(b, () => undefined).filter((i) => i.code === 'ASSET_MISSING');
+  assert.ok(miss.some((i) => i.message === 'ASSET_MISSING: quest.excited (public/art/core/quest/excited.png)'));
+});
+test('render gate: music cues without producerApproved → MUSIC_POLICY', () => {
+  const [b, fi] = gateBundle(0.06);
+  b.episode.music = { ...b.episode.music!, cues: [{ id: 'bed', src: 'x.wav', start: 0, end: 'l01.end', volume: 0.35 }] } as typeof b.episode.music;
+  assert.ok(gate(b, fi).some((i) => i.code === 'MUSIC_POLICY'));
+  b.episode.music!.producerApproved = true;
+  assert.ok(!gate(b, fi).some((i) => i.code === 'MUSIC_POLICY'));
+});
+test('render gate: legacy art is never auto-certified — ep001 hook and ep001full are BLOCKED (NOT_FINAL_ART)', () => {
+  for (const id of ['ep001', 'ep001full']) {
+    const issues = gate(EPISODES[id], publicImageInfo).filter((i) => i.level === 'error');
+    assert.ok(issues.length > 0, `${id} must be blocked until FINAL_ART arrives`);
+    assert.ok(issues.every((i) => ['NOT_FINAL_ART', 'ASSET_MISSING', 'MUSIC_POLICY'].includes(i.code)), [...new Set(issues.map((i) => i.code))].join(','));
+  }
 });
 
 // ---------------------------------------------------------------------------

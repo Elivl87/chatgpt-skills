@@ -1,12 +1,10 @@
 {
   "notes": "SecondQuest Production Standard. English is the production and default output language; Spanish (and any other locale) is optional and only produced/rendered on explicit request (--locale <code>). New episodes are scaffolded from these values.",
-
   "defaultLocale": "en",
   "render": {
     "defaultLocale": "en",
     "policy": "Renders use defaultLocale unless --locale is passed explicitly. Non-default locales are never rendered as part of the normal flow."
   },
-
   "voices": {
     "en": {
       "status": "official",
@@ -28,17 +26,93 @@
       "note": "Native Kokoro embedding blend: 40% am_michael + 60% em_alex (weighted sum of the style tensors). Spanish is an optional locale, produced/rendered only on explicit request (--locale es)."
     }
   },
-
   "episodeDefaults": {
     "fps": 30,
     "width": 1920,
     "height": 1080,
-    "narration": { "audio": "audio/narration.wav", "volume": 1.0 },
+    "narration": {
+      "audio": "audio/narration.wav",
+      "volume": 1.0
+    },
     "music": {
-      "duck": { "to": 0.27, "attack": 0.15, "release": 0.6, "lookahead": 0.1, "sfxTo": 0.62 },
-      "bed": { "id": "bed", "src": "music/bed.mp3", "placeholder": "bed", "volume": 0.35, "fadeIn": 0.4, "fadeOut": 1.2, "loop": true }
+      "duck": {
+        "to": 0.27,
+        "attack": 0.15,
+        "release": 0.6,
+        "lookahead": 0.1,
+        "sfxTo": 0.62
+      },
+      "bed": {
+        "id": "bed",
+        "src": "music/bed.mp3",
+        "placeholder": "bed",
+        "volume": 0.35,
+        "fadeIn": 0.4,
+        "fadeOut": 1.2,
+        "loop": true
+      }
     }
   },
-
-  "mastering": { "integratedLufs": -14, "truePeakDbtp": -1.5 }
+  "mastering": {
+    "integratedLufs": -14,
+    "truePeakDbtp": -1.5
+  },
+  "audio": {
+    "music": "off",
+    "hierarchy": [
+      "narration",
+      "sfx",
+      "ambience",
+      "silence"
+    ],
+    "policy": "No continuous music bed by default. Narration > SFX > Ambience > Silence. Music cues are allowed only when an episode sets music.producerApproved = true (explicit Producer request)."
+  },
+  "art": {
+    "contract": "FINAL_ART_ONLY",
+    "manifestSchema": "SecondQuest_Art_Manifest_Schema_v1",
+    "styleVersion": "SecondQuest_2D_v1",
+    "characterVersion": "Quest_v1",
+    "pathRoot": "art/",
+    "requiredFields": [
+      "key",
+      "path",
+      "kind",
+      "library_tier",
+      "source",
+      "status",
+      "required",
+      "resolution",
+      "transparent",
+      "safe_zoom",
+      "style_version",
+      "used_in"
+    ],
+    "kinds": [
+      "background",
+      "character",
+      "object",
+      "animal",
+      "machine",
+      "brand",
+      "programmatic_ui"
+    ],
+    "forbiddenSources": [
+      "STORYBOARD",
+      "RECOVERED",
+      "REFERENCE",
+      "TEMP",
+      "UPSCALED_STORYBOARD",
+      "COLLAGE"
+    ],
+    "safeZoomDefaults": {
+      "background": 1.2,
+      "character": 1.45,
+      "object": 1.35
+    },
+    "minBackground": [
+      3840,
+      2160
+    ],
+    "policy": "Every image a render uses must be source=FINAL_ART, status=APPROVED, delivered by the Creative Pipeline. Missing/invalid art blocks the render (ASSET_MISSING, NOT_FINAL_ART, BAD_RESOLUTION, SAFE_ZOOM, SWAP_MISMATCH, QUEST_VERSION_MISMATCH). The engine never creates, crops, upscales or substitutes art."
+  }
 }
