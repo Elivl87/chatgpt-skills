@@ -1,0 +1,57 @@
+{
+  "version": "v2.3",
+  "status": "OFFICIAL_FINAL_REWIRE_BEFORE_ART_PRODUCTION",
+  "method": "Use explicit real engine-key mappings for the hook. Rebuild retired full.* and other old plate-based shots as layered compositions using FINAL_ART assets referenced by used_in M01-M46. No image manipulation or fallback.",
+  "hook_engine_key_map": {
+    "ep001.bg_bedroom": "core.bg.quest_bedroom_morning",
+    "quest.desk_typing": "quest.default.desk_typing",
+    "quest.holding_paycheck": "quest.default.holding_paycheck",
+    "quest.exhausted_slumped": "quest.default.exhausted_slumped",
+    "quest.farmer_gaming": "quest.default.gaming_excited",
+    "ep001.dragon": "genre.fantasy.dragon",
+    "ep001.tractor_huge": "genre.farming.machine.tractor_huge",
+    "ep001.tractor_bigger": "genre.farming.machine.tractor_bigger",
+    "ep001.bg_action": "genre.war.bg_battlefield_city",
+    "quest.action_hero": "genre.war.quest_tactical_action",
+    "ep001.bg_castle": "genre.fantasy.bg_castle_rescue",
+    "quest.tractor_heroic": "LAYERED: genre.farming.quest.heroic + genre.farming.machine.tractor_huge"
+  },
+  "retired_full_plate_policy": "All retired full.* plate usages are rebuilt as layered compositions from FINAL_ART. No recovered/storyboard/full-frame legacy plate may appear in a render.",
+  "camera_changes": [
+    {
+      "scene": "M04",
+      "rule": "Background zoom <=1.25-1.30x. Reframe character/machine layers rather than brute-force background zoom."
+    },
+    {
+      "scene": "M11",
+      "rule": "Replace old 5.5x pullout with cut/reveal from genre.farming.bg_field_huge_detail to genre.farming.bg_field_huge_wide. Each asset remains within safe_zoom."
+    },
+    {
+      "scene": "M13",
+      "rule": "Use three dedicated station backgrounds: planting, fertilizer, animals. Each background <=1.15x."
+    },
+    {
+      "scene": "M15",
+      "rule": "SecondQuest identity beat = 3.8s total; official wordmark fully readable for at least 2.4s."
+    }
+  ],
+  "music_changes": {
+    "ep001": "REMOVE/DISABLE all continuous music cues unless Producer explicitly approves a future cue.",
+    "ep001full": "Music remains OFF.",
+    "policy": "Narration > SFX > Ambience > Silence."
+  },
+  "programmatic_rewire": {
+    "ep001.email_icon": "PROGRAMMATIC_UI in Remotion. Envelope/email icon and numeric badge are not delivered as art."
+  },
+  "ambience": {
+    "bus": "SFX",
+    "rule": "Non-musical ambience may use the existing SFX bus. No new ambience bus required."
+  },
+  "layered_rebuilds": {
+    "quest.tractor_heroic": [
+      "genre.farming.quest.heroic",
+      "genre.farming.machine.tractor_huge"
+    ]
+  },
+  "no_render_until": "Producer explicitly requests render after FINAL_ART intake and QC."
+}
