@@ -1,0 +1,32 @@
+{
+  "programmatic_rewire": {
+    "ep001.email_icon": "PROGRAMMATIC_UI: email/envelope icon + badge count in Remotion"
+  },
+  "camera_changes": [
+    {
+      "scene": "M11",
+      "old": "5.5x pullout",
+      "new": "cut/reveal from genre.farming.bg_field_huge_detail to genre.farming.bg_field_huge_wide; keep each <= safe_zoom"
+    },
+    {
+      "scene": "M13",
+      "old": "2.2x crops on one panorama",
+      "new": "three dedicated station backgrounds: planting, fertilizer, animals; no >1.15x background zoom"
+    },
+    {
+      "scene": "M04",
+      "old": "1.45x background start",
+      "new": "reframe machine/character layers; background <=1.25–1.30x"
+    },
+    {
+      "scene": "M15",
+      "old": "~1.5–2s logo beat",
+      "new": "3.8s total identity beat; logo fully readable >=2.4s"
+    }
+  ],
+  "music_changes": {
+    "ep001": "disable/remove music cues",
+    "ep001full": "disable/remove music cues"
+  },
+  "notes": "Any key with `replaces` requires scene/catalog re-pointing as a data change only."
+}

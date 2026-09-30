@@ -100,8 +100,10 @@ export const parseResolution = (r: string | undefined): [number, number] | undef
 /** Manifest path ("public/art/…") → public-relative path ("art/…"). */
 export const manifestPublicPath = (p: string) => p.replace(/^\/?public\//, '').replace(/^\//, '');
 
-const isQuest = (key: string, e: { character?: string; path?: string }) =>
-  e.character === 'quest' || key.startsWith('quest.') || /(^|\.)quest[._]/.test(key) || /\/quest\//.test(e.path ?? '');
+/** Quest artwork = a character asset that is Quest (backgrounds like "quest_bedroom" are not). */
+const isQuest = (key: string, e: { character?: string; path?: string; kind?: string }) =>
+  e.character === 'quest' ||
+  (e.kind === 'character' && (key.startsWith('quest.') || /(^|\.)quest[._]/.test(key) || /\/quest\//.test(e.path ?? '')));
 
 const safeZoomOf = (e: AssetEntry | ArtManifestEntry, kind: AssetKind | undefined, p: ArtPolicy) =>
   e.safe_zoom ?? (kind === 'background' ? p.safeZoomDefaults.background : kind === 'character' ? p.safeZoomDefaults.character : p.safeZoomDefaults.object);

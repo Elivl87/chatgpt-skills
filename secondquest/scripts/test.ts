@@ -401,6 +401,10 @@ test('intake: Quest art must be Quest_v1 → QUEST_VERSION_MISMATCH', () => {
   assert.ok(codes({ assets: [q('Quest_v0')] }, files, 'quest.idle').codes.includes('QUEST_VERSION_MISMATCH'));
   assert.equal(codes({ assets: [q('Quest_v1')] }, files, 'quest.idle').status, 'OK');
 });
+test('intake: a background named after Quest (quest_bedroom) is not Quest art — no character_version needed', () => {
+  const bg = fin({ key: 'core.bg.quest_bedroom_morning', path: P('backgrounds/quest_bedroom_morning.png'), kind: 'background', resolution: '3840x2160', transparent: false, safe_zoom: 1.2 });
+  assert.equal(codes({ assets: [bg] }, { [P('backgrounds/quest_bedroom_morning.png')]: png(3840, 2160, 2) }, bg.key).status, 'OK');
+});
 test('intake: style_version must be SecondQuest_2D_v1 → STYLE_VERSION_MISMATCH', () => {
   assert.ok(codes({ assets: [fin({ key: 'x', path: P('x.png'), style_version: 'Old' })] }, { [P('x.png')]: png(2000, 2000) }, 'x').codes.includes('STYLE_VERSION_MISMATCH'));
 });
