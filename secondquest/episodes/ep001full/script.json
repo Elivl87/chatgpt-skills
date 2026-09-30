@@ -1,0 +1,1293 @@
+{
+  "episode": "ep001full",
+  "locale": "en",
+  "notes": "Approved narration, verbatim. Lines are split only at the natural beats already present in the text (ellipses / commas) so scenes can lock to each beat. pauseAfter (seconds) is used only when assembling the placeholder TTS narration; real narration timing comes from the recording itself. Full episode: lines l20+ are the Narration Master EN v2 (approved), verbatim, one script line per text line of the master; blank lines in the master = paragraph pauses, act breaks = longer pauses.",
+  "lines": [
+    {
+      "id": "l01",
+      "text": "Farming Simulator is a game where you wake up...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l02",
+      "text": "go to work...",
+      "pauseAfter": 0.25
+    },
+    {
+      "id": "l03",
+      "text": "make money...",
+      "pauseAfter": 0.25
+    },
+    {
+      "id": "l04",
+      "text": "buy extremely expensive equipment...",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l05",
+      "text": "and then...",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l06",
+      "text": "go back to work.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l07",
+      "text": "Which sounds suspiciously similar to the thing video games were invented to help us escape from.",
+      "pauseAfter": 0.7
+    },
+    {
+      "id": "l08",
+      "text": "There are no dragons.",
+      "pauseAfter": 0.2
+    },
+    {
+      "id": "l09",
+      "text": "No gunfights.",
+      "pauseAfter": 0.2
+    },
+    {
+      "id": "l10",
+      "text": "No princess to save.",
+      "pauseAfter": 0.65
+    },
+    {
+      "id": "l11",
+      "text": "Most of the time, your greatest enemy...",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l12",
+      "text": "is a field that's slightly larger than you expected.",
+      "pauseAfter": 1.1
+    },
+    {
+      "id": "l13",
+      "text": "And yet millions of people voluntarily spend their evenings",
+      "pauseAfter": 0.1
+    },
+    {
+      "id": "l14",
+      "text": "planting crops,",
+      "pauseAfter": 0.05
+    },
+    {
+      "id": "l15",
+      "text": "transporting fertilizer,",
+      "pauseAfter": 0.05
+    },
+    {
+      "id": "l16",
+      "text": "feeding animals...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l17",
+      "text": "and getting genuinely excited about buying a bigger tractor.",
+      "pauseAfter": 0.9
+    },
+    {
+      "id": "l18",
+      "text": "So...",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l19",
+      "text": "why?",
+      "pauseAfter": 1.85
+    },
+    {
+      "id": "l20",
+      "text": "Most video games sell us fantasies.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l21",
+      "text": "Grand Theft Auto lets you become a criminal with an apparently unlimited ability to survive car crashes.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l22",
+      "text": "Call of Duty turns you into a soldier.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l23",
+      "text": "Minecraft gives you an entire world and basically says: “Good luck.”",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l24",
+      "text": "Farming Simulator gives you...",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l25",
+      "text": "a loan.",
+      "pauseAfter": 0.5
+    },
+    {
+      "id": "l26",
+      "text": "A tractor.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l27",
+      "text": "And a field that needs cultivating.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l28",
+      "text": "That's it.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l29",
+      "text": "Congratulations.",
+      "pauseAfter": 0.4
+    },
+    {
+      "id": "l30",
+      "text": "Your fantasy is agricultural debt.",
+      "pauseAfter": 0.7
+    },
+    {
+      "id": "l31",
+      "text": "But here's where things get interesting.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l32",
+      "text": "Because Farming Simulator isn't really selling the fantasy of being a farmer.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l33",
+      "text": "It's selling something much more powerful.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l34",
+      "text": "The fantasy that your work actually makes sense.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l35",
+      "text": "Think about how progress works in most people's real lives.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l36",
+      "text": "You work all week.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l37",
+      "text": "You answer emails.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l38",
+      "text": "You attend meetings.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l39",
+      "text": "You solve problems.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l40",
+      "text": "Friday arrives...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l41",
+      "text": "and somehow there are now more emails.",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l42",
+      "text": "Progress can be difficult to see.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l43",
+      "text": "Farming Simulator has no such problem.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l44",
+      "text": "You cultivate a field.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l45",
+      "text": "You can see the field change.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l46",
+      "text": "You plant something.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l47",
+      "text": "It grows.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l48",
+      "text": "You harvest it.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l49",
+      "text": "You sell it.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l50",
+      "text": "The number in your bank account goes up.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l51",
+      "text": "Then you buy a better machine.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l52",
+      "text": "And now you can do the exact same job...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l53",
+      "text": "faster.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l54",
+      "text": "Which shouldn't be exciting.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l55",
+      "text": "But it is.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l56",
+      "text": "Because every action has a visible result.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l57",
+      "text": "There is almost no ambiguity.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l58",
+      "text": "Field empty.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l59",
+      "text": "You work.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l60",
+      "text": "Field full.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l61",
+      "text": "Brain happy.",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l62",
+      "text": "And that simple loop is incredibly satisfying.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l63",
+      "text": "This is where Farming Simulator starts to reveal what it really is.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l64",
+      "text": "The crops aren't necessarily the important part.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l65",
+      "text": "The important part is the loop.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l66",
+      "text": "Start small.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l67",
+      "text": "Work.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l68",
+      "text": "Earn.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l69",
+      "text": "Improve.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l70",
+      "text": "Expand.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l71",
+      "text": "Repeat.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l72",
+      "text": "It's the same basic structure behind an enormous number of successful games.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l73",
+      "text": "Except Farming Simulator removes almost everything else.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l74",
+      "text": "No giant boss suddenly appears and destroys your wheat.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l75",
+      "text": "Nobody invades your farm while you're sleeping.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l76",
+      "text": "Your tractor does not develop a tragic backstory halfway through the game.",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l77",
+      "text": "You just...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l78",
+      "text": "make progress.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l79",
+      "text": "Slowly.",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l80",
+      "text": "Predictably.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l81",
+      "text": "And for a lot of people, that's incredibly relaxing.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l82",
+      "text": "But there's another reason this works.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l83",
+      "text": "And it's probably the strangest one.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l84",
+      "text": "Video games have somehow convinced us that chores are entertainment.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l85",
+      "text": "Minecraft asks you to spend hours digging holes.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l86",
+      "text": "House Flipper lets you clean other people's houses.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l87",
+      "text": "PowerWash Simulator made an entire game out of removing dirt.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l88",
+      "text": "Euro Truck Simulator asks you to drive a truck across Europe while obeying traffic laws.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l89",
+      "text": "And Farming Simulator asks you to spend your free time managing agricultural equipment.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l90",
+      "text": "If someone gave you these tasks in real life...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l91",
+      "text": "you’d probably ask how much they were paying.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l92",
+      "text": "But put a progress bar on them...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l93",
+      "text": "and suddenly we're having a wonderful evening.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l94",
+      "text": "Why?",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l95",
+      "text": "Because a chore stops feeling like a chore when three things change.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l96",
+      "text": "You chose to do it.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l97",
+      "text": "You can stop whenever you want.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l98",
+      "text": "And the reward is clear.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l99",
+      "text": "Nobody is forcing you to harvest that field at 11 p.m.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l100",
+      "text": "You are harvesting that field at 11 p.m...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l101",
+      "text": "because you have plans.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l102",
+      "text": "Big plans.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l103",
+      "text": "That second harvester isn't going to buy itself.",
+      "pauseAfter": 0.9
+    },
+    {
+      "id": "l104",
+      "text": "Real life is messy.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l105",
+      "text": "You can do everything correctly and still fail.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l106",
+      "text": "Traffic happens.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l107",
+      "text": "People change their minds.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l108",
+      "text": "Prices move.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l109",
+      "text": "Plans collapse.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l110",
+      "text": "Your internet provider decides today is apparently the perfect day to discover new and creative ways to disappoint you.",
+      "pauseAfter": 0.7
+    },
+    {
+      "id": "l111",
+      "text": "But simulation games give you a smaller world.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l112",
+      "text": "A world you can understand.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l113",
+      "text": "Plant at the right time.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l114",
+      "text": "Use the right equipment.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l115",
+      "text": "Manage your money.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l116",
+      "text": "Do the work.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l117",
+      "text": "And generally...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l118",
+      "text": "things happen for a reason.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l119",
+      "text": "That gives the player something surprisingly valuable:",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l120",
+      "text": "control.",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l121",
+      "text": "Not absolute control.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l122",
+      "text": "Farming Simulator still has weather, economics, machinery and plenty of ways to make terrible financial decisions.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l123",
+      "text": "But it's understandable chaos.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l124",
+      "text": "The kind of chaos you can organize.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l125",
+      "text": "And humans really like organizing chaos.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l126",
+      "text": "It's basically half of civilization.",
+      "pauseAfter": 0.9
+    },
+    {
+      "id": "l127",
+      "text": "Of course, we also have to address the enormous green elephant in the room.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l128",
+      "text": "Tractors are cool.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l129",
+      "text": "Farming Simulator understands this extremely well.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l130",
+      "text": "The game is filled with real agricultural machinery.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l131",
+      "text": "Tiny tractors.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l132",
+      "text": "Huge tractors.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l133",
+      "text": "Harvesters that look like industrial buildings learned how to move.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l134",
+      "text": "Machines for planting.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l135",
+      "text": "Machines for spraying.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l136",
+      "text": "Machines for cutting.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l137",
+      "text": "Machines whose purpose you will confidently pretend to understand five minutes after watching a tutorial.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l138",
+      "text": "And this creates another powerful progression system.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l139",
+      "text": "You don't just earn more money.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l140",
+      "text": "You earn better tools.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l141",
+      "text": "At first, a large field can feel like a project.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l142",
+      "text": "Later, you arrive with a machine worth more than a house and erase the problem in minutes.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l143",
+      "text": "That's progression you can feel.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l144",
+      "text": "The game doesn't have to tell you:",
+      "pauseAfter": 0.15
+    },
+    {
+      "id": "l145",
+      "text": "“You are stronger now.”",
+      "pauseAfter": 0.35
+    },
+    {
+      "id": "l146",
+      "text": "Your tractor is twelve meters wider.",
+      "pauseAfter": 0.5
+    },
+    {
+      "id": "l147",
+      "text": "You already know.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l148",
+      "text": "And eventually...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l149",
+      "text": "something else happens.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l150",
+      "text": "The farm becomes yours.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l151",
+      "text": "You chose the fields.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l152",
+      "text": "You bought the machines.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l153",
+      "text": "You decided what to grow.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l154",
+      "text": "You placed the buildings.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l155",
+      "text": "You added animals.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l156",
+      "text": "You connected production chains.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l157",
+      "text": "Maybe you started with one tractor and a questionable financial situation.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l158",
+      "text": "Now you've built an operation.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l159",
+      "text": "And once you've spent hours building something...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l160",
+      "text": "it stops feeling like a collection of game mechanics.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l161",
+      "text": "It becomes a place.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l162",
+      "text": "Your place.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l163",
+      "text": "Which is also why starting again can feel weirdly exciting.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l164",
+      "text": "An empty farm isn't empty.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l165",
+      "text": "It's potential.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l166",
+      "text": "There's another thing Farming Simulator does that sounds almost illegal in modern entertainment.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l167",
+      "text": "It's slow.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l168",
+      "text": "Really slow.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l169",
+      "text": "There are moments where nothing dramatic happens.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l170",
+      "text": "You just drive.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l171",
+      "text": "Back and forth.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l172",
+      "text": "Back and forth.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l173",
+      "text": "Back...",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l174",
+      "text": "and forth.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l175",
+      "text": "And that's not necessarily a flaw.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l176",
+      "text": "Most entertainment is fighting desperately for our attention.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l177",
+      "text": "Messages.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l178",
+      "text": "Notifications.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l179",
+      "text": "Shorts.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l180",
+      "text": "News.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l181",
+      "text": "Videos.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l182",
+      "text": "Another video.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l183",
+      "text": "Someone explaining why the thing you liked yesterday is actually terrible.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l184",
+      "text": "Farming Simulator doesn't really care.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l185",
+      "text": "The wheat will be there.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l186",
+      "text": "You can take your time.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l187",
+      "text": "There's something almost meditative about completing a simple task when nothing else is asking you to make a decision.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l188",
+      "text": "Your hands are busy.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l189",
+      "text": "Your brain isn't.",
+      "pauseAfter": 0.5
+    },
+    {
+      "id": "l190",
+      "text": "And sometimes...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l191",
+      "text": "that's exactly what people want from a game.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l192",
+      "text": "Which raises an obvious question.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l193",
+      "text": "If farming is so relaxing...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l194",
+      "text": "why not just farm in real life?",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l195",
+      "text": "Because real farming is hard.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l196",
+      "text": "Very hard.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l197",
+      "text": "It's physical.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l198",
+      "text": "Expensive.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l199",
+      "text": "Risky.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l200",
+      "text": "Weather matters.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l201",
+      "text": "Markets matter.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l202",
+      "text": "Equipment breaks.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l203",
+      "text": "Animals do not have convenient status bars floating above their heads.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l204",
+      "text": "Farming Simulator takes a complicated profession...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l205",
+      "text": "keeps many of the satisfying systems...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l206",
+      "text": "and removes most of the consequences.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l207",
+      "text": "It's farming with a save button.",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l208",
+      "text": "Agriculture where your worst financial decision can occasionally be solved by loading yesterday.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l209",
+      "text": "The simulator keeps the satisfying systems...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l210",
+      "text": "and gives you a second chance.",
+      "pauseAfter": 1.0
+    },
+    {
+      "id": "l211",
+      "text": "And that brings us back to the original question.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l212",
+      "text": "Why do millions of people play a game about farming?",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l213",
+      "text": "Maybe because Farming Simulator isn't really about farming.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l214",
+      "text": "It's about progress you can see.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l215",
+      "text": "Problems you can solve.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l216",
+      "text": "A world you can understand.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l217",
+      "text": "Work you chose to do.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l218",
+      "text": "And effort that reliably becomes something.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l219",
+      "text": "You plant.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l220",
+      "text": "Something grows.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l221",
+      "text": "You harvest.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l222",
+      "text": "Something improves.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l223",
+      "text": "There's something deeply satisfying about that.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l224",
+      "text": "Especially because real life doesn't always work that way.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l225",
+      "text": "So yes.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l226",
+      "text": "Farming Simulator is a game where millions of people finish a day of work...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l227",
+      "text": "sit down...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l228",
+      "text": "and start working again.",
+      "pauseAfter": 0.5
+    },
+    {
+      "id": "l229",
+      "text": "Which still sounds ridiculous.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l230",
+      "text": "Until you notice one important difference.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l231",
+      "text": "Real work often tells you what needs to be done.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l232",
+      "text": "Farming Simulator asks...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l233",
+      "text": "what do you want to build?",
+      "pauseAfter": 0.7
+    },
+    {
+      "id": "l234",
+      "text": "And maybe that's why doing chores can somehow feel like an escape.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l235",
+      "text": "Because the fantasy was never becoming a farmer.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l236",
+      "text": "The fantasy...",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l237",
+      "text": "was living in a world where effort always leaves a mark.",
+      "pauseAfter": 0.6
+    },
+    {
+      "id": "l238",
+      "text": "And apparently...",
+      "pauseAfter": 0.5
+    },
+    {
+      "id": "l239",
+      "text": "sometimes that world just needs...",
+      "pauseAfter": 0.55
+    },
+    {
+      "id": "l240",
+      "text": "a really expensive tractor.",
+      "pauseAfter": 1.2
+    },
+    {
+      "id": "l241",
+      "text": "And now I want to know:",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l242",
+      "text": "What game deserves a “why?” next?",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l243",
+      "text": "Tell me in the comments.",
+      "pauseAfter": 0.45
+    },
+    {
+      "id": "l244",
+      "text": "Maybe that’s our next quest.",
+      "pauseAfter": 0
+    }
+  ],
+  "placeholderTts": {
+    "leadIn": 0.3,
+    "note": "Voice, speed and phonemizer come from shared/production.json (voices.<locale>)."
+  },
+  "acts": [
+    {
+      "act": "ACT 1 — HOOK",
+      "from": "l01",
+      "to": "l19"
+    },
+    {
+      "act": "ACT 2 — A VERY STRANGE FANTASY",
+      "from": "l20",
+      "to": "l34"
+    },
+    {
+      "act": "ACT 3 — EVERYTHING HAS A PURPOSE",
+      "from": "l35",
+      "to": "l62"
+    },
+    {
+      "act": "ACT 4 — THE LOOP",
+      "from": "l63",
+      "to": "l83"
+    },
+    {
+      "act": "ACT 5 — CHORES ARE FUN",
+      "from": "l84",
+      "to": "l103"
+    },
+    {
+      "act": "ACT 6 — CONTROL",
+      "from": "l104",
+      "to": "l126"
+    },
+    {
+      "act": "ACT 7 — THE MACHINES",
+      "from": "l127",
+      "to": "l147"
+    },
+    {
+      "act": "ACT 8 — THE FARM BECOMES YOURS",
+      "from": "l148",
+      "to": "l165"
+    },
+    {
+      "act": "ACT 9 — WHY SLOW CAN FEEL GOOD",
+      "from": "l166",
+      "to": "l191"
+    },
+    {
+      "act": "ACT 10 — WHY NOT FARM FOR REAL?",
+      "from": "l192",
+      "to": "l210"
+    },
+    {
+      "act": "ACT 11 — THE REAL REASON",
+      "from": "l211",
+      "to": "l240"
+    },
+    {
+      "act": "M46 — VIEWER INTERACTION / NEXT QUEST",
+      "from": "l241",
+      "to": "l244"
+    }
+  ]
+}

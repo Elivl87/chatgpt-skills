@@ -13,6 +13,11 @@ import ep001Scenes from '../../episodes/ep001/scenes.json';
 import ep001Assets from '../../episodes/ep001/assets.json';
 import ep001EsScript from '../../episodes/ep001/script.es.json';
 import ep001EsTimings from '../../episodes/ep001/timings.es.json';
+import ep001fullEpisode from '../../episodes/ep001full/episode.json';
+import ep001fullScript from '../../episodes/ep001full/script.json';
+import ep001fullTimings from '../../episodes/ep001full/timings.json';
+import ep001fullScenes from '../../episodes/ep001full/scenes.json';
+import ep001fullAssets from '../../episodes/ep001full/assets.json';
 // @new-episode-imports (scripts/new-episode.ts inserts above this line)
 
 /**
@@ -49,6 +54,13 @@ export const EPISODES: Record<string, EpisodeBundle> = {
       'es': { script: ep001EsScript as unknown as ScriptFile, timings: ep001EsTimings as unknown as TimingsFile },
       // @locales:ep001 (scripts/add-locale.ts inserts above this line)
     },
+  },
+  ep001full: {
+    episode: ep001fullEpisode as unknown as EpisodeConfig,
+    script: ep001fullScript as unknown as ScriptFile,
+    timings: ep001fullTimings as unknown as TimingsFile,
+    scenes: ep001fullScenes as unknown as ScenesFile,
+    assets: ep001fullAssets as unknown as AssetCatalog,
   },
   // @new-episode-entries (scripts/new-episode.ts inserts above this line)
 };

@@ -1,0 +1,801 @@
+{
+ "notes": "Episode-specific art for ep001. Paths are relative to public/episodes/ep001_farming/. Backgrounds: 3840x2160 (16:9) flattened illustrations with NO characters; keep the lower third readable for character placement. Objects: transparent PNG, base touching the bottom edge.",
+ "assets": {
+  "ep001.bg_bedroom": {
+   "path": "backgrounds/bedroom_dawn.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#34466e",
+    "#1b2340"
+   ],
+   "label": "Bedroom at dawn",
+   "brief": "Small apartment bedroom, cool pre-dawn blue light, window upper right, nightstand right of centre, empty bed area left-centre."
+  },
+  "ep001.bg_office": {
+   "path": "backgrounds/office.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#9aa6b8",
+    "#5c6677"
+   ],
+   "label": "Open-plan office",
+   "brief": "Grey open-plan office, fluorescent light, cubicles receding. Used for 3 shots with different framings, so keep it evenly detailed."
+  },
+  "ep001.bg_dealership": {
+   "path": "backgrounds/tractor_dealership.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#7fc3e8",
+    "#d5c28f"
+   ],
+   "label": "Tractor dealership lot",
+   "brief": "Outdoor tractor dealership, bunting flags, big sky, sign area top. Open space centre-right for a giant tractor."
+  },
+  "ep001.bg_living_room": {
+   "path": "backgrounds/living_room_evening.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#43345a",
+    "#221a2e"
+   ],
+   "label": "Living room, evening",
+   "brief": "Cosy dim living room at night, TV on the right wall (screen at ~x 0.78, y 0.42), lamp light, space left-centre for the couch."
+  },
+  "ep001.bg_farm_ingame": {
+   "path": "backgrounds/farm_ingame_day.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#8fd0ec",
+    "#7fb35a"
+   ],
+   "label": "In-game farm field, daytime",
+   "brief": "Bright idealised 'video game' farm field, rows of crops, road across the lower third."
+  },
+  "ep001.bg_fantasy": {
+   "path": "backgrounds/fantasy_crag.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#4a2a50",
+    "#170f1f"
+   ],
+   "label": "Epic fantasy crag",
+   "brief": "Stormy epic fantasy landscape, jagged peaks, lava glow. Empty centre for a dragon."
+  },
+  "ep001.bg_action": {
+   "path": "backgrounds/action_street.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#e0773f",
+    "#4a2a22"
+   ],
+   "label": "Action-movie street",
+   "brief": "Blockbuster-style street with an (unrealistic, cartoon) explosion glow behind, sparks. Comedic, not graphic."
+  },
+  "ep001.bg_castle": {
+   "path": "backgrounds/castle_tower.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#7d92d4",
+    "#48578a"
+   ],
+   "label": "Fairy-tale castle",
+   "brief": "Storybook castle, tall tower on the right with an open window at ~x 0.75, y 0.35."
+  },
+  "ep001.bg_storm": {
+   "path": "backgrounds/storm_sky.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#2c3242",
+    "#4d5058"
+   ],
+   "label": "Ominous sky, low horizon",
+   "brief": "Dramatic dark clouds, very low horizon line (lower 15%), for a heroic low-angle shot."
+  },
+  "ep001.bg_field_huge": {
+   "path": "backgrounds/field_enormous.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#a3d5ef",
+    "#c6ad5b"
+   ],
+   "label": "Absurdly enormous field",
+   "brief": "Flat field stretching to the horizon in every direction. IMPORTANT: the camera starts zoomed ~5x on the centre (x 0.5, y 0.64) — deliver at 7680x4320 or supply a separate high-res centre crop."
+  },
+  "ep001.bg_city_evening": {
+   "path": "backgrounds/apartments_evening.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#403d73",
+    "#1e1d36"
+   ],
+   "label": "Apartment blocks at dusk",
+   "brief": "Front-on apartment facades at dusk, grid of dark windows filling the upper 70% (windows light up via overlays)."
+  },
+  "ep001.bg_farm_panorama": {
+   "path": "backgrounds/farm_panorama.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "color": [
+    "#94d0ec",
+    "#7aa955"
+   ],
+   "label": "Farm panorama (3 zones)",
+   "brief": "Wide farm: crop rows on the left third, barn + fertilizer shed centre, animal pen right third. Camera visits each zone at 1.9x zoom."
+  },
+  "ep001.bg_sunset_sky": {
+   "path": "backgrounds/sunset_sky.png",
+   "kind": "background",
+   "aspect": 1.7786,
+   "color": [
+    "#f3a45c",
+    "#8a4f7a"
+   ],
+   "label": "Sunset sky (far layer)",
+   "brief": "Sky only: warm sunset gradient, sun low at ~x 0.62, soft clouds. Parallax far layer."
+  },
+  "ep001.mg_sunset_farm": {
+   "path": "backgrounds/sunset_farm_midground.png",
+   "kind": "foreground",
+   "aspect": 1.7786,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "color": "#5b3b4e",
+   "label": "Farm silhouette (mid layer)",
+   "brief": "Transparent PNG strip: rolling fields, barn and silo silhouetted against the sunset. Parallax mid layer."
+  },
+  "ep001.fg_fence": {
+   "path": "backgrounds/fg_fence.png",
+   "kind": "foreground",
+   "aspect": 1.7786,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "color": "#2f2226",
+   "label": "Wooden fence (near layer)",
+   "brief": "Transparent PNG strip: wooden fence rail + tall grass, dark against the sunset. Nearest parallax layer."
+  },
+  "ep001.alarm_clock": {
+   "path": "objects/alarm_clock.png",
+   "kind": "object",
+   "aspect": 0.9048,
+   "label": "Alarm clock",
+   "brief": "Classic twin-bell alarm clock, 6:00 on the face."
+  },
+  "ep001.email_icon": {
+   "path": "objects/email_icon.png",
+   "kind": "object",
+   "aspect": 1.1499,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "Email",
+   "brief": "Envelope / email notification card with a red unread badge."
+  },
+  "ep001.paper_stack": {
+   "path": "objects/paper_stack.png",
+   "kind": "object",
+   "aspect": 2.2168,
+   "label": "Paperwork tower",
+   "brief": "Tall wobbly stack of paperwork with sticky notes."
+  },
+  "ep001.tractor_huge": {
+   "path": "objects/tractor_huge.png",
+   "kind": "object",
+   "aspect": 1.3333,
+   "label": "Enormous shiny tractor",
+   "brief": "Gleaming brand-new green tractor, 3/4 front view, comically huge wheels, showroom shine. No real brand logos."
+  },
+  "ep001.tractor_bigger": {
+   "path": "objects/tractor_bigger.png",
+   "kind": "object",
+   "aspect": 1.0,
+   "label": "EVEN BIGGER tractor",
+   "brief": "Same design language as tractor_huge but absurdly larger — double wheels, extra lights, a bow on top."
+  },
+  "ep001.dragon": {
+   "path": "objects/dragon.png",
+   "kind": "object",
+   "aspect": 1.3333,
+   "label": "Epic dragon",
+   "brief": "Classic fantasy dragon rearing up, wings spread, menacing but stylised to match the channel."
+  },
+  "ep001.princess_tower": {
+   "path": "objects/princess_window.png",
+   "kind": "object",
+   "aspect": 0.8,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "Princess in tower window",
+   "brief": "Princess leaning out of a tower window, waving a handkerchief. Transparent."
+  },
+  "ep001.window_lit": {
+   "path": "objects/window_lit.png",
+   "kind": "object",
+   "aspect": 1.6418,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "Lit window, tractor on TV",
+   "brief": "One apartment window at night: warm lamp light, silhouette of a person on a couch, TV glow showing a tiny tractor."
+  },
+  "ep001.trailer_cargo": {
+   "path": "objects/trailer_cargo.png",
+   "kind": "object",
+   "aspect": 1.6392,
+   "label": "Cargo trailer",
+   "brief": "Flatbed farm trailer loaded with crates (fertilizer transport, s13)."
+  },
+  "ep001.hay_roll": {
+   "path": "objects/hay_roll.png",
+   "kind": "object",
+   "aspect": 1.163,
+   "label": "Hay roll",
+   "brief": "Round hay bale (animal feed, s13)."
+  },
+  "full.portals": {
+   "path": "full/portals.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "portals",
+   "brief": "Recovered storyboard panel (full.fantasy_portals), clean crop, upscaled."
+  },
+  "full.crime_car": {
+   "path": "full/crime_car.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "crime_car",
+   "brief": "Recovered storyboard panel (full.crime_car), clean crop, upscaled."
+  },
+  "full.bank_loan": {
+   "path": "full/bank_loan.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "bank_loan",
+   "brief": "Recovered storyboard panel (full.bg_bank), clean crop, upscaled."
+  },
+  "full.field_rows": {
+   "path": "full/field_rows.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "field_rows",
+   "brief": "Recovered storyboard panel (full.field_rows), clean crop, upscaled."
+  },
+  "full.inbox": {
+   "path": "full/inbox.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "inbox",
+   "brief": "Recovered storyboard panel (full.inbox_203), clean crop, upscaled."
+  },
+  "full.friday": {
+   "path": "full/friday.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "friday",
+   "brief": "Recovered storyboard panel (full.friday_calendar), clean crop, upscaled."
+  },
+  "full.cultivate": {
+   "path": "full/cultivate.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "cultivate",
+   "brief": "Recovered storyboard panel ((unmapped library file: fantasy/fantasy_panel_022.png)), clean crop, upscaled."
+  },
+  "full.plant_strip": {
+   "path": "full/plant_strip.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "plant_strip",
+   "brief": "Recovered storyboard panel ((unmapped library file: fantasy/fantasy_panel_022.png)), clean crop, upscaled."
+  },
+  "full.grow_strip": {
+   "path": "full/grow_strip.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "grow_strip",
+   "brief": "Recovered storyboard panel ((unmapped library file: fantasy/fantasy_panel_022.png)), clean crop, upscaled."
+  },
+  "full.empty_full": {
+   "path": "full/empty_full.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "empty_full",
+   "brief": "Recovered storyboard panel ((unmapped library file: fantasy/fantasy_panel_024.png)), clean crop, upscaled."
+  },
+  "full.field_empty": {
+   "path": "full/field_empty.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "field_empty",
+   "brief": "Recovered storyboard panel ((unmapped library file: fantasy/fantasy_panel_024.png)), clean crop, upscaled."
+  },
+  "full.field_full": {
+   "path": "full/field_full.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "field_full",
+   "brief": "Recovered storyboard panel ((unmapped library file: fantasy/fantasy_panel_024.png)), clean crop, upscaled."
+  },
+  "full.plan_board": {
+   "path": "full/plan_board.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "plan_board",
+   "brief": "Recovered storyboard panel (full.farm_plan_board), clean crop, upscaled."
+  },
+  "full.prepare": {
+   "path": "full/prepare.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "prepare",
+   "brief": "Recovered storyboard panel (full.tractor_prepare), clean crop, upscaled."
+  },
+  "full.plant": {
+   "path": "full/plant.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "plant",
+   "brief": "Recovered storyboard panel (full.tractor_plant), clean crop, upscaled."
+  },
+  "full.care": {
+   "path": "full/care.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "care",
+   "brief": "Recovered storyboard panel (full.tractor_care), clean crop, upscaled."
+  },
+  "full.harvest": {
+   "path": "full/harvest.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "harvest",
+   "brief": "Recovered storyboard panel (full.combine_harvest), clean crop, upscaled."
+  },
+  "full.sell": {
+   "path": "full/sell.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "sell",
+   "brief": "Recovered storyboard panel (full.sell_delivery), clean crop, upscaled."
+  },
+  "full.cycle_relax": {
+   "path": "full/cycle_relax.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "cycle_relax",
+   "brief": "Recovered storyboard panel ((unmapped library file: cycle/cycle_panel_008.png)), clean crop, upscaled."
+  },
+  "full.next_upgrade": {
+   "path": "full/next_upgrade.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "next_upgrade",
+   "brief": "Recovered storyboard panel ((unmapped library file: cycle/cycle_panel_009.png)), clean crop, upscaled."
+  },
+  "full.goals_list": {
+   "path": "full/goals_list.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "goals_list",
+   "brief": "Recovered storyboard panel ((unmapped library file: cycle/cycle_panel_010.png)), clean crop, upscaled."
+  },
+  "full.loop_sunset": {
+   "path": "full/loop_sunset.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "loop_sunset",
+   "brief": "Recovered storyboard panel (full.crop_states,full.farm_cycle_strip,full.field_master), clean crop, upscaled."
+  },
+  "full.start_small": {
+   "path": "full/start_small.png",
+   "kind": "object",
+   "aspect": 0.8555,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "start_small",
+   "brief": "Recovered storyboard panel ((unmapped library file: purpose/purpose_panel_030.png)) as framed card."
+  },
+  "full.start_small_bg": {
+   "path": "full/start_small_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "start_small backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.work_earn": {
+   "path": "full/work_earn.png",
+   "kind": "object",
+   "aspect": 1.3173,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "work_earn",
+   "brief": "Recovered storyboard panel ((unmapped library file: purpose/purpose_panel_032.png)) as framed card."
+  },
+  "full.work_earn_bg": {
+   "path": "full/work_earn_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "work_earn backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.improve": {
+   "path": "full/improve.png",
+   "kind": "object",
+   "aspect": 0.8125,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "improve",
+   "brief": "Recovered storyboard panel ((unmapped library file: purpose/purpose_panel_033.png)) as framed card."
+  },
+  "full.improve_bg": {
+   "path": "full/improve_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "improve backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.expand": {
+   "path": "full/expand.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "expand",
+   "brief": "Recovered storyboard panel (full.field_full), clean crop, upscaled."
+  },
+  "full.repeat": {
+   "path": "full/repeat.png",
+   "kind": "object",
+   "aspect": 1.1098,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "repeat",
+   "brief": "Recovered storyboard panel ((unmapped library file: purpose/purpose_panel_036.png)) as framed card."
+  },
+  "full.repeat_bg": {
+   "path": "full/repeat_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "repeat backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.catalog": {
+   "path": "full/catalog.png",
+   "kind": "object",
+   "aspect": 1.1253,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "catalog",
+   "brief": "Recovered storyboard panel (full.field_empty) as framed card."
+  },
+  "full.catalog_bg": {
+   "path": "full/catalog_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "catalog backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.inbox203b": {
+   "path": "full/inbox203b.png",
+   "kind": "object",
+   "aspect": 1.1601,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "inbox203b",
+   "brief": "Recovered storyboard panel (full.more_work_printer) as framed card."
+  },
+  "full.inbox203b_bg": {
+   "path": "full/inbox203b_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "inbox203b backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.chores": {
+   "path": "full/chores.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "chores",
+   "brief": "Recovered storyboard panel (full.bg_home_chore,full.quest_real_chore), clean crop, upscaled."
+  },
+  "full.mining": {
+   "path": "full/mining.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "mining",
+   "brief": "Recovered storyboard panel (full.quest_mining), clean crop, upscaled."
+  },
+  "full.cleaning": {
+   "path": "full/cleaning.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "cleaning",
+   "brief": "Recovered storyboard panel (full.quest_cleaning), clean crop, upscaled."
+  },
+  "full.truck": {
+   "path": "full/truck.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "truck",
+   "brief": "Recovered storyboard panel (full.bg_highway,full.quest_truck_driver), clean crop, upscaled."
+  },
+  "full.farm_montage": {
+   "path": "full/farm_montage.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "farm_montage",
+   "brief": "Recovered storyboard panel ((unmapped library file: chores/chores_panel_043.png)), clean crop, upscaled."
+  },
+  "full.progress_chore": {
+   "path": "full/progress_chore.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "progress_chore",
+   "brief": "Recovered storyboard panel ((unmapped library file: chores/chores_panel_044.png)), clean crop, upscaled."
+  },
+  "full.cause_diagram_g": {
+   "path": "full/cause_diagram_g.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "cause_diagram_g",
+   "brief": "Recovered storyboard panel ((unmapped library file: chores/chores_panel_045.png)), clean crop, upscaled."
+  },
+  "full.traffic": {
+   "path": "full/traffic.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "traffic",
+   "brief": "Recovered storyboard panel (full.bg_traffic,full.quest_driving_stressed), clean crop, upscaled."
+  },
+  "full.router": {
+   "path": "full/router.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "router",
+   "brief": "Recovered storyboard panel (full.router_failure), clean crop, upscaled."
+  },
+  "full.mini_farm": {
+   "path": "full/mini_farm.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "mini_farm",
+   "brief": "Recovered storyboard panel (full.mini_farm), clean crop, upscaled."
+  },
+  "full.cause_chain": {
+   "path": "full/cause_chain.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "cause_chain",
+   "brief": "Recovered storyboard panel (full.cause_effect_chain), clean crop, upscaled."
+  },
+  "full.domino": {
+   "path": "full/domino.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "domino",
+   "brief": "Recovered storyboard panel (full.cause_effect_domino), clean crop, upscaled."
+  },
+  "full.green_elephant": {
+   "path": "full/green_elephant.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "green_elephant",
+   "brief": "Recovered storyboard panel ((unmapped library file: machines_farm/machines_farm_panel_075.png)), clean crop, upscaled."
+  },
+  "full.tractors_cool": {
+   "path": "full/tractors_cool.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "tractors_cool",
+   "brief": "Recovered storyboard panel ((unmapped library file: machines_farm/machines_farm_panel_076.png)), clean crop, upscaled."
+  },
+  "full.variety": {
+   "path": "full/variety.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "variety",
+   "brief": "Recovered storyboard panel ((unmapped library file: machines_farm/machines_farm_panel_077.png)), clean crop, upscaled."
+  },
+  "full.factory_wheels": {
+   "path": "full/factory_wheels.png",
+   "kind": "object",
+   "aspect": 0.7689,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "factory_wheels",
+   "brief": "Recovered storyboard panel (full.factory_on_wheels) as framed card."
+  },
+  "full.factory_wheels_bg": {
+   "path": "full/factory_wheels_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "factory_wheels backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.manual": {
+   "path": "full/manual.png",
+   "kind": "object",
+   "aspect": 1.0,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "manual",
+   "brief": "Recovered storyboard panel (full.user_manual) as framed card."
+  },
+  "full.manual_bg": {
+   "path": "full/manual_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "manual backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.bigger_header": {
+   "path": "full/bigger_header.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "bigger_header",
+   "brief": "Recovered storyboard panel (full.machine_12m), clean crop, upscaled."
+  },
+  "full.farm_yours": {
+   "path": "full/farm_yours.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "farm_yours",
+   "brief": "Recovered storyboard panel (full.quest_farm_sign), clean crop, upscaled."
+  },
+  "full.aerial_tractor": {
+   "path": "full/aerial_tractor.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "aerial_tractor",
+   "brief": "Recovered storyboard panel (full.bg_farm_aerial,full.farm_buildings), clean crop, upscaled."
+  },
+  "full.slow_cab": {
+   "path": "full/slow_cab.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "slow_cab",
+   "brief": "Recovered storyboard panel ((unmapped library file: rural/rural_panel_089.png)), clean crop, upscaled."
+  },
+  "full.overhead_rows": {
+   "path": "full/overhead_rows.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "overhead_rows",
+   "brief": "Recovered storyboard panel (full.overhead_rows), clean crop, upscaled."
+  },
+  "full.grind_quest": {
+   "path": "full/grind_quest.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "grind_quest",
+   "brief": "Recovered storyboard panel ((unmapped library file: rural/rural_panel_091.png)), clean crop, upscaled."
+  },
+  "full.notif_cloud": {
+   "path": "full/notif_cloud.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "notif_cloud",
+   "brief": "Recovered storyboard panel (full.notification_cloud), clean crop, upscaled."
+  },
+  "full.calm_field": {
+   "path": "full/calm_field.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "calm_field",
+   "brief": "Recovered storyboard panel (full.bg_field_calm), clean crop, upscaled."
+  },
+  "full.cab_relaxed": {
+   "path": "full/cab_relaxed.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "cab_relaxed",
+   "brief": "Recovered storyboard panel (full.tractor_cab_relaxed), clean crop, upscaled."
+  },
+  "full.real_gate": {
+   "path": "full/real_gate.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "real_gate",
+   "brief": "Recovered storyboard panel (full.bg_real_farm,full.real_farming_gate), clean crop, upscaled."
+  },
+  "full.sacks": {
+   "path": "full/sacks.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "sacks",
+   "brief": "Recovered storyboard panel (full.quest_heavy_sacks), clean crop, upscaled."
+  },
+  "full.rain": {
+   "path": "full/rain.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "rain",
+   "brief": "Recovered storyboard panel (full.quest_in_rain), clean crop, upscaled."
+  },
+  "full.prices": {
+   "path": "full/prices.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "prices",
+   "brief": "Recovered storyboard panel ((unmapped library file: rural/rural_panel_098.png)), clean crop, upscaled."
+  },
+  "full.broken": {
+   "path": "full/broken.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "broken",
+   "brief": "Recovered storyboard panel (full.broken_tractor,full.quest_repair_frustrated), clean crop, upscaled."
+  },
+  "full.real_vs_sim": {
+   "path": "full/real_vs_sim.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "real_vs_sim",
+   "brief": "Recovered storyboard panel (full.real_vs_sim_split), clean crop, upscaled."
+  },
+  "full.water": {
+   "path": "full/water.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "water",
+   "brief": "Recovered storyboard panel (full.harvester_in_water), clean crop, upscaled."
+  },
+  "full.night_gamer": {
+   "path": "full/night_gamer.png",
+   "kind": "object",
+   "aspect": 1.7615,
+   "anchor": [
+    0.5,
+    0.5
+   ],
+   "label": "night_gamer",
+   "brief": "Recovered storyboard panel ((unmapped library file: ending/ending_panel_115.png)) as framed card."
+  },
+  "full.night_gamer_bg": {
+   "path": "full/night_gamer_bg.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "night_gamer backdrop",
+   "brief": "Blurred backdrop of the same panel."
+  },
+  "full.sunset_quest": {
+   "path": "full/sunset_quest.png",
+   "kind": "background",
+   "aspect": 1.7778,
+   "label": "sunset_quest",
+   "brief": "Recovered storyboard panel (full.seedling_closeup), clean crop, upscaled."
+  }
+ }
+}

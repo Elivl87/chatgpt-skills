@@ -1,0 +1,1233 @@
+{
+  "source": "audio/full/narration.wav",
+  "generatedBy": "placeholder-tts:kokoro:am_michael@1.0",
+  "tts": {
+    "voice": "am_michael",
+    "speed": 1.0,
+    "lang": "en-us",
+    "overrides": 0
+  },
+  "duration": 612.169,
+  "cues": {
+    "l01": {
+      "start": 0.3,
+      "end": 3.238,
+      "text": "Farming Simulator is a game where you wake up..."
+    },
+    "l02": {
+      "start": 3.538,
+      "end": 4.512,
+      "text": "go to work..."
+    },
+    "l03": {
+      "start": 4.762,
+      "end": 5.618,
+      "text": "make money..."
+    },
+    "l04": {
+      "start": 5.868,
+      "end": 8.023,
+      "text": "buy extremely expensive equipment..."
+    },
+    "l05": {
+      "start": 8.473,
+      "end": 9.241,
+      "text": "and then..."
+    },
+    "l06": {
+      "start": 9.791,
+      "end": 10.909,
+      "text": "go back to work."
+    },
+    "l07": {
+      "start": 11.909,
+      "end": 17.596,
+      "text": "Which sounds suspiciously similar to the thing video games were invented to help us escape from."
+    },
+    "l08": {
+      "start": 18.296,
+      "end": 19.578,
+      "text": "There are no dragons."
+    },
+    "l09": {
+      "start": 19.778,
+      "end": 20.837,
+      "text": "No gunfights."
+    },
+    "l10": {
+      "start": 21.037,
+      "end": 22.477,
+      "text": "No princess to save."
+    },
+    "l11": {
+      "start": 23.127,
+      "end": 25.461,
+      "text": "Most of the time, your greatest enemy..."
+    },
+    "l12": {
+      "start": 26.011,
+      "end": 28.926,
+      "text": "is a field that's slightly larger than you expected."
+    },
+    "l13": {
+      "start": 30.026,
+      "end": 33.714,
+      "text": "And yet millions of people voluntarily spend their evenings"
+    },
+    "l14": {
+      "start": 33.814,
+      "end": 34.835,
+      "text": "planting crops,"
+    },
+    "l15": {
+      "start": 34.885,
+      "end": 36.382,
+      "text": "transporting fertilizer,"
+    },
+    "l16": {
+      "start": 36.432,
+      "end": 37.596,
+      "text": "feeding animals..."
+    },
+    "l17": {
+      "start": 37.896,
+      "end": 41.624,
+      "text": "and getting genuinely excited about buying a bigger tractor."
+    },
+    "l18": {
+      "start": 42.524,
+      "end": 43.139,
+      "text": "So..."
+    },
+    "l19": {
+      "start": 43.689,
+      "end": 44.227,
+      "text": "why?"
+    },
+    "l20": {
+      "start": 46.077,
+      "end": 48.267,
+      "text": "Most video games sell us fantasies."
+    },
+    "l21": {
+      "start": 48.717,
+      "end": 55.973,
+      "text": "Grand Theft Auto lets you become a criminal with an apparently unlimited ability to survive car crashes."
+    },
+    "l22": {
+      "start": 56.423,
+      "end": 58.687,
+      "text": "Call of Duty turns you into a soldier."
+    },
+    "l23": {
+      "start": 59.137,
+      "end": 63.427,
+      "text": "Minecraft gives you an entire world and basically says: “Good luck.”"
+    },
+    "l24": {
+      "start": 63.877,
+      "end": 65.439,
+      "text": "Farming Simulator gives you..."
+    },
+    "l25": {
+      "start": 65.989,
+      "end": 66.675,
+      "text": "a loan."
+    },
+    "l26": {
+      "start": 67.175,
+      "end": 67.995,
+      "text": "A tractor."
+    },
+    "l27": {
+      "start": 68.145,
+      "end": 70.162,
+      "text": "And a field that needs cultivating."
+    },
+    "l28": {
+      "start": 70.612,
+      "end": 71.381,
+      "text": "That's it."
+    },
+    "l29": {
+      "start": 71.981,
+      "end": 73.232,
+      "text": "Congratulations."
+    },
+    "l30": {
+      "start": 73.632,
+      "end": 75.983,
+      "text": "Your fantasy is agricultural debt."
+    },
+    "l31": {
+      "start": 76.683,
+      "end": 78.677,
+      "text": "But here's where things get interesting."
+    },
+    "l32": {
+      "start": 79.127,
+      "end": 83.799,
+      "text": "Because Farming Simulator isn't really selling the fantasy of being a farmer."
+    },
+    "l33": {
+      "start": 84.249,
+      "end": 86.416,
+      "text": "It's selling something much more powerful."
+    },
+    "l34": {
+      "start": 86.866,
+      "end": 89.479,
+      "text": "The fantasy that your work actually makes sense."
+    },
+    "l35": {
+      "start": 90.479,
+      "end": 93.815,
+      "text": "Think about how progress works in most people's real lives."
+    },
+    "l36": {
+      "start": 94.265,
+      "end": 95.483,
+      "text": "You work all week."
+    },
+    "l37": {
+      "start": 95.633,
+      "end": 96.94,
+      "text": "You answer emails."
+    },
+    "l38": {
+      "start": 97.09,
+      "end": 98.317,
+      "text": "You attend meetings."
+    },
+    "l39": {
+      "start": 98.467,
+      "end": 99.788,
+      "text": "You solve problems."
+    },
+    "l40": {
+      "start": 100.238,
+      "end": 101.398,
+      "text": "Friday arrives..."
+    },
+    "l41": {
+      "start": 101.698,
+      "end": 103.909,
+      "text": "and somehow there are now more emails."
+    },
+    "l42": {
+      "start": 104.459,
+      "end": 106.407,
+      "text": "Progress can be difficult to see."
+    },
+    "l43": {
+      "start": 106.857,
+      "end": 109.59,
+      "text": "Farming Simulator has no such problem."
+    },
+    "l44": {
+      "start": 110.04,
+      "end": 111.395,
+      "text": "You cultivate a field."
+    },
+    "l45": {
+      "start": 111.545,
+      "end": 113.16,
+      "text": "You can see the field change."
+    },
+    "l46": {
+      "start": 113.61,
+      "end": 114.713,
+      "text": "You plant something."
+    },
+    "l47": {
+      "start": 114.863,
+      "end": 115.705,
+      "text": "It grows."
+    },
+    "l48": {
+      "start": 116.155,
+      "end": 117.162,
+      "text": "You harvest it."
+    },
+    "l49": {
+      "start": 117.312,
+      "end": 118.103,
+      "text": "You sell it."
+    },
+    "l50": {
+      "start": 118.553,
+      "end": 120.651,
+      "text": "The number in your bank account goes up."
+    },
+    "l51": {
+      "start": 121.101,
+      "end": 122.703,
+      "text": "Then you buy a better machine."
+    },
+    "l52": {
+      "start": 123.153,
+      "end": 125.571,
+      "text": "And now you can do the exact same job..."
+    },
+    "l53": {
+      "start": 125.871,
+      "end": 126.581,
+      "text": "faster."
+    },
+    "l54": {
+      "start": 127.181,
+      "end": 128.534,
+      "text": "Which shouldn't be exciting."
+    },
+    "l55": {
+      "start": 128.984,
+      "end": 129.8,
+      "text": "But it is."
+    },
+    "l56": {
+      "start": 130.25,
+      "end": 132.598,
+      "text": "Because every action has a visible result."
+    },
+    "l57": {
+      "start": 133.048,
+      "end": 134.898,
+      "text": "There is almost no ambiguity."
+    },
+    "l58": {
+      "start": 135.348,
+      "end": 136.358,
+      "text": "Field empty."
+    },
+    "l59": {
+      "start": 136.508,
+      "end": 137.226,
+      "text": "You work."
+    },
+    "l60": {
+      "start": 137.376,
+      "end": 138.24,
+      "text": "Field full."
+    },
+    "l61": {
+      "start": 138.39,
+      "end": 139.301,
+      "text": "Brain happy."
+    },
+    "l62": {
+      "start": 139.851,
+      "end": 142.606,
+      "text": "And that simple loop is incredibly satisfying."
+    },
+    "l63": {
+      "start": 143.606,
+      "end": 147.816,
+      "text": "This is where Farming Simulator starts to reveal what it really is."
+    },
+    "l64": {
+      "start": 148.266,
+      "end": 151.039,
+      "text": "The crops aren't necessarily the important part."
+    },
+    "l65": {
+      "start": 151.489,
+      "end": 153.236,
+      "text": "The important part is the loop."
+    },
+    "l66": {
+      "start": 153.686,
+      "end": 154.599,
+      "text": "Start small."
+    },
+    "l67": {
+      "start": 154.749,
+      "end": 155.339,
+      "text": "Work."
+    },
+    "l68": {
+      "start": 155.489,
+      "end": 156.048,
+      "text": "Earn."
+    },
+    "l69": {
+      "start": 156.198,
+      "end": 157.016,
+      "text": "Improve."
+    },
+    "l70": {
+      "start": 157.166,
+      "end": 157.939,
+      "text": "Expand."
+    },
+    "l71": {
+      "start": 158.089,
+      "end": 158.8,
+      "text": "Repeat."
+    },
+    "l72": {
+      "start": 159.25,
+      "end": 164.182,
+      "text": "It's the same basic structure behind an enormous number of successful games."
+    },
+    "l73": {
+      "start": 164.632,
+      "end": 168.407,
+      "text": "Except Farming Simulator removes almost everything else."
+    },
+    "l74": {
+      "start": 168.857,
+      "end": 172.29,
+      "text": "No giant boss suddenly appears and destroys your wheat."
+    },
+    "l75": {
+      "start": 172.74,
+      "end": 175.403,
+      "text": "Nobody invades your farm while you're sleeping."
+    },
+    "l76": {
+      "start": 175.853,
+      "end": 180.332,
+      "text": "Your tractor does not develop a tragic backstory halfway through the game."
+    },
+    "l77": {
+      "start": 180.882,
+      "end": 181.677,
+      "text": "You just..."
+    },
+    "l78": {
+      "start": 181.977,
+      "end": 183.014,
+      "text": "make progress."
+    },
+    "l79": {
+      "start": 183.464,
+      "end": 184.153,
+      "text": "Slowly."
+    },
+    "l80": {
+      "start": 184.303,
+      "end": 185.197,
+      "text": "Predictably."
+    },
+    "l81": {
+      "start": 185.647,
+      "end": 188.724,
+      "text": "And for a lot of people, that's incredibly relaxing."
+    },
+    "l82": {
+      "start": 189.174,
+      "end": 191.147,
+      "text": "But there's another reason this works."
+    },
+    "l83": {
+      "start": 191.597,
+      "end": 193.596,
+      "text": "And it's probably the strangest one."
+    },
+    "l84": {
+      "start": 194.596,
+      "end": 198.44,
+      "text": "Video games have somehow convinced us that chores are entertainment."
+    },
+    "l85": {
+      "start": 198.89,
+      "end": 201.697,
+      "text": "Minecraft asks you to spend hours digging holes."
+    },
+    "l86": {
+      "start": 202.147,
+      "end": 205.277,
+      "text": "House Flipper lets you clean other people's houses."
+    },
+    "l87": {
+      "start": 205.727,
+      "end": 209.834,
+      "text": "PowerWash Simulator made an entire game out of removing dirt."
+    },
+    "l88": {
+      "start": 210.284,
+      "end": 216.13,
+      "text": "Euro Truck Simulator asks you to drive a truck across Europe while obeying traffic laws."
+    },
+    "l89": {
+      "start": 216.58,
+      "end": 222.234,
+      "text": "And Farming Simulator asks you to spend your free time managing agricultural equipment."
+    },
+    "l90": {
+      "start": 222.684,
+      "end": 225.459,
+      "text": "If someone gave you these tasks in real life..."
+    },
+    "l91": {
+      "start": 225.759,
+      "end": 228.054,
+      "text": "you’d probably ask how much they were paying."
+    },
+    "l92": {
+      "start": 228.654,
+      "end": 230.441,
+      "text": "But put a progress bar on them..."
+    },
+    "l93": {
+      "start": 230.741,
+      "end": 233.324,
+      "text": "and suddenly we're having a wonderful evening."
+    },
+    "l94": {
+      "start": 233.924,
+      "end": 234.462,
+      "text": "Why?"
+    },
+    "l95": {
+      "start": 235.062,
+      "end": 238.79,
+      "text": "Because a chore stops feeling like a chore when three things change."
+    },
+    "l96": {
+      "start": 239.24,
+      "end": 240.35,
+      "text": "You chose to do it."
+    },
+    "l97": {
+      "start": 240.8,
+      "end": 242.526,
+      "text": "You can stop whenever you want."
+    },
+    "l98": {
+      "start": 242.976,
+      "end": 244.301,
+      "text": "And the reward is clear."
+    },
+    "l99": {
+      "start": 244.751,
+      "end": 248.761,
+      "text": "Nobody is forcing you to harvest that field at 11 p.m."
+    },
+    "l100": {
+      "start": 249.211,
+      "end": 251.964,
+      "text": "You are harvesting that field at 11 p.m..."
+    },
+    "l101": {
+      "start": 252.264,
+      "end": 253.565,
+      "text": "because you have plans."
+    },
+    "l102": {
+      "start": 254.015,
+      "end": 254.961,
+      "text": "Big plans."
+    },
+    "l103": {
+      "start": 255.411,
+      "end": 258.375,
+      "text": "That second harvester isn't going to buy itself."
+    },
+    "l104": {
+      "start": 259.275,
+      "end": 260.628,
+      "text": "Real life is messy."
+    },
+    "l105": {
+      "start": 261.078,
+      "end": 263.734,
+      "text": "You can do everything correctly and still fail."
+    },
+    "l106": {
+      "start": 264.184,
+      "end": 265.218,
+      "text": "Traffic happens."
+    },
+    "l107": {
+      "start": 265.668,
+      "end": 267.222,
+      "text": "People change their minds."
+    },
+    "l108": {
+      "start": 267.672,
+      "end": 268.674,
+      "text": "Prices move."
+    },
+    "l109": {
+      "start": 269.124,
+      "end": 270.116,
+      "text": "Plans collapse."
+    },
+    "l110": {
+      "start": 270.566,
+      "end": 278.257,
+      "text": "Your internet provider decides today is apparently the perfect day to discover new and creative ways to disappoint you."
+    },
+    "l111": {
+      "start": 278.957,
+      "end": 281.648,
+      "text": "But simulation games give you a smaller world."
+    },
+    "l112": {
+      "start": 282.098,
+      "end": 283.844,
+      "text": "A world you can understand."
+    },
+    "l113": {
+      "start": 284.294,
+      "end": 285.623,
+      "text": "Plant at the right time."
+    },
+    "l114": {
+      "start": 286.073,
+      "end": 287.401,
+      "text": "Use the right equipment."
+    },
+    "l115": {
+      "start": 287.851,
+      "end": 288.91,
+      "text": "Manage your money."
+    },
+    "l116": {
+      "start": 289.36,
+      "end": 290.213,
+      "text": "Do the work."
+    },
+    "l117": {
+      "start": 290.663,
+      "end": 291.6,
+      "text": "And generally..."
+    },
+    "l118": {
+      "start": 291.9,
+      "end": 293.414,
+      "text": "things happen for a reason."
+    },
+    "l119": {
+      "start": 293.864,
+      "end": 296.895,
+      "text": "That gives the player something surprisingly valuable:"
+    },
+    "l120": {
+      "start": 297.345,
+      "end": 298.115,
+      "text": "control."
+    },
+    "l121": {
+      "start": 298.665,
+      "end": 300.174,
+      "text": "Not absolute control."
+    },
+    "l122": {
+      "start": 300.624,
+      "end": 308.313,
+      "text": "Farming Simulator still has weather, economics, machinery and plenty of ways to make terrible financial decisions."
+    },
+    "l123": {
+      "start": 308.763,
+      "end": 310.587,
+      "text": "But it's understandable chaos."
+    },
+    "l124": {
+      "start": 311.037,
+      "end": 313.127,
+      "text": "The kind of chaos you can organize."
+    },
+    "l125": {
+      "start": 313.577,
+      "end": 316.364,
+      "text": "And humans really like organizing chaos."
+    },
+    "l126": {
+      "start": 316.814,
+      "end": 318.91,
+      "text": "It's basically half of civilization."
+    },
+    "l127": {
+      "start": 319.81,
+      "end": 324.133,
+      "text": "Of course, we also have to address the enormous green elephant in the room."
+    },
+    "l128": {
+      "start": 324.583,
+      "end": 325.74,
+      "text": "Tractors are cool."
+    },
+    "l129": {
+      "start": 326.19,
+      "end": 329.529,
+      "text": "Farming Simulator understands this extremely well."
+    },
+    "l130": {
+      "start": 329.979,
+      "end": 333.111,
+      "text": "The game is filled with real agricultural machinery."
+    },
+    "l131": {
+      "start": 333.561,
+      "end": 334.657,
+      "text": "Tiny tractors."
+    },
+    "l132": {
+      "start": 335.107,
+      "end": 336.247,
+      "text": "Huge tractors."
+    },
+    "l133": {
+      "start": 336.697,
+      "end": 340.769,
+      "text": "Harvesters that look like industrial buildings learned how to move."
+    },
+    "l134": {
+      "start": 341.219,
+      "end": 342.593,
+      "text": "Machines for planting."
+    },
+    "l135": {
+      "start": 343.043,
+      "end": 344.371,
+      "text": "Machines for spraying."
+    },
+    "l136": {
+      "start": 344.821,
+      "end": 346.074,
+      "text": "Machines for cutting."
+    },
+    "l137": {
+      "start": 346.524,
+      "end": 353.171,
+      "text": "Machines whose purpose you will confidently pretend to understand five minutes after watching a tutorial."
+    },
+    "l138": {
+      "start": 353.771,
+      "end": 356.844,
+      "text": "And this creates another powerful progression system."
+    },
+    "l139": {
+      "start": 357.294,
+      "end": 358.768,
+      "text": "You don't just earn more money."
+    },
+    "l140": {
+      "start": 359.218,
+      "end": 360.531,
+      "text": "You earn better tools."
+    },
+    "l141": {
+      "start": 360.981,
+      "end": 364.12,
+      "text": "At first, a large field can feel like a project."
+    },
+    "l142": {
+      "start": 364.57,
+      "end": 369.97,
+      "text": "Later, you arrive with a machine worth more than a house and erase the problem in minutes."
+    },
+    "l143": {
+      "start": 370.42,
+      "end": 372.096,
+      "text": "That's progression you can feel."
+    },
+    "l144": {
+      "start": 372.546,
+      "end": 374.236,
+      "text": "The game doesn't have to tell you:"
+    },
+    "l145": {
+      "start": 374.386,
+      "end": 375.611,
+      "text": "“You are stronger now.”"
+    },
+    "l146": {
+      "start": 375.961,
+      "end": 378.103,
+      "text": "Your tractor is twelve meters wider."
+    },
+    "l147": {
+      "start": 378.603,
+      "end": 379.561,
+      "text": "You already know."
+    },
+    "l148": {
+      "start": 380.561,
+      "end": 381.604,
+      "text": "And eventually..."
+    },
+    "l149": {
+      "start": 381.904,
+      "end": 383.219,
+      "text": "something else happens."
+    },
+    "l150": {
+      "start": 383.669,
+      "end": 385.215,
+      "text": "The farm becomes yours."
+    },
+    "l151": {
+      "start": 385.665,
+      "end": 386.946,
+      "text": "You chose the fields."
+    },
+    "l152": {
+      "start": 387.396,
+      "end": 388.59,
+      "text": "You bought the machines."
+    },
+    "l153": {
+      "start": 389.04,
+      "end": 390.534,
+      "text": "You decided what to grow."
+    },
+    "l154": {
+      "start": 390.984,
+      "end": 392.266,
+      "text": "You placed the buildings."
+    },
+    "l155": {
+      "start": 392.716,
+      "end": 394.01,
+      "text": "You added animals."
+    },
+    "l156": {
+      "start": 394.46,
+      "end": 396.238,
+      "text": "You connected production chains."
+    },
+    "l157": {
+      "start": 396.688,
+      "end": 401.537,
+      "text": "Maybe you started with one tractor and a questionable financial situation."
+    },
+    "l158": {
+      "start": 401.987,
+      "end": 403.817,
+      "text": "Now you've built an operation."
+    },
+    "l159": {
+      "start": 404.267,
+      "end": 406.523,
+      "text": "And once you've spent hours building something..."
+    },
+    "l160": {
+      "start": 406.823,
+      "end": 409.819,
+      "text": "it stops feeling like a collection of game mechanics."
+    },
+    "l161": {
+      "start": 410.269,
+      "end": 411.499,
+      "text": "It becomes a place."
+    },
+    "l162": {
+      "start": 411.949,
+      "end": 412.793,
+      "text": "Your place."
+    },
+    "l163": {
+      "start": 413.243,
+      "end": 417.046,
+      "text": "Which is also why starting again can feel weirdly exciting."
+    },
+    "l164": {
+      "start": 417.496,
+      "end": 419.246,
+      "text": "An empty farm isn't empty."
+    },
+    "l165": {
+      "start": 419.696,
+      "end": 420.64,
+      "text": "It's potential."
+    },
+    "l166": {
+      "start": 421.64,
+      "end": 427.356,
+      "text": "There's another thing Farming Simulator does that sounds almost illegal in modern entertainment."
+    },
+    "l167": {
+      "start": 427.806,
+      "end": 428.557,
+      "text": "It's slow."
+    },
+    "l168": {
+      "start": 429.007,
+      "end": 429.917,
+      "text": "Really slow."
+    },
+    "l169": {
+      "start": 430.367,
+      "end": 433.249,
+      "text": "There are moments where nothing dramatic happens."
+    },
+    "l170": {
+      "start": 433.699,
+      "end": 434.786,
+      "text": "You just drive."
+    },
+    "l171": {
+      "start": 435.236,
+      "end": 436.237,
+      "text": "Back and forth."
+    },
+    "l172": {
+      "start": 436.687,
+      "end": 437.689,
+      "text": "Back and forth."
+    },
+    "l173": {
+      "start": 438.139,
+      "end": 438.725,
+      "text": "Back..."
+    },
+    "l174": {
+      "start": 439.275,
+      "end": 440.094,
+      "text": "and forth."
+    },
+    "l175": {
+      "start": 440.694,
+      "end": 442.635,
+      "text": "And that's not necessarily a flaw."
+    },
+    "l176": {
+      "start": 443.085,
+      "end": 446.528,
+      "text": "Most entertainment is fighting desperately for our attention."
+    },
+    "l177": {
+      "start": 446.978,
+      "end": 447.851,
+      "text": "Messages."
+    },
+    "l178": {
+      "start": 448.301,
+      "end": 449.477,
+      "text": "Notifications."
+    },
+    "l179": {
+      "start": 449.927,
+      "end": 450.616,
+      "text": "Shorts."
+    },
+    "l180": {
+      "start": 451.066,
+      "end": 451.741,
+      "text": "News."
+    },
+    "l181": {
+      "start": 452.191,
+      "end": 452.937,
+      "text": "Videos."
+    },
+    "l182": {
+      "start": 453.387,
+      "end": 454.35,
+      "text": "Another video."
+    },
+    "l183": {
+      "start": 454.8,
+      "end": 459.386,
+      "text": "Someone explaining why the thing you liked yesterday is actually terrible."
+    },
+    "l184": {
+      "start": 459.986,
+      "end": 462.15,
+      "text": "Farming Simulator doesn't really care."
+    },
+    "l185": {
+      "start": 462.6,
+      "end": 463.795,
+      "text": "The wheat will be there."
+    },
+    "l186": {
+      "start": 464.245,
+      "end": 465.615,
+      "text": "You can take your time."
+    },
+    "l187": {
+      "start": 466.065,
+      "end": 473.059,
+      "text": "There's something almost meditative about completing a simple task when nothing else is asking you to make a decision."
+    },
+    "l188": {
+      "start": 473.509,
+      "end": 474.769,
+      "text": "Your hands are busy."
+    },
+    "l189": {
+      "start": 475.219,
+      "end": 476.372,
+      "text": "Your brain isn't."
+    },
+    "l190": {
+      "start": 476.872,
+      "end": 477.956,
+      "text": "And sometimes..."
+    },
+    "l191": {
+      "start": 478.256,
+      "end": 480.625,
+      "text": "that's exactly what people want from a game."
+    },
+    "l192": {
+      "start": 481.625,
+      "end": 483.678,
+      "text": "Which raises an obvious question."
+    },
+    "l193": {
+      "start": 484.128,
+      "end": 485.907,
+      "text": "If farming is so relaxing..."
+    },
+    "l194": {
+      "start": 486.207,
+      "end": 488.181,
+      "text": "why not just farm in real life?"
+    },
+    "l195": {
+      "start": 488.631,
+      "end": 490.474,
+      "text": "Because real farming is hard."
+    },
+    "l196": {
+      "start": 490.924,
+      "end": 491.85,
+      "text": "Very hard."
+    },
+    "l197": {
+      "start": 492.3,
+      "end": 493.195,
+      "text": "It's physical."
+    },
+    "l198": {
+      "start": 493.645,
+      "end": 494.525,
+      "text": "Expensive."
+    },
+    "l199": {
+      "start": 494.975,
+      "end": 495.65,
+      "text": "Risky."
+    },
+    "l200": {
+      "start": 496.1,
+      "end": 497.062,
+      "text": "Weather matters."
+    },
+    "l201": {
+      "start": 497.512,
+      "end": 498.476,
+      "text": "Markets matter."
+    },
+    "l202": {
+      "start": 498.926,
+      "end": 500.007,
+      "text": "Equipment breaks."
+    },
+    "l203": {
+      "start": 500.457,
+      "end": 504.722,
+      "text": "Animals do not have convenient status bars floating above their heads."
+    },
+    "l204": {
+      "start": 505.322,
+      "end": 508.577,
+      "text": "Farming Simulator takes a complicated profession..."
+    },
+    "l205": {
+      "start": 508.877,
+      "end": 511.215,
+      "text": "keeps many of the satisfying systems..."
+    },
+    "l206": {
+      "start": 511.515,
+      "end": 513.732,
+      "text": "and removes most of the consequences."
+    },
+    "l207": {
+      "start": 514.182,
+      "end": 515.896,
+      "text": "It's farming with a save button."
+    },
+    "l208": {
+      "start": 516.446,
+      "end": 522.82,
+      "text": "Agriculture where your worst financial decision can occasionally be solved by loading yesterday."
+    },
+    "l209": {
+      "start": 523.27,
+      "end": 525.935,
+      "text": "The simulator keeps the satisfying systems..."
+    },
+    "l210": {
+      "start": 526.235,
+      "end": 527.708,
+      "text": "and gives you a second chance."
+    },
+    "l211": {
+      "start": 528.708,
+      "end": 531.227,
+      "text": "And that brings us back to the original question."
+    },
+    "l212": {
+      "start": 531.677,
+      "end": 534.465,
+      "text": "Why do millions of people play a game about farming?"
+    },
+    "l213": {
+      "start": 534.915,
+      "end": 538.763,
+      "text": "Maybe because Farming Simulator isn't really about farming."
+    },
+    "l214": {
+      "start": 539.213,
+      "end": 540.977,
+      "text": "It's about progress you can see."
+    },
+    "l215": {
+      "start": 541.427,
+      "end": 542.877,
+      "text": "Problems you can solve."
+    },
+    "l216": {
+      "start": 543.327,
+      "end": 545.074,
+      "text": "A world you can understand."
+    },
+    "l217": {
+      "start": 545.524,
+      "end": 546.838,
+      "text": "Work you chose to do."
+    },
+    "l218": {
+      "start": 547.288,
+      "end": 549.668,
+      "text": "And effort that reliably becomes something."
+    },
+    "l219": {
+      "start": 550.118,
+      "end": 550.912,
+      "text": "You plant."
+    },
+    "l220": {
+      "start": 551.362,
+      "end": 552.464,
+      "text": "Something grows."
+    },
+    "l221": {
+      "start": 552.914,
+      "end": 553.832,
+      "text": "You harvest."
+    },
+    "l222": {
+      "start": 554.282,
+      "end": 555.489,
+      "text": "Something improves."
+    },
+    "l223": {
+      "start": 555.939,
+      "end": 558.49,
+      "text": "There's something deeply satisfying about that."
+    },
+    "l224": {
+      "start": 558.94,
+      "end": 562.738,
+      "text": "Especially because real life doesn't always work that way."
+    },
+    "l225": {
+      "start": 563.188,
+      "end": 563.977,
+      "text": "So yes."
+    },
+    "l226": {
+      "start": 564.427,
+      "end": 569.125,
+      "text": "Farming Simulator is a game where millions of people finish a day of work..."
+    },
+    "l227": {
+      "start": 569.425,
+      "end": 570.303,
+      "text": "sit down..."
+    },
+    "l228": {
+      "start": 570.603,
+      "end": 571.932,
+      "text": "and start working again."
+    },
+    "l229": {
+      "start": 572.432,
+      "end": 574.052,
+      "text": "Which still sounds ridiculous."
+    },
+    "l230": {
+      "start": 574.502,
+      "end": 576.888,
+      "text": "Until you notice one important difference."
+    },
+    "l231": {
+      "start": 577.338,
+      "end": 580.318,
+      "text": "Real work often tells you what needs to be done."
+    },
+    "l232": {
+      "start": 580.768,
+      "end": 582.405,
+      "text": "Farming Simulator asks..."
+    },
+    "l233": {
+      "start": 582.705,
+      "end": 583.907,
+      "text": "what do you want to build?"
+    },
+    "l234": {
+      "start": 584.607,
+      "end": 588.407,
+      "text": "And maybe that's why doing chores can somehow feel like an escape."
+    },
+    "l235": {
+      "start": 588.857,
+      "end": 591.732,
+      "text": "Because the fantasy was never becoming a farmer."
+    },
+    "l236": {
+      "start": 592.182,
+      "end": 593.191,
+      "text": "The fantasy..."
+    },
+    "l237": {
+      "start": 593.641,
+      "end": 596.832,
+      "text": "was living in a world where effort always leaves a mark."
+    },
+    "l238": {
+      "start": 597.432,
+      "end": 598.406,
+      "text": "And apparently..."
+    },
+    "l239": {
+      "start": 598.906,
+      "end": 600.983,
+      "text": "sometimes that world just needs..."
+    },
+    "l240": {
+      "start": 601.533,
+      "end": 603.17,
+      "text": "a really expensive tractor."
+    },
+    "l241": {
+      "start": 604.37,
+      "end": 605.725,
+      "text": "And now I want to know:"
+    },
+    "l242": {
+      "start": 606.175,
+      "end": 608.446,
+      "text": "What game deserves a “why?” next?"
+    },
+    "l243": {
+      "start": 608.896,
+      "end": 610.12,
+      "text": "Tell me in the comments."
+    },
+    "l244": {
+      "start": 610.57,
+      "end": 612.169,
+      "text": "Maybe that’s our next quest."
+    }
+  }
+}
