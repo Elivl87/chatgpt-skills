@@ -21,12 +21,12 @@
       "brief": "Same bed and framing as quest_bed_sleeping (must overlay exactly). Quest bolt upright, eyes wide, hair messy, one hand slapping toward the alarm (screen right)."
     },
     "quest.desk_typing": {
-      "path": "/characters/quest/quest_desk_typing.png", "kind": "character", "character": "quest", "aspect": 0.9769,
+      "path": "/characters/quest/quest_desk_typing.png", "kind": "character", "character": "quest", "aspect": 1.0,
       "label": "typing at office desk",
       "brief": "Red hoodie, seated at an office desk with monitor and keyboard (desk included), 3/4 view facing screen left, tired neutral face, hands on keyboard."
     },
     "quest.holding_paycheck": {
-      "path": "/characters/quest/quest_holding_paycheck.png", "kind": "character", "character": "quest", "aspect": 0.9143,
+      "path": "/characters/quest/quest_holding_paycheck.png", "kind": "character", "character": "quest", "aspect": 1.0,
       "label": "holding paycheck, pleased",
       "brief": "Standing, holding a paycheck up with both hands, small satisfied smile."
     },
@@ -36,7 +36,7 @@
       "brief": "Standing, head tilted way back looking up screen-right, mouth open, tiny in the face of something enormous."
     },
     "quest.exhausted_slumped": {
-      "path": "/characters/quest/quest_exhausted_slumped.png", "kind": "character", "character": "quest", "aspect": 1.185,
+      "path": "/characters/quest/quest_exhausted_slumped.png", "kind": "character", "character": "quest", "aspect": 1.0,
       "label": "slumped on couch, exhausted",
       "brief": "Collapsed on a couch (couch included), arms limp, eyes half closed, bag dropped at feet. End-of-workday energy."
     },
@@ -92,32 +92,32 @@
     },
 
     "wallet.happy": {
-      "path": "/characters/wallet/wallet_happy.png", "kind": "character", "character": "wallet", "aspect": 1.183,
+      "path": "/characters/wallet/wallet_happy.png", "kind": "character", "character": "wallet", "aspect": 1.0,
       "label": "happy, full of cash",
       "brief": "Wallet character stuffed with bills, beaming."
     },
     "wallet.worried": {
-      "path": "/characters/wallet/wallet_worried.png", "kind": "character", "character": "wallet", "aspect": 1.183,
+      "path": "/characters/wallet/wallet_worried.png", "kind": "character", "character": "wallet", "aspect": 1.0,
       "label": "worried, sweating",
       "brief": "Same wallet, now thin, sweating, eyes darting. Must overlay wallet_happy."
     },
     "wallet.fainted": {
-      "path": "/characters/wallet/wallet_fainted.png", "kind": "character", "character": "wallet", "aspect": 1.1915,
+      "path": "/characters/wallet/wallet_fainted.png", "kind": "character", "character": "wallet", "aspect": 1.0,
       "label": "fainted flat",
       "brief": "Wallet flat on its back, X eyes / swirl eyes, one moth fluttering out."
     },
     "progress.cheering": {
-      "path": "/characters/progress/progress_cheering.png", "kind": "character", "character": "progress", "aspect": 1.02,
+      "path": "/characters/progress/progress_cheering.png", "kind": "character", "character": "progress", "aspect": 1.0,
       "label": "cheering, bar at 100%",
       "brief": "Progress robot (progress-bar body) arms up, bar full and glowing."
     },
     "grind.wheel": {
-      "path": "/characters/grind/grind_wheel.png", "kind": "object", "character": "grind", "aspect": 1.0174, "anchor": [0.5, 0.5],
+      "path": "/characters/grind/grind_wheel.png", "kind": "object", "character": "grind", "aspect": 1.0, "anchor": [0.5, 0.5],
       "label": "hamster wheel",
       "brief": "The Grind: a hamster wheel on a stand, side view, empty. Spoked so rotation reads."
     },
     "fear.peeking": {
-      "path": "/characters/fear/fear_peeking.png", "kind": "character", "character": "fear", "aspect": 1.0176,
+      "path": "/characters/fear/fear_peeking.png", "kind": "character", "character": "fear", "aspect": 1.0,
       "label": "peeking, trembling",
       "brief": "Fear character peeking from screen edge, trembling, big anxious eyes."
     },

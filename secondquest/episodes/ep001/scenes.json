@@ -171,7 +171,7 @@
             { "type": "bounce", "at": "l06+0.5", "frequency": 1.4, "intensity": 0.25 }
           ]
         },
-        { "type": "particles", "kind": "poof", "at": "l06-0.08", "count": 14, "region": { "x": 0.2, "y": 0.5, "w": 0.1, "h": 0.1 } },
+        { "type": "particles", "kind": "poof", "at": "l06-0.08", "count": 10, "region": { "x": 0.07, "y": 0.86, "w": 0.1, "h": 0.06 } },
         { "type": "text", "style": "ui", "text": { "en": "LOAD SAVE", "es": "CARGAR PARTIDA" }, "x": 0.78, "y": 0.42, "size": 40, "show": "l06+0.35" }
       ],
       "sfx": [
@@ -208,7 +208,11 @@
           "layers": [
             { "asset": "ep001.bg_farm_ingame" },
             {
-              "asset": "quest.tractor_side", "x": 0.5, "y": 0.93, "height": 0.62, "shadow": true,
+              "asset": "quest.tractor_side", "x": 0.6, "y": 0.8, "height": 0.36, "shadow": true,
+              "animations": [{ "type": "bounce", "frequency": 1.6, "intensity": 0.5 }]
+            },
+            {
+              "asset": "quest.farmer_fertilizer", "x": 0.4, "y": 0.99, "height": 0.66, "shadow": true,
               "animations": [{ "type": "bounce", "frequency": 1.6, "intensity": 0.7 }]
             },
             { "type": "text", "style": "label", "text": { "en": "Farm work", "es": "Trabajo en la granja" }, "x": 0.5, "y": 0.12, "size": 36, "show": 0.42 }
@@ -417,9 +421,11 @@
       },
       "layers": [
         { "asset": "ep001.bg_farm_panorama" },
-        { "asset": "quest.farmer_planting", "x": 0.19, "y": 0.75, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
-        { "asset": "quest.farmer_fertilizer", "x": 0.5, "y": 0.75, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
-        { "asset": "quest.farmer_feeding", "x": 0.81, "y": 0.75, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
+        { "asset": "quest.farmer_planting", "x": 0.19, "y": 0.82, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
+        { "asset": "ep001.trailer_cargo", "x": 0.555, "y": 0.82, "height": 0.16, "shadow": true },
+        { "asset": "quest.farmer_fertilizer", "x": 0.455, "y": 0.82, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
+        { "asset": "ep001.hay_roll", "x": 0.86, "y": 0.82, "height": 0.12, "shadow": true },
+        { "asset": "quest.farmer_feeding", "x": 0.785, "y": 0.82, "height": 0.28, "shadow": true, "animations": [{ "type": "bounce", "frequency": 1.2, "intensity": 0.5 }] },
         {
           "type": "progress", "label": { "en": "Farm XP", "es": "XP de granja" }, "x": 0.5, "y": 0.1, "width": 0.34, "initial": 0.04,
           "steps": [
@@ -471,8 +477,8 @@
         { "type": "particles", "kind": "sparkle", "at": "l17.end-0.6", "count": 14, "region": { "x": 0.5, "y": 0.1, "w": 0.4, "h": 0.6 } },
         { "type": "text", "style": "punch", "text": { "en": "NEW TRACTOR", "es": "TRACTOR NUEVO" }, "x": 0.5, "y": 0.17, "show": "l17.end-0.75" },
         {
-          "id": "wallet", "asset": "wallet.fainted", "x": 0.09, "y": 0.99, "height": 0.13, "show": "l17.end+0.05",
-          "animations": [{ "type": "slide_in", "from": "left", "distance": 320, "at": "l17.end+0.05", "duration": 0.35 }]
+          "id": "wallet", "asset": "wallet.fainted", "x": 0.54, "y": 0.985, "height": 0.32, "show": "l17.end-0.55",
+          "animations": [{ "type": "drop_in", "at": "l17.end-0.55" }]
         }
       ],
       "sfx": [

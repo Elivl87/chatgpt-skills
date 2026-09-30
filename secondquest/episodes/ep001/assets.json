@@ -90,15 +90,15 @@
       "label": "Paperwork tower", "brief": "Tall wobbly stack of paperwork with sticky notes."
     },
     "ep001.tractor_huge": {
-      "path": "objects/tractor_huge.png", "kind": "object", "aspect": 1.7857,
+      "path": "objects/tractor_huge.png", "kind": "object", "aspect": 1.3333,
       "label": "Enormous shiny tractor", "brief": "Gleaming brand-new green tractor, 3/4 front view, comically huge wheels, showroom shine. No real brand logos."
     },
     "ep001.tractor_bigger": {
-      "path": "objects/tractor_bigger.png", "kind": "object", "aspect": 1.4812,
+      "path": "objects/tractor_bigger.png", "kind": "object", "aspect": 1.0,
       "label": "EVEN BIGGER tractor", "brief": "Same design language as tractor_huge but absurdly larger — double wheels, extra lights, a bow on top."
     },
     "ep001.dragon": {
-      "path": "objects/dragon.png", "kind": "object", "aspect": 1.4086,
+      "path": "objects/dragon.png", "kind": "object", "aspect": 1.3333,
       "label": "Epic dragon", "brief": "Classic fantasy dragon rearing up, wings spread, menacing but stylised to match the channel."
     },
     "ep001.princess_tower": {
@@ -108,6 +108,14 @@
     "ep001.window_lit": {
       "path": "objects/window_lit.png", "kind": "object", "aspect": 1.6418, "anchor": [0.5, 0.5],
       "label": "Lit window, tractor on TV", "brief": "One apartment window at night: warm lamp light, silhouette of a person on a couch, TV glow showing a tiny tractor."
+    },
+    "ep001.trailer_cargo": {
+      "path": "objects/trailer_cargo.png", "kind": "object", "aspect": 1.6392,
+      "label": "Cargo trailer", "brief": "Flatbed farm trailer loaded with crates (fertilizer transport, s13)."
+    },
+    "ep001.hay_roll": {
+      "path": "objects/hay_roll.png", "kind": "object", "aspect": 1.163,
+      "label": "Hay roll", "brief": "Round hay bale (animal feed, s13)."
     }
   }
 }

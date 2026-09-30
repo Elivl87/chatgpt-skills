@@ -1,0 +1,381 @@
+[
+  {
+    "key": "fear.peeking",
+    "decision": "LIBRARY",
+    "status": "READY",
+    "mapped": "engine_ready/public/characters/fear/fear_peeking.png",
+    "used": "library:engine_ready/public/characters/fear/fear_peeking.png",
+    "reason": ""
+  },
+  {
+    "key": "grind.wheel",
+    "decision": "LIBRARY",
+    "status": "READY_VARIATION",
+    "mapped": "engine_ready/public/characters/grind/grind_wheel.png",
+    "used": "library:engine_ready/public/characters/grind/grind_wheel.png",
+    "reason": ""
+  },
+  {
+    "key": "progress.cheering",
+    "decision": "LIBRARY",
+    "status": "READY",
+    "mapped": "engine_ready/public/characters/progress/progress_cheering.png",
+    "used": "library:engine_ready/public/characters/progress/progress_cheering.png",
+    "reason": ""
+  },
+  {
+    "key": "wallet.happy",
+    "decision": "LIBRARY",
+    "status": "READY",
+    "mapped": "engine_ready/public/characters/wallet/wallet_happy.png",
+    "used": "library:engine_ready/public/characters/wallet/wallet_happy.png",
+    "reason": ""
+  },
+  {
+    "key": "wallet.worried",
+    "decision": "LIBRARY",
+    "status": "READY",
+    "mapped": "engine_ready/public/characters/wallet/wallet_worried.png",
+    "used": "library:engine_ready/public/characters/wallet/wallet_worried.png",
+    "reason": ""
+  },
+  {
+    "key": "wallet.fainted",
+    "decision": "LIBRARY",
+    "status": "READY",
+    "mapped": "engine_ready/public/characters/wallet/wallet_fainted.png",
+    "used": "library:engine_ready/public/characters/wallet/wallet_fainted.png",
+    "reason": ""
+  },
+  {
+    "key": "quest.desk_typing",
+    "decision": "LIBRARY",
+    "status": "READY_VARIATION",
+    "mapped": "engine_ready/public/characters/quest/quest_desk_typing.png",
+    "used": "library:engine_ready/public/characters/quest/quest_desk_typing.png",
+    "reason": ""
+  },
+  {
+    "key": "quest.holding_paycheck",
+    "decision": "LIBRARY",
+    "status": "READY_VARIATION",
+    "mapped": "engine_ready/public/characters/quest/quest_holding_paycheck.png",
+    "used": "library:engine_ready/public/characters/quest/quest_holding_paycheck.png",
+    "reason": ""
+  },
+  {
+    "key": "quest.exhausted_slumped",
+    "decision": "LIBRARY",
+    "status": "RECOVERED_VARIATION",
+    "mapped": "engine_ready/public/characters/quest/quest_exhausted_slumped.png",
+    "used": "library:engine_ready/public/characters/quest/quest_exhausted_slumped.png",
+    "reason": ""
+  },
+  {
+    "key": "ep001.dragon",
+    "decision": "LIBRARY",
+    "status": "READY",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/dragon.png",
+    "used": "library:engine_ready/public/episodes/ep001_farming/objects/dragon.png",
+    "reason": ""
+  },
+  {
+    "key": "ep001.tractor_huge",
+    "decision": "LIBRARY",
+    "status": "READY",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/tractor_huge.png",
+    "used": "library:engine_ready/public/episodes/ep001_farming/objects/tractor_huge.png",
+    "reason": ""
+  },
+  {
+    "key": "ep001.tractor_bigger",
+    "decision": "LIBRARY",
+    "status": "READY_VARIATION",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/tractor_bigger.png",
+    "used": "library:engine_ready/public/episodes/ep001_farming/objects/tractor_bigger.png",
+    "reason": ""
+  },
+  {
+    "key": "ep001.bg_farm_panorama",
+    "decision": "LIBRARY",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/farm_panorama.png",
+    "used": "library(upscaled):up_up_farm_panorama.png",
+    "reason": "library file, upscaled x2 (ESRGAN) for the 2.2x chore zoom"
+  },
+  {
+    "key": "ep001.bg_office",
+    "decision": "REMAP",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/office.png",
+    "used": "library(upscaled):up_up_living_room_evening.png",
+    "reason": "mapped office.png depicts a bedroom; the office illustration is the file mapped to ep001.bg_living_room"
+  },
+  {
+    "key": "ep001.bg_living_room",
+    "decision": "REMAP",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/living_room_evening.png",
+    "used": "library(upscaled):up_up_farm_ingame_day.png",
+    "reason": "mapped living_room_evening.png depicts an office; the home gaming room is the file mapped to ep001.bg_farm_ingame"
+  },
+  {
+    "key": "ep001.bg_fantasy",
+    "decision": "REMAP",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/fantasy_crag.png",
+    "used": "library(upscaled):up_up_field_enormous.png",
+    "reason": "mapped fantasy_crag.png depicts a lantern stairway; the lava crag is the file mapped to ep001.bg_field_huge"
+  },
+  {
+    "key": "ep001.bg_action",
+    "decision": "REMAP",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/action_street.png",
+    "used": "library(upscaled):up_up_storm_sky.png",
+    "reason": "mapped action_street.png depicts a mountain stairway; the city street is the file mapped to ep001.bg_storm"
+  },
+  {
+    "key": "ep001.bg_bedroom",
+    "decision": "V1_FALLBACK",
+    "status": "READY",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/bedroom_dawn.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/bedroom_dawn.png",
+    "reason": "mapped bedroom_dawn.png contains its own bed (double-bed problem flagged in v1 review); v1 bedroom with the bed painted out"
+  },
+  {
+    "key": "quest.bed_sleeping",
+    "decision": "V1_FALLBACK",
+    "status": "READY",
+    "mapped": "engine_ready/public/characters/quest/quest_bed_sleeping.png",
+    "used": "v1:characters/quest/quest_bed_sleeping.png",
+    "reason": "library bed_sleeping is fine, but its pair bed_awake is a mis-crop; the swap needs a pixel-aligned pair"
+  },
+  {
+    "key": "quest.bed_awake",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_bed_awake.png",
+    "used": "v1:characters/quest/quest_bed_awake.png",
+    "reason": "library file is a mis-crop (face fragment)"
+  },
+  {
+    "key": "ep001.alarm_clock",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/alarm_clock.png",
+    "used": "v1:episodes/ep001_farming/objects/alarm_clock.png",
+    "reason": "library file is a sheet-header crop (text), not a clock"
+  },
+  {
+    "key": "ep001.email_icon",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/email_icon.png",
+    "used": "v1:episodes/ep001_farming/objects/email_icon.png",
+    "reason": "library file is a sheet-header crop (text)"
+  },
+  {
+    "key": "ep001.paper_stack",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/paper_stack.png",
+    "used": "v1:episodes/ep001_farming/objects/paper_stack.png",
+    "reason": "library file is a sheet-header crop (text)"
+  },
+  {
+    "key": "quest.looking_up_awe",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_looking_up_awe.png",
+    "used": "v1:characters/quest/quest_looking_up_awe.png",
+    "reason": "library file is a mis-crop (face fragment)"
+  },
+  {
+    "key": "quest.farmer_gaming",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_farmer_gaming.png",
+    "used": "v1:characters/quest/quest_farmer_gaming.png",
+    "reason": "library file is a mis-crop (arms up, cut at edges, no gamepad)"
+  },
+  {
+    "key": "quest.tractor_side",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_tractor_side.png",
+    "used": "v1:characters/quest/quest_tractor_side.png",
+    "reason": "library file is a mis-crop (Quest torso, no tractor)"
+  },
+  {
+    "key": "quest.action_hero",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_action_hero.png",
+    "used": "v1:characters/quest/quest_action_hero.png",
+    "reason": "library file is a mis-crop (legs only)"
+  },
+  {
+    "key": "quest.knight",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_knight.png",
+    "used": "v1:characters/quest/quest_knight.png",
+    "reason": "library file is a mis-crop (legs only)"
+  },
+  {
+    "key": "quest.tractor_heroic",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED_VARIATION",
+    "mapped": "engine_ready/public/characters/quest/quest_tractor_heroic.png",
+    "used": "v1:characters/quest/quest_tractor_heroic.png",
+    "reason": "library file is a mis-crop (Quest torso, no tractor)"
+  },
+  {
+    "key": "quest.excited",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_excited.png",
+    "used": "v1:characters/quest/quest_excited.png",
+    "reason": "library file is a mis-crop (wallet/progress fragment)"
+  },
+  {
+    "key": "quest.farmer_planting",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_farmer_planting.png",
+    "used": "v1:characters/quest/quest_farmer_planting.png",
+    "reason": "library file and its alternate are mis-crops (wallet fragment / props collage)"
+  },
+  {
+    "key": "quest.farmer_fertilizer",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_farmer_fertilizer.png",
+    "used": "v1:characters/quest/quest_farmer_fertilizer.png",
+    "reason": "library file is a props-board crop (toolboxes), no Quest"
+  },
+  {
+    "key": "quest.farmer_feeding",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_farmer_feeding.png",
+    "used": "v1:characters/quest/quest_farmer_feeding.png",
+    "reason": "library file is a sheet-header crop (text)"
+  },
+  {
+    "key": "quest.sitting_back",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/characters/quest/quest_sitting_back.png",
+    "used": "v1:characters/quest/quest_sitting_back.png",
+    "reason": "library file is a mis-crop (a table)"
+  },
+  {
+    "key": "ep001.window_lit",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/window_lit.png",
+    "used": "v1:episodes/ep001_farming/objects/window_lit.png",
+    "reason": "library file is a background strip (no window)"
+  },
+  {
+    "key": "brand.wordmark",
+    "decision": "V1_FALLBACK",
+    "status": "TEMP_BRAND_ASSET",
+    "mapped": "engine_ready/public/shared/brand/secondquest_wordmark.png",
+    "used": "v1:shared/brand/secondquest_wordmark.png",
+    "reason": "library file is TEMP_BRAND_ASSET plain text; v1 is the official logo keyed from the Quest Visual Bible"
+  },
+  {
+    "key": "ep001.bg_dealership",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/tractor_dealership.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/tractor_dealership.png",
+    "reason": "mapped file depicts a cabin signpost; no dealership plate in the library"
+  },
+  {
+    "key": "ep001.bg_farm_ingame",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/farm_ingame_day.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/farm_ingame_day.png",
+    "reason": "mapped file depicts a gaming room (used for bg_living_room)"
+  },
+  {
+    "key": "ep001.bg_castle",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/castle_tower.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/castle_tower.png",
+    "reason": "mapped castle file has five baked-in characters incl. a second Quest in front of the castle"
+  },
+  {
+    "key": "ep001.bg_storm",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED_VARIATION",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/storm_sky.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/storm_sky.png",
+    "reason": "mapped file depicts a sunny city street (used for bg_action)"
+  },
+  {
+    "key": "ep001.bg_field_huge",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/field_enormous.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/field_enormous.png",
+    "reason": "mapped file depicts a lava crag (used for bg_fantasy)"
+  },
+  {
+    "key": "ep001.bg_city_evening",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/apartments_evening.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/apartments_evening.png",
+    "reason": "mapped file depicts a desk interior"
+  },
+  {
+    "key": "ep001.bg_sunset_sky",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/sunset_sky.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/sunset_sky.png",
+    "reason": "library sky/midground/fence come from different sunset images and do not register; v1 layers are split from one image"
+  },
+  {
+    "key": "ep001.mg_sunset_farm",
+    "decision": "V1_FALLBACK",
+    "status": "REFERENCE_LAYER",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/sunset_farm_midground.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/sunset_farm_midground.png",
+    "reason": "library midground is opaque (REFERENCE_LAYER) and from a different image than the sky"
+  },
+  {
+    "key": "ep001.fg_fence",
+    "decision": "V1_FALLBACK",
+    "status": "RECOVERED_LAYER",
+    "mapped": "engine_ready/public/episodes/ep001_farming/backgrounds/fg_fence.png",
+    "used": "v1:episodes/ep001_farming/backgrounds/fg_fence.png",
+    "reason": "must register with the v1 sunset layers and seated Quest"
+  },
+  {
+    "key": "ep001.princess_tower",
+    "decision": "MISSING",
+    "mapped": "engine_ready/public/episodes/ep001_farming/objects/princess_window.png",
+    "used": null,
+    "reason": "library file is a mis-crop (legs); alternate princess_correction.png is a background collage; no princess exists in any delivered sheet"
+  },
+  {
+    "key": "ep001.trailer_cargo",
+    "decision": "NEW_LAYER",
+    "used": "v1:objects/trailer_cargo.png",
+    "reason": "s13 fertilizer transport prop, from Additional_2D_Assets sheet (REMOLQUE)"
+  },
+  {
+    "key": "ep001.hay_roll",
+    "decision": "NEW_LAYER",
+    "used": "v1:objects/hay_roll.png",
+    "reason": "s13 animal-feed prop, from Additional_2D_Assets sheet (ROLLO HENO)"
+  }
+]
