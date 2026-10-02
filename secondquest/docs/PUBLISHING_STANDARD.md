@@ -76,7 +76,7 @@ The full rules are in `docs/THUMBNAIL_RULES.md`. In short:
 ## 7. Before publishing (checklist)
 
 - [ ] Uploaded as **Private**.
-- [ ] Thumbnail 1 (strongest) set; all three ready for Test & Compare.
+- [ ] Strongest thumbnail set (EP001: thumbnail 3); all three ready for Test & Compare.
 - [ ] Title A set; title B ready for Test & Compare.
 - [ ] Description with hook, chapters, CTA, footer and 3 hashtags.
 - [ ] English and Spanish subtitles uploaded.
