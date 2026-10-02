@@ -1060,8 +1060,8 @@
       "path": "public/art/core/quest/sitting_back_turn.png",
       "swap_set": "sitting_back_swap",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ee8bdf72-f944-435f-a3de-103925c3ff16",
-      "sha256": "c7f1b0693135a3e58009c7e5d9bad97f1aface4df952f1b9a494275248c5cb78"
+      "provenance_locator": "123eed15-239e-48e1-8586-808d2cd25c97",
+      "sha256": "d6ce83def05ad1d49bb13d730a4836ad4b1cd91fb24a2a8ae4e2821cc43ca84f"
     },
     {
       "key": "quest.default.vacuum",

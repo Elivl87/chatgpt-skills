@@ -14,7 +14,8 @@
     "failed_attempt_background_remover_brand.wordmark": 1.0,
     "brand.wordmark": 1.0,
     "genre.farming.prop.hay_roll": 0.5,
-    "batch_producer_review_2026-10-02": 5.5
+    "batch_producer_review_2026-10-02": 5.5,
+    "sitting_back_turn_attempt_2": 1.0
   },
   "changes": [
     {
@@ -376,6 +377,23 @@
       "output_sha256": "eee0a0afa5874065f25210203ae0194fb40e803250659c14bb5b4168cb4e6634",
       "cost_credits": 1.0,
       "attempts": 1
+    },
+    {
+      "key": "quest.default.sitting_back_turn",
+      "path": "public/art/core/quest/sitting_back_turn.png",
+      "parent_sha256": "c7f1b0693135a3e58009c7e5d9bad97f1aface4df952f1b9a494275248c5cb78",
+      "parent_provenance": {
+        "locator": "ee8bdf72-f944-435f-a3de-103925c3ff16",
+        "note": "attempt 1 rejected by the Producer: face was not Quest_v1"
+      },
+      "output_sha256": "d6ce83def05ad1d49bb13d730a4836ad4b1cd91fb24a2a8ae4e2821cc43ca84f",
+      "resolution": "2048x1360",
+      "operation": "HIGGSFIELD_REGENERATION",
+      "reason": "attempt 2 with Quest_v1 face references (ab2219a6, f42c30bd)",
+      "higgsfield_job_id": "123eed15-239e-48e1-8586-808d2cd25c97",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 3:2, transparent",
+      "cost_credits": 1.0,
+      "attempts": 2
     }
   ],
   "runtime_auxiliary_assets": [
