@@ -1,0 +1,264 @@
+{
+  "project": "SecondQuest",
+  "episode": "EP001",
+  "delta": "EP001_V3_CLEAN_RUNTIME_DELTA_v1",
+  "authorized_by": "Producer (2026-10-02)",
+  "baseline": {
+    "base": 121,
+    "supplemental": 13,
+    "runtime_auxiliary_assets": 0
+  },
+  "note": "Same keys, tiers, paths and used_in. Original delivered files are preserved outside public/art; manifest art_manifest_V3_CLEAN_R1.json = corrected resolutions (resolution delta v1) + this runtime delta.",
+  "higgsfield_credits": {
+    "start": 155.2,
+    "failed_attempt_background_remover_brand.wordmark": 1.0,
+    "brand.wordmark": 1.0,
+    "genre.farming.prop.hay_roll": 0.5
+  },
+  "changes": [
+    {
+      "key": "genre.farming.prop.seedling",
+      "path": "public/art/genres/farming/props/seedling.png",
+      "parent_sha256": "0f7fb76fcb57ea415b8bc08bfdafb7292f2592d4577dbad7ffee357cf5611054",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/seedling.png"
+      },
+      "output_sha256": "ba6907fd88bc7a43c5ce156c3f1435b45c351ef5f1f79daa202146cdc25f4c48",
+      "resolution": "700x900",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "genre.farming.prop.sacks_pile",
+      "path": "public/art/genres/farming/props/sacks_pile.png",
+      "parent_sha256": "2cc271412f6498383c14b74932870e76490d3e26fa93182d6cca7bc88a89a6ff",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/sacks_pile.png"
+      },
+      "output_sha256": "4e5bcbc15fa36b9a64d3dc2ddb7c9d67a902b49cb3afc7138007fde9f0cd5f57",
+      "resolution": "1400x900",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "genre.farming.prop.manual_book",
+      "path": "public/art/genres/farming/props/manual_book.png",
+      "parent_sha256": "80942b255e7a33b96f749d6b1d453e5ce8813a108d21997f742e9a1b5936f8ae",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/manual_book.png"
+      },
+      "output_sha256": "4c25df306d8ff9fc1c8223b08c29f94bdb35640554364e59a39a7b93063144d3",
+      "resolution": "1200x1000",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "genre.farming.prop.farm_sign_blank",
+      "path": "public/art/genres/farming/props/farm_sign_blank.png",
+      "parent_sha256": "91cdefb6099e487c7187e6468f06550ae3c79f9bf20a41d116c2bfe8204e76a2",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/farm_sign_blank.png"
+      },
+      "output_sha256": "e9446edd0509b416d0e9bfe05b8895c2bb8a06b2f29cf988b69f53b98f3a4487",
+      "resolution": "1400x1200",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.toolbox",
+      "path": "public/art/core/objects/toolbox.png",
+      "parent_sha256": "4bcf56354b194c446a15461e3f3eda519b6355cfec465bf8564bf2d675e68d24",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/toolbox.png"
+      },
+      "output_sha256": "b505336ffcf177ccf32bf5b363b19b007c33a3aa932c63ef33333aeba423e251",
+      "resolution": "900x600",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.signpost_blank",
+      "path": "public/art/core/objects/signpost_blank.png",
+      "parent_sha256": "bbb509dbcefdd4b8c46cd7276921ec0d8e5cd487e7f9ffb770a829c245e8933c",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/signpost_blank.png"
+      },
+      "output_sha256": "30d09c9a7784faa882e39d6aa67eb0d281e3af0945fcc6ae1f0cc734c862b4a5",
+      "resolution": "1000x1600",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.router",
+      "path": "public/art/core/objects/router.png",
+      "parent_sha256": "82b822f4e97eab6d62227ef7e0b1c6c70256e0aa50d75c3cc1689b1416bbe852",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/router.png"
+      },
+      "output_sha256": "403706fe4d03e7a8e37bc5cdf3734f9d3efdb80bae08816f9e6e4849acc9335a",
+      "resolution": "900x600",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.printer_avalanche",
+      "path": "public/art/core/objects/printer_avalanche.png",
+      "parent_sha256": "b9f8331cd4703b80f8c6948fe32c2ca65eaac2f2638bce50a1f135caa8f13f3b",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/printer_avalanche.png"
+      },
+      "output_sha256": "4d06208430c0e1df1e7806b78d6c0850fd463d23a3ad09366ef192ce83e35580",
+      "resolution": "1600x1800",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.paper_stack",
+      "path": "public/art/core/objects/paper_stack.png",
+      "parent_sha256": "6ceecfe5bfbc73f2513dd8b45592a6713a9f8d588066088a9637f2182591049e",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/paper_stack.png"
+      },
+      "output_sha256": "4cdeddbe188f7d48514d93dfc4ac6031a5ef645e8f98451c712dd651e6564c12",
+      "resolution": "1000x1200",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.laundry_basket",
+      "path": "public/art/core/objects/laundry_basket.png",
+      "parent_sha256": "9c5f745957b281ee09704a664ad5fe17e4eb32844111c1bd52351f9bfd73e289",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/laundry_basket.png"
+      },
+      "output_sha256": "2d358db37c37f41cae27d50bbe0ce68ac6c4f530acf53fca1545dc00d47340f9",
+      "resolution": "900x700",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.domino_row",
+      "path": "public/art/core/objects/domino_row.png",
+      "parent_sha256": "6fbd742b3c7c0b03c987dfdccf1bea1a71b58e424a23f54209f1619e2f22e87f",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/domino_row.png"
+      },
+      "output_sha256": "6617f778fde96bbafc55b8decaf736842c84fea3601a51172d8173d4d7983995",
+      "resolution": "2600x900",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.calendar_friday",
+      "path": "public/art/core/objects/calendar_friday.png",
+      "parent_sha256": "47c112e579eee05ff59ee5925c5dab93ccb44bfc41930aa0611448443e46282a",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/calendar_friday.png"
+      },
+      "output_sha256": "16b692d698a068b482cffc55d477fd2bd39d36b0e61c8da8554e75570b00ca86",
+      "resolution": "800x900",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected flat light background -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.prop.alarm_clock",
+      "path": "public/art/core/objects/alarm_clock.png",
+      "parent_sha256": "538d7301ce7a004a2c08b9b0fcc80d80eb0f9477c5abff440316ea4ca35a2f44",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/alarm_clock.png"
+      },
+      "output_sha256": "99559aff7f50e960fd62fe70df5d7d572788b60350e5915c056631be302a1ecf",
+      "resolution": "900x900",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected baked checkerboard + enclosed two-tone checker pockets -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "core.layer.fence_foreground",
+      "path": "public/art/core/objects/fence_foreground.png",
+      "parent_sha256": "fea5f822a063f842bdb9585bd6fe22aae8f057632923978069027218a5829683",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/layers/fence_foreground.png"
+      },
+      "output_sha256": "5f4a8eb89c0d4fa806a43d4c261b5baf046753dbe1b1a9446b1036e021d8405d",
+      "resolution": "3840x2160",
+      "operation": "DETERMINISTIC_ALPHA_PATCH",
+      "detail": "border-connected baked checkerboard + enclosed two-tone checker pockets -> alpha 0",
+      "tool": "alpha_patch.py (no generative content, pixels of the drawing unchanged)",
+      "cost_credits": 0
+    },
+    {
+      "key": "brand.wordmark",
+      "path": "public/art/core/brand/secondquest_wordmark.png",
+      "parent_sha256": "c36abfb004dbe80ddfc6227b6233ac646fa0b9f33d5fc5663e17319f6f329d30",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_JOB_ID",
+        "locator": "f422ade4-9bd1-42de-b420-f317d834034f"
+      },
+      "output_sha256": "7ad2450c9d6645a9a14cb385b12bb50346e83775db9024b2b4e64c8ef0b7ac9b",
+      "resolution": "1344x576",
+      "operation": "HIGGSFIELD_REGENERATION",
+      "reason": "delivered file had white letters on a baked opaque checkerboard; background removal impossible without destroying \"Second\"",
+      "higgsfield_job_id": "0d83dc29-f7d5-4d37-be76-231dcf7431dd",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 21:9, transparent; reference = original wordmark job f422ade4-9bd1-42de-b420-f317d834034f",
+      "cost_credits": 1.0,
+      "attempts": 1
+    },
+    {
+      "key": "genre.farming.prop.hay_roll",
+      "path": "public/art/genres/farming/props/hay_roll.png",
+      "parent_sha256": "b6bb9cf12cce7ad600ffedaf0ccb19766aa85bfc6954883714a8262ae81be2f5",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_APPROVED_PACKAGE",
+        "locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/hay_roll.png"
+      },
+      "output_sha256": "7a9c7d3942e3a99ce099e4d5a46553ad91c1f521b494e84e7efd319974eb0ecf",
+      "resolution": "1024x1024",
+      "operation": "HIGGSFIELD_REGENERATION",
+      "reason": "delivered PNG truncated (bottom ~18% missing) and opaque white background",
+      "higgsfield_job_id": "17702626-0f9b-4d1e-bc8a-df68116f61dc",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 1k, 1:1, transparent; reference = intact upper part of the delivered (truncated) hay_roll",
+      "cost_credits": 0.5,
+      "attempts": 1
+    }
+  ]
+}
