@@ -21,7 +21,8 @@ Reglas aplicadas:
 | | Título | Caracteres | Para qué |
 |---|---|---|---|
 | **A** | Farming Simulator: Why Millions Play a Game About Work | 54 | Búsqueda: "Farming Simulator" va primero, más el giro de "about work" |
-| **B** | Why Do Millions of People Play a Game About Farming? | 52 | Curiosidad: la pregunta del episodio |
+| **B** | Farming Simulator Is Just Work… So Why Is It So Fun? | 52 | Curiosidad: la contradicción más directa y extrema |
+| C (respaldo) | Why Do Millions of People Play a Game About Farming? | 52 | El título original del episodio |
 
 **Cómo usarlos:** publica con el **A** y activa Test & Compare con el **B** (YouTube Studio en computador → Detalles → *A/B Testing*). YouTube elige al ganador por tiempo de visualización, en unos días a dos semanas.
 
@@ -94,8 +95,13 @@ Con los dos, el vídeo llega también al público hispano, y los subtítulos exa
 
 | Variante | Expresión de Quest | Texto | Idea |
 |---|---|---|---|
-| **1** | Cansado e incrédulo ("¿en serio?") | **IT'S JUST WORK** | Contradicción: un juego que es trabajo |
-| **2** | Muy emocionado, brazos arriba | **BEST NIGHT EVER** | Ironía: una noche emocionante… cultivando |
+| **1** | Cansado e incrédulo ("¿en serio?") | **THIS IS FUN?** | Contradicción, sin repetir "work" del título A |
+| **2** | Muy emocionado, brazos arriba | **BEST DAY EVER** | Ironía: el mejor día… trabajando el campo |
 | **3** | Asombrado, señalando el tractor | **$500,000 TRACTOR** | Lo extremo (MrBeast: "cuanto más extremo, mejor") |
 
 **Generación:** se genera la imagen sin texto en Higgsfield (gpt_image_2_5, 16:9, con referencias de cara de Quest_v1), a unos **0,5–1 crédito por imagen**, con un máximo de 2 intentos por imagen. El texto se pone después, de forma programática, con la tipografía del canal; así queda nítido y se puede cambiar gratis.
+
+**Decisión final (2026-10-02):**
+- Se publica con la miniatura **3** ("$500,000 TRACTOR") y el título **A**.
+- La 1 ("THIS IS FUN?") y la 2 ("BEST DAY EVER") quedan para Test & Compare; el título B, también.
+- Los archivos están en `thumbnails/`.
