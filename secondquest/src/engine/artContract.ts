@@ -74,6 +74,8 @@ export interface ArtManifestEntry {
   anchor?: [number, number];
   label?: string;
   brief?: string;
+  /** Producer-approved exception to the background minimum, valid only while the episode renders at or below max_output_height. */
+  resolution_waiver?: { max_output_height: number; reason: string; approved_by: string };
 }
 export interface ArtManifest {
   schema_version?: string;
@@ -135,15 +137,21 @@ const checkContractFields = (key: string, e: ContractFields, p: ArtPolicy, where
 };
 
 /** Real file vs declared resolution / transparency / minimum background size. */
-const checkFile = (key: string, e: ContractFields, kind: AssetKind | undefined, info: ImageInfo | undefined, p: ArtPolicy, where: string): ArtIssue[] => {
+const checkFile = (key: string, e: ContractFields, kind: AssetKind | undefined, info: ImageInfo | undefined, p: ArtPolicy, where: string, outputH?: number): ArtIssue[] => {
   const out: ArtIssue[] = [];
   const err = (code: ArtCode, message: string) => out.push({ level: 'error', code, key, where, message });
   if (!info) return [{ level: 'error', code: 'ASSET_MISSING', key, where, message: 'file not found' }];
   const decl = parseResolution(e.resolution);
   if (decl && (info.width !== decl[0] || info.height !== decl[1]))
     err('BAD_RESOLUTION', `file is ${info.width}×${info.height}, manifest declares ${decl[0]}×${decl[1]}`);
-  if (kind === 'background' && (info.width < p.minBackground[0] || info.height < p.minBackground[1]))
-    err('BAD_RESOLUTION', `background ${info.width}×${info.height} below minimum ${p.minBackground[0]}×${p.minBackground[1]}`);
+  if (kind === 'background' && (info.width < p.minBackground[0] || info.height < p.minBackground[1])) {
+    const w = e.resolution_waiver;
+    const msg = `background ${info.width}×${info.height} below minimum ${p.minBackground[0]}×${p.minBackground[1]}`;
+    // the per-scene upscale check still guards the on-screen size
+    if (w && outputH !== undefined && outputH <= w.max_output_height)
+      out.push({ level: 'warn', code: 'BAD_RESOLUTION', key, where, message: `${msg} — waived up to ${w.max_output_height}p (${w.approved_by}: ${w.reason})` });
+    else err('BAD_RESOLUTION', w ? `${msg}; waiver only covers renders up to ${w.max_output_height}p` : msg);
+  }
   if (e.transparent === true && !info.alpha) err('BAD_TRANSPARENCY', 'declared transparent but the file has no alpha channel');
   if (e.transparent === false && kind !== 'background' && info.alpha) out.push({ level: 'warn', code: 'BAD_TRANSPARENCY', key, where, message: 'declared opaque but the file carries alpha' });
   return out;
@@ -299,7 +307,7 @@ export const validateArtContract = (
       const info = fileInfo(pub);
       if (!done.has(key)) {
         done.add(key);
-        const fileIssues = checkFile(key, e, e.kind, info, p, where);
+        const fileIssues = checkFile(key, e, e.kind, info, p, where, b.episode.height);
         if (!info) {
           out.push({ level: 'error', code: 'ASSET_MISSING', key, where, message: `ASSET_MISSING: ${key} (public/${pub})` });
         } else {

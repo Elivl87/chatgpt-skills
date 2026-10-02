@@ -472,7 +472,12 @@
       "key": "ep001.bg.mini_farm_diorama",
       "path": "public/art/episodes/ep001/backgrounds/mini_farm_diorama.png",
       "higgsfield_job_id": "255fb5ba-2ec3-4e7b-a0a0-f6bc72cc0305",
-      "sha256": "fba5a96d1ab301d0113711bb2b84f717048a83377169fb8b9798e57511e65043"
+      "sha256": "fba5a96d1ab301d0113711bb2b84f717048a83377169fb8b9798e57511e65043",
+      "resolution_waiver": {
+        "max_output_height": 1080,
+        "reason": "Higgsfield 2k plate; 1520 px tall covers the 1080p camera (max ~1.14x)",
+        "approved_by": "Producer 2026-10-02"
+      }
     }
   ]
 }

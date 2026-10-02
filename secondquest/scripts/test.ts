@@ -454,6 +454,19 @@ test('render gate: art drawn taller than the file → BAD_RESOLUTION', () => {
   const [b, fi] = gateBundle(0.06, 400);
   assert.ok(gate(b, fi).some((i) => i.code === 'BAD_RESOLUTION' && i.key === 'quest.excited'));
 });
+test('render gate: a background below 4K → BAD_RESOLUTION unless a Producer waiver covers the output height', () => {
+  const [b] = gateBundle(0.06);
+  const small: Record<string, ImageInfo> = { 'art/episodes/ep998/bg.png': { width: 2688, height: 1520, alpha: false }, 'art/core/quest/excited.png': { width: 2000, height: 2000, alpha: true } };
+  const bg = b.assets.assets['ep998.bg_intro'] as unknown as Record<string, unknown>;
+  bg.resolution = '2688x1520';
+  const errs = () => gate(b, (p) => small[p]).filter((i) => i.level === 'error' && i.code === 'BAD_RESOLUTION');
+  assert.equal(errs().length, 1);
+  bg.resolution_waiver = { max_output_height: 1080, reason: 'test', approved_by: 'Producer' };
+  b.episode.height = 1080;
+  assert.deepEqual(errs(), []);
+  b.episode.height = 2160; // a 4K render is not covered by a 1080p waiver (and the plate would be upscaled)
+  assert.ok(errs().some((i) => i.message.includes('waiver only covers renders up to 1080p')));
+});
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);
   const miss = gate(b, () => undefined).filter((i) => i.code === 'ASSET_MISSING');
