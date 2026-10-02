@@ -1,0 +1,35 @@
+{
+  "project": "SecondQuest",
+  "episode": "EP001",
+  "gate": "V3_CLEAN_PROVENANCE",
+  "asset_count": 121,
+  "unique_keys": 121,
+  "unique_paths": 121,
+  "provenance_counts": {
+    "OFFICIAL_BRAND_MASTER": 1,
+    "HIGGSFIELD_JOB_ID": 99,
+    "HIGGSFIELD_APPROVED_PACKAGE": 17,
+    "DETERMINISTIC_FROM_HIGGSFIELD": 4
+  },
+  "allowed_provenance_types": [
+    "HIGGSFIELD_JOB_ID",
+    "HIGGSFIELD_APPROVED_PACKAGE",
+    "DETERMINISTIC_FROM_HIGGSFIELD",
+    "OFFICIAL_BRAND_MASTER"
+  ],
+  "forbidden_provenance_types": [
+    "LEGACY_EXACT",
+    "EXACT_REUSE_V4",
+    "RECOVERED",
+    "STORYBOARD",
+    "REFERENCE",
+    "TEMP",
+    "UPSCALED_STORYBOARD",
+    "COLLAGE"
+  ],
+  "quarantined_legacy_assets": 12,
+  "all_121_allowed": true,
+  "base_parts": 38,
+  "all_source_parts_under_29_5mb": true,
+  "local_clean_part_sha256": "1148bb76571c880374315b1da77ef2fbaeb2608edbc1d936fcd7f6b2abdf01d2"
+}

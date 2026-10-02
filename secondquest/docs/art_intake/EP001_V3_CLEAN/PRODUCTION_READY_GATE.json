@@ -1,0 +1,13 @@
+{
+  "status": "PRODUCTION_READY",
+  "base_assets": 121,
+  "supplemental_assets": 13,
+  "base_parts": 38,
+  "supplemental_parts": 1,
+  "all_parts_under_29_5mb": true,
+  "all_base_paths_exact": true,
+  "all_supplemental_paths_exact": true,
+  "base_manifest_identical_across_38": true,
+  "legacy_payloads_present": false,
+  "art_bytes_modified": false
+}

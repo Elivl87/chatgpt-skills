@@ -1,0 +1,79 @@
+{
+  "quarantined_count": 12,
+  "assets": [
+    {
+      "key": "fear.peeking",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "b03117a4-f296-44ac-b114-82a0e033684a",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "grind.wheel",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "cfe6c570-0ef2-4ee5-976a-53dc0cbf15d0",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "wallet.happy",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "c4f9924e-ac4b-4449-9a82-dc9e931ce268",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "wallet.worried",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "c7ff2c00-f6db-4c02-bb1a-6d99ffe47686",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "wallet.fainted",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "96f69a63-bbe7-4fd5-abf9-7ef70eb8ad73",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "quest.default.exhausted_slumped",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "d018103b-9fff-4868-8e9b-319255efbb7e",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "quest.default.gaming_excited",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "2cc21fd0-31eb-4e01-aecd-963624131a4f",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "quest.default.holding_paycheck",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "ab2219a6-ee5c-4c3e-bb8e-10f4866781b2",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "quest.default.bed_sleeping",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "0846b112-6a14-4789-931b-83ec754b2a77",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "genre.fantasy.dragon",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "f3bfbac2-d158-4f21-8d53-7553fbccf55a",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "genre.farming.machine.tractor_bigger",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "a5e08e02-8b37-4728-a021-8329c88ab78f",
+      "status": "QUARANTINED_REPLACED"
+    },
+    {
+      "key": "genre.farming.machine.tractor_huge",
+      "old_source": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED",
+      "replacement_job_id": "7db026e2-3e0e-4a5f-95ba-f9e94cc282bd",
+      "status": "QUARANTINED_REPLACED"
+    }
+  ],
+  "producer_approval": "APPROVED_2026-10-02",
+  "replacement_batch_status": "APPROVED"
+}

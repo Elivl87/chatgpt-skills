@@ -1,0 +1,129 @@
+{
+  "package": "SecondQuest_EP001_SUPPLEMENTAL_CAST_V3_CLEAN",
+  "parts": [
+    "/tmp/art-intake-aDbJ86"
+  ],
+  "blockers": [],
+  "keys": {
+    "progress.empty": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/progress/empty.png"
+    },
+    "progress.half": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/progress/half.png"
+    },
+    "progress.full": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/progress/full.png"
+    },
+    "progress.calm_encouraging": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/progress/calm_encouraging.png"
+    },
+    "progress.quiet_companion": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/progress/quiet_companion.png"
+    },
+    "wallet.overwhelmed_debt": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/wallet/overwhelmed_debt.png"
+    },
+    "wallet.price_shock": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/wallet/price_shock.png"
+    },
+    "wallet.market_crushed": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/wallet/market_crushed.png"
+    },
+    "grind.straining": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/grind/straining.png"
+    },
+    "grind.relaxed": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/grind/relaxed.png"
+    },
+    "ep001.npc.banker_pointing_contract": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/episodes/ep001/characters/banker_pointing_contract.png"
+    },
+    "fear.trembling_fullbody": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/fear/trembling_fullbody.png"
+    },
+    "fear.hiding_behind_object": {
+      "status": "OK",
+      "codes": [
+        "OK"
+      ],
+      "messages": [],
+      "path": "public/art/core/cast/fear/hiding_behind_object.png"
+    }
+  },
+  "dryRun": false,
+  "installed": [
+    "progress.empty",
+    "progress.half",
+    "progress.full",
+    "progress.calm_encouraging",
+    "progress.quiet_companion",
+    "wallet.overwhelmed_debt",
+    "wallet.price_shock",
+    "wallet.market_crushed",
+    "grind.straining",
+    "grind.relaxed",
+    "ep001.npc.banker_pointing_contract",
+    "fear.trembling_fullbody",
+    "fear.hiding_behind_object"
+  ]
+}

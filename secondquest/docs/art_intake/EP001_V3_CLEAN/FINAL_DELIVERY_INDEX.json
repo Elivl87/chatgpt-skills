@@ -1,0 +1,328 @@
+{
+  "project": "SecondQuest",
+  "episode": "EP001",
+  "delivery": "PRODUCTION_READY_V3_CLEAN",
+  "base_contract_assets": 121,
+  "base_parts": [
+    {
+      "part": 1,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART01_of_38.zip",
+      "bytes": 20509565,
+      "sha256": "7b2f9ea9f6ee62eb79adff42b32a6b87978067cc3fb370c44446e41bcd719554",
+      "asset_files_in_part": 18,
+      "source_group": "LOCAL"
+    },
+    {
+      "part": 2,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART02_of_38.zip",
+      "bytes": 24576485,
+      "sha256": "95c062778204fc300385ef5200f6c9f53372cd05ab9b8b67a7a495ce86f4f589",
+      "asset_files_in_part": 2,
+      "source_group": "B03B04"
+    },
+    {
+      "part": 3,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART03_of_38.zip",
+      "bytes": 25065722,
+      "sha256": "8157816de3d183fb2d2057fe676ba7ca1ab2dd905984aa20ccbeb7720cccd14d",
+      "asset_files_in_part": 2,
+      "source_group": "B03B04"
+    },
+    {
+      "part": 4,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART04_of_38.zip",
+      "bytes": 23792234,
+      "sha256": "e311af7ee9f57a6f6d912a446ab2fef619f3706eb1237680c7fb78917616b1bf",
+      "asset_files_in_part": 3,
+      "source_group": "B03B04"
+    },
+    {
+      "part": 5,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART05_of_38.zip",
+      "bytes": 24900292,
+      "sha256": "1c36c1808792c754b9aa4bcad455a46c0f197786b08befc6437e33212a8a6fde",
+      "asset_files_in_part": 2,
+      "source_group": "B03B04"
+    },
+    {
+      "part": 6,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART06_of_38.zip",
+      "bytes": 22206337,
+      "sha256": "9fa66f9a8c3512d23373849d7c3e31519246ac25faee0bf0cf23968ab2f300f6",
+      "asset_files_in_part": 4,
+      "source_group": "B03B04"
+    },
+    {
+      "part": 7,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART07_of_38.zip",
+      "bytes": 22993226,
+      "sha256": "1fbe418ef2397fd294a1c916e57fe324493a43c8629eff5a317ff1710e971f6b",
+      "asset_files_in_part": 3,
+      "source_group": "B03B04"
+    },
+    {
+      "part": 8,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART08_of_38.zip",
+      "bytes": 23718571,
+      "sha256": "22be72c8530b8729ea69874b4b47abd8b5660bca846beda3841434fd51da3722",
+      "asset_files_in_part": 1,
+      "source_group": "B05"
+    },
+    {
+      "part": 9,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART09_of_38.zip",
+      "bytes": 25021575,
+      "sha256": "8f67b7cdb5de347f75e16f7bb5ad3ec9bf1145ab21f70f4acce90100e79960a1",
+      "asset_files_in_part": 2,
+      "source_group": "B05"
+    },
+    {
+      "part": 10,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART10_of_38.zip",
+      "bytes": 21635710,
+      "sha256": "24bf750419339074170da544ccbb34372194fcc0c28f69ec33e7b1304ece953b",
+      "asset_files_in_part": 1,
+      "source_group": "B05"
+    },
+    {
+      "part": 11,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART11_of_38.zip",
+      "bytes": 24967061,
+      "sha256": "c721fca3906ec78245d99b97cdf2711a34c537e64e7dd7af3858baaf47419a07",
+      "asset_files_in_part": 2,
+      "source_group": "B05"
+    },
+    {
+      "part": 12,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART12_of_38.zip",
+      "bytes": 24513328,
+      "sha256": "9275a1015e4f8175094da4ad25763aa03f5b8c06109eb84d8e5efd70076d280c",
+      "asset_files_in_part": 2,
+      "source_group": "B05"
+    },
+    {
+      "part": 13,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART13_of_38.zip",
+      "bytes": 22398160,
+      "sha256": "8b25a9f50afadadcd02499e61f4f1d420b0c8b864a9748f71369aa05b6fb9737",
+      "asset_files_in_part": 2,
+      "source_group": "B05"
+    },
+    {
+      "part": 14,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART14_of_38.zip",
+      "bytes": 24052009,
+      "sha256": "32063cc106d850270ad52714bddc8451f326cd01b94d84e9fb5cb5118a5ec6b7",
+      "asset_files_in_part": 3,
+      "source_group": "B05"
+    },
+    {
+      "part": 15,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART15_of_38.zip",
+      "bytes": 7488335,
+      "sha256": "9a2207c1b927c39d5ce7c641adeb6e983049a3740aab9d53623ced62d640cf31",
+      "asset_files_in_part": 2,
+      "source_group": "B05"
+    },
+    {
+      "part": 16,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART16_of_38.zip",
+      "bytes": 25000348,
+      "sha256": "9b51ba07643b8f70d3849de5b244babfd15d2117bc07e88dc5171402e86bd922",
+      "asset_files_in_part": 7,
+      "source_group": "B06"
+    },
+    {
+      "part": 17,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART17_of_38.zip",
+      "bytes": 24988356,
+      "sha256": "fa6544305e1da54e18e5248f64f9fff9e38ef526f25d51dba50073b85b046382",
+      "asset_files_in_part": 8,
+      "source_group": "B06"
+    },
+    {
+      "part": 18,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART18_of_38.zip",
+      "bytes": 13190075,
+      "sha256": "14f1e8bbe85a42950c07d4de1faf42595eafb8c5931f2ea9a5bedfa097f7b1b8",
+      "asset_files_in_part": 7,
+      "source_group": "B06"
+    },
+    {
+      "part": 19,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART19_of_38.zip",
+      "bytes": 24935599,
+      "sha256": "693346a7e38715206abc7d551e6d1150ebf45120f7e60e3ed53e93ca9ff68e36",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 20,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART20_of_38.zip",
+      "bytes": 21073871,
+      "sha256": "0dec66ce5e52de3f40255da74a219f33a70b0aeace63d80a77e2d8291c0c0967",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 21,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART21_of_38.zip",
+      "bytes": 20496619,
+      "sha256": "c9457989026f339f3413e01aeb610f86b88ef49b36df86b059319c3c9bbba5ca",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 22,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART22_of_38.zip",
+      "bytes": 20254755,
+      "sha256": "abf7b5e7c933b71d28f80f4e1c7cc0281987653f1c1f1e47473c140ad14e684f",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 23,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART23_of_38.zip",
+      "bytes": 19450198,
+      "sha256": "fb2726400cff8c5c64c3aa8580e1977259c35d77291ab777faa35707c0422531",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 24,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART24_of_38.zip",
+      "bytes": 19393970,
+      "sha256": "71617557928c753198800b4529526aff100288ae98e58049dfc028857631dd4e",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 25,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART25_of_38.zip",
+      "bytes": 19310187,
+      "sha256": "c457bf5fff8b8bace7a1cf55270a722d18f01253cf089a34215efeee3540b32b",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 26,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART26_of_38.zip",
+      "bytes": 19114240,
+      "sha256": "be1a63be38ae8290c63a39dd380ef25b6c730e4b8007af581582b3d48f050abf",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 27,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART27_of_38.zip",
+      "bytes": 18507108,
+      "sha256": "91396b441a56b758dc7a79dcf65130f59682c35a3351a28a1d0515f99fa21b07",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 28,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART28_of_38.zip",
+      "bytes": 18433511,
+      "sha256": "7e736037aba1f0e3be459857c1d9c4a9f0ef29be6dc084e8686b36db1e4df041",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 29,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART29_of_38.zip",
+      "bytes": 23618094,
+      "sha256": "f857878ca4f2ebf1e8c0592221544ef417511b12a4f715d39444a7acd72d1d58",
+      "asset_files_in_part": 2,
+      "source_group": "B07"
+    },
+    {
+      "part": 30,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART30_of_38.zip",
+      "bytes": 15729749,
+      "sha256": "0818559b527ad94576e2f6b0906213ec30f0d25b3d72883e46a7ac7cde6a7c71",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 31,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART31_of_38.zip",
+      "bytes": 14374234,
+      "sha256": "4aae517728165dece14f218f3e6dd5efccd330223ef847bd72696d25716dd332",
+      "asset_files_in_part": 1,
+      "source_group": "B07"
+    },
+    {
+      "part": 32,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART32_of_38.zip",
+      "bytes": 23440545,
+      "sha256": "81684f6ec6f8edaf6402d577450df9c506616427d94adda28895f1a9aa6d95eb",
+      "asset_files_in_part": 2,
+      "source_group": "B07"
+    },
+    {
+      "part": 33,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART33_of_38.zip",
+      "bytes": 24962954,
+      "sha256": "bf48d8cec78757d7f0efd1843dfe29404802122a566369d8ae6dffdb855582c4",
+      "asset_files_in_part": 4,
+      "source_group": "B08+B02B"
+    },
+    {
+      "part": 34,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART34_of_38.zip",
+      "bytes": 25157562,
+      "sha256": "310b798da9f1a62c461165d20c7f36773aefbb42495acf75ac5b4035c5cc5ba5",
+      "asset_files_in_part": 6,
+      "source_group": "B08+B02B"
+    },
+    {
+      "part": 35,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART35_of_38.zip",
+      "bytes": 24958224,
+      "sha256": "3a1ee285e64c6ae1a9f5ec0bc617656156f52434f0c264a477f0f76ca271d404",
+      "asset_files_in_part": 3,
+      "source_group": "B08+B02B"
+    },
+    {
+      "part": 36,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART36_of_38.zip",
+      "bytes": 24502412,
+      "sha256": "bfd9dc2ecc81d75292da1d9445845d95d5d2d1aeddd30bdb54be5af71fbf53b5",
+      "asset_files_in_part": 4,
+      "source_group": "B08+B02B"
+    },
+    {
+      "part": 37,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART37_of_38.zip",
+      "bytes": 8156055,
+      "sha256": "3ce5eba7167fa97231a62fe80a20b71abf14a4f04ba49d9db58198491a41d3ae",
+      "asset_files_in_part": 5,
+      "source_group": "B08+B02B"
+    },
+    {
+      "part": 38,
+      "file": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_PART38_of_38.zip",
+      "bytes": 14547889,
+      "sha256": "8e036aae0e8097461ced16e43cc5a424c3436d2917b056663d159515497cc4d3",
+      "asset_files_in_part": 12,
+      "source_group": "V3_CLEAN_REPLACEMENTS"
+    }
+  ],
+  "supplemental_assets": 13,
+  "supplemental_part": {
+    "file": "SecondQuest_EP001_SUPPLEMENTAL_CAST_V3_CLEAN_PART01_of_01.zip",
+    "bytes": 15466238,
+    "sha256": "5165887f3bb815551b7a9f7ba1f35698e17dd6fca182334181982af824a60f9d"
+  },
+  "base_art_manifest_sha256": "5e7761f0fedf5a6b08781685e8c9731e7561485b191b8bdd1dfe5b35e4d11bf3",
+  "provenance_policy": [
+    "HIGGSFIELD_JOB_ID",
+    "HIGGSFIELD_APPROVED_PACKAGE",
+    "DETERMINISTIC_FROM_HIGGSFIELD",
+    "OFFICIAL_BRAND_MASTER"
+  ],
+  "legacy_allowed": false,
+  "png_bytes_modified_during_packaging": false,
+  "render_authorization": "SEPARATE_PRODUCER_COMMAND_REQUIRED"
+}

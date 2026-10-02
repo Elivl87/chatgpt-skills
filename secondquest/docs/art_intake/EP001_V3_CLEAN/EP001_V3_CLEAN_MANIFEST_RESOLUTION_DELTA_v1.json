@@ -1,0 +1,485 @@
+{
+  "project": "SecondQuest",
+  "episode": "EP001",
+  "delta": "EP001_V3_CLEAN_MANIFEST_RESOLUTION_DELTA_v1",
+  "authorized_by": "Producer (Option A, 2026-10-02)",
+  "rule": "Metadata-only correction: the resolution field of each listed asset is set to the real pixel size of the delivered file. No pixel, path, key, tier, provenance or hash was changed. Every real file is larger than the previously declared target.",
+  "source_manifest_sha256": "a2359f0249dac592037fe0446800d41aad0427d728b957976819708193ffe1c5",
+  "corrected_manifest_sha256": "5e7761f0fedf5a6b08781685e8c9731e7561485b191b8bdd1dfe5b35e4d11bf3",
+  "changed_count": 59,
+  "unchanged_count": 62,
+  "changes": [
+    {
+      "key": "core.bg.city_traffic",
+      "path": "public/art/core/backgrounds/city_traffic.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "05e18a5287110361a760638e123266331adba722af1ff55107d3cac28e0eda29"
+    },
+    {
+      "key": "core.bg.home_living_day",
+      "path": "public/art/core/backgrounds/home_living_day.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "61394b60e15345af3924b44baf065997c22c0e5829130aba8dfbb564bde6c6a6"
+    },
+    {
+      "key": "core.bg.office_openplan",
+      "path": "public/art/core/backgrounds/office_openplan.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "55565e10c437d328fd02a5a39db6d4c9ec2ed318211f556fbf82700f519de910"
+    },
+    {
+      "key": "quest.default.arms_up_back",
+      "path": "public/art/core/quest/arms_up_back.png",
+      "kind": "character",
+      "declared_resolution": "1300x2000",
+      "real_resolution": "1360x2048",
+      "file_sha256": "8055de5c85a5f310ba0a46a6eae8d1b1a279a161c3940362f9115143b99c7425"
+    },
+    {
+      "key": "quest.default.broom_bored",
+      "path": "public/art/core/quest/broom_bored.png",
+      "kind": "character",
+      "declared_resolution": "1300x2000",
+      "real_resolution": "1360x2048",
+      "file_sha256": "642519bc245e60f405ffb056ac61772007954a5ab14bcc833c5cbd4284d164f4"
+    },
+    {
+      "key": "quest.default.drive_calm",
+      "path": "public/art/core/quest/drive_calm.png",
+      "kind": "character",
+      "declared_resolution": "1800x1600",
+      "real_resolution": "2160x1920",
+      "file_sha256": "7661dfc34f72a9538c0d5acb4cf10d8544383449854506576d3e202766c6fe35"
+    },
+    {
+      "key": "quest.default.drive_relaxed",
+      "path": "public/art/core/quest/drive_relaxed.png",
+      "kind": "character",
+      "declared_resolution": "1800x1600",
+      "real_resolution": "2160x1920",
+      "file_sha256": "12345658447c241856569d884deef1a891bfeb9493cd46111e3e59f3bc1b0cab"
+    },
+    {
+      "key": "quest.default.drive_stressed",
+      "path": "public/art/core/quest/drive_stressed.png",
+      "kind": "character",
+      "declared_resolution": "1800x1600",
+      "real_resolution": "2160x1920",
+      "file_sha256": "c30a34ad1efee88f3c73939a5127a6aa810b84b06d07a778839c1876c3aaadda"
+    },
+    {
+      "key": "quest.default.head_in_hands",
+      "path": "public/art/core/quest/head_in_hands.png",
+      "kind": "character",
+      "declared_resolution": "1500x1700",
+      "real_resolution": "1792x2240",
+      "file_sha256": "213013f154913b9d3e025c859b5d551373c2b8920f0282eb1d47c5b4c005d73c"
+    },
+    {
+      "key": "quest.default.holding_tray",
+      "path": "public/art/core/quest/holding_tray.png",
+      "kind": "character",
+      "declared_resolution": "1600x2000",
+      "real_resolution": "1792x2240",
+      "file_sha256": "9957060859451fcaa076636aef7a2286034339287c430ae77391af1349c546ee"
+    },
+    {
+      "key": "quest.default.looking_up_awe",
+      "path": "public/art/core/quest/looking_up_awe.png",
+      "kind": "character",
+      "declared_resolution": "1600x2200",
+      "real_resolution": "2480x3312",
+      "file_sha256": "02e99ffdd44caaaf4f2c550b9e78f0507d1ebdd1d1d690d7e34386fa164a7f47"
+    },
+    {
+      "key": "quest.default.planning_tablet",
+      "path": "public/art/core/quest/planning_tablet.png",
+      "kind": "character",
+      "declared_resolution": "1300x2000",
+      "real_resolution": "1360x2048",
+      "file_sha256": "d7f9821ad67b9a4f059e039ec5e93daf58914fe99ad28c46eeb87ee23d1950a1"
+    },
+    {
+      "key": "quest.default.reading_manual",
+      "path": "public/art/core/quest/reading_manual.png",
+      "kind": "character",
+      "declared_resolution": "1500x2000",
+      "real_resolution": "1744x2336",
+      "file_sha256": "da0aed006257e8ac05f7abf24b84a7f7e0f1bfdc1deebd64c9d0d44a453b26a6"
+    },
+    {
+      "key": "quest.default.vacuum",
+      "path": "public/art/core/quest/vacuum.png",
+      "kind": "character",
+      "declared_resolution": "1500x2000",
+      "real_resolution": "1744x2336",
+      "file_sha256": "d01e183c67e610a72e004860f0cbf0791476798aea4f4ff4187b98cfefee649a"
+    },
+    {
+      "key": "quest.default.walking_back",
+      "path": "public/art/core/quest/walking_back.png",
+      "kind": "character",
+      "declared_resolution": "1200x2000",
+      "real_resolution": "1520x2688",
+      "file_sha256": "da721b3ed8a5e54eab5e792f694fd74d0cfec21222ece85aa559536946f51ef6"
+    },
+    {
+      "key": "quest.default.worried_seated",
+      "path": "public/art/core/quest/worried_seated.png",
+      "kind": "character",
+      "declared_resolution": "1500x2000",
+      "real_resolution": "1744x2336",
+      "file_sha256": "beb9d266bd306e65e25f39bd167a94a966517488a40afeff2100de90150c3611"
+    },
+    {
+      "key": "quest.default.wrench_fixing",
+      "path": "public/art/core/quest/wrench_fixing.png",
+      "kind": "character",
+      "declared_resolution": "1500x2000",
+      "real_resolution": "1744x2336",
+      "file_sha256": "4e01d0c1cbd37a74392d7d7975df4769226c4a9a983578da1c245acc806f6b75"
+    },
+    {
+      "key": "ep001.bg_bank_office",
+      "path": "public/art/episodes/ep001/backgrounds/bank_office.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "856116e50dfcb65b0d34d5e1270ac9999d2766fd0ef2d67174ce165f0976d7cf"
+    },
+    {
+      "key": "ep001.bg_fantasy_doors",
+      "path": "public/art/episodes/ep001/backgrounds/fantasy_doors.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "55a4308ba8e67b9ccc0e8008063f1451ed17e4a269dce2b8edc54c8257dd6875"
+    },
+    {
+      "key": "ep001.npc.banker",
+      "path": "public/art/episodes/ep001/characters/banker.png",
+      "kind": "character",
+      "declared_resolution": "1300x2000",
+      "real_resolution": "1360x2048",
+      "file_sha256": "ba4a36997a7fbb4753ead99d351a524afea5ffefeafd2b69c801d90f821d48ea"
+    },
+    {
+      "key": "genre.building_sandbox.quest.pickaxe",
+      "path": "public/art/genres/building_sandbox/quest/pickaxe.png",
+      "kind": "character",
+      "declared_resolution": "1500x2000",
+      "real_resolution": "1744x2336",
+      "file_sha256": "e7d6325c0d0c04fe7f38f0b7d66ab16b7aa8036d6267d7f8e4d665a72ddad2ac"
+    },
+    {
+      "key": "genre.driving_simulation.quest.cheering_car",
+      "path": "public/art/genres/driving_simulation/quest/cheering_car.png",
+      "kind": "character",
+      "declared_resolution": "2600x1500",
+      "real_resolution": "2688x1520",
+      "file_sha256": "1dff151fc5bfdaa4ebc33f2b5bcaf338aee9e362f86f14bb6405da14298d10e2"
+    },
+    {
+      "key": "genre.fantasy.bg_castle_rescue",
+      "path": "public/art/genres/fantasy/backgrounds/bg_castle_rescue.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "e0feda5690bb54540f7aadfb7bf0441e67b2249d2a6e4a98454f13831862a02c"
+    },
+    {
+      "key": "genre.fantasy.bg_dragon_crag",
+      "path": "public/art/genres/fantasy/backgrounds/dragon_crag.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "6b795361d88e8fb3d23a176bb9e45749d811f86362012ba1cbca272e8ada9f34"
+    },
+    {
+      "key": "genre.fantasy.quest.knight",
+      "path": "public/art/genres/fantasy/quest/knight.png",
+      "kind": "character",
+      "declared_resolution": "1600x2200",
+      "real_resolution": "1744x2336",
+      "file_sha256": "1cdd6aaa74734b4a8c103d8e4850ea2bc846f01e769123c8e96fed90bce0e4ef"
+    },
+    {
+      "key": "genre.farming.animal.chickens",
+      "path": "public/art/genres/farming/animals/chickens.png",
+      "kind": "animal",
+      "declared_resolution": "1200x700",
+      "real_resolution": "1344x752",
+      "file_sha256": "3d9869b96867d4f7a28a98c85e6f1a68709e411d451f918f11504162fc376733"
+    },
+    {
+      "key": "genre.farming.animal.cow",
+      "path": "public/art/genres/farming/animals/cow.png",
+      "kind": "animal",
+      "declared_resolution": "1400x1000",
+      "real_resolution": "2336x1744",
+      "file_sha256": "f599230338a7cda77ca562c5d51a927fef2125ecc60f40eb2f3749ed07e70ef5"
+    },
+    {
+      "key": "genre.farming.bg_dealership",
+      "path": "public/art/genres/farming/backgrounds/dealership.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "955b744277f31780c7f13d5a45f27c6a827449fa1f4b0f962a778859f830fc13"
+    },
+    {
+      "key": "genre.farming.bg_farm_yard",
+      "path": "public/art/genres/farming/backgrounds/farm_yard.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "d8451f8461c056b4803c33ef0e7bf277df90f5d8989005af542429d6229d793c"
+    },
+    {
+      "key": "genre.farming.bg_field_huge_wide",
+      "path": "public/art/genres/farming/backgrounds/field_huge_wide.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "bf9d6fb97f44e20e015bd017ec8fbf6021ac14bb1200603c181278fc59ccb093"
+    },
+    {
+      "key": "genre.farming.bg_field_overhead",
+      "path": "public/art/genres/farming/backgrounds/field_overhead.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "207328119aac5f7e47686f11c48c5a10a4c59b3b81694dd1c3d873057a05c6f4"
+    },
+    {
+      "key": "genre.farming.bg_field_plowed",
+      "path": "public/art/genres/farming/backgrounds/field_plowed.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "210fa985d3a9456b02f32c1d0c11ada7d2f5990363315bf3891e6fae173b3a48"
+    },
+    {
+      "key": "genre.farming.bg_idealized_game_farm",
+      "path": "public/art/genres/farming/backgrounds/idealized_game_farm.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "40968ef804ad5caa861451100272fd0ec6e9a81f8e1402eadff6370d4a3cfedc"
+    },
+    {
+      "key": "genre.farming.bg_real_farm",
+      "path": "public/art/genres/farming/backgrounds/real_farm.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "39df62691e8a353aeedc805529f3a776d1041147ddf0ba414488f5f383a991c8"
+    },
+    {
+      "key": "genre.farming.bg_riverbank",
+      "path": "public/art/genres/farming/backgrounds/riverbank.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "831c27588c074f50b14fa4bab5281da98263f38a4ba531a2bdc6f82bd813dec6"
+    },
+    {
+      "key": "genre.farming.bg_station_animals",
+      "path": "public/art/genres/farming/backgrounds/station_animals.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "637c3ccb0f8bacf6483fb7c75cadd433b502f20d1db90c3c17dc1eb7fbcab584"
+    },
+    {
+      "key": "genre.farming.bg_station_fertilizer",
+      "path": "public/art/genres/farming/backgrounds/station_fertilizer.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "9ed9c63319ce2ce1da05a5c4b5bdf02d0a739732c55229c141f1ad7f55815da2"
+    },
+    {
+      "key": "genre.farming.bg_station_planting",
+      "path": "public/art/genres/farming/backgrounds/station_planting.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "30f4c13f1db165ad6840b6fb3ee4dfe0c7d1d9423e4a26ae7a719dce6a9ef769"
+    },
+    {
+      "key": "genre.farming.bg_tractor_cab",
+      "path": "public/art/genres/farming/backgrounds/tractor_cab.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "c731f2e5209e79b20826c19ecfe57f5e7d7acfd7af408df323e2588d044348f4"
+    },
+    {
+      "key": "genre.farming.bg_workshop",
+      "path": "public/art/genres/farming/backgrounds/workshop.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "057ec70c1a7bba4c104f45021d6a2d017e1be16ed4316f29c33f3f62582018ff"
+    },
+    {
+      "key": "genre.farming.machine.broken_tractor",
+      "path": "public/art/genres/farming/machines/broken_tractor.png",
+      "kind": "machine",
+      "declared_resolution": "2200x1600",
+      "real_resolution": "3312x2480",
+      "file_sha256": "0dbceba6d8bb208bcd001302516100694d80080600a82b1e02d5ba6de7b8d899"
+    },
+    {
+      "key": "genre.farming.machine.combine",
+      "path": "public/art/genres/farming/machines/combine.png",
+      "kind": "machine",
+      "declared_resolution": "2400x1500",
+      "real_resolution": "3504x2336",
+      "file_sha256": "796a44a43a345ee131043a50acf6a2f494d1ed35ad77e703b888efc4ed86c667"
+    },
+    {
+      "key": "genre.farming.machine.factory_harvester",
+      "path": "public/art/genres/farming/machines/factory_harvester.png",
+      "kind": "machine",
+      "declared_resolution": "2600x2200",
+      "real_resolution": "3200x2560",
+      "file_sha256": "a37c84c566f136c81611fac65c3530de356db62125e8767ec72137c355eb1039"
+    },
+    {
+      "key": "genre.farming.machine.grain_truck",
+      "path": "public/art/genres/farming/machines/grain_truck.png",
+      "kind": "machine",
+      "declared_resolution": "2800x1200",
+      "real_resolution": "3840x1648",
+      "file_sha256": "a308bf93844ea6d3c4cea4b797a786f2ab192e03f7160ca637278bfbe72aa4fe"
+    },
+    {
+      "key": "genre.farming.machine.header_3m",
+      "path": "public/art/genres/farming/machines/header_3m.png",
+      "kind": "machine",
+      "declared_resolution": "1200x500",
+      "real_resolution": "1344x576",
+      "file_sha256": "607b23938187b84c5bcd6f157fe1d1a7daa2ef2146cef2f82c01a9ca864d858a"
+    },
+    {
+      "key": "genre.farming.machine.seeder",
+      "path": "public/art/genres/farming/machines/seeder.png",
+      "kind": "machine",
+      "declared_resolution": "2400x1000",
+      "real_resolution": "3840x1648",
+      "file_sha256": "1de19f1965588d97c76d60814e2e11033079dc7f6037dc4121dcf209296a98bf"
+    },
+    {
+      "key": "genre.farming.machine.sprayer",
+      "path": "public/art/genres/farming/machines/sprayer.png",
+      "kind": "machine",
+      "declared_resolution": "2600x1000",
+      "real_resolution": "3840x1648",
+      "file_sha256": "7a96f58c0f6257b3df1dcf06128b85f3e07172bc7b11628d1c177f5fb7cc4a41"
+    },
+    {
+      "key": "genre.farming.machine.tractor_small",
+      "path": "public/art/genres/farming/machines/tractor_small.png",
+      "kind": "machine",
+      "declared_resolution": "1200x900",
+      "real_resolution": "2336x1744",
+      "file_sha256": "bcceca6b1ff8022c8110b502d5e822575d2888615f1798431479a1e25f740180"
+    },
+    {
+      "key": "genre.farming.prop.trailer_cargo",
+      "path": "public/art/genres/farming/props/trailer_cargo.png",
+      "kind": "object",
+      "declared_resolution": "1800x1000",
+      "real_resolution": "2688x1520",
+      "file_sha256": "59d3fc519f293f339cb38614699261fedf6213656f84bebf614d424919c6d569"
+    },
+    {
+      "key": "genre.farming.quest.cap_off_sunset",
+      "path": "public/art/genres/farming/quest/cap_off_sunset.png",
+      "kind": "character",
+      "declared_resolution": "1200x2000",
+      "real_resolution": "1520x2688",
+      "file_sha256": "417c226d50830bd24e27f2d40334aa87cc2e26b7b1d56b6fa202dd70ffef1db3"
+    },
+    {
+      "key": "genre.farming.quest.carrying_sacks",
+      "path": "public/art/genres/farming/quest/carrying_sacks.png",
+      "kind": "character",
+      "declared_resolution": "1600x2000",
+      "real_resolution": "1792x2240",
+      "file_sha256": "b0934bf439ee3179ce6e22fe8788212d3435ac572c63cef1c59978ca61d317dc"
+    },
+    {
+      "key": "genre.farming.quest.excited",
+      "path": "public/art/genres/farming/quest/excited.png",
+      "kind": "character",
+      "declared_resolution": "1600x2200",
+      "real_resolution": "1744x2336",
+      "file_sha256": "435651a7cb3dd353d5dd9db8583702dcf43f5b2c144bc6d600df41aa987535b6"
+    },
+    {
+      "key": "genre.farming.quest.feeding",
+      "path": "public/art/genres/farming/quest/feeding.png",
+      "kind": "character",
+      "declared_resolution": "1700x2000",
+      "real_resolution": "1792x2240",
+      "file_sha256": "648af85e9a77d82bd74d5d742c0f5f76b1951ef2eb8512b14c57b4fe78f559ad"
+    },
+    {
+      "key": "genre.farming.quest.fertilizer",
+      "path": "public/art/genres/farming/quest/fertilizer.png",
+      "kind": "character",
+      "declared_resolution": "1700x2000",
+      "real_resolution": "1792x2240",
+      "file_sha256": "b9c9dff439e103e50aaf88732fd1fddc6c5f14389610cabefefe1eff8489e35e"
+    },
+    {
+      "key": "genre.farming.quest.heroic",
+      "path": "public/art/genres/farming/quest/heroic.png",
+      "kind": "character",
+      "declared_resolution": "1600x2200",
+      "real_resolution": "1744x2336",
+      "file_sha256": "c6f4f3b09b98aa1e9a39adce3326078f6c6b6c0fbc2f58585dea25a09716430b"
+    },
+    {
+      "key": "genre.farming.quest.planting",
+      "path": "public/art/genres/farming/quest/planting.png",
+      "kind": "character",
+      "declared_resolution": "1700x2000",
+      "real_resolution": "1792x2240",
+      "file_sha256": "61e2dd59257a8d5fa81f4c8d8e03dcacf3a20c96fa74cb9ff10d37859184d315"
+    },
+    {
+      "key": "genre.farming.quest.rain_huddled",
+      "path": "public/art/genres/farming/quest/rain_huddled.png",
+      "kind": "character",
+      "declared_resolution": "1600x1600",
+      "real_resolution": "2048x2048",
+      "file_sha256": "70982d20adf40c41d2da5cb27e95a1cd4134a22676bbff59889bc0e220b68596"
+    },
+    {
+      "key": "genre.farming.quest.tractor_side",
+      "path": "public/art/genres/farming/quest/tractor_side.png",
+      "kind": "character",
+      "declared_resolution": "1800x1600",
+      "real_resolution": "2240x1792",
+      "file_sha256": "d164226794da70ada1900126d129cd404041b772f5c394db661f74b02bc3e054"
+    },
+    {
+      "key": "genre.war.bg_battlefield_city",
+      "path": "public/art/genres/war_action/backgrounds/bg_battlefield_city.png",
+      "kind": "background",
+      "declared_resolution": "3840x2160",
+      "real_resolution": "5504x3072",
+      "file_sha256": "64ebdcf27fe85ba0f65d0923a7526bc46c5c64b2fde0f1e27f9e9e0869170fd9"
+    }
+  ]
+}

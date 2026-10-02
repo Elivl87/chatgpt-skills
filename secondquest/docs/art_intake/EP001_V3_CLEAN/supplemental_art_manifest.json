@@ -1,0 +1,241 @@
+{
+  "schema_version": "SecondQuest_Art_Manifest_Schema_v1",
+  "package": "SecondQuest_EP001_SUPPLEMENTAL_CAST_V3_CLEAN",
+  "project": "SecondQuest",
+  "episode": "EP001",
+  "asset_count": 13,
+  "provenance_policy": "HIGGSFIELD_JOB_ID_ONLY",
+  "assets": [
+    {
+      "key": "progress.empty",
+      "path": "public/art/core/cast/progress/empty.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": false,
+      "resolution": "896x1120",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "32e40baf-6d63-4a82-9f2d-02c73b468f17"
+    },
+    {
+      "key": "progress.half",
+      "path": "public/art/core/cast/progress/half.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "896x1120",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M27"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "f91e5046-7a0f-4592-a146-b6481d565253"
+    },
+    {
+      "key": "progress.full",
+      "path": "public/art/core/cast/progress/full.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "896x1120",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M27"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "6aabe582-6710-4c1a-94ea-0c30e269213f"
+    },
+    {
+      "key": "progress.calm_encouraging",
+      "path": "public/art/core/cast/progress/calm_encouraging.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "896x1120",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M18",
+        "M43"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "ab29447b-670a-48fe-98ec-dfa0da1c630c"
+    },
+    {
+      "key": "progress.quiet_companion",
+      "path": "public/art/core/cast/progress/quiet_companion.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "896x1120",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M36"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "ab2f0958-3a58-4bf6-9c4e-22a01e3614b0"
+    },
+    {
+      "key": "wallet.overwhelmed_debt",
+      "path": "public/art/core/cast/wallet/overwhelmed_debt.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1024x1024",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M17",
+        "M28"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "c9ebfd44-c932-4080-99b7-c1027b668ae9"
+    },
+    {
+      "key": "wallet.price_shock",
+      "path": "public/art/core/cast/wallet/price_shock.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1024x1024",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M33"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "94823a6c-d9d7-47df-8d1d-1650662f9463"
+    },
+    {
+      "key": "wallet.market_crushed",
+      "path": "public/art/core/cast/wallet/market_crushed.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1024x1024",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M41"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "32350665-5c0b-4b2e-9842-76645ad8e96d"
+    },
+    {
+      "key": "grind.straining",
+      "path": "public/art/core/cast/grind/straining.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1024x1024",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M06",
+        "M27"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "475c6b09-236d-4597-afd1-2ec22514b428"
+    },
+    {
+      "key": "grind.relaxed",
+      "path": "public/art/core/cast/grind/relaxed.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1024x1024",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M38"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "6287ace2-d556-4e1b-a805-151e015fae03"
+    },
+    {
+      "key": "ep001.npc.banker_pointing_contract",
+      "path": "public/art/episodes/ep001/characters/banker_pointing_contract.png",
+      "kind": "character",
+      "library_tier": "EPISODE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1360x2048",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M17"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "f69119ef-acb9-4227-ab24-f516e6efcfb5"
+    },
+    {
+      "key": "fear.trembling_fullbody",
+      "path": "public/art/core/cast/fear/trembling_fullbody.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": false,
+      "resolution": "1024x1024",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "47f61c1b-8972-40d6-be09-266483558236"
+    },
+    {
+      "key": "fear.hiding_behind_object",
+      "path": "public/art/core/cast/fear/hiding_behind_object.png",
+      "kind": "character",
+      "library_tier": "CORE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": false,
+      "resolution": "1024x1024",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "a58a35e5-f5c7-4773-a7e1-b84a287a3e14"
+    }
+  ]
+}

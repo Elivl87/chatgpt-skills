@@ -1,0 +1,81 @@
+{
+  "base_scene_rewire": "SecondQuest_EP001_SCENE_REWIRE_v2_3.json",
+  "revision": "CREATIVE_CAST_DELTA_v1",
+  "rule": "Do not remove base assets unless replace is explicit. These are creative substitutions/additions after v2.3.",
+  "changes": {
+    "M17": {
+      "replace": {
+        "wallet.worried": "wallet.overwhelmed_debt"
+      },
+      "add": [
+        "ep001.npc.banker_pointing_contract"
+      ]
+    },
+    "M18": {
+      "replace": {
+        "progress.cheering": "progress.calm_encouraging"
+      }
+    },
+    "M21": {
+      "keep": [
+        "progress.cheering"
+      ]
+    },
+    "M22": {
+      "replace": {
+        "progress.cheering": "progress.presenting"
+      }
+    },
+    "M24": {
+      "keep": [
+        "progress.cheering"
+      ]
+    },
+    "M27": {
+      "replace": {
+        "grind.wheel": "grind.straining"
+      },
+      "progress_state_sequence": [
+        "progress.empty",
+        "progress.half",
+        "progress.full",
+        "progress.cheering"
+      ]
+    },
+    "M28": {
+      "replace": {
+        "wallet.worried": "wallet.overwhelmed_debt"
+      }
+    },
+    "M29": {
+      "replace": {
+        "progress.cheering": "progress.presenting"
+      }
+    },
+    "M33": {
+      "replace": {
+        "wallet.worried": "wallet.price_shock"
+      }
+    },
+    "M36": {
+      "replace": {
+        "progress.cheering": "progress.quiet_companion"
+      }
+    },
+    "M38": {
+      "replace": {
+        "grind.wheel": "grind.relaxed"
+      }
+    },
+    "M41": {
+      "replace": {
+        "wallet.worried": "wallet.market_crushed"
+      }
+    },
+    "M43": {
+      "replace": {
+        "progress.cheering": "progress.calm_encouraging"
+      }
+    }
+  }
+}

@@ -1,7 +1,20 @@
 {
-  "notes": "FINAL_ART catalog. Written ONLY by `npm run art:intake` from validated Creative Pipeline packages (art_manifest.json). Entries here override legacy catalog entries with the same key. Do not edit by hand.",
-  "assets": {
-    "brand.q_mark": {
+  "schema_version": "SecondQuest_Art_Manifest_Schema_v1",
+  "package": "SecondQuest_EP001_FINAL_ART_V3_CLEAN_HIGGSFIELD_ONLY",
+  "project": "SecondQuest",
+  "episode": "EP001",
+  "asset_count": 121,
+  "provenance_policy": [
+    "HIGGSFIELD_JOB_ID",
+    "HIGGSFIELD_APPROVED_PACKAGE",
+    "DETERMINISTIC_FROM_HIGGSFIELD",
+    "OFFICIAL_BRAND_MASTER"
+  ],
+  "assets": [
+    {
+      "key": "brand.q_mark",
+      "path": "public/art/core/brand/q_mark.png",
+      "kind": "brand",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -16,13 +29,12 @@
       ],
       "brief": "Official transparent Q mark for compact brand applications.",
       "provenance_type": "OFFICIAL_BRAND_MASTER",
-      "provenance_locator": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED/public/art/core/brand/q_mark.png",
-      "path": "/art/core/brand/q_mark.png",
-      "kind": "overlay",
-      "aspect": 1,
-      "label": "brand.q_mark"
+      "provenance_locator": "SQ_FINAL_ART_EXACT_REUSE_v4_VISUALLY_AUDITED/public/art/core/brand/q_mark.png"
     },
-    "brand.wordmark": {
+    {
+      "key": "brand.wordmark",
+      "path": "public/art/core/brand/secondquest_wordmark.png",
+      "kind": "brand",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -38,13 +50,12 @@
       "brief": "Official SecondQuest transparent wordmark, Second white / Quest electric blue.",
       "replaces": "brand.wordmark",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f422ade4-9bd1-42de-b420-f317d834034f",
-      "path": "/art/core/brand/secondquest_wordmark.png",
-      "kind": "overlay",
-      "aspect": 3,
-      "label": "brand.wordmark"
+      "provenance_locator": "f422ade4-9bd1-42de-b420-f317d834034f"
     },
-    "core.bg.city_apartments_evening": {
+    {
+      "key": "core.bg.city_apartments_evening",
+      "path": "public/art/core/backgrounds/city_apartments_evening.png",
+      "kind": "background",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -59,14 +70,12 @@
       "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
       "replaces": "ep001.bg_city_evening",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "b56cb7e8-15a8-49de-8250-e7a931ce19e8",
-      "path": "/art/core/backgrounds/city_apartments_evening.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "core.bg.city_apartments_evening"
+      "provenance_locator": "b56cb7e8-15a8-49de-8250-e7a931ce19e8"
     },
-    "core.bg.city_traffic": {
+    {
+      "key": "core.bg.city_traffic",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -82,15 +91,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/backgrounds/city_traffic.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f66acbf5-2686-4805-bc36-836024c3bcec",
-      "path": "/art/core/backgrounds/city_traffic.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "core.bg.city_traffic"
+      "provenance_locator": "f66acbf5-2686-4805-bc36-836024c3bcec"
     },
-    "core.bg.home_living_day": {
+    {
+      "key": "core.bg.home_living_day",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -107,15 +115,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/backgrounds/home_living_day.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "e887c9b5-13b5-4e2b-83f9-8de592765a9d",
-      "path": "/art/core/backgrounds/home_living_day.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "core.bg.home_living_day"
+      "provenance_locator": "e887c9b5-13b5-4e2b-83f9-8de592765a9d"
     },
-    "core.bg.home_living_night": {
+    {
+      "key": "core.bg.home_living_night",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -133,14 +140,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/backgrounds/home_living_night.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ff73af8e-dbf8-4842-b551-4c507d4a05c3",
-      "path": "/art/core/backgrounds/home_living_night.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "core.bg.home_living_night"
+      "provenance_locator": "ff73af8e-dbf8-4842-b551-4c507d4a05c3"
     },
-    "core.bg.living_room_night_gaming": {
+    {
+      "key": "core.bg.living_room_night_gaming",
+      "path": "public/art/core/backgrounds/living_room_night_gaming.png",
+      "kind": "background",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -155,13 +162,12 @@
       "brief": "Quest canonical living room at night, gaming setup, no character.",
       "replaces": "ep001.bg_living_room",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "b96d0b61-0fd5-45a2-92b1-78d19a4f50ac",
-      "path": "/art/core/backgrounds/living_room_night_gaming.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "core.bg.living_room_night_gaming"
+      "provenance_locator": "b96d0b61-0fd5-45a2-92b1-78d19a4f50ac"
     },
-    "core.bg.office_openplan": {
+    {
+      "key": "core.bg.office_openplan",
+      "path": "public/art/core/backgrounds/office_openplan.png",
+      "kind": "background",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -178,14 +184,12 @@
       "brief": "Clean open-plan office plate, no characters, readable foreground desk zones.",
       "replaces": "ep001.bg_office",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f67e4dd7-0102-460b-9e12-c629ea2df5ca",
-      "path": "/art/core/backgrounds/office_openplan.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "core.bg.office_openplan"
+      "provenance_locator": "f67e4dd7-0102-460b-9e12-c629ea2df5ca"
     },
-    "core.bg.quest_bedroom_morning": {
+    {
+      "key": "core.bg.quest_bedroom_morning",
       "group": "HOOK_REPLACEMENTS",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -201,15 +205,15 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/backgrounds/quest_bedroom_morning.png",
       "replaces": "ep001.bg_bedroom",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "b690a476-2b5b-4417-ab08-94b05bd856d6",
-      "path": "/art/core/backgrounds/quest_bedroom_morning.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "core.bg.quest_bedroom_morning"
+      "provenance_locator": "b690a476-2b5b-4417-ab08-94b05bd856d6"
     },
-    "core.bg.storm_low_horizon": {
+    {
+      "key": "core.bg.storm_low_horizon",
+      "path": "public/art/core/backgrounds/storm_low_horizon.png",
+      "kind": "background",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -224,13 +228,12 @@
       "brief": "Dramatic storm sky with very low horizon; no characters.",
       "replaces": "ep001.bg_storm",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "26725f7d-c060-45c1-9927-f89fd374f446",
-      "path": "/art/core/backgrounds/storm_low_horizon.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "core.bg.storm_low_horizon"
+      "provenance_locator": "26725f7d-c060-45c1-9927-f89fd374f446"
     },
-    "core.bg.sunset_sky": {
+    {
+      "key": "core.bg.sunset_sky",
+      "path": "public/art/core/backgrounds/sunset_sky.png",
+      "kind": "background",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -249,13 +252,12 @@
       "swap_set": "sunset_parallax_registration",
       "replaces": "ep001.bg_sunset_sky",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "4cc3b13f-1380-4bf3-813a-0bc13f584c23",
-      "path": "/art/core/backgrounds/sunset_sky.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "core.bg.sunset_sky"
+      "provenance_locator": "4cc3b13f-1380-4bf3-813a-0bc13f584c23"
     },
-    "core.layer.fence_foreground": {
+    {
+      "key": "core.layer.fence_foreground",
+      "path": "public/art/core/objects/fence_foreground.png",
+      "kind": "object",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -272,13 +274,12 @@
       "swap_set": "sunset_parallax_registration",
       "replaces": "ep001.fg_fence",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/layers/fence_foreground.png",
-      "path": "/art/core/objects/fence_foreground.png",
-      "kind": "object",
-      "aspect": 1.7778,
-      "label": "core.layer.fence_foreground"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/layers/fence_foreground.png"
     },
-    "core.prop.alarm_clock": {
+    {
+      "key": "core.prop.alarm_clock",
+      "path": "public/art/core/objects/alarm_clock.png",
+      "kind": "object",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -293,14 +294,12 @@
       "brief": "Simple readable alarm clock, no baked time text if not necessary.",
       "replaces": "ep001.alarm_clock",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/alarm_clock.png",
-      "path": "/art/core/objects/alarm_clock.png",
-      "kind": "object",
-      "aspect": 1,
-      "label": "core.prop.alarm_clock"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/alarm_clock.png"
     },
-    "core.prop.calendar_friday": {
+    {
+      "key": "core.prop.calendar_friday",
       "group": "D_props",
+      "kind": "object",
       "size": "800x900",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -316,15 +315,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/calendar_friday.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/calendar_friday.png",
-      "path": "/art/core/objects/calendar_friday.png",
-      "kind": "object",
-      "aspect": 0.8889,
-      "label": "core.prop.calendar_friday"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/calendar_friday.png"
     },
-    "core.prop.domino_row": {
+    {
+      "key": "core.prop.domino_row",
       "group": "D_props",
+      "kind": "object",
       "size": "2600x900",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -340,15 +338,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/domino_row.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/domino_row.png",
-      "path": "/art/core/objects/domino_row.png",
-      "kind": "object",
-      "aspect": 2.8889,
-      "label": "core.prop.domino_row"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/domino_row.png"
     },
-    "core.prop.laundry_basket": {
+    {
+      "key": "core.prop.laundry_basket",
       "group": "D_props",
+      "kind": "object",
       "size": "900x700",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -365,15 +362,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/laundry_basket.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/laundry_basket.png",
-      "path": "/art/core/objects/laundry_basket.png",
-      "kind": "object",
-      "aspect": 1.2857,
-      "label": "core.prop.laundry_basket"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/laundry_basket.png"
     },
-    "core.prop.mini_farm": {
+    {
+      "key": "core.prop.mini_farm",
       "group": "D_props",
+      "kind": "object",
       "size": "1400x900",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -390,14 +386,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/mini_farm.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/mini_farm.png",
-      "path": "/art/core/objects/mini_farm.png",
-      "kind": "object",
-      "aspect": 1.5556,
-      "label": "core.prop.mini_farm"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/mini_farm.png"
     },
-    "core.prop.paper_stack": {
+    {
+      "key": "core.prop.paper_stack",
+      "path": "public/art/core/objects/paper_stack.png",
+      "kind": "object",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -412,14 +408,12 @@
       "brief": "Office paper stack, transparent.",
       "replaces": "ep001.paper_stack",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/paper_stack.png",
-      "path": "/art/core/objects/paper_stack.png",
-      "kind": "object",
-      "aspect": 0.8333,
-      "label": "core.prop.paper_stack"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/paper_stack.png"
     },
-    "core.prop.printer_avalanche": {
+    {
+      "key": "core.prop.printer_avalanche",
       "group": "D_props",
+      "kind": "object",
       "size": "1600x1800",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -435,15 +429,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/printer_avalanche.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/printer_avalanche.png",
-      "path": "/art/core/objects/printer_avalanche.png",
-      "kind": "object",
-      "aspect": 0.8889,
-      "label": "core.prop.printer_avalanche"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/printer_avalanche.png"
     },
-    "core.prop.router": {
+    {
+      "key": "core.prop.router",
       "group": "D_props",
+      "kind": "object",
       "size": "900x600",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -459,15 +452,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/router.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/router.png",
-      "path": "/art/core/objects/router.png",
-      "kind": "object",
-      "aspect": 1.5,
-      "label": "core.prop.router"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/router.png"
     },
-    "core.prop.signpost_blank": {
+    {
+      "key": "core.prop.signpost_blank",
       "group": "D_props",
+      "kind": "object",
       "size": "1000x1600",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -483,15 +475,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/signpost_blank.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/signpost_blank.png",
-      "path": "/art/core/objects/signpost_blank.png",
-      "kind": "object",
-      "aspect": 0.625,
-      "label": "core.prop.signpost_blank"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/signpost_blank.png"
     },
-    "core.prop.toolbox": {
+    {
+      "key": "core.prop.toolbox",
       "group": "D_props",
+      "kind": "object",
       "size": "900x600",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -507,14 +498,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/objects/toolbox.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/toolbox.png",
-      "path": "/art/core/objects/toolbox.png",
-      "kind": "object",
-      "aspect": 1.5,
-      "label": "core.prop.toolbox"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/toolbox.png"
     },
-    "core.prop.window_lit": {
+    {
+      "key": "core.prop.window_lit",
+      "path": "public/art/core/objects/window_lit.png",
+      "kind": "object",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -529,13 +520,12 @@
       "brief": "Single lit apartment-window overlay used to build many-window montage.",
       "replaces": "ep001.window_lit",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/window_lit.png",
-      "path": "/art/core/objects/window_lit.png",
-      "kind": "object",
-      "aspect": 1,
-      "label": "core.prop.window_lit"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#core/props/window_lit.png"
     },
-    "fear.peeking": {
+    {
+      "key": "fear.peeking",
+      "path": "public/art/core/cast/fear/peeking.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -549,13 +539,12 @@
       ],
       "brief": "Fear peeking.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "b03117a4-f296-44ac-b114-82a0e033684a",
-      "path": "/art/core/cast/fear/peeking.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "fear.peeking"
+      "provenance_locator": "b03117a4-f296-44ac-b114-82a0e033684a"
     },
-    "grind.wheel": {
+    {
+      "key": "grind.wheel",
+      "path": "public/art/core/cast/grind/wheel.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -569,13 +558,12 @@
       ],
       "brief": "The Grind in hamster wheel.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "cfe6c570-0ef2-4ee5-976a-53dc0cbf15d0",
-      "path": "/art/core/cast/grind/wheel.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "grind.wheel"
+      "provenance_locator": "cfe6c570-0ef2-4ee5-976a-53dc0cbf15d0"
     },
-    "progress.cheering": {
+    {
+      "key": "progress.cheering",
+      "path": "public/art/core/cast/progress/cheering.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -589,14 +577,12 @@
       ],
       "brief": "Progress cheering.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "77a68aec-b006-427b-a71c-a0dbe889ab9f",
-      "path": "/art/core/cast/progress/cheering.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "progress.cheering"
+      "provenance_locator": "77a68aec-b006-427b-a71c-a0dbe889ab9f"
     },
-    "progress.presenting": {
+    {
+      "key": "progress.presenting",
       "group": "C_cast",
+      "kind": "character",
       "size": "900x1100",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -614,15 +600,14 @@
       "transparent": true,
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/core/cast/progress/presenting.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "b173fe94-2bb7-4933-a84b-c7d397e91bd9",
-      "path": "/art/core/cast/progress/presenting.png",
-      "kind": "character",
-      "aspect": 0.8182,
-      "label": "progress.presenting"
+      "provenance_locator": "b173fe94-2bb7-4933-a84b-c7d397e91bd9"
     },
-    "quest.default.arms_up_back": {
+    {
+      "key": "quest.default.arms_up_back",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1300x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -640,15 +625,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/arms_up_back.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "217da521-7124-47d2-93b0-b247d315f246",
-      "path": "/art/core/quest/arms_up_back.png",
-      "kind": "character",
-      "aspect": 0.6641,
-      "label": "quest.default.arms_up_back",
-      "character": "quest"
+      "provenance_locator": "217da521-7124-47d2-93b0-b247d315f246"
     },
-    "quest.default.bed_awake": {
+    {
+      "key": "quest.default.bed_awake",
+      "path": "public/art/core/quest/bed_awake.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -665,14 +649,12 @@
       "replaces": "quest.bed_awake",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "001d3476-87ed-43a0-a928-97176b032982",
-      "path": "/art/core/quest/bed_awake.png",
-      "kind": "character",
-      "aspect": 1.125,
-      "label": "quest.default.bed_awake",
-      "character": "quest"
+      "provenance_locator": "001d3476-87ed-43a0-a928-97176b032982"
     },
-    "quest.default.bed_sleeping": {
+    {
+      "key": "quest.default.bed_sleeping",
+      "path": "public/art/core/quest/bed_sleeping.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -689,15 +671,12 @@
       "replaces": "quest.bed_sleeping",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "0846b112-6a14-4789-931b-83ec754b2a77",
-      "path": "/art/core/quest/bed_sleeping.png",
-      "kind": "character",
-      "aspect": 1.125,
-      "label": "quest.default.bed_sleeping",
-      "character": "quest"
+      "provenance_locator": "0846b112-6a14-4789-931b-83ec754b2a77"
     },
-    "quest.default.broom_bored": {
+    {
+      "key": "quest.default.broom_bored",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1300x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -714,15 +693,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/broom_bored.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "8509f6cf-5276-4511-99ab-e7d9ae23d787",
-      "path": "/art/core/quest/broom_bored.png",
-      "kind": "character",
-      "aspect": 0.6641,
-      "label": "quest.default.broom_bored",
-      "character": "quest"
+      "provenance_locator": "8509f6cf-5276-4511-99ab-e7d9ae23d787"
     },
-    "quest.default.desk_typing": {
+    {
+      "key": "quest.default.desk_typing",
+      "path": "public/art/core/quest/desk_typing.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -739,15 +717,12 @@
       "character_version": "Quest_v1",
       "replaces": "quest.desk_typing",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "50801315-b705-4774-ad2e-624bdaef6490",
-      "path": "/art/core/quest/desk_typing.png",
-      "kind": "character",
-      "aspect": 1.25,
-      "label": "quest.default.desk_typing",
-      "character": "quest"
+      "provenance_locator": "50801315-b705-4774-ad2e-624bdaef6490"
     },
-    "quest.default.drive_calm": {
+    {
+      "key": "quest.default.drive_calm",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1800x1600",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -765,16 +740,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/drive_calm.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "bdf354a6-c044-4c21-b240-db1f31a529d4",
-      "path": "/art/core/quest/drive_calm.png",
-      "kind": "character",
-      "aspect": 1.125,
-      "label": "quest.default.drive_calm",
-      "character": "quest"
+      "provenance_locator": "bdf354a6-c044-4c21-b240-db1f31a529d4"
     },
-    "quest.default.drive_relaxed": {
+    {
+      "key": "quest.default.drive_relaxed",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1800x1600",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -792,16 +765,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/drive_relaxed.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "467e34e7-47c3-4033-b57d-fa77c9b353c8",
-      "path": "/art/core/quest/drive_relaxed.png",
-      "kind": "character",
-      "aspect": 1.125,
-      "label": "quest.default.drive_relaxed",
-      "character": "quest"
+      "provenance_locator": "467e34e7-47c3-4033-b57d-fa77c9b353c8"
     },
-    "quest.default.drive_stressed": {
+    {
+      "key": "quest.default.drive_stressed",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1800x1600",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -818,15 +789,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/drive_stressed.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "e6ac17eb-792f-4838-8110-222fca13a9c9",
-      "path": "/art/core/quest/drive_stressed.png",
-      "kind": "character",
-      "aspect": 1.125,
-      "label": "quest.default.drive_stressed",
-      "character": "quest"
+      "provenance_locator": "e6ac17eb-792f-4838-8110-222fca13a9c9"
     },
-    "quest.default.exhausted_slumped": {
+    {
+      "key": "quest.default.exhausted_slumped",
+      "path": "public/art/core/quest/exhausted_slumped.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -842,14 +812,12 @@
       "character_version": "Quest_v1",
       "replaces": "quest.exhausted_slumped",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "d018103b-9fff-4868-8e9b-319255efbb7e",
-      "path": "/art/core/quest/exhausted_slumped.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "quest.default.exhausted_slumped",
-      "character": "quest"
+      "provenance_locator": "d018103b-9fff-4868-8e9b-319255efbb7e"
     },
-    "quest.default.gaming_excited": {
+    {
+      "key": "quest.default.gaming_excited",
+      "path": "public/art/core/quest/gaming_excited.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -865,15 +833,12 @@
       "character_version": "Quest_v1",
       "replaces": "quest.farmer_gaming",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "2cc21fd0-31eb-4e01-aecd-963624131a4f",
-      "path": "/art/core/quest/gaming_excited.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "quest.default.gaming_excited",
-      "character": "quest"
+      "provenance_locator": "2cc21fd0-31eb-4e01-aecd-963624131a4f"
     },
-    "quest.default.head_in_hands": {
+    {
+      "key": "quest.default.head_in_hands",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1500x1700",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -891,15 +856,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/head_in_hands.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "9edfe3c4-c983-491b-831e-0dc7d0f542de",
-      "path": "/art/core/quest/head_in_hands.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "quest.default.head_in_hands",
-      "character": "quest"
+      "provenance_locator": "9edfe3c4-c983-491b-831e-0dc7d0f542de"
     },
-    "quest.default.holding_paycheck": {
+    {
+      "key": "quest.default.holding_paycheck",
+      "path": "public/art/core/quest/holding_paycheck.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -915,15 +879,12 @@
       "character_version": "Quest_v1",
       "replaces": "quest.holding_paycheck",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ab2219a6-ee5c-4c3e-bb8e-10f4866781b2",
-      "path": "/art/core/quest/holding_paycheck.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "quest.default.holding_paycheck",
-      "character": "quest"
+      "provenance_locator": "ab2219a6-ee5c-4c3e-bb8e-10f4866781b2"
     },
-    "quest.default.holding_tray": {
+    {
+      "key": "quest.default.holding_tray",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1600x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -941,15 +902,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/holding_tray.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "880314e1-2871-45da-8a11-d0dfee1af3b7",
-      "path": "/art/core/quest/holding_tray.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "quest.default.holding_tray",
-      "character": "quest"
+      "provenance_locator": "880314e1-2871-45da-8a11-d0dfee1af3b7"
     },
-    "quest.default.looking_up_awe": {
+    {
+      "key": "quest.default.looking_up_awe",
+      "path": "public/art/core/quest/looking_up_awe.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -965,15 +925,12 @@
       "replaces": "quest.looking_up_awe",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "13879301-a1de-4366-b7ce-3a52fecddec5",
-      "path": "/art/core/quest/looking_up_awe.png",
-      "kind": "character",
-      "aspect": 0.7488,
-      "label": "quest.default.looking_up_awe",
-      "character": "quest"
+      "provenance_locator": "13879301-a1de-4366-b7ce-3a52fecddec5"
     },
-    "quest.default.phone_overwhelmed": {
+    {
+      "key": "quest.default.phone_overwhelmed",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1400x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -990,16 +947,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/phone_overwhelmed.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "8b60eac6-45a3-481d-b7a6-bc5955e1d228",
-      "path": "/art/core/quest/phone_overwhelmed.png",
-      "kind": "character",
-      "aspect": 0.7,
-      "label": "quest.default.phone_overwhelmed",
-      "character": "quest"
+      "provenance_locator": "8b60eac6-45a3-481d-b7a6-bc5955e1d228"
     },
-    "quest.default.planning_tablet": {
+    {
+      "key": "quest.default.planning_tablet",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1300x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1017,16 +972,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/planning_tablet.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "d8bf55fd-6105-4ef0-a3bb-70c656b6dfc8",
-      "path": "/art/core/quest/planning_tablet.png",
-      "kind": "character",
-      "aspect": 0.6641,
-      "label": "quest.default.planning_tablet",
-      "character": "quest"
+      "provenance_locator": "d8bf55fd-6105-4ef0-a3bb-70c656b6dfc8"
     },
-    "quest.default.reading_manual": {
+    {
+      "key": "quest.default.reading_manual",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1500x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1043,15 +996,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/reading_manual.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "6928bd98-21fe-4497-bf01-41039403b569",
-      "path": "/art/core/quest/reading_manual.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "quest.default.reading_manual",
-      "character": "quest"
+      "provenance_locator": "6928bd98-21fe-4497-bf01-41039403b569"
     },
-    "quest.default.sitting_back": {
+    {
+      "key": "quest.default.sitting_back",
+      "path": "public/art/core/quest/sitting_back.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1069,15 +1021,12 @@
       "replaces": "quest.sitting_back",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "bdb3f5de-abae-4283-b801-9366e32a6a5f",
-      "path": "/art/core/quest/sitting_back.png",
-      "kind": "character",
-      "aspect": 0.8889,
-      "label": "quest.default.sitting_back",
-      "character": "quest"
+      "provenance_locator": "bdb3f5de-abae-4283-b801-9366e32a6a5f"
     },
-    "quest.default.sitting_back_turn": {
+    {
+      "key": "quest.default.sitting_back_turn",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1600x1800",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1094,17 +1043,15 @@
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/sitting_back_turn.png",
       "swap_set": "sitting_back_swap",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "882f45d0-8034-4e08-a821-cc6353498c22",
-      "path": "/art/core/quest/sitting_back_turn.png",
-      "kind": "character",
-      "aspect": 0.8889,
-      "label": "quest.default.sitting_back_turn",
-      "character": "quest"
+      "provenance_locator": "882f45d0-8034-4e08-a821-cc6353498c22"
     },
-    "quest.default.vacuum": {
+    {
+      "key": "quest.default.vacuum",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1500x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1121,16 +1068,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/vacuum.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "a05f76c7-081d-489c-87a4-acdd583636cc",
-      "path": "/art/core/quest/vacuum.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "quest.default.vacuum",
-      "character": "quest"
+      "provenance_locator": "a05f76c7-081d-489c-87a4-acdd583636cc"
     },
-    "quest.default.walking_back": {
+    {
+      "key": "quest.default.walking_back",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1200x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1148,16 +1093,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/walking_back.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "acc4ee25-3148-48df-8ec7-ddaad8a3364b",
-      "path": "/art/core/quest/walking_back.png",
-      "kind": "character",
-      "aspect": 0.5655,
-      "label": "quest.default.walking_back",
-      "character": "quest"
+      "provenance_locator": "acc4ee25-3148-48df-8ec7-ddaad8a3364b"
     },
-    "quest.default.worried_seated": {
+    {
+      "key": "quest.default.worried_seated",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1500x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1175,16 +1118,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/worried_seated.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "b1bbc9c1-e4c6-4b9e-857d-c54b3dab78b7",
-      "path": "/art/core/quest/worried_seated.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "quest.default.worried_seated",
-      "character": "quest"
+      "provenance_locator": "b1bbc9c1-e4c6-4b9e-857d-c54b3dab78b7"
     },
-    "quest.default.wrench_fixing": {
+    {
+      "key": "quest.default.wrench_fixing",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1500x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1201,15 +1142,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/core/quest/wrench_fixing.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ea20d8b5-249a-4154-a7fb-876344dc6b09",
-      "path": "/art/core/quest/wrench_fixing.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "quest.default.wrench_fixing",
-      "character": "quest"
+      "provenance_locator": "ea20d8b5-249a-4154-a7fb-876344dc6b09"
     },
-    "wallet.fainted": {
+    {
+      "key": "wallet.fainted",
+      "path": "public/art/core/cast/wallet/fainted.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1223,13 +1163,12 @@
       ],
       "brief": "Wallet fainted/exhausted.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "96f69a63-bbe7-4fd5-abf9-7ef70eb8ad73",
-      "path": "/art/core/cast/wallet/fainted.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "wallet.fainted"
+      "provenance_locator": "96f69a63-bbe7-4fd5-abf9-7ef70eb8ad73"
     },
-    "wallet.happy": {
+    {
+      "key": "wallet.happy",
+      "path": "public/art/core/cast/wallet/happy.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1243,13 +1182,12 @@
       ],
       "brief": "Wallet happy.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "c4f9924e-ac4b-4449-9a82-dc9e931ce268",
-      "path": "/art/core/cast/wallet/happy.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "wallet.happy"
+      "provenance_locator": "c4f9924e-ac4b-4449-9a82-dc9e931ce268"
     },
-    "wallet.worried": {
+    {
+      "key": "wallet.worried",
+      "path": "public/art/core/cast/wallet/worried.png",
+      "kind": "character",
       "library_tier": "CORE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1263,14 +1201,12 @@
       ],
       "brief": "Wallet worried.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "c7ff2c00-f6db-4c02-bb1a-6d99ffe47686",
-      "path": "/art/core/cast/wallet/worried.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "wallet.worried"
+      "provenance_locator": "c7ff2c00-f6db-4c02-bb1a-6d99ffe47686"
     },
-    "ep001.bg_bank_office": {
+    {
+      "key": "ep001.bg_bank_office",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1286,15 +1222,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/episodes/ep001/backgrounds/bank_office.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "abe97557-7773-4373-bc7f-9bb00ad25f6e",
-      "path": "/art/episodes/ep001/backgrounds/bank_office.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "ep001.bg_bank_office"
+      "provenance_locator": "abe97557-7773-4373-bc7f-9bb00ad25f6e"
     },
-    "ep001.bg_crossroads": {
+    {
+      "key": "ep001.bg_crossroads",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1311,15 +1246,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/episodes/ep001/backgrounds/crossroads.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "c9c286a4-89b1-44de-9b4a-6c5cf8888a8b",
-      "path": "/art/episodes/ep001/backgrounds/crossroads.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "ep001.bg_crossroads"
+      "provenance_locator": "c9c286a4-89b1-44de-9b4a-6c5cf8888a8b"
     },
-    "ep001.bg_fantasy_doors": {
+    {
+      "key": "ep001.bg_fantasy_doors",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1335,15 +1269,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/episodes/ep001/backgrounds/fantasy_doors.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "4ff3ebaf-8121-475a-a245-07378594b9d7",
-      "path": "/art/episodes/ep001/backgrounds/fantasy_doors.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "ep001.bg_fantasy_doors"
+      "provenance_locator": "4ff3ebaf-8121-475a-a245-07378594b9d7"
     },
-    "ep001.npc.banker": {
+    {
+      "key": "ep001.npc.banker",
       "group": "C_cast",
+      "kind": "character",
       "size": "1300x2000",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -1359,15 +1292,14 @@
       "transparent": true,
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/episodes/ep001/characters/banker.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "cd7c1a99-1acf-4262-8882-f53959dbc81c",
-      "path": "/art/episodes/ep001/characters/banker.png",
-      "kind": "character",
-      "aspect": 0.6641,
-      "label": "ep001.npc.banker"
+      "provenance_locator": "cd7c1a99-1acf-4262-8882-f53959dbc81c"
     },
-    "genre.building_sandbox.quest.pickaxe": {
+    {
+      "key": "genre.building_sandbox.quest.pickaxe",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1500x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1385,16 +1317,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/genres/building_sandbox/quest/pickaxe.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ca03f5a8-5135-40cb-9e67-6640028d32ae",
-      "path": "/art/genres/building_sandbox/quest/pickaxe.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "genre.building_sandbox.quest.pickaxe",
-      "character": "quest"
+      "provenance_locator": "ca03f5a8-5135-40cb-9e67-6640028d32ae"
     },
-    "genre.driving_simulation.quest.cheering_car": {
+    {
+      "key": "genre.driving_simulation.quest.cheering_car",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "2600x1500",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -1411,16 +1341,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/genres/driving_simulation/quest/cheering_car.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ce184050-830f-4dbd-9f6d-cf7b31baaf30",
-      "path": "/art/genres/driving_simulation/quest/cheering_car.png",
-      "kind": "character",
-      "aspect": 1.7684,
-      "label": "genre.driving_simulation.quest.cheering_car",
-      "character": "quest"
+      "provenance_locator": "ce184050-830f-4dbd-9f6d-cf7b31baaf30"
     },
-    "genre.fantasy.bg_castle_rescue": {
+    {
+      "key": "genre.fantasy.bg_castle_rescue",
       "group": "HOOK_REPLACEMENTS",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1436,15 +1364,15 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/fantasy/backgrounds/bg_castle_rescue.png",
       "replaces": "ep001.bg_castle",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "aca0c972-ff86-4890-8f36-9a8d6d1d3e58",
-      "path": "/art/genres/fantasy/backgrounds/bg_castle_rescue.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.fantasy.bg_castle_rescue"
+      "provenance_locator": "aca0c972-ff86-4890-8f36-9a8d6d1d3e58"
     },
-    "genre.fantasy.bg_dragon_crag": {
+    {
+      "key": "genre.fantasy.bg_dragon_crag",
+      "path": "public/art/genres/fantasy/backgrounds/dragon_crag.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1459,13 +1387,12 @@
       "brief": "Stormy fantasy crag with depth and clear placement zone for dragon/Quest; no characters.",
       "replaces": "ep001.bg_fantasy",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "503e9adf-d131-4eda-8e68-e35e02c1c20b",
-      "path": "/art/genres/fantasy/backgrounds/dragon_crag.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.fantasy.bg_dragon_crag"
+      "provenance_locator": "503e9adf-d131-4eda-8e68-e35e02c1c20b"
     },
-    "genre.fantasy.dragon": {
+    {
+      "key": "genre.fantasy.dragon",
+      "path": "public/art/genres/fantasy/characters/dragon.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1480,14 +1407,12 @@
       "brief": "SecondQuest fantasy dragon.",
       "replaces": "ep001.dragon",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f3bfbac2-d158-4f21-8d53-7553fbccf55a",
-      "path": "/art/genres/fantasy/characters/dragon.png",
-      "kind": "character",
-      "aspect": 1.3333,
-      "label": "genre.fantasy.dragon"
+      "provenance_locator": "f3bfbac2-d158-4f21-8d53-7553fbccf55a"
     },
-    "genre.fantasy.princess": {
+    {
+      "key": "genre.fantasy.princess",
       "group": "HOOK_REPLACEMENTS",
+      "kind": "character",
       "size": "1400x2000",
       "format": "PNG, transparent",
       "used_in": [
@@ -1503,14 +1428,14 @@
       "transparent": true,
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/fantasy/characters/princess.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "3a414bec-0e3a-44fb-b58c-3ffc178c399e",
-      "path": "/art/genres/fantasy/characters/princess.png",
-      "kind": "character",
-      "aspect": 0.7,
-      "label": "genre.fantasy.princess"
+      "provenance_locator": "3a414bec-0e3a-44fb-b58c-3ffc178c399e"
     },
-    "genre.fantasy.quest.knight": {
+    {
+      "key": "genre.fantasy.quest.knight",
+      "path": "public/art/genres/fantasy/quest/knight.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1526,15 +1451,12 @@
       "replaces": "quest.knight",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "be14f4bb-325a-4549-b59a-6581e031d3d3",
-      "path": "/art/genres/fantasy/quest/knight.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "genre.fantasy.quest.knight",
-      "character": "quest"
+      "provenance_locator": "be14f4bb-325a-4549-b59a-6581e031d3d3"
     },
-    "genre.farming.animal.chickens": {
+    {
+      "key": "genre.farming.animal.chickens",
       "group": "D_props",
+      "kind": "animal",
       "size": "1200x700",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -1550,15 +1472,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/animals/chickens.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "999a5565-2aee-4c3b-ab76-4052958e20fe",
-      "path": "/art/genres/farming/animals/chickens.png",
-      "kind": "object",
-      "aspect": 1.7872,
-      "label": "genre.farming.animal.chickens"
+      "provenance_locator": "999a5565-2aee-4c3b-ab76-4052958e20fe"
     },
-    "genre.farming.animal.cow": {
+    {
+      "key": "genre.farming.animal.cow",
       "group": "D_props",
+      "kind": "animal",
       "size": "1400x1000",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -1575,15 +1496,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/animals/cow.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "85ea9f4c-2e8f-467c-82c0-fdf1355383d9",
-      "path": "/art/genres/farming/animals/cow.png",
-      "kind": "object",
-      "aspect": 1.3394,
-      "label": "genre.farming.animal.cow"
+      "provenance_locator": "85ea9f4c-2e8f-467c-82c0-fdf1355383d9"
     },
-    "genre.farming.animal.pig": {
+    {
+      "key": "genre.farming.animal.pig",
       "group": "D_props",
+      "kind": "animal",
       "size": "1000x700",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -1599,14 +1519,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/animals/pig.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "22224124-10b7-4c57-adae-e19f8c1f9d93",
-      "path": "/art/genres/farming/animals/pig.png",
-      "kind": "object",
-      "aspect": 1.4286,
-      "label": "genre.farming.animal.pig"
+      "provenance_locator": "22224124-10b7-4c57-adae-e19f8c1f9d93"
     },
-    "genre.farming.bg_dealership": {
+    {
+      "key": "genre.farming.bg_dealership",
+      "path": "public/art/genres/farming/backgrounds/dealership.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1622,14 +1542,12 @@
       "brief": "Generic tractor dealership lot, open centre/right for machine reveal, no brands.",
       "replaces": "ep001.bg_dealership",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "e466ba28-c06d-4c50-8ba9-9543d93ad64d",
-      "path": "/art/genres/farming/backgrounds/dealership.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_dealership"
+      "provenance_locator": "e466ba28-c06d-4c50-8ba9-9543d93ad64d"
     },
-    "genre.farming.bg_farm_aerial": {
+    {
+      "key": "genre.farming.bg_farm_aerial",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1648,15 +1566,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/farm_aerial.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "c8d4fd2e-2839-4b1a-974e-6493e3b942e3",
-      "path": "/art/genres/farming/backgrounds/farm_aerial.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_farm_aerial"
+      "provenance_locator": "c8d4fd2e-2839-4b1a-974e-6493e3b942e3"
     },
-    "genre.farming.bg_farm_storm": {
+    {
+      "key": "genre.farming.bg_farm_storm",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1672,15 +1589,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/farm_storm.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ac4dff89-bc3c-41b1-843c-35027b76676f",
-      "path": "/art/genres/farming/backgrounds/farm_storm.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_farm_storm"
+      "provenance_locator": "ac4dff89-bc3c-41b1-843c-35027b76676f"
     },
-    "genre.farming.bg_farm_yard": {
+    {
+      "key": "genre.farming.bg_farm_yard",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1698,15 +1614,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/farm_yard.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "66ab7a62-cedc-4752-897d-fe5bbf46c49f",
-      "path": "/art/genres/farming/backgrounds/farm_yard.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_farm_yard"
+      "provenance_locator": "66ab7a62-cedc-4752-897d-fe5bbf46c49f"
     },
-    "genre.farming.bg_field_golden": {
+    {
+      "key": "genre.farming.bg_field_golden",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1724,15 +1639,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/field_golden.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "2e7d9a9f-8a97-4330-8eef-9d46b026bcaa",
-      "path": "/art/genres/farming/backgrounds/field_golden.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_field_golden"
+      "provenance_locator": "2e7d9a9f-8a97-4330-8eef-9d46b026bcaa"
     },
-    "genre.farming.bg_field_green": {
+    {
+      "key": "genre.farming.bg_field_green",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1750,15 +1664,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/field_green.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "dfa7019a-f332-40c9-b3a6-22190bedead9",
-      "path": "/art/genres/farming/backgrounds/field_green.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_field_green"
+      "provenance_locator": "dfa7019a-f332-40c9-b3a6-22190bedead9"
     },
-    "genre.farming.bg_field_harvested": {
+    {
+      "key": "genre.farming.bg_field_harvested",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1775,14 +1688,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/field_harvested.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "ebe6cb1f-cb22-464c-ad68-8faa168e7dcc",
-      "path": "/art/genres/farming/backgrounds/field_harvested.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_field_harvested"
+      "provenance_locator": "ebe6cb1f-cb22-464c-ad68-8faa168e7dcc"
     },
-    "genre.farming.bg_field_huge_detail": {
+    {
+      "key": "genre.farming.bg_field_huge_detail",
+      "path": "public/art/genres/farming/backgrounds/field_huge_detail.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1796,13 +1709,12 @@
       ],
       "brief": "Closer field composition for the setup before the reveal; designed to cut/pull to wide field without digital 5.5x zoom.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f8721469-4f0e-4328-80e2-f031aa014dc4",
-      "path": "/art/genres/farming/backgrounds/field_huge_detail.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_field_huge_detail"
+      "provenance_locator": "f8721469-4f0e-4328-80e2-f031aa014dc4"
     },
-    "genre.farming.bg_field_huge_wide": {
+    {
+      "key": "genre.farming.bg_field_huge_wide",
+      "path": "public/art/genres/farming/backgrounds/field_huge_wide.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1817,14 +1729,12 @@
       "brief": "Very wide enormous field reveal, tiny scale cues at horizon; no need for extreme zoom.",
       "replaces": "ep001.bg_field_huge",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "480adbae-4f5b-43b8-aaff-b3d507138d61",
-      "path": "/art/genres/farming/backgrounds/field_huge_wide.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_field_huge_wide"
+      "provenance_locator": "480adbae-4f5b-43b8-aaff-b3d507138d61"
     },
-    "genre.farming.bg_field_overhead": {
+    {
+      "key": "genre.farming.bg_field_overhead",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1840,15 +1750,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/field_overhead.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "6598698f-a076-4838-a57b-d41bc7fe213e",
-      "path": "/art/genres/farming/backgrounds/field_overhead.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_field_overhead"
+      "provenance_locator": "6598698f-a076-4838-a57b-d41bc7fe213e"
     },
-    "genre.farming.bg_field_plowed": {
+    {
+      "key": "genre.farming.bg_field_plowed",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1866,15 +1775,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/field_plowed.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "70518046-57a5-4eb5-9ee9-e1ce188649ae",
-      "path": "/art/genres/farming/backgrounds/field_plowed.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_field_plowed"
+      "provenance_locator": "70518046-57a5-4eb5-9ee9-e1ce188649ae"
     },
-    "genre.farming.bg_field_sprouting": {
+    {
+      "key": "genre.farming.bg_field_sprouting",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1892,15 +1800,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/field_sprouting.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "b54abcce-2b83-46d6-af43-f8b0c54a4e41",
-      "path": "/art/genres/farming/backgrounds/field_sprouting.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_field_sprouting"
+      "provenance_locator": "b54abcce-2b83-46d6-af43-f8b0c54a4e41"
     },
-    "genre.farming.bg_grain_yard": {
+    {
+      "key": "genre.farming.bg_grain_yard",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1918,14 +1825,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/grain_yard.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "3705169a-fc5c-492b-9730-a8a5aa67b686",
-      "path": "/art/genres/farming/backgrounds/grain_yard.png",
-      "kind": "background",
-      "aspect": 1.7778,
-      "label": "genre.farming.bg_grain_yard"
+      "provenance_locator": "3705169a-fc5c-492b-9730-a8a5aa67b686"
     },
-    "genre.farming.bg_idealized_game_farm": {
+    {
+      "key": "genre.farming.bg_idealized_game_farm",
+      "path": "public/art/genres/farming/backgrounds/idealized_game_farm.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -1940,14 +1847,12 @@
       "brief": "Bright idealized game-farm field designed for layered Quest/tractor composition.",
       "replaces": "ep001.bg_farm_ingame",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "a28a726c-781d-4f5b-93de-3453061d8573",
-      "path": "/art/genres/farming/backgrounds/idealized_game_farm.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_idealized_game_farm"
+      "provenance_locator": "a28a726c-781d-4f5b-93de-3453061d8573"
     },
-    "genre.farming.bg_real_farm": {
+    {
+      "key": "genre.farming.bg_real_farm",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1963,15 +1868,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/real_farm.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "8c807591-c24d-47e9-9fdc-4ef615520a2e",
-      "path": "/art/genres/farming/backgrounds/real_farm.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_real_farm"
+      "provenance_locator": "8c807591-c24d-47e9-9fdc-4ef615520a2e"
     },
-    "genre.farming.bg_riverbank": {
+    {
+      "key": "genre.farming.bg_riverbank",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -1987,14 +1891,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/riverbank.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "517ce87f-875b-40d2-bda3-6968f1f71416",
-      "path": "/art/genres/farming/backgrounds/riverbank.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_riverbank"
+      "provenance_locator": "517ce87f-875b-40d2-bda3-6968f1f71416"
     },
-    "genre.farming.bg_station_animals": {
+    {
+      "key": "genre.farming.bg_station_animals",
+      "path": "public/art/genres/farming/backgrounds/station_animals.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2009,13 +1913,12 @@
       "brief": "Animal pen/feeding station framed for feeding Quest pose and clean animal props.",
       "replaces": "ep001.bg_farm_panorama",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "000de7b2-294d-4638-83d0-f7f0fbc86738",
-      "path": "/art/genres/farming/backgrounds/station_animals.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_station_animals"
+      "provenance_locator": "000de7b2-294d-4638-83d0-f7f0fbc86738"
     },
-    "genre.farming.bg_station_fertilizer": {
+    {
+      "key": "genre.farming.bg_station_fertilizer",
+      "path": "public/art/genres/farming/backgrounds/station_fertilizer.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2029,13 +1932,12 @@
       ],
       "brief": "Farm fertilizer/transport station framed for fertilizer Quest pose and trailer.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f529b1b1-c208-4267-9cd9-30cb585266e6",
-      "path": "/art/genres/farming/backgrounds/station_fertilizer.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_station_fertilizer"
+      "provenance_locator": "f529b1b1-c208-4267-9cd9-30cb585266e6"
     },
-    "genre.farming.bg_station_planting": {
+    {
+      "key": "genre.farming.bg_station_planting",
+      "path": "public/art/genres/farming/backgrounds/station_planting.png",
+      "kind": "background",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2049,14 +1951,12 @@
       ],
       "brief": "Farm planting station framed specifically for planting Quest pose and planting props.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "9de3b2f1-4c6d-4961-9dce-ce2b20b8ab5e",
-      "path": "/art/genres/farming/backgrounds/station_planting.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_station_planting"
+      "provenance_locator": "9de3b2f1-4c6d-4961-9dce-ce2b20b8ab5e"
     },
-    "genre.farming.bg_tractor_cab": {
+    {
+      "key": "genre.farming.bg_tractor_cab",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -2073,15 +1973,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/tractor_cab.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "3d4869c1-06d8-4dc5-8877-872adbe0f91d",
-      "path": "/art/genres/farming/backgrounds/tractor_cab.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_tractor_cab"
+      "provenance_locator": "3d4869c1-06d8-4dc5-8877-872adbe0f91d"
     },
-    "genre.farming.bg_workshop": {
+    {
+      "key": "genre.farming.bg_workshop",
       "group": "A_backgrounds",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -2098,14 +1997,14 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/backgrounds/workshop.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "6d3021e3-51ca-479e-a39a-b4009544aef9",
-      "path": "/art/genres/farming/backgrounds/workshop.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.farming.bg_workshop"
+      "provenance_locator": "6d3021e3-51ca-479e-a39a-b4009544aef9"
     },
-    "genre.farming.layer.sunset_farm_midground": {
+    {
+      "key": "genre.farming.layer.sunset_farm_midground",
+      "path": "public/art/genres/farming/backgrounds/sunset_farm_midground.png",
+      "kind": "object",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2124,14 +2023,12 @@
       "swap_set": "sunset_parallax_registration",
       "replaces": "ep001.mg_sunset_farm",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "cb9e17cb-f7c6-46c2-b041-0e50b475651b",
-      "path": "/art/genres/farming/backgrounds/sunset_farm_midground.png",
-      "kind": "object",
-      "aspect": 1.7778,
-      "label": "genre.farming.layer.sunset_farm_midground"
+      "provenance_locator": "cb9e17cb-f7c6-46c2-b041-0e50b475651b"
     },
-    "genre.farming.machine.broken_tractor": {
+    {
+      "key": "genre.farming.machine.broken_tractor",
       "group": "D_props",
+      "kind": "machine",
       "size": "2200x1600",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2148,15 +2045,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/broken_tractor.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f0b5e1d2-c3cb-4200-b550-2d84a6b92716",
-      "path": "/art/genres/farming/machines/broken_tractor.png",
-      "kind": "object",
-      "aspect": 1.3355,
-      "label": "genre.farming.machine.broken_tractor"
+      "provenance_locator": "f0b5e1d2-c3cb-4200-b550-2d84a6b92716"
     },
-    "genre.farming.machine.combine": {
+    {
+      "key": "genre.farming.machine.combine",
       "group": "D_props",
+      "kind": "machine",
       "size": "2400x1500",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2175,15 +2071,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/combine.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "7f49f278-dd42-4198-9e14-e7687a44e08c",
-      "path": "/art/genres/farming/machines/combine.png",
-      "kind": "object",
-      "aspect": 1.5,
-      "label": "genre.farming.machine.combine"
+      "provenance_locator": "7f49f278-dd42-4198-9e14-e7687a44e08c"
     },
-    "genre.farming.machine.factory_harvester": {
+    {
+      "key": "genre.farming.machine.factory_harvester",
       "group": "D_props",
+      "kind": "machine",
       "size": "2600x2200",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2199,15 +2094,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/factory_harvester.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "62e35aea-a8ed-40ef-991e-3b05512c0e28",
-      "path": "/art/genres/farming/machines/factory_harvester.png",
-      "kind": "object",
-      "aspect": 1.25,
-      "label": "genre.farming.machine.factory_harvester"
+      "provenance_locator": "62e35aea-a8ed-40ef-991e-3b05512c0e28"
     },
-    "genre.farming.machine.grain_truck": {
+    {
+      "key": "genre.farming.machine.grain_truck",
       "group": "D_props",
+      "kind": "machine",
       "size": "2800x1200",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2224,15 +2118,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/grain_truck.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "86e9b1f1-e96d-4936-825d-bbaa8f87a6e7",
-      "path": "/art/genres/farming/machines/grain_truck.png",
-      "kind": "object",
-      "aspect": 2.3301,
-      "label": "genre.farming.machine.grain_truck"
+      "provenance_locator": "86e9b1f1-e96d-4936-825d-bbaa8f87a6e7"
     },
-    "genre.farming.machine.harvester_water": {
+    {
+      "key": "genre.farming.machine.harvester_water",
       "group": "D_props",
+      "kind": "machine",
       "size": "2600x1500",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2248,15 +2141,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/harvester_water.png",
       "provenance_type": "DETERMINISTIC_FROM_HIGGSFIELD",
-      "provenance_locator": "60eb7171-a10a-4c4d-b769-9fe950e50291",
-      "path": "/art/genres/farming/machines/harvester_water.png",
-      "kind": "object",
-      "aspect": 1.7333,
-      "label": "genre.farming.machine.harvester_water"
+      "provenance_locator": "60eb7171-a10a-4c4d-b769-9fe950e50291"
     },
-    "genre.farming.machine.header_12m": {
+    {
+      "key": "genre.farming.machine.header_12m",
       "group": "D_props",
+      "kind": "machine",
       "size": "4200x700",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2272,15 +2164,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/header_12m.png",
       "provenance_type": "DETERMINISTIC_FROM_HIGGSFIELD",
-      "provenance_locator": "be10d610-f28d-46a2-a9e6-b5ed21437eee",
-      "path": "/art/genres/farming/machines/header_12m.png",
-      "kind": "object",
-      "aspect": 6,
-      "label": "genre.farming.machine.header_12m"
+      "provenance_locator": "be10d610-f28d-46a2-a9e6-b5ed21437eee"
     },
-    "genre.farming.machine.header_3m": {
+    {
+      "key": "genre.farming.machine.header_3m",
       "group": "D_props",
+      "kind": "machine",
       "size": "1200x500",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2296,15 +2187,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/header_3m.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "4c53c344-3a82-4051-8a99-c640da44f671",
-      "path": "/art/genres/farming/machines/header_3m.png",
-      "kind": "object",
-      "aspect": 2.3333,
-      "label": "genre.farming.machine.header_3m"
+      "provenance_locator": "4c53c344-3a82-4051-8a99-c640da44f671"
     },
-    "genre.farming.machine.header_6m": {
+    {
+      "key": "genre.farming.machine.header_6m",
       "group": "D_props",
+      "kind": "machine",
       "size": "2400x600",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2320,15 +2210,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/header_6m.png",
       "provenance_type": "DETERMINISTIC_FROM_HIGGSFIELD",
-      "provenance_locator": "bdb6d0b5-f5db-4617-a3be-3acf50b1178d",
-      "path": "/art/genres/farming/machines/header_6m.png",
-      "kind": "object",
-      "aspect": 4,
-      "label": "genre.farming.machine.header_6m"
+      "provenance_locator": "bdb6d0b5-f5db-4617-a3be-3acf50b1178d"
     },
-    "genre.farming.machine.machine_clutter": {
+    {
+      "key": "genre.farming.machine.machine_clutter",
       "group": "D_props",
+      "kind": "machine",
       "size": "3000x1200",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2344,15 +2233,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/machine_clutter.png",
       "provenance_type": "DETERMINISTIC_FROM_HIGGSFIELD",
-      "provenance_locator": "b1e189e7-960e-41c2-ae52-0e1fbf3e0a26",
-      "path": "/art/genres/farming/machines/machine_clutter.png",
-      "kind": "object",
-      "aspect": 2.5,
-      "label": "genre.farming.machine.machine_clutter"
+      "provenance_locator": "b1e189e7-960e-41c2-ae52-0e1fbf3e0a26"
     },
-    "genre.farming.machine.seeder": {
+    {
+      "key": "genre.farming.machine.seeder",
       "group": "D_props",
+      "kind": "machine",
       "size": "2400x1000",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2370,15 +2258,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/seeder.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f715df9a-93ca-484e-9934-175c287da01f",
-      "path": "/art/genres/farming/machines/seeder.png",
-      "kind": "object",
-      "aspect": 2.3301,
-      "label": "genre.farming.machine.seeder"
+      "provenance_locator": "f715df9a-93ca-484e-9934-175c287da01f"
     },
-    "genre.farming.machine.sprayer": {
+    {
+      "key": "genre.farming.machine.sprayer",
       "group": "D_props",
+      "kind": "machine",
       "size": "2600x1000",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2395,14 +2282,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/sprayer.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "008d6f08-20a2-4151-8020-e62966777b52",
-      "path": "/art/genres/farming/machines/sprayer.png",
-      "kind": "object",
-      "aspect": 2.3301,
-      "label": "genre.farming.machine.sprayer"
+      "provenance_locator": "008d6f08-20a2-4151-8020-e62966777b52"
     },
-    "genre.farming.machine.tractor_bigger": {
+    {
+      "key": "genre.farming.machine.tractor_bigger",
+      "path": "public/art/genres/farming/machines/tractor_bigger.png",
+      "kind": "machine",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2417,13 +2304,12 @@
       "brief": "Bigger tractor.",
       "replaces": "ep001.tractor_bigger",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "a5e08e02-8b37-4728-a021-8329c88ab78f",
-      "path": "/art/genres/farming/machines/tractor_bigger.png",
-      "kind": "object",
-      "aspect": 1,
-      "label": "genre.farming.machine.tractor_bigger"
+      "provenance_locator": "a5e08e02-8b37-4728-a021-8329c88ab78f"
     },
-    "genre.farming.machine.tractor_huge": {
+    {
+      "key": "genre.farming.machine.tractor_huge",
+      "path": "public/art/genres/farming/machines/tractor_huge.png",
+      "kind": "machine",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2439,14 +2325,12 @@
       "brief": "Huge tractor.",
       "replaces": "ep001.tractor_huge",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "7db026e2-3e0e-4a5f-95ba-f9e94cc282bd",
-      "path": "/art/genres/farming/machines/tractor_huge.png",
-      "kind": "object",
-      "aspect": 1.3333,
-      "label": "genre.farming.machine.tractor_huge"
+      "provenance_locator": "7db026e2-3e0e-4a5f-95ba-f9e94cc282bd"
     },
-    "genre.farming.machine.tractor_small": {
+    {
+      "key": "genre.farming.machine.tractor_small",
       "group": "D_props",
+      "kind": "machine",
       "size": "1200x900",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2464,15 +2348,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/tractor_small.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "be747767-4ca1-453c-b869-5ea818e4262f",
-      "path": "/art/genres/farming/machines/tractor_small.png",
-      "kind": "object",
-      "aspect": 1.3394,
-      "label": "genre.farming.machine.tractor_small"
+      "provenance_locator": "be747767-4ca1-453c-b869-5ea818e4262f"
     },
-    "genre.farming.machine.tractor_topdown": {
+    {
+      "key": "genre.farming.machine.tractor_topdown",
       "group": "D_props",
+      "kind": "machine",
       "size": "700x1100",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2488,15 +2371,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/machines/tractor_topdown.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "351b8fd9-d28a-4c72-80b0-adf3c702869d",
-      "path": "/art/genres/farming/machines/tractor_topdown.png",
-      "kind": "object",
-      "aspect": 0.6364,
-      "label": "genre.farming.machine.tractor_topdown"
+      "provenance_locator": "351b8fd9-d28a-4c72-80b0-adf3c702869d"
     },
-    "genre.farming.prop.farm_sign_blank": {
+    {
+      "key": "genre.farming.prop.farm_sign_blank",
       "group": "D_props",
+      "kind": "object",
       "size": "1400x1200",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2512,14 +2394,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/props/farm_sign_blank.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/farm_sign_blank.png",
-      "path": "/art/genres/farming/props/farm_sign_blank.png",
-      "kind": "object",
-      "aspect": 1.1667,
-      "label": "genre.farming.prop.farm_sign_blank"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/farm_sign_blank.png"
     },
-    "genre.farming.prop.hay_roll": {
+    {
+      "key": "genre.farming.prop.hay_roll",
+      "path": "public/art/genres/farming/props/hay_roll.png",
+      "kind": "object",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2534,14 +2416,12 @@
       "brief": "Hay/straw roll or bale prop for feeding/farm gag.",
       "replaces": "ep001.hay_roll",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/hay_roll.png",
-      "path": "/art/genres/farming/props/hay_roll.png",
-      "kind": "object",
-      "aspect": 1,
-      "label": "genre.farming.prop.hay_roll"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/hay_roll.png"
     },
-    "genre.farming.prop.manual_book": {
+    {
+      "key": "genre.farming.prop.manual_book",
       "group": "D_props",
+      "kind": "object",
       "size": "1200x1000",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2557,15 +2437,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/props/manual_book.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/manual_book.png",
-      "path": "/art/genres/farming/props/manual_book.png",
-      "kind": "object",
-      "aspect": 1.2,
-      "label": "genre.farming.prop.manual_book"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/manual_book.png"
     },
-    "genre.farming.prop.sacks_pile": {
+    {
+      "key": "genre.farming.prop.sacks_pile",
       "group": "D_props",
+      "kind": "object",
       "size": "1400x900",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2581,15 +2460,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/props/sacks_pile.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/sacks_pile.png",
-      "path": "/art/genres/farming/props/sacks_pile.png",
-      "kind": "object",
-      "aspect": 1.5556,
-      "label": "genre.farming.prop.sacks_pile"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/sacks_pile.png"
     },
-    "genre.farming.prop.seedling": {
+    {
+      "key": "genre.farming.prop.seedling",
       "group": "D_props",
+      "kind": "object",
       "size": "700x900",
       "format": "PNG, transparent, base on bottom edge",
       "used_in": [
@@ -2606,14 +2484,14 @@
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/farming/props/seedling.png",
       "provenance_type": "HIGGSFIELD_APPROVED_PACKAGE",
-      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/seedling.png",
-      "path": "/art/genres/farming/props/seedling.png",
-      "kind": "object",
-      "aspect": 0.7778,
-      "label": "genre.farming.prop.seedling"
+      "provenance_locator": "SecondQuest_B02A_HIGGSFIELD_APPROVED_v1.zip#genre/farming/props/seedling.png"
     },
-    "genre.farming.prop.trailer_cargo": {
+    {
+      "key": "genre.farming.prop.trailer_cargo",
+      "path": "public/art/genres/farming/props/trailer_cargo.png",
+      "kind": "object",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2628,14 +2506,12 @@
       "brief": "Generic fertilizer/cargo trailer, transparent, no readable brand/text.",
       "replaces": "ep001.trailer_cargo",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "18e7a4ff-503d-4f17-9d8b-4d3311cc8bf0",
-      "path": "/art/genres/farming/props/trailer_cargo.png",
-      "kind": "object",
-      "aspect": 1.7684,
-      "label": "genre.farming.prop.trailer_cargo"
+      "provenance_locator": "18e7a4ff-503d-4f17-9d8b-4d3311cc8bf0"
     },
-    "genre.farming.quest.cap_off_sunset": {
+    {
+      "key": "genre.farming.quest.cap_off_sunset",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1200x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -2652,16 +2528,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/genres/farming/quest/cap_off_sunset.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "bf48f21f-d338-4268-b2da-8f9a9d2f8e13",
-      "path": "/art/genres/farming/quest/cap_off_sunset.png",
-      "kind": "character",
-      "aspect": 0.5655,
-      "label": "genre.farming.quest.cap_off_sunset",
-      "character": "quest"
+      "provenance_locator": "bf48f21f-d338-4268-b2da-8f9a9d2f8e13"
     },
-    "genre.farming.quest.carrying_sacks": {
+    {
+      "key": "genre.farming.quest.carrying_sacks",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1600x2000",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -2678,15 +2552,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/genres/farming/quest/carrying_sacks.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "a527c1be-ccd9-4c36-aab4-68ec6b093fc5",
-      "path": "/art/genres/farming/quest/carrying_sacks.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "genre.farming.quest.carrying_sacks",
-      "character": "quest"
+      "provenance_locator": "a527c1be-ccd9-4c36-aab4-68ec6b093fc5"
     },
-    "genre.farming.quest.excited": {
+    {
+      "key": "genre.farming.quest.excited",
+      "path": "public/art/genres/farming/quest/excited.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2702,14 +2575,12 @@
       "replaces": "quest.excited",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "f42c30bd-ce09-4ada-81c2-f2e33b6943fb",
-      "path": "/art/genres/farming/quest/excited.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "genre.farming.quest.excited",
-      "character": "quest"
+      "provenance_locator": "f42c30bd-ce09-4ada-81c2-f2e33b6943fb"
     },
-    "genre.farming.quest.feeding": {
+    {
+      "key": "genre.farming.quest.feeding",
+      "path": "public/art/genres/farming/quest/feeding.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2726,14 +2597,12 @@
       "replaces": "quest.farmer_feeding",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "06cf4ba0-9f56-4efd-a0a5-2fbeb2dcb227",
-      "path": "/art/genres/farming/quest/feeding.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "genre.farming.quest.feeding",
-      "character": "quest"
+      "provenance_locator": "06cf4ba0-9f56-4efd-a0a5-2fbeb2dcb227"
     },
-    "genre.farming.quest.fertilizer": {
+    {
+      "key": "genre.farming.quest.fertilizer",
+      "path": "public/art/genres/farming/quest/fertilizer.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2750,14 +2619,12 @@
       "replaces": "quest.farmer_fertilizer",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "602825bd-651a-460d-9e6c-ce58f8dcc842",
-      "path": "/art/genres/farming/quest/fertilizer.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "genre.farming.quest.fertilizer",
-      "character": "quest"
+      "provenance_locator": "602825bd-651a-460d-9e6c-ce58f8dcc842"
     },
-    "genre.farming.quest.heroic": {
+    {
+      "key": "genre.farming.quest.heroic",
+      "path": "public/art/genres/farming/quest/heroic.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2773,14 +2640,12 @@
       "character_version": "Quest_v1",
       "notes": "Character-only FINAL_ART. Engine key quest.tractor_heroic is rebuilt as a layered composition: genre.farming.quest.heroic + genre.farming.machine.tractor_huge.",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "830bbd41-c4c6-4b2d-b458-a6a4a41e8f0b",
-      "path": "/art/genres/farming/quest/heroic.png",
-      "kind": "character",
-      "aspect": 0.7466,
-      "label": "genre.farming.quest.heroic",
-      "character": "quest"
+      "provenance_locator": "830bbd41-c4c6-4b2d-b458-a6a4a41e8f0b"
     },
-    "genre.farming.quest.planting": {
+    {
+      "key": "genre.farming.quest.planting",
+      "path": "public/art/genres/farming/quest/planting.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2797,15 +2662,12 @@
       "replaces": "quest.farmer_planting",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "38060f7f-8185-4614-9dde-3579a3ce456f",
-      "path": "/art/genres/farming/quest/planting.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "genre.farming.quest.planting",
-      "character": "quest"
+      "provenance_locator": "38060f7f-8185-4614-9dde-3579a3ce456f"
     },
-    "genre.farming.quest.rain_huddled": {
+    {
+      "key": "genre.farming.quest.rain_huddled",
       "group": "B_quest_poses",
+      "kind": "character",
       "size": "1600x1600",
       "format": "PNG, transparent, feet on bottom edge",
       "used_in": [
@@ -2822,15 +2684,14 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/genres/farming/quest/rain_huddled.png",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "95b3242b-fd40-44d9-b388-5e57da542bcc",
-      "path": "/art/genres/farming/quest/rain_huddled.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "genre.farming.quest.rain_huddled",
-      "character": "quest"
+      "provenance_locator": "95b3242b-fd40-44d9-b388-5e57da542bcc"
     },
-    "genre.farming.quest.tractor_side": {
+    {
+      "key": "genre.farming.quest.tractor_side",
+      "path": "public/art/genres/farming/quest/tractor_side.png",
+      "kind": "character",
       "library_tier": "GENRE",
       "source": "FINAL_ART",
       "status": "APPROVED",
@@ -2847,15 +2708,12 @@
       "replaces": "quest.tractor_side",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "a814e20c-38af-4704-b236-20b2b73547db",
-      "path": "/art/genres/farming/quest/tractor_side.png",
-      "kind": "character",
-      "aspect": 1.25,
-      "label": "genre.farming.quest.tractor_side",
-      "character": "quest"
+      "provenance_locator": "a814e20c-38af-4704-b236-20b2b73547db"
     },
-    "genre.war.bg_battlefield_city": {
+    {
+      "key": "genre.war.bg_battlefield_city",
       "group": "HOOK_REPLACEMENTS",
+      "kind": "background",
       "size": "3840x2160",
       "format": "PNG/WebP, opaque, 16:9",
       "used_in": [
@@ -2871,16 +2729,15 @@
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
+      "path": "public/art/genres/war_action/backgrounds/bg_battlefield_city.png",
       "replaces": "ep001.bg_action",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "441ff2ae-b173-46a4-84b7-95c507772407",
-      "path": "/art/genres/war_action/backgrounds/bg_battlefield_city.png",
-      "kind": "background",
-      "aspect": 1.7917,
-      "label": "genre.war.bg_battlefield_city"
+      "provenance_locator": "441ff2ae-b173-46a4-84b7-95c507772407"
     },
-    "genre.war.quest_tactical_action": {
+    {
+      "key": "genre.war.quest_tactical_action",
       "group": "HOOK_REPLACEMENTS",
+      "kind": "character",
       "size": "1800x2000",
       "format": "PNG, transparent",
       "used_in": [
@@ -2897,258 +2754,10 @@
       "safe_zoom": 1.45,
       "style_version": "SecondQuest_2D_v1",
       "character_version": "Quest_v1",
+      "path": "public/art/genres/war_action/quest/quest_tactical_action.png",
       "replaces": "quest.action_hero",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "71569566-3fe1-4901-ab57-e1dcd49b7014",
-      "path": "/art/genres/war_action/quest/quest_tactical_action.png",
-      "kind": "character",
-      "aspect": 0.9,
-      "label": "genre.war.quest_tactical_action",
-      "character": "quest"
-    },
-    "progress.empty": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": false,
-      "resolution": "896x1120",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "32e40baf-6d63-4a82-9f2d-02c73b468f17",
-      "path": "/art/core/cast/progress/empty.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "progress.empty"
-    },
-    "progress.half": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "896x1120",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M27"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "f91e5046-7a0f-4592-a146-b6481d565253",
-      "path": "/art/core/cast/progress/half.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "progress.half"
-    },
-    "progress.full": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "896x1120",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M27"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "6aabe582-6710-4c1a-94ea-0c30e269213f",
-      "path": "/art/core/cast/progress/full.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "progress.full"
-    },
-    "progress.calm_encouraging": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "896x1120",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M18",
-        "M43"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "ab29447b-670a-48fe-98ec-dfa0da1c630c",
-      "path": "/art/core/cast/progress/calm_encouraging.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "progress.calm_encouraging"
-    },
-    "progress.quiet_companion": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "896x1120",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M36"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "ab2f0958-3a58-4bf6-9c4e-22a01e3614b0",
-      "path": "/art/core/cast/progress/quiet_companion.png",
-      "kind": "character",
-      "aspect": 0.8,
-      "label": "progress.quiet_companion"
-    },
-    "wallet.overwhelmed_debt": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "1024x1024",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M17",
-        "M28"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "c9ebfd44-c932-4080-99b7-c1027b668ae9",
-      "path": "/art/core/cast/wallet/overwhelmed_debt.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "wallet.overwhelmed_debt"
-    },
-    "wallet.price_shock": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "1024x1024",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M33"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "94823a6c-d9d7-47df-8d1d-1650662f9463",
-      "path": "/art/core/cast/wallet/price_shock.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "wallet.price_shock"
-    },
-    "wallet.market_crushed": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "1024x1024",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M41"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "32350665-5c0b-4b2e-9842-76645ad8e96d",
-      "path": "/art/core/cast/wallet/market_crushed.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "wallet.market_crushed"
-    },
-    "grind.straining": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "1024x1024",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M06",
-        "M27"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "475c6b09-236d-4597-afd1-2ec22514b428",
-      "path": "/art/core/cast/grind/straining.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "grind.straining"
-    },
-    "grind.relaxed": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "1024x1024",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M38"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "6287ace2-d556-4e1b-a805-151e015fae03",
-      "path": "/art/core/cast/grind/relaxed.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "grind.relaxed"
-    },
-    "ep001.npc.banker_pointing_contract": {
-      "library_tier": "EPISODE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": true,
-      "resolution": "1360x2048",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [
-        "M17"
-      ],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "f69119ef-acb9-4227-ab24-f516e6efcfb5",
-      "path": "/art/episodes/ep001/characters/banker_pointing_contract.png",
-      "kind": "character",
-      "aspect": 0.6641,
-      "label": "ep001.npc.banker_pointing_contract"
-    },
-    "fear.trembling_fullbody": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": false,
-      "resolution": "1024x1024",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "47f61c1b-8972-40d6-be09-266483558236",
-      "path": "/art/core/cast/fear/trembling_fullbody.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "fear.trembling_fullbody"
-    },
-    "fear.hiding_behind_object": {
-      "library_tier": "CORE",
-      "source": "FINAL_ART",
-      "status": "APPROVED",
-      "required": false,
-      "resolution": "1024x1024",
-      "transparent": true,
-      "safe_zoom": 1.45,
-      "style_version": "SecondQuest_2D_v1",
-      "used_in": [],
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "higgsfield_job_id": "a58a35e5-f5c7-4773-a7e1-b84a287a3e14",
-      "path": "/art/core/cast/fear/hiding_behind_object.png",
-      "kind": "character",
-      "aspect": 1,
-      "label": "fear.hiding_behind_object"
+      "provenance_locator": "71569566-3fe1-4901-ab57-e1dcd49b7014"
     }
-  }
+  ]
 }
