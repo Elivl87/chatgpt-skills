@@ -11,17 +11,27 @@ Los subtítulos y los capítulos se generan con `python3 scripts/ep001-publish.p
 
 ---
 
-## 1. Título: elige uno (máximo 100 caracteres; mejor por debajo de 60)
+## 1. Título: dos versiones para probar con Test & Compare
 
-1. **Why Do Millions of People Play a Game About Farming?** (es el título del episodio; claro y fácil de encontrar)
-2. **Why Is a Game About Farming So Addictive?**
-3. **Farming Simulator Is Just Work… So Why Do We Love It?**
+Reglas aplicadas:
+- **YouTube:** palabras clave al principio, porque a veces solo se ve una parte del título; idealmente unos 50–60 caracteres.
+- **Paddy Galloway:** algo familiar con un giro inesperado, que genere curiosidad.
+- **MrBeast:** el título y la miniatura se piensan juntos y no repiten la misma idea.
 
-Recomendación: el **1**. Es la pregunta exacta que hace el vídeo y la que la gente busca.
+| | Título | Caracteres | Para qué |
+|---|---|---|---|
+| **A** | Farming Simulator: Why Millions Play a Game About Work | 54 | Búsqueda: "Farming Simulator" va primero, más el giro de "about work" |
+| **B** | Why Do Millions of People Play a Game About Farming? | 52 | Curiosidad: la pregunta del episodio |
+
+**Cómo usarlos:** publica con el **A** y activa Test & Compare con el **B** (YouTube Studio en computador → Detalles → *A/B Testing*). YouTube elige al ganador por tiempo de visualización, en unos días a dos semanas.
 
 ## 2. Descripción (copiar y pegar en YouTube)
 
+Las dos primeras líneas son las que se ven en la búsqueda y bajo el vídeo, así que llevan la palabra clave y el gancho.
+
 ```
+Farming Simulator is a game about… going to work. So why do millions of people play it for fun?
+
 Farming Simulator is a game where you wake up, go to work, make money, buy extremely expensive equipment… and go back to work. There are no dragons. No gunfights. No princess to save. And yet millions of people spend their evenings planting crops and getting genuinely excited about a bigger tractor.
 
 So… why?
@@ -72,20 +82,20 @@ Con los dos, el vídeo llega también al público hispano, y los subtítulos exa
 | Contenido alterado o sintético | Sí: voz e imágenes generadas con IA. YouTube pide declararlo cuando el contenido parece realista; en estilo cartoon no siempre es obligatorio, pero declararlo es lo más seguro. |
 | Pantalla final (últimos 5–20 s) | Suscribirse + vídeo recomendado. El cierre de M46 (9:34–9:45) tiene espacio para ponerla. |
 
-## 6. Miniatura (thumbnail): 2 conceptos para elegir
+## 6. Miniatura (thumbnail): 3 variantes para Test & Compare
 
-Formato: 1280x720, como máximo 3 palabras grandes, Quest_v1 con cara reconocible. Se genera en Higgsfield (gpt_image_2_5) con referencias de cara de Quest, por unos **0,5–1 crédito por intento**.
+**Reglas aplicadas**, de la ayuda oficial de YouTube, MrBeast y la guía en español:
+- **Formato:** 1280x720, diseño simple, regla de tercios, legible en el teléfono.
+- **Personaje:** una cara expresiva, Quest_v1 con su sudadera roja.
+- **Texto:** como máximo 3 palabras, en negrita con sombra, con colores de alto contraste.
+- **El texto complementa al título, no lo repite.**
 
-**Concepto A: "¿Trabajo… por diversión?"**
-- Quest sentado en un tractor verde enorme, mirando a cámara con cara de "¿en serio?".
-- Fondo de campo dorado al atardecer.
-- Texto grande: **"WHY?!"**
-- Funciona porque responde directo al título, con un personaje expresivo y mucho contraste.
+**Escena base de las tres** (para que la prueba mida solo el mensaje): Quest sentado en un tractor verde enorme, en un campo dorado al atardecer, mirando a cámara.
 
-**Concepto B: "La mejor noche de mi vida"**
-- Quest de noche frente a la pantalla, feliz, con el reflejo de un tractor en sus ojos o lentes.
-- Detrás, una barra de progreso al 99 %.
-- Texto: **"JUST FARMING"**
-- Funciona por la curiosidad: una noche emocionante… cultivando.
+| Variante | Expresión de Quest | Texto | Idea |
+|---|---|---|---|
+| **1** | Cansado e incrédulo ("¿en serio?") | **IT'S JUST WORK** | Contradicción: un juego que es trabajo |
+| **2** | Muy emocionado, brazos arriba | **BEST NIGHT EVER** | Ironía: una noche emocionante… cultivando |
+| **3** | Asombrado, señalando el tractor | **$500,000 TRACTOR** | Lo extremo (MrBeast: "cuanto más extremo, mejor") |
 
-Recomendación: el **A**. Es más simple y se lee mejor en tamaño pequeño, que es como la mayoría ve las miniaturas (en el teléfono).
+**Generación:** se genera la imagen sin texto en Higgsfield (gpt_image_2_5, 16:9, con referencias de cara de Quest_v1), a unos **0,5–1 crédito por imagen**, con un máximo de 2 intentos por imagen. El texto se pone después, de forma programática, con la tipografía del canal; así queda nítido y se puede cambiar gratis.
