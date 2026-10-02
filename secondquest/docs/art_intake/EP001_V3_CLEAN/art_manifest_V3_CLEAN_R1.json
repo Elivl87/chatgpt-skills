@@ -648,7 +648,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1800x1600",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -660,7 +660,8 @@
       "replaces": "quest.bed_awake",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "001d3476-87ed-43a0-a928-97176b032982"
+      "provenance_locator": "357265fd-43a9-4358-9ac9-3e4d1b526520",
+      "sha256": "b4cb4cfc8af0e08b9748c80955b13bdcb2f83cb1fb1ba079fff185a313630b96"
     },
     {
       "key": "quest.default.bed_sleeping",
@@ -670,7 +671,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1800x1600",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -682,7 +683,8 @@
       "replaces": "quest.bed_sleeping",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "0846b112-6a14-4789-931b-83ec754b2a77"
+      "provenance_locator": "d3862ccf-6db7-4766-8d36-54529fa85a29",
+      "sha256": "e532123f10775efc88121a2274f2f1d37e70bda27138f8cc66a47d286c2d6408"
     },
     {
       "key": "quest.default.broom_bored",
@@ -1019,7 +1021,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1600x1800",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -1032,7 +1034,8 @@
       "replaces": "quest.sitting_back",
       "character_version": "Quest_v1",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "bdb3f5de-abae-4283-b801-9366e32a6a5f"
+      "provenance_locator": "de555c8a-262e-4be3-9802-05ddfbe88424",
+      "sha256": "88b4a75e040d16c54848fdc3e282e4ac13bc3cbfc34c229aae89b2c1ea8876d8"
     },
     {
       "key": "quest.default.sitting_back_turn",
@@ -1049,7 +1052,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1600x1800",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -1057,7 +1060,8 @@
       "path": "public/art/core/quest/sitting_back_turn.png",
       "swap_set": "sitting_back_swap",
       "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "882f45d0-8034-4e08-a821-cc6353498c22"
+      "provenance_locator": "ee8bdf72-f944-435f-a3de-103925c3ff16",
+      "sha256": "c7f1b0693135a3e58009c7e5d9bad97f1aface4df952f1b9a494275248c5cb78"
     },
     {
       "key": "quest.default.vacuum",

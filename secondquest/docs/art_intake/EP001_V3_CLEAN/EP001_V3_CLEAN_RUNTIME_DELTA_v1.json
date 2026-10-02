@@ -6,14 +6,15 @@
   "baseline": {
     "base": 121,
     "supplemental": 13,
-    "runtime_auxiliary_assets": 0
+    "runtime_auxiliary_assets": 2
   },
   "note": "Same keys, tiers, paths and used_in. Original delivered files are preserved outside public/art; manifest art_manifest_V3_CLEAN_R1.json = corrected resolutions (resolution delta v1) + this runtime delta.",
   "higgsfield_credits": {
     "start": 155.2,
     "failed_attempt_background_remover_brand.wordmark": 1.0,
     "brand.wordmark": 1.0,
-    "genre.farming.prop.hay_roll": 0.5
+    "genre.farming.prop.hay_roll": 0.5,
+    "batch_producer_review_2026-10-02": 5.5
   },
   "changes": [
     {
@@ -287,6 +288,135 @@
       "operation": "DETERMINISTIC_CROP",
       "detail": "trimmed transparent padding to the lettering bbox + 24px margin (np.int64(58), np.int64(333), np.int64(2663), np.int64(781)); no scaling, star / lettering / colours untouched",
       "cost_credits": 0
+    },
+    {
+      "key": "quest.default.sitting_back",
+      "path": "public/art/core/quest/sitting_back.png",
+      "parent_sha256": "d66a5bf483597977abfd68c7531c58dc7d929d2a7680181498934bf39e8072ec",
+      "parent_provenance": {
+        "locator": "bdb3f5de-abae-4283-b801-9366e32a6a5f"
+      },
+      "output_sha256": "88b4a75e040d16c54848fdc3e282e4ac13bc3cbfc34c229aae89b2c1ea8876d8",
+      "resolution": "2048x1360",
+      "operation": "HIGGSFIELD_REGENERATION",
+      "reason": "delivered art was a front-facing reclining pose that covered the horizon; Art Order brief = back view seated on fence looking at horizon (Producer request)",
+      "higgsfield_job_id": "de555c8a-262e-4be3-9802-05ddfbe88424",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 3:2, transparent",
+      "cost_credits": 1.0,
+      "attempts": 1
+    },
+    {
+      "key": "quest.default.sitting_back_turn",
+      "path": "public/art/core/quest/sitting_back_turn.png",
+      "parent_sha256": "f93a98e1e50cfab0599ede9baaddc1d21a67bb3fba2d74493ae6ab8455ca067b",
+      "parent_provenance": {
+        "locator": "882f45d0-8034-4e08-a821-cc6353498c22"
+      },
+      "output_sha256": "c7f1b0693135a3e58009c7e5d9bad97f1aface4df952f1b9a494275248c5cb78",
+      "resolution": "2048x1360",
+      "operation": "HIGGSFIELD_REGENERATION",
+      "reason": "registered head-turn mate of the new sitting_back (same canvas), for the M46 swap",
+      "higgsfield_job_id": "ee8bdf72-f944-435f-a3de-103925c3ff16",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 3:2, transparent",
+      "cost_credits": 1.0,
+      "attempts": 1
+    },
+    {
+      "key": "quest.default.bed_sleeping",
+      "path": "public/art/core/quest/bed_sleeping.png",
+      "parent_sha256": "7e70e7b7c79954e972f54261328f409f38977313204d2d08c4dfa9f70c525c31",
+      "parent_provenance": {
+        "locator": "0846b112-6a14-4789-931b-83ec754b2a77"
+      },
+      "output_sha256": "e532123f10775efc88121a2274f2f1d37e70bda27138f8cc66a47d286c2d6408",
+      "resolution": "2048x1360",
+      "operation": "HIGGSFIELD_REGENERATION",
+      "reason": "delivered sleeping pose had no bed frame (looked like Quest lying on the floor); new pose sleeps in the bedroom bed (patchwork quilt)",
+      "higgsfield_job_id": "d3862ccf-6db7-4766-8d36-54529fa85a29",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 3:2, transparent",
+      "cost_credits": 1.0,
+      "attempts": 1
+    },
+    {
+      "key": "quest.default.bed_awake",
+      "path": "public/art/core/quest/bed_awake.png",
+      "parent_sha256": "f2afdc31b73ad8db9a58e323fd3216adcd9944b2371ef2b062679dffe3a59952",
+      "parent_provenance": {
+        "locator": "001d3476-87ed-43a0-a928-97176b032982"
+      },
+      "output_sha256": "b4cb4cfc8af0e08b9748c80955b13bdcb2f83cb1fb1ba079fff185a313630b96",
+      "resolution": "2048x1360",
+      "operation": "HIGGSFIELD_REGENERATION",
+      "reason": "registered wake-up mate of the new bed_sleeping (same canvas)",
+      "higgsfield_job_id": "357265fd-43a9-4358-9ac9-3e4d1b526520",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 3:2, transparent",
+      "cost_credits": 1.0,
+      "attempts": 1
+    },
+    {
+      "key": "ep001.prop.police_car",
+      "path": "public/art/episodes/ep001/props/police_car.png",
+      "operation": "HIGGSFIELD_GENERATION_RUNTIME_AUXILIARY",
+      "reason": "M16 GTA: police chase behind the red car (Producer request)",
+      "higgsfield_job_id": "50f46fc5-4e68-4a10-9c08-499dbeb734dc",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 1k, transparent",
+      "resolution": "1024x688",
+      "output_sha256": "2cecd84a8491904d7f4f7e67047fa53fdf6624bbcaff0a342bf84caa1273feac",
+      "cost_credits": 0.5,
+      "attempts": 1
+    },
+    {
+      "key": "ep001.quest.stuck_in_traffic_car",
+      "path": "public/art/episodes/ep001/quest/stuck_in_traffic_car.png",
+      "operation": "HIGGSFIELD_GENERATION_RUNTIME_AUXILIARY",
+      "reason": "M28 traffic: Quest stressed inside his car (was a floating steering-wheel pose)",
+      "higgsfield_job_id": "3fee819d-4e75-464d-9036-1ef880922468",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, transparent",
+      "resolution": "2336x1744",
+      "output_sha256": "eee0a0afa5874065f25210203ae0194fb40e803250659c14bb5b4168cb4e6634",
+      "cost_credits": 1.0,
+      "attempts": 1
+    }
+  ],
+  "runtime_auxiliary_assets": [
+    {
+      "key": "ep001.prop.police_car",
+      "path": "public/art/episodes/ep001/props/police_car.png",
+      "kind": "object",
+      "library_tier": "EPISODE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1024x688",
+      "transparent": true,
+      "safe_zoom": 1.35,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M16"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "50f46fc5-4e68-4a10-9c08-499dbeb734dc",
+      "sha256": "2cecd84a8491904d7f4f7e67047fa53fdf6624bbcaff0a342bf84caa1273feac"
+    },
+    {
+      "key": "ep001.quest.stuck_in_traffic_car",
+      "path": "public/art/episodes/ep001/quest/stuck_in_traffic_car.png",
+      "kind": "character",
+      "library_tier": "EPISODE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "2336x1744",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M28"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "higgsfield_job_id": "3fee819d-4e75-464d-9036-1ef880922468",
+      "sha256": "eee0a0afa5874065f25210203ae0194fb40e803250659c14bb5b4168cb4e6634",
+      "character_version": "Quest_v1"
     }
   ]
 }

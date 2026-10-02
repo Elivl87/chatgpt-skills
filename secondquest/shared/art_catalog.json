@@ -653,7 +653,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1800x1600",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -668,7 +668,7 @@
       "provenance_locator": "001d3476-87ed-43a0-a928-97176b032982",
       "path": "/art/core/quest/bed_awake.png",
       "kind": "character",
-      "aspect": 1.125,
+      "aspect": 1.5059,
       "label": "quest.default.bed_awake",
       "character": "quest"
     },
@@ -677,7 +677,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1800x1600",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -692,7 +692,7 @@
       "provenance_locator": "0846b112-6a14-4789-931b-83ec754b2a77",
       "path": "/art/core/quest/bed_sleeping.png",
       "kind": "character",
-      "aspect": 1.125,
+      "aspect": 1.5059,
       "label": "quest.default.bed_sleeping",
       "character": "quest"
     },
@@ -1056,7 +1056,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1600x1800",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -1072,7 +1072,7 @@
       "provenance_locator": "bdb3f5de-abae-4283-b801-9366e32a6a5f",
       "path": "/art/core/quest/sitting_back.png",
       "kind": "character",
-      "aspect": 0.8889,
+      "aspect": 1.5059,
       "label": "quest.default.sitting_back",
       "character": "quest"
     },
@@ -1089,7 +1089,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1600x1800",
+      "resolution": "2048x1360",
       "transparent": true,
       "safe_zoom": 1.35,
       "style_version": "SecondQuest_2D_v1",
@@ -1099,7 +1099,7 @@
       "provenance_locator": "882f45d0-8034-4e08-a821-cc6353498c22",
       "path": "/art/core/quest/sitting_back_turn.png",
       "kind": "character",
-      "aspect": 0.8889,
+      "aspect": 1.5059,
       "label": "quest.default.sitting_back_turn",
       "character": "quest"
     },
@@ -3149,6 +3149,44 @@
       "kind": "character",
       "aspect": 1,
       "label": "fear.hiding_behind_object"
+    },
+    "ep001.prop.police_car": {
+      "kind": "object",
+      "library_tier": "EPISODE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "1024x688",
+      "transparent": true,
+      "safe_zoom": 1.35,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M16"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "path": "/art/episodes/ep001/props/police_car.png",
+      "aspect": 1.4884,
+      "label": "ep001.prop.police_car"
+    },
+    "ep001.quest.stuck_in_traffic_car": {
+      "kind": "character",
+      "library_tier": "EPISODE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "2336x1744",
+      "transparent": true,
+      "safe_zoom": 1.45,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M28"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "character_version": "Quest_v1",
+      "path": "/art/episodes/ep001/quest/stuck_in_traffic_car.png",
+      "aspect": 1.3394,
+      "label": "ep001.quest.stuck_in_traffic_car",
+      "character": "quest"
     }
   }
 }

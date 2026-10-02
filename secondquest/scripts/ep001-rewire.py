@@ -41,7 +41,10 @@ BREATHE = [{'type': 'breathe', 'frequency': 0.2, 'intensity': 1.2}]
 # --- full.* plate -> composition (layers replacing the plate layer) ------------------------
 FULL = {
     'full.portals': [bg('ep001.bg_fantasy_doors'), ch('quest.default.looking_up_awe', 0.5, 0.5)],
-    'full.crime_car': [bg('core.bg.city_traffic'), ob('genre.driving_simulation.quest.cheering_car', 0.5, 0.62, 0.96)],
+    'full.crime_car': [bg('core.bg.city_apartments_evening'),
+                       ob('ep001.prop.police_car', 0.93, 0.26, 0.95, anim=[{'type': 'slide_in', 'from': 'right', 'at': 0.15, 'duration': 0.5}, {'type': 'shake', 'at': 0.6, 'intensity': 0.35, 'frequency': 14}]),
+                       ob('ep001.prop.police_car', 0.72, 0.3, 0.97, anim=[{'type': 'slide_in', 'from': 'right', 'at': 0.05, 'duration': 0.45}, {'type': 'shake', 'at': 0.5, 'intensity': 0.35, 'frequency': 14}]),
+                       ob('genre.driving_simulation.quest.cheering_car', 0.36, 0.44, 0.99, anim=[{'type': 'slide_in', 'from': 'right', 'at': 0, 'duration': 0.4}, {'type': 'shake', 'at': 0.4, 'intensity': 0.3, 'frequency': 14}])],
     'full.bank_loan': [bg('ep001.bg_bank_office'), ch('ep001.npc.banker_pointing_contract', 0.7, 0.74), ch('quest.default.worried_seated', 0.3, 0.6)],
     'full.field_empty': [bg('genre.farming.bg_field_plowed')],
     'full.field_rows': [bg('genre.farming.bg_field_sprouting'), ch('progress.calm_encouraging', 0.72, 0.42, 0.9, anim=POP + BOB)],
@@ -65,7 +68,7 @@ FULL = {
     'full.expand': [bg('genre.farming.bg_farm_aerial')],
     'full.repeat_bg': [bg('genre.farming.bg_field_sprouting')],
     'full.next_upgrade': [bg('genre.farming.bg_dealership'), ob('genre.farming.machine.tractor_bigger', 0.52, 0.5, 0.94)],
-    'full.cycle_relax': [bg('genre.farming.bg_tractor_cab'), ch('quest.default.drive_relaxed', 0.5, 0.66, 1.02, anim=BREATHE)],
+    'full.cycle_relax': [bg('genre.farming.bg_tractor_cab')],  # driver POV through the windshield
     'full.farm_yours': [bg('genre.farming.bg_farm_yard'), ch('genre.farming.prop.farm_sign_blank', 0.74, 0.36, 0.95)],
     'full.chores': [bg('core.bg.home_living_day'), ch('quest.default.broom_bored', 0.38, 0.7), ch('core.prop.laundry_basket', 0.72, 0.26)],
     'full.mining': [bg('genre.farming.bg_field_plowed'), ch('genre.building_sandbox.quest.pickaxe', 0.5, 0.7, anim=POP + [{'type': 'bounce', 'frequency': 2.5, 'intensity': 0.3}])],
@@ -75,10 +78,12 @@ FULL = {
     'full.progress_chore': [bg('core.bg.home_living_day'), ch('quest.default.vacuum', 0.4, 0.7)],
     'full.night_gamer_bg': [bg('core.bg.living_room_night_gaming')],
     'full.goals_list': [bg('core.bg.home_living_night'), ch('quest.default.planning_tablet', 0.5, 0.68)],
-    'full.traffic': [bg('core.bg.city_traffic'), ch('quest.default.drive_stressed', 0.5, 0.56, 1.0)],
+    'full.traffic': [bg('core.bg.city_traffic'), ch('ep001.quest.stuck_in_traffic_car', 0.5, 0.56, 1.0, anim=POP + [{'type': 'shake', 'at': 0.5, 'intensity': 0.2, 'frequency': 3}])],
     'full.prices': [bg('core.bg.home_living_night'), ch('wallet.overwhelmed_debt', 0.5, 0.56)],
     'full.router': [bg('core.bg.home_living_night'), ch('core.prop.router', 0.68, 0.22, 0.86), ch('quest.default.head_in_hands', 0.34, 0.6)],
-    'full.mini_farm': [bg('core.bg.home_living_night'), ch('core.prop.mini_farm', 0.5, 0.5, 0.86)],
+    'full.mini_farm': [bg('core.bg.home_living_night'), {'type': 'light', 'shape': 'vignette', 'color': '#000000', 'intensity': 0.45},
+                       {'type': 'rect', 'x': 0.5, 'y': 0.5, 'w': 0.5, 'h': 0.62, 'color': '#3a2416', 'radius': 18, 'depth': 'screen', 'animations': copy.deepcopy(POP)},
+                       {'asset': 'core.prop.mini_farm', 'x': 0.5, 'y': 0.5, 'height': 0.56, 'anchor': [0.5, 0.5], 'depth': 'screen', 'animations': copy.deepcopy(POP)}],
     'full.cause_chain': [bg('genre.farming.bg_farm_aerial'), ob('core.prop.domino_row', 0.5, 0.62, 0.7)],
     'full.domino': [bg('genre.farming.bg_farm_aerial'), ob('core.prop.domino_row', 0.5, 0.7, 0.72)],
     'full.aerial_tractor': [bg('genre.farming.bg_field_overhead'), ch('genre.farming.machine.tractor_topdown', 0.5, 0.42, 0.75, anim=POP)],
@@ -92,12 +97,12 @@ FULL = {
     'full.bigger_header': [bg('genre.farming.bg_field_golden'), ob('genre.farming.machine.header_12m', 0.5, 0.95, 0.85)],
     'full.sunset_quest': [bg('core.bg.sunset_sky'), {'asset': 'genre.farming.layer.sunset_farm_midground', 'x': 0.5, 'y': 0.52, 'width': 1.0, 'depth': 0.35},
                           ch('quest.default.sitting_back', 0.3, 0.52, 0.85, anim=BREATHE, depth=0.75), {'asset': 'core.layer.fence_foreground', 'x': 0.51, 'y': 0.556, 'width': 0.95, 'depth': 1.0}],
-    'full.slow_cab': [bg('genre.farming.bg_tractor_cab'), ch('quest.default.drive_calm', 0.5, 0.66, 1.02, anim=BREATHE)],
+    'full.slow_cab': [bg('genre.farming.bg_tractor_cab')],  # driver POV
     'full.calm_field': [bg('genre.farming.bg_field_golden')],
     'full.overhead_rows': [bg('genre.farming.bg_field_overhead'), ch('genre.farming.machine.tractor_topdown', 0.5, 0.36, 0.7)],
     'full.grind_quest': [bg('core.bg.home_living_night'), ch('quest.default.phone_overwhelmed', 0.34, 0.66), ch('grind.relaxed', 0.72, 0.46, 0.9)],
     'full.notif_cloud': [bg('core.bg.home_living_night'), ch('quest.default.phone_overwhelmed', 0.5, 0.68)],
-    'full.cab_relaxed': [bg('genre.farming.bg_tractor_cab'), ch('quest.default.drive_relaxed', 0.5, 0.66, 1.02, anim=BREATHE)],
+    'full.cab_relaxed': [bg('genre.farming.bg_tractor_cab')],  # driver POV
     'full.real_gate': [bg('genre.farming.bg_real_farm')],
     'full.sacks': [bg('genre.farming.bg_real_farm'), ch('genre.farming.quest.carrying_sacks', 0.4, 0.68), ch('genre.farming.prop.sacks_pile', 0.76, 0.26)],
     'full.rain': [bg('genre.farming.bg_farm_storm'), ch('genre.farming.quest.rain_huddled', 0.5, 0.52)],
@@ -131,7 +136,7 @@ SHOT = {
 }
 # legacy key in a given shot -> FINAL_ART key (shot meaning / delta), applied before the generic remap
 SHOT_KEY = {
-    'm34c_machines': {'ep001.bg_farm_panorama': 'genre.farming.bg_farm_aerial'},
+    'm34c_machines': {'ep001.bg_farm_panorama': 'genre.farming.bg_farm_yard'},
     'm35a_buildings': {'ep001.bg_farm_panorama': 'genre.farming.bg_farm_yard'},
     'm35b_animals': {'ep001.bg_farm_panorama': 'genre.farming.bg_farm_yard'},
     'm35c_chain': {'ep001.bg_farm_panorama': 'genre.farming.bg_farm_aerial'},
@@ -168,6 +173,7 @@ def main():
     remap = {a['replaces']: a['key'] for a in man['assets'] if a.get('replaces')}
     remap.update({k: v for k, v in json.loads(REWIRE.read_text())['hook_engine_key_map'].items() if not v.startswith('LAYERED')})
     known = {a['key'] for a in man['assets']} | {a['key'] for a in json.loads((ROOT / 'docs/art_intake/EP001_V3_CLEAN/supplemental_art_manifest.json').read_text())['assets']}
+    known |= {a['key'] for a in json.loads((ROOT / 'docs/art_intake/EP001_V3_CLEAN/EP001_V3_CLEAN_RUNTIME_DELTA_v1.json').read_text()).get('runtime_auxiliary_assets', [])}
 
     def fix(layers, sid):
         out = []
@@ -307,7 +313,7 @@ def main():
     # registered sunset set: landscape fills the bottom, Quest sits on the top rail of the fence
     MG = {'asset': 'genre.farming.layer.sunset_farm_midground', 'x': 0.5, 'y': 1.06, 'width': 1.12, 'anchor': [0.5, 0.77], 'depth': 0.35}
     FE = {'asset': 'core.layer.fence_foreground', 'x': 0.56, 'y': 1.06, 'width': 0.72, 'anchor': [0.5, 0.83], 'depth': 0.8}
-    SEAT = {'x': 0.416, 'y': 0.7216, 'height': 0.40, 'anchor': [0.5, 0.93], 'depth': 0.8}
+    SEAT = {'x': 0.31, 'y': 1.0, 'height': 0.56, 'anchor': [0.5, 0.975], 'depth': 0.8}
     def sunset(layers):
         out = []
         for l in layers:
@@ -315,7 +321,8 @@ def main():
             if k == 'genre.farming.layer.sunset_farm_midground':
                 out.append(dict({kk: vv for kk, vv in l.items() if kk not in ('x', 'y', 'width', 'height', 'anchor', 'depth')}, **MG))
             elif k == 'core.layer.fence_foreground':
-                out.append(dict({kk: vv for kk, vv in l.items() if kk not in ('x', 'y', 'width', 'height', 'anchor', 'depth')}, **FE))
+                if not any(x.get('asset', '').startswith('quest.default.sitting_back') for x in layers):
+                    out.append(dict({kk: vv for kk, vv in l.items() if kk not in ('x', 'y', 'width', 'height', 'anchor', 'depth')}, **FE))
             elif k in ('quest.default.sitting_back', 'quest.default.sitting_back_turn'):
                 out.append(dict({kk: vv for kk, vv in l.items() if kk not in ('x', 'y', 'width', 'height', 'anchor', 'depth', 'shadow')}, **SEAT))
             elif k == 'genre.farming.quest.cap_off_sunset':
@@ -330,6 +337,19 @@ def main():
             seat_i = next((i for i, l in enumerate(s['layers']) if l.get('asset', '').startswith('quest.default.sitting_back')), None)
             if fence_i is not None and seat_i is not None and seat_i < fence_i:  # Quest sits ON the fence: draw after it
                 q = s['layers'].pop(seat_i); s['layers'].insert(fence_i, q)
+
+    # M01: Quest's bed (mirrored, headboard right like the room's bed) covers the background bed;
+    # the alarm clock sits on the nightstand, where awake Quest reaches
+    for l in sc['s01_wake']['layers']:
+        if l.get('asset') == 'quest.default.bed_sleeping':
+            l.update(x=0.52, y=1.04, flip=True, anchor=[0.5, 0.98], width=0.86); l.pop('height', None)
+        if l.get('asset') == 'core.prop.alarm_clock':
+            l.update(x=0.905, y=0.67, height=0.12)
+    # animals where the line talks about animals
+    ANIMALS = [ob('genre.farming.animal.cow', 0.66, 0.24, 0.92), ob('genre.farming.animal.pig', 0.86, 0.14, 0.95), ob('genre.farming.animal.chickens', 0.18, 0.18, 0.97)]
+    for sid, picks in (('m35b_animals', ANIMALS), ('m41d_status', ANIMALS[:1])):
+        s_ = sc[sid]; i = 1 if s_['layers'] and s_['layers'][0].get('asset', '').startswith(('genre.farming.bg', 'core.bg')) else 0
+        s_['layers'][i:i] = copy.deepcopy(picks)
 
     for s in data['scenes']:  # every image must now be FINAL_ART
         def chk(ls):

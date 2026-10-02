@@ -58,9 +58,9 @@
         {
           "id": "alarm",
           "asset": "core.prop.alarm_clock",
-          "x": 0.471,
-          "y": 0.945,
-          "height": 0.17,
+          "x": 0.905,
+          "y": 0.67,
+          "height": 0.12,
           "shadow": true,
           "animations": [
             {
@@ -81,9 +81,8 @@
         {
           "id": "quest",
           "asset": "quest.default.bed_sleeping",
-          "x": 0.27,
-          "y": 1.06,
-          "height": 0.55,
+          "x": 0.52,
+          "y": 1.04,
           "swaps": [
             {
               "at": "l01.end-0.75",
@@ -103,7 +102,13 @@
               "at": "l01.end-0.75",
               "intensity": 1.2
             }
-          ]
+          ],
+          "flip": true,
+          "anchor": [
+            0.5,
+            0.98
+          ],
+          "width": 0.86
         },
         {
           "type": "light",
@@ -1921,17 +1926,6 @@
           "depth": 0.35
         },
         {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.56,
-          "y": 1.06,
-          "width": 0.72,
-          "anchor": [
-            0.5,
-            0.83
-          ],
-          "depth": 0.8
-        },
-        {
           "id": "quest",
           "asset": "quest.default.sitting_back",
           "animations": [
@@ -1941,12 +1935,12 @@
               "intensity": 1.5
             }
           ],
-          "x": 0.416,
-          "y": 0.7216,
-          "height": 0.4,
+          "x": 0.31,
+          "y": 1.0,
+          "height": 0.56,
           "anchor": [
             0.5,
-            0.93
+            0.975
           ],
           "depth": 0.8
         },
@@ -2084,19 +2078,68 @@
       },
       "layers": [
         {
-          "asset": "core.bg.city_traffic"
+          "asset": "core.bg.city_apartments_evening"
         },
         {
-          "asset": "genre.driving_simulation.quest.cheering_car",
-          "x": 0.5,
-          "y": 0.96,
-          "width": 0.62,
+          "asset": "ep001.prop.police_car",
+          "x": 0.93,
+          "y": 0.95,
+          "width": 0.26,
           "shadow": true,
           "animations": [
             {
-              "type": "pop_in",
+              "type": "slide_in",
+              "from": "right",
+              "at": 0.15,
+              "duration": 0.5
+            },
+            {
+              "type": "shake",
+              "at": 0.6,
+              "intensity": 0.35,
+              "frequency": 14
+            }
+          ]
+        },
+        {
+          "asset": "ep001.prop.police_car",
+          "x": 0.72,
+          "y": 0.97,
+          "width": 0.3,
+          "shadow": true,
+          "animations": [
+            {
+              "type": "slide_in",
+              "from": "right",
+              "at": 0.05,
+              "duration": 0.45
+            },
+            {
+              "type": "shake",
+              "at": 0.5,
+              "intensity": 0.35,
+              "frequency": 14
+            }
+          ]
+        },
+        {
+          "asset": "genre.driving_simulation.quest.cheering_car",
+          "x": 0.36,
+          "y": 0.99,
+          "width": 0.44,
+          "shadow": true,
+          "animations": [
+            {
+              "type": "slide_in",
+              "from": "right",
               "at": 0,
-              "duration": 0.3
+              "duration": 0.4
+            },
+            {
+              "type": "shake",
+              "at": 0.4,
+              "intensity": 0.3,
+              "frequency": 14
             }
           ]
         },
@@ -4389,20 +4432,6 @@
           "asset": "genre.farming.bg_tractor_cab"
         },
         {
-          "asset": "quest.default.drive_relaxed",
-          "x": 0.5,
-          "y": 1.02,
-          "height": 0.66,
-          "shadow": true,
-          "animations": [
-            {
-              "type": "breathe",
-              "frequency": 0.2,
-              "intensity": 1.2
-            }
-          ]
-        },
-        {
           "type": "light",
           "shape": "vignette",
           "color": "#000000",
@@ -5593,7 +5622,7 @@
           "asset": "core.bg.city_traffic"
         },
         {
-          "asset": "quest.default.drive_stressed",
+          "asset": "ep001.quest.stuck_in_traffic_car",
           "x": 0.5,
           "y": 1.0,
           "height": 0.56,
@@ -5603,6 +5632,12 @@
               "type": "pop_in",
               "at": 0,
               "duration": 0.3
+            },
+            {
+              "type": "shake",
+              "at": 0.5,
+              "intensity": 0.2,
+              "frequency": 3
             }
           ]
         },
@@ -5647,7 +5682,7 @@
           "asset": "core.bg.city_traffic"
         },
         {
-          "asset": "quest.default.drive_stressed",
+          "asset": "ep001.quest.stuck_in_traffic_car",
           "x": 0.5,
           "y": 1.0,
           "height": 0.56,
@@ -5657,6 +5692,12 @@
               "type": "pop_in",
               "at": 0,
               "duration": 0.3
+            },
+            {
+              "type": "shake",
+              "at": 0.5,
+              "intensity": 0.2,
+              "frequency": 3
             }
           ]
         },
@@ -5976,11 +6017,38 @@
           "asset": "core.bg.home_living_night"
         },
         {
+          "type": "light",
+          "shape": "vignette",
+          "color": "#000000",
+          "intensity": 0.45
+        },
+        {
+          "type": "rect",
+          "x": 0.5,
+          "y": 0.5,
+          "w": 0.5,
+          "h": 0.62,
+          "color": "#3a2416",
+          "radius": 18,
+          "depth": "screen",
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
+        },
+        {
           "asset": "core.prop.mini_farm",
           "x": 0.5,
-          "y": 0.86,
-          "height": 0.5,
-          "shadow": true,
+          "y": 0.5,
+          "height": 0.56,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "depth": "screen",
           "animations": [
             {
               "type": "pop_in",
@@ -6013,11 +6081,38 @@
           "asset": "core.bg.home_living_night"
         },
         {
+          "type": "light",
+          "shape": "vignette",
+          "color": "#000000",
+          "intensity": 0.45
+        },
+        {
+          "type": "rect",
+          "x": 0.5,
+          "y": 0.5,
+          "w": 0.5,
+          "h": 0.62,
+          "color": "#3a2416",
+          "radius": 18,
+          "depth": "screen",
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
+        },
+        {
           "asset": "core.prop.mini_farm",
           "x": 0.5,
-          "y": 0.86,
-          "height": 0.5,
-          "shadow": true,
+          "y": 0.5,
+          "height": 0.56,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "depth": "screen",
           "animations": [
             {
               "type": "pop_in",
@@ -7611,7 +7706,7 @@
       },
       "layers": [
         {
-          "asset": "genre.farming.bg_farm_aerial"
+          "asset": "genre.farming.bg_farm_yard"
         },
         {
           "asset": "genre.farming.machine.tractor_huge",
@@ -7711,6 +7806,48 @@
       "layers": [
         {
           "asset": "genre.farming.bg_farm_yard"
+        },
+        {
+          "asset": "genre.farming.animal.cow",
+          "x": 0.66,
+          "y": 0.92,
+          "width": 0.24,
+          "shadow": true,
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
+        },
+        {
+          "asset": "genre.farming.animal.pig",
+          "x": 0.86,
+          "y": 0.95,
+          "width": 0.14,
+          "shadow": true,
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
+        },
+        {
+          "asset": "genre.farming.animal.chickens",
+          "x": 0.18,
+          "y": 0.97,
+          "width": 0.18,
+          "shadow": true,
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
         },
         {
           "asset": "genre.farming.quest.feeding",
@@ -7992,6 +8129,24 @@
           "depth": 0.35
         },
         {
+          "asset": "quest.default.sitting_back",
+          "animations": [
+            {
+              "type": "breathe",
+              "frequency": 0.2,
+              "intensity": 1.2
+            }
+          ],
+          "x": 0.31,
+          "y": 1.0,
+          "height": 0.56,
+          "anchor": [
+            0.5,
+            0.975
+          ],
+          "depth": 0.8
+        },
+        {
           "asset": "progress.quiet_companion",
           "x": 0.48,
           "y": 0.86,
@@ -8005,35 +8160,6 @@
             }
           ],
           "depth": 0.75
-        },
-        {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.56,
-          "y": 1.06,
-          "width": 0.72,
-          "anchor": [
-            0.5,
-            0.83
-          ],
-          "depth": 0.8
-        },
-        {
-          "asset": "quest.default.sitting_back",
-          "animations": [
-            {
-              "type": "breathe",
-              "frequency": 0.2,
-              "intensity": 1.2
-            }
-          ],
-          "x": 0.416,
-          "y": 0.7216,
-          "height": 0.4,
-          "anchor": [
-            0.5,
-            0.93
-          ],
-          "depth": 0.8
         },
         {
           "type": "light",
@@ -8134,20 +8260,6 @@
       "layers": [
         {
           "asset": "genre.farming.bg_tractor_cab"
-        },
-        {
-          "asset": "quest.default.drive_calm",
-          "x": 0.5,
-          "y": 1.02,
-          "height": 0.66,
-          "shadow": true,
-          "animations": [
-            {
-              "type": "breathe",
-              "frequency": 0.2,
-              "intensity": 1.2
-            }
-          ]
         },
         {
           "type": "light",
@@ -8881,20 +8993,6 @@
           "asset": "genre.farming.bg_tractor_cab"
         },
         {
-          "asset": "quest.default.drive_relaxed",
-          "x": 0.5,
-          "y": 1.02,
-          "height": 0.66,
-          "shadow": true,
-          "animations": [
-            {
-              "type": "breathe",
-              "frequency": 0.2,
-              "intensity": 1.2
-            }
-          ]
-        },
-        {
           "type": "light",
           "shape": "vignette",
           "color": "#000000",
@@ -8955,17 +9053,6 @@
           "depth": 0.35
         },
         {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.56,
-          "y": 1.06,
-          "width": 0.72,
-          "anchor": [
-            0.5,
-            0.83
-          ],
-          "depth": 0.8
-        },
-        {
           "asset": "quest.default.sitting_back",
           "animations": [
             {
@@ -8974,12 +9061,12 @@
               "intensity": 1.5
             }
           ],
-          "x": 0.416,
-          "y": 0.7216,
-          "height": 0.4,
+          "x": 0.31,
+          "y": 1.0,
+          "height": 0.56,
           "anchor": [
             0.5,
-            0.93
+            0.975
           ],
           "depth": 0.8
         }
@@ -9409,6 +9496,20 @@
           "asset": "genre.farming.bg_farm_yard"
         },
         {
+          "asset": "genre.farming.animal.cow",
+          "x": 0.66,
+          "y": 0.92,
+          "width": 0.24,
+          "shadow": true,
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
+        },
+        {
           "asset": "genre.farming.quest.feeding",
           "x": 0.44,
           "y": 0.95,
@@ -9782,6 +9883,24 @@
           "depth": 0.35
         },
         {
+          "asset": "quest.default.sitting_back",
+          "animations": [
+            {
+              "type": "breathe",
+              "frequency": 0.2,
+              "intensity": 1.2
+            }
+          ],
+          "x": 0.31,
+          "y": 1.0,
+          "height": 0.56,
+          "anchor": [
+            0.5,
+            0.975
+          ],
+          "depth": 0.8
+        },
+        {
           "asset": "progress.calm_encouraging",
           "x": 0.48,
           "y": 0.86,
@@ -9795,35 +9914,6 @@
             }
           ],
           "depth": 0.75
-        },
-        {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.56,
-          "y": 1.06,
-          "width": 0.72,
-          "anchor": [
-            0.5,
-            0.83
-          ],
-          "depth": 0.8
-        },
-        {
-          "asset": "quest.default.sitting_back",
-          "animations": [
-            {
-              "type": "breathe",
-              "frequency": 0.2,
-              "intensity": 1.2
-            }
-          ],
-          "x": 0.416,
-          "y": 0.7216,
-          "height": 0.4,
-          "anchor": [
-            0.5,
-            0.93
-          ],
-          "depth": 0.8
         },
         {
           "type": "light",
@@ -10042,11 +10132,38 @@
           "asset": "core.bg.home_living_night"
         },
         {
+          "type": "light",
+          "shape": "vignette",
+          "color": "#000000",
+          "intensity": 0.45
+        },
+        {
+          "type": "rect",
+          "x": 0.5,
+          "y": 0.5,
+          "w": 0.5,
+          "h": 0.62,
+          "color": "#3a2416",
+          "radius": 18,
+          "depth": "screen",
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
+        },
+        {
           "asset": "core.prop.mini_farm",
           "x": 0.5,
-          "y": 0.86,
-          "height": 0.5,
-          "shadow": true,
+          "y": 0.5,
+          "height": 0.56,
+          "anchor": [
+            0.5,
+            0.5
+          ],
+          "depth": "screen",
           "animations": [
             {
               "type": "pop_in",
@@ -10725,17 +10842,6 @@
           "depth": 0.35
         },
         {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.56,
-          "y": 1.06,
-          "width": 0.72,
-          "anchor": [
-            0.5,
-            0.83
-          ],
-          "depth": 0.8
-        },
-        {
           "asset": "quest.default.sitting_back",
           "animations": [
             {
@@ -10744,12 +10850,12 @@
               "intensity": 1.5
             }
           ],
-          "x": 0.416,
-          "y": 0.7216,
-          "height": 0.4,
+          "x": 0.31,
+          "y": 1.0,
+          "height": 0.56,
           "anchor": [
             0.5,
-            0.93
+            0.975
           ],
           "depth": 0.8
         },
@@ -10962,17 +11068,6 @@
           "depth": 0.35
         },
         {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.56,
-          "y": 1.06,
-          "width": 0.72,
-          "anchor": [
-            0.5,
-            0.83
-          ],
-          "depth": 0.8
-        },
-        {
           "asset": "quest.default.sitting_back",
           "animations": [
             {
@@ -10981,12 +11076,12 @@
               "intensity": 1.5
             }
           ],
-          "x": 0.416,
-          "y": 0.7216,
-          "height": 0.4,
+          "x": 0.31,
+          "y": 1.0,
+          "height": 0.56,
           "anchor": [
             0.5,
-            0.93
+            0.975
           ],
           "depth": 0.8
         },
