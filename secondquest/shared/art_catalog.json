@@ -27,7 +27,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1344x576",
+      "resolution": "2605x448",
       "transparent": true,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
@@ -41,7 +41,7 @@
       "provenance_locator": "f422ade4-9bd1-42de-b420-f317d834034f",
       "path": "/art/core/brand/secondquest_wordmark.png",
       "kind": "overlay",
-      "aspect": 2.3333,
+      "aspect": 5.8147,
       "label": "brand.wordmark"
     },
     "core.bg.city_apartments_evening": {
@@ -1282,15 +1282,15 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "5504x3072",
+      "resolution": "4153x2336",
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
-      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "provenance_type": "DETERMINISTIC_FROM_HIGGSFIELD",
       "provenance_locator": "abe97557-7773-4373-bc7f-9bb00ad25f6e",
       "path": "/art/episodes/ep001/backgrounds/bank_office.png",
       "kind": "background",
-      "aspect": 1.7917,
+      "aspect": 1.7778,
       "label": "ep001.bg_bank_office"
     },
     "ep001.bg_crossroads": {

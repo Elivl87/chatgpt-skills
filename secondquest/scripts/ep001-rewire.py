@@ -119,7 +119,7 @@ FULL_FG = {
 }
 # per-shot composition overrides (Creative Cast Delta + shot meaning)
 SHOT = {
-    'm17d_debt': {'full.bank_loan': [bg('ep001.bg_bank_office'), ch('ep001.npc.banker', 0.72, 0.74), ch('wallet.overwhelmed_debt', 0.36, 0.5)]},
+    'm17d_debt': {'full.bank_loan': [bg('ep001.bg_bank_office'), ch('ep001.npc.banker', 0.72, 0.74)]},
     'm28d_prices': {'full.prices': [bg('core.bg.home_living_night'), ch('wallet.overwhelmed_debt', 0.5, 0.56)]},
     'm41b_markets': {'full.prices': [bg('genre.farming.bg_farm_yard'), ch('wallet.market_crushed', 0.5, 0.56)]},
     'm42d_second': {'full.real_vs_sim': [bg('genre.farming.bg_idealized_game_farm'), ob('genre.farming.machine.tractor_small', 0.62, 0.36, 0.95), ch('genre.farming.quest.excited', 0.3, 0.62)]},
@@ -279,6 +279,57 @@ def main():
         damp_camera(sc[sid].get('camera', {}), f)
         for l in sc[sid]['layers']:
             if l.get('type') == 'group' and l.get('camera'): damp_camera(l['camera'], f)
+
+    # Quest seated pose (genre.farming.quest.tractor_side) always rides the small tractor:
+    # quest canvas point (0.45, 0.62) on the tractor seat (0.66, 0.42); tractor drawn over the legs
+    AT = 2336 / 1744
+    def ride(layers):
+        out = []
+        for l in layers:
+            if l.get('type') == 'group':
+                out.append(dict(l, layers=ride(l['layers']))); continue
+            if l.get('asset') != 'genre.farming.quest.tractor_side':
+                out.append(l); continue
+            ht = (l.get('height') or 0.5) * 1.05
+            wt = ht / (16 / 9 / AT)
+            X, Y = l.get('x', 0.5), l.get('y', 0.97)
+            flip = bool(l.get('flip'))
+            sx = -1 if flip else 1
+            common = {k: v for k, v in l.items() if k not in ('asset', 'x', 'y', 'height', 'width', 'anchor', 'id', 'shadow')}
+            q = dict(common, asset='genre.farming.quest.tractor_side', x=round(X + sx * 0.16 * wt, 4), y=round(Y - 0.58 * ht, 4),
+                     height=round(0.992 * ht, 4), anchor=[0.55 if flip else 0.45, 0.62])
+            t = dict(common, asset='genre.farming.machine.tractor_small', x=X, y=Y, width=round(wt, 4), anchor=[0.5, 1.0], shadow=True)
+            if 'id' in l: t['id'] = l['id']
+            out += [q, t]
+        return out
+    for s in data['scenes']:
+        s['layers'] = ride(s['layers'])
+    # registered sunset set: landscape fills the bottom, Quest sits on the top rail of the fence
+    MG = {'asset': 'genre.farming.layer.sunset_farm_midground', 'x': 0.5, 'y': 1.06, 'width': 1.12, 'anchor': [0.5, 0.77], 'depth': 0.35}
+    FE = {'asset': 'core.layer.fence_foreground', 'x': 0.56, 'y': 1.06, 'width': 0.72, 'anchor': [0.5, 0.83], 'depth': 0.8}
+    SEAT = {'x': 0.416, 'y': 0.7216, 'height': 0.40, 'anchor': [0.5, 0.93], 'depth': 0.8}
+    def sunset(layers):
+        out = []
+        for l in layers:
+            k = l.get('asset')
+            if k == 'genre.farming.layer.sunset_farm_midground':
+                out.append(dict({kk: vv for kk, vv in l.items() if kk not in ('x', 'y', 'width', 'height', 'anchor', 'depth')}, **MG))
+            elif k == 'core.layer.fence_foreground':
+                out.append(dict({kk: vv for kk, vv in l.items() if kk not in ('x', 'y', 'width', 'height', 'anchor', 'depth')}, **FE))
+            elif k in ('quest.default.sitting_back', 'quest.default.sitting_back_turn'):
+                out.append(dict({kk: vv for kk, vv in l.items() if kk not in ('x', 'y', 'width', 'height', 'anchor', 'depth', 'shadow')}, **SEAT))
+            elif k == 'genre.farming.quest.cap_off_sunset':
+                out.append(dict(l, y=0.99, height=0.6))
+            else:
+                out.append(l)
+        return out
+    for s in data['scenes']:
+        if any(l.get('asset') == 'genre.farming.layer.sunset_farm_midground' for l in s['layers']):
+            s['layers'] = sunset(s['layers'])
+            fence_i = next((i for i, l in enumerate(s['layers']) if l.get('asset') == 'core.layer.fence_foreground'), None)
+            seat_i = next((i for i, l in enumerate(s['layers']) if l.get('asset', '').startswith('quest.default.sitting_back')), None)
+            if fence_i is not None and seat_i is not None and seat_i < fence_i:  # Quest sits ON the fence: draw after it
+                q = s['layers'].pop(seat_i); s['layers'].insert(fence_i, q)
 
     for s in data['scenes']:  # every image must now be FINAL_ART
         def chk(ls):

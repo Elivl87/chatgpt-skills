@@ -798,18 +798,39 @@
               "asset": "genre.farming.bg_idealized_game_farm"
             },
             {
-              "asset": "genre.farming.quest.tractor_side",
-              "x": 0.6,
-              "y": 0.8,
-              "height": 0.36,
-              "shadow": true,
               "animations": [
                 {
                   "type": "bounce",
                   "frequency": 1.6,
                   "intensity": 0.5
                 }
+              ],
+              "asset": "genre.farming.quest.tractor_side",
+              "x": 0.6456,
+              "y": 0.5808,
+              "height": 0.375,
+              "anchor": [
+                0.45,
+                0.62
               ]
+            },
+            {
+              "animations": [
+                {
+                  "type": "bounce",
+                  "frequency": 1.6,
+                  "intensity": 0.5
+                }
+              ],
+              "asset": "genre.farming.machine.tractor_small",
+              "x": 0.6,
+              "y": 0.8,
+              "width": 0.2848,
+              "anchor": [
+                0.5,
+                1.0
+              ],
+              "shadow": true
             },
             {
               "asset": "genre.farming.quest.fertilizer",
@@ -1363,11 +1384,6 @@
           "color": "#fff7c0"
         },
         {
-          "id": "quest",
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.5,
-          "y": 0.645,
-          "height": 0.045,
           "animations": [
             {
               "type": "drift",
@@ -1381,7 +1397,41 @@
               "frequency": 3,
               "intensity": 0.1
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.5057,
+          "y": 0.6176,
+          "height": 0.0469,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "left",
+              "distance": 26,
+              "duration": 6,
+              "easing": "linear"
+            },
+            {
+              "type": "bounce",
+              "frequency": 3,
+              "intensity": 0.1
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.5,
+          "y": 0.645,
+          "width": 0.0356,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true,
+          "id": "quest"
         },
         {
           "type": "text",
@@ -1861,32 +1911,44 @@
         },
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
-          "x": 0.5041,
-          "y": 0.5198,
-          "width": 0.9979,
+          "x": 0.5,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
+        },
+        {
+          "asset": "core.layer.fence_foreground",
+          "x": 0.56,
+          "y": 1.06,
+          "width": 0.72,
+          "anchor": [
+            0.5,
+            0.83
+          ],
+          "depth": 0.8
         },
         {
           "id": "quest",
           "asset": "quest.default.sitting_back",
-          "x": 0.265,
-          "y": 0.8485,
-          "height": 0.5261,
-          "depth": 0.75,
           "animations": [
             {
               "type": "breathe",
               "frequency": 0.18,
               "intensity": 1.5
             }
-          ]
-        },
-        {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.5117,
-          "y": 0.5564,
-          "width": 0.9504,
-          "depth": 1.0
+          ],
+          "x": 0.416,
+          "y": 0.7216,
+          "height": 0.4,
+          "anchor": [
+            0.5,
+            0.93
+          ],
+          "depth": 0.8
         },
         {
           "type": "particles",
@@ -2370,20 +2432,6 @@
           "x": 0.72,
           "y": 0.97,
           "height": 0.74,
-          "shadow": true,
-          "animations": [
-            {
-              "type": "pop_in",
-              "at": 0,
-              "duration": 0.3
-            }
-          ]
-        },
-        {
-          "asset": "wallet.overwhelmed_debt",
-          "x": 0.36,
-          "y": 0.97,
-          "height": 0.5,
           "shadow": true,
           "animations": [
             {
@@ -3128,18 +3176,39 @@
           "asset": "genre.farming.bg_field_plowed"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.52,
-          "y": 0.93,
-          "width": 0.5,
-          "shadow": true,
           "animations": [
             {
               "type": "pop_in",
               "at": 0,
               "duration": 0.3
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.5833,
+          "y": 0.6255,
+          "height": 0.5208,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.52,
+          "y": 0.93,
+          "width": 0.3956,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         },
         {
           "type": "light",
@@ -3494,11 +3563,6 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.62,
-          "y": 0.93,
-          "height": 0.5,
-          "shadow": true,
           "animations": [
             {
               "type": "bounce",
@@ -3513,7 +3577,41 @@
               "duration": 0.45,
               "easing": "inCubic"
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.6833,
+          "y": 0.6255,
+          "height": 0.5208,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "bounce",
+              "frequency": 1.4,
+              "intensity": 0.4
+            },
+            {
+              "type": "drift",
+              "at": "l53-0.1",
+              "to": "left",
+              "distance": 1300,
+              "duration": 0.45,
+              "easing": "inCubic"
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.62,
+          "y": 0.93,
+          "width": 0.3956,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         },
         {
           "type": "text",
@@ -3853,14 +3951,18 @@
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
           "x": 0.5,
-          "y": 0.52,
-          "width": 1.0,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
           "asset": "genre.farming.quest.cap_off_sunset",
           "x": 0.5,
-          "y": 0.97,
+          "y": 0.99,
           "height": 0.6,
           "shadow": true,
           "animations": [
@@ -4517,11 +4619,6 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.7,
-          "y": 0.93,
-          "height": 0.46,
-          "shadow": true,
           "animations": [
             {
               "type": "drift",
@@ -4535,7 +4632,40 @@
               "frequency": 1.4,
               "intensity": 0.3
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.7582,
+          "y": 0.6499,
+          "height": 0.4791,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "left",
+              "distance": 260,
+              "duration": 5,
+              "easing": "linear"
+            },
+            {
+              "type": "bounce",
+              "frequency": 1.4,
+              "intensity": 0.3
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.7,
+          "y": 0.93,
+          "width": 0.3639,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         },
         {
           "type": "progress",
@@ -4600,14 +4730,18 @@
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
           "x": 0.5,
-          "y": 0.52,
-          "width": 1.0,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
           "asset": "genre.farming.quest.cap_off_sunset",
           "x": 0.5,
-          "y": 0.97,
+          "y": 0.99,
           "height": 0.6,
           "shadow": true,
           "animations": [
@@ -6232,18 +6366,39 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.5,
-          "y": 0.93,
-          "height": 0.5,
-          "shadow": true,
           "animations": [
             {
               "type": "bounce",
               "frequency": 1.2,
               "intensity": 0.3
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.5633,
+          "y": 0.6255,
+          "height": 0.5208,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "bounce",
+              "frequency": 1.2,
+              "intensity": 0.3
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.5,
+          "y": 0.93,
+          "width": 0.3956,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         }
       ],
       "note": "M30 understandable, organisable chaos."
@@ -6569,18 +6724,39 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.5,
-          "y": 0.9,
-          "height": 0.16,
-          "shadow": true,
           "animations": [
             {
               "type": "bounce",
               "frequency": 3,
               "intensity": 0.3
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.5203,
+          "y": 0.8026,
+          "height": 0.1667,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "bounce",
+              "frequency": 3,
+              "intensity": 0.3
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.5,
+          "y": 0.9,
+          "width": 0.1266,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         },
         {
           "type": "text",
@@ -7027,11 +7203,6 @@
           "asset": "genre.farming.bg_field_huge_wide"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.5,
-          "y": 0.645,
-          "height": 0.06,
-          "shadow": true,
           "animations": [
             {
               "type": "drift",
@@ -7040,7 +7211,35 @@
               "duration": 4,
               "easing": "linear"
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.5076,
+          "y": 0.6085,
+          "height": 0.0625,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "left",
+              "distance": 30,
+              "duration": 4,
+              "easing": "linear"
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.5,
+          "y": 0.645,
+          "width": 0.0475,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         },
         {
           "type": "text",
@@ -7684,9 +7883,23 @@
         },
         {
           "asset": "genre.farming.quest.tractor_side",
+          "x": 0.6982,
+          "y": 0.6499,
+          "height": 0.4791,
+          "anchor": [
+            0.45,
+            0.62
+          ]
+        },
+        {
+          "asset": "genre.farming.machine.tractor_small",
           "x": 0.64,
           "y": 0.93,
-          "height": 0.46,
+          "width": 0.3639,
+          "anchor": [
+            0.5,
+            1.0
+          ],
           "shadow": true
         },
         {
@@ -7770,24 +7983,13 @@
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
           "x": 0.5,
-          "y": 0.52,
-          "width": 1.0,
-          "depth": 0.35
-        },
-        {
-          "asset": "quest.default.sitting_back",
-          "x": 0.3,
-          "y": 0.85,
-          "height": 0.52,
-          "shadow": true,
-          "animations": [
-            {
-              "type": "breathe",
-              "frequency": 0.2,
-              "intensity": 1.2
-            }
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
           ],
-          "depth": 0.75
+          "depth": 0.35
         },
         {
           "asset": "progress.quiet_companion",
@@ -7806,10 +8008,32 @@
         },
         {
           "asset": "core.layer.fence_foreground",
-          "x": 0.51,
-          "y": 0.556,
-          "width": 0.95,
-          "depth": 1.0
+          "x": 0.56,
+          "y": 1.06,
+          "width": 0.72,
+          "anchor": [
+            0.5,
+            0.83
+          ],
+          "depth": 0.8
+        },
+        {
+          "asset": "quest.default.sitting_back",
+          "animations": [
+            {
+              "type": "breathe",
+              "frequency": 0.2,
+              "intensity": 1.2
+            }
+          ],
+          "x": 0.416,
+          "y": 0.7216,
+          "height": 0.4,
+          "anchor": [
+            0.5,
+            0.93
+          ],
+          "depth": 0.8
         },
         {
           "type": "light",
@@ -7988,11 +8212,6 @@
           "asset": "genre.farming.bg_field_huge_wide"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.6,
-          "y": 0.645,
-          "height": 0.08,
-          "shadow": true,
           "animations": [
             {
               "type": "drift",
@@ -8001,7 +8220,35 @@
               "duration": 3,
               "easing": "linear"
             }
+          ],
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.6101,
+          "y": 0.5963,
+          "height": 0.0833,
+          "anchor": [
+            0.45,
+            0.62
           ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "left",
+              "distance": 120,
+              "duration": 3,
+              "easing": "linear"
+            }
+          ],
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.6,
+          "y": 0.645,
+          "width": 0.0633,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         }
       ],
       "note": "M37 You just drive.",
@@ -8025,11 +8272,6 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.78,
-          "y": 0.93,
-          "height": 0.44,
-          "shadow": true,
           "animations": [
             {
               "type": "drift",
@@ -8039,7 +8281,36 @@
               "easing": "inOutSine"
             }
           ],
-          "flip": false
+          "flip": false,
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.8357,
+          "y": 0.662,
+          "height": 0.4583,
+          "anchor": [
+            0.45,
+            0.62
+          ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "left",
+              "distance": 1100,
+              "duration": 1.6,
+              "easing": "inOutSine"
+            }
+          ],
+          "flip": false,
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.78,
+          "y": 0.93,
+          "width": 0.3481,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         }
       ],
       "note": "M37 Back and forth (alternating direction).",
@@ -8063,11 +8334,6 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.22,
-          "y": 0.93,
-          "height": 0.44,
-          "shadow": true,
           "animations": [
             {
               "type": "drift",
@@ -8077,7 +8343,36 @@
               "easing": "inOutSine"
             }
           ],
-          "flip": true
+          "flip": true,
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.1643,
+          "y": 0.662,
+          "height": 0.4583,
+          "anchor": [
+            0.55,
+            0.62
+          ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "right",
+              "distance": 1100,
+              "duration": 1.6,
+              "easing": "inOutSine"
+            }
+          ],
+          "flip": true,
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.22,
+          "y": 0.93,
+          "width": 0.3481,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         }
       ],
       "note": "M37 Back and forth (alternating direction).",
@@ -8101,11 +8396,6 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.78,
-          "y": 0.93,
-          "height": 0.44,
-          "shadow": true,
           "animations": [
             {
               "type": "drift",
@@ -8115,7 +8405,36 @@
               "easing": "inOutSine"
             }
           ],
-          "flip": false
+          "flip": false,
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.8357,
+          "y": 0.662,
+          "height": 0.4583,
+          "anchor": [
+            0.45,
+            0.62
+          ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "left",
+              "distance": 1100,
+              "duration": 1.6,
+              "easing": "inOutSine"
+            }
+          ],
+          "flip": false,
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.78,
+          "y": 0.93,
+          "width": 0.3481,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         }
       ],
       "note": "M37 Back and forth (alternating direction).",
@@ -8139,11 +8458,6 @@
           "asset": "genre.farming.bg_idealized_game_farm"
         },
         {
-          "asset": "genre.farming.quest.tractor_side",
-          "x": 0.22,
-          "y": 0.93,
-          "height": 0.44,
-          "shadow": true,
           "animations": [
             {
               "type": "drift",
@@ -8153,7 +8467,36 @@
               "easing": "inOutSine"
             }
           ],
-          "flip": true
+          "flip": true,
+          "asset": "genre.farming.quest.tractor_side",
+          "x": 0.1643,
+          "y": 0.662,
+          "height": 0.4583,
+          "anchor": [
+            0.55,
+            0.62
+          ]
+        },
+        {
+          "animations": [
+            {
+              "type": "drift",
+              "to": "right",
+              "distance": 1100,
+              "duration": 1.6,
+              "easing": "inOutSine"
+            }
+          ],
+          "flip": true,
+          "asset": "genre.farming.machine.tractor_small",
+          "x": 0.22,
+          "y": 0.93,
+          "width": 0.3481,
+          "anchor": [
+            0.5,
+            1.0
+          ],
+          "shadow": true
         }
       ],
       "note": "M37 Back and forth (alternating direction).",
@@ -8602,31 +8945,43 @@
         },
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
-          "x": 0.5041,
-          "y": 0.5198,
-          "width": 0.9979,
+          "x": 0.5,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
+          "asset": "core.layer.fence_foreground",
+          "x": 0.56,
+          "y": 1.06,
+          "width": 0.72,
+          "anchor": [
+            0.5,
+            0.83
+          ],
+          "depth": 0.8
+        },
+        {
           "asset": "quest.default.sitting_back",
-          "x": 0.265,
-          "y": 0.8485,
-          "height": 0.5261,
-          "depth": 0.75,
           "animations": [
             {
               "type": "breathe",
               "frequency": 0.18,
               "intensity": 1.5
             }
-          ]
-        },
-        {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.5117,
-          "y": 0.5564,
-          "width": 0.9504,
-          "depth": 1.0
+          ],
+          "x": 0.416,
+          "y": 0.7216,
+          "height": 0.4,
+          "anchor": [
+            0.5,
+            0.93
+          ],
+          "depth": 0.8
         }
       ],
       "note": "M39 exactly what people want (hook sunset layers).",
@@ -9418,24 +9773,13 @@
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
           "x": 0.5,
-          "y": 0.52,
-          "width": 1.0,
-          "depth": 0.35
-        },
-        {
-          "asset": "quest.default.sitting_back",
-          "x": 0.3,
-          "y": 0.85,
-          "height": 0.52,
-          "shadow": true,
-          "animations": [
-            {
-              "type": "breathe",
-              "frequency": 0.2,
-              "intensity": 1.2
-            }
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
           ],
-          "depth": 0.75
+          "depth": 0.35
         },
         {
           "asset": "progress.calm_encouraging",
@@ -9454,10 +9798,32 @@
         },
         {
           "asset": "core.layer.fence_foreground",
-          "x": 0.51,
-          "y": 0.556,
-          "width": 0.95,
-          "depth": 1.0
+          "x": 0.56,
+          "y": 1.06,
+          "width": 0.72,
+          "anchor": [
+            0.5,
+            0.83
+          ],
+          "depth": 0.8
+        },
+        {
+          "asset": "quest.default.sitting_back",
+          "animations": [
+            {
+              "type": "breathe",
+              "frequency": 0.2,
+              "intensity": 1.2
+            }
+          ],
+          "x": 0.416,
+          "y": 0.7216,
+          "height": 0.4,
+          "anchor": [
+            0.5,
+            0.93
+          ],
+          "depth": 0.8
         },
         {
           "type": "light",
@@ -9498,14 +9864,18 @@
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
           "x": 0.5,
-          "y": 0.52,
-          "width": 1.0,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
           "asset": "genre.farming.quest.cap_off_sunset",
           "x": 0.5,
-          "y": 0.97,
+          "y": 0.99,
           "height": 0.6,
           "shadow": true,
           "animations": [
@@ -9998,14 +10368,18 @@
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
           "x": 0.5,
-          "y": 0.52,
-          "width": 1.0,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
           "asset": "genre.farming.quest.cap_off_sunset",
           "x": 0.5,
-          "y": 0.97,
+          "y": 0.99,
           "height": 0.6,
           "shadow": true,
           "animations": [
@@ -10341,31 +10715,43 @@
         },
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
-          "x": 0.5041,
-          "y": 0.5198,
-          "width": 0.9979,
+          "x": 0.5,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
+          "asset": "core.layer.fence_foreground",
+          "x": 0.56,
+          "y": 1.06,
+          "width": 0.72,
+          "anchor": [
+            0.5,
+            0.83
+          ],
+          "depth": 0.8
+        },
+        {
           "asset": "quest.default.sitting_back",
-          "x": 0.265,
-          "y": 0.8485,
-          "height": 0.5261,
-          "depth": 0.75,
           "animations": [
             {
               "type": "breathe",
               "frequency": 0.18,
               "intensity": 1.5
             }
-          ]
-        },
-        {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.5117,
-          "y": 0.5564,
-          "width": 0.9504,
-          "depth": 1.0
+          ],
+          "x": 0.416,
+          "y": 0.7216,
+          "height": 0.4,
+          "anchor": [
+            0.5,
+            0.93
+          ],
+          "depth": 0.8
         },
         {
           "type": "particles",
@@ -10439,9 +10825,13 @@
         },
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
-          "x": 0.5041,
-          "y": 0.5198,
-          "width": 0.9979,
+          "x": 0.5,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
@@ -10562,31 +10952,43 @@
         },
         {
           "asset": "genre.farming.layer.sunset_farm_midground",
-          "x": 0.5041,
-          "y": 0.5198,
-          "width": 0.9979,
+          "x": 0.5,
+          "y": 1.06,
+          "width": 1.12,
+          "anchor": [
+            0.5,
+            0.77
+          ],
           "depth": 0.35
         },
         {
+          "asset": "core.layer.fence_foreground",
+          "x": 0.56,
+          "y": 1.06,
+          "width": 0.72,
+          "anchor": [
+            0.5,
+            0.83
+          ],
+          "depth": 0.8
+        },
+        {
           "asset": "quest.default.sitting_back",
-          "x": 0.265,
-          "y": 0.8485,
-          "height": 0.5261,
-          "depth": 0.75,
           "animations": [
             {
               "type": "breathe",
               "frequency": 0.18,
               "intensity": 1.5
             }
-          ]
-        },
-        {
-          "asset": "core.layer.fence_foreground",
-          "x": 0.5117,
-          "y": 0.5564,
-          "width": 0.9504,
-          "depth": 1.0
+          ],
+          "x": 0.416,
+          "y": 0.7216,
+          "height": 0.4,
+          "anchor": [
+            0.5,
+            0.93
+          ],
+          "depth": 0.8
         },
         {
           "type": "particles",

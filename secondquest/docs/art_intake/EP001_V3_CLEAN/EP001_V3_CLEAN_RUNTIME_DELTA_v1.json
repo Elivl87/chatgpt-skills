@@ -234,14 +234,15 @@
         "type": "HIGGSFIELD_JOB_ID",
         "locator": "f422ade4-9bd1-42de-b420-f317d834034f"
       },
-      "output_sha256": "7ad2450c9d6645a9a14cb385b12bb50346e83775db9024b2b4e64c8ef0b7ac9b",
-      "resolution": "1344x576",
+      "output_sha256": "f9e12039f8a07d1e9b85f09314daa84dbd113327d1f8e769d773a373870e9037",
+      "resolution": "2688x1152",
       "operation": "HIGGSFIELD_REGENERATION",
       "reason": "delivered file had white letters on a baked opaque checkerboard; background removal impossible without destroying \"Second\"",
       "higgsfield_job_id": "0d83dc29-f7d5-4d37-be76-231dcf7431dd",
       "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 21:9, transparent; reference = original wordmark job f422ade4-9bd1-42de-b420-f317d834034f",
       "cost_credits": 1.0,
-      "attempts": 1
+      "attempts": 1,
+      "note": "corrected 2026-10-02: the regenerated wordmark (job 0d83dc29) is the promoted file; the failed background-remover output (job 263b6b0e) is not used"
     },
     {
       "key": "genre.farming.prop.hay_roll",
@@ -259,6 +260,33 @@
       "model": "gpt_image_2_5 (Higgsfield), medium, 1k, 1:1, transparent; reference = intact upper part of the delivered (truncated) hay_roll",
       "cost_credits": 0.5,
       "attempts": 1
+    },
+    {
+      "key": "ep001.bg_bank_office",
+      "path": "public/art/episodes/ep001/backgrounds/bank_office.png",
+      "parent_sha256": "856116e50dfcb65b0d34d5e1270ac9999d2766fd0ef2d67174ce165f0976d7cf",
+      "parent_provenance": {
+        "locator": "abe97557-7773-4373-bc7f-9bb00ad25f6e"
+      },
+      "output_sha256": "17e0bf0fff85f42c5cf8ea220ba452bf4032938e6c3aea24a66571c42a96d887",
+      "resolution": "4153x2336",
+      "operation": "DETERMINISTIC_CROP",
+      "detail": "removed baked letterbox bars (rows 369..2705 kept) and centre-cropped to 16:9; no scaling, no generative content",
+      "cost_credits": 0
+    },
+    {
+      "key": "brand.wordmark",
+      "path": "public/art/core/brand/secondquest_wordmark.png",
+      "parent_sha256": "f9e12039f8a07d1e9b85f09314daa84dbd113327d1f8e769d773a373870e9037",
+      "parent_provenance": {
+        "type": "HIGGSFIELD_JOB_ID",
+        "locator": "0d83dc29-f7d5-4d37-be76-231dcf7431dd"
+      },
+      "output_sha256": "0d8c3e6e1e3ae377f13fc3eb6ed2bd394448609e12bf1bc53714af3902aad382",
+      "resolution": "2605x448",
+      "operation": "DETERMINISTIC_CROP",
+      "detail": "trimmed transparent padding to the lettering bbox + 24px margin (np.int64(58), np.int64(333), np.int64(2663), np.int64(781)); no scaling, star / lettering / colours untouched",
+      "cost_credits": 0
     }
   ]
 }

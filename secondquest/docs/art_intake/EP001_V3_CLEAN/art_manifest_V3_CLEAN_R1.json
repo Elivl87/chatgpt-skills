@@ -39,7 +39,7 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "1344x576",
+      "resolution": "2605x448",
       "transparent": true,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
@@ -49,9 +49,9 @@
       ],
       "brief": "Official SecondQuest transparent wordmark, Second white / Quest electric blue.",
       "replaces": "brand.wordmark",
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "0d83dc29-f7d5-4d37-be76-231dcf7431dd",
-      "sha256": "7ad2450c9d6645a9a14cb385b12bb50346e83775db9024b2b4e64c8ef0b7ac9b"
+      "provenance_type": "DETERMINISTIC_FROM_HIGGSFIELD",
+      "provenance_locator": "parent:0d83dc29-f7d5-4d37-be76-231dcf7431dd#sha256=f9e12039f8a07d1e9b85f09314daa84dbd113327d1f8e769d773a373870e9037",
+      "sha256": "0d8c3e6e1e3ae377f13fc3eb6ed2bd394448609e12bf1bc53714af3902aad382"
     },
     {
       "key": "core.bg.city_apartments_evening",
@@ -1229,13 +1229,14 @@
       "source": "FINAL_ART",
       "status": "APPROVED",
       "required": true,
-      "resolution": "5504x3072",
+      "resolution": "4153x2336",
       "transparent": false,
       "safe_zoom": 1.2,
       "style_version": "SecondQuest_2D_v1",
       "path": "public/art/episodes/ep001/backgrounds/bank_office.png",
-      "provenance_type": "HIGGSFIELD_JOB_ID",
-      "provenance_locator": "abe97557-7773-4373-bc7f-9bb00ad25f6e"
+      "provenance_type": "DETERMINISTIC_FROM_HIGGSFIELD",
+      "provenance_locator": "parent:abe97557-7773-4373-bc7f-9bb00ad25f6e#sha256=856116e50dfcb65b0d34d5e1270ac9999d2766fd0ef2d67174ce165f0976d7cf",
+      "sha256": "17e0bf0fff85f42c5cf8ea220ba452bf4032938e6c3aea24a66571c42a96d887"
     },
     {
       "key": "ep001.bg_crossroads",
