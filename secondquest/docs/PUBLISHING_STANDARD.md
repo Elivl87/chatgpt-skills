@@ -80,7 +80,7 @@ The full rules are in `docs/THUMBNAIL_RULES.md`. In short:
 - [ ] Title A set; title B ready for Test & Compare.
 - [ ] Description with hook, chapters, CTA, footer and 3 hashtags.
 - [ ] English and Spanish subtitles uploaded.
-- [ ] Altered or synthetic content declared (AI voice and art).
+- [ ] "Uso de IA" / altered content answered per section 9 (EP001: **No**, animated and non-realistic).
 - [ ] Audience: not made for kids.
 - [ ] End screen set: subscribe plus a recommended video.
 - [ ] Only then: switch to **Public**, and start Test & Compare once advanced features are available.
@@ -90,3 +90,33 @@ The full rules are in `docs/THUMBNAIL_RULES.md`. In short:
 - Check CTR and view duration in the first 24–48 hours.
 - Read the Test & Compare result. YouTube reports the winner by **watch-time share**, usually within a few days to two weeks.
 - Write down **one thing to improve** in the next episode (MrBeast: "improve something every time").
+
+## 9. YouTube AI disclosure ("Uso de IA" / altered or synthetic content)
+
+Source: YouTube Help 14328491, reviewed 2026-10-02.
+
+**Disclosure is required (answer "Sí") when AI makes realistic content that could mislead:**
+- a **real person** doing or saying something they did not do or say (including a cloned voice of a real person);
+- an **altered recording of a real event or place**;
+- **realistic scenes** that never happened;
+- **AI music as the focus** of the video.
+
+**No disclosure needed (answer "No"):**
+- clearly unrealistic or **animated** content, even with AI-generated elements;
+- AI used for **production help**: scripts, ideas, **thumbnails, titles**, **subtitles**, dubbing;
+- an AI narrator voice that does not impersonate a real person;
+- colour, lighting, beauty filters, background blur;
+- audio and resolution enhancement;
+- video-game gameplay.
+
+**SecondQuest today:** 2D cartoon art, the Bram narrator voice (a stock voice, not a real person), no music. That means **"No"**.
+
+**Answer "Sí" if an episode ever includes:**
+- realistic AI images or video of real people, places or events (for example, a realistic image of a real game developer or a real farm);
+- a voice imitating a real person;
+- AI-generated music as a main element.
+
+**If unsure, answer "Sí":**
+- disclosing does not reduce reach or monetization;
+- for animated content, the label only appears in the expanded description;
+- **not** disclosing required content can lead to a forced label, removal or suspension from the Partner Program.
