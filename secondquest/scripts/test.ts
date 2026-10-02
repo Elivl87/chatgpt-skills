@@ -466,13 +466,14 @@ test('render gate: music cues without producerApproved → MUSIC_POLICY', () => 
   b.episode.music!.producerApproved = true;
   assert.ok(!gate(b, fi).some((i) => i.code === 'MUSIC_POLICY'));
 });
-test('render gate: legacy art is never auto-certified — ep001 hook and ep001full are BLOCKED (NOT_FINAL_ART)', () => {
-  for (const id of ['ep001', 'ep001full']) {
-    const issues = gate(EPISODES[id], publicImageInfo).filter((i) => i.level === 'error');
-    assert.ok(issues.length > 0, `${id} must be blocked until FINAL_ART arrives`);
-    // legacy keys stay NOT_FINAL_ART; keys already overridden by FINAL_ART may trip SAFE_ZOOM/SWAP_MISMATCH on the old framing until the scenes are rewired
-    assert.ok(issues.some((i) => i.code === 'NOT_FINAL_ART'), `${id}: legacy art must be reported as NOT_FINAL_ART`);
-  }
+test('render gate: legacy art is never auto-certified — the legacy ep001 hook stays BLOCKED (NOT_FINAL_ART)', () => {
+  const issues = gate(EPISODES.ep001, publicImageInfo).filter((i) => i.level === 'error');
+  assert.ok(issues.some((i) => i.code === 'NOT_FINAL_ART'), 'legacy art must be reported as NOT_FINAL_ART');
+});
+test('render gate: EP001 (ep001full) rewired to V3 CLEAN FINAL_ART passes — every image FINAL_ART, within safe_zoom, no music', () => {
+  if (!existsSync(join(PUBLIC, 'art'))) return 'skip'; // FINAL_ART binaries are installed by art:intake, not versioned
+  const issues = gate(EPISODES.ep001full, publicImageInfo).filter((i) => i.level === 'error');
+  assert.deepEqual(issues.map((i) => `${i.code} ${i.key} ${i.where}`), []);
 });
 
 // ---------------------------------------------------------------------------
