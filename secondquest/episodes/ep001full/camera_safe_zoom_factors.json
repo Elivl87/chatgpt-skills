@@ -1,0 +1,20 @@
+{
+  "m17a_loan": 0.85,
+  "m19b_emails": 0.7225,
+  "m25d_wash": 0.7225,
+  "m28b_traffic": 0.522,
+  "m31c_understands": 0.45,
+  "m33b_project": 0.1968,
+  "m33e_12m": 0.4437,
+  "m35b_animals": 0.7225,
+  "m37c_drive": 0.3771,
+  "m38c_terrible": 0.4437,
+  "m39c_want": 0.85,
+  "m41d_status": 0.7225,
+  "m42a_split": 0.85,
+  "m42d_second": 0.6141,
+  "m45f_fantasy": 0.85,
+  "s03_money": 0.6141,
+  "s04_tractor": 0.6141,
+  "s15_sunset": 0.85
+}
