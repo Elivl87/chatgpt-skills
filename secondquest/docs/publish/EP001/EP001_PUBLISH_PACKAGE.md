@@ -101,6 +101,8 @@ Con los dos, el vídeo llega también al público hispano, y los subtítulos exa
 
 **Generación:** se genera la imagen sin texto en Higgsfield (gpt_image_2_5, 16:9, con referencias de cara de Quest_v1), a unos **0,5–1 crédito por imagen**, con un máximo de 2 intentos por imagen. El texto se pone después, de forma programática, con la tipografía del canal; así queda nítido y se puede cambiar gratis.
 
+**Publicado el 2026-10-02:** https://youtu.be/l9f1i0mNt1I. Subtítulos en inglés y en español, título y descripción en español, pantalla final de 9:36 a 9:46, sin estreno.
+
 **Decisión final (2026-10-02):**
 - Se publica con la miniatura **3** ("$500,000 TRACTOR") y el título **A**.
 - La 1 ("THIS IS FUN?") y la 2 ("BEST DAY EVER") quedan para Test & Compare; el título B, también.

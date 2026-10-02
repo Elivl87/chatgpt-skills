@@ -69,3 +69,12 @@ The balance went from 155.20 to 121.05.
 - **#99:** dealership headers moved onto the lot.
 - **#103:** tractor shown with the 12 m header.
 - **#138 / #139:** combine on the riverbank, with no splash shapes.
+
+## Publication
+
+Published on YouTube on 2026-10-02: https://youtu.be/l9f1i0mNt1I
+- **Title A** with thumbnail 3.
+- **Subtitles:** English and Spanish.
+- **Spanish title and description.**
+- **Auto-dubbing:** enabled.
+- **Test & Compare:** pending until advanced features are enabled.
