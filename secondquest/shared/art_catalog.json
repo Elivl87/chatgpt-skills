@@ -3187,6 +3187,27 @@
       "aspect": 1.3394,
       "label": "ep001.quest.stuck_in_traffic_car",
       "character": "quest"
+    },
+    "ep001.bg.mini_farm_diorama": {
+      "kind": "background",
+      "library_tier": "EPISODE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "2688x1520",
+      "transparent": false,
+      "safe_zoom": 1.2,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M29",
+        "M43"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "path": "/art/episodes/ep001/backgrounds/mini_farm_diorama.png",
+      "provenance_locator": "255fb5ba-2ec3-4e7b-a0a0-f6bc72cc0305",
+      "aspect": 1.7684,
+      "label": "ep001.bg.mini_farm_diorama",
+      "brief": "Full-frame 16:9 plate of the core.prop.mini_farm diorama on the workbench under the lamp (replaces the boxed prop card in M29/M43)."
     }
   }
 }

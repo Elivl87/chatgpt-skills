@@ -81,9 +81,7 @@ FULL = {
     'full.traffic': [bg('core.bg.city_traffic'), ch('ep001.quest.stuck_in_traffic_car', 0.5, 0.56, 1.0, anim=POP + [{'type': 'shake', 'at': 0.5, 'intensity': 0.2, 'frequency': 3}])],
     'full.prices': [bg('core.bg.home_living_night'), ch('wallet.overwhelmed_debt', 0.5, 0.56)],
     'full.router': [bg('core.bg.home_living_night'), ch('core.prop.router', 0.68, 0.22, 0.86), ch('quest.default.head_in_hands', 0.34, 0.6)],
-    'full.mini_farm': [bg('core.bg.home_living_night'), {'type': 'rect', 'x': 0.5, 'y': 0.5, 'w': 1, 'h': 1, 'color': 'rgba(6,5,10,0.62)', 'depth': 'screen'},
-                       {'type': 'rect', 'x': 0.4998, 'y': 0.4997, 'w': 0.3434, 'h': 0.61, 'color': '#f3e6c8', 'radius': 10, 'depth': 'screen', 'animations': copy.deepcopy(POP)},
-                       {'asset': 'core.prop.mini_farm', 'x': 0.5, 'y': 0.5, 'height': 0.6, 'anchor': [0.5, 0.5], 'depth': 'screen', 'animations': copy.deepcopy(POP)}],
+    'full.mini_farm': [bg('ep001.bg.mini_farm_diorama')],  # the small world is the whole frame (no boxed card)
     'full.cause_chain': [bg('genre.farming.bg_farm_aerial'), ob('core.prop.domino_row', 0.5, 0.62, 0.7)],
     'full.domino': [bg('genre.farming.bg_farm_aerial'), ob('core.prop.domino_row', 0.5, 0.7, 0.72)],
     'full.aerial_tractor': [bg('genre.farming.bg_field_overhead'), ch('genre.farming.machine.tractor_topdown', 0.5, 0.42, 0.75, anim=POP)],

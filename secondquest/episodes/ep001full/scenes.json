@@ -6014,51 +6014,7 @@
       },
       "layers": [
         {
-          "asset": "core.bg.home_living_night"
-        },
-        {
-          "type": "rect",
-          "x": 0.5,
-          "y": 0.5,
-          "w": 1,
-          "h": 1,
-          "color": "rgba(6,5,10,0.62)",
-          "depth": "screen"
-        },
-        {
-          "type": "rect",
-          "x": 0.4998,
-          "y": 0.4997,
-          "w": 0.3434,
-          "h": 0.61,
-          "color": "#f3e6c8",
-          "radius": 10,
-          "depth": "screen",
-          "animations": [
-            {
-              "type": "pop_in",
-              "at": 0,
-              "duration": 0.3
-            }
-          ]
-        },
-        {
-          "asset": "core.prop.mini_farm",
-          "x": 0.5,
-          "y": 0.5,
-          "height": 0.6,
-          "anchor": [
-            0.5,
-            0.5
-          ],
-          "depth": "screen",
-          "animations": [
-            {
-              "type": "pop_in",
-              "at": 0,
-              "duration": 0.3
-            }
-          ]
+          "asset": "ep001.bg.mini_farm_diorama"
         },
         {
           "type": "light",
@@ -6081,51 +6037,7 @@
       },
       "layers": [
         {
-          "asset": "core.bg.home_living_night"
-        },
-        {
-          "type": "rect",
-          "x": 0.5,
-          "y": 0.5,
-          "w": 1,
-          "h": 1,
-          "color": "rgba(6,5,10,0.62)",
-          "depth": "screen"
-        },
-        {
-          "type": "rect",
-          "x": 0.4998,
-          "y": 0.4997,
-          "w": 0.3434,
-          "h": 0.61,
-          "color": "#f3e6c8",
-          "radius": 10,
-          "depth": "screen",
-          "animations": [
-            {
-              "type": "pop_in",
-              "at": 0,
-              "duration": 0.3
-            }
-          ]
-        },
-        {
-          "asset": "core.prop.mini_farm",
-          "x": 0.5,
-          "y": 0.5,
-          "height": 0.6,
-          "anchor": [
-            0.5,
-            0.5
-          ],
-          "depth": "screen",
-          "animations": [
-            {
-              "type": "pop_in",
-              "at": 0,
-              "duration": 0.3
-            }
-          ]
+          "asset": "ep001.bg.mini_farm_diorama"
         },
         {
           "type": "rect",
@@ -10150,51 +10062,7 @@
       },
       "layers": [
         {
-          "asset": "core.bg.home_living_night"
-        },
-        {
-          "type": "rect",
-          "x": 0.5,
-          "y": 0.5,
-          "w": 1,
-          "h": 1,
-          "color": "rgba(6,5,10,0.62)",
-          "depth": "screen"
-        },
-        {
-          "type": "rect",
-          "x": 0.4998,
-          "y": 0.4997,
-          "w": 0.3434,
-          "h": 0.61,
-          "color": "#f3e6c8",
-          "radius": 10,
-          "depth": "screen",
-          "animations": [
-            {
-              "type": "pop_in",
-              "at": 0,
-              "duration": 0.3
-            }
-          ]
-        },
-        {
-          "asset": "core.prop.mini_farm",
-          "x": 0.5,
-          "y": 0.5,
-          "height": 0.6,
-          "anchor": [
-            0.5,
-            0.5
-          ],
-          "depth": "screen",
-          "animations": [
-            {
-              "type": "pop_in",
-              "at": 0,
-              "duration": 0.3
-            }
-          ]
+          "asset": "ep001.bg.mini_farm_diorama"
         },
         {
           "type": "light",

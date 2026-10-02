@@ -15,7 +15,8 @@
     "brand.wordmark": 1.0,
     "genre.farming.prop.hay_roll": 0.5,
     "batch_producer_review_2026-10-02": 5.5,
-    "sitting_back_turn_attempt_2": 1.0
+    "sitting_back_turn_attempt_2": 1.0,
+    "ep001.bg.mini_farm_diorama": 1.0
   },
   "changes": [
     {
@@ -394,6 +395,23 @@
       "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 3:2, transparent",
       "cost_credits": 1.0,
       "attempts": 2
+    },
+    {
+      "key": "ep001.bg.mini_farm_diorama",
+      "path": "public/art/episodes/ep001/backgrounds/mini_farm_diorama.png",
+      "parent_sha256": null,
+      "parent_provenance": {
+        "locator": "core.prop.mini_farm",
+        "note": "prop delivered with a baked room background; showed as a boxed card with visible edges (Producer review #81/#82/#145)"
+      },
+      "output_sha256": "fba5a96d1ab301d0113711bb2b84f717048a83377169fb8b9798e57511e65043",
+      "resolution": "2688x1520",
+      "operation": "HIGGSFIELD_GENERATION",
+      "reason": "full-frame background of the same diorama, core.prop.mini_farm used as image reference; approved by the Producer (option 1)",
+      "higgsfield_job_id": "255fb5ba-2ec3-4e7b-a0a0-f6bc72cc0305",
+      "model": "gpt_image_2_5 (Higgsfield), medium, 2k, 16:9",
+      "cost_credits": 1.0,
+      "attempts": 1
     }
   ],
   "runtime_auxiliary_assets": [
@@ -435,6 +453,26 @@
       "higgsfield_job_id": "3fee819d-4e75-464d-9036-1ef880922468",
       "sha256": "eee0a0afa5874065f25210203ae0194fb40e803250659c14bb5b4168cb4e6634",
       "character_version": "Quest_v1"
+    },
+    {
+      "kind": "background",
+      "library_tier": "EPISODE",
+      "source": "FINAL_ART",
+      "status": "APPROVED",
+      "required": true,
+      "resolution": "2688x1520",
+      "transparent": false,
+      "safe_zoom": 1.2,
+      "style_version": "SecondQuest_2D_v1",
+      "used_in": [
+        "M29",
+        "M43"
+      ],
+      "provenance_type": "HIGGSFIELD_JOB_ID",
+      "key": "ep001.bg.mini_farm_diorama",
+      "path": "public/art/episodes/ep001/backgrounds/mini_farm_diorama.png",
+      "higgsfield_job_id": "255fb5ba-2ec3-4e7b-a0a0-f6bc72cc0305",
+      "sha256": "fba5a96d1ab301d0113711bb2b84f717048a83377169fb8b9798e57511e65043"
     }
   ]
 }
