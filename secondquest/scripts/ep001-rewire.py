@@ -81,9 +81,9 @@ FULL = {
     'full.traffic': [bg('core.bg.city_traffic'), ch('ep001.quest.stuck_in_traffic_car', 0.5, 0.56, 1.0, anim=POP + [{'type': 'shake', 'at': 0.5, 'intensity': 0.2, 'frequency': 3}])],
     'full.prices': [bg('core.bg.home_living_night'), ch('wallet.overwhelmed_debt', 0.5, 0.56)],
     'full.router': [bg('core.bg.home_living_night'), ch('core.prop.router', 0.68, 0.22, 0.86), ch('quest.default.head_in_hands', 0.34, 0.6)],
-    'full.mini_farm': [bg('core.bg.home_living_night'), {'type': 'light', 'shape': 'vignette', 'color': '#000000', 'intensity': 0.45},
-                       {'type': 'rect', 'x': 0.5, 'y': 0.5, 'w': 0.5, 'h': 0.62, 'color': '#3a2416', 'radius': 18, 'depth': 'screen', 'animations': copy.deepcopy(POP)},
-                       {'asset': 'core.prop.mini_farm', 'x': 0.5, 'y': 0.5, 'height': 0.56, 'anchor': [0.5, 0.5], 'depth': 'screen', 'animations': copy.deepcopy(POP)}],
+    'full.mini_farm': [bg('core.bg.home_living_night'), {'type': 'rect', 'x': 0.5, 'y': 0.5, 'w': 1, 'h': 1, 'color': 'rgba(6,5,10,0.62)', 'depth': 'screen'},
+                       {'type': 'rect', 'x': 0.4998, 'y': 0.4997, 'w': 0.3434, 'h': 0.61, 'color': '#f3e6c8', 'radius': 10, 'depth': 'screen', 'animations': copy.deepcopy(POP)},
+                       {'asset': 'core.prop.mini_farm', 'x': 0.5, 'y': 0.5, 'height': 0.6, 'anchor': [0.5, 0.5], 'depth': 'screen', 'animations': copy.deepcopy(POP)}],
     'full.cause_chain': [bg('genre.farming.bg_farm_aerial'), ob('core.prop.domino_row', 0.5, 0.62, 0.7)],
     'full.domino': [bg('genre.farming.bg_farm_aerial'), ob('core.prop.domino_row', 0.5, 0.7, 0.72)],
     'full.aerial_tractor': [bg('genre.farming.bg_field_overhead'), ch('genre.farming.machine.tractor_topdown', 0.5, 0.42, 0.75, anim=POP)],
@@ -345,6 +345,13 @@ def main():
             l.update(x=0.52, y=1.04, flip=True, anchor=[0.5, 0.98], width=0.86); l.pop('height', None)
         if l.get('asset') == 'core.prop.alarm_clock':
             l.update(x=0.905, y=0.67, height=0.12)
+    # M46: Quest turns his head to the viewer on the closing line (registered sitting_back_swap)
+    for l in sc['m46_cta']['layers']:
+        if l.get('asset') == 'quest.default.sitting_back':
+            l['swaps'] = [{'at': 'l244', 'asset': 'quest.default.sitting_back_turn', 'pop': False}]
+    for l in sc['m17b_tractor']['layers']:
+        if l.get('asset') == 'genre.farming.machine.tractor_huge':
+            l.update(height=0.64, x=0.56)
     # animals where the line talks about animals
     ANIMALS = [ob('genre.farming.animal.cow', 0.66, 0.24, 0.92), ob('genre.farming.animal.pig', 0.86, 0.14, 0.95), ob('genre.farming.animal.chickens', 0.18, 0.18, 0.97)]
     for sid, picks in (('m35b_animals', ANIMALS), ('m41d_status', ANIMALS[:1])):

@@ -2411,9 +2411,9 @@
         },
         {
           "asset": "genre.farming.machine.tractor_huge",
-          "x": 0.55,
+          "x": 0.56,
           "y": 0.97,
-          "height": 0.78,
+          "height": 0.64,
           "shadow": true,
           "animations": [
             {
@@ -6017,19 +6017,22 @@
           "asset": "core.bg.home_living_night"
         },
         {
-          "type": "light",
-          "shape": "vignette",
-          "color": "#000000",
-          "intensity": 0.45
-        },
-        {
           "type": "rect",
           "x": 0.5,
           "y": 0.5,
-          "w": 0.5,
-          "h": 0.62,
-          "color": "#3a2416",
-          "radius": 18,
+          "w": 1,
+          "h": 1,
+          "color": "rgba(6,5,10,0.62)",
+          "depth": "screen"
+        },
+        {
+          "type": "rect",
+          "x": 0.4998,
+          "y": 0.4997,
+          "w": 0.3434,
+          "h": 0.61,
+          "color": "#f3e6c8",
+          "radius": 10,
           "depth": "screen",
           "animations": [
             {
@@ -6043,7 +6046,7 @@
           "asset": "core.prop.mini_farm",
           "x": 0.5,
           "y": 0.5,
-          "height": 0.56,
+          "height": 0.6,
           "anchor": [
             0.5,
             0.5
@@ -6081,19 +6084,22 @@
           "asset": "core.bg.home_living_night"
         },
         {
-          "type": "light",
-          "shape": "vignette",
-          "color": "#000000",
-          "intensity": 0.45
-        },
-        {
           "type": "rect",
           "x": 0.5,
           "y": 0.5,
-          "w": 0.5,
-          "h": 0.62,
-          "color": "#3a2416",
-          "radius": 18,
+          "w": 1,
+          "h": 1,
+          "color": "rgba(6,5,10,0.62)",
+          "depth": "screen"
+        },
+        {
+          "type": "rect",
+          "x": 0.4998,
+          "y": 0.4997,
+          "w": 0.3434,
+          "h": 0.61,
+          "color": "#f3e6c8",
+          "radius": 10,
           "depth": "screen",
           "animations": [
             {
@@ -6107,7 +6113,7 @@
           "asset": "core.prop.mini_farm",
           "x": 0.5,
           "y": 0.5,
-          "height": 0.56,
+          "height": 0.6,
           "anchor": [
             0.5,
             0.5
@@ -10132,19 +10138,22 @@
           "asset": "core.bg.home_living_night"
         },
         {
-          "type": "light",
-          "shape": "vignette",
-          "color": "#000000",
-          "intensity": 0.45
-        },
-        {
           "type": "rect",
           "x": 0.5,
           "y": 0.5,
-          "w": 0.5,
-          "h": 0.62,
-          "color": "#3a2416",
-          "radius": 18,
+          "w": 1,
+          "h": 1,
+          "color": "rgba(6,5,10,0.62)",
+          "depth": "screen"
+        },
+        {
+          "type": "rect",
+          "x": 0.4998,
+          "y": 0.4997,
+          "w": 0.3434,
+          "h": 0.61,
+          "color": "#f3e6c8",
+          "radius": 10,
           "depth": "screen",
           "animations": [
             {
@@ -10158,7 +10167,7 @@
           "asset": "core.prop.mini_farm",
           "x": 0.5,
           "y": 0.5,
-          "height": 0.56,
+          "height": 0.6,
           "anchor": [
             0.5,
             0.5
@@ -11083,7 +11092,14 @@
             0.5,
             0.975
           ],
-          "depth": 0.8
+          "depth": 0.8,
+          "swaps": [
+            {
+              "at": "l244",
+              "asset": "quest.default.sitting_back_turn",
+              "pop": false
+            }
+          ]
         },
         {
           "type": "particles",
