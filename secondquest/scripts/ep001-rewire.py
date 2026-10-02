@@ -94,7 +94,9 @@ FULL = {
     'full.care': [bg('genre.farming.bg_field_green'), ob('genre.farming.machine.sprayer', 0.5, 0.74, 0.92)],
     'full.manual_bg': [bg('genre.farming.bg_workshop')],
     'full.catalog_bg': [bg('genre.farming.bg_dealership')],
-    'full.bigger_header': [bg('genre.farming.bg_field_golden'), ob('genre.farming.machine.header_12m', 0.5, 0.95, 0.85)],
+    # the 12 m header working in front of a big tractor (script: "Your tractor is twelve meters wider")
+    'full.bigger_header': [bg('genre.farming.bg_field_golden'), ob('genre.farming.machine.tractor_huge', 0.5, 0.36, 0.8),
+                           ob('genre.farming.machine.header_12m', 0.5, 0.98, 0.9)],
     'full.sunset_quest': [bg('core.bg.sunset_sky'), {'asset': 'genre.farming.layer.sunset_farm_midground', 'x': 0.5, 'y': 0.52, 'width': 1.0, 'depth': 0.35},
                           ch('quest.default.sitting_back', 0.3, 0.52, 0.85, anim=BREATHE, depth=0.75), {'asset': 'core.layer.fence_foreground', 'x': 0.51, 'y': 0.556, 'width': 0.95, 'depth': 1.0}],
     'full.slow_cab': [bg('genre.farming.bg_tractor_cab')],  # driver POV
@@ -108,7 +110,8 @@ FULL = {
     'full.rain': [bg('genre.farming.bg_farm_storm'), ch('genre.farming.quest.rain_huddled', 0.5, 0.52)],
     'full.broken': [bg('genre.farming.bg_workshop'), ob('genre.farming.machine.broken_tractor', 0.6, 0.5, 0.95), ch('quest.default.head_in_hands', 0.24, 0.5)],
     'full.real_vs_sim': [bg('genre.farming.bg_workshop'), ob('genre.farming.machine.broken_tractor', 0.6, 0.5, 0.95), ch('quest.default.head_in_hands', 0.24, 0.5)],
-    'full.water': [bg('genre.farming.bg_riverbank'), ob('genre.farming.machine.harvester_water', 0.5, 0.66, 0.9)],
+    # combine stopped on the muddy bank, one bad turn from the river (no painted splash shapes)
+    'full.water': [bg('genre.farming.bg_riverbank'), ob('genre.farming.machine.combine', 0.38, 0.42, 0.585)],
 }
 # foreground halves of the retired bg/fg plate pairs -> FINAL_ART subjects
 FULL_FG = {
@@ -120,7 +123,7 @@ FULL_FG = {
     'full.night_gamer': [ch('quest.default.gaming_excited', 0.4, 0.7)],
     'full.factory_wheels': [ob('genre.farming.machine.factory_harvester', 0.5, 0.56, 0.95)],
     'full.manual': [ch('quest.default.reading_manual', 0.42, 0.7), ch('core.prop.toolbox', 0.78, 0.22)],
-    'full.catalog': [ob('genre.farming.machine.header_3m', 0.3, 0.3, 0.6), ob('genre.farming.machine.header_6m', 0.62, 0.46, 0.78)],
+    'full.catalog': [ob('genre.farming.machine.header_3m', 0.5, 0.2, 0.5), ob('genre.farming.machine.header_6m', 0.74, 0.36, 0.62)],  # on the lot, behind the fence
 }
 # per-shot composition overrides (Creative Cast Delta + shot meaning)
 SHOT = {
@@ -285,6 +288,9 @@ def main():
         damp_camera(sc[sid].get('camera', {}), f)
         for l in sc[sid]['layers']:
             if l.get('type') == 'group' and l.get('camera'): damp_camera(l['camera'], f)
+    # M33e: keep the whole 12 m header and its tractor in frame (gentle push + the impact punch)
+    sc['m33e_12m']['camera'] = {'start': {'zoom': 1.02, 'x': 0.5, 'y': 0.55}, 'moves': [{'type': 'push_in', 'amount': 0.03, 'easing': 'inOutSine'},
+                                {'type': 'punch', 'at': 0.05, 'amount': 0.02, 'duration': 0.35}]}
 
     # Quest seated pose (genre.farming.quest.tractor_side) always rides the small tractor:
     # quest canvas point (0.45, 0.62) on the tractor seat (0.66, 0.42); tractor drawn over the legs

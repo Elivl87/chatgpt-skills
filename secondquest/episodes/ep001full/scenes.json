@@ -7231,9 +7231,9 @@
         },
         {
           "asset": "genre.farming.machine.header_3m",
-          "x": 0.3,
-          "y": 0.6,
-          "width": 0.3,
+          "x": 0.5,
+          "y": 0.5,
+          "width": 0.2,
           "shadow": true,
           "animations": [
             {
@@ -7245,9 +7245,9 @@
         },
         {
           "asset": "genre.farming.machine.header_6m",
-          "x": 0.62,
-          "y": 0.78,
-          "width": 0.46,
+          "x": 0.74,
+          "y": 0.62,
+          "width": 0.36,
           "shadow": true,
           "animations": [
             {
@@ -7502,19 +7502,20 @@
       "start": "l146-0.05",
       "camera": {
         "start": {
-          "zoom": 1.2218,
-          "x": 0.5266,
-          "y": 0.5976
+          "zoom": 1.02,
+          "x": 0.5,
+          "y": 0.55
         },
         "moves": [
           {
-            "type": "pan_left",
-            "amount": 0.0133
+            "type": "push_in",
+            "amount": 0.03,
+            "easing": "inOutSine"
           },
           {
             "type": "punch",
             "at": 0.05,
-            "amount": 0.0222,
+            "amount": 0.02,
             "duration": 0.35
           }
         ]
@@ -7524,10 +7525,24 @@
           "asset": "genre.farming.bg_field_golden"
         },
         {
+          "asset": "genre.farming.machine.tractor_huge",
+          "x": 0.5,
+          "y": 0.8,
+          "width": 0.36,
+          "shadow": true,
+          "animations": [
+            {
+              "type": "pop_in",
+              "at": 0,
+              "duration": 0.3
+            }
+          ]
+        },
+        {
           "asset": "genre.farming.machine.header_12m",
           "x": 0.5,
-          "y": 0.85,
-          "width": 0.95,
+          "y": 0.9,
+          "width": 0.98,
           "shadow": true,
           "animations": [
             {
@@ -9659,10 +9674,10 @@
           "asset": "genre.farming.bg_riverbank"
         },
         {
-          "asset": "genre.farming.machine.harvester_water",
-          "x": 0.5,
-          "y": 0.9,
-          "width": 0.66,
+          "asset": "genre.farming.machine.combine",
+          "x": 0.38,
+          "y": 0.585,
+          "width": 0.42,
           "shadow": true,
           "animations": [
             {
@@ -9711,10 +9726,10 @@
           "asset": "genre.farming.bg_riverbank"
         },
         {
-          "asset": "genre.farming.machine.harvester_water",
-          "x": 0.5,
-          "y": 0.9,
-          "width": 0.66,
+          "asset": "genre.farming.machine.combine",
+          "x": 0.38,
+          "y": 0.585,
+          "width": 0.42,
           "shadow": true,
           "animations": [
             {
