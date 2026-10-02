@@ -109,10 +109,10 @@
       "character": 1.45,
       "object": 1.35
     },
-    "minBackground": [
-      3840,
-      2160
+    "maxOutput": [
+      1920,
+      1080
     ],
-    "policy": "Every image a render uses must be source=FINAL_ART, status=APPROVED, delivered by the Creative Pipeline. Missing/invalid art blocks the render (ASSET_MISSING, NOT_FINAL_ART, BAD_RESOLUTION, SAFE_ZOOM, SWAP_MISMATCH, QUEST_VERSION_MISMATCH). The engine never creates, crops, upscales or substitutes art."
+    "policy": "Every image a render uses must be source=FINAL_ART, status=APPROVED, delivered by the Creative Pipeline. Missing/invalid art blocks the render (ASSET_MISSING, NOT_FINAL_ART, BAD_RESOLUTION, SAFE_ZOOM, SWAP_MISMATCH, QUEST_VERSION_MISMATCH). Renders are capped at maxOutput (1080p); backgrounds must be at least maxOutput x safeZoomDefaults.background (2304x1296), 4K is welcome but not required. The engine never creates, crops, upscales or substitutes art."
   }
 }

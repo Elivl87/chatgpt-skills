@@ -7,7 +7,7 @@
  *   npm run render:hook                              # ep001 hook, English, 1080p
  *   npm run render:episode -- ep002                  # an episode's "full" cut, English
  *   npm run render -- ep001 hook --version v2        # any episode / cut
- *   npm run render -- ep001 hook --scale 2           # 3840x2160
+ *   npm run render -- ep001 hook --scale 2           # 3840x2160 (blocked while art.maxOutput is 1080p)
  *   npm run render -- ep001 hook --frames 0-299      # partial (fast checks)
  *   npm run render -- ep001 hook --locale es         # Spanish — explicit request only
  *
@@ -44,6 +44,12 @@ const main = async () => {
 
   if (!runValidation(episodeId, true)) {
     console.error('\nValidation failed — fix the errors above (npm run validate).');
+    process.exit(1);
+  }
+
+  const maxOut = PRODUCTION.art?.maxOutput;
+  if (maxOut && base.episode.height * scale > maxOut[1]) {
+    console.error(`\nOutput ${base.episode.height * scale}p exceeds the channel maximum ${maxOut[0]}x${maxOut[1]} (shared/production.json art.maxOutput): the art is only certified up to that size.`);
     process.exit(1);
   }
 

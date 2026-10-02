@@ -3207,12 +3207,7 @@
       "provenance_locator": "255fb5ba-2ec3-4e7b-a0a0-f6bc72cc0305",
       "aspect": 1.7684,
       "label": "ep001.bg.mini_farm_diorama",
-      "brief": "Full-frame 16:9 plate of the core.prop.mini_farm diorama on the workbench under the lamp (replaces the boxed prop card in M29/M43).",
-      "resolution_waiver": {
-        "max_output_height": 1080,
-        "reason": "Higgsfield 2k plate; 1520 px tall covers the 1080p camera (max ~1.14x)",
-        "approved_by": "Producer 2026-10-02"
-      }
+      "brief": "Full-frame 16:9 plate of the core.prop.mini_farm diorama on the workbench under the lamp (replaces the boxed prop card in M29/M43)."
     }
   }
 }

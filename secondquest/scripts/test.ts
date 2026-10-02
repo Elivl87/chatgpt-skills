@@ -26,7 +26,7 @@ import type { AssetCatalog, EpisodeConfig, ScenesFile, ScriptFile, TimingsFile }
 import { hasPublicFile, PUBLIC, ROOT } from './lib';
 import { resolveRenderTarget } from './render-target';
 import { episodeFiles, registerEpisodeSource } from './scaffold';
-import { validateArtContract, validateArtManifest, type ArtManifest, type ArtManifestEntry, type ImageInfo } from '../src/engine/artContract';
+import { minBackground, validateArtContract, validateArtManifest, type ArtManifest, type ArtManifestEntry, type ImageInfo } from '../src/engine/artContract';
 import { intakeParts, MAX_PART_BYTES } from './art-intake';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -382,7 +382,7 @@ test('intake: partial delivery — a manifest entry with no file is PENDING (ASS
   const r = intakeParts([part({ assets: [fin({ key: 'a', path: P('a.png') }), fin({ key: 'b', path: P('b.png') })] }, { [P('a.png')]: png(2000, 2000) })]);
   assert.deepEqual([r.keys.a.status, r.keys.b.status, r.keys.b.codes], ['OK', 'PENDING', ['ASSET_MISSING']]);
 });
-test('intake: file size ≠ declared resolution → BAD_RESOLUTION; background below 3840×2160 → BAD_RESOLUTION', () => {
+test('intake: file size ≠ declared resolution → BAD_RESOLUTION; background below 2304×1296 → BAD_RESOLUTION', () => {
   assert.ok(codes({ assets: [fin({ key: 'x', path: P('x.png') })] }, { [P('x.png')]: png(1000, 1000) }, 'x').codes.includes('BAD_RESOLUTION'));
   const bg = fin({ key: 'bg', path: P('bg/farm.png'), kind: 'background', resolution: '1920x1080', transparent: false, safe_zoom: 1.2 });
   assert.ok(codes({ assets: [bg] }, { [P('bg/farm.png')]: png(1920, 1080, 2) }, 'bg').codes.includes('BAD_RESOLUTION'));
@@ -454,18 +454,17 @@ test('render gate: art drawn taller than the file → BAD_RESOLUTION', () => {
   const [b, fi] = gateBundle(0.06, 400);
   assert.ok(gate(b, fi).some((i) => i.code === 'BAD_RESOLUTION' && i.key === 'quest.excited'));
 });
-test('render gate: a background below 4K → BAD_RESOLUTION unless a Producer waiver covers the output height', () => {
+test('render gate: backgrounds are sized for 1080p — 2k (2688x1520) passes, below 2304x1296 → BAD_RESOLUTION', () => {
   const [b] = gateBundle(0.06);
-  const small: Record<string, ImageInfo> = { 'art/episodes/ep998/bg.png': { width: 2688, height: 1520, alpha: false }, 'art/core/quest/excited.png': { width: 2000, height: 2000, alpha: true } };
   const bg = b.assets.assets['ep998.bg_intro'] as unknown as Record<string, unknown>;
-  bg.resolution = '2688x1520';
-  const errs = () => gate(b, (p) => small[p]).filter((i) => i.level === 'error' && i.code === 'BAD_RESOLUTION');
-  assert.equal(errs().length, 1);
-  bg.resolution_waiver = { max_output_height: 1080, reason: 'test', approved_by: 'Producer' };
-  b.episode.height = 1080;
-  assert.deepEqual(errs(), []);
-  b.episode.height = 2160; // a 4K render is not covered by a 1080p waiver (and the plate would be upscaled)
-  assert.ok(errs().some((i) => i.message.includes('waiver only covers renders up to 1080p')));
+  const run = (w: number, h: number) => {
+    bg.resolution = `${w}x${h}`;
+    const files: Record<string, ImageInfo> = { 'art/episodes/ep998/bg.png': { width: w, height: h, alpha: false }, 'art/core/quest/excited.png': { width: 2000, height: 2000, alpha: true } };
+    return gate(b, (p) => files[p]).filter((i) => i.level === 'error' && i.code === 'BAD_RESOLUTION' && i.key === 'ep998.bg_intro');
+  };
+  assert.deepEqual(minBackground(PRODUCTION.art!), [2304, 1296]);
+  assert.deepEqual(run(2688, 1520), []);
+  assert.equal(run(2048, 1152).length, 1);
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);

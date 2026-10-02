@@ -52,8 +52,8 @@ export interface ArtPolicy {
   kinds: string[];
   forbiddenSources: string[];
   safeZoomDefaults: { background: number; character: number; object: number };
-  /** Minimum background size [w, h]. */
-  minBackground: [number, number];
+  /** Largest render the channel publishes [w, h] (1080p). Minimum background = maxOutput × safeZoomDefaults.background. */
+  maxOutput: [number, number];
   policy?: string;
 }
 
