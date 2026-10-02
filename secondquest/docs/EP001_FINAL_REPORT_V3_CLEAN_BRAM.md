@@ -8,7 +8,7 @@
 
 | Item | Value |
 |---|---|
-| File | `renders/secondquest_ep001_V3_CLEAN_BRAM_FINAL.mp4` (not in git) |
+| File | `secondquest_ep001_V3_CLEAN_BRAM_FINAL.mp4`, 642.5 MB: too large for git (GitHub limit 100 MB), delivered outside the repo |
 | SHA-256 | `96d8d87f428b505e12adb1b4ea1f5375ceef54ad1b94b25986ecad0e5a05e36e` |
 | Video | H.264, 1920x1080, 30 fps, 8.96 Mb/s |
 | Audio | AAC 48 kHz stereo, -14.3 LUFS integrated, -1.6 dBTP (YouTube reference) |
