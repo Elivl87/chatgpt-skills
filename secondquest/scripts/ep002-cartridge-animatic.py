@@ -156,7 +156,7 @@ def render(t):
     if t < T_S2:
         fr, _ = frame_room(t, S1_CAM)
         d = ImageDraw.Draw(fr)
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v4 · PLANNING ONLY')
     elif t < T_CLIC:
         start_slide = T_CLIC - SLIDE
         k = min(1, max(0, (t - start_slide) / SLIDE))        # frames are already eased in 3D
@@ -170,7 +170,7 @@ def render(t):
         fr = fr.convert('RGB')
         d = ImageDraw.Draw(fr)
         d.text((20, 40), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v4 · PLANNING ONLY')
     else:
         # hold the seated frame for the shake, then cut to the TV
         if t < T_CLIC + 0.2:
@@ -179,13 +179,13 @@ def render(t):
             fr.alpha_composite(im, (int((W - im.width) / 2), int((H - im.height) / 2)))
             fr = fr.convert('RGB')
             d = ImageDraw.Draw(fr)
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v4 · PLANNING ONLY')
         else:
             fr, box = frame_room(t, S3_CAM)
             k = (t - T_CLIC) / (T_SEQ2 - T_CLIC)
             tx, ty = to_screen((TV[0] + TV[2]) / 2, (TV[1] + TV[3]) / 2, box)
             fr = glow(fr, tx, ty, 420, (200, 235, 255), 0.55 * math.sin(math.pi * min(1, k * 1.4)))
-            t0 = T_CLIC + 0.25 * (T_SEQ2 - T_CLIC)
+            t0 = T_NAVI
             if t >= t0:
                 tm_ = (t0 + T_SEQ2) / 2
                 # out of the TV (approved v1 arc), then towards the camera, growing, and out of frame on the left
@@ -195,7 +195,7 @@ def render(t):
                 fr = fairy_fx.draw(fr, keys, t, size=0.1 + 0.08 * grow * grow, opacity=min(1, (t - t0) / 0.15))
             d = ImageDraw.Draw(fr)
             d.text((20, 40), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v4 · PLANNING ONLY')
     if shake != (0, 0):
         fr = Image.fromarray(__import__('numpy').roll(__import__('numpy').asarray(fr), shake, axis=(1, 0)))
     if 0 <= t - T_CLIC < 2 / FPS:   # 2-frame flash on the seat
@@ -208,18 +208,26 @@ def render(t):
 SFX = json.loads((ROOT / 'shared/sfx.json').read_text())['sfx']
 
 
+NAVI = ROOT / 'public/episodes/ep002/sfx/navi_original'   # Producer-supplied original clips (PRODUCER_DECISIONS.md)
+T_NAVI = T_CLIC + 0.25 * (T_SEQ2 - T_CLIC)               # the fairy starts to emerge from the TV
+HELLO_LEN = 24958 / 48000                                # NAVI_HELLO.wav length
+
+
 def sfx_events():
+    """(name or path, time, gain). Navi's entrance (Producer direction): HELLO as she emerges, then NAVI_SFX_01 tight
+    on the end of the voice as she flies away; both kept under Bram."""
     return [('cart_slide', T_CLIC - SLIDE + 0.45, 1.0), ('cart_click', T_CLIC - 0.01, 1.0), ('tv_on', T_CLIC + 0.2, 0.9),
-            ('fairy_shimmer', T_CLIC + 0.22, 1.0), ('fairy_flutter', T_CLIC + 0.3, 1.0), ('whoosh', T_END - 0.45, 0.9)]
+            (NAVI / 'NAVI_HELLO.wav', T_NAVI, 0.35), (NAVI / 'NAVI_SFX_01.wav', T_NAVI + HELLO_LEN - 0.03, 0.35)]
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v4.mp4'
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
-        ins += ['-i', str(ROOT / 'public' / SFX[name]['src'].lstrip('/'))]
-        chains.append(f'[{k + 2}:a]volume={SFX[name]["volume"] * gain:.3f},adelay={int(at_ * 1000)}:all=1[s{k}]')
+        src, vol = (name, 1.0) if isinstance(name, Path) else (ROOT / 'public' / SFX[name]['src'].lstrip('/'), SFX[name]['volume'])
+        ins += ['-i', str(src)]
+        chains.append(f'[{k + 2}:a]aformat=channel_layouts=mono,volume={vol * gain:.3f},adelay={int(at_ * 1000)}:all=1[s{k}]')
     mix = (';'.join(chains) + ';[1:a]atrim=0:' + f'{T_END:.3f}' + '[n];[n]' + ''.join(f'[s{k}]' for k in range(len(ev)))
            + f'amix=inputs={len(ev) + 1}:normalize=0:duration=first,afade=t=out:st={T_END - 0.25:.3f}:d=0.25[a]')
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
@@ -231,7 +239,7 @@ def main():
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v4_{name}.jpg', quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 

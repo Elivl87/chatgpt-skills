@@ -48,3 +48,13 @@
 
 - **Quest-v1-6ref** `755771c5-9283-4473-a037-a4a983c75238`: the Producer chose the 6 recommended images ("vamos por lo seguro").
 - The other three elements are superseded or test elements; the Producer may delete them in Higgsfield.
+
+## Navi original audio (2026-10-03)
+- The Producer supplied `SecondQuest_EP002_Navi_Original_SFX_Extract_v1.zip` (original Navi clips extracted from a source he
+  provided), installed in `public/episodes/ep002/sfx/navi_original/` with its README and cue sheet.
+- Direction for Navi's first appearance: `NAVI_HELLO.wav` as she starts to emerge from the TV, then `NAVI_SFX_01.wav` tight on
+  the end of the voice as she flies away (one continuous entrance). Both kept under Bram's level.
+- Note: the pack README says `NAVI_HEY.wav` for the first appearance; the Producer's later direction (HELLO) wins.
+- Risk (informed, same category as the official logo on the cartridge): this is Nintendo audio; a claim or a copyright strike
+  is possible and a strike counts against the whole channel. The pack README also states clearance is a separate production
+  decision. Final use is confirmed at the final-render approval.
