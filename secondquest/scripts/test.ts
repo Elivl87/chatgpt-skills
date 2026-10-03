@@ -474,18 +474,16 @@ test('max output is 1080p in either orientation — 1920x1080 and 1080x1920 (Sho
   assert.ok(!withinMaxOutput(3840, 2160, max));
   assert.ok(!withinMaxOutput(2160, 3840, max));
 });
-test('camera continuity: same plate never snaps back to an earlier framing (Producer rule)', () => {
+test('camera continuity: back-to-back scenes on the same plate never snap back (Producer rule)', () => {
   const cam = (zoom: number, x = 0.5, y = 0.5) => ({ zoom, x, y, rotation: 0 });
-  const shot = (sceneId: string, plate: string, start: ReturnType<typeof cam>, end: ReturnType<typeof cam>, firstMove = 'push_in'): PlateShot => ({ sceneId, plate, start, end, firstMove });
+  const shot = (sceneId: string, plate: string, start: ReturnType<typeof cam>, end: ReturnType<typeof cam>): PlateShot => ({ sceneId, plate, start, end });
   const codes = (shots: PlateShot[]) => checkCameraContinuity(shots).map((i) => `${i.sceneId}:${i.code}`);
   // consecutive: continuing the camera passes, a clearly new shot passes, a small snap back fails
   assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1.08), cam(1.15))]), []);
-  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1.4, 0.4), cam(1.4, 0.6), 'pan_right')]), []);
+  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1.4, 0.4), cam(1.4, 0.6))]), []);
   assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1), cam(1.08))]), ['b:CAMERA_JUMP']);
-  // a plate that returns later: same opening + same move fails; a new framing passes
-  const other = shot('x', 'q', cam(1), cam(1.08));
-  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), other, shot('c', 'p', cam(1.02), cam(1.1))]), ['c:CAMERA_REPEAT']);
-  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), other, shot('c', 'p', cam(1.3, 0.4), cam(1.3, 0.6), 'pan_right')]), []);
+  // a plate that returns later (not back to back) is free
+  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('x', 'q', cam(1), cam(1.08)), shot('c', 'p', cam(1), cam(1.08))]), []);
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);

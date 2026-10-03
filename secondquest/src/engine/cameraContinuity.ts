@@ -3,14 +3,14 @@ import type { CameraState } from '../schema/types';
 /**
  * Camera continuity on reused background plates (Producer rule, 2026-10-03).
  *
- * When a plate repeats, the camera must never snap back to a framing the viewer
- * just saw and start the same move again: that reads as a cropped restart.
+ * When two consecutive scenes use the same plate, the camera must never snap
+ * back to a framing the viewer just saw and start again: that reads as a
+ * cropped restart. The second scene either continues the camera (starts where
+ * the previous one ended) or cuts to a clearly different shot (zoom ratio
+ * >= 1.25 or focus moved >= 0.15 of the frame).
  *
- * - Consecutive scenes on the same plate either continue the camera (the next
- *   scene starts where the previous one ended) or cut to a clearly different
- *   shot (zoom ratio >= 1.25 or focus moved >= 0.15 of the frame).
- * - A plate that returns later must not reuse an earlier scene's opening
- *   framing with the same first move.
+ * Only back-to-back reuse is checked. A plate that returns later in the video
+ * is free, and scenes do not need to move: camera moves are chosen per script.
  */
 
 export interface PlateShot {
@@ -20,13 +20,11 @@ export interface PlateShot {
   /** Camera state at the first and last frame, without handheld drift. */
   start: CameraState;
   end: CameraState;
-  /** Type of the first camera move, if any. */
-  firstMove?: string;
 }
 
 export interface ContinuityIssue {
   sceneId: string;
-  code: 'CAMERA_JUMP' | 'CAMERA_REPEAT';
+  code: 'CAMERA_JUMP';
   message: string;
 }
 
@@ -55,18 +53,6 @@ export const checkCameraContinuity = (shots: PlateShot[]): ContinuityIssue[] => 
           code: 'CAMERA_JUMP',
           message: `same plate as "${prev.sceneId}" but the camera snaps from ${fmt(prev.end)} to ${fmt(shot.start)}: continue the camera or cut to a clearly different shot`,
         });
-      return;
-    }
-    for (const earlier of shots.slice(0, Math.max(0, i - 1))) {
-      if (earlier.plate !== shot.plate) continue;
-      if (!isNewShot(earlier.start, shot.start) && earlier.firstMove === shot.firstMove) {
-        issues.push({
-          sceneId: shot.sceneId,
-          code: 'CAMERA_REPEAT',
-          message: `returns to plate "${shot.plate}" with the same opening framing and move as "${earlier.sceneId}" (${fmt(shot.start)}, ${shot.firstMove ?? 'static'}): change the framing or the move`,
-        });
-        break;
-      }
     }
   });
   return issues;

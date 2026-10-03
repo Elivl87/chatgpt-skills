@@ -145,7 +145,7 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
         const { zoom, x, y, rotation } = evaluateCamera(cam, t);
         return { zoom, x, y, rotation };
       };
-      shots.push({ sceneId: scene.id, plate: plateOf(scene.layers), start: at(0), end: at(dur), firstMove: cam.moves.find((m) => m.type !== 'punch')?.type });
+      shots.push({ sceneId: scene.id, plate: plateOf(scene.layers), start: at(0), end: at(dur) });
     } catch {
       /* time errors are reported above */
     }
