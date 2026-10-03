@@ -289,9 +289,10 @@ const ocarina = () => {
   collar.rotation.y = Math.PI / SEG; collar.position.y = CH / 2 + 2;
   collar.userData.part = part++; ids.push(collar); mg.add(collar);
   const SL = 40;
-  const spout = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 8.6, SL, 36), toon(BLUE));
+  const SR0 = CR1 * Math.cos(Math.PI / SEG), SR1 = SR0 * 0.62;   // mouthpiece as thick as the collar where it leaves it (Producer note)
+  const spout = new THREE.Mesh(new THREE.CylinderGeometry(SR1, SR0, SL, 48), toon(BLUE));
   spout.position.y = CH + 2 + SL / 2 - 1; spout.userData.part = part++; ids.push(spout); mg.add(spout);
-  const tip = new THREE.Mesh(new THREE.SphereGeometry(4.2, 20, 14), toon(BLUE));
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(SR1, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), toon(BLUE));
   tip.position.y = CH + 2 + SL - 1; tip.userData.part = spout.userData.part; ids.push(tip); mg.add(tip);
   // Triforce on a dark inset, on the collar's front facet
   const rMid = (CR0 + CR1) / 2, apo = rMid * Math.cos(Math.PI / SEG), lean = Math.atan((CR0 - CR1) / CH);
