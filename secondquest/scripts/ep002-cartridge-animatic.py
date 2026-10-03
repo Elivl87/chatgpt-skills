@@ -13,7 +13,7 @@ Sequence 01 (l01-l02), timed to the real Bram narration and its word timings:
                  Python twin tools/fx/fairy.py) flies out of it (fairy_shimmer + fairy_flutter).
 The N64 controller (tools/props3d, n64_pad) lies on the rug, cabled to the console.
 Sounds: engine synths from shared/sfx.json, mixed under the narration. Quest is still a MISSING box.
-Output: docs/ep002/EP002_cartridge_animatic_v3.mp4 (1280x720, 24 fps): the fairy's flight continues over "New graphics."
+Output: docs/ep002/EP002_cartridge_animatic_v10.mp4 (1280x720, 24 fps), Quest poses in place (v10). Since v3 the fairy's flight continues over "New graphics."
 (l03) and leaves the frame. v1/v2 are kept for comparison.
 """
 import json, math, subprocess
@@ -94,10 +94,32 @@ sh2 = Image.new('RGBA', plate.size)
 ImageDraw.Draw(sh2).ellipse((pad_x + 4 * S, pad_y + pad.height - 7 * S, pad_x + pad_w - 4 * S, pad_y + pad.height + 3 * S), fill=(20, 12, 8, 120))
 ov.alpha_composite(sh2.filter(ImageFilter.GaussianBlur(5 * S)))
 ov.alpha_composite(pad, (pad_x, pad_y))
-missing(d, QUEST_BOX, 'quest.default.', 'holding_cartridge · NEW_ART')
-d.text((QUEST_BOX[0] * S + 12, QUEST_BOX[1] * S + 14 + 28 * S), '(Quest-v1-6ref)', font=F(int(6 * S)), fill=(255, 200, 200))
-ov.alpha_composite(cartridge(int(46 * S)), (int(560 * S), int(285 * S)))   # the cartridge in his hands
-plate_room = Image.alpha_composite(plate, ov).convert('RGB')
+
+
+def quest_layer(pose_png):
+    """Quest standing on the rug inside QUEST_BOX: feet on the box bottom, cut-out height = box height, soft shadow."""
+    q = Image.open(pose_png).convert('RGBA')
+    q = q.crop(q.getchannel('A').getbbox())
+    h = int((QUEST_BOX[3] - QUEST_BOX[1]) * S)
+    q = q.resize((round(q.width * h / q.height), h), Image.LANCZOS)
+    cx, fy = (QUEST_BOX[0] + QUEST_BOX[2]) / 2 * S, QUEST_BOX[3] * S
+    lay = Image.new('RGBA', plate.size)
+    sh = Image.new('RGBA', plate.size)
+    ImageDraw.Draw(sh).ellipse((cx - q.width * 0.42, fy - 7 * S, cx + q.width * 0.42, fy + 5 * S), fill=(20, 12, 8, 140))
+    lay.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5 * S)))
+    lay.alpha_composite(q, (int(cx - q.width / 2), int(fy - h)))
+    return lay
+
+
+QUEST_LIB = ROOT / 'docs/art_orders/quest/library_v2/results'
+# S1: Quest holds the cartridge (library v2 pose 08, used as generated: Producer, 2026-10-03)
+plate_room = Image.alpha_composite(Image.alpha_composite(plate, ov), quest_layer(QUEST_LIB / '08_holding_cartridge.png')).convert('RGB')
+# S3: the cartridge is in the console now; Quest reacts to the TV flare (library v2 pose 04, no backpack)
+ov3 = Image.new('RGBA', plate.size)
+_n64_in = Image.open(PROPS / 'n64_room_3q_cart_in.png').convert('RGBA')
+ov3.alpha_composite(ov)
+ov3.alpha_composite(_n64_in.resize((n64.width, round(_n64_in.height * n64.width / _n64_in.width)), Image.LANCZOS), (n64_x, n64_y + n64.height - round(_n64_in.height * n64.width / _n64_in.width)))
+plate_room_s3 = Image.alpha_composite(Image.alpha_composite(plate, ov3), quest_layer(QUEST_LIB / '04_surprised_shocked.png')).convert('RGB')
 TV = (805, 30, 925, 245)            # screen area in plate units (for the glow)
 
 # ---- S2 insert: blurred rug/room behind the 3D-rendered console + cartridge frames
@@ -107,14 +129,14 @@ INSERT = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'n64_insert').g
 SLIDE = 1.05                        # seconds of the slide; it ends exactly on "back"
 
 
-def frame_room(t, cam):
+def frame_room(t, cam, plate_img=None):
     (z0, x0, y0), (z1, x1, y1), a, b = cam
     e = ease((t - a) / max(0.01, b - a))
     z = z0 * (z1 / z0) ** e; x = lin(x0, x1, e); y = lin(y0, y1, e)
     m_ = 0.5 / z; x = min(max(x, m_), 1 - m_); y = min(max(y, m_), 1 - m_)  # never past the image edge
     cw, ch = PW / z, PH / z
     box = (x * PW - cw / 2, y * PH - ch / 2, x * PW + cw / 2, y * PH + ch / 2)
-    return plate_room.crop(box).resize((W, H), Image.BILINEAR), box
+    return (plate_img or plate_room).crop(box).resize((W, H), Image.BILINEAR), box
 
 
 def to_screen(px, py, box):
@@ -156,7 +178,7 @@ def render(t):
     if t < T_S2:
         fr, _ = frame_room(t, S1_CAM)
         d = ImageDraw.Draw(fr)
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v9 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
     elif t < T_CLIC:
         start_slide = T_CLIC - SLIDE
         k = min(1, max(0, (t - start_slide) / SLIDE))        # frames are already eased in 3D
@@ -170,7 +192,7 @@ def render(t):
         fr = fr.convert('RGB')
         d = ImageDraw.Draw(fr)
         d.text((20, 40), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v9 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
     else:
         # hold the seated frame for the shake, then cut to the TV
         if t < T_CLIC + 0.2:
@@ -179,9 +201,9 @@ def render(t):
             fr.alpha_composite(im, (int((W - im.width) / 2), int((H - im.height) / 2)))
             fr = fr.convert('RGB')
             d = ImageDraw.Draw(fr)
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v9 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
         else:
-            fr, box = frame_room(t, S3_CAM)
+            fr, box = frame_room(t, S3_CAM, plate_room_s3)
             k = (t - T_CLIC) / (T_SEQ2 - T_CLIC)
             tx, ty = to_screen((TV[0] + TV[2]) / 2, (TV[1] + TV[3]) / 2, box)
             fr = glow(fr, tx, ty, 420, (200, 235, 255), 0.55 * math.sin(math.pi * min(1, k * 1.4)))
@@ -195,7 +217,7 @@ def render(t):
                 fr = fairy_fx.draw(fr, keys, t, size=0.1 + 0.08 * grow * grow, opacity=min(1, (t - t0) / 0.15))
             d = ImageDraw.Draw(fr)
             d.text((20, 40), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v9 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
     if shake != (0, 0):
         fr = Image.fromarray(__import__('numpy').roll(__import__('numpy').asarray(fr), shake, axis=(1, 0)))
     if 0 <= t - T_CLIC < 2 / FPS:   # 2-frame flash on the seat
@@ -222,7 +244,7 @@ def sfx_events():
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v9.mp4'
+    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v10.mp4'
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -240,7 +262,7 @@ def main():
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v9_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v10_{name}.jpg', quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 
