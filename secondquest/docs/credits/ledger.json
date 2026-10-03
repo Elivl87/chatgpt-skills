@@ -1,0 +1,59 @@
+{
+  "notes": "Higgsfield credit ledger (tools/credits/credits.py). Every spend: quote → Producer approval (own words) → spend with job ids and balance.",
+  "entries": [
+    {
+      "id": "Q001",
+      "episode": "EP001",
+      "item": "EP001 production: Bram narration B01–B10 (24.15) + art fixes (10.00)",
+      "model": "text2speech_v2 / gpt_image_2_5",
+      "quoted": 34.15,
+      "status": "spent",
+      "actual": 34.15,
+      "balanceAfter": 121.05,
+      "approval": "historical (EP001_FINAL_REPORT_V3_CLEAN_BRAM.md)"
+    },
+    {
+      "id": "Q002",
+      "episode": "CHANNEL",
+      "item": "Channel avatar",
+      "model": "gpt_image_2_5",
+      "quoted": 0.5,
+      "status": "spent",
+      "actual": 0.5,
+      "approval": "historical"
+    },
+    {
+      "id": "Q003",
+      "episode": "EP001",
+      "item": "Thumbnails 1–3",
+      "model": "gpt_image_2_5",
+      "quoted": 1.5,
+      "status": "spent",
+      "actual": 1.5,
+      "balanceAfter": 119.05,
+      "approval": "historical (note: spent after 'Prosigamos' without an explicit quote — the reason this ledger exists)"
+    },
+    {
+      "id": "Q004",
+      "episode": "EP002",
+      "item": "Bram narration B01–B08 + B01 retake",
+      "model": "text2speech_v2 elevenlabs",
+      "quoted": 19.0,
+      "status": "spent",
+      "actual": 19.8,
+      "balanceAfter": 99.25,
+      "approval": "Confirmo la narración de Bram por 19 créditos, máximo 25",
+      "jobs": [
+        "48d9913d-9902-4752-ac75-d85c6874ef35",
+        "c54525e4-5971-4173-b44b-a3733850f17e",
+        "d90b57bf-8cdf-4072-bcc1-0d07cc01e1f0",
+        "db632ebc-6353-429c-bedd-ffec8d3fecdf",
+        "211c5c61-b637-4046-9184-4c5af99488c1",
+        "d96f2280-a733-4f33-9272-8260b2aafc5b",
+        "9ac91baf-90ee-4eaa-9980-57c71e7cb89b",
+        "0d26132d-9398-4b78-a6de-a5b2487ab711",
+        "3b0247ee-52f2-4fa4-8e95-bd61b7a5df0d"
+      ]
+    }
+  ]
+}

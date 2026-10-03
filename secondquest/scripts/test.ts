@@ -558,6 +558,16 @@ test('layer schema: missing required keys, typos and a counter without steps are
   assert.ok(msgs.some((m) => m.startsWith('warn:unknown key "colour"')));
   assert.ok(!msgs.some((m) => m.includes('must be a list')), 'an empty steps list is a valid static counter');
 });
+test('credit preflight: prompt lint blocks third-party characters, missing Quest identity and opaque cut-outs', () => {
+  const py = `
+import sys; sys.path.insert(0, 'tools/credits'); import credits
+q = 'The SAME cartoon character as in the reference images (Quest_v1): young man, dark brown curly hair, light freckles. Outfit: plain red hoodie; blue denim jeans; RED canvas sneakers. Bold ink outlines. Upper body.'
+print(len(credits.lint(q, 'character', 2, 'default', True)[0]), len(credits.lint(q, 'character', 0, 'default', False)[0]), len(credits.lint('Link and Navi in a field', 'background')[0]), len(credits.lint('a grassy field near a temple of time', 'background')[0]))
+`;
+  const r = spawnSync('python3', ['-c', py], { cwd: ROOT, encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(r.stdout.trim(), '0 2 2 0');
+});
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);
   const miss = gate(b, () => undefined).filter((i) => i.code === 'ASSET_MISSING');
