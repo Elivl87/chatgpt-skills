@@ -26,4 +26,7 @@ the same. They are themselves in an outfit, never transformed into the game char
   (`docs/art_orders/pixie/results/pixie_design_B.png`), standing next to Quest.
 - Known defect of that image, never to be copied: a curved swoosh-like stripe on her left sneaker. Her sneakers are
   always plain white (say it in every prompt where her feet show).
-- Next: a reference element with 6 poses/emotions, built from design B (quoted first).
+- **Reference element Pixie-v1-6ref `1015661a-8b38-4caa-a4e8-8e3a2eef9ba8`** (Producer pick, 2026-10-03): library
+  poses 1 wave_happy, 2 gaming_excited, 3 looking_up_awe, 4 laughing_pointing, 7 surprised_shocked, 9 determined_fists.
+  Put `<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>>` in every prompt that shows Pixie.
+- Library (10 transparent poses, Q006): `docs/art_orders/pixie/library/results/` (jobs in `jobs.json`).

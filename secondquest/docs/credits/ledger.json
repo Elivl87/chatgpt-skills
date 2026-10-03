@@ -100,6 +100,16 @@
         "9ca056c6-c10b-40b5-97b4-64039926fa88"
       ],
       "balanceAfter": 87.25
+    },
+    {
+      "id": "Q007",
+      "episode": "CHANNEL",
+      "item": "Quest_v1 library v2: 8 poses/emotions (transparent, 2k, element Quest-v1-6ref)",
+      "model": "gpt_image_2_5",
+      "quoted": 8.0,
+      "status": "quoted",
+      "quotedAt": "2026-10-03T18:56:37+00:00",
+      "prompt": null
     }
   ]
 }
