@@ -1,0 +1,18 @@
+SECONDQUEST EP002 — STARTER PACK v2
+
+KEY CHANGES FROM v1
+
+1. Runway is now the exclusive storyboard executor. Higgsfield is reserved for authorized FINAL_ART.
+2. Added Ocarina Reference Bible based on official Nintendo/current remake and original-development sources.
+3. Added locked Appearance Matrix.
+4. Hook now begins with normal Quest + Nintendo 64 + original Ocarina cartridge.
+5. Navi appears and guides Quest into Hyrule.
+6. Quest outfit transformation is locked: normal Quest → Hero-of-Time-inspired Quest inside Ocarina → normal Quest on return.
+7. Young Quest / Adult Quest are temporal versions of the same Quest identity.
+8. Navi accompanies Quest throughout in-world Ocarina sequences.
+9. Epona is integrated into the adult arc / same road / different person / final hero family.
+10. Saria is integrated as a childhood-memory emotional reference.
+11. Zelda, Ganondorf and Great Deku Tree remain concise but required where the script benefits.
+12. Explicitly excluded: Sheik, Impa, Darunia, Ruto, Nabooru, Rauru, Malon and a Sages montage/group.
+13. Scene Book rebuilt around visual families and base plates rather than image-per-line production.
+14. Original SCRIPT v3 is copied unchanged; no silent textual revision was applied.

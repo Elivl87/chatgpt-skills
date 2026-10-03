@@ -1,0 +1,31 @@
+SECONDQUEST — EP002 CLAUDE STARTER PACK v2
+
+START WITH: 00_CLAUDE_START_HERE_EP002_v2.md
+
+FILES
+00_CLAUDE_START_HERE_EP002_v2.md
+01_SECONDQUEST_EP002_CREATIVE_PRODUCTION_DIRECTIVE_v2.md
+02_SECONDQUEST_EP002_OCARINA_REFERENCE_BIBLE_v1.md
+03_SECONDQUEST_EP002_APPEARANCE_MATRIX_v1.md
+04_SECONDQUEST_EP002_DIRECTORS_SCENE_BOOK_v2.md
+05_SECONDQUEST_EP002_RUNWAY_STORYBOARD_BRIEF_v1.md
+06_SECONDQUEST_EP002_OPTIONAL_AUDIO_DIRECTION_v2.md
+07_SECONDQUEST_EP002_PRODUCTION_REVIEW_TEMPLATE_v2.md
+10_SecondQuest_EP002_SCRIPT_v3_APPROVED.txt
+11_SecondQuest_EP002_NEXT_CHAT_HANDOFF_v1.txt
+CHANGELOG_v2.txt
+
+ROLES
+Eli = Producer
+ChatGPT = Creative Director
+Claude = Production Executor
+Runway = storyboard executor after explicit Producer authorization
+Higgsfield = FINAL_ART generation only after Producer approval
+
+CRITICAL LOCKS
+- SCRIPT v3 remains unchanged.
+- Storyboard never enters final video.
+- Quest changes outfit only when entering Ocarina and remains Quest_v1.
+- Navi accompanies Quest inside Ocarina.
+- Excluded characters must not appear.
+- FINAL NEW_ART requires explicit Producer approval.

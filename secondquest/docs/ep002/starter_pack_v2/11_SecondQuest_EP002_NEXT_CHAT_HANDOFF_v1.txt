@@ -1,0 +1,253 @@
+SECONDQUEST — EP002 NEXT-CHAT HANDOFF
+The Legend of Zelda: Ocarina of Time
+
+==================================================
+LOCKED / APPROVED
+==================================================
+
+EPISODE:
+EP002 — The Legend of Zelda: Ocarina of Time
+
+PUBLIC TITLE:
+Why Do We Want Zelda: Ocarina of Time Again?
+
+CENTRAL QUESTION:
+Can you remake a memory?
+
+TARGET LENGTH:
+~7 minutes
+Working range: roughly 6:30–7:30.
+Do not stretch the episode merely to hit a number.
+
+VOICE:
+Bram is the official SecondQuest narrator.
+
+MUSIC:
+OFF.
+
+SCRIPT:
+SCRIPT v3 is approved.
+Do not rewrite it unless the Producer explicitly reopens the script.
+
+==================================================
+SECONDQUEST EDITORIAL DNA
+==================================================
+
+The “WHY” is part of the channel identity.
+
+HOOK FORMULA:
+phenomenon
+→ contradiction
+→ human turn
+→ “So, why?”
+
+Do not end the hook with multiple competing questions.
+
+EP002 hook is approved and ends:
+“So, why?”
+
+The central question “Can you remake a memory?” belongs to the body/closing,
+not as a second competing hook question.
+
+==================================================
+SECONDQUEST CTA DNA
+==================================================
+
+Use:
+THEMATIC VARIABLE CTA
++
+FIXED CHANNEL SIGNATURE
+
+EP002 approved CTA:
+
+“So what game would you go back to?
+
+And what game deserves a ‘why?’ next?
+
+Tell me in the comments. Maybe that’s our next quest.”
+
+The final idea “Maybe that’s our next quest.” is part of the recurring
+SecondQuest identity.
+
+==================================================
+CREATIVE DIRECTION MODEL
+==================================================
+
+User = final Producer.
+
+ChatGPT = Creative Director / creative QA / canon / narrative / storyboard /
+art-gap decisions / approval-rejection / instructions to Claude.
+
+Claude = production executor:
+- engine
+- Remotion
+- Higgsfield
+- Bram generation
+- necessary visual generation
+- compositing
+- editing
+- SFX / ambience
+- rendering
+- technical delivery
+
+Higgsfield = visual/voice executor when Claude needs new production media.
+
+IMPORTANT:
+ChatGPT should not “jump into the production mud” unless the user explicitly
+asks ChatGPT to execute.
+
+Default workflow:
+ChatGPT directs → Claude executes → ChatGPT audits → Producer approves.
+
+==================================================
+EP002 VISUAL PHILOSOPHY
+==================================================
+
+SecondQuest does NOT rely on official gameplay footage or official screenshots.
+
+However, references to the game must be unmistakable when the subject requires it.
+
+Do NOT dilute Zelda into generic fantasy.
+
+Some elements should be directly recognizable as the actual Zelda/Ocarina
+visual language when they are essential to the episode, for example:
+
+- Triforce
+- Ocarina of Time
+- recognizable Hylian-style hero shield
+- Master Sword when narratively required
+- Quest in a clearly recognizable Link-inspired hero outfit for selected beats
+
+Quest must remain Quest_v1.
+He is not replaced by Link.
+
+The treatment is:
+Quest inhabits the recognizable role/world of the episode.
+
+Princess:
+We already have a princess asset.
+Do not decide yet whether she needs a Zelda-coded variant.
+That decision comes after storyboard + library audit.
+
+Do not generate game-reference art yet.
+
+==================================================
+IMPORTANT: EPISODE KIT COMES AFTER STORYBOARD
+==================================================
+
+Do NOT pre-decide the Episode Kit from speculation.
+
+Correct pipeline:
+
+1. APPROVED SCRIPT
+2. ONE MASTER STORYBOARD IMAGE
+3. AUDIT STORYBOARD AGAINST EXISTING LIBRARY
+4. LABEL EVERY VISUAL BEAT:
+   - REUSE
+   - RECOMPOSE
+   - PROGRAMMATIC
+   - DERIVE
+   - NEW_ART
+5. CREATE TRUE ASSET GAP LIST
+6. DEFINE EP002 EPISODE KIT
+7. ESTIMATE HIGGSFIELD COST
+8. CLAUDE EXECUTES
+9. CHATGPT CREATIVE QA
+10. PRODUCER APPROVAL
+
+==================================================
+NEXT STEP
+==================================================
+
+NEXT ACTION:
+Create ONE SINGLE MASTER STORYBOARD IMAGE for the COMPLETE EP002.
+
+NOT one image per shot.
+NOT one generation per frame.
+
+The storyboard is a single production board / contact-sheet style image
+containing the complete episode sequence in a grid.
+
+It is a DIRECTORIAL TOOL ONLY.
+
+It is NOT:
+- FINAL_ART
+- production art
+- a source for public/art/
+- a Higgsfield asset
+- a canon replacement
+
+Purpose:
+- test visual rhythm
+- establish compositions
+- determine which existing SecondQuest assets can be reused
+- identify where Zelda-specific references are actually necessary
+- determine the real Episode Kit before spending Higgsfield credits
+
+Each storyboard cell should communicate only what is needed:
+- scene / beat number
+- principal composition
+- character / action
+- camera / movement concept
+- key Zelda/Ocarina reference if needed
+- production label:
+  REUSE / RECOMPOSE / PROGRAMMATIC / DERIVE / NEW_ART
+
+==================================================
+STORYBOARD PRIORITIES
+==================================================
+
+Protect these narrative/visual pillars:
+
+1. “Because you were smaller.”
+2. “Better is measurable. Familiar is not.”
+3. Two players entering the same Hyrule:
+   new player vs returning player.
+4. “A story about a child becoming an adult...”
+5. “And this time... you both grew up.”
+
+Also preserve the approved hook rhythm and the final CTA.
+
+==================================================
+CREDIT STRATEGY
+==================================================
+
+Do not spend Higgsfield credits during storyboard exploration.
+
+The point of the storyboard is to discover the minimum real art requirement.
+
+Only after storyboard audit should we decide whether we truly need:
+- Quest Hero variant
+- Ocarina prop
+- Triforce assets
+- sword
+- shield
+- princess variant
+- sacred forest
+- temple / chamber
+- time-door / portal
+- child/adult visual treatment
+or any other asset.
+
+Some are likely, but NONE should be considered automatically approved
+NEW_ART before the storyboard proves the need.
+
+==================================================
+EP002 WORKING PRINCIPLE
+==================================================
+
+Direct the strong story first.
+
+Then design production intelligently around the library we already own.
+
+Do not make an empty “cheap” episode merely to save credits.
+
+Once the story is approved:
+REUSE FIRST.
+
+Objective:
+
+strong episode
++ clear Zelda identity
++ SecondQuest visual identity
++ minimum necessary new Higgsfield generation.
