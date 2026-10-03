@@ -1,0 +1,22 @@
+{
+ "title": "EP002 · el clic G, ahora como UN SOLO clic",
+ "out": "docs/ep002/sfx_audition_clic_single.mp4",
+ "slots": [
+  {
+   "slot": "CLIC AL ENCAJAR",
+   "candidates": [
+    {
+     "id": "G",
+     "label": "un solo clic (chasquido + cuerpo grave, alineados)",
+     "layers": [
+      [
+       "shared/sfx/cc0/derived/cart_click_single.wav",
+       0.9,
+       0
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}
