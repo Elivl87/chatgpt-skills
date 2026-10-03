@@ -6,6 +6,7 @@
 - **Any image showing Pixie** (Quest's friend, recurring character): follow `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.
 - **Costumes keep identity (Producer rule):** when Quest or Pixie change outfit, only the clothes change. Face, hair, eyes, skin, ears and body stay the same; they are themselves in a costume, never turned into the game character (e.g. no elf ears).
 - **Credits:** quote every Higgsfield spend and get the Producer's explicit approval before generating.
+- **All 3D is built by Claude, free (Producer rule, 2026-10-03):** every 3D prop or model is made in our own procedural renderer (`tools/props3d`), like the N64 console. Never spend credits on 3D (no image-to-3D or text-to-3D generation), and never propose it.
 - **Final renders:** never render one without the Producer's explicit approval.
 - **Sounds are always free (Producer rule, 2026-10-03):** engine synths, CC0 libraries (licence file next to them, listed in `public/shared/sfx/SOURCES.md`) or our own recordings.
   - Never spend credits or money on sounds.

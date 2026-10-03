@@ -228,7 +228,25 @@ def relic_spin(prop, target, dist, name, frames=24, sweep=70, elev=18):
     print(f'{name}: {frames} frames + docs/ep002/{name}_sheet.jpg')
 
 
-JOBS = {'ocarina_spin': lambda: relic_spin('ocarina', [0, 18, 0], 520, 'ocarina_spin', sweep=50, elev=14),
+def job_ocarina_ref():
+    """Front view of the ocarina next to the Producer's reference, for approval before any spin is rendered."""
+    tgt = [0, 10, 0]
+    ref = cv2.imread(str(ROOT / 'docs/ep002/source/ocarina_reference_producer.jpg'))
+    views = [(0, 0), (-30, 10), (30, 10)]
+    shots = [{'camera': orbit(y, e, 900, tgt), 'target': tgt, 'fov': 17, 'cart': None} for y, e in views]
+    imgs = render({'props': ['ocarina'], 'shots': shots, 'light': 'neutral'}, 900, 900, line=3.2)
+    tiles = [cv2.resize(ref, (int(ref.shape[1] * 500 / ref.shape[0]), 500))]
+    for im in imgs:
+        im = crop_alpha(im, 20); k = 460 / max(im.shape[:2]); im = cv2.resize(im, (int(im.shape[1] * k), int(im.shape[0] * k)))
+        a = im[..., 3:] / 255.0; t = np.full((500, max(500, im.shape[1] + 40), 3), 255, np.uint8)
+        y0, x0 = (500 - im.shape[0]) // 2, (t.shape[1] - im.shape[1]) // 2
+        t[y0:y0 + im.shape[0], x0:x0 + im.shape[1]] = (im[..., :3] * a + t[y0:y0 + im.shape[0], x0:x0 + im.shape[1]] * (1 - a)).astype(np.uint8)
+        tiles.append(t)
+    cv2.imwrite(str(ROOT / 'docs/ep002/ocarina_vs_reference.jpg'), np.hstack(tiles), [cv2.IMWRITE_JPEG_QUALITY, 90])
+    print('docs/ep002/ocarina_vs_reference.jpg')
+
+
+JOBS = {'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

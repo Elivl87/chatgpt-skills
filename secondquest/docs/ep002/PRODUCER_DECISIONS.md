@@ -97,3 +97,9 @@
 - **Pixie plays the princess and every female role** that may appear in the video.
 - **Workflow:** the whole EP002 is built as an animatic with the assets available today; designs and missing art come
   at the end, from the animatic's MISSING list.
+
+## 2026-10-03: all 3D is built in-house, free
+- The Producer rejected the reference-profile ocarina (v1) and rejected spending credits on image-to-3D: "Todo lo 3D lo haces tú gratis."
+- Rule added to CLAUDE.md. Ocarina v2 is rebuilt in `tools/props3d/scene.ts` from measurements of the Producer's reference (`docs/ep002/source/ocarina_reference_producer.jpg`); comparison sheet `docs/ep002/ocarina_vs_reference.jpg`. Pending approval.
+- The "So, why?" moment uses the SecondQuest wordmark with its gold bar, exactly as EP001 (engine WordmarkLayerView twin in the block B animatic).
+

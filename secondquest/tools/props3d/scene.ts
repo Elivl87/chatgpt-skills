@@ -219,60 +219,97 @@ const triforce = () => {
   return g;
 };
 
-// ---------------------------------------------------------------- ocarina (classic teardrop ocarina, Producer reference 2026-10-03)
-/** Wide rounded end at -x, tapering to a point at +x that curves up; conical mouthpiece rising from the top of the wide
- *  end, with a silver collar carrying the gold Triforce; a row of holes on top and larger holes on the front (+z). */
+// ---------------------------------------------------------------- ocarina (Producer reference 2026-10-03, v2)
+/** Built on measurements of the Producer's reference (docs/ep002/source/ocarina_reference_producer.jpg):
+ *  silhouette top/bottom profile, hole positions and sizes, collar and mouthpiece placement, all in units of the
+ *  half-length L along the body axis (u = -1 round end .. +1 tip, v up). Holes face the viewer (+z). */
+const OC_U = [-1, -0.95, -0.85, -0.75, -0.65, -0.55, -0.45, -0.35, -0.25, -0.15, -0.05, 0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1];
+const OC_TOP = [0, 0.134, 0.228, 0.297, 0.344, 0.382, 0.4, 0.41, 0.41, 0.405, 0.4, 0.397, 0.373, 0.345, 0.318, 0.284, 0.254, 0.218, 0.177, 0.137, 0.091, 0];
+const OC_BOT = [0, -0.268, -0.344, -0.407, -0.455, -0.476, -0.5, -0.514, -0.513, -0.503, -0.477, -0.461, -0.442, -0.419, -0.38, -0.347, -0.303, -0.251, -0.202, -0.143, -0.083, 0];
 const ocarina = () => {
   const g = new THREE.Group();
   let part = 400;
-  const L = 82, RY = 34, RZ = 40;
-  const prof = (x: number) => {                       // x in mm -> (taper, lift)
-    const u = (x / L + 1) / 2;
-    return { taper: 1 - 0.8 * Math.pow(u, 1.35), lift: 20 * u * u };
+  const L = 90, DEPTH = 0.86;                       // half-length (mm); cross-section depth / height
+  const lerpT = (tab: number[], u: number) => {     // Catmull-Rom through the measured profile (no facets)
+    const uu = Math.min(1, Math.max(-1, u));
+    let i = 0; while (i < OC_U.length - 2 && uu > OC_U[i + 1]) i++;
+    const k = (uu - OC_U[i]) / (OC_U[i + 1] - OC_U[i]);
+    const p0 = tab[Math.max(0, i - 1)], p1 = tab[i], p2 = tab[i + 1], p3 = tab[Math.min(tab.length - 1, i + 2)];
+    return 0.5 * (2 * p1 + (-p0 + p2) * k + (2 * p0 - 5 * p1 + 4 * p2 - p3) * k * k + (-p0 + 3 * p1 - 3 * p2 + p3) * k * k * k);
   };
-  const surf = (x: number, th: number) => {          // th: 0 = top, +pi/2 = front (+z)
-    const xx = x / L, { taper, lift } = prof(x), r = Math.sqrt(Math.max(0, 1 - xx * xx));
-    return new THREE.Vector3(x, Math.cos(th) * RY * taper * r + lift, Math.sin(th) * RZ * taper * r);
+  const RE = -0.72, TE = 0.95;                     // round end cap (near-circular, as in the reference) and small tip cap
+  const sect = (u: number) => {                     // centre, half-height, half-depth (mm) of the cross-section at u
+    const e = Math.min(TE, Math.max(RE, u));
+    const t = lerpT(OC_TOP, e), b = lerpT(OC_BOT, e);
+    const q = u < RE ? (RE - u) / (1 + RE) : u > TE ? (u - TE) / (1 - TE) : 0;
+    const cap = Math.sqrt(Math.max(0, 1 - q * q));
+    const ry = ((t - b) / 2) * L * cap;
+    return { yc: ((t + b) / 2) * L, ry: Math.max(ry, 1e-3), rz: Math.max(ry * DEPTH, 1e-3) };
   };
-  const normal = (x: number, th: number) => {
-    const e = 0.5, p0 = surf(x, th);
-    const dx = surf(x + e, th).sub(p0), dt = surf(x, th + 0.01).sub(p0);
-    const n = new THREE.Vector3().crossVectors(dt, dx).normalize();
-    return n.dot(p0.clone().sub(new THREE.Vector3(x, prof(x).lift, 0))) < 0 ? n.negate() : n;
-  };
-  const geo = new THREE.SphereGeometry(1, 72, 48);
+  const geo = new THREE.SphereGeometry(1, 128, 72);
+  geo.rotateZ(-Math.PI / 2);                        // poles on the x axis
   const pos = geo.attributes.position as THREE.BufferAttribute;
   for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i) * L, { taper, lift } = prof(x);
-    pos.setXYZ(i, x, pos.getY(i) * RY * taper + lift, pos.getZ(i) * RZ * taper);
+    const sx = pos.getX(i), sy = pos.getY(i), sz = pos.getZ(i);
+    const k = Math.hypot(sy, sz) || 1;
+    const u = Math.min(1, Math.max(-1, sx));
+    const { yc, ry, rz } = sect(u);
+    pos.setXYZ(i, u * L, yc + (sy / k) * ry, (sz / k) * rz);
   }
   geo.computeVertexNormals();
-  const body = new THREE.Mesh(geo, toon('#2d4fb8')); body.userData.part = part++; ids.push(body); g.add(body);
-  // mouthpiece group, tilted back ~28 degrees, rising from the top of the wide end
-  const base = surf(-38, 0);
-  const mg = new THREE.Group(); mg.position.copy(base).add(new THREE.Vector3(0, -4, 0)); mg.rotation.set(0, 0, 0.5);
-  const spout = new THREE.Mesh(new THREE.CylinderGeometry(4.5, 12, 52, 32), toon('#2a4aae')); spout.position.set(0, 26, 0);
-  spout.userData.part = part++; ids.push(spout); mg.add(spout);
-  const tipCap = new THREE.Mesh(new THREE.SphereGeometry(4.5, 16, 12), toon('#2a4aae')); tipCap.position.set(0, 52, 0); tipCap.userData.part = spout.userData.part; ids.push(tipCap); mg.add(tipCap);
-  const collar = box(30, 13, 30, [0, 9, 0], toon('#d6dae4'), part++, 2); mg.add(collar);
-  const tri = (cx: number, cy: number, s: number) => {
-    const sh = new THREE.Shape(); sh.moveTo(cx - s / 2, cy); sh.lineTo(cx + s / 2, cy); sh.lineTo(cx, cy + s * 0.87); sh.closePath();
-    const tg = new THREE.ExtrudeGeometry(sh, { depth: 0.8, bevelEnabled: false }); tg.translate(0, 0, 15.1);
-    const m = new THREE.Mesh(tg, toon('#f2c230')); m.userData.part = part++; ids.push(m); return m;
+  const BLUE = '#3456c4';
+  const body = new THREE.Mesh(geo, toon(BLUE)); body.userData.part = part++; ids.push(body); g.add(body);
+  const surfAt = (u: number, v: number) => {        // point on the front surface at body-frame (u, v)
+    const { yc, ry, rz } = sect(u), y = v * L, s2 = Math.max(-0.97, Math.min(0.97, (y - yc) / ry));
+    return new THREE.Vector3(u * L, y, rz * Math.sqrt(1 - s2 * s2));
   };
-  const S_ = 5.2;
-  mg.add(tri(0, 9.6, S_), tri(-S_ / 2, 5.1, S_), tri(S_ / 2, 5.1, S_));
-  g.add(mg);
-  // holes: a row along the top towards the tip, larger ones on the front of the wide end
-  const hole = (x: number, th: number, r: number) => {
-    const h = new THREE.Mesh(new THREE.CylinderGeometry(r, r * 0.92, 1.2, 28), toon('#0a1430'));
-    h.position.copy(surf(x, th)).addScaledVector(normal(x, th), -0.2);
-    h.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal(x, th));
+  const front = (u: number, v: number) => {         // point + true surface normal (finite differences)
+    const p = surfAt(u, v), e = 0.004;
+    const du = surfAt(u + e, v).sub(surfAt(u - e, v)), dv = surfAt(u, v + e).sub(surfAt(u, v - e));
+    const n = new THREE.Vector3().crossVectors(du, dv).normalize();
+    return { p, n: n.z < 0 ? n.negate() : n };
+  };
+  // holes, from the reference: (u, v, radius mm)
+  const HOLES: [number, number, number][] = [[0.153, 0.19, 7.0], [0.415, 0.078, 6.0], [0.673, 0.053, 5.0],
+    [-0.457, 0.054, 7.6], [-0.163, -0.112, 7.0], [-0.711, -0.147, 6.6], [-0.434, -0.336, 7.2]];
+  const HOLE = toon('#0c1534');
+  for (const [u, v, r] of HOLES) {
+    const { p, n } = front(u, v);
+    const h = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 3, 40), HOLE);
+    h.position.copy(p).addScaledVector(n, -0.25);     // sits just proud of the curved surface so it reads as a clean disc
+    h.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), n);
     h.userData.part = part++; ids.push(h); g.add(h);
+  }
+  // collar + mouthpiece: collar centre (u -0.267, v 0.528), mouthpiece tip (u -0.316, v 1.01): nearly upright, leaning back 6 deg
+  const mg = new THREE.Group();
+  mg.position.set(-0.267 * L, 0.36 * L, 0);
+  mg.rotation.set(0, 0, 0.1);
+  const CH = 24, CR0 = 19, CR1 = 16.5, SEG = 8;
+  const collar = new THREE.Mesh(new THREE.CylinderGeometry(CR1, CR0, CH, SEG), toon('#c3ccd0'));
+  collar.rotation.y = Math.PI / SEG; collar.position.y = CH / 2 + 2;
+  collar.userData.part = part++; ids.push(collar); mg.add(collar);
+  const SL = 40;
+  const spout = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 8.6, SL, 36), toon(BLUE));
+  spout.position.y = CH + 2 + SL / 2 - 1; spout.userData.part = part++; ids.push(spout); mg.add(spout);
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(4.2, 20, 14), toon(BLUE));
+  tip.position.y = CH + 2 + SL - 1; tip.userData.part = spout.userData.part; ids.push(tip); mg.add(tip);
+  // Triforce on a dark inset, on the collar's front facet
+  const rMid = (CR0 + CR1) / 2, apo = rMid * Math.cos(Math.PI / SEG), lean = Math.atan((CR0 - CR1) / CH);
+  const plate = new THREE.Group();
+  plate.position.set(0, CH / 2 + 2, apo + 0.15); plate.rotation.x = -lean;
+  const triMesh = (cx: number, cy: number, sd: number, col: string, z: number, pt: number) => {
+    const sh = new THREE.Shape(); sh.moveTo(cx - sd / 2, cy); sh.lineTo(cx + sd / 2, cy); sh.lineTo(cx, cy + sd * 0.866); sh.closePath();
+    const tg = new THREE.ExtrudeGeometry(sh, { depth: 0.6, bevelEnabled: false }); tg.translate(0, 0, z);
+    const m = new THREE.Mesh(tg, toon(col)); m.userData.part = pt; ids.push(m); return m;
   };
-  hole(-6, 0.35, 6.5); hole(18, 0.35, 6.2); hole(40, 0.35, 5.6); hole(60, 0.38, 4.6);
-  hole(-46, 1.25, 7.2); hole(-20, 1.15, 7.4); hole(-54, 1.75, 6.5);
-  g.rotation.set(0, 0, 0.32);                        // tip lifted, as in the reference profile
+  const T = 15.5, gap = 0.7, ty = -T * 0.866 / 2;
+  plate.add(triMesh(0, ty - 1.6, T + 4.5, '#3c4a46', 0, part++));
+  const gp = part++;
+  plate.add(triMesh(-T / 4, ty, T / 2 - gap, '#f2c230', 0.6, gp), triMesh(T / 4, ty, T / 2 - gap, '#f2c230', 0.6, gp),
+            triMesh(0, ty + T * 0.866 / 2, T / 2 - gap, '#f2c230', 0.6, gp));
+  mg.add(plate);
+  g.add(mg);
+  g.rotation.set(0, 0, 0.656);                      // body axis 37.6 deg up to the tip, as in the reference
   return g;
 };
 
