@@ -297,11 +297,23 @@ const ocarina = () => {
   const HOLES: [number, number, number][] = [[0.153, 0.19, 7.0], [0.415, 0.078, 6.0], [0.673, 0.053, 5.0],
     [-0.457, 0.054, 7.6], [-0.163, -0.112, 7.0], [-0.711, -0.147, 6.6], [-0.434, -0.336, 7.2]];
   const HOLE = toon('#0c1534');
-  for (const [u, v, r] of HOLES) {
-    const { p, n } = front(u, v);
-    const h = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 3, 40), HOLE);
-    h.position.copy(p).addScaledVector(n, -0.25);     // sits just proud of the curved surface so it reads as a clean disc
-    h.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), n);
+  for (const [u, v, r] of HOLES) {                   // dark discs laid on the surface itself, so curvature never bites the edge
+    const NR = 6, NA = 40, verts: number[] = [], idx: number[] = [];
+    const c = front(u, v);
+    verts.push(...c.p.clone().addScaledVector(c.n, 0.5).toArray());
+    for (let i = 1; i <= NR; i++) for (let j = 0; j < NA; j++) {
+      const rr = (r * i) / NR, a2 = (j / NA) * Math.PI * 2;
+      const q = front(u + (rr * Math.cos(a2)) / L, v + (rr * Math.sin(a2)) / L);
+      verts.push(...q.p.addScaledVector(q.n, 0.5).toArray());
+    }
+    for (let j = 0; j < NA; j++) idx.push(0, 1 + j, 1 + ((j + 1) % NA));
+    for (let i = 1; i < NR; i++) for (let j = 0; j < NA; j++) {
+      const a0 = 1 + (i - 1) * NA + j, a1 = 1 + (i - 1) * NA + ((j + 1) % NA), b0 = a0 + NA, b1 = a1 + NA;
+      idx.push(a0, b0, a1, a1, b0, b1);
+    }
+    const hg = new THREE.BufferGeometry();
+    hg.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3)); hg.setIndex(idx); hg.computeVertexNormals();
+    const h = new THREE.Mesh(hg, HOLE); h.material.side = THREE.DoubleSide; h.renderOrder = 2;
     h.userData.part = part++; ids.push(h); g.add(h);
   }
   // collar + mouthpiece: collar centre (u -0.267, v 0.528), mouthpiece tip (u -0.316, v 1.01): nearly upright, leaning back 6 deg
@@ -309,8 +321,16 @@ const ocarina = () => {
   mg.position.set(-0.267 * L, 0.36 * L, 0);
   mg.rotation.set(0, 0, 0.1);
   const CH = 24, CR0 = 19, CR1 = 16.5, SEG = 8;
-  const collar = new THREE.Mesh(new THREE.CylinderGeometry(CR1, CR0, CH, SEG), toon('#c3ccd0'));
-  collar.rotation.y = Math.PI / SEG; collar.position.y = CH / 2 + 2;
+  const BADGE = 0.66 * Math.PI / 3.1;              // half-angle of the flat front badge (~38 deg)
+  const cg = new THREE.CylinderGeometry(CR1, CR0, CH, 48, 1);
+  { const cp = cg.attributes.position as THREE.BufferAttribute;      // round band, flattened at the front where the Triforce sits
+    for (let i = 0; i < cp.count; i++) {
+      const y = cp.getY(i), rl = CR1 + (CR0 - CR1) * (0.5 - y / CH), zmax = rl * Math.cos(BADGE);
+      if (cp.getZ(i) > zmax) cp.setZ(i, zmax);
+    }
+    cg.computeVertexNormals(); }
+  const collar = new THREE.Mesh(cg, toon('#c3ccd0'));
+  collar.position.y = CH / 2 + 2;
   collar.userData.part = part++; ids.push(collar); mg.add(collar);
   const SL = 40;
   const SR0 = 11.2, SR1 = 5.4;                     // mouthpiece: thicker than v1 (8.6/4.2), still slimmer than the collar (Producer note)
@@ -323,7 +343,7 @@ const ocarina = () => {
     const sh = new THREE.Mesh(shg, GLOSS); sh.position.y = CH + 2 + SL / 2 + 1; sh.userData.part = spout.userData.part; sh.renderOrder = 1; ids.push(sh); mg.add(sh);
   }
   // Triforce on a dark inset, on the collar's front facet
-  const rMid = (CR0 + CR1) / 2, apo = rMid * Math.cos(Math.PI / SEG), lean = Math.atan((CR0 - CR1) / CH);
+  const rMid = (CR0 + CR1) / 2, apo = rMid * Math.cos(BADGE), lean = Math.atan((CR0 - CR1) / CH);
   const plate = new THREE.Group();
   plate.position.set(0, CH / 2 + 2, apo + 0.15); plate.rotation.x = -lean;
   const triMesh = (cx: number, cy: number, sd: number, col: string, z: number, pt: number) => {
@@ -331,7 +351,7 @@ const ocarina = () => {
     const tg = new THREE.ExtrudeGeometry(sh, { depth: 0.6, bevelEnabled: false }); tg.translate(0, 0, z);
     const m = new THREE.Mesh(tg, toon(col)); m.userData.part = pt; ids.push(m); return m;
   };
-  const T = 15.5, gap = 0.7, ty = -T * 0.866 / 2;
+  const T = 17, gap = 0.75, ty = -T * 0.866 / 2;
   plate.add(triMesh(0, ty - 1.6, T + 4.5, '#3c4a46', 0, part++));
   const gp = part++;
   plate.add(triMesh(-T / 4, ty, T / 2 - gap, '#f2c230', 0.6, gp), triMesh(T / 4, ty, T / 2 - gap, '#f2c230', 0.6, gp),
