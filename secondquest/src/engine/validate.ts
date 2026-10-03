@@ -27,6 +27,7 @@ const LAYER_SCHEMA: Record<string, [string[], string[]]> = {
   swarm: [['asset', 'count', 'region', 'height'], ['at', 'stagger', 'seed', 'jitter']],
   stamp: [['at'], ['size', 'text']],
   light: [['color'], ['radius', 'intensity', 'shape', 'flicker']],
+  fairy: [['path'], ['size', 'color', 'glow', 'flapHz', 'bob', 'trail']],
   rect: [['w', 'h', 'color'], ['radius']],
   flash: [['at'], ['duration', 'color']],
   wordmark: [['at'], ['asset', 'tagline']],
@@ -34,7 +35,7 @@ const LAYER_SCHEMA: Record<string, [string[], string[]]> = {
 };
 const PARTICLE_KINDS = new Set(['dust', 'sparkle', 'money', 'confetti', 'poof']);
 
-const LAYER_TYPES = new Set(['image', 'text', 'counter', 'progress', 'particles', 'swarm', 'stamp', 'light', 'rect', 'flash', 'wordmark', 'group']);
+const LAYER_TYPES = new Set(['image', 'text', 'counter', 'progress', 'particles', 'swarm', 'stamp', 'light', 'fairy', 'rect', 'flash', 'wordmark', 'group']);
 const TIME_KEYS = new Set(['at', 'end', 'show', 'hide']);
 const CAMERA_MOVES = new Set(['push_in', 'pull_out', 'pan_left', 'pan_right', 'pan_up', 'pan_down', 'move_to', 'punch']);
 

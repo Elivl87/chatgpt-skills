@@ -315,6 +315,58 @@ const SFX_SYNTHS: Record<string, () => Buf> = {
         tone(b, at, 2.2, () => base * mult, expDecay(d, 0.003), osc.sine, a);
     return b;
   },
+  // EP002 cartridge sequence (engine synths, no samples, no copyright)
+  cart_slide: () => {
+    // plastic on plastic: band-limited friction that rises in pitch as the cartridge goes in
+    const d = 0.55;
+    const b = buf(d);
+    noiseBurst(b, 0, d, (t) => Math.min(1, t / 0.05) * Math.min(1, (d - t) / 0.08) * (0.7 + 0.3 * Math.sin(TAU * 31 * t)));
+    bandpass(b, (t) => 900 + 1600 * (t / d), 2.2);
+    return b;
+  },
+  cart_click: () => {
+    // the seat: a sharp latch click, then the hollow body thunk of the console
+    const b = buf(0.5);
+    const c = buf(0.5);
+    noiseBurst(c, 0, 0.012, expDecay(0.002, 0.0003), 1);
+    bandpass(c, () => 3800, 3);
+    noiseBurst(c, 0.018, 0.01, expDecay(0.002, 0.0003), 0.6);
+    bandpass(c, () => 2600, 3);
+    tone(b, 0.004, 0.3, (t) => 140 + 120 * Math.exp(-t / 0.02), expDecay(0.05, 0.001), osc.sine, 0.8);
+    tone(b, 0.004, 0.25, () => 410, expDecay(0.03, 0.001), osc.tri, 0.18);
+    for (let i = 0; i < b.length; i++) b[i] += c[i] * 1.4;
+    return b;
+  },
+  tv_on: () => {
+    // tube TV power-up: low thunk, static rush that settles, faint high whine
+    const d = 1.6;
+    const b = buf(d);
+    tone(b, 0, 0.4, (t) => 55 + 40 * Math.exp(-t / 0.05), expDecay(0.12, 0.002), osc.sine, 0.9);
+    const n = buf(d);
+    noiseBurst(n, 0.02, d - 0.02, (t) => 0.5 * Math.exp(-t / 0.35) + 0.05 * Math.min(1, (d - 0.02 - t) / 0.3));
+    bandpass(n, (t) => 2500 + 2000 * Math.exp(-t / 0.3), 0.8);
+    tone(b, 0.05, d - 0.05, () => 7800, (t) => Math.min(1, t / 0.2) * Math.min(1, (d - 0.05 - t) / 0.3), osc.sine, 0.025);
+    for (let i = 0; i < b.length; i++) b[i] += n[i];
+    return b;
+  },
+  fairy_shimmer: () => {
+    // the fairy appears: a soft rising bell run with tremolo and a sparkle tail (own sound, not a game's)
+    const b = buf(1.8);
+    [79, 83, 86, 91, 95].forEach((m, i) =>
+      tone(b, i * 0.07, 1.3, () => midi(m), (t) => expDecay(0.35, 0.004)(t) * (0.75 + 0.25 * Math.sin(TAU * 9 * t)), osc.sine, 0.32),
+    );
+    for (let i = 0; i < 18; i++) tone(b, 0.25 + rnd() * 1.1, 0.2, () => 3000 + rnd() * 4000, expDecay(0.05), osc.sine, 0.12);
+    return b;
+  },
+  fairy_flutter: () => {
+    // wing buzz while the fairy flies: fast amplitude-modulated airy noise, loopable
+    const d = 2.0;
+    const b = buf(d);
+    noiseBurst(b, 0, d, (t) => (0.55 + 0.45 * Math.sin(TAU * 38 * t)) * Math.min(1, t / 0.15, (d - t) / 0.15));
+    bandpass(b, () => 2400, 1.6);
+    tone(b, 0, d, () => 1520, (t) => 0.05 * Math.min(1, t / 0.15, (d - t) / 0.15) * (0.5 + 0.5 * Math.sin(TAU * 38 * t)), osc.sine, 1);
+    return b;
+  },
   wind: () => {
     const d = 5.5;
     const b = buf(d);

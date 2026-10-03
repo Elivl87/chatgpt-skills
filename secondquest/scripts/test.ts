@@ -29,6 +29,7 @@ import { resolveRenderTarget } from './render-target';
 import { episodeFiles, registerEpisodeSource } from './scaffold';
 import { minBackground, validateArtContract, validateArtManifest, type ArtManifest, type ArtManifestEntry, type ImageInfo } from '../src/engine/artContract';
 import { intakeParts, MAX_PART_BYTES } from './art-intake';
+import { fairyAt, fairyFlap, fairyPath } from '../src/fx/fairy';
 import { checkCameraContinuity, resolveContinueStarts, type PlateShot } from '../src/engine/cameraContinuity';
 import { checkOriginality, type EpisodeFingerprint, type GroupInput, type OriginalityConfig } from '../src/engine/originality';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
@@ -588,6 +589,16 @@ test('render gate: EP001 (ep001full) rewired to V3 CLEAN FINAL_ART passes — ev
   if (!existsSync(join(PUBLIC, 'art'))) return 'skip'; // FINAL_ART binaries are installed by art:intake, not versioned
   const issues = gate(EPISODES.ep001full, publicImageInfo).filter((i) => i.level === 'error');
   assert.deepEqual(issues.map((i) => `${i.code} ${i.key} ${i.where}`), []);
+});
+
+test('fairy actor: path holds at the ends, passes through keys, wings stay open', () => {
+  const keys = [{ t: 1, x: 0.8, y: 0.3 }, { t: 2, x: 0.5, y: 0.5 }, { t: 3, x: 0.2, y: 0.4 }];
+  assert.deepEqual(fairyPath(keys, 0), { x: 0.8, y: 0.3 });
+  assert.deepEqual(fairyPath(keys, 9), { x: 0.2, y: 0.4 });
+  const mid = fairyPath(keys, 2);
+  assert.ok(Math.abs(mid.x - 0.5) < 1e-9 && Math.abs(mid.y - 0.5) < 1e-9);
+  for (let t = 0; t < 2; t += 0.01) assert.ok(fairyFlap(t) >= 0.2 - 1e-9 && fairyFlap(t) <= 1 + 1e-9);
+  assert.ok(Math.abs(fairyAt(keys, 2).y - 0.5) <= 0.0121);
 });
 
 // ---------------------------------------------------------------------------

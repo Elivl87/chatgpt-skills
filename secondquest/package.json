@@ -16,6 +16,7 @@
     "@types/node": "26.6.3",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "three": "^0.186.1",
     "tsx": "4.23.15",
     "typescript": "7.0.2"
   },
@@ -47,7 +48,9 @@
     "credits": "python3 tools/credits/credits.py",
     "deliver": "tsx scripts/delivery.ts",
     "render:status": "tsx scripts/render-status.ts",
-    "assets:find": "python3 tools/assets/find.py"
+    "assets:find": "python3 tools/assets/find.py",
+    "props:render": "python3 tools/props3d/render.py",
+    "animatic:cartridge": "python3 tools/props3d/render.py n64_room n64_insert && python3 scripts/ep002-cartridge-animatic.py"
   },
   "engines": {
     "node": ">=18"

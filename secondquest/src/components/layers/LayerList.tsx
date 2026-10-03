@@ -4,13 +4,14 @@ import { DEFAULT_DEPTH } from '../../engine/assets';
 import type { GroupLayer, Layer } from '../../schema/types';
 import { evaluateAll, resolveAnimations, sceneSeconds, useScene, useSceneTime, type SceneContextValue } from '../SceneContext';
 import { CounterLayerView, FlashLayerView, LightLayerView, ProgressLayerView, RectLayerView, StampLayerView, TextLayerView, WordmarkLayerView } from './GraphicLayers';
+import { FairyLayerView } from './FairyLayerView';
 import { ImageLayerView } from './ImageLayerView';
 import { ParticlesLayerView } from './ParticlesLayerView';
 import { SwarmLayerView } from './SwarmLayerView';
 import { toCss } from '../../animations/transform';
 
 /** Layers that live in screen space by default (UI, text, grading). */
-const SCREEN_TYPES = new Set(['text', 'counter', 'progress', 'stamp', 'flash', 'wordmark']);
+const SCREEN_TYPES = new Set(['fairy', 'text', 'counter', 'progress', 'stamp', 'flash', 'wordmark']);
 
 const layerDepth = (layer: Layer, ctx: SceneContextValue): number | 'screen' => {
   if (layer.depth !== undefined) return layer.depth;
@@ -48,6 +49,8 @@ const LayerContent: React.FC<{ layer: Layer; cam: CameraFrame; index: number }> 
       return <SwarmLayerView layer={layer} index={index} />;
     case 'stamp':
       return <StampLayerView layer={layer} index={index} />;
+    case 'fairy':
+      return <FairyLayerView layer={layer} index={index} />;
     case 'light':
       return <LightLayerView layer={layer} index={index} />;
     case 'rect':

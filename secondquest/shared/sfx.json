@@ -21,6 +21,11 @@
     "sparkle":     { "src": "/shared/sfx/sparkle.wav",     "volume": 0.28, "label": "PLACEHOLDER sparkle shimmer" },
     "tractor":     { "src": "/shared/sfx/tractor.wav",     "volume": 0.3,  "label": "PLACEHOLDER tractor engine putter" },
     "chime":       { "src": "/shared/sfx/chime.wav",       "volume": 0.3,  "label": "PLACEHOLDER soft ident chime" },
-    "wind":        { "src": "/shared/sfx/wind.wav",        "volume": 0.22, "label": "PLACEHOLDER open-field wind" }
+    "wind":        { "src": "/shared/sfx/wind.wav",        "volume": 0.22, "label": "PLACEHOLDER open-field wind" },
+    "cart_slide":    { "src": "/shared/sfx/cart_slide.wav",    "volume": 0.3,  "label": "ENGINE SYNTH cartridge sliding into the slot" },
+    "cart_click":    { "src": "/shared/sfx/cart_click.wav",    "volume": 0.5,  "label": "ENGINE SYNTH cartridge seats (latch click + console thunk)" },
+    "tv_on":         { "src": "/shared/sfx/tv_on.wav",         "volume": 0.34, "label": "ENGINE SYNTH tube TV power-up" },
+    "fairy_shimmer": { "src": "/shared/sfx/fairy_shimmer.wav", "volume": 0.32, "label": "ENGINE SYNTH fairy appears (own sound)" },
+    "fairy_flutter": { "src": "/shared/sfx/fairy_flutter.wav", "volume": 0.18, "label": "ENGINE SYNTH fairy wing buzz (loopable)" }
   }
 }

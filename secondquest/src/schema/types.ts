@@ -461,6 +461,20 @@ export interface LightLayer extends LayerBase {
   flicker?: number;
 }
 
+/** Procedural fairy actor (src/fx/fairy.ts): flies through `path`, glows, flaps, leaves a sparkle trail. */
+export interface FairyLayer extends LayerBase {
+  type: 'fairy';
+  path: { at: TimeExpr; x: number; y: number }[];
+  /** Glow radius as a fraction of frame height. Default 0.1. */
+  size?: number;
+  color?: string;
+  glow?: number;
+  flapHz?: number;
+  bob?: number;
+  /** Sparkle trail length (dots). 0 = none. Default 8. */
+  trail?: number;
+}
+
 export interface RectLayer extends LayerBase {
   type: 'rect';
   w: number;
@@ -503,6 +517,7 @@ export type Layer =
   | SwarmLayer
   | StampLayer
   | LightLayer
+  | FairyLayer
   | RectLayer
   | FlashLayer
   | WordmarkLayer
