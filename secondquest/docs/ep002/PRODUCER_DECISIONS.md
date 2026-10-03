@@ -65,3 +65,15 @@
 - S2 3D insert: cartridge (mock v4 / label v2) slides into the slot, flaps fold in, seats on "back" with a short shake and flash.
 - S3 new framing on the TV: screen flare, the fairy (engine actor) emerges and flies towards camera, leaving frame over "New graphics.".
 - Mix: Bram; cartridge click = G single click (CC0 derived) at 0.7; slide and TV silent; NAVI_HELLO at 0.16 (~9 dB under Bram); NAVI_SFX_01 at 0.14 (~14 dB under Bram), tight on the end of the voice.
+
+## 2026-10-03: art direction decisions (after art plan v2)
+- **Quest as the Hero of Time:** mandatory. Green tunic and cap similar to Link's, with details, **similar but not equal**:
+  the viewer must read "Link is you", i.e. Quest, i.e. the viewer. Refines option C for Quest (closer than "own tunic").
+  Claude's recommendation still open: keep Quest's own human ears and face so he stays Quest.
+- **New recurring channel character: Quest's female friend** (name to be chosen). She is part of the channel from now on
+  whenever a girl, friend or companion is needed. In EP002 she plays the Saria-like forest friend and the princess
+  (costume variants). Brief: `docs/characters/COMPANION_V1_BRIEF.md`.
+- **Villain:** Ganondorf-like, imposing and intimidating. Brief: `docs/characters/VILLAIN_V1_BRIEF.md`.
+- **Official OoT logo** on the end card (30) and on the TV screen (2): approved, to be adjusted at the end. Never in thumbnails (M8).
+- **Credits for the 18-asset list:** decided last, after the characters are defined.
+- **CRT TV:** the present-day living room works as is; a 1998 tube TV is only for the childhood bedroom scenes (11, 27), free in 3D.
