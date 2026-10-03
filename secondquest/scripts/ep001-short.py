@@ -120,19 +120,19 @@ FRAME = {
     's01_wake':   (0.74, {3: {'x': 0.80, 'y': 0.5}, 4: {'x': 0.1, 'y': 0.9, 'width': 1.6}}),
     's02_work':   (0.40, {2: {'x': 0.5, 'y': 0.12}, 3: {'x': 0.86, 'height': 0.17}}),
     's03_money':  (0.38, {3: {'x': 0.78, 'y': 0.92, 'height': 0.2}, 5: {'x': 0.5, 'y': 0.12}}),
-    's04_tractor': (0.62, {1: {'x': 0.7, 'y': 0.9}, 3: {'x': 0.16, 'y': 0.93, 'height': 0.3},
-                           4: {'x': 0.36, 'y': 0.93, 'height': 0.12}, 5: {'x': 0.36, 'y': 0.93, 'height': 0.12},
+    's04_tractor': (0.62, {1: {'x': 0.7, 'y': 0.9}, 3: {'x': 0.2, 'y': 0.95, 'height': 0.46},
+                           4: {'x': 0.43, 'y': 0.95, 'height': 0.17}, 5: {'x': 0.43, 'y': 0.95, 'height': 0.17},
                            6: {'x': 0.5, 'y': 0.25}, 7: {'x': 0.5, 'y': 0.11}}),
     's05_home':   (0.30, {6: {'x': 0.5, 'y': 0.2}}),
     's07_dragon': (0.52, {4: {'x': 0.5, 'y': 0.38, 'size': 0.24}}),
     's08_gunfight': (0.46, {3: {'x': 0.5, 'y': 0.38, 'size': 0.24}}),
     's09_princess': (0.38, {3: {'x': 0.5, 'y': 0.38, 'size': 0.24}}),
-    's10_enemy':  (0.46, {3: {'x': 0.72, 'width': 0.95}, 4: {'x': 0.33, 'height': 0.5}, 5: {'x': 0.9, 'height': 0.2}}),
+    's10_enemy':  (0.46, {3: {'x': 0.72, 'width': 0.95}, 4: {'x': 0.33, 'height': 0.64}, 5: {'x': 0.9, 'height': 0.2}}),
     's11_field':  (0.50, {}),
     's12_millions': (0.50, {2: {'height': 0.07, 'region': {'x': 0.08, 'y': 0.12, 'w': 0.84, 'h': 0.46}}}),
-    's14_bigger_tractor': (0.50, {2: {'x': 0.6, 'height': 0.5}, 3: {'x': 0.27, 'height': 0.34},
-                                  4: {'x': 0.5, 'height': 0.15}, 7: {'x': 0.5, 'y': 0.17, 'size': 120},
-                                  8: {'x': 0.8, 'height': 0.16}}),
+    's14_bigger_tractor': (0.50, {2: {'x': 0.6, 'height': 0.5}, 3: {'x': 0.25, 'height': 0.5},
+                                  4: {'x': 0.6, 'height': 0.17}, 7: {'x': 0.5, 'y': 0.17, 'size': 120},
+                                  8: {'x': 0.86, 'y': 0.995, 'height': 0.17}}),
     's15_sunset': (0.36, {}),
 }
 
@@ -148,13 +148,13 @@ def scene_s06(src):
                 a['from'], a['distance'] = frm, 960
     ol = office['layers']
     ol[0]['focus'] = focus(0.42)
-    ol[1].update({'x': 0.46, 'y': 0.76, 'height': 0.44})
+    ol[1].update({'x': 0.46, 'y': 0.77, 'height': 0.5})
     ol[2].update({'x': 0.5, 'y': 0.3, 'size': 40})
     fl = farm['layers']
     fl[0]['focus'] = focus(0.5)
-    t, r = pair(fl[2], fl[1], 0.7, 0.73, 0.95)
+    t, r = pair(fl[2], fl[1], 0.72, 0.74, 1.25)
     fl[1], fl[2] = r, t
-    fl[3].update({'x': 0.3, 'y': 0.76, 'height': 0.4})
+    fl[3].update({'x': 0.28, 'y': 0.77, 'height': 0.48})
     fl[4].update({'x': 0.5, 'y': 0.3, 'size': 40})
     for l in ol + fl:
         cap(l)
@@ -170,11 +170,11 @@ def scene_s13(src):
     for i in (0, 1, 2):
         L[i]['focus'] = focus(0.5)
     a, b, c = 'l15-0.05', 'l16-0.05', None
-    L[3].update({'x': 0.5, 'y': 0.86, 'height': 0.34, 'hide': a})
-    L[5].update({'x': 0.38, 'y': 0.86, 'height': 0.34, 'show': a, 'hide': b})
-    L[4].update({'x': 0.74, 'y': 0.86, 'height': 0.12, 'show': a, 'hide': b})
-    L[7].update({'x': 0.42, 'y': 0.86, 'height': 0.34, 'show': b})
-    L[6].update({'x': 0.76, 'y': 0.86, 'height': 0.12, 'show': b})
+    L[3].update({'x': 0.5, 'y': 0.92, 'height': 0.5, 'hide': a})
+    L[5].update({'x': 0.36, 'y': 0.92, 'height': 0.5, 'show': a, 'hide': b})
+    L[4].update({'x': 0.76, 'y': 0.92, 'height': 0.16, 'show': a, 'hide': b})
+    L[7].update({'x': 0.4, 'y': 0.92, 'height': 0.5, 'show': b})
+    L[6].update({'x': 0.78, 'y': 0.92, 'height': 0.17, 'show': b})
     L[8].update({'x': 0.5, 'y': 0.1, 'width': 0.8})
     for l in L:
         cap(l)

@@ -520,9 +520,9 @@
     {
      "id": "quest",
      "asset": "quest.default.looking_up_awe",
-     "x": 0.16,
-     "y": 0.93,
-     "height": 0.3,
+     "x": 0.2,
+     "y": 0.95,
+     "height": 0.46,
      "shadow": true,
      "animations": [
       {
@@ -538,9 +538,9 @@
     {
      "id": "wallet",
      "asset": "wallet.happy",
-     "x": 0.36,
-     "y": 0.93,
-     "height": 0.12,
+     "x": 0.43,
+     "y": 0.95,
+     "height": 0.17,
      "shadow": true,
      "animations": [
       {
@@ -554,9 +554,9 @@
     {
      "id": "wallet_1",
      "asset": "wallet.worried",
-     "x": 0.36,
-     "y": 0.93,
-     "height": 0.12,
+     "x": 0.43,
+     "y": 0.95,
+     "height": 0.17,
      "shadow": true,
      "animations": [
       {
@@ -908,8 +908,8 @@
       {
        "asset": "quest.default.desk_typing",
        "x": 0.46,
-       "y": 0.76,
-       "height": 0.44,
+       "y": 0.77,
+       "height": 0.5,
        "shadow": true,
        "animations": [
         {
@@ -980,9 +980,9 @@
         }
        ],
        "asset": "genre.farming.quest.tractor_side",
-       "x": 0.777,
-       "y": 0.6129,
-       "height": 0.2004,
+       "x": 0.8213,
+       "y": 0.5859,
+       "height": 0.2637,
        "anchor": [
         0.45,
         0.62
@@ -997,9 +997,9 @@
         }
        ],
        "asset": "genre.farming.machine.tractor_small",
-       "x": 0.7,
-       "y": 0.73,
-       "width": 0.481,
+       "x": 0.72,
+       "y": 0.74,
+       "width": 0.6329,
        "anchor": [
         0.5,
         1.0
@@ -1008,9 +1008,9 @@
       },
       {
        "asset": "genre.farming.quest.fertilizer",
-       "x": 0.3,
-       "y": 0.76,
-       "height": 0.4,
+       "x": 0.28,
+       "y": 0.77,
+       "height": 0.48,
        "shadow": true,
        "animations": [
         {
@@ -1598,7 +1598,7 @@
       }
      ],
      "asset": "genre.farming.quest.heroic",
-     "height": 0.5
+     "height": 0.64
     },
     {
      "id": "fear",
@@ -2020,8 +2020,8 @@
     {
      "asset": "genre.farming.quest.planting",
      "x": 0.5,
-     "y": 0.86,
-     "height": 0.34,
+     "y": 0.92,
+     "height": 0.5,
      "shadow": true,
      "animations": [
       {
@@ -2034,18 +2034,18 @@
     },
     {
      "asset": "genre.farming.prop.trailer_cargo",
-     "x": 0.74,
-     "y": 0.86,
-     "height": 0.12,
+     "x": 0.76,
+     "y": 0.92,
+     "height": 0.16,
      "shadow": true,
      "show": "l15-0.05",
      "hide": "l16-0.05"
     },
     {
      "asset": "genre.farming.quest.fertilizer",
-     "x": 0.38,
-     "y": 0.86,
-     "height": 0.34,
+     "x": 0.36,
+     "y": 0.92,
+     "height": 0.5,
      "shadow": true,
      "animations": [
       {
@@ -2059,17 +2059,17 @@
     },
     {
      "asset": "genre.farming.prop.hay_roll",
-     "x": 0.76,
-     "y": 0.86,
-     "height": 0.12,
+     "x": 0.78,
+     "y": 0.92,
+     "height": 0.17,
      "shadow": true,
      "show": "l16-0.05"
     },
     {
      "asset": "genre.farming.quest.feeding",
-     "x": 0.42,
-     "y": 0.86,
-     "height": 0.34,
+     "x": 0.4,
+     "y": 0.92,
+     "height": 0.5,
      "shadow": true,
      "animations": [
       {
@@ -2254,9 +2254,9 @@
     {
      "id": "quest",
      "asset": "genre.farming.quest.excited",
-     "x": 0.27,
+     "x": 0.25,
      "y": 0.98,
-     "height": 0.34,
+     "height": 0.5,
      "shadow": true,
      "animations": [
       {
@@ -2280,9 +2280,9 @@
     {
      "id": "progress",
      "asset": "progress.cheering",
-     "x": 0.5,
+     "x": 0.6,
      "y": 0.98,
-     "height": 0.15,
+     "height": 0.17,
      "shadow": true,
      "show": "l17+1.0",
      "animations": [
@@ -2336,9 +2336,9 @@
     {
      "id": "wallet",
      "asset": "wallet.fainted",
-     "x": 0.8,
-     "y": 0.985,
-     "height": 0.16,
+     "x": 0.86,
+     "y": 0.995,
+     "height": 0.17,
      "show": "l17.end-0.55",
      "animations": [
       {
