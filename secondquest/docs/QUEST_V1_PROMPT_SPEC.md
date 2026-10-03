@@ -18,6 +18,11 @@ Same 2D cartoon style: bold ink outlines, flat cel shading.
 - **Never use `f42c30bd-ce09-4ada-81c2-f2e33b6943fb` for the default outfit.** That job shows the **farming outfit** (overalls and **brown boots**). It is the likely cause of the brown boots on EP001 thumbnail 1. Use it only for the farming costume.
 - If the shot shows the feet or the full body, also say so in the prompt: "his RED sneakers are visible".
 
+## 1b. Costumes (Producer rule, 2026-10-03)
+In a costume (e.g. EP002 Hero-of-Time-like green tunic and cap, similar but not equal to Link's) only the clothes
+change: same face, curly dark brown hair, freckles, **human ears**, same body. Add to the prompt:
+"Same face, hair and human ears as Quest_v1; only the outfit changes."
+
 ## 2. Text and scene must match
 
 Before generating, check that any text that will go on the image agrees with what the scene shows:

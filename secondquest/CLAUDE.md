@@ -3,6 +3,8 @@
 - **Respond to the Producer in Spanish.**
 - **Packaging and publishing** (thumbnails, titles, descriptions, tags, hook, subtitles, publishing checklist): follow `docs/PUBLISHING_STANDARD.md` and `docs/THUMBNAIL_RULES.md`. They are binding.
 - **Any image showing Quest:** follow `docs/QUEST_V1_PROMPT_SPEC.md` (identity block, references, QC). Report every defect; never present a failing image as acceptable.
+- **Any image showing Pixie** (Quest's friend, recurring character): follow `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.
+- **Costumes keep identity (Producer rule):** when Quest or Pixie change outfit, only the clothes change. Face, hair, eyes, skin, ears and body stay the same; they are themselves in a costume, never turned into the game character (e.g. no elf ears).
 - **Credits:** quote every Higgsfield spend and get the Producer's explicit approval before generating.
 - **Final renders:** never render one without the Producer's explicit approval.
 - **Sounds are always free (Producer rule, 2026-10-03):** engine synths, CC0 libraries (licence file next to them, listed in `public/shared/sfx/SOURCES.md`) or our own recordings.

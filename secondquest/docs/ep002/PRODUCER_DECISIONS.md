@@ -69,11 +69,17 @@
 ## 2026-10-03: art direction decisions (after art plan v2)
 - **Quest as the Hero of Time:** mandatory. Green tunic and cap similar to Link's, with details, **similar but not equal**:
   the viewer must read "Link is you", i.e. Quest, i.e. the viewer. Refines option C for Quest (closer than "own tunic").
-  Claude's recommendation still open: keep Quest's own human ears and face so he stays Quest.
+  Quest keeps his own face and human ears (no elf): see the costume rule below.
 - **New recurring channel character: Quest's female friend** (name to be chosen). She is part of the channel from now on
   whenever a girl, friend or companion is needed. In EP002 she plays the Saria-like forest friend and the princess
-  (costume variants). Brief: `docs/characters/COMPANION_V1_BRIEF.md`.
+  (costume variants). Spec: `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.
 - **Villain:** Ganondorf-like, imposing and intimidating. Brief: `docs/characters/VILLAIN_V1_BRIEF.md`.
 - **Official OoT logo** on the end card (30) and on the TV screen (2): approved, to be adjusted at the end. Never in thumbnails (M8).
 - **Credits for the 18-asset list:** decided last, after the characters are defined.
 - **CRT TV:** the present-day living room works as is; a 1998 tube TV is only for the childhood bedroom scenes (11, 27), free in 3D.
+
+## 2026-10-03: Pixie and the costume rule
+- Quest's friend is named **Pixie**: look of direction A (long black high ponytail, teal oversized hoodie, black leggings,
+  white sneakers) with the personality of direction B (warm, curious). Spec: `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.
+- **Costume rule (Quest and Pixie, all episodes):** changing outfit never changes their appearance. In EP002 they are not
+  elves: they are Quest and Pixie in different outfits.
