@@ -9,3 +9,6 @@
   - Consecutive scenes on the same plate either continue the camera from where it ended, or cut to a clearly different shot.
   - A plate that returns later opens on a new framing or a different move.
   - The engine enforces this: `CAMERA_JUMP` and `CAMERA_REPEAT` errors in `src/engine/cameraContinuity.ts` block the render.
+- **Always improve (Producer rule):** blocking a defect is not enough.
+  - Before executing any stage, and in every report, recommend concrete improvements: what could be better, how, and what it costs.
+  - The Producer decides which improvements go in.
