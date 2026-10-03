@@ -17,7 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 LEDGER = ROOT / 'docs/credits/ledger.json'
-QUEST_ELEMENT = '89051d04-514d-404a-bcff-7dbe6347eb6f'  # Higgsfield reference element Quest_v1 (default outfit)
+QUEST_ELEMENT = '755771c5-9283-4473-a037-a4a983c75238'  # Higgsfield element Quest-v1-6ref (Producer-approved, default outfit)
 QUEST_REFS = ['ab2219a6-ee5c-4c3e-bb8e-10f4866781b2']  # f42c30bd shows the FARMING outfit (brown boots): never for the default outfit
 IDENTITY = ['quest_v1', 'dark brown curly hair', 'freckles', 'bold ink outlines']
 DEFAULT_OUTFIT = ['red hoodie', 'blue denim jeans', 'red canvas sneakers']

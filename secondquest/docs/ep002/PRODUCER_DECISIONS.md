@@ -43,3 +43,8 @@
 - `Quest-sheet-test` (`aea0e473-e44f-49c1-854c-ba6a84385b53`): one element made from a single 24-pose sheet image was accepted.
 - How many images each model actually reads at generation time is not documented; it can only be measured with a paid generation.
 - Pending: the Producer chooses the final set.
+
+## 2026-10-03: Final Quest reference element
+
+- **Quest-v1-6ref** `755771c5-9283-4473-a037-a4a983c75238`: the Producer chose the 6 recommended images ("vamos por lo seguro").
+- The other three elements are superseded or test elements; the Producer may delete them in Higgsfield.

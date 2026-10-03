@@ -11,7 +11,10 @@ Same 2D cartoon style: bold ink outlines, flat cel shading.
 ```
 
 **References (corrected 2026-10-03):**
-- Use the Higgsfield reference element **Quest_v1** (`89051d04-514d-404a-bcff-7dbe6347eb6f`). Put `<<<89051d04-514d-404a-bcff-7dbe6347eb6f>>>` in the prompt, or attach job `ab2219a6-ee5c-4c3e-bb8e-10f4866781b2` (default outfit, red sneakers) as an `image_reference`.
+- Use the Higgsfield reference element **Quest-v1-6ref** (`755771c5-9283-4473-a037-a4a983c75238`), approved by the Producer on 2026-10-03. Put `<<<755771c5-9283-4473-a037-a4a983c75238>>>` in the prompt.
+  - Its six default-outfit images are holding_paycheck, gaming_excited, phone_overwhelmed, exhausted_slumped, wrench_fixing and arms_up_back.
+  - If a model does not support elements, attach job `ab2219a6-ee5c-4c3e-bb8e-10f4866781b2` as an `image_reference` instead.
+- Elements `Quest_v1` (89051d04), `Quest-limit-test-24` and `Quest-sheet-test` are superseded or test elements: do not use them.
 - **Never use `f42c30bd-ce09-4ada-81c2-f2e33b6943fb` for the default outfit.** That job shows the **farming outfit** (overalls and **brown boots**). It is the likely cause of the brown boots on EP001 thumbnail 1. Use it only for the farming costume.
 - If the shot shows the feet or the full body, also say so in the prompt: "his RED sneakers are visible".
 
