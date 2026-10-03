@@ -40,7 +40,7 @@
      "reason": "STT hears \"Nintendo was asking\" (script: \"is\")"
     }
    ],
-   "open_issue": "Take 2 also transcribes as \"was asking\"; Kokoro control sentence transcribes correctly as \"is\". Pending Producer listening check."
+   "producer_check": "2026-10-03: Producer listened; \"is asking\" is intelligible. Take 2 approved (STT mishears \"Nintendo is\" as \"was\")."
   },
   {
    "id": "B02",

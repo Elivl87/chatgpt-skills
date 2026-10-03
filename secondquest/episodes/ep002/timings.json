@@ -1,0 +1,793 @@
+{
+  "source": "audio/narration.wav",
+  "generatedBy": "higgsfield:text2speech_v2:elevenlabs:Bram (549ff70a-3ee7-4f04-a4d9-89a24fab7709)",
+  "alignment": "faster-whisper small.en word timestamps, mapped to script lines",
+  "duration": 412.9,
+  "cues": {
+    "l01": {
+      "start": 0.3,
+      "end": 3.46,
+      "text": "In 1998, Ocarina of Time asked you to save Hyrule."
+    },
+    "l02": {
+      "start": 3.92,
+      "end": 7.3,
+      "text": "Almost three decades later, Nintendo is asking you to go back."
+    },
+    "l03": {
+      "start": 7.82,
+      "end": 12.96,
+      "text": "New graphics. An orchestra. Voices. Modern controls. A new camera."
+    },
+    "l04": {
+      "start": 13.4,
+      "end": 14.38,
+      "text": "The same ocarina."
+    },
+    "l05": {
+      "start": 14.78,
+      "end": 15.5,
+      "text": "The same sword."
+    },
+    "l06": {
+      "start": 15.9,
+      "end": 16.88,
+      "text": "The same Triforce."
+    },
+    "l07": {
+      "start": 17.36,
+      "end": 20.58,
+      "text": "But there is one thing Nintendo cannot rebuild from the ground up."
+    },
+    "l08": {
+      "start": 21.02,
+      "end": 21.47,
+      "text": "You."
+    },
+    "l09": {
+      "start": 21.78,
+      "end": 25.2,
+      "text": "And somehow, that might be exactly why we want to go back."
+    },
+    "l10": {
+      "start": 25.74,
+      "end": 26.86,
+      "text": "So, why?"
+    },
+    "l11": {
+      "start": 29.26,
+      "end": 33.96,
+      "text": "Because the Ocarina of Time people remember is not exactly the game that came on the cartridge."
+    },
+    "l12": {
+      "start": 34.42,
+      "end": 35.34,
+      "text": "It is the game..."
+    },
+    "l13": {
+      "start": 35.34,
+      "end": 36.84,
+      "text": "plus the room."
+    },
+    "l14": {
+      "start": 37.32,
+      "end": 38.2,
+      "text": "Plus the television."
+    },
+    "l15": {
+      "start": 38.72,
+      "end": 41.2,
+      "text": "Plus the friend who somehow knew where to go."
+    },
+    "l16": {
+      "start": 41.64,
+      "end": 48.74,
+      "text": "Plus an entire Saturday afternoon where nobody could reach you because smartphones had not yet ruined that particular miracle."
+    },
+    "l17": {
+      "start": 49.24,
+      "end": 52.82,
+      "text": "For some players, walking into Hyrule Field felt enormous."
+    },
+    "l18": {
+      "start": 53.32,
+      "end": 54.74,
+      "text": "Not because it actually was."
+    },
+    "l19": {
+      "start": 55.08,
+      "end": 56.92,
+      "text": "Because you were smaller."
+    },
+    "l20": {
+      "start": 56.92,
+      "end": 60.2,
+      "text": "And memory is very good at preserving feelings..."
+    },
+    "l21": {
+      "start": 60.6,
+      "end": 64.9,
+      "text": "while being absolutely terrible at preserving technical specifications."
+    },
+    "l22": {
+      "start": 65.6,
+      "end": 66.8,
+      "text": "Nobody wakes up thinking:"
+    },
+    "l23": {
+      "start": 67.28,
+      "end": 71.32,
+      "text": "Man... I really miss Nintendo 64 texture filtering."
+    },
+    "l24": {
+      "start": 71.7,
+      "end": 72.88,
+      "text": "You remember the forest."
+    },
+    "l25": {
+      "start": 73.34,
+      "end": 73.96,
+      "text": "The music."
+    },
+    "l26": {
+      "start": 74.32,
+      "end": 75.76,
+      "text": "The castle in the distance."
+    },
+    "l27": {
+      "start": 76.18,
+      "end": 80.98,
+      "text": "That strange feeling that if you just kept walking, the world might continue forever."
+    },
+    "l28": {
+      "start": 81.42,
+      "end": 82.68,
+      "text": "Which creates a problem."
+    },
+    "l29": {
+      "start": 82.94,
+      "end": 85.64,
+      "text": "Because Nintendo can remake Ocarina of Time."
+    },
+    "l30": {
+      "start": 85.64,
+      "end": 87.8,
+      "text": "But part of the thing people want back..."
+    },
+    "l31": {
+      "start": 87.8,
+      "end": 90.58,
+      "text": "was never inside Ocarina of Time."
+    },
+    "l32": {
+      "start": 91.76,
+      "end": 94.66,
+      "text": "The new version is being rebuilt for Switch 2."
+    },
+    "l33": {
+      "start": 95.14,
+      "end": 95.66,
+      "text": "New visuals."
+    },
+    "l34": {
+      "start": 96.12,
+      "end": 97.02,
+      "text": "Voiced cutscenes."
+    },
+    "l35": {
+      "start": 97.34,
+      "end": 98.34,
+      "text": "Expanded dialogue."
+    },
+    "l36": {
+      "start": 98.76,
+      "end": 99.84,
+      "text": "An orchestral score."
+    },
+    "l37": {
+      "start": 100.32,
+      "end": 102.44,
+      "text": "Modernized controls and camera movement."
+    },
+    "l38": {
+      "start": 102.94,
+      "end": 105.02,
+      "text": "On paper, the job sounds easy."
+    },
+    "l39": {
+      "start": 105.56,
+      "end": 106.46,
+      "text": "Take something beloved..."
+    },
+    "l40": {
+      "start": 106.46,
+      "end": 108.4,
+      "text": "and make everything better."
+    },
+    "l41": {
+      "start": 108.72,
+      "end": 111.52,
+      "text": "Except that is where remakes become dangerous."
+    },
+    "l42": {
+      "start": 112.06,
+      "end": 113.62,
+      "text": "Because better is measurable."
+    },
+    "l43": {
+      "start": 114.12,
+      "end": 115.08,
+      "text": "More polygons."
+    },
+    "l44": {
+      "start": 115.34,
+      "end": 115.9,
+      "text": "Better lighting."
+    },
+    "l45": {
+      "start": 116.28,
+      "end": 117.0,
+      "text": "Better animation."
+    },
+    "l46": {
+      "start": 117.34,
+      "end": 118.02,
+      "text": "Better sound."
+    },
+    "l47": {
+      "start": 118.44,
+      "end": 120.58,
+      "text": "But familiar is not measurable."
+    },
+    "l48": {
+      "start": 120.92,
+      "end": 124.4,
+      "text": "An empty field in 1998 could feel enormous."
+    },
+    "l49": {
+      "start": 125.12,
+      "end": 126.84,
+      "text": "Rebuild it too literally today..."
+    },
+    "l50": {
+      "start": 127.26,
+      "end": 128.94,
+      "text": "and it might just feel empty."
+    },
+    "l51": {
+      "start": 129.32,
+      "end": 132.12,
+      "text": "A silent character once left space for your imagination."
+    },
+    "l52": {
+      "start": 132.76,
+      "end": 134.0,
+      "text": "Give that character a voice..."
+    },
+    "l53": {
+      "start": 134.3,
+      "end": 137.66,
+      "text": "and suddenly somebody has to decide what that silence sounded like."
+    },
+    "l54": {
+      "start": 137.96,
+      "end": 141.0,
+      "text": "A camera you once fought with was part of learning the game."
+    },
+    "l55": {
+      "start": 141.46,
+      "end": 141.91,
+      "text": "Fix it..."
+    },
+    "l56": {
+      "start": 142.06,
+      "end": 143.98,
+      "text": "and the game becomes easier to inhabit."
+    },
+    "l57": {
+      "start": 144.4,
+      "end": 145.02,
+      "text": "Which is good."
+    },
+    "l58": {
+      "start": 145.48,
+      "end": 145.96,
+      "text": "Probably."
+    },
+    "l59": {
+      "start": 146.38,
+      "end": 149.9,
+      "text": "But every improvement quietly changes the memory attached to it."
+    },
+    "l60": {
+      "start": 149.9,
+      "end": 151.78,
+      "text": "That is the impossible job."
+    },
+    "l61": {
+      "start": 152.16,
+      "end": 154.44,
+      "text": "Make it different enough to justify existing..."
+    },
+    "l62": {
+      "start": 154.88,
+      "end": 157.5,
+      "text": "without making people wonder where their game went."
+    },
+    "l63": {
+      "start": 158.74,
+      "end": 160.26,
+      "text": "And Nintendo has another problem."
+    },
+    "l64": {
+      "start": 160.7,
+      "end": 163.62,
+      "text": "This remake is not really being made for one audience."
+    },
+    "l65": {
+      "start": 164.08,
+      "end": 165.52,
+      "text": "It is being made for two."
+    },
+    "l66": {
+      "start": 166.18,
+      "end": 167.84,
+      "text": "Player one already knows everything."
+    },
+    "l67": {
+      "start": 168.24,
+      "end": 169.8,
+      "text": "They know what that ocarina means."
+    },
+    "l68": {
+      "start": 170.18,
+      "end": 172.58,
+      "text": "They know what happens when Link pulls the Master Sword."
+    },
+    "l69": {
+      "start": 172.9,
+      "end": 178.34,
+      "text": "They see three golden triangles and immediately understand that somebody is about to make a very bad decision."
+    },
+    "l70": {
+      "start": 178.72,
+      "end": 185.22,
+      "text": "The Triforce represents wisdom, power and courage, and Link’s journey spans Hyrule across two different eras."
+    },
+    "l71": {
+      "start": 185.82,
+      "end": 186.32,
+      "text": "Player two?"
+    },
+    "l72": {
+      "start": 186.78,
+      "end": 188.5,
+      "text": "Player two knows none of this."
+    },
+    "l73": {
+      "start": 188.92,
+      "end": 190.66,
+      "text": "They meet the Great Deku Tree and think:"
+    },
+    "l74": {
+      "start": 191.06,
+      "end": 194.6,
+      "text": "That is an extremely large tree with an extremely personal problem."
+    },
+    "l75": {
+      "start": 194.94,
+      "end": 197.18,
+      "text": "For them, Hyrule has no nostalgia."
+    },
+    "l76": {
+      "start": 197.8,
+      "end": 199.26,
+      "text": "No childhood attached to it."
+    },
+    "l77": {
+      "start": 199.54,
+      "end": 201.58,
+      "text": "No twenty-eight years of expectations."
+    },
+    "l78": {
+      "start": 202.06,
+      "end": 204.76,
+      "text": "So the remake has two completely different jobs."
+    },
+    "l79": {
+      "start": 205.2,
+      "end": 206.06,
+      "text": "For the new player:"
+    },
+    "l80": {
+      "start": 206.42,
+      "end": 209.74,
+      "text": "Make a game from 1998 feel natural in 2026."
+    },
+    "l81": {
+      "start": 210.14,
+      "end": 211.2,
+      "text": "For the returning player:"
+    },
+    "l82": {
+      "start": 211.6,
+      "end": 213.14,
+      "text": "Make something they already know..."
+    },
+    "l83": {
+      "start": 213.14,
+      "end": 215.12,
+      "text": "feel like discovery again."
+    },
+    "l84": {
+      "start": 215.46,
+      "end": 217.0,
+      "text": "One person is looking at Hyrule."
+    },
+    "l85": {
+      "start": 217.38,
+      "end": 219.6,
+      "text": "The other is looking for the Hyrule in their head."
+    },
+    "l86": {
+      "start": 220.1,
+      "end": 222.86,
+      "text": "And somehow Nintendo has to build both."
+    },
+    "l87": {
+      "start": 224.12,
+      "end": 227.94,
+      "text": "The safest remake imaginable would change almost nothing."
+    },
+    "l88": {
+      "start": 228.66,
+      "end": 229.28,
+      "text": "Sharper textures."
+    },
+    "l89": {
+      "start": 229.7,
+      "end": 230.52,
+      "text": "Better resolution."
+    },
+    "l90": {
+      "start": 230.96,
+      "end": 231.72,
+      "text": "Cleaner controls."
+    },
+    "l91": {
+      "start": 232.2,
+      "end": 234.62,
+      "text": "Everything exactly where you remember it."
+    },
+    "l92": {
+      "start": 234.9,
+      "end": 236.12,
+      "text": "And that sounds respectful."
+    },
+    "l93": {
+      "start": 236.62,
+      "end": 237.5,
+      "text": "But there is a problem."
+    },
+    "l94": {
+      "start": 238.12,
+      "end": 240.98,
+      "text": "Ocarina of Time was not important because it felt familiar."
+    },
+    "l95": {
+      "start": 241.42,
+      "end": 243.44,
+      "text": "It was important because it felt new."
+    },
+    "l96": {
+      "start": 243.84,
+      "end": 248.4,
+      "text": "A world people understood in two dimensions suddenly became somewhere they could stand."
+    },
+    "l97": {
+      "start": 248.92,
+      "end": 249.84,
+      "text": "Distance mattered."
+    },
+    "l98": {
+      "start": 250.2,
+      "end": 251.58,
+      "text": "Where you looked mattered."
+    },
+    "l99": {
+      "start": 252.12,
+      "end": 253.04,
+      "text": "Music mattered."
+    },
+    "l100": {
+      "start": 253.54,
+      "end": 254.36,
+      "text": "And most importantly..."
+    },
+    "l101": {
+      "start": 255.24,
+      "end": 256.3,
+      "text": "time mattered."
+    },
+    "l102": {
+      "start": 256.8,
+      "end": 257.58,
+      "text": "You were a child."
+    },
+    "l103": {
+      "start": 257.88,
+      "end": 259.0,
+      "text": "Then you were not."
+    },
+    "l104": {
+      "start": 259.36,
+      "end": 260.06,
+      "text": "You disappeared..."
+    },
+    "l105": {
+      "start": 260.52,
+      "end": 262.26,
+      "text": "and the world changed without you."
+    },
+    "l106": {
+      "start": 262.56,
+      "end": 265.24,
+      "text": "That is not some side detail of Ocarina of Time."
+    },
+    "l107": {
+      "start": 265.6,
+      "end": 267.02,
+      "text": "That is the game."
+    },
+    "l108": {
+      "start": 267.5,
+      "end": 271.28,
+      "text": "Link’s adventure is a journey through Hyrule across two distinct eras."
+    },
+    "l109": {
+      "start": 271.74,
+      "end": 274.92,
+      "text": "So maybe changing Ocarina of Time is not disrespecting it."
+    },
+    "l110": {
+      "start": 274.92,
+      "end": 277.98,
+      "text": "Maybe refusing to change anything would be."
+    },
+    "l111": {
+      "start": 278.3,
+      "end": 281.92,
+      "text": "Because the goal should not be to preserve every limitation from 1998."
+    },
+    "l112": {
+      "start": 282.66,
+      "end": 284.4,
+      "text": "The goal should be to understand..."
+    },
+    "l113": {
+      "start": 284.4,
+      "end": 287.04,
+      "text": "what those limitations made you feel."
+    },
+    "l114": {
+      "start": 287.36,
+      "end": 290.66,
+      "text": "And then find a way to make someone feel that again."
+    },
+    "l115": {
+      "start": 291.98,
+      "end": 294.22,
+      "text": "Which brings us back to the strange part."
+    },
+    "l116": {
+      "start": 294.56,
+      "end": 296.44,
+      "text": "The original game still exists."
+    },
+    "l117": {
+      "start": 296.9,
+      "end": 298.06,
+      "text": "We did not lose it."
+    },
+    "l118": {
+      "start": 298.42,
+      "end": 302.2,
+      "text": "Nobody needs Nintendo to rescue Ocarina of Time from history."
+    },
+    "l119": {
+      "start": 302.54,
+      "end": 304.3,
+      "text": "So why do we want it again?"
+    },
+    "l120": {
+      "start": 304.66,
+      "end": 310.76,
+      "text": "Because going back to something you loved is one of the few ways you can measure how much you changed."
+    },
+    "l121": {
+      "start": 311.3,
+      "end": 313.06,
+      "text": "The forest is still there."
+    },
+    "l122": {
+      "start": 313.42,
+      "end": 315.14,
+      "text": "The ocarina is still there."
+    },
+    "l123": {
+      "start": 315.46,
+      "end": 317.7,
+      "text": "The Master Sword is still waiting."
+    },
+    "l124": {
+      "start": 317.7,
+      "end": 321.56,
+      "text": "The Triforce still means wisdom, power and courage."
+    },
+    "l125": {
+      "start": 321.98,
+      "end": 325.38,
+      "text": "But the person holding the controller is different."
+    },
+    "l126": {
+      "start": 325.88,
+      "end": 327.56,
+      "text": "And for this particular game..."
+    },
+    "l127": {
+      "start": 328.08,
+      "end": 330.14,
+      "text": "that is almost too perfect."
+    },
+    "l128": {
+      "start": 330.58,
+      "end": 333.42,
+      "text": "A story about a child becoming an adult..."
+    },
+    "l129": {
+      "start": 333.42,
+      "end": 336.88,
+      "text": "is coming back to people who did exactly that."
+    },
+    "l130": {
+      "start": 337.36,
+      "end": 346.72,
+      "text": "Somebody who first crossed Hyrule Field in 1998 can now cross it again with almost three decades between those two versions of themselves."
+    },
+    "l131": {
+      "start": 346.72,
+      "end": 348.08,
+      "text": "Same road."
+    },
+    "l132": {
+      "start": 348.74,
+      "end": 349.5,
+      "text": "Different person."
+    },
+    "l133": {
+      "start": 350.02,
+      "end": 352.4,
+      "text": "And maybe that is what we actually want."
+    },
+    "l134": {
+      "start": 352.78,
+      "end": 354.32,
+      "text": "Not the old game back."
+    },
+    "l135": {
+      "start": 354.8,
+      "end": 357.36,
+      "text": "A chance to stand beside an old memory..."
+    },
+    "l136": {
+      "start": 357.36,
+      "end": 360.72,
+      "text": "and see if it still recognizes us."
+    },
+    "l137": {
+      "start": 362.16,
+      "end": 362.48,
+      "text": "So..."
+    },
+    "l138": {
+      "start": 362.48,
+      "end": 364.34,
+      "text": "can you remake a memory?"
+    },
+    "l139": {
+      "start": 364.92,
+      "end": 365.58,
+      "text": "Probably not."
+    },
+    "l140": {
+      "start": 366.2,
+      "end": 368.6,
+      "text": "Nintendo cannot rebuild the room you were sitting in."
+    },
+    "l141": {
+      "start": 368.78,
+      "end": 370.4,
+      "text": "It cannot recreate the television."
+    },
+    "l142": {
+      "start": 370.4,
+      "end": 371.82,
+      "text": "The Saturday afternoon."
+    },
+    "l143": {
+      "start": 372.36,
+      "end": 374.24,
+      "text": "The friend sitting next to you."
+    },
+    "l144": {
+      "start": 374.26,
+      "end": 378.7,
+      "text": "Or the exact version of you who walked into Hyrule for the first time."
+    },
+    "l145": {
+      "start": 379.16,
+      "end": 380.84,
+      "text": "But it can rebuild Hyrule."
+    },
+    "l146": {
+      "start": 381.28,
+      "end": 382.64,
+      "text": "And maybe that is enough."
+    },
+    "l147": {
+      "start": 382.64,
+      "end": 385.46,
+      "text": "Because a remake does not have to take you back."
+    },
+    "l148": {
+      "start": 385.72,
+      "end": 387.86,
+      "text": "It can let two different moments meet."
+    },
+    "l149": {
+      "start": 387.86,
+      "end": 389.36,
+      "text": "The game you remember..."
+    },
+    "l150": {
+      "start": 390.08,
+      "end": 391.48,
+      "text": "and the person you became."
+    },
+    "l151": {
+      "start": 392.28,
+      "end": 395.16,
+      "text": "You cannot play Ocarina of Time for the first time again."
+    },
+    "l152": {
+      "start": 395.5,
+      "end": 397.28,
+      "text": "But maybe you can meet it again."
+    },
+    "l153": {
+      "start": 397.62,
+      "end": 398.32,
+      "text": "And this time..."
+    },
+    "l154": {
+      "start": 398.72,
+      "end": 400.06,
+      "text": "you both grew up."
+    },
+    "l155": {
+      "start": 403.24,
+      "end": 405.06,
+      "text": "So what game would you go back to?"
+    },
+    "l156": {
+      "start": 405.34,
+      "end": 407.58,
+      "text": "And what game deserves a “why?” next?"
+    },
+    "l157": {
+      "start": 408.14,
+      "end": 411.12,
+      "text": "Tell me in the comments. Maybe that’s our next quest."
+    }
+  }
+}
