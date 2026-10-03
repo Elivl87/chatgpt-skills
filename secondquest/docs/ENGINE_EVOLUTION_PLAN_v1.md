@@ -179,6 +179,16 @@ Mayormente 0 créditos.
 
 ---
 
+### Estado de la fase 0 (2026-10-03)
+
+- **0.1 hecho:** `camera.start: "continue"` y `npm run camera:fix`.
+- **0.2 hecho:** tiempos por palabra y anclas `l12.w3`.
+- **0.3 hecho:** `npm run publish -- <EP>`; nunca sobrescribe lo publicado.
+- **0.4 hecho:** `npm run art:qc`, integrado en la entrada de arte; 0 errores sobre los 137 assets aprobados.
+  - **Parecido de cara con DINOv2: descartado.** Se probó en esta máquina (60 personajes en 13 s) y no separa a Quest de otros personajes: la princesa puntúa 0,785, por encima de varias poses aprobadas de Quest (0,59–0,73, sobre todo de espaldas). Un control así daría falsas alarmas y falsa tranquilidad, así que no se incluye.
+  - La identidad sigue cubierta por la revisión visual (QUEST_V1_PROMPT_SPEC) más el control de colores.
+  - Próximo intento posible: detector de caras de dibujos animados más IA de visión como segunda opinión, solo si se aprueba.
+
 ## 4. Manual de ahorro de créditos
 
 Ordenado por ahorro esperado.
