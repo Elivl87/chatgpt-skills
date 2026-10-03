@@ -310,7 +310,12 @@ export interface CameraShake {
 }
 
 export interface CameraConfig {
-  start?: Partial<CameraState>;
+  /**
+   * Opening framing. "continue" starts exactly where the previous scene's camera ended
+   * (no drift), the standard way to cut between two scenes on the same background
+   * without a zoom restart (Producer rule, CAMERA_JUMP).
+   */
+  start?: Partial<CameraState> | 'continue';
   moves?: CameraMove[];
   shakes?: CameraShake[];
   /** Always-on handheld-style drift so no frame is ever dead still. 0 disables. Default 1. */

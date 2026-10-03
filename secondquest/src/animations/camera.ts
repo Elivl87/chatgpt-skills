@@ -55,7 +55,8 @@ export const resolveCamera = (
   sceneDur: number,
   seed: string,
 ): ResolvedCamera => {
-  const start: CameraState = { ...DEFAULT_CAMERA, ...(cfg?.start ?? {}) };
+  // "continue" is resolved to a concrete state by resolveContinueStarts() before rendering.
+  const start: CameraState = { ...DEFAULT_CAMERA, ...(cfg?.start && cfg.start !== 'continue' ? cfg.start : {}) };
   const sim = { ...start };
   const moves: ResolvedMove[] = [];
   const sorted = [...(cfg?.moves ?? [])]
@@ -121,6 +122,12 @@ export const resolveCamera = (
   }));
 
   return { start, moves, shakes, drift: cfg?.drift ?? 1, parallax: cfg?.parallax ?? 0.3, seed };
+};
+
+/** Camera state at scene time t without handheld drift or shake. */
+export const cameraStateAt = (cam: ResolvedCamera, t: number): CameraState => {
+  const { zoom, x, y, rotation } = evaluateCamera({ ...cam, drift: 0, shakes: [] }, t);
+  return { zoom, x, y, rotation };
 };
 
 export interface CameraFrame extends CameraState {

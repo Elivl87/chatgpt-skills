@@ -39,7 +39,8 @@
     "render:episode": "tsx scripts/render.ts",
     "art:intake": "tsx scripts/art-intake.ts",
     "test": "tsx scripts/test.ts",
-    "originality": "tsx scripts/originality.ts"
+    "originality": "tsx scripts/originality.ts",
+    "camera:fix": "tsx scripts/camera-fix.ts"
   },
   "engines": {
     "node": ">=18"

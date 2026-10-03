@@ -6,7 +6,7 @@ import { EASINGS } from '../utils/easing';
 import { resolveTime, type TimeContext } from '../utils/time';
 import { listAssetIds, toPublicPath } from './assets';
 import { episodeLocales, localizeBundle } from './locale';
-import { resolveCut } from './timeline';
+import { resolveCut, withContinuedCameras } from './timeline';
 import { evaluateCamera, resolveCamera } from '../animations/camera';
 import { checkCameraContinuity, type PlateShot } from './cameraContinuity';
 
@@ -101,6 +101,12 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
     return undefined;
   };
   const shots: PlateShot[] = [];
+  let continued: Scene[] = scenes.scenes;
+  try {
+    continued = withContinuedCameras(scenes.scenes, cues, timings.duration);
+  } catch {
+    /* time errors are reported per scene below */
+  }
 
   const ids = new Set<string>();
   const missingSounds = new Map<string, string[]>();
@@ -140,7 +146,7 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
     walkTimes({ layers: scene.layers, camera: scene.camera, sfx: scene.sfx }, w, ctx);
     try {
       const dur = Math.max(0.001, (end || 0) - (start || 0));
-      const cam = resolveCamera({ ...scene.camera, drift: 0 }, (e) => resolveTime(e, ctx) - (start || 0), dur, scene.id);
+      const cam = resolveCamera({ ...continued[i].camera, drift: 0 }, (e) => resolveTime(e, ctx) - (start || 0), dur, scene.id);
       const at = (t: number) => {
         const { zoom, x, y, rotation } = evaluateCamera(cam, t);
         return { zoom, x, y, rotation };

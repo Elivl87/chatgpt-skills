@@ -12,6 +12,7 @@ import type {
   TransitionSpec,
 } from '../schema/types';
 import { resolveTime, type TimeContext } from '../utils/time';
+import { resolveContinueStarts } from './cameraContinuity';
 
 /**
  * Resolves an episode cut (a scene range) into absolute frames: scene windows,
@@ -108,6 +109,19 @@ export const sceneRange = (data: EpisodeData, cutId: string): Scene[] => {
   return all.slice(a, b + 1);
 };
 
+/** Resolve `camera.start: "continue"` over the whole episode (a cut may start mid-run). */
+export const withContinuedCameras = (all: Scene[], cues: Record<string, Cue>, duration: number): Scene[] => {
+  if (!all.some((s) => s.camera?.start === 'continue')) return all;
+  const abs: TimeContext = { cues };
+  const starts = all.map((s) => resolveTime(s.start, abs));
+  return resolveContinueStarts(all, (i) => {
+    const start = starts[i];
+    const end = all[i].end !== undefined ? resolveTime(all[i].end!, abs) : (starts[i + 1] ?? duration);
+    const ctx: TimeContext = { cues, sceneStart: start, sceneEnd: end, relative: true, end };
+    return { toSec: (e) => resolveTime(e, ctx) - start, dur: end - start };
+  });
+};
+
 export const resolveCut = (
   data: EpisodeData,
   cutId: string,
@@ -117,9 +131,9 @@ export const resolveCut = (
   const { episode, timings } = data;
   const fps = episode.fps;
   const cues = timings.cues;
-  const all = data.scenes.scenes;
-  const scenes = sceneRange(data, cutId);
   const abs: TimeContext = { cues };
+  const all = withContinuedCameras(data.scenes.scenes, cues, timings.duration);
+  const scenes = sceneRange({ ...data, scenes: { ...data.scenes, scenes: all } }, cutId);
 
   // --- scene windows (absolute seconds)
   const starts = scenes.map((s) => resolveTime(s.start, abs));

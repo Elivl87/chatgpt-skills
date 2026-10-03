@@ -1,4 +1,5 @@
-import type { CameraState } from '../schema/types';
+import { cameraStateAt, resolveCamera } from '../animations/camera';
+import type { CameraState, Scene, TimeExpr } from '../schema/types';
 
 /**
  * Camera continuity on reused background plates (Producer rule, 2026-10-03).
@@ -56,4 +57,25 @@ export const checkCameraContinuity = (shots: PlateShot[]): ContinuityIssue[] => 
     }
   });
   return issues;
+};
+
+/**
+ * Replace every `camera.start: "continue"` with the previous scene's final camera state.
+ * `window(i)` gives scene i's time converter (scene-relative seconds) and duration.
+ * Scenes are processed in order, so chains of "continue" scenes resolve correctly.
+ */
+export const resolveContinueStarts = (
+  scenes: Scene[],
+  window: (i: number) => { toSec: (e: TimeExpr) => number; dur: number },
+): Scene[] => {
+  const out: Scene[] = [];
+  scenes.forEach((scene, i) => {
+    if (scene.camera?.start !== 'continue') return out.push(scene);
+    if (i === 0) return out.push({ ...scene, camera: { ...scene.camera, start: undefined } });
+    const prev = out[i - 1];
+    const w = window(i - 1);
+    const end = cameraStateAt(resolveCamera(prev.camera, w.toSec, w.dur, prev.id), w.dur);
+    out.push({ ...scene, camera: { ...scene.camera, start: end } });
+  });
+  return out;
 };

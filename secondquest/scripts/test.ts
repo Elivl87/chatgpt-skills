@@ -22,13 +22,13 @@ import { parseVoiceSpec, validateNarrationVoice, validateProduction, validatePro
 import { resolveCut } from '../src/engine/timeline';
 import { validateAllLocales, validateEpisode, validateLocales } from '../src/engine/validate';
 import { EPISODES, PRODUCTION, PRONUNCIATION, SFX, SHARED_ASSETS, type EpisodeBundle } from '../src/episodes';
-import type { AssetCatalog, EpisodeConfig, ScenesFile, ScriptFile, TimingsFile } from '../src/schema/types';
+import type { AssetCatalog, EpisodeConfig, Scene, ScenesFile, ScriptFile, TimingsFile } from '../src/schema/types';
 import { hasPublicFile, PUBLIC, ROOT } from './lib';
 import { resolveRenderTarget } from './render-target';
 import { episodeFiles, registerEpisodeSource } from './scaffold';
 import { minBackground, validateArtContract, validateArtManifest, type ArtManifest, type ArtManifestEntry, type ImageInfo } from '../src/engine/artContract';
 import { intakeParts, MAX_PART_BYTES } from './art-intake';
-import { checkCameraContinuity, type PlateShot } from '../src/engine/cameraContinuity';
+import { checkCameraContinuity, resolveContinueStarts, type PlateShot } from '../src/engine/cameraContinuity';
 import { checkOriginality, type EpisodeFingerprint, type GroupInput, type OriginalityConfig } from '../src/engine/originality';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -502,6 +502,17 @@ test('originality M1–M9: repeated art/recipes/situations warn; IP in thumbnail
   const b = codes(bad);
   assert.ok(b.includes('M8:error') && b.includes('M9:error'), `${b}`);
   assert.ok(!b.includes('M7:warn'), 'two episodes with the same title formula are still allowed');
+});
+test('camera "continue" starts exactly where the previous scene ended', () => {
+  const sc = (id: string, camera: Scene['camera']): Scene => ({ id, start: 0, camera, layers: [] });
+  const out = resolveContinueStarts(
+    [sc('a', { start: { zoom: 1 }, moves: [{ type: 'push_in', amount: 0.1 }] }), sc('b', { start: 'continue', moves: [{ type: 'push_in', amount: 0.1 }] }), sc('c', { start: 'continue' })],
+    () => ({ toSec: (e) => (typeof e === 'number' ? e : 0), dur: 4 }),
+  );
+  const zb = (out[1].camera!.start as { zoom: number }).zoom;
+  const zc = (out[2].camera!.start as { zoom: number }).zoom;
+  assert.ok(Math.abs(zb - 1.1) < 1e-6, `b starts at ${zb}`);
+  assert.ok(Math.abs(zc - 1.21) < 1e-6, `c starts at ${zc}`);
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);
