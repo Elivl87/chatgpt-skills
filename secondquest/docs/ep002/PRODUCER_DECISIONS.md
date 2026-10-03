@@ -58,3 +58,10 @@
 - Risk (informed, same category as the official logo on the cartridge): this is Nintendo audio; a claim or a copyright strike
   is possible and a strike counts against the whole channel. The pack README also states clearance is a separate production
   decision. Final use is confirmed at the final-render approval.
+
+## Cartridge sequence animatic v9 APPROVED (2026-10-03)
+`docs/ep002/EP002_cartridge_animatic_v9.mp4` (`scripts/ep002-cartridge-animatic.py`) is the approved plan for sequence 01 (l01-l02 + l03 "New graphics."):
+- S1 living room push-in, N64 "classic" 3D prop on the rug facing the sofa, N64 controller cabled to it, Quest holding the cartridge (Quest pose still NEW_ART).
+- S2 3D insert: cartridge (mock v4 / label v2) slides into the slot, flaps fold in, seats on "back" with a short shake and flash.
+- S3 new framing on the TV: screen flare, the fairy (engine actor) emerges and flies towards camera, leaving frame over "New graphics.".
+- Mix: Bram; cartridge click = G single click (CC0 derived) at 0.7; slide and TV silent; NAVI_HELLO at 0.16 (~9 dB under Bram); NAVI_SFX_01 at 0.14 (~14 dB under Bram), tight on the end of the voice.

@@ -1,4 +1,6 @@
-# EP002 · pending sound decisions (Producer will listen again and decide)
+# EP002 · sound decisions
+
+Sequence 01 mix APPROVED 2026-10-03 (cartridge animatic v9). Only row 6 remains open.
 
 Opened 2026-10-03. Nothing here blocks other work; the animatic keeps the current engine synths until chosen.
 
