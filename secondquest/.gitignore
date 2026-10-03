@@ -11,3 +11,4 @@ renders/tmp/
 
 # FINAL_ART binaries (779 MB) are installed by `npm run art:intake` from the V3 CLEAN packages; only the catalog and reports are versioned.
 public/art/
+__pycache__/
