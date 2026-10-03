@@ -222,8 +222,8 @@ def relic_spin(prop, target, dist, name, frames=24, sweep=70, elev=18):
     print(f'{name}: {frames} frames + docs/ep002/{name}_sheet.jpg')
 
 
-JOBS = {'ocarina_spin': lambda: relic_spin('ocarina', [-10, 4, 0], 420, 'ocarina_spin', elev=30),
-        'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1250, 'sword_spin', elev=8),
+JOBS = {'ocarina_spin': lambda: relic_spin('ocarina', [-14, 4, 0], 470, 'ocarina_spin', elev=32),
+        'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
 if __name__ == '__main__':
