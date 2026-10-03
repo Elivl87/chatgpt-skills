@@ -139,7 +139,7 @@ def frame_c1(t):
     if dive > .6:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 246, 225)), (dive - .6) / .4)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v3 · PLANNING ONLY')
+    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v4 · PLANNING ONLY')
     d.text((20, 40), 'C1 cartridge = own 3D (approved mock) · Navi dives into the label', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -159,7 +159,7 @@ def frame_c2(t):
     if t < T_SCR + .35:                                                 # out of the white from the dive
         fr = Image.blend(Image.new('RGB', fr.size, (255, 246, 225)), fr, (t - T_SCR) / .35)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = MISSING Hyrule plate · BLOCK C v3')
+    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = MISSING Hyrule plate · BLOCK C v4')
     return fr
 
 
@@ -183,6 +183,26 @@ PIXIE_PT = sized('pixie:laughing_pointing', .55, .9, PIXIE_RATIO, depth=.8)    #
 PIXIE_SIT = sized('pixie:sitting_relaxed', .51, 1.03, PIXIE_RATIO)
 
 
+N64_IMG = rgba(PROPS / 'n64_34.png')
+N64_IMG = N64_IMG.resize((int(PW * .13), int(N64_IMG.height * PW * .13 / N64_IMG.width)), Image.LANCZOS)
+N64_POS = (int(PW * .64), int(PH * .955 - N64_IMG.height))
+
+
+def cable(base):
+    """Controller cable: from the N64's first port, slack along the floor, up into Quest's hands."""
+    qh = QUEST_K['h'] * PH; qw = qh * 621 / 967                         # floor_gaming cut-out aspect
+    hx, hy = QUEST_K['x'] * PW, QUEST_K['y'] * PH - qh * .47             # the controller in his hands
+    px, py = N64_POS[0] + N64_IMG.width * .06, N64_POS[1] + N64_IMG.height * .78
+    pts = []
+    for i in range(41):
+        u = i / 40
+        x = (1 - u) ** 3 * px + 3 * (1 - u) ** 2 * u * (px - 60) + 3 * (1 - u) * u * u * (hx + qw * .45) + u ** 3 * hx
+        y = (1 - u) ** 3 * py + 3 * (1 - u) ** 2 * u * (PH * .99) + 3 * (1 - u) * u * u * (PH * .99) + u ** 3 * hy
+        pts.append((x, y))
+    d = ImageDraw.Draw(base)
+    d.line(pts, fill=(22, 22, 31, 255), width=9, joint='curve'); d.line(pts, fill=(70, 70, 78, 255), width=4, joint='curve')
+
+
 def room_plate(t, pixie):
     base = BED.copy()
     tv = CRT_34.resize((tvw, int(CRT_34.height * TV_SCALE)), Image.LANCZOS)
@@ -192,7 +212,9 @@ def room_plate(t, pixie):
     pic = game_picture(t, (int(max(xs) - min(xs)), int(max(ys) - min(ys))))
     tv = fill_screen(tv, qs, ms, pic)
     base.alpha_composite(tv, TV_POS)
+    base.alpha_composite(N64_IMG, N64_POS)                               # the approved N64, cartridge in, on the floor
     place(base, QUEST_K)
+    cable(base)
     if pixie is PIXIE_PT:                                               # she walks in from frame left once the pull-back settles
         k = ease(min(1, max(0, (t - T_PIX_IN) / .7)))
         if k <= 0:
@@ -268,7 +290,7 @@ def frame_room(t):
     d = ImageDraw.Draw(fr)
     lab = ('C3 "plus the room."' if t < T_TV else 'C4 "Plus the television."' if t < T_FR else
            'C5 the friend who knew where to go' if t < T_SAT else 'C6 a whole Saturday afternoon')
-    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v3 · PLANNING ONLY')
+    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v4 · PLANNING ONLY')
     d.text((20, 40), 'kids = MISSING young Quest / young Pixie (planning: current poses) · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -282,31 +304,12 @@ def render(t):
     else:
         fr = frame_room(t)
     d = ImageDraw.Draw(fr)
-    subtitle_at(d, t, lift=45 if t >= T_ROOM else 0)                    # room shots: above the kids
+    subtitle(d, t, lift=40 if t >= T_ROOM else 0)# room shots: above the kids
     return fr
 
 
-def subtitle_at(d, t, lift=0):
-    """lib.subtitle with a vertical lift (same wrapping and style)."""
-    c = next((c for c in CUES.values() if c['start'] - 0.1 <= t <= c['end'] + 0.25), None)
-    if not c:
-        return
-    lines, cur = [], ''
-    for w_ in ' '.join(w['w'] for w in c['words']).split():
-        if d.textlength(cur + ' ' + w_, font=FSUB) > W - 140 and cur:
-            lines.append(cur); cur = w_
-        else:
-            cur = (cur + ' ' + w_).strip()
-    lines.append(cur)
-    y = H - 30 - lift - 38 * len(lines)
-    for ln in lines:
-        tw = d.textlength(ln, font=FSUB)
-        d.text(((W - tw) / 2, y), ln, font=FSUB, fill='white', stroke_width=3, stroke_fill='black')
-        y += 38
-
-
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -317,10 +320,10 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                     ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-        render(t).save(ROOT / f'docs/ep002/blockC_v3_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockC_v3.mp4'
+        render(t).save(ROOT / f'docs/ep002/blockC_v4_{name}.jpg', quality=85)
+    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockC_v4.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
-    lst.write_text(f"file '{ROOT / 'docs/ep002/EP002_seq01_blockB_v3.mp4'}'\nfile '{out}'\n")
+    lst.write_text(f"file '{ROOT / 'docs/ep002/EP002_seq01_blockB_v4.mp4'}'\nfile '{out}'\n")
     subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',
                     '-c:a', 'aac', '-b:a', '160k', str(joined)], check=True)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s;', joined.relative_to(ROOT))
@@ -330,7 +333,7 @@ if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                         ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-            render(t).save(ROOT / f'docs/ep002/blockC_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockC_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

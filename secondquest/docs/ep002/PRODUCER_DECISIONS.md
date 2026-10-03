@@ -110,3 +110,9 @@
 ## 2026-10-03: Quest/Pixie proportions
 - Keep the current rule: Pixie's face = 0.90 x Quest's (Pixie ~95% of his height); added to both character specs.
 
+## 2026-10-03: review subtitles
+- Animatics carry review subtitles in the EP001 Shorts caption style (Inter heavy, white, ink outline + drop, short
+  phrases that pop in): `scripts/animatic/lib.py` `subtitle()`. They are for review and editing only.
+- Final renders carry NO burned-in subtitles (Producer).
+- Seq 01 re-rendered as v11 (subtitles only; v10 stays the approved picture/mix reference); block B v4 (subtitles only).
+

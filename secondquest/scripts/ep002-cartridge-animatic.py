@@ -153,12 +153,10 @@ def glow(fr, cx, cy, r, color, alpha):
 
 
 def subtitle(d, t):
-    c = next((c for c in cues.values() if c['start'] - 0.1 <= t <= c['end'] + 0.25 and c['start'] < T_END), None)
-    if not c:
-        return
-    text = ' '.join(w['w'] for w in c['words'] if w['start'] < T_END)   # only what is heard inside the clip
-    tw = d.textlength(text, font=FSUB)
-    d.text(((W - tw) / 2, H - 70), text, font=FSUB, fill='white', stroke_width=3, stroke_fill='black')
+    """Shared review subtitles (EP001 Shorts style), only the words heard inside the clip."""
+    sys.path.insert(0, str(ROOT_ / 'scripts/animatic'))
+    import lib as _lib
+    _lib.subtitle(d, t, t_end=T_END)
 
 
 def tag(d, text):
@@ -244,7 +242,7 @@ def sfx_events():
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v10.mp4'
+    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v11.mp4'
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -262,7 +260,7 @@ def main():
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v10_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v11_{name}.jpg', quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 

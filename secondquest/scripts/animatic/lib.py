@@ -290,24 +290,59 @@ def to_screen(px, py, box):
 
 
 # ------------------------------------------------------------------ text
-def subtitle(d, t, t_end=None):
-    c = next((c for c in CUES.values() if c['start'] - 0.1 <= t <= c['end'] + 0.25), None)
+_SUB_FONTS = {}
+
+
+def _sub_font(size):
+    if size not in _SUB_FONTS:
+        _SUB_FONTS[size] = ImageFont.truetype(str(ROOT / 'public/shared/fonts/Inter-800.woff2'), size)
+    return _SUB_FONTS[size]
+
+
+def _chunks(words):
+    """Short phrases like the EP001 Short captions: break on punctuation, pauses, or every ~4 words."""
+    out, cur = [], []
+    for i, w in enumerate(words):
+        if cur and (len(cur) >= 4 or (len(cur) >= 2 and cur[-1]['w'][-1] in ',.?!:;') or w['start'] - cur[-1]['end'] > .35):
+            out.append(cur); cur = []
+        cur.append(w)
+    if cur:
+        out.append(cur)
+    return out
+
+
+def subtitle(d, t, t_end=None, lift=0, size=44):
+    """Review subtitles in the EP001 Shorts caption style (Inter heavy, white, ink outline 13% + ink drop 7%, short
+    phrases that pop in). Planning/review only: final renders carry no burned-in subtitles (Producer)."""
+    c = next((c for c in CUES.values() if c['start'] - 0.1 <= t <= c['end'] + 0.25 and (t_end is None or c['start'] < t_end)), None)
     if not c:
         return
-    words = [w['w'] for w in c['words'] if w['start'] <= max(t, c['start']) + 9]
-    text = ' '.join(words)
-    lines, cur = [], ''
+    words = [w for w in c['words'] if t_end is None or w['start'] < t_end]
+    ch = _chunks(words)
+    cur = None
+    for i, k in enumerate(ch):
+        nxt = ch[i + 1][0]['start'] if i + 1 < len(ch) else c['end'] + 0.25
+        if k[0]['start'] - 0.05 <= t < nxt:
+            cur = k
+    if cur is None:
+        return
+    pop = min(1, max(0, (t - cur[0]['start'] + .05) / .12))
+    f = _sub_font(int(size * (0.86 + 0.14 * ease(pop))))
+    text, lines, ln = ' '.join(w['w'] for w in cur), [], ''
     for w_ in text.split():
-        if d.textlength(cur + ' ' + w_, font=FSUB) > W - 140 and cur:
-            lines.append(cur); cur = w_
+        if d.textlength(ln + ' ' + w_, font=f) > W * .62 and ln:
+            lines.append(ln); ln = w_
         else:
-            cur = (cur + ' ' + w_).strip()
-    lines.append(cur)
-    y = H - 30 - 38 * len(lines)
-    for ln in lines:
-        tw = d.textlength(ln, font=FSUB)
-        d.text(((W - tw) / 2, y), ln, font=FSUB, fill='white', stroke_width=3, stroke_fill='black')
-        y += 38
+            ln = (ln + ' ' + w_).strip()
+    lines.append(ln)
+    lh = int(f.size * 1.12)
+    y = H * .8 - lift - lh * len(lines) / 2
+    ink, sw, drop = (22, 22, 31), max(2, round(f.size * .13)), max(1, round(f.size * .07))
+    for l_ in lines:
+        tw = d.textlength(l_, font=f); x = (W - tw) / 2
+        d.text((x, y + drop), l_, font=f, fill=ink, stroke_width=sw, stroke_fill=ink)
+        d.text((x, y), l_, font=f, fill='white', stroke_width=sw, stroke_fill=ink)
+        y += lh
 
 
 def tag(d, text):

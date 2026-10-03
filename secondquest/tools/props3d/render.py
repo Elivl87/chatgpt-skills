@@ -271,7 +271,16 @@ def job_cart_spin():
     print('cart_spin: 24 frames')
 
 
-JOBS = {'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+def job_n64_34():
+    """The approved classic N64 at 3/4 for the childhood bedroom (same turn as the CRT, seen from a little higher)."""
+    tgt = [0, 35, 0]
+    sh = {'camera': orbit(38, 22, 1500, tgt), 'target': tgt, 'fov': 18, 'cart': {'y': SEAT}}       # cartridge in: they are playing
+    img = crop_alpha(render({'props': ['n64', 'cartridge'], 'shots': [sh], 'light': 'neutral'}, 1400, 1400, line=3.2)[0], 8)
+    cv2.imwrite(str(OUT / 'n64_34.png'), img)
+    print('n64_34.png')
+
+
+JOBS = {'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
