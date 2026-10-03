@@ -42,7 +42,8 @@
     "originality": "tsx scripts/originality.ts",
     "camera:fix": "tsx scripts/camera-fix.ts",
     "publish": "python3 scripts/publish.py",
-    "art:qc": "python3 tools/qc/art_qc.py"
+    "art:qc": "python3 tools/qc/art_qc.py",
+    "review": "tsx scripts/review.ts"
   },
   "engines": {
     "node": ">=18"
