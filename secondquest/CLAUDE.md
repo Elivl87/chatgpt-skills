@@ -15,3 +15,6 @@
   - The Producer decides which improvements go in.
 - **Scripts are never edited by Claude (Producer rule):** the approved script is used verbatim.
   - Any check on a script (originality, structure, length) only reports to the Producer; it never rewrites.
+- **EP001 is published and final (Producer rule):** never re-render, regenerate or publish another version of it. EP001 is only research and test material for the engine.
+- **Generated art is not modified (Producer rule):** improve the engine, never edit approved art.
+  - Quality checks never remove, reject or block art; they only give the Producer recommendations.

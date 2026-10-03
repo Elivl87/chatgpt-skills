@@ -523,7 +523,7 @@ test('word anchors: "l12.w2" / "l12.w2.end+0.1" resolve to the word timings; bad
   assert.throws(() => resolveTime('l12.w3', { cues }));
   assert.throws(() => resolveTime('scene.w1', { cues, sceneStart: 0 }));
 });
-test('art QC v2: painted checkerboard and baked light background are errors; a clean cut-out passes', () => {
+test('art QC v2 (recommendations only): flags a painted checkerboard and a baked light background; a clean cut-out has none', () => {
   const py = `
 import numpy as np, sys, tempfile, os
 from PIL import Image

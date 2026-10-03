@@ -113,20 +113,16 @@ const main = () => {
     console.log(`  ${k.status === 'OK' ? '✔' : k.status === 'PENDING' ? '…' : '✖'} ${k.codes.join(',').padEnd(22)} ${key}`);
     if (k.status === 'REJECTED') for (const m of k.messages) console.log(`        ${m}`);
   }
-  // Art QC v2 (tools/qc/art_qc.py): a file with a QC error is never installed; warnings are shown for review
-  const passed = res.blockers.length ? [] : rows.filter(([, k]) => k.status === 'OK');
-  const qcFailed = new Set<string>();
-  for (const [key] of passed) {
+  // Art QC v2 (tools/qc/art_qc.py): recommendations for the Producer only — QC never rejects or removes art
+  const ok = res.blockers.length ? [] : rows.filter(([, k]) => k.status === 'OK');
+  for (const [key] of ok) {
     const e = res.manifest!.assets.find((a) => a.key === key)!;
     const kind = catalogEntryFromManifest(e)?.kind ?? 'object';
     const file = res.fileRoot(manifestPublicPath(e.path));
     if (!file) continue;
     const r = spawnSync('python3', [join(ROOT, 'tools/qc/art_qc.py'), file, '--kind', kind, '--no-report'], { encoding: 'utf8' });
-    for (const line of (r.stdout ?? '').split('\n').filter((l) => /^[✖⚠]/.test(l))) console.log(`  QC ${key}: ${line.slice(2).trim()}`);
-    if (r.status === 1) qcFailed.add(key);
+    for (const line of (r.stdout ?? '').split('\n').filter((l) => /^[▲·]/.test(l))) console.log(`  QC recommendation ${key}: ${line.trim()}`);
   }
-  const ok = passed.filter(([key]) => !qcFailed.has(key));
-  if (qcFailed.size) console.log(`  ✖ ${qcFailed.size} file(s) failed art QC and were not installed: ${[...qcFailed].join(', ')}`);
   if (!dry && ok.length) {
     const catalog = JSON.parse(readFileSync(CATALOG, 'utf8')) as { notes?: string; assets: Record<string, AssetEntry> };
     for (const [key] of ok) {

@@ -130,7 +130,7 @@ Antes del arte final de EP002. Todo a 0 créditos.
 
 | # | Mejora | Qué resuelve | Esfuerzo |
 |---|---|---|---|
-| 0.1 | **Cámara "continue"** (`camera.start: "continue"`) y una corrección automática de los `CAMERA_JUMP` | Deja de repetir el defecto y deja EP001 listo para re-renderizar si se decide | S |
+| 0.1 | **Cámara "continue"** (`camera.start: "continue"`) y una corrección automática de los `CAMERA_JUMP` | Deja de repetir el defecto en los episodios nuevos. EP001 solo sirve como material de prueba; nunca se re-renderiza | S |
 | 0.2 | **Tiempos por palabra en `timings.json`**: la verificación ya los calcula con faster-whisper; se añade alineación contra el guion con stable-ts (MIT) | Base para subtítulos, texto en pantalla sincronizado, sonidos y bajada de volumen precisa | M |
 | 0.3 | **Paquete de publicación genérico** (`npm run publish -- ep002`): SRT en inglés y español con reglas de lectura (2 líneas × 42 caracteres, ≤ 20 caracteres por segundo), capítulos declarados en el guion y descripción | Acaba con los scripts por episodio y con errores de subida | S |
 | 0.4 | **Control de calidad al recibir arte**: transparencia real, bordes con halo, cuadriculado, "escena entregada como objeto", relleno sobrante, resolución frente al uso real; color de las zapatillas y la sudadera de Quest (ΔE); parecido de la cara con DINOv2/SigLIP; y la IA como segunda opinión solo si algo salta | Los defectos de arte que más créditos y enfados costaron | M |
@@ -185,6 +185,7 @@ Mayormente 0 créditos.
 - **0.2 hecho:** tiempos por palabra y anclas `l12.w3`.
 - **0.3 hecho:** `npm run publish -- <EP>`; nunca sobrescribe lo publicado.
 - **0.4 hecho:** `npm run art:qc`, integrado en la entrada de arte; 0 errores sobre los 137 assets aprobados.
+  - **Solo recomendaciones** (regla del Producer): el control nunca elimina, rechaza ni bloquea arte.
   - **Parecido de cara con DINOv2: descartado.** Se probó en esta máquina (60 personajes en 13 s) y no separa a Quest de otros personajes: la princesa puntúa 0,785, por encima de varias poses aprobadas de Quest (0,59–0,73, sobre todo de espaldas). Un control así daría falsas alarmas y falsa tranquilidad, así que no se incluye.
   - La identidad sigue cubierta por la revisión visual (QUEST_V1_PROMPT_SPEC) más el control de colores.
   - Próximo intento posible: detector de caras de dibujos animados más IA de visión como segunda opinión, solo si se aprueba.

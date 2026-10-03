@@ -20,7 +20,10 @@ Checks (CPU, deterministic, milliseconds per asset):
                     the torso band, red sneakers at the feet when visible
                     (EP001 thumbnail 1: brown boots)                          warn
 Backgrounds are opaque by design: only size is checked for them (the engine's art contract does that).
-Writes docs/qc/art_qc_report.json. Exit 1 if any error.
+
+Producer rule (2026-10-03): QC never removes, rejects or blocks art. Every finding is a RECOMMENDATION for the
+Producer; "error" vs "warn" only ranks how likely it is to be visible on screen. Exit code is always 0.
+Writes docs/qc/art_qc_report.json.
 """
 import json, sys
 from pathlib import Path
@@ -160,14 +163,14 @@ def main():
         report[key] = {'path': str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p), 'kind': kind, 'issues': iss}
         for i in iss:
             errors += i['level'] == 'error'
-            print(f"{'✖' if i['level'] == 'error' else '⚠'} {key:44s} {i['code']:16s} {i['message']}")
+            print(f"{'▲ likely visible' if i['level'] == 'error' else '· minor         '}  {key:44s} {i['code']:16s} {i['message']}")
     flagged = sum(1 for r in report.values() if r['issues'])
     if '--no-report' not in sys.argv:
         out = ROOT / 'docs/qc/art_qc_report.json'
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(report, indent=1, ensure_ascii=False))
-        print(f'\n{len(report)} assets checked, {flagged} flagged, {errors} error(s). Report: {out.relative_to(ROOT)}')
-    sys.exit(1 if errors else 0)
+        print(f'\n{len(report)} assets checked, {flagged} with recommendations ({errors} likely visible). Report: {out.relative_to(ROOT)}')
+    # recommendations only: never fails (Producer rule)
 
 
 if __name__ == '__main__':
