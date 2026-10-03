@@ -1,0 +1,770 @@
+{
+ "brand.q_mark": {
+  "path": "public/art/core/brand/q_mark.png",
+  "kind": "overlay",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 33% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "brand.wordmark": {
+  "path": "public/art/core/brand/secondquest_wordmark.png",
+  "kind": "overlay",
+  "issues": []
+ },
+ "core.bg.city_apartments_evening": {
+  "path": "public/art/core/backgrounds/city_apartments_evening.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.city_traffic": {
+  "path": "public/art/core/backgrounds/city_traffic.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.home_living_day": {
+  "path": "public/art/core/backgrounds/home_living_day.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.home_living_night": {
+  "path": "public/art/core/backgrounds/home_living_night.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.living_room_night_gaming": {
+  "path": "public/art/core/backgrounds/living_room_night_gaming.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.office_openplan": {
+  "path": "public/art/core/backgrounds/office_openplan.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.quest_bedroom_morning": {
+  "path": "public/art/core/backgrounds/quest_bedroom_morning.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.storm_low_horizon": {
+  "path": "public/art/core/backgrounds/storm_low_horizon.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.bg.sunset_sky": {
+  "path": "public/art/core/backgrounds/sunset_sky.png",
+  "kind": "background",
+  "issues": []
+ },
+ "core.layer.fence_foreground": {
+  "path": "public/art/core/objects/fence_foreground.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.alarm_clock": {
+  "path": "public/art/core/objects/alarm_clock.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.calendar_friday": {
+  "path": "public/art/core/objects/calendar_friday.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.domino_row": {
+  "path": "public/art/core/objects/domino_row.png",
+  "kind": "object",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 28% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "core.prop.laundry_basket": {
+  "path": "public/art/core/objects/laundry_basket.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.mini_farm": {
+  "path": "public/art/core/objects/mini_farm.png",
+  "kind": "object",
+  "issues": [
+   {
+    "code": "ALIASED_EDGE",
+    "level": "warn",
+    "message": "only 0.0% soft alpha along the contour (jagged edge)"
+   }
+  ]
+ },
+ "core.prop.paper_stack": {
+  "path": "public/art/core/objects/paper_stack.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.printer_avalanche": {
+  "path": "public/art/core/objects/printer_avalanche.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.router": {
+  "path": "public/art/core/objects/router.png",
+  "kind": "object",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 36% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "core.prop.signpost_blank": {
+  "path": "public/art/core/objects/signpost_blank.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.toolbox": {
+  "path": "public/art/core/objects/toolbox.png",
+  "kind": "object",
+  "issues": []
+ },
+ "core.prop.window_lit": {
+  "path": "public/art/core/objects/window_lit.png",
+  "kind": "object",
+  "issues": [
+   {
+    "code": "SCENE_AS_PROP",
+    "level": "warn",
+    "message": "only 6% of the canvas is transparent: check it is meant to be a full panel, not a scene delivered as a cut-out"
+   },
+   {
+    "code": "ALIASED_EDGE",
+    "level": "warn",
+    "message": "only 0.0% soft alpha along the contour (jagged edge)"
+   }
+  ]
+ },
+ "fear.peeking": {
+  "path": "public/art/core/cast/fear/peeking.png",
+  "kind": "character",
+  "issues": []
+ },
+ "grind.wheel": {
+  "path": "public/art/core/cast/grind/wheel.png",
+  "kind": "character",
+  "issues": []
+ },
+ "progress.cheering": {
+  "path": "public/art/core/cast/progress/cheering.png",
+  "kind": "character",
+  "issues": []
+ },
+ "progress.presenting": {
+  "path": "public/art/core/cast/progress/presenting.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.arms_up_back": {
+  "path": "public/art/core/quest/arms_up_back.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.bed_awake": {
+  "path": "public/art/core/quest/bed_awake.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.bed_sleeping": {
+  "path": "public/art/core/quest/bed_sleeping.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.broom_bored": {
+  "path": "public/art/core/quest/broom_bored.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.desk_typing": {
+  "path": "public/art/core/quest/desk_typing.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.drive_calm": {
+  "path": "public/art/core/quest/drive_calm.png",
+  "kind": "character",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 32% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "quest.default.drive_relaxed": {
+  "path": "public/art/core/quest/drive_relaxed.png",
+  "kind": "character",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 31% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "quest.default.drive_stressed": {
+  "path": "public/art/core/quest/drive_stressed.png",
+  "kind": "character",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 31% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "quest.default.exhausted_slumped": {
+  "path": "public/art/core/quest/exhausted_slumped.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.gaming_excited": {
+  "path": "public/art/core/quest/gaming_excited.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.head_in_hands": {
+  "path": "public/art/core/quest/head_in_hands.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.holding_paycheck": {
+  "path": "public/art/core/quest/holding_paycheck.png",
+  "kind": "character",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 34% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "quest.default.holding_tray": {
+  "path": "public/art/core/quest/holding_tray.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.looking_up_awe": {
+  "path": "public/art/core/quest/looking_up_awe.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.phone_overwhelmed": {
+  "path": "public/art/core/quest/phone_overwhelmed.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.planning_tablet": {
+  "path": "public/art/core/quest/planning_tablet.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.reading_manual": {
+  "path": "public/art/core/quest/reading_manual.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.sitting_back": {
+  "path": "public/art/core/quest/sitting_back.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.sitting_back_turn": {
+  "path": "public/art/core/quest/sitting_back_turn.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.vacuum": {
+  "path": "public/art/core/quest/vacuum.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.walking_back": {
+  "path": "public/art/core/quest/walking_back.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.worried_seated": {
+  "path": "public/art/core/quest/worried_seated.png",
+  "kind": "character",
+  "issues": []
+ },
+ "quest.default.wrench_fixing": {
+  "path": "public/art/core/quest/wrench_fixing.png",
+  "kind": "character",
+  "issues": []
+ },
+ "wallet.fainted": {
+  "path": "public/art/core/cast/wallet/fainted.png",
+  "kind": "character",
+  "issues": []
+ },
+ "wallet.happy": {
+  "path": "public/art/core/cast/wallet/happy.png",
+  "kind": "character",
+  "issues": []
+ },
+ "wallet.worried": {
+  "path": "public/art/core/cast/wallet/worried.png",
+  "kind": "character",
+  "issues": []
+ },
+ "ep001.bg_bank_office": {
+  "path": "public/art/episodes/ep001/backgrounds/bank_office.png",
+  "kind": "background",
+  "issues": []
+ },
+ "ep001.bg_crossroads": {
+  "path": "public/art/episodes/ep001/backgrounds/crossroads.png",
+  "kind": "background",
+  "issues": []
+ },
+ "ep001.bg_fantasy_doors": {
+  "path": "public/art/episodes/ep001/backgrounds/fantasy_doors.png",
+  "kind": "background",
+  "issues": []
+ },
+ "ep001.npc.banker": {
+  "path": "public/art/episodes/ep001/characters/banker.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.building_sandbox.quest.pickaxe": {
+  "path": "public/art/genres/building_sandbox/quest/pickaxe.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.driving_simulation.quest.cheering_car": {
+  "path": "public/art/genres/driving_simulation/quest/cheering_car.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.fantasy.bg_castle_rescue": {
+  "path": "public/art/genres/fantasy/backgrounds/bg_castle_rescue.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.fantasy.bg_dragon_crag": {
+  "path": "public/art/genres/fantasy/backgrounds/dragon_crag.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.fantasy.dragon": {
+  "path": "public/art/genres/fantasy/characters/dragon.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.fantasy.princess": {
+  "path": "public/art/genres/fantasy/characters/princess.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.fantasy.quest.knight": {
+  "path": "public/art/genres/fantasy/quest/knight.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.animal.chickens": {
+  "path": "public/art/genres/farming/animals/chickens.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.animal.cow": {
+  "path": "public/art/genres/farming/animals/cow.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.animal.pig": {
+  "path": "public/art/genres/farming/animals/pig.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.bg_dealership": {
+  "path": "public/art/genres/farming/backgrounds/dealership.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_farm_aerial": {
+  "path": "public/art/genres/farming/backgrounds/farm_aerial.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_farm_storm": {
+  "path": "public/art/genres/farming/backgrounds/farm_storm.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_farm_yard": {
+  "path": "public/art/genres/farming/backgrounds/farm_yard.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_golden": {
+  "path": "public/art/genres/farming/backgrounds/field_golden.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_green": {
+  "path": "public/art/genres/farming/backgrounds/field_green.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_harvested": {
+  "path": "public/art/genres/farming/backgrounds/field_harvested.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_huge_detail": {
+  "path": "public/art/genres/farming/backgrounds/field_huge_detail.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_huge_wide": {
+  "path": "public/art/genres/farming/backgrounds/field_huge_wide.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_overhead": {
+  "path": "public/art/genres/farming/backgrounds/field_overhead.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_plowed": {
+  "path": "public/art/genres/farming/backgrounds/field_plowed.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_field_sprouting": {
+  "path": "public/art/genres/farming/backgrounds/field_sprouting.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_grain_yard": {
+  "path": "public/art/genres/farming/backgrounds/grain_yard.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_idealized_game_farm": {
+  "path": "public/art/genres/farming/backgrounds/idealized_game_farm.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_real_farm": {
+  "path": "public/art/genres/farming/backgrounds/real_farm.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_riverbank": {
+  "path": "public/art/genres/farming/backgrounds/riverbank.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_station_animals": {
+  "path": "public/art/genres/farming/backgrounds/station_animals.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_station_fertilizer": {
+  "path": "public/art/genres/farming/backgrounds/station_fertilizer.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_station_planting": {
+  "path": "public/art/genres/farming/backgrounds/station_planting.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_tractor_cab": {
+  "path": "public/art/genres/farming/backgrounds/tractor_cab.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.bg_workshop": {
+  "path": "public/art/genres/farming/backgrounds/workshop.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.farming.layer.sunset_farm_midground": {
+  "path": "public/art/genres/farming/backgrounds/sunset_farm_midground.png",
+  "kind": "object",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 39% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "genre.farming.machine.broken_tractor": {
+  "path": "public/art/genres/farming/machines/broken_tractor.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.combine": {
+  "path": "public/art/genres/farming/machines/combine.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.factory_harvester": {
+  "path": "public/art/genres/farming/machines/factory_harvester.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.grain_truck": {
+  "path": "public/art/genres/farming/machines/grain_truck.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.harvester_water": {
+  "path": "public/art/genres/farming/machines/harvester_water.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.header_12m": {
+  "path": "public/art/genres/farming/machines/header_12m.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.header_3m": {
+  "path": "public/art/genres/farming/machines/header_3m.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.header_6m": {
+  "path": "public/art/genres/farming/machines/header_6m.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.machine_clutter": {
+  "path": "public/art/genres/farming/machines/machine_clutter.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.seeder": {
+  "path": "public/art/genres/farming/machines/seeder.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.sprayer": {
+  "path": "public/art/genres/farming/machines/sprayer.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.tractor_bigger": {
+  "path": "public/art/genres/farming/machines/tractor_bigger.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.tractor_huge": {
+  "path": "public/art/genres/farming/machines/tractor_huge.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.tractor_small": {
+  "path": "public/art/genres/farming/machines/tractor_small.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.machine.tractor_topdown": {
+  "path": "public/art/genres/farming/machines/tractor_topdown.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.prop.farm_sign_blank": {
+  "path": "public/art/genres/farming/props/farm_sign_blank.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.prop.hay_roll": {
+  "path": "public/art/genres/farming/props/hay_roll.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.prop.manual_book": {
+  "path": "public/art/genres/farming/props/manual_book.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.prop.sacks_pile": {
+  "path": "public/art/genres/farming/props/sacks_pile.png",
+  "kind": "object",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 37% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "genre.farming.prop.seedling": {
+  "path": "public/art/genres/farming/props/seedling.png",
+  "kind": "object",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 20% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "genre.farming.prop.trailer_cargo": {
+  "path": "public/art/genres/farming/props/trailer_cargo.png",
+  "kind": "object",
+  "issues": []
+ },
+ "genre.farming.quest.cap_off_sunset": {
+  "path": "public/art/genres/farming/quest/cap_off_sunset.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.quest.carrying_sacks": {
+  "path": "public/art/genres/farming/quest/carrying_sacks.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.quest.excited": {
+  "path": "public/art/genres/farming/quest/excited.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.quest.feeding": {
+  "path": "public/art/genres/farming/quest/feeding.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.quest.fertilizer": {
+  "path": "public/art/genres/farming/quest/fertilizer.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.quest.heroic": {
+  "path": "public/art/genres/farming/quest/heroic.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.quest.planting": {
+  "path": "public/art/genres/farming/quest/planting.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.farming.quest.rain_huddled": {
+  "path": "public/art/genres/farming/quest/rain_huddled.png",
+  "kind": "character",
+  "issues": [
+   {
+    "code": "PADDING",
+    "level": "warn",
+    "message": "subject fills 38% of the canvas (crop the padding)"
+   }
+  ]
+ },
+ "genre.farming.quest.tractor_side": {
+  "path": "public/art/genres/farming/quest/tractor_side.png",
+  "kind": "character",
+  "issues": []
+ },
+ "genre.war.bg_battlefield_city": {
+  "path": "public/art/genres/war_action/backgrounds/bg_battlefield_city.png",
+  "kind": "background",
+  "issues": []
+ },
+ "genre.war.quest_tactical_action": {
+  "path": "public/art/genres/war_action/quest/quest_tactical_action.png",
+  "kind": "character",
+  "issues": []
+ },
+ "progress.empty": {
+  "path": "public/art/core/cast/progress/empty.png",
+  "kind": "character",
+  "issues": []
+ },
+ "progress.half": {
+  "path": "public/art/core/cast/progress/half.png",
+  "kind": "character",
+  "issues": []
+ },
+ "progress.full": {
+  "path": "public/art/core/cast/progress/full.png",
+  "kind": "character",
+  "issues": []
+ },
+ "progress.calm_encouraging": {
+  "path": "public/art/core/cast/progress/calm_encouraging.png",
+  "kind": "character",
+  "issues": []
+ },
+ "progress.quiet_companion": {
+  "path": "public/art/core/cast/progress/quiet_companion.png",
+  "kind": "character",
+  "issues": []
+ },
+ "wallet.overwhelmed_debt": {
+  "path": "public/art/core/cast/wallet/overwhelmed_debt.png",
+  "kind": "character",
+  "issues": []
+ },
+ "wallet.price_shock": {
+  "path": "public/art/core/cast/wallet/price_shock.png",
+  "kind": "character",
+  "issues": []
+ },
+ "wallet.market_crushed": {
+  "path": "public/art/core/cast/wallet/market_crushed.png",
+  "kind": "character",
+  "issues": []
+ },
+ "grind.straining": {
+  "path": "public/art/core/cast/grind/straining.png",
+  "kind": "character",
+  "issues": []
+ },
+ "grind.relaxed": {
+  "path": "public/art/core/cast/grind/relaxed.png",
+  "kind": "character",
+  "issues": []
+ },
+ "ep001.npc.banker_pointing_contract": {
+  "path": "public/art/episodes/ep001/characters/banker_pointing_contract.png",
+  "kind": "character",
+  "issues": []
+ },
+ "fear.trembling_fullbody": {
+  "path": "public/art/core/cast/fear/trembling_fullbody.png",
+  "kind": "character",
+  "issues": []
+ },
+ "fear.hiding_behind_object": {
+  "path": "public/art/core/cast/fear/hiding_behind_object.png",
+  "kind": "character",
+  "issues": []
+ },
+ "ep001.prop.police_car": {
+  "path": "public/art/episodes/ep001/props/police_car.png",
+  "kind": "object",
+  "issues": []
+ },
+ "ep001.quest.stuck_in_traffic_car": {
+  "path": "public/art/episodes/ep001/quest/stuck_in_traffic_car.png",
+  "kind": "character",
+  "issues": []
+ },
+ "ep001.bg.mini_farm_diorama": {
+  "path": "public/art/episodes/ep001/backgrounds/mini_farm_diorama.png",
+  "kind": "background",
+  "issues": []
+ }
+}

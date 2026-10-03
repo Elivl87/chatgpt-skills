@@ -523,6 +523,26 @@ test('word anchors: "l12.w2" / "l12.w2.end+0.1" resolve to the word timings; bad
   assert.throws(() => resolveTime('l12.w3', { cues }));
   assert.throws(() => resolveTime('scene.w1', { cues, sceneStart: 0 }));
 });
+test('art QC v2: painted checkerboard and baked light background are errors; a clean cut-out passes', () => {
+  const py = `
+import numpy as np, sys, tempfile, os
+from PIL import Image
+sys.path.insert(0, 'tools/qc'); import art_qc
+d = tempfile.mkdtemp()
+def save(name, a): p = os.path.join(d, name); Image.fromarray(a).save(p); return p
+yy, xx = np.mgrid[0:400, 0:400]
+clean = np.zeros((400, 400, 4), np.uint8); clean[80:320, 80:320] = [200, 40, 40, 255]
+clean[78:80, 80:320, 3] = 128; clean[320:322, 80:320, 3] = 128; clean[80:320, 78:80, 3] = 128; clean[80:320, 320:322, 3] = 128
+chk = clean.copy(); m = (yy >= 120) & (yy < 280) & (xx >= 120) & (xx < 280)
+chk[m] = np.where((((yy // 16) + (xx // 16)) % 2 == 0)[m][:, None], [255, 255, 255, 255], [204, 204, 204, 255])
+baked = clean.copy(); baked[:, :, :3] = np.where(baked[:, :, 3:] == 0, 250, baked[:, :, :3]); baked[:, :40, 3] = 255; baked[:, 360:, 3] = 255; baked[:40, :, 3] = 255
+codes = lambda a, n: sorted({i['code'] for i in art_qc.check(save(n, a), 'object') if i['level'] == 'error'})
+print(codes(clean, 'c.png'), codes(chk, 'k.png'), codes(baked, 'b.png'))
+`;
+  const r = spawnSync('python3', ['-c', py], { cwd: ROOT, encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(r.stdout.trim(), "[] ['CHECKERBOARD'] ['BAKED_BACKGROUND']");
+});
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);
   const miss = gate(b, () => undefined).filter((i) => i.code === 'ASSET_MISSING');
