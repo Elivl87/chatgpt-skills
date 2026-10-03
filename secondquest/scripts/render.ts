@@ -21,13 +21,15 @@ import { mkdirSync, renameSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { compositionId, localeSuffix, localizeBundle } from '../src/engine/locale';
 import { withinMaxOutput } from '../src/engine/production';
-import { EPISODES, PRODUCTION } from '../src/episodes';
-import { parseArgs, ROOT } from './lib';
+import { EPISODES, PRODUCTION, SFX, SHARED_ASSETS } from '../src/episodes';
+import { resolveCut } from '../src/engine/timeline';
+import { hasPublicFile, parseArgs, ROOT } from './lib';
 import { masterAudio } from './master';
 import { prepare } from './remotion';
 import { describeTarget, resolveRenderTarget } from './render-target';
 import { runValidation } from './validate';
 import { runOriginality, groupOfCut } from './originality';
+import { checkDisk, checkImageSizes, cleanTmpBundles, smokeRender } from './preflight';
 
 const TARGET_I = PRODUCTION.mastering.integratedLufs; // -14 LUFS (YouTube reference)
 const TARGET_TP = PRODUCTION.mastering.truePeakDbtp; // -1.5 dBTP
@@ -68,6 +70,17 @@ const main = async () => {
     process.exit(1);
   }
 
+  // ---- preflight (phase 0.5)
+  const removed = cleanTmpBundles();
+  if (removed) console.log(`Preflight: removed ${removed} stale Remotion bundle(s) from the temp dir`);
+  const resolvedCut = resolveCut(bundle, cutId, SFX, hasPublicFile);
+  const disk = checkDisk(resolvedCut.durationInFrames / resolvedCut.fps);
+  const big = checkImageSizes(resolvedCut, (k) => bundle.assets.assets[k] ?? SHARED_ASSETS.assets[k], base.episode.assetRoot.replace(/\/$/, ''));
+  if (disk || big.length) {
+    console.error(`\nPreflight failed:\n  ${[disk, ...big].filter(Boolean).join('\n  ')}`);
+    process.exit(1);
+  }
+
   const suffix = scale === 2 ? '_4k' : scale !== 1 ? `_x${scale}` : '';
   const name = `${cut.output}${localeSuffix(base, locale)}_${version}${suffix}`;
   const finalPath = join(ROOT, 'renders', `${name}.mp4`);
@@ -78,6 +91,15 @@ const main = async () => {
   const inputProps = { episodeId, cutId, locale: target.locale };
   const { serveUrl, composition, browserExecutable } = await prepare(compositionId(episodeId, cutId, locale, base.episode.locale), inputProps);
   const frameRange = typeof flags.frames === 'string' ? (flags.frames.split('-').map(Number) as [number, number]) : null;
+  if (!frameRange && !flags['no-smoke']) {
+    process.stdout.write(`Preflight: smoke-rendering ${resolvedCut.scenes.length + 1} frames… `);
+    const failed = await smokeRender({ serveUrl, composition, inputProps, browserExecutable }, resolvedCut);
+    if (failed.length) {
+      console.error(`\n✖ ${failed.length} frame(s) fail to render — fix before the full render:\n  ${failed.join('\n  ')}`);
+      process.exit(1);
+    }
+    console.log('ok');
+  }
   console.log(
     `Rendering ${composition.id}: ${composition.width * scale}x${composition.height * scale} @ ${composition.fps}fps, ` +
       `${composition.durationInFrames} frames (${(composition.durationInFrames / composition.fps).toFixed(2)}s)`,

@@ -23,7 +23,7 @@ import { parseVoiceSpec, validateNarrationVoice, validateProduction, validatePro
 import { resolveCut } from '../src/engine/timeline';
 import { validateAllLocales, validateEpisode, validateLocales } from '../src/engine/validate';
 import { EPISODES, PRODUCTION, PRONUNCIATION, SFX, SHARED_ASSETS, type EpisodeBundle } from '../src/episodes';
-import type { AssetCatalog, EpisodeConfig, Scene, ScenesFile, ScriptFile, TimingsFile } from '../src/schema/types';
+import type { AssetCatalog, EpisodeConfig, Layer, Scene, ScenesFile, ScriptFile, TimingsFile } from '../src/schema/types';
 import { hasPublicFile, PUBLIC, ROOT } from './lib';
 import { resolveRenderTarget } from './render-target';
 import { episodeFiles, registerEpisodeSource } from './scaffold';
@@ -542,6 +542,21 @@ print(codes(clean, 'c.png'), codes(chk, 'k.png'), codes(baked, 'b.png'))
   const r = spawnSync('python3', ['-c', py], { cwd: ROOT, encoding: 'utf8' });
   assert.equal(r.status, 0, r.stderr);
   assert.equal(r.stdout.trim(), "[] ['CHECKERBOARD'] ['BAKED_BACKGROUND']");
+});
+test('layer schema: missing required keys, typos and a counter without steps are caught', () => {
+  const b = structuredClone(EPISODES.ep001full) as EpisodeBundle;
+  const sc = b.scenes.scenes[0];
+  sc.layers = [
+    ...sc.layers,
+    { type: 'counter', initial: 0 } as unknown as Layer,
+    { type: 'rect', w: 0.2, h: 0.1, colour: '#fff' } as unknown as Layer,
+    { type: 'counter', initial: 5, steps: [] } as unknown as Layer,
+  ];
+  const msgs = validateEpisode(b, SHARED_ASSETS, SFX, () => true).map((i) => `${i.level}:${i.message}`);
+  assert.ok(msgs.some((m) => m === 'error:counter layer is missing required "steps"'), msgs.join('\n'));
+  assert.ok(msgs.some((m) => m === 'error:rect layer is missing required "color"'));
+  assert.ok(msgs.some((m) => m.startsWith('warn:unknown key "colour"')));
+  assert.ok(!msgs.some((m) => m.includes('must be a list')), 'an empty steps list is a valid static counter');
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);

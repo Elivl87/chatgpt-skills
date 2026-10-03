@@ -16,6 +16,24 @@ export interface Issue {
   message: string;
 }
 
+const BASE_KEYS = ['type', 'id', 'depth', 'x', 'y', 'rotation', 'opacity', 'animations', 'show', 'hide', 'blend'];
+/** Per layer type: required keys, then optional keys (anything else is a typo the renderer would silently ignore). */
+const LAYER_SCHEMA: Record<string, [string[], string[]]> = {
+  image: [['asset'], ['height', 'width', 'anchor', 'flip', 'swaps', 'shadow', 'focus']],
+  text: [['text'], ['style', 'size', 'color', 'arrow']],
+  counter: [['initial', 'steps'], ['prefix', 'suffix', 'size', 'signed', 'label']],
+  progress: [['steps'], ['label', 'width', 'initial', 'color']],
+  particles: [['kind'], ['count', 'at', 'duration', 'region', 'color', 'size', 'seed']],
+  swarm: [['asset', 'count', 'region', 'height'], ['at', 'stagger', 'seed', 'jitter']],
+  stamp: [['at'], ['size', 'text']],
+  light: [['color'], ['radius', 'intensity', 'shape', 'flicker']],
+  rect: [['w', 'h', 'color'], ['radius']],
+  flash: [['at'], ['duration', 'color']],
+  wordmark: [['at'], ['asset', 'tagline']],
+  group: [['layers'], ['clip', 'fit', 'camera']],
+};
+const PARTICLE_KINDS = new Set(['dust', 'sparkle', 'money', 'confetti', 'poof']);
+
 const LAYER_TYPES = new Set(['image', 'text', 'counter', 'progress', 'particles', 'swarm', 'stamp', 'light', 'rect', 'flash', 'wordmark', 'group']);
 const TIME_KEYS = new Set(['at', 'end', 'show', 'hide']);
 const CAMERA_MOVES = new Set(['push_in', 'pull_out', 'pan_left', 'pan_right', 'pan_up', 'pan_down', 'move_to', 'punch']);
@@ -76,6 +94,23 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
       const w = `${where}.layers[${layer.id ?? i}]`;
       const type = layer.type ?? 'image';
       if (!LAYER_TYPES.has(type)) err(w, `unknown layer type "${type}"`);
+      const schema = LAYER_SCHEMA[type];
+      if (schema) {
+        const rec = layer as unknown as Record<string, unknown>;
+        for (const k of schema[0]) if (rec[k] === undefined) err(w, `${type} layer is missing required "${k}"`);
+        const known = new Set([...BASE_KEYS, ...schema[0], ...schema[1]]);
+        for (const k of Object.keys(rec)) if (!known.has(k)) warn(w, `unknown key "${k}" on a ${type} layer (typo? the renderer ignores it)`);
+        const steps = rec.steps as Array<{ at?: unknown; value?: unknown }> | undefined;
+        if ((type === 'counter' || type === 'progress') && steps !== undefined) {
+          // an empty list is a static value (EP001 m35d); a missing or non-list "steps" crashed a render
+          if (!Array.isArray(steps)) err(w, `${type} "steps" must be a list (use [] for a static value)`);
+          else steps.forEach((st, k) => {
+            if (st.at === undefined || typeof st.value !== 'number') err(`${w}.steps[${k}]`, 'each step needs "at" and a numeric "value"');
+          });
+        }
+        if (type === 'particles' && rec.kind !== undefined && !PARTICLE_KINDS.has(rec.kind as string)) err(w, `unknown particle kind "${rec.kind}"`);
+        if (typeof rec.opacity === 'number' && (rec.opacity < 0 || rec.opacity > 1)) err(w, 'opacity must be between 0 and 1');
+      }
       const ref = (layer as { asset?: string }).asset;
       if (ref !== undefined && !assetIds.has(ref)) err(w, `unknown asset id "${ref}"`);
       for (const s of (layer as { swaps?: Array<{ asset: string }> }).swaps ?? []) if (!assetIds.has(s.asset)) err(w, `unknown swap asset "${s.asset}"`);
