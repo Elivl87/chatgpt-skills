@@ -1,0 +1,62 @@
+{
+ "need": "field meadow road castle horizon",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "genre.farming.bg_field_huge_wide",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Very wide enormous field reveal, tiny scale cues at horizon; no need for extreme zoom.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_plowed",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Mid-shot farm field, rows receding to a distant treeline and barn, soil freshly plowed, bright morning. Horizon at ~40 %. Rows lead the eye centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.storm_low_horizon",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Dramatic storm sky with very low horizon; no characters.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.fantasy.bg_castle_rescue",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Interactive-looking fantasy castle rescue setting: tower/balcony/window, dramatic depth, distant mountains, warm magical light. No characters; clear placement zone for Quest knight and princess.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_golden",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "SAME framing, tall golden wheat ready to harvest, late-afternoon light.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_green",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "SAME framing, knee-high lush green crops.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_harvested",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "SAME framing, stubble after harvest, a few straw bales.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_huge_detail",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Closer field composition for the setup before the reveal; designed to cut/pull to wide field without digital 5.5x zoom.",
+   "avoid_hits": []
+  }
+ ]
+}

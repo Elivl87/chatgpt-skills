@@ -1,0 +1,12 @@
+{
+  "notes": "EP002 asset needs per Scene Book family, checked against the library BEFORE any art is planned (npm run assets:find -- --needs docs/ep002/asset_needs.json). 'avoid' lists what would break the scene (era, mood).",
+  "needs": [
+    { "id": "A_present_room", "sequences": ["01", "21"], "need": "room tv console gaming night living", "kind": "background",
+      "notes": "Adult Quest TODAY plugs an old N64 into his current setup: a modern room is correct here." },
+    { "id": "A_childhood_room", "sequences": ["05", "26"], "need": "bedroom room child afternoon", "kind": "background",
+      "avoid": ["flat-screen", "modern", "smartphone"], "notes": "1998 memory: CRT television, no modern devices." },
+    { "id": "C_field", "sequences": ["07", "24", "29"], "need": "field meadow road castle horizon", "kind": "background" },
+    { "id": "F_temple", "sequences": ["19"], "need": "temple stone interior sword pedestal", "kind": "background" },
+    { "id": "E_forest", "sequences": ["06", "23"], "need": "forest village trees", "kind": "background" }
+  ]
+}

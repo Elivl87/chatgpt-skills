@@ -1,0 +1,62 @@
+{
+ "need": "room tv console gaming night living",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "core.bg.living_room_night_gaming",
+   "score": 5.0,
+   "kind": "background",
+   "brief": "Quest canonical living room at night, gaming setup, no character.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_night",
+   "score": 3.0,
+   "kind": "background",
+   "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_day",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.quest_bedroom_morning",
+   "score": 1.5,
+   "kind": "background",
+   "brief": "Canonical Quest bedroom, morning. Clean geometry, readable bed/nightstand/window, no characters. Leave clean lower/front space for Quest and alarm prop.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_apartments_evening",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_farm_aerial",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "High aerial of a patchwork farm: fields, barn, silos, paths, a lake. Organised and satisfying. Room for small tractor props.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_idealized_game_farm",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Bright idealized game-farm field designed for layered Quest/tractor composition.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.war.bg_battlefield_city",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Clearly readable fictional war/action-game environment: damaged urban street, smoke, distant armored silhouettes, sandbags/barricades, dramatic sky. No characters, no gore, no readable logos/text.",
+   "avoid_hits": []
+  }
+ ]
+}

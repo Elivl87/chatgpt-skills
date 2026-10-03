@@ -1,0 +1,59 @@
+{
+ "need": "bedroom room child afternoon",
+ "avoid": [
+  "flat-screen",
+  "modern",
+  "smartphone"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.quest_bedroom_morning",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Canonical Quest bedroom, morning. Clean geometry, readable bed/nightstand/window, no characters. Leave clean lower/front space for Quest and alarm prop.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_traffic",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Busy city street in a jam: car rows, taillights, billboards WITHOUT readable text, late-afternoon haze. Seen from driver height.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_day",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_night",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.living_room_night_gaming",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Quest canonical living room at night, gaming setup, no character.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_farm_aerial",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "High aerial of a patchwork farm: fields, barn, silos, paths, a lake. Organised and satisfying. Room for small tractor props.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_golden",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "SAME framing, tall golden wheat ready to harvest, late-afternoon light.",
+   "avoid_hits": []
+  }
+ ]
+}

@@ -18,3 +18,6 @@
 - **EP001 is published and final (Producer rule):** never re-render, regenerate or publish another version of it. EP001 is only research and test material for the engine.
 - **Generated art is not modified (Producer rule):** improve the engine, never edit approved art.
   - Quality checks never remove, reject or block art; they only give the Producer recommendations.
+- **Asset fit before each episode (Producer rule):** before planning any NEW_ART, list the episode's needs per scene family in `docs/<ep>/asset_needs.json`.
+  - Run `npm run assets:find -- --needs …` and look at the candidate sheets.
+  - Judge each candidate against the scene's moment (era, time of day, mood), not just its first impression.

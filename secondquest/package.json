@@ -46,7 +46,8 @@
     "review": "tsx scripts/review.ts",
     "credits": "python3 tools/credits/credits.py",
     "deliver": "tsx scripts/delivery.ts",
-    "render:status": "tsx scripts/render-status.ts"
+    "render:status": "tsx scripts/render-status.ts",
+    "assets:find": "python3 tools/assets/find.py"
   },
   "engines": {
     "node": ">=18"
