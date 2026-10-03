@@ -13,3 +13,4 @@ renders/tmp/
 public/art/
 __pycache__/
 tools/props3d/.build/
+docs/ep002/triforce/*.png
