@@ -203,7 +203,28 @@ def job_triforce():
     print('docs/ep002/triforce_turntable.jpg, triforce_front.png')
 
 
-JOBS = {'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
+def relic_spin(prop, target, dist, name, frames=24, sweep=70, elev=18):
+    """A slow turn of one relic (frames for the animatic) + a review sheet."""
+    out = OUT / name
+    out.mkdir(parents=True, exist_ok=True)
+    yaws = [-sweep / 2 + sweep * k / (frames - 1) for k in range(frames)]
+    def run(y):
+        return render({'props': [prop], 'shots': [{'camera': orbit(y, elev, dist, target), 'target': target, 'fov': 26, 'cart': None}], 'light': 'neutral'}, 1000, 1000, line=3.2)[0]
+    with ThreadPoolExecutor(4) as ex:
+        imgs = list(ex.map(run, yaws))
+    for k, im in enumerate(imgs):
+        cv2.imwrite(str(out / f'f{k:03d}.png'), im)
+    sheet = np.full((500, 1500, 3), 255, np.uint8)
+    for i, k in enumerate((0, frames // 2, frames - 1)):
+        im = cv2.resize(imgs[k], (500, 500)); a = im[..., 3:] / 255.0
+        sheet[:, i * 500:(i + 1) * 500] = (im[..., :3] * a + 255 * (1 - a)).astype(np.uint8)
+    cv2.imwrite(str(ROOT / f'docs/ep002/{name}_sheet.jpg'), sheet, [cv2.IMWRITE_JPEG_QUALITY, 88])
+    print(f'{name}: {frames} frames + docs/ep002/{name}_sheet.jpg')
+
+
+JOBS = {'ocarina_spin': lambda: relic_spin('ocarina', [-10, 4, 0], 420, 'ocarina_spin', elev=30),
+        'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1250, 'sword_spin', elev=8),
+        'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
 if __name__ == '__main__':
     names = list(JOBS) if '--all' in sys.argv else [a for a in sys.argv[1:] if a in JOBS]

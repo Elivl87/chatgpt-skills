@@ -219,6 +219,61 @@ const triforce = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- ocarina (blue, own design in the classic spirit)
+const ocarina = () => {
+  const g = new THREE.Group();
+  let part = 400;
+  const body = new THREE.Mesh(new THREE.SphereGeometry(60, 48, 32), toon('#3f6fd8'));
+  body.scale.set(1.0, 0.52, 0.72); body.userData.part = part++; ids.push(body); g.add(body);
+  const mouth = cyl(13, 46, [-74, 4, 0], [0, 0, Math.PI / 2], toon('#3a64c4'), part++); g.add(mouth);
+  const lip = cyl(11, 6, [-98, 4, 0], [0, 0, Math.PI / 2], toon('#2c4c9a'), part++); g.add(lip);
+  const band = new THREE.Mesh(new THREE.TorusGeometry(14.5, 3, 12, 32), toon('#c9ccd6'));
+  band.position.set(-54, 4, 0); band.rotation.set(0, Math.PI / 2, 0); band.userData.part = part++; ids.push(band); g.add(band);
+  // finger holes on top
+  // holes sit ON the body surface (ellipsoid 60 x 31.2 x 43.2), tilted to its normal
+  const surf = (x: number, z: number) => 31.2 * Math.sqrt(Math.max(0, 1 - (x / 60) ** 2 - (z / 43.2) ** 2));
+  for (const [x, z, r] of [[-20, -14, 5.5], [0, -17, 6], [20, -14, 5.5], [-8, 12, 5], [14, 12, 5], [32, 0, 4.5]] as const) {
+    const y = surf(x, z);
+    const nrm = new THREE.Vector3(x / 3600, y / (31.2 * 31.2), z / (43.2 * 43.2)).normalize();
+    const h = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.8, 24), toon('#0f1e40'));
+    h.position.set(x, y - 0.1, z);
+    h.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), nrm);
+    h.userData.part = part++; ids.push(h); g.add(h);
+  }
+  // small golden triad emblem near the mouthpiece
+  const tri = (cx: number, cz: number, s: number) => {
+    const sh = new THREE.Shape(); sh.moveTo(cx - s / 2, cz); sh.lineTo(cx + s / 2, cz); sh.lineTo(cx, cz - s * 0.87); sh.closePath();
+    const geo = new THREE.ExtrudeGeometry(sh, { depth: 0.6, bevelEnabled: false }); geo.rotateX(Math.PI / 2); geo.translate(0, 27.4, 0);
+    const m = new THREE.Mesh(geo, toon('#f2c230')); m.userData.part = part++; ids.push(m); return m;
+  };
+  g.add(tri(-30, 4, 8), tri(-34, 11, 8), tri(-26, 11, 8));
+  return g;
+};
+
+// ---------------------------------------------------------------- master sword (own model in the classic spirit), upright
+const masterSword = () => {
+  const g = new THREE.Group();
+  let part = 500;
+  const blade = new THREE.Shape();
+  blade.moveTo(-9, 0); blade.lineTo(9, 0); blade.lineTo(8, 300); blade.lineTo(0, 340); blade.lineTo(-8, 300); blade.closePath();
+  const bg = new THREE.ExtrudeGeometry(blade, { depth: 3, bevelEnabled: true, bevelThickness: 2, bevelSize: 2, bevelSegments: 2 });
+  bg.translate(0, 0, -1.5);
+  const bm = new THREE.Mesh(bg, toon('#dfe3ec')); bm.userData.part = part++; ids.push(bm); g.add(bm);
+  // crossguard: wings curving up, purple-blue
+  const guard = new THREE.Shape();
+  guard.moveTo(0, -10); guard.quadraticCurveTo(26, -14, 44, -2); guard.lineTo(62, 30); guard.lineTo(48, 22);
+  guard.quadraticCurveTo(38, 10, 22, 10); guard.lineTo(9, 15); guard.lineTo(0, 24); guard.lineTo(-9, 15); guard.lineTo(-22, 10);
+  guard.quadraticCurveTo(-38, 10, -48, 22); guard.lineTo(-62, 30); guard.lineTo(-44, -2); guard.quadraticCurveTo(-26, -14, 0, -10);
+  const gg = new THREE.ExtrudeGeometry(guard, { depth: 10, bevelEnabled: true, bevelThickness: 2, bevelSize: 1.5, bevelSegments: 2 });
+  gg.translate(0, -14, -5);
+  const gm = new THREE.Mesh(gg, toon('#5b4fc7')); gm.userData.part = part++; ids.push(gm); g.add(gm);
+  const gem = new THREE.Mesh(new THREE.OctahedronGeometry(6), toon('#f2c230')); gem.position.set(0, -2, 6.5); gem.scale.set(1, 1.3, 0.5); gem.userData.part = part++; ids.push(gem); g.add(gem);
+  g.add(cyl(6.5, 62, [0, -50, 0], [0, 0, 0], toon('#2e3d8f'), part++));
+  for (let k = 0; k < 5; k++) g.add(cyl(7.2, 2.5, [0, -26 - k * 11, 0], [0, 0, 0], toon('#22306f'), part++));
+  const pommel = new THREE.Mesh(new THREE.OctahedronGeometry(10), toon('#5b4fc7')); pommel.position.set(0, -86, 0); pommel.scale.set(1, 1.2, 0.7); pommel.userData.part = part++; ids.push(pommel); g.add(pommel);
+  return g;
+};
+
 // ---------------------------------------------------------------- cartridge from the approved mock (116 x 76 x 18 mm)
 const cartridge = () => {
   const g = new THREE.Group();
@@ -251,6 +306,8 @@ const SLOT_Z = CLASSIC ? -22 : -46;
 if (P.props.includes('n64')) scene.add((props.n64 = CLASSIC ? n64Classic() : n64()));
 if (P.props.includes('cartridge')) scene.add((props.cartridge = cartridge()));
 if (P.props.includes('pad')) scene.add((props.pad = n64Pad()));
+if (P.props.includes('ocarina')) scene.add((props.ocarina = ocarina()));
+if (P.props.includes('sword')) scene.add((props.sword = masterSword()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
 
 if (P.light === 'neutral') {
