@@ -73,6 +73,33 @@
         "9526ebfd-dcb1-4a71-a766-9ac6fca1385d"
       ],
       "balanceAfter": 97.25
+    },
+    {
+      "id": "Q006",
+      "episode": "CHANNEL",
+      "item": "Pixie_v1 library: 10 poses/emotions (transparent, 2k, ref job 9526ebfd)",
+      "model": "gpt_image_2_5",
+      "quoted": 10.0,
+      "status": "spent",
+      "quotedAt": "2026-10-03T18:51:43+00:00",
+      "prompt": null,
+      "approvedAt": "2026-10-03T18:51:49+00:00",
+      "approval": "Apruebo las 10 imágenes de Pixie por 10 créditos, máximo 20.",
+      "spentAt": "2026-10-03T18:53:58+00:00",
+      "actual": 10.0,
+      "jobs": [
+        "0115228b-a872-4dff-8014-b538e4e3d9b6",
+        "984c2649-f09b-4d37-8370-5e492c6e8fb1",
+        "d63f5463-a65c-49e4-ab1d-859235e764a9",
+        "3c720baa-183f-4c06-8aaa-7776f6ba57a0",
+        "549374bd-cc3d-49cf-8b02-2db60a12f6a3",
+        "a6bc6662-db4f-4840-aab0-4718f68b1358",
+        "ec8c44dd-9b6a-4ea8-b7af-ecdceb257955",
+        "a1b34cdd-bad6-473d-9a29-441ed406ee21",
+        "c6c89d64-b024-4e42-a3e6-96882d75ac25",
+        "9ca056c6-c10b-40b5-97b4-64039926fa88"
+      ],
+      "balanceAfter": 87.25
     }
   ]
 }
