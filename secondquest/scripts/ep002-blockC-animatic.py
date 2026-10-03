@@ -138,7 +138,7 @@ def frame_c1(t):
     if dive > .6:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 246, 225)), (dive - .6) / .4)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v1 · PLANNING ONLY')
+    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v2 · PLANNING ONLY')
     d.text((20, 40), 'C1 cartridge = own 3D (approved mock) · Navi dives into the label', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -158,21 +158,28 @@ def frame_c2(t):
     if t < T_SCR + .35:                                                 # out of the white from the dive
         fr = Image.blend(Image.new('RGB', fr.size, (255, 246, 225)), fr, (t - T_SCR) / .35)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = MISSING Hyrule plate · BLOCK C v1')
+    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = MISSING Hyrule plate · BLOCK C v2')
     return fr
 
 
 # ------------------------------------------------------------------ C3-C6: the childhood bedroom
 BED = rgba(ROOT / 'public/art/core/backgrounds/quest_bedroom_morning.png').resize((PW, PH), Image.LANCZOS)
-TV_BOX = (.715, .365, 1.03, .675)                                       # where the CRT stands (on the bedside table)
+TV_BOX = (.78, .47, .955, .675)                                         # a ~21" CRT that fits on the bedside table (Producer: smaller)
 tvw = int((TV_BOX[2] - TV_BOX[0]) * PW)
 TV_SCALE = tvw / CRT_34.width
 TV_POS = (int(TV_BOX[0] * PW), int(TV_BOX[3] * PH - CRT_34.height * TV_SCALE))
 Q34P = [(TV_POS[0] + x * TV_SCALE, TV_POS[1] + y * TV_SCALE) for x, y in Q34]
 SCR_C = (sum(p[0] for p in Q34P) / 4 / PW, sum(p[1] for p in Q34P) / 4 / PH)   # screen centre (plate fractions)
-QUEST_K = dict(char='quest2:floor_gaming', x=.3, y=.93, h=.36, label=None)
-PIXIE_PT = dict(char='pixie:laughing_pointing', x=.5, y=.93, h=.5, label=None)
-PIXIE_SIT = dict(char='pixie:sitting_relaxed', x=.47, y=.93, h=.34, label=None)
+# Character scale is set by face width (the one measure that does not change with the pose), measured on the library art
+# as a fraction of each cut-out's height. Pixie's face = 0.9 x Quest's (she is a little smaller; Producer: never exaggerate).
+FACE = {'quest2:floor_gaming': .233, 'pixie:laughing_pointing': .133, 'pixie:sitting_relaxed': .175}
+QUEST_FACE, PIXIE_RATIO = .13, .9                                       # Quest's face width in plate heights (kids close to camera)
+def sized(char, x, y, who_ratio=1.0, depth=1.0):
+    """depth < 1: further from the camera (higher on the floor), smaller by perspective only."""
+    return dict(char=char, x=x, y=y, h=QUEST_FACE * who_ratio * depth / FACE[char], label=None)
+QUEST_K = sized('quest2:floor_gaming', .27, 1.03)
+PIXIE_PT = sized('pixie:laughing_pointing', .55, .9, PIXIE_RATIO, depth=.8)    # standing a step behind him
+PIXIE_SIT = sized('pixie:sitting_relaxed', .51, 1.03, PIXIE_RATIO)
 
 
 def room_plate(t, pixie):
@@ -191,7 +198,7 @@ def room_plate(t, pixie):
 
 # continuous camera through C3-C6 (same background: never snaps back)
 CAM_KEYS = [(T_ROOM, (3.0, SCR_C[0] - .02, SCR_C[1])), (T_TV - .1, (1.12, .58, .56)), (T_FR - .1, (1.32, .7, .52)),
-            (T_KNEW, (1.36, .44, .64)), (T_SAT, (1.3, .46, .6)), (T_END, (1.1, .5, .58))]
+            (T_KNEW, (1.3, .44, .6)), (T_SAT, (1.25, .46, .58)), (T_END, (1.1, .5, .56))]
 
 
 def room_cam(t):
@@ -255,7 +262,7 @@ def frame_room(t):
     d = ImageDraw.Draw(fr)
     lab = ('C3 "plus the room."' if t < T_TV else 'C4 "Plus the television."' if t < T_FR else
            'C5 the friend who knew where to go' if t < T_SAT else 'C6 a whole Saturday afternoon')
-    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v1 · PLANNING ONLY')
+    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v2 · PLANNING ONLY')
     d.text((20, 40), 'kids = MISSING young Quest / young Pixie (planning: current poses) · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -274,7 +281,7 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -285,8 +292,8 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                     ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-        render(t).save(ROOT / f'docs/ep002/blockC_v1_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockC_v1.mp4'
+        render(t).save(ROOT / f'docs/ep002/blockC_v2_{name}.jpg', quality=85)
+    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockC_v2.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
     lst.write_text(f"file '{ROOT / 'docs/ep002/EP002_seq01_blockB_v3.mp4'}'\nfile '{out}'\n")
     subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',
@@ -298,7 +305,7 @@ if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                         ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-            render(t).save(ROOT / f'docs/ep002/blockC_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockC_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
