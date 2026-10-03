@@ -12,6 +12,7 @@
  * absent (e.g. source-only packages); configuration checks never depend on them.
  */
 import assert from 'node:assert/strict';
+import { resolveTime } from '../src/utils/time';
 import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -513,6 +514,14 @@ test('camera "continue" starts exactly where the previous scene ended', () => {
   const zc = (out[2].camera!.start as { zoom: number }).zoom;
   assert.ok(Math.abs(zb - 1.1) < 1e-6, `b starts at ${zb}`);
   assert.ok(Math.abs(zc - 1.21) < 1e-6, `c starts at ${zc}`);
+});
+test('word anchors: "l12.w2" / "l12.w2.end+0.1" resolve to the word timings; bad index throws', () => {
+  const cues = { l12: { start: 1, end: 3, words: [{ w: 'Because', start: 1, end: 1.4 }, { w: 'smaller.', start: 1.5, end: 2.2 }] } };
+  assert.equal(resolveTime('l12.w2', { cues }), 1.5);
+  assert.ok(Math.abs(resolveTime('l12.w2.end+0.1', { cues }) - 2.3) < 1e-9);
+  assert.equal(resolveTime('l12.end', { cues }), 3);
+  assert.throws(() => resolveTime('l12.w3', { cues }));
+  assert.throws(() => resolveTime('scene.w1', { cues, sceneStart: 0 }));
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);

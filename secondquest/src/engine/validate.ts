@@ -42,6 +42,14 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
     if (!c) continue;
     if (!(c.end > c.start)) err(`timings.${id}`, `end (${c.end}) must be after start (${c.start})`);
     if (c.start < prevEnd - 0.01) warn(`timings.${id}`, `overlaps previous cue`);
+    if (c.words) {
+      const text = b.script.lines.find((l) => l.id === id)?.text;
+      const n = typeof text === 'string' ? text.split(/\s+/).filter(Boolean).length : undefined;
+      if (n !== undefined && c.words.length !== n) err(`timings.${id}.words`, `${c.words.length} word timings but the script line has ${n} words — re-run narration alignment`);
+      c.words.forEach((w, k) => {
+        if (!(w.end >= w.start) || (k && w.start < c.words![k - 1].start - 0.001)) err(`timings.${id}.words[${k + 1}]`, 'word timings must be ordered and non-negative');
+      });
+    }
     prevEnd = c.end;
   }
   const narrationPath = `${episode.assetRoot}/${episode.narration.audio}`;

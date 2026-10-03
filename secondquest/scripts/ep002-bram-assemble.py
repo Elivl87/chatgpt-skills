@@ -10,7 +10,7 @@ Outputs: public/episodes/ep002/audio/narration.wav   48 kHz mono, static gain to
 Same method as scripts/bram-assemble.py (EP001): the voice is never stretched, pitched or
 edited; blocks are placed end to end with silence between acts and one static gain.
 """
-import importlib.util, json, re, sys
+import difflib, importlib.util, json, re, sys
 from pathlib import Path
 import numpy as np
 
@@ -36,6 +36,43 @@ def norm(t):
 
 asm.norm = norm  # line_times() uses the module-level norm
 
+def word_times(lines, words):
+    """Per script word [start, end] (block-relative), aligned to the STT words of the block."""
+    ref, owner = [], []  # owner = (line index, display-word index)
+    display = []
+    for i, l in enumerate(lines):
+        ws = l['text'].split()
+        display.append(ws)
+        for k, w in enumerate(ws):
+            for x in norm(w):
+                ref.append(x); owner.append((i, k))
+    hyp = asm.hyp_tokens(words)
+    sm = difflib.SequenceMatcher(a=ref, b=[h[0] for h in hyp], autojunk=False)
+    tok = [None] * len(ref)
+    for op, i1, i2, j1, j2 in sm.get_opcodes():
+        if op == 'delete' or j1 == j2:
+            continue
+        for k in range(i1, i2):
+            j = j1 + (k - i1) * (j2 - j1) // max(1, i2 - i1)
+            jj = min(j2 - 1, j + max(0, (j2 - j1) // max(1, i2 - i1) - 1))
+            tok[k] = (hyp[j][1], hyp[jj][2])
+    out = [[[None, None] for _ in ws] for ws in display]
+    for (i, k), t in zip(owner, tok):
+        if t is None:
+            continue
+        cur = out[i][k]
+        cur[0] = t[0] if cur[0] is None else min(cur[0], t[0])
+        cur[1] = t[1] if cur[1] is None else max(cur[1], t[1])
+    for i, ws in enumerate(out):  # words the STT missed: squeeze between their neighbours
+        for k, w in enumerate(ws):
+            if w[0] is None:
+                prev = next((x[1] for x in reversed(ws[:k]) if x[1] is not None), None)
+                nxt = next((x[0] for x in ws[k + 1:] if x[0] is not None), None)
+                a = prev if prev is not None else nxt
+                b = nxt if nxt is not None else prev
+                w[0], w[1] = a, b
+    return [[{'w': display[i][k], 'start': ws[k][0], 'end': ws[k][1]} for k in range(len(ws))] for i, ws in enumerate(out)]
+
 def main():
     script = json.loads((ROOT / 'episodes/ep002/script.json').read_text())
     lines = {l['id']: l for l in script['lines']}
@@ -48,8 +85,11 @@ def main():
     out, t, cues = [np.zeros(int(LEAD_IN * SR), np.float32)], LEAD_IN, {}
     for b, gap in zip(blocks, gaps):
         pcm = asm.decode(DIR / b['file'])
-        for lid, (s, e) in zip(b['lines'], asm.line_times([lines[i] for i in b['lines']], qc[b['file']]['words'])):
-            cues[lid] = {'start': round(t + s, 3), 'end': round(t + e, 3), 'text': lines[lid]['text']}
+        blines = [lines[i] for i in b['lines']]
+        wt = word_times(blines, qc[b['file']]['words'])
+        for lid, (s, e), ws in zip(b['lines'], asm.line_times(blines, qc[b['file']]['words']), wt):
+            cues[lid] = {'start': round(t + s, 3), 'end': round(t + e, 3), 'text': lines[lid]['text'],
+                         'words': [{'w': w['w'], 'start': round(t + w['start'], 3), 'end': round(t + w['end'], 3)} for w in ws]}
         out.append(pcm); t += len(pcm) / SR
         out.append(np.zeros(int(gap * SR), np.float32)); t += gap
     audio = np.concatenate(out)

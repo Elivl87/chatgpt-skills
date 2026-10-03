@@ -86,10 +86,20 @@ export interface ScriptFile {
   lines: ScriptLine[];
 }
 
+export interface CueWord {
+  /** The word as written in the script (punctuation kept). */
+  w: string;
+  /** Absolute seconds. */
+  start: number;
+  end: number;
+}
+
 export interface Cue {
   start: number;
   end: number;
   text?: string;
+  /** Word-level timings (script words, in order). Enables "l12.w3" time expressions. */
+  words?: CueWord[];
 }
 
 export interface TimingsFile {

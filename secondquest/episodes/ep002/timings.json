@@ -7,787 +7,6191 @@
     "l01": {
       "start": 0.3,
       "end": 3.46,
-      "text": "In 1998, Ocarina of Time asked you to save Hyrule."
+      "text": "In 1998, Ocarina of Time asked you to save Hyrule.",
+      "words": [
+        {
+          "w": "In",
+          "start": 0.3,
+          "end": 0.5
+        },
+        {
+          "w": "1998,",
+          "start": 0.5,
+          "end": 1.2
+        },
+        {
+          "w": "Ocarina",
+          "start": 1.5,
+          "end": 1.76
+        },
+        {
+          "w": "of",
+          "start": 1.76,
+          "end": 1.92
+        },
+        {
+          "w": "Time",
+          "start": 1.92,
+          "end": 2.12
+        },
+        {
+          "w": "asked",
+          "start": 2.12,
+          "end": 2.44
+        },
+        {
+          "w": "you",
+          "start": 2.44,
+          "end": 2.64
+        },
+        {
+          "w": "to",
+          "start": 2.64,
+          "end": 2.76
+        },
+        {
+          "w": "save",
+          "start": 2.76,
+          "end": 2.98
+        },
+        {
+          "w": "Hyrule.",
+          "start": 2.98,
+          "end": 3.46
+        }
+      ]
     },
     "l02": {
       "start": 3.92,
       "end": 7.3,
-      "text": "Almost three decades later, Nintendo is asking you to go back."
+      "text": "Almost three decades later, Nintendo is asking you to go back.",
+      "words": [
+        {
+          "w": "Almost",
+          "start": 3.92,
+          "end": 4.16
+        },
+        {
+          "w": "three",
+          "start": 4.16,
+          "end": 4.56
+        },
+        {
+          "w": "decades",
+          "start": 4.56,
+          "end": 4.94
+        },
+        {
+          "w": "later,",
+          "start": 4.94,
+          "end": 5.38
+        },
+        {
+          "w": "Nintendo",
+          "start": 5.8,
+          "end": 5.9
+        },
+        {
+          "w": "is",
+          "start": 5.9,
+          "end": 6.12
+        },
+        {
+          "w": "asking",
+          "start": 6.12,
+          "end": 6.5
+        },
+        {
+          "w": "you",
+          "start": 6.5,
+          "end": 6.72
+        },
+        {
+          "w": "to",
+          "start": 6.72,
+          "end": 6.82
+        },
+        {
+          "w": "go",
+          "start": 6.82,
+          "end": 6.96
+        },
+        {
+          "w": "back.",
+          "start": 6.96,
+          "end": 7.3
+        }
+      ]
     },
     "l03": {
       "start": 7.82,
       "end": 12.96,
-      "text": "New graphics. An orchestra. Voices. Modern controls. A new camera."
+      "text": "New graphics. An orchestra. Voices. Modern controls. A new camera.",
+      "words": [
+        {
+          "w": "New",
+          "start": 7.82,
+          "end": 7.94
+        },
+        {
+          "w": "graphics.",
+          "start": 7.94,
+          "end": 8.42
+        },
+        {
+          "w": "An",
+          "start": 8.76,
+          "end": 8.88
+        },
+        {
+          "w": "orchestra.",
+          "start": 8.88,
+          "end": 9.34
+        },
+        {
+          "w": "Voices.",
+          "start": 9.88,
+          "end": 10.34
+        },
+        {
+          "w": "Modern",
+          "start": 10.96,
+          "end": 11.2
+        },
+        {
+          "w": "controls.",
+          "start": 11.2,
+          "end": 11.76
+        },
+        {
+          "w": "A",
+          "start": 12.2,
+          "end": 12.34
+        },
+        {
+          "w": "new",
+          "start": 12.34,
+          "end": 12.54
+        },
+        {
+          "w": "camera.",
+          "start": 12.54,
+          "end": 12.96
+        }
+      ]
     },
     "l04": {
       "start": 13.4,
       "end": 14.38,
-      "text": "The same ocarina."
+      "text": "The same ocarina.",
+      "words": [
+        {
+          "w": "The",
+          "start": 13.4,
+          "end": 13.46
+        },
+        {
+          "w": "same",
+          "start": 13.46,
+          "end": 13.78
+        },
+        {
+          "w": "ocarina.",
+          "start": 13.78,
+          "end": 14.38
+        }
+      ]
     },
     "l05": {
       "start": 14.78,
       "end": 15.5,
-      "text": "The same sword."
+      "text": "The same sword.",
+      "words": [
+        {
+          "w": "The",
+          "start": 14.78,
+          "end": 14.82
+        },
+        {
+          "w": "same",
+          "start": 14.82,
+          "end": 15.1
+        },
+        {
+          "w": "sword.",
+          "start": 15.1,
+          "end": 15.5
+        }
+      ]
     },
     "l06": {
       "start": 15.9,
       "end": 16.88,
-      "text": "The same Triforce."
+      "text": "The same Triforce.",
+      "words": [
+        {
+          "w": "The",
+          "start": 15.9,
+          "end": 16.02
+        },
+        {
+          "w": "same",
+          "start": 16.02,
+          "end": 16.28
+        },
+        {
+          "w": "Triforce.",
+          "start": 16.28,
+          "end": 16.88
+        }
+      ]
     },
     "l07": {
       "start": 17.36,
       "end": 20.58,
-      "text": "But there is one thing Nintendo cannot rebuild from the ground up."
+      "text": "But there is one thing Nintendo cannot rebuild from the ground up.",
+      "words": [
+        {
+          "w": "But",
+          "start": 17.36,
+          "end": 17.46
+        },
+        {
+          "w": "there",
+          "start": 17.46,
+          "end": 17.62
+        },
+        {
+          "w": "is",
+          "start": 17.62,
+          "end": 17.74
+        },
+        {
+          "w": "one",
+          "start": 17.74,
+          "end": 18.04
+        },
+        {
+          "w": "thing",
+          "start": 18.04,
+          "end": 18.32
+        },
+        {
+          "w": "Nintendo",
+          "start": 18.32,
+          "end": 18.74
+        },
+        {
+          "w": "cannot",
+          "start": 18.74,
+          "end": 19.18
+        },
+        {
+          "w": "rebuild",
+          "start": 19.18,
+          "end": 19.66
+        },
+        {
+          "w": "from",
+          "start": 19.66,
+          "end": 19.86
+        },
+        {
+          "w": "the",
+          "start": 19.86,
+          "end": 20.0
+        },
+        {
+          "w": "ground",
+          "start": 20.0,
+          "end": 20.22
+        },
+        {
+          "w": "up.",
+          "start": 20.22,
+          "end": 20.58
+        }
+      ]
     },
     "l08": {
       "start": 21.02,
       "end": 21.47,
-      "text": "You."
+      "text": "You.",
+      "words": [
+        {
+          "w": "You.",
+          "start": 21.02,
+          "end": 21.3
+        }
+      ]
     },
     "l09": {
       "start": 21.78,
       "end": 25.2,
-      "text": "And somehow, that might be exactly why we want to go back."
+      "text": "And somehow, that might be exactly why we want to go back.",
+      "words": [
+        {
+          "w": "And",
+          "start": 21.78,
+          "end": 21.9
+        },
+        {
+          "w": "somehow,",
+          "start": 21.9,
+          "end": 22.32
+        },
+        {
+          "w": "that",
+          "start": 22.54,
+          "end": 22.86
+        },
+        {
+          "w": "might",
+          "start": 22.86,
+          "end": 23.02
+        },
+        {
+          "w": "be",
+          "start": 23.02,
+          "end": 23.32
+        },
+        {
+          "w": "exactly",
+          "start": 23.32,
+          "end": 23.86
+        },
+        {
+          "w": "why",
+          "start": 23.86,
+          "end": 24.28
+        },
+        {
+          "w": "we",
+          "start": 24.28,
+          "end": 24.42
+        },
+        {
+          "w": "want",
+          "start": 24.42,
+          "end": 24.6
+        },
+        {
+          "w": "to",
+          "start": 24.6,
+          "end": 24.76
+        },
+        {
+          "w": "go",
+          "start": 24.76,
+          "end": 24.9
+        },
+        {
+          "w": "back.",
+          "start": 24.9,
+          "end": 25.2
+        }
+      ]
     },
     "l10": {
       "start": 25.74,
       "end": 26.86,
-      "text": "So, why?"
+      "text": "So, why?",
+      "words": [
+        {
+          "w": "So,",
+          "start": 25.74,
+          "end": 26.08
+        },
+        {
+          "w": "why?",
+          "start": 26.08,
+          "end": 26.86
+        }
+      ]
     },
     "l11": {
       "start": 29.26,
       "end": 33.96,
-      "text": "Because the Ocarina of Time people remember is not exactly the game that came on the cartridge."
+      "text": "Because the Ocarina of Time people remember is not exactly the game that came on the cartridge.",
+      "words": [
+        {
+          "w": "Because",
+          "start": 29.26,
+          "end": 29.54
+        },
+        {
+          "w": "the",
+          "start": 29.54,
+          "end": 29.72
+        },
+        {
+          "w": "Ocarina",
+          "start": 29.72,
+          "end": 30.22
+        },
+        {
+          "w": "of",
+          "start": 30.22,
+          "end": 30.4
+        },
+        {
+          "w": "Time",
+          "start": 30.4,
+          "end": 30.66
+        },
+        {
+          "w": "people",
+          "start": 30.66,
+          "end": 30.94
+        },
+        {
+          "w": "remember",
+          "start": 30.94,
+          "end": 31.4
+        },
+        {
+          "w": "is",
+          "start": 31.4,
+          "end": 31.68
+        },
+        {
+          "w": "not",
+          "start": 31.68,
+          "end": 31.96
+        },
+        {
+          "w": "exactly",
+          "start": 31.96,
+          "end": 32.44
+        },
+        {
+          "w": "the",
+          "start": 32.44,
+          "end": 32.64
+        },
+        {
+          "w": "game",
+          "start": 32.64,
+          "end": 32.82
+        },
+        {
+          "w": "that",
+          "start": 32.82,
+          "end": 33.02
+        },
+        {
+          "w": "came",
+          "start": 33.02,
+          "end": 33.24
+        },
+        {
+          "w": "on",
+          "start": 33.24,
+          "end": 33.4
+        },
+        {
+          "w": "the",
+          "start": 33.4,
+          "end": 33.52
+        },
+        {
+          "w": "cartridge.",
+          "start": 33.52,
+          "end": 33.96
+        }
+      ]
     },
     "l12": {
       "start": 34.42,
       "end": 35.34,
-      "text": "It is the game..."
+      "text": "It is the game...",
+      "words": [
+        {
+          "w": "It",
+          "start": 34.42,
+          "end": 34.58
+        },
+        {
+          "w": "is",
+          "start": 34.58,
+          "end": 34.72
+        },
+        {
+          "w": "the",
+          "start": 34.72,
+          "end": 34.92
+        },
+        {
+          "w": "game...",
+          "start": 34.92,
+          "end": 35.34
+        }
+      ]
     },
     "l13": {
       "start": 35.34,
       "end": 36.84,
-      "text": "plus the room."
+      "text": "plus the room.",
+      "words": [
+        {
+          "w": "plus",
+          "start": 35.34,
+          "end": 36.2
+        },
+        {
+          "w": "the",
+          "start": 36.2,
+          "end": 36.48
+        },
+        {
+          "w": "room.",
+          "start": 36.48,
+          "end": 36.84
+        }
+      ]
     },
     "l14": {
       "start": 37.32,
       "end": 38.2,
-      "text": "Plus the television."
+      "text": "Plus the television.",
+      "words": [
+        {
+          "w": "Plus",
+          "start": 37.32,
+          "end": 37.5
+        },
+        {
+          "w": "the",
+          "start": 37.5,
+          "end": 37.72
+        },
+        {
+          "w": "television.",
+          "start": 37.72,
+          "end": 38.2
+        }
+      ]
     },
     "l15": {
       "start": 38.72,
       "end": 41.2,
-      "text": "Plus the friend who somehow knew where to go."
+      "text": "Plus the friend who somehow knew where to go.",
+      "words": [
+        {
+          "w": "Plus",
+          "start": 38.72,
+          "end": 38.88
+        },
+        {
+          "w": "the",
+          "start": 38.88,
+          "end": 39.14
+        },
+        {
+          "w": "friend",
+          "start": 39.14,
+          "end": 39.38
+        },
+        {
+          "w": "who",
+          "start": 39.38,
+          "end": 39.6
+        },
+        {
+          "w": "somehow",
+          "start": 39.6,
+          "end": 40.1
+        },
+        {
+          "w": "knew",
+          "start": 40.1,
+          "end": 40.46
+        },
+        {
+          "w": "where",
+          "start": 40.46,
+          "end": 40.68
+        },
+        {
+          "w": "to",
+          "start": 40.68,
+          "end": 40.86
+        },
+        {
+          "w": "go.",
+          "start": 40.86,
+          "end": 41.2
+        }
+      ]
     },
     "l16": {
       "start": 41.64,
       "end": 48.74,
-      "text": "Plus an entire Saturday afternoon where nobody could reach you because smartphones had not yet ruined that particular miracle."
+      "text": "Plus an entire Saturday afternoon where nobody could reach you because smartphones had not yet ruined that particular miracle.",
+      "words": [
+        {
+          "w": "Plus",
+          "start": 41.64,
+          "end": 41.84
+        },
+        {
+          "w": "an",
+          "start": 41.84,
+          "end": 42.08
+        },
+        {
+          "w": "entire",
+          "start": 42.08,
+          "end": 42.58
+        },
+        {
+          "w": "Saturday",
+          "start": 42.58,
+          "end": 43.12
+        },
+        {
+          "w": "afternoon",
+          "start": 43.12,
+          "end": 43.72
+        },
+        {
+          "w": "where",
+          "start": 43.72,
+          "end": 44.18
+        },
+        {
+          "w": "nobody",
+          "start": 44.18,
+          "end": 44.52
+        },
+        {
+          "w": "could",
+          "start": 44.52,
+          "end": 44.8
+        },
+        {
+          "w": "reach",
+          "start": 44.8,
+          "end": 45.02
+        },
+        {
+          "w": "you",
+          "start": 45.02,
+          "end": 45.24
+        },
+        {
+          "w": "because",
+          "start": 45.24,
+          "end": 45.5
+        },
+        {
+          "w": "smartphones",
+          "start": 45.5,
+          "end": 46.06
+        },
+        {
+          "w": "had",
+          "start": 46.06,
+          "end": 46.6
+        },
+        {
+          "w": "not",
+          "start": 46.6,
+          "end": 46.84
+        },
+        {
+          "w": "yet",
+          "start": 46.84,
+          "end": 47.08
+        },
+        {
+          "w": "ruined",
+          "start": 47.08,
+          "end": 47.42
+        },
+        {
+          "w": "that",
+          "start": 47.42,
+          "end": 47.78
+        },
+        {
+          "w": "particular",
+          "start": 47.78,
+          "end": 48.24
+        },
+        {
+          "w": "miracle.",
+          "start": 48.24,
+          "end": 48.74
+        }
+      ]
     },
     "l17": {
       "start": 49.24,
       "end": 52.82,
-      "text": "For some players, walking into Hyrule Field felt enormous."
+      "text": "For some players, walking into Hyrule Field felt enormous.",
+      "words": [
+        {
+          "w": "For",
+          "start": 49.24,
+          "end": 49.44
+        },
+        {
+          "w": "some",
+          "start": 49.44,
+          "end": 49.7
+        },
+        {
+          "w": "players,",
+          "start": 49.7,
+          "end": 50.08
+        },
+        {
+          "w": "walking",
+          "start": 50.36,
+          "end": 50.72
+        },
+        {
+          "w": "into",
+          "start": 50.72,
+          "end": 51.0
+        },
+        {
+          "w": "Hyrule",
+          "start": 51.0,
+          "end": 51.42
+        },
+        {
+          "w": "Field",
+          "start": 51.42,
+          "end": 51.76
+        },
+        {
+          "w": "felt",
+          "start": 51.76,
+          "end": 52.2
+        },
+        {
+          "w": "enormous.",
+          "start": 52.2,
+          "end": 52.82
+        }
+      ]
     },
     "l18": {
       "start": 53.32,
       "end": 54.74,
-      "text": "Not because it actually was."
+      "text": "Not because it actually was.",
+      "words": [
+        {
+          "w": "Not",
+          "start": 53.32,
+          "end": 53.56
+        },
+        {
+          "w": "because",
+          "start": 53.56,
+          "end": 53.86
+        },
+        {
+          "w": "it",
+          "start": 53.86,
+          "end": 54.0
+        },
+        {
+          "w": "actually",
+          "start": 54.0,
+          "end": 54.32
+        },
+        {
+          "w": "was.",
+          "start": 54.32,
+          "end": 54.74
+        }
+      ]
     },
     "l19": {
       "start": 55.08,
       "end": 56.92,
-      "text": "Because you were smaller."
+      "text": "Because you were smaller.",
+      "words": [
+        {
+          "w": "Because",
+          "start": 55.08,
+          "end": 55.58
+        },
+        {
+          "w": "you",
+          "start": 55.58,
+          "end": 56.0
+        },
+        {
+          "w": "were",
+          "start": 56.0,
+          "end": 56.38
+        },
+        {
+          "w": "smaller.",
+          "start": 56.38,
+          "end": 56.92
+        }
+      ]
     },
     "l20": {
       "start": 56.92,
       "end": 60.2,
-      "text": "And memory is very good at preserving feelings..."
+      "text": "And memory is very good at preserving feelings...",
+      "words": [
+        {
+          "w": "And",
+          "start": 56.92,
+          "end": 57.56
+        },
+        {
+          "w": "memory",
+          "start": 57.56,
+          "end": 57.9
+        },
+        {
+          "w": "is",
+          "start": 57.9,
+          "end": 58.26
+        },
+        {
+          "w": "very",
+          "start": 58.26,
+          "end": 58.62
+        },
+        {
+          "w": "good",
+          "start": 58.62,
+          "end": 58.9
+        },
+        {
+          "w": "at",
+          "start": 58.9,
+          "end": 59.12
+        },
+        {
+          "w": "preserving",
+          "start": 59.12,
+          "end": 59.52
+        },
+        {
+          "w": "feelings...",
+          "start": 59.52,
+          "end": 60.2
+        }
+      ]
     },
     "l21": {
       "start": 60.6,
       "end": 64.9,
-      "text": "while being absolutely terrible at preserving technical specifications."
+      "text": "while being absolutely terrible at preserving technical specifications.",
+      "words": [
+        {
+          "w": "while",
+          "start": 60.6,
+          "end": 60.88
+        },
+        {
+          "w": "being",
+          "start": 60.88,
+          "end": 61.22
+        },
+        {
+          "w": "absolutely",
+          "start": 61.22,
+          "end": 61.9
+        },
+        {
+          "w": "terrible",
+          "start": 61.9,
+          "end": 62.54
+        },
+        {
+          "w": "at",
+          "start": 62.54,
+          "end": 63.14
+        },
+        {
+          "w": "preserving",
+          "start": 63.14,
+          "end": 63.6
+        },
+        {
+          "w": "technical",
+          "start": 63.6,
+          "end": 64.14
+        },
+        {
+          "w": "specifications.",
+          "start": 64.14,
+          "end": 64.9
+        }
+      ]
     },
     "l22": {
       "start": 65.6,
       "end": 66.8,
-      "text": "Nobody wakes up thinking:"
+      "text": "Nobody wakes up thinking:",
+      "words": [
+        {
+          "w": "Nobody",
+          "start": 65.6,
+          "end": 65.82
+        },
+        {
+          "w": "wakes",
+          "start": 65.82,
+          "end": 66.12
+        },
+        {
+          "w": "up",
+          "start": 66.12,
+          "end": 66.34
+        },
+        {
+          "w": "thinking:",
+          "start": 66.34,
+          "end": 66.8
+        }
+      ]
     },
     "l23": {
       "start": 67.28,
       "end": 71.32,
-      "text": "Man... I really miss Nintendo 64 texture filtering."
+      "text": "Man... I really miss Nintendo 64 texture filtering.",
+      "words": [
+        {
+          "w": "Man...",
+          "start": 67.28,
+          "end": 67.52
+        },
+        {
+          "w": "I",
+          "start": 68.0,
+          "end": 68.22
+        },
+        {
+          "w": "really",
+          "start": 68.22,
+          "end": 68.66
+        },
+        {
+          "w": "miss",
+          "start": 68.66,
+          "end": 69.04
+        },
+        {
+          "w": "Nintendo",
+          "start": 69.04,
+          "end": 69.52
+        },
+        {
+          "w": "64",
+          "start": 69.52,
+          "end": 70.26
+        },
+        {
+          "w": "texture",
+          "start": 70.26,
+          "end": 70.7
+        },
+        {
+          "w": "filtering.",
+          "start": 70.7,
+          "end": 71.32
+        }
+      ]
     },
     "l24": {
       "start": 71.7,
       "end": 72.88,
-      "text": "You remember the forest."
+      "text": "You remember the forest.",
+      "words": [
+        {
+          "w": "You",
+          "start": 71.7,
+          "end": 71.9
+        },
+        {
+          "w": "remember",
+          "start": 71.9,
+          "end": 72.22
+        },
+        {
+          "w": "the",
+          "start": 72.22,
+          "end": 72.48
+        },
+        {
+          "w": "forest.",
+          "start": 72.48,
+          "end": 72.88
+        }
+      ]
     },
     "l25": {
       "start": 73.34,
       "end": 73.96,
-      "text": "The music."
+      "text": "The music.",
+      "words": [
+        {
+          "w": "The",
+          "start": 73.34,
+          "end": 73.52
+        },
+        {
+          "w": "music.",
+          "start": 73.52,
+          "end": 73.96
+        }
+      ]
     },
     "l26": {
       "start": 74.32,
       "end": 75.76,
-      "text": "The castle in the distance."
+      "text": "The castle in the distance.",
+      "words": [
+        {
+          "w": "The",
+          "start": 74.32,
+          "end": 74.52
+        },
+        {
+          "w": "castle",
+          "start": 74.52,
+          "end": 74.94
+        },
+        {
+          "w": "in",
+          "start": 74.94,
+          "end": 75.2
+        },
+        {
+          "w": "the",
+          "start": 75.2,
+          "end": 75.34
+        },
+        {
+          "w": "distance.",
+          "start": 75.34,
+          "end": 75.76
+        }
+      ]
     },
     "l27": {
       "start": 76.18,
       "end": 80.98,
-      "text": "That strange feeling that if you just kept walking, the world might continue forever."
+      "text": "That strange feeling that if you just kept walking, the world might continue forever.",
+      "words": [
+        {
+          "w": "That",
+          "start": 76.18,
+          "end": 76.34
+        },
+        {
+          "w": "strange",
+          "start": 76.34,
+          "end": 76.74
+        },
+        {
+          "w": "feeling",
+          "start": 76.74,
+          "end": 77.12
+        },
+        {
+          "w": "that",
+          "start": 77.12,
+          "end": 77.34
+        },
+        {
+          "w": "if",
+          "start": 77.34,
+          "end": 77.44
+        },
+        {
+          "w": "you",
+          "start": 77.44,
+          "end": 77.58
+        },
+        {
+          "w": "just",
+          "start": 77.58,
+          "end": 77.86
+        },
+        {
+          "w": "kept",
+          "start": 77.86,
+          "end": 78.16
+        },
+        {
+          "w": "walking,",
+          "start": 78.16,
+          "end": 78.68
+        },
+        {
+          "w": "the",
+          "start": 79.08,
+          "end": 79.18
+        },
+        {
+          "w": "world",
+          "start": 79.18,
+          "end": 79.56
+        },
+        {
+          "w": "might",
+          "start": 79.56,
+          "end": 79.88
+        },
+        {
+          "w": "continue",
+          "start": 79.88,
+          "end": 80.46
+        },
+        {
+          "w": "forever.",
+          "start": 80.46,
+          "end": 80.98
+        }
+      ]
     },
     "l28": {
       "start": 81.42,
       "end": 82.68,
-      "text": "Which creates a problem."
+      "text": "Which creates a problem.",
+      "words": [
+        {
+          "w": "Which",
+          "start": 81.42,
+          "end": 81.66
+        },
+        {
+          "w": "creates",
+          "start": 81.66,
+          "end": 82.04
+        },
+        {
+          "w": "a",
+          "start": 82.04,
+          "end": 82.26
+        },
+        {
+          "w": "problem.",
+          "start": 82.26,
+          "end": 82.68
+        }
+      ]
     },
     "l29": {
       "start": 82.94,
       "end": 85.64,
-      "text": "Because Nintendo can remake Ocarina of Time."
+      "text": "Because Nintendo can remake Ocarina of Time.",
+      "words": [
+        {
+          "w": "Because",
+          "start": 82.94,
+          "end": 83.28
+        },
+        {
+          "w": "Nintendo",
+          "start": 83.28,
+          "end": 83.76
+        },
+        {
+          "w": "can",
+          "start": 83.76,
+          "end": 84.06
+        },
+        {
+          "w": "remake",
+          "start": 84.06,
+          "end": 84.56
+        },
+        {
+          "w": "Ocarina",
+          "start": 84.56,
+          "end": 85.16
+        },
+        {
+          "w": "of",
+          "start": 85.16,
+          "end": 85.34
+        },
+        {
+          "w": "Time.",
+          "start": 85.34,
+          "end": 85.64
+        }
+      ]
     },
     "l30": {
       "start": 85.64,
       "end": 87.8,
-      "text": "But part of the thing people want back..."
+      "text": "But part of the thing people want back...",
+      "words": [
+        {
+          "w": "But",
+          "start": 85.64,
+          "end": 86.2
+        },
+        {
+          "w": "part",
+          "start": 86.2,
+          "end": 86.48
+        },
+        {
+          "w": "of",
+          "start": 86.48,
+          "end": 86.62
+        },
+        {
+          "w": "the",
+          "start": 86.62,
+          "end": 86.74
+        },
+        {
+          "w": "thing",
+          "start": 86.74,
+          "end": 86.92
+        },
+        {
+          "w": "people",
+          "start": 86.92,
+          "end": 87.12
+        },
+        {
+          "w": "want",
+          "start": 87.12,
+          "end": 87.4
+        },
+        {
+          "w": "back...",
+          "start": 87.4,
+          "end": 87.8
+        }
+      ]
     },
     "l31": {
       "start": 87.8,
       "end": 90.58,
-      "text": "was never inside Ocarina of Time."
+      "text": "was never inside Ocarina of Time.",
+      "words": [
+        {
+          "w": "was",
+          "start": 87.8,
+          "end": 88.36
+        },
+        {
+          "w": "never",
+          "start": 88.36,
+          "end": 88.74
+        },
+        {
+          "w": "inside",
+          "start": 88.74,
+          "end": 89.48
+        },
+        {
+          "w": "Ocarina",
+          "start": 89.48,
+          "end": 90.08
+        },
+        {
+          "w": "of",
+          "start": 90.08,
+          "end": 90.26
+        },
+        {
+          "w": "Time.",
+          "start": 90.26,
+          "end": 90.58
+        }
+      ]
     },
     "l32": {
       "start": 91.76,
       "end": 94.66,
-      "text": "The new version is being rebuilt for Switch 2."
+      "text": "The new version is being rebuilt for Switch 2.",
+      "words": [
+        {
+          "w": "The",
+          "start": 91.76,
+          "end": 91.94
+        },
+        {
+          "w": "new",
+          "start": 91.94,
+          "end": 92.18
+        },
+        {
+          "w": "version",
+          "start": 92.18,
+          "end": 92.48
+        },
+        {
+          "w": "is",
+          "start": 92.48,
+          "end": 92.74
+        },
+        {
+          "w": "being",
+          "start": 92.74,
+          "end": 92.96
+        },
+        {
+          "w": "rebuilt",
+          "start": 92.96,
+          "end": 93.58
+        },
+        {
+          "w": "for",
+          "start": 93.58,
+          "end": 93.96
+        },
+        {
+          "w": "Switch",
+          "start": 93.96,
+          "end": 94.24
+        },
+        {
+          "w": "2.",
+          "start": 94.24,
+          "end": 94.66
+        }
+      ]
     },
     "l33": {
       "start": 95.14,
       "end": 95.66,
-      "text": "New visuals."
+      "text": "New visuals.",
+      "words": [
+        {
+          "w": "New",
+          "start": 95.14,
+          "end": 95.2
+        },
+        {
+          "w": "visuals.",
+          "start": 95.2,
+          "end": 95.66
+        }
+      ]
     },
     "l34": {
       "start": 96.12,
       "end": 97.02,
-      "text": "Voiced cutscenes."
+      "text": "Voiced cutscenes.",
+      "words": [
+        {
+          "w": "Voiced",
+          "start": 96.12,
+          "end": 96.34
+        },
+        {
+          "w": "cutscenes.",
+          "start": 96.34,
+          "end": 97.02
+        }
+      ]
     },
     "l35": {
       "start": 97.34,
       "end": 98.34,
-      "text": "Expanded dialogue."
+      "text": "Expanded dialogue.",
+      "words": [
+        {
+          "w": "Expanded",
+          "start": 97.34,
+          "end": 97.78
+        },
+        {
+          "w": "dialogue.",
+          "start": 97.78,
+          "end": 98.34
+        }
+      ]
     },
     "l36": {
       "start": 98.76,
       "end": 99.84,
-      "text": "An orchestral score."
+      "text": "An orchestral score.",
+      "words": [
+        {
+          "w": "An",
+          "start": 98.76,
+          "end": 98.86
+        },
+        {
+          "w": "orchestral",
+          "start": 98.86,
+          "end": 99.46
+        },
+        {
+          "w": "score.",
+          "start": 99.46,
+          "end": 99.84
+        }
+      ]
     },
     "l37": {
       "start": 100.32,
       "end": 102.44,
-      "text": "Modernized controls and camera movement."
+      "text": "Modernized controls and camera movement.",
+      "words": [
+        {
+          "w": "Modernized",
+          "start": 100.32,
+          "end": 100.88
+        },
+        {
+          "w": "controls",
+          "start": 100.88,
+          "end": 101.38
+        },
+        {
+          "w": "and",
+          "start": 101.38,
+          "end": 101.72
+        },
+        {
+          "w": "camera",
+          "start": 101.72,
+          "end": 102.06
+        },
+        {
+          "w": "movement.",
+          "start": 102.06,
+          "end": 102.44
+        }
+      ]
     },
     "l38": {
       "start": 102.94,
       "end": 105.02,
-      "text": "On paper, the job sounds easy."
+      "text": "On paper, the job sounds easy.",
+      "words": [
+        {
+          "w": "On",
+          "start": 102.94,
+          "end": 103.12
+        },
+        {
+          "w": "paper,",
+          "start": 103.12,
+          "end": 103.42
+        },
+        {
+          "w": "the",
+          "start": 103.8,
+          "end": 103.92
+        },
+        {
+          "w": "job",
+          "start": 103.92,
+          "end": 104.2
+        },
+        {
+          "w": "sounds",
+          "start": 104.2,
+          "end": 104.62
+        },
+        {
+          "w": "easy.",
+          "start": 104.62,
+          "end": 105.02
+        }
+      ]
     },
     "l39": {
       "start": 105.56,
       "end": 106.46,
-      "text": "Take something beloved..."
+      "text": "Take something beloved...",
+      "words": [
+        {
+          "w": "Take",
+          "start": 105.56,
+          "end": 105.76
+        },
+        {
+          "w": "something",
+          "start": 105.76,
+          "end": 106.06
+        },
+        {
+          "w": "beloved...",
+          "start": 106.06,
+          "end": 106.46
+        }
+      ]
     },
     "l40": {
       "start": 106.46,
       "end": 108.4,
-      "text": "and make everything better."
+      "text": "and make everything better.",
+      "words": [
+        {
+          "w": "and",
+          "start": 106.46,
+          "end": 107.08
+        },
+        {
+          "w": "make",
+          "start": 107.08,
+          "end": 107.32
+        },
+        {
+          "w": "everything",
+          "start": 107.32,
+          "end": 107.96
+        },
+        {
+          "w": "better.",
+          "start": 107.96,
+          "end": 108.4
+        }
+      ]
     },
     "l41": {
       "start": 108.72,
       "end": 111.52,
-      "text": "Except that is where remakes become dangerous."
+      "text": "Except that is where remakes become dangerous.",
+      "words": [
+        {
+          "w": "Except",
+          "start": 108.72,
+          "end": 109.14
+        },
+        {
+          "w": "that",
+          "start": 109.14,
+          "end": 109.58
+        },
+        {
+          "w": "is",
+          "start": 109.58,
+          "end": 109.72
+        },
+        {
+          "w": "where",
+          "start": 109.72,
+          "end": 109.92
+        },
+        {
+          "w": "remakes",
+          "start": 109.92,
+          "end": 110.4
+        },
+        {
+          "w": "become",
+          "start": 110.4,
+          "end": 110.9
+        },
+        {
+          "w": "dangerous.",
+          "start": 110.9,
+          "end": 111.52
+        }
+      ]
     },
     "l42": {
       "start": 112.06,
       "end": 113.62,
-      "text": "Because better is measurable."
+      "text": "Because better is measurable.",
+      "words": [
+        {
+          "w": "Because",
+          "start": 112.06,
+          "end": 112.36
+        },
+        {
+          "w": "better",
+          "start": 112.36,
+          "end": 112.72
+        },
+        {
+          "w": "is",
+          "start": 112.72,
+          "end": 113.12
+        },
+        {
+          "w": "measurable.",
+          "start": 113.12,
+          "end": 113.62
+        }
+      ]
     },
     "l43": {
       "start": 114.12,
       "end": 115.08,
-      "text": "More polygons."
+      "text": "More polygons.",
+      "words": [
+        {
+          "w": "More",
+          "start": 114.12,
+          "end": 114.38
+        },
+        {
+          "w": "polygons.",
+          "start": 114.38,
+          "end": 115.08
+        }
+      ]
     },
     "l44": {
       "start": 115.34,
       "end": 115.9,
-      "text": "Better lighting."
+      "text": "Better lighting.",
+      "words": [
+        {
+          "w": "Better",
+          "start": 115.34,
+          "end": 115.48
+        },
+        {
+          "w": "lighting.",
+          "start": 115.48,
+          "end": 115.9
+        }
+      ]
     },
     "l45": {
       "start": 116.28,
       "end": 117.0,
-      "text": "Better animation."
+      "text": "Better animation.",
+      "words": [
+        {
+          "w": "Better",
+          "start": 116.28,
+          "end": 116.44
+        },
+        {
+          "w": "animation.",
+          "start": 116.44,
+          "end": 117.0
+        }
+      ]
     },
     "l46": {
       "start": 117.34,
       "end": 118.02,
-      "text": "Better sound."
+      "text": "Better sound.",
+      "words": [
+        {
+          "w": "Better",
+          "start": 117.34,
+          "end": 117.5
+        },
+        {
+          "w": "sound.",
+          "start": 117.5,
+          "end": 118.02
+        }
+      ]
     },
     "l47": {
       "start": 118.44,
       "end": 120.58,
-      "text": "But familiar is not measurable."
+      "text": "But familiar is not measurable.",
+      "words": [
+        {
+          "w": "But",
+          "start": 118.44,
+          "end": 118.64
+        },
+        {
+          "w": "familiar",
+          "start": 118.64,
+          "end": 119.1
+        },
+        {
+          "w": "is",
+          "start": 119.1,
+          "end": 119.72
+        },
+        {
+          "w": "not",
+          "start": 119.72,
+          "end": 120.1
+        },
+        {
+          "w": "measurable.",
+          "start": 120.1,
+          "end": 120.58
+        }
+      ]
     },
     "l48": {
       "start": 120.92,
       "end": 124.4,
-      "text": "An empty field in 1998 could feel enormous."
+      "text": "An empty field in 1998 could feel enormous.",
+      "words": [
+        {
+          "w": "An",
+          "start": 120.92,
+          "end": 121.22
+        },
+        {
+          "w": "empty",
+          "start": 121.22,
+          "end": 121.58
+        },
+        {
+          "w": "field",
+          "start": 121.58,
+          "end": 121.96
+        },
+        {
+          "w": "in",
+          "start": 121.96,
+          "end": 122.2
+        },
+        {
+          "w": "1998",
+          "start": 122.2,
+          "end": 122.98
+        },
+        {
+          "w": "could",
+          "start": 122.98,
+          "end": 123.42
+        },
+        {
+          "w": "feel",
+          "start": 123.42,
+          "end": 123.82
+        },
+        {
+          "w": "enormous.",
+          "start": 123.82,
+          "end": 124.4
+        }
+      ]
     },
     "l49": {
       "start": 125.12,
       "end": 126.84,
-      "text": "Rebuild it too literally today..."
+      "text": "Rebuild it too literally today...",
+      "words": [
+        {
+          "w": "Rebuild",
+          "start": 125.12,
+          "end": 125.42
+        },
+        {
+          "w": "it",
+          "start": 125.42,
+          "end": 125.64
+        },
+        {
+          "w": "too",
+          "start": 125.64,
+          "end": 125.96
+        },
+        {
+          "w": "literally",
+          "start": 125.96,
+          "end": 126.38
+        },
+        {
+          "w": "today...",
+          "start": 126.38,
+          "end": 126.84
+        }
+      ]
     },
     "l50": {
       "start": 127.26,
       "end": 128.94,
-      "text": "and it might just feel empty."
+      "text": "and it might just feel empty.",
+      "words": [
+        {
+          "w": "and",
+          "start": 127.26,
+          "end": 127.48
+        },
+        {
+          "w": "it",
+          "start": 127.48,
+          "end": 127.62
+        },
+        {
+          "w": "might",
+          "start": 127.62,
+          "end": 127.86
+        },
+        {
+          "w": "just",
+          "start": 127.86,
+          "end": 128.16
+        },
+        {
+          "w": "feel",
+          "start": 128.16,
+          "end": 128.52
+        },
+        {
+          "w": "empty.",
+          "start": 128.52,
+          "end": 128.94
+        }
+      ]
     },
     "l51": {
       "start": 129.32,
       "end": 132.12,
-      "text": "A silent character once left space for your imagination."
+      "text": "A silent character once left space for your imagination.",
+      "words": [
+        {
+          "w": "A",
+          "start": 129.32,
+          "end": 129.5
+        },
+        {
+          "w": "silent",
+          "start": 129.5,
+          "end": 129.84
+        },
+        {
+          "w": "character",
+          "start": 129.84,
+          "end": 130.34
+        },
+        {
+          "w": "once",
+          "start": 130.34,
+          "end": 130.66
+        },
+        {
+          "w": "left",
+          "start": 130.66,
+          "end": 130.96
+        },
+        {
+          "w": "space",
+          "start": 130.96,
+          "end": 131.32
+        },
+        {
+          "w": "for",
+          "start": 131.32,
+          "end": 131.56
+        },
+        {
+          "w": "your",
+          "start": 131.56,
+          "end": 131.68
+        },
+        {
+          "w": "imagination.",
+          "start": 131.68,
+          "end": 132.12
+        }
+      ]
     },
     "l52": {
       "start": 132.76,
       "end": 134.0,
-      "text": "Give that character a voice..."
+      "text": "Give that character a voice...",
+      "words": [
+        {
+          "w": "Give",
+          "start": 132.76,
+          "end": 132.96
+        },
+        {
+          "w": "that",
+          "start": 132.96,
+          "end": 133.18
+        },
+        {
+          "w": "character",
+          "start": 133.18,
+          "end": 133.48
+        },
+        {
+          "w": "a",
+          "start": 133.48,
+          "end": 133.7
+        },
+        {
+          "w": "voice...",
+          "start": 133.7,
+          "end": 134.0
+        }
+      ]
     },
     "l53": {
       "start": 134.3,
       "end": 137.66,
-      "text": "and suddenly somebody has to decide what that silence sounded like."
+      "text": "and suddenly somebody has to decide what that silence sounded like.",
+      "words": [
+        {
+          "w": "and",
+          "start": 134.3,
+          "end": 134.52
+        },
+        {
+          "w": "suddenly",
+          "start": 134.52,
+          "end": 134.86
+        },
+        {
+          "w": "somebody",
+          "start": 134.86,
+          "end": 135.18
+        },
+        {
+          "w": "has",
+          "start": 135.18,
+          "end": 135.44
+        },
+        {
+          "w": "to",
+          "start": 135.44,
+          "end": 135.62
+        },
+        {
+          "w": "decide",
+          "start": 135.62,
+          "end": 135.94
+        },
+        {
+          "w": "what",
+          "start": 135.94,
+          "end": 136.32
+        },
+        {
+          "w": "that",
+          "start": 136.32,
+          "end": 136.56
+        },
+        {
+          "w": "silence",
+          "start": 136.56,
+          "end": 136.98
+        },
+        {
+          "w": "sounded",
+          "start": 136.98,
+          "end": 137.32
+        },
+        {
+          "w": "like.",
+          "start": 137.32,
+          "end": 137.66
+        }
+      ]
     },
     "l54": {
       "start": 137.96,
       "end": 141.0,
-      "text": "A camera you once fought with was part of learning the game."
+      "text": "A camera you once fought with was part of learning the game.",
+      "words": [
+        {
+          "w": "A",
+          "start": 137.96,
+          "end": 138.12
+        },
+        {
+          "w": "camera",
+          "start": 138.12,
+          "end": 138.44
+        },
+        {
+          "w": "you",
+          "start": 138.44,
+          "end": 138.72
+        },
+        {
+          "w": "once",
+          "start": 138.72,
+          "end": 139.02
+        },
+        {
+          "w": "fought",
+          "start": 139.02,
+          "end": 139.32
+        },
+        {
+          "w": "with",
+          "start": 139.32,
+          "end": 139.6
+        },
+        {
+          "w": "was",
+          "start": 139.6,
+          "end": 139.84
+        },
+        {
+          "w": "part",
+          "start": 139.84,
+          "end": 140.16
+        },
+        {
+          "w": "of",
+          "start": 140.16,
+          "end": 140.32
+        },
+        {
+          "w": "learning",
+          "start": 140.32,
+          "end": 140.5
+        },
+        {
+          "w": "the",
+          "start": 140.5,
+          "end": 140.72
+        },
+        {
+          "w": "game.",
+          "start": 140.72,
+          "end": 141.0
+        }
+      ]
     },
     "l55": {
       "start": 141.46,
       "end": 141.91,
-      "text": "Fix it..."
+      "text": "Fix it...",
+      "words": [
+        {
+          "w": "Fix",
+          "start": 141.46,
+          "end": 141.58
+        },
+        {
+          "w": "it...",
+          "start": 141.58,
+          "end": 141.86
+        }
+      ]
     },
     "l56": {
       "start": 142.06,
       "end": 143.98,
-      "text": "and the game becomes easier to inhabit."
+      "text": "and the game becomes easier to inhabit.",
+      "words": [
+        {
+          "w": "and",
+          "start": 142.06,
+          "end": 142.2
+        },
+        {
+          "w": "the",
+          "start": 142.2,
+          "end": 142.34
+        },
+        {
+          "w": "game",
+          "start": 142.34,
+          "end": 142.52
+        },
+        {
+          "w": "becomes",
+          "start": 142.52,
+          "end": 142.86
+        },
+        {
+          "w": "easier",
+          "start": 142.86,
+          "end": 143.34
+        },
+        {
+          "w": "to",
+          "start": 143.34,
+          "end": 143.6
+        },
+        {
+          "w": "inhabit.",
+          "start": 143.6,
+          "end": 143.98
+        }
+      ]
     },
     "l57": {
       "start": 144.4,
       "end": 145.02,
-      "text": "Which is good."
+      "text": "Which is good.",
+      "words": [
+        {
+          "w": "Which",
+          "start": 144.4,
+          "end": 144.6
+        },
+        {
+          "w": "is",
+          "start": 144.6,
+          "end": 144.76
+        },
+        {
+          "w": "good.",
+          "start": 144.76,
+          "end": 145.02
+        }
+      ]
     },
     "l58": {
       "start": 145.48,
       "end": 145.96,
-      "text": "Probably."
+      "text": "Probably.",
+      "words": [
+        {
+          "w": "Probably.",
+          "start": 145.48,
+          "end": 145.96
+        }
+      ]
     },
     "l59": {
       "start": 146.38,
       "end": 149.9,
-      "text": "But every improvement quietly changes the memory attached to it."
+      "text": "But every improvement quietly changes the memory attached to it.",
+      "words": [
+        {
+          "w": "But",
+          "start": 146.38,
+          "end": 146.58
+        },
+        {
+          "w": "every",
+          "start": 146.58,
+          "end": 146.94
+        },
+        {
+          "w": "improvement",
+          "start": 146.94,
+          "end": 147.52
+        },
+        {
+          "w": "quietly",
+          "start": 147.52,
+          "end": 147.94
+        },
+        {
+          "w": "changes",
+          "start": 147.94,
+          "end": 148.54
+        },
+        {
+          "w": "the",
+          "start": 148.54,
+          "end": 148.76
+        },
+        {
+          "w": "memory",
+          "start": 148.76,
+          "end": 149.04
+        },
+        {
+          "w": "attached",
+          "start": 149.04,
+          "end": 149.38
+        },
+        {
+          "w": "to",
+          "start": 149.38,
+          "end": 149.7
+        },
+        {
+          "w": "it.",
+          "start": 149.7,
+          "end": 149.9
+        }
+      ]
     },
     "l60": {
       "start": 149.9,
       "end": 151.78,
-      "text": "That is the impossible job."
+      "text": "That is the impossible job.",
+      "words": [
+        {
+          "w": "That",
+          "start": 149.9,
+          "end": 150.46
+        },
+        {
+          "w": "is",
+          "start": 150.46,
+          "end": 150.66
+        },
+        {
+          "w": "the",
+          "start": 150.66,
+          "end": 150.82
+        },
+        {
+          "w": "impossible",
+          "start": 150.82,
+          "end": 151.22
+        },
+        {
+          "w": "job.",
+          "start": 151.22,
+          "end": 151.78
+        }
+      ]
     },
     "l61": {
       "start": 152.16,
       "end": 154.44,
-      "text": "Make it different enough to justify existing..."
+      "text": "Make it different enough to justify existing...",
+      "words": [
+        {
+          "w": "Make",
+          "start": 152.16,
+          "end": 152.28
+        },
+        {
+          "w": "it",
+          "start": 152.28,
+          "end": 152.46
+        },
+        {
+          "w": "different",
+          "start": 152.46,
+          "end": 152.78
+        },
+        {
+          "w": "enough",
+          "start": 152.78,
+          "end": 153.12
+        },
+        {
+          "w": "to",
+          "start": 153.12,
+          "end": 153.36
+        },
+        {
+          "w": "justify",
+          "start": 153.36,
+          "end": 153.88
+        },
+        {
+          "w": "existing...",
+          "start": 153.88,
+          "end": 154.44
+        }
+      ]
     },
     "l62": {
       "start": 154.88,
       "end": 157.5,
-      "text": "without making people wonder where their game went."
+      "text": "without making people wonder where their game went.",
+      "words": [
+        {
+          "w": "without",
+          "start": 154.88,
+          "end": 155.16
+        },
+        {
+          "w": "making",
+          "start": 155.16,
+          "end": 155.48
+        },
+        {
+          "w": "people",
+          "start": 155.48,
+          "end": 155.82
+        },
+        {
+          "w": "wonder",
+          "start": 155.82,
+          "end": 156.24
+        },
+        {
+          "w": "where",
+          "start": 156.24,
+          "end": 156.66
+        },
+        {
+          "w": "their",
+          "start": 156.66,
+          "end": 156.9
+        },
+        {
+          "w": "game",
+          "start": 156.9,
+          "end": 157.18
+        },
+        {
+          "w": "went.",
+          "start": 157.18,
+          "end": 157.5
+        }
+      ]
     },
     "l63": {
       "start": 158.74,
       "end": 160.26,
-      "text": "And Nintendo has another problem."
+      "text": "And Nintendo has another problem.",
+      "words": [
+        {
+          "w": "And",
+          "start": 158.74,
+          "end": 158.94
+        },
+        {
+          "w": "Nintendo",
+          "start": 158.94,
+          "end": 159.24
+        },
+        {
+          "w": "has",
+          "start": 159.24,
+          "end": 159.52
+        },
+        {
+          "w": "another",
+          "start": 159.52,
+          "end": 159.8
+        },
+        {
+          "w": "problem.",
+          "start": 159.8,
+          "end": 160.26
+        }
+      ]
     },
     "l64": {
       "start": 160.7,
       "end": 163.62,
-      "text": "This remake is not really being made for one audience."
+      "text": "This remake is not really being made for one audience.",
+      "words": [
+        {
+          "w": "This",
+          "start": 160.7,
+          "end": 160.88
+        },
+        {
+          "w": "remake",
+          "start": 160.88,
+          "end": 161.3
+        },
+        {
+          "w": "is",
+          "start": 161.3,
+          "end": 161.6
+        },
+        {
+          "w": "not",
+          "start": 161.6,
+          "end": 161.82
+        },
+        {
+          "w": "really",
+          "start": 161.82,
+          "end": 162.16
+        },
+        {
+          "w": "being",
+          "start": 162.16,
+          "end": 162.42
+        },
+        {
+          "w": "made",
+          "start": 162.42,
+          "end": 162.68
+        },
+        {
+          "w": "for",
+          "start": 162.68,
+          "end": 162.92
+        },
+        {
+          "w": "one",
+          "start": 162.92,
+          "end": 163.16
+        },
+        {
+          "w": "audience.",
+          "start": 163.16,
+          "end": 163.62
+        }
+      ]
     },
     "l65": {
       "start": 164.08,
       "end": 165.52,
-      "text": "It is being made for two."
+      "text": "It is being made for two.",
+      "words": [
+        {
+          "w": "It",
+          "start": 164.08,
+          "end": 164.18
+        },
+        {
+          "w": "is",
+          "start": 164.18,
+          "end": 164.3
+        },
+        {
+          "w": "being",
+          "start": 164.3,
+          "end": 164.5
+        },
+        {
+          "w": "made",
+          "start": 164.5,
+          "end": 164.88
+        },
+        {
+          "w": "for",
+          "start": 164.88,
+          "end": 165.18
+        },
+        {
+          "w": "two.",
+          "start": 165.18,
+          "end": 165.52
+        }
+      ]
     },
     "l66": {
       "start": 166.18,
       "end": 167.84,
-      "text": "Player one already knows everything."
+      "text": "Player one already knows everything.",
+      "words": [
+        {
+          "w": "Player",
+          "start": 166.18,
+          "end": 166.26
+        },
+        {
+          "w": "one",
+          "start": 166.26,
+          "end": 166.62
+        },
+        {
+          "w": "already",
+          "start": 166.62,
+          "end": 167.02
+        },
+        {
+          "w": "knows",
+          "start": 167.02,
+          "end": 167.34
+        },
+        {
+          "w": "everything.",
+          "start": 167.34,
+          "end": 167.84
+        }
+      ]
     },
     "l67": {
       "start": 168.24,
       "end": 169.8,
-      "text": "They know what that ocarina means."
+      "text": "They know what that ocarina means.",
+      "words": [
+        {
+          "w": "They",
+          "start": 168.24,
+          "end": 168.36
+        },
+        {
+          "w": "know",
+          "start": 168.36,
+          "end": 168.64
+        },
+        {
+          "w": "what",
+          "start": 168.64,
+          "end": 168.82
+        },
+        {
+          "w": "that",
+          "start": 168.82,
+          "end": 168.98
+        },
+        {
+          "w": "ocarina",
+          "start": 168.98,
+          "end": 169.42
+        },
+        {
+          "w": "means.",
+          "start": 169.42,
+          "end": 169.8
+        }
+      ]
     },
     "l68": {
       "start": 170.18,
       "end": 172.58,
-      "text": "They know what happens when Link pulls the Master Sword."
+      "text": "They know what happens when Link pulls the Master Sword.",
+      "words": [
+        {
+          "w": "They",
+          "start": 170.18,
+          "end": 170.3
+        },
+        {
+          "w": "know",
+          "start": 170.3,
+          "end": 170.58
+        },
+        {
+          "w": "what",
+          "start": 170.58,
+          "end": 170.76
+        },
+        {
+          "w": "happens",
+          "start": 170.76,
+          "end": 171.12
+        },
+        {
+          "w": "when",
+          "start": 171.12,
+          "end": 171.4
+        },
+        {
+          "w": "Link",
+          "start": 171.4,
+          "end": 171.54
+        },
+        {
+          "w": "pulls",
+          "start": 171.54,
+          "end": 171.8
+        },
+        {
+          "w": "the",
+          "start": 171.8,
+          "end": 171.98
+        },
+        {
+          "w": "Master",
+          "start": 171.98,
+          "end": 172.28
+        },
+        {
+          "w": "Sword.",
+          "start": 172.28,
+          "end": 172.58
+        }
+      ]
     },
     "l69": {
       "start": 172.9,
       "end": 178.34,
-      "text": "They see three golden triangles and immediately understand that somebody is about to make a very bad decision."
+      "text": "They see three golden triangles and immediately understand that somebody is about to make a very bad decision.",
+      "words": [
+        {
+          "w": "They",
+          "start": 172.9,
+          "end": 173.04
+        },
+        {
+          "w": "see",
+          "start": 173.04,
+          "end": 173.3
+        },
+        {
+          "w": "three",
+          "start": 173.3,
+          "end": 173.62
+        },
+        {
+          "w": "golden",
+          "start": 173.62,
+          "end": 173.94
+        },
+        {
+          "w": "triangles",
+          "start": 173.94,
+          "end": 174.38
+        },
+        {
+          "w": "and",
+          "start": 174.38,
+          "end": 174.7
+        },
+        {
+          "w": "immediately",
+          "start": 174.7,
+          "end": 175.08
+        },
+        {
+          "w": "understand",
+          "start": 175.08,
+          "end": 175.7
+        },
+        {
+          "w": "that",
+          "start": 175.7,
+          "end": 175.92
+        },
+        {
+          "w": "somebody",
+          "start": 175.92,
+          "end": 176.18
+        },
+        {
+          "w": "is",
+          "start": 176.18,
+          "end": 176.42
+        },
+        {
+          "w": "about",
+          "start": 176.42,
+          "end": 176.6
+        },
+        {
+          "w": "to",
+          "start": 176.6,
+          "end": 176.76
+        },
+        {
+          "w": "make",
+          "start": 176.76,
+          "end": 176.92
+        },
+        {
+          "w": "a",
+          "start": 176.92,
+          "end": 177.1
+        },
+        {
+          "w": "very",
+          "start": 177.1,
+          "end": 177.44
+        },
+        {
+          "w": "bad",
+          "start": 177.44,
+          "end": 177.84
+        },
+        {
+          "w": "decision.",
+          "start": 177.84,
+          "end": 178.34
+        }
+      ]
     },
     "l70": {
       "start": 178.72,
       "end": 185.22,
-      "text": "The Triforce represents wisdom, power and courage, and Link’s journey spans Hyrule across two different eras."
+      "text": "The Triforce represents wisdom, power and courage, and Link’s journey spans Hyrule across two different eras.",
+      "words": [
+        {
+          "w": "The",
+          "start": 178.72,
+          "end": 178.88
+        },
+        {
+          "w": "Triforce",
+          "start": 178.88,
+          "end": 179.36
+        },
+        {
+          "w": "represents",
+          "start": 179.36,
+          "end": 179.88
+        },
+        {
+          "w": "wisdom,",
+          "start": 179.88,
+          "end": 180.38
+        },
+        {
+          "w": "power",
+          "start": 180.82,
+          "end": 181.04
+        },
+        {
+          "w": "and",
+          "start": 181.3,
+          "end": 181.42
+        },
+        {
+          "w": "courage,",
+          "start": 181.42,
+          "end": 181.8
+        },
+        {
+          "w": "and",
+          "start": 182.18,
+          "end": 182.3
+        },
+        {
+          "w": "Link’s",
+          "start": 182.3,
+          "end": 182.64
+        },
+        {
+          "w": "journey",
+          "start": 182.64,
+          "end": 182.94
+        },
+        {
+          "w": "spans",
+          "start": 182.94,
+          "end": 183.36
+        },
+        {
+          "w": "Hyrule",
+          "start": 183.36,
+          "end": 183.78
+        },
+        {
+          "w": "across",
+          "start": 183.78,
+          "end": 184.12
+        },
+        {
+          "w": "two",
+          "start": 184.12,
+          "end": 184.52
+        },
+        {
+          "w": "different",
+          "start": 184.52,
+          "end": 184.86
+        },
+        {
+          "w": "eras.",
+          "start": 184.86,
+          "end": 185.22
+        }
+      ]
     },
     "l71": {
       "start": 185.82,
       "end": 186.32,
-      "text": "Player two?"
+      "text": "Player two?",
+      "words": [
+        {
+          "w": "Player",
+          "start": 185.82,
+          "end": 185.98
+        },
+        {
+          "w": "two?",
+          "start": 185.98,
+          "end": 186.32
+        }
+      ]
     },
     "l72": {
       "start": 186.78,
       "end": 188.5,
-      "text": "Player two knows none of this."
+      "text": "Player two knows none of this.",
+      "words": [
+        {
+          "w": "Player",
+          "start": 186.78,
+          "end": 187.02
+        },
+        {
+          "w": "two",
+          "start": 187.02,
+          "end": 187.38
+        },
+        {
+          "w": "knows",
+          "start": 187.38,
+          "end": 187.72
+        },
+        {
+          "w": "none",
+          "start": 187.72,
+          "end": 188.04
+        },
+        {
+          "w": "of",
+          "start": 188.04,
+          "end": 188.22
+        },
+        {
+          "w": "this.",
+          "start": 188.22,
+          "end": 188.5
+        }
+      ]
     },
     "l73": {
       "start": 188.92,
       "end": 190.66,
-      "text": "They meet the Great Deku Tree and think:"
+      "text": "They meet the Great Deku Tree and think:",
+      "words": [
+        {
+          "w": "They",
+          "start": 188.92,
+          "end": 189.06
+        },
+        {
+          "w": "meet",
+          "start": 189.06,
+          "end": 189.26
+        },
+        {
+          "w": "the",
+          "start": 189.26,
+          "end": 189.44
+        },
+        {
+          "w": "Great",
+          "start": 189.44,
+          "end": 189.64
+        },
+        {
+          "w": "Deku",
+          "start": 189.64,
+          "end": 189.94
+        },
+        {
+          "w": "Tree",
+          "start": 189.94,
+          "end": 190.2
+        },
+        {
+          "w": "and",
+          "start": 190.2,
+          "end": 190.42
+        },
+        {
+          "w": "think:",
+          "start": 190.42,
+          "end": 190.66
+        }
+      ]
     },
     "l74": {
       "start": 191.06,
       "end": 194.6,
-      "text": "That is an extremely large tree with an extremely personal problem."
+      "text": "That is an extremely large tree with an extremely personal problem.",
+      "words": [
+        {
+          "w": "That",
+          "start": 191.06,
+          "end": 191.2
+        },
+        {
+          "w": "is",
+          "start": 191.2,
+          "end": 191.34
+        },
+        {
+          "w": "an",
+          "start": 191.34,
+          "end": 191.44
+        },
+        {
+          "w": "extremely",
+          "start": 191.44,
+          "end": 192.0
+        },
+        {
+          "w": "large",
+          "start": 192.0,
+          "end": 192.38
+        },
+        {
+          "w": "tree",
+          "start": 192.38,
+          "end": 192.72
+        },
+        {
+          "w": "with",
+          "start": 192.72,
+          "end": 192.9
+        },
+        {
+          "w": "an",
+          "start": 192.9,
+          "end": 193.02
+        },
+        {
+          "w": "extremely",
+          "start": 193.02,
+          "end": 193.52
+        },
+        {
+          "w": "personal",
+          "start": 193.52,
+          "end": 194.06
+        },
+        {
+          "w": "problem.",
+          "start": 194.06,
+          "end": 194.6
+        }
+      ]
     },
     "l75": {
       "start": 194.94,
       "end": 197.18,
-      "text": "For them, Hyrule has no nostalgia."
+      "text": "For them, Hyrule has no nostalgia.",
+      "words": [
+        {
+          "w": "For",
+          "start": 194.94,
+          "end": 195.04
+        },
+        {
+          "w": "them,",
+          "start": 195.04,
+          "end": 195.38
+        },
+        {
+          "w": "Hyrule",
+          "start": 195.78,
+          "end": 196.1
+        },
+        {
+          "w": "has",
+          "start": 196.1,
+          "end": 196.38
+        },
+        {
+          "w": "no",
+          "start": 196.38,
+          "end": 196.66
+        },
+        {
+          "w": "nostalgia.",
+          "start": 196.66,
+          "end": 197.18
+        }
+      ]
     },
     "l76": {
       "start": 197.8,
       "end": 199.26,
-      "text": "No childhood attached to it."
+      "text": "No childhood attached to it.",
+      "words": [
+        {
+          "w": "No",
+          "start": 197.8,
+          "end": 197.92
+        },
+        {
+          "w": "childhood",
+          "start": 197.92,
+          "end": 198.44
+        },
+        {
+          "w": "attached",
+          "start": 198.44,
+          "end": 198.8
+        },
+        {
+          "w": "to",
+          "start": 198.8,
+          "end": 199.12
+        },
+        {
+          "w": "it.",
+          "start": 199.12,
+          "end": 199.26
+        }
+      ]
     },
     "l77": {
       "start": 199.54,
       "end": 201.58,
-      "text": "No twenty-eight years of expectations."
+      "text": "No twenty-eight years of expectations.",
+      "words": [
+        {
+          "w": "No",
+          "start": 199.54,
+          "end": 199.72
+        },
+        {
+          "w": "twenty-eight",
+          "start": 199.72,
+          "end": 200.32
+        },
+        {
+          "w": "years",
+          "start": 200.32,
+          "end": 200.72
+        },
+        {
+          "w": "of",
+          "start": 200.72,
+          "end": 200.92
+        },
+        {
+          "w": "expectations.",
+          "start": 200.92,
+          "end": 201.58
+        }
+      ]
     },
     "l78": {
       "start": 202.06,
       "end": 204.76,
-      "text": "So the remake has two completely different jobs."
+      "text": "So the remake has two completely different jobs.",
+      "words": [
+        {
+          "w": "So",
+          "start": 202.06,
+          "end": 202.24
+        },
+        {
+          "w": "the",
+          "start": 202.24,
+          "end": 202.38
+        },
+        {
+          "w": "remake",
+          "start": 202.38,
+          "end": 202.64
+        },
+        {
+          "w": "has",
+          "start": 202.64,
+          "end": 202.96
+        },
+        {
+          "w": "two",
+          "start": 202.96,
+          "end": 203.28
+        },
+        {
+          "w": "completely",
+          "start": 203.28,
+          "end": 203.9
+        },
+        {
+          "w": "different",
+          "start": 203.9,
+          "end": 204.3
+        },
+        {
+          "w": "jobs.",
+          "start": 204.3,
+          "end": 204.76
+        }
+      ]
     },
     "l79": {
       "start": 205.2,
       "end": 206.06,
-      "text": "For the new player:"
+      "text": "For the new player:",
+      "words": [
+        {
+          "w": "For",
+          "start": 205.2,
+          "end": 205.36
+        },
+        {
+          "w": "the",
+          "start": 205.36,
+          "end": 205.5
+        },
+        {
+          "w": "new",
+          "start": 205.5,
+          "end": 205.72
+        },
+        {
+          "w": "player:",
+          "start": 205.72,
+          "end": 206.06
+        }
+      ]
     },
     "l80": {
       "start": 206.42,
       "end": 209.74,
-      "text": "Make a game from 1998 feel natural in 2026."
+      "text": "Make a game from 1998 feel natural in 2026.",
+      "words": [
+        {
+          "w": "Make",
+          "start": 206.42,
+          "end": 206.54
+        },
+        {
+          "w": "a",
+          "start": 206.54,
+          "end": 206.7
+        },
+        {
+          "w": "game",
+          "start": 206.7,
+          "end": 206.86
+        },
+        {
+          "w": "from",
+          "start": 206.86,
+          "end": 207.06
+        },
+        {
+          "w": "1998",
+          "start": 207.06,
+          "end": 207.78
+        },
+        {
+          "w": "feel",
+          "start": 207.78,
+          "end": 208.2
+        },
+        {
+          "w": "natural",
+          "start": 208.2,
+          "end": 208.68
+        },
+        {
+          "w": "in",
+          "start": 208.68,
+          "end": 208.88
+        },
+        {
+          "w": "2026.",
+          "start": 208.88,
+          "end": 209.74
+        }
+      ]
     },
     "l81": {
       "start": 210.14,
       "end": 211.2,
-      "text": "For the returning player:"
+      "text": "For the returning player:",
+      "words": [
+        {
+          "w": "For",
+          "start": 210.14,
+          "end": 210.3
+        },
+        {
+          "w": "the",
+          "start": 210.3,
+          "end": 210.42
+        },
+        {
+          "w": "returning",
+          "start": 210.42,
+          "end": 210.76
+        },
+        {
+          "w": "player:",
+          "start": 210.76,
+          "end": 211.2
+        }
+      ]
     },
     "l82": {
       "start": 211.6,
       "end": 213.14,
-      "text": "Make something they already know..."
+      "text": "Make something they already know...",
+      "words": [
+        {
+          "w": "Make",
+          "start": 211.6,
+          "end": 211.74
+        },
+        {
+          "w": "something",
+          "start": 211.74,
+          "end": 212.02
+        },
+        {
+          "w": "they",
+          "start": 212.02,
+          "end": 212.26
+        },
+        {
+          "w": "already",
+          "start": 212.26,
+          "end": 212.62
+        },
+        {
+          "w": "know...",
+          "start": 212.62,
+          "end": 213.14
+        }
+      ]
     },
     "l83": {
       "start": 213.14,
       "end": 215.12,
-      "text": "feel like discovery again."
+      "text": "feel like discovery again.",
+      "words": [
+        {
+          "w": "feel",
+          "start": 213.14,
+          "end": 213.76
+        },
+        {
+          "w": "like",
+          "start": 213.76,
+          "end": 214.04
+        },
+        {
+          "w": "discovery",
+          "start": 214.04,
+          "end": 214.62
+        },
+        {
+          "w": "again.",
+          "start": 214.62,
+          "end": 215.12
+        }
+      ]
     },
     "l84": {
       "start": 215.46,
       "end": 217.0,
-      "text": "One person is looking at Hyrule."
+      "text": "One person is looking at Hyrule.",
+      "words": [
+        {
+          "w": "One",
+          "start": 215.46,
+          "end": 215.66
+        },
+        {
+          "w": "person",
+          "start": 215.66,
+          "end": 215.92
+        },
+        {
+          "w": "is",
+          "start": 215.92,
+          "end": 216.12
+        },
+        {
+          "w": "looking",
+          "start": 216.12,
+          "end": 216.32
+        },
+        {
+          "w": "at",
+          "start": 216.32,
+          "end": 216.54
+        },
+        {
+          "w": "Hyrule.",
+          "start": 216.54,
+          "end": 217.0
+        }
+      ]
     },
     "l85": {
       "start": 217.38,
       "end": 219.6,
-      "text": "The other is looking for the Hyrule in their head."
+      "text": "The other is looking for the Hyrule in their head.",
+      "words": [
+        {
+          "w": "The",
+          "start": 217.38,
+          "end": 217.5
+        },
+        {
+          "w": "other",
+          "start": 217.5,
+          "end": 217.7
+        },
+        {
+          "w": "is",
+          "start": 217.7,
+          "end": 217.9
+        },
+        {
+          "w": "looking",
+          "start": 217.9,
+          "end": 218.1
+        },
+        {
+          "w": "for",
+          "start": 218.1,
+          "end": 218.32
+        },
+        {
+          "w": "the",
+          "start": 218.32,
+          "end": 218.46
+        },
+        {
+          "w": "Hyrule",
+          "start": 218.46,
+          "end": 218.86
+        },
+        {
+          "w": "in",
+          "start": 218.86,
+          "end": 219.08
+        },
+        {
+          "w": "their",
+          "start": 219.08,
+          "end": 219.26
+        },
+        {
+          "w": "head.",
+          "start": 219.26,
+          "end": 219.6
+        }
+      ]
     },
     "l86": {
       "start": 220.1,
       "end": 222.86,
-      "text": "And somehow Nintendo has to build both."
+      "text": "And somehow Nintendo has to build both.",
+      "words": [
+        {
+          "w": "And",
+          "start": 220.1,
+          "end": 220.2
+        },
+        {
+          "w": "somehow",
+          "start": 220.2,
+          "end": 220.72
+        },
+        {
+          "w": "Nintendo",
+          "start": 221.2,
+          "end": 221.5
+        },
+        {
+          "w": "has",
+          "start": 221.5,
+          "end": 221.86
+        },
+        {
+          "w": "to",
+          "start": 221.86,
+          "end": 222.1
+        },
+        {
+          "w": "build",
+          "start": 222.1,
+          "end": 222.42
+        },
+        {
+          "w": "both.",
+          "start": 222.42,
+          "end": 222.86
+        }
+      ]
     },
     "l87": {
       "start": 224.12,
       "end": 227.94,
-      "text": "The safest remake imaginable would change almost nothing."
+      "text": "The safest remake imaginable would change almost nothing.",
+      "words": [
+        {
+          "w": "The",
+          "start": 224.12,
+          "end": 224.32
+        },
+        {
+          "w": "safest",
+          "start": 224.32,
+          "end": 224.78
+        },
+        {
+          "w": "remake",
+          "start": 224.78,
+          "end": 225.3
+        },
+        {
+          "w": "imaginable",
+          "start": 225.3,
+          "end": 225.96
+        },
+        {
+          "w": "would",
+          "start": 225.96,
+          "end": 226.34
+        },
+        {
+          "w": "change",
+          "start": 226.34,
+          "end": 226.74
+        },
+        {
+          "w": "almost",
+          "start": 226.74,
+          "end": 227.24
+        },
+        {
+          "w": "nothing.",
+          "start": 227.24,
+          "end": 227.94
+        }
+      ]
     },
     "l88": {
       "start": 228.66,
       "end": 229.28,
-      "text": "Sharper textures."
+      "text": "Sharper textures.",
+      "words": [
+        {
+          "w": "Sharper",
+          "start": 228.66,
+          "end": 228.88
+        },
+        {
+          "w": "textures.",
+          "start": 228.88,
+          "end": 229.28
+        }
+      ]
     },
     "l89": {
       "start": 229.7,
       "end": 230.52,
-      "text": "Better resolution."
+      "text": "Better resolution.",
+      "words": [
+        {
+          "w": "Better",
+          "start": 229.7,
+          "end": 229.92
+        },
+        {
+          "w": "resolution.",
+          "start": 229.92,
+          "end": 230.52
+        }
+      ]
     },
     "l90": {
       "start": 230.96,
       "end": 231.72,
-      "text": "Cleaner controls."
+      "text": "Cleaner controls.",
+      "words": [
+        {
+          "w": "Cleaner",
+          "start": 230.96,
+          "end": 231.1
+        },
+        {
+          "w": "controls.",
+          "start": 231.1,
+          "end": 231.72
+        }
+      ]
     },
     "l91": {
       "start": 232.2,
       "end": 234.62,
-      "text": "Everything exactly where you remember it."
+      "text": "Everything exactly where you remember it.",
+      "words": [
+        {
+          "w": "Everything",
+          "start": 232.2,
+          "end": 232.66
+        },
+        {
+          "w": "exactly",
+          "start": 232.66,
+          "end": 233.34
+        },
+        {
+          "w": "where",
+          "start": 233.34,
+          "end": 233.86
+        },
+        {
+          "w": "you",
+          "start": 233.86,
+          "end": 234.06
+        },
+        {
+          "w": "remember",
+          "start": 234.06,
+          "end": 234.32
+        },
+        {
+          "w": "it.",
+          "start": 234.32,
+          "end": 234.62
+        }
+      ]
     },
     "l92": {
       "start": 234.9,
       "end": 236.12,
-      "text": "And that sounds respectful."
+      "text": "And that sounds respectful.",
+      "words": [
+        {
+          "w": "And",
+          "start": 234.9,
+          "end": 235.02
+        },
+        {
+          "w": "that",
+          "start": 235.02,
+          "end": 235.22
+        },
+        {
+          "w": "sounds",
+          "start": 235.22,
+          "end": 235.58
+        },
+        {
+          "w": "respectful.",
+          "start": 235.58,
+          "end": 236.12
+        }
+      ]
     },
     "l93": {
       "start": 236.62,
       "end": 237.5,
-      "text": "But there is a problem."
+      "text": "But there is a problem.",
+      "words": [
+        {
+          "w": "But",
+          "start": 236.62,
+          "end": 236.7
+        },
+        {
+          "w": "there",
+          "start": 236.7,
+          "end": 236.9
+        },
+        {
+          "w": "is",
+          "start": 236.9,
+          "end": 237.02
+        },
+        {
+          "w": "a",
+          "start": 237.02,
+          "end": 237.16
+        },
+        {
+          "w": "problem.",
+          "start": 237.16,
+          "end": 237.5
+        }
+      ]
     },
     "l94": {
       "start": 238.12,
       "end": 240.98,
-      "text": "Ocarina of Time was not important because it felt familiar."
+      "text": "Ocarina of Time was not important because it felt familiar.",
+      "words": [
+        {
+          "w": "Ocarina",
+          "start": 238.12,
+          "end": 238.4
+        },
+        {
+          "w": "of",
+          "start": 238.4,
+          "end": 238.6
+        },
+        {
+          "w": "Time",
+          "start": 238.6,
+          "end": 238.88
+        },
+        {
+          "w": "was",
+          "start": 238.88,
+          "end": 239.18
+        },
+        {
+          "w": "not",
+          "start": 239.18,
+          "end": 239.48
+        },
+        {
+          "w": "important",
+          "start": 239.48,
+          "end": 239.92
+        },
+        {
+          "w": "because",
+          "start": 239.92,
+          "end": 240.26
+        },
+        {
+          "w": "it",
+          "start": 240.26,
+          "end": 240.42
+        },
+        {
+          "w": "felt",
+          "start": 240.42,
+          "end": 240.6
+        },
+        {
+          "w": "familiar.",
+          "start": 240.6,
+          "end": 240.98
+        }
+      ]
     },
     "l95": {
       "start": 241.42,
       "end": 243.44,
-      "text": "It was important because it felt new."
+      "text": "It was important because it felt new.",
+      "words": [
+        {
+          "w": "It",
+          "start": 241.42,
+          "end": 241.58
+        },
+        {
+          "w": "was",
+          "start": 241.58,
+          "end": 241.72
+        },
+        {
+          "w": "important",
+          "start": 241.72,
+          "end": 242.14
+        },
+        {
+          "w": "because",
+          "start": 242.14,
+          "end": 242.48
+        },
+        {
+          "w": "it",
+          "start": 242.48,
+          "end": 242.66
+        },
+        {
+          "w": "felt",
+          "start": 242.66,
+          "end": 242.92
+        },
+        {
+          "w": "new.",
+          "start": 242.92,
+          "end": 243.44
+        }
+      ]
     },
     "l96": {
       "start": 243.84,
       "end": 248.4,
-      "text": "A world people understood in two dimensions suddenly became somewhere they could stand."
+      "text": "A world people understood in two dimensions suddenly became somewhere they could stand.",
+      "words": [
+        {
+          "w": "A",
+          "start": 243.84,
+          "end": 243.94
+        },
+        {
+          "w": "world",
+          "start": 243.94,
+          "end": 244.24
+        },
+        {
+          "w": "people",
+          "start": 244.24,
+          "end": 244.52
+        },
+        {
+          "w": "understood",
+          "start": 244.52,
+          "end": 245.04
+        },
+        {
+          "w": "in",
+          "start": 245.04,
+          "end": 245.28
+        },
+        {
+          "w": "two",
+          "start": 245.28,
+          "end": 245.46
+        },
+        {
+          "w": "dimensions",
+          "start": 245.46,
+          "end": 245.94
+        },
+        {
+          "w": "suddenly",
+          "start": 245.94,
+          "end": 246.54
+        },
+        {
+          "w": "became",
+          "start": 246.54,
+          "end": 246.96
+        },
+        {
+          "w": "somewhere",
+          "start": 246.96,
+          "end": 247.42
+        },
+        {
+          "w": "they",
+          "start": 247.42,
+          "end": 247.64
+        },
+        {
+          "w": "could",
+          "start": 247.64,
+          "end": 247.86
+        },
+        {
+          "w": "stand.",
+          "start": 247.86,
+          "end": 248.4
+        }
+      ]
     },
     "l97": {
       "start": 248.92,
       "end": 249.84,
-      "text": "Distance mattered."
+      "text": "Distance mattered.",
+      "words": [
+        {
+          "w": "Distance",
+          "start": 248.92,
+          "end": 249.36
+        },
+        {
+          "w": "mattered.",
+          "start": 249.36,
+          "end": 249.84
+        }
+      ]
     },
     "l98": {
       "start": 250.2,
       "end": 251.58,
-      "text": "Where you looked mattered."
+      "text": "Where you looked mattered.",
+      "words": [
+        {
+          "w": "Where",
+          "start": 250.2,
+          "end": 250.46
+        },
+        {
+          "w": "you",
+          "start": 250.46,
+          "end": 250.7
+        },
+        {
+          "w": "looked",
+          "start": 250.7,
+          "end": 251.04
+        },
+        {
+          "w": "mattered.",
+          "start": 251.04,
+          "end": 251.58
+        }
+      ]
     },
     "l99": {
       "start": 252.12,
       "end": 253.04,
-      "text": "Music mattered."
+      "text": "Music mattered.",
+      "words": [
+        {
+          "w": "Music",
+          "start": 252.12,
+          "end": 252.44
+        },
+        {
+          "w": "mattered.",
+          "start": 252.44,
+          "end": 253.04
+        }
+      ]
     },
     "l100": {
       "start": 253.54,
       "end": 254.36,
-      "text": "And most importantly..."
+      "text": "And most importantly...",
+      "words": [
+        {
+          "w": "And",
+          "start": 253.54,
+          "end": 253.62
+        },
+        {
+          "w": "most",
+          "start": 253.62,
+          "end": 253.8
+        },
+        {
+          "w": "importantly...",
+          "start": 253.8,
+          "end": 254.36
+        }
+      ]
     },
     "l101": {
       "start": 255.24,
       "end": 256.3,
-      "text": "time mattered."
+      "text": "time mattered.",
+      "words": [
+        {
+          "w": "time",
+          "start": 255.24,
+          "end": 255.46
+        },
+        {
+          "w": "mattered.",
+          "start": 255.46,
+          "end": 256.3
+        }
+      ]
     },
     "l102": {
       "start": 256.8,
       "end": 257.58,
-      "text": "You were a child."
+      "text": "You were a child.",
+      "words": [
+        {
+          "w": "You",
+          "start": 256.8,
+          "end": 256.92
+        },
+        {
+          "w": "were",
+          "start": 256.92,
+          "end": 257.06
+        },
+        {
+          "w": "a",
+          "start": 257.06,
+          "end": 257.28
+        },
+        {
+          "w": "child.",
+          "start": 257.28,
+          "end": 257.58
+        }
+      ]
     },
     "l103": {
       "start": 257.88,
       "end": 259.0,
-      "text": "Then you were not."
+      "text": "Then you were not.",
+      "words": [
+        {
+          "w": "Then",
+          "start": 257.88,
+          "end": 258.18
+        },
+        {
+          "w": "you",
+          "start": 258.18,
+          "end": 258.58
+        },
+        {
+          "w": "were",
+          "start": 258.58,
+          "end": 258.74
+        },
+        {
+          "w": "not.",
+          "start": 258.74,
+          "end": 259.0
+        }
+      ]
     },
     "l104": {
       "start": 259.36,
       "end": 260.06,
-      "text": "You disappeared..."
+      "text": "You disappeared...",
+      "words": [
+        {
+          "w": "You",
+          "start": 259.36,
+          "end": 259.58
+        },
+        {
+          "w": "disappeared...",
+          "start": 259.58,
+          "end": 260.06
+        }
+      ]
     },
     "l105": {
       "start": 260.52,
       "end": 262.26,
-      "text": "and the world changed without you."
+      "text": "and the world changed without you.",
+      "words": [
+        {
+          "w": "and",
+          "start": 260.52,
+          "end": 260.66
+        },
+        {
+          "w": "the",
+          "start": 260.66,
+          "end": 260.78
+        },
+        {
+          "w": "world",
+          "start": 260.78,
+          "end": 261.02
+        },
+        {
+          "w": "changed",
+          "start": 261.02,
+          "end": 261.52
+        },
+        {
+          "w": "without",
+          "start": 261.52,
+          "end": 261.86
+        },
+        {
+          "w": "you.",
+          "start": 261.86,
+          "end": 262.26
+        }
+      ]
     },
     "l106": {
       "start": 262.56,
       "end": 265.24,
-      "text": "That is not some side detail of Ocarina of Time."
+      "text": "That is not some side detail of Ocarina of Time.",
+      "words": [
+        {
+          "w": "That",
+          "start": 262.56,
+          "end": 262.68
+        },
+        {
+          "w": "is",
+          "start": 262.68,
+          "end": 262.8
+        },
+        {
+          "w": "not",
+          "start": 262.8,
+          "end": 263.0
+        },
+        {
+          "w": "some",
+          "start": 263.0,
+          "end": 263.26
+        },
+        {
+          "w": "side",
+          "start": 263.26,
+          "end": 263.66
+        },
+        {
+          "w": "detail",
+          "start": 263.66,
+          "end": 264.12
+        },
+        {
+          "w": "of",
+          "start": 264.12,
+          "end": 264.4
+        },
+        {
+          "w": "Ocarina",
+          "start": 264.4,
+          "end": 264.78
+        },
+        {
+          "w": "of",
+          "start": 264.78,
+          "end": 264.94
+        },
+        {
+          "w": "Time.",
+          "start": 264.94,
+          "end": 265.24
+        }
+      ]
     },
     "l107": {
       "start": 265.6,
       "end": 267.02,
-      "text": "That is the game."
+      "text": "That is the game.",
+      "words": [
+        {
+          "w": "That",
+          "start": 265.6,
+          "end": 265.94
+        },
+        {
+          "w": "is",
+          "start": 265.94,
+          "end": 266.36
+        },
+        {
+          "w": "the",
+          "start": 266.36,
+          "end": 266.64
+        },
+        {
+          "w": "game.",
+          "start": 266.64,
+          "end": 267.02
+        }
+      ]
     },
     "l108": {
       "start": 267.5,
       "end": 271.28,
-      "text": "Link’s adventure is a journey through Hyrule across two distinct eras."
+      "text": "Link’s adventure is a journey through Hyrule across two distinct eras.",
+      "words": [
+        {
+          "w": "Link’s",
+          "start": 267.5,
+          "end": 267.78
+        },
+        {
+          "w": "adventure",
+          "start": 267.78,
+          "end": 268.02
+        },
+        {
+          "w": "is",
+          "start": 268.02,
+          "end": 268.36
+        },
+        {
+          "w": "a",
+          "start": 268.36,
+          "end": 268.56
+        },
+        {
+          "w": "journey",
+          "start": 268.56,
+          "end": 268.72
+        },
+        {
+          "w": "through",
+          "start": 268.72,
+          "end": 269.08
+        },
+        {
+          "w": "Hyrule",
+          "start": 269.08,
+          "end": 269.52
+        },
+        {
+          "w": "across",
+          "start": 269.52,
+          "end": 269.86
+        },
+        {
+          "w": "two",
+          "start": 269.86,
+          "end": 270.28
+        },
+        {
+          "w": "distinct",
+          "start": 270.28,
+          "end": 270.76
+        },
+        {
+          "w": "eras.",
+          "start": 270.76,
+          "end": 271.28
+        }
+      ]
     },
     "l109": {
       "start": 271.74,
       "end": 274.92,
-      "text": "So maybe changing Ocarina of Time is not disrespecting it."
+      "text": "So maybe changing Ocarina of Time is not disrespecting it.",
+      "words": [
+        {
+          "w": "So",
+          "start": 271.74,
+          "end": 271.96
+        },
+        {
+          "w": "maybe",
+          "start": 271.96,
+          "end": 272.26
+        },
+        {
+          "w": "changing",
+          "start": 272.26,
+          "end": 272.66
+        },
+        {
+          "w": "Ocarina",
+          "start": 272.66,
+          "end": 273.08
+        },
+        {
+          "w": "of",
+          "start": 273.08,
+          "end": 273.28
+        },
+        {
+          "w": "Time",
+          "start": 273.28,
+          "end": 273.48
+        },
+        {
+          "w": "is",
+          "start": 273.48,
+          "end": 273.7
+        },
+        {
+          "w": "not",
+          "start": 273.7,
+          "end": 274.0
+        },
+        {
+          "w": "disrespecting",
+          "start": 274.0,
+          "end": 274.78
+        },
+        {
+          "w": "it.",
+          "start": 274.78,
+          "end": 274.92
+        }
+      ]
     },
     "l110": {
       "start": 274.92,
       "end": 277.98,
-      "text": "Maybe refusing to change anything would be."
+      "text": "Maybe refusing to change anything would be.",
+      "words": [
+        {
+          "w": "Maybe",
+          "start": 274.92,
+          "end": 275.5
+        },
+        {
+          "w": "refusing",
+          "start": 275.5,
+          "end": 276.04
+        },
+        {
+          "w": "to",
+          "start": 276.04,
+          "end": 276.32
+        },
+        {
+          "w": "change",
+          "start": 276.32,
+          "end": 276.6
+        },
+        {
+          "w": "anything",
+          "start": 276.6,
+          "end": 277.16
+        },
+        {
+          "w": "would",
+          "start": 277.16,
+          "end": 277.68
+        },
+        {
+          "w": "be.",
+          "start": 277.68,
+          "end": 277.98
+        }
+      ]
     },
     "l111": {
       "start": 278.3,
       "end": 281.92,
-      "text": "Because the goal should not be to preserve every limitation from 1998."
+      "text": "Because the goal should not be to preserve every limitation from 1998.",
+      "words": [
+        {
+          "w": "Because",
+          "start": 278.3,
+          "end": 278.5
+        },
+        {
+          "w": "the",
+          "start": 278.5,
+          "end": 278.72
+        },
+        {
+          "w": "goal",
+          "start": 278.72,
+          "end": 278.98
+        },
+        {
+          "w": "should",
+          "start": 278.98,
+          "end": 279.26
+        },
+        {
+          "w": "not",
+          "start": 279.26,
+          "end": 279.56
+        },
+        {
+          "w": "be",
+          "start": 279.56,
+          "end": 279.84
+        },
+        {
+          "w": "to",
+          "start": 279.84,
+          "end": 280.0
+        },
+        {
+          "w": "preserve",
+          "start": 280.0,
+          "end": 280.28
+        },
+        {
+          "w": "every",
+          "start": 280.28,
+          "end": 280.62
+        },
+        {
+          "w": "limitation",
+          "start": 280.62,
+          "end": 281.06
+        },
+        {
+          "w": "from",
+          "start": 281.06,
+          "end": 281.36
+        },
+        {
+          "w": "1998.",
+          "start": 281.36,
+          "end": 281.92
+        }
+      ]
     },
     "l112": {
       "start": 282.66,
       "end": 284.4,
-      "text": "The goal should be to understand..."
+      "text": "The goal should be to understand...",
+      "words": [
+        {
+          "w": "The",
+          "start": 282.66,
+          "end": 282.86
+        },
+        {
+          "w": "goal",
+          "start": 282.86,
+          "end": 283.1
+        },
+        {
+          "w": "should",
+          "start": 283.1,
+          "end": 283.38
+        },
+        {
+          "w": "be",
+          "start": 283.38,
+          "end": 283.54
+        },
+        {
+          "w": "to",
+          "start": 283.54,
+          "end": 283.76
+        },
+        {
+          "w": "understand...",
+          "start": 283.76,
+          "end": 284.4
+        }
+      ]
     },
     "l113": {
       "start": 284.4,
       "end": 287.04,
-      "text": "what those limitations made you feel."
+      "text": "what those limitations made you feel.",
+      "words": [
+        {
+          "w": "what",
+          "start": 284.4,
+          "end": 285.24
+        },
+        {
+          "w": "those",
+          "start": 285.24,
+          "end": 285.54
+        },
+        {
+          "w": "limitations",
+          "start": 285.54,
+          "end": 286.02
+        },
+        {
+          "w": "made",
+          "start": 286.02,
+          "end": 286.46
+        },
+        {
+          "w": "you",
+          "start": 286.46,
+          "end": 286.68
+        },
+        {
+          "w": "feel.",
+          "start": 286.68,
+          "end": 287.04
+        }
+      ]
     },
     "l114": {
       "start": 287.36,
       "end": 290.66,
-      "text": "And then find a way to make someone feel that again."
+      "text": "And then find a way to make someone feel that again.",
+      "words": [
+        {
+          "w": "And",
+          "start": 287.36,
+          "end": 287.56
+        },
+        {
+          "w": "then",
+          "start": 287.56,
+          "end": 287.74
+        },
+        {
+          "w": "find",
+          "start": 287.74,
+          "end": 288.06
+        },
+        {
+          "w": "a",
+          "start": 288.06,
+          "end": 288.28
+        },
+        {
+          "w": "way",
+          "start": 288.28,
+          "end": 288.44
+        },
+        {
+          "w": "to",
+          "start": 288.44,
+          "end": 288.66
+        },
+        {
+          "w": "make",
+          "start": 288.66,
+          "end": 288.82
+        },
+        {
+          "w": "someone",
+          "start": 288.82,
+          "end": 289.22
+        },
+        {
+          "w": "feel",
+          "start": 289.22,
+          "end": 289.58
+        },
+        {
+          "w": "that",
+          "start": 289.58,
+          "end": 290.0
+        },
+        {
+          "w": "again.",
+          "start": 290.0,
+          "end": 290.66
+        }
+      ]
     },
     "l115": {
       "start": 291.98,
       "end": 294.22,
-      "text": "Which brings us back to the strange part."
+      "text": "Which brings us back to the strange part.",
+      "words": [
+        {
+          "w": "Which",
+          "start": 291.98,
+          "end": 292.22
+        },
+        {
+          "w": "brings",
+          "start": 292.22,
+          "end": 292.56
+        },
+        {
+          "w": "us",
+          "start": 292.56,
+          "end": 292.78
+        },
+        {
+          "w": "back",
+          "start": 292.78,
+          "end": 293.04
+        },
+        {
+          "w": "to",
+          "start": 293.04,
+          "end": 293.32
+        },
+        {
+          "w": "the",
+          "start": 293.32,
+          "end": 293.42
+        },
+        {
+          "w": "strange",
+          "start": 293.42,
+          "end": 293.82
+        },
+        {
+          "w": "part.",
+          "start": 293.82,
+          "end": 294.22
+        }
+      ]
     },
     "l116": {
       "start": 294.56,
       "end": 296.44,
-      "text": "The original game still exists."
+      "text": "The original game still exists.",
+      "words": [
+        {
+          "w": "The",
+          "start": 294.56,
+          "end": 294.66
+        },
+        {
+          "w": "original",
+          "start": 294.66,
+          "end": 294.96
+        },
+        {
+          "w": "game",
+          "start": 294.96,
+          "end": 295.32
+        },
+        {
+          "w": "still",
+          "start": 295.32,
+          "end": 295.7
+        },
+        {
+          "w": "exists.",
+          "start": 295.7,
+          "end": 296.44
+        }
+      ]
     },
     "l117": {
       "start": 296.9,
       "end": 298.06,
-      "text": "We did not lose it."
+      "text": "We did not lose it.",
+      "words": [
+        {
+          "w": "We",
+          "start": 296.9,
+          "end": 297.04
+        },
+        {
+          "w": "did",
+          "start": 297.04,
+          "end": 297.26
+        },
+        {
+          "w": "not",
+          "start": 297.26,
+          "end": 297.52
+        },
+        {
+          "w": "lose",
+          "start": 297.52,
+          "end": 297.74
+        },
+        {
+          "w": "it.",
+          "start": 297.74,
+          "end": 298.06
+        }
+      ]
     },
     "l118": {
       "start": 298.42,
       "end": 302.2,
-      "text": "Nobody needs Nintendo to rescue Ocarina of Time from history."
+      "text": "Nobody needs Nintendo to rescue Ocarina of Time from history.",
+      "words": [
+        {
+          "w": "Nobody",
+          "start": 298.42,
+          "end": 298.66
+        },
+        {
+          "w": "needs",
+          "start": 298.66,
+          "end": 299.1
+        },
+        {
+          "w": "Nintendo",
+          "start": 299.1,
+          "end": 299.62
+        },
+        {
+          "w": "to",
+          "start": 299.62,
+          "end": 300.04
+        },
+        {
+          "w": "rescue",
+          "start": 300.04,
+          "end": 300.5
+        },
+        {
+          "w": "Ocarina",
+          "start": 300.5,
+          "end": 301.04
+        },
+        {
+          "w": "of",
+          "start": 301.04,
+          "end": 301.24
+        },
+        {
+          "w": "Time",
+          "start": 301.24,
+          "end": 301.48
+        },
+        {
+          "w": "from",
+          "start": 301.48,
+          "end": 301.74
+        },
+        {
+          "w": "history.",
+          "start": 301.74,
+          "end": 302.2
+        }
+      ]
     },
     "l119": {
       "start": 302.54,
       "end": 304.3,
-      "text": "So why do we want it again?"
+      "text": "So why do we want it again?",
+      "words": [
+        {
+          "w": "So",
+          "start": 302.54,
+          "end": 302.94
+        },
+        {
+          "w": "why",
+          "start": 302.94,
+          "end": 303.42
+        },
+        {
+          "w": "do",
+          "start": 303.42,
+          "end": 303.56
+        },
+        {
+          "w": "we",
+          "start": 303.56,
+          "end": 303.7
+        },
+        {
+          "w": "want",
+          "start": 303.7,
+          "end": 303.88
+        },
+        {
+          "w": "it",
+          "start": 303.88,
+          "end": 304.0
+        },
+        {
+          "w": "again?",
+          "start": 304.0,
+          "end": 304.3
+        }
+      ]
     },
     "l120": {
       "start": 304.66,
       "end": 310.76,
-      "text": "Because going back to something you loved is one of the few ways you can measure how much you changed."
+      "text": "Because going back to something you loved is one of the few ways you can measure how much you changed.",
+      "words": [
+        {
+          "w": "Because",
+          "start": 304.66,
+          "end": 304.94
+        },
+        {
+          "w": "going",
+          "start": 304.94,
+          "end": 305.34
+        },
+        {
+          "w": "back",
+          "start": 305.34,
+          "end": 305.64
+        },
+        {
+          "w": "to",
+          "start": 305.64,
+          "end": 305.9
+        },
+        {
+          "w": "something",
+          "start": 305.9,
+          "end": 306.16
+        },
+        {
+          "w": "you",
+          "start": 306.16,
+          "end": 306.46
+        },
+        {
+          "w": "loved",
+          "start": 306.46,
+          "end": 306.9
+        },
+        {
+          "w": "is",
+          "start": 306.9,
+          "end": 307.42
+        },
+        {
+          "w": "one",
+          "start": 307.42,
+          "end": 307.58
+        },
+        {
+          "w": "of",
+          "start": 307.58,
+          "end": 307.7
+        },
+        {
+          "w": "the",
+          "start": 307.7,
+          "end": 307.8
+        },
+        {
+          "w": "few",
+          "start": 307.8,
+          "end": 308.14
+        },
+        {
+          "w": "ways",
+          "start": 308.14,
+          "end": 308.4
+        },
+        {
+          "w": "you",
+          "start": 308.4,
+          "end": 308.62
+        },
+        {
+          "w": "can",
+          "start": 308.62,
+          "end": 308.82
+        },
+        {
+          "w": "measure",
+          "start": 308.82,
+          "end": 309.24
+        },
+        {
+          "w": "how",
+          "start": 309.24,
+          "end": 309.82
+        },
+        {
+          "w": "much",
+          "start": 309.82,
+          "end": 310.02
+        },
+        {
+          "w": "you",
+          "start": 310.02,
+          "end": 310.26
+        },
+        {
+          "w": "changed.",
+          "start": 310.26,
+          "end": 310.76
+        }
+      ]
     },
     "l121": {
       "start": 311.3,
       "end": 313.06,
-      "text": "The forest is still there."
+      "text": "The forest is still there.",
+      "words": [
+        {
+          "w": "The",
+          "start": 311.3,
+          "end": 311.42
+        },
+        {
+          "w": "forest",
+          "start": 311.42,
+          "end": 311.84
+        },
+        {
+          "w": "is",
+          "start": 311.84,
+          "end": 312.4
+        },
+        {
+          "w": "still",
+          "start": 312.4,
+          "end": 312.7
+        },
+        {
+          "w": "there.",
+          "start": 312.7,
+          "end": 313.06
+        }
+      ]
     },
     "l122": {
       "start": 313.42,
       "end": 315.14,
-      "text": "The ocarina is still there."
+      "text": "The ocarina is still there.",
+      "words": [
+        {
+          "w": "The",
+          "start": 313.42,
+          "end": 313.58
+        },
+        {
+          "w": "ocarina",
+          "start": 313.58,
+          "end": 314.1
+        },
+        {
+          "w": "is",
+          "start": 314.1,
+          "end": 314.54
+        },
+        {
+          "w": "still",
+          "start": 314.54,
+          "end": 314.8
+        },
+        {
+          "w": "there.",
+          "start": 314.8,
+          "end": 315.14
+        }
+      ]
     },
     "l123": {
       "start": 315.46,
       "end": 317.7,
-      "text": "The Master Sword is still waiting."
+      "text": "The Master Sword is still waiting.",
+      "words": [
+        {
+          "w": "The",
+          "start": 315.46,
+          "end": 315.68
+        },
+        {
+          "w": "Master",
+          "start": 315.68,
+          "end": 316.12
+        },
+        {
+          "w": "Sword",
+          "start": 316.12,
+          "end": 316.46
+        },
+        {
+          "w": "is",
+          "start": 316.46,
+          "end": 317.0
+        },
+        {
+          "w": "still",
+          "start": 317.0,
+          "end": 317.34
+        },
+        {
+          "w": "waiting.",
+          "start": 317.34,
+          "end": 317.7
+        }
+      ]
     },
     "l124": {
       "start": 317.7,
       "end": 321.56,
-      "text": "The Triforce still means wisdom, power and courage."
+      "text": "The Triforce still means wisdom, power and courage.",
+      "words": [
+        {
+          "w": "The",
+          "start": 317.7,
+          "end": 318.3
+        },
+        {
+          "w": "Triforce",
+          "start": 318.3,
+          "end": 318.94
+        },
+        {
+          "w": "still",
+          "start": 318.94,
+          "end": 319.44
+        },
+        {
+          "w": "means",
+          "start": 319.44,
+          "end": 319.86
+        },
+        {
+          "w": "wisdom,",
+          "start": 319.86,
+          "end": 320.28
+        },
+        {
+          "w": "power",
+          "start": 320.56,
+          "end": 320.74
+        },
+        {
+          "w": "and",
+          "start": 321.06,
+          "end": 321.18
+        },
+        {
+          "w": "courage.",
+          "start": 321.18,
+          "end": 321.56
+        }
+      ]
     },
     "l125": {
       "start": 321.98,
       "end": 325.38,
-      "text": "But the person holding the controller is different."
+      "text": "But the person holding the controller is different.",
+      "words": [
+        {
+          "w": "But",
+          "start": 321.98,
+          "end": 322.2
+        },
+        {
+          "w": "the",
+          "start": 322.2,
+          "end": 322.38
+        },
+        {
+          "w": "person",
+          "start": 322.38,
+          "end": 322.8
+        },
+        {
+          "w": "holding",
+          "start": 322.8,
+          "end": 323.22
+        },
+        {
+          "w": "the",
+          "start": 323.22,
+          "end": 323.48
+        },
+        {
+          "w": "controller",
+          "start": 323.48,
+          "end": 323.98
+        },
+        {
+          "w": "is",
+          "start": 323.98,
+          "end": 324.9
+        },
+        {
+          "w": "different.",
+          "start": 324.9,
+          "end": 325.38
+        }
+      ]
     },
     "l126": {
       "start": 325.88,
       "end": 327.56,
-      "text": "And for this particular game..."
+      "text": "And for this particular game...",
+      "words": [
+        {
+          "w": "And",
+          "start": 325.88,
+          "end": 325.98
+        },
+        {
+          "w": "for",
+          "start": 325.98,
+          "end": 326.14
+        },
+        {
+          "w": "this",
+          "start": 326.14,
+          "end": 326.44
+        },
+        {
+          "w": "particular",
+          "start": 326.44,
+          "end": 327.08
+        },
+        {
+          "w": "game...",
+          "start": 327.08,
+          "end": 327.56
+        }
+      ]
     },
     "l127": {
       "start": 328.08,
       "end": 330.14,
-      "text": "that is almost too perfect."
+      "text": "that is almost too perfect.",
+      "words": [
+        {
+          "w": "that",
+          "start": 328.08,
+          "end": 328.22
+        },
+        {
+          "w": "is",
+          "start": 328.22,
+          "end": 328.38
+        },
+        {
+          "w": "almost",
+          "start": 328.38,
+          "end": 328.86
+        },
+        {
+          "w": "too",
+          "start": 328.86,
+          "end": 329.58
+        },
+        {
+          "w": "perfect.",
+          "start": 329.58,
+          "end": 330.14
+        }
+      ]
     },
     "l128": {
       "start": 330.58,
       "end": 333.42,
-      "text": "A story about a child becoming an adult..."
+      "text": "A story about a child becoming an adult...",
+      "words": [
+        {
+          "w": "A",
+          "start": 330.58,
+          "end": 330.7
+        },
+        {
+          "w": "story",
+          "start": 330.7,
+          "end": 331.06
+        },
+        {
+          "w": "about",
+          "start": 331.06,
+          "end": 331.56
+        },
+        {
+          "w": "a",
+          "start": 331.56,
+          "end": 331.74
+        },
+        {
+          "w": "child",
+          "start": 331.74,
+          "end": 332.16
+        },
+        {
+          "w": "becoming",
+          "start": 332.16,
+          "end": 332.68
+        },
+        {
+          "w": "an",
+          "start": 332.68,
+          "end": 333.0
+        },
+        {
+          "w": "adult...",
+          "start": 333.0,
+          "end": 333.42
+        }
+      ]
     },
     "l129": {
       "start": 333.42,
       "end": 336.88,
-      "text": "is coming back to people who did exactly that."
+      "text": "is coming back to people who did exactly that.",
+      "words": [
+        {
+          "w": "is",
+          "start": 333.42,
+          "end": 334.04
+        },
+        {
+          "w": "coming",
+          "start": 334.04,
+          "end": 334.42
+        },
+        {
+          "w": "back",
+          "start": 334.42,
+          "end": 334.7
+        },
+        {
+          "w": "to",
+          "start": 334.7,
+          "end": 334.92
+        },
+        {
+          "w": "people",
+          "start": 334.92,
+          "end": 335.24
+        },
+        {
+          "w": "who",
+          "start": 335.24,
+          "end": 335.54
+        },
+        {
+          "w": "did",
+          "start": 335.54,
+          "end": 335.82
+        },
+        {
+          "w": "exactly",
+          "start": 335.82,
+          "end": 336.3
+        },
+        {
+          "w": "that.",
+          "start": 336.3,
+          "end": 336.88
+        }
+      ]
     },
     "l130": {
       "start": 337.36,
       "end": 346.72,
-      "text": "Somebody who first crossed Hyrule Field in 1998 can now cross it again with almost three decades between those two versions of themselves."
+      "text": "Somebody who first crossed Hyrule Field in 1998 can now cross it again with almost three decades between those two versions of themselves.",
+      "words": [
+        {
+          "w": "Somebody",
+          "start": 337.36,
+          "end": 337.58
+        },
+        {
+          "w": "who",
+          "start": 337.58,
+          "end": 337.88
+        },
+        {
+          "w": "first",
+          "start": 337.88,
+          "end": 338.24
+        },
+        {
+          "w": "crossed",
+          "start": 338.24,
+          "end": 338.76
+        },
+        {
+          "w": "Hyrule",
+          "start": 338.76,
+          "end": 339.26
+        },
+        {
+          "w": "Field",
+          "start": 339.26,
+          "end": 339.6
+        },
+        {
+          "w": "in",
+          "start": 339.6,
+          "end": 339.84
+        },
+        {
+          "w": "1998",
+          "start": 339.84,
+          "end": 340.6
+        },
+        {
+          "w": "can",
+          "start": 340.6,
+          "end": 341.32
+        },
+        {
+          "w": "now",
+          "start": 341.32,
+          "end": 341.62
+        },
+        {
+          "w": "cross",
+          "start": 341.62,
+          "end": 341.96
+        },
+        {
+          "w": "it",
+          "start": 341.96,
+          "end": 342.16
+        },
+        {
+          "w": "again",
+          "start": 342.16,
+          "end": 342.48
+        },
+        {
+          "w": "with",
+          "start": 342.48,
+          "end": 343.0
+        },
+        {
+          "w": "almost",
+          "start": 343.0,
+          "end": 343.42
+        },
+        {
+          "w": "three",
+          "start": 343.42,
+          "end": 343.94
+        },
+        {
+          "w": "decades",
+          "start": 343.94,
+          "end": 344.4
+        },
+        {
+          "w": "between",
+          "start": 344.4,
+          "end": 344.88
+        },
+        {
+          "w": "those",
+          "start": 344.88,
+          "end": 345.16
+        },
+        {
+          "w": "two",
+          "start": 345.16,
+          "end": 345.5
+        },
+        {
+          "w": "versions",
+          "start": 345.5,
+          "end": 345.88
+        },
+        {
+          "w": "of",
+          "start": 345.88,
+          "end": 346.2
+        },
+        {
+          "w": "themselves.",
+          "start": 346.2,
+          "end": 346.72
+        }
+      ]
     },
     "l131": {
       "start": 346.72,
       "end": 348.08,
-      "text": "Same road."
+      "text": "Same road.",
+      "words": [
+        {
+          "w": "Same",
+          "start": 346.72,
+          "end": 347.62
+        },
+        {
+          "w": "road.",
+          "start": 347.62,
+          "end": 348.08
+        }
+      ]
     },
     "l132": {
       "start": 348.74,
       "end": 349.5,
-      "text": "Different person."
+      "text": "Different person.",
+      "words": [
+        {
+          "w": "Different",
+          "start": 348.74,
+          "end": 348.94
+        },
+        {
+          "w": "person.",
+          "start": 348.94,
+          "end": 349.5
+        }
+      ]
     },
     "l133": {
       "start": 350.02,
       "end": 352.4,
-      "text": "And maybe that is what we actually want."
+      "text": "And maybe that is what we actually want.",
+      "words": [
+        {
+          "w": "And",
+          "start": 350.02,
+          "end": 350.08
+        },
+        {
+          "w": "maybe",
+          "start": 350.08,
+          "end": 350.38
+        },
+        {
+          "w": "that",
+          "start": 350.38,
+          "end": 350.9
+        },
+        {
+          "w": "is",
+          "start": 350.9,
+          "end": 351.28
+        },
+        {
+          "w": "what",
+          "start": 351.28,
+          "end": 351.44
+        },
+        {
+          "w": "we",
+          "start": 351.44,
+          "end": 351.62
+        },
+        {
+          "w": "actually",
+          "start": 351.62,
+          "end": 352.0
+        },
+        {
+          "w": "want.",
+          "start": 352.0,
+          "end": 352.4
+        }
+      ]
     },
     "l134": {
       "start": 352.78,
       "end": 354.32,
-      "text": "Not the old game back."
+      "text": "Not the old game back.",
+      "words": [
+        {
+          "w": "Not",
+          "start": 352.78,
+          "end": 352.98
+        },
+        {
+          "w": "the",
+          "start": 352.98,
+          "end": 353.22
+        },
+        {
+          "w": "old",
+          "start": 353.22,
+          "end": 353.52
+        },
+        {
+          "w": "game",
+          "start": 353.52,
+          "end": 353.86
+        },
+        {
+          "w": "back.",
+          "start": 353.86,
+          "end": 354.32
+        }
+      ]
     },
     "l135": {
       "start": 354.8,
       "end": 357.36,
-      "text": "A chance to stand beside an old memory..."
+      "text": "A chance to stand beside an old memory...",
+      "words": [
+        {
+          "w": "A",
+          "start": 354.8,
+          "end": 354.98
+        },
+        {
+          "w": "chance",
+          "start": 354.98,
+          "end": 355.3
+        },
+        {
+          "w": "to",
+          "start": 355.3,
+          "end": 355.62
+        },
+        {
+          "w": "stand",
+          "start": 355.62,
+          "end": 355.96
+        },
+        {
+          "w": "beside",
+          "start": 355.96,
+          "end": 356.44
+        },
+        {
+          "w": "an",
+          "start": 356.44,
+          "end": 356.66
+        },
+        {
+          "w": "old",
+          "start": 356.66,
+          "end": 356.92
+        },
+        {
+          "w": "memory...",
+          "start": 356.92,
+          "end": 357.36
+        }
+      ]
     },
     "l136": {
       "start": 357.36,
       "end": 360.72,
-      "text": "and see if it still recognizes us."
+      "text": "and see if it still recognizes us.",
+      "words": [
+        {
+          "w": "and",
+          "start": 357.36,
+          "end": 358.14
+        },
+        {
+          "w": "see",
+          "start": 358.14,
+          "end": 358.5
+        },
+        {
+          "w": "if",
+          "start": 358.5,
+          "end": 358.8
+        },
+        {
+          "w": "it",
+          "start": 358.8,
+          "end": 358.96
+        },
+        {
+          "w": "still",
+          "start": 358.96,
+          "end": 359.36
+        },
+        {
+          "w": "recognizes",
+          "start": 359.36,
+          "end": 360.18
+        },
+        {
+          "w": "us.",
+          "start": 360.18,
+          "end": 360.72
+        }
+      ]
     },
     "l137": {
       "start": 362.16,
       "end": 362.48,
-      "text": "So..."
+      "text": "So...",
+      "words": [
+        {
+          "w": "So...",
+          "start": 362.16,
+          "end": 362.48
+        }
+      ]
     },
     "l138": {
       "start": 362.48,
       "end": 364.34,
-      "text": "can you remake a memory?"
+      "text": "can you remake a memory?",
+      "words": [
+        {
+          "w": "can",
+          "start": 362.48,
+          "end": 363.22
+        },
+        {
+          "w": "you",
+          "start": 363.22,
+          "end": 363.38
+        },
+        {
+          "w": "remake",
+          "start": 363.38,
+          "end": 363.78
+        },
+        {
+          "w": "a",
+          "start": 363.78,
+          "end": 364.02
+        },
+        {
+          "w": "memory?",
+          "start": 364.02,
+          "end": 364.34
+        }
+      ]
     },
     "l139": {
       "start": 364.92,
       "end": 365.58,
-      "text": "Probably not."
+      "text": "Probably not.",
+      "words": [
+        {
+          "w": "Probably",
+          "start": 364.92,
+          "end": 365.14
+        },
+        {
+          "w": "not.",
+          "start": 365.14,
+          "end": 365.58
+        }
+      ]
     },
     "l140": {
       "start": 366.2,
       "end": 368.6,
-      "text": "Nintendo cannot rebuild the room you were sitting in."
+      "text": "Nintendo cannot rebuild the room you were sitting in.",
+      "words": [
+        {
+          "w": "Nintendo",
+          "start": 366.2,
+          "end": 366.34
+        },
+        {
+          "w": "cannot",
+          "start": 366.34,
+          "end": 366.76
+        },
+        {
+          "w": "rebuild",
+          "start": 366.76,
+          "end": 367.26
+        },
+        {
+          "w": "the",
+          "start": 367.26,
+          "end": 367.52
+        },
+        {
+          "w": "room",
+          "start": 367.52,
+          "end": 367.72
+        },
+        {
+          "w": "you",
+          "start": 367.72,
+          "end": 367.9
+        },
+        {
+          "w": "were",
+          "start": 367.9,
+          "end": 368.04
+        },
+        {
+          "w": "sitting",
+          "start": 368.04,
+          "end": 368.3
+        },
+        {
+          "w": "in.",
+          "start": 368.3,
+          "end": 368.6
+        }
+      ]
     },
     "l141": {
       "start": 368.78,
       "end": 370.4,
-      "text": "It cannot recreate the television."
+      "text": "It cannot recreate the television.",
+      "words": [
+        {
+          "w": "It",
+          "start": 368.78,
+          "end": 368.94
+        },
+        {
+          "w": "cannot",
+          "start": 368.94,
+          "end": 369.18
+        },
+        {
+          "w": "recreate",
+          "start": 369.18,
+          "end": 369.7
+        },
+        {
+          "w": "the",
+          "start": 369.7,
+          "end": 369.92
+        },
+        {
+          "w": "television.",
+          "start": 369.92,
+          "end": 370.4
+        }
+      ]
     },
     "l142": {
       "start": 370.4,
       "end": 371.82,
-      "text": "The Saturday afternoon."
+      "text": "The Saturday afternoon.",
+      "words": [
+        {
+          "w": "The",
+          "start": 370.4,
+          "end": 370.98
+        },
+        {
+          "w": "Saturday",
+          "start": 370.98,
+          "end": 371.32
+        },
+        {
+          "w": "afternoon.",
+          "start": 371.32,
+          "end": 371.82
+        }
+      ]
     },
     "l143": {
       "start": 372.36,
       "end": 374.24,
-      "text": "The friend sitting next to you."
+      "text": "The friend sitting next to you.",
+      "words": [
+        {
+          "w": "The",
+          "start": 372.36,
+          "end": 372.56
+        },
+        {
+          "w": "friend",
+          "start": 372.56,
+          "end": 372.92
+        },
+        {
+          "w": "sitting",
+          "start": 372.92,
+          "end": 373.34
+        },
+        {
+          "w": "next",
+          "start": 373.34,
+          "end": 373.68
+        },
+        {
+          "w": "to",
+          "start": 373.68,
+          "end": 373.84
+        },
+        {
+          "w": "you.",
+          "start": 373.84,
+          "end": 374.24
+        }
+      ]
     },
     "l144": {
       "start": 374.26,
       "end": 378.7,
-      "text": "Or the exact version of you who walked into Hyrule for the first time."
+      "text": "Or the exact version of you who walked into Hyrule for the first time.",
+      "words": [
+        {
+          "w": "Or",
+          "start": 374.26,
+          "end": 374.7
+        },
+        {
+          "w": "the",
+          "start": 374.7,
+          "end": 375.22
+        },
+        {
+          "w": "exact",
+          "start": 375.22,
+          "end": 375.62
+        },
+        {
+          "w": "version",
+          "start": 375.62,
+          "end": 375.98
+        },
+        {
+          "w": "of",
+          "start": 375.98,
+          "end": 376.22
+        },
+        {
+          "w": "you",
+          "start": 376.22,
+          "end": 376.44
+        },
+        {
+          "w": "who",
+          "start": 376.44,
+          "end": 376.8
+        },
+        {
+          "w": "walked",
+          "start": 376.8,
+          "end": 377.06
+        },
+        {
+          "w": "into",
+          "start": 377.06,
+          "end": 377.32
+        },
+        {
+          "w": "Hyrule",
+          "start": 377.32,
+          "end": 377.68
+        },
+        {
+          "w": "for",
+          "start": 377.68,
+          "end": 377.88
+        },
+        {
+          "w": "the",
+          "start": 377.88,
+          "end": 378.0
+        },
+        {
+          "w": "first",
+          "start": 378.0,
+          "end": 378.18
+        },
+        {
+          "w": "time.",
+          "start": 378.18,
+          "end": 378.7
+        }
+      ]
     },
     "l145": {
       "start": 379.16,
       "end": 380.84,
-      "text": "But it can rebuild Hyrule."
+      "text": "But it can rebuild Hyrule.",
+      "words": [
+        {
+          "w": "But",
+          "start": 379.16,
+          "end": 379.44
+        },
+        {
+          "w": "it",
+          "start": 379.44,
+          "end": 379.56
+        },
+        {
+          "w": "can",
+          "start": 379.56,
+          "end": 379.86
+        },
+        {
+          "w": "rebuild",
+          "start": 379.86,
+          "end": 380.28
+        },
+        {
+          "w": "Hyrule.",
+          "start": 380.28,
+          "end": 380.84
+        }
+      ]
     },
     "l146": {
       "start": 381.28,
       "end": 382.64,
-      "text": "And maybe that is enough."
+      "text": "And maybe that is enough.",
+      "words": [
+        {
+          "w": "And",
+          "start": 381.28,
+          "end": 381.5
+        },
+        {
+          "w": "maybe",
+          "start": 381.5,
+          "end": 381.72
+        },
+        {
+          "w": "that",
+          "start": 381.72,
+          "end": 382.08
+        },
+        {
+          "w": "is",
+          "start": 382.08,
+          "end": 382.3
+        },
+        {
+          "w": "enough.",
+          "start": 382.3,
+          "end": 382.64
+        }
+      ]
     },
     "l147": {
       "start": 382.64,
       "end": 385.46,
-      "text": "Because a remake does not have to take you back."
+      "text": "Because a remake does not have to take you back.",
+      "words": [
+        {
+          "w": "Because",
+          "start": 382.64,
+          "end": 383.3
+        },
+        {
+          "w": "a",
+          "start": 383.3,
+          "end": 383.46
+        },
+        {
+          "w": "remake",
+          "start": 383.46,
+          "end": 383.8
+        },
+        {
+          "w": "does",
+          "start": 383.8,
+          "end": 384.14
+        },
+        {
+          "w": "not",
+          "start": 384.14,
+          "end": 384.36
+        },
+        {
+          "w": "have",
+          "start": 384.36,
+          "end": 384.6
+        },
+        {
+          "w": "to",
+          "start": 384.6,
+          "end": 384.76
+        },
+        {
+          "w": "take",
+          "start": 384.76,
+          "end": 384.96
+        },
+        {
+          "w": "you",
+          "start": 384.96,
+          "end": 385.16
+        },
+        {
+          "w": "back.",
+          "start": 385.16,
+          "end": 385.46
+        }
+      ]
     },
     "l148": {
       "start": 385.72,
       "end": 387.86,
-      "text": "It can let two different moments meet."
+      "text": "It can let two different moments meet.",
+      "words": [
+        {
+          "w": "It",
+          "start": 385.72,
+          "end": 385.9
+        },
+        {
+          "w": "can",
+          "start": 385.9,
+          "end": 386.04
+        },
+        {
+          "w": "let",
+          "start": 386.04,
+          "end": 386.26
+        },
+        {
+          "w": "two",
+          "start": 386.26,
+          "end": 386.54
+        },
+        {
+          "w": "different",
+          "start": 386.54,
+          "end": 386.94
+        },
+        {
+          "w": "moments",
+          "start": 386.94,
+          "end": 387.38
+        },
+        {
+          "w": "meet.",
+          "start": 387.38,
+          "end": 387.86
+        }
+      ]
     },
     "l149": {
       "start": 387.86,
       "end": 389.36,
-      "text": "The game you remember..."
+      "text": "The game you remember...",
+      "words": [
+        {
+          "w": "The",
+          "start": 387.86,
+          "end": 388.5
+        },
+        {
+          "w": "game",
+          "start": 388.5,
+          "end": 388.76
+        },
+        {
+          "w": "you",
+          "start": 388.76,
+          "end": 388.96
+        },
+        {
+          "w": "remember...",
+          "start": 388.96,
+          "end": 389.36
+        }
+      ]
     },
     "l150": {
       "start": 390.08,
       "end": 391.48,
-      "text": "and the person you became."
+      "text": "and the person you became.",
+      "words": [
+        {
+          "w": "and",
+          "start": 390.08,
+          "end": 390.14
+        },
+        {
+          "w": "the",
+          "start": 390.14,
+          "end": 390.26
+        },
+        {
+          "w": "person",
+          "start": 390.26,
+          "end": 390.66
+        },
+        {
+          "w": "you",
+          "start": 390.66,
+          "end": 391.08
+        },
+        {
+          "w": "became.",
+          "start": 391.08,
+          "end": 391.48
+        }
+      ]
     },
     "l151": {
       "start": 392.28,
       "end": 395.16,
-      "text": "You cannot play Ocarina of Time for the first time again."
+      "text": "You cannot play Ocarina of Time for the first time again.",
+      "words": [
+        {
+          "w": "You",
+          "start": 392.28,
+          "end": 392.44
+        },
+        {
+          "w": "cannot",
+          "start": 392.44,
+          "end": 392.72
+        },
+        {
+          "w": "play",
+          "start": 392.72,
+          "end": 393.08
+        },
+        {
+          "w": "Ocarina",
+          "start": 393.08,
+          "end": 393.52
+        },
+        {
+          "w": "of",
+          "start": 393.52,
+          "end": 393.7
+        },
+        {
+          "w": "Time",
+          "start": 393.7,
+          "end": 393.96
+        },
+        {
+          "w": "for",
+          "start": 393.96,
+          "end": 394.16
+        },
+        {
+          "w": "the",
+          "start": 394.16,
+          "end": 394.3
+        },
+        {
+          "w": "first",
+          "start": 394.3,
+          "end": 394.5
+        },
+        {
+          "w": "time",
+          "start": 394.5,
+          "end": 394.86
+        },
+        {
+          "w": "again.",
+          "start": 394.86,
+          "end": 395.16
+        }
+      ]
     },
     "l152": {
       "start": 395.5,
       "end": 397.28,
-      "text": "But maybe you can meet it again."
+      "text": "But maybe you can meet it again.",
+      "words": [
+        {
+          "w": "But",
+          "start": 395.5,
+          "end": 395.66
+        },
+        {
+          "w": "maybe",
+          "start": 395.66,
+          "end": 396.0
+        },
+        {
+          "w": "you",
+          "start": 396.0,
+          "end": 396.34
+        },
+        {
+          "w": "can",
+          "start": 396.34,
+          "end": 396.54
+        },
+        {
+          "w": "meet",
+          "start": 396.54,
+          "end": 396.78
+        },
+        {
+          "w": "it",
+          "start": 396.78,
+          "end": 396.96
+        },
+        {
+          "w": "again.",
+          "start": 396.96,
+          "end": 397.28
+        }
+      ]
     },
     "l153": {
       "start": 397.62,
       "end": 398.32,
-      "text": "And this time..."
+      "text": "And this time...",
+      "words": [
+        {
+          "w": "And",
+          "start": 397.62,
+          "end": 397.76
+        },
+        {
+          "w": "this",
+          "start": 397.76,
+          "end": 397.94
+        },
+        {
+          "w": "time...",
+          "start": 397.94,
+          "end": 398.32
+        }
+      ]
     },
     "l154": {
       "start": 398.72,
       "end": 400.06,
-      "text": "you both grew up."
+      "text": "you both grew up.",
+      "words": [
+        {
+          "w": "you",
+          "start": 398.72,
+          "end": 398.96
+        },
+        {
+          "w": "both",
+          "start": 398.96,
+          "end": 399.3
+        },
+        {
+          "w": "grew",
+          "start": 399.3,
+          "end": 399.78
+        },
+        {
+          "w": "up.",
+          "start": 399.78,
+          "end": 400.06
+        }
+      ]
     },
     "l155": {
       "start": 403.24,
       "end": 405.06,
-      "text": "So what game would you go back to?"
+      "text": "So what game would you go back to?",
+      "words": [
+        {
+          "w": "So",
+          "start": 403.24,
+          "end": 403.48
+        },
+        {
+          "w": "what",
+          "start": 403.48,
+          "end": 403.72
+        },
+        {
+          "w": "game",
+          "start": 403.72,
+          "end": 403.94
+        },
+        {
+          "w": "would",
+          "start": 403.94,
+          "end": 404.14
+        },
+        {
+          "w": "you",
+          "start": 404.14,
+          "end": 404.38
+        },
+        {
+          "w": "go",
+          "start": 404.38,
+          "end": 404.54
+        },
+        {
+          "w": "back",
+          "start": 404.54,
+          "end": 404.76
+        },
+        {
+          "w": "to?",
+          "start": 404.76,
+          "end": 405.06
+        }
+      ]
     },
     "l156": {
       "start": 405.34,
       "end": 407.58,
-      "text": "And what game deserves a “why?” next?"
+      "text": "And what game deserves a “why?” next?",
+      "words": [
+        {
+          "w": "And",
+          "start": 405.34,
+          "end": 405.5
+        },
+        {
+          "w": "what",
+          "start": 405.5,
+          "end": 405.72
+        },
+        {
+          "w": "game",
+          "start": 405.72,
+          "end": 405.96
+        },
+        {
+          "w": "deserves",
+          "start": 405.96,
+          "end": 406.34
+        },
+        {
+          "w": "a",
+          "start": 406.34,
+          "end": 406.56
+        },
+        {
+          "w": "“why?”",
+          "start": 406.56,
+          "end": 407.02
+        },
+        {
+          "w": "next?",
+          "start": 407.02,
+          "end": 407.58
+        }
+      ]
     },
     "l157": {
       "start": 408.14,
       "end": 411.12,
-      "text": "Tell me in the comments. Maybe that’s our next quest."
+      "text": "Tell me in the comments. Maybe that’s our next quest.",
+      "words": [
+        {
+          "w": "Tell",
+          "start": 408.14,
+          "end": 408.32
+        },
+        {
+          "w": "me",
+          "start": 408.32,
+          "end": 408.48
+        },
+        {
+          "w": "in",
+          "start": 408.48,
+          "end": 408.58
+        },
+        {
+          "w": "the",
+          "start": 408.58,
+          "end": 408.7
+        },
+        {
+          "w": "comments.",
+          "start": 408.7,
+          "end": 409.04
+        },
+        {
+          "w": "Maybe",
+          "start": 409.58,
+          "end": 409.7
+        },
+        {
+          "w": "that’s",
+          "start": 409.7,
+          "end": 410.28
+        },
+        {
+          "w": "our",
+          "start": 410.28,
+          "end": 410.48
+        },
+        {
+          "w": "next",
+          "start": 410.48,
+          "end": 410.8
+        },
+        {
+          "w": "quest.",
+          "start": 410.8,
+          "end": 411.12
+        }
+      ]
     }
   }
 }
