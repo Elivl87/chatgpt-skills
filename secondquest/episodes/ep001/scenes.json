@@ -79,8 +79,8 @@
       "note": "Quest receives money. Wallet briefly becomes happy. Same office art, new framing.",
       "start": "l03-0.1",
       "camera": {
-        "start": { "zoom": 1.3, "x": 0.42, "y": 0.56 },
-        "moves": [{ "type": "push_in", "amount": 0.05 }]
+        "start": { "zoom": 1.1448, "x": 0.5, "y": 0.52 },
+        "moves": [{ "type": "move_to", "zoom": 1.3, "x": 0.42, "y": 0.56, "duration": 1.2 }, { "type": "push_in", "at": 1.2, "amount": 0.05 }]
       },
       "layers": [
         { "asset": "ep001.bg_office" },

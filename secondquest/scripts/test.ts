@@ -28,6 +28,7 @@ import { resolveRenderTarget } from './render-target';
 import { episodeFiles, registerEpisodeSource } from './scaffold';
 import { minBackground, validateArtContract, validateArtManifest, type ArtManifest, type ArtManifestEntry, type ImageInfo } from '../src/engine/artContract';
 import { intakeParts, MAX_PART_BYTES } from './art-intake';
+import { checkCameraContinuity, type PlateShot } from '../src/engine/cameraContinuity';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname } from 'node:path';
@@ -472,6 +473,19 @@ test('max output is 1080p in either orientation — 1920x1080 and 1080x1920 (Sho
   assert.ok(withinMaxOutput(1080, 1920, max));
   assert.ok(!withinMaxOutput(3840, 2160, max));
   assert.ok(!withinMaxOutput(2160, 3840, max));
+});
+test('camera continuity: same plate never snaps back to an earlier framing (Producer rule)', () => {
+  const cam = (zoom: number, x = 0.5, y = 0.5) => ({ zoom, x, y, rotation: 0 });
+  const shot = (sceneId: string, plate: string, start: ReturnType<typeof cam>, end: ReturnType<typeof cam>, firstMove = 'push_in'): PlateShot => ({ sceneId, plate, start, end, firstMove });
+  const codes = (shots: PlateShot[]) => checkCameraContinuity(shots).map((i) => `${i.sceneId}:${i.code}`);
+  // consecutive: continuing the camera passes, a clearly new shot passes, a small snap back fails
+  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1.08), cam(1.15))]), []);
+  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1.4, 0.4), cam(1.4, 0.6), 'pan_right')]), []);
+  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1), cam(1.08))]), ['b:CAMERA_JUMP']);
+  // a plate that returns later: same opening + same move fails; a new framing passes
+  const other = shot('x', 'q', cam(1), cam(1.08));
+  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), other, shot('c', 'p', cam(1.02), cam(1.1))]), ['c:CAMERA_REPEAT']);
+  assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), other, shot('c', 'p', cam(1.3, 0.4), cam(1.3, 0.6), 'pan_right')]), []);
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);

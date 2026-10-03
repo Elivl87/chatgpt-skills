@@ -7,6 +7,8 @@ import { resolveTime, type TimeContext } from '../utils/time';
 import { listAssetIds, toPublicPath } from './assets';
 import { episodeLocales, localizeBundle } from './locale';
 import { resolveCut } from './timeline';
+import { evaluateCamera, resolveCamera } from '../animations/camera';
+import { checkCameraContinuity, type PlateShot } from './cameraContinuity';
 
 export interface Issue {
   level: 'error' | 'warn';
@@ -87,6 +89,19 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
     }
   };
 
+  const plateOf = (layers: Layer[]): string | undefined => {
+    for (const l of layers) {
+      const a = (l as { asset?: string }).asset;
+      if ((l.type ?? 'image') === 'image' && a && (b.assets.assets[a] ?? shared.assets[a])?.kind === 'background') return a;
+      if (l.type === 'group') {
+        const inner = plateOf(l.layers);
+        if (inner) return inner;
+      }
+    }
+    return undefined;
+  };
+  const shots: PlateShot[] = [];
+
   const ids = new Set<string>();
   const missingSounds = new Map<string, string[]>();
   let prevStart = -Infinity;
@@ -123,8 +138,21 @@ export const validateEpisode = (b: EpisodeBundle, shared: AssetCatalog, sfx: Sfx
     const ctx: TimeContext = { cues, sceneStart: start || 0, sceneEnd: end || 0, relative: true, end: end || 0 };
     walkLayers(scene.layers, w, ctx);
     walkTimes({ layers: scene.layers, camera: scene.camera, sfx: scene.sfx }, w, ctx);
+    try {
+      const dur = Math.max(0.001, (end || 0) - (start || 0));
+      const cam = resolveCamera({ ...scene.camera, drift: 0 }, (e) => resolveTime(e, ctx) - (start || 0), dur, scene.id);
+      const at = (t: number) => {
+        const { zoom, x, y, rotation } = evaluateCamera(cam, t);
+        return { zoom, x, y, rotation };
+      };
+      shots.push({ sceneId: scene.id, plate: plateOf(scene.layers), start: at(0), end: at(dur), firstMove: cam.moves.find((m) => m.type !== 'punch')?.type });
+    } catch {
+      /* time errors are reported above */
+    }
     prevStart = start;
   });
+
+  for (const c of checkCameraContinuity(shots)) err(`scenes.${c.sceneId}.camera`, `${c.code}: ${c.message}`);
 
   for (const [id, where] of missingSounds)
     warn('sfx', `sound "${id}" (${sfx.sfx[id].src}) missing — ${where.length} event(s) skipped in ${[...new Set(where)].join(', ')}`);

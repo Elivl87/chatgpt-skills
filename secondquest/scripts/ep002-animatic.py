@@ -5,9 +5,9 @@
 
 Places the real-asset audit previews (docs/ep002/audit/*.jpg, MISSING boxes included) on the
 Director's Scene Book sequences, timed to the real Bram narration (episodes/ep002/timings.json),
-with the script line burned in. Output: docs/ep002/EP002_animatic_v1.mp4 (960x540, 12 fps).
+with the script line burned in. Output: docs/ep002/EP002_animatic_v2.mp4 (960x540, 12 fps).
 """
-import json, subprocess
+import json, math, subprocess
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -66,29 +66,84 @@ CUTS = [
     ('l155', '30 SECONDQUEST CTA', 'J_final_epona'),
 ]
 
+# Camera continuity (Producer rule 2026-10-03, mirrors src/engine/cameraContinuity.ts):
+# consecutive cuts on the same plate share ONE continuous camera move; a plate that returns
+# later opens on a framing clearly different from every earlier opening on it.
+NEW_SHOT_ZOOM, NEW_SHOT_FOCUS = 1.25, 0.15
+FRAMINGS = [  # (move, start zoom, start x, start y, end zoom, end x, end y)
+    ('push_in', 1.00, .50, .50, 1.08, .50, .50),
+    ('pan_right', 1.30, .40, .50, 1.30, .60, .50),
+    ('pull_out', 1.34, .50, .42, 1.12, .50, .48),
+    ('pan_left', 1.30, .60, .55, 1.30, .40, .55),
+    ('push_in', 1.15, .40, .58, 1.26, .38, .58),
+    ('push_in', 1.15, .60, .44, 1.26, .62, .44),
+    ('pan_up', 1.32, .50, .60, 1.32, .50, .42),
+    ('pull_out', 1.48, .44, .56, 1.20, .48, .53),
+    ('pan_right', 1.42, .38, .40, 1.42, .55, .40),
+    ('push_in', 1.26, .50, .38, 1.36, .50, .38),
+    ('pan_down', 1.32, .50, .40, 1.32, .50, .58),
+    ('pan_left', 1.42, .62, .62, 1.42, .45, .62),
+    ('push_in', 1.38, .40, .62, 1.48, .40, .62),
+    ('pull_out', 1.30, .62, .40, 1.10, .55, .45),
+]
+
+def clamp_focus(z, x, y):
+    m = 0.5 / z
+    return min(max(x, m), 1 - m), min(max(y, m), 1 - m)
+
+def new_shot(a, b):
+    return max(a[0], b[0]) / min(a[0], b[0]) >= NEW_SHOT_ZOOM or ((a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2) ** 0.5 >= NEW_SHOT_FOCUS
+
+def plan_shots(starts, ends):
+    """Merge consecutive cuts on the same preview into one shot and give every shot a camera."""
+    shots = []
+    for (lid, label, img), a, b in zip(CUTS, starts, ends):
+        if shots and shots[-1]['img'] == img:
+            shots[-1]['end'] = b; shots[-1]['labels'].append((a, label))
+        else:
+            shots.append({'img': img, 'start': a, 'end': b, 'labels': [(a, label)]})
+    opened = {}
+    for sh in shots:
+        prev = opened.setdefault(sh['img'], [])
+        for f in FRAMINGS:
+            st = (f[1], *clamp_focus(f[1], f[2], f[3]))
+            if all(new_shot(st, p_[0]) or p_[1] != f[0] for p_ in prev):
+                sh['cam'] = (st, (f[4], *clamp_focus(f[4], f[5], f[6])), f[0])
+                prev.append((st, f[0]))
+                break
+        else:
+            raise SystemExit(f"CAMERA_REPEAT: no unused framing left for {sh['img']}")
+    return shots
+
 def main():
     tm = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())
     cues, dur = tm['cues'], tm['duration']
     starts = [0.0] + [cues[c[0]]['start'] - 0.15 for c in CUTS[1:]]
     ends = starts[1:] + [dur]
+    shots = plan_shots(starts, ends)
     imgs = {c[2]: Image.open(AUD / f'{c[2]}.jpg').convert('RGB') for c in CUTS}
     cue_list = list(cues.values())
-    out = ROOT / 'docs/ep002/EP002_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_animatic_v2.mp4'
     p = subprocess.Popen([str(FF), '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-i', str(ROOT / 'public/episodes/ep002/audio/narration.wav'), '-c:v', 'libx264', '-crf', '26', '-preset', 'medium',
                           '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-shortest', str(out)], stdin=subprocess.PIPE)
-    seg = 0
+    si = 0
     for n in range(int(dur * FPS)):
         t = n / FPS
-        while seg + 1 < len(CUTS) and t >= starts[seg + 1]:
-            seg += 1
-        k = (t - starts[seg]) / max(0.01, ends[seg] - starts[seg])
-        z = 1.0 + 0.05 * k
-        im = imgs[CUTS[seg][2]]
+        while si + 1 < len(shots) and t >= shots[si + 1]['start']:
+            si += 1
+        sh = shots[si]
+        k = (t - sh['start']) / max(0.01, sh['end'] - sh['start'])
+        e = 0.5 - 0.5 * math.cos(math.pi * min(1, max(0, k)))  # inOutSine
+        (z0, x0, y0), (z1, x1, y1), _ = sh['cam']
+        z = z0 * (z1 / z0) ** e; x = x0 + (x1 - x0) * e; y = y0 + (y1 - y0) * e
+        im = imgs[sh['img']]
         cw, ch = W / z, H / z
-        fr = im.crop(((W - cw) / 2, H - ch, (W + cw) / 2, H)).resize((W, H), Image.BILINEAR)  # bottom-anchored: keeps the caption bar
+        fr = im.crop((x * W - cw / 2, y * H - ch / 2, x * W + cw / 2, y * H + ch / 2)).resize((W, H), Image.BILINEAR)
+        fr.paste(im.crop((0, H - 30, W, H)), (0, H - 30))  # the preview's caption bar stays readable
         d = ImageDraw.Draw(fr)
-        tag = f'SEQ {CUTS[seg][1]}   ·   ANIMATIC v1 · PLANNING ONLY'
+        label = [l for a, l in sh['labels'] if a <= t + 1e-6][-1]
+        tag = f'SEQ {label}   ·   ANIMATIC v2 · PLANNING ONLY'
         d.rectangle((0, 0, d.textlength(tag, font=FTAG) + 20, 24), fill=(0, 0, 0))
         d.text((10, 4), tag, font=FTAG, fill=(255, 210, 90))
         line = next((c['text'] for c in cue_list if c['start'] - 0.1 <= t <= c['end'] + 0.25), '')
@@ -100,13 +155,15 @@ def main():
                 else:
                     cur = (cur + ' ' + w_).strip()
             rows.append(cur)
-            y = 470 - 28 * len(rows)
+            y_ = 462 - 28 * len(rows)
             for r in rows:
                 tw = d.textlength(r, font=FSUB)
-                d.text(((W - tw) / 2, y), r, font=FSUB, fill='white', stroke_width=3, stroke_fill='black')
-                y += 28
+                d.text(((W - tw) / 2, y_), r, font=FSUB, fill='white', stroke_width=3, stroke_fill='black')
+                y_ += 28
         p.stdin.write(fr.tobytes())
     p.stdin.close(); p.wait()
+    for sh in shots:
+        print(f"{sh['start']:7.1f}s {sh['img']:34s} {sh['cam'][2]:9s} start z{sh['cam'][0][0]:.2f} ({sh['cam'][0][1]:.2f},{sh['cam'][0][2]:.2f})")
     print(out, round(out.stat().st_size / 1e6, 1), 'MB')
 
 main()
