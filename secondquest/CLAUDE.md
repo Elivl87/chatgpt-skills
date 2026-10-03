@@ -13,3 +13,5 @@
 - **Always improve (Producer rule):** blocking a defect is not enough.
   - Before executing any stage, and in every report, recommend concrete improvements: what could be better, how, and what it costs.
   - The Producer decides which improvements go in.
+- **Scripts are never edited by Claude (Producer rule):** the approved script is used verbatim.
+  - Any check on a script (originality, structure, length) only reports to the Producer; it never rewrites.
