@@ -10,8 +10,10 @@ costumes (EP002: the forest friend and the princess).
 ## Identity block (every prompt that shows Pixie)
 ```
 The SAME cartoon character as in the reference images (Pixie_v1): young woman, long straight black hair in a high
-ponytail, warm brown eyes, same face and proportions, warm and curious expression.
-Default outfit (never change unless a costume is asked): teal oversized hoodie, no logos; black leggings; white sneakers.
+ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and
+proportions, warm and curious expression.
+Default outfit (never change unless a costume is asked): blue-teal oversized hoodie with white drawstrings, no logos;
+black leggings; plain white sneakers with no stripes and no logos.
 Same 2D cartoon style as Quest_v1: bold ink outlines, flat cel shading.
 ```
 
@@ -20,4 +22,8 @@ When Pixie or Quest wear a costume, **only the clothes change**: face, hair, eye
 the same. They are themselves in an outfit, never transformed into the game character (no elf ears, no new face).
 
 ## References
-None yet. Next: design images for the Producer to pick, then a reference element with 6 poses/emotions (quoted first).
+- **Design approved by the Producer (2026-10-03): option B**, Higgsfield job `9526ebfd-dcb1-4a71-a766-9ac6fca1385d`
+  (`docs/art_orders/pixie/results/pixie_design_B.png`), standing next to Quest.
+- Known defect of that image, never to be copied: a curved swoosh-like stripe on her left sneaker. Her sneakers are
+  always plain white (say it in every prompt where her feet show).
+- Next: a reference element with 6 poses/emotions, built from design B (quoted first).

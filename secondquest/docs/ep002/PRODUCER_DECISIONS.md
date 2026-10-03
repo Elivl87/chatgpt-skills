@@ -83,3 +83,9 @@
   white sneakers) with the personality of direction B (warm, curious). Spec: `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.
 - **Costume rule (Quest and Pixie, all episodes):** changing outfit never changes their appearance. In EP002 they are not
   elves: they are Quest and Pixie in different outfits.
+
+## 2026-10-03: Pixie design B; Quest's undershirt; animatic-first workflow
+- **Pixie_v1 design: option B** (job 9526ebfd). Its sneaker stripe is a known defect never to be repeated.
+- **Quest's dark undershirt** at the neckline is part of his established look (present in every approved asset).
+- **Workflow:** the whole video is first built as a free animatic (draft video with the real narration, cameras,
+  sounds and MISSING boxes), approved by the Producer, and only then built in the engine for the final render.
