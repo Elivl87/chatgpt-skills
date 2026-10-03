@@ -16,6 +16,10 @@
   - A background that returns later in the video is fine.
   - Camera moves are used only where the script calls for them, for dynamism. Not every shot moves.
   - The engine enforces this with a `CAMERA_JUMP` error (`src/engine/cameraContinuity.ts`) that blocks the render.
+- **Framing check before sending (Producer rule, 2026-10-03):** always verify sizes, centring and that everything
+  important sits inside the viewer's frame (nothing cut, no prop or person held half out of frame, key items inside
+  title-safe). Run `python3 scripts/animatic/framing_qc.py <block script>` and look at the sheet before sending any block;
+  report what it shows.
 - **Always improve (Producer rule):** blocking a defect is not enough.
   - Before executing any stage, and in every report, recommend concrete improvements: what could be better, how, and what it costs.
   - The Producer decides which improvements go in.

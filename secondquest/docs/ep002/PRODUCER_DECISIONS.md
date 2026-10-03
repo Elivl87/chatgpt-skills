@@ -116,3 +116,10 @@
 - Final renders carry NO burned-in subtitles (Producer).
 - Seq 01 re-rendered as v11 (subtitles only; v10 stays the approved picture/mix reference); block B v4 (subtitles only).
 
+## 2026-10-03: block C approved; framing rule
+- Block C approved, with one fix: the seq-01 insert showed the console cut at the bottom and the cartridge cut at the top.
+  The insert was re-rendered wider (`job_n64_insert`, camera 840 mm, target y 92): cartridge start and console now sit
+  inside title-safe -> seq 01 v12.
+- New rule (CLAUDE.md): framing QC sheet (`scripts/animatic/framing_qc.py`) checked before sending every block.
+  It also caught in block C: Quest held half cut on "Plus the television" and Pixie's head on the top edge -> fixed (C v5).
+

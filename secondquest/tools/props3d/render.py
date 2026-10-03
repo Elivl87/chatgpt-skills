@@ -130,7 +130,7 @@ def job_n64_insert(frames=32, size=(1280, 720), name='n64_insert'):
     out = OUT / name
     out.mkdir(parents=True, exist_ok=True)
     seat, start = SEAT, SEAT + 120
-    cam = {'camera': orbit(-14, 36, 560, (0, 78, -18)), 'target': [0, 78, -18], 'fov': 30}
+    cam = {'camera': orbit(-14, 36, 840, (0, 92, -18)), 'target': [0, 92, -18], 'fov': 30}   # wider: cartridge start and console fully in frame (Producer)
     ys = [start + (seat - start) * (0.5 - 0.5 * np.cos(np.pi * k / (frames - 1))) for k in range(frames)]
     batches = [[y] for y in ys]  # one shot per page: big multi-shot canvases exceed the WebGL buffer limit and mix tiles
 

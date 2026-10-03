@@ -139,7 +139,7 @@ def frame_c1(t):
     if dive > .6:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 246, 225)), (dive - .6) / .4)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v4 · PLANNING ONLY')
+    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v5 · PLANNING ONLY')
     d.text((20, 40), 'C1 cartridge = own 3D (approved mock) · Navi dives into the label', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -159,7 +159,7 @@ def frame_c2(t):
     if t < T_SCR + .35:                                                 # out of the white from the dive
         fr = Image.blend(Image.new('RGB', fr.size, (255, 246, 225)), fr, (t - T_SCR) / .35)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = MISSING Hyrule plate · BLOCK C v4')
+    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = MISSING Hyrule plate · BLOCK C v5')
     return fr
 
 
@@ -225,8 +225,11 @@ def room_plate(t, pixie):
 
 
 # continuous camera through C3-C6 (same background: never snaps back)
-CAM_KEYS = [(T_ROOM, (3.0, SCR_C[0] - .02, SCR_C[1])), (T_TV - .1, (1.12, .58, .56)), (T_FR - .1, (1.32, .7, .52)),
-            (T_KNEW, (1.3, .44, .6)), (T_SAT, (1.25, .46, .58)), (T_END, (1.1, .5, .56))]
+CAM_KEYS = [(T_ROOM, (3.0, SCR_C[0] - .02, SCR_C[1])), (T_TV - .1, (1.12, .58, .56)),
+            (T_FR - .1, (1.2, .57, .52)),                               # "the television": push in keeping Quest whole (never half cut)
+            (T_FR + .45, (1.25, .44, .55)),                             # quick pan back: Quest is never held half cut
+            (T_KNEW, (1.25, .44, .55)),                                 # both kids whole, Pixie's head inside title-safe
+            (T_SAT, (1.25, .46, .58)), (T_END, (1.1, .5, .56))]
 
 
 def room_cam(t):
@@ -259,7 +262,7 @@ def smartphone(fr, t):
     if not (T_PHONE - .1 <= t <= SAT_END + .2):
         return fr
     k_in = ease(min(1, (t - T_PHONE + .1) / .35)); k_out = ease(min(1, max(0, (t - SAT_END + .15) / .35)))
-    x = W * .40; y = H * .1 - 300 * (1 - k_in) - 300 * k_out          # drops in over the wall, away from the TV
+    x = W * .16; y = H * .1 - 300 * (1 - k_in) - 300 * k_out          # drops in over the wall, away from the TV
     g = Image.new('RGBA', fr.size); d = ImageDraw.Draw(g)
     d.rounded_rectangle((x, y, x + 110, y + 200), 16, fill=(30, 32, 40, 240), outline=(220, 220, 230, 255), width=4)
     d.rounded_rectangle((x + 10, y + 18, x + 100, y + 172), 8, fill=(70, 130, 220, 255))
@@ -290,7 +293,7 @@ def frame_room(t):
     d = ImageDraw.Draw(fr)
     lab = ('C3 "plus the room."' if t < T_TV else 'C4 "Plus the television."' if t < T_FR else
            'C5 the friend who knew where to go' if t < T_SAT else 'C6 a whole Saturday afternoon')
-    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v4 · PLANNING ONLY')
+    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v5 · PLANNING ONLY')
     d.text((20, 40), 'kids = MISSING young Quest / young Pixie (planning: current poses) · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -309,7 +312,7 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -320,10 +323,10 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                     ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-        render(t).save(ROOT / f'docs/ep002/blockC_v4_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockC_v4.mp4'
+        render(t).save(ROOT / f'docs/ep002/blockC_v5_{name}.jpg', quality=85)
+    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockC_v6.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
-    lst.write_text(f"file '{ROOT / 'docs/ep002/EP002_seq01_blockB_v4.mp4'}'\nfile '{out}'\n")
+    lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v4.mp4')) + f"file '{out}'\n")
     subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',
                     '-c:a', 'aac', '-b:a', '160k', str(joined)], check=True)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s;', joined.relative_to(ROOT))
@@ -333,7 +336,7 @@ if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                         ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-            render(t).save(ROOT / f'docs/ep002/blockC_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockC_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
