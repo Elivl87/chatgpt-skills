@@ -17,7 +17,7 @@ Free sounds only: Bram (no new SFX in this block).
 import importlib.util, math, subprocess, sys
 from pathlib import Path
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter
 import imageio_ffmpeg
 
 HERE = Path(__file__).resolve().parent
@@ -160,16 +160,45 @@ def field_frame(t):
         k2 = min(1, (t - T_WHY - .3) / .8)
         fr = Image.blend(fr, Image.new('RGB', fr.size, (8, 6, 10)), k2 * .6)
     if t >= T_WM:
-        kp = min(1, (t - T_WM) / .28)                                     # EP001 punch_in: .28 s, intensity .35
-        sc = 1 + .35 * (1 - ease(kp))
-        ww = int(W * .56 * sc); wh = int(WORDMARK.height * ww / WORDMARK.width)
-        wm = WORDMARK.resize((ww, wh), Image.LANCZOS)
-        if kp < 1:
-            wm.putalpha(wm.getchannel('A').point(lambda a: int(a * min(1, kp * 2))))
-        base = fr.convert('RGBA'); base.alpha_composite(wm, ((W - ww) // 2, (H - wh) // 2))
-        fr = base.convert('RGB')
+        fr = wordmark(fr, t - T_WM)
     return fr
 
+
+
+def _out_back(x, c=1.70158):
+    return 1 + (c + 1) * (x - 1) ** 3 + c * (x - 1) ** 2
+
+
+def _in_out_cubic(x):
+    return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
+
+
+def wordmark(fr, dt):
+    """Twin of the engine's WordmarkLayerView as EP001 used it (s15, at "why?"):
+    brand image 180 px tall @1080, gold bar 520x8 growing from the centre (+0.25 s, 0.45 s inOutCubic),
+    punch_in intensity .35 / .28 s (scale 1.315 -> 1 outBack, fade x4, blur 14 -> 0, tilt 8*.35 deg)."""
+    u = H / 1080
+    wh = int(180 * u); ww = int(WORDMARK.width * wh / WORDMARK.height)
+    bar_w, bar_h, gap = 520 * u * _in_out_cubic(min(1, max(0, (dt - .25) / .45))), max(2, round(8 * u)), int(18 * u)
+    gw, gh = max(ww, int(520 * u)) + 40, wh + gap + bar_h + 40
+    g = Image.new('RGBA', (gw, gh))
+    g.alpha_composite(WORDMARK.resize((ww, wh), Image.LANCZOS), ((gw - ww) // 2, 20))
+    if bar_w > 1:
+        d = ImageDraw.Draw(g); y = 20 + wh + gap; x0 = (gw - bar_w) / 2; r = bar_h / 2
+        d.rounded_rectangle((x0, y + 3 * u, x0 + bar_w, y + bar_h + 3 * u), r, fill=(22, 22, 31, 255))   # ink shadow
+        d.rounded_rectangle((x0, y, x0 + bar_w, y + bar_h), r, fill=(255, 200, 61, 255))                 # theme gold #ffc83d
+    x = min(1, dt / .28); e = _out_back(x)
+    sc = 1.315 + (1 - 1.315) * e
+    g = g.rotate(8 * .35 * (1 - e), resample=Image.BICUBIC, expand=True)
+    g = g.resize((max(1, int(g.width * sc)), max(1, int(g.height * sc))), Image.LANCZOS)
+    blur = (1 - min(1, x * 2.5)) * 14 * u
+    if blur > .3:
+        g = g.filter(ImageFilter.GaussianBlur(float(blur)))
+    op = min(1, x * 4)
+    if op < 1:
+        g.putalpha(g.getchannel('A').point(lambda v: int(v * op)))
+    base = fr.convert('RGBA'); base.alpha_composite(g, ((W - g.width) // 2, (H - g.height) // 2))
+    return base.convert('RGB')
 
 # ------------------------------------------------------------------ frame
 def render(t):
