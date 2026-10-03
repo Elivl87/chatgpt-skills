@@ -1,0 +1,177 @@
+[
+ {
+  "file": "q01_stuck_in_traffic_car.png",
+  "local": "public/art/episodes/ep001/quest/stuck_in_traffic_car.png",
+  "media_id": "3fb383fc-b08a-4afd-b380-1f2e2b625e7f",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/3fb383fc-b08a-4afd-b380-1f2e2b625e7f.png",
+  "http": "200"
+ },
+ {
+  "file": "q02_arms_up_back.png",
+  "local": "public/art/core/quest/arms_up_back.png",
+  "media_id": "a1c58963-7f8f-434c-bf69-eacc148c1121",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/a1c58963-7f8f-434c-bf69-eacc148c1121.png",
+  "http": "200"
+ },
+ {
+  "file": "q03_bed_awake.png",
+  "local": "public/art/core/quest/bed_awake.png",
+  "media_id": "139f94f0-8faf-4d8e-bcd1-252a695aa820",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/139f94f0-8faf-4d8e-bcd1-252a695aa820.png",
+  "http": "200"
+ },
+ {
+  "file": "q04_bed_sleeping.png",
+  "local": "public/art/core/quest/bed_sleeping.png",
+  "media_id": "ccdae4c3-fc9f-4048-bd25-eccce93af9b2",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/ccdae4c3-fc9f-4048-bd25-eccce93af9b2.png",
+  "http": "200"
+ },
+ {
+  "file": "q05_broom_bored.png",
+  "local": "public/art/core/quest/broom_bored.png",
+  "media_id": "1070332e-617e-4d6a-be2a-5abf6548486d",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/1070332e-617e-4d6a-be2a-5abf6548486d.png",
+  "http": "200"
+ },
+ {
+  "file": "q06_desk_typing.png",
+  "local": "public/art/core/quest/desk_typing.png",
+  "media_id": "7fb076d7-7093-4225-8c7e-48000e27aea6",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/7fb076d7-7093-4225-8c7e-48000e27aea6.png",
+  "http": "200"
+ },
+ {
+  "file": "q07_drive_calm.png",
+  "local": "public/art/core/quest/drive_calm.png",
+  "media_id": "963ab809-d12b-4b9b-9a20-b2ac54dd5de1",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/963ab809-d12b-4b9b-9a20-b2ac54dd5de1.png",
+  "http": "200"
+ },
+ {
+  "file": "q08_drive_relaxed.png",
+  "local": "public/art/core/quest/drive_relaxed.png",
+  "media_id": "2d68836d-b95a-4298-b476-5127906cf8e0",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/2d68836d-b95a-4298-b476-5127906cf8e0.png",
+  "http": "200"
+ },
+ {
+  "file": "q09_drive_stressed.png",
+  "local": "public/art/core/quest/drive_stressed.png",
+  "media_id": "89431bbf-5c48-4d9f-9037-04a66de343e5",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/89431bbf-5c48-4d9f-9037-04a66de343e5.png",
+  "http": "200"
+ },
+ {
+  "file": "q10_exhausted_slumped.png",
+  "local": "public/art/core/quest/exhausted_slumped.png",
+  "media_id": "42530065-ab6a-46c1-8a74-e5065313c27f",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/42530065-ab6a-46c1-8a74-e5065313c27f.png",
+  "http": "200"
+ },
+ {
+  "file": "q11_gaming_excited.png",
+  "local": "public/art/core/quest/gaming_excited.png",
+  "media_id": "2f1e8683-d68a-43b9-abdb-a55ce69e9ddd",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/2f1e8683-d68a-43b9-abdb-a55ce69e9ddd.png",
+  "http": "200"
+ },
+ {
+  "file": "q12_head_in_hands.png",
+  "local": "public/art/core/quest/head_in_hands.png",
+  "media_id": "5510573f-9b6c-4449-9e49-43cacaf74708",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/5510573f-9b6c-4449-9e49-43cacaf74708.png",
+  "http": "200"
+ },
+ {
+  "file": "q13_holding_paycheck.png",
+  "local": "public/art/core/quest/holding_paycheck.png",
+  "media_id": "9d293b1e-6c8f-4131-992c-b45f6c628603",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/9d293b1e-6c8f-4131-992c-b45f6c628603.png",
+  "http": "200"
+ },
+ {
+  "file": "q14_holding_tray.png",
+  "local": "public/art/core/quest/holding_tray.png",
+  "media_id": "02936d56-6b54-48b8-bb29-25142fb8b3f7",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/02936d56-6b54-48b8-bb29-25142fb8b3f7.png",
+  "http": "200"
+ },
+ {
+  "file": "q15_looking_up_awe.png",
+  "local": "public/art/core/quest/looking_up_awe.png",
+  "media_id": "c4396c11-6c02-4f67-854c-1640df3c7607",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/c4396c11-6c02-4f67-854c-1640df3c7607.png",
+  "http": "200"
+ },
+ {
+  "file": "q16_phone_overwhelmed.png",
+  "local": "public/art/core/quest/phone_overwhelmed.png",
+  "media_id": "6dfa8717-5b93-4a9a-bb68-ca5821c1063e",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/6dfa8717-5b93-4a9a-bb68-ca5821c1063e.png",
+  "http": "200"
+ },
+ {
+  "file": "q17_planning_tablet.png",
+  "local": "public/art/core/quest/planning_tablet.png",
+  "media_id": "80096c3c-ac85-4a6c-a781-794339c29ca7",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/80096c3c-ac85-4a6c-a781-794339c29ca7.png",
+  "http": "200"
+ },
+ {
+  "file": "q18_reading_manual.png",
+  "local": "public/art/core/quest/reading_manual.png",
+  "media_id": "71e9473d-43c9-485e-9089-0a20f6bc2341",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/71e9473d-43c9-485e-9089-0a20f6bc2341.png",
+  "http": "200"
+ },
+ {
+  "file": "q19_sitting_back.png",
+  "local": "public/art/core/quest/sitting_back.png",
+  "media_id": "39964197-302e-4031-8143-90646f3d5fa9",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/39964197-302e-4031-8143-90646f3d5fa9.png",
+  "http": "200"
+ },
+ {
+  "file": "q20_sitting_back_turn.png",
+  "local": "public/art/core/quest/sitting_back_turn.png",
+  "media_id": "3038d083-8c7f-48d9-927e-fe7be93cda15",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/3038d083-8c7f-48d9-927e-fe7be93cda15.png",
+  "http": "200"
+ },
+ {
+  "file": "q21_vacuum.png",
+  "local": "public/art/core/quest/vacuum.png",
+  "media_id": "1d01e04e-1862-43ff-b7a9-6f66f50f84c3",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/1d01e04e-1862-43ff-b7a9-6f66f50f84c3.png",
+  "http": "200"
+ },
+ {
+  "file": "q22_walking_back.png",
+  "local": "public/art/core/quest/walking_back.png",
+  "media_id": "edde86bd-d6d8-4c7a-be92-cbdb858b31a7",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/edde86bd-d6d8-4c7a-be92-cbdb858b31a7.png",
+  "http": "200"
+ },
+ {
+  "file": "q23_worried_seated.png",
+  "local": "public/art/core/quest/worried_seated.png",
+  "media_id": "d05e1a4d-c91b-4cc8-bdce-97fa8dbdf836",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/d05e1a4d-c91b-4cc8-bdce-97fa8dbdf836.png",
+  "http": "200"
+ },
+ {
+  "file": "q24_wrench_fixing.png",
+  "local": "public/art/core/quest/wrench_fixing.png",
+  "media_id": "833fc3bb-f12c-4ac6-8b62-5f1557338081",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/833fc3bb-f12c-4ac6-8b62-5f1557338081.png",
+  "http": "200"
+ },
+ {
+  "file": "quest_sheet_all24.jpg",
+  "local": "/tmp/claude-0/-home-user-chatgpt-skills/0e21dcc3-ac09-565e-92e0-ea987a4a43f9/scratchpad/quest_sheet_all24.jpg",
+  "media_id": "a583787c-03ee-4630-bcfa-98d8cf62c5c3",
+  "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3K6M7x8kersP7O97RkOFxQEZ1tY/a583787c-03ee-4630-bcfa-98d8cf62c5c3.jpg",
+  "http": "200"
+ }
+]
