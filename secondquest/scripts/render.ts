@@ -25,6 +25,8 @@ import { EPISODES, PRODUCTION, SFX, SHARED_ASSETS } from '../src/episodes';
 import { resolveCut } from '../src/engine/timeline';
 import { hasPublicFile, parseArgs, ROOT } from './lib';
 import { masterAudio } from './master';
+import { makeDeliveryCopies } from './delivery';
+import { writeFileSync } from 'node:fs';
 import { prepare } from './remotion';
 import { describeTarget, resolveRenderTarget } from './render-target';
 import { runValidation } from './validate';
@@ -107,6 +109,8 @@ const main = async () => {
 
   const started = Date.now();
   let lastPct = -10;
+  const progressFile = join(ROOT, 'renders/tmp', 'progress.json');
+  const fmtT = (s: number) => `${Math.floor(s / 60)}m${String(Math.round(s % 60)).padStart(2, '0')}s`;
   await renderMedia({
     serveUrl,
     composition,
@@ -124,11 +128,15 @@ const main = async () => {
     outputLocation: rawPath,
     browserExecutable,
     concurrency: flags.concurrency ? Number(flags.concurrency) : null,
-    onProgress: ({ progress }) => {
+    onProgress: ({ progress, renderedFrames }) => {
       const pct = Math.floor(progress * 100);
-      if (pct >= lastPct + 10) {
+      const elapsed = (Date.now() - started) / 1000;
+      const eta = progress > 0.01 ? (elapsed / progress) * (1 - progress) : undefined;
+      // live status for "¿cuánto falta?": npm run render:status
+      writeFileSync(progressFile, JSON.stringify({ name, pct, renderedFrames, totalFrames: composition.durationInFrames, elapsedSec: Math.round(elapsed), etaSec: eta && Math.round(eta), finishesAt: eta && new Date(Date.now() + eta * 1000).toISOString(), updated: new Date().toISOString() }));
+      if (pct >= lastPct + 5) {
         lastPct = pct;
-        process.stdout.write(`  ${pct}%\n`);
+        process.stdout.write(`  ${pct}%  elapsed ${fmtT(elapsed)}${eta !== undefined ? `  remaining ~${fmtT(eta)}` : ''}\n`);
       }
     },
   });
@@ -142,6 +150,11 @@ const main = async () => {
   console.log(`Mastered: ${r.integrated.toFixed(1)} LUFS integrated, ${r.truePeak.toFixed(1)} dBTP (gain ${r.gainDb >= 0 ? '+' : ''}${r.gainDb.toFixed(1)} dB, ${r.passes} pass(es))`);
   const mb = (statSync(finalPath).size / 1024 / 1024).toFixed(1);
   console.log(`\n✔ ${finalPath.replace(ROOT + '/', '')}  (${mb} MB)`);
+  rmSync(progressFile, { force: true });
+  if (!frameRange && !flags['no-delivery']) {
+    console.log('Delivery copies:');
+    makeDeliveryCopies(finalPath);
+  }
 };
 
 main().catch((e) => {

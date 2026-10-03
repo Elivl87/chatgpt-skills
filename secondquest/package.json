@@ -44,7 +44,9 @@
     "publish": "python3 scripts/publish.py",
     "art:qc": "python3 tools/qc/art_qc.py",
     "review": "tsx scripts/review.ts",
-    "credits": "python3 tools/credits/credits.py"
+    "credits": "python3 tools/credits/credits.py",
+    "deliver": "tsx scripts/delivery.ts",
+    "render:status": "tsx scripts/render-status.ts"
   },
   "engines": {
     "node": ">=18"

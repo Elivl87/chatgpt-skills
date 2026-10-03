@@ -188,6 +188,11 @@ Mayormente 0 créditos.
   - **Parecido de cara con DINOv2: descartado.** Se probó en esta máquina (60 personajes en 13 s) y no separa a Quest de otros personajes: la princesa puntúa 0,785, por encima de varias poses aprobadas de Quest (0,59–0,73, sobre todo de espaldas). Un control así daría falsas alarmas y falsa tranquilidad, así que no se incluye.
   - La identidad sigue cubierta por la revisión visual (QUEST_V1_PROMPT_SPEC) más el control de colores.
   - Próximo intento posible: detector de caras de dibujos animados más IA de visión como segunda opinión, solo si se aprueba.
+- **0.5 hecho:** validación de cada tipo de capa (0 falsas alarmas en EP001) y comprobación previa al render: limpieza de temporales, espacio en disco, imágenes de más de 6400 px y un fotograma de prueba por escena.
+- **0.6 hecho:** `npm run review`, con hojas numeradas, marcas CHANGED/NEW y vista a tamaño de móvil.
+- **0.7 hecho:** `npm run credits`, con registro de créditos (cotizar → aprobación del Producer con sus palabras → gasto) y control de cada prompt.
+- **0.8 hecho:** progreso y tiempo restante del render (`npm run render:status`) y copias de entrega automáticas de 30 MB y 500 MB (`npm run deliver`).
+- **M1–M9 hecho:** `npm run originality`, que bloquea el render si hay errores.
 
 ## 4. Manual de ahorro de créditos
 
