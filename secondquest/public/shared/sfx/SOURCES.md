@@ -4,6 +4,7 @@
 |---|---|---|---|---|
 | `*.wav` (root) | engine synths, `scripts/placeholder-audio.ts` | ours | no | yes |
 | `cc0/kenney/` | Kenney.nl audio packs (interface, impact, sci-fi, ui, digital, rpg), downloaded 2026-10-03 | CC0 1.0 (`cc0/kenney/LICENSE_CC0.txt`) | no | yes |
+| `own/` | our own synths for auditions (`tools/sfx/*.py`) | ours | no | yes |
 | `cc0/owlishmedia/` | "87 Clickety Clips" by OwlishMedia, OpenGameArt, downloaded 2026-10-03 | CC0 1.0 (`cc0/owlishmedia/LICENSE_CC0.txt`) | no | yes |
 
 Rule: free sounds (engine synths, CC0, our own recordings) are used without asking. Sounds that cost credits

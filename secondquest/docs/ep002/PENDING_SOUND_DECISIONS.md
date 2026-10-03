@@ -8,7 +8,8 @@ Opened 2026-10-03. Nothing here blocks other work; the animatic keeps the curren
 | 2 | Cartridge click (Switch style) | `docs/ep002/sfx_audition_clic.mp4` | A–H CC0 clicks (OwlishMedia) · I Kenney switch + thunk | _pending_ |
 | 3 | TV turns on | `docs/ep002/sfx_audition.mp4` (slot 3) | A synth · B CC0 hum + static · C CC0 click + hum | _pending_ |
 | 4 | Fairy appears (no voice) | `docs/ep002/sfx_audition.mp4` (slot 4) | A synth chimes · B CC0 glass shimmer · C/D CC0 power-ups | _pending_ |
-| 5 | Fairy "Hey! Listen!" | — | own performance imitating the tone (see below); original Nintendo audio only with recorded risk acceptance | _pending_ |
-| 6 | Fairy flying sound | — | own recreation (synth/foley); original Nintendo audio only with recorded risk acceptance | _pending_ |
+| 5 | Fairy "Hey! Listen!" | — | free only: the Producer (or someone close) records an imitation, the engine processes it (pitch, brightness, short echo) | _pending_ |
+| 6 | Fairy flying sound | `docs/ep002/sfx_audition_fairy_fly.mp4` | A–F own synths (tools/sfx/fairy_fly.py); the Producer compares with the reference he knows | _pending_ |
 
+Rule: sounds are always free (CLAUDE.md). No third-party game audio, not even downloaded as a reference.
 Discarded: Kokoro own-voice "Hey! Listen!" (Producer: does not sound like Navi).

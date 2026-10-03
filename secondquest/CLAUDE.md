@@ -5,6 +5,8 @@
 - **Any image showing Quest:** follow `docs/QUEST_V1_PROMPT_SPEC.md` (identity block, references, QC). Report every defect; never present a failing image as acceptable.
 - **Credits:** quote every Higgsfield spend and get the Producer's explicit approval before generating.
 - **Final renders:** never render one without the Producer's explicit approval.
+- **Sounds are always free (Producer rule, 2026-10-03):** engine synths, CC0 libraries (licence file next to them, listed in `public/shared/sfx/SOURCES.md`) or our own recordings.
+  - Never spend credits or money on sounds, and never use third-party game audio (rips, YouTube compilations), not even as a download for reference: the Producer's ear is the reference.
 - **Camera continuity (Producer rule, never break):** when two consecutive scenes use the same background, the second must not snap back to the opening framing and start again (it looks cropped).
   - It either continues the camera from where the previous scene ended, or cuts to a clearly different shot.
   - A background that returns later in the video is fine.

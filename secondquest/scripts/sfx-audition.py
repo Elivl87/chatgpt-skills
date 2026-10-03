@@ -5,7 +5,7 @@
 
 Input JSON: {"title": "...", "out": "docs/ep002/sfx_audition.mp4",
              "slots": [{"slot": "CLIC", "candidates": [{"id": "A", "label": "...", "layers": [["path", gain, offset_s], ...]}]}]}
-Paths are relative to public/. Each candidate is shown for 2.2 s and played twice.
+Paths are relative to public/. Each candidate is played twice (a 0.9 s preview, then in full); its card lasts as long as the sound.
 Only free sounds go here: engine synths, CC0 (license file next to them) or our own recordings/voices.
 """
 import json, subprocess, sys
@@ -28,14 +28,18 @@ def load(path):
 def main():
     spec = json.loads(Path(sys.argv[1]).read_text())
     cards = [(s['slot'], c) for s in spec['slots'] for c in s['candidates']]
-    audio = np.zeros(int(len(cards) * CARD * SR) + SR, np.float32)
-    for k, (_, c) in enumerate(cards):
-        for rep in (0.25, 1.15):
-            for path, gain, off in c['layers']:
-                a = load(path) * gain
-                s = int((k * CARD + rep + off) * SR)
-                a = a[: max(0, min(len(a), int(0.9 * SR) if rep < 1 else len(a), len(audio) - s))]
-                audio[s:s + len(a)] += a
+    sounds = [[(load(p_) * g, off) for p_, g, off in c['layers']] for _, c in cards]
+    # each card lasts as long as its sound: a 0.9 s preview, then the full sound, then a short gap
+    lens = [max(len(a) / SR + off for a, off in snd) for snd in sounds]
+    cardlen = [max(CARD, 1.15 + L + 0.35) for L in lens]
+    starts = np.concatenate([[0], np.cumsum(cardlen)])
+    audio = np.zeros(int(starts[-1] * SR) + SR, np.float32)
+    for k, snd in enumerate(sounds):
+        for rep, cap in ((0.25, 0.9), (1.15, None)):
+            for a, off in snd:
+                s0 = int((starts[k] + rep + off) * SR)
+                a = a[: int(cap * SR)] if cap else a
+                audio[s0:s0 + len(a)] += a[: len(audio) - s0]
     peak = np.abs(audio).max()
     if peak > 0.98:
         audio *= 0.98 / peak
@@ -53,7 +57,7 @@ def main():
         d.text((60, 300), f"Opción {c['id']}", font=F(96), fill='white')
         d.text((60, 450), c['label'], font=F(30), fill=(220, 220, 230))
         d.text((60, 640), f'{k + 1}/{len(cards)}  ·  suena dos veces', font=F(22), fill=(150, 150, 170))
-        for _ in range(int(CARD * FPS)):
+        for _ in range(int(round(starts[k + 1] * FPS)) - int(round(starts[k] * FPS))):
             p.stdin.write(im.tobytes())
     p.stdin.close(); p.wait()
     print(f'{out.relative_to(ROOT)}  {len(cards)} candidates')

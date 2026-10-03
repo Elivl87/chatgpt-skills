@@ -1,0 +1,77 @@
+{
+ "title": "EP002 · audición 3: el hada VOLANDO (síntesis propia, compárala con tu referencia)",
+ "out": "docs/ep002/sfx_audition_fairy_fly.mp4",
+ "slots": [
+  {
+   "slot": "HADA VOLANDO",
+   "candidates": [
+    {
+     "id": "A",
+     "label": "trino rápido de dos notas (silbido diminuto)",
+     "layers": [
+      [
+       "shared/sfx/own/fairy_fly_a.wav",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "B",
+     "label": "nube de campanitas agudas con trémolo",
+     "layers": [
+      [
+       "shared/sfx/own/fairy_fly_b.wav",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "C",
+     "label": "zumbido de alas + tintineos",
+     "layers": [
+      [
+       "shared/sfx/own/fairy_fly_c.wav",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "D",
+     "label": "silbido con vibrato rápido (luz que canta)",
+     "layers": [
+      [
+       "shared/sfx/own/fairy_fly_d.wav",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "E",
+     "label": "arpegio tintineante tipo caja de música",
+     "layers": [
+      [
+       "shared/sfx/own/fairy_fly_e.wav",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "F",
+     "label": "pequeños gorjeos ascendentes que se repiten",
+     "layers": [
+      [
+       "shared/sfx/own/fairy_fly_f.wav",
+       0.8,
+       0
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}
