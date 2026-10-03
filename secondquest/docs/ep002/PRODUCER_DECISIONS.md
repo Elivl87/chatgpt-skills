@@ -107,3 +107,6 @@
 - Approved: `docs/ep002/EP002_seq01_blockB_v3.mp4` (approved ocarina, sword, Triforce plates, EP001 wordmark on "why?").
 - Deferred improvements (Producer: "para más adelante"): Navi clear of the wordmark on the close; a soft free sparkle on the wordmark; ocarina tilt during the spin matched to the reference.
 
+## 2026-10-03: Quest/Pixie proportions
+- Keep the current rule: Pixie's face = 0.90 x Quest's (Pixie ~95% of his height); added to both character specs.
+

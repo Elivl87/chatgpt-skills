@@ -27,6 +27,13 @@ In a costume (e.g. EP002 Hero-of-Time-like green tunic and cap, similar but not 
 change: same face, curly dark brown hair, freckles, **human ears**, same body. Add to the prompt:
 "Same face, hair and human ears as Quest_v1; only the outfit changes."
 
+## 1c. Proportions with Pixie (Producer, 2026-10-03)
+- Quest is about **5.5 heads tall**, sturdy build: big curly hair, roomy hoodie, wide jeans, big sneakers.
+- Pixie is about **5.8 heads tall**, slimmer, and **95% of Quest's height** (she is a little shorter, never exaggerated).
+- In the animatic/engine, scale is set by face width: **Pixie's face = 0.90 x Quest's** in every pose (sitting,
+  standing, pointing), plus perspective only for depth. Comparison sheet: `docs/ep002/quest_pixie_proportions.jpg`.
+- New art (young versions, costumes) must keep these proportions; QC checks them side by side with Pixie.
+
 ## 2. Text and scene must match
 
 Before generating, check that any text that will go on the image agrees with what the scene shows:

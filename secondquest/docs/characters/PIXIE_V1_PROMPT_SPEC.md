@@ -21,6 +21,13 @@ Same 2D cartoon style as Quest_v1: bold ink outlines, flat cel shading.
 When Pixie or Quest wear a costume, **only the clothes change**: face, hair, eyes, skin, ears and body stay exactly
 the same. They are themselves in an outfit, never transformed into the game character (no elf ears, no new face).
 
+## Proportions with Quest (Producer, 2026-10-03)
+- Pixie is about **5.8 heads tall**, slim build, and **95% of Quest's height** (a little shorter, never exaggerated).
+- Quest is about **5.5 heads tall**, sturdier (big curly hair, roomy hoodie, wide jeans).
+- In the animatic/engine, scale is set by face width: **Pixie's face = 0.90 x Quest's** in every pose, plus perspective
+  only for depth. Comparison sheet: `docs/ep002/quest_pixie_proportions.jpg`.
+- New art (young versions, costumes) must keep these proportions; QC checks them side by side with Quest.
+
 ## References
 - **Design approved by the Producer (2026-10-03): option B**, Higgsfield job `9526ebfd-dcb1-4a71-a766-9ac6fca1385d`
   (`docs/art_orders/pixie/results/pixie_design_B.png`), standing next to Quest.
