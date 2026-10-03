@@ -29,6 +29,7 @@ import { episodeFiles, registerEpisodeSource } from './scaffold';
 import { minBackground, validateArtContract, validateArtManifest, type ArtManifest, type ArtManifestEntry, type ImageInfo } from '../src/engine/artContract';
 import { intakeParts, MAX_PART_BYTES } from './art-intake';
 import { checkCameraContinuity, type PlateShot } from '../src/engine/cameraContinuity';
+import { checkOriginality, type EpisodeFingerprint, type GroupInput, type OriginalityConfig } from '../src/engine/originality';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname } from 'node:path';
@@ -484,6 +485,23 @@ test('camera continuity: back-to-back scenes on the same plate never snap back (
   assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('b', 'p', cam(1), cam(1.08))]), ['b:CAMERA_JUMP']);
   // a plate that returns later (not back to back) is free
   assert.deepEqual(codes([shot('a', 'p', cam(1), cam(1.08)), shot('x', 'q', cam(1), cam(1.08)), shot('c', 'p', cam(1), cam(1.08))]), []);
+});
+test('originality M1–M9: repeated art/recipes/situations warn; IP in thumbnails and made-for-kids block', () => {
+  const cfg = JSON.parse(readFileSync(join(ROOT, 'shared/originality.json'), 'utf8')).config as OriginalityConfig;
+  const scene = (id: string, art: string[], recipe: string) => ({ id, seconds: 10, art, recipe, cameraMove: 'push_in', isStatic: false, isSlideshow: true });
+  const ep = (id: string, art: string): EpisodeFingerprint => ({ id, seconds: 40, scenes: ['a', 'b', 'c', 'd'].map((k, i) => scene(`${id}${k}`, [art], `cut|push_in|image,${i}`)) });
+  const meta = { game: 'Game One', title: 'Game One: Why Millions Play It', description: 'one two three four five six seven', madeForKids: false, thumbnails: [{ file: 't.jpg', thirdParty: 'none' as const, logos: false, officialArt: false }] };
+  const prev: GroupInput = { group: 'EP001', episodes: [ep('e1', 'bg.farm')], questSituations: [{ situation: 'buys a tractor', outcome: 'amazed' }], metadata: meta };
+  const codes = (g: GroupInput) => checkOriginality(g, [prev], cfg).filter((i) => i.level !== 'info').map((i) => `${i.check}:${i.level}`);
+  // a copy of the previous episode: reused art, same recipes, same Quest situation
+  const copy: GroupInput = { group: 'EP002', episodes: [ep('e2', 'bg.farm')], questSituations: [{ situation: 'Buys a tractor', outcome: 'amazed' }] };
+  const c = codes(copy);
+  for (const want of ['M1:warn', 'M2:error', 'M3:warn', 'M4:warn', 'M5:warn']) assert.ok(c.includes(want), `missing ${want} in ${c}`);
+  // IP in the thumbnail and made-for-kids are blockers
+  const bad: GroupInput = { group: 'EP002', episodes: [], questSituations: [{ situation: 'x', outcome: 'y' }], metadata: { ...meta, game: 'Game Two', title: 'Game Two: Why Millions Play It', description: 'a completely different description of another game', madeForKids: true, thumbnails: [{ file: 't.jpg', thirdParty: 'replica', logos: true, officialArt: false }] } };
+  const b = codes(bad);
+  assert.ok(b.includes('M8:error') && b.includes('M9:error'), `${b}`);
+  assert.ok(!b.includes('M7:warn'), 'two episodes with the same title formula are still allowed');
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);

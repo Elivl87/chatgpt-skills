@@ -1,7 +1,18 @@
 # SecondQuest: estándar de monetización (YPP) v1
 
 **Fecha:** 2026-10-03.
-**Estado:** propuesta, a aprobar por el Producer. Una vez aprobada, es vinculante como `PUBLISHING_STANDARD.md`.
+**Estado:** vinculante, como `PUBLISHING_STANDARD.md`.
+
+**Decisiones del Producer (2026-10-03):**
+- EP002 usa la **opción C** (§4).
+- **M1–M9 aprobadas e implementadas:**
+  - Código: `src/engine/originality.ts`.
+  - Comando: `npm run originality`.
+  - Configuración: `shared/originality.json`.
+  - Registro de Quest: `docs/originality/quest_log.json`.
+  - Metadatos por episodio: `docs/publish/<EP>/metadata.json`.
+  - Los errores bloquean el render.
+- La sección "Acerca de" del canal **no se actualiza** por ahora.
 
 **Fuentes primarias**, leídas el 2026-10-03:
 - Políticas de monetización de canales (https://support.google.com/youtube/answer/1311392).

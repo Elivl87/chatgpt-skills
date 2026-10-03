@@ -27,6 +27,7 @@ import { masterAudio } from './master';
 import { prepare } from './remotion';
 import { describeTarget, resolveRenderTarget } from './render-target';
 import { runValidation } from './validate';
+import { runOriginality, groupOfCut } from './originality';
 
 const TARGET_I = PRODUCTION.mastering.integratedLufs; // -14 LUFS (YouTube reference)
 const TARGET_TP = PRODUCTION.mastering.truePeakDbtp; // -1.5 dBTP
@@ -46,6 +47,17 @@ const main = async () => {
   if (!runValidation(episodeId, true)) {
     console.error('\nValidation failed — fix the errors above (npm run validate).');
     process.exit(1);
+  }
+
+  // Monetization safety (M1–M9): errors block, warnings are printed for the Producer.
+  const group = groupOfCut(episodeId);
+  if (group) {
+    const { ok, issues } = runOriginality(group);
+    for (const i of issues.filter((x) => x.level !== 'info')) console.log(`  ${i.level === 'error' ? '✖' : '⚠'} ${i.check} ${i.message}`);
+    if (!ok) {
+      console.error('\nOriginality check failed (npm run originality) — see docs/MONETIZATION_SAFETY_STANDARD.md.');
+      process.exit(1);
+    }
   }
 
   const maxOut = PRODUCTION.art?.maxOutput;

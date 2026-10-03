@@ -1,0 +1,14 @@
+{
+  "notes": "M5: what Quest does in each episode (situation, location, outcome). Quest must not be put in the same situation with the same outcome again (YPP 'Generic or Repetitive Content').",
+  "EP001": [
+    { "situation": "wakes up and goes to an office job", "location": "bedroom / office", "outcome": "exhausted, then plays a farming game for fun" },
+    { "situation": "buys a huge tractor at a dealership", "location": "dealership", "outcome": "amazed by bigger machines" },
+    { "situation": "works the farm through the seasons", "location": "farm", "outcome": "watches the sunset on a farm he built" }
+  ],
+  "EP002": [
+    { "situation": "inserts an old cartridge and follows a fairy into the game", "location": "memory room / threshold", "outcome": "becomes an adventure-tunic hero" },
+    { "situation": "child hero dwarfed by an endless field", "location": "field", "outcome": "the world feels enormous" },
+    { "situation": "child hero becomes an adult in a temple", "location": "temple", "outcome": "time passed without him" },
+    { "situation": "adult hero crosses the same road on horseback", "location": "field road", "outcome": "stands beside his horse: reunion with an old memory" }
+  ]
+}

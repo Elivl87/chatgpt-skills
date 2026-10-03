@@ -1,0 +1,19 @@
+{
+  "notes": "Monetization-safety checks M1-M9 (docs/MONETIZATION_SAFETY_STANDARD.md). Groups are listed in publication order; a full episode and its Shorts form one group. Thresholds are first, cautious values to be calibrated.",
+  "config": {
+    "brandAssets": ["brand."],
+    "m1ReusedArtWarn": 0.30,
+    "m2RecipeWarn": 0.35,
+    "m2RecipeError": 0.60,
+    "m3CameraMoveShareWarn": 0.40,
+    "m3StaticSecondsWarn": 6,
+    "m4SlideshowShareWarn": 0.60,
+    "m7TitleFormulaSimilarity": 0.70,
+    "m7TitleFormulaMaxInARow": 2,
+    "m7DescriptionWarn": 0.50
+  },
+  "groups": [
+    { "group": "EP001", "cuts": ["ep001full", "ep001short"], "script": "episodes/ep001full/script.json", "metadata": "docs/publish/EP001/metadata.json" },
+    { "group": "EP002", "cuts": ["ep002"], "script": "episodes/ep002/script.json", "metadata": "docs/publish/EP002/metadata.json" }
+  ]
+}
