@@ -54,6 +54,16 @@
         "0d26132d-9398-4b78-a6de-a5b2487ab711",
         "3b0247ee-52f2-4fa4-8e95-bd61b7a5df0d"
       ]
+    },
+    {
+      "id": "Q005",
+      "episode": "CHANNEL",
+      "item": "Pixie_v1 design (2 images, with Quest for scale)",
+      "model": "gpt_image_2_5",
+      "quoted": 2.0,
+      "status": "quoted",
+      "quotedAt": "2026-10-03T18:21:10+00:00",
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> Two cartoon friends standing side by side, full body, front three-quarter view, plain light background. Left: the SAME character as in the reference images (Quest_v1), young man, dark brown curly hair, light freckles, same face and proportions, plain red hoodie with white drawstrings, no logos, blue denim jeans, his RED canvas sneakers with white soles and white laces are visible. Right: his friend Pixie, a young woman with long straight black hair in a high ponytail, warm brown eyes, warm curious smile, teal oversized hoodie with no logos, black leggings, white sneakers. Same 2D cartoon style: bold ink outlines, flat cel shading. No text.\n"
     }
   ]
 }
