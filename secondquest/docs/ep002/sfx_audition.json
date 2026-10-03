@@ -1,34 +1,210 @@
 {
-  "title": "EP002 · audición de sonidos (escoge una opción por momento)",
-  "out": "docs/ep002/sfx_audition.mp4",
-  "slots": [
-    {"slot": "1 · CARTUCHO DESLIZÁNDOSE", "candidates": [
-      {"id": "A", "label": "sintetizado por el motor (el actual)", "layers": [["shared/sfx/cart_slide.wav", 0.6, 0]]},
-      {"id": "B", "label": "grabación CC0: roce de plástico", "layers": [["shared/sfx/cc0/kenney/scratch_004.ogg", 0.8, 0]]},
-      {"id": "C", "label": "grabación CC0: dos roces encadenados", "layers": [["shared/sfx/cc0/kenney/scratch_005.ogg", 0.7, 0], ["shared/sfx/cc0/kenney/scratch_004.ogg", 0.6, 0.18]]}
-    ]},
-    {"slot": "2 · CLIC AL ENCAJAR", "candidates": [
-      {"id": "A", "label": "sintetizado por el motor (el actual)", "layers": [["shared/sfx/cart_click.wav", 0.9, 0]]},
-      {"id": "B", "label": "CC0: interruptor grave + golpe seco", "layers": [["shared/sfx/cc0/kenney/switch_002.ogg", 0.9, 0], ["shared/sfx/cc0/kenney/impactGeneric_light_000.ogg", 0.8, 0.01]]},
-      {"id": "C", "label": "CC0: pestillo metálico + caída sorda", "layers": [["shared/sfx/cc0/kenney/metalLatch.ogg", 0.7, 0], ["shared/sfx/cc0/kenney/drop_002.ogg", 0.9, 0.02]]},
-      {"id": "D", "label": "CC0: clic de botón + interruptor", "layers": [["shared/sfx/cc0/kenney/click1.ogg", 0.9, 0], ["shared/sfx/cc0/kenney/switch_006.ogg", 0.7, 0.03]]}
-    ]},
-    {"slot": "3 · LA TV SE ENCIENDE", "candidates": [
-      {"id": "A", "label": "sintetizado por el motor (el actual)", "layers": [["shared/sfx/tv_on.wav", 0.8, 0]]},
-      {"id": "B", "label": "CC0: zumbido eléctrico + estática", "layers": [["shared/sfx/cc0/kenney/forceField_002.ogg", 0.8, 0], ["shared/sfx/cc0/kenney/computerNoise_000.ogg", 0.25, 0.05]]},
-      {"id": "C", "label": "CC0: clic de encendido + zumbido", "layers": [["shared/sfx/cc0/kenney/click_001.ogg", 0.8, 0], ["shared/sfx/cc0/kenney/forceField_002.ogg", 0.6, 0.04]]}
-    ]},
-    {"slot": "4 · APARECE EL HADA (sin voz)", "candidates": [
-      {"id": "A", "label": "sintetizado: campanitas (el actual)", "layers": [["shared/sfx/fairy_shimmer.wav", 0.9, 0]]},
-      {"id": "B", "label": "CC0: brillo de cristal", "layers": [["shared/sfx/cc0/kenney/glass_004.ogg", 0.8, 0]]},
-      {"id": "C", "label": "CC0: power-up luminoso", "layers": [["shared/sfx/cc0/kenney/powerUp10.ogg", 0.6, 0]]},
-      {"id": "D", "label": "CC0: power-up largo", "layers": [["shared/sfx/cc0/kenney/powerUp3.ogg", 0.5, 0]]}
-    ]},
-    {"slot": "5 · VOZ PROPIA DEL HADA: \"Hey! Listen!\"", "candidates": [
-      {"id": "A", "label": "voz propia (Kokoro bella, +8 semitonos)", "layers": [["shared/sfx/own/fairy_hey_listen_a.wav", 1.0, 0]]},
-      {"id": "B", "label": "voz propia (Kokoro heart, +8 semitonos)", "layers": [["shared/sfx/own/fairy_hey_listen_b.wav", 1.0, 0]]},
-      {"id": "C", "label": "voz propia (Kokoro nicole, +5 semitonos)", "layers": [["shared/sfx/own/fairy_hey_listen_c.wav", 1.0, 0]]},
-      {"id": "D", "label": "voz A + brillo de cristal", "layers": [["shared/sfx/cc0/kenney/glass_004.ogg", 0.5, 0], ["shared/sfx/own/fairy_hey_listen_a.wav", 1.0, 0.12]]}
-    ]}
-  ]
+ "title": "EP002 · audición de sonidos (escoge una opción por momento)",
+ "out": "docs/ep002/sfx_audition.mp4",
+ "slots": [
+  {
+   "slot": "1 · CARTUCHO DESLIZÁNDOSE",
+   "candidates": [
+    {
+     "id": "A",
+     "label": "sintetizado por el motor (el actual)",
+     "layers": [
+      [
+       "shared/sfx/cart_slide.wav",
+       0.6,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "B",
+     "label": "grabación CC0: roce de plástico",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/scratch_004.ogg",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "C",
+     "label": "grabación CC0: dos roces encadenados",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/scratch_005.ogg",
+       0.7,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/scratch_004.ogg",
+       0.6,
+       0.18
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "slot": "2 · CLIC AL ENCAJAR",
+   "candidates": [
+    {
+     "id": "A",
+     "label": "sintetizado por el motor (el actual)",
+     "layers": [
+      [
+       "shared/sfx/cart_click.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "B",
+     "label": "CC0: interruptor grave + golpe seco",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/switch_002.ogg",
+       0.9,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/impactGeneric_light_000.ogg",
+       0.8,
+       0.01
+      ]
+     ]
+    },
+    {
+     "id": "C",
+     "label": "CC0: pestillo metálico + caída sorda",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/metalLatch.ogg",
+       0.7,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/drop_002.ogg",
+       0.9,
+       0.02
+      ]
+     ]
+    },
+    {
+     "id": "D",
+     "label": "CC0: clic de botón + interruptor",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/click1.ogg",
+       0.9,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/switch_006.ogg",
+       0.7,
+       0.03
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "slot": "3 · LA TV SE ENCIENDE",
+   "candidates": [
+    {
+     "id": "A",
+     "label": "sintetizado por el motor (el actual)",
+     "layers": [
+      [
+       "shared/sfx/tv_on.wav",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "B",
+     "label": "CC0: zumbido eléctrico + estática",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/forceField_002.ogg",
+       0.8,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/computerNoise_000.ogg",
+       0.25,
+       0.05
+      ]
+     ]
+    },
+    {
+     "id": "C",
+     "label": "CC0: clic de encendido + zumbido",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/click_001.ogg",
+       0.8,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/forceField_002.ogg",
+       0.6,
+       0.04
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "slot": "4 · APARECE EL HADA (sin voz)",
+   "candidates": [
+    {
+     "id": "A",
+     "label": "sintetizado: campanitas (el actual)",
+     "layers": [
+      [
+       "shared/sfx/fairy_shimmer.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "B",
+     "label": "CC0: brillo de cristal",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/glass_004.ogg",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "C",
+     "label": "CC0: power-up luminoso",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/powerUp10.ogg",
+       0.6,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "D",
+     "label": "CC0: power-up largo",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/powerUp3.ogg",
+       0.5,
+       0
+      ]
+     ]
+    }
+   ]
+  }
+ ]
 }

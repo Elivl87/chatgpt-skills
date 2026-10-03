@@ -1,0 +1,125 @@
+{
+ "title": "EP002 · audición 2: el CLIC del cartucho (estilo Switch: seco, brillante, doble)",
+ "out": "docs/ep002/sfx_audition_clic.mp4",
+ "slots": [
+  {
+   "slot": "CLIC AL ENCAJAR",
+   "candidates": [
+    {
+     "id": "A",
+     "label": "click66: doble chasquido (40 ms)",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click66.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "B",
+     "label": "click69: doble chasquido (86 ms)",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click69.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "C",
+     "label": "click19: triple, muy seco",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click19.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "D",
+     "label": "click22: doble con cuerpo",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click22.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "E",
+     "label": "click45: snap brillante",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click45.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "F",
+     "label": "click79 + click73: snap corto + golpe",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click79.wav",
+       0.9,
+       0
+      ],
+      [
+       "shared/sfx/cc0/owlishmedia/click73.wav",
+       0.8,
+       0.045
+      ]
+     ]
+    },
+    {
+     "id": "G",
+     "label": "click66 + click83: chasquido + cuerpo grave",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click66.wav",
+       0.9,
+       0
+      ],
+      [
+       "shared/sfx/cc0/owlishmedia/click83.wav",
+       0.6,
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "H",
+     "label": "click11: doble largo",
+     "layers": [
+      [
+       "shared/sfx/cc0/owlishmedia/click11.wav",
+       0.9,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "I",
+     "label": "Kenney: interruptor grave + golpe (opción 2B anterior)",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/switch_002.ogg",
+       0.9,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/impactGeneric_light_000.ogg",
+       0.8,
+       0.01
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}
