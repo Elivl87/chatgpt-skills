@@ -107,9 +107,24 @@
       "item": "Quest_v1 library v2: 8 poses/emotions (transparent, 2k, element Quest-v1-6ref)",
       "model": "gpt_image_2_5",
       "quoted": 8.0,
-      "status": "quoted",
+      "status": "spent",
       "quotedAt": "2026-10-03T18:56:37+00:00",
-      "prompt": null
+      "prompt": null,
+      "approvedAt": "2026-10-03T19:01:42+00:00",
+      "approval": "Apruebo las 8 imágenes. Pero recuerda la premisa de optimizar créditos. (Claude: generated at 1k = 4.0 credits instead of 8)",
+      "spentAt": "2026-10-03T19:03:02+00:00",
+      "actual": 4.0,
+      "jobs": [
+        "3bb78d15-2151-4acb-9b26-7f1fc88aa81d",
+        "eaf9acb6-bb0e-4c50-b0b4-dbfe59198679",
+        "16aa5ff8-16df-4d0d-8614-588f68041a94",
+        "af152634-f657-45d4-a950-c4d3c5971725",
+        "cf7a9f91-71e9-47a2-b01b-faf4d1d817af",
+        "3e2ceb3c-9ef1-4aa6-85c1-1226f4e27a39",
+        "af75412a-679d-4563-a602-acb44414b58a",
+        "3424c7a1-b2df-4870-9fd5-7873978383e1"
+      ],
+      "balanceAfter": 83.25
     }
   ]
 }
