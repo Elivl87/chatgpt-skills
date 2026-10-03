@@ -212,6 +212,12 @@ def relic_spin(prop, target, dist, name, frames=24, sweep=70, elev=18):
         return render({'props': [prop], 'shots': [{'camera': orbit(y, elev, dist, target), 'target': target, 'fov': 26, 'cart': None}], 'light': 'neutral'}, 1000, 1000, line=3.2)[0]
     with ThreadPoolExecutor(4) as ex:
         imgs = list(ex.map(run, yaws))
+    for k, y in enumerate(yaws):                                          # a cold browser can hand back an empty frame
+        for _ in range(3):
+            if imgs[k][..., 3].any():
+                break
+            imgs[k] = run(y)
+        assert imgs[k][..., 3].any(), f'{name} frame {k} rendered empty'
     for k, im in enumerate(imgs):
         cv2.imwrite(str(out / f'f{k:03d}.png'), im)
     sheet = np.full((500, 1500, 3), 255, np.uint8)
@@ -222,7 +228,7 @@ def relic_spin(prop, target, dist, name, frames=24, sweep=70, elev=18):
     print(f'{name}: {frames} frames + docs/ep002/{name}_sheet.jpg')
 
 
-JOBS = {'ocarina_spin': lambda: relic_spin('ocarina', [-14, 4, 0], 470, 'ocarina_spin', elev=32),
+JOBS = {'ocarina_spin': lambda: relic_spin('ocarina', [0, 18, 0], 520, 'ocarina_spin', sweep=50, elev=14),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

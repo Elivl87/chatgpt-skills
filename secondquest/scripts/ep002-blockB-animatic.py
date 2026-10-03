@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EP002 animatic · block B (planning only): from "An orchestra." to the cut into Act 1 (l03 rest -> l10, + silence).
 
-  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v1.mp4 (+ _with_seq01 joined clip)
+  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v2.mp4 (+ _with_seq01 joined clip)
 
 Scene Book v2, sequences 02-04:
   B1  "An orchestra. Voices. Modern controls."  living room from behind Quest, facing the TV; Navi comes back and circles
@@ -11,7 +11,7 @@ Scene Book v2, sequences 02-04:
       Navi leads the eye.
   B4  "But there is one thing..."  Hero Quest (MISSING outfit, planning preview) + Navi facing Hyrule (MISSING plate).
   B5  "You."  hold, no movement.
-  B6  "And somehow... So, why?"  Navi starts forward, Quest follows down the path; fade to the episode title, cut to Act 1.
+  B6  "And somehow... So, why?"  Navi starts forward, Quest follows down the path; SecondQuest wordmark on "why?" (as EP001), cut to Act 1.
 Free sounds only: Bram (no new SFX in this block).
 """
 import importlib.util, math, subprocess, sys
@@ -41,7 +41,8 @@ T_WHY = T('l10')
 T_END = T('l11') - 0.05               # Act 1 starts on l11
 PROPS = ROOT / 'public/art/ep002/props3d'
 TRI = ROOT / 'docs/ep002/triforce'
-CINZEL = ImageFont.truetype(str(ROOT / 'tools/fx/fonts/cinzel-700.woff'), 54)
+WORDMARK = Image.open(ROOT / 'public/art/core/brand/secondquest_wordmark.png').convert('RGBA')
+T_WM = T('l10.w2')                     # "why?": the wordmark lands here, as in EP001 (l19)
 
 # ------------------------------------------------------------------ B1/B2: living room from behind Quest
 LIV = Image.open(ROOT / 'public/art/core/backgrounds/living_room_night_gaming.png').convert('RGBA').resize((PW, PH), Image.LANCZOS)
@@ -155,15 +156,18 @@ def field_frame(t):
     keys = [(T_FIELD, .6, .48), (T_YOU, .57, .46), (T_GO, .57, .46), (T_GO + 1.2, .54, .4), (T_WHY + .6, .51, .3)]
     s = .07 if t < T_GO else lin(.07, .035, min(1, (t - T_GO) / (T_WHY + .6 - T_GO)))
     fr = fairy_fx.draw(fr, keys, t, size=s)
-    if t >= T_WHY + .3:                                                   # fade to the title, then cut to Act 1
+    if t >= T_WHY + .3:                                                   # dim the field; SecondQuest wordmark on "why?" (as EP001)
         k2 = min(1, (t - T_WHY - .3) / .8)
-        fr = Image.blend(fr, Image.new('RGB', fr.size, (8, 6, 10)), k2 * .85)
-        if k2 > .4:
-            d = ImageDraw.Draw(fr)
-            for i, line in enumerate(('WHY DO WE WANT TO GO BACK', 'TO OCARINA OF TIME?')):
-                tw = d.textlength(line, font=CINZEL)
-                d.text(((W - tw) / 2, H * .38 + i * 70), line, font=CINZEL, fill=(244, 232, 200))
-            d.text((20, H - 120), 'title card: proposal (Producer decides)', font=F(15), fill=(255, 220, 160))
+        fr = Image.blend(fr, Image.new('RGB', fr.size, (8, 6, 10)), k2 * .6)
+    if t >= T_WM:
+        kp = min(1, (t - T_WM) / .28)                                     # EP001 punch_in: .28 s, intensity .35
+        sc = 1 + .35 * (1 - ease(kp))
+        ww = int(W * .56 * sc); wh = int(WORDMARK.height * ww / WORDMARK.width)
+        wm = WORDMARK.resize((ww, wh), Image.LANCZOS)
+        if kp < 1:
+            wm.putalpha(wm.getchannel('A').point(lambda a: int(a * min(1, kp * 2))))
+        base = fr.convert('RGBA'); base.alpha_composite(wm, ((W - ww) // 2, (H - wh) // 2))
+        fr = base.convert('RGB')
     return fr
 
 
@@ -183,30 +187,30 @@ def render(t):
         keys = [(T0, -.05, .5), (T0 + .7, qx / W - .12, qy / H - .05), (T('l03.w5'), qx / W + .1, qy / H - .12),
                 (T('l03.w6'), qx / W - .08, qy / H - .2), (T_CAM, tx / W - .05, ty / H)]
         fr = fairy_fx.draw(fr, keys, t, size=.065)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v1 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v2 · PLANNING ONLY')
     elif t < T_REL:                                                       # B2: "A new camera." fly into the screen
         k = ease((t - T_CAM) / (T_REL - T_CAM))
         z = 1.4 * (7.5 / 1.4) ** k
         cam = ((z, lin(.76, TV[0], k), lin(.42, TV[1], k)), (z, lin(.76, TV[0], k), lin(.42, TV[1], k)))
         fr, box = frame_plate(ROOM, cam, 0)
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 255, 255)), max(0, (k - .55) / .45))
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · camera flies into the screen · BLOCK B v1 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · camera flies into the screen · BLOCK B v2 · PLANNING ONLY')
     elif t < T_FIELD:                                                     # B3
         fr = relic_frame(t)
         if t - T_REL < .25:
             fr = Image.blend(fr, Image.new('RGB', fr.size, 'white'), 1 - (t - T_REL) / .25)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v1 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v2 · PLANNING ONLY')
     else:                                                                 # B4-B6
         fr = field_frame(t)
         lab = 'B4 one thing' if t < T_YOU else ('B5 "You." HOLD' if t < T_GO else 'B6 Navi leads, Quest follows · "So, why?"')
-        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v1 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v2 · PLANNING ONLY')
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -217,9 +221,9 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('b1', T('l03.w6') + .3), ('b2', T_CAM + .5), ('b3_ocarina', T_OC + .5), ('b3_sword', T_SW + .5), ('b3_triforce', T_TF + 1.1),
                     ('b4', T_FIELD + 1.5), ('b6', T_GO + 2.0), ('title', T_END - .5)):
-        render(t).save(ROOT / f'docs/ep002/blockB_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockB_v2_{name}.jpg', quality=85)
     # joined preview: approved seq 01 (cartridge v10) + block B
-    joined = ROOT / 'docs/ep002/EP002_seq01_blockB_v1.mp4'
+    joined = ROOT / 'docs/ep002/EP002_seq01_blockB_v2.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
     lst.write_text(f"file '{ROOT / 'docs/ep002/EP002_cartridge_animatic_v10.mp4'}'\nfile '{out}'\n")
     subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',

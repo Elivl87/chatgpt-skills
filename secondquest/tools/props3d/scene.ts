@@ -219,61 +219,60 @@ const triforce = () => {
   return g;
 };
 
-// ---------------------------------------------------------------- ocarina (classic blue "sweet potato" ocarina)
-/** Head (wide end, with the mouthpiece) at -x, tail at +x; top = +y. Length ~150 mm. */
+// ---------------------------------------------------------------- ocarina (classic teardrop ocarina, Producer reference 2026-10-03)
+/** Wide rounded end at -x, tapering to a point at +x that curves up; conical mouthpiece rising from the top of the wide
+ *  end, with a silver collar carrying the gold Triforce; a row of holes on top and larger holes on the front (+z). */
 const ocarina = () => {
   const g = new THREE.Group();
   let part = 400;
-  const geo = new THREE.SphereGeometry(1, 64, 40);
+  const L = 82, RY = 34, RZ = 40;
+  const prof = (x: number) => {                       // x in mm -> (taper, lift)
+    const u = (x / L + 1) / 2;
+    return { taper: 1 - 0.8 * Math.pow(u, 1.35), lift: 20 * u * u };
+  };
+  const surf = (x: number, th: number) => {          // th: 0 = top, +pi/2 = front (+z)
+    const xx = x / L, { taper, lift } = prof(x), r = Math.sqrt(Math.max(0, 1 - xx * xx));
+    return new THREE.Vector3(x, Math.cos(th) * RY * taper * r + lift, Math.sin(th) * RZ * taper * r);
+  };
+  const normal = (x: number, th: number) => {
+    const e = 0.5, p0 = surf(x, th);
+    const dx = surf(x + e, th).sub(p0), dt = surf(x, th + 0.01).sub(p0);
+    const n = new THREE.Vector3().crossVectors(dt, dx).normalize();
+    return n.dot(p0.clone().sub(new THREE.Vector3(x, prof(x).lift, 0))) < 0 ? n.negate() : n;
+  };
+  const geo = new THREE.SphereGeometry(1, 72, 48);
   const pos = geo.attributes.position as THREE.BufferAttribute;
   for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
-    const u = (x + 1) / 2;                                   // 0 head .. 1 tail
-    const taper = 1.0 - 0.42 * Math.pow(u, 1.6);            // narrower towards the tail
-    const lift = 0.10 * Math.pow(u, 2);                     // tail curves up a little
-    pos.setXYZ(i, x * 75, y * 30 * taper + lift * 30, z * 40 * taper);
+    const x = pos.getX(i) * L, { taper, lift } = prof(x);
+    pos.setXYZ(i, x, pos.getY(i) * RY * taper + lift, pos.getZ(i) * RZ * taper);
   }
   geo.computeVertexNormals();
-  const body = new THREE.Mesh(geo, toon('#2f5bd0')); body.userData.part = part++; ids.push(body); g.add(body);
-  // mouthpiece: one flattened cone out of the head, angled ~10 degrees up, darker oval lip at its end; silver band at the joint
-  const ang = 0.18, dir = new THREE.Vector3(-Math.cos(ang), Math.sin(ang), 0);
-  const along = (v: THREE.Object3D, from: THREE.Vector3) => v.quaternion.setFromUnitVectors(from, dir);
-  const head = new THREE.Vector3(-70, 4, 0);
-  const mp = new THREE.Mesh(new THREE.CylinderGeometry(9, 15, 34, 32), toon('#2b54c2'));
-  mp.scale.set(1, 1, 0.62); along(mp, new THREE.Vector3(0, 1, 0)); mp.position.copy(head.clone().addScaledVector(dir, 17));
-  mp.userData.part = part++; ids.push(mp); g.add(mp);
-  const lip = new THREE.Mesh(new THREE.CylinderGeometry(9.4, 9.4, 3, 32), toon('#1d3c96'));
-  lip.scale.set(1, 1, 0.62); along(lip, new THREE.Vector3(0, 1, 0)); lip.position.copy(head.clone().addScaledVector(dir, 35));
-  lip.userData.part = part++; ids.push(lip); g.add(lip);
-  const band = new THREE.Mesh(new THREE.TorusGeometry(15.3, 2.6, 14, 40), toon('#d9dce6'));
-  band.scale.set(1, 0.66, 1); along(band, new THREE.Vector3(0, 0, 1)); band.position.copy(head.clone().addScaledVector(dir, 1));
-  band.userData.part = part++; ids.push(band); g.add(band);
-  // surface helper: point and normal on the deformed ellipsoid top
-  const top = (x: number, z: number) => {
-    const u = (x / 75 + 1) / 2, taper = 1.0 - 0.42 * Math.pow(u, 1.6), lift = 0.10 * Math.pow(u, 2) * 30;
-    const zz = z / (40 * taper), xx = x / 75;
-    const yy = Math.sqrt(Math.max(0, 1 - xx * xx - zz * zz));
-    return { y: yy * 30 * taper + lift, n: new THREE.Vector3(xx / 75, yy / (30 * taper), zz / (40 * taper)).normalize() };
-  };
-  const hole = (x: number, z: number, r: number) => {
-    const { y, n } = top(x, z);
-    const h = new THREE.Mesh(new THREE.CylinderGeometry(r, r * 0.9, 1.2, 28), toon('#0b1636'));
-    h.position.set(x, y - 0.3, z); h.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), n);
-    h.userData.part = part++; ids.push(h); g.add(h);
-  };
-  // four large finger holes in a diamond + two small ones near the tail
-  hole(-8, -14, 6.5); hole(-8, 14, 6.5); hole(16, -11, 6); hole(16, 11, 6); hole(36, -6, 4); hole(36, 6, 4);
-  // golden Triforce emblem on top of the head, apex towards the mouthpiece
-  const tri = (cx: number, cz: number, s: number) => {
-    const sh = new THREE.Shape();
-    sh.moveTo(cx - s * 0.577, cz); sh.lineTo(cx + s * 0.289, cz - s / 2); sh.lineTo(cx + s * 0.289, cz + s / 2); sh.closePath();
-    const tg = new THREE.ExtrudeGeometry(sh, { depth: 0.8, bevelEnabled: false });
-    tg.rotateX(Math.PI / 2);                                  // shape (x, y) -> world (x, z); extrusion goes down
-    const { y } = top(cx, cz); tg.translate(0, y + 0.9, 0);
+  const body = new THREE.Mesh(geo, toon('#2d4fb8')); body.userData.part = part++; ids.push(body); g.add(body);
+  // mouthpiece group, tilted back ~28 degrees, rising from the top of the wide end
+  const base = surf(-38, 0);
+  const mg = new THREE.Group(); mg.position.copy(base).add(new THREE.Vector3(0, -4, 0)); mg.rotation.set(0, 0, 0.5);
+  const spout = new THREE.Mesh(new THREE.CylinderGeometry(4.5, 12, 52, 32), toon('#2a4aae')); spout.position.set(0, 26, 0);
+  spout.userData.part = part++; ids.push(spout); mg.add(spout);
+  const tipCap = new THREE.Mesh(new THREE.SphereGeometry(4.5, 16, 12), toon('#2a4aae')); tipCap.position.set(0, 52, 0); tipCap.userData.part = spout.userData.part; ids.push(tipCap); mg.add(tipCap);
+  const collar = box(30, 13, 30, [0, 9, 0], toon('#d6dae4'), part++, 2); mg.add(collar);
+  const tri = (cx: number, cy: number, s: number) => {
+    const sh = new THREE.Shape(); sh.moveTo(cx - s / 2, cy); sh.lineTo(cx + s / 2, cy); sh.lineTo(cx, cy + s * 0.87); sh.closePath();
+    const tg = new THREE.ExtrudeGeometry(sh, { depth: 0.8, bevelEnabled: false }); tg.translate(0, 0, 15.1);
     const m = new THREE.Mesh(tg, toon('#f2c230')); m.userData.part = part++; ids.push(m); return m;
   };
-  const S_ = 9, c = -44;
-  g.add(tri(c - S_ * 0.433, 0, S_), tri(c + S_ * 0.433, -S_ / 2, S_), tri(c + S_ * 0.433, S_ / 2, S_));
+  const S_ = 5.2;
+  mg.add(tri(0, 9.6, S_), tri(-S_ / 2, 5.1, S_), tri(S_ / 2, 5.1, S_));
+  g.add(mg);
+  // holes: a row along the top towards the tip, larger ones on the front of the wide end
+  const hole = (x: number, th: number, r: number) => {
+    const h = new THREE.Mesh(new THREE.CylinderGeometry(r, r * 0.92, 1.2, 28), toon('#0a1430'));
+    h.position.copy(surf(x, th)).addScaledVector(normal(x, th), -0.2);
+    h.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal(x, th));
+    h.userData.part = part++; ids.push(h); g.add(h);
+  };
+  hole(-6, 0.35, 6.5); hole(18, 0.35, 6.2); hole(40, 0.35, 5.6); hole(60, 0.38, 4.6);
+  hole(-46, 1.25, 7.2); hole(-20, 1.15, 7.4); hole(-54, 1.75, 6.5);
+  g.rotation.set(0, 0, 0.32);                        // tip lifted, as in the reference profile
   return g;
 };
 
