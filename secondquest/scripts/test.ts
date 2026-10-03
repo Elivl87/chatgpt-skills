@@ -18,7 +18,7 @@ import { join } from 'node:path';
 import { duckGain } from '../src/audio/ducking';
 import { localize } from '../src/components/SceneContext';
 import { compositionId, episodeLocales, localizeBundle } from '../src/engine/locale';
-import { parseVoiceSpec, validateNarrationVoice, validateProduction, validatePronunciation } from '../src/engine/production';
+import { parseVoiceSpec, validateNarrationVoice, validateProduction, validatePronunciation, withinMaxOutput } from '../src/engine/production';
 import { resolveCut } from '../src/engine/timeline';
 import { validateAllLocales, validateEpisode, validateLocales } from '../src/engine/validate';
 import { EPISODES, PRODUCTION, PRONUNCIATION, SFX, SHARED_ASSETS, type EpisodeBundle } from '../src/episodes';
@@ -465,6 +465,13 @@ test('render gate: backgrounds are sized for 1080p — 2k (2688x1520) passes, be
   assert.deepEqual(minBackground(PRODUCTION.art!), [2304, 1296]);
   assert.deepEqual(run(2688, 1520), []);
   assert.equal(run(2048, 1152).length, 1);
+});
+test('max output is 1080p in either orientation — 1920x1080 and 1080x1920 (Shorts) pass, 4K does not', () => {
+  const max = PRODUCTION.art!.maxOutput;
+  assert.ok(withinMaxOutput(1920, 1080, max));
+  assert.ok(withinMaxOutput(1080, 1920, max));
+  assert.ok(!withinMaxOutput(3840, 2160, max));
+  assert.ok(!withinMaxOutput(2160, 3840, max));
 });
 test('render gate: missing file → ASSET_MISSING with exact path', () => {
   const [b] = gateBundle(0.06);

@@ -361,9 +361,11 @@ export interface ImageLayer extends LayerBase {
   swaps?: AssetSwap[];
   /** Soft contact shadow under characters/objects. */
   shadow?: boolean;
+  /** Backgrounds only: which part of the art stays in view when the frame crops it (0..1 per axis, default centre). Used by vertical cuts. */
+  focus?: [number, number];
 }
 
-export type TextStyle = 'punch' | 'price' | 'label' | 'ui' | 'marker' | 'caption';
+export type TextStyle = 'punch' | 'price' | 'label' | 'ui' | 'marker' | 'caption' | 'subtitle';
 
 export interface TextLayer extends LayerBase {
   type: 'text';

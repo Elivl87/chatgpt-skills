@@ -20,6 +20,7 @@ import { renderMedia } from '@remotion/renderer';
 import { mkdirSync, renameSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { compositionId, localeSuffix, localizeBundle } from '../src/engine/locale';
+import { withinMaxOutput } from '../src/engine/production';
 import { EPISODES, PRODUCTION } from '../src/episodes';
 import { parseArgs, ROOT } from './lib';
 import { masterAudio } from './master';
@@ -48,8 +49,10 @@ const main = async () => {
   }
 
   const maxOut = PRODUCTION.art?.maxOutput;
-  if (maxOut && base.episode.height * scale > maxOut[1]) {
-    console.error(`\nOutput ${base.episode.height * scale}p exceeds the channel maximum ${maxOut[0]}x${maxOut[1]} (shared/production.json art.maxOutput): the art is only certified up to that size.`);
+  const outW = base.episode.width * scale;
+  const outH = base.episode.height * scale;
+  if (maxOut && !withinMaxOutput(outW, outH, maxOut)) {
+    console.error(`\nOutput ${outW}x${outH} exceeds the channel maximum ${maxOut[0]}x${maxOut[1]} in either orientation (shared/production.json art.maxOutput): the art is only certified up to that size.`);
     process.exit(1);
   }
 

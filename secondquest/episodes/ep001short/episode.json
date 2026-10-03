@@ -1,0 +1,32 @@
+{
+  "id": "ep001short",
+  "title": "Why Do Millions of People Play a Game About Farming? (Short)",
+  "assetRoot": "episodes/ep001_farming",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "locale": "en",
+  "narration": {
+    "audio": "audio/full/narration.wav",
+    "volume": 1.0
+  },
+  "music": {
+    "duck": {
+      "to": 0.27,
+      "attack": 0.15,
+      "release": 0.6,
+      "lookahead": 0.1,
+      "sfxTo": 0.62
+    },
+    "cues": [],
+    "note": "Music OFF by default (Creative Decisions v1.1): Narration > SFX > Ambience > Silence. Add cues only with music.producerApproved = true."
+  },
+  "cuts": {
+    "short": {
+      "label": "Vertical Short: the EP001 hook (9:16)",
+      "fromScene": "s01_wake",
+      "toScene": "s15_sunset",
+      "output": "secondquest_ep001_short"
+    }
+  }
+}

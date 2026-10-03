@@ -106,9 +106,19 @@ const TEXT_STYLE: Record<TextStyle, (size: number, color?: string) => React.CSSP
     color: c ?? theme.color.white,
     textShadow: '0 2px 10px rgba(0,0,0,0.6)',
   }),
+  // burned-in captions for vertical Shorts: heavy, outlined, readable over any art
+  subtitle: (s, c) => ({
+    fontFamily: theme.font.ui,
+    fontWeight: 900,
+    fontSize: s,
+    color: c ?? theme.color.white,
+    lineHeight: 1.12,
+    ...theme.textStroke(s * 0.13),
+    textShadow: `0 ${s * 0.07}px 0 ${theme.color.ink}`,
+  }),
 };
 
-const TEXT_SIZE: Record<TextStyle, number> = { punch: 150, price: 110, label: 34, ui: 46, marker: 30, caption: 40 };
+const TEXT_SIZE: Record<TextStyle, number> = { punch: 150, price: 110, label: 34, ui: 46, marker: 30, caption: 40, subtitle: 64 };
 
 export const TextLayerView: React.FC<{ layer: TextLayer; index: number }> = ({ layer, index }) => {
   const ctx = useScene();

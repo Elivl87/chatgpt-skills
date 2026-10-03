@@ -51,7 +51,7 @@ export const ImageLayerView: React.FC<{ layer: ImageLayer; layerCam: CameraFrame
         {variants.map((v, i) => (
           <div key={v.id + i} style={{ position: 'absolute', inset: 0, opacity: i === active ? 1 : 0 }}>
             {v.exists ? (
-              <Img src={staticFile(v.publicPath)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <Img src={staticFile(v.publicPath)} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: layer.focus ? `${layer.focus[0] * 100}% ${layer.focus[1] * 100}%` : undefined }} />
             ) : (
               <BackgroundPlaceholder asset={v} />
             )}

@@ -158,3 +158,7 @@ export const validateNarrationVoice = (
         },
       ];
 };
+
+/** True when a w×h render fits the channel maximum in either orientation (1080x1920 Shorts are still 1080p). */
+export const withinMaxOutput = (w: number, h: number, maxOut: [number, number]): boolean =>
+  Math.max(w, h) <= Math.max(...maxOut) && Math.min(w, h) <= Math.min(...maxOut);

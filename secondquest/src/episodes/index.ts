@@ -19,6 +19,8 @@ import ep001fullScript from '../../episodes/ep001full/script.json';
 import ep001fullTimings from '../../episodes/ep001full/timings.json';
 import ep001fullScenes from '../../episodes/ep001full/scenes.json';
 import ep001fullAssets from '../../episodes/ep001full/assets.json';
+import ep001shortEpisode from '../../episodes/ep001short/episode.json';
+import ep001shortScenes from '../../episodes/ep001short/scenes.json';
 // @new-episode-imports (scripts/new-episode.ts inserts above this line)
 
 /**
@@ -68,6 +70,14 @@ export const EPISODES: Record<string, EpisodeBundle> = {
     script: ep001fullScript as unknown as ScriptFile,
     timings: ep001fullTimings as unknown as TimingsFile,
     scenes: ep001fullScenes as unknown as ScenesFile,
+    assets: ep001fullAssets as unknown as AssetCatalog,
+  },
+  // vertical Short: same script, Bram timings and art as ep001full, re-framed 9:16 (scripts/ep001-short.py)
+  ep001short: {
+    episode: ep001shortEpisode as unknown as EpisodeConfig,
+    script: ep001fullScript as unknown as ScriptFile,
+    timings: ep001fullTimings as unknown as TimingsFile,
+    scenes: ep001shortScenes as unknown as ScenesFile,
     assets: ep001fullAssets as unknown as AssetCatalog,
   },
   // @new-episode-entries (scripts/new-episode.ts inserts above this line)
