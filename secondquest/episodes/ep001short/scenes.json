@@ -1248,7 +1248,8 @@
      "type": "stamp",
      "at": "l08.end-0.35",
      "x": 0.5,
-     "y": 0.4
+     "y": 0.38,
+     "size": 0.24
     },
     {
      "type": "text",
@@ -1361,8 +1362,9 @@
      "type": "stamp",
      "at": "l09.end-0.3",
      "x": 0.5,
-     "y": 0.4,
-     "rotation": 10
+     "y": 0.38,
+     "rotation": 10,
+     "size": 0.24
     },
     {
      "type": "text",
@@ -1480,8 +1482,9 @@
      "type": "stamp",
      "at": "l10.end-0.3",
      "x": 0.5,
-     "y": 0.4,
-     "rotation": -8
+     "y": 0.38,
+     "rotation": -8,
+     "size": 0.24
     },
     {
      "type": "text",
