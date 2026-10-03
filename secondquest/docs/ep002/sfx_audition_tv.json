@@ -1,0 +1,54 @@
+{
+ "title": "EP002 · audición: la TV se enciende (escoge A, B o C)",
+ "out": "docs/ep002/sfx_audition_tv.mp4",
+ "slots": [
+  {
+   "slot": "LA TV SE ENCIENDE",
+   "candidates": [
+    {
+     "id": "A",
+     "label": "sintetizado por el motor (el actual)",
+     "layers": [
+      [
+       "shared/sfx/tv_on.wav",
+       0.8,
+       0
+      ]
+     ]
+    },
+    {
+     "id": "B",
+     "label": "CC0: zumbido eléctrico + estática",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/forceField_002.ogg",
+       0.8,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/computerNoise_000.ogg",
+       0.25,
+       0.05
+      ]
+     ]
+    },
+    {
+     "id": "C",
+     "label": "CC0: clic de encendido + zumbido",
+     "layers": [
+      [
+       "shared/sfx/cc0/kenney/click_001.ogg",
+       0.8,
+       0
+      ],
+      [
+       "shared/sfx/cc0/kenney/forceField_002.ogg",
+       0.6,
+       0.04
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}
