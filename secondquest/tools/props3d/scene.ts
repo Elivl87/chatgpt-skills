@@ -429,6 +429,54 @@ const cartridge = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- CRT television (late 90s, ~21"), screen facing +z
+/** Dark-grey 90s CRT: rounded front bezel, recessed convex screen, tapered tube housing, small control strip with a
+ *  power LED. The screen is an unlit key colour (#00ff00) so the animatic can composite any picture into it. */
+const crt = () => {
+  const g = new THREE.Group();
+  const SHELL = toon('#3b3b42'), INNER = toon('#232328');
+  const front = (w: number, h: number, r: number, d: number, z: number, mat: THREE.Material, part: number, hole?: THREE.Path) => {
+    const s = roundedRect(w, h, r); if (hole) s.holes.push(hole);
+    const geo = new THREE.ExtrudeGeometry(s, { depth: d, bevelEnabled: true, bevelThickness: 4, bevelSize: 4, bevelSegments: 4, curveSegments: 16 });
+    geo.translate(0, 0, z);
+    const m = new THREE.Mesh(geo, mat); m.userData.part = part; ids.push(m); return m;
+  };
+  const W_ = 540, H_ = 450, SW = 412, SH = 310, SY = 30;            // outer size, screen size, screen centre offset (up)
+  const holePath = (w: number, h: number, r: number, cy: number) => {
+    const p = new THREE.Path(); const x0 = -w / 2, x1 = w / 2, y0 = cy - h / 2, y1 = cy + h / 2;
+    p.moveTo(x0 + r, y0); p.lineTo(x1 - r, y0); p.quadraticCurveTo(x1, y0, x1, y0 + r); p.lineTo(x1, y1 - r); p.quadraticCurveTo(x1, y1, x1 - r, y1);
+    p.lineTo(x0 + r, y1); p.quadraticCurveTo(x0, y1, x0, y1 - r); p.lineTo(x0, y0 + r); p.quadraticCurveTo(x0, y0, x0 + r, y0); return p;
+  };
+  // bezel with the screen opening (roundedRect is centred; shift the opening up)
+  g.add(front(W_, H_, 34, 50, -50, SHELL, 700, holePath(SW + 40, SH + 40, 30, SY)));
+  g.add(front(SW + 44, SH + 44, 30, 6, -46, INNER, 701, holePath(SW, SH, 24, 0)));    // dark inner frame (moved up below)
+  ids[ids.length - 1].position.y = SY;
+  // convex screen
+  const ss = roundedRect(SW, SH, 24);
+  const sg = new THREE.ShapeGeometry(ss, 24);
+  const sp = sg.attributes.position as THREE.BufferAttribute;
+  for (let i = 0; i < sp.count; i++) {
+    const x = sp.getX(i) / (SW / 2), y = sp.getY(i) / (SH / 2);
+    sp.setZ(i, -40 + 14 * (1 - 0.5 * x * x - 0.5 * y * y));
+  }
+  sg.computeVertexNormals();
+  const screen = new THREE.Mesh(sg, new THREE.MeshBasicMaterial({ color: new THREE.Color('#00ff00') }));
+  screen.position.y = SY; screen.userData.part = 702; ids.push(screen); g.add(screen);
+  // tube housing: a box whose back end tapers
+  const hg = new THREE.BoxGeometry(W_ - 40, H_ - 40, 400, 1, 1, 1);
+  const hp = hg.attributes.position as THREE.BufferAttribute;
+  for (let i = 0; i < hp.count; i++) if (hp.getZ(i) < 0) { hp.setX(i, hp.getX(i) * 0.62); hp.setY(i, hp.getY(i) * 0.66 + 20); }
+  hg.translate(0, 0, -250); hg.computeVertexNormals();
+  const housing = new THREE.Mesh(hg, SHELL); housing.userData.part = 703; ids.push(housing); g.add(housing);
+  // control strip: buttons + power LED, speaker slots
+  for (let i = 0; i < 4; i++) g.add(box(18, 7, 6, [60 + i * 26, -H_ / 2 + 34, 4], INNER, 704, 1.5));
+  const led = new THREE.Mesh(new THREE.SphereGeometry(4, 12, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color('#7dff6a') }));
+  led.position.set(186, -H_ / 2 + 34, 4); led.userData.part = 705; ids.push(led); g.add(led);
+  for (let i = 0; i < 6; i++) g.add(box(70, 3, 4, [-150, -H_ / 2 + 22 + i * 8, 3], INNER, 706));
+  g.position.y = H_ / 2 + 4;                                          // stands on y = 0
+  return g;
+};
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -439,6 +487,7 @@ if (P.props.includes('cartridge')) scene.add((props.cartridge = cartridge()));
 if (P.props.includes('pad')) scene.add((props.pad = n64Pad()));
 if (P.props.includes('ocarina')) scene.add((props.ocarina = ocarina()));
 if (P.props.includes('sword')) scene.add((props.sword = masterSword()));
+if (P.props.includes('crt')) scene.add((props.crt = crt()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
 
 if (P.light === 'neutral') {

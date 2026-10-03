@@ -246,7 +246,32 @@ def job_ocarina_ref():
     print('docs/ep002/ocarina_vs_reference.jpg')
 
 
-JOBS = {'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+def job_crt():
+    """The bedroom CRT at 3/4 (screen turned towards frame left, where the kids sit) + a front view; screen = #00ff00 key."""
+    tgt = [0, 230, -120]
+    shots = [{'camera': orbit(38, 12, 2300, tgt), 'target': tgt, 'fov': 22, 'cart': None},
+             {'camera': orbit(0, 4, 2300, tgt), 'target': tgt, 'fov': 22, 'cart': None}]
+    for name, sh in zip(('crt_34', 'crt_front'), shots):
+        img = crop_alpha(render({'props': ['crt'], 'shots': [sh], 'light': 'neutral'}, 1600, 1600, line=3.4)[0], 8)
+        cv2.imwrite(str(OUT / f'{name}.png'), img)
+    print('crt_34.png, crt_front.png')
+
+
+def job_cart_spin():
+    """The approved cartridge, slowly turning (block C opener)."""
+    out = OUT / 'cart_spin'; out.mkdir(parents=True, exist_ok=True)
+    tgt = [0, 40, 0]
+    yaws = [-18 + 36 * k / 23 for k in range(24)]
+    shots = [{'camera': orbit(y, 6, 700, tgt), 'target': tgt, 'fov': 24, 'cart': {'y': 0}} for y in yaws]
+    imgs = []
+    for i in range(0, 24, 4):
+        imgs += render({'props': ['cartridge'], 'shots': shots[i:i + 4], 'light': 'neutral'}, 900, 900, line=3.0)
+    for k, im in enumerate(imgs):
+        cv2.imwrite(str(out / f'f{k:03d}.png'), im)
+    print('cart_spin: 24 frames')
+
+
+JOBS = {'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

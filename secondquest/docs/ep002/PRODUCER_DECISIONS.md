@@ -103,3 +103,7 @@
 - Rule added to CLAUDE.md. Ocarina v2 is rebuilt in `tools/props3d/scene.ts` from measurements of the Producer's reference (`docs/ep002/source/ocarina_reference_producer.jpg`); comparison sheet `docs/ep002/ocarina_vs_reference.jpg`. Pending approval.
 - The "So, why?" moment uses the SecondQuest wordmark with its gold bar, exactly as EP001 (engine WordmarkLayerView twin in the block B animatic).
 
+## 2026-10-03: block B approved (v3)
+- Approved: `docs/ep002/EP002_seq01_blockB_v3.mp4` (approved ocarina, sword, Triforce plates, EP001 wordmark on "why?").
+- Deferred improvements (Producer: "para más adelante"): Navi clear of the wordmark on the close; a soft free sparkle on the wordmark; ocarina tilt during the spin matched to the reference.
+
