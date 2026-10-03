@@ -114,12 +114,12 @@ def quest_layer(pose_png):
 QUEST_LIB = ROOT / 'docs/art_orders/quest/library_v2/results'
 # S1: Quest holds the cartridge (library v2 pose 08, used as generated: Producer, 2026-10-03)
 plate_room = Image.alpha_composite(Image.alpha_composite(plate, ov), quest_layer(QUEST_LIB / '08_holding_cartridge.png')).convert('RGB')
-# S3: the cartridge is in the console now; Quest reacts to the TV flare (library v2 pose 04, no backpack)
+# S3: the cartridge is in the console now; only the TV and Navi in frame
 ov3 = Image.new('RGBA', plate.size)
 _n64_in = Image.open(PROPS / 'n64_room_3q_cart_in.png').convert('RGBA')
 ov3.alpha_composite(ov)
 ov3.alpha_composite(_n64_in.resize((n64.width, round(_n64_in.height * n64.width / _n64_in.width)), Image.LANCZOS), (n64_x, n64_y + n64.height - round(_n64_in.height * n64.width / _n64_in.width)))
-plate_room_s3 = Image.alpha_composite(Image.alpha_composite(plate, ov3), quest_layer(QUEST_LIB / '04_surprised_shocked.png')).convert('RGB')
+plate_room_s3 = Image.alpha_composite(plate, ov3).convert('RGB')  # no Quest when Navi comes out (Producer, 2026-10-03)
 TV = (805, 30, 925, 245)            # screen area in plate units (for the glow)
 
 # ---- S2 insert: blurred rug/room behind the 3D-rendered console + cartridge frames
