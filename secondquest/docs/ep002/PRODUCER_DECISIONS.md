@@ -9,3 +9,14 @@
 - All art is SecondQuest's own interpretation in SecondQuest_2D_v1. Nothing is traced or copied from official art.
 - No official gameplay footage, screenshots, music or sound effects.
 - The official logo/title stays optional. It is used only if the Producer asks for it and an approved source exists.
+
+## 2026-10-03: Option C for third-party characters (monetization safety)
+
+- **Decision:** option C from `docs/MONETIZATION_SAFETY_STANDARD.md` §4. The script is unchanged.
+- **Characters are evoked, not replicated:**
+  - Quest in his own adventure tunic inspired by the Hero of Time, never a copy of Link.
+  - His own glowing fairy instead of an exact Navi.
+  - A princess and a villain inspired by the originals, not replicas.
+  - His own horse.
+- **Places and objects may be more recognisable:** Hyrule-style field, temple with a sword pedestal, giant tree, ocarina, sword, golden triangles.
+- **Never:** Nintendo logos, official key art, box art or screenshots, in the video or in thumbnails.
