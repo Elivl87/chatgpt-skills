@@ -61,9 +61,18 @@
       "item": "Pixie_v1 design (2 images, with Quest for scale)",
       "model": "gpt_image_2_5",
       "quoted": 2.0,
-      "status": "quoted",
+      "status": "spent",
       "quotedAt": "2026-10-03T18:21:10+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> Two cartoon friends standing side by side, full body, front three-quarter view, plain light background. Left: the SAME character as in the reference images (Quest_v1), young man, dark brown curly hair, light freckles, same face and proportions, plain red hoodie with white drawstrings, no logos, blue denim jeans, his RED canvas sneakers with white soles and white laces are visible. Right: his friend Pixie, a young woman with long straight black hair in a high ponytail, warm brown eyes, warm curious smile, teal oversized hoodie with no logos, black leggings, white sneakers. Same 2D cartoon style: bold ink outlines, flat cel shading. No text.\n"
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> Two cartoon friends standing side by side, full body, front three-quarter view, plain light background. Left: the SAME character as in the reference images (Quest_v1), young man, dark brown curly hair, light freckles, same face and proportions, plain red hoodie with white drawstrings, no logos, blue denim jeans, his RED canvas sneakers with white soles and white laces are visible. Right: his friend Pixie, a young woman with long straight black hair in a high ponytail, warm brown eyes, warm curious smile, teal oversized hoodie with no logos, black leggings, white sneakers. Same 2D cartoon style: bold ink outlines, flat cel shading. No text.\n",
+      "approvedAt": "2026-10-03T18:40:01+00:00",
+      "approval": "Apruebo (respuesta a: 'Pixie con tu aprobación explícita de los 2 créditos'; presupuesto: 2 imágenes, 2 créditos, máximo 3)",
+      "spentAt": "2026-10-03T18:41:09+00:00",
+      "actual": 2.0,
+      "jobs": [
+        "b8e7364b-aa2b-4203-8473-7d591bcf3297",
+        "9526ebfd-dcb1-4a71-a766-9ac6fca1385d"
+      ],
+      "balanceAfter": 97.25
     }
   ]
 }
