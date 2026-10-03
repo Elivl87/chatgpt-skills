@@ -89,6 +89,8 @@ def render(params, w, h, line=3.0):
     for i in range(n):
         row = raw[i * h * SS:(i + 1) * h * SS]
         c, nm, idp = (row[:, k * w * SS:(k + 1) * w * SS] for k in range(3))
+        if params.get('exposure'):  # light-coloured props read too bright under the toon ramp in a night room
+            c = c.copy(); c[..., :3] = (c[..., :3].astype(np.float32) * params['exposure']).astype(np.uint8)
         o = ink(c, nm, idp, line * SS / 2)
         shots.append(cv2.resize(o, (w, h), interpolation=cv2.INTER_AREA))
     return shots
@@ -161,7 +163,24 @@ def turntable(path):
     print(p.relative_to(ROOT))
 
 
-JOBS = {'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
+def job_n64_pad():
+    """The controller: review turntable (neutral light) + the room view, lit like the console."""
+    OUT.mkdir(parents=True, exist_ok=True)
+    shots = [{'camera': orbit(a, e, 620, (0, 12, -20)), 'target': [0, 12, -20], 'fov': 26, 'cart': None}
+             for a, e in [(0, 60), (30, 35), (-35, 35), (180, 40), (0, 88), (90, 20)]]
+    imgs = render({'props': ['pad'], 'shots': shots, 'light': 'neutral'}, 640, 440)
+    sheet = np.full((880, 1920, 4), 255, np.uint8)
+    for k, im in enumerate(imgs):
+        a = im[..., 3:] / 255.0
+        y, x = 440 * (k // 3), 640 * (k % 3)
+        sheet[y:y + 440, x:x + 640, :3] = (im[..., :3] * a + sheet[y:y + 440, x:x + 640, :3] * (1 - a)).astype(np.uint8)
+    cv2.imwrite(str(ROOT / 'docs/ep002/n64_pad_turntable.jpg'), sheet[..., :3], [cv2.IMWRITE_JPEG_QUALITY, 88])
+    img = crop_alpha(render({'props': ['pad'], 'exposure': 0.62, 'shots': [{'camera': orbit(-35, 40, 700, (0, 12, -20)), 'target': [0, 12, -20], 'fov': 26, 'cart': None}]}, 1000, 800)[0])
+    cv2.imwrite(str(OUT / 'n64_pad_room.png'), img)
+    print('docs/ep002/n64_pad_turntable.jpg, n64_pad_room.png')
+
+
+JOBS = {'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
 if __name__ == '__main__':
     names = list(JOBS) if '--all' in sys.argv else [a for a in sys.argv[1:] if a in JOBS]

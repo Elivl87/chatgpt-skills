@@ -164,6 +164,39 @@ const n64 = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- N64 controller (three handles, approx. 190 x 160 mm)
+/** Lying face up, cable edge towards the back (-z), handles towards the player (+z). No logos or lettering. */
+const n64Pad = () => {
+  const g = new THREE.Group();
+  let part = 200;
+  const GREY = '#b4b4b9', GREY_D = '#8d8d93';
+  const pts: [number, number][] = [
+    [-100, 0], [-95, 30], [-75, 48], [0, 54], [75, 48], [95, 30], [100, 0], [96, -50], [88, -92], [68, -102], [55, -66], [40, -34],
+    [24, -44], [20, -92], [0, -104], [-20, -92], [-24, -44], [-40, -34], [-55, -66], [-68, -102], [-88, -92], [-96, -50],
+  ];
+  const shape = new THREE.Shape();
+  shape.moveTo(...pts[0]);
+  shape.splineThru([...pts.slice(1), pts[0]].map(([x, y]) => new THREE.Vector2(x, y)));
+  g.add(slab(shape, 0, 26, 9, toon(GREY), part++));
+  // shoulder buttons L / R along the back edge
+  for (const sx of [-1, 1]) g.add(box(46, 10, 10, [sx * 66, 16, -45], toon(GREY_D), part++, 4));
+  // d-pad (left)
+  g.add(box(30, 5, 10, [-62, 27, -8], toon('#3a3a40'), part++, 1.5));
+  g.add(box(10, 5, 30, [-62, 27, -8], toon('#3a3a40'), part++, 1.5));
+  // analog stick (centre): socket, stem, cap
+  g.add(cyl(15, 3, [0, 26.5, 2], [0, 0, 0], toon(GREY_D), part++));
+  g.add(cyl(4, 10, [0, 31, 2], [0, 0, 0], toon('#9a9aa0'), part++));
+  g.add(cyl(9, 4, [0, 37, 2], [0, 0, 0], toon('#c8c8cc'), part++));
+  // start (red), A (blue), B (green), four C buttons (yellow)
+  g.add(cyl(5, 4, [0, 27, -24], [0, 0, 0], toon('#d23a32'), part++));
+  g.add(cyl(7.5, 4, [50, 27, 8], [0, 0, 0], toon('#2f5fd0'), part++));
+  g.add(cyl(7.5, 4, [37, 27, -10], [0, 0, 0], toon('#2f9a45'), part++));
+  for (const [x, z] of [[72, -28], [72, -8], [62, -18], [82, -18]]) g.add(cyl(5, 4, [x, 27, z], [0, 0, 0], toon('#e8b923'), part++));
+  // cable stub leaving the back edge
+  g.add(cyl(3, 30, [0, 12, -64], [Math.PI / 2, 0, 0], toon('#2a2a2e'), part++));
+  return g;
+};
+
 // ---------------------------------------------------------------- cartridge from the approved mock (116 x 76 x 18 mm)
 const cartridge = () => {
   const g = new THREE.Group();
@@ -195,6 +228,7 @@ const CLASSIC = (P.variant ?? 'classic') === 'classic';
 const SLOT_Z = CLASSIC ? -22 : -46;
 if (P.props.includes('n64')) scene.add((props.n64 = CLASSIC ? n64Classic() : n64()));
 if (P.props.includes('cartridge')) scene.add((props.cartridge = cartridge()));
+if (P.props.includes('pad')) scene.add((props.pad = n64Pad()));
 
 if (P.light === 'neutral') {
   scene.add(new THREE.HemisphereLight(0xffffff, 0x404048, 1.6));

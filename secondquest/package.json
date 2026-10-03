@@ -50,7 +50,7 @@
     "render:status": "tsx scripts/render-status.ts",
     "assets:find": "python3 tools/assets/find.py",
     "props:render": "python3 tools/props3d/render.py",
-    "animatic:cartridge": "python3 tools/props3d/render.py n64_room n64_insert && python3 scripts/ep002-cartridge-animatic.py"
+    "animatic:cartridge": "python3 tools/props3d/render.py n64_room n64_insert n64_pad && python3 scripts/ep002-cartridge-animatic.py"
   },
   "engines": {
     "node": ">=18"

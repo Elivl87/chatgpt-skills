@@ -11,6 +11,7 @@ Sequence 01 (l01-l02), timed to the real Bram narration and its word timings:
                  dust flaps fold in, and it seats on "back" (cart_click), with a short shake.
   S3  "back" ->  new framing on the TV: the screen flares (tv_on) and the fairy (engine actor, src/fx/fairy.ts,
                  Python twin tools/fx/fairy.py) flies out of it (fairy_shimmer + fairy_flutter).
+The N64 controller (tools/props3d, n64_pad) lies on the rug, cabled to the console.
 Sounds: engine synths from shared/sfx.json, mixed under the narration. Quest is still a MISSING box.
 Output: docs/ep002/EP002_cartridge_animatic_v2.mp4 (1280x720, 24 fps). v1 is kept for comparison.
 """
@@ -75,6 +76,22 @@ sh = Image.new('RGBA', plate.size)
 ImageDraw.Draw(sh).ellipse((n64_x + 4 * S, n64_y + n64.height - 9 * S, n64_x + n64_w - 2 * S, n64_y + n64.height + 5 * S), fill=(20, 12, 8, 150))
 ov.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6 * S)))
 ov.alpha_composite(n64, (n64_x, n64_y))
+# the N64 controller on the rug, cable running to the console's front port (procedural 3D prop)
+pad = Image.open(PROPS / 'n64_pad_room.png').convert('RGBA')
+pad_w = int(74 * S)                 # 19 cm controller, a bit smaller than the console
+pad = pad.resize((pad_w, round(pad.height * pad_w / pad.width)), Image.LANCZOS)
+pad_x, pad_y = int(584 * S), int(452 * S) - pad.height
+cab = ImageDraw.Draw(ov)
+p0 = (pad_x + pad_w * 0.45, pad_y + pad.height * 0.04)                  # cable leaves the back edge
+p3 = (n64_x + n64_w * 0.10, n64_y + n64.height * 0.53)                  # first port, front face
+c1, c2 = (p0[0] - 4 * S, p0[1] - 16 * S), (p3[0] - 26 * S, p3[1] + 8 * S)   # a loose loop over the rug
+bez = [tuple((1 - u) ** 3 * a_ + 3 * (1 - u) ** 2 * u * b_ + 3 * (1 - u) * u * u * c_ + u ** 3 * d_ for a_, b_, c_, d_ in zip(p0, c1, c2, p3))
+       for u in [i / 40 for i in range(41)]]
+cab.line(bez, fill=(28, 22, 22, 255), width=int(3.2 * S), joint='curve')
+sh2 = Image.new('RGBA', plate.size)
+ImageDraw.Draw(sh2).ellipse((pad_x + 4 * S, pad_y + pad.height - 7 * S, pad_x + pad_w - 4 * S, pad_y + pad.height + 3 * S), fill=(20, 12, 8, 120))
+ov.alpha_composite(sh2.filter(ImageFilter.GaussianBlur(5 * S)))
+ov.alpha_composite(pad, (pad_x, pad_y))
 missing(d, QUEST_BOX, 'quest.default.', 'holding_cartridge · NEW_ART')
 d.text((QUEST_BOX[0] * S + 12, QUEST_BOX[1] * S + 14 + 28 * S), '(Quest-v1-6ref)', font=F(int(6 * S)), fill=(255, 200, 200))
 ov.alpha_composite(cartridge(int(46 * S)), (int(560 * S), int(285 * S)))   # the cartridge in his hands
