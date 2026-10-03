@@ -89,3 +89,11 @@
 - **Quest's dark undershirt** at the neckline is part of his established look (present in every approved asset).
 - **Workflow:** the whole video is first built as a free animatic (draft video with the real narration, cameras,
   sounds and MISSING boxes), approved by the Producer, and only then built in the engine for the final render.
+
+## 2026-10-03: Triforce plates, crest, Pixie's roles, full animatic first
+- Engraved Triforce plates (tools/fx/triforce_plates.py): **approved** ("me encanta").
+- **Centre plate: the Producer wants a faithful copy of the royal crest.** Done at the end with the missing art.
+  Risk (same category as the cartridge logo): Nintendo emblem/trademark in the video; never in thumbnails (M8).
+- **Pixie plays the princess and every female role** that may appear in the video.
+- **Workflow:** the whole EP002 is built as an animatic with the assets available today; designs and missing art come
+  at the end, from the animatic's MISSING list.
