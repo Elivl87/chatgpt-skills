@@ -186,7 +186,24 @@ def job_n64_pad():
 
 
 # n64_insert_hd: 2304x1296 = the engine's minimum background size (1080p x 1.2)
-JOBS = {'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
+def job_triforce():
+    """Golden triangles: review sheet (6 angles) + a front cut-out for the animatic/engine."""
+    OUT.mkdir(parents=True, exist_ok=True)
+    tgt = [0, 87, 0]
+    shots = [{'camera': orbit(a, e, 620, tgt), 'target': tgt, 'fov': 28, 'cart': None} for a, e in [(0, 0), (25, 10), (-35, 15), (60, 5), (0, 40), (150, 10)]]
+    imgs = render({'props': ['triforce'], 'shots': shots, 'light': 'neutral'}, 640, 440)
+    sheet = np.full((880, 1920, 4), 255, np.uint8)
+    for k, im in enumerate(imgs):
+        a = im[..., 3:] / 255.0
+        y, x = 440 * (k // 3), 640 * (k % 3)
+        sheet[y:y + 440, x:x + 640, :3] = (im[..., :3] * a + sheet[y:y + 440, x:x + 640, :3] * (1 - a)).astype(np.uint8)
+    cv2.imwrite(str(ROOT / 'docs/ep002/triforce_turntable.jpg'), sheet[..., :3], [cv2.IMWRITE_JPEG_QUALITY, 88])
+    img = crop_alpha(render({'props': ['triforce'], 'shots': [{'camera': orbit(0, 0, 620, tgt), 'target': tgt, 'fov': 28, 'cart': None}], 'light': 'neutral'}, 1400, 1400, line=3.5)[0])
+    cv2.imwrite(str(OUT / 'triforce_front.png'), img)
+    print('docs/ep002/triforce_turntable.jpg, triforce_front.png')
+
+
+JOBS = {'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
 if __name__ == '__main__':
     names = list(JOBS) if '--all' in sys.argv else [a for a in sys.argv[1:] if a in JOBS]

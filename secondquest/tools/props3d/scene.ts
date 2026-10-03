@@ -197,6 +197,28 @@ const n64Pad = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- golden triangles (Triforce-like, three equal triangles)
+/** Three beveled golden triangles stacked as one big triangle, standing upright, facing +z. Side of each: 100 mm. */
+const triforce = () => {
+  const g = new THREE.Group();
+  const side = 100, h = side * Math.sqrt(3) / 2, gap = 3;
+  const one = (cx: number, cy: number, part: number) => {
+    const sh = new THREE.Shape();
+    sh.moveTo(cx - side / 2 + gap, cy + gap * 0.6);
+    sh.lineTo(cx + side / 2 - gap, cy + gap * 0.6);
+    sh.lineTo(cx, cy + h - gap);
+    sh.closePath();
+    const geo = new THREE.ExtrudeGeometry(sh, { depth: 8, bevelEnabled: true, bevelThickness: 3, bevelSize: 2.5, bevelSegments: 3 });
+    geo.translate(0, 0, -4);
+    const m = new THREE.Mesh(geo, toon('#f2c230'));
+    m.userData.part = part;
+    ids.push(m);
+    return m;
+  };
+  g.add(one(-side / 2, 0, 300), one(side / 2, 0, 301), one(0, h, 302));
+  return g;
+};
+
 // ---------------------------------------------------------------- cartridge from the approved mock (116 x 76 x 18 mm)
 const cartridge = () => {
   const g = new THREE.Group();
@@ -229,6 +251,7 @@ const SLOT_Z = CLASSIC ? -22 : -46;
 if (P.props.includes('n64')) scene.add((props.n64 = CLASSIC ? n64Classic() : n64()));
 if (P.props.includes('cartridge')) scene.add((props.cartridge = cartridge()));
 if (P.props.includes('pad')) scene.add((props.pad = n64Pad()));
+if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
 
 if (P.light === 'neutral') {
   scene.add(new THREE.HemisphereLight(0xffffff, 0x404048, 1.6));
