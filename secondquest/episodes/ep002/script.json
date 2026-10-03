@@ -1,0 +1,834 @@
+{
+  "episode": "ep002",
+  "locale": "en",
+  "notes": "SecondQuest_EP002_SCRIPT_v3_APPROVED, verbatim. One script line per text line of the approved script.",
+  "lines": [
+    {
+      "id": "l01",
+      "text": "In 1998, Ocarina of Time asked you to save Hyrule.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l02",
+      "text": "Almost three decades later, Nintendo is asking you to go back.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l03",
+      "text": "New graphics. An orchestra. Voices. Modern controls. A new camera.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l04",
+      "text": "The same ocarina.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l05",
+      "text": "The same sword.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l06",
+      "text": "The same Triforce.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l07",
+      "text": "But there is one thing Nintendo cannot rebuild from the ground up.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l08",
+      "text": "You.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l09",
+      "text": "And somehow, that might be exactly why we want to go back.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l10",
+      "text": "So, why?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l11",
+      "text": "Because the Ocarina of Time people remember is not exactly the game that came on the cartridge.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l12",
+      "text": "It is the game...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l13",
+      "text": "plus the room.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l14",
+      "text": "Plus the television.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l15",
+      "text": "Plus the friend who somehow knew where to go.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l16",
+      "text": "Plus an entire Saturday afternoon where nobody could reach you because smartphones had not yet ruined that particular miracle.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l17",
+      "text": "For some players, walking into Hyrule Field felt enormous.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l18",
+      "text": "Not because it actually was.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l19",
+      "text": "Because you were smaller.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l20",
+      "text": "And memory is very good at preserving feelings...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l21",
+      "text": "while being absolutely terrible at preserving technical specifications.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l22",
+      "text": "Nobody wakes up thinking:",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l23",
+      "text": "Man... I really miss Nintendo 64 texture filtering.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l24",
+      "text": "You remember the forest.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l25",
+      "text": "The music.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l26",
+      "text": "The castle in the distance.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l27",
+      "text": "That strange feeling that if you just kept walking, the world might continue forever.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l28",
+      "text": "Which creates a problem.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l29",
+      "text": "Because Nintendo can remake Ocarina of Time.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l30",
+      "text": "But part of the thing people want back...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l31",
+      "text": "was never inside Ocarina of Time.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l32",
+      "text": "The new version is being rebuilt for Switch 2.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l33",
+      "text": "New visuals.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l34",
+      "text": "Voiced cutscenes.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l35",
+      "text": "Expanded dialogue.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l36",
+      "text": "An orchestral score.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l37",
+      "text": "Modernized controls and camera movement.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l38",
+      "text": "On paper, the job sounds easy.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l39",
+      "text": "Take something beloved...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l40",
+      "text": "and make everything better.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l41",
+      "text": "Except that is where remakes become dangerous.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l42",
+      "text": "Because better is measurable.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l43",
+      "text": "More polygons.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l44",
+      "text": "Better lighting.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l45",
+      "text": "Better animation.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l46",
+      "text": "Better sound.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l47",
+      "text": "But familiar is not measurable.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l48",
+      "text": "An empty field in 1998 could feel enormous.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l49",
+      "text": "Rebuild it too literally today...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l50",
+      "text": "and it might just feel empty.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l51",
+      "text": "A silent character once left space for your imagination.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l52",
+      "text": "Give that character a voice...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l53",
+      "text": "and suddenly somebody has to decide what that silence sounded like.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l54",
+      "text": "A camera you once fought with was part of learning the game.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l55",
+      "text": "Fix it...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l56",
+      "text": "and the game becomes easier to inhabit.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l57",
+      "text": "Which is good.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l58",
+      "text": "Probably.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l59",
+      "text": "But every improvement quietly changes the memory attached to it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l60",
+      "text": "That is the impossible job.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l61",
+      "text": "Make it different enough to justify existing...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l62",
+      "text": "without making people wonder where their game went.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l63",
+      "text": "And Nintendo has another problem.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l64",
+      "text": "This remake is not really being made for one audience.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l65",
+      "text": "It is being made for two.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l66",
+      "text": "Player one already knows everything.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l67",
+      "text": "They know what that ocarina means.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l68",
+      "text": "They know what happens when Link pulls the Master Sword.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l69",
+      "text": "They see three golden triangles and immediately understand that somebody is about to make a very bad decision.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l70",
+      "text": "The Triforce represents wisdom, power and courage, and Link’s journey spans Hyrule across two different eras.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l71",
+      "text": "Player two?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l72",
+      "text": "Player two knows none of this.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l73",
+      "text": "They meet the Great Deku Tree and think:",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l74",
+      "text": "That is an extremely large tree with an extremely personal problem.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l75",
+      "text": "For them, Hyrule has no nostalgia.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l76",
+      "text": "No childhood attached to it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l77",
+      "text": "No twenty-eight years of expectations.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l78",
+      "text": "So the remake has two completely different jobs.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l79",
+      "text": "For the new player:",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l80",
+      "text": "Make a game from 1998 feel natural in 2026.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l81",
+      "text": "For the returning player:",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l82",
+      "text": "Make something they already know...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l83",
+      "text": "feel like discovery again.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l84",
+      "text": "One person is looking at Hyrule.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l85",
+      "text": "The other is looking for the Hyrule in their head.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l86",
+      "text": "And somehow Nintendo has to build both.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l87",
+      "text": "The safest remake imaginable would change almost nothing.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l88",
+      "text": "Sharper textures.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l89",
+      "text": "Better resolution.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l90",
+      "text": "Cleaner controls.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l91",
+      "text": "Everything exactly where you remember it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l92",
+      "text": "And that sounds respectful.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l93",
+      "text": "But there is a problem.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l94",
+      "text": "Ocarina of Time was not important because it felt familiar.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l95",
+      "text": "It was important because it felt new.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l96",
+      "text": "A world people understood in two dimensions suddenly became somewhere they could stand.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l97",
+      "text": "Distance mattered.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l98",
+      "text": "Where you looked mattered.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l99",
+      "text": "Music mattered.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l100",
+      "text": "And most importantly...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l101",
+      "text": "time mattered.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l102",
+      "text": "You were a child.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l103",
+      "text": "Then you were not.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l104",
+      "text": "You disappeared...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l105",
+      "text": "and the world changed without you.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l106",
+      "text": "That is not some side detail of Ocarina of Time.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l107",
+      "text": "That is the game.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l108",
+      "text": "Link’s adventure is a journey through Hyrule across two distinct eras.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l109",
+      "text": "So maybe changing Ocarina of Time is not disrespecting it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l110",
+      "text": "Maybe refusing to change anything would be.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l111",
+      "text": "Because the goal should not be to preserve every limitation from 1998.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l112",
+      "text": "The goal should be to understand...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l113",
+      "text": "what those limitations made you feel.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l114",
+      "text": "And then find a way to make someone feel that again.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l115",
+      "text": "Which brings us back to the strange part.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l116",
+      "text": "The original game still exists.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l117",
+      "text": "We did not lose it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l118",
+      "text": "Nobody needs Nintendo to rescue Ocarina of Time from history.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l119",
+      "text": "So why do we want it again?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l120",
+      "text": "Because going back to something you loved is one of the few ways you can measure how much you changed.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l121",
+      "text": "The forest is still there.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l122",
+      "text": "The ocarina is still there.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l123",
+      "text": "The Master Sword is still waiting.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l124",
+      "text": "The Triforce still means wisdom, power and courage.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l125",
+      "text": "But the person holding the controller is different.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l126",
+      "text": "And for this particular game...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l127",
+      "text": "that is almost too perfect.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l128",
+      "text": "A story about a child becoming an adult...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l129",
+      "text": "is coming back to people who did exactly that.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l130",
+      "text": "Somebody who first crossed Hyrule Field in 1998 can now cross it again with almost three decades between those two versions of themselves.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l131",
+      "text": "Same road.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l132",
+      "text": "Different person.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l133",
+      "text": "And maybe that is what we actually want.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l134",
+      "text": "Not the old game back.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l135",
+      "text": "A chance to stand beside an old memory...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l136",
+      "text": "and see if it still recognizes us.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l137",
+      "text": "So...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l138",
+      "text": "can you remake a memory?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l139",
+      "text": "Probably not.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l140",
+      "text": "Nintendo cannot rebuild the room you were sitting in.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l141",
+      "text": "It cannot recreate the television.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l142",
+      "text": "The Saturday afternoon.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l143",
+      "text": "The friend sitting next to you.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l144",
+      "text": "Or the exact version of you who walked into Hyrule for the first time.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l145",
+      "text": "But it can rebuild Hyrule.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l146",
+      "text": "And maybe that is enough.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l147",
+      "text": "Because a remake does not have to take you back.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l148",
+      "text": "It can let two different moments meet.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l149",
+      "text": "The game you remember...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l150",
+      "text": "and the person you became.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l151",
+      "text": "You cannot play Ocarina of Time for the first time again.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l152",
+      "text": "But maybe you can meet it again.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l153",
+      "text": "And this time...",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l154",
+      "text": "you both grew up.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l155",
+      "text": "So what game would you go back to?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l156",
+      "text": "And what game deserves a “why?” next?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l157",
+      "text": "Tell me in the comments. Maybe that’s our next quest.",
+      "pauseAfter": 0.3
+    }
+  ],
+  "acts": [
+    {
+      "act": "HOOK",
+      "from": "l01",
+      "to": "l10"
+    },
+    {
+      "act": "ACT 1 — THE GAME IN YOUR HEAD",
+      "from": "l11",
+      "to": "l31"
+    },
+    {
+      "act": "ACT 2 — THE IMPOSSIBLE REMAKE",
+      "from": "l32",
+      "to": "l62"
+    },
+    {
+      "act": "ACT 3 — TWO PEOPLE WALK INTO HYRULE",
+      "from": "l63",
+      "to": "l86"
+    },
+    {
+      "act": "ACT 4 — MAYBE PRESERVATION IS THE WRONG GOAL",
+      "from": "l87",
+      "to": "l114"
+    },
+    {
+      "act": "ACT 5 — WHY WE WANT IT AGAIN",
+      "from": "l115",
+      "to": "l136"
+    },
+    {
+      "act": "CLOSING",
+      "from": "l137",
+      "to": "l154"
+    },
+    {
+      "act": "CTA",
+      "from": "l155",
+      "to": "l157"
+    }
+  ]
+}
