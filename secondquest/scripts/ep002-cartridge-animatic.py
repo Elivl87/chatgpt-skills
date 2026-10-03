@@ -156,7 +156,7 @@ def render(t):
     if t < T_S2:
         fr, _ = frame_room(t, S1_CAM)
         d = ImageDraw.Draw(fr)
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v6 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v7 · PLANNING ONLY')
     elif t < T_CLIC:
         start_slide = T_CLIC - SLIDE
         k = min(1, max(0, (t - start_slide) / SLIDE))        # frames are already eased in 3D
@@ -170,7 +170,7 @@ def render(t):
         fr = fr.convert('RGB')
         d = ImageDraw.Draw(fr)
         d.text((20, 40), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v6 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v7 · PLANNING ONLY')
     else:
         # hold the seated frame for the shake, then cut to the TV
         if t < T_CLIC + 0.2:
@@ -179,7 +179,7 @@ def render(t):
             fr.alpha_composite(im, (int((W - im.width) / 2), int((H - im.height) / 2)))
             fr = fr.convert('RGB')
             d = ImageDraw.Draw(fr)
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v6 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v7 · PLANNING ONLY')
         else:
             fr, box = frame_room(t, S3_CAM)
             k = (t - T_CLIC) / (T_SEQ2 - T_CLIC)
@@ -195,7 +195,7 @@ def render(t):
                 fr = fairy_fx.draw(fr, keys, t, size=0.1 + 0.08 * grow * grow, opacity=min(1, (t - t0) / 0.15))
             d = ImageDraw.Draw(fr)
             d.text((20, 40), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v6 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v7 · PLANNING ONLY')
     if shake != (0, 0):
         fr = Image.fromarray(__import__('numpy').roll(__import__('numpy').asarray(fr), shake, axis=(1, 0)))
     if 0 <= t - T_CLIC < 2 / FPS:   # 2-frame flash on the seat
@@ -218,11 +218,11 @@ def sfx_events():
     on the end of the voice as she flies away; both kept under Bram."""
     # cartridge click: Producer pick G as a single click, -3 dB; the slide and the TV are silent (Producer, 2026-10-03)
     return [('cart_click_single', T_CLIC - 0.005, 0.7),
-            (NAVI / 'NAVI_HELLO.wav', T_NAVI, 0.25), (NAVI / 'NAVI_SFX_01.wav', T_NAVI + HELLO_LEN - 0.03, 0.35)]
+            (NAVI / 'NAVI_HELLO.wav', T_NAVI, 0.16), (NAVI / 'NAVI_SFX_01.wav', T_NAVI + HELLO_LEN - 0.03, 0.22)]
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v7.mp4'
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -240,7 +240,7 @@ def main():
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v7_{name}.jpg', quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 
