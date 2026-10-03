@@ -269,6 +269,30 @@ const ocarina = () => {
     const n = new THREE.Vector3().crossVectors(du, dv).normalize();
     return { p, n: n.z < 0 ? n.negate() : n };
   };
+  // glaze highlights (Producer: "añade el brillo"): unlit light streaks laid on the surface, sharing the body's part id
+  // so the ink pass draws no outline around them; the holes sit above and cover them
+  const GLOSS = new THREE.MeshBasicMaterial({ color: new THREE.Color('#d4defc'), transparent: true, opacity: 0.8, depthWrite: false });
+  const streak = (u0: number, u1: number, vAt: (u: number) => number, halfW: number, lift = 0.35) => {
+    const NU = 60, NV = 6, verts: number[] = [], idx: number[] = [];
+    for (let i = 0; i <= NU; i++) {
+      const k = i / NU, u = u0 + (u1 - u0) * k, w = halfW * Math.sin(Math.PI * k) ** 0.7;
+      for (let j = 0; j <= NV; j++) {
+        const { p, n } = front(u, vAt(u) + (j / NV - 0.5) * 2 * w / L);
+        p.addScaledVector(n, lift); verts.push(p.x, p.y, p.z);
+      }
+    }
+    for (let i = 0; i < NU; i++) for (let j = 0; j < NV; j++) {
+      const a = i * (NV + 1) + j, b = a + NV + 1;
+      idx.push(a, b, a + 1, b, b + 1, a + 1);
+    }
+    const sg = new THREE.BufferGeometry();
+    sg.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3)); sg.setIndex(idx); sg.computeVertexNormals();
+    const m = new THREE.Mesh(sg, GLOSS); m.userData.part = body.userData.part; m.renderOrder = 1; ids.push(m); g.add(m);
+  };
+  const upper = (f: number) => (u: number) => { const { yc, ry } = sect(u); return (yc + f * ry) / L; };
+  streak(-0.12, 0.9, upper(0.74), 3.2);              // long streak along the top, wide end to tip
+  streak(-0.86, -0.5, upper(0.35), 3.6);             // short gleam on the round end
+  streak(-0.2, 0.55, upper(-0.72), 1.6, 0.3);        // faint rim light along the belly
   // holes, from the reference: (u, v, radius mm)
   const HOLES: [number, number, number][] = [[0.153, 0.19, 7.0], [0.415, 0.078, 6.0], [0.673, 0.053, 5.0],
     [-0.457, 0.054, 7.6], [-0.163, -0.112, 7.0], [-0.711, -0.147, 6.6], [-0.434, -0.336, 7.2]];
@@ -294,6 +318,10 @@ const ocarina = () => {
   spout.position.y = CH + 2 + SL / 2 - 1; spout.userData.part = part++; ids.push(spout); mg.add(spout);
   const tip = new THREE.Mesh(new THREE.SphereGeometry(SR1, 32, 16), toon(BLUE));
   tip.position.y = CH + 2 + SL - 1; tip.userData.part = spout.userData.part; ids.push(tip); mg.add(tip);
+  {
+    const a = Math.PI * 0.30, shg = new THREE.CylinderGeometry(SR1 + 0.25, SR0 + 0.25, SL * 0.8, 6, 1, true, a - 0.22, 0.44);
+    const sh = new THREE.Mesh(shg, GLOSS); sh.position.y = CH + 2 + SL / 2 + 1; sh.userData.part = spout.userData.part; sh.renderOrder = 1; ids.push(sh); mg.add(sh);
+  }
   // Triforce on a dark inset, on the collar's front facet
   const rMid = (CR0 + CR1) / 2, apo = rMid * Math.cos(Math.PI / SEG), lean = Math.atan((CR0 - CR1) / CH);
   const plate = new THREE.Group();
