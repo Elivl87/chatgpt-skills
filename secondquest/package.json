@@ -40,7 +40,8 @@
     "art:intake": "tsx scripts/art-intake.ts",
     "test": "tsx scripts/test.ts",
     "originality": "tsx scripts/originality.ts",
-    "camera:fix": "tsx scripts/camera-fix.ts"
+    "camera:fix": "tsx scripts/camera-fix.ts",
+    "publish": "python3 scripts/publish.py"
   },
   "engines": {
     "node": ">=18"
