@@ -123,3 +123,9 @@
 - New rule (CLAUDE.md): framing QC sheet (`scripts/animatic/framing_qc.py`) checked before sending every block.
   It also caught in block C: Quest held half cut on "Plus the television" and Pixie's head on the top edge -> fixed (C v5).
 
+## 2026-10-03: idea for the art list: a real walk cycle
+- Producer idea: a second walking pose for Quest (the other foot forward, arms swinging the opposite way) so the two
+  can alternate and he truly walks. Reusable for any walking scene later (Hero outfit, young version, Pixie too).
+- Options to decide at the end with the MISSING art list: generate the opposite step (~0.5 credit per pose at 1k), or
+  a mirrored copy of the current back view (free, but it changes approved art: needs the Producer's OK).
+
