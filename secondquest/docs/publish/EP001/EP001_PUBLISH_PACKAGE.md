@@ -107,3 +107,10 @@ Con los dos, el vídeo llega también al público hispano, y los subtítulos exa
 - Se publica con la miniatura **3** ("$500,000 TRACTOR") y el título **A**.
 - La 1 ("THIS IS FUN?") y la 2 ("BEST DAY EVER") quedan para Test & Compare; el título B, también.
 - Los archivos están en `thumbnails/`.
+
+## Short (published 2026-10-03)
+
+- **File:** `renders/secondquest_ep001_short_v2.mp4`, 1080x1920, 40.8 s (the hook, s01–s15).
+- **Title:** Farming Simulator is just… work? 🚜
+- **Description:** "Why do millions of people play a game about going to work? Full episode on the channel." followed by `#FarmingSimulator #FS25 #FarmingSimulator25 #SecondQuest`.
+- **Related video:** EP001.

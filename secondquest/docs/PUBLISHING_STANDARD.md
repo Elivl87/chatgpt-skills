@@ -120,3 +120,26 @@ Source: YouTube Help 14328491, reviewed 2026-10-02.
 - disclosing does not reduce reach or monetization;
 - for animated content, the label only appears in the expanded description;
 - **not** disclosing required content can lead to a forced label, removal or suspension from the Partner Program.
+
+## 10. Shorts
+
+Sources: MrBeast (interviews) and YouTube Help 6390658 (hashtags).
+
+**Purpose:** Shorts bring viewers to the long episode. They do not replace it. Make **1–2 per episode** from its strongest moments.
+
+**How to make them:**
+- Built with the engine, in 9:16 (1080x1920): `scripts/ep001-short.py` is the template.
+- Same art and Bram audio as the episode, no credits.
+- Burned-in subtitles, `subtitle` style.
+- Closing card: "FULL EPISODE ON THE CHANNEL".
+
+**When uploading:**
+- **Related video:** always the full episode. This is the most important setting.
+- **Title:** pure hook, no hashtags.
+- **Description:** one line, then **3–5 relevant hashtags** at the end, most specific first:
+  - the game, plus the community's own abbreviation (e.g. `#FarmingSimulator #FS25 #FarmingSimulator25`);
+  - the brand tag `#SecondQuest` last.
+  - `#Shorts` is optional.
+  - Never add generic or unrelated tags such as `#VideoEssay`, `#Viral` or `#Gaming`.
+- **Audience:** not made for kids.
+- **AI disclosure:** per section 9.
