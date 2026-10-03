@@ -17,7 +17,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 LEDGER = ROOT / 'docs/credits/ledger.json'
-QUEST_REFS = ['ab2219a6-ee5c-4c3e-bb8e-10f4866781b2', 'f42c30bd-ce09-4ada-81c2-f2e33b6943fb']
+QUEST_ELEMENT = '89051d04-514d-404a-bcff-7dbe6347eb6f'  # Higgsfield reference element Quest_v1 (default outfit)
+QUEST_REFS = ['ab2219a6-ee5c-4c3e-bb8e-10f4866781b2']  # f42c30bd shows the FARMING outfit (brown boots): never for the default outfit
 IDENTITY = ['quest_v1', 'dark brown curly hair', 'freckles', 'bold ink outlines']
 DEFAULT_OUTFIT = ['red hoodie', 'blue denim jeans', 'red canvas sneakers']
 # option C (docs/ep002/PRODUCER_DECISIONS.md): evoke, never replicate third-party characters or logos
@@ -49,8 +50,10 @@ def lint(prompt, asset=None, refs=0, outfit='default', transparent=False):
             for k in DEFAULT_OUTFIT:
                 if k not in p:
                     errors.append(f'default outfit incomplete: missing "{k}"')
-        if refs < 2:
-            errors.append('attach both approved Quest_v1 reference jobs as image_references (--refs 2)')
+        if refs < 1 and QUEST_ELEMENT not in p:
+            errors.append(f'use the Quest_v1 reference element (<<<{QUEST_ELEMENT}>>> in the prompt) or attach job ab2219a6 (--refs 1)')
+        if 'f42c30bd' in p and outfit == 'default':
+            errors.append('f42c30bd is the farming outfit (brown boots): never use it for the default outfit')
         if any(w in p for w in ('full body', 'full-body', 'standing', 'walking', 'feet')) and outfit == 'default' and 'red sneakers are visible' not in p:
             warns.append('full-body shot: add "his RED sneakers are visible"')
     for name in THIRD_PARTY:

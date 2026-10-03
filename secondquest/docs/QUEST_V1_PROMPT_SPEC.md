@@ -10,8 +10,9 @@ Outfit (never change): plain red hoodie with white drawstrings, no logos; blue d
 Same 2D cartoon style: bold ink outlines, flat cel shading.
 ```
 
-**References:**
-- Always attach the approved Quest_v1 jobs `ab2219a6-ee5c-4c3e-bb8e-10f4866781b2` and `f42c30bd-ce09-4ada-81c2-f2e33b6943fb` as `image_references`.
+**References (corrected 2026-10-03):**
+- Use the Higgsfield reference element **Quest_v1** (`89051d04-514d-404a-bcff-7dbe6347eb6f`). Put `<<<89051d04-514d-404a-bcff-7dbe6347eb6f>>>` in the prompt, or attach job `ab2219a6-ee5c-4c3e-bb8e-10f4866781b2` (default outfit, red sneakers) as an `image_reference`.
+- **Never use `f42c30bd-ce09-4ada-81c2-f2e33b6943fb` for the default outfit.** That job shows the **farming outfit** (overalls and **brown boots**). It is the likely cause of the brown boots on EP001 thumbnail 1. Use it only for the farming costume.
 - If the shot shows the feet or the full body, also say so in the prompt: "his RED sneakers are visible".
 
 ## 2. Text and scene must match

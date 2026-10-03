@@ -20,3 +20,18 @@
   - His own horse.
 - **Places and objects may be more recognisable:** Hyrule-style field, temple with a sword pedestal, giant tree, ocarina, sword, golden triangles.
 - **Never:** Nintendo logos, official key art, box art or screenshots, in the video or in thumbnails.
+
+## 2026-10-03: Official game logo on the cartridge (Producer decision)
+
+- The opening shows a **Nintendo 64** console. Quest holds the *Ocarina of Time* cartridge and inserts it.
+- **The cartridge carries the official game logo.**
+  - Source: Wikimedia Commons "File:The Legend of Zelda Ocarina of Time.svg". The licence is marked *Public domain*, restricted as *trademarked*.
+  - Archived in `docs/ep002/source/` (SVG plus a 2450 px transparent PNG).
+- **How it is used:** the cartridge is generated with a blank label, and the engine composites the exact logo on top. The logo is never drawn by AI.
+- **Risk accepted by the Producer:** trademark use in the video.
+- **Still in force:** M8 keeps logos out of thumbnails.
+
+## 2026-10-03: Quest_v1 reference element
+
+- Higgsfield reference element **Quest_v1** `89051d04-514d-404a-bcff-7dbe6347eb6f` created with the Producer's approval. It is built from job `ab2219a6` (default outfit).
+- Job `f42c30bd` shows the farming outfit with brown boots. It is no longer a default-outfit reference (`QUEST_V1_PROMPT_SPEC.md` corrected).
