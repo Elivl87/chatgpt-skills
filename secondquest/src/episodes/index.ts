@@ -21,6 +21,11 @@ import ep001fullScenes from '../../episodes/ep001full/scenes.json';
 import ep001fullAssets from '../../episodes/ep001full/assets.json';
 import ep001shortEpisode from '../../episodes/ep001short/episode.json';
 import ep001shortScenes from '../../episodes/ep001short/scenes.json';
+import ep002Episode from '../../episodes/ep002/episode.json';
+import ep002Script from '../../episodes/ep002/script.json';
+import ep002Timings from '../../episodes/ep002/timings.json';
+import ep002Scenes from '../../episodes/ep002/scenes.json';
+import ep002Assets from '../../episodes/ep002/assets.json';
 // @new-episode-imports (scripts/new-episode.ts inserts above this line)
 
 /**
@@ -79,6 +84,13 @@ export const EPISODES: Record<string, EpisodeBundle> = {
     timings: ep001fullTimings as unknown as TimingsFile,
     scenes: ep001shortScenes as unknown as ScenesFile,
     assets: ep001fullAssets as unknown as AssetCatalog,
+  },
+  ep002: {
+    episode: ep002Episode as unknown as EpisodeConfig,
+    script: ep002Script as unknown as ScriptFile,
+    timings: ep002Timings as unknown as TimingsFile,
+    scenes: ep002Scenes as unknown as ScenesFile,
+    assets: ep002Assets as unknown as AssetCatalog,
   },
   // @new-episode-entries (scripts/new-episode.ts inserts above this line)
 };

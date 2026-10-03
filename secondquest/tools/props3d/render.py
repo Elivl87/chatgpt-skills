@@ -21,6 +21,7 @@ CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 OUT = ROOT / 'public/art/ep002/props3d'
 INK = (34, 24, 22)          # warm near-black, like the plates' line art
 SS = 2                      # supersampling: render at 2x, downscale for clean edges
+MAX_PX = 19e6               # largest WebGL drawing buffer Chromium/SwiftShader keeps at full size
 VARIANT = 'classic'       # approved console look; 'faithful' = closer to the real hardware
 SEAT = 73 - 22           # cartridge bottom when seated: about 70% stays out, the label stays readable
 
@@ -52,7 +53,7 @@ def render_raw(params, w, h, n):
                         f'<script>window.PARAMS={json.dumps(params)}</script><script>{js}</script></body></html>')
         png = Path(td) / 'o.png'
         subprocess.run([CHROME, '--headless=new', '--no-sandbox', '--hide-scrollbars', '--use-angle=swiftshader', '--enable-unsafe-swiftshader',
-                        '--default-background-color=00000000', f'--window-size={w * 3},{h * n}', '--virtual-time-budget=20000',
+                        '--default-background-color=00000000', f'--window-size={w * n},{h * 3}', '--virtual-time-budget=20000',
                         f'--screenshot={png}', f'file://{html}'], check=True, capture_output=True, timeout=300)
         img = cv2.imread(str(png), cv2.IMREAD_UNCHANGED)
     return img
@@ -83,15 +84,19 @@ def ink(color, normal, ident, scale):
 def render(params, w, h, line=3.0):
     """Returns one RGBA (BGRA) image per shot at w x h."""
     n = len(params['shots'])
-    assert w * SS * 3 * h * SS * n <= 24e6, 'canvas too large for the WebGL buffer: render fewer shots per page'
-    raw = render_raw(params, w * SS, h * SS, n)
+    # Chromium silently shrinks a WebGL drawing buffer above ~20 Mpx (passes then bleed into each other):
+    # lower the supersampling to fit instead of failing
+    ss = min(SS, (MAX_PX / (w * h * 3 * n)) ** 0.5, 8192 / (w * n), 8192 / (h * 3))
+    assert ss >= 1, 'canvas too large for the WebGL buffer: render fewer shots per page'
+    W2, H2 = int(w * ss), int(h * ss)
+    raw = render_raw(params, W2, H2, n)
     shots = []
     for i in range(n):
-        row = raw[i * h * SS:(i + 1) * h * SS]
-        c, nm, idp = (row[:, k * w * SS:(k + 1) * w * SS] for k in range(3))
+        col = raw[:, i * W2:(i + 1) * W2]
+        c, nm, idp = (col[k * H2:(k + 1) * H2] for k in range(3))
         if params.get('exposure'):  # light-coloured props read too bright under the toon ramp in a night room
             c = c.copy(); c[..., :3] = (c[..., :3].astype(np.float32) * params['exposure']).astype(np.uint8)
-        o = ink(c, nm, idp, line * SS / 2)
+        o = ink(c, nm, idp, line * ss / 2)
         shots.append(cv2.resize(o, (w, h), interpolation=cv2.INTER_AREA))
     return shots
 
@@ -120,9 +125,9 @@ def job_n64_room():
     print('n64_room_3q.png, n64_room_3q_cart_in.png')
 
 
-def job_n64_insert(frames=32):
+def job_n64_insert(frames=32, size=(1280, 720), name='n64_insert'):
     """Insert shot: front-above close-up of the slot; the cartridge goes down and seats (frames 0..N-1)."""
-    out = OUT / 'n64_insert'
+    out = OUT / name
     out.mkdir(parents=True, exist_ok=True)
     seat, start = SEAT, SEAT + 120
     cam = {'camera': orbit(-14, 36, 560, (0, 78, -18)), 'target': [0, 78, -18], 'fov': 30}
@@ -130,14 +135,14 @@ def job_n64_insert(frames=32):
     batches = [[y] for y in ys]  # one shot per page: big multi-shot canvases exceed the WebGL buffer limit and mix tiles
 
     def run(b):
-        return render({'props': ['n64', 'cartridge'], 'shots': [{**cam, 'cart': {'y': y}} for y in b]}, 1280, 720, line=3.0)
+        return render({'props': ['n64', 'cartridge'], 'shots': [{**cam, 'cart': {'y': y}} for y in b]}, *size, line=3.0 * size[1] / 720)
 
     with ThreadPoolExecutor(4) as ex:
         imgs = [im for res in ex.map(run, batches) for im in res]
     for k, im in enumerate(imgs):
         cv2.imwrite(str(out / f'f{k:03d}.png'), im)
-    (out / 'frames.json').write_text(json.dumps({'cartY': ys, 'seatY': seat, 'size': [1280, 720]}, indent=1))
-    print(f'n64_insert: {frames} frames')
+    (out / 'frames.json').write_text(json.dumps({'cartY': ys, 'seatY': seat, 'size': list(size)}, indent=1))
+    print(f'{name}: {frames} frames at {size[0]}x{size[1]}')
 
 
 def job_n64_turntable():
@@ -180,7 +185,8 @@ def job_n64_pad():
     print('docs/ep002/n64_pad_turntable.jpg, n64_pad_room.png')
 
 
-JOBS = {'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
+# n64_insert_hd: 2304x1296 = the engine's minimum background size (1080p x 1.2)
+JOBS = {'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
 if __name__ == '__main__':
     names = list(JOBS) if '--all' in sys.argv else [a for a in sys.argv[1:] if a in JOBS]

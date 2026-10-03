@@ -1,0 +1,381 @@
+{
+ "episode": "ep002",
+ "notes": "Sequence 01 reproduces the approved cartridge animatic v9 (docs/ep002/PRODUCER_DECISIONS.md).",
+ "scenes": [
+  {
+   "id": "s01_room",
+   "note": "l01: present-day living room at night, slow push towards Quest and the N64 on the rug.",
+   "start": 0,
+   "camera": {
+    "start": {
+     "zoom": 1.0,
+     "x": 0.5,
+     "y": 0.5
+    },
+    "moves": [
+     {
+      "type": "move_to",
+      "zoom": 1.455,
+      "x": 0.664,
+      "y": 0.586,
+      "at": 0,
+      "end": "scene.end",
+      "easing": "inOutSine"
+     }
+    ]
+   },
+   "layers": [
+    {
+     "asset": "core.bg.living_room_night_gaming"
+    },
+    {
+     "asset": "ep002.room_n64_setup"
+    },
+    {
+     "id": "quest",
+     "asset": "quest.default.holding_cartridge",
+     "x": 0.549,
+     "y": 0.87,
+     "height": 0.59,
+     "anchor": [
+      0.5,
+      1
+     ]
+    },
+    {
+     "id": "cartridge",
+     "asset": "ep002.cartridge",
+     "x": 0.607,
+     "y": 0.583,
+     "height": 0.056,
+     "anchor": [
+      0.5,
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s02_insert",
+   "note": "l02: 3D insert, the cartridge slides into the slot and seats on 'back' (click, shake, flash).",
+   "start": "l02-0.17",
+   "camera": {
+    "start": {
+     "zoom": 1.0,
+     "x": 0.5,
+     "y": 0.5
+    },
+    "moves": [
+     {
+      "type": "push_in",
+      "amount": 0.06,
+      "at": 0,
+      "end": "scene.end",
+      "easing": "linear"
+     }
+    ],
+    "shakes": [
+     {
+      "at": "l02.w11",
+      "intensity": 7,
+      "duration": 0.2
+     }
+    ],
+    "parallax": 0
+   },
+   "layers": [
+    {
+     "asset": "ep002.insert_bg"
+    },
+    {
+     "id": "insert",
+     "asset": "ep002.insert_f000",
+     "swaps": [
+      {
+       "at": "l02.w11-1.0161",
+       "asset": "ep002.insert_f001",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.9823",
+       "asset": "ep002.insert_f002",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.9484",
+       "asset": "ep002.insert_f003",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.9145",
+       "asset": "ep002.insert_f004",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.8806",
+       "asset": "ep002.insert_f005",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.8468",
+       "asset": "ep002.insert_f006",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.8129",
+       "asset": "ep002.insert_f007",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.7790",
+       "asset": "ep002.insert_f008",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.7452",
+       "asset": "ep002.insert_f009",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.7113",
+       "asset": "ep002.insert_f010",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.6774",
+       "asset": "ep002.insert_f011",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.6435",
+       "asset": "ep002.insert_f012",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.6097",
+       "asset": "ep002.insert_f013",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.5758",
+       "asset": "ep002.insert_f014",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.5419",
+       "asset": "ep002.insert_f015",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.5081",
+       "asset": "ep002.insert_f016",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.4742",
+       "asset": "ep002.insert_f017",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.4403",
+       "asset": "ep002.insert_f018",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.4065",
+       "asset": "ep002.insert_f019",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.3726",
+       "asset": "ep002.insert_f020",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.3387",
+       "asset": "ep002.insert_f021",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.3048",
+       "asset": "ep002.insert_f022",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.2710",
+       "asset": "ep002.insert_f023",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.2371",
+       "asset": "ep002.insert_f024",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.2032",
+       "asset": "ep002.insert_f025",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.1694",
+       "asset": "ep002.insert_f026",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.1355",
+       "asset": "ep002.insert_f027",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.1016",
+       "asset": "ep002.insert_f028",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.0677",
+       "asset": "ep002.insert_f029",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.0339",
+       "asset": "ep002.insert_f030",
+       "pop": false
+      },
+      {
+       "at": "l02.w11-0.0000",
+       "asset": "ep002.insert_f031",
+       "pop": false
+      }
+     ]
+    },
+    {
+     "type": "flash",
+     "at": "l02.w11",
+     "duration": 0.08,
+     "color": "#ffffff"
+    }
+   ],
+   "sfx": [
+    {
+     "id": "cart_click_single",
+     "at": "l02.w11-0.005",
+     "volume": 0.7,
+     "duckTo": 1
+    }
+   ]
+  },
+  {
+   "id": "s03_tv",
+   "note": "After the click: new framing on the TV, the screen flares and the fairy flies out ('Hello!'), towards camera and out of frame over 'New graphics.'",
+   "start": "l02.w11+0.2",
+   "end": "l03.w2.end+0.3",
+   "camera": {
+    "parallax": 0,
+    "start": {
+     "zoom": 1.8,
+     "x": 0.722,
+     "y": 0.3
+    },
+    "moves": [
+     {
+      "type": "move_to",
+      "zoom": 1.95,
+      "x": 0.744,
+      "y": 0.32,
+      "at": 0,
+      "end": "scene.end",
+      "easing": "inOutSine"
+     }
+    ]
+   },
+   "layers": [
+    {
+     "asset": "core.bg.living_room_night_gaming"
+    },
+    {
+     "asset": "ep002.room_n64_setup_cart_in"
+    },
+    {
+     "id": "quest",
+     "asset": "quest.default.holding_cartridge",
+     "x": 0.549,
+     "y": 0.87,
+     "height": 0.59,
+     "anchor": [
+      0.5,
+      1
+     ]
+    },
+    {
+     "type": "light",
+     "color": "#c8ebff",
+     "x": 0.901,
+     "y": 0.254,
+     "radius": 0.31,
+     "intensity": 0.55,
+     "animations": [
+      {
+       "type": "fade_in",
+       "at": 0,
+       "duration": 0.25
+      },
+      {
+       "type": "fade_out",
+       "at": 0.35,
+       "duration": 0.35
+      }
+     ]
+    },
+    {
+     "type": "fairy",
+     "show": "l02.w11+0.2025",
+     "fadeIn": 0.15,
+     "size": 0.1,
+     "path": [
+      {
+       "at": "l02.w11+0.2025",
+       "x": 0.8115,
+       "y": 0.4124
+      },
+      {
+       "at": "l02.w11+0.5063",
+       "x": 0.6435,
+       "y": 0.4193
+      },
+      {
+       "at": "l03-0.05",
+       "x": 0.4756,
+       "y": 0.5374
+      },
+      {
+       "at": "l03+0.40",
+       "x": 0.36,
+       "y": 0.56,
+       "s": 1.29
+      },
+      {
+       "at": "l03.w2.end+0.25",
+       "x": -0.12,
+       "y": 0.6,
+       "s": 1.8
+      }
+     ]
+    }
+   ],
+   "sfx": [
+    {
+     "id": "navi_hello",
+     "at": "l02.w11+0.2025",
+     "volume": 0.16,
+     "duckTo": 1
+    },
+    {
+     "id": "navi_sfx_01",
+     "at": "l02.w11+0.6925",
+     "volume": 0.14,
+     "duckTo": 1
+    }
+   ]
+  }
+ ]
+}

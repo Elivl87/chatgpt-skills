@@ -243,7 +243,7 @@ if (P.light === 'neutral') {
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(1);
 const W = P.width, H = P.height;
-renderer.setSize(W * 3, H * P.shots.length);
+renderer.setSize(W * P.shots.length, H * 3); // shots side by side, the three passes stacked (keeps width under the WebGL limit)
 renderer.setClearColor(0x000000, 0);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
@@ -270,13 +270,14 @@ function draw() {
       }
       ids.forEach((m) => { if (m.userData.flap) m.visible = !shot.cart || shot.cart.y > HUMP_TOP - 1; });
     }
-    const y = H * (P.shots.length - 1 - i); // WebGL viewports count from the bottom
+    const x = W * i;
     for (let pass = 0; pass < 3; pass++) {
       ids.forEach((m) => {
         m.material = pass === 0 ? saved.get(m)! : pass === 1 ? (m.userData.textured ? idMat(m.userData.part) : normalMat) : idMat(m.userData.part);
       });
-      renderer.setViewport(W * pass, y, W, H);
-      renderer.setScissor(W * pass, y, W, H);
+      const y = H * (2 - pass); // WebGL viewports count from the bottom: pass 0 is the top row
+      renderer.setViewport(x, y, W, H);
+      renderer.setScissor(x, y, W, H);
       renderer.render(scene, cam);
     }
   });

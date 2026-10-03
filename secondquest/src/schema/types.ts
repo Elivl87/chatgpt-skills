@@ -464,7 +464,10 @@ export interface LightLayer extends LayerBase {
 /** Procedural fairy actor (src/fx/fairy.ts): flies through `path`, glows, flaps, leaves a sparkle trail. */
 export interface FairyLayer extends LayerBase {
   type: 'fairy';
-  path: { at: TimeExpr; x: number; y: number }[];
+  /** Flight keys in frame fractions; `s` = size multiplier at that key (default 1). */
+  path: { at: TimeExpr; x: number; y: number; s?: number }[];
+  /** Seconds to fade in from the first key. */
+  fadeIn?: number;
   /** Glow radius as a fraction of frame height. Default 0.1. */
   size?: number;
   color?: string;

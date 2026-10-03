@@ -27,6 +27,8 @@
     "tv_on":         { "src": "/shared/sfx/tv_on.wav",         "volume": 0.34, "label": "ENGINE SYNTH tube TV power-up" },
     "fairy_shimmer": { "src": "/shared/sfx/fairy_shimmer.wav", "volume": 0.32, "label": "ENGINE SYNTH fairy appears (own sound)" },
     "fairy_flutter": { "src": "/shared/sfx/fairy_flutter.wav", "volume": 0.18, "label": "ENGINE SYNTH fairy wing buzz (loopable)" },
+    "navi_hello":    { "src": "/episodes/ep002/sfx/navi_original/NAVI_HELLO.wav",  "volume": 1.0, "label": "PRODUCER-SUPPLIED original Navi voice (Nintendo audio, risk recorded in docs/ep002/PRODUCER_DECISIONS.md)" },
+    "navi_sfx_01":   { "src": "/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav", "volume": 1.0, "label": "PRODUCER-SUPPLIED original Navi movement SFX (Nintendo audio, risk recorded)" },
     "cart_click_single": { "src": "/shared/sfx/cc0/derived/cart_click_single.wav", "volume": 0.6, "label": "CC0 derived: OwlishMedia click66 + click83 first hits, aligned into one click (Producer pick G, single)" }
   }
 }

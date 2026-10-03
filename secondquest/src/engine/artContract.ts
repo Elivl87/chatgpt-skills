@@ -109,7 +109,7 @@ const safeZoomOf = (e: AssetEntry | ArtManifestEntry, kind: AssetKind | undefine
   e.safe_zoom ?? (kind === 'background' ? p.safeZoomDefaults.background : kind === 'character' ? p.safeZoomDefaults.character : p.safeZoomDefaults.object);
 
 /** Loose view of either a manifest entry or a catalog entry (kind differs: schema kind vs engine kind). */
-type ContractFields = Partial<Omit<ArtManifestEntry, 'kind'>> & { kind?: string; character?: string };
+type ContractFields = Partial<Omit<ArtManifestEntry, 'kind'>> & { kind?: string; character?: string; generator?: string };
 
 /** Field/enum/source/status/path checks shared by manifests and catalog entries. */
 const checkContractFields = (key: string, e: ContractFields, p: ArtPolicy, where: string, isManifest: boolean): ArtIssue[] => {
@@ -118,7 +118,10 @@ const checkContractFields = (key: string, e: ContractFields, p: ArtPolicy, where
   const src = (e.source ?? '').toUpperCase();
   if (!e.source) err('NOT_FINAL_ART', 'no art-contract source (legacy/unknown art) — needs a FINAL_ART delivery');
   else if (p.forbiddenSources.includes(src)) err('FORBIDDEN_SOURCE', `source ${e.source} is forbidden in production`);
-  else if (src !== 'FINAL_ART') err('NOT_FINAL_ART', `source is "${e.source}", expected FINAL_ART`);
+  else if (src === 'PROCEDURAL') {
+    // engine-made art (3D props, composited layers): free, reproducible, must name the script that rebuilds it
+    if (!(e as { generator?: string }).generator) err('MANIFEST_FIELD', 'PROCEDURAL art must name its generator (the script that rebuilds it)');
+  } else if (src !== 'FINAL_ART') err('NOT_FINAL_ART', `source is "${e.source}", expected FINAL_ART or PROCEDURAL`);
   if (e.source && e.status !== 'APPROVED') err('NOT_APPROVED', `status is "${e.status ?? '—'}", expected APPROVED`);
   if (isManifest) {
     for (const f of p.requiredFields) if ((e as Record<string, unknown>)[f] === undefined) err('MANIFEST_FIELD', `missing required field "${f}"`);
@@ -316,7 +319,9 @@ export const validateArtContract = (
         if (e.character_version && isQuest(key, e)) questVersions.set(key, e.character_version);
       }
       if (!info || !e.source) continue;
-      const safe = safeZoomOf(e, e.kind, p);
+      // a background file larger than the output can be zoomed until it would be upscaled (measured zoom includes the cover scale)
+      const resSafe = e.kind === 'background' ? Math.min(info.width / p.maxOutput[0], info.height / p.maxOutput[1]) : 0;
+      const safe = Math.max(safeZoomOf(e, e.kind, p), resSafe);
       const worst = us.reduce((a, u) => (u.zoom > a.zoom ? u : a));
       if (worst.zoom > safe + 1e-3)
         out.push({ level: 'error', code: 'SAFE_ZOOM', key, where: `${cutId}:${worst.scene}`, message: `scene zooms ${worst.zoom.toFixed(2)}× > safe_zoom ${safe.toFixed(2)}×` });

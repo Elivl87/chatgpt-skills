@@ -113,6 +113,6 @@
       1920,
       1080
     ],
-    "policy": "Every image a render uses must be source=FINAL_ART, status=APPROVED, delivered by the Creative Pipeline. Missing/invalid art blocks the render (ASSET_MISSING, NOT_FINAL_ART, BAD_RESOLUTION, SAFE_ZOOM, SWAP_MISMATCH, QUEST_VERSION_MISMATCH). Renders are capped at maxOutput (1080p); backgrounds must be at least maxOutput x safeZoomDefaults.background (2304x1296), 4K is welcome but not required. The engine never creates, crops, upscales or substitutes art."
+    "policy": "Every image a render uses must be source=FINAL_ART (delivered by the Creative Pipeline) or source=PROCEDURAL (made by the engine's own free tools, e.g. tools/props3d, with a `generator` that rebuilds it), status=APPROVED. Missing/invalid art blocks the render (ASSET_MISSING, NOT_FINAL_ART, BAD_RESOLUTION, SAFE_ZOOM, SWAP_MISMATCH, QUEST_VERSION_MISMATCH). Renders are capped at maxOutput (1080p); backgrounds must be at least maxOutput x safeZoomDefaults.background (2304x1296), 4K is welcome but not required; a background may be zoomed up to its own resolution / maxOutput (never upscaled). The engine never crops, upscales or substitutes generated art."
   }
 }

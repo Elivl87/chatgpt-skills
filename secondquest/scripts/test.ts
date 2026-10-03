@@ -450,9 +450,22 @@ test('render gate: FINAL_ART episode within safe_zoom passes (OK)', () => {
   assert.deepEqual(gate(b, fi).filter((i) => i.level === 'error'), []);
 });
 test('render gate: a camera push beyond safe_zoom → SAFE_ZOOM (no upscaling workaround)', () => {
-  const [b, fi] = gateBundle(1.0);
+  const [b, fi] = gateBundle(2.0);
   const keys = gate(b, fi).filter((i) => i.code === 'SAFE_ZOOM').map((i) => i.key).sort();
   assert.deepEqual(keys, ['ep998.bg_intro', 'quest.excited']);
+});
+test('render gate: a 4K background may zoom up to its own resolution (3840/1920 = 2×), not beyond', () => {
+  const bgZoomErr = (amount: number) => gate(...gateBundle(amount)).some((i) => i.code === 'SAFE_ZOOM' && i.key === 'ep998.bg_intro');
+  assert.ok(!bgZoomErr(0.8), 'camera zoom 1.8 on a 3840x2160 plate never upscales');
+  assert.ok(bgZoomErr(2.0), 'camera zoom 3.0 (≈2.2 on the background after parallax) would upscale');
+});
+test('render gate: PROCEDURAL art (engine-made) is accepted only with a generator', () => {
+  const [b, fi] = gateBundle(0.06);
+  const bg = b.assets.assets['ep998.bg_intro'] as unknown as Record<string, unknown>;
+  bg.source = 'PROCEDURAL';
+  assert.ok(gate(b, fi).some((i) => i.code === 'MANIFEST_FIELD' && i.key === 'ep998.bg_intro'));
+  bg.generator = 'tools/props3d/render.py';
+  assert.deepEqual(gate(b, fi).filter((i) => i.level === 'error' && i.key === 'ep998.bg_intro'), []);
 });
 test('render gate: art drawn taller than the file → BAD_RESOLUTION', () => {
   const [b, fi] = gateBundle(0.06, 400);

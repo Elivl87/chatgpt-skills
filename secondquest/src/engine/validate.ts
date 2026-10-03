@@ -27,7 +27,7 @@ const LAYER_SCHEMA: Record<string, [string[], string[]]> = {
   swarm: [['asset', 'count', 'region', 'height'], ['at', 'stagger', 'seed', 'jitter']],
   stamp: [['at'], ['size', 'text']],
   light: [['color'], ['radius', 'intensity', 'shape', 'flicker']],
-  fairy: [['path'], ['size', 'color', 'glow', 'flapHz', 'bob', 'trail']],
+  fairy: [['path'], ['size', 'color', 'glow', 'flapHz', 'bob', 'trail', 'fadeIn']],
   rect: [['w', 'h', 'color'], ['radius']],
   flash: [['at'], ['duration', 'color']],
   wordmark: [['at'], ['asset', 'tagline']],

@@ -6,7 +6,7 @@
  * Option C: an own fairy that evokes a guide light, never a copy of a game character.
  * tools/fx/fairy.py is the Python twin used by planning animatics: keep the maths identical.
  */
-export interface FairyKey { t: number; x: number; y: number }
+export interface FairyKey { t: number; x: number; y: number; /** size multiplier at this key (default 1) */ s?: number }
 
 export const FAIRY_DEFAULTS = { size: 0.1, color: '#aae1ff', glow: 0.85, flapHz: 6.4, bob: 0.012, trail: 8 };
 
@@ -34,3 +34,13 @@ export const fairyAt = (keys: FairyKey[], t: number, bob = FAIRY_DEFAULTS.bob) =
 
 /** Wing opening 0.2..1 at time t. */
 export const fairyFlap = (t: number, hz = FAIRY_DEFAULTS.flapHz) => 0.6 + 0.4 * Math.sin(t * hz * 2 * Math.PI);
+
+/** Size multiplier at time t: linear between keys (each key's `s`, default 1); holds outside the keys. */
+export const fairyScale = (keys: FairyKey[], t: number): number => {
+  if (!keys.length) return 1;
+  const sv = (k: FairyKey) => k.s ?? 1;
+  if (t <= keys[0].t) return sv(keys[0]);
+  for (let i = 0; i < keys.length - 1; i++)
+    if (t <= keys[i + 1].t) return sv(keys[i]) + (sv(keys[i + 1]) - sv(keys[i])) * ((t - keys[i].t) / Math.max(1e-6, keys[i + 1].t - keys[i].t));
+  return sv(keys[keys.length - 1]);
+};

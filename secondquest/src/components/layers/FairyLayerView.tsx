@@ -1,5 +1,5 @@
 import React from 'react';
-import { FAIRY_DEFAULTS, fairyAt, fairyFlap, type FairyKey } from '../../fx/fairy';
+import { FAIRY_DEFAULTS, fairyAt, fairyFlap, fairyScale, type FairyKey } from '../../fx/fairy';
 import type { FairyLayer } from '../../schema/types';
 import { sceneSeconds, useScene, useSceneTime } from '../SceneContext';
 
@@ -7,8 +7,9 @@ import { sceneSeconds, useScene, useSceneTime } from '../SceneContext';
 export const FairyLayerView: React.FC<{ layer: FairyLayer; index: number }> = ({ layer, index }) => {
   const ctx = useScene();
   const t = useSceneTime();
-  const keys: FairyKey[] = layer.path.map((k) => ({ t: sceneSeconds(ctx, k.at), x: k.x, y: k.y }));
-  const size = (layer.size ?? FAIRY_DEFAULTS.size) * ctx.H; // glow radius in px
+  const keys: FairyKey[] = layer.path.map((k) => ({ t: sceneSeconds(ctx, k.at), x: k.x, y: k.y, s: k.s }));
+  const size = (layer.size ?? FAIRY_DEFAULTS.size) * fairyScale(keys, t) * ctx.H; // glow radius in px
+  const fade = layer.fadeIn && keys.length ? Math.min(1, Math.max(0, (t - keys[0].t) / layer.fadeIn)) : 1;
   const color = layer.color ?? FAIRY_DEFAULTS.color;
   const glow = layer.glow ?? FAIRY_DEFAULTS.glow;
   const p = fairyAt(keys, t, layer.bob ?? FAIRY_DEFAULTS.bob);
@@ -22,7 +23,7 @@ export const FairyLayerView: React.FC<{ layer: FairyLayer; index: number }> = ({
   });
   const id = `fairy${index}`;
   return (
-    <svg width={ctx.W} height={ctx.H} style={{ position: 'absolute', inset: 0, opacity: layer.opacity ?? 1, overflow: 'visible' }}>
+    <svg width={ctx.W} height={ctx.H} style={{ position: 'absolute', inset: 0, opacity: (layer.opacity ?? 1) * fade, overflow: 'visible' }}>
       <defs>
         <radialGradient id={`${id}g`}>
           <stop offset="0%" stopColor={color} stopOpacity={glow} />

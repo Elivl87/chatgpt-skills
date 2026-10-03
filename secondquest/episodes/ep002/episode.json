@@ -1,0 +1,32 @@
+{
+ "id": "ep002",
+ "title": "Why Do We Want to Go Back to Ocarina of Time?",
+ "assetRoot": "episodes/ep002",
+ "fps": 30,
+ "width": 1920,
+ "height": 1080,
+ "locale": "en",
+ "narration": {
+  "audio": "audio/narration.wav",
+  "volume": 1.0
+ },
+ "music": {
+  "duck": {
+   "to": 0.27,
+   "attack": 0.15,
+   "release": 0.6,
+   "lookahead": 0.1,
+   "sfxTo": 0.62
+  },
+  "cues": [],
+  "note": "Music OFF by default (Narration > SFX > Ambience > Silence)."
+ },
+ "cuts": {
+  "seq01": {
+   "label": "Sequence 01: the cartridge (approved animatic v9)",
+   "fromScene": "s01_room",
+   "toScene": "s03_tv",
+   "output": "secondquest_ep002_seq01"
+  }
+ }
+}
