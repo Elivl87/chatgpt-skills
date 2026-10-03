@@ -13,7 +13,8 @@ Sequence 01 (l01-l02), timed to the real Bram narration and its word timings:
                  Python twin tools/fx/fairy.py) flies out of it (fairy_shimmer + fairy_flutter).
 The N64 controller (tools/props3d, n64_pad) lies on the rug, cabled to the console.
 Sounds: engine synths from shared/sfx.json, mixed under the narration. Quest is still a MISSING box.
-Output: docs/ep002/EP002_cartridge_animatic_v2.mp4 (1280x720, 24 fps). v1 is kept for comparison.
+Output: docs/ep002/EP002_cartridge_animatic_v3.mp4 (1280x720, 24 fps): the fairy's flight continues over "New graphics."
+(l03) and leaves the frame. v1/v2 are kept for comparison.
 """
 import json, math, subprocess
 from pathlib import Path
@@ -38,7 +39,8 @@ cues = tm['cues']
 word = lambda lid, w: next(x for x in cues[lid]['words'] if x['w'].strip('.,').lower() == w)
 T_S2 = cues['l02']['start'] - 0.17          # cut to the insert just before "Almost"
 T_CLIC = word('l02', 'back')['start']       # the cartridge seats on "back"
-T_END = cues['l03']['start'] - 0.05         # sequence 02 starts on l03
+T_SEQ2 = cues['l03']['start'] - 0.05        # sequence 02's line (l03) starts here
+T_END = word('l03', 'graphics')['end'] + 0.3  # the fairy keeps flying over "New graphics." and leaves the frame
 
 ease = lambda k: 0.5 - 0.5 * math.cos(math.pi * min(1, max(0, k)))
 lin = lambda a, b, k: a + (b - a) * k
@@ -132,8 +134,9 @@ def subtitle(d, t):
     c = next((c for c in cues.values() if c['start'] - 0.1 <= t <= c['end'] + 0.25 and c['start'] < T_END), None)
     if not c:
         return
-    tw = d.textlength(c['text'], font=FSUB)
-    d.text(((W - tw) / 2, H - 70), c['text'], font=FSUB, fill='white', stroke_width=3, stroke_fill='black')
+    text = ' '.join(w['w'] for w in c['words'] if w['start'] < T_END)   # only what is heard inside the clip
+    tw = d.textlength(text, font=FSUB)
+    d.text(((W - tw) / 2, H - 70), text, font=FSUB, fill='white', stroke_width=3, stroke_fill='black')
 
 
 def tag(d, text):
@@ -153,7 +156,7 @@ def render(t):
     if t < T_S2:
         fr, _ = frame_room(t, S1_CAM)
         d = ImageDraw.Draw(fr)
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v2 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S1 room + N64 (3D prop) · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
     elif t < T_CLIC:
         start_slide = T_CLIC - SLIDE
         k = min(1, max(0, (t - start_slide) / SLIDE))        # frames are already eased in 3D
@@ -167,7 +170,7 @@ def render(t):
         fr = fr.convert('RGB')
         d = ImageDraw.Draw(fr)
         d.text((20, 40), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
-        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v2 · PLANNING ONLY')
+        tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
     else:
         # hold the seated frame for the shake, then cut to the TV
         if t < T_CLIC + 0.2:
@@ -176,20 +179,23 @@ def render(t):
             fr.alpha_composite(im, (int((W - im.width) / 2), int((H - im.height) / 2)))
             fr = fr.convert('RGB')
             d = ImageDraw.Draw(fr)
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v2 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
         else:
             fr, box = frame_room(t, S3_CAM)
-            k = (t - T_CLIC) / (T_END - T_CLIC)
+            k = (t - T_CLIC) / (T_SEQ2 - T_CLIC)
             tx, ty = to_screen((TV[0] + TV[2]) / 2, (TV[1] + TV[3]) / 2, box)
             fr = glow(fr, tx, ty, 420, (200, 235, 255), 0.55 * math.sin(math.pi * min(1, k * 1.4)))
-            t0 = T_CLIC + 0.25 * (T_END - T_CLIC)
+            t0 = T_CLIC + 0.25 * (T_SEQ2 - T_CLIC)
             if t >= t0:
-                tm_ = (t0 + T_END) / 2
-                keys = [(t0, tx / W, ty / H), (tm_, (tx - 215) / W, (ty + 5) / H), (T_END, (tx - 430) / W, (ty + 90) / H)]
-                fr = fairy_fx.draw(fr, keys, t, opacity=min(1, (t - t0) / 0.15))
+                tm_ = (t0 + T_SEQ2) / 2
+                # out of the TV (approved v1 arc), then towards the camera, growing, and out of frame on the left
+                keys = [(t0, tx / W, ty / H), (tm_, (tx - 215) / W, (ty + 5) / H), (T_SEQ2, (tx - 430) / W, (ty + 90) / H),
+                        (T_SEQ2 + 0.45, 0.36, 0.56), (T_END - 0.05, -0.12, 0.6)]
+                grow = min(1, max(0, (t - T_SEQ2) / (T_END - 0.2 - T_SEQ2)))
+                fr = fairy_fx.draw(fr, keys, t, size=0.1 + 0.08 * grow * grow, opacity=min(1, (t - t0) / 0.15))
             d = ImageDraw.Draw(fr)
             d.text((20, 40), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
-            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v2 · PLANNING ONLY')
+            tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v3 · PLANNING ONLY')
     if shake != (0, 0):
         fr = Image.fromarray(__import__('numpy').roll(__import__('numpy').asarray(fr), shake, axis=(1, 0)))
     if 0 <= t - T_CLIC < 2 / FPS:   # 2-frame flash on the seat
@@ -204,11 +210,11 @@ SFX = json.loads((ROOT / 'shared/sfx.json').read_text())['sfx']
 
 def sfx_events():
     return [('cart_slide', T_CLIC - SLIDE + 0.45, 1.0), ('cart_click', T_CLIC - 0.01, 1.0), ('tv_on', T_CLIC + 0.2, 0.9),
-            ('fairy_shimmer', T_CLIC + 0.22, 1.0), ('fairy_flutter', T_CLIC + 0.3, 1.0)]
+            ('fairy_shimmer', T_CLIC + 0.22, 1.0), ('fairy_flutter', T_CLIC + 0.3, 1.0), ('whoosh', T_END - 0.45, 0.9)]
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v3.mp4'
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -224,8 +230,8 @@ def main():
     for n in range(int(T_END * FPS)):
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
-    for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_END - 0.15)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v2_{name}.jpg', quality=85)
+    for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
+        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v3_{name}.jpg', quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 
