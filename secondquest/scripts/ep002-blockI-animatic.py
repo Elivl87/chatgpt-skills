@@ -439,7 +439,8 @@ def eras_shot(t):
     a = a * (1 - (yy < .45) * .5) + np.array([150, 40, 50]) * (yy < .45) * .5 * (1 - yy / .45)    # a red, stormy sky
     adult = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
     young = cutout('quest:walking_back', 'hero')
-    yq = sized(young, H * .30); aq = sized(young, H * .42)
+    from gear import adult_back                                         # Producer rule: the adult carries shield and sword
+    yq = sized(young, H * .30); aq = sized(adult_back(young), H * .42)
     child = comp(child, yq, W * .5 - yq.width / 2, H * .92 - yq.height)
     adult = comp(adult, aq, W * .5 - aq.width / 2, H * .92 - aq.height)
     fr = Image.new('RGB', (W, H), (10, 10, 20))
@@ -517,7 +518,7 @@ def render(t):
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v4 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -527,7 +528,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -537,14 +538,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

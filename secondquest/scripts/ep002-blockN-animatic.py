@@ -17,8 +17,8 @@ years are told without text (a time-lapse in the empty temple) and the eras are 
                                           golden cartridge; a sticky note "side detail?" is crossed out.
   N6  "That is the game."                 The cartridge pulses gold; a THE GAME stamp lands.
   N7  "Link's adventure is a journey through Hyrule across two distinct eras."  The temple again, split down the middle:
-                                          CHILD (day window, young Quest, the flower in bloom, Navi bright) | ADULT (storm
-                                          window, adult Quest, fallen petals, Navi dim).
+                                          CHILD (day window, young Quest, Navi bright) | ADULT (storm window, adult Quest
+                                          with shield and sword on his back, Navi dim).
 HUD: hidden (a story beat, not play). Stand-ins: young / adult Quest in the tunic from behind (MISSING #3, #4), the
 temple (#13). Sounds: none (all at the end).
 """
@@ -61,32 +61,8 @@ INK = (20, 14, 18, 255)
 YOUNG = cutout('quest:walking_back', 'hero')                                # MISSING #3 (young) / #4 (adult): planning stand-ins
 
 
-def _adult_back(q):
-    """Producer rule (2026-10-04): adult Quest always carries the shield and the sword on his back. Planning overlay on
-    the stand-in (sheathed sword across the back, hilt over the right shoulder; a kite shield over the backpack)."""
-    q = q.copy(); w, h = q.size; d = ImageDraw.Draw(q)
-    lw = max(4, int(w * .012)); ink = (20, 14, 18, 255)
-    hx, hy, tx, ty = w * .76, h * .245, w * .26, h * .66                     # hilt end -> scabbard tip
-    ang = math.atan2(ty - hy, tx - hx); nx, ny = -math.sin(ang), math.cos(ang)
-    def band(t0, t1, half, col):
-        x0, y0 = lin(hx, tx, t0), lin(hy, ty, t0); x1, y1 = lin(hx, tx, t1), lin(hy, ty, t1)
-        d.polygon(((x0 + nx * half, y0 + ny * half), (x1 + nx * half, y1 + ny * half), (x1 - nx * half, y1 - ny * half), (x0 - nx * half, y0 - ny * half)), fill=col, outline=ink, width=lw)
-    band(.17, 1.0, w * .035, (90, 60, 120, 255))                             # scabbard
-    band(0, .14, w * .018, (110, 70, 150, 255))                               # grip
-    cx, cy = lin(hx, tx, .15), lin(hy, ty, .15)                               # crossguard
-    d.polygon(((cx + nx * w * .085, cy + ny * w * .085), (cx + nx * w * .085 + math.cos(ang) * 14, cy + ny * w * .085 + math.sin(ang) * 14),
-               (cx - nx * w * .085 + math.cos(ang) * 14, cy - ny * w * .085 + math.sin(ang) * 14), (cx - nx * w * .085, cy - ny * w * .085)), fill=(120, 80, 170, 255), outline=ink, width=lw)
-    d.ellipse((hx - w * .025, hy - w * .025, hx + w * .025, hy + w * .025), fill=(230, 200, 90, 255), outline=ink, width=lw)   # pommel
-    sx0, sx1, sy0, sy1 = w * .30, w * .70, h * .315, h * .64                  # kite shield over the backpack
-    pts = ((sx0, sy0 + h * .02), (w * .5, sy0 - h * .012), (sx1, sy0 + h * .02), (sx1 - w * .02, sy0 + (sy1 - sy0) * .55), (w * .5, sy1), (sx0 + w * .02, sy0 + (sy1 - sy0) * .55))
-    d.polygon(pts, fill=(190, 196, 212, 255), outline=ink, width=lw)
-    inner = [(w * .5 + (x - w * .5) * .86, sy0 + (y - sy0) * .9 + h * .012) for x, y in pts]
-    d.polygon(inner, fill=(44, 84, 170, 255), outline=ink, width=max(2, lw // 2))
-    d.ellipse((w * .5 - w * .045, h * .43 - w * .045, w * .5 + w * .045, h * .43 + w * .045), fill=(200, 205, 220, 255), outline=ink, width=lw)   # boss
-    return q
-
-
-ADULT = _adult_back(YOUNG)
+from gear import adult_back  # noqa: E402 (shared with block I)
+ADULT = adult_back(YOUNG)
 QX, QFEET = W * .5, H * .93
 YH, AH = H * .30, H * .44
 SWORD = BL.SWD[12].transpose(Image.FLIP_TOP_BOTTOM)
@@ -326,8 +302,8 @@ def n5_6(t):
 # ------------------------------------------------------------------ N7: two eras
 def n7(t):
     k = ease(min(1, (t - T_ERAS) / .45))
-    child = quest(flower(temple(t, storm=0, sword=True), .5), YH, x=W * .5)          # Producer: the flower alive...
-    adult = quest(flower(temple(t, storm=1, age=1, sword=False), 1.0), AH, x=W * .5, adult=True)  # ...and its fallen petals
+    child = quest(temple(t, storm=0, sword=True), YH, x=W * .5)          # no flower here (Producer: it only marked the time passing)
+    adult = quest(temple(t, storm=1, age=1, sword=False), AH, x=W * .5, adult=True)
     tw = t - T_ERAS                                                         # Producer: Navi in both: bright as a child, dim as an adult
     child = fairy_fx.draw(child, [(0, .62, .36), (6, .64, .33)], tw, size=.045)
     adult = fairy_fx.draw(adult, [(0, .64, .40), (6, .62, .42)], tw, size=.035, color=(120, 130, 150), glow=.3, opacity=.55)
@@ -370,7 +346,7 @@ def render(t):
     tw = d.textlength(lab2, font=F(13))
     if not (T_SIDE <= t < T_ERAS):
         d.rectangle((W * .03, H * .06, W * .03 + tw + 12, H * .06 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .06 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v6 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -380,7 +356,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -390,14 +366,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

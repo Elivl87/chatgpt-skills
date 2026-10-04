@@ -274,3 +274,7 @@
 - N v6 (Producer: "La flor es muy grande, quizás algo más pequeña y bonita"): the flower is about half the size and
   redrawn: a curved stem, two leaves, two rings of soft pink petals with a yellow centre and a highlight; it still
   blooms, droops and drops its petals.
+- N v7 (Producer: "Quitaría la flor en la escena de pantalla dividida. Porque se usó solo para mostrar que pasó el
+  tiempo"): no flower in the CHILD | ADULT split; it lives only in the time-lapse.
+- I v5 (Producer: "Sí" to adding the gear): in block I's CHILD | ADULT eras shot, adult Quest carries the shield and the
+  sword on his back (shared overlay `scripts/animatic/gear.py`, also used by block N).
