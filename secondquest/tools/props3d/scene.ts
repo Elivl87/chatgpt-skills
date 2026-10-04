@@ -13,7 +13,7 @@
 import * as THREE from 'three';
 
 type V3 = [number, number, number];
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number }
 interface Params { variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
 
@@ -591,6 +591,66 @@ const boomerang = () => {
   return g;
 };
 
+
+// ---------------------------------------------------------------- Quest's own horse (animatic stand-in; final art = Higgsfield #13)
+/** Toon horse, side-on along +x, ~1.6 m at the withers. Dapple-grey coat, charcoal mane and tail, blue saddle cloth:
+ *  deliberately not Epona (chestnut, white mane). Legs hang on pivots so `pose` (0..1) gives a gallop cycle. */
+const horseLegs: { hip: THREE.Group; knee: THREE.Group; off: number; front: boolean }[] = [];
+let horseBody: THREE.Group | null = null;
+const horse = () => {
+  const root = new THREE.Group();
+  const body = new THREE.Group(); root.add(body); horseBody = body;
+  const coat = toon('#b9bcc4'), dark = toon('#3b3b42'), hoofM = toon('#2a2522'), cloth = toon('#2f5fa8'), leather = toon('#6b4024');
+  const add = (g: THREE.BufferGeometry, m: THREE.Material, part: number, at: V3, rot: V3 = [0, 0, 0], sc: V3 = [1, 1, 1], parent: THREE.Object3D = body) => {
+    const o = new THREE.Mesh(g, m); o.position.set(...at); o.rotation.set(...rot); o.scale.set(...sc); o.userData.part = part; ids.push(o); parent.add(o); return o;
+  };
+  const Y = 1380;                                                                                              // withers ~1.65 m
+  add(new THREE.CapsuleGeometry(280, 860, 12, 32), coat, 950, [0, Y, 0], [0, 0, Math.PI / 2]);              // barrel
+  add(new THREE.SphereGeometry(310, 32, 24), coat, 950, [440, Y + 30, 0], [0, 0, 0], [1, 1.05, .9]);          // chest
+  add(new THREE.SphereGeometry(330, 32, 24), coat, 950, [-470, Y + 50, 0], [0, 0, 0], [1.05, 1, .95]);        // hindquarters
+  const nx = Math.sin(0.85), ny = Math.cos(0.85);                                                              // neck axis, leaning forward
+  const n0: V3 = [560, Y + 160, 0];
+  add(new THREE.CylinderGeometry(125, 215, 720, 24), coat, 951, [n0[0] + nx * 330, n0[1] + ny * 330, 0], [0, 0, -0.85]);
+  const hx = n0[0] + nx * 700, hy = n0[1] + ny * 700;                                                          // poll (top of the head)
+  add(new THREE.CapsuleGeometry(115, 360, 10, 24), coat, 952, [hx + 150, hy - 120, 0], [0, 0, -2.1]);          // head, nose down-forward
+  add(new THREE.SphereGeometry(105, 20, 16), toon('#9a9ea7'), 952, [hx + 320, hy - 230, 0], [0, 0, 0], [1, .85, .9]);   // muzzle
+  for (const z of [-55, 55]) {
+    add(new THREE.ConeGeometry(36, 140, 12), coat, 953, [hx - 10, hy + 80, z], [0, 0, 0.15]);                 // ears
+    add(new THREE.SphereGeometry(19, 12, 10), toon('#141418'), 954, [hx + 120, hy - 40, z * 1.9]);           // eyes
+  }
+  for (let i = 0; i < 9; i++) {                                                                               // mane: along the back of the neck
+    const k = i / 8, px = n0[0] - 40 + nx * 760 * k - ny * 150, py = n0[1] + ny * 760 * k + nx * 150 - 30;
+    add(new THREE.BoxGeometry(150, 230, 50), dark, 955, [px - 40, py, 0], [0, 0, -0.85 + 0.5 + 0.2 * Math.sin(i * 1.7)]);
+  }
+  add(new THREE.CapsuleGeometry(75, 260, 8, 16), dark, 956, [-850, Y - 20, 0], [0, 0, -0.95]);                  // tail: root off the croup,
+  add(new THREE.CapsuleGeometry(100, 380, 8, 16), dark, 956, [-990, Y - 290, 0], [0, 0, -0.45], [1, 1, .7]);    // then a flowing sweep down
+  add(new THREE.CapsuleGeometry(80, 300, 8, 16), dark, 956, [-1060, Y - 600, 0], [0, 0, -0.15], [1, 1, .6]);
+  add(new THREE.BoxGeometry(600, 360, 600), cloth, 957, [-30, Y + 120, 0]);                                   // saddle cloth (shows on the flank)
+  add(new THREE.CapsuleGeometry(120, 280, 8, 16), leather, 958, [-30, Y + 330, 0], [0, 0, Math.PI / 2], [1, .75, 2.2]);   // saddle
+  add(new THREE.CylinderGeometry(14, 14, 420, 8), leather, 959, [-10, Y + 60, 310]);                          // stirrup strap
+  const leg = (x: number, z: number, front: boolean, off: number) => {
+    const hip = new THREE.Group(); hip.position.set(x, Y - 140, z); body.add(hip);
+    add(new THREE.CylinderGeometry(125, 85, 560, 16), coat, 960, [0, -280, 0], [0, 0, 0], [1, 1, 1], hip);
+    const knee = new THREE.Group(); knee.position.set(0, -540, 0); hip.add(knee);
+    add(new THREE.CylinderGeometry(62, 55, 560, 14), coat, 961, [0, -280, 0], [0, 0, 0], [1, 1, 1], knee);
+    add(new THREE.SphereGeometry(70, 12, 10), coat, 961, [0, 0, 0], [0, 0, 0], [1, 1, 1], knee);               // the joint
+    add(new THREE.CylinderGeometry(72, 84, 110, 16), hoofM, 962, [0, -590, 0], [0, 0, 0], [1, 1, 1], knee);
+    horseLegs.push({ hip, knee, off, front });
+  };
+  leg(460, 160, true, 0.55); leg(500, -160, true, 0.65); leg(-480, 160, false, 0.0); leg(-440, -160, false, 0.1);
+  return root;
+};
+
+/** Gallop cycle: legs swing on their pivots, knees fold on the way forward, the body pitches and rises. */
+const setGallop = (p: number) => {
+  for (const L of horseLegs) {
+    const a = 2 * Math.PI * (p + L.off);
+    L.hip.rotation.z = (L.front ? 0.55 : 0.5) * Math.sin(a);
+    L.knee.rotation.z = L.front ? -Math.max(0, 1.3 * Math.sin(a + 1.2)) : Math.max(0, 1.1 * Math.sin(a + 1.6));
+  }
+  if (horseBody) { horseBody.rotation.z = 0.07 * Math.sin(2 * Math.PI * p); horseBody.position.y = 60 * Math.max(0, Math.sin(2 * Math.PI * p + 0.6)); }
+};
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -606,6 +666,7 @@ if (P.props.includes('boomerang')) scene.add((props.boomerang = boomerang()));
 if (P.props.includes('castle')) scene.add((props.castle = hyruleCastle()));
 if (P.props.includes('crt')) scene.add((props.crt = crt()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
+if (P.props.includes('horse')) scene.add((props.horse = horse()));
 
 if (P.light === 'neutral') {
   scene.add(new THREE.HemisphereLight(0xffffff, 0x404048, 1.6));
@@ -647,6 +708,7 @@ function draw() {
       }
       ids.forEach((m) => { if (m.userData.flap) m.visible = !shot.cart || shot.cart.y > HUMP_TOP - 1; });
     }
+    if (props.horse && shot.pose != null) setGallop(shot.pose);
     const x = W * i;
     for (let pass = 0; pass < 3; pass++) {
       ids.forEach((m) => {

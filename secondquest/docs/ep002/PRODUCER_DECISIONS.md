@@ -163,3 +163,12 @@
   same year tags as block G; on "where" the 1998 half shrinks into our 90s CRT; on "game went" the CRT switches off
   (bright line, dot, dark glass). Quest stays at the seam, hand on chin, "?".
 - Producer asks Claude to keep bringing this kind of creative idea, not only fixes.
+
+## 2026-10-04: block H ending, take 3 (Producer's idea, worked up by Claude)
+- v2 (split screen + small CRT) not approved: TODAY stayed stuck on screen, the small TV told nothing.
+- v3: night, Quest's room; our big CRT plays 1998 Hyrule (blocky) while Quest watches from behind. On "where" the TV
+  switches off (line, dot, dark glass); his reflection shows for a moment; black. Out of the black, today's Hyrule,
+  golden and moving, and Quest gallops through on his own horse; the HUD comes back. The slider leaves before the cut.
+- The horse: final art from Higgsfield (art plan #13, Quest on his own horse, about 1.0 credit; quoted with the MISSING
+  list at the end). In the animatic a free 3D stand-in built by Claude (`tools/props3d`, job `horse`: dapple grey,
+  charcoal mane, blue saddle cloth, 8-frame gallop), never Epona's look.

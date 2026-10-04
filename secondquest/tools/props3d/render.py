@@ -306,7 +306,23 @@ def job_hud_items():
     print('icon_bomb.png, icon_boomerang.png')
 
 
-JOBS = {'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+def job_horse():
+    """Quest's own horse (animatic stand-in): 8-frame gallop, side-on from a little in front, daylight. Frames share one
+    crop so the horse does not jitter."""
+    out = OUT / 'horse_gallop'; out.mkdir(parents=True, exist_ok=True)
+    tgt = [100, 1250, 0]
+    shots = [{'camera': orbit(18, 6, 9000, tgt), 'target': tgt, 'fov': 22, 'cart': None, 'pose': i / 8} for i in range(8)]
+    imgs = render({'props': ['horse'], 'shots': shots, 'light': 'neutral'}, 1000, 760, line=2.6)
+    a = np.max([im[..., 3] for im in imgs], axis=0)
+    ys, xs = np.where(a > 8); y0, y1, x0, x1 = max(0, ys.min() - 6), ys.max() + 6, max(0, xs.min() - 6), xs.max() + 6
+    for i, im in enumerate(imgs):
+        cv2.imwrite(str(out / f'f{i:03d}.png'), im[y0:y1, x0:x1])
+    sheet = np.concatenate([im[y0:y1, x0:x1] for im in imgs[:4]], axis=1)
+    cv2.imwrite(str(ROOT / 'docs/ep002/props3d_horse_sheet.png'), sheet)
+    print('horse_gallop', len(imgs))
+
+
+JOBS = {'horse': job_horse, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
