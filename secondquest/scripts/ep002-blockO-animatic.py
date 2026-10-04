@@ -13,8 +13,10 @@ Producer approved, 2026-10-04 ("Prosigue"). A new place: a pantry shelf of prese
   O4  "The goal should be to understand... what those limitations made you feel."  The FOG jar pops open: the fog
                                           curls out into a "?" and its label flips to MYSTERY; the LOW POLY jar opens,
                                           a ghost of a great castle rises from its few polygons: IMAGINATION.
+                                          Then the cartridge jar itself opens and pours out golden light.
   O5  "And then find a way to make someone feel that again."  The fog fills the frame and clears on today's forest:
-                                          Pixie (new player, her tunic) looks up into the mist in awe, a "?" over her.
+                                          the same "?" travels from the fog jar to Pixie (new player, her tunic), who
+                                          looks up into the mist in awe.
 HUD: hidden on the shelf (real life), on in the forest (in game; Pixie's FILE 2 has 3 hearts). Stand-ins: Pixie in her
 tunic, awe (MISSING #2d), forest (#12). Sounds: none (all at the end).
 """
@@ -58,8 +60,19 @@ T_FEEL = T('l113.w6')                   # -> IMAGINATION
 T_AGAIN = T('l114') - .05
 T_FEEL2 = T('l114.w9')                  # "feel (that again)"
 T_END = T('l115') - 0.05                # block P starts on l115
+T_OPEN = T_FEEL + .1                    # the cartridge jar opens (Producer improvement)
+Q_TRAVEL0, Q_TRAVEL1 = T('l114') - .25, T('l114') + 1.0
+Q_SIZE = 90
 INK = (20, 14, 18, 255)
 SHELF_Y = H * .66                                                            # top of the shelf board (jar bottoms)
+Q_FROM = (W * .13 + 10, SHELF_Y - 210 - 175)                                 # the "?" over the FOG jar...
+Q_TO = (W * .42 + 20, H * .95 - H * .52 - 120)                                # ...and over Pixie's head
+
+
+def qmark(d, cx, y, size):
+    """The one "?" of this block: the fog's mystery, the same mark over Pixie."""
+    f = F(int(size))
+    d.text((cx - d.textlength('?', font=f) / 2, y), '?', font=f, fill=(255, 255, 255), stroke_width=5, stroke_fill=(70, 80, 110))
 
 
 # ------------------------------------------------------------------ the pantry
@@ -188,7 +201,8 @@ JARS = {  # name: (cx, w, h)
 
 def shelf(t):
     fr = PANTRY.copy()
-    grey = ease(min(1, max(0, (t - T_REFUSE - .3) / 2.0)))                   # O2: refusing to change: fog and grey
+    kopen = ease(min(1, max(0, (t - T_OPEN) / .35)))                          # Producer improvement: at last the cartridge jar opens
+    grey = ease(min(1, max(0, (t - T_REFUSE - .3) / 2.0))) * (1 - kopen)       # O2: refusing to change: fog and grey
     for name in ('fog', 'poly', 'blur', 'cam', 'cart'):
         cx, w, h = JARS[name]
         lid, flip, content, fogged, clamp = 0.0, None, None, 0.0, False
@@ -196,6 +210,7 @@ def shelf(t):
             content = c_cart(w, h, grey); fogged = .75 * grey; clamp = True; label = 'DO NOT OPEN'
             if T_NOTDIS - .1 < t < T_REFUSE:                                 # the lid twitches: it wants to open
                 lid = .08 * abs(math.sin((t - T_NOTDIS) * 22)) * (1 - (t - T_NOTDIS) / (T_REFUSE - T_NOTDIS))
+            lid = max(lid, kopen); clamp = kopen < .3
         elif name == 'fog':
             label = 'FOG'
             lid = min(1, max(0, (t - T_UND) / .35))
@@ -231,6 +246,17 @@ def shelf(t):
         gd.rectangle((0, 0, 299, 39), fill=(236, 226, 196, 255), outline=(110, 90, 60, 255), width=2)
         s = 'PRESERVED SINCE 1998'; gd.text((150 - gd.textlength(s, font=F(18)) / 2, 9), s, font=F(18), fill=(70, 50, 30, 255))
         fr = comp(fr, fade(g, kt), W * .5 - 150, SHELF_Y + 2 - 10 * (1 - kt))
+    if t >= T_OPEN:                                                          # the open cartridge jar pours out golden light
+        cx, w, h = JARS['cart']
+        ko = ease(min(1, (t - T_OPEN) / .4))
+        fr = CART.glow(fr, cx, SHELF_Y - h - 20, int(260 * ko) + 1, (255, 214, 110), .75 * ko)
+        g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+        for i in range(7):
+            a = -math.pi / 2 + (i - 3) * .22
+            L = 380 * ko
+            d.polygon(((cx - 30, SHELF_Y - h), (cx + 30, SHELF_Y - h), (cx + L * math.cos(a + .05), SHELF_Y - h + L * math.sin(a + .05)), (cx + L * math.cos(a - .05), SHELF_Y - h + L * math.sin(a - .05))),
+                      fill=(255, 226, 140, int(70 * ko)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
     # O4: the fog curls out into a "?", the low-poly tree dreams of a castle
     if t >= T_UND:
         cx, w, h = JARS['fog']
@@ -246,10 +272,9 @@ def shelf(t):
             d.ellipse((x - r, y - r * .7, x + r, y + r * .7), fill=(236, 240, 246, int(170 * (1 - .3 * u))))
         fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(10))).convert('RGB')
         kq = min(1, max(0, (t - T_LIM + .3) / .5))
-        if kq > 0:
+        if kq > 0 and t < Q_TRAVEL0:                                         # (then it travels to Pixie)
             d = ImageDraw.Draw(fr)
-            s = '?'; f = F(int(90 + 20 * math.sin(t * 3)))
-            d.text((cx + 10 - d.textlength(s, font=f) / 2, SHELF_Y - h - 175), s, font=f, fill=(255, 255, 255), stroke_width=5, stroke_fill=(70, 80, 110))
+            qmark(d, Q_FROM[0], Q_FROM[1], Q_SIZE + 10 * math.sin(t * 3))
     if t >= T_MADE:
         cx, w, h = JARS['poly']
         k = ease(min(1, (t - T_MADE) / .8))
@@ -299,13 +324,12 @@ def forest(t):
     sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((px - p.width * .35, feet - 10, px + p.width * .35, feet + 8), fill=(0, 0, 0, 80))
     fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
     fr = comp(fr, p, px - p.width / 2, feet - p.height)
-    kq = min(1, max(0, (t - T_AGAIN - .6) / .4))
+    kq = 1.0 if t >= Q_TRAVEL1 else 0.0                                      # the "?" that travelled from the fog jar
     if kq > 0:                                                               # the same "?" - now over her
         glow = .3 + (.5 if t >= T_FEEL2 else 0) * min(1, (t - T_FEEL2) / .3) if t >= T_FEEL2 else .3
         fr = CART.glow(fr, px + 20, feet - p.height - 60, 90, (255, 255, 220), glow * kq)
         d = ImageDraw.Draw(fr)
-        f = F(int(80 + 8 * math.sin(t * 4)))
-        d.text((px + 20 - d.textlength('?', font=f) / 2, feet - p.height - 120), '?', font=f, fill=(255, 255, 255), stroke_width=5, stroke_fill=(70, 80, 110))
+        qmark(d, Q_TO[0], Q_TO[1], Q_SIZE + 10 * math.sin(t * 3))
     fr = hud.draw(fr, hearts=3.0, max_hearts=3, t=t)
     d = ImageDraw.Draw(fr)
     lab = 'MISSING · Pixie in her tunic, awe (#2d) · forest (#12) · planning stand-ins'
@@ -340,20 +364,25 @@ def render(t):
         k = min(1, (t - T_AGAIN - .5) / .8)
         fr = Image.blend(Image.new('RGB', fr.size, (238, 242, 248)), fr, ease(k))
         lab = 'O5 make someone feel that again'
+    if Q_TRAVEL0 <= t < Q_TRAVEL1:                                           # Producer improvement: the same "?" travels to her
+        k = ease((t - Q_TRAVEL0) / (Q_TRAVEL1 - Q_TRAVEL0))
+        x = lin(Q_FROM[0], Q_TO[0], k); y = lin(Q_FROM[1], Q_TO[1], k) - 60 * math.sin(math.pi * k)
+        fr = CART.glow(fr, x, y + Q_SIZE * .5, 80, (255, 255, 230), .35)
+        qmark(ImageDraw.Draw(fr), x, y, Q_SIZE + 10 * math.sin(t * 3))
     keys = [(T0, .40, .30), (T_PRES, .42, .26), (T_UND, .20, .30), (T_MADE, .34, .28), (T_AGAIN, .30, .30), (T_END, .62, .36)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 21 PRESERVED · {lab} · BLOCK O v1 · PLANNING ONLY')
+    tag(d, f'SEQ 21 PRESERVED · {lab} · BLOCK O v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('o0', T0 + .3), ('o1', T_NOTDIS + .3), ('o2', T_WOULD + .3), ('o3', T('l111.w11') + .3), ('o4a', T_LIM + .5), ('o4b', T_FEEL + .5),
+STILLS = (('o0', T0 + .3), ('o1', T_NOTDIS + .3), ('o2', T_WOULD + .3), ('o3', T('l111.w11') + .3), ('o4a', T_LIM + .5), ('o4b', T_FEEL + .5), ('o4c', T_AGAIN - .25), ('o5q', T('l114') + .5),
           ('o5a', T_AGAIN + .3), ('o5', T_END - .3))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -363,14 +392,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockO_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockO_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockO_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockO_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

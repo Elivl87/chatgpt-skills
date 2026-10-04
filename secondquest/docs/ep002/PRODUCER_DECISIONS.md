@@ -284,3 +284,6 @@
   limitations: FOG, LOW POLY, BLURRY TEXTURES, FIXED CAMERA, PRESERVED SINCE 1998; FOG pops open, curls into a "?" and
   becomes MYSTERY; LOW POLY opens, a ghost castle rises: IMAGINATION; the fog fills the frame and clears on today's
   forest where Pixie (tunic, awe) gets the same "?" (HUD on, 3 hearts).
+- O v2 ("Apruebo O con las dos mejoras"): block O approved with: (1) at the end of "what those limitations made you
+  feel" the cartridge jar itself opens, its colour comes back and it pours out golden light; (2) the one "?" travels
+  from the fog jar, across the white fog, to Pixie's head in the forest (same mark, same style).
