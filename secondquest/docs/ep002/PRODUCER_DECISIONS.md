@@ -240,3 +240,4 @@
   una Nintendo Switch 2?"): the N64 pad is smaller; on "Cleaner controls" it is polished, then in a flash becomes a
   Switch 2-like handheld (our own 3D, `tools/props3d` job `switch2`, free; evoked, not a replica) whose screen wakes up on
   the same temple in full detail. It stays in the case for the rest of the block.
+- L v3 approved as is ("Apruebo L así como está"); the two optional improvements (REMAKE badge on the handheld screen, screen flicker on the crack) not taken.
