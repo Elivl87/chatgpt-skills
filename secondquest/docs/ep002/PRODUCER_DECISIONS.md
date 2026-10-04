@@ -215,3 +215,10 @@
   once she is in the game: when her FILE 2 opens (J) she flashes into it; before that (waiting, impatient poses) she
   wears her normal clothes (Producer: "aún no la han seleccionado"). Quest wears his tunic all through block I (veteran
   mid-game). Stand-ins: recoloured poses labelled MISSING; art 2c/2d/2e added to the list -> J v2.
+
+## 2026-10-04: block J approved (v3); block K (l78-l86, end of Act 3)
+- J v3: the stray "weight lines" under 28 YEARS removed; the plate now drops in with a thud. Block J approved.
+- K v1: block J's sheet becomes the scoreboard: two QUEST boxes ("MAKE 1998 FEEL NATURAL IN 2026" for the new player,
+  "MAKE THE KNOWN FEEL LIKE DISCOVERY AGAIN" for the veteran) with mini screens (1998 -> 2026; fog over the known
+  field, then a sparkle of something new); then both in today's Hyrule from behind, a thought bubble with his 1998
+  Hyrule; "build both": block F's blueprint sweeps over the real Hyrule and the one in his head. HUD hidden here.
