@@ -180,3 +180,5 @@
   watching it that also serves as his reflection. New art Q008 (0.5 credits, approved "Sí, apruebo, genera la imagen a 1k"):
   Quest on the floor in profile facing the TV (`docs/art_orders/quest/ep002_tv/results/09_floor_profile_tv.png`). QC: passes;
   one defect reported: the controller reads modern, not N64. The mirrored profile is his reflection in the dark glass.
+- Block H approved (v5). Producer OK to put our 3D N64 controller in Quest's hands in Q008 (engine composite,
+  `tools/fx/pad_swap_q008.py`, derived file `09_floor_profile_tv_n64pad.png`; the generated original is untouched) -> H v6.

@@ -229,7 +229,7 @@ T_REFL = T_OFF + .45                                                    # dark g
 T_BLACK = T_REFL + .75                                                  # fade to black...
 T_NOW = T_BLACK + .25                                                   # ...and today's Hyrule opens, a horse gallops through
 HORSE = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/horse_rear').glob('f*.png'))]
-_qp = Image.open(ROOT / 'docs/art_orders/quest/ep002_tv/results/09_floor_profile_tv.png').convert('RGBA')
+_qp = Image.open(ROOT / 'docs/art_orders/quest/ep002_tv/results/09_floor_profile_tv_n64pad.png').convert('RGBA')   # our 3D N64 pad in his hands (tools/fx/pad_swap_q008.py)
 QPROF = _qp.crop(_qp.getchannel('A').getbbox())                          # new art (Q008): Quest on the floor, profile, facing the TV
 RIDER = cutout('quest:walking_back', 'hero')                            # stand-in rider from behind (MISSING: Quest on his horse)
 RIDER = RIDER.crop((0, 0, RIDER.width, int(RIDER.height * .52)))
@@ -417,7 +417,7 @@ def render(t):
             fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=min(1, (t - T_NOW - .2) / .4))   # back in the game: the HUD returns
         lab = 'H4 the TV switches off' if t < T_NOW else 'H4 today: a new Hyrule'
         d = ImageDraw.Draw(fr)
-        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v5 · PLANNING ONLY')
+        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v6 · PLANNING ONLY')
         subtitle(d, t)
         return fr
     fr, e = back_shot(t)
@@ -442,7 +442,7 @@ def render(t):
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
     lab = 'H1 every improvement changes the memory' if t < T_JOB else 'H2 the impossible job' if t < T_DIFF else 'H3 different enough...'
-    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v5 · PLANNING ONLY')
+    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -451,7 +451,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -461,14 +461,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
