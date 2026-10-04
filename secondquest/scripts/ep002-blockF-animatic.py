@@ -109,6 +109,15 @@ def draw_page(t):
                 a = t * 3 + i * 1.3
                 sx, sy = x0 + 270 + 70 * math.cos(a), y0 - 40 + 26 * math.sin(a)
                 d.line((sx - 6, sy, sx + 6, sy), fill=(230, 180, 40), width=3); d.line((sx, sy - 6, sx, sy + 6), fill=(230, 180, 40), width=3)
+    # F3: the DANGER stamp slams onto the plan
+    if t >= T_DANGER:
+        k = min(1, (t - T_DANGER) / .18)
+        st = stamp('DANGER')
+        sc = 1.8 - .8 * ease(k)
+        st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
+        if k < 1:
+            st.putalpha(st.getchannel('A').point(lambda v: int(v * k)))
+        p = comp(p, st, ox + 330 - st.width / 2, oy + 130 - st.height / 2); d = ImageDraw.Draw(p)
     # F4-F6: the chart (lower half of the page)
     if t >= T_MEAS:
         k = ease(min(1, (t - T_MEAS) / .6))
@@ -143,6 +152,18 @@ def draw_page(t):
     return p
 
 
+def stamp(text):
+    """A rubber stamp: red double frame, heavy letters, slightly rough, tilted."""
+    f = F(84); w = int(ImageDraw.Draw(Image.new('L', (1, 1))).textlength(text, font=f)) + 70
+    im = Image.new('RGBA', (w, 150)); d = ImageDraw.Draw(im)
+    d.rounded_rectangle((4, 4, w - 5, 145), 14, outline=(205, 35, 35, 235), width=9)
+    d.rounded_rectangle((18, 18, w - 19, 131), 8, outline=(205, 35, 35, 235), width=3)
+    d.text((35, 22), text, font=f, fill=(205, 35, 35, 235))
+    a = np.asarray(im).copy(); r = np.random.default_rng(2).random(a.shape[:2])
+    a[..., 3] = (a[..., 3] * np.where(r < .12, .35, 1)).astype(np.uint8)           # ink texture
+    return Image.fromarray(a, 'RGBA').rotate(9, expand=True, resample=Image.BICUBIC)
+
+
 def icon(d, i, cx, cy, t):
     if i == 0:                                                          # polygons: a circle gaining sides
         n = 6 + int(10 * (.5 + .5 * math.sin(t * 2)))
@@ -172,26 +193,17 @@ def render(t):
     fr = p.crop((int(cx), int(cy), int(cx) + W, int(cy) + H))
     if t < T0 + .3:
         fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T0) / .3)
-    # F3: caution tape + Navi in warning yellow
+    # F3: Navi in warning yellow (the DANGER stamp itself is drawn on the page, so it moves with the plan)
     if T_DANGER <= t < T_MEAS + .5:
-        k = ease(min(1, (t - T_DANGER) / .5)); out = ease(min(1, max(0, (t - T_MEAS) / .5)))
-        g = Image.new('RGBA', (W * 2, 90)); gd = ImageDraw.Draw(g)
-        for x in range(-90, W * 2, 90):
-            gd.polygon([(x, 0), (x + 45, 0), (x + 90, 90), (x + 45, 90)], fill=(25, 25, 25, 255))
-        gd.rectangle((0, 0, W * 2, 90), outline=(25, 25, 25, 255), width=4)
-        gl = Image.new('RGBA', g.size, (245, 200, 40, 255)); gl.alpha_composite(g)
-        gd = ImageDraw.Draw(gl); txt = 'CAUTION · REMAKE ZONE · CAUTION · REMAKE ZONE'
-        gd.text((W * .3, 26), txt, font=F(34), fill=(25, 25, 25, 255))
-        gl = gl.rotate(-6, expand=True, resample=Image.BICUBIC)
-        fr = comp(fr, gl, -W * .5 + W * .5 * k - W * 1.6 * out, H * .3)
-        fr = Image.blend(fr, Image.new('RGB', fr.size, (200, 40, 30)), .08 * k * (1 - out))
+        k = ease(min(1, (t - T_DANGER) / .3)); out = ease(min(1, max(0, (t - T_MEAS) / .5)))
+        fr = Image.blend(fr, Image.new('RGB', fr.size, (200, 40, 30)), .06 * k * (1 - out))
     if T_DANGER - .3 <= t < T_MEAS + .4:
         keys = [(T_DANGER - .3, .9, .2), (T_DANGER + .4, .8, .2), (T_MEAS, .86, .16), (T_MEAS + .4, 1.05, .1)]
         fr = fairy_fx.draw(fr, keys, t, size=.06, color=(255, 225, 90))
     d = ImageDraw.Draw(fr)
-    lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 "remakes become dangerous"' if t < T_MEAS
+    lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 "remakes become dangerous" (DANGER stamp)' if t < T_MEAS
            else 'F4-F5 better is measurable' if t < T_FAM else 'F6 "familiar is not measurable"')
-    tag(d, f'SEQ 12 ON PAPER · {lab} · BLOCK F v1 · PLANNING ONLY')
+    tag(d, f'SEQ 12 ON PAPER · {lab} · BLOCK F v2 (option A) · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -200,7 +212,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f2', T_DANGER - .2), ('f3', T_DANGER + .9), 
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -210,14 +222,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
