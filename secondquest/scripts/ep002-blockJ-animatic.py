@@ -239,10 +239,18 @@ def frame_j3(t):
             fr = comp(fr, fade(blank.rotate(-3, expand=True), k), cxR - ph.width / 2, y - 30)
             d = ImageDraw.Draw(fr, 'RGBA')
         else:                                                              # 28 YEARS (heavy) | 0
-            d.rounded_rectangle((cxL - 70, y - 8, cxL + 150, y + 36), 10, fill=(120, 60, 30, int(240 * k)), outline=INK, width=3)
-            ctext(d, cxL + 40, y - 3, '28 YEARS', 30, (255, 230, 170, int(255 * k)))
-            for j in range(3):                                             # it weighs: little weight lines under it
-                d.line((cxL - 50 + j * 80, y + 44, cxL - 20 + j * 80, y + 44), fill=(255, 230, 170, int(160 * k)), width=3)
+            u = (t - ti) / .35                                             # it weighs: drops in, lands with a thud, a little dust
+            drop = -60 * (1 - min(1, u) ** 2) if u < 1 else 5 * math.sin(min(1, (u - 1) / .4) * math.pi) * (1 - min(1, (u - 1) / .4))
+            yy = y + drop
+            d.rounded_rectangle((cxL - 70, yy - 8, cxL + 150, yy + 36), 10, fill=(120, 60, 30, 240), outline=INK, width=3)
+            ctext(d, cxL + 40, yy - 3, '28 YEARS', 30, (255, 230, 170, 255))
+            if 1 <= u < 2.2:
+                kd = (u - 1) / 1.2
+                for side in (-1, 1):
+                    for j in range(3):
+                        px = cxL + 40 + side * (90 + 22 * j + 20 * kd); py = y + 40 - 6 * kd - 4 * j
+                        r = 5 + 4 * kd
+                        d.ellipse((px - r, py - r, px + r, py + r), fill=(200, 190, 210, int(150 * (1 - kd))))
             ctext(d, cxR, y - 8, '0', 40, (150, 160, 200, int(255 * k)))
     return fr, 'J3 veteran | new player: nostalgia, childhood, expectations'
 
@@ -257,7 +265,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v2 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -266,7 +274,7 @@ STILLS = (('j1', T('l72.w6')), ('j2a', T_LARGE + .3), ('j2b', T_PROB + .6), ('j3
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -276,14 +284,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockJ_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockJ_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockJ_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockJ_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
