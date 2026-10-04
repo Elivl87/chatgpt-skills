@@ -110,12 +110,12 @@ def frame_d12(t):
             d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - 42), lab, font=F(26), fill=c)
         fr = bg
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v1 · PLANNING ONLY')
+    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v2 · PLANNING ONLY')
     return fr
 
 
 # ------------------------------------------------------------------ D3-D5: smaller / memory / specs (same field, continuous)
-F_WALK = FIELD.copy(); place(F_WALK, HERO_WALK)
+F_WALK = FIELD.copy(); place(F_WALK, dict(HERO_WALK, x=.4))           # the path runs between the child and his adult outline (Producer)
 ADULT = cutout('quest:walking_back', 'hero')
 
 
@@ -129,37 +129,49 @@ def ghost(base, t):
     k = ease(min(1, (t - T('l19.w4') + .1) / .4))
     lay[..., 3] = (lay[..., 3] * k).astype(np.uint8)
     g = Image.fromarray(lay, 'RGBA')
-    base.alpha_composite(g, (int(.6 * PW - g.width / 2), int(.97 * PH - g.height)))
+    base.alpha_composite(g, (int(.63 * PW - g.width / 2), int(.97 * PH - g.height)))
 
 
-SPEC_LINES = ['NINTENDO 64 · 1996', 'CPU  93.75 MHz', 'RAM  4 MB', 'RESOLUTION  320 x 240', 'TEXTURES  4 KB cache · bilinear filtering']
+# Verified (gametechwiki / nintendo64ever / Wikipedia, 2026-10-03): NEC VR4300 93.75 MHz, 4 MB RDRAM, 4 KB texture
+# memory (TMEM), 320 x 240 typical output (Ocarina of Time renders at 240p), fog used to hide the short draw distance.
+CALLOUTS = [  # text, label anchor (screen fractions), leader target or None, kind
+    ('RESOLUTION  320 x 240', (.04, .1), None, 'frame'),
+    ('CPU 93.75 MHz  ·  RAM 4 MB', (.04, .17), None, 'box'),
+    ('TEXTURES  4 KB · smeared', (.04, .44), (.13, .74), 'lead'),         # short: stays clear of the child's head
+    ('FOG  hides the distance', (.74, .12), (.9, .47), 'lead'),            # above and right of the adult outline, never over it
+]
 
 
-def spec_card(fr, t):
-    k_in = ease(min(1, max(0, (t - T_SPEC) / .45)))
-    crumble = min(1, max(0, (t - T_TERR) / 2.4))
-    if k_in <= 0 or crumble >= 1:
+def spec_callouts(fr, t):
+    """Technical callouts pinned to the scene, all away from the characters (centre-bottom). They appear one by one, then
+    blur, drift up and fade while the warm memory stays: memory keeps the feeling and drops the specs."""
+    if t < T_SPEC:
         return fr
-    card = Image.new('RGBA', (640, 250)); d = ImageDraw.Draw(card)
-    d.rounded_rectangle((0, 0, 639, 249), 14, fill=(18, 22, 34, 235), outline=(150, 170, 220, 255), width=3)
-    for i, ln in enumerate(SPEC_LINES):
-        d.text((26, 22 + i * 44), ln, font=F(23 if i else 26), fill=(255, 220, 120) if i == 0 else (220, 230, 255))
-    if crumble > 0:                                                     # the specs fall apart: pixels drift and fade
-        a = np.asarray(card).copy(); hh, ww = a.shape[:2]
-        rng = np.random.default_rng(4)
-        thr = rng.random((hh // 6 + 1, ww // 6 + 1)).repeat(6, 0).repeat(6, 1)[:hh, :ww]
-        gone = thr < crumble * 1.15 - (np.arange(ww)[None, :] / ww) * .15
-        a[gone, 3] = 0
-        card = Image.fromarray(a, 'RGBA')
-        dust = Image.new('RGBA', card.size); dd = ImageDraw.Draw(dust)
-        for i in range(160):
-            x, y = rng.random() * ww, rng.random() * hh
-            if thr[int(y), int(x)] < crumble * 1.15:
-                dx = (crumble * 140) * (0.5 + rng.random()); dy = -(crumble * 90) * rng.random()
-                dd.rectangle((x + dx, y + dy, x + dx + 3, y + dy + 3), fill=(220, 230, 255, int(200 * (1 - crumble))))
-        card.alpha_composite(dust)
-    x = W - 700 + 760 * (1 - k_in)
-    return comp(fr, card, x, 70)
+    out = fr.convert('RGBA')
+    for i, (txt, (lx, ly), tgt, kind) in enumerate(CALLOUTS):
+        k_in = ease(min(1, max(0, (t - T_SPEC - i * .3) / .35)))
+        k_out = min(1, max(0, (t - T_TERR - i * .35) / 1.2))
+        a = k_in * (1 - k_out)
+        if a <= 0:
+            continue
+        lay = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(lay)
+        col = (180, 230, 255, int(255 * a)); f = F(21)
+        x, y = lx * W, ly * H - 40 * k_out
+        tw = d.textlength(txt, font=f)
+        d.rounded_rectangle((x - 8, y - 6, x + tw + 8, y + 28), 6, fill=(10, 20, 35, int(190 * a)), outline=col, width=2)
+        d.text((x, y), txt, font=f, fill=col)
+        if kind == 'frame':                                             # corner brackets: the whole picture is 320 x 240
+            for cx, cy, sx, sy in ((.03, .06, 1, 1), (.97, .06, -1, 1), (.03, .94, 1, -1), (.97, .94, -1, -1)):
+                px, py = cx * W, cy * H
+                d.line((px, py, px + 40 * sx, py), fill=col, width=3); d.line((px, py, px, py + 40 * sy), fill=col, width=3)
+        if kind == 'lead' and tgt:
+            tx, ty = tgt[0] * W, tgt[1] * H
+            d.line((x + tw / 2, y + 28, tx, ty), fill=col, width=2)
+            d.ellipse((tx - 6, ty - 6, tx + 6, ty + 6), outline=col, width=2)
+        if k_out > 0:
+            lay = lay.filter(ImageFilter.GaussianBlur(6 * k_out))
+        out.alpha_composite(lay)
+    return out.convert('RGB')
 
 
 def frame_d345(t):
@@ -179,11 +191,11 @@ def frame_d345(t):
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 190, 110)), .14 * warm)
         fr = CART.glow(fr, W * .5, H * .35, 520, (255, 220, 160), .25 * warm)
         fr = BB.dust(fr, t, seed=11)
-    fr = spec_card(fr, t)
+    fr = spec_callouts(fr, t)
     d = ImageDraw.Draw(fr)
     lab = ('D3 "Because you were smaller." · outline = adult Quest' if t < T_MEM else 'D4 memory keeps the feelings' if t < T_SPEC
            else 'D5 ...and drops the specifications')
-    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v1 · PLANNING ONLY')
+    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v2 · PLANNING ONLY')
     return fr
 
 
@@ -194,14 +206,18 @@ SMEAR = None
 
 
 def n64_texture(size):
-    """A low-res texture blown up with soft (bilinear) filtering: the famous N64 smear."""
+    """Hyrule-Field-like grass the N64 way: a tiny 16 x 16 texture, visibly tiled, blown up with soft (bilinear)
+    filtering. That smeared, repeating green is what nobody misses."""
     rng = np.random.default_rng(7)
-    a = np.zeros((8, 8, 3), np.uint8)
-    for i in range(8):
-        for j in range(8):
-            a[i, j] = (90, 140, 60) if (i // 2 + j // 2) % 2 else (130, 95, 60)
-            a[i, j] = np.clip(a[i, j].astype(int) + rng.integers(-25, 25, 3), 0, 255)
-    return Image.fromarray(a).resize(size, Image.BILINEAR).filter(ImageFilter.GaussianBlur(2))
+    base = np.zeros((16, 16, 3), np.float32)
+    base[:] = (78, 128, 52)
+    base += rng.normal(0, 14, (16, 16, 1)) * np.array([.6, 1, .5])
+    for _ in range(18):                                                 # darker blades
+        y, x = rng.integers(0, 16, 2); base[y, x] = (52, 92, 38)
+    for _ in range(10):                                                 # lighter flecks
+        y, x = rng.integers(0, 16, 2); base[y, x] = (118, 170, 80)
+    tile = np.tile(np.clip(base, 0, 255).astype(np.uint8), (2, 4, 1))   # the repetition is part of the look
+    return Image.fromarray(tile).resize(size, Image.BILINEAR)
 
 
 def frame_d6(t):
@@ -223,7 +239,7 @@ def frame_d6(t):
             d = ImageDraw.Draw(fr); lab = 'N64 texture filtering'
             d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - 2), lab, font=F(18), fill=(40, 40, 50))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v1 · PLANNING ONLY')
+    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v2 · PLANNING ONLY')
     return fr
 
 
@@ -238,7 +254,7 @@ def frame_d78(t):
     if t >= T_MUSIC - .05:
         fr = BB.notes(fr, t, T_MUSIC - .05, (W * .55, H * .65))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v1 · PLANNING ONLY')
+    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v2 · PLANNING ONLY')
     return fr
 
 
@@ -278,7 +294,7 @@ def frame_d910(t):
     if t > T_END - .5:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 8, 10)), (t - T_END + .5) / .5 * .6)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v1 · PLANNING ONLY')
+    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v2 · PLANNING ONLY')
     return fr
 
 
@@ -304,7 +320,7 @@ STILLS = (('d1', T0 + 1.0), ('d2', T_SMALL - .3), ('d3', T_MEM - .4), ('d4', T_S
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -314,8 +330,8 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockD_v1_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockD_v1.mp4'
+        render(t).save(ROOT / f'docs/ep002/blockD_v2_{name}.jpg', quality=85)
+    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockD_v2.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
     lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v4.mp4',
                                                                           'EP002_blockC_animatic_v5.mp4')) + f"file '{out}'\n")
@@ -327,7 +343,7 @@ def main():
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockD_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockD_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
