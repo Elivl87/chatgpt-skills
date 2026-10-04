@@ -10,9 +10,10 @@ All in Hyrule, so the in-game HUD stays on (hearts 2.5 from blocks F/G). The cam
   H2  "That is the impossible job."                     A game-style message box types out: NEW QUEST / The Impossible Job.
   H3  "Make it different enough to justify existing..." A balance slider (FAMILIAR <-> DIFFERENT, our ocarina as the
                                                         knob) slides to DIFFERENT and Hyrule restyles with it.
-  H4  "...without making people wonder where their game went."  Cut to hero Quest facing us, hand on chin, "?";
-                                                        a faint 1998 memory of the field flickers beside him; the knob
-                                                        swings back and wobbles around the narrow sweet spot.
+  H4  "...without making people wonder where their game went."  Cut to a split screen: 1998 | TODAY, hero Quest at the
+                                                        seam, hand on chin. On "where" the 1998 half shrinks into a 90s
+                                                        CRT (our 3D); on "game went" the CRT switches off (line, dot,
+                                                        dark glass). The knob swings back and wobbles on the sweet spot.
 Sounds: Bram only. Framing QC before sending.
 """
 import colorsys, importlib.util, math, subprocess, sys
@@ -219,31 +220,91 @@ def back_shot(t):
     return comp(base, q, W * .5 - q.width / 2, H * .93 - hero_h + 4 * math.sin(t * 9)), e
 
 
+BC = FB.A.BE.BC                                                         # block C: our 3D CRT and its screen key
+def _old_side():
+    """1998, readable: blocky geometry and flat colour like G's old look, with light fog so the old castle still shows."""
+    b = crop(G.FIELD, (1.6, .656, .6)).resize((56, 32), Image.BILINEAR).resize((W, H), Image.NEAREST)
+    a = np.asarray(b).astype(np.float32); g = a.mean(2, keepdims=True); a = g + (a - g) * .7
+    a = a * .88 + np.array([205, 215, 225]) * .12
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+
+OLD_SIDE = _old_side()                                                  # 1998: castle sits in the left half
+NEW_SIDE = G.new_look(crop(G.FIELD, (1.6, .344, .6)))                   # today: castle sits in the right half
+T_SPLIT, T_WHERE, T_OFF = T_WONDER, T('l62.w5') - .05, T('l62.w7')
+TV_C, TV_SCREEN_W = (W * .22, H * .55), 250                            # where the 1998 TV ends up, and its screen width
+
+
+def era_tag(d, cx, text, gold, alpha=1.0):
+    if alpha <= 0:
+        return
+    f = F(30); tw = d.textlength(text, font=f)
+    d.rounded_rectangle((cx - tw / 2 - 18, H * .245, cx + tw / 2 + 18, H * .315), 10, fill=(20, 22, 30, int(235 * alpha)),
+                        outline=((232, 196, 90) if gold else (120, 190, 255)) + (int(255 * alpha),), width=3)
+    d.text((cx - tw / 2, H * .252), text, font=f, fill=((255, 230, 160) if gold else (190, 225, 255)) + (int(255 * alpha),))
+
+
+def tv_off(pic, k):
+    """The old CRT switch-off: the picture squeezes to a bright line, then a dot, then dark glass."""
+    w, h = pic.size
+    out = Image.new('RGB', (w, h), (18, 20, 24))
+    if k < .45:
+        sh = max(2, int(h * (1 - k / .45) ** 2))
+        line = pic.resize((w, sh), Image.BILINEAR)
+        line = Image.blend(line, Image.new('RGB', line.size, (255, 255, 255)), min(1, k / .3))
+        out.paste(line, (0, (h - sh) // 2))
+    elif k < .8:
+        kk = (k - .45) / .35
+        r = max(1, int(w * .5 * (1 - kk) ** 2)); d = ImageDraw.Draw(out)
+        d.rectangle((w / 2 - r, h / 2 - 1, w / 2 + r, h / 2 + 1), fill=(255, 255, 255))
+        d.ellipse((w / 2 - 4, h / 2 - 4, w / 2 + 4, h / 2 + 4), fill=(255, 255, 255))
+    elif k < 1:
+        d = ImageDraw.Draw(out); g = int(255 * (1 - (k - .8) / .2))
+        d.ellipse((w / 2 - 3, h / 2 - 3, w / 2 + 3, h / 2 + 3), fill=(g, g, g))
+    return out
+
+
 def front_shot(t):
-    """H4: a clearly different shot (Quest facing us), the restyled field behind him."""
-    base = G.new_look(crop(G.FIELD, (1.6, .22, .62)))                  # away from the castle: the slider sits above
+    """H4: split screen, 1998 | TODAY, Quest at the seam. On "where" the 1998 half shrinks into a 90s CRT (our 3D);
+    on "game went" the CRT switches off. The game he remembers is literally gone."""
     e = restyle_amount(t)
-    base = restyle(base, e)
-    u = t - T_WONDER
-    # a faint 1998 memory of the field flickers beside him: "where did my game go?"
-    km = min(1, max(0, (t - T('l62.w5') + .1) / .4)) * (1 - min(1, max(0, (t - T('l62.w8') - .5) / .5)))
-    if km > 0:
-        mem = G.old_look(crop(G.FIELD, (1.25, .5, .6)))
-        mem = Image.blend(mem, Image.new('RGB', mem.size, (255, 190, 110)), .2)
-        m = Image.new('L', (W, H), 0); md = ImageDraw.Draw(m)
-        cx, cy, r = W * .70, H * .44, 190
-        md.ellipse((cx - r * 1.3, cy - r, cx + r * 1.3, cy + r), fill=int(170 * km * (.85 + .15 * math.sin(t * 23))))
-        base = Image.composite(mem, base, m.filter(ImageFilter.GaussianBlur(28)))
-    hero_h = H * .72
+    today = restyle(NEW_SIDE, e)
+    old = OLD_SIDE
+    wipe = ease(min(1, (t - T_SPLIT) / .45))                            # 1998 sweeps in from the left to the seam
+    seam = W * .5 * wipe
+    k = ease(min(1, max(0, (t - T_WHERE) / .7)))                        # the 1998 half becomes a TV
+    if k <= 0:
+        fr = today.copy(); fr.paste(old.crop((0, 0, int(seam), H)), (0, 0))
+    else:
+        fr = today.copy()
+        x0, y0, x1, y1 = BC.QF[0][0], BC.QF[0][1], BC.QF[2][0], BC.QF[2][1]     # screen box in the CRT render
+        sw0, sw1 = W * .5, TV_SCREEN_W                                  # the screen goes from the whole half to a small TV
+        sw = sw0 * (sw1 / sw0) ** k
+        sc = sw / (x1 - x0)
+        pic = old.crop((0, 0, W // 2, H)).resize((x1 - x0, y1 - y0), Image.BILINEAR)
+        if t >= T_OFF:
+            pic = tv_off(pic, min(1, (t - T_OFF) / .55))
+        tv = BC.fill_screen(BC.CRT_FRONT, BC.QF, BC.MF, pic)
+        tv = tv.resize((max(1, int(tv.width * sc)), max(1, int(tv.height * sc))), Image.LANCZOS)
+        cx, cy = lin(W * .25, TV_C[0], k), lin(H * .5, TV_C[1], k)      # screen centre glides to its resting place
+        scx, scy = (x0 + x1) / 2 * sc, (y0 + y1) / 2 * sc
+        fr = comp(fr, tv, cx - scx, cy - scy)
+    d = ImageDraw.Draw(fr, 'RGBA')
+    if k <= 0 and wipe > 0:                                             # the seam line
+        d.line((seam, 0, seam, H), fill=(255, 255, 255, 230), width=4)
+    ta = min(1, max(0, (t - T_SPLIT - .3) / .3))
+    era_tag(d, lin(W * .25, TV_C[0], k), '1998', True, ta * (1 - min(1, max(0, (t - T_OFF) / .4))))
+    era_tag(d, W * .75, 'TODAY', False, ta)
+    hero_h = H * .62
     q = sized(THINK, hero_h)
-    qx = W * .34 - q.width / 2 + 6 * math.sin(u * 1.4)                 # glances about: a small sway
-    fr = comp(base, q, qx, H * .96 - hero_h)
-    for j, tw in enumerate((T('l62.w4'), T('l62.w5'))):                 # "?" pops beside his head
-        k = min(1, max(0, (t - tw) / .25))
-        if k > 0:
-            s = int(46 + 14 * j + 10 * math.sin(math.pi * k) * (k < 1))
+    u = t - T_WONDER
+    fr = comp(fr, q, W * .52 - q.width / 2 + 5 * math.sin(u * 1.4), H * .97 - hero_h)
+    for j, tw in enumerate((T('l62.w4'), T_OFF + .3)):                  # "?" on "wonder", a bigger one when the TV dies
+        kq = min(1, max(0, (t - tw) / .25))
+        if kq > 0:
+            sz = int(48 + 16 * j + 10 * math.sin(math.pi * kq) * (kq < 1))
             d = ImageDraw.Draw(fr)
-            d.text((W * .34 + 95 + 50 * j, H * .30 - 34 * j - 8 * k), '?', font=F(s), fill=(255, 255, 255), stroke_width=4, stroke_fill=(20, 14, 18))
+            d.text((W * .52 - 120 - 46 * j, H * .40 - 30 * j - 8 * kq), '?', font=F(sz), fill=(255, 255, 255), stroke_width=4, stroke_fill=(20, 14, 18))
     return fr, e
 
 
@@ -288,7 +349,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('H1 every improvement changes the memory' if t < T_JOB else 'H2 the impossible job' if t < T_DIFF
            else 'H3 different enough...' if t < T_WONDER else 'H4 ...where did their game go?')
-    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v1 · PLANNING ONLY')
+    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -297,7 +358,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -307,14 +368,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

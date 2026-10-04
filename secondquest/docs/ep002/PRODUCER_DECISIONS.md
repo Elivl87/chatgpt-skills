@@ -156,3 +156,10 @@
   E "Modernized controls and camera movement." (orbits the pad, E v5) and G.
 - Producer rule: while we work block by block, send only that block's seconds. The full joined video is sent only once
   the whole animatic is complete (block scripts no longer build joined previews).
+
+## 2026-10-04: block H ending = split screen 1998 | TODAY + the CRT switching off
+- H v1 not approved: the faint "1998 memory" next to Quest read as smoke, not as the old game.
+- Chosen (option A + Claude's improvement): on "without making people wonder" the frame splits 1998 | TODAY with the
+  same year tags as block G; on "where" the 1998 half shrinks into our 90s CRT; on "game went" the CRT switches off
+  (bright line, dot, dark glass). Quest stays at the seam, hand on chin, "?".
+- Producer asks Claude to keep bringing this kind of creative idea, not only fixes.
