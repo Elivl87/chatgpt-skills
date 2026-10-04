@@ -44,10 +44,10 @@ T_FOREST, T_MUSIC, T_CASTLE, T_FOREVER = T('l24') - .05, T('l25') - .05, T('l26'
 T_KEEP = T('l27.w8')                   # "kept walking"
 T_END = T('l28') - 0.05                # block E starts on l28 "Which creates a problem."
 
-FIELD = plate(('proc', 'field', (('time', 'day'),))).convert('RGBA')
+FIELD = plate(('proc', 'field', (('time', 'day'), ('castle', '3d')))).convert('RGBA')   # own 3D Hyrule Castle (free)
 FOREST = plate(('proc', 'forest')).convert('RGBA')
 BED = Image.open(ROOT / 'public/art/core/backgrounds/quest_bedroom_morning.png').convert('RGB').resize((PW, PH), Image.LANCZOS)
-CASTLE = (980 / PW, .5)                # the tiny castle on the field plate's horizon
+CASTLE = (980 / PW, .47)               # the 3D castle on the field plate's horizon
 
 
 def comp(fr, im, x, y):
@@ -110,7 +110,7 @@ def frame_d12(t):
             d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - 42), lab, font=F(26), fill=c)
         fr = bg
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v2 · PLANNING ONLY')
+    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v3 · PLANNING ONLY')
     return fr
 
 
@@ -195,7 +195,7 @@ def frame_d345(t):
     d = ImageDraw.Draw(fr)
     lab = ('D3 "Because you were smaller." · outline = adult Quest' if t < T_MEM else 'D4 memory keeps the feelings' if t < T_SPEC
            else 'D5 ...and drops the specifications')
-    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v2 · PLANNING ONLY')
+    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v3 · PLANNING ONLY')
     return fr
 
 
@@ -239,7 +239,7 @@ def frame_d6(t):
             d = ImageDraw.Draw(fr); lab = 'N64 texture filtering'
             d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - 2), lab, font=F(18), fill=(40, 40, 50))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v2 · PLANNING ONLY')
+    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v3 · PLANNING ONLY')
     return fr
 
 
@@ -254,7 +254,7 @@ def frame_d78(t):
     if t >= T_MUSIC - .05:
         fr = BB.notes(fr, t, T_MUSIC - .05, (W * .55, H * .65))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v2 · PLANNING ONLY')
+    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v3 · PLANNING ONLY')
     return fr
 
 
@@ -280,7 +280,7 @@ def hero_screen(fr, t):
 
 
 def frame_d910(t):
-    keys = [(T_CASTLE, (1.15, .5, .6)), (T_FOREVER - .1, (2.6, CASTLE[0], CASTLE[1] - .02)), (T_FOREVER + 1.6, (1.25, .5, .6))]
+    keys = [(T_CASTLE, (1.15, .5, .6)), (T_FOREVER - .1, (3.0, CASTLE[0], CASTLE[1])), (T_FOREVER + 1.6, (1.25, .5, .6))]
     cam = keyed(keys, t)
     if t > T_FOREVER + 1.6:                                             # "kept walking": the world keeps coming, forever
         k = (t - T_FOREVER - 1.6) / (T_END - T_FOREVER - 1.6)
@@ -294,7 +294,7 @@ def frame_d910(t):
     if t > T_END - .5:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 8, 10)), (t - T_END + .5) / .5 * .6)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v2 · PLANNING ONLY')
+    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v3 · PLANNING ONLY')
     return fr
 
 
@@ -320,7 +320,7 @@ STILLS = (('d1', T0 + 1.0), ('d2', T_SMALL - .3), ('d3', T_MEM - .4), ('d4', T_S
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -330,8 +330,8 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockD_v2_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockD_v2.mp4'
+        render(t).save(ROOT / f'docs/ep002/blockD_v3_{name}.jpg', quality=85)
+    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockD_v3.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
     lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v4.mp4',
                                                                           'EP002_blockC_animatic_v5.mp4')) + f"file '{out}'\n")
@@ -343,7 +343,7 @@ def main():
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockD_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockD_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

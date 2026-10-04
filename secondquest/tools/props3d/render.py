@@ -280,7 +280,24 @@ def job_n64_34():
     print('n64_34.png')
 
 
-JOBS = {'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+def job_castle():
+    """Hyrule Castle review sheet (3/4 + front, close) and the far view from the field for the animatic (transparent)."""
+    tgt = [0, 300, -300]
+    shots = [{'camera': orbit(28, 14, 5200, tgt), 'target': tgt, 'fov': 26, 'cart': None},
+             {'camera': orbit(0, 6, 5200, tgt), 'target': tgt, 'fov': 26, 'cart': None}]
+    imgs = render({'props': ['castle'], 'shots': shots, 'light': 'neutral'}, 1400, 900, line=2.6)
+    sheet = np.full((900, 2800, 3), 235, np.uint8)
+    for i, im in enumerate(imgs):
+        a = im[..., 3:] / 255.0
+        sheet[:, i * 1400:(i + 1) * 1400] = (im[..., :3] * a + 235 * (1 - a)).astype(np.uint8)
+    cv2.imwrite(str(ROOT / 'docs/ep002/castle_sheet.jpg'), sheet, [cv2.IMWRITE_JPEG_QUALITY, 88])
+    far = {'camera': orbit(0, 2.5, 9000, [0, 350, -300]), 'target': [0, 350, -300], 'fov': 24, 'cart': None}
+    img = crop_alpha(render({'props': ['castle'], 'shots': [far], 'light': 'neutral'}, 1800, 1000, line=2.2)[0], 4)
+    cv2.imwrite(str(OUT / 'castle_far.png'), img)
+    print('docs/ep002/castle_sheet.jpg, castle_far.png')
+
+
+JOBS = {'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

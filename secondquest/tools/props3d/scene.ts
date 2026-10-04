@@ -477,6 +477,74 @@ const crt = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- Hyrule Castle seen from the field (Producer refs 2026-10-04)
+/** docs/ep002/source/castle_refs: Castle Town's long grey wall with square crenellated towers, the gate between two towers
+ *  with a lowered wooden drawbridge on chains over the moat; behind it, up on a green hill, the pale castle: a tall central
+ *  spire, slender round towers with blue-slate cones, and a domed tower on the right. Front faces +z. Units: arbitrary. */
+const hyruleCastle = () => {
+  const g = new THREE.Group();
+  const STONE = toon('#b6b0a2'), STONE_D = toon('#9a9486'), PALE = toon('#e9e5dc'), ROOF = toon('#5b6f98'), WOOD = toon('#7a5232'),
+    DARK = toon('#2b2722'), GRASS = toon('#63a047'), WATER = toon('#5a95c2'), IRON = toon('#3a3a40');
+  let part = 800;
+  const crenels = (x0: number, x1: number, y: number, z: number, axis: 'x' | 'z', mat: THREE.Material) => {
+    const n = Math.floor(Math.abs(x1 - x0) / 56);
+    for (let i = 0; i <= n; i++) {
+      const u = x0 + (x1 - x0) * i / n;
+      g.add(axis === 'x' ? box(28, 26, 64, [u, y + 13, z], mat, part) : box(64, 26, 28, [z, y + 13, u], mat, part));
+    }
+    part++;
+  };
+  const sqTower = (x: number, z: number, w: number, h: number) => {
+    g.add(box(w, h, w, [x, h / 2, z], STONE_D, part++));
+    for (const [dx, dz] of [[-1, -1], [1, -1], [-1, 1], [1, 1], [0, -1], [0, 1], [-1, 0], [1, 0]])
+      g.add(box(30, 30, 30, [x + dx * (w / 2 - 15), h + 15, z + dz * (w / 2 - 15)], STONE_D, part));
+    part++;
+  };
+  // ground, moat
+  g.add(box(2700, 6, 120, [0, 1, 430], WATER, part++));
+  // Castle Town wall: front (with the gate), sides
+  const WH = 210, FZ = 300, BZ = -420, WX = 1250;
+  g.add(box(WX - 160, WH, 60, [-(WX + 160) / 2, WH / 2, FZ], STONE, part)); g.add(box(WX - 160, WH, 60, [(WX + 160) / 2, WH / 2, FZ], STONE, part)); part++;
+  crenels(-WX, -160, WH, FZ + 16, 'x', STONE); crenels(160, WX, WH, FZ + 16, 'x', STONE);
+  for (const sx of [-1, 1]) { g.add(box(60, WH, FZ - BZ, [sx * WX, WH / 2, (FZ + BZ) / 2], STONE, part++)); crenels(BZ, FZ, WH, sx * WX, 'z', STONE); }
+  for (const [x, z] of [[-WX, FZ], [WX, FZ], [-WX, BZ], [WX, BZ], [-620, FZ], [620, FZ]]) sqTower(x, z, 150, 300);
+  // gatehouse: two towers, dark arch, drawbridge down over the moat, chains
+  sqTower(-120, FZ, 150, 330); sqTower(120, FZ, 150, 330);
+  g.add(box(90, 130, 70, [0, WH + 25 + 40, FZ], STONE, part++));                // lintel above the opening
+  g.add(box(92, 170, 40, [0, 85, FZ - 5], DARK, part++));                        // the opening (streets beyond)
+  g.add(box(100, 10, 250, [0, 6, FZ + 155], WOOD, part++));                      // drawbridge, lowered
+  for (let i = 0; i < 5; i++) g.add(box(100, 2, 4, [0, 12, FZ + 50 + i * 50], DARK, part));
+  part++;
+  for (const sx of [-1, 1]) {
+    const a = new THREE.Vector3(sx * 70, 300, FZ + 40), b = new THREE.Vector3(sx * 46, 12, FZ + 278);
+    const c = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, a.distanceTo(b), 8), IRON);
+    c.position.copy(a).add(b).multiplyScalar(.5); c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+    c.userData.part = part; ids.push(c); g.add(c);
+  }
+  part++;
+  // the hill and the castle on it (behind the town)
+  const hill = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24, 0, Math.PI * 2, 0, Math.PI / 2), GRASS);   // top half only
+  hill.scale.set(900, 260, 520); hill.position.set(0, 0, -900); hill.userData.part = part++; ids.push(hill); g.add(hill);
+  const CB = 230, CZ = -900;                                                     // castle base height and depth
+  g.add(box(560, 300, 320, [0, CB + 150, CZ], PALE, part++));                    // main block
+  g.add(box(760, 170, 200, [0, CB + 85, CZ + 150], PALE, part++));               // lower front wing
+  const round = (x: number, z: number, r: number, h: number, roofH: number) => {
+    const t = new THREE.Mesh(new THREE.CylinderGeometry(r, r * 1.05, h, 32), PALE); t.position.set(x, CB + h / 2, z); t.userData.part = part++; ids.push(t); g.add(t);
+    const c = new THREE.Mesh(new THREE.ConeGeometry(r * 1.25, roofH, 32), ROOF); c.position.set(x, CB + h + roofH / 2, z); c.userData.part = part++; ids.push(c); g.add(c);
+  };
+  round(0, CZ - 20, 78, 720, 260);                                               // the tall central spire
+  round(-230, CZ + 60, 55, 470, 170); round(230, CZ + 60, 55, 470, 170);
+  round(-390, CZ + 150, 48, 330, 140); round(-130, CZ + 170, 40, 380, 130); round(130, CZ + 170, 40, 380, 130);
+  round(-200, CZ - 120, 46, 560, 170);
+  const dt = new THREE.Mesh(new THREE.CylinderGeometry(95, 95, 300, 32), PALE); dt.position.set(420, CB + 150, CZ + 110); dt.userData.part = part++; ids.push(dt); g.add(dt);
+  const dm = new THREE.Mesh(new THREE.SphereGeometry(100, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), PALE); dm.position.set(420, CB + 300, CZ + 110); dm.userData.part = part++; ids.push(dm); g.add(dm);
+  // windows on the main block and front wing
+  for (let i = -3; i <= 3; i++) g.add(box(18, 40, 4, [i * 70, CB + 230, CZ + 161], DARK, part));
+  for (let i = -4; i <= 4; i++) g.add(box(16, 30, 4, [i * 80, CB + 110, CZ + 251], DARK, part));
+  part++;
+  return g;
+};
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -487,6 +555,7 @@ if (P.props.includes('cartridge')) scene.add((props.cartridge = cartridge()));
 if (P.props.includes('pad')) scene.add((props.pad = n64Pad()));
 if (P.props.includes('ocarina')) scene.add((props.ocarina = ocarina()));
 if (P.props.includes('sword')) scene.add((props.sword = masterSword()));
+if (P.props.includes('castle')) scene.add((props.castle = hyruleCastle()));
 if (P.props.includes('crt')) scene.add((props.crt = crt()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
 
@@ -519,7 +588,7 @@ const idMat = (p: number) => {
 function draw() {
   const saved = new Map(ids.map((m) => [m, m.material] as const));
   P.shots.forEach((shot, i) => {
-    const cam = new THREE.PerspectiveCamera(shot.fov ?? 30, W / H, 5, 5000);
+    const cam = new THREE.PerspectiveCamera(shot.fov ?? 30, W / H, 5, 60000);
     cam.position.set(...shot.camera);
     cam.lookAt(new THREE.Vector3(...shot.target));
     if (props.cartridge) {

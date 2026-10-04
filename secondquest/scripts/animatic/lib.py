@@ -132,7 +132,7 @@ PALETTES = {
 }
 
 
-def plate_field(time='dawn', label=True):
+def plate_field(time='dawn', label=True, castle=True):
     """MISSING Hyrule-Field-like plate (planning only): sky, far mountains, smoking volcano, tiny castle, hills, path."""
     top, bot, grass = PALETTES[time]
     img = Image.new('RGB', (PW, PH), grass)
@@ -144,8 +144,9 @@ def plate_field(time='dawn', label=True):
     d.polygon([(1300, hz), (1560, hz - 330), (1620, hz - 345), (1880, hz), ], fill=(150, 95, 70) if time != 'night' else (50, 35, 40))
     d.ellipse((1450, hz - 420, 1730, hz - 360), outline=(245, 245, 245), width=10)                     # smoke ring
     cx = 980
-    for k, (w_, h_) in enumerate([(70, 70), (30, 120), (30, 90)]):                                    # tiny castle
-        d.rectangle((cx - w_ / 2 + (k - 1) * 40, hz - h_, cx + w_ / 2 + (k - 1) * 40, hz), fill=far)
+    if castle is True:
+        for k, (w_, h_) in enumerate([(70, 70), (30, 120), (30, 90)]):                                # tiny castle (block placeholder)
+            d.rectangle((cx - w_ / 2 + (k - 1) * 40, hz - h_, cx + w_ / 2 + (k - 1) * 40, hz), fill=far)
     d.rectangle((300, hz - 30, 560, hz + 10), fill=(140, 110, 80))                                     # ranch walls
     g2 = tuple(int(c * .85) for c in grass)
     d.polygon([(0, hz + 40), (500, hz - 10), (1100, hz + 30), (1920, hz - 5), (1920, PH), (0, PH)], fill=g2)
@@ -156,6 +157,13 @@ def plate_field(time='dawn', label=True):
         for _ in range(140):
             x, y = np.random.randint(0, PW), np.random.randint(0, int(hz) - 60)
             d.point((x, y), fill=(240, 240, 255))
+    if castle == '3d':                                                                                 # own 3D Hyrule Castle (free)
+        c = Image.open(ROOT / 'public/art/ep002/props3d/castle_far.png').convert('RGBA')
+        cw = int(PW * .2); c = c.resize((cw, int(c.height * cw / c.width)), Image.LANCZOS)
+        a = np.asarray(c).astype(np.float32); a[..., :3] = a[..., :3] * .78 + np.array(bot, np.float32) * .22   # distance haze
+        c = Image.fromarray(a.astype(np.uint8), 'RGBA')
+        base = img.convert('RGBA'); base.alpha_composite(c, (int(cx - cw / 2), int(hz + 14 - c.height))); img = base.convert('RGB')
+        d = ImageDraw.Draw(img)
     if label:
         _miss_label(d, 'MISSING · Hyrule Field plate (NEW_ART) · planning layout')
     return img
