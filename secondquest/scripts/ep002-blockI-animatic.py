@@ -73,6 +73,7 @@ PANEL, GOLD, WHITE = (10, 14, 48, 215), (232, 196, 90, 255), (255, 255, 255, 255
 P1 = cutout('quest2:nostalgic_smile', 'hero')                           # MISSING: veteran Quest in his tunic (planning recolour)
 P1_SCARED = cutout('quest2:surprised_shocked', 'hero')                 # MISSING: tunic Quest, scared, as the shadow grabs them
 P2 = cutout('pixie:wave_happy')
+P2_WAIT = cutout('pixie:thinking_chin')                                # the new player waits her turn (block J)
 PROPS = ROOT / 'public/art/ep002/props3d'
 OCA = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'ocarina_spin').glob('f*.png'))]
 SWD = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'sword_spin').glob('f*.png'))]
@@ -229,6 +230,20 @@ def p1_portrait(fr, t, a, alert=0.0):
         s = int(70 + 20 * math.sin(math.pi * min(1, alert)))
         d.text((W * .07 + 262, H * .12 + 52), '!', font=F(s), fill=(255, 80, 70), stroke_width=5, stroke_fill=(20, 14, 18))
     return fr
+
+
+def waiting_card(fr, t):
+    """The NEW PLAYER waits her turn, small and dim, top right (free while the HUD is hidden in the menus)."""
+    a = ease(min(1, max(0, (t - T_P1 - .3) / .5))) * (1 - ease(min(1, max(0, (t - T_TF + .3) / .3))))
+    if a <= 0:
+        return fr
+    w, h = 112, 172
+    g = panel(w, h, a, outline=(120, 200, 255, 200)); d = ImageDraw.Draw(g)
+    ctext(d, w / 2 + 4, 10, 'NEW PLAYER', 13, (120, 200, 255, int(255 * a)))
+    im = sized(P2_WAIT, h - 40)
+    dim = Image.blend(im.convert('RGB'), Image.new('RGB', im.size, (10, 14, 48)), .35).convert('RGBA'); dim.putalpha(im.getchannel('A'))
+    g.alpha_composite(fade(dim, a), (int(w / 2 + 4 - im.width / 2), int(h - 4 - im.height)))
+    return comp(fr, g, W - 64 - w - 8, 44)
 
 
 # ------------------------------------------------------------------ I4-I6: the items, one by one
@@ -474,6 +489,7 @@ def render(t):
                 fr = Image.alpha_composite(fr.convert('RGBA'), veil).convert('RGB')
                 fr = (stage_ocarina, stage_sword, stage_triforce)[i](fr, t, k)
             fr = no_bubble(fr, t)
+        fr = waiting_card(fr, t)
         lab = ('I3 player one knows everything' if t < T_OC else 'I4 the ocarina' if t < T_SW else 'I5 the sword (seven years later)'
                if t < T_TRI else 'I6 three golden triangles: a very bad decision')
     elif t < T_ERAS:                                                    # I7a: the plates name themselves

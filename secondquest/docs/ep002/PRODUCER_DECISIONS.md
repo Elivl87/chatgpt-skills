@@ -197,3 +197,7 @@
   level and closes its claws over the triangles on "decision". Producer: the veteran must be in his tunic, and scared
   when the shadow grabs the Triforce: both added to `docs/ep002/MISSING_ART.md` (new running list of art to quote at the
   end); planning stand-ins meanwhile (recoloured nostalgic_smile / surprised_shocked, labelled MISSING).
+- Sounds: all sound effects are left for the end (engine stage); the only sound in the animatic stays Navi and her
+  trail at the opening. Block reports stop proposing per-block sounds.
+- Proposal shown: the NEW PLAYER (Pixie) waits her turn, small and dim, top right, during Player 1's save file
+  (`docs/ep002/blockI_newplayer_waiting_preview.jpg`), pending OK.
