@@ -25,6 +25,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, cutout  # noqa
 import fairy as fairy_fx  # noqa
+import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -69,7 +70,7 @@ def frame_e1(t):
     keys = [(T0, .62, .3), (T0 + .7, .58, .27), (T_REMAKE, .6, .3)]
     fr = fairy_fx.draw(fr, keys, t, size=.06)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v3 · PLANNING ONLY')
+    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v4 · PLANNING ONLY')
     return fr
 
 
@@ -138,7 +139,7 @@ def frame_e23(t):
             fr = CART.glow(fr, cx, cy, 200, (255, 120, 90), .18 * a)
     d = ImageDraw.Draw(fr)
     lab = 'E2 "Nintendo can remake Ocarina of Time."' if t < T_WANT else 'E3 what people want back was never inside'
-    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v3 · PLANNING ONLY')
+    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v4 · PLANNING ONLY')
     d.text((20, 40), 'memories = block C stills (TV, the friend, the afternoon) · cartridge = own 3D', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -179,9 +180,9 @@ def checklist(fr, t):
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     k_in = ease(min(1, max(0, (t - T_LIST + .3) / .4)))
     x0 = 40 - (LIST_W + 60) * (1 - k_in)
-    d.rounded_rectangle((x0, 70, x0 + LIST_W, 70 + 64 * len(ITEMS) + 30), 14, fill=(12, 18, 30, 210), outline=(140, 180, 240, 255), width=2)
+    d.rounded_rectangle((x0, 120, x0 + LIST_W, 120 + 64 * len(ITEMS) + 30), 14, fill=(12, 18, 30, 210), outline=(140, 180, 240, 255), width=2)
     for i, (txt, ti) in enumerate(ITEMS):
-        y = 92 + i * 64
+        y = 142 + i * 64                                                # below the HUD hearts
         on = t >= ti - .05
         kk = ease(min(1, max(0, (t - ti + .05) / .25)))
         d.rounded_rectangle((x0 + 18, y + 4, x0 + 46, y + 32), 5, outline=(160, 200, 255, 255), width=3)
@@ -200,7 +201,7 @@ def item_visual(fr, t):
     if cur is None:
         return fr
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    cx, cy = W * .7, H * .24
+    cx, cy = W * .7, H * .36                                            # below the HUD buttons
     k = ease(min(1, (t - ITEMS[cur][1] + .05) / .3))
     if cur == 1:                                                        # voiced cutscenes: speech bubble + waveform
         d.rounded_rectangle((cx - 120, cy - 50, cx + 120, cy + 50), 22, fill=(250, 250, 250, int(235 * k)), outline=(30, 30, 40, 255), width=3)
@@ -250,7 +251,7 @@ def frame_e45(t):
         fr = item_visual(fr, t)
     d = ImageDraw.Draw(fr)
     lab = 'E4 "rebuilt for Switch 2" (generic, no logos)' if t < T_LIST else 'E5 the feature list'
-    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v3 · PLANNING ONLY')
+    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v4 · PLANNING ONLY')
     return fr
 
 
@@ -261,7 +262,7 @@ def render(t):
     elif t < T_SW2:
         fr = frame_e23(t)
     else:
-        fr = frame_e45(t)
+        fr = hud.draw(frame_e45(t), alpha=ease(min(1, max(0, (t - T_SW2 - .5) / 1.0))))   # the HUD returns as Hyrule is rebuilt
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr
@@ -273,7 +274,7 @@ STILLS = (('e1', T0 + .8), ('e2', T_WANT - .3), ('e3', T_NEVER - .5), ('e3_bounc
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -283,11 +284,11 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockE_v3_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockE_v3.mp4'
+        render(t).save(ROOT / f'docs/ep002/blockE_v4_{name}.jpg', quality=85)
+    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockE_v4.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
-    lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v4.mp4',
-                                                                          'EP002_blockC_animatic_v5.mp4', 'EP002_blockD_animatic_v4.mp4')) + f"file '{out}'\n")
+    lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v5.mp4',
+                                                                          'EP002_blockC_animatic_v5.mp4', 'EP002_blockD_animatic_v5.mp4')) + f"file '{out}'\n")
     subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',
                     '-c:a', 'aac', '-b:a', '160k', str(joined)], check=True)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s;', joined.relative_to(ROOT))
@@ -296,7 +297,7 @@ def main():
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockE_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockE_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

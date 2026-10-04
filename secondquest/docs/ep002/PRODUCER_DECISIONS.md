@@ -139,3 +139,11 @@
 - "But familiar is not measurable": the kids' afternoon photo + the FAMILIAR bar full at first, slowly draining, with a
   heart blinking at its tip (no blurred memory window).
 
+## 2026-10-04: block F approved; in-game HUD in Hyrule
+- Block F (option B, v5) approved.
+- Producer idea: whenever Quest is in Hyrule, an in-game HUD (own drawing, `scripts/animatic/hud.py`): hearts + green
+  magic bar top-left, rupee counter bottom-left, action buttons top-right (B sword, A "Attack", three C buttons: bomb,
+  boomerang, our ocarina). Shown in blocks B (field), D (field/forest), E (rebuilt Hyrule) and F; hidden in real-life
+  shots (rooms) and on the "actual size" tile; faded out before the wordmark.
+- "Familiar is not measurable": the hearts lose half a heart at a time (5 -> 2.5).
+

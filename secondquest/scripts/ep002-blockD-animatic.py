@@ -29,6 +29,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, cutout  # noqa
 import fairy as fairy_fx  # noqa
+import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 spec = importlib.util.spec_from_file_location('cart', ROOT / 'scripts/ep002-cartridge-animatic.py')
@@ -110,7 +111,7 @@ def frame_d12(t):
             d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - 42), lab, font=F(26), fill=c)
         fr = bg
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v4 · PLANNING ONLY')
+    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v5 · PLANNING ONLY')
     return fr
 
 
@@ -135,10 +136,10 @@ def ghost(base, t):
 # Verified (gametechwiki / nintendo64ever / Wikipedia, 2026-10-03): NEC VR4300 93.75 MHz, 4 MB RDRAM, 4 KB texture
 # memory (TMEM), 320 x 240 typical output (Ocarina of Time renders at 240p), fog used to hide the short draw distance.
 CALLOUTS = [  # text, label anchor (screen fractions), leader target or None, kind
-    ('RESOLUTION  320 x 240', (.04, .1), None, 'frame'),
-    ('CPU 93.75 MHz  ·  RAM 4 MB', (.04, .17), None, 'box'),
-    ('TEXTURES  4 KB · smeared', (.04, .44), (.13, .74), 'lead'),         # short: stays clear of the child's head
-    ('FOG  hides the distance', (.74, .12), (.9, .47), 'lead'),            # above and right of the adult outline, never over it
+    ('RESOLUTION  320 x 240', (.04, .21), None, 'frame'),        # below the HUD hearts
+    ('CPU 93.75 MHz  ·  RAM 4 MB', (.04, .28), None, 'box'),
+    ('TEXTURES  4 KB · smeared', (.04, .4), (.13, .7), 'lead'),         # short: stays clear of the child's head
+    ('FOG · distance', (.8, .3), (.9, .47), 'lead'),              # clear of the HUD buttons and the adult outline            # above and right of the adult outline, never over it
 ]
 
 
@@ -195,7 +196,7 @@ def frame_d345(t):
     d = ImageDraw.Draw(fr)
     lab = ('D3 "Because you were smaller." · outline = adult Quest' if t < T_MEM else 'D4 memory keeps the feelings' if t < T_SPEC
            else 'D5 ...and drops the specifications')
-    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v4 · PLANNING ONLY')
+    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v5 · PLANNING ONLY')
     return fr
 
 
@@ -239,7 +240,7 @@ def frame_d6(t):
             d = ImageDraw.Draw(fr); lab = 'N64 texture filtering'
             d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - 2), lab, font=F(18), fill=(40, 40, 50))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v4 · PLANNING ONLY')
+    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v5 · PLANNING ONLY')
     return fr
 
 
@@ -254,7 +255,7 @@ def frame_d78(t):
     if t >= T_MUSIC - .05:
         fr = BB.notes(fr, t, T_MUSIC - .05, (W * .55, H * .65))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v4 · PLANNING ONLY')
+    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v5 · PLANNING ONLY')
     return fr
 
 
@@ -294,7 +295,7 @@ def frame_d910(t):
     if t > T_END - .5:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 8, 10)), (t - T_END + .5) / .5 * .6)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v4 · PLANNING ONLY')
+    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v5 · PLANNING ONLY')
     return fr
 
 
@@ -302,14 +303,15 @@ def frame_d910(t):
 def render(t):
     if t < T_SMALL:
         fr = frame_d12(t)
+        fr = hud.draw(fr, alpha=min(1, (t - T0) / .4) * (1 - min(1, max(0, (t - T_NOT) / .3))))   # not on the 'actual size' tile
     elif t < T_WAKE:
-        fr = frame_d345(t)
+        fr = hud.draw(frame_d345(t))
     elif t < T_FOREST:
-        fr = frame_d6(t)
+        fr = frame_d6(t)                                                # the bedroom: no HUD (real life)
     elif t < T_CASTLE:
-        fr = frame_d78(t)
+        fr = hud.draw(frame_d78(t), alpha=min(1, (t - T_FOREST) / .3))
     else:
-        fr = frame_d910(t)
+        fr = hud.draw(frame_d910(t), alpha=1 - min(1, max(0, (t - T_END + .5) / .5)))
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr
@@ -320,7 +322,7 @@ STILLS = (('d1', T0 + 1.0), ('d2', T_SMALL - .3), ('d3', T_MEM - .4), ('d4', T_S
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -330,8 +332,8 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockD_v4_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockD_v4.mp4'
+        render(t).save(ROOT / f'docs/ep002/blockD_v5_{name}.jpg', quality=85)
+    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockD_v5.mp4'
     lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
     lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v4.mp4',
                                                                           'EP002_blockC_animatic_v5.mp4')) + f"file '{out}'\n")
@@ -343,7 +345,7 @@ def main():
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockD_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockD_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

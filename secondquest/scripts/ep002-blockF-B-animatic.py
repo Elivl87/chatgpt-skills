@@ -22,6 +22,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, cutout, cam_box, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
+import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -129,7 +130,7 @@ def blueprint_sheet(fr, t):
     if t >= T_MEAS + .6:
         return fr
     k_in = ease(min(1, (t - T0) / .5)); k_out = ease(min(1, max(0, (t - T_MEAS) / .5)))
-    sw, sh = int(W * .47), int(H * .44)
+    sw, sh = int(W * .47), int(H * .38)
     sht = Image.new('RGBA', (sw, sh), (24, 70, 140, 235)); d = ImageDraw.Draw(sht)
     for gx in range(0, sw, 28):
         d.line((gx, 0, gx, sh), fill=(50, 100, 170, 255))
@@ -155,7 +156,7 @@ def blueprint_sheet(fr, t):
             st.putalpha(st.getchannel('A').point(lambda v: int(v * kk)))
         sht.alpha_composite(st, (int(sw * .42 - st.width / 2), int(sh * .5 - st.height / 2)))
     x = W * .04 - (sw + 80) * (1 - k_in) - (sw + 120) * k_out
-    return comp(fr, sht, x, H * .07)
+    return comp(fr, sht, x, H * .17)                                    # below the HUD hearts
 
 
 def meter_panel(fr, t):
@@ -198,7 +199,7 @@ def meter_panel(fr, t):
                 d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(110, 220, 140, 255))
                 d.text((bx1 + 12, y + 18), '+', font=F(24), fill=(110, 220, 140, 255))
     x = W * .63 + (pw + 80) * (1 - k_in)
-    return comp(fr, pan, x, H * .07)
+    return comp(fr, pan, x, H * .25)                                    # below the HUD buttons
 
 
 def familiar_window(fr, t):
@@ -238,12 +239,14 @@ def render(t):
         if u < .25:
             card.putalpha(card.getchannel('A').point(lambda v: int(v * u / .25)))
         fr = comp(fr, card, W * .07 + 30 * math.sin((t - T_FAM) * 2.5) * (1 - u), H * .3 - H * .35 * (1 - fall))
+    hearts = 5.0 if t < T_FAM + .2 else max(2.5, 5.0 - .5 * (1 + int((t - T_FAM - .2) / .35)))   # 'familiar': loses half a heart at a time
+    fr = hud.draw(fr, hearts=hearts)
     if t < T0 + .3:
         fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T0) / .3)
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v5 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -253,7 +256,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -263,14 +266,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
