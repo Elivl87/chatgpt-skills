@@ -134,3 +134,8 @@
 - Block E approved. Own 3D Hyrule Castle built from the Producer's references (`docs/ep002/source/castle_refs/`) and
   refined (upper tier, battlements, tighter tower cluster); used in the field plate from block D on.
 
+## 2026-10-04: block F = option B (Hyrule), with the photo + heart bar
+- Producer prefers option B (each "better" applied live to Hyrule). Option A (notebook, v2 with the DANGER stamp) is kept.
+- "But familiar is not measurable": the kids' afternoon photo + the FAMILIAR bar full at first, slowly draining, with a
+  heart blinking at its tip (no blurred memory window).
+
