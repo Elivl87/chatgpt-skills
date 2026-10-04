@@ -19,6 +19,7 @@ papeles femeninos; personajes de terceros evocados, nunca réplicas (opción C).
 | 2c | **Pixie con túnica de héroe, saludando** (verde como la de Quest, acentos turquesa, su coleta, orejas humanas, sin gorro) | Bloque J: tarjeta NEW PLAYER al abrir su FILE 2, tabla VETERAN / NEW | pixie:wave_happy recoloreado | nueva (Productor, 2026-10-04) |
 | 2d | **Pixie con túnica, mirando arriba asombrada** | Bloque J: el árbol gigante | pixie:looking_up_awe recoloreado | nueva |
 | 2e | **Pixie con túnica, pensativa (mano en la barbilla)** | Bloque J: "an extremely personal problem" | pixie:thinking_chin recoloreado | nueva |
+| 2f | **Pixie con túnica, de espaldas** (mirando el castillo) | Bloque K: los dos en Hyrule de espaldas | pose de espaldas provisional recoloreada | nueva |
 | 3 | Quest con túnica de héroe, joven (caminando de espaldas) | Bloques D-H (Hyrule), I (era CHILD) | quest:walking_back recoloreado | #8-#9 |
 | 4 | Quest con túnica de héroe, adulto (de espaldas, con escudo) | Bloque I (era ADULT), Hyrule | quest:walking_back recoloreado | #11 |
 | 5 | Quest adulto en su propio caballo (no Epona), de espaldas alejándose | Bloque H (final) | caballo 3D provisional + torso recoloreado | #13 |
