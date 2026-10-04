@@ -25,7 +25,7 @@ Los tiempos por palabra salen de **faster-whisper** (reconocimiento de voz):
 ## 2. Objetos 3D (gratis, hechos por Claude)
 
 - Modelos: `tools/props3d/scene.ts` (TypeScript + **three.js**). N64, cartucho, mando, TV de tubo, ocarina, espada,
-  Trifuerza, castillo, bomba, boomerang, caballo provisional.
+  Trifuerza, castillo, bomba, boomerang, caballo provisional, consola tipo Switch 2.
 - Render: `tools/props3d/render.py`. Pasos: **esbuild** empaqueta el código, **Chromium** sin pantalla
   (`/opt/pw-browsers/…`) dibuja el 3D y **OpenCV** añade el contorno de tinta del estilo 2D.
 - Uso: `python3 tools/props3d/render.py <trabajo>` (por ejemplo `horse`, `horse_rear`, `pad_profile`, `crt`, `castle`).
@@ -57,6 +57,10 @@ Librerías: **Pillow (PIL)** para dibujar, **NumPy** para el cálculo de imágen
 | F (elegida: Hyrule) | `scripts/ep002-blockF-B-animatic.py` (opción A, cuaderno: `scripts/ep002-blockF-animatic.py`) |
 | G | `scripts/ep002-blockG-animatic.py` |
 | H | `scripts/ep002-blockH-animatic.py` |
+| I | `scripts/ep002-blockI-animatic.py` |
+| J | `scripts/ep002-blockJ-animatic.py` |
+| K | `scripts/ep002-blockK-animatic.py` |
+| L | `scripts/ep002-blockL-animatic.py` |
 
 Cómo funciona cada script:
 1. Fija los momentos clave con `T()` según las palabras de Bram.

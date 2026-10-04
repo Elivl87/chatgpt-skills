@@ -197,6 +197,34 @@ const n64Pad = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- Switch 2-like handheld (evoked, ~272 x 116 x 14 mm)
+/** Lying flat, screen up (+y), top edge towards -z. Dark body and Joy-Con-like sides with a blue (left) and red (right)
+ *  accent, like the 2025 console. The screen is an unlit key colour (#00ff00) so the animatic can composite a picture. */
+const switch2 = () => {
+  const g = new THREE.Group();
+  let part = 1200;
+  const BODY2 = '#26262c', SIDE = '#303037', CAP = '#1a1a1e', BTN = '#3c3c44';
+  g.add(slab(roundedRect(200, 116, 5), 0, 14, 1.5, toon(BODY2), part++));
+  const scr = new THREE.Mesh(new THREE.PlaneGeometry(180, 101), new THREE.MeshBasicMaterial({ color: new THREE.Color('#00ff00') }));
+  scr.rotation.x = -Math.PI / 2; scr.position.set(0, 14.2, 0); scr.userData.part = part++; ids.push(scr); g.add(scr);
+  for (const sx of [-1, 1]) {
+    const cx = sx * 120, acc = sx < 0 ? '#3d7bff' : '#ff4b4b';
+    const side = slab(roundedRect(40, 116, 16), 0, 15, 2, toon(SIDE), part++); side.position.x = cx; g.add(side);
+    g.add(box(10, 15, 116, [sx * 104, 7.5, 0], toon(SIDE), part++, 1));
+    g.add(box(2.4, 12, 108, [sx * 100.6, 7.5, 0], toon(acc), part++));            // the coloured inner rail
+    g.add(box(3, 1.2, 104, [sx * 102.5, 15.4, 0], toon(acc), part++));            // ...showing on the top face
+    const stickZ = sx < 0 ? -26 : 20, btnZ = sx < 0 ? 20 : -26;
+    g.add(cyl(13, 2.2, [cx, 15.8, stickZ], [0, 0, 0], toon(acc), part++));         // coloured ring around the stick
+    g.add(cyl(9, 2.5, [cx, 16.6, stickZ], [0, 0, 0], toon(BTN), part++));
+    g.add(cyl(3.5, 5, [cx, 19, stickZ], [0, 0, 0], toon(BTN), part++));
+    g.add(cyl(8, 3.5, [cx, 22.5, stickZ], [0, 0, 0], toon(CAP), part++));
+    for (const [dx, dz] of [[0, -9], [0, 9], [-9, 0], [9, 0]]) g.add(cyl(4, 3, [cx + dx, 16.2, btnZ + dz], [0, 0, 0], toon(BTN), part++));
+    g.add(box(sx < 0 ? 8 : 8, 2, 2.5, [sx * 108, 16, -48], toon(BTN), part++));     // minus / plus
+    if (sx > 0) g.add(box(2.5, 2, 8, [108, 16, -48], toon(BTN), part++));
+  }
+  return g;
+};
+
 // ---------------------------------------------------------------- golden triangles (Triforce-like, three equal triangles)
 /** Three beveled golden triangles stacked as one big triangle, standing upright, facing +z. Side of each: 100 mm. */
 const triforce = () => {
@@ -667,6 +695,7 @@ if (P.props.includes('castle')) scene.add((props.castle = hyruleCastle()));
 if (P.props.includes('crt')) scene.add((props.crt = crt()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
 if (P.props.includes('horse')) scene.add((props.horse = horse()));
+if (P.props.includes('switch2')) scene.add((props.switch2 = switch2()));
 
 if (P.light === 'neutral') {
   scene.add(new THREE.HemisphereLight(0xffffff, 0x404048, 1.6));

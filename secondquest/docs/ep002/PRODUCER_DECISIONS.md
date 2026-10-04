@@ -236,3 +236,7 @@
   here on: vary the places; Hyrule Field only where the script is about the field. Improvements in: the camera leans in
   on the pad while it is cleaned; green light leaks through the crack; a PLEASE DO NOT TOUCH sign loses a nail and
   swings when the glass cracks.
+- L v3 (Producer idea: "el control se ve muy grande, reducirlo un poco… cuando se 'limpia' el control, ¿una transición a
+  una Nintendo Switch 2?"): the N64 pad is smaller; on "Cleaner controls" it is polished, then in a flash becomes a
+  Switch 2-like handheld (our own 3D, `tools/props3d` job `switch2`, free; evoked, not a replica) whose screen wakes up on
+  the same temple in full detail. It stays in the case for the rest of the block.

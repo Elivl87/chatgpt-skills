@@ -8,7 +8,9 @@ The safe remake as a museum (Producer approved, 2026-10-04: "con las manos del r
                                           The wall card: REMAKE 2026 · CHANGES: 0.01%.
   L2  "Sharper textures."                 A band of light sweeps the picture: behind it the dust and blur are gone.
   L3  "Better resolution."                The blocky pixels split, twice, into finer ones: the same field, same layout.
-  L4  "Cleaner controls."                 The camera leans in on the pad; a shine sweeps it and it comes up bright.
+  L4  "Cleaner controls."                 The camera leans in on the pad; a shine sweeps it, and in a flash the N64 pad
+                                          becomes today's handheld (our 3D Switch 2-like console), its screen waking up
+                                          on the same temple in full detail (Producer idea).
   L5  "Everything exactly where you remember it."  Tracing paper with the 1998 outline slides over the picture and
                                           lands exactly on it: corner marks turn green, a 100% MATCH stamp.
   L6  "And that sounds respectful."       A gold plaque on the plinth: RESPECTFUL, with a shine.
@@ -142,7 +144,42 @@ PIC0 = dusty(PIC1)
 OUTLINE = PIC1.convert('L').filter(ImageFilter.FIND_EDGES).point(lambda v: 255 if v > 18 else 0)
 
 _pad = Image.open(ROOT / 'public/art/ep002/props3d/n64_pad_room.png').convert('RGBA')
-PAD = sized(_pad, 104)
+PAD = sized(_pad, 80)                                                    # Producer: smaller
+
+
+_sw = Image.open(ROOT / 'public/art/ep002/props3d/switch2_room.png').convert('RGBA')
+SW2 = _sw.resize((200, int(_sw.height * 200 / _sw.width)), Image.LANCZOS)   # our 3D Switch 2-like handheld, screen = green key
+
+
+def _screen_quad(im):
+    import cv2
+    a = np.asarray(im).astype(np.int16)
+    m = ((a[..., 1] > 180) & (a[..., 0] < 120) & (a[..., 2] < 120) & (a[..., 3] > 0)).astype(np.uint8)
+    c, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    c = max(c, key=cv2.contourArea)
+    q = cv2.approxPolyDP(c, .04 * cv2.arcLength(c, True), True)[:, 0].astype(np.float32)
+    s = q.sum(1); d = np.diff(q, axis=1)[:, 0]
+    quad = np.array([q[np.argmin(s)], q[np.argmin(d)], q[np.argmax(s)], q[np.argmax(d)]], np.float32)   # tl, tr, br, bl
+    return quad, m.astype(bool)
+
+
+SW2_QUAD, SW2_MASK = _screen_quad(SW2)
+TEMPLE_HD = TEMPLE.crop((0, 75, 800, 525))                                  # 16:9, today's picture: same temple, full detail
+
+
+def switch2(k, t):
+    """The handheld with its screen: off (dark glass) -> today's temple, k = how awake the screen is."""
+    import cv2
+    w, h = SW2.size
+    src = np.asarray(TEMPLE_HD.convert('RGB')).astype(np.float32)
+    sh, sw_ = src.shape[:2]
+    M = cv2.getPerspectiveTransform(np.float32([[0, 0], [sw_, 0], [sw_, sh], [0, sh]]), SW2_QUAD)
+    pic = cv2.warpPerspective(src, M, (w, h))
+    dark = np.array([16, 18, 24], np.float32)
+    pic = dark + (pic - dark) * k
+    out = np.asarray(SW2).copy()
+    out[SW2_MASK, :3] = np.clip(pic[SW2_MASK], 0, 255).astype(np.uint8)
+    return Image.fromarray(out)
 
 
 def _dusty_pad(p):
@@ -362,25 +399,29 @@ def frame(t):
     fr.paste(pic, (int(PIC_X), int(PIC_Y)))
     d.rectangle((PIC_X + PIC_W - 64, PIC_Y + PIC_H + 2, PIC_X + PIC_W + 8, PIC_Y + PIC_H + 24), fill=(40, 30, 26))
     ctext(d, PIC_X + PIC_W - 28, PIC_Y + PIC_H + 3, '1998', 16, (232, 196, 90))
-    kc = ease(min(1, max(0, (t - T_CTL - .1) / (T_SAME - T_CTL - .2))))     # L4: the pad comes up bright
-    pad = Image.blend(PAD_DUSTY, PAD, kc) if 0 < kc < 1 else (PAD if kc >= 1 else PAD_DUSTY)
-    if 0 < kc < 1:                                                           # a shine sweeps the pad, twice
-        for s0 in (.1, .55):
-            q = (kc - s0) / .4
-            if 0 < q < 1:
-                sh = Image.new('L', pad.size, 0); x = -30 + (pad.width + 60) * q
-                ImageDraw.Draw(sh).polygon(((x, 0), (x + 22, 0), (x - 8, pad.height), (x - 30, pad.height)), fill=170)
-                sh = Image.fromarray(np.minimum(np.asarray(sh), np.asarray(pad.getchannel('A'))))
-                pad = pad.copy(); pad.paste(Image.new('RGBA', pad.size, (255, 255, 245, 255)), (0, 0), sh)
-    fr = comp(fr, pad, PAD_C[0] - pad.width / 2, PAD_C[1] - pad.height / 2)
-    if T_CTL < t < T_SAME + .4:                                              # glints as the dust comes off
-        for j, (ox, oy, ph) in enumerate(((-40, -20, 0), (30, -28, .35), (52, 4, .7))):
-            q = ((t - T_CTL) * 2.2 + ph) % 1
-            if kc > .2 and q < .5:
-                s = 12 * math.sin(math.pi * q / .5)
-                cx, cy = PAD_C[0] + ox, PAD_C[1] + oy
-                d = ImageDraw.Draw(fr)
-                d.line((cx - s, cy, cx + s, cy), fill=(255, 255, 235), width=3); d.line((cx, cy - s, cx, cy + s), fill=(255, 255, 235), width=3)
+    kc = ease(min(1, max(0, (t - T_CTL - .1) / (T_SAME - T_CTL - .2))))     # L4: cleaned... and it becomes today's console
+    km = min(1, max(0, (kc - .55) / .25))                                     # Producer idea: N64 pad -> Switch 2
+    if km < 1:
+        k1 = min(1, kc / .55)
+        pad = Image.blend(PAD_DUSTY, PAD, k1) if 0 < k1 < 1 else (PAD if k1 >= 1 else PAD_DUSTY)
+        if 0 < k1 < 1:                                                       # a shine sweeps the pad, twice
+            for s0 in (.05, .5):
+                q = (k1 - s0) / .45
+                if 0 < q < 1:
+                    sh = Image.new('L', pad.size, 0); x = -30 + (pad.width + 60) * q
+                    ImageDraw.Draw(sh).polygon(((x, 0), (x + 22, 0), (x - 8, pad.height), (x - 30, pad.height)), fill=170)
+                    sh = Image.fromarray(np.minimum(np.asarray(sh), np.asarray(pad.getchannel('A'))))
+                    pad = pad.copy(); pad.paste(Image.new('RGBA', pad.size, (255, 255, 245, 255)), (0, 0), sh)
+        pad = fade(pad, 1 - km)
+        fr = comp(fr, pad, PAD_C[0] - pad.width / 2, PAD_C[1] - pad.height / 2)
+    if km > 0:
+        ks = min(1, max(0, (kc - .8) / .2))                                  # the screen wakes up on today's temple
+        sw = switch2(ks if t < T_SAME + 2 else 1, t)
+        sc = .8 + .2 * ease(km) + .06 * math.sin(math.pi * km)
+        sw = sw.resize((int(sw.width * sc), int(sw.height * sc)), Image.LANCZOS)
+        fr = comp(fr, fade(sw, km), PAD_C[0] - sw.width / 2, PAD_C[1] - sw.height / 2)
+    if 0 < km < 1:                                                           # the flash of the swap
+        fr = CART.glow(fr, PAD_C[0], PAD_C[1], 130, (255, 255, 240), .9 * math.sin(math.pi * km))
     fr = tracing(fr, t)
     crack = min(1, max(0, (t - T_CRACK + .1) / .35))
     fr = case_glass(fr, crack)
@@ -439,17 +480,17 @@ def render(t):
     if t < T0 + .3:                                                          # out of block K's glow
         fr = Image.blend(Image.new('RGB', fr.size, (255, 245, 215)), fr, (t - T0) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v2 · PLANNING ONLY')
+    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('l1', T_NOTHING + .8), ('l2', T_TEX + .5), ('l3', T_RES + 1.0), ('l4', T_CTL + .7), ('l5', T('l91.w6') + .5),
+STILLS = (('l1', T_NOTHING + .8), ('l2', T_TEX + .5), ('l3', T_RES + 1.0), ('l4', T_CTL + .5), ('l4b', T_SAME - .1), ('l5', T('l91.w6') + .5),
           ('l6', T_RESP + 1.0), ('l7', T_END - .2))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -459,14 +500,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockL_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockL_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockL_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockL_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

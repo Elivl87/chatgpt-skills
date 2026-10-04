@@ -45,6 +45,6 @@ papeles femeninos; personajes de terceros evocados, nunca réplicas (opción C).
 |---|---|---|---|
 | 16 | Escudo real fiel (crest) | bloques con el castillo | placa provisional |
 
-Resuelto gratis (3D propio, no se cotiza): N64, cartucho, mando N64, TV de tubo, ocarina, espada, Trifuerza, castillo,
+Resuelto gratis (3D propio, no se cotiza): N64, cartucho, mando N64, consola tipo Switch 2, TV de tubo, ocarina, espada, Trifuerza, castillo,
 bomba, boomerang, caballo provisional.
 Ya generado: Q008 Quest de perfil frente a la TV (0.5 créditos, con el mando N64 3D compuesto).
