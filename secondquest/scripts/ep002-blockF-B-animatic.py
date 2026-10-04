@@ -222,7 +222,7 @@ def render(t):
     fr = field_frame(t)
     fr = grass(fr, t, k_at(t, BARS[2][1]))
     fr = hero(fr, t)
-    fade = 1 - ease(min(1, max(0, (t - T_FAM) / 1.6)))                 # the sound fades out as 'familiar' takes over
+    fade = 1 - ease(min(1, max(0, (t - T_FAM) / .8)))                  # the sound fades out as 'familiar' takes over (Producer: a bit faster)
     fr = sound_fx(fr, t, k_at(t, BARS[3][1]) * fade)
     navi_col = (255, 225, 90) if T_DANGER - .2 <= t < T_MEAS + .4 else (170, 220, 255)
     fr = fairy_fx.draw(fr, [(T0, .58, .5), (T_DANGER, .56, .45), (T_MEAS, .6, .5), (T_END, .56, .48)], t, size=.05, color=navi_col)
@@ -243,7 +243,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v3 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -253,7 +253,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -263,14 +263,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
