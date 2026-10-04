@@ -222,3 +222,6 @@
   "MAKE THE KNOWN FEEL LIKE DISCOVERY AGAIN" for the veteran) with mini screens (1998 -> 2026; fog over the known
   field, then a sparkle of something new); then both in today's Hyrule from behind, a thought bubble with his 1998
   Hyrule; "build both": block F's blueprint sweeps over the real Hyrule and the one in his head. HUD hidden here.
+- K v2 ("Apruebo con mejoras"): Block K approved with both improvements: (1) the 1998 picture inside the thought
+  bubble flickers like the block-H tube (uneven brightness, rolling band, colour fringe, dark glass corners); (2) under
+  "build both" the bubble is drawn into the real castle and the two Hyrules fuse in a glow just before the cut to Act 4.

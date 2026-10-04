@@ -52,6 +52,7 @@ T_LOOK = T('l84') - .05
 T_HEAD = T('l85') - .05
 T_BUILD = T('l86') - .05
 T_END = T('l87') - 0.05                 # Act 4 starts on l87
+T_MERGE = T_END - 1.35                  # the two Hyrules fuse just before the cut
 INK = (20, 14, 18, 255)
 GOLD, BLUE = BJ.GOLD, BJ.BLUE
 cxL, cxR = W * .40, W * .73                                                  # the sheet's two columns (block J)
@@ -181,19 +182,36 @@ QB = cutout('quest:walking_back', 'hero')
 PB = cutout('pixie:walking_back', 'forest')
 
 
-def thought_bubble(t, k):
-    """A cloud bubble with the blocky 1998 Hyrule inside (his Hyrule)."""
+def crt_flicker(pic, t):
+    """Producer improvement (K v2): the 1998 picture flickers like the block-H tube: uneven brightness, a slow rolling
+    bright band, a hair of colour fringe and darker glass corners."""
+    a = np.asarray(pic).astype(np.float32); h, w = a.shape[:2]
+    a *= .9 + .07 * math.sin(t * 23) + .05 * math.sin(t * 61 + 1.3)
+    yy = np.arange(h, dtype=np.float32)[:, None]
+    band = (t * .35 % 1.0) * (h + 40) - 20
+    a += 26 * np.exp(-((yy - band) / 9) ** 2)[..., None]
+    a[:, 2:, 0] = a[:, :-2, 0]                                          # red fringe 2 px to the right
+    xx = np.linspace(-1, 1, w)[None, :]; y2 = np.linspace(-1, 1, h)[:, None]
+    a *= (1 - .28 * (xx ** 2 * y2 ** 2) ** .5)[..., None]
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+
+def thought_bubble(t, k, cloud=1.0):
+    """A cloud bubble with the blocky 1998 Hyrule inside (his Hyrule). cloud < 1 fades the cloud, keeping the picture."""
     w, h = 330, 200
     g = Image.new('RGBA', (w + 40, h + 90)); d = ImageDraw.Draw(g)
     for (x, y, r) in ((60, 70, 60), (140, 50, 70), (230, 55, 70), (300, 90, 55), (90, 150, 60), (190, 160, 70), (280, 150, 55)):
         d.ellipse((x - r + 10, y - r + 10, x + r + 10, y + r + 10), fill=(255, 255, 255, 250), outline=INK, width=4)
     for (x, y, r) in ((60, 70, 56), (140, 50, 66), (230, 55, 66), (300, 90, 51), (90, 150, 56), (190, 160, 66), (280, 150, 51)):
         d.ellipse((x - r + 10, y - r + 10, x + r + 10, y + r + 10), fill=(255, 255, 255, 255))
-    pic = HB.old_picture(t, (250, 150))
+    pic = crt_flicker(HB.old_picture(t, (250, 150)), t)
     m = Image.new('L', (250, 150), 0); ImageDraw.Draw(m).rounded_rectangle((0, 0, 249, 149), 30, fill=255)
     g.paste(pic, (55, 40), m)
     for i, (x, y, r) in enumerate(((110, 248, 16), (82, 272, 10))):       # the trail of little bubbles down to his head
         d.ellipse((x - r, y - r, x + r, y + r), fill=(255, 255, 255, 255), outline=INK, width=3)
+    if cloud < 1:                                                       # the cloud melts away, the picture stays
+        a = np.asarray(g).copy(); keep = np.zeros(a.shape[:2], bool); keep[40:190, 55:305] = np.asarray(m) > 0
+        a[..., 3] = np.where(keep, a[..., 3], (a[..., 3] * cloud).astype(np.uint8)); g = Image.fromarray(a)
     s = (.4 + .6 * ease(k)) * .85                                       # stays inside the safe area
     g = g.resize((int(g.width * s), int(g.height * s)), Image.LANCZOS)
     return fade(g, min(1, k * 1.5))
@@ -214,9 +232,16 @@ def frame_k45(t):
     if kp > 0:                                                            # she looks at the real one: the castle glints
         fr = CART.glow(fr, W * .5, H * .32, 160, (255, 240, 200), .45 * kp)
     kb = min(1, max(0, (t - T('l85.w4')) / .5))
-    if kb > 0:                                                            # he looks for the one in his head
-        b = thought_bubble(t, kb)
-        fr = comp(fr, b, W * .60 + 10, H * .95 - qh - b.height + 30)
+    km = ease(min(1, max(0, (t - T_MERGE) / 1.0)))                       # Producer improvement (K v2): both Hyrules
+    if kb > 0 and km < 1:                                                 # he looks for the one in his head
+        b = thought_bubble(t, kb, cloud=1 - km)
+        if km > 0:                                                        # the bubble is drawn into the real castle
+            sc = 1 - .8 * km
+            b = b.resize((max(1, int(b.width * sc)), max(1, int(b.height * sc))), Image.LANCZOS)
+            b = fade(b, 1 - km ** 3)
+        bx0, by0 = W * .60 + 10, H * .95 - qh - b.height + 30
+        bx1, by1 = W * .5 - b.width / 2, H * .32 - b.height * .55
+        fr = comp(fr, b, lin(bx0, bx1, km), lin(by0, by1, km))
     if t >= T_BUILD:                                                      # build both: a blueprint sweeps over everything
         kbp = ease(min(1, (t - T_BUILD) / 1.6))
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
@@ -228,11 +253,16 @@ def frame_k45(t):
             d.line((0, y, edge, y), fill=(170, 210, 255, 90), width=1)
         d.line((edge, 0, edge, H), fill=(220, 240, 255, 220), width=4)
         if kbp > .6:                                                      # measurement marks on the castle and the bubble
-            a = int(255 * (kbp - .6) / .4)
-            for (x0, x1, y) in ((W * .40, W * .60, H * .16), (W * .60 + 40, W * .60 + 290, H * .14)):
+            a = int(255 * (kbp - .6) / .4); d = ImageDraw.Draw(g, 'RGBA')   # blend, never punch holes in the tint
+            for j, (x0, x1, y) in enumerate(((W * .40, W * .60, H * .16), (W * .60 + 40, W * .60 + 290, H * .14))):
+                if j == 1:                                                # the bubble's mark leaves with the bubble
+                    a = int(a * (1 - km))
                 d.line((x0, y, x1, y), fill=(230, 245, 255, a), width=2)
                 d.line((x0, y - 8, x0, y + 8), fill=(230, 245, 255, a), width=2); d.line((x1, y - 8, x1, y + 8), fill=(230, 245, 255, a), width=2)
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+    if km > .55:                                                          # ...and the two fuse into one for an instant
+        kf = (km - .55) / .45
+        fr = CART.glow(fr, W * .5, H * .30, 240, (255, 245, 215), .8 * math.sin(math.pi * min(1, kf * 1.4)) + .25 * kf)
     d = ImageDraw.Draw(fr)
     lab = 'MISSING · Quest and Pixie hero tunics (back views) · planning stand-ins'
     tw = d.textlength(lab, font=F(13))
@@ -250,16 +280,16 @@ def render(t):
         if t < T_LOOK + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_LOOK) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v1 · PLANNING ONLY')
+    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('k1', T_JOBS + .6), ('k2', T('l80.w9') + .4), ('k3', T('l83.w4') + .3), ('k4', T('l85.w10')), ('k5', T_END - .3))
+STILLS = (('k1', T_JOBS + .6), ('k2', T('l80.w9') + .4), ('k3', T('l83.w4') + .3), ('k4', T('l85.w10')), ('k5', T_BUILD + 1.8), ('k5merge', T_MERGE + .6), ('k5end', T_END - .2))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -269,14 +299,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockK_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockK_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockK_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockK_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
