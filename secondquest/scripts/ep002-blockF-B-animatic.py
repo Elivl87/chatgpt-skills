@@ -174,10 +174,10 @@ def meter_panel(fr, t):
         d.rounded_rectangle((bx0, y + 26, bx1, y + 42), 6, fill=(40, 46, 64, 255), outline=(120, 130, 160, 255), width=2)
         if fam and FAM_MODE == 'card_heart':
             if t >= ti:                                                 # full at first, then slowly draining; the heart blinks at its tip
-                v = 1 - .55 * ease(min(1, (t - ti) / (T_END - ti + 1.5)))
+                v = .5 - .25 * ease(min(1, (t - ti) / (T_END - ti + .5)))         # starts at half, drains slowly (Producer)
                 fx = bx0 + 2 + (bx1 - bx0 - 4) * v
                 d.rounded_rectangle((bx0 + 2, y + 28, fx, y + 40), 5, fill=(240, 120, 110, 255))
-                if int((t - ti) * 3.2) % 2 == 0:
+                if int((t - ti) * 6) % 2 == 0:                          # blinks a little faster (Producer)
                     hx, hy, hr = fx, y + 34, 13
                     d.polygon([(hx, hy + hr), (hx - 1.6 * hr, hy - .2 * hr), (hx - hr, hy - 1.1 * hr), (hx, hy - .5 * hr), (hx + hr, hy - 1.1 * hr), (hx + 1.6 * hr, hy - .2 * hr)],
                               fill=(255, 90, 100, 255), outline=(255, 235, 235, 255))
@@ -243,7 +243,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v4 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -253,7 +253,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -263,14 +263,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
