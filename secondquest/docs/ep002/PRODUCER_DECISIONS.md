@@ -260,3 +260,6 @@
   la flor sería un hit"): the sword comes up out of the stone before the flash, stays raised with adult Quest and
   dissolves into motes of light together with him; in the time-lapse a flower by the steps sprouts, blooms and withers
   (petals fall) as the clock of the seven years.
+- N v3 (Producer: "1. Sí 2. Sí. Que la espada salga cuando Quest se termine de acercar"): the sword only starts to come
+  up once his step to the pedestal has finished; in the two eras the CHILD half has the flower in bloom and a bright
+  Navi, the ADULT half the withered flower with fallen petals and a dim Navi.

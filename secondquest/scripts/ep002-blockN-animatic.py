@@ -17,7 +17,8 @@ years are told without text (a time-lapse in the empty temple) and the eras are 
                                           golden cartridge; a sticky note "side detail?" is crossed out.
   N6  "That is the game."                 The cartridge pulses gold; a THE GAME stamp lands.
   N7  "Link's adventure is a journey through Hyrule across two distinct eras."  The temple again, split down the middle:
-                                          CHILD (day window, young Quest) | ADULT (storm window, adult Quest).
+                                          CHILD (day window, young Quest, the flower in bloom, Navi bright) | ADULT (storm
+                                          window, adult Quest, fallen petals, Navi dim).
 HUD: hidden (a story beat, not play). Stand-ins: young / adult Quest in the tunic from behind (MISSING #3, #4), the
 temple (#13). Sounds: none (all at the end).
 """
@@ -159,6 +160,7 @@ def quest(fr, h, a=1.0, x=QX, feet=QFEET):
 
 
 RISE = 46                                                                   # how far the sword comes up out of the stone (px)
+STEP0, STEP_D = T('l103') - .05, .45                                        # his step up to the pedestal
 
 
 def flower(fr, k):
@@ -199,9 +201,9 @@ def flower(fr, k):
 # ------------------------------------------------------------------ N1-N4
 def n1_4(t):
     if t < T_NOT:                                                           # N1-N2: the child, the sword in the stone
-        kr = ease(min(1, max(0, (t - T('l103.w2')) / (T_NOT - T('l103.w2')))))   # Producer: the sword comes up a little
+        step = ease(min(1, max(0, (t - STEP0) / STEP_D)))                   # "then...": he steps up to it
+        kr = ease(min(1, max(0, (t - STEP0 - STEP_D) / (T_NOT - STEP0 - STEP_D))))   # Producer: the sword comes up once he is there
         fr = temple(t, sword_rise=RISE * kr)
-        step = ease(min(1, max(0, (t - T('l103') + .05) / .7)))             # "then...": he steps up to it
         fr = quest(fr, YH * (1 + .08 * step), feet=QFEET - 26 * step)
         lab = 'N1 you were a child' if t < T('l103') - .05 else 'N2 then you were not'
     elif t < T_WORLD:                                                       # N2-N3: the adult, then he disappears
@@ -284,8 +286,11 @@ def n5_6(t):
 # ------------------------------------------------------------------ N7: two eras
 def n7(t):
     k = ease(min(1, (t - T_ERAS) / .45))
-    child = quest(temple(t, storm=0, sword=True), YH, x=W * .5)
-    adult = quest(temple(t, storm=1, age=1, sword=False), AH, x=W * .5)
+    child = quest(flower(temple(t, storm=0, sword=True), .5), YH, x=W * .5)          # Producer: the flower alive...
+    adult = quest(flower(temple(t, storm=1, age=1, sword=False), 1.0), AH, x=W * .5)  # ...and its fallen petals
+    tw = t - T_ERAS                                                         # Producer: Navi in both: bright as a child, dim as an adult
+    child = fairy_fx.draw(child, [(0, .62, .36), (6, .64, .33)], tw, size=.045)
+    adult = fairy_fx.draw(adult, [(0, .64, .40), (6, .62, .42)], tw, size=.035, color=(120, 130, 150), glow=.3, opacity=.55)
     half = W // 2
     fr = Image.new('RGB', (W, H))
     fr.paste(child.crop((W // 4, 0, W, H)), (0, 0))                        # the child's temple fills the frame until the adult slides in
@@ -318,13 +323,14 @@ def render(t):
         if t < T_ERAS + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 236, 170)), fr, (t - T_ERAS) / .3)
     keys = [(T0, .66, .30), (T_NOT, .60, .36), (T_WORLD, .30, .24), (T_SIDE - .1, .26, .22), (T_SIDE, .20, .30), (T_ERAS, .22, .30), (T_END, .78, .30)]
-    fr = fairy_fx.draw(fr, keys, t, size=.04)
+    if t < T_ERAS:                                                          # N7 draws its own two Navis
+        fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
     lab2 = 'MISSING · young / adult Quest in the tunic, back (#3, #4) · temple (#13) · planning stand-ins'
     tw = d.textlength(lab2, font=F(13))
     if not (T_SIDE <= t < T_ERAS):
         d.rectangle((W * .03, H * .06, W * .03 + tw + 12, H * .06 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .06 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v2 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -334,7 +340,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -344,14 +350,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
