@@ -247,3 +247,6 @@
   to a misty mountain (FAR AWAY); a gaze cone + yellow target marker on a chest (evoked targeting); the ocarina plays,
   flowers open; everything freezes and greys on "most importantly", Navi to the centre; one clock-dial sweep turns day
   to night (sun down, moon and stars) on "time mattered".
+- M v2 ("Apruebo M con las tres mejoras"): Block M approved with: the case trembles harder until it bursts; on "stand"
+  the 8-bit hero of the map grows into Quest (pixels -> smooth) instead of dropping in; the chest opens with light and
+  sparkles after "where you looked mattered".

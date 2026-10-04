@@ -12,7 +12,9 @@ Producer approved, 2026-10-04 ("Sí, constrúyelo así"). Not Hyrule Field (Prod
                                           lands on it with a puff of dust. The HUD comes on (in game from here).
   M3  "Distance mattered."                A misty mountain far beyond the trees; a measuring line runs out to it.
   M4  "Where you looked mattered."        His gaze sweeps the clearing and a yellow target marker locks on a chest
-                                          (evokes the game's targeting, not a copy).
+                                          (evokes the game's targeting, not a copy); the chest opens with a glow.
+v2 (Producer improvements): the case trembles harder until it bursts; on "stand" the 8-bit hero of the map grows into
+Quest (pixels -> smooth) instead of Quest dropping in; the chest opens.
   M5  "Music mattered."                   The ocarina (our 3D) plays, notes rise, flowers open round him, leaves sway.
   M6  "And most importantly..."           Everything freezes and drains of colour; Navi flies to the centre.
   M7  "time mattered."                    One sweep of a clock dial: the sun sets, the moon rises, night and stars.
@@ -67,6 +69,13 @@ CRACK_SCREEN = ((BL.CRACK_PT[0] - (W - _cw) / 2) * _LZ, (BL.CRACK_PT[1] - (H * .
 
 def m1(t):
     fr, _ = BL.frame(min(t, BL.T_END - .05) if t < T_BURST else BL.T_END - .05)
+    if t < T_BURST:                                                          # Producer improvement: the case trembles, harder and harder
+        k = ease(min(1, max(0, (t - T0) / (T_BURST - T0))))
+        amp = .8 + 4.5 * k
+        dx, dy = amp * math.sin(t * 61), amp * .6 * math.sin(t * 47 + 1)
+        big = fr.resize((int(W * 1.02), int(H * 1.02)), Image.BILINEAR)
+        fr = big.crop((int(W * .01 + dx), int(H * .01 + dy), int(W * .01 + dx) + W, int(H * .01 + dy) + H))
+        fr = CART.glow(fr, CRACK_SCREEN[0], CRACK_SCREEN[1], int(120 + 60 * k), (170, 255, 170), (.25 + .35 * k) * (.7 + .3 * math.sin(t * 9)))
     if t >= T_BURST:
         k = (t - T_BURST) / (T_NEW - T_BURST)
         z = 1 + 5 * ease(min(1, k)) ** 1.6                                  # dive into the crack
@@ -118,7 +127,12 @@ TREES = [(x, y) for y in range(MR) for x in range(MC) if LAYOUT[y, x] == 1]
 CHEST_TILE = tuple(int(v) for v in np.argwhere(LAYOUT == 4)[0][::-1])       # (x, y)
 
 
-def _tile_map():
+HERO_SPR = ((10, 4, 22, 14, (60, 150, 60)), (8, 14, 24, 26, (40, 120, 50)), (12, 8, 20, 14, (240, 200, 160)), (10, 26, 14, 30, (90, 60, 30)), (18, 26, 22, 30, (90, 60, 30)))
+_HR = int(MR * .70)
+HERO_XY = (int(MC / 2 + 2.5 * math.sin(_HR * .45)) * TS - 32, _HR * TS)      # the little 8-bit hero, on the path, in view after the tilt
+
+
+def _tile_map(hero=True):
     im = Image.new('RGB', (MC * TS, MR * TS), (92, 172, 72)); d = ImageDraw.Draw(im)
     for y in range(MR):
         for x in range(MC):
@@ -134,13 +148,24 @@ def _tile_map():
                 d.rectangle((x0, y0, x0 + TS, y0 + TS), fill=(60, 120, 220)); d.rectangle((x0 + 6, y0 + 10, x0 + 18, y0 + 13), fill=(150, 200, 255))
             elif v == 4:
                 d.rectangle((x0 + 6, y0 + 10, x0 + 26, y0 + 26), fill=(150, 90, 40)); d.rectangle((x0 + 6, y0 + 16, x0 + 26, y0 + 18), fill=(230, 190, 70))
-    hx, hy = MC // 2 * TS - 16, int(MR * .86) * TS                           # the little 8-bit hero
-    for (x0, y0, x1, y1, c) in ((10, 4, 22, 14, (60, 150, 60)), (8, 14, 24, 26, (40, 120, 50)), (12, 8, 20, 14, (240, 200, 160)), (10, 26, 14, 30, (90, 60, 30)), (18, 26, 22, 30, (90, 60, 30))):
+    hx, hy = HERO_XY
+    for (x0, y0, x1, y1, c) in HERO_SPR if hero else ():
         d.rectangle((hx + x0, hy + y0, hx + x1, hy + y1), fill=c)
     return im.crop((0, 0, W, H))
 
 
+def _hero():
+    g = Image.new('RGBA', (32, 32)); d = ImageDraw.Draw(g)
+    for (x0, y0, x1, y1, c) in HERO_SPR:
+        d.rectangle((x0, y0, x1, y1), fill=c + (255,))
+    return g.crop(g.getchannel('A').getbbox())
+
+
+HERO = _hero()
+
+
 MAP = _tile_map()
+MAP_NOHERO = _tile_map(hero=False)                                          # once the hero has become Quest
 HORIZON = H * .40
 
 
@@ -216,7 +241,7 @@ def forest_frame(t, tc):
     else:
         fr = _sky(night)
         fr = mountain(fr, ease(min(1, max(0, (kt - .5) / .5))), night)
-        ground = cv2.warpPerspective(np.asarray(MAP), M, (W, H), flags=cv2.INTER_NEAREST, borderMode=cv2.BORDER_CONSTANT, borderValue=0)
+        ground = cv2.warpPerspective(np.asarray(MAP if t < T_STAND - .5 else MAP_NOHERO), M, (W, H), flags=cv2.INTER_NEAREST, borderMode=cv2.BORDER_CONSTANT, borderValue=0)
         mask = cv2.warpPerspective(np.full((H, W), 255, np.uint8), M, (W, H), flags=cv2.INTER_NEAREST)
         gimg = Image.fromarray(ground)
         if kt > .3:                                                          # the 8-bit tiles soften as the world becomes a place
@@ -251,6 +276,9 @@ def kmusic(t):
     return min(1, max(0, (t - T_MUSIC) / .4)) * (1 - min(1, max(0, (t - T_FREEZE) / .3)))
 
 
+T_OPEN = T('l98.w4') + .35                                                 # Producer improvement: the chest opens
+
+
 def chest(fr, M, t):
     x, y = CHEST_TILE
     px, py = project(M, x * TS + TS / 2, y * TS + TS * .8)
@@ -258,11 +286,32 @@ def chest(fr, M, t):
     w, h = int(40 * s), int(30 * s)
     if w < 6:
         return fr, (px, py)
-    g = Image.new('RGBA', (w + 4, h + 4)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((2, 2, w, h), int(6 * s), fill=(150, 92, 42, 255), outline=INK, width=max(2, int(3 * s)))
-    d.rectangle((2, int(h * .35), w, int(h * .45)), fill=(230, 190, 70, 255))
-    d.rectangle((w / 2 - 3 * s, h * .3, w / 2 + 3 * s, h * .55), fill=(230, 190, 70, 255), outline=INK)
-    return comp(fr, g, px - w / 2, py - h), (px, py - h / 2)
+    ko = ease(min(1, max(0, (t - T_OPEN) / .35)))
+    if ko > 0:                                                               # light pours out of it
+        fr = CART.glow(fr, px, py - h * .9, int(70 * s) + 10, (255, 236, 150), .8 * ko)
+    g = Image.new('RGBA', (w + 4, h + int(h * .9) + 4)); d = ImageDraw.Draw(g)
+    oy = int(h * .9)                                                         # room above for the open lid
+    lw = max(2, int(3 * s))
+    box_top = oy + int(h * .4)
+    d.rectangle((2, box_top, w, oy + h), fill=(150, 92, 42, 255), outline=INK, width=lw)
+    lid_h = h * .45
+    lift = lid_h * 1.6 * ko                                                  # the lid swings up and back
+    d.polygon(((2, box_top), (w, box_top), (w - w * .08 * ko, box_top - lid_h - lift), (2 + w * .08 * ko, box_top - lid_h - lift)),
+              fill=(170, 106, 50, 255) if ko < .5 else (120, 72, 34, 255), outline=INK)
+    d.rectangle((2, box_top - 2, w, box_top + max(2, int(h * .08))), fill=(230, 190, 70, 255))
+    if ko > .3:                                                              # the open mouth, full of light
+        d.rectangle((4 + w * .06, box_top - h * .12 * ko, w - 2 - w * .06, box_top), fill=(255, 238, 160, 255))
+    d.rectangle((w / 2 - 3 * s, box_top - h * .06, w / 2 + 3 * s, box_top + h * .2), fill=(230, 190, 70, 255), outline=INK)
+    fr = comp(fr, g, px - w / 2, py - h - oy)
+    if ko > 0:                                                               # sparkles rise
+        sp = Image.new('RGBA', (W, H)); sd = ImageDraw.Draw(sp)
+        for j in range(6):
+            ph = ((t - T_OPEN) * .9 + j / 6) % 1
+            sx, sy = px + (j - 2.5) * 9 * s * .4, py - h - 60 * s * ph
+            r = 5 * s * .5 * (1 - ph) + 1
+            sd.line((sx - r, sy, sx + r, sy), fill=(255, 250, 200, int(255 * ko * (1 - ph))), width=2); sd.line((sx, sy - r, sx, sy + r), fill=(255, 250, 200, int(255 * ko * (1 - ph))), width=2)
+        fr = Image.alpha_composite(fr.convert('RGBA'), sp).convert('RGB')
+    return fr, (px, py - h / 2)
 
 
 def target_marker(fr, cx, cy, k, tc):
@@ -353,13 +402,25 @@ def m2_7(t):
         fr, cpos = chest(fr, M, t)
         fr = flowers(fr, M, t)
     # Quest lands on "stand"
-    kq = min(1, max(0, (t - T_STAND + .35) / .35))
+    kq = min(1, max(0, (t - T_STAND + .5) / .6))                             # Producer improvement: the 8-bit hero becomes Quest
     if kq > 0:
         q = sized(QB, QH)
-        drop = (1 - ease(kq)) * -260
-        sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((QX - q.width * .4, QFEET - 12, QX + q.width * .4, QFEET + 10), fill=(0, 0, 0, int(90 * kq)))
+        e = ease(kq)
+        hx, hy = project(M, HERO_XY[0] + 16, HERO_XY[1] + 30)                  # the hero's feet on the tilted map
+        hh = max(8, local_scale(M, HERO_XY[0], HERO_XY[1] + 30) * 26)
+        h_now = lin(hh, QH, e); fx, fy = lin(hx, QX, e), lin(hy, QFEET, e)
+        q_now = sized(QB, h_now)
+        px_q = sized(sized(QB, 26).resize((max(1, int(26 * QB.width / QB.height)), 26), Image.NEAREST), h_now)   # Quest, still in pixels
+        hero = HERO.resize((max(1, int(HERO.width * h_now / HERO.height)), max(1, int(h_now))), Image.NEAREST)
+        if e < .45:
+            spr = Image.blend(hero.resize(px_q.size, Image.NEAREST), px_q, e / .45)
+        else:
+            spr = Image.blend(px_q.resize(q_now.size, Image.NEAREST), q_now, min(1, (e - .45) / .45))
+        sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((fx - spr.width * .4, fy - 12, fx + spr.width * .4, fy + 10), fill=(0, 0, 0, int(90 * kq)))
         fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
-        fr = comp(fr, q, QX - q.width / 2, QFEET - q.height + drop)
+        if kq < 1:
+            fr = CART.glow(fr, fx, fy - h_now * .5, int(h_now * .8) + 10, (255, 250, 210), .55 * math.sin(math.pi * kq))
+        fr = comp(fr, spr, fx - spr.width / 2, fy - spr.height)
         kd = (t - T_STAND) / .7                                              # the puff of dust as he lands
         if 0 < kd < 1:
             g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
@@ -438,17 +499,17 @@ def render(t):
         if t < T_NEW + .5:                                                   # out of the white, straight onto the map
             fr = Image.blend(Image.new('RGB', fr.size, (250, 255, 245)), fr, (t - T_NEW) / .5)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v1 · PLANNING ONLY')
+    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('m1', T_BURST + .9), ('m2_map', T_TILT - .3), ('m2_tilt', T_TILT + .9), ('m2_stand', T_STAND + .4), ('m3', T('l97.w2') + .3),
-          ('m4', T('l98.w4') + .3), ('m5', T('l99.w2') + .4), ('m6', T('l100.w3') + .5), ('m7', T_END - .2))
+STILLS = (('m0', T_BURST - .3), ('m1', T_BURST + .9), ('m2_map', T_TILT - .3), ('m2_tilt', T_TILT + .9), ('m2_grow', T_STAND - .15), ('m2_stand', T_STAND + .4), ('m3', T('l97.w2') + .3),
+          ('m4', T('l98.w4') + .3), ('m4_open', T_OPEN + .6), ('m5', T('l99.w2') + .4), ('m6', T('l100.w3') + .5), ('m7', T_END - .2))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -458,14 +519,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockM_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockM_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockM_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockM_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
