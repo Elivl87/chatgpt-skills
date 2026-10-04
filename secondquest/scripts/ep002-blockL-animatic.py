@@ -4,17 +4,18 @@ l93 "But there is a problem." (Act 4 opens; block M starts on l94).
 
 The safe remake as a museum (Producer approved, 2026-10-04: "con las manos del restaurador").
   L1  "The safest remake imaginable would change almost nothing."  A museum hall. The spotlight finds a glass case on a
-                                          plinth behind a velvet rope: the 1998 Hyrule field (dusty) and the N64 pad.
+                                          plinth behind a velvet rope: the sword's temple in 1998 (dusty) and the N64 pad.
                                           The wall card: REMAKE 2026 · CHANGES: 0.01%.
-  L2  "Sharper textures."                 A white-gloved restorer's hand sweeps a soft brush across the picture: behind it
-                                          the dust and blur are gone.
+  L2  "Sharper textures."                 A band of light sweeps the picture: behind it the dust and blur are gone.
   L3  "Better resolution."                The blocky pixels split, twice, into finer ones: the same field, same layout.
-  L4  "Cleaner controls."                 The other gloved hand polishes the pad with a cloth; it comes up bright.
+  L4  "Cleaner controls."                 The camera leans in on the pad; a shine sweeps it and it comes up bright.
   L5  "Everything exactly where you remember it."  Tracing paper with the 1998 outline slides over the picture and
                                           lands exactly on it: corner marks turn green, a 100% MATCH stamp.
   L6  "And that sounds respectful."       A gold plaque on the plinth: RESPECTFUL, with a shine.
   L7  "But there is a problem."           The glass of the case cracks; Navi flushes red with a "!".
-Restorer: hands only (white cotton gloves), no new art. HUD: hidden (a museum, not the game). Sounds: none (all at
+v2 (Producer): no restorer's hands (they did not read as hands); the case holds a new place, the sword's temple
+(not block G's field again); zoom on the pad while it is cleaned; green light leaks through the crack; a
+PLEASE DO NOT TOUCH sign tilts when the glass cracks. HUD: hidden (a museum, not the game). Sounds: none (all at
 the end). Framing QC before sending.
 """
 import importlib.util, math, subprocess, sys
@@ -80,16 +81,46 @@ def _hall():
 HALL = _hall()
 
 
+SWD = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/sword_spin').glob('f*.png'))]
+
+
+def _temple():
+    """Producer note (L v2): not block G's field again. A new place for the case: the sword's temple, built here
+    (stone hall, three tall windows, a shaft of light on the pedestal, our 3D sword). Evoked, not a replica."""
+    w, h = 800, 600; vx, vy = 400, 250
+    im = Image.new('RGB', (w, h), (70, 74, 92)); d = ImageDraw.Draw(im, 'RGBA')
+    d.rectangle((150, 40, 650, 390), fill=(128, 128, 150))                                    # back wall
+    for x in (240, 400, 560):                                                               # tall arched windows
+        d.rectangle((x - 26, 110, x + 26, 270), fill=(196, 220, 255)); d.ellipse((x - 26, 84, x + 26, 136), fill=(196, 220, 255))
+        d.line((x, 90, x, 270), fill=(120, 130, 160), width=3)
+    d.polygon(((150, 390), (650, 390), (800, 600), (0, 600)), fill=(112, 106, 120))           # floor
+    for i in range(-8, 9):                                                                  # tiles in perspective
+        d.line((vx + i * 30, 390, vx + i * 110, 600), fill=(60, 58, 74), width=2)
+    for y in (420, 460, 515, 590):
+        d.line((0, y, w, y), fill=(60, 58, 74), width=2)
+    for x0, x1, col in ((0, 120, (40, 42, 56)), (680, 800, (40, 42, 56)), (150, 196, (70, 72, 90)), (604, 650, (70, 72, 90))):
+        d.rectangle((x0, 0, x1, h), fill=col)                                               # pillars
+    d.polygon(((370, 120), (430, 120), (500, 420), (300, 420)), fill=(255, 245, 210, 110))    # the shaft of light
+    d.rectangle((250, 392, 550, 420), fill=(110, 112, 132)); d.rectangle((290, 370, 510, 394), fill=(124, 126, 146))   # steps
+    d.rectangle((345, 330, 455, 372), fill=(140, 142, 162)); d.rectangle((335, 322, 465, 336), fill=(156, 158, 178))   # pedestal
+    sw = SWD[12].transpose(Image.FLIP_TOP_BOTTOM)
+    sw = sw.resize((max(1, int(sw.width * 250 / sw.height)), 250), Image.LANCZOS)
+    clip = Image.new('L', sw.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, sw.width, int(sw.height * .78)), fill=255)
+    sw.putalpha(Image.fromarray(np.minimum(np.asarray(sw.getchannel('A')), np.asarray(clip))))
+    im = CART.glow(im, 400, 230, 150, (200, 230, 255), .7)
+    im.paste(sw, (int(400 - sw.width / 2), int(326 - sw.height * .78)), sw)
+    return im
+
+
+TEMPLE = _temple()
+
+
 def field_1998(res):
-    """Block G's field with the 1998 look at a given resolution: same layout, only the pixel size changes."""
-    src = G.crop(G.FIELD, (1.3, .5, .6))
-    rw = int(56 * res); rh = int(32 * res)
-    b = src.resize((rw, rh), Image.BILINEAR).resize((W, H), Image.NEAREST)
-    a = np.asarray(b).astype(np.float32); g = a.mean(2, keepdims=True); a = g + (a - g) * (.7 + .1 * (res - 1))
-    im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    ch = H * .9                                                              # leaves out the plate's planning label
-    x0 = (W - ch * 4 / 3) / 2
-    return im.crop((int(x0), 0, int(x0 + ch * 4 / 3), int(ch))).resize((PIC_W, PIC_H), Image.NEAREST)
+    """The temple with the 1998 look at a given resolution: same layout, only the pixel size changes."""
+    rw, rh = int(80 * res), int(60 * res)
+    b = TEMPLE.resize((rw, rh), Image.BILINEAR).quantize(32 if res < 2 else 96).convert('RGB')
+    a = np.asarray(b).astype(np.float32); g = a.mean(2, keepdims=True); a = g + (a - g) * (.8 + .08 * (res - 1))
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).resize((PIC_W, PIC_H), Image.NEAREST)
 
 
 PIC1 = field_1998(1)
@@ -126,56 +157,6 @@ def _dusty_pad(p):
 PAD_DUSTY = _dusty_pad(PAD)
 
 
-# ------------------------------------------------------------------ the restorer's gloved hands
-GLOVE = (246, 246, 240, 255)
-GLOVE_SH = (214, 214, 206, 255)
-SLEEVE = (44, 52, 84, 255)
-
-
-def _capsule(d, x0, y0, x1, y1, fill):
-    r = min(x1 - x0, y1 - y0) / 2
-    d.rounded_rectangle((x0, y0, x1, y1), r, fill=fill, outline=INK, width=3)
-
-
-def brush_hand():
-    """Right hand from the right edge, pencil grip on a soft restoration brush (bristles pointing left)."""
-    g = Image.new('RGBA', (430, 170)); d = ImageDraw.Draw(g)
-    d.polygon(((20, 74), (70, 58), (70, 106), (20, 92)), fill=(222, 196, 140, 255), outline=INK)       # bristles
-    for y in range(64, 102, 7):
-        d.line((26, 76 + (y - 82) * .3, 68, y), fill=(180, 150, 100, 255), width=1)
-    d.rectangle((70, 66, 96, 98), fill=(190, 194, 204, 255), outline=INK, width=3)                      # ferrule
-    d.rounded_rectangle((94, 72, 250, 92), 9, fill=(150, 96, 54, 255), outline=INK, width=3)            # handle
-    d.rectangle((300, 40, 430, 136), fill=SLEEVE, outline=INK, width=3)                                # sleeve
-    d.rounded_rectangle((282, 36, 312, 140), 10, fill=GLOVE, outline=INK, width=3)                     # cuff
-    d.rounded_rectangle((196, 44, 296, 132), 34, fill=GLOVE, outline=INK, width=3)                     # palm
-    _capsule(d, 186, 98, 236, 122, GLOVE_SH)                                                             # curled fingers below
-    _capsule(d, 176, 104, 226, 128, GLOVE)
-    _capsule(d, 150, 92, 222, 110, GLOVE)                                                               # thumb under the handle
-    _capsule(d, 136, 58, 236, 80, GLOVE)                                                                # index along the handle
-    _capsule(d, 156, 74, 232, 96, GLOVE)                                                                # middle
-    d.arc((214, 60, 270, 116), 200, 300, fill=GLOVE_SH, width=3)                                         # knuckle shading
-    return g
-
-
-def cloth_hand():
-    """Left hand from the lower left, flat on a yellow polishing cloth."""
-    g = Image.new('RGBA', (300, 230)); d = ImageDraw.Draw(g)
-    d.polygon(((12, 40), (150, 18), (190, 80), (120, 130), (30, 110)), fill=(240, 202, 84, 255), outline=INK)   # cloth
-    d.line((40, 60, 140, 40), fill=(205, 168, 60, 255), width=3); d.line((44, 90, 150, 70), fill=(205, 168, 60, 255), width=3)
-    d.polygon(((150, 150), (220, 110), (300, 200), (300, 230), (220, 230)), fill=SLEEVE, outline=INK)          # sleeve
-    d.rounded_rectangle((132, 118, 214, 172), 20, fill=GLOVE, outline=INK, width=3)                          # cuff
-    d.ellipse((70, 56, 176, 150), fill=GLOVE, outline=INK, width=3)                                          # back of the hand
-    for i, (x0, y0, x1, y1) in enumerate(((40, 44, 104, 66), (34, 66, 98, 88), (38, 88, 98, 108), (52, 106, 104, 124))):
-        _capsule(d, x0, y0, x1, y1, GLOVE)                                                                   # fingers, flat
-    _capsule(d, 120, 30, 170, 54, GLOVE)                                                                     # thumb
-    d.arc((90, 70, 160, 140), 120, 220, fill=GLOVE_SH, width=3)
-    return g
-
-
-BRUSH = brush_hand()
-CLOTH = cloth_hand()
-
-
 def rot(im, deg):
     return im.rotate(deg, resample=Image.BICUBIC, expand=True)
 
@@ -209,6 +190,9 @@ def flash_line(pic, k):
     return pic
 
 
+CRACK_PT = (CASE[0] + (CASE[2] - CASE[0]) * .66, CASE[1] + (CASE[3] - CASE[1]) * .34)
+
+
 def case_glass(fr, crack):
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     x0, y0, x1, y1 = CASE
@@ -217,7 +201,7 @@ def case_glass(fr, crack):
     for k, (a, b) in enumerate(((.12, .30), (.22, .27), (.70, .80))):                                   # glass streaks
         d.line((x0 + (x1 - x0) * a, y0 + 10, x0 + (x1 - x0) * (a + b * .5), y1 - 10), fill=(255, 255, 255, 46 if k < 2 else 30), width=8 if k == 0 else 4)
     if crack > 0:
-        cx, cy = x0 + (x1 - x0) * .66, y0 + (y1 - y0) * .34
+        cx, cy = CRACK_PT
         r = np.random.default_rng(11)
         for i in range(9):
             ang = i * 2 * math.pi / 9 + r.random() * .5
@@ -338,6 +322,26 @@ def tracing(fr, t):
     return fr
 
 
+def sign(fr, t):
+    """Producer improvement: a PLEASE DO NOT TOUCH sign on the wall; when the glass cracks it loses a nail and swings."""
+    w, h = 236, 46
+    g = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(g)
+    d.rectangle((0, 0, w - 1, h - 1), fill=(236, 230, 214, 255), outline=(120, 110, 90, 255), width=2)
+    s1 = 'PLEASE DO NOT TOUCH'
+    d.text((w / 2 - d.textlength(s1, font=F(15)) / 2, 13), s1, font=F(15), fill=(160, 30, 40, 255))
+    d.ellipse((8, 6, 16, 14), fill=(120, 110, 90, 255))
+    ang = 0
+    if t > T_CRACK:                                                          # hangs from the left nail, damped swing
+        u = t - T_CRACK
+        ang = -(9 + 7 * math.exp(-u * 3) * math.cos(u * 11))
+    else:
+        d.ellipse((w - 16, 6, w - 8, 14), fill=(120, 110, 90, 255))
+    pivot = (W * .19 - w / 2 + 12, H * .53 + 10)
+    big = Image.new('RGBA', (w * 2 + 40, w * 2 + 40)); big.paste(g, (w + 20 - 12, w + 20 - 10))
+    big = big.rotate(ang, resample=Image.BICUBIC, center=(w + 20, w + 20))
+    return comp(fr, big, pivot[0] - (w + 20), pivot[1] - (w + 20))
+
+
 def frame(t):
     fr = HALL.copy()
     ksp = ease(min(1, max(0, (t - T_SAFE + .2) / .6)))                      # L1: the spotlight finds the case
@@ -360,6 +364,14 @@ def frame(t):
     ctext(d, PIC_X + PIC_W - 28, PIC_Y + PIC_H + 3, '1998', 16, (232, 196, 90))
     kc = ease(min(1, max(0, (t - T_CTL - .1) / (T_SAME - T_CTL - .2))))     # L4: the pad comes up bright
     pad = Image.blend(PAD_DUSTY, PAD, kc) if 0 < kc < 1 else (PAD if kc >= 1 else PAD_DUSTY)
+    if 0 < kc < 1:                                                           # a shine sweeps the pad, twice
+        for s0 in (.1, .55):
+            q = (kc - s0) / .4
+            if 0 < q < 1:
+                sh = Image.new('L', pad.size, 0); x = -30 + (pad.width + 60) * q
+                ImageDraw.Draw(sh).polygon(((x, 0), (x + 22, 0), (x - 8, pad.height), (x - 30, pad.height)), fill=170)
+                sh = Image.fromarray(np.minimum(np.asarray(sh), np.asarray(pad.getchannel('A'))))
+                pad = pad.copy(); pad.paste(Image.new('RGBA', pad.size, (255, 255, 245, 255)), (0, 0), sh)
     fr = comp(fr, pad, PAD_C[0] - pad.width / 2, PAD_C[1] - pad.height / 2)
     if T_CTL < t < T_SAME + .4:                                              # glints as the dust comes off
         for j, (ox, oy, ph) in enumerate(((-40, -20, 0), (30, -28, .35), (52, 4, .7))):
@@ -372,25 +384,31 @@ def frame(t):
     fr = tracing(fr, t)
     crack = min(1, max(0, (t - T_CRACK + .1) / .35))
     fr = case_glass(fr, crack)
+    if crack > 0:                                                            # Producer improvement: the light of something new leaks out
+        kg = ease(min(1, (t - T_CRACK) / .6))
+        fr = CART.glow(fr, CRACK_PT[0], CRACK_PT[1], int(70 + 60 * kg), (150, 255, 160), .75 * kg)
+        g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
+        for i in range(7):
+            ang = -2.6 + i * .55 + .05 * math.sin(t * 3 + i)
+            L = (90 + 40 * (i % 3)) * kg
+            gd.polygon(((CRACK_PT[0], CRACK_PT[1]), (CRACK_PT[0] + L * math.cos(ang - .05), CRACK_PT[1] + L * math.sin(ang - .05)),
+                        (CRACK_PT[0] + L * math.cos(ang + .05), CRACK_PT[1] + L * math.sin(ang + .05))), fill=(190, 255, 190, int(120 * kg)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
+    fr = sign(fr, t)
     fr = plaque(fr, ease(min(1, max(0, (t - T('l92.w4') + .15) / .4))), t)
     fr = wall_card(fr, t)
     fr = rope(fr, t)
-    # L2: the brush hand sweeps the picture
-    if T_TEX - .35 < t < T_RES + .25:
-        kin = ease(min(1, (t - T_TEX + .35) / .35)); kout = ease(min(1, max(0, (t - T_RES + .05) / .3)))
+    # L2 (no hands, Producer): a band of light sweeps the picture and the dust flies off it
+    if T_TEX - .05 < t < T_RES:
         kb = min(1, max(0, (t - T_TEX) / (T_RES - T_TEX - .1)))
-        hb = rot(BRUSH, -8)
-        tipx = PIC_X + PIC_W * ease(kb) - 14
-        x = lin(W + 40, tipx, kin) + 400 * kout
-        y = PIC_Y + PIC_H * .55 + 12 * math.sin(t * 14) - hb.height / 2
-        fr = comp(fr, hb, x, y)
-    # L4: the cloth hand polishes the pad
-    if T_CTL - .35 < t < T_SAME + .2:
-        kin = ease(min(1, (t - T_CTL + .35) / .35)); kout = ease(min(1, max(0, (t - T_SAME + .1) / .3)))
-        a = (t - T_CTL) * 9
-        cx = PAD_C[0] - 120 + 22 * math.cos(a) - 300 * (1 - kin) - 300 * kout
-        cy = PAD_C[1] - 70 + 12 * math.sin(a) + 200 * (1 - kin) + 200 * kout
-        fr = comp(fr, CLOTH, cx, cy)
+        ex = PIC_X + PIC_W * ease(kb)
+        g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
+        gd.rectangle((ex - 10, PIC_Y - 6, ex + 10, PIC_Y + PIC_H + 6), fill=(255, 250, 225, 170))
+        r = np.random.default_rng(int(t * 24))
+        for _ in range(26):                                                   # dust motes blown off to the right
+            dx, dy = r.random() * 90, r.random() * PIC_H
+            gd.ellipse((ex + dx - 2, PIC_Y + dy - 2, ex + dx + 2, PIC_Y + dy + 2), fill=(225, 215, 190, int(220 * (1 - dx / 90))))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(1.5))).convert('RGB')
     # Navi: hovers by the case, then flushes red on "problem"
     keys = [(T0, .30, .30), (T_TEX, .30, .22), (T_SAME, .28, .25), (T_RESP, .25, .30), (T_PROB, .31, .26), (T_END, .32, .25)]
     red = min(1, max(0, (t - T_CRACK) / .25))
@@ -402,9 +420,13 @@ def frame(t):
         d.text((x * W + 20, y * H - 58), '!', font=F(46), fill=(255, 90, 80), stroke_width=4, stroke_fill=(20, 14, 18))
         fr = Image.blend(fr, Image.new('RGB', fr.size, (120, 0, 0)), .10 * red * (.6 + .4 * math.sin(t * 12)))
     zoom = lin(1.0, 1.07, ease(min(1, (t - T0) / (T_TEX - T0))))             # L1: a slow push in on the case
+    kz = ease(min(1, max(0, (t - T_CTL + .1) / .45))) * (1 - ease(min(1, max(0, (t - T_SAME + .25) / .45))))
+    zoom *= 1 + .6 * kz                                                     # Producer improvement: lean in on the pad
+    ax, ay = lin(W * .5, PAD_C[0], kz), lin(H * .42, PAD_C[1], kz)
     shake = 6 * math.exp(-(t - T_CRACK) * 8) * math.sin(t * 90) if t > T_CRACK else 0   # the crack jolts the shot
     if zoom > 1:
-        cw, ch = W / zoom, H / zoom; cx0, cy0 = (W - cw) / 2 + shake, (H * .42) - ch * .42
+        cw, ch = W / zoom, H / zoom; cx0, cy0 = ax - cw / 2 + shake, ay - ch * .5 * (1 + .16 * (1 - kz)) + ch * .08 * (1 - kz)
+        cx0 = min(max(cx0, 0), W - cw); cy0 = min(max(cy0, 0), H - ch)
         fr = fr.crop((int(cx0), int(cy0), int(cx0 + cw), int(cy0 + ch))).resize((W, H), Image.BILINEAR)
     lab = ('L1 the safest remake' if t < T_TEX else 'L2 sharper textures' if t < T_RES else 'L3 better resolution' if t < T_CTL
            else 'L4 cleaner controls' if t < T_SAME else 'L5 exactly where you remember it' if t < T_RESP
@@ -417,7 +439,7 @@ def render(t):
     if t < T0 + .3:                                                          # out of block K's glow
         fr = Image.blend(Image.new('RGB', fr.size, (255, 245, 215)), fr, (t - T0) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v1 · PLANNING ONLY')
+    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -427,7 +449,7 @@ STILLS = (('l1', T_NOTHING + .8), ('l2', T_TEX + .5), ('l3', T_RES + 1.0), ('l4'
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -437,14 +459,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockL_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockL_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockL_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockL_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

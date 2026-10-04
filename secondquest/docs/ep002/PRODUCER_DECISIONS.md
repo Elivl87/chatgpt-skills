@@ -230,3 +230,9 @@
   white-gloved restorer (hands only, no new art) brushes the picture clean (textures), the pixels split twice (same
   layout, resolution), a cloth polishes the pad (controls); tracing paper lands exactly: 100% MATCH; a gold RESPECTFUL
   plaque on the wall; on "problem" the glass cracks and Navi flushes red with "!". HUD hidden (museum).
+- L v2 (Producer: "¿Siempre el mismo fondo de Hyrule? ¿No es abuso?" / "La mano no se entiende… ¿es necesaria?" /
+  "Haz las mejoras dichas"): the restorer's hands are removed (a band of light cleans the picture, a shine cleans the
+  pad). The case no longer shows block G's field: it holds the sword's temple in 1998 (procedural, evoked). Rule from
+  here on: vary the places; Hyrule Field only where the script is about the field. Improvements in: the camera leans in
+  on the pad while it is cleaned; green light leaks through the crack; a PLEASE DO NOT TOUCH sign loses a nail and
+  swings when the glass cracks.
