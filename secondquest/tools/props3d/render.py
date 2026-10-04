@@ -306,6 +306,20 @@ def job_hud_items():
     print('icon_bomb.png, icon_boomerang.png')
 
 
+def job_horse_rear():
+    """The same horse seen from behind (3/4 rear, a little above): it gallops away from camera, towards the castle."""
+    out = OUT / 'horse_rear'; out.mkdir(parents=True, exist_ok=True)
+    tgt = [0, 1250, 0]
+    shots = [{'camera': orbit(-68, 12, 9000, tgt), 'target': tgt, 'fov': 22, 'cart': None, 'pose': i / 8} for i in range(8)]
+    imgs = render({'props': ['horse'], 'shots': shots[:4], 'light': 'neutral'}, 900, 900, line=2.6) + render({'props': ['horse'], 'shots': shots[4:], 'light': 'neutral'}, 900, 900, line=2.6)
+    a = np.max([im[..., 3] for im in imgs], axis=0)
+    ys, xs = np.where(a > 8); y0, y1, x0, x1 = max(0, ys.min() - 6), ys.max() + 6, max(0, xs.min() - 6), xs.max() + 6
+    for i, im in enumerate(imgs):
+        cv2.imwrite(str(out / f'f{i:03d}.png'), im[y0:y1, x0:x1])
+    cv2.imwrite(str(ROOT / 'docs/ep002/props3d_horse_rear_sheet.png'), np.concatenate([im[y0:y1, x0:x1] for im in imgs[:4]], axis=1))
+    print('horse_rear', len(imgs))
+
+
 def job_horse():
     """Quest's own horse (animatic stand-in): 8-frame gallop, side-on from a little in front, daylight. Frames share one
     crop so the horse does not jitter."""
@@ -322,7 +336,7 @@ def job_horse():
     print('horse_gallop', len(imgs))
 
 
-JOBS = {'horse': job_horse, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+JOBS = {'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

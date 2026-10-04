@@ -172,3 +172,7 @@
 - The horse: final art from Higgsfield (art plan #13, Quest on his own horse, about 1.0 credit; quoted with the MISSING
   list at the end). In the animatic a free 3D stand-in built by Claude (`tools/props3d`, job `horse`: dapple grey,
   charcoal mane, blue saddle cloth, 8-frame gallop), never Epona's look.
+- v3 not approved ("hay idea, pero mal ejecutada"). v4 execution: the CRT big and front on in his room at night, a
+  clear 1998 picture (chunky pixels, small palette, pixel hearts); Quest whole, standing, from behind; his face clear in
+  the dark glass; today's Hyrule seen from behind as Quest rides away towards the castle (3D horse rendered from the
+  rear, job `horse_rear`); the gallop runs under l63, so block I starts on l64.
