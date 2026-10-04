@@ -4,18 +4,19 @@ l70 "...Link's journey spans Hyrule across two different eras." (Act 3 opens; bl
 
 Told as the game's own menus (Navi is the menu cursor, as on the classic file select):
   I1  "This remake is not really being made for one audience."  Block H's last shot continues (today's Hyrule, the
-                                                        rider gone into the distance); on "one" the field dims and a
-                                                        menu asks HOW MANY PLAYERS? Navi rests on 1 PLAYER.
-  I2  "It is being made for two."                       Navi moves to 2 PLAYERS; on "two" it confirms: two player cards
-                                                        join: PLAYER 1 = Quest (the veteran), PLAYER 2 = Pixie (new).
+                                                        rider gone into the distance); on "one" the field dims to the
+                                                        classic file select: FILE 1 · VETERAN PLAYER (100%), Navi on it.
+  I2  "It is being made for two."                       Navi moves to FILE 2 · NEW PLAYER (NEW GAME); on "two" it confirms:
+                                                        two cards: VETERAN PLAYER = Quest, NEW PLAYER = Pixie. (Zelda is
+                                                        single-player: two kinds of player, not two players at once.)
   I3  "Player one already knows everything."            Player 2 steps back; Player 1's save file opens: 20 hearts,
                                                         999:59 played, three item slots full, 100% COMPLETE.
   I4  "They know what that ocarina means."              The ocarina leaves its slot, big, turning, with notes.
   I5  "...what happens when Link pulls the Master Sword."  The sword rises from its pedestal; on "Sword" a white flash
                                                         and the game's text: SEVEN YEARS LATER...
-  I6  "They see three golden triangles ... a very bad decision."  The golden triangles glow; a "!" over Player 1; the
-                                                        game asks MAKE A WISH?  YES / NO; Navi drifts from NO to YES on
-                                                        "bad decision": a red pulse.
+  I6  "They see three golden triangles ... a very bad decision."  The golden triangles glow; a "!" over the veteran;
+                                                        a hooded shadow with red eyes rises behind them and reaches for
+                                                        them; the veteran: "NO, NO, NO!"; a red pulse on "bad decision".
   I7  "The Triforce represents wisdom, power and courage, and Link's journey spans Hyrule across two different eras."
                                                         Our three plates part and name themselves (Wisdom, Power,
                                                         Courage); then Hyrule splits into its two eras: CHILD (bright)
@@ -122,33 +123,45 @@ def field_shot(t):
 
 
 def players_menu(fr, t):
-    """HOW MANY PLAYERS?  1 PLAYER / 2 PLAYERS; Navi is the cursor; on "two" it confirms."""
+    """The classic file select (a single-player game, two kinds of player): FILE 1 · VETERAN PLAYER (100%) and
+    FILE 2 · NEW PLAYER (NEW GAME). Navi is the cursor; on "two" it moves to FILE 2 and confirms."""
     a = min(1, (t - T_ONE) / .3) * (1 - min(1, max(0, (t - T_TWO - .3) / .25)))
     if a <= 0:
         return fr
-    g = panel(520, 300, a); d = ImageDraw.Draw(g)
-    ctext(d, 264, 30, 'HOW MANY PLAYERS?', 30, GOLD[:3] + (int(255 * a),))
+    pw, ph = 640, 300
+    g = panel(pw, ph, a); d = ImageDraw.Draw(g)
+    ctext(d, pw / 2 + 4, 24, 'SELECT A FILE', 30, GOLD[:3] + (int(255 * a),))
     sel2 = t >= T_TWO - .25
     flash = max(0, 1 - (t - T_TWO) / .3) if t >= T_TWO else 0
-    for i, s in enumerate(('1 PLAYER', '2 PLAYERS')):
+    for i in range(2):
         on = (i == 1) == sel2
-        y = 110 + i * 80
-        if on:
-            d.rounded_rectangle((90, y - 8, 438, y + 50), 12, fill=(255, 255, 255, int((40 + 160 * flash) * a)))
-        ctext(d, 264, y, s, 40, (255, 255, 255, int(255 * a)) if on else (150, 155, 180, int(255 * a)))
-    return comp(fr, g, W * .5 - 264, H * .2)
+        y = 86 + i * 100
+        box = (40, y, pw - 32, y + 84)
+        d.rounded_rectangle(box, 12, fill=(255, 255, 255, int((26 + (150 * flash if on else 0)) * a)) if on else (30, 36, 80, int(200 * a)),
+                            outline=(235, 235, 250, int((255 if on else 120) * a)), width=3)
+        col = (255, 255, 255, int(255 * a)) if on else (170, 175, 200, int(255 * a))
+        if i == 0:
+            d.text((60, y + 10), 'FILE 1 · VETERAN PLAYER', font=F(26), fill=col)
+            for h_ in range(10):
+                hud._heart(d, 70 + h_ * 22, y + 58, 8, (232, 44, 52, int(255 * a)))
+            d.text((pw - 140, y + 42), '100%', font=F(28), fill=(90, 220, 120, int(255 * a)))
+        else:
+            d.text((60, y + 10), 'FILE 2 · NEW PLAYER', font=F(26), fill=col)
+            d.text((60, y + 46), 'NEW GAME', font=F(24), fill=(120, 200, 255, int(255 * a)))
+    return comp(fr, g, W * .5 - pw / 2 - 4, H * .17)
 
 
 def menu_cursor(t):
-    """Navi as the menu cursor (left of the highlighted option), as on the classic file select."""
-    y1, y2 = (H * .2 + 110 + 24) / H, (H * .2 + 190 + 24) / H
-    return [(T_ONE, .27, y1), (T_TWOL + .3, .27, y1), (T_TWO - .2, .27, y2), (T_TWO + .5, .27, y2)]
+    """Navi as the file-select cursor, left of the highlighted file, as on the classic screen."""
+    y1, y2 = (H * .17 + 86 + 42) / H, (H * .17 + 186 + 42) / H
+    x = (W * .5 - 320 - 34) / W
+    return [(T_ONE, x, y1), (T_TWOL + .3, x, y1), (T_TWO - .2, x, y2), (T_TWO + .5, x, y2)]
 
 
 # ------------------------------------------------------------------ I2-I3: the player cards, Player 1's save file
 def card(who, label, col, w=300, h=400, alpha=1.0, dim=0.0):
     g = panel(w, h, alpha, outline=col + (255,)); d = ImageDraw.Draw(g)
-    ctext(d, w / 2 + 4, 18, label, 28, col + (int(255 * alpha),))
+    ctext(d, w / 2 + 4, 20, label, 24, col + (int(255 * alpha),))
     ph = int((h - 90) * (1.0 if who is P1 else .95))                     # Pixie ~95% of Quest's height (spec)
     im = sized(who, ph)
     if dim:
@@ -164,7 +177,7 @@ SLOT_Y = 330
 def save_file(fr, t, a):
     """Player 1's file: 20 hearts, time played, the three items, 100% COMPLETE."""
     g = panel(560, 410, a); d = ImageDraw.Draw(g)
-    d.text((30, 20), 'FILE 1 · QUEST', font=F(28), fill=GOLD[:3] + (int(255 * a),))
+    d.text((30, 20), 'FILE 1 · VETERAN PLAYER', font=F(28), fill=GOLD[:3] + (int(255 * a),))
     for i in range(20):                                                  # 20 hearts in two rows
         x, y = 34 + (i % 10) * 34, 70 + (i // 10) * 30
         hud._heart(d, x + 12, y + 12, 11, (232, 44, 52, int(255 * a)))
@@ -202,12 +215,12 @@ def slot_items(fr, t, a):
 
 
 def p1_portrait(fr, t, a, alert=0.0):
-    c = card(P1, 'PLAYER 1', (232, 196, 90), alpha=a)
+    c = card(P1, 'VETERAN PLAYER', (232, 196, 90), alpha=a)
     fr = comp(fr, c, W * .07, H * .12)
     if alert > 0:                                                       # "!" over Player 1: he knows what comes next
         d = ImageDraw.Draw(fr)
         s = int(70 + 20 * math.sin(math.pi * min(1, alert)))
-        d.text((W * .07 + 250, H * .12 - 10), '!', font=F(s), fill=(255, 80, 70), stroke_width=5, stroke_fill=(20, 14, 18))
+        d.text((W * .07 + 262, H * .12 + 52), '!', font=F(s), fill=(255, 80, 70), stroke_width=5, stroke_fill=(20, 14, 18))
     return fr
 
 
@@ -254,29 +267,74 @@ def stage_sword(fr, t, k):
     return fr
 
 
+T_REACH = T('l69.w14')                  # "make": the hand reaches for the triangles
+
+
+def villain_shadow(t):
+    """A dark, hooded shadow (inspired, never a replica) rising behind the triangles, red eyes."""
+    kv = ease(min(1, max(0, (t - T_WISH + .2) / .8)))
+    if kv <= 0:
+        return None, kv
+    g = Image.new('RGBA', (440, 470)); d = ImageDraw.Draw(g)
+    sh = (22, 8, 30, int(235 * kv))
+    d.polygon([(40, 470), (100, 230), (160, 175), (220, 160), (280, 175), (340, 230), (400, 470)], fill=sh)   # cloak, shoulders
+    d.polygon([(150, 190), (165, 80), (220, 30), (275, 80), (290, 190)], fill=sh)                                  # hood
+    d.ellipse((168, 70, 272, 180), fill=sh)
+    glow = Image.new('RGBA', g.size); gd = ImageDraw.Draw(glow)
+    for ex in (196, 244):                                                                                         # red eyes
+        gd.ellipse((ex - 12, 118, ex + 12, 132), fill=(255, 40, 40, int(255 * kv)))
+    g = g.filter(ImageFilter.GaussianBlur(2))
+    ramp = Image.linear_gradient('L').resize(g.size).point(lambda v: 255 if v < 150 else int(255 * (255 - v) / 105))   # rises out of darkness
+    g.putalpha(Image.fromarray(np.minimum(np.asarray(g.getchannel('A')), np.asarray(ramp))))
+    g.alpha_composite(glow.filter(ImageFilter.GaussianBlur(3))); g.alpha_composite(glow)
+    return g, kv
+
+
 def stage_triforce(fr, t, k):
     cx, cy = 830, 235
+    shadow, kv = villain_shadow(t)
+    if shadow is not None:
+        shadow = fade(shadow, k)                                                           # leaves with the triangles
+    sx, sy = 980, 70 + (1 - kv) * 300                                                       # rises from below, behind the triangles
+    if shadow is not None:
+        fr = CART.glow(fr, sx, sy + 200, 300, (120, 30, 140), .35 * kv)
+        fr = comp(fr, shadow, sx - 220, sy)
     s = sized(TRI_ICON, lin(84, 230, k))
     pulse = .5 + .5 * math.sin(t * 6)
     fr = CART.glow(fr, cx, cy, int(260 * k) + 1, (255, 214, 120), (.35 + .15 * pulse) * k)
     fr = comp(fr, fade(s, k), cx - s.width / 2, cy - s.height / 2)
-    if t >= T_WISH:                                                     # the game asks; Navi drifts from NO to YES
-        a = min(1, (t - T_WISH) / .3) * (1 - min(1, max(0, (t - T_TF + .25) / .25)))
-        g = panel(520, 120, a); d = ImageDraw.Draw(g)
-        ctext(d, 264, 14, 'MAKE A WISH?', 32, (255, 255, 255, int(255 * a)))
-        yes = t >= T_BAD
-        d.text((120, 62), 'YES', font=F(34), fill=((255, 120, 110) if yes else (150, 155, 180)) + (int(255 * a),))
-        d.text((330, 62), 'NO', font=F(34), fill=((150, 155, 180) if yes else (255, 255, 255)) + (int(255 * a),))
-        fr = comp(fr, g, 830 - 264, 385)
+    if shadow is not None:                                                                  # the arm reaches for them
+        kr = ease(min(1, max(0, (t - T_REACH + .3) / .8)))
+        if kr > 0:
+            g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+            kr *= k
+            x0, y0 = sx - 120, sy + 230                                                     # shoulder
+            hx, hy = lin(x0 - 20, cx + 95, kr), lin(y0 - 10, cy + 20, kr)                   # the hand, at the triangles' edge
+            d.line((x0, y0, hx, hy), fill=(22, 8, 30, 235), width=34)
+            d.ellipse((hx - 28, hy - 24, hx + 28, hy + 24), fill=(22, 8, 30, 240))
+            for j in range(4):                                                              # clawed fingers
+                a0 = math.radians(160 + j * 22)
+                d.line((hx, hy, hx + 52 * math.cos(a0), hy - 52 * math.sin(a0) * .8), fill=(22, 8, 30, 240), width=10)
+            fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(1.5))).convert('RGB')
     if t >= T_BAD:                                                      # the very bad decision: a red pulse
         r = max(0, 1 - (t - T('l69.w18')) / .6) if t >= T('l69.w18') else .4
         fr = Image.blend(fr, Image.new('RGB', fr.size, (160, 10, 20)), .35 * r)
     return fr
 
 
-def wish_cursor():
-    y = (385 + 62 + 20) / H
-    return [(T_WISH + .2, (830 - 264 + 330 - 30) / W, y), (T_BAD - .3, (830 - 264 + 330 - 30) / W, y), (T_BAD, (830 - 264 + 120 - 30) / W, y), (T_TF - .3, (830 - 264 + 120 - 30) / W, y)]
+def no_bubble(fr, t):
+    """The veteran sees it coming: "NO, NO, NO!" """
+    if not (T_WISH + .3 <= t < T_TF):
+        return fr
+    a = min(1, (t - T_WISH - .3) / .2)
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    x0, y0, x1, y1 = 300, 46, 512, 104
+    d.polygon([(x0 + 20, y1 - 4), (x0 + 52, y1 - 4), (262, 150)], fill=(255, 255, 255, int(250 * a)), outline=INK)
+    d.rounded_rectangle((x0, y0, x1, y1), 20, fill=(255, 255, 255, int(250 * a)), outline=INK, width=3)
+    d.polygon([(x0 + 22, y1 - 2), (x0 + 50, y1 - 2), (x0 + 36, y1 + 4)], fill=(255, 255, 255, int(250 * a)))
+    jit = 2 * math.sin(t * 40)
+    ctext(d, (x0 + x1) / 2 + jit, y0 + 12, 'NO, NO, NO!', 28, (200, 30, 40, int(255 * a)))
+    return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
 # ------------------------------------------------------------------ I7: wisdom, power, courage; two eras
@@ -345,8 +403,8 @@ def render(t):
         fr = players_menu(fr, t)
         if t >= T_TWO + .6:                                              # two cards join (after the menu has gone)
             kc = ease(min(1, (t - T_TWO - .6) / .35))
-            c1 = card(P1, 'PLAYER 1', (232, 196, 90), alpha=kc)
-            c2 = card(P2, 'PLAYER 2', (120, 200, 255), alpha=kc)
+            c1 = card(P1, 'VETERAN PLAYER', (232, 196, 90), alpha=kc)
+            c2 = card(P2, 'NEW PLAYER', (120, 200, 255), alpha=kc)
             fr = comp(fr, c1, W * .5 - 330 - 40 * (1 - kc), H * .12)
             fr = comp(fr, c2, W * .5 + 22 + 40 * (1 - kc), H * .12)
         lab = 'I1-I2 how many players? two'
@@ -354,11 +412,11 @@ def render(t):
         fr = MENU_BG.copy()
         kc = ease(min(1, (t - T_P1) / .45))
         if kc < 1:                                                      # Player 2 steps back, out to the right
-            c2 = card(P2, 'PLAYER 2', (120, 200, 255), alpha=1 - kc, dim=kc)
+            c2 = card(P2, 'NEW PLAYER', (120, 200, 255), alpha=1 - kc, dim=kc)
             fr = comp(fr, c2, W * .5 + 22 + 300 * kc, H * .12)
         x1 = lin(W * .5 - 330, W * .07, kc)
-        alert = min(1, max(0, (t - T_KNOW) / .3)) if T_KNOW <= t < T_TF else 0
-        fr = comp(fr, card(P1, 'PLAYER 1', (232, 196, 90)), x1, H * .12) if kc < 1 else p1_portrait(fr, t, 1, alert)
+        alert = min(1, max(0, (t - T_KNOW) / .3)) if T_KNOW <= t < T_WISH + .3 else 0   # then the "NO, NO, NO!" takes over
+        fr = comp(fr, card(P1, 'VETERAN PLAYER', (232, 196, 90)), x1, H * .12) if kc < 1 else p1_portrait(fr, t, 1, alert)
         fa = ease(min(1, max(0, (t - T_P1 - .25) / .4)))
         if fa > 0:
             fr = save_file(fr, t, fa)
@@ -368,6 +426,7 @@ def render(t):
                 veil = Image.new('RGBA', (W, H)); ImageDraw.Draw(veil).rounded_rectangle((W * .5 - 120, H * .1, W * .5 + 448, H * .1 + 418), 18, fill=(8, 10, 30, int(170 * k)))
                 fr = Image.alpha_composite(fr.convert('RGBA'), veil).convert('RGB')
                 fr = (stage_ocarina, stage_sword, stage_triforce)[i](fr, t, k)
+            fr = no_bubble(fr, t)
         lab = ('I3 player one knows everything' if t < T_OC else 'I4 the ocarina' if t < T_SW else 'I5 the sword (seven years later)'
                if t < T_TRI else 'I6 three golden triangles: a very bad decision')
     elif t < T_ERAS:                                                    # I7a: the plates name themselves
@@ -383,14 +442,12 @@ def render(t):
         lab = 'I7 two different eras'
     if T_ONE <= t < T_P1:
         fr = fairy_fx.draw(fr, menu_cursor(t), t, size=.04)
-    elif T_WISH + .2 <= t < T_TF:
-        fr = fairy_fx.draw(fr, wish_cursor(), t, size=.04)
     elif t < T_ONE:
-        fr = fairy_fx.draw(fr, [(T0, .5, .45), (T_ONE, .27, (H * .2 + 134) / H)], t, size=.045)
+        fr = fairy_fx.draw(fr, [(T0, .5, .45), (T_ONE, menu_cursor(t)[0][1], menu_cursor(t)[0][2])], t, size=.045)
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v1 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -400,7 +457,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -410,14 +467,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

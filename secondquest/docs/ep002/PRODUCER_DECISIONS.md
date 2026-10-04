@@ -185,3 +185,11 @@
 - H v7 (approved changes): H3 "different" = a new art direction (golden-hour sky, teal/orange grade, low sun and light
   shafts, vignette) instead of raw saturation; the four upgrade icons in H1 stay; the reflection holds ~1.4 s; the room
   camera starts closer to the TV with Quest always whole.
+
+## 2026-10-04: block H approved (v7); block I
+- Block H approved. Full preview so far (Producer request): `docs/ep002/EP002_seq01_to_blockH_v1.mp4` (2:40).
+- Block I v1 idea liked. Producer correction: Zelda is single-player, so "two audiences" = two kinds of player, not
+  two players at once. v2 uses the classic file select: FILE 1 · VETERAN PLAYER (100%) / FILE 2 · NEW PLAYER (NEW GAME);
+  cards VETERAN PLAYER (Quest) and NEW PLAYER (Pixie).
+- "A very bad decision": the MAKE A WISH? dialog was unclear; replaced by a hooded shadow with red eyes (inspired
+  villain, never a replica) rising behind the triangles and reaching for them, the veteran shouting "NO, NO, NO!".
