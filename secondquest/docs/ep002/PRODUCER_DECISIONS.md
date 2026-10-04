@@ -278,3 +278,9 @@
   tiempo"): no flower in the CHILD | ADULT split; it lives only in the time-lapse.
 - I v5 (Producer: "Sí" to adding the gear): in block I's CHILD | ADULT eras shot, adult Quest carries the shield and the
   sword on his back (shared overlay `scripts/animatic/gear.py`, also used by block N).
+- O v1 ("Prosigue"): a pantry shelf of preserving jars (the script's "preserve"). Opens with a dissolve from N's two eras
+  (N improvement). The golden cartridge sealed in a jar (clamp lid, DO NOT OPEN), the lid twitches on "not
+  disrespecting"; on "refusing to change" the glass fogs and the cartridge greys; pull back to the shelf of 1998
+  limitations: FOG, LOW POLY, BLURRY TEXTURES, FIXED CAMERA, PRESERVED SINCE 1998; FOG pops open, curls into a "?" and
+  becomes MYSTERY; LOW POLY opens, a ghost castle rises: IMAGINATION; the fog fills the frame and clears on today's
+  forest where Pixie (tunic, awe) gets the same "?" (HUD on, 3 hearts).
