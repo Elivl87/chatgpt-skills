@@ -225,3 +225,8 @@
 - K v2 ("Apruebo con mejoras"): Block K approved with both improvements: (1) the 1998 picture inside the thought
   bubble flickers like the block-H tube (uneven brightness, rolling band, colour fringe, dark glass corners); (2) under
   "build both" the bubble is drawn into the real castle and the two Hyrules fuse in a glow just before the cut to Act 4.
+- L v1 ("Sí, constrúyelo así, con las manos del restaurador"): the safe remake as a museum. Glass case in a HALL OF
+  CLASSICS with the dusty 1998 field and the N64 pad; wall card REMAKE 2026 · CHANGES 0.01% with a checklist; a
+  white-gloved restorer (hands only, no new art) brushes the picture clean (textures), the pixels split twice (same
+  layout, resolution), a cloth polishes the pad (controls); tracing paper lands exactly: 100% MATCH; a gold RESPECTFUL
+  plaque on the wall; on "problem" the glass cracks and Navi flushes red with "!". HUD hidden (museum).
