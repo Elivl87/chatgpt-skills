@@ -38,6 +38,8 @@ FIELD = plate(('proc', 'field', (('time', 'day'), ('castle', '3d')))).convert('R
 HERO = cutout('quest:walking_back', 'hero')
 HERO = HERO.resize((int(HERO.width * H * .36 / HERO.height), int(H * .36)), Image.LANCZOS)
 GOLD, PANEL = (232, 196, 90), (14, 18, 30)
+import os
+FAM_MODE = os.environ.get('FAM_MODE', 'card')   # card (v1) | window | heart: options for "familiar is not measurable"
 
 
 def comp(fr, im, x, y):
@@ -151,7 +153,13 @@ def meter_panel(fr, t):
         d.text((18, y), lab, font=F(20), fill=(240, 120, 110, 255) if fam else (235, 238, 250, 255))
         bx0, bx1 = 18, pw - 70
         d.rounded_rectangle((bx0, y + 26, bx1, y + 42), 6, fill=(40, 46, 64, 255), outline=(120, 130, 160, 255), width=2)
-        if fam:
+        if fam and FAM_MODE == 'heart':
+            if t >= ti:                                                 # no bar can hold it: a heart beats where the bar would be
+                pulse = 1 + .18 * max(0, math.sin((t - ti) * 7))
+                hx, hy, hr = (bx0 + bx1) / 2, y + 34, 12 * pulse
+                d.polygon([(hx, hy + hr), (hx - 1.6 * hr, hy - .2 * hr), (hx - hr, hy - 1.1 * hr), (hx, hy - .5 * hr), (hx + hr, hy - 1.1 * hr), (hx + 1.6 * hr, hy - .2 * hr)], fill=(240, 120, 110, 255))
+                d.text((bx1 + 10, y + 18), '?', font=F(22), fill=(240, 120, 110, 255))
+        elif fam:
             if t >= ti:
                 v = abs(math.sin(t * 13)) * .9 if int(t * 6) % 2 else abs(math.sin(t * 7)) * .3      # it cannot settle
                 d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(240, 120, 110, 255))
@@ -165,6 +173,23 @@ def meter_panel(fr, t):
     return comp(fr, pan, x, H * .07)
 
 
+def familiar_window(fr, t):
+    if not (t >= T_FAM and FAM_MODE in ('window', 'heart')):
+        return fr
+    if True:                 # the old field shows through around Quest: what you remember
+        kf = ease(min(1, (t - T_FAM) / .8))
+        box = cam_box(((1.08, .5, .56), (1.16, .5, .56)), (t - T0) / (T_END - T0))
+        old = FIELD.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR).resize((56, 32), Image.BILINEAR).resize((W, H), Image.NEAREST)
+        old = Image.blend(old, Image.new('RGB', old.size, (255, 190, 110)), .22)
+        old = comp(old, HERO, W * .5 - HERO.width / 2, H * .93 - HERO.height)
+        m = Image.new('L', (W, H), 0); md = ImageDraw.Draw(m)
+        r = 260 * kf; cx, cy = W * .5, H * .7
+        md.ellipse((cx - r * 1.3, cy - r, cx + r * 1.3, cy + r), fill=255)
+        fr = Image.composite(old, fr, m.filter(ImageFilter.GaussianBlur(30)))
+        fr = CART.glow(fr, cx, cy, int(r * 1.4) + 1, (255, 210, 140), .2 * kf)
+    return fr
+
+
 def render(t):
     fr = field_frame(t)
     fr = grass(fr, t, k_at(t, BARS[2][1]))
@@ -172,9 +197,10 @@ def render(t):
     fr = sound_fx(fr, t, k_at(t, BARS[3][1]))
     navi_col = (255, 225, 90) if T_DANGER - .2 <= t < T_MEAS + .4 else (170, 220, 255)
     fr = fairy_fx.draw(fr, [(T0, .58, .5), (T_DANGER, .56, .45), (T_MEAS, .6, .5), (T_END, .56, .48)], t, size=.05, color=navi_col)
+    fr = familiar_window(fr, t)                                       # under the UI, never over it
     fr = blueprint_sheet(fr, t)
     fr = meter_panel(fr, t)
-    if t >= T_FAM:                                                      # the afternoon that cannot be measured
+    if t >= T_FAM and FAM_MODE == 'card':                                                    # the afternoon that cannot be measured
         kf = ease(min(1, (t - T_FAM) / .5))
         card = A.KIDS.rotate(5, expand=True, resample=Image.BICUBIC)
         s = .85 * kf + .01; card = card.resize((max(1, int(card.width * s)), max(1, int(card.height * s))), Image.LANCZOS)
