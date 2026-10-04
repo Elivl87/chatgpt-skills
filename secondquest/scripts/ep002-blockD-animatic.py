@@ -303,15 +303,15 @@ def frame_d910(t):
 def render(t):
     if t < T_SMALL:
         fr = frame_d12(t)
-        fr = hud.draw(fr, alpha=min(1, (t - T0) / .4) * (1 - min(1, max(0, (t - T_NOT) / .3))))   # not on the 'actual size' tile
+        fr = hud.draw(fr, alpha=min(1, (t - T0) / .4) * (1 - min(1, max(0, (t - T_NOT) / .3))), t=t)   # not on the 'actual size' tile
     elif t < T_WAKE:
-        fr = hud.draw(frame_d345(t))
+        fr = hud.draw(frame_d345(t), t=t)
     elif t < T_FOREST:
         fr = frame_d6(t)                                                # the bedroom: no HUD (real life)
     elif t < T_CASTLE:
-        fr = hud.draw(frame_d78(t), alpha=min(1, (t - T_FOREST) / .3))
+        fr = hud.draw(frame_d78(t), alpha=min(1, (t - T_FOREST) / .3), t=t)
     else:
-        fr = hud.draw(frame_d910(t), alpha=1 - min(1, max(0, (t - T_END + .5) / .5)))
+        fr = hud.draw(frame_d910(t), alpha=1 - min(1, max(0, (t - T_END + .5) / .5)), t=t)
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr

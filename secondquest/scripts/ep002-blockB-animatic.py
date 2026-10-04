@@ -233,7 +233,7 @@ def render(t):
     else:                                                                 # B4-B6
         fr = field_frame(t)
         a_hud = min(1, (t - T_FIELD) / .4) * (1 - min(1, max(0, (t - T_WHY - .3) / .5)))   # in with Hyrule, out before the wordmark
-        fr = hud.draw(fr, alpha=a_hud)
+        fr = hud.draw(fr, alpha=a_hud, t=t)
         lab = 'B4 one thing' if t < T_YOU else ('B5 "You." HOLD' if t < T_GO else 'B6 Navi leads, Quest follows · "So, why?"')
         d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v5 · PLANNING ONLY')
     d = ImageDraw.Draw(fr)

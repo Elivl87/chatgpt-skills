@@ -262,7 +262,7 @@ def render(t):
     elif t < T_SW2:
         fr = frame_e23(t)
     else:
-        fr = hud.draw(frame_e45(t), alpha=ease(min(1, max(0, (t - T_SW2 - .5) / 1.0))))   # the HUD returns as Hyrule is rebuilt
+        fr = hud.draw(frame_e45(t), alpha=ease(min(1, max(0, (t - T_SW2 - .5) / 1.0))), t=t)   # the HUD returns as Hyrule is rebuilt
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr

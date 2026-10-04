@@ -238,9 +238,9 @@ def render(t):
         card = card.resize((int(card.width * .85), int(card.height * .85)), Image.LANCZOS)
         if u < .25:
             card.putalpha(card.getchannel('A').point(lambda v: int(v * u / .25)))
-        fr = comp(fr, card, W * .07 + 30 * math.sin((t - T_FAM) * 2.5) * (1 - u), H * .3 - H * .35 * (1 - fall))
+        fr = comp(fr, card, W * .17 + 30 * math.sin((t - T_FAM) * 2.5) * (1 - u), H * .3 - H * .35 * (1 - fall))   # a little more to the right (Producer)
     hearts = 5.0 if t < T_FAM + .2 else max(2.5, 5.0 - .5 * (1 + int((t - T_FAM - .2) / .35)))   # 'familiar': loses half a heart at a time
-    fr = hud.draw(fr, hearts=hearts)
+    fr = hud.draw(fr, hearts=hearts, t=t)
     if t < T0 + .3:
         fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T0) / .3)
     d = ImageDraw.Draw(fr)
