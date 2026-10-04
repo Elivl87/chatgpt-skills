@@ -250,3 +250,9 @@
 - M v2 ("Apruebo M con las tres mejoras"): Block M approved with: the case trembles harder until it bursts; on "stand"
   the 8-bit hero of the map grows into Quest (pixels -> smooth) instead of dropping in; the chest opens with light and
   sparkles after "where you looked mattered".
+- N v1 ("Sí, constrúyelo así"): inside the sword's temple. Young Quest before the pedestal; white flash on "not" and
+  adult Quest stands there, the pedestal empty; he dissolves into motes of light; the empty temple in time-lapse (light
+  swinging, blue sky -> red storm, roofs to ruins, cobwebs, cracks). Block I already used "SEVEN YEARS LATER" and a
+  field CHILD | ADULT split, so here the years are told without text and the eras split the temple itself. The temple
+  shrinks into the golden cartridge's label, a "side detail?" note is struck through; THE GAME stamp; then CHILD (day
+  window) | ADULT (storm window). HUD hidden.

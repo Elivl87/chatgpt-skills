@@ -35,7 +35,7 @@ papeles femeninos; personajes de terceros evocados, nunca réplicas (opción C).
 |---|---|---|---|---|
 | 11 | Hyrule Field (camino, castillo lejano, volcán) | Bloques B, D-I | fondo procedural + castillo 3D | #1 |
 | 12 | Bosque / aldea del bosque | Bloque M (bosque visto desde detrás de Quest), siguientes | mapa 8-bit + árboles procedurales | #2 |
-| 13 | Templo con el pedestal de la espada | Bloque I (espada), Bloque L (cuadro de 1998 en la vitrina), siguientes | pedestal dibujado; en L templo procedural | #3 |
+| 13 | Templo con el pedestal de la espada (interior, día y tormenta) | Bloque I (espada), Bloque L (cuadro de 1998 en la vitrina), Bloque N (interior), siguientes | pedestal dibujado; en L templo procedural | #3 |
 | 14 | Árbol gigante | Bloque J ("Great Deku Tree") | — | #4 |
 | 15 | Opcional: cuarto de Quest adulto | Bloque H | cuarto de la infancia | — |
 
