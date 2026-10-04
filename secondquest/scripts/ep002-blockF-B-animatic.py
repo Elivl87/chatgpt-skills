@@ -35,6 +35,25 @@ CART = A.BE.CART
 T0, T_BELOVED, T_BETTER, T_DANGER, T_MEAS, T_FAM, T_END = A.T0, A.T_BELOVED, A.T_BETTER, A.T_DANGER, A.T_MEAS, A.T_FAM, A.T_END
 BARS = A.BARS
 FIELD = plate(('proc', 'field', (('time', 'day'), ('castle', '3d')))).convert('RGB')
+def memory_polaroid(caption='Saturday, 1998'):
+    room = A.BE.BC.room_plate(A.BE.BC.T_SAT + 3, A.BE.BC.PIXIE_SIT).convert('RGB')
+    im = room.crop((int(.12 * PW), int(.45 * PH), int(.66 * PW), int(1.0 * PH))); im.thumbnail((200, 150))
+    im = Image.blend(im, Image.new('RGB', im.size, (255, 200, 130)), .12)
+    return im, caption
+
+
+POLA_IMG, POLA_CAP = memory_polaroid()
+
+
+def polaroid(t0, t):
+    """Develops from white like an instant photo (memory, not measurement)."""
+    dev = ease(min(1, max(0, (t - t0 - .2) / 1.4)))
+    img = Image.blend(Image.new('RGB', POLA_IMG.size, (238, 236, 228)), POLA_IMG, dev)
+    c = Image.new('RGBA', (img.width + 20, img.height + 46), (250, 246, 236, 255)); c.paste(img, (10, 10))
+    d = ImageDraw.Draw(c); d.text((12, img.height + 16), POLA_CAP, font=F(18), fill=(70, 55, 40, int(255 * dev)))
+    return c
+
+
 HERO = cutout('quest:walking_back', 'hero')
 HERO = HERO.resize((int(HERO.width * H * .36 / HERO.height), int(H * .36)), Image.LANCZOS)
 GOLD, PANEL = (232, 196, 90), (14, 18, 30)
@@ -203,23 +222,28 @@ def render(t):
     fr = field_frame(t)
     fr = grass(fr, t, k_at(t, BARS[2][1]))
     fr = hero(fr, t)
-    fr = sound_fx(fr, t, k_at(t, BARS[3][1]))
+    fade = 1 - ease(min(1, max(0, (t - T_FAM) / 1.6)))                 # the sound fades out as 'familiar' takes over
+    fr = sound_fx(fr, t, k_at(t, BARS[3][1]) * fade)
     navi_col = (255, 225, 90) if T_DANGER - .2 <= t < T_MEAS + .4 else (170, 220, 255)
     fr = fairy_fx.draw(fr, [(T0, .58, .5), (T_DANGER, .56, .45), (T_MEAS, .6, .5), (T_END, .56, .48)], t, size=.05, color=navi_col)
     fr = familiar_window(fr, t)                                       # under the UI, never over it
     fr = blueprint_sheet(fr, t)
     fr = meter_panel(fr, t)
-    if t >= T_FAM and FAM_MODE in ('card', 'card_heart'):                                                    # the afternoon that cannot be measured
-        kf = ease(min(1, (t - T_FAM) / .5))
-        card = A.KIDS.rotate(5, expand=True, resample=Image.BICUBIC)
-        s = .85 * kf + .01; card = card.resize((max(1, int(card.width * s)), max(1, int(card.height * s))), Image.LANCZOS)
-        fr = comp(fr, card, W * .07, H * .3)
+    if t >= T_FAM and FAM_MODE in ('card', 'card_heart'):            # floats down swaying to rest, developing like an instant photo
+        u = min(1, (t - T_FAM) / 1.3)
+        fall = ease(u)
+        sway = 14 * math.sin((t - T_FAM) * 5) * (1 - u)
+        card = polaroid(T_FAM, t).rotate(5 + sway, expand=True, resample=Image.BICUBIC)
+        card = card.resize((int(card.width * .85), int(card.height * .85)), Image.LANCZOS)
+        if u < .25:
+            card.putalpha(card.getchannel('A').point(lambda v: int(v * u / .25)))
+        fr = comp(fr, card, W * .07 + 30 * math.sin((t - T_FAM) * 2.5) * (1 - u), H * .3 - H * .35 * (1 - fall))
     if t < T0 + .3:
         fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T0) / .3)
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v2 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -229,7 +253,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -239,14 +263,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
