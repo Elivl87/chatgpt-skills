@@ -241,3 +241,9 @@
   Switch 2-like handheld (our own 3D, `tools/props3d` job `switch2`, free; evoked, not a replica) whose screen wakes up on
   the same temple in full detail. It stays in the case for the rest of the block.
 - L v3 approved as is ("Apruebo L así como está"); the two optional improvements (REMAKE badge on the handheld screen, screen flicker on the crack) not taken.
+- M v1 ("Sí, constrúyelo así"): in the forest, not Hyrule Field. Block L's case bursts on "familiar" and the camera
+  dives into the crack's green light (white on "new"); a flat top-down 8-bit forest map tilts into a ground plane like a
+  pop-up book on "suddenly", trees grow out of their tiles, Quest lands on "stand" (HUD on from here); a measuring line
+  to a misty mountain (FAR AWAY); a gaze cone + yellow target marker on a chest (evoked targeting); the ocarina plays,
+  flowers open; everything freezes and greys on "most importantly", Navi to the centre; one clock-dial sweep turns day
+  to night (sun down, moon and stars) on "time mattered".
