@@ -85,7 +85,7 @@ F_AWE = FIELD.copy(); place(F_AWE, HERO_AWE)
 
 
 def frame_d12(t):
-    cam = keyed([(T0, (1.7, .38, .71)), (T_NOT, (1.0, .5, .5))], t)   # headroom above the awe-struck face
+    cam = keyed([(T0, (1.62, .5, .67)), (T_NOT, (1.0, .5, .5))], t)   # castle whole at the top, headroom above the face
     fr, box = shoot(F_AWE, cam)
     fr = navi(fr, box, [(T0, .44, .5), (T0 + 1.8, .3, .46), (T_NOT, .42, .42)], t)
     if t >= T_NOT:                                                      # keep pulling out: the field is a small tile
