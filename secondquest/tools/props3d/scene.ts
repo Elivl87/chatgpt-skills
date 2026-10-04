@@ -538,6 +538,17 @@ const hyruleCastle = () => {
   round(-200, CZ - 120, 46, 560, 170);
   const dt = new THREE.Mesh(new THREE.CylinderGeometry(95, 95, 300, 32), PALE); dt.position.set(420, CB + 150, CZ + 110); dt.userData.part = part++; ids.push(dt); g.add(dt);
   const dm = new THREE.Mesh(new THREE.SphereGeometry(100, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), PALE); dm.position.set(420, CB + 300, CZ + 110); dm.userData.part = part++; ids.push(dm); g.add(dm);
+  // more volume (Producer: closer to the original): an upper tier, battlements, and a tighter cluster of towers
+  g.add(box(380, 150, 220, [0, CB + 300 + 75, CZ - 20], PALE, part++));
+  for (const [w, y, z, d] of [[560, CB + 300, CZ + 160, 320], [760, CB + 170, CZ + 250, 200], [380, CB + 450, CZ + 90, 220]]) {
+    const n = Math.floor(w / 46);
+    for (let i = 0; i <= n; i++) g.add(box(22, 22, 22, [-w / 2 + w * i / n, y + 11, z], PALE, part));
+  }
+  part++;
+  round(-300, CZ - 60, 42, 430, 150); round(300, CZ - 60, 42, 430, 150);
+  round(-70, CZ + 130, 30, 330, 110); round(70, CZ + 130, 30, 330, 110);
+  round(-470, CZ + 70, 40, 280, 120); round(330, CZ + 200, 34, 260, 110);
+  round(-380, CZ + 260, 28, 210, 90); round(380, CZ + 260, 28, 210, 90);       // front-wing corner turrets
   // windows on the main block and front wing
   for (let i = -3; i <= 3; i++) g.add(box(18, 40, 4, [i * 70, CB + 230, CZ + 161], DARK, part));
   for (let i = -4; i <= 4; i++) g.add(box(16, 30, 4, [i * 80, CB + 110, CZ + 251], DARK, part));

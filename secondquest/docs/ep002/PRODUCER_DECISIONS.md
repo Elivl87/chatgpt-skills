@@ -129,3 +129,8 @@
 - Options to decide at the end with the MISSING art list: generate the opposite step (~0.5 credit per pose at 1k), or
   a mirrored copy of the current back view (free, but it changes approved art: needs the Producer's OK).
 
+## 2026-10-04: blocks D and E approved; 3D Hyrule Castle
+- Block D approved (then v3/v4: path between the child and his adult outline; verified N64 spec callouts; N64 grass).
+- Block E approved. Own 3D Hyrule Castle built from the Producer's references (`docs/ep002/source/castle_refs/`) and
+  refined (upper tier, battlements, tighter tower cluster); used in the field plate from block D on.
+
