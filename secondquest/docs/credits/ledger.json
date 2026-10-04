@@ -143,6 +143,28 @@
         "c8fde73f-4ced-4ed3-8f26-d0b3b107debf"
       ],
       "balanceAfter": 82.75
+    },
+    {
+      "id": "Q009",
+      "episode": "EP001",
+      "item": "Spanish narrator casting: 5 voices x the EP001 hook (ElevenLabs via text2speech_v2)",
+      "model": "text2speech_v2",
+      "quoted": 3.0,
+      "status": "spent",
+      "quotedAt": "2026-10-04T17:46:25+00:00",
+      "prompt": null,
+      "approvedAt": "2026-10-04T17:46:30+00:00",
+      "approval": "Sí, apruebo el casting",
+      "spentAt": "2026-10-04T17:49:33+00:00",
+      "actual": 4.5,
+      "jobs": [
+        "784c7f1a-94bb-4f85-b11d-37d51c876fc6",
+        "e26cf26e-36a3-44d4-9098-e10d8809acd2",
+        "fd7ab7a6-03c1-4879-867c-790832214d7b",
+        "6ee653d8-c2c2-463b-a84a-be99227f859d",
+        "19526998-0a2b-4a9a-881b-a13e05e5c812"
+      ],
+      "balanceAfter": 78.25
     }
   ]
 }

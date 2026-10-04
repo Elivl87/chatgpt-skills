@@ -1,0 +1,7 @@
+{"note": "Blind casting key: do not show to the Producer until he picks.",
+ "voz_1": {"name": "Andre", "voice_id": "f1e8226e-2248-4d5f-b43c-0a79e9949dbf", "job": "784c7f1a-94bb-4f85-b11d-37d51c876fc6"},
+ "voz_2": {"name": "Juan", "voice_id": "6b528d43-c056-4a2f-9d82-1591a7ba13b0", "job": "e26cf26e-36a3-44d4-9098-e10d8809acd2"},
+ "voz_3": {"name": "Sterling", "voice_id": "dc382508-c8bd-443c-8cb2-46e57b8d2e6f", "job": "fd7ab7a6-03c1-4879-867c-790832214d7b"},
+ "voz_4": {"name": "Bram", "voice_id": "549ff70a-3ee7-4f04-a4d9-89a24fab7709", "job": "6ee653d8-c2c2-463b-a84a-be99227f859d"},
+ "voz_5": {"name": "Gideon", "voice_id": "1ad38ba4-9cc4-4f2f-9fde-b0fefdf67ae5", "job": "19526998-0a2b-4a9a-881b-a13e05e5c812"},
+ "model": "text2speech_v2 / elevenlabs"}
