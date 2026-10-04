@@ -182,3 +182,6 @@
   one defect reported: the controller reads modern, not N64. The mirrored profile is his reflection in the dark glass.
 - Block H approved (v5). Producer OK to put our 3D N64 controller in Quest's hands in Q008 (engine composite,
   `tools/fx/pad_swap_q008.py`, derived file `09_floor_profile_tv_n64pad.png`; the generated original is untouched) -> H v6.
+- H v7 (approved changes): H3 "different" = a new art direction (golden-hour sky, teal/orange grade, low sun and light
+  shafts, vignette) instead of raw saturation; the four upgrade icons in H1 stay; the reflection holds ~1.4 s; the room
+  camera starts closer to the TV with Quest always whole.

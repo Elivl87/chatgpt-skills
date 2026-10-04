@@ -226,7 +226,7 @@ def restyle(fr, e):
     return Image.alpha_composite(out.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(12))).convert('RGB')
 
 
-RESTYLE = restyle if os.environ.get('H3_STYLE') == 'v2' else restyle_v1   # v2 = proposal, pending the Producer's OK
+RESTYLE = restyle_v1 if os.environ.get('H3_STYLE') == 'v1' else restyle   # new art direction (Producer approved, 2026-10-04)
 
 
 def sparkles(fr, t, e):
