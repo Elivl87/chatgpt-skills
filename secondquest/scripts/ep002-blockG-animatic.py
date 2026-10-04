@@ -12,7 +12,7 @@ All in Hyrule, so the in-game HUD stays on (hearts carry over from block F: 2.5)
                                                         waveform; a VOICE CASTING card with three takes, one gets picked.
   G5  "A camera you once fought with was part of learning the game."  The view swings, tilts and clips like the old
                                                         camera; a C-camera icon wobbles.
-  G6  "Fix it... and the game becomes easier to inhabit."  A wrench tap: the camera settles smoothly behind Quest.
+  G6  "Fix it... and the game becomes easier to inhabit."  A clear wrench taps the camera icon, a green check badge pops; the camera settles smoothly behind Quest.
   G7  "Which is good. Probably."                         A green check pops... and tilts into a question mark.
 Sounds: Bram only. Framing QC before sending.
 """
@@ -163,6 +163,21 @@ def frame_g34(t):
     return fr, ('G3 the silent hero' if t < T_VOICE else 'G4 a voice: somebody decides')
 
 
+def wrench_icon(ang, alpha=1.0):
+    """A clear open-end wrench (metal, ink outline), drawn pointing up-right; ang rotates it."""
+    g = Image.new('RGBA', (150, 150)); d = ImageDraw.Draw(g)
+    ink, steel, hi = (20, 14, 18, 255), (178, 186, 198, 255), (235, 240, 248, 255)
+    d.rounded_rectangle((18, 66, 110, 84), 9, fill=steel, outline=ink, width=4)          # handle
+    d.ellipse((96, 50, 146, 100), fill=steel, outline=ink, width=4)                      # head
+    d.polygon([(124, 64), (150, 58), (150, 92), (124, 86)], fill=(0, 0, 0, 0))           # open jaw
+    d.line((124, 64, 146, 60), fill=ink, width=4); d.line((124, 86, 146, 90), fill=ink, width=4); d.line((124, 64, 124, 86), fill=ink, width=4)
+    d.line((28, 71, 100, 71), fill=hi, width=3)                                          # shine
+    g = g.rotate(ang + 30, resample=Image.BICUBIC, center=(30, 75))
+    if alpha < 1:
+        g.putalpha(g.getchannel('A').point(lambda v: int(v * max(0, alpha))))
+    return g
+
+
 # ------------------------------------------------------------------ G5-G7: the old camera, fixed; good... probably
 def frame_g57(t):
     hero_h = H * .42
@@ -201,11 +216,20 @@ def frame_g57(t):
     d.ellipse((30, 30, 60, 60), outline=(20, 14, 18, 255), width=4)
     g = g.rotate(cam_icon_ang, expand=True, resample=Image.BICUBIC)
     fr = comp(fr, g, W * .84, H * .2)
-    if T_FIX - .1 <= t < T_FIX + .8:                                    # the wrench tap
-        k = (t - T_FIX + .1) / .9
-        wd = ImageDraw.Draw(fr); x, y = W * .78, H * .27
-        wd.line((x, y + 40, x + 40 * (1 - k), y), fill=(200, 200, 210), width=10); wd.ellipse((x + 32 * (1 - k), y - 16, x + 64 * (1 - k), y + 16), outline=(200, 200, 210), width=8)
-        fr = CART.glow(fr, W * .88, H * .25, 120, (255, 255, 220), .4 * (1 - k))
+    if T_FIX - .15 <= t < T_FIX + .75:                                  # the wrench: swings in, one tap on the camera, leaves
+        u = t - T_FIX + .15
+        ang = -70 + 70 * ease(min(1, u / .3)) - (12 * math.sin(min(1, (u - .3) / .15) * math.pi) if .3 <= u < .45 else 0)
+        a = 1 - max(0, (u - .55) / .35)
+        fr = comp(fr, wrench_icon(ang, a), W * .80 - 50, H * .27 - 80)
+        if .3 <= u < .7:                                                # the tap: a glint on the camera
+            fr = CART.glow(fr, W * .885, H * .26, 110, (255, 255, 220), .5 * (1 - (u - .3) / .4))
+    if T_FIX + .15 <= t < T_GOOD:                                       # a small green check badge stays on the fixed camera
+        k = ease(min(1, (t - T_FIX - .15) / .25)); s_ = .5 + .5 * k + .15 * math.sin(min(1, (t - T_FIX - .15) / .25) * math.pi)
+        b = Image.new('RGBA', (60, 60)); bd = ImageDraw.Draw(b)
+        bd.ellipse((3, 3, 57, 57), fill=(70, 190, 100, 255), outline=(20, 14, 18, 255), width=4)
+        bd.line((17, 31, 26, 40, 43, 21), fill=(255, 255, 255, 255), width=7)
+        b = b.resize((int(60 * s_), int(60 * s_)), Image.LANCZOS)
+        fr = comp(fr, b, W * .84 + 95 - b.width / 2, H * .2 + 18 - b.height / 2)
     if t >= T_GOOD:                                                     # good... probably
         k = ease(min(1, (t - T_GOOD) / .3))
         tilt = 0 if t < T_PROB else 25 * ease(min(1, (t - T_PROB) / .35))
@@ -232,7 +256,7 @@ def render(t):
         fr, lab = frame_g57(t)
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v2 · PLANNING ONLY')
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -241,7 +265,7 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -251,14 +275,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockG_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockG_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockG_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockG_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
