@@ -10,6 +10,9 @@ papeles femeninos; personajes de terceros evocados, nunca réplicas (opción C).
 
 ## Personajes
 
+Criterio del Productor (2026-10-04): las vistas de espaldas se piden una sola vez por personaje y época y se reutilizan
+en todas las escenas (Quest joven #3, Quest adulto #4, Pixie con túnica #2f), para optimizar créditos. Se cotiza al final.
+
 | # | Qué | Dónde se usa | Hoy en el animatic | Ref. plan |
 |---|---|---|---|---|
 | 1 | **Quest con túnica, "veterano"** (de pie, seguro, sonrisa) | Bloque I: tarjeta VETERAN PLAYER y partida FILE 1 | quest2:nostalgic_smile recoloreado a verde | nueva (Productor, 2026-10-04) |
@@ -20,8 +23,8 @@ papeles femeninos; personajes de terceros evocados, nunca réplicas (opción C).
 | 2d | **Pixie con túnica, mirando arriba asombrada** | Bloque J: el árbol gigante | pixie:looking_up_awe recoloreado | nueva |
 | 2e | **Pixie con túnica, pensativa (mano en la barbilla)** | Bloque J: "an extremely personal problem" | pixie:thinking_chin recoloreado | nueva |
 | 2f | **Pixie con túnica, de espaldas** (mirando el castillo) | Bloque K: los dos en Hyrule de espaldas | pose de espaldas provisional recoloreada | nueva |
-| 3 | Quest con túnica de héroe, joven (caminando de espaldas) | Bloques D-H (Hyrule), I (era CHILD) | quest:walking_back recoloreado | #8-#9 |
-| 4 | Quest con túnica de héroe, adulto (de espaldas, con escudo) | Bloque I (era ADULT), Hyrule | quest:walking_back recoloreado | #11 |
+| 3 | Quest con túnica de héroe, joven, de espaldas. **Una sola imagen reutilizable** para todas las escenas de espaldas (optimiza créditos) | Bloques D-H (Hyrule), I (era CHILD), K, M (bosque), N (templo) | quest:walking_back recoloreado | #8-#9 |
+| 4 | **Quest con túnica de héroe, adulto, de espaldas, con el escudo y la espada a la espalda** (regla del Productor: el adulto siempre los lleva). **Una sola imagen reutilizable** para todas las escenas de espaldas (optimiza créditos) | Bloques I (era ADULT), N (templo, dos eras), Hyrule | quest:walking_back + escudo y espada dibujados encima (provisional) | #11 |
 | 5 | Quest adulto en su propio caballo (no Epona), de espaldas alejándose | Bloque H (final) | caballo 3D provisional + torso recoloreado | #13 |
 | 6 | Quest y Pixie jóvenes (infancia) | Bloque C | poses adultas a escala | #7, #18 |
 | 7 | Pixie con trajes (amiga del bosque, princesa) | bloques siguientes | recoloreado | #15, #16 |

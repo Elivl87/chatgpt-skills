@@ -263,3 +263,8 @@
 - N v3 (Producer: "1. Sí 2. Sí. Que la espada salga cuando Quest se termine de acercar"): the sword only starts to come
   up once his step to the pedestal has finished; in the two eras the CHILD half has the flower in bloom and a bright
   Navi, the ADULT half the withered flower with fallen petals and a dim Navi.
+- N v4 + rule (Producer: "Cuando Quest está en la era adulta debe tener el escudo y la espada en la espalda. Y así debemos
+  buscar como tener un mismo arte para escenas que esté de espaldas al espectador para optimizar créditos. Apruebo N con
+  la mejora. Lo del arte para el final"): adult Quest always carries shield and sword on his back (planning overlay on
+  the stand-in in N); one reusable back-view art per character/era (MISSING #3, #4, #2f), quoted at the end. Block N
+  approved with the improvement: block O opens with a dissolve from N's last image (the two eras) instead of a cut.
