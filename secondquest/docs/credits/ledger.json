@@ -172,9 +172,11 @@
       "item": "EP001 Spanish narration (full, ~8,572 chars) with voice 4 (Bram preset), ~10 blocks by act, ElevenLabs via text2speech_v2",
       "model": "text2speech_v2",
       "quoted": 30.0,
-      "status": "quoted",
+      "status": "cancelled",
       "quotedAt": "2026-10-04T18:03:22+00:00",
-      "prompt": null
+      "prompt": null,
+      "cancelledAt": "2026-10-04T18:19:18+00:00",
+      "reason": "Producer: 'No. Aprobada la voz pero cerremos primero el EP002' — deferred until EP002 is closed; re-quote then"
     }
   ]
 }

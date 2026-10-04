@@ -9,3 +9,6 @@
   de ~260 caracteres en español, no 0.6. La clave de voces (`key_PRIVATE.json`) no se enseña hasta que elija.
 - 2026-10-04: el Productor elige la **VOZ 4** ("Me quedo con la voz 4") = Bram (voz preset de ElevenLabs), la misma
   voz del EP001 en inglés, leyendo en español. Narración completa cotizada como Q010 (30 créditos), pendiente de aprobación.
+- 2026-10-04: Q010 NO aprobada ("No. Aprobada la voz pero cerremos primero el EP002. Cerrado el paréntesis").
+  Voz 4 confirmada. La narración en español del EP001 se retoma cuando el EP002 esté cerrado (se vuelve a cotizar).
+  Pendiente para entonces: miniatura del EP001.
