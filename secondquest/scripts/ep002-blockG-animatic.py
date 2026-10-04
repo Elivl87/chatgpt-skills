@@ -122,8 +122,13 @@ def frame_g34(t):
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     x0, y0, x1, y1 = BUBBLE
     k = ease(min(1, (t - T_SILENT) / .35))
-    d.rounded_rectangle((x0, y0, x0 + (x1 - x0) * k, y1), 28, fill=(252, 252, 250, 240), outline=(30, 30, 40, 255), width=4)
-    d.polygon([(x0 + 24, y1 - 30), (x0 + 24, y1 - 70), (W * .43, H * .34)], fill=(252, 252, 250, 240), outline=(30, 30, 40, 255))
+    m = Image.new('L', (W, H), 0); md = ImageDraw.Draw(m)                 # one shape: bubble + tail, one outline
+    md.rounded_rectangle((x0, y0, x0 + (x1 - x0) * k, y1), 28, fill=255)
+    if k > .3:
+        md.polygon([(x0 + 2, y1 - 26), (x0 + 2, y1 - 62), (W * .41, H * .335)], fill=255)   # tail towards Quest's mouth
+    edge = m.filter(ImageFilter.MaxFilter(9))
+    g.paste((30, 30, 40, 255), (0, 0), edge); g.paste((252, 252, 250, 245), (0, 0), m)
+    d = ImageDraw.Draw(g)
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     if t < T_VOICE:                                                     # silence: "..." and imagination drifting out
         n = 1 + int((t - T_SILENT) * 3) % 3
@@ -161,19 +166,29 @@ def frame_g34(t):
 # ------------------------------------------------------------------ G5-G7: the old camera, fixed; good... probably
 def frame_g57(t):
     hero_h = H * .42
-    if t < T_FIX:                                                       # the camera you fought: swings, tilts, clips
+    if t < T_FIX:                                                       # the camera you fought: lags, swings, gets stuck behind a tree
         u = t - T_CAM
-        ang = 9 * math.sin(u * 2.3) + 5 * math.sin(u * 5.1)
-        zx = .5 + .12 * math.sin(u * 1.7); zz = 1.25 + .2 * math.sin(u * 2.9)
+        settle = ease(min(1, u / .6))                                   # eases in from the previous shot, no jump
+        zx = .5 + .11 * math.sin(u * 1.3) * settle
+        zz = 1.25 + .12 * math.sin(u * 1.7) * settle
+        ang = 4.5 * math.sin(u * 1.5) * settle
         base = crop(FIELD, (zz, zx, .6))
-        base = comp(base, sized(YOUNG, hero_h), W * (.5 - (zx - .5) * 1.4) - sized(YOUNG, hero_h).width / 2, H * .93 - hero_h)
-        base = base.rotate(ang, resample=Image.BICUBIC, expand=False, fillcolor=(20, 20, 26))
-        if int(u * 2.2) % 3 == 2:                                       # clipping into a wall for a moment
-            d = ImageDraw.Draw(base); d.rectangle((0, 0, W * .35, H), fill=(96, 84, 70))
-            for yy in range(0, H, 40):
-                d.line((0, yy, W * .35, yy + 10), fill=(80, 70, 60), width=3)
-        fr = base
-        cam_icon_ang = 18 * math.sin(u * 6)
+        lagx = W * (.5 - (zx - .5) * 1.6)                               # Quest drifts off-centre, the camera catches up late
+        base = comp(base, sized(YOUNG, hero_h), lagx - sized(YOUNG, hero_h).width / 2, H * .93 - hero_h)
+        big = base.resize((int(W * 1.12), int(H * 1.12)), Image.BILINEAR).rotate(ang, resample=Image.BICUBIC)
+        fr = big.crop((int(W * .06), int(H * .06), int(W * .06) + W, int(H * .06) + H))   # rotate inside a margin: no black corners
+        tk = (u - 1.0) / 1.8                                            # a tree trunk passes in front, close to the camera
+        if 0 < tk < 1:
+            tx = W * (1.15 - 1.5 * ease(tk))
+            tr = Image.new('RGBA', (W, H)); td = ImageDraw.Draw(tr)
+            td.rounded_rectangle((tx - 110, -40, tx + 110, H + 40), 60, fill=(92, 66, 44, 255))
+            for i in range(9):
+                yy = 40 + i * 80
+                td.arc((tx - 90, yy, tx + 30, yy + 60), 200, 340, fill=(70, 50, 34, 255), width=6)
+            td.ellipse((tx - 260, -220, tx + 260, 120), fill=(60, 120, 50, 255))
+            tr = tr.filter(ImageFilter.GaussianBlur(7))                 # out of focus: it is right at the lens
+            fr = Image.alpha_composite(fr.convert('RGBA'), tr).convert('RGB')
+        cam_icon_ang = 14 * math.sin(u * 4)
     else:                                                               # fixed: smooth, steady, behind Quest
         k = ease(min(1, (t - T_FIX) / 1.0))
         base = crop(FIELD, (1.25, .5, .6))
@@ -217,7 +232,7 @@ def render(t):
         fr, lab = frame_g57(t)
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v1 · PLANNING ONLY')
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -226,7 +241,7 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -236,14 +251,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockG_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockG_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockG_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockG_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
