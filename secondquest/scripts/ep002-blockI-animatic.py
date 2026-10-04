@@ -161,16 +161,20 @@ def menu_cursor(t):
 
 
 # ------------------------------------------------------------------ I2-I3: the player cards, Player 1's save file
-def card(who, label, col, w=300, h=400, alpha=1.0, dim=0.0):
+def card(who, label, col, w=300, h=400, alpha=1.0, dim=0.0, pixie=None, missing=None):
     g = panel(w, h, alpha, outline=col + (255,)); d = ImageDraw.Draw(g)
     ctext(d, w / 2 + 4, 20, label, 24, col + (int(255 * alpha),))
-    ph = int((h - 90) * (.95 if who is P2 else 1.0))                     # Pixie ~95% of Quest's height (spec)
+    if pixie is None:
+        pixie = who is P2
+    ph = int((h - 90) * (.95 if pixie else 1.0))                         # Pixie ~95% of Quest's height (spec)
     im = sized(who, ph)
     if dim:
         im = Image.blend(im.convert('RGB'), Image.new('RGB', im.size, (10, 14, 48)), .6 * dim).convert('RGBA'); im.putalpha(sized(who, ph).getchannel('A'))
     g.alpha_composite(fade(im, alpha), (int(w / 2 + 4 - im.width / 2), int(h - 8 - im.height)))
-    if who is not P2:                                                   # planning stand-in: say so
-        lab = 'MISSING · tunic Quest' + (' scared' if who is P1_SCARED else '')
+    if missing is None and not pixie:                                   # planning stand-in: say so
+        missing = 'MISSING · tunic Quest' + (' scared' if who is P1_SCARED else '')
+    if missing:
+        lab = missing
         f = F(12); tw = d.textlength(lab, font=f)
         d.rectangle((w / 2 + 4 - tw / 2 - 6, h - 26, w / 2 + 4 + tw / 2 + 6, h - 8), fill=(150, 20, 30, int(230 * alpha)))
         d.text((w / 2 + 4 - tw / 2, h - 24), lab, font=f, fill=(255, 235, 235, int(255 * alpha)))

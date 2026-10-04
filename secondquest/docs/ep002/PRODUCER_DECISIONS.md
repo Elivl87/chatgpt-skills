@@ -209,3 +209,9 @@
   0%); a forest with a giant old tree (planning stand-in, MISSING #14) that turns out unwell on "personal problem";
   then a VETERAN | NEW PLAYER sheet: NOSTALGIA (heart bar full | empty), CHILDHOOD (the 1998 photo | blank),
   EXPECTATIONS (28 YEARS | 0). Block K starts on l78.
+- J improvements approved: (1) the VETERAN | NEW sheet opens block K as a scoreboard; (2) a livelier tree, pending the
+  tree art.
+- Pixie "plays Link" in her own hero tunic (green like Quest's, teal accents, her ponytail, human ears, no cap) only
+  once she is in the game: when her FILE 2 opens (J) she flashes into it; before that (waiting, impatient poses) she
+  wears her normal clothes (Producer: "aún no la han seleccionado"). Quest wears his tunic all through block I (veteran
+  mid-game). Stand-ins: recoloured poses labelled MISSING; art 2c/2d/2e added to the list -> J v2.

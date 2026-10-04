@@ -14,8 +14,11 @@ papeles femeninos; personajes de terceros evocados, nunca réplicas (opción C).
 |---|---|---|---|---|
 | 1 | **Quest con túnica, "veterano"** (de pie, seguro, sonrisa) | Bloque I: tarjeta VETERAN PLAYER y partida FILE 1 | quest2:nostalgic_smile recoloreado a verde | nueva (Productor, 2026-10-04) |
 | 2 | **Quest con túnica, asustado / preocupado** 😱 | Bloque I: cuando la sombra agarra la Triforce | quest2:surprised_shocked recoloreado | nueva (Productor, 2026-10-04) |
-| 2a | **Pixie impaciente: brazos cruzados, golpeando el suelo con el pie**, mirando arriba ("¿ya me toca?") | Bloque I: tarjeta NEW PLAYER esperando (se alterna con 2b) y otras esperas | pixie:thinking_chin con rebote | nueva (Productor, 2026-10-04) |
-| 2b | **Pixie impaciente: mira un reloj imaginario / bosteza**, aburrida | Bloque I: tarjeta NEW PLAYER esperando (se alterna con 2a) | pixie:determined_fists con balanceo | nueva (Productor, 2026-10-04) |
+| 2a | **Pixie impaciente (ropa normal: aún no ha elegido partida): brazos cruzados, golpeando el suelo con el pie**, mirando arriba ("¿ya me toca?") | Bloque I: tarjeta NEW PLAYER esperando (se alterna con 2b) y otras esperas | pixie:thinking_chin con rebote | nueva (Productor, 2026-10-04) |
+| 2b | **Pixie impaciente (ropa normal): mira un reloj imaginario / bosteza**, aburrida | Bloque I: tarjeta NEW PLAYER esperando (se alterna con 2a) | pixie:determined_fists con balanceo | nueva (Productor, 2026-10-04) |
+| 2c | **Pixie con túnica de héroe, saludando** (verde como la de Quest, acentos turquesa, su coleta, orejas humanas, sin gorro) | Bloque J: tarjeta NEW PLAYER al abrir su FILE 2, tabla VETERAN / NEW | pixie:wave_happy recoloreado | nueva (Productor, 2026-10-04) |
+| 2d | **Pixie con túnica, mirando arriba asombrada** | Bloque J: el árbol gigante | pixie:looking_up_awe recoloreado | nueva |
+| 2e | **Pixie con túnica, pensativa (mano en la barbilla)** | Bloque J: "an extremely personal problem" | pixie:thinking_chin recoloreado | nueva |
 | 3 | Quest con túnica de héroe, joven (caminando de espaldas) | Bloques D-H (Hyrule), I (era CHILD) | quest:walking_back recoloreado | #8-#9 |
 | 4 | Quest con túnica de héroe, adulto (de espaldas, con escudo) | Bloque I (era ADULT), Hyrule | quest:walking_back recoloreado | #11 |
 | 5 | Quest adulto en su propio caballo (no Epona), de espaldas alejándose | Bloque H (final) | caballo 3D provisional + torso recoloreado | #13 |

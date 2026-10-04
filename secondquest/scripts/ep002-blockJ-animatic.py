@@ -55,8 +55,10 @@ T_END = T('l78') - 0.05                 # block K starts on l78
 INK = (20, 14, 18, 255)
 GOLD, BLUE = (232, 196, 90), (120, 200, 255)
 P2 = BI.P2
-P2_AWE = cutout('pixie:looking_up_awe')
-P2_HMM = cutout('pixie:thinking_chin')
+P2_T = cutout('pixie:wave_happy', 'forest')                           # MISSING: Pixie in her hero tunic (green, teal accents)
+P2_AWE = cutout('pixie:looking_up_awe', 'forest')
+P2_HMM = cutout('pixie:thinking_chin', 'forest')
+PIX_TAG = 'MISSING · Pixie hero tunic'
 P1 = BI.P1
 
 
@@ -83,12 +85,16 @@ def frame_j1(t):
     k = ease(min(1, (t - T0) / .45))                                      # the waiting card grows into the NEW PLAYER card
     if t < T0 + .2:
         fr = Image.blend(BI.eras_shot(T0), fr, (t - T0) / .2)
-    c = BI.card(P2, 'NEW PLAYER', BLUE, alpha=1)
+    suited = t >= T_NONE - .15                                           # FILE 2 opens = she starts playing: the tunic
+    c = BI.card(P2_T if suited else P2, 'NEW PLAYER', BLUE, alpha=1, pixie=True, missing=PIX_TAG if suited else '')
     s = lin(.38, 1, k)
     c = c.resize((int(c.width * s), int(c.height * s)), Image.LANCZOS)
     x = lin(W - 64 - 120, W * .07, k); y = lin(44, H * .12, k)
     fr = CART.glow(fr, x + c.width / 2, y + c.height / 2, int(260 * k) + 1, BLUE, .25 * k)
     fr = comp(fr, c, x, y)
+    if T_NONE - .15 <= t < T_NONE + .35:                                  # a flash as the new game starts
+        f = 1 - (t - T_NONE + .15) / .5
+        fr = CART.glow(fr, x + c.width / 2, y + c.height / 2, 240, (255, 255, 240), .8 * f)
     if t < T_NONE:                                                        # "Player two?"
         d = ImageDraw.Draw(fr)
         kq = min(1, max(0, (t - T('l71.w2')) / .25))
@@ -182,7 +188,7 @@ def frame_j2(t):
         d = ImageDraw.Draw(fr)
         d.text((W * .74 + 50, H * .9 - ph - 20 - 10 * (1 - kq)), '?', font=F(int(56 + 14 * (1 - kq))), fill=(255, 255, 255), stroke_width=4, stroke_fill=(20, 14, 18))
     d = ImageDraw.Draw(fr)
-    lab = 'MISSING · giant ancient tree (#14) · planning stand-in'
+    lab = 'MISSING · giant ancient tree (#14) · Pixie hero tunic · planning stand-ins'
     tw = d.textlength(lab, font=F(13))
     d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab, font=F(13), fill=(255, 235, 235))
     fr = fairy_fx.draw(fr, [(T_TREE, .64, .5), (T_LARGE, .5, .3), (T_PROB, .62, .45), (T_NOST, .66, .42)], t, size=.04)
@@ -212,7 +218,7 @@ def frame_j3(t):
     ctext(d, cxL, H * .09, 'VETERAN PLAYER', 26, GOLD + (int(255 * a0),))
     ctext(d, cxR, H * .09, 'NEW PLAYER', 26, BLUE + (int(255 * a0),))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
-    small1 = sized(P1, H * .25); small2 = sized(P2, H * .25 * .95)       # the two of them, heading each column
+    small1 = sized(P1, H * .25); small2 = sized(P2_T, H * .25 * .95)       # the two of them, heading each column
     fr = comp(fr, fade(small1, a0), cxL - small1.width / 2 + 40, H * .135)
     fr = comp(fr, fade(small2, a0), cxR - small2.width / 2, H * .135 + H * .25 * .05)
     d = ImageDraw.Draw(fr, 'RGBA')
@@ -251,7 +257,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v1 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -260,7 +266,7 @@ STILLS = (('j1', T('l72.w6')), ('j2a', T_LARGE + .3), ('j2b', T_PROB + .6), ('j3
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -270,14 +276,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockJ_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockJ_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockJ_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockJ_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
