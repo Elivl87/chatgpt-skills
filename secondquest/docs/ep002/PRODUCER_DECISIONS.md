@@ -268,3 +268,6 @@
   la mejora. Lo del arte para el final"): adult Quest always carries shield and sword on his back (planning overlay on
   the stand-in in N); one reusable back-view art per character/era (MISSING #3, #4, #2f), quoted at the end. Block N
   approved with the improvement: block O opens with a dissolve from N's last image (the two eras) instead of a cut.
+- N v5 (Producer: "Cuando saca la espada, aún en la era no adulta, que no salga con escudo y espada aún en la espalda"):
+  right after the sword comes out (the flash, until he dissolves) he has no shield or sword on his back - the raised
+  sword is the one he is pulling; the gear appears only in the ADULT era of the closing split.

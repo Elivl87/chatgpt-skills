@@ -237,7 +237,7 @@ def n1_4(t):
     elif t < T_WORLD:                                                       # N2-N3: the adult, then he disappears
         kd = min(1, max(0, (t - T('l104.w2')) / .7))                         # "disappeared"
         fr = temple(t, storm=0, sword=True, sword_rise=RISE, sword_a=1 - kd)   # ...and the sword goes with him, the same way
-        fr = quest(fr, AH, a=1 - kd, adult=True)
+        fr = quest(fr, AH, a=1 - kd)                                        # Producer: just pulled the sword - no gear on his back yet
         if kd > 0:                                                          # motes of light rise from him and from the sword
             g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
             r = np.random.default_rng(8)
@@ -358,7 +358,7 @@ def render(t):
     tw = d.textlength(lab2, font=F(13))
     if not (T_SIDE <= t < T_ERAS):
         d.rectangle((W * .03, H * .06, W * .03 + tw + 12, H * .06 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .06 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v4 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -368,7 +368,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -378,14 +378,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
