@@ -297,7 +297,16 @@ def job_castle():
     print('docs/ep002/castle_sheet.jpg, castle_far.png')
 
 
-JOBS = {'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+def job_hud_items():
+    """HUD item icons (transparent): bomb and boomerang, three-quarter front."""
+    for name, tgt, dist in (('bomb', [0, 15, 0], 420), ('boomerang', [0, -10, 0], 520)):
+        sh = {'camera': orbit(-15, 15, dist, tgt), 'target': tgt, 'fov': 26, 'cart': None}
+        img = crop_alpha(render({'props': [name], 'shots': [sh], 'light': 'neutral'}, 700, 700, line=3.0)[0], 6)
+        cv2.imwrite(str(OUT / f'icon_{name}.png'), img)
+    print('icon_bomb.png, icon_boomerang.png')
+
+
+JOBS = {'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

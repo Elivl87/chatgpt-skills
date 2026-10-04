@@ -34,13 +34,25 @@ def _rupee(d, cx, cy, s):
 _OCA = None
 
 
-def _ocarina_icon(size):
-    global _OCA
-    if _OCA is None:
+_ICONS = {}
+
+
+def _icon(name, size, rot=0):
+    """Our own 3D props as HUD icons: ocarina, master sword, bomb, boomerang."""
+    if name not in _ICONS:
         from pathlib import Path
-        im = Image.open(Path(__file__).resolve().parents[2] / 'public/art/ep002/props3d/ocarina_spin/f012.png').convert('RGBA')
-        _OCA = im.crop(im.getchannel('A').getbbox())
-    o = _OCA.copy(); o.thumbnail((size, size)); return o
+        props = Path(__file__).resolve().parents[2] / 'public/art/ep002/props3d'
+        path = {'ocarina': props / 'ocarina_spin/f012.png', 'sword': props / 'sword_spin/f012.png',
+                'bomb': props / 'icon_bomb.png', 'boomerang': props / 'icon_boomerang.png'}[name]
+        im = Image.open(path).convert('RGBA'); _ICONS[name] = im.crop(im.getchannel('A').getbbox())
+    o = _ICONS[name]
+    if rot:
+        o = o.rotate(rot, expand=True, resample=Image.BICUBIC); o = o.crop(o.getchannel('A').getbbox())
+    o = o.copy(); o.thumbnail((size, size), Image.LANCZOS); return o
+
+
+def _ocarina_icon(size):
+    return _icon('ocarina', size)
 
 
 def _buttons(lay, d, W):
@@ -53,16 +65,15 @@ def _buttons(lay, d, W):
     btn(B, (40, 150, 70, 235)); btn(A_, (50, 90, 200, 235))
     for c in (CL, CD, CR):
         btn(c, (230, 175, 40, 235))
-    x, y, r = B                                                         # sword
-    d.line((x - 14, y + 14, x + 12, y - 12), fill=(225, 230, 240, 255), width=6); d.line((x - 14, y + 14, x + 12, y - 12), fill=INK, width=1)
-    d.line((x - 16, y + 6, x - 6, y + 16), fill=(120, 80, 160, 255), width=5)
+    x, y, r = B                                                         # our 3D master sword, diagonal like the classic B icon
+    o = _icon('sword', 54, rot=-45); lay.alpha_composite(o, (int(x - o.width / 2), int(y - o.height / 2)))
     f = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 15)
     x, y, r = A_; t = 'Attack'; tw = d.textlength(t, font=f)
     d.text((x - tw / 2, y - 9), t, font=f, fill=(255, 255, 255, 255), stroke_width=2, stroke_fill=INK)
-    x, y, r = CL                                                        # bomb
-    d.ellipse((x - 12, y - 8, x + 12, y + 16), fill=(40, 50, 120, 255), outline=INK, width=2); d.line((x, y - 8, x + 6, y - 16), fill=(240, 200, 80, 255), width=3)
-    x, y, r = CD                                                        # boomerang
-    d.line((x - 14, y + 8, x, y - 10, x + 14, y + 8), fill=(200, 60, 60, 255), width=7, joint='curve')
+    x, y, r = CL                                                        # our 3D bomb
+    o = _icon('bomb', 36); lay.alpha_composite(o, (int(x - o.width / 2), int(y - o.height / 2)))
+    x, y, r = CD                                                        # our 3D boomerang
+    o = _icon('boomerang', 40); lay.alpha_composite(o, (int(x - o.width / 2), int(y - o.height / 2)))
     x, y, r = CR                                                        # our ocarina
     o = _ocarina_icon(40); lay.alpha_composite(o, (int(x - o.width / 2), int(y - o.height / 2)))
 

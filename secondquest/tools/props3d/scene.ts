@@ -556,6 +556,41 @@ const hyruleCastle = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- HUD item icons: bomb and boomerang (Producer 2026-10-04)
+/** Classic round bomb: navy sphere, metal cap, short fuse with a lit tip. */
+const bomb = () => {
+  const g = new THREE.Group();
+  const b = new THREE.Mesh(new THREE.SphereGeometry(40, 48, 32), toon('#24357a')); b.userData.part = 900; ids.push(b); g.add(b);
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(14, 16, 12, 32), toon('#9aa0ad')); cap.position.set(0, 42, 0); cap.userData.part = 901; ids.push(cap); g.add(cap);
+  const f = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 18, 12), toon('#c9a46a')); f.position.set(4, 56, 0); f.rotation.z = -.35; f.userData.part = 902; ids.push(f); g.add(f);
+  const fire = new THREE.Mesh(new THREE.SphereGeometry(6, 16, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffb02e') })); fire.position.set(8, 66, 0); fire.userData.part = 903; ids.push(fire); g.add(fire);
+  const hl = new THREE.Mesh(new THREE.SphereGeometry(9, 16, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color('#8fa4e6') })); hl.position.set(-16, 18, 33); hl.scale.set(1, .7, .4); hl.userData.part = 900; ids.push(hl); g.add(hl);
+  return g;
+};
+
+/** V-shaped boomerang: two blue arms with pale tips, a red gem at the elbow, faces +z. */
+const boomerang = () => {
+  const g = new THREE.Group();
+  const sh = new THREE.Shape();                                  // one curved piece: outer edge over the elbow, inner edge back
+  sh.moveTo(-100, -58);
+  sh.quadraticCurveTo(-60, 40, 0, 46);
+  sh.quadraticCurveTo(60, 40, 100, -58);
+  sh.quadraticCurveTo(104, -72, 90, -70);
+  sh.quadraticCurveTo(48, 6, 0, 12);
+  sh.quadraticCurveTo(-48, 6, -90, -70);
+  sh.quadraticCurveTo(-104, -72, -100, -58);
+  const geo = new THREE.ExtrudeGeometry(sh, { depth: 10, bevelEnabled: true, bevelThickness: 3, bevelSize: 3, bevelSegments: 4, curveSegments: 24 });
+  geo.translate(0, 0, -5);
+  const body = new THREE.Mesh(geo, toon('#3f74c9')); body.userData.part = 910; ids.push(body); g.add(body);
+  for (const sx of [-1, 1]) {                                    // pale tips on the front face
+    const tip = new THREE.Mesh(new THREE.SphereGeometry(10, 16, 12), toon('#efe7c6')); tip.position.set(sx * 95, -60, 7); tip.scale.set(1, 1, .5);
+    tip.userData.part = 911; ids.push(tip); g.add(tip);
+  }
+  const gem = new THREE.Mesh(new THREE.OctahedronGeometry(13), toon('#d8333b')); gem.position.set(0, 30, 9); gem.scale.set(1, 1, .45);
+  gem.userData.part = 912; ids.push(gem); g.add(gem);
+  return g;
+};
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -566,6 +601,8 @@ if (P.props.includes('cartridge')) scene.add((props.cartridge = cartridge()));
 if (P.props.includes('pad')) scene.add((props.pad = n64Pad()));
 if (P.props.includes('ocarina')) scene.add((props.ocarina = ocarina()));
 if (P.props.includes('sword')) scene.add((props.sword = masterSword()));
+if (P.props.includes('bomb')) scene.add((props.bomb = bomb()));
+if (P.props.includes('boomerang')) scene.add((props.boomerang = boomerang()));
 if (P.props.includes('castle')) scene.add((props.castle = hyruleCastle()));
 if (P.props.includes('crt')) scene.add((props.crt = crt()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
