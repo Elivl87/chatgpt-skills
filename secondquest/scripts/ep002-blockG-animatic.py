@@ -1,0 +1,249 @@
+#!/usr/bin/env python3
+"""EP002 animatic, block G (planning only): l48 "An empty field in 1998 could feel enormous." -> l58 "Probably."
+
+All in Hyrule, so the in-game HUD stays on (hearts carry over from block F: 2.5).
+  G1  "An empty field in 1998 could feel enormous."     The old N64 field (blocky, fog): young Quest tiny, the camera
+                                                        pulls back; a "1998" tag.
+  G2  "Rebuild it too literally today... and it might just feel empty."  A scan rebuilds the same field crisp and
+                                                        bright; on "empty" it widens: a big, sharp, silent field; a gust.
+  G3  "A silent character once left space for your imagination."  Hero Quest faces us; his speech bubble is empty "...",
+                                                        and doodles of imagination float out of it.
+  G4  "Give that character a voice... somebody has to decide what that silence sounded like."  The bubble fills with a
+                                                        waveform; a VOICE CASTING card with three takes, one gets picked.
+  G5  "A camera you once fought with was part of learning the game."  The view swings, tilts and clips like the old
+                                                        camera; a C-camera icon wobbles.
+  G6  "Fix it... and the game becomes easier to inhabit."  A wrench tap: the camera settles smoothly behind Quest.
+  G7  "Which is good. Probably."                         A green check pops... and tilts into a question mark.
+Sounds: Bram only. Framing QC before sending.
+"""
+import importlib.util, math, subprocess, sys
+from pathlib import Path
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter
+import imageio_ffmpeg
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE / 'animatic'))
+sys.path.insert(0, str(HERE.parent / 'tools/fx'))
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, cutout, cam_box, subtitle, tag, F  # noqa
+import fairy as fairy_fx  # noqa
+import hud  # noqa
+
+FF = imageio_ffmpeg.get_ffmpeg_exe()
+sp = importlib.util.spec_from_file_location('cart', ROOT / 'scripts/ep002-cartridge-animatic.py'); CART = importlib.util.module_from_spec(sp); sp.loader.exec_module(CART)
+
+T0 = T('l48') - 0.05
+T_REB, T_EMPTY = T('l49') - .05, T('l50.w6')
+T_SILENT, T_IMAG = T('l51') - .05, T('l51.w9')
+T_VOICE, T_DECIDE = T('l52') - .05, T('l53.w6')
+T_CAM = T('l54') - .05
+T_FIX, T_EASY = T('l55') - .05, T('l56') - .05
+T_GOOD, T_PROB = T('l57') - .05, T('l58') - .05
+T_END = T('l59') - 0.05                # block H starts on l59 "But every improvement quietly changes the memory..."
+HEARTS = 2.5                           # carried over from block F
+
+FIELD = plate(('proc', 'field', (('time', 'day'), ('castle', '3d')))).convert('RGB')
+YOUNG = cutout('quest:walking_back', 'hero'); HERO_FRONT = cutout('quest2:nostalgic_smile', 'hero')
+
+
+def comp(fr, im, x, y):
+    base = fr.convert('RGBA'); base.alpha_composite(im, (int(x), int(y))); return base.convert('RGB')
+
+
+def sized(im, h):
+    return im.resize((max(1, int(im.width * h / im.height)), max(1, int(h))), Image.LANCZOS)
+
+
+def crop(img, cam):
+    box = cam_box((cam, cam), 0)
+    return img.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
+
+
+def old_look(fr):
+    """The 1998 look: blocky geometry, flat light, distance fog."""
+    b = fr.resize((56, 32), Image.BILINEAR).resize((W, H), Image.NEAREST)
+    a = np.asarray(b).astype(np.float32); g = a.mean(2, keepdims=True); a = g + (a - g) * .7
+    yy = np.mgrid[0:H, 0:W][0] / H
+    fog = np.clip(1 - np.abs(yy - .45) / .22, 0, 1)[..., None] * .35
+    a = a * (1 - fog) + np.array([205, 215, 225]) * fog
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+
+
+def new_look(fr):
+    a = np.asarray(fr).astype(np.float32); g = a.mean(2, keepdims=True); a = g + (a - g) * 1.15
+    return CART.glow(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), W * .85, H * .1, 520, (255, 230, 170), .3)
+
+
+# ------------------------------------------------------------------ G1-G2: 1998 field, rebuilt, empty
+def frame_g12(t):
+    if t < T_EMPTY:
+        cam = ((1.5 * (1.0 / 1.5) ** ease(min(1, (t - T0) / (T_REB - T0)))), .5, .6)
+    else:
+        k = ease(min(1, (t - T_EMPTY) / 1.0)); cam = (1.0 * (1 - .0 * k), .5, .55)
+    base = crop(FIELD, cam)
+    hero_h = H * .3 / cam[0] * 1.0                                      # young Quest small in the field, always sharp
+    hero = sized(YOUNG, hero_h)
+    old = comp(old_look(base), hero, W * .5 - hero.width / 2, H * .93 - hero_h)
+    new = comp(new_look(base), hero, W * .5 - hero.width / 2, H * .93 - hero_h)
+    if t < T_REB:
+        fr = old
+    else:                                                               # a scan line rebuilds it, today
+        k = ease(min(1, (t - T_REB) / 1.4)); sx = int(W * k)
+        fr = old.copy(); fr.paste(new.crop((0, 0, sx, H)), (0, 0))
+        if 0 < k < 1:
+            ImageDraw.Draw(fr).line((sx, 0, sx, H), fill=(200, 240, 255), width=4)
+    if t >= T_EMPTY:                                                    # empty: a gust across a sharp, silent field
+        g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+        for i in range(6):
+            ph = ((t - T_EMPTY) * .7 + i / 6) % 1
+            x = -200 + (W + 400) * ph; y = H * (.55 + .06 * i)
+            d.arc((x - 90, y - 12, x + 90, y + 12), 200, 340, fill=(255, 255, 255, int(150 * math.sin(ph * math.pi))), width=3)
+        fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+    if t < T_REB + .3:                                                  # the year tag
+        d = ImageDraw.Draw(fr); a = min(1, (t - T0) / .4)
+        d.rounded_rectangle((W * .44, H * .15, W * .56, H * .23), 10, fill=(20, 22, 30), outline=(232, 196, 90), width=3)
+        d.text((W * .5 - d.textlength('1998', font=F(34)) / 2, H * .158), '1998', font=F(34), fill=(255, 230, 160))
+    elif t < T_EMPTY:
+        d = ImageDraw.Draw(fr)
+        d.rounded_rectangle((W * .44, H * .15, W * .56, H * .23), 10, fill=(20, 22, 30), outline=(120, 190, 255), width=3)
+        d.text((W * .5 - d.textlength('TODAY', font=F(30)) / 2, H * .162), 'TODAY', font=F(30), fill=(190, 225, 255))
+    fr = fairy_fx.draw(fr, [(T0, .56, .55), (T_REB, .54, .5), (T_SILENT, .56, .5)], t, size=.045)
+    return fr, ('G1 "An empty field in 1998..."' if t < T_REB else 'G2 rebuilt too literally -> empty')
+
+
+# ------------------------------------------------------------------ G3-G4: the silent hero, then a voice
+BUBBLE = (W * .56, H * .26, W * .88, H * .46)                     # under the HUD buttons, above the subtitles
+
+
+def frame_g34(t):
+    base = new_look(crop(FIELD, (1.25, .5, .6)))
+    h = H * .78; hero = sized(HERO_FRONT, h)
+    fr = comp(base, hero, W * .36 - hero.width / 2, H * .99 - h)
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    x0, y0, x1, y1 = BUBBLE
+    k = ease(min(1, (t - T_SILENT) / .35))
+    d.rounded_rectangle((x0, y0, x0 + (x1 - x0) * k, y1), 28, fill=(252, 252, 250, 240), outline=(30, 30, 40, 255), width=4)
+    d.polygon([(x0 + 24, y1 - 30), (x0 + 24, y1 - 70), (W * .43, H * .34)], fill=(252, 252, 250, 240), outline=(30, 30, 40, 255))
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    if t < T_VOICE:                                                     # silence: "..." and imagination drifting out
+        n = 1 + int((t - T_SILENT) * 3) % 3
+        d.text((cx - 40, y0 + 6), '.' * n, font=F(56), fill=(60, 60, 70, 255))
+        if t >= T_IMAG - .6:
+            for i, (sym, col) in enumerate((('★', (240, 190, 40)), ('♥', (230, 70, 80)), ('?', (70, 120, 220)), ('♪', (80, 170, 90)))):
+                ph = ((t - T_IMAG + .6) * .5 + i / 4) % 1
+                d.text((cx - 100 + i * 60 + 20 * math.sin(ph * 6 + i), y1 - 60 - 70 * ph), sym, font=F(40),          # rising inside the bubble
+                       fill=col + (int(255 * min(1, (1 - ph) * 2)),))
+    else:                                                               # a voice: the bubble fills with a waveform
+        for j in range(26):
+            hh = 10 + 46 * abs(math.sin(t * 11 + j * .7)) * min(1, (t - T_VOICE) / .4)
+            xx = x0 + 30 + j * (x1 - x0 - 60) / 25
+            d.line((xx, cy - hh / 2, xx, cy + hh / 2), fill=(60, 110, 210, 255), width=6)
+    fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+    if t >= T('l53.w3') - .1:                                           # "somebody has to decide": a casting card
+        kk = ease(min(1, (t - T('l53.w3') + .1) / .4))
+        card = Image.new('RGBA', (360, 168)); cd = ImageDraw.Draw(card)
+        cd.rounded_rectangle((0, 0, 359, 167), 14, fill=(18, 22, 34, 235), outline=(232, 196, 90, 255), width=3)
+        cd.text((20, 10), 'VOICE CASTING', font=F(22), fill=(255, 230, 160, 255))
+        for i in range(3):
+            y = 48 + i * 38
+            cd.text((20, y), f'TAKE {i + 1}', font=F(20), fill=(230, 235, 250, 255))
+            for j in range(14):
+                hh = 6 + 20 * abs(math.sin(j * (1.3 + i * .6) + i))
+                cd.line((120 + j * 12, y + 12 - hh / 2, 120 + j * 12, y + 12 + hh / 2), fill=(120, 170, 240, 255), width=4)
+            if i == 1 and t >= T_DECIDE:                                # someone decides
+                cd.rounded_rectangle((300, y - 4, 344, y + 30), 6, outline=(90, 220, 120, 255), width=4)
+                cd.line((308, y + 12, 318, y + 22, 336, y + 2), fill=(90, 220, 120, 255), width=5)
+        fr = comp(fr, card, W * .58 + (1 - kk) * 500, H * .49)                 # ends above the subtitle zone
+    fr = fairy_fx.draw(fr, [(T_SILENT, .5, .3), (T_CAM, .48, .28)], t, size=.045)
+    return fr, ('G3 the silent hero' if t < T_VOICE else 'G4 a voice: somebody decides')
+
+
+# ------------------------------------------------------------------ G5-G7: the old camera, fixed; good... probably
+def frame_g57(t):
+    hero_h = H * .42
+    if t < T_FIX:                                                       # the camera you fought: swings, tilts, clips
+        u = t - T_CAM
+        ang = 9 * math.sin(u * 2.3) + 5 * math.sin(u * 5.1)
+        zx = .5 + .12 * math.sin(u * 1.7); zz = 1.25 + .2 * math.sin(u * 2.9)
+        base = crop(FIELD, (zz, zx, .6))
+        base = comp(base, sized(YOUNG, hero_h), W * (.5 - (zx - .5) * 1.4) - sized(YOUNG, hero_h).width / 2, H * .93 - hero_h)
+        base = base.rotate(ang, resample=Image.BICUBIC, expand=False, fillcolor=(20, 20, 26))
+        if int(u * 2.2) % 3 == 2:                                       # clipping into a wall for a moment
+            d = ImageDraw.Draw(base); d.rectangle((0, 0, W * .35, H), fill=(96, 84, 70))
+            for yy in range(0, H, 40):
+                d.line((0, yy, W * .35, yy + 10), fill=(80, 70, 60), width=3)
+        fr = base
+        cam_icon_ang = 18 * math.sin(u * 6)
+    else:                                                               # fixed: smooth, steady, behind Quest
+        k = ease(min(1, (t - T_FIX) / 1.0))
+        base = crop(FIELD, (1.25, .5, .6))
+        fr = comp(new_look(base), sized(YOUNG, hero_h), W * .5 - sized(YOUNG, hero_h).width / 2, H * .93 - hero_h + 4 * math.sin(t * 9))
+        cam_icon_ang = 0
+    # the camera icon (bottom-right of the HUD buttons)
+    g = Image.new('RGBA', (120, 90)); d = ImageDraw.Draw(g)
+    d.rounded_rectangle((10, 20, 80, 70), 10, fill=(235, 235, 240, 255), outline=(20, 14, 18, 255), width=3)
+    d.polygon([(80, 45), (108, 25), (108, 65)], fill=(235, 235, 240, 255), outline=(20, 14, 18, 255))
+    d.ellipse((30, 30, 60, 60), outline=(20, 14, 18, 255), width=4)
+    g = g.rotate(cam_icon_ang, expand=True, resample=Image.BICUBIC)
+    fr = comp(fr, g, W * .84, H * .2)
+    if T_FIX - .1 <= t < T_FIX + .8:                                    # the wrench tap
+        k = (t - T_FIX + .1) / .9
+        wd = ImageDraw.Draw(fr); x, y = W * .78, H * .27
+        wd.line((x, y + 40, x + 40 * (1 - k), y), fill=(200, 200, 210), width=10); wd.ellipse((x + 32 * (1 - k), y - 16, x + 64 * (1 - k), y + 16), outline=(200, 200, 210), width=8)
+        fr = CART.glow(fr, W * .88, H * .25, 120, (255, 255, 220), .4 * (1 - k))
+    if t >= T_GOOD:                                                     # good... probably
+        k = ease(min(1, (t - T_GOOD) / .3))
+        tilt = 0 if t < T_PROB else 25 * ease(min(1, (t - T_PROB) / .35))
+        g = Image.new('RGBA', (180, 180)); d = ImageDraw.Draw(g)
+        d.ellipse((10, 10, 170, 170), fill=(70, 190, 100, 235), outline=(20, 14, 18, 255), width=5)
+        if t < T_PROB:
+            d.line((50, 92, 78, 120, 132, 62), fill=(255, 255, 255, 255), width=14)
+        else:
+            d.text((62, 36), '?', font=F(96), fill=(255, 255, 255, 255))
+        g = g.rotate(tilt, expand=True, resample=Image.BICUBIC)
+        s = .4 + .6 * k; g = g.resize((int(g.width * s), int(g.height * s)), Image.LANCZOS)
+        fr = comp(fr, g, W * .74 - g.width / 2, H * .5 - g.height / 2)
+    fr = fairy_fx.draw(fr, [(T_CAM, .56, .5), (T_FIX, .55, .48), (T_END, .56, .5)], t, size=.045)
+    lab = 'G5 the camera you fought' if t < T_FIX else 'G6 fixed: easier to inhabit' if t < T_GOOD else 'G7 "Which is good. Probably."'
+    return fr, lab
+
+
+def render(t):
+    if t < T_SILENT:
+        fr, lab = frame_g12(t)
+    elif t < T_CAM:
+        fr, lab = frame_g34(t)
+    else:
+        fr, lab = frame_g57(t)
+    fr = hud.draw(fr, hearts=HEARTS, t=t)
+    d = ImageDraw.Draw(fr)
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v1 · PLANNING ONLY')
+    subtitle(d, t)
+    return fr
+
+
+STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECIDE + .6), ('g5', T_CAM + 1.5), ('g6', T_EASY + .8), ('g7', T_PROB + .4))
+
+
+def main():
+    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v1.mp4'
+    narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
+    p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
+                          '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
+                          '-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-shortest', str(out)],
+                         stdin=subprocess.PIPE)
+    for n in range(int((T_END - T0) * FPS)):
+        p.stdin.write(render(T0 + n / FPS).tobytes())
+    p.stdin.close(); p.wait()
+    for name, t in STILLS:
+        render(t).save(ROOT / f'docs/ep002/blockG_v1_{name}.jpg', quality=85)
+    print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
+
+
+if __name__ == '__main__':
+    if '--stills' in sys.argv:
+        for name, t in STILLS:
+            render(t).save(ROOT / f'docs/ep002/blockG_v1_{name}.jpg', quality=85)
+        print('stills')
+    else:
+        main()

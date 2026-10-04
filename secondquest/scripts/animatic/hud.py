@@ -79,10 +79,11 @@ def _buttons(lay, d, W, a_text='Attack'):
 
 
 # Rupees picked up along the episode (narration seconds): the counter ticks up while Quest walks (Producer).
-RUPEE_EVENTS = [22.6, 24.2, 55.6, 58.1, 61.0, 63.4, 72.4, 77.6, 79.1, 80.6, 96.6, 99.4, 101.6, 117.6, 119.4]
+RUPEE_EVENTS = [22.6, 24.2, 55.6, 58.1, 61.0, 63.4, 72.4, 77.6, 79.1, 80.6, 96.6, 99.4, 101.6, 117.6, 119.4, 142.6, 143.8]
 # The A button reads like the game: what you could do in that moment (Producer).
 A_LABELS = [(0, 49.0, 'Navi'), (49.0, 54.0, 'Check'), (54.0, 71.6, 'Navi'), (71.6, 74.2, 'Navi'), (74.2, 76.1, 'Check'),
-            (76.1, 81.5, 'Attack'), (81.5, 109.0, 'Check'), (109.0, 112.4, 'Navi'), (112.4, 999, 'Check')]
+            (76.1, 81.5, 'Attack'), (81.5, 109.0, 'Check'), (109.0, 112.4, 'Navi'), (112.4, 129.2, 'Check'),
+            (129.2, 137.9, 'Speak'), (137.9, 144.3, 'Check'), (144.3, 999, 'Navi')]   # block G: the silent hero speaks
 
 
 def rupees_at(t, base=23):
