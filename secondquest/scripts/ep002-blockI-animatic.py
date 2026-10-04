@@ -70,7 +70,8 @@ HEARTS = 2.5
 
 INK = (20, 14, 18, 255)
 PANEL, GOLD, WHITE = (10, 14, 48, 215), (232, 196, 90, 255), (255, 255, 255, 255)
-P1 = cutout('quest2:nostalgic_smile')
+P1 = cutout('quest2:nostalgic_smile', 'hero')                           # MISSING: veteran Quest in his tunic (planning recolour)
+P1_SCARED = cutout('quest2:surprised_shocked', 'hero')                 # MISSING: tunic Quest, scared, as the shadow grabs them
 P2 = cutout('pixie:wave_happy')
 PROPS = ROOT / 'public/art/ep002/props3d'
 OCA = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'ocarina_spin').glob('f*.png'))]
@@ -162,11 +163,16 @@ def menu_cursor(t):
 def card(who, label, col, w=300, h=400, alpha=1.0, dim=0.0):
     g = panel(w, h, alpha, outline=col + (255,)); d = ImageDraw.Draw(g)
     ctext(d, w / 2 + 4, 20, label, 24, col + (int(255 * alpha),))
-    ph = int((h - 90) * (1.0 if who is P1 else .95))                     # Pixie ~95% of Quest's height (spec)
+    ph = int((h - 90) * (.95 if who is P2 else 1.0))                     # Pixie ~95% of Quest's height (spec)
     im = sized(who, ph)
     if dim:
         im = Image.blend(im.convert('RGB'), Image.new('RGB', im.size, (10, 14, 48)), .6 * dim).convert('RGBA'); im.putalpha(sized(who, ph).getchannel('A'))
     g.alpha_composite(fade(im, alpha), (int(w / 2 + 4 - im.width / 2), int(h - 8 - im.height)))
+    if who is not P2:                                                   # planning stand-in: say so
+        lab = 'MISSING · tunic Quest' + (' scared' if who is P1_SCARED else '')
+        f = F(12); tw = d.textlength(lab, font=f)
+        d.rectangle((w / 2 + 4 - tw / 2 - 6, h - 26, w / 2 + 4 + tw / 2 + 6, h - 8), fill=(150, 20, 30, int(230 * alpha)))
+        d.text((w / 2 + 4 - tw / 2, h - 24), lab, font=f, fill=(255, 235, 235, int(255 * alpha)))
     return g
 
 
@@ -215,7 +221,8 @@ def slot_items(fr, t, a):
 
 
 def p1_portrait(fr, t, a, alert=0.0):
-    c = card(P1, 'VETERAN PLAYER', (232, 196, 90), alpha=a)
+    who = P1_SCARED if T_WISH + .2 <= t < T_TF else P1               # the shadow appears: he is scared
+    c = card(who, 'VETERAN PLAYER', (232, 196, 90), alpha=a)
     fr = comp(fr, c, W * .07, H * .12)
     if alert > 0:                                                       # "!" over Player 1: he knows what comes next
         d = ImageDraw.Draw(fr)
@@ -290,12 +297,58 @@ def villain_shadow(t):
     return g, kv
 
 
+def shadow_hand(curl=0.0):
+    """A clawed hand of shadow, pointing left, wrist at the canvas centre (220, 180): palm, four two-joint fingers
+    with claws, a thumb; a faint purple rim so it reads against the dark. curl 0 = open, reaching; 1 = gripping."""
+    g = Image.new('RGBA', (440, 360)); d = ImageDraw.Draw(g)
+    dark, rim = (26, 10, 34, 245), (110, 50, 140, 220)
+
+    def limb(pts, w0, w1, col):
+        for (xa, ya), (xb, yb), k in zip(pts, pts[1:], range(len(pts))):
+            wa = lin(w0, w1, k / (len(pts) - 1)); wb = lin(w0, w1, (k + 1) / (len(pts) - 1))
+            n = 8
+            for i in range(n + 1):
+                u = i / n; x = lin(xa, xb, u); y = lin(ya, yb, u); r = lin(wa, wb, u) / 2
+                d.ellipse((x - r, y - r, x + r, y + r), fill=col)
+
+    def hand(col, dx=0, dy=0):
+        palm = [(222 + dx, 150 + dy), (222 + dx, 212 + dy), (160 + dx, 222 + dy), (138 + dx, 186 + dy), (158 + dx, 146 + dy)]
+        d.polygon(palm, fill=col)
+        for j, fy in enumerate((148, 168, 188, 208)):                                   # four fingers fanned out, two joints and a claw
+            sp = (-30, -10, 10, 30)[j] * (1 - curl)
+            base = (154 + dx, fy + dy)
+            k1 = (lin(108, 124, curl) + dx + j * 4, fy + sp * .45 + lin(0, 14, curl) + dy)
+            k2 = (lin(68, 110, curl) + dx + j * 4, fy + sp * .85 + lin(0, 50, curl) + dy)
+            tip = (lin(40, 132, curl) + dx + j * 4, fy + sp + lin(4, 70, curl) + dy)
+            limb([base, k1, k2, tip], 21 - j * 1.5, 5, col)
+        limb([(186 + dx, 216 + dy), (158 + dx, 246 + dy), (lin(126, 150, curl) + dx, lin(262, 252, curl) + dy)], 18, 7, col)   # thumb
+
+    hand(rim, -2, -3)
+    hand(dark)
+    return g
+
+
+def sleeve_and_hand(fr, shoulder, wrist, curl):
+    """The cloak's sleeve, widening from the wrist to the shoulder, and the clawed hand at its end."""
+    (x0, y0), (wx, wy) = shoulder, wrist
+    ang = math.atan2(wy - y0, wx - x0)                                                  # arm direction
+    nx, ny = -math.sin(ang), math.cos(ang)
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    d.polygon([(x0 + nx * 46, y0 + ny * 46), (x0 - nx * 46, y0 - ny * 46), (wx - nx * 26, wy - ny * 26), (wx + nx * 26, wy + ny * 26)],
+              fill=(22, 8, 30, 240))
+    d.ellipse((wx - 30, wy - 30, wx + 30, wy + 30), fill=(22, 8, 30, 240))           # the cuff
+    fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(1.2))).convert('RGB')
+    h = shadow_hand(curl).rotate(-math.degrees(ang) + 180, resample=Image.BICUBIC)   # canvas points left: turn it along the arm
+    h = h.resize((int(h.width * .8), int(h.height * .8)), Image.LANCZOS)
+    return comp(fr, h, wx - h.width / 2, wy - h.height / 2)
+
+
 def stage_triforce(fr, t, k):
     cx, cy = 830, 235
     shadow, kv = villain_shadow(t)
     if shadow is not None:
         shadow = fade(shadow, k)                                                           # leaves with the triangles
-    sx, sy = 980, 70 + (1 - kv) * 300                                                       # rises from below, behind the triangles
+    sx, sy = 1000, 70 + (1 - kv) * 300                                                       # rises from below, behind the triangles
     if shadow is not None:
         fr = CART.glow(fr, sx, sy + 200, 300, (120, 30, 140), .35 * kv)
         fr = comp(fr, shadow, sx - 220, sy)
@@ -304,18 +357,12 @@ def stage_triforce(fr, t, k):
     fr = CART.glow(fr, cx, cy, int(260 * k) + 1, (255, 214, 120), (.35 + .15 * pulse) * k)
     fr = comp(fr, fade(s, k), cx - s.width / 2, cy - s.height / 2)
     if shadow is not None:                                                                  # the arm reaches for them
-        kr = ease(min(1, max(0, (t - T_REACH + .3) / .8)))
+        kr = ease(min(1, max(0, (t - T_REACH + .3) / .8))) * k
         if kr > 0:
-            g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-            kr *= k
-            x0, y0 = sx - 120, sy + 230                                                     # shoulder
-            hx, hy = lin(x0 - 20, cx + 95, kr), lin(y0 - 10, cy + 20, kr)                   # the hand, at the triangles' edge
-            d.line((x0, y0, hx, hy), fill=(22, 8, 30, 235), width=34)
-            d.ellipse((hx - 28, hy - 24, hx + 28, hy + 24), fill=(22, 8, 30, 240))
-            for j in range(4):                                                              # clawed fingers
-                a0 = math.radians(160 + j * 22)
-                d.line((hx, hy, hx + 52 * math.cos(a0), hy - 52 * math.sin(a0) * .8), fill=(22, 8, 30, 240), width=10)
-            fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(1.5))).convert('RGB')
+            curl = .6 * ease(min(1, max(0, (t - T('l69.w18')) / .35)))                   # "decision": the claws close on them
+            x0, y0 = sx + 50, sy + 175                                                      # shoulder (the figure stands right of them)
+            wx, wy = lin(x0 - 40, cx + 170, kr), lin(y0 + 10, cy - 15 + 14 * curl, kr)      # wrist; the arm comes in level, claws over the triangles
+            fr = sleeve_and_hand(fr, (x0, y0), (wx, wy), curl)
     if t >= T_BAD:                                                      # the very bad decision: a red pulse
         r = max(0, 1 - (t - T('l69.w18')) / .6) if t >= T('l69.w18') else .4
         fr = Image.blend(fr, Image.new('RGB', fr.size, (160, 10, 20)), .35 * r)
@@ -447,7 +494,7 @@ def render(t):
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v2 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -457,7 +504,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -467,14 +514,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

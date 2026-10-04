@@ -193,3 +193,7 @@
   cards VETERAN PLAYER (Quest) and NEW PLAYER (Pixie).
 - "A very bad decision": the MAKE A WISH? dialog was unclear; replaced by a hooded shadow with red eyes (inspired
   villain, never a replica) rising behind the triangles and reaching for them, the veteran shouting "NO, NO, NO!".
+- I v3: the shadow's hand rebuilt as a real clawed hand (cloak sleeve, palm, four two-joint fingers, thumb) that comes in
+  level and closes its claws over the triangles on "decision". Producer: the veteran must be in his tunic, and scared
+  when the shadow grabs the Triforce: both added to `docs/ep002/MISSING_ART.md` (new running list of art to quote at the
+  end); planning stand-ins meanwhile (recoloured nostalgic_smile / surprised_shocked, labelled MISSING).
