@@ -271,3 +271,6 @@
 - N v5 (Producer: "Cuando saca la espada, aún en la era no adulta, que no salga con escudo y espada aún en la espalda"):
   right after the sword comes out (the flash, until he dissolves) he has no shield or sword on his back - the raised
   sword is the one he is pulling; the gear appears only in the ADULT era of the closing split.
+- N v6 (Producer: "La flor es muy grande, quizás algo más pequeña y bonita"): the flower is about half the size and
+  redrawn: a curved stem, two leaves, two rings of soft pink petals with a yellow centre and a highlight; it still
+  blooms, droops and drops its petals.

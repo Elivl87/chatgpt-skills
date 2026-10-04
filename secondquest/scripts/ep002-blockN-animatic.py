@@ -192,38 +192,50 @@ STEP0, STEP_D = T('l103') - .05, .45                                        # hi
 
 
 def flower(fr, k):
-    """Producer improvement: by the pedestal a flower sprouts, blooms and withers - a clock for the seven years."""
+    """Producer improvement: by the pedestal a flower sprouts, blooms and withers - a clock for the seven years.
+    v6 (Producer: "más pequeña y bonita"): smaller, two rings of soft petals, two leaves, a curved stem; drawn at 3x and
+    scaled down for clean edges."""
     if k <= 0:
         return fr
-    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    bx, by = W * .33, H * .765                                               # at the foot of the steps, left of the pedestal
+    S = 3                                                                    # supersampling
+    gw, gh = 90 * S, 120 * S
+    g = Image.new('RGBA', (gw, gh)); d = ImageDraw.Draw(g)
+    bx, by = gw * .5, gh - 6 * S                                             # root, in the sprite
     grow = ease(min(1, k / .35)); bloom = ease(min(1, max(0, (k - .25) / .25))); wilt = ease(min(1, max(0, (k - .62) / .38)))
-    L = 110 * grow
-    droop = 1.3 * wilt                                                       # the stem bends over as it dies
-    pts = []
-    for i in range(9):
-        u = i / 8
-        ang = -math.pi / 2 + droop * u * u
-        x = bx + sum(L / 8 * math.cos(-math.pi / 2 + droop * (j / 8) ** 2) for j in range(i))
-        y = by + sum(L / 8 * math.sin(-math.pi / 2 + droop * (j / 8) ** 2) for j in range(i))
-        pts.append((x, y))
-    stem = tuple(int(lin(c0, c1, wilt)) for c0, c1 in zip((70, 150, 60), (120, 96, 50)))
-    if len(pts) > 1 and L > 2:
-        d.line(pts, fill=stem + (255,), width=5)
-        mx, my = pts[4]
-        d.ellipse((mx - 16 * grow, my - 6, mx, my + 4), fill=stem + (255,), outline=INK)    # a leaf
+    L = 64 * S * grow
+    droop = 1.4 * wilt
+    pts = [(bx, by)]
+    for i in range(1, 11):                                                   # a gently curved stem that bends over as it dies
+        u = i / 10
+        a = -math.pi / 2 + .25 * math.sin(u * 2.4) + droop * u * u
+        x, y = pts[-1]
+        pts.append((x + L / 10 * math.cos(a), y + L / 10 * math.sin(a)))
+    stem = tuple(int(lin(c0, c1, wilt)) for c0, c1 in zip((86, 160, 70), (130, 100, 56)))
+    ink = (40, 30, 34, 255)
+    if L > 2 * S:
+        d.line(pts, fill=ink, width=5 * S, joint='curve'); d.line(pts, fill=stem + (255,), width=3 * S, joint='curve')
+        for j, side in ((3, -1), (5, 1)):                                   # two little leaves
+            lx, ly = pts[j]; sz = 11 * S * grow * (1 - .3 * wilt)
+            leaf = [(lx, ly), (lx + side * sz * .6, ly - sz * .7), (lx + side * sz * 1.2, ly - sz * .2 + 8 * S * wilt), (lx + side * sz * .5, ly + sz * .15)]
+            d.polygon(leaf, fill=stem + (255,), outline=ink, width=S)
     hx, hy = pts[-1]
     if bloom > 0:
-        pc = tuple(int(lin(c0, c1, wilt)) for c0, c1 in zip((255, 120, 170), (140, 90, 70)))
-        n = 6 - int(3 * wilt)                                                # petals fall as it withers
-        R = 21 * bloom * (1 - .3 * wilt)
-        for j in range(n):
-            a = j * 2 * math.pi / 6
-            d.ellipse((hx + math.cos(a) * R - R * .7, hy + math.sin(a) * R - R * .7, hx + math.cos(a) * R + R * .7, hy + math.sin(a) * R + R * .7), fill=pc + (255,), outline=INK)
-        d.ellipse((hx - R * .55, hy - R * .55, hx + R * .55, hy + R * .55), fill=(250, 210, 80, 255), outline=INK)
-        for j in range(3 if wilt > .2 else 0):                               # fallen petals on the floor
-            fx = bx + 14 + j * 16; d.ellipse((fx - 7, by - 4, fx + 7, by + 3), fill=pc + (int(255 * min(1, wilt * 2)),))
-    return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+        outer = tuple(int(lin(c0, c1, wilt)) for c0, c1 in zip((246, 128, 172), (150, 100, 80)))
+        inner = tuple(int(lin(c0, c1, wilt)) for c0, c1 in zip((255, 196, 220), (170, 130, 100)))
+        R = 9 * S * bloom * (1 - .25 * wilt)
+        n = 8 - int(5 * wilt)                                                # petals fall as it withers
+        for ring, (rr, col, off) in enumerate(((R, outer, 0.0), (R * .62, inner, math.pi / 8))):
+            for j in range(n if ring == 0 else max(0, n - 2)):
+                a = j * 2 * math.pi / 8 + off
+                px, py = hx + math.cos(a) * rr, hy + math.sin(a) * rr * .85
+                d.ellipse((px - rr * .62, py - rr * .5, px + rr * .62, py + rr * .5), fill=col + (255,), outline=ink, width=S)
+        d.ellipse((hx - R * .32, hy - R * .32, hx + R * .32, hy + R * .32), fill=(252, 214, 96, 255), outline=ink, width=S)
+        d.ellipse((hx - R * .12, hy - R * .2, hx + R * .04, hy - R * .05), fill=(255, 245, 200, 255))      # a little highlight
+        for j in range(4 if wilt > .25 else 0):                              # fallen petals on the floor
+            fx = bx + (j - 1.5) * 12 * S + 10 * S
+            d.ellipse((fx - 5 * S, by - 3 * S, fx + 5 * S, by + 2 * S), fill=outer + (int(255 * min(1, wilt * 2)),), outline=ink, width=S)
+    g = g.resize((gw // S, gh // S), Image.LANCZOS)
+    return comp(fr, g, W * .33 - gw / S / 2, H * .765 - gh / S + 6)
 
 
 # ------------------------------------------------------------------ N1-N4
@@ -358,7 +370,7 @@ def render(t):
     tw = d.textlength(lab2, font=F(13))
     if not (T_SIDE <= t < T_ERAS):
         d.rectangle((W * .03, H * .06, W * .03 + tw + 12, H * .06 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .06 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v5 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -368,7 +380,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -378,14 +390,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
