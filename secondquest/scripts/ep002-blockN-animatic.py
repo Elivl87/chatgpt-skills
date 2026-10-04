@@ -6,11 +6,13 @@ Producer approved, 2026-10-04 ("Sí, constrúyelo así"). Place: inside the swor
 not Hyrule Field. Block I already used the SEVEN YEARS LATER caption and a field split CHILD | ADULT, so here the seven
 years are told without text (a time-lapse in the empty temple) and the eras are the temple's own window.
   N1  "You were a child."                 Young Quest (tunic, from behind) before the pedestal, the sword in the stone.
-  N2  "Then you were not."                On "not" a white flash: adult Quest stands in the same spot; the pedestal is empty.
-  N3  "You disappeared..."                He dissolves into rising motes of light.
+  N2  "Then you were not."                The sword comes up a little out of the stone; on "not" a white flash: adult Quest
+                                          stands in the same spot, the sword raised above the pedestal.
+  N3  "You disappeared..."                He and the sword dissolve together into rising motes of light.
   N4  "...and the world changed without you."  The empty temple in time-lapse: the window light sweeps round and round,
                                           the sky outside goes from blue to a red storm, the village roofs fall to ruins,
-                                          cobwebs grow, the walls crack.
+                                          cobwebs grow, the walls crack, and by the pedestal a flower
+                                          sprouts, blooms and withers (Producer: "sería un hit").
   N5  "That is not some side detail of Ocarina of Time."  The camera pulls out: the temple shrinks into the label of the
                                           golden cartridge; a sticky note "side detail?" is crossed out.
   N6  "That is the game."                 The cartridge pulses gold; a THE GAME stamp lands.
@@ -88,7 +90,7 @@ def window_view(w, h, storm, t):
     return im
 
 
-def temple(t, storm=0.0, light_ang=0.0, age=0.0, sword=True):
+def temple(t, storm=0.0, light_ang=0.0, age=0.0, sword=True, sword_rise=0.0, sword_a=1.0):
     w, h = W, H
     vx, vy = W * .5, H * .38
     wall = tuple(int(lin(c0, c1, storm)) for c0, c1 in zip((150, 148, 170), (80, 70, 86)))
@@ -137,10 +139,13 @@ def temple(t, storm=0.0, light_ang=0.0, age=0.0, sword=True):
                 pts.append((x, y))
             d.line(pts, fill=(50, 40, 50, a), width=3)
     im = CART.glow(im, W * .5, PED_TOP - 60, 160, (200, 230, 255) if storm < .5 else (255, 140, 120), .45)
-    if sword:
-        clip = Image.new('L', SWORD.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, SWORD.width, int(SWORD.height * .78)), fill=255)
+    if sword and sword_a > 0:                                               # sword_rise: drawn up out of the stone (px)
+        vis = int(SWORD.height * .78 + sword_rise)
+        clip = Image.new('L', SWORD.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, SWORD.width, vis), fill=255)
         s2 = SWORD.copy(); s2.putalpha(Image.fromarray(np.minimum(np.asarray(SWORD.getchannel('A')), np.asarray(clip))))
-        im = comp(im, s2, W * .5 - SWORD.width / 2, PED_TOP + 4 - SWORD.height * .78)
+        if sword_rise > 0:
+            im = CART.glow(im, W * .5, PED_TOP - 80 - sword_rise, 120, (220, 240, 255), min(.7, sword_rise / 60))
+        im = comp(im, fade(s2, sword_a), W * .5 - SWORD.width / 2, PED_TOP + 4 - vis)
     if storm > 0:
         im = Image.blend(im, Image.new('RGB', im.size, (60, 10, 20)), .18 * storm)
     return im
@@ -153,22 +158,65 @@ def quest(fr, h, a=1.0, x=QX, feet=QFEET):
     return comp(fr, fade(q, a), x - q.width / 2, feet - q.height)
 
 
+RISE = 46                                                                   # how far the sword comes up out of the stone (px)
+
+
+def flower(fr, k):
+    """Producer improvement: by the pedestal a flower sprouts, blooms and withers - a clock for the seven years."""
+    if k <= 0:
+        return fr
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    bx, by = W * .33, H * .765                                               # at the foot of the steps, left of the pedestal
+    grow = ease(min(1, k / .35)); bloom = ease(min(1, max(0, (k - .25) / .25))); wilt = ease(min(1, max(0, (k - .62) / .38)))
+    L = 110 * grow
+    droop = 1.3 * wilt                                                       # the stem bends over as it dies
+    pts = []
+    for i in range(9):
+        u = i / 8
+        ang = -math.pi / 2 + droop * u * u
+        x = bx + sum(L / 8 * math.cos(-math.pi / 2 + droop * (j / 8) ** 2) for j in range(i))
+        y = by + sum(L / 8 * math.sin(-math.pi / 2 + droop * (j / 8) ** 2) for j in range(i))
+        pts.append((x, y))
+    stem = tuple(int(lin(c0, c1, wilt)) for c0, c1 in zip((70, 150, 60), (120, 96, 50)))
+    if len(pts) > 1 and L > 2:
+        d.line(pts, fill=stem + (255,), width=5)
+        mx, my = pts[4]
+        d.ellipse((mx - 16 * grow, my - 6, mx, my + 4), fill=stem + (255,), outline=INK)    # a leaf
+    hx, hy = pts[-1]
+    if bloom > 0:
+        pc = tuple(int(lin(c0, c1, wilt)) for c0, c1 in zip((255, 120, 170), (140, 90, 70)))
+        n = 6 - int(3 * wilt)                                                # petals fall as it withers
+        R = 21 * bloom * (1 - .3 * wilt)
+        for j in range(n):
+            a = j * 2 * math.pi / 6
+            d.ellipse((hx + math.cos(a) * R - R * .7, hy + math.sin(a) * R - R * .7, hx + math.cos(a) * R + R * .7, hy + math.sin(a) * R + R * .7), fill=pc + (255,), outline=INK)
+        d.ellipse((hx - R * .55, hy - R * .55, hx + R * .55, hy + R * .55), fill=(250, 210, 80, 255), outline=INK)
+        for j in range(3 if wilt > .2 else 0):                               # fallen petals on the floor
+            fx = bx + 14 + j * 16; d.ellipse((fx - 7, by - 4, fx + 7, by + 3), fill=pc + (int(255 * min(1, wilt * 2)),))
+    return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+
+
 # ------------------------------------------------------------------ N1-N4
 def n1_4(t):
     if t < T_NOT:                                                           # N1-N2: the child, the sword in the stone
-        fr = temple(t)
+        kr = ease(min(1, max(0, (t - T('l103.w2')) / (T_NOT - T('l103.w2')))))   # Producer: the sword comes up a little
+        fr = temple(t, sword_rise=RISE * kr)
         step = ease(min(1, max(0, (t - T('l103') + .05) / .7)))             # "then...": he steps up to it
         fr = quest(fr, YH * (1 + .08 * step), feet=QFEET - 26 * step)
         lab = 'N1 you were a child' if t < T('l103') - .05 else 'N2 then you were not'
     elif t < T_WORLD:                                                       # N2-N3: the adult, then he disappears
-        fr = temple(t, storm=0, sword=False)
         kd = min(1, max(0, (t - T('l104.w2')) / .7))                         # "disappeared"
+        fr = temple(t, storm=0, sword=True, sword_rise=RISE, sword_a=1 - kd)   # ...and the sword goes with him, the same way
         fr = quest(fr, AH, a=1 - kd)
-        if kd > 0:                                                          # motes of light rise from him
+        if kd > 0:                                                          # motes of light rise from him and from the sword
             g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
             r = np.random.default_rng(8)
-            for i in range(40):
-                x = QX + (r.random() - .5) * 120; y0 = QFEET - r.random() * AH
+            sw_top, sw_bot = PED_TOP - SWORD.height * .78 - RISE, PED_TOP
+            for i in range(64):
+                if i < 40:
+                    x = QX + (r.random() - .5) * 120; y0 = QFEET - r.random() * AH
+                else:
+                    x = QX + (r.random() - .5) * 40; y0 = lin(sw_top, sw_bot, r.random())
                 y = y0 - 140 * kd * (.5 + r.random()); s = 2 + 3 * r.random()
                 d.ellipse((x - s, y - s, x + s, y + s), fill=(255, 250, 210, int(230 * (1 - kd ** 2))))
             fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(1))).convert('RGB')
@@ -182,6 +230,7 @@ def n1_4(t):
         fr = temple(t, storm=e, light_ang=k * 6 * math.pi, age=e, sword=False)
         flick = .12 * abs(math.sin(k * 6 * math.pi))                        # day / night flickering by
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 10, 30)), flick)
+        fr = flower(fr, k)
         lab = 'N4 the world changed without you'
     return fr, lab
 
@@ -275,17 +324,17 @@ def render(t):
     tw = d.textlength(lab2, font=F(13))
     if not (T_SIDE <= t < T_ERAS):
         d.rectangle((W * .03, H * .06, W * .03 + tw + 12, H * .06 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .06 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v1 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('n1', T('l102.w4') + .2), ('n2', T_NOT + .6), ('n3', T('l104.w2') + .35), ('n4', T('l105.w5')), ('n4b', T_SIDE - .3),
+STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('n3', T('l104.w2') + .35), ('n4a', T('l105.w3')), ('n4', T('l105.w5')), ('n4b', T_SIDE - .3),
           ('n5', T('l106.w6') + .6), ('n6', T_STAMP + .4), ('n7', T_END - .3))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -295,14 +344,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

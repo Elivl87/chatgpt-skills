@@ -256,3 +256,7 @@
   field CHILD | ADULT split, so here the years are told without text and the eras split the temple itself. The temple
   shrinks into the golden cartridge's label, a "side detail?" note is struck through; THE GAME stamp; then CHILD (day
   window) | ADULT (storm window). HUD hidden.
+- N v2 (Producer: "que se vea que se levanta un poco la espada, y desaparezca al mismo nivel de detalle que Quest. Lo de
+  la flor sería un hit"): the sword comes up out of the stone before the flash, stays raised with adult Quest and
+  dissolves into motes of light together with him; in the time-lapse a flower by the steps sprouts, blooms and withers
+  (petals fall) as the clock of the seven years.
