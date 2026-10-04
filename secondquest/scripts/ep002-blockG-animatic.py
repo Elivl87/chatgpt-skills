@@ -12,7 +12,7 @@ All in Hyrule, so the in-game HUD stays on (hearts carry over from block F: 2.5)
                                                         waveform; a VOICE CASTING card with three takes, one gets picked.
   G5  "A camera you once fought with was part of learning the game."  The view swings, tilts and clips like the old
                                                         camera; a C-camera icon wobbles.
-  G6  "Fix it... and the game becomes easier to inhabit."  A clear wrench taps the camera icon, a green check badge pops; the camera settles smoothly behind Quest.
+  G6  "Fix it... and the game becomes easier to inhabit."  A steel wrench taps the camera icon, a green check badge pops; the camera settles smoothly behind Quest.
   G7  "Which is good. Probably."                         A green check pops... and tilts into a question mark.
 Sounds: Bram only. Framing QC before sending.
 """
@@ -163,19 +163,69 @@ def frame_g34(t):
     return fr, ('G3 the silent hero' if t < T_VOICE else 'G4 a voice: somebody decides')
 
 
+def _toon(mask, top, bottom, outline=12):
+    """Supersampled toon fill: vertical metal gradient inside the mask, ink outline around it (HUD style)."""
+    w, h = mask.size
+    ys = np.linspace(0, 1, h)[:, None, None]
+    grad = (np.array(top)[None, None] * (1 - ys) + np.array(bottom)[None, None] * ys).repeat(w, 1).astype(np.uint8)
+    out = Image.new('RGBA', (w, h), (20, 14, 18, 0))
+    out.putalpha(mask.filter(ImageFilter.MaxFilter(outline * 2 + 1)))
+    fill = Image.fromarray(grad, 'RGB').convert('RGBA'); fill.putalpha(mask)
+    return Image.alpha_composite(out, fill)
+
+
+_WRENCH = None
+
+
 def wrench_icon(ang, alpha=1.0):
-    """A clear open-end wrench (metal, ink outline), drawn pointing up-right; ang rotates it."""
-    g = Image.new('RGBA', (150, 150)); d = ImageDraw.Draw(g)
-    ink, steel, hi = (20, 14, 18, 255), (178, 186, 198, 255), (235, 240, 248, 255)
-    d.rounded_rectangle((18, 66, 110, 84), 9, fill=steel, outline=ink, width=4)          # handle
-    d.ellipse((96, 50, 146, 100), fill=steel, outline=ink, width=4)                      # head
-    d.polygon([(124, 64), (150, 58), (150, 92), (124, 86)], fill=(0, 0, 0, 0))           # open jaw
-    d.line((124, 64, 146, 60), fill=ink, width=4); d.line((124, 86, 146, 90), fill=ink, width=4); d.line((124, 64, 124, 86), fill=ink, width=4)
-    d.line((28, 71, 100, 71), fill=hi, width=3)                                          # shine
-    g = g.rotate(ang + 30, resample=Image.BICUBIC, center=(30, 75))
+    """A combination wrench (ring end + open end), brushed steel with an ink outline; ang swings it about the ring end."""
+    global _WRENCH
+    if _WRENCH is None:
+        S = 640; m = Image.new('L', (S, S)); md = ImageDraw.Draw(m)
+        md.polygon([(130, 276), (450, 282), (450, 318), (130, 324)], fill=255)          # tapered handle
+        md.ellipse((48, 248, 152, 352), fill=255)                                       # ring end
+        md.ellipse((426, 238, 550, 362), fill=255)                                      # open end
+        md.polygon([(100 + 30 * math.cos(math.pi / 3 * i + math.pi / 6), 300 + 30 * math.sin(math.pi / 3 * i + math.pi / 6)) for i in range(6)], fill=0)
+        md.polygon([(496, 278), (640, 246), (640, 354), (496, 322)], fill=0)             # the jaw
+        md.ellipse((474, 278, 518, 322), fill=0)
+        g = _toon(m, (238, 242, 250), (118, 126, 142))
+        gd = ImageDraw.Draw(g)
+        gd.line((150, 291, 430, 293), fill=(255, 255, 255, 230), width=7)               # brushed highlight
+        gd.arc((60, 260, 140, 340), 200, 300, fill=(255, 255, 255, 200), width=7)
+        gd.arc((438, 250, 538, 350), 205, 260, fill=(255, 255, 255, 200), width=7)
+        _WRENCH = g.resize((160, 160), Image.LANCZOS)
+    g = _WRENCH.rotate(ang + 24, resample=Image.BICUBIC, center=(25, 75))
     if alpha < 1:
         g.putalpha(g.getchannel('A').point(lambda v: int(v * max(0, alpha))))
     return g
+
+
+_CAMERA = {}
+
+
+def camera_icon(rec=False):
+    """A classic movie camera: two film reels, slate body, lens hood with glass, REC light."""
+    if rec not in _CAMERA:
+        m = Image.new('L', (480, 360)); md = ImageDraw.Draw(m)
+        md.rounded_rectangle((40, 140, 320, 320), 34, fill=255)
+        md.ellipse((52, 24, 172, 144), fill=255); md.ellipse((178, 24, 298, 144), fill=255)
+        md.polygon([(316, 190), (452, 130), (452, 330), (316, 272)], fill=255)
+        g = _toon(m, (128, 138, 160), (52, 56, 70))
+        gd = ImageDraw.Draw(g); ink = (20, 14, 18, 255)
+        for cx in (112, 238):                                                           # reels: hub + three holes
+            gd.ellipse((cx - 50, 34, cx + 50, 134), outline=ink, width=8)
+            gd.ellipse((cx - 13, 71, cx + 13, 97), fill=(200, 206, 220, 255), outline=ink, width=6)
+            for k in range(3):
+                a_ = math.pi / 2 + k * 2 * math.pi / 3; hx, hy = cx + 30 * math.cos(a_), 84 + 30 * math.sin(a_)
+                gd.ellipse((hx - 11, hy - 11, hx + 11, hy + 11), fill=(36, 38, 48, 255))
+        gd.line((60, 160, 300, 160), fill=(190, 198, 218, 255), width=8)                # top edge light
+        gd.ellipse((392, 150, 448, 310), fill=(70, 120, 190, 255), outline=ink, width=8)  # lens glass
+        gd.ellipse((404, 170, 424, 214), fill=(220, 236, 255, 230))
+        gd.ellipse((70, 186, 106, 222), fill=(235, 50, 50, 255) if rec else (90, 40, 44, 255), outline=ink, width=6)
+        gd.rounded_rectangle((140, 200, 290, 280), 14, fill=(36, 38, 48, 255), outline=ink, width=6)   # side panel
+        gd.line((158, 222, 272, 222), fill=(120, 130, 150, 255), width=6); gd.line((158, 246, 240, 246), fill=(120, 130, 150, 255), width=6)
+        _CAMERA[rec] = g.resize((120, 90), Image.LANCZOS)
+    return _CAMERA[rec]
 
 
 # ------------------------------------------------------------------ G5-G7: the old camera, fixed; good... probably
@@ -210,10 +260,7 @@ def frame_g57(t):
         fr = comp(new_look(base), sized(YOUNG, hero_h), W * .5 - sized(YOUNG, hero_h).width / 2, H * .93 - hero_h + 4 * math.sin(t * 9))
         cam_icon_ang = 0
     # the camera icon (bottom-right of the HUD buttons)
-    g = Image.new('RGBA', (120, 90)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((10, 20, 80, 70), 10, fill=(235, 235, 240, 255), outline=(20, 14, 18, 255), width=3)
-    d.polygon([(80, 45), (108, 25), (108, 65)], fill=(235, 235, 240, 255), outline=(20, 14, 18, 255))
-    d.ellipse((30, 30, 60, 60), outline=(20, 14, 18, 255), width=4)
+    g = camera_icon(rec=t >= T_FIX and int(t * 2) % 2 == 0)              # the REC light blinks once the camera works
     g = g.rotate(cam_icon_ang, expand=True, resample=Image.BICUBIC)
     fr = comp(fr, g, W * .84, H * .2)
     if T_FIX - .15 <= t < T_FIX + .75:                                  # the wrench: swings in, one tap on the camera, leaves
@@ -229,7 +276,7 @@ def frame_g57(t):
         bd.ellipse((3, 3, 57, 57), fill=(70, 190, 100, 255), outline=(20, 14, 18, 255), width=4)
         bd.line((17, 31, 26, 40, 43, 21), fill=(255, 255, 255, 255), width=7)
         b = b.resize((int(60 * s_), int(60 * s_)), Image.LANCZOS)
-        fr = comp(fr, b, W * .84 + 95 - b.width / 2, H * .2 + 18 - b.height / 2)
+        fr = comp(fr, b, W * .84 + 112 - b.width / 2, H * .2 + 4 - b.height / 2)
     if t >= T_GOOD:                                                     # good... probably
         k = ease(min(1, (t - T_GOOD) / .3))
         tilt = 0 if t < T_PROB else 25 * ease(min(1, (t - T_PROB) / .35))
@@ -256,7 +303,7 @@ def render(t):
         fr, lab = frame_g57(t)
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v3 · PLANNING ONLY')
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -265,7 +312,7 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -275,14 +322,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockG_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockG_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockG_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockG_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
