@@ -201,3 +201,11 @@
   trail at the opening. Block reports stop proposing per-block sounds.
 - Proposal shown: the NEW PLAYER (Pixie) waits her turn, small and dim, top right, during Player 1's save file
   (`docs/ep002/blockI_newplayer_waiting_preview.jpg`), pending OK.
+- Producer: Pixie's waiting card must be alive, not frozen: two impatient poses alternating (MISSING 2a/2b, option A:
+  quoted at the end). Stand-ins alternate now (thinking_chin with a foot tap / determined_fists with a sway) -> I v4.
+
+## 2026-10-04: block J (l71-l77)
+- J v1: the new player's side in the same menu language: NEW PLAYER card lights up, FILE 2 empty ("?" slots, 000:00,
+  0%); a forest with a giant old tree (planning stand-in, MISSING #14) that turns out unwell on "personal problem";
+  then a VETERAN | NEW PLAYER sheet: NOSTALGIA (heart bar full | empty), CHILDHOOD (the 1998 photo | blank),
+  EXPECTATIONS (28 YEARS | 0). Block K starts on l78.

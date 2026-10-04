@@ -73,7 +73,7 @@ PANEL, GOLD, WHITE = (10, 14, 48, 215), (232, 196, 90, 255), (255, 255, 255, 255
 P1 = cutout('quest2:nostalgic_smile', 'hero')                           # MISSING: veteran Quest in his tunic (planning recolour)
 P1_SCARED = cutout('quest2:surprised_shocked', 'hero')                 # MISSING: tunic Quest, scared, as the shadow grabs them
 P2 = cutout('pixie:wave_happy')
-P2_WAIT = cutout('pixie:thinking_chin')                                # the new player waits her turn (block J)
+P2_WAIT = (cutout('pixie:thinking_chin'), cutout('pixie:determined_fists'))   # MISSING 2a/2b: impatient Pixie (stand-ins alternate)
 PROPS = ROOT / 'public/art/ep002/props3d'
 OCA = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'ocarina_spin').glob('f*.png'))]
 SWD = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'sword_spin').glob('f*.png'))]
@@ -240,9 +240,12 @@ def waiting_card(fr, t):
     w, h = 112, 172
     g = panel(w, h, a, outline=(120, 200, 255, 200)); d = ImageDraw.Draw(g)
     ctext(d, w / 2 + 4, 10, 'NEW PLAYER', 13, (120, 200, 255, int(255 * a)))
-    im = sized(P2_WAIT, h - 40)
+    ph = int(t / .7) % 2                                               # two poses alternate: she is impatient, not frozen
+    im = sized(P2_WAIT[ph], h - 40)
+    bob = abs(math.sin(t * 9)) * 3 if ph == 0 else 0                  # a foot tap
+    sway = math.sin(t * 3) * 2 if ph == 1 else 0
     dim = Image.blend(im.convert('RGB'), Image.new('RGB', im.size, (10, 14, 48)), .35).convert('RGBA'); dim.putalpha(im.getchannel('A'))
-    g.alpha_composite(fade(dim, a), (int(w / 2 + 4 - im.width / 2), int(h - 4 - im.height)))
+    g.alpha_composite(fade(dim, a), (int(w / 2 + 4 - im.width / 2 + sway), int(h - 4 - im.height - bob)))
     return comp(fr, g, W - 64 - w - 8, 44)
 
 
@@ -510,7 +513,7 @@ def render(t):
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v3 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -520,7 +523,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -530,14 +533,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
