@@ -165,6 +165,16 @@
         "19526998-0a2b-4a9a-881b-a13e05e5c812"
       ],
       "balanceAfter": 78.25
+    },
+    {
+      "id": "Q010",
+      "episode": "EP001",
+      "item": "EP001 Spanish narration (full, ~8,572 chars) with voice 4 (Bram preset), ~10 blocks by act, ElevenLabs via text2speech_v2",
+      "model": "text2speech_v2",
+      "quoted": 30.0,
+      "status": "quoted",
+      "quotedAt": "2026-10-04T18:03:22+00:00",
+      "prompt": null
     }
   ]
 }
