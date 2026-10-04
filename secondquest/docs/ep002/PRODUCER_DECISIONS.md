@@ -176,3 +176,7 @@
   clear 1998 picture (chunky pixels, small palette, pixel hearts); Quest whole, standing, from behind; his face clear in
   the dark glass; today's Hyrule seen from behind as Quest rides away towards the castle (3D horse rendered from the
   rear, job `horse_rear`); the gallop runs under l63, so block I starts on l64.
+- Producer idea (v5): the TV scene in Quest's own bedroom (block C) with the CRT on the bedside table, and a new Quest
+  watching it that also serves as his reflection. New art Q008 (0.5 credits, approved "Sí, apruebo, genera la imagen a 1k"):
+  Quest on the floor in profile facing the TV (`docs/art_orders/quest/ep002_tv/results/09_floor_profile_tv.png`). QC: passes;
+  one defect reported: the controller reads modern, not N64. The mirrored profile is his reflection in the dark glass.

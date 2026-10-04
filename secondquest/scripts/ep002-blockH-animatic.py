@@ -10,13 +10,13 @@ All in Hyrule, so the in-game HUD stays on (hearts 2.5 from blocks F/G). The cam
   H2  "That is the impossible job."                     A game-style message box types out: NEW QUEST / The Impossible Job.
   H3  "Make it different enough to justify existing..." A balance slider (FAMILIAR <-> DIFFERENT, our ocarina as the
                                                         knob) slides to DIFFERENT and Hyrule restyles with it.
-  H4  "...without making people wonder where their game went."  Night, his room: our CRT, big and front on, plays 1998
-                                                        Hyrule (chunky pixels, the old pixel hearts); Quest stands in front
-                                                        of it, whole, from behind. On "where" it switches off (line, dot,
-                                                        dark glass); his face in the glass; black. Out of the black, today's
-                                                        Hyrule: Quest rides away on his own horse towards the castle, under
-                                                        l63 "And Nintendo has another problem." (3D horse stand-in;
-                                                        final art Higgsfield #13).
+  H4  "...without making people wonder where their game went."  Night, his childhood bedroom (block C): the CRT on the
+                                                        bedside table plays 1998 Hyrule (chunky pixels, pixel hearts); Quest,
+                                                        grown up, sits on the floor where he sat as a kid, in profile (new art
+                                                        Q008). The camera eases in to the TV. On "where" it switches off;
+                                                        his reflection (the same profile, mirrored) in the dark glass; black.
+                                                        Out of the black, today's Hyrule: Quest rides away on his own horse
+                                                        towards the castle, under l63 (3D horse stand-in; final art #13).
 Sounds: Bram only. Framing QC before sending.
 """
 import colorsys, importlib.util, math, subprocess, sys
@@ -229,12 +229,10 @@ T_REFL = T_OFF + .45                                                    # dark g
 T_BLACK = T_REFL + .75                                                  # fade to black...
 T_NOW = T_BLACK + .25                                                   # ...and today's Hyrule opens, a horse gallops through
 HORSE = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/horse_rear').glob('f*.png'))]
-VIEWER = cutout('quest:walking_back')                                   # Quest, whole, from behind (his own clothes: real life)
-FACE = cutout('quest2:nostalgic_smile')                                 # for his reflection in the dark glass
+_qp = Image.open(ROOT / 'docs/art_orders/quest/ep002_tv/results/09_floor_profile_tv.png').convert('RGBA')
+QPROF = _qp.crop(_qp.getchannel('A').getbbox())                          # new art (Q008): Quest on the floor, profile, facing the TV
 RIDER = cutout('quest:walking_back', 'hero')                            # stand-in rider from behind (MISSING: Quest on his horse)
 RIDER = RIDER.crop((0, 0, RIDER.width, int(RIDER.height * .52)))
-ROOM_BG = crop(BC.BED.convert('RGB'), (1.3, .42, .5)).filter(ImageFilter.GaussianBlur(5))   # the bedroom, out of focus behind
-ROOM_BG = Image.blend(ROOM_BG, Image.new('RGB', ROOM_BG.size, (16, 20, 40)), .72)            # night
 N64_ROOM = BC.N64_IMG.copy()
 
 
@@ -283,48 +281,80 @@ def tv_off(pic, k):
     return out
 
 
+def _night(im, k):
+    """Night grade for the bedroom plate: dark, cool; k = how much the TV still lights the room."""
+    dark = Image.blend(im, Image.new('RGB', im.size, (14, 18, 38)), .62 + .18 * (1 - k))
+    return dark
+
+
+ROOM_N = BC.BED.convert('RGB')
+QSPEC = (.47, .985, .50)                                                # Quest on the floor in front of the bedside table (x, feet y, h)
+
+
+def room_plate(t, pic):
+    """His childhood bedroom (block C) at night: the CRT on the bedside table plays `pic`; the N64 on the floor;
+    Quest, grown up, sits where he sat as a kid, in profile, looking at the screen."""
+    base = ROOM_N.copy().convert('RGBA')
+    tv = BC.CRT_34.resize((BC.tvw, int(BC.CRT_34.height * BC.TV_SCALE)), Image.LANCZOS)
+    qs = [(x * BC.TV_SCALE, y * BC.TV_SCALE) for x, y in BC.Q34]
+    ms = np.asarray(Image.fromarray((BC.M34 * 255).astype(np.uint8)).resize(tv.size, Image.NEAREST)) > 127
+    xs = [p[0] for p in qs]; ys = [p[1] for p in qs]
+    scr = pic.resize((int(max(xs) - min(xs)), int(max(ys) - min(ys))), Image.NEAREST)
+    tv = BC.fill_screen(tv, qs, ms, scr)
+    base.alpha_composite(tv, BC.TV_POS)
+    base.alpha_composite(BC.N64_IMG, BC.N64_POS)
+    return base
+
+
 def room_shot(t):
-    """H4a: night, his room. Our CRT, big and front on, plays 1998 Hyrule; the N64 beside it; Quest, whole, stands in
-    front of it, lit by the screen. On "where" it switches off; in the dark glass, his face; then black. No HUD."""
-    x0, y0, x1, y1 = BC.QF[0][0], BC.QF[0][1], BC.QF[2][0], BC.QF[2][1]
-    sw, sh = x1 - x0, y1 - y0
+    """H4a: night, his room. The CRT plays 1998 Hyrule; Quest watches from the floor, lit by the screen. The camera
+    eases in to the TV; on "where" it switches off; in the dark glass, his reflection (the same profile, mirrored);
+    then black. Real life: no HUD."""
     on = t < T_OFF
-    pic = old_picture(t, (sw, sh))
+    pic = old_picture(t, (320, 240))
     if not on:
         pic = tv_off(pic, min(1, (t - T_OFF) / .5))
-        kr = min(1, max(0, (t - T_REFL) / .2)) * (1 - min(1, max(0, (t - T_BLACK) / .25)))
-        if kr > 0:                                                      # his face in the dark glass, where he stands (left)
-            f = FACE.crop((0, 0, FACE.width, int(FACE.height * .42)))
-            f = f.resize((int(sh * .9 * f.width / f.height), int(sh * .9)), Image.LANCZOS)
-            g = Image.blend(f.convert('RGB'), Image.new('RGB', f.size, (130, 160, 200)), .45).convert('RGBA')
-            g.putalpha(f.getchannel('A').point(lambda v: int(v * .5 * kr)))
-            pic = pic.convert('RGBA'); pic.alpha_composite(g, (int(sw * .08), int(sh - g.height))); pic = pic.convert('RGB')
-    tv = BC.fill_screen(BC.CRT_FRONT, BC.QF, BC.MF, pic)
-    u = ease(min(1, (t - T_WONDER) / (T_BLACK - T_WONDER)))
-    push = 1 + .06 * u                                                  # a slow push in towards the screen
-    tw = W * .50 * push
-    tvs = tv.resize((int(tw), int(tv.height * tw / tv.width)), Image.LANCZOS)
-    glow = .5 if on else max(0, .5 * (1 - (t - T_OFF) / .35))
-    fr = ROOM_BG.copy()
-    cx, top = W * .60, H * .07 - (push - 1) * H * .5
-    if glow > 0:
-        fr = CART.glow(fr, cx, top + tvs.height * .45, 700, (140, 190, 255), glow)
-    d = ImageDraw.Draw(fr)
-    cab_y = top + tvs.height - 6                                        # a low TV cabinet under the set
-    d.rounded_rectangle((cx - tw * .62, cab_y, cx + tw * .62, H + 20), 10, fill=(46, 32, 26), outline=(20, 14, 12), width=4)
-    d.line((cx - tw * .58, cab_y + 40, cx + tw * .58, cab_y + 40), fill=(30, 22, 18), width=3)
-    fr = comp(fr, tvs, cx - tvs.width / 2, top)
-    n = N64_ROOM.resize((int(tw * .30), int(N64_ROOM.height * tw * .30 / N64_ROOM.width)), Image.LANCZOS)
-    fr = comp(fr, n, cx + tw * .56 - n.width, cab_y + 14)                # the N64, cartridge in, on the cabinet shelf (whole)
-    vh = H * .80                                                        # Quest, whole, a step in front, left of the set
-    v = sized(VIEWER, vh)
-    dark = .35 + .4 * (1 - glow / .5)
-    lit = Image.blend(v.convert('RGB'), Image.new('RGB', v.size, (12, 14, 26)), dark).convert('RGBA'); lit.putalpha(v.getchannel('A'))
-    shadow = Image.new('RGBA', fr.size); ImageDraw.Draw(shadow).ellipse((W * .27 - v.width * .45, H * .955, W * .27 + v.width * .45, H * .995), fill=(0, 0, 0, 120))
-    fr = Image.alpha_composite(fr.convert('RGBA'), shadow.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
-    fr = comp(fr, lit, W * .27 - v.width / 2, H * .975 - vh)
-    if glow > 0:                                                        # the screen's light on his shoulders
-        fr = CART.glow(fr, W * .33, H * .45, 160, (140, 190, 255), .25 * glow / .5)
+    glow = 1.0 if on else max(0.0, 1 - (t - T_OFF) / .35)
+    base = room_plate(t, pic)
+    rgb = _night(base.convert('RGB'), glow)
+    sx, sy = BC.SCR_C[0] * PW, BC.SCR_C[1] * PH
+    if glow > 0:                                                        # the screen lights the room and him
+        rgb = CART.glow(rgb, sx - 120, sy + 60, 900, (140, 190, 255), .35 * glow)
+    base = rgb.convert('RGBA')
+    qh = int(QSPEC[2] * PH)
+    q = QPROF.resize((int(QPROF.width * qh / QPROF.height), qh), Image.LANCZOS)
+    ql = Image.blend(q.convert('RGB'), Image.new('RGB', q.size, (18, 22, 44)), .30 + .30 * (1 - glow)).convert('RGBA'); ql.putalpha(q.getchannel('A'))
+    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((QSPEC[0] * PW - q.width * .45, QSPEC[1] * PH - 24, QSPEC[0] * PW + q.width * .45, QSPEC[1] * PH + 14), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+    base.alpha_composite(ql, (int(QSPEC[0] * PW - q.width / 2), int(QSPEC[1] * PH - qh)))
+    if glow > 0:                                                        # cool rim of screen light on his face and hands
+        rim = Image.new('RGBA', base.size); rd = ImageDraw.Draw(rim)
+        fx = QSPEC[0] * PW + q.width * .22; fy = QSPEC[1] * PH - qh * .72
+        rd.ellipse((fx - 120, fy - 140, fx + 160, fy + 260), fill=(120, 170, 255, int(60 * glow)))
+        base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(40)))
+    # his reflection in the dark glass: the same profile, mirrored, faint and cool, inside the screen
+    kr = min(1, max(0, (t - T_REFL) / .25)) * (1 - min(1, max(0, (t - T_BLACK) / .25)))
+    if kr > 0:
+        qsP = [(BC.TV_POS[0] + x * BC.TV_SCALE, BC.TV_POS[1] + y * BC.TV_SCALE) for x, y in BC.Q34]
+        x0, x1 = min(p[0] for p in qsP), max(p[0] for p in qsP); y0, y1 = min(p[1] for p in qsP), max(p[1] for p in qsP)
+        f = QPROF.crop((0, 0, QPROF.width, int(QPROF.height * .48))).transpose(Image.FLIP_LEFT_RIGHT)
+        fh = int((y1 - y0) * .95); f = f.resize((int(f.width * fh / f.height), fh), Image.LANCZOS)
+        g = Image.blend(f.convert('RGB'), Image.new('RGB', f.size, (140, 170, 210)), .4).convert('RGBA')
+        g.putalpha(f.getchannel('A').point(lambda v: int(v * .45 * kr)))
+        m = Image.new('L', base.size, 0); ImageDraw.Draw(m).polygon(qsP, fill=255)                  # only on the glass
+        layer = Image.new('RGBA', base.size); layer.alpha_composite(g, (int((x0 + x1) / 2 - g.width * .55), int(y1 - fh)))
+        layer.putalpha(Image.fromarray(np.minimum(np.asarray(layer.getchannel('A')), np.asarray(m))))
+        base.alpha_composite(layer)
+    # camera: both of them whole, then a slow push in to the screen; after "where" it closes on the dark glass
+    c0 = (1.15, .60, .60)
+    c1 = (1.25, .62, .58)                                               # a gentle push: Quest stays whole
+    c2 = (3.0, BC.SCR_C[0] - .01, BC.SCR_C[1] + .01)
+    if t < T_OFF:
+        k = ease((t - T_WONDER) / (T_OFF - T_WONDER)); a, b = c0, c1
+    else:
+        k = ease(min(1, (t - T_OFF) / (T_REFL + .2 - T_OFF))); a, b = c1, c2
+    cam = (a[0] * (b[0] / a[0]) ** k, lin(a[1], b[1], k), lin(a[2], b[2], k))
+    fr = crop(base.convert('RGB'), cam)
     if t >= T_BLACK:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (0, 0, 0)), min(1, (t - T_BLACK) / .25))
     if t < T_WONDER + .2:                                               # a quick dip from the bright field into the night room
@@ -387,7 +417,7 @@ def render(t):
             fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=min(1, (t - T_NOW - .2) / .4))   # back in the game: the HUD returns
         lab = 'H4 the TV switches off' if t < T_NOW else 'H4 today: a new Hyrule'
         d = ImageDraw.Draw(fr)
-        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v4 · PLANNING ONLY')
+        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v5 · PLANNING ONLY')
         subtitle(d, t)
         return fr
     fr, e = back_shot(t)
@@ -412,7 +442,7 @@ def render(t):
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
     lab = 'H1 every improvement changes the memory' if t < T_JOB else 'H2 the impossible job' if t < T_DIFF else 'H3 different enough...'
-    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v4 · PLANNING ONLY')
+    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -421,7 +451,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -431,14 +461,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
