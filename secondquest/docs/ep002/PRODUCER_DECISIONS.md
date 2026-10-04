@@ -147,3 +147,12 @@
   shots (rooms) and on the "actual size" tile; faded out before the wordmark.
 - "Familiar is not measurable": the hearts lose half a heart at a time (5 -> 2.5).
 
+
+## 2026-10-04: block G approved; the game-camera icon; block-only previews
+- Block G approved. "Fix it...": a steel combination wrench taps the camera icon once (v4), then a small green check
+  badge sits on it; on "Which is good." that small check hops off the camera and lands big (v5), then tilts into "?".
+- The game-camera icon (classic movie camera: two reels, lens, blinking REC; `scripts/animatic/icons.py`) repeats wherever
+  the script talks about the game's camera: B "A new camera." (pops in and leads the flight into the TV, B v6),
+  E "Modernized controls and camera movement." (orbits the pad, E v5) and G.
+- Producer rule: while we work block by block, send only that block's seconds. The full joined video is sent only once
+  the whole animatic is complete (block scripts no longer build joined previews).

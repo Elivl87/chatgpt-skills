@@ -20,6 +20,8 @@
   important sits inside the viewer's frame (nothing cut, no prop or person held half out of frame, key items inside
   title-safe). Run `python3 scripts/animatic/framing_qc.py <block script>` and look at the sheet before sending any block;
   report what it shows.
+- **Block-by-block previews (Producer rule, 2026-10-04):** while an animatic is built block by block, send only the
+  current block's clip, never the full joined video, until the whole animatic is complete.
 - **Always improve (Producer rule):** blocking a defect is not enough.
   - Before executing any stage, and in every report, recommend concrete improvements: what could be better, how, and what it costs.
   - The Producer decides which improvements go in.

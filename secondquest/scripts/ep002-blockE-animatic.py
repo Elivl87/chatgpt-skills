@@ -26,6 +26,7 @@ sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, cutout  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
+from icons import camera_icon  # noqa: the episode's game-camera icon (repeats wherever the script says camera)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -70,7 +71,7 @@ def frame_e1(t):
     keys = [(T0, .62, .3), (T0 + .7, .58, .27), (T_REMAKE, .6, .3)]
     fr = fairy_fx.draw(fr, keys, t, size=.06)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v4 · PLANNING ONLY')
+    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v5 · PLANNING ONLY')
     return fr
 
 
@@ -139,7 +140,7 @@ def frame_e23(t):
             fr = CART.glow(fr, cx, cy, 200, (255, 120, 90), .18 * a)
     d = ImageDraw.Draw(fr)
     lab = 'E2 "Nintendo can remake Ocarina of Time."' if t < T_WANT else 'E3 what people want back was never inside'
-    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v4 · PLANNING ONLY')
+    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v5 · PLANNING ONLY')
     d.text((20, 40), 'memories = block C stills (TV, the friend, the afternoon) · cartridge = own 3D', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -225,8 +226,14 @@ def item_visual(fr, t):
         d.ellipse((cx - 52, cy - 10, cx - 28, cy + 14), fill=(160, 160, 170, 255)); d.ellipse((cx + 26, cy - 4, cx + 50, cy + 20), fill=(160, 160, 170, 255))
         a = t * 2.4
         px, py = cx + 140 * math.cos(a), cy + 40 * math.sin(a)
-        d.rectangle((px - 18, py - 12, px + 18, py + 12), fill=(230, 230, 240, 255)); d.polygon([(px + 18, py), (px + 32, py - 10), (px + 32, py + 10)], fill=(230, 230, 240, 255))
         d.arc((cx - 140, cy - 40, cx + 140, cy + 40), 0, 360, fill=(160, 200, 255, 160), width=2)
+        ci = camera_icon(rec=int(t * 2) % 2 == 0, width=int(84 + 18 * math.sin(a)))   # nearer = bigger as it orbits
+        if math.sin(a) < 0:                                             # behind the pad on the far side of the orbit
+            g.alpha_composite(ci, (int(px - ci.width / 2), int(py - ci.height / 2)))
+            d.rounded_rectangle((cx - 80, cy - 30, cx + 80, cy + 34), 26, fill=(40, 42, 50, 240), outline=(200, 200, 210, 255), width=3)
+            d.ellipse((cx - 52, cy - 10, cx - 28, cy + 14), fill=(160, 160, 170, 255)); d.ellipse((cx + 26, cy - 4, cx + 50, cy + 20), fill=(160, 160, 170, 255))
+        else:
+            g.alpha_composite(ci, (int(px - ci.width / 2), int(py - ci.height / 2)))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
@@ -251,7 +258,7 @@ def frame_e45(t):
         fr = item_visual(fr, t)
     d = ImageDraw.Draw(fr)
     lab = 'E4 "rebuilt for Switch 2" (generic, no logos)' if t < T_LIST else 'E5 the feature list'
-    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v4 · PLANNING ONLY')
+    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v5 · PLANNING ONLY')
     return fr
 
 
@@ -274,7 +281,7 @@ STILLS = (('e1', T0 + .8), ('e2', T_WANT - .3), ('e3', T_NEVER - .5), ('e3_bounc
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -284,20 +291,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockE_v4_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockE_v4.mp4'
-    lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
-    lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v5.mp4',
-                                                                          'EP002_blockC_animatic_v5.mp4', 'EP002_blockD_animatic_v5.mp4')) + f"file '{out}'\n")
-    subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',
-                    '-c:a', 'aac', '-b:a', '160k', str(joined)], check=True)
-    print(out.relative_to(ROOT), f'{T_END - T0:.2f}s;', joined.relative_to(ROOT))
+        render(t).save(ROOT / f'docs/ep002/blockE_v5_{name}.jpg', quality=85)
+    print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockE_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockE_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
