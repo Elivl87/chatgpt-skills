@@ -19,7 +19,7 @@ All in Hyrule, so the in-game HUD stays on (hearts 2.5 from blocks F/G). The cam
                                                         towards the castle, under l63 (3D horse stand-in; final art #13).
 Sounds: Bram only. Framing QC before sending.
 """
-import colorsys, importlib.util, math, subprocess, sys
+import colorsys, importlib.util, math, os, subprocess, sys
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
@@ -182,8 +182,8 @@ def slider(fr, t, y, alpha):
     return comp(fr, o, kx - o.width / 2, y - o.height / 2)
 
 
-def restyle(fr, e):
-    """'Different': Hyrule pushed toward a new style (hue + saturation + crisp light) as the knob goes right."""
+def restyle_v1(fr, e):
+    """v1-v6 'Different': hue + saturation + contrast (read as a colour error; kept for comparison)."""
     if e <= 0:
         return fr
     hsv = np.asarray(fr.convert('HSV')).astype(np.float32)
@@ -192,6 +192,41 @@ def restyle(fr, e):
     out = Image.fromarray(hsv.astype(np.uint8), 'HSV').convert('RGB')
     out = ImageEnhance.Contrast(out).enhance(1 + .12 * e)
     return out
+
+
+_YY = np.mgrid[0:H, 0:W][0] / H
+
+
+def restyle(fr, e):
+    """'Different enough to justify existing': the same Hyrule given a new art direction, the way a remake would:
+    a dramatic golden-hour sky, cinematic teal/orange grade, a low sun with light shafts, a soft vignette.
+    Same place, same path, same castle; only the look changes."""
+    if e <= 0:
+        return fr
+    a = np.asarray(fr).astype(np.float32)
+    R, G_, B = a[..., 0], a[..., 1], a[..., 2]
+    skym = ((B > R + 15) & (_YY < .5)).astype(np.float32)                          # only the sky pixels
+    skym = np.asarray(Image.fromarray((skym * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(np.float32)[..., None] / 255
+    top, low = np.array([38, 62, 150]), np.array([255, 168, 96])
+    grad = top + (low - top) * (_YY[..., None] / .45).clip(0, 1) ** 1.4           # deep blue above, gold at the horizon
+    a = a * (1 - .85 * e * skym) + grad * .85 * e * skym
+    L = a.mean(2, keepdims=True) / 255
+    a = a + e * (np.array([-16, 2, 22]) * (1 - L) + np.array([30, 12, -20]) * L)   # teal shadows, warm highlights
+    a = (a - 128) * (1 + .18 * e) + 128                                            # more contrast
+    yy, xx = _YY, np.mgrid[0:H, 0:W][1] / W
+    vig = 1 - .35 * e * (((xx - .5) ** 2 + (yy - .5) ** 2) * 1.8)                  # vignette
+    a = a * vig[..., None]
+    out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
+    out = CART.glow(out, W * .80, H * .30, 420, (255, 200, 130), .5 * e)           # a low sun behind the hill
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    for i in range(6):                                                             # light shafts across the field
+        a0 = math.radians(150 + i * 8)
+        d.polygon([(W * .8, H * .3), (W * .8 + 1700 * math.cos(a0), H * .3 + 1700 * math.sin(a0)),
+                   (W * .8 + 1700 * math.cos(a0 + .04), H * .3 + 1700 * math.sin(a0 + .04))], fill=(255, 220, 160, int(40 * e)))
+    return Image.alpha_composite(out.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(12))).convert('RGB')
+
+
+RESTYLE = restyle if os.environ.get('H3_STYLE') == 'v2' else restyle_v1   # v2 = proposal, pending the Producer's OK
 
 
 def sparkles(fr, t, e):
@@ -219,14 +254,14 @@ def back_shot(t):
     hero_h = H * .42 * z / 1.25
     q = sized(G.YOUNG, hero_h)
     e = restyle_amount(t)
-    base = restyle(base, e)
+    base = RESTYLE(base, e)
     return comp(base, q, W * .5 - q.width / 2, H * .93 - hero_h + 4 * math.sin(t * 9)), e
 
 
 BC = FB.A.BE.BC                                                         # block C: our 3D CRT, its screen key and the 1998 game picture
 T_OFF = T('l62.w5') - .05                                               # "where": the TV switches off
 T_REFL = T_OFF + .45                                                    # dark glass: his reflection
-T_BLACK = T_REFL + .75                                                  # fade to black...
+T_BLACK = T_REFL + 1.4                                                  # his reflection holds (Producer: longer), then black...
 T_NOW = T_BLACK + .25                                                   # ...and today's Hyrule opens, a horse gallops through
 HORSE = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/horse_rear').glob('f*.png'))]
 _qp = Image.open(ROOT / 'docs/art_orders/quest/ep002_tv/results/09_floor_profile_tv_n64pad.png').convert('RGBA')   # our 3D N64 pad in his hands (tools/fx/pad_swap_q008.py)
@@ -346,8 +381,8 @@ def room_shot(t):
         layer.putalpha(Image.fromarray(np.minimum(np.asarray(layer.getchannel('A')), np.asarray(m))))
         base.alpha_composite(layer)
     # camera: both of them whole, then a slow push in to the screen; after "where" it closes on the dark glass
-    c0 = (1.15, .60, .60)
-    c1 = (1.25, .62, .58)                                               # a gentle push: Quest stays whole
+    c0 = (1.35, .63, .615)                                              # closer to the TV, Quest still whole
+    c1 = (1.45, .655, .64)                                              # a gentle push: Quest stays whole
     c2 = (3.0, BC.SCR_C[0] - .01, BC.SCR_C[1] + .01)
     if t < T_OFF:
         k = ease((t - T_WONDER) / (T_OFF - T_WONDER)); a, b = c0, c1
@@ -417,7 +452,7 @@ def render(t):
             fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=min(1, (t - T_NOW - .2) / .4))   # back in the game: the HUD returns
         lab = 'H4 the TV switches off' if t < T_NOW else 'H4 today: a new Hyrule'
         d = ImageDraw.Draw(fr)
-        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v6 · PLANNING ONLY')
+        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v7 · PLANNING ONLY')
         subtitle(d, t)
         return fr
     fr, e = back_shot(t)
@@ -442,7 +477,7 @@ def render(t):
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
     lab = 'H1 every improvement changes the memory' if t < T_JOB else 'H2 the impossible job' if t < T_DIFF else 'H3 different enough...'
-    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v6 · PLANNING ONLY')
+    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -451,7 +486,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -461,14 +496,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
