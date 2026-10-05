@@ -446,3 +446,14 @@
 - Crest #16 must be faithful (Producer). Plan: rebuilt free as vector geometry in `tools/fx/triforce_plates.py` (engraved
   like the other plates) from a reference image the Producer picks, instead of generating it (an image model cannot
   be relied on to be faithful, and the prompt lint forbids the third-party name). Q033 (0.5) stays unspent.
+- Castle (Producer: "Usa el castillo de estos fondos"): the episode's castle is the one in #11/#13/#17+18 (white walls,
+  slate-blue spires). The own 3D castle is retinted/reshaped to match where it is still used (free).
+- Optionals ("sigue con los opcionales"), 1k: #9 young Quest back, opposite step (Q034, job 17016248): QC FAIL for its
+  purpose, the model drew the same leg lifted as #3, so it does not alternate; options: mirror #3 in the engine (free,
+  the cap's droop flips) or one retry (0.5). #10 Quest profile pensive, hand at the chin (Q035, job d77d39b1): good; its
+  pad is a modern one, the 3D N64 pad is composited over it as in Q008 (free). #15 adult Quest's bedroom at night (Q036,
+  job 66d7e41a): good, empty bedside table for the CRT; 1k, upscaled in the engine. 1.5 credits, balance 53.75.
+- Shield (Producer reference `docs/ep002/source/shield_reference_producer.jpg`: "así debería verse en la espalda de
+  Quest ... ¿tú podrías hacerlo tal cual en 3D gratis y montarlo sobre Quest donde tiene el escudo?"): rebuilt free in
+  `tools/props3d` from the reference (traced, symmetrised) and laid over adult Quest's shield as an engine layer (the
+  generated art is not modified). Its red bird is also the faithful crest #16 (Q033 not needed).

@@ -593,11 +593,17 @@
       "item": "#9 Quest walk cycle opposite step (optional)",
       "model": "gpt_image_2_5",
       "quoted": 0.5,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). dark brown curly hair, light freckles, same character as a kid, childlike proportions (about 4.5 heads tall). Same hair and human ears as Quest_v1; only the outfit and age change. EXACTLY the same boy, costume, size and camera as in the attached image reference (forest-green knee-length sleeveless tunic, cream long-sleeve undershirt, brown leather belt, long floppy green cap, brown wrist guards, light tan trousers, brown leather boots), nothing on his back. Pose: the OPPOSITE step of the same walk cycle: his RIGHT foot is now lifted behind him showing its sole and his LEFT foot is planted, arms swinging the opposite way to the reference. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:31:18+00:00",
+      "actual": 0.5,
+      "jobs": [
+        "17016248-5957-4087-b255-7bbc7b11f5fc"
+      ],
+      "balanceAfter": 54.75
     },
     {
       "id": "Q035",
@@ -605,11 +611,17 @@
       "item": "#10 Quest profile thinking (optional)",
       "model": "gpt_image_2_5",
       "quoted": 0.5,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:19+00:00",
-      "prompt": null,
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: EXACTLY the same seated pose, size and clean SIDE PROFILE view facing RIGHT as in the attached image reference (sitting cross-legged on the floor), but now pensive: the game controller resting in his lap in one hand, the other hand at his chin, eyes slightly lowered, a quiet thoughtful bittersweet expression, a soft cool blue screen light on his face and the front of his hoodie. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no television in the image, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:19+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:31:18+00:00",
+      "actual": 0.5,
+      "jobs": [
+        "d77d39b1-0757-4c48-b5af-d09a296a57d4"
+      ],
+      "balanceAfter": 54.25
     },
     {
       "id": "Q036",
@@ -617,11 +629,17 @@
       "item": "#15 adult Quest room (optional)",
       "model": "gpt_image_2_5",
       "quoted": 0.5,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:19+00:00",
-      "prompt": null,
+      "prompt": "A wide cinematic 16:9 background plate, interior, night, no characters. A young adult's cozy bedroom today: a made bed on the left with a dark blue blanket, a small wooden bedside table on the right with nothing on it (an old television will be added later), a low shelf with a few plain game boxes with blank spines and a small plant, a desk with a closed laptop, a framed poster with an abstract landscape, a window with cool moonlight and city lights, a warm desk lamp glow. A clear wooden floor in the lower middle of the frame where a person will sit later. Same 2D cartoon style: bold ink outlines, flat cel shading with soft painterly backgrounds. No people, no text, no logos, no emblems.\n",
       "approvedAt": "2026-10-05T20:36:19+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:31:18+00:00",
+      "actual": 0.5,
+      "jobs": [
+        "66d7e41a-c76e-47ec-9ed9-dba96f66a1c6"
+      ],
+      "balanceAfter": 53.75
     },
     {
       "id": "Q037",
