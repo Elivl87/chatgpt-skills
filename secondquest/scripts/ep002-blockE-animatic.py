@@ -11,7 +11,8 @@
                                                        A checklist on the left ticks each item in time with Bram, with a
                                                        small visual for each on the right; nothing covers the hero.
 
-No console/brand logos are drawn for the new version (generic, labelled). Sounds: Bram only.
+No console/brand logos are drawn for the new version (generic, labelled). Hyrule = final field plate #11 with young
+Quest #3 (final art). Sounds: Bram only.
 Framing checked with scripts/animatic/framing_qc.py before sending.
 """
 import importlib.util, math, subprocess, sys
@@ -23,7 +24,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, cutout  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 from icons import camera_icon  # noqa: the episode's game-camera icon (repeats wherever the script says camera)
@@ -71,7 +72,7 @@ def frame_e1(t):
     keys = [(T0, .62, .3), (T0 + .7, .58, .27), (T_REMAKE, .6, .3)]
     fr = fairy_fx.draw(fr, keys, t, size=.06)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v5 · PLANNING ONLY')
+    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v6 · PLANNING ONLY')
     return fr
 
 
@@ -140,25 +141,30 @@ def frame_e23(t):
             fr = CART.glow(fr, cx, cy, 200, (255, 120, 90), .18 * a)
     d = ImageDraw.Draw(fr)
     lab = 'E2 "Nintendo can remake Ocarina of Time."' if t < T_WANT else 'E3 what people want back was never inside'
-    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v5 · PLANNING ONLY')
+    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v6 · PLANNING ONLY')
     d.text((20, 40), 'memories = block C stills (TV, the friend, the afternoon) · cartridge = own 3D', font=F(15), fill=(255, 220, 160))
     return fr
 
 
 # ------------------------------------------------------------------ E4-E5: rebuilt (blueprint -> new) + the checklist
-OLD = plate(('proc', 'field', (('time', 'day'), ('label', False), ('castle', '3d')))).convert('RGB')
-place_hero = OLD.convert('RGBA'); place(place_hero, dict(char='quest:walking_back', costume='hero', x=.66, y=.97, h=.42, label=None))
+OLD = plate(('final', 'field'))                                       # final plate #11
+place_hero = OLD.convert('RGBA'); place(place_hero, dict(art='quest_young_back', x=.66, y=.97, h=.42))   # young Quest #3
 OLD = place_hero.convert('RGB')
 
 
 def blueprint(img):
-    e = img.convert('L').filter(ImageFilter.FIND_EDGES).point(lambda v: 255 if v > 18 else 0)
-    bp = Image.new('RGB', img.size, (18, 46, 92)); d = ImageDraw.Draw(bp)
+    """The painted plate (#11) has fine texture everywhere: edges are taken on a small, median-smoothed copy so only the
+    shapes (hills, clouds, castle, road, fence, Quest) become lines; a faint blue duotone keeps the masses readable."""
+    small = img.resize((480, 270), Image.LANCZOS).filter(ImageFilter.MedianFilter(7))
+    e = small.convert('L').filter(ImageFilter.FIND_EDGES).point(lambda v: 255 if v > 16 else 0)
+    e = e.resize(img.size, Image.BILINEAR).point(lambda v: 255 if v > 90 else 0)
+    lum = np.asarray(img.convert('L').filter(ImageFilter.GaussianBlur(3))).astype(np.float32) / 255
+    bp = Image.fromarray(np.stack([18 + 30 * lum, 46 + 50 * lum, 92 + 70 * lum], -1).astype(np.uint8)); d = ImageDraw.Draw(bp)
     for gx in range(0, img.width, 48):
         d.line((gx, 0, gx, img.height), fill=(30, 66, 120))
     for gy in range(0, img.height, 48):
         d.line((0, gy, img.width, gy), fill=(30, 66, 120))
-    bp.paste((170, 215, 255), (0, 0), e.filter(ImageFilter.MaxFilter(3)))
+    bp.paste((170, 215, 255), (0, 0), e)
     return bp
 
 
@@ -202,7 +208,7 @@ def item_visual(fr, t):
     if cur is None:
         return fr
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    cx, cy = W * .7, H * .36                                            # below the HUD buttons
+    cx, cy = W * .58, H * .36                                           # below the HUD buttons, left of the castle (#11)
     k = ease(min(1, (t - ITEMS[cur][1] + .05) / .3))
     if cur == 1:                                                        # voiced cutscenes: speech bubble + waveform
         d.rounded_rectangle((cx - 120, cy - 50, cx + 120, cy + 50), 22, fill=(250, 250, 250, int(235 * k)), outline=(30, 30, 40, 255), width=3)
@@ -210,7 +216,7 @@ def item_visual(fr, t):
             hh = 8 + 26 * abs(math.sin(t * 12 + j * .9))
             d.line((cx - 95 + j * 11, cy - hh / 2, cx - 95 + j * 11, cy + hh / 2), fill=(60, 120, 220, 255), width=5)
     elif cur == 2:                                                      # expanded dialogue: a text box that grows
-        w = 120 + 140 * k
+        w = 120 + 60 * k                                                # stays clear of the checklist
         d.rounded_rectangle((cx - w, cy - 46, cx + w, cy + 46), 10, fill=(20, 24, 60, 230), outline=(240, 240, 255, 255), width=3)
         for j in range(3):
             d.line((cx - w + 24, cy - 22 + j * 22, cx - w + 24 + (2 * w - 48) * (1 if j < 2 else .6) * k, cy - 22 + j * 22), fill=(230, 230, 255, 255), width=6)
@@ -258,7 +264,7 @@ def frame_e45(t):
         fr = item_visual(fr, t)
     d = ImageDraw.Draw(fr)
     lab = 'E4 "rebuilt for Switch 2" (generic, no logos)' if t < T_LIST else 'E5 the feature list'
-    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v5 · PLANNING ONLY')
+    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v6 · PLANNING ONLY')
     return fr
 
 
@@ -281,7 +287,7 @@ STILLS = (('e1', T0 + .8), ('e2', T_WANT - .3), ('e3', T_NEVER - .5), ('e3_bounc
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -291,14 +297,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockE_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockE_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockE_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockE_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

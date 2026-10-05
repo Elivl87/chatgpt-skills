@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EP002 animatic · block B (planning only): from "An orchestra." to the cut into Act 1 (l03 rest -> l10, + silence).
 
-  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v7.mp4
+  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v8.mp4
 
 Scene Book v2, sequences 02-04:
   B1  "An orchestra. Voices. Modern controls."  living room from behind Quest, facing the TV; Navi comes back and circles
@@ -9,7 +9,7 @@ Scene Book v2, sequences 02-04:
   B2  "A new camera."  Navi leads the flight into the TV screen (camera freedom) -> white (v7: no camera icon, Producer).
   B3  "The same ocarina / sword / Triforce."  each relic turns in the dark (own 3D props, engraved Triforce plates);
       Navi leads the eye.
-  B4  "But there is one thing..."  Hero Quest (MISSING outfit, planning preview) + Navi facing Hyrule (MISSING plate).
+  B4  "But there is one thing..."  Hero Quest (final art #4: adult, back, shield + sword) + Navi facing Hyrule (final plate #11).
   B5  "You."  hold, no movement.
   B6  "And somehow... So, why?"  Navi starts forward, Quest follows down the path; SecondQuest wordmark on "why?" (as EP001), cut to Act 1.
 Free sounds only: Bram (no new SFX in this block).
@@ -133,11 +133,12 @@ def relic_frame(t):
     return fr
 
 
-# ------------------------------------------------------------------ B4-B6: Hyrule (MISSING plate) with Hero Quest
-FIELD = plate(('proc', 'field', (('time', 'dawn'),))).convert('RGBA')
+# ------------------------------------------------------------------ B4-B6: Hyrule (final plate #11) with Hero Quest
+# "You." is today's player going back: adult Quest from behind (#4, with the 3D shield and the sword on his back).
+FIELD = plate(('final', 'field')).convert('RGBA')
 FIELD_RGB = FIELD.convert('RGB')
 CAM_B4 = ((1.18, .5, .64), (1.3, .5, .62))
-HERO = dict(char='quest:walking_back', costume='hero', x=.5, y=.97, h=.44)
+HERO = dict(art='quest_adult_back', x=.5, y=.97, h=.46)
 
 
 def field_frame(t):
@@ -152,7 +153,7 @@ def field_frame(t):
         place(lay, HERO)
     else:
         kk = ease((t - T_GO) / (T_WHY + .5 - T_GO))
-        place(lay, dict(HERO, x=lin(.5, .505, kk), y=lin(.97, .69, kk), h=lin(.44, .12, kk), label=None if kk > .3 else HERO.get('label')))
+        place(lay, dict(HERO, x=lin(.5, .555, kk), y=lin(.97, .72, kk) + .004 * math.sin(t * 9) * (1 - kk), h=lin(.46, .1, kk)))   # down the road
     fr, box = frame_plate(lay.convert('RGB'), cam, k)
     # Navi beside him, then ahead down the path
     keys = [(T_FIELD, .6, .48), (T_YOU, .57, .46), (T_GO, .57, .46), (T_GO + 1.2, .54, .4), (T_WHY + .6, .51, .3)]
@@ -218,7 +219,7 @@ def render(t):
         keys = [(T0, -.05, .5), (T0 + .7, qx / W - .12, qy / H - .05), (T('l03.w5'), qx / W + .1, qy / H - .12),
                 (T('l03.w6'), qx / W - .08, qy / H - .2), (T_CAM, tx / W - .05, ty / H)]
         fr = fairy_fx.draw(fr, keys, t, size=.065)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v7 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v8 · PLANNING ONLY')
     elif t < T_REL:                                                       # B2: "A new camera." fly into the screen
         k = ease((t - T_CAM) / (T_REL - T_CAM))
         z = 1.4 * (7.5 / 1.4) ** k
@@ -227,25 +228,25 @@ def render(t):
         tx, ty = to_screen(*TV, box)                                      # no camera icon here (Producer, 2026-10-05): Navi, already at
         fr = fairy_fx.draw(fr, [(T_CAM, tx / W - .05, ty / H), (T_REL, tx / W, ty / H)], t, size=.065)   # the TV, leads us into the screen
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 255, 255)), max(0, (k - .55) / .45))
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · flight into the screen · BLOCK B v7 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · flight into the screen · BLOCK B v8 · PLANNING ONLY')
     elif t < T_FIELD:                                                     # B3
         fr = relic_frame(t)
         if t - T_REL < .25:
             fr = Image.blend(fr, Image.new('RGB', fr.size, 'white'), 1 - (t - T_REL) / .25)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v7 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v8 · PLANNING ONLY')
     else:                                                                 # B4-B6
         fr = field_frame(t)
         a_hud = min(1, (t - T_FIELD) / .4) * (1 - min(1, max(0, (t - T_WHY - .3) / .5)))   # in with Hyrule, out before the wordmark
         fr = hud.draw(fr, alpha=a_hud, t=t)
         lab = 'B4 one thing' if t < T_YOU else ('B5 "You." HOLD' if t < T_GO else 'B6 Navi leads, Quest follows · "So, why?"')
-        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v7 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v8 · PLANNING ONLY')
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -256,7 +257,7 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('b1', T('l03.w6') + .3), ('b2', T_CAM + .5), ('b3_ocarina', T_OC + .5), ('b3_sword', T_SW + .5), ('b3_triforce', T_TF + 1.1),
                     ('b4', T_FIELD + 1.5), ('b6', T_GO + 2.0), ('title', T_END - .5)):
-        render(t).save(ROOT / f'docs/ep002/blockB_v7_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockB_v8_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EP002 animatic, block F, OPTION B (planning only): same lines as option A (l38 -> l47), told inside Hyrule.
 
-The field (with the own 3D castle) starts "old": blocky, flat light, nothing moves. Each "better" is applied live:
+The field (final plate #11; young Quest = final art #3, walking #3 / #3 mirrored) starts "old": blocky, flat light, nothing moves. Each "better" is applied live:
   F1  "On paper, the job sounds easy."     A blueprint sheet slides in over the sky: THE PLAN ... easy!
   F2  "Take something beloved... and make everything better."   The ocarina on the sheet; BETTER.
   F3  "Except that is where remakes become dangerous."           DANGER stamp on the sheet; Navi turns warning-yellow.
@@ -20,7 +20,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, cutout, cam_box, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, cam_box, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 
@@ -35,7 +35,7 @@ A = load('blockF_A', 'scripts/ep002-blockF-animatic.py')         # timings, stam
 CART = A.BE.CART
 T0, T_BELOVED, T_BETTER, T_DANGER, T_MEAS, T_FAM, T_END = A.T0, A.T_BELOVED, A.T_BETTER, A.T_DANGER, A.T_MEAS, A.T_FAM, A.T_END
 BARS = A.BARS
-FIELD = plate(('proc', 'field', (('time', 'day'), ('castle', '3d')))).convert('RGB')
+FIELD = plate(('final', 'field'))                                 # final plate #11
 def memory_polaroid(caption='Saturday, 1998'):
     room = A.BE.BC.room_plate(A.BE.BC.T_SAT + 3, A.BE.BC.PIXIE_SIT).convert('RGB')
     im = room.crop((int(.12 * PW), int(.45 * PH), int(.66 * PW), int(1.0 * PH))); im.thumbnail((200, 150))
@@ -55,8 +55,9 @@ def polaroid(t0, t):
     return c
 
 
-HERO = cutout('quest:walking_back', 'hero')
-HERO = HERO.resize((int(HERO.width * H * .36 / HERO.height), int(H * .36)), Image.LANCZOS)
+HEROES = {k: final(k).resize((int(final(k).width * H * .36 / final(k).height), int(H * .36)), Image.LANCZOS)
+          for k in ('quest_young_back', 'quest_young_back_b')}            # young Quest #3 and #3 mirrored (#9): the walk cycle
+HERO = HEROES['quest_young_back']
 GOLD, PANEL = (232, 196, 90), (14, 18, 30)
 import os
 FAM_MODE = os.environ.get('FAM_MODE', 'card_heart')   # Producer's pick: card + heart bar (v1 options: card | window | heart)
@@ -122,8 +123,9 @@ def sound_fx(fr, t, k):
 
 def hero(fr, t):
     ka = k_at(t, BARS[2][1])
-    bob = 5 * math.sin(t * 9) * ka                                     # stiff until "Better animation"
-    return comp(fr, HERO, W * .5 - HERO.width / 2, H * .93 - HERO.height + bob)
+    bob = 5 * abs(math.sin(t * 9)) * ka                                # stiff until "Better animation"
+    im = HEROES['quest_young_back_b' if ka > .5 and int(t * 9 / math.pi) % 2 else 'quest_young_back']   # then he walks: #3 / #3 mirrored
+    return comp(fr, im, W * .5 - im.width / 2, H * .93 - im.height - bob)
 
 
 def blueprint_sheet(fr, t):
@@ -246,7 +248,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v6 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -256,7 +258,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -266,14 +268,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

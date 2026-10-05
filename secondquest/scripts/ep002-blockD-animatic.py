@@ -9,13 +9,14 @@ l27 "...the world might continue forever."
   D5  "...terrible at preserving technical specifications."  A spec card slides in and crumbles to dust.
   D6  "Nobody wakes up thinking: Man... I really miss Nintendo 64 texture filtering."
                                               Quest wakes up in bed; his thought bubble is a smeared N64 texture.
-  D7  "You remember the forest."              Forest (MISSING plate), young Quest + Navi.
+  D7  "You remember the forest."              Forest village (final plate #12), young Quest + Navi.
   D8  "The music."                            Same forest, the camera keeps going; notes rise.
   D9  "The castle in the distance."           Field: push in to the tiny castle on the horizon.
   D10 "That strange feeling... might continue forever."  The camera comes back down the same path (continuous);
                                               young Quest keeps walking while the world keeps coming: forever.
 
-Young Hero Quest = MISSING young Hero-of-Time outfit (planning: recoloured current pose, young scale).
+Young Hero Quest = final art #3 (back; walks alternating #3 / #3 mirrored), #3a (looks up, mirrored to face the castle);
+the adult outline = #4. Plates: field #11, forest #12.
 Sounds: Bram only. Framing checked with scripts/animatic/framing_qc.py before sending.
 """
 import importlib.util, math, subprocess, sys
@@ -27,7 +28,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, cutout  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, final  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 
@@ -45,10 +46,10 @@ T_FOREST, T_MUSIC, T_CASTLE, T_FOREVER = T('l24') - .05, T('l25') - .05, T('l26'
 T_KEEP = T('l27.w8')                   # "kept walking"
 T_END = T('l28') - 0.05                # block E starts on l28 "Which creates a problem."
 
-FIELD = plate(('proc', 'field', (('time', 'day'), ('castle', '3d')))).convert('RGBA')   # own 3D Hyrule Castle (free)
-FOREST = plate(('proc', 'forest')).convert('RGBA')
+FIELD = plate(('final', 'field')).convert('RGBA')                 # final plate #11 (road, the episode's castle, volcano)
+FOREST = plate(('final', 'forest')).convert('RGBA')               # final plate #12
 BED = Image.open(ROOT / 'public/art/core/backgrounds/quest_bedroom_morning.png').convert('RGB').resize((PW, PH), Image.LANCZOS)
-CASTLE = (980 / PW, .47)               # the 3D castle on the field plate's horizon
+CASTLE = (.665, .37)                   # the castle on the field plate (#11)
 
 
 def comp(fr, im, x, y):
@@ -76,8 +77,14 @@ def navi(fr, box, keys, t, size=.06):
     return fairy_fx.draw(fr, kk, t, size=size)
 
 
-HERO_AWE = dict(char='quest:looking_up_awe', costume='hero', young=True, x=.36, y=.97, h=.62)
-HERO_WALK = dict(char='quest:walking_back', costume='hero', young=True, x=.47, y=.97, h=.62)
+YOUNG_H = .62 * .72                    # young Quest's height (the approved planning scale)
+HERO_AWE = dict(art='quest_young_lookup', flip=True, x=.42, y=.95, h=YOUNG_H)   # #3a mirrored: looks up to the right, at the castle
+HERO_WALK = dict(art='quest_young_back', x=.47, y=.97, h=YOUNG_H)
+
+
+def walk_pose(t, rate=9):
+    """Walk cycle: #3 and #3 mirrored (#9) alternate, one step per bob."""
+    return 'quest_young_back' if int(t * rate / math.pi) % 2 == 0 else 'quest_young_back_b'
 
 
 # ------------------------------------------------------------------ D1-D2: enormous / actual size
@@ -85,9 +92,9 @@ F_AWE = FIELD.copy(); place(F_AWE, HERO_AWE)
 
 
 def frame_d12(t):
-    cam = keyed([(T0, (1.62, .5, .67)), (T_NOT, (1.0, .5, .5))], t)   # castle whole at the top, headroom above the face
+    cam = keyed([(T0, (1.3, .6, .6)), (T_NOT, (1.0, .5, .5))], t)     # castle whole, clear of the HUD buttons; the boy whole
     fr, box = shoot(F_AWE, cam)
-    fr = navi(fr, box, [(T0, .44, .5), (T0 + 1.8, .3, .46), (T_NOT, .42, .42)], t)
+    fr = navi(fr, box, [(T0, .48, .48), (T0 + 1.8, .36, .44), (T_NOT, .5, .42)], t)
     if t >= T_NOT:                                                      # keep pulling out: the field is a small tile
         k = ease(min(1, (t - T_NOT) / 1.1))
         bg = Image.new('RGB', (W, H), (20, 26, 40)); d = ImageDraw.Draw(bg)
@@ -111,18 +118,19 @@ def frame_d12(t):
             d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - 42), lab, font=F(26), fill=c)
         fr = bg
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v5 · PLANNING ONLY')
+    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v6 · PLANNING ONLY')
     return fr
 
 
 # ------------------------------------------------------------------ D3-D5: smaller / memory / specs (same field, continuous)
-F_WALK = FIELD.copy(); place(F_WALK, dict(HERO_WALK, x=.4))           # the path runs between the child and his adult outline (Producer)
-ADULT = cutout('quest:walking_back', 'hero')
+F_WALK = FIELD.copy(); place(F_WALK, dict(HERO_WALK, x=.36))          # the path runs between the child and his adult outline (Producer)
+ADULT = final('quest_adult_back')                                    # #4, shield and sword on his back
+ADULT_H, ADULT_X = .62, .76                                          # right of the road, clear of the castle
 
 
 def ghost(base, t):
     """The adult outline beside the child (how big he is now)."""
-    h = int(HERO_WALK['h'] * PH); im = ADULT.resize((int(ADULT.width * h / ADULT.height), h), Image.LANCZOS)
+    h = int(ADULT_H * PH); im = ADULT.resize((int(ADULT.width * h / ADULT.height), h), Image.LANCZOS)
     a = np.asarray(im.getchannel('A')) > 40
     edge = a & ~np.asarray(Image.fromarray(a.astype(np.uint8) * 255).filter(ImageFilter.MinFilter(9))).astype(bool)
     lay = np.zeros((im.height, im.width, 4), np.uint8)
@@ -130,7 +138,7 @@ def ghost(base, t):
     k = ease(min(1, (t - T('l19.w4') + .1) / .4))
     lay[..., 3] = (lay[..., 3] * k).astype(np.uint8)
     g = Image.fromarray(lay, 'RGBA')
-    base.alpha_composite(g, (int(.63 * PW - g.width / 2), int(.97 * PH - g.height)))
+    base.alpha_composite(g, (int(ADULT_X * PW - g.width / 2), int(.97 * PH - g.height)))
 
 
 # Verified (gametechwiki / nintendo64ever / Wikipedia, 2026-10-03): NEC VR4300 93.75 MHz, 4 MB RDRAM, 4 KB texture
@@ -139,7 +147,7 @@ CALLOUTS = [  # text, label anchor (screen fractions), leader target or None, ki
     ('RESOLUTION  320 x 240', (.04, .21), None, 'frame'),        # below the HUD hearts
     ('CPU 93.75 MHz  ·  RAM 4 MB', (.04, .28), None, 'box'),
     ('TEXTURES  4 KB · smeared', (.04, .4), (.13, .7), 'lead'),         # short: stays clear of the child's head
-    ('FOG · distance', (.8, .3), (.9, .47), 'lead'),              # clear of the HUD buttons and the adult outline            # above and right of the adult outline, never over it
+    ('FOG · distance', (.56, .2), (.42, .43), 'lead'),            # the haze in the valley, clear of the HUD and the outline              # clear of the HUD buttons and the adult outline            # above and right of the adult outline, never over it
 ]
 
 
@@ -176,7 +184,7 @@ def spec_callouts(fr, t):
 
 
 def frame_d345(t):
-    keys = [(T_SMALL, (1.25, .5, .62)), (T_MEM, (1.3, .5, .6)), (T_WAKE, (1.42, .5, .58))]
+    keys = [(T_SMALL, (1.2, .55, .6)), (T_MEM, (1.25, .55, .6)), (T_WAKE, (1.32, .55, .605))]   # gentle push; boy, outline and castle stay whole
     cam = keyed(keys, t)
     base = F_WALK.copy()
     if t >= T('l19.w4') - .1:
@@ -196,7 +204,7 @@ def frame_d345(t):
     d = ImageDraw.Draw(fr)
     lab = ('D3 "Because you were smaller." · outline = adult Quest' if t < T_MEM else 'D4 memory keeps the feelings' if t < T_SPEC
            else 'D5 ...and drops the specifications')
-    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v5 · PLANNING ONLY')
+    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v6 · PLANNING ONLY')
     return fr
 
 
@@ -240,7 +248,7 @@ def frame_d6(t):
             d = ImageDraw.Draw(fr); lab = 'N64 texture filtering'
             d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - 2), lab, font=F(18), fill=(40, 40, 50))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v5 · PLANNING ONLY')
+    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v6 · PLANNING ONLY')
     return fr
 
 
@@ -255,37 +263,33 @@ def frame_d78(t):
     if t >= T_MUSIC - .05:
         fr = BB.notes(fr, t, T_MUSIC - .05, (W * .55, H * .65))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v5 · PLANNING ONLY')
+    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v6 · PLANNING ONLY')
     return fr
 
 
 # ------------------------------------------------------------------ D9-D10: castle, then forever (same field, continuous)
-F_ROAD = FIELD.copy(); place(F_ROAD, dict(HERO_WALK, x=.5, y=.99, h=.5))
-
-
-HERO_SCR = None
+HERO_SCR = {}
 
 
 def hero_screen(fr, t):
-    """Young Quest walking, drawn in screen space: feet inside title-safe, constant size while the world keeps coming."""
-    global HERO_SCR
-    if HERO_SCR is None:
-        im = cutout('quest:walking_back', 'hero'); h = int(H * .42)
-        HERO_SCR = im.resize((int(im.width * h / im.height), h), Image.LANCZOS)
+    """Young Quest walking (#3 / #3 mirrored, one step per bob), drawn in screen space: feet inside title-safe,
+    constant size while the world keeps coming."""
+    key = walk_pose(t)
+    if key not in HERO_SCR:
+        im = final(key); h = int(H * .42)
+        HERO_SCR[key] = im.resize((int(im.width * h / im.height), h), Image.LANCZOS)
+    im = HERO_SCR[key]
     rise = ease(min(1, max(0, (t - T_FOREVER - .2) / 1.4)))           # walks up into the shot as the camera comes down
-    y = H * .93 - HERO_SCR.height + (1 - rise) * H * .5 + 4 * math.sin(t * 9)
-    fr = comp(fr, HERO_SCR, W / 2 - HERO_SCR.width / 2, y)
-    d = ImageDraw.Draw(fr); lab = 'MISSING · Hero-of-Time outfit · young'
-    d.rectangle((W / 2 - 150, y - 24, W / 2 + 150, y - 4), fill=(120, 20, 20)); d.text((W / 2 - 142, y - 22), lab, font=F(14), fill=(255, 220, 220))
-    return fr
+    y = H * .93 - im.height + (1 - rise) * H * .5 + 4 * abs(math.sin(t * 9))
+    return comp(fr, im, W / 2 - im.width / 2, y)
 
 
 def frame_d910(t):
-    keys = [(T_CASTLE, (1.15, .5, .6)), (T_FOREVER - .1, (3.0, CASTLE[0], CASTLE[1])), (T_FOREVER + 1.6, (1.25, .5, .6))]
+    keys = [(T_CASTLE, (1.15, .5, .6)), (T_FOREVER - .1, (3.0, CASTLE[0], CASTLE[1])), (T_FOREVER + 1.6, (1.25, .6, .6))]
     cam = keyed(keys, t)
     if t > T_FOREVER + 1.6:                                             # "kept walking": the world keeps coming, forever
         k = (t - T_FOREVER - 1.6) / (T_END - T_FOREVER - 1.6)
-        cam = (1.25 * (1 + .6 * k), .5, lin(.6, .55, k))
+        cam = (1.25 * (1 + .45 * k), .6, lin(.6, .5, k))         # down the road; the castle stays whole, clear of the HUD
     fr, box = shoot(FIELD, cam)
     if t >= T_FOREVER:
         fr = hero_screen(fr, t)
@@ -295,7 +299,7 @@ def frame_d910(t):
     if t > T_END - .5:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 8, 10)), (t - T_END + .5) / .5 * .6)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v5 · PLANNING ONLY')
+    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v6 · PLANNING ONLY')
     return fr
 
 
@@ -322,7 +326,7 @@ STILLS = (('d1', T0 + 1.0), ('d2', T_SMALL - .3), ('d3', T_MEM - .4), ('d4', T_S
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -332,20 +336,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockD_v5_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockD_v5.mp4'
-    lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
-    lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v4.mp4',
-                                                                          'EP002_blockC_animatic_v5.mp4')) + f"file '{out}'\n")
-    subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',
-                    '-c:a', 'aac', '-b:a', '160k', str(joined)], check=True)
-    print(out.relative_to(ROOT), f'{T_END - T0:.2f}s;', joined.relative_to(ROOT))
+        render(t).save(ROOT / f'docs/ep002/blockD_v6_{name}.jpg', quality=85)
+    print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04): no joined preview
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockD_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockD_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

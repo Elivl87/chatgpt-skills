@@ -11,7 +11,9 @@
   C6  "Plus an entire Saturday afternoon... particular miracle."  Slow pull out while the light turns to late afternoon;
       a smartphone tries to slide in and is struck out.
 
-Kids = MISSING young Quest / young Pixie (planning: current library poses). Bedroom = core quest_bedroom_morning.
+Kids = final art #6a kid Quest playing (seated, faces right), #6b kid Pixie pointing, #6c kid Pixie sitting, sized by
+face width (Pixie's face = 0.9 x Quest's). Game picture = final field plate #11 with young Quest #3. Bedroom = core
+quest_bedroom_morning.
 Sounds: Bram only (seq-01 and block B mixes are their own files; nothing new is added here).
 """
 import importlib.util, math, subprocess, sys
@@ -23,7 +25,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FSUB, CUES  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FSUB, CUES, final  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -57,10 +59,10 @@ def comp(fr, im, x, y):
 
 
 # ------------------------------------------------------------------ the game picture (shown inside the CRT)
-GAME = plate(('proc', 'field', (('time', 'day'), ('label', False)))).convert('RGBA')
-_hero = __import__('lib').cutout('quest:walking_back', 'hero')            # the player on screen (no planning label inside the TV)
+GAME = plate(('final', 'field')).convert('RGBA')
+_hero = final('quest_young_back')                                       # the player on screen: young Quest #3 on the road
 _hero = _hero.resize((int(_hero.width * PH * .2 / _hero.height), int(PH * .2)), Image.LANCZOS)
-GAME.alpha_composite(_hero, (int(PW * .5 - _hero.width / 2), int(PH * .9 - _hero.height)))
+GAME.alpha_composite(_hero, (int(PW * .5 - _hero.width / 2), int(PH * .93 - _hero.height)))
 
 
 def game_picture(t, size):
@@ -139,7 +141,7 @@ def frame_c1(t):
     if dive > .6:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 246, 225)), (dive - .6) / .4)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v5 · PLANNING ONLY')
+    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v6 · PLANNING ONLY')
     d.text((20, 40), 'C1 cartridge = own 3D (approved mock) · Navi dives into the label', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -159,7 +161,7 @@ def frame_c2(t):
     if t < T_SCR + .35:                                                 # out of the white from the dive
         fr = Image.blend(Image.new('RGB', fr.size, (255, 246, 225)), fr, (t - T_SCR) / .35)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = MISSING Hyrule plate · BLOCK C v5')
+    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = final field plate #11 · BLOCK C v6')
     return fr
 
 
@@ -173,14 +175,14 @@ Q34P = [(TV_POS[0] + x * TV_SCALE, TV_POS[1] + y * TV_SCALE) for x, y in Q34]
 SCR_C = (sum(p[0] for p in Q34P) / 4 / PW, sum(p[1] for p in Q34P) / 4 / PH)   # screen centre (plate fractions)
 # Character scale is set by face width (the one measure that does not change with the pose), measured on the library art
 # as a fraction of each cut-out's height. Pixie's face = 0.9 x Quest's (she is a little smaller; Producer: never exaggerate).
-FACE = {'quest2:floor_gaming': .233, 'pixie:laughing_pointing': .133, 'pixie:sitting_relaxed': .175}
+FACE = {'kid_quest_play': .231, 'kid_pixie_point': .156, 'kid_pixie_sit': .2}  # final art #6a/#6b/#6c, cheek to cheek
 QUEST_FACE, PIXIE_RATIO = .13, .9                                       # Quest's face width in plate heights (kids close to camera)
 def sized(char, x, y, who_ratio=1.0, depth=1.0):
     """depth < 1: further from the camera (higher on the floor), smaller by perspective only."""
-    return dict(char=char, x=x, y=y, h=QUEST_FACE * who_ratio * depth / FACE[char], label=None)
-QUEST_K = sized('quest2:floor_gaming', .27, 1.03)
-PIXIE_PT = sized('pixie:laughing_pointing', .55, .9, PIXIE_RATIO, depth=.8)    # standing a step behind him
-PIXIE_SIT = sized('pixie:sitting_relaxed', .51, 1.03, PIXIE_RATIO)
+    return dict(art=char, x=x, y=y, h=QUEST_FACE * who_ratio * depth / FACE[char], label=None)
+QUEST_K = sized('kid_quest_play', .28, .985)                            # seated on the floor, shoes on the boards
+PIXIE_PT = dict(sized('kid_pixie_point', .5, .95, PIXIE_RATIO, depth=.8), rot=-9)   # a step behind him, leaning in: her finger on the TV
+PIXIE_SIT = sized('kid_pixie_sit', .55, .985, PIXIE_RATIO)
 
 
 N64_IMG = rgba(PROPS / 'n64_34.png')
@@ -189,15 +191,16 @@ N64_POS = (int(PW * .64), int(PH * .955 - N64_IMG.height))
 
 
 def cable(base):
-    """Controller cable: from the N64's first port, slack along the floor, up into Quest's hands."""
-    qh = QUEST_K['h'] * PH; qw = qh * 621 / 967                         # floor_gaming cut-out aspect
-    hx, hy = QUEST_K['x'] * PW, QUEST_K['y'] * PH - qh * .47             # the controller in his hands
+    """Controller cable: from the N64's first port, slack along the floor, to where the cable drawn in #6a ends (it
+    already runs from his controller to the floor at his right, bottom corner of the art)."""
+    im = final('kid_quest_play'); qh = QUEST_K['h'] * PH; qw = qh * im.width / im.height
+    hx, hy = QUEST_K['x'] * PW + qw * .46, QUEST_K['y'] * PH - qh * .012    # the art's cable end
     px, py = N64_POS[0] + N64_IMG.width * .06, N64_POS[1] + N64_IMG.height * .78
     pts = []
     for i in range(41):
         u = i / 40
-        x = (1 - u) ** 3 * px + 3 * (1 - u) ** 2 * u * (px - 60) + 3 * (1 - u) * u * u * (hx + qw * .45) + u ** 3 * hx
-        y = (1 - u) ** 3 * py + 3 * (1 - u) ** 2 * u * (PH * .99) + 3 * (1 - u) * u * u * (PH * .99) + u ** 3 * hy
+        x = (1 - u) ** 3 * px + 3 * (1 - u) ** 2 * u * (px - 60) + 3 * (1 - u) * u * u * (hx + 40) + u ** 3 * hx
+        y = (1 - u) ** 3 * py + 3 * (1 - u) ** 2 * u * (PH * .99) + 3 * (1 - u) * u * u * hy + u ** 3 * hy
         pts.append((x, y))
     d = ImageDraw.Draw(base)
     d.line(pts, fill=(22, 22, 31, 255), width=9, joint='curve'); d.line(pts, fill=(70, 70, 78, 255), width=4, joint='curve')
@@ -213,23 +216,38 @@ def room_plate(t, pixie):
     tv = fill_screen(tv, qs, ms, pic)
     base.alpha_composite(tv, TV_POS)
     base.alpha_composite(N64_IMG, N64_POS)                               # the approved N64, cartridge in, on the floor
-    place(base, QUEST_K)
-    cable(base)
     if pixie is PIXIE_PT:                                               # she walks in from frame left once the pull-back settles
         k = ease(min(1, max(0, (t - T_PIX_IN) / .7)))
-        if k <= 0:
-            return base
-        pixie = dict(pixie, x=lin(-.12, pixie['x'], k))
-    place(base, pixie)
+        pixie = dict(pixie, x=lin(-.12, pixie['x'], k)) if k > 0 else None
+    if pixie and pixie.get('rot'):                                      # standing a step behind him: drawn before Quest
+        place_leaning(base, pixie)
+    place(base, QUEST_K)
+    cable(base)
+    if pixie and not pixie.get('rot'):                                  # sitting beside him
+        place(base, pixie)
     return base
 
 
+def place_leaning(base, spec):
+    """#6b points straight ahead (a little up); the CRT sits low on the bedside table, so she leans in towards it: the
+    cut-out turns about her feet at load time (the art file is untouched)."""
+    im = final(spec['art']); h = int(spec['h'] * PH)
+    im = im.resize((round(im.width * h / im.height), h), Image.LANCZOS)
+    pad = Image.new('RGBA', (im.width, im.height * 2)); pad.alpha_composite(im, (0, 0))      # pivot = bottom centre
+    pad = pad.rotate(spec['rot'], resample=Image.BICUBIC, expand=True)          # pivot = centre = her feet
+    x, y = spec['x'] * PW, spec['y'] * PH
+    sh = Image.new('RGBA', base.size)
+    ImageDraw.Draw(sh).ellipse((x - im.width * .4, y - 12, x + im.width * .4, y + 10), fill=(15, 10, 8, 110))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
+    base.alpha_composite(pad, (int(x - pad.width / 2), int(y - pad.height / 2)))
+
+
 # continuous camera through C3-C6 (same background: never snaps back)
-CAM_KEYS = [(T_ROOM, (3.0, SCR_C[0] - .02, SCR_C[1])), (T_TV - .1, (1.12, .58, .56)),
-            (T_FR - .1, (1.2, .57, .52)),                               # "the television": push in keeping Quest whole (never half cut)
-            (T_FR + .45, (1.25, .44, .55)),                             # quick pan back: Quest is never held half cut
-            (T_KNEW, (1.25, .44, .55)),                                 # both kids whole, Pixie's head inside title-safe
-            (T_SAT, (1.25, .46, .58)), (T_END, (1.1, .5, .56))]
+CAM_KEYS = [(T_ROOM, (3.0, SCR_C[0] - .02, SCR_C[1])), (T_TV - .1, (1.12, .565, .56)),
+            (T_FR - .1, (1.2, .57, .57)),                               # "the television": push in keeping Quest whole (never half cut)
+            (T_FR + .45, (1.25, .44, .585)),                             # quick pan back: Quest is never held half cut
+            (T_KNEW, (1.25, .44, .585)),                                 # both kids whole, Pixie's head inside title-safe
+            (T_SAT, (1.25, .46, .585)), (T_END, (1.1, .5, .56))]
 
 
 def room_cam(t):
@@ -293,8 +311,8 @@ def frame_room(t):
     d = ImageDraw.Draw(fr)
     lab = ('C3 "plus the room."' if t < T_TV else 'C4 "Plus the television."' if t < T_FR else
            'C5 the friend who knew where to go' if t < T_SAT else 'C6 a whole Saturday afternoon')
-    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v5 · PLANNING ONLY')
-    d.text((20, 40), 'kids = MISSING young Quest / young Pixie (planning: current poses) · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
+    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v6 · PLANNING ONLY')
+    d.text((20, 40), 'kids = final art #6a / #6b / #6c · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
     return fr
 
 
@@ -312,7 +330,7 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -323,20 +341,15 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                     ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-        render(t).save(ROOT / f'docs/ep002/blockC_v5_{name}.jpg', quality=85)
-    joined = ROOT / 'docs/ep002/EP002_seq01_to_blockC_v6.mp4'
-    lst = ROOT / 'renders/tmp/concat.txt'; lst.parent.mkdir(parents=True, exist_ok=True)
-    lst.write_text(''.join(f"file '{ROOT / 'docs/ep002' / n}'\n" for n in ('EP002_cartridge_animatic_v12.mp4', 'EP002_blockB_animatic_v4.mp4')) + f"file '{out}'\n")
-    subprocess.run([FF, '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c:v', 'libx264', '-crf', '20', '-preset', 'medium',
-                    '-c:a', 'aac', '-b:a', '160k', str(joined)], check=True)
-    print(out.relative_to(ROOT), f'{T_END - T0:.2f}s;', joined.relative_to(ROOT))
+        render(t).save(ROOT / f'docs/ep002/blockC_v6_{name}.jpg', quality=85)
+    print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04): no joined preview
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                         ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-            render(t).save(ROOT / f'docs/ep002/blockC_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockC_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
