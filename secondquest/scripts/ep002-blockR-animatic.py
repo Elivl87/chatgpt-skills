@@ -79,7 +79,29 @@ YOUNG_PX = pixelated(sized(YOUNG, YH))
 YOUNG_MEM = memory(sized(YOUNG, YH))
 YOUNG_REAL = sized(YOUNG, YH)
 ICON_CART = sized(BN.CARTRIDGE, 46)                                          # ruler milestones: the cartridge (1998), the Switch 2 (2026)
-ICON_SW2 = sized(BN.BL.SW2, 46)
+
+
+def _sw2_chill():
+    """The Switch 2 milestone with a calm picture on its screen (Producer: no green key): today's field at sunset."""
+    import cv2
+    BL = BN.BL
+    scr = FIELD.resize((W, H), Image.BILINEAR)
+    scr = Image.blend(scr, Image.new('RGB', (W, H), (255, 170, 110)), .28).filter(ImageFilter.GaussianBlur(2))
+    scr = CART.glow(scr, W * .5, H * .38, 420, (255, 220, 160), .45)
+    src = np.float32([[0, 0], [W, 0], [W, H], [0, H]])
+    M = cv2.getPerspectiveTransform(src, BL.SW2_QUAD.astype(np.float32))
+    pic = cv2.warpPerspective(np.asarray(scr), M, BL.SW2.size)
+    a = np.asarray(BL.SW2).copy()
+    c = a[..., :3].astype(np.int16)
+    key = (c[..., 1] > c[..., 0] + 30) & (c[..., 1] > c[..., 2] + 30)          # the key's anti-aliased fringe too
+    m = cv2.dilate((BL.SW2_MASK | key).astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
+    m &= BL.SW2_MASK | key | cv2.dilate(BL.SW2_MASK.astype(np.uint8), np.ones((3, 3), np.uint8)).astype(bool)
+    pic = cv2.warpPerspective(np.asarray(scr), M, BL.SW2.size, borderMode=cv2.BORDER_REPLICATE)
+    a[m, :3] = pic[m]
+    return Image.fromarray(a)
+
+
+ICON_SW2 = sized(_sw2_chill(), 46)
 
 
 def field_view(t, z0=1.0, z1=1.25, t0=None, t1=None):
@@ -238,7 +260,7 @@ def render(t):
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v2 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -248,7 +270,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -258,14 +280,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

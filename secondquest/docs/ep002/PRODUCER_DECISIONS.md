@@ -332,3 +332,6 @@
 - R v2 ("Apruebo con mejoras 2, 3 y 4"): block R approved with: (2) milestones on the ruler, our 3D cartridge FIRST
   TIME at 1998 and the Switch 2 AGAIN at 2026; (3) on "recognizes" the memory gets his real colour back for a moment,
   then fades back to a memory; (4) a slow push in on the two of them over the last 2 s. Not taken: footprints (1).
+- R v3 (Producer: "La Nintendo se ve con pantalla verde. Aquí quizás debería tener un fondo más chill"): the Switch 2
+  milestone on the ruler now shows a calm picture on its screen (today's field at sunset, warm and soft) instead of
+  the green key; the key's fringe is cleaned too.
