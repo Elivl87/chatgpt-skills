@@ -15,7 +15,7 @@ the script is about the field.
   R4  "A chance to stand beside an old memory... and see if it still recognizes us."  Adult Quest stops on the road,
        facing the castle; the young one turns into the memory (translucent, as in blocks P and Q) beside him; on
        "recognizes" a "?" over the memory flips to "!", a Navi-blue glow links them.
-HUD: on (in game). Stand-ins: young/adult back (#3, #4), young hero 3/4 looking up at adult Quest (#3a, new, reusable).
+HUD: hidden on the R1 split (a comparison of two eras, Producer), fades in on the one road (in game). Stand-ins: young/adult back (#3, #4), young hero 3/4 looking up at adult Quest (#3a, new, reusable).
 Sounds: none (all at the end). Free.
 """
 import importlib.util, math, subprocess, sys
@@ -251,7 +251,8 @@ def render(t):
         cw, ch = W / z, H / z
         x0 = min(max(cx - cw / 2, 0), W - cw); y0 = min(max(cy - ch / 2, 0), H - ch)
         fr = fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
-    fr = hud.draw(fr, t=t, **HEARTS)
+    ha = min(1, max(0, (t - T_SAME - .2) / .6))                                # Producer: no HUD on the split (a comparison, two eras); it fades in on the one road
+    fr = hud.draw(fr, t=t, alpha=ha, **HEARTS)
     if t >= T_BESIDE:
         d = ImageDraw.Draw(fr); lab3 = 'MISSING · young hero 3/4, looking up at adult Quest (#3a) · planning stand-in'
         tw = d.textlength(lab3, font=F(13)); d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab3, font=F(13), fill=(255, 235, 235))
@@ -260,7 +261,7 @@ def render(t):
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v3 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -270,7 +271,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -280,14 +281,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

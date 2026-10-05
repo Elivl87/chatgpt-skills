@@ -335,3 +335,6 @@
 - R v3 (Producer: "La Nintendo se ve con pantalla verde. Aquí quizás debería tener un fondo más chill"): the Switch 2
   milestone on the ruler now shows a calm picture on its screen (today's field at sunset, warm and soft) instead of
   the green key; the key's fringe is cleaned too.
+- R v4 (Producer: "Sí, aplícalo así"): exception to "HUD on in Hyrule": no HUD on the R1 split screen with the time
+  ruler (a comparison of two eras: one HUD over both made no sense and crowded the ruler); it fades in when the halves
+  merge into one road ("Same road"), back in game.
