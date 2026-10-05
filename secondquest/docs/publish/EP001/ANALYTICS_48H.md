@@ -1,26 +1,31 @@
 # EP001: analytics at 48 hours (2026-10-05, Producer's YouTube Studio screenshots)
 
-| Metric | Value | Note |
+| Metric | Value | Reading |
 |---|---|---|
-| Views, real time (48 h) | 275 (episode 262-267, Short 13) | live counter |
-| Views, processed (28 days to 3 Oct) | 122 (episode 111, Short 11) | Studio's processed data lags ~1-2 days |
-| Watch time (processed) | 1.2 h | ~72 min / ~120 views = **~35-40 s average view** on a 9:46 video (~6-7 %) - provisional, same lag |
-| Traffic sources | Browse features 75.4 %, Search 11.5 %, Channel pages 7.4 %, other 5.8 % | YouTube is showing it on Home/Explore |
-| Subscribers | +1 | |
-| Likes / comments | episode 1 / 1; Short 1 / 1 | |
-| Impressions, CTR, retention curve | **not yet captured** | per-video Analytics: Alcance + Interacción tabs |
+| Views | 282 (episode); Short 13 | |
+| Thumbnail impressions | 1.2 K | |
+| Thumbnail CTR | **3.5 %** (peaked ~14 % early, settling ~2.5-3 %) | Normal: CTR falls as YouTube widens the audience. Inside the usual 2-10 % band |
+| Traffic | Browse (Home) **92 %**, search 5 %, channel 2 % | YouTube is recommending it to strangers |
+| Search terms | "farm", "simulation video game" | |
+| Average view duration | **1:37** (card) / 2:12 = 22.7 % (retention panel) | |
+| Retention at 0:30 | **60 %** ("typical", per YouTube) | |
+| Retention after ~1:15 | flat plateau ~30-35 % to the end | Whoever passes the first minute stays |
+| Rewatch bumps | ~5:30 (the tractors section, "Tractors are cool / Huge tractors / Harvesters...") and a rise at the very end (~9:15, the closing line) | Small sample: a bump is a few people |
+| Subtitle language | none 31.5 %, **English 30.6 %, Spanish 27.9 %** | A large Spanish-speaking audience |
+| Likes | 1 (100 %), comments 1, subscribers from the video 0 | |
 
-## Provisional reading
+## Diagnosis
+1. **Packaging works, no thumbnail change needed now.** 3.5 % CTR with 92 % Home traffic on a brand-new channel is
+   healthy. Test & Compare can still try to raise it.
+2. **The loss is in the first minute:** 100 % -> 60 % by 0:30 -> ~35 % by ~1:15, then flat. The middle of the video holds.
+3. **The tractor is the magnet:** the "$500,000 TRACTOR" thumbnail brings people in, and the tractors section is where
+   they rewatch, but it arrives at ~5:00. The opening does not pay off the thumbnail.
+4. **Spanish matters:** 28 % watch with Spanish subtitles. This backs the Spanish audio track for EP001 (paused until
+   EP002 is closed).
 
-1. **Distribution works:** three quarters of the views come from Browse, so YouTube is already testing the episode on
-   Home. For a 2-day-old channel with 1 subscriber that is a good sign: the packaging earns clicks (CTR pending).
-2. **Retention is the problem:** ~35-40 s average on 9:46. Most viewers leave in the first minute.
-3. **Likely cause to check on the curve:** the thumbnail promises "$500,000 TRACTOR" but the script never pays that off
-   directly (tractors appear at 0:33 and 1:02; no price, no big reveal). MrBeast/Galloway: pay off the thumbnail
-   promise in the first seconds.
-4. **The Short barely moved** (13 views): Shorts take days to be picked up; its first frame (soldier, "No gunfights")
-   does not say "farming" at a glance.
-
-## Improvement for EP002 (one, per the standard)
-The first 30 seconds must pay off the thumbnail: the image and the promise on the thumbnail appear on screen within
-the hook. Confirm with the retention curve before locking it.
+## Improvements
+- **EP002 (the one improvement):** pay off the thumbnail inside the first 30 seconds - its image and its promise on screen
+  in the hook - and keep the first minute visual and fast.
+- **EP001 (no re-render):** keep the thumbnail; run Test & Compare when available. Optional: a second Short built from
+  the tractors section (the rewatched part) linking to the episode.
+- **Channel:** Spanish audio track for EP001 after EP002 is closed (Q010 to re-quote).
