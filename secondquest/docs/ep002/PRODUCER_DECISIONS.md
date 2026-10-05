@@ -314,3 +314,10 @@
   blasts out of the far end (still MISSING #10a for the final art); (3) a whip pan across the same room, from Quest
   between the 1998 and 2026 cards to the door frame, replaces the dissolve. Not taken: the WHY? look-between rhythm
   (2) and the "tries: 1" counter (4).
+- Q v1 (Producer: "Sí, constrúyelo así" to "everything is still there... except you"): the forest (block M), our 3D
+  ocarina and the sword in the temple (block N) each resolve from 1998 pixels into today (STILL THERE / STILL
+  WAITING, HUD on); our 3D Triforce pulses on wisdom, power, courage and the three words line up under it (no
+  triangle-to-word mapping, to avoid lore nitpicks); pull back: it was all on the CRT of his room by day, Quest on
+  the floor with the pad and, closer to the TV, the faint kid he was with the same pad (1998 / 2026); the cartridge
+  with the temple label glows and an ALMOST TOO PERFECT stamp lands; two mirrored strips, GAME (young hero -> adult
+  hero with gear) and LIFE (the kid of the 1998 mark -> Quest at 2026), both arrows light up together, "=". Free.
