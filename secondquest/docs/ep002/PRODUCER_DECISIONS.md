@@ -360,3 +360,5 @@
   Export DISABLED); the console shows its last lines; (2) the move gizmo (X red, Y green, Z blue) on each selected
   object, and a sun gizmo at the window for the light; (4) a two-step failure, colour -> wireframe -> grey
   placeholder; on "you" the engine flickers his wireframe and loses it. Not taken: type icons (3), error toasts (5).
+- S approved (Producer: "Apruebo S"): block S is option A v3 (the remake engine with inspector, gizmos and the
+  two-step failure). The Producer asked for three alternatives for block T before building it.
