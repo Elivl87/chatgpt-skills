@@ -382,3 +382,4 @@
   block T over the shared HUD, which is unchanged). The Producer asked to check it on YouTube: videos cannot be watched
   from here and the wikis do not describe the animation, so it follows how the game's meter works (containers added
   empty, quarter-by-quarter refill, beating current heart); the Producer verifies against the game.
+- T approved (Producer: "Aprobado bloque T"): block T is v3. Only block U (the call to action, l155-l157) remains.
