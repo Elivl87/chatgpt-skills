@@ -43,6 +43,26 @@ def old_mask(art, land):
     return ndimage.binary_dilation(ndimage.binary_fill_holes(b), iterations=rim) & (art[..., 3] > 200)
 
 
+def old_silhouette(art, land):
+    """The old shield's full silhouette, out to its outer ink line: the convex hull of its blue face and the silver
+    rim touching it (both colours that the tunic, hair and sky do not have near it), grown by the ink width."""
+    hsv = cv2.cvtColor(art[..., :3], cv2.COLOR_BGR2HSV).astype(int)
+    x0, y0 = land.min(axis=0).astype(int); x1, y1 = land.max(axis=0).astype(int); h = y1 - y0
+    roi = np.zeros(art.shape[:2], bool); roi[max(0, y0 - h // 6):y1 + h // 6, max(0, x0 - h // 6):x1 + h // 6] = True
+    blue = (hsv[..., 0] >= 100) & (hsv[..., 0] <= 130) & (hsv[..., 1] > 80) & roi
+    lab, n = ndimage.label(blue)
+    b = ndimage.binary_fill_holes(lab == (np.argmax(ndimage.sum(blue, lab, range(1, n + 1))) + 1))
+    silver = (hsv[..., 1] < 60) & (hsv[..., 2] > 120) & roi & (ndimage.distance_transform_edt(~b) < h * .12)
+    lab, n = ndimage.label(silver)
+    touch = np.unique(lab[ndimage.binary_dilation(b, iterations=int(h * .02) + 3) & silver])
+    rim = np.isin(lab, touch[touch > 0])
+    pts = np.argwhere(b | rim)[:, ::-1].astype(np.int32)
+    hull = np.zeros(art.shape[:2], np.uint8)
+    cv2.fillConvexPoly(hull, cv2.convexHull(pts), 1)
+    ink = max(3, int(round(h * .012)))
+    return cv2.dilate(hull, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * ink + 1, 2 * ink + 1))) > 0
+
+
 def shield_px(height):
     """Front render whose shield is `height` px tall, with ink lines as thick as the art's."""
     layers = json.loads((HERE / 'shield_layers.json').read_text())
@@ -89,6 +109,19 @@ def mount(name, art_path, land, tint):
     w[..., :3] *= np.clip(1.05 - .2 * u, .8, 1.05)[..., None]
     over[..., :3] = np.where(a > 0.02, w[..., :3], 20)              # straight alpha; the shadow is near-black
     over[..., 3] = np.maximum(w[..., 3], sh * 255)
+    # whatever of the old shield still peeks out (its sharp peak can reach past ours): fill it with what is around it
+    # (tunic, strap, hair or sky), sampled only from outside the old shield
+    sil = old_silhouette(art, land)
+    peek = ndimage.binary_dilation(sil & ~(warped[..., 3] > 230), iterations=2) & ~(warped[..., 3] > 250)
+    if peek.any():
+        ys, xs = np.nonzero(sil); pad = 40
+        ya, yb, xa, xb = max(0, ys.min() - pad), ys.max() + pad, max(0, xs.min() - pad), xs.max() + pad
+        fill = cv2.inpaint(art[ya:yb, xa:xb, :3], (sil[ya:yb, xa:xb] | peek[ya:yb, xa:xb]).astype(np.uint8), 7, cv2.INPAINT_TELEA)
+        patch = np.zeros_like(over); patch[ya:yb, xa:xb, :3] = fill
+        k = peek & (art[..., 3] > 0)
+        over[k, :3] = over[k, :3] * (over[k, 3:] / 255.0) + patch[k, :3] * (1 - over[k, 3:] / 255.0)
+        over[k, 3] = 255
+    print(name, f'old shield pixels patched: {int(peek.sum())}')
     out = ROOT / f'public/art/ep002/props3d/shield_on_{name}.png'
     cv2.imwrite(str(out), np.clip(over, 0, 255).astype(np.uint8))
     # placement for the engine: the strap holds the shield near its peak, so the sway turns it about that point

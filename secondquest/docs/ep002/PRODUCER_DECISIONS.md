@@ -476,3 +476,8 @@
   rebuilt from measurements of the reference (blade with shoulders and engraved triangles, crescent wing guard with
   ribs, cup with the gold gem, collar, banded grip, turned pommel); comparison `docs/ep002/props3d_sword_v2_vs_reference.jpg`;
   sword_spin frames re-rendered, so blocks B, I, L and N pick it up on their next render.
+- Shield and sword v2 approved (Producer: "Aprobado escudo y espada. Me encanta la proporción del escudo"). Fix for "se
+  ve un pedacito arriba del escudo de abajo": the old kite's sharp peak reached past ours. `shield_mount.py` now measures
+  the old shield's full silhouette (hull of its blue face and silver rim + ink) and fills whatever still peeks out with
+  the surroundings (tunic, strap, sky), sampled only from outside the old shield. Same size and proportion as approved.
+  Preview `docs/ep002/shield_on_quest_all_preview.jpg` (#4, #5b, #17+18).
