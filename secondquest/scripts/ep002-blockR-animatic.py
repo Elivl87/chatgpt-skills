@@ -77,6 +77,9 @@ def memory(im):
 
 YOUNG_PX = pixelated(sized(YOUNG, YH))
 YOUNG_MEM = memory(sized(YOUNG, YH))
+YOUNG_REAL = sized(YOUNG, YH)
+ICON_CART = sized(BN.CARTRIDGE, 46)                                          # ruler milestones: the cartridge (1998), the Switch 2 (2026)
+ICON_SW2 = sized(BN.BL.SW2, 46)
 
 
 def field_view(t, z0=1.0, z1=1.25, t0=None, t1=None):
@@ -128,6 +131,12 @@ def split(t):
             if x <= xe + 1:
                 gd.text((x - gd.textlength(lab, font=F(24)) / 2, y - 50), lab, font=F(24), fill=(255, 255, 255, 255), stroke_width=4, stroke_fill=INK + (255,))
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+        for icon, cap, x in ((ICON_CART, 'FIRST TIME', x0), (ICON_SW2, 'AGAIN', x1)):   # Producer improvement 2: milestones
+            if x <= xe + 1:
+                ki = 1
+                fr = comp(fr, fade(icon, ki), x - icon.width / 2, y + 18)
+                dd = ImageDraw.Draw(fr)
+                dd.text((x - dd.textlength(cap, font=F(18)) / 2, y + 22 + icon.height), cap, font=F(18), fill=(255, 255, 255), stroke_width=3, stroke_fill=INK)
         ky = min(1, max(0, (t - T_DEC) / .3))
         if ky > 0:
             s = '28 YEARS'; f = F(int(44 * (1.3 - .3 * ease(ky))))
@@ -154,6 +163,9 @@ def one_road(t):
     young = Image.blend(YOUNG_PX.convert('RGB'), YOUNG_MEM.convert('RGB'), km).convert('RGBA') if 0 < km < 1 else (YOUNG_MEM if km >= 1 else YOUNG_PX)
     if 0 < km < 1:
         young.putalpha(Image.blend(YOUNG_PX.getchannel('A').convert('L'), YOUNG_MEM.getchannel('A').convert('L'), km))
+    kc = math.sin(min(1, max(0, (t - T_RECOG) / 1.2)) * math.pi)              # Producer improvement 3: recognised, his colour comes back for a moment
+    if kc > 0 and km >= 1:
+        young = Image.blend(YOUNG_MEM, YOUNG_REAL, kc)
     if km > 0:                                                                 # a soft light around the memory, so it reads on the grass
         fr = CART.glow(fr, YX, FEET - YH * .5, int(YH * .7), (190, 220, 255), .45 * km)
     fr = walker(fr, young, YX, YH, t, walking=walking)
@@ -198,9 +210,6 @@ def one_road(t):
             gd.line((YX + 20, y0, lin(YX + 20, AX - 20, ease(kl)), lin(y0, y1, ease(kl))), fill=(170, 225, 255, 230), width=8)
             fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
             fr = CART.glow(fr, W * .5, FEET - AH * .6, 260, (255, 226, 160), .35 * kl)
-        d = ImageDraw.Draw(fr)
-        lab = 'MISSING · young hero 3/4, looking up at adult Quest (#3a) · planning stand-in'
-        tw = d.textlength(lab, font=F(13)); d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab, font=F(13), fill=(255, 235, 235))
     return fr
 
 
@@ -214,23 +223,32 @@ def render(t):
             fr = Image.blend(split(T_SAME - .01), fr, ease((t - T_SAME) / .6))
         lab = ('R2 same road, different person' if t < T_WANT else 'R3 not the old game back' if t < T_BESIDE
                else 'R4 beside an old memory')
+    kz = ease(min(1, max(0, (t - (T_END - 2.0)) / 2.0)))                       # Producer improvement 4: a slow push in on the two of them
+    if kz > 0:
+        z = 1 + .28 * kz; cx, cy = W * .5, FEET - AH * .55
+        cw, ch = W / z, H / z
+        x0 = min(max(cx - cw / 2, 0), W - cw); y0 = min(max(cy - ch / 2, 0), H - ch)
+        fr = fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
     fr = hud.draw(fr, t=t, **HEARTS)
+    if t >= T_BESIDE:
+        d = ImageDraw.Draw(fr); lab3 = 'MISSING · young hero 3/4, looking up at adult Quest (#3a) · planning stand-in'
+        tw = d.textlength(lab3, font=F(13)); d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab3, font=F(13), fill=(255, 235, 235))
     d = ImageDraw.Draw(fr); lab2 = 'MISSING · Hyrule Field plate (#11) · planning layout'
     tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v1 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
 STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T_DIFF + .8), ('r3a', T_WANT + 1.0), ('r3', T('l134.w4') + .4),
-          ('r4a', T_BESIDE + 1.5), ('r4', T_END - .3))
+          ('r4a', T_BESIDE + 1.5), ('r4c', T_RECOG + .6), ('r4', T_END - .3))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -240,14 +258,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
