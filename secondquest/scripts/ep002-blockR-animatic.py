@@ -71,7 +71,7 @@ def pixelated(im, f=6):
 
 
 def memory(im):
-    a = np.asarray(im).astype(np.float32); a[..., :3] = a[..., :3] * .45 + np.array([190, 215, 255]) * .55; a[..., 3] *= .6
+    a = np.asarray(im).astype(np.float32); a[..., :3] = a[..., :3] * .55 + np.array([200, 225, 255]) * .45; a[..., 3] *= .82
     return Image.fromarray(a.astype(np.uint8))
 
 
@@ -154,6 +154,8 @@ def one_road(t):
     young = Image.blend(YOUNG_PX.convert('RGB'), YOUNG_MEM.convert('RGB'), km).convert('RGBA') if 0 < km < 1 else (YOUNG_MEM if km >= 1 else YOUNG_PX)
     if 0 < km < 1:
         young.putalpha(Image.blend(YOUNG_PX.getchannel('A').convert('L'), YOUNG_MEM.getchannel('A').convert('L'), km))
+    if km > 0:                                                                 # a soft light around the memory, so it reads on the grass
+        fr = CART.glow(fr, YX, FEET - YH * .5, int(YH * .7), (190, 220, 255), .45 * km)
     fr = walker(fr, young, YX, YH, t, walking=walking)
     fr = walker(fr, ADULT, AX, AH, t, phase=1.3, walking=walking)
     d = ImageDraw.Draw(fr)
