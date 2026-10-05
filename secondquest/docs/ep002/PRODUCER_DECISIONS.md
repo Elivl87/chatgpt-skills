@@ -416,3 +416,8 @@
   5458e873), #4 adult Quest back with shield and scabbard (Q022, job 191f7d01; a first try, 83939fad, was blocked by
   Higgsfield's content filter for the word "sword" and was not charged; reworded as "scabbard ... handle"). 3.0 credits,
   balance 74.25. Files under `docs/art_orders/quest/ep002_costume/` and `docs/art_orders/pixie/ep002_costume/`.
+- Final shot and Pixie anchor (Producer: "Sí, sigue con el plano final y Pixie"): #17+18 (Q028, job b2a6449c, 2k 16:9):
+  Quest (adventurer, shield and scabbard, from behind) and Pixie (own-design princess gown, white and lilac with gold
+  trim, short cape; three-quarter, smiling at him) on the outcrop, misty valley, river, a fairytale castle far away
+  with the low sun behind it, birds. #2c Pixie in her tunic, waving, front (Q015, job 225f13a8): face, ponytail, eyes,
+  skin and human ears match Pixie_v1; she is the anchor for #2d and #2e. 2.0 credits, balance 72.25.

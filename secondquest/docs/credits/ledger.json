@@ -238,11 +238,17 @@
       "item": "#2c Pixie tunic waving",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": null,
+      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and proportions (about 5.8 heads tall). Same face, hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume EXACTLY as in the attached image reference (her green adventurer outfit, seen there from behind): forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Pose: standing, waving hello with her right hand raised, a big warm happy smile, ready to start a new adventure. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T21:19:10+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "225f13a8-9f57-46de-9f70-d39da75f1033"
+      ],
+      "balanceAfter": 72.25
     },
     {
       "id": "Q016",
@@ -413,11 +419,17 @@
       "item": "#17+18 final shot: Quest and Pixie on the outcrop + Hyrule vista at sunset",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> <<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> A wide cinematic 16:9 illustration, golden hour. Two cartoon characters seen from BEHIND stand side by side on the flat top of a rocky outcrop in the lower middle of the frame, looking out over a vast fantasy valley. LEFT: the SAME character as in the first reference images (Quest_v1), dark brown curly hair, light freckles, human ears, in his green adventurer outfit EXACTLY as in the attached image reference (forest-green sleeveless tunic, cream sleeves, brown belt, long floppy green cap, tan trousers, brown boots) with his blue kite shield and the brown scabbard on his back as in that reference. RIGHT, a little shorter (about 95% of his height): the SAME character as in the second reference images (Pixie_v1), long straight black hair in a high ponytail, warm tan skin, human ears, in a princess outfit of our own design: a long elegant gown in white and soft lilac with simple gold trim, a short cape, no crown emblem. Her face turned slightly toward him in a soft three-quarter view, smiling. Below them: a misty valley with soft blue mountain ranges fading into the distance, a winding road, and far away down in the valley, small, a fairytale castle with white walls and slate-blue spires, the low sun right behind the castle with warm golden light, scattered clouds lit gold and peach, a few birds. Keep the LEFT third and the RIGHT third of the frame calm and uncluttered (sky and distant mountains only). Same 2D cartoon style: bold ink outlines, flat cel shading with soft painterly backgrounds. No text, no logos, no emblems, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T21:19:10+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "b2a6449c-1839-4b6a-b735-83d18e72bc7c"
+      ],
+      "balanceAfter": 72.25
     },
     {
       "id": "Q029",
