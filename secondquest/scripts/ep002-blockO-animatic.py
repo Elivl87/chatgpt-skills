@@ -74,12 +74,14 @@ def qmark(d, cx, y, size):
 # ------------------------------------------------------------------ the room (block H's plate, his CRT)
 BC = HB.BC
 QPROF = HB.QPROF
-QH = int(HB.QSPEC[2] * PH)
+ROOM_C = HB._room('child')                   # his childhood room (block C), as approved for O; block H v8's H4 is his adult room #15
+QSPEC = ROOM_C['q']
+QH = int(QSPEC[2] * PH)
 QIMG = QPROF.resize((int(QPROF.width * QH / QPROF.height), QH), Image.LANCZOS)
 SCREEN = [(BC.TV_POS[0] + x * BC.TV_SCALE, BC.TV_POS[1] + y * BC.TV_SCALE) for x, y in BC.Q34]   # screen corners (plate px)
 SX0, SX1 = min(p[0] for p in SCREEN), max(p[0] for p in SCREEN)
 SY0, SY1 = min(p[1] for p in SCREEN), max(p[1] for p in SCREEN)
-HEAD = (HB.QSPEC[0] * PW + QIMG.width * .12, HB.QSPEC[1] * PH - QH * .80)  # his head (plate px)
+HEAD = (QSPEC[0] * PW + QIMG.width * .12, QSPEC[1] * PH - QH * .80)  # his head (plate px)
 
 CAM_A = (1.45, .655, .64)                                                    # both of them, whole (block H's framing)
 CAM_TV = (3.6, (SX0 + SX1) / 2 / PW, (SY0 + SY1) / 2 / PH + .02)              # the screen, big
@@ -98,21 +100,40 @@ def picture(t):
     return pic, kp
 
 
+def room_plate(pic):
+    """Block H's room_plate, on the childhood room (block H now defaults to the adult room #15)."""
+    R = ROOM_C
+    base = R['plate'].copy().convert('RGBA')
+    sc = R['tv_scale']
+    tv = BC.CRT_34.resize((R['tvw'], int(BC.CRT_34.height * sc)), Image.LANCZOS)
+    qs = [(x * sc, y * sc) for x, y in BC.Q34]
+    ms = np.asarray(Image.fromarray((BC.M34 * 255).astype(np.uint8)).resize(tv.size, Image.NEAREST)) > 127
+    xs = [p[0] for p in qs]; ys = [p[1] for p in qs]
+    scr = pic.resize((max(1, int(max(xs) - min(xs))), max(1, int(max(ys) - min(ys)))), Image.NEAREST)
+    tv = BC.fill_screen(tv, qs, ms, scr)
+    sh = Image.new('RGBA', base.size)
+    ImageDraw.Draw(sh).ellipse((R['tv_pos'][0] + 10, R['tv_pos'][1] + tv.height - 14, R['tv_pos'][0] + tv.width - 10, R['tv_pos'][1] + tv.height + 6), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5)))
+    base.alpha_composite(tv, R['tv_pos'])
+    base.alpha_composite(R['n64'], R['n64_pos'])
+    return base
+
+
 def room(t):
     pic, kp = picture(t)
     glow = 1 - .6 * kp
-    base = HB.room_plate(t, pic)
-    rgb = HB._night(base.convert('RGB'), glow)
+    base = room_plate(pic)
+    rgb = Image.blend(base.convert('RGB'), Image.new('RGB', base.size, (14, 18, 38)), ROOM_C['night'] + .18 * (1 - glow))
     sx, sy = BC.SCR_C[0] * PW, BC.SCR_C[1] * PH
     rgb = CART.glow(rgb, sx - 120, sy + 60, 900, (140, 190, 255), .35 * glow)
     base = rgb.convert('RGBA')
     q = QIMG
     ql = Image.blend(q.convert('RGB'), Image.new('RGB', q.size, (18, 22, 44)), .30 + .30 * (1 - glow)).convert('RGBA'); ql.putalpha(q.getchannel('A'))
-    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((HB.QSPEC[0] * PW - q.width * .45, HB.QSPEC[1] * PH - 24, HB.QSPEC[0] * PW + q.width * .45, HB.QSPEC[1] * PH + 14), fill=(0, 0, 0, 120))
+    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((QSPEC[0] * PW - q.width * .45, QSPEC[1] * PH - 24, QSPEC[0] * PW + q.width * .45, QSPEC[1] * PH + 14), fill=(0, 0, 0, 120))
     base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
-    base.alpha_composite(ql, (int(HB.QSPEC[0] * PW - q.width / 2), int(HB.QSPEC[1] * PH - QH)))
+    base.alpha_composite(ql, (int(QSPEC[0] * PW - q.width / 2), int(QSPEC[1] * PH - QH)))
     rim = Image.new('RGBA', base.size); rd = ImageDraw.Draw(rim)
-    fx = HB.QSPEC[0] * PW + q.width * .22; fy = HB.QSPEC[1] * PH - QH * .72
+    fx = QSPEC[0] * PW + q.width * .22; fy = QSPEC[1] * PH - QH * .72
     rd.ellipse((fx - 120, fy - 140, fx + 160, fy + 260), fill=(120, 170, 255, int(60 * glow)))
     base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(40)))
     return base.convert('RGB')
@@ -148,8 +169,9 @@ def tagbox(text, col=(255, 214, 40), flipped=False, k_flip=None):
     return g
 
 
-CALLOUTS = (('FOG', (.45, .42), (-170, -160)), ('LOW POLY', (.84, .40), (110, -150)), ('BLURRY TEXTURES', (.22, .72), (-330, -70)),
-            ('FIXED CAMERA', (.52, .62), (230, 20)))                          # verified on the glass: haze, the pyramid hill, the grass, the hero seen from the fixed camera
+CALLOUTS = (('FOG', (.45, .41), (-170, -160)), ('LOW POLY', (.75, .34), (110, -150)), ('BLURRY TEXTURES', (.22, .72), (-330, -70)),
+            ('FIXED CAMERA', (.53, .78), (230, -20)))                         # v5, re-pinned on block H's new 1998 picture (#11 + #3): the horizon
+                                                                              # haze, the blocky castle, the grass, the hero seen from the fixed camera
 
 
 def callouts(fr, t, box, hide=()):

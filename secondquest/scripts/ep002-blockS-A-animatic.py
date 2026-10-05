@@ -181,6 +181,7 @@ def viewport(t, S=None):
         if name in ('room', 'saturday_afternoon.light') or not (tm - .1 <= t < tm + 1.3 or (name == 'you_1998' and t >= tm - .1)):
             continue
         x0, y0, x1, y1 = BBOX[name]
+        y1 = min(y1, im.height - 4 * sc)                                     # the selection stays inside the frame (kids' shoes sit low)
         col = GOLD if name == 'you_1998' else (255, 150, 40)
         d.rectangle((x0, y0, x1, y1), outline=col, width=int(3 * sc))
         if name != 'you_1998':                                                 # never over his face (the closing shot)

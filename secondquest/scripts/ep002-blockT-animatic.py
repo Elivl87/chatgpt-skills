@@ -141,7 +141,7 @@ def engine(t):
 
 # ------------------------------------------------------------------ T2-T6: the meeting on the road
 KID = final('quest_young_front')                                             # #3b young hero, front, warm smile (the memory)
-KID_H, KID_X, KID_FEET = H * .27, W * .47, H * .74
+KID_H, KID_X, KID_FEET = H * .27, W * .55, H * .74                          # on the road of #11, down from adult Quest
 ADULT = BR.ADULT
 AD_H, AD_X, AD_FEET = H * .52, W * .70, H * .98
 

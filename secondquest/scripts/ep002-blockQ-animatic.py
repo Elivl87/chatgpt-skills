@@ -19,7 +19,9 @@ v1, "everything is still there... except you" (Producer, 2026-10-05: "Sí, const
 HUD: on in Q1-Q4 (in game), hidden from Q5 (real life).
 v2 (final art, 2026-10-05): "today" in Q1-Q2 is the final forest #12 (a slow push in), Q3 the final temple #13 with
 our 3D sword v2 standing in the pedestal's slot (push in on it; also on the cartridge label in Q6 and behind the GAME
-strip in Q7); the GAME strip's young / adult hero are #3 and #4 (shield and sword). No stand-ins left in Q.
+strip in Q7); the GAME strip's young / adult hero are #3 and #4 (shield and sword); in Q5 the faint kid he was is #6a
+(kid Quest seated with his pad, a memory tint) instead of a scaled copy of Q008. The room stays his childhood bedroom
+(block P's room_plate: block H v8 moved its own night shot to adult Quest's room #15).
 Sounds: none (all at the end). Free.
 """
 import importlib.util, math, subprocess, sys
@@ -217,7 +219,7 @@ GHOST = None
 def _ghost():
     global GHOST
     if GHOST is None:
-        g = QIMG.resize((int(QIMG.width * .72), int(QIMG.height * .72)), Image.LANCZOS)
+        g = sized(final('kid_quest_play'), QIMG.height * .62)                 # #6a: the kid he was, seated with his pad, facing the TV
         a = np.asarray(g).astype(np.float32); a[..., :3] = a[..., :3] * .45 + np.array([190, 215, 255]) * .55; a[..., 3] *= .55
         GHOST = Image.fromarray(a.astype(np.uint8))
     return GHOST
