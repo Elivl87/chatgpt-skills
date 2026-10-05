@@ -42,6 +42,12 @@ comp, sized, fade = BT.comp, BT.sized, BT.fade
 T0 = T('l155') - 0.05                   # block T ends here
 T_WHY = T('l156.w6')                    # "why?": the wordmark
 T_COMM = T('l157') - .05
+T_TURN = T('l157.w6')                   # "Maybe (that's our next quest)": Pixie turns to Quest
+T_ORB0, T_ORB1 = T_WHY + .5, T_WHY + 2.1  # improvement 2: Navi circles them (her trail sound starts here)...
+T_UP1, T_LOOP1 = T_ORB1 + .5, T_ORB1 + 1.4  # ...flies up and around the wordmark...
+T_STAR = T('l157.w9')                   # ...and goes into its four-point star on "next (quest)"
+STAR = (.413, .157)                     # the star in the wordmark's "o" (frame fractions, the wordmark at rest)
+SFX = ROOT / 'public/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav'   # her trail, as at her first appearance (level 0.14)
 T_END = 412.9                           # the end of the narration (6:53)
 RNG = np.random.default_rng(11)
 
@@ -107,6 +113,13 @@ def scene(t):
     im = VISTA.copy()
     for img, x, h in ((PIXIE, PW * .545, CH * .97), (QUEST, PW * .465, CH)):
         q = sized(img, h)
+        if img is PIXIE:                                                     # improvement 1: she looks at the castle, then turns to him
+            kt = min(1, max(0, (t - T_TURN) / .25))
+            if kt < .5:
+                q = q.transpose(Image.FLIP_LEFT_RIGHT)
+            sq = abs(math.cos(math.pi * kt)) if 0 < kt < 1 else 1
+            if sq < 1:
+                q = q.resize((max(1, int(q.width * max(.15, sq))), q.height), Image.LANCZOS)
         sh = Image.new('RGBA', (PW, PH)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, TOP_Y - 10, x + q.width * .4, TOP_Y + 10), fill=(0, 0, 0, 90))
         im = Image.alpha_composite(im.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
         sway = 2 * math.sin(t * 1.3 + x)                                     # breathing, the wind
@@ -145,6 +158,42 @@ def wordmark(fr, dt):
     return comp(fr, fade(g, min(1, x * 4)), W / 2 - g.width / 2, H * .07)
 
 
+def navi_at(t):
+    """Navi's path: hovering by them, circling them, up to the wordmark, around it, into the star."""
+    cx, cy, rx, ry = .505, .66, .10, .055
+    if t < T_ORB0:
+        return .53 + .01 * math.sin(t * 2), .61 + .01 * math.cos(t * 2.4)
+    if t < T_ORB1:                                                          # around the two of them (1.25 turns)
+        a = 2 * math.pi * 1.25 * ease((t - T_ORB0) / (T_ORB1 - T_ORB0))
+        return cx + rx * math.sin(a), cy - ry * math.cos(a)
+    ex, ey = cx + rx * math.sin(2.5 * math.pi), cy - ry * math.cos(2.5 * math.pi)
+    wx, wy, wrx, wry = .5, .155, .27, .085
+    if t < T_UP1:                                                           # up to the wordmark's right end
+        k = ease((t - T_ORB1) / (T_UP1 - T_ORB1))
+        return lin(ex, wx + wrx, k), lin(ey, wy, k) - .05 * math.sin(math.pi * k)
+    if t < T_LOOP1:                                                         # around the wordmark (one and a half turns)
+        a = 3 * math.pi * ((t - T_UP1) / (T_LOOP1 - T_UP1))
+        return wx + wrx * math.cos(a), wy - wry * math.sin(a)
+    k = ease(min(1, (t - T_LOOP1) / max(.05, T_STAR - T_LOOP1)))            # into the star
+    return lin(wx - wrx, STAR[0], k), lin(wy, STAR[1], k) - .03 * math.sin(math.pi * k)
+
+
+NAVI_KEYS = [(T0 + i * .04, *navi_at(T0 + i * .04)) for i in range(int((T_END - T0) / .04) + 2)]
+
+
+def star_twinkle(fr, dt):
+    if dt > .9:
+        return fr
+    k = math.sin(min(1, dt / .9) * math.pi)
+    x, y = STAR[0] * W, STAR[1] * H
+    fr = CART.glow(fr, x, y, 70, (255, 240, 200), .7 * k)
+    d = ImageDraw.Draw(fr)
+    L = 34 * k
+    d.polygon([(x, y - L), (x + L * .18, y - L * .18), (x + L, y), (x + L * .18, y + L * .18), (x, y + L), (x - L * .18, y + L * .18),
+               (x - L, y), (x - L * .18, y - L * .18)], fill=(255, 250, 230))
+    return fr
+
+
 def render(t):
     k = ease(min(1, max(0, (t - T0 - .2) / 4.2)))                             # U1: rise and pull back to the whole vista
     box = cam_box((CAM0, CAM1), k)
@@ -156,8 +205,11 @@ def render(t):
     if t >= T_WHY:
         fr = wordmark(fr, t - T_WHY)
     lab = 'U1 what game would you go back to?' if t < T_WHY - .3 else 'U2 what deserves a why? next' if t < T_COMM else 'U3 tell me in the comments · end screen room'
-    keys = [(T0, .52, .40), (T0 + 2.5, .55, .55), (T_WHY, .53, .62), (T_END, .52, .63)]
-    fr = fairy_fx.draw(fr, keys, t, size=.03)
+    op = 1.0 if t < T_STAR - .15 else max(0.0, (T_STAR - t) / .15)
+    if op > 0:
+        fr = fairy_fx.draw(fr, NAVI_KEYS, t, size=.03, opacity=op)
+    if t >= T_STAR - .05:                                                     # she goes into the star: it twinkles
+        fr = star_twinkle(fr, t - T_STAR + .05)
     d = ImageDraw.Draw(fr)
     if t >= T_COMM:                                                           # planning guides: where the end screen goes
         a = min(1, (t - T_COMM) / .5)
@@ -169,33 +221,35 @@ def render(t):
             d.text((x0 + 8, y0 + 6), s, font=F(14), fill=(255, 255, 255), stroke_width=2, stroke_fill=(20, 14, 18))
     lab2 = 'MISSING · Quest (hero) and Pixie (princess) on the outcrop, from behind (#17) · vista (#18) · planning stand-ins'
     tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v1 · PLANNING ONLY')
+    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('u1a', T0 + .8), ('u1', T0 + 3.0), ('u2', T_WHY + .8), ('u3', T_END - .3))
+STILLS = (('u1a', T0 + .8), ('u1', T0 + 3.0), ('u2', T_WHY + .8), ('u2o', (T_ORB0 + T_ORB1) / 2), ('u2w', (T_UP1 + T_LOOP1) / 2), ('u3s', T_STAR + .3), ('u3', T_END - .3))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
-                          '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
+                          '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr), '-i', str(SFX),
+                          '-filter_complex', f'[2:a]adelay={int((T_ORB0 - T0) * 1000)}:all=1,volume=0.14[s];[1:a][s]amix=inputs=2:duration=first:normalize=0[a]',
+                          '-map', '0:v', '-map', '[a]',
                           '-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-shortest', str(out)],
                          stdin=subprocess.PIPE)
     for n in range(int((T_END - T0) * FPS)):
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockU_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockU_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockU_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockU_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

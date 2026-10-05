@@ -391,3 +391,8 @@
   brand image and gold bar) lands in the sky on "why?" as in EP001 and block B; the left and right thirds stay clean
   for YouTube's end screen (planning guides drawn from "Tell me in the comments"). HUD off. New art: MISSING #17 (the
   two of them on the outcrop) and #18 (the vista), quoted at the end. Free.
+- U v2 ("1 y 2", with Navi's path described by the Producer): (1) Pixie looks at the castle, then on "Maybe (that's our
+  next quest)" turns to Quest; (2) after the wordmark lands, Navi circles the two of them, flies up, goes around the
+  wordmark and into its four-point star on "next", which twinkles. Her trail sound starts as she starts circling them:
+  NAVI_SFX_01 (the Producer-supplied original clip already approved as her trail at her first appearance), at the same
+  approved level (0.14, ~14 dB under Bram). This is the second use of that clip; risk as recorded for the first use.
