@@ -353,3 +353,10 @@
   (the blueprint, kept in git). Improvement in (A v2): after "you_1998 CANNOT EXPORT" the camera pushes into the
   viewport until the grey room fills the frame, kid Quest in colour (drawn at full resolution at the end of the push),
   CANNOT EXPORT · 1 OF 1. The Producer also asked how the engine itself could be improved (proposals pending).
+- S option A v3 ("Mete la 1, 2 y 4"): the remake engine improved with (1) an INSPECTOR panel over the console: on each
+  failure the asset's properties type in, the emotional ones the engine cannot read (room: Afternoons spent here NOT
+  SUPPORTED; television: Warmth -, Who sat in front NOT SUPPORTED; saturday_aft.light: 4:00 PM, golden, Smell of
+  popcorn NOT SUPPORTED; friend.npc: Knew where to go YES, Can be cloned NO; you_1998: First time YES, Copies 1 of 1,
+  Export DISABLED); the console shows its last lines; (2) the move gizmo (X red, Y green, Z blue) on each selected
+  object, and a sun gizmo at the window for the light; (4) a two-step failure, colour -> wireframe -> grey
+  placeholder; on "you" the engine flickers his wireframe and loses it. Not taken: type icons (3), error toasts (5).

@@ -105,7 +105,20 @@ def layer_set(f):
     L = {'room': f(_bg).convert('RGBA'), 'television': f(_tv), 'friend.npc': f(_px), 'you_1998': f(_q)}
     bb = {k: v.getchannel('A').getbbox() for k, v in L.items() if k != 'room'}
     bb['television'] = f(_crt).getchannel('A').getbbox()                    # the CRT itself, not the cable
-    return dict(L=L, LC={k: clay(v) for k, v in L.items()}, BBOX=bb, s=L['room'].width / VW)
+    return dict(L=L, LC={k: clay(v) for k, v in L.items()}, LW={k: wire(v, k == 'room') for k, v in L.items()}, BBOX=bb, s=L['room'].width / VW)
+
+
+def wire(im, opaque=False):
+    """Improvement 4: the first step of the failure - the object drops to its wireframe."""
+    a = np.asarray(im.convert('RGBA'))
+    e = cv2.Canny(cv2.cvtColor(a[..., :3], cv2.COLOR_RGB2GRAY), 40, 110)
+    e = cv2.dilate(e, np.ones((2, 2), np.uint8)) > 0
+    e &= a[..., 3] > 20
+    out = np.zeros_like(a)
+    if opaque:
+        out[...] = (16, 22, 34, 255)
+    out[e] = (150, 220, 255, 255)
+    return Image.fromarray(out)
 
 
 SV = layer_set(vp)                                                          # in the editor's viewport
@@ -134,9 +147,20 @@ def viewport(t, S=None):
     S = S or SV
     L, LC, BBOX, sc = S['L'], S['LC'], S['BBOX'], S['s']
 
+    LW = S['LW']
+
     def mix(name):
-        k = k_fail(name, t) if name != 'you_1998' else 0                     # he never turns into a placeholder
-        return L[name] if k <= 0 else (LC[name] if k >= 1 else Image.blend(L[name], LC[name], k))
+        if name == 'you_1998':                                               # he never turns into a placeholder:
+            if T_YOU <= t < T_FAIL and int((t - T_YOU) * 12) % 4 == 0:       # the engine tries his wireframe and loses it
+                return LW[name]
+            return L[name]
+        tm = [a[2] for a in ASSETS if a[0] == name][0]
+        k = (t - tm) / .8                                                    # colour -> wireframe -> grey placeholder
+        if k <= 0:
+            return L[name]
+        if k < .4:
+            return Image.blend(L[name], LW[name], k / .4)
+        return Image.blend(LW[name], LC[name], min(1, (k - .4) / .6))
     im = mix('room').copy()
     for n in ('television', 'friend.npc', 'you_1998'):
         im.alpha_composite(mix(n))
@@ -156,10 +180,40 @@ def viewport(t, S=None):
         x0, y0, x1, y1 = BBOX[name]
         col = GOLD if name == 'you_1998' else (255, 150, 40)
         d.rectangle((x0, y0, x1, y1), outline=col, width=int(3 * sc))
+        gizmo(d, (x0 + x1) / 2, (y0 + y1) / 2, sc)
+    if ASSETS[2][2] - .1 <= t < ASSETS[2][2] + 1.3:                             # the light: a sun gizmo where the beam was
+        gx, gy = im.width * .47, im.height * .14                                 # at the window, where the light came from
+        r = 16 * sc
+        d.ellipse((gx - r, gy - r, gx + r, gy + r), outline=(255, 214, 40), width=int(3 * sc))
+        for i in range(8):
+            a = i * math.pi / 4
+            d.line((gx + r * 1.3 * math.cos(a), gy + r * 1.3 * math.sin(a), gx + r * 1.9 * math.cos(a), gy + r * 1.9 * math.sin(a)), fill=(255, 214, 40), width=int(3 * sc))
+        gizmo(d, gx, gy, sc)
     return im
 
 
+def gizmo(d, x, y, sc):
+    """Improvement 2: the move gizmo of any 3D editor (X red, Y green, Z blue)."""
+    L_ = 46 * sc; w = max(2, int(4 * sc))
+    for (dx, dy, col) in ((1, 0, (235, 70, 75)), (0, -1, (90, 210, 120)), (-.6, .55, (80, 150, 255))):
+        ex, ey = x + dx * L_, y + dy * L_
+        d.line((x, y, ex, ey), fill=col, width=w)
+        a = math.atan2(ey - y, ex - x); h = 11 * sc
+        d.polygon([(ex + math.cos(a) * h, ey + math.sin(a) * h), (ex + math.cos(a + 2.4) * h, ey + math.sin(a + 2.4) * h),
+                   (ex + math.cos(a - 2.4) * h, ey + math.sin(a - 2.4) * h)], fill=col)
+    d.rectangle((x - 5 * sc, y - 5 * sc, x + 5 * sc, y + 5 * sc), fill=(240, 240, 240), outline=INK)
+
+
 # ------------------------------------------------------------------ the editor
+INSPECT = {                                                                  # Producer improvement 1: what the engine cannot read
+    'room': [('room', 'h'), ('Mesh: OK', 'ok'), ('Textures: MISSING', 'bad'), ('Afternoons spent here:', 'ok'), ('  NOT SUPPORTED', 'bad')],
+    'television': [('television', 'h'), ('Model: CRT 21"', 'ok'), ('Hum: static', 'ok'), ('Warmth: -', 'bad'), ('Who sat in front:', 'ok'), ('  NOT SUPPORTED', 'bad')],
+    'saturday_afternoon.light': [('saturday_aft.light', 'h'), ('Time: 4:00 PM', 'ok'), ('Colour: golden', 'ok'), ('Smell of popcorn:', 'ok'), ('  NOT SUPPORTED', 'bad')],
+    'friend.npc': [('friend.npc', 'h'), ('Knew where to go: YES', 'ok'), ('Can be cloned: NO', 'bad')],
+    'you_1998': [('you_1998', 'h'), ('First time: YES', 'gold'), ('Copies: 1 of 1', 'gold'), ('Export: DISABLED', 'bad')],
+}
+
+
 def editor(t):
     fr = Image.new('RGB', (W, H), UI_BG); d = ImageDraw.Draw(fr)
     d.rectangle((0, 28, W, 56), fill=UI_PANEL)                                 # menu + title
@@ -195,10 +249,25 @@ def editor(t):
     fr.paste(viewport(t), (VX0, VY0))
     d = ImageDraw.Draw(fr)
     d.text((VX0 + 8, VY0 + 6), 'VIEWPORT · PERSPECTIVE', font=F(13), fill=(240, 240, 240), stroke_width=2, stroke_fill=INK)
-    # console
-    cx0 = VX1 + 14
-    d.rectangle((cx0, VY0, W - 8, VY1), fill=(18, 19, 24), outline=UI_LINE)
-    d.text((cx0 + 10, VY0 + 8), 'CONSOLE', font=F(15), fill=UI_DIM)
+    # inspector (improvement 1): the selected asset's properties the engine cannot read
+    cx0 = VX1 + 14; IY1 = VY0 + 214
+    d.rectangle((cx0, VY0, W - 8, IY1), fill=UI_PANEL, outline=UI_LINE)
+    d.text((cx0 + 10, VY0 + 8), 'INSPECTOR', font=F(15), fill=UI_DIM)
+    cur = [a for a in ASSETS if t >= a[2] - .05]
+    if not cur:
+        d.text((cx0 + 10, VY0 + 40), '(nothing selected)', font=F(15), fill=UI_DIM)
+    else:
+        name, err, tm = cur[-1]
+        y = VY0 + 36
+        for i, (txt, kind) in enumerate(INSPECT[name]):
+            if t < tm + .1 + i * .14:                                         # the properties appear one by one
+                break
+            col = {'h': (255, 255, 255), 'ok': UI_TEXT, 'bad': RED, 'gold': GOLD}[kind]
+            d.text((cx0 + 10 + (0 if kind == 'h' else 4), y), txt, font=F(17 if kind == 'h' else 15), fill=col)
+            y += 26 if kind == 'h' else 21
+    # console (the last lines)
+    d.rectangle((cx0, IY1 + 8, W - 8, VY1), fill=(18, 19, 24), outline=UI_LINE)
+    d.text((cx0 + 10, IY1 + 14), 'CONSOLE', font=F(15), fill=UI_DIM)
     lines = [(T_OPEN, '> import memory', UI_DIM), (T_OPEN + .6, 'loading assets...', UI_DIM)]
     if t >= T_NOT:
         lines.append((T_NOT, '! 5 assets could not', AMBER)); lines.append((T_NOT, '  be rebuilt', AMBER))
@@ -207,10 +276,10 @@ def editor(t):
         lines.append((tm, f'x {short}:', GOLD if name == 'you_1998' else RED)); lines.append((tm, f'  {err}', GOLD if name == 'you_1998' else RED))
     if t >= T_ONE:
         lines.append((T_ONE, '  (1 of 1)', GOLD))
-    y = VY0 + 36
-    for tm, s, col in lines:
-        if t >= tm:
-            d.text((cx0 + 10, y), s, font=F(15), fill=col); y += 22
+    shown = [l for l in lines if t >= l[0]][-7:]
+    y = IY1 + 40
+    for tm, s, col in shown:
+        d.text((cx0 + 10, y), s, font=F(15), fill=col); y += 22
     # the import bar
     kb = ease(min(1, max(0, (t - T_OPEN - .3) / (T_LOAD1 - T_OPEN - .3)))) * .99
     bx0, bx1 = VX0, VX1
@@ -263,7 +332,7 @@ def render(t):
     keys = [(T0, (VX0 + VW * .6) / W, (VY0 + VH * .35) / H), (T_YOU, (VX0 + VW * .35) / W, (VY0 + VH * .45) / H), (T_END, (VX0 + VW * .3) / W, (VY0 + VH * .4) / H)]
     fr = fairy_fx.draw(fr, keys, t, size=.035)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v2 · PLANNING ONLY')
+    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v3 · PLANNING ONLY')
     lab2 = 'MISSING · young Quest / young Pixie (#6) · planning stand-ins'
     tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
     subtitle(d, t)
@@ -274,7 +343,7 @@ STILLS = (('s1', T_LOAD1 - .4), ('s2', T_NOT + .5), ('s3a', ASSETS[1][2] + .5), 
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockS_animatic_A_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockS_animatic_A_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -284,14 +353,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockS_A_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockS_A_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockS_A_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockS_A_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
