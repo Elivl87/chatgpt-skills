@@ -322,3 +322,10 @@
   with the temple label glows and an ALMOST TOO PERFECT stamp lands; two mirrored strips, GAME (young hero -> adult
   hero with gear) and LIFE (the kid of the 1998 mark -> Quest at 2026), both arrows light up together, "=". Free.
 - Q approved as is (Producer: "Apruebo Q, tal cual esta"); none of the proposed Q improvements taken.
+- R v1 (Producer: "Sí, constrúyelo así" to "same road, different person"; Hyrule Field because the script is about
+  the field): split screen on the same road and camera, 1998 field (pixels, fog) with young hero Quest | today's field
+  with adult Quest (shield and sword); the year tags hand over to a 1998 -> 2026 ruler (a tick per year) that reads
+  28 YEARS on "three decades"; the divider dissolves into one road with both of them (the young one still in 1998
+  pixels): SAME ROAD, DIFFERENT PERSON; the 1998 look creeps back over the screen and retreats while OLD GAME BACK is
+  struck out; adult Quest stops, the young one becomes the memory beside him, "?" flips to "!" on "recognizes" and a
+  Navi-blue glow links them. New stand-in: MISSING #3a (young hero 3/4 looking up at adult Quest, reusable). Free.

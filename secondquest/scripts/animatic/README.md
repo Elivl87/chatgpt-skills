@@ -66,6 +66,7 @@ Librerías: **Pillow (PIL)** para dibujar, **NumPy** para el cálculo de imágen
 | O | `scripts/ep002-blockO-animatic.py` |
 | P | `scripts/ep002-blockP-animatic.py` |
 | Q | `scripts/ep002-blockQ-animatic.py` |
+| R | `scripts/ep002-blockR-animatic.py` |
 
 Cómo funciona cada script:
 1. Fija los momentos clave con `T()` según las palabras de Bram.
