@@ -401,3 +401,4 @@
 - B v7 (Producer, reviewing the opening before the next steps: "No quiero que salga ese icono de la cámara en esa
   escena"): in B2 "A new camera." the camera icon is removed; Navi, who ends B1 at the TV, leads the flight into the
   screen to white. The camera icon stays where other blocks use it (E, G, H, O) unless the Producer says otherwise.
+- B v7 approved (Producer: "Bloque B v7 aprobado"). The camera icon stays in the other blocks (E, G, H, O) for now.
