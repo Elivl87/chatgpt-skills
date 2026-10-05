@@ -12,3 +12,13 @@
 - 2026-10-04: Q010 NO aprobada ("No. Aprobada la voz pero cerremos primero el EP002. Cerrado el paréntesis").
   Voz 4 confirmada. La narración en español del EP001 se retoma cuando el EP002 esté cerrado (se vuelve a cotizar).
   Pendiente para entonces: miniatura del EP001.
+
+## 2026-10-05: Short #2, the tractors (from the 48 h analytics)
+- Producer: "Haz el segundo Short de los tractores. Pero puedes mejorarlo con animatic?"
+- Built with the animatic kit over EP001's approved art (no art edited, no credits): l127-l147 (~59 s, 1080x1920), the
+  section viewers rewatch. Beats: the "green elephant" tractor rolls in with a thud; sunglasses on the tractor (COOL); a
+  machinery parade; TINY / HUGE scale gag with a shake; the moving-building harvester stomping with smoke; three stacked
+  panels PLANTING / SPRAYING / CUTTING; EXPERT* (*watched one tutorial); MORE MONEY -> LEVEL UP: BETTER TOOLS (3 m ->
+  6 m header); a field at 3 % vs a $520,000 tractor > a house, then 100 % in minutes; an ACHIEVEMENT "YOU ARE STRONGER
+  NOW" pop-up struck out; a measuring tape to 12.0 m; end card FULL EPISODE ON THE CHANNEL. Burned-in captions,
+  script-verbatim. Preview only: the final upload waits for the Producer's approval.
