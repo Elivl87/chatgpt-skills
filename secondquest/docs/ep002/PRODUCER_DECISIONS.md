@@ -294,3 +294,9 @@
   MYSTERY (a "?" in mist) and LOW POLY to IMAGINATION (a great castle); the "?" travels out to today's Switch 2-like
   handheld showing the forest where Pixie (tunic, awe) gets it; the camera dives into the screen (HUD on, 3 hearts).
   The approved O improvements carry over (dissolve from N, the one travelling "?").
+- O v4, approved without preview (Producer: "lo de fix camera marca afuera del TV... verifica que esté marcando todo
+  bien donde debe ser. Aprobada las mejoras. Para el 2 un móvil. No me entregues el animatic. Haz las mejoras y queda
+  aprobado"): the callout pins now sit on the tilted glass itself (bilinear on the screen quad, checked against a
+  debug grid): FOG on the horizon haze, LOW POLY on the pyramid hill, BLURRY TEXTURES on the grass, FIXED CAMERA on
+  the hero seen from the fixed camera; the stamp moved onto the bezel. Improvements in: a phone (20:26) lies by the
+  Switch 2 (it is today); the travelling "?" leaves a Navi-blue trail. Block O approved.

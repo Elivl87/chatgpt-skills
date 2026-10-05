@@ -133,8 +133,10 @@ def to_frame(px, py, box):
 
 
 def scr_pt(u, v, box):
-    """A point on the CRT screen (u, v in 0..1) in frame coordinates."""
-    return to_frame(lin(SX0, SX1, u), lin(SY0, SY1, v), box)
+    """A point on the CRT screen (u, v in 0..1) in frame coordinates - on the real (tilted) glass, not its bounding box."""
+    (x0, y0), (x1, y1), (x2, y2), (x3, y3) = SCREEN                          # tl, tr, br, bl
+    tx, ty = lin(x0, x1, u), lin(y0, y1, u); bx, by = lin(x3, x2, u), lin(y3, y2, u)
+    return to_frame(lin(tx, bx, v), lin(ty, by, v), box)
 
 
 def tagbox(text, col=(255, 214, 40), flipped=False, k_flip=None):
@@ -146,8 +148,8 @@ def tagbox(text, col=(255, 214, 40), flipped=False, k_flip=None):
     return g
 
 
-CALLOUTS = (('FOG', (.50, .40), (-60, -150)), ('LOW POLY', (.80, .40), (90, -120)), ('BLURRY TEXTURES', (.30, .82), (-330, -10)),
-            ('FIXED CAMERA', (.96, .06), (120, -40)))
+CALLOUTS = (('FOG', (.45, .42), (-170, -160)), ('LOW POLY', (.84, .40), (110, -150)), ('BLURRY TEXTURES', (.22, .72), (-330, 20)),
+            ('FIXED CAMERA', (.52, .62), (230, 20)))                          # verified on the glass: haze, the pyramid hill, the grass, the hero seen from the fixed camera
 
 
 def callouts(fr, t, box, hide=()):
@@ -183,7 +185,7 @@ def stamp(fr, t):
     st = st.rotate(-8, resample=Image.BICUBIC, expand=True)
     sc = 1.5 - .5 * ease(ks)
     st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
-    return comp(fr, fade(st, ks), W * .5 - st.width / 2, H * .50 - st.height / 2)
+    return comp(fr, fade(st, ks), W * .5 - st.width / 2, H * .63 - st.height / 2)   # on the bezel, clear of the pins
 
 
 CASTLE = Image.open(ROOT / 'public/art/ep002/props3d/castle_far.png').convert('RGBA')
@@ -273,6 +275,17 @@ def handheld(t, screen):
     bg = Image.new('RGB', (W, H), (226, 214, 196)); d = ImageDraw.Draw(bg)
     d.rectangle((0, H * .62, W, H), fill=(170, 130, 96)); d.line((0, H * .62, W, H * .62), fill=(120, 90, 66), width=4)
     bg = CART.glow(bg, W * .82, H * .12, 600, (255, 248, 220), .45)                # daylight from a window
+    ph = Image.new('RGBA', (150, 290)); pd = ImageDraw.Draw(ph)                   # Producer improvement: a phone - it is today
+    pd.rounded_rectangle((2, 2, 147, 287), 22, fill=(28, 30, 36, 255), outline=(20, 14, 18, 255), width=4)
+    pd.rounded_rectangle((10, 12, 139, 277), 16, fill=(40, 70, 120, 255))
+    pd.text((75 - pd.textlength('20:26', font=F(30)) / 2, 40), '20:26', font=F(30), fill=(240, 245, 255, 255))
+    pd.rounded_rectangle((18, 110, 131, 150), 8, fill=(235, 240, 248, 220))
+    pd.rounded_rectangle((60, 262, 90, 267), 2, fill=(200, 210, 230, 255))
+    ph = ph.rotate(-62, resample=Image.BICUBIC, expand=True)
+    ph = ph.resize((ph.width, int(ph.height * .55)), Image.LANCZOS)                 # lying on the table, in perspective
+    sh2 = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh2).ellipse((W * .86 - ph.width * .45, H * .86 - 18, W * .86 + ph.width * .45, H * .86 + 26), fill=(0, 0, 0, 60))
+    bg = Image.alpha_composite(bg.convert('RGBA'), sh2.filter(ImageFilter.GaussianBlur(10))).convert('RGB')
+    bg = comp(bg, ph, W * .86 - ph.width / 2, H * .82 - ph.height / 2)
     pic = cv2.warpPerspective(np.asarray(screen).astype(np.float32), SW_M, SW.size)
     s = np.asarray(SW).copy(); s[SW_MASK, :3] = np.clip(pic[SW_MASK], 0, 255).astype(np.uint8)
     sw = Image.fromarray(s)
@@ -339,6 +352,14 @@ def render(t):
         x1, y1 = q_on_handheld()
         size = lin(Q_SIZE, Q_SIZE * .45, k)
         x = lin(x0, x1, k); y = lin(y0, y1 - size * .6, k) - 80 * math.sin(math.pi * k)
+        tr = Image.new('RGBA', (W, H)); td = ImageDraw.Draw(tr)                # Producer improvement: a trail (Navi's colour) to follow it
+        for i in range(1, 14):
+            kk = ease(max(0, (t - i * .035 - Q_TRAVEL0) / (Q_TRAVEL1 - Q_TRAVEL0)))
+            sz = lin(Q_SIZE, Q_SIZE * .45, kk)
+            px = lin(x0, x1, kk); py = lin(y0, y1 - sz * .6, kk) - 80 * math.sin(math.pi * kk) + sz * .55
+            r = 7 * (1 - i / 14) + 2
+            td.ellipse((px - r, py - r, px + r, py + r), fill=(170, 225, 255, int(200 * (1 - i / 14))))
+        fr = Image.alpha_composite(fr.convert('RGBA'), tr.filter(ImageFilter.GaussianBlur(2))).convert('RGB')
         fr = CART.glow(fr, x, y + size * .5, 80, (255, 255, 230), .35)
         qmark(ImageDraw.Draw(fr), x, y, size)
     if hud_on:
@@ -350,7 +371,7 @@ def render(t):
     keys = [(T0, .30, .28), (T_PRES, .22, .30), (T_UNDL, .60, .30), (T_AGAIN, .62, .30), (T_END, .62, .36)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 21 WHAT IT MADE YOU FEEL · {lab} · BLOCK O v3 · PLANNING ONLY')
+    tag(d, f'SEQ 21 WHAT IT MADE YOU FEEL · {lab} · BLOCK O v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -360,7 +381,7 @@ STILLS = (('o0', T0 + .3), ('o1', T('l109.w8') + .3), ('o2', T('l110.w6') + .3),
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -370,14 +391,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockO_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockO_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockO_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockO_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
