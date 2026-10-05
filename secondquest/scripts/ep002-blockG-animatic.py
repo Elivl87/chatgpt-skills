@@ -6,7 +6,7 @@ All in Hyrule, so the in-game HUD stays on (hearts carry over from block F: 2.5)
                                                         pulls back; a "1998" tag.
   G2  "Rebuild it too literally today... and it might just feel empty."  A scan rebuilds the same field crisp and
                                                         bright; on "empty" it widens: a big, sharp, silent field; a gust.
-  G3  "A silent character once left space for your imagination."  Hero Quest faces us; his speech bubble is empty "...",
+  G3  "A silent character once left space for your imagination."  Young hero Quest (final art #3b) faces us; his speech bubble is empty "...",
                                                         and doodles of imagination float out of it.
   G4  "Give that character a voice... somebody has to decide what that silence sounded like."  The bubble fills with a
                                                         waveform; a VOICE CASTING card with three takes, one gets picked.
@@ -14,6 +14,8 @@ All in Hyrule, so the in-game HUD stays on (hearts carry over from block F: 2.5)
                                                         camera; a C-camera icon wobbles.
   G6  "Fix it... and the game becomes easier to inhabit."  A steel wrench taps the camera icon, a green check badge pops; the camera settles smoothly behind Quest.
   G7  "Which is good. Probably."                         The camera's small check jumps off and lands big... then tilts into a question mark.
+Final art (v6): the field is final plate #11 (`final_plate('field')`); young Quest walking away is #3 alternating with
+#3 mirrored (#9, the opposite step); the silent hero facing us is young Quest front, smiling (#3b). Nothing MISSING left.
 Sounds: Bram only. Framing QC before sending.
 """
 import importlib.util, math, subprocess, sys
@@ -25,7 +27,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, cutout, cam_box, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, final_plate, cam_box, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 from icons import wrench_icon, camera_icon  # noqa: shared HUD-style icons (the camera repeats across the episode)
@@ -43,8 +45,15 @@ T_GOOD, T_PROB = T('l57') - .05, T('l58') - .05
 T_END = T('l59') - 0.05                # block H starts on l59 "But every improvement quietly changes the memory..."
 HEARTS = 2.5                           # carried over from block F
 
-FIELD = plate(('proc', 'field', (('time', 'day'), ('castle', '3d')))).convert('RGB')
-YOUNG = cutout('quest:walking_back', 'hero'); HERO_FRONT = cutout('quest2:nostalgic_smile', 'hero')
+FIELD = final_plate('field')                                           # final art #11: the road, the castle far away, the volcano
+WALK = (final('quest_young_back'), final('quest_young_back_b'))         # final art #3 and #3 mirrored (#9): the two steps
+YOUNG = WALK[0]                                                         # young Quest from behind, standing (final #3)
+HERO_FRONT = final('quest_young_front')                                 # final art #3b: the silent young hero faces us
+
+
+def young(t, walking=True):
+    """Young Quest from behind; walking alternates the two steps in time with the 4*sin(t*9) bob."""
+    return WALK[int(t * 9 / math.pi) % 2] if walking else YOUNG
 
 
 def comp(fr, im, x, y):
@@ -83,7 +92,7 @@ def frame_g12(t):
         k = ease(min(1, (t - T_EMPTY) / 1.0)); cam = (1.0 * (1 - .0 * k), .5, .55)
     base = crop(FIELD, cam)
     hero_h = H * .3 / cam[0] * 1.0                                      # young Quest small in the field, always sharp
-    hero = sized(YOUNG, hero_h)
+    hero = sized(YOUNG, hero_h)                                         # standing, looking out at the field
     old = comp(old_look(base), hero, W * .5 - hero.width / 2, H * .93 - hero_h)
     new = comp(new_look(base), hero, W * .5 - hero.width / 2, H * .93 - hero_h)
     if t < T_REB:
@@ -126,7 +135,7 @@ def frame_g34(t):
     m = Image.new('L', (W, H), 0); md = ImageDraw.Draw(m)                 # one shape: bubble + tail, one outline
     md.rounded_rectangle((x0, y0, x0 + (x1 - x0) * k, y1), 28, fill=255)
     if k > .3:
-        md.polygon([(x0 + 2, y1 - 26), (x0 + 2, y1 - 62), (W * .41, H * .335)], fill=255)   # tail towards Quest's mouth
+        md.polygon([(x0 + 2, y1 - 26), (x0 + 2, y1 - 62), (W * .398, H * .352)], fill=255)   # tail towards Quest's mouth (#3b)
     edge = m.filter(ImageFilter.MaxFilter(9))
     g.paste((30, 30, 40, 255), (0, 0), edge); g.paste((252, 252, 250, 245), (0, 0), m)
     d = ImageDraw.Draw(g)
@@ -175,7 +184,8 @@ def frame_g57(t):
         ang = 4.5 * math.sin(u * 1.5) * settle
         base = crop(FIELD, (zz, zx, .6))
         lagx = W * (.5 - (zx - .5) * 1.6)                               # Quest drifts off-centre, the camera catches up late
-        base = comp(base, sized(YOUNG, hero_h), lagx - sized(YOUNG, hero_h).width / 2, H * .93 - hero_h)
+        q = sized(young(t), hero_h)
+        base = comp(base, q, lagx - q.width / 2, H * .93 - hero_h)
         big = base.resize((int(W * 1.12), int(H * 1.12)), Image.BILINEAR).rotate(ang, resample=Image.BICUBIC)
         fr = big.crop((int(W * .06), int(H * .06), int(W * .06) + W, int(H * .06) + H))   # rotate inside a margin: no black corners
         tk = (u - 1.0) / 1.8                                            # a tree trunk passes in front, close to the camera
@@ -193,7 +203,8 @@ def frame_g57(t):
     else:                                                               # fixed: smooth, steady, behind Quest
         k = ease(min(1, (t - T_FIX) / 1.0))
         base = crop(FIELD, (1.25, .5, .6))
-        fr = comp(new_look(base), sized(YOUNG, hero_h), W * .5 - sized(YOUNG, hero_h).width / 2, H * .93 - hero_h + 4 * math.sin(t * 9))
+        q = sized(young(t), hero_h)
+        fr = comp(new_look(base), q, W * .5 - q.width / 2, H * .93 - hero_h + 4 * math.sin(t * 9))
         cam_icon_ang = 0
     # the camera icon (bottom-right of the HUD buttons)
     g = camera_icon(rec=t >= T_FIX and int(t * 2) % 2 == 0)              # the REC light blinks once the camera works
@@ -243,7 +254,7 @@ def render(t):
         fr, lab = frame_g57(t)
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v5 · PLANNING ONLY')
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -252,7 +263,7 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -262,14 +273,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockG_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockG_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockG_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockG_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

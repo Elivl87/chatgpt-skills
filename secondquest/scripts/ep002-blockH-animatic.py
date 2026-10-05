@@ -10,13 +10,17 @@ All in Hyrule, so the in-game HUD stays on (hearts 2.5 from blocks F/G). The cam
   H2  "That is the impossible job."                     A game-style message box types out: NEW QUEST / The Impossible Job.
   H3  "Make it different enough to justify existing..." A balance slider (FAMILIAR <-> DIFFERENT, our ocarina as the
                                                         knob) slides to DIFFERENT and Hyrule restyles with it.
-  H4  "...without making people wonder where their game went."  Night, his childhood bedroom (block C): the CRT on the
-                                                        bedside table plays 1998 Hyrule (chunky pixels, pixel hearts); Quest,
-                                                        grown up, sits on the floor where he sat as a kid, in profile (new art
-                                                        Q008). The camera eases in to the TV. On "where" it switches off;
-                                                        his reflection (the same profile, mirrored) in the dark glass; black.
-                                                        Out of the black, today's Hyrule: Quest rides away on his own horse
-                                                        towards the castle, under l63 (3D horse stand-in; final art #13).
+  H4  "...without making people wonder where their game went."  Night, Quest's grown-up bedroom (final plate #15; the
+                                                        v7 childhood bedroom of block C stays available with H4_ROOM=child):
+                                                        our 3D CRT on the empty bedside table plays 1998 Hyrule (chunky
+                                                        pixels, pixel hearts); Quest, grown up, sits on the floor in profile
+                                                        (new art Q008). The camera eases in to the TV. On "where" it switches
+                                                        off; in the dark glass his reflection, pensive (final #10, mirrored);
+                                                        black. Out of the black, today's Hyrule: Quest rides away on his own
+                                                        chestnut horse (final #5b, from behind, trotting) towards the castle,
+                                                        under l63.
+Final art (v8): field #11 (via block G), young Quest walking #3/#3 mirrored, room #15, reflection #10, rider #5b.
+Nothing MISSING left in this block.
 Sounds: Bram only. Framing QC before sending.
 """
 import colorsys, importlib.util, math, os, subprocess, sys
@@ -28,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, cam_box, to_screen, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 from icons import camera_icon  # noqa: the episode's game-camera icon
@@ -53,7 +57,6 @@ T_END = T('l64') - 0.05                # the gallop runs under l63 "And Nintendo
 HEARTS = 2.5                           # carried over from blocks F and G
 UPGRADES = [('hd', T('l59.w3')), ('camera', T('l59.w4')), ('note', T('l59.w5')), ('voice', T('l59.w7'))]
 FLY = .55
-THINK = cutout('quest2:thinking_chin', 'hero')
 INK = (20, 14, 18, 255)
 
 
@@ -252,7 +255,7 @@ def back_shot(t):
     z = lin(1.25, 1.33, ease((t - T0) / (T_WONDER - T0)))
     base = G.new_look(crop(G.FIELD, (z, .5, .6)))
     hero_h = H * .42 * z / 1.25
-    q = sized(G.YOUNG, hero_h)
+    q = sized(G.young(t), hero_h)                                       # walking: the two steps of #3 alternate
     e = restyle_amount(t)
     base = RESTYLE(base, e)
     return comp(base, q, W * .5 - q.width / 2, H * .93 - hero_h + 4 * math.sin(t * 9)), e
@@ -263,12 +266,14 @@ T_OFF = T('l62.w5') - .05                                               # "where
 T_REFL = T_OFF + .45                                                    # dark glass: his reflection
 T_BLACK = T_REFL + 1.4                                                  # his reflection holds (Producer: longer), then black...
 T_NOW = T_BLACK + .25                                                   # ...and today's Hyrule opens, a horse gallops through
-HORSE = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/horse_rear').glob('f*.png'))]
+RIDER = final('quest_horse_back')                                        # final art #5b: Quest on his chestnut horse, from behind (3D shield baked in)
 _qp = Image.open(ROOT / 'docs/art_orders/quest/ep002_tv/results/09_floor_profile_tv_n64pad.png').convert('RGBA')   # our 3D N64 pad in his hands (tools/fx/pad_swap_q008.py)
 QPROF = _qp.crop(_qp.getchannel('A').getbbox())                          # new art (Q008): Quest on the floor, profile, facing the TV
-RIDER = cutout('quest:walking_back', 'hero')                            # stand-in rider from behind (MISSING: Quest on his horse)
-RIDER = RIDER.crop((0, 0, RIDER.width, int(RIDER.height * .52)))
-N64_ROOM = BC.N64_IMG.copy()
+REFL = final('quest_profile_think', flip=True)                          # final art #10, pensive, mirrored: his reflection in the glass
+REFL = REFL.crop((0, 0, REFL.width, int(REFL.height * .5)))              # head, shoulders and the hand at his chin (no pad)
+GAME98 = final_plate('field').convert('RGBA')                            # the 1998 game on the tube: the episode's field (#11)...
+_y = final('quest_young_back'); _y = _y.resize((int(_y.width * PH * .22 / _y.height), int(PH * .22)), Image.LANCZOS)
+GAME98.alpha_composite(_y, (int(PW * .5 - _y.width / 2), int(PH * .97 - _y.height)))   # ...with the young hero (#3) on the road
 
 
 def _pixel_heart(d, x, y, s, fill):
@@ -284,7 +289,7 @@ def old_picture(t, size):
     k = (t - T_WONDER) * .04
     z = 1.35; cw, ch = PW / z, PW / z * .75
     x0 = (PW - cw) * (.5 + .1 * math.sin(k)); y0 = (PH - ch) * .62
-    im = BC.GAME.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).convert('RGB')
+    im = GAME98.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).convert('RGB')
     small = im.resize((96, 72), Image.BILINEAR).quantize(24).convert('RGB')    # N64-era: low res, a small palette
     d = ImageDraw.Draw(small)
     for i in range(3):
@@ -317,27 +322,49 @@ def tv_off(pic, k):
 
 
 def _night(im, k):
-    """Night grade for the bedroom plate: dark, cool; k = how much the TV still lights the room."""
-    dark = Image.blend(im, Image.new('RGB', im.size, (14, 18, 38)), .62 + .18 * (1 - k))
+    """Night grade for the bedroom plate: dark, cool; k = how much the TV still lights the room (#15 is already a night
+    plate, so it takes a lighter grade than the morning childhood bedroom)."""
+    dark = Image.blend(im, Image.new('RGB', im.size, (14, 18, 38)), ROOM['night'] + .18 * (1 - k))
     return dark
 
 
-ROOM_N = BC.BED.convert('RGB')
-QSPEC = (.47, .985, .50)                                                # Quest on the floor in front of the bedside table (x, feet y, h)
+def _room(kind):
+    """H4's bedroom. 'adult' (v8 default): Quest's grown-up bedroom at night, final plate #15, our 3D CRT on its empty
+    bedside table, the N64 on the floor in front of the shelf. 'child' (v7, approved): his childhood bedroom of block C."""
+    if kind == 'child':
+        return dict(plate=BC.BED.convert('RGB'), tv_pos=BC.TV_POS, tv_scale=BC.TV_SCALE, tvw=BC.tvw,
+                    n64=BC.N64_IMG, n64_pos=BC.N64_POS, q=(.47, .985, .50), night=.62, c2z=3.0,
+                    c0=(1.35, .63, .615), c1=(1.45, .655, .64))
+    box = (.699, .255, .812, .447)                                         # on the bedside table of #15 (top at y .44, x .705-.80)
+    tvw = int((box[2] - box[0]) * PW); sc = tvw / BC.CRT_34.width
+    n64 = BC.N64_IMG.resize((int(PW * .062), int(BC.N64_IMG.height * PW * .062 / BC.N64_IMG.width)), Image.LANCZOS)
+    return dict(plate=final_plate('adult_room'), tv_pos=(int(box[0] * PW), int(box[3] * PH - BC.CRT_34.height * sc)), tv_scale=sc,
+                tvw=tvw, n64=n64, n64_pos=(int(PW * .632), int(PH * .705 - n64.height)), q=(.565, .735, .40), night=.30, c2z=4.0,
+                c0=(1.62, .625, .47), c1=(1.72, .64, .465))
+
+
+ROOM = _room(os.environ.get('H4_ROOM', 'adult'))
+QSPEC = ROOM['q']                                                        # Quest on the floor, facing the TV (x, feet y, h)
+SCR_QUAD = [(ROOM['tv_pos'][0] + x * ROOM['tv_scale'], ROOM['tv_pos'][1] + y * ROOM['tv_scale']) for x, y in BC.Q34]
+SCR_C = (sum(p[0] for p in SCR_QUAD) / 4 / PW, sum(p[1] for p in SCR_QUAD) / 4 / PH)   # screen centre (plate fractions)
 
 
 def room_plate(t, pic):
-    """His childhood bedroom (block C) at night: the CRT on the bedside table plays `pic`; the N64 on the floor;
-    Quest, grown up, sits where he sat as a kid, in profile, looking at the screen."""
-    base = ROOM_N.copy().convert('RGBA')
-    tv = BC.CRT_34.resize((BC.tvw, int(BC.CRT_34.height * BC.TV_SCALE)), Image.LANCZOS)
-    qs = [(x * BC.TV_SCALE, y * BC.TV_SCALE) for x, y in BC.Q34]
+    """His bedroom at night: the CRT on the bedside table plays `pic`; the N64 on the floor; Quest, grown up, sits on
+    the floor in profile, looking at the screen."""
+    base = ROOM['plate'].copy().convert('RGBA')
+    sc = ROOM['tv_scale']
+    tv = BC.CRT_34.resize((ROOM['tvw'], int(BC.CRT_34.height * sc)), Image.LANCZOS)
+    qs = [(x * sc, y * sc) for x, y in BC.Q34]
     ms = np.asarray(Image.fromarray((BC.M34 * 255).astype(np.uint8)).resize(tv.size, Image.NEAREST)) > 127
     xs = [p[0] for p in qs]; ys = [p[1] for p in qs]
-    scr = pic.resize((int(max(xs) - min(xs)), int(max(ys) - min(ys))), Image.NEAREST)
+    scr = pic.resize((max(1, int(max(xs) - min(xs))), max(1, int(max(ys) - min(ys)))), Image.NEAREST)
     tv = BC.fill_screen(tv, qs, ms, scr)
-    base.alpha_composite(tv, BC.TV_POS)
-    base.alpha_composite(BC.N64_IMG, BC.N64_POS)
+    sh = Image.new('RGBA', base.size)                                    # contact shadow on the table top
+    ImageDraw.Draw(sh).ellipse((ROOM['tv_pos'][0] + 10, ROOM['tv_pos'][1] + tv.height - 14, ROOM['tv_pos'][0] + tv.width - 10, ROOM['tv_pos'][1] + tv.height + 6), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5)))
+    base.alpha_composite(tv, ROOM['tv_pos'])
+    base.alpha_composite(ROOM['n64'], ROOM['n64_pos'])
     return base
 
 
@@ -352,7 +379,7 @@ def room_shot(t):
     glow = 1.0 if on else max(0.0, 1 - (t - T_OFF) / .35)
     base = room_plate(t, pic)
     rgb = _night(base.convert('RGB'), glow)
-    sx, sy = BC.SCR_C[0] * PW, BC.SCR_C[1] * PH
+    sx, sy = SCR_C[0] * PW, SCR_C[1] * PH
     if glow > 0:                                                        # the screen lights the room and him
         rgb = CART.glow(rgb, sx - 120, sy + 60, 900, (140, 190, 255), .35 * glow)
     base = rgb.convert('RGBA')
@@ -367,12 +394,12 @@ def room_shot(t):
         fx = QSPEC[0] * PW + q.width * .22; fy = QSPEC[1] * PH - qh * .72
         rd.ellipse((fx - 120, fy - 140, fx + 160, fy + 260), fill=(120, 170, 255, int(60 * glow)))
         base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(40)))
-    # his reflection in the dark glass: the same profile, mirrored, faint and cool, inside the screen
+    # his reflection in the dark glass: Quest pensive (#10), mirrored, faint and cool, inside the screen
     kr = min(1, max(0, (t - T_REFL) / .25)) * (1 - min(1, max(0, (t - T_BLACK) / .25)))
     if kr > 0:
-        qsP = [(BC.TV_POS[0] + x * BC.TV_SCALE, BC.TV_POS[1] + y * BC.TV_SCALE) for x, y in BC.Q34]
+        qsP = SCR_QUAD
         x0, x1 = min(p[0] for p in qsP), max(p[0] for p in qsP); y0, y1 = min(p[1] for p in qsP), max(p[1] for p in qsP)
-        f = QPROF.crop((0, 0, QPROF.width, int(QPROF.height * .48))).transpose(Image.FLIP_LEFT_RIGHT)
+        f = REFL
         fh = int((y1 - y0) * .95); f = f.resize((int(f.width * fh / f.height), fh), Image.LANCZOS)
         g = Image.blend(f.convert('RGB'), Image.new('RGB', f.size, (140, 170, 210)), .4).convert('RGBA')
         g.putalpha(f.getchannel('A').point(lambda v: int(v * .45 * kr)))
@@ -381,9 +408,8 @@ def room_shot(t):
         layer.putalpha(Image.fromarray(np.minimum(np.asarray(layer.getchannel('A')), np.asarray(m))))
         base.alpha_composite(layer)
     # camera: both of them whole, then a slow push in to the screen; after "where" it closes on the dark glass
-    c0 = (1.35, .63, .615)                                              # closer to the TV, Quest still whole
-    c1 = (1.45, .655, .64)                                              # a gentle push: Quest stays whole
-    c2 = (3.0, BC.SCR_C[0] - .01, BC.SCR_C[1] + .01)
+    c0, c1 = ROOM['c0'], ROOM['c1']                                     # close to the TV, Quest whole; a gentle push, Quest stays whole
+    c2 = (ROOM['c2z'], SCR_C[0] - .006, SCR_C[1] + .006)               # the same screen size in frame for both rooms
     if t < T_OFF:
         k = ease((t - T_WONDER) / (T_OFF - T_WONDER)); a, b = c0, c1
     else:
@@ -397,34 +423,55 @@ def room_shot(t):
     return fr
 
 
-def now_shot(t):
-    """H4b: out of the black, today's Hyrule, golden and moving. Seen from behind, Quest rides away on his own horse,
-    down the path towards the castle: off into the new game. HUD back on."""
-    u = (t - T_NOW) / (T_END - T_NOW)
-    base = G.new_look(crop(G.FIELD, (lin(1.15, 1.25, ease(u)), .5, .6)))
-    base = CART.glow(base, W * .82, H * .12, 640, (255, 214, 140), .35)   # golden hour
-    fr = FB.grass(base, t, 1.0)
-    hf = HORSE[int(t * 18) % len(HORSE)]
-    k = ease(min(1, u * 1.05))
-    hh = lin(H * .62, H * .14, k)                                       # rides away: big and close -> small near the castle
-    hs = hf.resize((max(1, int(hf.width * hh / hf.height)), max(1, int(hh))), Image.LANCZOS)
-    hx = lin(W * .44, W * .5, k) - hs.width / 2
-    hy = lin(H * 1.02, H * .58, k) - hh                                 # the hooves follow the path up towards the castle
-    r = sized(RIDER, hh * .5)
-    fr = comp(fr, r, hx + hs.width * .44 - r.width / 2, hy + hh * .30 - r.height * .92)   # sits in the saddle
-    fr = comp(fr, hs, hx, hy)
-    if t > T_NOW + .3:                                                  # a little dust behind the hooves
+RIDE = [(.49, .985), (.58, .81), (.605, .73), (.645, .69), (.665, .668), (.652, .648)]   # the road towards the castle (plate fractions, hooves)
+RIDE_H = (.42, .135)                                                   # rider + horse height on screen (fraction of H): near -> far
+NOW_CAM = lambda u: (lin(1.15, 1.25, ease(u)), .5, .6)                  # ends on block G/I's framing (1.25, .5, .6)
+
+
+def _ride_point(k):
+    """Hooves position along RIDE (plate fractions), k in 0..1, by path length."""
+    seg = [math.dist(a, b) for a, b in zip(RIDE, RIDE[1:])]; d = k * sum(seg)
+    for (a, b), L in zip(zip(RIDE, RIDE[1:]), seg):
+        if d <= L:
+            return lin(a[0], b[0], d / L), lin(a[1], b[1], d / L)
+        d -= L
+    return RIDE[-1]
+
+
+def ride(fr, t, k, cam, alpha=1.0, dust=True):
+    """Quest on his own chestnut horse (#5b) from behind, trotting away along the road: a trot bob, a little roll,
+    smaller with distance. k = progress (0 near, 1 near the castle). Also used by block I's opening (k = 1)."""
+    box = cam_box((cam, cam), 0)
+    fx, fy = to_screen(*_ride_point(k), box)
+    hh = H * lin(RIDE_H[0], RIDE_H[1], 1 - (1 - k) ** 1.6)               # perspective: shrinks fast at first, then slowly
+    trot = abs(math.sin(t * 2 * math.pi * 1.9))                          # two beats a second
+    im = sized(RIDER, hh)
+    im = im.rotate(1.6 * math.sin(t * 2 * math.pi * .95), resample=Image.BICUBIC, expand=True, center=(im.width / 2, im.height))
+    if alpha < 1:
+        im.putalpha(im.getchannel('A').point(lambda v: int(v * alpha)))
+    if dust and alpha > 0:                                              # a little dust behind the hooves
         g = Image.new('RGBA', fr.size); d = ImageDraw.Draw(g)
         for j in range(6):
             ph = (t * 2.2 + j / 6) % 1
-            rr = hh * (.05 + .12 * ph)
-            d.ellipse((hx + hs.width * .5 - rr + (j - 3) * hh * .05, hy + hh * (.96 + .1 * ph) - rr, hx + hs.width * .5 + rr + (j - 3) * hh * .05, hy + hh * (.96 + .1 * ph) + rr * .6), fill=(214, 190, 150, int(120 * (1 - ph))))
+            rr = hh * (.04 + .09 * ph)
+            x = fx + (j - 2.5) * hh * .045; y = fy - hh * .02 + hh * .05 * ph
+            d.ellipse((x - rr, y - rr * .6, x + rr, y + rr * .6), fill=(214, 190, 150, int(110 * (1 - ph) * alpha)))
         fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(4))).convert('RGB')
-    d = ImageDraw.Draw(fr)
-    lab = 'MISSING · Quest on his own horse (Higgsfield #13) · 3D stand-in'
-    lw = d.textlength(lab, font=F(13)) + 12
-    d.rectangle((W - lw - 24, H * .74, W - 24, H * .74 + 20), fill=(150, 20, 30))
-    d.text((W - lw - 18, H * .74 + 2), lab, font=F(13), fill=(255, 235, 235))
+    sh = Image.new('RGBA', fr.size)                                     # contact shadow
+    ImageDraw.Draw(sh).ellipse((fx - im.width * .38, fy - hh * .03, fx + im.width * .38, fy + hh * .03), fill=(30, 25, 10, int(90 * alpha)))
+    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
+    return comp(fr, im, fx - im.width / 2, fy - im.height - hh * .012 * trot)
+
+
+def now_shot(t):
+    """H4b: out of the black, today's Hyrule, golden and moving. Seen from behind, Quest rides away on his own chestnut
+    horse (#5b), down the road towards the castle: off into the new game. HUD back on."""
+    u = (t - T_NOW) / (T_END - T_NOW)
+    cam = NOW_CAM(u)
+    base = G.new_look(crop(G.FIELD, cam))
+    base = CART.glow(base, W * .82, H * .12, 640, (255, 214, 140), .35)   # golden hour
+    fr = FB.grass(base, t, 1.0)
+    fr = ride(fr, t, ease(min(1, u * 1.05)), cam)
     if t < T_NOW + .4:
         fr = Image.blend(Image.new('RGB', fr.size, (0, 0, 0)), fr, (t - T_NOW) / .4)
     return fr
@@ -452,7 +499,7 @@ def render(t):
             fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=min(1, (t - T_NOW - .2) / .4))   # back in the game: the HUD returns
         lab = 'H4 the TV switches off' if t < T_NOW else 'H4 today: a new Hyrule'
         d = ImageDraw.Draw(fr)
-        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v7 · PLANNING ONLY')
+        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v8 · PLANNING ONLY')
         subtitle(d, t)
         return fr
     fr, e = back_shot(t)
@@ -477,7 +524,7 @@ def render(t):
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
     lab = 'H1 every improvement changes the memory' if t < T_JOB else 'H2 the impossible job' if t < T_DIFF else 'H3 different enough...'
-    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v7 · PLANNING ONLY')
+    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v8 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -486,7 +533,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -496,14 +543,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v7_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v8_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v7_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v8_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

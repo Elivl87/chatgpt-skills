@@ -21,6 +21,11 @@ Told as the game's own menus (Navi is the menu cursor, as on the classic file se
                                                         Our three plates part and name themselves (Wisdom, Power,
                                                         Courage); then Hyrule splits into its two eras: CHILD (bright)
                                                         and ADULT (dark), seven years apart.
+Final art (v6): veteran Quest in his tunic #1 (scared #2 when the shadow grabs the Triforce); the waiting NEW PLAYER
+alternates impatient Pixie #2a / #2b (her normal hoodie: she has not been picked yet); the sword rises from the temple
+pedestal of plate #13 (our own 3D sword v2 in its slot); CHILD | ADULT eras: young Quest #3, adult Quest #4 (shield and
+sword already on his back); I1's rider fading at the castle is block H's #5b. Cards size people by face width (Pixie's
+face = 0.9 x Quest's). Still MISSING: the villain (#8), the hooded shadow stays a drawn stand-in, labelled.
 HUD: on in plain Hyrule shots; menus and diagrams hide it (as the game does in its menus). Sounds: Bram only.
 Framing QC before sending.
 """
@@ -33,7 +38,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in Hyrule shots (Producer)
 
@@ -70,10 +75,14 @@ HEARTS = 2.5
 
 INK = (20, 14, 18, 255)
 PANEL, GOLD, WHITE = (10, 14, 48, 215), (232, 196, 90, 255), (255, 255, 255, 255)
-P1 = cutout('quest2:nostalgic_smile', 'hero')                           # MISSING: veteran Quest in his tunic (planning recolour)
-P1_SCARED = cutout('quest2:surprised_shocked', 'hero')                 # MISSING: tunic Quest, scared, as the shadow grabs them
-P2 = cutout('pixie:wave_happy')
-P2_WAIT = (cutout('pixie:thinking_chin'), cutout('pixie:determined_fists'))   # MISSING 2a/2b: impatient Pixie (stand-ins alternate)
+P1 = final('quest_veteran')                                             # final #1: veteran Quest in his tunic, confident
+P1_SCARED = final('quest_scared')                                      # final #2: tunic Quest, scared, as the shadow grabs them
+P2 = cutout('pixie:wave_happy')                                        # Pixie v1 library, her normal hoodie (not picked yet)
+P2_WAIT = (final('pixie_impatient'), final('pixie_bored'))             # final #2a arms crossed / #2b imaginary watch, yawn
+# face width (cheek to cheek, ears out) as a fraction of each cut-out's height, measured on the art: the cards size people
+# by face so the scared pose (hunched) matches the confident one, and Pixie's face = 0.9 x Quest's (Producer rule)
+FACE = {id(P1): .123, id(P1_SCARED): .112, id(P2): .135}
+CARD_FACE, PIXIE_RATIO = 37, .9                                        # Quest's face width in the 300x400 cards (px)
 PROPS = ROOT / 'public/art/ep002/props3d'
 OCA = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'ocarina_spin').glob('f*.png'))]
 SWD = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'sword_spin').glob('f*.png'))]
@@ -116,11 +125,8 @@ def field_shot(t):
     """Block H's last frame, continued: the rider is a speck at the castle, fading into it."""
     fr = HB.FB.grass(TODAY.copy(), t, 1.0)
     k = min(1, (t - T0) / .6)
-    if k < 1:
-        hf = HB.HORSE[int(t * 18) % len(HB.HORSE)]
-        hh = H * .14
-        hs = fade(hf.resize((int(hf.width * hh / hf.height), int(hh)), Image.LANCZOS), 1 - k)
-        fr = comp(fr, hs, W * .5 - hs.width / 2, H * .58 - hh)
+    if k < 1:                                                           # block H's last frame: the rider (#5b) near the castle
+        fr = HB.ride(fr, t, 1.0, (1.25, .5, .6), alpha=1 - k)
     return fr
 
 
@@ -166,13 +172,11 @@ def card(who, label, col, w=300, h=400, alpha=1.0, dim=0.0, pixie=None, missing=
     ctext(d, w / 2 + 4, 20, label, 24, col + (int(255 * alpha),))
     if pixie is None:
         pixie = who is P2
-    ph = int((h - 90) * (.95 if pixie else 1.0))                         # Pixie ~95% of Quest's height (spec)
+    ph = int(CARD_FACE * (PIXIE_RATIO if pixie else 1.0) / FACE[id(who)])   # sized by face width
     im = sized(who, ph)
     if dim:
         im = Image.blend(im.convert('RGB'), Image.new('RGB', im.size, (10, 14, 48)), .6 * dim).convert('RGBA'); im.putalpha(sized(who, ph).getchannel('A'))
     g.alpha_composite(fade(im, alpha), (int(w / 2 + 4 - im.width / 2), int(h - 8 - im.height)))
-    if missing is None and not pixie:                                   # planning stand-in: say so
-        missing = 'MISSING · tunic Quest' + (' scared' if who is P1_SCARED else '')
     if missing:
         lab = missing
         f = F(12); tw = d.textlength(lab, font=f)
@@ -270,18 +274,29 @@ def stage_ocarina(fr, t, k):
     return fr
 
 
+STAGE = (int(W * .5 - 120), int(H * .1), int(W * .5 + 448), int(H * .1) + 418)   # the save file's panel (screen px)
+SLOT = (960, 395)                                                        # the empty slot on top of the pedestal in plate #13 (plate px)
+SLOT_SCR = (804, 330)                                                    # where that slot sits on screen (1:1 crop of the plate)
+_tx, _ty = SLOT[0] - (SLOT_SCR[0] - STAGE[0]), SLOT[1] - (SLOT_SCR[1] - STAGE[1])
+TEMPLE = final_plate('temple').crop((_tx, _ty, _tx + STAGE[2] - STAGE[0], _ty + STAGE[3] - STAGE[1])).convert('RGBA')   # final #13
+_m = Image.new('L', TEMPLE.size, 0); ImageDraw.Draw(_m).rounded_rectangle((0, 0, TEMPLE.width - 1, TEMPLE.height - 1), 18, fill=255)
+TEMPLE.putalpha(_m)
+SWORD_H = 270                                                            # ~1.8 x the pedestal top's width: a real sword in that stone
+
+
 def stage_sword(fr, t, k):
-    cx, base_y = 830, 455
+    """The sword in its pedestal: the temple of plate #13 opens in the save file's panel; our 3D sword (v2) stands in
+    the pedestal's empty slot and rises on "pulls"."""
+    cx, base_y = SLOT_SCR
+    fr = comp(fr, fade(TEMPLE, k), STAGE[0], STAGE[1])
     d = ImageDraw.Draw(fr, 'RGBA')
-    pa = k                                                               # the pedestal
-    d.polygon([(cx - 120, base_y + 40), (cx + 120, base_y + 40), (cx + 90, base_y - 10), (cx - 90, base_y - 10)], fill=(110, 112, 130, int(255 * pa)), outline=(20, 14, 18, int(255 * pa)))
-    d.rectangle((cx - 90, base_y - 30, cx + 90, base_y - 10), fill=(140, 142, 160, int(255 * pa)), outline=(20, 14, 18, int(255 * pa)))
+    d.rounded_rectangle(STAGE, 18, outline=(235, 235, 250, int(255 * k)), width=3)
     rise = ease(min(1, max(0, (t - T_PULL) / (T_SWORD - T_PULL + .2))))
-    sw = SWD[12].transpose(Image.FLIP_TOP_BOTTOM)                       # hilt up, the blade down into the stone
-    s = sized(sw, 380)
-    fr = CART.glow(fr, cx, base_y - 150 - 80 * rise, int(240 * k) + 1, (190, 220, 255), .35 * k + .3 * rise)
-    y = base_y - 20 - s.height * (.55 + .4 * rise)
-    clip = Image.new('L', s.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, s.width, int(base_y - 30 - y)), fill=255)   # the blade is inside the stone
+    sw = SWD[12].transpose(Image.ROTATE_180)                            # hilt up, the blade down into the stone
+    s = sized(sw, SWORD_H)
+    fr = CART.glow(fr, cx, base_y - 110 - 60 * rise, int(200 * k) + 1, (190, 220, 255), .3 * k + .3 * rise)
+    y = base_y - s.height * (.55 + .4 * rise)
+    clip = Image.new('L', s.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, s.width, int(base_y - y)), fill=255)   # the blade is inside the stone
     m = Image.fromarray(np.minimum(np.asarray(s.getchannel('A')), np.asarray(clip))); s2 = s.copy(); s2.putalpha(m)
     fr = comp(fr, fade(s2, k), cx - s.width / 2, y)
     if t >= T_SWORD:                                                    # white flash, then SEVEN YEARS LATER...
@@ -292,7 +307,7 @@ def stage_sword(fr, t, k):
         if ka > 0:
             g = panel(470, 80, ka); gd = ImageDraw.Draw(g)
             ctext(gd, 239, 22, 'SEVEN YEARS LATER...', 32, (255, 255, 255, int(255 * ka)))
-            fr = comp(fr, g, 830 - 239, 70)
+            fr = comp(fr, g, cx - 239, 70)
     return fr
 
 
@@ -385,6 +400,10 @@ def stage_triforce(fr, t, k):
             x0, y0 = sx + 50, sy + 175                                                      # shoulder (the figure stands right of them)
             wx, wy = lin(x0 - 40, cx + 170, kr), lin(y0 + 10, cy - 15 + 14 * curl, kr)      # wrist; the arm comes in level, claws over the triangles
             fr = sleeve_and_hand(fr, (x0, y0), (wx, wy), curl)
+    if shadow is not None and kv * k > .05:                             # still no art for the villain (#8): say so
+        d = ImageDraw.Draw(fr); lab = 'MISSING · villain (#8) · drawn stand-in'; f = F(12); tw = d.textlength(lab, font=f)
+        d.rectangle((sx - tw / 2 - 6, 478, sx + tw / 2 + 6, 496), fill=(150, 20, 30))
+        d.text((sx - tw / 2, 480), lab, font=f, fill=(255, 235, 235))
     if t >= T_BAD:                                                      # the very bad decision: a red pulse
         r = max(0, 1 - (t - T('l69.w18')) / .6) if t >= T('l69.w18') else .4
         fr = Image.blend(fr, Image.new('RGB', fr.size, (160, 10, 20)), .35 * r)
@@ -431,18 +450,19 @@ def triforce_plates(fr, t):
 def eras_shot(t):
     """Hyrule across two eras: CHILD (bright) | ADULT (dark, stormy), seven years apart."""
     k = ease(min(1, (t - T_ERAS) / .6))
-    child = G.new_look(crop(G.FIELD, (1.5, .5, .6)))
-    adult = crop(G.FIELD, (1.5, .5, .6))
+    cam = (1.5, .6, .6)                                                 # each half shows the road and the castle (#11) of the same place
+    child = G.new_look(crop(G.FIELD, cam))
+    adult = crop(G.FIELD, cam)
     a = np.asarray(adult).astype(np.float32)
     yy = np.mgrid[0:H, 0:W][0][..., None] / H
     a = a * .45 + np.array([40, 20, 40]) * .55
-    a = a * (1 - (yy < .45) * .5) + np.array([150, 40, 50]) * (yy < .45) * .5 * (1 - yy / .45)    # a red, stormy sky
+    sky = np.clip((.48 - yy) / .12, 0, 1)                               # feathered: no hard line across the detailed plate
+    a = a * (1 - sky * .5) + np.array([150, 40, 50]) * sky * .5 * (1 - yy / .48)    # a red, stormy sky
     adult = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    young = cutout('quest:walking_back', 'hero')
-    from gear import adult_back                                         # Producer rule: the adult carries shield and sword
-    yq = sized(young, H * .30); aq = sized(adult_back(young), H * .42)
-    child = comp(child, yq, W * .5 - yq.width / 2, H * .92 - yq.height)
-    adult = comp(adult, aq, W * .5 - aq.width / 2, H * .92 - aq.height)
+    yq = sized(final('quest_young_back'), H * .30)                      # final #3: young Quest from behind
+    aq = sized(final('quest_adult_back'), H * .42)                      # final #4: adult, shield and sword on his back (Producer rule)
+    child = comp(child, yq, W * .43 - yq.width / 2, H * .92 - yq.height)    # on the road
+    adult = comp(adult, aq, W * .43 - aq.width / 2, H * .92 - aq.height)
     fr = Image.new('RGB', (W, H), (10, 10, 20))
     half = int(W / 2)
     sl = lin(W, half, k)                                                 # the dark era slides in from the right
@@ -518,7 +538,7 @@ def render(t):
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v5 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -528,7 +548,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -538,14 +558,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
