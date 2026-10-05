@@ -300,3 +300,12 @@
   debug grid): FOG on the horizon haze, LOW POLY on the pyramid hill, BLURRY TEXTURES on the grass, FIXED CAMERA on
   the hero seen from the fixed camera; the stamp moved onto the bezel. Improvements in: a phone (20:26) lies by the
   Switch 2 (it is today); the travelling "?" leaves a Navi-blue trail. Block O approved.
+- P v1 (Producer: "Sí, constrúyelo así" to "back to the room"): Quest of today goes back to his childhood room (blocks
+  C, H, O), by day. The door opens from the hallway and he walks in (l115); push in to the bedside table: the CRT off,
+  the golden cartridge lying there with dust, a sunbeam on it, dust glittering (l116-l117); he blows into the
+  cartridge (stand-in, MISSING #10a, also a thumbnail candidate), slots it into the N64 (our 3D insert) and the CRT
+  powers on at the first try: FIRST TRY stamp (l118); Quest between two cards, 1998 (the CRT picture) and 2026 (block
+  O's Switch 2 with the forest), and the channel's big WHY? (l119); the door frame of the same room with pencil
+  height marks 1996, 1997, 1998: a faint memory of the kid he was stands at the 1998 mark, Quest steps against the
+  frame, a new red line 2026 is drawn over his head and the gap between 1998 and 2026 lights up: HOW MUCH YOU CHANGED
+  (l120). HUD hidden (real life). Free.

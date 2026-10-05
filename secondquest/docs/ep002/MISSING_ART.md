@@ -31,6 +31,7 @@ en todas las escenas (Quest joven #3, Quest adulto #4, Pixie con túnica #2f), p
 | 8 | Villano inspirado (no réplica) | Bloque I (sombra), siguientes | sombra dibujada | #17 |
 | 9 | Paso contrario del ciclo de caminar de Quest (idea del Productor) | caminatas | una sola pose | ~0.5 |
 | 10 | Opcional: Quest de perfil con gesto pensativo (para el reflejo) | Bloque H | perfil sonriente (Q008) | ~0.5 |
+| 10a | **Quest soplando el cartucho dorado** (el ritual de los 90: lo sostiene cerca de la boca, mejillas infladas, polvo saliendo). También **candidato a miniatura** | Bloque P ("Nobody needs Nintendo to rescue...") | quest2:holding_cartridge + nube de polvo dibujada | nueva (bloque P) |
 
 ## Fondos
 
