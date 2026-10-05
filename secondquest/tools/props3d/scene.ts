@@ -14,7 +14,8 @@ import * as THREE from 'three';
 
 type V3 = [number, number, number];
 interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number }
-interface Params { variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
+type Poly = { outer: [number, number][]; holes: [number, number][][] };
+interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
 
 const P = window.PARAMS;
@@ -679,6 +680,50 @@ const setGallop = (p: number) => {
   if (horseBody) { horseBody.rotation.z = 0.07 * Math.sin(2 * Math.PI * p); horseBody.position.y = 60 * Math.max(0, Math.sin(2 * Math.PI * p + 0.6)); }
 };
 
+// ---------------------------------------------------------------- hero shield (Producer reference 2026-10-05)
+/** Traced from docs/ep002/source/shield_reference_producer.jpg by shield_trace.py (left half, mirrored), units are
+ *  reference pixels (602 wide), the face looks at +z. A silver body, the raised silver rim, the blue face, the silver
+ *  horns, the gold triangles and the red bird (the royal crest) as stacked extrusions; the small rim triangles and the
+ *  rivets were measured by hand on the reference (x - 360, 601.5 - y). */
+const heroShield = () => {
+  const g = new THREE.Group();
+  const L = P.shield!;
+  const shape = (p: Poly) => {
+    const s = new THREE.Shape(p.outer.map(([x, y]) => new THREE.Vector2(x, y)));
+    p.holes.forEach((h) => s.holes.push(new THREE.Path(h.map(([x, y]) => new THREE.Vector2(x, y)))));
+    return s;
+  };
+  const layer = (key: string, z0: number, depth: number, bevel: number, hex: string, part: number) => L[key].forEach((p, i) => {
+    const geo = new THREE.ExtrudeGeometry(shape(p), { depth: Math.max(0.2, depth - 2 * bevel), bevelEnabled: bevel > 0, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 2, curveSegments: 4 });
+    geo.translate(0, 0, z0 + bevel);
+    const m = new THREE.Mesh(geo, toon(hex));
+    m.userData.part = part + i;
+    ids.push(m); g.add(m);
+  });
+  layer('body', 0, 14, 0, '#c9cbd0', 900);
+  layer('field', 13.5, 2, 0, '#2a3cc4', 910);
+  layer('rim', 13, 16, 6, '#dfe1e5', 920);
+  layer('horns', 15, 10, 4, '#d4d6db', 930);
+  layer('tri', 15, 9, 3.5, '#f2cf2a', 940);
+  layer('bird', 15, 1.6, 0, '#c8202c', 950);
+  const tri = (pts: [number, number][], part: number) => {
+    const geo = new THREE.ExtrudeGeometry(new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x - 360, 601.5 - y))), { depth: 0.5, bevelEnabled: true, bevelThickness: 3, bevelSize: 2.5, bevelSegments: 1 });
+    geo.translate(0, 0, 29);
+    const m = new THREE.Mesh(geo, toon('#b9bcc2')); m.userData.part = part; ids.push(m); g.add(m);
+  };
+  const mir = (pts: [number, number][]) => pts.map(([x, y]) => [720 - x, y] as [number, number]).reverse();
+  const top = [[344, 269], [376, 269], [360, 332]] as [number, number][];
+  const side = [[306, 302], [338, 333], [327, 286]] as [number, number][];
+  const corner = [[146, 741], [161, 758], [179, 729]] as [number, number][];
+  tri(top, 960); tri(side, 961); tri(mir(side), 962); tri(corner, 963); tri(mir(corner), 964);
+  ([[105, 420, 12], [615, 420, 12], [360, 911, 15]] as const).forEach(([x, y, r], i) => {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2), toon('#e8e9ec'));
+    m.rotation.x = Math.PI / 2; m.position.set(x - 360, 601.5 - y, 28);
+    m.userData.part = 970 + i; ids.push(m); g.add(m);
+  });
+  return g;
+};
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -695,6 +740,7 @@ if (P.props.includes('castle')) scene.add((props.castle = hyruleCastle()));
 if (P.props.includes('crt')) scene.add((props.crt = crt()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
 if (P.props.includes('horse')) scene.add((props.horse = horse()));
+if (P.props.includes('shield')) scene.add((props.shield = heroShield()));
 if (P.props.includes('switch2')) scene.add((props.switch2 = switch2()));
 
 if (P.light === 'neutral') {

@@ -581,11 +581,13 @@
       "item": "#16 royal crest (own design)",
       "model": "gpt_image_2_5",
       "quoted": 0.5,
-      "status": "approved",
+      "status": "cancelled",
       "quotedAt": "2026-10-05T20:36:18+00:00",
       "prompt": null,
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "cancelledAt": "2026-10-05T22:37:18+00:00",
+      "reason": "Crest #16 is built free from the Producer's shield reference (its red bird), see tools/props3d/shield_trace.py"
     },
     {
       "id": "Q034",

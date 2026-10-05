@@ -457,3 +457,9 @@
   Quest ... ¿tú podrías hacerlo tal cual en 3D gratis y montarlo sobre Quest donde tiene el escudo?"): rebuilt free in
   `tools/props3d` from the reference (traced, symmetrised) and laid over adult Quest's shield as an engine layer (the
   generated art is not modified). Its red bird is also the faithful crest #16 (Q033 not needed).
+- Shield built (free): `tools/props3d/shield_trace.py` traces the reference into layers, `scene.ts` heroShield() extrudes
+  them (body, raised rim, blue face, horns, gold triangles, red bird, rim triangles and rivets measured by hand), sheet
+  `docs/ep002/props3d_shield_sheet.png`. `tools/props3d/shield_mount.py` lays it over #4 as an overlay
+  (`public/art/ep002/props3d/shield_on_04_adult_back.png`, preview `docs/ep002/shield_on_04_adult_back_preview.jpg`):
+  similarity fit, so its proportions stay faithful; it is about 23% larger than the old kite shield so the old one is
+  fully hidden. Pending Producer approval; then the same overlay for #5b and #17+18. Q033 cancelled (crest = its bird).
