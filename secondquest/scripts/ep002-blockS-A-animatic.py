@@ -180,7 +180,8 @@ def viewport(t, S=None):
         x0, y0, x1, y1 = BBOX[name]
         col = GOLD if name == 'you_1998' else (255, 150, 40)
         d.rectangle((x0, y0, x1, y1), outline=col, width=int(3 * sc))
-        gizmo(d, (x0 + x1) / 2, (y0 + y1) / 2, sc)
+        if name != 'you_1998':                                                 # never over his face (the closing shot)
+            gizmo(d, (x0 + x1) / 2, (y0 + y1) / 2, sc)
     if ASSETS[2][2] - .1 <= t < ASSETS[2][2] + 1.3:                             # the light: a sun gizmo where the beam was
         gx, gy = im.width * .47, im.height * .14                                 # at the window, where the light came from
         r = 16 * sc
