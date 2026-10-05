@@ -8,14 +8,14 @@ a character silhouette with its own ink detail, a symbol medallion and a line of
   POWER    (top)          the villain           -> placeholder silhouette until the villain art exists
   WISDOM   (bottom left)  Pixie (princess role) -> her thinking pose for now
   COURAGE  (bottom right) Quest (hero role)     -> his determined pose for now
-  centre   (inverted)     our own winged crest (similar spirit, not Nintendo's crest)
+  centre   (inverted)     the royal crest, faithful (Producer), traced from the Producer's shield reference
 Silhouettes come from the characters' cut-outs (alpha + ink lines), so re-running after new art updates them.
-Symbols, crest and glyphs are original designs. Labels use Cinzel (SIL OFL, tools/fx/fonts/).
+Symbols and glyphs are original designs; the crest is the Producer's faithful one. Labels use Cinzel (SIL OFL, tools/fx/fonts/).
 
 Outputs docs/ep002/triforce/: triforce_{en,es,nolabel}.png (dark background) and triforce_alpha.png (transparent),
 plus one transparent PNG per plate (power, wisdom, courage, crest) for animation in the animatic/engine.
 """
-import math
+import json, math
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -202,22 +202,21 @@ def silhouette(kind, h):
 
 
 def crest(d, c, s):
-    """Original winged crest: small triad on top, spread wings of feathers, a three-point tail (ink on gold)."""
-    x, y = c
-    for sx in (-1, 1):
-        for k in range(6):
-            a0 = math.radians(10 + k * 13)
-            L = s * (1.05 - k * .1)
-            pts = [(x + sx * s * .12, y + s * .05), (x + sx * (s * .12 + math.cos(a0) * L), y - math.sin(a0) * L * .75),
-                   (x + sx * (s * .12 + math.cos(a0 + .16) * L * .92), y - math.sin(a0 + .16) * L * .7)]
-            d.polygon(pts, fill=255)
-    d.polygon([(x - s * .14, y - s * .05), (x + s * .14, y - s * .05), (x + s * .1, y + s * .35), (x, y + s * .5), (x - s * .1, y + s * .35)], fill=255)  # body
-    for k in (-1, 0, 1):
-        d.polygon([(x + k * s * .1 - s * .05, y + s * .48), (x + k * s * .1 + s * .05, y + s * .48), (x + k * s * .16, y + s * .75)], fill=255)  # tail
-    t = s * .2
-    for (dx, dy) in ((0, -1.55), (-.5, -.68), (.5, -.68)):   # triad above the head, knocked out later as gold
-        ax, ay = x + dx * t, y + dy * t - s * .32
-        d.polygon([(ax, ay - t * .45), (ax + t * .5, ay + t * .42), (ax - t * .5, ay + t * .42)], fill=255)
+    """The royal crest, faithful (Producer, 2026-10-03 and 2026-10-05): the red bird and the three triangles traced from
+    the Producer's shield reference (tools/props3d/shield_layers.json). The bird is cut as ink; the triangles only as
+    outlines, so they stay gold."""
+    L = json.loads((ROOT / 'tools/props3d/shield_layers.json').read_text())
+    pts = [p for k in ('bird', 'tri') for poly in L[k] for p in poly['outer']]
+    xs_, ys_ = [p[0] for p in pts], [p[1] for p in pts]
+    k = 1.9 * s / (max(xs_) - min(xs_))
+    my = (max(ys_) + min(ys_)) / 2
+    tf = lambda p: (c[0] + p[0] * k, c[1] - (p[1] - my) * k + s * .15)
+    for poly in L['bird']:
+        d.polygon([tf(p) for p in poly['outer']], fill=255)
+        for h in poly['holes']:
+            d.polygon([tf(p) for p in h], fill=0)
+    for poly in L['tri']:
+        d.line([tf(p) for p in poly['outer'] + poly['outer'][:1]], fill=255, width=max(6, int(s * .025)), joint='curve')
 
 
 # ------------------------------------------------------------------ plate builder

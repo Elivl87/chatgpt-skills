@@ -463,3 +463,16 @@
   (`public/art/ep002/props3d/shield_on_04_adult_back.png`, preview `docs/ep002/shield_on_04_adult_back_preview.jpg`):
   similarity fit, so its proportions stay faithful; it is about 23% larger than the old kite shield so the old one is
   fully hidden. Pending Producer approval; then the same overlay for #5b and #17+18. Q033 cancelled (crest = its bird).
+- Shield approved (Producer: "Apruebo el escudo, aplica 1 a 4 y refleja #9"). Applied, all free:
+  1. Overlays also on #5b (`shield_on_05b_horse_back`) and #17+18 (`shield_on_17_18_outcrop`, warm and darker: golden
+     hour with the sun ahead of them). Previews `docs/ep002/shield_on_*_preview.jpg`.
+  2. Sway: `shield_mount.sway()` turns the overlay about the strap point (`shield_on_<name>.json` pivot), ±2.2° at the
+     step rate; used when the art goes into the blocks.
+  3. The royal crest woven on the four temple banners of #13: `tools/fx/crest_banners.py` -> overlay
+     `public/art/ep002/overlays/13_temple_crest.png`, preview `docs/ep002/13_temple_crest_preview.jpg`.
+  4. The Triforce centre plate now carries the faithful crest (bird engraved, triangles outlined), `tools/fx/triforce_plates.py`.
+  #9: the walk cycle alternates #3 and #3 mirrored in the engine (#9's generated image stays on file unused).
+- Sword v2 (Producer reference `docs/ep002/source/sword_reference_producer.jpg`: "modifica la 3D existente"): masterSword()
+  rebuilt from measurements of the reference (blade with shoulders and engraved triangles, crescent wing guard with
+  ribs, cup with the gold gem, collar, banded grip, turned pommel); comparison `docs/ep002/props3d_sword_v2_vs_reference.jpg`;
+  sword_spin frames re-rendered, so blocks B, I, L and N pick it up on their next render.

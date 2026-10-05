@@ -373,7 +373,16 @@ def job_shield():
     print('docs/ep002/props3d_shield_sheet.png, shield_front.png', img.shape)
 
 
-JOBS = {'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+def job_sword_check():
+    """Sword v2 review: front, both 3/4 sides and edge-on, beside the Producer's reference (upright)."""
+    tgt = [0, 103, 0]
+    imgs = render({'props': ['sword'], 'light': 'neutral',
+                   'shots': [{'camera': orbit(a, e, 1500, tgt), 'target': tgt, 'fov': 22, 'cart': None} for a, e in [(0, 0), (-35, 12), (40, 10), (90, 0)]]}, 700, 900, line=2.6)
+    cv2.imwrite(str(ROOT / 'docs/ep002/props3d_sword_v2_sheet.png'), np.concatenate(imgs, axis=1))
+    print('docs/ep002/props3d_sword_v2_sheet.png')
+
+
+JOBS = {'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

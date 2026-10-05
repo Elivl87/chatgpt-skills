@@ -392,45 +392,92 @@ const ocarina = () => {
 };
 
 // ---------------------------------------------------------------- master sword (classic: violet bird-wing guard, gold gem), upright
+/** v2 (Producer reference 2026-10-05, docs/ep002/source/sword_reference_producer.jpg): measured on the reference
+ *  rotated upright, in reference pixels (axis x = 180, guard base ry = 440, tip ry = 1390), mapped to units with
+ *  S = 345 / 950 so the blade keeps its old length: x = (rx - 180) * S, y = (ry - 440) * S, the blade points to +y.
+ *  Grey-blue blade with chamfered edges, shoulders below the guard and an engraved triangle-of-triangles outline;
+ *  violet hilt: swept bird-wing guard with feather ribs, a cup holding the gold diamond gem, a collar disc, a ringed
+ *  grip and a turned pommel. */
 const masterSword = () => {
   const g = new THREE.Group();
   let part = 500;
-  // blade with a diamond cross-section feel: beveled extrusion + a darker fuller down the middle
-  const blade = new THREE.Shape();
-  blade.moveTo(-10, 0); blade.lineTo(10, 0); blade.lineTo(9, 300); blade.lineTo(0, 345); blade.lineTo(-9, 300); blade.closePath();
-  const bg = new THREE.ExtrudeGeometry(blade, { depth: 2, bevelEnabled: true, bevelThickness: 3, bevelSize: 3.2, bevelSegments: 1 });
-  bg.translate(0, 0, -1);
-  const bm = new THREE.Mesh(bg, toon('#e4e8f0')); bm.userData.part = part++; ids.push(bm); g.add(bm);
-  for (const zf of [4.3, -4.3]) {
-    const fuller = box(4, 200, 0.6, [0, 150, zf], toon('#aeb6c8'), part++); g.add(fuller);
-  }
-  // engraved Triforce near the base of the blade
-  const tri = (cx: number, cy: number, s: number, zf: number) => {
-    const sh = new THREE.Shape(); sh.moveTo(cx - s / 2, cy); sh.lineTo(cx + s / 2, cy); sh.lineTo(cx, cy + s * 0.87); sh.closePath();
-    const tg = new THREE.ExtrudeGeometry(sh, { depth: 0.6, bevelEnabled: false }); tg.translate(0, 0, zf);
-    const m = new THREE.Mesh(tg, toon('#c9a43a')); m.userData.part = part++; ids.push(m); return m;
+  const S = 345 / 950;
+  const V = (rx: number, ry: number) => new THREE.Vector2((rx - 180) * S, (ry - 440) * S);
+  const HILT = toon('#5e48e0'), HILT_D = toon('#4f3dc8'), BLADE = toon('#8492a2'), INKG = toon('#3e4448');
+  const add = (m: THREE.Mesh) => { m.userData.part = part++; ids.push(m); g.add(m); return m; };
+  const ext = (pts: [number, number][], depth: number, bevel: number, mat: THREE.Material, mirror = false) => {
+    const sh = new THREE.Shape(pts.map(([x, y]) => V(mirror ? 360 - x : x, y)));
+    const geo = new THREE.ExtrudeGeometry(sh, { depth: Math.max(0.2, depth - 2 * bevel), bevelEnabled: bevel > 0, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 2, curveSegments: 16 });
+    geo.translate(0, 0, -depth / 2 + bevel);
+    return add(new THREE.Mesh(geo, mat));
   };
-  for (const zf of [4.4, -5.0]) g.add(tri(0, 24, 8, zf), tri(-4, 17, 8, zf), tri(4, 17, 8, zf));
-  // crossguard: bird wings sweeping up and out to sharp tips, raised centre with the gem
-  const guard = new THREE.Shape();
-  guard.moveTo(0, -12);
-  guard.bezierCurveTo(16, -14, 34, -8, 50, 6); guard.lineTo(70, 34); guard.bezierCurveTo(60, 30, 52, 24, 44, 16);
-  guard.lineTo(40, 22); guard.bezierCurveTo(34, 14, 24, 10, 14, 10); guard.lineTo(8, 16); guard.lineTo(0, 26);
-  guard.lineTo(-8, 16); guard.lineTo(-14, 10); guard.bezierCurveTo(-24, 10, -34, 14, -40, 22); guard.lineTo(-44, 16);
-  guard.bezierCurveTo(-52, 24, -60, 30, -70, 34); guard.lineTo(-50, 6); guard.bezierCurveTo(-34, -8, -16, -14, 0, -12);
-  const gg = new THREE.ExtrudeGeometry(guard, { depth: 12, bevelEnabled: true, bevelThickness: 3, bevelSize: 2, bevelSegments: 2 });
-  gg.translate(0, -16, -6);
-  const gm = new THREE.Mesh(gg, toon('#5d4ccc')); gm.userData.part = part++; ids.push(gm); g.add(gm);
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(11, 11, 22, 6), toon('#4a3cb0')); hub.rotation.set(Math.PI / 2, 0, 0); hub.position.set(0, -6, 0); hub.userData.part = part++; ids.push(hub); g.add(hub);
-  for (const zf of [11.5, -11.5]) {
-    const gem = new THREE.Mesh(new THREE.OctahedronGeometry(6.5), toon('#f4c430')); gem.position.set(0, -6, zf); gem.scale.set(0.9, 1.35, 0.45); gem.userData.part = part++; ids.push(gem); g.add(gem);
+  // blade: half-widths along its length (shoulders just below the guard), chamfered edges from the bevel
+  const half: [number, number][] = [[432, 31], [512, 31], [527, 56], [548, 47], [1235, 45], [1290, 41], [1340, 26], [1390, 0]];
+  const outline: [number, number][] = [...half.map(([ry, w]) => [180 + w, ry] as [number, number]), ...half.slice(0, -1).reverse().map(([ry, w]) => [180 - w, ry] as [number, number])];
+  ext(outline, 6.5, 2.6, BLADE);
+  // engraved triangle of triangles near the shoulders (outline only, both faces)
+  const tri = [[180, 530], [150, 573], [210, 573]].map(([x, y]) => V(x, y));
+  const mid = [0, 1, 2].map((i) => tri[i].clone().add(tri[(i + 1) % 3]).multiplyScalar(0.5));
+  // flat strips on the blade's own part id and normal, so they read as thin engraved lines (no ink outline around them)
+  const bladeId = part - 1;
+  const seg = (p: THREE.Vector2, q: THREE.Vector2, z: number) => {
+    const d = q.clone().sub(p), L = d.length() + 0.7;
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(L, 0.75), new THREE.MeshBasicMaterial({ color: new THREE.Color('#4c5560'), side: THREE.DoubleSide }));
+    m.position.set((p.x + q.x) / 2, (p.y + q.y) / 2, z); m.rotation.z = Math.atan2(d.y, d.x);
+    if (z < 0) m.rotation.y = Math.PI;
+    m.userData.part = bladeId; m.userData.flat = true; ids.push(m); g.add(m);
+  };
+  for (const z of [3.3, -3.3]) {
+    for (let i = 0; i < 3; i++) { seg(tri[i], tri[(i + 1) % 3], z); seg(mid[i], mid[(i + 1) % 3], z); }
   }
-  // grip with a criss-cross wrap, then a violet diamond pommel
-  g.add(cyl(7, 66, [0, -54, 0], [0, 0, 0], toon('#33449c'), part++));
-  for (let k = 0; k < 6; k++) {
-    const w = box(15, 2.4, 15, [0, -27 - k * 10.5, 0], toon('#1f2b6e'), part++, 1); w.rotation.set(0, Math.PI / 4, (k % 2 ? 1 : -1) * 0.35); g.add(w);
+  // guard: the centre cup (curved sides, from the collar down to the blade), then the two crescent wings, each with
+  // two thin feather ribs that follow its upper edge
+  ext([[136, 344], [224, 344], [220, 372], [212, 404], [210, 446], [150, 446], [148, 404], [140, 372]], 13, 2.2, HILT);
+  const wing: [number, number][] = [[268, 313], [290, 334], [314, 359], [332, 391], [344, 426], [348, 447], [330, 437], [306, 425],
+    [280, 415], [256, 410], [232, 410], [220, 384], [228, 356], [248, 332]];
+  const strip = (line: [number, number][], w: number): [number, number][] => {
+    const L = line.map(([x, y]) => [x, y]), n = L.length, up: [number, number][] = [], dn: [number, number][] = [];
+    for (let i = 0; i < n; i++) {
+      const [x0, y0] = L[Math.max(0, i - 1)], [x1, y1] = L[Math.min(n - 1, i + 1)];
+      const dx = x1 - x0, dy = y1 - y0, l = Math.hypot(dx, dy) || 1, k = w / 2 * (1 - Math.abs(2 * i / (n - 1) - 1) * 0.6);
+      up.push([L[i][0] - dy / l * k, L[i][1] + dx / l * k]); dn.push([L[i][0] + dy / l * k, L[i][1] - dx / l * k]);
+    }
+    return [...up, ...dn.reverse()];
+  };
+  const rib1 = strip([[262, 336], [286, 352], [306, 374], [322, 400], [334, 430]], 9);
+  const rib2 = strip([[248, 356], [272, 370], [292, 390], [306, 412], [316, 430]], 9);
+  for (const m of [false, true]) {
+    const w = ext(wing, 10, 2, HILT, m);
+    for (const r of [rib1, rib2]) for (const z of [5.02, -5.02]) {   // painted ribs on both faces, on the wing's own id
+      const geo = new THREE.ShapeGeometry(new THREE.Shape(r.map(([x, y]) => V(m ? 360 - x : x, y))));
+      const k = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: new THREE.Color('#3f31a6'), side: THREE.DoubleSide }));
+      k.position.z = z; k.userData.part = w.userData.part; ids.push(k); g.add(k);
+    }
   }
-  const pommel = new THREE.Mesh(new THREE.OctahedronGeometry(11), toon('#5d4ccc')); pommel.position.set(0, -94, 0); pommel.scale.set(1, 1.3, 0.75); pommel.userData.part = part++; ids.push(pommel); g.add(pommel);
+  // the gold diamond gem on both faces
+  for (const zf of [7.6, -7.6]) {
+    const gem = add(new THREE.Mesh(new THREE.OctahedronGeometry(1), toon('#e8a024')));
+    gem.position.set(0, (380 - 440) * S, zf); gem.scale.set(15 * S, 35 * S, 3);
+  }
+  // collar disc, ringed grip and turned pommel (lathe profile in reference pixels: [radius, ry])
+  const lathe = (prof: [number, number][], mat: THREE.Material) => {
+    const geo = new THREE.LatheGeometry(prof.map(([r, ry]) => new THREE.Vector2(r * S, (ry - 440) * S)), 32);
+    return add(new THREE.Mesh(geo, mat));
+  };
+  lathe([[0, 346], [44, 346], [52, 338], [52, 326], [44, 318], [0, 318]], HILT);
+  // grip: one smooth lathe with painted bands (vertex colours), so the rings read as soft stripes, not ink lines
+  const gp: [number, number][] = [[0, 320], [25, 320]];
+  for (let ry = 318; ry > 126; ry -= 2) gp.push([25, ry]);
+  gp.push([25, 126], [0, 126]);
+  const grip = lathe(gp, new THREE.MeshToonMaterial({ color: 0xffffff, gradientMap: ramp, vertexColors: true }));
+  const pos = grip.geometry.attributes.position, cols: number[] = [];
+  const cA = new THREE.Color('#5e48e0'), cB = new THREE.Color('#3a2c98');
+  for (let i = 0; i < pos.count; i++) {
+    const ry = pos.getY(i) / S + 440, band = ry > 140 && ry < 312 && ((ry - 140) % 20) < 5;
+    const c = band ? cB : cA; cols.push(c.r, c.g, c.b);
+  }
+  grip.geometry.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
+  lathe([[0, 128], [22, 128], [34, 124], [40, 112], [38, 100], [28, 92], [20, 90], [22, 80], [20, 68], [12, 60], [0, 58]], HILT);
   return g;
 };
 
