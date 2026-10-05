@@ -383,3 +383,11 @@
   from here and the wikis do not describe the animation, so it follows how the game's meter works (containers added
   empty, quarter-by-quarter refill, beating current heart); the Producer verifies against the game.
 - T approved (Producer: "Aprobado bloque T"): block T is v3. Only block U (the call to action, l155-l157) remains.
+- U v1 (Producer: the ending keeps EP001's identity, where Quest sat on a fence looking at the big farm; Quest and Pixie
+  dressed as the hero and the princess look at the horizon from the top of an outcrop, the castle far away; a Breath of
+  the Wild key art given only as a composition reference; new art needed, mount it with stand-ins for now): out of
+  block T the camera rises and pulls back from the two of them on the outcrop (from behind) to the whole vista at
+  golden hour, the castle far down in the valley with the low sun behind it, birds; the SecondQuest wordmark (EP001's
+  brand image and gold bar) lands in the sky on "why?" as in EP001 and block B; the left and right thirds stay clean
+  for YouTube's end screen (planning guides drawn from "Tell me in the comments"). HUD off. New art: MISSING #17 (the
+  two of them on the outcrop) and #18 (the vista), quoted at the end. Free.

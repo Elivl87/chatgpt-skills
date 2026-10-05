@@ -69,6 +69,7 @@ Librerías: **Pillow (PIL)** para dibujar, **NumPy** para el cálculo de imágen
 | R | `scripts/ep002-blockR-animatic.py` |
 | S (elegida: opción A, motor del remake) | `scripts/ep002-blockS-A-animatic.py` (v1, plano técnico: `scripts/ep002-blockS-animatic.py`) |
 | T (elegida: opción B, el encuentro en el camino) | `scripts/ep002-blockT-animatic.py` |
+| U | `scripts/ep002-blockU-animatic.py` |
 
 Cómo funciona cada script:
 1. Fija los momentos clave con `T()` según las palabras de Bram.

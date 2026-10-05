@@ -34,6 +34,7 @@ en todas las escenas (Quest joven #3, Quest adulto #4, Pixie con túnica #2f), p
 | 9 | Paso contrario del ciclo de caminar de Quest (idea del Productor) | caminatas | una sola pose | ~0.5 |
 | 10 | Opcional: Quest de perfil con gesto pensativo (para el reflejo) | Bloque H | perfil sonriente (Q008) | ~0.5 |
 | 10a | **Quest soplando el cartucho dorado** (el ritual de los 90: lo sostiene cerca de la boca, mejillas infladas, polvo saliendo). También **candidato a miniatura** | Bloque P ("Nobody needs Nintendo to rescue...") | quest2:holding_cartridge + nube de polvo dibujada | nueva (bloque P) |
+| 17 | **Quest (héroe, escudo y espada a la espalda) y Pixie (princesa) de pie en lo alto de una peña, de espaldas, mirando el horizonte** (identidad de cierre, como Quest en la valla del EP001; referencia de composición: arte clave de BotW, solo evocado). Plano final del episodio | Bloque U (cierre y pantalla final) | ADULT (walking_back + equipo) y pixie:walking_back recoloreada a princesa | nueva (bloque U) |
 
 ## Fondos
 
@@ -44,6 +45,7 @@ en todas las escenas (Quest joven #3, Quest adulto #4, Pixie con túnica #2f), p
 | 13 | Templo con el pedestal de la espada (interior, día y tormenta) | Bloque I (espada), Bloque L (cuadro de 1998 en la vitrina), Bloque N (interior), siguientes | pedestal dibujado; en L templo procedural | #3 |
 | 14 | Árbol gigante | Bloque J ("Great Deku Tree") | — | #4 |
 | 15 | Opcional: cuarto de Quest adulto | Bloque H | cuarto de la infancia | — |
+| 18 | **Vista de Hyrule al atardecer desde una peña**: valle con bruma, cordilleras azuladas, el castillo lejos al fondo con el sol bajo detrás, cielo dorado con nubes | Bloque U (cierre; los tercios izquierdo y derecho limpios para la pantalla final) | vista procedural + castillo 3D | nueva (bloque U) |
 
 ## Otros
 
