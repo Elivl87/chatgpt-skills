@@ -326,7 +326,8 @@ def s_tiny_huge(t):
     fr = bg(GAMEFARM, fx=.5, zoom=1.0)
     if t < T('l132') - .05:
         k = ease((t - T('l131')) / .5)
-        fr = quest_driving(fr, W * .5, H * .66, lin(700, 190, k), t, moving=False)
+        tw = lin(700, 190, k)                                                   # Producer: the closed-cab tractor (the driver is inside)
+        fr, _ = machine(fr, 'tractor_bigger.png', int(tw), W * .5 - tw / 2, H * .66, t)
         if k > .7:                                                          # a magnifier ring around the tiny one
             d = ImageDraw.Draw(fr)
             d.ellipse((W * .5 - 170, H * .66 - 250, W * .5 + 170, H * .66 + 90), outline=(255, 255, 255), width=10)
@@ -484,7 +485,7 @@ def s_project(t):
     if t < T('l142') - .05:
         fr = bg(FIELD_W, fx=.5, zoom=1.0)
         u = t - T('l141')
-        fr = quest_driving(fr, lin(W * .72, W * .52, u / 3.2), H * .74, 500, t)
+        fr, _ = machine(fr, 'tractor_bigger.png', 420, lin(W * .62, W * .40, u / 3.2), H * .60, t, moving=True)   # closed cab, crawling
         return progress(fr, W * .1, H * .17, W * .8, .03 + .01 * (u / 3), 'FIELD: 3%... (a project)')
     u = t - T('l142')
     if u < 2.6:                                                                 # the price tag passes a house
@@ -590,7 +591,7 @@ STILLS = (('01_elephant', T('l127') + 3.2), ('02_cool', T('l128') + 1.0), ('03_p
 
 def main():
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    out = OUTDIR / 'EP001_short2_tractors_preview_v2.mp4'
+    out = OUTDIR / 'EP001_short2_tractors_preview_v3.mp4'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T1 - T0:.3f}', '-i', str(NARR), '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11', '-ar', '48000',
                           '-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-shortest', str(out)],
@@ -609,7 +610,7 @@ def stills():
     sheet = Image.new('RGB', (8 * 270, 2 * 480), (10, 10, 14))
     for i, im in enumerate(ims):
         sheet.paste(im.resize((270, 480)), ((i % 8) * 270, (i // 8) * 480))
-    sheet.save(OUTDIR / 'EP001_short2_review_v2.jpg', quality=85)
+    sheet.save(OUTDIR / 'EP001_short2_review_v3.jpg', quality=85)
     print('stills')
 
 

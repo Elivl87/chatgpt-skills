@@ -28,3 +28,6 @@
   rays, slow push, sparkles, Quest cheering); every machine is alive (engine shake, exhaust puffs, dust behind it when it
   drives); the big tractor turns the plowed field golden behind it as the bar fills; PLANTING / SPRAYING / CUTTING are three
   full-bleed panels (no black band), labels at the bottom-left of each, clear of the captions.
+- Short #2 v3 (Producer: "¿Y si lo cambias por el arte del tractor que es cerrado?"): the Quest + open small tractor pairing
+  (scale and angle did not match in a vertical close-up) is replaced by EP001's closed-cab tractor (tractor_bigger) in
+  "Tiny tractors" and "a large field" - the driver is inside, no new art, no credits.
