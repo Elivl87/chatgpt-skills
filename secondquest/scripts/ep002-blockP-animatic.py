@@ -20,6 +20,7 @@ uses the holding-cartridge pose. Sounds: none (all at the end).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
+import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 import imageio_ffmpeg
@@ -189,23 +190,50 @@ INS_BG = Image.blend(plate(T0).crop((1150, 760, 1560, 990)).resize((W, H)).filte
 CAM_TV = (3.4, BC.SCR_C[0] - .02, BC.SCR_C[1] + .02)
 
 
+PROF = HB.QPROF.crop((0, 0, HB.QPROF.width, int(HB.QPROF.height * .56)))   # Q008 in profile, head and shoulders (no pad)
+MOUTH = (.49, .312)                                                          # his mouth (share of the full Q008 art)
+CART_SIDE = CARTRIDGE.rotate(-90, resample=Image.BICUBIC, expand=True)      # connector end towards his mouth, label away
+
+
 def blow(t):
-    """Close on Quest: he blows into the cartridge - the old ritual; a puff of dust."""
-    bg = plate(t, sun=1).crop((1250, 300, 1920, 677)).resize((W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(8))
-    q = sized(HOLD, H * 1.9)
-    x, y = W * .44 - q.width / 2, H * .10
+    """Improvement 1 (Producer): in profile, the cartridge at his mouth - he blows into the connector and the dust
+    blasts out of the other end (the old ritual)."""
+    bg = plate(t, sun=1).crop((1250, 300, 1920, 677)).resize((W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(10))
+    bg = Image.blend(bg, Image.new('RGB', (W, H), (46, 34, 30)), .45)        # darker, so the light dust reads
+    sc = H * .85 / (HB.QPROF.height * .5)
+    q = PROF.resize((int(PROF.width * sc), int(PROF.height * sc)), Image.LANCZOS)
+    x, y = W * .04, H * .53 - HB.QPROF.height * MOUTH[1] * sc         # mouth above the subtitles
     fr = comp(bg, q, x, y)
-    cx, cy = x + q.width * .55, y + q.height * .25                            # the cartridge in his hands
+    mx, my = x + HB.QPROF.width * MOUTH[0] * sc, y + HB.QPROF.height * MOUTH[1] * sc
+    ku = ease(min(1, max(0, (t - T_NOBODY) / .35)))                         # he lifts it to his mouth
+    c = sized(dusty(CART_SIDE, 1 - .8 * min(1, max(0, (t - T_NOBODY - .5) / .8))), H * .30)
+    cx0 = mx + 70 * sc; cy = lin(H + c.height, my + 30, ku) - c.height / 2   # past his nose, at his lips
     kb = (t - T_NOBODY - .35) / .9
-    if 0 < kb < 1.6:
+    if 0 < kb < 1.2:                                                         # his breath, from his lips into the connector
+        d = ImageDraw.Draw(fr); lx = mx + 30
+        for i in (-1, 0, 1):
+            d.line((lx, my + 6 * i, lx + (cx0 - lx) * min(1, kb * 3), my + 14 * i), fill=(255, 255, 255), width=4)
+    fr = comp(fr, c, cx0, cy)
+    ex, ey = cx0 + c.width, my                                                # the far end, where the dust comes out
+    if 0 < kb < 1.8:
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+        for i in range(3):                                                     # wind streaks through it
+            yy = my - 30 + i * 30; kk = min(1, kb * 2)
+            d.line((ex + 10, yy, ex + 10 + 220 * kk, yy + (i - 1) * 20 * kk), fill=(255, 255, 255, int(230 * max(0, 1 - kb / 1.2))), width=6)
         rng = np.random.default_rng(3)
-        for i in range(34):                                                    # the dust cloud blown out of the slot
-            a = rng.uniform(-.9, .5); r = 30 + 260 * min(1, kb) * rng.uniform(.4, 1)
-            px, py = cx + 40 + r * math.cos(a), cy - 20 + r * math.sin(a) * .7
-            s = rng.uniform(14, 40) * (.6 + kb)
-            d.ellipse((px - s, py - s, px + s, py + s), fill=(214, 200, 172, int(220 * max(0, 1 - kb / 1.6))))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(4))).convert('RGB')
+        fade_k = max(0, 1 - max(0, kb - .8) / 1.0)
+        for i in range(40):                                                    # the dust cloud, a cartoon puff with an ink edge
+            a = rng.uniform(-.55, .55); r = 20 + 380 * min(1, kb) * rng.uniform(.35, 1)
+            px, py = ex + r * math.cos(a), ey + r * math.sin(a)
+            s = rng.uniform(18, 46) * (.5 + min(1, kb))
+            d.ellipse((px - s - 3, py - s - 3, px + s + 3, py + s + 3), fill=(60, 46, 36, int(200 * fade_k)))
+        rng = np.random.default_rng(3)
+        for i in range(40):
+            a = rng.uniform(-.55, .55); r = 20 + 380 * min(1, kb) * rng.uniform(.35, 1)
+            px, py = ex + r * math.cos(a), ey + r * math.sin(a)
+            s = rng.uniform(18, 46) * (.5 + min(1, kb))
+            d.ellipse((px - s, py - s, px + s, py + s), fill=(236, 224, 196, int(240 * fade_k)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(2))).convert('RGB')
     d = ImageDraw.Draw(fr)
     lab = 'MISSING · Quest blowing into the cartridge (#10a) · planning stand-in'
     tw = d.textlength(lab, font=F(13)); d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab, font=F(13), fill=(255, 235, 235))
@@ -346,6 +374,20 @@ def marks(t):
     return fr
 
 
+WHIP = .45
+
+
+def whip(a, b, k):
+    """Improvement 3 (Producer): a whip pan across the same room, from Quest by the bed to the door frame."""
+    e = ease(min(1, max(0, k)))
+    off = int(W * e)
+    out = Image.new('RGB', (W, H)); out.paste(a, (-off, 0)); out.paste(b, (W - off, 0))
+    n = int(90 * math.sin(math.pi * e)) // 2 * 2 + 1
+    if n > 1:
+        out = Image.fromarray(cv2.blur(np.asarray(out), (n, 1)))
+    return out
+
+
 # ------------------------------------------------------------------ render
 def render(t):
     if t < T_NOBODY:
@@ -364,22 +406,22 @@ def render(t):
         fr = why(t); lab = 'P4 so why do we want it again?'
     else:
         fr = marks(t); lab = 'P5 measure how much you changed'
-        if t < T_BEC + .35:
-            fr = Image.blend(why(T_BEC - .01), fr, ease((t - T_BEC) / .35))
+        if t < T_BEC + WHIP:
+            fr = whip(why(T_BEC - .01), fr, (t - T_BEC) / WHIP)
     keys = [(T0, .62, .30), (T_ORIG, .70, .30), (T_WHY, .62, .26), (T_BEC, .30, .30), (T_END, .34, .26)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v1 · PLANNING ONLY')
+    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a', T_NOBODY + .9), ('p3b', T_INS + .6), ('p3c', T_ON + 1.0),
+STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a', T_NOBODY + .9), ('p3a2', T_NOBODY + .5), ('p5w', T_BEC + .2), ('p3b', T_INS + .6), ('p3c', T_ON + 1.0),
           ('p4', T_WHYW + .5), ('p5k', T_BEC + .8), ('p5a', T_LOVED + .5), ('p5b', T_END - .2))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -389,14 +431,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockP_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockP_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockP_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockP_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

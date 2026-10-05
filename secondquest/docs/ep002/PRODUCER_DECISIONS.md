@@ -309,3 +309,8 @@
   height marks 1996, 1997, 1998: a faint memory of the kid he was stands at the 1998 mark, Quest steps against the
   frame, a new red line 2026 is drawn over his head and the gap between 1998 and 2026 lights up: HOW MUCH YOU CHANGED
   (l120). HUD hidden (real life). Free.
+- P v2 ("Apruebo P con las mejoras 1 y 3"): block P approved with: (1) the blow is now in profile (Q008, head and
+  shoulders): he lifts the cartridge to his lips, connector end first, his breath goes in and a cartoon dust cloud
+  blasts out of the far end (still MISSING #10a for the final art); (3) a whip pan across the same room, from Quest
+  between the 1998 and 2026 cards to the door frame, replaces the dissolve. Not taken: the WHY? look-between rhythm
+  (2) and the "tries: 1" counter (4).
