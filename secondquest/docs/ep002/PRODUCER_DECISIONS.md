@@ -321,3 +321,4 @@
   the floor with the pad and, closer to the TV, the faint kid he was with the same pad (1998 / 2026); the cartridge
   with the temple label glows and an ALMOST TOO PERFECT stamp lands; two mirrored strips, GAME (young hero -> adult
   hero with gear) and LIFE (the kid of the 1998 mark -> Quest at 2026), both arrows light up together, "=". Free.
+- Q approved as is (Producer: "Apruebo Q, tal cual esta"); none of the proposed Q improvements taken.
