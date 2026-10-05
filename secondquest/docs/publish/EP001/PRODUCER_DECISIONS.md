@@ -31,3 +31,9 @@
 - Short #2 v3 (Producer: "¿Y si lo cambias por el arte del tractor que es cerrado?"): the Quest + open small tractor pairing
   (scale and angle did not match in a vertical close-up) is replaced by EP001's closed-cab tractor (tractor_bigger) in
   "Tiny tractors" and "a large field" - the driver is inside, no new art, no credits.
+
+## 2026-10-05: A/B experiment on EP001 (YouTube "Experimentos A/B", formerly Test & Compare)
+- Producer: two thumbnails and two titles.
+- Recommended pair: current (thumb 3 "$500,000 TRACTOR" + "Farming Simulator: Why Millions Play a Game About Work")
+  vs thumb 1 "THIS IS FUN?" + "Farming Simulator Is Just Work… So Why Is It So Fun?". Thumb 1 promises what the
+  opening actually delivers (a game about work), so it also tests the 48 h retention hypothesis. AI disclosure: No.
