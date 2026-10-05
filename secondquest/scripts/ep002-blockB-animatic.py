@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """EP002 animatic · block B (planning only): from "An orchestra." to the cut into Act 1 (l03 rest -> l10, + silence).
 
-  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v6.mp4
+  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v7.mp4
 
 Scene Book v2, sequences 02-04:
   B1  "An orchestra. Voices. Modern controls."  living room from behind Quest, facing the TV; Navi comes back and circles
       him; music notes leave the TV; the N64 controller lights up on "controls".
-  B2  "A new camera."  the episode's camera icon pops in and leads the flight into the TV screen (camera freedom) -> white.
+  B2  "A new camera."  Navi leads the flight into the TV screen (camera freedom) -> white (v7: no camera icon, Producer).
   B3  "The same ocarina / sword / Triforce."  each relic turns in the dark (own 3D props, engraved Triforce plates);
       Navi leads the eye.
   B4  "But there is one thing..."  Hero Quest (MISSING outfit, planning preview) + Navi facing Hyrule (MISSING plate).
@@ -218,37 +218,34 @@ def render(t):
         keys = [(T0, -.05, .5), (T0 + .7, qx / W - .12, qy / H - .05), (T('l03.w5'), qx / W + .1, qy / H - .12),
                 (T('l03.w6'), qx / W - .08, qy / H - .2), (T_CAM, tx / W - .05, ty / H)]
         fr = fairy_fx.draw(fr, keys, t, size=.065)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v6 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v7 · PLANNING ONLY')
     elif t < T_REL:                                                       # B2: "A new camera." fly into the screen
         k = ease((t - T_CAM) / (T_REL - T_CAM))
         z = 1.4 * (7.5 / 1.4) ** k
         cam = ((z, lin(.76, TV[0], k), lin(.42, TV[1], k)), (z, lin(.76, TV[0], k), lin(.42, TV[1], k)))
         fr, box = frame_plate(ROOM, cam, 0)
-        u = (t - T_CAM) / (T_REL - T_CAM)                                 # the episode's game camera pops in and leads us into the screen
-        pop = 1 + .25 * math.sin(math.pi * min(1, u / .18))
-        ci = camera_icon(rec=int(t * 3) % 2 == 0, width=int(lin(110, 190, ease(u)) * pop))
-        fr = fr.convert('RGBA'); fr.alpha_composite(ci, (int(lin(W * .40, W * .55, ease(u)) - ci.width / 2), int(lin(H * .27, H * .42, ease(u)) - ci.height / 2)))
-        fr = fr.convert('RGB')
+        tx, ty = to_screen(*TV, box)                                      # no camera icon here (Producer, 2026-10-05): Navi, already at
+        fr = fairy_fx.draw(fr, [(T_CAM, tx / W - .05, ty / H), (T_REL, tx / W, ty / H)], t, size=.065)   # the TV, leads us into the screen
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 255, 255)), max(0, (k - .55) / .45))
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · camera flies into the screen · BLOCK B v6 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · flight into the screen · BLOCK B v7 · PLANNING ONLY')
     elif t < T_FIELD:                                                     # B3
         fr = relic_frame(t)
         if t - T_REL < .25:
             fr = Image.blend(fr, Image.new('RGB', fr.size, 'white'), 1 - (t - T_REL) / .25)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v6 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v7 · PLANNING ONLY')
     else:                                                                 # B4-B6
         fr = field_frame(t)
         a_hud = min(1, (t - T_FIELD) / .4) * (1 - min(1, max(0, (t - T_WHY - .3) / .5)))   # in with Hyrule, out before the wordmark
         fr = hud.draw(fr, alpha=a_hud, t=t)
         lab = 'B4 one thing' if t < T_YOU else ('B5 "You." HOLD' if t < T_GO else 'B6 Navi leads, Quest follows · "So, why?"')
-        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v6 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v7 · PLANNING ONLY')
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -259,7 +256,7 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('b1', T('l03.w6') + .3), ('b2', T_CAM + .5), ('b3_ocarina', T_OC + .5), ('b3_sword', T_SW + .5), ('b3_triforce', T_TF + 1.1),
                     ('b4', T_FIELD + 1.5), ('b6', T_GO + 2.0), ('title', T_END - .5)):
-        render(t).save(ROOT / f'docs/ep002/blockB_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockB_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 

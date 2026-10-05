@@ -398,3 +398,6 @@
   approved level (0.14, ~14 dB under Bram). This is the second use of that clip; risk as recorded for the first use.
 - U approved (Producer: "Aprobado"): block U is v2. All 22 blocks of the EP002 animatic are approved (Seq01, B-U, 6:53).
   Producer: deliver nothing for now; he wants to review the first block before the next steps.
+- B v7 (Producer, reviewing the opening before the next steps: "No quiero que salga ese icono de la cámara en esa
+  escena"): in B2 "A new camera." the camera icon is removed; Navi, who ends B1 at the TV, leads the flight into the
+  screen to white. The camera icon stays where other blocks use it (E, G, H, O) unless the Producer says otherwise.
