@@ -2,26 +2,28 @@
 """EP002 animatic, block O (planning only): l109 "So maybe changing Ocarina of Time is not disrespecting it." ->
 l114 "And then find a way to make someone feel that again." (block P starts on l115 "Which brings us back...").
 
-Producer approved, 2026-10-04 ("Prosigue"). A new place: a pantry shelf of preserving jars (the script's "preserve").
-  O0  (N's improvement) the CHILD | ADULT split of block N dissolves into the shelf.
-  O1  "So maybe changing Ocarina of Time is not disrespecting it."  The golden cartridge sealed in a jar, clamp lid,
-                                          label DO NOT OPEN; the lid twitches on "not disrespecting".
-  O2  "Maybe refusing to change anything would be."  The glass fogs up, the cartridge loses its shine and greys.
-  O3  "Because the goal should not be to preserve every limitation from 1998."  Pull back: the whole shelf of 1998
-                                          limitations, each in its jar: FOG, LOW POLY, BLURRY TEXTURES, FIXED CAMERA;
-                                          a PRESERVED SINCE 1998 tag on the shelf.
-  O4  "The goal should be to understand... what those limitations made you feel."  The FOG jar pops open: the fog
-                                          curls out into a "?" and its label flips to MYSTERY; the LOW POLY jar opens,
-                                          a ghost of a great castle rises from its few polygons: IMAGINATION.
-                                          Then the cartridge jar itself opens and pours out golden light.
-  O5  "And then find a way to make someone feel that again."  The fog fills the frame and clears on today's forest:
-                                          the same "?" travels from the fog jar to Pixie (new player, her tunic), who
-                                          looks up into the mist in awe.
-HUD: hidden on the shelf (real life), on in the forest (in game; Pixie's FILE 2 has 3 hearts). Stand-ins: Pixie in her
-tunic, awe (MISSING #2d), forest (#12). Sounds: none (all at the end).
+v3, option B (Producer, 2026-10-05: "Vamos con B"): instead of the pantry jars (v2), the 1998 limitations are seen
+through Quest's own memory - his childhood room at night (blocks C and H), the CRT playing 1998 Hyrule.
+  O0  (N's improvement) the CHILD | ADULT split of block N dissolves into the room.
+  O1  "So maybe changing Ocarina of Time is not disrespecting it."  Night, his room: Quest on the floor (Q008 profile,
+                                          as in block H) watches 1998 Hyrule on the CRT.
+  O2  "Maybe refusing to change anything would be."  The picture freezes: a PAUSE bar, the colour drains, the screen
+                                          light on him dims.
+  O3  "Because the goal should not be to preserve every limitation from 1998."  Push in on the screen: technician
+                                          callouts pin each limitation - FOG, LOW POLY, BLURRY TEXTURES, FIXED CAMERA;
+                                          a KEEP EXACTLY AS IT WAS stamp on "preserve".
+  O4  "The goal should be to understand... what those limitations made you feel."  Pull back to Quest's face: a
+                                          thought bubble; the FOG tag flies into it and flips to MYSTERY (a "?" in the
+                                          mist), then LOW POLY flips to IMAGINATION (a great castle he imagined).
+  O5  "And then find a way to make someone feel that again."  The bubble's "?" travels out; white; a Switch 2-like
+                                          handheld today, its screen on the forest where Pixie (tunic) looks up into
+                                          the mist; the "?" lands over her and the camera dives into the screen.
+HUD: hidden in the room (real life) and on the handheld shot; on in the forest (in game; Pixie's FILE 2 has 3 hearts).
+Stand-ins: Pixie in her tunic, awe (MISSING #2d), forest (#12). Sounds: none (all at the end).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
+import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 import imageio_ffmpeg
@@ -29,7 +31,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, FPS, T, ease, lin, subtitle, tag, F  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box  # noqa
 from icons import camera_icon  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
@@ -41,301 +43,260 @@ def load(name, path):
     sp = importlib.util.spec_from_file_location(name, ROOT / path); m = importlib.util.module_from_spec(sp); sp.loader.exec_module(m); return m
 
 
-BN = load('blockN', 'scripts/ep002-blockN-animatic.py')          # the two eras, the cartridge
+BN = load('blockN', 'scripts/ep002-blockN-animatic.py')          # the two eras
 BM = load('blockM', 'scripts/ep002-blockM-animatic.py')          # the forest
+BL = BN.BL                                                       # the Switch 2-like handheld
+HB = BL.BK.HB                                                    # block H: his room, the CRT, Q008
 CART = BN.CART
 comp, sized, fade, ctext = BN.comp, BN.sized, BN.fade, BN.ctext
-P2_AWE = BN.BL.BK.BJ.P2_AWE                                                  # MISSING #2d: Pixie in her tunic, awe (stand-in)
+P2_AWE = BL.BK.BJ.P2_AWE                                                     # MISSING #2d: Pixie in her tunic, awe (stand-in)
 
 T0 = T('l109') - 0.05                   # block N ends here
-T_NOTDIS = T('l109.w8')                 # "not disrespecting"
 T_REFUSE = T('l110') - .05
-T_WOULD = T('l110.w6')                  # "would be"
 T_PRES = T('l111') - .05
 T_PRESW = T('l111.w8')                  # "preserve"
-T_UND = T('l112.w6')                    # "understand"
+T_UNDL = T('l112') - .05
 T_LIM = T('l113.w3')                    # "limitations": FOG -> MYSTERY
-T_MADE = T('l113.w4')                   # LOW POLY opens
-T_FEEL = T('l113.w6')                   # -> IMAGINATION
+T_FEEL = T('l113.w6')                   # LOW POLY -> IMAGINATION
 T_AGAIN = T('l114') - .05
 T_FEEL2 = T('l114.w9')                  # "feel (that again)"
 T_END = T('l115') - 0.05                # block P starts on l115
-T_OPEN = T_FEEL + .1                    # the cartridge jar opens (Producer improvement)
-Q_TRAVEL0, Q_TRAVEL1 = T('l114') - .25, T('l114') + 1.0
-Q_SIZE = 90
 INK = (20, 14, 18, 255)
-SHELF_Y = H * .66                                                            # top of the shelf board (jar bottoms)
-Q_FROM = (W * .13 + 10, SHELF_Y - 210 - 175)                                 # the "?" over the FOG jar...
-Q_TO = (W * .42 + 20, H * .95 - H * .52 - 120)                                # ...and over Pixie's head
+Q_SIZE = 90
 
 
 def qmark(d, cx, y, size):
-    """The one "?" of this block: the fog's mystery, the same mark over Pixie."""
+    """The one "?" of this block: his mystery, the same mark over Pixie."""
     f = F(int(size))
     d.text((cx - d.textlength('?', font=f) / 2, y), '?', font=f, fill=(255, 255, 255), stroke_width=5, stroke_fill=(70, 80, 110))
 
 
-# ------------------------------------------------------------------ the pantry
-def _pantry():
-    a = np.zeros((H, W, 3), np.float32)
-    yy = np.linspace(0, 1, H)[:, None, None]; xx = np.linspace(0, 1, W)[None, :, None]
-    a[:] = np.array([116, 88, 62]) * (1 - .35 * yy) * (1 - .25 * np.abs(xx - .45))
-    im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
-    for x in range(0, W, 96):                                               # wood panelling
-        d.line((x, 0, x, SHELF_Y), fill=(96, 72, 50), width=3)
-    d.rectangle((0, SHELF_Y, W, SHELF_Y + 26), fill=(150, 104, 62)); d.line((0, SHELF_Y, W, SHELF_Y), fill=(200, 150, 96), width=3)
-    d.rectangle((0, SHELF_Y + 26, W, SHELF_Y + 40), fill=(90, 60, 38))
-    d.rectangle((0, SHELF_Y + 40, W, H), fill=(70, 52, 38))
-    for x in (W * .05, W * .95):                                            # brackets
-        d.polygon(((x - 8, SHELF_Y + 40), (x + 8, SHELF_Y + 40), (x + 8, SHELF_Y + 120), (x - 8, SHELF_Y + 70)), fill=(60, 40, 28))
-    return CART.glow(im, W * .12, H * .1, 520, (255, 220, 160), .35)
+# ------------------------------------------------------------------ the room (block H's plate, his CRT)
+BC = HB.BC
+QPROF = HB.QPROF
+QH = int(HB.QSPEC[2] * PH)
+QIMG = QPROF.resize((int(QPROF.width * QH / QPROF.height), QH), Image.LANCZOS)
+SCREEN = [(BC.TV_POS[0] + x * BC.TV_SCALE, BC.TV_POS[1] + y * BC.TV_SCALE) for x, y in BC.Q34]   # screen corners (plate px)
+SX0, SX1 = min(p[0] for p in SCREEN), max(p[0] for p in SCREEN)
+SY0, SY1 = min(p[1] for p in SCREEN), max(p[1] for p in SCREEN)
+HEAD = (HB.QSPEC[0] * PW + QIMG.width * .12, HB.QSPEC[1] * PH - QH * .80)  # his head (plate px)
+
+CAM_A = (1.45, .655, .64)                                                    # both of them, whole (block H's framing)
+CAM_TV = (3.6, (SX0 + SX1) / 2 / PW, (SY0 + SY1) / 2 / PH + .02)              # the screen, big
+CAM_Q = (1.75, HEAD[0] / PW - .06, HEAD[1] / PH + .08)                       # his face, room for the bubble
 
 
-PANTRY = _pantry()
-
-# contents
-_cart = BN.CARTRIDGE
-
-
-def c_cart(w, h, k_grey):
-    c = sized(_cart, h * .62)
-    if k_grey > 0:
-        a = np.asarray(c).astype(np.float32); g = a[..., :3].mean(2, keepdims=True)
-        a[..., :3] = a[..., :3] + (g * .8 - a[..., :3]) * k_grey
-        c = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    return c
+def picture(t):
+    pic = HB.old_picture(min(t, T_REFUSE + .3) if t >= T_REFUSE else t, (320, 240))
+    kp = ease(min(1, max(0, (t - T_REFUSE - .2) / .8)))                       # O2: frozen, drained
+    if kp > 0:
+        a = np.asarray(pic).astype(np.float32); g = a.mean(2, keepdims=True)
+        pic = Image.fromarray(np.clip(a + (g * .9 - a) * kp * .65, 0, 255).astype(np.uint8))
+        if kp > .3 and t < T_PRES + .9:                                       # the PAUSE bar (gone before the callouts)
+            d = ImageDraw.Draw(pic)
+            d.rectangle((0, 104, 320, 136), fill=(10, 10, 14)); d.text((160 - d.textlength('PAUSE', font=F(22)) / 2, 108), 'PAUSE', font=F(22), fill=(255, 230, 120))
+    return pic, kp
 
 
-def c_fog(w, h, t, k=1.0):
-    g = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(g)
-    for i in range(10):
-        a = t * .8 + i * .63
-        x = w * .5 + math.cos(a) * w * .22; y = h * .55 + math.sin(a * 1.3) * h * .18
-        r = w * (.16 + .05 * math.sin(i))
-        d.ellipse((x - r, y - r * .7, x + r, y + r * .7), fill=(236, 240, 246, int(200 * k)))
-    return g.filter(ImageFilter.GaussianBlur(6))
+def room(t):
+    pic, kp = picture(t)
+    glow = 1 - .6 * kp
+    base = HB.room_plate(t, pic)
+    rgb = HB._night(base.convert('RGB'), glow)
+    sx, sy = BC.SCR_C[0] * PW, BC.SCR_C[1] * PH
+    rgb = CART.glow(rgb, sx - 120, sy + 60, 900, (140, 190, 255), .35 * glow)
+    base = rgb.convert('RGBA')
+    q = QIMG
+    ql = Image.blend(q.convert('RGB'), Image.new('RGB', q.size, (18, 22, 44)), .30 + .30 * (1 - glow)).convert('RGBA'); ql.putalpha(q.getchannel('A'))
+    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((HB.QSPEC[0] * PW - q.width * .45, HB.QSPEC[1] * PH - 24, HB.QSPEC[0] * PW + q.width * .45, HB.QSPEC[1] * PH + 14), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+    base.alpha_composite(ql, (int(HB.QSPEC[0] * PW - q.width / 2), int(HB.QSPEC[1] * PH - QH)))
+    rim = Image.new('RGBA', base.size); rd = ImageDraw.Draw(rim)
+    fx = HB.QSPEC[0] * PW + q.width * .22; fy = HB.QSPEC[1] * PH - QH * .72
+    rd.ellipse((fx - 120, fy - 140, fx + 160, fy + 260), fill=(120, 170, 255, int(60 * glow)))
+    base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(40)))
+    return base.convert('RGB')
 
 
-def c_lowpoly(w, h):
-    g = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(g)
-    cx, by = w * .5, h * .86
-    d.rectangle((cx - 8, by - 50, cx + 8, by), fill=(110, 74, 44, 255), outline=INK, width=3)
-    for (pts, col) in ((((cx - 56, by - 46), (cx, by - 160), (cx, by - 46)), (40, 120, 50)), (((cx, by - 46), (cx, by - 160), (cx + 56, by - 46)), (60, 150, 60)),
-                       (((cx - 40, by - 100), (cx, by - 200), (cx, by - 100)), (50, 136, 56)), (((cx, by - 100), (cx, by - 200), (cx + 40, by - 100)), (74, 170, 70))):
-        d.polygon(pts, fill=col + (255,), outline=INK)
+def cam_at(t):
+    if t < T_PRES:                                                           # O1-O2: a slow push on both of them
+        a, b, k = CAM_A, (1.55, .66, .64), (t - T0) / (T_PRES - T0)
+    elif t < T_UNDL:                                                         # O3: in on the screen
+        a, b, k = (1.55, .66, .64), CAM_TV, (t - T_PRES) / .9
+    else:                                                                    # O4: across to his face
+        a, b, k = CAM_TV, CAM_Q, (t - T_UNDL) / .9
+    return (a, b), min(1, max(0, k))
+
+
+def to_frame(px, py, box):
+    return (px - box[0]) * W / (box[2] - box[0]), (py - box[1]) * H / (box[3] - box[1])
+
+
+def scr_pt(u, v, box):
+    """A point on the CRT screen (u, v in 0..1) in frame coordinates."""
+    return to_frame(lin(SX0, SX1, u), lin(SY0, SY1, v), box)
+
+
+def tagbox(text, col=(255, 214, 40), flipped=False, k_flip=None):
+    f = F(20)
+    tw = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 24
+    g = Image.new('RGBA', (tw, 36)); d = ImageDraw.Draw(g)
+    d.rounded_rectangle((0, 0, tw - 1, 35), 6, fill=(255, 238, 170, 255) if flipped else (20, 22, 30, 235), outline=col + (255,), width=3)
+    d.text((12, 6), text, font=f, fill=(60, 40, 20, 255) if flipped else col + (255,))
     return g
 
 
-def c_blurry(w, h):
-    g = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(g)
-    s = 22
-    for y in range(int(h * .25), int(h * .9), s):
-        for x in range(int(w * .12), int(w * .88), s):
-            col = (150, 120, 80) if (x // s + y // s) % 2 else (110, 150, 80)
-            d.rectangle((x, y, x + s, y + s), fill=col + (255,))
-    return g.filter(ImageFilter.GaussianBlur(5))
+CALLOUTS = (('FOG', (.50, .40), (-60, -150)), ('LOW POLY', (.80, .40), (90, -120)), ('BLURRY TEXTURES', (.30, .82), (-330, -10)),
+            ('FIXED CAMERA', (.96, .06), (120, -40)))
 
 
-def c_camera(w, h):
-    c = camera_icon(False, int(w * .62)).rotate(-18, resample=Image.BICUBIC, expand=True)
-    g = Image.new('RGBA', (w, h)); g.alpha_composite(c, (int(w * .5 - c.width / 2), int(h * .58 - c.height / 2)))
-    d = ImageDraw.Draw(g)                                                   # glued in place: a strip of tape
-    d.polygon(((w * .2, h * .74), (w * .8, h * .66), (w * .82, h * .72), (w * .22, h * .80)), fill=(235, 225, 190, 220), outline=INK)
-    return g
-
-
-def jar(w, h, content, label, lid_open=0.0, fogged=0.0, label_flip=None, clamp=False, t=0.0):
-    """A preserving jar: glass, the content inside, a metal lid (clamped for the cartridge), a paper label.
-    label_flip = (new_label, k): the label flips over to new text."""
-    pad = 60
-    g = Image.new('RGBA', (w + 2 * pad, h + 2 * pad)); d = ImageDraw.Draw(g)
-    x0, y0, x1, y1 = pad, pad + 26, pad + w, pad + h
-    body = Image.new('L', g.size, 0); ImageDraw.Draw(body).rounded_rectangle((x0, y0, x1, y1), 30, fill=255)
-    inner = Image.new('RGBA', g.size)
-    if content is not None:
-        inner.alpha_composite(content, (int(x0 + (w - content.width) / 2), int(y1 - content.height - 8)))
-    inner.putalpha(Image.fromarray(np.minimum(np.asarray(inner.getchannel('A')), np.asarray(body))))
-    g.alpha_composite(inner)
-    glass = Image.new('RGBA', g.size); gd = ImageDraw.Draw(glass)
-    gd.rounded_rectangle((x0, y0, x1, y1), 30, fill=(210, 235, 240, int(40 + 150 * fogged)), outline=(230, 245, 250, 230), width=4)
-    gd.line((x0 + 18, y0 + 30, x0 + 18, y1 - 30), fill=(255, 255, 255, 120), width=8)
-    gd.line((x1 - 26, y0 + 50, x1 - 26, y0 + 110), fill=(255, 255, 255, 90), width=5)
-    g.alpha_composite(glass)
-    d = ImageDraw.Draw(g)
-    d.rounded_rectangle((x0, y0, x1, y1), 30, outline=INK, width=3)
-    d.rectangle((x0 + 14, y0 - 16, x1 - 14, y0 + 4), fill=(210, 225, 230, 160), outline=INK, width=3)    # neck
-    lift = 60 * ease(lid_open); tilt = 25 * ease(lid_open)
-    lid = Image.new('RGBA', (w - 8, 34)); ld = ImageDraw.Draw(lid)
-    ld.rounded_rectangle((0, 0, w - 9, 33), 8, fill=(176, 172, 160, 255), outline=INK, width=3)
-    for i in range(1, 6):
-        ld.line((i * (w - 8) / 6, 6, i * (w - 8) / 6, 27), fill=(140, 136, 126, 255), width=2)
-    lid = lid.rotate(tilt, resample=Image.BICUBIC, expand=True)
-    g.alpha_composite(lid, (int(x0 + 4 - (lid.width - (w - 8)) / 2 + 20 * ease(lid_open)), int(y0 - 46 - lift)))
-    if clamp:                                                                # the wire clamp of the sealed jar
-        d.line((x0 + 10, y0 - 34, x0 + 4, y0 + 40), fill=(90, 90, 96), width=4); d.line((x1 - 10, y0 - 34, x1 - 4, y0 + 40), fill=(90, 90, 96), width=4)
-        d.line((x0 + 10, y0 - 34, x1 - 10, y0 - 34), fill=(90, 90, 96), width=4)
-    # label (it can flip over to new text)
-    lw, lh = int(w * .8), 46
-    text, sq = label, 1.0
-    if label_flip is not None:
-        new, k = label_flip
-        if k > 0:
-            sq = abs(math.cos(math.pi * min(1, k)))
-            text = label if k < .5 else new
-    lab = Image.new('RGBA', (lw, lh)); lbd = ImageDraw.Draw(lab)
-    flipped = label_flip is not None and label_flip[1] >= .5
-    lbd.rectangle((0, 0, lw - 1, lh - 1), fill=(255, 238, 170, 255) if flipped else (240, 232, 208, 255), outline=(110, 90, 60, 255), width=2)
-    fs = 22
-    while fs > 10 and lbd.textlength(text, font=F(fs)) > lw - 12:
-        fs -= 1
-    lbd.text((lw / 2 - lbd.textlength(text, font=F(fs)) / 2, lh / 2 - fs * .62), text, font=F(fs), fill=(150, 40, 40, 255) if text == 'DO NOT OPEN' else (50, 40, 30, 255))
-    lab = lab.resize((lw, max(1, int(lh * sq))), Image.LANCZOS)
-    g.alpha_composite(lab, (int(x0 + (w - lw) / 2), int(y0 + (y1 - y0) * .80 - lab.height / 2)))     # low on the glass, clear of the contents
-    return g, pad
-
-
-JARS = {  # name: (cx, w, h)
-    'fog': (W * .13, 170, 210), 'poly': (W * .31, 170, 210), 'cart': (W * .5, 230, 270), 'blur': (W * .69, 170, 210), 'cam': (W * .87, 170, 210),
-}
-
-
-def shelf(t):
-    fr = PANTRY.copy()
-    kopen = ease(min(1, max(0, (t - T_OPEN) / .35)))                          # Producer improvement: at last the cartridge jar opens
-    grey = ease(min(1, max(0, (t - T_REFUSE - .3) / 2.0))) * (1 - kopen)       # O2: refusing to change: fog and grey
-    for name in ('fog', 'poly', 'blur', 'cam', 'cart'):
-        cx, w, h = JARS[name]
-        lid, flip, content, fogged, clamp = 0.0, None, None, 0.0, False
-        if name == 'cart':
-            content = c_cart(w, h, grey); fogged = .75 * grey; clamp = True; label = 'DO NOT OPEN'
-            if T_NOTDIS - .1 < t < T_REFUSE:                                 # the lid twitches: it wants to open
-                lid = .08 * abs(math.sin((t - T_NOTDIS) * 22)) * (1 - (t - T_NOTDIS) / (T_REFUSE - T_NOTDIS))
-            lid = max(lid, kopen); clamp = kopen < .3
-        elif name == 'fog':
-            label = 'FOG'
-            lid = min(1, max(0, (t - T_UND) / .35))
-            content = c_fog(w, h, t, 1 - .7 * lid)
-            flip = ('MYSTERY', min(1, max(0, (t - T_LIM) / .4)))
-        elif name == 'poly':
-            label = 'LOW POLY'; content = c_lowpoly(w, h)
-            lid = min(1, max(0, (t - T_MADE) / .35))
-            flip = ('IMAGINATION', min(1, max(0, (t - T_FEEL) / .4)))
-        elif name == 'blur':
-            label = 'BLURRY TEXTURES'; content = c_blurry(w, h)
-        else:
-            label = 'FIXED CAMERA'; content = c_camera(w, h)
-        if name != 'cart':                                                   # the other jars come in one by one on the pull back
-            order = ['fog', 'poly', 'blur', 'cam'].index(name)
-            ka = ease(min(1, max(0, (t - T_PRES - .3 - order * .35) / .4)))
-            if ka <= 0:
-                continue
-        else:
-            ka = 1
-        g, pad = jar(w, h, content, label, lid, fogged, flip, clamp, t)
-        g = fade(g, ka)
-        fr = comp(fr, g, cx - w / 2 - pad, SHELF_Y - h - pad + 20 * (1 - ka))
-        if name == 'cart' and grey > 0:                                      # condensation drips
-            dd = ImageDraw.Draw(fr)
-            for i in range(5):
-                x = cx - w * .35 + i * w * .17; y = SHELF_Y - h + 40 + (t * 30 + i * 37) % (h - 60) * grey
-                dd.line((x, SHELF_Y - h + 40, x, y), fill=(200, 220, 225), width=2)
-    # the shelf tag
-    kt = min(1, max(0, (t - T_PRESW + .1) / .3))
-    if kt > 0:
-        g = Image.new('RGBA', (300, 40)); gd = ImageDraw.Draw(g)
-        gd.rectangle((0, 0, 299, 39), fill=(236, 226, 196, 255), outline=(110, 90, 60, 255), width=2)
-        s = 'PRESERVED SINCE 1998'; gd.text((150 - gd.textlength(s, font=F(18)) / 2, 9), s, font=F(18), fill=(70, 50, 30, 255))
-        fr = comp(fr, fade(g, kt), W * .5 - 150, SHELF_Y + 2 - 10 * (1 - kt))
-    if t >= T_OPEN:                                                          # the open cartridge jar pours out golden light
-        cx, w, h = JARS['cart']
-        ko = ease(min(1, (t - T_OPEN) / .4))
-        fr = CART.glow(fr, cx, SHELF_Y - h - 20, int(260 * ko) + 1, (255, 214, 110), .75 * ko)
-        g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-        for i in range(7):
-            a = -math.pi / 2 + (i - 3) * .22
-            L = 380 * ko
-            d.polygon(((cx - 30, SHELF_Y - h), (cx + 30, SHELF_Y - h), (cx + L * math.cos(a + .05), SHELF_Y - h + L * math.sin(a + .05)), (cx + L * math.cos(a - .05), SHELF_Y - h + L * math.sin(a - .05))),
-                      fill=(255, 226, 140, int(70 * ko)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
-    # O4: the fog curls out into a "?", the low-poly tree dreams of a castle
-    if t >= T_UND:
-        cx, w, h = JARS['fog']
-        k = min(1, (t - T_UND) / 1.4)
-        g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-        for i in range(16):
-            u = (k * 1.4 - i * .06)
-            if u <= 0:
-                continue
-            u = min(1, u)
-            x = cx + 30 * math.sin(i * 1.7 + t) + 120 * u * math.sin(i); y = SHELF_Y - h - 20 - 220 * u * (.4 + .6 * (i % 4) / 3)
-            r = 30 + 40 * u
-            d.ellipse((x - r, y - r * .7, x + r, y + r * .7), fill=(236, 240, 246, int(170 * (1 - .3 * u))))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(10))).convert('RGB')
-        kq = min(1, max(0, (t - T_LIM + .3) / .5))
-        if kq > 0 and t < Q_TRAVEL0:                                         # (then it travels to Pixie)
+def callouts(fr, t, box, hide=()):
+    d = ImageDraw.Draw(fr)
+    for i, (name, (u, v), (ox, oy)) in enumerate(CALLOUTS):
+        if name in hide:
+            continue
+        ka = min(1, max(0, (t - T_PRES - .9 - i * .35) / .3))
+        if ka <= 0:
+            continue
+        x, y = scr_pt(u, v, box)
+        g = tagbox(name)
+        tx, ty = x + ox, y + oy
+        tx = min(max(tx, 30), W - g.width - 30); ty = min(max(ty, 40), H * .74 - g.height)
+        d.line((x, y, tx + g.width / 2, ty + g.height / 2), fill=(255, 214, 40), width=3)
+        d.ellipse((x - 7, y - 7, x + 7, y + 7), outline=(255, 214, 40), width=3)
+        if name == 'FIXED CAMERA':
+            ic = camera_icon(False, 70)
+            fr = comp(fr, fade(ic, ka), tx + g.width / 2 - 35, ty - 58)
             d = ImageDraw.Draw(fr)
-            qmark(d, Q_FROM[0], Q_FROM[1], Q_SIZE + 10 * math.sin(t * 3))
-    if t >= T_MADE:
-        cx, w, h = JARS['poly']
-        k = ease(min(1, (t - T_MADE) / .8))
-        ghost = sized(CASTLE, 120 * k + 1)
-        a = np.asarray(ghost).astype(np.float32)
-        a[..., :3] = a[..., :3] * .3 + np.array([200, 225, 255]) * .7; a[..., 3] *= .75
-        ghost = Image.fromarray(a.astype(np.uint8))
-        fr = CART.glow(fr, cx + 30, SHELF_Y - h - 110, int(160 * k) + 1, (200, 225, 255), .4 * k)
-        fr = comp(fr, ghost, cx + 30 - ghost.width / 2, SHELF_Y - h - 30 - ghost.height)
-        dd = ImageDraw.Draw(fr)
-        for j in range(8):                                                   # sparkles rising from the polygons
-            ph = ((t - T_MADE) * .8 + j / 8) % 1
-            x, y = cx - 50 + j * 14, SHELF_Y - h * .5 - 200 * ph
-            r = 5 * (1 - ph) + 1
-            dd.line((x - r, y, x + r, y), fill=(255, 250, 210), width=2); dd.line((x, y - r, x, y + r), fill=(255, 250, 210), width=2)
+        fr = comp(fr, fade(g, ka), tx, ty)
+        d = ImageDraw.Draw(fr)
     return fr
 
 
-CASTLE = Image.open(ROOT / 'public/art/ep002/props3d/castle_far.png').convert('RGBA')
-
-
-def camera(fr, t):
-    """O1-O2 close on the sealed jar; O3 pulls back to the whole shelf."""
-    kz = 1 - ease(min(1, max(0, (t - T_PRES) / 1.0)))
-    z = 1 + .6 * kz
-    if z <= 1.001:
+def stamp(fr, t):
+    ks = min(1, max(0, (t - T_PRESW) / .25)) * (1 - min(1, max(0, (t - T_UNDL) / .3)))
+    if ks <= 0:
         return fr
-    cx, cy = W * .5, SHELF_Y - 120
-    cw, ch = W / z, H / z
-    x0 = min(max(cx - cw / 2, 0), W - cw); y0 = min(max(cy - ch * .55, 0), H - ch)
-    return fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BILINEAR)
+    st = Image.new('RGBA', (460, 70)); sd = ImageDraw.Draw(st)
+    sd.rounded_rectangle((3, 3, 456, 66), 8, outline=(210, 40, 50, 255), width=6)
+    s = 'KEEP EXACTLY AS IT WAS'; sd.text((230 - sd.textlength(s, font=F(30)) / 2, 14), s, font=F(30), fill=(210, 40, 50, 255))
+    st = st.rotate(-8, resample=Image.BICUBIC, expand=True)
+    sc = 1.5 - .5 * ease(ks)
+    st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
+    return comp(fr, fade(st, ks), W * .5 - st.width / 2, H * .50 - st.height / 2)
 
 
-# ------------------------------------------------------------------ O5: someone feels it again
+CASTLE = Image.open(ROOT / 'public/art/ep002/props3d/castle_far.png').convert('RGBA')
+BUBBLE_C = (W * .30, H * .30)                                                # the thought bubble (frame px, on CAM_Q)
+
+
+def bubble(fr, t, box):
+    kb = ease(min(1, max(0, (t - T_UNDL - .5) / .5)))
+    if kb <= .05:                                                            # (too small to draw yet)
+        return fr
+    hx, hy = to_frame(*HEAD, box)
+    bx, by = BUBBLE_C
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    R = 170 * kb
+    for (ox, oy, r) in ((-110, -10, .55), (0, -50, .66), (110, -10, .55), (-60, 55, .5), (60, 55, .5)):
+        d.ellipse((bx + ox * kb - R * r, by + oy * kb - R * r, bx + ox * kb + R * r, by + oy * kb + R * r), fill=(236, 240, 248, 235), outline=(20, 14, 18, 255), width=4)
+    for (ox, oy, r) in ((-110, -10, .55), (0, -50, .66), (110, -10, .55), (-60, 55, .5), (60, 55, .5)):
+        d.ellipse((bx + ox * kb - R * r + 4, by + oy * kb - R * r + 4, bx + ox * kb + R * r - 4, by + oy * kb + R * r - 4), fill=(236, 240, 248, 235))
+    for i, s in enumerate((14, 10)):                                          # little bubbles down to his head
+        x, y = lin(bx + 120, hx, .45 + .25 * i), lin(by + 120, hy, .45 + .25 * i)
+        d.ellipse((x - s * kb, y - s * kb, x + s * kb, y + s * kb), fill=(236, 240, 248, 235), outline=(20, 14, 18, 255), width=3)
+    fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+    # inside: mist and a "?" (mystery), then a great castle (imagination)
+    km = min(1, max(0, (t - T_LIM) / .4))
+    kmist = kb                                                               # the mist is there as soon as the bubble opens
+    if kmist > 0:
+        mist = Image.new('RGBA', (W, H)); md = ImageDraw.Draw(mist)
+        for i in range(8):
+            a = t * .7 + i * .8
+            x = bx - 60 + 120 * (i / 7) + 10 * math.sin(a); y = by + 20 + 18 * math.cos(a)
+            md.ellipse((x - 50, y - 22, x + 50, y + 22), fill=(190, 200, 220, int(150 * kmist)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), mist.filter(ImageFilter.GaussianBlur(8))).convert('RGB')
+        if t < Q_TRAVEL0 and km > 0:                                       # the "?" forms on "limitations"
+            qmark(ImageDraw.Draw(fr), bx - 70, by - 70, Q_SIZE * (.6 + .4 * km) + 6 * math.sin(t * 3))
+    kc = ease(min(1, max(0, (t - T_FEEL) / .5)))
+    if kc > 0:
+        gh = sized(CASTLE, 110 * kc + 1)
+        a = np.asarray(gh).astype(np.float32); a[..., :3] = a[..., :3] * .4 + np.array([200, 225, 255]) * .6
+        fr = comp(fr, Image.fromarray(a.astype(np.uint8)), bx + 70 - gh.width / 2, by + 10 - gh.height)
+    # the two tags that came from the screen, flipping to what they made him feel
+    for name, new, tk, (ox, oy) in (('FOG', 'MYSTERY', T_LIM, (-250, 130)), ('LOW POLY', 'IMAGINATION', T_FEEL, (-60, 165))):
+        kf = min(1, max(0, (t - tk) / .4))
+        sq = abs(math.cos(math.pi * kf)) if kf < 1 else 1
+        g = tagbox(new if kf >= .5 else name, flipped=kf >= .5)
+        g = g.resize((g.width, max(1, int(g.height * sq))), Image.LANCZOS)
+        fr = comp(fr, fade(g, kb), bx + ox, by + oy + (36 - g.height) / 2)
+    return fr
+
+
+# ------------------------------------------------------------------ O5: today, someone feels it again
 FOREST = BM.forest_frame(BM.T_DIST - .1, BM.T_DIST - .1)[0]
+PX, PFEET, PHH = W * .42, H * .95, H * .52
+Q_TO = (PX + 20, PFEET - PHH - 120)                                          # the "?" over Pixie (forest frame px)
+Q_TRAVEL0, Q_TRAVEL1 = T_AGAIN - .25, T_AGAIN + 1.0
+T_DIVE0, T_DIVE1 = T_FEEL2 - .9, T_FEEL2 - .1
 
 
-def forest(t):
+def forest(t, with_q=True):
     fr = FOREST.copy()
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)                      # drifting mist
     for i in range(14):
         x = (i * 140 + t * 30 * (1 + i % 3)) % (W + 300) - 150; y = H * (.35 + .05 * (i % 5))
         d.ellipse((x - 160, y - 50, x + 160, y + 50), fill=(235, 240, 246, 150))
     fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(18))).convert('RGB')
-    p = sized(P2_AWE, H * .52)
-    px, feet = W * .42, H * .95
-    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((px - p.width * .35, feet - 10, px + p.width * .35, feet + 8), fill=(0, 0, 0, 80))
+    p = sized(P2_AWE, PHH)
+    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((PX - p.width * .35, PFEET - 10, PX + p.width * .35, PFEET + 8), fill=(0, 0, 0, 80))
     fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
-    fr = comp(fr, p, px - p.width / 2, feet - p.height)
-    kq = 1.0 if t >= Q_TRAVEL1 else 0.0                                      # the "?" that travelled from the fog jar
-    if kq > 0:                                                               # the same "?" - now over her
-        glow = .3 + (.5 if t >= T_FEEL2 else 0) * min(1, (t - T_FEEL2) / .3) if t >= T_FEEL2 else .3
-        fr = CART.glow(fr, px + 20, feet - p.height - 60, 90, (255, 255, 220), glow * kq)
-        d = ImageDraw.Draw(fr)
-        qmark(d, Q_TO[0], Q_TO[1], Q_SIZE + 10 * math.sin(t * 3))
-    fr = hud.draw(fr, hearts=3.0, max_hearts=3, t=t)
-    d = ImageDraw.Draw(fr)
-    lab = 'MISSING · Pixie in her tunic, awe (#2d) · forest (#12) · planning stand-ins'
-    tw = d.textlength(lab, font=F(13))
-    d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab, font=F(13), fill=(255, 235, 235))
+    fr = comp(fr, p, PX - p.width / 2, PFEET - p.height)
+    if with_q:
+        glow = .3 + .5 * min(1, max(0, (t - T_FEEL2) / .3))
+        fr = CART.glow(fr, Q_TO[0], Q_TO[1] + 60, 90, (255, 255, 220), glow)
+        qmark(ImageDraw.Draw(fr), Q_TO[0], Q_TO[1], Q_SIZE + 10 * math.sin(t * 3))
     return fr
+
+
+SW_W = 820
+SW = BL.SW2.resize((SW_W, int(BL.SW2.height * SW_W / BL.SW2.width)), Image.LANCZOS)
+_sq = BL.SW2_QUAD * (SW_W / BL.SW2.width)
+SW_MASK = np.asarray(Image.fromarray(BL.SW2_MASK.astype(np.uint8) * 255).resize(SW.size, Image.NEAREST)) > 127
+SW_POS = (W * .5 - SW.width / 2, H * .47 - SW.height / 2)
+_SRC = np.float32([[0, 0], [W, 0], [W, H], [0, H]])
+SW_M = cv2.getPerspectiveTransform(_SRC, _sq.astype(np.float32))
+
+
+def handheld(t, screen):
+    """Today: the Switch 2-like handheld (our 3D, block L) on a bright table; `screen` plays on it."""
+    bg = Image.new('RGB', (W, H), (226, 214, 196)); d = ImageDraw.Draw(bg)
+    d.rectangle((0, H * .62, W, H), fill=(170, 130, 96)); d.line((0, H * .62, W, H * .62), fill=(120, 90, 66), width=4)
+    bg = CART.glow(bg, W * .82, H * .12, 600, (255, 248, 220), .45)                # daylight from a window
+    pic = cv2.warpPerspective(np.asarray(screen).astype(np.float32), SW_M, SW.size)
+    s = np.asarray(SW).copy(); s[SW_MASK, :3] = np.clip(pic[SW_MASK], 0, 255).astype(np.uint8)
+    sw = Image.fromarray(s)
+    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((W * .5 - SW_W * .48, SW_POS[1] + SW.height * .78, W * .5 + SW_W * .48, SW_POS[1] + SW.height * 1.0), fill=(0, 0, 0, 70))
+    bg = Image.alpha_composite(bg.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(14))).convert('RGB')
+    return comp(bg, sw, *SW_POS)
+
+
+def q_on_handheld():
+    """Where the forest's "?" sits on the handheld's screen (frame px)."""
+    p = cv2.perspectiveTransform(np.float32([[[Q_TO[0], Q_TO[1] + 40]]]), SW_M)[0, 0]
+    return SW_POS[0] + float(p[0]), SW_POS[1] + float(p[1])
+
+
+def dive(fr_hand, fr_forest, k):
+    """Push into the handheld's screen until the game fills the frame."""
+    e = ease(k)
+    cx = SW_POS[0] + float(_sq[:, 0].mean()); cy = SW_POS[1] + float(_sq[:, 1].mean())
+    sw_w = float(_sq[:, 0].max() - _sq[:, 0].min())
+    z = lin(1, W / sw_w, e)
+    cw, ch = W / z, H / z
+    x0, y0 = lin(0, cx - cw / 2, e), lin(0, cy - ch / 2, e)
+    zoomed = fr_hand.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BILINEAR)
+    return Image.blend(zoomed, fr_forest, max(0, (e - .6) / .4))
 
 
 # ------------------------------------------------------------------ render
@@ -344,45 +305,62 @@ N_LAST = None
 
 def render(t):
     global N_LAST
-    if t < T_AGAIN + .5:
-        fr = camera(shelf(t), t)
+    hud_on = False
+    if t < T_AGAIN + .45:
+        base = room(t)
+        cam, k = cam_at(t)
+        box = cam_box(cam, k)
+        fr = base.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
+        if T_PRES + .9 <= t < T_UNDL + .45:                                   # O3: the callouts on the screen
+            fr = callouts(fr, t, box, hide=('FOG', 'LOW POLY') if t >= T_UNDL else ())
+            fr = stamp(fr, t)
+        if t >= T_UNDL:
+            fr = bubble(fr, t, box)
         lab = ('O1 changing is not disrespecting' if t < T_REFUSE else 'O2 refusing to change would be' if t < T_PRES
-               else 'O3 preserve every limitation' if t < T('l112') - .05 else 'O4 what they made you feel')
+               else 'O3 preserve every limitation' if t < T_UNDL else 'O4 what they made you feel')
         if t < T0 + .6:                                                      # N's improvement: dissolve from the two eras
             if N_LAST is None:
                 N_LAST = BN.n7(BN.T_END - .05)[0]
             fr = Image.blend(N_LAST, fr, ease((t - T0) / .6))
-        if t > T_AGAIN - .2:                                                 # O5: the fog fills the frame...
-            k = min(1, (t - T_AGAIN + .2) / .7)
-            cx, w, h = JARS['fog']
-            g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-            r = 60 + 1500 * ease(k)
-            d.ellipse((cx - r, SHELF_Y - h - 100 - r * .8, cx + r, SHELF_Y - h - 100 + r * .8), fill=(238, 242, 248, 255))
-            fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(40))).convert('RGB')
+        if t > T_AGAIN - .1:                                                 # O5: white...
+            fr = Image.blend(fr, Image.new('RGB', fr.size, (246, 246, 240)), min(1, (t - T_AGAIN + .1) / .5))
     else:
-        fr = forest(t)                                                       # ...and clears on today's forest
-        k = min(1, (t - T_AGAIN - .5) / .8)
-        fr = Image.blend(Image.new('RGB', fr.size, (238, 242, 248)), fr, ease(k))
         lab = 'O5 make someone feel that again'
-    if Q_TRAVEL0 <= t < Q_TRAVEL1:                                           # Producer improvement: the same "?" travels to her
+        if t < T_DIVE0:                                                      # ...today, the handheld, the forest on it
+            fr = handheld(t, forest(t, with_q=t >= Q_TRAVEL1))
+            fr = Image.blend(Image.new('RGB', fr.size, (246, 246, 240)), fr, ease(min(1, (t - T_AGAIN - .45) / .5)))
+        elif t < T_DIVE1:
+            fr = dive(handheld(t, forest(t)), hud.draw(forest(t), hearts=3.0, max_hearts=3, t=t), (t - T_DIVE0) / (T_DIVE1 - T_DIVE0))
+        else:
+            fr = forest(t); hud_on = True
+    if Q_TRAVEL0 <= t < Q_TRAVEL1:                                           # the same "?" travels from his bubble to her
         k = ease((t - Q_TRAVEL0) / (Q_TRAVEL1 - Q_TRAVEL0))
-        x = lin(Q_FROM[0], Q_TO[0], k); y = lin(Q_FROM[1], Q_TO[1], k) - 60 * math.sin(math.pi * k)
-        fr = CART.glow(fr, x, y + Q_SIZE * .5, 80, (255, 255, 230), .35)
-        qmark(ImageDraw.Draw(fr), x, y, Q_SIZE + 10 * math.sin(t * 3))
-    keys = [(T0, .40, .30), (T_PRES, .42, .26), (T_UND, .20, .30), (T_MADE, .34, .28), (T_AGAIN, .30, .30), (T_END, .62, .36)]
+        x0, y0 = BUBBLE_C[0] - 70, BUBBLE_C[1] - 70
+        x1, y1 = q_on_handheld()
+        size = lin(Q_SIZE, Q_SIZE * .45, k)
+        x = lin(x0, x1, k); y = lin(y0, y1 - size * .6, k) - 80 * math.sin(math.pi * k)
+        fr = CART.glow(fr, x, y + size * .5, 80, (255, 255, 230), .35)
+        qmark(ImageDraw.Draw(fr), x, y, size)
+    if hud_on:
+        fr = hud.draw(fr, hearts=3.0, max_hearts=3, t=t)
+        d = ImageDraw.Draw(fr)
+        lab2 = 'MISSING · Pixie in her tunic, awe (#2d) · forest (#12) · planning stand-ins'
+        tw = d.textlength(lab2, font=F(13))
+        d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab2, font=F(13), fill=(255, 235, 235))
+    keys = [(T0, .30, .28), (T_PRES, .22, .30), (T_UNDL, .60, .30), (T_AGAIN, .62, .30), (T_END, .62, .36)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 21 PRESERVED · {lab} · BLOCK O v2 · PLANNING ONLY')
+    tag(d, f'SEQ 21 WHAT IT MADE YOU FEEL · {lab} · BLOCK O v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
-STILLS = (('o0', T0 + .3), ('o1', T_NOTDIS + .3), ('o2', T_WOULD + .3), ('o3', T('l111.w11') + .3), ('o4a', T_LIM + .5), ('o4b', T_FEEL + .5), ('o4c', T_AGAIN - .25), ('o5q', T('l114') + .5),
-          ('o5a', T_AGAIN + .3), ('o5', T_END - .3))
+STILLS = (('o0', T0 + .3), ('o1', T('l109.w8') + .3), ('o2', T('l110.w6') + .3), ('o3', T('l111.w11') + .3), ('o4a', T_LIM + .5),
+          ('o4b', T_FEEL + .5), ('o5q', T_AGAIN + .7), ('o5h', T_DIVE0 - .2), ('o5', T_END - .3))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -392,14 +370,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockO_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockO_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockO_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockO_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

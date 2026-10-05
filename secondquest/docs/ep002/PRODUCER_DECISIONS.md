@@ -287,3 +287,10 @@
 - O v2 ("Apruebo O con las dos mejoras"): block O approved with: (1) at the end of "what those limitations made you
   feel" the cartridge jar itself opens, its colour comes back and it pours out golden light; (2) the one "?" travels
   from the fog jar, across the white fog, to Pixie's head in the forest (same mark, same style).
+- O v3 (Producer asked for other ways to show it, then: "Vamos con B"): block O rebuilt in Quest's 1998 room (blocks C
+  and H) instead of the pantry jars (v2 kept in git history). Kid Quest (Q008) watches 1998 Hyrule on the CRT; on
+  "refusing to change" the picture pauses and drains; push in on the screen: callouts FOG, LOW POLY, BLURRY TEXTURES,
+  FIXED CAMERA and a KEEP EXACTLY AS IT WAS stamp on "preserve"; across to his face: a thought bubble where FOG flips to
+  MYSTERY (a "?" in mist) and LOW POLY to IMAGINATION (a great castle); the "?" travels out to today's Switch 2-like
+  handheld showing the forest where Pixie (tunic, awe) gets it; the camera dives into the screen (HUD on, 3 hearts).
+  The approved O improvements carry over (dissolve from N, the one travelling "?").
