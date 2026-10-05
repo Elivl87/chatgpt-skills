@@ -362,3 +362,12 @@
   placeholder; on "you" the engine flickers his wireframe and loses it. Not taken: type icons (3), error toasts (5).
 - S approved (Producer: "Apruebo S"): block S is option A v3 (the remake engine with inspector, gizmos and the
   two-step failure). The Producer asked for three alternatives for block T before building it.
+- T v1, option B (Producer: "Vamos con B, constrúyelo así"; options were A the engine that can, B the meeting on the
+  road, C the two screens): block S's engine, the grey room: a green scan runs the other way and Hyrule builds itself
+  around kid Quest (checks: field, castle, sky), BUILD SUCCEEDED; the road of block R: the kid he was down the road,
+  facing us (the memory), adult Quest (shield and sword) walks in from behind and stops facing him; a "<< 1998" rewind
+  flickers out and is struck on "take you back"; a Navi-blue glow links them on "meet"; the field drops to its 1998
+  look (THE GAME YOU REMEMBER) and adult Quest is THE PERSON YOU BECAME; the kid fades away with rising sparkles on
+  "for the first time again"; adult Quest takes a step towards the castle on "meet it again"; on "grew" the 1998 field
+  and castle resolve into today's (the game grew up too) and on "up" a heart container: 3 -> 4 hearts. HUD off in the
+  engine, on in Hyrule. New stand-in: MISSING #3b (young hero front, smiling, reusable). Free.
