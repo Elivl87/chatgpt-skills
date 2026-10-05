@@ -574,6 +574,24 @@
       "prompt": null,
       "approvedAt": "2026-10-05T20:36:19+00:00",
       "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+    },
+    {
+      "id": "Q038",
+      "episode": "EP002",
+      "item": "#5 retry: adult Quest on his horse, back, chestnut coat with cream mane (Producer), full-size horse",
+      "model": "gpt_image_2_5",
+      "quoted": 1.0,
+      "status": "spent",
+      "quotedAt": "2026-10-05T21:51:32+00:00",
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), full body, transparent background, seen from BEHIND riding away on his own horse: a tall full-size adult horse, clearly bigger than the rider (a real horse, not a pony), chestnut reddish-brown coat with a long cream-white mane and tail, white socks on the lower legs and a white blaze on the face, simple brown leather saddle and bridle, no ornaments. Young man, dark brown curly hair, light freckles, same proportions. Same hair and human ears as Quest_v1; only the outfit changes. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. On his back, exactly as in the attached reference: the blue kite shield with a silver rim and round silver boss (no emblem) and the brown leather scabbard with its handle over his right shoulder. Pose: horse walking calmly away from us, rider sitting relaxed, looking ahead. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+      "approvedAt": "2026-10-05T21:51:32+00:00",
+      "approval": "Quiero el caballo del color de Epona. A la final no habrá problema porque de ese color son los caballos también",
+      "spentAt": "2026-10-05T21:53:32+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "7a6665cd-e019-405e-a683-0231c77af265"
+      ],
+      "balanceAfter": 65.25
     }
   ]
 }

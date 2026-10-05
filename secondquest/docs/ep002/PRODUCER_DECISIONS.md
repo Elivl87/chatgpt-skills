@@ -426,3 +426,7 @@
   awe (Q016), #2e Pixie thinking (Q017). 6.0 credits, balance 66.25 (12.0 of 25.0 spent). QC notes: #3a looks up to
   the LEFT; in block R the adult stands to his right, so the engine mirrors it (free). #5: the horse reads a little
   small for the rider (pony-like); fine for block H's distant shot, retry possible at 1.0 if the Producer wants.
+- Horse retry (Producer: "Quiero el caballo del color de Epona. A la final no habrá problema porque de ese color son
+  los caballos también"): #5b (Q038, job 7a6665cd, 1.0 credit, balance 65.25): full-size chestnut horse with cream-white
+  mane and tail, white socks and blaze, Quest in the tunic with shield and scabbard from behind (#4 as reference). A
+  common real-horse coat, evoked, not a replica. #5b replaces #5 in block H; #5 (grey) stays on file unused.
