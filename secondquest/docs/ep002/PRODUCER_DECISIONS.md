@@ -405,3 +405,9 @@
 - Full animatic (Producer: "Une el animatic completo"): `docs/ep002/EP002_animatic_full_v1.mp4` (6:52.5), the 21 approved
   block clips joined in order by `scripts/ep002-join-animatic.py` (each clip with its own narration slice and approved
   sounds; at most one frame lost per boundary, ~0.4 s in total). Chapter list: `docs/ep002/EP002_animatic_full_v1_chapters.txt`.
+- Art quote v1 approved: "Apruebo A + B. Sin embargo aún no hagas nada del villano, ese lo haremos de último"
+  (`docs/ep002/ART_QUOTE_v1.md`; ledger Q011-Q037, 25.0 credits; the villain Q037 is approved but deferred to last).
+- Generation order: the costume anchor first (#1 Quest in the adventurer tunic, front), shown to the Producer before the
+  other tunic images reuse it as a reference. #1 generated (Q011, 1.0 credit, job da43b296, 2k, transparent):
+  `docs/art_orders/quest/ep002_costume/01_tunic_veteran.png`. QC: face, curly hair, freckles and human ears match
+  Quest_v1; own-design green tunic and cap, belt, wrist guards, tan trousers, brown boots; no emblems or logos.
