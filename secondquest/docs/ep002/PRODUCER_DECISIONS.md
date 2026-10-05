@@ -421,3 +421,8 @@
   trim, short cape; three-quarter, smiling at him) on the outcrop, misty valley, river, a fairytale castle far away
   with the low sun behind it, birds. #2c Pixie in her tunic, waving, front (Q015, job 225f13a8): face, ponytail, eyes,
   skin and human ears match Pixie_v1; she is the anchor for #2d and #2e. 2.0 credits, balance 72.25.
+- Batch 3 ("Sí, sigue con la siguiente tanda"), anchors as references: #2 Quest scared (Q012), #3a young Quest 3/4 looking
+  up (Q020), #3b young Quest front smiling (Q021), #5 adult Quest on his own dapple-grey horse, back (Q023), #2d Pixie
+  awe (Q016), #2e Pixie thinking (Q017). 6.0 credits, balance 66.25 (12.0 of 25.0 spent). QC notes: #3a looks up to
+  the LEFT; in block R the adult stands to his right, so the engine mirrors it (free). #5: the horse reads a little
+  small for the rider (pony-like); fine for block H's distant shot, retry possible at 1.0 if the Producer wants.
