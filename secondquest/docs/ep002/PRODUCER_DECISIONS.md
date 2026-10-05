@@ -338,3 +338,9 @@
 - R v4 (Producer: "Sí, aplícalo así"): exception to "HUD on in Hyrule": no HUD on the R1 split screen with the time
   ruler (a comparison of two eras: one HUD over both made no sense and crowded the ruler); it fades in when the halves
   merge into one road ("Same road"), back in game.
+- S v1 (Producer: "Sí, constrúyelo así" to "the blueprint that cannot copy it"): the Saturday room of 1998 (block C,
+  warm late afternoon, kid Quest and kid Pixie on the floor, the CRT); a blue REMAKE scan turns it into a technical
+  blueprint (cyan lines on blue, grid); ERROR CANNOT REMAKE A MEMORY? on "Probably not"; each thing named gets a red
+  X and CANNOT REBUILD on its word: THE ROOM (its outline), THE TELEVISION, SATURDAY AFTERNOON (a SAT 4:00 clock),
+  THE FRIEND (a ring and a strike over Pixie); on "the exact version of you" the scan tries to trace kid Quest,
+  glitches and fails: he stays in full colour, YOU, 1998 · CANNOT TRACE -> 1 OF 1. HUD hidden. Free.
