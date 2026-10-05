@@ -114,3 +114,13 @@ Con los dos, el vídeo llega también al público hispano, y los subtítulos exa
 - **Title:** Farming Simulator is just… work? 🚜
 - **Description:** "Why do millions of people play a game about going to work? Full episode on the channel." followed by `#FarmingSimulator #FS25 #FarmingSimulator25 #SecondQuest`.
 - **Related video:** EP001.
+
+## Short #2: the tractors (prepared 2026-10-05)
+
+- **File:** `docs/publish/EP001/short2/EP001_short2_tractors_preview_v3.mp4`, 1080x1920, 59 s (l127-l147).
+- **Title:** This tractor costs more than a house 🚜
+- **Description:** "Tiny tractors. Huge tractors. A harvester that's basically a building. Full episode on the channel."
+  followed by `#FarmingSimulator #FS25 #FarmingSimulator25 #SecondQuest`.
+- **Related video:** EP001 (Farming Simulator: Why Millions Play a Game About Work).
+- **Pinned comment:** "Full episode 👆 Which machine would you buy first?"
+- **Audience:** not made for kids. **AI disclosure:** No (stylized cartoon, nothing realistic; section 9).
