@@ -344,3 +344,8 @@
   X and CANNOT REBUILD on its word: THE ROOM (its outline), THE TELEVISION, SATURDAY AFTERNOON (a SAT 4:00 clock),
   THE FRIEND (a ring and a strike over Pixie); on "the exact version of you" the scan tries to trace kid Quest,
   glitches and fails: he stays in full colour, YOU, 1998 · CANNOT TRACE -> 1 OF 1. HUD hidden. Free.
+- S option A v1 (Producer asked for other ways, then: "Construye y comparamos"): the memory imported into a game
+  editor (evoked, no real tool): viewport with the Saturday room, hierarchy and console; IMPORTING MEMORY... stalls at
+  99% on "Probably not"; on each word its asset fails and turns into a grey untextured placeholder (room MISSING
+  TEXTURE, television FILE NOT FOUND, saturday_afternoon.light CANNOT BAKE - the warm light goes flat, friend.npc NOT
+  FOUND); you_1998 CANNOT EXPORT: kid Quest stays in colour, 1 OF 1. Built alongside v1 (blueprint) for comparison.
