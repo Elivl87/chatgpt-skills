@@ -396,3 +396,5 @@
   wordmark and into its four-point star on "next", which twinkles. Her trail sound starts as she starts circling them:
   NAVI_SFX_01 (the Producer-supplied original clip already approved as her trail at her first appearance), at the same
   approved level (0.14, ~14 dB under Bram). This is the second use of that clip; risk as recorded for the first use.
+- U approved (Producer: "Aprobado"): block U is v2. All 22 blocks of the EP002 animatic are approved (Seq01, B-U, 6:53).
+  Producer: deliver nothing for now; he wants to review the first block before the next steps.
