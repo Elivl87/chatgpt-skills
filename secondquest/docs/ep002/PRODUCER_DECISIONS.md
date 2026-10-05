@@ -349,3 +349,7 @@
   99% on "Probably not"; on each word its asset fails and turns into a grey untextured placeholder (room MISSING
   TEXTURE, television FILE NOT FOUND, saturday_afternoon.light CANNOT BAKE - the warm light goes flat, friend.npc NOT
   FOUND); you_1998 CANNOT EXPORT: kid Quest stays in colour, 1 OF 1. Built alongside v1 (blueprint) for comparison.
+- S option A approved (Producer: "Apruebo A. Me encanta, haz la mejora"): option A (the remake engine) replaces v1
+  (the blueprint, kept in git). Improvement in (A v2): after "you_1998 CANNOT EXPORT" the camera pushes into the
+  viewport until the grey room fills the frame, kid Quest in colour (drawn at full resolution at the end of the push),
+  CANNOT EXPORT · 1 OF 1. The Producer also asked how the engine itself could be improved (proposals pending).

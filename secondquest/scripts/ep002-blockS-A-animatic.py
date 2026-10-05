@@ -99,10 +99,19 @@ def clay(im):
 
 
 _bg, _tv, _px, _q, _crt = _layers()
-L = {'room': vp(_bg).convert('RGBA'), 'television': vp(_tv), 'friend.npc': vp(_px), 'you_1998': vp(_q)}
-LC = {k: clay(v) for k, v in L.items()}
-BBOX = {k: v.getchannel('A').getbbox() for k, v in L.items() if k != 'room'}
-BBOX['television'] = vp(_crt).getchannel('A').getbbox()                        # the CRT itself, not the cable
+
+
+def layer_set(f):
+    L = {'room': f(_bg).convert('RGBA'), 'television': f(_tv), 'friend.npc': f(_px), 'you_1998': f(_q)}
+    bb = {k: v.getchannel('A').getbbox() for k, v in L.items() if k != 'room'}
+    bb['television'] = f(_crt).getchannel('A').getbbox()                    # the CRT itself, not the cable
+    return dict(L=L, LC={k: clay(v) for k, v in L.items()}, BBOX=bb, s=L['room'].width / VW)
+
+
+SV = layer_set(vp)                                                          # in the editor's viewport
+SF = layer_set(lambda im: im.crop(BOX).resize((W, H), Image.LANCZOS))       # full frame, for the push into the viewport
+BBOX = SV['BBOX']
+T_Z0, T_Z1 = T_FAIL + .55, T_FAIL + 1.5                                     # Producer improvement: push into the viewport
 
 
 def warm(im, k):
@@ -110,9 +119,10 @@ def warm(im, k):
         return im
     im = Image.blend(im, Image.new('RGB', im.size, (255, 150, 70)), .2 * k)
     g = Image.new('RGBA', im.size); d = ImageDraw.Draw(g)
-    bx = VW * .52
-    d.polygon([(bx - 90, VH * .62), (bx + 45, VH * .62), (bx + 190, VH), (bx - 15, VH)], fill=(255, 190, 110, int(80 * k)))
-    return Image.alpha_composite(im.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(20))).convert('RGB')
+    w, h = im.size; s = w / VW
+    bx = w * .52
+    d.polygon([(bx - 90 * s, h * .62), (bx + 45 * s, h * .62), (bx + 190 * s, h), (bx - 15 * s, h)], fill=(255, 190, 110, int(80 * k)))
+    return Image.alpha_composite(im.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(20 * s))).convert('RGB')
 
 
 def k_fail(name, t):
@@ -120,7 +130,10 @@ def k_fail(name, t):
     return min(1, max(0, (t - tm) / .35))
 
 
-def viewport(t):
+def viewport(t, S=None):
+    S = S or SV
+    L, LC, BBOX, sc = S['L'], S['LC'], S['BBOX'], S['s']
+
     def mix(name):
         k = k_fail(name, t) if name != 'you_1998' else 0                     # he never turns into a placeholder
         return L[name] if k <= 0 else (LC[name] if k >= 1 else Image.blend(L[name], LC[name], k))
@@ -134,7 +147,7 @@ def viewport(t):
     if T_YOU <= t < T_FAIL:                                                    # it tries: a scan line over him
         x0, y0, x1, y1 = BBOX['you_1998']
         d = ImageDraw.Draw(im); yb = lin(y1, y0, ((t - T_YOU) * 1.4) % 1)
-        d.line((x0 - 10, yb, x1 + 10, yb), fill=(160, 220, 255), width=3)
+        d.line((x0 - 10, yb, x1 + 10, yb), fill=(160, 220, 255), width=int(3 * sc))
     # selection outline + a small error pinned on the object as it fails
     d = ImageDraw.Draw(im)
     for name, err, tm in ASSETS:
@@ -142,7 +155,7 @@ def viewport(t):
             continue
         x0, y0, x1, y1 = BBOX[name]
         col = GOLD if name == 'you_1998' else (255, 150, 40)
-        d.rectangle((x0, y0, x1, y1), outline=col, width=3)
+        d.rectangle((x0, y0, x1, y1), outline=col, width=int(3 * sc))
     return im
 
 
@@ -208,19 +221,41 @@ def editor(t):
     d.text((bx0, BAR_Y + 28), lab, font=F(15), fill=AMBER if t >= T_NOT else UI_TEXT)
     # the big result tag for him
     if t >= T_FAIL:
-        k = min(1, (t - T_FAIL) / .3)
         x0, y0, x1, y1 = BBOX['you_1998']
-        g = Image.new('RGBA', (300, 66)); gd = ImageDraw.Draw(g)
-        gd.rounded_rectangle((2, 2, 297, 63), 8, fill=(14, 18, 34, 235), outline=GOLD + (255,), width=3)
-        gd.text((14, 6), 'you_1998', font=F(20), fill=(255, 255, 255, 255))
-        gd.text((14, 36), 'CANNOT EXPORT' if t < T_ONE else 'CANNOT EXPORT · 1 OF 1', font=F(17), fill=GOLD + (255,))
-        g.putalpha(g.getchannel('A').point(lambda v: int(v * k)))
-        fr = C.comp(fr, g, VX0 + x1 + 8, VY0 + y0 + 10)
+        fr = C.comp(fr, you_tag(t, 1.0), VX0 + x1 + 8, VY0 + y0 + 10)
     return fr
 
 
+def you_tag(t, sc):
+    k = min(1, (t - T_FAIL) / .3)
+    g = Image.new('RGBA', (300, 66)); gd = ImageDraw.Draw(g)
+    gd.rounded_rectangle((2, 2, 297, 63), 8, fill=(14, 18, 34, 235), outline=GOLD + (255,), width=3)
+    gd.text((14, 6), 'you_1998', font=F(20), fill=(255, 255, 255, 255))
+    gd.text((14, 36), 'CANNOT EXPORT' if t < T_ONE else 'CANNOT EXPORT · 1 OF 1', font=F(17), fill=GOLD + (255,))
+    g.putalpha(g.getchannel('A').point(lambda v: int(v * k)))
+    return g if sc == 1 else g.resize((int(g.width * sc), int(g.height * sc)), Image.LANCZOS)
+
+
+def full_view(t):
+    """The viewport filling the frame: the grey room, him in colour."""
+    fr = viewport(t, SF)
+    x0, y0, x1, y1 = SF['BBOX']['you_1998']
+    return C.comp(fr, you_tag(t, 1.35), x1 + 14, y0 + 20)
+
+
 def render(t):
-    fr = editor(t)
+    if t < T_Z0:
+        fr = editor(t)
+    else:                                                                      # S4: the push into the viewport
+        k = ease(min(1, (t - T_Z0) / (T_Z1 - T_Z0)))
+        if k < 1:
+            ed = editor(t)
+            box = (lin(0, VX0, k), lin(0, VY0, k), lin(W, VX1, k), lin(H, VY1, k))
+            fr = ed.crop(tuple(int(v) for v in box)).resize((W, H), Image.BICUBIC)
+            if k > .7:
+                fr = Image.blend(fr, full_view(t), (k - .7) / .3)
+        else:
+            fr = full_view(t)
     if t < T_OPEN:                                                             # out of Hyrule: a soft white cut
         fr = Image.blend(Image.new('RGB', (W, H), (250, 246, 236)), fr, max(0, (t - T0) / (T_OPEN - T0)))
     lab = ('S1 can you remake a memory?' if t < T_NOT else 'S2 probably not' if t < ASSETS[0][2] - .5
@@ -228,18 +263,18 @@ def render(t):
     keys = [(T0, (VX0 + VW * .6) / W, (VY0 + VH * .35) / H), (T_YOU, (VX0 + VW * .35) / W, (VY0 + VH * .45) / H), (T_END, (VX0 + VW * .3) / W, (VY0 + VH * .4) / H)]
     fr = fairy_fx.draw(fr, keys, t, size=.035)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v1 · PLANNING ONLY')
+    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v2 · PLANNING ONLY')
     lab2 = 'MISSING · young Quest / young Pixie (#6) · planning stand-ins'
     tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
     subtitle(d, t)
     return fr
 
 
-STILLS = (('s1', T_LOAD1 - .4), ('s2', T_NOT + .5), ('s3a', ASSETS[1][2] + .5), ('s3', ASSETS[3][2] + .8), ('s4a', T_YOU + .5), ('s4', T_END - .3))
+STILLS = (('s1', T_LOAD1 - .4), ('s2', T_NOT + .5), ('s3a', ASSETS[1][2] + .5), ('s3', ASSETS[3][2] + .8), ('s4a', T_YOU + .5), ('s4z', (T_Z0 + T_Z1) / 2), ('s4', T_END - .3))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockS_animatic_A_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockS_animatic_A_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -249,14 +284,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockS_A_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockS_A_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockS_A_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockS_A_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
