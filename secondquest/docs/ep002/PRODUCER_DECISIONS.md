@@ -433,7 +433,7 @@
 - Batch 4 ("Sigue"): #2a Pixie impatient, arms crossed (Q013), #2b Pixie bored, imaginary watch (Q014), #6a kid Quest
   playing seated with a generic grey 90s controller (Q024), #6b kid Pixie pointing right (Q025), #6c kid Pixie sitting,
   knees up (Q026), #10a Quest blowing a blank gold cartridge, profile facing right, full body (Q027). 6.0 credits,
-  balance 59.25 (19.0 of the approved 25.0 + the 1.0 horse retry spent). QC notes: kid Pixie reads a little older
+  balance 59.25 (18.0 of the approved 25.0 spent, plus the 1.0 horse retry). QC notes: kid Pixie reads a little older
   and longer-legged than kid Quest (about 11 vs 9); the engine sizes both by face width, so in block C she stays at
   0.9 x his face and only her legs read longer; retry possible at 1.0 each if the Producer wants. #2a's foot tap is
   not drawn (feet crossed): the engine adds the tap bounce, free.
