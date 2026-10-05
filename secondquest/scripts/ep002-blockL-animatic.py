@@ -19,6 +19,8 @@ v2 (Producer): no restorer's hands (they did not read as hands); the case holds 
 (not block G's field again); zoom on the pad while it is cleaned; green light leaks through the crack; a
 PLEASE DO NOT TOUCH sign tilts when the glass cracks. HUD: hidden (a museum, not the game). Sounds: none (all at
 the end). Framing QC before sending.
+v4: the picture in the case is the final temple plate (#13) with our 3D sword v2 in its pedestal slot (was a procedural
+temple); the 3D sword frames are v2.
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -29,7 +31,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, FPS, T, ease, lin, subtitle, tag, F  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -86,35 +88,27 @@ HALL = _hall()
 SWD = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/sword_spin').glob('f*.png'))]
 
 
-def _temple():
-    """Producer note (L v2): not block G's field again. A new place for the case: the sword's temple, built here
-    (stone hall, three tall windows, a shaft of light on the pedestal, our 3D sword). Evoked, not a replica."""
-    w, h = 800, 600; vx, vy = 400, 250
-    im = Image.new('RGB', (w, h), (70, 74, 92)); d = ImageDraw.Draw(im, 'RGBA')
-    d.rectangle((150, 40, 650, 390), fill=(128, 128, 150))                                    # back wall
-    for x in (240, 400, 560):                                                               # tall arched windows
-        d.rectangle((x - 26, 110, x + 26, 270), fill=(196, 220, 255)); d.ellipse((x - 26, 84, x + 26, 136), fill=(196, 220, 255))
-        d.line((x, 90, x, 270), fill=(120, 130, 160), width=3)
-    d.polygon(((150, 390), (650, 390), (800, 600), (0, 600)), fill=(112, 106, 120))           # floor
-    for i in range(-8, 9):                                                                  # tiles in perspective
-        d.line((vx + i * 30, 390, vx + i * 110, 600), fill=(60, 58, 74), width=2)
-    for y in (420, 460, 515, 590):
-        d.line((0, y, w, y), fill=(60, 58, 74), width=2)
-    for x0, x1, col in ((0, 120, (40, 42, 56)), (680, 800, (40, 42, 56)), (150, 196, (70, 72, 90)), (604, 650, (70, 72, 90))):
-        d.rectangle((x0, 0, x1, h), fill=col)                                               # pillars
-    d.polygon(((370, 120), (430, 120), (500, 420), (300, 420)), fill=(255, 245, 210, 110))    # the shaft of light
-    d.rectangle((250, 392, 550, 420), fill=(110, 112, 132)); d.rectangle((290, 370, 510, 394), fill=(124, 126, 146))   # steps
-    d.rectangle((345, 330, 455, 372), fill=(140, 142, 162)); d.rectangle((335, 322, 465, 336), fill=(156, 158, 178))   # pedestal
+TEMPLE_SLOT = (960, 395)                                                    # the slot on the pedestal of plate #13 (plate px, 1920x1080)
+TEMPLE_SWORD_H = 210                                                        # our 3D sword v2 at plate scale: the blade fills the slot
+
+
+def temple_plate():
+    """The sword's temple: final art #13 (temple hall, light shafts, the crest banners) with our 3D sword v2 planted in
+    the slot on its pedestal (the plate itself is never modified: the sword is a layer)."""
+    im = final_plate('temple').convert('RGBA')
     sw = SWD[12].transpose(Image.FLIP_TOP_BOTTOM)
-    sw = sw.resize((max(1, int(sw.width * 250 / sw.height)), 250), Image.LANCZOS)
-    clip = Image.new('L', sw.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, sw.width, int(sw.height * .78)), fill=255)
-    sw.putalpha(Image.fromarray(np.minimum(np.asarray(sw.getchannel('A')), np.asarray(clip))))
-    im = CART.glow(im, 400, 230, 150, (200, 230, 255), .7)
-    im.paste(sw, (int(400 - sw.width / 2), int(326 - sw.height * .78)), sw)
-    return im
+    sw = sw.crop(sw.getchannel('A').getbbox())
+    sw = sw.resize((max(1, int(sw.width * TEMPLE_SWORD_H / sw.height)), TEMPLE_SWORD_H), Image.LANCZOS)
+    vis = int(sw.height * .78)                                              # the tip is in the stone
+    sw = sw.crop((0, 0, sw.width, vis))
+    im = CART.glow(im.convert('RGB'), TEMPLE_SLOT[0], TEMPLE_SLOT[1] - 90, 160, (200, 230, 255), .45).convert('RGBA')
+    im.alpha_composite(sw, (int(TEMPLE_SLOT[0] - sw.width / 2), int(TEMPLE_SLOT[1] + 3 - vis)))
+    return im.convert('RGB')
 
 
-TEMPLE = _temple()
+TEMPLE_FULL = temple_plate()
+TEMPLE = TEMPLE_FULL.crop((240, 0, 1680, 1080)).resize((800, 600), Image.LANCZOS)   # 4:3, centred on the pedestal
+
 
 
 def field_1998(res):
@@ -164,7 +158,7 @@ def _screen_quad(im):
 
 
 SW2_QUAD, SW2_MASK = _screen_quad(SW2)
-TEMPLE_HD = TEMPLE.crop((0, 75, 800, 525))                                  # 16:9, today's picture: same temple, full detail
+TEMPLE_HD = TEMPLE_FULL.resize((800, 450), Image.LANCZOS)                  # 16:9, today's picture: same temple, full detail
 
 
 def switch2(k, t):
@@ -480,7 +474,7 @@ def render(t):
     if t < T0 + .3:                                                          # out of block K's glow
         fr = Image.blend(Image.new('RGB', fr.size, (255, 245, 215)), fr, (t - T0) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v3 · PLANNING ONLY')
+    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -490,7 +484,7 @@ STILLS = (('l1', T_NOTHING + .8), ('l2', T_TEX + .5), ('l3', T_RES + 1.0), ('l4'
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -500,14 +494,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockL_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockL_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockL_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockL_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

@@ -18,7 +18,9 @@ Quest (pixels -> smooth) instead of Quest dropping in; the chest opens.
   M5  "Music mattered."                   The ocarina (our 3D) plays, notes rise, flowers open round him, leaves sway.
   M6  "And most importantly..."           Everything freezes and drains of colour; Navi flies to the centre.
   M7  "time mattered."                    One sweep of a clock dial: the sun sets, the moon rises, night and stars.
-Stand-ins: forest (MISSING #12), Quest in his tunic from behind (#3). Sounds: none (all at the end).
+v3: final art. The pop-up world becomes the forest village (#12) as the tilt completes; young Quest from behind (#3).
+M3's line runs to the far waterfall (the plate has no mountain); the chest sits on the grass, lower left; at night the
+village's windows and lanterns light up. Sounds: none (all at the end).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -30,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, FPS, T, ease, lin, cutout, subtitle, tag, F  # noqa
+from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -226,7 +228,10 @@ def mountain(fr, a, night):
     return Image.alpha_composite(fr.convert('RGBA'), fog.filter(ImageFilter.GaussianBlur(16))).convert('RGB')
 
 
-QB = cutout('quest:walking_back', 'hero')                                   # MISSING #3: Quest in his tunic from behind
+QB = final('quest_young_back')                                              # final art #3: young Quest in his tunic, from behind (he stands)
+FOREST_P = final_plate('forest').resize((W, H), Image.LANCZOS)              # final art #12: the forest village
+FAR_PT = (W * .755, H * .50)                                                # the far waterfall beyond the tree houses (M3)
+LANTERNS = ((.085, .085), (.19, .14), (.53, .20), (.575, .20), (.62, .37), (.515, .48), (.595, .48), (.94, .20), (.86, .23), (.47, .38))   # lit windows / lanterns of #12
 OCA = BL.BK.BJ.BI.OCA
 QX, QFEET, QH = W * .5, H * .95, H * .44
 
@@ -236,8 +241,11 @@ def forest_frame(t, tc):
     kt = min(1, max(0, (t - T_TILT) / (T_STAND - T_TILT - .25)))           # the tilt (pop-up)
     night = ease(min(1, max(0, (t - T_TIME) / 1.0)))
     M = homography(kt)
+    kp = ease(min(1, max(0, (kt - .55) / .45)))                            # the pop-up world becomes the real forest (#12)
     if kt <= 0:
         fr = MAP.copy()
+    elif kp >= 1:
+        fr = FOREST_P.copy()
     else:
         fr = _sky(night)
         fr = mountain(fr, ease(min(1, max(0, (kt - .5) / .5))), night)
@@ -267,8 +275,12 @@ def forest_frame(t, tc):
             if abs(sway) > .3:
                 spr = spr.rotate(sway, resample=Image.BICUBIC, center=(tw / 2, th), expand=False)
             fr = comp(fr, spr, px - tw / 2, py - th)
-    if night > 0:                                                            # the ground goes to night too
+        if kp > 0:
+            fr = Image.blend(fr, FOREST_P, kp)
+    if night > 0:                                                            # the forest goes to night too
         fr = Image.blend(fr, Image.new('RGB', fr.size, (14, 20, 54)), .55 * night)
+        for (lx, ly) in LANTERNS:                                            # ...and its windows and lanterns light up
+            fr = CART.glow(fr, W * lx, H * ly, 46, (255, 200, 110), .55 * night)
     return fr, M, kt, night
 
 
@@ -279,10 +291,12 @@ def kmusic(t):
 T_OPEN = T('l98.w4') + .35                                                 # Producer improvement: the chest opens
 
 
+CHEST_POS = (W * .22, H * .76)                                             # on the grass, lower left of #12
+
+
 def chest(fr, M, t):
-    x, y = CHEST_TILE
-    px, py = project(M, x * TS + TS / 2, y * TS + TS * .8)
-    s = local_scale(M, x * TS, y * TS) * 1.9
+    px, py = CHEST_POS
+    s = 2.0
     w, h = int(40 * s), int(30 * s)
     if w < 6:
         return fr, (px, py)
@@ -331,15 +345,18 @@ def target_marker(fr, cx, cy, k, tc):
 FLOWERS = [(MC / 2 + dx, MR * .55 + dy) for dx, dy in ((-6, 3), (-4, 6), (4, 5), (6, 2), (-8, 0), (8, 6), (-2, 8), (3, 9), (-5, -2), (5, -3))]
 
 
+FLOWER_PTS = ((.30, .82), (.36, .90), (.66, .86), (.72, .78), (.24, .70), (.79, .90), (.40, .74), (.62, .72), (.15, .86), (.86, .80))   # on the grass round him
+
+
 def flowers(fr, M, t):
     k0 = T_MUSIC + .15
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    for i, (fx, fy) in enumerate(FLOWERS):
+    for i, (fx, fy) in enumerate(FLOWER_PTS):
         k = ease(min(1, max(0, (t - k0 - i * .07) / .35)))
         if k <= 0:
             continue
-        px, py = project(M, fx * TS, fy * TS)
-        s = local_scale(M, fx * TS, fy * TS) * 9 * k
+        px, py = W * fx, H * fy
+        s = (5 + 9 * (fy - .65) / .3) * k                                    # nearer = bigger
         col = ((255, 140, 180), (255, 240, 120), (190, 160, 255))[i % 3]
         for j in range(5):
             a = j * 2 * math.pi / 5
@@ -434,7 +451,7 @@ def m2_7(t):
     if T_DIST <= t < T_LOOK + .3:
         k = ease(min(1, (t - T_DIST) / .7)); a = 1 - min(1, max(0, (t - T_LOOK) / .3))
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-        x0, y0 = QX + 40, QFEET - QH * .3; x1, y1 = W * .63, HORIZON - 40     # out to the mountain's foot
+        x0, y0 = QX + 40, QFEET - QH * .3; x1, y1 = FAR_PT                    # out to the far waterfall
         xe, ye = lin(x0, x1, k), lin(y0, y1, k)
         n = 16
         for i in range(n):
@@ -481,11 +498,6 @@ def m2_7(t):
             s = '2D'
             d.rounded_rectangle((W * .04, H * .12, W * .04 + 70, H * .12 + 44), 8, fill=(20, 24, 40), outline=(255, 255, 255), width=2)
             d.text((W * .04 + 16, H * .12 + 6), s, font=F(28), fill=(255, 255, 255))
-    d = ImageDraw.Draw(fr)
-    lab = 'MISSING · forest (#12) · Quest tunic back (#3) · planning stand-ins'
-    tw = d.textlength(lab, font=F(13))
-    ly = H * .17 if t >= T_STAND else H * .06                                # under the hearts and magic once the HUD is on
-    d.rectangle((W * .03, ly, W * .03 + tw + 12, ly + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, ly + 2), lab, font=F(13), fill=(255, 235, 235))
     lab = ('M1 it felt new' if t < T_MAP else 'M2 two dimensions -> somewhere to stand' if t < T_DIST else 'M3 distance mattered' if t < T_LOOK else 'M4 where you looked mattered'
            if t < T_MUSIC else 'M5 music mattered' if t < T_FREEZE else 'M6 and most importantly...' if t < T_TIME else 'M7 time mattered')
     return fr, lab
@@ -499,7 +511,7 @@ def render(t):
         if t < T_NEW + .5:                                                   # out of the white, straight onto the map
             fr = Image.blend(Image.new('RGB', fr.size, (250, 255, 245)), fr, (t - T_NEW) / .5)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v2 · PLANNING ONLY')
+    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -509,7 +521,7 @@ STILLS = (('m0', T_BURST - .3), ('m1', T_BURST + .9), ('m2_map', T_TILT - .3), (
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -519,14 +531,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockM_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockM_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockM_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockM_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

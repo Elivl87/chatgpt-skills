@@ -19,8 +19,9 @@ years are told without text (a time-lapse in the empty temple) and the eras are 
   N7  "Link's adventure is a journey through Hyrule across two distinct eras."  The temple again, split down the middle:
                                           CHILD (day window, young Quest, Navi bright) | ADULT (storm window, adult Quest
                                           with shield and sword on his back, Navi dim).
-HUD: hidden (a story beat, not play). Stand-ins: young / adult Quest in the tunic from behind (MISSING #3, #4), the
-temple (#13). Sounds: none (all at the end).
+HUD: hidden (a story beat, not play). v8: final art #13 (the temple; our 3D sword v2 in its pedestal slot, the storm
+seen through its windows), #3 young Quest and #4 adult Quest (3D shield + sword) from behind. Still a stand-in: adult
+Quest with no gear right after he pulls the sword (N2-N3, Producer N v5). Sounds: none (all at the end).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -31,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, FPS, T, ease, lin, cutout, subtitle, tag, F  # noqa
+from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -58,77 +59,54 @@ T_TWO = T('l108.w9')                    # "two"
 T_END = T('l109') - 0.05                # block O starts on l109
 INK = (20, 14, 18, 255)
 
-YOUNG = cutout('quest:walking_back', 'hero')                                # MISSING #3 (young) / #4 (adult): planning stand-ins
-
-
-from gear import adult_back  # noqa: E402 (shared with block I)
-ADULT = adult_back(YOUNG)
+YOUNG = final('quest_young_back')                                           # final art #3: young Quest in the tunic, from behind
+ADULT = final('quest_adult_back')                                           # final art #4: adult Quest from behind, 3D shield + sword on his back
+ADULT_PULL = YOUNG                # Producer (N v5): no gear on his back right after he pulls the sword (#4 has it baked in):
+PULL_TAG = 'MISSING · adult Quest back, no gear (stand-in: #3 scaled)'   # until a gear-less adult back exists
 QX, QFEET = W * .5, H * .93
 YH, AH = H * .30, H * .44
+SW_PLATE = 1280 / 1920                                                      # plate px -> frame px
 SWORD = BL.SWD[12].transpose(Image.FLIP_TOP_BOTTOM)
-SWORD = sized(SWORD, 230)
-PED_TOP = H * .70                                                           # top of the pedestal
+SWORD = sized(SWORD.crop(SWORD.getchannel('A').getbbox()), int(BL.TEMPLE_SWORD_H * SW_PLATE))   # same size as in block L's picture
+PED_X = BL.TEMPLE_SLOT[0] * SW_PLATE                                        # the slot on the pedestal of plate #13
+PED_TOP = BL.TEMPLE_SLOT[1] * SW_PLATE                                      # (top of the pedestal: the blade goes in here)
+TEMPLE_P = final_plate('temple').resize((W, H), Image.LANCZOS)              # final art #13 (with the crest banners)
+_a = np.asarray(TEMPLE_P).astype(np.int16)
+_yy = np.mgrid[0:H, 0:W][0]
+_xx = np.mgrid[0:H, 0:W][1]
+SKY = ((_a[..., 2] >= _a[..., 0] - 4) & (_a[..., 2] > 150) & (_yy < H * .44) & (_xx > W * .32) & (_xx < W * .69)).astype(np.uint8) * 255
+SKY = Image.fromarray(SKY).filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.GaussianBlur(2))   # the windows' sky (for the storm)
 
 
-# ------------------------------------------------------------------ the temple, inside
-def window_view(w, h, storm, t):
-    """What the temple's windows show: blue sky and village roofs (child) -> red storm and ruins (adult)."""
-    a = np.zeros((h, w, 3), np.float32); yy = np.linspace(0, 1, h)[:, None, None]
-    day = np.array([150, 205, 250]) * (1 - yy) + np.array([230, 240, 250]) * yy
-    st = np.array([70, 18, 30]) * (1 - yy) + np.array([170, 60, 50]) * yy
-    a[:] = day * (1 - storm) + st * storm
-    im = Image.fromarray(a.astype(np.uint8)); d = ImageDraw.Draw(im)
-    r = np.random.default_rng(3)
-    base = h * .78
-    for i in range(9):                                                      # the village roofs
-        x = i * w / 8 - 10 + r.random() * 10; rw = 40 + r.random() * 30; rh = 30 + r.random() * 30
-        broken = storm > .5 and i % 3 != 1
-        col = tuple(int(lin(c0, c1, storm)) for c0, c1 in zip((180, 100, 70), (50, 30, 34)))
-        if broken:
-            d.polygon(((x, base), (x + rw * .3, base - rh * .5), (x + rw * .5, base - rh * .2), (x + rw * .8, base - rh * .6), (x + rw, base)), fill=col)
-        else:
-            d.polygon(((x, base), (x + rw / 2, base - rh), (x + rw, base)), fill=col)
-            d.rectangle((x + rw * .15, base, x + rw * .85, h), fill=tuple(int(c * .8) for c in col))
-    d.rectangle((0, base, w, h), fill=tuple(int(lin(c0, c1, storm)) for c0, c1 in zip((110, 160, 90), (40, 30, 30))))
-    if storm > .6 and (t * 3.1) % 1 < .07:                                  # lightning
-        d.line((w * .7, 0, w * .62, h * .3, w * .68, h * .35, w * .6, h * .6), fill=(255, 240, 255), width=3)
+# ------------------------------------------------------------------ the temple, inside (final art #13)
+def storm_sky(t):
+    """What the windows show in the adult era: a red storm with lightning (the plate's day sky is the child's)."""
+    a = np.zeros((H, W, 3), np.float32); yy = np.linspace(0, 1, H)[:, None, None]
+    a[:] = np.array([60, 14, 26]) * (1 - yy * 2.2).clip(0, 1) + np.array([170, 60, 50]) * (yy * 2.2).clip(0, 1)
+    im = Image.fromarray(a.clip(0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
+    if (t * 3.1) % 1 < .07:                                                 # lightning in the central window
+        d.line((W * .52, H * .03, W * .48, H * .15, W * .51, H * .18, W * .47, H * .32), fill=(255, 240, 255), width=4)
     return im
 
 
 def temple(t, storm=0.0, light_ang=0.0, age=0.0, sword=True, sword_rise=0.0, sword_a=1.0):
-    w, h = W, H
-    vx, vy = W * .5, H * .38
-    wall = tuple(int(lin(c0, c1, storm)) for c0, c1 in zip((150, 148, 170), (80, 70, 86)))
-    im = Image.new('RGB', (w, h), tuple(int(c * .55) for c in wall)); d = ImageDraw.Draw(im, 'RGBA')
-    d.rectangle((W * .16, H * .04, W * .84, H * .62), fill=wall)                            # back wall
-    wins = (W * .32, W * .5, W * .68)
-    for x in wins:                                                                          # three tall windows
-        ww, wh = 70, 230
-        view = window_view(int(ww), int(wh), storm, t)
-        m = Image.new('L', (int(ww), int(wh)), 0); md = ImageDraw.Draw(m)
-        md.rectangle((0, 34, ww, wh), fill=255); md.ellipse((0, 0, ww, 70), fill=255)
-        im.paste(view, (int(x - ww / 2), int(H * .10)), m)
-        d.line((x, H * .10 + 4, x, H * .10 + wh), fill=(90, 90, 110), width=4)
-        d.rectangle((x - ww / 2 - 4, H * .10 + wh, x + ww / 2 + 4, H * .10 + wh + 10), fill=(100, 98, 118))
-    floor = tuple(int(lin(c0, c1, storm)) for c0, c1 in zip((128, 120, 136), (70, 60, 70)))
-    d.polygon(((W * .16, H * .62), (W * .84, H * .62), (W, H), (0, H)), fill=floor)
-    for i in range(-9, 10):
-        d.line((vx + i * 46, H * .62, vx + i * 170, H), fill=tuple(int(c * .8) for c in floor), width=2)
-    for y in (H * .66, H * .72, H * .80, H * .92):
-        d.line((0, y, W, y), fill=tuple(int(c * .8) for c in floor), width=2)
-    for x0, x1 in ((0, W * .1), (W * .9, W), (W * .16, W * .21), (W * .79, W * .84)):  # pillars
-        d.rectangle((x0, 0, x1, H), fill=tuple(int(c * .6) for c in wall))
-    # the shaft of light from the central window (it swings round during the time-lapse)
-    lc = (255, 240, 205) if storm < .5 else (255, 120, 100)
-    sx = W * .5 + math.sin(light_ang) * W * .25
-    d.polygon(((W * .48, H * .14), (W * .52, H * .14), (sx + 110, H * .80), (sx - 110, H * .80)), fill=lc + (int(70 * (1 - .4 * storm)),))
-    # steps and pedestal
-    d.rectangle((W * .34, H * .76, W * .66, H * .80), fill=tuple(int(c * 1.1) for c in floor))
-    d.rectangle((W * .38, H * .72, W * .62, H * .76), fill=tuple(min(255, int(c * 1.2)) for c in floor))
-    d.rectangle((W * .45, PED_TOP, W * .55, H * .72), fill=(140, 142, 162)); d.rectangle((W * .44, PED_TOP - 10, W * .56, PED_TOP + 2), fill=(160, 162, 182))
+    im = TEMPLE_P.copy()
+    if storm > 0:                                                           # the seven years: storm outside, the hall darkens
+        st = storm_sky(t)
+        im.paste(Image.blend(im, st, min(1, storm)), (0, 0), SKY)
+        a = np.asarray(im).astype(np.float32)
+        a = a * (1 - .45 * storm) + np.array([80, 40, 60]) * .45 * storm * .5
+        im = Image.fromarray(a.clip(0, 255).astype(np.uint8))
+    d = ImageDraw.Draw(im, 'RGBA')
+    if light_ang:                                                           # the window light swings round in the time-lapse
+        lc = (255, 240, 205) if storm < .5 else (255, 120, 100)
+        sx = W * .5 + math.sin(light_ang) * W * .25
+        sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).polygon(((W * .47, H * .05), (W * .53, H * .05), (sx + 130, H * .62), (sx - 130, H * .62)), fill=lc + (int(60 * (1 - .4 * storm)),))
+        im = Image.alpha_composite(im.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(12))).convert('RGB')
+        d = ImageDraw.Draw(im, 'RGBA')
     if age > 0:                                                             # the years: cobwebs and cracks
         a = int(200 * age)
-        for (cx, cy, sxn, syn) in ((W * .21, 0, 1, 1), (W * .79, 0, -1, 1)):
+        for (cx, cy, sxn, syn) in ((W * .235, 0, 1, 1), (W * .765, 0, -1, 1)):
             for k in range(5):
                 rr = 30 + 26 * k * age
                 d.arc((cx - rr, cy - rr, cx + rr, cy + rr), 0 if sxn > 0 else 90, 90 if sxn > 0 else 180, fill=(235, 235, 240, a), width=2)
@@ -136,34 +114,33 @@ def temple(t, storm=0.0, light_ang=0.0, age=0.0, sword=True, sword_rise=0.0, swo
                 ang = math.pi / 2 * (k / 3) if sxn > 0 else math.pi / 2 + math.pi / 2 * (k / 3)
                 d.line((cx, cy, cx + math.cos(ang) * 140 * age, cy + math.sin(ang) * 140 * age), fill=(235, 235, 240, a), width=2)
         r = np.random.default_rng(21)
-        for k in range(3):
-            x, y = W * (.25 + .25 * k), H * (.2 + .1 * (k % 2))
+        for (x, y) in ((W * .27, H * .16), (W * .62, H * .10), (W * .86, H * .30)):
             pts = [(x, y)]
-            for s in range(5):
+            for s_ in range(5):
                 x += (r.random() - .5) * 40; y += 26 * age
                 pts.append((x, y))
             d.line(pts, fill=(50, 40, 50, a), width=3)
-    im = CART.glow(im, W * .5, PED_TOP - 60, 160, (200, 230, 255) if storm < .5 else (255, 140, 120), .45)
+    im = CART.glow(im, PED_X, PED_TOP - 60, 140, (200, 230, 255) if storm < .5 else (255, 140, 120), .35)
     if sword and sword_a > 0:                                               # sword_rise: drawn up out of the stone (px)
         vis = int(SWORD.height * .78 + sword_rise)
         clip = Image.new('L', SWORD.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, SWORD.width, vis), fill=255)
         s2 = SWORD.copy(); s2.putalpha(Image.fromarray(np.minimum(np.asarray(SWORD.getchannel('A')), np.asarray(clip))))
         if sword_rise > 0:
-            im = CART.glow(im, W * .5, PED_TOP - 80 - sword_rise, 120, (220, 240, 255), min(.7, sword_rise / 60))
-        im = comp(im, fade(s2, sword_a), W * .5 - SWORD.width / 2, PED_TOP + 4 - vis)
+            im = CART.glow(im, PED_X, PED_TOP - 60 - sword_rise, 110, (220, 240, 255), min(.7, sword_rise / 40))
+        im = comp(im, fade(s2, sword_a), PED_X - SWORD.width / 2, PED_TOP + 2 - vis)
     if storm > 0:
-        im = Image.blend(im, Image.new('RGB', im.size, (60, 10, 20)), .18 * storm)
+        im = Image.blend(im, Image.new('RGB', im.size, (60, 10, 20)), .15 * storm)
     return im
 
 
 def quest(fr, h, a=1.0, x=QX, feet=QFEET, adult=False):
-    q = sized(ADULT if adult else YOUNG, h)
+    q = sized(ADULT_PULL if adult == 'pull' else ADULT if adult else YOUNG, h)
     sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, feet - 10, x + q.width * .4, feet + 8), fill=(0, 0, 0, int(80 * a)))
     fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
     return comp(fr, fade(q, a), x - q.width / 2, feet - q.height)
 
 
-RISE = 46                                                                   # how far the sword comes up out of the stone (px)
+RISE = 30                                                                   # how far the sword comes up out of the stone (px)
 STEP0, STEP_D = T('l103') - .05, .45                                        # his step up to the pedestal
 
 
@@ -211,7 +188,7 @@ def flower(fr, k):
             fx = bx + (j - 1.5) * 12 * S + 10 * S
             d.ellipse((fx - 5 * S, by - 3 * S, fx + 5 * S, by + 2 * S), fill=outer + (int(255 * min(1, wilt * 2)),), outline=ink, width=S)
     g = g.resize((gw // S, gh // S), Image.LANCZOS)
-    return comp(fr, g, W * .33 - gw / S / 2, H * .765 - gh / S + 6)
+    return comp(fr, g, W * .40 - gw / S / 2, H * .585 - gh / S + 6)   # on the dais, by the pedestal
 
 
 # ------------------------------------------------------------------ N1-N4
@@ -225,7 +202,10 @@ def n1_4(t):
     elif t < T_WORLD:                                                       # N2-N3: the adult, then he disappears
         kd = min(1, max(0, (t - T('l104.w2')) / .7))                         # "disappeared"
         fr = temple(t, storm=0, sword=True, sword_rise=RISE, sword_a=1 - kd)   # ...and the sword goes with him, the same way
-        fr = quest(fr, AH, a=1 - kd)                                        # Producer: just pulled the sword - no gear on his back yet
+        fr = quest(fr, AH, a=1 - kd, adult='pull')                          # Producer: just pulled the sword - no gear on his back yet
+        if kd < 1:
+            d = ImageDraw.Draw(fr); tw = d.textlength(PULL_TAG, font=F(13))
+            d.rectangle((QX - tw / 2 - 6, QFEET - AH - 28, QX + tw / 2 + 6, QFEET - AH - 8), fill=(150, 20, 30)); d.text((QX - tw / 2, QFEET - AH - 26), PULL_TAG, font=F(13), fill=(255, 235, 235))
         if kd > 0:                                                          # motes of light rise from him and from the sword
             g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
             r = np.random.default_rng(8)
@@ -342,11 +322,7 @@ def render(t):
     if t < T_ERAS:                                                          # N7 draws its own two Navis
         fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    lab2 = 'MISSING · young / adult Quest in the tunic, back (#3, #4) · temple (#13) · planning stand-ins'
-    tw = d.textlength(lab2, font=F(13))
-    if not (T_SIDE <= t < T_ERAS):
-        d.rectangle((W * .03, H * .06, W * .03 + tw + 12, H * .06 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .06 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v7 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v8 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -356,7 +332,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -366,14 +342,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v7_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v8_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v7_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v8_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

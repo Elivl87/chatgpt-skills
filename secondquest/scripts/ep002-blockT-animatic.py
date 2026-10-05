@@ -16,8 +16,9 @@ Option B, "the meeting on the road" (Producer, 2026-10-05: "Vamos con B, constr�
   T5  "But maybe you can meet it again."  Adult Quest takes a step towards the castle; Navi flies ahead.
   T6  "And this time... you both grew up."  The 1998 castle and field resolve into today's - the game grew up too;
                                         a heart container: his hearts go from 3 to 4. Warm hold to the end.
-HUD: off in the engine (T1), on in Hyrule. Stand-ins: young hero front, smiling (#3b, new), adult back (#4), field
-plate (#11). Sounds: none (all at the end). Free.
+HUD: off in the engine (T1), on in Hyrule. Sounds: none (all at the end). Free.
+v4 (final art, 2026-10-05): the memory down the road is #3b (young hero, front, warm smile), adult Quest is #4 (3D
+shield and sword, from block R), the field is #11 (from block R); the kids in the engine are block C's #6.
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -28,7 +29,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -139,7 +140,7 @@ def engine(t):
 
 
 # ------------------------------------------------------------------ T2-T6: the meeting on the road
-KID = cutout('quest2:nostalgic_smile', 'hero')                               # MISSING #3b: young hero, front, smiling (stand-in)
+KID = final('quest_young_front')                                             # #3b young hero, front, warm smile (the memory)
 KID_H, KID_X, KID_FEET = H * .27, W * .47, H * .74
 ADULT = BR.ADULT
 AD_H, AD_X, AD_FEET = H * .52, W * .70, H * .98
@@ -241,16 +242,12 @@ def render(t):
     if hud_a > 0:                                                             # the life meter is drawn here (life_meter), the rest by the HUD
         fr = hud.draw(fr, hearts=0, max_hearts=0, alpha=hud_a, t=t)
         fr = life_meter(fr, t, hud_a)
-    if t >= T_ROAD:
-        d = ImageDraw.Draw(fr)
-        lab2 = 'MISSING · young hero front, smiling (#3b) · adult back (#4) · field (#11) · stand-ins'
-        tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
     keys = [(T0, .30, .40), (T_ROAD, .58, .42), (T_MEET, .56, .48), (T_AGAIN, .66, .44),     # improvement 3: Navi's twirl around him,
             (T_AGAIN + .25, .60, .38), (T_AGAIN + .5, .55, .46), (T_AGAIN + .75, .61, .54), (T_AGAIN + 1.0, .68, .45),   # then ahead
             (T_AGAIN + 1.6, .56, .36), (T_GREW, .50, .32), (T_END, .52, .30)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v3 · PLANNING ONLY')
+    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -260,7 +257,7 @@ STILLS = (('t1', T_REB + .5), ('t1b', T_ENOUGH + .6), ('t2', T_MEET + .4), ('t3'
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -270,14 +267,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockT_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockT_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockT_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockT_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

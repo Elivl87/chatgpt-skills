@@ -16,7 +16,10 @@ v1, "everything is still there... except you" (Producer, 2026-10-05: "Sí, const
   Q7  "A story about a child becoming an adult... is coming back to people who did exactly that."  Two mirrored strips:
                                              GAME (young hero -> adult hero with shield and sword) and LIFE (the kid of
                                              the 1998 mark -> Quest at 2026); both arrows light up together and "=".
-HUD: on in Q1-Q4 (in game), hidden from Q5 (real life). Stand-ins: forest (#12), temple (#13), young/adult back (#3, #4).
+HUD: on in Q1-Q4 (in game), hidden from Q5 (real life).
+v2 (final art, 2026-10-05): "today" in Q1-Q2 is the final forest #12 (a slow push in), Q3 the final temple #13 with
+our 3D sword v2 standing in the pedestal's slot (push in on it; also on the cartridge label in Q6 and behind the GAME
+strip in Q7); the GAME strip's young / adult hero are #3 and #4 (shield and sword). No stand-ins left in Q.
 Sounds: none (all at the end). Free.
 """
 import importlib.util, math, subprocess, sys
@@ -28,7 +31,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -83,13 +86,36 @@ def still_tag(fr, k, text='STILL THERE'):
 
 
 # ------------------------------------------------------------------ Q1-Q3: still there
+FOREST_NOW = final_plate('forest')                                           # #12 the forest village (final)
+CAM_FOREST = ((1.0, .5, .5), (1.07, .52, .52))                               # a slow push in over the shot (Q1, Q2)
+
+
 def forest(t):
-    fr = BO.FOREST.copy()
-    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)                      # drifting mist (block O)
+    box = cam_box(CAM_FOREST, min(1, max(0, (t - T0) / (T_SWD - T0))))
+    fr = FOREST_NOW.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)                      # drifting mist (block O), lighter on the sunny plate
     for i in range(14):
         x = (i * 140 + t * 30 * (1 + i % 3)) % (W + 300) - 150; y = H * (.35 + .05 * (i % 5))
-        d.ellipse((x - 160, y - 50, x + 160, y + 50), fill=(235, 240, 246, 120))
+        d.ellipse((x - 160, y - 50, x + 160, y + 50), fill=(250, 240, 220, 55))
     return Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(18))).convert('RGB')
+
+
+# the temple (final #13) with our 3D sword (v2) in the pedestal's slot, composed at plate size
+TEMPLE_NOW = final_plate('temple')
+SLOT = (960, 393)                                                            # the slot on top of the pedestal (plate px)
+_sw = BN.BL.SWD[12].transpose(Image.FLIP_TOP_BOTTOM)
+SWORD_P = sized(_sw.crop(_sw.getchannel('A').getbbox()), 330)               # point down; 78% shows above the stone
+CAM_SWORD = ((1.45, .5, .40), (1.6, .5, .39))
+
+
+def temple_now(sword=True):
+    im = TEMPLE_NOW.copy()
+    if sword:
+        vis = int(SWORD_P.height * .78)
+        s2 = SWORD_P.crop((0, 0, SWORD_P.width, vis))
+        im = CART.glow(im, SLOT[0], SLOT[1] - 120, 200, (200, 230, 255), .35)
+        im = comp(im, s2, SLOT[0] - SWORD_P.width / 2, SLOT[1] + 3 - vis)
+    return im
 
 
 OCA = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/ocarina_spin').glob('f*.png'))]
@@ -112,10 +138,22 @@ def ocarina(t):
     return fr
 
 
+TEMPLE_SW = None
+
+
 def sword(t):
-    fr = BN.temple(t, storm=0, sword=True)
+    global TEMPLE_SW
+    if TEMPLE_SW is None:
+        TEMPLE_SW = temple_now(True)
+    box = cam_box(CAM_SWORD, min(1, max(0, (t - T_SWD) / (T_TRI - T_SWD))))
+    fr = TEMPLE_SW.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
     k = .5 + .5 * math.sin((t - T_SWD) * 3)                                      # the sword waits, a slow pulse
-    return CART.glow(fr, W * .5, BN.PED_TOP - 60, 160, (200, 230, 255), .25 + .2 * k)
+    sx, sy = to_frame(SLOT[0], SLOT[1] - SWORD_P.height * .55, box)
+    return CART.glow(fr, sx, sy, 150, (200, 230, 255), .2 + .2 * k)
+
+
+def to_frame(px, py, box):
+    return (px - box[0]) * W / (box[2] - box[0]), (py - box[1]) * H / (box[3] - box[1])
 
 
 # ------------------------------------------------------------------ Q4: the Triforce
@@ -167,12 +205,12 @@ def game(t):
 
 
 # ------------------------------------------------------------------ Q5: the person holding the controller
-QIMG = BO.QIMG
+QIMG = sized(HB.QPROF, int(BP.QSPEC[2] * PH))                                  # Q008 on the floor (the childhood room's scale)
 SCREEN = BO.SCREEN
 SX0, SX1, SY0, SY1 = BO.SX0, BO.SX1, BO.SY0, BO.SY1
 CAM_SCR = (PW / (SX1 - SX0) * .92, (SX0 + SX1) / 2 / PW, (SY0 + SY1) / 2 / PH)
 CAM_ROOM = (1.25, .62, .60)                                                     # him, the kid he was and the TV
-GX = HB.QSPEC[0] * PW + QIMG.width * .62                                        # the kid he was (plate px, centre)
+GX = BP.QSPEC[0] * PW + QIMG.width * .62                                        # the kid he was (plate px, centre)
 GHOST = None
 
 
@@ -186,10 +224,10 @@ def _ghost():
 
 
 def room(t, pic):
-    base = HB.room_plate(t, pic)
+    base = BP.room_plate(t, pic)
     rgb = CART.glow(base.convert('RGB'), BC.SCR_C[0] * PW, BC.SCR_C[1] * PH, 380, (170, 210, 255), .3)
     base = rgb.convert('RGBA')
-    qx, qf = HB.QSPEC[0] * PW, HB.QSPEC[1] * PH
+    qx, qf = BP.QSPEC[0] * PW, BP.QSPEC[1] * PH
     sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((qx - QIMG.width * .45, qf - 24, qx + QIMG.width * .45, qf + 14), fill=(0, 0, 0, 90))
     base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
     base.alpha_composite(QIMG, (int(qx - QIMG.width / 2), int(qf - QIMG.height)))
@@ -210,7 +248,7 @@ def person(t, last_game):
     kd = min(1, max(0, (t - T_DIFF + .1) / .3))
     if kd > 0:
         d = ImageDraw.Draw(fr)
-        qx, qf = HB.QSPEC[0] * PW, HB.QSPEC[1] * PH
+        qx, qf = BP.QSPEC[0] * PW, BP.QSPEC[1] * PH
         for lab, px, py, col in (('1998', GX, qf - QIMG.height * .80, (190, 215, 255)),
                                  ('2026', qx - QIMG.width * .05, qf - QIMG.height * 1.06, (255, 226, 140))):
             x = (px - box[0]) * W / (box[2] - box[0]); y = (py - box[1]) * H / (box[3] - box[1])
@@ -224,7 +262,7 @@ def person(t, last_game):
 # ------------------------------------------------------------------ Q6: almost too perfect
 def perfect(t):
     k = ease(min(1, (t - T_GAME) / .8))
-    temple_now = BN.temple(T_GAME, storm=0, sword=True)
+    tn = temple_now(True).crop(tuple(int(v) for v in cam_box((CAM_SWORD[0], CAM_SWORD[0]), 0)))
     cs = lin(380, 520, k)
     cart = BN.CARTRIDGE.resize((int(cs), int(cs * BN.CARTRIDGE.height / BN.CARTRIDGE.width)), Image.LANCZOS)
     cx, cy = W * .5, H * .42
@@ -234,7 +272,7 @@ def perfect(t):
     fr = Image.new('RGB', (W, H), (16, 14, 22))
     fr = CART.glow(fr, cx, cy, 420, (255, 215, 120), .25 + .15 * math.sin((t - T_GAME) * 4))
     fr = comp(fr, cart, cx - cart.width / 2, cy - cart.height / 2)
-    fr.paste(temple_now.resize((max(1, int(lw)), max(1, int(lh))), Image.BILINEAR), (int(lx0), int(ly0)))
+    fr.paste(tn.resize((max(1, int(lw)), max(1, int(lh))), Image.BILINEAR), (int(lx0), int(ly0)))
     ks = min(1, max(0, (t - T_PERF + .1) / .2))
     if ks > 0:                                                                  # ALMOST TOO PERFECT, a little crooked
         st = Image.new('RGBA', (680, 96)); sd = ImageDraw.Draw(st)
@@ -265,8 +303,8 @@ def strip(fr, y0, kind, k_in, k_arrow, k_lit):
     x0, x1 = W * .17, W * .95
     off = (1 - ease(k_in)) * (W if kind == 'LIFE' else -W)
     if kind == 'GAME':
-        bg = BN.temple(T_STORY, storm=0, sword=False).crop((0, int(H * .25), W, int(H * .25 + H * .55))).resize((int(x1 - x0), int(STRIP_H)), Image.BILINEAR)
-        a, b = BN.YOUNG, BN.ADULT
+        bg = TEMPLE_NOW.crop((0, int(PH * .30), PW, int(PH * .30 + PH * .55))).resize((int(x1 - x0), int(STRIP_H)), Image.BILINEAR)
+        a, b = final('quest_young_back'), final('quest_adult_back')   # #3, #4 (final)
         ha, hb = STRIP_H * .62, STRIP_H * .88
         la, lb = 'CHILD', 'ADULT'
     else:
@@ -331,7 +369,7 @@ def render(t):
     keys = [(T0, .70, .26), (T_TRI, .74, .22), (T_PERSON, .60, .30), (T_GAME, .72, .28), (T_STORY, .08, .82), (T_END, .10, .82)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 23 STILL THERE · {lab} · BLOCK Q v1 · PLANNING ONLY')
+    tag(d, f'SEQ 23 STILL THERE · {lab} · BLOCK Q v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -341,7 +379,7 @@ STILLS = (('q1', T('l121.w4') + .3), ('q2', T('l122.w4') + .3), ('q3', T('l123.w
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockQ_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockQ_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -351,14 +389,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockQ_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockQ_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockQ_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockQ_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

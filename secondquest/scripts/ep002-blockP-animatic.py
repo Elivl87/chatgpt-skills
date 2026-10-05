@@ -15,8 +15,12 @@ v1, "back to the room" (Producer, 2026-10-05: "Sí, constrúyelo así"): Quest o
                                           The door frame of the same room: pencil height marks (1996, 1997, 1998 - kid
                                           height). Quest stands against it, his head far above; a new line "2026"; the
                                           gap between 1998 and 2026 lights up.
-HUD: hidden (real life). Stand-ins: Quest blowing into the cartridge (MISSING #10a, also a thumbnail candidate) - planning
-uses the holding-cartridge pose. Sounds: none (all at the end).
+HUD: hidden (real life). Sounds: none (all at the end).
+v2 (approved): the blow in profile (head and shoulders), a whip pan from P4 to the door frame.
+v3 (final art, 2026-10-05): the profile blow is now the final #10a (red hoodie, profile right, blowing the gold
+cartridge; the cartridge in his hands is part of the art), head and chest, he comes up into the shot and a slow push
+in; the approved cartoon dust cloud still blasts out of the cartridge's far end. Profile stand-in (Q008 crop) and its
+MISSING label removed.
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -28,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -83,6 +87,25 @@ CART_ROOM = sized(dusty(CARTRIDGE, .55), CART_W * CARTRIDGE.height / CARTRIDGE.w
 CART_ROOM = CART_ROOM.resize((CART_ROOM.width, int(CART_ROOM.height * .78)), Image.LANCZOS)   # lying down, a little foreshortened
 
 
+# His childhood bedroom (block C), as block H v7 drew it (block H v8 moved its night shot to adult Quest's room #15;
+# P and Q stay in the childhood room, by day): the CRT on the bedside table plays `pic`, the N64 on the floor.
+ROOM_N = BC.BED.convert('RGB')
+QSPEC = (.47, .985, .50)                                                    # Quest on the floor in front of the bedside table (x, feet y, h)
+
+
+def room_plate(t, pic):
+    base = ROOM_N.copy().convert('RGBA')
+    tv = BC.CRT_34.resize((BC.tvw, int(BC.CRT_34.height * BC.TV_SCALE)), Image.LANCZOS)
+    qs = [(x * BC.TV_SCALE, y * BC.TV_SCALE) for x, y in BC.Q34]
+    ms = np.asarray(Image.fromarray((BC.M34 * 255).astype(np.uint8)).resize(tv.size, Image.NEAREST)) > 127
+    xs = [p[0] for p in qs]; ys = [p[1] for p in qs]
+    scr = pic.resize((int(max(xs) - min(xs)), int(max(ys) - min(ys))), Image.NEAREST)
+    tv = BC.fill_screen(tv, qs, ms, scr)
+    base.alpha_composite(tv, BC.TV_POS)
+    base.alpha_composite(BC.N64_IMG, BC.N64_POS)
+    return base
+
+
 def screen_on(t, k_on):
     """The CRT picture: dark glass, then the old power-on (a dot, a line, the picture)."""
     w, h = 320, 240
@@ -106,9 +129,9 @@ def screen_on(t, k_on):
 
 def plate(t, k_on=0.0, cart=True, sun=0.0):
     """His room by day: the CRT (off unless k_on), the N64 on the floor without its cartridge, the cartridge on the table."""
-    base = HB.room_plate(t, screen_on(t, k_on)).convert('RGBA')
+    base = room_plate(t, screen_on(t, k_on)).convert('RGBA')
     nx, ny = BC.N64_POS
-    patch = HB.ROOM_N.crop((nx, ny, nx + BC.N64_IMG.width, ny + BC.N64_IMG.height))   # remove the cartridge-in console...
+    patch = ROOM_N.crop((nx, ny, nx + BC.N64_IMG.width, ny + BC.N64_IMG.height))   # remove the cartridge-in console...
     base.paste(patch, (nx, ny))
     base.alpha_composite(CONSOLE, (nx, ny + BC.N64_IMG.height - CONSOLE.height))       # ...and put the empty one back
     if sun > 0:                                                              # a sunbeam from the window onto the cartridge
@@ -185,40 +208,32 @@ def p1(t):
 
 
 # ------------------------------------------------------------------ P3: blow, insert, power on
-HOLD = cutout('quest2:holding_cartridge')                                   # MISSING #14: Quest blowing into the cartridge (stand-in)
 INS_BG = Image.blend(plate(T0).crop((1150, 760, 1560, 990)).resize((W, H)).filter(ImageFilter.GaussianBlur(16)), Image.new('RGB', (W, H), (14, 10, 12)), .3)
 CAM_TV = (3.4, BC.SCR_C[0] - .02, BC.SCR_C[1] + .02)
 
 
-PROF = HB.QPROF.crop((0, 0, HB.QPROF.width, int(HB.QPROF.height * .56)))   # Q008 in profile, head and shoulders (no pad)
-MOUTH = (.49, .312)                                                          # his mouth (share of the full Q008 art)
-CART_SIDE = CARTRIDGE.rotate(-90, resample=Image.BICUBIC, expand=True)      # connector end towards his mouth, label away
+BLOW = final('quest_blow')                                                   # #10a: red hoodie, profile right, blowing the gold cartridge
+BLOW = BLOW.crop((0, 0, BLOW.width, 1100))                                   # head and chest (the approved P v2 framing)
+BLOW_END = (800, 360)                                                        # the cartridge's far end, where the dust comes out (art px)
 
 
 def blow(t):
-    """Improvement 1 (Producer): in profile, the cartridge at his mouth - he blows into the connector and the dust
-    blasts out of the other end (the old ritual)."""
+    """Improvement 1 (Producer), final art #10a: in profile, the cartridge at his lips - he blows into the connector
+    and a cartoon dust cloud blasts out of the far end (the old ritual). The art's own small puff is where it starts."""
     bg = plate(t, sun=1).crop((1250, 300, 1920, 677)).resize((W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(10))
     bg = Image.blend(bg, Image.new('RGB', (W, H), (46, 34, 30)), .45)        # darker, so the light dust reads
-    sc = H * .85 / (HB.QPROF.height * .5)
-    q = PROF.resize((int(PROF.width * sc), int(PROF.height * sc)), Image.LANCZOS)
-    x, y = W * .04, H * .53 - HB.QPROF.height * MOUTH[1] * sc         # mouth above the subtitles
+    ku = ease(min(1, max(0, (t - T_NOBODY) / .35)))                         # he comes up into the shot, cartridge at his lips
+    kp = min(1, max(0, (t - T_NOBODY) / (T_INS - T_NOBODY)))                 # a slow push in
+    sc = H * 1.05 / BLOW.height * (1 + .04 * kp)
+    q = BLOW.resize((int(BLOW.width * sc), int(BLOW.height * sc)), Image.LANCZOS)
+    x, y = W * .10 - 10 * kp, H * .06 + 60 * (1 - ku) - 8 * kp
     fr = comp(bg, q, x, y)
-    mx, my = x + HB.QPROF.width * MOUTH[0] * sc, y + HB.QPROF.height * MOUTH[1] * sc
-    ku = ease(min(1, max(0, (t - T_NOBODY) / .35)))                         # he lifts it to his mouth
-    c = sized(dusty(CART_SIDE, 1 - .8 * min(1, max(0, (t - T_NOBODY - .5) / .8))), H * .30)
-    cx0 = mx + 70 * sc; cy = lin(H + c.height, my + 30, ku) - c.height / 2   # past his nose, at his lips
+    ex, ey = x + BLOW_END[0] * sc, y + BLOW_END[1] * sc                       # the far end of the cartridge
     kb = (t - T_NOBODY - .35) / .9
-    if 0 < kb < 1.2:                                                         # his breath, from his lips into the connector
-        d = ImageDraw.Draw(fr); lx = mx + 30
-        for i in (-1, 0, 1):
-            d.line((lx, my + 6 * i, lx + (cx0 - lx) * min(1, kb * 3), my + 14 * i), fill=(255, 255, 255), width=4)
-    fr = comp(fr, c, cx0, cy)
-    ex, ey = cx0 + c.width, my                                                # the far end, where the dust comes out
     if 0 < kb < 1.8:
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
         for i in range(3):                                                     # wind streaks through it
-            yy = my - 30 + i * 30; kk = min(1, kb * 2)
+            yy = ey - 30 + i * 30; kk = min(1, kb * 2)
             d.line((ex + 10, yy, ex + 10 + 220 * kk, yy + (i - 1) * 20 * kk), fill=(255, 255, 255, int(230 * max(0, 1 - kb / 1.2))), width=6)
         rng = np.random.default_rng(3)
         fade_k = max(0, 1 - max(0, kb - .8) / 1.0)
@@ -234,9 +249,6 @@ def blow(t):
             s = rng.uniform(18, 46) * (.5 + min(1, kb))
             d.ellipse((px - s, py - s, px + s, py + s), fill=(236, 224, 196, int(240 * fade_k)))
         fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(2))).convert('RGB')
-    d = ImageDraw.Draw(fr)
-    lab = 'MISSING · Quest blowing into the cartridge (#10a) · planning stand-in'
-    tw = d.textlength(lab, font=F(13)); d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab, font=F(13), fill=(255, 235, 235))
     return fr
 
 
@@ -411,7 +423,7 @@ def render(t):
     keys = [(T0, .62, .30), (T_ORIG, .70, .30), (T_WHY, .62, .26), (T_BEC, .30, .30), (T_END, .34, .26)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v2 · PLANNING ONLY')
+    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -421,7 +433,7 @@ STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a',
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -431,14 +443,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockP_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockP_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockP_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockP_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

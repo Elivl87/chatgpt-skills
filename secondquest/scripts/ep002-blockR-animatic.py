@@ -15,7 +15,10 @@ the script is about the field.
   R4  "A chance to stand beside an old memory... and see if it still recognizes us."  Adult Quest stops on the road,
        facing the castle; the young one turns into the memory (translucent, as in blocks P and Q) beside him; on
        "recognizes" a "?" over the memory flips to "!", a Navi-blue glow links them.
-HUD: hidden on the R1 split (a comparison of two eras, Producer), fades in on the one road (in game). Stand-ins: young/adult back (#3, #4), young hero 3/4 looking up at adult Quest (#3a, new, reusable).
+HUD: hidden on the R1 split (a comparison of two eras, Producer), fades in on the one road (in game).
+v5 (final art, 2026-10-05): the field is the final #11; the young hero walks with #3 and #9 (#3 mirrored) alternating;
+adult Quest is #4 (3D shield and sword); in R4 the young one turns into #3a mirrored (looking up to the right, at
+adult Quest) as he becomes the memory. No stand-ins left in R.
 Sounds: none (all at the end). Free.
 """
 import importlib.util, math, subprocess, sys
@@ -27,7 +30,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -56,10 +59,11 @@ T_END = T('l137') - 0.05                # block S starts on l137
 INK = (20, 14, 18)
 HEARTS = dict(hearts=3.0, max_hearts=3)
 
-FIELD = G.FIELD.copy()
-_fd = ImageDraw.Draw(FIELD)                                                    # our planning plate: its baked MISSING label gets cropped by the
-_fd.rectangle((0, 1015, 560, 1080), fill=FIELD.getpixel((700, 1050)))        # camera, so it is painted out and drawn whole in render()
-YOUNG, ADULT = BN.YOUNG, BN.ADULT
+FIELD = final_plate('field')                                                 # #11 the day field: road, castle far away, volcano
+YOUNG = final('quest_young_back')                                             # #3 young hero, back; #9 = #3 mirrored, the other step
+YOUNG_B = final('quest_young_back_b')
+ADULT = final('quest_adult_back')                                             # #4 adult hero, back, 3D shield + sword (exported: blocks T, U)
+LOOKUP = final('quest_young_lookup', flip=True)                               # #3a mirrored: looks up to the RIGHT, at adult Quest
 YH, AH = H * .26, H * .36
 FEET = H * .93
 
@@ -76,8 +80,14 @@ def memory(im):
 
 
 YOUNG_PX = pixelated(sized(YOUNG, YH))
-YOUNG_MEM = memory(sized(YOUNG, YH))
-YOUNG_REAL = sized(YOUNG, YH)
+YOUNG_PX_B = pixelated(sized(YOUNG_B, YH))
+YOUNG_REAL = sized(LOOKUP, YH)                                                # R4: the memory turns and looks up at him (#3a)
+YOUNG_MEM = memory(YOUNG_REAL)
+
+
+def young_px(t, phase=0.0, walking=True):
+    """The young hero's walk in 1998 pixels: #3 and #9 alternate in time with the bob."""
+    return YOUNG_PX_B if walking and int((t * 7 + phase) / math.pi) % 2 else YOUNG_PX
 ICON_CART = sized(BN.CARTRIDGE, 46)                                          # ruler milestones: the cartridge (1998), the Switch 2 (2026)
 
 
@@ -102,6 +112,13 @@ def _sw2_chill():
 
 
 ICON_SW2 = sized(_sw2_chill(), 46)
+
+
+def _xfade(a, b, k):
+    """Cross-fade two cut-outs of the same height (different widths), bottom-centred."""
+    w = max(a.width, b.width); out = Image.new('RGBA', (w, a.height))
+    out.alpha_composite(fade(a, 1 - k), ((w - a.width) // 2, 0)); out.alpha_composite(fade(b, k), ((w - b.width) // 2, 0))
+    return out
 
 
 def field_view(t, z0=1.0, z1=1.25, t0=None, t1=None):
@@ -132,7 +149,7 @@ def split(t):
     left = G.old_look(full).crop((W // 4, 0, W // 4 + W // 2, H))
     right = G.new_look(full).crop((W // 4, 0, W // 4 + W // 2, H))
     fr = Image.new('RGB', (W, H)); fr.paste(left, (0, 0)); fr.paste(right, (W // 2, 0))
-    fr = walker(fr, YOUNG_PX, W * .25, YH, t)
+    fr = walker(fr, young_px(t), W * .25, YH, t)
     fr = walker(fr, ADULT, W * .75, AH, t, phase=1.3)
     d = ImageDraw.Draw(fr); d.line((W / 2, 0, W / 2, H), fill=(255, 255, 255), width=4)
     ky0 = 1 - min(1, max(0, (t - T_1998) / .3))                               # the year tags hand over to the ruler
@@ -182,9 +199,11 @@ def one_road(t):
             ImageDraw.Draw(fr).line((sx, 0, sx, H), fill=(200, 240, 255), width=4)
     walking = t < T_BESIDE
     km = min(1, max(0, (t - T_BESIDE) / .6))                                   # R4: the young one becomes the memory
-    young = Image.blend(YOUNG_PX.convert('RGB'), YOUNG_MEM.convert('RGB'), km).convert('RGBA') if 0 < km < 1 else (YOUNG_MEM if km >= 1 else YOUNG_PX)
-    if 0 < km < 1:
-        young.putalpha(Image.blend(YOUNG_PX.getchannel('A').convert('L'), YOUNG_MEM.getchannel('A').convert('L'), km))
+    ypx = young_px(t, walking=walking)
+    if 0 < km < 1:                                                             # he turns: the 1998 back view dissolves into #3a
+        young = _xfade(ypx, YOUNG_MEM, km)
+    else:
+        young = YOUNG_MEM if km >= 1 else ypx
     kc = math.sin(min(1, max(0, (t - T_RECOG) / 1.2)) * math.pi)              # Producer improvement 3: recognised, his colour comes back for a moment
     if kc > 0 and km >= 1:
         young = Image.blend(YOUNG_MEM, YOUNG_REAL, kc)
@@ -253,15 +272,10 @@ def render(t):
         fr = fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
     ha = min(1, max(0, (t - T_SAME - .2) / .6))                                # Producer: no HUD on the split (a comparison, two eras); it fades in on the one road
     fr = hud.draw(fr, t=t, alpha=ha, **HEARTS)
-    if t >= T_BESIDE:
-        d = ImageDraw.Draw(fr); lab3 = 'MISSING · young hero 3/4, looking up at adult Quest (#3a) · planning stand-in'
-        tw = d.textlength(lab3, font=F(13)); d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab3, font=F(13), fill=(255, 235, 235))
-    d = ImageDraw.Draw(fr); lab2 = 'MISSING · Hyrule Field plate (#11) · planning layout'
-    tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v4 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -271,7 +285,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -281,14 +295,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

@@ -19,7 +19,7 @@ through Quest's own memory - his childhood room at night (blocks C and H), the C
                                           handheld today, its screen on the forest where Pixie (tunic) looks up into
                                           the mist; the "?" lands over her and the camera dives into the screen.
 HUD: hidden in the room (real life) and on the handheld shot; on in the forest (in game; Pixie's FILE 2 has 3 hearts).
-Stand-ins: Pixie in her tunic, awe (MISSING #2d), forest (#12). Sounds: none (all at the end).
+v5: final art #2d (Pixie in her tunic, awe) in the forest village #12 (via block M). Sounds: none (all at the end).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -49,7 +49,7 @@ BL = BN.BL                                                       # the Switch 2-
 HB = BL.BK.HB                                                    # block H: his room, the CRT, Q008
 CART = BN.CART
 comp, sized, fade, ctext = BN.comp, BN.sized, BN.fade, BN.ctext
-P2_AWE = BL.BK.BJ.P2_AWE                                                     # MISSING #2d: Pixie in her tunic, awe (stand-in)
+P2_AWE = BL.BK.BJ.P2_AWE                                                     # final art #2d: Pixie in her tunic, awe
 
 T0 = T('l109') - 0.05                   # block N ends here
 T_REFUSE = T('l110') - .05
@@ -236,7 +236,7 @@ def bubble(fr, t, box):
 
 
 # ------------------------------------------------------------------ O5: today, someone feels it again
-FOREST = BM.forest_frame(BM.T_DIST - .1, BM.T_DIST - .1)[0]
+FOREST = BM.forest_frame(BM.T_DIST - .1, BM.T_DIST - .1)[0]                 # block M's forest: final art #12
 PX, PFEET, PHH = W * .42, H * .95, H * .52
 Q_TO = (PX + 20, PFEET - PHH - 120)                                          # the "?" over Pixie (forest frame px)
 Q_TRAVEL0, Q_TRAVEL1 = T_AGAIN - .25, T_AGAIN + 1.0
@@ -343,7 +343,7 @@ def render(t):
             fr = handheld(t, forest(t, with_q=t >= Q_TRAVEL1))
             fr = Image.blend(Image.new('RGB', fr.size, (246, 246, 240)), fr, ease(min(1, (t - T_AGAIN - .45) / .5)))
         elif t < T_DIVE1:
-            fr = dive(handheld(t, forest(t)), hud.draw(forest(t), hearts=3.0, max_hearts=3, t=t), (t - T_DIVE0) / (T_DIVE1 - T_DIVE0))
+            fr = dive(handheld(t, forest(t)), hud.draw(forest(t), hearts=3.0, max_hearts=3, magic=0.0, rupees=0, t=t), (t - T_DIVE0) / (T_DIVE1 - T_DIVE0))
         else:
             fr = forest(t); hud_on = True
     if Q_TRAVEL0 <= t < Q_TRAVEL1:                                           # the same "?" travels from his bubble to her
@@ -363,15 +363,11 @@ def render(t):
         fr = CART.glow(fr, x, y + size * .5, 80, (255, 255, 230), .35)
         qmark(ImageDraw.Draw(fr), x, y, size)
     if hud_on:
-        fr = hud.draw(fr, hearts=3.0, max_hearts=3, t=t)
-        d = ImageDraw.Draw(fr)
-        lab2 = 'MISSING · Pixie in her tunic, awe (#2d) · forest (#12) · planning stand-ins'
-        tw = d.textlength(lab2, font=F(13))
-        d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab2, font=F(13), fill=(255, 235, 235))
+        fr = hud.draw(fr, hearts=3.0, max_hearts=3, magic=0.0, rupees=0, t=t)   # her new FILE 2 (block J): 0 rupees
     keys = [(T0, .30, .28), (T_PRES, .22, .30), (T_UNDL, .60, .30), (T_AGAIN, .62, .30), (T_END, .62, .36)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 21 WHAT IT MADE YOU FEEL · {lab} · BLOCK O v4 · PLANNING ONLY')
+    tag(d, f'SEQ 21 WHAT IT MADE YOU FEEL · {lab} · BLOCK O v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -381,7 +377,7 @@ STILLS = (('o0', T0 + .3), ('o1', T('l109.w8') + .3), ('o2', T('l110.w6') + .3),
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -391,14 +387,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockO_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockO_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockO_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockO_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

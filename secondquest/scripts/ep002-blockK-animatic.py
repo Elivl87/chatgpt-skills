@@ -15,7 +15,8 @@ l86 "And somehow Nintendo has to build both." (end of Act 3; block L / Act 4 sta
                                                       castle; over him a thought bubble with the blocky 1998 Hyrule.
   K5  "And somehow Nintendo has to build both."      A blueprint grid (block F's plan) sweeps over both: the real
                                                       Hyrule and the one in his head.
-HUD: hidden (a scoreboard, then a shot of two players at once, which the single-player game never shows). Sounds:
+v3: final art (#4 adult Quest from behind with the 3D shield and sword, #2f Pixie from behind, #11 today's field with
+the episode's castle; the veteran #1 and Pixie #2c via block J). HUD: hidden (a scoreboard, then a shot of two players at once, which the single-player game never shows). Sounds:
 none (all at the end). Framing QC before sending.
 """
 import importlib.util, math, subprocess, sys
@@ -27,7 +28,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -177,9 +178,22 @@ def frame_k13(t):
 
 
 # ------------------------------------------------------------------ K4-K5: one looks at Hyrule, one looks for it
-TODAY = BI.TODAY
-QB = cutout('quest:walking_back', 'hero')
-PB = cutout('pixie:walking_back', 'forest')
+FIELD_P = G.new_look(final_plate('field').resize((W, H), Image.LANCZOS))   # final art #11, today's look (block G)
+FZ, FCX, FCY = 1.4, .643, .55                                            # framed on the far castle, the road under them
+CASTLE_P = (.665, .40)                                                    # the castle in the plate (fractions)
+QB = final('quest_adult_back')                                            # final art #4: adult Quest from behind, 3D shield + sword
+PB = final('pixie_tunic_back')                                            # final art #2f: Pixie in her tunic from behind
+
+
+def field_cam(z):
+    cw, ch = W / z, H / z
+    x0 = min(max(FCX * W - cw / 2, 0), W - cw); y0 = min(max(FCY * H - ch / 2, 0), H - ch)
+    return x0, y0, cw, ch
+
+
+def castle_xy(z):
+    x0, y0, cw, ch = field_cam(z)
+    return (CASTLE_P[0] * W - x0) * W / cw, (CASTLE_P[1] * H - y0) * H / ch
 
 
 def crt_flicker(pic, t):
@@ -219,9 +233,10 @@ def thought_bubble(t, k, cloud=1.0):
 
 def frame_k45(t):
     u = (t - T_LOOK) / (T_END - T_LOOK)
-    z = lin(1.0, 1.06, ease(u))
-    fr = TODAY.resize((int(W * z), int(H * z)), Image.BILINEAR).crop((int(W * (z - 1) / 2), int(H * (z - 1) / 2), int(W * (z - 1) / 2) + W, int(H * (z - 1) / 2) + H))
-    fr = HB.FB.grass(fr, t, 1.0)
+    z = FZ * lin(1.0, 1.06, ease(u))
+    x0, y0, cw, ch = field_cam(z)
+    fr = FIELD_P.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
+    CX, CY = castle_xy(z)                                                 # the real castle on screen
     qh = H * .46
     q = sized(QB, qh); p = sized(PB, qh * .95)
     for im, x in ((p, W * .40), (q, W * .60)):
@@ -230,7 +245,7 @@ def frame_k45(t):
         fr = comp(fr, im, x - im.width / 2, H * .95 - im.height)
     kp = min(1, max(0, (t - T('l84.w4')) / .4)) * (1 - min(1, max(0, (t - T_HEAD) / .4)))
     if kp > 0:                                                            # she looks at the real one: the castle glints
-        fr = CART.glow(fr, W * .5, H * .32, 160, (255, 240, 200), .45 * kp)
+        fr = CART.glow(fr, CX, CY, 160, (255, 240, 200), .45 * kp)
     kb = min(1, max(0, (t - T('l85.w4')) / .5))
     km = ease(min(1, max(0, (t - T_MERGE) / 1.0)))                       # Producer improvement (K v2): both Hyrules
     if kb > 0 and km < 1:                                                 # he looks for the one in his head
@@ -240,7 +255,7 @@ def frame_k45(t):
             b = b.resize((max(1, int(b.width * sc)), max(1, int(b.height * sc))), Image.LANCZOS)
             b = fade(b, 1 - km ** 3)
         bx0, by0 = W * .60 + 10, H * .95 - qh - b.height + 30
-        bx1, by1 = W * .5 - b.width / 2, H * .32 - b.height * .55
+        bx1, by1 = CX - b.width / 2, CY - b.height * .55
         fr = comp(fr, b, lin(bx0, bx1, km), lin(by0, by1, km))
     if t >= T_BUILD:                                                      # build both: a blueprint sweeps over everything
         kbp = ease(min(1, (t - T_BUILD) / 1.6))
@@ -254,7 +269,7 @@ def frame_k45(t):
         d.line((edge, 0, edge, H), fill=(220, 240, 255, 220), width=4)
         if kbp > .6:                                                      # measurement marks on the castle and the bubble
             a = int(255 * (kbp - .6) / .4); d = ImageDraw.Draw(g, 'RGBA')   # blend, never punch holes in the tint
-            for j, (x0, x1, y) in enumerate(((W * .40, W * .60, H * .16), (W * .60 + 40, W * .60 + 290, H * .14))):
+            for j, (x0, x1, y) in enumerate(((CX - W * .08, CX + W * .08, CY + H * .07), (W * .60 + 40, W * .60 + 290, H * .14))):
                 if j == 1:                                                # the bubble's mark leaves with the bubble
                     a = int(a * (1 - km))
                 d.line((x0, y, x1, y), fill=(230, 245, 255, a), width=2)
@@ -262,11 +277,7 @@ def frame_k45(t):
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     if km > .55:                                                          # ...and the two fuse into one for an instant
         kf = (km - .55) / .45
-        fr = CART.glow(fr, W * .5, H * .30, 240, (255, 245, 215), .8 * math.sin(math.pi * min(1, kf * 1.4)) + .25 * kf)
-    d = ImageDraw.Draw(fr)
-    lab = 'MISSING · Quest and Pixie hero tunics (back views) · planning stand-ins'
-    tw = d.textlength(lab, font=F(13))
-    d.rectangle((W * .03, H * .06, W * .03 + tw + 12, H * .06 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .06 + 2), lab, font=F(13), fill=(255, 235, 235))
+        fr = CART.glow(fr, CX, CY - H * .02, 240, (255, 245, 215), .8 * math.sin(math.pi * min(1, kf * 1.4)) + .25 * kf)
     fr = fairy_fx.draw(fr, [(T_LOOK, .5, .5), (T_HEAD, .52, .45), (T_END, .5, .4)], t, size=.04)
     lab = 'K4 one looks at Hyrule, one looks for it' if t < T_BUILD else 'K5 build both'
     return fr, lab
@@ -280,7 +291,7 @@ def render(t):
         if t < T_LOOK + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_LOOK) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v2 · PLANNING ONLY')
+    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -289,7 +300,7 @@ STILLS = (('k1', T_JOBS + .6), ('k2', T('l80.w9') + .4), ('k3', T('l83.w4') + .3
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -299,14 +310,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockK_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockK_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockK_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockK_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

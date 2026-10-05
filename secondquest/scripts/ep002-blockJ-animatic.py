@@ -6,17 +6,17 @@ Same game-menu language as block I (the new player's side now):
   J1  "Player two? Player two knows none of this."    The NEW PLAYER card lights up; FILE 2 opens: 3 hearts, 000:00,
                                                       three empty item slots with "?", 0%.
   J2  "They meet the Great Deku Tree and think: That is an extremely large tree with an extremely personal problem."
-                                                      A forest; a giant old tree with a face (planning stand-in, MISSING
-                                                      #14); the new player, tiny, looks up in awe (new-player HUD:
+                                                      The giant old tree with a kind face (final art #14); the new player
+                                                      (#2d, tunic), tiny on the open ground, looks up in awe (new-player HUD:
                                                       3 hearts, 0 rupees). On "personal problem" the tree looks unwell
                                                       (a thermometer, a spider's shadow, sweat drops) and she tilts her
-                                                      head: "?".
+                                                      head (#2e, hand at the chin): "?".
   J3  "For them, Hyrule has no nostalgia. No childhood attached to it. No twenty-eight years of expectations."
                                                       A side-by-side sheet, VETERAN | NEW PLAYER, one row per line:
                                                       NOSTALGIA (the heart bar from block F: full | empty), CHILDHOOD
                                                       (the "Saturday, 1998" photo | a blank photo), EXPECTATIONS
                                                       (28 YEARS, heavy | 0).
-HUD: on in the forest only. Sounds: none (all sounds at the end, Producer). Framing QC before sending.
+v4: final art (#2c, #2d, #2e Pixie in her tunic; #14 the tree). HUD: on in the forest only. Sounds: none (all sounds at the end, Producer). Framing QC before sending.
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -27,7 +27,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -55,11 +55,11 @@ T_END = T('l78') - 0.05                 # block K starts on l78
 INK = (20, 14, 18, 255)
 GOLD, BLUE = (232, 196, 90), (120, 200, 255)
 P2 = BI.P2
-P2_T = cutout('pixie:wave_happy', 'forest')                           # MISSING: Pixie in her hero tunic (green, teal accents)
-P2_AWE = cutout('pixie:looking_up_awe', 'forest')
-P2_HMM = cutout('pixie:thinking_chin', 'forest')
-PIX_TAG = 'MISSING · Pixie hero tunic'
-P1 = BI.P1
+P2_T = final('pixie_tunic_wave')                                      # final art #2c: Pixie in her hero tunic, waving
+P2_AWE = final('pixie_tunic_awe')                                     # #2d: looking up in awe
+P2_HMM = final('pixie_tunic_think')                                   # #2e: hand at the chin
+PIX_TAG = ''                                                          # (was the MISSING tag of the recoloured stand-in)
+P1 = final('quest_veteran')                                           # final art #1: veteran Quest in his tunic (was block I's recolour)
 
 
 # ------------------------------------------------------------------ J1: the new player's file
@@ -107,91 +107,63 @@ def frame_j1(t):
 
 
 # ------------------------------------------------------------------ J2: the giant tree
-def _forest():
-    g = Image.new('RGB', (W, H)); d = ImageDraw.Draw(g)
-    for y in range(H):                                                    # green-gold light through the canopy
-        k = y / H
-        d.line((0, y, W, y), fill=(int(lin(60, 40, k)), int(lin(110, 80, k)), int(lin(70, 40, k))))
-    r = np.random.default_rng(7)
-    for i in range(14):                                                   # trees behind, out of focus
-        x = r.random() * W; w = 40 + 50 * r.random()
-        d.rectangle((x - w / 2, 0, x + w / 2, H * .82), fill=(38, 52, 34))
-    d.ellipse((-200, H * .72, W + 200, H * 1.3), fill=(70, 110, 50))      # the clearing
-    g = g.filter(ImageFilter.GaussianBlur(6))
-    for i in range(8):                                                    # shafts of light
-        x = W * (.1 + .1 * i)
-        ray = Image.new('RGBA', (W, H)); rd = ImageDraw.Draw(ray)
-        rd.polygon([(x, 0), (x + 60, 0), (x - 120, H), (x - 200, H)], fill=(255, 240, 180, 26))
-        g = Image.alpha_composite(g.convert('RGBA'), ray.filter(ImageFilter.GaussianBlur(10))).convert('RGB')
-    return g
+TREE = final_plate('tree').resize((W, H), Image.LANCZOS)                 # final art #14: the giant tree with a kind face
+FACE = (W * .65, H * .17)                                              # its face (eyes), frame px of the plate
+PX, PFEET, PHH = W * .24, H * .88, H * .40                             # Pixie on the open ground, lower left (tiny next to it)
+_m = Image.new('L', (W, H), 0)
+ImageDraw.Draw(_m).polygon([(W * .44, 0), (W, 0), (W, H * .82), (W * .30, H * .78), (W * .42, H * .55), (W * .47, H * .25)], fill=255)
+TREE_MASK = _m.filter(ImageFilter.GaussianBlur(30))                    # roughly the trunk and the face (for the "unwell" tint)
 
 
-FOREST = _forest()
-
-
-def giant_tree(t, sick):
-    """Planning stand-in for the giant ancient tree (MISSING #14): a huge trunk with an old face, a dark canopy."""
-    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    cx = W * .36
-    for (ox, oy, rx, ry) in ((-260, 60, 260, 150), (180, 40, 300, 170), (-40, -20, 340, 190), (-380, 150, 180, 110), (360, 150, 200, 120)):
-        d.ellipse((cx + ox - rx, oy - ry, cx + ox + rx, oy + ry), fill=(48, 92, 44, 255), outline=INK, width=4)    # canopy
-    d.polygon([(cx - 210, H * .9), (cx - 170, H * .35), (cx - 120, 120), (cx + 120, 120), (cx + 170, H * .35), (cx + 230, H * .9)],
-              fill=(120, 84, 52, 255), outline=INK)                       # trunk
-    for (x0, x1) in ((-300, -200), (210, 330)):                           # roots
-        d.polygon([(cx + x0, H * .92), (cx + x0 + 40, H * .82), (cx + x1, H * .86), (cx + x1 + 30, H * .93)], fill=(110, 76, 46, 255), outline=INK)
-    for i in range(7):                                                    # bark lines
-        x = cx - 150 + i * 50
-        d.line((x, 150, x + 10 * math.sin(i), H * .88), fill=(90, 60, 38, 255), width=4)
-    ey = H * .42
-    for ex in (cx - 70, cx + 70):                                         # old, half-closed eyes; a heavy brow
-        d.ellipse((ex - 36, ey - 16, ex + 36, ey + 16), fill=(40, 26, 18, 255))
-        d.arc((ex - 50, ey - 46, ex + 50, ey + 6), 200, 340, fill=(70, 46, 28, 255), width=10)
-    d.ellipse((cx - 60, H * .56, cx + 60, H * .66), fill=(40, 26, 18, 255))   # mouth
-    for k in range(9):                                                    # a mustache of roots
-        a0 = math.radians(200 + k * 17)
-        d.line((cx, H * .53, cx + 130 * math.cos(a0) * (1 if k < 5 else -1) * .9, H * .53 - 40 * math.sin(a0) + 30), fill=(95, 66, 40, 255), width=8)
-    if sick > 0:                                                          # an extremely personal problem
-        tint = Image.new('RGBA', (W, H), (110, 60, 150, int(70 * sick)))
-        g = Image.alpha_composite(g, Image.composite(tint, Image.new('RGBA', (W, H)), g.getchannel('A')))
-        d = ImageDraw.Draw(g)
-        a = int(255 * sick)
-        d.line((cx + 30, H * .61, cx + 150, H * .55), fill=(245, 245, 250, a), width=10)       # a thermometer
-        d.ellipse((cx + 140, H * .53, cx + 164, H * .57), fill=(230, 40, 40, a), outline=INK)
-        sx, sy = cx - 110, H * .66 - 26 * math.sin(t * 2)                  # a spider's shadow crawling on the trunk
-        d.ellipse((sx - 22, sy - 16, sx + 22, sy + 16), fill=(20, 14, 18, a))
-        for j in range(4):
-            for sgn in (-1, 1):
-                d.line((sx, sy, sx + sgn * (34 + 6 * j), sy - 18 + 12 * j + 4 * math.sin(t * 12 + j)), fill=(20, 14, 18, a), width=4)
-        for j in range(3):                                                # sweat drops
-            dy = ((t * 1.5 + j / 3) % 1) * 40
-            x = cx + 120 + j * 26; y = H * .30 + dy
-            d.polygon([(x, y - 12), (x - 8, y + 4), (x + 8, y + 4)], fill=(150, 210, 255, int(a * (1 - dy / 40))))
-            d.ellipse((x - 8, y - 4, x + 8, y + 12), fill=(150, 210, 255, int(a * (1 - dy / 40))))
-    return g
+def sick_fx(g, t, sick):
+    """On "personal problem" the tree looks unwell: a purple tinge, a thermometer under the moustache, a spider's
+    shadow crawling on the trunk, sweat drops on the brow."""
+    tint = Image.new('RGBA', (W, H), (110, 60, 150, 0))
+    tint.putalpha(TREE_MASK.point(lambda v: int(v * .30 * sick)))
+    g = Image.alpha_composite(g.convert('RGBA'), tint)
+    d = ImageDraw.Draw(g)
+    a = int(255 * sick)
+    mx, my = W * .615, H * .335                                          # the thermometer pokes out under the moustache
+    d.line((mx, my, mx + 120, my + 46), fill=(20, 14, 18, a), width=14); d.line((mx, my, mx + 120, my + 46), fill=(245, 245, 250, a), width=9)
+    d.line((mx + 60, my + 23, mx + 116, my + 44), fill=(230, 40, 40, a), width=4)
+    d.ellipse((mx + 108, my + 34, mx + 132, my + 58), fill=(230, 40, 40, a), outline=INK, width=3)
+    sx, sy = W * .53, H * .55 - 26 * math.sin(t * 2)                     # a spider's shadow crawling on the trunk
+    d.ellipse((sx - 22, sy - 16, sx + 22, sy + 16), fill=(20, 14, 18, a))
+    for j in range(4):
+        for sgn in (-1, 1):
+            d.line((sx, sy, sx + sgn * (34 + 6 * j), sy - 18 + 12 * j + 4 * math.sin(t * 12 + j)), fill=(20, 14, 18, a), width=4)
+    for j in range(3):                                                  # sweat drops on the brow
+        dy = ((t * 1.5 + j / 3) % 1) * 40
+        x = W * .56 + j * 34 + (60 if j == 2 else 0); y = H * .09 + dy
+        aa = int(a * (1 - dy / 40))
+        d.polygon([(x, y - 12), (x - 8, y + 4), (x + 8, y + 4)], fill=(150, 210, 255, aa))
+        d.ellipse((x - 8, y - 4, x + 8, y + 12), fill=(150, 210, 255, aa))
+    return g.convert('RGB')
 
 
 def frame_j2(t):
-    fr = FOREST.copy()
     sick = ease(min(1, max(0, (t - T_PROB + .1) / .4)))
     push = ease(min(1, (t - T_TREE) / (T_NOST - T_TREE)))
-    fr = Image.alpha_composite(fr.convert('RGBA'), giant_tree(t, sick)).convert('RGB')
-    z = 1 + .06 * push                                                    # a slow push in on the tree
-    fr = fr.resize((int(W * z), int(H * z)), Image.BILINEAR).crop((int(W * (z - 1) * .4), int(H * (z - 1) * .5), int(W * (z - 1) * .4) + W, int(H * (z - 1) * .5) + H))
+    fr = TREE.copy()
+    breathe = .5 + .5 * math.sin((t - T_TREE) * 1.6)                     # the old tree breathes: its light swells softly
+    fr = CART.glow(fr, FACE[0], FACE[1] + 40, 260, (255, 236, 170), .10 + .08 * breathe)
+    if sick > 0:
+        fr = sick_fx(fr, t, sick)
     who = P2_HMM if t >= T_PROB else P2_AWE
-    ph = H * .40                                                          # tiny next to the tree
-    q = sized(who, ph)
-    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((W * .74 - q.width * .45, H * .9 - 10, W * .74 + q.width * .45, H * .9 + 10), fill=(0, 0, 0, 90))
+    q = sized(who, PHH)
+    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((PX - q.width * .4, PFEET - 10, PX + q.width * .4, PFEET + 10), fill=(0, 0, 0, 90))
     fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
-    fr = comp(fr, q, W * .74 - q.width / 2, H * .9 - ph)
+    fr = comp(fr, q, PX - q.width / 2, PFEET - PHH)
     if t >= T_PROB:
         kq = min(1, (t - T_PROB) / .25)
         d = ImageDraw.Draw(fr)
-        d.text((W * .74 + 50, H * .9 - ph - 20 - 10 * (1 - kq)), '?', font=F(int(56 + 14 * (1 - kq))), fill=(255, 255, 255), stroke_width=4, stroke_fill=(20, 14, 18))
-    d = ImageDraw.Draw(fr)
-    lab = 'MISSING · giant ancient tree (#14) · Pixie hero tunic · planning stand-ins'
-    tw = d.textlength(lab, font=F(13))
-    d.rectangle((W * .03, H * .17, W * .03 + tw + 12, H * .17 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .17 + 2), lab, font=F(13), fill=(255, 235, 235))
-    fr = fairy_fx.draw(fr, [(T_TREE, .64, .5), (T_LARGE, .5, .3), (T_PROB, .62, .45), (T_NOST, .66, .42)], t, size=.04)
+        d.text((PX + q.width * .45, PFEET - PHH - 30 - 10 * (1 - kq)), '?', font=F(int(56 + 14 * (1 - kq))), fill=(255, 255, 255), stroke_width=4, stroke_fill=(20, 14, 18))
+    fr = fairy_fx.draw(fr, [(T_TREE, .40, .45), (T_LARGE, .48, .30), (T_PROB, .40, .42), (T_NOST, .38, .40)], t, size=.04)
+    z = 1 + .06 * push                                                    # a slow push in, towards the face and her
+    cx, cy = W * .45, H * .30                                             # anchored high: the face stays clear of the HUD
+    cw, ch = W / z, H / z
+    x0 = min(max(cx - cw / 2, 0), W - cw); y0 = min(max(cy - ch / 2, 0), H - ch)
+    fr = fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BILINEAR)
     fr = hud.draw(fr, hearts=3, max_hearts=3, magic=0.0, rupees=0, t=None, alpha=min(1, (t - T_TREE) / .4))   # a new player's HUD
     if t < T_TREE + .3:
         fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_TREE) / .3)
@@ -265,7 +237,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v3 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -274,7 +246,7 @@ STILLS = (('j1', T('l72.w6')), ('j2a', T_LARGE + .3), ('j2b', T_PROB + .6), ('j3
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -284,14 +256,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockJ_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockJ_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockJ_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockJ_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

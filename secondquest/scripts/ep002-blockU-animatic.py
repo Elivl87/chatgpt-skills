@@ -12,8 +12,16 @@ composition reference (evoked, never copied).
                                           block B did); birds cross the sun.
   U3  "Tell me in the comments. Maybe that's our next quest."  Hold on the vista; the left and right thirds stay clean
                                           for YouTube's end screen (subscribe + a video) - publishing standard.
-HUD: off (they speak to the viewer; the end screen needs the room). Stand-ins: Quest and Pixie on the outcrop from
-behind, hero and princess (MISSING #17, new art). Sounds: none (all at the end). Free.
+HUD: off (they speak to the viewer; the end screen needs the room). Sounds: Navi's trail (NAVI_SFX_01 at 0.14) from
+the start of her circle (v2, approved).
+v2 (approved): Pixie looks at the castle, then turns to Quest on "Maybe"; Navi circles them, flies up, around the
+wordmark and into its star on "next".
+v3 (final art, 2026-10-05): the whole shot is the final illustration #17+18 (characters baked in, 3D shield overlay),
+so the separate character layers and the procedural vista are gone. Re-aimed on the plate: the camera starts close
+behind them with their heads in frame (CAM0) and pulls back to the whole plate; Navi hovers between them, circles
+them at their waists, then the wordmark as before; the wordmark sits a little smaller and higher (above Quest's hat);
+the birds cross the sun right of Pixie. Beat change: the plate is a still and Pixie is already turned to him,
+smiling, so her turn on "Maybe" is replaced by a soft warm light that swells over the two of them (and the sun).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -24,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final_plate  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -46,108 +54,68 @@ T_TURN = T('l157.w6')                   # "Maybe (that's our next quest)": Pixie
 T_ORB0, T_ORB1 = T_WHY + .5, T_WHY + 2.1  # improvement 2: Navi circles them (her trail sound starts here)...
 T_UP1, T_LOOP1 = T_ORB1 + .5, T_ORB1 + 1.4  # ...flies up and around the wordmark...
 T_STAR = T('l157.w9')                   # ...and goes into its four-point star on "next (quest)"
-STAR = (.413, .157)                     # the star in the wordmark's "o" (frame fractions, the wordmark at rest)
+WM_Y, WM_H = .035, .12                  # the wordmark, smaller and higher than v2 (.07, .14): Quest's hat tops out at y .20
+STAR = (.5 + (.413 - .5) * WM_H / .14, WM_Y + 10 / 720 + (.157 - .07 - 10 / 720) * WM_H / .14)   # the star in its "o" (frame fractions, at rest; v2: (.413, .157))
 SFX = ROOT / 'public/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav'   # her trail, as at her first appearance (level 0.14)
 T_END = 412.9                           # the end of the narration (6:53)
 RNG = np.random.default_rng(11)
 
 
-# ------------------------------------------------------------------ the vista (plate, 1920x1080), golden hour
-def _vista():
-    im = Image.new('RGB', (PW, PH)); d = ImageDraw.Draw(im)
-    for y in range(PH):                                                       # sky: warm gold at the sun, teal above
-        k = y / PH
-        top, mid = np.array([70, 140, 170]), np.array([255, 196, 120])
-        c = top * (1 - min(1, k / .55)) + mid * min(1, k / .55)
-        d.line((0, y, PW, y), fill=tuple(int(v) for v in c))
-    im = CART.glow(im, PW * .70, PH * .46, 760, (255, 236, 180), .9)         # the sun, low, behind the castle
-    g = Image.new('RGBA', (PW, PH)); gd = ImageDraw.Draw(g)                  # clouds lit from below
-    for i in range(16):
-        x = RNG.uniform(-100, PW); y = RNG.uniform(PH * .05, PH * .32); w = RNG.uniform(220, 520)
-        gd.ellipse((x, y, x + w, y + w * .28), fill=(255, 226, 190, 120))
-        gd.ellipse((x + w * .15, y - w * .06, x + w * .7, y + w * .18), fill=(255, 240, 215, 110))
-    im = Image.alpha_composite(im.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(22))).convert('RGB')
-    for j, (base, amp, col) in enumerate(((.50, 60, (120, 150, 175)), (.55, 50, (88, 122, 150)), (.62, 40, (62, 98, 120)))):
-        d = ImageDraw.Draw(im)                                                # mountain ranges, bluer with distance
-        pts = [(0, PH)]
-        for x in range(0, PW + 40, 40):
-            y = PH * base - amp * (math.sin(x / (230 - j * 40) + j) + .6 * math.sin(x / 97 + 2 * j)) - (90 if j == 0 and 1200 < x < 1500 else 0) * math.sin((x - 1200) / 300 * math.pi) * (j == 0)
-            pts.append((x, y))
-        pts.append((PW, PH))
-        d.polygon(pts, fill=col)
-    g = Image.new('RGBA', (PW, PH)); gd = ImageDraw.Draw(g)                  # valley mist
-    for i in range(14):
-        x = RNG.uniform(-200, PW); y = RNG.uniform(PH * .6, PH * .74)
-        gd.ellipse((x, y, x + 520, y + 70), fill=(255, 235, 215, 110))
-    im = Image.alpha_composite(im.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(30))).convert('RGB')
-    castle = Image.open(ROOT / 'public/art/ep002/props3d/castle_far.png').convert('RGBA')
-    castle = sized(castle, PH * .07)
-    a = np.asarray(castle).astype(np.float32); a[..., :3] = a[..., :3] * .7 + np.array([255, 220, 170]) * .3     # in the haze
-    im = comp(im, Image.fromarray(a.astype(np.uint8)), PW * .70 - castle.width / 2, PH * .705 - castle.height)   # far, down in the valley
-    d = ImageDraw.Draw(im)                                                    # the field far below
-    d.polygon([(0, PH * .74), (PW * .3, PH * .70), (PW * .7, PH * .72), (PW, PH * .69), (PW, PH), (0, PH)], fill=(92, 130, 80))
-    # the outcrop: a flat-topped rock with grass, the two of them stand on its top edge
-    rock = [(PW * .30, PH), (PW * .36, PH * .86), (PW * .40, PH * .80), (PW * .60, PH * .79), (PW * .66, PH * .84), (PW * .72, PH)]
-    d.polygon(rock, fill=(112, 86, 66), outline=(40, 30, 26), width=6)
-    d.polygon([(PW * .40, PH * .80), (PW * .60, PH * .79), (PW * .58, PH * .83), (PW * .42, PH * .84)], fill=(138, 108, 82))
-    for i in range(70):                                                       # grass tufts in the foreground
-        x = RNG.uniform(0, PW); y = PH - RNG.uniform(0, PH * .12)
-        if PW * .32 < x < PW * .70 and y < PH * .9:
-            continue
-        h = RNG.uniform(30, 90)
-        d.line((x, y, x + RNG.uniform(-14, 14), y - h), fill=(70, 120, 60), width=5)
-    d.polygon([(0, PH), (0, PH * .9), (PW * .32, PH * .94), (PW * .30, PH)], fill=(64, 104, 56))
-    d.polygon([(PW, PH), (PW, PH * .9), (PW * .70, PH * .95), (PW * .72, PH)], fill=(64, 104, 56))
-    return im
-
-
-VISTA = _vista()
-TOP_Y = PH * .80                                                              # the outcrop's top edge (plate px)
-QUEST = BT.ADULT                                                              # hero, shield and sword on his back (Producer rule)
-PIXIE = cutout('pixie:walking_back', 'princess')                              # MISSING #17: Pixie as the princess, from behind
-CH = PH * .30
+# ------------------------------------------------------------------ the vista: final #17+18 (plate, 1920x1080)
+# Quest (hero, 3D shield and sword) and Pixie (princess, turned to him, smiling) are baked into the plate at golden
+# hour; the castle sits low in the valley right of centre with the sun right behind it. Measured on the plate
+# (fractions): Quest x .30-.46, hat top y .20, feet .91; Pixie x .45-.64, head top .30, face ~(.50, .36); castle
+# (.69, .45), sun (.67, .41), the plate's own birds (.77, .37). Left and right thirds calm (end screen).
+VISTA = final_plate('outcrop')
+DUO = (.47, .60)                                                              # the middle of the two of them (plate fractions)
+SUN = (.67, .41)
+HEADS = (.45, .32)                                                            # between their faces: where her look lands
 
 
 def scene(t):
-    """The vista with the two of them, plate px (the rim light from the sun on their edges)."""
-    im = VISTA.copy()
-    for img, x, h in ((PIXIE, PW * .545, CH * .97), (QUEST, PW * .465, CH)):
-        q = sized(img, h)
-        if img is PIXIE:                                                     # improvement 1: she looks at the castle, then turns to him
-            kt = min(1, max(0, (t - T_TURN) / .25))
-            if kt < .5:
-                q = q.transpose(Image.FLIP_LEFT_RIGHT)
-            sq = abs(math.cos(math.pi * kt)) if 0 < kt < 1 else 1
-            if sq < 1:
-                q = q.resize((max(1, int(q.width * max(.15, sq))), q.height), Image.LANCZOS)
-        sh = Image.new('RGBA', (PW, PH)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, TOP_Y - 10, x + q.width * .4, TOP_Y + 10), fill=(0, 0, 0, 90))
-        im = Image.alpha_composite(im.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
-        sway = 2 * math.sin(t * 1.3 + x)                                     # breathing, the wind
-        im = comp(im, q, x - q.width / 2 + sway, TOP_Y - q.height + 4)
+    """The vista (plate px). The plate is a still: Pixie is already turned to Quest, smiling. Her approved turn on
+    "Maybe" (T_TURN) becomes a soft warm light that swells over the two of them on that word (beat change)."""
+    im = VISTA
+    kl = min(1, max(0, (t - T_TURN) / .6))
+    if kl > 0:
+        e = ease(kl)
+        im = CART.glow(im, HEADS[0] * PW, HEADS[1] * PH, 420, (255, 214, 150), .22 * e)
+        im = CART.glow(im, SUN[0] * PW, SUN[1] * PH, 300, (255, 236, 190), .18 * e)
     return im
 
 
-CAM0 = (2.0, .505, .66)                                                       # close behind them (the cut from block T)
+CAM0 = (1.5, .47, .48)                                                        # close behind them, heads in frame (the cut from block T)
 CAM1 = (1.0, .5, .5)                                                          # the whole vista
 
 
-def birds(fr, t):
+def cam(t):
+    return cam_box((CAM0, CAM1), ease(min(1, max(0, (t - T0 - .2) / 4.2))))  # U1: rise and pull back to the whole vista
+
+
+def to_frame(px, py, box):
+    """Plate fractions -> frame fractions for the camera box."""
+    return (px * PW - box[0]) / (box[2] - box[0]), (py * PH - box[1]) / (box[3] - box[1])
+
+
+def birds(fr, t, box):
+    """A few birds crossing the sun, right of Pixie (plate positions, through the camera); the plate has its own."""
     d = ImageDraw.Draw(fr)
-    for i in range(6):
-        k = ((t - T_WHY + 1.0) * .07 + i * .05) % 1
-        x = W * (.2 + .7 * k) + 30 * i; y = H * (.22 + .03 * math.sin(i * 1.7)) - 40 * k
-        f = math.sin(t * 9 + i) * 6
-        d.line((x - 10, y - f, x, y, x + 10, y - f), fill=(70, 50, 50), width=3)
+    for i in range(5):
+        k = ((t - T_WHY + 1.0) * .06 + i * .07) % 1
+        px = .62 + .40 * k + .015 * i; py = .30 + .02 * math.sin(i * 1.7) - .05 * k
+        x, y = to_frame(px, py, box); x *= W; y *= H
+        f = math.sin(t * 9 + i) * 5
+        d.line((x - 9, y - f, x, y, x + 9, y - f), fill=(70, 46, 46), width=3)
     return fr
 
 
 def wordmark(fr, dt):
     """The SecondQuest wordmark (EP001's brand image + gold bar), up in the sky."""
     wm = BBm.WORDMARK
-    wh = int(H * .14); ww = int(wm.width * wh / wm.height)
+    wh = int(H * WM_H); ww = int(wm.width * wh / wm.height)
     g = Image.new('RGBA', (max(ww, 420) + 40, wh + 50))
     g.alpha_composite(wm.resize((ww, wh), Image.LANCZOS), ((g.width - ww) // 2, 10))
-    bar = 400 * BBm._in_out_cubic(min(1, max(0, (dt - .25) / .45)))
+    bar = 400 * WM_H / .14 * BBm._in_out_cubic(min(1, max(0, (dt - .25) / .45)))
     if bar > 1:
         d = ImageDraw.Draw(g); y = 10 + wh + 12; x0 = (g.width - bar) / 2
         d.rounded_rectangle((x0, y + 2, x0 + bar, y + 9), 3, fill=(22, 22, 31, 255))
@@ -155,19 +123,20 @@ def wordmark(fr, dt):
     x = min(1, dt / .28); e = BBm._out_back(x)
     sc = 1.3 + (1 - 1.3) * e
     g = g.resize((max(1, int(g.width * sc)), max(1, int(g.height * sc))), Image.LANCZOS)
-    return comp(fr, fade(g, min(1, x * 4)), W / 2 - g.width / 2, H * .07)
+    return comp(fr, fade(g, min(1, x * 4)), W / 2 - g.width / 2, H * WM_Y)
 
 
 def navi_at(t):
-    """Navi's path: hovering by them, circling them, up to the wordmark, around it, into the star."""
-    cx, cy, rx, ry = .505, .66, .10, .055
+    """Navi's path (plate fractions): hovering in the sky between them, circling them, up to the wordmark, around it,
+    into the star. Once the pull-back ends the plate fills the frame, so the wordmark part is in frame fractions too."""
+    cx, cy, rx, ry = DUO[0], DUO[1], .21, .05
     if t < T_ORB0:
-        return .53 + .01 * math.sin(t * 2), .61 + .01 * math.cos(t * 2.4)
+        return .50 + .01 * math.sin(t * 2), .24 + .01 * math.cos(t * 2.4)
     if t < T_ORB1:                                                          # around the two of them (1.25 turns)
         a = 2 * math.pi * 1.25 * ease((t - T_ORB0) / (T_ORB1 - T_ORB0))
         return cx + rx * math.sin(a), cy - ry * math.cos(a)
     ex, ey = cx + rx * math.sin(2.5 * math.pi), cy - ry * math.cos(2.5 * math.pi)
-    wx, wy, wrx, wry = .5, .155, .27, .085
+    wx, wy, wrx, wry = .5, WM_Y + WM_H * .55, .27 * WM_H / .14, .085 * WM_H / .14
     if t < T_UP1:                                                           # up to the wordmark's right end
         k = ease((t - T_ORB1) / (T_UP1 - T_ORB1))
         return lin(ex, wx + wrx, k), lin(ey, wy, k) - .05 * math.sin(math.pi * k)
@@ -178,7 +147,7 @@ def navi_at(t):
     return lin(wx - wrx, STAR[0], k), lin(wy, STAR[1], k) - .03 * math.sin(math.pi * k)
 
 
-NAVI_KEYS = [(T0 + i * .04, *navi_at(T0 + i * .04)) for i in range(int((T_END - T0) / .04) + 2)]
+NAVI_KEYS = [(T0 + i * .04, *to_frame(*navi_at(T0 + i * .04), cam(T0 + i * .04))) for i in range(int((T_END - T0) / .04) + 2)]
 
 
 def star_twinkle(fr, dt):
@@ -195,13 +164,12 @@ def star_twinkle(fr, dt):
 
 
 def render(t):
-    k = ease(min(1, max(0, (t - T0 - .2) / 4.2)))                             # U1: rise and pull back to the whole vista
-    box = cam_box((CAM0, CAM1), k)
+    box = cam(t)
     fr = scene(t).crop(tuple(int(v) for v in box)).resize((W, H), Image.BICUBIC)
     if t < T0 + .5:                                                           # out of block T: a soft dissolve
         last = BT.render(T0 - .02)
         fr = Image.blend(last, fr, ease((t - T0) / .5))
-    fr = birds(fr, t)
+    fr = birds(fr, t, box)
     if t >= T_WHY:
         fr = wordmark(fr, t - T_WHY)
     lab = 'U1 what game would you go back to?' if t < T_WHY - .3 else 'U2 what deserves a why? next' if t < T_COMM else 'U3 tell me in the comments · end screen room'
@@ -213,15 +181,13 @@ def render(t):
     d = ImageDraw.Draw(fr)
     if t >= T_COMM:                                                           # planning guides: where the end screen goes
         a = min(1, (t - T_COMM) / .5)
-        for (x0, y0, x1, y1, s) in ((W * .05, H * .32, W * .30, H * .62, 'END SCREEN · video'), (W * .72, H * .36, W * .92, H * .58, 'END SCREEN · subscribe')):
+        for (x0, y0, x1, y1, s) in ((W * .04, H * .34, W * .27, H * .62, 'END SCREEN · video'), (W * .79, H * .56, W * .95, H * .80, 'END SCREEN · subscribe')):
             for i in range(0, int(x1 - x0), 14):
                 d.line((x0 + i, y0, x0 + i + 7, y0), fill=(255, 255, 255), width=2); d.line((x0 + i, y1, x0 + i + 7, y1), fill=(255, 255, 255), width=2)
             for i in range(0, int(y1 - y0), 14):
                 d.line((x0, y0 + i, x0, y0 + i + 7), fill=(255, 255, 255), width=2); d.line((x1, y0 + i, x1, y0 + i + 7), fill=(255, 255, 255), width=2)
             d.text((x0 + 8, y0 + 6), s, font=F(14), fill=(255, 255, 255), stroke_width=2, stroke_fill=(20, 14, 18))
-    lab2 = 'MISSING · Quest (hero) and Pixie (princess) on the outcrop, from behind (#17) · vista (#18) · planning stand-ins'
-    tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v2 · PLANNING ONLY')
+    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v3 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -230,7 +196,7 @@ STILLS = (('u1a', T0 + .8), ('u1', T0 + 3.0), ('u2', T_WHY + .8), ('u2o', (T_ORB
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v2.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v3.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr), '-i', str(SFX),
@@ -242,14 +208,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockU_v2_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockU_v3_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockU_v2_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockU_v3_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
