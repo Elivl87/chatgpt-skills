@@ -371,3 +371,7 @@
   "for the first time again"; adult Quest takes a step towards the castle on "meet it again"; on "grew" the 1998 field
   and castle resolve into today's (the game grew up too) and on "up" a heart container: 3 -> 4 hearts. HUD off in the
   engine, on in Hyrule. New stand-in: MISSING #3b (young hero front, smiling, reusable). Free.
+- T v2 ("Apruebo con 1 3 y 4"): block T approved with: (1) it opens on block S's last frame, CANNOT EXPORT · 1 OF 1
+  still on, the tag fading as the green scan passes; (3) on "meet it again" Navi twirls around adult Quest before
+  flying ahead; (4) the heart container flies from the castle to the HUD (sparkle trail) and lands as the 4th heart.
+  Not taken: the warm light passed from the kid to the adult (2).

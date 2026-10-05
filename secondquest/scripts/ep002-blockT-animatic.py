@@ -57,8 +57,17 @@ T_AGAIN = T('l152') - .05               # a step forward
 T_GREW = T('l154.w3')                   # "grew": the game grows up
 T_UP = T('l154.w4')                     # "up": a heart container
 T_END = T('l155') - 0.05                # block U starts on l155
+T_HEART0, T_HEART1 = T_GREW + .1, T_UP + .35
 INK = (20, 14, 18)
 GREEN, GOLD = (90, 210, 120), (255, 214, 40)
+
+def heart(d, x, y, s):
+    """A heart container, flying."""
+    d.ellipse((x - s, y - s * .6, x, y + s * .3), fill=(230, 50, 60), outline=INK, width=2)
+    d.ellipse((x, y - s * .6, x + s, y + s * .3), fill=(230, 50, 60), outline=INK, width=2)
+    d.polygon([(x - s * .95, y - s * .05), (x + s * .95, y - s * .05), (x, y + s)], fill=(230, 50, 60), outline=INK)
+    d.rectangle((x - s * .5, y - s * .1, x + s * .5, y + s * .05), fill=(230, 50, 60))
+
 
 # ------------------------------------------------------------------ T1: the engine builds Hyrule
 HY = G.new_look(BR.FIELD.resize((W, H), Image.LANCZOS))
@@ -75,8 +84,10 @@ def check_chip(text):
 
 def engine(t):
     S = SA.SF
-    room = SA.viewport(SA.T_END - .05, S)                                     # where block S ends: grey room, him in colour
     k = ease(min(1, max(0, (t - T_REB + .3) / 1.1)))
+    room = SA.viewport(SA.T_END - .05, S)                                     # where block S ends: grey room, him in colour...
+    if k < .6:                                                                # ...still tagged CANNOT EXPORT · 1 OF 1 (improvement 1),
+        room = Image.blend(SA.full_view(SA.T_END - .05), room, k / .6)        # the tag fades as the green scan passes
     sx = int(W * k)
     fr = room.copy()
     if sx > 0:
@@ -201,29 +212,42 @@ def render(t):
         lab = ('T2 two different moments meet' if t < T_GAME - .1 else 'T3 the game you remember, the person you became' if t < T_FIRST
                else 'T4 not for the first time again' if t < T_AGAIN else 'T5 meet it again' if t < T('l153') - .05 else 'T6 you both grew up')
         hud_a = min(1, (t - T_ROAD) / .5)
+    if T_HEART0 <= t < T_HEART1:                                              # improvement 4: the heart container flies from the castle
+        k = ease((t - T_HEART0) / (T_HEART1 - T_HEART0))
+        x = lin(W * .5, W * .135, k); y = lin(H * .30, H * .055, k) - 60 * math.sin(math.pi * k)
+        fr = CART.glow(fr, x, y, 60, (255, 140, 140), .5)
+        d = ImageDraw.Draw(fr)
+        for i in range(1, 8):                                                 # a sparkle trail
+            kk = ease(max(0, (t - i * .03 - T_HEART0) / (T_HEART1 - T_HEART0)))
+            px = lin(W * .5, W * .135, kk); py = lin(H * .30, H * .055, kk) - 60 * math.sin(math.pi * kk)
+            r = 5 * (1 - i / 8) + 1
+            d.ellipse((px - r, py - r, px + r, py + r), fill=(255, 230, 200))
+        heart(d, x, y, lin(30, 14, k))
     if hud_a > 0:                                                             # a heart container on "up": 3 -> 4 hearts
-        grown = t >= T_UP
+        grown = t >= T_HEART1
         fr = hud.draw(fr, hearts=4.0 if grown else 3.0, max_hearts=4 if grown else 3, alpha=hud_a, t=t)
-        if T_UP <= t < T_UP + 1.2:
-            fr = CART.glow(fr, W * .135, H * .055, 70, (255, 120, 120), .6 * (1 - (t - T_UP) / 1.2))
+        if T_HEART1 <= t < T_HEART1 + 1.2:
+            fr = CART.glow(fr, W * .135, H * .055, 70, (255, 120, 120), .6 * (1 - (t - T_HEART1) / 1.2))
     if t >= T_ROAD:
         d = ImageDraw.Draw(fr)
         lab2 = 'MISSING · young hero front, smiling (#3b) · adult back (#4) · field (#11) · stand-ins'
         tw = d.textlength(lab2, font=F(13)); d.rectangle((W * .03, H * .935, W * .03 + tw + 12, H * .935 + 20), fill=(150, 20, 30)); d.text((W * .03 + 6, H * .935 + 2), lab2, font=F(13), fill=(255, 235, 235))
-    keys = [(T0, .30, .40), (T_ROAD, .58, .42), (T_MEET, .56, .48), (T_AGAIN, .55, .45), (T_GREW, .50, .32), (T_END, .52, .30)]
+    keys = [(T0, .30, .40), (T_ROAD, .58, .42), (T_MEET, .56, .48), (T_AGAIN, .66, .44),     # improvement 3: Navi's twirl around him,
+            (T_AGAIN + .25, .60, .38), (T_AGAIN + .5, .55, .46), (T_AGAIN + .75, .61, .54), (T_AGAIN + 1.0, .68, .45),   # then ahead
+            (T_AGAIN + 1.6, .56, .36), (T_GREW, .50, .32), (T_END, .52, .30)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v1 · PLANNING ONLY')
+    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v2 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
 
 STILLS = (('t1', T_REB + .5), ('t1b', T_ENOUGH + .6), ('t2', T_MEET + .4), ('t3', T_PERSON + .6), ('t4', T('l151.w8')),
-          ('t5', T_AGAIN + 1.2), ('t6', T_UP + .4), ('t6b', T_END - .3))
+          ('t5', T_AGAIN + 1.2), ('t6h', (T_HEART0 + T_HEART1) / 2), ('t6', T_UP + .6), ('t6b', T_END - .3))
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v1.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v2.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -233,14 +257,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockT_v1_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockT_v2_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockT_v1_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockT_v2_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
