@@ -22,3 +22,9 @@
   6 m header); a field at 3 % vs a $520,000 tractor > a house, then 100 % in minutes; an ACHIEVEMENT "YOU ARE STRONGER
   NOW" pop-up struck out; a measuring tape to 12.0 m; end card FULL EPISODE ON THE CHANNEL. Burned-in captions,
   script-verbatim. Preview only: the final upload waits for the Producer's approval.
+- Short #2 v2 (Producer: "ni está encima de un tractor. Lo de los lentes no me gusta. No tiene sentido. Mejóralo más con
+  animatic" / "Esta escena queda mal con eso negro abajo"): Quest now sits at the wheel of the small tractor (EP001's own
+  tractor_small + tractor_side pairing and offsets); the sunglasses are gone - "Tractors are cool" is a hero reveal (light
+  rays, slow push, sparkles, Quest cheering); every machine is alive (engine shake, exhaust puffs, dust behind it when it
+  drives); the big tractor turns the plowed field golden behind it as the bar fills; PLANTING / SPRAYING / CUTTING are three
+  full-bleed panels (no black band), labels at the bottom-left of each, clear of the captions.

@@ -220,15 +220,74 @@ SHOP = 'genres/farming/backgrounds/workshop.png'
 M = 'genres/farming/machines/'
 
 
+# ------------------------------------------------------------------ living machines (v2: more animatic motion)
+EXHAUST = {'tractor_huge.png': (.33, .03), 'tractor_bigger.png': (.27, .30), 'tractor_small.png': (.28, .05), 'factory_harvester.png': (.62, .05)}
+
+
+def machine(fr, rel, w, x, ground, t, moving=False, puff=True, seed=0):
+    """A machine that is alive: engine idle shake, exhaust puffs, dust behind it when it drives (they face left)."""
+    im = sized(art(M + rel), w=w)
+    jig = 1.6 * math.sin(t * 38 + seed) * (w / 800)
+    y = ground - im.height + jig
+    if moving:                                                                   # dust kicked up behind the back wheels
+        g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+        for i in range(9):
+            ph = (t * 1.6 + i / 9) % 1
+            dx = x + im.width * .85 + 220 * ph * (w / 800); dy = ground - 10 - 50 * ph
+            r = (18 + 60 * ph) * (w / 800)
+            d.ellipse((dx - r, dy - r * .7, dx + r, dy + r * .7), fill=(214, 194, 150, int(170 * (1 - ph))))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(4))).convert('RGB')
+    fr = shadow(fr, x + im.width / 2, ground, im.width * .8, 80)
+    fr = comp(fr, im, x, y)
+    ex = EXHAUST.get(rel)
+    if puff and ex:                                                              # exhaust: little dark puffs rising
+        g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+        px, py = x + im.width * ex[0], y + im.height * ex[1]
+        w = min(w, 900)                                                          # puffs stay small on giant close-ups
+        for i in range(6):
+            ph = (t * 1.2 + i / 6 + seed * .1) % 1
+            r = (10 + 34 * ph) * (w / 800)
+            d.ellipse((px + 40 * ph * (w / 800) - r, py - 140 * ph * (w / 800) - r, px + 40 * ph * (w / 800) + r, py - 140 * ph * (w / 800) + r), fill=(90, 90, 96, int(150 * (1 - ph))))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
+    return fr, im
+
+
+def quest_driving(fr, cx, ground, tw, t, moving=True):
+    """Quest at the wheel of the small tractor (EP001's own pairing: tractor_small + quest tractor_side, same offsets)."""
+    tr = sized(art(M + 'tractor_small.png'), w=tw)
+    x = cx - tw / 2
+    fr, _ = machine(fr, 'tractor_small.png', tw, x, ground, t, moving=moving, seed=3)
+    q = sized(art('genres/farming/quest/tractor_side.png'), h=tw * .74)
+    bob = 1.6 * math.sin(t * 38 + 3) * (tw / 800) + 3 * abs(math.sin(t * 7)) * (tw / 800)
+    qx = cx + .16 * tw - q.width * .45; qy = ground - .43 * tw - q.height * .62 + bob
+    return comp(fr, q, qx, qy)
+
+
+def rays(fr, cx, cy, t, a=1.0, col=(255, 240, 190)):
+    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    for i in range(14):
+        ang = i * 2 * math.pi / 14 + t * .25
+        d.polygon(((cx, cy), (cx + 1600 * math.cos(ang - .07), cy + 1600 * math.sin(ang - .07)), (cx + 1600 * math.cos(ang + .07), cy + 1600 * math.sin(ang + .07))), fill=col + (int(60 * a),))
+    return Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(8))).convert('RGB')
+
+
+def sparkles(fr, pts, t, a=1.0):
+    d = ImageDraw.Draw(fr)
+    for i, (x, y) in enumerate(pts):
+        ph = (t * 1.4 + i * .37) % 1
+        r = 26 * math.sin(math.pi * ph) * a
+        if r > 1:
+            d.line((x - r, y, x + r, y), fill=(255, 255, 235), width=5); d.line((x, y - r, x, y + r), fill=(255, 255, 235), width=5)
+    return fr
+
+
 def s_elephant(t):
     """l127: the enormous green elephant in the room - the huge tractor rolls into the dealership and stops with a thud."""
     t_hit = T('l127') + 2.6
     fr = bg(DEALER, fx=.45, zoom=1.0)
     k = ease((t - T('l127') + .2) / 2.8)
-    tr = sized(art(M + 'tractor_huge.png'), w=1500)
-    x = lin(W + 50, W * .5 - tr.width * .52, k)
-    fr = shadow(fr, x + tr.width / 2, H * .80, tr.width * .8)
-    fr = comp(fr, tr, x, H * .80 - tr.height)
+    x = lin(W + 50, W * .5 - 1500 * .52, k)
+    fr, tr = machine(fr, 'tractor_huge.png', 1500, x, H * .80, t, moving=k < 1)
     q = sized(art('core/quest/looking_up_awe.png'), h=H * .30)
     fr = comp(fr, q, W * .02, H * .93 - q.height)
     fr = dust(fr, t, t_hit, W * .5, H * .80)
@@ -236,32 +295,19 @@ def s_elephant(t):
     return label(fr, 'THE GREEN ELEPHANT', W * .5, H * .16, 76, (140, 230, 110), ease((t - T('l127') - 2.4) / .3), rot=-4)
 
 
-def sunglasses(w):
-    g = Image.new('RGBA', (w, int(w * .32))); d = ImageDraw.Draw(g)
-    lw = w * .44
-    for x0 in (0, w - lw):
-        d.rounded_rectangle((x0, 6, x0 + lw, g.height - 4), int(g.height * .35), fill=(14, 14, 20, 255), outline=(255, 255, 255, 255), width=7)
-        d.line((x0 + lw * .2, 14, x0 + lw * .45, 14), fill=(120, 140, 180, 255), width=5)
-    d.rectangle((lw - 4, 12, w - lw + 4, 26), fill=(14, 14, 20, 255))
-    return g
-
-
 def s_cool(t):
-    """l128: Tractors are cool - sunglasses drop onto the cab, a shine sweeps it."""
+    """l128: Tractors are cool - a hero reveal: light rays behind it, a slow push in, sparkles on the paint, Quest cheering."""
+    u = t - T('l128')
+    z = lin(1.0, 1.10, ease((u + .4) / 2.0))
     fr = bg(DEALER, fx=.55, zoom=1.12)
-    tr = sized(art(M + 'tractor_bigger.png'), w=1150)
-    tx, ty = W * .5 - tr.width * .5, H * .80 - tr.height
-    fr = shadow(fr, W * .5, H * .80, tr.width * .8)
-    fr = comp(fr, tr, tx, ty)
-    kd = ease((t - T('l128') - .25) / .4)
-    sg = sunglasses(420)
-    cab_x, cab_y = tx + tr.width * .60, ty + tr.height * .40                    # over the cab window
-    fr = comp(fr, sg, cab_x - sg.width / 2, lin(-200, cab_y, kd) - sg.height / 2)
-    if kd >= 1:
-        fr = glow(fr, cab_x + 100, cab_y - 10, 70, (255, 255, 230), .9 * abs(math.sin((t - T('l128')) * 6)))
+    fr = Image.blend(fr, Image.new('RGB', fr.size, (20, 18, 30)), .35)
+    fr = rays(fr, W * .5, H * .45, t, ease((u + .2) / .4))
+    fr, tr = machine(fr, 'tractor_bigger.png', int(1150 * z), W * .5 - 1150 * z / 2, H * .80, t)
+    fr = sparkles(fr, [(W * .30, H * .50), (W * .62, H * .42), (W * .80, H * .58), (W * .45, H * .66)], t)
     q = sized(art('genres/farming/quest/excited.png'), h=H * .32)
-    fr = comp(fr, q, W * .60, H * .95 - q.height)
-    return label(fr, 'COOL', W * .5, H * .17, 130, (255, 214, 40), ease((t - T('l128') - .55) / .25), rot=4)
+    hop = 40 * abs(math.sin(u * 7))
+    fr = comp(fr, q, W * .62, H * .95 - q.height - hop)
+    return label(fr, 'COOL', W * .5, H * .17, 150, (255, 214, 40), ease((u - .3) / .25), rot=4)
 
 
 def s_parade(t):
@@ -270,11 +316,8 @@ def s_parade(t):
     u = (t - T('l129')) / (T('l131') - T('l129'))
     rows = ((M + 'combine.png', 760, H * .50, 0.0), (M + 'sprayer.png', 980, H * .60, .25), (M + 'tractor_small.png', 520, H * .68, .5))
     for rel, w, y, ph in rows:
-        im = sized(art(rel), w=w)
-        x = lin(W + 40, -im.width - 40, ((u * 1.15 + ph) % 1.3) / 1.3)
-        bob = 4 * math.sin(t * 9 + ph * 10)
-        fr = shadow(fr, x + im.width / 2, y, im.width * .7, 70)
-        fr = comp(fr, im, x, y - im.height + bob)
+        x = lin(W + 40, -w - 40, ((u * 1.15 + ph) % 1.3) / 1.3)
+        fr, _ = machine(fr, rel.split('/')[-1], w, x, y, t, moving=True, seed=int(ph * 10))
     return label(fr, 'REAL MACHINES', W * .5, H * .17, 84, (255, 255, 255), ease((t - T('l130') - .2) / .3), box=(40, 120, 60))
 
 
@@ -283,9 +326,7 @@ def s_tiny_huge(t):
     fr = bg(GAMEFARM, fx=.5, zoom=1.0)
     if t < T('l132') - .05:
         k = ease((t - T('l131')) / .5)
-        tr = sized(art(M + 'tractor_small.png'), w=lin(700, 190, k))
-        fr = shadow(fr, W * .5, H * .66, tr.width * .8, 70)
-        fr = comp(fr, tr, W * .5 - tr.width / 2, H * .66 - tr.height)
+        fr = quest_driving(fr, W * .5, H * .66, lin(700, 190, k), t, moving=False)
         if k > .7:                                                          # a magnifier ring around the tiny one
             d = ImageDraw.Draw(fr)
             d.ellipse((W * .5 - 170, H * .66 - 250, W * .5 + 170, H * .66 + 90), outline=(255, 255, 255), width=10)
@@ -293,9 +334,8 @@ def s_tiny_huge(t):
         return label(fr, 'TINY', W * .5, H * .20, 130, (140, 230, 110), ease((t - T('l131') - .2) / .25), rot=-5)
     t_hit = T('l132') + .1
     k = ease((t - T('l132') + .05) / .25)
-    tr = sized(art(M + 'tractor_huge.png'), w=lin(400, 1700, k))
-    fr = shadow(fr, W * .5, H * .70, tr.width * .7)
-    fr = comp(fr, tr, W * .5 - tr.width * .55, H * .70 - tr.height)
+    tw = lin(400, 1700, k)
+    fr, _ = machine(fr, 'tractor_huge.png', int(tw), W * .5 - tw * .55, H * .70, t)
     q = sized(art('genres/farming/quest/excited.png'), h=H * .16)
     fr = comp(fr, q, W * .80, H * .93 - q.height)
     fr = shake(fr, t, t_hit, 26)
@@ -330,12 +370,12 @@ def s_jobs(t):
     """l134-l136: planting / spraying / cutting - three stacked panels, each lights up on its word."""
     fr = Image.new('RGB', (W, H), (24, 26, 34))
     panels = ((FIELD_S, M + 'seeder.png', 'PLANTING', 'l134'), (FIELD_G, M + 'sprayer.png', 'SPRAYING', 'l135'), (FIELD_Y, M + 'combine.png', 'CUTTING', 'l136'))
-    ph_h = int(H * .175); top = int(H * .08)
+    ph_h = H // 3 - 8; top = 0                                                   # Producer: no empty black band - three full-bleed panels
     for i, (b, m, name, lid) in enumerate(panels):
-        y0 = top + i * (ph_h + 24)
+        y0 = top + i * (ph_h + 12)
         on = t >= T(lid) - .05
-        pb = bg(b, fx=.5, zoom=1.0).crop((0, int(H * .35), W, int(H * .35) + ph_h))
-        mi = sized(art(m), w=780 if 'combine' not in m else 600)
+        pb = bg(b, fx=.5, zoom=1.0).crop((0, int(H * .30), W, int(H * .30) + ph_h))
+        mi = sized(art(m), w=980 if 'combine' not in m else 760)
         u = t - T(lid)
         mx = lin(W * .55, W * .1, ease(u / 1.6)) if on else W * .55
         pb = comp(pb, mi, mx, ph_h * .92 - mi.height)
@@ -359,8 +399,9 @@ def s_jobs(t):
         d.rectangle((0, y0, W - 1, y0 + ph_h), outline=(255, 214, 40) if on else (70, 72, 84), width=8)
         f = font(64)
         tw = d.textlength(name, font=f)
-        d.rounded_rectangle((40, y0 + 26, 40 + tw + 40, y0 + 26 + 84), 14, fill=(255, 214, 40) if on else (60, 62, 74), outline=INK, width=5)
-        d.text((60, y0 + 34), name, font=f, fill=INK)
+        ly = y0 + ph_h - 124                                                    # bottom-left of the panel, clear of the captions
+        d.rounded_rectangle((40, ly, 40 + tw + 40, ly + 84), 14, fill=(255, 214, 40) if on else (60, 62, 74), outline=INK, width=5)
+        d.text((60, ly + 8), name, font=f, fill=INK)
     return fr
 
 
@@ -439,18 +480,16 @@ def progress(fr, x, y, w, k, text, col=(90, 200, 90)):
 
 
 def s_project(t):
-    """l141-l142: a big field is a project... later a machine worth more than a house erases it in minutes."""
+    """l141-l142: a big field is a project (Quest crawling across it)... a machine worth more than a house erases it."""
     if t < T('l142') - .05:
         fr = bg(FIELD_W, fx=.5, zoom=1.0)
         u = t - T('l141')
-        tr = sized(art('genres/farming/quest/tractor_side.png'), w=360)
-        fr = comp(fr, tr, lin(W * .7, W * .55, u / 3), H * .70 - tr.height)
-        return progress(fr, W * .1, H * .17, W * .8, .03 + .02 * (u / 3), 'FIELD: 3%... (a project)')
+        fr = quest_driving(fr, lin(W * .72, W * .52, u / 3.2), H * .74, 500, t)
+        return progress(fr, W * .1, H * .17, W * .8, .03 + .01 * (u / 3), 'FIELD: 3%... (a project)')
     u = t - T('l142')
     if u < 2.6:                                                                 # the price tag passes a house
         fr = bg(DEALER, fx=.5, zoom=1.05)
-        tr = sized(art(M + 'tractor_bigger.png'), w=880)
-        fr = comp(fr, tr, W * .5 - tr.width / 2, H * .80 - tr.height)
+        fr, _ = machine(fr, 'tractor_bigger.png', 880, W * .5 - 440, H * .80, t)
         fr = coin_counter(fr, t, T('l142'), W * .5, H * .10, 50000, 520000, 1.6)
         kh = ease((u - 1.2) / .3)
         if kh > 0:
@@ -460,12 +499,13 @@ def s_project(t):
             d.text((W * .5 - 30, H * .23), '<', font=font(150), fill=(255, 214, 40), stroke_width=8, stroke_fill=INK)
             d.text((W * .5 + 70, H * .245), 'TRACTOR', font=font(60), fill=(255, 255, 255), stroke_width=6, stroke_fill=INK)
         return fr
-    fr = bg(FIELD_W, fx=.5, zoom=1.0)                                            # ...and erases the problem in minutes
-    k = ease((u - 2.6) / 1.2)
-    tr = sized(art(M + 'tractor_bigger.png'), w=560)
-    fr = comp(fr, tr, lin(W, -tr.width, k), H * .72 - tr.height)
-    fr = progress(fr, W * .1, H * .17, W * .8, .03 + .97 * k, 'FIELD: 100% in minutes' if k > .95 else 'FIELD...')
-    return fr
+    k = ease((u - 2.6) / 1.4)                                                    # ...and erases the problem in minutes
+    plowed = bg(FIELD_W, fx=.5, zoom=1.0); done = bg(FIELD_Y, fx=.5, zoom=1.0)
+    x = lin(W + 40, -600, k)
+    m = Image.new('L', (W, H), 0); ImageDraw.Draw(m).rectangle((min(W, x + 300), int(H * .45), W, H), fill=255)   # behind it the field is done
+    fr = Image.composite(done, plowed, m.filter(ImageFilter.GaussianBlur(20)))
+    fr, _ = machine(fr, 'tractor_bigger.png', 560, x, H * .74, t, moving=True)
+    return progress(fr, W * .1, H * .17, W * .8, .03 + .97 * k, 'FIELD: 100% in minutes' if k > .95 else 'FIELD...')
 
 
 def popup(fr, text, k, cross=0.0):
@@ -486,8 +526,7 @@ def popup(fr, text, k, cross=0.0):
 def s_feel(t):
     """l143-l145: progression you can feel; the game does not have to tell you - a pop-up, struck out."""
     fr = bg(FIELD_W, fx=.6, zoom=lin(1.0, 1.15, ease((t - T('l143')) / 5)))
-    tr = sized(art(M + 'tractor_bigger.png'), w=760)
-    fr = comp(fr, tr, W * .5 - tr.width / 2, H * .68 - tr.height)
+    fr, _ = machine(fr, 'tractor_bigger.png', 760, lin(W * .25, W * .05, ease((t - T('l143')) / 5)), H * .68, t, moving=True)
     k = ease((t - T('l145')) / .3)
     cross = ease((t - T('l145') - .7) / .3)
     return popup(fr, 'YOU ARE STRONGER NOW', k, cross)
@@ -497,8 +536,7 @@ def s_12m(t):
     """l146: your tractor is twelve meters wider - a measuring tape runs out along the 12 m header."""
     fr = bg(FIELD_Y, fx=.5, zoom=1.0)
     hd = sized(art(M + 'header_12m.png'), w=1500)
-    tr = sized(art(M + 'tractor_huge.png'), w=620)
-    fr = comp(fr, tr, W * .5 - tr.width * .2, H * .60 - tr.height)
+    fr, _ = machine(fr, 'tractor_huge.png', 620, W * .5 - 620 * .2, H * .60, t)
     hx = W * .5 - hd.width * .62
     fr = comp(fr, hd, hx, H * .63 - hd.height)
     k = ease((t - T('l146') - .2) / 1.4)
@@ -517,7 +555,8 @@ def s_know(t):
     """l147 + end card: you already know. FULL EPISODE ON THE CHANNEL."""
     fr = bg(GAMEFARM, fx=.5, zoom=1.0)
     q = sized(art('genres/farming/quest/excited.png'), h=H * .46)
-    fr = comp(fr, q, W * .5 - q.width / 2, H * .94 - q.height)
+    fr = comp(fr, q, W * .5 - q.width / 2, H * .94 - q.height - 30 * abs(math.sin((t - T('l147')) * 6)))
+    fr = sparkles(fr, [(W * .25, H * .52), (W * .75, H * .48), (W * .7, H * .70)], t)
     k = ease((t - T('l147') - 1.2) / .4)
     if k > 0:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (14, 16, 30)), .55 * k)
@@ -545,13 +584,13 @@ def render(t):
 
 STILLS = (('01_elephant', T('l127') + 3.2), ('02_cool', T('l128') + 1.0), ('03_parade', T('l130') + 1.5), ('04_tiny', T('l131') + .7),
           ('05_huge', T('l132') + .6), ('06_factory', T('l133') + 2.0), ('07_jobs', T('l136') + .6), ('08_expert', T('l137') + 5.5),
-          ('09_levelup', T('l140') + 1.0), ('10_house', T('l142') + 2.0), ('11_minutes', T('l142') + 4.3), ('12_popup', T('l145') + 1.1),
+          ('09_levelup', T('l140') + 1.0), ('10a_project', T('l141') + 1.5), ('10_house', T('l142') + 2.0), ('11_minutes', T('l142') + 4.3), ('12_popup', T('l145') + 1.1),
           ('13_12m', T('l146') + 2.2), ('14_end', T1 - .3))
 
 
 def main():
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    out = OUTDIR / 'EP001_short2_tractors_preview_v1.mp4'
+    out = OUTDIR / 'EP001_short2_tractors_preview_v2.mp4'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T1 - T0:.3f}', '-i', str(NARR), '-af', 'loudnorm=I=-14:TP=-1.5:LRA=11', '-ar', '48000',
                           '-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-shortest', str(out)],
@@ -567,10 +606,10 @@ def stills():
     ims = []
     for name, t in STILLS:
         im = render(t); im.save(OUTDIR / f'still_{name}.jpg', quality=85); ims.append(im)
-    sheet = Image.new('RGB', (7 * 270, 2 * 480), (10, 10, 14))
+    sheet = Image.new('RGB', (8 * 270, 2 * 480), (10, 10, 14))
     for i, im in enumerate(ims):
-        sheet.paste(im.resize((270, 480)), ((i % 7) * 270, (i // 7) * 480))
-    sheet.save(OUTDIR / 'EP001_short2_review_v1.jpg', quality=85)
+        sheet.paste(im.resize((270, 480)), ((i % 8) * 270, (i // 8) * 480))
+    sheet.save(OUTDIR / 'EP001_short2_review_v2.jpg', quality=85)
     print('stills')
 
 
