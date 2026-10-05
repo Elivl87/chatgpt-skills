@@ -509,11 +509,17 @@
       "item": "#11 Hyrule field plate",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "A wide cinematic 16:9 background plate, bright late-morning daylight, no characters. A vast open fantasy grassland of rolling green hills. A winding dirt road starts wide in the lower middle foreground and curves away into the distance. Far away on the horizon, small, the fairytale castle with white walls and slate-blue spires exactly as in the reference image. On the right, far away, a tall volcano with a soft ring of cloud around its peak and a thin plume of smoke. A few lone trees, low stone ruins and a wooden fence along the road, soft blue mountain ranges, a clear blue sky with a few white clouds. Keep the lower third of the frame open flat grass and road where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds, the same palette and the same fairytale castle design. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:21:46+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "4ccc0450-1fe1-4497-b2a4-9bcf815658d1"
+      ],
+      "balanceAfter": 58.25
     },
     {
       "id": "Q030",
@@ -521,11 +527,17 @@
       "item": "#12 forest plate",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "A wide cinematic 16:9 background plate, warm afternoon light, no characters. A cozy hidden village deep inside an ancient forest: small round wooden houses built into the trunks of huge trees, rope ladders, little wooden platforms and bridges between the trunks, round doors and windows with warm light, mushrooms and ferns, soft shafts of sunlight falling through the high leafy canopy, floating glowing pollen. A soft dirt path starts wide in the lower middle foreground and leads into the village. Keep the lower third of the frame an open path and grass where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:21:46+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "6289d477-17f0-4cca-9a92-13c14a09f934"
+      ],
+      "balanceAfter": 57.25
     },
     {
       "id": "Q031",
@@ -533,11 +545,17 @@
       "item": "#13 temple interior plate",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "A wide cinematic 16:9 background plate, interior, daylight, no characters. A grand ancient stone temple hall with tall pillars and high arched windows; soft shafts of light fall from the windows onto a raised round stone dais in the centre. On the dais stands an empty stone pedestal with a narrow vertical slot in its top (nothing inside it), carved with simple geometric patterns; a triangle-of-three-triangles pattern engraved on the floor of the dais. Three low steps lead up to the dais from the lower middle foreground. Moss on old stone, quiet, sacred atmosphere. Keep the floor in the lower third open where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:21:47+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "e2f00af4-0467-4c17-af97-d4fadec601bd"
+      ],
+      "balanceAfter": 56.25
     },
     {
       "id": "Q032",
@@ -545,11 +563,17 @@
       "item": "#14 giant tree plate",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "A wide cinematic 16:9 background plate, warm soft light, no characters. A forest clearing dominated by one enormous ancient tree, its trunk filling the centre-right of the frame and rising out of the top of the frame, huge twisting roots spreading across the ground; a gentle wise old face formed naturally in the bark (closed eyes, a big mossy moustache-like fold of bark), calm and kind. Falling leaves, soft light beams, ferns, a few glowing floating spores. Open grassy ground in the lower left and lower middle foreground where characters will stand later, looking up at the tree. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:21:47+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "4f888fcc-be87-48a2-a73a-0cc5efaae6b7"
+      ],
+      "balanceAfter": 55.25
     },
     {
       "id": "Q033",

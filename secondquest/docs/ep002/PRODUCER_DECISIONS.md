@@ -437,3 +437,12 @@
   and longer-legged than kid Quest (about 11 vs 9); the engine sizes both by face width, so in block C she stays at
   0.9 x his face and only her legs read longer; retry possible at 1.0 each if the Producer wants. #2a's foot tap is
   not drawn (feet crossed): the engine adds the tap bounce, free.
+- Backgrounds ("Sí, sigue con los fondos y el escudo (el escudo debe ser fiel)"), 16:9 2k, #17+18 as the style
+  reference: #11 field with the road, the castle far away and the smoking volcano (Q029), #12 forest village of tree
+  houses (Q030), #13 temple hall with the empty pedestal, a slot on top for our own 3D blade (Q031), #14 the giant tree
+  with a kind face in the bark (Q032). 4.0 credits, balance 55.25 (22.0 of the approved 25.0 spent, plus the 1.0 horse
+  retry). Files in `docs/art_orders/ep002_final/`. QC: the castle in these plates is the #17+18 one (white walls,
+  slate-blue spires), not our own 3D castle; one castle must be chosen for the whole episode.
+- Crest #16 must be faithful (Producer). Plan: rebuilt free as vector geometry in `tools/fx/triforce_plates.py` (engraved
+  like the other plates) from a reference image the Producer picks, instead of generating it (an image model cannot
+  be relied on to be faithful, and the prompt lint forbids the third-party name). Q033 (0.5) stays unspent.
