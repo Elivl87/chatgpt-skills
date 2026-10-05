@@ -402,3 +402,6 @@
   escena"): in B2 "A new camera." the camera icon is removed; Navi, who ends B1 at the TV, leads the flight into the
   screen to white. The camera icon stays where other blocks use it (E, G, H, O) unless the Producer says otherwise.
 - B v7 approved (Producer: "Bloque B v7 aprobado"). The camera icon stays in the other blocks (E, G, H, O) for now.
+- Full animatic (Producer: "Une el animatic completo"): `docs/ep002/EP002_animatic_full_v1.mp4` (6:52.5), the 21 approved
+  block clips joined in order by `scripts/ep002-join-animatic.py` (each clip with its own narration slice and approved
+  sounds; at most one frame lost per boundary, ~0.4 s in total). Chapter list: `docs/ep002/EP002_animatic_full_v1_chapters.txt`.
