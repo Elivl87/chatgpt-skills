@@ -375,3 +375,10 @@
   still on, the tag fading as the green scan passes; (3) on "meet it again" Navi twirls around adult Quest before
   flying ahead; (4) the heart container flies from the castle to the HUD (sparkle trail) and lands as the 4th heart.
   Not taken: the warm light passed from the kid to the adult (2).
+- T v3 (Producer: the flying heart "no me gustó... de que sirve?"; keep it as a nod, but in the HUD, growing to 8
+  hearts, one appearing after the other, imitating the 1998 game): the flying heart container is removed. On "grew"
+  five empty heart containers pop in at the end of the row one after another (3 -> 8), then the meter refills left to
+  right a quarter heart at a time, and the last filled heart beats, as the life meter does in the 1998 game (drawn in
+  block T over the shared HUD, which is unchanged). The Producer asked to check it on YouTube: videos cannot be watched
+  from here and the wikis do not describe the animation, so it follows how the game's meter works (containers added
+  empty, quarter-by-quarter refill, beating current heart); the Producer verifies against the game.
