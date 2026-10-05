@@ -559,7 +559,7 @@ const crt = () => {
  *  spire, slender round towers with blue-slate cones, and a domed tower on the right. Front faces +z. Units: arbitrary. */
 const hyruleCastle = () => {
   const g = new THREE.Group();
-  const STONE = toon('#b6b0a2'), STONE_D = toon('#9a9486'), PALE = toon('#e9e5dc'), ROOF = toon('#5b6f98'), WOOD = toon('#7a5232'),
+  const STONE = toon('#e4e1da'), STONE_D = toon('#c8c4bb'), PALE = toon('#f7f5f0'), ROOF = toon('#4c6187'), WOOD = toon('#7a5232'),
     DARK = toon('#2b2722'), GRASS = toon('#63a047'), WATER = toon('#5a95c2'), IRON = toon('#3a3a40');
   let part = 800;
   const crenels = (x0: number, x1: number, y: number, z: number, axis: 'x' | 'z', mat: THREE.Material) => {

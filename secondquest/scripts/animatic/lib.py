@@ -115,6 +115,67 @@ def label_for(spec):
     return spec.get('label')
 
 
+# ------------------------------------------------------------------ final art (generated 2026-10-05, Producer-approved)
+# The generated images are never modified: overlays (the 3D shield, the crest on the banners) are composited on top
+# here, and mirrors are engine transforms. Keys are what the blocks ask for; the numbers are docs/ep002/MISSING_ART.md.
+ART_Q, ART_P, ART_F = 'docs/art_orders/quest/ep002_costume/', 'docs/art_orders/pixie/ep002_costume/', 'docs/art_orders/ep002_final/'
+ART = {
+    'quest_veteran': ART_Q + '01_tunic_veteran.png',              # 1  adult, tunic, front, confident
+    'quest_scared': ART_Q + '02_tunic_scared.png',                # 2  adult, tunic, front, scared
+    'quest_young_back': ART_Q + '03_young_back.png',              # 3  young, tunic, back (walk: alternate with _b)
+    'quest_young_back_b': ART_Q + '03_young_back.png',            # 9  the opposite step = #3 mirrored (Producer)
+    'quest_young_lookup': ART_Q + '03a_young_threequarter_lookup.png',  # 3a looks up to the left (mirror it to look right)
+    'quest_young_front': ART_Q + '03b_young_front_smile.png',     # 3b young, tunic, front, smiling
+    'quest_adult_back': ART_Q + '04_adult_back_gear.png',         # 4  adult, back, 3D shield + scabbard
+    'quest_horse_back': ART_Q + '05b_adult_horse_back_chestnut.png',  # 5b on his chestnut horse, back, 3D shield
+    'kid_quest_play': ART_Q + '06a_kid_playing_seated.png',       # 6a kid, red hoodie, playing, faces right
+    'kid_pixie_point': ART_P + '6b_kid_pointing.png',             # 6b kid Pixie pointing right
+    'kid_pixie_sit': ART_P + '6c_kid_sitting.png',                # 6c kid Pixie sitting, faces right
+    'quest_blow': ART_Q + '10a_blowing_cartridge.png',            # 10a red hoodie, profile right, blowing the cartridge
+    'quest_profile_think': ART_Q + '10b_profile_thinking.png',    # 10 red hoodie, seated profile right, pensive
+    'pixie_impatient': ART_P + '2a_impatient_arms_crossed.png',   # 2a hoodie, arms crossed
+    'pixie_bored': ART_P + '2b_bored_imaginary_watch.png',        # 2b hoodie, imaginary watch, yawn
+    'pixie_tunic_wave': ART_P + '2c_tunic_waving.png',            # 2c tunic, waving
+    'pixie_tunic_awe': ART_P + '2d_tunic_awe.png',                # 2d tunic, looking up in awe
+    'pixie_tunic_think': ART_P + '2e_tunic_thinking.png',         # 2e tunic, thinking
+    'pixie_tunic_back': ART_P + '2f_tunic_back.png',              # 2f tunic, back
+}
+ART_SHIELD = {'quest_adult_back': '04_adult_back', 'quest_horse_back': '05b_horse_back'}   # tools/props3d/shield_mount.py
+ART_FLIP = {'quest_young_back_b'}
+PLATES = {
+    'field': ART_F + '11_field.png',                              # 11 day field: road, castle far away, volcano
+    'forest': ART_F + '12_forest_village.png',                    # 12 forest village
+    'temple': ART_F + '13_temple_pedestal.png',                   # 13 temple hall, empty pedestal (+ crest banners)
+    'tree': ART_F + '14_giant_tree.png',                          # 14 the giant tree
+    'adult_room': ART_F + '15_adult_room_night.png',              # 15 adult Quest's bedroom at night
+    'outcrop': ART_F + '17_18_outcrop_vista.png',                 # 17+18 final shot (+ 3D shield on Quest)
+}
+PLATE_OVERLAYS = {'temple': 'public/art/ep002/overlays/13_temple_crest.png', 'outcrop': 'public/art/ep002/props3d/shield_on_17_18_outcrop.png'}
+
+
+@lru_cache(maxsize=64)
+def final(key, flip=False):
+    """Final character art, cropped to its alpha, with its engine overlays; flip=True mirrors it."""
+    im = Image.open(ROOT / ART[key]).convert('RGBA')
+    if key in ART_SHIELD:
+        im.alpha_composite(Image.open(ROOT / f'public/art/ep002/props3d/shield_on_{ART_SHIELD[key]}.png').convert('RGBA'))
+    # the generator leaves a faint dark haze (alpha 1-24) over the whole canvas: dropped at load, the file is untouched
+    im.putalpha(im.getchannel('A').point(lambda v: 0 if v < 24 else v))
+    im = im.crop(im.getchannel('A').getbbox())
+    if flip != (key in ART_FLIP):
+        im = im.transpose(Image.FLIP_LEFT_RIGHT)
+    return im
+
+
+@lru_cache(maxsize=16)
+def final_plate(key, size=(PW, PH)):
+    """Final background at the working plate size (16:9 plates are 2688x1520: a uniform resize), with its overlays."""
+    im = Image.open(ROOT / PLATES[key]).convert('RGBA')
+    if key in PLATE_OVERLAYS:
+        im.alpha_composite(Image.open(ROOT / PLATE_OVERLAYS[key]).convert('RGBA'))
+    return im.convert('RGB').resize(size, Image.LANCZOS)
+
+
 # ------------------------------------------------------------------ procedural planning plates (MISSING backgrounds)
 def _sky(img, top, bottom, horizon):
     d = ImageDraw.Draw(img)
@@ -233,6 +294,8 @@ PROC = {'field': plate_field, 'forest': plate_forest, 'temple': plate_temple, 't
 @lru_cache(maxsize=32)
 def plate(spec):
     kind = spec[0]
+    if kind == 'final':
+        return final_plate(spec[1])
     if kind == 'img':
         im = Image.open(ROOT / spec[1]).convert('RGB')
         return im.resize((PW, PH), Image.LANCZOS)
@@ -246,7 +309,9 @@ def place(base, spec, t=None):
     if spec.get('full'):          # full-frame layer aligned with the plate (e.g. the N64 setup layer)
         base.alpha_composite(Image.open(ROOT / spec['img']).convert('RGBA').resize((PW, PH), Image.LANCZOS))
         return
-    if 'img' in spec:
+    if 'art' in spec:
+        im = final(spec['art'])
+    elif 'img' in spec:
         im = Image.open(ROOT / spec['img']).convert('RGBA')
         im = im.crop(im.getchannel('A').getbbox())
     else:

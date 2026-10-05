@@ -121,7 +121,11 @@ def mount(name, art_path, land, tint):
         k = peek & (art[..., 3] > 0)
         over[k, :3] = over[k, :3] * (over[k, 3:] / 255.0) + patch[k, :3] * (1 - over[k, 3:] / 255.0)
         over[k, 3] = 255
-    print(name, f'old shield pixels patched: {int(peek.sum())}')
+    # QC (Producer, 2026-10-05): nothing of the old shield may stay visible; checked on the final overlay, not trusted
+    visible = int((sil & (art[..., 3] > 0) & ~(over[..., 3] > 230)).sum())
+    print(name, f'old shield pixels patched: {int(peek.sum())}, still visible: {visible}')
+    if visible:
+        sys.exit(f'{name}: {visible} px of the old shield still show; fix the landmarks before sending anything')
     out = ROOT / f'public/art/ep002/props3d/shield_on_{name}.png'
     cv2.imwrite(str(out), np.clip(over, 0, 255).astype(np.uint8))
     # placement for the engine: the strap holds the shield near its peak, so the sway turns it about that point

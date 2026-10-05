@@ -481,3 +481,9 @@
   the old shield's full silhouette (hull of its blue face and silver rim + ink) and fills whatever still peeks out with
   the surroundings (tunic, strap, sky), sampled only from outside the old shield. Same size and proportion as approved.
   Preview `docs/ep002/shield_on_quest_all_preview.jpg` (#4, #5b, #17+18).
+- Shield QC improvement approved and applied: `shield_mount.py` checks the final overlay and stops if any pixel of the
+  old shield is still visible (0 on #4, #5b, #17+18).
+- "Monta el arte en los bloques ... Continuamos usando animatic ... No uses el motor hasta que yo apruebe": the new art
+  goes into the animatic block scripts only (no engine). `scripts/animatic/lib.py` gains `final(key)` / `final_plate(key)`
+  (3D shield and banner crest composited at load, #9 = #3 mirrored, the generator's faint alpha haze dropped at load;
+  the files are untouched). The own 3D castle is retinted to the plates' look (white walls, slate-blue spires).
