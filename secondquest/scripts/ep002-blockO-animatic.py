@@ -148,7 +148,7 @@ def tagbox(text, col=(255, 214, 40), flipped=False, k_flip=None):
     return g
 
 
-CALLOUTS = (('FOG', (.45, .42), (-170, -160)), ('LOW POLY', (.84, .40), (110, -150)), ('BLURRY TEXTURES', (.22, .72), (-330, 20)),
+CALLOUTS = (('FOG', (.45, .42), (-170, -160)), ('LOW POLY', (.84, .40), (110, -150)), ('BLURRY TEXTURES', (.22, .72), (-330, -70)),
             ('FIXED CAMERA', (.52, .62), (230, 20)))                          # verified on the glass: haze, the pyramid hill, the grass, the hero seen from the fixed camera
 
 
