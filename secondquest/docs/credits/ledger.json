@@ -220,11 +220,17 @@
       "item": "#2a Pixie impatient arms crossed",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": null,
+      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Default outfit (never change): blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, arms crossed over her chest, weight on one leg, tapping the floor with the tip of her right sneaker, head tilted slightly up as if asking \"is it my turn yet?\", eyebrows raised, lips pressed into a playful impatient pout. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:07:59+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "90178349-30de-44d1-8e64-b46e5a008e48"
+      ],
+      "balanceAfter": 64.25
     },
     {
       "id": "Q014",
@@ -232,11 +238,17 @@
       "item": "#2b Pixie bored imaginary watch",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": null,
+      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Default outfit (never change): blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, left arm raised in front of her and bent, looking down at her bare left wrist as if checking an imaginary wristwatch (no watch on her wrist), right hand covering a small yawn, half-closed bored eyes, shoulders slightly slumped, playful and not grumpy. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:07:59+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "b67ce3ba-e82f-4305-ae97-302466ca2256"
+      ],
+      "balanceAfter": 63.25
     },
     {
       "id": "Q015",
@@ -407,11 +419,17 @@
       "item": "#6a kid Quest playing seated",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. dark brown curly hair, light freckles, same face as a kid, childlike proportions (about 4.5 heads tall). Same face, hair and human ears as Quest_v1; only the age changes. Outfit (never change), child size: plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: sitting cross-legged on the floor, seen from the side in a three-quarter view facing RIGHT, his face visible in three-quarter profile, holding a chunky grey 1990s three-grip game controller with both hands in his lap, leaning forward a little, totally absorbed, eyes wide with wonder and a small open-mouthed smile, a soft cool blue screen light on his face and the front of his hoodie. A short grey cable hangs from the controller and ends at the image edge. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:07:59+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "f24e04a5-6178-4ed1-b5c7-71fb6aa74595"
+      ],
+      "balanceAfter": 62.25
     },
     {
       "id": "Q025",
@@ -419,11 +437,17 @@
       "item": "#6b kid Pixie pointing",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. Long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face as a kid, human ears, childlike proportions (about 4.7 heads tall). Only the age changes. Outfit (never change), child size: blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, body in a three-quarter view turned to the RIGHT, her right arm stretched out pointing RIGHT at something off-frame (a screen), laughing excitedly as if she just knew where to go, the other hand on her knee, leaning in. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:07:59+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "2dfcc45a-9717-47eb-be5a-707703a96878"
+      ],
+      "balanceAfter": 61.25
     },
     {
       "id": "Q026",
@@ -431,11 +455,17 @@
       "item": "#6c kid Pixie sitting",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. Long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face as a kid, human ears, childlike proportions (about 4.7 heads tall). Only the age changes. Outfit (never change), child size: blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: sitting on the floor with her knees up and her arms resting around them, seen in a three-quarter view facing RIGHT, watching something off-frame to the right with a warm happy smile, relaxed, a soft cool blue screen light on her face and the front of her hoodie. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:07:59+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "8b15ebef-35a6-4805-9e50-dd04a40de4cd"
+      ],
+      "balanceAfter": 60.25
     },
     {
       "id": "Q027",
@@ -443,11 +473,17 @@
       "item": "#10a Quest blowing the cartridge (thumbnail candidate)",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body standing (crops to waist-up for a thumbnail), transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: clean SIDE PROFILE view facing RIGHT, holding a shiny GOLD 1990s game cartridge with a blank label in both hands just in front of his mouth, the open connector end towards his lips, cheeks puffed out, blowing hard into it, eyes squeezed half shut in total concentration, a small grey puff of dust bursting out of the far end of the cartridge. Funny, nostalgic, very readable silhouette. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-05T22:07:59+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "a5e22350-de18-4711-b331-6dfb0fcef79e"
+      ],
+      "balanceAfter": 59.25
     },
     {
       "id": "Q028",
