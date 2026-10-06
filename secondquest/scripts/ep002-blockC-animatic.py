@@ -25,7 +25,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FSUB, CUES, final, PLANNING, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FSUB, CUES, final, PLANNING, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -125,15 +125,15 @@ def frame_c1(t):
     k = (t - T0) / (T_SCR - T0)
     cool = ease(min(1, max(0, (t - T_NOT) / .6)))
     col = tuple(int(lin(a, b, cool)) for a, b in zip((255, 190, 110), (150, 170, 210)))
-    fr = CART.glow(fr, W / 2, H / 2, 360, col, lin(.6, .4, cool))
+    fr = CART.glow(fr, W / 2, H / 2, S(360), col, lin(.6, .4, cool))
     im = CARTS[min(len(CARTS) - 1, int(k * len(CARTS)))]
     dive = ease(min(1, max(0, (t - T_CAME - .25) / (T_SCR - T_CAME - .25))))
-    s = lin(1.0, 1.12, ease(k)) * (1 + 6 * dive ** 2)
+    s = lin(1.0, 1.12, ease(k)) * (1 + 6 * dive ** 2) * U
     im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
     if cool > 0:                                                        # "not exactly": the memory cools a little
         g = im.convert('LA').convert('RGBA'); g.putalpha(im.getchannel('A'))
         im = Image.blend(im, g, .35 * cool * (1 - dive))
-    lx, ly = W / 2, H / 2 + 20 * dive                                   # dive towards the label centre
+    lx, ly = W / 2, H / 2 + S(20) * dive                                   # dive towards the label centre
     fr = comp(fr, im, lx - im.width / 2, ly - im.height * .55)
     # Navi circles the cartridge, then leads the dive into the label
     keys = [(T0, .7, .3), (T0 + 1.2, .66, .62), (T0 + 2.4, .3, .6), (T_NOT, .32, .32), (T_CAME, .6, .34), (T_SCR - .3, .5, .5)]
@@ -142,7 +142,7 @@ def frame_c1(t):
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 246, 225)), (dive - .6) / .4)
     d = ImageDraw.Draw(fr)
     tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v9 · PLANNING ONLY')
-    PLANNING and d.text((20, 40), 'C1 cartridge = own 3D (approved mock) · Navi dives into the label', font=F(15), fill=(255, 220, 160))
+    PLANNING and d.text((S(20), S(40)), 'C1 cartridge = own 3D (approved mock) · Navi dives into the label', font=F(15), fill=(255, 220, 160))
     return fr
 
 
@@ -199,11 +199,11 @@ def cable(base):
     pts = []
     for i in range(41):
         u = i / 40
-        x = (1 - u) ** 3 * px + 3 * (1 - u) ** 2 * u * (px - 60) + 3 * (1 - u) * u * u * (hx + 40) + u ** 3 * hx
+        x = (1 - u) ** 3 * px + 3 * (1 - u) ** 2 * u * (px - P(60)) + 3 * (1 - u) * u * u * (hx + P(40)) + u ** 3 * hx
         y = (1 - u) ** 3 * py + 3 * (1 - u) ** 2 * u * (PH * .99) + 3 * (1 - u) * u * u * hy + u ** 3 * hy
         pts.append((x, y))
     d = ImageDraw.Draw(base)
-    d.line(pts, fill=(22, 22, 31, 255), width=9, joint='curve'); d.line(pts, fill=(70, 70, 78, 255), width=4, joint='curve')
+    d.line(pts, fill=(22, 22, 31, 255), width=round(P(9)), joint='curve'); d.line(pts, fill=(70, 70, 78, 255), width=round(P(4)), joint='curve')
 
 
 def room_plate(t, pixie):
@@ -238,8 +238,8 @@ def place_leaning(base, spec):
     pad = pad.rotate(spec['rot'], resample=Image.BICUBIC, expand=True)          # pivot = centre = her feet
     x, y = spec['x'] * PW, spec['y'] * PH
     sh = Image.new('RGBA', base.size)
-    ImageDraw.Draw(sh).ellipse((x - im.width * .4, y - 12, x + im.width * .4, y + 10), fill=(15, 10, 8, 110))
-    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
+    ImageDraw.Draw(sh).ellipse((x - im.width * .4, y - P(12), x + im.width * .4, y + P(10)), fill=(15, 10, 8, 110))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(8))))
     base.alpha_composite(pad, (int(x - pad.width / 2), int(y - pad.height / 2)))
 
 
@@ -264,15 +264,15 @@ def light(fr, box, t):
     """TV light on the kids (cool, pulsing) and the afternoon turning late (warm, low) as the line runs."""
     tx, ty = to_screen(*SCR_C, box)
     pulse = .5 + .5 * math.sin(t * 9) * (1 if T_TV <= t < T_FR else .3)
-    fr = CART.glow(fr, tx - 80, ty + 40, 520, (150, 200, 255), .22 + .1 * pulse + (.12 if T_TV <= t < T_TV + .6 else 0))
+    fr = CART.glow(fr, tx - S(80), ty + S(40), S(520), (150, 200, 255), .22 + .1 * pulse + (.12 if T_TV <= t < T_TV + .6 else 0))
     late = ease(min(1, max(0, (t - T_SAT) / (SAT_END - T_SAT))))
     warm = Image.new('RGB', fr.size, (255, 150, 70))
     fr = Image.blend(fr, warm, .06 + .16 * late)
     if late > 0:                                                        # the sun beam slides across the floor
         g = Image.new('RGBA', fr.size); gd = ImageDraw.Draw(g)
         bx = lin(.15, .62, late) * W
-        gd.polygon([(bx - 120, H * .62), (bx + 60, H * .62), (bx + 260, H), (bx - 20, H)], fill=(255, 190, 110, int(70 * late)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(30))).convert('RGB')
+        gd.polygon([(bx - S(120), H * .62), (bx + S(60), H * .62), (bx + S(260), H), (bx - S(20), H)], fill=(255, 190, 110, int(70 * late)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(30)))).convert('RGB')
     return fr
 
 
@@ -281,14 +281,14 @@ def smartphone(fr, t):
     if not (T_PHONE - .1 <= t <= SAT_END + .2):
         return fr
     k_in = ease(min(1, (t - T_PHONE + .1) / .35)); k_out = ease(min(1, max(0, (t - SAT_END + .15) / .35)))
-    x = W * .16; y = H * .1 - 300 * (1 - k_in) - 300 * k_out          # drops in over the wall, away from the TV
+    x = W * .16; y = H * .1 - S(300) * (1 - k_in) - S(300) * k_out          # drops in over the wall, away from the TV
     g = Image.new('RGBA', fr.size); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((x, y, x + 110, y + 200), 16, fill=(30, 32, 40, 240), outline=(220, 220, 230, 255), width=4)
-    d.rounded_rectangle((x + 10, y + 18, x + 100, y + 172), 8, fill=(70, 130, 220, 255))
-    d.ellipse((x + 47, y + 178, x + 63, y + 194), outline=(200, 200, 210, 255), width=2)
+    d.rounded_rectangle((x, y, x + S(110), y + S(200)), S(16), fill=(30, 32, 40, 240), outline=(220, 220, 230, 255), width=Si(4))
+    d.rounded_rectangle((x + S(10), y + S(18), x + S(100), y + S(172)), S(8), fill=(70, 130, 220, 255))
+    d.ellipse((x + S(47), y + S(178), x + S(63), y + S(194)), outline=(200, 200, 210, 255), width=Si(2))
     if t >= T('l16.w14') - .05:                                         # "not yet ruined": struck out
-        d.ellipse((x - 30, y + 10, x + 140, y + 190), outline=(230, 50, 50, 255), width=10)
-        d.line((x - 10, y + 160, x + 120, y + 40), fill=(230, 50, 50, 255), width=10)
+        d.ellipse((x - S(30), y + S(10), x + S(140), y + S(190)), outline=(230, 50, 50, 255), width=Si(10))
+        d.line((x - S(10), y + S(160), x + S(120), y + S(40)), fill=(230, 50, 50, 255), width=Si(10))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
@@ -313,7 +313,7 @@ def frame_room(t):
     lab = ('C3 "plus the room."' if t < T_TV else 'C4 "Plus the television."' if t < T_FR else
            'C5 the friend who knew where to go' if t < T_SAT else 'C6 a whole Saturday afternoon')
     tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v9 · PLANNING ONLY')
-    PLANNING and d.text((20, 40), 'kids = final art #6a / #6b / #6c · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
+    PLANNING and d.text((S(20), S(40)), 'kids = final art #6a / #6b / #6c · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
     return fr
 
 
@@ -326,7 +326,7 @@ def render(t):
     else:
         fr = frame_room(t)
     d = ImageDraw.Draw(fr)
-    subtitle(d, t, lift=40 if t >= T_ROOM else 0)# room shots: above the kids
+    subtitle(d, t, lift=S(40) if t >= T_ROOM else 0)# room shots: above the kids
     return fr
 
 
