@@ -28,7 +28,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, final, STEP_RATE  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, final, STEP_RATE, road_walk  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 
@@ -118,7 +118,7 @@ def frame_d12(t):
             d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - 42), lab, font=F(26), fill=c)
         fr = bg
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v8 · PLANNING ONLY')
+    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v9 · PLANNING ONLY')
     return fr
 
 
@@ -204,7 +204,7 @@ def frame_d345(t):
     d = ImageDraw.Draw(fr)
     lab = ('D3 "Because you were smaller." · outline = adult Quest' if t < T_MEM else 'D4 memory keeps the feelings' if t < T_SPEC
            else 'D5 ...and drops the specifications')
-    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v8 · PLANNING ONLY')
+    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v9 · PLANNING ONLY')
     return fr
 
 
@@ -248,7 +248,7 @@ def frame_d6(t):
             d = ImageDraw.Draw(fr); lab = 'N64 texture filtering'
             d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - 2), lab, font=F(18), fill=(40, 40, 50))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v8 · PLANNING ONLY')
+    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v9 · PLANNING ONLY')
     return fr
 
 
@@ -263,43 +263,33 @@ def frame_d78(t):
     if t >= T_MUSIC - .05:
         fr = BB.notes(fr, t, T_MUSIC - .05, (W * .55, H * .65))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v8 · PLANNING ONLY')
+    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v9 · PLANNING ONLY')
     return fr
 
 
 # ------------------------------------------------------------------ D9-D10: castle, then forever (same field, continuous)
-HERO_SCR = {}
-
-
-def hero_screen(fr, t):
-    """Young Quest walking (#3 / #3 mirrored, one step per bob), drawn in screen space: feet inside title-safe,
-    constant size while the world keeps coming."""
-    key = walk_pose(t)
-    if key not in HERO_SCR:
-        im = final(key); h = int(H * .42)
-        HERO_SCR[key] = im.resize((int(im.width * h / im.height), h), Image.LANCZOS)
-    im = HERO_SCR[key]
-    rise = ease(min(1, max(0, (t - T_FOREVER - .2) / 1.4)))           # walks up into the shot as the camera comes down
-    y = H * .93 - im.height + (1 - rise) * H * .5 + 4 * abs(math.sin(t * STEP_RATE))
-    return comp(fr, im, W / 2 - im.width / 2, y)
+# D10 (Producer, 2026-10-06): young Quest walks down the road itself, as adult Quest does in B6, instead of staying
+# pinned to the middle of the screen while the camera moves; the camera eases in behind him, the castle ahead.
+WALK_H0, WALK_Y0 = .36, .97                                            # where he sets off (plate fractions)
 
 
 def frame_d910(t):
-    keys = [(T_CASTLE, (1.15, .5, .6)), (T_FOREVER - .1, (3.0, CASTLE[0], CASTLE[1])), (T_FOREVER + 1.6, (1.25, .6, .6))]
+    keys = [(T_CASTLE, (1.15, .5, .6)), (T_FOREVER - .1, (3.0, CASTLE[0], CASTLE[1])), (T_FOREVER + 1.6, (1.25, .6, .6)),
+            (T_END, (1.5, .57, .58))]                                   # "kept walking": in behind him; castle whole, clear of the HUD
     cam = keyed(keys, t)
-    if t > T_FOREVER + 1.6:                                             # "kept walking": the world keeps coming, forever
-        k = (t - T_FOREVER - 1.6) / (T_END - T_FOREVER - 1.6)
-        cam = (1.25 * (1 + .45 * k), .6, lin(.6, .5, k))         # down the road; the castle stays whole, clear of the HUD
-    fr, box = shoot(FIELD, cam)
+    lay = FIELD
     if t >= T_FOREVER:
-        fr = hero_screen(fr, t)
-    fr = navi(fr, box, [(T_FOREVER, .53, .6), (T_FOREVER + 1.6, .55, .57), (T_END, .51, .52)], t)
+        x, y, h = road_walk(t - T_FOREVER, WALK_H0, WALK_Y0, height_m=1.4, stride_m=.55)
+        lay = FIELD.copy()
+        place(lay, dict(im=final(walk_pose(t)), x=x, y=y - .008 * abs(math.sin(t * STEP_RATE)) * h / WALK_H0, h=h))
+    fr, box = shoot(lay, cam)
+    fr = navi(fr, box, [(T_FOREVER, .53, .6), (T_FOREVER + 1.6, .54, .6), (T_END, .536, .66)], t)   # just ahead of him
     if T_CASTLE <= t < T_FOREVER:
         fr = CART.glow(fr, *to_screen(CASTLE[0], CASTLE[1] - .04, box), 120, (255, 240, 200), .35)
     if t > T_END - .5:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 8, 10)), (t - T_END + .5) / .5 * .6)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v8 · PLANNING ONLY')
+    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v9 · PLANNING ONLY')
     return fr
 
 
@@ -326,7 +316,7 @@ STILLS = (('d1', T0 + 1.0), ('d2', T_SMALL - .3), ('d3', T_MEM - .4), ('d4', T_S
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -336,14 +326,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockD_v8_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockD_v9_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04): no joined preview
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockD_v8_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockD_v9_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

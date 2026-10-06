@@ -358,6 +358,26 @@ def walk_adult(t, rate=STEP_RATE, phase=0.0):
     return adult_walk_frame(mirror=ph >= .5, sway=sway)
 
 
+# Hyrule Field's road (final plate #11): its centre line, measured on the plate (x, feet y as plate fractions), from the
+# bottom edge to the start of its bend. The fence posts put the ground's vanishing line at y .68 (Producer, 2026-10-06:
+# Quest walks along the road, not straight up it, and at a calm pace).
+FIELD_ROAD = [(.500, .970), (.511, .905), (.521, .845), (.529, .785), (.533, .750), (.536, .730)]
+FIELD_ROAD_VY = .68
+
+
+def road_walk(t, h0, y0=.97, height_m=1.8, stride_m=.7):
+    """Feet (x, y) and height (plate fractions) of Quest walking down the field road, t seconds after he sets off from
+    feet y0 with height h0. His size follows the plate's perspective and he covers stride_m a step at STEP_RATE, so his
+    feet never slide; he eases into the walk over the first step."""
+    ramp = .6
+    dist = stride_m * STEP_RATE / math.pi * (t * t / (2 * ramp) if t < ramp else t - ramp / 2)
+    z0 = height_m * 1.07 / h0                                          # metres from the camera (focal 1.07 frame heights)
+    h = height_m * 1.07 / (z0 + dist)
+    y = FIELD_ROAD_VY + (y0 - FIELD_ROAD_VY) * h / h0
+    x = float(np.interp(y, [q[1] for q in FIELD_ROAD][::-1], [q[0] for q in FIELD_ROAD][::-1]))
+    return x, y, h
+
+
 def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.2):
     """A light breeze: the cloth between cloth=(y0, y1) (fractions of the height: a tunic's skirt, not the legs below
     it) ripples sideways, more towards its hem; hair = (x0, x1, y0, y1) fractions of a hanging ponytail or cap tip,

@@ -560,3 +560,7 @@
   4. No treadmill in F-B and H: while he walks the field ahead comes slowly toward the camera (3.5-4 % extra zoom on the
      background only). Done as a forward drift rather than a sideways slide, because he walks away from the camera.
   5. P1: the hoodie walk-in takes 2.6 s (was 2.0); his fade starts 0.2 s later so he arrives before fading.
+- 2026-10-06 · B6 approved as rendered (he keeps walking under the wordmark, ~14 % tall at the end).
+- 2026-10-06 · D10 (Producer: "camina y no recorre el sendero"): young Quest now walks down the field road in the plate,
+  with the same road walk as B6 (`lib.road_walk`, a child's height and stride), instead of staying pinned to the middle
+  of the screen while the camera moved. The camera pulls back from the castle onto him, then eases in behind him.

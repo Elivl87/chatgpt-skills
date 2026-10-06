@@ -23,7 +23,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB, walk_adult, STEP_RATE  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB, walk_adult, STEP_RATE, road_walk  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 from icons import camera_icon  # noqa: the episode's game-camera icon (repeats wherever the script says camera)
@@ -139,27 +139,6 @@ FIELD = plate(('final', 'field')).convert('RGBA')
 FIELD_RGB = FIELD.convert('RGB')
 CAM_B4 = ((1.18, .5, .64), (1.3, .5, .62))
 HERO = dict(art='quest_adult_back', x=.5, y=.97, h=.46)
-# B6 (Producer, 2026-10-06: he must walk along the road, not straight up it, and not so fast). The road's centre line
-# measured on plate #11 (x, feet y as plate fractions), bottom to the start of its bend; his size follows the plate's
-# perspective (the fence posts put the ground's vanishing line at y .68), and he walks at a calm pace whose stride
-# matches the ground he covers (0.7 m a step, 1.85 steps/s, his height 1.8 m), all the way to the end of the block.
-ROAD = [(.500, .970), (.511, .905), (.521, .845), (.529, .785), (.533, .750), (.536, .730)]
-ROAD_VY, WALK_MPS = .68, .7 * STEP_RATE / math.pi
-
-
-def road_walker(t):
-    """Feet (x, y) and height (plate fractions) of Quest walking down the road, t seconds after he sets off."""
-    ramp = .6                                                           # he eases into the walk over the first step
-    dist = WALK_MPS * (t * t / (2 * ramp) if t < ramp else t - ramp / 2)
-    # metres from the camera: depth = 1.8 m * focal / height, height = .46 at y .97 shrinking linearly to the vanishing line
-    z0 = 1.8 * 1.07 / HERO['h']
-    h = 1.8 * 1.07 / (z0 + dist)
-    y = ROAD_VY + (HERO['y'] - ROAD_VY) * h / HERO['h']
-    ys = [p[1] for p in ROAD][::-1]; xs = [p[0] for p in ROAD][::-1]
-    x = float(np.interp(y, ys, xs))
-    return x, y, h
-
-
 def field_frame(t):
     if t < T_YOU:                                                         # B4: slow push
         k = (t - T_FIELD) / (T_YOU - T_FIELD); cam = CAM_B4
@@ -171,7 +150,7 @@ def field_frame(t):
     if t < T_GO:
         place(lay, HERO)
     else:
-        x, y, h = road_walker(t - T_GO)                                    # he walks down the road (a step per bob, the shield swinging)
+        x, y, h = road_walk(t - T_GO, HERO['h'], HERO['y'])                                    # he walks down the road (a step per bob, the shield swinging)
         place(lay, dict(HERO, x=x, y=y - .008 * abs(math.sin(t * STEP_RATE)) * h / HERO['h'], h=h, im=walk_adult(t)))
     fr, box = frame_plate(lay.convert('RGB'), cam, k)
     # Navi beside him, then ahead down the path
