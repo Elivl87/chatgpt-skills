@@ -597,13 +597,34 @@ def _chunks(words):
     return out
 
 
+# Review-subtitle language: SUB_LANG=es renders the Spanish track (docs/publish/EP002/script_es.json) on Bram's timing
+import os as _os
+SUB_LANG = _os.environ.get('SUB_LANG', 'en')
+_ES = json.loads((ROOT / 'docs/publish/EP002/script_es.json').read_text())['lines'] if SUB_LANG == 'es' else {}
+
+
+def _cue_words(key, c):
+    """The words shown for a cue: Bram's own, or the Spanish line spread over his word timings (each Spanish word takes
+    the time of the English word at the same relative position, so phrases follow the voice's rhythm and pauses)."""
+    if SUB_LANG != 'es' or key not in _ES:
+        return c['words']
+    en, es = c['words'], _ES[key].split()
+    out = []
+    for i, w in enumerate(es):
+        j0 = min(len(en) - 1, int(i * len(en) / len(es)))
+        j1 = min(len(en) - 1, max(j0, int((i + 1) * len(en) / len(es)) - 1))
+        out.append({'w': w, 'start': en[j0]['start'], 'end': en[j1]['end']})
+    return out
+
+
 def subtitle(d, t, t_end=None, lift=0, size=44):
     """Review subtitles in the EP001 Shorts caption style (Inter heavy, white, ink outline 13% + ink drop 7%, short
     phrases that pop in). Planning/review only: final renders carry no burned-in subtitles (Producer)."""
-    c = next((c for c in CUES.values() if c['start'] - 0.1 <= t <= c['end'] + 0.25 and (t_end is None or c['start'] < t_end)), None)
-    if not c:
+    kc = next(((k, c) for k, c in CUES.items() if c['start'] - 0.1 <= t <= c['end'] + 0.25 and (t_end is None or c['start'] < t_end)), None)
+    if not kc:
         return
-    words = [w for w in c['words'] if t_end is None or w['start'] < t_end]
+    key, c = kc
+    words = [w for w in _cue_words(key, c) if t_end is None or w['start'] < t_end]
     ch = _chunks(words)
     cur = None
     for i, k in enumerate(ch):
