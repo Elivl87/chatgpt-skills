@@ -18,3 +18,8 @@ docs/ep002/EP002_animatic_full_v2.mp4
 docs/ep002/EP002_animatic_full_v3.mp4
 docs/ep002/EP002_animatic_full_v4.mp4
 docs/ep002/EP002_animatic_full_v4_es.mp4
+
+# Draft renders (QUALITY=draft, 480p) are disposable previews: never versioned, to keep the repo small
+*_480p.mp4
+*_480p.jpg
+*_480p_chapters.txt
