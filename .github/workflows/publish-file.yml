@@ -1,0 +1,70 @@
+# SecondQuest: deliver a big file (a full animatic, > 100 MB) as a GitHub Release asset.
+#
+# The session cannot create Releases itself, and git takes files only up to 100 MB. So the session splits the file into
+# parts under 95 MB on a temporary branch (deliver/<tag>: <name>.part.000, .001, ... and <name>.sha256), dispatches this
+# workflow, and the runner joins the parts, checks the checksum, publishes the file as a Release asset (draft by default:
+# only the repo's collaborators see it) and deletes the temporary branch.
+#   mode=publish  join + release        mode=delete  remove the release <tag> and its tag (cleanup)
+name: Publish file
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (also the temporary branch deliver/<tag>)"
+        required: true
+      name:
+        description: "File name of the asset"
+        required: false
+        default: ""
+      title:
+        description: "Release title"
+        required: false
+        default: ""
+      draft:
+        description: "Draft release (only collaborators see it)"
+        type: boolean
+        default: true
+      mode:
+        type: choice
+        options: [publish, delete]
+        default: publish
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag }}
+      NAME: ${{ inputs.name }}
+    steps:
+      - name: Delete release
+        if: inputs.mode == 'delete'
+        run: |
+          gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
+          git ls-remote --exit-code "https://x-access-token:${GH_TOKEN}@github.com/$GITHUB_REPOSITORY" "refs/heads/deliver/$TAG" \
+            && gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/deliver/$TAG" || true
+      - uses: actions/checkout@v4
+        if: inputs.mode == 'publish'
+        with:
+          ref: deliver/${{ inputs.tag }}
+      - name: Join parts and check
+        if: inputs.mode == 'publish'
+        run: |
+          cat deliver/"$NAME".part.* > "$RUNNER_TEMP/$NAME"
+          (cd "$RUNNER_TEMP" && sha256sum -c "$GITHUB_WORKSPACE/deliver/$NAME.sha256")
+          ls -l "$RUNNER_TEMP/$NAME"
+      - name: Publish
+        if: inputs.mode == 'publish'
+        run: |
+          DRAFT=""; [ "${{ inputs.draft }}" = "true" ] && DRAFT="--draft"
+          gh release create "$TAG" "$RUNNER_TEMP/$NAME" --repo "$GITHUB_REPOSITORY" $DRAFT \
+            --title "${{ inputs.title || inputs.tag }}" --notes "Delivered by the SecondQuest session." --target "$GITHUB_SHA"
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json url,isDraft,assets -q '{url, isDraft, assets: [.assets[] | {name, size}]}'
+      - name: Remove the temporary branch
+        if: inputs.mode == 'publish'
+        run: gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/deliver/$TAG"
