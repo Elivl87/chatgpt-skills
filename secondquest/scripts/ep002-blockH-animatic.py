@@ -548,14 +548,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v8_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v9_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v8_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v9_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

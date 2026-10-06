@@ -496,3 +496,13 @@
   credit, or accept #4); F-B meter panel now covers the plate's castle; U: Pixie's turn on "Maybe" becomes a warm light
   swell (she is already turned in the final illustration); I: Pixie smaller on the NEW PLAYER card (face ratio 0.9);
   M: "Distance mattered" now runs to the far waterfall. Villain #8 still MISSING (last, as decided).
+- v3 (Producer: "Aplica las mejoras 1 a 4, mueve el panel del bloque F. Hay escenas donde Quest camina, pero su avatar
+  no, verifica todas las tomas"). Walk audit of every shot: young Quest already stepped (#3 / #3 mirrored) in D, F-B, G,
+  H, R; adult Quest (#4) only bobbed in B6, R and T, and the hoodie Quest in P1: `lib.step()` now lifts one foot then
+  the other (the leg below the knee drawn up), `lib.walk_adult()` adds the shield's swing. C: kid Pixie bounces as she
+  walks in. E (hero is part of the plate, he does not travel), M (stands), K/U (stand) need no walk. Improvements: 1 H's
+  1998 picture pans slowly across Hyrule; 2 I5 slow push into the temple before "pulls" and N1 push on the pedestal
+  (held to N3, eased out in N4, his feet kept in frame); 3 K breeze in both tunics, her ponytail and his cap
+  (`lib.breeze`); 4 shield sway on the walks and the horse's trot (`final(key, sway=)`). F-B: the meter panel is 72%
+  size, lower right, clear of the castle and inside title-safe. Clips: B v9, C v7, F-B v8, H v9, I v7, K v4, N v9, P v4,
+  R v6, T v5; full `EP002_animatic_full_v3_light.mp4` (6:52.5).
