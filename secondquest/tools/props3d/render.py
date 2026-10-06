@@ -382,7 +382,17 @@ def job_sword_check():
     print('docs/ep002/props3d_sword_v2_sheet.png')
 
 
-JOBS = {'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+def job_back_sword():
+    """Sword v2 in its scabbard, upright (hilt up, front on), for adult Quest's back: public/art/ep002/props3d/back_sword.png."""
+    tgt = [0, 100, 0]
+    img = render({'props': ['sword', 'scabbard'], 'light': 'neutral',
+                  'shots': [{'camera': orbit(0, 0, 2200, tgt), 'target': tgt, 'fov': 16, 'cart': None}]}, 900, 1400, line=3.0)[0]
+    img = crop_alpha(cv2.rotate(img, cv2.ROTATE_180), 2)                 # the sword model points its blade up: turn it hilt up
+    cv2.imwrite(str(OUT / 'back_sword.png'), img)
+    print('back_sword.png', img.shape)
+
+
+JOBS = {'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

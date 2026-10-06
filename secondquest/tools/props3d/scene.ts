@@ -771,6 +771,29 @@ const heroShield = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- scabbard for the sword v2 (adult Quest's back gear)
+/** Brown leather scabbard in the sword's own frame (blade along +y from the guard at y = 0 to the tip at 345): a
+ *  tapered body a little wider and thicker than the blade, a steel throat band under the guard and a steel chape at
+ *  the tip. Rendered together with the sword, only the hilt shows above it. */
+const scabbard = () => {
+  const g = new THREE.Group();
+  const L = 352, w0 = 26, w1 = 22;
+  const sh = new THREE.Shape();
+  sh.moveTo(-w0, -2); sh.lineTo(w0, -2); sh.lineTo(w1, L - 26); sh.quadraticCurveTo(w1 * .6, L, 0, L + 6);
+  sh.quadraticCurveTo(-w1 * .6, L, -w1, L - 26); sh.closePath();
+  const geo = new THREE.ExtrudeGeometry(sh, { depth: 10, bevelEnabled: true, bevelThickness: 3, bevelSize: 2.5, bevelSegments: 3, curveSegments: 12 });
+  geo.translate(0, 0, -8);
+  const body = new THREE.Mesh(geo, toon('#6e4426')); body.userData.part = 1100; ids.push(body); g.add(body);
+  const steel = toon('#a7acb6');
+  g.add(box(2 * w0 + 6, 16, 22, [0, 8, -3], steel, 1101, 2));                  // throat band
+  const ch = new THREE.Shape(); ch.moveTo(-w1 - 2, L - 40); ch.lineTo(w1 + 2, L - 40); ch.lineTo(w1 * .7, L - 6); ch.lineTo(0, L + 10); ch.lineTo(-w1 * .7, L - 6); ch.closePath();
+  const cg = new THREE.ExtrudeGeometry(ch, { depth: 10, bevelEnabled: true, bevelThickness: 2.5, bevelSize: 2, bevelSegments: 2 });
+  cg.translate(0, 0, -8);
+  const chape = new THREE.Mesh(cg, steel); chape.userData.part = 1102; ids.push(chape); g.add(chape);
+  for (const y of [120, 236]) g.add(box(2 * w0 - 2, 7, 21, [0, y, -3], toon('#4e2f1a'), 1103, 1));   // stitched bands
+  return g;
+};
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -787,6 +810,7 @@ if (P.props.includes('castle')) scene.add((props.castle = hyruleCastle()));
 if (P.props.includes('crt')) scene.add((props.crt = crt()));
 if (P.props.includes('triforce')) scene.add((props.triforce = triforce()));
 if (P.props.includes('horse')) scene.add((props.horse = horse()));
+if (P.props.includes('scabbard')) scene.add((props.scabbard = scabbard()));
 if (P.props.includes('shield')) scene.add((props.shield = heroShield()));
 if (P.props.includes('switch2')) scene.add((props.switch2 = switch2()));
 

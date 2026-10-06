@@ -109,6 +109,8 @@ def mount(name, art_path, land, tint):
     w[..., :3] *= np.clip(1.05 - .2 * u, .8, 1.05)[..., None]
     over[..., :3] = np.where(a > 0.02, w[..., :3], 20)              # straight alpha; the shadow is near-black
     over[..., 3] = np.maximum(w[..., 3], sh * 255)
+    # the shield alone (with its soft shadow), for art that has no old shield under it (#4b, the walk without gear)
+    cv2.imwrite(str(ROOT / f'public/art/ep002/props3d/shield_only_{name}.png'), np.clip(over, 0, 255).astype(np.uint8))
     # whatever of the old shield still peeks out (its sharp peak can reach past ours): fill it with what is around it
     # (tunic, strap, hair or sky), sampled only from outside the old shield
     sil = old_silhouette(art, land)

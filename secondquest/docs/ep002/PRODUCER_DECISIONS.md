@@ -506,3 +506,11 @@
   (`lib.breeze`); 4 shield sway on the walks and the horse's trot (`final(key, sway=)`). F-B: the meter panel is 72%
   size, lower right, clear of the castle and inside title-safe. Clips: B v9, C v7, F-B v8, H v9, I v7, K v4, N v9, P v4,
   R v6, T v5; full `EP002_animatic_full_v3_light.mp4` (6:52.5).
+- Adult walk (Producer: "Realizar el arte de adulto sin el equipo. Pero que tenga la espada no?"): #4b generated (Q039,
+  job 6ed31a9c, 1.0, balance 52.75): adult Quest in the tunic, from behind, mid-stride, NOTHING on his back. The walk is
+  #4b and #4b mirrored; the gear is laid on top in the engine so it never changes shoulder: the 3D sword v2 in a new 3D
+  scabbard (`tools/props3d` job back_sword) over his right shoulder and the 3D shield (swinging with the steps). Answer
+  to "que tenga la espada": yes, the sword is there, as the 3D one on top, not drawn into the image. #4 (standing) now
+  wears the same 3D sword: its drawn hilt above the shoulder is removed at load (the file is untouched), so standing and
+  walking match. N2-N3 (just pulled the sword, no gear) = #4b bare; its MISSING label is gone. Blocks B v10, D v7, I v8,
+  K v5, N v10, Q v3, R v7, T v6 re-rendered; full v4. Still drawn (not 3D) hilts: #5b (horse) and #17+18 (final shot).

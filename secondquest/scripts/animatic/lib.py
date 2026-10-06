@@ -127,6 +127,7 @@ ART = {
     'quest_young_lookup': ART_Q + '03a_young_threequarter_lookup.png',  # 3a looks up to the left (mirror it to look right)
     'quest_young_front': ART_Q + '03b_young_front_smile.png',     # 3b young, tunic, front, smiling
     'quest_adult_back': ART_Q + '04_adult_back_gear.png',         # 4  adult, back, 3D shield + scabbard
+    'quest_adult_walk': ART_Q + '04b_adult_back_walk_nogear.png',  # 4b adult, back, mid-stride, NO gear (walk; just after the pull)
     'quest_horse_back': ART_Q + '05b_adult_horse_back_chestnut.png',  # 5b on his chestnut horse, back, 3D shield
     'kid_quest_play': ART_Q + '06a_kid_playing_seated.png',       # 6a kid, red hoodie, playing, faces right
     'kid_pixie_point': ART_P + '6b_kid_pointing.png',             # 6b kid Pixie pointing right
@@ -153,12 +154,53 @@ PLATES = {
 PLATE_OVERLAYS = {'temple': 'public/art/ep002/overlays/13_temple_crest.png', 'outcrop': 'public/art/ep002/props3d/shield_on_17_18_outcrop.png'}
 
 
+@lru_cache(maxsize=32)
+def _raw_box(key):
+    a = Image.open(ROOT / ART[key]).getchannel('A').point(lambda v: 0 if v < 24 else v)
+    return a.getbbox()
+
+
+def _sword_swap(im):
+    """#4 (full canvas): its drawn scabbard and hilt give way to the 3D sword v2 in its 3D scabbard, laid on the same
+    line (the same gear as the walk, #4b). The few drawn hilt/leather pixels the 3D one does not cover are filled from
+    their surroundings (alpha too, so the old pommel above the shoulder simply goes)."""
+    import cv2
+    b = _raw_box('quest_adult_back')
+    sc, sh, _ = _gear_layers()
+    a = np.asarray(im).copy()
+    ox, oy = b[0], b[1]
+    hh, ww = sc.size[1], sc.size[0]
+    cov = np.zeros(a.shape[:2], bool)
+    cov[oy:oy + hh, ox:ox + ww] = (np.asarray(sc)[..., 3] > 40) | (np.asarray(sh)[..., 3] > 200)
+    hsv = cv2.cvtColor(a[..., :3], cv2.COLOR_RGB2HSV).astype(int)
+    Hh, S, V = hsv[..., 0], hsv[..., 1], hsv[..., 2]
+    yy, xx = np.mgrid[0:a.shape[0], 0:a.shape[1]]
+    p0 = np.array([_SCAB_LINE[0][0] + ox, _SCAB_LINE[0][1] + oy - 20.]); p1 = np.array([_SCAB_LINE[1][0] + ox, _SCAB_LINE[1][1] + oy + 10.])
+    d = p1 - p0; t = np.clip(((xx - p0[0]) * d[0] + (yy - p0[1]) * d[1]) / (d @ d), 0, 1)
+    near = np.hypot(xx - (p0[0] + t * d[0]), yy - (p0[1] + t * d[1])) < 48
+    drawn = ((Hh >= 105) & (Hh <= 150) & (S > 40) & (V < 170)) | ((S < 40) & (V > 120) & (yy < oy + 330)) | (V < 60) | \
+            ((Hh >= 5) & (Hh <= 22) & (S > 80) & (V > 40) & (V < 170))
+    # above his shoulders the old hilt simply goes (it stood against the empty background or the cap's edge, both
+    # behind the 3D hilt); lower down the old leather is the same brown as the new scabbard and stays as drawn
+    pom = np.hypot(xx - (_SCAB_LINE[0][0] + ox), yy - (_SCAB_LINE[0][1] + oy)) < 62   # the old pommel and its outline
+    m = ((near & drawn) | pom) & (a[..., 3] > 0) & ~cov & (yy < oy + 470)
+    green = (Hh >= 35) & (Hh <= 85) & (S > 60) & (V > 60)              # the cap and its ink outline: keep them
+    cap_edge = (cv2.dilate(green.astype(np.uint8), np.ones((11, 11), np.uint8)) > 0) & (V < 80)
+    a[m & ~green & ~cap_edge, 3] = 0
+    out = Image.fromarray(a, 'RGBA')
+    full = Image.new('RGBA', out.size); full.alpha_composite(sc, (ox, oy))
+    out.alpha_composite(full)
+    return out
+
+
 @lru_cache(maxsize=256)
 def final(key, flip=False, sway=0.0):
     """Final character art, cropped to its alpha, with its engine overlays; flip=True mirrors it. sway (degrees) turns
     the 3D shield about its strap point (walks, the horse's trot); the crop box stays the one at rest, so a swaying
     sequence never jitters."""
     im = Image.open(ROOT / ART[key]).convert('RGBA')
+    if key == 'quest_adult_back':
+        im = _sword_swap(im)
     if key in ART_SHIELD:
         name = ART_SHIELD[key]
         ov = Image.open(ROOT / f'public/art/ep002/props3d/shield_on_{name}.png').convert('RGBA')
@@ -206,11 +248,56 @@ def step(im, phase, lift=.075, knee=.66):
     return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), 'RGBA')
 
 
-def walk_adult(t, rate=7.0, phase=0.0, key='quest_adult_back'):
-    """Adult Quest (#4) walking: a step (see step) per bob of 5*|sin(rate*t + phase)|, the shield swinging with it."""
+# Adult Quest's back gear for #4b (and its mirror): the 3D shield as fitted on #4 and the 3D sword v2 in its 3D scabbard,
+# laid along #4's scabbard line, moved by the offset between the two figures' collar points (both arts are drawn at the
+# same scale). Measured on the cropped arts: collar #4 (410, 400), #4b (414, 400); #4's scabbard line from the pommel
+# (704, 270) to the tip (430, 1170).
+_COLLAR = {'quest_adult_back': (410, 400), 'quest_adult_walk': (414, 400)}
+_SCAB_LINE = ((704, 270), (430, 1170))
+
+
+@lru_cache(maxsize=1)
+def _gear_layers():
+    """(scabbard layer, shield layer, shield pivot) in #4's cropped coordinates, on a canvas with a margin."""
+    import cv2
+    b4 = _raw_box('quest_adult_back')
+    sh = np.asarray(Image.open(ROOT / 'public/art/ep002/props3d/shield_only_04_adult_back.png').convert('RGBA'))
+    sh = sh[b4[1]:b4[3], b4[0]:b4[2]]
+    sw = np.asarray(Image.open(ROOT / 'public/art/ep002/props3d/back_sword.png').convert('RGBA'))
+    src = np.float32([[sw.shape[1] / 2, 0], [sw.shape[1] / 2, sw.shape[0]]])           # pommel top, chape tip
+    M, _ = cv2.estimateAffinePartial2D(src, np.float32(_SCAB_LINE))
+    sc = cv2.warpAffine(sw, M, (sh.shape[1], sh.shape[0]), flags=cv2.INTER_AREA, borderValue=(0, 0, 0, 0))
+    piv = json.loads((ROOT / 'tools/props3d/shield_on_04_adult_back.json').read_text())['pivot']
+    return Image.fromarray(sc, 'RGBA'), Image.fromarray(sh, 'RGBA'), (piv[0] - b4[0], piv[1] - b4[1])
+
+
+@lru_cache(maxsize=64)
+def adult_walk_frame(mirror=False, sway=0.0, gear=True):
+    """#4b (mirror=False) or #4b mirrored (the other step), with the gear always on the same side: scabbard and hilt
+    over his right shoulder, the shield on top (sway in degrees about its strap point). gear=False: #4b bare (block N,
+    right after he pulls the sword)."""
+    base = final('quest_adult_walk', flip=mirror)
+    if not gear:
+        return base
+    sc, sh, piv = _gear_layers()
+    cx = base.width - _COLLAR['quest_adult_walk'][0] if mirror else _COLLAR['quest_adult_walk'][0]
+    dx, dy = cx - _COLLAR['quest_adult_back'][0], _COLLAR['quest_adult_walk'][1] - _COLLAR['quest_adult_back'][1]
+    pad = 60
+    W_, H_ = max(base.width, sc.width) + 2 * pad, max(base.height, sc.height) + 2 * pad
+    out = Image.new('RGBA', (W_, H_))
+    out.alpha_composite(base, (pad, pad))
+    out.alpha_composite(sc, (pad + dx, pad + dy))
+    shl = sh.rotate(sway, resample=Image.BICUBIC, center=piv) if sway else sh
+    out.alpha_composite(shl, (pad + dx, pad + dy))
+    return out.crop(out.getchannel('A').getbbox())
+
+
+def walk_adult(t, rate=7.0, phase=0.0):
+    """Adult Quest walking (#4b): the drawn stride and its mirror alternate, one step per bob of 5*|sin(rate*t +
+    phase)|; the 3D gear stays on his right shoulder and the shield swings with the steps."""
     ph = ((rate * t + phase) / math.pi) % 2 / 2                        # one full cycle = two bobs = two steps
     sway = round(SHIELD_SWAY * math.sin(math.pi * 2 * ph) * 4) / 4
-    return step(final(key, sway=sway), ph)
+    return adult_walk_frame(mirror=ph >= .5, sway=sway)
 
 
 def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.2):

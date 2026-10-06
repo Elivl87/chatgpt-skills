@@ -20,8 +20,8 @@ years are told without text (a time-lapse in the empty temple) and the eras are 
                                           CHILD (day window, young Quest, Navi bright) | ADULT (storm window, adult Quest
                                           with shield and sword on his back, Navi dim).
 HUD: hidden (a story beat, not play). v8: final art #13 (the temple; our 3D sword v2 in its pedestal slot, the storm
-seen through its windows), #3 young Quest and #4 adult Quest (3D shield + sword) from behind. Still a stand-in: adult
-Quest with no gear right after he pulls the sword (N2-N3, Producer N v5). Sounds: none (all at the end).
+seen through its windows), #3 young Quest and #4 adult Quest (3D shield + sword) from behind. Adult Quest with no gear
+right after he pulls the sword (N2-N3, Producer N v5) = final art #4b. Sounds: none (all at the end).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
+from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, adult_walk_frame  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -61,8 +61,7 @@ INK = (20, 14, 18, 255)
 
 YOUNG = final('quest_young_back')                                           # final art #3: young Quest in the tunic, from behind
 ADULT = final('quest_adult_back')                                           # final art #4: adult Quest from behind, 3D shield + sword on his back
-ADULT_PULL = YOUNG                # Producer (N v5): no gear on his back right after he pulls the sword (#4 has it baked in):
-PULL_TAG = 'MISSING · adult Quest back, no gear (stand-in: #3 scaled)'   # until a gear-less adult back exists
+ADULT_PULL = adult_walk_frame(gear=False)                                   # final art #4b: adult back, no gear (he just pulled the sword)
 QX, QFEET = W * .5, H * .93
 YH, AH = H * .30, H * .44
 SW_PLATE = 1280 / 1920                                                      # plate px -> frame px
@@ -203,9 +202,6 @@ def n1_4(t):
         kd = min(1, max(0, (t - T('l104.w2')) / .7))                         # "disappeared"
         fr = temple(t, storm=0, sword=True, sword_rise=RISE, sword_a=1 - kd)   # ...and the sword goes with him, the same way
         fr = quest(fr, AH, a=1 - kd, adult='pull')                          # Producer: just pulled the sword - no gear on his back yet
-        if kd < 1:
-            d = ImageDraw.Draw(fr); tw = d.textlength(PULL_TAG, font=F(13))
-            d.rectangle((QX - tw / 2 - 6, QFEET - AH - 28, QX + tw / 2 + 6, QFEET - AH - 8), fill=(150, 20, 30)); d.text((QX - tw / 2, QFEET - AH - 26), PULL_TAG, font=F(13), fill=(255, 235, 235))
         if kd > 0:                                                          # motes of light rise from him and from the sword
             g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
             r = np.random.default_rng(8)
@@ -339,7 +335,7 @@ def render(t):
     if t < T_ERAS:                                                          # N7 draws its own two Navis
         fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v9 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v10 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -349,7 +345,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v9.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v10.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -359,14 +355,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v9_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v10_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v9_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v10_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

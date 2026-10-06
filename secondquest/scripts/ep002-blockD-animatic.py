@@ -118,7 +118,7 @@ def frame_d12(t):
             d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - 42), lab, font=F(26), fill=c)
         fr = bg
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v6 · PLANNING ONLY')
+    tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v7 · PLANNING ONLY')
     return fr
 
 
@@ -204,7 +204,7 @@ def frame_d345(t):
     d = ImageDraw.Draw(fr)
     lab = ('D3 "Because you were smaller." · outline = adult Quest' if t < T_MEM else 'D4 memory keeps the feelings' if t < T_SPEC
            else 'D5 ...and drops the specifications')
-    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v6 · PLANNING ONLY')
+    tag(d, f'SEQ 07-08 · {lab} · BLOCK D v7 · PLANNING ONLY')
     return fr
 
 
@@ -248,7 +248,7 @@ def frame_d6(t):
             d = ImageDraw.Draw(fr); lab = 'N64 texture filtering'
             d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - 2), lab, font=F(18), fill=(40, 40, 50))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v6 · PLANNING ONLY')
+    tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v7 · PLANNING ONLY')
     return fr
 
 
@@ -263,7 +263,7 @@ def frame_d78(t):
     if t >= T_MUSIC - .05:
         fr = BB.notes(fr, t, T_MUSIC - .05, (W * .55, H * .65))
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v6 · PLANNING ONLY')
+    tag(d, 'SEQ 09 WHAT YOU REMEMBER · ' + ('D7 the forest' if t < T_MUSIC else 'D8 the music') + ' · BLOCK D v7 · PLANNING ONLY')
     return fr
 
 
@@ -299,7 +299,7 @@ def frame_d910(t):
     if t > T_END - .5:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 8, 10)), (t - T_END + .5) / .5 * .6)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v6 · PLANNING ONLY')
+    tag(d, 'SEQ 09 · ' + ('D9 "The castle in the distance."' if t < T_FOREVER else 'D10 "...the world might continue forever."') + ' · BLOCK D v7 · PLANNING ONLY')
     return fr
 
 
@@ -326,7 +326,7 @@ STILLS = (('d1', T0 + 1.0), ('d2', T_SMALL - .3), ('d3', T_MEM - .4), ('d4', T_S
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockD_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -336,14 +336,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockD_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockD_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04): no joined preview
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockD_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockD_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
