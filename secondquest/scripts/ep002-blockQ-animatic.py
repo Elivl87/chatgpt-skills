@@ -106,8 +106,8 @@ def forest(t):
 TEMPLE_NOW = final_plate('temple')
 SLOT = (960, 393)                                                            # the slot on top of the pedestal (plate px)
 _sw = BN.BL.SWD[12].transpose(Image.FLIP_TOP_BOTTOM)
-SWORD_P = sized(_sw.crop(_sw.getchannel('A').getbbox()), 330)               # point down; 78% shows above the stone
-CAM_SWORD = ((1.45, .5, .40), (1.6, .5, .39))
+SWORD_P = sized(_sw.crop(_sw.getchannel('A').getbbox()), 260)               # point down; 78% shows above the stone (hilt below the STILL WAITING tag)
+CAM_SWORD = ((1.25, .5, .40), (1.33, .5, .376))                                # top of the plate in view: the hilt stays clear of the tag
 
 
 def temple_now(sword=True):
