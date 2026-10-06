@@ -88,7 +88,12 @@ CAM0 = (1.5, .47, .48)                                                        # 
 CAM1 = (1.0, .5, .5)                                                          # the whole vista
 
 
+CAM_MAYBE = (1.07, .47, .5)                                                   # Producer (v5): a slow push towards the two of them on "Maybe"
+
+
 def cam(t):
+    if t >= T_TURN:                                                           # the pull back has settled long before
+        return cam_box((CAM1, CAM_MAYBE), min(1, (t - T_TURN) / 3.0))
     return cam_box((CAM0, CAM1), ease(min(1, max(0, (t - T0 - .2) / 4.2))))  # U1: rise and pull back to the whole vista
 
 
@@ -187,7 +192,7 @@ def render(t):
             for i in range(0, int(y1 - y0), 14):
                 d.line((x0, y0 + i, x0, y0 + i + 7), fill=(255, 255, 255), width=2); d.line((x1, y0 + i, x1, y0 + i + 7), fill=(255, 255, 255), width=2)
             d.text((x0 + 8, y0 + 6), s, font=F(14), fill=(255, 255, 255), stroke_width=2, stroke_fill=(20, 14, 18))
-    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v4 · PLANNING ONLY')
+    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -196,7 +201,7 @@ STILLS = (('u1a', T0 + .8), ('u1', T0 + 3.0), ('u2', T_WHY + .8), ('u2o', (T_ORB
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr), '-i', str(SFX),
@@ -208,14 +213,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockU_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockU_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockU_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockU_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
