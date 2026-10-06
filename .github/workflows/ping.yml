@@ -1,0 +1,11 @@
+# Temporary: checks that this session can dispatch a workflow (2026-10-06). Safe to delete.
+name: ping
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "ping ok"
