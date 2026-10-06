@@ -80,8 +80,8 @@ def scene(t):
     kl = min(1, max(0, (t - T_TURN) / .6))
     if kl > 0:
         e = ease(kl)
-        im = CART.glow(im, HEADS[0] * PW, HEADS[1] * PH, 420, (255, 214, 150), .22 * e)
-        im = CART.glow(im, SUN[0] * PW, SUN[1] * PH, 300, (255, 236, 190), .18 * e)
+        im = CART.glow(im, HEADS[0] * PW, HEADS[1] * PH, P(420), (255, 214, 150), .22 * e)
+        im = CART.glow(im, SUN[0] * PW, SUN[1] * PH, P(300), (255, 236, 190), .18 * e)
     return im
 
 
@@ -105,8 +105,8 @@ def birds(fr, t, box):
         k = ((t - T_WHY + 1.0) * .06 + i * .07) % 1
         px = .62 + .40 * k + .015 * i; py = .30 + .02 * math.sin(i * 1.7) - .05 * k
         x, y = to_frame(px, py, box); x *= W; y *= H
-        f = math.sin(t * 9 + i) * 5
-        d.line((x - 9, y - f, x, y, x + 9, y - f), fill=(70, 46, 46), width=3)
+        f = math.sin(t * 9 + i) * S(5)
+        d.line((x - S(9), y - f, x, y, x + S(9), y - f), fill=(70, 46, 46), width=Si(3))
     return fr
 
 
@@ -114,13 +114,13 @@ def wordmark(fr, dt):
     """The SecondQuest wordmark (EP001's brand image + gold bar), up in the sky."""
     wm = BBm.WORDMARK
     wh = int(H * WM_H); ww = int(wm.width * wh / wm.height)
-    g = Image.new('RGBA', (max(ww, 420) + 40, wh + 50))
-    g.alpha_composite(wm.resize((ww, wh), Image.LANCZOS), ((g.width - ww) // 2, 10))
-    bar = 400 * WM_H / .14 * BBm._in_out_cubic(min(1, max(0, (dt - .25) / .45)))
-    if bar > 1:
-        d = ImageDraw.Draw(g); y = 10 + wh + 12; x0 = (g.width - bar) / 2
-        d.rounded_rectangle((x0, y + 2, x0 + bar, y + 9), 3, fill=(22, 22, 31, 255))
-        d.rounded_rectangle((x0, y, x0 + bar, y + 7), 3, fill=(255, 200, 61, 255))
+    g = Image.new('RGBA', (max(ww, Si(420)) + Si(40), wh + Si(50)))
+    g.alpha_composite(wm.resize((ww, wh), Image.LANCZOS), ((g.width - ww) // 2, Si(10)))
+    bar = S(400) * WM_H / .14 * BBm._in_out_cubic(min(1, max(0, (dt - .25) / .45)))
+    if bar > S(1):
+        d = ImageDraw.Draw(g); y = Si(10) + wh + S(12); x0 = (g.width - bar) / 2
+        d.rounded_rectangle((x0, y + S(2), x0 + bar, y + S(9)), S(3), fill=(22, 22, 31, 255))
+        d.rounded_rectangle((x0, y, x0 + bar, y + S(7)), S(3), fill=(255, 200, 61, 255))
     x = min(1, dt / .28); e = BBm._out_back(x)
     sc = 1.3 + (1 - 1.3) * e
     g = g.resize((max(1, int(g.width * sc)), max(1, int(g.height * sc))), Image.LANCZOS)
@@ -156,9 +156,9 @@ def star_twinkle(fr, dt):
         return fr
     k = math.sin(min(1, dt / .9) * math.pi)
     x, y = STAR[0] * W, STAR[1] * H
-    fr = CART.glow(fr, x, y, 70, (255, 240, 200), .7 * k)
+    fr = CART.glow(fr, x, y, S(70), (255, 240, 200), .7 * k)
     d = ImageDraw.Draw(fr)
-    L = 34 * k
+    L = S(34) * k
     d.polygon([(x, y - L), (x + L * .18, y - L * .18), (x + L, y), (x + L * .18, y + L * .18), (x, y + L), (x - L * .18, y + L * .18),
                (x - L, y), (x - L * .18, y - L * .18)], fill=(255, 250, 230))
     return fr
@@ -167,18 +167,18 @@ def star_twinkle(fr, dt):
 def continue_menu(fr, t, a):
     """The end as a game's CONTINUE? menu (Producer, 2026-10-06, video-game detail 9): over YouTube's end-screen slots,
     NEXT QUEST (the video) and JOIN THE PARTY (subscribe); the cursor hops between them."""
-    items = (('NEXT QUEST', W * .04, H * .34 - 50, False), ('JOIN THE PARTY', W * .95, H * .56 - 50, True))
+    items = (('NEXT QUEST', W * .04, H * .34 - S(50), False), ('JOIN THE PARTY', W * .95, H * .56 - S(50), True))
     sel = int(max(0, t - T_COMM - .6) / 1.4) % 2
     out = fr.convert('RGBA')
     title = UI.fade(UI.area_title('CONTINUE?', size=34, band=True, rules=False), a)
-    out.alpha_composite(title, (int(W * .04), int(H * .34 - 112)))
+    out.alpha_composite(title, (int(W * .04), int(H * .34 - S(112))))
     for i, (txt, x, y, right) in enumerate(items):
         g = UI.sq_tag(txt, 20, col=UI.GOLD if sel == i else (225, 228, 240))
         gx = x - g.width if right else x
         out.alpha_composite(UI.fade(g, a), (int(gx), int(y)))
         if sel == i:                                                          # the cursor, bobbing at the item's left
-            cx, cy = gx - 4 + 3 * math.sin(t * 8), y + g.height / 2
-            ImageDraw.Draw(out).polygon([(cx - 16, cy - 11), (cx, cy), (cx - 16, cy + 11)], fill=UI.GOLD + (int(255 * a),), outline=UI.INK + (int(255 * a),))
+            cx, cy = gx - S(4) + S(3) * math.sin(t * 8), y + g.height / 2
+            ImageDraw.Draw(out).polygon([(cx - S(16), cy - S(11)), (cx, cy), (cx - S(16), cy + S(11))], fill=UI.GOLD + (int(255 * a),), outline=UI.INK + (int(255 * a),))
     return out.convert('RGB')
 
 
@@ -201,11 +201,11 @@ def render(t):
     if t >= T_COMM:                                                           # the CONTINUE? menu; the dashed slot guides only with PLANNING=1
         a = min(1, (t - T_COMM) / .5)
         for (x0, y0, x1, y1, s) in (() if not PLANNING else ((W * .04, H * .34, W * .27, H * .62, 'END SCREEN · video'), (W * .79, H * .56, W * .95, H * .80, 'END SCREEN · subscribe'))):
-            for i in range(0, int(x1 - x0), 14):
-                d.line((x0 + i, y0, x0 + i + 7, y0), fill=(255, 255, 255), width=2); d.line((x0 + i, y1, x0 + i + 7, y1), fill=(255, 255, 255), width=2)
-            for i in range(0, int(y1 - y0), 14):
-                d.line((x0, y0 + i, x0, y0 + i + 7), fill=(255, 255, 255), width=2); d.line((x1, y0 + i, x1, y0 + i + 7), fill=(255, 255, 255), width=2)
-            d.text((x0 + 8, y0 + 6), s, font=F(14), fill=(255, 255, 255), stroke_width=2, stroke_fill=(20, 14, 18))
+            for i in range(0, int(x1 - x0), Si(14)):
+                d.line((x0 + i, y0, x0 + i + S(7), y0), fill=(255, 255, 255), width=Si(2)); d.line((x0 + i, y1, x0 + i + S(7), y1), fill=(255, 255, 255), width=Si(2))
+            for i in range(0, int(y1 - y0), Si(14)):
+                d.line((x0, y0 + i, x0, y0 + i + S(7)), fill=(255, 255, 255), width=Si(2)); d.line((x1, y0 + i, x1, y0 + i + S(7)), fill=(255, 255, 255), width=Si(2))
+            d.text((x0 + S(8), y0 + S(6)), s, font=F(14), fill=(255, 255, 255), stroke_width=Si(2), stroke_fill=(20, 14, 18))
         fr = continue_menu(fr, t, a)
         d = ImageDraw.Draw(fr)
     tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v7 · PLANNING ONLY')
