@@ -18,14 +18,14 @@ D = ROOT / 'docs/ep002'
 VERSION = 4                                               # v1 approved; v2 final art; v3 walks/breeze/pushes; v4 adult walk #4b + one 3D sword
 APPROVED = [                                              # (label, clip) in episode order: the version of each block in this cut
     ('Seq 01 · the cartridge, Navi comes out of the TV', 'EP002_cartridge_animatic_v12.mp4'),
-    ('B · new graphics, the three anchors, "So, why?"', 'EP002_blockB_animatic_v10.mp4'),
+    ('B · new graphics, the three anchors, "So, why?"', 'EP002_blockB_animatic_v11.mp4'),
     ('C · the game plus the room', 'EP002_blockC_animatic_v7.mp4'),
     ('D', 'EP002_blockD_animatic_v7.mp4'),
     ('E', 'EP002_blockE_animatic_v6.mp4'),
     ('F (option B, Hyrule)', 'EP002_blockF_B_animatic_v8.mp4'),
     ('G', 'EP002_blockG_animatic_v6.mp4'),
     ('H', 'EP002_blockH_animatic_v10.mp4'),
-    ('I', 'EP002_blockI_animatic_v9.mp4'),
+    ('I', 'EP002_blockI_animatic_v11.mp4'),
     ('J', 'EP002_blockJ_animatic_v4.mp4'),
     ('K', 'EP002_blockK_animatic_v5.mp4'),
     ('L · the museum, the Switch 2', 'EP002_blockL_animatic_v4.mp4'),

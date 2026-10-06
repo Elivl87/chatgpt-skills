@@ -6,7 +6,7 @@
 Three upright plates + one inverted centre plate, each a gold plate with engraved borders, a patterned band, hatching,
 a character silhouette with its own ink detail, a symbol medallion and a line of invented glyphs:
   POWER    (top)          the villain           -> final art #8 (hooded)
-  WISDOM   (bottom left)  Pixie (princess role) -> her thinking pose for now
+  WISDOM   (bottom left)  Pixie (princess role) -> final art #2g (the princess, front)
   COURAGE  (bottom right) Quest (hero role)     -> final art #1 (Quest in the tunic)
   centre   (inverted)     the royal crest, faithful (Producer), traced from the Producer's shield reference
 Silhouettes come from the characters' cut-outs (alpha + ink lines), so re-running after new art updates them.
@@ -30,7 +30,7 @@ RNG = np.random.default_rng(64)
 
 SIL = {
     'courage': ROOT / 'docs/art_orders/quest/ep002_costume/01_tunic_veteran.png',     # Quest as the hero (final #1, Producer)
-    'wisdom': ROOT / 'docs/art_orders/pixie/library/results/05_thinking_chin.png',     # until Pixie as the princess exists
+    'wisdom': ROOT / 'docs/art_orders/pixie/ep002_costume/2g_princess_front.png',      # Pixie as the princess (final #2g, Producer)
     'power': ROOT / 'docs/art_orders/villain/08_villain_hooded_reach.png',            # the villain (final #8)
 }
 

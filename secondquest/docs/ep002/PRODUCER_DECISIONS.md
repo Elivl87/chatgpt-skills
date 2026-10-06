@@ -532,3 +532,7 @@
 - Triforce plates (Producer: "cuando actualices la triforce recuerda colocar a Quest Link y Pixie Zelda"): POWER = the
   villain (#8), COURAGE = Quest in the tunic (#1). WISDOM = Pixie as the princess needs art (only #17+18 shows her as
   the princess, from behind, baked into the illustration): quoted Q040.
+- Pixie as the princess, front (#2g, Q040 approved "Apruebo Q040", job b0787a3e, 1.0, balance 50.75): the gown of
+  #17+18 (white and lilac, gold trim, short lilac hooded cape), hands clasped, a calm kind smile. Triforce WISDOM plate
+  = #2g; the three plates are now the villain (POWER), Pixie the princess (WISDOM), Quest the hero (COURAGE), the royal
+  crest in the centre. Blocks B v11 and I v11 (with the villain) re-rendered.

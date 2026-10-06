@@ -140,6 +140,7 @@ ART = {
     'pixie_tunic_awe': ART_P + '2d_tunic_awe.png',                # 2d tunic, looking up in awe
     'pixie_tunic_think': ART_P + '2e_tunic_thinking.png',         # 2e tunic, thinking
     'pixie_tunic_back': ART_P + '2f_tunic_back.png',              # 2f tunic, back
+    'pixie_princess': ART_P + '2g_princess_front.png',            # 2g Pixie as the princess, front (gown of #17+18)
     'villain_hooded': 'docs/art_orders/villain/08_villain_hooded_reach.png',   # 8 the villain, hooded, low angle, claw reaching left
 }
 ART_SHIELD = {'quest_adult_back': '04_adult_back', 'quest_horse_back': '05b_horse_back'}   # tools/props3d/shield_mount.py
