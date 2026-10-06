@@ -520,3 +520,5 @@
   its 3D scabbard lies on the drawn line under the 3D shield. Preview `docs/ep002/sword3d_on_5b_17_18_preview.jpg`.
   The one sword of the episode is now the 3D one in every adult shot. H v10, I v9, U v4 re-rendered (not delivered:
   the Producer has more to review first).
+- Block J, Pixie at the tree (Producer: "Dejemos a Pixie en esa escena tal cual"): stays as in J v4 (#2d awe, #2e thinking,
+  front on). No new art (#2d-b/#2e-b not generated, nothing spent).
