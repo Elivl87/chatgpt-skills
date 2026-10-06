@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final, step  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -199,7 +199,8 @@ def p1(t):
     fr = plate(t, sun=min(1, max(0, (t - T_ORIG) / .6))).crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
     kw = min(1, max(0, (t - T0 - .7) / 2.0))                                  # he walks in, away from us, smaller
     if kw > 0 and t < T_ORIG + .4:
-        hh = lin(H * 1.15, H * .55, ease(kw)); q = sized(WALKER, hh)
+        walker = step(WALKER, ((7 * t) / math.pi) % 2 / 2) if kw < 1 else WALKER   # a step per bob while he walks in
+        hh = lin(H * 1.15, H * .55, ease(kw)); q = sized(walker, hh)
         x = lin(W * .42, W * .62, ease(kw)) - q.width / 2; y = lin(H * 1.35, H * .97, ease(kw)) - q.height + 6 * abs(math.sin(t * 7))
         fr = comp(fr, fade(q, 1 - min(1, max(0, (t - T_ORIG) / .4))), x, y)
     if k_open < 1.2:
@@ -433,7 +434,7 @@ STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a',
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

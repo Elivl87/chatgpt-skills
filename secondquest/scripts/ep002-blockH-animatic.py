@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, cam_box, to_screen, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, cam_box, to_screen, subtitle, tag, F, SHIELD_SWAY  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 from icons import camera_icon  # noqa: the episode's game-camera icon
@@ -283,12 +283,16 @@ def _pixel_heart(d, x, y, s, fill):
                 d.rectangle((x + c * s, y + r * s, x + c * s + s - 1, y + r * s + s - 1), fill=fill)
 
 
-def old_picture(t, size):
+def old_picture(t, size, pan=False):
     """1998 on the tube, unmistakably: chunky pixels, few colours, 4:3, the old pixel hearts, scanlines."""
     w, h = size
-    k = (t - T_WONDER) * .04
     z = 1.35; cw, ch = PW / z, PW / z * .75
-    x0 = (PW - cw) * (.5 + .1 * math.sin(k)); y0 = (PH - ch) * .62
+    if pan:                                                             # Producer improvement 1 (H only): a slow pan across 1998 Hyrule
+        k = ease(min(1, max(0, (t - T_WONDER + .6) / 3.6)))
+        x0 = (PW - cw) * (.22 + .5 * k)
+    else:                                                               # K, O, P keep their framing (O pins callouts on it)
+        x0 = (PW - cw) * (.5 + .1 * math.sin((t - T_WONDER) * .04))
+    y0 = (PH - ch) * .62
     im = GAME98.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).convert('RGB')
     small = im.resize((96, 72), Image.BILINEAR).quantize(24).convert('RGB')    # N64-era: low res, a small palette
     d = ImageDraw.Draw(small)
@@ -373,7 +377,7 @@ def room_shot(t):
     eases in to the TV; on "where" it switches off; in the dark glass, his reflection (the same profile, mirrored);
     then black. Real life: no HUD."""
     on = t < T_OFF
-    pic = old_picture(t, (320, 240))
+    pic = old_picture(t, (320, 240), pan=True)
     if not on:
         pic = tv_off(pic, min(1, (t - T_OFF) / .5))
     glow = 1.0 if on else max(0.0, 1 - (t - T_OFF) / .35)
@@ -445,7 +449,8 @@ def ride(fr, t, k, cam, alpha=1.0, dust=True):
     fx, fy = to_screen(*_ride_point(k), box)
     hh = H * lin(RIDE_H[0], RIDE_H[1], 1 - (1 - k) ** 1.6)               # perspective: shrinks fast at first, then slowly
     trot = abs(math.sin(t * 2 * math.pi * 1.9))                          # two beats a second
-    im = sized(RIDER, hh)
+    sway = round(SHIELD_SWAY * math.sin(t * 2 * math.pi * 1.9) * 4) / 4      # the shield swings with the trot
+    im = sized(final('quest_horse_back', sway=sway) if sway else RIDER, hh)
     im = im.rotate(1.6 * math.sin(t * 2 * math.pi * .95), resample=Image.BICUBIC, expand=True, center=(im.width / 2, im.height))
     if alpha < 1:
         im.putalpha(im.getchannel('A').point(lambda v: int(v * alpha)))
@@ -533,7 +538,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

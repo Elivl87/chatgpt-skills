@@ -230,7 +230,24 @@ def n1_4(t):
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 10, 30)), flick)
         fr = flower(fr, k)
         lab = 'N4 the world changed without you'
-    return fr, lab
+    return push(fr, t), lab
+
+
+def push(fr, t):
+    """Producer improvement 2: a gentle push in on the pedestal through N1, held through N2-N3, easing back out over
+    the start of the time-lapse (one continuous camera, never a snap)."""
+    if t < T_NOT:
+        z = 1 + .12 * ease(min(1, max(0, (t - T0) / (T_NOT - T0))))
+    elif t < T_WORLD:
+        z = 1.12
+    else:
+        z = 1 + .12 * (1 - ease(min(1, (t - T_WORLD) / 1.6)))
+    if z < 1.001:
+        return fr
+    cx, cy = PED_X, PED_TOP - 60
+    w, h = W / z, H / z
+    x0 = min(max(cx - w / 2, 0), W - w); y0 = min(max(cy - h * .55, 0), H - h)
+    return fr.crop((int(x0), int(y0), int(x0 + w), int(y0 + h))).resize((W, H), Image.BICUBIC)
 
 
 # ------------------------------------------------------------------ N5-N6: the cartridge
@@ -332,7 +349,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

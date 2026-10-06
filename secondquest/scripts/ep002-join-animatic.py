@@ -15,28 +15,28 @@ ROOT = Path(__file__).resolve().parents[1]
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 D = ROOT / 'docs/ep002'
 
-VERSION = 2                                               # v1: every block approved (2026-10-05); v2: the final art in every block
+VERSION = 3                                               # v1: every block approved; v2: the final art in every block; v3: walks, breeze, pushes, F panel
 APPROVED = [                                              # (label, clip) in episode order: the version of each block in this cut
     ('Seq 01 · the cartridge, Navi comes out of the TV', 'EP002_cartridge_animatic_v12.mp4'),
-    ('B · new graphics, the three anchors, "So, why?"', 'EP002_blockB_animatic_v8.mp4'),
-    ('C · the game plus the room', 'EP002_blockC_animatic_v6.mp4'),
+    ('B · new graphics, the three anchors, "So, why?"', 'EP002_blockB_animatic_v9.mp4'),
+    ('C · the game plus the room', 'EP002_blockC_animatic_v7.mp4'),
     ('D', 'EP002_blockD_animatic_v6.mp4'),
     ('E', 'EP002_blockE_animatic_v6.mp4'),
-    ('F (option B, Hyrule)', 'EP002_blockF_B_animatic_v7.mp4'),
+    ('F (option B, Hyrule)', 'EP002_blockF_B_animatic_v8.mp4'),
     ('G', 'EP002_blockG_animatic_v6.mp4'),
-    ('H', 'EP002_blockH_animatic_v8.mp4'),
-    ('I', 'EP002_blockI_animatic_v6.mp4'),
+    ('H', 'EP002_blockH_animatic_v9.mp4'),
+    ('I', 'EP002_blockI_animatic_v7.mp4'),
     ('J', 'EP002_blockJ_animatic_v4.mp4'),
-    ('K', 'EP002_blockK_animatic_v3.mp4'),
+    ('K', 'EP002_blockK_animatic_v4.mp4'),
     ('L · the museum, the Switch 2', 'EP002_blockL_animatic_v4.mp4'),
     ('M · the forest map', 'EP002_blockM_animatic_v3.mp4'),
-    ('N · the temple, the two eras', 'EP002_blockN_animatic_v8.mp4'),
+    ('N · the temple, the two eras', 'EP002_blockN_animatic_v9.mp4'),
     ('O · what those limitations made you feel', 'EP002_blockO_animatic_v5.mp4'),
-    ('P · back to the room', 'EP002_blockP_animatic_v3.mp4'),
+    ('P · back to the room', 'EP002_blockP_animatic_v4.mp4'),
     ('Q · everything is still there', 'EP002_blockQ_animatic_v2.mp4'),
-    ('R · same road, different person', 'EP002_blockR_animatic_v5.mp4'),
+    ('R · same road, different person', 'EP002_blockR_animatic_v6.mp4'),
     ('S · the remake engine (option A)', 'EP002_blockS_animatic_A_v4.mp4'),
-    ('T · the meeting on the road (option B)', 'EP002_blockT_animatic_v4.mp4'),
+    ('T · the meeting on the road (option B)', 'EP002_blockT_animatic_v5.mp4'),
     ('U · our next quest', 'EP002_blockU_animatic_v3.mp4'),
 ]
 

@@ -218,7 +218,8 @@ def room_plate(t, pixie):
     base.alpha_composite(N64_IMG, N64_POS)                               # the approved N64, cartridge in, on the floor
     if pixie is PIXIE_PT:                                               # she walks in from frame left once the pull-back settles
         k = ease(min(1, max(0, (t - T_PIX_IN) / .7)))
-        pixie = dict(pixie, x=lin(-.12, pixie['x'], k)) if k > 0 else None
+        hop = .012 * abs(math.sin((t - T_PIX_IN) * 11)) * (1 - k) if k < 1 else 0   # her steps: a bounce per stride, settling as she arrives
+        pixie = dict(pixie, x=lin(-.12, pixie['x'], k), y=pixie['y'] - hop) if k > 0 else None
     if pixie and pixie.get('rot'):                                      # standing a step behind him: drawn before Quest
         place_leaning(base, pixie)
     place(base, QUEST_K)
@@ -330,7 +331,7 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

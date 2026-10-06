@@ -200,8 +200,9 @@ def meter_panel(fr, t):
             if v > 0:
                 d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(110, 220, 140, 255))
                 d.text((bx1 + 12, y + 18), '+', font=F(24), fill=(110, 220, 140, 255))
-    x = W * .63 + (pw + 80) * (1 - k_in)
-    return comp(fr, pan, x, H * .25)                                    # below the HUD buttons
+    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v8): smaller and lower right, clear of the castle
+    x = W * .71 + (pan.width + 80) * (1 - k_in)
+    return comp(fr, pan, x, H * .425)                                   # under the castle's line, above the subtitles
 
 
 def familiar_window(fr, t):
@@ -258,7 +259,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

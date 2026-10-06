@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EP002 animatic · block B (planning only): from "An orchestra." to the cut into Act 1 (l03 rest -> l10, + silence).
 
-  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v8.mp4
+  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v9.mp4
 
 Scene Book v2, sequences 02-04:
   B1  "An orchestra. Voices. Modern controls."  living room from behind Quest, facing the TV; Navi comes back and circles
@@ -23,7 +23,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB, walk_adult  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 from icons import camera_icon  # noqa: the episode's game-camera icon (repeats wherever the script says camera)
@@ -153,7 +153,8 @@ def field_frame(t):
         place(lay, HERO)
     else:
         kk = ease((t - T_GO) / (T_WHY + .5 - T_GO))
-        place(lay, dict(HERO, x=lin(.5, .555, kk), y=lin(.97, .72, kk) + .004 * math.sin(t * 9) * (1 - kk), h=lin(.46, .1, kk)))   # down the road
+        walk = dict(im=walk_adult(t, rate=9)) if kk < .995 else {}         # he walks (a step per bob, the shield swinging)
+        place(lay, dict(HERO, x=lin(.5, .555, kk), y=lin(.97, .72, kk) + .004 * math.sin(t * 9) * (1 - kk), h=lin(.46, .1, kk), **walk))   # down the road
     fr, box = frame_plate(lay.convert('RGB'), cam, k)
     # Navi beside him, then ahead down the path
     keys = [(T_FIELD, .6, .48), (T_YOU, .57, .46), (T_GO, .57, .46), (T_GO + 1.2, .54, .4), (T_WHY + .6, .51, .3)]
@@ -246,7 +247,7 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

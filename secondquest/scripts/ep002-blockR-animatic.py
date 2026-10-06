@@ -30,7 +30,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -150,7 +150,7 @@ def split(t):
     right = G.new_look(full).crop((W // 4, 0, W // 4 + W // 2, H))
     fr = Image.new('RGB', (W, H)); fr.paste(left, (0, 0)); fr.paste(right, (W // 2, 0))
     fr = walker(fr, young_px(t), W * .25, YH, t)
-    fr = walker(fr, ADULT, W * .75, AH, t, phase=1.3)
+    fr = walker(fr, walk_adult(t, rate=7, phase=1.3), W * .75, AH, t, phase=1.3)      # he walks: a step per bob
     d = ImageDraw.Draw(fr); d.line((W / 2, 0, W / 2, H), fill=(255, 255, 255), width=4)
     ky0 = 1 - min(1, max(0, (t - T_1998) / .3))                               # the year tags hand over to the ruler
     fr = year_tag(fr, W * .25, '1998', (232, 196, 90), ky0)
@@ -210,7 +210,7 @@ def one_road(t):
     if km > 0:                                                                 # a soft light around the memory, so it reads on the grass
         fr = CART.glow(fr, YX, FEET - YH * .5, int(YH * .7), (190, 220, 255), .45 * km)
     fr = walker(fr, young, YX, YH, t, walking=walking)
-    fr = walker(fr, ADULT, AX, AH, t, phase=1.3, walking=walking)
+    fr = walker(fr, walk_adult(t, rate=7, phase=1.3) if walking else ADULT, AX, AH, t, phase=1.3, walking=walking)
     d = ImageDraw.Draw(fr)
     ks = min(1, max(0, (t - T_SAME - .1) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if ks > 0:                                                                 # SAME ROAD, on the road
@@ -285,7 +285,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

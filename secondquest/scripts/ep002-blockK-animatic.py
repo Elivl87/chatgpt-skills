@@ -28,7 +28,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, breeze  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -238,7 +238,8 @@ def frame_k45(t):
     fr = FIELD_P.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
     CX, CY = castle_xy(z)                                                 # the real castle on screen
     qh = H * .46
-    q = sized(QB, qh); p = sized(PB, qh * .95)
+    q = sized(breeze(QB, t, cloth=(.50, .66), hair=(.55, .74, .04, .30)), qh)                  # Producer improvement 3: a light breeze
+    p = sized(breeze(PB, t + .7, cloth=(.42, .63), hair=(.30, .58, .05, .42)), qh * .95)          # in the tunics, her ponytail, his cap
     for im, x in ((p, W * .40), (q, W * .60)):
         sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - im.width * .45, H * .95 - 10, x + im.width * .45, H * .95 + 10), fill=(0, 0, 0, 80))
         fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
@@ -300,7 +301,7 @@ STILLS = (('k1', T_JOBS + .6), ('k2', T('l80.w9') + .4), ('k3', T('l83.w4') + .3
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

@@ -29,7 +29,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, walk_adult  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -203,7 +203,7 @@ def road(t):
     ax = lin(W * 1.15, AD_X, ka) - W * .08 * ks
     ah = AD_H * (1 - .14 * ks); af = AD_FEET - H * .07 * ks
     walking = ka < 1 or 0 < ks < 1
-    fr = person(fr, ADULT, ax, af, ah, t, walking=walking, phase=1.3)
+    fr = person(fr, walk_adult(t, rate=7, phase=1.3) if walking else ADULT, ax, af, ah, t, walking=walking, phase=1.3)   # a step per bob
     if T_BACK - .1 <= t < T_BACK + 1.0:                                        # REWIND flickers out: no need to go back
         kr = (t - T_BACK + .1) / 1.1
         a = (1 - kr) * (1 if int(t * 12) % 2 else .5)
@@ -257,7 +257,7 @@ STILLS = (('t1', T_REB + .5), ('t1b', T_ENOUGH + .6), ('t2', T_MEET + .4), ('t3'
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

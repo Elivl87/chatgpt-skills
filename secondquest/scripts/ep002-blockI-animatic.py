@@ -278,7 +278,8 @@ STAGE = (int(W * .5 - 120), int(H * .1), int(W * .5 + 448), int(H * .1) + 418)  
 SLOT = (960, 395)                                                        # the empty slot on top of the pedestal in plate #13 (plate px)
 SLOT_SCR = (804, 330)                                                    # where that slot sits on screen (1:1 crop of the plate)
 _tx, _ty = SLOT[0] - (SLOT_SCR[0] - STAGE[0]), SLOT[1] - (SLOT_SCR[1] - STAGE[1])
-TEMPLE = final_plate('temple').crop((_tx, _ty, _tx + STAGE[2] - STAGE[0], _ty + STAGE[3] - STAGE[1])).convert('RGBA')   # final #13
+TEMPLE_PLATE = final_plate('temple')
+TEMPLE = TEMPLE_PLATE.crop((_tx, _ty, _tx + STAGE[2] - STAGE[0], _ty + STAGE[3] - STAGE[1])).convert('RGBA')   # final #13
 _m = Image.new('L', TEMPLE.size, 0); ImageDraw.Draw(_m).rounded_rectangle((0, 0, TEMPLE.width - 1, TEMPLE.height - 1), 18, fill=255)
 TEMPLE.putalpha(_m)
 SWORD_H = 270                                                            # ~1.8 x the pedestal top's width: a real sword in that stone
@@ -288,13 +289,21 @@ def stage_sword(fr, t, k):
     """The sword in its pedestal: the temple of plate #13 opens in the save file's panel; our 3D sword (v2) stands in
     the pedestal's empty slot and rises on "pulls"."""
     cx, base_y = SLOT_SCR
-    fr = comp(fr, fade(TEMPLE, k), STAGE[0], STAGE[1])
+    z = 1 + .24 * ease(min(1, max(0, (t - T_SW - .3) / max(.5, T_PULL - T_SW - .3))))   # Producer improvement 2: a slow push into the temple
+    if z > 1.001:                                                       # the slot stays put on screen, the hall grows around it
+        pw_, ph_ = (STAGE[2] - STAGE[0]) / z, (STAGE[3] - STAGE[1]) / z
+        x0 = SLOT[0] - (SLOT_SCR[0] - STAGE[0]) / z; y0 = SLOT[1] - (SLOT_SCR[1] - STAGE[1]) / z
+        tp = TEMPLE_PLATE.crop((int(x0), int(y0), int(x0 + pw_), int(y0 + ph_))).resize(TEMPLE.size, Image.BICUBIC).convert('RGBA')
+        tp.putalpha(TEMPLE.getchannel('A'))
+    else:
+        tp = TEMPLE
+    fr = comp(fr, fade(tp, k), STAGE[0], STAGE[1])
     d = ImageDraw.Draw(fr, 'RGBA')
     d.rounded_rectangle(STAGE, 18, outline=(235, 235, 250, int(255 * k)), width=3)
     rise = ease(min(1, max(0, (t - T_PULL) / (T_SWORD - T_PULL + .2))))
     sw = SWD[12].transpose(Image.ROTATE_180)                            # hilt up, the blade down into the stone
-    s = sized(sw, SWORD_H)
-    fr = CART.glow(fr, cx, base_y - 110 - 60 * rise, int(200 * k) + 1, (190, 220, 255), .3 * k + .3 * rise)
+    s = sized(sw, SWORD_H * z)
+    fr = CART.glow(fr, cx, base_y - 110 * z - 60 * rise, int(200 * k) + 1, (190, 220, 255), .3 * k + .3 * rise)
     y = base_y - s.height * (.55 + .4 * rise)
     clip = Image.new('L', s.size, 0); ImageDraw.Draw(clip).rectangle((0, 0, s.width, int(base_y - y)), fill=255)   # the blade is inside the stone
     m = Image.fromarray(np.minimum(np.asarray(s.getchannel('A')), np.asarray(clip))); s2 = s.copy(); s2.putalpha(m)
@@ -548,7 +557,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),

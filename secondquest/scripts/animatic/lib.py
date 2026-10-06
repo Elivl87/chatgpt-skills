@@ -153,18 +153,85 @@ PLATES = {
 PLATE_OVERLAYS = {'temple': 'public/art/ep002/overlays/13_temple_crest.png', 'outcrop': 'public/art/ep002/props3d/shield_on_17_18_outcrop.png'}
 
 
-@lru_cache(maxsize=64)
-def final(key, flip=False):
-    """Final character art, cropped to its alpha, with its engine overlays; flip=True mirrors it."""
+@lru_cache(maxsize=256)
+def final(key, flip=False, sway=0.0):
+    """Final character art, cropped to its alpha, with its engine overlays; flip=True mirrors it. sway (degrees) turns
+    the 3D shield about its strap point (walks, the horse's trot); the crop box stays the one at rest, so a swaying
+    sequence never jitters."""
     im = Image.open(ROOT / ART[key]).convert('RGBA')
     if key in ART_SHIELD:
-        im.alpha_composite(Image.open(ROOT / f'public/art/ep002/props3d/shield_on_{ART_SHIELD[key]}.png').convert('RGBA'))
+        name = ART_SHIELD[key]
+        ov = Image.open(ROOT / f'public/art/ep002/props3d/shield_on_{name}.png').convert('RGBA')
+        if sway:
+            piv = json.loads((ROOT / f'tools/props3d/shield_on_{name}.json').read_text())['pivot']
+            ov = ov.rotate(sway, resample=Image.BICUBIC, center=tuple(piv))
+        im.alpha_composite(ov)
+        if sway:
+            box = final(key, flip=False).info['box']
+            im = im.crop(box)
+            return im.transpose(Image.FLIP_LEFT_RIGHT) if flip != (key in ART_FLIP) else im
     # the generator leaves a faint dark haze (alpha 1-24) over the whole canvas: dropped at load, the file is untouched
     im.putalpha(im.getchannel('A').point(lambda v: 0 if v < 24 else v))
-    im = im.crop(im.getchannel('A').getbbox())
+    box = im.getchannel('A').getbbox()
+    im = im.crop(box)
+    im.info['box'] = box
     if flip != (key in ART_FLIP):
         im = im.transpose(Image.FLIP_LEFT_RIGHT)
     return im
+
+
+SHIELD_SWAY = 2.0     # degrees, the strap's swing per step
+
+
+def step(im, phase, lift=.075, knee=.66):
+    """Walk for a figure seen from behind that has one standing pose (adult Quest #4, the hoodie walk): the foot on
+    one side lifts while the other carries the weight, then they swap. phase in [0, 1): 0-.5 the left foot, .5-1 the
+    right; the lift is a smooth arc. The leg below the knee line is drawn up (the foot rises, the shin shortens), as an
+    animatic would draw a step; the image itself is untouched."""
+    a = np.asarray(im).astype(np.float32)
+    h, w = a.shape[:2]
+    side = 0 if phase % 1 < .5 else 1
+    amt = math.sin(math.pi * ((phase % .5) / .5)) * lift * h
+    if amt < .5:
+        return im
+    yk = int(h * knee)
+    ys = np.arange(h, dtype=np.float32)[:, None]
+    xs = np.arange(w, dtype=np.float32)[None, :]
+    cx = w / 2
+    sel = 1 / (1 + np.exp(((xs - cx) if side == 0 else (cx - xs)) / (w * .02)))          # the stepping half, soft seam
+    d = np.clip((ys - yk) / max(1, h - yk), 0, 1) * amt * sel
+    import cv2
+    mapx = np.repeat(xs, h, 0); mapy = (ys + d).astype(np.float32)
+    out = cv2.remap(a, mapx.astype(np.float32), mapy, cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=0)
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), 'RGBA')
+
+
+def walk_adult(t, rate=7.0, phase=0.0, key='quest_adult_back'):
+    """Adult Quest (#4) walking: a step (see step) per bob of 5*|sin(rate*t + phase)|, the shield swinging with it."""
+    ph = ((rate * t + phase) / math.pi) % 2 / 2                        # one full cycle = two bobs = two steps
+    sway = round(SHIELD_SWAY * math.sin(math.pi * 2 * ph) * 4) / 4
+    return step(final(key, sway=sway), ph)
+
+
+def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.2):
+    """A light breeze: the cloth between cloth=(y0, y1) (fractions of the height: a tunic's skirt, not the legs below
+    it) ripples sideways, more towards its hem; hair = (x0, x1, y0, y1) fractions of a hanging ponytail or cap tip,
+    which sways more towards its end. Small and slow, an animatic touch; the image itself is untouched."""
+    import cv2
+    a = np.asarray(im).astype(np.float32)
+    h, w = a.shape[:2]
+    ys = np.arange(h, dtype=np.float32)[:, None]; xs = np.arange(w, dtype=np.float32)[None, :]
+    y0, y1 = cloth
+    k = np.clip((ys / h - y0) / (y1 - y0), 0, 1) ** 1.5 * (ys / h <= y1 + .015)
+    dx = np.repeat(k * amp * w * np.sin(speed * t + ys / h * 9), w, 1)
+    if hair:
+        hx0, hx1, hy0, hy1 = hair
+        wy = np.clip((ys / h - hy0) / max(1e-3, hy1 - hy0), 0, 1) * (ys / h <= hy1 + .03)
+        wx = np.clip(np.minimum(xs / w - hx0, hx1 - xs / w) / .03, 0, 1)
+        dx = dx + (wy * wx) * hair_amp * w * np.sin(speed * 1.3 * t + 1.1)
+    out = cv2.remap(a, (np.repeat(xs, h, 0) - dx).astype(np.float32), np.repeat(ys, w, 1).astype(np.float32), cv2.INTER_LINEAR,
+                    borderMode=cv2.BORDER_CONSTANT, borderValue=0)
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), 'RGBA')
 
 
 @lru_cache(maxsize=16)
@@ -309,7 +376,9 @@ def place(base, spec, t=None):
     if spec.get('full'):          # full-frame layer aligned with the plate (e.g. the N64 setup layer)
         base.alpha_composite(Image.open(ROOT / spec['img']).convert('RGBA').resize((PW, PH), Image.LANCZOS))
         return
-    if 'art' in spec:
+    if 'im' in spec:              # a frame already built (e.g. walk_adult(t))
+        im = spec['im']
+    elif 'art' in spec:
         im = final(spec['art'])
     elif 'img' in spec:
         im = Image.open(ROOT / spec['img']).convert('RGBA')
