@@ -603,6 +603,35 @@ SUB_LANG = _os.environ.get('SUB_LANG', 'en')
 _ES = json.loads((ROOT / 'docs/publish/EP002/script_es.json').read_text())['lines'] if SUB_LANG == 'es' else {}
 
 
+# On-screen graphics in Spanish (SUB_LANG=es): every string drawn with PIL is looked up in
+# docs/publish/EP002/graphics_es.json; measurements (textlength / textbbox) use the Spanish text too, so boxes and
+# bubbles fit it. A string being typed out letter by letter is a prefix of a known one: the same share of the Spanish is
+# shown. Subtitles bypass this (they are already Spanish), and the planning tags along the top stay as they are.
+_GFX_ES = {}
+_TR_OFF = [False]
+if SUB_LANG == 'es':
+    _gp = ROOT / 'docs/publish/EP002/graphics_es.json'
+    _GFX_ES = json.loads(_gp.read_text())['strings'] if _gp.exists() else {}
+    _GFX_KEYS = sorted(_GFX_ES, key=len)
+
+    def _tr(txt):
+        if _TR_OFF[0] or not isinstance(txt, str) or not txt.strip() or txt.startswith('SEQ '):
+            return txt
+        if txt in _GFX_ES:
+            return _GFX_ES[txt]
+        if len(txt.strip()) >= 2:
+            for k in _GFX_KEYS:                                   # typed out: a prefix of a known string
+                if len(k) > len(txt) and k.startswith(txt):
+                    es = _GFX_ES[k]
+                    return es[:max(1, round(len(es) * len(txt) / len(k)))]
+        return txt
+
+    _o_text, _o_len, _o_bbox = ImageDraw.ImageDraw.text, ImageDraw.ImageDraw.textlength, ImageDraw.ImageDraw.textbbox
+    ImageDraw.ImageDraw.text = lambda self, xy, text, *a, **k: _o_text(self, xy, _tr(text), *a, **k)
+    ImageDraw.ImageDraw.textlength = lambda self, text, *a, **k: _o_len(self, _tr(text), *a, **k)
+    ImageDraw.ImageDraw.textbbox = lambda self, xy, text, *a, **k: _o_bbox(self, xy, _tr(text), *a, **k)
+
+
 def _cue_words(key, c):
     """The words shown for a cue: Bram's own, or the Spanish line spread over his word timings (each Spanish word takes
     the time of the English word at the same relative position, so phrases follow the voice's rhythm and pauses)."""
@@ -633,6 +662,14 @@ def subtitle(d, t, t_end=None, lift=0, size=44):
             cur = k
     if cur is None:
         return
+    _TR_OFF[0] = True                                                # already in the subtitle language
+    try:
+        _draw_sub(d, t, cur, lift, size)
+    finally:
+        _TR_OFF[0] = False
+
+
+def _draw_sub(d, t, cur, lift, size):
     pop = min(1, max(0, (t - cur[0]['start'] + .05) / .12))
     f = _sub_font(int(size * (0.86 + 0.14 * ease(pop))))
     text, lines, ln = ' '.join(w['w'] for w in cur), [], ''
@@ -653,5 +690,9 @@ def subtitle(d, t, t_end=None, lift=0, size=44):
 
 
 def tag(d, text):
-    d.rectangle((0, 0, d.textlength(text, font=FTAG) + 22, 28), fill=(0, 0, 0))
-    d.text((11, 5), text, font=FTAG, fill=(255, 210, 90))
+    _TR_OFF[0] = True                                               # planning tags stay as they are
+    try:
+        d.rectangle((0, 0, d.textlength(text, font=FTAG) + 22, 28), fill=(0, 0, 0))
+        d.text((11, 5), text, font=FTAG, fill=(255, 210, 90))
+    finally:
+        _TR_OFF[0] = False
