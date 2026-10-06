@@ -564,3 +564,10 @@
 - 2026-10-06 · D10 (Producer: "camina y no recorre el sendero"): young Quest now walks down the field road in the plate,
   with the same road walk as B6 (`lib.road_walk`, a child's height and stride), instead of staying pinned to the middle
   of the screen while the camera moved. The camera pulls back from the castle onto him, then eases in behind him.
+- 2026-10-06 · G, H and R walk down the road too (Producer: "hazlo en R y G, pero que vayan más despacio, lo
+  suficiente para que se vean en movimiento durante esas escenas"). A slower walk for these long scenes:
+  `lib.SLOW_RATE` 1.4 steps/s at 0.35 m/s, so they keep moving down the road through the whole scene.
+  - G5-G7 and H1-H3: one continuous walk (H continues G's last framing, so it moves too, or the shot would snap back).
+    In G5 the swinging camera now follows a Quest who really walks on.
+  - R1-R3: the two of them walk side by side and in step from R1 to "beside", then stop for R4; R2's camera now
+    continues from R1's (1.25 -> 1.4) instead of starting wide again. SAME ROAD / DIFFERENT PERSON sit above their heads.

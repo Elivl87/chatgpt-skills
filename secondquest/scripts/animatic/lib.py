@@ -365,17 +365,30 @@ FIELD_ROAD = [(.500, .970), (.511, .905), (.521, .845), (.529, .785), (.533, .75
 FIELD_ROAD_VY = .68
 
 
-def road_walk(t, h0, y0=.97, height_m=1.8, stride_m=.7):
+# a slower walk for the long walking scenes (G-H, R: Producer, 2026-10-06: "más despacio, lo suficiente para que se
+# vean en movimiento durante esas escenas"): 1.4 steps/s, 0.35 m/s, so they cross the road through the whole scene
+SLOW_RATE = 4.4
+SLOW_STRIDE = .35 * math.pi / SLOW_RATE
+
+
+def road_walk(t, h0, y0=.97, height_m=1.8, stride_m=.7, rate=None):
     """Feet (x, y) and height (plate fractions) of Quest walking down the field road, t seconds after he sets off from
     feet y0 with height h0. His size follows the plate's perspective and he covers stride_m a step at STEP_RATE, so his
     feet never slide; he eases into the walk over the first step."""
     ramp = .6
-    dist = stride_m * STEP_RATE / math.pi * (t * t / (2 * ramp) if t < ramp else t - ramp / 2)
+    dist = stride_m * (rate or STEP_RATE) / math.pi * (t * t / (2 * ramp) if t < ramp else t - ramp / 2)
     z0 = height_m * 1.07 / h0                                          # metres from the camera (focal 1.07 frame heights)
     h = height_m * 1.07 / (z0 + dist)
     y = FIELD_ROAD_VY + (y0 - FIELD_ROAD_VY) * h / h0
     x = float(np.interp(y, [q[1] for q in FIELD_ROAD][::-1], [q[0] for q in FIELD_ROAD][::-1]))
     return x, y, h
+
+
+def plate_to_screen(x, y, h, box):
+    """A figure placed on a plate (feet x, y and height as plate fractions) seen through a camera box: its screen feet
+    and height in pixels."""
+    sx, sy = to_screen(x, y, box)
+    return sx, sy, h * PH * H / (box[3] - box[1])
 
 
 def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.2):

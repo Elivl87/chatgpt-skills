@@ -30,7 +30,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult, STEP_RATE  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult, STEP_RATE, SLOW_RATE, SLOW_STRIDE, road_walk, plate_to_screen  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -64,8 +64,6 @@ YOUNG = final('quest_young_back')                                             # 
 YOUNG_B = final('quest_young_back_b')
 ADULT = final('quest_adult_back')                                             # #4 adult hero, back, 3D shield + sword (exported: blocks T, U)
 LOOKUP = final('quest_young_lookup', flip=True)                               # #3a mirrored: looks up to the RIGHT, at adult Quest
-YH, AH = H * .26, H * .36
-FEET = H * .93
 
 
 def pixelated(im, f=6):
@@ -79,15 +77,22 @@ def memory(im):
     return Image.fromarray(a.astype(np.uint8))
 
 
-YOUNG_PX = pixelated(sized(YOUNG, YH))
-YOUNG_PX_B = pixelated(sized(YOUNG_B, YH))
-YOUNG_REAL = sized(LOOKUP, YH)                                                # R4: the memory turns and looks up at him (#3a)
-YOUNG_MEM = memory(YOUNG_REAL)
+# R1-R3 (Producer, 2026-10-06): the two of them walk down the field road itself, slowly, side by side and in step, all the
+# way from R1 to "beside" (R4), instead of walking in place; the camera follows a little. Plate fractions, at R1's start:
+A_H0, Y_FEET0 = .36, .93                                                      # adult Quest's height and feet (young: .26)
+Y_OFF, A_OFF = -.075, .065                                                    # on the one road: young left, adult right of its centre
 
 
-def young_px(t, phase=0.0, walking=True):
-    """The young hero's walk in 1998 pixels: #3 and #9 alternate in time with the bob."""
-    return YOUNG_PX_B if walking and int((t * STEP_RATE + phase) / math.pi) % 2 else YOUNG_PX
+def duo(t):
+    """Where they are on the road (plate fractions): road centre x, feet y, adult height, young height, perspective
+    scale. They stop on "beside"."""
+    x, y, h = road_walk(min(t, T_BESIDE) - T0, A_H0, Y_FEET0, stride_m=SLOW_STRIDE, rate=SLOW_RATE)
+    return x, y, h, h * .26 / .36, h / A_H0
+
+
+def young_px(t, h, phase=0.0, walking=True):
+    """The young hero's walk in 1998 pixels, h pixels tall: #3 and #9 alternate in time with the bob."""
+    return pixelated(sized(YOUNG_B if walking and int((t * SLOW_RATE + phase) / math.pi) % 2 else YOUNG, h))
 ICON_CART = sized(BN.CARTRIDGE, 46)                                          # ruler milestones: the cartridge (1998), the Switch 2 (2026)
 
 
@@ -121,19 +126,23 @@ def _xfade(a, b, k):
     return out
 
 
-def field_view(t, z0=1.0, z1=1.25, t0=None, t1=None):
-    """The road ahead, the camera slowly crossing the field."""
+def field_box(t, z0=1.0, z1=1.25, t0=None, t1=None):
     k = min(1, max(0, (t - (t0 or T0)) / ((t1 or T_END) - (t0 or T0))))
-    box = cam_box(((z0, .5, .6), (z1, .5, .6)), k)
+    return cam_box(((z0, .5, .6), (z1, .5, .6)), k)
+
+
+def field_view(t, z0=1.0, z1=1.25, t0=None, t1=None):
+    """The road ahead, the camera slowly following them down it."""
+    box = field_box(t, z0, z1, t0, t1)
     return FIELD.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
 
 
-def walker(fr, im, x, h, t, phase=0.0, walking=True):
+def walker(fr, im, x, feet, h, t, phase=0.0, walking=True):
     q = sized(im, h) if im.height != int(h) else im
-    bob = 5 * abs(math.sin(t * STEP_RATE + phase)) if walking else 0
-    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, FEET - 8, x + q.width * .4, FEET + 8), fill=(0, 0, 0, 70))
+    bob = 4 * abs(math.sin(t * SLOW_RATE + phase)) * h / (H * .36) if walking else 0
+    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, feet - 8, x + q.width * .4, feet + 8), fill=(0, 0, 0, 70))
     fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
-    return comp(fr, q, x - q.width / 2, FEET - q.height - bob)
+    return comp(fr, q, x - q.width / 2, feet - q.height - bob)
 
 
 def year_tag(fr, cx, text, col, k=1.0):
@@ -149,8 +158,10 @@ def split(t):
     left = G.old_look(full).crop((W // 4, 0, W // 4 + W // 2, H))
     right = G.new_look(full).crop((W // 4, 0, W // 4 + W // 2, H))
     fr = Image.new('RGB', (W, H)); fr.paste(left, (0, 0)); fr.paste(right, (W // 2, 0))
-    fr = walker(fr, young_px(t), W * .25, YH, t)
-    fr = walker(fr, walk_adult(t), W * .75, AH, t)      # in step with his younger self (Producer, 2026-10-06)
+    x, y, ha, hy, _ = duo(t)                                                   # each on his own era's road, in step
+    sx, sy, sa = plate_to_screen(x, y, ha, field_box(t, t1=T_SAME)); sy_ = sa * hy / ha
+    fr = walker(fr, young_px(t, sy_), sx - W / 4, sy, sy_, t)
+    fr = walker(fr, walk_adult(t, rate=SLOW_RATE), sx + W / 4, sy, sa, t)
     d = ImageDraw.Draw(fr); d.line((W / 2, 0, W / 2, H), fill=(255, 255, 255), width=4)
     ky0 = 1 - min(1, max(0, (t - T_1998) / .3))                               # the year tags hand over to the ruler
     fr = year_tag(fr, W * .25, '1998', (232, 196, 90), ky0)
@@ -185,11 +196,24 @@ def split(t):
 
 
 # ------------------------------------------------------------------ R2-R4: one road
-YX, AX = W * .43, W * .57
+R2_CAM = dict(z0=1.25, z1=1.4, t0=T_SAME, t1=T_BESIDE)                       # continues R1's camera, following them
+x_, y_, ha_, hy_, k_ = duo(T_BESIDE)                                          # where they stop: R4's memory is drawn this size
+YOUNG_REAL = sized(LOOKUP, plate_to_screen(x_, y_, hy_, field_box(T_BESIDE, **R2_CAM))[2])   # R4: he turns and looks up at him (#3a)
+YOUNG_MEM = memory(YOUNG_REAL)
+
+
+def spots(t):
+    """Screen positions on the one road: young x, adult x, feet y, young height, adult height (pixels)."""
+    x, y, ha, hy, k = duo(t)
+    box = field_box(t, **R2_CAM)
+    yx, feet, sa = plate_to_screen(x + Y_OFF * k, y, ha, box)
+    ax = plate_to_screen(x + A_OFF * k, y, ha, box)[0]
+    return yx, ax, feet, sa * hy / ha, sa
 
 
 def one_road(t):
-    fr = G.new_look(field_view(t, z0=1.0, z1=1.12, t0=T_SAME, t1=T_BESIDE))
+    fr = G.new_look(field_view(t, **R2_CAM))
+    YX, AX, FEET, YH, AH = spots(t)
     if T_NOT <= t < T_BESIDE:                                                  # R3: the 1998 look creeps back, then retreats
         k = (t - T_NOT) / (T_BESIDE - T_NOT)
         reach = .45 * math.sin(min(1, k / .7) * math.pi)
@@ -199,7 +223,7 @@ def one_road(t):
             ImageDraw.Draw(fr).line((sx, 0, sx, H), fill=(200, 240, 255), width=4)
     walking = t < T_BESIDE
     km = min(1, max(0, (t - T_BESIDE) / .6))                                   # R4: the young one becomes the memory
-    ypx = young_px(t, walking=walking)
+    ypx = young_px(t, YOUNG_MEM.height if not walking else YH, walking=walking)
     if 0 < km < 1:                                                             # he turns: the 1998 back view dissolves into #3a
         young = _xfade(ypx, YOUNG_MEM, km)
     else:
@@ -209,20 +233,21 @@ def one_road(t):
         young = Image.blend(YOUNG_MEM, YOUNG_REAL, kc)
     if km > 0:                                                                 # a soft light around the memory, so it reads on the grass
         fr = CART.glow(fr, YX, FEET - YH * .5, int(YH * .7), (190, 220, 255), .45 * km)
-    fr = walker(fr, young, YX, YH, t, walking=walking)
-    fr = walker(fr, walk_adult(t) if walking else ADULT, AX, AH, t, walking=walking)
+    fr = walker(fr, young, YX, FEET, YH, t, walking=walking)
+    fr = walker(fr, walk_adult(t, rate=SLOW_RATE) if walking else ADULT, AX, FEET, AH, t, walking=walking)
     d = ImageDraw.Draw(fr)
     ks = min(1, max(0, (t - T_SAME - .1) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if ks > 0:                                                                 # SAME ROAD, on the road
         g = BQ.BO.tagbox('SAME ROAD')
-        fr = comp(fr, fade(g, ks), W * .5 - g.width / 2, H * .45)
+        fr = comp(fr, fade(g, ks), W * .5 - g.width / 2, FEET - AH - H * .2)   # above their heads
     kd = min(1, max(0, (t - T_DIFF - .05) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if kd > 0:                                                                 # DIFFERENT PERSON, between them
         g = BQ.BO.tagbox('DIFFERENT PERSON', col=(255, 150, 150))
-        fr = comp(fr, fade(g, kd), W * .5 - g.width / 2, H * .55)
+        ty = FEET - AH - H * .11
+        fr = comp(fr, fade(g, kd), W * .5 - g.width / 2, ty)
         d = ImageDraw.Draw(fr)
-        for x, top in ((YX, FEET - YH - 20), (AX, FEET - AH - 20)):
-            d.line((W * .5, H * .55 + 36, x, top + 40), fill=(255, 150, 150), width=3)
+        for x, top in ((YX, FEET - YH), (AX, FEET - AH)):
+            d.line((W * .5, ty + 36, x, top + 4), fill=(255, 150, 150), width=3)
     if T_NOT + .3 <= t < T_BESIDE:                                             # OLD GAME BACK, struck out
         kk = min(1, (t - T_NOT - .3) / .25)
         st = Image.new('RGBA', (400, 70)); sd = ImageDraw.Draw(st)
@@ -266,7 +291,8 @@ def render(t):
                else 'R4 beside an old memory')
     kz = ease(min(1, max(0, (t - (T_END - 2.0)) / 2.0)))                       # Producer improvement 4: a slow push in on the two of them
     if kz > 0:
-        z = 1 + .28 * kz; cx, cy = W * .5, FEET - AH * .55
+        _, _, feet, _, ah = spots(t)
+        z = 1 + .28 * kz; cx, cy = W * .5, feet - ah * .55
         cw, ch = W / z, H / z
         x0 = min(max(cx - cw / 2, 0), W - cw); y0 = min(max(cy - ch / 2, 0), H - ch)
         fr = fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
@@ -275,7 +301,7 @@ def render(t):
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v8 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v9 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -285,7 +311,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -295,14 +321,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v8_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v9_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v8_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v9_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

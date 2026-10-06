@@ -251,15 +251,14 @@ def restyle_amount(t):
 
 # ------------------------------------------------------------------ shots
 def back_shot(t):
-    """H1-H3: block G's last framing (behind Quest, walking), a slow push in."""
-    z = lin(1.25, 1.33, ease((t - T0) / (T_WONDER - T0)))
-    walk = 1 + .04 * min(1, max(0, (t - T0) / (T_WONDER - T0))) ** 1.3  # he walks: the road ahead keeps coming (no treadmill)
-    base = G.new_look(crop(G.FIELD, (z * walk, .5, .6)))
-    hero_h = H * .42 * z / 1.25
-    q = sized(G.young(t), hero_h)                                       # walking: the two steps of #3 alternate
+    """H1-H3: block G's last framing (behind Quest), a slow push in while he keeps walking down the road (the same walk
+    as G, continuous)."""
+    cam = (lin(1.25, 1.33, ease((t - T0) / (T_WONDER - T0))), .5, .6)
+    base = G.new_look(crop(G.FIELD, cam))
+    q, sx, sy = G.road_quest(t, cam)
     e = restyle_amount(t)
     base = RESTYLE(base, e)
-    return comp(base, q, W * .5 - q.width / 2, H * .93 - hero_h + 4 * abs(math.sin(t * STEP_RATE))), e
+    return comp(base, q, sx - q.width / 2, sy - q.height), e
 
 
 BC = FB.A.BE.BC                                                         # block C: our 3D CRT, its screen key and the 1998 game picture
@@ -505,7 +504,7 @@ def render(t):
             fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=min(1, (t - T_NOW - .2) / .4))   # back in the game: the HUD returns
         lab = 'H4 the TV switches off' if t < T_NOW else 'H4 today: a new Hyrule'
         d = ImageDraw.Draw(fr)
-        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v11 · PLANNING ONLY')
+        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v12 · PLANNING ONLY')
         subtitle(d, t)
         return fr
     fr, e = back_shot(t)
@@ -530,7 +529,7 @@ def render(t):
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
     lab = 'H1 every improvement changes the memory' if t < T_JOB else 'H2 the impossible job' if t < T_DIFF else 'H3 different enough...'
-    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v11 · PLANNING ONLY')
+    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v12 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -539,7 +538,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v11.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v12.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -549,14 +548,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v11_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v12_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v11_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v12_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
