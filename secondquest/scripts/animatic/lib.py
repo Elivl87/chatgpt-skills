@@ -21,6 +21,22 @@ ROOT = Path(__file__).resolve().parents[2]
 PW, PH = 1920, 1080          # working plate
 W, H, FPS = 1280, 720, 24    # output
 F = lru_cache(maxsize=None)(lambda s: ImageFont.truetype(str(Path(__file__).resolve().parents[2] / 'public/shared/fonts/Inter-800.woff2'), s))   # the channel's label type (EP001)
+
+# Inter has no music notes, hearts, stars or arrows: any text with one of them is drawn in DejaVu Bold, as before
+# (Producer, 2026-10-06: the notes had become empty boxes)
+_SYMBOLS = set('♪♫★♥→')
+_SYM_FONT = lru_cache(maxsize=None)(lambda s: ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', s))
+
+
+def _sym_font(text, font):
+    if isinstance(text, str) and font is not None and _SYMBOLS & set(text) and str(getattr(font, 'path', '')).endswith('.woff2'):
+        return _SYM_FONT(font.size)
+    return font
+
+
+_draw_text, _draw_textlength = ImageDraw.ImageDraw.text, ImageDraw.ImageDraw.textlength
+ImageDraw.ImageDraw.text = lambda self, xy, text, *a, font=None, **k: _draw_text(self, xy, text, *a, font=_sym_font(text, font), **k)
+ImageDraw.ImageDraw.textlength = lambda self, text, *a, font=None, **k: _draw_textlength(self, text, *a, font=_sym_font(text, font), **k)
 FSUB, FTAG, FLAB, FBIG = F(30), F(16), F(15), F(44)
 
 tm = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())

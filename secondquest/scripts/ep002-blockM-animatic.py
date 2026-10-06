@@ -18,7 +18,7 @@ Quest (pixels -> smooth) instead of Quest dropping in; the chest opens.
   M5  "Music mattered."                   The ocarina (our 3D) plays, notes rise, flowers open round him, leaves sway.
   M6  "And most importantly..."           Everything freezes and drains of colour; Navi flies to the centre.
   M7  "time mattered."                    One sweep of a clock dial: the sun sets, the moon rises, night and stars.
-v4: final art. The pop-up world becomes the forest village (#12) as the tilt completes; young Quest from behind (#3).
+v5: final art. The pop-up world becomes the forest village (#12) as the tilt completes; young Quest from behind (#3).
 M3's line runs to the far waterfall (the plate has no mountain); the chest sits on the grass, lower left; at night the
 village's windows and lanterns light up. Sounds: none (all at the end).
 """
@@ -510,7 +510,7 @@ def render(t):
         if t < T_NEW + .5:                                                   # out of the white, straight onto the map
             fr = Image.blend(Image.new('RGB', fr.size, (250, 255, 245)), fr, (t - T_NEW) / .5)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v4 · PLANNING ONLY')
+    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -520,7 +520,7 @@ STILLS = (('m0', T_BURST - .3), ('m1', T_BURST + .9), ('m2_map', T_TILT - .3), (
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -530,14 +530,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockM_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockM_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockM_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockM_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

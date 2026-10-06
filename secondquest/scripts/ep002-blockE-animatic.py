@@ -73,7 +73,7 @@ def frame_e1(t):
     keys = [(T0, .62, .3), (T0 + .7, .58, .27), (T_REMAKE, .6, .3)]
     fr = fairy_fx.draw(fr, keys, t, size=.06)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v7 · PLANNING ONLY')
+    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v8 · PLANNING ONLY')
     return fr
 
 
@@ -142,7 +142,7 @@ def frame_e23(t):
             fr = CART.glow(fr, cx, cy, 200, (255, 120, 90), .18 * a)
     d = ImageDraw.Draw(fr)
     lab = 'E2 "Nintendo can remake Ocarina of Time."' if t < T_WANT else 'E3 what people want back was never inside'
-    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v7 · PLANNING ONLY')
+    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v8 · PLANNING ONLY')
     d.text((20, 40), 'memories = block C stills (TV, the friend, the afternoon) · cartridge = own 3D', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -259,7 +259,7 @@ def frame_e45(t):
         fr = item_visual(fr, t)
     d = ImageDraw.Draw(fr)
     lab = 'E4 "rebuilt for Switch 2" (generic, no logos)' if t < T_LIST else 'E5 the feature list'
-    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v7 · PLANNING ONLY')
+    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v8 · PLANNING ONLY')
     return fr
 
 
@@ -282,7 +282,7 @@ STILLS = (('e1', T0 + .8), ('e2', T_WANT - .3), ('e3', T_NEVER - .5), ('e3_bounc
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -292,14 +292,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockE_v7_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockE_v8_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockE_v7_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockE_v8_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

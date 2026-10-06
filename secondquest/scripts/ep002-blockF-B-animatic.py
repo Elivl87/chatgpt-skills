@@ -203,7 +203,7 @@ def meter_panel(fr, t):
             if v > 0:
                 d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(110, 220, 140, 255))
                 d.text((bx1 + 12, y + 18), '+', font=F(24), fill=(110, 220, 140, 255))
-    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v10): smaller and lower right, clear of the castle
+    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v11): smaller and lower right, clear of the castle
     x = W * .71 + (pan.width + 80) * (1 - k_in)
     return comp(fr, pan, x, H * .425)                                   # under the castle's line, above the subtitles
 
@@ -252,7 +252,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v10 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v11 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -262,7 +262,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v10.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v11.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -272,14 +272,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v10_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v11_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v10_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v11_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

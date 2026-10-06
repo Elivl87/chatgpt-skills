@@ -590,3 +590,4 @@
   9. The end as a CONTINUE? menu (U3): NEXT QUEST over the video slot, JOIN THE PARTY over subscribe; the cursor hops.
 - 2026-10-06 · SAME ROAD (R2): a shorter signpost (the words stacked), kept left of the young Quest so it never covers
   anyone (Producer).
+- 2026-10-06 · Music notes (and ★ ♥ →) had turned into empty boxes with the Inter switch (Inter has no such glyphs): they are drawn in DejaVu Bold again, as before (Producer).
