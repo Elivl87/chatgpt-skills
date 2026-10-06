@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final_plate  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final_plate, PLANNING  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
@@ -198,9 +198,9 @@ def render(t):
     if t >= T_STAR - .05:                                                     # she goes into the star: it twinkles
         fr = star_twinkle(fr, t - T_STAR + .05)
     d = ImageDraw.Draw(fr)
-    if t >= T_COMM:                                                           # planning guides: where the end screen goes
+    if t >= T_COMM:                                                           # the CONTINUE? menu; the dashed slot guides only with PLANNING=1
         a = min(1, (t - T_COMM) / .5)
-        for (x0, y0, x1, y1, s) in ((W * .04, H * .34, W * .27, H * .62, 'END SCREEN · video'), (W * .79, H * .56, W * .95, H * .80, 'END SCREEN · subscribe')):
+        for (x0, y0, x1, y1, s) in (() if not PLANNING else ((W * .04, H * .34, W * .27, H * .62, 'END SCREEN · video'), (W * .79, H * .56, W * .95, H * .80, 'END SCREEN · subscribe'))):
             for i in range(0, int(x1 - x0), 14):
                 d.line((x0 + i, y0, x0 + i + 7, y0), fill=(255, 255, 255), width=2); d.line((x0 + i, y1, x0 + i + 7, y1), fill=(255, 255, 255), width=2)
             for i in range(0, int(y1 - y0), 14):
@@ -208,7 +208,7 @@ def render(t):
             d.text((x0 + 8, y0 + 6), s, font=F(14), fill=(255, 255, 255), stroke_width=2, stroke_fill=(20, 14, 18))
         fr = continue_menu(fr, t, a)
         d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v6 · PLANNING ONLY')
+    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -221,7 +221,7 @@ STILLS = (('u1a', T0 + .8), ('u1', T0 + 3.0), ('u2', T_WHY + .8), ('u2o', (T_ORB
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr), '-i', str(SFX),
@@ -233,14 +233,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockU_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockU_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockU_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockU_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

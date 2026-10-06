@@ -746,7 +746,12 @@ def _draw_sub(d, t, cur, lift, size):
         y += lh
 
 
+PLANNING = _os.environ.get('PLANNING') == '1'                      # planning tags and notes only on request (Producer: clean video)
+
+
 def tag(d, text):
+    if not PLANNING:
+        return
     _TR_OFF[0] = True                                               # planning tags stay as they are
     try:
         d.rectangle((0, 0, d.textlength(text, font=FTAG) + 22, 28), fill=(0, 0, 0))

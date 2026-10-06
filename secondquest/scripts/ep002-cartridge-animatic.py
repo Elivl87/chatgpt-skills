@@ -160,7 +160,12 @@ def subtitle(d, t):
     _lib.subtitle(d, t, t_end=T_END)
 
 
+PLANNING = __import__('os').environ.get('PLANNING') == '1'           # planning tags and notes only on request (Producer: clean video)
+
+
 def tag(d, text):
+    if not PLANNING:
+        return
     d.rectangle((0, 0, d.textlength(text, font=FTAG) + 24, 30), fill=(0, 0, 0))
     d.text((12, 6), text, font=FTAG, fill=(255, 210, 90))
 
@@ -190,7 +195,7 @@ def render(t):
         fr.alpha_composite(im, (int((W - im.width) / 2), int((H - im.height) / 2 + hover)))
         fr = fr.convert('RGB')
         d = ImageDraw.Draw(fr)
-        d.text((20, 40), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
+        PLANNING and d.text((20, 40), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
         tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
     else:
         # hold the seated frame for the shake, then cut to the TV
@@ -215,7 +220,7 @@ def render(t):
                 grow = min(1, max(0, (t - T_SEQ2) / (T_END - 0.2 - T_SEQ2)))
                 fr = fairy_fx.draw(fr, keys, t, size=0.1 + 0.08 * grow * grow, opacity=min(1, (t - t0) / 0.15))
             d = ImageDraw.Draw(fr)
-            d.text((20, 40), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
+            PLANNING and d.text((20, 40), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
             tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
     if shake != (0, 0):
         fr = Image.fromarray(__import__('numpy').roll(__import__('numpy').asarray(fr), shake, axis=(1, 0)))
@@ -243,7 +248,7 @@ def sfx_events():
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v13.mp4'
+    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v14.mp4'
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -261,7 +266,7 @@ def main():
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v13_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v14_{name}.jpg', quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 

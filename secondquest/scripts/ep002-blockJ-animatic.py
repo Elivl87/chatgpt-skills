@@ -16,7 +16,7 @@ Same game-menu language as block I (the new player's side now):
                                                       NOSTALGIA (the heart bar from block F: full | empty), CHILDHOOD
                                                       (the "Saturday, 1998" photo | a blank photo), EXPECTATIONS
                                                       (28 YEARS, heavy | 0).
-v6: final art (#2c, #2d, #2e Pixie in her tunic; #14 the tree). HUD: on in the forest only. Sounds: none (all sounds at the end, Producer). Framing QC before sending.
+v7: final art (#2c, #2d, #2e Pixie in her tunic; #14 the tree). HUD: on in the forest only. Sounds: none (all sounds at the end, Producer). Framing QC before sending.
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -239,7 +239,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v6 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -257,7 +257,7 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -267,14 +267,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockJ_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockJ_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockJ_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockJ_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

@@ -246,7 +246,7 @@ def render(t):
             (T_AGAIN + 1.6, .56, .36), (T_GREW, .50, .32), (T_END, .52, .30)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v8 · PLANNING ONLY')
+    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v9 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -256,7 +256,7 @@ STILLS = (('t1', T_REB + .5), ('t1b', T_ENOUGH + .6), ('t2', T_MEET + .4), ('t3'
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -266,14 +266,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockT_v8_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockT_v9_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockT_v8_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockT_v9_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

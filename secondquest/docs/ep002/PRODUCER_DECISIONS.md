@@ -591,3 +591,6 @@
 - 2026-10-06 · SAME ROAD (R2): a shorter signpost (the words stacked), kept left of the young Quest so it never covers
   anyone (Producer).
 - 2026-10-06 · Music notes (and ★ ♥ →) had turned into empty boxes with the Inter switch (Inter has no such glyphs): they are drawn in DejaVu Bold again, as before (Producer).
+- 2026-10-06 · Area cards stay: once per place (Producer: "una vez por lugar, como está ahora"). Notes: ♪ ♫ as before.
+- 2026-10-06 · Clean video from now on (Producer): no planning tag strip, no planning notes, no end-screen slot guides.
+  `lib.tag` and those notes draw only with PLANNING=1. Every block bumped and re-rendered clean.

@@ -88,7 +88,7 @@ CART_ROOM = sized(dusty(CARTRIDGE, .55), CART_W * CARTRIDGE.height / CARTRIDGE.w
 CART_ROOM = CART_ROOM.resize((CART_ROOM.width, int(CART_ROOM.height * .78)), Image.LANCZOS)   # lying down, a little foreshortened
 
 
-# His childhood bedroom (block C), as block H v7 drew it (block H v8 moved its night shot to adult Quest's room #15;
+# His childhood bedroom (block C), as block H v8 drew it (block H v8 moved its night shot to adult Quest's room #15;
 # P and Q stay in the childhood room, by day): the CRT on the bedside table plays `pic`, the N64 on the floor.
 ROOM_N = BC.BED.convert('RGB')
 QSPEC = (.47, .985, .50)                                                    # Quest on the floor in front of the bedside table (x, feet y, h)
@@ -428,7 +428,7 @@ def render(t):
     keys = [(T0, .62, .30), (T_ORIG, .70, .30), (T_WHY, .62, .26), (T_BEC, .30, .30), (T_END, .34, .26)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v7 · PLANNING ONLY')
+    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v8 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -438,7 +438,7 @@ STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a',
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -448,14 +448,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockP_v7_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockP_v8_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockP_v7_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockP_v8_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

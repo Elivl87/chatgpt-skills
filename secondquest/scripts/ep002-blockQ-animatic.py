@@ -368,7 +368,7 @@ def render(t):
     keys = [(T0, .70, .26), (T_TRI, .74, .22), (T_PERSON, .60, .30), (T_GAME, .72, .28), (T_STORY, .08, .82), (T_END, .10, .82)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 23 STILL THERE · {lab} · BLOCK Q v4 · PLANNING ONLY')
+    tag(d, f'SEQ 23 STILL THERE · {lab} · BLOCK Q v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -378,7 +378,7 @@ STILLS = (('q1', T('l121.w4') + .3), ('q2', T('l122.w4') + .3), ('q3', T('l123.w
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockQ_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockQ_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -388,14 +388,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockQ_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockQ_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockQ_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockQ_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
