@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, S, Si, P, U, DW, DH, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
@@ -74,11 +74,11 @@ def m1(t):
     fr, _ = BL.frame(min(t, BL.T_END - .05) if t < T_BURST else BL.T_END - .05)
     if t < T_BURST:                                                          # Producer improvement: the case trembles, harder and harder
         k = ease(min(1, max(0, (t - T0) / (T_BURST - T0))))
-        amp = .8 + 4.5 * k
+        amp = S(.8 + 4.5 * k)
         dx, dy = amp * math.sin(t * 61), amp * .6 * math.sin(t * 47 + 1)
         big = fr.resize((int(W * 1.02), int(H * 1.02)), Image.BILINEAR)
         fr = big.crop((int(W * .01 + dx), int(H * .01 + dy), int(W * .01 + dx) + W, int(H * .01 + dy) + H))
-        fr = CART.glow(fr, CRACK_SCREEN[0], CRACK_SCREEN[1], int(120 + 60 * k), (170, 255, 170), (.25 + .35 * k) * (.7 + .3 * math.sin(t * 9)))
+        fr = CART.glow(fr, CRACK_SCREEN[0], CRACK_SCREEN[1], int(S(120 + 60 * k)), (170, 255, 170), (.25 + .35 * k) * (.7 + .3 * math.sin(t * 9)))
     if t >= T_BURST:
         k = (t - T_BURST) / (T_NEW - T_BURST)
         z = 1 + 5 * ease(min(1, k)) ** 1.6                                  # dive into the crack
@@ -87,12 +87,12 @@ def m1(t):
         x0 = min(max(cx - cw / 2, 0), W - cw); y0 = min(max(cy - ch / 2, 0), H - ch)
         fr = fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BILINEAR)
         sx, sy = (cx - x0) * z, (cy - y0) * z
-        fr = CART.glow(fr, sx, sy, int(200 + 900 * ease(min(1, k))), (170, 255, 170), min(1, .5 + .8 * k))
+        fr = CART.glow(fr, sx, sy, int(S(200 + 900 * ease(min(1, k)))), (170, 255, 170), min(1, .5 + .8 * k))
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
         r = np.random.default_rng(5)
         u = t - T_BURST
         for i in range(26):                                                  # glass shards fly at the camera
-            ang = r.random() * 2 * math.pi; sp = 300 + 700 * r.random(); s = (8 + 22 * r.random()) * (1 + 2.5 * u)
+            ang = r.random() * 2 * math.pi; sp = S(300 + 700 * r.random()); s = S(8 + 22 * r.random()) * (1 + 2.5 * u)
             px, py = sx + math.cos(ang) * sp * u, sy + math.sin(ang) * sp * u
             a0 = r.random() * 6 + u * (4 * r.random() - 2)
             pts = [(px + s * math.cos(a0 + j * 2.2 + r.random() * .4), py + s * math.sin(a0 + j * 2.2)) for j in range(3)]
@@ -104,8 +104,8 @@ def m1(t):
 
 
 # ------------------------------------------------------------------ M2: the 8-bit forest map
-TS = 32                                                                     # tile size: 40 x 23 tiles
-MC, MR = W // TS, (H + TS - 1) // TS
+TS = 32                                                                     # tile size: 40 x 23 tiles (design px: the map is drawn at 1280x720)
+MC, MR = DW // TS, (DH + TS - 1) // TS
 
 
 def _map_layout():
@@ -154,7 +154,7 @@ def _tile_map(hero=True):
     hx, hy = HERO_XY
     for (x0, y0, x1, y1, c) in HERO_SPR if hero else ():
         d.rectangle((hx + x0, hy + y0, hx + x1, hy + y1), fill=c)
-    return im.crop((0, 0, W, H))
+    return im.crop((0, 0, DW, DH)).resize((W, H), Image.NEAREST)                  # 8-bit: blown up to output px
 
 
 def _hero():
@@ -190,8 +190,8 @@ def project(M, x, y):
 
 
 def local_scale(M, x, y):
-    a = project(M, x - TS / 2, y); b = project(M, x + TS / 2, y)
-    return abs(b[0] - a[0]) / TS
+    a = project(M, x - S(TS) / 2, y); b = project(M, x + S(TS) / 2, y)                # x, y in output px
+    return abs(b[0] - a[0]) / S(TS)
 
 
 def _tree_sprite():
@@ -218,15 +218,15 @@ def mountain(fr, a, night):
     if a <= 0:
         return fr
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    base = HORIZON + 6; mx = W * .63                                          # tall enough to rise over the far trees
+    base = HORIZON + S(6); mx = W * .63                                          # tall enough to rise over the far trees
     col = tuple(int(lin(c0, c1, night)) for c0, c1 in zip((150, 150, 180), (50, 54, 90)))
-    d.polygon(((mx - 300, base), (mx - 50, base - 200), (mx, base - 235), (mx + 70, base - 190), (mx + 320, base)), fill=col + (int(255 * a),))
-    d.polygon(((mx - 50, base - 200), (mx, base - 235), (mx + 70, base - 190), (mx + 24, base - 172), (mx - 12, base - 186)), fill=(240, 240, 250, int(220 * a * (1 - .6 * night))))
-    g = g.filter(ImageFilter.GaussianBlur(1.2))
+    d.polygon(((mx - S(300), base), (mx - S(50), base - S(200)), (mx, base - S(235)), (mx + S(70), base - S(190)), (mx + S(320), base)), fill=col + (int(255 * a),))
+    d.polygon(((mx - S(50), base - S(200)), (mx, base - S(235)), (mx + S(70), base - S(190)), (mx + S(24), base - S(172)), (mx - S(12), base - S(186))), fill=(240, 240, 250, int(220 * a * (1 - .6 * night))))
+    g = g.filter(ImageFilter.GaussianBlur(S(1.2)))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     fog = Image.new('RGBA', (W, H)); fd = ImageDraw.Draw(fog)                 # distance fog over its foot
-    fd.rectangle((0, base - 60, W, base + 10), fill=(230, 236, 245, int(110 * a * (1 - .7 * night))))
-    return Image.alpha_composite(fr.convert('RGBA'), fog.filter(ImageFilter.GaussianBlur(16))).convert('RGB')
+    fd.rectangle((0, base - S(60), W, base + S(10)), fill=(230, 236, 245, int(110 * a * (1 - .7 * night))))
+    return Image.alpha_composite(fr.convert('RGBA'), fog.filter(ImageFilter.GaussianBlur(S(16)))).convert('RGB')
 
 
 QB = final('quest_young_back')                                              # final art #3: young Quest in his tunic, from behind (he stands)
@@ -254,22 +254,22 @@ def forest_frame(t, tc):
         mask = cv2.warpPerspective(np.full((H, W), 255, np.uint8), M, (W, H), flags=cv2.INTER_NEAREST)
         gimg = Image.fromarray(ground)
         if kt > .3:                                                          # the 8-bit tiles soften as the world becomes a place
-            gimg = Image.blend(gimg, gimg.filter(ImageFilter.GaussianBlur(3)), min(1, (kt - .3) / .7) * .7)
+            gimg = Image.blend(gimg, gimg.filter(ImageFilter.GaussianBlur(S(3))), min(1, (kt - .3) / .7) * .7)
         fr.paste(gimg, (0, 0), Image.fromarray(mask))
         # the trees grow up out of their tiles (far ones first), swaying a little
         trees = []
         for (x, y) in TREES:
-            px, py = project(M, x * TS + TS / 2, y * TS + TS * .8)
-            if -200 < px < W + 200 and HORIZON - 5 < py < H * 1.02:
+            px, py = project(M, S(x * TS + TS / 2), S(y * TS + TS * .8))
+            if -S(200) < px < W + S(200) and HORIZON - 5 < py < H * 1.02:
                 trees.append((py, px, x, y))
         trees.sort()
         for (py, px, x, y) in trees:
             grow = ease(min(1, max(0, (kt - .25 - .35 * (1 - (py - HORIZON) / (H - HORIZON))) / .4)))
             if grow <= 0:
                 continue
-            tw = int(local_scale(M, x * TS, y * TS) * TS * 1.25)              # a tree is about one tile wide
+            tw = int(local_scale(M, S(x * TS), S(y * TS)) * S(TS) * 1.25)              # a tree is about one tile wide
             th = int(tw * TREE.height / TREE.width * grow)
-            if th < 4 or tw < 2:
+            if th < S(4) or tw < S(2):
                 continue
             spr = TREE.resize((tw, th), Image.BILINEAR)
             sway = 2.5 * math.sin(tc * 1.7 + x) * (1 + 2 * kmusic(t))
@@ -281,7 +281,7 @@ def forest_frame(t, tc):
     if night > 0:                                                            # the forest goes to night too
         fr = Image.blend(fr, Image.new('RGB', fr.size, (14, 20, 54)), .55 * night)
         for (lx, ly) in LANTERNS:                                            # ...and its windows and lanterns light up
-            fr = CART.glow(fr, W * lx, H * ly, 46, (255, 200, 110), .55 * night)
+            fr = CART.glow(fr, W * lx, H * ly, S(46), (255, 200, 110), .55 * night)
     return fr, M, kt, night
 
 
@@ -297,25 +297,25 @@ CHEST_POS = (W * .22, H * .76)                                             # on 
 
 def chest(fr, M, t):
     px, py = CHEST_POS
-    s = 2.0
+    s = 2.0 * U                                                              # design px x 2
     w, h = int(40 * s), int(30 * s)
     if w < 6:
         return fr, (px, py)
     ko = ease(min(1, max(0, (t - T_OPEN) / .35)))
     if ko > 0:                                                               # light pours out of it
-        fr = CART.glow(fr, px, py - h * .9, int(70 * s) + 10, (255, 236, 150), .8 * ko)
-    g = Image.new('RGBA', (w + 4, h + int(h * .9) + 4)); d = ImageDraw.Draw(g)
+        fr = CART.glow(fr, px, py - h * .9, int(70 * s) + Si(10), (255, 236, 150), .8 * ko)
+    g = Image.new('RGBA', (w + Si(4), h + int(h * .9) + Si(4))); d = ImageDraw.Draw(g)
     oy = int(h * .9)                                                         # room above for the open lid
     lw = max(2, int(3 * s))
     box_top = oy + int(h * .4)
-    d.rectangle((2, box_top, w, oy + h), fill=(150, 92, 42, 255), outline=INK, width=lw)
+    d.rectangle((S(2), box_top, w, oy + h), fill=(150, 92, 42, 255), outline=INK, width=lw)
     lid_h = h * .45
     lift = lid_h * 1.6 * ko                                                  # the lid swings up and back
-    d.polygon(((2, box_top), (w, box_top), (w - w * .08 * ko, box_top - lid_h - lift), (2 + w * .08 * ko, box_top - lid_h - lift)),
+    d.polygon(((S(2), box_top), (w, box_top), (w - w * .08 * ko, box_top - lid_h - lift), (S(2) + w * .08 * ko, box_top - lid_h - lift)),
               fill=(170, 106, 50, 255) if ko < .5 else (120, 72, 34, 255), outline=INK)
-    d.rectangle((2, box_top - 2, w, box_top + max(2, int(h * .08))), fill=(230, 190, 70, 255))
+    d.rectangle((S(2), box_top - S(2), w, box_top + max(Si(2), int(h * .08))), fill=(230, 190, 70, 255))
     if ko > .3:                                                              # the open mouth, full of light
-        d.rectangle((4 + w * .06, box_top - h * .12 * ko, w - 2 - w * .06, box_top), fill=(255, 238, 160, 255))
+        d.rectangle((S(4) + w * .06, box_top - h * .12 * ko, w - S(2) - w * .06, box_top), fill=(255, 238, 160, 255))
     d.rectangle((w / 2 - 3 * s, box_top - h * .06, w / 2 + 3 * s, box_top + h * .2), fill=(230, 190, 70, 255), outline=INK)
     fr = comp(fr, g, px - w / 2, py - h - oy)
     if ko > 0:                                                               # sparkles rise
@@ -323,8 +323,8 @@ def chest(fr, M, t):
         for j in range(6):
             ph = ((t - T_OPEN) * .9 + j / 6) % 1
             sx, sy = px + (j - 2.5) * 9 * s * .4, py - h - 60 * s * ph
-            r = 5 * s * .5 * (1 - ph) + 1
-            sd.line((sx - r, sy, sx + r, sy), fill=(255, 250, 200, int(255 * ko * (1 - ph))), width=2); sd.line((sx, sy - r, sx, sy + r), fill=(255, 250, 200, int(255 * ko * (1 - ph))), width=2)
+            r = 5 * s * .5 * (1 - ph) + S(1)
+            sd.line((sx - r, sy, sx + r, sy), fill=(255, 250, 200, int(255 * ko * (1 - ph))), width=Si(2)); sd.line((sx, sy - r, sx, sy + r), fill=(255, 250, 200, int(255 * ko * (1 - ph))), width=Si(2))
         fr = Image.alpha_composite(fr.convert('RGBA'), sp).convert('RGB')
     return fr, (px, py - h / 2)
 
@@ -333,13 +333,13 @@ def target_marker(fr, cx, cy, k, tc):
     if k <= 0:
         return fr
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    r = lin(120, 46, ease(k)) + 4 * math.sin(tc * 8)
+    r = S(lin(120, 46, ease(k))) + S(4) * math.sin(tc * 8)
     a = int(255 * min(1, k * 2))
     for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1)):                     # four corner brackets close in
         x, y = cx + sx * r, cy + sy * r
-        d.line((x, y, x - sx * 18, y), fill=(255, 214, 40, a), width=5); d.line((x, y, x, y - sy * 18), fill=(255, 214, 40, a), width=5)
-    by = cy - r - 34 + 6 * math.sin(tc * 6)                                   # the bouncing arrow above
-    d.polygon(((cx - 16, by), (cx + 16, by), (cx, by + 22)), fill=(255, 214, 40, a), outline=(80, 50, 10, a))
+        d.line((x, y, x - sx * S(18), y), fill=(255, 214, 40, a), width=Si(5)); d.line((x, y, x, y - sy * S(18)), fill=(255, 214, 40, a), width=Si(5))
+    by = cy - r - S(34) + S(6) * math.sin(tc * 6)                                   # the bouncing arrow above
+    d.polygon(((cx - S(16), by), (cx + S(16), by), (cx, by + S(22))), fill=(255, 214, 40, a), outline=(80, 50, 10, a))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
@@ -357,7 +357,7 @@ def flowers(fr, M, t):
         if k <= 0:
             continue
         px, py = W * fx, H * fy
-        s = (5 + 9 * (fy - .65) / .3) * k                                    # nearer = bigger
+        s = S(5 + 9 * (fy - .65) / .3) * k                                    # nearer = bigger
         col = ((255, 140, 180), (255, 240, 120), (190, 160, 255))[i % 3]
         for j in range(5):
             a = j * 2 * math.pi / 5
@@ -371,15 +371,15 @@ def notes(fr, t, tc):
     if k <= 0:
         return fr
     o = OCA[int(tc * 10) % len(OCA)]
-    s = sized(o, 70)
-    ox, oy = QX + 120, QFEET - QH * .78
-    fr = CART.glow(fr, ox, oy, 90, (150, 200, 255), .3 * k)
+    s = sized(o, S(70))
+    ox, oy = QX + S(120), QFEET - QH * .78
+    fr = CART.glow(fr, ox, oy, S(90), (150, 200, 255), .3 * k)
     fr = comp(fr, fade(s, k), ox - s.width / 2, oy - s.height / 2)
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     for j in range(7):
         ph = ((tc - T_MUSIC) * .8 + j / 7) % 1
-        x = ox + 60 * math.sin(j * 1.7 + ph * 3) + 40 * ph; y = oy - 30 - 190 * ph
-        d.text((x, y), '♪' if j % 2 else '♫', font=F(30 + (j % 3) * 8), fill=(255, 236, 170, int(255 * (1 - ph) * k)), stroke_width=2, stroke_fill=(70, 45, 15))
+        x = ox + S(60) * math.sin(j * 1.7 + ph * 3) + S(40) * ph; y = oy - S(30) - S(190) * ph
+        d.text((x, y), '♪' if j % 2 else '♫', font=F(30 + (j % 3) * 8), fill=(255, 236, 170, int(255 * (1 - ph) * k)), stroke_width=Si(2), stroke_fill=(70, 45, 15))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
@@ -389,26 +389,26 @@ def clock_and_sky(fr, t):
         return fr
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     # sun sets to the right, moon rises from the left
-    ang_s = lin(-.35, .9, ease(k)); sx, sy = W * .5 + W * .42 * math.sin(ang_s), HORIZON - 230 * math.cos(ang_s)
-    d.ellipse((sx - 34, sy - 34, sx + 34, sy + 34), fill=(255, 220, 110, int(255 * (1 - k))), outline=INK)
-    ang_m = lin(-1.0, -.35, ease(k)); mx, my = W * .5 + W * .42 * math.sin(ang_m), HORIZON - 230 * math.cos(ang_m)
-    d.ellipse((mx - 26, my - 26, mx + 26, my + 26), fill=(235, 238, 255, int(255 * k)), outline=INK)
-    d.ellipse((mx - 14, my - 30, mx + 34, my + 18), fill=(0, 0, 0, 0))
+    ang_s = lin(-.35, .9, ease(k)); sx, sy = W * .5 + W * .42 * math.sin(ang_s), HORIZON - S(230) * math.cos(ang_s)
+    d.ellipse((sx - S(34), sy - S(34), sx + S(34), sy + S(34)), fill=(255, 220, 110, int(255 * (1 - k))), outline=INK)
+    ang_m = lin(-1.0, -.35, ease(k)); mx, my = W * .5 + W * .42 * math.sin(ang_m), HORIZON - S(230) * math.cos(ang_m)
+    d.ellipse((mx - S(26), my - S(26), mx + S(26), my + S(26)), fill=(235, 238, 255, int(255 * k)), outline=INK)
+    d.ellipse((mx - S(14), my - S(30), mx + S(34), my + S(18)), fill=(0, 0, 0, 0))
     r = np.random.default_rng(9)
     for _ in range(60):
         x, y = r.random() * W, r.random() * HORIZON
-        d.ellipse((x - 1.5, y - 1.5, x + 1.5, y + 1.5), fill=(255, 255, 230, int(220 * max(0, k - .3) / .7)))
+        d.ellipse((x - S(1.5), y - S(1.5), x + S(1.5), y + S(1.5)), fill=(255, 255, 230, int(220 * max(0, k - .3) / .7)))
     # one sweep of a clock dial over the sky
-    cx, cy, R = W * .5, H * .22, 92
+    cx, cy, R = W * .5, H * .22, S(92)
     ka = math.sin(math.pi * min(1, k * 1.1)) if k < .91 else 0
     if ka > 0:
-        d.ellipse((cx - R, cy - R, cx + R, cy + R), outline=(255, 245, 210, int(230 * ka)), width=5)
+        d.ellipse((cx - R, cy - R, cx + R, cy + R), outline=(255, 245, 210, int(230 * ka)), width=Si(5))
         for i in range(12):
             a = i * math.pi / 6
-            d.line((cx + math.cos(a) * (R - 12), cy + math.sin(a) * (R - 12), cx + math.cos(a) * (R - 2), cy + math.sin(a) * (R - 2)), fill=(255, 245, 210, int(230 * ka)), width=4)
+            d.line((cx + math.cos(a) * (R - S(12)), cy + math.sin(a) * (R - S(12)), cx + math.cos(a) * (R - S(2)), cy + math.sin(a) * (R - S(2))), fill=(255, 245, 210, int(230 * ka)), width=Si(4))
         a = -math.pi / 2 + 2 * math.pi * ease(k)
-        d.line((cx, cy, cx + math.cos(a) * (R - 18), cy + math.sin(a) * (R - 18)), fill=(255, 245, 210, int(255 * ka)), width=6)
-        d.ellipse((cx - 7, cy - 7, cx + 7, cy + 7), fill=(255, 245, 210, int(255 * ka)))
+        d.line((cx, cy, cx + math.cos(a) * (R - S(18)), cy + math.sin(a) * (R - S(18))), fill=(255, 245, 210, int(255 * ka)), width=Si(6))
+        d.ellipse((cx - S(7), cy - S(7), cx + S(7), cy + S(7)), fill=(255, 245, 210, int(255 * ka)))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
@@ -424,8 +424,8 @@ def m2_7(t):
     if kq > 0:
         q = sized(QB, QH)
         e = ease(kq)
-        hx, hy = project(M, HERO_XY[0] + 16, HERO_XY[1] + 30)                  # the hero's feet on the tilted map
-        hh = max(8, local_scale(M, HERO_XY[0], HERO_XY[1] + 30) * 26)
+        hx, hy = project(M, S(HERO_XY[0] + 16), S(HERO_XY[1] + 30))                  # the hero's feet on the tilted map
+        hh = max(S(8), local_scale(M, S(HERO_XY[0]), S(HERO_XY[1] + 30)) * S(26))
         h_now = lin(hh, QH, e); fx, fy = lin(hx, QX, e), lin(hy, QFEET, e)
         q_now = sized(QB, h_now)
         px_q = sized(sized(QB, 26).resize((max(1, int(26 * QB.width / QB.height)), 26), Image.NEAREST), h_now)   # Quest, still in pixels
@@ -434,37 +434,37 @@ def m2_7(t):
             spr = Image.blend(hero.resize(px_q.size, Image.NEAREST), px_q, e / .45)
         else:
             spr = Image.blend(px_q.resize(q_now.size, Image.NEAREST), q_now, min(1, (e - .45) / .45))
-        sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((fx - spr.width * .4, fy - 12, fx + spr.width * .4, fy + 10), fill=(0, 0, 0, int(90 * kq)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
+        sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((fx - spr.width * .4, fy - S(12), fx + spr.width * .4, fy + S(10)), fill=(0, 0, 0, int(90 * kq)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(S(6)))).convert('RGB')
         if kq < 1:
-            fr = CART.glow(fr, fx, fy - h_now * .5, int(h_now * .8) + 10, (255, 250, 210), .55 * math.sin(math.pi * kq))
+            fr = CART.glow(fr, fx, fy - h_now * .5, int(h_now * .8) + Si(10), (255, 250, 210), .55 * math.sin(math.pi * kq))
         fr = comp(fr, spr, fx - spr.width / 2, fy - spr.height)
         kd = (t - T_STAND) / .7                                              # the puff of dust as he lands
         if 0 < kd < 1:
             g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
             for i in range(9):
-                a = math.pi * (i / 8); rr = 30 + 120 * ease(kd)
-                x, y = QX + math.cos(a) * rr * (1 if i % 2 else -1), QFEET - 8 - 20 * kd * math.sin(a)
-                s = 18 + 18 * kd
+                a = math.pi * (i / 8); rr = S(30 + 120 * ease(kd))
+                x, y = QX + math.cos(a) * rr * (1 if i % 2 else -1), QFEET - S(8) - S(20) * kd * math.sin(a)
+                s = S(18 + 18 * kd)
                 d.ellipse((x - s, y - s * .6, x + s, y + s * .6), fill=(230, 215, 180, int(200 * (1 - kd))))
-            fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
+            fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(3)))).convert('RGB')
     # M3: the distance
     if T_DIST <= t < T_LOOK + .3:
         k = ease(min(1, (t - T_DIST) / .7)); a = 1 - min(1, max(0, (t - T_LOOK) / .3))
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-        x0, y0 = QX + 40, QFEET - QH * .3; x1, y1 = FAR_PT                    # out to the far waterfall
+        x0, y0 = QX + S(40), QFEET - QH * .3; x1, y1 = FAR_PT                    # out to the far waterfall
         xe, ye = lin(x0, x1, k), lin(y0, y1, k)
         n = 16
         for i in range(n):
             u0, u1 = i / n, (i + .55) / n
             if u0 > k:
                 break
-            d.line((lin(x0, x1, u0), lin(y0, y1, u0), lin(x0, x1, min(u1, k)), lin(y0, y1, min(u1, k))), fill=(255, 255, 255, int(235 * a)), width=4)
-        d.line((x1 - 12, y1, x1 + 12, y1), fill=(255, 255, 255, int(235 * a * k)), width=4)
+            d.line((lin(x0, x1, u0), lin(y0, y1, u0), lin(x0, x1, min(u1, k)), lin(y0, y1, min(u1, k))), fill=(255, 255, 255, int(235 * a)), width=Si(4))
+        d.line((x1 - S(12), y1, x1 + S(12), y1), fill=(255, 255, 255, int(235 * a * k)), width=Si(4))
         if k > .6:
             s = 'FAR AWAY'
-            bx, by = lin(x0, x1, .55) + 30, lin(y0, y1, .55) - 20
-            g.alpha_composite(UI.fade(UI.sq_tag(s, 18), a), (int(bx) - 8, int(by) - 8))   # our game tag (family A)
+            bx, by = lin(x0, x1, .55) + S(30), lin(y0, y1, .55) - S(20)
+            g.alpha_composite(UI.fade(UI.sq_tag(s, 18), a), (int(bx) - Si(8), int(by) - Si(8)))   # our game tag (family A)
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     # M4: where you looked
     if T_LOOK <= t < T_MUSIC + .2 and kt >= 1:
@@ -473,10 +473,10 @@ def m2_7(t):
         hx, hy = QX, QFEET - QH * .86
         tx, ty = cpos
         ang0 = math.atan2(ty - hy, (W * .85) - hx); ang1 = math.atan2(ty - hy, tx - hx)
-        ang = lin(ang0, ang1, ease(k)); L = math.hypot(tx - hx, ty - hy) + 30
+        ang = lin(ang0, ang1, ease(k)); L = math.hypot(tx - hx, ty - hy) + S(30)
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
         d.polygon(((hx, hy), (hx + L * math.cos(ang - .13), hy + L * math.sin(ang - .13)), (hx + L * math.cos(ang + .13), hy + L * math.sin(ang + .13))), fill=(255, 240, 150, int(70 * a)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(5)))).convert('RGB')
         fr = target_marker(fr, tx, ty, ((t - T_LOCK + .15) / .3) * a, tc)
     # M5: music
     if T_MUSIC <= t:

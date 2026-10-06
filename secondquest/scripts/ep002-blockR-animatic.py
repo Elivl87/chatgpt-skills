@@ -30,7 +30,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult, STEP_RATE, SLOW_RATE, SLOW_STRIDE, road_walk, plate_to_screen, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult, STEP_RATE, SLOW_RATE, SLOW_STRIDE, road_walk, plate_to_screen, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
@@ -68,8 +68,8 @@ LOOKUP = final('quest_young_lookup', flip=True)                               # 
 
 
 def pixelated(im, f=6):
-    """The young hero in 1998 pixels."""
-    s = im.resize((max(1, im.width // f), max(1, im.height // f)), Image.NEAREST)
+    """The young hero in 1998 pixels (f: the pixel size, design px)."""
+    s = im.resize((max(1, int(im.width / (f * U))), max(1, int(im.height / (f * U)))), Image.NEAREST)
     return s.resize(im.size, Image.NEAREST)
 
 
@@ -94,7 +94,7 @@ def duo(t):
 def young_px(t, h, phase=0.0, walking=True):
     """The young hero's walk in 1998 pixels, h pixels tall: #3 and #9 alternate in time with the bob."""
     return pixelated(sized(YOUNG_B if walking and int((t * SLOW_RATE + phase) / math.pi) % 2 else YOUNG, h))
-ICON_CART = sized(BN.CARTRIDGE, 46)                                          # ruler milestones: the cartridge (1998), the Switch 2 (2026)
+ICON_CART = sized(BN.CARTRIDGE, S(46))                                          # ruler milestones: the cartridge (1998), the Switch 2 (2026)
 
 
 def _sw2_chill():
@@ -102,8 +102,8 @@ def _sw2_chill():
     import cv2
     BL = BN.BL
     scr = FIELD.resize((W, H), Image.BILINEAR)
-    scr = Image.blend(scr, Image.new('RGB', (W, H), (255, 170, 110)), .28).filter(ImageFilter.GaussianBlur(2))
-    scr = CART.glow(scr, W * .5, H * .38, 420, (255, 220, 160), .45)
+    scr = Image.blend(scr, Image.new('RGB', (W, H), (255, 170, 110)), .28).filter(ImageFilter.GaussianBlur(S(2)))
+    scr = CART.glow(scr, W * .5, H * .38, S(420), (255, 220, 160), .45)
     src = np.float32([[0, 0], [W, 0], [W, H], [0, H]])
     M = cv2.getPerspectiveTransform(src, BL.SW2_QUAD.astype(np.float32))
     pic = cv2.warpPerspective(np.asarray(scr), M, BL.SW2.size)
@@ -117,7 +117,7 @@ def _sw2_chill():
     return Image.fromarray(a)
 
 
-ICON_SW2 = sized(_sw2_chill(), 46)
+ICON_SW2 = sized(_sw2_chill(), S(46))
 
 
 def _xfade(a, b, k):
@@ -140,9 +140,9 @@ def field_view(t, z0=1.0, z1=1.25, t0=None, t1=None):
 
 def walker(fr, im, x, feet, h, t, phase=0.0, walking=True):
     q = sized(im, h) if im.height != int(h) else im
-    bob = 4 * abs(math.sin(t * SLOW_RATE + phase)) * h / (H * .36) if walking else 0
-    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, feet - 8, x + q.width * .4, feet + 8), fill=(0, 0, 0, 70))
-    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
+    bob = S(4) * abs(math.sin(t * SLOW_RATE + phase)) * h / (H * .36) if walking else 0
+    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, feet - S(8), x + q.width * .4, feet + S(8)), fill=(0, 0, 0, 70))
+    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(S(5)))).convert('RGB')
     return comp(fr, q, x - q.width / 2, feet - q.height - bob)
 
 
@@ -165,7 +165,7 @@ def split(t):
     sx, sy, sa = plate_to_screen(x, y, ha, field_box(t, t1=T_SAME)); sy_ = sa * hy / ha
     fr = walker(fr, young_px(t, sy_), sx - W / 4, sy, sy_, t)
     fr = walker(fr, walk_adult(t, rate=SLOW_RATE), sx + W / 4, sy, sa, t)
-    d = ImageDraw.Draw(fr); d.line((W / 2, 0, W / 2, H), fill=(255, 255, 255), width=4)
+    d = ImageDraw.Draw(fr); d.line((W / 2, 0, W / 2, H), fill=(255, 255, 255), width=Si(4))
     ky0 = 1 - min(1, max(0, (t - T_1998) / .3))                               # the year tags hand over to the ruler
     fr = year_tag(fr, W * .25, '1998', (232, 196, 90), ky0)
     fr = year_tag(fr, W * .75, '2026', (120, 190, 255), ky0)
@@ -174,27 +174,27 @@ def split(t):
         y = H * .30; x0, x1 = W * .12, W * .88
         g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
         xe = lin(x0, x1, ease(kr))
-        gd.line((x0, y, xe, y), fill=(20, 14, 18, 255), width=12); gd.line((x0, y, xe, y), fill=(255, 236, 170, 255), width=6)
+        gd.line((x0, y, xe, y), fill=(20, 14, 18, 255), width=Si(12)); gd.line((x0, y, xe, y), fill=(255, 236, 170, 255), width=Si(6))
         for i in range(29):                                                    # a tick per year
             x = lin(x0, x1, i / 28)
             if x <= xe:
-                hh = 16 if i % 7 == 0 else 8
-                gd.line((x, y - hh, x, y + hh), fill=(255, 236, 170, 255), width=3)
+                hh = S(16 if i % 7 == 0 else 8)
+                gd.line((x, y - hh, x, y + hh), fill=(255, 236, 170, 255), width=Si(3))
         for lab, x in (('1998', x0), ('2026', x1)):
-            if x <= xe + 1:
-                gd.text((x - gd.textlength(lab, font=F(24)) / 2, y - 50), lab, font=F(24), fill=(255, 255, 255, 255), stroke_width=4, stroke_fill=INK + (255,))
+            if x <= xe + S(1):
+                gd.text((x - gd.textlength(lab, font=F(24)) / 2, y - S(50)), lab, font=F(24), fill=(255, 255, 255, 255), stroke_width=Si(4), stroke_fill=INK + (255,))
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
         for icon, cap, x in ((ICON_CART, 'FIRST TIME', x0), (ICON_SW2, 'AGAIN', x1)):   # Producer improvement 2: milestones
-            if x <= xe + 1:
+            if x <= xe + S(1):
                 ki = 1
-                fr = comp(fr, fade(icon, ki), x - icon.width / 2, y + 18)
+                fr = comp(fr, fade(icon, ki), x - icon.width / 2, y + S(18))
                 dd = ImageDraw.Draw(fr)
-                dd.text((x - dd.textlength(cap, font=F(18)) / 2, y + 22 + icon.height), cap, font=F(18), fill=(255, 255, 255), stroke_width=3, stroke_fill=INK)
+                dd.text((x - dd.textlength(cap, font=F(18)) / 2, y + S(22) + icon.height), cap, font=F(18), fill=(255, 255, 255), stroke_width=Si(3), stroke_fill=INK)
         ky = min(1, max(0, (t - T_DEC) / .3))
         if ky > 0:
             s = '28 YEARS'; f = F(int(44 * (1.3 - .3 * ease(ky))))
             d = ImageDraw.Draw(fr)
-            d.text((W / 2 - d.textlength(s, font=f) / 2, y - 16 - f.size * 1.6), s, font=f, fill=(255, 214, 40), stroke_width=6, stroke_fill=INK)
+            d.text((W / 2 - d.textlength(s, font=f) / 2, y - S(16) - f.size * 1.6), s, font=f, fill=(255, 214, 40), stroke_width=Si(6), stroke_fill=INK)
     return fr
 
 
@@ -221,9 +221,9 @@ def one_road(t):
         k = (t - T_NOT) / (T_BESIDE - T_NOT)
         reach = .45 * math.sin(min(1, k / .7) * math.pi)
         sx = int(W * reach)
-        if sx > 2:
+        if sx > S(2):
             fr.paste(G.old_look(fr).crop((0, 0, sx, H)), (0, 0))
-            ImageDraw.Draw(fr).line((sx, 0, sx, H), fill=(200, 240, 255), width=4)
+            ImageDraw.Draw(fr).line((sx, 0, sx, H), fill=(200, 240, 255), width=Si(4))
     walking = t < T_BESIDE
     km = min(1, max(0, (t - T_BESIDE) / .6))                                   # R4: the young one becomes the memory
     ypx = young_px(t, YOUNG_MEM.height if not walking else YH, walking=walking)
@@ -245,10 +245,10 @@ def one_road(t):
         # stays clear of the young one's left side.
         x_, y_, ha_, _, k_ = duo(t)
         px, py, ph = plate_to_screen(x_, y_ - .02, ha_ * .62, field_box(t, **R2_CAM))
-        sp = UI.signpost_compact(['SAME', 'ROAD'], h_px=int(ph))
+        sp = UI.signpost_compact(['SAME', 'ROAD'], h_px=int(ph / U))                 # design px
         rise = ease(ks)                                                        # it pops up out of the grass
         sp = sp.resize((sp.width, max(1, int(sp.height * (.4 + .6 * rise)))), Image.LANCZOS)
-        right = YX - YH * .42 - 24                                             # the young one's left side, with a gap
+        right = YX - YH * .42 - S(24)                                            # the young one's left side, with a gap
         fr = comp(fr, fade(sp, min(1, ks * 2)), right - sp.width, py - sp.height)
     kd = min(1, max(0, (t - T_DIFF - .05) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if kd > 0:                                                                 # DIFFERENT PERSON, between them
@@ -257,37 +257,37 @@ def one_road(t):
         fr = comp(fr, fade(g, kd), W * .5 - g.width / 2, ty)
         d = ImageDraw.Draw(fr)
         for x, top in ((YX, FEET - YH), (AX, FEET - AH)):
-            d.line((W * .5, ty + 36, x, top + 4), fill=(255, 150, 150), width=3)
+            d.line((W * .5, ty + S(36), x, top + S(4)), fill=(255, 150, 150), width=Si(3))
     if T_NOT + .3 <= t < T_BESIDE:                                             # OLD GAME BACK, struck out
         kk = min(1, (t - T_NOT - .3) / .25)
         st = UI.sq_box(384, 54); sd = ImageDraw.Draw(st)                     # a quest-log entry in our game box (family A)
-        UI.spaced(sd, (30, 20), 'QUEST', UI.inter(14), (255, 214, 90, 255), 2)
-        sd.text((100, 12), 'Old game back', font=UI.inter(34), fill=(255, 240, 210, 255))
+        UI.spaced(sd, (S(30), S(20)), 'QUEST', UI.inter(14), (255, 214, 90, 255), S(2))
+        sd.text((S(100), S(12)), 'Old game back', font=UI.inter(34), fill=(255, 240, 210, 255))
         kx = min(1, max(0, (t - T('l134.w4')) / .3))                           # struck on "back", in pen
         if kx > 0:
-            pts = [(96 + i * 3.1, 40 - 6 * (i / 100) + 2 * math.sin(i * .5)) for i in range(int(100 * kx) + 1)]
+            pts = [(S(96 + i * 3.1), S(40 - 6 * (i / 100) + 2 * math.sin(i * .5))) for i in range(int(100 * kx) + 1)]
             if len(pts) > 1:
-                sd.line(pts, fill=(220, 40, 50, 255), width=7, joint='curve')
+                sd.line(pts, fill=(220, 40, 50, 255), width=Si(7), joint='curve')
         fr = comp(fr, fade(st, kk), W * .5 - st.width / 2, H * .16)
     if t >= T_BESIDE:
         kq = min(1, max(0, (t - T_BESIDE - 1.0) / .3))
-        hx, hy = YX, FEET - YH - 70
+        hx, hy = YX, FEET - YH - S(70)
         if kq > 0:                                                             # "?" ... "!" over the memory
             kf = min(1, max(0, (t - T_RECOG) / .3))
             sq = abs(math.cos(math.pi * kf)) if kf < 1 else 1
             s = '!' if kf >= .5 else '?'
             f = F(70)
-            g = Image.new('RGBA', (90, 100)); gd = ImageDraw.Draw(g)
-            gd.text((45 - gd.textlength(s, font=f) / 2, 6), s, font=f, fill=(255, 255, 255, 255), stroke_width=5, stroke_fill=(70, 80, 110, 255))
+            g = Image.new('RGBA', (Si(90), Si(100))); gd = ImageDraw.Draw(g)
+            gd.text((S(45) - gd.textlength(s, font=f) / 2, S(6)), s, font=f, fill=(255, 255, 255, 255), stroke_width=Si(5), stroke_fill=(70, 80, 110, 255))
             g = g.resize((max(1, int(g.width * sq)), g.height), Image.LANCZOS)
-            fr = comp(fr, fade(g, kq), hx - g.width / 2, hy - 60)
+            fr = comp(fr, fade(g, kq), hx - g.width / 2, hy - S(60))
         kl = min(1, max(0, (t - T_RECOG - .2) / .5))
         if kl > 0:                                                             # recognised: a Navi-blue glow links them
             g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
             y0, y1 = FEET - YH * .8, FEET - AH * .8
-            gd.line((YX + 20, y0, lin(YX + 20, AX - 20, ease(kl)), lin(y0, y1, ease(kl))), fill=(170, 225, 255, 230), width=8)
-            fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
-            fr = CART.glow(fr, W * .5, FEET - AH * .6, 260, (255, 226, 160), .35 * kl)
+            gd.line((YX + S(20), y0, lin(YX + S(20), AX - S(20), ease(kl)), lin(y0, y1, ease(kl))), fill=(170, 225, 255, 230), width=Si(8))
+            fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(3)))).convert('RGB')
+            fr = CART.glow(fr, W * .5, FEET - AH * .6, S(260), (255, 226, 160), .35 * kl)
     return fr
 
 

@@ -31,7 +31,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, final_plate, subtitle, tag, F, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, final_plate, subtitle, tag, F, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -60,8 +60,8 @@ INK = (20, 14, 18, 255)
 GOLD = (232, 196, 90)
 
 # ------------------------------------------------------------------ the museum
-PIC_W, PIC_H = 300, 225                                                     # 4:3, the 1998 picture inside the case
-CASE = (W * .5 - 210, H * .13, W * .5 + 210, H * .655)                      # glass case (x0, y0, x1, y1)
+PIC_W, PIC_H = Si(300), Si(225)                                                   # 4:3, the 1998 picture inside the case
+CASE = (W * .5 - S(210), H * .13, W * .5 + S(210), H * .655)                      # glass case (x0, y0, x1, y1)
 PIC_X, PIC_Y = W * .5 - PIC_W / 2, H * .17
 PAD_C = (W * .5, H * .575)                                                  # the pad, in front of the picture
 
@@ -77,7 +77,7 @@ def _hall():
     a[stripes] *= .9
     im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
     d = ImageDraw.Draw(im)
-    d.line((0, H * .70, W, H * .70), fill=(22, 28, 34), width=3); d.line((0, H * .76, W, H * .76), fill=(30, 24, 22), width=3)
+    d.line((0, H * .70, W, H * .70), fill=(22, 28, 34), width=Si(3)); d.line((0, H * .76, W, H * .76), fill=(30, 24, 22), width=Si(3))
     ctext(d, W * .5, H * .075, 'HALL OF CLASSICS', 22, (200, 190, 160))
     return im
 
@@ -88,8 +88,8 @@ HALL = _hall()
 SWD = [Image.open(f).convert('RGBA') for f in sorted((ROOT / 'public/art/ep002/props3d/sword_spin').glob('f*.png'))]
 
 
-TEMPLE_SLOT = (960, 395)                                                    # the slot on the pedestal of plate #13 (plate px, 1920x1080)
-TEMPLE_SWORD_H = 210                                                        # our 3D sword v2 at plate scale: the blade fills the slot
+TEMPLE_SLOT = (P(960), P(395))                                                  # the slot on the pedestal of plate #13 (plate px, 1920x1080)
+TEMPLE_SWORD_H = round(P(210))                                                      # our 3D sword v2 at plate scale: the blade fills the slot
 
 
 def temple_plate():
@@ -101,13 +101,13 @@ def temple_plate():
     sw = sw.resize((max(1, int(sw.width * TEMPLE_SWORD_H / sw.height)), TEMPLE_SWORD_H), Image.LANCZOS)
     vis = int(sw.height * .78)                                              # the tip is in the stone
     sw = sw.crop((0, 0, sw.width, vis))
-    im = CART.glow(im.convert('RGB'), TEMPLE_SLOT[0], TEMPLE_SLOT[1] - 90, 160, (200, 230, 255), .45).convert('RGBA')
-    im.alpha_composite(sw, (int(TEMPLE_SLOT[0] - sw.width / 2), int(TEMPLE_SLOT[1] + 3 - vis)))
+    im = CART.glow(im.convert('RGB'), TEMPLE_SLOT[0], TEMPLE_SLOT[1] - P(90), P(160), (200, 230, 255), .45).convert('RGBA')
+    im.alpha_composite(sw, (int(TEMPLE_SLOT[0] - sw.width / 2), int(TEMPLE_SLOT[1] + P(3) - vis)))
     return im.convert('RGB')
 
 
 TEMPLE_FULL = temple_plate()
-TEMPLE = TEMPLE_FULL.crop((240, 0, 1680, 1080)).resize((800, 600), Image.LANCZOS)   # 4:3, centred on the pedestal
+TEMPLE = TEMPLE_FULL.crop((round(P(240)), 0, round(P(1680)), round(P(1080)))).resize((800, 600), Image.LANCZOS)   # 4:3, centred on the pedestal
 
 
 
@@ -125,12 +125,13 @@ PIC4 = field_1998(4)
 
 
 def dusty(im):
-    a = np.asarray(im.filter(ImageFilter.GaussianBlur(2.2))).astype(np.float32)
+    a = np.asarray(im.filter(ImageFilter.GaussianBlur(S(2.2)))).astype(np.float32)
     a = a * .72 + np.array([150, 140, 120]) * .28
     r = np.random.default_rng(7)
     for _ in range(140):
-        x, y = r.integers(0, im.width), r.integers(0, im.height)
-        a[max(0, y - 1):y + 1, max(0, x - 1):x + 2] = a[max(0, y - 1):y + 1, max(0, x - 1):x + 2] * .5 + 110
+        x, y = int(r.integers(0, round(im.width / U)) * U), int(r.integers(0, round(im.height / U)) * U)   # drawn in design px
+        o, e = Si(1), Si(2)
+        a[max(0, y - o):y + o, max(0, x - o):x + e] = a[max(0, y - o):y + o, max(0, x - o):x + e] * .5 + 110
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
@@ -138,11 +139,11 @@ PIC0 = dusty(PIC1)
 OUTLINE = PIC1.convert('L').filter(ImageFilter.FIND_EDGES).point(lambda v: 255 if v > 18 else 0)
 
 _pad = Image.open(ROOT / 'public/art/ep002/props3d/n64_pad_room.png').convert('RGBA')
-PAD = sized(_pad, 80)                                                    # Producer: smaller
+PAD = sized(_pad, S(80))                                                    # Producer: smaller
 
 
 _sw = Image.open(ROOT / 'public/art/ep002/props3d/switch2_room.png').convert('RGBA')
-SW2 = _sw.resize((200, int(_sw.height * 200 / _sw.width)), Image.LANCZOS)   # our 3D Switch 2-like handheld, screen = green key
+SW2 = _sw.resize((Si(200), int(_sw.height * S(200) / _sw.width)), Image.LANCZOS)   # our 3D Switch 2-like handheld, screen = green key
 
 
 def _screen_quad(im):
@@ -158,7 +159,7 @@ def _screen_quad(im):
 
 
 SW2_QUAD, SW2_MASK = _screen_quad(SW2)
-TEMPLE_HD = TEMPLE_FULL.resize((800, 450), Image.LANCZOS)                  # 16:9, today's picture: same temple, full detail
+TEMPLE_HD = TEMPLE_FULL.resize((Si(800), Si(450)), Image.LANCZOS)                  # 16:9, today's picture: same temple, full detail
 
 
 def switch2(k, t):
@@ -217,7 +218,7 @@ def flash_line(pic, k):
     if not 0 < k < 1:
         return pic
     d = ImageDraw.Draw(pic); y = int(PIC_H * k)
-    d.rectangle((0, y - 3, PIC_W, y + 3), fill=(255, 255, 240))
+    d.rectangle((0, y - S(3), PIC_W, y + S(3)), fill=(255, 255, 240))
     return pic
 
 
@@ -227,73 +228,73 @@ CRACK_PT = (CASE[0] + (CASE[2] - CASE[0]) * .66, CASE[1] + (CASE[3] - CASE[1]) *
 def case_glass(fr, crack):
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     x0, y0, x1, y1 = CASE
-    d.rectangle((x0, y0, x1, y1), fill=(190, 220, 235, 26), outline=(210, 230, 240, 200), width=3)
-    d.line((x0 + 14, y0 + 14, x1 - 14, y0 + 14), fill=(230, 245, 250, 120), width=2)                     # top edge depth
+    d.rectangle((x0, y0, x1, y1), fill=(190, 220, 235, 26), outline=(210, 230, 240, 200), width=Si(3))
+    d.line((x0 + S(14), y0 + S(14), x1 - S(14), y0 + S(14)), fill=(230, 245, 250, 120), width=Si(2))                     # top edge depth
     for k, (a, b) in enumerate(((.12, .30), (.22, .27), (.70, .80))):                                   # glass streaks
-        d.line((x0 + (x1 - x0) * a, y0 + 10, x0 + (x1 - x0) * (a + b * .5), y1 - 10), fill=(255, 255, 255, 46 if k < 2 else 30), width=8 if k == 0 else 4)
+        d.line((x0 + (x1 - x0) * a, y0 + S(10), x0 + (x1 - x0) * (a + b * .5), y1 - S(10)), fill=(255, 255, 255, 46 if k < 2 else 30), width=Si(8) if k == 0 else Si(4))
     if crack > 0:
         cx, cy = CRACK_PT
         r = np.random.default_rng(11)
         for i in range(9):
             ang = i * 2 * math.pi / 9 + r.random() * .5
-            L = (60 + 140 * r.random()) * ease(min(1, crack * 1.3))
+            L = S(60 + 140 * r.random()) * ease(min(1, crack * 1.3))
             px, py = cx, cy
             n = 5
             for s in range(n):
                 nx = cx + math.cos(ang + (r.random() - .5) * .5) * L * (s + 1) / n
                 ny = cy + math.sin(ang + (r.random() - .5) * .5) * L * (s + 1) / n
-                nx = min(max(nx, x0 + 4), x1 - 4); ny = min(max(ny, y0 + 4), y1 - 4)
-                d.line((px, py, nx, ny), fill=(250, 252, 255, 235), width=3); d.line((px + 1, py + 1, nx + 1, ny + 1), fill=(30, 40, 50, 150), width=1)
+                nx = min(max(nx, x0 + S(4)), x1 - S(4)); ny = min(max(ny, y0 + S(4)), y1 - S(4))
+                d.line((px, py, nx, ny), fill=(250, 252, 255, 235), width=Si(3)); d.line((px + S(1), py + S(1), nx + S(1), ny + S(1)), fill=(30, 40, 50, 150), width=Si(1))
                 px, py = nx, ny
-        rr = 22 * ease(min(1, crack * 2))
-        d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), outline=(250, 252, 255, 220), width=3)
+        rr = S(22) * ease(min(1, crack * 2))
+        d.ellipse((cx - rr, cy - rr, cx + rr, cy + rr), outline=(250, 252, 255, 220), width=Si(3))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
 def plinth(fr):
     d = ImageDraw.Draw(fr)
-    x0, x1 = CASE[0] - 26, CASE[2] + 26
-    d.rectangle((x0, CASE[3], x1, CASE[3] + 18), fill=(70, 62, 58), outline=INK[:3], width=3)
-    d.rectangle((x0 + 18, CASE[3] + 18, x1 - 18, H), fill=(58, 50, 48), outline=INK[:3], width=3)
+    x0, x1 = CASE[0] - S(26), CASE[2] + S(26)
+    d.rectangle((x0, CASE[3], x1, CASE[3] + S(18)), fill=(70, 62, 58), outline=INK[:3], width=Si(3))
+    d.rectangle((x0 + S(18), CASE[3] + S(18), x1 - S(18), H), fill=(58, 50, 48), outline=INK[:3], width=Si(3))
     return fr
 
 
 def plaque(fr, k, t):
     if k <= 0:
         return fr
-    w, h = 270, 48
-    g = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((0, 0, w - 1, h - 1), 6, fill=(196, 160, 70, 255), outline=(110, 82, 30, 255), width=3)
-    d.rounded_rectangle((5, 5, w - 6, h - 6), 4, outline=(240, 214, 130, 255), width=1)
+    w, h = 270, 48                                                          # design px
+    g = Image.new('RGBA', (Si(w), Si(h))); d = ImageDraw.Draw(g)
+    d.rounded_rectangle((0, 0, Si(w) - 1, Si(h) - 1), S(6), fill=(196, 160, 70, 255), outline=(110, 82, 30, 255), width=Si(3))
+    d.rounded_rectangle((S(5), S(5), S(w - 6), S(h - 6)), S(4), outline=(240, 214, 130, 255), width=Si(1))
     s = 'RESPECTFUL'
-    d.text((w / 2 - d.textlength(s, font=F(24)) / 2 - 14, 9), s, font=F(24), fill=(70, 50, 16, 255))
-    cx0 = w / 2 + d.textlength(s, font=F(24)) / 2 - 4
-    d.line((cx0, 26, cx0 + 8, 34, cx0 + 22, 14), fill=(70, 50, 16, 255), width=4)
+    d.text((S(w / 2) - d.textlength(s, font=F(24)) / 2 - S(14), S(9)), s, font=F(24), fill=(70, 50, 16, 255))
+    cx0 = S(w / 2) + d.textlength(s, font=F(24)) / 2 - S(4)
+    d.line((cx0, S(26), cx0 + S(8), S(34), cx0 + S(22), S(14)), fill=(70, 50, 16, 255), width=Si(4))
     sh = (t - T_RESP - .35) / .6                                                                            # one shine across
     if 0 < sh < 1:
-        m = Image.new('RGBA', (w, h)); md = ImageDraw.Draw(m)
-        x = -40 + (w + 80) * sh
-        md.polygon(((x, 0), (x + 26, 0), (x + 6, h), (x - 20, h)), fill=(255, 250, 220, 150))
+        m = Image.new('RGBA', (Si(w), Si(h))); md = ImageDraw.Draw(m)
+        x = S(-40 + (w + 80) * sh)
+        md.polygon(((x, 0), (x + S(26), 0), (x + S(6), S(h)), (x - S(20), S(h))), fill=(255, 250, 220, 150))
         g.alpha_composite(m)
-        g.putalpha(Image.fromarray(np.minimum(np.asarray(g.getchannel('A')), np.asarray(Image.new('L', (w, h), 255)))))
-    y = H * .40 + 20 * (1 - ease(k))                                         # on the wall, left of the case (clear of subtitles)
-    return comp(fr, fade(g, k), W * .19 - w / 2, y)
+        g.putalpha(Image.fromarray(np.minimum(np.asarray(g.getchannel('A')), np.asarray(Image.new('L', (Si(w), Si(h)), 255)))))
+    y = H * .40 + S(20) * (1 - ease(k))                                         # on the wall, left of the case (clear of subtitles)
+    return comp(fr, fade(g, k), W * .19 - S(w / 2), y)
 
 
 def rope(fr, t):
     d = ImageDraw.Draw(fr)
     posts = (W * .2, W * .8); top = H * .64
-    sway = 4 * math.sin(t * 1.6)
+    sway = S(4) * math.sin(t * 1.6)
     pts = []
     for i in range(21):
         u = i / 20
-        x = lin(posts[0], posts[1], u); y = top + 6 + 46 * 4 * u * (1 - u) + sway * math.sin(math.pi * u)
+        x = lin(posts[0], posts[1], u); y = top + S(6 + 46 * 4 * u * (1 - u)) + sway * math.sin(math.pi * u)
         pts.append((x, y))
-    d.line(pts, fill=(120, 18, 30), width=11, joint='curve'); d.line([(x, y - 3) for x, y in pts], fill=(170, 40, 50), width=3)
+    d.line(pts, fill=(120, 18, 30), width=Si(11), joint='curve'); d.line([(x, y - S(3)) for x, y in pts], fill=(170, 40, 50), width=Si(3))
     for x in posts:
-        d.rectangle((x - 6, top, x + 6, H * .82), fill=(196, 160, 70), outline=INK[:3], width=2)
-        d.ellipse((x - 13, top - 14, x + 13, top + 10), fill=(214, 180, 90), outline=INK[:3], width=2)
-        d.ellipse((x - 22, H * .81, x + 22, H * .83), fill=(150, 120, 50), outline=INK[:3], width=2)
+        d.rectangle((x - S(6), top, x + S(6), H * .82), fill=(196, 160, 70), outline=INK[:3], width=Si(2))
+        d.ellipse((x - S(13), top - S(14), x + S(13), top + S(10)), fill=(214, 180, 90), outline=INK[:3], width=Si(2))
+        d.ellipse((x - S(22), H * .81, x + S(22), H * .83), fill=(150, 120, 50), outline=INK[:3], width=Si(2))
     return fr
 
 
@@ -304,22 +305,22 @@ def wall_card(fr, t):
     k = min(1, max(0, (t - T_SAFE - .3) / .4))
     if k <= 0:
         return fr
-    w, h = 230, 214
-    g = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(g)
-    d.rectangle((0, 0, w - 1, h - 1), fill=(236, 230, 214, 255), outline=(120, 110, 90, 255), width=2)
-    d.text((14, 12), 'OCARINA OF TIME', font=F(17), fill=(40, 34, 30, 255))
-    d.text((14, 34), 'REMAKE · 2026', font=F(14), fill=(90, 80, 70, 255))
+    w, h = 230, 214                                                         # design px
+    g = Image.new('RGBA', (Si(w), Si(h))); d = ImageDraw.Draw(g)
+    d.rectangle((0, 0, Si(w) - 1, Si(h) - 1), fill=(236, 230, 214, 255), outline=(120, 110, 90, 255), width=Si(2))
+    d.text((S(14), S(12)), 'OCARINA OF TIME', font=F(17), fill=(40, 34, 30, 255))
+    d.text((S(14), S(34)), 'REMAKE · 2026', font=F(14), fill=(90, 80, 70, 255))
     if t >= T_NOTHING:
-        d.text((14, 58), 'CHANGES:', font=F(14), fill=(90, 80, 70, 255))
-        d.text((92, 54), '0.01%', font=F(19), fill=(150, 30, 40, 255))
-    d.line((14, 84, w - 14, 84), fill=(170, 160, 140, 255), width=1)
+        d.text((S(14), S(58)), 'CHANGES:', font=F(14), fill=(90, 80, 70, 255))
+        d.text((S(92), S(54)), '0.01%', font=F(19), fill=(150, 30, 40, 255))
+    d.line((S(14), S(84), S(w - 14), S(84)), fill=(170, 160, 140, 255), width=Si(1))
     for i, (s, tc) in enumerate(CHECKS):
         y = 94 + i * 28
-        d.rectangle((14, y + 2, 32, y + 20), outline=(90, 80, 70, 255), width=2)
-        d.text((42, y + 1), s, font=F(15), fill=(60, 52, 46, 255))
+        d.rectangle((S(14), S(y + 2), S(32), S(y + 20)), outline=(90, 80, 70, 255), width=Si(2))
+        d.text((S(42), S(y + 1)), s, font=F(15), fill=(60, 52, 46, 255))
         if t >= tc:
-            d.line((16, y + 11, 23, y + 18, 34, y), fill=(40, 150, 70, 255), width=4)
-    return comp(fr, fade(g, k), W * .79 - w / 2, H * .22)
+            d.line((S(16), S(y + 11), S(23), S(y + 18), S(34), S(y)), fill=(40, 150, 70, 255), width=Si(4))
+    return comp(fr, fade(g, k), W * .79 - S(w / 2), H * .22)
 
 
 def tracing(fr, t):
@@ -330,22 +331,22 @@ def tracing(fr, t):
     out = (1 - min(1, max(0, (t - T_RESP - .2) / .4)))                       # leaves as the plaque arrives
     if out <= 0:
         return fr
-    paper = Image.new('RGBA', (PIC_W + 30, PIC_H + 30), (240, 244, 250, 120))
+    paper = Image.new('RGBA', (PIC_W + Si(30), PIC_H + Si(30)), (240, 244, 250, 120))
     ink = Image.new('RGBA', (PIC_W, PIC_H), (40, 90, 210, 255)); ink.putalpha(OUTLINE.point(lambda v: int(v * .85)))
-    paper.alpha_composite(ink, (15, 15))
+    e = Si(15); paper.alpha_composite(ink, (e, e))
     d = ImageDraw.Draw(paper)
     locked = k >= 1 and t >= T('l91.w4')                                     # "where you remember": registration locks
     col = (60, 170, 90, 255) if locked else (40, 90, 210, 255)
-    for (x, y) in ((15, 15), (PIC_W + 15, 15), (15, PIC_H + 15), (PIC_W + 15, PIC_H + 15)):
-        d.line((x - 11, y, x + 11, y), fill=col, width=3); d.line((x, y - 11, x, y + 11), fill=col, width=3)
-        d.ellipse((x - 6, y - 6, x + 6, y + 6), outline=col, width=2)
-    off = (1 - k) * -260 + (0 if k >= 1 else 6 * math.sin(t * 9))
-    fr = comp(fr, fade(paper, out), PIC_X - 15, PIC_Y - 15 + off)
+    for (x, y) in ((e, e), (PIC_W + e, e), (e, PIC_H + e), (PIC_W + e, PIC_H + e)):
+        d.line((x - S(11), y, x + S(11), y), fill=col, width=Si(3)); d.line((x, y - S(11), x, y + S(11)), fill=col, width=Si(3))
+        d.ellipse((x - S(6), y - S(6), x + S(6), y + S(6)), outline=col, width=Si(2))
+    off = (1 - k) * -S(260) + (0 if k >= 1 else S(6) * math.sin(t * 9))
+    fr = comp(fr, fade(paper, out), PIC_X - e, PIC_Y - e + off)
     ks = min(1, max(0, (t - T('l91.w6') - .1) / .25))
     if ks > 0:                                                               # the 100% MATCH stamp
-        st = Image.new('RGBA', (220, 70)); sd = ImageDraw.Draw(st)
-        sd.rounded_rectangle((3, 3, 216, 66), 8, outline=(60, 170, 90, 255), width=5)
-        s = '100% MATCH'; sd.text((110 - sd.textlength(s, font=F(30)) / 2, 14), s, font=F(30), fill=(60, 170, 90, 255))
+        st = Image.new('RGBA', (Si(220), Si(70))); sd = ImageDraw.Draw(st)
+        sd.rounded_rectangle((S(3), S(3), S(216), S(66)), S(8), outline=(60, 170, 90, 255), width=Si(5))
+        s = '100% MATCH'; sd.text((S(110) - sd.textlength(s, font=F(30)) / 2, S(14)), s, font=F(30), fill=(60, 170, 90, 255))
         st = rot(st, 12)
         sc = 1.6 - .6 * ease(ks)
         st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
@@ -355,22 +356,22 @@ def tracing(fr, t):
 
 def sign(fr, t):
     """Producer improvement: a PLEASE DO NOT TOUCH sign on the wall; when the glass cracks it loses a nail and swings."""
-    w, h = 236, 46
-    g = Image.new('RGBA', (w, h)); d = ImageDraw.Draw(g)
-    d.rectangle((0, 0, w - 1, h - 1), fill=(236, 230, 214, 255), outline=(120, 110, 90, 255), width=2)
+    w, h = 236, 46                                                          # design px
+    g = Image.new('RGBA', (Si(w), Si(h))); d = ImageDraw.Draw(g)
+    d.rectangle((0, 0, Si(w) - 1, Si(h) - 1), fill=(236, 230, 214, 255), outline=(120, 110, 90, 255), width=Si(2))
     s1 = 'PLEASE DO NOT TOUCH'
-    d.text((w / 2 - d.textlength(s1, font=F(15)) / 2, 13), s1, font=F(15), fill=(160, 30, 40, 255))
-    d.ellipse((8, 6, 16, 14), fill=(120, 110, 90, 255))
+    d.text((S(w / 2) - d.textlength(s1, font=F(15)) / 2, S(13)), s1, font=F(15), fill=(160, 30, 40, 255))
+    d.ellipse((S(8), S(6), S(16), S(14)), fill=(120, 110, 90, 255))
     ang = 0
     if t > T_CRACK:                                                          # hangs from the left nail, damped swing
         u = t - T_CRACK
         ang = -(9 + 7 * math.exp(-u * 3) * math.cos(u * 11))
     else:
-        d.ellipse((w - 16, 6, w - 8, 14), fill=(120, 110, 90, 255))
-    pivot = (W * .19 - w / 2 + 12, H * .53 + 10)
-    big = Image.new('RGBA', (w * 2 + 40, w * 2 + 40)); big.paste(g, (w + 20 - 12, w + 20 - 10))
-    big = big.rotate(ang, resample=Image.BICUBIC, center=(w + 20, w + 20))
-    return comp(fr, big, pivot[0] - (w + 20), pivot[1] - (w + 20))
+        d.ellipse((S(w - 16), S(6), S(w - 8), S(14)), fill=(120, 110, 90, 255))
+    pivot = (W * .19 - S(w / 2) + S(12), H * .53 + S(10))
+    big = Image.new('RGBA', (Si(w * 2 + 40), Si(w * 2 + 40))); big.paste(g, (Si(w + 20 - 12), Si(w + 20 - 10)))
+    big = big.rotate(ang, resample=Image.BICUBIC, center=(S(w + 20), S(w + 20)))
+    return comp(fr, big, pivot[0] - S(w + 20), pivot[1] - S(w + 20))
 
 
 def frame(t):
@@ -379,8 +380,8 @@ def frame(t):
     warm = .25 * ease(min(1, max(0, (t - T_RESP) / .5)))
     if ksp > 0:
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-        d.polygon(((W * .44, 0), (W * .56, 0), (CASE[2] + 70, H * .80), (CASE[0] - 70, H * .80)), fill=(255, 238, 200, int((52 + 40 * warm) * ksp)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(26))).convert('RGB')
+        d.polygon(((W * .44, 0), (W * .56, 0), (CASE[2] + S(70), H * .80), (CASE[0] - S(70), H * .80)), fill=(255, 238, 200, int((52 + 40 * warm) * ksp)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(26)))).convert('RGB')
     else:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (8, 10, 14)), .35)
     fr = plinth(fr)
@@ -389,10 +390,10 @@ def frame(t):
         for s0 in (T_RES + .25, T_RES + .7):
             pic = flash_line(pic, (t - s0 + .2) / .25)
     d = ImageDraw.Draw(fr)
-    d.rectangle((PIC_X - 12, PIC_Y - 12, PIC_X + PIC_W + 12, PIC_Y + PIC_H + 12), fill=(40, 30, 26), outline=GOLD, width=4)
+    d.rectangle((PIC_X - S(12), PIC_Y - S(12), PIC_X + PIC_W + S(12), PIC_Y + PIC_H + S(12)), fill=(40, 30, 26), outline=GOLD, width=Si(4))
     fr.paste(pic, (int(PIC_X), int(PIC_Y)))
-    d.rectangle((PIC_X + PIC_W - 64, PIC_Y + PIC_H + 2, PIC_X + PIC_W + 8, PIC_Y + PIC_H + 24), fill=(40, 30, 26))
-    ctext(d, PIC_X + PIC_W - 28, PIC_Y + PIC_H + 3, '1998', 16, (232, 196, 90))
+    d.rectangle((PIC_X + PIC_W - S(64), PIC_Y + PIC_H + S(2), PIC_X + PIC_W + S(8), PIC_Y + PIC_H + S(24)), fill=(40, 30, 26))
+    ctext(d, PIC_X + PIC_W - S(28), PIC_Y + PIC_H + S(3), '1998', 16, (232, 196, 90))
     kc = ease(min(1, max(0, (t - T_CTL - .1) / (T_SAME - T_CTL - .2))))     # L4: cleaned... and it becomes today's console
     km = min(1, max(0, (kc - .55) / .25))                                     # Producer idea: N64 pad -> Switch 2
     if km < 1:
@@ -402,8 +403,8 @@ def frame(t):
             for s0 in (.05, .5):
                 q = (k1 - s0) / .45
                 if 0 < q < 1:
-                    sh = Image.new('L', pad.size, 0); x = -30 + (pad.width + 60) * q
-                    ImageDraw.Draw(sh).polygon(((x, 0), (x + 22, 0), (x - 8, pad.height), (x - 30, pad.height)), fill=170)
+                    sh = Image.new('L', pad.size, 0); x = -S(30) + (pad.width + S(60)) * q
+                    ImageDraw.Draw(sh).polygon(((x, 0), (x + S(22), 0), (x - S(8), pad.height), (x - S(30), pad.height)), fill=170)
                     sh = Image.fromarray(np.minimum(np.asarray(sh), np.asarray(pad.getchannel('A'))))
                     pad = pad.copy(); pad.paste(Image.new('RGBA', pad.size, (255, 255, 245, 255)), (0, 0), sh)
         pad = fade(pad, 1 - km)
@@ -415,20 +416,20 @@ def frame(t):
         sw = sw.resize((int(sw.width * sc), int(sw.height * sc)), Image.LANCZOS)
         fr = comp(fr, fade(sw, km), PAD_C[0] - sw.width / 2, PAD_C[1] - sw.height / 2)
     if 0 < km < 1:                                                           # the flash of the swap
-        fr = CART.glow(fr, PAD_C[0], PAD_C[1], 130, (255, 255, 240), .9 * math.sin(math.pi * km))
+        fr = CART.glow(fr, PAD_C[0], PAD_C[1], S(130), (255, 255, 240), .9 * math.sin(math.pi * km))
     fr = tracing(fr, t)
     crack = min(1, max(0, (t - T_CRACK + .1) / .35))
     fr = case_glass(fr, crack)
     if crack > 0:                                                            # Producer improvement: the light of something new leaks out
         kg = ease(min(1, (t - T_CRACK) / .6))
-        fr = CART.glow(fr, CRACK_PT[0], CRACK_PT[1], int(70 + 60 * kg), (150, 255, 160), .75 * kg)
+        fr = CART.glow(fr, CRACK_PT[0], CRACK_PT[1], int(S(70 + 60 * kg)), (150, 255, 160), .75 * kg)
         g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
         for i in range(7):
             ang = -2.6 + i * .55 + .05 * math.sin(t * 3 + i)
-            L = (90 + 40 * (i % 3)) * kg
+            L = S(90 + 40 * (i % 3)) * kg
             gd.polygon(((CRACK_PT[0], CRACK_PT[1]), (CRACK_PT[0] + L * math.cos(ang - .05), CRACK_PT[1] + L * math.sin(ang - .05)),
                         (CRACK_PT[0] + L * math.cos(ang + .05), CRACK_PT[1] + L * math.sin(ang + .05))), fill=(190, 255, 190, int(120 * kg)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(3)))).convert('RGB')
     fr = sign(fr, t)
     fr = plaque(fr, ease(min(1, max(0, (t - T('l92.w4') + .15) / .4))), t)
     fr = wall_card(fr, t)
@@ -438,12 +439,12 @@ def frame(t):
         kb = min(1, max(0, (t - T_TEX) / (T_RES - T_TEX - .1)))
         ex = PIC_X + PIC_W * ease(kb)
         g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
-        gd.rectangle((ex - 10, PIC_Y - 6, ex + 10, PIC_Y + PIC_H + 6), fill=(255, 250, 225, 170))
+        gd.rectangle((ex - S(10), PIC_Y - S(6), ex + S(10), PIC_Y + PIC_H + S(6)), fill=(255, 250, 225, 170))
         r = np.random.default_rng(int(t * 24))
         for _ in range(26):                                                   # dust motes blown off to the right
-            dx, dy = r.random() * 90, r.random() * PIC_H
-            gd.ellipse((ex + dx - 2, PIC_Y + dy - 2, ex + dx + 2, PIC_Y + dy + 2), fill=(225, 215, 190, int(220 * (1 - dx / 90))))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(1.5))).convert('RGB')
+            dx, dy = r.random() * S(90), r.random() * PIC_H
+            gd.ellipse((ex + dx - S(2), PIC_Y + dy - S(2), ex + dx + S(2), PIC_Y + dy + S(2)), fill=(225, 215, 190, int(220 * (1 - dx / S(90)))))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(1.5)))).convert('RGB')
     # Navi: hovers by the case, then flushes red on "problem"
     keys = [(T0, .30, .30), (T_TEX, .30, .22), (T_SAME, .28, .25), (T_RESP, .25, .30), (T_PROB, .31, .26), (T_END, .32, .25)]
     red = min(1, max(0, (t - T_CRACK) / .25))
@@ -452,13 +453,13 @@ def frame(t):
     if red > 0:
         x, y = fairy_fx.at(keys, t)
         d = ImageDraw.Draw(fr)
-        d.text((x * W + 20, y * H - 58), '!', font=F(46), fill=(255, 90, 80), stroke_width=4, stroke_fill=(20, 14, 18))
+        d.text((x * W + S(20), y * H - S(58)), '!', font=F(46), fill=(255, 90, 80), stroke_width=Si(4), stroke_fill=(20, 14, 18))
         fr = Image.blend(fr, Image.new('RGB', fr.size, (120, 0, 0)), .10 * red * (.6 + .4 * math.sin(t * 12)))
     zoom = lin(1.0, 1.07, ease(min(1, (t - T0) / (T_TEX - T0))))             # L1: a slow push in on the case
     kz = ease(min(1, max(0, (t - T_CTL + .1) / .45))) * (1 - ease(min(1, max(0, (t - T_SAME + .25) / .45))))
     zoom *= 1 + .6 * kz                                                     # Producer improvement: lean in on the pad
     ax, ay = lin(W * .5, PAD_C[0], kz), lin(H * .42, PAD_C[1], kz)
-    shake = 6 * math.exp(-(t - T_CRACK) * 8) * math.sin(t * 90) if t > T_CRACK else 0   # the crack jolts the shot
+    shake = S(6) * math.exp(-(t - T_CRACK) * 8) * math.sin(t * 90) if t > T_CRACK else 0   # the crack jolts the shot
     if zoom > 1:
         cw, ch = W / zoom, H / zoom; cx0, cy0 = ax - cw / 2 + shake, ay - ch * .5 * (1 + .16 * (1 - kz)) + ch * .08 * (1 - kz)
         cx0 = min(max(cx0, 0), W - cw); cy0 = min(max(cy0, 0), H - ch)

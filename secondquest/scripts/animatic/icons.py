@@ -29,7 +29,7 @@ def wrench_icon(ang, alpha=1.0):
     """A combination wrench (ring end + open end), brushed steel with an ink outline; ang swings it about the ring end."""
     global _WRENCH
     if _WRENCH is None:
-        S = 640; m = Image.new('L', (S, S)); md = ImageDraw.Draw(m)
+        m = Image.new('L', (640, 640)); md = ImageDraw.Draw(m)
         md.polygon([(130, 276), (450, 282), (450, 318), (130, 324)], fill=255)          # tapered handle
         md.ellipse((48, 248, 152, 352), fill=255)                                       # ring end
         md.ellipse((426, 238, 550, 362), fill=255)                                      # open end

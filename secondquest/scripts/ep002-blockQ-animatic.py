@@ -33,7 +33,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
@@ -74,8 +74,8 @@ def pix_to_now(fr, k):
     if k >= 1:
         return fr
     e = ease(max(0, k))
-    old = fr.resize((W // 10, H // 10), Image.BILINEAR).quantize(24).convert('RGB').resize((W, H), Image.NEAREST)
-    a = np.asarray(old).astype(np.float32); a[::4] *= .8
+    old = fr.resize((round(W / U) // 10, round(H / U) // 10), Image.BILINEAR).quantize(24).convert('RGB').resize((W, H), Image.NEAREST)   # 10 design px cells
+    a = np.asarray(old).astype(np.float32); a[(np.arange(H) / U).astype(int) % 4 == 0] *= .8
     return Image.blend(Image.fromarray(a.astype(np.uint8)), fr, e)
 
 
@@ -96,16 +96,16 @@ def forest(t):
     fr = FOREST_NOW.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)                      # drifting mist (block O), lighter on the sunny plate
     for i in range(14):
-        x = (i * 140 + t * 30 * (1 + i % 3)) % (W + 300) - 150; y = H * (.35 + .05 * (i % 5))
-        d.ellipse((x - 160, y - 50, x + 160, y + 50), fill=(250, 240, 220, 55))
-    return Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(18))).convert('RGB')
+        x = (i * S(140) + t * S(30) * (1 + i % 3)) % (W + S(300)) - S(150); y = H * (.35 + .05 * (i % 5))
+        d.ellipse((x - S(160), y - S(50), x + S(160), y + S(50)), fill=(250, 240, 220, 55))
+    return Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(18)))).convert('RGB')
 
 
 # the temple (final #13) with our 3D sword (v2) in the pedestal's slot, composed at plate size
 TEMPLE_NOW = final_plate('temple')
-SLOT = (960, 393)                                                            # the slot on top of the pedestal (plate px)
+SLOT = (P(960), P(393))                                                         # the slot on top of the pedestal (plate px)
 _sw = BN.BL.SWD[12].transpose(Image.FLIP_TOP_BOTTOM)
-SWORD_P = sized(_sw.crop(_sw.getchannel('A').getbbox()), 260)               # point down; 78% shows above the stone (hilt below the STILL WAITING tag)
+SWORD_P = sized(_sw.crop(_sw.getchannel('A').getbbox()), P(260))               # point down; 78% shows above the stone (hilt below the STILL WAITING tag)
 CAM_SWORD = ((1.25, .5, .40), (1.33, .5, .376))                                # top of the plate in view: the hilt stays clear of the tag
 
 
@@ -114,8 +114,8 @@ def temple_now(sword=True):
     if sword:
         vis = int(SWORD_P.height * .78)
         s2 = SWORD_P.crop((0, 0, SWORD_P.width, vis))
-        im = CART.glow(im, SLOT[0], SLOT[1] - 120, 200, (200, 230, 255), .35)
-        im = comp(im, s2, SLOT[0] - SWORD_P.width / 2, SLOT[1] + 3 - vis)
+        im = CART.glow(im, SLOT[0], SLOT[1] - P(120), P(200), (200, 230, 255), .35)
+        im = comp(im, s2, SLOT[0] - SWORD_P.width / 2, SLOT[1] + P(3) - vis)
     return im
 
 
@@ -124,18 +124,18 @@ OCA = [o.crop((150, 250, 780, 860)) for o in OCA]
 
 
 def ocarina(t):
-    fr = forest(t).filter(ImageFilter.GaussianBlur(9))
+    fr = forest(t).filter(ImageFilter.GaussianBlur(S(9)))
     fr = Image.blend(fr, Image.new('RGB', (W, H), (16, 20, 40)), .35)
-    fr = CART.glow(fr, W * .5, H * .48, 330, (150, 190, 255), .45)
+    fr = CART.glow(fr, W * .5, H * .48, S(330), (150, 190, 255), .45)
     o = OCA[int((t - T_OCA) * 10) % len(OCA)]
     o = sized(o, H * .62)
-    fr = comp(fr, o, W * .5 - o.width / 2, H * .50 - o.height / 2 + 8 * math.sin(t * 2.2))
+    fr = comp(fr, o, W * .5 - o.width / 2, H * .50 - o.height / 2 + S(8) * math.sin(t * 2.2))
     d = ImageDraw.Draw(fr)
     for i in range(5):                                                          # notes drifting up
         k = ((t - T_OCA) * .55 + i * .2) % 1
-        x = W * (.66 + .05 * math.sin(i * 2.1 + k * 4)) + i * 22; y = H * (.62 - .45 * k)
+        x = W * (.66 + .05 * math.sin(i * 2.1 + k * 4)) + i * S(22); y = H * (.62 - .45 * k)
         c = (210, 230, 255) if i % 2 else (255, 236, 150)
-        d.ellipse((x - 9, y - 6, x + 9, y + 6), fill=c); d.line((x + 8, y, x + 8, y - 34), fill=c, width=4)
+        d.ellipse((x - S(9), y - S(6), x + S(9), y + S(6)), fill=c); d.line((x + S(8), y, x + S(8), y - S(34)), fill=c, width=Si(4))
     return fr
 
 
@@ -150,7 +150,7 @@ def sword(t):
     fr = TEMPLE_SW.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
     k = .5 + .5 * math.sin((t - T_SWD) * 3)                                      # the sword waits, a slow pulse
     sx, sy = to_frame(SLOT[0], SLOT[1] - SWORD_P.height * .55, box)
-    return CART.glow(fr, sx, sy, 150, (200, 230, 255), .2 + .2 * k)
+    return CART.glow(fr, sx, sy, S(150), (200, 230, 255), .2 + .2 * k)
 
 
 def to_frame(px, py, box):
@@ -164,26 +164,26 @@ TRI = TRI.crop(TRI.getchannel('A').getbbox())
 
 def triforce(t):
     fr = Image.new('RGB', (W, H), (14, 16, 30))
-    fr = CART.glow(fr, W * .5, H * .40, 520, (255, 220, 120), .30)
+    fr = CART.glow(fr, W * .5, H * .40, S(520), (255, 220, 120), .30)
     pulse = 0
     for tw in T_WORDS:                                                          # a pulse on each word
         dt = t - tw
         if -.05 < dt < .6:
             pulse = max(pulse, math.sin(min(1, (dt + .05) / .6) * math.pi))
     tr = sized(TRI, H * (.50 + .03 * pulse))
-    fr = CART.glow(fr, W * .5, H * .38, 300, (255, 236, 160), .25 + .45 * pulse)
+    fr = CART.glow(fr, W * .5, H * .38, S(300), (255, 236, 160), .25 + .45 * pulse)
     fr = comp(fr, tr, W * .5 - tr.width / 2, H * .38 - tr.height / 2)
     d = ImageDraw.Draw(fr)
     words = ('WISDOM', 'POWER', 'COURAGE')
     f = F(40)
     widths = [d.textlength(w, font=f) for w in words]
-    gap = 70; x = W / 2 - (sum(widths) + gap * 2) / 2
+    gap = S(70); x = W / 2 - (sum(widths) + gap * 2) / 2
     for w, tw, wd in zip(words, T_WORDS, widths):
         ka = min(1, max(0, (t - tw + .05) / .25))
         if ka > 0:
-            y = H * .68 + 16 * (1 - ease(ka))
+            y = H * .68 + S(16) * (1 - ease(ka))
             col = tuple(int(lin(60, c, ka)) for c in (255, 226, 140))
-            d.text((x, y), w, font=f, fill=col, stroke_width=4, stroke_fill=INK)
+            d.text((x, y), w, font=f, fill=col, stroke_width=Si(4), stroke_fill=INK)
         x += wd + gap
     return fr
 
@@ -226,11 +226,11 @@ def _ghost():
 
 def room(t, pic):
     base = BP.room_plate(t, pic)
-    rgb = CART.glow(base.convert('RGB'), BC.SCR_C[0] * PW, BC.SCR_C[1] * PH, 380, (170, 210, 255), .3)
+    rgb = CART.glow(base.convert('RGB'), BC.SCR_C[0] * PW, BC.SCR_C[1] * PH, P(380), (170, 210, 255), .3)
     base = rgb.convert('RGBA')
     qx, qf = BP.QSPEC[0] * PW, BP.QSPEC[1] * PH
-    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((qx - QIMG.width * .45, qf - 24, qx + QIMG.width * .45, qf + 14), fill=(0, 0, 0, 90))
-    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((qx - QIMG.width * .45, qf - P(24), qx + QIMG.width * .45, qf + P(14)), fill=(0, 0, 0, 90))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(10))))
     base.alpha_composite(QIMG, (int(qx - QIMG.width / 2), int(qf - QIMG.height)))
     kg = min(1, max(0, (t - T_HOLD) / .5))
     if kg > 0:                                                                  # the kid he was, closer to the TV (as kids sit), same pad
@@ -262,25 +262,25 @@ def person(t, last_game):
 def perfect(t):
     k = ease(min(1, (t - T_GAME) / .8))
     tn = temple_now(True).crop(tuple(int(v) for v in cam_box((CAM_SWORD[0], CAM_SWORD[0]), 0)))
-    cs = lin(380, 520, k)
+    cs = S(lin(380, 520, k))
     cart = BN.CARTRIDGE.resize((int(cs), int(cs * BN.CARTRIDGE.height / BN.CARTRIDGE.width)), Image.LANCZOS)
     cx, cy = W * .5, H * .42
     L = BN.LABEL
     lx0, ly0 = cx - cart.width / 2 + cart.width * L[0], cy - cart.height / 2 + cart.height * L[1]
     lw, lh = cart.width * (L[2] - L[0]), cart.height * (L[3] - L[1])
     fr = Image.new('RGB', (W, H), (16, 14, 22))
-    fr = CART.glow(fr, cx, cy, 420, (255, 215, 120), .25 + .15 * math.sin((t - T_GAME) * 4))
+    fr = CART.glow(fr, cx, cy, S(420), (255, 215, 120), .25 + .15 * math.sin((t - T_GAME) * 4))
     fr = comp(fr, cart, cx - cart.width / 2, cy - cart.height / 2)
     fr.paste(tn.resize((max(1, int(lw)), max(1, int(lh))), Image.BILINEAR), (int(lx0), int(ly0)))
     ks = min(1, max(0, (t - T_PERF + .1) / .2))
     if ks > 0:                                                                  # ALMOST TOO PERFECT, a little crooked
-        st = Image.new('RGBA', (680, 96)); sd = ImageDraw.Draw(st)
-        sd.rounded_rectangle((4, 4, 675, 91), 12, outline=(232, 196, 90, 255), width=7, fill=(20, 18, 28, 220))
-        s = 'ALMOST TOO PERFECT'; sd.text((340 - sd.textlength(s, font=F(44)) / 2, 20), s, font=F(44), fill=(255, 226, 140, 255))
+        st = Image.new('RGBA', (Si(680), Si(96))); sd = ImageDraw.Draw(st)
+        sd.rounded_rectangle((S(4), S(4), S(675), S(91)), S(12), outline=(232, 196, 90, 255), width=Si(7), fill=(20, 18, 28, 220))
+        s = 'ALMOST TOO PERFECT'; sd.text((S(340) - sd.textlength(s, font=F(44)) / 2, S(20)), s, font=F(44), fill=(255, 226, 140, 255))
         st = st.rotate(-6, resample=Image.BICUBIC, expand=True)
         sc = 1.4 - .5 * ease(ks)
         st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
-        fr = comp(fr, fade(st, ks), cx - st.width / 2, cy + 175 - st.height / 2)
+        fr = comp(fr, fade(st, ks), cx - st.width / 2, cy + S(175) - st.height / 2)
     return fr
 
 
@@ -320,17 +320,17 @@ def strip(fr, y0, kind, k_in, k_arrow, k_lit):
     if k_arrow > 0:                                                             # the arrow from one to the other
         col = (255, 214, 40) if k_lit > 0 else (240, 240, 240)
         xa, xb, y = cw * .34, cw * .34 + (cw * .32) * ease(k_arrow), STRIP_H * .55
-        d.line((xa, y, xb, y), fill=INK, width=16); d.line((xa, y, xb, y), fill=col, width=9)
+        d.line((xa, y, xb, y), fill=INK, width=Si(16)); d.line((xa, y, xb, y), fill=col, width=Si(9))
         if k_arrow >= 1:
-            d.polygon([(xb + 34, y), (xb - 4, y - 26), (xb - 4, y + 26)], fill=col, outline=INK, width=3)
+            d.polygon([(xb + S(34), y), (xb - S(4), y - S(26)), (xb - S(4), y + S(26))], fill=col, outline=INK, width=Si(3))
     for lab, cx in ((la, cw * .22), (lb, cw * .78)):
-        d.text((cx - d.textlength(lab, font=F(26)) / 2, 10), lab, font=F(26), fill=(255, 255, 255), stroke_width=4, stroke_fill=INK)
-    d.rectangle((0, 0, cw - 1, STRIP_H - 1), outline=INK, width=5)
+        d.text((cx - d.textlength(lab, font=F(26)) / 2, S(10)), lab, font=F(26), fill=(255, 255, 255), stroke_width=Si(4), stroke_fill=INK)
+    d.rectangle((0, 0, cw - 1, STRIP_H - 1), outline=INK, width=Si(5))
     fr = comp(fr, card.convert('RGBA'), x0 + off, y0)
     if k_lit > 0:
-        fr = CART.glow(fr, x0 + off + cw * .5, y0 + STRIP_H * .55, 260, (255, 220, 120), .35 * k_lit)
+        fr = CART.glow(fr, x0 + off + cw * .5, y0 + STRIP_H * .55, S(260), (255, 220, 120), .35 * k_lit)
     d = ImageDraw.Draw(fr)                                                      # the strip's name, left
-    d.text((W * .085 + off - d.textlength(kind, font=F(34)) / 2, y0 + STRIP_H * .42), kind, font=F(34), fill=(255, 236, 170), stroke_width=5, stroke_fill=INK)
+    d.text((W * .085 + off - d.textlength(kind, font=F(34)) / 2, y0 + STRIP_H * .42), kind, font=F(34), fill=(255, 236, 170), stroke_width=Si(5), stroke_fill=INK)
     return fr
 
 
@@ -341,7 +341,7 @@ def mirror(t):
     fr = strip(fr, BOT_Y, 'LIFE', min(1, max(0, (t - T_PEOPLE) / .5)), min(1, max(0, (t - T_PEOPLE - .5) / 1.2)), k_lit)
     if k_lit > 0:                                                               # the same story: "="
         d = ImageDraw.Draw(fr); s = '='; f = F(int(90 * (1.4 - .4 * ease(k_lit))))
-        d.text((W * .085 - d.textlength(s, font=f) / 2, (TOP_Y + STRIP_H + BOT_Y) / 2 - f.size * .62), s, font=f, fill=(255, 214, 40), stroke_width=6, stroke_fill=INK)
+        d.text((W * .085 - d.textlength(s, font=f) / 2, (TOP_Y + STRIP_H + BOT_Y) / 2 - f.size * .62), s, font=f, fill=(255, 214, 40), stroke_width=Si(6), stroke_fill=INK)
     return fr
 
 
