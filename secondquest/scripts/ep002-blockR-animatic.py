@@ -30,7 +30,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -87,7 +87,7 @@ YOUNG_MEM = memory(YOUNG_REAL)
 
 def young_px(t, phase=0.0, walking=True):
     """The young hero's walk in 1998 pixels: #3 and #9 alternate in time with the bob."""
-    return YOUNG_PX_B if walking and int((t * 7 + phase) / math.pi) % 2 else YOUNG_PX
+    return YOUNG_PX_B if walking and int((t * STEP_RATE + phase) / math.pi) % 2 else YOUNG_PX
 ICON_CART = sized(BN.CARTRIDGE, 46)                                          # ruler milestones: the cartridge (1998), the Switch 2 (2026)
 
 
@@ -130,7 +130,7 @@ def field_view(t, z0=1.0, z1=1.25, t0=None, t1=None):
 
 def walker(fr, im, x, h, t, phase=0.0, walking=True):
     q = sized(im, h) if im.height != int(h) else im
-    bob = 5 * abs(math.sin(t * 7 + phase)) if walking else 0
+    bob = 5 * abs(math.sin(t * STEP_RATE + phase)) if walking else 0
     sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, FEET - 8, x + q.width * .4, FEET + 8), fill=(0, 0, 0, 70))
     fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
     return comp(fr, q, x - q.width / 2, FEET - q.height - bob)
@@ -150,7 +150,7 @@ def split(t):
     right = G.new_look(full).crop((W // 4, 0, W // 4 + W // 2, H))
     fr = Image.new('RGB', (W, H)); fr.paste(left, (0, 0)); fr.paste(right, (W // 2, 0))
     fr = walker(fr, young_px(t), W * .25, YH, t)
-    fr = walker(fr, walk_adult(t, rate=7, phase=1.3), W * .75, AH, t, phase=1.3)      # he walks: a step per bob
+    fr = walker(fr, walk_adult(t), W * .75, AH, t)      # in step with his younger self (Producer, 2026-10-06)
     d = ImageDraw.Draw(fr); d.line((W / 2, 0, W / 2, H), fill=(255, 255, 255), width=4)
     ky0 = 1 - min(1, max(0, (t - T_1998) / .3))                               # the year tags hand over to the ruler
     fr = year_tag(fr, W * .25, '1998', (232, 196, 90), ky0)
@@ -210,7 +210,7 @@ def one_road(t):
     if km > 0:                                                                 # a soft light around the memory, so it reads on the grass
         fr = CART.glow(fr, YX, FEET - YH * .5, int(YH * .7), (190, 220, 255), .45 * km)
     fr = walker(fr, young, YX, YH, t, walking=walking)
-    fr = walker(fr, walk_adult(t, rate=7, phase=1.3) if walking else ADULT, AX, AH, t, phase=1.3, walking=walking)
+    fr = walker(fr, walk_adult(t) if walking else ADULT, AX, AH, t, walking=walking)
     d = ImageDraw.Draw(fr)
     ks = min(1, max(0, (t - T_SAME - .1) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if ks > 0:                                                                 # SAME ROAD, on the road
@@ -275,7 +275,7 @@ def render(t):
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v7 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v8 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -285,7 +285,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -295,14 +295,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v7_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v8_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v7_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v8_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

@@ -29,7 +29,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, walk_adult  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, walk_adult, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 
@@ -156,7 +156,7 @@ KID_MEM = memory(sized(KID, KID_H))
 
 def person(fr, im, x, feet, h, t, walking=False, phase=0.0, alpha=1.0):
     q = im if im.height == int(h) else sized(im, h)
-    bob = 5 * abs(math.sin(t * 7 + phase)) if walking else 0
+    bob = 5 * abs(math.sin(t * STEP_RATE + phase)) if walking else 0
     sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - q.width * .4, feet - 8, x + q.width * .4, feet + 8), fill=(0, 0, 0, int(70 * alpha)))
     fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
     return comp(fr, fade(q, alpha) if alpha < 1 else q, x - q.width / 2, feet - q.height - bob)
@@ -203,7 +203,7 @@ def road(t):
     ax = lin(W * 1.15, AD_X, ka) - W * .08 * ks
     ah = AD_H * (1 - .14 * ks); af = AD_FEET - H * .07 * ks
     walking = ka < 1 or 0 < ks < 1
-    fr = person(fr, walk_adult(t, rate=7, phase=1.3) if walking else ADULT, ax, af, ah, t, walking=walking, phase=1.3)   # a step per bob
+    fr = person(fr, walk_adult(t, phase=1.3) if walking else ADULT, ax, af, ah, t, walking=walking, phase=1.3)   # a step per bob
     if T_BACK - .1 <= t < T_BACK + 1.0:                                        # REWIND flickers out: no need to go back
         kr = (t - T_BACK + .1) / 1.1
         a = (1 - kr) * (1 if int(t * 12) % 2 else .5)
@@ -247,7 +247,7 @@ def render(t):
             (T_AGAIN + 1.6, .56, .36), (T_GREW, .50, .32), (T_END, .52, .30)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v6 · PLANNING ONLY')
+    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -257,7 +257,7 @@ STILLS = (('t1', T_REB + .5), ('t1b', T_ENOUGH + .6), ('t2', T_MEET + .4), ('t3'
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockT_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -267,14 +267,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockT_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockT_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockT_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockT_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

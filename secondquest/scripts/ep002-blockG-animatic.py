@@ -14,7 +14,7 @@ All in Hyrule, so the in-game HUD stays on (hearts carry over from block F: 2.5)
                                                         camera; a C-camera icon wobbles.
   G6  "Fix it... and the game becomes easier to inhabit."  A steel wrench taps the camera icon, a green check badge pops; the camera settles smoothly behind Quest.
   G7  "Which is good. Probably."                         The camera's small check jumps off and lands big... then tilts into a question mark.
-Final art (v6): the field is final plate #11 (`final_plate('field')`); young Quest walking away is #3 alternating with
+Final art (v7): the field is final plate #11 (`final_plate('field')`); young Quest walking away is #3 alternating with
 #3 mirrored (#9, the opposite step); the silent hero facing us is young Quest front, smiling (#3b). Nothing MISSING left.
 Sounds: Bram only. Framing QC before sending.
 """
@@ -27,7 +27,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, final_plate, cam_box, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, final_plate, cam_box, subtitle, tag, F, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 from icons import wrench_icon, camera_icon  # noqa: shared HUD-style icons (the camera repeats across the episode)
@@ -53,7 +53,7 @@ HERO_FRONT = final('quest_young_front')                                 # final 
 
 def young(t, walking=True):
     """Young Quest from behind; walking alternates the two steps in time with the 4*sin(t*9) bob."""
-    return WALK[int(t * 9 / math.pi) % 2] if walking else YOUNG
+    return WALK[int(t * STEP_RATE / math.pi) % 2] if walking else YOUNG
 
 
 def comp(fr, im, x, y):
@@ -204,7 +204,7 @@ def frame_g57(t):
         k = ease(min(1, (t - T_FIX) / 1.0))
         base = crop(FIELD, (1.25, .5, .6))
         q = sized(young(t), hero_h)
-        fr = comp(new_look(base), q, W * .5 - q.width / 2, H * .93 - hero_h + 4 * math.sin(t * 9))
+        fr = comp(new_look(base), q, W * .5 - q.width / 2, H * .93 - hero_h + 4 * abs(math.sin(t * STEP_RATE)))
         cam_icon_ang = 0
     # the camera icon (bottom-right of the HUD buttons)
     g = camera_icon(rec=t >= T_FIX and int(t * 2) % 2 == 0)              # the REC light blinks once the camera works
@@ -254,7 +254,7 @@ def render(t):
         fr, lab = frame_g57(t)
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v6 · PLANNING ONLY')
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -263,7 +263,7 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -273,14 +273,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockG_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockG_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockG_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockG_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

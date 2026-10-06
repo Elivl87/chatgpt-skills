@@ -20,7 +20,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, cam_box, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, cam_box, subtitle, tag, F, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 
@@ -72,7 +72,10 @@ def k_at(t, ti, dur=.6):
 
 
 def field_frame(t):
-    box = cam_box(((1.08, .5, .56), (1.16, .5, .56)), (t - T0) / (T_END - T0))
+    z = 1.08 * (1.16 / 1.08) ** ease(min(1, max(0, (t - T0) / (T_END - T0))))   # as before: the slow push
+    if t > BARS[2][1]:                                                  # he walks: the road ahead keeps coming (no treadmill)
+        z *= 1 + .035 * min(1, (t - BARS[2][1]) / (T_END - BARS[2][1])) ** 1.3
+    box = cam_box(((z, .5, .56), (z, .5, .56)), 0)
     smooth = FIELD.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
     kp, kl = k_at(t, BARS[0][1]), k_at(t, BARS[1][1])
     blocky = smooth.resize((56, 32), Image.BILINEAR).resize((W, H), Image.NEAREST)          # the "old", fewer-polygon look
@@ -123,8 +126,8 @@ def sound_fx(fr, t, k):
 
 def hero(fr, t):
     ka = k_at(t, BARS[2][1])
-    bob = 5 * abs(math.sin(t * 9)) * ka                                # stiff until "Better animation"
-    im = HEROES['quest_young_back_b' if ka > .5 and int(t * 9 / math.pi) % 2 else 'quest_young_back']   # then he walks: #3 / #3 mirrored
+    bob = 5 * abs(math.sin(t * STEP_RATE)) * ka                                # stiff until "Better animation"
+    im = HEROES['quest_young_back_b' if ka > .5 and int(t * STEP_RATE / math.pi) % 2 else 'quest_young_back']   # then he walks: #3 / #3 mirrored
     return comp(fr, im, W * .5 - im.width / 2, H * .93 - im.height - bob)
 
 
@@ -200,7 +203,7 @@ def meter_panel(fr, t):
             if v > 0:
                 d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(110, 220, 140, 255))
                 d.text((bx1 + 12, y + 18), '+', font=F(24), fill=(110, 220, 140, 255))
-    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v8): smaller and lower right, clear of the castle
+    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v9): smaller and lower right, clear of the castle
     x = W * .71 + (pan.width + 80) * (1 - k_in)
     return comp(fr, pan, x, H * .425)                                   # under the castle's line, above the subtitles
 
@@ -249,7 +252,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v8 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v9 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -259,7 +262,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -269,14 +272,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v8_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v9_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v8_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v9_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

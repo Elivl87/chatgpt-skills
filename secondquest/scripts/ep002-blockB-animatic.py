@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EP002 animatic · block B (planning only): from "An orchestra." to the cut into Act 1 (l03 rest -> l10, + silence).
 
-  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v11.mp4
+  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v12.mp4
 
 Scene Book v2, sequences 02-04:
   B1  "An orchestra. Voices. Modern controls."  living room from behind Quest, facing the TV; Navi comes back and circles
@@ -23,7 +23,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB, walk_adult  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB, walk_adult, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 from icons import camera_icon  # noqa: the episode's game-camera icon (repeats wherever the script says camera)
@@ -139,6 +139,25 @@ FIELD = plate(('final', 'field')).convert('RGBA')
 FIELD_RGB = FIELD.convert('RGB')
 CAM_B4 = ((1.18, .5, .64), (1.3, .5, .62))
 HERO = dict(art='quest_adult_back', x=.5, y=.97, h=.46)
+# B6 (Producer, 2026-10-06: he must walk along the road, not straight up it, and not so fast). The road's centre line
+# measured on plate #11 (x, feet y as plate fractions), bottom to the start of its bend; his size follows the plate's
+# perspective (the fence posts put the ground's vanishing line at y .68), and he walks at a calm pace whose stride
+# matches the ground he covers (0.7 m a step, 1.85 steps/s, his height 1.8 m), all the way to the end of the block.
+ROAD = [(.500, .970), (.511, .905), (.521, .845), (.529, .785), (.533, .750), (.536, .730)]
+ROAD_VY, WALK_MPS = .68, .7 * STEP_RATE / math.pi
+
+
+def road_walker(t):
+    """Feet (x, y) and height (plate fractions) of Quest walking down the road, t seconds after he sets off."""
+    ramp = .6                                                           # he eases into the walk over the first step
+    dist = WALK_MPS * (t * t / (2 * ramp) if t < ramp else t - ramp / 2)
+    # metres from the camera: depth = 1.8 m * focal / height, height = .46 at y .97 shrinking linearly to the vanishing line
+    z0 = 1.8 * 1.07 / HERO['h']
+    h = 1.8 * 1.07 / (z0 + dist)
+    y = ROAD_VY + (HERO['y'] - ROAD_VY) * h / HERO['h']
+    ys = [p[1] for p in ROAD][::-1]; xs = [p[0] for p in ROAD][::-1]
+    x = float(np.interp(y, ys, xs))
+    return x, y, h
 
 
 def field_frame(t):
@@ -152,12 +171,11 @@ def field_frame(t):
     if t < T_GO:
         place(lay, HERO)
     else:
-        kk = ease((t - T_GO) / (T_WHY + .5 - T_GO))
-        walk = dict(im=walk_adult(t, rate=9)) if kk < .995 else {}         # he walks (a step per bob, the shield swinging)
-        place(lay, dict(HERO, x=lin(.5, .555, kk), y=lin(.97, .72, kk) + .004 * math.sin(t * 9) * (1 - kk), h=lin(.46, .1, kk), **walk))   # down the road
+        x, y, h = road_walker(t - T_GO)                                    # he walks down the road (a step per bob, the shield swinging)
+        place(lay, dict(HERO, x=x, y=y - .008 * abs(math.sin(t * STEP_RATE)) * h / HERO['h'], h=h, im=walk_adult(t)))
     fr, box = frame_plate(lay.convert('RGB'), cam, k)
     # Navi beside him, then ahead down the path
-    keys = [(T_FIELD, .6, .48), (T_YOU, .57, .46), (T_GO, .57, .46), (T_GO + 1.2, .54, .4), (T_WHY + .6, .51, .3)]
+    keys = [(T_FIELD, .6, .48), (T_YOU, .57, .46), (T_GO, .57, .46), (T_GO + 1.2, .55, .5), (T_WHY + .6, .545, .56), (T_END, .54, .62)]   # ahead of him, down the road
     s = .07 if t < T_GO else lin(.07, .035, min(1, (t - T_GO) / (T_WHY + .6 - T_GO)))
     fr = fairy_fx.draw(fr, keys, t, size=s)
     if t >= T_WHY + .3:                                                   # dim the field; SecondQuest wordmark on "why?" (as EP001)
@@ -220,7 +238,7 @@ def render(t):
         keys = [(T0, -.05, .5), (T0 + .7, qx / W - .12, qy / H - .05), (T('l03.w5'), qx / W + .1, qy / H - .12),
                 (T('l03.w6'), qx / W - .08, qy / H - .2), (T_CAM, tx / W - .05, ty / H)]
         fr = fairy_fx.draw(fr, keys, t, size=.065)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v11 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v12 · PLANNING ONLY')
     elif t < T_REL:                                                       # B2: "A new camera." fly into the screen
         k = ease((t - T_CAM) / (T_REL - T_CAM))
         z = 1.4 * (7.5 / 1.4) ** k
@@ -229,25 +247,25 @@ def render(t):
         tx, ty = to_screen(*TV, box)                                      # no camera icon here (Producer, 2026-10-05): Navi, already at
         fr = fairy_fx.draw(fr, [(T_CAM, tx / W - .05, ty / H), (T_REL, tx / W, ty / H)], t, size=.065)   # the TV, leads us into the screen
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 255, 255)), max(0, (k - .55) / .45))
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · flight into the screen · BLOCK B v11 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · flight into the screen · BLOCK B v12 · PLANNING ONLY')
     elif t < T_FIELD:                                                     # B3
         fr = relic_frame(t)
         if t - T_REL < .25:
             fr = Image.blend(fr, Image.new('RGB', fr.size, 'white'), 1 - (t - T_REL) / .25)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v11 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v12 · PLANNING ONLY')
     else:                                                                 # B4-B6
         fr = field_frame(t)
         a_hud = min(1, (t - T_FIELD) / .4) * (1 - min(1, max(0, (t - T_WHY - .3) / .5)))   # in with Hyrule, out before the wordmark
         fr = hud.draw(fr, alpha=a_hud, t=t)
         lab = 'B4 one thing' if t < T_YOU else ('B5 "You." HOLD' if t < T_GO else 'B6 Navi leads, Quest follows · "So, why?"')
-        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v11 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v12 · PLANNING ONLY')
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v11.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v12.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -258,7 +276,7 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('b1', T('l03.w6') + .3), ('b2', T_CAM + .5), ('b3_ocarina', T_OC + .5), ('b3_sword', T_SW + .5), ('b3_triforce', T_TF + 1.1),
                     ('b4', T_FIELD + 1.5), ('b6', T_GO + 2.0), ('title', T_END - .5)):
-        render(t).save(ROOT / f'docs/ep002/blockB_v11_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockB_v12_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 

@@ -278,6 +278,9 @@ def final(key, flip=False, sway=0.0):
 
 
 SHIELD_SWAY = 2.0     # degrees, the strap's swing per step
+# one walking pace for every Quest, young and adult (Producer, 2026-10-06: the walks looked rushed at 2.9 steps/s):
+# a step per bob of |sin(STEP_RATE * t)|, i.e. STEP_RATE / pi = 1.85 steps/s, a calm walk
+STEP_RATE = 5.8
 
 
 def step(im, phase, lift=.075, knee=.66):
@@ -347,7 +350,7 @@ def adult_walk_frame(mirror=False, sway=0.0, gear=True):
     return out.crop(out.getchannel('A').getbbox())
 
 
-def walk_adult(t, rate=7.0, phase=0.0):
+def walk_adult(t, rate=STEP_RATE, phase=0.0):
     """Adult Quest walking (#4b): the drawn stride and its mirror alternate, one step per bob of 5*|sin(rate*t +
     phase)|; the 3D gear stays on his right shoulder and the shield swings with the steps."""
     ph = ((rate * t + phase) / math.pi) % 2 / 2                        # one full cycle = two bobs = two steps
@@ -646,9 +649,14 @@ def _cue_words(key, c):
     return out
 
 
+SUBS = _os.environ.get('SUBS') == '1'                              # burned-in subtitles only on request (SUBS=1)
+
+
 def subtitle(d, t, t_end=None, lift=0, size=44):
     """Review subtitles in the EP001 Shorts caption style (Inter heavy, white, ink outline 13% + ink drop 7%, short
     phrases that pop in). Planning/review only: final renders carry no burned-in subtitles (Producer)."""
+    if not SUBS:                                                     # Producer, 2026-10-06: no subtitles, English or Spanish
+        return
     kc = next(((k, c) for k, c in CUES.items() if c['start'] - 0.1 <= t <= c['end'] + 0.25 and (t_end is None or c['start'] < t_end)), None)
     if not kc:
         return

@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final, step  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final, step, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -197,12 +197,12 @@ def p1(t):
     k_cam = (t - (T0 + 1.6)) / (T_ORIG + 1.2 - (T0 + 1.6))
     box = cam_box((CAM_DOOR, CAM_TABLE), min(1, max(0, k_cam)))
     fr = plate(t, sun=min(1, max(0, (t - T_ORIG) / .6))).crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
-    kw = min(1, max(0, (t - T0 - .7) / 2.0))                                  # he walks in, away from us, smaller
-    if kw > 0 and t < T_ORIG + .4:
-        walker = step(WALKER, ((7 * t) / math.pi) % 2 / 2) if kw < 1 else WALKER   # a step per bob while he walks in
+    kw = min(1, max(0, (t - T0 - .5) / 2.6))                                  # he walks in, away from us, smaller (2.6 s: Producer, 2026-10-06)
+    if kw > 0 and t < T_ORIG + .6:
+        walker = step(WALKER, ((STEP_RATE * t) / math.pi) % 2 / 2) if kw < 1 else WALKER   # a step per bob while he walks in
         hh = lin(H * 1.15, H * .55, ease(kw)); q = sized(walker, hh)
-        x = lin(W * .42, W * .62, ease(kw)) - q.width / 2; y = lin(H * 1.35, H * .97, ease(kw)) - q.height + 6 * abs(math.sin(t * 7))
-        fr = comp(fr, fade(q, 1 - min(1, max(0, (t - T_ORIG) / .4))), x, y)
+        x = lin(W * .42, W * .62, ease(kw)) - q.width / 2; y = lin(H * 1.35, H * .97, ease(kw)) - q.height + 6 * abs(math.sin(t * STEP_RATE))
+        fr = comp(fr, fade(q, 1 - min(1, max(0, (t - T_ORIG - .2) / .4))), x, y)
     if k_open < 1.2:
         fr = door_open(fr, min(1, max(0, k_open))) if k_open < 1 else fr
     return fr, box
@@ -424,7 +424,7 @@ def render(t):
     keys = [(T0, .62, .30), (T_ORIG, .70, .30), (T_WHY, .62, .26), (T_BEC, .30, .30), (T_END, .34, .26)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v4 · PLANNING ONLY')
+    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -434,7 +434,7 @@ STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a',
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -444,14 +444,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockP_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockP_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockP_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockP_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

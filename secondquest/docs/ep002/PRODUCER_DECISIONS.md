@@ -547,3 +547,16 @@
   series' terms (Hyrule Field, Master Sword, "quest"). Report only (scripts are never rewritten): two lines may read a
   little stiff in ES-419, l87 "cambiaría casi nada" (natural: "no cambiaría casi nada") and l49 "Reconstrúyelo demasiado
   literalmente hoy" (natural: "Reconstrúyelo hoy de forma demasiado literal"); the Producer decides.
+- 2026-10-06 · ES-419 lines l87 and l49 stay as written (Producer: "Quedan así").
+- 2026-10-06 · Villain name still open; Claude proposed Varkhul / The Faceless King / Morvane / Grauth / Ashkar / Nocthar.
+- 2026-10-06 · **No subtitles from now on, English or Spanish** (Producer). `lib.subtitle` draws nothing unless `SUBS=1`.
+- 2026-10-06 · Walk audit, fixes 1-5 approved (Producer: "Aplica 1 a 5"):
+  1. B6 (0:21.7): adult Quest walks down the road's centre line measured on plate #11, his size following the plate's
+     perspective (vanishing line y .68 from the fence posts), no longer a straight diagonal shrinking in 4.5 s.
+  2. B6 pace: a calm walk with a stride that matches the ground covered (0.7 m a step); he keeps walking to the end of
+     the block, under the wordmark.
+  3. One pace for every Quest walk: `lib.STEP_RATE = 5.8` (1.85 steps/s, was 2.9 young / 2.2 adult). In R the young and
+     adult Quest now walk in step.
+  4. No treadmill in F-B and H: while he walks the field ahead comes slowly toward the camera (3.5-4 % extra zoom on the
+     background only). Done as a forward drift rather than a sideways slide, because he walks away from the camera.
+  5. P1: the hoodie walk-in takes 2.6 s (was 2.0); his fade starts 0.2 s later so he arrives before fading.
