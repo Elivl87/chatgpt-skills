@@ -25,7 +25,7 @@ Final art (v6): veteran Quest in his tunic #1 (scared #2 when the shadow grabs t
 alternates impatient Pixie #2a / #2b (her normal hoodie: she has not been picked yet); the sword rises from the temple
 pedestal of plate #13 (our own 3D sword v2 in its slot); CHILD | ADULT eras: young Quest #3, adult Quest #4 (shield and
 sword already on his back); I1's rider fading at the castle is block H's #5b. Cards size people by face width (Pixie's
-face = 0.9 x Quest's). Still MISSING: the villain (#8), the hooded shadow stays a drawn stand-in, labelled.
+face = 0.9 x Quest's). The villain is final art #8 (hooded), graded to a shadow with glowing eyes and gem.
 HUD: on in plain Hyrule shots; menus and diagrams hide it (as the game does in its menus). Sounds: Bram only.
 Framing QC before sending.
 """
@@ -323,24 +323,31 @@ def stage_sword(fr, t, k):
 T_REACH = T('l69.w14')                  # "make": the hand reaches for the triangles
 
 
+VILLAIN = final('villain_hooded')                                       # final art #8: the villain, hooded, claw reaching left
+VILLAIN_HAND = (.137, .30)                                              # his open claw (fractions of the cut-out)
+
+
+def _villain_shade():
+    """The villain as a shadow out of the dark: graded deep violet-black, only his eyes and the forehead gem keep
+    their glow (the brightest red/amber pixels)."""
+    a = np.asarray(VILLAIN).astype(np.float32)
+    rgb = a[..., :3]
+    mx = rgb.max(2); mn = rgb.min(2)
+    glow = (rgb[..., 0] > 150) & (mx - mn > 90)                         # the red eyes and the amber gem
+    dark = rgb * .42 + np.array([14, 4, 22], np.float32)
+    out = np.where(glow[..., None], rgb, dark)
+    return Image.fromarray(np.dstack([out, a[..., 3]]).clip(0, 255).astype(np.uint8), 'RGBA')
+
+
+VILLAIN_SHADE = _villain_shade()
+
+
 def villain_shadow(t):
-    """A dark, hooded shadow (inspired, never a replica) rising behind the triangles, red eyes."""
+    """The villain (#8, final art) rising behind the triangles as a shadow, red eyes glowing."""
     kv = ease(min(1, max(0, (t - T_WISH + .2) / .8)))
     if kv <= 0:
         return None, kv
-    g = Image.new('RGBA', (440, 470)); d = ImageDraw.Draw(g)
-    sh = (22, 8, 30, int(235 * kv))
-    d.polygon([(40, 470), (100, 230), (160, 175), (220, 160), (280, 175), (340, 230), (400, 470)], fill=sh)   # cloak, shoulders
-    d.polygon([(150, 190), (165, 80), (220, 30), (275, 80), (290, 190)], fill=sh)                                  # hood
-    d.ellipse((168, 70, 272, 180), fill=sh)
-    glow = Image.new('RGBA', g.size); gd = ImageDraw.Draw(glow)
-    for ex in (196, 244):                                                                                         # red eyes
-        gd.ellipse((ex - 12, 118, ex + 12, 132), fill=(255, 40, 40, int(255 * kv)))
-    g = g.filter(ImageFilter.GaussianBlur(2))
-    ramp = Image.linear_gradient('L').resize(g.size).point(lambda v: 255 if v < 150 else int(255 * (255 - v) / 105))   # rises out of darkness
-    g.putalpha(Image.fromarray(np.minimum(np.asarray(g.getchannel('A')), np.asarray(ramp))))
-    g.alpha_composite(glow.filter(ImageFilter.GaussianBlur(3))); g.alpha_composite(glow)
-    return g, kv
+    return VILLAIN_SHADE, kv
 
 
 def shadow_hand(curl=0.0):
@@ -392,27 +399,29 @@ def sleeve_and_hand(fr, shoulder, wrist, curl):
 def stage_triforce(fr, t, k):
     cx, cy = 830, 235
     shadow, kv = villain_shadow(t)
-    if shadow is not None:
-        shadow = fade(shadow, k)                                                           # leaves with the triangles
-    sx, sy = 1000, 70 + (1 - kv) * 300                                                       # rises from below, behind the triangles
-    if shadow is not None:
-        fr = CART.glow(fr, sx, sy + 200, 300, (120, 30, 140), .35 * kv)
-        fr = comp(fr, shadow, sx - 220, sy)
     s = sized(TRI_ICON, lin(84, 230, k))
     pulse = .5 + .5 * math.sin(t * 6)
+    kr = ease(min(1, max(0, (t - T_REACH + .3) / .8))) * k if shadow is not None else 0
+    if shadow is not None:                                              # he rises behind them out of the dark, then leans in
+        vh = int(480 * (1 + .1 * kr))
+        v = fade(sized(shadow, vh), k * kv)
+        hx, hy = cx + lin(110, 30, kr), cy + 10                         # where his open claw goes: over the triangles on "reach"
+        vx = hx - VILLAIN_HAND[0] * v.width; vy = hy - VILLAIN_HAND[1] * v.height + (1 - kv) * 300
+        fr = CART.glow(fr, vx + v.width * .55, vy + v.height * .35, 320, (120, 30, 140), .35 * kv * k)
+        fr = comp(fr, v, vx, vy)
     fr = CART.glow(fr, cx, cy, int(260 * k) + 1, (255, 214, 120), (.35 + .15 * pulse) * k)
+    if t >= T('l69.w18'):                                               # "decision": caught in his claw, the gold dims
+        kd = ease(min(1, (t - T('l69.w18')) / .35))
+        s = Image.blend(s, Image.new('RGBA', s.size, (90, 30, 60, 0)), .0) if kd <= 0 else s
+        sd = np.asarray(s).astype(np.float32); sd[..., :3] *= 1 - .35 * kd; s = Image.fromarray(sd.astype(np.uint8), 'RGBA')
     fr = comp(fr, fade(s, k), cx - s.width / 2, cy - s.height / 2)
-    if shadow is not None:                                                                  # the arm reaches for them
-        kr = ease(min(1, max(0, (t - T_REACH + .3) / .8))) * k
-        if kr > 0:
-            curl = .6 * ease(min(1, max(0, (t - T('l69.w18')) / .35)))                   # "decision": the claws close on them
-            x0, y0 = sx + 50, sy + 175                                                      # shoulder (the figure stands right of them)
-            wx, wy = lin(x0 - 40, cx + 170, kr), lin(y0 + 10, cy - 15 + 14 * curl, kr)      # wrist; the arm comes in level, claws over the triangles
-            fr = sleeve_and_hand(fr, (x0, y0), (wx, wy), curl)
-    if shadow is not None and kv * k > .05:                             # still no art for the villain (#8): say so
-        d = ImageDraw.Draw(fr); lab = 'MISSING · villain (#8) · drawn stand-in'; f = F(12); tw = d.textlength(lab, font=f)
-        d.rectangle((sx - tw / 2 - 6, 478, sx + tw / 2 + 6, 496), fill=(150, 20, 30))
-        d.text((sx - tw / 2, 480), lab, font=f, fill=(255, 235, 235))
+    if shadow is not None and kr > .4:                                  # his claw comes over them (the hand drawn once more, on top)
+        m = Image.new('L', v.size, 0)                                   # a soft oval around the claw only
+        hcx, hcy = VILLAIN_HAND[0] * v.width, VILLAIN_HAND[1] * v.height
+        ImageDraw.Draw(m).ellipse((hcx - v.width * .16, hcy - v.height * .12, hcx + v.width * .2, hcy + v.height * .12), fill=255)
+        m = m.filter(ImageFilter.GaussianBlur(10))
+        hand = v.copy(); hand.putalpha(Image.fromarray((np.asarray(v.getchannel('A')).astype(np.float32) * np.asarray(m) / 255).astype(np.uint8)))
+        fr = comp(fr, fade(hand, min(1, (kr - .4) / .3)), vx, vy)
     if t >= T_BAD:                                                      # the very bad decision: a red pulse
         r = max(0, 1 - (t - T('l69.w18')) / .6) if t >= T('l69.w18') else .4
         fr = Image.blend(fr, Image.new('RGB', fr.size, (160, 10, 20)), .35 * r)
@@ -547,7 +556,7 @@ def render(t):
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v9 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v10 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -557,7 +566,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v9.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v10.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -567,14 +576,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v9_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v10_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v9_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v10_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

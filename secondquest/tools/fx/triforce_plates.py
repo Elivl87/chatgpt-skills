@@ -5,9 +5,9 @@
 
 Three upright plates + one inverted centre plate, each a gold plate with engraved borders, a patterned band, hatching,
 a character silhouette with its own ink detail, a symbol medallion and a line of invented glyphs:
-  POWER    (top)          the villain           -> placeholder silhouette until the villain art exists
+  POWER    (top)          the villain           -> final art #8 (hooded)
   WISDOM   (bottom left)  Pixie (princess role) -> her thinking pose for now
-  COURAGE  (bottom right) Quest (hero role)     -> his determined pose for now
+  COURAGE  (bottom right) Quest (hero role)     -> final art #1 (Quest in the tunic)
   centre   (inverted)     the royal crest, faithful (Producer), traced from the Producer's shield reference
 Silhouettes come from the characters' cut-outs (alpha + ink lines), so re-running after new art updates them.
 Symbols and glyphs are original designs; the crest is the Producer's faithful one. Labels use Cinzel (SIL OFL, tools/fx/fonts/).
@@ -29,9 +29,9 @@ INK = (28, 17, 8)
 RNG = np.random.default_rng(64)
 
 SIL = {
-    'courage': ROOT / 'docs/art_orders/quest/library_v2/results/06_determined_fist.png',
-    'wisdom': ROOT / 'docs/art_orders/pixie/library/results/05_thinking_chin.png',
-    'power': None,  # villain not generated yet: procedural placeholder
+    'courage': ROOT / 'docs/art_orders/quest/ep002_costume/01_tunic_veteran.png',     # Quest as the hero (final #1, Producer)
+    'wisdom': ROOT / 'docs/art_orders/pixie/library/results/05_thinking_chin.png',     # until Pixie as the princess exists
+    'power': ROOT / 'docs/art_orders/villain/08_villain_hooded_reach.png',            # the villain (final #8)
 }
 
 
@@ -170,6 +170,9 @@ def silhouette(kind, h):
         a = np.asarray(im)
         fig = a[..., 3] > 128
         lum = ndimage.uniform_filter(a[..., :3].mean(2), 3)
+        if kind == 'power':                                     # a dark figure: spread its tones so the engraving keeps detail
+            lo, hi = np.percentile(lum[fig], 3), np.percentile(lum[fig], 97)
+            lum = np.clip((lum - lo) / max(1, hi - lo) * 210 + 30, 0, 255)
         yy, xx = np.mgrid[0:fig.shape[0], 0:fig.shape[1]]
         h1 = ((xx + yy) % 9) < 3                                # 45-degree engraving lines
         h2 = ((xx - yy) % 9) < 3                                # cross-hatch for the darkest tones

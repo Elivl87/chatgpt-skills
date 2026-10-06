@@ -524,3 +524,11 @@
   front on). No new art (#2d-b/#2e-b not generated, nothing spent).
 - Block H night scene stays in adult Quest's room #15 (Producer: "Déjala tal cual").
 - Block U "Maybe": warm light only, no push (Producer: "No sin acercamiento"); U v5 (push) kept on file, U v4 is the cut.
+- Villain (Producer: "Recurrente, solo con capucha, mantén el brief"): #8 generated (Q037, job 3fd10adc, 1.0, balance
+  51.75), spec `docs/characters/VILLAIN_V1_PROMPT_SPEC.md` (recurring; name pending). Block I v10: the drawn hooded
+  shadow and claw are replaced by the art, graded to a shadow with the eyes and gem glowing; he rises behind the
+  triangles, leans in on "reach" so his open claw comes over them, and on "decision" the gold dims under it (the art's
+  hand cannot close, beat adjusted). MISSING label gone.
+- Triforce plates (Producer: "cuando actualices la triforce recuerda colocar a Quest Link y Pixie Zelda"): POWER = the
+  villain (#8), COURAGE = Quest in the tunic (#1). WISDOM = Pixie as the princess needs art (only #17+18 shows her as
+  the princess, from behind, baked into the illustration): quoted Q040.

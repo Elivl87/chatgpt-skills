@@ -649,11 +649,17 @@
       "item": "#8 inspired villain (hooded shadow) - DEFERRED: last, on the Producer's word",
       "model": "gpt_image_2_5",
       "quoted": 1.0,
-      "status": "approved",
+      "status": "spent",
       "quotedAt": "2026-10-05T20:36:19+00:00",
-      "prompt": null,
+      "prompt": "A cartoon villain character of our own design, alone, full body, transparent background. An imposing, towering warlord king of evil: very tall, very broad shoulders, heavy dark armour in charcoal and deep bronze plates with no emblems, a long dark tattered cape, a deep hood raised over his head that casts his face into shadow: inside the dark of the hood only two glowing red eyes and a small glowing amber gem on his forehead (a simple oval, our own design) can be seen, a few strands of fiery red hair escaping from under the hood, dark skin visible on his chin. Pose: three-quarter view seen slightly from below (low angle), leaning forward, his right arm reaching straight out towards the viewer, a dark armoured gauntlet whose fingers end in sharp claws, the hand open as if about to grab something; his left arm hidden under the cape. Menacing but family friendly: no blood, no weapons. 2D cartoon style: bold heavy ink outlines, flat cel shading, a darker palette. No text, no logos, no emblems, no other characters.\n",
       "approvedAt": "2026-10-05T20:36:19+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)"
+      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+      "spentAt": "2026-10-06T04:44:03+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "3fd10adc-f31d-44b7-b7b1-e77a445351df"
+      ],
+      "balanceAfter": 51.75
     },
     {
       "id": "Q038",
@@ -690,6 +696,16 @@
         "6ed31a9c-c277-44dd-995d-dbf517acf15e"
       ],
       "balanceAfter": 52.75
+    },
+    {
+      "id": "Q040",
+      "episode": "EP002",
+      "item": "#2g Pixie as the princess, front (Triforce WISDOM plate; reusable)",
+      "model": "gpt_image_2_5",
+      "quoted": 1.0,
+      "status": "quoted",
+      "quotedAt": "2026-10-06T04:49:11+00:00",
+      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Only the outfit changes: the princess outfit EXACTLY as worn by the young woman in the attached image reference: a long elegant gown in white and soft lilac with simple gold trim and a short lilac cape, no crown emblem. Pose: standing gracefully, hands softly clasped in front of her, a calm, wise, kind smile, looking at the viewer. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n"
     }
   ]
 }
