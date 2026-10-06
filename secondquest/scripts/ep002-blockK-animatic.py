@@ -292,7 +292,7 @@ def render(t):
         if t < T_LOOK + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_LOOK) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v3 · PLANNING ONLY')
+    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 

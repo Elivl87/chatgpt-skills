@@ -220,7 +220,7 @@ def render(t):
         keys = [(T0, -.05, .5), (T0 + .7, qx / W - .12, qy / H - .05), (T('l03.w5'), qx / W + .1, qy / H - .12),
                 (T('l03.w6'), qx / W - .08, qy / H - .2), (T_CAM, tx / W - .05, ty / H)]
         fr = fairy_fx.draw(fr, keys, t, size=.065)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v8 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 QUEST ENTERS OCARINA · B1 orchestra / voices / controls · BLOCK B v9 · PLANNING ONLY')
     elif t < T_REL:                                                       # B2: "A new camera." fly into the screen
         k = ease((t - T_CAM) / (T_REL - T_CAM))
         z = 1.4 * (7.5 / 1.4) ** k
@@ -229,18 +229,18 @@ def render(t):
         tx, ty = to_screen(*TV, box)                                      # no camera icon here (Producer, 2026-10-05): Navi, already at
         fr = fairy_fx.draw(fr, [(T_CAM, tx / W - .05, ty / H), (T_REL, tx / W, ty / H)], t, size=.065)   # the TV, leads us into the screen
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 255, 255)), max(0, (k - .55) / .45))
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · flight into the screen · BLOCK B v8 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 02 · B2 "A new camera." · flight into the screen · BLOCK B v9 · PLANNING ONLY')
     elif t < T_FIELD:                                                     # B3
         fr = relic_frame(t)
         if t - T_REL < .25:
             fr = Image.blend(fr, Image.new('RGB', fr.size, 'white'), 1 - (t - T_REL) / .25)
-        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v8 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, 'SEQ 03 THE THREE ANCHORS · BLOCK B v9 · PLANNING ONLY')
     else:                                                                 # B4-B6
         fr = field_frame(t)
         a_hud = min(1, (t - T_FIELD) / .4) * (1 - min(1, max(0, (t - T_WHY - .3) / .5)))   # in with Hyrule, out before the wordmark
         fr = hud.draw(fr, alpha=a_hud, t=t)
         lab = 'B4 one thing' if t < T_YOU else ('B5 "You." HOLD' if t < T_GO else 'B6 Navi leads, Quest follows · "So, why?"')
-        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v8 · PLANNING ONLY')
+        d = ImageDraw.Draw(fr); tag(d, f'SEQ 04 YOU · {lab} · BLOCK B v9 · PLANNING ONLY')
     d = ImageDraw.Draw(fr)
     subtitle(d, t)
     return fr

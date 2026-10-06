@@ -246,7 +246,7 @@ def push(fr, t):
         return fr
     cx, cy = PED_X, PED_TOP - 60
     w, h = W / z, H / z
-    x0 = min(max(cx - w / 2, 0), W - w); y0 = min(max(cy - h * .55, 0), H - h)
+    x0 = min(max(cx - w / 2, 0), W - w); y0 = min(max(QFEET + 14 - h, 0), H - h)   # his feet stay in frame
     return fr.crop((int(x0), int(y0), int(x0 + w), int(y0 + h))).resize((W, H), Image.BICUBIC)
 
 
@@ -339,7 +339,7 @@ def render(t):
     if t < T_ERAS:                                                          # N7 draws its own two Navis
         fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v8 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v9 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 

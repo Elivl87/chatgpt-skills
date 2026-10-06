@@ -247,7 +247,7 @@ def render(t):
             (T_AGAIN + 1.6, .56, .36), (T_GREW, .50, .32), (T_END, .52, .30)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v4 · PLANNING ONLY')
+    tag(d, f'SEQ 26 YOU BOTH GREW UP · {lab} · BLOCK T v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
