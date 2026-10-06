@@ -34,6 +34,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, adult_walk_frame  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -311,11 +312,9 @@ def n7(t):
         ka = min(1, max(0, (t - tk + .1) / .25))
         if ka <= 0:
             continue
-        g = Image.new('RGBA', (220, 60)); gd = ImageDraw.Draw(g)
-        gd.rounded_rectangle((2, 2, 217, 57), 10, fill=(20, 22, 30, 235), outline=((232, 196, 90) if gold else (200, 80, 90)) + (255,), width=3)
-        ctext(gd, 110, 12, s, 30, ((255, 230, 160) if gold else (255, 190, 190)) + (255,))
+        g = UI.area_title(s, size=36)                                     # each era's title card (approved style)
         sc = 1.25 - .25 * ease(ka)
-        g = g.resize((int(220 * sc), int(60 * sc)), Image.LANCZOS)
+        g = g.resize((int(g.width * sc), int(g.height * sc)), Image.LANCZOS)
         fr = comp(fr, fade(g, ka), cx - g.width / 2, H * .12)
     return fr, 'N7 two distinct eras'
 
@@ -335,7 +334,7 @@ def render(t):
     if t < T_ERAS:                                                          # N7 draws its own two Navis
         fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v10 · PLANNING ONLY')
+    tag(d, f'SEQ 20 TIME MATTERED · {lab} · BLOCK N v11 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -345,7 +344,7 @@ STILLS = (('n1', T('l102.w4') + .2), ('n1b', T_NOT - .1), ('n2', T_NOT + .6), ('
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v10.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockN_animatic_v11.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -355,14 +354,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockN_v10_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockN_v11_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockN_v10_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockN_v11_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

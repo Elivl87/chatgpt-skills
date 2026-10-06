@@ -30,6 +30,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, breeze  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -111,7 +112,7 @@ OLD_TXT = ('MAKE THE KNOWN FEEL', 'LIKE DISCOVERY AGAIN')
 def frame_k13(t):
     fr = BI.MENU_BG.copy()
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((W * .18, H * .06, W * .93, H * .74), 18, fill=(10, 14, 48, 215), outline=(235, 235, 250, 255), width=3)
+    g.alpha_composite(UI.sq_box(int(W * .75), int(H * .68), r=18), (int(W * .18) - 8, int(H * .06) - 8))   # our game text box (family A)
     ctext(d, cxL, H * .09, 'VETERAN PLAYER', 26, GOLD + (255,))
     ctext(d, cxR, H * .09, 'NEW PLAYER', 26, BLUE + (255,))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
@@ -140,8 +141,9 @@ def frame_k13(t):
             fr = comp(fr, mini_screen(scr, min(1, (t - T_NEW) / .3), lit_new), cxR - SCR_W / 2 - 6, SCR_Y)
             d = ImageDraw.Draw(fr)
             yr = '1998' if km < .5 else '2026'
-            d.rounded_rectangle((cxR + SCR_W / 2 - 80, SCR_Y + 12, cxR + SCR_W / 2 - 10, SCR_Y + 40), 6, fill=(20, 22, 30), outline=(232, 196, 90) if km < .5 else (120, 190, 255), width=2)
-            ctext(d, cxR + SCR_W / 2 - 45, SCR_Y + 15, yr, 18, (255, 230, 160) if km < .5 else (190, 225, 255))
+            g = UI.era_tag(yr, retro=yr == '1998', size=18)                # the year chip: 1998 in square pixels
+            fr = fr.convert('RGBA'); fr.alpha_composite(g, (int(cxR + SCR_W / 2 - 10 - g.width + 8), int(SCR_Y + 4))); fr = fr.convert('RGB')
+            d = ImageDraw.Draw(fr)
         # VETERAN: the known, fogged over, then a gap on something new
         if t >= T_OLD:
             scr = NEW_SMALL.copy().convert('RGBA')
@@ -292,7 +294,7 @@ def render(t):
         if t < T_LOOK + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_LOOK) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v5 · PLANNING ONLY')
+    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -301,7 +303,7 @@ STILLS = (('k1', T_JOBS + .6), ('k2', T('l80.w9') + .4), ('k3', T('l83.w4') + .3
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockK_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -311,14 +313,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockK_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockK_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockK_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockK_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

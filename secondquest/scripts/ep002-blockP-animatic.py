@@ -34,6 +34,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final, step, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -313,7 +314,7 @@ def why(t):
         fr = comp(fr, fade(card, kk), cx - card.width / 2, H * .42 - card.height / 2)
     kw = min(1, max(0, (t - T_WHYW) / .25))                                   # the channel's big WHY?
     if kw > 0:
-        s = 'WHY?'; f = F(int(150 * (1.3 - .3 * ease(kw))))
+        s = 'WHY?'; f = UI.anton(int(150 * (1.3 - .3 * ease(kw))))   # EP001 punch type
         d = ImageDraw.Draw(fr)
         d.text((W / 2 - d.textlength(s, font=f) / 2, H * .03), s, font=f, fill=(255, 214, 40), stroke_width=9, stroke_fill=INK)
     return fr
@@ -424,7 +425,7 @@ def render(t):
     keys = [(T0, .62, .30), (T_ORIG, .70, .30), (T_WHY, .62, .26), (T_BEC, .30, .30), (T_END, .34, .26)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v5 · PLANNING ONLY')
+    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -434,7 +435,7 @@ STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a',
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -444,14 +445,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockP_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockP_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockP_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockP_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

@@ -19,7 +19,7 @@ through Quest's own memory - his childhood room at night (blocks C and H), the C
                                           handheld today, its screen on the forest where Pixie (tunic) looks up into
                                           the mist; the "?" lands over her and the camera dives into the screen.
 HUD: hidden in the room (real life) and on the handheld shot; on in the forest (in game; Pixie's FILE 2 has 3 hearts).
-v5: final art #2d (Pixie in her tunic, awe) in the forest village #12 (via block M). Sounds: none (all at the end).
+v6: final art #2d (Pixie in her tunic, awe) in the forest village #12 (via block M). Sounds: none (all at the end).
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -34,6 +34,7 @@ sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box  # noqa
 from icons import camera_icon  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -161,16 +162,12 @@ def scr_pt(u, v, box):
 
 
 def tagbox(text, col=(255, 214, 40), flipped=False, k_flip=None):
-    f = F(20)
-    tw = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 24
-    g = Image.new('RGBA', (tw, 36)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((0, 0, tw - 1, 35), 6, fill=(255, 238, 170, 255) if flipped else (20, 22, 30, 235), outline=col + (255,), width=3)
-    d.text((12, 6), text, font=f, fill=(60, 40, 20, 255) if flipped else col + (255,))
-    return g
+    """Real life: EP001's gold marker (approved style, family C); flipped = its cream side."""
+    return UI.marker(text, 19, paper=flipped)
 
 
 CALLOUTS = (('FOG', (.45, .41), (-170, -160)), ('LOW POLY', (.75, .34), (110, -150)), ('BLURRY TEXTURES', (.22, .72), (-330, -70)),
-            ('FIXED CAMERA', (.53, .78), (230, -20)))                         # v5, re-pinned on block H's new 1998 picture (#11 + #3): the horizon
+            ('FIXED CAMERA', (.53, .78), (230, -20)))                         # v6, re-pinned on block H's new 1998 picture (#11 + #3): the horizon
                                                                               # haze, the blocky castle, the grass, the hero seen from the fixed camera
 
 
@@ -389,7 +386,7 @@ def render(t):
     keys = [(T0, .30, .28), (T_PRES, .22, .30), (T_UNDL, .60, .30), (T_AGAIN, .62, .30), (T_END, .62, .36)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 21 WHAT IT MADE YOU FEEL · {lab} · BLOCK O v5 · PLANNING ONLY')
+    tag(d, f'SEQ 21 WHAT IT MADE YOU FEEL · {lab} · BLOCK O v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -399,7 +396,7 @@ STILLS = (('o0', T0 + .3), ('o1', T('l109.w8') + .3), ('o2', T('l110.w6') + .3),
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockO_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -409,14 +406,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockO_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockO_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockO_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockO_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

@@ -27,6 +27,7 @@ sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 from icons import camera_icon  # noqa: the episode's game-camera icon (repeats wherever the script says camera)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -72,7 +73,7 @@ def frame_e1(t):
     keys = [(T0, .62, .3), (T0 + .7, .58, .27), (T_REMAKE, .6, .3)]
     fr = fairy_fx.draw(fr, keys, t, size=.06)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v6 · PLANNING ONLY')
+    tag(d, 'SEQ 10 THE PROBLEM · E1 "Which creates a problem." · back to today · BLOCK E v7 · PLANNING ONLY')
     return fr
 
 
@@ -141,7 +142,7 @@ def frame_e23(t):
             fr = CART.glow(fr, cx, cy, 200, (255, 120, 90), .18 * a)
     d = ImageDraw.Draw(fr)
     lab = 'E2 "Nintendo can remake Ocarina of Time."' if t < T_WANT else 'E3 what people want back was never inside'
-    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v6 · PLANNING ONLY')
+    tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v7 · PLANNING ONLY')
     d.text((20, 40), 'memories = block C stills (TV, the friend, the afternoon) · cartridge = own 3D', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -183,20 +184,13 @@ LIST_W = int(W * .4)
 
 
 def checklist(fr, t):
-    """Left column; the hero walks on the right third, never under it."""
-    g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
+    """Left column, a rolled parchment ticked off by pen as Bram names each item (approved style, family B); the hero
+    walks on the right third, never under it."""
     k_in = ease(min(1, max(0, (t - T_LIST + .3) / .4)))
-    x0 = 40 - (LIST_W + 60) * (1 - k_in)
-    d.rounded_rectangle((x0, 120, x0 + LIST_W, 120 + 64 * len(ITEMS) + 30), 14, fill=(12, 18, 30, 210), outline=(140, 180, 240, 255), width=2)
-    for i, (txt, ti) in enumerate(ITEMS):
-        y = 142 + i * 64                                                # below the HUD hearts
-        on = t >= ti - .05
-        kk = ease(min(1, max(0, (t - ti + .05) / .25)))
-        d.rounded_rectangle((x0 + 18, y + 4, x0 + 46, y + 32), 5, outline=(160, 200, 255, 255), width=3)
-        if on:
-            d.line((x0 + 22, y + 18, x0 + 30, y + 27, x0 + 44, y + 6 + 22 * (1 - kk)), fill=(110, 230, 140, 255), width=5)
-        d.text((x0 + 60, y + 2), txt, font=F(24), fill=(240, 245, 255, 255 if on else 120))
-    return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
+    ticks = [ease(min(1, max(0, (t - ti + .05) / .35))) if t >= ti - .05 else 0 for _, ti in ITEMS]
+    g = UI.parchment_list([txt for txt, _ in ITEMS], ticks)
+    out = fr.convert('RGBA'); out.alpha_composite(g, (int(22 - (g.width + 60) * (1 - k_in)), 104))
+    return out.convert('RGB')
 
 
 def item_visual(fr, t):
@@ -217,9 +211,10 @@ def item_visual(fr, t):
             d.line((cx - 95 + j * 11, cy - hh / 2, cx - 95 + j * 11, cy + hh / 2), fill=(60, 120, 220, 255), width=5)
     elif cur == 2:                                                      # expanded dialogue: a text box that grows
         w = 120 + 60 * k                                                # stays clear of the checklist
-        d.rounded_rectangle((cx - w, cy - 46, cx + w, cy + 46), 10, fill=(20, 24, 60, 230), outline=(240, 240, 255, 255), width=3)
+        bx = UI.sq_box(int(2 * w), 92)                                  # our game text box (family A), growing
+        g.alpha_composite(bx, (int(cx - w - 8), int(cy - 46 - 8)))
         for j in range(3):
-            d.line((cx - w + 24, cy - 22 + j * 22, cx - w + 24 + (2 * w - 48) * (1 if j < 2 else .6) * k, cy - 22 + j * 22), fill=(230, 230, 255, 255), width=6)
+            d.line((cx - w + 24, cy - 22 + j * 22, cx - w + 24 + (2 * w - 48) * (1 if j < 2 else .6) * k, cy - 22 + j * 22), fill=(240, 236, 220, 255), width=6)
     elif cur == 3:                                                      # orchestral score: notes rise on the right only
         for j in range(8):
             ph = ((t - ITEMS[3][1]) * .7 + j / 8) % 1
@@ -264,7 +259,7 @@ def frame_e45(t):
         fr = item_visual(fr, t)
     d = ImageDraw.Draw(fr)
     lab = 'E4 "rebuilt for Switch 2" (generic, no logos)' if t < T_LIST else 'E5 the feature list'
-    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v6 · PLANNING ONLY')
+    tag(d, f'SEQ 11 THE REMAKE · {lab} · BLOCK E v7 · PLANNING ONLY')
     return fr
 
 
@@ -287,7 +282,7 @@ STILLS = (('e1', T0 + .8), ('e2', T_WANT - .3), ('e3', T_NEVER - .5), ('e3_bounc
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockE_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -297,14 +292,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockE_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockE_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockE_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockE_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

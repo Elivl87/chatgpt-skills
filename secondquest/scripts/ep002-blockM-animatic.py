@@ -18,7 +18,7 @@ Quest (pixels -> smooth) instead of Quest dropping in; the chest opens.
   M5  "Music mattered."                   The ocarina (our 3D) plays, notes rise, flowers open round him, leaves sway.
   M6  "And most importantly..."           Everything freezes and drains of colour; Navi flies to the centre.
   M7  "time mattered."                    One sweep of a clock dial: the sun sets, the moon rises, night and stars.
-v3: final art. The pop-up world becomes the forest village (#12) as the tilt completes; young Quest from behind (#3).
+v4: final art. The pop-up world becomes the forest village (#12) as the tilt completes; young Quest from behind (#3).
 M3's line runs to the far waterfall (the plate has no mountain); the chest sits on the grass, lower left; at night the
 village's windows and lanterns light up. Sounds: none (all at the end).
 """
@@ -34,6 +34,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -463,8 +464,7 @@ def m2_7(t):
         if k > .6:
             s = 'FAR AWAY'
             bx, by = lin(x0, x1, .55) + 30, lin(y0, y1, .55) - 20
-            d.rounded_rectangle((bx, by, bx + d.textlength(s, font=F(20)) + 20, by + 34), 8, fill=(20, 24, 40, int(210 * a)), outline=(255, 255, 255, int(235 * a)), width=2)
-            d.text((bx + 10, by + 6), s, font=F(20), fill=(255, 255, 255, int(255 * a)))
+            g.alpha_composite(UI.fade(UI.sq_tag(s, 18), a), (int(bx) - 8, int(by) - 8))   # our game tag (family A)
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     # M4: where you looked
     if T_LOOK <= t < T_MUSIC + .2 and kt >= 1:
@@ -495,9 +495,8 @@ def m2_7(t):
     if kt < 1 and t >= T_NEW:
         d = ImageDraw.Draw(fr)
         if kt <= 0:                                                          # the flat world: a 2D label
-            s = '2D'
-            d.rounded_rectangle((W * .04, H * .12, W * .04 + 70, H * .12 + 44), 8, fill=(20, 24, 40), outline=(255, 255, 255), width=2)
-            d.text((W * .04 + 16, H * .12 + 6), s, font=F(28), fill=(255, 255, 255))
+            g2 = UI.area_title('2D', retro=True, size=40)                  # the flat world's era card: square pixels
+            fr = fr.convert('RGBA'); fr.alpha_composite(g2, (int(W * .04), int(H * .11))); fr = fr.convert('RGB')
     lab = ('M1 it felt new' if t < T_MAP else 'M2 two dimensions -> somewhere to stand' if t < T_DIST else 'M3 distance mattered' if t < T_LOOK else 'M4 where you looked mattered'
            if t < T_MUSIC else 'M5 music mattered' if t < T_FREEZE else 'M6 and most importantly...' if t < T_TIME else 'M7 time mattered')
     return fr, lab
@@ -511,7 +510,7 @@ def render(t):
         if t < T_NEW + .5:                                                   # out of the white, straight onto the map
             fr = Image.blend(Image.new('RGB', fr.size, (250, 255, 245)), fr, (t - T_NEW) / .5)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v3 · PLANNING ONLY')
+    tag(d, f'SEQ 19 IT FELT NEW · {lab} · BLOCK M v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -521,7 +520,7 @@ STILLS = (('m0', T_BURST - .3), ('m1', T_BURST + .9), ('m2_map', T_TILT - .3), (
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockM_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -531,14 +530,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockM_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockM_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockM_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockM_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

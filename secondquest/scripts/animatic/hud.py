@@ -7,7 +7,8 @@ hearts counts in halves (4.5 = four and a half). Everything sits inside title-sa
 import math
 from PIL import Image, ImageDraw, ImageFont
 
-FONT = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 26)
+_INTER = str(__import__('pathlib').Path(__file__).resolve().parents[2] / 'public/shared/fonts/Inter-800.woff2')   # the channel's type
+FONT = ImageFont.truetype(_INTER, 26)
 INK = (20, 14, 18, 255)
 
 
@@ -67,7 +68,7 @@ def _buttons(lay, d, W, a_text='Attack'):
         btn(c, (230, 175, 40, 235))
     x, y, r = B                                                         # our 3D master sword, diagonal like the classic B icon
     o = _icon('sword', 54, rot=-45); lay.alpha_composite(o, (int(x - o.width / 2), int(y - o.height / 2)))
-    f = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 15)
+    f = ImageFont.truetype(_INTER, 15)
     x, y, r = A_; tw = d.textlength(a_text, font=f)
     d.text((x - tw / 2, y - 9), a_text, font=f, fill=(255, 255, 255, 255), stroke_width=2, stroke_fill=INK)
     x, y, r = CL                                                        # our 3D bomb

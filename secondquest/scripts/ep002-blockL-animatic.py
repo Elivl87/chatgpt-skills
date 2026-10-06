@@ -19,7 +19,7 @@ v2 (Producer): no restorer's hands (they did not read as hands); the case holds 
 (not block G's field again); zoom on the pad while it is cleaned; green light leaks through the crack; a
 PLEASE DO NOT TOUCH sign tilts when the glass cracks. HUD: hidden (a museum, not the game). Sounds: none (all at
 the end). Framing QC before sending.
-v4: the picture in the case is the final temple plate (#13) with our 3D sword v2 in its pedestal slot (was a procedural
+v5: the picture in the case is the final temple plate (#13) with our 3D sword v2 in its pedestal slot (was a procedural
 temple); the 3D sword frames are v2.
 """
 import importlib.util, math, subprocess, sys
@@ -474,7 +474,7 @@ def render(t):
     if t < T0 + .3:                                                          # out of block K's glow
         fr = Image.blend(Image.new('RGB', fr.size, (255, 245, 215)), fr, (t - T0) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v4 · PLANNING ONLY')
+    tag(d, f'SEQ 18 THE SAFE REMAKE · {lab} · BLOCK L v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -484,7 +484,7 @@ STILLS = (('l1', T_NOTHING + .8), ('l2', T_TEX + .5), ('l3', T_RES + 1.0), ('l4'
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockL_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -494,14 +494,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockL_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockL_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockL_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockL_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

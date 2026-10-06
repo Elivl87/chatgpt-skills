@@ -32,6 +32,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate, walk_adult, STEP_RATE, SLOW_RATE, SLOW_STRIDE, road_walk, plate_to_screen  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -145,11 +146,13 @@ def walker(fr, im, x, feet, h, t, phase=0.0, walking=True):
     return comp(fr, q, x - q.width / 2, feet - q.height - bob)
 
 
+AREA = {'1998': UI.area_title('1998', retro=True, size=46), '2026': UI.area_title('2026', size=46)}
+
+
 def year_tag(fr, cx, text, col, k=1.0):
-    g = Image.new('RGBA', (170, 52)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((2, 2, 167, 49), 10, fill=(20, 22, 30, 230), outline=col + (255,), width=3)
-    ctext(d, 85, 9, text, 30, col + (255,))
-    return comp(fr, fade(g, k), cx - 85, H * .15)
+    """Each era's area title card (Producer, 2026-10-06: option 2): 1998 in square pixels, 2026 in Anton."""
+    g = AREA[text]
+    return comp(fr, fade(g, k), cx - g.width / 2, H * .13)
 
 
 # ------------------------------------------------------------------ R1: two crossings, one road
@@ -238,11 +241,15 @@ def one_road(t):
     d = ImageDraw.Draw(fr)
     ks = min(1, max(0, (t - T_SAME - .1) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if ks > 0:                                                                 # SAME ROAD, on the road
-        g = BQ.BO.tagbox('SAME ROAD')
-        fr = comp(fr, fade(g, ks), W * .5 - g.width / 2, FEET - AH - H * .2)   # above their heads
+        x_, y_, ha_, _, k_ = duo(t)                                            # a signpost on the left verge, just ahead
+        px, py, ph = plate_to_screen(x_ - .2 * k_, y_ - .03, ha_, field_box(t, **R2_CAM))
+        sp = UI.signpost('SAME ROAD', h_px=int(ph))
+        rise = ease(ks)                                                        # it pops up out of the grass
+        sp = sp.resize((sp.width, max(1, int(sp.height * (.4 + .6 * rise)))), Image.LANCZOS)
+        fr = comp(fr, fade(sp, min(1, ks * 2)), px - sp.width * .3, py - sp.height)
     kd = min(1, max(0, (t - T_DIFF - .05) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if kd > 0:                                                                 # DIFFERENT PERSON, between them
-        g = BQ.BO.tagbox('DIFFERENT PERSON', col=(255, 150, 150))
+        g = UI.sq_tag('DIFFERENT PERSON', 20)                                 # our game tag (family A)
         ty = FEET - AH - H * .11
         fr = comp(fr, fade(g, kd), W * .5 - g.width / 2, ty)
         d = ImageDraw.Draw(fr)
@@ -250,13 +257,15 @@ def one_road(t):
             d.line((W * .5, ty + 36, x, top + 4), fill=(255, 150, 150), width=3)
     if T_NOT + .3 <= t < T_BESIDE:                                             # OLD GAME BACK, struck out
         kk = min(1, (t - T_NOT - .3) / .25)
-        st = Image.new('RGBA', (400, 70)); sd = ImageDraw.Draw(st)
-        sd.rounded_rectangle((3, 3, 396, 66), 10, fill=(20, 18, 28, 225), outline=(232, 196, 90, 255), width=4)
-        s = 'OLD GAME BACK'; sd.text((200 - sd.textlength(s, font=F(36)) / 2, 12), s, font=F(36), fill=(255, 226, 140, 255))
-        kx = min(1, max(0, (t - T('l134.w4')) / .3))                           # struck on "back"
+        st = UI.sq_box(384, 54); sd = ImageDraw.Draw(st)                     # a quest-log entry in our game box (family A)
+        UI.spaced(sd, (30, 20), 'QUEST', UI.inter(14), (255, 214, 90, 255), 2)
+        sd.text((100, 12), 'Old game back', font=UI.inter(34), fill=(255, 240, 210, 255))
+        kx = min(1, max(0, (t - T('l134.w4')) / .3))                           # struck on "back", in pen
         if kx > 0:
-            sd.line((14, 40, 14 + 372 * kx, 30), fill=(220, 40, 50, 255), width=8)
-        fr = comp(fr, fade(st, kk), W * .5 - 200, H * .16)
+            pts = [(96 + i * 3.1, 40 - 6 * (i / 100) + 2 * math.sin(i * .5)) for i in range(int(100 * kx) + 1)]
+            if len(pts) > 1:
+                sd.line(pts, fill=(220, 40, 50, 255), width=7, joint='curve')
+        fr = comp(fr, fade(st, kk), W * .5 - st.width / 2, H * .16)
     if t >= T_BESIDE:
         kq = min(1, max(0, (t - T_BESIDE - 1.0) / .3))
         hx, hy = YX, FEET - YH - 70
@@ -301,7 +310,7 @@ def render(t):
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v9 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v10 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -311,7 +320,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v9.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v10.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -321,14 +330,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v9_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v10_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v9_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v10_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

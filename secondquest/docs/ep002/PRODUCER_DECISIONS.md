@@ -572,3 +572,8 @@
   - R1-R3: the two of them walk side by side and in step from R1 to "beside", then stop for R4; R2's camera now
     continues from R1's (1.25 -> 1.4) instead of starting wide again. SAME ROAD / DIFFERENT PERSON sit above their heads.
 - 2026-10-06 · G v8, H v12 and R v9 approved (slow walk down the road). Full animatic v5 on hold until the Producer asks.
+- 2026-10-06 · On-screen text style approved (sheet docs/ep002/EP002_ui_style_sheet.jpg), applied to the whole video:
+  A in Hyrule = our game text box (`ui_kit.sq_tag / sq_banner / sq_box`), B in the world = signpost / parchment,
+  C real life = EP001 gold marker; the channel's type (Anton, Inter 800) replaces DejaVu everywhere. R1 1998 / 2026:
+  option 2, area title cards (`ui_kit.area_title`; 1998 in square pixels, today in Anton with the gold rule); the same
+  logic for every year / era label (TODAY, CHILD / ADULT ...). The wooden sign for the years was rejected.

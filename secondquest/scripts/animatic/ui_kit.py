@@ -63,21 +63,28 @@ def sparkle(d, cx, cy, r, fill, a=255):
 
 
 # ------------------------------------------------------------------ A: the game text box
-def sq_box(w, h, r=14, glass=212):
-    """Ink glass, an outer gold rule and a thin inner one, a diamond on each corner, a faint sheen on top."""
-    pad = 8
+def sq_box(w, h, r=14, glass=212, pad=8, rule=GOLD):
+    """Ink glass, an outer gold rule and a thin inner one, a diamond on each corner, a faint sheen on top. pad = the
+    transparent margin around it (its soft shadow); rule = the outer rule's colour (gold; a highlight may tint it)."""
     g = Image.new('RGBA', (w + 2 * pad, h + 2 * pad)); d = ImageDraw.Draw(g)
     sh = Image.new('RGBA', g.size); ImageDraw.Draw(sh).rounded_rectangle((pad, pad + 4, pad + w, pad + h + 4), r, fill=(0, 0, 0, 110))
     g.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5)))
-    d.rounded_rectangle((pad, pad, pad + w, pad + h), r, fill=INK + (glass,), outline=GOLD + (255,), width=3)
+    d.rounded_rectangle((pad, pad, pad + w, pad + h), r, fill=INK + (glass,), outline=tuple(rule[:3]) + (255,), width=3)
     d.rounded_rectangle((pad + 6, pad + 6, pad + w - 6, pad + h - 6), max(2, r - 6), outline=GOLD_DIM + (170,), width=1)
     sheen = Image.new('RGBA', g.size); sd = ImageDraw.Draw(sheen)
     sd.rounded_rectangle((pad + 3, pad + 3, pad + w - 3, pad + h * .45), r, fill=(255, 255, 255, 16))
     g.alpha_composite(sheen)
     for cx, cy in ((pad, pad), (pad + w, pad), (pad, pad + h), (pad + w, pad + h)):
         s = 6
-        d.polygon([(cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)], fill=GOLD + (255,), outline=INK + (255,))
+        d.polygon([(cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)], fill=tuple(rule[:3]) + (255,), outline=INK + (255,))
     return g
+
+
+def fade(im, k):
+    """The same image, k times as opaque."""
+    if k >= 1:
+        return im
+    im = im.copy(); im.putalpha(im.getchannel('A').point(lambda v: int(v * max(0, k)))); return im
 
 
 def sq_tag(text, size=22, col=WHITE):
@@ -221,6 +228,70 @@ def marker(text, size=18, paper=False):
 
 # ------------------------------------------------------------------ the 1998 versions (R1, Producer 2026-10-06: the sharp
 # wooden sign did not belong in the blocky 1998 half)
+# our own 5x7 pixel font for the 1998 cards (square pixels, crisp at any size; no third-party font)
+PIXEL_GLYPHS = {
+    '0': ['01110', '10001', '10011', '10101', '11001', '10001', '01110'],
+    '1': ['00100', '01100', '00100', '00100', '00100', '00100', '01110'],
+    '2': ['01110', '10001', '00001', '00010', '00100', '01000', '11111'],
+    '3': ['11110', '00001', '00001', '01110', '00001', '00001', '11110'],
+    '4': ['00010', '00110', '01010', '10010', '11111', '00010', '00010'],
+    '5': ['11111', '10000', '11110', '00001', '00001', '10001', '01110'],
+    '6': ['00110', '01000', '10000', '11110', '10001', '10001', '01110'],
+    '7': ['11111', '00001', '00010', '00100', '01000', '01000', '01000'],
+    '8': ['01110', '10001', '10001', '01110', '10001', '10001', '01110'],
+    '9': ['01110', '10001', '10001', '01111', '00001', '00010', '01100'],
+    'A': ['01110', '10001', '10001', '11111', '10001', '10001', '10001'],
+    'B': ['11110', '10001', '10001', '11110', '10001', '10001', '11110'],
+    'C': ['01110', '10001', '10000', '10000', '10000', '10001', '01110'],
+    'D': ['11110', '10001', '10001', '10001', '10001', '10001', '11110'],
+    'E': ['11111', '10000', '10000', '11110', '10000', '10000', '11111'],
+    'F': ['11111', '10000', '10000', '11110', '10000', '10000', '10000'],
+    'G': ['01110', '10001', '10000', '10111', '10001', '10001', '01111'],
+    'H': ['10001', '10001', '10001', '11111', '10001', '10001', '10001'],
+    'I': ['01110', '00100', '00100', '00100', '00100', '00100', '01110'],
+    'J': ['00111', '00010', '00010', '00010', '00010', '10010', '01100'],
+    'K': ['10001', '10010', '10100', '11000', '10100', '10010', '10001'],
+    'L': ['10000', '10000', '10000', '10000', '10000', '10000', '11111'],
+    'M': ['10001', '11011', '10101', '10101', '10001', '10001', '10001'],
+    'N': ['10001', '11001', '10101', '10011', '10001', '10001', '10001'],
+    'O': ['01110', '10001', '10001', '10001', '10001', '10001', '01110'],
+    'P': ['11110', '10001', '10001', '11110', '10000', '10000', '10000'],
+    'Q': ['01110', '10001', '10001', '10001', '10101', '10010', '01101'],
+    'R': ['11110', '10001', '10001', '11110', '10100', '10010', '10001'],
+    'S': ['01111', '10000', '10000', '01110', '00001', '00001', '11110'],
+    'T': ['11111', '00100', '00100', '00100', '00100', '00100', '00100'],
+    'U': ['10001', '10001', '10001', '10001', '10001', '10001', '01110'],
+    'V': ['10001', '10001', '10001', '10001', '10001', '01010', '00100'],
+    'W': ['10001', '10001', '10001', '10101', '10101', '10101', '01010'],
+    'X': ['10001', '10001', '01010', '00100', '01010', '10001', '10001'],
+    'Y': ['10001', '10001', '01010', '00100', '00100', '00100', '00100'],
+    'Z': ['11111', '00001', '00010', '00100', '01000', '10000', '11111'],
+    ' ': ['00000'] * 7,
+    '.': ['00000', '00000', '00000', '00000', '00000', '01100', '01100'],
+    '!': ['00100', '00100', '00100', '00100', '00100', '00000', '00100'],
+    '?': ['01110', '10001', '00001', '00010', '00100', '00000', '00100'],
+    '-': ['00000', '00000', '00000', '11111', '00000', '00000', '00000'],
+    '%': ['11001', '11010', '00010', '00100', '01000', '01011', '10011'],
+}
+
+
+def pixel_text(text, px, fill, shadow=None):
+    """Text in our 5x7 pixel font, each font pixel px screen pixels square; an optional hard drop shadow."""
+    text = text.upper()
+    cw = 6 * px
+    g = Image.new('RGBA', (max(1, len(text) * cw - px + px), 7 * px + px))
+    d = ImageDraw.Draw(g)
+    for layer, (dx, col) in enumerate((((px, shadow),) if shadow else ()) + ((0, fill),)):
+        for i, ch in enumerate(text):
+            rows = PIXEL_GLYPHS.get(ch, PIXEL_GLYPHS['?'])
+            for ry, row in enumerate(rows):
+                for rx, bit in enumerate(row):
+                    if bit == '1':
+                        x, y = i * cw + rx * px + dx, ry * px + dx
+                        d.rectangle((x, y, x + px - 1, y + px - 1), fill=col + (255,))
+    return g
+
+
 def _retro_text(text, px_h, fill, scale=4):
     """Text as a 1998 game drew it: rasterised small without anti-aliasing, then blown up in square pixels."""
     f = anton(max(6, px_h // scale))
@@ -237,7 +308,7 @@ def wood_sign_1998(text, h_px=150, fog=(205, 215, 225), fog_k=.14):
     blocky digits, washed out by the distance fog of the 1998 look."""
     q = 3                                                               # one texel = 3 screen pixels
     s = h_px / 150
-    lab = _retro_text(text, int(48 * s), (52, 34, 20), scale=q)
+    lab = pixel_text(text, max(2, int(5 * s)), (52, 34, 20))
     pw, ph = lab.width + int(28 * s), int(64 * s)
     W_, H_ = pw + 8, h_px + 8
     g = Image.new('RGBA', (W_ // q + 1, H_ // q + 1)); d = ImageDraw.Draw(g)
@@ -259,8 +330,9 @@ def area_title(text, retro=False, size=46):
     """An area name card, as a game shows when you enter a place: the name between two thin rules.
     retro=True: 1998 square pixels; False: today's Anton with the channel's gold rule."""
     if retro:
-        lab = _retro_text(text, size, (255, 236, 190), scale=3)
-        sh = _retro_text(text, size, INK, scale=3)
+        px = max(2, round(size / 7.5))
+        lab = pixel_text(text, px, (255, 236, 190))
+        sh = pixel_text(text, px, INK)
     else:
         f = anton(size)
         w = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 8
@@ -278,4 +350,17 @@ def area_title(text, retro=False, size=46):
             d.line((x0, y, x1, y), fill=GOLD + (255,), width=3)
     g.alpha_composite(sh, (rule + 20 + 3, 6 + 4))
     g.alpha_composite(lab, (rule + 20, 6))
+    return g
+
+
+def era_tag(text, retro=False, size=26):
+    """A small year / era chip in our game box: 1998 in our square pixels, today in Anton (the area cards, small)."""
+    if retro:
+        lab = pixel_text(text, max(2, round(size / 7.5)), (255, 236, 190), shadow=INK)
+    else:
+        f = anton(size)
+        w = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 6
+        lab = Image.new('RGBA', (w, int(size * 1.35))); ImageDraw.Draw(lab).text((3, -size * .08), text, font=f, fill=WHITE + (255,))
+    g = sq_box(lab.width + int(size * 1.1), lab.height + int(size * .6), r=int(size * .4))
+    g.alpha_composite(lab, (8 + int(size * .55), 8 + int(size * .3)))
     return g

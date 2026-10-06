@@ -35,6 +35,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final, final_plate  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -81,10 +82,8 @@ def pix_to_now(fr, k):
 def still_tag(fr, k, text='STILL THERE'):
     if k <= 0:
         return fr
-    g = Image.new('RGBA', (300, 54)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((2, 2, 297, 51), 10, fill=(20, 22, 30, 225), outline=(232, 196, 90, 255), width=3)
-    ctext(d, 150, 10, text, 28, (255, 230, 160, 255))
-    return comp(fr, fade(g, k), W * .5 - 150, H * .14)
+    g = UI.sq_tag(text, 24)                                             # our game tag (family A): Q1-Q4 are in game
+    return comp(fr, fade(g, k), W * .5 - g.width / 2, H * .14)
 
 
 # ------------------------------------------------------------------ Q1-Q3: still there
@@ -254,10 +253,8 @@ def person(t, last_game):
         for lab, px, py, col in (('1998', GX, qf - QIMG.height * .80, (190, 215, 255)),
                                  ('2026', qx - QIMG.width * .05, qf - QIMG.height * 1.06, (255, 226, 140))):
             x = (px - box[0]) * W / (box[2] - box[0]); y = (py - box[1]) * H / (box[3] - box[1])
-            g = Image.new('RGBA', (130, 50)); gd = ImageDraw.Draw(g)
-            gd.rounded_rectangle((2, 2, 127, 47), 10, fill=(20, 22, 30, 230), outline=col + (255,), width=3)
-            ctext(gd, 65, 8, lab, 28, col + (255,))
-            fr = comp(fr, fade(g, kd), x - 65, y - 25)
+            g = UI.era_tag(lab, retro=lab == '1998', size=28)              # the year chips: 1998 in square pixels
+            fr = comp(fr, fade(g, kd), x - g.width / 2, y - g.height / 2)
     return fr
 
 
@@ -371,7 +368,7 @@ def render(t):
     keys = [(T0, .70, .26), (T_TRI, .74, .22), (T_PERSON, .60, .30), (T_GAME, .72, .28), (T_STORY, .08, .82), (T_END, .10, .82)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 23 STILL THERE · {lab} · BLOCK Q v3 · PLANNING ONLY')
+    tag(d, f'SEQ 23 STILL THERE · {lab} · BLOCK Q v4 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -381,7 +378,7 @@ STILLS = (('q1', T('l121.w4') + .3), ('q2', T('l122.w4') + .3), ('q3', T('l123.w
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockQ_animatic_v3.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockQ_animatic_v4.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -391,14 +388,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockQ_v3_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockQ_v4_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockQ_v3_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockQ_v4_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

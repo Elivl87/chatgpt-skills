@@ -35,6 +35,7 @@ sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, cam_box, to_screen, subtitle, tag, F, SHIELD_SWAY, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 from icons import camera_icon  # noqa: the episode's game-camera icon
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -128,19 +129,14 @@ def upgrades_fly(fr, t):
 
 # ------------------------------------------------------------------ H2: the message box
 def message_box(fr, t, alpha=1.0):
-    bw, bh = 450, 104
-    x0, y0 = W * .035, H * .30                                          # where the photo was: left of the castle
-    g = Image.new('RGBA', (bw + 8, bh + 8)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((4, 4, bw + 4, bh + 4), 18, fill=(10, 14, 48, 205), outline=(235, 235, 250, 255), width=3)
-    d.text((28, 16), 'NEW QUEST', font=F(18), fill=(232, 196, 90, 255))
+    """A quest notice in our game text box (approved style, family A): scroll icon, NEW QUEST, the title typing out like
+    the game's text, our fairy's sparkle blinking when it is done."""
     full = 'The Impossible Job'
     n = int(len(full) * min(1, max(0, (t - T_JOB - .15) / (T('l60.w5') + .25 - T_JOB - .15))))   # types out like the game's text
-    d.text((28, 44), full[:n], font=F(36), fill=(255, 255, 255, 255))
-    if n == len(full) and int(t * 3) % 2 == 0:                          # the blinking "next" arrow
-        d.polygon([(bw - 30, bh - 22), (bw - 10, bh - 22), (bw - 20, bh - 8)], fill=(90, 220, 120, 255))
+    g = UI.sq_banner('New quest', full, n=n, t=t)
     if alpha < 1:
         g.putalpha(g.getchannel('A').point(lambda v: int(v * alpha)))
-    return comp(fr, g, x0, y0)
+    return comp(fr, g, W * .035 - 8, H * .30 - 8)                      # where the photo was: left of the castle
 
 
 # ------------------------------------------------------------------ H3-H4: the balance slider
@@ -161,7 +157,8 @@ def slider(fr, t, y, alpha):
         return fr
     x0, x1 = W * .34, W * .63
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((x0 - 14, y - 46, x1 + 14, y + 26), 16, fill=(10, 14, 48, 175), outline=(235, 235, 250, 200), width=2)
+    bx = UI.sq_box(int(x1 - x0 + 28), 72)                               # our game text box: an options slider (family A)
+    g.alpha_composite(bx, (int(x0 - 14 - 8), int(y - 46 - 8)))
     d.rounded_rectangle((x0, y - 6, x1, y + 6), 6, fill=(30, 30, 40, 255), outline=INK, width=2)
     for i in range(40):                                                 # amber (familiar) -> cyan (different)
         k = i / 39; c = tuple(int(lin(a, b, k)) for a, b in zip((240, 170, 80), (90, 210, 250)))
@@ -504,7 +501,7 @@ def render(t):
             fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=min(1, (t - T_NOW - .2) / .4))   # back in the game: the HUD returns
         lab = 'H4 the TV switches off' if t < T_NOW else 'H4 today: a new Hyrule'
         d = ImageDraw.Draw(fr)
-        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v12 · PLANNING ONLY')
+        tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v13 · PLANNING ONLY')
         subtitle(d, t)
         return fr
     fr, e = back_shot(t)
@@ -529,7 +526,7 @@ def render(t):
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
     lab = 'H1 every improvement changes the memory' if t < T_JOB else 'H2 the impossible job' if t < T_DIFF else 'H3 different enough...'
-    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v12 · PLANNING ONLY')
+    tag(d, f'SEQ 14 THE IMPOSSIBLE JOB · {lab} · BLOCK H v13 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -538,7 +535,7 @@ STILLS = (('h1', T('l59.w8')), ('h2', T('l60.w5') + .4), ('h3', T('l61.w7') + .2
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v12.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockH_animatic_v13.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -548,14 +545,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockH_v12_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockH_v13_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockH_v12_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockH_v13_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

@@ -16,7 +16,7 @@ Same game-menu language as block I (the new player's side now):
                                                       NOSTALGIA (the heart bar from block F: full | empty), CHILDHOOD
                                                       (the "Saturday, 1998" photo | a blank photo), EXPECTATIONS
                                                       (28 YEARS, heavy | 0).
-v4: final art (#2c, #2d, #2e Pixie in her tunic; #14 the tree). HUD: on in the forest only. Sounds: none (all sounds at the end, Producer). Framing QC before sending.
+v5: final art (#2c, #2d, #2e Pixie in her tunic; #14 the tree). HUD: on in the forest only. Sounds: none (all sounds at the end, Producer). Framing QC before sending.
 """
 import importlib.util, math, subprocess, sys
 from pathlib import Path
@@ -29,6 +29,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -187,7 +188,7 @@ def frame_j3(t):
     a0 = ease(min(1, (t - T_NOST) / .4))
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     cxL, cxR = W * .40, W * .73                                            # two columns
-    d.rounded_rectangle((W * .18, H * .06, W * .93, H * .74), 18, fill=(10, 14, 48, int(215 * a0)), outline=(235, 235, 250, int(255 * a0)), width=3)
+    g.alpha_composite(UI.fade(UI.sq_box(int(W * .75), int(H * .68), r=18), a0), (int(W * .18) - 8, int(H * .06) - 8))   # our game text box (family A)
     ctext(d, cxL, H * .09, 'VETERAN PLAYER', 26, GOLD + (int(255 * a0),))
     ctext(d, cxR, H * .09, 'NEW PLAYER', 26, BLUE + (int(255 * a0),))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
@@ -238,7 +239,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v4 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v5 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -247,7 +248,7 @@ STILLS = (('j1', T('l72.w6')), ('j2a', T_LARGE + .3), ('j2b', T_PROB + .6), ('j3
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v4.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockJ_animatic_v5.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -257,14 +258,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockJ_v4_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockJ_v5_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockJ_v4_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockJ_v5_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

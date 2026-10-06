@@ -14,7 +14,7 @@ All in Hyrule, so the in-game HUD stays on (hearts carry over from block F: 2.5)
                                                         camera; a C-camera icon wobbles.
   G6  "Fix it... and the game becomes easier to inhabit."  A steel wrench taps the camera icon, a green check badge pops; the camera settles smoothly behind Quest.
   G7  "Which is good. Probably."                         The camera's small check jumps off and lands big... then tilts into a question mark.
-Final art (v8): the field is final plate #11 (`final_plate('field')`); young Quest walking away is #3 alternating with
+Final art (v9): the field is final plate #11 (`final_plate('field')`); young Quest walking away is #3 alternating with
 #3 mirrored (#9, the opposite step); the silent hero facing us is young Quest front, smiling (#3b). Nothing MISSING left.
 Sounds: Bram only. Framing QC before sending.
 """
@@ -30,6 +30,7 @@ sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, final_plate, cam_box, subtitle, tag, F, STEP_RATE, SLOW_RATE, SLOW_STRIDE, road_walk, plate_to_screen  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 from icons import wrench_icon, camera_icon  # noqa: shared HUD-style icons (the camera repeats across the episode)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -49,6 +50,10 @@ FIELD = final_plate('field')                                           # final a
 WALK = (final('quest_young_back'), final('quest_young_back_b'))         # final art #3 and #3 mirrored (#9): the two steps
 YOUNG = WALK[0]                                                         # young Quest from behind, standing (final #3)
 HERO_FRONT = final('quest_young_front')                                 # final art #3b: the silent young hero faces us
+
+
+AREA_1998 = UI.area_title('1998', retro=True, size=48)                  # the era cards (R1 option 2, 2026-10-06)
+AREA_TODAY = UI.area_title('TODAY', size=48)
 
 
 def young(t, walking=True, rate=SLOW_RATE):
@@ -121,14 +126,10 @@ def frame_g12(t):
             x = -200 + (W + 400) * ph; y = H * (.55 + .06 * i)
             d.arc((x - 90, y - 12, x + 90, y + 12), 200, 340, fill=(255, 255, 255, int(150 * math.sin(ph * math.pi))), width=3)
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
-    if t < T_REB + .3:                                                  # the year tag
-        d = ImageDraw.Draw(fr); a = min(1, (t - T0) / .4)
-        d.rounded_rectangle((W * .44, H * .15, W * .56, H * .23), 10, fill=(20, 22, 30), outline=(232, 196, 90), width=3)
-        d.text((W * .5 - d.textlength('1998', font=F(34)) / 2, H * .158), '1998', font=F(34), fill=(255, 230, 160))
-    elif t < T_EMPTY:
-        d = ImageDraw.Draw(fr)
-        d.rounded_rectangle((W * .44, H * .15, W * .56, H * .23), 10, fill=(20, 22, 30), outline=(120, 190, 255), width=3)
-        d.text((W * .5 - d.textlength('TODAY', font=F(30)) / 2, H * .162), 'TODAY', font=F(30), fill=(190, 225, 255))
+    if t < T_EMPTY:                                                     # the era, as an area title card (approved R1 option 2)
+        retro = t < T_REB + .3
+        g = AREA_1998 if retro else AREA_TODAY
+        fr = comp(fr, g, W * .5 - g.width / 2, H * .13)
     fr = fairy_fx.draw(fr, [(T0, .56, .55), (T_REB, .54, .5), (T_SILENT, .56, .5)], t, size=.045)
     return fr, ('G1 "An empty field in 1998..."' if t < T_REB else 'G2 rebuilt too literally -> empty')
 
@@ -168,9 +169,8 @@ def frame_g34(t):
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     if t >= T('l53.w3') - .1:                                           # "somebody has to decide": a casting card
         kk = ease(min(1, (t - T('l53.w3') + .1) / .4))
-        card = Image.new('RGBA', (360, 168)); cd = ImageDraw.Draw(card)
-        cd.rounded_rectangle((0, 0, 359, 167), 14, fill=(18, 22, 34, 235), outline=(232, 196, 90, 255), width=3)
-        cd.text((20, 10), 'VOICE CASTING', font=F(22), fill=(255, 230, 160, 255))
+        card = UI.sq_box(344, 152); cd = ImageDraw.Draw(card)          # our game text box (family A)
+        UI.spaced(cd, (20, 12), 'VOICE CASTING', F(20), (255, 214, 90, 255), 2)
         for i in range(3):
             y = 48 + i * 38
             cd.text((20, y), f'TAKE {i + 1}', font=F(20), fill=(230, 235, 250, 255))
@@ -264,7 +264,7 @@ def render(t):
         fr, lab = frame_g57(t)
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v8 · PLANNING ONLY')
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v9 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -273,7 +273,7 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v8.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v9.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -283,14 +283,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockG_v8_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockG_v9_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockG_v8_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockG_v9_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

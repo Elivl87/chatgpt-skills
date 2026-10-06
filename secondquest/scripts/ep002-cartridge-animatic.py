@@ -29,7 +29,8 @@ import fairy as fairy_fx  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 W, H, FPS = 1280, 720, 24
-F = lambda s: ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', s)
+from functools import lru_cache
+F = lru_cache(maxsize=None)(lambda s: ImageFont.truetype(str(Path(__file__).resolve().parents[1] / 'public/shared/fonts/Inter-800.woff2'), s))   # the channel's label type (EP001)
 FSUB, FTAG = F(30), F(17)
 PW, PH = 2560, 1440  # plate working size; boxes below are in 960x540 plate units, scaled by S
 S = PW / 960
@@ -242,7 +243,7 @@ def sfx_events():
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v12.mp4'
+    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v13.mp4'
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -260,7 +261,7 @@ def main():
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v12_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v13_{name}.jpg', quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 

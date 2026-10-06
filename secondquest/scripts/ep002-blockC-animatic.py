@@ -141,7 +141,7 @@ def frame_c1(t):
     if dive > .6:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 246, 225)), (dive - .6) / .4)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v7 · PLANNING ONLY')
+    tag(d, 'SEQ 05 THE GAME + THE ROOM · C1 the cartridge · BLOCK C v8 · PLANNING ONLY')
     d.text((20, 40), 'C1 cartridge = own 3D (approved mock) · Navi dives into the label', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -161,7 +161,7 @@ def frame_c2(t):
     if t < T_SCR + .35:                                                 # out of the white from the dive
         fr = Image.blend(Image.new('RGB', fr.size, (255, 246, 225)), fr, (t - T_SCR) / .35)
     d = ImageDraw.Draw(fr)
-    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = final field plate #11 · BLOCK C v7')
+    tag(d, 'SEQ 05 · C2 "It is the game..." · CRT = own 3D (free) · screen = final field plate #11 · BLOCK C v8')
     return fr
 
 
@@ -312,7 +312,7 @@ def frame_room(t):
     d = ImageDraw.Draw(fr)
     lab = ('C3 "plus the room."' if t < T_TV else 'C4 "Plus the television."' if t < T_FR else
            'C5 the friend who knew where to go' if t < T_SAT else 'C6 a whole Saturday afternoon')
-    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v7 · PLANNING ONLY')
+    tag(d, f'SEQ 05 THE GAME + THE ROOM · {lab} · BLOCK C v8 · PLANNING ONLY')
     d.text((20, 40), 'kids = final art #6a / #6b / #6c · CRT = own 3D (free)', font=F(15), fill=(255, 220, 160))
     return fr
 
@@ -331,7 +331,7 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v7.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockC_animatic_v8.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -342,7 +342,7 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                     ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-        render(t).save(ROOT / f'docs/ep002/blockC_v7_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockC_v8_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04): no joined preview
 
 
@@ -350,7 +350,7 @@ if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in (('c1', T0 + 2.0), ('c1_dive', T_SCR - .25), ('c2', T_SCR + .6), ('c3', T_ROOM + 1.0), ('c4', T_TV + .5),
                         ('c5', T_KNEW + .7), ('c6', T_SAT + 3.0), ('c6_phone', T('l16.w16'))):
-            render(t).save(ROOT / f'docs/ep002/blockC_v7_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockC_v8_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

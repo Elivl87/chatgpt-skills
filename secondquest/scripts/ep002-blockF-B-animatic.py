@@ -23,6 +23,7 @@ sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, cam_box, subtitle, tag, F, STEP_RATE  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -169,14 +170,13 @@ def meter_panel(fr, t):
         return fr
     k_in = ease(min(1, (t - T_MEAS + .05) / .5))
     pw, ph = int(W * .33), int(H * .42)
-    pan = Image.new('RGBA', (pw, ph)); d = ImageDraw.Draw(pan)
-    d.rounded_rectangle((0, 0, pw - 1, ph - 1), 16, fill=PANEL + (215,), outline=GOLD + (255,), width=3)
+    pan = UI.sq_box(pw - 16, ph - 16); d = ImageDraw.Draw(pan)        # our game text box (approved style, family A)
     rows = [(lab, ti) for lab, ti in BARS] + [('FAMILIAR', T_FAM + .1)]
     for i, (lab, ti) in enumerate(rows):
         y = 18 + i * 54
         fam = lab == 'FAMILIAR'
-        d.text((18, y), lab, font=F(20), fill=(240, 120, 110, 255) if fam else (235, 238, 250, 255))
-        bx0, bx1 = 18, pw - 70
+        UI.spaced(d, (22, y), lab, F(19), (240, 120, 110, 255) if fam else (235, 238, 250, 255), 2)
+        bx0, bx1 = 22, pw - 70
         d.rounded_rectangle((bx0, y + 26, bx1, y + 42), 6, fill=(40, 46, 64, 255), outline=(120, 130, 160, 255), width=2)
         if fam and FAM_MODE == 'card_heart':
             if t >= ti:                                                 # full at first, then slowly draining; the heart blinks at its tip
@@ -203,7 +203,7 @@ def meter_panel(fr, t):
             if v > 0:
                 d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(110, 220, 140, 255))
                 d.text((bx1 + 12, y + 18), '+', font=F(24), fill=(110, 220, 140, 255))
-    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v9): smaller and lower right, clear of the castle
+    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v10): smaller and lower right, clear of the castle
     x = W * .71 + (pan.width + 80) * (1 - k_in)
     return comp(fr, pan, x, H * .425)                                   # under the castle's line, above the subtitles
 
@@ -252,7 +252,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v9 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v10 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -262,7 +262,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v9.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockF_B_animatic_v10.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -272,14 +272,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockF_B_v9_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockF_B_v10_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockF_B_v9_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockF_B_v10_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

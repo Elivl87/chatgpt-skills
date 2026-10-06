@@ -41,6 +41,7 @@ sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, final, final_plate, subtitle, tag, F  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in Hyrule shots (Producer)
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -102,12 +103,18 @@ TODAY = _today()
 MENU_BG = Image.blend(TODAY.filter(ImageFilter.GaussianBlur(8)), Image.new('RGB', (W, H), (8, 10, 30)), .6)
 
 
-def panel(w, h, alpha=1.0, outline=(235, 235, 250, 255)):
-    g = Image.new('RGBA', (w + 8, h + 8)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((4, 4, w + 4, h + 4), 18, fill=PANEL, outline=outline, width=3)
+def panel(w, h, alpha=1.0, outline=None):
+    """Our game text box (approved style, family A); a coloured outline tints its rule (a highlight)."""
+    g = UI.sq_box(w, h, r=16, pad=4, rule=outline[:3] if outline else UI.GOLD)
     if alpha < 1:
         g.putalpha(g.getchannel('A').point(lambda v: int(v * alpha)))
     return g
+
+
+SEVEN_YEARS = UI.area_title('SEVEN YEARS LATER...', size=40)
+AREA_CHILD = UI.area_title('CHILD', size=36)
+AREA_ADULT = UI.area_title('ADULT', size=36)
+TAG_7Y = UI.sq_tag('7 YEARS', 22)
 
 
 def fade(im, a):
@@ -314,9 +321,8 @@ def stage_sword(fr, t, k):
             fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 255, 255)), .85 * f)
         ka = min(1, max(0, (t - T_SWORD - .2) / .3)) * (1 - min(1, max(0, (t - T_TRI - .3) / .3)))
         if ka > 0:
-            g = panel(470, 80, ka); gd = ImageDraw.Draw(g)
-            ctext(gd, 239, 22, 'SEVEN YEARS LATER...', 32, (255, 255, 255, int(255 * ka)))
-            fr = comp(fr, g, cx - 239, 70)
+            g = fade(SEVEN_YEARS, ka)                                     # a game's time card (area title style)
+            fr = comp(fr, g, cx - g.width / 2, 70)
     return fr
 
 
@@ -488,15 +494,12 @@ def eras_shot(t):
     fr.paste(adult.crop((W // 4, 0, W // 4 + half, H)), (int(sl), 0))
     d = ImageDraw.Draw(fr)
     d.line((sl, 0, sl, H), fill=(255, 255, 255), width=4)
-    for cx, s, gold in ((W * .25, 'CHILD', True), (W * .75, 'ADULT', False)):
-        f = F(30); tw = d.textlength(s, font=f)
-        d.rounded_rectangle((cx - tw / 2 - 18, H * .1, cx + tw / 2 + 18, H * .17), 10, fill=(20, 22, 30), outline=(232, 196, 90) if gold else (200, 80, 90), width=3)
-        d.text((cx - tw / 2, H * .107), s, font=f, fill=(255, 230, 160) if gold else (255, 190, 190))
+    for cx, g in ((W * .25, AREA_CHILD), (W * .75, AREA_ADULT)):          # each era's title card (approved style)
+        fr = comp(fr, g, cx - g.width / 2, H * .09)
     if t >= T_TWOERAS - .1:                                              # seven years between them
         ka = min(1, (t - T_TWOERAS + .1) / .3)
-        g = panel(170, 56, ka); gd = ImageDraw.Draw(g)
-        ctext(gd, 89, 14, '7 YEARS', 26, (255, 255, 255, int(255 * ka)))
-        fr = comp(fr, g, W / 2 - 89, H * .3)
+        g = fade(TAG_7Y, ka)
+        fr = comp(fr, g, W / 2 - g.width / 2, H * .3)
     return fr
 
 
@@ -556,7 +559,7 @@ def render(t):
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v11 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v12 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -566,7 +569,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v11.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v12.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -576,14 +579,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v11_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v12_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v11_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v12_{name}.jpg', quality=85)
         print('stills')
     else:
         main()
