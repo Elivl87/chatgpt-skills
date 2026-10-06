@@ -541,3 +541,9 @@
   Árbol Deku, Campo de Hyrule); `SUB_LANG=es` makes `lib.subtitle` spread each Spanish line over Bram's word timings.
   The whole animatic is re-rendered in a separate worktree (English clips untouched) -> EP002_animatic_full_v4_es(_light).
   On-screen graphics (tags, stamps, labels such as SAME ROAD) stay in English for now. Villain name: pending.
+- Spanish subtitles = the Producer's approved ES-419 script v3, verbatim (`docs/ep002/source/SecondQuest_EP002_SCRIPT_v3_APPROVED_ES-419.txt`
+  -> `docs/publish/EP002/script_es.json`, 157 lines aligned 1:1 with Bram's cues). Claude's own translation is kept as
+  `script_es_claude_draft.json` (superseded). Compared line by line: the approved one is more natural overall and keeps the
+  series' terms (Hyrule Field, Master Sword, "quest"). Report only (scripts are never rewritten): two lines may read a
+  little stiff in ES-419, l87 "cambiaría casi nada" (natural: "no cambiaría casi nada") and l49 "Reconstrúyelo demasiado
+  literalmente hoy" (natural: "Reconstrúyelo hoy de forma demasiado literal"); the Producer decides.
