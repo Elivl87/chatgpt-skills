@@ -305,7 +305,7 @@ def why(t):
         card = Image.new('RGBA', (cw, ch + Si(44))); cd = ImageDraw.Draw(card)
         cd.rounded_rectangle((0, 0, cw - 1, ch + Si(44) - 1), S(14), fill=(250, 246, 236, 255), outline=INK + (255,), width=Si(4))
         if side == 0:
-            pic = HB.old_picture(t, (cw - Si(30), ch - Si(30)))
+            pic = HB.old_picture(t, (300, 220)).resize((cw - Si(30), ch - Si(30)), Image.NEAREST)   # drawn at design size (its scanlines), then scaled
         else:
             pic = HANDHELD.resize((cw - Si(30), ch - Si(30)), Image.LANCZOS)
         card.paste(pic, (Si(15), Si(15)))

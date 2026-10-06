@@ -30,7 +30,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, place, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, place, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
@@ -59,11 +59,11 @@ INK = (20, 14, 18)
 RED, AMBER, GREEN, GOLD = (235, 70, 75), (255, 180, 60), (90, 210, 120), (255, 214, 40)
 UI_BG, UI_PANEL, UI_LINE, UI_TEXT, UI_DIM = (24, 26, 32), (34, 37, 45), (58, 62, 74), (220, 224, 232), (140, 146, 160)
 
-# editor layout (frame px)
-VX0, VY0, VX1 = 232, 64, 968
+# editor layout (frame px; design 232, 64, 968)
+VX0, VY0, VX1 = Si(232), Si(64), Si(968)
 VY1 = VY0 + int((VX1 - VX0) * 9 / 16)                                       # 16:9 viewport
 VW, VH = VX1 - VX0, VY1 - VY0
-BAR_Y = VY1 + 18
+BAR_Y = VY1 + Si(18)
 
 
 # ------------------------------------------------------------------ the room, by layers (colour and placeholder)
@@ -97,6 +97,7 @@ def clay(im):
     g = a[..., :3].mean(2)
     e = cv2.Canny(g.astype(np.uint8), 40, 110) > 0
     v = 120 + (g - 128) * .35
+    e = cv2.dilate(e.astype(np.uint8), np.ones((Si(1), Si(1)), np.uint8)) > 0   # the edge keeps its design width
     v[e] = 70
     out = np.dstack([v, v, v * 1.03, a[..., 3]])
     return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
@@ -109,14 +110,14 @@ def layer_set(f):
     L = {'room': f(_bg).convert('RGBA'), 'television': f(_tv), 'friend.npc': f(_px), 'you_1998': f(_q)}
     bb = {k: v.getchannel('A').getbbox() for k, v in L.items() if k != 'room'}
     bb['television'] = f(_crt).getchannel('A').getbbox()                    # the CRT itself, not the cable
-    return dict(L=L, LC={k: clay(v) for k, v in L.items()}, LW={k: wire(v, k == 'room') for k, v in L.items()}, BBOX=bb, s=L['room'].width / VW)
+    return dict(L=L, LC={k: clay(v) for k, v in L.items()}, LW={k: wire(v, k == 'room') for k, v in L.items()}, BBOX=bb, s=L['room'].width / VW * U)   # s: output px per design px
 
 
 def wire(im, opaque=False):
     """Improvement 4: the first step of the failure - the object drops to its wireframe."""
     a = np.asarray(im.convert('RGBA'))
     e = cv2.Canny(cv2.cvtColor(a[..., :3], cv2.COLOR_RGB2GRAY), 40, 110)
-    e = cv2.dilate(e, np.ones((2, 2), np.uint8)) > 0
+    e = cv2.dilate(e, np.ones((Si(2), Si(2)), np.uint8)) > 0
     e &= a[..., 3] > 20
     out = np.zeros_like(a)
     if opaque:
@@ -136,7 +137,7 @@ def warm(im, k):
         return im
     im = Image.blend(im, Image.new('RGB', im.size, (255, 150, 70)), .2 * k)
     g = Image.new('RGBA', im.size); d = ImageDraw.Draw(g)
-    w, h = im.size; s = w / VW
+    w, h = im.size; s = w / VW * U
     bx = w * .52
     d.polygon([(bx - 90 * s, h * .62), (bx + 45 * s, h * .62), (bx + 190 * s, h), (bx - 15 * s, h)], fill=(255, 190, 110, int(80 * k)))
     return Image.alpha_composite(im.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(20 * s))).convert('RGB')
@@ -147,11 +148,11 @@ def k_fail(name, t):
     return min(1, max(0, (t - tm) / .35))
 
 
-def viewport(t, S=None):
-    S = S or SV
-    L, LC, BBOX, sc = S['L'], S['LC'], S['BBOX'], S['s']
+def viewport(t, st=None):
+    st = st or SV
+    L, LC, BBOX, sc = st['L'], st['LC'], st['BBOX'], st['s']
 
-    LW = S['LW']
+    LW = st['LW']
 
     def mix(name):
         if name == 'you_1998':                                               # he never turns into a placeholder:
@@ -175,7 +176,7 @@ def viewport(t, S=None):
     if T_YOU <= t < T_FAIL:                                                    # it tries: a scan line over him
         x0, y0, x1, y1 = BBOX['you_1998']
         d = ImageDraw.Draw(im); yb = lin(y1, y0, ((t - T_YOU) * 1.4) % 1)
-        d.line((x0 - 10, yb, x1 + 10, yb), fill=(160, 220, 255), width=int(3 * sc))
+        d.line((x0 - S(10), yb, x1 + S(10), yb), fill=(160, 220, 255), width=int(3 * sc))
     # selection outline + a small error pinned on the object as it fails
     d = ImageDraw.Draw(im)
     for name, err, tm in ASSETS:
@@ -207,7 +208,7 @@ def gizmo(d, x, y, sc):
         a = math.atan2(ey - y, ex - x); h = 11 * sc
         d.polygon([(ex + math.cos(a) * h, ey + math.sin(a) * h), (ex + math.cos(a + 2.4) * h, ey + math.sin(a + 2.4) * h),
                    (ex + math.cos(a - 2.4) * h, ey + math.sin(a - 2.4) * h)], fill=col)
-    d.rectangle((x - 5 * sc, y - 5 * sc, x + 5 * sc, y + 5 * sc), fill=(240, 240, 240), outline=INK)
+    d.rectangle((x - 5 * sc, y - 5 * sc, x + 5 * sc, y + 5 * sc), fill=(240, 240, 240), outline=INK, width=max(1, int(sc)))
 
 
 # ------------------------------------------------------------------ the editor
@@ -222,58 +223,58 @@ INSPECT = {                                                                  # P
 
 def editor(t):
     fr = Image.new('RGB', (W, H), UI_BG); d = ImageDraw.Draw(fr)
-    d.rectangle((0, 28, W, 56), fill=UI_PANEL)                                 # menu + title
-    x = 14
+    d.rectangle((0, S(28), W, S(56)), fill=UI_PANEL)                                 # menu + title
+    x = S(14)
     for m in ('File', 'Edit', 'Assets', 'Build'):
-        d.text((x, 33), m, font=F(17), fill=UI_DIM); x += d.textlength(m, font=F(17)) + 22
+        d.text((x, S(33)), m, font=F(17), fill=UI_DIM); x += d.textlength(m, font=F(17)) + S(22)
     s = 'REMAKE ENGINE  ·  memory_saturday_1998.scene'
-    d.text((W / 2 - d.textlength(s, font=F(17)) / 2 + 60, 33), s, font=F(17), fill=UI_TEXT)
+    d.text((W / 2 - d.textlength(s, font=F(17)) / 2 + S(60), S(33)), s, font=F(17), fill=UI_TEXT)
     # hierarchy
-    d.rectangle((8, VY0, VX0 - 12, VY1), fill=UI_PANEL, outline=UI_LINE)
-    d.text((18, VY0 + 8), 'HIERARCHY', font=F(15), fill=UI_DIM)
+    d.rectangle((S(8), VY0, VX0 - S(12), VY1), fill=UI_PANEL, outline=UI_LINE, width=Si(1))
+    d.text((S(18), VY0 + S(8)), 'HIERARCHY', font=F(15), fill=UI_DIM)
     for i, (name, err, tm) in enumerate(ASSETS):
         ka = min(1, max(0, (t - T_OPEN - .25 - i * .3) / .2))
         if ka <= 0:
             continue
-        y = VY0 + 40 + i * 40
+        y = VY0 + S(40) + i * S(40)
         failed = t >= tm
         sel = tm - .1 <= t < tm + 1.3 or (name == 'you_1998' and t >= tm - .1)
         if sel:
-            d.rectangle((12, y - 4, VX0 - 16, y + 28), fill=(60, 52, 40) if name != 'you_1998' else (70, 60, 20))
+            d.rectangle((S(12), y - S(4), VX0 - S(16), y + S(28)), fill=(60, 52, 40) if name != 'you_1998' else (70, 60, 20))
         col = (GOLD if name == 'you_1998' else RED) if failed else UI_TEXT
         if failed and name != 'you_1998':
-            d.line((20, y + 6, 32, y + 20), fill=RED, width=3); d.line((32, y + 6, 20, y + 20), fill=RED, width=3)
+            d.line((S(20), y + S(6), S(32), y + S(20)), fill=RED, width=Si(3)); d.line((S(32), y + S(6), S(20), y + S(20)), fill=RED, width=Si(3))
         elif failed:
-            d.ellipse((19, y + 5, 33, y + 19), outline=GOLD, width=3)
+            d.ellipse((S(19), y + S(5), S(33), y + S(19)), outline=GOLD, width=Si(3))
         else:
             ph = (t * 6 + i) % (2 * math.pi)                                  # loading spinner
-            d.arc((19, y + 5, 33, y + 19), math.degrees(ph), math.degrees(ph) + 270, fill=UI_DIM, width=3)
+            d.arc((S(19), y + S(5), S(33), y + S(19)), math.degrees(ph), math.degrees(ph) + 270, fill=UI_DIM, width=Si(3))
         nm = name if len(name) < 19 else name[:17] + '…'
-        d.text((42, y + 2), nm, font=F(16), fill=col)
+        d.text((S(42), y + S(2)), nm, font=F(16), fill=col)
     # viewport
-    d.rectangle((VX0 - 2, VY0 - 2, VX1 + 2, VY1 + 2), outline=UI_LINE, width=2)
+    d.rectangle((VX0 - S(2), VY0 - S(2), VX1 + S(2), VY1 + S(2)), outline=UI_LINE, width=Si(2))
     fr.paste(viewport(t), (VX0, VY0))
     d = ImageDraw.Draw(fr)
-    d.text((VX0 + 8, VY0 + 6), 'VIEWPORT · PERSPECTIVE', font=F(13), fill=(240, 240, 240), stroke_width=2, stroke_fill=INK)
+    d.text((VX0 + S(8), VY0 + S(6)), 'VIEWPORT · PERSPECTIVE', font=F(13), fill=(240, 240, 240), stroke_width=Si(2), stroke_fill=INK)
     # inspector (improvement 1): the selected asset's properties the engine cannot read
-    cx0 = VX1 + 14; IY1 = VY0 + 214
-    d.rectangle((cx0, VY0, W - 8, IY1), fill=UI_PANEL, outline=UI_LINE)
-    d.text((cx0 + 10, VY0 + 8), 'INSPECTOR', font=F(15), fill=UI_DIM)
+    cx0 = VX1 + S(14); IY1 = VY0 + S(214)
+    d.rectangle((cx0, VY0, W - S(8), IY1), fill=UI_PANEL, outline=UI_LINE, width=Si(1))
+    d.text((cx0 + S(10), VY0 + S(8)), 'INSPECTOR', font=F(15), fill=UI_DIM)
     cur = [a for a in ASSETS if t >= a[2] - .05]
     if not cur:
-        d.text((cx0 + 10, VY0 + 40), '(nothing selected)', font=F(15), fill=UI_DIM)
+        d.text((cx0 + S(10), VY0 + S(40)), '(nothing selected)', font=F(15), fill=UI_DIM)
     else:
         name, err, tm = cur[-1]
-        y = VY0 + 36
+        y = VY0 + S(36)
         for i, (txt, kind) in enumerate(INSPECT[name]):
             if t < tm + .1 + i * .14:                                         # the properties appear one by one
                 break
             col = {'h': (255, 255, 255), 'ok': UI_TEXT, 'bad': RED, 'gold': GOLD}[kind]
-            d.text((cx0 + 10 + (0 if kind == 'h' else 4), y), txt, font=F(17 if kind == 'h' else 15), fill=col)
-            y += 26 if kind == 'h' else 21
+            d.text((cx0 + S(10 + (0 if kind == 'h' else 4)), y), txt, font=F(17 if kind == 'h' else 15), fill=col)
+            y += S(26 if kind == 'h' else 21)
     # console (the last lines)
-    d.rectangle((cx0, IY1 + 8, W - 8, VY1), fill=(18, 19, 24), outline=UI_LINE)
-    d.text((cx0 + 10, IY1 + 14), 'CONSOLE', font=F(15), fill=UI_DIM)
+    d.rectangle((cx0, IY1 + S(8), W - S(8), VY1), fill=(18, 19, 24), outline=UI_LINE, width=Si(1))
+    d.text((cx0 + S(10), IY1 + S(14)), 'CONSOLE', font=F(15), fill=UI_DIM)
     lines = [(T_OPEN, '> import memory', UI_DIM), (T_OPEN + .6, 'loading assets...', UI_DIM)]
     if t >= T_NOT:
         lines.append((T_NOT, '! 5 assets could not', AMBER)); lines.append((T_NOT, '  be rebuilt', AMBER))
@@ -283,30 +284,30 @@ def editor(t):
     if t >= T_ONE:
         lines.append((T_ONE, '  (1 of 1)', GOLD))
     shown = [l for l in lines if t >= l[0]][-7:]
-    y = IY1 + 40
+    y = IY1 + S(40)
     for tm, s, col in shown:
-        d.text((cx0 + 10, y), s, font=F(15), fill=col); y += 22
+        d.text((cx0 + S(10), y), s, font=F(15), fill=col); y += S(22)
     # the import bar
     kb = ease(min(1, max(0, (t - T_OPEN - .3) / (T_LOAD1 - T_OPEN - .3)))) * .99
     bx0, bx1 = VX0, VX1
-    d.rounded_rectangle((bx0, BAR_Y, bx1, BAR_Y + 22), 6, fill=(40, 43, 52), outline=UI_LINE)
+    d.rounded_rectangle((bx0, BAR_Y, bx1, BAR_Y + S(22)), S(6), fill=(40, 43, 52), outline=UI_LINE, width=Si(1))
     bcol = AMBER if t >= T_NOT else (80, 160, 255)
-    d.rounded_rectangle((bx0 + 3, BAR_Y + 3, bx0 + 3 + (bx1 - bx0 - 6) * kb, BAR_Y + 19), 5, fill=bcol)
+    d.rounded_rectangle((bx0 + S(3), BAR_Y + S(3), bx0 + S(3) + (bx1 - bx0 - S(6)) * kb, BAR_Y + S(19)), S(5), fill=bcol)
     lab = f'IMPORTING MEMORY...  {int(kb * 100)}%' if t < T_NOT else 'IMPORT STALLED  99%  ·  WARNING'
-    d.text((bx0, BAR_Y + 28), lab, font=F(15), fill=AMBER if t >= T_NOT else UI_TEXT)
+    d.text((bx0, BAR_Y + S(28)), lab, font=F(15), fill=AMBER if t >= T_NOT else UI_TEXT)
     # the big result tag for him
     if t >= T_FAIL:
         x0, y0, x1, y1 = BBOX['you_1998']
-        fr = C.comp(fr, you_tag(t, 1.0), VX0 + x1 + 8, VY0 + y0 + 10)
+        fr = C.comp(fr, you_tag(t, 1.0), VX0 + x1 + S(8), VY0 + y0 + S(10))
     return fr
 
 
 def you_tag(t, sc):
     k = min(1, (t - T_FAIL) / .3)
-    g = Image.new('RGBA', (300, 66)); gd = ImageDraw.Draw(g)
-    gd.rounded_rectangle((2, 2, 297, 63), 8, fill=(14, 18, 34, 235), outline=GOLD + (255,), width=3)
-    gd.text((14, 6), 'you_1998', font=F(20), fill=(255, 255, 255, 255))
-    gd.text((14, 36), 'CANNOT EXPORT' if t < T_ONE else 'CANNOT EXPORT · 1 OF 1', font=F(17), fill=GOLD + (255,))
+    g = Image.new('RGBA', (Si(300), Si(66))); gd = ImageDraw.Draw(g)
+    gd.rounded_rectangle((S(2), S(2), S(297), S(63)), S(8), fill=(14, 18, 34, 235), outline=GOLD + (255,), width=Si(3))
+    gd.text((S(14), S(6)), 'you_1998', font=F(20), fill=(255, 255, 255, 255))
+    gd.text((S(14), S(36)), 'CANNOT EXPORT' if t < T_ONE else 'CANNOT EXPORT · 1 OF 1', font=F(17), fill=GOLD + (255,))
     g.putalpha(g.getchannel('A').point(lambda v: int(v * k)))
     return g if sc == 1 else g.resize((int(g.width * sc), int(g.height * sc)), Image.LANCZOS)
 
@@ -315,7 +316,7 @@ def full_view(t):
     """The viewport filling the frame: the grey room, him in colour."""
     fr = viewport(t, SF)
     x0, y0, x1, y1 = SF['BBOX']['you_1998']
-    return C.comp(fr, you_tag(t, 1.35), x1 + 14, y0 + 20)
+    return C.comp(fr, you_tag(t, 1.35), x1 + S(14), y0 + S(20))
 
 
 def render(t):
@@ -326,7 +327,7 @@ def render(t):
         if k < 1:
             ed = editor(t)
             box = (lin(0, VX0, k), lin(0, VY0, k), lin(W, VX1, k), lin(H, VY1, k))
-            fr = ed.crop(tuple(int(v) for v in box)).resize((W, H), Image.BICUBIC)
+            fr = ed.crop(tuple(int(int(v / U) * U) for v in box)).resize((W, H), Image.BICUBIC)   # snapped to design px: the same crop at every quality
             if k > .7:
                 fr = Image.blend(fr, full_view(t), (k - .7) / .3)
         else:
