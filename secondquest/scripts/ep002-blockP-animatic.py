@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final, step, STEP_RATE, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, cutout, final, step, STEP_RATE, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
@@ -70,8 +70,8 @@ CONSOLE = INSERT[0].crop((420, 314, 892, 628))                              # ou
 CONSOLE = CONSOLE.crop(CONSOLE.getchannel('A').getbbox())
 CONSOLE = CONSOLE.resize((BC.N64_IMG.width, int(CONSOLE.height * BC.N64_IMG.width / CONSOLE.width)), Image.LANCZOS)
 CARTRIDGE = BN.CARTRIDGE
-CART_PT = (1610, 778)                                                       # the cartridge on the bedside table (plate px, bottom-centre)
-CART_W = 120
+CART_PT = (P(1610), P(778))                                                    # the cartridge on the bedside table (plate px, bottom-centre)
+CART_W = P(120)                                                             # plate px
 
 
 def dusty(im, k):
@@ -138,29 +138,30 @@ def plate(t, k_on=0.0, cart=True, sun=0.0):
     if sun > 0:                                                              # a sunbeam from the window onto the cartridge
         g = Image.new('RGBA', base.size); d = ImageDraw.Draw(g)
         cx, cy = CART_PT
-        d.polygon([(760, 60), (900, 60), (cx + 80, cy - 10), (cx - 70, cy - 10)], fill=(255, 236, 170, int(105 * sun)))
-        base.alpha_composite(g.filter(ImageFilter.GaussianBlur(18)))
+        d.polygon([(P(760), P(60)), (P(900), P(60)), (cx + P(80), cy - P(10)), (cx - P(70), cy - P(10))], fill=(255, 236, 170, int(105 * sun)))
+        base.alpha_composite(g.filter(ImageFilter.GaussianBlur(P(18))))
     if cart:
-        sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((CART_PT[0] - CART_W * .55, CART_PT[1] - 8, CART_PT[0] + CART_W * .55, CART_PT[1] + 6), fill=(0, 0, 0, 90))
-        base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(4)))
+        sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((CART_PT[0] - CART_W * .55, CART_PT[1] - P(8), CART_PT[0] + CART_W * .55, CART_PT[1] + P(6)), fill=(0, 0, 0, 90))
+        base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(4))))
         base.alpha_composite(CART_ROOM, (int(CART_PT[0] - CART_ROOM.width / 2), int(CART_PT[1] - CART_ROOM.height)))
     rgb = base.convert('RGB')
     if sun > 0:
-        rgb = CART.glow(rgb, CART_PT[0], CART_PT[1] - 30, 120, (255, 240, 190), .25 * sun)
+        rgb = CART.glow(rgb, CART_PT[0], CART_PT[1] - P(30), P(120), (255, 240, 190), .25 * sun)
     if k_on > 0:
-        rgb = CART.glow(rgb, BC.SCR_C[0] * PW, BC.SCR_C[1] * PH, 380, (170, 210, 255), .4 * min(1, k_on))
+        rgb = CART.glow(rgb, BC.SCR_C[0] * PW, BC.SCR_C[1] * PH, P(380), (170, 210, 255), .4 * min(1, k_on))
     return rgb
 
 
 def motes(fr, t, cx, cy, k, n=26, spread=150):
-    """Dust glittering in the sunbeam (frame px)."""
+    """Dust glittering in the sunbeam (frame px; spread in design px)."""
     if k <= 0:
         return fr
+    spread = S(spread)
     g = Image.new('RGBA', fr.size); d = ImageDraw.Draw(g)
     for i in range(n):
         a = i * 2.39 + t * .6
-        x = cx + spread * math.sin(a * 1.3 + i) * .8; y = cy - (t * 25 + i * 37) % (spread * 1.6) + spread * .3
-        r = 1.5 + 1.5 * (i % 3); tw = .5 + .5 * math.sin(t * 6 + i)
+        x = cx + spread * math.sin(a * 1.3 + i) * .8; y = cy - (t * S(25) + i * S(37)) % (spread * 1.6) + spread * .3
+        r = S(1.5 + 1.5 * (i % 3)); tw = .5 + .5 * math.sin(t * 6 + i)
         d.ellipse((x - r, y - r, x + r, y + r), fill=(255, 245, 210, int(220 * k * tw)))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
@@ -178,18 +179,18 @@ def door_open(fr, k):
     ox0, oy0, ox1, oy1 = W * .08, H * .04, W * .92, H * 1.0                   # the doorway
     room = fr.resize((int(ox1 - ox0), int(oy1 - oy0)), Image.BILINEAR)
     out.paste(room, (int(ox0), int(oy0)))
-    d.rectangle((ox0 - 26, oy0 - 26, ox0, oy1), fill=(150, 118, 84)); d.rectangle((ox1, oy0 - 26, ox1 + 26, oy1), fill=(150, 118, 84))
-    d.rectangle((ox0 - 26, oy0 - 26, ox1 + 26, oy0), fill=(150, 118, 84))
+    d.rectangle((ox0 - S(26), oy0 - S(26), ox0, oy1), fill=(150, 118, 84)); d.rectangle((ox1, oy0 - S(26), ox1 + S(26), oy1), fill=(150, 118, 84))
+    d.rectangle((ox0 - S(26), oy0 - S(26), ox1 + S(26), oy0), fill=(150, 118, 84))
     e = ease(k)
     if e < .98:                                                                # the door leaf, swinging (perspective: its free edge narrows)
-        wd = max(6, (ox1 - ox0) * math.cos(e * math.pi / 2 * 1.05))
-        sk = 40 * math.sin(e * math.pi / 2)
+        wd = max(S(6), (ox1 - ox0) * math.cos(e * math.pi / 2 * 1.05))
+        sk = S(40) * math.sin(e * math.pi / 2)
         poly = [(ox0, oy0), (ox0 + wd, oy0 + sk), (ox0 + wd, oy1 - sk * .3), (ox0, oy1)]
-        d.polygon(poly, fill=DOOR_C, outline=INK, width=4)
+        d.polygon(poly, fill=DOOR_C, outline=INK, width=Si(4))
         for (a, b) in ((.12, .45), (.55, .9)):                                 # two panels
             px0, px1 = ox0 + wd * .14, ox0 + wd * .86
-            d.rectangle((px0, lin(oy0, oy1, a), px1, lin(oy0, oy1, b)), outline=(90, 66, 44), width=5)
-        d.ellipse((ox0 + wd * .9 - 12, H * .55 - 12, ox0 + wd * .9 + 12, H * .55 + 12), fill=(210, 180, 90), outline=INK, width=3)
+            d.rectangle((px0, lin(oy0, oy1, a), px1, lin(oy0, oy1, b)), outline=(90, 66, 44), width=Si(5))
+        d.ellipse((ox0 + wd * .9 - S(12), H * .55 - S(12), ox0 + wd * .9 + S(12), H * .55 + S(12)), fill=(210, 180, 90), outline=INK, width=Si(3))
     return out
 
 
@@ -202,7 +203,7 @@ def p1(t):
     if kw > 0 and t < T_ORIG + .6:
         walker = step(WALKER, ((STEP_RATE * t) / math.pi) % 2 / 2) if kw < 1 else WALKER   # a step per bob while he walks in
         hh = lin(H * 1.15, H * .55, ease(kw)); q = sized(walker, hh)
-        x = lin(W * .42, W * .62, ease(kw)) - q.width / 2; y = lin(H * 1.35, H * .97, ease(kw)) - q.height + 6 * abs(math.sin(t * STEP_RATE))
+        x = lin(W * .42, W * .62, ease(kw)) - q.width / 2; y = lin(H * 1.35, H * .97, ease(kw)) - q.height + S(6) * abs(math.sin(t * STEP_RATE))
         fr = comp(fr, fade(q, 1 - min(1, max(0, (t - T_ORIG - .2) / .4))), x, y)
     if k_open < 1.2:
         fr = door_open(fr, min(1, max(0, k_open))) if k_open < 1 else fr
@@ -210,7 +211,7 @@ def p1(t):
 
 
 # ------------------------------------------------------------------ P3: blow, insert, power on
-INS_BG = Image.blend(plate(T0).crop((1150, 760, 1560, 990)).resize((W, H)).filter(ImageFilter.GaussianBlur(16)), Image.new('RGB', (W, H), (14, 10, 12)), .3)
+INS_BG = Image.blend(plate(T0).crop((int(P(1150)), int(P(760)), int(P(1560)), int(P(990)))).resize((W, H)).filter(ImageFilter.GaussianBlur(S(16))), Image.new('RGB', (W, H), (14, 10, 12)), .3)
 CAM_TV = (3.4, BC.SCR_C[0] - .02, BC.SCR_C[1] + .02)
 
 
@@ -222,44 +223,46 @@ BLOW_END = (800, 360)                                                        # t
 def blow(t):
     """Improvement 1 (Producer), final art #10a: in profile, the cartridge at his lips - he blows into the connector
     and a cartoon dust cloud blasts out of the far end (the old ritual). The art's own small puff is where it starts."""
-    bg = plate(t, sun=1).crop((1250, 300, 1920, 677)).resize((W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(10))
+    bg = plate(t, sun=1).crop((int(P(1250)), int(P(300)), int(P(1920)), int(P(677)))).resize((W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(S(10)))
     bg = Image.blend(bg, Image.new('RGB', (W, H), (46, 34, 30)), .45)        # darker, so the light dust reads
     ku = ease(min(1, max(0, (t - T_NOBODY) / .35)))                         # he comes up into the shot, cartridge at his lips
     kp = min(1, max(0, (t - T_NOBODY) / (T_INS - T_NOBODY)))                 # a slow push in
     sc = H * 1.05 / BLOW.height * (1 + .04 * kp)
     q = BLOW.resize((int(BLOW.width * sc), int(BLOW.height * sc)), Image.LANCZOS)
-    x, y = W * .10 - 10 * kp, H * .06 + 60 * (1 - ku) - 8 * kp
+    x, y = W * .10 - S(10) * kp, H * .06 + S(60) * (1 - ku) - S(8) * kp
     fr = comp(bg, q, x, y)
     ex, ey = x + BLOW_END[0] * sc, y + BLOW_END[1] * sc                       # the far end of the cartridge
     kb = (t - T_NOBODY - .35) / .9
     if 0 < kb < 1.8:
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
         for i in range(3):                                                     # wind streaks through it
-            yy = ey - 30 + i * 30; kk = min(1, kb * 2)
-            d.line((ex + 10, yy, ex + 10 + 220 * kk, yy + (i - 1) * 20 * kk), fill=(255, 255, 255, int(230 * max(0, 1 - kb / 1.2))), width=6)
+            yy = ey - S(30) + i * S(30); kk = min(1, kb * 2)
+            d.line((ex + S(10), yy, ex + S(10) + S(220) * kk, yy + (i - 1) * S(20) * kk), fill=(255, 255, 255, int(230 * max(0, 1 - kb / 1.2))), width=Si(6))
         rng = np.random.default_rng(3)
         fade_k = max(0, 1 - max(0, kb - .8) / 1.0)
         for i in range(40):                                                    # the dust cloud, a cartoon puff with an ink edge
-            a = rng.uniform(-.55, .55); r = 20 + 380 * min(1, kb) * rng.uniform(.35, 1)
+            a = rng.uniform(-.55, .55); r = S(20 + 380 * min(1, kb) * rng.uniform(.35, 1))
             px, py = ex + r * math.cos(a), ey + r * math.sin(a)
-            s = rng.uniform(18, 46) * (.5 + min(1, kb))
-            d.ellipse((px - s - 3, py - s - 3, px + s + 3, py + s + 3), fill=(60, 46, 36, int(200 * fade_k)))
+            s = S(rng.uniform(18, 46) * (.5 + min(1, kb)))
+            d.ellipse((px - s - S(3), py - s - S(3), px + s + S(3), py + s + S(3)), fill=(60, 46, 36, int(200 * fade_k)))
         rng = np.random.default_rng(3)
         for i in range(40):
-            a = rng.uniform(-.55, .55); r = 20 + 380 * min(1, kb) * rng.uniform(.35, 1)
+            a = rng.uniform(-.55, .55); r = S(20 + 380 * min(1, kb) * rng.uniform(.35, 1))
             px, py = ex + r * math.cos(a), ey + r * math.sin(a)
-            s = rng.uniform(18, 46) * (.5 + min(1, kb))
+            s = S(rng.uniform(18, 46) * (.5 + min(1, kb)))
             d.ellipse((px - s, py - s, px + s, py + s), fill=(236, 224, 196, int(240 * fade_k)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(2))).convert('RGB')
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(2)))).convert('RGB')
     return fr
 
 
 def insert(t):
     k = min(1, max(0, (t - T_INS) / .75))
     f = INSERT[min(len(INSERT) - 1, int(ease(k) * (len(INSERT) - 1)))]
+    if f.size != (W, H):                                                       # the 3D frames are 1280x720 renders
+        f = f.resize((W, H), Image.BILINEAR)
     fr = comp(INS_BG, f, 0, 0)
     if k >= 1:
-        fr = CART.glow(fr, W * .5, H * .38, 140, (255, 236, 160), .4 * max(0, 1 - (t - T_INS - .75) / .4))
+        fr = CART.glow(fr, W * .5, H * .38, S(140), (255, 236, 160), .4 * max(0, 1 - (t - T_INS - .75) / .4))
     return fr
 
 
@@ -269,9 +272,9 @@ def tv_on(t):
     fr = plate(t, k_on=k_on, cart=False, sun=1).crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR)
     kt = min(1, max(0, (t - T_ON - .7) / .25))
     if kt > 0:                                                                 # it works, at the first try
-        st = Image.new('RGBA', (300, 64)); sd = ImageDraw.Draw(st)
-        sd.rounded_rectangle((3, 3, 296, 60), 8, outline=(40, 160, 70, 255), width=6)
-        s = 'FIRST TRY'; sd.text((150 - sd.textlength(s, font=F(30)) / 2, 12), s, font=F(30), fill=(40, 160, 70, 255))
+        st = Image.new('RGBA', (Si(300), Si(64))); sd = ImageDraw.Draw(st)
+        sd.rounded_rectangle((S(3), S(3), S(296), S(60)), S(8), outline=(40, 160, 70, 255), width=Si(6))
+        s = 'FIRST TRY'; sd.text((S(150) - sd.textlength(s, font=F(30)) / 2, S(12)), s, font=F(30), fill=(40, 160, 70, 255))
         st = st.rotate(6, resample=Image.BICUBIC, expand=True)
         sc = 1.4 - .4 * ease(kt); st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
         fr = comp(fr, fade(st, kt), W * .2 - st.width / 2, H * .62 - st.height / 2)
@@ -281,13 +284,13 @@ def tv_on(t):
 # ------------------------------------------------------------------ P4: the 1998 CRT, today's handheld, WHY?
 THINK = cutout('quest2:thinking_chin')
 _hx, _hy = BO.SW_POS
-HANDHELD = BO.handheld(T('l114.w9'), BO.forest(T('l114.w9'))).crop((int(_hx - 40), int(_hy - 60), int(_hx + BO.SW.width + 40), int(_hy + BO.SW.height + 60)))   # block O's handheld, the forest on it
+HANDHELD = BO.handheld(T('l114.w9'), BO.forest(T('l114.w9'))).crop((int(_hx - S(40)), int(_hy - S(60)), int(_hx + BO.SW.width + S(40)), int(_hy + BO.SW.height + S(60))))   # block O's handheld, the forest on it
 
 
 def why(t):
     bg = plate(t, k_on=1, cart=False, sun=1)
     box = cam_box(((1.5, .62, .55), (1.6, .62, .55)), (t - T_WHY) / (T_BEC - T_WHY))
-    fr = bg.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(3))
+    fr = bg.crop(tuple(int(v) for v in box)).resize((W, H), Image.BILINEAR).filter(ImageFilter.GaussianBlur(S(3)))
     fr = Image.blend(fr, Image.new('RGB', (W, H), (40, 34, 30)), .25)
     q = sized(THINK, H * .70)
     fr = comp(fr, q, W * .5 - q.width / 2, H * .99 - q.height)
@@ -298,25 +301,25 @@ def why(t):
         if kk <= 0:
             continue
         hi = .5 + .5 * (look if side else -look)
-        cw, ch = 330, 250
-        card = Image.new('RGBA', (cw, ch + 44)); cd = ImageDraw.Draw(card)
-        cd.rounded_rectangle((0, 0, cw - 1, ch + 43), 14, fill=(250, 246, 236, 255), outline=INK + (255,), width=4)
+        cw, ch = Si(330), Si(250)
+        card = Image.new('RGBA', (cw, ch + Si(44))); cd = ImageDraw.Draw(card)
+        cd.rounded_rectangle((0, 0, cw - 1, ch + Si(44) - 1), S(14), fill=(250, 246, 236, 255), outline=INK + (255,), width=Si(4))
         if side == 0:
-            pic = HB.old_picture(t, (cw - 30, ch - 30))
+            pic = HB.old_picture(t, (cw - Si(30), ch - Si(30)))
         else:
-            pic = HANDHELD.resize((cw - 30, ch - 30), Image.LANCZOS)
-        card.paste(pic, (15, 15))
-        cd.text((cw / 2 - cd.textlength(lab, font=F(26)) / 2, ch + 4), lab, font=F(26), fill=INK + (255,))
+            pic = HANDHELD.resize((cw - Si(30), ch - Si(30)), Image.LANCZOS)
+        card.paste(pic, (Si(15), Si(15)))
+        cd.text((cw / 2 - cd.textlength(lab, font=F(26)) / 2, ch + S(4)), lab, font=F(26), fill=INK + (255,))
         sc = .9 + .12 * hi
         card = card.resize((int(card.width * sc), int(card.height * sc)), Image.LANCZOS).rotate(4 if side == 0 else -4, resample=Image.BICUBIC, expand=True)
         cx = W * (.18 if side == 0 else .82)
-        fr = CART.glow(fr, cx, H * .42, 230, col, .25 + .35 * hi * kk)
+        fr = CART.glow(fr, cx, H * .42, S(230), col, .25 + .35 * hi * kk)
         fr = comp(fr, fade(card, kk), cx - card.width / 2, H * .42 - card.height / 2)
     kw = min(1, max(0, (t - T_WHYW) / .25))                                   # the channel's big WHY?
     if kw > 0:
         s = 'WHY?'; f = UI.anton(int(150 * (1.3 - .3 * ease(kw))))   # EP001 punch type
         d = ImageDraw.Draw(fr)
-        d.text((W / 2 - d.textlength(s, font=f) / 2, H * .03), s, font=f, fill=(255, 214, 40), stroke_width=9, stroke_fill=INK)
+        d.text((W / 2 - d.textlength(s, font=f) / 2, H * .03), s, font=f, fill=(255, 214, 40), stroke_width=Si(9), stroke_fill=INK)
     return fr
 
 
@@ -330,23 +333,24 @@ JAMB_X = W * .50
 
 def frame_wall(t):
     fr = Image.new('RGB', (W, H), (232, 214, 182)); d = ImageDraw.Draw(fr)
-    for y in range(0, H, 6):                                                   # warm wall, sunlit from the left
-        d.line((0, y, W, y), fill=(int(236 - y * .03), int(218 - y * .03), int(186 - y * .03)))
-    fr = CART.glow(fr, W * .2, H * .25, 700, (255, 240, 200), .35)
+    for y in range(0, H, Si(6)):                                               # warm wall, sunlit from the left
+        yd = y / U                                                             # (design px)
+        d.line((0, y, W, y), fill=(int(236 - yd * .03), int(218 - yd * .03), int(186 - yd * .03)), width=Si(1))
+    fr = CART.glow(fr, W * .2, H * .25, S(700), (255, 240, 200), .35)
     d = ImageDraw.Draw(fr)
-    d.rectangle((JAMB_X, 0, JAMB_X + 120, H), fill=(178, 136, 92), outline=INK, width=4)       # the door frame (jamb)
-    d.line((JAMB_X + 18, 0, JAMB_X + 18, H), fill=(140, 104, 70), width=3)
-    d.rectangle((JAMB_X + 120, 0, W, H), fill=(92, 72, 56))                                   # the dark hallway past it
-    d.rectangle((0, FLOOR_Y, W, H), fill=(150, 104, 64)); d.line((0, FLOOR_Y, W, FLOOR_Y), fill=INK, width=4)
+    d.rectangle((JAMB_X, 0, JAMB_X + S(120), H), fill=(178, 136, 92), outline=INK, width=Si(4))       # the door frame (jamb)
+    d.line((JAMB_X + S(18), 0, JAMB_X + S(18), H), fill=(140, 104, 70), width=Si(3))
+    d.rectangle((JAMB_X + S(120), 0, W, H), fill=(92, 72, 56))                                   # the dark hallway past it
+    d.rectangle((0, FLOOR_Y, W, H), fill=(150, 104, 64)); d.line((0, FLOOR_Y, W, FLOOR_Y), fill=INK, width=Si(4))
     return fr
 
 
 def pencil_mark(d, y, lab, k, col=(70, 60, 70), big=False):
-    x0 = JAMB_X - 4; x1 = x0 + 128 * k
-    d.line((x0, y, x1, y), fill=col, width=5 if big else 3)
+    x0 = JAMB_X - S(4); x1 = x0 + S(128) * k
+    d.line((x0, y, x1, y), fill=col, width=Si(5 if big else 3))
     if k >= 1:
         f = F(30 if big else 20)
-        d.text((x0 + 26, y - (36 if big else 26)), lab, font=f, fill=col)
+        d.text((x0 + S(26), y - S(36 if big else 26)), lab, font=f, fill=col)
 
 
 def marks(t):
@@ -357,10 +361,10 @@ def marks(t):
         kid = sized(SMILE, Q_H * MARKS[-1][1])
         a = np.asarray(kid).astype(np.float32); a[..., :3] = a[..., :3] * .45 + np.array([190, 215, 255]) * .55; a[..., 3] *= .6
         kid = Image.fromarray(a.astype(np.uint8))
-        fr = comp(fr, fade(kid, kg0), JAMB_X - kid.width * .82, FLOOR_Y - kid.height + 2)
+        fr = comp(fr, fade(kid, kg0), JAMB_X - kid.width * .82, FLOOR_Y - kid.height + S(2))
     q = sized(SMILE, Q_H)
     qx = lin(W * .18, JAMB_X - q.width * .82, ease(ks))
-    fr = comp(fr, fade(q, min(1, ks * 3) if ks > 0 else 0), qx, FLOOR_Y - q.height + 4)
+    fr = comp(fr, fade(q, min(1, ks * 3) if ks > 0 else 0), qx, FLOOR_Y - q.height + S(4))
     d = ImageDraw.Draw(fr)
     for lab, h in MARKS:                                                      # the old marks stay on top of him: they are on the frame
         pencil_mark(d, FLOOR_Y - Q_H * h, lab, 1)
@@ -369,22 +373,22 @@ def marks(t):
     kn = min(1, max(0, (t - T_MEAS) / .45))
     if kn > 0:                                                                 # the pencil draws today's line over his head
         pencil_mark(d, y26, '2026', kn, col=(200, 40, 50), big=True)
-        px = JAMB_X - 4 + 128 * kn
-        d.line((px, y26, px + 40, y26 - 50), fill=(240, 200, 60), width=10); d.line((px, y26, px + 8, y26 - 10), fill=INK, width=4)
+        px = JAMB_X - S(4) + S(128) * kn
+        d.line((px, y26, px + S(40), y26 - S(50)), fill=(240, 200, 60), width=Si(10)); d.line((px, y26, px + S(8), y26 - S(10)), fill=INK, width=Si(4))
     kg = min(1, max(0, (t - T_CHG) / .5))
     if kg > 0:                                                                 # the gap between 1998 and today lights up
         g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
-        gd.rectangle((JAMB_X + 4, y26 + 6, JAMB_X + 116, y98 - 6), fill=(255, 220, 90, int(150 * kg)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
+        gd.rectangle((JAMB_X + S(4), y26 + S(6), JAMB_X + S(116), y98 - S(6)), fill=(255, 220, 90, int(150 * kg)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(6)))).convert('RGB')
         d = ImageDraw.Draw(fr)
-        bx = JAMB_X + 150
-        d.line((bx, y26, bx, y26 + (y98 - y26) * ease(kg)), fill=(255, 214, 40), width=6)
+        bx = JAMB_X + S(150)
+        d.line((bx, y26, bx, y26 + (y98 - y26) * ease(kg)), fill=(255, 214, 40), width=Si(6))
         for yy in (y26, y98):
-            d.line((bx - 14, yy, bx + 14, yy), fill=(255, 214, 40), width=6)
+            d.line((bx - S(14), yy, bx + S(14), yy), fill=(255, 214, 40), width=Si(6))
         if kg >= 1:
             f = F(34)
             for i, s in enumerate(('HOW MUCH', 'YOU CHANGED')):
-                d.text((bx + 26, (y26 + y98) / 2 - 42 + i * 44), s, font=f, fill=(255, 236, 170), stroke_width=4, stroke_fill=INK)
+                d.text((bx + S(26), (y26 + y98) / 2 - S(42) + i * S(44)), s, font=f, fill=(255, 236, 170), stroke_width=Si(4), stroke_fill=INK)
     return fr
 
 
@@ -396,7 +400,7 @@ def whip(a, b, k):
     e = ease(min(1, max(0, k)))
     off = int(W * e)
     out = Image.new('RGB', (W, H)); out.paste(a, (-off, 0)); out.paste(b, (W - off, 0))
-    n = int(90 * math.sin(math.pi * e)) // 2 * 2 + 1
+    n = int(S(90) * math.sin(math.pi * e)) // 2 * 2 + 1
     if n > 1:
         out = Image.fromarray(cv2.blur(np.asarray(out), (n, 1)))
     return out
@@ -407,7 +411,7 @@ def render(t):
     if t < T_NOBODY:
         fr, box = p1(t)
         if t >= T_ORIG:
-            mx, my = BO.to_frame(CART_PT[0], CART_PT[1] - 40, box)
+            mx, my = BO.to_frame(CART_PT[0], CART_PT[1] - P(40), box)
             fr = motes(fr, t, mx, my, min(1, (t - T_ORIG) / .6) * (1 + .6 * (t > T('l116.w4'))))
             zs = W / (box[2] - box[0])                                     # lock-on on the cartridge: "the original game"
             cx_, cy_ = BO.to_frame(CART_PT[0], CART_PT[1] - CART_ROOM.height / 2, box)

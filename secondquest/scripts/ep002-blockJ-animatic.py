@@ -27,7 +27,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa
@@ -67,18 +67,18 @@ P1 = final('quest_veteran')                                           # final ar
 # ------------------------------------------------------------------ J1: the new player's file
 def new_file(fr, t, a):
     g = panel(560, 410, a, outline=BLUE + (255,)); d = ImageDraw.Draw(g)
-    d.text((30, 20), 'FILE 2 · NEW PLAYER', font=F(28), fill=BLUE + (int(255 * a),))
+    d.text((S(30), S(20)), 'FILE 2 · NEW PLAYER', font=F(28), fill=BLUE + (int(255 * a),))
     for i in range(3):                                                    # 3 hearts: a brand-new file
-        hud._heart(d, 46 + i * 34, 82, 11, (232, 44, 52, int(255 * a)))
-    d.text((30, 140), 'TIME  000:00', font=F(26), fill=(230, 230, 245, int(255 * a)))
-    out = comp(fr, g, W * .5 - 120, H * .1)
+        hud._heart(d, S(46 + i * 34), S(82), S(11), (232, 44, 52, int(255 * a)))
+    d.text((S(30), S(140)), 'TIME  000:00', font=F(26), fill=(230, 230, 245, int(255 * a)))
+    out = comp(fr, g, W * .5 - S(120), H * .1)
     d2 = ImageDraw.Draw(out, 'RGBA')
     for i, sx in enumerate(BI.SLOT_X):                                    # three empty slots, a "?" in each
-        d2.rounded_rectangle((sx - 52, BI.SLOT_Y - 52, sx + 52, BI.SLOT_Y + 52), 14, fill=(30, 36, 80, int(230 * a)), outline=(235, 235, 250, int(255 * a)), width=3)
+        d2.rounded_rectangle((sx - S(52), BI.SLOT_Y - S(52), sx + S(52), BI.SLOT_Y + S(52)), S(14), fill=(30, 36, 80, int(230 * a)), outline=(235, 235, 250, int(255 * a)), width=Si(3))
         k = min(1, max(0, (t - T('l72.w4') - .12 * i) / .25))             # "none": the "?" pop in, one by one
         if k > 0:
-            ctext(d2, sx, BI.SLOT_Y - 30 - 8 * (1 - k), '?', int(52 + 10 * (1 - k)), (150, 160, 200, int(255 * a * k)))
-    d2.text((800, 404), '0%', font=F(40), fill=(150, 160, 200, int(255 * a)))
+            ctext(d2, sx, BI.SLOT_Y - S(30) - S(8) * (1 - k), '?', int(52 + 10 * (1 - k)), (150, 160, 200, int(255 * a * k)))
+    d2.text((S(800), S(404)), '0%', font=F(40), fill=(150, 160, 200, int(255 * a)))
     return out
 
 
@@ -91,17 +91,17 @@ def frame_j1(t):
     c = BI.card(P2_T if suited else P2, 'NEW PLAYER', BLUE, alpha=1, pixie=True, missing=PIX_TAG if suited else '')
     s = lin(.38, 1, k)
     c = c.resize((int(c.width * s), int(c.height * s)), Image.LANCZOS)
-    x = lin(W - 64 - 120, W * .07, k); y = lin(44, H * .12, k)
-    fr = CART.glow(fr, x + c.width / 2, y + c.height / 2, int(260 * k) + 1, BLUE, .25 * k)
+    x = lin(W - S(64 + 120), W * .07, k); y = lin(S(44), H * .12, k)
+    fr = CART.glow(fr, x + c.width / 2, y + c.height / 2, int(S(260) * k) + 1, BLUE, .25 * k)
     fr = comp(fr, c, x, y)
     if T_NONE - .15 <= t < T_NONE + .35:                                  # a flash as the new game starts
         f = 1 - (t - T_NONE + .15) / .5
-        fr = CART.glow(fr, x + c.width / 2, y + c.height / 2, 240, (255, 255, 240), .8 * f)
+        fr = CART.glow(fr, x + c.width / 2, y + c.height / 2, S(240), (255, 255, 240), .8 * f)
     if t < T_NONE:                                                        # "Player two?"
         d = ImageDraw.Draw(fr)
         kq = min(1, max(0, (t - T('l71.w2')) / .25))
         if kq > 0:
-            d.text((W * .07 + 250, H * .12 + 40), '?', font=F(int(60 + 20 * (1 - kq))), fill=BLUE, stroke_width=5, stroke_fill=(20, 14, 18))
+            d.text((W * .07 + S(250), H * .12 + S(40)), '?', font=F(int(60 + 20 * (1 - kq))), fill=BLUE, stroke_width=Si(5), stroke_fill=(20, 14, 18))
     fa = ease(min(1, max(0, (t - T_NONE + .15) / .4)))
     if fa > 0:
         fr = new_file(fr, t, fa)
@@ -114,7 +114,7 @@ FACE = (W * .65, H * .17)                                              # its fac
 PX, PFEET, PHH = W * .24, H * .88, H * .40                             # Pixie on the open ground, lower left (tiny next to it)
 _m = Image.new('L', (W, H), 0)
 ImageDraw.Draw(_m).polygon([(W * .44, 0), (W, 0), (W, H * .82), (W * .30, H * .78), (W * .42, H * .55), (W * .47, H * .25)], fill=255)
-TREE_MASK = _m.filter(ImageFilter.GaussianBlur(30))                    # roughly the trunk and the face (for the "unwell" tint)
+TREE_MASK = _m.filter(ImageFilter.GaussianBlur(S(30)))                    # roughly the trunk and the face (for the "unwell" tint)
 
 
 def sick_fx(g, t, sick):
@@ -126,20 +126,20 @@ def sick_fx(g, t, sick):
     d = ImageDraw.Draw(g)
     a = int(255 * sick)
     mx, my = W * .615, H * .335                                          # the thermometer pokes out under the moustache
-    d.line((mx, my, mx + 120, my + 46), fill=(20, 14, 18, a), width=14); d.line((mx, my, mx + 120, my + 46), fill=(245, 245, 250, a), width=9)
-    d.line((mx + 60, my + 23, mx + 116, my + 44), fill=(230, 40, 40, a), width=4)
-    d.ellipse((mx + 108, my + 34, mx + 132, my + 58), fill=(230, 40, 40, a), outline=INK, width=3)
-    sx, sy = W * .53, H * .55 - 26 * math.sin(t * 2)                     # a spider's shadow crawling on the trunk
-    d.ellipse((sx - 22, sy - 16, sx + 22, sy + 16), fill=(20, 14, 18, a))
+    d.line((mx, my, mx + S(120), my + S(46)), fill=(20, 14, 18, a), width=Si(14)); d.line((mx, my, mx + S(120), my + S(46)), fill=(245, 245, 250, a), width=Si(9))
+    d.line((mx + S(60), my + S(23), mx + S(116), my + S(44)), fill=(230, 40, 40, a), width=Si(4))
+    d.ellipse((mx + S(108), my + S(34), mx + S(132), my + S(58)), fill=(230, 40, 40, a), outline=INK, width=Si(3))
+    sx, sy = W * .53, H * .55 - S(26) * math.sin(t * 2)                     # a spider's shadow crawling on the trunk
+    d.ellipse((sx - S(22), sy - S(16), sx + S(22), sy + S(16)), fill=(20, 14, 18, a))
     for j in range(4):
         for sgn in (-1, 1):
-            d.line((sx, sy, sx + sgn * (34 + 6 * j), sy - 18 + 12 * j + 4 * math.sin(t * 12 + j)), fill=(20, 14, 18, a), width=4)
+            d.line((sx, sy, sx + sgn * S(34 + 6 * j), sy + S(-18 + 12 * j + 4 * math.sin(t * 12 + j))), fill=(20, 14, 18, a), width=Si(4))
     for j in range(3):                                                  # sweat drops on the brow
-        dy = ((t * 1.5 + j / 3) % 1) * 40
-        x = W * .56 + j * 34 + (60 if j == 2 else 0); y = H * .09 + dy
-        aa = int(a * (1 - dy / 40))
-        d.polygon([(x, y - 12), (x - 8, y + 4), (x + 8, y + 4)], fill=(150, 210, 255, aa))
-        d.ellipse((x - 8, y - 4, x + 8, y + 12), fill=(150, 210, 255, aa))
+        dy = ((t * 1.5 + j / 3) % 1) * S(40)
+        x = W * .56 + S(j * 34 + (60 if j == 2 else 0)); y = H * .09 + dy
+        aa = int(a * (1 - dy / S(40)))
+        d.polygon([(x, y - S(12)), (x - S(8), y + S(4)), (x + S(8), y + S(4))], fill=(150, 210, 255, aa))
+        d.ellipse((x - S(8), y - S(4), x + S(8), y + S(12)), fill=(150, 210, 255, aa))
     return g.convert('RGB')
 
 
@@ -148,18 +148,18 @@ def frame_j2(t):
     push = ease(min(1, (t - T_TREE) / (T_NOST - T_TREE)))
     fr = TREE.copy()
     breathe = .5 + .5 * math.sin((t - T_TREE) * 1.6)                     # the old tree breathes: its light swells softly
-    fr = CART.glow(fr, FACE[0], FACE[1] + 40, 260, (255, 236, 170), .10 + .08 * breathe)
+    fr = CART.glow(fr, FACE[0], FACE[1] + S(40), S(260), (255, 236, 170), .10 + .08 * breathe)
     if sick > 0:
         fr = sick_fx(fr, t, sick)
     who = P2_HMM if t >= T_PROB else P2_AWE
     q = sized(who, PHH)
-    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((PX - q.width * .4, PFEET - 10, PX + q.width * .4, PFEET + 10), fill=(0, 0, 0, 90))
-    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(6))).convert('RGB')
+    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((PX - q.width * .4, PFEET - S(10), PX + q.width * .4, PFEET + S(10)), fill=(0, 0, 0, 90))
+    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(S(6)))).convert('RGB')
     fr = comp(fr, q, PX - q.width / 2, PFEET - PHH)
     if t >= T_PROB:
         kq = min(1, (t - T_PROB) / .25)
         d = ImageDraw.Draw(fr)
-        d.text((PX + q.width * .45, PFEET - PHH - 30 - 10 * (1 - kq)), '?', font=F(int(56 + 14 * (1 - kq))), fill=(255, 255, 255), stroke_width=4, stroke_fill=(20, 14, 18))
+        d.text((PX + q.width * .45, PFEET - PHH - S(30) - S(10) * (1 - kq)), '?', font=F(int(56 + 14 * (1 - kq))), fill=(255, 255, 255), stroke_width=Si(4), stroke_fill=(20, 14, 18))
     fr = fairy_fx.draw(fr, [(T_TREE, .40, .45), (T_LARGE, .48, .30), (T_PROB, .40, .42), (T_NOST, .38, .40)], t, size=.04)
     z = 1 + .06 * push                                                    # a slow push in, towards the face and her
     cx, cy = W * .45, H * .30                                             # anchored high: the face stays clear of the HUD
@@ -177,10 +177,10 @@ ROWS = [('NOSTALGIA', T_NOST_W - .4), ('CHILDHOOD', T_CHILD + .1), ('EXPECTATION
 
 
 def heart_bar(d, x, y, w, v, a):
-    d.rounded_rectangle((x, y, x + w, y + 22), 8, fill=(20, 20, 30, int(220 * a)), outline=(235, 235, 250, int(255 * a)), width=2)
+    d.rounded_rectangle((x, y, x + w, y + S(22)), S(8), fill=(20, 20, 30, int(220 * a)), outline=(235, 235, 250, int(255 * a)), width=Si(2))
     if v > 0:
-        d.rounded_rectangle((x + 3, y + 3, x + 3 + (w - 6) * v, y + 19), 6, fill=(232, 60, 80, int(255 * a)))
-    hud._heart(d, x + w + 22, y + 11, 11, (232, 44, 52, int(255 * a)) if v > 0 else (60, 40, 50, int(200 * a)))
+        d.rounded_rectangle((x + S(3), y + S(3), x + S(3) + (w - S(6)) * v, y + S(19)), S(6), fill=(232, 60, 80, int(255 * a)))
+    hud._heart(d, x + w + S(22), y + S(11), S(11), (232, 44, 52, int(255 * a)) if v > 0 else (60, 40, 50, int(200 * a)))
 
 
 def frame_j3(t):
@@ -188,12 +188,12 @@ def frame_j3(t):
     a0 = ease(min(1, (t - T_NOST) / .4))
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     cxL, cxR = W * .40, W * .73                                            # two columns
-    g.alpha_composite(UI.fade(UI.sq_box(int(W * .75), int(H * .68), r=18), a0), (int(W * .18) - 8, int(H * .06) - 8))   # our game text box (family A)
+    g.alpha_composite(UI.fade(UI.sq_box(int(W * .75 / U), int(H * .68 / U), r=18), a0), (int(W * .18) - Si(8), int(H * .06) - Si(8)))   # our game text box (family A)
     ctext(d, cxL, H * .09, 'VETERAN PLAYER', 26, GOLD + (int(255 * a0),))
     ctext(d, cxR, H * .09, 'NEW PLAYER', 26, BLUE + (int(255 * a0),))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     small1 = sized(P1, H * .25); small2 = sized(P2_T, H * .25 * .95)       # the two of them, heading each column
-    fr = comp(fr, fade(small1, a0), cxL - small1.width / 2 + 40, H * .135)
+    fr = comp(fr, fade(small1, a0), cxL - small1.width / 2 + S(40), H * .135)
     fr = comp(fr, fade(small2, a0), cxR - small2.width / 2, H * .135 + H * .25 * .05)
     d = ImageDraw.Draw(fr, 'RGBA')
     for i, (name, ti) in enumerate(ROWS):
@@ -201,31 +201,31 @@ def frame_j3(t):
         if k <= 0:
             continue
         y = H * (.43 + .1 * i)
-        d.text((W * .2, y - 2), name, font=F(22), fill=(200, 205, 230, int(255 * k)))
+        d.text((W * .2, y - S(2)), name, font=F(22), fill=(200, 205, 230, int(255 * k)))
         if name == 'NOSTALGIA':                                            # the heart bar from block F: full | empty
-            heart_bar(d, cxL - 50, y, 230, 1.0, k); heart_bar(d, cxR - 120, y, 230, 0.0, k)
+            heart_bar(d, cxL - S(50), y, S(230), 1.0, k); heart_bar(d, cxR - S(120), y, S(230), 0.0, k)
         elif name == 'CHILDHOOD':                                          # the 1998 photo | a blank photo
             ph = HB.FB.polaroid(-99, 0)
             ph = ph.resize((int(ph.width * .42), int(ph.height * .42)), Image.LANCZOS).rotate(4, expand=True, resample=Image.BICUBIC)
-            fr = comp(fr, fade(ph, k), cxL + 10 - ph.width / 2, y - 30)
+            fr = comp(fr, fade(ph, k), cxL + S(10) - ph.width / 2, y - S(30))
             blank = Image.new('RGBA', ph.size); bd = ImageDraw.Draw(blank)
-            bd.rectangle((4, 4, ph.width - 6, ph.height - 6), fill=(250, 246, 236, 255)); bd.rectangle((10, 10, ph.width - 12, ph.height - 26), fill=(225, 222, 214, 255))
-            fr = comp(fr, fade(blank.rotate(-3, expand=True), k), cxR - ph.width / 2, y - 30)
+            bd.rectangle((S(4), S(4), ph.width - S(6), ph.height - S(6)), fill=(250, 246, 236, 255)); bd.rectangle((S(10), S(10), ph.width - S(12), ph.height - S(26)), fill=(225, 222, 214, 255))
+            fr = comp(fr, fade(blank.rotate(-3, expand=True), k), cxR - ph.width / 2, y - S(30))
             d = ImageDraw.Draw(fr, 'RGBA')
         else:                                                              # 28 YEARS (heavy) | 0
             u = (t - ti) / .35                                             # it weighs: drops in, lands with a thud, a little dust
-            drop = -60 * (1 - min(1, u) ** 2) if u < 1 else 5 * math.sin(min(1, (u - 1) / .4) * math.pi) * (1 - min(1, (u - 1) / .4))
+            drop = -S(60) * (1 - min(1, u) ** 2) if u < 1 else S(5) * math.sin(min(1, (u - 1) / .4) * math.pi) * (1 - min(1, (u - 1) / .4))
             yy = y + drop
-            d.rounded_rectangle((cxL - 70, yy - 8, cxL + 150, yy + 36), 10, fill=(120, 60, 30, 240), outline=INK, width=3)
-            ctext(d, cxL + 40, yy - 3, '28 YEARS', 30, (255, 230, 170, 255))
+            d.rounded_rectangle((cxL - S(70), yy - S(8), cxL + S(150), yy + S(36)), S(10), fill=(120, 60, 30, 240), outline=INK, width=Si(3))
+            ctext(d, cxL + S(40), yy - S(3), '28 YEARS', 30, (255, 230, 170, 255))
             if 1 <= u < 2.2:
                 kd = (u - 1) / 1.2
                 for side in (-1, 1):
                     for j in range(3):
-                        px = cxL + 40 + side * (90 + 22 * j + 20 * kd); py = y + 40 - 6 * kd - 4 * j
-                        r = 5 + 4 * kd
+                        px = cxL + S(40) + side * S(90 + 22 * j + 20 * kd); py = y + S(40 - 6 * kd - 4 * j)
+                        r = S(5 + 4 * kd)
                         d.ellipse((px - r, py - r, px + r, py + r), fill=(200, 190, 210, int(150 * (1 - kd))))
-            ctext(d, cxR, y - 8, '0', 40, (150, 160, 200, int(255 * k)))
+            ctext(d, cxR, y - S(8), '0', 40, (150, 160, 200, int(255 * k)))
     return fr, 'J3 veteran | new player: nostalgia, childhood, expectations'
 
 

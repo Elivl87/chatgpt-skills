@@ -32,7 +32,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, cam_box, to_screen, subtitle, tag, F, SHIELD_SWAY, STEP_RATE, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, cam_box, to_screen, subtitle, tag, F, SHIELD_SWAY, STEP_RATE, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
@@ -75,9 +75,9 @@ def changes(t):
 def polaroid(t):
     c = changes(t) / len(UPGRADES)
     img = Image.blend(POLA_OLD, POLA_NEW, c)
-    card = Image.new('RGBA', (img.width + 20, img.height + 46), (250, 246, 236, 255)); card.paste(img, (10, 10))
+    card = Image.new('RGBA', (img.width + Si(20), img.height + Si(46)), (250, 246, 236, 255)); card.paste(img, (Si(10), Si(10)))
     d = ImageDraw.Draw(card)
-    d.text((12, img.height + 16), FB.POLA_CAP, font=F(18), fill=(70, 55, 40, int(255 * (1 - .8 * c))))   # the date fades
+    d.text((S(12), img.height + S(16)), FB.POLA_CAP, font=F(18), fill=(70, 55, 40, int(255 * (1 - .8 * c))))   # the date fades
     return card
 
 
@@ -86,26 +86,26 @@ POLA_SCALE = 1.05
 
 
 def pola_center():
-    w, h = (POLA_OLD.width + 20) * POLA_SCALE, (POLA_OLD.height + 46) * POLA_SCALE
+    w, h = (POLA_OLD.width + Si(20)) * POLA_SCALE, (POLA_OLD.height + Si(46)) * POLA_SCALE
     return POLA_REST[0] + w / 2, POLA_REST[1] + h * .42
 
 
 def chip(kind):
     if kind == 'camera':
         return camera_icon(rec=True, width=70)
-    g = Image.new('RGBA', (80, 56)); d = ImageDraw.Draw(g)
+    g = Image.new('RGBA', (Si(80), Si(56))); d = ImageDraw.Draw(g)
     if kind == 'hd':
-        d.rounded_rectangle((4, 6, 76, 50), 10, fill=(30, 36, 60, 240), outline=INK, width=3)
-        d.text((16, 10), 'HD', font=F(30), fill=(150, 220, 255, 255))
+        d.rounded_rectangle((S(4), S(6), S(76), S(50)), S(10), fill=(30, 36, 60, 240), outline=INK, width=Si(3))
+        d.text((S(16), S(10)), 'HD', font=F(30), fill=(150, 220, 255, 255))
     elif kind == 'note':
-        d.ellipse((12, 4, 68, 52), fill=(232, 196, 90, 240), outline=INK, width=3)
-        d.text((26, 6), '♪', font=F(36), fill=(255, 255, 255, 255), stroke_width=2, stroke_fill=(70, 45, 15))
+        d.ellipse((S(12), S(4), S(68), S(52)), fill=(232, 196, 90, 240), outline=INK, width=Si(3))
+        d.text((S(26), S(6)), '♪', font=F(36), fill=(255, 255, 255, 255), stroke_width=Si(2), stroke_fill=(70, 45, 15))
     else:                                                               # voice: a little bubble with a waveform
-        d.rounded_rectangle((4, 6, 76, 46), 14, fill=(250, 250, 250, 245), outline=INK, width=3)
-        d.polygon([(18, 44), (14, 54), (28, 45)], fill=(250, 250, 250, 245), outline=INK)
+        d.rounded_rectangle((S(4), S(6), S(76), S(46)), S(14), fill=(250, 250, 250, 245), outline=INK, width=Si(3))
+        d.polygon([(S(18), S(44)), (S(14), S(54)), (S(28), S(45))], fill=(250, 250, 250, 245), outline=INK)
         for j in range(8):
-            hh = 6 + 18 * abs(math.sin(j * 1.3))
-            d.line((16 + j * 7, 26 - hh / 2, 16 + j * 7, 26 + hh / 2), fill=(60, 120, 220, 255), width=4)
+            hh = S(6) + S(18) * abs(math.sin(j * 1.3))
+            d.line((S(16 + j * 7), S(26) - hh / 2, S(16 + j * 7), S(26) + hh / 2), fill=(60, 120, 220, 255), width=Si(4))
     return g
 
 
@@ -123,7 +123,7 @@ def upgrades_fly(fr, t):
             fr = comp(fr, g, x - g.width / 2, y - g.height / 2)
         if 1 <= u < 1 + .5 / FLY:                                       # a soft ripple where it lands, no flash
             k = (u - 1) * FLY / .5
-            fr = CART.glow(fr, ex, ey, int(60 + 80 * k), (200, 230, 255), .25 * (1 - k))
+            fr = CART.glow(fr, ex, ey, int(S(60) + S(80) * k), (200, 230, 255), .25 * (1 - k))
     return fr
 
 
@@ -136,7 +136,7 @@ def message_box(fr, t, alpha=1.0):
     g = UI.sq_banner('New quest', full, n=n, t=t)
     if alpha < 1:
         g.putalpha(g.getchannel('A').point(lambda v: int(v * alpha)))
-    return comp(fr, g, W * .035 - 8, H * .30 - 8)                      # where the photo was: left of the castle
+    return comp(fr, g, W * .035 - S(8), H * .30 - S(8))                      # where the photo was: left of the castle
 
 
 # ------------------------------------------------------------------ H3-H4: the balance slider
@@ -157,19 +157,19 @@ def slider(fr, t, y, alpha):
         return fr
     x0, x1 = W * .34, W * .63
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    bx = UI.sq_box(int(x1 - x0 + 28), 72)                               # our game text box: an options slider (family A)
-    g.alpha_composite(bx, (int(x0 - 14 - 8), int(y - 46 - 8)))
-    d.rounded_rectangle((x0, y - 6, x1, y + 6), 6, fill=(30, 30, 40, 255), outline=INK, width=2)
+    bx = UI.sq_box(int((x1 - x0) / U + 28), 72)                         # our game text box: an options slider (family A)
+    g.alpha_composite(bx, (int(x0 - S(14) - S(8)), int(y - S(46) - S(8))))
+    d.rounded_rectangle((x0, y - S(6), x1, y + S(6)), S(6), fill=(30, 30, 40, 255), outline=INK, width=Si(2))
     for i in range(40):                                                 # amber (familiar) -> cyan (different)
         k = i / 39; c = tuple(int(lin(a, b, k)) for a, b in zip((240, 170, 80), (90, 210, 250)))
-        d.rectangle((lin(x0 + 3, x1 - 3, k), y - 3, lin(x0 + 3, x1 - 3, k) + (x1 - x0) / 40, y + 3), fill=c + (255,))
+        d.rectangle((lin(x0 + S(3), x1 - S(3), k), y - S(3), lin(x0 + S(3), x1 - S(3), k) + (x1 - x0) / 40, y + S(3)), fill=c + (255,))
     sx0, sx1 = lin(x0, x1, .5 - SWEET), lin(x0, x1, .5 + SWEET)
-    d.rounded_rectangle((sx0, y - 9, sx1, y + 9), 5, outline=(90, 230, 120, 255), width=3)    # the narrow sweet spot
+    d.rounded_rectangle((sx0, y - S(9), sx1, y + S(9)), S(5), outline=(90, 230, 120, 255), width=Si(3))    # the narrow sweet spot
     p = knob_at(t)
     hot = min(1, max(0, (p - .6) / .25))
-    d.text((x0, y - 38), 'FAMILIAR', font=F(18), fill=(240, 190, 110, 255))
+    d.text((x0, y - S(38)), 'FAMILIAR', font=F(18), fill=(240, 190, 110, 255))
     tw = d.textlength('DIFFERENT', font=F(18))
-    d.text((x1 - tw, y - 38), 'DIFFERENT', font=F(18), fill=tuple(int(lin(a, b, hot)) for a, b in zip((140, 200, 230), (200, 245, 255))) + (255,))
+    d.text((x1 - tw, y - S(38)), 'DIFFERENT', font=F(18), fill=tuple(int(lin(a, b, hot)) for a, b in zip((140, 200, 230), (200, 245, 255))) + (255,))
     if alpha < 1:
         g.putalpha(g.getchannel('A').point(lambda v: int(v * alpha)))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
@@ -178,7 +178,7 @@ def slider(fr, t, y, alpha):
         o = o.copy(); o.putalpha(o.getchannel('A').point(lambda v: int(v * alpha)))
     kx = lin(x0, x1, p)
     if abs(p - .5) < SWEET:
-        fr = CART.glow(fr, kx, y, 40, (120, 255, 150), .35 * alpha)
+        fr = CART.glow(fr, kx, y, S(40), (120, 255, 150), .35 * alpha)
     return comp(fr, o, kx - o.width / 2, y - o.height / 2)
 
 
@@ -206,7 +206,7 @@ def restyle(fr, e):
     a = np.asarray(fr).astype(np.float32)
     R, G_, B = a[..., 0], a[..., 1], a[..., 2]
     skym = ((B > R + 15) & (_YY < .5)).astype(np.float32)                          # only the sky pixels
-    skym = np.asarray(Image.fromarray((skym * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(np.float32)[..., None] / 255
+    skym = np.asarray(Image.fromarray((skym * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(S(3)))).astype(np.float32)[..., None] / 255
     top, low = np.array([38, 62, 150]), np.array([255, 168, 96])
     grad = top + (low - top) * (_YY[..., None] / .45).clip(0, 1) ** 1.4           # deep blue above, gold at the horizon
     a = a * (1 - .85 * e * skym) + grad * .85 * e * skym
@@ -217,13 +217,13 @@ def restyle(fr, e):
     vig = 1 - .35 * e * (((xx - .5) ** 2 + (yy - .5) ** 2) * 1.8)                  # vignette
     a = a * vig[..., None]
     out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    out = CART.glow(out, W * .80, H * .30, 420, (255, 200, 130), .5 * e)           # a low sun behind the hill
+    out = CART.glow(out, W * .80, H * .30, S(420), (255, 200, 130), .5 * e)           # a low sun behind the hill
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
     for i in range(6):                                                             # light shafts across the field
         a0 = math.radians(150 + i * 8)
-        d.polygon([(W * .8, H * .3), (W * .8 + 1700 * math.cos(a0), H * .3 + 1700 * math.sin(a0)),
-                   (W * .8 + 1700 * math.cos(a0 + .04), H * .3 + 1700 * math.sin(a0 + .04))], fill=(255, 220, 160, int(40 * e)))
-    return Image.alpha_composite(out.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(12))).convert('RGB')
+        d.polygon([(W * .8, H * .3), (W * .8 + S(1700) * math.cos(a0), H * .3 + S(1700) * math.sin(a0)),
+                   (W * .8 + S(1700) * math.cos(a0 + .04), H * .3 + S(1700) * math.sin(a0 + .04))], fill=(255, 220, 160, int(40 * e)))
+    return Image.alpha_composite(out.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(12)))).convert('RGB')
 
 
 RESTYLE = restyle_v1 if os.environ.get('H3_STYLE') == 'v1' else restyle   # new art direction (Producer approved, 2026-10-04)
@@ -236,9 +236,9 @@ def sparkles(fr, t, e):
     for i in range(26):
         x, y = r.random() * W, H * (.18 + .5 * r.random())
         ph = (t * 1.3 + r.random()) % 1
-        s = 4 + 7 * math.sin(math.pi * ph)
+        s = S(4) + S(7) * math.sin(math.pi * ph)
         a = int(220 * e * math.sin(math.pi * ph))
-        d.line((x - s, y, x + s, y), fill=(255, 255, 255, a), width=2); d.line((x, y - s, x, y + s), fill=(255, 255, 255, a), width=2)
+        d.line((x - s, y, x + s, y), fill=(255, 255, 255, a), width=Si(2)); d.line((x, y - s, x, y + s), fill=(255, 255, 255, a), width=Si(2))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
@@ -362,8 +362,8 @@ def room_plate(t, pic):
     scr = pic.resize((max(1, int(max(xs) - min(xs))), max(1, int(max(ys) - min(ys)))), Image.NEAREST)
     tv = BC.fill_screen(tv, qs, ms, scr)
     sh = Image.new('RGBA', base.size)                                    # contact shadow on the table top
-    ImageDraw.Draw(sh).ellipse((ROOM['tv_pos'][0] + 10, ROOM['tv_pos'][1] + tv.height - 14, ROOM['tv_pos'][0] + tv.width - 10, ROOM['tv_pos'][1] + tv.height + 6), fill=(0, 0, 0, 120))
-    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5)))
+    ImageDraw.Draw(sh).ellipse((ROOM['tv_pos'][0] + P(10), ROOM['tv_pos'][1] + tv.height - P(14), ROOM['tv_pos'][0] + tv.width - P(10), ROOM['tv_pos'][1] + tv.height + P(6)), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(5))))
     base.alpha_composite(tv, ROOM['tv_pos'])
     base.alpha_composite(ROOM['n64'], ROOM['n64_pos'])
     return base
@@ -382,19 +382,19 @@ def room_shot(t):
     rgb = _night(base.convert('RGB'), glow)
     sx, sy = SCR_C[0] * PW, SCR_C[1] * PH
     if glow > 0:                                                        # the screen lights the room and him
-        rgb = CART.glow(rgb, sx - 120, sy + 60, 900, (140, 190, 255), .35 * glow)
+        rgb = CART.glow(rgb, sx - P(120), sy + P(60), P(900), (140, 190, 255), .35 * glow)   # on the plate: plate px
     base = rgb.convert('RGBA')
     qh = int(QSPEC[2] * PH)
     q = QPROF.resize((int(QPROF.width * qh / QPROF.height), qh), Image.LANCZOS)
     ql = Image.blend(q.convert('RGB'), Image.new('RGB', q.size, (18, 22, 44)), .30 + .30 * (1 - glow)).convert('RGBA'); ql.putalpha(q.getchannel('A'))
-    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((QSPEC[0] * PW - q.width * .45, QSPEC[1] * PH - 24, QSPEC[0] * PW + q.width * .45, QSPEC[1] * PH + 14), fill=(0, 0, 0, 120))
-    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((QSPEC[0] * PW - q.width * .45, QSPEC[1] * PH - P(24), QSPEC[0] * PW + q.width * .45, QSPEC[1] * PH + P(14)), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(10))))
     base.alpha_composite(ql, (int(QSPEC[0] * PW - q.width / 2), int(QSPEC[1] * PH - qh)))
     if glow > 0:                                                        # cool rim of screen light on his face and hands
         rim = Image.new('RGBA', base.size); rd = ImageDraw.Draw(rim)
         fx = QSPEC[0] * PW + q.width * .22; fy = QSPEC[1] * PH - qh * .72
-        rd.ellipse((fx - 120, fy - 140, fx + 160, fy + 260), fill=(120, 170, 255, int(60 * glow)))
-        base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(40)))
+        rd.ellipse((fx - P(120), fy - P(140), fx + P(160), fy + P(260)), fill=(120, 170, 255, int(60 * glow)))
+        base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(P(40))))
     # his reflection in the dark glass: Quest pensive (#10), mirrored, faint and cool, inside the screen
     kr = min(1, max(0, (t - T_REFL) / .25)) * (1 - min(1, max(0, (t - T_BLACK) / .25)))
     if kr > 0:
@@ -458,10 +458,10 @@ def ride(fr, t, k, cam, alpha=1.0, dust=True):
             rr = hh * (.04 + .09 * ph)
             x = fx + (j - 2.5) * hh * .045; y = fy - hh * .02 + hh * .05 * ph
             d.ellipse((x - rr, y - rr * .6, x + rr, y + rr * .6), fill=(214, 190, 150, int(110 * (1 - ph) * alpha)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(4))).convert('RGB')
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(4)))).convert('RGB')
     sh = Image.new('RGBA', fr.size)                                     # contact shadow
     ImageDraw.Draw(sh).ellipse((fx - im.width * .38, fy - hh * .03, fx + im.width * .38, fy + hh * .03), fill=(30, 25, 10, int(90 * alpha)))
-    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(3))).convert('RGB')
+    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(S(3)))).convert('RGB')
     return comp(fr, im, fx - im.width / 2, fy - im.height - hh * .012 * trot)
 
 
@@ -471,7 +471,7 @@ def now_shot(t):
     u = (t - T_NOW) / (T_END - T_NOW)
     cam = NOW_CAM(u)
     base = G.new_look(crop(G.FIELD, cam))
-    base = CART.glow(base, W * .82, H * .12, 640, (255, 214, 140), .35)   # golden hour
+    base = CART.glow(base, W * .82, H * .12, S(640), (255, 214, 140), .35)   # golden hour
     fr = FB.grass(base, t, 1.0)
     fr = ride(fr, t, ease(min(1, u * 1.05)), cam)
     if t < T_NOW + .4:
@@ -484,9 +484,9 @@ def fading_question(fr, t):
     k = (t - T0) / .35
     if k >= 1:
         return fr
-    g = Image.new('RGBA', (180, 180)); d = ImageDraw.Draw(g)
-    d.ellipse((10, 10, 170, 170), fill=(70, 190, 100, 235), outline=INK, width=5)
-    d.text((62, 36), '?', font=F(96), fill=(255, 255, 255, 255))
+    g = Image.new('RGBA', (Si(180), Si(180))); d = ImageDraw.Draw(g)
+    d.ellipse((S(10), S(10), S(170), S(170)), fill=(70, 190, 100, 235), outline=INK, width=Si(5))
+    d.text((S(62), S(36)), '?', font=F(96), fill=(255, 255, 255, 255))
     g = g.rotate(25, expand=True, resample=Image.BICUBIC)
     s = 1 - ease(k)
     g = g.resize((max(1, int(g.width * s)), max(1, int(g.height * s))), Image.LANCZOS)
@@ -514,7 +514,7 @@ def render(t):
         card = card.resize((int(card.width * POLA_SCALE), int(card.height * POLA_SCALE)), Image.LANCZOS)
         if u < .25:
             card.putalpha(card.getchannel('A').point(lambda v: int(v * u / .25)))
-        fr = comp(fr, card, POLA_REST[0] - W * .3 * (1 - ease(u)) - W * .35 * out, POLA_REST[1] + 20 * math.sin(math.pi * u) * (1 - u))   # slides in from the left, under the hearts
+        fr = comp(fr, card, POLA_REST[0] - W * .3 * (1 - ease(u)) - W * .35 * out, POLA_REST[1] + S(20) * math.sin(math.pi * u) * (1 - u))   # slides in from the left, under the hearts
         fr = upgrades_fly(fr, t)
     if T_JOB <= t < T_DIFF + .4:                                        # H2
         a = min(1, (t - T_JOB) / .25) * (1 - min(1, max(0, (t - T_DIFF) / .4)))

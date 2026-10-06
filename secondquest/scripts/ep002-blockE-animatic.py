@@ -91,10 +91,10 @@ def memory_cards():
              (int(.3 * PW), int(.0 * PH), int(.55 * PW), int(.3 * PH))]          # the window light
     cards = []
     for (x0, y0, x1, y1), lab in zip(crops, ('the TV', 'the friend', 'the afternoon')):
-        im = room.crop((x0, y0, x1, y1)); im.thumbnail((200, 150))
+        im = room.crop((x0, y0, x1, y1)); im.thumbnail((Si(200), Si(150)))
         im = Image.blend(im, Image.new('RGB', im.size, (255, 200, 130)), .12)
-        c = Image.new('RGBA', (im.width + 20, im.height + 46), (250, 246, 236, 255)); c.paste(im, (10, 10))
-        d = ImageDraw.Draw(c); d.text((12, im.height + 16), lab, font=F(18), fill=(70, 55, 40))
+        c = Image.new('RGBA', (im.width + Si(20), im.height + Si(46)), (250, 246, 236, 255)); c.paste(im, (Si(10), Si(10)))
+        d = ImageDraw.Draw(c); d.text((S(12), im.height + S(16)), lab, font=F(18), fill=(70, 55, 40))
         cards.append(c)
     return cards
 
@@ -105,45 +105,45 @@ CARDS = memory_cards()
 def frame_e23(t):
     fr = Image.new('RGB', (W, H), (14, 10, 12))
     fr = BB.dust(fr, t, seed=21)
-    fr = CART.glow(fr, W / 2, H * .45, 330, (255, 200, 120), .45)
+    fr = CART.glow(fr, W / 2, H * .45, S(330), (255, 200, 120), .45)
     cx, cy = W / 2, H * .42
     fr = comp(fr, CARTIMG, cx - CARTIMG.width / 2, cy - CARTIMG.height / 2)
     d = ImageDraw.Draw(fr)
     if t < T_WANT:                                                      # E2: it can be rebuilt (blueprint outline)
         k = ease(min(1, (t - T_REMAKE) / 1.2))
         g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
-        pad = 30 + 20 * k
+        pad = S(30) + S(20) * k
         x0, y0 = cx - CARTIMG.width / 2 - pad, cy - CARTIMG.height / 2 - pad
         x1, y1 = cx + CARTIMG.width / 2 + pad, cy + CARTIMG.height / 2 + pad
         n = int(40 * k)
         for i in range(n):                                              # dashed blueprint frame drawing itself
             u0, u1 = i / 40, (i + .5) / 40
             for (ax, ay, bx, by) in ((x0, y0, x1, y0), (x1, y0, x1, y1), (x1, y1, x0, y1), (x0, y1, x0, y0)):
-                gd.line((lin(ax, bx, u0), lin(ay, by, u0), lin(ax, bx, u1), lin(ay, by, u1)), fill=(120, 190, 255, 230), width=3)
+                gd.line((lin(ax, bx, u0), lin(ay, by, u0), lin(ax, bx, u1), lin(ay, by, u1)), fill=(120, 190, 255, 230), width=Si(3))
         lab = 'REMAKE'
-        gd.text((cx - gd.textlength(lab, font=F(24)) / 2, y0 - 36), lab, font=F(24), fill=(120, 190, 255, int(255 * k)))
+        gd.text((cx - gd.textlength(lab, font=F(24)) / 2, y0 - S(36)), lab, font=F(24), fill=(120, 190, 255, int(255 * k)))
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     else:                                                               # E3: memories orbit, try to get in, bounce off
         for i, c in enumerate(CARDS):
             ang = (t - T_WANT) * .6 + i * 2 * math.pi / 3
-            r = 300
+            r = S(300)
             if t >= T_NEVER:                                            # dive in... and bounce off the cartridge
                 u = (t - T_NEVER - i * .25)
                 if 0 <= u < 1.1:
-                    r = 300 - 170 * math.sin(min(1, u / 1.1) * math.pi)
+                    r = S(300) - S(170) * math.sin(min(1, u / 1.1) * math.pi)
                     if u > .5:
-                        d.text((cx - 10, cy - CARTIMG.height / 2 - 60), '', font=F(20))
+                        d.text((cx - S(10), cy - CARTIMG.height / 2 - S(60)), '', font=F(20))
             x = cx + r * math.cos(ang) * 1.25 - c.width / 2
             y = cy + r * .5 * math.sin(ang) - c.height / 2                  # stays above the subtitle zone
             cc = c.rotate(8 * math.sin(ang), expand=True, resample=Image.BICUBIC)
             fr = comp(fr, cc, x, y)
         if t >= T_NEVER + .5:                                           # the cartridge edge flashes where they bounce
             a = .5 + .5 * math.sin((t - T_NEVER) * 8)
-            fr = CART.glow(fr, cx, cy, 200, (255, 120, 90), .18 * a)
+            fr = CART.glow(fr, cx, cy, S(200), (255, 120, 90), .18 * a)
     d = ImageDraw.Draw(fr)
     lab = 'E2 "Nintendo can remake Ocarina of Time."' if t < T_WANT else 'E3 what people want back was never inside'
     tag(d, f'SEQ 10 THE PROBLEM · {lab} · BLOCK E v8 · PLANNING ONLY')
-    PLANNING and d.text((20, 40), 'memories = block C stills (TV, the friend, the afternoon) · cartridge = own 3D', font=F(15), fill=(255, 220, 160))
+    PLANNING and d.text((S(20), S(40)), 'memories = block C stills (TV, the friend, the afternoon) · cartridge = own 3D', font=F(15), fill=(255, 220, 160))
     return fr
 
 
@@ -159,11 +159,11 @@ def blueprint(img):
     small = img.resize((480, 270), Image.LANCZOS).filter(ImageFilter.MedianFilter(7))
     e = small.convert('L').filter(ImageFilter.FIND_EDGES).point(lambda v: 255 if v > 16 else 0)
     e = e.resize(img.size, Image.BILINEAR).point(lambda v: 255 if v > 90 else 0)
-    lum = np.asarray(img.convert('L').filter(ImageFilter.GaussianBlur(3))).astype(np.float32) / 255
+    lum = np.asarray(img.convert('L').filter(ImageFilter.GaussianBlur(P(3)))).astype(np.float32) / 255
     bp = Image.fromarray(np.stack([18 + 30 * lum, 46 + 50 * lum, 92 + 70 * lum], -1).astype(np.uint8)); d = ImageDraw.Draw(bp)
-    for gx in range(0, img.width, 48):
+    for gx in range(0, img.width, round(P(48))):
         d.line((gx, 0, gx, img.height), fill=(30, 66, 120))
-    for gy in range(0, img.height, 48):
+    for gy in range(0, img.height, round(P(48))):
         d.line((0, gy, img.width, gy), fill=(30, 66, 120))
     bp.paste((170, 215, 255), (0, 0), e)
     return bp
@@ -174,7 +174,7 @@ def remastered(img):
     a = np.asarray(img).astype(np.float32)
     a = (a - 128) * 1.15 + 128; a[..., 1] *= 1.04
     im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    glow = im.filter(ImageFilter.GaussianBlur(18))
+    glow = im.filter(ImageFilter.GaussianBlur(P(18)))
     return Image.blend(im, glow, .18)
 
 
@@ -189,7 +189,7 @@ def checklist(fr, t):
     k_in = ease(min(1, max(0, (t - T_LIST + .3) / .4)))
     ticks = [ease(min(1, max(0, (t - ti + .05) / .35))) if t >= ti - .05 else 0 for _, ti in ITEMS]
     g = UI.parchment_list([txt for txt, _ in ITEMS], ticks)
-    out = fr.convert('RGBA'); out.alpha_composite(g, (int(22 - (g.width + 60) * (1 - k_in)), 104))
+    out = fr.convert('RGBA'); out.alpha_composite(g, (int(S(22) - (g.width + S(60)) * (1 - k_in)), Si(104)))
     return out.convert('RGB')
 
 
@@ -205,34 +205,34 @@ def item_visual(fr, t):
     cx, cy = W * .58, H * .36                                           # below the HUD buttons, left of the castle (#11)
     k = ease(min(1, (t - ITEMS[cur][1] + .05) / .3))
     if cur == 1:                                                        # voiced cutscenes: speech bubble + waveform
-        d.rounded_rectangle((cx - 120, cy - 50, cx + 120, cy + 50), 22, fill=(250, 250, 250, int(235 * k)), outline=(30, 30, 40, 255), width=3)
+        d.rounded_rectangle((cx - S(120), cy - S(50), cx + S(120), cy + S(50)), S(22), fill=(250, 250, 250, int(235 * k)), outline=(30, 30, 40, 255), width=Si(3))
         for j in range(18):
-            hh = 8 + 26 * abs(math.sin(t * 12 + j * .9))
-            d.line((cx - 95 + j * 11, cy - hh / 2, cx - 95 + j * 11, cy + hh / 2), fill=(60, 120, 220, 255), width=5)
+            hh = S(8) + S(26) * abs(math.sin(t * 12 + j * .9))
+            d.line((cx - S(95) + j * S(11), cy - hh / 2, cx - S(95) + j * S(11), cy + hh / 2), fill=(60, 120, 220, 255), width=Si(5))
     elif cur == 2:                                                      # expanded dialogue: a text box that grows
         w = 120 + 60 * k                                                # stays clear of the checklist
         bx = UI.sq_box(int(2 * w), 92)                                  # our game text box (family A), growing
-        g.alpha_composite(bx, (int(cx - w - 8), int(cy - 46 - 8)))
+        g.alpha_composite(bx, (int(cx - S(w) - S(8)), int(cy - S(46) - S(8))))
         for j in range(3):
-            d.line((cx - w + 24, cy - 22 + j * 22, cx - w + 24 + (2 * w - 48) * (1 if j < 2 else .6) * k, cy - 22 + j * 22), fill=(240, 236, 220, 255), width=6)
+            d.line((cx - S(w) + S(24), cy - S(22) + j * S(22), cx - S(w) + S(24) + S(2 * w - 48) * (1 if j < 2 else .6) * k, cy - S(22) + j * S(22)), fill=(240, 236, 220, 255), width=Si(6))
     elif cur == 3:                                                      # orchestral score: notes rise on the right only
         for j in range(8):
             ph = ((t - ITEMS[3][1]) * .7 + j / 8) % 1
-            x = W * (.6 + .3 * ((j * .37) % 1)) + 20 * math.sin(ph * 6 + j)
+            x = W * (.6 + .3 * ((j * .37) % 1)) + S(20) * math.sin(ph * 6 + j)
             y = H * (.5 - .4 * ph)
             d.text((x, y), '♪' if j % 2 else '♫', font=F(40 + (j % 3) * 8), fill=(255, 236, 170, int(255 * min(1, (1 - ph) * 2))),
-                   stroke_width=2, stroke_fill=(70, 45, 15))
+                   stroke_width=Si(2), stroke_fill=(70, 45, 15))
     elif cur == 4:                                                      # modern controls + camera: a pad and an orbiting camera
-        d.rounded_rectangle((cx - 80, cy - 30, cx + 80, cy + 34), 26, fill=(40, 42, 50, 240), outline=(200, 200, 210, 255), width=3)
-        d.ellipse((cx - 52, cy - 10, cx - 28, cy + 14), fill=(160, 160, 170, 255)); d.ellipse((cx + 26, cy - 4, cx + 50, cy + 20), fill=(160, 160, 170, 255))
+        d.rounded_rectangle((cx - S(80), cy - S(30), cx + S(80), cy + S(34)), S(26), fill=(40, 42, 50, 240), outline=(200, 200, 210, 255), width=Si(3))
+        d.ellipse((cx - S(52), cy - S(10), cx - S(28), cy + S(14)), fill=(160, 160, 170, 255)); d.ellipse((cx + S(26), cy - S(4), cx + S(50), cy + S(20)), fill=(160, 160, 170, 255))
         a = t * 2.4
-        px, py = cx + 140 * math.cos(a), cy + 40 * math.sin(a)
-        d.arc((cx - 140, cy - 40, cx + 140, cy + 40), 0, 360, fill=(160, 200, 255, 160), width=2)
+        px, py = cx + S(140) * math.cos(a), cy + S(40) * math.sin(a)
+        d.arc((cx - S(140), cy - S(40), cx + S(140), cy + S(40)), 0, 360, fill=(160, 200, 255, 160), width=Si(2))
         ci = camera_icon(rec=int(t * 2) % 2 == 0, width=int(84 + 18 * math.sin(a)))   # nearer = bigger as it orbits
         if math.sin(a) < 0:                                             # behind the pad on the far side of the orbit
             g.alpha_composite(ci, (int(px - ci.width / 2), int(py - ci.height / 2)))
-            d.rounded_rectangle((cx - 80, cy - 30, cx + 80, cy + 34), 26, fill=(40, 42, 50, 240), outline=(200, 200, 210, 255), width=3)
-            d.ellipse((cx - 52, cy - 10, cx - 28, cy + 14), fill=(160, 160, 170, 255)); d.ellipse((cx + 26, cy - 4, cx + 50, cy + 20), fill=(160, 160, 170, 255))
+            d.rounded_rectangle((cx - S(80), cy - S(30), cx + S(80), cy + S(34)), S(26), fill=(40, 42, 50, 240), outline=(200, 200, 210, 255), width=Si(3))
+            d.ellipse((cx - S(52), cy - S(10), cx - S(28), cy + S(14)), fill=(160, 160, 170, 255)); d.ellipse((cx + S(26), cy - S(4), cx + S(50), cy + S(20)), fill=(160, 160, 170, 255))
         else:
             g.alpha_composite(ci, (int(px - ci.width / 2), int(py - ci.height / 2)))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
@@ -250,8 +250,8 @@ def frame_e45(t):
         sx = int(W * k)
         fr = bp.copy(); fr.paste(new.crop((0, 0, sx, H)), (0, 0))
         if 0 < k < 1:
-            d = ImageDraw.Draw(fr); d.line((sx, 0, sx, H), fill=(200, 240, 255), width=4)
-            fr = CART.glow(fr, sx, H / 2, 200, (160, 220, 255), .35)
+            d = ImageDraw.Draw(fr); d.line((sx, 0, sx, H), fill=(200, 240, 255), width=Si(4))
+            fr = CART.glow(fr, sx, H / 2, S(200), (160, 220, 255), .35)
     hero_x = to_screen(.66, .6, box)
     fr = fairy_fx.draw(fr, [(T_SW2, .7, .5), (T_END, .68, .46)], t, size=.05)
     if t >= T_LIST - .3:

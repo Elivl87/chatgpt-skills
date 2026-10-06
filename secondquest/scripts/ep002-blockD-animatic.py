@@ -99,24 +99,24 @@ def frame_d12(t):
     if t >= T_NOT:                                                      # keep pulling out: the field is a small tile
         k = ease(min(1, (t - T_NOT) / 1.1))
         bg = Image.new('RGB', (W, H), (20, 26, 40)); d = ImageDraw.Draw(bg)
-        for gx in range(0, W, 40):
+        for gx in range(0, W, Si(40)):
             d.line((gx, 0, gx, H), fill=(32, 40, 60))
-        for gy in range(0, H, 40):
+        for gy in range(0, H, Si(40)):
             d.line((0, gy, W, gy), fill=(32, 40, 60))
         s = lin(1.0, .42, k)
         tile = fr.resize((int(W * s), int(H * s)), Image.LANCZOS)
-        x0, y0 = (W - tile.width) / 2, (H - tile.height) / 2 - 20 * k + 40 * k
+        x0, y0 = (W - tile.width) / 2, (H - tile.height) / 2 - S(20) * k + S(40) * k
         bg.paste(tile, (int(x0), int(y0)))
         d = ImageDraw.Draw(bg)
-        d.rectangle((x0, y0, x0 + tile.width, y0 + tile.height), outline=(230, 230, 240), width=3)
+        d.rectangle((x0, y0, x0 + tile.width, y0 + tile.height), outline=(230, 230, 240), width=Si(3))
         if k > .7:                                                      # the measure
             a = (k - .7) / .3; c = tuple(int(v * a) for v in (255, 220, 120))
-            yb = y0 - 22                                                # measure above the tile, clear of the subtitles
-            d.line((x0, yb, x0 + tile.width, yb), fill=c, width=3)
+            yb = y0 - S(22)                                                # measure above the tile, clear of the subtitles
+            d.line((x0, yb, x0 + tile.width, yb), fill=c, width=Si(3))
             for xe in (x0, x0 + tile.width):
-                d.line((xe, yb - 10, xe, yb + 10), fill=c, width=3)
+                d.line((xe, yb - S(10), xe, yb + S(10)), fill=c, width=Si(3))
             lab = 'ACTUAL SIZE'
-            d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - 42), lab, font=F(26), fill=c)
+            d.text((W / 2 - d.textlength(lab, font=F(26)) / 2, yb - S(42)), lab, font=F(26), fill=c)
         fr = bg
     d = ImageDraw.Draw(fr)
     tag(d, 'SEQ 07 BECAUSE YOU WERE SMALLER · ' + ('D1 "felt enormous"' if t < T_NOT else 'D2 "Not because it actually was."') + ' · BLOCK D v12 · PLANNING ONLY')
@@ -133,7 +133,7 @@ def ghost(base, t):
     """The adult outline beside the child (how big he is now)."""
     h = int(ADULT_H * PH); im = ADULT.resize((int(ADULT.width * h / ADULT.height), h), Image.LANCZOS)
     a = np.asarray(im.getchannel('A')) > 40
-    edge = a & ~np.asarray(Image.fromarray(a.astype(np.uint8) * 255).filter(ImageFilter.MinFilter(9))).astype(bool)
+    edge = a & ~np.asarray(Image.fromarray(a.astype(np.uint8) * 255).filter(ImageFilter.MinFilter(int(P(9)) // 2 * 2 + 1))).astype(bool)
     lay = np.zeros((im.height, im.width, 4), np.uint8)
     lay[a] = (255, 255, 255, 45); lay[edge] = (255, 255, 255, 220)
     k = ease(min(1, (t - T('l19.w4') + .1) / .4))
@@ -166,20 +166,20 @@ def spec_callouts(fr, t):
             continue
         lay = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(lay)
         col = (180, 230, 255, int(255 * a)); f = F(21)
-        x, y = lx * W, ly * H - 40 * k_out
+        x, y = lx * W, ly * H - S(40) * k_out
         tw = d.textlength(txt, font=f)
-        d.rounded_rectangle((x - 8, y - 6, x + tw + 8, y + 28), 6, fill=(10, 20, 35, int(190 * a)), outline=col, width=2)
+        d.rounded_rectangle((x - S(8), y - S(6), x + tw + S(8), y + S(28)), S(6), fill=(10, 20, 35, int(190 * a)), outline=col, width=Si(2))
         d.text((x, y), txt, font=f, fill=col)
         if kind == 'frame':                                             # corner brackets: the whole picture is 320 x 240
             for cx, cy, sx, sy in ((.03, .06, 1, 1), (.97, .06, -1, 1), (.03, .94, 1, -1), (.97, .94, -1, -1)):
                 px, py = cx * W, cy * H
-                d.line((px, py, px + 40 * sx, py), fill=col, width=3); d.line((px, py, px, py + 40 * sy), fill=col, width=3)
+                d.line((px, py, px + S(40) * sx, py), fill=col, width=Si(3)); d.line((px, py, px, py + S(40) * sy), fill=col, width=Si(3))
         if kind == 'lead' and tgt:
             tx, ty = tgt[0] * W, tgt[1] * H
-            d.line((x + tw / 2, y + 28, tx, ty), fill=col, width=2)
-            d.ellipse((tx - 6, ty - 6, tx + 6, ty + 6), outline=col, width=2)
+            d.line((x + tw / 2, y + S(28), tx, ty), fill=col, width=Si(2))
+            d.ellipse((tx - S(6), ty - S(6), tx + S(6), ty + S(6)), outline=col, width=Si(2))
         if k_out > 0:
-            lay = lay.filter(ImageFilter.GaussianBlur(6 * k_out))
+            lay = lay.filter(ImageFilter.GaussianBlur(S(6) * k_out))
         out.alpha_composite(lay)
     return out.convert('RGB')
 
@@ -194,12 +194,12 @@ def frame_d345(t):
     fr = navi(fr, box, [(T_SMALL, .55, .55), (T_MEM, .52, .5), (T_WAKE, .54, .48)], t)
     warm = ease(min(1, max(0, (t - T_MEM) / .8)))
     if warm > 0:                                                        # memory: warm, soft, glowing edges
-        soft = fr.filter(ImageFilter.GaussianBlur(6))
+        soft = fr.filter(ImageFilter.GaussianBlur(S(6)))
         yy, xx = np.mgrid[0:H, 0:W]; r = np.sqrt(((xx / W - .5) * 1.3) ** 2 + (yy / H - .55) ** 2)
         m = Image.fromarray((np.clip((r - .25) / .35, 0, 1) * 255 * warm).astype(np.uint8))
         fr = Image.composite(soft, fr, m)
         fr = Image.blend(fr, Image.new('RGB', fr.size, (255, 190, 110)), .14 * warm)
-        fr = CART.glow(fr, W * .5, H * .35, 520, (255, 220, 160), .25 * warm)
+        fr = CART.glow(fr, W * .5, H * .35, S(520), (255, 220, 160), .25 * warm)
         fr = BB.dust(fr, t, seed=11)
     fr = spec_callouts(fr, t)
     d = ImageDraw.Draw(fr)
@@ -210,7 +210,7 @@ def frame_d345(t):
 
 
 # ------------------------------------------------------------------ D6: nobody wakes up thinking...
-BEDSOFT = Image.blend(BED.filter(ImageFilter.GaussianBlur(10)), Image.new('RGB', (PW, PH), (40, 30, 30)), .25).convert('RGBA')
+BEDSOFT = Image.blend(BED.filter(ImageFilter.GaussianBlur(P(10))), Image.new('RGB', (PW, PH), (40, 30, 30)), .25).convert('RGBA')
 place(BEDSOFT, dict(char='quest:bed_awake', x=.36, y=.95, h=.7, label=None))
 SMEAR = None
 
@@ -236,18 +236,18 @@ def frame_d6(t):
     k = ease(min(1, max(0, (t - T_MAN + .1) / .35)))
     if k > 0:                                                           # thought bubble
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-        cx, cy, rw, rh = W * .72, H * .33, 230 * k, 150 * k
-        for i, (bx, by, br) in enumerate(((W * .5, H * .5, 10), (W * .55, H * .44, 16), (W * .6, H * .4, 22))):
+        cx, cy, rw, rh = W * .72, H * .33, S(230) * k, S(150) * k
+        for i, (bx, by, br) in enumerate(((W * .5, H * .5, S(10)), (W * .55, H * .44, S(16)), (W * .6, H * .4, S(22)))):
             if k > .3 * i:
-                d.ellipse((bx - br, by - br, bx + br, by + br), fill=(250, 250, 250, 245), outline=(30, 30, 40, 255), width=3)
-        d.ellipse((cx - rw, cy - rh, cx + rw, cy + rh), fill=(250, 250, 250, 245), outline=(30, 30, 40, 255), width=4)
+                d.ellipse((bx - br, by - br, bx + br, by + br), fill=(250, 250, 250, 245), outline=(30, 30, 40, 255), width=Si(3))
+        d.ellipse((cx - rw, cy - rh, cx + rw, cy + rh), fill=(250, 250, 250, 245), outline=(30, 30, 40, 255), width=Si(4))
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
         if k > .6:
-            tex = n64_texture((int(260 * k), int(150 * k)))
-            m = Image.new('L', tex.size, 0); ImageDraw.Draw(m).rounded_rectangle((0, 0, tex.width - 1, tex.height - 1), 16, fill=255)
-            fr.paste(tex, (int(cx - tex.width / 2), int(cy - tex.height / 2 - 10)), m)
+            tex = n64_texture((int(S(260) * k), int(S(150) * k)))
+            m = Image.new('L', tex.size, 0); ImageDraw.Draw(m).rounded_rectangle((0, 0, tex.width - 1, tex.height - 1), S(16), fill=255)
+            fr.paste(tex, (int(cx - tex.width / 2), int(cy - tex.height / 2 - S(10))), m)
             d = ImageDraw.Draw(fr); lab = 'N64 texture filtering'
-            d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - 2), lab, font=F(18), fill=(40, 40, 50))
+            d.text((cx - d.textlength(lab, font=F(18)) / 2, cy + tex.height / 2 - S(2)), lab, font=F(18), fill=(40, 40, 50))
     d = ImageDraw.Draw(fr)
     tag(d, 'SEQ 08 MEMORY VS SPECS · D6 "Nobody wakes up thinking..." · BLOCK D v12 · PLANNING ONLY')
     return fr
@@ -286,7 +286,7 @@ def frame_d910(t):
     fr, box = shoot(lay, cam)
     fr = navi(fr, box, [(T_FOREVER, .53, .6), (T_FOREVER + 1.6, .54, .6), (T_END, .536, .66)], t)   # just ahead of him
     if T_CASTLE <= t < T_FOREVER:
-        fr = CART.glow(fr, *to_screen(CASTLE[0], CASTLE[1] - .04, box), 120, (255, 240, 200), .35)
+        fr = CART.glow(fr, *to_screen(CASTLE[0], CASTLE[1] - .04, box), S(120), (255, 240, 200), .35)
     if t > T_END - .5:
         fr = Image.blend(fr, Image.new('RGB', fr.size, (10, 8, 10)), (t - T_END + .5) / .5 * .6)
     d = ImageDraw.Draw(fr)

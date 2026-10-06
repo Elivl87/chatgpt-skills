@@ -98,7 +98,7 @@ def old_look(fr):
 
 def new_look(fr):
     a = np.asarray(fr).astype(np.float32); g = a.mean(2, keepdims=True); a = g + (a - g) * 1.15
-    return CART.glow(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), W * .85, H * .1, 520, (255, 230, 170), .3)
+    return CART.glow(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), W * .85, H * .1, S(520), (255, 230, 170), .3)
 
 
 # ------------------------------------------------------------------ G1-G2: 1998 field, rebuilt, empty
@@ -118,13 +118,13 @@ def frame_g12(t):
         k = ease(min(1, (t - T_REB) / 1.4)); sx = int(W * k)
         fr = old.copy(); fr.paste(new.crop((0, 0, sx, H)), (0, 0))
         if 0 < k < 1:
-            ImageDraw.Draw(fr).line((sx, 0, sx, H), fill=(200, 240, 255), width=4)
+            ImageDraw.Draw(fr).line((sx, 0, sx, H), fill=(200, 240, 255), width=Si(4))
     if t >= T_EMPTY:                                                    # empty: a gust across a sharp, silent field
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
         for i in range(6):
             ph = ((t - T_EMPTY) * .7 + i / 6) % 1
-            x = -200 + (W + 400) * ph; y = H * (.55 + .06 * i)
-            d.arc((x - 90, y - 12, x + 90, y + 12), 200, 340, fill=(255, 255, 255, int(150 * math.sin(ph * math.pi))), width=3)
+            x = -S(200) + (W + S(400)) * ph; y = H * (.55 + .06 * i)
+            d.arc((x - S(90), y - S(12), x + S(90), y + S(12)), 200, 340, fill=(255, 255, 255, int(150 * math.sin(ph * math.pi))), width=Si(3))
         fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     if t < T_EMPTY:                                                     # the era, as an area title card (approved R1 option 2)
         retro = t < T_REB + .3
@@ -146,41 +146,41 @@ def frame_g34(t):
     x0, y0, x1, y1 = BUBBLE
     k = ease(min(1, (t - T_SILENT) / .35))
     m = Image.new('L', (W, H), 0); md = ImageDraw.Draw(m)                 # one shape: bubble + tail, one outline
-    md.rounded_rectangle((x0, y0, x0 + (x1 - x0) * k, y1), 28, fill=255)
+    md.rounded_rectangle((x0, y0, x0 + (x1 - x0) * k, y1), S(28), fill=255)
     if k > .3:
-        md.polygon([(x0 + 2, y1 - 26), (x0 + 2, y1 - 62), (W * .398, H * .352)], fill=255)   # tail towards Quest's mouth (#3b)
-    edge = m.filter(ImageFilter.MaxFilter(9))
+        md.polygon([(x0 + S(2), y1 - S(26)), (x0 + S(2), y1 - S(62)), (W * .398, H * .352)], fill=255)   # tail towards Quest's mouth (#3b)
+    edge = m.filter(ImageFilter.MaxFilter(Si(9) // 2 * 2 + 1))
     g.paste((30, 30, 40, 255), (0, 0), edge); g.paste((252, 252, 250, 245), (0, 0), m)
     d = ImageDraw.Draw(g)
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     if t < T_VOICE:                                                     # silence: "..." and imagination drifting out
         n = 1 + int((t - T_SILENT) * 3) % 3
-        d.text((cx - 40, y0 + 6), '.' * n, font=F(56), fill=(60, 60, 70, 255))
+        d.text((cx - S(40), y0 + S(6)), '.' * n, font=F(56), fill=(60, 60, 70, 255))
         if t >= T_IMAG - .6:
             for i, (sym, col) in enumerate((('★', (240, 190, 40)), ('♥', (230, 70, 80)), ('?', (70, 120, 220)), ('♪', (80, 170, 90)))):
                 ph = ((t - T_IMAG + .6) * .5 + i / 4) % 1
-                d.text((cx - 100 + i * 60 + 20 * math.sin(ph * 6 + i), y1 - 60 - 70 * ph), sym, font=F(40),          # rising inside the bubble
+                d.text((cx - S(100) + i * S(60) + S(20) * math.sin(ph * 6 + i), y1 - S(60) - S(70) * ph), sym, font=F(40),          # rising inside the bubble
                        fill=col + (int(255 * min(1, (1 - ph) * 2)),))
     else:                                                               # a voice: the bubble fills with a waveform
         for j in range(26):
-            hh = 10 + 46 * abs(math.sin(t * 11 + j * .7)) * min(1, (t - T_VOICE) / .4)
-            xx = x0 + 30 + j * (x1 - x0 - 60) / 25
-            d.line((xx, cy - hh / 2, xx, cy + hh / 2), fill=(60, 110, 210, 255), width=6)
+            hh = S(10) + S(46) * abs(math.sin(t * 11 + j * .7)) * min(1, (t - T_VOICE) / .4)
+            xx = x0 + S(30) + j * (x1 - x0 - S(60)) / 25
+            d.line((xx, cy - hh / 2, xx, cy + hh / 2), fill=(60, 110, 210, 255), width=Si(6))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     if t >= T('l53.w3') - .1:                                           # "somebody has to decide": a casting card
         kk = ease(min(1, (t - T('l53.w3') + .1) / .4))
         card = UI.sq_box(344, 152); cd = ImageDraw.Draw(card)          # our game text box (family A)
-        UI.spaced(cd, (20, 12), 'VOICE CASTING', F(20), (255, 214, 90, 255), 2)
+        UI.spaced(cd, (S(20), S(12)), 'VOICE CASTING', F(20), (255, 214, 90, 255), S(2))
         for i in range(3):
-            y = 48 + i * 38
-            cd.text((20, y), f'TAKE {i + 1}', font=F(20), fill=(230, 235, 250, 255))
+            y = S(48 + i * 38)
+            cd.text((S(20), y), f'TAKE {i + 1}', font=F(20), fill=(230, 235, 250, 255))
             for j in range(14):
-                hh = 6 + 20 * abs(math.sin(j * (1.3 + i * .6) + i))
-                cd.line((120 + j * 12, y + 12 - hh / 2, 120 + j * 12, y + 12 + hh / 2), fill=(120, 170, 240, 255), width=4)
+                hh = S(6) + S(20) * abs(math.sin(j * (1.3 + i * .6) + i))
+                cd.line((S(120 + j * 12), y + S(12) - hh / 2, S(120 + j * 12), y + S(12) + hh / 2), fill=(120, 170, 240, 255), width=Si(4))
             if i == 1 and t >= T_DECIDE:                                # someone decides
-                cd.rounded_rectangle((300, y - 4, 344, y + 30), 6, outline=(90, 220, 120, 255), width=4)
-                cd.line((308, y + 12, 318, y + 22, 336, y + 2), fill=(90, 220, 120, 255), width=5)
-        fr = comp(fr, card, W * .58 + (1 - kk) * 500, H * .49)                 # ends above the subtitle zone
+                cd.rounded_rectangle((S(300), y - S(4), S(344), y + S(30)), S(6), outline=(90, 220, 120, 255), width=Si(4))
+                cd.line((S(308), y + S(12), S(318), y + S(22), S(336), y + S(2)), fill=(90, 220, 120, 255), width=Si(5))
+        fr = comp(fr, card, W * .58 + (1 - kk) * S(500), H * .49)                 # ends above the subtitle zone
     fr = fairy_fx.draw(fr, [(T_SILENT, .5, .3), (T_CAM, .48, .28)], t, size=.045)
     return fr, ('G3 the silent hero' if t < T_VOICE else 'G4 a voice: somebody decides')
 
@@ -202,12 +202,12 @@ def frame_g57(t):
         if 0 < tk < 1:
             tx = W * (1.15 - 1.5 * ease(tk))
             tr = Image.new('RGBA', (W, H)); td = ImageDraw.Draw(tr)
-            td.rounded_rectangle((tx - 110, -40, tx + 110, H + 40), 60, fill=(92, 66, 44, 255))
+            td.rounded_rectangle((tx - S(110), -S(40), tx + S(110), H + S(40)), S(60), fill=(92, 66, 44, 255))
             for i in range(9):
-                yy = 40 + i * 80
-                td.arc((tx - 90, yy, tx + 30, yy + 60), 200, 340, fill=(70, 50, 34, 255), width=6)
-            td.ellipse((tx - 260, -220, tx + 260, 120), fill=(60, 120, 50, 255))
-            tr = tr.filter(ImageFilter.GaussianBlur(7))                 # out of focus: it is right at the lens
+                yy = S(40 + i * 80)
+                td.arc((tx - S(90), yy, tx + S(30), yy + S(60)), 200, 340, fill=(70, 50, 34, 255), width=Si(6))
+            td.ellipse((tx - S(260), -S(220), tx + S(260), S(120)), fill=(60, 120, 50, 255))
+            tr = tr.filter(ImageFilter.GaussianBlur(S(7)))                 # out of focus: it is right at the lens
             fr = Image.alpha_composite(fr.convert('RGBA'), tr).convert('RGB')
         cam_icon_ang = 14 * math.sin(u * 4)
     else:                                                               # fixed: smooth, steady, behind Quest
@@ -224,27 +224,27 @@ def frame_g57(t):
         u = t - T_FIX + .15
         ang = -70 + 70 * ease(min(1, u / .3)) - (12 * math.sin(min(1, (u - .3) / .15) * math.pi) if .3 <= u < .45 else 0)
         a = 1 - max(0, (u - .55) / .35)
-        fr = comp(fr, wrench_icon(ang, a), W * .80 - 50, H * .27 - 80)
+        fr = comp(fr, wrench_icon(ang, a), W * .80 - S(50), H * .27 - S(80))
         if .3 <= u < .7:                                                # the tap: a glint on the camera
-            fr = CART.glow(fr, W * .885, H * .26, 110, (255, 255, 220), .5 * (1 - (u - .3) / .4))
+            fr = CART.glow(fr, W * .885, H * .26, S(110), (255, 255, 220), .5 * (1 - (u - .3) / .4))
     if T_FIX + .15 <= t < T_GOOD:                                       # a small green check badge stays on the fixed camera
         k = ease(min(1, (t - T_FIX - .15) / .25)); s_ = .5 + .5 * k + .15 * math.sin(min(1, (t - T_FIX - .15) / .25) * math.pi)
-        b = Image.new('RGBA', (60, 60)); bd = ImageDraw.Draw(b)
-        bd.ellipse((3, 3, 57, 57), fill=(70, 190, 100, 255), outline=(20, 14, 18, 255), width=4)
-        bd.line((17, 31, 26, 40, 43, 21), fill=(255, 255, 255, 255), width=7)
-        b = b.resize((int(60 * s_), int(60 * s_)), Image.LANCZOS)
-        fr = comp(fr, b, W * .84 + 112 - b.width / 2, H * .2 + 4 - b.height / 2)
+        b = Image.new('RGBA', (Si(60), Si(60))); bd = ImageDraw.Draw(b)
+        bd.ellipse((S(3), S(3), S(57), S(57)), fill=(70, 190, 100, 255), outline=(20, 14, 18, 255), width=Si(4))
+        bd.line((S(17), S(31), S(26), S(40), S(43), S(21)), fill=(255, 255, 255, 255), width=Si(7))
+        b = b.resize((int(S(60) * s_), int(S(60) * s_)), Image.LANCZOS)
+        fr = comp(fr, b, W * .84 + S(112) - b.width / 2, H * .2 + S(4) - b.height / 2)
     if t >= T_GOOD:                                                     # good... the small check jumps off the camera and lands big
         k = min(1, (t - T_GOOD) / .45)
         tilt = 0 if t < T_PROB else 25 * ease(min(1, (t - T_PROB) / .35))
-        g = Image.new('RGBA', (180, 180)); d = ImageDraw.Draw(g)
-        d.ellipse((10, 10, 170, 170), fill=(70, 190, 100, 235), outline=(20, 14, 18, 255), width=5)
+        g = Image.new('RGBA', (Si(180), Si(180))); d = ImageDraw.Draw(g)
+        d.ellipse((S(10), S(10), S(170), S(170)), fill=(70, 190, 100, 235), outline=(20, 14, 18, 255), width=Si(5))
         if t < T_PROB:
-            d.line((50, 92, 78, 120, 132, 62), fill=(255, 255, 255, 255), width=14)
+            d.line((S(50), S(92), S(78), S(120), S(132), S(62)), fill=(255, 255, 255, 255), width=Si(14))
         else:
-            d.text((62, 36), '?', font=F(96), fill=(255, 255, 255, 255))
+            d.text((S(62), S(36)), '?', font=F(96), fill=(255, 255, 255, 255))
         g = g.rotate(tilt + 18 * math.sin(math.pi * k), expand=True, resample=Image.BICUBIC)       # leans into the hop, stays readable
-        bx, by = W * .84 + 112, H * .2 + 4                               # where the badge sat on the camera
+        bx, by = W * .84 + S(112), H * .2 + S(4)                               # where the badge sat on the camera
         ex, ey = W * .74, H * .5
         x, y = lin(bx, ex, ease(k)), lin(by, ey, ease(k)) - H * .04 * math.sin(math.pi * k)    # a low hop, clear of the HUD buttons
         s = lin(.33, 1, ease(k)) + .12 * math.sin(math.pi * min(1, max(0, (k - .75) / .25)))   # a little bounce on landing

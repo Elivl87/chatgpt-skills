@@ -20,7 +20,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, cam_box, subtitle, tag, F, STEP_RATE, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, cam_box, subtitle, tag, F, STEP_RATE, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
@@ -39,7 +39,7 @@ BARS = A.BARS
 FIELD = plate(('final', 'field'))                                 # final plate #11
 def memory_polaroid(caption='Saturday, 1998'):
     room = A.BE.BC.room_plate(A.BE.BC.T_SAT + 3, A.BE.BC.PIXIE_SIT).convert('RGB')
-    im = room.crop((int(.12 * PW), int(.45 * PH), int(.66 * PW), int(1.0 * PH))); im.thumbnail((200, 150))
+    im = room.crop((int(.12 * PW), int(.45 * PH), int(.66 * PW), int(1.0 * PH))); im.thumbnail((Si(200), Si(150)))
     im = Image.blend(im, Image.new('RGB', im.size, (255, 200, 130)), .12)
     return im, caption
 
@@ -51,8 +51,8 @@ def polaroid(t0, t):
     """Develops from white like an instant photo (memory, not measurement)."""
     dev = ease(min(1, max(0, (t - t0 - .2) / 1.4)))
     img = Image.blend(Image.new('RGB', POLA_IMG.size, (238, 236, 228)), POLA_IMG, dev)
-    c = Image.new('RGBA', (img.width + 20, img.height + 46), (250, 246, 236, 255)); c.paste(img, (10, 10))
-    d = ImageDraw.Draw(c); d.text((12, img.height + 16), POLA_CAP, font=F(18), fill=(70, 55, 40, int(255 * dev)))
+    c = Image.new('RGBA', (img.width + Si(20), img.height + Si(46)), (250, 246, 236, 255)); c.paste(img, (Si(10), Si(10)))
+    d = ImageDraw.Draw(c); d.text((S(12), img.height + S(16)), POLA_CAP, font=F(18), fill=(70, 55, 40, int(255 * dev)))
     return c
 
 
@@ -87,13 +87,13 @@ def field_frame(t):
     a = (a - 128) * (0.9 + 0.2 * kl) + 128
     fr = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
     if kl > 0:                                                                                # sun + rays
-        fr = CART.glow(fr, W * .86, H * .1, 560, (255, 228, 160), .4 * kl)
+        fr = CART.glow(fr, W * .86, H * .1, S(560), (255, 228, 160), .4 * kl)
         g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
         for i in range(5):
             a0 = math.radians(120 + i * 12 + 2 * math.sin(t + i))
-            d.polygon([(W * .86, H * .1), (W * .86 + 1600 * math.cos(a0), H * .1 + 1600 * math.sin(a0)),
-                       (W * .86 + 1600 * math.cos(a0 + .05), H * .1 + 1600 * math.sin(a0 + .05))], fill=(255, 240, 200, int(40 * kl)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(12))).convert('RGB')
+            d.polygon([(W * .86, H * .1), (W * .86 + S(1600) * math.cos(a0), H * .1 + S(1600) * math.sin(a0)),
+                       (W * .86 + S(1600) * math.cos(a0 + .05), H * .1 + S(1600) * math.sin(a0 + .05))], fill=(255, 240, 200, int(40 * kl)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(12)))).convert('RGB')
     return fr
 
 
@@ -102,10 +102,10 @@ def grass(fr, t, k):
         return fr
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g); r = np.random.default_rng(9)
     for i in range(170):
-        x = r.random() * W; y = H * (.8 + .2 * r.random()); h = 14 + 22 * r.random()
-        sw = math.sin(t * 3 + x * .02) * 7 * k
+        x = r.random() * W; y = H * (.8 + .2 * r.random()); h = S(14) + S(22) * r.random()
+        sw = math.sin(t * 3 + x / S(50)) * S(7) * k
         c = (60 + int(40 * r.random()), 130 + int(50 * r.random()), 50, int(220 * k))
-        d.line((x, y, x + sw, y - h), fill=c, width=3)
+        d.line((x, y, x + sw, y - h), fill=c, width=Si(3))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
@@ -116,18 +116,18 @@ def sound_fx(fr, t, k):
     cx, cy = W * .5, H * .55
     for j in range(3):
         ph = ((t - BARS[3][1]) * .8 + j / 3) % 1
-        r = 40 + 260 * ph
-        d.ellipse((cx - r, cy - r * .5, cx + r, cy + r * .5), outline=(255, 255, 255, int(150 * (1 - ph) * k)), width=3)
+        r = S(40) + S(260) * ph
+        d.ellipse((cx - r, cy - r * .5, cx + r, cy + r * .5), outline=(255, 255, 255, int(150 * (1 - ph) * k)), width=Si(3))
     for j in range(5):
         ph = ((t - BARS[3][1]) * .6 + j / 5) % 1
         x, y = W * (.3 + .08 * j), H * (.62 - .3 * ph)
-        d.text((x, y), '♪' if j % 2 else '♫', font=F(40), fill=(255, 236, 170, int(255 * min(1, (1 - ph) * 2) * k)), stroke_width=2, stroke_fill=(70, 45, 15))
+        d.text((x, y), '♪' if j % 2 else '♫', font=F(40), fill=(255, 236, 170, int(255 * min(1, (1 - ph) * 2) * k)), stroke_width=Si(2), stroke_fill=(70, 45, 15))
     return Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
 
 
 def hero(fr, t):
     ka = k_at(t, BARS[2][1])
-    bob = 5 * abs(math.sin(t * STEP_RATE)) * ka                                # stiff until "Better animation"
+    bob = S(5) * abs(math.sin(t * STEP_RATE)) * ka                                # stiff until "Better animation"
     im = HEROES['quest_young_back_b' if ka > .5 and int(t * STEP_RATE / math.pi) % 2 else 'quest_young_back']   # then he walks: #3 / #3 mirrored
     return comp(fr, im, W * .5 - im.width / 2, H * .93 - im.height - bob)
 
@@ -138,30 +138,30 @@ def blueprint_sheet(fr, t):
     k_in = ease(min(1, (t - T0) / .5)); k_out = ease(min(1, max(0, (t - T_MEAS) / .5)))
     sw, sh = int(W * .47), int(H * .38)
     sht = Image.new('RGBA', (sw, sh), (24, 70, 140, 235)); d = ImageDraw.Draw(sht)
-    for gx in range(0, sw, 28):
+    for gx in range(0, sw, Si(28)):
         d.line((gx, 0, gx, sh), fill=(50, 100, 170, 255))
-    for gy in range(0, sh, 28):
+    for gy in range(0, sh, Si(28)):
         d.line((0, gy, sw, gy), fill=(50, 100, 170, 255))
-    d.rectangle((0, 0, sw - 1, sh - 1), outline=(230, 240, 255, 255), width=3)
+    d.rectangle((0, 0, sw - 1, sh - 1), outline=(230, 240, 255, 255), width=Si(3))
     wc = (235, 242, 255, 255)
-    A.write(d, (24, 18), 'THE PLAN', t, T0, 30, wc)
-    A.write(d, (24, 70), '1. Take the beloved game', t, T0 + .5, 25, wc, speed=40)
-    A.write(d, (24, 110), '2. Make everything better', t, T0 + 1.1, 25, wc, speed=40)
+    A.write(d, (S(24), S(18)), 'THE PLAN', t, T0, 30, wc)
+    A.write(d, (S(24), S(70)), '1. Take the beloved game', t, T0 + .5, 25, wc, speed=40)
+    A.write(d, (S(24), S(110)), '2. Make everything better', t, T0 + 1.1, 25, wc, speed=40)
     t_easy = max(T('l38.w5'), T0 + 1.1 + 25 / 40 + .05)
     if t >= t_easy:
-        d.text((24 + d.textlength('2. Make everything better', font=F(25)) + 16, 108), 'easy!', font=F(26), fill=(130, 240, 150, 255))      # right after line 2
+        d.text((S(24) + d.textlength('2. Make everything better', font=F(25)) + S(16), S(108)), 'easy!', font=F(26), fill=(130, 240, 150, 255))      # right after line 2
     if t >= T_BELOVED:
-        o = A.OCA.copy(); o.thumbnail((120, 120)); sht.alpha_composite(o, (sw - 140, 150)); d = ImageDraw.Draw(sht)   # clear of the text
+        o = A.OCA.copy(); o.thumbnail((Si(120), Si(120))); sht.alpha_composite(o, (sw - Si(140), Si(150))); d = ImageDraw.Draw(sht)   # clear of the text
     if t >= T_BETTER:
-        d.line((24, 250, 120, 250), fill=wc, width=4); d.polygon([(130, 250), (116, 242), (116, 258)], fill=wc)
-        d.text((140, 234), 'BETTER', font=F(24), fill=(130, 240, 150, 255))
+        d.line((S(24), S(250), S(120), S(250)), fill=wc, width=Si(4)); d.polygon([(S(130), S(250)), (S(116), S(242)), (S(116), S(258))], fill=wc)
+        d.text((S(140), S(234)), 'BETTER', font=F(24), fill=(130, 240, 150, 255))
     if t >= T_DANGER:
         kk = min(1, (t - T_DANGER) / .18); st = A.stamp('DANGER'); sc = (1.2 - .5 * ease(kk))
         st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
         if kk < 1:
             st.putalpha(st.getchannel('A').point(lambda v: int(v * kk)))
         sht.alpha_composite(st, (int(sw * .42 - st.width / 2), int(sh * .5 - st.height / 2)))
-    x = W * .04 - (sw + 80) * (1 - k_in) - (sw + 120) * k_out
+    x = W * .04 - (sw + S(80)) * (1 - k_in) - (sw + S(120)) * k_out
     return comp(fr, sht, x, H * .17)                                    # below the HUD hearts
 
 
@@ -169,42 +169,42 @@ def meter_panel(fr, t):
     if t < T_MEAS - .05:
         return fr
     k_in = ease(min(1, (t - T_MEAS + .05) / .5))
-    pw, ph = int(W * .33), int(H * .42)
+    pw, ph = int(W * .33 / U), int(H * .42 / U)                         # design px
     pan = UI.sq_box(pw - 16, ph - 16); d = ImageDraw.Draw(pan)        # our game text box (approved style, family A)
     rows = [(lab, ti) for lab, ti in BARS] + [('FAMILIAR', T_FAM + .1)]
     for i, (lab, ti) in enumerate(rows):
-        y = 18 + i * 54
+        y = S(18 + i * 54)
         fam = lab == 'FAMILIAR'
-        UI.spaced(d, (22, y), lab, F(19), (240, 120, 110, 255) if fam else (235, 238, 250, 255), 2)
-        bx0, bx1 = 22, pw - 70
-        d.rounded_rectangle((bx0, y + 26, bx1, y + 42), 6, fill=(40, 46, 64, 255), outline=(120, 130, 160, 255), width=2)
+        UI.spaced(d, (S(22), y), lab, F(19), (240, 120, 110, 255) if fam else (235, 238, 250, 255), S(2))
+        bx0, bx1 = S(22), S(pw - 70)
+        d.rounded_rectangle((bx0, y + S(26), bx1, y + S(42)), S(6), fill=(40, 46, 64, 255), outline=(120, 130, 160, 255), width=Si(2))
         if fam and FAM_MODE == 'card_heart':
             if t >= ti:                                                 # full at first, then slowly draining; the heart blinks at its tip
                 v = .5 - .25 * ease(min(1, (t - ti) / (T_END - ti + .5)))         # starts at half, drains slowly (Producer)
-                fx = bx0 + 2 + (bx1 - bx0 - 4) * v
-                d.rounded_rectangle((bx0 + 2, y + 28, fx, y + 40), 5, fill=(240, 120, 110, 255))
+                fx = bx0 + S(2) + (bx1 - bx0 - S(4)) * v
+                d.rounded_rectangle((bx0 + S(2), y + S(28), fx, y + S(40)), S(5), fill=(240, 120, 110, 255))
                 if int((t - ti) * 6) % 2 == 0:                          # blinks a little faster (Producer)
-                    hx, hy, hr = fx, y + 34, 13
+                    hx, hy, hr = fx, y + S(34), S(13)
                     d.polygon([(hx, hy + hr), (hx - 1.6 * hr, hy - .2 * hr), (hx - hr, hy - 1.1 * hr), (hx, hy - .5 * hr), (hx + hr, hy - 1.1 * hr), (hx + 1.6 * hr, hy - .2 * hr)],
                               fill=(255, 90, 100, 255), outline=(255, 235, 235, 255))
         elif fam and FAM_MODE == 'heart':
             if t >= ti:                                                 # no bar can hold it: a heart beats where the bar would be
                 pulse = 1 + .18 * max(0, math.sin((t - ti) * 7))
-                hx, hy, hr = (bx0 + bx1) / 2, y + 34, 12 * pulse
+                hx, hy, hr = (bx0 + bx1) / 2, y + S(34), S(12) * pulse
                 d.polygon([(hx, hy + hr), (hx - 1.6 * hr, hy - .2 * hr), (hx - hr, hy - 1.1 * hr), (hx, hy - .5 * hr), (hx + hr, hy - 1.1 * hr), (hx + 1.6 * hr, hy - .2 * hr)], fill=(240, 120, 110, 255))
-                d.text((bx1 + 10, y + 18), '?', font=F(22), fill=(240, 120, 110, 255))
+                d.text((bx1 + S(10), y + S(18)), '?', font=F(22), fill=(240, 120, 110, 255))
         elif fam:
             if t >= ti:
                 v = abs(math.sin(t * 13)) * .9 if int(t * 6) % 2 else abs(math.sin(t * 7)) * .3      # it cannot settle
-                d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(240, 120, 110, 255))
-                d.text((bx1 + 10, y + 18), '???', font=F(22), fill=(240, 120, 110, 255))
+                d.rounded_rectangle((bx0 + S(2), y + S(28), bx0 + S(2) + (bx1 - bx0 - S(4)) * v, y + S(40)), S(5), fill=(240, 120, 110, 255))
+                d.text((bx1 + S(10), y + S(18)), '???', font=F(22), fill=(240, 120, 110, 255))
         else:
             v = k_at(t, ti, .5)
             if v > 0:
-                d.rounded_rectangle((bx0 + 2, y + 28, bx0 + 2 + (bx1 - bx0 - 4) * v, y + 40), 5, fill=(110, 220, 140, 255))
-                d.text((bx1 + 12, y + 18), '+', font=F(24), fill=(110, 220, 140, 255))
-    pan = pan.resize((int(pw * .72), int(ph * .72)), Image.LANCZOS)     # Producer (v11): smaller and lower right, clear of the castle
-    x = W * .71 + (pan.width + 80) * (1 - k_in)
+                d.rounded_rectangle((bx0 + S(2), y + S(28), bx0 + S(2) + (bx1 - bx0 - S(4)) * v, y + S(40)), S(5), fill=(110, 220, 140, 255))
+                d.text((bx1 + S(12), y + S(18)), '+', font=F(24), fill=(110, 220, 140, 255))
+    pan = pan.resize((int(S(pw) * .72), int(S(ph) * .72)), Image.LANCZOS)     # Producer (v11): smaller and lower right, clear of the castle
+    x = W * .71 + (pan.width + S(80)) * (1 - k_in)
     return comp(fr, pan, x, H * .425)                                   # under the castle's line, above the subtitles
 
 
@@ -218,9 +218,9 @@ def familiar_window(fr, t):
         old = Image.blend(old, Image.new('RGB', old.size, (255, 190, 110)), .22)
         old = comp(old, HERO, W * .5 - HERO.width / 2, H * .93 - HERO.height)
         m = Image.new('L', (W, H), 0); md = ImageDraw.Draw(m)
-        r = 260 * kf; cx, cy = W * .5, H * .7
+        r = S(260) * kf; cx, cy = W * .5, H * .7
         md.ellipse((cx - r * 1.3, cy - r, cx + r * 1.3, cy + r), fill=255)
-        fr = Image.composite(old, fr, m.filter(ImageFilter.GaussianBlur(30)))
+        fr = Image.composite(old, fr, m.filter(ImageFilter.GaussianBlur(S(30))))
         fr = CART.glow(fr, cx, cy, int(r * 1.4) + 1, (255, 210, 140), .2 * kf)
     return fr
 
@@ -244,7 +244,7 @@ def render(t):
         card = card.resize((int(card.width * .85), int(card.height * .85)), Image.LANCZOS)
         if u < .25:
             card.putalpha(card.getchannel('A').point(lambda v: int(v * u / .25)))
-        fr = comp(fr, card, W * .17 + 30 * math.sin((t - T_FAM) * 2.5) * (1 - u), H * .3 - H * .35 * (1 - fall))   # a little more to the right (Producer)
+        fr = comp(fr, card, W * .17 + S(30) * math.sin((t - T_FAM) * 2.5) * (1 - u), H * .3 - H * .35 * (1 - fall))   # a little more to the right (Producer)
     hearts = 5.0 if t < T_FAM + .2 else max(2.5, 5.0 - .5 * (1 + int((t - T_FAM - .2) / .35)))   # 'familiar': loses half a heart at a time
     fr = hud.draw(fr, hearts=hearts, t=t)
     if t < T0 + .3:

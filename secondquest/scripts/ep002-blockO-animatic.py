@@ -31,7 +31,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, S, Si, P, out_path, video_args, audio_args  # noqa
+from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, S, Si, P, U, out_path, video_args, audio_args  # noqa
 from icons import camera_icon  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
@@ -69,7 +69,7 @@ Q_SIZE = 90
 def qmark(d, cx, y, size):
     """The one "?" of this block: his mystery, the same mark over Pixie."""
     f = F(int(size))
-    d.text((cx - d.textlength('?', font=f) / 2, y), '?', font=f, fill=(255, 255, 255), stroke_width=5, stroke_fill=(70, 80, 110))
+    d.text((cx - d.textlength('?', font=f) / 2, y), '?', font=f, fill=(255, 255, 255), stroke_width=Si(5), stroke_fill=(70, 80, 110))
 
 
 # ------------------------------------------------------------------ the room (block H's plate, his CRT)
@@ -97,7 +97,7 @@ def picture(t):
         pic = Image.fromarray(np.clip(a + (g * .9 - a) * kp * .65, 0, 255).astype(np.uint8))
         if kp > .3 and t < T_PRES + .9:                                       # the PAUSE bar (gone before the callouts)
             d = ImageDraw.Draw(pic)
-            d.rectangle((0, 104, 320, 136), fill=(10, 10, 14)); d.text((160 - d.textlength('PAUSE', font=F(22)) / 2, 108), 'PAUSE', font=F(22), fill=(255, 230, 120))
+            d.rectangle((0, 104, 320, 136), fill=(10, 10, 14)); d.text((160 - d.textlength('PAUSE', font=F(22 / U)) / 2, 108), 'PAUSE', font=F(22 / U), fill=(255, 230, 120))   # picture px (the 320x240 tube picture), not design px
     return pic, kp
 
 
@@ -113,8 +113,8 @@ def room_plate(pic):
     scr = pic.resize((max(1, int(max(xs) - min(xs))), max(1, int(max(ys) - min(ys)))), Image.NEAREST)
     tv = BC.fill_screen(tv, qs, ms, scr)
     sh = Image.new('RGBA', base.size)
-    ImageDraw.Draw(sh).ellipse((R['tv_pos'][0] + 10, R['tv_pos'][1] + tv.height - 14, R['tv_pos'][0] + tv.width - 10, R['tv_pos'][1] + tv.height + 6), fill=(0, 0, 0, 120))
-    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5)))
+    ImageDraw.Draw(sh).ellipse((R['tv_pos'][0] + P(10), R['tv_pos'][1] + tv.height - P(14), R['tv_pos'][0] + tv.width - P(10), R['tv_pos'][1] + tv.height + P(6)), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(5))))
     base.alpha_composite(tv, R['tv_pos'])
     base.alpha_composite(R['n64'], R['n64_pos'])
     return base
@@ -126,17 +126,17 @@ def room(t):
     base = room_plate(pic)
     rgb = Image.blend(base.convert('RGB'), Image.new('RGB', base.size, (14, 18, 38)), ROOM_C['night'] + .18 * (1 - glow))
     sx, sy = BC.SCR_C[0] * PW, BC.SCR_C[1] * PH
-    rgb = CART.glow(rgb, sx - 120, sy + 60, 900, (140, 190, 255), .35 * glow)
+    rgb = CART.glow(rgb, sx - P(120), sy + P(60), P(900), (140, 190, 255), .35 * glow)
     base = rgb.convert('RGBA')
     q = QIMG
     ql = Image.blend(q.convert('RGB'), Image.new('RGB', q.size, (18, 22, 44)), .30 + .30 * (1 - glow)).convert('RGBA'); ql.putalpha(q.getchannel('A'))
-    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((QSPEC[0] * PW - q.width * .45, QSPEC[1] * PH - 24, QSPEC[0] * PW + q.width * .45, QSPEC[1] * PH + 14), fill=(0, 0, 0, 120))
-    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)))
+    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((QSPEC[0] * PW - q.width * .45, QSPEC[1] * PH - P(24), QSPEC[0] * PW + q.width * .45, QSPEC[1] * PH + P(14)), fill=(0, 0, 0, 120))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(10))))
     base.alpha_composite(ql, (int(QSPEC[0] * PW - q.width / 2), int(QSPEC[1] * PH - QH)))
     rim = Image.new('RGBA', base.size); rd = ImageDraw.Draw(rim)
     fx = QSPEC[0] * PW + q.width * .22; fy = QSPEC[1] * PH - QH * .72
-    rd.ellipse((fx - 120, fy - 140, fx + 160, fy + 260), fill=(120, 170, 255, int(60 * glow)))
-    base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(40)))
+    rd.ellipse((fx - P(120), fy - P(140), fx + P(160), fy + P(260)), fill=(120, 170, 255, int(60 * glow)))
+    base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(P(40))))
     return base.convert('RGB')
 
 
@@ -181,13 +181,13 @@ def callouts(fr, t, box, hide=()):
             continue
         x, y = scr_pt(u, v, box)
         g = tagbox(name)
-        tx, ty = x + ox, y + oy
-        tx = min(max(tx, 30), W - g.width - 30); ty = min(max(ty, 40), H * .74 - g.height)
-        d.line((x, y, tx + g.width / 2, ty + g.height / 2), fill=(255, 214, 40), width=3)
-        d.ellipse((x - 7, y - 7, x + 7, y + 7), outline=(255, 214, 40), width=3)
+        tx, ty = x + S(ox), y + S(oy)
+        tx = min(max(tx, S(30)), W - g.width - S(30)); ty = min(max(ty, S(40)), H * .74 - g.height)
+        d.line((x, y, tx + g.width / 2, ty + g.height / 2), fill=(255, 214, 40), width=Si(3))
+        d.ellipse((x - S(7), y - S(7), x + S(7), y + S(7)), outline=(255, 214, 40), width=Si(3))
         if name == 'FIXED CAMERA':
             ic = camera_icon(False, 70)
-            fr = comp(fr, fade(ic, ka), tx + g.width / 2 - 35, ty - 58)
+            fr = comp(fr, fade(ic, ka), tx + g.width / 2 - S(35), ty - S(58))
             d = ImageDraw.Draw(fr)
         fr = comp(fr, fade(g, ka), tx, ty)
         d = ImageDraw.Draw(fr)
@@ -198,9 +198,9 @@ def stamp(fr, t):
     ks = min(1, max(0, (t - T_PRESW) / .25)) * (1 - min(1, max(0, (t - T_UNDL) / .3)))
     if ks <= 0:
         return fr
-    st = Image.new('RGBA', (460, 70)); sd = ImageDraw.Draw(st)
-    sd.rounded_rectangle((3, 3, 456, 66), 8, outline=(210, 40, 50, 255), width=6)
-    s = 'KEEP EXACTLY AS IT WAS'; sd.text((230 - sd.textlength(s, font=F(30)) / 2, 14), s, font=F(30), fill=(210, 40, 50, 255))
+    st = Image.new('RGBA', (Si(460), Si(70))); sd = ImageDraw.Draw(st)
+    sd.rounded_rectangle((S(3), S(3), S(456), S(66)), S(8), outline=(210, 40, 50, 255), width=Si(6))
+    s = 'KEEP EXACTLY AS IT WAS'; sd.text((S(230) - sd.textlength(s, font=F(30)) / 2, S(14)), s, font=F(30), fill=(210, 40, 50, 255))
     st = st.rotate(-8, resample=Image.BICUBIC, expand=True)
     sc = 1.5 - .5 * ease(ks)
     st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
@@ -218,14 +218,16 @@ def bubble(fr, t, box):
     hx, hy = to_frame(*HEAD, box)
     bx, by = BUBBLE_C
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)
-    R = 170 * kb
+    R = S(170) * kb
     for (ox, oy, r) in ((-110, -10, .55), (0, -50, .66), (110, -10, .55), (-60, 55, .5), (60, 55, .5)):
-        d.ellipse((bx + ox * kb - R * r, by + oy * kb - R * r, bx + ox * kb + R * r, by + oy * kb + R * r), fill=(236, 240, 248, 235), outline=(20, 14, 18, 255), width=4)
+        ox, oy = S(ox), S(oy)
+        d.ellipse((bx + ox * kb - R * r, by + oy * kb - R * r, bx + ox * kb + R * r, by + oy * kb + R * r), fill=(236, 240, 248, 235), outline=(20, 14, 18, 255), width=Si(4))
     for (ox, oy, r) in ((-110, -10, .55), (0, -50, .66), (110, -10, .55), (-60, 55, .5), (60, 55, .5)):
-        d.ellipse((bx + ox * kb - R * r + 4, by + oy * kb - R * r + 4, bx + ox * kb + R * r - 4, by + oy * kb + R * r - 4), fill=(236, 240, 248, 235))
+        ox, oy = S(ox), S(oy)
+        d.ellipse((bx + ox * kb - R * r + S(4), by + oy * kb - R * r + S(4), bx + ox * kb + R * r - S(4), by + oy * kb + R * r - S(4)), fill=(236, 240, 248, 235))
     for i, s in enumerate((14, 10)):                                          # little bubbles down to his head
-        x, y = lin(bx + 120, hx, .45 + .25 * i), lin(by + 120, hy, .45 + .25 * i)
-        d.ellipse((x - s * kb, y - s * kb, x + s * kb, y + s * kb), fill=(236, 240, 248, 235), outline=(20, 14, 18, 255), width=3)
+        x, y = lin(bx + S(120), hx, .45 + .25 * i), lin(by + S(120), hy, .45 + .25 * i); s = S(s)
+        d.ellipse((x - s * kb, y - s * kb, x + s * kb, y + s * kb), fill=(236, 240, 248, 235), outline=(20, 14, 18, 255), width=Si(3))
     fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     # inside: mist and a "?" (mystery), then a great castle (imagination)
     km = min(1, max(0, (t - T_LIM) / .4))
@@ -234,30 +236,30 @@ def bubble(fr, t, box):
         mist = Image.new('RGBA', (W, H)); md = ImageDraw.Draw(mist)
         for i in range(8):
             a = t * .7 + i * .8
-            x = bx - 60 + 120 * (i / 7) + 10 * math.sin(a); y = by + 20 + 18 * math.cos(a)
-            md.ellipse((x - 50, y - 22, x + 50, y + 22), fill=(190, 200, 220, int(150 * kmist)))
-        fr = Image.alpha_composite(fr.convert('RGBA'), mist.filter(ImageFilter.GaussianBlur(8))).convert('RGB')
+            x = bx - S(60) + S(120) * (i / 7) + S(10) * math.sin(a); y = by + S(20) + S(18) * math.cos(a)
+            md.ellipse((x - S(50), y - S(22), x + S(50), y + S(22)), fill=(190, 200, 220, int(150 * kmist)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), mist.filter(ImageFilter.GaussianBlur(S(8)))).convert('RGB')
         if t < Q_TRAVEL0 and km > 0:                                       # the "?" forms on "limitations"
-            qmark(ImageDraw.Draw(fr), bx - 70, by - 70, Q_SIZE * (.6 + .4 * km) + 6 * math.sin(t * 3))
+            qmark(ImageDraw.Draw(fr), bx - S(70), by - S(70), Q_SIZE * (.6 + .4 * km) + 6 * math.sin(t * 3))
     kc = ease(min(1, max(0, (t - T_FEEL) / .5)))
     if kc > 0:
-        gh = sized(CASTLE, 110 * kc + 1)
+        gh = sized(CASTLE, S(110) * kc + 1)
         a = np.asarray(gh).astype(np.float32); a[..., :3] = a[..., :3] * .4 + np.array([200, 225, 255]) * .6
-        fr = comp(fr, Image.fromarray(a.astype(np.uint8)), bx + 70 - gh.width / 2, by + 10 - gh.height)
+        fr = comp(fr, Image.fromarray(a.astype(np.uint8)), bx + S(70) - gh.width / 2, by + S(10) - gh.height)
     # the two tags that came from the screen, flipping to what they made him feel
     for name, new, tk, (ox, oy) in (('FOG', 'MYSTERY', T_LIM, (-250, 130)), ('LOW POLY', 'IMAGINATION', T_FEEL, (-60, 165))):
         kf = min(1, max(0, (t - tk) / .4))
         sq = abs(math.cos(math.pi * kf)) if kf < 1 else 1
         g = tagbox(new if kf >= .5 else name, flipped=kf >= .5)
         g = g.resize((g.width, max(1, int(g.height * sq))), Image.LANCZOS)
-        fr = comp(fr, fade(g, kb), bx + ox, by + oy + (36 - g.height) / 2)
+        fr = comp(fr, fade(g, kb), bx + S(ox), by + S(oy) + (S(36) - g.height) / 2)
     return fr
 
 
 # ------------------------------------------------------------------ O5: today, someone feels it again
 FOREST = BM.forest_frame(BM.T_DIST - .1, BM.T_DIST - .1)[0]                 # block M's forest: final art #12
 PX, PFEET, PHH = W * .42, H * .95, H * .52
-Q_TO = (PX + 20, PFEET - PHH - 120)                                          # the "?" over Pixie (forest frame px)
+Q_TO = (PX + S(20), PFEET - PHH - S(120))                                          # the "?" over Pixie (forest frame px)
 Q_TRAVEL0, Q_TRAVEL1 = T_AGAIN - .25, T_AGAIN + 1.0
 T_DIVE0, T_DIVE1 = T_FEEL2 - .9, T_FEEL2 - .1
 
@@ -266,21 +268,21 @@ def forest(t, with_q=True):
     fr = FOREST.copy()
     g = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(g)                      # drifting mist
     for i in range(14):
-        x = (i * 140 + t * 30 * (1 + i % 3)) % (W + 300) - 150; y = H * (.35 + .05 * (i % 5))
-        d.ellipse((x - 160, y - 50, x + 160, y + 50), fill=(235, 240, 246, 150))
-    fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(18))).convert('RGB')
+        x = (i * S(140) + t * S(30) * (1 + i % 3)) % (W + S(300)) - S(150); y = H * (.35 + .05 * (i % 5))
+        d.ellipse((x - S(160), y - S(50), x + S(160), y + S(50)), fill=(235, 240, 246, 150))
+    fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(S(18)))).convert('RGB')
     p = sized(P2_AWE, PHH)
-    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((PX - p.width * .35, PFEET - 10, PX + p.width * .35, PFEET + 8), fill=(0, 0, 0, 80))
-    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(5))).convert('RGB')
+    sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((PX - p.width * .35, PFEET - S(10), PX + p.width * .35, PFEET + S(8)), fill=(0, 0, 0, 80))
+    fr = Image.alpha_composite(fr.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(S(5)))).convert('RGB')
     fr = comp(fr, p, PX - p.width / 2, PFEET - p.height)
     if with_q:
         glow = .3 + .5 * min(1, max(0, (t - T_FEEL2) / .3))
-        fr = CART.glow(fr, Q_TO[0], Q_TO[1] + 60, 90, (255, 255, 220), glow)
+        fr = CART.glow(fr, Q_TO[0], Q_TO[1] + S(60), S(90), (255, 255, 220), glow)
         qmark(ImageDraw.Draw(fr), Q_TO[0], Q_TO[1], Q_SIZE + 10 * math.sin(t * 3))
     return fr
 
 
-SW_W = 820
+SW_W = Si(820)
 SW = BL.SW2.resize((SW_W, int(BL.SW2.height * SW_W / BL.SW2.width)), Image.LANCZOS)
 _sq = BL.SW2_QUAD * (SW_W / BL.SW2.width)
 SW_MASK = np.asarray(Image.fromarray(BL.SW2_MASK.astype(np.uint8) * 255).resize(SW.size, Image.NEAREST)) > 127
@@ -292,30 +294,30 @@ SW_M = cv2.getPerspectiveTransform(_SRC, _sq.astype(np.float32))
 def handheld(t, screen):
     """Today: the Switch 2-like handheld (our 3D, block L) on a bright table; `screen` plays on it."""
     bg = Image.new('RGB', (W, H), (226, 214, 196)); d = ImageDraw.Draw(bg)
-    d.rectangle((0, H * .62, W, H), fill=(170, 130, 96)); d.line((0, H * .62, W, H * .62), fill=(120, 90, 66), width=4)
-    bg = CART.glow(bg, W * .82, H * .12, 600, (255, 248, 220), .45)                # daylight from a window
-    ph = Image.new('RGBA', (150, 290)); pd = ImageDraw.Draw(ph)                   # Producer improvement: a phone - it is today
-    pd.rounded_rectangle((2, 2, 147, 287), 22, fill=(28, 30, 36, 255), outline=(20, 14, 18, 255), width=4)
-    pd.rounded_rectangle((10, 12, 139, 277), 16, fill=(40, 70, 120, 255))
-    pd.text((75 - pd.textlength('20:26', font=F(30)) / 2, 40), '20:26', font=F(30), fill=(240, 245, 255, 255))
-    pd.rounded_rectangle((18, 110, 131, 150), 8, fill=(235, 240, 248, 220))
-    pd.rounded_rectangle((60, 262, 90, 267), 2, fill=(200, 210, 230, 255))
+    d.rectangle((0, H * .62, W, H), fill=(170, 130, 96)); d.line((0, H * .62, W, H * .62), fill=(120, 90, 66), width=Si(4))
+    bg = CART.glow(bg, W * .82, H * .12, S(600), (255, 248, 220), .45)                # daylight from a window
+    ph = Image.new('RGBA', (Si(150), Si(290))); pd = ImageDraw.Draw(ph)                   # Producer improvement: a phone - it is today
+    pd.rounded_rectangle((S(2), S(2), S(147), S(287)), S(22), fill=(28, 30, 36, 255), outline=(20, 14, 18, 255), width=Si(4))
+    pd.rounded_rectangle((S(10), S(12), S(139), S(277)), S(16), fill=(40, 70, 120, 255))
+    pd.text((S(75) - pd.textlength('20:26', font=F(30)) / 2, S(40)), '20:26', font=F(30), fill=(240, 245, 255, 255))
+    pd.rounded_rectangle((S(18), S(110), S(131), S(150)), S(8), fill=(235, 240, 248, 220))
+    pd.rounded_rectangle((S(60), S(262), S(90), S(267)), S(2), fill=(200, 210, 230, 255))
     ph = ph.rotate(-62, resample=Image.BICUBIC, expand=True)
     ph = ph.resize((ph.width, int(ph.height * .55)), Image.LANCZOS)                 # lying on the table, in perspective
-    sh2 = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh2).ellipse((W * .86 - ph.width * .45, H * .86 - 18, W * .86 + ph.width * .45, H * .86 + 26), fill=(0, 0, 0, 60))
-    bg = Image.alpha_composite(bg.convert('RGBA'), sh2.filter(ImageFilter.GaussianBlur(10))).convert('RGB')
+    sh2 = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh2).ellipse((W * .86 - ph.width * .45, H * .86 - S(18), W * .86 + ph.width * .45, H * .86 + S(26)), fill=(0, 0, 0, 60))
+    bg = Image.alpha_composite(bg.convert('RGBA'), sh2.filter(ImageFilter.GaussianBlur(S(10)))).convert('RGB')
     bg = comp(bg, ph, W * .86 - ph.width / 2, H * .82 - ph.height / 2)
     pic = cv2.warpPerspective(np.asarray(screen).astype(np.float32), SW_M, SW.size)
     s = np.asarray(SW).copy(); s[SW_MASK, :3] = np.clip(pic[SW_MASK], 0, 255).astype(np.uint8)
     sw = Image.fromarray(s)
     sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((W * .5 - SW_W * .48, SW_POS[1] + SW.height * .78, W * .5 + SW_W * .48, SW_POS[1] + SW.height * 1.0), fill=(0, 0, 0, 70))
-    bg = Image.alpha_composite(bg.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(14))).convert('RGB')
+    bg = Image.alpha_composite(bg.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(S(14)))).convert('RGB')
     return comp(bg, sw, *SW_POS)
 
 
 def q_on_handheld():
     """Where the forest's "?" sits on the handheld's screen (frame px)."""
-    p = cv2.perspectiveTransform(np.float32([[[Q_TO[0], Q_TO[1] + 40]]]), SW_M)[0, 0]
+    p = cv2.perspectiveTransform(np.float32([[[Q_TO[0], Q_TO[1] + S(40)]]]), SW_M)[0, 0]
     return SW_POS[0] + float(p[0]), SW_POS[1] + float(p[1])
 
 
@@ -367,19 +369,19 @@ def render(t):
             fr = forest(t); hud_on = True
     if Q_TRAVEL0 <= t < Q_TRAVEL1:                                           # the same "?" travels from his bubble to her
         k = ease((t - Q_TRAVEL0) / (Q_TRAVEL1 - Q_TRAVEL0))
-        x0, y0 = BUBBLE_C[0] - 70, BUBBLE_C[1] - 70
+        x0, y0 = BUBBLE_C[0] - S(70), BUBBLE_C[1] - S(70)
         x1, y1 = q_on_handheld()
         size = lin(Q_SIZE, Q_SIZE * .45, k)
-        x = lin(x0, x1, k); y = lin(y0, y1 - size * .6, k) - 80 * math.sin(math.pi * k)
+        x = lin(x0, x1, k); y = lin(y0, y1 - S(size) * .6, k) - S(80) * math.sin(math.pi * k)
         tr = Image.new('RGBA', (W, H)); td = ImageDraw.Draw(tr)                # Producer improvement: a trail (Navi's colour) to follow it
         for i in range(1, 14):
             kk = ease(max(0, (t - i * .035 - Q_TRAVEL0) / (Q_TRAVEL1 - Q_TRAVEL0)))
-            sz = lin(Q_SIZE, Q_SIZE * .45, kk)
-            px = lin(x0, x1, kk); py = lin(y0, y1 - sz * .6, kk) - 80 * math.sin(math.pi * kk) + sz * .55
-            r = 7 * (1 - i / 14) + 2
+            sz = S(lin(Q_SIZE, Q_SIZE * .45, kk))
+            px = lin(x0, x1, kk); py = lin(y0, y1 - sz * .6, kk) - S(80) * math.sin(math.pi * kk) + sz * .55
+            r = S(7 * (1 - i / 14) + 2)
             td.ellipse((px - r, py - r, px + r, py + r), fill=(170, 225, 255, int(200 * (1 - i / 14))))
-        fr = Image.alpha_composite(fr.convert('RGBA'), tr.filter(ImageFilter.GaussianBlur(2))).convert('RGB')
-        fr = CART.glow(fr, x, y + size * .5, 80, (255, 255, 230), .35)
+        fr = Image.alpha_composite(fr.convert('RGBA'), tr.filter(ImageFilter.GaussianBlur(S(2)))).convert('RGB')
+        fr = CART.glow(fr, x, y + S(size) * .5, S(80), (255, 255, 230), .35)
         qmark(ImageDraw.Draw(fr), x, y, size)
     if hud_on:
         fr = hud.draw(fr, hearts=3.0, max_hearts=3, magic=0.0, rupees=0, t=t)   # her new FILE 2 (block J): 0 rupees

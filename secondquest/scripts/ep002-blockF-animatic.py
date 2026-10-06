@@ -48,9 +48,10 @@ def comp(fr, im, x, y):
 
 def page():
     p = Image.new('RGB', (PW2, PH2), (246, 240, 224)); d = ImageDraw.Draw(p)
-    for y in range(70, PH2, 44):
-        d.line((0, y, PW2, y), fill=(190, 210, 235), width=2)
-    d.line((150, 0, 150, PH2), fill=(230, 150, 150), width=3)
+    for i in range(int((PH2 - S(70)) / S(44)) + 1):
+        y = S(70) + i * S(44)
+        d.line((0, y, PW2, y), fill=(190, 210, 235), width=Si(2))
+    d.line((S(150), 0, S(150), PH2), fill=(230, 150, 150), width=Si(3))
     a = np.asarray(p).astype(np.float32)
     yy, xx = np.mgrid[0:PH2, 0:PW2]; v = 1 - .18 * (((xx / PW2 - .5) ** 2 + (yy / PH2 - .5) ** 2) * 2)
     return Image.fromarray((a * v[..., None]).clip(0, 255).astype(np.uint8))
@@ -58,18 +59,18 @@ def page():
 
 PAGE = page()
 _o = Image.open(PROPS / 'ocarina_spin/f012.png').convert('RGBA')
-OCA = _o.crop(_o.getchannel('A').getbbox()); OCA.thumbnail((240, 240))
+OCA = _o.crop(_o.getchannel('A').getbbox()); OCA.thumbnail((Si(240), Si(240)))
 KIDS = BE.CARDS[1]
 
 
 def wobble_line(d, pts, fill, width=4, seed=0):
-    """Hand-drawn feel: a slightly wavy line."""
+    """Hand-drawn feel: a slightly wavy line (width in design px)."""
     r = np.random.default_rng(seed); out = []
     for (a, b), (c, e) in zip(pts, pts[1:]):
         for i in range(12):
             u = i / 12
-            out.append((lin(a, c, u) + r.normal(0, .8), lin(b, e, u) + r.normal(0, .8)))
-    out.append(pts[-1]); d.line(out, fill=fill, width=width, joint='curve')
+            out.append((lin(a, c, u) + r.normal(0, S(.8)), lin(b, e, u) + r.normal(0, S(.8))))
+    out.append(pts[-1]); d.line(out, fill=fill, width=Si(width), joint='curve')
 
 
 def write(d, xy, text, t, t0, size=34, fill=INK, speed=22):
@@ -81,34 +82,34 @@ def write(d, xy, text, t, t0, size=34, fill=INK, speed=22):
 
 def draw_page(t):
     p = PAGE.copy(); d = ImageDraw.Draw(p)
-    ox, oy = 210, 60                                                    # page content origin (page px)
+    ox, oy = S(210), S(60)                                              # page content origin (page px)
     # F1: the plan
-    write(d, (ox, oy + 30), 'THE PLAN', t, T0, 40, BLUE)
-    write(d, (ox, oy + 100), '1. Take the beloved game', t, T0 + .5, 32, speed=40)
-    write(d, (ox, oy + 150), '2. Make everything better', t, T0 + 1.1, 32, speed=40)   # written before 'easy' lands
+    write(d, (ox, oy + S(30)), 'THE PLAN', t, T0, 40, BLUE)
+    write(d, (ox, oy + S(100)), '1. Take the beloved game', t, T0 + .5, 32, speed=40)
+    write(d, (ox, oy + S(150)), '2. Make everything better', t, T0 + 1.1, 32, speed=40)   # written before 'easy' lands
     t_easy = max(T('l38.w5'), T0 + 1.1 + 25 / 40 + .05)                 # "easy" tick, once line 2 is written
     if t >= t_easy:
         k = ease(min(1, (t - t_easy) / .3))
-        d.text((ox + 520, oy + 148), 'easy!', font=F(30), fill=(60, 150, 70))
-        wobble_line(d, [(ox + 478, oy + 172), (ox + 490, oy + 184), (ox + 490 + 24 * k, oy + 156)], (60, 150, 70), 5, 3)
+        d.text((ox + S(520), oy + S(148)), 'easy!', font=F(30), fill=(60, 150, 70))
+        wobble_line(d, [(ox + S(478), oy + S(172)), (ox + S(490), oy + S(184)), (ox + S(490) + S(24) * k, oy + S(156))], (60, 150, 70), 5, 3)
     # F2: the ocarina + heart, arrow to BETTER
     if t >= T_BELOVED:
         k = ease(min(1, (t - T_BELOVED) / .4))
         o = OCA.resize((max(1, int(OCA.width * k)), max(1, int(OCA.height * k))), Image.LANCZOS)
-        p = comp(p, o, ox + 680 + (OCA.width - o.width) / 2, oy + 30 + (OCA.height - o.height) / 2); d = ImageDraw.Draw(p)
-        hx, hy = ox + 950, oy + 60
-        d.polygon([(hx, hy + 18), (hx - 22, hy - 2), (hx - 14, hy - 16), (hx, hy - 6), (hx + 14, hy - 16), (hx + 22, hy - 2)], fill=RED)
+        p = comp(p, o, ox + S(680) + (OCA.width - o.width) / 2, oy + S(30) + (OCA.height - o.height) / 2); d = ImageDraw.Draw(p)
+        hx, hy = ox + S(950), oy + S(60)
+        d.polygon([(hx, hy + S(18)), (hx - S(22), hy - S(2)), (hx - S(14), hy - S(16)), (hx, hy - S(6)), (hx + S(14), hy - S(16)), (hx + S(22), hy - S(2))], fill=RED)
     if t >= T_BETTER:
         k = ease(min(1, (t - T_BETTER) / .5))
-        x0, y0 = ox + 640, oy + 300
-        wobble_line(d, [(x0, y0), (x0 + 160 * k, y0)], INK, 5, 5)
+        x0, y0 = ox + S(640), oy + S(300)
+        wobble_line(d, [(x0, y0), (x0 + S(160) * k, y0)], INK, 5, 5)
         if k > .9:
-            d.polygon([(x0 + 170, y0), (x0 + 150, y0 - 12), (x0 + 150, y0 + 12)], fill=INK)
-            d.text((x0 + 190, y0 - 22), 'BETTER', font=F(38), fill=(60, 150, 70))
+            d.polygon([(x0 + S(170), y0), (x0 + S(150), y0 - S(12)), (x0 + S(150), y0 + S(12))], fill=INK)
+            d.text((x0 + S(190), y0 - S(22)), 'BETTER', font=F(38), fill=(60, 150, 70))
             for i in range(5):                                          # sparkles
                 a = t * 3 + i * 1.3
-                sx, sy = x0 + 270 + 70 * math.cos(a), y0 - 40 + 26 * math.sin(a)
-                d.line((sx - 6, sy, sx + 6, sy), fill=(230, 180, 40), width=3); d.line((sx, sy - 6, sx, sy + 6), fill=(230, 180, 40), width=3)
+                sx, sy = x0 + S(270) + S(70) * math.cos(a), y0 - S(40) + S(26) * math.sin(a)
+                d.line((sx - S(6), sy, sx + S(6), sy), fill=(230, 180, 40), width=Si(3)); d.line((sx, sy - S(6), sx, sy + S(6)), fill=(230, 180, 40), width=Si(3))
     # F3: the DANGER stamp slams onto the plan
     if t >= T_DANGER:
         k = min(1, (t - T_DANGER) / .18)
@@ -117,48 +118,48 @@ def draw_page(t):
         st = st.resize((int(st.width * sc), int(st.height * sc)), Image.LANCZOS)
         if k < 1:
             st.putalpha(st.getchannel('A').point(lambda v: int(v * k)))
-        p = comp(p, st, ox + 330 - st.width / 2, oy + 130 - st.height / 2); d = ImageDraw.Draw(p)
+        p = comp(p, st, ox + S(330) - st.width / 2, oy + S(130) - st.height / 2); d = ImageDraw.Draw(p)
     # F4-F6: the chart (lower half of the page)
     if t >= T_MEAS:
         k = ease(min(1, (t - T_MEAS) / .6))
-        bx0, by0, bx1 = ox + 60, oy + 840, ox + 60 + 960 * k
-        wobble_line(d, [(ox + 60, by0), (bx1, by0)], INK, 5, 7)
-        wobble_line(d, [(ox + 60, by0), (ox + 60, by0 - 290 * k)], INK, 5, 8)
+        bx0, by0, bx1 = ox + S(60), oy + S(840), ox + S(60) + S(960) * k
+        wobble_line(d, [(ox + S(60), by0), (bx1, by0)], INK, 5, 7)
+        wobble_line(d, [(ox + S(60), by0), (ox + S(60), by0 - S(290) * k)], INK, 5, 8)
         if k > .8:
-            d.text((ox + 80, by0 - 320), 'BETTER IS MEASURABLE', font=F(26), fill=BLUE)
+            d.text((ox + S(80), by0 - S(320)), 'BETTER IS MEASURABLE', font=F(26), fill=BLUE)
         for i, (lab, ti) in enumerate(BARS):
             kk = ease(min(1, max(0, (t - ti + .05) / .35)))
             if kk <= 0:
                 continue
-            x = ox + 100 + i * 170; hgt = (140 + 30 * i) * kk
-            d.rectangle((x, by0 - hgt, x + 110, by0), fill=(110, 170, 230), outline=INK, width=4)
-            d.text((x + 55 - d.textlength(lab, font=F(20)) / 2, by0 + 12), lab, font=F(20), fill=INK)
-            d.text((x + 55 - d.textlength('+', font=F(30)) / 2, by0 - hgt - 40), '+', font=F(30), fill=(60, 150, 70))
-            icon(d, i, x + 55, by0 - hgt / 2, t)
+            x = ox + S(100) + i * S(170); hgt = S(140 + 30 * i) * kk
+            d.rectangle((x, by0 - hgt, x + S(110), by0), fill=(110, 170, 230), outline=INK, width=Si(4))
+            d.text((x + S(55) - d.textlength(lab, font=F(20)) / 2, by0 + S(12)), lab, font=F(20), fill=INK)
+            d.text((x + S(55) - d.textlength('+', font=F(30)) / 2, by0 - hgt - S(40)), '+', font=F(30), fill=(60, 150, 70))
+            icon(d, i, x + S(55), by0 - hgt / 2, t)
         if t >= T_FAM:                                                  # the slot that cannot be measured
             kf = ease(min(1, (t - T_FAM) / .5))
-            x = ox + 100 + 4 * 170 + 10
+            x = ox + S(100) + 4 * S(170) + S(10)
             kid = KIDS.rotate(-4, expand=True, resample=Image.BICUBIC)
             s = .72 * kf + .01; kid = kid.resize((max(1, int(kid.width * s)), max(1, int(kid.height * s))), Image.LANCZOS)
-            p = comp(p, kid, x, by0 - 10 - kid.height); d = ImageDraw.Draw(p)
+            p = comp(p, kid, x, by0 - S(10) - kid.height); d = ImageDraw.Draw(p)
             lab = 'FAMILIAR'
-            d.text((x + 80 - d.textlength(lab, font=F(20)) / 2, by0 + 12), lab, font=F(20), fill=RED)
+            d.text((x + S(80) - d.textlength(lab, font=F(20)) / 2, by0 + S(12)), lab, font=F(20), fill=RED)
             if kf > .6:                                                 # the ruler gives up
-                rx = x + 180
-                d.rectangle((rx, by0 - 200, rx + 26, by0), fill=(240, 210, 90), outline=INK, width=3)
+                rx = x + S(180)
+                d.rectangle((rx, by0 - S(200), rx + S(26), by0), fill=(240, 210, 90), outline=INK, width=Si(3))
                 for j in range(10):
-                    d.line((rx, by0 - 20 * j, rx + (14 if j % 2 else 22), by0 - 20 * j), fill=INK, width=2)
-                d.text((rx - 6, by0 - 250), '???', font=F(34), fill=RED)
+                    d.line((rx, by0 - S(20) * j, rx + S(14 if j % 2 else 22), by0 - S(20) * j), fill=INK, width=Si(2))
+                d.text((rx - S(6), by0 - S(250)), '???', font=F(34), fill=RED)
     return p
 
 
 def stamp(text):
     """A rubber stamp: red double frame, heavy letters, slightly rough, tilted."""
-    f = F(84); w = int(ImageDraw.Draw(Image.new('L', (1, 1))).textlength(text, font=f)) + 70
-    im = Image.new('RGBA', (w, 150)); d = ImageDraw.Draw(im)
-    d.rounded_rectangle((4, 4, w - 5, 145), 14, outline=(205, 35, 35, 235), width=9)
-    d.rounded_rectangle((18, 18, w - 19, 131), 8, outline=(205, 35, 35, 235), width=3)
-    d.text((35, 22), text, font=f, fill=(205, 35, 35, 235))
+    f = F(84); w = int(ImageDraw.Draw(Image.new('L', (1, 1))).textlength(text, font=f)) + Si(70)
+    im = Image.new('RGBA', (w, Si(150))); d = ImageDraw.Draw(im)
+    d.rounded_rectangle((S(4), S(4), w - S(5), S(145)), S(14), outline=(205, 35, 35, 235), width=Si(9))
+    d.rounded_rectangle((S(18), S(18), w - S(19), S(131)), S(8), outline=(205, 35, 35, 235), width=Si(3))
+    d.text((S(35), S(22)), text, font=f, fill=(205, 35, 35, 235))
     a = np.asarray(im).copy(); r = np.random.default_rng(2).random(a.shape[:2])
     a[..., 3] = (a[..., 3] * np.where(r < .12, .35, 1)).astype(np.uint8)           # ink texture
     return Image.fromarray(a, 'RGBA').rotate(9, expand=True, resample=Image.BICUBIC)
@@ -167,24 +168,24 @@ def stamp(text):
 def icon(d, i, cx, cy, t):
     if i == 0:                                                          # polygons: a circle gaining sides
         n = 6 + int(10 * (.5 + .5 * math.sin(t * 2)))
-        d.polygon([(cx + 30 * math.cos(2 * math.pi * k / n), cy + 30 * math.sin(2 * math.pi * k / n)) for k in range(n)], outline=INK, width=3)
+        d.polygon([(cx + S(30) * math.cos(2 * math.pi * k / n), cy + S(30) * math.sin(2 * math.pi * k / n)) for k in range(n)], outline=INK, width=Si(3))
     elif i == 1:                                                        # lighting: a bulb with rays
-        d.ellipse((cx - 18, cy - 26, cx + 18, cy + 10), fill=(255, 230, 120), outline=INK, width=3)
-        d.rectangle((cx - 9, cy + 10, cx + 9, cy + 22), fill=(150, 150, 160), outline=INK, width=2)
+        d.ellipse((cx - S(18), cy - S(26), cx + S(18), cy + S(10)), fill=(255, 230, 120), outline=INK, width=Si(3))
+        d.rectangle((cx - S(9), cy + S(10), cx + S(9), cy + S(22)), fill=(150, 150, 160), outline=INK, width=Si(2))
     elif i == 2:                                                        # animation: a little runner, legs swinging
         a = math.sin(t * 10) * .6
-        d.ellipse((cx - 8, cy - 34, cx + 8, cy - 18), outline=INK, width=3); d.line((cx, cy - 18, cx, cy + 4), fill=INK, width=3)
-        d.line((cx, cy + 4, cx + 18 * math.sin(a), cy + 26), fill=INK, width=3); d.line((cx, cy + 4, cx - 18 * math.sin(a), cy + 26), fill=INK, width=3)
+        d.ellipse((cx - S(8), cy - S(34), cx + S(8), cy - S(18)), outline=INK, width=Si(3)); d.line((cx, cy - S(18), cx, cy + S(4)), fill=INK, width=Si(3))
+        d.line((cx, cy + S(4), cx + S(18) * math.sin(a), cy + S(26)), fill=INK, width=Si(3)); d.line((cx, cy + S(4), cx - S(18) * math.sin(a), cy + S(26)), fill=INK, width=Si(3))
     else:                                                               # sound: a waveform
         for j in range(9):
-            h = 6 + 22 * abs(math.sin(t * 9 + j))
-            d.line((cx - 36 + j * 9, cy - h / 2, cx - 36 + j * 9, cy + h / 2), fill=INK, width=4)
+            h = S(6) + S(22) * abs(math.sin(t * 9 + j))
+            d.line((cx - S(36) + j * S(9), cy - h / 2, cx - S(36) + j * S(9), cy + h / 2), fill=INK, width=Si(4))
 
 
 def render(t):
     p = draw_page(t)
     # one continuous camera over the page: plan (top) -> chart (bottom)
-    keys = [(T0, (0, 0)), (T_DANGER, (50, 20)), (T_MEAS + .6, (40, 420)), (T_END, (60, 420))]   # chart sits above the subtitle zone
+    keys = [(T0, (0, 0)), (T_DANGER, (S(50), S(20))), (T_MEAS + .6, (S(40), S(420))), (T_END, (S(60), S(420)))]   # chart sits above the subtitle zone
     for (ta, a), (tb, b) in zip(keys, keys[1:]):
         if t <= tb:
             k = ease(max(0, (t - ta) / (tb - ta))); cx, cy = lin(a[0], b[0], k), lin(a[1], b[1], k); break
