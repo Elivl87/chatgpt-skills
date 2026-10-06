@@ -522,3 +522,4 @@
   the Producer has more to review first).
 - Block J, Pixie at the tree (Producer: "Dejemos a Pixie en esa escena tal cual"): stays as in J v4 (#2d awe, #2e thinking,
   front on). No new art (#2d-b/#2e-b not generated, nothing spent).
+- Block H night scene stays in adult Quest's room #15 (Producer: "Déjala tal cual").
