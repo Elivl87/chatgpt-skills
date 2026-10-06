@@ -220,7 +220,7 @@ def thought_bubble(t, k, cloud=1.0):
         d.ellipse((S(x - r + 10), S(y - r + 10), S(x + r + 10), S(y + r + 10)), fill=(255, 255, 255, 250), outline=INK, width=Si(4))
     for (x, y, r) in ((60, 70, 56), (140, 50, 66), (230, 55, 66), (300, 90, 51), (90, 150, 56), (190, 160, 66), (280, 150, 51)):
         d.ellipse((S(x - r + 10), S(y - r + 10), S(x + r + 10), S(y + r + 10)), fill=(255, 255, 255, 255))
-    pic = crt_flicker(HB.old_picture(t, (Si(250), Si(150))), t)
+    pic = crt_flicker(HB.old_picture(t, (250, 150)).resize((Si(250), Si(150)), Image.NEAREST), t)   # drawn at design size: its scanlines scale too
     m = Image.new('L', (Si(250), Si(150)), 0); ImageDraw.Draw(m).rounded_rectangle((0, 0, Si(250) - 1, Si(150) - 1), S(30), fill=255)
     g.paste(pic, (Si(55), Si(40)), m)
     for i, (x, y, r) in enumerate(((110, 248, 16), (82, 272, 10))):       # the trail of little bubbles down to his head
