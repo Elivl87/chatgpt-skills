@@ -209,17 +209,31 @@ def _sword_swap(im, line=None, shield=None, opaque=False):
     m &= ~green & ~cap_edge
     if opaque:
         m |= (np.hypot(xx - px, yy - py) < 80 * k) & ~cov & ~green & ~cap_edge     # the whole old pommel and its ink ring
-        hole = (cv2.dilate(m.astype(np.uint8), np.ones((9, 9), np.uint8)) > 0) & ~green & ~cap_edge
+        wide = np.hypot(xx - (p0[0] + t * d[0]), yy - (p0[1] + t * d[1])) < 70 * k   # the old grip was wider here
+        m |= wide & (yy < py + 200 * k) & ((V < 110) | ((Hh >= 105) & (Hh <= 150)))  # every dark/violet old pixel by the line
+        capzone = cv2.dilate(green.astype(np.uint8), np.ones((7, 7), np.uint8)) > 0
+        m &= ~capzone
+        sc_a = np.asarray(sc)[..., 3]
+        kk = int(44 * k) | 1                                            # wide enough that the feather lies in clean sky
+        hole = (cv2.dilate(m.astype(np.uint8), cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kk, kk))) > 0) & ~capzone & (sc_a < 250)
+        core = (cv2.dilate(m.astype(np.uint8), np.ones((5, 5), np.uint8)) > 0) & ~capzone
         # fill from the sky only: a normalised blur that ignores the hole, the new sword, the cap and any dark ink
-        src_ok = ~(hole | cov | green | (V < 90) | near)
+        greenish = (Hh >= 25) & (Hh <= 95) & (S > 35)
+        near_cap = cv2.dilate(capzone.astype(np.uint8), np.ones((25, 25), np.uint8)) > 0   # the cap's dark rim and shadow
+        src_ok = ~(hole | (sc_a > 0) | near_cap | greenish | (V < 110) | wide)
         sig = 18 * k + 6
         wgt = cv2.GaussianBlur(src_ok.astype(np.float32), (0, 0), sig)
         acc = cv2.GaussianBlur(a[..., :3].astype(np.float32) * src_ok[..., None], (0, 0), sig)
         fill = acc / np.maximum(wgt[..., None], 1e-4)
+        w2 = cv2.GaussianBlur(src_ok.astype(np.float32), (0, 0), sig * 4)      # where no sky is close, reach further
+        f2 = cv2.GaussianBlur(a[..., :3].astype(np.float32) * src_ok[..., None], (0, 0), sig * 4) / np.maximum(w2[..., None], 1e-4)
+        blend = np.clip(wgt / .25, 0, 1)[..., None]
+        fill = fill * blend + f2 * (1 - blend)
         # feather the patch into the sky, so no soft disc shows
-        inside = cv2.distanceTransform(hole.astype(np.uint8), cv2.DIST_L2, 5)
-        f = np.clip(inside / (14 * k + 4), 0, 1)[..., None]
-        mm = hole & ~cov
+        inside = cv2.distanceTransform((hole | capzone).astype(np.uint8), cv2.DIST_L2, 5)   # feather only towards the sky
+        f = np.clip(inside / (14 * k + 4), 0, 1)
+        f = np.maximum(f, core.astype(np.float32))[..., None]          # the old hilt itself is always fully replaced
+        mm = hole
         out_rgb = a[..., :3].astype(np.float32) * (1 - f) + fill * f
         a[mm, :3] = np.clip(out_rgb[mm], 0, 255).astype(np.uint8)
     else:
