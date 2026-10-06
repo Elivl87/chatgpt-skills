@@ -577,3 +577,6 @@
   C real life = EP001 gold marker; the channel's type (Anton, Inter 800) replaces DejaVu everywhere. R1 1998 / 2026:
   option 2, area title cards (`ui_kit.area_title`; 1998 in square pixels, today in Anton with the gold rule); the same
   logic for every year / era label (TODAY, CHILD / ADULT ...). The wooden sign for the years was rejected.
+- 2026-10-06 · Text restyle rendered in every block (cartridge v13, B v13, C v8, D v10, E v7, F-B v10, G v9, H v13, I v12,
+  J v5, K v6, L v5, M v4, N v11, O v6, P v6, Q v4, R v10, S-A v5, T v8, U v5), no subtitles. Note: U's new v5 replaces
+  the earlier, reverted U v5 (the push version) under the same name. Before/after: docs/ep002/EP002_ui_before_after_*.jpg.

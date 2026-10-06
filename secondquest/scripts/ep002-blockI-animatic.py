@@ -111,7 +111,7 @@ def panel(w, h, alpha=1.0, outline=None):
     return g
 
 
-SEVEN_YEARS = UI.area_title('SEVEN YEARS LATER...', size=40)
+SEVEN_YEARS = UI.area_title('SEVEN YEARS LATER...', size=40, band=True)
 AREA_CHILD = UI.area_title('CHILD', size=36)
 AREA_ADULT = UI.area_title('ADULT', size=36)
 TAG_7Y = UI.sq_tag('7 YEARS', 22)

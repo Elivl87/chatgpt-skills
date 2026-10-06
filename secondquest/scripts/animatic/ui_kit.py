@@ -326,7 +326,7 @@ def wood_sign_1998(text, h_px=150, fog=(205, 215, 225), fog_k=.14):
     return out
 
 
-def area_title(text, retro=False, size=46):
+def area_title(text, retro=False, size=46, band=False):
     """An area name card, as a game shows when you enter a place: the name between two thin rules.
     retro=True: 1998 square pixels; False: today's Anton with the channel's gold rule."""
     if retro:
@@ -348,6 +348,12 @@ def area_title(text, retro=False, size=46):
         else:
             d.line((x0, y + 2, x1, y + 2), fill=INK + (200,), width=4)
             d.line((x0, y, x1, y), fill=GOLD + (255,), width=3)
+    if band:                                                            # a soft ink band behind it, for bright scenes
+        bd = Image.new('RGBA', g.size); bdd = ImageDraw.Draw(bd)
+        for x in range(g.width):
+            e = min(1, x / (g.width * .25), (g.width - x) / (g.width * .25))
+            bdd.line((x, 0, x, g.height), fill=INK + (int(170 * e),))
+        bd.alpha_composite(g); g = bd
     g.alpha_composite(sh, (rule + 20 + 3, 6 + 4))
     g.alpha_composite(lab, (rule + 20, 6))
     return g
