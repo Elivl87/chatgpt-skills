@@ -1,0 +1,35 @@
+# SecondQuest: delete video deliveries 7 days after they were published (Producer, 2026-10-06).
+#
+# Touches ONLY Releases whose tag starts with "deliver-" and whose notes say "Delivered by the SecondQuest session"
+# (made by publish-file.yml): the exported videos the Producer downloads for YouTube. It never touches the repository's
+# files: no art of any episode is ever deleted (Producer rule: the art is the channel's history).
+name: Cleanup deliveries
+
+on:
+  schedule:
+    - cron: "17 6 * * *"          # every day, 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Delete deliveries older than 7 days
+        run: |
+          cutoff=$(date -u -d '7 days ago' +%s)
+          gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq '.[] | select(.tag_name | startswith("deliver-")) | select(.body // "" | contains("Delivered by the SecondQuest session")) | "\(.tag_name) \(.created_at)"' |
+          while read -r tag created; do
+            if [ "$(date -u -d "$created" +%s)" -lt "$cutoff" ]; then
+              echo "delete $tag (created $created)"
+              gh release delete "$tag" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
+            else
+              echo "keep $tag (created $created)"
+            fi
+          done

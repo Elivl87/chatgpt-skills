@@ -23,6 +23,12 @@
   - Every block script is written in 1280x720 design units: on-screen measures go through `S()`/`Si()`, plate-pixel
     values through `P()`, fonts through `F()`. Check with `scripts/animatic/scale_check.py` before sending.
     Details: `scripts/animatic/README.md` ("Resolución y calidad").
+- **Art is never deleted (Producer rule, 2026-10-06):** no art of any episode is ever deleted, by hand or by any
+  cleanup, in the repo or anywhere else: it is the channel's whole history.
+- **Video deliveries (Producer rule, 2026-10-06):** files over 30 MB (the chat limit) go to the Producer as a draft GitHub
+  Release through `.github/workflows/publish-file.yml` (parts on a temporary `deliver/<tag>` branch, tag `deliver-<name>`).
+  `cleanup-deliveries.yml` deletes those deliveries 7 days after publishing; it touches nothing else. When an episode
+  is finished, ask the Producer whether to delete its deliveries.
 - **Framing check before sending (Producer rule, 2026-10-03):** always verify sizes, centring and that everything
   important sits inside the viewer's frame (nothing cut, no prop or person held half out of frame, key items inside
   title-safe). Run `python3 scripts/animatic/framing_qc.py <block script>` and look at the sheet before sending any block;

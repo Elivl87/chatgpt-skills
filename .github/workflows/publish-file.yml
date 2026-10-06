@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag (also the temporary branch deliver/<tag>)"
+        description: "Release tag, deliver-<name> (also the temporary branch deliver/<tag>)"
         required: true
       name:
         description: "File name of the asset"
@@ -48,6 +48,10 @@ jobs:
           gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
           git ls-remote --exit-code "https://x-access-token:${GH_TOKEN}@github.com/$GITHUB_REPOSITORY" "refs/heads/deliver/$TAG" \
             && gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/heads/deliver/$TAG" || true
+      - name: Only delivery tags
+        if: inputs.mode == 'publish'
+        run: |
+          case "$TAG" in deliver-*) ;; *) echo "tag must start with deliver- (the 7-day cleanup only touches those)"; exit 1;; esac
       - uses: actions/checkout@v4
         if: inputs.mode == 'publish'
         with:
@@ -63,7 +67,7 @@ jobs:
         run: |
           DRAFT=""; [ "${{ inputs.draft }}" = "true" ] && DRAFT="--draft"
           gh release create "$TAG" "$RUNNER_TEMP/$NAME" --repo "$GITHUB_REPOSITORY" $DRAFT \
-            --title "${{ inputs.title || inputs.tag }}" --notes "Delivered by the SecondQuest session." --target "$GITHUB_SHA"
+            --title "${{ inputs.title || inputs.tag }}" --notes "Delivered by the SecondQuest session. Auto-deleted 7 days after publishing (cleanup-deliveries.yml)." --target "$GITHUB_SHA"
           gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json url,isDraft,assets -q '{url, isDraft, assets: [.assets[] | {name, size}]}'
       - name: Remove the temporary branch
         if: inputs.mode == 'publish'
