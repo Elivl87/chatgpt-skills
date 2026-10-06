@@ -160,36 +160,72 @@ def _raw_box(key):
     return a.getbbox()
 
 
-def _sword_swap(im):
-    """#4 (full canvas): its drawn scabbard and hilt give way to the 3D sword v2 in its 3D scabbard, laid on the same
-    line (the same gear as the walk, #4b). The few drawn hilt/leather pixels the 3D one does not cover are filled from
-    their surroundings (alpha too, so the old pommel above the shoulder simply goes)."""
+# The drawn scabbards give way to the one 3D sword (v2 in its 3D scabbard) everywhere adult Quest carries it: lines from
+# the drawn pommel to the drawn scabbard tip, in full-canvas pixels of each art.
+SWORD_LINES = {'quest_horse_back': ((1130, 225), (915, 880)), 'outcrop': ((1205, 470), (1025, 960))}
+
+
+def _sword_layer(size, line):
+    """The 3D sword in its scabbard laid along `line` (pommel -> tip) on a transparent canvas of `size`."""
     import cv2
-    b = _raw_box('quest_adult_back')
-    sc, sh, _ = _gear_layers()
+    sw = np.asarray(Image.open(ROOT / 'public/art/ep002/props3d/back_sword.png').convert('RGBA'))
+    src = np.float32([[sw.shape[1] / 2, 0], [sw.shape[1] / 2, sw.shape[0]]])
+    M, _ = cv2.estimateAffinePartial2D(src, np.float32(line))
+    return Image.fromarray(cv2.warpAffine(sw, M, size, flags=cv2.INTER_AREA, borderValue=(0, 0, 0, 0)), 'RGBA')
+
+
+def _sword_swap(im, line=None, shield=None, opaque=False):
+    """The drawn scabbard and hilt give way to the 3D sword v2 in its 3D scabbard, laid on the same line (the same gear
+    as the walk, #4b). Above his shoulders the old hilt goes: on a cut-out it becomes transparent, on a full
+    illustration (opaque) it is filled from the sky around it; lower down the old leather is the same brown as the new
+    scabbard and stays as drawn. line/shield default to #4's (full-canvas pixels; shield = an overlay drawn on top)."""
+    import cv2
+    if line is None:
+        b = _raw_box('quest_adult_back')
+        line = tuple((x + b[0], y + b[1]) for x, y in _SCAB_LINE)
+        sc0, sh0, _ = _gear_layers()
+        sc = Image.new('RGBA', im.size); sc.alpha_composite(sc0, (b[0], b[1]))
+        shield = Image.new('RGBA', im.size); shield.alpha_composite(sh0, (b[0], b[1]))
+    else:
+        sc = _sword_layer(im.size, line)
     a = np.asarray(im).copy()
-    ox, oy = b[0], b[1]
-    hh, ww = sc.size[1], sc.size[0]
-    cov = np.zeros(a.shape[:2], bool)
-    cov[oy:oy + hh, ox:ox + ww] = (np.asarray(sc)[..., 3] > 40) | (np.asarray(sh)[..., 3] > 200)
+    (px, py), (tx, ty) = line
+    L = math.hypot(tx - px, ty - py); k = L / 941                      # 941 = #4's line: the radii below scale with it
+    cov = np.asarray(sc)[..., 3] > 40
+    if shield is not None:
+        cov |= np.asarray(shield)[..., 3] > 200
     hsv = cv2.cvtColor(a[..., :3], cv2.COLOR_RGB2HSV).astype(int)
     Hh, S, V = hsv[..., 0], hsv[..., 1], hsv[..., 2]
     yy, xx = np.mgrid[0:a.shape[0], 0:a.shape[1]]
-    p0 = np.array([_SCAB_LINE[0][0] + ox, _SCAB_LINE[0][1] + oy - 20.]); p1 = np.array([_SCAB_LINE[1][0] + ox, _SCAB_LINE[1][1] + oy + 10.])
+    p0 = np.array([px, py - 20 * k]); p1 = np.array([tx, ty + 10 * k])
     d = p1 - p0; t = np.clip(((xx - p0[0]) * d[0] + (yy - p0[1]) * d[1]) / (d @ d), 0, 1)
-    near = np.hypot(xx - (p0[0] + t * d[0]), yy - (p0[1] + t * d[1])) < 48
-    drawn = ((Hh >= 105) & (Hh <= 150) & (S > 40) & (V < 170)) | ((S < 40) & (V > 120) & (yy < oy + 330)) | (V < 60) | \
+    near = np.hypot(xx - (p0[0] + t * d[0]), yy - (p0[1] + t * d[1])) < 48 * k
+    drawn = ((Hh >= 105) & (Hh <= 150) & (S > 40) & (V < 170)) | ((S < 40) & (V > 120) & (yy < py + 60 * k)) | (V < 60) | \
             ((Hh >= 5) & (Hh <= 22) & (S > 80) & (V > 40) & (V < 170))
-    # above his shoulders the old hilt simply goes (it stood against the empty background or the cap's edge, both
-    # behind the 3D hilt); lower down the old leather is the same brown as the new scabbard and stays as drawn
-    pom = np.hypot(xx - (_SCAB_LINE[0][0] + ox), yy - (_SCAB_LINE[0][1] + oy)) < 62   # the old pommel and its outline
-    m = ((near & drawn) | pom) & (a[..., 3] > 0) & ~cov & (yy < oy + 470)
+    pom = np.hypot(xx - px, yy - py) < 62 * k                         # the old pommel and its outline
+    m = ((near & drawn) | pom) & (a[..., 3] > 0) & ~cov & (yy < py + 200 * k)
     green = (Hh >= 35) & (Hh <= 85) & (S > 60) & (V > 60)              # the cap and its ink outline: keep them
     cap_edge = (cv2.dilate(green.astype(np.uint8), np.ones((11, 11), np.uint8)) > 0) & (V < 80)
-    a[m & ~green & ~cap_edge, 3] = 0
+    m &= ~green & ~cap_edge
+    if opaque:
+        m |= (np.hypot(xx - px, yy - py) < 80 * k) & ~cov & ~green & ~cap_edge     # the whole old pommel and its ink ring
+        hole = (cv2.dilate(m.astype(np.uint8), np.ones((9, 9), np.uint8)) > 0) & ~green & ~cap_edge
+        # fill from the sky only: a normalised blur that ignores the hole, the new sword, the cap and any dark ink
+        src_ok = ~(hole | cov | green | (V < 90) | near)
+        sig = 18 * k + 6
+        wgt = cv2.GaussianBlur(src_ok.astype(np.float32), (0, 0), sig)
+        acc = cv2.GaussianBlur(a[..., :3].astype(np.float32) * src_ok[..., None], (0, 0), sig)
+        fill = acc / np.maximum(wgt[..., None], 1e-4)
+        # feather the patch into the sky, so no soft disc shows
+        inside = cv2.distanceTransform(hole.astype(np.uint8), cv2.DIST_L2, 5)
+        f = np.clip(inside / (14 * k + 4), 0, 1)[..., None]
+        mm = hole & ~cov
+        out_rgb = a[..., :3].astype(np.float32) * (1 - f) + fill * f
+        a[mm, :3] = np.clip(out_rgb[mm], 0, 255).astype(np.uint8)
+    else:
+        a[m, 3] = 0
     out = Image.fromarray(a, 'RGBA')
-    full = Image.new('RGBA', out.size); full.alpha_composite(sc, (ox, oy))
-    out.alpha_composite(full)
+    out.alpha_composite(sc)
     return out
 
 
@@ -201,6 +237,9 @@ def final(key, flip=False, sway=0.0):
     im = Image.open(ROOT / ART[key]).convert('RGBA')
     if key == 'quest_adult_back':
         im = _sword_swap(im)
+    elif key in SWORD_LINES:
+        sh = Image.open(ROOT / f'public/art/ep002/props3d/shield_on_{ART_SHIELD[key]}.png').convert('RGBA')
+        im = _sword_swap(im, SWORD_LINES[key], sh)
     if key in ART_SHIELD:
         name = ART_SHIELD[key]
         ov = Image.open(ROOT / f'public/art/ep002/props3d/shield_on_{name}.png').convert('RGBA')
@@ -325,6 +364,8 @@ def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.
 def final_plate(key, size=(PW, PH)):
     """Final background at the working plate size (16:9 plates are 2688x1520: a uniform resize), with its overlays."""
     im = Image.open(ROOT / PLATES[key]).convert('RGBA')
+    if key in SWORD_LINES:
+        im = _sword_swap(im, SWORD_LINES[key], Image.open(ROOT / PLATE_OVERLAYS[key]).convert('RGBA'), opaque=True)
     if key in PLATE_OVERLAYS:
         im.alpha_composite(Image.open(ROOT / PLATE_OVERLAYS[key]).convert('RGBA'))
     return im.convert('RGB').resize(size, Image.LANCZOS)

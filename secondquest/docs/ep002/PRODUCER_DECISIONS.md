@@ -514,3 +514,9 @@
   wears the same 3D sword: its drawn hilt above the shoulder is removed at load (the file is untouched), so standing and
   walking match. N2-N3 (just pulled the sword, no gear) = #4b bare; its MISSING label is gone. Blocks B v10, D v7, I v8,
   K v5, N v10, Q v3, R v7, T v6 re-rendered; full v4. Still drawn (not 3D) hilts: #5b (horse) and #17+18 (final shot).
+- 3D sword on #5b and #17+18 (Producer: "Aplica la espada 3D en #5b y el plano final ... aún no entregues el animatic"):
+  `lib._sword_swap` generalised (`SWORD_LINES`): the drawn hilt above his shoulder goes (transparent on the cut-out #5b;
+  on the opaque final illustration filled from the surrounding sky by a normalised blur, feathered), the 3D sword v2 in
+  its 3D scabbard lies on the drawn line under the 3D shield. Preview `docs/ep002/sword3d_on_5b_17_18_preview.jpg`.
+  The one sword of the episode is now the 3D one in every adult shot. H v10, I v9, U v4 re-rendered (not delivered:
+  the Producer has more to review first).
