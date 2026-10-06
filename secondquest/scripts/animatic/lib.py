@@ -18,9 +18,61 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
-PW, PH = 1920, 1080          # working plate
-W, H, FPS = 1280, 720, 24    # output
-F = lru_cache(maxsize=None)(lambda s: ImageFont.truetype(str(Path(__file__).resolve().parents[2] / 'public/shared/fonts/Inter-800.woff2'), s))   # the channel's label type (EP001)
+
+# ------------------------------------------------------------------ quality (Producer, 2026-10-06: one design, the output
+# size picked at export; blocks in progress go out as drafts, high resolution only for the YouTube upload)
+#   QUALITY=draft      854x480   blocks sent while we work (the default: fastest)
+#   QUALITY=review     1280x720  full animatic for review
+#   QUALITY=final      2560x1440 the YouTube upload (YouTube gives 1440p uploads a better codec, also for 1080p viewers)
+#   QUALITY=final1080  1920x1080
+# Every block is DESIGNED in 1280x720 units: a literal pixel value in a script is a design value and goes through S()
+# (or Si() for an int); fonts F(size) take design sizes. Plate-pixel values (on the 1920x1080 plate grid) go through P().
+import os as _os
+QUALITIES = {'draft': (854, 480), 'review': (1280, 720), 'final1080': (1920, 1080), 'final': (2560, 1440)}
+QUALITY = _os.environ.get('QUALITY', 'draft')
+if QUALITY not in QUALITIES:
+    raise SystemExit(f'QUALITY must be one of {", ".join(QUALITIES)}')
+DW, DH = 1280, 720                                   # design units
+W, H = QUALITIES[QUALITY]                            # output pixels
+FPS = 24
+U = W / DW                                           # design px -> output px
+PS = 1.4 if QUALITY.startswith('final') else 1.0     # plate scale: finals use the plates' full resolution (2688 wide)
+PW, PH = round(1920 * PS), round(1080 * PS)          # working plate (1920x1080 grid in design)
+
+
+def S(v):
+    """A design-pixel value (1280x720 units) in output pixels."""
+    return v * U
+
+
+def Si(v):
+    return int(round(v * U))
+
+
+def P(v):
+    """A plate-pixel value (1920x1080 grid) in working-plate pixels."""
+    return v * PS
+
+
+def out_path(path):
+    """The block's output file for this quality: review keeps the plain name, the others say their size."""
+    path = Path(path)
+    tag = {'draft': '_480p', 'review': '', 'final1080': '_1080p', 'final': '_1440p'}[QUALITY]
+    return path.with_name(path.stem + tag + path.suffix)
+
+
+def video_args():
+    """x264 settings per quality: quick drafts, high-bitrate finals for YouTube."""
+    if QUALITY.startswith('final'):
+        return ['-c:v', 'libx264', '-crf', '14', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-movflags', '+faststart']
+    return ['-c:v', 'libx264', '-crf', '22' if QUALITY == 'draft' else '20', '-preset', 'veryfast' if QUALITY == 'draft' else 'medium', '-pix_fmt', 'yuv420p']
+
+
+def audio_args():
+    return ['-c:a', 'aac', '-b:a', '320k' if QUALITY.startswith('final') else '160k']
+
+
+F = lru_cache(maxsize=None)(lambda s: ImageFont.truetype(str(Path(__file__).resolve().parents[2] / 'public/shared/fonts/Inter-800.woff2'), max(1, round(s * U))))   # the channel's label type (EP001); s in design px
 
 # Inter has no music notes, hearts, stars or arrows: any text with one of them is drawn in DejaVu Bold, as before
 # (Producer, 2026-10-06: the notes had become empty boxes)
@@ -591,8 +643,8 @@ def place(base, spec, t=None):
     x, y = spec['x'] * PW - im.width / 2, spec['y'] * PH - im.height
     if spec.get('shadow', True) and a >= 1:
         sh = Image.new('RGBA', base.size)
-        ImageDraw.Draw(sh).ellipse((x + im.width * .1, y + im.height - 12, x + im.width * .9, y + im.height + 10), fill=(15, 10, 8, 110))
-        base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
+        ImageDraw.Draw(sh).ellipse((x + im.width * .1, y + im.height - P(12), x + im.width * .9, y + im.height + P(10)), fill=(15, 10, 8, 110))
+        base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(8))))
     base.alpha_composite(im, (int(x), int(y)))
     lab = label_for(spec)
     if lab:
@@ -650,7 +702,6 @@ def _chunks(words):
 
 
 # Review-subtitle language: SUB_LANG=es renders the Spanish track (docs/publish/EP002/script_es.json) on Bram's timing
-import os as _os
 SUB_LANG = _os.environ.get('SUB_LANG', 'en')
 _ES = json.loads((ROOT / 'docs/publish/EP002/script_es.json').read_text())['lines'] if SUB_LANG == 'es' else {}
 
@@ -728,7 +779,7 @@ def subtitle(d, t, t_end=None, lift=0, size=44):
 
 def _draw_sub(d, t, cur, lift, size):
     pop = min(1, max(0, (t - cur[0]['start'] + .05) / .12))
-    f = _sub_font(int(size * (0.86 + 0.14 * ease(pop))))
+    f = _sub_font(int(S(size) * (0.86 + 0.14 * ease(pop))))
     text, lines, ln = ' '.join(w['w'] for w in cur), [], ''
     for w_ in text.split():
         if d.textlength(ln + ' ' + w_, font=f) > W * .62 and ln:
@@ -754,7 +805,7 @@ def tag(d, text):
         return
     _TR_OFF[0] = True                                               # planning tags stay as they are
     try:
-        d.rectangle((0, 0, d.textlength(text, font=FTAG) + 22, 28), fill=(0, 0, 0))
-        d.text((11, 5), text, font=FTAG, fill=(255, 210, 90))
+        d.rectangle((0, 0, d.textlength(text, font=FTAG) + S(22), S(28)), fill=(0, 0, 0))
+        d.text((S(11), S(5)), text, font=FTAG, fill=(255, 210, 90))
     finally:
         _TR_OFF[0] = False

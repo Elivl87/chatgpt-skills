@@ -27,7 +27,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, final_plate, cam_box, subtitle, tag, F, STEP_RATE, SLOW_RATE, SLOW_STRIDE, road_walk, plate_to_screen  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, final, final_plate, cam_box, subtitle, tag, F, STEP_RATE, SLOW_RATE, SLOW_STRIDE, road_walk, plate_to_screen, S, Si, P, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
@@ -273,24 +273,24 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockG_animatic_v10.mp4'
+    out = out_path(ROOT / 'docs/ep002/EP002_blockG_animatic_v10.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
-                          '-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-shortest', str(out)],
+                          *video_args(), *audio_args(), '-shortest', str(out)],
                          stdin=subprocess.PIPE)
     for n in range(int((T_END - T0) * FPS)):
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockG_v10_{name}.jpg', quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockG_v10_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockG_v10_{name}.jpg', quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockG_v10_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

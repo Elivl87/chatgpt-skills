@@ -1,4 +1,5 @@
-"""SecondQuest on-screen text kit for the animatic (proposal, 2026-10-06; not applied to any block until approved).
+"""SecondQuest on-screen text kit for the animatic (approved 2026-10-06). Sizes in design px (1280x720); images come
+back in output px, crisp at any QUALITY.
 
 Three families, one type system (the EP001 engine's: Anton for punch, Inter 800 uppercase for labels; tokens from
 src/styles/theme.ts):
@@ -16,8 +17,90 @@ from functools import lru_cache
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from lib import U  # noqa: E402  (design px -> output px)
+
 ROOT = Path(__file__).resolve().parents[2]
 INK = (22, 22, 31)
+
+
+# ------------------------------------------------------------------ design units (1280x720) on output-size canvases
+# Every size and coordinate in this kit is in design px; _new() makes a canvas of the output size and _D draws on it in
+# design units, so the kit is crisp at any QUALITY (draft 480p ... final 1440p). Returned images are in output px.
+def _s(v):
+    return v * U
+
+
+def _pts(xy):
+    if isinstance(xy, (list, tuple)) and xy and isinstance(xy[0], (list, tuple)):
+        return [(x * U, y * U) for x, y in xy]
+    return [v * U for v in xy]
+
+
+def _wd(v):
+    return max(1, int(round(v * U)))
+
+
+class _D:
+    def __init__(self, im):
+        self.d = ImageDraw.Draw(im)
+
+    def rectangle(self, xy, fill=None, outline=None, width=1):
+        self.d.rectangle(_pts(xy), fill=fill, outline=outline, width=_wd(width))
+
+    def rounded_rectangle(self, xy, radius=0, fill=None, outline=None, width=1):
+        self.d.rounded_rectangle(_pts(xy), _s(radius), fill=fill, outline=outline, width=_wd(width))
+
+    def ellipse(self, xy, fill=None, outline=None, width=1):
+        self.d.ellipse(_pts(xy), fill=fill, outline=outline, width=_wd(width))
+
+    def line(self, xy, fill=None, width=1, joint=None):
+        self.d.line(_pts(xy), fill=fill, width=_wd(width), joint=joint)
+
+    def polygon(self, xy, fill=None, outline=None, width=1):
+        self.d.polygon(_pts(xy), fill=fill, outline=outline, width=_wd(width))
+
+    def text(self, xy, text, font=None, fill=None, **kw):
+        if 'stroke_width' in kw:
+            kw['stroke_width'] = _wd(kw['stroke_width'])
+        self.d.text(_pts(xy), text, font=font, fill=fill, **kw)
+
+    def textlength(self, text, font=None):
+        return self.d.textlength(text, font=font) / U
+
+    @property
+    def fontmode(self):
+        return self.d.fontmode
+
+    @fontmode.setter
+    def fontmode(self, v):
+        self.d.fontmode = v
+
+
+def _new(w, h):
+    return Image.new('RGBA', (max(1, int(round(w * U))), max(1, int(round(h * U)))))
+
+
+def _dw(im):
+    """An output-size image's width in design px."""
+    return im.width / U
+
+
+def _dh(im):
+    return im.height / U
+
+
+def _paste(dst, src, x, y):
+    dst.alpha_composite(src, (int(round(x * U)), int(round(y * U))))
+
+
+_TMP = None
+
+
+def _measure():
+    global _TMP
+    if _TMP is None:
+        _TMP = _D(Image.new('RGB', (1, 1)))
+    return _TMP
 PAPER = (255, 248, 236)
 GOLD = (255, 200, 61)
 GOLD_DIM = (196, 150, 52)
@@ -31,12 +114,14 @@ WOOD_L = (160, 116, 74)
 
 @lru_cache(maxsize=None)
 def inter(size, weight=800):
-    return ImageFont.truetype(str(ROOT / f'public/shared/fonts/Inter-{weight}.woff2'), size)
+    """Inter at a design size."""
+    return ImageFont.truetype(str(ROOT / f'public/shared/fonts/Inter-{weight}.woff2'), max(1, round(size * U)))
 
 
 @lru_cache(maxsize=None)
 def anton(size):
-    return ImageFont.truetype(str(ROOT / 'public/shared/fonts/Anton-Regular.woff2'), size)
+    """Anton at a design size."""
+    return ImageFont.truetype(str(ROOT / 'public/shared/fonts/Anton-Regular.woff2'), max(1, round(size * U)))
 
 
 def spaced_len(d, text, font, track):
@@ -65,18 +150,19 @@ def sparkle(d, cx, cy, r, fill, a=255):
 # ------------------------------------------------------------------ A: the game text box
 def sq_box(w, h, r=14, glass=212, pad=8, rule=GOLD):
     """Ink glass, an outer gold rule and a thin inner one, a diamond on each corner, a faint sheen on top. pad = the
-    transparent margin around it (its soft shadow); rule = the outer rule's colour (gold; a highlight may tint it)."""
-    g = Image.new('RGBA', (w + 2 * pad, h + 2 * pad)); d = ImageDraw.Draw(g)
-    sh = Image.new('RGBA', g.size); ImageDraw.Draw(sh).rounded_rectangle((pad, pad + 4, pad + w, pad + h + 4), r, fill=(0, 0, 0, 110))
-    g.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5)))
+    transparent margin around it (its soft shadow); rule = the outer rule's colour (gold; a highlight may tint it).
+    All in design px; the image is in output px (its margin is S(pad))."""
+    g = _new(w + 2 * pad, h + 2 * pad); d = _D(g)
+    sh = _new(w + 2 * pad, h + 2 * pad); _D(sh).rounded_rectangle((pad, pad + 4, pad + w, pad + h + 4), r, fill=(0, 0, 0, 110))
+    g.alpha_composite(sh.filter(ImageFilter.GaussianBlur(_s(5))))
     d.rounded_rectangle((pad, pad, pad + w, pad + h), r, fill=INK + (glass,), outline=tuple(rule[:3]) + (255,), width=3)
     d.rounded_rectangle((pad + 6, pad + 6, pad + w - 6, pad + h - 6), max(2, r - 6), outline=GOLD_DIM + (170,), width=1)
-    sheen = Image.new('RGBA', g.size); sd = ImageDraw.Draw(sheen)
-    sd.rounded_rectangle((pad + 3, pad + 3, pad + w - 3, pad + h * .45), r, fill=(255, 255, 255, 16))
+    sheen = _new(w + 2 * pad, h + 2 * pad)
+    _D(sheen).rounded_rectangle((pad + 3, pad + 3, pad + w - 3, pad + h * .45), r, fill=(255, 255, 255, 16))
     g.alpha_composite(sheen)
     for cx, cy in ((pad, pad), (pad + w, pad), (pad, pad + h), (pad + w, pad + h)):
-        s = 6
-        d.polygon([(cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)], fill=tuple(rule[:3]) + (255,), outline=INK + (255,))
+        k = 6
+        d.polygon([(cx, cy - k), (cx + k, cy), (cx, cy + k), (cx - k, cy)], fill=tuple(rule[:3]) + (255,), outline=INK + (255,))
     return g
 
 
@@ -90,16 +176,16 @@ def fade(im, k):
 def sq_tag(text, size=22, col=WHITE):
     """1-3 words: SAME ROAD, 7 YEARS, CHILD / ADULT."""
     f = inter(size); tr = size * .12
-    tw = int(spaced_len(ImageDraw.Draw(Image.new('RGB', (1, 1))), text.upper(), f, tr))
-    g = sq_box(tw + 2 * int(size * 1.0), int(size * 2.0), r=int(size * .5))
-    spaced(ImageDraw.Draw(g), (8 + size, 8 + size * .42), text.upper(), f, col + (255,), tr)
+    tw = spaced_len(_measure(), text.upper(), f, tr)
+    g = sq_box(tw + 2 * size, size * 2.0, r=int(size * .5))
+    spaced(_D(g), (8 + size, 8 + size * .42), text.upper(), f, col + (255,), tr)
     return g
 
 
 def sq_banner(kicker, title, n=None, done_blink=True, t=0.0, w=470):
     """A quest notice: a small scroll icon, the kicker in gold, the title typing out, a sparkle when it is done."""
     h = 108
-    g = sq_box(w, h); d = ImageDraw.Draw(g)
+    g = sq_box(w, h); d = _D(g)
     ox, oy = 8, 8
     sx, sy = ox + 26, oy + 30                                           # the scroll icon
     d.rounded_rectangle((sx, sy, sx + 34, sy + 46), 4, fill=PAPER + (255,), outline=INK + (255,), width=2)
@@ -137,12 +223,12 @@ def _carve(d, xy, text, font, track=0):
 
 
 def wood_sign(text, h_px=150):
-    """A small plank on a post, the text carved: '1998', 'TODAY', '2026'. h_px = the whole sign's height."""
+    """A small plank on a post, the text carved: '1998', 'TODAY', '2026'. h_px = the whole sign's height (design px)."""
     s = h_px / 150
-    f = anton(int(40 * s)); tw = ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)
+    f = anton(int(40 * s)); tw = _measure().textlength(text, font=f)
     pw, ph = int(tw + 40 * s), int(62 * s)
     W_, H_ = pw + 20, h_px + 10
-    g = Image.new('RGBA', (W_, H_)); d = ImageDraw.Draw(g)
+    g = _new(W_, H_); d = _D(g)
     cx = W_ / 2
     d.rectangle((cx - 7 * s, ph * .6, cx + 7 * s, h_px), fill=WOOD_D + (255,), outline=(40, 26, 16, 255), width=2)   # the post
     d.rounded_rectangle((10, 6, 10 + pw, 6 + ph), int(6 * s), fill=WOOD + (255,), outline=(40, 26, 16, 255), width=3)
@@ -156,10 +242,10 @@ def wood_sign(text, h_px=150):
 def signpost(text, h_px=200, right=True):
     """A signpost at the roadside, its plank an arrow pointing down the road: 'SAME ROAD'."""
     s = h_px / 200
-    f = anton(int(30 * s)); tw = ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)
+    f = anton(int(30 * s)); tw = _measure().textlength(text, font=f)
     pw, ph = int(tw + 70 * s), int(50 * s)
     W_, H_ = pw + 30, h_px + 10
-    g = Image.new('RGBA', (W_, H_)); d = ImageDraw.Draw(g)
+    g = _new(W_, H_); d = _D(g)
     px = W_ * (.3 if right else .7)
     d.rectangle((px - 8 * s, 10, px + 8 * s, h_px), fill=WOOD_D + (255,), outline=(40, 26, 16, 255), width=2)
     d.polygon([(px - 9 * s, 6), (px, 0), (px + 9 * s, 6)], fill=WOOD_D + (255,))
@@ -186,13 +272,13 @@ def parchment_list(items, ticks, w=505, row=58):
     """A rolled parchment, items inked in, ticked off by pen: 'New visuals', 'Voiced cutscenes', ..."""
     h = row * len(items) + 44
     W_, H_ = w + 30, h + 40
-    g = Image.new('RGBA', (W_, H_)); d = ImageDraw.Draw(g)
-    sh = Image.new('RGBA', g.size); ImageDraw.Draw(sh).rectangle((18, 24, w + 18, h + 24), fill=(0, 0, 0, 90))
-    g.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6)))
+    g = _new(W_, H_); d = _D(g)
+    sh = _new(W_, H_); _D(sh).rectangle((18, 24, w + 18, h + 24), fill=(0, 0, 0, 90))
+    g.alpha_composite(sh.filter(ImageFilter.GaussianBlur(_s(6))))
     d.rectangle((15, 18, w + 15, h + 18), fill=(244, 230, 200, 255))
-    edge = Image.new('RGBA', g.size); ed = ImageDraw.Draw(edge)                # aged edges
-    ed.rectangle((15, 18, w + 15, h + 18), outline=(196, 160, 110, 160), width=10)
-    g.alpha_composite(edge.filter(ImageFilter.GaussianBlur(5)))
+    edge = _new(W_, H_)                                                 # aged edges
+    _D(edge).rectangle((15, 18, w + 15, h + 18), outline=(196, 160, 110, 160), width=10)
+    g.alpha_composite(edge.filter(ImageFilter.GaussianBlur(_s(5))))
     for yy in (14, h + 22):                                             # the two rolls
         d.rounded_rectangle((5, yy - 10, w + 25, yy + 10), 10, fill=(226, 204, 160, 255), outline=(120, 90, 54, 255), width=2)
         d.line((14, yy - 3, w + 16, yy - 3), fill=(250, 240, 214, 255), width=2)
@@ -216,12 +302,11 @@ def parchment_list(items, ticks, w=505, row=58):
 def marker(text, size=18, paper=False):
     """EP001's marker: gold, an ink border, Inter 800 uppercase, letter-spaced. paper=True: the cream variant."""
     f = inter(size); tr = size * .1
-    d0 = ImageDraw.Draw(Image.new('RGB', (1, 1)))
-    tw = int(spaced_len(d0, text.upper(), f, tr))
-    pw, ph = tw + int(size * 1.4), int(size * 1.9)
-    g = Image.new('RGBA', (pw + 6, ph + 8)); d = ImageDraw.Draw(g)
-    d.rounded_rectangle((2, 5, pw + 2, ph + 5), int(size * .3), fill=INK + (255,))                 # ink drop, as EP001
-    d.rounded_rectangle((2, 2, pw + 2, ph + 2), int(size * .3), fill=(PAPER if paper else GOLD) + (255,), outline=INK + (255,), width=max(2, int(size * .1)))
+    tw = spaced_len(_measure(), text.upper(), f, tr)
+    pw, ph = tw + size * 1.4, size * 1.9
+    g = _new(pw + 6, ph + 8); d = _D(g)
+    d.rounded_rectangle((2, 5, pw + 2, ph + 5), size * .3, fill=INK + (255,))                    # ink drop, as EP001
+    d.rounded_rectangle((2, 2, pw + 2, ph + 2), size * .3, fill=(PAPER if paper else GOLD) + (255,), outline=INK + (255,), width=max(2, size * .1))
     spaced(d, (2 + size * .7, 2 + size * .38), text.upper(), f, INK + (255,), tr)
     return g
 
@@ -276,52 +361,37 @@ PIXEL_GLYPHS = {
 
 
 def pixel_text(text, px, fill, shadow=None):
-    """Text in our 5x7 pixel font, each font pixel px screen pixels square; an optional hard drop shadow."""
+    """Text in our 5x7 pixel font, each font pixel px design px square (whole output pixels, so it stays crisp); an
+    optional hard drop shadow."""
     text = text.upper()
-    cw = 6 * px
-    g = Image.new('RGBA', (max(1, len(text) * cw - px + px), 7 * px + px))
+    q = max(1, int(round(px * U)))                                      # one font pixel, in output pixels
+    cw = 6 * q
+    g = Image.new('RGBA', (max(1, len(text) * cw), 8 * q))
     d = ImageDraw.Draw(g)
-    for layer, (dx, col) in enumerate((((px, shadow),) if shadow else ()) + ((0, fill),)):
+    for dx, col in (((q, shadow),) if shadow else ()) + ((0, fill),):
         for i, ch in enumerate(text):
-            rows = PIXEL_GLYPHS.get(ch, PIXEL_GLYPHS['?'])
-            for ry, row in enumerate(rows):
+            for ry, row in enumerate(PIXEL_GLYPHS.get(ch, PIXEL_GLYPHS['?'])):
                 for rx, bit in enumerate(row):
                     if bit == '1':
-                        x, y = i * cw + rx * px + dx, ry * px + dx
-                        d.rectangle((x, y, x + px - 1, y + px - 1), fill=col + (255,))
+                        x, y = i * cw + rx * q + dx, ry * q + dx
+                        d.rectangle((x, y, x + q - 1, y + q - 1), fill=col + (255,))
     return g
 
 
-def _retro_text(text, px_h, fill, scale=4):
-    """Text as a 1998 game drew it: rasterised small without anti-aliasing, then blown up in square pixels."""
-    f = anton(max(6, px_h // scale))
-    d0 = ImageDraw.Draw(Image.new('RGB', (1, 1)))
-    w = int(d0.textlength(text, font=f)) + 4
-    small = Image.new('RGBA', (w, f.size + 6)); d = ImageDraw.Draw(small)
-    d.fontmode = '1'
-    d.text((2, 0), text, font=f, fill=fill + (255,))
-    return small.resize((small.width * scale, small.height * scale), Image.NEAREST)
-
-
 def wood_sign_1998(text, h_px=150, fog=(205, 215, 225), fog_k=.14):
-    """The same sign as a 1998 game would have modelled it: two flat-shaded boxes (no grain, no nails), a coarse texture,
-    blocky digits, washed out by the distance fog of the 1998 look."""
-    q = 3                                                               # one texel = 3 screen pixels
+    """The same sign as a 1998 game would have modelled it (not used: the Producer chose the area cards)."""
     s = h_px / 150
     lab = pixel_text(text, max(2, int(5 * s)), (52, 34, 20))
-    pw, ph = lab.width + int(28 * s), int(64 * s)
-    W_, H_ = pw + 8, h_px + 8
-    g = Image.new('RGBA', (W_ // q + 1, H_ // q + 1)); d = ImageDraw.Draw(g)
-    cx = W_ / 2 / q
-    d.rectangle((cx - 2, ph / q * .6, cx + 2, h_px / q), fill=(96, 66, 40, 255))           # the post: one flat colour
-    d.rectangle((4 / q, 4 / q, (4 + pw) / q, (4 + ph) / q), fill=(132, 90, 52, 255))         # the plank, lit face
-    d.rectangle((4 / q, (4 + ph) / q - 2, (4 + pw) / q, (4 + ph) / q), fill=(98, 66, 38, 255))   # its underside
-    g = g.resize((g.width * q, g.height * q), Image.NEAREST)
-    g.alpha_composite(lab, (int(4 + (pw - lab.width) / 2), int(4 + (ph - lab.height) / 2 + 4 * s)))
+    pw, ph = _dw(lab) + 28 * s, 64 * s
+    g = _new(pw + 8, h_px + 8); d = _D(g)
+    cx = (pw + 8) / 2
+    d.rectangle((cx - 6, ph * .6, cx + 6, h_px), fill=(96, 66, 40, 255))
+    d.rectangle((4, 4, 4 + pw, 4 + ph), fill=(132, 90, 52, 255))
+    d.rectangle((4, 4 + ph - 6, 4 + pw, 4 + ph), fill=(98, 66, 38, 255))
+    _paste(g, lab, 4 + (pw - _dw(lab)) / 2, 4 + (ph - _dh(lab)) / 2 + 4 * s)
     a = g.getchannel('A')
     fogged = Image.blend(g.convert('RGB'), Image.new('RGB', g.size, fog), fog_k)
-    grey = fogged.convert('L').convert('RGB')
-    out = Image.blend(fogged, grey, .1)                                 # the 1998 look's flatter colour
+    out = Image.blend(fogged, fogged.convert('L').convert('RGB'), .1)
     out.putalpha(a)
     return out
 
@@ -335,16 +405,20 @@ def area_title(text, retro=False, size=46, band=False, rules=True):
         sh = pixel_text(text, px, INK)
     else:
         f = anton(size)
-        w = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 8
-        lab = Image.new('RGBA', (w, int(size * 1.45))); ImageDraw.Draw(lab).text((4, 0), text, font=f, fill=WHITE + (255,))
-        sh = Image.new('RGBA', lab.size); ImageDraw.Draw(sh).text((4, 0), text, font=f, fill=INK + (255,))
-    rule = int(min(lab.width * .9, 110 + size)) if rules else 0         # short rules: the card must not cross the frame
-    g = Image.new('RGBA', (lab.width + 2 * rule + 40, lab.height + 12)); d = ImageDraw.Draw(g)
-    y = g.height / 2
-    for x0, x1 in (((0, rule), (g.width - rule, g.width)) if rules else ()):
+        w = _measure().textlength(text, font=f) + 8
+        lab = _new(w, size * 1.45); _D(lab).text((4, 0), text, font=f, fill=WHITE + (255,))
+        sh = _new(w, size * 1.45); _D(sh).text((4, 0), text, font=f, fill=INK + (255,))
+    lw, lh = _dw(lab), _dh(lab)
+    rule = min(lw * .9, 110 + size) if rules else 0                     # short rules: the card must not cross the frame
+    gw, gh = lw + 2 * rule + 40, lh + 12
+    g = _new(gw, gh); d = _D(g)
+    y = gh / 2
+    for x0, x1 in (((0, rule), (gw - rule, gw)) if rules else ()):
         if retro:
-            for xx in range(int(x0), int(x1), 8):                       # a dotted rule in square pixels
+            xx = x0
+            while xx < x1:                                              # a dotted rule in square pixels
                 d.rectangle((xx, y - 2, xx + 4, y + 2), fill=(255, 236, 190, 220))
+                xx += 8
         else:
             d.line((x0, y + 2, x1, y + 2), fill=INK + (200,), width=4)
             d.line((x0, y, x1, y), fill=GOLD + (255,), width=3)
@@ -354,8 +428,8 @@ def area_title(text, retro=False, size=46, band=False, rules=True):
             e = min(1, x / (g.width * .25), (g.width - x) / (g.width * .25))
             bdd.line((x, 0, x, g.height), fill=INK + (int(170 * e),))
         bd.alpha_composite(g); g = bd
-    g.alpha_composite(sh, (rule + 20 + 3, 6 + 4))
-    g.alpha_composite(lab, (rule + 20, 6))
+    _paste(g, sh, rule + 20 + 3, 6 + 4)
+    _paste(g, lab, rule + 20, 6)
     return g
 
 
@@ -365,25 +439,24 @@ def era_tag(text, retro=False, size=26):
         lab = pixel_text(text, max(2, round(size / 7.5)), (255, 236, 190), shadow=INK)
     else:
         f = anton(size)
-        w = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 6
-        lab = Image.new('RGBA', (w, int(size * 1.35))); ImageDraw.Draw(lab).text((3, -size * .08), text, font=f, fill=WHITE + (255,))
-    g = sq_box(lab.width + int(size * 1.1), lab.height + int(size * .6), r=int(size * .4))
-    g.alpha_composite(lab, (8 + int(size * .55), 8 + int(size * .3)))
+        w = _measure().textlength(text, font=f) + 6
+        lab = _new(w, size * 1.35); _D(lab).text((3, -size * .08), text, font=f, fill=WHITE + (255,))
+    g = sq_box(_dw(lab) + size * 1.1, _dh(lab) + size * .6, r=int(size * .4))
+    _paste(g, lab, 8 + size * .55, 8 + size * .3)
     return g
 
 
 def signpost_compact(lines, h_px=160):
     """A short signpost with the words stacked on a small plank pointing ahead (up the road): 'SAME' / 'ROAD'. Narrow,
-    so it stands on the verge without reaching the people on the road."""
+    so it stands on the verge without reaching the people on the road. h_px in design px."""
     s = h_px / 160
     f = anton(int(28 * s))
-    d0 = ImageDraw.Draw(Image.new('RGB', (1, 1)))
-    tw = max(d0.textlength(t, font=f) for t in lines)
-    lh = int(30 * s)
-    pw, ph = int(tw + 30 * s), int(lh * len(lines) + 14 * s)
-    tip = int(18 * s)
+    tw = max(_measure().textlength(t, font=f) for t in lines)
+    lh = 30 * s
+    pw, ph = tw + 30 * s, lh * len(lines) + 14 * s
+    tip = 18 * s
     W_, H_ = pw + 20, h_px + tip + 10
-    g = Image.new('RGBA', (W_, H_)); d = ImageDraw.Draw(g)
+    g = _new(W_, H_); d = _D(g)
     cx = W_ / 2
     d.rectangle((cx - 6 * s, tip + ph * .5, cx + 6 * s, H_ - 2), fill=WOOD_D + (255,), outline=(40, 26, 16, 255), width=2)
     x0, y0 = (W_ - pw) / 2, tip + 2
@@ -415,26 +488,27 @@ def area_enter(fr, t, t0, name, dur=2.4, y=.12):  # y: the card's top, as a frac
     k = min(1, u / .4) * min(1, (dur - u) / .5)
     W_, H_ = fr.size
     out = fr.convert('RGBA')
-    out.alpha_composite(fade(g, k), (int(W_ / 2 - g.width / 2), int(H_ * y - 6 * max(0, u - (dur - .5)) / .5)))
+    out.alpha_composite(fade(g, k), (int(W_ / 2 - g.width / 2), int(H_ * y - _s(6) * max(0, u - (dur - .5)) / .5)))
     return out.convert('RGB')
 
 
 def lockon(fr, cx, cy, w, h, k, t=0.0):
     """Our lock-on: four gold arrowheads close in on the corners of what Bram is talking about, then breathe
-    (Producer, 2026-10-06, video-game detail 3). k: 0 -> 1 as it locks; nothing is drawn at k <= 0."""
+    (Producer, 2026-10-06, video-game detail 3). cx, cy, w, h in output px; k: 0 -> 1 as it locks."""
     if k <= 0:
         return fr
     e = 1 - (1 - min(1, k)) ** 3                                        # fast in, soft landing
     sc = 1.7 - .7 * e + (.03 * math.sin(t * 5) if k >= 1 else 0)
     a = int(255 * min(1, k * 2))
     out = fr.convert('RGBA'); lay = Image.new('RGBA', out.size); d = ImageDraw.Draw(lay)
-    s = max(18, min(w, h) * .09)
+    s = max(_s(18), min(w, h) * .09)
+    o2, o3 = _s(2), _s(3)
     for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
         px, py = cx + sx * w / 2 * sc, cy + sy * h / 2 * sc
         tip = (px - sx * s * .2, py - sy * s * .2)                      # points in, towards the centre
         b1 = (px + sx * s * 1.1, py + sy * s * .25)
         b2 = (px + sx * s * .25, py + sy * s * 1.1)
-        d.polygon([(tip[0] + 2, tip[1] + 3), (b1[0] + 2, b1[1] + 3), (b2[0] + 2, b2[1] + 3)], fill=INK + (int(a * .6),))
+        d.polygon([(tip[0] + o2, tip[1] + o3), (b1[0] + o2, b1[1] + o3), (b2[0] + o2, b2[1] + o3)], fill=INK + (int(a * .6),))
         d.polygon([tip, b1, b2], fill=GOLD + (a,), outline=INK + (a,))
     out.alpha_composite(lay)
     return out.convert('RGB')
@@ -444,7 +518,7 @@ def choice_box(question, options, cursor, chosen=None, t=0.0, w=430):
     """A game prompt with options and a cursor (Producer, 2026-10-06, video-game detail 4). cursor: the option index
     the cursor is on (a float slides it between two); chosen: the picked index (it flashes)."""
     h = 64 + 46 * len(options)
-    g = sq_box(w, h); d = ImageDraw.Draw(g)
+    g = sq_box(w, h); d = _D(g)
     d.text((8 + 28, 8 + 16), question, font=inter(24), fill=WHITE + (255,))
     for i, opt in enumerate(options):
         y = 8 + 60 + i * 44

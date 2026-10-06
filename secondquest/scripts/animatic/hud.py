@@ -6,9 +6,10 @@ hearts counts in halves (4.5 = four and a half). Everything sits inside title-sa
 """
 import math
 from PIL import Image, ImageDraw, ImageFont
+from lib import S  # noqa: E402  (design px -> output px; layout drawn in 1280x720 design units)
 
 _INTER = str(__import__('pathlib').Path(__file__).resolve().parents[2] / 'public/shared/fonts/Inter-800.woff2')   # the channel's type
-FONT = ImageFont.truetype(_INTER, 26)
+FONT = ImageFont.truetype(_INTER, max(1, round(S(26))))
 INK = (20, 14, 18, 255)
 
 
@@ -27,7 +28,7 @@ def _heart(d, cx, cy, s, fill, outline=INK, highlight=True):
 def _rupee(d, cx, cy, s):
     w, h = s * .55, s
     outer = [(cx, cy - h), (cx + w, cy - h * .45), (cx + w, cy + h * .45), (cx, cy + h), (cx - w, cy + h * .45), (cx - w, cy - h * .45)]
-    d.polygon(outer, fill=(40, 190, 90, 255), outline=INK, width=3)
+    d.polygon(outer, fill=(40, 190, 90, 255), outline=INK, width=max(1, round(S(3))))
     d.polygon([(cx, cy - h * .55), (cx + w * .45, cy - h * .2), (cx + w * .45, cy + h * .2), (cx, cy + h * .55),
                (cx - w * .45, cy + h * .2), (cx - w * .45, cy - h * .2)], fill=(120, 240, 150, 255))
 
@@ -49,7 +50,7 @@ def _icon(name, size, rot=0):
     o = _ICONS[name]
     if rot:
         o = o.rotate(rot, expand=True, resample=Image.BICUBIC); o = o.crop(o.getchannel('A').getbbox())
-    o = o.copy(); o.thumbnail((size, size), Image.LANCZOS); return o
+    o = o.copy(); o.thumbnail((max(1, round(S(size))),) * 2, Image.LANCZOS); return o   # size in design px
 
 
 def _ocarina_icon(size):
@@ -58,19 +59,19 @@ def _ocarina_icon(size):
 
 def _buttons(lay, d, W, a_text='Attack'):
     """Top-right action buttons: B (green, sword), A (blue, label), three yellow C buttons with items."""
-    ox = W - 1280                                                       # layout drawn for 1280 wide
-    B, A_, CL, CD, CR = (ox + 905, 70, 32), (ox + 978, 84, 32), (ox + 1062, 60, 27), (ox + 1116, 104, 27), (ox + 1170, 60, 27)
+    ox = W - S(1280)                                                    # layout drawn for 1280 wide (design units)
+    B, A_, CL, CD, CR = [(ox + S(x), S(y), S(r)) for x, y, r in ((905, 70, 32), (978, 84, 32), (1062, 60, 27), (1116, 104, 27), (1170, 60, 27))]
     def btn(c, fill):
-        x, y, r = c; d.ellipse((x - r, y - r, x + r, y + r), fill=fill, outline=INK, width=3)
+        x, y, r = c; d.ellipse((x - r, y - r, x + r, y + r), fill=fill, outline=INK, width=max(1, round(S(3))))
         d.ellipse((x - r * .7, y - r * .8, x + r * .2, y - r * .3), fill=(255, 255, 255, 70))
     btn(B, (40, 150, 70, 235)); btn(A_, (50, 90, 200, 235))
     for c in (CL, CD, CR):
         btn(c, (230, 175, 40, 235))
     x, y, r = B                                                         # our 3D master sword, diagonal like the classic B icon
     o = _icon('sword', 54, rot=-45); lay.alpha_composite(o, (int(x - o.width / 2), int(y - o.height / 2)))
-    f = ImageFont.truetype(_INTER, 15)
+    f = ImageFont.truetype(_INTER, max(1, round(S(15))))
     x, y, r = A_; tw = d.textlength(a_text, font=f)
-    d.text((x - tw / 2, y - 9), a_text, font=f, fill=(255, 255, 255, 255), stroke_width=2, stroke_fill=INK)
+    d.text((x - tw / 2, y - S(9)), a_text, font=f, fill=(255, 255, 255, 255), stroke_width=max(1, round(S(2))), stroke_fill=INK)
     x, y, r = CL                                                        # our 3D bomb
     o = _icon('bomb', 36); lay.alpha_composite(o, (int(x - o.width / 2), int(y - o.height / 2)))
     x, y, r = CD                                                        # our 3D boomerang
@@ -100,7 +101,7 @@ def draw(frame, hearts=5.0, max_hearts=5, magic=1.0, rupees=None, alpha=1.0, W=N
         return frame
     W, H = frame.size
     lay = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(lay)
-    s, x0, y0 = 15, 40, 58                                              # below the planning tag line
+    s, x0, y0 = S(15), S(40), S(58)                                     # below the planning tag line
     for i in range(max_hearts):
         cx = x0 + i * 2.35 * s
         _heart(d, cx, y0, s, (40, 20, 24, 150), highlight=False)                         # empty container
@@ -112,23 +113,23 @@ def draw(frame, hearts=5.0, max_hearts=5, magic=1.0, rupees=None, alpha=1.0, W=N
             _heart(hd, cx, y0, s, (232, 44, 52, 255), highlight=False)
             m = Image.new('L', (W, H), 0); ImageDraw.Draw(m).rectangle((0, 0, int(cx), H), fill=255)
             lay.paste(half, (0, 0), Image.composite(half.getchannel('A'), m, m).point(lambda v_: v_))
-    by = y0 + s + 14
-    bw = 170
-    d.rounded_rectangle((x0 - s, by, x0 - s + bw, by + 13), 6, fill=(20, 20, 30, 190), outline=INK, width=3)
+    by = y0 + s + S(14)
+    bw = S(170)
+    d.rounded_rectangle((x0 - s, by, x0 - s + bw, by + S(13)), S(6), fill=(20, 20, 30, 190), outline=INK, width=max(1, round(S(3))))
     if magic > 0:
-        d.rounded_rectangle((x0 - s + 3, by + 3, x0 - s + 3 + (bw - 6) * magic, by + 10), 4, fill=(60, 205, 80, 255))
+        d.rounded_rectangle((x0 - s + S(3), by + S(3), x0 - s + S(3) + (bw - S(6)) * magic, by + S(10)), S(4), fill=(60, 205, 80, 255))
     if buttons:
         _buttons(lay, d, W, a_label(t) if t is not None else 'Attack')
-    rx, ry = 52, H - 132                                                # rupees: bottom-left, above the subtitle zone and the plate label
+    rx, ry = S(52), H - S(132)                                               # rupees: bottom-left, above the subtitle zone and the plate label
     if rupees is None:
         rupees = rupees_at(t) if t is not None else 23
     pop = 0.0
     if t is not None:                                                   # a little pop + glint when one is picked up
         last = max([e for e in RUPEE_EVENTS if e <= t] or [-9])
         pop = max(0.0, 1 - (t - last) / .35)
-    _rupee(d, rx, ry - 6 * pop, 18 * (1 + .3 * pop))
+    _rupee(d, rx, ry - S(6) * pop, S(18) * (1 + .3 * pop))
     txt = f'{rupees:03d}'
-    d.text((rx + 22, ry - 15), txt, font=FONT, fill=(255, 255, 255, 255) if pop <= 0 else (180, 255, 190, 255), stroke_width=3, stroke_fill=INK)
+    d.text((rx + S(22), ry - S(15)), txt, font=FONT, fill=(255, 255, 255, 255) if pop <= 0 else (180, 255, 190, 255), stroke_width=max(1, round(S(3))), stroke_fill=INK)
     if alpha < 1:
         lay.putalpha(lay.getchannel('A').point(lambda v_: int(v_ * alpha)))
     out = frame.convert('RGBA'); out.alpha_composite(lay)

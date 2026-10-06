@@ -38,7 +38,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, final, final_plate, subtitle, tag, F  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, cutout, final, final_plate, subtitle, tag, F, S, Si, P, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import hud  # noqa: in-game HUD in Hyrule shots (Producer)
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
@@ -584,24 +584,24 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v14.mp4'
+    out = out_path(ROOT / 'docs/ep002/EP002_blockI_animatic_v14.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
-                          '-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-shortest', str(out)],
+                          *video_args(), *audio_args(), '-shortest', str(out)],
                          stdin=subprocess.PIPE)
     for n in range(int((T_END - T0) * FPS)):
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v14_{name}.jpg', quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockI_v14_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v14_{name}.jpg', quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockI_v14_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

@@ -104,3 +104,38 @@ Uso: `python3 scripts/ep002-blockH-animatic.py` (vídeo) o `python3 scripts/ep00
 - **El motor Remotion** (React/TypeScript, el del EP001). Solo para el vídeo final, cuando el animatic esté aprobado.
 - **Efectos de sonido y música.** En el animatic solo va la voz de Bram.
 - **Subtítulos quemados en el final.** Los del animatic son solo para revisar y editar.
+
+## Resolución y calidad (regla del proyecto, 2026-10-06)
+
+Un solo diseño; la resolución se elige al exportar con la variable `QUALITY`:
+
+| `QUALITY` | Tamaño | Para qué |
+|---|---|---|
+| `draft` (por defecto) | 854×480 | Bloques que se envían mientras trabajamos: lo más rápido |
+| `review` | 1280×720 | Animatic completo para revisar |
+| `final` | 2560×1440 | Subida a YouTube (1440p: YouTube le da mejor códec, también a quien lo ve en 1080p) |
+| `final1080` | 1920×1080 | Subida en 1080p si se prefiere |
+
+Ejemplo: `QUALITY=final python3 scripts/ep002-blockB-animatic.py`. Los archivos salen con el tamaño en el nombre
+(`_480p`, `_1080p`, `_1440p`; `review` conserva el nombre sin sufijo). Las finales se codifican con más calidad
+(x264 CRF 14 preset slow, audio AAC 320 kbps) y solo se renderizan con aprobación del Productor.
+
+### Cómo se escribe un bloque (obligatorio para todo bloque nuevo)
+
+Todo se diseña en **unidades de diseño de 1280×720**. `lib` da `W, H` (píxeles de salida), `U = W / 1280` y:
+
+- `S(v)` / `Si(v)`: un valor en píxeles de diseño pasado a píxeles de salida (float / int). **Todo número que sea una
+  medida en pantalla** (posición, tamaño, desplazamiento, radio, grosor de línea, `stroke_width`, radio de
+  `GaussianBlur`, velocidad en px/s, tamaño de lienzo `Image.new`, `resize`/`thumbnail` a un tamaño fijo) va con
+  `S()`/`Si()`. Lo que ya es una fracción de `W`/`H` no lo necesita.
+- `F(size)`: la fuente del canal a un tamaño **de diseño** (escala sola). Lo mismo `ui_kit.inter()` / `ui_kit.anton()`.
+- `P(v)`: un valor en píxeles del plano de 1920×1080 (las finales cargan los fondos a su resolución completa, 2688).
+  `PW, PH` son el plano de trabajo; las fracciones de plano (`x * PW`) no necesitan nada.
+- Una imagen escalada por un factor fijo (`im.resize(im.width * s)`) multiplica también por `U`; una que se ajusta a
+  una fracción de `H` no.
+- `ui_kit`, `hud`, `icons` y `fairy` reciben tamaños de diseño y devuelven imágenes en píxeles de salida; donde se
+  colocan, los márgenes (el `pad` de 8 de `sq_box`) son `S(8)`.
+- `main()` usa `out_path(...)`, `*video_args()` y `*audio_args()`.
+
+Comprobación: `python3 scripts/animatic/scale_check.py scripts/<bloque>.py` renderiza los mismos momentos en
+`review` y `final`, compara y marca en rojo lo que no escala (un número sin `S()`). Un bloque limpio da ~0–1 %.

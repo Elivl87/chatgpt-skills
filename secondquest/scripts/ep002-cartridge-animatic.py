@@ -28,12 +28,11 @@ import fairy as fairy_fx  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
-W, H, FPS = 1280, 720, 24
-from functools import lru_cache
-F = lru_cache(maxsize=None)(lambda s: ImageFont.truetype(str(Path(__file__).resolve().parents[1] / 'public/shared/fonts/Inter-800.woff2'), s))   # the channel's label type (EP001)
+sys.path.insert(0, str(ROOT_ / 'scripts/animatic'))
+from lib import W, H, FPS, F, S, Si, out_path, video_args, audio_args  # noqa: E402  (QUALITY: draft / review / final)
 FSUB, FTAG = F(30), F(17)
-PW, PH = 2560, 1440  # plate working size; boxes below are in 960x540 plate units, scaled by S
-S = PW / 960
+PW, PH = 2560, 1440  # plate working size; boxes below are in 960x540 plate units, scaled by PU (its own plate unit)
+PU = PW / 960
 
 tm = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())
 cues = tm['cues']
@@ -48,15 +47,15 @@ lin = lambda a, b, k: a + (b - a) * k
 
 
 def missing(d, box, key, note=''):
-    x0, y0, x1, y1 = [v * S for v in box]
+    x0, y0, x1, y1 = [v * PU for v in box]
     d.rectangle((x0, y0, x1, y1), outline=(255, 70, 70), width=6, fill=(40, 10, 10, 150))
     d.line((x0, y0, x1, y1), fill=(255, 70, 70, 120), width=3)
     d.line((x0, y1, x1, y0), fill=(255, 70, 70, 120), width=3)
-    f = F(int(10 * S))
+    f = F(int(10 * PU))
     d.text((x0 + 12, y0 + 10), 'MISSING', font=f, fill=(255, 90, 90))
-    d.text((x0 + 12, y0 + 12 + 11 * S), key, font=F(int(7 * S)), fill=(255, 220, 220))
+    d.text((x0 + 12, y0 + 12 + 11 * PU), key, font=F(int(7 * PU)), fill=(255, 220, 220))
     if note:
-        d.text((x0 + 12, y0 + 14 + 20 * S), note, font=F(int(6 * S)), fill=(255, 200, 200))
+        d.text((x0 + 12, y0 + 14 + 20 * PU), note, font=F(int(6 * PU)), fill=(255, 200, 200))
 
 
 def cartridge(width):
@@ -72,28 +71,28 @@ N64_BOX = (628, 318, 770, 392)      # on the rug, in front of the TV stand, cabl
 QUEST_BOX = (455, 150, 600, 470)    # standing on the rug between the sofa and the console
 PROPS = ROOT / 'public/art/ep002/props3d'
 n64 = Image.open(PROPS / 'n64_room_3q.png').convert('RGBA')
-n64_w = int(112 * S)                # ~26 cm console: bigger than the ~16 cm controllers beside it
+n64_w = int(112 * PU)                # ~26 cm console: bigger than the ~16 cm controllers beside it
 n64 = n64.resize((n64_w, round(n64.height * n64_w / n64.width)), Image.LANCZOS)
-n64_x, n64_y = int(640 * S), int(392 * S) - n64.height   # feet on the rug, in front of the stand
+n64_x, n64_y = int(640 * PU), int(392 * PU) - n64.height   # feet on the rug, in front of the stand
 sh = Image.new('RGBA', plate.size)
-ImageDraw.Draw(sh).ellipse((n64_x + 4 * S, n64_y + n64.height - 9 * S, n64_x + n64_w - 2 * S, n64_y + n64.height + 5 * S), fill=(20, 12, 8, 150))
-ov.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6 * S)))
+ImageDraw.Draw(sh).ellipse((n64_x + 4 * PU, n64_y + n64.height - 9 * PU, n64_x + n64_w - 2 * PU, n64_y + n64.height + 5 * PU), fill=(20, 12, 8, 150))
+ov.alpha_composite(sh.filter(ImageFilter.GaussianBlur(6 * PU)))
 ov.alpha_composite(n64, (n64_x, n64_y))
 # the N64 controller on the rug, cable running to the console's front port (procedural 3D prop)
 pad = Image.open(PROPS / 'n64_pad_room.png').convert('RGBA')
-pad_w = int(74 * S)                 # 19 cm controller, a bit smaller than the console
+pad_w = int(74 * PU)                 # 19 cm controller, a bit smaller than the console
 pad = pad.resize((pad_w, round(pad.height * pad_w / pad.width)), Image.LANCZOS)
-pad_x, pad_y = int(584 * S), int(452 * S) - pad.height
+pad_x, pad_y = int(584 * PU), int(452 * PU) - pad.height
 cab = ImageDraw.Draw(ov)
 p0 = (pad_x + pad_w * 0.45, pad_y + pad.height * 0.04)                  # cable leaves the back edge
 p3 = (n64_x + n64_w * 0.10, n64_y + n64.height * 0.53)                  # first port, front face
-c1, c2 = (p0[0] - 4 * S, p0[1] - 16 * S), (p3[0] - 26 * S, p3[1] + 8 * S)   # a loose loop over the rug
+c1, c2 = (p0[0] - 4 * PU, p0[1] - 16 * PU), (p3[0] - 26 * PU, p3[1] + 8 * PU)   # a loose loop over the rug
 bez = [tuple((1 - u) ** 3 * a_ + 3 * (1 - u) ** 2 * u * b_ + 3 * (1 - u) * u * u * c_ + u ** 3 * d_ for a_, b_, c_, d_ in zip(p0, c1, c2, p3))
        for u in [i / 40 for i in range(41)]]
-cab.line(bez, fill=(28, 22, 22, 255), width=int(3.2 * S), joint='curve')
+cab.line(bez, fill=(28, 22, 22, 255), width=int(3.2 * PU), joint='curve')
 sh2 = Image.new('RGBA', plate.size)
-ImageDraw.Draw(sh2).ellipse((pad_x + 4 * S, pad_y + pad.height - 7 * S, pad_x + pad_w - 4 * S, pad_y + pad.height + 3 * S), fill=(20, 12, 8, 120))
-ov.alpha_composite(sh2.filter(ImageFilter.GaussianBlur(5 * S)))
+ImageDraw.Draw(sh2).ellipse((pad_x + 4 * PU, pad_y + pad.height - 7 * PU, pad_x + pad_w - 4 * PU, pad_y + pad.height + 3 * PU), fill=(20, 12, 8, 120))
+ov.alpha_composite(sh2.filter(ImageFilter.GaussianBlur(5 * PU)))
 ov.alpha_composite(pad, (pad_x, pad_y))
 
 
@@ -101,13 +100,13 @@ def quest_layer(pose_png):
     """Quest standing on the rug inside QUEST_BOX: feet on the box bottom, cut-out height = box height, soft shadow."""
     q = Image.open(pose_png).convert('RGBA')
     q = q.crop(q.getchannel('A').getbbox())
-    h = int((QUEST_BOX[3] - QUEST_BOX[1]) * S)
+    h = int((QUEST_BOX[3] - QUEST_BOX[1]) * PU)
     q = q.resize((round(q.width * h / q.height), h), Image.LANCZOS)
-    cx, fy = (QUEST_BOX[0] + QUEST_BOX[2]) / 2 * S, QUEST_BOX[3] * S
+    cx, fy = (QUEST_BOX[0] + QUEST_BOX[2]) / 2 * PU, QUEST_BOX[3] * PU
     lay = Image.new('RGBA', plate.size)
     sh = Image.new('RGBA', plate.size)
-    ImageDraw.Draw(sh).ellipse((cx - q.width * 0.42, fy - 7 * S, cx + q.width * 0.42, fy + 5 * S), fill=(20, 12, 8, 140))
-    lay.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5 * S)))
+    ImageDraw.Draw(sh).ellipse((cx - q.width * 0.42, fy - 7 * PU, cx + q.width * 0.42, fy + 5 * PU), fill=(20, 12, 8, 140))
+    lay.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5 * PU)))
     lay.alpha_composite(q, (int(cx - q.width / 2), int(fy - h)))
     return lay
 
@@ -124,7 +123,7 @@ plate_room_s3 = Image.alpha_composite(plate, ov3).convert('RGB')  # no Quest whe
 TV = (805, 30, 925, 245)            # screen area in plate units (for the glow)
 
 # ---- S2 insert: blurred rug/room behind the 3D-rendered console + cartridge frames
-ins_bg = plate.crop((int(600 * S), int(300 * S), int(840 * S), int(435 * S))).resize((W, H)).filter(ImageFilter.GaussianBlur(16))
+ins_bg = plate.crop((int(600 * PU), int(300 * PU), int(840 * PU), int(435 * PU))).resize((W, H)).filter(ImageFilter.GaussianBlur(S(16)))
 ins_bg = Image.blend(ins_bg.convert('RGB'), Image.new('RGB', (W, H), (14, 10, 12)), 0.35)
 INSERT = [Image.open(f).convert('RGBA') for f in sorted((PROPS / 'n64_insert').glob('f*.png'))]
 SLIDE = 1.05                        # seconds of the slide; it ends exactly on "back"
@@ -141,7 +140,7 @@ def frame_room(t, cam, plate_img=None):
 
 
 def to_screen(px, py, box):
-    return (px * S - box[0]) * W / (box[2] - box[0]), (py * S - box[1]) * H / (box[3] - box[1])
+    return (px * PU - box[0]) * W / (box[2] - box[0]), (py * PU - box[1]) * H / (box[3] - box[1])
 
 
 def glow(fr, cx, cy, r, color, alpha):
@@ -166,8 +165,8 @@ PLANNING = __import__('os').environ.get('PLANNING') == '1'           # planning 
 def tag(d, text):
     if not PLANNING:
         return
-    d.rectangle((0, 0, d.textlength(text, font=FTAG) + 24, 30), fill=(0, 0, 0))
-    d.text((12, 6), text, font=FTAG, fill=(255, 210, 90))
+    d.rectangle((0, 0, d.textlength(text, font=FTAG) + S(24), S(30)), fill=(0, 0, 0))
+    d.text((S(12), S(6)), text, font=FTAG, fill=(255, 210, 90))
 
 
 S1_CAM = ((1.00, .50, .50), (1.30, .66, .56), 0.0, T_S2)          # l01: push toward Quest + console
@@ -178,7 +177,7 @@ def render(t):
     shake = (0, 0)
     if 0 <= t - T_CLIC < 0.2:       # the seat: a short decaying shake
         a = 1 - (t - T_CLIC) / 0.2
-        shake = (int(7 * a * math.sin(t * 90)), int(5 * a * math.cos(t * 77)))
+        shake = (int(S(7) * a * math.sin(t * 90)), int(S(5) * a * math.cos(t * 77)))
     if t < T_S2:
         fr, _ = frame_room(t, S1_CAM)
         d = ImageDraw.Draw(fr)
@@ -187,7 +186,7 @@ def render(t):
         start_slide = T_CLIC - SLIDE
         k = min(1, max(0, (t - start_slide) / SLIDE))        # frames are already eased in 3D
         idx = round(k * (len(INSERT) - 1))
-        hover = 0 if k > 0 else 7 * math.sin(t * 3.1)          # held in Quest's hands before the slide
+        hover = 0 if k > 0 else S(7) * math.sin(t * 3.1)          # held in Quest's hands before the slide
         push = 1 + 0.06 * (t - T_S2) / (T_CLIC - T_S2)        # slow push-in across the insert
         fr = ins_bg.copy().convert('RGBA')
         im = INSERT[idx]
@@ -195,7 +194,7 @@ def render(t):
         fr.alpha_composite(im, (int((W - im.width) / 2), int((H - im.height) / 2 + hover)))
         fr = fr.convert('RGB')
         d = ImageDraw.Draw(fr)
-        PLANNING and d.text((20, 40), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
+        PLANNING and d.text((S(20), S(40)), 'S2 insert · 3D render: N64 classic + cartridge mock v4/label v2 · Quest hands: MISSING', font=FTAG, fill=(255, 220, 160))
         tag(d, 'SEQ 01 PHYSICAL MEMORY · S2 insert · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
     else:
         # hold the seated frame for the shake, then cut to the TV
@@ -210,17 +209,17 @@ def render(t):
             fr, box = frame_room(t, S3_CAM, plate_room_s3)
             k = (t - T_CLIC) / (T_SEQ2 - T_CLIC)
             tx, ty = to_screen((TV[0] + TV[2]) / 2, (TV[1] + TV[3]) / 2, box)
-            fr = glow(fr, tx, ty, 420, (200, 235, 255), 0.55 * math.sin(math.pi * min(1, k * 1.4)))
+            fr = glow(fr, tx, ty, S(420), (200, 235, 255), 0.55 * math.sin(math.pi * min(1, k * 1.4)))
             t0 = T_NAVI
             if t >= t0:
                 tm_ = (t0 + T_SEQ2) / 2
                 # out of the TV (approved v1 arc), then towards the camera, growing, and out of frame on the left
-                keys = [(t0, tx / W, ty / H), (tm_, (tx - 215) / W, (ty + 5) / H), (T_SEQ2, (tx - 430) / W, (ty + 90) / H),
+                keys = [(t0, tx / W, ty / H), (tm_, (tx - S(215)) / W, (ty + S(5)) / H), (T_SEQ2, (tx - S(430)) / W, (ty + S(90)) / H),
                         (T_SEQ2 + 0.45, 0.36, 0.56), (T_END - 0.05, -0.12, 0.6)]
                 grow = min(1, max(0, (t - T_SEQ2) / (T_END - 0.2 - T_SEQ2)))
                 fr = fairy_fx.draw(fr, keys, t, size=0.1 + 0.08 * grow * grow, opacity=min(1, (t - t0) / 0.15))
             d = ImageDraw.Draw(fr)
-            PLANNING and d.text((20, 40), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
+            PLANNING and d.text((S(20), S(40)), 'S3 new framing on the TV · fairy = engine actor (src/fx/fairy.ts)', font=FTAG, fill=(255, 220, 160))
             tag(d, 'SEQ 01 PHYSICAL MEMORY · S3 TV flare · CARTRIDGE ANIMATIC v10 · PLANNING ONLY')
     if shake != (0, 0):
         fr = Image.fromarray(__import__('numpy').roll(__import__('numpy').asarray(fr), shake, axis=(1, 0)))
@@ -248,7 +247,7 @@ def sfx_events():
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_cartridge_animatic_v14.mp4'
+    out = out_path(ROOT / 'docs/ep002/EP002_cartridge_animatic_v14.mp4')
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -260,13 +259,12 @@ def main():
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-i', str(ROOT / 'public/episodes/ep002/audio/narration.wav'), *ins, '-t', f'{T_END:.3f}',
                           '-filter_complex', mix, '-map', '0:v', '-map', '[a]',
-                          '-c:v', 'libx264', '-crf', '22', '-preset', 'medium', '-pix_fmt', 'yuv420p',
-                          '-c:a', 'aac', '-b:a', '128k', str(out)], stdin=subprocess.PIPE)
+                          *video_args(), *audio_args(), str(out)], stdin=subprocess.PIPE)
     for n in range(int(T_END * FPS)):
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(ROOT / f'docs/ep002/cartridge_animatic_v14_{name}.jpg', quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/cartridge_animatic_v14_{name}.jpg'), quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 

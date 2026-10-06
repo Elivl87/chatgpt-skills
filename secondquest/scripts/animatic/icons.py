@@ -8,6 +8,7 @@
 import math
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
+from lib import S, Si  # noqa: E402  (sizes are design px)
 
 
 def _toon(mask, top, bottom, outline=12):
@@ -40,8 +41,8 @@ def wrench_icon(ang, alpha=1.0):
         gd.line((150, 291, 430, 293), fill=(255, 255, 255, 230), width=7)               # brushed highlight
         gd.arc((60, 260, 140, 340), 200, 300, fill=(255, 255, 255, 200), width=7)
         gd.arc((438, 250, 538, 350), 205, 260, fill=(255, 255, 255, 200), width=7)
-        _WRENCH = g.resize((160, 160), Image.LANCZOS)
-    g = _WRENCH.rotate(ang + 24, resample=Image.BICUBIC, center=(25, 75))
+        _WRENCH = g.resize((Si(160), Si(160)), Image.LANCZOS)
+    g = _WRENCH.rotate(ang + 24, resample=Image.BICUBIC, center=(S(25), S(75)))
     if alpha < 1:
         g.putalpha(g.getchannel('A').point(lambda v: int(v * max(0, alpha))))
     return g
@@ -73,5 +74,5 @@ def camera_icon(rec=False, width=120):
         gd.line((158, 222, 272, 222), fill=(120, 130, 150, 255), width=6); gd.line((158, 246, 240, 246), fill=(120, 130, 150, 255), width=6)
         _CAMERA[rec] = g
     if (rec, width) not in _CAMERA:
-        _CAMERA[(rec, width)] = _CAMERA[rec].resize((width, int(width * .75)), Image.LANCZOS)
+        _CAMERA[(rec, width)] = _CAMERA[rec].resize((max(1, Si(width)), max(1, Si(width * .75))), Image.LANCZOS)   # width in design px
     return _CAMERA[(rec, width)]

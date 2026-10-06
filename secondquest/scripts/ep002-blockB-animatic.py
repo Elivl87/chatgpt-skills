@@ -23,7 +23,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB, walk_adult, STEP_RATE, road_walk, PLANNING  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, plate, place, cam_box, to_screen, subtitle, tag, F, FLAB, walk_adult, STEP_RATE, road_walk, PLANNING, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 import hud  # noqa: in-game HUD in every Hyrule shot (Producer)
@@ -70,10 +70,10 @@ def notes(fr, t, t0, src):
         if ph < 0:
             continue
         k = ph % 1
-        x = src[0] - k * W * (.35 + .25 * ((i * .37) % 1)) + math.sin(k * 7 + i) * 30
-        y = src[1] - k * H * .25 + math.cos(k * 5 + i) * 25
+        x = src[0] - k * W * (.35 + .25 * ((i * .37) % 1)) + math.sin(k * 7 + i) * S(30)
+        y = src[1] - k * H * .25 + math.cos(k * 5 + i) * S(25)
         a = int(255 * min(1, (1 - k) * 2))
-        d.text((x, y), '♪' if i % 2 else '♫', font=F(40 + (i % 3) * 8), fill=(255, 236, 170), stroke_width=2, stroke_fill=(70, 45, 15))
+        d.text((x, y), '♪' if i % 2 else '♫', font=F(40 + (i % 3) * 8), fill=(255, 236, 170), stroke_width=Si(2), stroke_fill=(70, 45, 15))
     return fr
 
 
@@ -81,7 +81,7 @@ def notes(fr, t, t0, src):
 def spin_frames(name):
     return [Image.open(f).convert('RGBA') for f in sorted((PROPS / name).glob('f*.png'))]
 OCA, SWD = spin_frames('ocarina_spin'), spin_frames('sword_spin')
-PLATES = {n: Image.open(TRI / f'plate_{n}.png').convert('RGBA').resize((640, 640), Image.LANCZOS) for n in ('power', 'wisdom', 'courage', 'crest')}
+PLATES = {n: Image.open(TRI / f'plate_{n}.png').convert('RGBA').resize((Si(640), Si(640)), Image.LANCZOS) for n in ('power', 'wisdom', 'courage', 'crest')}
 
 
 def dust(fr, t, seed=3):
@@ -89,11 +89,11 @@ def dust(fr, t, seed=3):
     d = ImageDraw.Draw(fr)
     for i in range(60):
         x0, y0, sp = r.random() * W, r.random() * H, .2 + r.random() * .6
-        x = (x0 + t * 12 * sp) % W; y = (y0 - t * 20 * sp) % H
+        x = (x0 + t * S(12) * sp) % W; y = (y0 - t * S(20) * sp) % H
         a = int(120 + 120 * math.sin(t * 3 + i))
         d.point((x, y), fill=(255, 220, 140))
         if i % 6 == 0:
-            d.ellipse((x - 1.5, y - 1.5, x + 1.5, y + 1.5), fill=(255, 230, 160))
+            d.ellipse((x - S(1.5), y - S(1.5), x + S(1.5), y + S(1.5)), fill=(255, 230, 160))
     return fr
 
 
@@ -102,38 +102,38 @@ def relic_frame(t):
     fr = dust(fr, t)
     if t < T_SW - 0.08:
         k = (t - T_REL) / (T_SW - T_REL)
-        fr = CART.glow(fr, W / 2, H / 2, 330, (120, 160, 255), .55)
+        fr = CART.glow(fr, W / 2, H / 2, S(330), (120, 160, 255), .55)
         im = OCA[min(len(OCA) - 1, int(k * len(OCA)))]
-        s = lin(.62, .7, ease(k)); im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
-        base = fr.convert('RGBA'); base.alpha_composite(im, ((W - im.width) // 2, (H - im.height) // 2 - 20)); fr = base.convert('RGB')
-        fr = UI.lockon(fr, W / 2, H / 2 - 20, im.width * .78, im.height * .7, (t - T_OC) / .35, t)   # lock-on as Bram names it
+        s = lin(.62, .7, ease(k)) * U; im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
+        base = fr.convert('RGBA'); base.alpha_composite(im, ((W - im.width) // 2, (H - im.height) // 2 - Si(20))); fr = base.convert('RGB')
+        fr = UI.lockon(fr, W / 2, H / 2 - S(20), im.width * .78, im.height * .7, (t - T_OC) / .35, t)   # lock-on as Bram names it
     elif t < T_TF - 0.08:
         k = (t - T_SW) / (T_TF - T_SW)
-        fr = CART.glow(fr, W / 2, H / 2, 330, (200, 210, 255), .5)
+        fr = CART.glow(fr, W / 2, H / 2, S(330), (200, 210, 255), .5)
         im = SWD[min(len(SWD) - 1, int(k * len(SWD)))]
-        s = lin(.66, .74, ease(k)); im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
-        base = fr.convert('RGBA'); base.alpha_composite(im, ((W - im.width) // 2, (H - im.height) // 2 - 10)); fr = base.convert('RGB')
-        fr = UI.lockon(fr, W / 2, H / 2 - 10, im.width * .55, im.height * .9, (t - T_SW) / .35, t)
+        s = lin(.66, .74, ease(k)) * U; im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
+        base = fr.convert('RGBA'); base.alpha_composite(im, ((W - im.width) // 2, (H - im.height) // 2 - Si(10))); fr = base.convert('RGB')
+        fr = UI.lockon(fr, W / 2, H / 2 - S(10), im.width * .55, im.height * .9, (t - T_SW) / .35, t)
         if 0 <= t - T('l05.w3') < .25:                                   # glint on "sword"
-            fr = CART.glow(fr, W / 2 + 10, H * .2, 90, (255, 255, 255), .8 * (1 - (t - T('l05.w3')) / .25))
+            fr = CART.glow(fr, W / 2 + S(10), H * .2, S(90), (255, 255, 255), .8 * (1 - (t - T('l05.w3')) / .25))
     else:
         k = ease((t - T_TF + .08) / 0.9)
-        fr = CART.glow(fr, W / 2, H / 2 - 10, 380, (240, 190, 90), .5)
-        tri = Image.new('RGBA', (640, 640))
-        offs = {'power': (0, -300), 'wisdom': (-340, 220), 'courage': (340, 220), 'crest': (0, 340)}
+        fr = CART.glow(fr, W / 2, H / 2 - S(10), S(380), (240, 190, 90), .5)
+        tri = Image.new('RGBA', (Si(640), Si(640)))
+        offs = {'power': (0, -300), 'wisdom': (-340, 220), 'courage': (340, 220), 'crest': (0, 340)}   # design px
         for n, im in PLATES.items():
             ox, oy = offs[n]
-            tri.alpha_composite(im, (int(ox * (1 - k)), int(oy * (1 - k))))
-        tri = tri.crop((80, 80, 560, 560)).resize((540, 540), Image.LANCZOS)
-        base = fr.convert('RGBA'); base.alpha_composite(tri, (W // 2 - 270, H // 2 - 290)); fr = base.convert('RGB')
-        fr = UI.lockon(fr, W / 2, H / 2 - 30, 360, 330, (t - T_TF - .8) / .35, t)   # once the plates click together
+            tri.alpha_composite(im, (int(S(ox) * (1 - k)), int(S(oy) * (1 - k))))
+        tri = tri.crop((Si(80), Si(80), Si(560), Si(560))).resize((Si(540), Si(540)), Image.LANCZOS)
+        base = fr.convert('RGBA'); base.alpha_composite(tri, (W // 2 - Si(270), H // 2 - Si(290))); fr = base.convert('RGB')
+        fr = UI.lockon(fr, W / 2, H / 2 - S(30), S(360), S(330), (t - T_TF - .8) / .35, t)   # once the plates click together
         if 0 <= t - (T_TF + .8) < .3:                                    # click-together flash
-            fr = CART.glow(fr, W / 2, H / 2 - 40, 300, (255, 240, 200), .7 * (1 - (t - T_TF - .8) / .3))
+            fr = CART.glow(fr, W / 2, H / 2 - S(40), S(300), (255, 240, 200), .7 * (1 - (t - T_TF - .8) / .3))
     # Navi leads the eye: ocarina -> sword tip -> Triforce apex
     keys = [(T_REL, .75, .42), (T_OC + .4, .62, .36), (T_SW, .58, .2), (T_SW + .7, .55, .16), (T_TF, .5, .18), (T_FIELD - .1, .5, .12)]
     fr = fairy_fx.draw(fr, keys, t, size=.075)
     d = ImageDraw.Draw(fr)
-    PLANNING and d.text((20, 40), 'B3 relics · ocarina + sword = own 3D props (free) · Triforce = engraved plates', font=F(15), fill=(255, 220, 160))
+    PLANNING and d.text((S(20), S(40)), 'B3 relics · ocarina + sword = own 3D props (free) · Triforce = engraved plates', font=F(15), fill=(255, 220, 160))
     return fr
 
 
@@ -212,11 +212,11 @@ def render(t):
         fr, box = frame_plate(ROOM, CAM_B1, k)
         tx, ty = to_screen(*TV, box)
         if t >= T('l03.w4'):
-            fr = CART.glow(fr, tx, ty, 300, (200, 235, 255), .35 + .1 * math.sin(t * 6))
-            fr = notes(fr, t, T('l03.w4'), (tx - 40, ty))
+            fr = CART.glow(fr, tx, ty, S(300), (200, 235, 255), .35 + .1 * math.sin(t * 6))
+            fr = notes(fr, t, T('l03.w4'), (tx - S(40), ty))
         if t >= T('l03.w6'):                                              # "Modern controls."
             px, py = to_screen(*PAD, box)
-            fr = CART.glow(fr, px, py, 90, (150, 230, 255), .6 * min(1, (t - T('l03.w6')) / .3))
+            fr = CART.glow(fr, px, py, S(90), (150, 230, 255), .6 * min(1, (t - T('l03.w6')) / .3))
         qx, qy = to_screen(.62, .55, box)
         keys = [(T0, -.05, .5), (T0 + .7, qx / W - .12, qy / H - .05), (T('l03.w5'), qx / W + .1, qy / H - .12),
                 (T('l03.w6'), qx / W - .08, qy / H - .2), (T_CAM, tx / W - .05, ty / H)]
@@ -257,18 +257,18 @@ def render(t):
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockB_animatic_v15.mp4'
+    out = out_path(ROOT / 'docs/ep002/EP002_blockB_animatic_v15.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
-                          '-c:v', 'libx264', '-crf', '20', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-shortest', str(out)],
+                          *video_args(), *audio_args(), '-shortest', str(out)],
                          stdin=subprocess.PIPE)
     for n in range(int((T_END - T0) * FPS)):
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('b1', T('l03.w6') + .3), ('b2', T_CAM + .5), ('b3_ocarina', T_OC + .5), ('b3_sword', T_SW + .5), ('b3_triforce', T_TF + 1.1),
                     ('b4', T_FIELD + 1.5), ('b6', T_GO + 2.0), ('title', T_END - .5)):
-        render(t).save(ROOT / f'docs/ep002/blockB_v15_{name}.jpg', quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockB_v15_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 
