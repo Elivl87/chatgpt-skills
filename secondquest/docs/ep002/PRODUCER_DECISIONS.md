@@ -571,3 +571,4 @@
     In G5 the swinging camera now follows a Quest who really walks on.
   - R1-R3: the two of them walk side by side and in step from R1 to "beside", then stop for R4; R2's camera now
     continues from R1's (1.25 -> 1.4) instead of starting wide again. SAME ROAD / DIFFERENT PERSON sit above their heads.
+- 2026-10-06 · G v8, H v12 and R v9 approved (slow walk down the road). Full animatic v5 on hold until the Producer asks.
