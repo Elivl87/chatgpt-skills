@@ -672,6 +672,24 @@
         "7a6665cd-e019-405e-a683-0231c77af265"
       ],
       "balanceAfter": 65.25
+    },
+    {
+      "id": "Q039",
+      "episode": "EP002",
+      "item": "#4b adult Quest tunic back, walking, no gear (walk cycle + N no-gear shot)",
+      "model": "gpt_image_2_5",
+      "quoted": 1.0,
+      "status": "spent",
+      "quotedAt": "2026-10-06T03:20:20+00:00",
+      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). Young man, dark brown curly hair, light freckles, same proportions, adult, about 5.5 heads tall, sturdy build with broad shoulders. Same hair and human ears as Quest_v1; only the outfit changes. Costume EXACTLY as on the man in the attached image reference (the green adventurer outfit): forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, wide brown leather belt, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. NOTHING on his back: no shield, no scabbard, no strap, no bag, the back of the tunic fully visible. Pose: walking forward away from us, mid-stride: his LEFT foot lifted behind him showing the sole of the boot, his RIGHT foot planted, arms swinging naturally, same size and camera as the reference. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+      "approvedAt": "2026-10-06T03:20:23+00:00",
+      "approval": "Realizar el arte de adulto sin el equipo. Pero que tenga la espada no?",
+      "spentAt": "2026-10-06T03:21:21+00:00",
+      "actual": 1.0,
+      "jobs": [
+        "6ed31a9c-c277-44dd-995d-dbf517acf15e"
+      ],
+      "balanceAfter": 52.75
     }
   ]
 }
