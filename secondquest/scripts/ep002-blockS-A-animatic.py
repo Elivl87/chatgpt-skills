@@ -16,7 +16,7 @@ its assets on the left, a console on the right, an IMPORTING MEMORY... bar under
                                         colour in the grey room, 1 OF 1.
 Sets up block T: the same editor imports Hyrule and it all comes back green.
 HUD: hidden (real life). Sounds: none (all at the end). Free.
-v5 (final art, 2026-10-05): the kids are block C's final #6a (kid Quest playing, red hoodie, controller with its cable)
+v6 (final art, 2026-10-05): the kids are block C's final #6a (kid Quest playing, red hoodie, controller with its cable)
 and #6c (kid Pixie sitting), sized by face width (Pixie's face = 0.9 x Quest's); their stand-in label is gone. The
 in-story MISSING TEXTURE / FILE NOT FOUND errors are the editor's gag and stay.
 """
@@ -32,6 +32,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, place  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -334,10 +335,22 @@ def render(t):
         fr = Image.blend(Image.new('RGB', (W, H), (250, 246, 236)), fr, max(0, (t - T0) / (T_OPEN - T0)))
     lab = ('S1 can you remake a memory?' if t < T_NOT else 'S2 probably not' if t < ASSETS[0][2] - .5
            else 'S3 cannot rebuild' if t < T_YOU else 'S4 the exact version of you')
+    if T_LOAD1 <= t < T_NOT + 1.0:                                             # "can you remake a memory?": a game prompt
+        k_in = ease(min(1, (t - T_LOAD1) / .25)) * (1 - ease(min(1, max(0, (t - T_NOT - .75) / .25))))
+        if t < T_NOT - .45:
+            cur = 0                                                            # on YES...
+        elif t < T_NOT:
+            cur = .5 + .5 * math.sin((t - T_NOT + .45) * 14)                   # ...it hesitates...
+        else:
+            cur = 1                                                            # "Probably not.": NO
+        g = UI.choice_box('Remake this memory?', ['YES', 'NO'], cur, chosen=1 if t >= T_NOT else None, t=t)
+        g = g.resize((max(1, int(g.width * (.85 + .15 * k_in))), max(1, int(g.height * (.85 + .15 * k_in)))), Image.LANCZOS)
+        out = fr.convert('RGBA'); out.alpha_composite(UI.fade(g, k_in), (int(VX0 + VW / 2 - g.width / 2), int(VY0 + VH * .5 - g.height / 2)))
+        fr = out.convert('RGB')
     keys = [(T0, (VX0 + VW * .6) / W, (VY0 + VH * .35) / H), (T_YOU, (VX0 + VW * .35) / W, (VY0 + VH * .45) / H), (T_END, (VX0 + VW * .3) / W, (VY0 + VH * .4) / H)]
     fr = fairy_fx.draw(fr, keys, t, size=.035)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v5 · PLANNING ONLY')
+    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -346,7 +359,7 @@ STILLS = (('s1', T_LOAD1 - .4), ('s2', T_NOT + .5), ('s3a', ASSETS[1][2] + .5), 
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockS_animatic_A_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockS_animatic_A_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -356,14 +369,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockS_A_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockS_A_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockS_A_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockS_A_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

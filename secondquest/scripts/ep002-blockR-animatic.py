@@ -241,12 +241,15 @@ def one_road(t):
     d = ImageDraw.Draw(fr)
     ks = min(1, max(0, (t - T_SAME - .1) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if ks > 0:                                                                 # SAME ROAD, on the road
-        x_, y_, ha_, _, k_ = duo(t)                                            # a signpost on the left verge, just ahead
-        px, py, ph = plate_to_screen(x_ - .2 * k_, y_ - .03, ha_, field_box(t, **R2_CAM))
-        sp = UI.signpost('SAME ROAD', h_px=int(ph))
+        # a short signpost on the left verge, just behind them; Producer (2026-10-06): never over Quest. Its right edge
+        # stays clear of the young one's left side.
+        x_, y_, ha_, _, k_ = duo(t)
+        px, py, ph = plate_to_screen(x_, y_ - .02, ha_ * .62, field_box(t, **R2_CAM))
+        sp = UI.signpost_compact(['SAME', 'ROAD'], h_px=int(ph))
         rise = ease(ks)                                                        # it pops up out of the grass
         sp = sp.resize((sp.width, max(1, int(sp.height * (.4 + .6 * rise)))), Image.LANCZOS)
-        fr = comp(fr, fade(sp, min(1, ks * 2)), px - sp.width * .3, py - sp.height)
+        right = YX - YH * .42 - 24                                             # the young one's left side, with a gap
+        fr = comp(fr, fade(sp, min(1, ks * 2)), right - sp.width, py - sp.height)
     kd = min(1, max(0, (t - T_DIFF - .05) / .3)) * (1 - min(1, max(0, (t - T_WANT) / .3)))
     if kd > 0:                                                                 # DIFFERENT PERSON, between them
         g = UI.sq_tag('DIFFERENT PERSON', 20)                                 # our game tag (family A)
@@ -310,7 +313,7 @@ def render(t):
     keys = [(T0, .52, .40), (T_SAME, .50, .42), (T_WANT, .50, .50), (T_NOT, .56, .46), (T_BESIDE, .50, .52), (T_END, .50, .55)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v10 · PLANNING ONLY')
+    tag(d, f'SEQ 24 SAME ROAD · {lab} · BLOCK R v11 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -320,7 +323,7 @@ STILLS = (('r1a', T0 + 1.0), ('r1', T_DEC + .6), ('r2a', T_SAME + 1.0), ('r2', T
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v10.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockR_animatic_v11.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -330,14 +333,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockR_v10_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockR_v11_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockR_v10_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockR_v11_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

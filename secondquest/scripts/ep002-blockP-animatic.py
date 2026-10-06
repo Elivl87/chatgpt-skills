@@ -409,6 +409,9 @@ def render(t):
         if t >= T_ORIG:
             mx, my = BO.to_frame(CART_PT[0], CART_PT[1] - 40, box)
             fr = motes(fr, t, mx, my, min(1, (t - T_ORIG) / .6) * (1 + .6 * (t > T('l116.w4'))))
+            zs = W / (box[2] - box[0])                                     # lock-on on the cartridge: "the original game"
+            cx_, cy_ = BO.to_frame(CART_PT[0], CART_PT[1] - CART_ROOM.height / 2, box)
+            fr = UI.lockon(fr, cx_, cy_, CART_W * zs * 1.1, CART_ROOM.height * zs * 1.3, (t - T_ORIG - .35) / .35, t)
         lab = 'P1 back to the strange part' if t < T_ORIG else 'P2 the original game still exists'
     elif t < T_INS:
         fr = blow(t); lab = 'P3 nobody needs Nintendo to rescue it'
@@ -425,7 +428,7 @@ def render(t):
     keys = [(T0, .62, .30), (T_ORIG, .70, .30), (T_WHY, .62, .26), (T_BEC, .30, .30), (T_END, .34, .26)]
     fr = fairy_fx.draw(fr, keys, t, size=.04)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v6 · PLANNING ONLY')
+    tag(d, f'SEQ 22 BACK TO THE ROOM · {lab} · BLOCK P v7 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -435,7 +438,7 @@ STILLS = (('p1a', T0 + .6), ('p1b', T('l115.w7')), ('p2', T('l117.w3')), ('p3a',
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v6.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockP_animatic_v7.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -445,14 +448,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockP_v6_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockP_v7_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockP_v6_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockP_v7_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

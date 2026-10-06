@@ -580,3 +580,13 @@
 - 2026-10-06 · Text restyle rendered in every block (cartridge v13, B v13, C v8, D v10, E v7, F-B v10, G v9, H v13, I v12,
   J v5, K v6, L v5, M v4, N v11, O v6, P v6, Q v4, R v10, S-A v5, T v8, U v5), no subtitles. Note: U's new v5 replaces
   the earlier, reverted U v5 (the push version) under the same name. Before/after: docs/ep002/EP002_ui_before_after_*.jpg.
+- 2026-10-06 · Video-game details approved and applied (1, 3, 4, 8, 9):
+  1. Area cards the first time we enter a place (`ui_kit.area_enter`): THE FIELD (B4), THE FOREST (D7), THE GREAT TREE
+     (J2), THE TEMPLE (N1). Not on the last view (U): the Producer wants it clean.
+  3. Lock-on (`ui_kit.lockon`): the ocarina, the sword and the Triforce in B3, the cartridge in P2.
+  4. A choice prompt in S1 (`ui_kit.choice_box`): "Remake this memory?" YES / NO; the cursor hesitates and lands on NO
+     with "Probably not."
+  8. "A very bad decision" (I6): a heart container breaks by the veteran's card, and his file loses its last heart.
+  9. The end as a CONTINUE? menu (U3): NEXT QUEST over the video slot, JOIN THE PARTY over subscribe; the cursor hops.
+- 2026-10-06 · SAME ROAD (R2): a shorter signpost (the words stacked), kept left of the young Quest so it never covers
+  anyone (Producer).

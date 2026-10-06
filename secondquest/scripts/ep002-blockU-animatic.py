@@ -34,6 +34,7 @@ sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
 from lib import ROOT, W, H, PW, PH, FPS, T, ease, lin, subtitle, tag, F, cam_box, final_plate  # noqa
 import fairy as fairy_fx  # noqa
+import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
@@ -163,6 +164,24 @@ def star_twinkle(fr, dt):
     return fr
 
 
+def continue_menu(fr, t, a):
+    """The end as a game's CONTINUE? menu (Producer, 2026-10-06, video-game detail 9): over YouTube's end-screen slots,
+    NEXT QUEST (the video) and JOIN THE PARTY (subscribe); the cursor hops between them."""
+    items = (('NEXT QUEST', W * .04, H * .34 - 50, False), ('JOIN THE PARTY', W * .95, H * .56 - 50, True))
+    sel = int(max(0, t - T_COMM - .6) / 1.4) % 2
+    out = fr.convert('RGBA')
+    title = UI.fade(UI.area_title('CONTINUE?', size=34, band=True, rules=False), a)
+    out.alpha_composite(title, (int(W * .04), int(H * .34 - 112)))
+    for i, (txt, x, y, right) in enumerate(items):
+        g = UI.sq_tag(txt, 20, col=UI.GOLD if sel == i else (225, 228, 240))
+        gx = x - g.width if right else x
+        out.alpha_composite(UI.fade(g, a), (int(gx), int(y)))
+        if sel == i:                                                          # the cursor, bobbing at the item's left
+            cx, cy = gx - 4 + 3 * math.sin(t * 8), y + g.height / 2
+            ImageDraw.Draw(out).polygon([(cx - 16, cy - 11), (cx, cy), (cx - 16, cy + 11)], fill=UI.GOLD + (int(255 * a),), outline=UI.INK + (int(255 * a),))
+    return out.convert('RGB')
+
+
 def render(t):
     box = cam(t)
     fr = scene(t).crop(tuple(int(v) for v in box)).resize((W, H), Image.BICUBIC)
@@ -187,7 +206,9 @@ def render(t):
             for i in range(0, int(y1 - y0), 14):
                 d.line((x0, y0 + i, x0, y0 + i + 7), fill=(255, 255, 255), width=2); d.line((x1, y0 + i, x1, y0 + i + 7), fill=(255, 255, 255), width=2)
             d.text((x0 + 8, y0 + 6), s, font=F(14), fill=(255, 255, 255), stroke_width=2, stroke_fill=(20, 14, 18))
-    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v5 · PLANNING ONLY')
+        fr = continue_menu(fr, t, a)
+        d = ImageDraw.Draw(fr)
+    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v6 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -195,8 +216,12 @@ def render(t):
 STILLS = (('u1a', T0 + .8), ('u1', T0 + 3.0), ('u2', T_WHY + .8), ('u2o', (T_ORB0 + T_ORB1) / 2), ('u2w', (T_UP1 + T_LOOP1) / 2), ('u3s', T_STAR + .3), ('u3', T_END - .3))
 
 
+
+# (Producer, 2026-10-06: no area card here - this last view stays clean)
+
+
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v5.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockU_animatic_v6.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr), '-i', str(SFX),
@@ -208,14 +233,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockU_v5_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockU_v6_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockU_v5_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockU_v6_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

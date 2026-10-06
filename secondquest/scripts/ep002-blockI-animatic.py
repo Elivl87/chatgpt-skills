@@ -202,7 +202,11 @@ def save_file(fr, t, a):
     d.text((30, 20), 'FILE 1 · VETERAN PLAYER', font=F(28), fill=GOLD[:3] + (int(255 * a),))
     for i in range(20):                                                  # 20 hearts in two rows
         x, y = 34 + (i % 10) * 34, 70 + (i // 10) * 30
-        hud._heart(d, x + 12, y + 12, 11, (232, 44, 52, int(255 * a)))
+        col = (232, 44, 52, int(255 * a))
+        if i == 19 and t >= T_BAD:                                       # "a very bad decision": a heart is lost (detail 8)
+            u = t - T_BAD
+            col = ((255, 255, 255, int(255 * a)) if int(u * 12) % 2 == 0 else col) if u < .45 else (44, 34, 48, int(255 * a))
+        hud._heart(d, x + 12, y + 12, 11, col)
     d.text((30, 140), 'TIME  999:59', font=F(26), fill=(230, 230, 245, int(255 * a)))
     out = comp(fr, g, W * .5 - 120, H * .1)
     d2 = ImageDraw.Draw(out, 'RGBA')
@@ -428,6 +432,17 @@ def stage_triforce(fr, t, k):
         m = m.filter(ImageFilter.GaussianBlur(10))
         hand = v.copy(); hand.putalpha(Image.fromarray((np.asarray(v.getchannel('A')).astype(np.float32) * np.asarray(m) / 255).astype(np.uint8)))
         fr = comp(fr, fade(hand, min(1, (kr - .4) / .3)), vx, vy)
+    if t >= T_BAD:                                                      # detail 8: a heart container breaks by his card
+        u = t - T_BAD
+        if u < 2.2:
+            k = min(1, u / .15) * (1 - max(0, (u - 1.8) / .4))
+            hx, hy = 412 + (6 * math.sin(u * 60) if u < .45 else 0), 150
+            g = Image.new('RGBA', (W, H)); gd = ImageDraw.Draw(g)
+            full = u < .45 and int(u * 12) % 2 == 0
+            hud._heart(gd, hx, hy, 26, (232, 44, 52, int(255 * k)) if full else (44, 34, 48, int(235 * k)))
+            if u >= .45:                                                # cracked and empty
+                gd.line((hx - 4, hy - 18, hx + 4, hy - 6, hx - 3, hy + 4, hx + 3, hy + 14), fill=(255, 255, 255, int(220 * k)), width=3)
+            fr = Image.alpha_composite(fr.convert('RGBA'), g).convert('RGB')
     if t >= T_BAD:                                                      # the very bad decision: a red pulse
         r = max(0, 1 - (t - T('l69.w18')) / .6) if t >= T('l69.w18') else .4
         fr = Image.blend(fr, Image.new('RGB', fr.size, (160, 10, 20)), .35 * r)
@@ -559,7 +574,7 @@ def render(t):
     if hud_a > 0:
         fr = hud.draw(fr, hearts=HEARTS, t=t, alpha=hud_a)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v12 · PLANNING ONLY')
+    tag(d, f'SEQ 15 TWO AUDIENCES · {lab} · BLOCK I v13 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -569,7 +584,7 @@ STILLS = (('i1', T_ONE + .6), ('i2', T_TWO + .9), ('i3', T_ALL + .3), ('i4', T_O
 
 
 def main():
-    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v12.mp4'
+    out = ROOT / 'docs/ep002/EP002_blockI_animatic_v13.mp4'
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -579,14 +594,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(ROOT / f'docs/ep002/blockI_v12_{name}.jpg', quality=85)
+        render(t).save(ROOT / f'docs/ep002/blockI_v13_{name}.jpg', quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(ROOT / f'docs/ep002/blockI_v12_{name}.jpg', quality=85)
+            render(t).save(ROOT / f'docs/ep002/blockI_v13_{name}.jpg', quality=85)
         print('stills')
     else:
         main()

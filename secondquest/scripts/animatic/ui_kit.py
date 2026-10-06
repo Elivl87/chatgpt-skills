@@ -326,7 +326,7 @@ def wood_sign_1998(text, h_px=150, fog=(205, 215, 225), fog_k=.14):
     return out
 
 
-def area_title(text, retro=False, size=46, band=False):
+def area_title(text, retro=False, size=46, band=False, rules=True):
     """An area name card, as a game shows when you enter a place: the name between two thin rules.
     retro=True: 1998 square pixels; False: today's Anton with the channel's gold rule."""
     if retro:
@@ -338,10 +338,10 @@ def area_title(text, retro=False, size=46, band=False):
         w = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 8
         lab = Image.new('RGBA', (w, int(size * 1.45))); ImageDraw.Draw(lab).text((4, 0), text, font=f, fill=WHITE + (255,))
         sh = Image.new('RGBA', lab.size); ImageDraw.Draw(sh).text((4, 0), text, font=f, fill=INK + (255,))
-    rule = int(min(lab.width * .9, 110 + size))                         # short rules: the card must not cross the frame
+    rule = int(min(lab.width * .9, 110 + size)) if rules else 0         # short rules: the card must not cross the frame
     g = Image.new('RGBA', (lab.width + 2 * rule + 40, lab.height + 12)); d = ImageDraw.Draw(g)
     y = g.height / 2
-    for x0, x1 in ((0, rule), (g.width - rule, g.width)):
+    for x0, x1 in (((0, rule), (g.width - rule, g.width)) if rules else ()):
         if retro:
             for xx in range(int(x0), int(x1), 8):                       # a dotted rule in square pixels
                 d.rectangle((xx, y - 2, xx + 4, y + 2), fill=(255, 236, 190, 220))
@@ -369,4 +369,91 @@ def era_tag(text, retro=False, size=26):
         lab = Image.new('RGBA', (w, int(size * 1.35))); ImageDraw.Draw(lab).text((3, -size * .08), text, font=f, fill=WHITE + (255,))
     g = sq_box(lab.width + int(size * 1.1), lab.height + int(size * .6), r=int(size * .4))
     g.alpha_composite(lab, (8 + int(size * .55), 8 + int(size * .3)))
+    return g
+
+
+def signpost_compact(lines, h_px=160):
+    """A short signpost with the words stacked on a small plank pointing ahead (up the road): 'SAME' / 'ROAD'. Narrow,
+    so it stands on the verge without reaching the people on the road."""
+    s = h_px / 160
+    f = anton(int(28 * s))
+    d0 = ImageDraw.Draw(Image.new('RGB', (1, 1)))
+    tw = max(d0.textlength(t, font=f) for t in lines)
+    lh = int(30 * s)
+    pw, ph = int(tw + 30 * s), int(lh * len(lines) + 14 * s)
+    tip = int(18 * s)
+    W_, H_ = pw + 20, h_px + tip + 10
+    g = Image.new('RGBA', (W_, H_)); d = ImageDraw.Draw(g)
+    cx = W_ / 2
+    d.rectangle((cx - 6 * s, tip + ph * .5, cx + 6 * s, H_ - 2), fill=WOOD_D + (255,), outline=(40, 26, 16, 255), width=2)
+    x0, y0 = (W_ - pw) / 2, tip + 2
+    poly = [(x0, y0), (cx, y0 - tip), (x0 + pw, y0), (x0 + pw, y0 + ph), (x0, y0 + ph)]   # the plank, its point up the road
+    d.polygon(poly, fill=WOOD + (255,))
+    d.line(poly + [poly[0]], fill=(40, 26, 16, 255), width=3)
+    _grain(d, (x0, y0, x0 + pw, y0 + ph), WOOD, n=3, seed=9)
+    for i, t in enumerate(lines):
+        _carve(d, (cx - d.textlength(t, font=f) / 2, y0 + 5 * s + i * lh), t, f)
+    for k in (.3, .5, .7):                                              # grass tufts at its foot
+        bx = cx + (k - .5) * 40 * s
+        d.line((bx, H_ - 2, bx - 5 * s, H_ - 15 * s), fill=(70, 120, 50, 255), width=3)
+        d.line((bx, H_ - 2, bx + 4 * s, H_ - 12 * s), fill=(90, 140, 60, 255), width=3)
+    return g
+
+
+_AREA_CACHE = {}
+
+
+def area_enter(fr, t, t0, name, dur=2.4, y=.12):  # y: the card's top, as a fraction of the height
+    """The first time we enter a place: its name card fades in under the HUD, holds, rises a touch and fades
+    (Producer, 2026-10-06, video-game detail 1). Generic names only (no game's place names)."""
+    u = t - t0
+    if u < 0 or u > dur:
+        return fr
+    if name not in _AREA_CACHE:
+        _AREA_CACHE[name] = area_title(name, size=40, band=True)
+    g = _AREA_CACHE[name]
+    k = min(1, u / .4) * min(1, (dur - u) / .5)
+    W_, H_ = fr.size
+    out = fr.convert('RGBA')
+    out.alpha_composite(fade(g, k), (int(W_ / 2 - g.width / 2), int(H_ * y - 6 * max(0, u - (dur - .5)) / .5)))
+    return out.convert('RGB')
+
+
+def lockon(fr, cx, cy, w, h, k, t=0.0):
+    """Our lock-on: four gold arrowheads close in on the corners of what Bram is talking about, then breathe
+    (Producer, 2026-10-06, video-game detail 3). k: 0 -> 1 as it locks; nothing is drawn at k <= 0."""
+    if k <= 0:
+        return fr
+    e = 1 - (1 - min(1, k)) ** 3                                        # fast in, soft landing
+    sc = 1.7 - .7 * e + (.03 * math.sin(t * 5) if k >= 1 else 0)
+    a = int(255 * min(1, k * 2))
+    out = fr.convert('RGBA'); lay = Image.new('RGBA', out.size); d = ImageDraw.Draw(lay)
+    s = max(18, min(w, h) * .09)
+    for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
+        px, py = cx + sx * w / 2 * sc, cy + sy * h / 2 * sc
+        tip = (px - sx * s * .2, py - sy * s * .2)                      # points in, towards the centre
+        b1 = (px + sx * s * 1.1, py + sy * s * .25)
+        b2 = (px + sx * s * .25, py + sy * s * 1.1)
+        d.polygon([(tip[0] + 2, tip[1] + 3), (b1[0] + 2, b1[1] + 3), (b2[0] + 2, b2[1] + 3)], fill=INK + (int(a * .6),))
+        d.polygon([tip, b1, b2], fill=GOLD + (a,), outline=INK + (a,))
+    out.alpha_composite(lay)
+    return out.convert('RGB')
+
+
+def choice_box(question, options, cursor, chosen=None, t=0.0, w=430):
+    """A game prompt with options and a cursor (Producer, 2026-10-06, video-game detail 4). cursor: the option index
+    the cursor is on (a float slides it between two); chosen: the picked index (it flashes)."""
+    h = 64 + 46 * len(options)
+    g = sq_box(w, h); d = ImageDraw.Draw(g)
+    d.text((8 + 28, 8 + 16), question, font=inter(24), fill=WHITE + (255,))
+    for i, opt in enumerate(options):
+        y = 8 + 60 + i * 44
+        lit = chosen == i and int(t * 10) % 2 == 0
+        col = GOLD if (chosen == i) else (225, 228, 240)
+        if lit:
+            d.rounded_rectangle((8 + 50, y - 4, 8 + w - 30, y + 34), 8, fill=GOLD + (60,))
+        d.text((8 + 70, y), opt, font=inter(26), fill=col + (255,))
+    cy = 8 + 60 + cursor * 44 + 15
+    cx = 8 + 44 + 3 * math.sin(t * 8)                                   # the cursor: a gold triangle that bobs
+    d.polygon([(cx, cy - 10), (cx + 14, cy), (cx, cy + 10)], fill=GOLD + (255,), outline=INK + (255,))
     return g
