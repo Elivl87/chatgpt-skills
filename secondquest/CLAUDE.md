@@ -16,6 +16,13 @@
   - A background that returns later in the video is fine.
   - Camera moves are used only where the script calls for them, for dynamism. Not every shot moves.
   - The engine enforces this with a `CAMERA_JUMP` error (`src/engine/cameraContinuity.ts`) that blocks the render.
+- **Animatic resolution (Producer rule, 2026-10-06):** the animatic is the production tool for every video (not only
+  EP002). One design, the size picked at export with `QUALITY`:
+  - blocks sent while we work: `draft` (854x480, the default, fastest); full animatic for review: `review` (1280x720);
+  - the YouTube upload: `final` (2560x1440; `final1080` for 1080p), only with the Producer's approval.
+  - Every block script is written in 1280x720 design units: on-screen measures go through `S()`/`Si()`, plate-pixel
+    values through `P()`, fonts through `F()`. Check with `scripts/animatic/scale_check.py` before sending.
+    Details: `scripts/animatic/README.md` ("Resolución y calidad").
 - **Framing check before sending (Producer rule, 2026-10-03):** always verify sizes, centring and that everything
   important sits inside the viewer's frame (nothing cut, no prop or person held half out of frame, key items inside
   title-safe). Run `python3 scripts/animatic/framing_qc.py <block script>` and look at the sheet before sending any block;
