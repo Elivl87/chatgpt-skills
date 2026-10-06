@@ -536,3 +536,8 @@
   #17+18 (white and lilac, gold trim, short lilac hooded cape), hands clasped, a calm kind smile. Triforce WISDOM plate
   = #2g; the three plates are now the villain (POWER), Pixie the princess (WISDOM), Quest the hero (COURAGE), the royal
   crest in the centre. Blocks B v11 and I v11 (with the villain) re-rendered.
+- Spanish review subtitles (Producer: "Quiero el animatic completo con subtítulos en español"): translation
+  `docs/publish/EP002/script_es.json` (neutral Latin American, the game's Spanish names: Trifuerza, Espada Maestra, Gran
+  Árbol Deku, Campo de Hyrule); `SUB_LANG=es` makes `lib.subtitle` spread each Spanish line over Bram's word timings.
+  The whole animatic is re-rendered in a separate worktree (English clips untouched) -> EP002_animatic_full_v4_es(_light).
+  On-screen graphics (tags, stamps, labels such as SAME ROAD) stay in English for now. Villain name: pending.
