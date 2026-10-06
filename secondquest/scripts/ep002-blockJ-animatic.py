@@ -56,6 +56,7 @@ INK = (20, 14, 18, 255)
 GOLD, BLUE = (232, 196, 90), (120, 200, 255)
 P2 = BI.P2
 P2_T = final('pixie_tunic_wave')                                      # final art #2c: Pixie in her hero tunic, waving
+BI.FACE[id(P2_T)] = .135                                               # its face width (fraction of the art's height), as #2a in block I's cards
 P2_AWE = final('pixie_tunic_awe')                                     # #2d: looking up in awe
 P2_HMM = final('pixie_tunic_think')                                   # #2e: hand at the chin
 PIX_TAG = ''                                                          # (was the MISSING tag of the recoloured stand-in)

@@ -487,3 +487,12 @@
   goes into the animatic block scripts only (no engine). `scripts/animatic/lib.py` gains `final(key)` / `final_plate(key)`
   (3D shield and banner crest composited at load, #9 = #3 mirrored, the generator's faint alpha haze dropped at load;
   the files are untouched). The own 3D castle is retinted to the plates' look (white walls, slate-blue spires).
+- Full animatic v2 (`docs/ep002/EP002_animatic_full_v2.mp4`, 6:52.5; light copy `_light.mp4`; overview
+  `EP002_full_animatic_v2_sheet.jpg`): the final art in every block (B v8, C v6, D v6, E v6, F-B v7, G v6, H v8, I v6,
+  J v4, K v3, L v4, M v3, N v8, O v5, P v3, Q v2, R v5, S-A v4, T v4, U v3), all re-rendered in dependency order after
+  the parallel edits, framing QC on each. Pending Producer calls: H night scene in adult room #15 (default) or the
+  childhood room (`H4_ROOM=child`); K uses adult #4 (docs said #3); B "You." uses adult #4; N right after the pull has
+  no gear by rule, but #4 has it baked in (stand-in #3 scaled + MISSING label; options: a gear-less adult back ~0.5
+  credit, or accept #4); F-B meter panel now covers the plate's castle; U: Pixie's turn on "Maybe" becomes a warm light
+  swell (she is already turned in the final illustration); I: Pixie smaller on the NEW PLAYER card (face ratio 0.9);
+  M: "Distance mattered" now runs to the far waterfall. Villain #8 still MISSING (last, as decided).
