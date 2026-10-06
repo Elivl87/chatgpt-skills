@@ -217,3 +217,65 @@ def marker(text, size=18, paper=False):
     d.rounded_rectangle((2, 2, pw + 2, ph + 2), int(size * .3), fill=(PAPER if paper else GOLD) + (255,), outline=INK + (255,), width=max(2, int(size * .1)))
     spaced(d, (2 + size * .7, 2 + size * .38), text.upper(), f, INK + (255,), tr)
     return g
+
+
+# ------------------------------------------------------------------ the 1998 versions (R1, Producer 2026-10-06: the sharp
+# wooden sign did not belong in the blocky 1998 half)
+def _retro_text(text, px_h, fill, scale=4):
+    """Text as a 1998 game drew it: rasterised small without anti-aliasing, then blown up in square pixels."""
+    f = anton(max(6, px_h // scale))
+    d0 = ImageDraw.Draw(Image.new('RGB', (1, 1)))
+    w = int(d0.textlength(text, font=f)) + 4
+    small = Image.new('RGBA', (w, f.size + 6)); d = ImageDraw.Draw(small)
+    d.fontmode = '1'
+    d.text((2, 0), text, font=f, fill=fill + (255,))
+    return small.resize((small.width * scale, small.height * scale), Image.NEAREST)
+
+
+def wood_sign_1998(text, h_px=150, fog=(205, 215, 225), fog_k=.14):
+    """The same sign as a 1998 game would have modelled it: two flat-shaded boxes (no grain, no nails), a coarse texture,
+    blocky digits, washed out by the distance fog of the 1998 look."""
+    q = 3                                                               # one texel = 3 screen pixels
+    s = h_px / 150
+    lab = _retro_text(text, int(48 * s), (52, 34, 20), scale=q)
+    pw, ph = lab.width + int(28 * s), int(64 * s)
+    W_, H_ = pw + 8, h_px + 8
+    g = Image.new('RGBA', (W_ // q + 1, H_ // q + 1)); d = ImageDraw.Draw(g)
+    cx = W_ / 2 / q
+    d.rectangle((cx - 2, ph / q * .6, cx + 2, h_px / q), fill=(96, 66, 40, 255))           # the post: one flat colour
+    d.rectangle((4 / q, 4 / q, (4 + pw) / q, (4 + ph) / q), fill=(132, 90, 52, 255))         # the plank, lit face
+    d.rectangle((4 / q, (4 + ph) / q - 2, (4 + pw) / q, (4 + ph) / q), fill=(98, 66, 38, 255))   # its underside
+    g = g.resize((g.width * q, g.height * q), Image.NEAREST)
+    g.alpha_composite(lab, (int(4 + (pw - lab.width) / 2), int(4 + (ph - lab.height) / 2 + 4 * s)))
+    a = g.getchannel('A')
+    fogged = Image.blend(g.convert('RGB'), Image.new('RGB', g.size, fog), fog_k)
+    grey = fogged.convert('L').convert('RGB')
+    out = Image.blend(fogged, grey, .1)                                 # the 1998 look's flatter colour
+    out.putalpha(a)
+    return out
+
+
+def area_title(text, retro=False, size=46):
+    """An area name card, as a game shows when you enter a place: the name between two thin rules.
+    retro=True: 1998 square pixels; False: today's Anton with the channel's gold rule."""
+    if retro:
+        lab = _retro_text(text, size, (255, 236, 190), scale=3)
+        sh = _retro_text(text, size, INK, scale=3)
+    else:
+        f = anton(size)
+        w = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 8
+        lab = Image.new('RGBA', (w, int(size * 1.45))); ImageDraw.Draw(lab).text((4, 0), text, font=f, fill=WHITE + (255,))
+        sh = Image.new('RGBA', lab.size); ImageDraw.Draw(sh).text((4, 0), text, font=f, fill=INK + (255,))
+    rule = int(lab.width * .9)
+    g = Image.new('RGBA', (lab.width + 2 * rule + 40, lab.height + 12)); d = ImageDraw.Draw(g)
+    y = g.height / 2
+    for x0, x1 in ((0, rule), (g.width - rule, g.width)):
+        if retro:
+            for xx in range(int(x0), int(x1), 8):                       # a dotted rule in square pixels
+                d.rectangle((xx, y - 2, xx + 4, y + 2), fill=(255, 236, 190, 220))
+        else:
+            d.line((x0, y + 2, x1, y + 2), fill=INK + (200,), width=4)
+            d.line((x0, y, x1, y), fill=GOLD + (255,), width=3)
+    g.alpha_composite(sh, (rule + 20 + 3, 6 + 4))
+    g.alpha_composite(lab, (rule + 20, 6))
+    return g
