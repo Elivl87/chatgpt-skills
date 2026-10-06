@@ -338,7 +338,7 @@ def area_title(text, retro=False, size=46):
         w = int(ImageDraw.Draw(Image.new('RGB', (1, 1))).textlength(text, font=f)) + 8
         lab = Image.new('RGBA', (w, int(size * 1.45))); ImageDraw.Draw(lab).text((4, 0), text, font=f, fill=WHITE + (255,))
         sh = Image.new('RGBA', lab.size); ImageDraw.Draw(sh).text((4, 0), text, font=f, fill=INK + (255,))
-    rule = int(lab.width * .9)
+    rule = int(min(lab.width * .9, 110 + size))                         # short rules: the card must not cross the frame
     g = Image.new('RGBA', (lab.width + 2 * rule + 40, lab.height + 12)); d = ImageDraw.Draw(g)
     y = g.height / 2
     for x0, x1 in ((0, rule), (g.width - rule, g.width)):
