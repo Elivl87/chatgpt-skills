@@ -114,3 +114,47 @@ Con los dos, el vídeo llega también al público hispano, y los subtítulos exa
 - **Title:** Farming Simulator is just… work? 🚜
 - **Description:** "Why do millions of people play a game about going to work? Full episode on the channel." followed by `#FarmingSimulator #FS25 #FarmingSimulator25 #SecondQuest`.
 - **Related video:** EP001.
+
+## 7. Resultados y mejora para el siguiente episodio (revisado el 2026-10-07)
+
+Fuente: YouTube Studio, del 2 al 6 de octubre de 2026 (capturas del Producer). Los porcentajes de retención están leídos a ojo del gráfico y son aproximados.
+
+| Métrica | Valor |
+|---|---|
+| Visualizaciones | 593 |
+| Impresiones de la miniatura | 2.735 |
+| CTR de impresiones | 3,5 % |
+| Duración media | 1:48 (de 9:46) |
+| Porcentaje medio visto | 18,6 % |
+| Tiempo de visualización | 3,7 h |
+| Suscriptores | 0 |
+
+**Curva de visualizaciones:** casi plana el día 0; sube entre el día 1 y el 3,5 (el Short salió el día 1); se aplana en unas 590 desde el día 4.
+
+**Tráfico:** 2.735 × 3,5 % ≈ 96 visualizaciones salen de la miniatura. Las otras ~500 vienen de otras fuentes; falta confirmarlo en *Alcance → Fuentes de tráfico*.
+
+**Retención de la audiencia:**
+
+| Momento | Siguen viendo | En el video |
+|---|---|---|
+| 0:00 | 100 % | Quest dormido: "Farming Simulator is a game where you wake up…" |
+| ~0:12 | ~80 % | "…the thing video games were invented to help us escape from." |
+| 0:15–0:25 | cae a ~45 % | "There are no dragons. No gunfights. No princess to save…" |
+| 0:30 | ~40 % | |
+| 1:10 | ~27 % | |
+| 3:15 | ~20 % | |
+| 5:00 | ~12 % | Primera vez que salen los tractores ("Tractors are cool", 5:07) |
+| 9:46 | ~12–15 % | Pequeña subida en la pantalla final |
+
+Después del primer minuto la curva baja suave: el cuerpo del episodio funciona y el problema está en la entrada.
+
+**Causas probables:**
+1. **Promesa de la miniatura incumplida:** la miniatura 3 dice "$500,000 TRACTOR", pero el video nunca da esa cifra y los tractores no aparecen hasta el 5:01.
+2. **Intro lenta:** empieza con Quest durmiendo y una lista de lo que el juego *no* tiene. La pregunta real ("why do millions…") no llega hasta ~0:25.
+3. **Por confirmar, el idioma:** la narración está en inglés y la descripción en español. Hay que mirar *Audiencia → Geografía* y las fuentes de tráfico.
+
+**La mejora para EP002 (regla "mejora algo cada vez"):** arreglar los primeros 30 segundos.
+- Lo más llamativo, y lo que muestre la miniatura, aparece en los primeros 5 segundos.
+- La pregunta del episodio se plantea antes del segundo 10.
+- La miniatura no promete nada que el video no cumpla, y lo cumple pronto.
+- **Objetivo medible:** más del 60 % de retención a los 30 segundos (EP001: ~40 %).
