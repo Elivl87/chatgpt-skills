@@ -82,11 +82,17 @@ def place(bg, fig, x, h, bottom=TH, shadow=True, rim=None):
     y = bottom - fig.height
     out = bg.convert('RGBA')
     if rim:
-        r = Image.new('RGBA', fig.size, rim + (0,)); r.putalpha(fig.getchannel('A').filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.GaussianBlur(16)))
-        out.alpha_composite(r, (int(x), int(y)))
+        pad = 60                                                        # room for the glow: unclipped, no box edge
+        m = Image.new('L', (fig.width + 2 * pad, fig.height + 2 * pad)); m.paste(fig.getchannel('A'), (pad, pad))
+        r = Image.new('RGBA', m.size, rim + (0,)); r.putalpha(m.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.GaussianBlur(16)))
+        lay = Image.new('RGBA', out.size); lay.paste(r, (int(x) - pad, int(y) - pad), r)
+        out.alpha_composite(lay)
     if shadow:
-        s = Image.new('RGBA', fig.size, INK + (0,)); s.putalpha(fig.getchannel('A').point(lambda v: int(v * .55)).filter(ImageFilter.GaussianBlur(14)))
-        out.alpha_composite(s, (int(x) + 14, int(y) + 10))
+        pad = 50
+        m = Image.new('L', (fig.width + 2 * pad, fig.height + 2 * pad)); m.paste(fig.getchannel('A').point(lambda v: int(v * .55)), (pad, pad))
+        s = Image.new('RGBA', m.size, INK + (0,)); s.putalpha(m.filter(ImageFilter.GaussianBlur(14)))
+        sh = Image.new('RGBA', out.size); sh.paste(s, (int(x) + 14 - pad, int(y) + 10 - pad), s)
+        out.alpha_composite(sh)
     out.alpha_composite(fig, (int(x), int(y)))
     return out.convert('RGB')
 

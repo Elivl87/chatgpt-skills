@@ -20,6 +20,9 @@ K = importlib.util.module_from_spec(_sp); _sp.loader.exec_module(K)
 ROOT, TW, TH, YELLOW, WHITE, INK = K.ROOT, K.TW, K.TH, K.YELLOW, K.WHITE, K.INK
 OUT = ROOT / 'docs/publish/EP002/thumbnails/v2'
 SWORD = ROOT / 'public/art/ep002/props3d/sword_spin/f000.png'                     # our 3D sword
+Q_TODAY = ROOT / 'public/art/core/quest/gaming_excited.png'                   # today: red hoodie, pad in hand, facing us
+Q_YOUNG = ROOT / 'docs/art_orders/quest/ep002_costume/03b_young_front_smile.png'   # the child era (tunic)
+Q_ADULT = ROOT / 'docs/art_orders/quest/ep002_costume/01_tunic_veteran.png'        # the adult era (tunic)
 ROOM_TODAY = ROOT / 'docs/art_orders/ep002_final/15_adult_room_night.png'      # Quest's room today, night
 CRT = ROOT / 'public/art/ep002/props3d/crt_front.png'                          # our 3D CRT, screen keyed green
 
@@ -102,6 +105,33 @@ def option1b(words):
     return K.words(bg, words, (560, 18, 1255, 250), align='right')
 
 
+def _clean(im):
+    """Drop the faint background alpha some cut-outs carry (it shows as a pale box under a rim glow)."""
+    a = im.getchannel('A')
+    core = a.point(lambda v: 255 if v > 160 else 0).filter(ImageFilter.MaxFilter(5))          # the figure, a hair wider
+    im = im.copy(); im.putalpha(Image.fromarray(np.minimum(np.asarray(a), np.asarray(core)))); return im
+
+
+def option1c(words):
+    """1c · Producer's layout (2026-10-07): Quest today in the centre, facing us with the pad in his hands; the child
+    Quest on one side, the adult Quest on the other (the game's two eras); the three anchors, ticked as rebuilt."""
+    bg = K.grade(K.cover(K.FIELD, focus=(.6, .42), zoom=1.15), sat=1.3, con=1.12)
+    bg = Image.blend(bg, Image.new('RGB', bg.size, (255, 170, 80)), .10)
+    bg = K.glow(bg, 640, 470, 360, (255, 240, 200), .55)
+    tri = Image.new('RGBA', Image.open(K.TRI_PLATES[0]).size)
+    for p in K.TRI_PLATES:
+        tri.alpha_composite(Image.open(p).convert('RGBA'))
+    for src, cx, cy, w, ang in ((K.OCARINA, 345, 225, 170, 18), (SWORD, 640, 205, 64, -90), (tri, 870, 225, 165, 0)):
+        bg = K.glow(bg, cx, cy, 110, (255, 250, 220), .5)
+        bg = K.prop(bg, src, cx, cy, w, ang=ang)
+    d = ImageDraw.Draw(bg)
+    for cx, cy in ((405, 285), (790, 235), (930, 290)):
+        check_badge(d, cx, cy, 24)
+    bg = K.place(bg, _clean(K.cutout(Q_YOUNG)), 30, 400, rim=(255, 240, 200))                     # the child, small, left
+    bg = K.place(bg, _clean(K.cutout(Q_ADULT, flip=True)), 1280 - 360, 680, bottom=TH + 60, rim=(255, 240, 200))   # the adult, tall, right
+    bg = K.place(bg, _clean(K.cutout(Q_TODAY, 0, .62)), 345, 460, rim=(255, 240, 200))            # today, centre, big
+    return K.words(bg, words, (300, 6, 980, 130), align='center')
+
 def option2(words):
     """2 · The kid with his pad, all joy; the same field and castle, half 1998 pixels, half today."""
     hd = K.grade(K.cover(K.FIELD, focus=(.6, .45), zoom=1.25), sat=1.3, con=1.12)
@@ -118,6 +148,7 @@ def option2(words):
 
 
 SETS = {
+    '1c': (option1c, [('EXCEPT_YOU', [('EXCEPT YOU', YELLOW, 1.0)])]),
     '1b': (option1b, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)])]),
     '1': (option1, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)]),
                     ('NOT_YOU', [('NOT', WHITE, .7), ('YOU.', YELLOW, 1.0)]),
