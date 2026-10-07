@@ -1,7 +1,11 @@
 # SecondQuest EP002: paquete de publicación de YouTube
 
-**Vídeo:** `EP002_animatic_full_v6_1440p.mp4`, 2560x1440, 6:52.5. Está en la Release borrador
-`deliver-ep002-animatic-v6-2k`, que se borra sola a los 7 días.
+**Descargas** (Releases borrador de GitHub: inicia sesión como Elivl87; se borran solas a los 7 días):
+- Vídeo v7 2K (HUD corregido): https://github.com/Elivl87/chatgpt-skills/releases/download/untagged-f7725ea1da2ff3cdd5d6/EP002_animatic_full_v7_1440p.mp4
+- Miniaturas, subtítulos, Short y esta guía: Release `deliver-ep002-publish-pack`.
+
+**Vídeo:** `EP002_animatic_full_v7_1440p.mp4`, 2560x1440, 6:52.5. Está en la Release borrador
+`deliver-ep002-animatic-v7-2k`, que se borra sola a los 7 días.
 
 **Archivos de este paquete** (`docs/publish/EP002/`):
 - `EP002_subtitles_en.srt`: subtítulos en inglés, 164 bloques, el guion tal cual.
@@ -134,9 +138,9 @@ Los tiempos vienen de las marcas palabra a palabra de la voz de Bram y cuadran c
 | Pantalla final | Suscribirse + vídeo recomendado (EP001), de **6:43 a 6:52**. Es el bloque U: el último plano está limpio y deja sitio |
 | Test & Compare | Títulos A/B y las 3 miniaturas, en cuanto esté disponible |
 
-## 8. Short tráiler S1 (aprobado, v11)
+## 8. Short tráiler S1 (aprobado, v12: HUD corregido)
 
-**Archivo:** `short1/EP002_short1_trailer_v11.mp4`. Formato vertical 1080x1920, 22,65 s, subtítulos en inglés grabados en la imagen.
+**Archivo:** `short1/EP002_short1_trailer_v12.mp4`. Formato vertical 1080x1920, 22,65 s, subtítulos en inglés grabados en la imagen.
 
 **Contenido, en orden:**
 1. "…cannot rebuild… You."
