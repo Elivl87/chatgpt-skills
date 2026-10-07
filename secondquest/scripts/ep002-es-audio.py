@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""EP002 Spanish dub, step 3: the Spanish audio track for YouTube (multi-language audio), same length as the video.
+"""EP002 Spanish dub, step 3 (v2): the Spanish audio track for YouTube (multi-language audio), same length as the video.
 
   python3 scripts/ep002-es-audio.py       # -> audio/bram/ep002_es/EP002_audio_es.wav (+ .m4a) and a QC report
 
-Bram's Spanish lines (lines.json, cut from the takes) are placed on the video's timeline where their English lines
-are (schedule.json, narration time -> video time through blocks_map.json: each block clip plays narration
-[T0, T0 + clip length] from its own start in the video), sped up only where the schedule says (atempo, pitch kept).
+Bram's Spanish segments (segments.json: cut from the takes only inside real pauses) are placed one after another on
+the video's timeline where schedule.json says (narration time -> video time through blocks_map.json: each block clip
+plays narration [T0, T0 + clip length] from its own start in the video). They never overlap; where the schedule
+speeds a segment up it is done with rubberband (formants kept, made for speech), and the short fades at each end fall
+inside silence, so no word is ever clipped.
 The episode's own sounds go back in exactly as mixed in English: the cartridge click and Navi's entrance (seq 01,
 with its 0.25 s fade at the cut) and Navi's trail in block U. The Spanish voice is matched to the English voice's
 loudness. As a check the same code rebuilds the ENGLISH track from narration.wav and compares it with the video's
@@ -21,7 +23,6 @@ D = ROOT / 'audio/bram/ep002_es'
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SR = 48000
 VIDEO = ROOT / 'docs/ep002/EP002_animatic_full_v8_1440p.mp4'
-L = json.loads((D / 'lines.json').read_text())
 S = json.loads((D / 'schedule.json').read_text())
 M = json.loads((D / 'blocks_map.json').read_text())
 CART = json.loads((D / 'sfx_cart.json').read_text())
@@ -37,7 +38,7 @@ def load(path, start=None, dur=None, tempo=1.0):
         args += ['-t', f'{dur:.3f}']
     args += ['-i', str(path), '-ac', '1', '-ar', str(SR)]
     if abs(tempo - 1) > 1e-4:
-        args += ['-af', f'atempo={tempo:.4f}']
+        args += ['-af', f'rubberband=tempo={tempo:.4f}:transients=mixed:formant=preserved:pitchq=quality:window=standard']
     args += ['-f', 'f32le', '-']
     return np.frombuffer(subprocess.run(args, capture_output=True, check=True).stdout, np.float32).copy()
 
@@ -57,7 +58,7 @@ def add(track, clip, at):
         track[i:i + n] += clip[:n]
 
 
-def fades(x, ms=12):
+def fades(x, ms=8):
     n = min(len(x) // 2, int(SR * ms / 1000))
     if n:
         r = np.linspace(0, 1, n, dtype=np.float32); x[:n] *= r; x[-n:] *= r[::-1]
@@ -104,12 +105,20 @@ def main():
     # 2) the Spanish voice on the same timeline
     es = np.zeros(n, np.float32)
     report = []
-    for lid, s in S.items():
-        l = L[lid]
-        clip = fades(load(D / l['take'], l['start'], l['end'] - l['start'], s['tempo']))
-        at = to_video(s['at'])
+    prev_end = -1.0
+    last_of_take = {x['take']: x for x in S}
+    for s in S:
+        clip = load(D / s['take'], s['start'], s['end'] - s['start'], s['tempo'])
+        if s is last_of_take[s['take']] and rms_db(clip[-int(.03 * SR):]) > rms_db(clip) - 22:
+            # a few takes stop while the last vowel still sounds (B06 "reconoce."): let it die away, not click off
+            k = int(.09 * SR); clip[-k:] *= (.5 + .5 * np.cos(np.linspace(0, np.pi, k))).astype(np.float32)
+        clip = fades(clip)
+        # a block cut in the video drops a few ms of narration time, so a segment that followed the previous one
+        # with no gap could land a few ms over it: keep it right after (the take stays continuous), never over
+        at = max(to_video(s['at']), prev_end)
         add(es, clip, at)
-        report.append((lid, round(float(at), 2), s['tempo'], s['lag']))
+        prev_end = at + len(clip) / SR
+        report.append({'lines': s['lines'], 'at': round(float(at), 3), 'end': round(prev_end, 3), 'tempo': s['tempo'], 'lags': s['lags']})
     gain = 10 ** ((rms_db(en) - rms_db(es)) / 20)                   # Spanish Bram at the English Bram's level
     es *= gain
     out = es + sfx; cart_fade(out)
@@ -125,7 +134,7 @@ def main():
     subprocess.run([FF, '-v', 'error', '-y', '-i', str(VIDEO), '-i', str(wav), '-map', '0:v', '-map', '1:a', '-vf', 'scale=854:480',
                     '-c:v', 'libx264', '-crf', '30', '-preset', 'veryfast', '-c:a', 'aac', '-b:a', '128k', '-shortest', str(prev)], check=True)
     (D / 'QC.json').write_text(json.dumps({'en_rebuild_correlation': corr, 'voice_gain_db': float(20 * np.log10(gain)), 'peak': float(peak),
-                                            'duration_s': n / SR, 'video_duration_s': n / SR, 'lines': report}, indent=1))
+                                            'duration_s': n / SR, 'video_duration_s': n / SR, 'segments': report}, indent=1, ensure_ascii=False))
     print(f'{wav.relative_to(ROOT)} · {n / SR:.2f} s (video {n / SR:.2f} s) · voice gain {20 * np.log10(gain):+.1f} dB · peak {peak:.2f}')
 
 

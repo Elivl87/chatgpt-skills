@@ -1,0 +1,5617 @@
+{
+ "match_ratio": 0.9902,
+ "script_words": 1121,
+ "heard_words": 1121,
+ "overlaps": [],
+ "issues": [
+  {
+   "at": 40.54,
+   "op": "replace",
+   "script": "adonde",
+   "heard": "donde"
+  },
+  {
+   "at": 186.04,
+   "op": "replace",
+   "script": "dos",
+   "heard": "2"
+  },
+  {
+   "at": 187.22,
+   "op": "replace",
+   "script": "dos",
+   "heard": "2"
+  },
+  {
+   "at": 196.66,
+   "op": "replace",
+   "script": "hyrule",
+   "heard": "giroole"
+  },
+  {
+   "at": 199.98,
+   "op": "replace",
+   "script": "veintiocho",
+   "heard": "28"
+  },
+  {
+   "at": 217.2,
+   "op": "replace",
+   "script": "hyrule",
+   "heard": "giroole"
+  },
+  {
+   "at": 219.1,
+   "op": "replace",
+   "script": "hyrule",
+   "heard": "giroole"
+  },
+  {
+   "at": 268.58,
+   "op": "replace",
+   "script": "hyrule",
+   "heard": "irule"
+  },
+  {
+   "at": 361.24,
+   "op": "delete",
+   "script": "reconoce",
+   "heard": ""
+  },
+  {
+   "at": 382.36,
+   "op": "replace",
+   "script": "porque",
+   "heard": "por que"
+  },
+  {
+   "at": 395.26,
+   "op": "replace",
+   "script": "quiza",
+   "heard": "quizas"
+  }
+ ],
+ "windows": [
+  {
+   "window": "0:58-1:00",
+   "heard": "sensaciones. Y"
+  },
+  {
+   "window": "1:56-1:58",
+   "heard": "mejor animación, mejor sonido,"
+  },
+  {
+   "window": "2:36-2:39",
+   "heard": "sin hacer que la gente se pregunte dónde quedó su juego. Y Nintendo tiene"
+  },
+  {
+   "window": "3:35-3:50",
+   "heard": "como un descubrimiento. Una persona está mirando Giroole, la otra está buscando el Giroole que tiene en la cabeza. Y de alguna manera, Nintendo tiene que construir los dos. El remake más seguro imaginable cambiaría casi nada. Texturas más nítidas, mejor resolución,"
+  },
+  {
+   "window": "4:00-4:08",
+   "heard": "familiar. Fue importante porque se sintió nuevo. Un mundo que la gente entendía en dos dimensiones, de repente se convirtió en un lugar en el que podías estar."
+  },
+  {
+   "window": "4:15-4:22",
+   "heard": "importaba. Eras un niño, y luego dejaste de serlo. Desapareciste, y el mundo cambió sin ti. Eso no es"
+  },
+  {
+   "window": "4:35-4:45",
+   "heard": "tal vez negarse a cambiar cualquier cosa sí lo sería, Porque el objetivo no debería ser preservar cada limitación de 1998. El objetivo debería ser entender qué te hicieron"
+  },
+  {
+   "window": "5:10-5:30",
+   "heard": "El bosque sigue ahí. La ocarina sigue ahí. La Master Sword sigue esperando. La trifuerza todavía significa sabiduría, poder y valor. Pero la persona que sostiene el control es diferente. Y para este juego en particular, eso es casi demasiado perfecto. Una historia"
+  },
+  {
+   "window": "5:45-6:00",
+   "heard": "versiones de sí mismo. El mismo camino. Otra persona. Y quizá eso sea lo que realmente queremos, no recuperar el juego viejo, sino tener la oportunidad de pararnos junto a un recuerdo antiguo y ver si todavía nos"
+  },
+  {
+   "window": "6:00-6:20",
+   "heard": "Entonces, ¿se puede rehacer un recuerdo? Probablemente no. Nintendo no puede reconstruir la habitación en la que estabas sentado, no puede recrear el televisor la tarde de sábado, el amigo sentado a tu lado, ni la versión exacta de ti que entró a Hyrule por primera vez. Pero sí puede reconstruir Hyrule."
+  },
+  {
+   "window": "6:25-6:52",
+   "heard": "dejar que dos momentos distintos se encuentren, el juego que recuerdas y la persona en la que te convertiste. No puedes volver a jugar Ocarina of Time por primera vez, pero quizás sí puedas volver a encontrarte con él y esta vez los dos crecieron. Entonces, ¿a qué juego volverías? ¿Y qué juego merece ser nuestro próximo? ¿Por qué? Dímelo en los comentarios. Tal vez esa sea nuestra próxima Quest."
+  }
+ ],
+ "words": [
+  {
+   "w": "En",
+   "start": 0.0,
+   "end": 0.0
+  },
+  {
+   "w": "1998,",
+   "start": 0.0,
+   "end": 1.22
+  },
+  {
+   "w": "Ocarina",
+   "start": 1.5,
+   "end": 1.78
+  },
+  {
+   "w": "of",
+   "start": 1.78,
+   "end": 2.02
+  },
+  {
+   "w": "Time",
+   "start": 2.02,
+   "end": 2.16
+  },
+  {
+   "w": "te",
+   "start": 2.16,
+   "end": 2.4
+  },
+  {
+   "w": "pidió",
+   "start": 2.4,
+   "end": 2.64
+  },
+  {
+   "w": "salvar",
+   "start": 2.64,
+   "end": 2.96
+  },
+  {
+   "w": "Hyrule.",
+   "start": 2.96,
+   "end": 3.52
+  },
+  {
+   "w": "Casi",
+   "start": 3.74,
+   "end": 4.12
+  },
+  {
+   "w": "tres",
+   "start": 4.12,
+   "end": 4.42
+  },
+  {
+   "w": "décadas",
+   "start": 4.42,
+   "end": 4.76
+  },
+  {
+   "w": "después,",
+   "start": 4.76,
+   "end": 5.32
+  },
+  {
+   "w": "Nintendo",
+   "start": 5.68,
+   "end": 5.92
+  },
+  {
+   "w": "te",
+   "start": 5.92,
+   "end": 6.18
+  },
+  {
+   "w": "está",
+   "start": 6.18,
+   "end": 6.3
+  },
+  {
+   "w": "pidiendo",
+   "start": 6.3,
+   "end": 6.74
+  },
+  {
+   "w": "que",
+   "start": 6.74,
+   "end": 6.96
+  },
+  {
+   "w": "vuelvas.",
+   "start": 6.96,
+   "end": 7.56
+  },
+  {
+   "w": "Gráficos",
+   "start": 7.74,
+   "end": 8.16
+  },
+  {
+   "w": "nuevos,",
+   "start": 8.16,
+   "end": 8.58
+  },
+  {
+   "w": "una",
+   "start": 8.98,
+   "end": 9.16
+  },
+  {
+   "w": "orquesta,",
+   "start": 9.16,
+   "end": 9.74
+  },
+  {
+   "w": "voces,",
+   "start": 10.2,
+   "end": 10.88
+  },
+  {
+   "w": "controles",
+   "start": 11.2,
+   "end": 11.46
+  },
+  {
+   "w": "modernos,",
+   "start": 11.46,
+   "end": 12.22
+  },
+  {
+   "w": "una",
+   "start": 12.42,
+   "end": 12.56
+  },
+  {
+   "w": "cámara",
+   "start": 12.56,
+   "end": 12.84
+  },
+  {
+   "w": "nueva,",
+   "start": 12.84,
+   "end": 13.22
+  },
+  {
+   "w": "la",
+   "start": 13.72,
+   "end": 13.82
+  },
+  {
+   "w": "misma",
+   "start": 13.82,
+   "end": 14.06
+  },
+  {
+   "w": "ocarina,",
+   "start": 14.06,
+   "end": 14.58
+  },
+  {
+   "w": "la",
+   "start": 14.9,
+   "end": 15.0
+  },
+  {
+   "w": "misma",
+   "start": 15.0,
+   "end": 15.24
+  },
+  {
+   "w": "espada,",
+   "start": 15.24,
+   "end": 15.74
+  },
+  {
+   "w": "la",
+   "start": 16.18,
+   "end": 16.34
+  },
+  {
+   "w": "misma",
+   "start": 16.34,
+   "end": 16.64
+  },
+  {
+   "w": "trifuerza.",
+   "start": 16.64,
+   "end": 17.34
+  },
+  {
+   "w": "Pero",
+   "start": 17.56,
+   "end": 17.74
+  },
+  {
+   "w": "hay",
+   "start": 17.74,
+   "end": 17.9
+  },
+  {
+   "w": "una",
+   "start": 17.9,
+   "end": 18.12
+  },
+  {
+   "w": "cosa",
+   "start": 18.12,
+   "end": 18.3
+  },
+  {
+   "w": "que",
+   "start": 18.3,
+   "end": 18.46
+  },
+  {
+   "w": "Nintendo",
+   "start": 18.46,
+   "end": 18.9
+  },
+  {
+   "w": "no",
+   "start": 18.9,
+   "end": 19.28
+  },
+  {
+   "w": "puede",
+   "start": 19.28,
+   "end": 19.52
+  },
+  {
+   "w": "reconstruir",
+   "start": 19.52,
+   "end": 20.2
+  },
+  {
+   "w": "desde",
+   "start": 20.2,
+   "end": 20.46
+  },
+  {
+   "w": "cero,",
+   "start": 20.46,
+   "end": 20.8
+  },
+  {
+   "w": "a",
+   "start": 21.02,
+   "end": 21.26
+  },
+  {
+   "w": "ti.",
+   "start": 21.26,
+   "end": 21.4
+  },
+  {
+   "w": "Y",
+   "start": 21.66,
+   "end": 21.8
+  },
+  {
+   "w": "de",
+   "start": 21.8,
+   "end": 21.96
+  },
+  {
+   "w": "alguna",
+   "start": 21.96,
+   "end": 22.12
+  },
+  {
+   "w": "manera,",
+   "start": 22.12,
+   "end": 22.58
+  },
+  {
+   "w": "quizá",
+   "start": 22.8,
+   "end": 23.08
+  },
+  {
+   "w": "esa",
+   "start": 23.08,
+   "end": 23.3
+  },
+  {
+   "w": "sea",
+   "start": 23.3,
+   "end": 23.46
+  },
+  {
+   "w": "exactamente",
+   "start": 23.46,
+   "end": 24.18
+  },
+  {
+   "w": "la",
+   "start": 24.18,
+   "end": 24.38
+  },
+  {
+   "w": "razón",
+   "start": 24.38,
+   "end": 24.6
+  },
+  {
+   "w": "por",
+   "start": 24.6,
+   "end": 24.82
+  },
+  {
+   "w": "la",
+   "start": 24.82,
+   "end": 24.94
+  },
+  {
+   "w": "que",
+   "start": 24.94,
+   "end": 25.08
+  },
+  {
+   "w": "queremos",
+   "start": 25.08,
+   "end": 25.32
+  },
+  {
+   "w": "volver.",
+   "start": 25.32,
+   "end": 25.78
+  },
+  {
+   "w": "Entonces,",
+   "start": 26.06,
+   "end": 26.52
+  },
+  {
+   "w": "¿por",
+   "start": 26.56,
+   "end": 26.84
+  },
+  {
+   "w": "qué?",
+   "start": 26.84,
+   "end": 27.08
+  },
+  {
+   "w": "Porque",
+   "start": 28.52,
+   "end": 29.0
+  },
+  {
+   "w": "el",
+   "start": 29.0,
+   "end": 29.2
+  },
+  {
+   "w": "Ocarina",
+   "start": 29.2,
+   "end": 29.54
+  },
+  {
+   "w": "of",
+   "start": 29.54,
+   "end": 29.76
+  },
+  {
+   "w": "Time",
+   "start": 29.76,
+   "end": 29.88
+  },
+  {
+   "w": "que",
+   "start": 29.88,
+   "end": 30.04
+  },
+  {
+   "w": "la",
+   "start": 30.04,
+   "end": 30.18
+  },
+  {
+   "w": "gente",
+   "start": 30.18,
+   "end": 30.38
+  },
+  {
+   "w": "recuerda",
+   "start": 30.38,
+   "end": 30.88
+  },
+  {
+   "w": "no",
+   "start": 30.88,
+   "end": 31.1
+  },
+  {
+   "w": "es",
+   "start": 31.1,
+   "end": 31.3
+  },
+  {
+   "w": "exactamente",
+   "start": 31.3,
+   "end": 31.9
+  },
+  {
+   "w": "el",
+   "start": 31.9,
+   "end": 32.06
+  },
+  {
+   "w": "juego",
+   "start": 32.06,
+   "end": 32.24
+  },
+  {
+   "w": "que",
+   "start": 32.24,
+   "end": 32.46
+  },
+  {
+   "w": "venía",
+   "start": 32.46,
+   "end": 32.68
+  },
+  {
+   "w": "en",
+   "start": 32.68,
+   "end": 32.78
+  },
+  {
+   "w": "el",
+   "start": 32.78,
+   "end": 32.96
+  },
+  {
+   "w": "cartucho.",
+   "start": 32.96,
+   "end": 33.68
+  },
+  {
+   "w": "Es",
+   "start": 33.98,
+   "end": 34.04
+  },
+  {
+   "w": "el",
+   "start": 34.04,
+   "end": 34.22
+  },
+  {
+   "w": "juego",
+   "start": 34.22,
+   "end": 34.66
+  },
+  {
+   "w": "más",
+   "start": 34.66,
+   "end": 35.3
+  },
+  {
+   "w": "la",
+   "start": 35.3,
+   "end": 35.54
+  },
+  {
+   "w": "habitación,",
+   "start": 35.54,
+   "end": 36.62
+  },
+  {
+   "w": "más",
+   "start": 36.96,
+   "end": 37.14
+  },
+  {
+   "w": "el",
+   "start": 37.14,
+   "end": 37.4
+  },
+  {
+   "w": "televisor,",
+   "start": 37.4,
+   "end": 37.9
+  },
+  {
+   "w": "más",
+   "start": 38.12,
+   "end": 38.3
+  },
+  {
+   "w": "ese",
+   "start": 38.3,
+   "end": 38.5
+  },
+  {
+   "w": "amigo",
+   "start": 38.5,
+   "end": 38.72
+  },
+  {
+   "w": "que",
+   "start": 38.72,
+   "end": 39.06
+  },
+  {
+   "w": "de",
+   "start": 39.06,
+   "end": 39.26
+  },
+  {
+   "w": "alguna",
+   "start": 39.26,
+   "end": 39.42
+  },
+  {
+   "w": "manera",
+   "start": 39.42,
+   "end": 39.8
+  },
+  {
+   "w": "siempre",
+   "start": 39.8,
+   "end": 40.18
+  },
+  {
+   "w": "sabía",
+   "start": 40.18,
+   "end": 40.54
+  },
+  {
+   "w": "dónde",
+   "start": 40.54,
+   "end": 40.76
+  },
+  {
+   "w": "había",
+   "start": 40.76,
+   "end": 40.98
+  },
+  {
+   "w": "que",
+   "start": 40.98,
+   "end": 41.2
+  },
+  {
+   "w": "ir,",
+   "start": 41.2,
+   "end": 41.44
+  },
+  {
+   "w": "más",
+   "start": 41.6,
+   "end": 41.8
+  },
+  {
+   "w": "una",
+   "start": 41.8,
+   "end": 42.04
+  },
+  {
+   "w": "tarde",
+   "start": 42.04,
+   "end": 42.32
+  },
+  {
+   "w": "entera",
+   "start": 42.32,
+   "end": 42.62
+  },
+  {
+   "w": "de",
+   "start": 42.62,
+   "end": 42.82
+  },
+  {
+   "w": "sábado",
+   "start": 42.82,
+   "end": 43.14
+  },
+  {
+   "w": "en",
+   "start": 43.14,
+   "end": 43.32
+  },
+  {
+   "w": "la",
+   "start": 43.32,
+   "end": 43.46
+  },
+  {
+   "w": "que",
+   "start": 43.46,
+   "end": 43.62
+  },
+  {
+   "w": "nadie",
+   "start": 43.62,
+   "end": 43.8
+  },
+  {
+   "w": "podía",
+   "start": 43.8,
+   "end": 44.14
+  },
+  {
+   "w": "encontrarte",
+   "start": 44.14,
+   "end": 44.78
+  },
+  {
+   "w": "porque",
+   "start": 44.78,
+   "end": 45.04
+  },
+  {
+   "w": "los",
+   "start": 45.04,
+   "end": 45.28
+  },
+  {
+   "w": "smartphones",
+   "start": 45.28,
+   "end": 45.7
+  },
+  {
+   "w": "todavía",
+   "start": 45.7,
+   "end": 46.12
+  },
+  {
+   "w": "no",
+   "start": 46.12,
+   "end": 46.28
+  },
+  {
+   "w": "habían",
+   "start": 46.28,
+   "end": 46.42
+  },
+  {
+   "w": "arruinado",
+   "start": 46.42,
+   "end": 46.96
+  },
+  {
+   "w": "ese",
+   "start": 46.96,
+   "end": 47.26
+  },
+  {
+   "w": "pequeño",
+   "start": 47.26,
+   "end": 47.62
+  },
+  {
+   "w": "milagro.",
+   "start": 47.62,
+   "end": 48.4
+  },
+  {
+   "w": "Para",
+   "start": 48.64,
+   "end": 48.84
+  },
+  {
+   "w": "algunos",
+   "start": 48.84,
+   "end": 49.12
+  },
+  {
+   "w": "jugadores,",
+   "start": 49.12,
+   "end": 49.66
+  },
+  {
+   "w": "entrar",
+   "start": 49.9,
+   "end": 50.18
+  },
+  {
+   "w": "por",
+   "start": 50.18,
+   "end": 50.48
+  },
+  {
+   "w": "primera",
+   "start": 50.48,
+   "end": 50.7
+  },
+  {
+   "w": "vez",
+   "start": 50.7,
+   "end": 50.92
+  },
+  {
+   "w": "a",
+   "start": 50.92,
+   "end": 51.12
+  },
+  {
+   "w": "Hyrule",
+   "start": 51.12,
+   "end": 51.42
+  },
+  {
+   "w": "Field",
+   "start": 51.42,
+   "end": 51.88
+  },
+  {
+   "w": "se",
+   "start": 51.88,
+   "end": 52.28
+  },
+  {
+   "w": "sentía",
+   "start": 52.28,
+   "end": 52.58
+  },
+  {
+   "w": "enorme,",
+   "start": 52.58,
+   "end": 53.02
+  },
+  {
+   "w": "No",
+   "start": 53.02,
+   "end": 53.4
+  },
+  {
+   "w": "porque",
+   "start": 53.4,
+   "end": 53.68
+  },
+  {
+   "w": "realmente",
+   "start": 53.68,
+   "end": 54.14
+  },
+  {
+   "w": "lo",
+   "start": 54.14,
+   "end": 54.38
+  },
+  {
+   "w": "fuera,",
+   "start": 54.38,
+   "end": 54.62
+  },
+  {
+   "w": "porque",
+   "start": 54.96,
+   "end": 55.1
+  },
+  {
+   "w": "tú",
+   "start": 55.1,
+   "end": 55.32
+  },
+  {
+   "w": "eras",
+   "start": 55.32,
+   "end": 55.58
+  },
+  {
+   "w": "más",
+   "start": 55.58,
+   "end": 55.84
+  },
+  {
+   "w": "pequeño.",
+   "start": 55.84,
+   "end": 56.22
+  },
+  {
+   "w": "Y",
+   "start": 56.44,
+   "end": 56.52
+  },
+  {
+   "w": "la",
+   "start": 56.52,
+   "end": 56.68
+  },
+  {
+   "w": "memoria",
+   "start": 56.68,
+   "end": 56.94
+  },
+  {
+   "w": "es",
+   "start": 56.94,
+   "end": 57.08
+  },
+  {
+   "w": "muy",
+   "start": 57.08,
+   "end": 57.32
+  },
+  {
+   "w": "buena",
+   "start": 57.32,
+   "end": 57.46
+  },
+  {
+   "w": "guardando",
+   "start": 57.46,
+   "end": 57.92
+  },
+  {
+   "w": "sensaciones.",
+   "start": 57.92,
+   "end": 58.64
+  },
+  {
+   "w": "Y",
+   "start": 60.16,
+   "end": 60.3
+  },
+  {
+   "w": "absolutamente",
+   "start": 60.3,
+   "end": 60.82
+  },
+  {
+   "w": "terrible",
+   "start": 60.82,
+   "end": 61.44
+  },
+  {
+   "w": "guardando",
+   "start": 61.44,
+   "end": 61.94
+  },
+  {
+   "w": "especificaciones",
+   "start": 61.94,
+   "end": 62.7
+  },
+  {
+   "w": "técnicas.",
+   "start": 62.7,
+   "end": 63.5
+  },
+  {
+   "w": "Nadie",
+   "start": 65.24,
+   "end": 65.5
+  },
+  {
+   "w": "se",
+   "start": 65.5,
+   "end": 65.74
+  },
+  {
+   "w": "despierta",
+   "start": 65.74,
+   "end": 66.1
+  },
+  {
+   "w": "pensando,",
+   "start": 66.1,
+   "end": 66.6
+  },
+  {
+   "w": "¡Hombre!",
+   "start": 66.9,
+   "end": 67.38
+  },
+  {
+   "w": "¿Cómo",
+   "start": 67.52,
+   "end": 67.76
+  },
+  {
+   "w": "extraño",
+   "start": 67.76,
+   "end": 68.16
+  },
+  {
+   "w": "el",
+   "start": 68.16,
+   "end": 68.36
+  },
+  {
+   "w": "filtrado",
+   "start": 68.36,
+   "end": 68.72
+  },
+  {
+   "w": "de",
+   "start": 68.72,
+   "end": 68.9
+  },
+  {
+   "w": "texturas",
+   "start": 68.9,
+   "end": 69.26
+  },
+  {
+   "w": "de",
+   "start": 69.26,
+   "end": 69.46
+  },
+  {
+   "w": "Nintendo",
+   "start": 69.46,
+   "end": 69.76
+  },
+  {
+   "w": "64?",
+   "start": 69.76,
+   "end": 70.5
+  },
+  {
+   "w": "Recuerdas",
+   "start": 71.26,
+   "end": 71.64
+  },
+  {
+   "w": "el",
+   "start": 71.64,
+   "end": 71.82
+  },
+  {
+   "w": "bosque,",
+   "start": 71.82,
+   "end": 72.28
+  },
+  {
+   "w": "la",
+   "start": 72.7,
+   "end": 72.94
+  },
+  {
+   "w": "música,",
+   "start": 72.94,
+   "end": 73.34
+  },
+  {
+   "w": "el",
+   "start": 73.76,
+   "end": 73.94
+  },
+  {
+   "w": "castillo",
+   "start": 73.94,
+   "end": 74.32
+  },
+  {
+   "w": "a",
+   "start": 74.32,
+   "end": 74.44
+  },
+  {
+   "w": "lo",
+   "start": 74.44,
+   "end": 74.58
+  },
+  {
+   "w": "lejos.",
+   "start": 74.58,
+   "end": 75.08
+  },
+  {
+   "w": "Esa",
+   "start": 75.64,
+   "end": 76.02
+  },
+  {
+   "w": "extraña",
+   "start": 76.02,
+   "end": 76.22
+  },
+  {
+   "w": "sensación",
+   "start": 76.22,
+   "end": 76.7
+  },
+  {
+   "w": "de",
+   "start": 76.7,
+   "end": 76.92
+  },
+  {
+   "w": "que,",
+   "start": 76.92,
+   "end": 77.14
+  },
+  {
+   "w": "si",
+   "start": 77.28,
+   "end": 77.44
+  },
+  {
+   "w": "seguías",
+   "start": 77.44,
+   "end": 77.8
+  },
+  {
+   "w": "caminando,",
+   "start": 77.8,
+   "end": 78.4
+  },
+  {
+   "w": "el",
+   "start": 78.7,
+   "end": 78.8
+  },
+  {
+   "w": "mundo",
+   "start": 78.8,
+   "end": 79.06
+  },
+  {
+   "w": "quizá",
+   "start": 79.06,
+   "end": 79.5
+  },
+  {
+   "w": "continuaría",
+   "start": 79.5,
+   "end": 80.0
+  },
+  {
+   "w": "para",
+   "start": 80.0,
+   "end": 80.3
+  },
+  {
+   "w": "siempre.",
+   "start": 80.3,
+   "end": 80.64
+  },
+  {
+   "w": "Y",
+   "start": 80.88,
+   "end": 81.06
+  },
+  {
+   "w": "eso",
+   "start": 81.06,
+   "end": 81.3
+  },
+  {
+   "w": "crea",
+   "start": 81.3,
+   "end": 81.54
+  },
+  {
+   "w": "un",
+   "start": 81.54,
+   "end": 81.8
+  },
+  {
+   "w": "problema.",
+   "start": 81.8,
+   "end": 82.12
+  },
+  {
+   "w": "porque",
+   "start": 82.12,
+   "end": 82.54
+  },
+  {
+   "w": "Nintendo",
+   "start": 82.54,
+   "end": 82.94
+  },
+  {
+   "w": "puede",
+   "start": 82.94,
+   "end": 83.24
+  },
+  {
+   "w": "rehacer",
+   "start": 83.24,
+   "end": 83.6
+  },
+  {
+   "w": "Ocarina",
+   "start": 83.6,
+   "end": 83.96
+  },
+  {
+   "w": "of",
+   "start": 83.96,
+   "end": 84.18
+  },
+  {
+   "w": "Time,",
+   "start": 84.18,
+   "end": 84.86
+  },
+  {
+   "w": "pero",
+   "start": 85.12,
+   "end": 85.22
+  },
+  {
+   "w": "parte",
+   "start": 85.22,
+   "end": 85.48
+  },
+  {
+   "w": "de",
+   "start": 85.48,
+   "end": 85.62
+  },
+  {
+   "w": "lo",
+   "start": 85.62,
+   "end": 85.74
+  },
+  {
+   "w": "que",
+   "start": 85.74,
+   "end": 85.82
+  },
+  {
+   "w": "la",
+   "start": 85.82,
+   "end": 85.98
+  },
+  {
+   "w": "gente",
+   "start": 85.98,
+   "end": 86.18
+  },
+  {
+   "w": "quiere",
+   "start": 86.18,
+   "end": 86.42
+  },
+  {
+   "w": "recuperar",
+   "start": 86.42,
+   "end": 87.36
+  },
+  {
+   "w": "nunca",
+   "start": 87.36,
+   "end": 87.68
+  },
+  {
+   "w": "estuvo",
+   "start": 87.68,
+   "end": 88.04
+  },
+  {
+   "w": "dentro",
+   "start": 88.04,
+   "end": 88.34
+  },
+  {
+   "w": "de",
+   "start": 88.34,
+   "end": 88.48
+  },
+  {
+   "w": "Ocarina",
+   "start": 88.48,
+   "end": 88.84
+  },
+  {
+   "w": "of",
+   "start": 88.84,
+   "end": 89.04
+  },
+  {
+   "w": "Time.",
+   "start": 89.04,
+   "end": 89.38
+  },
+  {
+   "w": "La",
+   "start": 91.28,
+   "end": 91.28
+  },
+  {
+   "w": "nueva",
+   "start": 91.28,
+   "end": 91.54
+  },
+  {
+   "w": "versión",
+   "start": 91.54,
+   "end": 92.0
+  },
+  {
+   "w": "está",
+   "start": 92.0,
+   "end": 92.24
+  },
+  {
+   "w": "siendo",
+   "start": 92.24,
+   "end": 92.6
+  },
+  {
+   "w": "reconstruida",
+   "start": 92.6,
+   "end": 93.4
+  },
+  {
+   "w": "para",
+   "start": 93.4,
+   "end": 93.64
+  },
+  {
+   "w": "Switch",
+   "start": 93.64,
+   "end": 93.94
+  },
+  {
+   "w": "2.",
+   "start": 93.94,
+   "end": 94.5
+  },
+  {
+   "w": "Visuales",
+   "start": 94.78,
+   "end": 95.2
+  },
+  {
+   "w": "nuevos,",
+   "start": 95.2,
+   "end": 95.68
+  },
+  {
+   "w": "cinemáticas",
+   "start": 96.12,
+   "end": 96.58
+  },
+  {
+   "w": "con",
+   "start": 96.58,
+   "end": 96.84
+  },
+  {
+   "w": "voces,",
+   "start": 96.84,
+   "end": 97.46
+  },
+  {
+   "w": "diálogos",
+   "start": 97.76,
+   "end": 98.14
+  },
+  {
+   "w": "ampliados,",
+   "start": 98.14,
+   "end": 98.82
+  },
+  {
+   "w": "una",
+   "start": 99.18,
+   "end": 99.3
+  },
+  {
+   "w": "banda",
+   "start": 99.3,
+   "end": 99.56
+  },
+  {
+   "w": "sonora",
+   "start": 99.56,
+   "end": 99.94
+  },
+  {
+   "w": "orquestal,",
+   "start": 99.94,
+   "end": 100.68
+  },
+  {
+   "w": "controles",
+   "start": 101.06,
+   "end": 101.3
+  },
+  {
+   "w": "y",
+   "start": 101.3,
+   "end": 101.46
+  },
+  {
+   "w": "movimiento",
+   "start": 101.46,
+   "end": 101.86
+  },
+  {
+   "w": "de",
+   "start": 101.86,
+   "end": 102.08
+  },
+  {
+   "w": "cámara",
+   "start": 102.08,
+   "end": 102.26
+  },
+  {
+   "w": "modernizados.",
+   "start": 102.26,
+   "end": 103.16
+  },
+  {
+   "w": "Sobre",
+   "start": 103.38,
+   "end": 103.6
+  },
+  {
+   "w": "el",
+   "start": 103.6,
+   "end": 103.74
+  },
+  {
+   "w": "papel,",
+   "start": 103.74,
+   "end": 104.04
+  },
+  {
+   "w": "el",
+   "start": 104.3,
+   "end": 104.42
+  },
+  {
+   "w": "trabajo",
+   "start": 104.42,
+   "end": 104.68
+  },
+  {
+   "w": "parece",
+   "start": 104.68,
+   "end": 104.98
+  },
+  {
+   "w": "fácil.",
+   "start": 104.98,
+   "end": 105.42
+  },
+  {
+   "w": "Tomas",
+   "start": 105.72,
+   "end": 105.94
+  },
+  {
+   "w": "algo",
+   "start": 105.94,
+   "end": 106.18
+  },
+  {
+   "w": "querido",
+   "start": 106.18,
+   "end": 106.74
+  },
+  {
+   "w": "y",
+   "start": 106.74,
+   "end": 107.08
+  },
+  {
+   "w": "haces",
+   "start": 107.08,
+   "end": 107.36
+  },
+  {
+   "w": "que",
+   "start": 107.36,
+   "end": 107.58
+  },
+  {
+   "w": "todo",
+   "start": 107.58,
+   "end": 107.9
+  },
+  {
+   "w": "sea",
+   "start": 107.9,
+   "end": 108.14
+  },
+  {
+   "w": "mejor.",
+   "start": 108.14,
+   "end": 108.62
+  },
+  {
+   "w": "Excepto",
+   "start": 108.92,
+   "end": 109.28
+  },
+  {
+   "w": "que",
+   "start": 109.28,
+   "end": 109.38
+  },
+  {
+   "w": "ahí",
+   "start": 109.38,
+   "end": 109.5
+  },
+  {
+   "w": "es",
+   "start": 109.5,
+   "end": 109.62
+  },
+  {
+   "w": "donde",
+   "start": 109.62,
+   "end": 109.76
+  },
+  {
+   "w": "los",
+   "start": 109.76,
+   "end": 110.02
+  },
+  {
+   "w": "remakes",
+   "start": 110.02,
+   "end": 110.38
+  },
+  {
+   "w": "se",
+   "start": 110.38,
+   "end": 110.64
+  },
+  {
+   "w": "vuelven",
+   "start": 110.64,
+   "end": 110.86
+  },
+  {
+   "w": "peligrosos,",
+   "start": 110.86,
+   "end": 111.56
+  },
+  {
+   "w": "Porque",
+   "start": 111.56,
+   "end": 112.0
+  },
+  {
+   "w": "mejor",
+   "start": 112.0,
+   "end": 112.4
+  },
+  {
+   "w": "se",
+   "start": 112.4,
+   "end": 112.8
+  },
+  {
+   "w": "puede",
+   "start": 112.8,
+   "end": 112.98
+  },
+  {
+   "w": "medir.",
+   "start": 112.98,
+   "end": 113.58
+  },
+  {
+   "w": "Más",
+   "start": 113.66,
+   "end": 113.92
+  },
+  {
+   "w": "polígonos,",
+   "start": 113.92,
+   "end": 114.54
+  },
+  {
+   "w": "mejor",
+   "start": 114.86,
+   "end": 115.04
+  },
+  {
+   "w": "iluminación,",
+   "start": 115.04,
+   "end": 115.74
+  },
+  {
+   "w": "mejor",
+   "start": 116.16,
+   "end": 116.3
+  },
+  {
+   "w": "animación,",
+   "start": 116.3,
+   "end": 116.9
+  },
+  {
+   "w": "mejor",
+   "start": 117.28,
+   "end": 117.48
+  },
+  {
+   "w": "sonido,",
+   "start": 117.48,
+   "end": 118.04
+  },
+  {
+   "w": "pero",
+   "start": 118.3,
+   "end": 118.52
+  },
+  {
+   "w": "familiar",
+   "start": 118.52,
+   "end": 119.18
+  },
+  {
+   "w": "no",
+   "start": 119.18,
+   "end": 119.58
+  },
+  {
+   "w": "se",
+   "start": 119.58,
+   "end": 119.82
+  },
+  {
+   "w": "puede",
+   "start": 119.82,
+   "end": 119.96
+  },
+  {
+   "w": "medir.",
+   "start": 119.96,
+   "end": 120.6
+  },
+  {
+   "w": "Un",
+   "start": 120.66,
+   "end": 120.78
+  },
+  {
+   "w": "campo",
+   "start": 120.78,
+   "end": 121.08
+  },
+  {
+   "w": "vacío",
+   "start": 121.08,
+   "end": 121.48
+  },
+  {
+   "w": "en",
+   "start": 121.48,
+   "end": 121.6
+  },
+  {
+   "w": "1998",
+   "start": 121.6,
+   "end": 122.8
+  },
+  {
+   "w": "podía",
+   "start": 122.8,
+   "end": 123.38
+  },
+  {
+   "w": "sentirse",
+   "start": 123.38,
+   "end": 123.92
+  },
+  {
+   "w": "enorme.",
+   "start": 123.92,
+   "end": 124.38
+  },
+  {
+   "w": "Reconstruyelo",
+   "start": 124.82,
+   "end": 125.46
+  },
+  {
+   "w": "demasiado",
+   "start": 125.46,
+   "end": 125.98
+  },
+  {
+   "w": "literalmente",
+   "start": 125.98,
+   "end": 126.64
+  },
+  {
+   "w": "hoy",
+   "start": 126.64,
+   "end": 126.9
+  },
+  {
+   "w": "y",
+   "start": 126.9,
+   "end": 127.32
+  },
+  {
+   "w": "quizá",
+   "start": 127.32,
+   "end": 127.98
+  },
+  {
+   "w": "solo",
+   "start": 127.98,
+   "end": 128.2
+  },
+  {
+   "w": "se",
+   "start": 128.2,
+   "end": 128.4
+  },
+  {
+   "w": "sienta",
+   "start": 128.4,
+   "end": 128.7
+  },
+  {
+   "w": "vacío.",
+   "start": 128.7,
+   "end": 129.08
+  },
+  {
+   "w": "Un",
+   "start": 129.5,
+   "end": 129.54
+  },
+  {
+   "w": "personaje",
+   "start": 129.54,
+   "end": 129.98
+  },
+  {
+   "w": "silencioso",
+   "start": 129.98,
+   "end": 130.82
+  },
+  {
+   "w": "alguna",
+   "start": 130.82,
+   "end": 131.16
+  },
+  {
+   "w": "vez",
+   "start": 131.16,
+   "end": 131.42
+  },
+  {
+   "w": "dejaba",
+   "start": 131.42,
+   "end": 131.76
+  },
+  {
+   "w": "espacio",
+   "start": 131.76,
+   "end": 132.08
+  },
+  {
+   "w": "para",
+   "start": 132.08,
+   "end": 132.32
+  },
+  {
+   "w": "tu",
+   "start": 132.32,
+   "end": 132.48
+  },
+  {
+   "w": "imaginación.",
+   "start": 132.48,
+   "end": 133.12
+  },
+  {
+   "w": "Ponle",
+   "start": 133.52,
+   "end": 133.76
+  },
+  {
+   "w": "voz",
+   "start": 133.76,
+   "end": 133.98
+  },
+  {
+   "w": "y",
+   "start": 133.98,
+   "end": 134.42
+  },
+  {
+   "w": "de",
+   "start": 134.42,
+   "end": 134.6
+  },
+  {
+   "w": "repente",
+   "start": 134.6,
+   "end": 134.94
+  },
+  {
+   "w": "alguien",
+   "start": 134.94,
+   "end": 135.24
+  },
+  {
+   "w": "tiene",
+   "start": 135.24,
+   "end": 135.44
+  },
+  {
+   "w": "que",
+   "start": 135.44,
+   "end": 135.68
+  },
+  {
+   "w": "decidir",
+   "start": 135.68,
+   "end": 136.04
+  },
+  {
+   "w": "cómo",
+   "start": 136.04,
+   "end": 136.28
+  },
+  {
+   "w": "sonaba",
+   "start": 136.28,
+   "end": 136.68
+  },
+  {
+   "w": "ese",
+   "start": 136.68,
+   "end": 136.86
+  },
+  {
+   "w": "silencio.",
+   "start": 136.86,
+   "end": 137.54
+  },
+  {
+   "w": "Una",
+   "start": 137.54,
+   "end": 137.9
+  },
+  {
+   "w": "cámara",
+   "start": 137.9,
+   "end": 138.22
+  },
+  {
+   "w": "con",
+   "start": 138.22,
+   "end": 138.4
+  },
+  {
+   "w": "la",
+   "start": 138.4,
+   "end": 138.52
+  },
+  {
+   "w": "que",
+   "start": 138.52,
+   "end": 138.6
+  },
+  {
+   "w": "antes",
+   "start": 138.6,
+   "end": 138.86
+  },
+  {
+   "w": "peleabas",
+   "start": 138.86,
+   "end": 139.44
+  },
+  {
+   "w": "era",
+   "start": 139.44,
+   "end": 139.7
+  },
+  {
+   "w": "parte",
+   "start": 139.7,
+   "end": 139.96
+  },
+  {
+   "w": "de",
+   "start": 139.96,
+   "end": 140.14
+  },
+  {
+   "w": "aprender",
+   "start": 140.14,
+   "end": 140.36
+  },
+  {
+   "w": "a",
+   "start": 140.36,
+   "end": 140.54
+  },
+  {
+   "w": "jugar.",
+   "start": 140.54,
+   "end": 140.9
+  },
+  {
+   "w": "Arréglala",
+   "start": 141.22,
+   "end": 141.7
+  },
+  {
+   "w": "y",
+   "start": 141.7,
+   "end": 142.06
+  },
+  {
+   "w": "el",
+   "start": 142.06,
+   "end": 142.22
+  },
+  {
+   "w": "juego",
+   "start": 142.22,
+   "end": 142.4
+  },
+  {
+   "w": "se",
+   "start": 142.4,
+   "end": 142.6
+  },
+  {
+   "w": "vuelve",
+   "start": 142.6,
+   "end": 142.84
+  },
+  {
+   "w": "más",
+   "start": 142.84,
+   "end": 143.14
+  },
+  {
+   "w": "fácil",
+   "start": 143.14,
+   "end": 143.42
+  },
+  {
+   "w": "de",
+   "start": 143.42,
+   "end": 143.58
+  },
+  {
+   "w": "habitar,",
+   "start": 143.58,
+   "end": 144.1
+  },
+  {
+   "w": "lo",
+   "start": 144.26,
+   "end": 144.44
+  },
+  {
+   "w": "cual",
+   "start": 144.44,
+   "end": 144.58
+  },
+  {
+   "w": "es",
+   "start": 144.58,
+   "end": 144.74
+  },
+  {
+   "w": "bueno,",
+   "start": 144.74,
+   "end": 145.06
+  },
+  {
+   "w": "probablemente.",
+   "start": 145.36,
+   "end": 145.98
+  },
+  {
+   "w": "Pero",
+   "start": 146.3,
+   "end": 146.5
+  },
+  {
+   "w": "cada",
+   "start": 146.5,
+   "end": 146.76
+  },
+  {
+   "w": "mejora",
+   "start": 146.76,
+   "end": 147.16
+  },
+  {
+   "w": "cambia,",
+   "start": 147.16,
+   "end": 147.74
+  },
+  {
+   "w": "silenciosamente,",
+   "start": 147.84,
+   "end": 148.72
+  },
+  {
+   "w": "el",
+   "start": 149.06,
+   "end": 149.22
+  },
+  {
+   "w": "recuerdo",
+   "start": 149.22,
+   "end": 149.5
+  },
+  {
+   "w": "que",
+   "start": 149.5,
+   "end": 149.74
+  },
+  {
+   "w": "estaba",
+   "start": 149.74,
+   "end": 149.9
+  },
+  {
+   "w": "unido",
+   "start": 149.9,
+   "end": 150.22
+  },
+  {
+   "w": "a",
+   "start": 150.22,
+   "end": 150.4
+  },
+  {
+   "w": "ella.",
+   "start": 150.4,
+   "end": 150.6
+  },
+  {
+   "w": "Ese",
+   "start": 150.96,
+   "end": 151.22
+  },
+  {
+   "w": "es",
+   "start": 151.22,
+   "end": 151.44
+  },
+  {
+   "w": "el",
+   "start": 151.44,
+   "end": 151.54
+  },
+  {
+   "w": "trabajo",
+   "start": 151.54,
+   "end": 151.8
+  },
+  {
+   "w": "imposible.",
+   "start": 151.8,
+   "end": 152.58
+  },
+  {
+   "w": "Hacerlo",
+   "start": 152.8,
+   "end": 153.12
+  },
+  {
+   "w": "lo",
+   "start": 153.12,
+   "end": 153.22
+  },
+  {
+   "w": "bastante",
+   "start": 153.22,
+   "end": 153.58
+  },
+  {
+   "w": "diferente",
+   "start": 153.58,
+   "end": 154.08
+  },
+  {
+   "w": "como",
+   "start": 154.08,
+   "end": 154.3
+  },
+  {
+   "w": "para",
+   "start": 154.3,
+   "end": 154.52
+  },
+  {
+   "w": "justificar",
+   "start": 154.52,
+   "end": 154.98
+  },
+  {
+   "w": "que",
+   "start": 154.98,
+   "end": 155.24
+  },
+  {
+   "w": "exista,",
+   "start": 155.24,
+   "end": 155.78
+  },
+  {
+   "w": "sin",
+   "start": 155.92,
+   "end": 156.08
+  },
+  {
+   "w": "hacer",
+   "start": 156.08,
+   "end": 156.3
+  },
+  {
+   "w": "que",
+   "start": 156.3,
+   "end": 156.4
+  },
+  {
+   "w": "la",
+   "start": 156.4,
+   "end": 156.54
+  },
+  {
+   "w": "gente",
+   "start": 156.54,
+   "end": 156.7
+  },
+  {
+   "w": "se",
+   "start": 156.7,
+   "end": 157.02
+  },
+  {
+   "w": "pregunte",
+   "start": 157.02,
+   "end": 157.3
+  },
+  {
+   "w": "dónde",
+   "start": 157.3,
+   "end": 157.64
+  },
+  {
+   "w": "quedó",
+   "start": 157.64,
+   "end": 157.94
+  },
+  {
+   "w": "su",
+   "start": 157.94,
+   "end": 158.06
+  },
+  {
+   "w": "juego.",
+   "start": 158.06,
+   "end": 158.36
+  },
+  {
+   "w": "Y",
+   "start": 158.56,
+   "end": 158.76
+  },
+  {
+   "w": "Nintendo",
+   "start": 158.76,
+   "end": 159.04
+  },
+  {
+   "w": "tiene",
+   "start": 159.04,
+   "end": 159.42
+  },
+  {
+   "w": "otro",
+   "start": 159.42,
+   "end": 159.86
+  },
+  {
+   "w": "problema.",
+   "start": 159.86,
+   "end": 160.3
+  },
+  {
+   "w": "Este",
+   "start": 160.54,
+   "end": 160.8
+  },
+  {
+   "w": "remake",
+   "start": 160.8,
+   "end": 161.16
+  },
+  {
+   "w": "en",
+   "start": 161.16,
+   "end": 161.44
+  },
+  {
+   "w": "realidad",
+   "start": 161.44,
+   "end": 161.86
+  },
+  {
+   "w": "no",
+   "start": 161.86,
+   "end": 162.2
+  },
+  {
+   "w": "está",
+   "start": 162.2,
+   "end": 162.36
+  },
+  {
+   "w": "hecho",
+   "start": 162.36,
+   "end": 162.58
+  },
+  {
+   "w": "para",
+   "start": 162.58,
+   "end": 162.8
+  },
+  {
+   "w": "un",
+   "start": 162.8,
+   "end": 162.96
+  },
+  {
+   "w": "solo",
+   "start": 162.96,
+   "end": 163.14
+  },
+  {
+   "w": "público,",
+   "start": 163.14,
+   "end": 163.54
+  },
+  {
+   "w": "está",
+   "start": 163.82,
+   "end": 164.0
+  },
+  {
+   "w": "hecho",
+   "start": 164.0,
+   "end": 164.24
+  },
+  {
+   "w": "para",
+   "start": 164.24,
+   "end": 164.5
+  },
+  {
+   "w": "dos.",
+   "start": 164.5,
+   "end": 164.84
+  },
+  {
+   "w": "El",
+   "start": 165.46,
+   "end": 165.66
+  },
+  {
+   "w": "jugador",
+   "start": 165.66,
+   "end": 166.0
+  },
+  {
+   "w": "uno",
+   "start": 166.0,
+   "end": 166.16
+  },
+  {
+   "w": "ya",
+   "start": 166.16,
+   "end": 166.34
+  },
+  {
+   "w": "lo",
+   "start": 166.34,
+   "end": 166.52
+  },
+  {
+   "w": "sabe",
+   "start": 166.52,
+   "end": 166.7
+  },
+  {
+   "w": "todo.",
+   "start": 166.7,
+   "end": 167.0
+  },
+  {
+   "w": "Sabe",
+   "start": 167.0,
+   "end": 167.8
+  },
+  {
+   "w": "lo",
+   "start": 167.8,
+   "end": 167.92
+  },
+  {
+   "w": "que",
+   "start": 167.92,
+   "end": 168.08
+  },
+  {
+   "w": "significa",
+   "start": 168.08,
+   "end": 168.5
+  },
+  {
+   "w": "esa",
+   "start": 168.5,
+   "end": 168.74
+  },
+  {
+   "w": "ocarina.",
+   "start": 168.74,
+   "end": 169.4
+  },
+  {
+   "w": "Sabe",
+   "start": 169.64,
+   "end": 169.76
+  },
+  {
+   "w": "qué",
+   "start": 169.76,
+   "end": 169.92
+  },
+  {
+   "w": "pasa",
+   "start": 169.92,
+   "end": 170.18
+  },
+  {
+   "w": "cuando",
+   "start": 170.18,
+   "end": 170.46
+  },
+  {
+   "w": "Link",
+   "start": 170.46,
+   "end": 170.68
+  },
+  {
+   "w": "saca",
+   "start": 170.68,
+   "end": 170.98
+  },
+  {
+   "w": "la",
+   "start": 170.98,
+   "end": 171.14
+  },
+  {
+   "w": "Master",
+   "start": 171.14,
+   "end": 171.46
+  },
+  {
+   "w": "Sword.",
+   "start": 171.46,
+   "end": 171.8
+  },
+  {
+   "w": "Ve",
+   "start": 172.24,
+   "end": 172.34
+  },
+  {
+   "w": "tres",
+   "start": 172.34,
+   "end": 172.62
+  },
+  {
+   "w": "triángulos",
+   "start": 172.62,
+   "end": 173.04
+  },
+  {
+   "w": "dorados",
+   "start": 173.04,
+   "end": 173.48
+  },
+  {
+   "w": "y",
+   "start": 173.48,
+   "end": 173.7
+  },
+  {
+   "w": "entiende",
+   "start": 173.7,
+   "end": 173.96
+  },
+  {
+   "w": "de",
+   "start": 173.96,
+   "end": 174.18
+  },
+  {
+   "w": "inmediato",
+   "start": 174.18,
+   "end": 174.6
+  },
+  {
+   "w": "que",
+   "start": 174.6,
+   "end": 174.78
+  },
+  {
+   "w": "alguien",
+   "start": 174.78,
+   "end": 175.02
+  },
+  {
+   "w": "está",
+   "start": 175.02,
+   "end": 175.28
+  },
+  {
+   "w": "a",
+   "start": 175.28,
+   "end": 175.4
+  },
+  {
+   "w": "punto",
+   "start": 175.4,
+   "end": 175.6
+  },
+  {
+   "w": "de",
+   "start": 175.6,
+   "end": 175.86
+  },
+  {
+   "w": "tomar",
+   "start": 175.86,
+   "end": 176.0
+  },
+  {
+   "w": "una",
+   "start": 176.0,
+   "end": 176.36
+  },
+  {
+   "w": "pésima",
+   "start": 176.36,
+   "end": 176.74
+  },
+  {
+   "w": "decisión.",
+   "start": 176.74,
+   "end": 177.38
+  },
+  {
+   "w": "La",
+   "start": 178.04,
+   "end": 178.2
+  },
+  {
+   "w": "trifuerza",
+   "start": 178.2,
+   "end": 178.78
+  },
+  {
+   "w": "representa",
+   "start": 178.78,
+   "end": 179.34
+  },
+  {
+   "w": "sabiduría,",
+   "start": 179.34,
+   "end": 180.24
+  },
+  {
+   "w": "poder",
+   "start": 180.5,
+   "end": 180.76
+  },
+  {
+   "w": "y",
+   "start": 180.76,
+   "end": 181.1
+  },
+  {
+   "w": "valor.",
+   "start": 181.1,
+   "end": 181.48
+  },
+  {
+   "w": "Y",
+   "start": 181.7,
+   "end": 181.82
+  },
+  {
+   "w": "el",
+   "start": 181.82,
+   "end": 181.94
+  },
+  {
+   "w": "viaje",
+   "start": 181.94,
+   "end": 182.18
+  },
+  {
+   "w": "de",
+   "start": 182.18,
+   "end": 182.34
+  },
+  {
+   "w": "Link",
+   "start": 182.34,
+   "end": 182.62
+  },
+  {
+   "w": "atraviesa",
+   "start": 182.62,
+   "end": 183.26
+  },
+  {
+   "w": "Hyrule",
+   "start": 183.26,
+   "end": 183.58
+  },
+  {
+   "w": "en",
+   "start": 183.58,
+   "end": 183.9
+  },
+  {
+   "w": "dos",
+   "start": 183.9,
+   "end": 184.14
+  },
+  {
+   "w": "épocas",
+   "start": 184.14,
+   "end": 184.6
+  },
+  {
+   "w": "distintas.",
+   "start": 184.6,
+   "end": 185.36
+  },
+  {
+   "w": "El",
+   "start": 185.56,
+   "end": 185.58
+  },
+  {
+   "w": "Jugador",
+   "start": 185.58,
+   "end": 186.04
+  },
+  {
+   "w": "2.",
+   "start": 186.04,
+   "end": 186.48
+  },
+  {
+   "w": "El",
+   "start": 186.6,
+   "end": 186.8
+  },
+  {
+   "w": "Jugador",
+   "start": 186.8,
+   "end": 187.22
+  },
+  {
+   "w": "2",
+   "start": 187.22,
+   "end": 187.52
+  },
+  {
+   "w": "no",
+   "start": 187.52,
+   "end": 187.72
+  },
+  {
+   "w": "sabe",
+   "start": 187.72,
+   "end": 187.94
+  },
+  {
+   "w": "nada",
+   "start": 187.94,
+   "end": 188.24
+  },
+  {
+   "w": "de",
+   "start": 188.24,
+   "end": 188.48
+  },
+  {
+   "w": "esto.",
+   "start": 188.48,
+   "end": 188.8
+  },
+  {
+   "w": "Conoce",
+   "start": 189.04,
+   "end": 189.28
+  },
+  {
+   "w": "al",
+   "start": 189.28,
+   "end": 189.44
+  },
+  {
+   "w": "Gran",
+   "start": 189.44,
+   "end": 189.64
+  },
+  {
+   "w": "Árbol",
+   "start": 189.64,
+   "end": 189.92
+  },
+  {
+   "w": "Deku",
+   "start": 189.92,
+   "end": 190.22
+  },
+  {
+   "w": "y",
+   "start": 190.22,
+   "end": 190.4
+  },
+  {
+   "w": "piensa,",
+   "start": 190.4,
+   "end": 190.88
+  },
+  {
+   "w": "ese",
+   "start": 191.1,
+   "end": 191.26
+  },
+  {
+   "w": "es",
+   "start": 191.26,
+   "end": 191.46
+  },
+  {
+   "w": "un",
+   "start": 191.46,
+   "end": 191.54
+  },
+  {
+   "w": "árbol",
+   "start": 191.54,
+   "end": 191.88
+  },
+  {
+   "w": "extremadamente",
+   "start": 191.88,
+   "end": 192.56
+  },
+  {
+   "w": "grande,",
+   "start": 192.56,
+   "end": 192.94
+  },
+  {
+   "w": "con",
+   "start": 192.94,
+   "end": 193.28
+  },
+  {
+   "w": "un",
+   "start": 193.28,
+   "end": 193.54
+  },
+  {
+   "w": "problema",
+   "start": 193.54,
+   "end": 193.8
+  },
+  {
+   "w": "extremadamente",
+   "start": 193.8,
+   "end": 194.64
+  },
+  {
+   "w": "personal.",
+   "start": 194.64,
+   "end": 195.22
+  },
+  {
+   "w": "Para",
+   "start": 195.56,
+   "end": 195.58
+  },
+  {
+   "w": "esa",
+   "start": 195.58,
+   "end": 195.8
+  },
+  {
+   "w": "persona,",
+   "start": 195.8,
+   "end": 196.28
+  },
+  {
+   "w": "Giroole",
+   "start": 196.66,
+   "end": 196.84
+  },
+  {
+   "w": "no",
+   "start": 196.84,
+   "end": 197.02
+  },
+  {
+   "w": "tiene",
+   "start": 197.02,
+   "end": 197.24
+  },
+  {
+   "w": "nostalgia,",
+   "start": 197.24,
+   "end": 197.82
+  },
+  {
+   "w": "no",
+   "start": 198.14,
+   "end": 198.26
+  },
+  {
+   "w": "hay",
+   "start": 198.26,
+   "end": 198.38
+  },
+  {
+   "w": "una",
+   "start": 198.38,
+   "end": 198.62
+  },
+  {
+   "w": "infancia",
+   "start": 198.62,
+   "end": 198.96
+  },
+  {
+   "w": "ligada",
+   "start": 198.96,
+   "end": 199.36
+  },
+  {
+   "w": "a",
+   "start": 199.36,
+   "end": 199.44
+  },
+  {
+   "w": "él,",
+   "start": 199.44,
+   "end": 199.68
+  },
+  {
+   "w": "ni",
+   "start": 199.84,
+   "end": 199.98
+  },
+  {
+   "w": "28",
+   "start": 199.98,
+   "end": 200.48
+  },
+  {
+   "w": "años",
+   "start": 200.48,
+   "end": 200.8
+  },
+  {
+   "w": "de",
+   "start": 200.8,
+   "end": 201.12
+  },
+  {
+   "w": "expectativas.",
+   "start": 201.12,
+   "end": 201.68
+  },
+  {
+   "w": "Así",
+   "start": 201.96,
+   "end": 202.1
+  },
+  {
+   "w": "que",
+   "start": 202.1,
+   "end": 202.24
+  },
+  {
+   "w": "el",
+   "start": 202.24,
+   "end": 202.36
+  },
+  {
+   "w": "remake",
+   "start": 202.36,
+   "end": 202.66
+  },
+  {
+   "w": "tiene",
+   "start": 202.66,
+   "end": 202.94
+  },
+  {
+   "w": "dos",
+   "start": 202.94,
+   "end": 203.24
+  },
+  {
+   "w": "trabajos",
+   "start": 203.24,
+   "end": 203.76
+  },
+  {
+   "w": "completamente",
+   "start": 203.76,
+   "end": 204.36
+  },
+  {
+   "w": "distintos.",
+   "start": 204.36,
+   "end": 204.96
+  },
+  {
+   "w": "Para",
+   "start": 205.28,
+   "end": 205.36
+  },
+  {
+   "w": "el",
+   "start": 205.36,
+   "end": 205.5
+  },
+  {
+   "w": "jugador",
+   "start": 205.5,
+   "end": 205.84
+  },
+  {
+   "w": "nuevo,",
+   "start": 205.84,
+   "end": 206.16
+  },
+  {
+   "w": "hacer",
+   "start": 206.56,
+   "end": 206.66
+  },
+  {
+   "w": "que",
+   "start": 206.66,
+   "end": 206.8
+  },
+  {
+   "w": "un",
+   "start": 206.8,
+   "end": 206.9
+  },
+  {
+   "w": "juego",
+   "start": 206.9,
+   "end": 207.14
+  },
+  {
+   "w": "de",
+   "start": 207.14,
+   "end": 207.34
+  },
+  {
+   "w": "1998",
+   "start": 207.34,
+   "end": 208.5
+  },
+  {
+   "w": "se",
+   "start": 208.5,
+   "end": 208.88
+  },
+  {
+   "w": "sienta",
+   "start": 208.88,
+   "end": 209.2
+  },
+  {
+   "w": "natural",
+   "start": 209.2,
+   "end": 209.48
+  },
+  {
+   "w": "en",
+   "start": 209.48,
+   "end": 209.68
+  },
+  {
+   "w": "2026.",
+   "start": 209.68,
+   "end": 210.56
+  },
+  {
+   "w": "Para",
+   "start": 210.82,
+   "end": 210.96
+  },
+  {
+   "w": "el",
+   "start": 210.96,
+   "end": 211.12
+  },
+  {
+   "w": "jugador",
+   "start": 211.12,
+   "end": 211.4
+  },
+  {
+   "w": "que",
+   "start": 211.4,
+   "end": 211.68
+  },
+  {
+   "w": "regresa,",
+   "start": 211.68,
+   "end": 212.2
+  },
+  {
+   "w": "hacer",
+   "start": 212.32,
+   "end": 212.5
+  },
+  {
+   "w": "que",
+   "start": 212.5,
+   "end": 212.64
+  },
+  {
+   "w": "algo",
+   "start": 212.64,
+   "end": 212.84
+  },
+  {
+   "w": "que",
+   "start": 212.84,
+   "end": 212.98
+  },
+  {
+   "w": "ya",
+   "start": 212.98,
+   "end": 213.18
+  },
+  {
+   "w": "conoce,",
+   "start": 213.18,
+   "end": 213.86
+  },
+  {
+   "w": "vuelva",
+   "start": 213.94,
+   "end": 214.24
+  },
+  {
+   "w": "a",
+   "start": 214.24,
+   "end": 214.48
+  },
+  {
+   "w": "sentirse",
+   "start": 214.48,
+   "end": 214.86
+  },
+  {
+   "w": "como",
+   "start": 214.86,
+   "end": 215.04
+  },
+  {
+   "w": "un",
+   "start": 215.04,
+   "end": 215.26
+  },
+  {
+   "w": "descubrimiento.",
+   "start": 215.26,
+   "end": 215.92
+  },
+  {
+   "w": "Una",
+   "start": 216.1,
+   "end": 216.28
+  },
+  {
+   "w": "persona",
+   "start": 216.28,
+   "end": 216.64
+  },
+  {
+   "w": "está",
+   "start": 216.64,
+   "end": 216.82
+  },
+  {
+   "w": "mirando",
+   "start": 216.82,
+   "end": 217.2
+  },
+  {
+   "w": "Giroole,",
+   "start": 217.2,
+   "end": 217.78
+  },
+  {
+   "w": "la",
+   "start": 218.02,
+   "end": 218.22
+  },
+  {
+   "w": "otra",
+   "start": 218.22,
+   "end": 218.4
+  },
+  {
+   "w": "está",
+   "start": 218.4,
+   "end": 218.58
+  },
+  {
+   "w": "buscando",
+   "start": 218.58,
+   "end": 218.92
+  },
+  {
+   "w": "el",
+   "start": 218.92,
+   "end": 219.1
+  },
+  {
+   "w": "Giroole",
+   "start": 219.1,
+   "end": 219.44
+  },
+  {
+   "w": "que",
+   "start": 219.44,
+   "end": 219.64
+  },
+  {
+   "w": "tiene",
+   "start": 219.64,
+   "end": 219.76
+  },
+  {
+   "w": "en",
+   "start": 219.76,
+   "end": 219.92
+  },
+  {
+   "w": "la",
+   "start": 219.92,
+   "end": 220.12
+  },
+  {
+   "w": "cabeza.",
+   "start": 220.12,
+   "end": 220.38
+  },
+  {
+   "w": "Y",
+   "start": 220.6,
+   "end": 220.8
+  },
+  {
+   "w": "de",
+   "start": 220.8,
+   "end": 220.98
+  },
+  {
+   "w": "alguna",
+   "start": 220.98,
+   "end": 221.16
+  },
+  {
+   "w": "manera,",
+   "start": 221.16,
+   "end": 221.58
+  },
+  {
+   "w": "Nintendo",
+   "start": 221.58,
+   "end": 222.24
+  },
+  {
+   "w": "tiene",
+   "start": 222.24,
+   "end": 222.48
+  },
+  {
+   "w": "que",
+   "start": 222.48,
+   "end": 222.78
+  },
+  {
+   "w": "construir",
+   "start": 222.78,
+   "end": 223.12
+  },
+  {
+   "w": "los",
+   "start": 223.12,
+   "end": 223.38
+  },
+  {
+   "w": "dos.",
+   "start": 223.38,
+   "end": 223.7
+  },
+  {
+   "w": "El",
+   "start": 223.84,
+   "end": 223.98
+  },
+  {
+   "w": "remake",
+   "start": 223.98,
+   "end": 224.36
+  },
+  {
+   "w": "más",
+   "start": 224.36,
+   "end": 224.64
+  },
+  {
+   "w": "seguro",
+   "start": 224.64,
+   "end": 224.94
+  },
+  {
+   "w": "imaginable",
+   "start": 224.94,
+   "end": 225.52
+  },
+  {
+   "w": "cambiaría",
+   "start": 225.52,
+   "end": 226.16
+  },
+  {
+   "w": "casi",
+   "start": 226.16,
+   "end": 226.56
+  },
+  {
+   "w": "nada.",
+   "start": 226.56,
+   "end": 227.02
+  },
+  {
+   "w": "Texturas",
+   "start": 228.12,
+   "end": 228.36
+  },
+  {
+   "w": "más",
+   "start": 228.36,
+   "end": 228.56
+  },
+  {
+   "w": "nítidas,",
+   "start": 228.56,
+   "end": 229.12
+  },
+  {
+   "w": "mejor",
+   "start": 229.44,
+   "end": 229.6
+  },
+  {
+   "w": "resolución,",
+   "start": 229.6,
+   "end": 230.34
+  },
+  {
+   "w": "controles",
+   "start": 230.76,
+   "end": 231.02
+  },
+  {
+   "w": "más",
+   "start": 231.02,
+   "end": 231.26
+  },
+  {
+   "w": "limpios.",
+   "start": 231.26,
+   "end": 231.8
+  },
+  {
+   "w": "Todo",
+   "start": 232.12,
+   "end": 232.3
+  },
+  {
+   "w": "exactamente",
+   "start": 232.3,
+   "end": 233.12
+  },
+  {
+   "w": "donde",
+   "start": 233.12,
+   "end": 233.36
+  },
+  {
+   "w": "lo",
+   "start": 233.36,
+   "end": 233.68
+  },
+  {
+   "w": "recuerdas.",
+   "start": 233.68,
+   "end": 234.16
+  },
+  {
+   "w": "Y",
+   "start": 234.5,
+   "end": 234.6
+  },
+  {
+   "w": "eso",
+   "start": 234.6,
+   "end": 234.76
+  },
+  {
+   "w": "suena",
+   "start": 234.76,
+   "end": 234.98
+  },
+  {
+   "w": "respetuoso,",
+   "start": 234.98,
+   "end": 235.66
+  },
+  {
+   "w": "pero",
+   "start": 235.88,
+   "end": 236.02
+  },
+  {
+   "w": "hay",
+   "start": 236.02,
+   "end": 236.18
+  },
+  {
+   "w": "un",
+   "start": 236.18,
+   "end": 236.42
+  },
+  {
+   "w": "problema.",
+   "start": 236.42,
+   "end": 236.78
+  },
+  {
+   "w": "Ocarina",
+   "start": 237.48,
+   "end": 237.84
+  },
+  {
+   "w": "of",
+   "start": 237.84,
+   "end": 238.04
+  },
+  {
+   "w": "Time",
+   "start": 238.04,
+   "end": 238.2
+  },
+  {
+   "w": "no",
+   "start": 238.2,
+   "end": 238.46
+  },
+  {
+   "w": "fue",
+   "start": 238.46,
+   "end": 238.6
+  },
+  {
+   "w": "importante",
+   "start": 238.6,
+   "end": 239.1
+  },
+  {
+   "w": "porque",
+   "start": 239.1,
+   "end": 239.36
+  },
+  {
+   "w": "se",
+   "start": 239.36,
+   "end": 239.68
+  },
+  {
+   "w": "sintiera",
+   "start": 239.68,
+   "end": 239.9
+  },
+  {
+   "w": "familiar.",
+   "start": 239.9,
+   "end": 240.38
+  },
+  {
+   "w": "Fue",
+   "start": 240.7,
+   "end": 240.84
+  },
+  {
+   "w": "importante",
+   "start": 240.84,
+   "end": 241.28
+  },
+  {
+   "w": "porque",
+   "start": 241.28,
+   "end": 241.52
+  },
+  {
+   "w": "se",
+   "start": 241.52,
+   "end": 241.88
+  },
+  {
+   "w": "sintió",
+   "start": 241.88,
+   "end": 242.04
+  },
+  {
+   "w": "nuevo.",
+   "start": 242.04,
+   "end": 242.42
+  },
+  {
+   "w": "Un",
+   "start": 243.12,
+   "end": 243.22
+  },
+  {
+   "w": "mundo",
+   "start": 243.22,
+   "end": 243.46
+  },
+  {
+   "w": "que",
+   "start": 243.46,
+   "end": 243.64
+  },
+  {
+   "w": "la",
+   "start": 243.64,
+   "end": 243.8
+  },
+  {
+   "w": "gente",
+   "start": 243.8,
+   "end": 244.04
+  },
+  {
+   "w": "entendía",
+   "start": 244.04,
+   "end": 244.44
+  },
+  {
+   "w": "en",
+   "start": 244.44,
+   "end": 244.6
+  },
+  {
+   "w": "dos",
+   "start": 244.6,
+   "end": 244.76
+  },
+  {
+   "w": "dimensiones,",
+   "start": 244.76,
+   "end": 245.5
+  },
+  {
+   "w": "de",
+   "start": 245.74,
+   "end": 245.84
+  },
+  {
+   "w": "repente",
+   "start": 245.84,
+   "end": 246.1
+  },
+  {
+   "w": "se",
+   "start": 246.1,
+   "end": 246.4
+  },
+  {
+   "w": "convirtió",
+   "start": 246.4,
+   "end": 246.72
+  },
+  {
+   "w": "en",
+   "start": 246.72,
+   "end": 246.86
+  },
+  {
+   "w": "un",
+   "start": 246.86,
+   "end": 247.02
+  },
+  {
+   "w": "lugar",
+   "start": 247.02,
+   "end": 247.22
+  },
+  {
+   "w": "en",
+   "start": 247.22,
+   "end": 247.4
+  },
+  {
+   "w": "el",
+   "start": 247.4,
+   "end": 247.52
+  },
+  {
+   "w": "que",
+   "start": 247.52,
+   "end": 247.66
+  },
+  {
+   "w": "podías",
+   "start": 247.66,
+   "end": 248.0
+  },
+  {
+   "w": "estar.",
+   "start": 248.0,
+   "end": 248.36
+  },
+  {
+   "w": "La",
+   "start": 248.78,
+   "end": 249.0
+  },
+  {
+   "w": "distancia",
+   "start": 249.0,
+   "end": 249.38
+  },
+  {
+   "w": "importaba.",
+   "start": 249.38,
+   "end": 250.08
+  },
+  {
+   "w": "Hacia",
+   "start": 250.08,
+   "end": 250.56
+  },
+  {
+   "w": "donde",
+   "start": 250.56,
+   "end": 250.78
+  },
+  {
+   "w": "mirabas",
+   "start": 250.78,
+   "end": 251.24
+  },
+  {
+   "w": "importaba,",
+   "start": 251.24,
+   "end": 251.84
+  },
+  {
+   "w": "la",
+   "start": 252.08,
+   "end": 252.24
+  },
+  {
+   "w": "música",
+   "start": 252.24,
+   "end": 252.54
+  },
+  {
+   "w": "importaba,",
+   "start": 252.54,
+   "end": 253.18
+  },
+  {
+   "w": "y",
+   "start": 253.44,
+   "end": 253.54
+  },
+  {
+   "w": "sobre",
+   "start": 253.54,
+   "end": 253.78
+  },
+  {
+   "w": "todo,",
+   "start": 253.78,
+   "end": 254.06
+  },
+  {
+   "w": "el",
+   "start": 254.52,
+   "end": 254.68
+  },
+  {
+   "w": "tiempo",
+   "start": 254.68,
+   "end": 255.0
+  },
+  {
+   "w": "importaba.",
+   "start": 255.0,
+   "end": 255.66
+  },
+  {
+   "w": "Eras",
+   "start": 256.2,
+   "end": 256.3
+  },
+  {
+   "w": "un",
+   "start": 256.3,
+   "end": 256.48
+  },
+  {
+   "w": "niño,",
+   "start": 256.48,
+   "end": 256.74
+  },
+  {
+   "w": "y",
+   "start": 257.32,
+   "end": 257.4
+  },
+  {
+   "w": "luego",
+   "start": 257.4,
+   "end": 257.68
+  },
+  {
+   "w": "dejaste",
+   "start": 257.68,
+   "end": 258.06
+  },
+  {
+   "w": "de",
+   "start": 258.06,
+   "end": 258.32
+  },
+  {
+   "w": "serlo.",
+   "start": 258.32,
+   "end": 258.66
+  },
+  {
+   "w": "Desapareciste,",
+   "start": 259.2,
+   "end": 259.7
+  },
+  {
+   "w": "y",
+   "start": 260.12,
+   "end": 260.22
+  },
+  {
+   "w": "el",
+   "start": 260.22,
+   "end": 260.4
+  },
+  {
+   "w": "mundo",
+   "start": 260.4,
+   "end": 260.64
+  },
+  {
+   "w": "cambió",
+   "start": 260.64,
+   "end": 261.08
+  },
+  {
+   "w": "sin",
+   "start": 261.08,
+   "end": 261.3
+  },
+  {
+   "w": "ti.",
+   "start": 261.3,
+   "end": 261.58
+  },
+  {
+   "w": "Eso",
+   "start": 261.86,
+   "end": 262.0
+  },
+  {
+   "w": "no",
+   "start": 262.0,
+   "end": 262.14
+  },
+  {
+   "w": "es",
+   "start": 262.14,
+   "end": 262.3
+  },
+  {
+   "w": "un",
+   "start": 262.3,
+   "end": 262.44
+  },
+  {
+   "w": "detalle",
+   "start": 262.44,
+   "end": 262.72
+  },
+  {
+   "w": "secundario",
+   "start": 262.72,
+   "end": 263.24
+  },
+  {
+   "w": "de",
+   "start": 263.24,
+   "end": 263.4
+  },
+  {
+   "w": "Ocarina",
+   "start": 263.4,
+   "end": 263.7
+  },
+  {
+   "w": "of",
+   "start": 263.7,
+   "end": 263.92
+  },
+  {
+   "w": "Time,",
+   "start": 263.92,
+   "end": 264.12
+  },
+  {
+   "w": "eso",
+   "start": 264.82,
+   "end": 265.04
+  },
+  {
+   "w": "es",
+   "start": 265.04,
+   "end": 265.24
+  },
+  {
+   "w": "el",
+   "start": 265.24,
+   "end": 265.44
+  },
+  {
+   "w": "juego.",
+   "start": 265.44,
+   "end": 265.8
+  },
+  {
+   "w": "La",
+   "start": 266.78,
+   "end": 266.88
+  },
+  {
+   "w": "aventura",
+   "start": 266.88,
+   "end": 267.26
+  },
+  {
+   "w": "de",
+   "start": 267.26,
+   "end": 267.4
+  },
+  {
+   "w": "Link",
+   "start": 267.4,
+   "end": 267.62
+  },
+  {
+   "w": "es",
+   "start": 267.62,
+   "end": 267.92
+  },
+  {
+   "w": "un",
+   "start": 267.92,
+   "end": 268.12
+  },
+  {
+   "w": "viaje",
+   "start": 268.12,
+   "end": 268.34
+  },
+  {
+   "w": "por",
+   "start": 268.34,
+   "end": 268.58
+  },
+  {
+   "w": "Irule",
+   "start": 268.58,
+   "end": 268.9
+  },
+  {
+   "w": "a",
+   "start": 268.9,
+   "end": 269.16
+  },
+  {
+   "w": "través",
+   "start": 269.16,
+   "end": 269.32
+  },
+  {
+   "w": "de",
+   "start": 269.32,
+   "end": 269.54
+  },
+  {
+   "w": "dos",
+   "start": 269.54,
+   "end": 269.74
+  },
+  {
+   "w": "épocas",
+   "start": 269.74,
+   "end": 270.16
+  },
+  {
+   "w": "distintas.",
+   "start": 270.16,
+   "end": 270.96
+  },
+  {
+   "w": "Así",
+   "start": 271.16,
+   "end": 271.34
+  },
+  {
+   "w": "que",
+   "start": 271.34,
+   "end": 271.54
+  },
+  {
+   "w": "quizá",
+   "start": 271.54,
+   "end": 271.82
+  },
+  {
+   "w": "cambiar",
+   "start": 271.82,
+   "end": 272.08
+  },
+  {
+   "w": "Ocarina",
+   "start": 272.08,
+   "end": 272.48
+  },
+  {
+   "w": "of",
+   "start": 272.48,
+   "end": 272.7
+  },
+  {
+   "w": "Time",
+   "start": 272.7,
+   "end": 272.92
+  },
+  {
+   "w": "no",
+   "start": 272.92,
+   "end": 273.34
+  },
+  {
+   "w": "sea",
+   "start": 273.34,
+   "end": 273.52
+  },
+  {
+   "w": "faltarle",
+   "start": 273.52,
+   "end": 274.04
+  },
+  {
+   "w": "el",
+   "start": 274.04,
+   "end": 274.32
+  },
+  {
+   "w": "respeto,",
+   "start": 274.32,
+   "end": 274.86
+  },
+  {
+   "w": "tal",
+   "start": 274.98,
+   "end": 275.16
+  },
+  {
+   "w": "vez",
+   "start": 275.16,
+   "end": 275.3
+  },
+  {
+   "w": "negarse",
+   "start": 275.3,
+   "end": 275.66
+  },
+  {
+   "w": "a",
+   "start": 275.66,
+   "end": 275.86
+  },
+  {
+   "w": "cambiar",
+   "start": 275.86,
+   "end": 276.04
+  },
+  {
+   "w": "cualquier",
+   "start": 276.04,
+   "end": 276.46
+  },
+  {
+   "w": "cosa",
+   "start": 276.46,
+   "end": 276.76
+  },
+  {
+   "w": "sí",
+   "start": 276.76,
+   "end": 276.98
+  },
+  {
+   "w": "lo",
+   "start": 276.98,
+   "end": 277.18
+  },
+  {
+   "w": "sería,",
+   "start": 277.18,
+   "end": 277.48
+  },
+  {
+   "w": "Porque",
+   "start": 277.48,
+   "end": 278.02
+  },
+  {
+   "w": "el",
+   "start": 278.02,
+   "end": 278.2
+  },
+  {
+   "w": "objetivo",
+   "start": 278.2,
+   "end": 278.52
+  },
+  {
+   "w": "no",
+   "start": 278.52,
+   "end": 278.76
+  },
+  {
+   "w": "debería",
+   "start": 278.76,
+   "end": 279.1
+  },
+  {
+   "w": "ser",
+   "start": 279.1,
+   "end": 279.36
+  },
+  {
+   "w": "preservar",
+   "start": 279.36,
+   "end": 279.86
+  },
+  {
+   "w": "cada",
+   "start": 279.86,
+   "end": 280.1
+  },
+  {
+   "w": "limitación",
+   "start": 280.1,
+   "end": 280.68
+  },
+  {
+   "w": "de",
+   "start": 280.68,
+   "end": 280.9
+  },
+  {
+   "w": "1998.",
+   "start": 280.9,
+   "end": 282.24
+  },
+  {
+   "w": "El",
+   "start": 282.8,
+   "end": 282.92
+  },
+  {
+   "w": "objetivo",
+   "start": 282.92,
+   "end": 283.32
+  },
+  {
+   "w": "debería",
+   "start": 283.32,
+   "end": 283.76
+  },
+  {
+   "w": "ser",
+   "start": 283.76,
+   "end": 283.94
+  },
+  {
+   "w": "entender",
+   "start": 283.94,
+   "end": 284.48
+  },
+  {
+   "w": "qué",
+   "start": 284.48,
+   "end": 284.9
+  },
+  {
+   "w": "te",
+   "start": 284.9,
+   "end": 285.16
+  },
+  {
+   "w": "hicieron",
+   "start": 285.16,
+   "end": 285.46
+  },
+  {
+   "w": "sentir",
+   "start": 285.46,
+   "end": 285.96
+  },
+  {
+   "w": "esas",
+   "start": 285.96,
+   "end": 286.44
+  },
+  {
+   "w": "limitaciones,",
+   "start": 286.44,
+   "end": 287.2
+  },
+  {
+   "w": "y",
+   "start": 287.66,
+   "end": 287.82
+  },
+  {
+   "w": "luego",
+   "start": 287.82,
+   "end": 288.02
+  },
+  {
+   "w": "encontrar",
+   "start": 288.02,
+   "end": 288.4
+  },
+  {
+   "w": "una",
+   "start": 288.4,
+   "end": 288.64
+  },
+  {
+   "w": "forma",
+   "start": 288.64,
+   "end": 288.94
+  },
+  {
+   "w": "de",
+   "start": 288.94,
+   "end": 289.14
+  },
+  {
+   "w": "hacer",
+   "start": 289.14,
+   "end": 289.36
+  },
+  {
+   "w": "que",
+   "start": 289.36,
+   "end": 289.54
+  },
+  {
+   "w": "alguien",
+   "start": 289.54,
+   "end": 289.84
+  },
+  {
+   "w": "vuelva",
+   "start": 289.84,
+   "end": 290.32
+  },
+  {
+   "w": "a",
+   "start": 290.32,
+   "end": 290.56
+  },
+  {
+   "w": "sentir",
+   "start": 290.56,
+   "end": 290.74
+  },
+  {
+   "w": "eso.",
+   "start": 290.74,
+   "end": 291.08
+  },
+  {
+   "w": "Y",
+   "start": 291.34,
+   "end": 291.52
+  },
+  {
+   "w": "eso",
+   "start": 291.52,
+   "end": 291.72
+  },
+  {
+   "w": "nos",
+   "start": 291.72,
+   "end": 291.96
+  },
+  {
+   "w": "devuelve",
+   "start": 291.96,
+   "end": 292.3
+  },
+  {
+   "w": "a",
+   "start": 292.3,
+   "end": 292.38
+  },
+  {
+   "w": "la",
+   "start": 292.38,
+   "end": 292.52
+  },
+  {
+   "w": "parte",
+   "start": 292.52,
+   "end": 292.76
+  },
+  {
+   "w": "extraña.",
+   "start": 292.76,
+   "end": 293.46
+  },
+  {
+   "w": "El",
+   "start": 293.84,
+   "end": 293.92
+  },
+  {
+   "w": "juego",
+   "start": 293.92,
+   "end": 294.18
+  },
+  {
+   "w": "original",
+   "start": 294.18,
+   "end": 294.54
+  },
+  {
+   "w": "todavía",
+   "start": 294.54,
+   "end": 294.92
+  },
+  {
+   "w": "existe.",
+   "start": 294.92,
+   "end": 295.36
+  },
+  {
+   "w": "No",
+   "start": 296.06,
+   "end": 296.18
+  },
+  {
+   "w": "lo",
+   "start": 296.18,
+   "end": 296.44
+  },
+  {
+   "w": "perdimos.",
+   "start": 296.44,
+   "end": 297.02
+  },
+  {
+   "w": "Nadie",
+   "start": 297.76,
+   "end": 298.04
+  },
+  {
+   "w": "necesita",
+   "start": 298.04,
+   "end": 298.44
+  },
+  {
+   "w": "que",
+   "start": 298.44,
+   "end": 298.62
+  },
+  {
+   "w": "Nintendo",
+   "start": 298.62,
+   "end": 299.02
+  },
+  {
+   "w": "rescate",
+   "start": 299.02,
+   "end": 299.48
+  },
+  {
+   "w": "Ocarina",
+   "start": 299.48,
+   "end": 299.86
+  },
+  {
+   "w": "of",
+   "start": 299.86,
+   "end": 300.08
+  },
+  {
+   "w": "Time",
+   "start": 300.08,
+   "end": 300.2
+  },
+  {
+   "w": "de",
+   "start": 300.2,
+   "end": 300.36
+  },
+  {
+   "w": "la",
+   "start": 300.36,
+   "end": 300.6
+  },
+  {
+   "w": "historia.",
+   "start": 300.6,
+   "end": 301.02
+  },
+  {
+   "w": "Entonces,",
+   "start": 301.9,
+   "end": 302.34
+  },
+  {
+   "w": "¿por",
+   "start": 302.42,
+   "end": 302.6
+  },
+  {
+   "w": "qué",
+   "start": 302.6,
+   "end": 302.7
+  },
+  {
+   "w": "lo",
+   "start": 302.7,
+   "end": 302.92
+  },
+  {
+   "w": "queremos",
+   "start": 302.92,
+   "end": 303.2
+  },
+  {
+   "w": "otra",
+   "start": 303.2,
+   "end": 303.56
+  },
+  {
+   "w": "vez?",
+   "start": 303.56,
+   "end": 303.88
+  },
+  {
+   "w": "Porque",
+   "start": 303.88,
+   "end": 304.7
+  },
+  {
+   "w": "volver",
+   "start": 304.7,
+   "end": 305.1
+  },
+  {
+   "w": "a",
+   "start": 305.1,
+   "end": 305.22
+  },
+  {
+   "w": "algo",
+   "start": 305.22,
+   "end": 305.42
+  },
+  {
+   "w": "que",
+   "start": 305.42,
+   "end": 305.62
+  },
+  {
+   "w": "amabas",
+   "start": 305.62,
+   "end": 306.12
+  },
+  {
+   "w": "es",
+   "start": 306.12,
+   "end": 306.48
+  },
+  {
+   "w": "una",
+   "start": 306.48,
+   "end": 306.68
+  },
+  {
+   "w": "de",
+   "start": 306.68,
+   "end": 306.78
+  },
+  {
+   "w": "las",
+   "start": 306.78,
+   "end": 306.98
+  },
+  {
+   "w": "pocas",
+   "start": 306.98,
+   "end": 307.24
+  },
+  {
+   "w": "formas",
+   "start": 307.24,
+   "end": 307.52
+  },
+  {
+   "w": "que",
+   "start": 307.52,
+   "end": 307.82
+  },
+  {
+   "w": "existen",
+   "start": 307.82,
+   "end": 308.14
+  },
+  {
+   "w": "de",
+   "start": 308.14,
+   "end": 308.3
+  },
+  {
+   "w": "medir",
+   "start": 308.3,
+   "end": 308.62
+  },
+  {
+   "w": "cuánto",
+   "start": 308.62,
+   "end": 308.98
+  },
+  {
+   "w": "has",
+   "start": 308.98,
+   "end": 309.18
+  },
+  {
+   "w": "cambiado.",
+   "start": 309.18,
+   "end": 310.24
+  },
+  {
+   "w": "El",
+   "start": 310.56,
+   "end": 310.68
+  },
+  {
+   "w": "bosque",
+   "start": 310.68,
+   "end": 310.96
+  },
+  {
+   "w": "sigue",
+   "start": 310.96,
+   "end": 311.18
+  },
+  {
+   "w": "ahí.",
+   "start": 311.18,
+   "end": 311.62
+  },
+  {
+   "w": "La",
+   "start": 312.5,
+   "end": 312.66
+  },
+  {
+   "w": "ocarina",
+   "start": 312.66,
+   "end": 313.12
+  },
+  {
+   "w": "sigue",
+   "start": 313.12,
+   "end": 313.34
+  },
+  {
+   "w": "ahí.",
+   "start": 313.34,
+   "end": 313.72
+  },
+  {
+   "w": "La",
+   "start": 314.6,
+   "end": 314.76
+  },
+  {
+   "w": "Master",
+   "start": 314.76,
+   "end": 315.12
+  },
+  {
+   "w": "Sword",
+   "start": 315.12,
+   "end": 315.36
+  },
+  {
+   "w": "sigue",
+   "start": 315.36,
+   "end": 315.62
+  },
+  {
+   "w": "esperando.",
+   "start": 315.62,
+   "end": 316.12
+  },
+  {
+   "w": "La",
+   "start": 316.86,
+   "end": 317.02
+  },
+  {
+   "w": "trifuerza",
+   "start": 317.02,
+   "end": 317.5
+  },
+  {
+   "w": "todavía",
+   "start": 317.5,
+   "end": 317.88
+  },
+  {
+   "w": "significa",
+   "start": 317.88,
+   "end": 318.44
+  },
+  {
+   "w": "sabiduría,",
+   "start": 318.44,
+   "end": 319.18
+  },
+  {
+   "w": "poder",
+   "start": 319.4,
+   "end": 319.62
+  },
+  {
+   "w": "y",
+   "start": 319.62,
+   "end": 319.8
+  },
+  {
+   "w": "valor.",
+   "start": 319.8,
+   "end": 320.18
+  },
+  {
+   "w": "Pero",
+   "start": 321.4,
+   "end": 321.58
+  },
+  {
+   "w": "la",
+   "start": 321.58,
+   "end": 321.8
+  },
+  {
+   "w": "persona",
+   "start": 321.8,
+   "end": 322.08
+  },
+  {
+   "w": "que",
+   "start": 322.08,
+   "end": 322.28
+  },
+  {
+   "w": "sostiene",
+   "start": 322.28,
+   "end": 322.6
+  },
+  {
+   "w": "el",
+   "start": 322.6,
+   "end": 322.92
+  },
+  {
+   "w": "control",
+   "start": 322.92,
+   "end": 323.18
+  },
+  {
+   "w": "es",
+   "start": 323.18,
+   "end": 323.5
+  },
+  {
+   "w": "diferente.",
+   "start": 323.5,
+   "end": 324.0
+  },
+  {
+   "w": "Y",
+   "start": 325.1,
+   "end": 325.3
+  },
+  {
+   "w": "para",
+   "start": 325.3,
+   "end": 325.52
+  },
+  {
+   "w": "este",
+   "start": 325.52,
+   "end": 325.68
+  },
+  {
+   "w": "juego",
+   "start": 325.68,
+   "end": 325.88
+  },
+  {
+   "w": "en",
+   "start": 325.88,
+   "end": 326.14
+  },
+  {
+   "w": "particular,",
+   "start": 326.14,
+   "end": 326.6
+  },
+  {
+   "w": "eso",
+   "start": 327.58,
+   "end": 327.66
+  },
+  {
+   "w": "es",
+   "start": 327.66,
+   "end": 327.9
+  },
+  {
+   "w": "casi",
+   "start": 327.9,
+   "end": 328.1
+  },
+  {
+   "w": "demasiado",
+   "start": 328.1,
+   "end": 328.6
+  },
+  {
+   "w": "perfecto.",
+   "start": 328.6,
+   "end": 328.88
+  },
+  {
+   "w": "Una",
+   "start": 328.88,
+   "end": 329.98
+  },
+  {
+   "w": "historia",
+   "start": 329.98,
+   "end": 330.38
+  },
+  {
+   "w": "sobre",
+   "start": 330.38,
+   "end": 330.64
+  },
+  {
+   "w": "un",
+   "start": 330.64,
+   "end": 330.84
+  },
+  {
+   "w": "niño",
+   "start": 330.84,
+   "end": 331.02
+  },
+  {
+   "w": "que",
+   "start": 331.02,
+   "end": 331.2
+  },
+  {
+   "w": "se",
+   "start": 331.2,
+   "end": 331.42
+  },
+  {
+   "w": "convierte",
+   "start": 331.42,
+   "end": 331.72
+  },
+  {
+   "w": "en",
+   "start": 331.72,
+   "end": 331.94
+  },
+  {
+   "w": "adulto",
+   "start": 331.94,
+   "end": 332.64
+  },
+  {
+   "w": "está",
+   "start": 332.64,
+   "end": 333.0
+  },
+  {
+   "w": "regresando",
+   "start": 333.0,
+   "end": 333.52
+  },
+  {
+   "w": "a",
+   "start": 333.52,
+   "end": 333.72
+  },
+  {
+   "w": "personas",
+   "start": 333.72,
+   "end": 333.98
+  },
+  {
+   "w": "que",
+   "start": 333.98,
+   "end": 334.2
+  },
+  {
+   "w": "hicieron",
+   "start": 334.2,
+   "end": 334.6
+  },
+  {
+   "w": "exactamente",
+   "start": 334.6,
+   "end": 335.4
+  },
+  {
+   "w": "lo",
+   "start": 335.4,
+   "end": 335.66
+  },
+  {
+   "w": "mismo.",
+   "start": 335.66,
+   "end": 336.18
+  },
+  {
+   "w": "Alguien",
+   "start": 336.78,
+   "end": 337.06
+  },
+  {
+   "w": "que",
+   "start": 337.06,
+   "end": 337.28
+  },
+  {
+   "w": "cruzó",
+   "start": 337.28,
+   "end": 337.6
+  },
+  {
+   "w": "Hyrule",
+   "start": 337.6,
+   "end": 338.02
+  },
+  {
+   "w": "Field",
+   "start": 338.02,
+   "end": 338.3
+  },
+  {
+   "w": "por",
+   "start": 338.3,
+   "end": 338.58
+  },
+  {
+   "w": "primera",
+   "start": 338.58,
+   "end": 338.8
+  },
+  {
+   "w": "vez",
+   "start": 338.8,
+   "end": 339.02
+  },
+  {
+   "w": "en",
+   "start": 339.02,
+   "end": 339.18
+  },
+  {
+   "w": "1998",
+   "start": 339.18,
+   "end": 340.54
+  },
+  {
+   "w": "puede",
+   "start": 340.54,
+   "end": 341.12
+  },
+  {
+   "w": "volver",
+   "start": 341.12,
+   "end": 341.46
+  },
+  {
+   "w": "a",
+   "start": 341.46,
+   "end": 341.62
+  },
+  {
+   "w": "cruzarlo",
+   "start": 341.62,
+   "end": 342.0
+  },
+  {
+   "w": "ahora,",
+   "start": 342.0,
+   "end": 342.38
+  },
+  {
+   "w": "con",
+   "start": 342.74,
+   "end": 342.86
+  },
+  {
+   "w": "casi",
+   "start": 342.86,
+   "end": 343.18
+  },
+  {
+   "w": "tres",
+   "start": 343.18,
+   "end": 343.46
+  },
+  {
+   "w": "décadas",
+   "start": 343.46,
+   "end": 343.86
+  },
+  {
+   "w": "separando",
+   "start": 343.86,
+   "end": 344.32
+  },
+  {
+   "w": "esas",
+   "start": 344.32,
+   "end": 344.6
+  },
+  {
+   "w": "dos",
+   "start": 344.6,
+   "end": 344.84
+  },
+  {
+   "w": "versiones",
+   "start": 344.84,
+   "end": 345.32
+  },
+  {
+   "w": "de",
+   "start": 345.32,
+   "end": 345.46
+  },
+  {
+   "w": "sí",
+   "start": 345.46,
+   "end": 345.6
+  },
+  {
+   "w": "mismo.",
+   "start": 345.6,
+   "end": 345.96
+  },
+  {
+   "w": "El",
+   "start": 346.5,
+   "end": 346.7
+  },
+  {
+   "w": "mismo",
+   "start": 346.7,
+   "end": 346.96
+  },
+  {
+   "w": "camino.",
+   "start": 346.96,
+   "end": 347.36
+  },
+  {
+   "w": "Otra",
+   "start": 347.94,
+   "end": 348.2
+  },
+  {
+   "w": "persona.",
+   "start": 348.2,
+   "end": 348.64
+  },
+  {
+   "w": "Y",
+   "start": 349.38,
+   "end": 349.56
+  },
+  {
+   "w": "quizá",
+   "start": 349.56,
+   "end": 349.86
+  },
+  {
+   "w": "eso",
+   "start": 349.86,
+   "end": 350.04
+  },
+  {
+   "w": "sea",
+   "start": 350.04,
+   "end": 350.2
+  },
+  {
+   "w": "lo",
+   "start": 350.2,
+   "end": 350.36
+  },
+  {
+   "w": "que",
+   "start": 350.36,
+   "end": 350.5
+  },
+  {
+   "w": "realmente",
+   "start": 350.5,
+   "end": 350.94
+  },
+  {
+   "w": "queremos,",
+   "start": 350.94,
+   "end": 351.36
+  },
+  {
+   "w": "no",
+   "start": 351.88,
+   "end": 352.08
+  },
+  {
+   "w": "recuperar",
+   "start": 352.08,
+   "end": 352.6
+  },
+  {
+   "w": "el",
+   "start": 352.6,
+   "end": 352.76
+  },
+  {
+   "w": "juego",
+   "start": 352.76,
+   "end": 353.0
+  },
+  {
+   "w": "viejo,",
+   "start": 353.0,
+   "end": 353.28
+  },
+  {
+   "w": "sino",
+   "start": 354.02,
+   "end": 354.2
+  },
+  {
+   "w": "tener",
+   "start": 354.2,
+   "end": 354.54
+  },
+  {
+   "w": "la",
+   "start": 354.54,
+   "end": 354.68
+  },
+  {
+   "w": "oportunidad",
+   "start": 354.68,
+   "end": 355.16
+  },
+  {
+   "w": "de",
+   "start": 355.16,
+   "end": 355.44
+  },
+  {
+   "w": "pararnos",
+   "start": 355.44,
+   "end": 355.8
+  },
+  {
+   "w": "junto",
+   "start": 355.8,
+   "end": 356.04
+  },
+  {
+   "w": "a",
+   "start": 356.04,
+   "end": 356.2
+  },
+  {
+   "w": "un",
+   "start": 356.2,
+   "end": 356.36
+  },
+  {
+   "w": "recuerdo",
+   "start": 356.36,
+   "end": 356.66
+  },
+  {
+   "w": "antiguo",
+   "start": 356.66,
+   "end": 357.44
+  },
+  {
+   "w": "y",
+   "start": 357.44,
+   "end": 357.64
+  },
+  {
+   "w": "ver",
+   "start": 357.64,
+   "end": 357.82
+  },
+  {
+   "w": "si",
+   "start": 357.82,
+   "end": 358.02
+  },
+  {
+   "w": "todavía",
+   "start": 358.02,
+   "end": 358.36
+  },
+  {
+   "w": "nos",
+   "start": 358.36,
+   "end": 358.66
+  },
+  {
+   "w": "Entonces,",
+   "start": 361.24,
+   "end": 361.8
+  },
+  {
+   "w": "¿se",
+   "start": 362.36,
+   "end": 362.64
+  },
+  {
+   "w": "puede",
+   "start": 362.64,
+   "end": 362.96
+  },
+  {
+   "w": "rehacer",
+   "start": 362.96,
+   "end": 363.36
+  },
+  {
+   "w": "un",
+   "start": 363.36,
+   "end": 363.64
+  },
+  {
+   "w": "recuerdo?",
+   "start": 363.64,
+   "end": 364.04
+  },
+  {
+   "w": "Probablemente",
+   "start": 364.5,
+   "end": 365.06
+  },
+  {
+   "w": "no.",
+   "start": 365.06,
+   "end": 365.46
+  },
+  {
+   "w": "Nintendo",
+   "start": 365.8,
+   "end": 366.1
+  },
+  {
+   "w": "no",
+   "start": 366.1,
+   "end": 366.38
+  },
+  {
+   "w": "puede",
+   "start": 366.38,
+   "end": 366.52
+  },
+  {
+   "w": "reconstruir",
+   "start": 366.52,
+   "end": 367.1
+  },
+  {
+   "w": "la",
+   "start": 367.1,
+   "end": 367.24
+  },
+  {
+   "w": "habitación",
+   "start": 367.24,
+   "end": 367.7
+  },
+  {
+   "w": "en",
+   "start": 367.7,
+   "end": 367.82
+  },
+  {
+   "w": "la",
+   "start": 367.82,
+   "end": 367.94
+  },
+  {
+   "w": "que",
+   "start": 367.94,
+   "end": 368.06
+  },
+  {
+   "w": "estabas",
+   "start": 368.06,
+   "end": 368.32
+  },
+  {
+   "w": "sentado,",
+   "start": 368.32,
+   "end": 368.84
+  },
+  {
+   "w": "no",
+   "start": 369.12,
+   "end": 369.22
+  },
+  {
+   "w": "puede",
+   "start": 369.22,
+   "end": 369.46
+  },
+  {
+   "w": "recrear",
+   "start": 369.46,
+   "end": 369.92
+  },
+  {
+   "w": "el",
+   "start": 369.92,
+   "end": 370.12
+  },
+  {
+   "w": "televisor",
+   "start": 370.12,
+   "end": 370.7
+  },
+  {
+   "w": "la",
+   "start": 370.7,
+   "end": 371.12
+  },
+  {
+   "w": "tarde",
+   "start": 371.12,
+   "end": 371.42
+  },
+  {
+   "w": "de",
+   "start": 371.42,
+   "end": 371.64
+  },
+  {
+   "w": "sábado,",
+   "start": 371.64,
+   "end": 372.04
+  },
+  {
+   "w": "el",
+   "start": 372.3,
+   "end": 372.5
+  },
+  {
+   "w": "amigo",
+   "start": 372.5,
+   "end": 372.78
+  },
+  {
+   "w": "sentado",
+   "start": 372.78,
+   "end": 373.24
+  },
+  {
+   "w": "a",
+   "start": 373.24,
+   "end": 373.36
+  },
+  {
+   "w": "tu",
+   "start": 373.36,
+   "end": 373.48
+  },
+  {
+   "w": "lado,",
+   "start": 373.48,
+   "end": 373.9
+  },
+  {
+   "w": "ni",
+   "start": 374.14,
+   "end": 374.32
+  },
+  {
+   "w": "la",
+   "start": 374.32,
+   "end": 374.46
+  },
+  {
+   "w": "versión",
+   "start": 374.46,
+   "end": 374.86
+  },
+  {
+   "w": "exacta",
+   "start": 374.86,
+   "end": 375.3
+  },
+  {
+   "w": "de",
+   "start": 375.3,
+   "end": 375.46
+  },
+  {
+   "w": "ti",
+   "start": 375.46,
+   "end": 375.6
+  },
+  {
+   "w": "que",
+   "start": 375.6,
+   "end": 376.04
+  },
+  {
+   "w": "entró",
+   "start": 376.04,
+   "end": 376.28
+  },
+  {
+   "w": "a",
+   "start": 376.28,
+   "end": 376.44
+  },
+  {
+   "w": "Hyrule",
+   "start": 376.44,
+   "end": 376.68
+  },
+  {
+   "w": "por",
+   "start": 376.68,
+   "end": 376.96
+  },
+  {
+   "w": "primera",
+   "start": 376.96,
+   "end": 377.18
+  },
+  {
+   "w": "vez.",
+   "start": 377.18,
+   "end": 377.66
+  },
+  {
+   "w": "Pero",
+   "start": 378.3,
+   "end": 378.56
+  },
+  {
+   "w": "sí",
+   "start": 378.56,
+   "end": 378.76
+  },
+  {
+   "w": "puede",
+   "start": 378.76,
+   "end": 379.02
+  },
+  {
+   "w": "reconstruir",
+   "start": 379.02,
+   "end": 379.72
+  },
+  {
+   "w": "Hyrule.",
+   "start": 379.72,
+   "end": 380.2
+  },
+  {
+   "w": "Y",
+   "start": 380.46,
+   "end": 380.62
+  },
+  {
+   "w": "quizá",
+   "start": 380.62,
+   "end": 380.92
+  },
+  {
+   "w": "eso",
+   "start": 380.92,
+   "end": 381.1
+  },
+  {
+   "w": "sea",
+   "start": 381.1,
+   "end": 381.3
+  },
+  {
+   "w": "suficiente.",
+   "start": 381.3,
+   "end": 381.94
+  },
+  {
+   "w": "¿Por",
+   "start": 382.36,
+   "end": 382.5
+  },
+  {
+   "w": "qué",
+   "start": 382.5,
+   "end": 382.58
+  },
+  {
+   "w": "un",
+   "start": 382.58,
+   "end": 382.78
+  },
+  {
+   "w": "remake",
+   "start": 382.78,
+   "end": 383.12
+  },
+  {
+   "w": "no",
+   "start": 383.12,
+   "end": 383.46
+  },
+  {
+   "w": "tiene",
+   "start": 383.46,
+   "end": 383.66
+  },
+  {
+   "w": "que",
+   "start": 383.66,
+   "end": 383.9
+  },
+  {
+   "w": "llevarte",
+   "start": 383.9,
+   "end": 384.2
+  },
+  {
+   "w": "de",
+   "start": 384.2,
+   "end": 384.42
+  },
+  {
+   "w": "vuelta?",
+   "start": 384.42,
+   "end": 384.7
+  },
+  {
+   "w": "puede",
+   "start": 384.7,
+   "end": 385.36
+  },
+  {
+   "w": "dejar",
+   "start": 385.36,
+   "end": 385.72
+  },
+  {
+   "w": "que",
+   "start": 385.72,
+   "end": 385.92
+  },
+  {
+   "w": "dos",
+   "start": 385.92,
+   "end": 386.06
+  },
+  {
+   "w": "momentos",
+   "start": 386.06,
+   "end": 386.56
+  },
+  {
+   "w": "distintos",
+   "start": 386.56,
+   "end": 387.04
+  },
+  {
+   "w": "se",
+   "start": 387.04,
+   "end": 387.34
+  },
+  {
+   "w": "encuentren,",
+   "start": 387.34,
+   "end": 387.84
+  },
+  {
+   "w": "el",
+   "start": 388.16,
+   "end": 388.3
+  },
+  {
+   "w": "juego",
+   "start": 388.3,
+   "end": 388.54
+  },
+  {
+   "w": "que",
+   "start": 388.54,
+   "end": 388.82
+  },
+  {
+   "w": "recuerdas",
+   "start": 388.82,
+   "end": 389.32
+  },
+  {
+   "w": "y",
+   "start": 389.32,
+   "end": 389.78
+  },
+  {
+   "w": "la",
+   "start": 389.78,
+   "end": 389.98
+  },
+  {
+   "w": "persona",
+   "start": 389.98,
+   "end": 390.26
+  },
+  {
+   "w": "en",
+   "start": 390.26,
+   "end": 390.42
+  },
+  {
+   "w": "la",
+   "start": 390.42,
+   "end": 390.54
+  },
+  {
+   "w": "que",
+   "start": 390.54,
+   "end": 390.58
+  },
+  {
+   "w": "te",
+   "start": 390.58,
+   "end": 390.88
+  },
+  {
+   "w": "convertiste.",
+   "start": 390.88,
+   "end": 391.48
+  },
+  {
+   "w": "No",
+   "start": 391.74,
+   "end": 391.98
+  },
+  {
+   "w": "puedes",
+   "start": 391.98,
+   "end": 392.28
+  },
+  {
+   "w": "volver",
+   "start": 392.28,
+   "end": 392.62
+  },
+  {
+   "w": "a",
+   "start": 392.62,
+   "end": 392.8
+  },
+  {
+   "w": "jugar",
+   "start": 392.8,
+   "end": 393.0
+  },
+  {
+   "w": "Ocarina",
+   "start": 393.0,
+   "end": 393.4
+  },
+  {
+   "w": "of",
+   "start": 393.4,
+   "end": 393.6
+  },
+  {
+   "w": "Time",
+   "start": 393.6,
+   "end": 393.76
+  },
+  {
+   "w": "por",
+   "start": 393.76,
+   "end": 394.06
+  },
+  {
+   "w": "primera",
+   "start": 394.06,
+   "end": 394.32
+  },
+  {
+   "w": "vez,",
+   "start": 394.32,
+   "end": 394.72
+  },
+  {
+   "w": "pero",
+   "start": 395.14,
+   "end": 395.26
+  },
+  {
+   "w": "quizás",
+   "start": 395.26,
+   "end": 395.64
+  },
+  {
+   "w": "sí",
+   "start": 395.64,
+   "end": 395.8
+  },
+  {
+   "w": "puedas",
+   "start": 395.8,
+   "end": 396.12
+  },
+  {
+   "w": "volver",
+   "start": 396.12,
+   "end": 396.48
+  },
+  {
+   "w": "a",
+   "start": 396.48,
+   "end": 396.78
+  },
+  {
+   "w": "encontrarte",
+   "start": 396.78,
+   "end": 397.08
+  },
+  {
+   "w": "con",
+   "start": 397.08,
+   "end": 397.26
+  },
+  {
+   "w": "él",
+   "start": 397.26,
+   "end": 397.56
+  },
+  {
+   "w": "y",
+   "start": 397.56,
+   "end": 398.02
+  },
+  {
+   "w": "esta",
+   "start": 398.02,
+   "end": 398.24
+  },
+  {
+   "w": "vez",
+   "start": 398.24,
+   "end": 398.58
+  },
+  {
+   "w": "los",
+   "start": 398.58,
+   "end": 399.16
+  },
+  {
+   "w": "dos",
+   "start": 399.16,
+   "end": 399.4
+  },
+  {
+   "w": "crecieron.",
+   "start": 399.4,
+   "end": 399.82
+  },
+  {
+   "w": "Entonces,",
+   "start": 402.46,
+   "end": 402.9
+  },
+  {
+   "w": "¿a",
+   "start": 403.06,
+   "end": 403.32
+  },
+  {
+   "w": "qué",
+   "start": 403.32,
+   "end": 403.4
+  },
+  {
+   "w": "juego",
+   "start": 403.4,
+   "end": 403.7
+  },
+  {
+   "w": "volverías?",
+   "start": 403.7,
+   "end": 404.36
+  },
+  {
+   "w": "¿Y",
+   "start": 404.56,
+   "end": 404.76
+  },
+  {
+   "w": "qué",
+   "start": 404.76,
+   "end": 404.9
+  },
+  {
+   "w": "juego",
+   "start": 404.9,
+   "end": 405.22
+  },
+  {
+   "w": "merece",
+   "start": 405.22,
+   "end": 405.6
+  },
+  {
+   "w": "ser",
+   "start": 405.6,
+   "end": 405.82
+  },
+  {
+   "w": "nuestro",
+   "start": 405.82,
+   "end": 406.14
+  },
+  {
+   "w": "próximo?",
+   "start": 406.14,
+   "end": 406.58
+  },
+  {
+   "w": "¿Por",
+   "start": 406.84,
+   "end": 407.06
+  },
+  {
+   "w": "qué?",
+   "start": 407.06,
+   "end": 407.22
+  },
+  {
+   "w": "Dímelo",
+   "start": 407.72,
+   "end": 408.0
+  },
+  {
+   "w": "en",
+   "start": 408.0,
+   "end": 408.12
+  },
+  {
+   "w": "los",
+   "start": 408.12,
+   "end": 408.34
+  },
+  {
+   "w": "comentarios.",
+   "start": 408.34,
+   "end": 408.9
+  },
+  {
+   "w": "Tal",
+   "start": 409.28,
+   "end": 409.48
+  },
+  {
+   "w": "vez",
+   "start": 409.48,
+   "end": 409.86
+  },
+  {
+   "w": "esa",
+   "start": 409.86,
+   "end": 410.08
+  },
+  {
+   "w": "sea",
+   "start": 410.08,
+   "end": 410.32
+  },
+  {
+   "w": "nuestra",
+   "start": 410.32,
+   "end": 410.68
+  },
+  {
+   "w": "próxima",
+   "start": 410.68,
+   "end": 411.08
+  },
+  {
+   "w": "Quest.",
+   "start": 411.08,
+   "end": 411.6
+  }
+ ]
+}

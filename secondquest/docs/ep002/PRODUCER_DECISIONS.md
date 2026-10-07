@@ -624,3 +624,11 @@
   ES-419 script verbatim, 8 blocks + 1 retake; lines placed on each English line's start, tempo <= 1.15 locally (57 %
   untouched), the episode's own SFX re-mixed identically; length = the video's. Scripts: ep002-es-lines.py,
   ep002-es-schedule.py, ep002-es-audio.py. Files: audio/bram/ep002_es/.
+- 2026-10-07 · Spanish dub v2 (Producer heard cuts and narration over narration at 0:58, 1:56, 2:36, 3:35-3:50,
+  4:00-4:22, 4:35-4:45, 5:10-6:52). Cause: v1 cut each line at the STT word times, so a tail could carry the next
+  line's first sound (heard twice) and some cuts fell inside words. v2: cuts only inside real pauses found in the audio
+  (lines Bram ran together stay together), segments laid end to end never overlap (blocks included), an even tempo
+  per block where Spanish is longer (B03 1.108) with local bumps <= 1.15, rubberband stretch (formants kept), 8 ms
+  fades inside silence, a 90 ms release where a take stops on a vowel (B06 "reconoce."). QC (ep002-es-qc.py, full
+  track STT): 1121 script words / 1121 heard, no repeated or missing word, 0 overlaps; every flagged interval reads as
+  the script. "Quest" at the end is heard as "Quest" (no retake needed). No credits spent.
