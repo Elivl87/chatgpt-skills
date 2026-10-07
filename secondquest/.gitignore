@@ -30,3 +30,7 @@ docs/ep002/EP002_animatic_full_v4_es.mp4
 *_1080p.mp4
 *_1440p.jpg
 *_1080p.jpg
+
+# Short renders in progress (temporary, removed when the render ends)
+docs/publish/*/short*/_v.mp4
+docs/publish/*/short*/_a.wav
