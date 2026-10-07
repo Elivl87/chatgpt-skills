@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SRC = ROOT / 'docs/ep002/EP002_animatic_full_v6_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
 OUT = ROOT / 'docs/publish/EP002/short1'
-VERSION = 6
+VERSION = 7
 W, H, FPS = 1080, 1920, 24
 SW, SH = 2560, 1440
 CW = round(SH * W / H)                                             # 9:16 crop width in source px (810)
@@ -32,7 +32,7 @@ CUES = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
 # (episode start, episode end, crop centre x as a fraction of the frame): the approved order
 SEGMENTS = [(17.30, 21.75, .50),     # l07-l08 on the field, Quest from behind: "…cannot rebuild… You."
             (7.75, 12.95, .53),      # l03 the room, the kid cheering at the TV: "New graphics. An orchestra…"
-            (12.95, 17.30, .50),     # l04-l06 the ocarina, the sword, the Triforce (lock-on)
+            (12.95, 17.20, .50),     # l04-l06 the ocarina, the sword, the Triforce (lock-on); ends before the field cut
             (21.75, 25.50, .50),     # l09 Quest sets off down the road: "…that might be exactly why we want to go back."
             (25.55, 27.05, .50)]     # l10 "So, why?" (audio; picture VIDEO_AT + our wordmark, as in the episode)
 VIDEO_AT = {3: 20.25, 4: 24.00}       # l09/l10 pictures: one continuous walk (l10 used to jump back 1.5 s: Quest seemed
@@ -88,10 +88,11 @@ def chunks(words):
     return out
 
 
-def captions(fr, te):
+def captions(fr, te, seg=(-1e9, 1e9)):
     """EP001 Short style: Inter heavy, white, ink outline + drop, short phrases that pop in; the word being said is
     gold. te = episode time."""
-    lid = next((l for l in LINES if CUES[l]['start'] - .1 <= te <= CUES[l]['end'] + .3), None)
+    lid = next((l for l in LINES if seg[0] - .2 <= CUES[l]['start'] <= seg[1]                     # only this segment's lines
+                and CUES[l]['start'] - .1 <= te <= CUES[l]['end'] + .3), None)
     if not lid:
         return fr
     ws = [w for w in CUES[lid]['words']]
@@ -270,7 +271,7 @@ def render_video(path):
                 fr = wordmark(fr, s0 + n / FPS - T_LOGO)
             plain = fr.copy()                                          # the card's background: no caption
             if SUBS:
-                fr = captions(fr, te)
+                fr = captions(fr, te, (a, b))
             p.stdin.write(fr.tobytes()); last = fr
             for name, ts in (('hook', 19.0), ('you', 21.3), ('room', 10.0), ('triforce', 16.8), ('goback', 23.5), ('why', 26.6)):
                 if abs(te - ts) < .5 / FPS:
