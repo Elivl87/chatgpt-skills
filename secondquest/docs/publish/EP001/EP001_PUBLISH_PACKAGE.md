@@ -131,7 +131,7 @@ Fuente: YouTube Studio, del 2 al 6 de octubre de 2026 (capturas del Producer). L
 
 **Curva de visualizaciones:** casi plana el día 0; sube entre el día 1 y el 3,5 (el Short salió el día 1); se aplana en unas 590 desde el día 4.
 
-**Tráfico:** 2.735 × 3,5 % ≈ 96 visualizaciones salen de la miniatura. Las otras ~500 vienen de otras fuentes; falta confirmarlo en *Alcance → Fuentes de tráfico*.
+**Tráfico:** 95,9 % de *Browse* (recomendaciones de Inicio), 2,4 % de búsqueda y 1,0 % del canal. El análisis completo, con fuentes de tráfico y Shorts, está en `ANALYTICS_D5.md` (rama `claude/secondquest-pilot-hook-4yw8xj`).
 
 **Retención de la audiencia:**
 
@@ -151,7 +151,6 @@ Después del primer minuto la curva baja suave: el cuerpo del episodio funciona 
 **Causas probables:**
 1. **Promesa de la miniatura incumplida:** la miniatura 3 dice "$500,000 TRACTOR", pero el video nunca da esa cifra y los tractores no aparecen hasta el 5:01.
 2. **Intro lenta:** empieza con Quest durmiendo y una lista de lo que el juego *no* tiene. La pregunta real ("why do millions…") no llega hasta ~0:25.
-3. **Por confirmar, el idioma:** la narración está en inglés y la descripción en español. Hay que mirar *Audiencia → Geografía* y las fuentes de tráfico.
 
 **La mejora para EP002 (regla "mejora algo cada vez"):** arreglar los primeros 30 segundos.
 - Lo más llamativo, y lo que muestre la miniatura, aparece en los primeros 5 segundos.
