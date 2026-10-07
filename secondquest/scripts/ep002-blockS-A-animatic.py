@@ -351,7 +351,7 @@ def render(t):
     keys = [(T0, (VX0 + VW * .6) / W, (VY0 + VH * .35) / H), (T_YOU, (VX0 + VW * .35) / W, (VY0 + VH * .45) / H), (T_END, (VX0 + VW * .3) / W, (VY0 + VH * .4) / H)]
     fr = fairy_fx.draw(fr, keys, t, size=.035)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v7 · PLANNING ONLY')
+    tag(d, f'SEQ 25 CANNOT REBUILD · {lab} · BLOCK S option A v8 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -360,7 +360,7 @@ STILLS = (('s1', T_LOAD1 - .4), ('s2', T_NOT + .5), ('s3a', ASSETS[1][2] + .5), 
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockS_animatic_A_v7.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockS_animatic_A_v8.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -370,14 +370,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockS_A_v7_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockS_A_v8_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockS_A_v7_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockS_A_v8_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

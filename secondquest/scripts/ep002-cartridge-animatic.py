@@ -247,7 +247,7 @@ def sfx_events():
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_cartridge_animatic_v14.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_cartridge_animatic_v15.mp4')
     ev = sfx_events()
     ins, chains = [], []
     for k, (name, at_, gain) in enumerate(ev):
@@ -264,7 +264,7 @@ def main():
         p.stdin.write(render(n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in (('s1', 1.5), ('s2', T_CLIC - 0.5), ('s3', T_SEQ2 + 0.5)):
-        render(t).save(out_path(ROOT / f'docs/ep002/cartridge_animatic_v14_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/cartridge_animatic_v15_{name}.jpg'), quality=85)
     print(f'{out.relative_to(ROOT)}  {T_END:.2f}s  (S2 {T_S2:.2f}s, clic {T_CLIC:.2f}s)')
 
 

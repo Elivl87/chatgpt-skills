@@ -264,7 +264,7 @@ def render(t):
         fr, lab = frame_g57(t)
     fr = hud.draw(fr, hearts=HEARTS, t=t)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v10 · PLANNING ONLY')
+    tag(d, f'SEQ 13 WHAT A REMAKE CHANGES · {lab} · BLOCK G v11 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -273,7 +273,7 @@ STILLS = (('g1', T0 + 1.2), ('g2', T_EMPTY + .5), ('g3', T_IMAG), ('g4', T_DECID
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockG_animatic_v10.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockG_animatic_v11.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -283,14 +283,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockG_v10_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockG_v11_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockG_v10_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockG_v11_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

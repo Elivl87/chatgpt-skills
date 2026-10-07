@@ -11,8 +11,8 @@ from lib import S  # noqa: E402  (design px -> output px; layout drawn in 1280x7
 _INTER = str(__import__('pathlib').Path(__file__).resolve().parents[2] / 'public/shared/fonts/Inter-800.woff2')   # the channel's type
 FONT = ImageFont.truetype(_INTER, max(1, round(S(26))))
 INK = (20, 14, 18, 255)
-GLOSS_FIX = False                                                   # Producer 2026-10-07: pending approval
-RUPEE_FROM_BOTTOM = 132                                             # design px from the bottom edge to the rupee counter
+GLOSS_FIX = True                                                    # Producer 2026-10-07: the gloss blends on solid buttons (no hole)
+RUPEE_FROM_BOTTOM = 72                                              # Producer 2026-10-07: lower (no subtitles to clear any more)
 
 
 def _heart(d, cx, cy, s, fill, outline=INK, highlight=True):

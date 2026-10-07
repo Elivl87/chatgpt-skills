@@ -252,7 +252,7 @@ def render(t):
     d = ImageDraw.Draw(fr)
     lab = ('F1 "On paper..."' if t < T_BELOVED else 'F2 beloved -> better' if t < T_DANGER else 'F3 DANGER stamp' if t < T_MEAS
            else 'F4-F5 each "better" applied to Hyrule' if t < T_FAM else 'F6 familiar: ???')
-    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v11 · PLANNING ONLY')
+    tag(d, f'SEQ 12 · OPTION B (in Hyrule) · {lab} · BLOCK F-B v12 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -262,7 +262,7 @@ STILLS = (('f1', T_BELOVED - .2), ('f3', T_DANGER + .6), ('f4_old', T_MEAS + .7)
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockF_B_animatic_v11.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockF_B_animatic_v12.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -272,14 +272,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockF_B_v11_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockF_B_v12_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockF_B_v11_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockF_B_v12_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EP002 animatic · block B (planning only): from "An orchestra." to the cut into Act 1 (l03 rest -> l10, + silence).
 
-  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v16.mp4
+  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v17.mp4
 
 Scene Book v2, sequences 02-04:
   B1  "An orchestra. Voices. Modern controls."  living room from behind Quest, facing the TV; Navi comes back and circles
@@ -257,7 +257,7 @@ def render(t):
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockB_animatic_v16.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockB_animatic_v17.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -268,7 +268,7 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('b1', T('l03.w6') + .3), ('b2', T_CAM + .5), ('b3_ocarina', T_OC + .5), ('b3_sword', T_SW + .5), ('b3_triforce', T_TF + 1.1),
                     ('b4', T_FIELD + 1.5), ('b6', T_GO + 2.0), ('title', T_END - .5)):
-        render(t).save(out_path(ROOT / f'docs/ep002/blockB_v16_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockB_v17_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 

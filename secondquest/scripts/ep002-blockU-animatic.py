@@ -208,7 +208,7 @@ def render(t):
             d.text((x0 + S(8), y0 + S(6)), s, font=F(14), fill=(255, 255, 255), stroke_width=Si(2), stroke_fill=(20, 14, 18))
         fr = continue_menu(fr, t, a)
         d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v7 · PLANNING ONLY')
+    tag(d, f'SEQ 27 OUR NEXT QUEST · {lab} · BLOCK U v8 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -221,7 +221,7 @@ STILLS = (('u1a', T0 + .8), ('u1', T0 + 3.0), ('u2', T_WHY + .8), ('u2o', (T_ORB
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockU_animatic_v7.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockU_animatic_v8.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr), '-i', str(SFX),
@@ -233,14 +233,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockU_v7_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockU_v8_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockU_v7_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockU_v8_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

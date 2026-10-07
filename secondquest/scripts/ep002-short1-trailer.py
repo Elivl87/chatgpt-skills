@@ -18,9 +18,9 @@ import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
-SRC = ROOT / 'docs/ep002/EP002_animatic_full_v6_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
+SRC = ROOT / 'docs/ep002/EP002_animatic_full_v7_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
 OUT = ROOT / 'docs/publish/EP002/short1'
-VERSION = 11
+VERSION = 12
 W, H, FPS = 1080, 1920, 24
 SW, SH = 2560, 1440
 CW = round(SH * W / H)                                             # 9:16 crop width in source px (810)
