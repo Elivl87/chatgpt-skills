@@ -459,7 +459,7 @@ def plate_to_screen(x, y, h, box):
     return sx, sy, h * PH * H / (box[3] - box[1])
 
 
-def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.2):
+def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.2, rigid=None):
     """A light breeze: the cloth between cloth=(y0, y1) (fractions of the height: a tunic's skirt, not the legs below
     it) ripples sideways, more towards its hem; hair = (x0, x1, y0, y1) fractions of a hanging ponytail or cap tip,
     which sways more towards its end. Small and slow, an animatic touch; the image itself is untouched."""
@@ -477,7 +477,23 @@ def breeze(im, t, cloth=(.45, .62), amp=.012, hair=None, hair_amp=.018, speed=2.
         dx = dx + (wy * wx) * hair_amp * w * np.sin(speed * 1.3 * t + 1.1)
     out = cv2.remap(a, (np.repeat(xs, h, 0) - dx).astype(np.float32), np.repeat(ys, w, 1).astype(np.float32), cv2.INTER_LINEAR,
                     borderMode=cv2.BORDER_CONSTANT, borderValue=0)
-    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), 'RGBA')
+    out = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), 'RGBA')
+    if rigid is not None:                                               # rigid gear (3D shield, sword) never ripples with the cloth
+        out = Image.composite(im, out, rigid)
+    return out
+
+
+@lru_cache(maxsize=8)
+def gear_mask(key):
+    """Where final(key) differs from the generated art: the engine's rigid gear (3D shield and sword, the old hilt
+    removed). A mask in final(key)'s cropped coordinates, a hair wider, for breeze(rigid=...). Producer, 2026-10-07:
+    a strip of the shield rippled with the tunic in block K."""
+    fin = final(key); box = fin.info['box']
+    raw = Image.open(ROOT / ART[key]).convert('RGBA')
+    raw.putalpha(raw.getchannel('A').point(lambda v: 0 if v < 24 else v))
+    raw = raw.crop(box)
+    diff = np.abs(np.asarray(fin, np.int16) - np.asarray(raw, np.int16)).max(2) > 10
+    return Image.fromarray((diff * 255).astype(np.uint8), 'L').filter(ImageFilter.MaxFilter(7))
 
 
 @lru_cache(maxsize=16)

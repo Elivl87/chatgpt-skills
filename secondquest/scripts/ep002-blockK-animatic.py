@@ -28,7 +28,7 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'animatic'))
 sys.path.insert(0, str(HERE.parent / 'tools/fx'))
-from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, subtitle, tag, F, breeze, S, Si, P, U, out_path, video_args, audio_args  # noqa
+from lib import ROOT, PW, PH, W, H, FPS, T, ease, lin, final, final_plate, gear_mask, subtitle, tag, F, breeze, S, Si, P, U, out_path, video_args, audio_args  # noqa
 import fairy as fairy_fx  # noqa
 import ui_kit as UI  # noqa: the approved on-screen text style (2026-10-06)
 
@@ -184,6 +184,7 @@ FIELD_P = G.new_look(final_plate('field').resize((W, H), Image.LANCZOS))   # fin
 FZ, FCX, FCY = 1.4, .643, .55                                            # framed on the far castle, the road under them
 CASTLE_P = (.665, .40)                                                    # the castle in the plate (fractions)
 QB = final('quest_adult_back')                                            # final art #4: adult Quest from behind, 3D shield + sword
+QB_RIGID = gear_mask('quest_adult_back')                                  # his 3D shield and sword stay rigid in the breeze
 PB = final('pixie_tunic_back')                                            # final art #2f: Pixie in her tunic from behind
 
 
@@ -240,7 +241,7 @@ def frame_k45(t):
     fr = FIELD_P.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
     CX, CY = castle_xy(z)                                                 # the real castle on screen
     qh = H * .46
-    q = sized(breeze(QB, t, cloth=(.50, .66), hair=(.55, .74, .04, .30)), qh)                  # Producer improvement 3: a light breeze
+    q = sized(breeze(QB, t, cloth=(.50, .66), hair=(.55, .74, .04, .30), rigid=QB_RIGID), qh)                  # Producer improvement 3: a light breeze
     p = sized(breeze(PB, t + .7, cloth=(.42, .63), hair=(.30, .58, .05, .42)), qh * .95)          # in the tunics, her ponytail, his cap
     for im, x in ((p, W * .40), (q, W * .60)):
         sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((x - im.width * .45, H * .95 - S(10), x + im.width * .45, H * .95 + S(10)), fill=(0, 0, 0, 80))
