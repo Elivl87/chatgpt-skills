@@ -1,0 +1,726 @@
+1
+00:00:00,300 --> 00:00:03,870
+En 1998, Ocarina of Time te pidió salvar
+Hyrule.
+
+2
+00:00:03,920 --> 00:00:07,770
+Casi tres décadas después, Nintendo te
+está pidiendo que vuelvas.
+
+3
+00:00:07,820 --> 00:00:13,350
+Gráficos nuevos. Una orquesta. Voces.
+Controles modernos. Una cámara nueva.
+
+4
+00:00:13,400 --> 00:00:14,730
+La misma ocarina.
+
+5
+00:00:14,780 --> 00:00:15,850
+La misma espada.
+
+6
+00:00:15,900 --> 00:00:17,310
+La misma Trifuerza.
+
+7
+00:00:17,360 --> 00:00:20,970
+Pero hay una cosa que Nintendo no puede
+reconstruir desde cero.
+
+8
+00:00:21,020 --> 00:00:21,730
+A ti.
+
+9
+00:00:21,780 --> 00:00:25,364
+Y, de alguna manera, quizá esa sea
+exactamente la razón por la que queremos
+
+10
+00:00:25,365 --> 00:00:25,690
+volver.
+
+11
+00:00:25,740 --> 00:00:27,360
+Entonces, ¿por qué?
+
+12
+00:00:29,260 --> 00:00:33,356
+Porque el Ocarina of Time que la gente
+recuerda no es exactamente el juego que
+
+13
+00:00:33,357 --> 00:00:34,370
+venía en el cartucho.
+
+14
+00:00:34,420 --> 00:00:35,290
+Es el juego...
+
+15
+00:00:35,340 --> 00:00:37,270
+más la habitación.
+
+16
+00:00:37,320 --> 00:00:38,670
+Más el televisor.
+
+17
+00:00:38,720 --> 00:00:41,590
+Más ese amigo que, de alguna manera,
+siempre sabía adónde había que ir.
+
+18
+00:00:41,640 --> 00:00:45,861
+Más una tarde entera de sábado en la que
+nadie podía encontrarte porque los
+
+19
+00:00:45,862 --> 00:00:49,190
+smartphones todavía no habían arruinado
+ese pequeño milagro.
+
+20
+00:00:49,240 --> 00:00:53,270
+Para algunos jugadores, entrar por primera
+vez a Hyrule Field se sentía enorme.
+
+21
+00:00:53,320 --> 00:00:55,030
+No porque realmente lo fuera.
+
+22
+00:00:55,080 --> 00:00:56,870
+Porque tú eras más pequeño.
+
+23
+00:00:56,920 --> 00:01:00,550
+Y la memoria es muy buena guardando
+sensaciones...
+
+24
+00:01:00,600 --> 00:01:05,400
+y absolutamente terrible guardando
+especificaciones técnicas.
+
+25
+00:01:05,600 --> 00:01:07,230
+Nadie se despierta pensando:
+
+26
+00:01:07,280 --> 00:01:11,650
+Hombre... cómo extraño el filtrado de
+texturas de Nintendo 64.
+
+27
+00:01:11,700 --> 00:01:13,290
+Recuerdas el bosque.
+
+28
+00:01:13,340 --> 00:01:14,270
+La música.
+
+29
+00:01:14,320 --> 00:01:16,130
+El castillo a lo lejos.
+
+30
+00:01:16,180 --> 00:01:21,013
+Esa extraña sensación de que, si seguías
+caminando, el mundo quizá continuaría para
+
+31
+00:01:21,014 --> 00:01:21,370
+siempre.
+
+32
+00:01:21,420 --> 00:01:22,890
+Y eso crea un problema.
+
+33
+00:01:22,940 --> 00:01:25,590
+Porque Nintendo puede rehacer Ocarina of
+Time.
+
+34
+00:01:25,640 --> 00:01:27,750
+Pero parte de lo que la gente quiere
+recuperar...
+
+35
+00:01:27,800 --> 00:01:31,080
+nunca estuvo dentro de Ocarina of Time.
+
+36
+00:01:31,760 --> 00:01:35,090
+La nueva versión está siendo reconstruida
+para Switch 2.
+
+37
+00:01:35,140 --> 00:01:36,070
+Visuales nuevos.
+
+38
+00:01:36,120 --> 00:01:37,290
+Cinemáticas con voces.
+
+39
+00:01:37,340 --> 00:01:38,710
+Diálogos ampliados.
+
+40
+00:01:38,760 --> 00:01:40,270
+Una banda sonora orquestal.
+
+41
+00:01:40,320 --> 00:01:42,890
+Controles y movimiento de cámara
+modernizados.
+
+42
+00:01:42,940 --> 00:01:45,510
+Sobre el papel, el trabajo parece fácil.
+
+43
+00:01:45,560 --> 00:01:46,410
+Tomas algo querido...
+
+44
+00:01:46,460 --> 00:01:48,670
+y haces que todo sea mejor.
+
+45
+00:01:48,720 --> 00:01:52,010
+Excepto que ahí es donde los remakes se
+vuelven peligrosos.
+
+46
+00:01:52,060 --> 00:01:54,070
+Porque “mejor” se puede medir.
+
+47
+00:01:54,120 --> 00:01:55,290
+Más polígonos.
+
+48
+00:01:55,340 --> 00:01:56,230
+Mejor iluminación.
+
+49
+00:01:56,280 --> 00:01:57,290
+Mejor animación.
+
+50
+00:01:57,340 --> 00:01:58,390
+Mejor sonido.
+
+51
+00:01:58,440 --> 00:02:00,870
+Pero “familiar” no se puede medir.
+
+52
+00:02:00,920 --> 00:02:04,900
+Un campo vacío en 1998 podía sentirse
+enorme.
+
+53
+00:02:05,120 --> 00:02:07,210
+Reconstrúyelo demasiado literalmente
+hoy...
+
+54
+00:02:07,260 --> 00:02:09,270
+y quizá solo se sienta vacío.
+
+55
+00:02:09,320 --> 00:02:12,620
+Un personaje silencioso alguna vez dejaba
+espacio para tu imaginación.
+
+56
+00:02:12,760 --> 00:02:14,250
+Ponle voz...
+
+57
+00:02:14,300 --> 00:02:17,910
+y de repente alguien tiene que decidir
+cómo sonaba ese silencio.
+
+58
+00:02:17,960 --> 00:02:21,410
+Una cámara con la que antes peleabas era
+parte de aprender a jugar.
+
+59
+00:02:21,460 --> 00:02:22,010
+Arréglala...
+
+60
+00:02:22,060 --> 00:02:24,350
+y el juego se vuelve más fácil de habitar.
+
+61
+00:02:24,400 --> 00:02:25,430
+Lo cual es bueno.
+
+62
+00:02:25,480 --> 00:02:26,330
+Probablemente.
+
+63
+00:02:26,380 --> 00:02:29,850
+Pero cada mejora cambia, silenciosamente,
+el recuerdo que estaba unido a ella.
+
+64
+00:02:29,900 --> 00:02:32,110
+Ese es el trabajo imposible.
+
+65
+00:02:32,160 --> 00:02:34,830
+Hacerlo lo bastante diferente como para
+justificar que exista...
+
+66
+00:02:34,880 --> 00:02:38,000
+sin hacer que la gente se pregunte dónde
+quedó su juego.
+
+67
+00:02:38,740 --> 00:02:40,650
+Y Nintendo tiene otro problema.
+
+68
+00:02:40,700 --> 00:02:44,030
+Este remake, en realidad, no está hecho
+para un solo público.
+
+69
+00:02:44,080 --> 00:02:46,020
+Está hecho para dos.
+
+70
+00:02:46,180 --> 00:02:48,190
+El jugador uno ya lo sabe todo.
+
+71
+00:02:48,240 --> 00:02:50,130
+Sabe lo que significa esa ocarina.
+
+72
+00:02:50,180 --> 00:02:52,850
+Sabe qué pasa cuando Link saca la Master
+Sword.
+
+73
+00:02:52,900 --> 00:02:57,354
+Ve tres triángulos dorados y entiende de
+inmediato que alguien está a punto de
+
+74
+00:02:57,355 --> 00:02:58,670
+tomar una pésima decisión.
+
+75
+00:02:58,720 --> 00:03:04,178
+La Trifuerza representa sabiduría, poder y
+valor, y el viaje de Link atraviesa Hyrule
+
+76
+00:03:04,179 --> 00:03:05,720
+en dos épocas distintas.
+
+77
+00:03:05,820 --> 00:03:06,730
+¿El jugador dos?
+
+78
+00:03:06,780 --> 00:03:08,870
+El jugador dos no sabe nada de esto.
+
+79
+00:03:08,920 --> 00:03:11,010
+Conoce al Gran Árbol Deku y piensa:
+
+80
+00:03:11,060 --> 00:03:14,890
+Ese es un árbol extremadamente grande con
+un problema extremadamente personal.
+
+81
+00:03:14,940 --> 00:03:17,680
+Para esa persona, Hyrule no tiene
+nostalgia.
+
+82
+00:03:17,800 --> 00:03:19,490
+No hay una infancia ligada a él.
+
+83
+00:03:19,540 --> 00:03:22,010
+Ni veintiocho años de expectativas.
+
+84
+00:03:22,060 --> 00:03:25,150
+Así que el remake tiene dos trabajos
+completamente distintos.
+
+85
+00:03:25,200 --> 00:03:26,370
+Para el jugador nuevo:
+
+86
+00:03:26,420 --> 00:03:30,090
+Hacer que un juego de 1998 se sienta
+natural en 2026.
+
+87
+00:03:30,140 --> 00:03:31,550
+Para el jugador que regresa:
+
+88
+00:03:31,600 --> 00:03:33,090
+Hacer que algo que ya conoce...
+
+89
+00:03:33,140 --> 00:03:35,410
+vuelva a sentirse como un descubrimiento.
+
+90
+00:03:35,460 --> 00:03:37,330
+Una persona está mirando Hyrule.
+
+91
+00:03:37,380 --> 00:03:40,050
+La otra está buscando el Hyrule que tiene
+en la cabeza.
+
+92
+00:03:40,100 --> 00:03:43,360
+Y, de alguna manera, Nintendo tiene que
+construir los dos.
+
+93
+00:03:44,120 --> 00:03:48,440
+El remake más seguro imaginable cambiaría
+casi nada.
+
+94
+00:03:48,660 --> 00:03:49,650
+Texturas más nítidas.
+
+95
+00:03:49,700 --> 00:03:50,910
+Mejor resolución.
+
+96
+00:03:50,960 --> 00:03:52,150
+Controles más limpios.
+
+97
+00:03:52,200 --> 00:03:54,850
+Todo exactamente donde lo recuerdas.
+
+98
+00:03:54,900 --> 00:03:56,570
+Y eso suena respetuoso.
+
+99
+00:03:56,620 --> 00:03:58,000
+Pero hay un problema.
+
+100
+00:03:58,120 --> 00:04:01,370
+Ocarina of Time no fue importante porque
+se sintiera familiar.
+
+101
+00:04:01,420 --> 00:04:03,790
+Fue importante porque se sintió nuevo.
+
+102
+00:04:03,840 --> 00:04:07,553
+Un mundo que la gente entendía en dos
+dimensiones, de repente se convirtió en un
+
+103
+00:04:07,554 --> 00:04:08,870
+lugar en el que podías estar.
+
+104
+00:04:08,920 --> 00:04:10,150
+La distancia importaba.
+
+105
+00:04:10,200 --> 00:04:12,070
+Hacia dónde mirabas importaba.
+
+106
+00:04:12,120 --> 00:04:13,490
+La música importaba.
+
+107
+00:04:13,540 --> 00:04:14,860
+Y, sobre todo...
+
+108
+00:04:15,240 --> 00:04:16,750
+el tiempo importaba.
+
+109
+00:04:16,800 --> 00:04:17,830
+Eras un niño.
+
+110
+00:04:17,880 --> 00:04:19,310
+Y luego dejaste de serlo.
+
+111
+00:04:19,360 --> 00:04:20,470
+Desapareciste...
+
+112
+00:04:20,520 --> 00:04:22,510
+y el mundo cambió sin ti.
+
+113
+00:04:22,560 --> 00:04:25,550
+Eso no es un detalle secundario de Ocarina
+of Time.
+
+114
+00:04:25,600 --> 00:04:27,450
+Eso es el juego.
+
+115
+00:04:27,500 --> 00:04:31,690
+La aventura de Link es un viaje por Hyrule
+a través de dos épocas distintas.
+
+116
+00:04:31,740 --> 00:04:34,870
+Así que quizá cambiar Ocarina of Time no
+sea faltarle el respeto.
+
+117
+00:04:34,920 --> 00:04:38,250
+Tal vez negarse a cambiar cualquier cosa
+sí lo sería.
+
+118
+00:04:38,300 --> 00:04:42,420
+Porque el objetivo no debería ser
+preservar cada limitación de 1998.
+
+119
+00:04:42,660 --> 00:04:44,350
+El objetivo debería ser entender...
+
+120
+00:04:44,400 --> 00:04:47,310
+qué te hicieron sentir esas limitaciones.
+
+121
+00:04:47,360 --> 00:04:51,160
+Y luego encontrar una forma de hacer que
+alguien vuelva a sentir eso.
+
+122
+00:04:51,980 --> 00:04:54,510
+Y eso nos devuelve a la parte extraña.
+
+123
+00:04:54,560 --> 00:04:56,850
+El juego original todavía existe.
+
+124
+00:04:56,900 --> 00:04:58,370
+No lo perdimos.
+
+125
+00:04:58,420 --> 00:05:02,490
+Nadie necesita que Nintendo rescate
+Ocarina of Time de la historia.
+
+126
+00:05:02,540 --> 00:05:04,610
+Entonces, ¿por qué lo queremos otra vez?
+
+127
+00:05:04,660 --> 00:05:09,926
+Porque volver a algo que amabas es una de
+las pocas formas que existen de medir
+
+128
+00:05:09,927 --> 00:05:11,250
+cuánto has cambiado.
+
+129
+00:05:11,300 --> 00:05:13,370
+El bosque sigue ahí.
+
+130
+00:05:13,420 --> 00:05:15,410
+La ocarina sigue ahí.
+
+131
+00:05:15,460 --> 00:05:17,650
+La Master Sword sigue esperando.
+
+132
+00:05:17,700 --> 00:05:21,930
+La Trifuerza todavía significa sabiduría,
+poder y valor.
+
+133
+00:05:21,980 --> 00:05:25,830
+Pero la persona que sostiene el control es
+diferente.
+
+134
+00:05:25,880 --> 00:05:28,030
+Y, para este juego en particular...
+
+135
+00:05:28,080 --> 00:05:30,530
+eso es casi demasiado perfecto.
+
+136
+00:05:30,580 --> 00:05:33,370
+Una historia sobre un niño que se
+convierte en adulto...
+
+137
+00:05:33,420 --> 00:05:37,310
+está regresando a personas que hicieron
+exactamente lo mismo.
+
+138
+00:05:37,360 --> 00:05:43,022
+Alguien que cruzó Hyrule Field por primera
+vez en 1998 puede volver a cruzarlo ahora,
+
+139
+00:05:43,023 --> 00:05:46,670
+con casi tres décadas separando esas dos
+versiones de sí mismo.
+
+140
+00:05:46,720 --> 00:05:48,580
+El mismo camino.
+
+141
+00:05:48,740 --> 00:05:49,970
+Otra persona.
+
+142
+00:05:50,020 --> 00:05:52,730
+Y quizá eso sea lo que realmente queremos.
+
+143
+00:05:52,780 --> 00:05:54,750
+No recuperar el juego viejo.
+
+144
+00:05:54,800 --> 00:05:57,310
+Sino tener la oportunidad de pararnos
+junto a un recuerdo antiguo...
+
+145
+00:05:57,360 --> 00:06:01,220
+y ver si todavía nos reconoce.
+
+146
+00:06:02,160 --> 00:06:02,430
+Entonces...
+
+147
+00:06:02,480 --> 00:06:04,840
+¿se puede rehacer un recuerdo?
+
+148
+00:06:04,920 --> 00:06:06,080
+Probablemente no.
+
+149
+00:06:06,200 --> 00:06:08,730
+Nintendo no puede reconstruir la
+habitación en la que estabas sentado.
+
+150
+00:06:08,780 --> 00:06:10,350
+No puede recrear el televisor.
+
+151
+00:06:10,400 --> 00:06:12,310
+La tarde de sábado.
+
+152
+00:06:12,360 --> 00:06:14,210
+El amigo sentado a tu lado.
+
+153
+00:06:14,260 --> 00:06:19,110
+Ni la versión exacta de ti que entró a
+Hyrule por primera vez.
+
+154
+00:06:19,160 --> 00:06:21,230
+Pero sí puede reconstruir Hyrule.
+
+155
+00:06:21,280 --> 00:06:22,590
+Y quizá eso sea suficiente.
+
+156
+00:06:22,640 --> 00:06:25,670
+Porque un remake no tiene que llevarte de
+vuelta.
+
+157
+00:06:25,720 --> 00:06:27,810
+Puede dejar que dos momentos distintos se
+encuentren.
+
+158
+00:06:27,860 --> 00:06:29,860
+El juego que recuerdas...
+
+159
+00:06:30,080 --> 00:06:31,980
+y la persona en la que te convertiste.
+
+160
+00:06:32,280 --> 00:06:35,450
+No puedes volver a jugar Ocarina of Time
+por primera vez.
+
+161
+00:06:35,500 --> 00:06:37,570
+Pero quizá sí puedas volver a encontrarte
+con él.
+
+162
+00:06:37,620 --> 00:06:38,670
+Y esta vez...
+
+163
+00:06:38,720 --> 00:06:40,560
+los dos crecieron.
+
+164
+00:06:43,240 --> 00:06:45,290
+Entonces, ¿a qué juego volverías?
+
+165
+00:06:45,340 --> 00:06:48,080
+¿Y qué juego merece ser nuestro próximo
+“por qué”?
+
+166
+00:06:48,140 --> 00:06:51,620
+Dímelo en los comentarios. Tal vez esa sea
+nuestra próxima quest.
