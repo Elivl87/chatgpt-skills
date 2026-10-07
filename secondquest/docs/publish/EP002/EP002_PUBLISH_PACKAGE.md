@@ -1,11 +1,11 @@
 # SecondQuest EP002: paquete de publicación de YouTube
 
 **Descargas** (Releases borrador de GitHub: inicia sesión como Elivl87; se borran solas a los 7 días):
-- Vídeo v7 2K (HUD corregido): https://github.com/Elivl87/chatgpt-skills/releases/download/untagged-f7725ea1da2ff3cdd5d6/EP002_animatic_full_v7_1440p.mp4
+- Vídeo v8 2K (HUD, escudo, nube y araña corregidos): https://github.com/Elivl87/chatgpt-skills/releases/download/untagged-ff938ecdbd4a640729f7/EP002_animatic_full_v8_1440p.mp4
 - Miniaturas, subtítulos, Short y esta guía: Release `deliver-ep002-publish-pack`.
 
-**Vídeo:** `EP002_animatic_full_v7_1440p.mp4`, 2560x1440, 6:52.5. Está en la Release borrador
-`deliver-ep002-animatic-v7-2k`, que se borra sola a los 7 días.
+**Vídeo:** `EP002_animatic_full_v8_1440p.mp4`, 2560x1440, 6:52.5. Está en la Release borrador
+`deliver-ep002-animatic-v8-2k`, que se borra sola a los 7 días.
 
 **Archivos de este paquete** (`docs/publish/EP002/`):
 - `EP002_subtitles_en.srt`: subtítulos en inglés, 164 bloques, el guion tal cual.
