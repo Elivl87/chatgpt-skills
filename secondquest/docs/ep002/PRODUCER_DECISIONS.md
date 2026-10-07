@@ -614,3 +614,8 @@
 - 2026-10-07 · Trailer Short v11: Navi's flight into the wordmark's four-point star (as block U's end): she leaves Quest
   as the wordmark lands, rises around it and goes into the star in the "o" of Second as "why?" ends; the star twinkles.
   Her trail sound is the episode's (Producer-supplied NAVI_SFX_01 at 0.14, same risk note as in the episode).
+- 2026-10-07 · HUD fix approved: solid buttons with the gloss blended on (no see-through hole), rupees lower. Full v7.
+- 2026-10-07 · Block K: the 3D shield/sword no longer ripple with the tunic's breeze (lib.gear_mask). Thought bubble →
+  proposal B, a memory: warm glow with a dissolving edge, no ink line, sparkles.
+- 2026-10-07 · Block J: the spider has mean red eyes, angry brows and fangs, sitting in a cobweb by the moustache; no ice
+  bag ("sin bolsa"). Full v8.

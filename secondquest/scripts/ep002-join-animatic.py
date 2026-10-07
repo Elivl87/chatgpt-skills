@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 D = ROOT / 'docs/ep002'
 
-VERSION = 7                                               # v7 HUD fix: solid buttons with blended gloss, rupees lower
+VERSION = 8                                               # v8 block K shield rigid + memory bubble (B), block J mean spider in a web, no ice bag
 APPROVED = [                                              # (label, block script) in episode order; each clip is that script's
     ('Seq 01 · the cartridge, Navi comes out of the TV', 'ep002-cartridge-animatic.py'),   # current output at this QUALITY
     ('B · new graphics, the three anchors, "So, why?"', 'ep002-blockB-animatic.py'),

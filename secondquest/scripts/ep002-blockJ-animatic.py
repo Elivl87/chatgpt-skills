@@ -180,11 +180,17 @@ def _spider(t):
     g = Image.alpha_composite(legs, _ink_shape(m, body))
     d = ImageDraw.Draw(g)
     d.ellipse((cx - 14 * X, cy - 24 * X, cx - 2 * X, cy - 14 * X), fill=(200, 170, 215, 160))   # body sheen
-    for ex in (-9, 9):                                                  # big eyes, looking up-right at the tree's face
-        d.ellipse((cx + (ex - 9) * X, cy + 6 * X, cx + (ex + 9) * X, cy + 26 * X), fill=(255, 255, 255, 255), outline=INK, width=X * 2)
-        d.ellipse((cx + (ex - 1) * X, cy + 8 * X, cx + (ex + 7) * X, cy + 18 * X), fill=INK)
-        d.ellipse((cx + (ex + 1) * X, cy + 9 * X, cx + (ex + 4) * X, cy + 12 * X), fill=(255, 255, 255, 255))
-    d.arc((cx - 6 * X, cy + 24 * X, cx + 6 * X, cy + 32 * X), 20, 160, fill=INK, width=X * 2)       # a nervous little smile
+    for ex in (-9, 9):                                                  # mean red eyes under angry brows (Producer, 2026-10-07)
+        glow = Image.new('RGBA', g.size); ImageDraw.Draw(glow).ellipse((cx + (ex - 12) * X, cy + 4 * X, cx + (ex + 12) * X, cy + 28 * X), fill=(255, 40, 30, 150))
+        g.alpha_composite(glow.filter(ImageFilter.GaussianBlur(4 * X))); d = ImageDraw.Draw(g)
+        d.ellipse((cx + (ex - 8) * X, cy + 8 * X, cx + (ex + 8) * X, cy + 24 * X), fill=(220, 20, 24, 255), outline=INK, width=X * 2)
+        d.ellipse((cx + (ex - 2) * X, cy + 12 * X, cx + (ex + 2) * X, cy + 21 * X), fill=INK)                      # slit pupil
+        d.ellipse((cx + (ex + 2) * X, cy + 10 * X, cx + (ex + 5) * X, cy + 13 * X), fill=(255, 200, 190, 255))      # glint
+        sgn = 1 if ex < 0 else -1                                       # brows slant down to the middle (angry)
+        d.polygon([(cx + (ex - 11 * sgn) * X, cy + 2 * X), (cx + (ex + 9 * sgn) * X, cy + 9 * X), (cx + (ex + 9 * sgn) * X, cy + 13 * X), (cx + (ex - 11 * sgn) * X, cy + 7 * X)], fill=INK)
+    d.line([(cx - 7 * X, cy + 30 * X), (cx - 3 * X, cy + 27 * X), (cx, cy + 30 * X), (cx + 3 * X, cy + 27 * X), (cx + 7 * X, cy + 30 * X)], fill=INK, width=X * 2, joint='curve')   # a jagged grin
+    for fx in (-4, 3):                                                  # two little fangs
+        d.polygon([(cx + fx * X, cy + 29 * X), (cx + (fx + 2) * X, cy + 29 * X), (cx + (fx + 1) * X, cy + 33 * X)], fill=(255, 255, 255, 255), outline=INK)
     return _sized(g, 110)
 
 
@@ -222,8 +228,8 @@ def _place(g, im, cx, cy, ang=0.0, alpha=1.0):
     g.alpha_composite(im, (int(cx - im.width / 2), int(cy - im.height / 2)))
 
 
-SPIDER_MODE = 'thread'      # 'thread' (v8: drops on its thread) · 'moustache' (a small one crawls on the moustache) · 'web' (in a cobweb)
-ICE_MODE = 'bag'            # 'bag' (v8: pale-blue rubber bag) · 'plaid' (classic plaid cloth ice bag, silver cap) · 'towel' (wet towel)
+SPIDER_MODE = 'web'         # 'thread' (v8: drops on its thread) · 'moustache' (a small one crawls on the moustache) · 'web' (in a cobweb)
+ICE_MODE = 'none'           # 'bag' (v8: pale-blue rubber bag) · 'plaid' (classic plaid cloth ice bag, silver cap) · 'towel' (wet towel)
 
 
 def _icebag_plaid():
@@ -320,7 +326,7 @@ def sick_fx(g, t, sick):
             d.line(pts, fill=(255, 120, 90, int(a * kx * .8)), width=Si(3))
     # the ice bag: plops onto the brow, squashes, settles
     ki = min(1, max(0, (tt - .15) / .3))
-    if ki > 0:
+    if ki > 0 and ICE_MODE != 'none':                                    # Producer, 2026-10-07: no ice bag
         ice = {'bag': _icebag, 'plaid': _icebag_plaid, 'towel': _towel}[ICE_MODE]()
         drop = (1 - ease(ki)) * S(150)
         sq = 1 - .14 * math.sin(math.pi * min(1, max(0, (tt - .45) / .25)))
@@ -456,7 +462,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v9 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v10 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -474,7 +480,7 @@ def render(t):
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockJ_animatic_v9.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockJ_animatic_v10.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -484,14 +490,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v9_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v10_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v9_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v10_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

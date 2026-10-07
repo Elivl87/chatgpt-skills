@@ -213,25 +213,46 @@ def crt_flicker(pic, t):
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
+BUBBLE_CIRCLES = ((60, 70, 60), (140, 50, 70), (230, 55, 70), (300, 90, 55), (90, 150, 60), (190, 160, 70), (280, 150, 55))
+BUBBLE_PAD = 50                                                         # design px of room round the cloud, for the glow
+
+
 def thought_bubble(t, k, cloud=1.0):
-    """A cloud bubble with the blocky 1998 Hyrule inside (his Hyrule). cloud < 1 fades the cloud, keeping the picture."""
-    w, h = 330, 200                                                     # design px
-    g = Image.new('RGBA', (Si(w + 40), Si(h + 90))); d = ImageDraw.Draw(g)
-    for (x, y, r) in ((60, 70, 60), (140, 50, 70), (230, 55, 70), (300, 90, 55), (90, 150, 60), (190, 160, 70), (280, 150, 55)):
-        d.ellipse((S(x - r + 10), S(y - r + 10), S(x + r + 10), S(y + r + 10)), fill=(255, 255, 255, 250), outline=INK, width=Si(4))
-    for (x, y, r) in ((60, 70, 56), (140, 50, 66), (230, 55, 66), (300, 90, 51), (90, 150, 56), (190, 160, 66), (280, 150, 51)):
-        d.ellipse((S(x - r + 10), S(y - r + 10), S(x + r + 10), S(y + r + 10)), fill=(255, 255, 255, 255))
+    """His Hyrule as a memory (Producer, 2026-10-07, proposal B): no ink line, a warm glow whose edge dissolves, the
+    blocky 1998 picture fading into it, a few sparkles, glowing dots down to his head. cloud < 1 fades the glow and
+    keeps the picture. The image carries info['off']: how far its picture sits right/down of the v8 bubble's."""
+    P = BUBBLE_PAD
+    cw, chh = 370 + 2 * P, 290 + 2 * P
+    def union(grow):
+        m = Image.new('L', (Si(cw), Si(chh)), 0); d = ImageDraw.Draw(m)
+        for x, y, r in BUBBLE_CIRCLES:
+            x, y, r = x + 10 + P, y + 10 + P, r + grow
+            d.ellipse((S(x - r), S(y - r), S(x + r), S(y + r)), fill=255)
+        return m
+    glow = Image.new('RGBA', (Si(cw), Si(chh)))
+    halo = Image.new('RGBA', glow.size, (255, 236, 190, 0)); halo.putalpha(union(26).filter(ImageFilter.GaussianBlur(S(30))).point(lambda v: int(v * .55 * cloud)))
+    body = Image.new('RGBA', glow.size, (255, 246, 226, 0)); body.putalpha(union(6).filter(ImageFilter.GaussianBlur(S(16))).point(lambda v: int(min(255, v * 1.15) * cloud)))
+    glow.alpha_composite(halo); glow.alpha_composite(body)
     pic = crt_flicker(HB.old_picture(t, (250, 150)).resize((Si(250), Si(150)), Image.NEAREST), t)   # drawn at design size: its scanlines scale too
-    m = Image.new('L', (Si(250), Si(150)), 0); ImageDraw.Draw(m).rounded_rectangle((0, 0, Si(250) - 1, Si(150) - 1), S(30), fill=255)
-    g.paste(pic, (Si(55), Si(40)), m)
-    for i, (x, y, r) in enumerate(((110, 248, 16), (82, 272, 10))):       # the trail of little bubbles down to his head
-        d.ellipse((S(x - r), S(y - r), S(x + r), S(y + r)), fill=(255, 255, 255, 255), outline=INK, width=Si(3))
-    if cloud < 1:                                                       # the cloud melts away, the picture stays
-        a = np.asarray(g).copy(); keep = np.zeros(a.shape[:2], bool); keep[Si(40):Si(40) + Si(150), Si(55):Si(55) + Si(250)] = np.asarray(m) > 0
-        a[..., 3] = np.where(keep, a[..., 3], (a[..., 3] * cloud).astype(np.uint8)); g = Image.fromarray(a)
-    s = (.4 + .6 * ease(k)) * .85                                       # stays inside the safe area
-    g = g.resize((int(g.width * s), int(g.height * s)), Image.LANCZOS)
-    return fade(g, min(1, k * 1.5))
+    pm = Image.new('L', pic.size, 0); ImageDraw.Draw(pm).ellipse((S(-20), S(-14), pic.width + S(20), pic.height + S(14)), fill=255)
+    pm = pm.filter(ImageFilter.GaussianBlur(S(14)))
+    warm = Image.blend(pic, Image.new('RGB', pic.size, (255, 214, 150)), .16).convert('RGBA'); warm.putalpha(pm)
+    glow.alpha_composite(warm, (Si(55 + P), Si(40 + P)))
+    d = ImageDraw.Draw(glow)
+    for i, (x, y) in enumerate(((60, 50), (320, 70), (290, 195), (50, 180), (190, 20))):   # sparkles
+        sp = S(5 + 3 * (0.5 + 0.5 * math.sin(t * 4 + i * 1.7)))
+        x, y = S(x + P), S(y + P); al = int(230 * cloud)
+        d.polygon([(x, y - sp), (x + sp * .25, y - sp * .25), (x + sp, y), (x + sp * .25, y + sp * .25), (x, y + sp), (x - sp * .25, y + sp * .25), (x - sp, y), (x - sp * .25, y - sp * .25)], fill=(255, 250, 225, al))
+    for x, y, r in ((110, 248, 9), (88, 272, 6), (72, 292, 4)):        # glowing dots down to his head
+        x, y = S(x + P), S(y + P)
+        gl = Image.new('RGBA', glow.size); ImageDraw.Draw(gl).ellipse((x - S(r * 2), y - S(r * 2), x + S(r * 2), y + S(r * 2)), fill=(255, 240, 200, int(150 * cloud)))
+        glow.alpha_composite(gl.filter(ImageFilter.GaussianBlur(S(r))))
+        ImageDraw.Draw(glow).ellipse((x - S(r), y - S(r), x + S(r), y + S(r)), fill=(255, 252, 240, int(255 * cloud)))
+    s_ = (.4 + .6 * ease(k)) * .85                                      # stays inside the safe area
+    g = glow.resize((int(glow.width * s_), int(glow.height * s_)), Image.LANCZOS)
+    g = fade(g, min(1, k * 1.5))
+    g.info['off'] = S(P) * s_
+    return g
 
 
 def frame_k45(t):
@@ -258,7 +279,8 @@ def frame_k45(t):
             sc = 1 - .8 * km
             b = b.resize((max(1, int(b.width * sc)), max(1, int(b.height * sc))), Image.LANCZOS)
             b = fade(b, 1 - km ** 3)
-        bx0, by0 = W * .60 + S(10), H * .95 - qh - b.height + S(30)
+        off = b.info.get('off', 0) * (b.width / max(1, b.width))   # the glow's margin: the picture stays where it was
+        bx0, by0 = W * .60 + S(10) - off, H * .95 - qh - b.height + S(30) + off
         bx1, by1 = CX - b.width / 2, CY - b.height * .55
         fr = comp(fr, b, lin(bx0, bx1, km), lin(by0, by1, km))
     if t >= T_BUILD:                                                      # build both: a blueprint sweeps over everything
@@ -295,7 +317,7 @@ def render(t):
         if t < T_LOOK + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_LOOK) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v8 · PLANNING ONLY')
+    tag(d, f'SEQ 17 TWO JOBS · {lab} · BLOCK K v9 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -304,7 +326,7 @@ STILLS = (('k1', T_JOBS + .6), ('k2', T('l80.w9') + .4), ('k3', T('l83.w4') + .3
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockK_animatic_v8.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockK_animatic_v9.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -314,14 +336,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockK_v8_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockK_v9_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockK_v8_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockK_v9_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()
