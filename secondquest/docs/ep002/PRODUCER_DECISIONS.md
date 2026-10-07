@@ -619,3 +619,4 @@
   proposal B, a memory: warm glow with a dissolving edge, no ink line, sparkles.
 - 2026-10-07 · Block J: the spider has mean red eyes, angry brows and fangs, sitting in a cobweb by the moustache; no ice
   bag ("sin bolsa"). Full v8.
+- 2026-10-07 · Block J spider → our homage to the one-eyed giant spider (Producer: "Aprobado el homenaje"): own toon drawing, one big eye that blinks, horns, jointed legs with teal claws, in the cobweb. Full v8.

@@ -228,7 +228,7 @@ def _place(g, im, cx, cy, ang=0.0, alpha=1.0):
     g.alpha_composite(im, (int(cx - im.width / 2), int(cy - im.height / 2)))
 
 
-SPIDER_LOOK = 'redeye'      # 'redeye' (mean red eyes) · 'cyclops' (homage to the game's giant one-eyed spider, our own drawing)
+SPIDER_LOOK = 'cyclops'     # 'redeye' (mean red eyes) · 'cyclops' (homage to the game's giant one-eyed spider, our own drawing)
 
 
 def _spider_cyclops(t):
@@ -242,10 +242,12 @@ def _spider_cyclops(t):
         for j in range(4):
             wig = 3 * X * math.sin(t * 10 + j * 1.4 + side)
             p0 = (cx + side * 20 * X, cy - 6 * X + j * 8 * X)
-            p1 = (cx + side * (40 + 4 * j) * X, cy - (26 - 6 * j) * X + wig * .5)
-            p2 = (cx + side * (56 + 3 * j) * X, cy + (24 + 10 * j) * X + wig)
-            ld.line([p0, p1, p2], fill=INK, width=9 * X, joint='curve')
-            ld.line([p0, p1, p2], fill=(70, 52, 40, 255), width=5 * X, joint='curve')
+            p1 = (cx + side * (36 + 5 * j) * X, cy - (30 - 7 * j) * X + wig * .5)          # knee, high and out
+            pm = (cx + side * (52 + 3 * j) * X, cy - (12 - 9 * j) * X + wig * .7)          # a second joint
+            p2 = (cx + side * (50 + 2 * j) * X, cy + (26 + 9 * j) * X + wig)               # the claw tip, tucked down
+            ld.line([p0, p1, pm, p2], fill=INK, width=9 * X, joint='curve')
+            ld.line([p0, p1, pm, p2], fill=(70, 52, 40, 255), width=5 * X, joint='curve')
+            ld.polygon([(p2[0] - 3 * X, p2[1] - 4 * X), (p2[0] + 3 * X, p2[1] - 4 * X), (p2[0] + side * 4 * X, p2[1] + 5 * X)], fill=(64, 196, 176, 255), outline=INK)   # teal claw
             ld.ellipse((p1[0] - 4 * X, p1[1] - 4 * X, p1[0] + 4 * X, p1[1] + 4 * X), fill=(64, 196, 176, 255), outline=INK, width=X)   # teal knee plate
     g.alpha_composite(legs)
     m = Image.new('L', (w, h)); md = ImageDraw.Draw(m)
@@ -503,7 +505,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v10 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v11 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -521,7 +523,7 @@ def render(t):
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockJ_animatic_v10.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockJ_animatic_v11.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -531,14 +533,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v10_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v11_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v10_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v11_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()
