@@ -117,26 +117,165 @@ ImageDraw.Draw(_m).polygon([(W * .44, 0), (W, 0), (W, H * .82), (W * .30, H * .7
 TREE_MASK = _m.filter(ImageFilter.GaussianBlur(S(30)))                    # roughly the trunk and the face (for the "unwell" tint)
 
 
+# The "unwell" gag props, drawn in-house in the toon style (supersampled fill + ink outline; Producer, 2026-10-07:
+# the old thermometer read as a cigarette and the spider was a blob). Each is built once at design size x4, then sized.
+_GAG = {}
+_X4 = 4                                                                 # supersampling: sprite px per design px
+
+
+def _ink_shape(mask, fill, outline=_X4 * 3):
+    """A flat toon shape: `fill` (RGBA or an RGBA image) inside the mask, an ink outline around it."""
+    out = Image.new('RGBA', mask.size, INK[:3] + (0,))
+    out.putalpha(mask.filter(ImageFilter.MaxFilter(outline * 2 + 1)))
+    f = fill if isinstance(fill, Image.Image) else Image.new('RGBA', mask.size, fill)
+    f = f.copy(); f.putalpha(Image.fromarray(np.minimum(np.asarray(f.getchannel('A')), np.asarray(mask))))
+    return Image.alpha_composite(out, f)
+
+
+def _sized(g, w_design):
+    return g.resize((Si(w_design), max(1, round(Si(w_design) * g.height / g.width))), Image.LANCZOS)
+
+
+def _thermometer(level):
+    """A glass clinical thermometer, bulb end cut flat (it sits in the mouth), red column at `level` (0-1), scale
+    ticks. Horizontal, mouth end on the left. Design size 170 x 40."""
+    q = round(level * 20) / 20
+    if ('th', q) not in _GAG:
+        X = _X4; w, h = 170 * X, 40 * X
+        m = Image.new('L', (w, h)); md = ImageDraw.Draw(m)
+        md.rounded_rectangle((-40 * X, 12 * X, w - 6 * X, 28 * X), 8 * X, fill=255)    # the tube; its left end runs off the sprite
+        glass = Image.new('RGBA', (w, h), (226, 240, 252, 235))
+        g = _ink_shape(m, glass)
+        d = ImageDraw.Draw(g)
+        d.rounded_rectangle((0, 17 * X, max(6 * X, (8 + 136 * q) * X), 23 * X), 3 * X, fill=(222, 38, 44, 255))   # the red column
+        for i in range(15):                                             # the scale, printed on the glass
+            x = (40 + i * 8.5) * X
+            d.line((x, 12 * X + 4, x, (17 if i % 5 else 19) * X), fill=INK[:3] + (200,), width=max(2, X // 2 + 1))
+        d.line((14 * X, 14.5 * X, (w - 16 * X), 14.5 * X), fill=(255, 255, 255, 230), width=X + 2)   # the glint
+        _GAG[('th', q)] = _sized(g, 170)
+    return _GAG[('th', q)]
+
+
+def _spider(t):
+    """A cartoon spider: round plum body, big eyes looking up at the tree, eight bent legs that wiggle. Design 110 x 100."""
+    X = _X4; w, h = 110 * X, 100 * X
+    legs = Image.new('RGBA', (w, h))
+    ld = ImageDraw.Draw(legs)
+    cx, cy = w / 2, 52 * X
+    for side in (-1, 1):
+        for j in range(4):
+            wig = 5 * X * math.sin(t * 14 + j * 1.3 + side)
+            a0 = math.radians(-50 + j * 30)
+            kx, ky = cx + side * 34 * X * math.cos(a0), cy - 22 * X + j * 12 * X + wig * .4      # the knee, up and out
+            fx, fy = cx + side * (48 + j * 2) * X, cy + (6 + j * 11) * X + wig                    # the foot, down
+            pts = [(cx + side * 12 * X, cy - 4 * X + j * 6 * X), (kx, ky), (fx, fy)]
+            ld.line(pts, fill=INK, width=7 * X, joint='curve')
+            ld.line(pts, fill=(84, 58, 96, 255), width=3 * X, joint='curve')
+    m = Image.new('L', (w, h)); md = ImageDraw.Draw(m)
+    md.ellipse((cx - 26 * X, cy - 30 * X, cx + 26 * X, cy + 20 * X), fill=255)                    # abdomen
+    md.ellipse((cx - 19 * X, cy + 4 * X, cx + 19 * X, cy + 36 * X), fill=255)                     # head
+    ys = np.linspace(0, 1, h)[:, None, None]
+    grad = (np.array((112, 78, 128))[None, None] * (1 - ys) + np.array((58, 38, 70))[None, None] * ys).repeat(w, 1)
+    body = Image.fromarray(np.concatenate([grad, np.full((h, w, 1), 255)], 2).astype(np.uint8), 'RGBA')
+    g = Image.alpha_composite(legs, _ink_shape(m, body))
+    d = ImageDraw.Draw(g)
+    d.ellipse((cx - 14 * X, cy - 24 * X, cx - 2 * X, cy - 14 * X), fill=(200, 170, 215, 160))   # body sheen
+    for ex in (-9, 9):                                                  # big eyes, looking up-right at the tree's face
+        d.ellipse((cx + (ex - 9) * X, cy + 6 * X, cx + (ex + 9) * X, cy + 26 * X), fill=(255, 255, 255, 255), outline=INK, width=X * 2)
+        d.ellipse((cx + (ex - 1) * X, cy + 8 * X, cx + (ex + 7) * X, cy + 18 * X), fill=INK)
+        d.ellipse((cx + (ex + 1) * X, cy + 9 * X, cx + (ex + 4) * X, cy + 12 * X), fill=(255, 255, 255, 255))
+    d.arc((cx - 6 * X, cy + 24 * X, cx + 6 * X, cy + 32 * X), 20, 160, fill=INK, width=X * 2)       # a nervous little smile
+    return _sized(g, 110)
+
+
+def _icebag():
+    """A cartoon ice bag: a puffy pale-blue pouch with ice lumps showing through and a red screw cap. Design 150 x 96."""
+    if 'ice' not in _GAG:
+        X = _X4; w, h = 150 * X, 96 * X
+        m = Image.new('L', (w, h)); md = ImageDraw.Draw(m)
+        md.ellipse((24 * X, 22 * X, 146 * X, 92 * X), fill=255)                                   # the pouch
+        for bx, by, br in ((50, 30, 22), (82, 26, 24), (114, 32, 22), (130, 58, 16)):              # lumpy top (ice inside)
+            md.ellipse(((bx - br) * X, (by - br) * X, (bx + br) * X, (by + br) * X), fill=255)
+        md.polygon([(8 * X, 40 * X), (32 * X, 34 * X), (34 * X, 70 * X), (8 * X, 62 * X)], fill=255)   # the neck
+        ys = np.linspace(0, 1, h)[:, None, None]
+        grad = (np.array((176, 222, 250))[None, None] * (1 - ys) + np.array((92, 156, 224))[None, None] * ys).repeat(w, 1)
+        pouch = Image.fromarray(np.concatenate([grad, np.full((h, w, 1), 255)], 2).astype(np.uint8), 'RGBA')
+        g = _ink_shape(m, pouch)
+        d = ImageDraw.Draw(g)
+        for bx, by in ((54, 44), (84, 40), (112, 48), (76, 66)):                                  # cubes showing through
+            d.rounded_rectangle(((bx - 11) * X, (by - 9) * X, (bx + 11) * X, (by + 9) * X), 4 * X, fill=(232, 246, 255, 150), outline=(70, 120, 190, 170), width=X)
+        d.arc((44 * X, 30 * X, 126 * X, 84 * X), 200, 250, fill=(255, 255, 255, 220), width=3 * X)   # sheen
+        cm = Image.new('L', (w, h)); ImageDraw.Draw(cm).rounded_rectangle((0, 34 * X, 16 * X, 68 * X), 4 * X, fill=255)
+        cap = _ink_shape(cm, (214, 52, 52, 255))
+        ImageDraw.Draw(cap).line((5 * X, 38 * X, 5 * X, 64 * X), fill=(255, 150, 150, 220), width=2 * X)
+        g = Image.alpha_composite(g, cap)
+        _GAG['ice'] = _sized(g, 150)
+    return _GAG['ice']
+
+
+def _place(g, im, cx, cy, ang=0.0, alpha=1.0):
+    """Paste `im` centred on (cx, cy), rotated by `ang` degrees (counter-clockwise), faded by `alpha`."""
+    if ang:
+        im = im.rotate(ang, resample=Image.BICUBIC, expand=True)
+    if alpha < 1:
+        im = im.copy(); im.putalpha(im.getchannel('A').point(lambda v: int(v * max(0, alpha))))
+    g.alpha_composite(im, (int(cx - im.width / 2), int(cy - im.height / 2)))
+
+
 def sick_fx(g, t, sick):
-    """On "personal problem" the tree looks unwell: a purple tinge, a thermometer under the moustache, a spider's
-    shadow crawling on the trunk, sweat drops on the brow."""
+    """On "personal problem" the tree looks unwell: a purple tinge, a glass thermometer in its mouth (the column
+    climbs, a red "!"), an ice bag plopped on its brow, a cartoon spider dropping on its thread, sweat drops."""
     tint = Image.new('RGBA', (W, H), (110, 60, 150, 0))
     tint.putalpha(TREE_MASK.point(lambda v: int(v * .30 * sick)))
     g = Image.alpha_composite(g.convert('RGBA'), tint)
     d = ImageDraw.Draw(g)
     a = int(255 * sick)
-    mx, my = W * .615, H * .335                                          # the thermometer pokes out under the moustache
-    d.line((mx, my, mx + S(120), my + S(46)), fill=(20, 14, 18, a), width=Si(14)); d.line((mx, my, mx + S(120), my + S(46)), fill=(245, 245, 250, a), width=Si(9))
-    d.line((mx + S(60), my + S(23), mx + S(116), my + S(44)), fill=(230, 40, 40, a), width=Si(4))
-    d.ellipse((mx + S(108), my + S(34), mx + S(132), my + S(58)), fill=(230, 40, 40, a), outline=INK, width=Si(3))
-    sx, sy = W * .53, H * .55 - S(26) * math.sin(t * 2)                     # a spider's shadow crawling on the trunk
-    d.ellipse((sx - S(22), sy - S(16), sx + S(22), sy + S(16)), fill=(20, 14, 18, a))
-    for j in range(4):
-        for sgn in (-1, 1):
-            d.line((sx, sy, sx + sgn * S(34 + 6 * j), sy + S(-18 + 12 * j + 4 * math.sin(t * 12 + j))), fill=(20, 14, 18, a), width=Si(4))
-    for j in range(3):                                                  # sweat drops on the brow
-        dy = ((t * 1.5 + j / 3) % 1) * S(40)
-        x = W * .56 + S(j * 34 + (60 if j == 2 else 0)); y = H * .09 + dy
+    tt = t - T_PROB + .1                                                 # the gag's own clock
+    # the thermometer: in the mouth under the moustache, sticking out and down; the column climbs
+    mx, my = W * .618, H * .335
+    d.ellipse((mx - S(16), my - S(9), mx + S(16), my + S(9)), fill=(48, 22, 26, a))           # the mouth it sits in
+    kt = ease(min(1, max(0, tt / .3)))
+    level = .25 + .7 * ease(min(1, max(0, (tt - .2) / .6)))
+    th = _thermometer(level)
+    ang = -13                                                            # tilted down and out, under the moustache
+    off = (th.width / 2) * (1 - .25 * (1 - kt))                           # slides out of the mouth
+    cx, cy = mx + off * math.cos(math.radians(ang)), my - off * math.sin(math.radians(ang))
+    _place(g, th, cx, cy, ang, sick * kt)
+    d.arc((mx - S(16), my - S(9), mx + S(16), my + S(9)), 0, 180, fill=(48, 22, 26, a), width=Si(6))   # lower lip over the tube
+    tip = (mx + th.width * math.cos(math.radians(ang)), my - th.width * math.sin(math.radians(ang)))
+    kx = min(1, max(0, (tt - .6) / .2))                                   # the reading tops out: "!"
+    if kx > 0:
+        sc = 1 + .4 * (1 - kx) + .06 * math.sin(t * 18)
+        d.text((tip[0] + S(14), tip[1] - S(44)), '!', font=F(int(46 * sc)), fill=(232, 44, 44, int(a * kx)), stroke_width=Si(4), stroke_fill=INK[:3] + (int(a * kx),), anchor='mm')
+        for j in range(3):                                               # heat wiggles off the tip
+            x0 = tip[0] - S(18) + S(16) * j; y0 = tip[1] - S(14)
+            pts = [(x0 + S(4) * math.sin(t * 9 + j + i * 1.6), y0 - S(6) * i) for i in range(5)]
+            d.line(pts, fill=(255, 120, 90, int(a * kx * .8)), width=Si(3))
+    # the ice bag: plops onto the brow, squashes, settles
+    ki = min(1, max(0, (tt - .15) / .3))
+    if ki > 0:
+        ice = _icebag()
+        drop = (1 - ease(ki)) * S(150)
+        sq = 1 - .14 * math.sin(math.pi * min(1, max(0, (tt - .45) / .25)))
+        ice2 = ice.resize((max(1, int(ice.width * (2 - sq))), max(1, int(ice.height * sq))), Image.LANCZOS)
+        _place(g, ice2, W * .578, H * .09 - drop + ice.height * (1 - sq) / 2, -6, sick)
+        for j in range(2):                                               # meltwater drips off it
+            dy = ((t * 1.1 + j * .5) % 1) * S(46)
+            x = W * .545 + S(j * 62); y = H * .15 + dy
+            aa = int(a * ki * (1 - dy / S(46)))
+            d.ellipse((x - S(4), y - S(4), x + S(4), y + S(6)), fill=(170, 220, 255, aa), outline=INK[:3] + (aa // 2,))
+    # the spider: drops on its thread from the canopy, bobs, swings
+    ks = min(1, max(0, (tt - .3) / .35))
+    if ks > 0:
+        L = S(300) * (ease(ks) + .06 * math.sin(math.pi * min(1, (tt - .3) / .6)) * (1 - ks)) + S(10) * math.sin(t * 3.1)
+        th_ang = math.radians(9 * math.sin(t * 2.3))
+        ax, ay = W * .488, -S(14)
+        sx, sy = ax + L * math.sin(th_ang), ay + L * math.cos(th_ang)
+        d.line((ax, ay, sx, sy - S(26)), fill=(236, 236, 244, int(a * .9)), width=max(1, Si(2)))
+        _place(g, _spider(t), sx, sy + S(14), -math.degrees(th_ang), sick)
+    for j in range(2):                                                  # sweat drops at the temples
+        dy = ((t * 1.5 + j / 2) % 1) * S(40)
+        x = (W * .535, W * .72)[j]; y = H * .15 + dy
         aa = int(a * (1 - dy / S(40)))
         d.polygon([(x, y - S(12)), (x - S(8), y + S(4)), (x + S(8), y + S(4))], fill=(150, 210, 255, aa))
         d.ellipse((x - S(8), y - S(4), x + S(8), y + S(12)), fill=(150, 210, 255, aa))
@@ -239,7 +378,7 @@ def render(t):
         if t < T_NOST + .3:
             fr = Image.blend(Image.new('RGB', fr.size, (255, 255, 255)), fr, (t - T_NOST) / .3)
     d = ImageDraw.Draw(fr)
-    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v7 · PLANNING ONLY')
+    tag(d, f'SEQ 16 PLAYER TWO · {lab} · BLOCK J v8 · PLANNING ONLY')
     subtitle(d, t)
     return fr
 
@@ -257,7 +396,7 @@ def render(t):
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockJ_animatic_v7.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockJ_animatic_v8.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -267,14 +406,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v7_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v8_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v7_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockJ_v8_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

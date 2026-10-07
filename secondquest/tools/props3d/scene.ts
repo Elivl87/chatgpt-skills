@@ -226,6 +226,56 @@ const switch2 = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- desk items for block O (Producer, 2026-10-07: the table
+// of an adult who plays today). Generic, no brands. Keys: phone screen #ff00ff, game cover #00ffff (composited in 2D).
+const unlit = (hex: string, part: number, w: number, d: number, y: number) => {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ color: new THREE.Color(hex) }));
+  m.rotation.x = -Math.PI / 2; m.position.set(0, y, 0); m.userData.part = part; ids.push(m); return m;
+};
+/** A smartphone lying flat, screen up (~75 x 160 x 8 mm), a thin metal frame and a camera bump at the back edge. */
+const phone = () => {
+  const g = new THREE.Group();
+  g.add(slab(roundedRect(75, 160, 10), 0, 8, 1.5, toon('#2c2f36'), 1300));
+  g.add(slab(roundedRect(71, 156, 9), 7.6, 0.6, 0, toon('#15161a'), 1301));   // the glass, black bezel
+  g.add(unlit('#ff00ff', 1302, 66, 146, 8.35));
+  g.add(box(2, 3, 18, [37.6, 5, -40], toon('#4a4d55'), 1303));                 // side buttons
+  return g;
+};
+/** A coffee mug (~82 mm across, 95 mm tall) with a handle; the coffee shows on top. */
+const mug = () => {
+  const g = new THREE.Group();
+  const prof = [[0, 0], [38, 0], [41, 4], [41, 92], [37, 95], [36, 90], [36, 8], [0, 8]].map(([r, y]) => new THREE.Vector2(r, y));
+  const body = new THREE.Mesh(new THREE.LatheGeometry(prof, 48), toon('#e9e2d6')); body.userData.part = 1310; ids.push(body); g.add(body);
+  const coffee = cyl(36, 1, [0, 80, 0], [0, 0, 0], toon('#4a2c1a'), 1311); g.add(coffee);
+  const band = cyl(41.6, 14, [0, 70, 0], [0, 0, 0], toon('#d6392f'), 1312); g.add(band);   // the channel's red band
+  const handle = new THREE.Mesh(new THREE.TorusGeometry(24, 6.5, 16, 32, Math.PI * 1.15), toon('#e9e2d6'));
+  handle.rotation.set(0, 0, -Math.PI * 0.575); handle.position.set(44, 50, 0); handle.userData.part = 1313; ids.push(handle); g.add(handle);
+  return g;
+};
+/** Over-ear headphones lying flat: two cups and the headband arching between them. */
+const headphones = () => {
+  const g = new THREE.Group();
+  const band = new THREE.Mesh(new THREE.TorusGeometry(80, 7, 16, 48, Math.PI), toon('#2b2d33'));
+  band.rotation.set(-Math.PI / 2, 0, 0); band.position.set(0, 10, 0); band.userData.part = 1320; ids.push(band); g.add(band);
+  const pad = new THREE.Mesh(new THREE.TorusGeometry(80, 4, 12, 48, Math.PI * .6), toon('#55585f'));
+  pad.rotation.set(-Math.PI / 2, 0, Math.PI * .2); pad.position.set(0, 16, 0); pad.userData.part = 1321; ids.push(pad); g.add(pad);
+  for (const sx of [-1, 1]) {
+    g.add(cyl(36, 22, [sx * 80, 14, 6], [0, 0, 0], toon('#3a3d44'), 1322));
+    g.add(cyl(30, 4, [sx * 80, 26, 6], [0, 0, 0], toon('#1d1e22'), 1323));          // the cushion
+    g.add(cyl(14, 2, [sx * 80, 28.5, 6], [0, 0, 0], toon(sx < 0 ? '#3d7bff' : '#ff4b4b'), 1324));
+  }
+  return g;
+};
+/** A game box (~135 x 170 x 12 mm) lying flat, cover up: a red top band and a cover key for our own cover art. */
+const gamebox = () => {
+  const g = new THREE.Group();
+  g.add(slab(roundedRect(135, 170, 6), 0, 12, 1.2, toon('#f2f2f4'), 1330));
+  g.add(unlit('#00ffff', 1331, 125, 140, 12.05));
+  const bandM = new THREE.Mesh(new THREE.PlaneGeometry(125, 18), toon('#d6392f'));
+  bandM.rotation.x = -Math.PI / 2; bandM.position.set(0, 12.06, -76); bandM.userData.part = 1332; ids.push(bandM); g.add(bandM);
+  return g;
+};
+
 // ---------------------------------------------------------------- golden triangles (Triforce-like, three equal triangles)
 /** Three beveled golden triangles stacked as one big triangle, standing upright, facing +z. Side of each: 100 mm. */
 const triforce = () => {
@@ -813,6 +863,10 @@ if (P.props.includes('horse')) scene.add((props.horse = horse()));
 if (P.props.includes('scabbard')) scene.add((props.scabbard = scabbard()));
 if (P.props.includes('shield')) scene.add((props.shield = heroShield()));
 if (P.props.includes('switch2')) scene.add((props.switch2 = switch2()));
+if (P.props.includes('phone')) scene.add((props.phone = phone()));
+if (P.props.includes('mug')) scene.add((props.mug = mug()));
+if (P.props.includes('headphones')) scene.add((props.headphones = headphones()));
+if (P.props.includes('gamebox')) scene.add((props.gamebox = gamebox()));
 
 if (P.light === 'neutral') {
   scene.add(new THREE.HemisphereLight(0xffffff, 0x404048, 1.6));

@@ -283,31 +283,103 @@ def forest(t, with_q=True):
 
 
 SW_W = Si(820)
-SW = BL.SW2.resize((SW_W, int(BL.SW2.height * SW_W / BL.SW2.width)), Image.LANCZOS)
-_sq = BL.SW2_QUAD * (SW_W / BL.SW2.width)
-SW_MASK = np.asarray(Image.fromarray(BL.SW2_MASK.astype(np.uint8) * 255).resize(SW.size, Image.NEAREST)) > 127
+_SW_HD = Image.open(ROOT / 'public/art/ep002/props3d/switch2_room_hd.png').convert('RGBA')   # 2K-ready render (2026-10-07)
+SW = _SW_HD.resize((SW_W, int(_SW_HD.height * SW_W / _SW_HD.width)), Image.LANCZOS)
+_sq, _key = BL._screen_quad(SW)
+# the screen key and its anti-aliased green fringe (Producer, 2026-10-07: a green frame showed round the screen)
+_a = np.asarray(SW).astype(np.int16)
+_fringe = (_a[..., 1] > _a[..., 0] + 25) & (_a[..., 1] > _a[..., 2] + 25) & (_a[..., 3] > 0)
+SW_MASK = cv2.dilate((_key | _fringe).astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
+SW_MASK &= cv2.dilate(_key.astype(np.uint8), np.ones((Si(9) | 1, Si(9) | 1), np.uint8)) > 0   # only next to the screen
 SW_POS = (W * .5 - SW.width / 2, H * .47 - SW.height / 2)
 _SRC = np.float32([[0, 0], [W, 0], [W, H], [0, H]])
 SW_M = cv2.getPerspectiveTransform(_SRC, _sq.astype(np.float32))
 
+# the table round it (Producer, 2026-10-07): our 3D phone, a coffee mug, headphones and a game box, no brands
+_DESK = {n: Image.open(ROOT / f'public/art/ep002/props3d/desk_{n}.png').convert('RGBA') for n in ('phone', 'mug', 'headphones', 'gamebox')}
+
+
+def _desk(name, h):
+    im = _DESK[name]
+    return im.resize((max(1, Si(h * im.width / im.height)), Si(h)), Image.LANCZOS)
+
+
+def _keyed(im, key, pic):
+    """Fill the key colour of a 3D prop with a picture, in the prop's perspective."""
+    a = np.asarray(im).astype(np.int16)
+    k = (np.abs(a[..., 0] - key[0]) < 60) & (np.abs(a[..., 1] - key[1]) < 60) & (np.abs(a[..., 2] - key[2]) < 60) & (a[..., 3] > 0)
+    c, _ = cv2.findContours(k.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    q = cv2.approxPolyDP(max(c, key=cv2.contourArea), .04 * cv2.arcLength(max(c, key=cv2.contourArea), True), True)[:, 0].astype(np.float32)
+    s_, d_ = q.sum(1), np.diff(q, axis=1)[:, 0]
+    quad = np.float32([q[np.argmin(s_)], q[np.argmin(d_)], q[np.argmax(s_)], q[np.argmax(d_)]])
+    pw_, ph_ = pic.size
+    M = cv2.getPerspectiveTransform(np.float32([[0, 0], [pw_, 0], [pw_, ph_], [0, ph_]]), quad)
+    warped = cv2.warpPerspective(np.asarray(pic.convert('RGB')).astype(np.float32), M, im.size, borderMode=cv2.BORDER_REPLICATE)
+    m = cv2.dilate(k.astype(np.uint8), np.ones((3, 3), np.uint8)) > 0
+    m &= cv2.dilate(k.astype(np.uint8), np.ones((7, 7), np.uint8)) > 0
+    out = np.asarray(im).copy(); out[m, :3] = np.clip(warped[m], 0, 255).astype(np.uint8)
+    return Image.fromarray(out)
+
+
+def _lock_screen():
+    g = Image.new('RGB', (Si(330), Si(720)), (40, 70, 120)); d = ImageDraw.Draw(g)
+    for y in range(g.height):                                           # a calm dusk wallpaper
+        k = y / g.height
+        d.line((0, y, g.width, y), fill=(int(lin(42, 236, k ** 2)), int(lin(66, 150, k ** 2)), int(lin(128, 120, k))))
+    d.text((g.width / 2 - d.textlength('20:26', font=F(84)) / 2, S(90)), '20:26', font=F(84), fill=(250, 250, 255))
+    d.rounded_rectangle((S(30), S(250), g.width - S(30), S(330)), S(18), fill=(250, 250, 255))
+    d.rounded_rectangle((S(50), S(272), S(90), S(308)), S(8), fill=(214, 57, 47))
+    d.rounded_rectangle((S(105), S(276), S(260), S(290)), S(5), fill=(120, 124, 134))
+    d.rounded_rectangle((S(105), S(296), S(220), S(306)), S(4), fill=(180, 184, 192))
+    return g
+
+
+def _cover():
+    """Our own cover for the new game: today's field (#11), the castle centred; no logo, no name."""
+    f = HB.G.FIELD
+    w_ = int(f.height * 500 / 560)
+    return f.crop((f.width // 2 - w_ // 2, 0, f.width // 2 + w_ // 2, f.height)).resize((Si(500), Si(560)), Image.LANCZOS)
+
+
+PHONE = _keyed(_desk('phone', 150), (255, 0, 255), _lock_screen())
+MUG = _desk('mug', 150)
+PHONES_H = _desk('headphones', 105)
+GAMEBOX = _keyed(_desk('gamebox', 185), (0, 255, 255), _cover())
+
+
+def _steam(fr, t, x, y):
+    """Coffee steam: three soft curls rising and fading."""
+    lay = Image.new('RGBA', fr.size); d = ImageDraw.Draw(lay)
+    for i in range(3):
+        for k in range(14):
+            u = ((t * .5 + i / 3) % 1)
+            yy = y - S(10) - k * S(7) - u * S(40)
+            xx = x + (i - 1) * S(16) + S(9) * math.sin(k * .7 + t * 2 + i)
+            a = int(110 * (1 - k / 14) * math.sin(math.pi * u))
+            d.ellipse((xx - S(5), yy - S(5), xx + S(5), yy + S(5)), fill=(255, 255, 255, max(0, a)))
+    return Image.alpha_composite(fr.convert('RGBA'), lay.filter(ImageFilter.GaussianBlur(S(3)))).convert('RGB')
+
+
+def _shadowed(bg, im, x, y, spread=.45):
+    sh = Image.new('RGBA', bg.size)
+    ImageDraw.Draw(sh).ellipse((x + im.width * (.5 - spread), y + im.height * .82, x + im.width * (.5 + spread), y + im.height * 1.02), fill=(0, 0, 0, 60))
+    bg = Image.alpha_composite(bg.convert('RGBA'), sh.filter(ImageFilter.GaussianBlur(S(10))))
+    bg.alpha_composite(im, (int(x), int(y)))
+    return bg.convert('RGB')
+
 
 def handheld(t, screen):
-    """Today: the Switch 2-like handheld (our 3D, block L) on a bright table; `screen` plays on it."""
+    """Today: the Switch 2-like handheld (our 3D, block L) on a bright table, an adult's things round it; `screen`
+    plays on it."""
     bg = Image.new('RGB', (W, H), (226, 214, 196)); d = ImageDraw.Draw(bg)
     d.rectangle((0, H * .62, W, H), fill=(170, 130, 96)); d.line((0, H * .62, W, H * .62), fill=(120, 90, 66), width=Si(4))
     bg = CART.glow(bg, W * .82, H * .12, S(600), (255, 248, 220), .45)                # daylight from a window
-    ph = Image.new('RGBA', (Si(150), Si(290))); pd = ImageDraw.Draw(ph)                   # Producer improvement: a phone - it is today
-    pd.rounded_rectangle((S(2), S(2), S(147), S(287)), S(22), fill=(28, 30, 36, 255), outline=(20, 14, 18, 255), width=Si(4))
-    pd.rounded_rectangle((S(10), S(12), S(139), S(277)), S(16), fill=(40, 70, 120, 255))
-    pd.text((S(75) - pd.textlength('20:26', font=F(30)) / 2, S(40)), '20:26', font=F(30), fill=(240, 245, 255, 255))
-    pd.rounded_rectangle((S(18), S(110), S(131), S(150)), S(8), fill=(235, 240, 248, 220))
-    pd.rounded_rectangle((S(60), S(262), S(90), S(267)), S(2), fill=(200, 210, 230, 255))
-    ph = ph.rotate(-62, resample=Image.BICUBIC, expand=True)
-    ph = ph.resize((ph.width, int(ph.height * .55)), Image.LANCZOS)                 # lying on the table, in perspective
-    sh2 = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh2).ellipse((W * .86 - ph.width * .45, H * .86 - S(18), W * .86 + ph.width * .45, H * .86 + S(26)), fill=(0, 0, 0, 60))
-    bg = Image.alpha_composite(bg.convert('RGBA'), sh2.filter(ImageFilter.GaussianBlur(S(10)))).convert('RGB')
-    bg = comp(bg, ph, W * .86 - ph.width / 2, H * .82 - ph.height / 2)
-    pic = cv2.warpPerspective(np.asarray(screen).astype(np.float32), SW_M, SW.size)
+    bg = _shadowed(bg, GAMEBOX, W * .02, H * .66)                                      # front left, half out of the light
+    bg = _shadowed(bg, MUG, W * .11, H * .40)                                          # back left
+    bg = _steam(bg, t, W * .11 + MUG.width * .42, H * .40 + MUG.height * .12)
+    bg = _shadowed(bg, PHONES_H, W * .835, H * .45)                                    # back right, clear of the handheld
+    bg = _shadowed(bg, PHONE, W * .84, H * .63, spread=.35)                            # front right, today: 20:26
+    pic = cv2.warpPerspective(np.asarray(screen).astype(np.float32), SW_M, SW.size, borderMode=cv2.BORDER_REPLICATE)
     s = np.asarray(SW).copy(); s[SW_MASK, :3] = np.clip(pic[SW_MASK], 0, 255).astype(np.uint8)
     sw = Image.fromarray(s)
     sh = Image.new('RGBA', (W, H)); ImageDraw.Draw(sh).ellipse((W * .5 - SW_W * .48, SW_POS[1] + SW.height * .78, W * .5 + SW_W * .48, SW_POS[1] + SW.height * 1.0), fill=(0, 0, 0, 70))
@@ -398,7 +470,7 @@ STILLS = (('o0', T0 + .3), ('o1', T('l109.w8') + .3), ('o2', T('l110.w6') + .3),
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockO_animatic_v7.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockO_animatic_v8.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -408,14 +480,14 @@ def main():
         p.stdin.write(render(T0 + n / FPS).tobytes())
     p.stdin.close(); p.wait()
     for name, t in STILLS:
-        render(t).save(out_path(ROOT / f'docs/ep002/blockO_v7_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockO_v8_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer rule)
 
 
 if __name__ == '__main__':
     if '--stills' in sys.argv:
         for name, t in STILLS:
-            render(t).save(out_path(ROOT / f'docs/ep002/blockO_v7_{name}.jpg'), quality=85)
+            render(t).save(out_path(ROOT / f'docs/ep002/blockO_v8_{name}.jpg'), quality=85)
         print('stills')
     else:
         main()

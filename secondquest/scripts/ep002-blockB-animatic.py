@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EP002 animatic · block B (planning only): from "An orchestra." to the cut into Act 1 (l03 rest -> l10, + silence).
 
-  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v15.mp4
+  python3 scripts/ep002-blockB-animatic.py     # docs/ep002/EP002_blockB_animatic_v16.mp4
 
 Scene Book v2, sequences 02-04:
   B1  "An orchestra. Voices. Modern controls."  living room from behind Quest, facing the TV; Navi comes back and circles
@@ -113,7 +113,7 @@ def relic_frame(t):
         im = SWD[min(len(SWD) - 1, int(k * len(SWD)))]
         s = lin(.66, .74, ease(k)) * U; im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
         base = fr.convert('RGBA'); base.alpha_composite(im, ((W - im.width) // 2, (H - im.height) // 2 - Si(10))); fr = base.convert('RGB')
-        fr = UI.lockon(fr, W / 2, H / 2 - S(10), im.width * .55, im.height * .9, (t - T_SW) / .35, t)
+        fr = UI.lockon(fr, W / 2, H / 2 - S(10), im.width * .55, min(im.height * .9, H * .84), (t - T_SW) / .35, t)   # inside the frame
         if 0 <= t - T('l05.w3') < .25:                                   # glint on "sword"
             fr = CART.glow(fr, W / 2 + S(10), H * .2, S(90), (255, 255, 255), .8 * (1 - (t - T('l05.w3')) / .25))
     else:
@@ -126,7 +126,7 @@ def relic_frame(t):
             tri.alpha_composite(im, (int(S(ox) * (1 - k)), int(S(oy) * (1 - k))))
         tri = tri.crop((Si(80), Si(80), Si(560), Si(560))).resize((Si(540), Si(540)), Image.LANCZOS)
         base = fr.convert('RGBA'); base.alpha_composite(tri, (W // 2 - Si(270), H // 2 - Si(290))); fr = base.convert('RGB')
-        fr = UI.lockon(fr, W / 2, H / 2 - S(30), S(360), S(330), (t - T_TF - .8) / .35, t)   # once the plates click together
+        fr = UI.lockon(fr, W / 2, H / 2 - S(20), S(570), S(500), (t - T_TF - .8) / .35, t)   # once the plates click together; outside the art (506x438)
         if 0 <= t - (T_TF + .8) < .3:                                    # click-together flash
             fr = CART.glow(fr, W / 2, H / 2 - S(40), S(300), (255, 240, 200), .7 * (1 - (t - T_TF - .8) / .3))
     # Navi leads the eye: ocarina -> sword tip -> Triforce apex
@@ -257,7 +257,7 @@ def render(t):
 
 
 def main():
-    out = out_path(ROOT / 'docs/ep002/EP002_blockB_animatic_v15.mp4')
+    out = out_path(ROOT / 'docs/ep002/EP002_blockB_animatic_v16.mp4')
     narr = ROOT / 'public/episodes/ep002/audio/narration.wav'
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{T0:.3f}', '-t', f'{T_END - T0:.3f}', '-i', str(narr),
@@ -268,7 +268,7 @@ def main():
     p.stdin.close(); p.wait()
     for name, t in (('b1', T('l03.w6') + .3), ('b2', T_CAM + .5), ('b3_ocarina', T_OC + .5), ('b3_sword', T_SW + .5), ('b3_triforce', T_TF + 1.1),
                     ('b4', T_FIELD + 1.5), ('b6', T_GO + 2.0), ('title', T_END - .5)):
-        render(t).save(out_path(ROOT / f'docs/ep002/blockB_v15_{name}.jpg'), quality=85)
+        render(t).save(out_path(ROOT / f'docs/ep002/blockB_v16_{name}.jpg'), quality=85)
     print(out.relative_to(ROOT), f'{T_END - T0:.2f}s')   # block-only preview (Producer, 2026-10-04)
 
 

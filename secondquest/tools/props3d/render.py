@@ -328,6 +328,24 @@ def job_switch2():
     print('switch2_room.png, docs/ep002/switch2_turntable.jpg')
 
 
+def job_switch2_hd():
+    """The handheld at 2K-ready size for block O's close shot (same angle as switch2_room.png, 2.4x the pixels)."""
+    tgt = [0, 8, 0]
+    imgs = render({'props': ['switch2'], 'shots': [{'camera': orbit(-18, 52, 900, tgt), 'target': tgt, 'fov': 26, 'cart': None}],
+                   'light': 'neutral'}, 2160, 1488, line=6.2)
+    cv2.imwrite(str(OUT / 'switch2_room_hd.png'), crop_alpha(imgs[0], pad=14))
+    print('switch2_room_hd.png')
+
+
+def job_desk_items():
+    """Block O's table (Producer, 2026-10-07): phone, coffee mug, headphones and a game box, seen at the handheld's angle."""
+    for name, tgt, dist in (('phone', [0, 4, 0], 520), ('mug', [0, 45, 0], 560), ('headphones', [0, 14, 0], 760), ('gamebox', [0, 6, 0], 600)):
+        img = render({'props': [name], 'shots': [{'camera': orbit(-18, 52, dist, tgt), 'target': tgt, 'fov': 26, 'cart': None}],
+                      'light': 'neutral'}, 1200, 1000, line=4.0)[0]
+        cv2.imwrite(str(OUT / f'desk_{name}.png'), crop_alpha(img, pad=10))
+        print(f'desk_{name}.png')
+
+
 def job_horse_rear():
     """The same horse seen from behind (3/4 rear, a little above): it gallops away from camera, towards the castle."""
     out = OUT / 'horse_rear'; out.mkdir(parents=True, exist_ok=True)
@@ -392,7 +410,7 @@ def job_back_sword():
     print('back_sword.png', img.shape)
 
 
-JOBS = {'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+JOBS = {'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
