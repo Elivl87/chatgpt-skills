@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SRC = ROOT / 'docs/ep002/EP002_animatic_full_v6_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
 OUT = ROOT / 'docs/publish/EP002/short1'
-VERSION = 2
+VERSION = 3
 W, H, FPS = 1080, 1920, 24
 SW, SH = 2560, 1440
 CW = round(SH * W / H)                                             # 9:16 crop width in source px (810)
@@ -33,10 +33,15 @@ CUES = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
 SEGMENTS = [(17.30, 21.75, .50),     # l07-l08 on the field, Quest from behind: "…cannot rebuild… You."
             (7.75, 12.95, .53),      # l03 the room, the kid cheering at the TV: "New graphics. An orchestra…"
             (12.95, 17.30, .50),     # l04-l06 the ocarina, the sword, the Triforce (lock-on)
-            (25.55, 27.05, .50)]     # l10 "So, why?" (audio; the picture is VIDEO_AT below)
-VIDEO_AT = {3: 22.30}                 # l10's picture: the field walk just before the logo card (it does not fit 9:16)
+            (21.75, 25.50, .50),     # l09 Quest sets off down the road: "…that might be exactly why we want to go back."
+            (25.55, 27.05, .50)]     # l10 "So, why?" (audio; picture VIDEO_AT + our wordmark, as in the episode)
+VIDEO_AT = {4: 24.00}                 # l10's picture: the walk, under the wordmark (the episode's logo card is 16:9)
+FRAME_W = round(W * 1.6)              # framing B (Producer, 2026-10-07): the frame at 160 % width, 62 % of it visible
+FRAME_CY = 860                        # its centre; title band above, captions below, clear of the Shorts UI
+TITLE = ("THE ONE THING", "NINTENDO CAN'T REBUILD")   # the episode's title A as a fixed band (Producer approved)
+WORDMARK = Image.open(ROOT / 'public/art/core/brand/secondquest_wordmark.png').convert('RGBA')
 CARD = 2.6                           # end card seconds
-LINES = ['l07', 'l08', 'l03', 'l04', 'l05', 'l06', 'l10']
+LINES = ['l07', 'l08', 'l03', 'l04', 'l05', 'l06', 'l09', 'l10']
 
 
 def font(size, w='800'):
@@ -88,7 +93,7 @@ def captions(fr, te):
     if not lid:
         return fr
     ws = [w for w in CUES[lid]['words']]
-    ch = chunks(ws); cur = None
+    ch = [ws] if lid in ('l08', 'l10') else chunks(ws); cur = None     # "You." and "So, why?": one hit each
     for i, k in enumerate(ch):
         nxt = ch[i + 1][0]['start'] if i + 1 < len(ch) else CUES[lid]['end'] + .3
         if k[0]['start'] - .05 <= te < nxt:
@@ -98,7 +103,7 @@ def captions(fr, te):
     d = ImageDraw.Draw(fr)
     pop = ease((te - cur[0]['start'] + .05) / .12)
     big = lid in ('l08', 'l10')                                        # "You." and "So, why?" land huge
-    f = font(int((150 if big else 84) * (.86 + .14 * pop)))
+    f = font(int((140 if big else 76) * (.86 + .14 * pop)))
     sw, drop = max(3, round(f.size * .13)), max(2, round(f.size * .07))
     lines, ln = [], []
     for w in cur:
@@ -106,7 +111,7 @@ def captions(fr, te):
             lines.append(ln); ln = []
         ln.append(w)
     lines.append(ln)
-    lh = int(f.size * 1.16); y = H * .74 - lh * len(lines) / 2     # under the subject, above the Shorts UI
+    lh = int(f.size * 1.16); y = 1475 - lh * len(lines) / 2         # the band under the frame, above the Shorts UI
     for l_ in lines:
         text = ' '.join(x['w'] for x in l_)
         x = (W - d.textlength(text, font=f)) / 2
@@ -133,8 +138,46 @@ def frames(a, b):
 
 
 def vertical(im, cx):
-    x0 = int(min(max(0, cx * SW - CW / 2), SW - CW))
-    return im.crop((x0, 0, x0 + CW, SH)).resize((W, H), Image.LANCZOS)
+    """Framing B: the frame large (62 % of its width visible) on a blurred, darkened copy of itself; the fixed title
+    band on top. cx: which part of the frame stays in view (fraction of its width)."""
+    fh = round(FRAME_W * 9 / 16)
+    small = im.resize((192, 108), Image.BILINEAR)
+    bw = round(H * 16 / 9)
+    bg = small.resize((bw, H), Image.BILINEAR).crop(((bw - W) // 2, 0, (bw - W) // 2 + W, H)).filter(ImageFilter.GaussianBlur(24))
+    bg = Image.blend(bg, Image.new('RGB', bg.size, (14, 14, 22)), .45)
+    fr = im.resize((FRAME_W, fh), Image.LANCZOS)
+    x0 = int(min(max(0, cx * FRAME_W - W / 2), FRAME_W - W))
+    fr = fr.crop((x0, 0, x0 + W, fh))
+    y0 = FRAME_CY - fh // 2
+    bg.paste(fr, (0, y0))
+    d = ImageDraw.Draw(bg)
+    d.line((0, y0 - 3, W, y0 - 3), fill=INK, width=6); d.line((0, y0 + fh + 2, W, y0 + fh + 2), fill=INK, width=6)
+    return title_band(bg)
+
+
+def title_band(fr):
+    d = ImageDraw.Draw(fr)
+    y = 150
+    for text, col, size in ((TITLE[0], (255, 255, 255), 74), (TITLE[1], YELLOW, 74)):
+        f = fredoka(size)
+        while d.textlength(text, font=f) > W * .9:
+            size -= 2; f = fredoka(size)
+        x = (W - d.textlength(text, font=f)) / 2
+        d.text((x + 5, y + 7), text, font=f, fill=INK, stroke_width=10, stroke_fill=INK)
+        d.text((x, y), text, font=f, fill=col, stroke_width=10, stroke_fill=INK)
+        y += size * 1.08
+    return fr
+
+
+def wordmark(fr, k):
+    """The channel's wordmark lands on "So, why?", as in the episode (a pop, then settles), centred in the frame."""
+    if k <= 0:
+        return fr
+    sc = .8 + .28 * min(1, k * 3) - .08 * max(0, min(1, k * 3 - 1))
+    ww = int(W * .78 * sc); wh = int(WORDMARK.height * ww / WORDMARK.width)
+    wm = WORDMARK.resize((ww, wh), Image.LANCZOS)
+    out = fr.convert('RGBA'); out.alpha_composite(wm, ((W - ww) // 2, FRAME_CY - wh // 2 - 120))
+    return out.convert('RGB')
 
 
 _CARD_BG = None
@@ -169,11 +212,14 @@ def render_video(path):
         va = VIDEO_AT.get(i, a)
         for n, im in enumerate(frames(va, va + b - a)):
             te = a + n / FPS
-            fr = vertical(im, cx); plain = fr.copy()                     # the card's background: no caption
+            fr = vertical(im, cx)
+            if i == len(SEGMENTS) - 1:
+                fr = wordmark(fr, (te - CUES['l10']['start'] + .1) / 1.2)
+            plain = fr.copy()                                          # the card's background: no caption
             if SUBS:
                 fr = captions(fr, te)
             p.stdin.write(fr.tobytes()); last = fr
-            for name, ts in (('hook', 19.0), ('you', 21.3), ('room', 10.0), ('ocarina', 14.0), ('why', 26.3)):
+            for name, ts in (('hook', 19.0), ('you', 21.3), ('room', 10.0), ('triforce', 16.8), ('goback', 23.5), ('why', 26.6)):
                 if abs(te - ts) < .5 / FPS:
                     stills[name] = fr
     for n in range(round(CARD * FPS)):
@@ -205,7 +251,7 @@ def main():
     subprocess.run([FF, '-v', 'error', '-y', '-i', str(vid), '-i', str(aud), '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k',
                     '-shortest', '-movflags', '+faststart', str(out)], check=True)
     vid.unlink(); aud.unlink()
-    names = ['hook', 'you', 'room', 'ocarina', 'why', 'card']
+    names = ['hook', 'you', 'room', 'triforce', 'goback', 'why', 'card']
     sheet = Image.new('RGB', (len(names) * 300 + 20, 560), (28, 28, 34))
     for i, nm in enumerate(names):
         if nm in stills:

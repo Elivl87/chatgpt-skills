@@ -607,3 +607,7 @@
   Can't Rebuild"*, title B *"You'll Never Play Ocarina of Time for the First Time Again"*. Test & Compare words: EXCEPT
   YOU / NOT YOU. / YOU CHANGED. Producer: a modern (PlayStation-like) pad is wrong for this story, the pad is the N64's;
   the main Quest stays in the red hoodie (he is "you", the player; the tunic belongs to what is rebuilt).
+- 2026-10-07 · Trailer Short v3: order kept hook-first (l07–l08, l03–l06) plus l09 before l10 so "So, why?" has its
+  question; "So, why?" lands on our wordmark (the episode's 16:9 logo card does not fit 9:16). Framing B (frame at 160 %
+  width, 62 % visible, blurred fill) instead of the 9:16 crop that cut the art; fixed title band "THE ONE THING /
+  NINTENDO CAN'T REBUILD" (Producer: "Sí, móntalo así con el encuadre B y el título").
