@@ -1,0 +1,170 @@
+[
+ {
+  "script": "ep002-cartridge-animatic.py",
+  "clip": "docs/ep002/EP002_cartridge_animatic_v15_1440p.mp4",
+  "T0": 0.0,
+  "T_END": 8.72,
+  "clip_dur": 8.72,
+  "video_start": 0.0
+ },
+ {
+  "script": "ep002-blockB-animatic.py",
+  "clip": "docs/ep002/EP002_blockB_animatic_v17_1440p.mp4",
+  "T0": 8.72,
+  "T_END": 29.21,
+  "clip_dur": 20.46,
+  "video_start": 8.72
+ },
+ {
+  "script": "ep002-blockC-animatic.py",
+  "clip": "docs/ep002/EP002_blockC_animatic_v10_1440p.mp4",
+  "T0": 29.21,
+  "T_END": 49.19,
+  "clip_dur": 19.96,
+  "video_start": 29.18
+ },
+ {
+  "script": "ep002-blockD-animatic.py",
+  "clip": "docs/ep002/EP002_blockD_animatic_v13_1440p.mp4",
+  "T0": 49.19,
+  "T_END": 81.37,
+  "clip_dur": 32.17,
+  "video_start": 49.14
+ },
+ {
+  "script": "ep002-blockE-animatic.py",
+  "clip": "docs/ep002/EP002_blockE_animatic_v9_1440p.mp4",
+  "T0": 81.37,
+  "T_END": 102.89,
+  "clip_dur": 21.5,
+  "video_start": 81.31
+ },
+ {
+  "script": "ep002-blockF-B-animatic.py",
+  "clip": "docs/ep002/EP002_blockF_B_animatic_v12_1440p.mp4",
+  "T0": 102.89,
+  "T_END": 120.87,
+  "clip_dur": 17.96,
+  "video_start": 102.81
+ },
+ {
+  "script": "ep002-blockG-animatic.py",
+  "clip": "docs/ep002/EP002_blockG_animatic_v11_1440p.mp4",
+  "T0": 120.87,
+  "T_END": 146.33,
+  "clip_dur": 25.46,
+  "video_start": 120.77
+ },
+ {
+  "script": "ep002-blockH-animatic.py",
+  "clip": "docs/ep002/EP002_blockH_animatic_v15_1440p.mp4",
+  "T0": 146.33,
+  "T_END": 160.65,
+  "clip_dur": 14.29,
+  "video_start": 146.23
+ },
+ {
+  "script": "ep002-blockI-animatic.py",
+  "clip": "docs/ep002/EP002_blockI_animatic_v15_1440p.mp4",
+  "T0": 160.65,
+  "T_END": 185.77,
+  "clip_dur": 25.08,
+  "video_start": 160.52
+ },
+ {
+  "script": "ep002-blockJ-animatic.py",
+  "clip": "docs/ep002/EP002_blockJ_animatic_v11_1440p.mp4",
+  "T0": 185.77,
+  "T_END": 202.01,
+  "clip_dur": 16.21,
+  "video_start": 185.6
+ },
+ {
+  "script": "ep002-blockK-animatic.py",
+  "clip": "docs/ep002/EP002_blockK_animatic_v9_1440p.mp4",
+  "T0": 202.01,
+  "T_END": 224.07,
+  "clip_dur": 22.04,
+  "video_start": 201.81
+ },
+ {
+  "script": "ep002-blockL-animatic.py",
+  "clip": "docs/ep002/EP002_blockL_animatic_v7_1440p.mp4",
+  "T0": 224.07,
+  "T_END": 238.07,
+  "clip_dur": 14.0,
+  "video_start": 223.85
+ },
+ {
+  "script": "ep002-blockM-animatic.py",
+  "clip": "docs/ep002/EP002_blockM_animatic_v6_1440p.mp4",
+  "T0": 238.07,
+  "T_END": 256.75,
+  "clip_dur": 18.67,
+  "video_start": 237.85
+ },
+ {
+  "script": "ep002-blockN-animatic.py",
+  "clip": "docs/ep002/EP002_blockN_animatic_v14_1440p.mp4",
+  "T0": 256.75,
+  "T_END": 271.69,
+  "clip_dur": 14.92,
+  "video_start": 256.52
+ },
+ {
+  "script": "ep002-blockO-animatic.py",
+  "clip": "docs/ep002/EP002_blockO_animatic_v9_1440p.mp4",
+  "T0": 271.69,
+  "T_END": 291.93,
+  "clip_dur": 20.21,
+  "video_start": 271.44
+ },
+ {
+  "script": "ep002-blockP-animatic.py",
+  "clip": "docs/ep002/EP002_blockP_animatic_v9_1440p.mp4",
+  "T0": 291.93,
+  "T_END": 311.25,
+  "clip_dur": 19.29,
+  "video_start": 291.65
+ },
+ {
+  "script": "ep002-blockQ-animatic.py",
+  "clip": "docs/ep002/EP002_blockQ_animatic_v6_1440p.mp4",
+  "T0": 311.25,
+  "T_END": 337.31,
+  "clip_dur": 26.04,
+  "video_start": 310.94
+ },
+ {
+  "script": "ep002-blockR-animatic.py",
+  "clip": "docs/ep002/EP002_blockR_animatic_v13_1440p.mp4",
+  "T0": 337.31,
+  "T_END": 362.11,
+  "clip_dur": 24.79,
+  "video_start": 336.98
+ },
+ {
+  "script": "ep002-blockS-A-animatic.py",
+  "clip": "docs/ep002/EP002_blockS_animatic_A_v8_1440p.mp4",
+  "T0": 362.11,
+  "T_END": 379.11,
+  "clip_dur": 17.0,
+  "video_start": 361.77
+ },
+ {
+  "script": "ep002-blockT-animatic.py",
+  "clip": "docs/ep002/EP002_blockT_animatic_v10_1440p.mp4",
+  "T0": 379.11,
+  "T_END": 403.19,
+  "clip_dur": 24.04,
+  "video_start": 378.77
+ },
+ {
+  "script": "ep002-blockU-animatic.py",
+  "clip": "docs/ep002/EP002_blockU_animatic_v8_1440p.mp4",
+  "T0": 403.19,
+  "T_END": 412.9,
+  "clip_dur": 9.71,
+  "video_start": 402.81
+ }
+]

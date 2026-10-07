@@ -1,719 +1,740 @@
 {
-  "notes": "Higgsfield credit ledger (tools/credits/credits.py). Every spend: quote → Producer approval (own words) → spend with job ids and balance.",
-  "entries": [
-    {
-      "id": "Q001",
-      "episode": "EP001",
-      "item": "EP001 production: Bram narration B01–B10 (24.15) + art fixes (10.00)",
-      "model": "text2speech_v2 / gpt_image_2_5",
-      "quoted": 34.15,
-      "status": "spent",
-      "actual": 34.15,
-      "balanceAfter": 121.05,
-      "approval": "historical (EP001_FINAL_REPORT_V3_CLEAN_BRAM.md)"
-    },
-    {
-      "id": "Q002",
-      "episode": "CHANNEL",
-      "item": "Channel avatar",
-      "model": "gpt_image_2_5",
-      "quoted": 0.5,
-      "status": "spent",
-      "actual": 0.5,
-      "approval": "historical"
-    },
-    {
-      "id": "Q003",
-      "episode": "EP001",
-      "item": "Thumbnails 1–3",
-      "model": "gpt_image_2_5",
-      "quoted": 1.5,
-      "status": "spent",
-      "actual": 1.5,
-      "balanceAfter": 119.05,
-      "approval": "historical (note: spent after 'Prosigamos' without an explicit quote — the reason this ledger exists)"
-    },
-    {
-      "id": "Q004",
-      "episode": "EP002",
-      "item": "Bram narration B01–B08 + B01 retake",
-      "model": "text2speech_v2 elevenlabs",
-      "quoted": 19.0,
-      "status": "spent",
-      "actual": 19.8,
-      "balanceAfter": 99.25,
-      "approval": "Confirmo la narración de Bram por 19 créditos, máximo 25",
-      "jobs": [
-        "48d9913d-9902-4752-ac75-d85c6874ef35",
-        "c54525e4-5971-4173-b44b-a3733850f17e",
-        "d90b57bf-8cdf-4072-bcc1-0d07cc01e1f0",
-        "db632ebc-6353-429c-bedd-ffec8d3fecdf",
-        "211c5c61-b637-4046-9184-4c5af99488c1",
-        "d96f2280-a733-4f33-9272-8260b2aafc5b",
-        "9ac91baf-90ee-4eaa-9980-57c71e7cb89b",
-        "0d26132d-9398-4b78-a6de-a5b2487ab711",
-        "3b0247ee-52f2-4fa4-8e95-bd61b7a5df0d"
-      ]
-    },
-    {
-      "id": "Q005",
-      "episode": "CHANNEL",
-      "item": "Pixie_v1 design (2 images, with Quest for scale)",
-      "model": "gpt_image_2_5",
-      "quoted": 2.0,
-      "status": "spent",
-      "quotedAt": "2026-10-03T18:21:10+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> Two cartoon friends standing side by side, full body, front three-quarter view, plain light background. Left: the SAME character as in the reference images (Quest_v1), young man, dark brown curly hair, light freckles, same face and proportions, plain red hoodie with white drawstrings, no logos, blue denim jeans, his RED canvas sneakers with white soles and white laces are visible. Right: his friend Pixie, a young woman with long straight black hair in a high ponytail, warm brown eyes, warm curious smile, teal oversized hoodie with no logos, black leggings, white sneakers. Same 2D cartoon style: bold ink outlines, flat cel shading. No text.\n",
-      "approvedAt": "2026-10-03T18:40:01+00:00",
-      "approval": "Apruebo (respuesta a: 'Pixie con tu aprobación explícita de los 2 créditos'; presupuesto: 2 imágenes, 2 créditos, máximo 3)",
-      "spentAt": "2026-10-03T18:41:09+00:00",
-      "actual": 2.0,
-      "jobs": [
-        "b8e7364b-aa2b-4203-8473-7d591bcf3297",
-        "9526ebfd-dcb1-4a71-a766-9ac6fca1385d"
-      ],
-      "balanceAfter": 97.25
-    },
-    {
-      "id": "Q006",
-      "episode": "CHANNEL",
-      "item": "Pixie_v1 library: 10 poses/emotions (transparent, 2k, ref job 9526ebfd)",
-      "model": "gpt_image_2_5",
-      "quoted": 10.0,
-      "status": "spent",
-      "quotedAt": "2026-10-03T18:51:43+00:00",
-      "prompt": null,
-      "approvedAt": "2026-10-03T18:51:49+00:00",
-      "approval": "Apruebo las 10 imágenes de Pixie por 10 créditos, máximo 20.",
-      "spentAt": "2026-10-03T18:53:58+00:00",
-      "actual": 10.0,
-      "jobs": [
-        "0115228b-a872-4dff-8014-b538e4e3d9b6",
-        "984c2649-f09b-4d37-8370-5e492c6e8fb1",
-        "d63f5463-a65c-49e4-ab1d-859235e764a9",
-        "3c720baa-183f-4c06-8aaa-7776f6ba57a0",
-        "549374bd-cc3d-49cf-8b02-2db60a12f6a3",
-        "a6bc6662-db4f-4840-aab0-4718f68b1358",
-        "ec8c44dd-9b6a-4ea8-b7af-ecdceb257955",
-        "a1b34cdd-bad6-473d-9a29-441ed406ee21",
-        "c6c89d64-b024-4e42-a3e6-96882d75ac25",
-        "9ca056c6-c10b-40b5-97b4-64039926fa88"
-      ],
-      "balanceAfter": 87.25
-    },
-    {
-      "id": "Q007",
-      "episode": "CHANNEL",
-      "item": "Quest_v1 library v2: 8 poses/emotions (transparent, 2k, element Quest-v1-6ref)",
-      "model": "gpt_image_2_5",
-      "quoted": 8.0,
-      "status": "spent",
-      "quotedAt": "2026-10-03T18:56:37+00:00",
-      "prompt": null,
-      "approvedAt": "2026-10-03T19:01:42+00:00",
-      "approval": "Apruebo las 8 imágenes. Pero recuerda la premisa de optimizar créditos. (Claude: generated at 1k = 4.0 credits instead of 8)",
-      "spentAt": "2026-10-03T19:03:02+00:00",
-      "actual": 4.0,
-      "jobs": [
-        "3bb78d15-2151-4acb-9b26-7f1fc88aa81d",
-        "eaf9acb6-bb0e-4c50-b0b4-dbfe59198679",
-        "16aa5ff8-16df-4d0d-8614-588f68041a94",
-        "af152634-f657-45d4-a950-c4d3c5971725",
-        "cf7a9f91-71e9-47a2-b01b-faf4d1d817af",
-        "3e2ceb3c-9ef1-4aa6-85c1-1226f4e27a39",
-        "af75412a-679d-4563-a602-acb44414b58a",
-        "3424c7a1-b2df-4870-9fd5-7873978383e1"
-      ],
-      "balanceAfter": 83.25
-    },
-    {
-      "id": "Q008",
-      "episode": "EP002",
-      "item": "Quest floor profile facing the TV (block H room + reflection), transparent, 1k",
-      "model": "gpt_image_2_5",
-      "quoted": 0.5,
-      "status": "spent",
-      "quotedAt": "2026-10-04T13:52:27+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: sitting cross-legged on the floor in a clean SIDE PROFILE view facing RIGHT, holding a game controller with both hands in his lap, looking straight ahead to the right at an old television (off-frame), calm quiet nostalgic expression, a soft cool blue screen light on his face and the front of his hoodie. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no television in the image, no other characters.\n",
-      "approvedAt": "2026-10-04T13:52:36+00:00",
-      "approval": "Sí, apruebo, genera la imagen a 1k",
-      "spentAt": "2026-10-04T13:53:52+00:00",
-      "actual": 0.5,
-      "jobs": [
-        "c8fde73f-4ced-4ed3-8f26-d0b3b107debf"
-      ],
-      "balanceAfter": 82.75
-    },
-    {
-      "id": "Q009",
-      "episode": "EP001",
-      "item": "Spanish narrator casting: 5 voices x the EP001 hook (ElevenLabs via text2speech_v2)",
-      "model": "text2speech_v2",
-      "quoted": 3.0,
-      "status": "spent",
-      "quotedAt": "2026-10-04T17:46:25+00:00",
-      "prompt": null,
-      "approvedAt": "2026-10-04T17:46:30+00:00",
-      "approval": "Sí, apruebo el casting",
-      "spentAt": "2026-10-04T17:49:33+00:00",
-      "actual": 4.5,
-      "jobs": [
-        "784c7f1a-94bb-4f85-b11d-37d51c876fc6",
-        "e26cf26e-36a3-44d4-9098-e10d8809acd2",
-        "fd7ab7a6-03c1-4879-867c-790832214d7b",
-        "6ee653d8-c2c2-463b-a84a-be99227f859d",
-        "19526998-0a2b-4a9a-881b-a13e05e5c812"
-      ],
-      "balanceAfter": 78.25
-    },
-    {
-      "id": "Q010",
-      "episode": "EP001",
-      "item": "EP001 Spanish narration (full, ~8,572 chars) with voice 4 (Bram preset), ~10 blocks by act, ElevenLabs via text2speech_v2",
-      "model": "text2speech_v2",
-      "quoted": 30.0,
-      "status": "cancelled",
-      "quotedAt": "2026-10-04T18:03:22+00:00",
-      "prompt": null,
-      "cancelledAt": "2026-10-04T18:19:18+00:00",
-      "reason": "Producer: 'No. Aprobada la voz pero cerremos primero el EP002' — deferred until EP002 is closed; re-quote then"
-    },
-    {
-      "id": "Q011",
-      "episode": "EP002",
-      "item": "#1 Quest tunic veteran",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Same face, hair and human ears as Quest_v1; only the outfit changes. Costume (adventurer, our own design): a forest-green knee-length tunic with a wide brown leather belt and a small brass buckle, a long floppy green cap that falls back over his curly hair, cream long-sleeve undershirt, light tan trousers, brown leather boots and brown leather wrist guards. No shield and no sword in this image. The outfit evokes a classic fantasy adventurer and is our own design: no emblems, no insignia, no logos. Pose: standing in a front view, relaxed and confident, one hand on his belt, a warm self-assured smile, a veteran player who knows the way. Same 2D cartoon style: bold ink outlines, flat cel shading. About 5.5 heads tall, sturdy build. No text, no logos, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T20:37:58+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "da43b296-b159-40b2-8655-36b7805f9de9"
-      ],
-      "balanceAfter": 77.25
-    },
-    {
-      "id": "Q012",
-      "episode": "EP002",
-      "item": "#2 Quest tunic scared",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, front view, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Same face, hair and human ears as Quest_v1; only the outfit changes. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. Nothing on his back. Pose: a cartoon fright, leaning back with both hands raised in front of him, eyes wide, mouth open in a shocked \"oh no!\" scream, eyebrows up, comic and family friendly (not gory, nothing scary drawn, only his reaction). Same 2D cartoon style: bold ink outlines, flat cel shading. About 5.5 heads tall, sturdy build. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:27:13+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "363cbcc2-66af-4b2a-ac8e-902851cfa74d"
-      ],
-      "balanceAfter": 66.25
-    },
-    {
-      "id": "Q013",
-      "episode": "EP002",
-      "item": "#2a Pixie impatient arms crossed",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Default outfit (never change): blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, arms crossed over her chest, weight on one leg, tapping the floor with the tip of her right sneaker, head tilted slightly up as if asking \"is it my turn yet?\", eyebrows raised, lips pressed into a playful impatient pout. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:07:59+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "90178349-30de-44d1-8e64-b46e5a008e48"
-      ],
-      "balanceAfter": 64.25
-    },
-    {
-      "id": "Q014",
-      "episode": "EP002",
-      "item": "#2b Pixie bored imaginary watch",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Default outfit (never change): blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, left arm raised in front of her and bent, looking down at her bare left wrist as if checking an imaginary wristwatch (no watch on her wrist), right hand covering a small yawn, half-closed bored eyes, shoulders slightly slumped, playful and not grumpy. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:07:59+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "b67ce3ba-e82f-4305-ae97-302466ca2256"
-      ],
-      "balanceAfter": 63.25
-    },
-    {
-      "id": "Q015",
-      "episode": "EP002",
-      "item": "#2c Pixie tunic waving",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and proportions (about 5.8 heads tall). Same face, hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume EXACTLY as in the attached image reference (her green adventurer outfit, seen there from behind): forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Pose: standing, waving hello with her right hand raised, a big warm happy smile, ready to start a new adventure. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:19:10+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "225f13a8-9f57-46de-9f70-d39da75f1033"
-      ],
-      "balanceAfter": 72.25
-    },
-    {
-      "id": "Q016",
-      "episode": "EP002",
-      "item": "#2d Pixie tunic awe",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and proportions (about 5.8 heads tall). Same face, hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Pose: standing, looking UP in awe at something enormous above her, head tilted back, eyes wide and sparkling, mouth slightly open in wonder, hands loosely at her chest. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:27:13+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "7238d79d-a67f-426c-a0c6-cae5c353c612"
-      ],
-      "balanceAfter": 66.25
-    },
-    {
-      "id": "Q017",
-      "episode": "EP002",
-      "item": "#2e Pixie tunic thinking",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and proportions (about 5.8 heads tall). Same face, hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Pose: standing, thoughtful, one hand on her chin, the other arm across her waist, eyes looking up and to the side, a small puzzled frown, thinking about a tricky problem. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:27:13+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "afe9c9a8-d336-4fd8-8afd-097b1740ce49"
-      ],
-      "balanceAfter": 66.25
-    },
-    {
-      "id": "Q018",
-      "episode": "EP002",
-      "item": "#2f Pixie tunic back (reusable)",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, transparent background, seen from directly BEHIND (back view, we do not see her face). Young woman, long straight black hair in a high ponytail, warm tan skin, slim build, same proportions (about 5.8 heads tall). Same hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume: an adventurer outfit made to match the attached image reference (his green adventurer outfit) but her own version: forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Nothing on her back. Pose: standing still, relaxed, looking ahead into the distance, ponytail falling down her back. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:11:16+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "5458e873-c8d3-48bd-8c82-5ec298424559"
-      ],
-      "balanceAfter": 75.25
-    },
-    {
-      "id": "Q019",
-      "episode": "EP002",
-      "item": "#3 young Quest tunic back (reusable)",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). dark brown curly hair, light freckles, same character as a kid, shorter and smaller with childlike proportions (about 4.5 heads tall). Same hair and human ears as Quest_v1; only the outfit and age change. Costume EXACTLY as in the attached image reference (the green adventurer outfit), child size: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt, long floppy green cap falling back over his curly hair, brown wrist guards, light tan trousers, brown leather boots. Nothing on his back (no sword, no shield). Pose: standing, walking forward away from us, mid-step, curious. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:11:16+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "e168e14d-e6dc-403e-b9f8-c12623e1453a"
-      ],
-      "balanceAfter": 75.25
-    },
-    {
-      "id": "Q020",
-      "episode": "EP002",
-      "item": "#3a young Quest 3/4 looking up at adult",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, transparent background, in a three-quarter back view turned to our LEFT, his face seen in a soft three-quarter profile. dark brown curly hair, light freckles, same face as a kid, shorter with childlike proportions (about 4.5 heads tall). Same face, hair and human ears as Quest_v1; only the outfit and age change. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots, child size, exactly as on the child in the attached reference. Nothing on his back. Pose: standing, head tilted up as if looking up at someone much taller standing beside him, a moment of recognition, a small surprised and happy smile, eyes bright. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:27:13+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "78901e8d-a2eb-4cd2-9eb0-75dc0bcf6f4f"
-      ],
-      "balanceAfter": 66.25
-    },
-    {
-      "id": "Q021",
-      "episode": "EP002",
-      "item": "#3b young Quest front smiling",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, front view, transparent background. dark brown curly hair, light freckles, same face as a kid, shorter with childlike proportions (about 4.5 heads tall). Same face, hair and human ears as Quest_v1; only the outfit and age change. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots, child size, exactly as on the child in the attached reference. Nothing on his back. Pose: standing still, facing us, arms relaxed, a warm gentle nostalgic smile, as if waiting for an old friend on a road. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:17+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:27:13+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "bcb89f39-3f17-4929-afc0-2e5347bffba1"
-      ],
-      "balanceAfter": 66.25
-    },
-    {
-      "id": "Q022",
-      "episode": "EP002",
-      "item": "#4 adult Quest back with shield and sword (reusable)",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:17+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). Young man, dark brown curly hair, light freckles, same proportions. Same hair and human ears as Quest_v1; only the outfit changes. Costume EXACTLY as in the attached image reference (the green adventurer outfit): forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, wide brown leather belt, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. On his back he carries his adventure gear, cartoon style and family friendly: a kite-shaped shield with a blue face, a silver rim and a small round silver boss (no emblem), and behind it a long brown leather scabbard on a strap, closed, its simple dark blue-violet handle peeking over his right shoulder. Pose: standing still, relaxed, looking ahead into the distance. Same 2D cartoon style: bold ink outlines, flat cel shading. About 5.5 heads tall, sturdy build. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:11:16+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "83939fad-1a75-458d-adf4-79a0c325947b",
-        "191f7d01-d9d8-4abb-84d8-03d535903732"
-      ],
-      "balanceAfter": 74.25
-    },
-    {
-      "id": "Q023",
-      "episode": "EP002",
-      "item": "#5 adult Quest on his horse, back",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), full body, transparent background, seen from BEHIND riding away on his own horse (our own design: a sturdy dapple-grey horse with a dark grey mane and tail, simple brown leather saddle and bridle, no ornaments). Young man, dark brown curly hair, light freckles, same proportions. Same hair and human ears as Quest_v1; only the outfit changes. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. On his back, exactly as in the attached reference: the blue kite shield with a silver rim and round silver boss (no emblem) and the brown leather scabbard with its handle over his right shoulder. Pose: horse walking calmly away from us, rider sitting relaxed, looking ahead. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:27:13+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "7a6af015-cf1d-4a57-b774-fd2590c06f64"
-      ],
-      "balanceAfter": 66.25
-    },
-    {
-      "id": "Q024",
-      "episode": "EP002",
-      "item": "#6a kid Quest playing seated",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. dark brown curly hair, light freckles, same face as a kid, childlike proportions (about 4.5 heads tall). Same face, hair and human ears as Quest_v1; only the age changes. Outfit (never change), child size: plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: sitting cross-legged on the floor, seen from the side in a three-quarter view facing RIGHT, his face visible in three-quarter profile, holding a chunky grey 1990s three-grip game controller with both hands in his lap, leaning forward a little, totally absorbed, eyes wide with wonder and a small open-mouthed smile, a soft cool blue screen light on his face and the front of his hoodie. A short grey cable hangs from the controller and ends at the image edge. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:07:59+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "f24e04a5-6178-4ed1-b5c7-71fb6aa74595"
-      ],
-      "balanceAfter": 62.25
-    },
-    {
-      "id": "Q025",
-      "episode": "EP002",
-      "item": "#6b kid Pixie pointing",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. Long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face as a kid, human ears, childlike proportions (about 4.7 heads tall). Only the age changes. Outfit (never change), child size: blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, body in a three-quarter view turned to the RIGHT, her right arm stretched out pointing RIGHT at something off-frame (a screen), laughing excitedly as if she just knew where to go, the other hand on her knee, leaning in. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:07:59+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "2dfcc45a-9717-47eb-be5a-707703a96878"
-      ],
-      "balanceAfter": 61.25
-    },
-    {
-      "id": "Q026",
-      "episode": "EP002",
-      "item": "#6c kid Pixie sitting",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. Long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face as a kid, human ears, childlike proportions (about 4.7 heads tall). Only the age changes. Outfit (never change), child size: blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: sitting on the floor with her knees up and her arms resting around them, seen in a three-quarter view facing RIGHT, watching something off-frame to the right with a warm happy smile, relaxed, a soft cool blue screen light on her face and the front of her hoodie. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:07:59+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "8b15ebef-35a6-4805-9e50-dd04a40de4cd"
-      ],
-      "balanceAfter": 60.25
-    },
-    {
-      "id": "Q027",
-      "episode": "EP002",
-      "item": "#10a Quest blowing the cartridge (thumbnail candidate)",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body standing (crops to waist-up for a thumbnail), transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: clean SIDE PROFILE view facing RIGHT, holding a shiny GOLD 1990s game cartridge with a blank label in both hands just in front of his mouth, the open connector end towards his lips, cheeks puffed out, blowing hard into it, eyes squeezed half shut in total concentration, a small grey puff of dust bursting out of the far end of the cartridge. Funny, nostalgic, very readable silhouette. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:07:59+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "a5e22350-de18-4711-b331-6dfb0fcef79e"
-      ],
-      "balanceAfter": 59.25
-    },
-    {
-      "id": "Q028",
-      "episode": "EP002",
-      "item": "#17+18 final shot: Quest and Pixie on the outcrop + Hyrule vista at sunset",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> <<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> A wide cinematic 16:9 illustration, golden hour. Two cartoon characters seen from BEHIND stand side by side on the flat top of a rocky outcrop in the lower middle of the frame, looking out over a vast fantasy valley. LEFT: the SAME character as in the first reference images (Quest_v1), dark brown curly hair, light freckles, human ears, in his green adventurer outfit EXACTLY as in the attached image reference (forest-green sleeveless tunic, cream sleeves, brown belt, long floppy green cap, tan trousers, brown boots) with his blue kite shield and the brown scabbard on his back as in that reference. RIGHT, a little shorter (about 95% of his height): the SAME character as in the second reference images (Pixie_v1), long straight black hair in a high ponytail, warm tan skin, human ears, in a princess outfit of our own design: a long elegant gown in white and soft lilac with simple gold trim, a short cape, no crown emblem. Her face turned slightly toward him in a soft three-quarter view, smiling. Below them: a misty valley with soft blue mountain ranges fading into the distance, a winding road, and far away down in the valley, small, a fairytale castle with white walls and slate-blue spires, the low sun right behind the castle with warm golden light, scattered clouds lit gold and peach, a few birds. Keep the LEFT third and the RIGHT third of the frame calm and uncluttered (sky and distant mountains only). Same 2D cartoon style: bold ink outlines, flat cel shading with soft painterly backgrounds. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T21:19:10+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "b2a6449c-1839-4b6a-b735-83d18e72bc7c"
-      ],
-      "balanceAfter": 72.25
-    },
-    {
-      "id": "Q029",
-      "episode": "EP002",
-      "item": "#11 Hyrule field plate",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "A wide cinematic 16:9 background plate, bright late-morning daylight, no characters. A vast open fantasy grassland of rolling green hills. A winding dirt road starts wide in the lower middle foreground and curves away into the distance. Far away on the horizon, small, the fairytale castle with white walls and slate-blue spires exactly as in the reference image. On the right, far away, a tall volcano with a soft ring of cloud around its peak and a thin plume of smoke. A few lone trees, low stone ruins and a wooden fence along the road, soft blue mountain ranges, a clear blue sky with a few white clouds. Keep the lower third of the frame open flat grass and road where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds, the same palette and the same fairytale castle design. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:21:46+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "4ccc0450-1fe1-4497-b2a4-9bcf815658d1"
-      ],
-      "balanceAfter": 58.25
-    },
-    {
-      "id": "Q030",
-      "episode": "EP002",
-      "item": "#12 forest plate",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "A wide cinematic 16:9 background plate, warm afternoon light, no characters. A cozy hidden village deep inside an ancient forest: small round wooden houses built into the trunks of huge trees, rope ladders, little wooden platforms and bridges between the trunks, round doors and windows with warm light, mushrooms and ferns, soft shafts of sunlight falling through the high leafy canopy, floating glowing pollen. A soft dirt path starts wide in the lower middle foreground and leads into the village. Keep the lower third of the frame an open path and grass where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:21:46+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "6289d477-17f0-4cca-9a92-13c14a09f934"
-      ],
-      "balanceAfter": 57.25
-    },
-    {
-      "id": "Q031",
-      "episode": "EP002",
-      "item": "#13 temple interior plate",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "A wide cinematic 16:9 background plate, interior, daylight, no characters. A grand ancient stone temple hall with tall pillars and high arched windows; soft shafts of light fall from the windows onto a raised round stone dais in the centre. On the dais stands an empty stone pedestal with a narrow vertical slot in its top (nothing inside it), carved with simple geometric patterns; a triangle-of-three-triangles pattern engraved on the floor of the dais. Three low steps lead up to the dais from the lower middle foreground. Moss on old stone, quiet, sacred atmosphere. Keep the floor in the lower third open where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:21:47+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "e2f00af4-0467-4c17-af97-d4fadec601bd"
-      ],
-      "balanceAfter": 56.25
-    },
-    {
-      "id": "Q032",
-      "episode": "EP002",
-      "item": "#14 giant tree plate",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "A wide cinematic 16:9 background plate, warm soft light, no characters. A forest clearing dominated by one enormous ancient tree, its trunk filling the centre-right of the frame and rising out of the top of the frame, huge twisting roots spreading across the ground; a gentle wise old face formed naturally in the bark (closed eyes, a big mossy moustache-like fold of bark), calm and kind. Falling leaves, soft light beams, ferns, a few glowing floating spores. Open grassy ground in the lower left and lower middle foreground where characters will stand later, looking up at the tree. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:21:47+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "4f888fcc-be87-48a2-a73a-0cc5efaae6b7"
-      ],
-      "balanceAfter": 55.25
-    },
-    {
-      "id": "Q033",
-      "episode": "EP002",
-      "item": "#16 royal crest (own design)",
-      "model": "gpt_image_2_5",
-      "quoted": 0.5,
-      "status": "cancelled",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": null,
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "cancelledAt": "2026-10-05T22:37:18+00:00",
-      "reason": "Crest #16 is built free from the Producer's shield reference (its red bird), see tools/props3d/shield_trace.py"
-    },
-    {
-      "id": "Q034",
-      "episode": "EP002",
-      "item": "#9 Quest walk cycle opposite step (optional)",
-      "model": "gpt_image_2_5",
-      "quoted": 0.5,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:18+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). dark brown curly hair, light freckles, same character as a kid, childlike proportions (about 4.5 heads tall). Same hair and human ears as Quest_v1; only the outfit and age change. EXACTLY the same boy, costume, size and camera as in the attached image reference (forest-green knee-length sleeveless tunic, cream long-sleeve undershirt, brown leather belt, long floppy green cap, brown wrist guards, light tan trousers, brown leather boots), nothing on his back. Pose: the OPPOSITE step of the same walk cycle: his RIGHT foot is now lifted behind him showing its sole and his LEFT foot is planted, arms swinging the opposite way to the reference. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:18+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:31:18+00:00",
-      "actual": 0.5,
-      "jobs": [
-        "17016248-5957-4087-b255-7bbc7b11f5fc"
-      ],
-      "balanceAfter": 54.75
-    },
-    {
-      "id": "Q035",
-      "episode": "EP002",
-      "item": "#10 Quest profile thinking (optional)",
-      "model": "gpt_image_2_5",
-      "quoted": 0.5,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:19+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: EXACTLY the same seated pose, size and clean SIDE PROFILE view facing RIGHT as in the attached image reference (sitting cross-legged on the floor), but now pensive: the game controller resting in his lap in one hand, the other hand at his chin, eyes slightly lowered, a quiet thoughtful bittersweet expression, a soft cool blue screen light on his face and the front of his hoodie. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no television in the image, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:19+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:31:18+00:00",
-      "actual": 0.5,
-      "jobs": [
-        "d77d39b1-0757-4c48-b5af-d09a296a57d4"
-      ],
-      "balanceAfter": 54.25
-    },
-    {
-      "id": "Q036",
-      "episode": "EP002",
-      "item": "#15 adult Quest room (optional)",
-      "model": "gpt_image_2_5",
-      "quoted": 0.5,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:19+00:00",
-      "prompt": "A wide cinematic 16:9 background plate, interior, night, no characters. A young adult's cozy bedroom today: a made bed on the left with a dark blue blanket, a small wooden bedside table on the right with nothing on it (an old television will be added later), a low shelf with a few plain game boxes with blank spines and a small plant, a desk with a closed laptop, a framed poster with an abstract landscape, a window with cool moonlight and city lights, a warm desk lamp glow. A clear wooden floor in the lower middle of the frame where a person will sit later. Same 2D cartoon style: bold ink outlines, flat cel shading with soft painterly backgrounds. No people, no text, no logos, no emblems.\n",
-      "approvedAt": "2026-10-05T20:36:19+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-05T22:31:18+00:00",
-      "actual": 0.5,
-      "jobs": [
-        "66d7e41a-c76e-47ec-9ed9-dba96f66a1c6"
-      ],
-      "balanceAfter": 53.75
-    },
-    {
-      "id": "Q037",
-      "episode": "EP002",
-      "item": "#8 inspired villain (hooded shadow) - DEFERRED: last, on the Producer's word",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T20:36:19+00:00",
-      "prompt": "A cartoon villain character of our own design, alone, full body, transparent background. An imposing, towering warlord king of evil: very tall, very broad shoulders, heavy dark armour in charcoal and deep bronze plates with no emblems, a long dark tattered cape, a deep hood raised over his head that casts his face into shadow: inside the dark of the hood only two glowing red eyes and a small glowing amber gem on his forehead (a simple oval, our own design) can be seen, a few strands of fiery red hair escaping from under the hood, dark skin visible on his chin. Pose: three-quarter view seen slightly from below (low angle), leaning forward, his right arm reaching straight out towards the viewer, a dark armoured gauntlet whose fingers end in sharp claws, the hand open as if about to grab something; his left arm hidden under the cape. Menacing but family friendly: no blood, no weapons. 2D cartoon style: bold heavy ink outlines, flat cel shading, a darker palette. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T20:36:19+00:00",
-      "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
-      "spentAt": "2026-10-06T04:44:03+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "3fd10adc-f31d-44b7-b7b1-e77a445351df"
-      ],
-      "balanceAfter": 51.75
-    },
-    {
-      "id": "Q038",
-      "episode": "EP002",
-      "item": "#5 retry: adult Quest on his horse, back, chestnut coat with cream mane (Producer), full-size horse",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-05T21:51:32+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), full body, transparent background, seen from BEHIND riding away on his own horse: a tall full-size adult horse, clearly bigger than the rider (a real horse, not a pony), chestnut reddish-brown coat with a long cream-white mane and tail, white socks on the lower legs and a white blaze on the face, simple brown leather saddle and bridle, no ornaments. Young man, dark brown curly hair, light freckles, same proportions. Same hair and human ears as Quest_v1; only the outfit changes. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. On his back, exactly as in the attached reference: the blue kite shield with a silver rim and round silver boss (no emblem) and the brown leather scabbard with its handle over his right shoulder. Pose: horse walking calmly away from us, rider sitting relaxed, looking ahead. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-05T21:51:32+00:00",
-      "approval": "Quiero el caballo del color de Epona. A la final no habrá problema porque de ese color son los caballos también",
-      "spentAt": "2026-10-05T21:53:32+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "7a6665cd-e019-405e-a683-0231c77af265"
-      ],
-      "balanceAfter": 65.25
-    },
-    {
-      "id": "Q039",
-      "episode": "EP002",
-      "item": "#4b adult Quest tunic back, walking, no gear (walk cycle + N no-gear shot)",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-06T03:20:20+00:00",
-      "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). Young man, dark brown curly hair, light freckles, same proportions, adult, about 5.5 heads tall, sturdy build with broad shoulders. Same hair and human ears as Quest_v1; only the outfit changes. Costume EXACTLY as on the man in the attached image reference (the green adventurer outfit): forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, wide brown leather belt, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. NOTHING on his back: no shield, no scabbard, no strap, no bag, the back of the tunic fully visible. Pose: walking forward away from us, mid-stride: his LEFT foot lifted behind him showing the sole of the boot, his RIGHT foot planted, arms swinging naturally, same size and camera as the reference. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-06T03:20:23+00:00",
-      "approval": "Realizar el arte de adulto sin el equipo. Pero que tenga la espada no?",
-      "spentAt": "2026-10-06T03:21:21+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "6ed31a9c-c277-44dd-995d-dbf517acf15e"
-      ],
-      "balanceAfter": 52.75
-    },
-    {
-      "id": "Q040",
-      "episode": "EP002",
-      "item": "#2g Pixie as the princess, front (Triforce WISDOM plate; reusable)",
-      "model": "gpt_image_2_5",
-      "quoted": 1.0,
-      "status": "spent",
-      "quotedAt": "2026-10-06T04:49:11+00:00",
-      "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Only the outfit changes: the princess outfit EXACTLY as worn by the young woman in the attached image reference: a long elegant gown in white and soft lilac with simple gold trim and a short lilac cape, no crown emblem. Pose: standing gracefully, hands softly clasped in front of her, a calm, wise, kind smile, looking at the viewer. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
-      "approvedAt": "2026-10-06T04:50:44+00:00",
-      "approval": "Apruebo Q040",
-      "spentAt": "2026-10-06T04:51:45+00:00",
-      "actual": 1.0,
-      "jobs": [
-        "b0787a3e-1415-4691-9ca5-e982bfc9c018"
-      ],
-      "balanceAfter": 50.75
-    }
-  ]
+ "notes": "Higgsfield credit ledger (tools/credits/credits.py). Every spend: quote → Producer approval (own words) → spend with job ids and balance.",
+ "entries": [
+  {
+   "id": "Q001",
+   "episode": "EP001",
+   "item": "EP001 production: Bram narration B01–B10 (24.15) + art fixes (10.00)",
+   "model": "text2speech_v2 / gpt_image_2_5",
+   "quoted": 34.15,
+   "status": "spent",
+   "actual": 34.15,
+   "balanceAfter": 121.05,
+   "approval": "historical (EP001_FINAL_REPORT_V3_CLEAN_BRAM.md)"
+  },
+  {
+   "id": "Q002",
+   "episode": "CHANNEL",
+   "item": "Channel avatar",
+   "model": "gpt_image_2_5",
+   "quoted": 0.5,
+   "status": "spent",
+   "actual": 0.5,
+   "approval": "historical"
+  },
+  {
+   "id": "Q003",
+   "episode": "EP001",
+   "item": "Thumbnails 1–3",
+   "model": "gpt_image_2_5",
+   "quoted": 1.5,
+   "status": "spent",
+   "actual": 1.5,
+   "balanceAfter": 119.05,
+   "approval": "historical (note: spent after 'Prosigamos' without an explicit quote — the reason this ledger exists)"
+  },
+  {
+   "id": "Q004",
+   "episode": "EP002",
+   "item": "Bram narration B01–B08 + B01 retake",
+   "model": "text2speech_v2 elevenlabs",
+   "quoted": 19.0,
+   "status": "spent",
+   "actual": 19.8,
+   "balanceAfter": 99.25,
+   "approval": "Confirmo la narración de Bram por 19 créditos, máximo 25",
+   "jobs": [
+    "48d9913d-9902-4752-ac75-d85c6874ef35",
+    "c54525e4-5971-4173-b44b-a3733850f17e",
+    "d90b57bf-8cdf-4072-bcc1-0d07cc01e1f0",
+    "db632ebc-6353-429c-bedd-ffec8d3fecdf",
+    "211c5c61-b637-4046-9184-4c5af99488c1",
+    "d96f2280-a733-4f33-9272-8260b2aafc5b",
+    "9ac91baf-90ee-4eaa-9980-57c71e7cb89b",
+    "0d26132d-9398-4b78-a6de-a5b2487ab711",
+    "3b0247ee-52f2-4fa4-8e95-bd61b7a5df0d"
+   ]
+  },
+  {
+   "id": "Q005",
+   "episode": "CHANNEL",
+   "item": "Pixie_v1 design (2 images, with Quest for scale)",
+   "model": "gpt_image_2_5",
+   "quoted": 2.0,
+   "status": "spent",
+   "quotedAt": "2026-10-03T18:21:10+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> Two cartoon friends standing side by side, full body, front three-quarter view, plain light background. Left: the SAME character as in the reference images (Quest_v1), young man, dark brown curly hair, light freckles, same face and proportions, plain red hoodie with white drawstrings, no logos, blue denim jeans, his RED canvas sneakers with white soles and white laces are visible. Right: his friend Pixie, a young woman with long straight black hair in a high ponytail, warm brown eyes, warm curious smile, teal oversized hoodie with no logos, black leggings, white sneakers. Same 2D cartoon style: bold ink outlines, flat cel shading. No text.\n",
+   "approvedAt": "2026-10-03T18:40:01+00:00",
+   "approval": "Apruebo (respuesta a: 'Pixie con tu aprobación explícita de los 2 créditos'; presupuesto: 2 imágenes, 2 créditos, máximo 3)",
+   "spentAt": "2026-10-03T18:41:09+00:00",
+   "actual": 2.0,
+   "jobs": [
+    "b8e7364b-aa2b-4203-8473-7d591bcf3297",
+    "9526ebfd-dcb1-4a71-a766-9ac6fca1385d"
+   ],
+   "balanceAfter": 97.25
+  },
+  {
+   "id": "Q006",
+   "episode": "CHANNEL",
+   "item": "Pixie_v1 library: 10 poses/emotions (transparent, 2k, ref job 9526ebfd)",
+   "model": "gpt_image_2_5",
+   "quoted": 10.0,
+   "status": "spent",
+   "quotedAt": "2026-10-03T18:51:43+00:00",
+   "prompt": null,
+   "approvedAt": "2026-10-03T18:51:49+00:00",
+   "approval": "Apruebo las 10 imágenes de Pixie por 10 créditos, máximo 20.",
+   "spentAt": "2026-10-03T18:53:58+00:00",
+   "actual": 10.0,
+   "jobs": [
+    "0115228b-a872-4dff-8014-b538e4e3d9b6",
+    "984c2649-f09b-4d37-8370-5e492c6e8fb1",
+    "d63f5463-a65c-49e4-ab1d-859235e764a9",
+    "3c720baa-183f-4c06-8aaa-7776f6ba57a0",
+    "549374bd-cc3d-49cf-8b02-2db60a12f6a3",
+    "a6bc6662-db4f-4840-aab0-4718f68b1358",
+    "ec8c44dd-9b6a-4ea8-b7af-ecdceb257955",
+    "a1b34cdd-bad6-473d-9a29-441ed406ee21",
+    "c6c89d64-b024-4e42-a3e6-96882d75ac25",
+    "9ca056c6-c10b-40b5-97b4-64039926fa88"
+   ],
+   "balanceAfter": 87.25
+  },
+  {
+   "id": "Q007",
+   "episode": "CHANNEL",
+   "item": "Quest_v1 library v2: 8 poses/emotions (transparent, 2k, element Quest-v1-6ref)",
+   "model": "gpt_image_2_5",
+   "quoted": 8.0,
+   "status": "spent",
+   "quotedAt": "2026-10-03T18:56:37+00:00",
+   "prompt": null,
+   "approvedAt": "2026-10-03T19:01:42+00:00",
+   "approval": "Apruebo las 8 imágenes. Pero recuerda la premisa de optimizar créditos. (Claude: generated at 1k = 4.0 credits instead of 8)",
+   "spentAt": "2026-10-03T19:03:02+00:00",
+   "actual": 4.0,
+   "jobs": [
+    "3bb78d15-2151-4acb-9b26-7f1fc88aa81d",
+    "eaf9acb6-bb0e-4c50-b0b4-dbfe59198679",
+    "16aa5ff8-16df-4d0d-8614-588f68041a94",
+    "af152634-f657-45d4-a950-c4d3c5971725",
+    "cf7a9f91-71e9-47a2-b01b-faf4d1d817af",
+    "3e2ceb3c-9ef1-4aa6-85c1-1226f4e27a39",
+    "af75412a-679d-4563-a602-acb44414b58a",
+    "3424c7a1-b2df-4870-9fd5-7873978383e1"
+   ],
+   "balanceAfter": 83.25
+  },
+  {
+   "id": "Q008",
+   "episode": "EP002",
+   "item": "Quest floor profile facing the TV (block H room + reflection), transparent, 1k",
+   "model": "gpt_image_2_5",
+   "quoted": 0.5,
+   "status": "spent",
+   "quotedAt": "2026-10-04T13:52:27+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: sitting cross-legged on the floor in a clean SIDE PROFILE view facing RIGHT, holding a game controller with both hands in his lap, looking straight ahead to the right at an old television (off-frame), calm quiet nostalgic expression, a soft cool blue screen light on his face and the front of his hoodie. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no television in the image, no other characters.\n",
+   "approvedAt": "2026-10-04T13:52:36+00:00",
+   "approval": "Sí, apruebo, genera la imagen a 1k",
+   "spentAt": "2026-10-04T13:53:52+00:00",
+   "actual": 0.5,
+   "jobs": [
+    "c8fde73f-4ced-4ed3-8f26-d0b3b107debf"
+   ],
+   "balanceAfter": 82.75
+  },
+  {
+   "id": "Q009",
+   "episode": "EP001",
+   "item": "Spanish narrator casting: 5 voices x the EP001 hook (ElevenLabs via text2speech_v2)",
+   "model": "text2speech_v2",
+   "quoted": 3.0,
+   "status": "spent",
+   "quotedAt": "2026-10-04T17:46:25+00:00",
+   "prompt": null,
+   "approvedAt": "2026-10-04T17:46:30+00:00",
+   "approval": "Sí, apruebo el casting",
+   "spentAt": "2026-10-04T17:49:33+00:00",
+   "actual": 4.5,
+   "jobs": [
+    "784c7f1a-94bb-4f85-b11d-37d51c876fc6",
+    "e26cf26e-36a3-44d4-9098-e10d8809acd2",
+    "fd7ab7a6-03c1-4879-867c-790832214d7b",
+    "6ee653d8-c2c2-463b-a84a-be99227f859d",
+    "19526998-0a2b-4a9a-881b-a13e05e5c812"
+   ],
+   "balanceAfter": 78.25
+  },
+  {
+   "id": "Q010",
+   "episode": "EP001",
+   "item": "EP001 Spanish narration (full, ~8,572 chars) with voice 4 (Bram preset), ~10 blocks by act, ElevenLabs via text2speech_v2",
+   "model": "text2speech_v2",
+   "quoted": 30.0,
+   "status": "cancelled",
+   "quotedAt": "2026-10-04T18:03:22+00:00",
+   "prompt": null,
+   "cancelledAt": "2026-10-04T18:19:18+00:00",
+   "reason": "Producer: 'No. Aprobada la voz pero cerremos primero el EP002' — deferred until EP002 is closed; re-quote then"
+  },
+  {
+   "id": "Q011",
+   "episode": "EP002",
+   "item": "#1 Quest tunic veteran",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Same face, hair and human ears as Quest_v1; only the outfit changes. Costume (adventurer, our own design): a forest-green knee-length tunic with a wide brown leather belt and a small brass buckle, a long floppy green cap that falls back over his curly hair, cream long-sleeve undershirt, light tan trousers, brown leather boots and brown leather wrist guards. No shield and no sword in this image. The outfit evokes a classic fantasy adventurer and is our own design: no emblems, no insignia, no logos. Pose: standing in a front view, relaxed and confident, one hand on his belt, a warm self-assured smile, a veteran player who knows the way. Same 2D cartoon style: bold ink outlines, flat cel shading. About 5.5 heads tall, sturdy build. No text, no logos, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T20:37:58+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "da43b296-b159-40b2-8655-36b7805f9de9"
+   ],
+   "balanceAfter": 77.25
+  },
+  {
+   "id": "Q012",
+   "episode": "EP002",
+   "item": "#2 Quest tunic scared",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, front view, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Same face, hair and human ears as Quest_v1; only the outfit changes. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. Nothing on his back. Pose: a cartoon fright, leaning back with both hands raised in front of him, eyes wide, mouth open in a shocked \"oh no!\" scream, eyebrows up, comic and family friendly (not gory, nothing scary drawn, only his reaction). Same 2D cartoon style: bold ink outlines, flat cel shading. About 5.5 heads tall, sturdy build. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:27:13+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "363cbcc2-66af-4b2a-ac8e-902851cfa74d"
+   ],
+   "balanceAfter": 66.25
+  },
+  {
+   "id": "Q013",
+   "episode": "EP002",
+   "item": "#2a Pixie impatient arms crossed",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Default outfit (never change): blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, arms crossed over her chest, weight on one leg, tapping the floor with the tip of her right sneaker, head tilted slightly up as if asking \"is it my turn yet?\", eyebrows raised, lips pressed into a playful impatient pout. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:07:59+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "90178349-30de-44d1-8e64-b46e5a008e48"
+   ],
+   "balanceAfter": 64.25
+  },
+  {
+   "id": "Q014",
+   "episode": "EP002",
+   "item": "#2b Pixie bored imaginary watch",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Default outfit (never change): blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, left arm raised in front of her and bent, looking down at her bare left wrist as if checking an imaginary wristwatch (no watch on her wrist), right hand covering a small yawn, half-closed bored eyes, shoulders slightly slumped, playful and not grumpy. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:07:59+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "b67ce3ba-e82f-4305-ae97-302466ca2256"
+   ],
+   "balanceAfter": 63.25
+  },
+  {
+   "id": "Q015",
+   "episode": "EP002",
+   "item": "#2c Pixie tunic waving",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and proportions (about 5.8 heads tall). Same face, hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume EXACTLY as in the attached image reference (her green adventurer outfit, seen there from behind): forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Pose: standing, waving hello with her right hand raised, a big warm happy smile, ready to start a new adventure. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:19:10+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "225f13a8-9f57-46de-9f70-d39da75f1033"
+   ],
+   "balanceAfter": 72.25
+  },
+  {
+   "id": "Q016",
+   "episode": "EP002",
+   "item": "#2d Pixie tunic awe",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and proportions (about 5.8 heads tall). Same face, hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Pose: standing, looking UP in awe at something enormous above her, head tilted back, eyes wide and sparkling, mouth slightly open in wonder, hands loosely at her chest. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:27:13+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "7238d79d-a67f-426c-a0c6-cae5c353c612"
+   ],
+   "balanceAfter": 66.25
+  },
+  {
+   "id": "Q017",
+   "episode": "EP002",
+   "item": "#2e Pixie tunic thinking",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face and proportions (about 5.8 heads tall). Same face, hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Pose: standing, thoughtful, one hand on her chin, the other arm across her waist, eyes looking up and to the side, a small puzzled frown, thinking about a tricky problem. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:27:13+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "afe9c9a8-d336-4fd8-8afd-097b1740ce49"
+   ],
+   "balanceAfter": 66.25
+  },
+  {
+   "id": "Q018",
+   "episode": "EP002",
+   "item": "#2f Pixie tunic back (reusable)",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, transparent background, seen from directly BEHIND (back view, we do not see her face). Young woman, long straight black hair in a high ponytail, warm tan skin, slim build, same proportions (about 5.8 heads tall). Same hair, skin and human ears as Pixie_v1; only the outfit changes, no cap. Costume: an adventurer outfit made to match the attached image reference (his green adventurer outfit) but her own version: forest-green knee-length sleeveless tunic with small turquoise trim at the hem and shoulders, cream long-sleeve undershirt, brown leather belt with a brass buckle, brown leather wrist guards, light tan leggings, brown leather boots. Nothing on her back. Pose: standing still, relaxed, looking ahead into the distance, ponytail falling down her back. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:11:16+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "5458e873-c8d3-48bd-8c82-5ec298424559"
+   ],
+   "balanceAfter": 75.25
+  },
+  {
+   "id": "Q019",
+   "episode": "EP002",
+   "item": "#3 young Quest tunic back (reusable)",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). dark brown curly hair, light freckles, same character as a kid, shorter and smaller with childlike proportions (about 4.5 heads tall). Same hair and human ears as Quest_v1; only the outfit and age change. Costume EXACTLY as in the attached image reference (the green adventurer outfit), child size: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt, long floppy green cap falling back over his curly hair, brown wrist guards, light tan trousers, brown leather boots. Nothing on his back (no sword, no shield). Pose: standing, walking forward away from us, mid-step, curious. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:11:16+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "e168e14d-e6dc-403e-b9f8-c12623e1453a"
+   ],
+   "balanceAfter": 75.25
+  },
+  {
+   "id": "Q020",
+   "episode": "EP002",
+   "item": "#3a young Quest 3/4 looking up at adult",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, transparent background, in a three-quarter back view turned to our LEFT, his face seen in a soft three-quarter profile. dark brown curly hair, light freckles, same face as a kid, shorter with childlike proportions (about 4.5 heads tall). Same face, hair and human ears as Quest_v1; only the outfit and age change. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots, child size, exactly as on the child in the attached reference. Nothing on his back. Pose: standing, head tilted up as if looking up at someone much taller standing beside him, a moment of recognition, a small surprised and happy smile, eyes bright. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:27:13+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "78901e8d-a2eb-4cd2-9eb0-75dc0bcf6f4f"
+   ],
+   "balanceAfter": 66.25
+  },
+  {
+   "id": "Q021",
+   "episode": "EP002",
+   "item": "#3b young Quest front smiling",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, front view, transparent background. dark brown curly hair, light freckles, same face as a kid, shorter with childlike proportions (about 4.5 heads tall). Same face, hair and human ears as Quest_v1; only the outfit and age change. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots, child size, exactly as on the child in the attached reference. Nothing on his back. Pose: standing still, facing us, arms relaxed, a warm gentle nostalgic smile, as if waiting for an old friend on a road. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:17+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:27:13+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "bcb89f39-3f17-4929-afc0-2e5347bffba1"
+   ],
+   "balanceAfter": 66.25
+  },
+  {
+   "id": "Q022",
+   "episode": "EP002",
+   "item": "#4 adult Quest back with shield and sword (reusable)",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:17+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). Young man, dark brown curly hair, light freckles, same proportions. Same hair and human ears as Quest_v1; only the outfit changes. Costume EXACTLY as in the attached image reference (the green adventurer outfit): forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, wide brown leather belt, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. On his back he carries his adventure gear, cartoon style and family friendly: a kite-shaped shield with a blue face, a silver rim and a small round silver boss (no emblem), and behind it a long brown leather scabbard on a strap, closed, its simple dark blue-violet handle peeking over his right shoulder. Pose: standing still, relaxed, looking ahead into the distance. Same 2D cartoon style: bold ink outlines, flat cel shading. About 5.5 heads tall, sturdy build. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:11:16+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "83939fad-1a75-458d-adf4-79a0c325947b",
+    "191f7d01-d9d8-4abb-84d8-03d535903732"
+   ],
+   "balanceAfter": 74.25
+  },
+  {
+   "id": "Q023",
+   "episode": "EP002",
+   "item": "#5 adult Quest on his horse, back",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), full body, transparent background, seen from BEHIND riding away on his own horse (our own design: a sturdy dapple-grey horse with a dark grey mane and tail, simple brown leather saddle and bridle, no ornaments). Young man, dark brown curly hair, light freckles, same proportions. Same hair and human ears as Quest_v1; only the outfit changes. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. On his back, exactly as in the attached reference: the blue kite shield with a silver rim and round silver boss (no emblem) and the brown leather scabbard with its handle over his right shoulder. Pose: horse walking calmly away from us, rider sitting relaxed, looking ahead. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:27:13+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "7a6af015-cf1d-4a57-b774-fd2590c06f64"
+   ],
+   "balanceAfter": 66.25
+  },
+  {
+   "id": "Q024",
+   "episode": "EP002",
+   "item": "#6a kid Quest playing seated",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. dark brown curly hair, light freckles, same face as a kid, childlike proportions (about 4.5 heads tall). Same face, hair and human ears as Quest_v1; only the age changes. Outfit (never change), child size: plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: sitting cross-legged on the floor, seen from the side in a three-quarter view facing RIGHT, his face visible in three-quarter profile, holding a chunky grey 1990s three-grip game controller with both hands in his lap, leaning forward a little, totally absorbed, eyes wide with wonder and a small open-mouthed smile, a soft cool blue screen light on his face and the front of his hoodie. A short grey cable hangs from the controller and ends at the image edge. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:07:59+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "f24e04a5-6178-4ed1-b5c7-71fb6aa74595"
+   ],
+   "balanceAfter": 62.25
+  },
+  {
+   "id": "Q025",
+   "episode": "EP002",
+   "item": "#6b kid Pixie pointing",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. Long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face as a kid, human ears, childlike proportions (about 4.7 heads tall). Only the age changes. Outfit (never change), child size: blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: standing, body in a three-quarter view turned to the RIGHT, her right arm stretched out pointing RIGHT at something off-frame (a screen), laughing excitedly as if she just knew where to go, the other hand on her knee, leaning in. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:07:59+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "2dfcc45a-9717-47eb-be5a-707703a96878"
+   ],
+   "balanceAfter": 61.25
+  },
+  {
+   "id": "Q026",
+   "episode": "EP002",
+   "item": "#6c kid Pixie sitting",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1) but as a CHILD of about 9 years old, alone, full body, transparent background. Long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face as a kid, human ears, childlike proportions (about 4.7 heads tall). Only the age changes. Outfit (never change), child size: blue-teal oversized hoodie with white drawstrings, no logos; black leggings; plain white sneakers with no stripes and no logos, her white sneakers are visible. Pose: sitting on the floor with her knees up and her arms resting around them, seen in a three-quarter view facing RIGHT, watching something off-frame to the right with a warm happy smile, relaxed, a soft cool blue screen light on her face and the front of her hoodie. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters. No television in the image.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:07:59+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "8b15ebef-35a6-4805-9e50-dd04a40de4cd"
+   ],
+   "balanceAfter": 60.25
+  },
+  {
+   "id": "Q027",
+   "episode": "EP002",
+   "item": "#10a Quest blowing the cartridge (thumbnail candidate)",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body standing (crops to waist-up for a thumbnail), transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: clean SIDE PROFILE view facing RIGHT, holding a shiny GOLD 1990s game cartridge with a blank label in both hands just in front of his mouth, the open connector end towards his lips, cheeks puffed out, blowing hard into it, eyes squeezed half shut in total concentration, a small grey puff of dust bursting out of the far end of the cartridge. Funny, nostalgic, very readable silhouette. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:07:59+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "a5e22350-de18-4711-b331-6dfb0fcef79e"
+   ],
+   "balanceAfter": 59.25
+  },
+  {
+   "id": "Q028",
+   "episode": "EP002",
+   "item": "#17+18 final shot: Quest and Pixie on the outcrop + Hyrule vista at sunset",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> <<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> A wide cinematic 16:9 illustration, golden hour. Two cartoon characters seen from BEHIND stand side by side on the flat top of a rocky outcrop in the lower middle of the frame, looking out over a vast fantasy valley. LEFT: the SAME character as in the first reference images (Quest_v1), dark brown curly hair, light freckles, human ears, in his green adventurer outfit EXACTLY as in the attached image reference (forest-green sleeveless tunic, cream sleeves, brown belt, long floppy green cap, tan trousers, brown boots) with his blue kite shield and the brown scabbard on his back as in that reference. RIGHT, a little shorter (about 95% of his height): the SAME character as in the second reference images (Pixie_v1), long straight black hair in a high ponytail, warm tan skin, human ears, in a princess outfit of our own design: a long elegant gown in white and soft lilac with simple gold trim, a short cape, no crown emblem. Her face turned slightly toward him in a soft three-quarter view, smiling. Below them: a misty valley with soft blue mountain ranges fading into the distance, a winding road, and far away down in the valley, small, a fairytale castle with white walls and slate-blue spires, the low sun right behind the castle with warm golden light, scattered clouds lit gold and peach, a few birds. Keep the LEFT third and the RIGHT third of the frame calm and uncluttered (sky and distant mountains only). Same 2D cartoon style: bold ink outlines, flat cel shading with soft painterly backgrounds. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T21:19:10+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "b2a6449c-1839-4b6a-b735-83d18e72bc7c"
+   ],
+   "balanceAfter": 72.25
+  },
+  {
+   "id": "Q029",
+   "episode": "EP002",
+   "item": "#11 Hyrule field plate",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "A wide cinematic 16:9 background plate, bright late-morning daylight, no characters. A vast open fantasy grassland of rolling green hills. A winding dirt road starts wide in the lower middle foreground and curves away into the distance. Far away on the horizon, small, the fairytale castle with white walls and slate-blue spires exactly as in the reference image. On the right, far away, a tall volcano with a soft ring of cloud around its peak and a thin plume of smoke. A few lone trees, low stone ruins and a wooden fence along the road, soft blue mountain ranges, a clear blue sky with a few white clouds. Keep the lower third of the frame open flat grass and road where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds, the same palette and the same fairytale castle design. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:21:46+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "4ccc0450-1fe1-4497-b2a4-9bcf815658d1"
+   ],
+   "balanceAfter": 58.25
+  },
+  {
+   "id": "Q030",
+   "episode": "EP002",
+   "item": "#12 forest plate",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "A wide cinematic 16:9 background plate, warm afternoon light, no characters. A cozy hidden village deep inside an ancient forest: small round wooden houses built into the trunks of huge trees, rope ladders, little wooden platforms and bridges between the trunks, round doors and windows with warm light, mushrooms and ferns, soft shafts of sunlight falling through the high leafy canopy, floating glowing pollen. A soft dirt path starts wide in the lower middle foreground and leads into the village. Keep the lower third of the frame an open path and grass where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:21:46+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "6289d477-17f0-4cca-9a92-13c14a09f934"
+   ],
+   "balanceAfter": 57.25
+  },
+  {
+   "id": "Q031",
+   "episode": "EP002",
+   "item": "#13 temple interior plate",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "A wide cinematic 16:9 background plate, interior, daylight, no characters. A grand ancient stone temple hall with tall pillars and high arched windows; soft shafts of light fall from the windows onto a raised round stone dais in the centre. On the dais stands an empty stone pedestal with a narrow vertical slot in its top (nothing inside it), carved with simple geometric patterns; a triangle-of-three-triangles pattern engraved on the floor of the dais. Three low steps lead up to the dais from the lower middle foreground. Moss on old stone, quiet, sacred atmosphere. Keep the floor in the lower third open where characters will stand later. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:21:47+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "e2f00af4-0467-4c17-af97-d4fadec601bd"
+   ],
+   "balanceAfter": 56.25
+  },
+  {
+   "id": "Q032",
+   "episode": "EP002",
+   "item": "#14 giant tree plate",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "A wide cinematic 16:9 background plate, warm soft light, no characters. A forest clearing dominated by one enormous ancient tree, its trunk filling the centre-right of the frame and rising out of the top of the frame, huge twisting roots spreading across the ground; a gentle wise old face formed naturally in the bark (closed eyes, a big mossy moustache-like fold of bark), calm and kind. Falling leaves, soft light beams, ferns, a few glowing floating spores. Open grassy ground in the lower left and lower middle foreground where characters will stand later, looking up at the tree. Same 2D cartoon style as the reference image: bold ink outlines, flat cel shading with soft painterly backgrounds and the same palette. No characters, no people, no animals in the foreground, no text, no logos, no emblems.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:21:47+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "4f888fcc-be87-48a2-a73a-0cc5efaae6b7"
+   ],
+   "balanceAfter": 55.25
+  },
+  {
+   "id": "Q033",
+   "episode": "EP002",
+   "item": "#16 royal crest (own design)",
+   "model": "gpt_image_2_5",
+   "quoted": 0.5,
+   "status": "cancelled",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": null,
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "cancelledAt": "2026-10-05T22:37:18+00:00",
+   "reason": "Crest #16 is built free from the Producer's shield reference (its red bird), see tools/props3d/shield_trace.py"
+  },
+  {
+   "id": "Q034",
+   "episode": "EP002",
+   "item": "#9 Quest walk cycle opposite step (optional)",
+   "model": "gpt_image_2_5",
+   "quoted": 0.5,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:18+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1) but as a CHILD of about 10 years old, alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). dark brown curly hair, light freckles, same character as a kid, childlike proportions (about 4.5 heads tall). Same hair and human ears as Quest_v1; only the outfit and age change. EXACTLY the same boy, costume, size and camera as in the attached image reference (forest-green knee-length sleeveless tunic, cream long-sleeve undershirt, brown leather belt, long floppy green cap, brown wrist guards, light tan trousers, brown leather boots), nothing on his back. Pose: the OPPOSITE step of the same walk cycle: his RIGHT foot is now lifted behind him showing its sole and his LEFT foot is planted, arms swinging the opposite way to the reference. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:18+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:31:18+00:00",
+   "actual": 0.5,
+   "jobs": [
+    "17016248-5957-4087-b255-7bbc7b11f5fc"
+   ],
+   "balanceAfter": 54.75
+  },
+  {
+   "id": "Q035",
+   "episode": "EP002",
+   "item": "#10 Quest profile thinking (optional)",
+   "model": "gpt_image_2_5",
+   "quoted": 0.5,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:19+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background. Young man, dark brown curly hair, light freckles, same face and proportions. Outfit (never change): plain red hoodie with white drawstrings, no logos, a dark undershirt at the neckline; blue denim jeans; RED canvas sneakers with white soles and white laces, his RED sneakers are visible. Pose: EXACTLY the same seated pose, size and clean SIDE PROFILE view facing RIGHT as in the attached image reference (sitting cross-legged on the floor), but now pensive: the game controller resting in his lap in one hand, the other hand at his chin, eyes slightly lowered, a quiet thoughtful bittersweet expression, a soft cool blue screen light on his face and the front of his hoodie. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no television in the image, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:19+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:31:18+00:00",
+   "actual": 0.5,
+   "jobs": [
+    "d77d39b1-0757-4c48-b5af-d09a296a57d4"
+   ],
+   "balanceAfter": 54.25
+  },
+  {
+   "id": "Q036",
+   "episode": "EP002",
+   "item": "#15 adult Quest room (optional)",
+   "model": "gpt_image_2_5",
+   "quoted": 0.5,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:19+00:00",
+   "prompt": "A wide cinematic 16:9 background plate, interior, night, no characters. A young adult's cozy bedroom today: a made bed on the left with a dark blue blanket, a small wooden bedside table on the right with nothing on it (an old television will be added later), a low shelf with a few plain game boxes with blank spines and a small plant, a desk with a closed laptop, a framed poster with an abstract landscape, a window with cool moonlight and city lights, a warm desk lamp glow. A clear wooden floor in the lower middle of the frame where a person will sit later. Same 2D cartoon style: bold ink outlines, flat cel shading with soft painterly backgrounds. No people, no text, no logos, no emblems.\n",
+   "approvedAt": "2026-10-05T20:36:19+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-05T22:31:18+00:00",
+   "actual": 0.5,
+   "jobs": [
+    "66d7e41a-c76e-47ec-9ed9-dba96f66a1c6"
+   ],
+   "balanceAfter": 53.75
+  },
+  {
+   "id": "Q037",
+   "episode": "EP002",
+   "item": "#8 inspired villain (hooded shadow) - DEFERRED: last, on the Producer's word",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T20:36:19+00:00",
+   "prompt": "A cartoon villain character of our own design, alone, full body, transparent background. An imposing, towering warlord king of evil: very tall, very broad shoulders, heavy dark armour in charcoal and deep bronze plates with no emblems, a long dark tattered cape, a deep hood raised over his head that casts his face into shadow: inside the dark of the hood only two glowing red eyes and a small glowing amber gem on his forehead (a simple oval, our own design) can be seen, a few strands of fiery red hair escaping from under the hood, dark skin visible on his chin. Pose: three-quarter view seen slightly from below (low angle), leaning forward, his right arm reaching straight out towards the viewer, a dark armoured gauntlet whose fingers end in sharp claws, the hand open as if about to grab something; his left arm hidden under the cape. Menacing but family friendly: no blood, no weapons. 2D cartoon style: bold heavy ink outlines, flat cel shading, a darker palette. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T20:36:19+00:00",
+   "approval": "Apruebo A + B (aún no hagas nada del villano, ese lo haremos de último)",
+   "spentAt": "2026-10-06T04:44:03+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "3fd10adc-f31d-44b7-b7b1-e77a445351df"
+   ],
+   "balanceAfter": 51.75
+  },
+  {
+   "id": "Q038",
+   "episode": "EP002",
+   "item": "#5 retry: adult Quest on his horse, back, chestnut coat with cream mane (Producer), full-size horse",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-05T21:51:32+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), full body, transparent background, seen from BEHIND riding away on his own horse: a tall full-size adult horse, clearly bigger than the rider (a real horse, not a pony), chestnut reddish-brown coat with a long cream-white mane and tail, white socks on the lower legs and a white blaze on the face, simple brown leather saddle and bridle, no ornaments. Young man, dark brown curly hair, light freckles, same proportions. Same hair and human ears as Quest_v1; only the outfit changes. Costume: his green adventurer outfit EXACTLY as in the attached image reference: forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, brown leather belt with a brass buckle, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. On his back, exactly as in the attached reference: the blue kite shield with a silver rim and round silver boss (no emblem) and the brown leather scabbard with its handle over his right shoulder. Pose: horse walking calmly away from us, rider sitting relaxed, looking ahead. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-05T21:51:32+00:00",
+   "approval": "Quiero el caballo del color de Epona. A la final no habrá problema porque de ese color son los caballos también",
+   "spentAt": "2026-10-05T21:53:32+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "7a6665cd-e019-405e-a683-0231c77af265"
+   ],
+   "balanceAfter": 65.25
+  },
+  {
+   "id": "Q039",
+   "episode": "EP002",
+   "item": "#4b adult Quest tunic back, walking, no gear (walk cycle + N no-gear shot)",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-06T03:20:20+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1), alone, full body, transparent background, seen from directly BEHIND (back view, we do not see his face). Young man, dark brown curly hair, light freckles, same proportions, adult, about 5.5 heads tall, sturdy build with broad shoulders. Same hair and human ears as Quest_v1; only the outfit changes. Costume EXACTLY as on the man in the attached image reference (the green adventurer outfit): forest-green knee-length sleeveless tunic over a cream long-sleeve undershirt, wide brown leather belt, long floppy green cap falling back over his curly hair, brown leather wrist guards, light tan trousers, brown leather boots. NOTHING on his back: no shield, no scabbard, no strap, no bag, the back of the tunic fully visible. Pose: walking forward away from us, mid-stride: his LEFT foot lifted behind him showing the sole of the boot, his RIGHT foot planted, arms swinging naturally, same size and camera as the reference. Same 2D cartoon style: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-06T03:20:23+00:00",
+   "approval": "Realizar el arte de adulto sin el equipo. Pero que tenga la espada no?",
+   "spentAt": "2026-10-06T03:21:21+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "6ed31a9c-c277-44dd-995d-dbf517acf15e"
+   ],
+   "balanceAfter": 52.75
+  },
+  {
+   "id": "Q040",
+   "episode": "EP002",
+   "item": "#2g Pixie as the princess, front (Triforce WISDOM plate; reusable)",
+   "model": "gpt_image_2_5",
+   "quoted": 1.0,
+   "status": "spent",
+   "quotedAt": "2026-10-06T04:49:11+00:00",
+   "prompt": "<<<1015661a-8b38-4caa-a4e8-8e3a2eef9ba8>>> The SAME cartoon character as in the reference images (Pixie_v1), alone, full body, front view, transparent background. Young woman, long straight black hair in a high ponytail with a few loose strands framing her face, warm brown eyes, light freckles, warm tan skin, same face, human ears and proportions (about 5.8 heads tall). Only the outfit changes: the princess outfit EXACTLY as worn by the young woman in the attached image reference: a long elegant gown in white and soft lilac with simple gold trim and a short lilac cape, no crown emblem. Pose: standing gracefully, hands softly clasped in front of her, a calm, wise, kind smile, looking at the viewer. Same 2D cartoon style as the reference images: bold ink outlines, flat cel shading. No text, no logos, no emblems, no other characters.\n",
+   "approvedAt": "2026-10-06T04:50:44+00:00",
+   "approval": "Apruebo Q040",
+   "spentAt": "2026-10-06T04:51:45+00:00",
+   "actual": 1.0,
+   "jobs": [
+    "b0787a3e-1415-4691-9ca5-e982bfc9c018"
+   ],
+   "balanceAfter": 50.75
+  },
+  {
+   "id": "Q041",
+   "episode": "EP002",
+   "item": "EP002 Spanish narration (dub track), Bram preset voice 4, 8 blocks (6,592 chars) + B07 retake ('estaba' -> 'estabas'). Quoted to the Producer as 'Q011'.",
+   "model": "text2speech_v2 elevenlabs",
+   "quoted": 23.0,
+   "status": "spent",
+   "actual": 23.5,
+   "approval": "Sí, apruebo la Q011 para el EP002. Por favor, procura que sea perfecta.",
+   "jobs": [
+    "ba476eb2-e0a0-46ed-a2ae-f12066918cd9",
+    "e0e639fa-3440-4821-9988-16a7dc5f65a3",
+    "d2b08152-512e-4254-ae26-31fe3d46a594",
+    "dc64f5ee-9b2e-48af-9843-403ef7c0afc3",
+    "264594d2-b02d-4c44-93c7-81bd63a6b1af",
+    "9ceaffcd-7c73-485d-a3a2-9b6f36edc628",
+    "ad54e17f-6ba9-4e3d-8a25-03eb8a82974a",
+    "b3010222-7ba8-4ae7-b3bb-ac4ccea9cd07",
+    "77a47441-b9bc-45e0-ade7-15fcad22d557"
+   ]
+  }
+ ]
 }

@@ -1,0 +1,20 @@
+{
+ "cartridge": [
+  {
+   "src": "public/shared/sfx/cc0/derived/cart_click_single.wav",
+   "at": 6.955,
+   "vol": 0.42
+  },
+  {
+   "src": "public/episodes/ep002/sfx/navi_original/NAVI_HELLO.wav",
+   "at": 7.1625,
+   "vol": 0.16
+  },
+  {
+   "src": "public/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav",
+   "at": 7.652458333333333,
+   "vol": 0.14
+  }
+ ],
+ "cart_T_END": 8.72
+}

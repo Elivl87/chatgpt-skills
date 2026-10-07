@@ -620,3 +620,7 @@
 - 2026-10-07 · Block J: the spider has mean red eyes, angry brows and fangs, sitting in a cobweb by the moustache; no ice
   bag ("sin bolsa"). Full v8.
 - 2026-10-07 · Block J spider → our homage to the one-eyed giant spider (Producer: "Aprobado el homenaje"): own toon drawing, one big eye that blinks, horns, jointed legs with teal claws, in the cobweb. Full v8.
+- 2026-10-07 · Spanish dub track approved and made (quote "Q011" = ledger Q041): Bram (voice 4) reading the approved
+  ES-419 script verbatim, 8 blocks + 1 retake; lines placed on each English line's start, tempo <= 1.15 locally (57 %
+  untouched), the episode's own SFX re-mixed identically; length = the video's. Scripts: ep002-es-lines.py,
+  ep002-es-schedule.py, ep002-es-audio.py. Files: audio/bram/ep002_es/.
