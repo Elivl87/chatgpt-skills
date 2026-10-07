@@ -144,22 +144,35 @@ def _triforce():
     return tri
 
 
+def item_slot(bg, cx, cy, size=176):
+    """A game item slot, the HUD style of the video: dark glass, gold rim, ink outline."""
+    lay = Image.new('RGBA', bg.size); d = ImageDraw.Draw(lay)
+    h = size / 2
+    d.rounded_rectangle((cx - h - 5, cy - h - 5, cx + h + 5, cy + h + 5), 30, fill=INK + (255,))
+    d.rounded_rectangle((cx - h, cy - h, cx + h, cy + h), 26, fill=(255, 214, 0, 255))
+    d.rounded_rectangle((cx - h + 9, cy - h + 9, cx + h - 9, cy + h - 9), 20, fill=(30, 42, 78, 205))
+    d.rounded_rectangle((cx - h + 14, cy - h + 14, cx + h - 14, cy - h + 40), 14, fill=(255, 255, 255, 40))   # glass sheen
+    out = bg.convert('RGBA')
+    sh = Image.new('RGBA', bg.size); ImageDraw.Draw(sh).rounded_rectangle((cx - h + 8, cy - h + 12, cx + h + 8, cy + h + 12), 30, fill=(0, 0, 0, 110))
+    out.alpha_composite(sh.filter(ImageFilter.GaussianBlur(8)))
+    out.alpha_composite(lay)
+    return out.convert('RGB')
+
+
 def option1d(words):
-    """1d · Simplified (Producer, 2026-10-07: "arregla la miniatura, si está sobrecargada"): one subject. Quest today,
-    red hoodie, pad in hand, face big in the left third looking at us; on the right the remake's three anchors in a
-    row, each ticked as rebuilt. The words finish the list."""
+    """1d · Simplified (Producer, 2026-10-07): one subject. Quest today, red hoodie, pad in hand, face big in the left
+    third looking at us; on the right the remake's three anchors, each in a game item slot (the video's HUD style),
+    new and shining. The words finish the thought: everything is back... EXCEPT YOU."""
     bg = _rebuilt_bg()
-    row = [(K.OCARINA, 735, 470, 190, 18), (SWORD, 935, 455, 300, -35), (_triforce(), 1135, 470, 200, 0)]
-    for _, cx, cy, _, _ in row:
-        bg = K.glow(bg, cx, cy, 120, (255, 250, 220), .55)
-    for src, cx, cy, w, ang in row:
-        bg = K.prop(bg, src, cx, cy, w if src is not SWORD else 70, ang=ang)
-    d = ImageDraw.Draw(bg)
-    for cx, cy in ((800, 560), (1000, 575), (1200, 565)):
-        check_badge(d, cx, cy, 28)
+    slots = [(K.OCARINA, 745, 118, 22), (SWORD, 940, 44, -40), (_triforce(), 1135, 146, 0)]
+    for _, cx, _, _ in slots:
+        bg = K.glow(bg, cx, 478, 130, (255, 240, 190), .45)
+    for src, cx, w, ang in slots:
+        bg = item_slot(bg, cx, 478)
+        bg = K.prop(bg, src, cx, 478, w, ang=ang)
+    bg = K.sparkles(bg, [(820, 405, 16), (1020, 550, 14), (1215, 405, 15), (670, 550, 12)])
     bg = K.place(bg, _clean(K.cutout(Q_TODAY, 0, .56)), -10, 720, bottom=TH + 20, rim=(255, 240, 200))
     return K.words(bg, words, (600, 20, 1255, 300), align='right')
-
 
 def option1e(words):
     """1e · Simplified, the eras version: Quest today big in the centre; behind him, smaller, the child and the adult
