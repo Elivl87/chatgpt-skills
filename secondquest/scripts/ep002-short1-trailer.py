@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SRC = ROOT / 'docs/ep002/EP002_animatic_full_v6_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
 OUT = ROOT / 'docs/publish/EP002/short1'
-VERSION = 4
+VERSION = 5
 W, H, FPS = 1080, 1920, 24
 SW, SH = 2560, 1440
 CW = round(SH * W / H)                                             # 9:16 crop width in source px (810)
@@ -188,14 +188,46 @@ def title_band(fr):
     return fr
 
 
-def wordmark(fr, k):
-    """The channel's wordmark lands on "So, why?", as in the episode (a pop, then settles), centred in the frame."""
-    if k <= 0:
+def _out_back(x, c=1.70158):
+    return 1 + (c + 1) * (x - 1) ** 3 + c * (x - 1) ** 2
+
+
+def _in_out_cubic(x):
+    return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
+
+
+LOGO_AT = CUES['l09']['words'][-1]['start'] - .15          # just before "back" (Producer, 2026-10-07)
+LOGO_W = W * .80                                           # a little smaller than v4 (Producer)
+T_LOGO = next(s0 + LOGO_AT - a for s0, s1, i, a in TL if i == len(SEGMENTS) - 2)   # in Short time
+
+
+def wordmark(fr, dt):
+    """The episode's wordmark card (block B / EP001 s15), sized for the Short: the wordmark punches in (scale 1.315 -> 1,
+    out-back, fade, blur, small tilt) and the gold bar grows from the centre underneath (+0.25 s, 0.45 s)."""
+    if dt <= 0:
         return fr
-    sc = .8 + .28 * min(1, k * 3) - .08 * max(0, min(1, k * 3 - 1))
-    ww = int(W * .96 * sc); wh = int(WORDMARK.height * ww / WORDMARK.width)
-    wm = WORDMARK.resize((ww, wh), Image.LANCZOS)
-    out = fr.convert('RGBA'); out.alpha_composite(wm, ((W - ww) // 2, FRAME_CY - wh // 2 - 120))
+    ww = int(LOGO_W); wh = int(WORDMARK.height * ww / WORDMARK.width)
+    u = ww / 1047                                          # the episode's wordmark is 1047 px wide at 1080p
+    bar_w = 520 * u * _in_out_cubic(min(1, max(0, (dt - .25) / .45)))
+    bar_h, gap = max(2, round(8 * u)), int(18 * u)
+    gw, gh = max(ww, int(520 * u)) + 40, wh + gap + bar_h + 40
+    g = Image.new('RGBA', (gw, gh))
+    g.alpha_composite(WORDMARK.resize((ww, wh), Image.LANCZOS), ((gw - ww) // 2, 20))
+    if bar_w > 1:
+        d = ImageDraw.Draw(g); y = 20 + wh + gap; x0 = (gw - bar_w) / 2; r = bar_h / 2
+        d.rounded_rectangle((x0, y + 3 * u, x0 + bar_w, y + bar_h + 3 * u), r, fill=INK + (255,))
+        d.rounded_rectangle((x0, y, x0 + bar_w, y + bar_h), r, fill=(255, 200, 61, 255))      # theme gold #ffc83d
+    x = min(1, dt / .28); e = _out_back(x)
+    sc = 1.315 + (1 - 1.315) * e
+    g = g.rotate(8 * .35 * (1 - e), resample=Image.BICUBIC, expand=True)
+    g = g.resize((max(1, int(g.width * sc)), max(1, int(g.height * sc))), Image.LANCZOS)
+    blur = (1 - min(1, x * 2.5)) * 14 * u
+    if blur > .3:
+        g = g.filter(ImageFilter.GaussianBlur(float(blur)))
+    op = min(1, x * 4)
+    if op < 1:
+        g.putalpha(g.getchannel('A').point(lambda v: int(v * op)))
+    out = fr.convert('RGBA'); out.alpha_composite(g, ((W - g.width) // 2, FRAME_CY - g.height // 2 - 110))
     return out.convert('RGB')
 
 
@@ -233,8 +265,8 @@ def render_video(path):
         for n, im in enumerate(src(va, va + b - a)):
             te = a + n / FPS
             fr = vertical(im, cx)
-            if i == len(SEGMENTS) - 1:
-                fr = wordmark(fr, (te - CUES['l10']['start'] + .1) / 1.2)
+            if i >= len(SEGMENTS) - 2:                                  # l09 from just before "back", then l10
+                fr = wordmark(fr, s0 + n / FPS - T_LOGO)
             plain = fr.copy()                                          # the card's background: no caption
             if SUBS:
                 fr = captions(fr, te)
