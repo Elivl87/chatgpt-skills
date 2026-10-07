@@ -722,7 +722,7 @@
    "model": "text2speech_v2 elevenlabs",
    "quoted": 23.0,
    "status": "spent",
-   "actual": 23.5,
+   "actual": 22.2,
    "approval": "Sí, apruebo la Q011 para el EP002. Por favor, procura que sea perfecta.",
    "jobs": [
     "ba476eb2-e0a0-46ed-a2ae-f12066918cd9",
@@ -734,7 +734,8 @@
     "ad54e17f-6ba9-4e3d-8a25-03eb8a82974a",
     "b3010222-7ba8-4ae7-b3bb-ac4ccea9cd07",
     "77a47441-b9bc-45e0-ade7-15fcad22d557"
-   ]
+   ],
+   "balanceAfter": 28.55
   }
  ]
 }
