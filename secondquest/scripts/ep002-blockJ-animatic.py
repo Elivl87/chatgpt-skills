@@ -222,6 +222,73 @@ def _place(g, im, cx, cy, ang=0.0, alpha=1.0):
     g.alpha_composite(im, (int(cx - im.width / 2), int(cy - im.height / 2)))
 
 
+SPIDER_MODE = 'thread'      # 'thread' (v8: drops on its thread) · 'moustache' (a small one crawls on the moustache) · 'web' (in a cobweb)
+ICE_MODE = 'bag'            # 'bag' (v8: pale-blue rubber bag) · 'plaid' (classic plaid cloth ice bag, silver cap) · 'towel' (wet towel)
+
+
+def _icebag_plaid():
+    """The classic cartoon ice bag: a round cloth bag in red-and-white plaid, a silver screw cap on top. Design 150 x 100."""
+    if 'plaid' not in _GAG:
+        X = _X4; w, h = 150 * X, 100 * X
+        m = Image.new('L', (w, h)); md = ImageDraw.Draw(m)
+        md.ellipse((8 * X, 30 * X, 142 * X, 96 * X), fill=255)                                     # the bag, lying flat
+        md.polygon([(58 * X, 36 * X), (66 * X, 20 * X), (84 * X, 20 * X), (92 * X, 36 * X)], fill=255)   # its gathered neck
+        cloth = Image.new('RGBA', (w, h), (248, 244, 238, 255)); cd = ImageDraw.Draw(cloth, 'RGBA')
+        for i in range(0, w, 30 * X):                                                              # plaid: crossing red bands
+            cd.rectangle((i, 0, i + 9 * X, h), fill=(220, 50, 56, 110))
+        for j in range(0, h, 30 * X):
+            cd.rectangle((0, j, w, j + 9 * X), fill=(220, 50, 56, 110))
+        ys = np.linspace(0, 1, h)[:, None, None]
+        shade = Image.fromarray(np.concatenate([np.zeros((h, w, 3)), (ys ** 2 * 45).repeat(w, 1)], 2).astype(np.uint8), 'RGBA')
+        cloth.alpha_composite(shade)
+        g = _ink_shape(m, cloth)
+        d = ImageDraw.Draw(g)
+        d.arc((30 * X, 44 * X, 120 * X, 90 * X), 200, 260, fill=(255, 255, 255, 200), width=3 * X)       # sheen
+        cm = Image.new('L', (w, h)); ImageDraw.Draw(cm).rounded_rectangle((62 * X, 2 * X, 88 * X, 22 * X), 4 * X, fill=255)
+        cap = _ink_shape(cm, (196, 202, 214, 255)); cdd = ImageDraw.Draw(cap)
+        for k in range(4):                                                                          # the cap's ridges
+            x = (66 + 6 * k) * X; cdd.line((x, 5 * X, x, 19 * X), fill=(120, 126, 140, 255), width=X)
+        cdd.line((64 * X, 6 * X, 86 * X, 6 * X), fill=(255, 255, 255, 220), width=X)
+        g = Image.alpha_composite(g, cap)
+        _GAG['plaid'] = _sized(g, 150)
+    return _GAG['plaid']
+
+
+def _towel():
+    """A folded wet towel across the brow: white with two blue stripes, a soft sag, a wet shine. Design 170 x 56."""
+    if 'towel' not in _GAG:
+        X = _X4; w, h = 170 * X, 56 * X
+        m = Image.new('L', (w, h)); md = ImageDraw.Draw(m)
+        top = [(8 * X + i * X, 10 * X + 5 * X * math.sin(i / 160 * math.pi)) for i in range(0, 155, 5)]
+        bot = [(8 * X + i * X, 40 * X + 9 * X * math.sin(i / 160 * math.pi)) for i in range(150, -5, -5)]
+        md.polygon(top + bot, fill=255)
+        cloth = Image.new('RGBA', (w, h), (246, 248, 252, 255)); cd = ImageDraw.Draw(cloth)
+        for x0 in (26, 132):                                                                        # the stripes near each end
+            cd.rectangle((x0 * X, 0, (x0 + 8) * X, h), fill=(70, 130, 210, 255)); cd.rectangle(((x0 + 11) * X, 0, (x0 + 14) * X, h), fill=(70, 130, 210, 255))
+        g = _ink_shape(m, cloth)
+        d = ImageDraw.Draw(g)
+        d.line([(30 * X + i * X, 18 * X + 5 * X * math.sin((i + 22) / 160 * math.pi)) for i in range(0, 90, 5)], fill=(255, 255, 255, 230), width=3 * X)
+        for i in range(0, 150, 18):                                                                 # the fold's soft creases
+            d.line(((14 + i) * X, 30 * X, (20 + i) * X, 44 * X), fill=(200, 208, 222, 200), width=X)
+        _GAG['towel'] = _sized(g, 170)
+    return _GAG['towel']
+
+
+def _cobweb(g, cx, cy, r, a, t):
+    """A cobweb hung between the moustache and the bark: radial threads and a spiral, catching the light."""
+    lay = Image.new('RGBA', g.size); d = ImageDraw.Draw(lay)
+    angs = [math.radians(v) for v in (-150, -105, -60, -15, 30, 80, 125, 170)]
+    ends = [(cx + r * math.cos(q) * (1 + .12 * math.sin(i * 2.1)), cy + r * math.sin(q) * (1 + .12 * math.sin(i * 2.1))) for i, q in enumerate(angs)]
+    col = (240, 244, 255, int(a * .85))
+    for ex, ey in ends:
+        d.line((cx, cy, ex, ey), fill=col, width=max(1, Si(2)))
+    for ring in range(1, 6):
+        f = ring / 6
+        pts = [(cx + (ex - cx) * f, cy + (ey - cy) * f + S(3) * f) for ex, ey in ends]
+        d.line(pts + [pts[0]], fill=col, width=max(1, Si(1.5)))
+    g.alpha_composite(lay)
+
+
 def sick_fx(g, t, sick):
     """On "personal problem" the tree looks unwell: a purple tinge, a glass thermometer in its mouth (the column
     climbs, a red "!"), an ice bag plopped on its brow, a cartoon spider dropping on its thread, sweat drops."""
@@ -254,7 +321,7 @@ def sick_fx(g, t, sick):
     # the ice bag: plops onto the brow, squashes, settles
     ki = min(1, max(0, (tt - .15) / .3))
     if ki > 0:
-        ice = _icebag()
+        ice = {'bag': _icebag, 'plaid': _icebag_plaid, 'towel': _towel}[ICE_MODE]()
         drop = (1 - ease(ki)) * S(150)
         sq = 1 - .14 * math.sin(math.pi * min(1, max(0, (tt - .45) / .25)))
         ice2 = ice.resize((max(1, int(ice.width * (2 - sq))), max(1, int(ice.height * sq))), Image.LANCZOS)
@@ -264,15 +331,26 @@ def sick_fx(g, t, sick):
             x = W * .545 + S(j * 62); y = H * .15 + dy
             aa = int(a * ki * (1 - dy / S(46)))
             d.ellipse((x - S(4), y - S(4), x + S(4), y + S(6)), fill=(170, 220, 255, aa), outline=INK[:3] + (aa // 2,))
-    # the spider: drops on its thread from the canopy, bobs, swings
+    # the spider (SPIDER_MODE): drops on its thread / crawls along the moustache / sits in a cobweb
     ks = min(1, max(0, (tt - .3) / .35))
-    if ks > 0:
+    if ks > 0 and SPIDER_MODE == 'thread':
         L = S(300) * (ease(ks) + .06 * math.sin(math.pi * min(1, (tt - .3) / .6)) * (1 - ks)) + S(10) * math.sin(t * 3.1)
         th_ang = math.radians(9 * math.sin(t * 2.3))
         ax, ay = W * .488, -S(14)
         sx, sy = ax + L * math.sin(th_ang), ay + L * math.cos(th_ang)
         d.line((ax, ay, sx, sy - S(26)), fill=(236, 236, 244, int(a * .9)), width=max(1, Si(2)))
         _place(g, _spider(t), sx, sy + S(14), -math.degrees(th_ang), sick)
+    elif ks > 0 and SPIDER_MODE == 'moustache':                         # a small one tiptoes along the moustache's top
+        u = ease(min(1, (tt - .3) / 1.4))
+        sx, sy = W * (.505 + .075 * u), H * (.300 - .040 * u) - S(4) * abs(math.sin(t * 9))
+        sp = _spider(t); sp = sp.resize((int(sp.width * .6), int(sp.height * .6)), Image.LANCZOS)
+        _place(g, sp, sx, sy, -22, sick * ks)
+    elif ks > 0 and SPIDER_MODE == 'web':                               # a cobweb in the corner of the moustache, its spider bobbing
+        wx, wy = W * .470, H * .335
+        _cobweb(g, wx, wy, S(78) * ease(ks), a, t)
+        d = ImageDraw.Draw(g)
+        sp = _spider(t); sp = sp.resize((int(sp.width * .75), int(sp.height * .75)), Image.LANCZOS)
+        _place(g, sp, wx, wy + S(4) * math.sin(t * 3), 0, sick * ks)
     for j in range(2):                                                  # sweat drops at the temples
         dy = ((t * 1.5 + j / 2) % 1) * S(40)
         x = (W * .535, W * .72)[j]; y = H * .15 + dy
