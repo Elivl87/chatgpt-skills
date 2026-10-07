@@ -1,0 +1,87 @@
+[
+ {
+  "w": "sino",
+  "start": 0.0,
+  "end": 0.34
+ },
+ {
+  "w": "tener",
+  "start": 0.34,
+  "end": 0.7
+ },
+ {
+  "w": "la",
+  "start": 0.7,
+  "end": 0.86
+ },
+ {
+  "w": "oportunidad",
+  "start": 0.86,
+  "end": 1.62
+ },
+ {
+  "w": "de",
+  "start": 1.62,
+  "end": 2.14
+ },
+ {
+  "w": "pararnos",
+  "start": 2.14,
+  "end": 2.5
+ },
+ {
+  "w": "junto",
+  "start": 2.5,
+  "end": 2.76
+ },
+ {
+  "w": "a",
+  "start": 2.76,
+  "end": 2.92
+ },
+ {
+  "w": "un",
+  "start": 2.92,
+  "end": 3.1
+ },
+ {
+  "w": "recuerdo",
+  "start": 3.1,
+  "end": 3.48
+ },
+ {
+  "w": "antiguo",
+  "start": 3.48,
+  "end": 4.64
+ },
+ {
+  "w": "y",
+  "start": 4.64,
+  "end": 4.86
+ },
+ {
+  "w": "ver",
+  "start": 4.86,
+  "end": 5.36
+ },
+ {
+  "w": "si",
+  "start": 5.36,
+  "end": 5.8
+ },
+ {
+  "w": "todavía",
+  "start": 5.8,
+  "end": 6.18
+ },
+ {
+  "w": "nos",
+  "start": 6.18,
+  "end": 6.44
+ },
+ {
+  "w": "reconoce.",
+  "start": 6.44,
+  "end": 6.86
+ }
+]

@@ -79,10 +79,26 @@ def first_word_times(take, lines):
     return first, words
 
 
+# approved retakes (take stem -> its lines), used in place of those lines of the block's take
+RETAKES = {'B06': ('B06r_l135_l136', ['l135', 'l136'])}       # Q042: the B06 take stopped on "reconoce."
+
+
+def takes():
+    """(block id, take stem, lines, lines to leave out) in script order; a retake follows the take it patches."""
+    for b in PLAN['blocks']:
+        stem = next(p for p in D.glob(f"{b['id']}_*.mp3")).stem
+        if b['id'] in RETAKES:
+            rstem, rlines = RETAKES[b['id']]
+            yield b['id'], stem, b['lines'], rlines
+            yield b['id'], rstem, rlines, []
+        else:
+            yield b['id'], stem, b['lines'], []
+
+
 def main():
     segs, report = [], []
-    for b in PLAN['blocks']:
-        take = next(p for p in D.glob(f"{b['id']}_*.mp3")).stem
+    for bid, take, lines, skip in takes():
+        b = {'id': bid, 'lines': lines}
         x = load(D / f'{take}.mp3'); dur = len(x) / SR
         db = energy_db(x); ps = pauses(db)
         first, words = first_word_times(take, b['lines'])
@@ -102,6 +118,10 @@ def main():
             end = cuts[i + 1][1] if i + 1 < len(cuts) else dur
             nxt = cuts[i + 1][0] if i + 1 < len(cuts) else None
             ls = b['lines'][b['lines'].index(lid):(b['lines'].index(nxt) if nxt else None)]
+            if set(ls) & set(skip):
+                if not set(ls) <= set(skip):
+                    raise SystemExit(f'{take}: retake lines {skip} are not cut apart from {ls}')
+                continue
             segs.append({'take': take + '.mp3', 'start': round(c, 4), 'end': round(end, 4), 'lines': ls, 'anchor': lid, 'block': b['id']})
     (D / 'segments.json').write_text(json.dumps(segs, ensure_ascii=False, indent=1))
     print(f'{len(segs)} segments for {sum(len(s["lines"]) for s in segs)} lines')

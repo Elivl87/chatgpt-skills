@@ -736,6 +736,20 @@
     "77a47441-b9bc-45e0-ade7-15fcad22d557"
    ],
    "balanceAfter": 28.55
+  },
+  {
+   "id": "Q042",
+   "episode": "EP002",
+   "item": "EP002 Spanish dub: retake of block 6's last sentence (l135+l136, the original take ended clipped on 'reconoce.')",
+   "model": "text2speech_v2 elevenlabs",
+   "quoted": 0.5,
+   "status": "spent",
+   "actual": 0.3,
+   "approval": "Sí, apruebo regrabar la última frase del bloque 6.",
+   "jobs": [
+    "7b0f69cc-34b0-4eb3-a8b0-f047121ff610"
+   ],
+   "balanceAfter": 28.25
   }
  ]
 }

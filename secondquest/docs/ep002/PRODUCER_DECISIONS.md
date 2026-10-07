@@ -632,3 +632,14 @@
   fades inside silence, a 90 ms release where a take stops on a vowel (B06 "reconoce."). QC (ep002-es-qc.py, full
   track STT): 1121 script words / 1121 heard, no repeated or missing word, 0 overlaps; every flagged interval reads as
   the script. "Quest" at the end is heard as "Quest" (no retake needed). No credits spent.
+- 2026-10-07 · Spanish dub v3 (Producer: "desde el 1:30 se escucha como doble o con eco"; "se escucha el fondo… y
+  después muy cortado en los espacios"; "lo importante es que siempre se escuche natural"). Causes: v2's tempo stretch
+  (ffmpeg rubberband R2, 1.108 over 1:31-2:38) smeared the voice; inserted silences were digital zero while Bram's own
+  pauses carry breath/air (~-60 dBFS), with 8 ms fades. v3: the track is planned backwards so lines start a little
+  earlier when later ones need room (lead <= 2.5 s, lag <= 1.5 s), tempo only where unavoidable (0:00-0:29 and
+  1:31-2:38 at 1.075, a little of B02/B04; 80 of 156 segments untouched) with rubberband R3 (--fine); takes sliced by
+  sample so lines that were together play exactly as recorded (38 joins); other joins inside pauses (15 equal-power
+  crossfades, 102 lengthened pauses with 40 ms fades); a soft gate (-14 dB below -40 dB, look-ahead 30 ms, release
+  60 ms) makes every pause sound alike. Q042 (0.3 credits): B06's last sentence re-recorded (B06r_l135_l136.mp3).
+  QC: 1120/1121 words heard (the missing one is heard when that passage is checked alone), 0 overlaps, every join at
+  <= -41 dBFS, no audible clicks.

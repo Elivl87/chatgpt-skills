@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
-"""EP002 Spanish dub, step 3 (v2): the Spanish audio track for YouTube (multi-language audio), same length as the video.
+"""EP002 Spanish dub, step 3 (v3): the Spanish audio track for YouTube (multi-language audio), same length as the video.
 
   python3 scripts/ep002-es-audio.py       # -> audio/bram/ep002_es/EP002_audio_es.wav (+ .m4a) and a QC report
 
-Bram's Spanish segments (segments.json: cut from the takes only inside real pauses) are placed one after another on
-the video's timeline where schedule.json says (narration time -> video time through blocks_map.json: each block clip
-plays narration [T0, T0 + clip length] from its own start in the video). They never overlap; where the schedule
-speeds a segment up it is done with rubberband (formants kept, made for speech), and the short fades at each end fall
-inside silence, so no word is ever clipped.
-The episode's own sounds go back in exactly as mixed in English: the cartridge click and Navi's entrance (seq 01,
-with its 0.25 s fade at the cut) and Navi's trail in block U. The Spanish voice is matched to the English voice's
-loudness. As a check the same code rebuilds the ENGLISH track from narration.wav and compares it with the video's
-own audio: if the timeline mapping were off, that comparison would show it.
+Each segment of schedule.json (cut from Bram's takes only inside pauses) goes on the video's timeline so that its speech
+starts where the schedule says (narration time -> video time through blocks_map.json). v3, after the Producer heard an
+echo from 1:30 and "fondo… y después muy cortado en los espacios" (2026-10-07):
+  * tempo changes use the rubberband R3 engine (`rubberband --fine`), and only where the schedule asks (<= 1.075);
+  * the takes are decoded once and sliced by sample, so two segments that were next to each other in the take and stay
+    next to each other play back exactly as recorded (no fade, no seam);
+  * every other join happens inside the pause: overlapping pause tails are crossfaded (equal power), and a pause made
+    longer fades out and in over FADE instead of dropping to digital silence;
+  * a soft gate (expander) lowers whatever sits under GATE_DB in every pause by GATE_RANGE, with a look-ahead and a
+    slow release, so all pauses sound alike: the breath/air of Bram's own pauses and the extra silences match.
+The episode's own sounds go back in exactly as mixed in English (cartridge click, Navi's entrance and 0.25 s fade in
+seq 01, Navi's trail in block U), and the voice is matched to the English voice's loudness. As a check the same code
+rebuilds the ENGLISH track from narration.wav and compares it with the video's own audio.
 """
-import json, subprocess, sys
+import json, subprocess, sys, tempfile
 from pathlib import Path
 import numpy as np
 import imageio_ffmpeg
@@ -27,20 +31,30 @@ S = json.loads((D / 'schedule.json').read_text())
 M = json.loads((D / 'blocks_map.json').read_text())
 CART = json.loads((D / 'sfx_cart.json').read_text())
 CUES = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
+FADE, DELTA = .04, .03                       # fade at a lengthened pause; distance kept from speech
+GATE_DB, GATE_RANGE, LOOK, HOLD, ATT, REL = -40, -14, .03, .10, .005, .06
 U_TRAIL = {'src': 'public/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav', 'narr_at': CUES['l156']['words'][5]['start'] + .5, 'vol': .14}
 
 
-def load(path, start=None, dur=None, tempo=1.0):
+def load(path, start=None, dur=None):
     args = [FF, '-v', 'error']
     if start is not None:
         args += ['-ss', f'{start:.3f}']
     if dur is not None:
         args += ['-t', f'{dur:.3f}']
-    args += ['-i', str(path), '-ac', '1', '-ar', str(SR)]
-    if abs(tempo - 1) > 1e-4:
-        args += ['-af', f'rubberband=tempo={tempo:.4f}:transients=mixed:formant=preserved:pitchq=quality:window=standard']
-    args += ['-f', 'f32le', '-']
+    args += ['-i', str(path), '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-']
     return np.frombuffer(subprocess.run(args, capture_output=True, check=True).stdout, np.float32).copy()
+
+
+def stretch(x, tempo):
+    """Speed speech up by `tempo` with rubberband's R3 engine (pitch and timbre kept)."""
+    if abs(tempo - 1) < 1e-4:
+        return x
+    with tempfile.TemporaryDirectory() as d:
+        a, b = Path(d) / 'a.wav', Path(d) / 'b.wav'
+        subprocess.run([FF, '-v', 'error', '-y', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', '-', '-c:a', 'pcm_f32le', str(a)], input=x.tobytes(), check=True)
+        subprocess.run(['rubberband', '-q', '--fine', '-T', f'{tempo:.4f}', str(a), str(b)], check=True, capture_output=True)
+        return load(b)
 
 
 def to_video(narr_t):
@@ -58,11 +72,29 @@ def add(track, clip, at):
         track[i:i + n] += clip[:n]
 
 
-def fades(x, ms=8):
-    n = min(len(x) // 2, int(SR * ms / 1000))
-    if n:
-        r = np.linspace(0, 1, n, dtype=np.float32); x[:n] *= r; x[-n:] *= r[::-1]
-    return x
+def ramp(n, up=True):
+    """Equal-power fade curve of n samples."""
+    c = np.sin(np.linspace(0, np.pi / 2, n, dtype=np.float32)) if n else np.zeros(0, np.float32)
+    return c if up else c[::-1]
+
+
+def gate(x):
+    """Soft expander: below GATE_DB (re. the voice's loud level) the gain eases down to GATE_RANGE, opening LOOK early."""
+    h = int(.005 * SR); n = len(x) // h
+    e = 10 * np.log10((x[:n * h].reshape(n, h) ** 2).mean(1) + 1e-14)
+    e -= np.percentile(e[e > -100], 99)
+    open_ = e > GATE_DB
+    k1, k2 = int(LOOK / .005), int(HOLD / .005)
+    o = open_.copy()
+    for i in np.flatnonzero(open_):
+        o[max(0, i - k1):i + k2 + 1] = True
+    tgt = np.where(o, 1.0, 10 ** (GATE_RANGE / 20))
+    g = np.empty(n); g[0] = tgt[0]
+    a, r = 1 - np.exp(-.005 / ATT), 1 - np.exp(-.005 / REL)
+    for i in range(1, n):
+        g[i] = g[i - 1] + (tgt[i] - g[i - 1]) * (a if tgt[i] > g[i - 1] else r)
+    gs = np.interp(np.arange(len(x)), np.arange(n) * h + h / 2, g).astype(np.float32)
+    return x * gs, float(np.mean(~o))
 
 
 def rms_db(x):
@@ -103,22 +135,50 @@ def main():
     if corr < .95:                                                  # measured 0.96: AAC priming drifts the video ~20 ms by the end
         sys.exit('timeline mapping is off: not building the Spanish track')
     # 2) the Spanish voice on the same timeline
+    takes = {t: load(D / t) for t in {x['take'] for x in S}}
+    clips, prev_core = [], -1e9
+    for x in S:
+        r = x['tempo']
+        clip = stretch(takes[x['take']][int(round(x['start'] * SR)):int(round(x['end'] * SR))], r)
+        on, off = (x['on'] - x['start']) / r, (x['off'] - x['start']) / r
+        cs = max(to_video(x['cs']), prev_core + x['gmin'])          # block cuts in the video shift a few ms: never closer
+        clips.append({'x': x, 'clip': clip, 'at': cs - on, 'cs': cs, 'ce': cs - on + off})
+        prev_core = clips[-1]['ce']
+    for i, c in enumerate(clips):                                   # each clip's window: never into a neighbour's speech
+        lo = clips[i - 1]['ce'] + min(DELTA, c['x']['gmin'] / 2) if i else -1e9
+        hi = clips[i + 1]['cs'] - min(DELTA, clips[i + 1]['x']['gmin'] / 2) if i + 1 < len(clips) else 1e9
+        c['L'], c['R'] = max(c['at'], lo), min(c['at'] + len(c['clip']) / SR, hi)
     es = np.zeros(n, np.float32)
-    report = []
-    prev_end = -1.0
-    last_of_take = {x['take']: x for x in S}
-    for s in S:
-        clip = load(D / s['take'], s['start'], s['end'] - s['start'], s['tempo'])
-        if s is last_of_take[s['take']] and rms_db(clip[-int(.03 * SR):]) > rms_db(clip) - 22:
-            # a few takes stop while the last vowel still sounds (B06 "reconoce."): let it die away, not click off
-            k = int(.09 * SR); clip[-k:] *= (.5 + .5 * np.cos(np.linspace(0, np.pi, k))).astype(np.float32)
-        clip = fades(clip)
-        # a block cut in the video drops a few ms of narration time, so a segment that followed the previous one
-        # with no gap could land a few ms over it: keep it right after (the take stays continuous), never over
-        at = max(to_video(s['at']), prev_end)
-        add(es, clip, at)
-        prev_end = at + len(clip) / SR
-        report.append({'lines': s['lines'], 'at': round(float(at), 3), 'end': round(prev_end, 3), 'tempo': s['tempo'], 'lags': s['lags']})
+    report, joins = [], {'exact': 0, 'crossfade': 0, 'pause': 0}
+    for i, c in enumerate(clips):
+        x = c['x']
+        a, b = int(round((c['L'] - c['at']) * SR)), int(round((c['R'] - c['at']) * SR))
+        seg = c['clip'][a:b].copy()
+        e10 = int(.01 * SR)
+        lvl = lambda v: float(20 * np.log10(np.sqrt(np.mean(v.astype(np.float64) ** 2)) + 1e-9)) if len(v) else -180.0
+        edge = [lvl(seg[:e10]), lvl(seg[-e10:])]                     # dBFS where the window starts/ends: must be pause
+        for side, j in (('in', i - 1), ('out', i + 1)):
+            if not 0 <= j < len(clips):
+                k = min(len(seg) // 2, int(.01 * SR))
+                if side == 'in':
+                    seg[:k] *= ramp(k)
+                else:
+                    seg[-k:] *= ramp(k, False)
+                continue
+            p, q = (clips[j], c) if side == 'in' else (c, clips[j])
+            exact = (p['x']['take'] == q['x']['take'] and abs(p['x']['end'] - q['x']['start']) < 1e-6 and p['x']['tempo'] == q['x']['tempo'] == 1.0
+                     and abs(q['at'] - (p['at'] + len(p['clip']) / SR)) < 1.5 / SR)
+            ov = p['R'] - q['L']
+            k = 0 if exact else min(len(seg) // 2, int(round(ov * SR)) if ov > 1 / SR else int(FADE * SR))
+            if side == 'in':
+                joins['exact' if exact else 'crossfade' if ov > 1 / SR else 'pause'] += 1
+                seg[:k] *= ramp(k)
+            else:
+                seg[len(seg) - k:] *= ramp(k, False)
+        add(es, seg, c['L'])
+        report.append({'lines': x['lines'], 'at': round(c['cs'], 3), 'end': round(c['ce'], 3), 'L': round(c['L'], 3), 'R': round(c['R'], 3),
+                       'edge_db': [round(v, 1) for v in edge], 'tempo': x['tempo'], 'lags': x['lags']})
+    es, gated = gate(es)
     gain = 10 ** ((rms_db(en) - rms_db(es)) / 20)                   # Spanish Bram at the English Bram's level
     es *= gain
     out = es + sfx; cart_fade(out)
@@ -133,8 +193,9 @@ def main():
     prev = ROOT / 'docs/ep002/EP002_preview_es_480p.mp4'
     subprocess.run([FF, '-v', 'error', '-y', '-i', str(VIDEO), '-i', str(wav), '-map', '0:v', '-map', '1:a', '-vf', 'scale=854:480',
                     '-c:v', 'libx264', '-crf', '30', '-preset', 'veryfast', '-c:a', 'aac', '-b:a', '128k', '-shortest', str(prev)], check=True)
-    (D / 'QC.json').write_text(json.dumps({'en_rebuild_correlation': corr, 'voice_gain_db': float(20 * np.log10(gain)), 'peak': float(peak),
+    (D / 'QC.json').write_text(json.dumps({'en_rebuild_correlation': corr, 'joins': joins, 'gated_share': gated, 'voice_gain_db': float(20 * np.log10(gain)), 'peak': float(peak),
                                             'duration_s': n / SR, 'video_duration_s': n / SR, 'segments': report}, indent=1, ensure_ascii=False))
+    print('joins', joins, f'· gate closed {gated:.0%} of the time')
     print(f'{wav.relative_to(ROOT)} · {n / SR:.2f} s (video {n / SR:.2f} s) · voice gain {20 * np.log10(gain):+.1f} dB · peak {peak:.2f}')
 
 
