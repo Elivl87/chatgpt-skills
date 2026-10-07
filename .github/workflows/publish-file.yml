@@ -14,7 +14,7 @@ on:
         description: "Release tag, deliver-<name> (also the temporary branch deliver/<tag>)"
         required: true
       name:
-        description: "File name of the asset"
+        description: "File name of the asset (or several, separated by spaces)"
         required: false
         default: ""
       title:
@@ -59,14 +59,19 @@ jobs:
       - name: Join parts and check
         if: inputs.mode == 'publish'
         run: |
-          cat deliver/"$NAME".part.* > "$RUNNER_TEMP/$NAME"
-          (cd "$RUNNER_TEMP" && sha256sum -c "$GITHUB_WORKSPACE/deliver/$NAME.sha256")
-          ls -l "$RUNNER_TEMP/$NAME"
+          # NAME: one file name, or several separated by spaces (a pack: each becomes its own downloadable asset).
+          # Each file is split in parts (<name>.part.NNN) or stored whole; its checksum is <name>.sha256.
+          mkdir -p "$RUNNER_TEMP/out"
+          for n in $NAME; do
+            if ls deliver/"$n".part.* >/dev/null 2>&1; then cat deliver/"$n".part.* > "$RUNNER_TEMP/out/$n"; else cp deliver/"$n" "$RUNNER_TEMP/out/$n"; fi
+            (cd "$RUNNER_TEMP/out" && sha256sum -c "$GITHUB_WORKSPACE/deliver/$n.sha256")
+          done
+          ls -l "$RUNNER_TEMP/out"
       - name: Publish
         if: inputs.mode == 'publish'
         run: |
           DRAFT=""; [ "${{ inputs.draft }}" = "true" ] && DRAFT="--draft"
-          gh release create "$TAG" "$RUNNER_TEMP/$NAME" --repo "$GITHUB_REPOSITORY" $DRAFT \
+          gh release create "$TAG" "$RUNNER_TEMP"/out/* --repo "$GITHUB_REPOSITORY" $DRAFT \
             --title "${{ inputs.title || inputs.tag }}" --notes "Delivered by the SecondQuest session. Auto-deleted 7 days after publishing (cleanup-deliveries.yml)." --target "$GITHUB_SHA"
           gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json url,isDraft,assets -q '{url, isDraft, assets: [.assets[] | {name, size}]}'
       - name: Remove the temporary branch
