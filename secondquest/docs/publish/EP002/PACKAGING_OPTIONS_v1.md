@@ -182,3 +182,18 @@ Para cada opción hay un título A (búsqueda, se publica primero) y un título 
 **Recomendación:** S1 como tráiler, el día del estreno. S2 o S3 unos días después.
 
 **Coste:** gratis (motor y animatic). El trabajo es reencuadrar cada plano a vertical: no basta con recortar el 16:9, porque Quest y el texto se mueven al centro.
+
+## Actualización con los datos del EP001 a ~4,5 días (2026-10-07, `docs/publish/EP001/ANALYTICS_D5.md`)
+
+- **El 62 % se va en los primeros 30 s** (a las 48 h eran el 40 %). Las vistas se estancaron hacia el día 3,5.
+  - La promesa de la miniatura tiene que verse **en los primeros 5–10 s**.
+  - Las opciones 1 y 2 lo cumplen visualmente desde el fotograma 1: la habitación de 1998, la tele de tubo y el cartucho.
+  - Las opciones 4 y 5 lo cumplen tarde: quedan como reserva.
+- **El 96 % de las vistas viene de Inicio y el 2,4 % de búsqueda.**
+  - Publicar primero con el título de curiosidad, con "Ocarina of Time" al principio, y probar el de búsqueda.
+  - Para la opción 1: publicar con *"Nintendo Can Remake Ocarina of Time. Not the Kid Who Played It."* y probar *"Ocarina of Time Remake: The One Thing Nintendo Can't Rebuild"*.
+  - Es un cambio a la regla §3.6, pendiente de que el Productor lo apruebe.
+- **Shorts:** ganó la afirmación concreta y extrema (el tractor: 86,5 % de las vistas desde el feed de Shorts).
+  - El 43 % desliza al instante, así que el S1 tiene que abrir con la frase del gancho en el primer segundo.
+  - Orden del S1: "There is one thing Nintendo cannot rebuild from the ground up. You." → ocarina, espada, Trifuerza → "So, why?".
+  - Es un montaje de líneas aprobadas, sin palabras nuevas.
