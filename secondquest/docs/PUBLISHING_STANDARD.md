@@ -44,9 +44,11 @@ The full rules are in `docs/THUMBNAIL_RULES.md`. In short:
 3. **Curiosity:** something familiar plus an unexpected twist (Galloway), e.g. "Farming Simulator: Why Millions Play a Game About Work".
 4. **Extreme, intriguing wording** where it is honest (MrBeast: "I Survived" beats "I Spent").
 5. **Accurate:** the video must deliver what the title promises.
-6. **Write two titles** for Test & Compare:
-   - **A**, searchable, published first;
-   - **B**, curiosity, run as the test.
+6. **Write two titles** for Test & Compare (Producer, 2026-10-07: "el objetivo es impulsar y probar"):
+   - **A**, curiosity, **published first**, with the game's name at the start where it reads naturally;
+   - **B**, searchable, run as the test.
+   - Why: EP001 got ~96 % of its views from Home (Browse) and ~2 % from search (`docs/publish/EP001/ANALYTICS_D5.md`),
+     so the title that must win the click is the one a stranger sees on Home.
 7. **ALL CAPS and emoji:** sparingly, or not at all.
 
 ## 4. Description
@@ -77,7 +79,7 @@ The full rules are in `docs/THUMBNAIL_RULES.md`. In short:
 
 - [ ] Uploaded as **Private**.
 - [ ] Strongest thumbnail set (EP001: thumbnail 3); all three ready for Test & Compare.
-- [ ] Title A set; title B ready for Test & Compare.
+- [ ] Title A (curiosity) set; title B (search) ready for Test & Compare.
 - [ ] Description with hook, chapters, CTA, footer and 3 hashtags.
 - [ ] English and Spanish subtitles uploaded.
 - [ ] "Uso de IA" / altered content answered per section 9 (EP001: **No**, animated and non-realistic).

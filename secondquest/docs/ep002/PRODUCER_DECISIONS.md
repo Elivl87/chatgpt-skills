@@ -594,3 +594,11 @@
 - 2026-10-06 · Area cards stay: once per place (Producer: "una vez por lugar, como está ahora"). Notes: ♪ ♫ as before.
 - 2026-10-06 · Clean video from now on (Producer): no planning tag strip, no planning notes, no end-screen slot guides.
   `lib.tag` and those notes draw only with PLANNING=1. Every block bumped and re-rendered clean.
+- 2026-10-07 · Final 2K render v6 approved as the episode video ("así está perfecto"); delivered as draft release
+  `deliver-ep002-animatic-v6-2k` (auto-deleted after 7 days).
+- 2026-10-07 · Titles: publish with the **curiosity** title, test the search title (PUBLISHING_STANDARD §3.6 changed; Producer:
+  "el objetivo es impulsar y probar"). Based on EP001 at ~4.5 days (`docs/publish/EP001/ANALYTICS_D5.md`).
+- 2026-10-07 · Trailer Short S1 approved order: opens on "But there is one thing Nintendo cannot rebuild from the ground
+  up. — You." (l07–l08), then the anchors (l03–l06), ends on "So, why?" (l10). Approved lines only, no new words.
+- 2026-10-07 · Thumbnails v2 (options 1 and 2, three Test & Compare variants each, existing art only) shown to the
+  Producer: `docs/publish/EP002/thumbnails/v2/`.
