@@ -24,3 +24,9 @@ docs/ep002/EP002_animatic_full_v4_es.mp4
 *_480p_chat.mp4
 *_480p.jpg
 *_480p_chapters.txt
+
+# Final renders (QUALITY=final 1440p / final1080) are delivered as draft GitHub Releases (publish-file.yml), never versioned
+*_1440p.mp4
+*_1080p.mp4
+*_1440p.jpg
+*_1080p.jpg
