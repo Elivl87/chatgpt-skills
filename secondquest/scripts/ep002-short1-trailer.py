@@ -10,7 +10,7 @@ words; the picture and Bram's voice come straight from the episode (the art is o
 EP001 lesson (docs/publish/EP001/ANALYTICS_D5.md): 43 % swipe away at once, so the hook line is the first second.
 Captions: the Shorts standard (PUBLISHING_STANDARD §10) burns them in (EP001 Short style). SUBS=0 renders without.
 """
-import json, os, subprocess, sys
+import json, math, os, subprocess, sys
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SRC = ROOT / 'docs/ep002/EP002_animatic_full_v6_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
 OUT = ROOT / 'docs/publish/EP002/short1'
-VERSION = 8
+VERSION = 11
 W, H, FPS = 1080, 1920, 24
 SW, SH = 2560, 1440
 CW = round(SH * W / H)                                             # 9:16 crop width in source px (810)
@@ -34,7 +34,7 @@ SEGMENTS = [(17.30, 21.75, .50),     # l07-l08 on the field, Quest from behind: 
             (7.75, 12.95, .53),      # l03 the room, the kid cheering at the TV: "New graphics. An orchestra…"
             (12.95, 17.20, .50),     # l04-l06 the ocarina, the sword, the Triforce (lock-on); ends before the field cut
             (21.75, 25.50, .50),     # l09 Quest sets off down the road: "…that might be exactly why we want to go back."
-            (25.55, 27.65, .50)]     # l10 "So, why?" (audio; picture VIDEO_AT + our wordmark, as in the episode)
+            (25.55, 27.95, .50)]     # l10 "So, why?" (audio; picture VIDEO_AT + our wordmark, as in the episode)
 VIDEO_AT = {3: 20.25, 4: 24.00}       # l09/l10 pictures: one continuous walk (l10 used to jump back 1.5 s: Quest seemed
                                       # to walk backwards); l10 under the wordmark (the episode's logo card is 16:9)
 FROM_BLOCK_B = {0, 3, 4}              # field shots re-rendered from block B without its area card (Producer: no THE FIELD)
@@ -144,8 +144,9 @@ def frames(a, b):
 _BLOCK_B = None
 
 
-def block_b_frames(a, b):
-    """The same frames as the video, rendered from block B's script at final quality, minus the THE FIELD card."""
+def block_b_frames(a, b, navi=True):
+    """The same frames as the video, rendered from block B's script at final quality, minus the THE FIELD card.
+    navi=False leaves B's own Navi out (the Short draws her in 9:16 for her flight into the wordmark's star)."""
     global _BLOCK_B
     if _BLOCK_B is None:
         import importlib.util
@@ -155,9 +156,13 @@ def block_b_frames(a, b):
         _BLOCK_B = importlib.util.module_from_spec(sp); sp.loader.exec_module(_BLOCK_B)
         _BLOCK_B.T_WM = 1e6        # its own 16:9 wordmark stays off (ours is drawn for 9:16)
         _BLOCK_B.T_END = 1e6       # B6's camera tilt freezes: in 9:16 the tilt read as Quest walking back (Producer)
+    real = _BLOCK_B.fairy_fx
+    if not navi:
+        _BLOCK_B.fairy_fx = type('NoNavi', (), {'draw': staticmethod(lambda fr, *a, **k: fr)})
     for n in range(round((b - a) * FPS)):
         im = _BLOCK_B._render_shot(a + n / FPS).convert('RGB')
         yield im if im.size == (SW, SH) else im.resize((SW, SH), Image.LANCZOS)
+    _BLOCK_B.fairy_fx = real
 
 
 def vertical(im, cx):
@@ -258,6 +263,92 @@ def end_card(k, last):
     return fr
 
 
+# ------------------------------------------------------------------ Navi into the star (as the episode's end, block U)
+# Producer (2026-10-07): "el efecto de Navi entrando en la O de Second que tiene 4 estrellas al final del vídeo".
+# She takes over from block B's Navi beside Quest, flies up to the wordmark, around it, into the four-point star in the
+# "o" of Second, and the star twinkles. Her trail sound is the episode's (NAVI_SFX_01 at 0.14, as in block U).
+sys.path.insert(0, str(ROOT / 'tools/fx'))
+import fairy as fairy_fx  # noqa: E402
+NAVI_SFX = ROOT / 'public/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav'
+NAVI_SIZE = .018                                           # B's Navi as she appears in the 9:16 frame
+
+
+def _seg_start(i):
+    return next(s0 for s0, s1, j, a in TL if j == i)
+
+
+def _to_short(fx, fy, cx=.5):
+    """Source-frame fractions -> Short pixels (framing B)."""
+    fh = round(FRAME_W * 9 / 16)
+    x0 = min(max(0, cx * FRAME_W - W / 2), FRAME_W - W)
+    return fx * FRAME_W - x0, FRAME_CY - fh / 2 + fy * fh
+
+
+def _star_xy():
+    """The star in the wordmark's "o" (808, 235 of 2605x448) once the card has settled."""
+    ww = int(LOGO_W); wh = int(WORDMARK.height * ww / WORDMARK.width); u = ww / 1047
+    gw, gh = max(ww, int(520 * u)) + 40, wh + int(18 * u) + max(2, round(8 * u)) + 40
+    gx, gy = (W - gw) / 2, FRAME_CY - gh // 2 - 110
+    return gx + 20 + ww * 808 / 2605, gy + 20 + wh * 235 / 448, (gx + gw / 2, gy + 20 + wh / 2, ww / 2, wh / 2)
+
+
+S3 = len(SEGMENTS) - 2
+T_NAVI0 = _seg_start(S3)                                    # she is ours from l09 on
+T_UP0 = T_LOGO + .15                                        # leaves Quest as the wordmark lands
+T_STAR = _seg_start(S3 + 1) + CUES['l10']['end'] - SEGMENTS[S3 + 1][0]   # into the star as "why?" ends
+T_UP1, T_LOOP1 = T_UP0 + .55, T_STAR - .45
+
+
+def _navi_keys():
+    import importlib  # noqa
+    B = _BLOCK_B
+    bkeys = [(B.T_FIELD, .6, .48), (B.T_YOU, .57, .46), (B.T_GO, .57, .46), (B.T_GO + 1.2, .55, .5), (B.T_WHY + .6, .545, .56), (B.T_WHY + 3, .54, .62)]
+    sx, sy, (wx, wy, wrx, wry) = _star_xy()
+    keys, t = [], T_NAVI0
+    while t <= T_STAR + .3:
+        if t < T_UP0:                                           # beside Quest, on B's own path (picture time)
+            pt = VIDEO_AT[S3] + (t - T_NAVI0) if t < _seg_start(S3 + 1) else VIDEO_AT[S3 + 1] + (t - _seg_start(S3 + 1))
+            x, y = _to_short(*fairy_fx.path(bkeys, pt))
+        elif t < T_UP1:                                         # up to the wordmark's right end
+            k = ease((t - T_UP0) / (T_UP1 - T_UP0))
+            x0, y0 = KEY_UP0
+            x, y = x0 + (wx + wrx * 1.1 - x0) * k, y0 + (wy - y0) * k - 120 * math.sin(math.pi * k)
+        elif t < T_LOOP1:                                       # around it, a turn and a half
+            a = 3 * math.pi * (t - T_UP1) / (T_LOOP1 - T_UP1)
+            x, y = wx + wrx * 1.1 * math.cos(a), wy - wry * 1.6 * math.sin(a)
+        else:                                                   # into the star
+            k = ease(min(1, (t - T_LOOP1) / (T_STAR - T_LOOP1)))
+            x, y = (wx - wrx * 1.1) + (sx - (wx - wrx * 1.1)) * k, wy + (sy - wy) * k - 40 * math.sin(math.pi * k)
+        if t < T_UP0:
+            globals()['KEY_UP0'] = (x, y)
+        keys.append((t, x / W, y / H)); t += .04
+    return keys
+
+
+_NAVI = None
+
+
+def navi_flight(fr, t):
+    global _NAVI
+    if _NAVI is None:
+        _NAVI = _navi_keys()
+    op = 1.0 if t < T_STAR - .15 else max(0.0, (T_STAR - t) / .15)
+    if op > 0:
+        grow = ease((t - T_UP0) / (T_UP1 - T_UP0)) if t > T_UP0 else 0     # she grows as she rises: readable by the big wordmark
+        fr = fairy_fx.draw(fr, _NAVI, t, size=NAVI_SIZE + (.03 - NAVI_SIZE) * grow, opacity=op,
+                            color=(95, 175, 255), glow=1.0, trail=12)      # a deeper blue glow: she reads on the bright sky
+    dt = t - T_STAR + .05
+    if 0 <= dt <= .9:                                           # the star twinkles (block U)
+        k = math.sin(dt / .9 * math.pi)
+        x, y, _ = _star_xy()
+        g = Image.new('RGBA', fr.size); ImageDraw.Draw(g).ellipse((x - 110, y - 110, x + 110, y + 110), fill=(255, 240, 200, int(180 * k)))
+        fr = Image.alpha_composite(fr.convert('RGBA'), g.filter(ImageFilter.GaussianBlur(40))).convert('RGB')
+        d = ImageDraw.Draw(fr); L = 52 * k
+        d.polygon([(x, y - L), (x + L * .18, y - L * .18), (x + L, y), (x + L * .18, y + L * .18), (x, y + L),
+                   (x - L * .18, y + L * .18), (x - L, y), (x - L * .18, y - L * .18)], fill=(255, 250, 230))
+    return fr
+
+
 def render_video(path):
     p = subprocess.Popen([FF, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS),
                           '-i', '-', '-c:v', 'libx264', '-crf', '17', '-preset', 'medium', '-pix_fmt', 'yuv420p', str(path)],
@@ -266,11 +357,13 @@ def render_video(path):
     for (s0, s1, i, a), (_, b, cx) in zip(TL, SEGMENTS):
         va = VIDEO_AT.get(i, a)
         src = block_b_frames if i in FROM_BLOCK_B else frames
-        for n, im in enumerate(src(va, va + b - a)):
+        gen = src(va, va + b - a, navi=i < len(SEGMENTS) - 2) if i in FROM_BLOCK_B else src(va, va + b - a)
+        for n, im in enumerate(gen):
             te = a + n / FPS
             fr = vertical(im, cx)
             if i >= len(SEGMENTS) - 2:                                  # l09 from just before "back", then l10
                 fr = wordmark(fr, s0 + n / FPS - T_LOGO)
+                fr = navi_flight(fr, s0 + n / FPS)
             plain = fr.copy()                                          # the card's background: no caption
             if SUBS:
                 fr = captions(fr, te, (a, b))
@@ -296,9 +389,10 @@ def render_audio(path):
         d = b - a
         fc += f'[0:a]atrim={a:.3f}:{b:.3f},asetpts=PTS-STARTPTS,afade=t=in:d=0.03,afade=t=out:st={d - .06:.3f}:d=0.06[a{i}];'
         parts.append(f'[a{i}]')
-    fc += f'{"".join(parts)}concat=n={len(parts)}:v=0:a=1,apad=pad_dur={CARD:.2f}[out]'
-    subprocess.run([FF, '-v', 'error', '-y', '-i', str(SRC), '-filter_complex', fc, '-map', '[out]', '-c:a', 'pcm_s16le',
-                    '-ar', '48000', str(path)], check=True)
+    fc += f'{"".join(parts)}concat=n={len(parts)}:v=0:a=1,apad=pad_dur={CARD:.2f}[v];'
+    fc += f'[1:a]adelay={int(T_UP0 * 1000)}:all=1,volume=0.14[s];[v][s]amix=inputs=2:duration=first:normalize=0[out]'   # her trail (block U)
+    subprocess.run([FF, '-v', 'error', '-y', '-i', str(SRC), '-i', str(NAVI_SFX), '-filter_complex', fc, '-map', '[out]',
+                    '-c:a', 'pcm_s16le', '-ar', '48000', str(path)], check=True)
 
 
 def main():

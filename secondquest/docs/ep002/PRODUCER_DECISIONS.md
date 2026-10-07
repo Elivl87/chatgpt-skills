@@ -611,3 +611,6 @@
   question; "So, why?" lands on our wordmark (the episode's 16:9 logo card does not fit 9:16). Framing B (frame at 160 %
   width, 62 % visible, blurred fill) instead of the 9:16 crop that cut the art; fixed title band "THE ONE THING /
   NINTENDO CAN'T REBUILD" (Producer: "Sí, móntalo así con el encuadre B y el título").
+- 2026-10-07 · Trailer Short v11: Navi's flight into the wordmark's four-point star (as block U's end): she leaves Quest
+  as the wordmark lands, rises around it and goes into the star in the "o" of Second as "why?" ends; the star twinkles.
+  Her trail sound is the episode's (Producer-supplied NAVI_SFX_01 at 0.14, same risk note as in the episode).
