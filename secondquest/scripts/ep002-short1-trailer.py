@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SRC = ROOT / 'docs/ep002/EP002_animatic_full_v6_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
 OUT = ROOT / 'docs/publish/EP002/short1'
-VERSION = 7
+VERSION = 8
 W, H, FPS = 1080, 1920, 24
 SW, SH = 2560, 1440
 CW = round(SH * W / H)                                             # 9:16 crop width in source px (810)
@@ -34,7 +34,7 @@ SEGMENTS = [(17.30, 21.75, .50),     # l07-l08 on the field, Quest from behind: 
             (7.75, 12.95, .53),      # l03 the room, the kid cheering at the TV: "New graphics. An orchestra…"
             (12.95, 17.20, .50),     # l04-l06 the ocarina, the sword, the Triforce (lock-on); ends before the field cut
             (21.75, 25.50, .50),     # l09 Quest sets off down the road: "…that might be exactly why we want to go back."
-            (25.55, 27.05, .50)]     # l10 "So, why?" (audio; picture VIDEO_AT + our wordmark, as in the episode)
+            (25.55, 27.65, .50)]     # l10 "So, why?" (audio; picture VIDEO_AT + our wordmark, as in the episode)
 VIDEO_AT = {3: 20.25, 4: 24.00}       # l09/l10 pictures: one continuous walk (l10 used to jump back 1.5 s: Quest seemed
                                       # to walk backwards); l10 under the wordmark (the episode's logo card is 16:9)
 FROM_BLOCK_B = {0, 3, 4}              # field shots re-rendered from block B without its area card (Producer: no THE FIELD)
@@ -42,6 +42,7 @@ FRAME_W = round(W * 1.6)              # framing B (Producer, 2026-10-07): the fr
 FRAME_CY = 860                        # its centre; title band above, captions below, clear of the Shorts UI
 TITLE = ("THE ONE THING", "NINTENDO CAN'T REBUILD")   # the episode's title A as a fixed band (Producer approved)
 WORDMARK = Image.open(ROOT / 'public/art/core/brand/secondquest_wordmark.png').convert('RGBA')
+XFADE = .55                          # the field dissolves into the card (Producer: the cut after "why?" was abrupt)
 CARD = 2.6                           # end card seconds
 LINES = ['l07', 'l08', 'l03', 'l04', 'l05', 'l06', 'l09', 'l10']
 
@@ -152,6 +153,7 @@ def block_b_frames(a, b):
         sys.path.insert(0, str(ROOT / 'scripts/animatic'))
         sp = importlib.util.spec_from_file_location('blockB', ROOT / 'scripts/ep002-blockB-animatic.py')
         _BLOCK_B = importlib.util.module_from_spec(sp); sp.loader.exec_module(_BLOCK_B)
+        _BLOCK_B.T_WM = 1e6        # its own 16:9 wordmark stays off (ours is drawn for 9:16)
         _BLOCK_B.T_END = 1e6       # B6's camera tilt freezes: in 9:16 the tilt read as Quest walking back (Producer)
     for n in range(round((b - a) * FPS)):
         im = _BLOCK_B._render_shot(a + n / FPS).convert('RGB')
@@ -272,12 +274,15 @@ def render_video(path):
             plain = fr.copy()                                          # the card's background: no caption
             if SUBS:
                 fr = captions(fr, te, (a, b))
-            p.stdin.write(fr.tobytes()); last = fr
+            p.stdin.write(fr.tobytes()); last = last_shown = fr
             for name, ts in (('hook', 19.0), ('you', 21.3), ('room', 10.0), ('triforce', 16.8), ('goback', 23.5), ('why', 26.6)):
                 if abs(te - ts) < .5 / FPS:
                     stills[name] = fr
     for n in range(round(CARD * FPS)):
         fr = end_card(n / (CARD * FPS), plain)
+        k_in = ease(n / (XFADE * FPS))                                  # a soft dissolve into the card, no hard cut
+        if k_in < 1:
+            fr = Image.blend(last_shown, fr, k_in)
         p.stdin.write(fr.tobytes())
     stills['card'] = fr
     p.stdin.close(); p.wait()
