@@ -19,6 +19,7 @@ _sp = importlib.util.spec_from_file_location('sk', HERE / 'ep002-thumb-sketches.
 K = importlib.util.module_from_spec(_sp); _sp.loader.exec_module(K)
 ROOT, TW, TH, YELLOW, WHITE, INK = K.ROOT, K.TW, K.TH, K.YELLOW, K.WHITE, K.INK
 OUT = ROOT / 'docs/publish/EP002/thumbnails/v2'
+SWORD = ROOT / 'public/art/ep002/props3d/sword_spin/f000.png'                     # our 3D sword
 ROOM_TODAY = ROOT / 'docs/art_orders/ep002_final/15_adult_room_night.png'      # Quest's room today, night
 CRT = ROOT / 'public/art/ep002/props3d/crt_front.png'                          # our 3D CRT, screen keyed green
 
@@ -73,6 +74,34 @@ def option1(words):
     return K.words(bg, words, (560, 18, 1255, 175), align='right')
 
 
+def check_badge(d, cx, cy, r):
+    """A game-style green tick: ink ring, green disc, white check."""
+    d.ellipse((cx - r - 5, cy - r - 5, cx + r + 5, cy + r + 5), fill=INK)
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(60, 200, 90))
+    d.line([(cx - r * .5, cy), (cx - r * .12, cy + r * .42), (cx + r * .55, cy - r * .42)], fill=INK, width=int(r * .42), joint='curve')
+    d.line([(cx - r * .5, cy), (cx - r * .12, cy + r * .42), (cx + r * .55, cy - r * .42)], fill=WHITE, width=int(r * .26), joint='curve')
+
+
+def option1b(words):
+    """1b · "Rebuilt": the remake's three anchors (our ocarina, sword, Triforce) lined up, each ticked as rebuilt;
+    Quest looks on in awe. The words finish the list: everything... EXCEPT YOU (the hook at 0:09-0:21)."""
+    bg = K.grade(K.cover(K.FIELD, focus=(.6, .42), zoom=1.15), sat=1.3, con=1.12)
+    bg = Image.blend(bg, Image.new('RGB', bg.size, (255, 170, 80)), .10)
+    tri = Image.new('RGBA', Image.open(K.TRI_PLATES[0]).size)
+    for p in K.TRI_PLATES:
+        tri.alpha_composite(Image.open(p).convert('RGBA'))
+    slots = [(K.OCARINA, 650, 470, 230, 18), (SWORD, 880, 430, 96, 0), (tri, 1100, 470, 250, 0)]
+    for _, cx, cy, _, _ in slots:
+        bg = K.glow(bg, cx, cy, 150, (255, 245, 200), .55)
+    for src, cx, cy, w, ang in slots:
+        bg = K.prop(bg, src, cx, cy, w, ang=ang)
+    d = ImageDraw.Draw(bg)
+    for cx, cy, r in ((735, 575, 34), (935, 600, 34), (1195, 580, 34)):
+        check_badge(d, cx, cy, r)
+    bg = K.place(bg, K.cutout(K.Q_AWE, 0, .5), -40, 760, bottom=TH + 30, rim=(255, 240, 200))
+    return K.words(bg, words, (560, 18, 1255, 250), align='right')
+
+
 def option2(words):
     """2 · The kid with his pad, all joy; the same field and castle, half 1998 pixels, half today."""
     hd = K.grade(K.cover(K.FIELD, focus=(.6, .45), zoom=1.25), sat=1.3, con=1.12)
@@ -89,6 +118,7 @@ def option2(words):
 
 
 SETS = {
+    '1b': (option1b, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)])]),
     '1': (option1, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)]),
                     ('NOT_YOU', [('NOT', WHITE, .7), ('YOU.', YELLOW, 1.0)]),
                     ('YOU_CHANGED', [('YOU', WHITE, .62), ('CHANGED', YELLOW, 1.0)])]),
