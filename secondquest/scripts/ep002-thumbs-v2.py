@@ -23,6 +23,8 @@ SWORD = ROOT / 'public/art/ep002/props3d/sword_spin/f000.png'                   
 Q_TODAY = ROOT / 'public/art/core/quest/gaming_excited.png'                   # today: red hoodie, pad in hand, facing us
 Q_YOUNG = ROOT / 'docs/art_orders/quest/ep002_costume/03b_young_front_smile.png'   # the child era (tunic)
 Q_ADULT = ROOT / 'docs/art_orders/quest/ep002_costume/01_tunic_veteran.png'        # the adult era (tunic)
+Q_KID_N64 = ROOT / 'docs/art_orders/quest/ep002_costume/06a_kid_playing_seated.png'   # red hoodie, N64 pad, joy, faces right
+QUEST_CROP, QUEST_X, QUEST_H, QUEST_RIM = .8, -55, 705, False                  # 1d framing (Producer: further left, hair vs sky)
 ROOM_TODAY = ROOT / 'docs/art_orders/ep002_final/15_adult_room_night.png'      # Quest's room today, night
 CRT = ROOT / 'public/art/ep002/props3d/crt_front.png'                          # our 3D CRT, screen keyed green
 
@@ -171,7 +173,8 @@ def option1d(words):
         bg = item_slot(bg, cx, 478)
         bg = K.prop(bg, src, cx, 478, w, ang=ang)
     bg = K.sparkles(bg, [(820, 405, 16), (1020, 550, 14), (1215, 405, 15), (670, 550, 12)])
-    bg = K.place(bg, _clean(K.cutout(Q_TODAY, 0, .56)), -10, 720, bottom=TH + 20, rim=(255, 240, 200))
+    q = _clean(K.cutout(Q_KID_N64, 0, QUEST_CROP))                               # the N64 pad, not a modern one (Producer)
+    bg = K.place(bg, q, QUEST_X, QUEST_H, bottom=TH + 10, rim=(255, 240, 200) if QUEST_RIM else None)
     return K.words(bg, words, (600, 20, 1255, 300), align='right')
 
 def option1e(words):
@@ -203,7 +206,9 @@ def option2(words):
 
 
 SETS = {
-    '1d': (option1d, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)])]),
+    '1d': (option1d, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)]),
+                      ('NOT_YOU', [('NOT', WHITE, .7), ('YOU.', YELLOW, 1.0)]),
+                      ('YOU_CHANGED', [('YOU', WHITE, .62), ('CHANGED', YELLOW, 1.0)])]),
     '1e': (option1e, [('EXCEPT_YOU', [('EXCEPT YOU', YELLOW, 1.0)])]),
     '1c': (option1c, [('EXCEPT_YOU', [('EXCEPT YOU', YELLOW, 1.0)])]),
     '1b': (option1b, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)])]),

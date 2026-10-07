@@ -602,3 +602,8 @@
   up. — You." (l07–l08), then the anchors (l03–l06), ends on "So, why?" (l10). Approved lines only, no new words.
 - 2026-10-07 · Thumbnails v2 (options 1 and 2, three Test & Compare variants each, existing art only) shown to the
   Producer: `docs/publish/EP002/thumbnails/v2/`.
+- 2026-10-07 · Packaging chosen: thumbnail **1d "EXCEPT YOU"** (Quest in the red hoodie with the N64 pad, face big on the
+  left looking at the remake's three anchors in game item slots) + title A *"Ocarina of Time Remake: The One Thing Nintendo
+  Can't Rebuild"*, title B *"You'll Never Play Ocarina of Time for the First Time Again"*. Test & Compare words: EXCEPT
+  YOU / NOT YOU. / YOU CHANGED. Producer: a modern (PlayStation-like) pad is wrong for this story, the pad is the N64's;
+  the main Quest stays in the red hoodie (he is "you", the player; the tunic belongs to what is rebuilt).
