@@ -134,11 +134,47 @@ Los tiempos vienen de las marcas palabra a palabra de la voz de Bram y cuadran c
 | Pantalla final | Suscribirse + vídeo recomendado (EP001), de **6:43 a 6:52**. Es el bloque U: el último plano está limpio y deja sitio |
 | Test & Compare | Títulos A/B y las 3 miniaturas, en cuanto esté disponible |
 
-## 8. Short tráiler S1
+## 8. Short tráiler S1 (aprobado, v11)
 
-Aprobado (2026-10-07):
-- Abre con *"But there is one thing Nintendo cannot rebuild from the ground up. — You."* (l07–l08).
-- Sigue con los objetos (l03–l06) y cierra con *"So, why?"* (l10).
-- Formato: 9:16. Tarjeta final "FULL EPISODE ON THE CHANNEL".
-- **Vídeo relacionado:** el episodio.
-- Va en su propio documento cuando esté montado: `docs/publish/EP002/short1/`.
+**Archivo:** `short1/EP002_short1_trailer_v11.mp4`. Formato vertical 1080x1920, 22,65 s, subtítulos en inglés grabados en la imagen.
+
+**Contenido, en orden:**
+1. "…cannot rebuild… You."
+2. "New graphics… the same ocarina, sword, Triforce."
+3. "…why we want to go back."
+4. En "back" entra el logo con la barra dorada; Navi vuela y entra en la estrella de la "o".
+5. "So, why?"
+6. Tarjeta "FULL EPISODE ON THE CHANNEL".
+
+El sonido del vuelo de Navi se mantiene (decisión del Productor del 2026-10-07).
+
+| Ajuste | Valor |
+|---|---|
+| Título | Nintendo can remake Ocarina of Time… except one thing |
+| Descripción | Ver abajo: una línea y los hashtags |
+| **Vídeo relacionado** | **El episodio EP002.** Es el ajuste más importante: el Short existe para llevar gente al episodio |
+| Audiencia | No es para niños |
+| Contenido alterado o sintético | No |
+| Subtítulos | Ya van grabados en inglés; no se sube ningún .srt |
+
+```
+Nintendo is rebuilding Ocarina of Time for Switch 2. But there is one thing it can't rebuild. Full episode on the channel.
+
+#OcarinaOfTime #ZeldaOcarinaOfTime #Zelda #SecondQuest
+```
+
+## 9. Orden para publicar
+
+1. **Episodio:**
+   - Súbelo en **Privado**.
+   - Pon el título A, la descripción (con la traducción al español), las etiquetas y la miniatura "EXCEPT YOU".
+   - Sube los subtítulos en inglés y en español.
+   - Ajustes: idioma inglés, categoría Gaming, no es para niños, "Uso de IA: No".
+   - Pantalla final de 6:43 a 6:52.
+2. Revísalo en privado: reprodúcelo entero en el móvil y comprueba los subtítulos y los capítulos.
+3. **Pásalo a Público.**
+4. Activa **Test & Compare** en cuanto esté disponible: los títulos A/B y las 3 miniaturas.
+5. **Short:**
+   - Súbelo después del episodio y pon el episodio como **vídeo relacionado**.
+   - Publícalo el mismo día o al día siguiente.
+6. **A las 24–48 h:** mándame las capturas de YouTube Studio (CTR, retención a los 30 s y fuentes de tráfico) para escribir las lecciones del EP002.
