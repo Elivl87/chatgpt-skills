@@ -11,6 +11,8 @@ from lib import S  # noqa: E402  (design px -> output px; layout drawn in 1280x7
 _INTER = str(__import__('pathlib').Path(__file__).resolve().parents[2] / 'public/shared/fonts/Inter-800.woff2')   # the channel's type
 FONT = ImageFont.truetype(_INTER, max(1, round(S(26))))
 INK = (20, 14, 18, 255)
+GLOSS_FIX = False                                                   # Producer 2026-10-07: pending approval
+RUPEE_FROM_BOTTOM = 132                                             # design px from the bottom edge to the rupee counter
 
 
 def _heart(d, cx, cy, s, fill, outline=INK, highlight=True):
@@ -62,8 +64,14 @@ def _buttons(lay, d, W, a_text='Attack'):
     ox = W - S(1280)                                                    # layout drawn for 1280 wide (design units)
     B, A_, CL, CD, CR = [(ox + S(x), S(y), S(r)) for x, y, r in ((905, 70, 32), (978, 84, 32), (1062, 60, 27), (1116, 104, 27), (1170, 60, 27))]
     def btn(c, fill):
-        x, y, r = c; d.ellipse((x - r, y - r, x + r, y + r), fill=fill, outline=INK, width=max(1, round(S(3))))
-        d.ellipse((x - r * .7, y - r * .8, x + r * .2, y - r * .3), fill=(255, 255, 255, 70))
+        x, y, r = c
+        if not GLOSS_FIX:                                               # v1: the gloss replaced the button's pixels (a see-through hole)
+            d.ellipse((x - r, y - r, x + r, y + r), fill=fill, outline=INK, width=max(1, round(S(3))))
+            d.ellipse((x - r * .7, y - r * .8, x + r * .2, y - r * .3), fill=(255, 255, 255, 70))
+            return
+        d.ellipse((x - r, y - r, x + r, y + r), fill=fill[:3] + (255,), outline=INK, width=max(1, round(S(3))))   # solid button
+        g = Image.new('RGBA', lay.size); ImageDraw.Draw(g).ellipse((x - r * .7, y - r * .8, x + r * .2, y - r * .3), fill=(255, 255, 255, 95))
+        lay.alpha_composite(g)                                          # the gloss blends ON the button: a shine, not a hole
     btn(B, (40, 150, 70, 235)); btn(A_, (50, 90, 200, 235))
     for c in (CL, CD, CR):
         btn(c, (230, 175, 40, 235))
@@ -120,7 +128,7 @@ def draw(frame, hearts=5.0, max_hearts=5, magic=1.0, rupees=None, alpha=1.0, W=N
         d.rounded_rectangle((x0 - s + S(3), by + S(3), x0 - s + S(3) + (bw - S(6)) * magic, by + S(10)), S(4), fill=(60, 205, 80, 255))
     if buttons:
         _buttons(lay, d, W, a_label(t) if t is not None else 'Attack')
-    rx, ry = S(52), H - S(132)                                               # rupees: bottom-left, above the subtitle zone and the plate label
+    rx, ry = S(52), H - S(RUPEE_FROM_BOTTOM)                                               # rupees: bottom-left, above the subtitle zone and the plate label
     if rupees is None:
         rupees = rupees_at(t) if t is not None else 23
     pop = 0.0
