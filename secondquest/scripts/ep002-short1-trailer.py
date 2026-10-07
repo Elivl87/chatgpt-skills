@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 SRC = ROOT / 'docs/ep002/EP002_animatic_full_v6_1440p.mp4'        # the approved final video (2560x1440, 24 fps)
 OUT = ROOT / 'docs/publish/EP002/short1'
-VERSION = 3
+VERSION = 4
 W, H, FPS = 1080, 1920, 24
 SW, SH = 2560, 1440
 CW = round(SH * W / H)                                             # 9:16 crop width in source px (810)
@@ -35,7 +35,9 @@ SEGMENTS = [(17.30, 21.75, .50),     # l07-l08 on the field, Quest from behind: 
             (12.95, 17.30, .50),     # l04-l06 the ocarina, the sword, the Triforce (lock-on)
             (21.75, 25.50, .50),     # l09 Quest sets off down the road: "…that might be exactly why we want to go back."
             (25.55, 27.05, .50)]     # l10 "So, why?" (audio; picture VIDEO_AT + our wordmark, as in the episode)
-VIDEO_AT = {4: 24.00}                 # l10's picture: the walk, under the wordmark (the episode's logo card is 16:9)
+VIDEO_AT = {3: 20.25, 4: 24.00}       # l09/l10 pictures: one continuous walk (l10 used to jump back 1.5 s: Quest seemed
+                                      # to walk backwards); l10 under the wordmark (the episode's logo card is 16:9)
+FROM_BLOCK_B = {0, 3, 4}              # field shots re-rendered from block B without its area card (Producer: no THE FIELD)
 FRAME_W = round(W * 1.6)              # framing B (Producer, 2026-10-07): the frame at 160 % width, 62 % of it visible
 FRAME_CY = 860                        # its centre; title band above, captions below, clear of the Shorts UI
 TITLE = ("THE ONE THING", "NINTENDO CAN'T REBUILD")   # the episode's title A as a fixed band (Producer approved)
@@ -137,6 +139,23 @@ def frames(a, b):
     p.stdout.close(); p.wait()
 
 
+_BLOCK_B = None
+
+
+def block_b_frames(a, b):
+    """The same frames as the video, rendered from block B's script at final quality, minus the THE FIELD card."""
+    global _BLOCK_B
+    if _BLOCK_B is None:
+        import importlib.util
+        os.environ['QUALITY'] = 'final'
+        sys.path.insert(0, str(ROOT / 'scripts/animatic'))
+        sp = importlib.util.spec_from_file_location('blockB', ROOT / 'scripts/ep002-blockB-animatic.py')
+        _BLOCK_B = importlib.util.module_from_spec(sp); sp.loader.exec_module(_BLOCK_B)
+    for n in range(round((b - a) * FPS)):
+        im = _BLOCK_B._render_shot(a + n / FPS).convert('RGB')
+        yield im if im.size == (SW, SH) else im.resize((SW, SH), Image.LANCZOS)
+
+
 def vertical(im, cx):
     """Framing B: the frame large (62 % of its width visible) on a blurred, darkened copy of itself; the fixed title
     band on top. cx: which part of the frame stays in view (fraction of its width)."""
@@ -174,7 +193,7 @@ def wordmark(fr, k):
     if k <= 0:
         return fr
     sc = .8 + .28 * min(1, k * 3) - .08 * max(0, min(1, k * 3 - 1))
-    ww = int(W * .78 * sc); wh = int(WORDMARK.height * ww / WORDMARK.width)
+    ww = int(W * .96 * sc); wh = int(WORDMARK.height * ww / WORDMARK.width)
     wm = WORDMARK.resize((ww, wh), Image.LANCZOS)
     out = fr.convert('RGBA'); out.alpha_composite(wm, ((W - ww) // 2, FRAME_CY - wh // 2 - 120))
     return out.convert('RGB')
@@ -210,7 +229,8 @@ def render_video(path):
     t, last, stills = 0.0, None, {}
     for (s0, s1, i, a), (_, b, cx) in zip(TL, SEGMENTS):
         va = VIDEO_AT.get(i, a)
-        for n, im in enumerate(frames(va, va + b - a)):
+        src = block_b_frames if i in FROM_BLOCK_B else frames
+        for n, im in enumerate(src(va, va + b - a)):
             te = a + n / FPS
             fr = vertical(im, cx)
             if i == len(SEGMENTS) - 1:
