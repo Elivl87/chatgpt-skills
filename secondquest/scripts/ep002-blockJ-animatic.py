@@ -228,6 +228,47 @@ def _place(g, im, cx, cy, ang=0.0, alpha=1.0):
     g.alpha_composite(im, (int(cx - im.width / 2), int(cy - im.height / 2)))
 
 
+SPIDER_LOOK = 'redeye'      # 'redeye' (mean red eyes) · 'cyclops' (homage to the game's giant one-eyed spider, our own drawing)
+
+
+def _spider_cyclops(t):
+    """Our homage to the classic one-eyed giant spider boss, drawn in the episode's toon style (no game asset): a dark
+    armoured carapace, one huge eye with an eyelid, a green iris and a red slit pupil, two horns, angular jointed legs
+    with teal-lit plates. The eye blinks now and then. Design 130 x 110."""
+    X = _X4; w, h = 130 * X, 110 * X
+    g = Image.new('RGBA', (w, h)); cx, cy = w / 2, 50 * X
+    legs = Image.new('RGBA', (w, h)); ld = ImageDraw.Draw(legs)
+    for side in (-1, 1):                                                # four angular legs a side, up then sharply down
+        for j in range(4):
+            wig = 3 * X * math.sin(t * 10 + j * 1.4 + side)
+            p0 = (cx + side * 20 * X, cy - 6 * X + j * 8 * X)
+            p1 = (cx + side * (40 + 4 * j) * X, cy - (26 - 6 * j) * X + wig * .5)
+            p2 = (cx + side * (56 + 3 * j) * X, cy + (24 + 10 * j) * X + wig)
+            ld.line([p0, p1, p2], fill=INK, width=9 * X, joint='curve')
+            ld.line([p0, p1, p2], fill=(70, 52, 40, 255), width=5 * X, joint='curve')
+            ld.ellipse((p1[0] - 4 * X, p1[1] - 4 * X, p1[0] + 4 * X, p1[1] + 4 * X), fill=(64, 196, 176, 255), outline=INK, width=X)   # teal knee plate
+    g.alpha_composite(legs)
+    m = Image.new('L', (w, h)); md = ImageDraw.Draw(m)
+    md.ellipse((cx - 30 * X, cy - 26 * X, cx + 30 * X, cy + 30 * X), fill=255)                      # carapace
+    ys = np.linspace(0, 1, h)[:, None, None]
+    grad = (np.array((92, 70, 52))[None, None] * (1 - ys) + np.array((40, 28, 22))[None, None] * ys).repeat(w, 1)
+    body = Image.fromarray(np.concatenate([grad, np.full((h, w, 1), 255)], 2).astype(np.uint8), 'RGBA')
+    g.alpha_composite(_ink_shape(m, body))
+    d = ImageDraw.Draw(g)
+    for hx in (-12, 12):                                                # two pink horns
+        d.polygon([(cx + (hx - 4) * X, cy - 20 * X), (cx + (hx + 4) * X, cy - 20 * X), (cx + (hx + hx / 4) * X, cy - 40 * X)], fill=(214, 120, 140, 255), outline=INK, width=X * 2)
+    blink = 1.0 - max(0.0, math.sin(t * 2.7) ** 40)                     # a slow blink now and then
+    ex, ey, er = cx, cy + 6 * X, 18 * X
+    d.ellipse((ex - er - 4 * X, ey - er - 4 * X, ex + er + 4 * X, ey + er + 4 * X), fill=(236, 200, 206, 255), outline=INK, width=X * 2)   # eyelid rim
+    d.ellipse((ex - er, ey - er * blink, ex + er, ey + er * blink), fill=(250, 196, 60, 255), outline=INK, width=X * 2)                      # eyeball
+    if blink > .2:
+        d.ellipse((ex - 9 * X, ey - 9 * X * blink, ex + 9 * X, ey + 9 * X * blink), fill=(70, 200, 70, 255), outline=INK, width=X)         # green iris
+        d.ellipse((ex - 2 * X, ey - 8 * X * blink, ex + 2 * X, ey + 8 * X * blink), fill=(210, 30, 30, 255))                               # red slit pupil
+        d.ellipse((ex + 5 * X, ey - 10 * X * blink, ex + 9 * X, ey - 6 * X * blink), fill=(255, 255, 255, 220))                           # glint
+    d.arc((ex - er - 4 * X, ey - er - 6 * X, ex + er + 4 * X, ey + 4 * X), 200, 340, fill=INK, width=4 * X)                                  # angry upper lid
+    return _sized(g, 130)
+
+
 SPIDER_MODE = 'web'         # 'thread' (v8: drops on its thread) · 'moustache' (a small one crawls on the moustache) · 'web' (in a cobweb)
 ICE_MODE = 'none'           # 'bag' (v8: pale-blue rubber bag) · 'plaid' (classic plaid cloth ice bag, silver cap) · 'towel' (wet towel)
 
@@ -355,7 +396,7 @@ def sick_fx(g, t, sick):
         wx, wy = W * .470, H * .335
         _cobweb(g, wx, wy, S(78) * ease(ks), a, t)
         d = ImageDraw.Draw(g)
-        sp = _spider(t); sp = sp.resize((int(sp.width * .75), int(sp.height * .75)), Image.LANCZOS)
+        sp = (_spider_cyclops if SPIDER_LOOK == 'cyclops' else _spider)(t); sp = sp.resize((int(sp.width * .75), int(sp.height * .75)), Image.LANCZOS)
         _place(g, sp, wx, wy + S(4) * math.sin(t * 3), 0, sick * ks)
     for j in range(2):                                                  # sweat drops at the temples
         dy = ((t * 1.5 + j / 2) % 1) * S(40)
