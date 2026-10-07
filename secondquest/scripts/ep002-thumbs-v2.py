@@ -132,6 +132,48 @@ def option1c(words):
     bg = K.place(bg, _clean(K.cutout(Q_TODAY, 0, .62)), 345, 460, rim=(255, 240, 200))            # today, centre, big
     return K.words(bg, words, (300, 6, 980, 130), align='center')
 
+def _rebuilt_bg():
+    bg = K.grade(K.cover(K.FIELD, focus=(.6, .42), zoom=1.15), sat=1.3, con=1.12)
+    return Image.blend(bg, Image.new('RGB', bg.size, (255, 170, 80)), .10)
+
+
+def _triforce():
+    tri = Image.new('RGBA', Image.open(K.TRI_PLATES[0]).size)
+    for p in K.TRI_PLATES:
+        tri.alpha_composite(Image.open(p).convert('RGBA'))
+    return tri
+
+
+def option1d(words):
+    """1d · Simplified (Producer, 2026-10-07: "arregla la miniatura, si está sobrecargada"): one subject. Quest today,
+    red hoodie, pad in hand, face big in the left third looking at us; on the right the remake's three anchors in a
+    row, each ticked as rebuilt. The words finish the list."""
+    bg = _rebuilt_bg()
+    row = [(K.OCARINA, 735, 470, 190, 18), (SWORD, 935, 455, 300, -35), (_triforce(), 1135, 470, 200, 0)]
+    for _, cx, cy, _, _ in row:
+        bg = K.glow(bg, cx, cy, 120, (255, 250, 220), .55)
+    for src, cx, cy, w, ang in row:
+        bg = K.prop(bg, src, cx, cy, w if src is not SWORD else 70, ang=ang)
+    d = ImageDraw.Draw(bg)
+    for cx, cy in ((800, 560), (1000, 575), (1200, 565)):
+        check_badge(d, cx, cy, 28)
+    bg = K.place(bg, _clean(K.cutout(Q_TODAY, 0, .56)), -10, 720, bottom=TH + 20, rim=(255, 240, 200))
+    return K.words(bg, words, (600, 20, 1255, 300), align='right')
+
+
+def option1e(words):
+    """1e · Simplified, the eras version: Quest today big in the centre; behind him, smaller, the child and the adult
+    Quest (the game's two eras), each ticked as rebuilt. No objects."""
+    bg = _rebuilt_bg()
+    bg = K.place(bg, _clean(K.cutout(Q_YOUNG)), 90, 420, bottom=TH - 40, shadow=False, rim=(255, 240, 200))
+    bg = K.place(bg, _clean(K.cutout(Q_ADULT, flip=True)), 1280 - 300, 560, bottom=TH - 10, shadow=False, rim=(255, 240, 200))
+    d = ImageDraw.Draw(bg)
+    for cx, cy in ((240, 330), (1150, 240)):
+        check_badge(d, cx, cy, 30)
+    bg = K.place(bg, _clean(K.cutout(Q_TODAY, 0, .56)), 330, 600, bottom=TH + 20, rim=(255, 240, 200))
+    return K.words(bg, words, (300, 8, 980, 130), align='center')
+
+
 def option2(words):
     """2 · The kid with his pad, all joy; the same field and castle, half 1998 pixels, half today."""
     hd = K.grade(K.cover(K.FIELD, focus=(.6, .45), zoom=1.25), sat=1.3, con=1.12)
@@ -148,6 +190,8 @@ def option2(words):
 
 
 SETS = {
+    '1d': (option1d, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)])]),
+    '1e': (option1e, [('EXCEPT_YOU', [('EXCEPT YOU', YELLOW, 1.0)])]),
     '1c': (option1c, [('EXCEPT_YOU', [('EXCEPT YOU', YELLOW, 1.0)])]),
     '1b': (option1b, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)])]),
     '1': (option1, [('EXCEPT_YOU', [('EXCEPT', WHITE, .62), ('YOU', YELLOW, 1.0)]),
