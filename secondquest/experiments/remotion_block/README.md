@@ -73,12 +73,45 @@ Los PNG originales no se tocan.
 ```bash
 ./prepare.sh                  # public/ (no está en git)
 node render.mjs stills 1.5,6.3   # fotogramas sueltos (a media escala) para revisar
-node render.mjs video         # out/remotion_block_1440p.mp4
+./render_chunks.sh            # out/remotion_block_1440p.mp4 (por tramos, con reintentos)
 ./compare.sh                  # out/comparison_3way.mp4: Python / HyperFrames / Remotion
 ```
+
+Las copias entregadas están en `renders/`.
 
 El render usa Chromium sin pantalla con WebGL por software (SwiftShader), sin GPU.
 
 ## Lo aprendido
 
-RENDER_NOTES
+**Calidad:** ver `renders/comparison_3way.mp4`:
+1. ACTUAL (Python v9);
+2. HyperFrames;
+3. Remotion;
+4. los tres lado a lado.
+
+Las partes 1 y 2 solo tienen la voz de Bram; la 3 y la 4, la mezcla completa de Remotion.
+
+**Render:**
+- 2560×1440, 357 fotogramas.
+- **~20 minutos** en este contenedor (4 núcleos, sin GPU), en 8 tramos de 2 s con 2 pestañas cada uno.
+- Con GPU real sería muchísimo más rápido.
+- Coste: **0 créditos**.
+
+**Problemas encontrados y cómo se resolvieron:**
+- **El arte trae un halo casi invisible.** El contorno de tinta lo convertía en manchas. Solución: limpieza del alfa al preparar las copias de render.
+- **El desenfoque de movimiento multiplica los efectos de GPU** (7 copias por fotograma) y pasaba el límite de contextos WebGL del navegador. Solución: en esos movimientos rápidos, contorno y sombra de los niños con CSS.
+- **El shader de `lightLeak` no compila** en SwiftShader con varias pestañas. Solución: fuga de luz dibujada con degradados.
+- **Con 4 pestañas, Chromium se cerró a mitad de render.** Solución: render por tramos con reintentos.
+- **Error mío:** `renderMedia` guarda con `outputLocation`, no con `output`. Los primeros renders no dejaban archivo.
+- **Subtítulos:** el espacio inicial de cada palabra se perdía. Solución: separación con margen.
+
+**Conclusión técnica:**
+- Todo lo que hace el animatic de Python se puede hacer en Remotion.
+- Además, Remotion añade cosas que Python no tiene hoy:
+  - desenfoque de movimiento real;
+  - shaders de GPU (CRT, gradación de luz, papel, grano);
+  - contorno de tinta automático;
+  - subtítulos palabra a palabra;
+  - mezcla de sonido.
+- Y los componentes quedan reutilizables.
+- El coste es el tiempo de render sin GPU y algunos límites del navegador (contextos WebGL), que hay que tener en cuenta al diseñar los planos.
