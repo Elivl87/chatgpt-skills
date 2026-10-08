@@ -70,8 +70,9 @@ The full rules are in `docs/THUMBNAIL_RULES.md`. In short:
 1. **Hook within the first seconds.** Most viewers drop off in the first minute (MrBeast). The question that opens the episode must appear right away.
 2. **The thumbnail's promise is paid off early** in the video.
 3. **Subtitles:**
-   - English verbatim from the script, plus Spanish, uploaded as .srt files with timings;
-   - auto-dubbing enabled.
+   - English verbatim from the script, plus Spanish, uploaded as .srt files with timings; never burned in;
+   - **Spanish audio:** our own Bram dub (`docs/PRODUCTION_PLAYBOOK.md` §5) uploaded as a dubbed track
+     (Idiomas → Español → Doblaje) when the Producer approves it; otherwise YouTube's auto-dubbing.
 4. **Leave room for the end screen** in the last 5–20 seconds.
 5. **Technical:** 1080p30 is the maximum output and music is off by default.
 
@@ -82,9 +83,10 @@ The full rules are in `docs/THUMBNAIL_RULES.md`. In short:
 - [ ] Title A (curiosity) set; title B (search) ready for Test & Compare.
 - [ ] Description with hook, chapters, CTA, footer and 3 hashtags.
 - [ ] English and Spanish subtitles uploaded.
+- [ ] Spanish dubbed audio track uploaded (if made), Spanish title and description added.
 - [ ] "Uso de IA" / altered content answered per section 9 (EP001: **No**, animated and non-realistic).
 - [ ] Audience: not made for kids.
-- [ ] End screen set: subscribe plus a recommended video.
+- [ ] End screen set: subscribe plus a recommended video (the previous episode), over the clean last seconds.
 - [ ] Only then: switch to **Public**, and start Test & Compare once advanced features are available.
 
 ## 8. After publishing

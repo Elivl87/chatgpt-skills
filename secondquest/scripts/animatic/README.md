@@ -91,6 +91,13 @@ Uso: `python3 scripts/ep002-blockH-animatic.py` (vídeo) o `python3 scripts/ep00
 3. **git**: commit y push a la rama.
 4. Se envía al Productor solo el clip del bloque, no el vídeo completo, hasta que el animatic esté terminado.
 
+## 5b. Render final (solo con aprobación del Productor)
+
+`bash scripts/ep002-render-final.sh`: todos los bloques en `QUALITY=final` (2560x1440), los ligeros de dos en dos y los
+pesados solos (si no, falta memoria), luego la unión y el Short. Es reanudable: `scripts/animatic/clip_ok.py` salta los
+clips ya completos, así que tras un corte basta con lanzarlo otra vez. Registro en `renders/logs/`. El vídeo se entrega
+por Release (`publish-file.yml`). Para otro episodio: copiar el script y cambiar JOIN, PAIRS, HEAVY y el Short.
+
 ## 6. Solo si hace falta arte nuevo
 
 1. Cotizar y pedir aprobación: `tools/credits/credits.py` (pasos `lint`, `quote`, `approve` con las palabras del

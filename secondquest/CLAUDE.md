@@ -1,6 +1,8 @@
 # SecondQuest: standing rules for Claude
 
 - **Respond to the Producer in Spanish.**
+- **Start of every episode (and whenever unsure how something is done):** read `docs/PRODUCTION_PLAYBOOK.md`, the
+  method and lessons of EP001-EP002. Apply what worked, improve it, never repeat a mistake it lists.
 - **Packaging and publishing** (thumbnails, titles, descriptions, tags, hook, subtitles, publishing checklist): follow `docs/PUBLISHING_STANDARD.md` and `docs/THUMBNAIL_RULES.md`. They are binding.
 - **Any image showing Quest:** follow `docs/QUEST_V1_PROMPT_SPEC.md` (identity block, references, QC). Report every defect; never present a failing image as acceptable.
 - **Any image showing Pixie** (Quest's friend, recurring character): follow `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.
@@ -46,3 +48,10 @@
 - **Asset fit before each episode (Producer rule):** before planning any NEW_ART, list the episode's needs per scene family in `docs/<ep>/asset_needs.json`.
   - Run `npm run assets:find -- --needs …` and look at the candidate sheets.
   - Judge each candidate against the scene's moment (era, time of day, mood), not just its first impression.
+- **Clean episode video (Producer rules, 2026-10-06):** no burned-in subtitles in the episode (EN and ES go as .srt),
+  no planning tags or guides in anything delivered; Shorts keep burned-in English captions.
+- **In the game world the HUD is on** (hearts, magic, rupees, buttons); off in real life and on era comparisons.
+- **Spanish dub (Producer, 2026-10-08):** Bram reads the approved ES-419 script; cut takes only inside real pauses,
+  never split a breath, never overlap, speed up only as a last resort (<= ~1.075, rubberband R3), no room-tone fills.
+  Method and reasons: `docs/PRODUCTION_PLAYBOOK.md` §5.
+- **Review by timestamp:** when the Producer flags an interval, fix only that interval and prove the rest is unchanged.
