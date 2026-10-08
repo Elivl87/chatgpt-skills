@@ -2,6 +2,15 @@
 
 **Estado:** experimento. No forma parte del motor y no ha entrado en ningún episodio. El Productor decide si se usa.
 
+## Opinión del Productor (2026-10-08)
+
+Le gustan tres cosas:
+- cómo sale el logo (la revelación de izquierda a derecha);
+- cómo brilla la estrella de la "o";
+- cómo se ilumina la palabra "Quest" (el destello).
+
+Pendiente de decidir: el sonido, y si se integra en el motor.
+
 ## Qué es
 
 El momento de identidad del canal, en el que el logo aparece en "why?", rehecho con [HyperFrames](https://github.com/heygen-com/hyperframes) (HeyGen, Apache-2.0).
