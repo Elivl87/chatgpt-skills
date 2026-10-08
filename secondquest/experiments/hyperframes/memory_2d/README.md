@@ -2,6 +2,10 @@
 
 **Estado:** experimento. No forma parte del motor y no ha entrado en ningún episodio. El Productor decide si se usa.
 
+## Opinión del Productor (2026-10-08)
+
+Le gustan **el reloj de paletas** ("Saturday", de 12:00 a 6:00 PM) y **la Polaroid** del final.
+
 ## La escena
 
 EP002, l12–l16 (Acto 1), del 34,32 s al 49,19 s del episodio (14,87 s):
