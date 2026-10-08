@@ -1,0 +1,11 @@
+{
+  "name": "secondquest-ident-so-why",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "./prepare.sh",
+    "check": "npx --yes hyperframes@0.8.141 check",
+    "snapshot": "npx --yes hyperframes@0.8.141 snapshot",
+    "render": "npx --yes hyperframes@0.8.141 render --format webm -o renders/ident_so_why.webm"
+  }
+}

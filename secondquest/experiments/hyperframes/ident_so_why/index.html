@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!-- SecondQuest "So, why?" identity beat, HyperFrames test #1 (experiment, not part of the engine).
+         t = 0 is the word "why?". Transparent background: render with --format webm/mov and lay it over the shot. -->
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: transparent; }
+      #root { position: relative; width: 100%; height: 100%; }
+
+      /* Same size and place as the engine's wordmark beat: 180 px tall @1080, centred, gold bar 520 x 8 below. */
+      #mark { position: absolute; left: 403.5px; top: 430px; width: 1113px; height: 180px; }
+      #word { position: absolute; inset: 0; width: 100%; height: 100%;
+              filter: drop-shadow(0 6px 0 rgba(22, 22, 31, 0.9)) drop-shadow(0 0 24px rgba(10, 8, 20, 0.55)); }
+      /* Light sweep, masked to the letters. */
+      #shine { position: absolute; inset: 0;
+               -webkit-mask: url(assets/secondquest_wordmark.png) center / 100% 100% no-repeat;
+               mask: url(assets/secondquest_wordmark.png) center / 100% 100% no-repeat;
+               background: linear-gradient(105deg, transparent 0%, transparent 40%, rgba(255, 255, 255, 0.85) 50%, transparent 60%, transparent 100%);
+               background-size: 300% 100%; background-position: 100% 0; mix-blend-mode: screen; opacity: 0; }
+      /* Leading edge of the reveal wipe. */
+      #edge { position: absolute; left: 0; top: -30px; width: 18px; height: 240px; margin-left: -9px; border-radius: 9px;
+              background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.95), rgba(140, 220, 255, 0.5) 45%, transparent 75%);
+              filter: blur(3px); opacity: 0; }
+      #bar { position: absolute; left: 50%; top: 628px; width: 520px; height: 8px; margin-left: -260px; border-radius: 4px;
+             background: #ffc83d; box-shadow: 0 3px 0 #16161f; }
+      /* Four-point star that lives in the "o" of Second (wordmark coords 31.5 % / 52 %). */
+      #star { position: absolute; left: calc(50% - 556px + 0.315 * 1113px); top: calc(430px + 0.52 * 180px);
+              width: 0; height: 0; }
+      #star svg { position: absolute; left: -60px; top: -60px; width: 120px; height: 120px; overflow: visible; }
+      #star .glow { position: absolute; left: -70px; top: -70px; width: 140px; height: 140px; border-radius: 50%;
+                    background: radial-gradient(circle, rgba(255, 244, 205, 0.75), rgba(255, 200, 61, 0.25) 35%, transparent 65%); }
+      .spark { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%;
+               background: #fffbe8; box-shadow: 0 0 12px 4px rgba(255, 200, 61, 0.95); opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.1" data-width="1920" data-height="1080" data-fps="24">
+      <div id="mark" class="clip" data-start="0" data-duration="3.1" data-track-index="0">
+        <img id="word" src="assets/secondquest_wordmark.png" alt="SecondQuest" />
+        <div id="shine"></div>
+        <div id="edge"></div>
+      </div>
+      <div id="bar" class="clip" data-start="0" data-duration="3.1" data-track-index="1"></div>
+      <div id="star" class="clip" data-start="0" data-duration="3.1" data-track-index="2">
+        <div class="glow"></div>
+        <svg viewBox="-60 -60 120 120">
+          <path d="M0,-58 C6,-14 14,-6 58,0 C14,6 6,14 0,58 C-6,14 -14,6 -58,0 C-14,-6 -6,-14 0,-58 Z" fill="#fff6d6" stroke="#ffc83d" stroke-width="3" />
+        </svg>
+        <div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div>
+        <div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div>
+      </div>
+      <audio id="sting" class="clip" src="assets/sting.wav" data-start="0" data-duration="2.97" data-track-index="3" data-volume="1"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const W = 1113;
+
+      // 1. Reveal wipe left -> right with a light edge, plus the engine's punch-in (scale 1.12 -> 1, small tilt).
+      tl.fromTo('#word', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.45, ease: 'power2.inOut' }, 0);
+      tl.fromTo('#mark', { scale: 1.12, rotation: -2.5 }, { scale: 1, rotation: 0, duration: 0.55, ease: 'back.out(1.7)' }, 0);
+      tl.fromTo('#edge', { x: 0 }, { x: W, duration: 0.45, ease: 'power2.inOut' }, 0);
+      tl.to('#edge', { opacity: 1, duration: 0.08 }, 0).to('#edge', { opacity: 0, duration: 0.15 }, 0.38);
+
+      // 2. Gold bar grows from the centre (as the engine's beat).
+      tl.fromTo('#bar', { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: 'power3.inOut' }, 0.3);
+
+      // 3. Light sweep across the letters.
+      tl.set('#shine', { opacity: 1 }, 0.55);
+      tl.fromTo('#shine', { backgroundPosition: '100% 0' }, { backgroundPosition: '0% 0', duration: 0.7, ease: 'power1.inOut' }, 0.55);
+      tl.set('#shine', { opacity: 0 }, 1.3);
+
+      // 4. The star in the "o" twinkles at 0.90 s (with the chime) and throws eight sparks.
+      tl.fromTo('#star svg', { scale: 0, rotation: -90, opacity: 0 }, { scale: 1.35, rotation: 0, opacity: 1, duration: 0.22, ease: 'power2.out' }, 0.9)
+        .to('#star svg', { scale: 0.3, duration: 0.5, ease: 'elastic.out(1, 0.45)' }, 1.12)
+        .to('#star svg', { opacity: 0, duration: 0.5, ease: 'power1.in' }, 1.7);
+      tl.fromTo('#star .glow', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'power2.out' }, 0.9)
+        .to('#star .glow', { scale: 0.4, opacity: 0, duration: 0.5, ease: 'power2.in' }, 1.1);
+      document.querySelectorAll('#star .spark').forEach((el, i) => {
+        const a = (i / 8) * Math.PI * 2 + Math.PI / 8, r = 95 + (i % 2) * 35;
+        tl.fromTo(el, { x: 0, y: 0, opacity: 0, scale: 1 },
+                      { x: Math.cos(a) * r, y: Math.sin(a) * r, opacity: 1, scale: 0.4, duration: 0.55, ease: 'power3.out' }, 0.95)
+          .to(el, { opacity: 0, duration: 0.25 }, 1.5);
+      });
+
+      // 5. Hold until the cut to Act 1 (3.1 s = "why?" -> l11 in EP002).
+      tl.to({}, { duration: 0.01 }, 3.09);
+
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
