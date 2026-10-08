@@ -39,8 +39,8 @@ export const Captions: React.FC<{ words: readonly W[]; hideAfter?: number }> = (
           const said = ms >= t.fromMs;
           return (
             <span key={i} style={{ font: '800 46px Inter, sans-serif', textTransform: 'uppercase', whiteSpace: 'pre',
-              color: active ? '#ffc83d' : said ? '#ffffff' : 'rgba(255,255,255,0.45)', display: 'inline-block', marginLeft: i ? '0.3em' : 0,
-              transform: `scale(${active ? 1.08 : 1})`, textShadow: `0 4px 0 ${INK}` }}>{text}</span>
+              color: active ? '#ffc83d' : said ? '#ffffff' : 'rgba(255,255,255,0.45)', display: 'inline-block', marginLeft: i ? '0.38em' : 0,
+              transform: `scale(${active ? 1.04 : 1})`, textShadow: `0 4px 0 ${INK}` }}>{text}</span>
           );
         })}
       </span>
