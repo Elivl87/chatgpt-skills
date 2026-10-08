@@ -10,6 +10,9 @@ Le gustan tres cosas:
 - cómo se ilumina la palabra "Quest" (el destello).
 
 Pendiente de decidir: el sonido, y si se integra en el motor.
+- **Sonido v1 (`prepare.sh`): no convenció al Productor.**
+- Alternativas generadas con `sting_variants.sh` (A "Mágico", B "Firma", C "Juego"): síntesis propia, gratis, todas con pico de -7 dBFS.
+- Están **en pausa**: el Productor pasó a la prueba #2 antes de escucharlas.
 
 ## Qué es
 
