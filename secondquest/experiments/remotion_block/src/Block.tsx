@@ -9,7 +9,7 @@
  * strokes, @remotion/captions for word-by-word captions, <Freeze> + spring physics for the photo, and a full sound mix
  * (Bram + engine synths + CC0 + own synths) with volume curves.
  */
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { AbsoluteFill, Audio, Easing, Freeze, Img, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { CameraMotionBlur } from '@remotion/motion-blur';
 import { evolvePath } from '@remotion/paths';
@@ -88,6 +88,10 @@ const TV: React.FC = () => {
   );
 };
 
+// While the motion blur draws the scene several times per frame, the GPU effects on the kids would multiply past the
+// browser's WebGL context limit; in those fast moves their outline and shadow are drawn with CSS instead (not visible at speed).
+const Lite = createContext(false);
+
 // ---------------------------------------------------------------- a character: approved cut-out + ink outline + contact shadow + breathing
 const Kid: React.FC<{ src: string; x: number; y: number; w: number; enterAt: number; from?: number; breathe?: number; exitAt?: number; hopAt?: number }> =
   ({ src, x, y, w, enterAt, from = -400, breathe = 1, exitAt, hopAt }) => {
@@ -98,11 +102,14 @@ const Kid: React.FC<{ src: string; x: number; y: number; w: number; enterAt: num
     const hop = hopAt === undefined ? 0 : Math.max(0, Math.sin(Math.min(1, Math.max(0, (f - hopAt) / 8)) * Math.PI)) * 18;
     const squash = hopAt === undefined ? 1 : 1 + 0.05 * Math.sin(Math.min(1, Math.max(0, (f - hopAt - 8) / 6)) * Math.PI);
     const br = 1 + 0.012 * breathe * Math.sin((f / fps) * 2 * Math.PI / 3.1);
+    const lite = useContext(Lite);
     if (f < enterAt - 1 || outO <= 0) return null;
     return (
       <div style={{ position: 'absolute', left: x, top: y, width: w, opacity: inS * outO, transformOrigin: '50% 100%',
         transform: `translateX(${(1 - inS) * from}px) translateY(${-hop}px) scale(${1 / squash}, ${br * squash})` }}>
-        <Img src={art(src)} style={{ width: '100%' }} effects={[...grade(f), outline({ width: 5, color: INK }), dropShadow({ radius: 26, offsetY: 16, opacity: 0.45 })]} />
+        {lite
+          ? <Img src={art(src)} style={{ width: '100%', filter: `drop-shadow(2px 0 0 ${INK}) drop-shadow(-2px 0 0 ${INK}) drop-shadow(0 2px 0 ${INK}) drop-shadow(0 -2px 0 ${INK}) drop-shadow(0 16px 14px rgba(0,0,0,0.45))` }} />
+          : <Img src={art(src)} style={{ width: '100%' }} effects={[...grade(f), outline({ width: 5, color: INK }), dropShadow({ radius: 26, offsetY: 16, opacity: 0.45 })]} />}
       </div>
     );
   };
@@ -200,7 +207,7 @@ export const Block: React.FC = () => {
   const f = useCurrentFrame();
   const blur = BLUR_WINDOWS.some(([a, b]) => f >= a && f <= b);
   const world = <Camera><Room /></Camera>;
-  const shot = blur ? <CameraMotionBlur samples={7} shutterAngle={200}>{world}</CameraMotionBlur> : world;
+  const shot = blur ? <Lite.Provider value><CameraMotionBlur samples={7} shutterAngle={200}>{world}</CameraMotionBlur></Lite.Provider> : world;
   const flash = interpolate(f, [SNAP - 1, SNAP, SNAP + 10], [0, 0.9, 0], clamp);
   const leak = interpolate(f, [F(1.0), F(1.5), F(2.4)], [0, 0.6, 0], clamp);
   const clockO = interpolate(f, [F(13.2), F(13.5)], [1, 0], clamp);
