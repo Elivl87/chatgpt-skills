@@ -34,12 +34,12 @@ export const Captions: React.FC<{ words: readonly W[]; hideAfter?: number }> = (
     <div style={{ position: 'absolute', left: 0, right: 0, bottom: 70, textAlign: 'center', transform: `translateY(${(1 - pin) * 24}px)`, opacity: pin }}>
       <span style={{ display: 'inline-block', padding: '14px 28px 16px', borderRadius: 18, background: 'rgba(14,16,32,0.72)', boxShadow: `0 6px 0 ${INK}` }}>
         {page.tokens.map((t, i) => {
-          const text = i === 0 ? t.text.trimStart() : t.text;
+          const text = t.text.trim();   // spacing is drawn as a margin (a leading space inside an inline-block got lost)
           const active = ms >= t.fromMs && ms < t.toMs + 60;
           const said = ms >= t.fromMs;
           return (
             <span key={i} style={{ font: '800 46px Inter, sans-serif', textTransform: 'uppercase', whiteSpace: 'pre',
-              color: active ? '#ffc83d' : said ? '#ffffff' : 'rgba(255,255,255,0.45)', display: 'inline-block',
+              color: active ? '#ffc83d' : said ? '#ffffff' : 'rgba(255,255,255,0.45)', display: 'inline-block', marginLeft: i ? '0.3em' : 0,
               transform: `scale(${active ? 1.08 : 1})`, textShadow: `0 4px 0 ${INK}` }}>{text}</span>
           );
         })}
