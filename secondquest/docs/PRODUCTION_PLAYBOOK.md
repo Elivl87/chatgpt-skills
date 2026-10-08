@@ -117,6 +117,10 @@ can decide early (longer pauses in the English edit, or accept leads) instead of
 - **File name** of the upload: descriptive (`<game>_<topic>_SecondQuest.mp4`); it is a weak signal, never harmful.
 - **Subtitles:** EN and ES .srt uploaded, never burned in the episode. Shorts: EN burned in.
 - **Spanish audio:** the Bram dub as a dubbed track (Idiomas → Español → Doblaje), plus the ES title/description.
+- **YouTube auto-dubbing** is on for the channel (EP001 got many languages). The dubs appear some time after
+  processing, not at upload. To drop one language (e.g. the automatic Spanish when ours is uploaded), unpublish or
+  delete only that row in Idiomas: never delete and re-upload the video (EP002 lesson: everything had to be set again
+  and the dubs took time to come back).
 - **End screen:** subscribe + the previous episode as the specific video, over the clean last ~5–10 s.
 - **Trailer Short:** hook line in the first second, approved lines only, Navi into the wordmark star, card FULL
   EPISODE ON THE CHANNEL, related video = the episode, uploaded after the episode.
