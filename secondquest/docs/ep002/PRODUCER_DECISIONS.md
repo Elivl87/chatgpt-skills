@@ -643,3 +643,7 @@
   60 ms) makes every pause sound alike. Q042 (0.3 credits): B06's last sentence re-recorded (B06r_l135_l136.mp3).
   QC: 1120/1121 words heard (the missing one is heard when that passage is checked alone), 0 overlaps, every join at
   <= -41 dBFS, no audible clicks.
+- 2026-10-08 · Spanish dub v3.1 (Producer: v3 "me encanta", only 0:58-1:05 not natural). Cause: l20/l21 ("…guardando
+  sensaciones… y absolutamente terrible…") is one breath in Bram's take and had been split with 1.26 s of silence put
+  inside it. Fix: l21 stays with l20 (ep002-es-lines.py KEEP_WITH_PREVIOUS), the pair is centred on both English lines;
+  only 56.8-64.0 s of the track changes (rest identical).

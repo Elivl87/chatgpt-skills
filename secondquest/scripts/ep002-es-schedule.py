@@ -65,6 +65,8 @@ def place(r):
     for i, s in enumerate(SEG):
         a = s['anchor']
         want = C[a]['start'] - LEAD - on(i, a)
+        if set(s['lines']) & L.KEEP_WITH_PREVIOUS:                  # one breath over several lines: centre it on them
+            want = sum(C[l]['start'] - on(i, l) for l in s['onsets']) / len(s['onsets']) - LEAD
         lo = max(C[a]['start'] - LEADMAX - on(i, a), 0.05)  # never before the episode starts
         x = max(prev + s['gmin'], lo, min(want, latest[i]))
         pushed.append(prev + s['gmin'] >= max(lo, min(want, latest[i])))   # placed right after the previous one

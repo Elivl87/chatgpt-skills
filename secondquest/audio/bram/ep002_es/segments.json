@@ -183,21 +183,12 @@
  {
   "take": "B02_l11_l31.mp3",
   "start": 26.44,
-  "end": 28.805,
-  "lines": [
-   "l20"
-  ],
-  "anchor": "l20",
-  "block": "B02"
- },
- {
-  "take": "B02_l11_l31.mp3",
-  "start": 28.805,
   "end": 32.29,
   "lines": [
+   "l20",
    "l21"
   ],
-  "anchor": "l21",
+  "anchor": "l20",
   "block": "B02"
  },
  {

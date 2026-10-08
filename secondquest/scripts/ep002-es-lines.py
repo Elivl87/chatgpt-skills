@@ -79,6 +79,10 @@ def first_word_times(take, lines):
     return first, words
 
 
+# lines Bram reads as one breath with the line before (no real pause): never split, or the intonation breaks
+# (Producer, 2026-10-08, 0:58-1:05: "sensaciones... y absolutamente terrible..." had a silence put inside it)
+KEEP_WITH_PREVIOUS = {'l21'}
+
 # approved retakes (take stem -> its lines), used in place of those lines of the block's take
 RETAKES = {'B06': ('B06r_l135_l136', ['l135', 'l136'])}       # Q042: the B06 take stopped on "reconoce."
 
@@ -106,6 +110,9 @@ def main():
         cuts = [(b['lines'][0], max(0.0, min(lead_in, first[b['lines'][0]] - .02)))]
         for lid in b['lines'][1:]:
             t = first.get(lid)
+            if lid in KEEP_WITH_PREVIOUS:
+                report.append(f'{lid}: kept with the previous line (one breath)')
+                continue
             # STT often stretches a short first word ("y") over the pause before it, so the pause may start just
             # after the word's STT start: accept pauses that begin up to .2 s after it, nearest one wins
             near = [p for p in ps if t is not None and p[1] >= t - SEARCH and p[0] <= t + .2]
