@@ -15,6 +15,12 @@ if (mode === 'stills') {
   const t0 = Date.now();
   await renderMedia({ ...opts, composition, codec: 'h264', crf: 17, scale: 4 / 3, output: 'out/bench.mp4', concurrency: 4, frameRange: [a, b] });
   console.log(`frames ${a}-${b}: ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+} else if (mode === 'chunk') {
+  // node render.mjs chunk <from> <to> <out.mp4>: silent video chunk (the whole video is rendered in chunks by render_chunks.sh)
+  const [a, b, out] = [Number(process.argv[3]), Number(process.argv[4]), process.argv[5]];
+  await renderMedia({ ...opts, composition, codec: 'h264', crf: 17, scale: 4 / 3, output: out, concurrency: Number(process.env.CONC ?? 2), frameRange: [a, b], muted: true });
+} else if (mode === 'audio') {
+  await renderMedia({ ...opts, composition, codec: 'wav', output: 'out/audio.wav' });
 } else {
   const t0 = Date.now();
   await renderMedia({ ...opts, composition, codec: 'h264', crf: 17, scale: 4 / 3, output: 'out/remotion_block_1440p.mp4', concurrency: 4,
