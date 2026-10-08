@@ -652,3 +652,6 @@
   0.12 s pieces, 40 ms equal-power joins, at the level of his gated natural pauses, -64 dBFS before the voice gain),
   fading in and out under the speech fades (ep002-es-audio.py ROOM_TONE). Only 63.38-65.48 s changed; the rest of
   the track is sample-identical to v3.1.
+- 2026-10-08 · Spanish dub: **v3.1 is final** (Producer: "No quedó bien. Nos quedamos con esta versión:
+  EP002_audio_espanol_v3_1"). v3.2's pause fill is switched off (ROOM_TONE empty); the rebuilt track is byte-identical
+  to v3.1 (sha256 9f2c633f…). Upload file: EP002_audio_espanol_v3_1.wav.

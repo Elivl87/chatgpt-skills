@@ -34,7 +34,7 @@ CUES = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
 FADE, DELTA = .04, .03                       # fade at a lengthened pause; distance kept from speech
 # lengthened pauses filled with Bram's own pause air instead of digital silence (Producer, 2026-10-08: after
 # "técnicas." at 1:03 "el corte se escucha sin sonido"): (last line before, first line after)
-ROOM_TONE = {('l21', 'l22')}
+ROOM_TONE = set()                            # v3.2 filled ('l21', 'l22'); Producer kept v3.1 (2026-10-08): "No quedó bien"
 AIR_DB = -64                                 # dBFS before the voice gain: the level of Bram's gated natural pauses
 GATE_DB, GATE_RANGE, LOOK, HOLD, ATT, REL = -40, -14, .03, .10, .005, .06
 U_TRAIL = {'src': 'public/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav', 'narr_at': CUES['l156']['words'][5]['start'] + .5, 'vol': .14}
