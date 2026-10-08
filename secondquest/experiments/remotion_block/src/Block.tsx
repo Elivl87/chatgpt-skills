@@ -21,7 +21,6 @@ import { outline } from '@remotion/effects/outline';
 import { dropShadow } from '@remotion/effects/drop-shadow';
 import { whiteBalance } from '@remotion/effects/white-balance';
 import { exposure } from '@remotion/effects/exposure';
-import { lightLeak } from '@remotion/effects/light-leak';
 import { noise } from '@remotion/effects/noise';
 import { vignette } from '@remotion/effects/vignette';
 import { WORDS } from './words';
@@ -215,7 +214,9 @@ export const Block: React.FC = () => {
         <div style={{ position: 'absolute', left: 70, top: 70, opacity: clockO }}><FlapClock label="SATURDAY" values={HOURS} startFrame={CLOCK_START} stepFrames={CLOCK_STEP} /></div>
       )}
       {/* light leak on the pull-out of the screen, film grain + vignette for the memory */}
-      {leak > 0 && <Img src={art('black.png')} style={{ position: 'absolute', inset: 0, width: 1920, height: 1080, mixBlendMode: 'screen', opacity: leak }} effects={[lightLeak({ progress: interpolate(f, [F(1.0), F(2.4)], [0, 1], clamp), seed: 4 })]} />}
+      {/* (the lightLeak shader failed to compile under SwiftShader with 4 render tabs; a drawn leak does the same job) */}
+      {leak > 0 && <div style={{ position: 'absolute', inset: 0, mixBlendMode: 'screen', opacity: leak,
+        background: `radial-gradient(ellipse 60% 80% at ${interpolate(f, [F(1.0), F(2.4)], [-10, 70], clamp)}% 35%, rgba(255,170,90,0.9), rgba(255,90,60,0.35) 40%, transparent 70%), radial-gradient(ellipse 40% 60% at ${interpolate(f, [F(1.0), F(2.4)], [110, 40], clamp)}% 75%, rgba(255,220,140,0.6), transparent 70%)` }} />}
       <Img src={art('black.png')} style={{ position: 'absolute', inset: 0, width: 1920, height: 1080, mixBlendMode: 'screen', opacity: interpolate(f, [F(8.3), F(10.3)], [0.05, 0.16], clamp) }}
         effects={[noise({ amount: 0.6, seed: f % 9 })]} />
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: interpolate(f, [F(8.3), F(10.3)], [0.15, 1], clamp),
