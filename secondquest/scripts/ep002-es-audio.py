@@ -32,6 +32,10 @@ M = json.loads((D / 'blocks_map.json').read_text())
 CART = json.loads((D / 'sfx_cart.json').read_text())
 CUES = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
 FADE, DELTA = .04, .03                       # fade at a lengthened pause; distance kept from speech
+# lengthened pauses filled with Bram's own pause air instead of digital silence (Producer, 2026-10-08: after
+# "técnicas." at 1:03 "el corte se escucha sin sonido"): (last line before, first line after)
+ROOM_TONE = {('l21', 'l22')}
+AIR_DB = -64                                 # dBFS before the voice gain: the level of Bram's gated natural pauses
 GATE_DB, GATE_RANGE, LOOK, HOLD, ATT, REL = -40, -14, .03, .10, .005, .06
 U_TRAIL = {'src': 'public/episodes/ep002/sfx/navi_original/NAVI_SFX_01.wav', 'narr_at': CUES['l156']['words'][5]['start'] + .5, 'vol': .14}
 
@@ -76,6 +80,29 @@ def ramp(n, up=True):
     """Equal-power fade curve of n samples."""
     c = np.sin(np.linspace(0, np.pi / 2, n, dtype=np.float32)) if n else np.zeros(0, np.float32)
     return c if up else c[::-1]
+
+
+def room_tone(take, n, seed=0):
+    """n samples of the take's own pause air: the steadiest 0.12 s pieces of its pauses (no speech, no loud breath),
+    joined end to end with 40 ms equal-power crossfades, at the level of those pauses."""
+    h = int(.005 * SR); k = len(take) // h
+    e = 10 * np.log10((take[:k * h].reshape(k, h) ** 2).mean(1) + 1e-14)
+    loud = np.percentile(e, 99)
+    w = int(.12 / .005)
+    cand = []
+    for i in range(0, k - w, 4):
+        q = e[i:i + w]
+        if q.max() < loud - 35 and q.min() > loud - 75:              # pause air: no speech, no breath, not dead
+            cand.append((float(q.std()), i * h))
+    cand.sort()
+    pieces = [take[i:i + w * h] for _, i in cand[:8]] or [np.zeros(w * h, np.float32)]
+    xf = int(.04 * SR); out = np.zeros(n + w * h, np.float32); pos, j = 0, seed
+    while pos < n:
+        p = pieces[j % len(pieces)].copy(); j += 1
+        if pos:
+            p[:xf] *= ramp(xf); out[pos:pos + xf] *= ramp(xf, False)
+        out[pos:pos + len(p)] += p; pos += len(p) - xf
+    return out[:n]
 
 
 def gate(x):
@@ -148,7 +175,7 @@ def main():
         lo = clips[i - 1]['ce'] + min(DELTA, c['x']['gmin'] / 2) if i else -1e9
         hi = clips[i + 1]['cs'] - min(DELTA, clips[i + 1]['x']['gmin'] / 2) if i + 1 < len(clips) else 1e9
         c['L'], c['R'] = max(c['at'], lo), min(c['at'] + len(c['clip']) / SR, hi)
-    es = np.zeros(n, np.float32)
+    es = np.zeros(n, np.float32); airs = []
     report, joins = [], {'exact': 0, 'crossfade': 0, 'pause': 0}
     for i, c in enumerate(clips):
         x = c['x']
@@ -176,10 +203,20 @@ def main():
             else:
                 seg[len(seg) - k:] *= ramp(k, False)
         add(es, seg, c['L'])
+        if i + 1 < len(clips) and (x['lines'][-1], clips[i + 1]['x']['lines'][0]) in ROOM_TONE:
+            t0, t1 = c['R'] - FADE, clips[i + 1]['L'] + FADE            # overlaps both fades: no dip, no dead air
+            k = int(round((t1 - t0) * SR)); f = int(FADE * SR)
+            air = room_tone(takes[x['take']], k, seed=i)
+            air *= 10 ** ((AIR_DB - 10 * np.log10(np.mean(air.astype(np.float64) ** 2) + 1e-14)) / 20)
+            air[:f] *= ramp(f); air[-f:] *= ramp(f, False)
+            airs.append((air, t0))
         report.append({'lines': x['lines'], 'at': round(c['cs'], 3), 'end': round(c['ce'], 3), 'L': round(c['L'], 3), 'R': round(c['R'], 3),
                        'edge_db': [round(v, 1) for v in edge], 'tempo': x['tempo'], 'lags': x['lags']})
     es, gated = gate(es)
-    gain = 10 ** ((rms_db(en) - rms_db(es)) / 20)                   # Spanish Bram at the English Bram's level
+    voice_level = rms_db(es)                                        # measured before the pause air goes in
+    for air, t0 in airs:                                            # after the gate: it is pause, at a pause's level
+        add(es, air, t0)
+    gain = 10 ** ((rms_db(en) - voice_level) / 20)                   # Spanish Bram at the English Bram's level
     es *= gain
     out = es + sfx; cart_fade(out)
     peak = float(np.max(np.abs(out)))

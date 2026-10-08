@@ -647,3 +647,8 @@
   sensaciones… y absolutamente terrible…") is one breath in Bram's take and had been split with 1.26 s of silence put
   inside it. Fix: l21 stays with l20 (ep002-es-lines.py KEEP_WITH_PREVIOUS), the pair is centred on both English lines;
   only 56.8-64.0 s of the track changes (rest identical).
+- 2026-10-08 · Spanish dub v3.2 (Producer: from 1:03 until Bram speaks again "el corte se escucha sin sonido"). The 2 s
+  pause after "técnicas." was digital silence. It is now filled with Bram's own pause air from the same take (steady
+  0.12 s pieces, 40 ms equal-power joins, at the level of his gated natural pauses, -64 dBFS before the voice gain),
+  fading in and out under the speech fades (ep002-es-audio.py ROOM_TONE). Only 63.38-65.48 s changed; the rest of
+  the track is sample-identical to v3.1.
