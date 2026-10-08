@@ -1,0 +1,29 @@
+{
+  "name": "secondquest-remotion-block-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.530",
+    "@remotion/captions": "4.0.530",
+    "@remotion/cli": "4.0.530",
+    "@remotion/effects": "4.0.530",
+    "@remotion/light-leaks": "4.0.530",
+    "@remotion/motion-blur": "4.0.530",
+    "@remotion/noise": "4.0.530",
+    "@remotion/paths": "4.0.530",
+    "@remotion/renderer": "4.0.530",
+    "@remotion/sfx": "4.0.530",
+    "@remotion/transitions": "4.0.530",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.530"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "typescript": "7.0.2"
+  }
+}
