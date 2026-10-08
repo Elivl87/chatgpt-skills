@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <!-- HyperFrames test #2 (experiment, not part of the engine): EP002 l04-l06, "The same ocarina. The same sword.
+         The same Triforce.", re-imagined as a live three.js scene. t = 0 is episode 13.32 s (block B 4.60 s), 4.04 s long. -->
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: 'Anton'; src: url(assets/fonts/Anton-Regular.woff2) format('woff2'); }
+      @font-face { font-family: 'Inter'; font-weight: 800; src: url(assets/fonts/Inter-800.woff2) format('woff2'); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #05060f; }
+      #root { position: relative; width: 100%; height: 100%; }
+      #sky { position: absolute; inset: 0;
+             background: radial-gradient(ellipse 60% 55% at 30% 40%, rgba(70, 60, 160, 0.35), transparent 70%),
+                         radial-gradient(ellipse 50% 45% at 78% 62%, rgba(30, 110, 170, 0.28), transparent 70%),
+                         linear-gradient(180deg, #070a1c 0%, #0b0e26 55%, #05060f 100%); }
+      #gl { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+      #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55)); }
+
+      /* On-screen text in the approved family A style: ink glass, double gold rule, corner diamonds. */
+      #panel { position: absolute; left: 50%; top: 838px; width: 560px; height: 150px; margin-left: -280px;
+               background: rgba(14, 16, 32, 0.78); border: 3px solid #ffc83d; border-radius: 14px;
+               box-shadow: inset 0 0 0 5px rgba(14, 16, 32, 0.78), inset 0 0 0 7px rgba(255, 200, 61, 0.55), 0 8px 0 #16161f;
+               text-align: center; opacity: 0; }
+      #panel::before, #panel::after { content: ''; position: absolute; top: 50%; width: 14px; height: 14px; margin-top: -7px;
+               background: #ffc83d; transform: rotate(45deg); box-shadow: 0 0 10px rgba(255, 200, 61, 0.8); }
+      #panel::before { left: -9px; } #panel::after { right: -9px; }
+      #same { position: absolute; left: 0; right: 0; top: 18px; font: 800 26px/1 Inter, sans-serif; letter-spacing: 0.32em; color: #cfd8ff; }
+      .name { position: absolute; left: 0; right: 0; top: 52px; font: 400 76px/1 Anton, sans-serif; letter-spacing: 0.04em;
+              color: #fff; text-shadow: 0 5px 0 #16161f, 0 0 24px rgba(255, 200, 61, 0.45); opacity: 0; }
+      #flash { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, #fffdf2 0%, #fff6d8 45%, #ffffff 100%); }
+      #burst { position: absolute; left: 50%; top: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%;
+               background: radial-gradient(circle, rgba(255, 246, 210, 0.95), rgba(255, 200, 61, 0.45) 30%, transparent 65%);
+               mix-blend-mode: screen; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4.04" data-width="1920" data-height="1080" data-fps="24">
+      <div id="sky" class="clip" data-start="0" data-duration="4.04" data-track-index="0"></div>
+      <canvas id="gl" class="clip" width="1920" height="1080" data-start="0" data-duration="4.04" data-track-index="1"></canvas>
+      <div id="vignette" class="clip" data-start="0" data-duration="4.04" data-track-index="2"></div>
+      <div id="burst" class="clip" data-start="0" data-duration="4.04" data-track-index="3"></div>
+      <div id="panel" class="clip" data-start="0" data-duration="4.04" data-track-index="4">
+        <div id="same">THE SAME</div>
+        <div class="name" id="n0">OCARINA</div>
+        <div class="name" id="n1">SWORD</div>
+        <div class="name" id="n2">TRIFORCE</div>
+      </div>
+      <div id="flash" class="clip" data-start="0" data-duration="4.04" data-track-index="5"></div>
+    </div>
+    <script src="vendor/anchors.bundle.js"></script>
+    <script>
+      const { state: S, draw, GAP, TRAIL } = window.SQ;
+      const tl = gsap.timeline({ paused: true });
+
+      // Cues (s from t = 0 = episode 13.32): "ocarina" 0.46 · "The same sword" 1.46 / "sword" 1.78 ·
+      // "The same Triforce" 2.58 / "Triforce" 2.96 · end of l06 3.56 · cut to Hyrule (l07) 4.04.
+
+      // In from the white of "A new camera." (block B ends that beat in white).
+      tl.fromTo('#flash', { opacity: 1 }, { opacity: 0, duration: 0.4, ease: 'power2.out' }, 0);
+
+      // --- camera: push on the ocarina, truck to the sword, truck to the Triforce, pull back to all three
+      tl.fromTo(S, { camX: -GAP - 60, camY: 40, camZ: 1000, lookX: -GAP, lookY: -40 }, { camX: -GAP, camY: 10, camZ: 860, duration: 1.3, ease: 'power2.out' }, 0);
+      tl.to(S, { camX: 0, lookX: 0, camZ: 850, duration: 0.45, ease: 'power3.inOut' }, 1.3);
+      tl.to(S, { camX: GAP, lookX: GAP, camZ: 840, duration: 0.45, ease: 'power3.inOut' }, 2.45);
+      tl.to(S, { camX: 0, lookX: 0, camY: 40, lookY: 0, camZ: 1350, duration: 0.75, ease: 'power2.inOut' }, 3.15);
+
+      // --- relics
+      tl.fromTo(S, { bob: 0 }, { bob: 1, duration: 0.6 }, 0.2);
+      tl.fromTo(S, { ocRot: -1.0 }, { ocRot: 0.35, duration: 1.5, ease: 'power2.out' }, 0);
+      tl.fromTo(S, { swRot: -1.1 }, { swRot: 0.25, duration: 1.4, ease: 'power2.out' }, 1.3);
+      tl.fromTo(S, { tfRot: -0.6 }, { tfRot: 0.0, duration: 1.0, ease: 'power2.out' }, 2.45);
+      tl.fromTo(S, { tfGather: 0 }, { tfGather: 1, duration: 0.5, ease: 'power3.in' }, 2.46);
+      tl.to(S, { ocRot: 0.6, swRot: 0.5, tfRot: 0.25, duration: 0.9, ease: 'sine.inOut' }, 3.15);
+      tl.fromTo(S, { glintY: -110, glintOn: 0 }, { glintY: 115, duration: 0.5, ease: 'power1.inOut' }, 1.8);
+      tl.to(S, { glintOn: 1, duration: 0.1 }, 1.8).to(S, { glintOn: 0, duration: 0.15 }, 2.15);
+
+      // --- slots light up on each word, all three stay lit on the wide shot
+      tl.fromTo(S, { glow0: 0 }, { glow0: 1, duration: 0.15 }, 0.44).to(S, { glow0: 0.45, duration: 0.6 }, 0.6);
+      tl.fromTo(S, { glow1: 0 }, { glow1: 1, duration: 0.15 }, 1.76).to(S, { glow1: 0.45, duration: 0.6 }, 1.92);
+      tl.fromTo(S, { glow2: 0 }, { glow2: 1.4, duration: 0.08 }, 2.94).to(S, { glow2: 0.6, duration: 0.6 }, 3.04);
+      tl.to(S, { glow0: 0.9, glow1: 0.9, glow2: 0.9, duration: 0.4 }, 3.4);
+      tl.fromTo('#burst', { opacity: 0, scale: 0.4 }, { opacity: 0.9, scale: 1, duration: 0.1, ease: 'power2.out' }, 2.96)
+        .to('#burst', { opacity: 0, duration: 0.45, ease: 'power2.in' }, 3.06);
+
+      // --- text panel: "THE SAME" + the relic's name on its word
+      tl.fromTo('#panel', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.25, ease: 'back.out(1.6)' }, 0.1);
+      [['#n0', 0.46, 1.45], ['#n1', 1.78, 2.57], ['#n2', 2.96, 3.5]].forEach(([id, on, off]) => {
+        tl.fromTo(id, { opacity: 0, scale: 1.35 }, { opacity: 1, scale: 1, duration: 0.18, ease: 'back.out(2)' }, on)
+          .to(id, { opacity: 0, y: -14, duration: 0.15, ease: 'power1.in' }, off);
+      });
+      tl.to('#panel', { opacity: 0, y: 24, duration: 0.25, ease: 'power1.in' }, 3.5);
+
+      // --- out: white bloom into the cut to Hyrule Field (l07)
+      tl.to('#flash', { opacity: 1, duration: 0.2, ease: 'power2.in' }, 3.84);
+
+      // --- the fairy has its own timeline so its trail can be sampled at earlier times (deterministic seeks)
+      const F = { x: -GAP + 170, y: 150, z: 140 };
+      const ftl = gsap.timeline({ paused: true });
+      ftl.to(F, { x: -GAP - 120, y: 60, z: 160, duration: 0.6, ease: 'sine.inOut' }, 0)
+         .to(F, { x: -GAP + 60, y: -110, z: 150, duration: 0.6, ease: 'sine.inOut' }, 0.6)
+         .to(F, { x: 120, y: 150, z: 150, duration: 0.5, ease: 'power2.inOut' }, 1.2)
+         .to(F, { x: -100, y: 30, z: 160, duration: 0.6, ease: 'sine.inOut' }, 1.7)
+         .to(F, { x: GAP - 140, y: 140, z: 160, duration: 0.55, ease: 'power2.inOut' }, 2.3)
+         .to(F, { x: GAP, y: 10, z: 170, duration: 0.25, ease: 'power2.in' }, 2.75)
+         .to(F, { x: 40, y: 230, z: 260, duration: 0.8, ease: 'power2.inOut' }, 3.1)
+         .to(F, { x: 0, y: 200, z: 300, duration: 0.14 }, 3.9);
+      const trail = (t) => {
+        const out = [];
+        for (let i = 0; i < TRAIL; i++) { ftl.seek(Math.max(0, t - i / 48), false); out.push({ x: F.x, y: F.y + Math.sin((t - i / 48) * 9) * 6, z: F.z }); }
+        ftl.seek(t, false);
+        return out;
+      };
+
+      tl.to({}, { duration: 0.01 }, 4.03);
+      tl.eventCallback('onUpdate', () => draw(tl.time(), trail(tl.time())));
+      window.__timelines = window.__timelines || {};
+      window.__timelines['main'] = tl;
+      tl.seek(0);
+      draw(0, trail(0));
+    </script>
+  </body>
+</html>

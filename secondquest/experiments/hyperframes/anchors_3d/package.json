@@ -1,0 +1,14 @@
+{
+  "name": "secondquest-anchors-3d",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "./build.sh",
+    "check": "npx --yes hyperframes@0.8.141 check",
+    "render": "npx --yes hyperframes@0.8.141 render --quality high -o renders/anchors_3d.mp4"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "three": "0.186.1"
+  }
+}
