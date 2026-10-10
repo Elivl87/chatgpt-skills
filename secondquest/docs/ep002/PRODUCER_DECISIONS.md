@@ -658,3 +658,6 @@
 - 2026-10-10 · **EP002 published (Public)** (Producer: "Ya publicamos EP002"), same hour as EP001. Card to EP001 at 5:10
   (teaser `Our first "why": Farming Sim`, message `Why do millions farm for fun?`), end screen with EP001. Next: trailer
   Short, Test & Compare, analytics at 24-48 h; EP001 relaunch (packaging test + Short) when EP002's impressions flatten.
+- 2026-10-10 · EP002 deliveries deleted (Producer: "Sí, bórralas"): the 10 `deliver-ep002-*` releases (videos v6-v8,
+  Spanish audio v1-v3.2, guide, publish pack), via publish-file.yml mode=delete (this session may not delete releases
+  directly). Kept: `archive-art-2026-10-10` (permanent art archive), the Short v12 and everything in git.
