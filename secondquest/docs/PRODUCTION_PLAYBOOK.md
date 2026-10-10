@@ -134,7 +134,7 @@ can decide early (longer pauses in the English edit, or accept leads) instead of
   download. Auto-deleted after 7 days. GitHub sometimes answers 500 on push: retry.
 - Keep repo-worthy tools in the repo (EP002's resumable render script lived only in a temp folder until the end:
   now `scripts/ep002-render-final.sh` + `scripts/animatic/clip_ok.py`).
-- Never delete art. Old block clips and old takes stay (`audio/bram/ep002_es/rejected/`).
+- Never delete art. At the end of each episode archive its new art as an `archive-art-<date>` Release (`docs/ART_ARCHIVE.md`). Old block clips and old takes stay (`audio/bram/ep002_es/rejected/`).
 - At the end of each episode, ask whether to delete its deliveries.
 
 ## 8. EP003 kickoff checklist

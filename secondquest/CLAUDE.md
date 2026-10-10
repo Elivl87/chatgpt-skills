@@ -25,8 +25,10 @@
   - Every block script is written in 1280x720 design units: on-screen measures go through `S()`/`Si()`, plate-pixel
     values through `P()`, fonts through `F()`. Check with `scripts/animatic/scale_check.py` before sending.
     Details: `scripts/animatic/README.md` ("Resolución y calidad").
-- **Art is never deleted (Producer rule, 2026-10-06):** no art of any episode is ever deleted, by hand or by any
-  cleanup, in the repo or anywhere else: it is the channel's whole history.
+- **Art is never deleted (Producer rule, 2026-10-06, restated 2026-10-10):** no art of any episode is ever deleted, by
+  hand or by any cleanup, in the repo or anywhere else: it is the channel's whole history and it is reused in the next
+  episodes. Art that is not in git (`public/art`, source packages) is kept as permanent `archive-*` Releases
+  (`docs/ART_ARCHIVE.md`); at the end of each episode its new art is archived the same way.
 - **Video deliveries (Producer rule, 2026-10-06):** files over 30 MB (the chat limit) go to the Producer as a draft GitHub
   Release through `.github/workflows/publish-file.yml` (parts on a temporary `deliver/<tag>` branch, tag `deliver-<name>`).
   `cleanup-deliveries.yml` deletes those deliveries 7 days after publishing; it touches nothing else. When an episode
