@@ -655,3 +655,6 @@
 - 2026-10-08 · Spanish dub: **v3.1 is final** (Producer: "No quedó bien. Nos quedamos con esta versión:
   EP002_audio_espanol_v3_1"). v3.2's pause fill is switched off (ROOM_TONE empty); the rebuilt track is byte-identical
   to v3.1 (sha256 9f2c633f…). Upload file: EP002_audio_espanol_v3_1.wav.
+- 2026-10-10 · **EP002 published (Public)** (Producer: "Ya publicamos EP002"), same hour as EP001. Card to EP001 at 5:10
+  (teaser `Our first "why": Farming Sim`, message `Why do millions farm for fun?`), end screen with EP001. Next: trailer
+  Short, Test & Compare, analytics at 24-48 h; EP001 relaunch (packaging test + Short) when EP002's impressions flatten.
