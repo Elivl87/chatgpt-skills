@@ -661,3 +661,8 @@
 - 2026-10-10 · EP002 deliveries deleted (Producer: "Sí, bórralas"): the 10 `deliver-ep002-*` releases (videos v6-v8,
   Spanish audio v1-v3.2, guide, publish pack), via publish-file.yml mode=delete (this session may not delete releases
   directly). Kept: `archive-art-2026-10-10` (permanent art archive), the Short v12 and everything in git.
+- 2026-10-10 · **Autonomous production mode** (Producer: "que hagas absolutamente todo, y que al final solo yo deba
+  autorizar si gastar o no créditos (tú siempre debes llevar el saldo disponible)"): from EP003 Claude chooses the game,
+  writes the script (EN + ES-419), packaging, placeholder narration, animatic, QC, MISSING list; the only gate is the
+  credit quote, with the balance in every report. Skill `.claude/skills/secondquest-episode/SKILL.md`; CLAUDE.md
+  updated. Analytics routine: check-in 2026-10-12 19:31 UTC (trig_01S1gda9B2gF9u56Py2nv3Z9) for EP002's 48 h numbers.

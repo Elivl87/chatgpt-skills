@@ -1,6 +1,12 @@
 # SecondQuest: standing rules for Claude
 
 - **Respond to the Producer in Spanish.**
+- **Autonomous production mode (Producer, 2026-10-10):** Claude makes the whole episode, from choosing the game and
+  writing the script to the final render and the publish package (`/.claude/skills/secondquest-episode/SKILL.md`).
+  The Producer's only gate is **spending credits**, and every report shows the available balance. Free work does not
+  wait for approval; Claude reports at each milestone and the Producer can stop or redirect at any time. Where an
+  older rule below asks for the Producer's approval for free work (block previews, final render), it now means
+  "report it"; the credit rule and the art/EP001 rules are unchanged.
 - **Start of every episode (and whenever unsure how something is done):** read `docs/PRODUCTION_PLAYBOOK.md`, the
   method and lessons of EP001-EP002. Apply what worked, improve it, never repeat a mistake it lists.
 - **Packaging and publishing** (thumbnails, titles, descriptions, tags, hook, subtitles, publishing checklist): follow `docs/PUBLISHING_STANDARD.md` and `docs/THUMBNAIL_RULES.md`. They are binding.
@@ -42,7 +48,8 @@
 - **Always improve (Producer rule):** blocking a defect is not enough.
   - Before executing any stage, and in every report, recommend concrete improvements: what could be better, how, and what it costs.
   - The Producer decides which improvements go in.
-- **Scripts are never edited by Claude (Producer rule):** the approved script is used verbatim.
+- **Scripts are never edited by Claude (Producer rule):** the approved script is used verbatim. In autonomous mode
+  Claude writes the script; once it is locked (before Bram records it) it is used verbatim like any approved script.
   - Any check on a script (originality, structure, length) only reports to the Producer; it never rewrites.
 - **EP001 is published and final (Producer rule):** never re-render, regenerate or publish another version of it. EP001 is only research and test material for the engine.
 - **Generated art is not modified (Producer rule):** improve the engine, never edit approved art.
