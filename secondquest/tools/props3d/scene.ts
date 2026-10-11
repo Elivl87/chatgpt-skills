@@ -2111,31 +2111,34 @@ const fpHands = () => {
     for (const dz of [-2.4, 0, 2.4]) {                                        // stitch lines on the back of the hand
       const st = tube([V(RG + 4.95, 3.6, dz), V(RG + 5.0, .8, dz), V(RG + 4.95, -2.0, dz)], .2, toon('#b9ab8e'), base, 8, 6); h.add(st);
     }
-    // wrist, flared cuff, ribbed hoodie cuff and sleeve, towards the viewer and down-right
-    const wd = V(.55, -.45, .7).normalize(), w0 = V(RG + 3.4, -.6, 3.2);
-    const seg = (pts: [number, number][], hex: string | THREE.Material, part: number, ribs = 0) => {
-      const geo = new THREE.LatheGeometry(pts.map(([r, t]) => new THREE.Vector2(r, t)), 40);
-      if (ribs) { const dk = new THREE.Color(hex as string).multiplyScalar(.78), lt = new THREE.Color(hex as string); vcol(geo, (x, _y, z) => (Math.floor((Math.atan2(z, x) / TAU + .5) * ribs) % 2 ? dk : lt)); }
-      const m = mesh(geo, ribs ? vtoon() : typeof hex === 'string' ? toon(hex) : hex, part);
-      m.quaternion.setFromUnitVectors(V(0, 1, 0), wd); m.position.copy(w0); return m;
-    };
-    h.add(seg([[0, -1], [3.2, -1], [3.5, 2], [4.6, 5.4], [4.8, 6.6], [0, 6.6]], '#e9dcc0', base + 3));
-    h.add(seg([[0, 5.8], [4.8, 5.8], [5.0, 6.8], [5.0, 11], [4.8, 12], [0, 12]], '#a8282e', base + 4, 48));
-    const sl = seg([[0, 11.5], [5.2, 11.5], [5.8, 16], [6.2, 30], [6.0, 60], [0, 60]], vtoon(), base + 5);
-    vcol(sl.geometry, (_x, y) => new THREE.Color('#c8323a').multiplyScalar(.85 + .15 * Math.sin(y * .25) * (y > 14 ? 1 : 0)));
-    h.add(sl);
     return h;
   };
-  const d = V(-.14, .22, -1).normalize(), P0 = V(9, -17, -42);
-  const place = (h: THREE.Group, pos: THREE.Vector3, roll: number, mirror: boolean) => {
+  // wrist, flared cuff, ribbed hoodie cuff and sleeve: built in world space from the wrist point towards the frame edge
+  const sleeve = (w: THREE.Vector3, wd: THREE.Vector3, base: number) => {
+    const seg = (pts: [number, number][], hex: string, part: number, ribs = 0) => {
+      const geo = new THREE.LatheGeometry(pts.map(([r, t]) => new THREE.Vector2(r, t)), 40);
+      const lt = new THREE.Color(hex), dk = lt.clone().multiplyScalar(.78);
+      vcol(geo, (x, y, z) => (ribs ? (Math.floor((Math.atan2(z, x) / TAU + .5) * ribs) % 2 ? dk : lt) : lt.clone().multiplyScalar(.86 + .14 * sstep(10, 0, y) + (y > 14 ? .06 * Math.sin(y * .22) : 0))));
+      const m = mesh(geo, vtoon(), part);
+      m.quaternion.setFromUnitVectors(V(0, 1, 0), wd); m.position.copy(w); root.add(m);
+    };
+    seg([[0, -2.5], [3.0, -2.5], [3.3, 1], [4.4, 4.6], [4.6, 5.8], [0, 5.8]], '#e9dcc0', base + 3);
+    seg([[0, 5.0], [4.7, 5.0], [4.95, 6], [4.95, 10.4], [4.75, 11.4], [0, 11.4]], '#a8282e', base + 4, 48);
+    seg([[0, 11], [5.1, 11], [5.8, 15], [6.4, 30], [6.6, 70], [0, 70]], '#c8323a', base + 5);
+  };
+  const d = V(-.14, .22, -1).normalize(), P0 = V(10, -15.5, -40);
+  const place = (h: THREE.Group, pos: THREE.Vector3, roll: number, mirror: boolean, wd: THREE.Vector3, base: number) => {
     const zl = d.clone().negate(), xl = V(0, 1, 0).cross(zl).normalize(), yl = zl.clone().cross(xl);
     const holder = new THREE.Group(); holder.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xl, yl, zl)); holder.position.copy(pos);
     const inner = new THREE.Group(); inner.rotation.z = roll; if (mirror) inner.scale.x = -1;
-    inner.add(h); holder.add(inner); root.add(holder); return holder;
+    inner.add(h); holder.add(inner); root.add(holder);
+    holder.updateMatrixWorld(true);
+    sleeve(inner.localToWorld(V(2.2 + 2.6, -.4, 4.4)), wd.clone().normalize(), base);
+    return holder;
   };
   const rolls = ((P as unknown as { handRoll?: number[] }).handRoll) ?? [.25, -.55];
-  handGroups.right = place(hand(2030), P0, rolls[0], false);
-  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(22)), rolls[1], true);
+  handGroups.right = place(hand(2030), P0, rolls[0], false, V(.7, -.75, .9), 2030);
+  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(26)), rolls[1], true, V(-.35, -.8, .85), 2040);
   return root;
 };
 
