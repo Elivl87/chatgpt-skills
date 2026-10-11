@@ -1,0 +1,200 @@
+<title>Sala de Agentes SecondQuest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: a pixel-art studio floor — one desk per agent, a status strip on top, a log below. */
+:root {
+  --bg: #efe9dc; --floor: #e2d8c3; --panel: #fbf7ee; --ink: #23202b; --muted: #6c6578;
+  --line: #cbbfa6; --gold: #e0a92b; --red: #d6392f; --teal: #167880; --violet: #7860be;
+  --ok: #2f8a4c; --warn: #c27a12; --bad: #c0392b;
+  --f-pixel: "Silkscreen", "Courier New", monospace;
+  --f-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #17151f; --floor: #201d2b; --panel: #262234; --ink: #f2ecdf; --muted: #a59db5;
+  --line: #3a3550; --gold: #f2c14e; --red: #ff6b5e; --teal: #3fb3bb; --violet: #a993ec;
+  --ok: #5fcf83; --warn: #f0a742; --bad: #ff6b5e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #17151f; --floor: #201d2b; --panel: #262234; --ink: #f2ecdf; --muted: #a59db5;
+  --line: #3a3550; --gold: #f2c14e; --red: #ff6b5e; --teal: #3fb3bb; --violet: #a993ec;
+  --ok: #5fcf83; --warn: #f0a742; --bad: #ff6b5e; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; gap: 18px; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px; }
+h1 { font-family: var(--f-pixel); font-weight: 700; font-size: clamp(22px, 4vw, 34px); margin: 0; letter-spacing: .02em; text-wrap: balance; }
+.sub { color: var(--muted); margin: 4px 0 0; }
+.live { font-family: var(--f-pixel); font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.dot { width: 9px; height: 9px; background: var(--muted); }
+.dot.on { background: var(--ok); animation: blink 1.6s steps(2) infinite; }
+.strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--f-pixel); font-size: 12px; padding: 6px 10px; border: 2px solid var(--line); background: var(--panel); display: flex; gap: 8px; align-items: center; }
+.chip b { font-size: 15px; font-variant-numeric: tabular-nums; }
+.goal { background: var(--panel); border: 2px solid var(--line); padding: 12px 14px; display: grid; gap: 8px; }
+.goal .row { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-family: var(--f-pixel); font-size: 12px; color: var(--muted); }
+.goal .t { font-weight: 700; color: var(--ink); font-family: var(--f-body); font-size: 16px; min-width: 0; }
+.bar { height: 14px; background: var(--floor); border: 2px solid var(--line); position: relative; }
+.bar i { position: absolute; inset: 0 auto 0 0; background: repeating-linear-gradient(90deg, var(--gold) 0 8px, color-mix(in srgb, var(--gold) 80%, var(--ink)) 8px 10px); }
+.floor { background: var(--floor); border: 2px solid var(--line); padding: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+.desk { background: var(--panel); border: 2px solid var(--line); display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.desk[data-s="working"] { border-color: var(--gold); }
+.desk[data-s="stuck"] { border-color: var(--bad); }
+.scene { display: block; width: 100%; height: auto; image-rendering: pixelated; aspect-ratio: 16 / 9; background: var(--floor); border-bottom: 2px solid var(--line); }
+.info { padding: 10px 12px 12px; display: grid; gap: 6px; min-width: 0; }
+.name { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.name strong { font-family: var(--f-pixel); font-size: 14px; }
+.badge { font-family: var(--f-pixel); font-size: 11px; padding: 2px 7px; border: 2px solid currentColor; white-space: nowrap; }
+.badge.working { color: var(--warn); } .badge.done { color: var(--ok); } .badge.waiting { color: var(--muted); } .badge.stuck { color: var(--bad); }
+.role { color: var(--muted); font-size: 13px; }
+.task { margin: 0; line-height: 1.4; overflow-wrap: anywhere; }
+.meta { display: flex; justify-content: space-between; font-family: var(--f-pixel); font-size: 11px; color: var(--muted); gap: 8px; }
+.mini { height: 8px; background: var(--floor); border: 2px solid var(--line); position: relative; }
+.mini i { position: absolute; inset: 0 auto 0 0; background: var(--teal); }
+.empty { grid-column: 1 / -1; text-align: center; padding: 40px 10px; color: var(--muted); }
+.empty p { font-family: var(--f-pixel); margin: 0 0 6px; color: var(--ink); }
+.log { background: var(--panel); border: 2px solid var(--line); padding: 12px 14px; }
+.log h2 { font-family: var(--f-pixel); font-size: 14px; margin: 0 0 8px; }
+.log ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.log li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; }
+.log time { font-family: var(--f-pixel); font-size: 11px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+@keyframes blink { 50% { opacity: .25 } }
+@media (prefers-reduced-motion: reduce) { .dot.on { animation: none } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Sala de Agentes</h1>
+      <p class="sub">Qué está haciendo cada agente de SecondQuest, en vivo.</p>
+    </div>
+    <div class="live"><span class="dot" id="dot"></span><span id="liveTxt">conectando…</span></div>
+  </header>
+
+  <section class="goal" id="goal" hidden>
+    <div class="row"><span id="goalEp">EP</span><span id="goalUpd"></span></div>
+    <div class="t" id="goalTxt"></div>
+    <div class="bar"><i id="goalBar" style="width:0%"></i></div>
+  </section>
+
+  <div class="strip" id="strip">
+    <span class="chip">trabajando <b id="nW">0</b></span>
+    <span class="chip">listos <b id="nD">0</b></span>
+    <span class="chip">en espera <b id="nWa">0</b></span>
+    <span class="chip">trabados <b id="nS">0</b></span>
+  </div>
+
+  <section class="floor" id="floor" aria-live="polite">
+    <div class="empty" id="empty"><p>La sala está vacía</p>Claude agrega aquí cada agente cuando lo pone a trabajar.</div>
+  </section>
+
+  <section class="log" id="logBox" hidden>
+    <h2>Bitácora</h2>
+    <ol id="log"></ol>
+  </section>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const LABEL = { working: "trabajando", done: "listo", waiting: "en espera", stuck: "trabado" };
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let agents = [];
+
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  function hash(s) { let h = 7; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
+  const HOODIES = ["#d6392f", "#167880", "#7860be", "#d69628", "#2f8a4c", "#3a6fd0", "#c04a8a"];
+  const SKIN = ["#f1c7a0", "#d9a07a", "#a8714e", "#7b4f34"];
+  const HAIR = ["#2b1d14", "#5a3a22", "#1d1d24", "#8a5a2b", "#c9a15a"];
+
+  // one 64x36 pixel scene per desk: the agent at a desk with a monitor; typing when working
+  function draw(cv, a, frame) {
+    const g = cv.getContext("2d"), W = 64, H = 36, s = hash(a.id);
+    const px = (x, y, w, h, c) => { g.fillStyle = c; g.fillRect(x, y, w, h); };
+    g.clearRect(0, 0, W, H);
+    px(0, 0, W, 24, css("--floor")); px(0, 24, W, 12, css("--line"));
+    for (let x = 0; x < W; x += 8) px(x, 24, 1, 12, css("--floor"));
+    const hood = HOODIES[s % HOODIES.length], skin = SKIN[(s >> 3) % SKIN.length], hair = HAIR[(s >> 5) % HAIR.length];
+    const st = a.status || "waiting";
+    // desk + monitor
+    px(30, 20, 30, 3, "#8a5a2b"); px(32, 23, 2, 9, "#6b4420"); px(56, 23, 2, 9, "#6b4420");
+    px(38, 8, 18, 11, css("--ink")); px(46, 19, 2, 2, css("--ink"));
+    const scr = st === "working" ? css("--gold") : st === "done" ? css("--ok") : st === "stuck" ? css("--bad") : css("--muted");
+    px(39, 9, 16, 9, scr);
+    if (st === "working") { for (let i = 0; i < 3; i++) px(40, 10 + i * 3, 4 + ((frame + i * 5 + s) % 10), 1, css("--ink")); }
+    if (st === "done") { px(43, 14, 2, 2, css("--panel")); px(45, 15, 2, 2, css("--panel")); px(47, 13, 2, 2, css("--panel")); px(49, 11, 2, 2, css("--panel")); }
+    if (st === "stuck") { px(46, 10, 2, 5, css("--panel")); px(46, 16, 2, 1, css("--panel")); }
+    // chair + agent
+    px(14, 22, 12, 3, "#4a4458"); px(19, 25, 2, 7, "#4a4458");
+    const bob = st === "working" && !reduce ? (frame % 2) : 0;
+    px(15, 13 + bob, 10, 10, hood);                       // body
+    px(16, 5 + bob, 8, 8, skin);                          // head
+    px(16, 4 + bob, 8, 3, hair); px(15, 5 + bob, 2, 4, hair);
+    px(21, 8 + bob, 1, 1, css("--ink"));                  // eye looking at the screen
+    const arm = st === "working" && !reduce ? (frame % 2 ? 0 : 1) : 0;
+    px(24, 16 + bob, 8, 3, hood); px(31, 17 + arm + bob, 3, 2, skin);
+    if (st === "waiting") { px(26, 2, 2, 2, css("--muted")); px(29, 0, 3, 3, css("--muted")); }
+    if (st === "stuck") { px(26, 1, 2, 4, css("--bad")); px(26, 6, 2, 1, css("--bad")); }
+  }
+
+  function ago(iso) {
+    if (!iso) return "";
+    const d = (Date.now() - new Date(iso).getTime()) / 1000;
+    if (!isFinite(d)) return "";
+    if (d < 60) return "hace segundos";
+    if (d < 3600) return "hace " + Math.round(d / 60) + " min";
+    if (d < 86400) return "hace " + Math.round(d / 3600) + " h";
+    return new Date(iso).toLocaleDateString();
+  }
+
+  function render() {
+    const floor = $("floor");
+    [...floor.querySelectorAll(".desk")].forEach((n) => n.remove());
+    $("empty").hidden = agents.length > 0;
+    const count = { working: 0, done: 0, waiting: 0, stuck: 0 };
+    const sorted = [...agents].sort((a, b) => ({ stuck: 0, working: 1, waiting: 2, done: 3 }[a.status] ?? 2) - ({ stuck: 0, working: 1, waiting: 2, done: 3 }[b.status] ?? 2) || (a.order ?? 99) - (b.order ?? 99));
+    for (const a of sorted) {
+      const st = LABEL[a.status] ? a.status : "waiting"; count[st]++;
+      const el = document.createElement("article"); el.className = "desk"; el.dataset.s = st;
+      const cv = document.createElement("canvas"); cv.className = "scene"; cv.width = 64; cv.height = 36; cv.setAttribute("role", "img");
+      cv.setAttribute("aria-label", (a.name || a.id) + ", " + LABEL[st]);
+      const info = document.createElement("div"); info.className = "info";
+      const nm = document.createElement("div"); nm.className = "name";
+      const strong = document.createElement("strong"); strong.textContent = a.name || a.id;
+      const badge = document.createElement("span"); badge.className = "badge " + st; badge.textContent = LABEL[st];
+      nm.append(strong, badge);
+      const role = document.createElement("div"); role.className = "role"; role.textContent = a.role || "";
+      const task = document.createElement("p"); task.className = "task"; task.textContent = a.task || "";
+      const mini = document.createElement("div"); mini.className = "mini"; const mi = document.createElement("i");
+      mi.style.width = Math.max(0, Math.min(100, Number(a.progress) || (st === "done" ? 100 : 0))) + "%"; mini.append(mi);
+      const meta = document.createElement("div"); meta.className = "meta";
+      const pct = document.createElement("span"); pct.textContent = (Number(a.progress) || (st === "done" ? 100 : 0)) + "%";
+      const upd = document.createElement("span"); upd.textContent = ago(a.updated); meta.append(pct, upd);
+      info.append(nm, role, task, mini, meta); el.append(cv, info); floor.append(el);
+      el._cv = cv; el._a = a; draw(cv, a, 0);
+    }
+    $("nW").textContent = count.working; $("nD").textContent = count.done; $("nWa").textContent = count.waiting; $("nS").textContent = count.stuck;
+  }
+
+  let frame = 0;
+  if (!reduce) setInterval(() => { frame++; document.querySelectorAll(".desk[data-s='working']").forEach((d) => draw(d._cv, d._a, frame)); }, 380);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", render);
+
+  (async () => {
+    const db = await window.claude?.use?.("db");
+    if (!db) { $("liveTxt").textContent = "sin conexión en esta vista"; return; }
+    $("dot").classList.add("on"); $("liveTxt").textContent = "en vivo";
+    db.collection("agents").onSnapshot((snap) => {
+      agents = snap.docs.filter((d) => d.exists).map((d) => Object.assign({ id: d.id }, d.data()));
+      render();
+    }, () => { $("dot").classList.remove("on"); $("liveTxt").textContent = "conexión perdida, recarga la página"; });
+    db.doc("status/now").onSnapshot((d) => {
+      const v = d.exists ? d.data() : null; $("goal").hidden = !v; if (!v) return;
+      $("goalEp").textContent = v.episode || ""; $("goalTxt").textContent = v.headline || "";
+      $("goalUpd").textContent = ago(v.updated); $("goalBar").style.width = Math.max(0, Math.min(100, Number(v.progress) || 0)) + "%";
+      const log = Array.isArray(v.log) ? v.log.slice(0, 12) : [];
+      $("logBox").hidden = !log.length; const ol = $("log"); ol.textContent = "";
+      for (const e of log) { const li = document.createElement("li"); const t = document.createElement("time"); t.textContent = e.t || ""; const p = document.createElement("span"); p.textContent = e.msg || ""; li.append(t, p); ol.append(li); }
+    }, () => {});
+  })();
+  setInterval(render, 60000);
+})();
+</script>
