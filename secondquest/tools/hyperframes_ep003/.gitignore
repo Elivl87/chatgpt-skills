@@ -10,3 +10,8 @@ hook/snapshots/
 node_modules/
 renders/
 *.mp4
+block*/assets/
+block*/snapshots/
+block*/renders/
+block*/.hyperframes/
+block*/node_modules/

@@ -8,7 +8,7 @@ written against); the current narration (timings.json) is mapped onto it by a pi
 word start, so each move stays on its word. GSAP: a master timeline plays the authored timeline segment by segment;
 the clips' data-start/data-duration are mapped the same way."""
 from pathlib import Path
-import json, re
+import json, re, shutil, sys
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 EP = ROOT / 'episodes/ep003'
@@ -46,7 +46,7 @@ def warp(t):
 
 
 def resolve(m):
-    expr = re.sub(r'l\d\d(?:\.w\d+)?(?:\.end)?|DUR', lambda k: repr(A[k.group(0)]), m.group(1))
+    expr = re.sub(r'l\d\d(?:\.w\d+)?(?:\.end)?|DUR|T0', lambda k: repr(A[k.group(0)]), m.group(1))
     if not re.fullmatch(r'[\d.+\-* ()/]+', expr):
         raise ValueError('bad time token ' + m.group(0))
     return str(round(eval(expr), 3))
@@ -58,9 +58,27 @@ def clip(m):
     return f'data-start="{round(s2, 3)}" data-duration="{round(warp(s + d) - s2, 3)}"'
 
 
-src = (HERE / 'src/index.template.html').read_text()
-comp = HERE / 'hook/compositions/components'
-out = re.sub(r'<!--INCLUDE ([\w.-]+)-->', lambda m: (comp / m.group(1)).read_text(), src)
+BLOCK = sys.argv[sys.argv.index('--block') + 1] if '--block' in sys.argv else 'A'
+if BLOCK != 'A':                                         # B..G: authored on the current narration, block-relative
+    sys.path.insert(0, str(HERE))
+    from blocks import span, pdir
+    T0, T1 = span(BLOCK)
+    A = {k: v - T0 for k, v in N.items()}
+    A['DUR'] = round(T1 - T0, 3); A['T0'] = 0.0
+    anc = [(0.0, 0.0), (A['DUR'], A['DUR'])]
+    proj = pdir(BLOCK)
+    if not (proj / 'hyperframes.json').exists():         # a new project from the hook's skeleton
+        proj.mkdir(exist_ok=True)
+        for f in ('hyperframes.json', 'package.json', 'AGENTS.md', 'CLAUDE.md'):
+            if (HERE / 'hook' / f).exists():
+                shutil.copy2(HERE / 'hook' / f, proj / f)
+        (proj / 'meta.json').write_text(json.dumps({'id': f'block{BLOCK}', 'name': f'block{BLOCK}'}))
+        shutil.copytree(HERE / 'hook/compositions', proj / 'compositions', dirs_exist_ok=True)
+    SRC, OUTF, COMP = HERE / f'src/block{BLOCK}.template.html', proj / 'index.html', proj / 'compositions/components'
+else:
+    SRC, OUTF, COMP = HERE / 'src/index.template.html', HERE / 'hook/index.html', HERE / 'hook/compositions/components'
+src = SRC.read_text()
+out = re.sub(r'<!--INCLUDE ([\w.-]+)-->', lambda m: (COMP / m.group(1)).read_text(), src)
 out = re.sub(r'\{\{([^}]+)\}\}', resolve, out)
 out = re.sub(r'data-start="([\d.]+)" data-duration="([\d.]+)"', clip, out)
 master = ('const WARP = ' + json.dumps([[round(a, 3), round(n, 3)] for a, n in anc]) + ';\n'
@@ -69,6 +87,7 @@ master = ('const WARP = ' + json.dumps([[round(a, 3), round(n, 3)] for a, n in a
           '{ duration: WARP[i + 1][1] - WARP[i][1], ease: "none", immediateRender: false }), WARP[i][1]);\n'
           '      window.__timelines["main"] = master;')
 assert 'window.__timelines["main"] = tl;' in out
-out = out.replace('window.__timelines["main"] = tl;', master)
-(HERE / 'hook/index.html').write_text(out)
-print('wrote hook/index.html', len(out), 'bytes; authored DUR', A['DUR'], '-> narration DUR', N['DUR'], ';', len(anc), 'warp anchors')
+if BLOCK == 'A':
+    out = out.replace('window.__timelines["main"] = tl;', master)
+OUTF.write_text(out)
+print('wrote', OUTF.relative_to(HERE), len(out), 'bytes; authored DUR', A['DUR'], '-> narration DUR', N['DUR'], ';', len(anc), 'warp anchors')
