@@ -2,7 +2,7 @@
 """Stage the EP003 hook assets into hook/assets/ (gitignored).
 
 Art is only COPIED (large cut-outs are downscaled copies, same pixels otherwise); the originals in
-public/art and docs/art_orders are never touched. The narration is cut to 0 .. end of l07 + 1.5 s.
+public/art and docs/art_orders are never touched. The narration + SFX mix is cut to 0 .. end of l07 + 1.5 s.
 """
 import json
 import shutil
@@ -45,7 +45,7 @@ def main():
         shutil.copy2(ROOT / 'public/shared/fonts' / f, OUT / 'fonts' / f)
     cues = json.load(open(ROOT / 'episodes/ep003/timings.json'))['cues']
     end = round(cues['l07']['end'] + 1.5, 3)
-    subprocess.run([str(FFMPEG), '-y', '-v', 'error', '-i', str(ROOT / 'public/episodes/ep003/audio/narration.wav'),
+    subprocess.run([str(FFMPEG), '-y', '-v', 'error', '-i', str(ROOT / 'public/episodes/ep003/audio/mix.wav'),
                     '-t', str(end), '-af', f'afade=t=out:st={end - 0.25}:d=0.25', '-c:a', 'pcm_s16le',
                     str(OUT / 'narration_hook.wav')], check=True)
     vendor = OUT / 'vendor'

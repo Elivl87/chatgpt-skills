@@ -122,11 +122,11 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="36" data-fps="30" data-width="1280" data-height="720">
-      <audio id="vo" src="assets/narration_hook.wav" data-start="0" data-duration="36" data-track-index="9" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration_hook.wav" data-start="0" data-duration="{{DUR}}" data-track-index="9" data-volume="1"></audio>
 
       <!-- ================= THE WORLD (persistent lake, camera via per-layer parallax) ================= -->
-      <div id="world" class="full clip" data-start="0" data-duration="36" data-track-index="0">
+      <div id="world" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="0">
         <div id="breath" class="full"><div id="shake" class="full">
           <div id="L-sky" class="L"><div class="F">
             <div class="sky"></div>
@@ -247,11 +247,17 @@
       </div>
 
       <!-- ================= WORDMARK (l07 "why") ================= -->
-      <div id="wmClip" class="full clip" data-start="33.7" data-duration="2.3" data-track-index="4">
-        <div id="wm" data-hf-motion-blur='{"samplesPerFrame": 12}'><img src="assets/wordmark.png" alt="SecondQuest" /></div>
-        <div id="wmBar"></div>
-        <div id="leap" class="fish" style="left: 0; top: 0; width: 150px; height: 110px" data-hf-motion-blur='{"samplesPerFrame": 12}'><img src="assets/fish_34.png" alt="" /></div>
-        <div id="starFx" class="abs" style="left: 530px; top: 104px; width: 0; height: 0"></div>
+      <div id="wmClip" class="full clip" data-start="{{l07.w2-0.4}}" data-duration="{{DUR-l07.w2+0.4}}" data-track-index="4">
+        <div id="wmGroup" class="full">
+          <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /></div>
+          <div id="wmBar"></div>
+        </div>
+        <svg id="wmLine" class="full" viewBox="0 0 1280 720" style="overflow: visible">
+          <path id="wl" d="M 644 -10 L 644 -10" fill="none" stroke="#16161f" stroke-width="5" stroke-linecap="round" />
+          <path id="wl2" d="M 644 -10 L 644 -10" fill="none" stroke="#eef0f6" stroke-width="2.2" stroke-linecap="round" />
+          <g id="hookG"><path d="M 644 -18 L 644 0 A 11 11 0 1 1 622 2" fill="none" stroke="#16161f" stroke-width="6" stroke-linecap="round" />
+            <path d="M 644 -18 L 644 0 A 11 11 0 1 1 622 2" fill="none" stroke="#cfd4de" stroke-width="3" stroke-linecap="round" /></g>
+        </svg>
       </div>
 
       <div id="flash" class="full" style="opacity: 0"></div>
@@ -332,8 +338,6 @@
       function star4(host, x, y, size, color) { const e = mk("div", "star4", host, `left:${x - size / 2}px; top:${y - size / 2}px; width:${size}px; height:${size}px`);
         e.innerHTML = `<svg viewBox="-20 -20 40 40"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="${color}"/></svg>`; return e; }
       const koStars = [0, 1, 2].map((i) => star4($("#ko"), 20 + i * 38, 20, 26, "#ffc83d"));
-      const starMain = star4($("#starFx"), 0, 0, 64, "#fff6d6");
-      const starSparks = Array.from({ length: 8 }, (_, i) => star4($("#starFx"), 0, 0, 22, i % 2 ? "#bfe9ff" : "#ffe08a"));
 
       /* ------------------------------------------------------------------ water shader (WebGL, seek-driven) */
       const water = (function () {
@@ -376,7 +380,7 @@
 
       /* ------------------------------------------------------------------ the timeline */
       const tl = gsap.timeline({ paused: true });
-      const DUR = 36;
+      const DUR = {{DUR}};
       const env = { t: 0, glow: 1 };
       tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(env.t, env.glow) }, 0);
       tl.to(env, { glow: 1.25, duration: 4, ease: "sine.inOut" }, 31);
@@ -564,26 +568,34 @@
       tl.to("#silB .lean", { rotation: -6, x: -14, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.4);
       tl.to("#linePath", { opacity: .5, duration: .5 }, 31.2);
 
-      // ---------------- SO, WHY? (33.0 - 36): pull back + tilt up, wordmark slams on "why", fish dives into the star of the "o"
-      cam(33.0, .85, focus(640, 300, 1.08, 0, 20), "power3.inOut");
-      tl.fromTo("#wm", { scale: 1.7, opacity: 0, y: -20 }, { scale: 1, opacity: 1, y: 0, duration: .38, ease: "back.out(2.4)" }, 33.8);
-      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.inOut" }, 34.05);
-      tl.to("#shake", { keyframes: [[0, 5], [0, -3], [0, 1], [0, 0]].map(([x, y]) => ({ x, y, duration: .05 })) }, 34.0);
-      const STAR = { x: 349 + .31 * 582, y: 50 + .52 * 100 };
-      tl.set("#leap", { x: 1100, y: 680, rotation: 35, scale: 1, opacity: 0 }, 33.7);
-      tl.set("#leap", { opacity: 1 }, 33.95);
-      tl.to("#leap", { x: STAR.x - 75, duration: .8, ease: "power1.in" }, 33.95);
-      tl.to("#leap", { keyframes: [{ y: STAR.y - 140, duration: .5, ease: "power2.out" }, { y: STAR.y - 55, duration: .3, ease: "power2.in" }] }, 33.95);
-      tl.to("#leap", { rotation: -60, scale: .2, duration: .8, ease: "power1.in" }, 33.95);
-      tl.set("#leap", { opacity: 0 }, 34.75);
-      tl.set(starSparks, { opacity: 0 }, 33.7);
-      tl.set(starMain, { scale: 0 }, 33.7);
-      tl.fromTo(starMain, { scale: 0, rotation: 0 }, { keyframes: [{ scale: 1.5, rotation: 45, duration: .22, ease: "power2.out" }, { scale: .55, rotation: 90, duration: .5, ease: "elastic.out(1, .4)" }] }, 34.75);
-      tl.fromTo(starMain, { opacity: 1 }, { opacity: .85, duration: .35, yoyo: true, repeat: 2, ease: "sine.inOut", immediateRender: false }, 35.3);
-      starSparks.forEach((s, i) => { const a = i * Math.PI / 4; tl.fromTo(s, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: Math.cos(a) * 70, y: Math.sin(a) * 70, opacity: 0, scale: .3, duration: .6, ease: "power2.out" }, 34.75); });
-      tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .35, duration: .03 }, { opacity: 0, duration: .2 }], immediateRender: false }, 33.8);
-      // the splash where the fish left the water
-      doSplash($("#fishFront"), 1150, 690, 1.4, 33.93, 41);
+      // ---------------- SO, WHY?: pull back + tilt up; wordmark option 1 "The catch" (Producer, 2026-10-12):
+      // a fishing line drops through the frame on "So,", hooks the gold bar of the logo waiting under the frame and
+      // reels it up into place on "why", one bobber bounce, then the line goes slack and leaves. No sparkle.
+      const WHY = {{l07.w2}};
+      cam(WHY - .8, .85, focus(640, 300, 1.08, 0, 20), "power3.inOut");
+      const BAR = 166 + 4, LOW = 730;                                   // the logo waits LOW px under its place
+      const C = { wy: LOW, hy: -20, sag: 0 };
+      const drawCatch = () => {
+        gsap.set("#wmGroup", { y: C.wy });
+        const hy = C.hy, mid = (hy - 18) / 2;
+        const d = `M 644 -10 Q ${644 + C.sag} ${mid} 644 ${hy - 18}`;
+        $("#wl").setAttribute("d", d); $("#wl2").setAttribute("d", d);
+        gsap.set("#hookG", { y: hy });
+      };
+      tl.set(C, { wy: LOW, hy: -20, sag: 0, onUpdate: drawCatch }, WHY - .4);
+      tl.to(C, { hy: LOW + BAR, duration: .38, ease: "power2.in", onUpdate: drawCatch }, WHY - .4);          // the line drops
+      tl.to(C, { wy: 0, hy: BAR, duration: .55, ease: "power3.out", onUpdate: drawCatch }, WHY - .02);      // reeled up
+      tl.to(C, { keyframes: [{ wy: 26, hy: BAR + 26, duration: .16, ease: "power2.out" },                   // bobber dip
+                             { wy: -6, hy: BAR - 6, duration: .2, ease: "sine.inOut" },
+                             { wy: 0, hy: BAR, duration: .22, ease: "sine.out" }], onUpdate: drawCatch }, WHY + .53);
+      tl.to(C, { sag: 26, duration: .25, ease: "sine.out", onUpdate: drawCatch }, WHY + 1.15);              // goes slack
+      tl.to(C, { hy: -60, duration: .4, ease: "power2.in", onUpdate: drawCatch }, WHY + 1.3);              // and leaves
+      tl.fromTo("#wmBar", { scaleX: .6 }, { scaleX: 1, duration: .4, ease: "back.out(2)", immediateRender: false }, WHY + .5);
+      tl.to("#shake", { keyframes: [[0, 4], [0, -2], [0, 1], [0, 0]].map(([x, y]) => ({ x, y, duration: .05 })) }, WHY + .53);
+      // the companion stays by the boat and looks up at the catch (it no longer dives into the star)
+      tl.set(buddy, { x: 900, y: 690, rotation: -8, scale: .9, opacity: 1 }, WHY - .4);
+      tl.fromTo(buddy, { y: 690 }, { y: 470, duration: .5, ease: "back.out(2)", immediateRender: false }, WHY + .2);
+      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .14 }, { scaleY: 0, duration: .18 }] }, WHY + 1.0);
 
       // the camera always breathes a little (documentary drift) - on the shake wrapper's parent scale
       tl.fromTo("#breath", { scale: 1 }, { scale: 1.012, duration: 4.5, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "50% 50%" }, 0);
