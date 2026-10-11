@@ -878,12 +878,13 @@
       cam("#pushStage", .1, T.this - .2, focus(470, 318, 1.1), "sine.inOut");
       // "internet": a blank label tag drops in on its string (the hook's $7.99 tag, callback): elastic swing
       tl.set("#tagF", { y: -600, rotation: -62, transformOrigin: "300px 0px" }, 0);
-      tl.to("#tagF", { y: 0, duration: .42, ease: "power2.in" }, T.internet - .2);
+      tl.to("#tagF", { y: 0, duration: .4, ease: "power2.in" }, Math.max(.03, T.internet - .2));   // never before 0 (the set above must render first)
       tl.to("#tagF", { rotation: 0, duration: 2.3, ease: "elastic.out(1.15, .22)" }, T.internet + .22);
       // "games like this.": a spotlight clunks on over the trash can
       tl.set(["#spotF", "#poolF"], { opacity: 0 }, 0);
-      tl.set("#canRig", { filter: "brightness(.07)" }, 0); tl.set("#canShadow", { opacity: .3 }, 0);
+      tl.set("#canRig", { filter: "brightness(.07)", opacity: 0 }, 0); tl.set("#canShadow", { opacity: 0 }, 0);
       tl.to(["#spotF", "#poolF"], { keyframes: [{ opacity: 1, duration: .04 }, { opacity: .25, duration: .06 }, { opacity: 1, duration: .05 }] }, T.this);
+      tl.set("#canRig", { opacity: 1 }, T.this);
       tl.to("#canRig", { keyframes: [{ filter: "brightness(1)", duration: .04 }, { filter: "brightness(.45)", duration: .06 }, { filter: "brightness(1)", duration: .05 }] }, T.this);
       tl.to("#canShadow", { opacity: 1, duration: .1 }, T.this);
       cam("#pushStage", T.this - .05, .75, focus(640, 360, 1.0), "power3.inOut");
