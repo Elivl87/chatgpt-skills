@@ -42,7 +42,7 @@ def warp(t):
     for (a0, n0), (a1, n1) in zip(anc, anc[1:]):
         if t <= a1:
             return n0 + (t - a0) * (n1 - n0) / (a1 - a0)
-    return t - A['DUR'] + N['DUR']
+    return t - anc[-1][0] + anc[-1][1]
 
 
 def resolve(m):
@@ -90,4 +90,4 @@ assert 'window.__timelines["main"] = tl;' in out
 if BLOCK == 'A':
     out = out.replace('window.__timelines["main"] = tl;', master)
 OUTF.write_text(out)
-print('wrote', OUTF.relative_to(HERE), len(out), 'bytes; authored DUR', A['DUR'], '-> narration DUR', N['DUR'], ';', len(anc), 'warp anchors')
+print('wrote', OUTF.relative_to(HERE), len(out), 'bytes; authored DUR', A['DUR'], '-> narration DUR', anc[-1][1], ';', len(anc), 'warp anchors')

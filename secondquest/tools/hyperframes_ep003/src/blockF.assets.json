@@ -1,0 +1,9 @@
+{
+  "trashcan.png": ["public/art/ep003/props3d/trashcan.png", null],
+  "room_night.png": ["public/art/core/backgrounds/living_room_night_gaming.png", 1080],
+  "quest_gaming.png": ["public/art/core/quest/gaming_excited.png", null],
+  "pixie_gaming.png": ["docs/art_orders/pixie/library/results/02_gaming_excited.png", 1024],
+  "quest_wave.png": ["docs/art_orders/quest/library_v2/results/01_wave_happy.png", null],
+  "pixie_wave.png": ["docs/art_orders/pixie/library/results/01_wave_happy.png", 1024],
+  "calendar.png": ["public/art/core/objects/calendar_friday.png", null]
+}

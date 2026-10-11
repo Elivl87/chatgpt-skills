@@ -1697,7 +1697,7 @@ const roulette = () => {
     c.fillStyle = 'rgba(0,0,0,.2)'; c.beginPath(); c.arc(C, C, 22 * px, s0, s1); c.arc(C, C, 13.0 * px, s1, s0, true); c.closePath(); c.fill();
     c.strokeStyle = '#efe3c4'; c.lineWidth = 6; c.beginPath(); c.moveTo(C + 22.1 * px * Math.cos(s0), C + 22.1 * px * Math.sin(s0)); c.lineTo(C + R * px * Math.cos(s0), C + R * px * Math.sin(s0)); c.stroke();
     const am = a0 + i * step, rr = 24.8 * px;
-    c.save(); c.translate(C + rr * Math.cos(am), C + rr * Math.sin(am)); c.rotate(am + Math.PI / 2);
+    c.save(); c.translate(C + rr * Math.cos(am), C + rr * Math.sin(am)); c.rotate(am - Math.PI / 2);
     c.fillStyle = '#fbf6e8'; c.font = 'bold 82px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(String(n), 0, 0); c.restore();
   }
   c.strokeStyle = '#efe3c4'; c.lineWidth = 8; c.beginPath(); c.arc(C, C, 22.1 * px, 0, TAU); c.stroke();
@@ -1719,12 +1719,10 @@ const roulette = () => {
     g.add(at(mesh(new THREE.SphereGeometry(1.15, 16, 12), gold, 1782), d.x * 6.6, 12.4, d.z * 6.6));
   }
   // the bowl: turned wooden rim (outside) and a dark ball track sloping down to the head
-  const rim = new THREE.LatheGeometry([[0, 0], [39.5, 0], [41, .8], [41.6, 3], [41.6, 9.4], [41, 11.4], [39.6, 12.3], [37.6, 12.2], [36.6, 11.4], [36.45, 10.6]].map(([r, y]) => new THREE.Vector2(r, y)), 120);
-  uvScale(rim, 3, .05);
-  g.add(mesh(rim, woodMat('#a0663a'), 1786));
-  const trk = new THREE.LatheGeometry(sharp([[36.45, 10.6], [36.3, 9.2], [30, 5.2], [28, 4.3], [27.7, 3.6]], [3]).map(([r, y]) => new THREE.Vector2(r, y)), 120);
-  uvScale(trk, 3, .05);
-  g.add(mesh(trk, woodMat('#5e3520'), 1787));
+  const bowl = new THREE.LatheGeometry(sharp([[0, 0], [39.5, 0], [41, .8], [41.6, 3], [41.6, 9.4], [41, 11.4], [39.6, 12.3], [37.6, 12.2], [36.6, 11.4], [36.45, 10.6], [36.3, 9.2], [30, 5.2], [28, 4.3], [27.7, 3.6]], [1, 2, 3, 4, 5, 6, 7, 8]).map(([r, y]) => new THREE.Vector2(r, y)), 120);
+  uvScale(bowl, 4, .07);
+  vcol(bowl, (x, y, z) => { const r = Math.hypot(x, z); return r < 36.5 && y < 10.7 ? new THREE.Color('#8f6a58') : new THREE.Color('#ffffff'); });
+  g.add(mesh(bowl, woodMat('#a0663a', true), 1786));
   for (let k = 0; k < 8; k++) {
     const a = a0 + Math.PI / 8 + k * Math.PI / 4, dm = mesh(new THREE.OctahedronGeometry(1, 0), gold, 1784);
     dm.position.set(33 * Math.cos(a), 7.35, 33 * Math.sin(a)); dm.rotation.set(0, -a, .565);
@@ -1798,7 +1796,7 @@ const dynamiteLit = () => {
     const s = flatMesh(starShape(4, r * 1.25, r * .38, i, 0, Math.PI / 4 * (i % 2)), i % 2 ? '#ffd23f' : '#fff3a6', 1833 + i, 0);
     s.position.set(x, y, 0); sp.add(s);
   });
-  sp.position.copy(tip); sp.lookAt(camPos()); g.add(sp);
+  sp.position.copy(tip).add(camPos().sub(tip).normalize().multiplyScalar(1.6)); sp.lookAt(camPos()); g.add(sp);
   return g;
 };
 
@@ -1822,10 +1820,12 @@ const blastPuff = () => {
     vcol(geo, (_x, py) => { const wy = y + py, t = sstep(-4, 40, wy); const col = t < .5 ? dark.clone().lerp(mid, t * 2) : mid.clone().lerp(light, t * 2 - 1); return col.lerp(warm, .35 * (1 - sstep(-2, 14, wy))); });
     g.add(at(mesh(geo, vtoon(), 1842 + i), x, y, z));
   });
-  const fire: [number, number, number, string][] = [[0, 9, 10, '#ff6a1a'], [-6, 15, 7, '#ff9a2e'], [6.5, 8, 6.5, '#ffb43a'], [1, 15, 5, '#ffd84a'], [-9, 6, 5, '#ff8a2a']];
-  fire.forEach(([x, y, r, col], i) => {
-    const f = mesh(lump(r, 40 + i, .12, 2), new THREE.MeshBasicMaterial({ color: new THREE.Color(col) }), 1862 + i);
-    f.position.copy(atCam(x, y, 17)); g.add(f);
+  const fire: [number, number, number, string, string][] = [[0, 10, 11, '#ff5a14', '#ff9a2e'], [-7, 17, 7.5, '#ff7a1f', '#ffb43a'], [7.5, 9, 7, '#ff8a2a', '#ffc94a'], [1, 13, 5.5, '#ffc23a', '#fff1a0'], [-8.5, 5, 5.5, '#ff6a1a', '#ffa83a']];
+  fire.forEach(([x, y, r, c0, c1], i) => {
+    const geo = lump(r, 40 + i, .12, 3), a = new THREE.Color(c0), b = new THREE.Color(c1);
+    vcol(geo, (px, py, pz) => a.clone().lerp(b, sstep(-.2, .9, V(px, py, pz).normalize().dot(fwd) * .6 + py / r * .4)));
+    const f = mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true }), 1862 + i);
+    f.position.copy(atCam(x, y, 22)); g.add(f);
   });
   ([[-31, 32, 2.6], [30, 36, 2.2], [24, 6, 1.8]] as const).forEach(([x, y, r], i) => {
     const d = mesh(lump(r, 70 + i, .35, 1), toon('#4a3f38'), 1868 + i); d.position.copy(atCam(x, y, 4)); g.add(d);
@@ -1853,14 +1853,13 @@ const bossShadow = () => {
   tail.quadraticCurveTo(-385, -60, -430, -150); tail.quadraticCurveTo(-300, -40, -200, 0);
   g.add(flat(tail, 1881));
   for (const s of [1, -1]) {
-    const pf = new THREE.Shape(); const P0: [number, number][] = [[60, 90], [10, 200], [-20, 175], [-40, 245], [-70, 205], [-110, 250], [-120, 190], [-60, 80]];
-    P0.forEach(([x, z], i) => (i ? pf.lineTo(x, s * z) : pf.moveTo(x, s * z))); pf.closePath();
+    const pf = new THREE.Shape(), P0: [number, number][] = [[70, 88], [30, 170], [0, 215], [-25, 190], [-50, 240], [-80, 205], [-118, 232], [-125, 175], [-70, 80]];
+    pf.moveTo(P0[0][0], s * P0[0][1]); pf.splineThru(P0.slice(1).map(([x, z]) => new THREE.Vector2(x, s * z))); pf.closePath();
     g.add(flat(pf, 1882, 4));
-    const pv = new THREE.Shape(); [[-130, 60], [-175, 115], [-200, 95], [-185, 50]].forEach(([x, z], i) => (i ? pv.lineTo(x, s * z) : pv.moveTo(x, s * z))); pv.closePath();
+    const pv = new THREE.Shape(), P1: [number, number][] = [[-120, 55], [-160, 105], [-205, 118], [-195, 70], [-175, 45]];
+    pv.moveTo(P1[0][0], s * P1[0][1]); pv.splineThru(P1.slice(1).map(([x, z]) => new THREE.Vector2(x, s * z))); pv.closePath();
     g.add(flat(pv, 1883, 2));
   }
-  // dorsal ridge spikes along the spine
-  for (let k = 0; k < 6; k++) { const x = 120 - k * 50, sp = mesh(new THREE.ConeGeometry(9 - k * .8, 30, 12), finMat, 1884); sp.position.set(x, 44 * (1 - Math.max(0, -x / 270) * .62) * Math.sqrt(Math.max(0, 1 - (x / 270) ** 2)) + 6, 0); sp.rotation.z = Math.PI / 2 + .9; sp.scale.set(1, 1, .5); g.add(sp); }
   // teeth on the snout edge
   for (let k = -5; k <= 5; k++) { const a = k * .12, t = mesh(new THREE.ConeGeometry(5, 18, 10), toon('#3a4b5a'), 1885); t.position.set(262 * Math.cos(a * 1.4), 0, 115 * Math.sin(a * 2.2) * .9); t.rotation.set(0, -a * 1.6, -Math.PI / 2); g.add(t); }
   for (const s of [1, -1]) {
@@ -1914,17 +1913,19 @@ const lighthouse = () => {
   }
   // island: a grassy mound with an uneven shoreline, rocky slopes, dark wet rock below the waterline
   const Rr = (a: number) => 72 * (1 + .13 * Math.sin(3 * a + .4) + .07 * Math.sin(7 * a + 1.3) + .04 * Math.sin(11 * a));
-  const ts = Array.from({ length: 41 }, (_, i) => i / 40 * 1.6), as = Array.from({ length: 145 }, (_, j) => j / 144 * TAU);
+  const ts = Array.from({ length: 97 }, (_, i) => i / 96 * 1.6), as = Array.from({ length: 145 }, (_, j) => j / 144 * TAU);
   const grass = new THREE.Color('#5DAA4A'), grass2 = new THREE.Color('#4a9440'), rock = new THREE.Color('#8f8a80'), wet = new THREE.Color('#5a5650');
   const isl = grid(ts, as, (t, a) => {
     const R0 = Rr(a), bump = 1.4 * Math.sin(5 * a + t * 4) * Math.sin(t * 6);
     let r: number, y: number;
     if (t <= 1) { r = t * R0; y = 6.5 * (1 - t ** 2.2) + bump * t; } else { const u = (t - 1) / .6; r = R0 * (1 + .1 * Math.sin(u * Math.PI / 2)); y = -16 * u ** 1.2 + 2 * (1 - u) * Math.sin(4 * a); }
-    const c = t < .62 ? grass.clone().lerp(grass2, .5 + .5 * Math.sin(9 * a + t * 7)) : t < .78 ? grass.clone().lerp(rock, (t - .62) / .16) : y > 0 ? rock.clone() : rock.clone().lerp(wet, Math.min(1, -y / 6));
+    const edge = .68 + .06 * Math.sin(6 * a + 1);
+    const c = t < edge ? (Math.sin(9 * a + t * 7) > .3 ? grass2.clone() : grass.clone()) : y > 0 ? rock.clone() : rock.clone().lerp(wet, Math.min(1, -y / 6));
     return { p: V(r * Math.cos(a), y, r * Math.sin(a)), c };
   });
   orient(isl, () => V(0, 1, 0));
   g.add(mesh(isl, vtoon(), 1912));
+  ([[-30, 12, 6], [34, -18, 5], [-22, -30, 4.5], [40, 20, 4]] as const).forEach(([x, z, r], i) => { const b = mesh(lump(r, 140 + i, .15, 3), toon(i % 2 ? '#4a9440' : '#3f8a3a'), 1919 + i); b.scale.set(1.3, .8, 1.1); b.position.set(x, 4.4 * (1 - (Math.hypot(x, z) / 70) ** 2.2) + r * .3, z); g.add(b); });
   ([[0.5, 1.0, 9], [1.4, .98, 7], [2.5, 1.02, 11], [3.6, 1.0, 8], [4.6, .97, 10], [5.6, 1.03, 6.5]] as const).forEach(([a, f, r], i) => {
     const b = mesh(lump(r, 90 + i, .2, 3), toon(i % 2 ? '#7d7870' : '#8b867c'), 1913 + i);
     b.scale.set(1.2, .8, 1); b.position.set(Rr(a) * f * Math.cos(a), -2, Rr(a) * f * Math.sin(a)); g.add(b);

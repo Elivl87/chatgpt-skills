@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>EP003 block E - The alibi falls apart</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      /* Caveat 700 (OFL, public/shared/fonts/OFL-Caveat.txt), inlined: stage_assets.py only stages images + the 3 base fonts */
+      @font-face { font-family: "Hand"; src: url("__CAVEAT__") format("woff2"); font-weight: 700; }
+      :root { --gold: #ffc83d; --ink: #16161f; --cream: #fff4dc; --red: #e5484d; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1280px; height: 720px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Inter", sans-serif; }
+      .abs { position: absolute; }
+      .full { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      #stage, #view, #grade, #breath, #shake, #tilt { overflow: hidden; }
+
+      /* ---------- the world (the hook's lake: per-layer parallax, each layer with 15% bleed) ---------- */
+      .L { position: absolute; left: -192px; top: -108px; width: 1664px; height: 936px; }
+      .F { position: absolute; left: 192px; top: 108px; width: 1280px; height: 720px; }
+      #L-sky .sky { position: absolute; left: -192px; top: -108px; width: 1664px; height: 560px;
+        background: linear-gradient(180deg, #1f2150 0%, #3c3470 22%, #7a4c86 44%, #c9688a 62%, #f4907a 76%, #ffbe7c 88%, #ffd9a2 100%); }
+      #sun { position: absolute; left: 950px; top: 262px; width: 124px; height: 124px; }
+      #sun .disc { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 45% 40%, #fff6d8 0%, #ffe7a6 55%, #ffc978 100%); box-shadow: 0 0 40px 12px rgba(255, 214, 140, .75); }
+      #sunglow { position: absolute; left: 512px; top: -186px; width: 1000px; height: 1000px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 210, 140, .55) 0%, rgba(255, 170, 120, .22) 30%, rgba(255, 150, 120, 0) 62%); mix-blend-mode: screen; }
+      #rays { position: absolute; left: 212px; top: -486px; width: 1600px; height: 1600px; border-radius: 50%; mix-blend-mode: screen; opacity: .22;
+        background: repeating-conic-gradient(from 0deg, rgba(255, 220, 170, .55) 0deg 4deg, rgba(255, 220, 170, 0) 4deg 13deg);
+        -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,.6) 25%, transparent 60%); mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,.6) 25%, transparent 60%); }
+      .cloud { position: absolute; height: 46px; border-radius: 40px; background: linear-gradient(180deg, rgba(255, 214, 200, .0) 0%, rgba(255, 190, 175, .55) 60%, rgba(255, 160, 150, .75) 100%); filter: blur(1.5px); }
+      .cloud::before, .cloud::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
+      .cloud::before { width: 46%; height: 150%; left: 14%; top: -62%; }
+      .cloud::after { width: 34%; height: 120%; left: 50%; top: -40%; }
+      #water { position: absolute; left: -192px; top: 330px; width: 1664px; height: 498px; }
+      #boatEnter { position: absolute; left: 330px; top: 452px; width: 620px; height: 145px; }
+      #boatBob, #boatRock { position: absolute; inset: 0; }
+      .boatimg { position: absolute; left: 0; top: 9px; width: 620px; height: 136px; }
+      #boatRefl { position: absolute; left: 0; top: 128px; width: 620px; height: 145px; opacity: .3; filter: blur(2px) brightness(.8);
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 40%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 40%, transparent 100%); }
+      #boatRefl img { width: 100%; height: 100%; transform: scaleY(-1); }
+      #crewClip { position: absolute; left: -80px; top: -300px; width: 780px; height: 405px; overflow: hidden; }
+      .mate { position: absolute; bottom: -95px; width: 200px; height: 290px; }
+      .mate .pop, .mate .lean, .mate .breathe, .mate .sway, .mate .flip { position: absolute; inset: 0; }
+      .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
+        filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .9)) drop-shadow(0 0 10px rgba(255, 170, 110, .25)) brightness(.97) saturate(1.05); }
+      .mate img.alt { opacity: 0; }
+      #qSlump { left: -76px !important; bottom: -8px !important; width: 300px !important; height: 300px !important; }
+      .sil svg { position: absolute; left: 0; bottom: 0; width: 200px; height: 290px; overflow: visible; transform: scale(1.08); transform-origin: 50% 100%;
+        filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .95)) drop-shadow(0 0 10px rgba(255, 170, 110, .3)); }
+      .arm { position: absolute; width: 120px; height: 26px; }
+      .arm svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(2px -1px 0 rgba(255, 196, 128, .95)); }
+      #rod { position: absolute; left: 548px; top: -262px; width: 27px; height: 330px; }
+      #rod img { width: 100%; height: 100%; }
+      .ripple { position: absolute; border: 2px solid rgba(255, 228, 210, .55); border-radius: 50%; }
+      .fish { position: absolute; }
+      .fish img { width: 100%; height: 100%; display: block; object-fit: contain; }
+      .lid { position: absolute; left: 0; top: 0; width: 100% !important; height: 100% !important; opacity: 0; }
+      .ring { position: absolute; border: 3px solid rgba(255, 240, 225, .9); border-radius: 50%; }
+      .drop { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: #e9f6ff; box-shadow: 0 0 4px rgba(255,255,255,.6); }
+      .reed { position: absolute; bottom: -20px; width: 10px; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #2b2340, #120f1e); transform-origin: 50% 100%; }
+      .handprint { position: absolute; opacity: 0; mix-blend-mode: multiply; }
+      .handprint svg { width: 100%; height: 100%; overflow: visible; }
+
+      /* ---------- channel type ---------- */
+      .mk { position: absolute; background: var(--gold); border: 3px solid var(--ink); border-radius: 10px; box-shadow: 4px 5px 0 var(--ink);
+        color: var(--ink); font: 800 22px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
+      .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 5px 6px 0 var(--ink); letter-spacing: .01em; line-height: 1; white-space: nowrap; }
+      .hand { font-family: "Hand", "Inter", cursive; font-weight: 700; }
+
+      /* ---------- E1/E2: the parchment list ---------- */
+      #list { position: absolute; left: 62px; top: 96px; width: 589px; height: 372px; }
+      #listIn { position: absolute; inset: 0; }
+      .paper { position: absolute; inset: 0; border-radius: 6px 10px 8px 12px;
+        background: radial-gradient(ellipse 60% 50% at 30% 30%, rgba(255, 252, 238, .9) 0%, rgba(255, 252, 238, 0) 70%),
+          radial-gradient(ellipse 40% 30% at 85% 80%, rgba(176, 128, 70, .22) 0%, rgba(176, 128, 70, 0) 70%),
+          radial-gradient(ellipse 30% 25% at 10% 90%, rgba(176, 128, 70, .2) 0%, rgba(176, 128, 70, 0) 70%),
+          linear-gradient(170deg, #f8ecd0 0%, #f1dfba 55%, #e6cc9c 100%);
+        box-shadow: inset 0 0 0 2px rgba(120, 80, 40, .25), inset 0 0 38px rgba(150, 100, 50, .35), 8px 10px 0 rgba(22, 22, 31, .55), 0 18px 34px rgba(0, 0, 0, .35); }
+      .paper svg.grain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .5; mix-blend-mode: multiply; border-radius: inherit; }
+      .paper .pin { position: absolute; width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a7a, #c8323a 60%, #7a1a22); box-shadow: 2px 3px 0 rgba(22,22,31,.5); }
+      #listTitle { position: absolute; left: 44px; top: 18px; font-size: 62px; color: #3a2414; line-height: 1; }
+      #listUnder { position: absolute; left: 40px; top: 80px; width: 300px; height: 20px; overflow: visible; }
+      .lrow { position: absolute; left: 40px; width: 500px; height: 74px; transform-origin: 30px 50%; }
+      .lbox { position: absolute; left: 0; top: 12px; width: 50px; height: 50px; overflow: visible; }
+      .lico { position: absolute; left: 76px; top: 8px; width: 96px; height: 58px; display: flex; align-items: center; justify-content: center; }
+      .lico img, .lico svg { max-width: 100%; max-height: 100%; overflow: visible; filter: drop-shadow(2px 3px 0 rgba(58, 36, 20, .35)); }
+      .ltxt { position: absolute; left: 190px; top: 0; font-size: 64px; line-height: 74px; color: #2b1a10; white-space: nowrap; }
+      .ltick { overflow: visible; }
+
+      /* ---------- E3 props (screen space) ---------- */
+      #board { position: absolute; left: 330px; top: 0; width: 620px; height: 330px; }
+      #board .rope { position: absolute; top: 0; width: 6px; height: 104px; background: repeating-linear-gradient(170deg, #c9a46a 0 6px, #8a6a3a 6px 11px); border: 1px solid #3a2414; }
+      #board .plank { position: absolute; left: 0; top: 96px; width: 620px; height: 70px; border-radius: 10px; border: 4px solid var(--ink); box-shadow: 6px 7px 0 var(--ink);
+        background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 21px, rgba(58, 30, 10, .35) 21px 23px), linear-gradient(180deg, #b47c46 0%, #9a6a3c 55%, #7a5028 100%);
+        display: flex; align-items: center; justify-content: center; font: 400 40px/1 "Anton", sans-serif; letter-spacing: .14em; color: #ffe2b0; -webkit-text-stroke: 4px #3a2414; paint-order: stroke fill; }
+      #board .nail { position: absolute; top: 112px; width: 12px; height: 12px; border-radius: 50%; background: #d9d4c8; border: 2px solid var(--ink); }
+      .ptag { position: absolute; top: 160px; width: 168px; height: 150px; transform-origin: 50% 0%; }
+      .ptag .str { position: absolute; left: 82px; top: 0; width: 3px; height: 26px; background: #f3e7cf; }
+      .ptag .cd { position: absolute; left: 0; top: 22px; width: 168px; height: 126px; border-radius: 14px; background: var(--cream); border: 4px solid var(--ink); box-shadow: 5px 6px 0 var(--ink); }
+      .ptag .ic { position: absolute; left: 14px; top: 10px; width: 140px; height: 58px; display: flex; align-items: center; justify-content: center; }
+      .ptag .ic svg, .ptag .ic img { max-width: 100%; max-height: 100%; overflow: visible; }
+      .ptag .nm { position: absolute; left: 0; top: 70px; width: 100%; text-align: center; font: 800 16px/1 "Inter", sans-serif; letter-spacing: .1em; color: var(--ink); }
+      .ptag .pr { position: absolute; left: 0; top: 90px; width: 100%; text-align: center; font: 400 28px/1 "Anton", sans-serif; color: #2e9e5b; }
+      .ptag .sold { position: absolute; left: 14px; top: 46px; padding: 2px 10px; border: 4px solid #d6392f; border-radius: 8px; color: #d6392f; font: 400 34px/1 "Anton", sans-serif;
+        letter-spacing: .08em; transform: rotate(-14deg); opacity: 0; background: rgba(255, 244, 220, .6); }
+      .wheel { position: absolute; }
+      .wheel svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      .wheel .rot { position: absolute; inset: 0; }
+      .wheel .ball { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+      .wheel .ball i { position: absolute; display: block; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff 0%, #e8e8f0 55%, #9a9aac 100%); border: 2px solid var(--ink); }
+      #wallet { position: absolute; left: 150px; top: 196px; width: 250px; height: 250px; }
+      #wallet img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; filter: drop-shadow(5px 6px 0 rgba(22,22,31,.5)); }
+
+      /* ---------- the Steam quote (kinetic type) ---------- */
+      #quote { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      #qLabel { left: 50%; top: 92px; }
+      #qMark { position: absolute; left: 150px; top: 148px; font-size: 190px; color: var(--gold); }
+      #qMarkEnd { position: absolute; font-size: 190px; color: var(--gold); }
+      .qline { position: absolute; left: 0; width: 1280px; display: flex; justify-content: center; gap: 30px; }
+      .qw { display: block; font-size: 100px; color: var(--cream); }
+      .qw.red { color: #ff5a5a; }
+      .qw.gold { color: var(--gold); }
+      #qSmall { position: absolute; left: 0; top: 618px; width: 1280px; text-align: center; }
+      #qSmall span { display: inline-block; font: 800 30px/1 "Inter", sans-serif; color: var(--cream); letter-spacing: .02em; -webkit-text-stroke: 6px var(--ink); paint-order: stroke fill; }
+
+      /* ---------- E4: the GOAL tag ---------- */
+      #gTag { position: absolute; left: 560px; top: -30px; width: 520px; height: 320px; }
+      #gTag .string { position: absolute; left: 258px; top: 0; width: 4px; height: 120px; background: linear-gradient(180deg, rgba(255,255,255,0), #f3e7cf 30%); }
+      #gTag .card { position: absolute; left: 30px; top: 108px; width: 460px; height: 190px; background: var(--gold); border: 5px solid var(--ink); border-radius: 24px; box-shadow: 8px 9px 0 var(--ink); }
+      #gTag .hole { position: absolute; left: 214px; top: 10px; width: 22px; height: 22px; border-radius: 50%; background: #2a2236; border: 4px solid var(--ink); }
+      #gTag .l1 { position: absolute; left: 0; top: 40px; width: 100%; text-align: center; font: 400 70px/1 "Anton", sans-serif; color: var(--ink); letter-spacing: .04em; }
+      #gTag .l2 { position: absolute; left: 0; top: 116px; width: 100%; text-align: center; font-size: 62px; line-height: 1; color: var(--ink); }
+      #gStrike { position: absolute; left: 136px; top: 70px; width: 190px; height: 16px; background: #d6392f; border-radius: 8px; transform-origin: 0 50%; box-shadow: 0 0 0 3px rgba(22,22,31,.85); }
+      .stamp { position: absolute; display: flex; align-items: center; justify-content: center; border: 9px solid #d6392f; border-radius: 16px; color: #d6392f;
+        font: 400 120px/1 "Anton", sans-serif; letter-spacing: .08em; padding: 6px 28px 2px; white-space: nowrap; background: rgba(255, 244, 220, .12);
+        box-shadow: 0 0 0 4px rgba(22,22,31,.6), inset 0 0 0 4px rgba(22,22,31,.25); text-shadow: 0 0 1px #d6392f; }
+      .stamp .grit { position: absolute; inset: -9px; border-radius: 16px; mix-blend-mode: destination-out; opacity: .5; }
+
+      /* ---------- E6 ---------- */
+      #freeze { position: absolute; inset: 0; box-shadow: inset 0 0 0 16px var(--cream), inset 0 0 0 20px var(--ink), inset 0 0 120px 30px rgba(22,22,31,.45); opacity: 0; }
+      #crash { position: absolute; inset: 0; opacity: 0; }
+      #crash svg { width: 100%; height: 100%; }
+      #rewind { position: absolute; left: 600px; top: 128px; width: 80px; height: 50px; opacity: 0; }
+      #tiny { position: absolute; left: 0; top: 0; width: 40px; height: 60px; }
+      #tiny img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 3px rgba(255,240,220,.9)); }
+      #trail { position: absolute; inset: 0; overflow: visible; }
+      #eye { position: absolute; left: 860px; top: 560px; width: 420px; height: 230px; opacity: 0; }
+      #eye svg { width: 100%; height: 100%; overflow: visible; }
+      #stick { position: absolute; left: 930px; top: 528px; width: 120px; height: 7px; border-radius: 4px; background: linear-gradient(180deg, #a0703c, #5e3c1c); border: 2px solid var(--ink); transform-origin: 0 50%; opacity: 0; }
+      .boop { position: absolute; font-size: 56px; color: var(--cream); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; opacity: 0; white-space: nowrap; }
+      #faller { position: absolute; left: 585px; top: 362px; width: 200px; height: 290px; opacity: 0; }
+      #faller img { width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
+      #pxDyn { position: absolute; left: 556px; top: 404px; width: 40px; height: 64px; opacity: 0; }
+      #pxDyn img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(2px 3px 0 rgba(22,22,31,.6)); }
+      #pxDyn .spark { position: absolute; left: -2px; top: -18px; width: 26px; height: 26px; }
+      #pxRays { position: absolute; left: 456px; top: 296px; width: 240px; height: 240px; border-radius: 50%; opacity: 0;
+        background: repeating-conic-gradient(from 0deg, rgba(255, 230, 150, .75) 0deg 7deg, rgba(255, 230, 150, 0) 7deg 22deg);
+        -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,.5) 35%, transparent 70%); mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,.5) 35%, transparent 70%); }
+      /* casino insert */
+      #casino { background: radial-gradient(ellipse 80% 70% at 45% 45%, #2f8a55 0%, #1d6440 55%, #0f3a26 100%); opacity: 0; }
+      #casCam { position: absolute; inset: 0; }
+      #casino .felt { position: absolute; inset: 0; opacity: .25; background: repeating-linear-gradient(45deg, rgba(0,0,0,.25) 0 2px, rgba(0,0,0,0) 2px 7px); }
+      #casino .rail { position: absolute; left: -40px; right: -40px; bottom: -30px; height: 120px; border-radius: 60px 60px 0 0; background: linear-gradient(180deg, #8a5532 0%, #5c341c 100%); border-top: 6px solid var(--ink); }
+      #casChips { position: absolute; left: 830px; top: 330px; width: 300px; height: 230px; }
+      #casChips img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(6px 8px 0 rgba(0,0,0,.35)); }
+      #allIn { left: 860px; top: 270px; }
+      /* pointing loop insert */
+      #pt { background: radial-gradient(ellipse 70% 80% at 50% 40%, #7a4c86 0%, #3c3470 55%, #1f2150 100%); opacity: 0; }
+      #pt .floor { position: absolute; left: 0; right: 0; top: 600px; bottom: 0; background: linear-gradient(180deg, #2c2450 0%, #18142c 100%); border-top: 4px solid rgba(255, 196, 128, .5); }
+      #pt .spot { position: absolute; left: 340px; top: 0; width: 600px; height: 720px; background: radial-gradient(ellipse 50% 60% at 50% 70%, rgba(255, 220, 160, .35) 0%, rgba(255, 220, 160, 0) 70%); }
+      #ptCam { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 640px 400px; }
+      #ptStrip { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      .pf { position: absolute; top: 210px; width: 280px; height: 400px; }
+      .pf img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center; filter: drop-shadow(4px -1px 0 rgba(255, 196, 128, .9)); }
+      .pf svg { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(4px -1px 0 rgba(255, 196, 128, .95)); }
+      .pf .q { position: absolute; left: 50%; top: -24px; width: 60px; margin-left: -30px; text-align: center; font: 400 64px/1 "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; opacity: 0; }
+
+      /* ---------- E9: table, polaroids, years, phone ---------- */
+      #tbl { background: #1b1220; opacity: 0; }
+      #tblCam { position: absolute; inset: 0; }
+      #tblWall { position: absolute; left: -100px; top: -100px; width: 1480px; height: 920px; background: radial-gradient(ellipse 60% 70% at 40% 30%, #5b3a3a 0%, #2a1a26 55%, #120c16 100%); }
+      #tblTop { position: absolute; left: -260px; top: 150px; width: 1800px; height: 700px;
+        background: repeating-linear-gradient(90deg, rgba(0,0,0,.0) 0 90px, rgba(0,0,0,.12) 90px 93px), linear-gradient(180deg, #8a5532 0%, #6b3f24 50%, #4a2a17 100%); }
+      #tblLight { position: absolute; left: -100px; top: -100px; width: 1480px; height: 920px; mix-blend-mode: screen;
+        background: radial-gradient(ellipse 40% 45% at 50% 50%, rgba(255, 196, 110, .55) 0%, rgba(255, 150, 80, .18) 45%, rgba(0,0,0,0) 75%); }
+      #tblDim { position: absolute; left: -100px; top: -100px; width: 1480px; height: 920px; background: rgba(14, 10, 20, .8); opacity: 0; }
+      .pol { position: absolute; background: #fbf8f1; border-radius: 4px; padding: 14px 14px 0; box-shadow: 0 0 0 1px rgba(0,0,0,.15), 8px 12px 0 rgba(10, 6, 12, .45), 0 18px 30px rgba(0,0,0,.4); }
+      .pol .ph { position: relative; width: 100%; overflow: hidden; background: #333; }
+      .pol .cap { position: absolute; left: 0; bottom: 4px; width: 100%; text-align: center; font-size: 36px; line-height: 44px; color: #2b2236; white-space: nowrap; }
+      .pol .tape { position: absolute; left: 50%; top: -14px; width: 90px; height: 30px; margin-left: -45px; background: rgba(255, 244, 200, .65); box-shadow: 0 1px 2px rgba(0,0,0,.2); transform: rotate(-4deg); }
+      .ph img { position: absolute; }
+      #years { position: absolute; left: 0; top: 196px; width: 1280px; height: 200px; display: flex; justify-content: center; opacity: 0; transform-origin: 640px 100px; }
+      #yReel { display: flex; font-size: 190px; height: 196px; }
+      .ycol { display: block; height: 196px; overflow: hidden; }
+      .ystrip { display: block; }
+      .ystrip span { display: block; height: 196px; line-height: 196px; }
+      #yLater { left: 556px; top: 412px; opacity: 0; }
+      #phoneSh { opacity: 0; }
+      #phoneWrap { position: absolute; left: 640px; top: 54px; width: 384px; height: 612px; }
+      .seen { font: 800 14px/1 "Inter", sans-serif; color: #d99a00; text-align: right; margin: -2px 6px 0 0; letter-spacing: .04em; }
+      .sysrow .ch-pad { justify-content: center; }
+      .sys { margin: 0 auto; padding: 6px 14px; border-radius: 14px; background: rgba(22,22,31,.08); font: 600 16px/1.2 "Inter", sans-serif; color: rgba(22,22,31,.6); }
+
+      #words { position: absolute; left: 0; top: 576px; width: 1280px; display: flex; justify-content: center; gap: 20px; }
+      #words .w { display: block; font-size: 66px; color: var(--cream); }
+      #words .w.gold { color: var(--gold); }
+      #dim { background: radial-gradient(ellipse at 50% 45%, rgba(22, 22, 31, .55) 0%, rgba(22, 22, 31, .85) 100%); opacity: 0; }
+      #flash { background: #fff8e8; }
+    </style>
+    <!-- BEGIN hud.html -->
+    <!-- END hud.html -->
+    <!-- BEGIN chat.html -->
+    <!-- END chat.html -->
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="{{DUR}}" data-track-index="9" data-volume="1"></audio>
+
+      <div id="stage" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="0">
+        <div id="view" class="full"><div id="grade" class="full"><div id="breath" class="full"><div id="shake" class="full"><div id="tilt" class="full">
+
+          <!-- ================= THE WORLD: the hook's lake (persistent) ================= -->
+          <div id="world" class="full">
+            <div id="L-sky" class="L"><div class="F">
+              <div class="sky"></div><div id="sunglow"></div><div id="rays"></div><div id="sun"><div class="disc"></div></div>
+            </div></div>
+            <div id="L-cloud" class="L"><div class="F">
+              <div class="cloud" id="c1" style="left: 60px; top: 70px; width: 260px"></div>
+              <div class="cloud" id="c2" style="left: 420px; top: 128px; width: 190px; opacity: .8"></div>
+              <div class="cloud" id="c3" style="left: 760px; top: 60px; width: 300px"></div>
+              <div class="cloud" id="c4" style="left: 1130px; top: 150px; width: 210px; opacity: .7"></div>
+            </div></div>
+            <div id="L-hills" class="L"><div class="F">
+              <svg class="abs" style="left: -192px; top: 230px" width="1664" height="140" viewBox="-192 230 1664 140">
+                <defs><linearGradient id="hz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5a8c"/><stop offset="1" stop-color="#5d4a7c"/></linearGradient></defs>
+                <path d="M-192 300 C -60 270, 60 282, 180 296 S 420 262, 560 290 S 820 300, 900 286 S 1120 268, 1250 290 S 1420 296, 1472 288 L 1472 370 L -192 370 Z" fill="url(#hz)"/>
+                <g id="pines" fill="#4b3c6c"></g>
+              </svg>
+            </div></div>
+            <div id="L-island" class="L"><div class="F" id="islandF">
+              <svg class="abs" style="left: -192px; top: 250px" width="700" height="110" viewBox="-192 250 700 110">
+                <path d="M-192 336 C -120 300, -20 306, 60 314 C 160 300, 260 310, 330 326 C 380 332, 420 336, 440 340 L -192 340 Z" fill="#3a2f58"/>
+                <path d="M-120 312 C -40 304, 60 310, 160 304 C 240 306, 300 318, 330 326" fill="none" stroke="rgba(255,190,140,.55)" stroke-width="2"/>
+                <g id="islandPines" fill="#2e2548"></g>
+              </svg>
+            </div></div>
+            <div id="L-water" class="L"><div class="F"><canvas id="water" width="1664" height="498"></canvas></div></div>
+            <div id="L-boat" class="L"><div class="F" id="boatF">
+              <div id="bossSh" class="abs" style="left: 0; top: 560px; width: 980px; height: 300px; opacity: 0" data-hf-motion-blur='{"samplesPerFrame": 8}'>
+                <svg viewBox="0 0 980 300" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: blur(5px)">
+                  <!-- a giant silhouette, crab-claw hints: OUR shape, no boss of the game -->
+                  <path d="M40 150 C 120 60, 330 20, 560 40 C 700 52, 820 90, 900 140 C 930 160, 930 180, 900 196 C 820 236, 690 268, 540 270 C 330 272, 150 240, 60 176 Z" fill="rgba(10, 12, 34, .78)"/>
+                  <path d="M60 150 L -60 70 L -40 150 L -70 236 Z" fill="rgba(10, 12, 34, .7)"/>
+                  <path d="M850 110 C 900 40, 980 30, 1000 70 C 960 64, 930 84, 920 120 Z M850 200 C 900 270, 980 280, 1000 240 C 960 246, 930 226, 920 190 Z" fill="rgba(10, 12, 34, .7)"/>
+                  <path d="M300 40 C 360 -20, 470 -20, 520 36 Z" fill="rgba(10, 12, 34, .6)"/>
+                </svg>
+                <svg viewBox="0 0 980 300" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible">
+                  <g id="bossEyes"><ellipse cx="790" cy="122" rx="22" ry="13" fill="#ff2a2a"/><ellipse cx="840" cy="128" rx="20" ry="12" fill="#ff2a2a"/>
+                    <ellipse cx="790" cy="122" rx="40" ry="26" fill="rgba(255, 40, 40, .35)"/><ellipse cx="840" cy="128" rx="38" ry="24" fill="rgba(255, 40, 40, .35)"/>
+                    <ellipse cx="794" cy="120" rx="6" ry="4" fill="#ffe0d0"/><ellipse cx="844" cy="126" rx="6" ry="4" fill="#ffe0d0"/></g>
+                </svg>
+              </div>
+              <div id="ripples"></div>
+              <div id="fishBack"></div>
+              <div id="eye" data-hf-motion-blur='{"samplesPerFrame": 6}'>
+                <svg viewBox="0 0 420 230">
+                  <defs><radialGradient id="iris" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe066"/><stop offset=".55" stop-color="#ff9a2a"/><stop offset="1" stop-color="#b8321e"/></radialGradient>
+                    <radialGradient id="bulge" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="rgba(20, 16, 50, .75)"/><stop offset="1" stop-color="rgba(20, 16, 50, 0)"/></radialGradient></defs>
+                  <ellipse cx="210" cy="115" rx="210" ry="115" fill="url(#bulge)"/>
+                  <g id="eyeOpen">
+                    <path d="M40 115 C 110 30, 310 30, 380 115 C 310 200, 110 200, 40 115 Z" fill="#f3ecc8" stroke="#16161f" stroke-width="7"/>
+                    <g id="eyeIris"><circle cx="210" cy="115" r="66" fill="url(#iris)" stroke="#16161f" stroke-width="5"/><ellipse cx="210" cy="115" rx="15" ry="56" fill="#16161f"/>
+                      <circle cx="232" cy="88" r="11" fill="#fff"/></g>
+                    <path d="M40 115 C 110 30, 310 30, 380 115" fill="none" stroke="#16161f" stroke-width="9" stroke-linecap="round"/>
+                  </g>
+                  <rect x="0" y="0" width="420" height="230" fill="rgba(70, 60, 130, .28)"/>
+                </svg>
+              </div>
+              <div id="boatEnter">
+                <div id="boatRefl"><img src="assets/rowboat_side.png" alt="" /></div>
+                <div id="boatBob"><div id="boatRock">
+                  <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />
+                  <div id="crewClip">
+                    <div class="mate sil" id="silA" style="left: 432px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip">
+                      <svg viewBox="0 0 200 290"><path d="M48 290 C 44 200, 50 140, 70 118 C 82 106, 94 102, 100 102 C 106 102, 120 106, 132 118 C 152 140, 156 200, 152 290 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="101" cy="62" r="36" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M68 52 C 70 22, 124 16, 136 46 C 120 34, 88 34, 68 52 Z" fill="#5d5678" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg>
+                      <div class="arm" id="armA" style="left: 118px; top: 112px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="108" cy="14" r="11" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
+                    </div></div></div></div></div></div>
+                    <div class="mate sil" id="silB" style="left: 520px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
+                      <svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><g id="headB"><circle cx="100" cy="60" r="35" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M66 54 C 60 26, 92 10, 118 20 C 138 28, 140 46, 136 56 C 122 38, 90 36, 66 54 Z" fill="#655e86" stroke="#16161f" stroke-width="3" paint-order="stroke"/></g></svg>
+                    </div></div></div></div></div>
+                    <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
+                      <img id="pxLaugh" src="assets/pixie_laugh.png" alt="" /><img id="pxAwe" class="alt" src="assets/pixie_awe.png" alt="" />
+                    </div></div></div></div></div>
+                    <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
+                      <img id="qLaugh" src="assets/quest_laugh.png" alt="" /><img id="qSlump" class="alt" src="assets/quest_slumped.png" alt="" /><img id="qShock" class="alt" src="assets/quest_surprised.png" alt="" />
+                      <!-- the slap mark: a separate layer over the cheek (the art is untouched) -->
+                      <div class="handprint" id="hand" style="left: 98px; top: 36px; width: 38px; height: 42px"><svg viewBox="0 0 38 42"><path d="M8 40 C 3 32, 3 24, 5 18 L 3 7 C 2.5 4, 6.5 3, 7.5 6 L 10 15 L 10 3.5 C 10 0.5, 14.5 0.5, 14.5 3.5 L 15 14 L 17 2.5 C 17.5 -0.5, 22 0, 21.5 3 L 20 15 L 24 5 C 25 2, 29.5 3.5, 28.5 6.5 L 25 18 L 30 13 C 32.5 10.5, 36 13.5, 33.5 16 L 26 27 C 23 34, 19 39, 13 41 Z" fill="#e0303a"/></svg></div>
+                    </div></div></div></div></div>
+                  </div>
+                  <div id="rod"><img src="assets/rod.png" alt="" /></div>
+                  <img class="boatimg" src="assets/rowboat_side_front.png" alt="" />
+                </div></div>
+              </div>
+              <div id="pxRays"></div>
+              <div id="pxDyn" data-hf-motion-blur='{"samplesPerFrame": 6}'><img src="assets/dynamite.png" alt="" /><div class="spark" id="fuse"></div></div>
+              <div id="stick"></div>
+              <div id="fishFront"></div>
+              <div id="faller" data-hf-motion-blur='{"samplesPerFrame": 8}'><img src="assets/quest_surprised.png" alt="" /></div>
+            </div></div>
+            <div id="L-fore" class="L"><div class="F" id="reeds"></div></div>
+          </div>
+
+          <!-- ================= SCREEN-SPACE OVERLAYS on the world ================= -->
+          <div id="ov" class="full">
+            <div id="dim" class="full"></div>
+            <!-- E1/E2 the list -->
+            <div id="list" data-hf-motion-blur='{"samplesPerFrame": 10}'><div id="listIn">
+              <div class="paper">
+                <svg class="grain" viewBox="0 0 589 372" preserveAspectRatio="none"><filter id="pg"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .3  0 0 0 0 .15  0 0 0 .55 0"/></filter><rect width="589" height="372" filter="url(#pg)"/></svg>
+                <div class="pin" style="left: 22px; top: 14px"></div><div class="pin" style="left: 546px; top: 18px"></div>
+              </div>
+              <div id="listTitle" class="hand">Alibi props:</div>
+              <svg id="listUnder" viewBox="0 0 300 20"><path d="M2 12 C 70 4, 170 16, 296 7" fill="none" stroke="#b8321e" stroke-width="5" stroke-linecap="round"/></svg>
+            </div></div>
+            <!-- E3 shop board (our design, our prices) -->
+            <div id="board">
+              <div class="rope" style="left: 90px"></div><div class="rope" style="left: 524px"></div>
+              <div class="plank">SHOP</div><div class="nail" style="left: 87px"></div><div class="nail" style="left: 521px"></div>
+            </div>
+            <div id="wheelOv" class="wheel" style="left: 470px; top: 120px; width: 340px; height: 340px"></div>
+            <div id="wallet"><img id="wHappy" src="assets/wallet_happy.png" alt="" /><img id="wWorried" src="assets/wallet_worried.png" alt="" /><img id="wFaint" src="assets/wallet_fainted.png" alt="" /></div>
+            <!-- E3 the Steam quote, verbatim -->
+            <div id="quote">
+              <div class="mk" id="qLabel">The developers' own description · Steam store page</div>
+              <div id="qMark" class="big">&ldquo;</div>
+              <div class="qline" style="top: 196px"><span class="qw big" id="q1">cartoon</span><span class="qw big red" id="q2">violence</span></div>
+              <div class="qline" style="top: 300px"><span class="qw big" id="q3">towards</span><span class="qw big gold" id="q4">fish</span></div>
+              <div class="qline" style="top: 404px"><span class="qw big" id="q5">and</span><span class="qw big" id="q6">gambling</span></div>
+              <div class="qline" style="top: 508px"><span class="qw big" id="q7">with</span><span class="qw big gold" id="q8">fish</span><span class="qw big" id="qEnd" style="color: var(--gold)">&rdquo;</span></div>
+              <div id="qSmall"><span id="q9">(no real money).</span></div>
+            </div>
+            <!-- E4 the goal tag + the stamp -->
+            <div id="gTag"><div class="string"></div><div class="card"><div class="hole"></div><div class="l1">GOAL:</div><div class="l2 hand">catch fish</div><div id="gStrike"></div></div></div>
+            <div id="alibi" class="stamp" style="left: 600px; top: 150px; font-size: 104px">ALIBI</div>
+            <div id="failure" class="stamp" style="left: 330px; top: 110px; font-size: 140px">FAILURE.</div>
+            <!-- E6 marks -->
+            <div id="freeze"></div>
+            <div id="crash"><svg viewBox="0 0 1280 720" id="crashSvg"></svg></div>
+            <div id="rewind"><svg viewBox="0 0 80 50"><path d="M38 4 L 4 25 L 38 46 Z M76 4 L 42 25 L 76 46 Z" fill="#fff4dc" stroke="#16161f" stroke-width="4" stroke-linejoin="round"/></svg></div>
+            <svg id="trail" viewBox="0 0 1280 720"><path id="trailPath" d="" fill="none" stroke="rgba(255, 244, 220, .75)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/></svg>
+            <div id="tiny" data-hf-motion-blur='{"samplesPerFrame": 10}'><img src="assets/quest_arms_up.png" alt="" /></div>
+            <div class="boop hand" id="boop">boop</div>
+            <!-- E8 the line -->
+            <div id="words"><span class="w big" id="w1">how</span><span class="w big" id="w2">most</span><span class="w big" id="w3">friendships</span><span class="w big" id="w4">handle</span><span class="w big gold" id="w5">feelings.</span></div>
+          </div>
+
+          <!-- ================= INSERT: the savings (E6 gag 3) ================= -->
+          <div id="casino" class="full"><div id="casCam">
+            <div class="felt"></div>
+            <div id="casWheel" class="wheel" style="left: 190px; top: 130px; width: 470px; height: 470px"></div>
+            <div id="casChips" data-hf-motion-blur='{"samplesPerFrame": 8}'><img src="assets/chips.png" alt="" /></div>
+            <div class="mk" id="allIn">All in</div>
+            <div class="rail"></div>
+          </div></div>
+
+          <!-- ================= INSERT: nobody admits who (E6 gag 3) ================= -->
+          <div id="pt" class="full">
+            <div class="spot"></div><div class="floor"></div>
+            <div id="ptCam"><div id="ptStrip"></div></div>
+          </div>
+
+          <!-- ================= INSERT: years later (E9) ================= -->
+          <div id="tbl" class="full"><div id="tblCam">
+            <div id="tblWall"></div><div id="tblTop"></div><div id="tblLight"></div>
+            <div id="pols"></div>
+            <div id="tblDim"></div>
+            <div id="years"><div id="yReel" class="big"></div></div>
+            <div class="mk" id="yLater">years later</div>
+          </div></div>
+          <div id="phoneSh" class="full"><div id="phoneWrap"></div></div>
+
+        </div></div></div></div></div>
+      </div>
+
+      <!-- ================= THE HUD (game world only: E3, E6, E7) ================= -->
+      <div id="hudL" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="3"></div>
+      <div id="flashL" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="4"><div id="flash" class="full" style="opacity: 0"></div></div>
+    </div>
+
+    <script>
+      /* ------------------------------------------------------------------ setup (deterministic) */
+      const W = 1280, H = 720;
+      function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const R = rng(3005);
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); if (html != null) e.innerHTML = html; parent.appendChild(e); return e; };
+      const SVGNS = "http://www.w3.org/2000/svg";
+      const IR = { immediateRender: false };
+
+      // pines, reeds, ripples (as in the hook)
+      (function () {
+        const g = $("#pines"); for (let i = 0; i < 26; i++) { const x = -150 + i * 26 + R() * 14; if (x > 360) break; const h = 16 + R() * 18, y = 296 + R() * 6;
+          const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", `M${x} ${y - h} L${x + h * .32} ${y} L${x - h * .32} ${y} Z`); g.appendChild(p); }
+        const g2 = $("#islandPines"); for (let i = 0; i < 16; i++) { const x = -170 + i * 30 + R() * 16; const h = 26 + R() * 30, y = 322 + R() * 8;
+          const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", `M${x} ${y - h} L${x + h * .3} ${y} L${x - h * .3} ${y} Z`); g2.appendChild(p); }
+      })();
+      const reeds = [];
+      (function () { const host = $("#reeds");
+        for (let i = 0; i < 14; i++) { const left = i < 7; const x = left ? -60 + i * 16 + R() * 8 : 1180 + (i - 7) * 18 + R() * 8;
+          const h = 120 + R() * 140; reeds.push(mk("div", "reed", host, `left:${x}px; height:${h}px; width:${7 + R() * 5}px`)); } })();
+      const ripples = []; (function () { const host = $("#ripples"); for (let i = 0; i < 4; i++) ripples.push(mk("div", "ripple", host, `left:${380}px; top:${585}px; width:520px; height:40px`)); })();
+
+      // the companion fish v2 (fish_34) with its expression faces (opacity swaps, as the hook's buddyFace)
+      const buddy = mk("div", "fish", $("#fishFront"), "left:0; top:0; width:170px; height:125px"); buddy.id = "buddy";
+      buddy.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+      mk("img", "", buddy).src = "assets/fish_34.png";
+      const FACES = {}; ["blink", "sweat", "wince", "lookup", "wide"].forEach((n) => { const im = mk("img", "lid", buddy); im.src = `assets/fish_34_${n}.png`; FACES[n] = im; });
+      // the list, worn on its head after the yeet (a mini copy of the parchment)
+      const hat = mk("div", "abs", buddy, "left: 22px; top: -30px; width: 96px; height: 62px", `<div class="paper" style="border-radius: 4px"></div>` +
+        `<div class="hand" style="position:absolute; left:8px; top:2px; font-size:17px; color:#3a2414; line-height:1">Alibi props:</div>` +
+        `<div style="position:absolute; left:10px; top:22px; width:74px; height:3px; background:rgba(58,36,20,.45); box-shadow: 0 11px 0 rgba(58,36,20,.45), 0 22px 0 rgba(58,36,20,.45)"></div>`);
+      hat.id = "hat";
+
+      // splash rigs (the hook's), with an optional freeze window (drops hold mid-air)
+      function makeSplash(host, x, y, s) { const g = mk("div", "abs", host, `left:${x}px; top:${y}px; width:0; height:0`); const rings = [], drops = [];
+        for (let i = 0; i < 2; i++) rings.push(mk("div", "ring", g, `left:${-60 * s}px; top:${-12 * s}px; width:${120 * s}px; height:${24 * s}px`));
+        for (let i = 0; i < 11; i++) drops.push(mk("div", "drop", g, `left:-4px; top:-4px`)); return { g, rings, drops, s }; }
+      function star4svg(color) { return `<svg viewBox="-20 -20 40 40" style="width:100%; height:100%; overflow:visible"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="${color}"/></svg>`; }
+      $("#fuse").innerHTML = star4svg("#ffd54a");
+
+      /* ---------- the parchment list rows ---------- */
+      const ICON_TARGET = `<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#fff4dc" stroke="#3a2414" stroke-width="3"/><circle cx="30" cy="30" r="17" fill="#d6392f"/><circle cx="30" cy="30" r="9" fill="#fff4dc"/><circle cx="30" cy="30" r="4" fill="#d6392f"/></svg>`;
+      const ROWS = [["A boat", `<img src="assets/rowboat_side.png" alt="" style="width:96px" />`], ["A rod", `<img src="assets/rod.png" alt="" style="height:96px; transform: rotate(62deg)" />`], ["A goal", ICON_TARGET]];
+      const rowEls = ROWS.map(([txt, ico], i) => { const r = mk("div", "lrow", $("#listIn"), `top:${118 + i * 78}px`);
+        mk("div", "", r, "", `<svg class="lbox" viewBox="0 0 50 50"><path d="M5 7 C 18 4, 34 6, 46 5 C 47 18, 45 32, 46 45 C 32 47, 17 45, 4 46 C 6 33, 3 19, 5 7 Z" fill="rgba(255,255,255,.35)" stroke="#3a2414" stroke-width="3.2" stroke-linejoin="round"/>` +
+          `<path class="tk" d="M9 25 L 21 39 L 52 -4" fill="none" stroke="#d6392f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
+        mk("div", "lico", r, "", ico); mk("div", "ltxt hand", r, "", txt); return r; });
+      const ticks = rowEls.map((r) => r.querySelector(".tk"));
+
+      /* ---------- E3 shop tags (code-drawn placeholders for the props3d set) ---------- */
+      // TODO(props3d): swap for public/art/ep003/props3d/pistol*.png when it lands (stage it in blockE.assets.json)
+      const PISTOL = `<svg viewBox="0 0 120 80"><path d="M14 18 L 104 18 C 110 18, 112 22, 112 26 L 112 36 L 50 36 L 46 70 C 45 75, 41 77, 36 77 L 22 77 C 17 77, 15 73, 16 68 L 22 36 L 14 36 C 10 36, 8 33, 8 29 L 8 24 C 8 20, 10 18, 14 18 Z" fill="#5a5f74" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/>` +
+        `<rect x="100" y="18" width="12" height="18" rx="3" fill="#ff8a1f" stroke="#16161f" stroke-width="4"/><path d="M48 36 C 52 48, 62 50, 66 40" fill="none" stroke="#16161f" stroke-width="5"/><path d="M24 24 L 96 24" stroke="#8a90a8" stroke-width="4" stroke-linecap="round"/></svg>`;
+      // TODO(props3d): swap for public/art/ep003/props3d/shotgun*.png when it lands
+      const SHOTGUN = `<svg viewBox="0 0 170 60"><path d="M8 30 C 8 24, 12 22, 18 22 L 60 22 L 66 16 L 160 16 C 165 16, 166 20, 166 24 L 166 30 C 166 33, 164 35, 160 35 L 70 35 L 56 52 C 52 57, 46 58, 40 56 L 12 44 C 8 42, 8 38, 8 34 Z" fill="#7a5028" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/>` +
+        `<rect x="62" y="12" width="98" height="14" rx="5" fill="#5a5f74" stroke="#16161f" stroke-width="4"/><rect x="150" y="12" width="12" height="14" rx="3" fill="#ff8a1f" stroke="#16161f" stroke-width="3"/><rect x="88" y="30" width="40" height="10" rx="4" fill="#9a6a3c" stroke="#16161f" stroke-width="3"/></svg>`;
+      // TODO(props3d): swap for public/art/ep003/props3d/gold_sniper*.png when it lands
+      const SNIPER = `<svg viewBox="0 0 220 70"><path d="M6 40 C 6 34, 10 32, 16 32 L 70 32 L 76 26 L 200 26 C 206 26, 208 30, 208 34 L 208 38 L 80 40 L 66 58 C 62 63, 54 64, 48 62 L 12 52 C 7 50, 6 46, 6 44 Z" fill="#e8b830" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/>` +
+        `<rect x="92" y="8" width="64" height="16" rx="8" fill="#fff4dc" stroke="#16161f" stroke-width="4"/><circle cx="92" cy="16" r="9" fill="#fff4dc" stroke="#16161f" stroke-width="4"/><rect x="198" y="24" width="14" height="16" rx="3" fill="#ff8a1f" stroke="#16161f" stroke-width="3"/>` +
+        `<path d="M20 38 L 60 38" stroke="#fff3b0" stroke-width="4" stroke-linecap="round"/></svg>`;
+      const DYN = `<img src="assets/dynamite.png" alt="" style="height:100%" />`;
+      const SHELL = `<svg viewBox="0 0 60 50"><path d="M30 6 C 14 6, 4 20, 6 34 L 14 44 L 46 44 L 54 34 C 56 20, 46 6, 30 6 Z" fill="#ffd9c7" stroke="#16161f" stroke-width="4" stroke-linejoin="round"/>` +
+        `<path d="M30 8 L 30 42 M30 8 L 18 42 M30 8 L 42 42 M30 8 L 10 36 M30 8 L 50 36" stroke="#e8a48a" stroke-width="3"/><rect x="20" y="42" width="20" height="6" rx="3" fill="#ffd9c7" stroke="#16161f" stroke-width="3"/></svg>`;
+      const TAGS = [["PISTOL", "$60", PISTOL, 20], ["GOLD SNIPER", "$9,999", SNIPER, 226], ["SHOTGUN", "$150", SHOTGUN, 432]];
+      const tagEls = TAGS.map(([nm, pr, ic, x]) => { const t = mk("div", "ptag", $("#board"), `left:${x}px`); mk("div", "str", t); const cd = mk("div", "cd", t);
+        mk("div", "ic", cd, "", ic); mk("div", "nm", cd, "", nm); mk("div", "pr", cd, "", pr); return { t, sold: mk("div", "sold", cd, "", "SOLD") }; });
+      { const t = mk("div", "ptag", $("#board"), "left: 226px; top: 300px; display: none"); }
+
+      /* ---------- roulette (our wheel: red/black + ONE green pocket) ---------- */
+      const N = 15;
+      function makeWheel(host) { const S = 200, rO = 190, rI = 120;
+        let seg = ""; for (let i = 0; i < N; i++) { const a0 = (i / N) * Math.PI * 2 - Math.PI / 2, a1 = ((i + 1) / N) * Math.PI * 2 - Math.PI / 2;
+          const c = i === 0 ? "#2e9e5b" : i % 2 ? "#c8323a" : "#1e1e24";
+          const p = (r, a) => `${(S + r * Math.cos(a)).toFixed(1)} ${(S + r * Math.sin(a)).toFixed(1)}`;
+          seg += `<path d="M ${p(rI, a0)} L ${p(rO, a0)} A ${rO} ${rO} 0 0 1 ${p(rO, a1)} L ${p(rI, a1)} A ${rI} ${rI} 0 0 0 ${p(rI, a0)} Z" fill="${c}" stroke="#d9b56a" stroke-width="2"/>`; }
+        host.innerHTML = `<svg viewBox="0 0 400 400"><circle cx="200" cy="208" r="198" fill="rgba(0,0,0,.35)"/><circle cx="200" cy="200" r="198" fill="#7a4a24" stroke="#16161f" stroke-width="6"/><circle cx="200" cy="200" r="192" fill="#5c341c"/></svg>` +
+          `<div class="rot"><svg viewBox="0 0 400 400">${seg}<circle cx="200" cy="200" r="120" fill="#9a6a3c" stroke="#16161f" stroke-width="4"/>` +
+          `<circle cx="200" cy="200" r="86" fill="#7a4a24" stroke="#d9b56a" stroke-width="3"/><path d="M200 130 L 214 200 L 200 270 L 186 200 Z M130 200 L 200 186 L 270 200 L 200 214 Z" fill="#d9b56a" stroke="#16161f" stroke-width="3"/>` +
+          `<circle cx="200" cy="200" r="18" fill="#ffc83d" stroke="#16161f" stroke-width="4"/></svg></div><div class="ball"><i></i></div>`;
+        return { rot: host.querySelector(".rot"), ball: host.querySelector(".ball i"), size: host.offsetWidth || parseFloat(host.style.width) }; }
+      // spin: the wheel turns `turns` revolutions; the ball runs the other way and drops into pocket k (0 = green) at the end
+      function spin(tl, wh, t0, dur, turns, k, ballR) { const size = parseFloat(wh.rot.parentNode.style.width); const sc = size / 400;
+        const wEnd = turns * 360; const pocket = (k + .5) / N * 360 - 90;
+        const P = { a: 0, r: 0 }; const bR = (ballR || 11) * sc;
+        Object.assign(wh.ball.style, { width: 2 * bR + "px", height: 2 * bR + "px", left: -bR + "px", top: -bR + "px" });
+        const draw = () => { const a = P.a * Math.PI / 180, r = (176 - P.r * 34) * sc; wh.ball.style.transform = `translate(${(r * Math.cos(a)).toFixed(2)}px, ${(r * Math.sin(a)).toFixed(2)}px)`; };
+        const aEnd = wEnd + pocket, aStart = aEnd + 360 * (turns + 2);
+        tl.fromTo(wh.rot, { rotation: 0 }, { rotation: wEnd, duration: dur, ease: "power3.out", ...IR }, t0);
+        tl.fromTo(P, { a: aStart, r: 0 }, { a: aEnd, duration: dur, ease: "power3.out", onUpdate: draw, ...IR }, t0);
+        tl.fromTo(P, { r: 0 }, { keyframes: [{ r: 1, duration: .12, ease: "power2.in" }, { r: .8, duration: .08 }, { r: 1, duration: .1, ease: "bounce.out" }], onUpdate: draw, ...IR }, t0 + dur * .72);
+        P.a = aStart; draw(); }
+      const wheelOv = makeWheel($("#wheelOv")), casWheel = makeWheel($("#casWheel"));
+
+      /* ---------- pointing loop figures: each points at the next; the last one points at the fish ---------- */
+      const POINTER = (c) => `<svg viewBox="0 0 280 400"><path d="M78 400 C 72 290, 82 196, 110 166 C 124 152, 134 148, 140 148 C 150 148, 166 152, 180 166 C 206 194, 212 290, 206 400 Z" fill="${c}" stroke="#16161f" stroke-width="4" paint-order="stroke"/>` +
+        `<circle cx="141" cy="98" r="48" fill="${c}" stroke="#16161f" stroke-width="4" paint-order="stroke"/>` +
+        `<path d="M168 190 C 210 184, 248 180, 262 182 L 266 172 C 270 166, 280 170, 277 178 L 274 184 C 282 186, 282 198, 274 200 C 252 204, 210 210, 172 214 Z" fill="${c}" stroke="#16161f" stroke-width="4" stroke-linejoin="round" paint-order="stroke"/></svg>`;
+      const PF = [["img", "assets/quest_laugh.png"], ["img", "assets/pixie_laugh.png"], ["svg", POINTER("#6d6688")], ["svg", POINTER("#77709a")], ["fish", ""]];
+      const SPACING = 420;
+      const ptFigs = PF.map(([k, v], i) => { const f = mk("div", "pf", $("#ptStrip"), `left:${640 - 140 + i * SPACING}px`);
+        if (k === "img") mk("img", "", f).src = v; else if (k === "svg") f.innerHTML = v;
+        else { f.style.top = "330px"; f.style.height = "270px"; const fi = mk("img", "", f); fi.src = "assets/fish_34.png"; fi.style.objectFit = "contain"; const lid = mk("img", "lid", f); lid.src = "assets/fish_34_blink.png"; lid.id = "ptLid"; }
+        mk("div", "q", f, "", "?"); return f; });
+
+      /* ---------- polaroids (E9) ---------- */
+      function pol(host, o) { const e = mk("div", "pol", $("#pols"), `left:${o.x - o.w / 2}px; top:${o.y - o.h / 2}px; width:${o.w}px; height:${o.h}px`);
+        const ph = mk("div", "ph", e, `height:${o.w - 28}px; background:${o.bg}`, o.inner); mk("div", "cap hand", e, "", o.cap); if (o.tape) mk("div", "tape", e); return e; }
+      const P0 = pol(null, { x: 640, y: 350, w: 360, h: 420, cap: "perfect day :)", tape: true, bg: "linear-gradient(180deg, #8fd3f4 0%, #c9ecfb 55%, #2bb3c0 56%, #1f8fa0 100%)",
+        inner: `<div style="position:absolute; left:226px; top:22px; width:60px; height:60px; border-radius:50%; background:#fff6c0; box-shadow:0 0 30px 10px rgba(255,250,200,.8)"></div>` +
+          `<img src="assets/quest_wave.png" style="left:18px; top:42px; height:250px" /><img src="assets/pixie_wave.png" style="left:150px; top:46px; height:246px" />` +
+          `<img src="assets/fish_side.png" style="left:96px; top:150px; width:140px; transform: rotate(-12deg)" />` +
+          `<img src="assets/rowboat_side.png" style="left:-40px; top:252px; width:420px" />` });
+      const FAILS = [
+        { x: 450, y: 270, r: -7, cap: "the splash", bg: "linear-gradient(180deg, #7a4c86 0%, #f4907a 50%, #52407a 51%, #2a2450 100%)",
+          inner: `<img src="assets/quest_surprised.png" style="left:52px; top:30px; height:180px" /><div style="position:absolute; left:0; top:150px; width:240px; height:90px; background:linear-gradient(180deg, #52407a, #2a2450)"></div>` +
+            `<svg viewBox="0 0 222 222" style="position:absolute; inset:0; width:100%; height:100%"><g fill="#e9f6ff"><path d="M40 160 C 50 120, 60 110, 64 150 Z M170 158 C 176 116, 190 110, 186 156 Z M96 156 C 100 128, 110 124, 112 154 Z"/><circle cx="56" cy="104" r="6"/><circle cx="168" cy="96" r="7"/><circle cx="140" cy="120" r="5"/><circle cx="86" cy="118" r="5"/></g>` +
+            `<ellipse cx="111" cy="160" rx="96" ry="12" fill="none" stroke="#fff" stroke-width="4"/></svg>` },
+        { x: 790, y: 262, r: 5, cap: "dynamite night", bg: "radial-gradient(circle at 70% 35%, #ffcc5a 0%, #ff7b3a 22%, #3a1f3a 55%, #1b1220 100%)",
+          inner: `<img src="assets/pixie_awe.png" style="left:6px; top:18px; height:220px" /><img src="assets/dynamite.png" style="left:140px; top:40px; height:70px; transform: rotate(18deg)" />` +
+            `<div style="position:absolute; left:120px; top:6px; width:100px; height:100px; border-radius:50%; background:radial-gradient(circle, #fff7d0 0%, #ffcc5a 35%, rgba(255,123,58,0) 70%)"></div>` },
+        { x: 500, y: 498, r: 4, cap: "the savings", bg: "radial-gradient(ellipse at 50% 45%, #2f8a55 0%, #1d6440 60%, #0f3a26 100%)",
+          inner: `<img src="assets/wallet_fainted.png" style="left:16px; top:40px; width:190px" /><div class="big" style="position:absolute; left:70px; top:0; font-size:64px; color:#ff5a5a">$0</div>` },
+        { x: 820, y: 492, r: -4, cap: "the island", bg: "linear-gradient(180deg, #3c3470 0%, #c9688a 55%, #52407a 56%, #2a2450 100%)",
+          inner: `<svg viewBox="0 0 222 222" style="position:absolute; inset:0; width:100%; height:100%"><path d="M0 124 C 30 104, 70 106, 96 120 L 96 124 Z" fill="#2e2548"/>` +
+            `<path d="M196 150 C 150 40, 70 30, 40 104" fill="none" stroke="#fff4dc" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>` +
+            `<ellipse cx="170" cy="182" rx="40" ry="20" fill="#f3ecc8" stroke="#16161f" stroke-width="4"/><circle cx="168" cy="182" r="13" fill="#ff9a2a" stroke="#16161f" stroke-width="3"/><ellipse cx="168" cy="182" rx="3" ry="11" fill="#16161f"/></svg>` +
+            `<img src="assets/quest_arms_up.png" style="left:44px; top:68px; height:40px; transform: rotate(-30deg)" />` },
+      ].map((o) => pol(null, Object.assign({ w: 262, h: 304 }, o)));
+
+      /* ---------- years wheel 2026 -> 2031 (odometer, like the HUD money and the hook's reel) ---------- */
+      const yCols = []; (function () { const host = $("#yReel");
+        for (let k = 3; k >= 0; k--) { const c = mk("span", "ycol", host); const s = mk("span", "ystrip", c); for (let d = 0; d <= 10; d++) mk("span", "", s, "", String(d % 10)); yCols.push({ s, k }); } })();
+      const drawYear = (v) => yCols.forEach(({ s, k }) => { const p = Math.pow(10, k); let pos;
+        if (k === 0) pos = v % 10; else { const r = v % p; pos = Math.floor(v / p) % 10 + Math.max(0, Math.min(1, r - (p - 1))); }
+        s.style.transform = `translateY(${-pos * 196}px)`; });
+      drawYear(2026);
+
+      /* ---------- the chat (block B's ChatPhone, read-only reuse) ---------- */
+      const chat = ChatPhone($("#phoneWrap"), { title: "The boat", sub: "5 members", clock: "9:14", me: "Q",
+        members: { Q: { name: "Quest", color: "#d6392f", avatar: ChatPhone.avImg("assets/quest_wave.png", 688, 1024, 318, 170, 300) },
+                   P: { name: "Pixie", color: "#1f8fa0", avatar: ChatPhone.avImg("assets/pixie_wave.png", 680, 1024, 312, 176, 250) },
+                   A: { name: "Max", color: "#7860be", avatar: ChatPhone.avSil("#7860be") },
+                   B: { name: "Jules", color: "#b0568a", avatar: ChatPhone.avSil("#b0568a") },
+                   S: { name: "Sam", color: "#2e9e5b", avatar: ChatPhone.avSil("#2e9e5b") } } });
+      function sysRow(text) { const r = mk("div", "ch-row sysrow", chat.list); const pad = mk("div", "ch-pad", r); const b = mk("div", "sys", pad, "", text); return { el: r, bub: b, h: 46 }; }
+      const cDate = sysRow("Today · 2031");
+      const cJoin = sysRow("Sam joined the group");
+      const cSlap = chat.msg("Q", "THE SLAP", { time: "9:14 PM", h: 100 });
+      const cSeen = mk("div", "seen", cSlap.bub.parentNode, "", "Seen by 4");
+      const cDots = chat.typing("S");
+      const cWhat = chat.msg("S", "???", { time: "9:16 PM", h: 112 });
+
+      /* ---------- the HUD ---------- */
+      const hud = GameHUD($("#hudL"), { hearts: 3, money: 0, digits: 5, slots: 3 });
+
+      /* ------------------------------------------------------------------ water shader (the hook's; seek-driven) */
+      const water = (function () {
+        const cv = $("#water"); const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
+        if (!gl) return { draw() {} };
+        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
+        const fs = `precision mediump float; uniform float t; uniform vec2 res; uniform float sunU; uniform float glow;
+          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
+          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
+          void main(){
+            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x; float v = 1. - fc.y/res.y;
+            float z = 1./(v*1.05 + .04); float wx = (u-.5)*z*2.6; float wz = z;
+            float far = smoothstep(.0,.12,v);
+            vec3 cHor = vec3(.93,.64,.62), cMid = vec3(.52,.40,.64), cDeep = vec3(.21,.19,.41);
+            vec3 col = mix(cHor, cMid, smoothstep(.0,.38,v)); col = mix(col, cDeep, smoothstep(.3,1.,v));
+            float sw = sin(wz*5.2 - t*1.5 + sin(wx*1.3 + t*.45)*1.4)*.5 + .5;
+            float n = vn(vec2(wx*1.6 + t*.07, wz*7.5 - t*.9));
+            float crest = smoothstep(.78,.93, sw*.55 + n*.5) * far;
+            col = mix(col, col*1.22 + vec3(.06,.04,.07), crest*.6);
+            float trough = smoothstep(.32,.08, sw*.55 + n*.45) * far;
+            col *= 1. - trough*.16;
+            float dash = step(.91, vn(vec2(wx*.7 + t*.04, wz*13.))) * far;
+            col = mix(col, vec3(1.,.87,.8), dash*.32*(1.-v*.4));
+            float dx = abs(u - sunU); float cw = .018 + v*.10; float column = exp(-(dx/cw)*(dx/cw));
+            float glit = step(.70 - column*.22, vn(vec2(wx*5. + t*.25, wz*20. - t*1.3)));
+            col = mix(col, vec3(1.,.88,.58), column*(.28 + .72*glit*far)*(1.-v*.55)*glow);
+            col += vec3(1.,.72,.5)*column*.12*glow;
+            col = mix(col, vec3(1.,.8,.68), smoothstep(.07,.0,v)*.65);
+            gl_FragColor = vec4(col, 1.);
+          }`;
+        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
+        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        const uT = gl.getUniformLocation(pr, "t"), uRes = gl.getUniformLocation(pr, "res"), uSun = gl.getUniformLocation(pr, "sunU"), uGlow = gl.getUniformLocation(pr, "glow");
+        gl.viewport(0, 0, cv.width, cv.height);
+        return { draw(t, glow) { gl.uniform1f(uT, t); gl.uniform2f(uRes, cv.width, cv.height); gl.uniform1f(uSun, (1012 + 192) / 1664); gl.uniform1f(uGlow, glow); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
+      })();
+
+      /* ------------------------------------------------------------------ the timeline (every beat on a word token) */
+      const tl = gsap.timeline({ paused: true });
+      const DUR = {{DUR}};
+      // freeze frames (E6 "water."): the lake's time stops inside these windows
+      const FREEZE = [[{{l32.w5+0.1}}, {{l32.w6-0.2}}]];
+      const wt = (t) => FREEZE.reduce((a, [f0, f1]) => a - Math.max(0, Math.min(t, f1) - f0), t);
+      const env = { t: 0, glow: 1 };
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wt(env.t) + 200, env.glow) }, 0);
+
+      // camera: per-layer parallax (f: 0 far .. 1 boat .. >1 foreground), the hook's cam()/focus()
+      const LAYERS = [["#L-sky", .1], ["#L-cloud", .16], ["#L-hills", .3], ["#L-island", .45], ["#L-water", .6], ["#L-boat", 1], ["#L-fore", 1.35]];
+      function cam(at, dur, c, ease) {
+        const x = c.x || 0, y = c.y || 0, s = c.s || 1;
+        LAYERS.forEach(([sel, f]) => { const v = { x: x * f, y: y * f, scale: 1 + (s - 1) * Math.min(1.2, .35 + .65 * f) };
+          if (dur <= 0) tl.set(sel, v, at); else tl.to(sel, Object.assign(v, { duration: dur, ease: ease || "sine.inOut" }), at); });
+      }
+      const focus = (px, py, s, ox, oy) => ({ x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), s });
+      const scr = (c, wx, wy) => [W / 2 + (wx - W / 2) * c.s + c.x, H / 2 + (wy - H / 2) * c.s + c.y];   // boat-layer point -> frame
+      const show = (sel, at) => tl.set(sel, { autoAlpha: 1 }, at), hide = (sel, at) => tl.set(sel, { autoAlpha: 0 }, at);
+      // whip pan between gags: the frame smears out one side, the next shot smears in from the other
+      function whip(at, dir, swap) { dir = dir || 1;
+        tl.to("#view", { x: -dir * 260, filter: "blur(18px)", duration: .08, ease: "power2.in" }, at);
+        if (swap) swap(at + .08);
+        tl.fromTo("#view", { x: dir * 260, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: .13, ease: "power2.out", ...IR }, at + .08); }
+      const SH = [[14, -9], [-12, 8], [9, 6], [-7, -5], [5, 3], [-3, -2], [0, 0]];               // the hook's slap shake
+      const shake = (at, k) => tl.to("#shake", { keyframes: SH.map(([x, y]) => ({ x: x * (k || 1), y: y * (k || 1), duration: .045 })) }, at);
+      // the fish: faces + blinks
+      const FN = Object.values(FACES);
+      const face = (name, at) => { tl.set(FN, { opacity: 0 }, at); if (name) tl.set(FACES[name], { opacity: 1 }, at); };
+      const blink = (at, slow) => tl.to(FACES.blink, { keyframes: [{ opacity: 1, duration: slow ? .22 : .12, ease: "steps(1)" }, { opacity: 0, duration: .14, ease: "steps(1)" }] }, at);
+      function splash(host, x, y, s, at, seed, hold) { const sp = makeSplash(host, x, y, s); const r = rng(seed); tl.set(sp.g, { opacity: 0 }, 0); tl.set(sp.g, { opacity: 1 }, at);
+        sp.rings.forEach((rg, i) => tl.fromTo(rg, { scale: .2, opacity: .95 }, { scale: 1.6 + i * .5, opacity: 0, duration: .9 + i * .3, ease: "power2.out", ...IR }, at + i * .1 + (hold ? hold[1] : 0)));
+        sp.drops.forEach((d) => { const ang = -Math.PI / 2 + (r() - .5) * 2.2, v = (44 + r() * 80) * s; const dx = Math.cos(ang) * v * 1.4, hy = Math.sin(ang) * v;
+          if (hold) {   // up to the apex, freeze, then fall
+            tl.fromTo(d, { x: 0, y: 0, opacity: 1, scale: s }, { x: dx * .55, y: hy * .85, duration: hold[0], ease: "power2.out", ...IR }, at);
+            tl.to(d, { x: dx, duration: .45, ease: "none" }, at + hold[0] + hold[1]);
+            tl.to(d, { keyframes: [{ y: hy, duration: .12, ease: "power1.out" }, { y: 30 * s, duration: .35, ease: "power2.in" }] }, at + hold[0] + hold[1]);
+            tl.to(d, { opacity: 0, duration: .15 }, at + hold[0] + hold[1] + .35);
+          } else {
+            tl.fromTo(d, { x: 0, y: 0, opacity: 1, scale: s }, { x: dx, duration: .7, ease: "none", ...IR }, at);
+            tl.fromTo(d, { y: 0 }, { keyframes: [{ y: hy, duration: .3, ease: "power2.out" }, { y: 30 * s, duration: .4, ease: "power2.in" }], ...IR }, at);
+            tl.to(d, { opacity: 0, duration: .15 }, at + .55); } }); return sp; }
+
+      // ---------------- initial state
+      ["#ov > *", "#casino", "#pt", "#tbl", "#phoneSh"].forEach((s) => tl.set(s, { autoAlpha: 0 }, 0));
+      tl.set("#list", { autoAlpha: 0 }, 0);
+      tl.set("#listIn", { rotation: 2, transformOrigin: "50% 50%" }, 0);
+      tl.set(ticks, { strokeDasharray: 80, strokeDashoffset: 80 }, 0);
+      tl.set(buddy, { x: 940, y: 700, opacity: 0, rotation: 0, scale: 1, scaleX: 1 }, 0);
+      tl.set(hat, { opacity: 0, rotation: -8 }, 0);
+      face(null, 0);
+      tl.set("#rod", { rotation: -26, transformOrigin: "50% 100%" }, 0);
+      tl.set("#armA", { rotation: -25, transformOrigin: "0% 50%" }, 0);
+      tl.set(["#qSlump", "#qShock", "#pxAwe"], { opacity: 0 }, 0);
+      tl.set(["#eye", "#stick", "#faller", "#pxDyn", "#pxRays"], { opacity: 0 }, 0);
+      tl.set("#hand", { opacity: 0 }, 0);
+
+      // ambient (the hook's): sun, clouds, rays, reeds, boat bob/rock, crew breathing, ripples
+      tl.fromTo("#sun", { y: 0 }, { y: 24, duration: DUR, ease: "none" }, 0);
+      tl.fromTo("#rays", { rotation: 0 }, { rotation: 30, duration: DUR, ease: "none" }, 0);
+      ["#c1", "#c2", "#c3", "#c4"].forEach((c, i) => tl.fromTo(c, { x: 0 }, { x: 80 + i * 24, duration: DUR, ease: "none" }, 0));
+      reeds.forEach((e, i) => tl.fromTo(e, { rotation: -2 - (i % 3) }, { rotation: 3 + (i % 2), duration: 1.6 + (i % 5) * .23, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 1.6), ...IR }, 0));
+      tl.fromTo("#boatBob", { y: -3 }, { y: 4, duration: 1.45, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 1.45) }, 0);
+      tl.fromTo("#boatRock", { rotation: -1.1 }, { rotation: 1.1, duration: 2.05, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 2.05), transformOrigin: "50% 90%" }, 0);
+      ripples.forEach((r, i) => tl.fromTo(r, { scale: .7, opacity: .0 }, { keyframes: [{ scale: .95, opacity: .7, duration: .6 }, { scale: 1.35, opacity: 0, duration: 1.4 }], repeat: Math.ceil(DUR / 2), ease: "none" }, i * .5));
+      const MATES = ["#pixie", "#quest", "#silA", "#silB"];
+      MATES.forEach((m, i) => {
+        tl.fromTo(`${m} .breathe`, { scaleY: 1 }, { scaleY: 1.022, duration: 1.7 + i * .17, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 1.7), transformOrigin: "50% 100%" }, 0);
+        tl.fromTo(`${m} .sway`, { rotation: -1.4 }, { rotation: 1.4, duration: 2.3 + i * .21, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 2.3), transformOrigin: "50% 100%" }, 0);
+      });
+
+      /* ================= E1 l27 "...it comes with props. A boat. A rod. A goal." ================= */
+      const C1a = focus(640, 440, 1.06), C1b = focus(600, 446, 1.12), C1c = focus(450, 452, 1.16);
+      cam(0, 0, C1a);
+      cam(0, {{l27.w9-0.05}}, C1b, "sine.inOut");
+      cam({{l27.w9-0.05}}, .6, C1c, "power3.out");                                  // "props." the list drops in, camera makes room
+      cam({{l27.w9+0.55}}, {{l28.w2-l27.w9-0.6}}, focus(440, 455, 1.2), "none");     // slow push under the ticks
+      tl.set("#list", { autoAlpha: 1 }, {{l27.w9-0.05}});
+      tl.fromTo("#list", { y: -560, rotation: -9 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.25)", ...IR }, {{l27.w9-0.05}});
+      tl.fromTo("#listIn", { scaleY: 1 }, { keyframes: [{ scaleY: .93, scaleX: 1.03, duration: .07 }, { scaleY: 1, scaleX: 1, duration: .5, ease: "elastic.out(1, .35)" }], transformOrigin: "50% 100%", ...IR }, {{l27.w9+0.42}});
+      tl.fromTo("#listUnder path", { strokeDasharray: 320, strokeDashoffset: 320 }, { strokeDashoffset: 0, duration: .35, ease: "power2.out", ...IR }, {{l27.w9+0.5}});
+      tl.set("#listUnder path", { strokeDasharray: 320, strokeDashoffset: 320 }, 0);
+      [{{l27.w11}}, {{l27.w13}}, {{l27.w15}}].forEach((t, i) => {                      // ticks drawn on, each with a scale punch
+        tl.to(ticks[i], { strokeDashoffset: 0, duration: .2, ease: "power2.out" }, t);
+        tl.fromTo(rowEls[i], { scale: 1 }, { keyframes: [{ scale: 1.16, duration: .08, ease: "power2.out" }, { scale: 1, duration: .55, ease: "elastic.out(1.1, .35)" }], ...IR }, t + .12);
+        tl.fromTo("#list", { y: 0 }, { keyframes: [{ y: 7, duration: .06 }, { y: 0, duration: .35, ease: "elastic.out(1, .4)" }], ...IR }, t + .12); });
+      // the world answers each prop: the boat bumps, the rod springs, the goal (the fish) peeks up
+      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 7, duration: .08 }, { y: 0, duration: .7, ease: "elastic.out(1, .3)" }], ...IR }, {{l27.w11+0.1}});
+      tl.fromTo("#rod", { rotation: -26 }, { keyframes: [{ rotation: -38, duration: .1 }, { rotation: -26, duration: .9, ease: "elastic.out(1.3, .25)" }], ...IR }, {{l27.w13+0.1}});
+      tl.set(buddy, { x: 960, y: 700, opacity: 1 }, {{l27.w15-0.2}});
+      tl.to(buddy, { y: 560, duration: .35, ease: "back.out(2)" }, {{l27.w15}});
+      face("lookup", {{l27.w15}});
+      tl.to(buddy, { y: 700, duration: .3, ease: "power2.in" }, {{l28-0.2}});
+
+      /* ================= E2 l28 "And then it gets rid of it almost immediately." ================= */
+      face(null, {{l28}});
+      tl.to("#list", { y: -36, duration: .32, ease: "back.out(2)" }, {{l28.w2}});                 // anticipation: lift
+      tl.to("#listIn", { scaleY: .86, scaleX: 1.07, duration: .32, ease: "back.out(2)", transformOrigin: "50% 100%" }, {{l28.w2}});
+      tl.fromTo("#listIn", { rotation: 2 }, { rotation: 3.4, duration: .09, yoyo: true, repeat: Math.round(({{l28.w9-0.3}} - {{l28.w2+0.4}}) / .09), ease: "sine.inOut", ...IR }, {{l28.w2+0.4}});   // trembling hold
+      tl.to("#listIn", { scaleY: .74, scaleX: 1.12, rotation: -4, duration: .22, ease: "power2.in" }, {{l28.w9-0.24}});                // the wind-up
+      cam({{l28.w2}}, {{l28.w9-l28.w2-0.1}}, focus(440, 455, 1.26), "sine.inOut");
+      // YEET on "immediately.": an expo arc over the boat into the water on the right, with motion blur
+      const C2 = focus(860, 505, 1.25);
+      cam({{l28.w9-0.02}}, .5, C2, "power3.inOut");
+      const LAND = { wx: 1035, wy: 612 };
+      const [lx, ly] = scr(C2, LAND.wx, LAND.wy);
+      const L0 = { x: 62 + 589 / 2, y: 96 + 372 / 2 };
+      tl.to("#listIn", { scaleY: 1, scaleX: 1, rotation: 2, duration: .1 }, {{l28.w9}});
+      tl.to("#list", { x: lx - L0.x, duration: .58, ease: "expo.out" }, {{l28.w9}});
+      tl.to("#list", { keyframes: [{ y: -330, duration: .24, ease: "power3.out" }, { y: ly - L0.y, duration: .34, ease: "power2.in" }] }, {{l28.w9}});
+      tl.to("#list", { rotation: 610, scale: .1, duration: .58, ease: "power2.in" }, {{l28.w9}});
+      tl.set("#list", { autoAlpha: 0 }, {{l28.w9+0.58}});
+      splash($("#fishFront"), LAND.wx, LAND.wy, 1.5, {{l28.w9+0.56}}, 41);
+      // ...and the fish surfaces wearing it, and blinks
+      tl.set(buddy, { x: LAND.wx - 85, y: 720, opacity: 1, rotation: 0 }, {{l28.w9+0.8}});
+      tl.set(hat, { opacity: 1 }, {{l28.w9+0.8}});
+      tl.to(buddy, { y: LAND.wy - 74, duration: .4, ease: "back.out(1.8)" }, {{l28.w9+0.85}});
+      blink({{l28.end+0.12}});
+
+      /* ================= E3 l29 the game world (HUD on) ================= */
+      const C3 = focus(640, 500, 1.0);
+      cam({{l29-0.04}}, 0, C3);
+      cam({{l29-0.04}}, {{l29.w9-l29+0.04}}, focus(650, 506, 1.05), "none");
+      hud.on(tl, {{l29-0.02}});
+      tl.set(buddy, { x: 940, y: 538 }, {{l29-0.04}});
+      // "almost nothing.": a single seashell, and crickets (the fish blinks twice)
+      hud.slot(tl, {{l29.w5}}, 0, SHELL, { name: "Seashell", soft: true });
+      blink({{l29.w5+0.25}}); blink({{l29.w5+0.75}}, true);
+      tl.to(buddy, { y: 530, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 1 }, {{l29.w1}});
+      // "Soon you have guns and dynamite.": our shop board drops, the tags go SOLD, the items slam into the slots
+      tl.set("#board", { autoAlpha: 1 }, {{l29.w6-0.1}});
+      tl.fromTo("#board", { y: -360 }, { y: 0, duration: .5, ease: "bounce.out", ...IR }, {{l29.w6-0.1}});
+      tagEls.forEach((g, i) => tl.fromTo(g.t, { rotation: -14 + i * 9 }, { rotation: 0, duration: 1.6, ease: "elastic.out(1.2, .25)", ...IR }, {{l29.w6+0.3}} + i * .05));
+      const PIST = hud.slot(tl, {{l29.w9}}, 1, PISTOL, { name: "Pistol" });
+      tl.set(tagEls[0].sold, { opacity: 1 }, {{l29.w9}}); tl.fromTo(tagEls[0].sold, { scale: 2.2 }, { scale: 1, duration: .14, ease: "power3.in", ...IR }, {{l29.w9-0.1}});
+      const shell = hud.slots[0].s.querySelector(".item");
+      tl.to(shell, { y: -260, x: -160, rotation: -300, opacity: 0, duration: .5, ease: "power2.out" }, {{l29.w10}});   // the seashell gets kicked out
+      hud.slot(tl, {{l29.w10+0.04}}, 0, SHOTGUN, { name: "Shotgun" });
+      tl.set(tagEls[2].sold, { opacity: 1 }, {{l29.w10+0.04}}); tl.fromTo(tagEls[2].sold, { scale: 2.2 }, { scale: 1, duration: .14, ease: "power3.in", ...IR }, {{l29.w10-0.06}});
+      hud.slot(tl, {{l29.w11}}, 2, DYN, { name: "Dynamite" });
+      hud.jolt(tl, {{l29.w9}}, .6); hud.jolt(tl, {{l29.w11}}, 1);
+      shake({{l29.w11}}, .35);
+      tl.to(tagEls[1].t, { rotation: 8, duration: .2, yoyo: true, repeat: 3, ease: "sine.inOut" }, {{l29.w11+0.3}});     // the gold sniper stays unsold
+      tl.to("#board", { y: -380, duration: .4, ease: "back.in(1.6)" }, {{l29.w12-0.35}});
+      tl.set("#board", { autoAlpha: 0 }, {{l29.w12+0.1}});
+      // "You sell your catch.": a fish into the sell crate, coins up
+      cam({{l29.w12-0.1}}, {{l29.w16-l29.w12}}, focus(600, 500, 1.08), "sine.inOut");
+      const crate = mk("div", "abs", $("#fishFront"), "left: 150px; top: 560px; width: 150px; height: 104px",
+        `<svg viewBox="0 0 150 104" style="width:100%; height:100%; overflow:visible"><rect x="4" y="10" width="142" height="90" rx="8" fill="#9a6a3c" stroke="#16161f" stroke-width="5"/>` +
+        `<path d="M8 40 L 142 40 M8 70 L 142 70" stroke="#6a4424" stroke-width="5"/><rect x="34" y="28" width="82" height="34" rx="6" fill="#fff4dc" stroke="#16161f" stroke-width="4"/>` +
+        `<text x="75" y="54" text-anchor="middle" font-family="Anton" font-size="26" fill="#2e9e5b">SELL</text></svg>`);
+      tl.set(crate, { opacity: 0 }, 0);
+      tl.fromTo(crate, { opacity: 1, y: 70 }, { y: 0, duration: .4, ease: "back.out(2)", ...IR }, {{l29.w12-0.15}});
+      tl.to(crate, { y: 4, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 1 }, {{l29.w12+0.3}});
+      const sold = mk("div", "fish", $("#fishFront"), "left: 0; top: 0; width: 110px; height: 68px", `<img src="assets/fish_side.png" alt="" style="transform: scaleX(-1)" />`);
+      sold.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+      tl.set(sold, { opacity: 0, x: 520, y: 470 }, 0);
+      tl.set(sold, { opacity: 1 }, {{l29.w13}});
+      tl.to(sold, { x: 170, duration: .6, ease: "none" }, {{l29.w13}});
+      tl.to(sold, { keyframes: [{ y: 330, duration: .3, ease: "power2.out" }, { y: 560, duration: .3, ease: "power2.in" }] }, {{l29.w13}});
+      tl.fromTo(sold, { rotation: -20 }, { rotation: -340, duration: .6, ease: "none", ...IR }, {{l29.w13}});
+      tl.set(sold, { opacity: 0 }, {{l29.w13+0.6}});
+      tl.fromTo(crate, { scaleY: 1 }, { keyframes: [{ scaleY: .82, scaleX: 1.1, duration: .07 }, { scaleY: 1, scaleX: 1, duration: .5, ease: "elastic.out(1.2, .3)" }], transformOrigin: "50% 100%", ...IR }, {{l29.w13+0.6}});
+      face("sweat", {{l29.w13+0.45}});                                                // the fish watches a fish get sold
+      hud.money(tl, {{l29.w15}}, 1250, .8);
+      hud.moneyFloat(tl, {{l29.w15+0.05}}, "+$1,250");
+      tl.to(crate, { y: 120, opacity: 0, duration: .35, ease: "power2.in" }, {{l29.w16-0.2}});
+      // "You gamble the money.": one green pocket, the ball lands next to it; the money rolls to 0; the Wallet faints
+      face(null, {{l29.w16}});
+      tl.set("#wheelOv", { autoAlpha: 1 }, {{l29.w17-0.15}});
+      tl.fromTo("#wheelOv", { y: -520, rotation: -20 }, { y: 0, rotation: 0, duration: .45, ease: "back.out(1.4)", ...IR }, {{l29.w17-0.15}});
+      spin(tl, wheelOv, {{l29.w17-0.1}}, {{l29.w19+0.05-l29.w17}}, 3, 1);
+      tl.set("#wallet", { autoAlpha: 1 }, {{l29.w17}});
+      tl.set("#wHappy", { opacity: 1 }, {{l29.w17}});
+      tl.fromTo("#wallet", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: .4, ease: "back.out(2.4)", ...IR }, {{l29.w17}});
+      tl.set("#wHappy", { opacity: 0 }, {{l29.w18}}); tl.set("#wWorried", { opacity: 1 }, {{l29.w18}});
+      tl.fromTo("#wallet", { x: 0 }, { keyframes: [{ x: -6, duration: .05 }, { x: 6, duration: .05 }, { x: -4, duration: .05 }, { x: 0, duration: .05 }], repeat: 1, ...IR }, {{l29.w18}});
+      hud.money(tl, {{l29.w19+0.05}}, 0, .45);
+      hud.moneyFloat(tl, {{l29.w19+0.08}}, "-$1,250");
+      tl.fromTo("#wheelOv", { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .06 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], ...IR }, {{l29.w19+0.05}});
+      tl.set("#wWorried", { opacity: 0 }, {{l29.w19+0.3}}); tl.set("#wFaint", { opacity: 1 }, {{l29.w19+0.3}});
+      tl.fromTo("#wallet", { rotation: 0, y: 0 }, { rotation: -18, y: 30, duration: .35, ease: "bounce.out", ...IR }, {{l29.w19+0.3}});
+      tl.to(["#wheelOv", "#wallet"], { y: 640, duration: .4, ease: "power2.in" }, {{l29.w21-0.2}});
+      tl.set(["#wheelOv", "#wallet"], { autoAlpha: 0 }, {{l29.w21+0.2}});
+      // "You fight bosses.": a shadow with red eyes passes under the boat, camera tilt, rumble
+      tl.set("#bossSh", { opacity: 1, x: -1150 }, {{l29.w21-0.2}});
+      tl.to("#bossSh", { x: 170, duration: {{l29.w22+0.3-l29.w21}}, ease: "power2.out" }, {{l29.w21-0.2}});
+      tl.to("#bossSh", { x: 1500, duration: 1.4, ease: "power2.in" }, {{l29.w22+0.6}});
+      tl.set("#bossSh", { opacity: 0 }, {{l29.w23}});
+      tl.fromTo("#bossEyes", { opacity: .2 }, { opacity: 1, duration: .08, yoyo: true, repeat: 5, ease: "steps(1)", ...IR }, {{l29.w22}});
+      tl.set("#bossEyes", { opacity: .2 }, 0);
+      cam({{l29.w22-0.05}}, .5, focus(640, 560, 1.12), "power2.out");
+      tl.to("#tilt", { rotation: -3.2, duration: .35, ease: "power2.out", transformOrigin: "50% 60%" }, {{l29.w22}});
+      tl.to("#tilt", { rotation: 0, duration: 1.0, ease: "sine.inOut" }, {{l29.w22+0.9}});
+      tl.to("#shake", { keyframes: Array.from({ length: 22 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (6 - i * .25), y: (i % 3 - 1) * (4 - i * .15), duration: .05 })) }, {{l29.w22}});
+      MATES.forEach((m, i) => tl.fromTo(`${m} .pop`, { y: 0 }, { keyframes: [{ y: -18, duration: .12, ease: "power2.out" }, { y: 0, duration: .5, ease: "bounce.out" }], ...IR }, {{l29.w22+0.04}} + i * .03));
+      face("wide", {{l29.w22}});
+      tl.to(buddy, { y: 720, duration: .3, ease: "power2.in" }, {{l29.w22+0.4}});
+      hud.bossIn(tl, {{l29.w22}}, { name: "???" });
+      hud.bossTimer(tl, {{l29.w22+0.6}}, 6);
+      hud.off(tl, {{l29.w23-0.05}});
+
+      // ---------------- the developers' own description, verbatim, as kinetic type (HUD off: it is the store page talking)
+      const QT = {{l29.w23}};
+      tl.set("#quote", { autoAlpha: 1 }, QT - .05);
+      tl.set("#dim", { autoAlpha: 1 }, QT - .05);
+      tl.fromTo("#dim", { opacity: 0 }, { opacity: 1, duration: .4, ...IR }, QT - .05);
+      tl.fromTo("#world", { filter: "blur(0px)" }, { filter: "blur(9px)", duration: .4, ...IR }, QT - .05);
+      cam(QT - .05, {{l30-l29.w23}}, focus(640, 470, 1.18), "none");
+      tl.set(["#qLabel", "#qMark", "#q1", "#q2", "#q3", "#q4", "#q5", "#q6", "#q7", "#q8", "#qEnd", "#q9"], { opacity: 0 }, 0);
+      tl.set("#qLabel", { x: -380 }, 0);
+      tl.fromTo("#qLabel", { opacity: 0, scale: .4, rotation: -6 }, { opacity: 1, scale: 1, rotation: -1, duration: .4, ease: "back.out(2.6)", ...IR }, {{l29.w26}});
+      tl.fromTo("#qMark", { opacity: 0, scale: 2.4, y: -40 }, { opacity: 1, scale: 1, y: 0, duration: .3, ease: "back.out(2)", ...IR }, {{l29.w30}});
+      [["#q1", {{l29.w33}}], ["#q2", {{l29.w34}}], ["#q3", {{l29.w35}}], ["#q4", {{l29.w36}}], ["#q5", {{l29.w37}}], ["#q6", {{l29.w38}}], ["#q7", {{l29.w39}}], ["#q8", {{l29.w40}}]].forEach(([s, t], i) =>
+        tl.fromTo(s, { opacity: 0, y: 50, scale: 1.45, rotation: i % 2 ? 4 : -4 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: .32, ease: "back.out(2.4)", ...IR }, t - .04));
+      tl.fromTo("#q2", { x: 0, rotation: 0 }, { keyframes: Array.from({ length: 30 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (5 + (i % 3)), rotation: (i % 2 ? -1 : 1) * 2.2, duration: .05 })), ...IR }, {{l29.w34+0.3}});   // "violence" shakes
+      tl.fromTo("#qEnd", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2)", ...IR }, {{l29.w40+0.2}});
+      // "(no real money)." drops in small and late
+      tl.fromTo("#q9", { opacity: 1, y: -560, rotation: -12 }, { y: 0, rotation: -3, duration: .5, ease: "bounce.out", ...IR }, {{l29.w43}});
+      tl.to(["#q1", "#q3", "#q4", "#q5", "#q6", "#q7", "#q8", "#qEnd", "#qMark", "#qLabel", "#q9"], { opacity: 0, y: -24, duration: .2, stagger: .015, ease: "power2.in" }, {{l30-0.3}});
+      tl.to("#q2", { opacity: 0, duration: .15 }, {{l30-0.3}});
+      tl.set("#quote", { autoAlpha: 0 }, {{l30-0.04}});
+      tl.set("#dim", { autoAlpha: 0 }, {{l30-0.04}});
+      tl.set("#world", { filter: "blur(0px)" }, {{l30-0.04}});
+
+      /* ================= E4 l30 "The goal is still there. But the goal is not the point. The goal is the alibi." ================= */
+      const C4 = focus(1000, 560, 2.1);
+      tl.set(buddy, { x: 905, y: 548, opacity: 1, rotation: 0, scale: 1 }, {{l30-0.04}});
+      tl.set(hat, { opacity: 0 }, {{l30-0.04}});
+      face("lookup", {{l30-0.04}});
+      cam({{l30-0.04}}, 0, C4);
+      cam({{l30}}, {{l30.w6-l30}}, focus(985, 545, 2.18), "sine.inOut");
+      cam({{l30.w6}}, {{l30.w12-l30.w6}}, focus(990, 530, 2.3), "sine.inOut");
+      cam({{l30.w12+0.1}}, {{l31-l30.w12-0.2}}, focus(985, 540, 2.15), "sine.inOut");
+      tl.set("#gTag", { autoAlpha: 1 }, {{l30.w1}});
+      tl.fromTo("#gTag", { y: -420, rotation: -60 }, { y: 0, duration: .45, ease: "power2.in", ...IR }, {{l30.w1}});
+      tl.to("#gTag", { rotation: 0, duration: 2.2, ease: "elastic.out(1.15, .22)", transformOrigin: "260px 0px" }, {{l30.w1+0.4}});
+      tl.to(buddy, { y: 538, rotation: -4, duration: .4, ease: "sine.inOut" }, {{l30.w2}});
+      face("sweat", {{l30.w5}});                                                     // "still there." it reads, it sweats
+      tl.fromTo(buddy, { x: 905 }, { keyframes: [{ x: 900, duration: .05 }, { x: 910, duration: .05 }, { x: 903, duration: .05 }, { x: 905, duration: .05 }], ...IR }, {{l30.w5}});
+      blink({{l30.w8}});
+      tl.set("#gStrike", { scaleX: 0 }, 0);
+      tl.to("#gStrike", { scaleX: 1, duration: .22, ease: "power3.out" }, {{l30.w12}});   // "point." the red marker strikes GOAL
+      tl.fromTo("#gTag", { rotation: 0 }, { keyframes: [{ rotation: 4, duration: .1 }, { rotation: 0, duration: .9, ease: "elastic.out(1, .3)" }], transformOrigin: "260px 0px", ...IR }, {{l30.w12+0.05}});
+      face("lookup", {{l30.w12+0.3}});
+      // "alibi.": the stamp, with shake
+      tl.set("#alibi", { autoAlpha: 1, rotation: -11 }, {{l30.w17-0.12}});
+      tl.fromTo("#alibi", { scale: 2.6, opacity: 0 }, { scale: 1, opacity: 1, duration: .12, ease: "power4.in", ...IR }, {{l30.w17-0.12}});
+      shake({{l30.w17}}, .8);
+      face(null, {{l30.w17+0.15}}); blink({{l30.w17+0.35}});
+      // the fish swims off
+      tl.to(buddy, { scaleX: -1, duration: .08 }, {{l30.end+0.05}});
+      tl.to(buddy, { x: 1420, y: 590, rotation: 8, duration: .45, ease: "power2.in" }, {{l30.end+0.15}});
+      splash($("#fishFront"), 1000, 630, 1.0, {{l30.end+0.2}}, 51);
+      tl.set(["#gTag", "#alibi"], { autoAlpha: 0 }, {{l31-0.04}});
+
+      /* ================= E5 l31 "And what happens instead of fishing... is mostly failure." ================= */
+      tl.set(buddy, { opacity: 0, scaleX: 1 }, {{l31-0.04}});
+      cam({{l31-0.04}}, 0, focus(640, 420, 1.0, 0, 10));
+      cam({{l31-0.04}}, {{l31.w9-l31+0.04}}, focus(640, 432, 1.08), "none");          // slow push, stillness through the pause
+      tl.set("#failure", { autoAlpha: 1, rotation: -6 }, {{l31.w9-0.1}});
+      tl.fromTo("#failure", { scale: 2.8, opacity: 0 }, { scale: 1, opacity: 1, duration: .1, ease: "power4.in", ...IR }, {{l31.w9-0.1}});
+      shake({{l31.w9}}, 1);
+      tl.fromTo("#grade", { filter: "grayscale(0)" }, { filter: "grayscale(1)", duration: .02, ...IR }, {{l31.w9}});   // 0.3 s desaturate hit
+      tl.to("#grade", { filter: "grayscale(0)", duration: .12 }, {{l31.w9+0.3}});
+      tl.set("#failure", { autoAlpha: 0 }, {{l32-0.06}});
+
+      /* ================= E6 l32 the failure run (HUD on, FAIL xN) ================= */
+      hud.money(tl, {{l32-0.5}}, 3480, .01);
+      hud.on(tl, {{l32-0.06}});
+      hud.hunger(tl, {{l32}}, .55, .01);
+      // (1) "Someone falls in the water." -> splash -> freeze frame
+      const G1 = focus(800, 470, 1.32);
+      cam({{l32-0.06}}, 0, G1);
+      cam({{l32-0.06}}, {{l32.w5+0.1-l32}}, focus(830, 480, 1.4), "power1.inOut");
+      tl.set("#quest", { opacity: 0 }, {{l32.w2}});
+      tl.set("#faller", { opacity: 1, x: 0, y: 0, rotation: 0 }, {{l32.w2}});
+      tl.to("#faller", { x: 360, duration: .75, ease: "power1.in" }, {{l32.w2}});
+      tl.to("#faller", { keyframes: [{ y: -130, duration: .3, ease: "power2.out" }, { y: 300, duration: .45, ease: "power2.in" }] }, {{l32.w2}});
+      tl.to("#faller", { rotation: 150, duration: .75, ease: "power1.in", transformOrigin: "50% 40%" }, {{l32.w2}});
+      tl.set("#faller", { opacity: 0 }, {{l32.w2+0.72}});
+      const FZ = [{{l32.w5+0.1}}, {{l32.w6-0.2}}];
+      splash($("#fishFront"), 1060, 650, 2.2, {{l32.w5-0.06}}, 61, [FZ[0] - {{l32.w5-0.06}}, FZ[1] - FZ[0]]);
+      tl.set("#freeze", { autoAlpha: 1 }, FZ[0]);
+      tl.fromTo("#flash", { opacity: .7 }, { opacity: 0, duration: .1, ...IR }, FZ[0]);
+      tl.fromTo("#grade", { filter: "saturate(1) contrast(1)" }, { filter: "saturate(.45) contrast(1.12)", duration: .02, ...IR }, FZ[0]);
+      cam(FZ[0], 0, focus(1000, 560, 1.62));
+      tl.set("#grade", { filter: "saturate(1) contrast(1)" }, FZ[1]);
+      tl.set("#freeze", { autoAlpha: 0 }, FZ[1]);
+      hud.combo(tl, FZ[0] + .05, "FAIL ×1", "+SPLASH");
+      hud.health(tl, FZ[0], 2.5, .3);
+      // whip -> (2) "Someone finds a weapon that was clearly not designed for fish."
+      whip({{l32.w6-0.12}}, 1, (t) => { tl.set("#quest", { opacity: 1 }, t); cam(t, 0, focus(585, 432, 1.75)); tl.set("#pxLaugh", { opacity: 0 }, t); tl.set("#pxAwe", { opacity: 1 }, t); });
+      cam({{l32.w6}}, {{l32.w12-l32.w6}}, focus(580, 425, 1.9), "sine.inOut");
+      tl.set(["#pxDyn", "#pxRays"], { opacity: 1 }, {{l32.w7}});
+      tl.fromTo("#pxDyn", { y: -330, rotation: -30 }, { y: 0, rotation: 8, duration: .5, ease: "power2.in", ...IR }, {{l32.w9-0.5}});   // it drops in on "weapon"
+      tl.fromTo("#pxRays", { scale: .3, rotation: 0 }, { scale: 1, rotation: 90, duration: 1.4, ease: "power2.out", ...IR }, {{l32.w7}});
+      tl.to("#pxRays", { opacity: 0, duration: .3 }, {{l32.w9+0.6}});
+      tl.fromTo("#pxDyn", { scaleY: 1 }, { keyframes: [{ scaleY: .8, duration: .05 }, { scaleY: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%", ...IR }, {{l32.w9}});
+      tl.fromTo("#fuse", { scale: .6, rotation: 0 }, { scale: 1.3, rotation: 90, duration: .09, yoyo: true, repeat: Math.round(({{l32.w16}} - {{l32.w9}}) / .09), ease: "steps(2)", ...IR }, {{l32.w9}});
+      tl.set("#fuse", { scale: 0 }, 0); tl.set("#fuse", { scale: .6 }, {{l32.w9}});
+      // crash zoom on "clearly"
+      cam({{l32.w12}}, .14, focus(578, 430, 3.1), "expo.out");
+      cam({{l32.w12+0.14}}, {{l32.w16-l32.w12-0.2}}, focus(578, 432, 3.25), "none");
+      tl.set("#crash", { autoAlpha: 1 }, {{l32.w12}});
+      tl.fromTo("#crash", { opacity: 1, scale: 1.3 }, { opacity: 0, scale: 1, duration: .35, ease: "power2.out", ...IR }, {{l32.w12}});
+      shake({{l32.w12}}, .5);
+      // cut to the deadpan fish on "fish."
+      const GF = focus(1150, 610, 2.4);
+      tl.set(buddy, { x: 1065, y: 548, opacity: 1, rotation: 0, scaleX: 1, scale: 1 }, {{l32.w16-0.04}});
+      tl.set(["#pxDyn", "#pxRays"], { opacity: 0 }, {{l32.w16-0.04}});
+      tl.set("#pxAwe", { opacity: 0 }, {{l32.w16-0.04}}); tl.set("#pxLaugh", { opacity: 1 }, {{l32.w16-0.04}});
+      face(null, {{l32.w16-0.04}});
+      cam({{l32.w16-0.04}}, 0, GF);
+      cam({{l32.w16-0.04}}, .9, focus(1150, 606, 2.5), "none");
+      blink({{l32.w16+0.45}}, true);
+      hud.combo(tl, {{l32.w16+0.05}}, "FAIL ×2", "+WRONG TOOL");
+      hud.health(tl, {{l32.w16+0.05}}, 2, .3);
+      // whip -> (3) "Someone gambles the savings," -> the casino insert, the counter to 0
+      whip({{l32.w17-0.12}}, 1, (t) => { show("#casino", t); tl.set(buddy, { opacity: 0 }, t); });
+      tl.fromTo("#casCam", { scale: 1.08 }, { scale: 1.16, duration: {{l32.w22-l32.w17}}, ease: "none", ...IR }, {{l32.w17-0.04}});
+      tl.fromTo("#casChips", { x: 0, rotation: 0 }, { x: -190, rotation: -6, duration: .4, ease: "power3.out", ...IR }, {{l32.w18}});        // all in
+      tl.fromTo("#allIn", { opacity: 0, scale: .3, rotation: -12 }, { opacity: 1, scale: 1, rotation: -5, duration: .3, ease: "back.out(2.6)", ...IR }, {{l32.w18+0.1}});
+      spin(tl, casWheel, {{l32.w17-0.08}}, {{l32.w20+0.04-l32.w17}}, 2.2, 14);
+      hud.money(tl, {{l32.w20}}, 0, .4);
+      hud.moneyFloat(tl, {{l32.w20+0.04}}, "-$3,480");
+      tl.to("#casChips", { x: 420, opacity: 0, duration: .35, ease: "power2.in" }, {{l32.w20+0.15}});
+      tl.to("#allIn", { opacity: 0, y: 30, duration: .2 }, {{l32.w20+0.2}});
+      hud.combo(tl, {{l32.w20+0.06}}, "FAIL ×3", "+ALL IN");
+      hud.health(tl, {{l32.w20+0.06}}, 1.5, .3);
+      hud.jolt(tl, {{l32.w20}}, .8);
+      // "and nobody will ever admit who it was.": whip loop of pointing fingers, the camera spins round to "was."
+      whip({{l32.w22-0.12}}, 1, (t) => { hide("#casino", t); show("#pt", t); });
+      const strip = (i) => -i * SPACING;
+      tl.set("#ptStrip", { x: strip(0) }, {{l32.w22-0.04}});
+      [[{{l32.w23}}, 1], [{{l32.w24}}, 2], [{{l32.w25}}, 3]].forEach(([t, i]) => {
+        tl.to("#ptStrip", { x: strip(i), duration: .16, ease: "expo.inOut" }, t - .08);
+        tl.fromTo("#ptStrip", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(14px)", duration: .08 }, { filter: "blur(0px)", duration: .08 }], ...IR }, t - .08);
+        tl.fromTo(ptFigs[i], { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .06 }, { scale: 1, duration: .3, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 100%", ...IR }, t + .08); });
+      tl.fromTo("#ptCam", { rotation: 0, scale: 1 }, { keyframes: [{ rotation: 200, scale: .62, duration: .3, ease: "power2.in" }, { rotation: 360, scale: 1, duration: .26, ease: "power3.out" }], ...IR }, {{l32.w26-0.06}});
+      tl.to("#ptStrip", { x: strip(4), duration: .5, ease: "power2.inOut" }, {{l32.w26}});
+      tl.fromTo("#ptStrip", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(10px)", duration: .25 }, { filter: "blur(0px)", duration: .25 }], ...IR }, {{l32.w26}});
+      tl.set("#ptCam", { rotation: 0 }, {{l32.w26+0.6}});
+      ptFigs.slice(0, 4).forEach((f, i) => tl.fromTo(f.querySelector(".q"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .2, ease: "back.out(3)", ...IR }, {{l32.w22+0.1}} + i * .3));
+      tl.fromTo("#ptLid", { opacity: 0 }, { keyframes: [{ opacity: 1, duration: .2, ease: "steps(1)" }, { opacity: 0, duration: .14, ease: "steps(1)" }], ...IR }, {{l32.w28+0.4}});
+      tl.set("#ptLid", { opacity: 0 }, 0);
+      // whip -> (4) "Someone gets launched across the island by something they absolutely should not have poked."
+      const G4 = focus(560, 360, 1.0);
+      whip({{l32.w29-0.12}}, 1, (t) => { hide("#pt", t); cam(t, 0, G4); });
+      cam({{l32.w31}}, .35, focus(500, 340, 1.08), "power2.out");
+      cam({{l32.w31+0.35}}, {{l32.w34-l32.w31}}, focus(440, 320, 1.16), "sine.inOut");   // slow-mo push at the apex
+      // the tiny figure: speed ramp (fast up, slow-mo at the apex on "island", fast away)
+      const TP = { k: 0 };
+      const path = (k) => { const x = 700 - 640 * k, y = 430 - 330 * Math.sin(Math.PI * Math.min(1, k * 1.05)) + 150 * Math.max(0, k - .7); return [x, y]; };
+      const drawTiny = () => { const [x, y] = path(TP.k); gsap.set("#tiny", { x: x - 20, y: y - 30, rotation: TP.k * 900 });
+        let d = ""; for (let j = 0; j <= 30; j++) { const [px, py] = path(TP.k * j / 30); d += (j ? " L " : "M ") + px.toFixed(1) + " " + py.toFixed(1); } $("#trailPath").setAttribute("d", d); };
+      tl.set(["#tiny", "#trail"], { autoAlpha: 1 }, {{l32.w31}});
+      tl.fromTo(TP, { k: 0 }, { k: .4, duration: .32, ease: "power3.out", onUpdate: drawTiny, ...IR }, {{l32.w31}});
+      tl.to(TP, { k: .52, duration: {{l32.w35-l32.w31-0.32}}, ease: "sine.inOut", onUpdate: drawTiny }, {{l32.w31+0.32}});
+      tl.to(TP, { k: 1.05, duration: .4, ease: "power3.in", onUpdate: drawTiny }, {{l32.w35}});
+      tl.set(["#tiny", "#trail"], { autoAlpha: 0 }, {{l32.w36-0.12}});
+      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 12, duration: .08 }, { y: 0, duration: .8, ease: "elastic.out(1, .3)" }], ...IR }, {{l32.w31}});
+      splash($("#boatF"), 960, 600, 1.0, {{l32.w31}}, 71);
+      // reverse reveal on "something": rewind back to the water, a giant eye opens
+      tl.set("#rewind", { autoAlpha: 1 }, {{l32.w36-0.12}});
+      tl.fromTo("#rewind", { opacity: 1 }, { opacity: 0, duration: .1, yoyo: true, repeat: 3, ease: "steps(1)", ...IR }, {{l32.w36-0.12}});
+      tl.set("#rewind", { autoAlpha: 0 }, {{l32.w36+0.4}});
+      const G5 = focus(1030, 600, 1.55);
+      cam({{l32.w36-0.12}}, .38, G5, "expo.inOut");
+      tl.set("#eye", { opacity: 1 }, {{l32.w36}});
+      tl.fromTo("#eyeOpen", { scaleY: .04 }, { scaleY: 1, duration: .45, ease: "back.out(1.6)", transformOrigin: "50% 50%", ...IR }, {{l32.w36+0.12}});
+      tl.set("#eyeOpen", { scaleY: .04, transformOrigin: "50% 50%" }, 0);
+      tl.fromTo("#eyeIris", { x: 0 }, { x: -44, duration: .5, ease: "power2.inOut", ...IR }, {{l32.w38}});
+      shake({{l32.w36+0.2}}, .4);
+      // "poked.": a tiny stick, boop, a distant splash
+      tl.set("#stick", { opacity: 1 }, {{l32.w40}});
+      tl.fromTo("#stick", { scaleX: 0, rotation: 32 }, { scaleX: 1, rotation: 32, duration: .3, ease: "power2.out", ...IR }, {{l32.w40}});
+      tl.to("#stick", { x: 10, duration: .08, yoyo: true, repeat: 1 }, {{l32.w42-0.05}});
+      tl.fromTo("#eyeOpen", { scaleY: 1 }, { keyframes: [{ scaleY: .5, duration: .06 }, { scaleY: 1, duration: .4, ease: "elastic.out(1, .35)" }], transformOrigin: "50% 50%", ...IR }, {{l32.w42}});
+      tl.set("#boop", { autoAlpha: 1 }, {{l32.w42}});
+      tl.set("#boop", { x: 0, y: 0 }, 0);
+      tl.fromTo("#boop", { opacity: 1, scale: .4, x: 960, y: 420, rotation: -10 }, { scale: 1, y: 390, duration: .3, ease: "back.out(3)", ...IR }, {{l32.w42}});
+      tl.to("#boop", { opacity: 0, duration: .2 }, {{l32.w42+0.6}});
+      cam({{l32.end+0.04}}, .22, focus(250, 330, 1.15), "expo.inOut");                    // whip to the far shore: the distant splash
+      splash($("#islandF"), 236, 330, .55, {{l32.end+0.26}}, 81);
+      hud.combo(tl, {{l32.end+0.1}}, "FAIL ×4", "+AIRTIME");
+      hud.health(tl, {{l32.end+0.1}}, 1, .3);
+      hud.comboOut(tl, {{l33-0.12}});
+
+      /* ================= E7 l33 the slap revive (HUD on) ================= */
+      tl.set(["#eye", "#stick"], { opacity: 0 }, {{l33-0.06}});
+      const G7 = focus(700, 440, 1.55);
+      cam({{l33-0.06}}, 0, G7);
+      cam({{l33-0.06}}, {{l33.w7-l33}}, focus(700, 445, 1.6), "none");
+      tl.set("#silA .flip", { scaleX: -1, transformOrigin: "50% 50%" }, {{l33-0.06}});     // the slapper faces Quest
+      tl.set("#armA", { rotation: 20 }, {{l33-0.06}});
+      tl.set("#silA .flip", { scaleX: 1 }, 0);
+      // "down,": he drops, KO stars, the last heart empties, hold
+      tl.set("#qLaugh", { opacity: 0 }, {{l33.w6-0.1}}); tl.set("#qSlump", { opacity: 1 }, {{l33.w6-0.1}});
+      tl.to("#quest .pop", { y: 92, rotation: 10, duration: .22, ease: "power2.in", transformOrigin: "50% 100%" }, {{l33.w6-0.1}});
+      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 6, duration: .07 }, { y: 0, duration: .6, ease: "elastic.out(1, .3)" }], ...IR }, {{l33.w6+0.12}});
+      const [kx, ky] = scr(focus(700, 445, 1.6), 692, 452);
+      hud.ko(tl, {{l33.w6+0.1}}, kx, ky, {{l33.w19+0.05-l33.w6-0.1}}, { rx: 60, ry: 16 });
+      hud.health(tl, {{l33.w6+0.05}}, 0, .35);
+      hud.prompt(tl, {{l33.w10}}, "E", "Pick up");
+      // "picking them up...": back up, wobbly
+      tl.to("#silA .lean", { rotation: -6, x: -14, duration: .3, ease: "power2.out", transformOrigin: "50% 100%" }, {{l33.w15-0.15}});
+      tl.to("#quest .pop", { y: 0, rotation: -4, duration: .5, ease: "back.out(1.6)" }, {{l33.w15}});
+      tl.to("#quest .pop", { rotation: 4, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 2 }, {{l33.w15+0.5}});
+      hud.promptOut(tl, {{l33.w15+0.05}}, null);
+      // the pause: the hand winds back, the camera creeps in, stillness
+      const pSlap = hud.prompt(tl, {{l33.w17+0.1}}, "E", "Slap");
+      tl.to("#armA", { rotation: -62, duration: .5, ease: "power2.out" }, {{l33.w17+0.05}});
+      tl.to("#armA", { rotation: -68, duration: .06, yoyo: true, repeat: 5, ease: "sine.inOut" }, {{l33.w17+0.6}});
+      cam({{l33.w17}}, {{l33.w19-l33.w17-0.08}}, focus(705, 430, 1.82), "power1.in");
+      // "slapping": whip-in, 2-frame flash, 3-frame hitstop, the hook's shake, SLAP!, the heart refills
+      const HIT = {{l33.w19+0.02}};
+      cam(HIT - .1, .1, focus(712, 410, 2.15), "expo.in");
+      tl.to("#armA", { rotation: 34, duration: .08, ease: "power4.in" }, HIT - .08);
+      hud.promptOut(tl, HIT, pSlap);
+      tl.fromTo("#flash", { opacity: .85 }, { opacity: 0, duration: .01, ...IR }, HIT + .066);          // 2 frames
+      tl.set("#flash", { opacity: .85 }, HIT);
+      // hitstop: 3 frames (0.1 s) where nothing moves; then everything resolves at once
+      tl.set("#qSlump", { opacity: 0 }, HIT + .1); tl.set("#qShock", { opacity: 1 }, HIT + .1);
+      tl.fromTo("#quest .lean", { rotation: 0, x: 0 }, { keyframes: [{ rotation: -14, x: -16, duration: .06 }, { rotation: 0, x: 0, duration: .9, ease: "elastic.out(1.1, .3)" }], transformOrigin: "50% 100%", ...IR }, HIT + .1);
+      tl.to("#quest .pop", { rotation: 0, duration: .2 }, HIT + .1);
+      shake(HIT + .1, 1.15);
+      const [sx, sy] = scr(focus(712, 410, 2.15), 676, 398);
+      hud.hit(tl, HIT + .1, sx + 10, sy + 20, { size: 1.3 });
+      hud.slap(tl, HIT + .1, sx + 150, sy - 120, { scale: 1, dur: 1.5 });
+      hud.jolt(tl, HIT + .1, 1.4);
+      hud.health(tl, HIT + .25, 3, .6);
+      hud.rainbow(tl, {{l33.w21}}, "REVIVED!", { x: 640, y: 200, size: 72, dur: 1.2 });
+      tl.to("#armA", { rotation: 10, duration: .5, ease: "power2.inOut" }, HIT + .4);
+      cam(HIT + .1, {{l34-l33.w19-0.2}}, focus(712, 420, 2.0), "power2.out");
+      // the fish winces at the frame edge on "face."
+      const GE = focus(712, 420, 2.0);
+      const bx = 712 + (1150 - 640) / 2.0 - 85, byy = 420 + (610 - 360) / 2.0 - 62;
+      tl.set(buddy, { x: bx, y: byy + 120, opacity: 1, scale: .7, rotation: -8, scaleX: 1 }, {{l33.w22-0.3}});
+      face(null, {{l33.w22-0.3}});
+      tl.to(buddy, { y: byy, duration: .3, ease: "back.out(2)" }, {{l33.w22-0.3}});
+      face("wince", {{l33.w23}});
+      tl.to(buddy, { y: byy + 140, duration: .25, ease: "power2.in" }, {{l34-0.3}});
+      hud.off(tl, {{l34-0.06}});
+
+      /* ================= E8 l34 "Which, if we're honest, is how most friendships handle feelings." ================= */
+      tl.set(buddy, { x: 905, y: 548, scale: 1, rotation: 0, opacity: 1 }, {{l34-0.04}});
+      face(null, {{l34-0.04}});
+      cam({{l34-0.04}}, 0, focus(990, 602, 2.2));
+      cam({{l34-0.04}}, 1.2, focus(990, 600, 2.28), "none");
+      blink({{l34.w1+0.45}}, true);
+      // the two-shot: Quest with the handprint layer, the slapper beside him
+      cam({{l34.w4-0.04}}, 0, focus(740, 435, 2.0));
+      cam({{l34.w4-0.04}}, {{l35-l34.w4}}, focus(740, 432, 2.12), "none");
+      tl.set(buddy, { opacity: 0 }, {{l34.w4-0.04}});
+      tl.set("#armA", { rotation: 30 }, {{l34.w4-0.04}});
+      tl.set("#hand", { opacity: 0 }, {{l34.w4-0.04}});
+      tl.fromTo("#hand", { opacity: 0, scale: 1.6 }, { opacity: .82, scale: 1, duration: .18, ease: "back.out(3)", ...IR }, {{l34.w4+0.1}});
+      tl.to("#hand", { scale: 1.08, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut" }, {{l34.w4+0.4}});
+      tl.set("#words", { autoAlpha: 1 }, {{l34.w6-0.1}});
+      tl.set(["#w1", "#w2", "#w3", "#w4", "#w5"], { opacity: 0 }, 0);
+      [["#w1", {{l34.w6}}], ["#w2", {{l34.w7}}], ["#w3", {{l34.w8}}], ["#w4", {{l34.w9}}], ["#w5", {{l34.w10}}]].forEach(([s, t]) =>
+        tl.fromTo(s, { opacity: 0, y: 40, scale: 1.4 }, { opacity: 1, y: 0, scale: 1, duration: .3, ease: "back.out(2.4)", ...IR }, t - .04));
+      tl.fromTo("#w5", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .08 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], ...IR }, {{l34.w10+0.3}});
+      tl.set("#words", { autoAlpha: 0 }, {{l35-0.06}});
+
+      /* ================= E9 l35 years later, the same group chat ================= */
+      show("#tbl", {{l35-0.06}});
+      tl.fromTo("#tblCam", { scale: 1.1, x: 0, y: 0 }, { scale: 1.02, duration: {{l35.w8-l35}}, ease: "power2.out", ...IR }, {{l35-0.06}});
+      tl.fromTo("#tblLight", { opacity: .85 }, { opacity: 1, duration: .25, ease: "sine.inOut", yoyo: true, repeat: 40, ...IR }, {{l35}});
+      // the sterile "perfect" polaroid, greyed out on "perfectly."
+      tl.set(P0, { rotation: -3 }, 0);
+      tl.fromTo(P0, { y: -620, rotation: -14 }, { y: 0, rotation: -3, duration: .55, ease: "back.out(1.3)", ...IR }, {{l35-0.02}});
+      tl.fromTo(P0, { filter: "saturate(1.35) brightness(1.08) grayscale(0)" }, { filter: "saturate(0) brightness(.82) grayscale(1)", duration: .55, ease: "power2.inOut", ...IR }, {{l35.w7}});
+      tl.set(P0, { filter: "saturate(1.35) brightness(1.08) grayscale(0)" }, 0);
+      tl.to(P0, { scale: .96, duration: .5, ease: "power2.out" }, {{l35.w7}});
+      // "They retell the night it all went wrong.": it slides away; four fail frames slam onto the table
+      tl.to(P0, { x: -400, y: -150, scale: .62, rotation: -14, duration: .5, ease: "power3.inOut" }, {{l35.w8+0.1}});
+      tl.fromTo("#tblCam", { scale: 1.02 }, { scale: 1.06, duration: {{l35.w16-l35.w8}}, ease: "none", ...IR }, {{l35.w8}});
+      const FT = [{{l35.w11}}, {{l35.w12}}, {{l35.w13}}, {{l35.w14}}];
+      const FR = [-7, 5, 4, -4];
+      FAILS.forEach((p, i) => { tl.set(p, { autoAlpha: 0 }, 0); tl.set(p, { autoAlpha: 1 }, FT[i] - .1);
+        tl.fromTo(p, { scale: 1.9, rotation: FR[i] * 3, y: -40 }, { scale: 1, rotation: FR[i], y: 0, duration: .12, ease: "power4.in", ...IR }, FT[i] - .1);
+        tl.fromTo("#tblCam", { x: 0, y: 0 }, { keyframes: [{ x: 4 - i * 2, y: 5, duration: .04 }, { x: 0, y: 0, duration: .25, ease: "elastic.out(1, .4)" }], ...IR }, FT[i] + .02); });
+      tl.fromTo("#tblCam", { rotation: 0 }, { keyframes: [{ rotation: -1.2, duration: .05 }, { rotation: .8, duration: .05 }, { rotation: 0, duration: .3, ease: "elastic.out(1, .4)" }], ...IR }, {{l35.w15}});
+      tl.fromTo("#tblLight", { opacity: 1 }, { keyframes: [{ opacity: .3, duration: .05 }, { opacity: 1, duration: .05 }, { opacity: .5, duration: .05 }, { opacity: 1, duration: .1 }], ...IR }, {{l35.w15}});
+      // "Usually years later,": the year wheel 2026 -> 2031
+      tl.to("#tblDim", { opacity: .78, duration: .4 }, {{l35.w16}});
+      tl.set("#years", { autoAlpha: 1 }, {{l35.w17-0.15}});
+      tl.fromTo("#years", { scale: .5, y: 40 }, { scale: 1, y: 0, duration: .35, ease: "back.out(2)", ...IR }, {{l35.w17-0.15}});
+      const YR = { v: 2026 };
+      tl.fromTo(YR, { v: 2026 }, { v: 2031, duration: 1.05, ease: "power2.inOut", onUpdate: () => drawYear(YR.v), ...IR }, {{l35.w17}});
+      tl.set("#yLater", { autoAlpha: 1 }, {{l35.w18}});
+      tl.fromTo("#yLater", { scale: .3, rotation: -12 }, { scale: 1, rotation: -3, duration: .35, ease: "back.out(2.6)", ...IR }, {{l35.w18}});
+      tl.fromTo("#years", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], ...IR }, {{l35.w17+1.05}});
+      // "in the same group chat,": the phone, big; the year moves aside
+      tl.to("#years", { x: -330, y: 60, scale: .62, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
+      tl.to("#yLater", { x: -330, y: 2, scale: .9, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
+      tl.to("#tblDim", { opacity: .86, duration: .4 }, {{l35.w23-0.2}});
+      show("#phoneSh", {{l35.w23-0.15}});
+      tl.fromTo("#phoneWrap", { y: 720, rotation: 6 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.3)", ...IR }, {{l35.w23-0.15}});
+      tl.fromTo("#phoneWrap", { y: 0 }, { y: -6, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 2, ...IR }, {{l35.w23+0.4}});
+      chat.show(tl, cDate, {{l35.w23+0.15}});
+      chat.show(tl, cJoin, {{l35.w24}});
+      chat.show(tl, cSlap, {{l35.w26}});                                                // "context,": the lone message
+      tl.set(cSeen, { opacity: 0 }, 0);
+      chat.dots(tl, cDots, {{l35.w29}}, {{l35.w32}});                                     // "confusion": the new member types...
+      chat.show(tl, cWhat, {{l35.w32+0.05}});
+      chat.read(tl, cSlap, {{l35.w34}});                                                   // ...and it ends on "seen"
+      tl.fromTo(cSeen, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .25, ease: "back.out(2)", ...IR }, {{l35.w34}});
+
+      // the camera always breathes (2-3 % push, drift <= 1.5 %), its own phase
+      tl.fromTo("#breath", { scale: 1.012 }, { scale: 1.034, duration: 5.9, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 5.9), transformOrigin: "50% 50%" }, 0);
+      tl.fromTo("#breath", { x: -8 }, { x: 8, duration: 7.9, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 7.9), immediateRender: false }, 0);
+      tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.7, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.7), immediateRender: false }, 0);
+
+      tl.set({}, {}, DUR);
+      window.__timelines["main"] = tl;
+    </script>
+    <!--INCLUDE motion-blur.html-->
+  </body>
+</html>
