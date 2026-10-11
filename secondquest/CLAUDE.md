@@ -67,6 +67,9 @@
   **interacts with the wordmark** at the hook's "Why?" and at the end (EP002: Navi, who flew into the star of the "o").
   It is chosen in the research stage (3 candidates, one recommended, in `docs/<ep>/COMPANION.md`), planned in the shot
   plan (where it appears, what it does), built in the animatic and used in the trailer Short. Free first (3D/engine).
+- **Finish pass and pacing (Producer, 2026-10-11):** from EP003 on, every frame goes through `scripts/animatic/finish.py`
+  (soft paper grain, vignette, halftone in deep shadows) as the last step; every animatic is measured with
+  `scripts/style_bible.py` and must pass `scripts/pacing_qc.py` (targets in `docs/style/STYLE_BIBLE.md`) before it is sent.
 - **In the game world the HUD is on** (hearts, magic, rupees, buttons); off in real life and on era comparisons.
 - **Spanish dub (Producer, 2026-10-08):** Bram reads the approved ES-419 script; cut takes only inside real pauses,
   never split a breath, never overlap, speed up only as a last resort (<= ~1.075, rubberband R3), no room-tone fills.

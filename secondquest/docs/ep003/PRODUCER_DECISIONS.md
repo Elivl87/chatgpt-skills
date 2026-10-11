@@ -36,3 +36,8 @@
   (ES "Entonces, ¿por qué?", as EP002). Rule written: the hook always ends on exactly "So, why?", the wordmark lands on
   it, 1.5 s of silence follow.
 - Companion detail (RULE): EP003 = the unimpressed fish (docs/ep003/COMPANION.md).
+
+## 2026-10-11 · Finish pass approved
+- Producer: "Si me gusta la capa de acabado." `scripts/animatic/finish.py` (soft paper grain, vignette, halftone only
+  in deep shadows) goes into EP003 and later episodes, applied last on every frame (animatic and final).
+- Style bible + pacing QC adopted (`docs/style/STYLE_BIBLE.md`, `scripts/pacing_qc.py`); EP003 must pass it.
