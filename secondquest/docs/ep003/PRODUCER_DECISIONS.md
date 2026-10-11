@@ -16,3 +16,17 @@
 - Improvement test (`docs/ep003/voice_test/v2_hookB/`, hook of B): blend with am_michael did NOT get closer to Bram
   (4.82 → 5.0+). Long-term EQ match toward Bram: 4.82 → 4.00; EQ + pitch +1 semitone (rubberband R3): 3.81
   (timbre distance, lower = closer). STT clean on both. Pending Producer ear choice between 2 and 3.
+
+## 2026-10-11 · SCRIPT CHANGE PROPOSAL 01 (fact lock)
+- Producer: "Apruebo 1 y 2, el 3 déjalo como exageración". Script B is now LOCKED v3.1:
+  1. Steam quote without the ellipsis ("...gambling with fish (no real money)").
+  2. "You begin with almost nothing. Soon you have guns and dynamite." (ES: "Empiezas casi sin nada. Pronto tienes armas y dinamita.")
+  3. "launched across the island" stays, as comic exaggeration (our own drawing, never gameplay footage).
+  4. "Everyone in the boat buys their own copy": checked by eye on the live Steam page before Bram records.
+
+## 2026-10-11 · Voice: MOSS-TTS-Nano + Bram reference (INTERNAL placeholder)
+- Producer authorized running MOSS-TTS-Nano (Apache-2.0, ONNX CPU) and asked to clone Bram: "Me encantó... Perfeccionarla y continuar".
+- Scope set by Claude and stated to the Producer: the Bram-referenced voice is used ONLY as the animatic/timing
+  placeholder; never in a published video, Short or delivery (Bram's voice is licensed through the paid platform; a
+  published clone would need written permission or a licence). EN placeholder = MOSS + Bram reference; ES stays Kokoro
+  until MOSS pronounces Spanish cleanly.

@@ -1,6 +1,6 @@
 # EP003 · Alternative B · How to Fish — "Nobody Is Fishing"
 
-Status: **LOCKED v3 (Producer, 2026-10-11)** — chosen for EP003. Used verbatim; any change only via a SCRIPT CHANGE PROPOSAL. Factual lock rechecks below run before recording. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: **LOCKED v3.1 (Producer, 2026-10-11; SCRIPT CHANGE PROPOSAL 01 items 1+2 approved)** — chosen for EP003. Used verbatim; any change only via a SCRIPT CHANGE PROPOSAL. Factual lock rechecks below run before recording. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `B_HowToFish_v1.md`.
 
 ## Creative spine
@@ -77,7 +77,7 @@ And like every good alibi, it comes with props. A boat. A rod. A goal.
 
 And then it gets rid of it almost immediately.
 
-You begin with simple tools. Soon you have heavy weapons. You sell your catch. You gamble the money. You fight bosses. The developers' own description on Steam reads, word for word: "cartoon violence towards fish and gambling with fish... (no real money)." 
+You begin with almost nothing. Soon you have guns and dynamite. You sell your catch. You gamble the money. You fight bosses. The developers' own description on Steam reads, word for word: "cartoon violence towards fish and gambling with fish (no real money)." 
 
 The goal is still there. But the goal is not the point. The goal is the alibi.
 
