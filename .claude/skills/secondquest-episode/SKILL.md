@@ -37,6 +37,7 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
   Record the choice and the runners-up in `docs/<ep>/PRODUCER_DECISIONS.md` (as "Claude decision, autonomous mode").
 
 ### 2. Script EN + ES-419 (free)
+- Read `docs/style/VOICE.md` first (writer and every reviewer brief below); its voice check applies to drafts only, never to a locked script.
 - Write the English script in the channel's voice (EP001/EP002 scripts as the reference): a "why" video essay,
   6-10 min, hook line in the first seconds, the hook closing on exactly "So, why?" (ES "Entonces, ¿por qué?"; never a bare "Why?") where the wordmark lands and 1.5 s
   of silence follow (narration assembly + hook block, every episode), the thumbnail's promise paid off in the first 5-10 s, a concrete visual
@@ -80,6 +81,9 @@ cheapest viable set marked. Nothing in it is generated until approved; partial a
 ### 8. After publishing
 - Schedule a check-in 48 h after the Producer publishes (send_later) asking for the YouTube Studio screenshots, then
   write `ANALYTICS_48H.md` comparing with the previous episodes, and update the playbook's lessons.
+- Retention: ask for the Studio audience-retention CSV export and run
+  `python3 scripts/retention_read.py <csv> --episode ep00N` (hook leak at 30/60 s, 5 steepest cliffs mapped to script
+  lines, mid-video slope, ONE fix); paste its output into `ANALYTICS_48H.md`. `--demo` self-tests it.
 
 ## Subagents and workflows
 - Subagents (Agent tool) are part of this mode: research, reviews, QC. Give each a self-contained brief with the
