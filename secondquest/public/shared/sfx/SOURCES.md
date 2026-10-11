@@ -6,6 +6,7 @@
 | `cc0/kenney/` | Kenney.nl audio packs (interface, impact, sci-fi, ui, digital, rpg), downloaded 2026-10-03 | CC0 1.0 (`cc0/kenney/LICENSE_CC0.txt`) | no | yes |
 | `own/` | our own synths for auditions (`tools/sfx/*.py`) | ours | no | yes |
 | `cc0/derived/` | edits of the CC0 files above (trim, align, mix) | CC0 (derived) | no | yes |
+| `cc0/rubberduck_water/` | "40 CC0 water / splash / slime SFX" by rubberduck, OpenGameArt (opengameart.org/content/40-cc0-water-splash-slime-sfx), downloaded 2026-10-12 | CC0 1.0 (`cc0/rubberduck_water/LICENSE_CC0.txt`) | no | yes |
 | `cc0/owlishmedia/` | "87 Clickety Clips" by OwlishMedia, OpenGameArt, downloaded 2026-10-03 | CC0 1.0 (`cc0/owlishmedia/LICENSE_CC0.txt`) | no | yes |
 
 Rule: free sounds (engine synths, CC0, our own recordings) are used without asking. Sounds that cost credits

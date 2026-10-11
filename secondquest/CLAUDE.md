@@ -22,7 +22,8 @@
 - **Camera continuity (Producer rule, never break):** when two consecutive scenes use the same background, the second must not snap back to the opening framing and start again (it looks cropped).
   - It either continues the camera from where the previous scene ended, or cuts to a clearly different shot.
   - A background that returns later in the video is fine.
-  - Camera moves are used only where the script calls for them, for dynamism. Not every shot moves.
+  - The camera always "breathes" a little (a slow push and drift, like a documentary camera; Producer chose EP003 v5,
+    2026-10-12); big camera moves only where the script calls for them.
   - The engine enforces this with a `CAMERA_JUMP` error (`src/engine/cameraContinuity.ts`) that blocks the render.
 - **Animatic resolution (Producer rule, 2026-10-06):** the animatic is the production tool for every video (not only
   EP002). One design, the size picked at export with `QUALITY`:

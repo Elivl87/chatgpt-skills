@@ -230,7 +230,9 @@ def run_block(name, t0, t1, render, stills, version=1):
             NOW[0] = t; _fin(render(t), t).save(out_path(ROOT / f'docs/ep003/block{name}_v{version}_{sn}.jpg'), quality=85)
     if '--stills' in sys.argv:
         save_stills(); print('stills'); return
-    narr = ROOT / 'public/episodes/ep003/audio/narration.wav'
+    narr = ROOT / 'public/episodes/ep003/audio/mix.wav'                 # narration + the free SFX pass (scripts/ep003-sfx.py)
+    if not narr.exists():
+        narr = ROOT / 'public/episodes/ep003/audio/narration.wav'
     p = subprocess.Popen([ff, '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
                           '-ss', f'{t0:.3f}', '-t', f'{t1 - t0:.3f}', '-i', str(narr), '-map', '0:v', '-map', '1:a',
                           *video_args(), *audio_args(), '-shortest', str(out)], stdin=subprocess.PIPE)

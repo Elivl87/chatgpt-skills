@@ -48,3 +48,7 @@
   post-render QC (black/frozen/silence/R128), verification-before-completion discipline. NOT lip-sync.
 - New channel concept A "Tiny Systems / Pequeños Sistemas" approved: Claude and its agents create it, all free.
 - Credit approval for EP003 left "for the end of everything".
+
+## 2026-10-12 · Animatic v5 chosen
+- Producer: "La v5". Breathing camera (slow push + drift) + dust on plain cards adopted; camera-continuity rule updated
+  in CLAUDE.md. v5 passes the style bible (15.6 cuts/min, 3.8 s avg shot, motion 51 %, 5.0 stills/min).
