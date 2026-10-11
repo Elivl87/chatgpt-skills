@@ -111,7 +111,7 @@
       #tblVig { background: radial-gradient(ellipse 75% 75% at 50% 48%, rgba(0,0,0,0) 45%, rgba(10, 5, 2, .65) 100%); }
       #pol3 { position: absolute; left: 318px; top: 106px; width: 644px; height: 508px; }
       #pol3 .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 3px; }
-      #pol3 .front { background: #f8f5ec; transform: rotateY(180deg); box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+      #pol3 .front { background: #f8f5ec; opacity: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
       #pol3 .back { background: linear-gradient(160deg, #3a3940 0%, #2a292f 100%); box-shadow: inset 0 0 0 10px #f2efe6; }
       #pol3Shadow { position: absolute; left: 318px; top: 106px; width: 644px; height: 508px; border-radius: 4px; background: rgba(10, 4, 0, .55); filter: blur(14px); }
       #photo3 { position: absolute; left: 22px; top: 22px; width: 600px; height: 400px; overflow: hidden; background: #2a2440; }
@@ -323,7 +323,7 @@
       <div id="d3Clip" class="full clip" data-start="{{l23-0.05}}" data-duration="{{l24-l23}}" data-track-index="2" style="z-index: 3; overflow: hidden; background: #2a160c">
         <div id="d3cam" class="full">
           <div id="tblWood"></div>
-          <div id="lantern3" class="abs" style="left: 40px; top: 40px; width: 140px; height: 317px"><img src="assets/lantern.png" alt="" style="width: 100%; height: 100%" /></div>
+          <div id="lantern3" class="abs" style="left: 70px; top: 70px; width: 140px; height: 317px"><img src="assets/lantern.png" alt="" style="width: 100%; height: 100%" /></div>
           <div id="tblPool" class="full"></div>
           <div id="pol3Shadow"></div>
           <div id="pol3">
@@ -826,9 +826,10 @@
       tl.fromTo("#d3cam", { scale: 1.16 }, { scale: 1.02, duration: T.caught - D3 + .4, ease: "power2.out" }, D3);
       tl.fromTo("#pol3", { y: -40, rotation: -9, scale: 1.12 }, { y: 0, rotation: -3, scale: 1, duration: .6, ease: "back.out(1.4)" }, D3);
       tl.fromTo("#pol3Shadow", { x: 30, y: 40, rotation: -9, scale: 1.12, opacity: .3 }, { x: 10, y: 18, rotation: -3, scale: 1, opacity: 1, duration: .6, ease: "back.out(1.4)" }, D3);
-      tl.set("#pol3", { transformPerspective: 1600, rotationY: 0 }, 0);
-      tl.to("#pol3", { rotationY: 180, duration: .6, ease: "power2.inOut" }, T.caught - .2);
-      tl.to(["#pol3", "#pol3Shadow"], { keyframes: [{ scale: 1.08, duration: .3, ease: "power2.out" }, { scale: 1, duration: .3, ease: "power2.in" }] }, T.caught - .2);
+      tl.to(["#pol3", "#pol3Shadow"], { scaleX: 0, skewY: 4, duration: .22, ease: "power2.in" }, T.caught - .2);
+      tl.set("#pol3 .back", { opacity: 0 }, T.caught + .02); tl.set("#pol3 .front", { opacity: 1 }, T.caught + .02);
+      tl.to(["#pol3", "#pol3Shadow"], { scaleX: 1, skewY: 0, duration: .34, ease: "back.out(1.6)" }, T.caught + .02);
+      tl.to(["#pol3", "#pol3Shadow"], { keyframes: [{ scaleY: 1.06, duration: .25, ease: "power2.out" }, { scaleY: 1, duration: .3, ease: "power2.in" }] }, T.caught - .2);
       tl.to("#pol3Shadow", { keyframes: [{ x: 30, y: 40, opacity: .5, duration: .3 }, { x: 10, y: 18, opacity: 1, duration: .3 }] }, T.caught - .2);
       tl.fromTo("#lantern3", { rotation: -3 }, { rotation: 3, duration: 1.6, yoyo: true, repeat: 5, ease: "sine.inOut", transformOrigin: "50% 0%" }, D3);
       tl.fromTo("#tblPool", { opacity: .85 }, { opacity: 1, duration: .3, yoyo: true, repeat: 25, ease: "sine.inOut" }, D3);
