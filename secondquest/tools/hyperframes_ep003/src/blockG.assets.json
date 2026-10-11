@@ -1,0 +1,6 @@
+{
+  "quest_nostalgic.png": ["docs/art_orders/quest/library_v2/results/05_nostalgic_smile.png", 900],
+  "pixie_sitting.png": ["docs/art_orders/pixie/library/results/10_sitting_relaxed.png", 900],
+  "lantern.png": ["public/art/ep003/props3d/lantern.png", null],
+  "wordmark.png": ["public/art/core/brand/secondquest_wordmark.png", null]
+}
