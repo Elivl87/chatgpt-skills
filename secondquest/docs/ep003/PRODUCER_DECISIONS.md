@@ -75,3 +75,7 @@
   Generated art is never edited (rule); only our own code-made layers and the engine improve.
 - Producer: "Sí, bájalo al 2–3%" — breathing camera push 2–3 %, drift ≤ 1.5 %, per-shot phase (kit + Hyperframes;
   CLAUDE.md camera rule updated).
+
+## 2026-10-12 · ES-419 script locked
+- Producer: "Apruebo el español del EP003 tal cual" — `episodes/ep003/script.es.json` (with l07 "Entonces, ¿por qué?")
+  is LOCKED, used verbatim for Bram's Spanish dub.

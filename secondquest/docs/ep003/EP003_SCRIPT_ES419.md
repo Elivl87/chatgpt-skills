@@ -2,7 +2,7 @@
 
 Source: `docs/ep003/scripts/B_HowToFish.md`, "Master script (EN)" (LOCKED v3, 2026-10-11).
 Machine files: `episodes/ep003/script.json` (en, verbatim) and `episodes/ep003/script.es.json` (es). Same ids, 1:1.
-Status: **DRAFT, pending Producer approval.**
+Status: **LOCKED** (Producer approved as is, 2026-10-12).
 
 Length: 52 lines. Total characters ES/EN = **1.05** (well under the ~1.15–1.20 usual for Spanish, so the dub should need no speed-up).
 Ratio = ES characters / EN characters per line. Flag = over 1.20.

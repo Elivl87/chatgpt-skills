@@ -955,9 +955,10 @@ const rowboat = () => {
     return [halfW(u) * (1 - .14 * yf) * zf, top - (top - bot) * yf];
   };
   const hp = (u: number, s: number, side: number, off: number) => {    // hull point, offset along the section normal
+    // (outward plank offsets keep 30 % at the bow so the laps never become coplanar; the stem covers the joint)
     const e = 2e-3, a = base(u, Math.max(0, s - e)), b = base(u, Math.min(1, s + e)), c = base(u, s);
     const tz = b[0] - a[0], ty = b[1] - a[1], l = Math.hypot(tz, ty) || 1;
-    const o = off * taper(u);
+    const o = off * (off > 0 ? .3 + .7 * taper(u) : taper(u));
     return V((u - .5) * L, c[1] + o * (tz / l), side * (c[0] + o * (-ty / l)));
   };
   const half = (m: THREE.Mesh, h: 'front' | 'back') => (m.userData.half = h, m);
@@ -1011,7 +1012,7 @@ const rowboat = () => {
   const ribMat = woodMat('#7c4b29');
   for (const ur of [.08, .24, .32, .4, .56, .64, .84]) {
     const pts: THREE.Vector3[] = [];
-    for (let i = 0; i <= 24; i++) { const t = -1 + i / 12, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 1.7))); }
+    for (let i = 0; i <= 60; i++) { const t = -1 + i / 30, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 1.7))); }
     const r = tube(pts, 1.5, ribMat, 1515, 60, 6); uvScale(r.geometry, 3, .3); g.add(half(r, 'back'));
   }
   const SR = .3;
@@ -1027,7 +1028,7 @@ const rowboat = () => {
   };
   const benchCol = ['#b98250', '#c08a56', '#b47c4a'];
   [[.17, 26], [.47, 20], [.75, 17]].forEach(([ub, wide], i) => {
-    const p = hp(ub, SR, 1, -(INS + 1.7)), y = p.y + 1.4 + 1.8, len = 2 * innerZ(ub, y + 1.8) + 3;
+    const p = hp(ub, SR, 1, -(INS + 1.7)), y = p.y + 1.4 + 1.8, len = 2 * Math.min(innerZ(ub - wide / 2 / L, y + 1.8), innerZ(ub + wide / 2 / L, y + 1.8)) + 1.6;
     const b = box(len, 3.6, wide, [0, 0, 0], woodMat(benchCol[i], false), 1517 + i, .8);
     uvScale(b.geometry, 1 / 110, 1 / 45, i * .3, i * .2);
     b.rotation.y = Math.PI / 2; b.position.set(p.x, y, 0); g.add(half(b, 'back'));
@@ -1045,7 +1046,7 @@ const rowboat = () => {
   const bu = Array.from({ length: 14 }, (_, i) => .86 + i / 13 * .14);
   bu.forEach((u, i) => { const p = hp(u, .02, 1, -INS + 1); (i ? bh.lineTo.bind(bh) : bh.moveTo.bind(bh))(p.x, -p.z); });
   [...bu].reverse().forEach((u) => { const p = hp(u, .02, 1, -INS + 1); bh.lineTo(p.x, p.z); });
-  const bg = new THREE.ExtrudeGeometry(bh, { depth: 2.2, bevelEnabled: true, bevelThickness: .4, bevelSize: .4, bevelSegments: 2 });
+  const bg = new THREE.ExtrudeGeometry(bh, { depth: 2.6, bevelEnabled: false });
   uvScale(bg, 1 / 80, 1 / 30); bg.rotateX(-Math.PI / 2);
   const bp = bg.attributes.position as THREE.BufferAttribute;
   for (let i = 0; i < bp.count; i++) bp.setY(i, bp.getY(i) + rimY(bp.getX(i) / L + .5) - 3.4);
@@ -1084,7 +1085,7 @@ const rowboat = () => {
     oar.add(half(along(2.65, 2.65, -6, 6, leather, 1527 + id), h));
     for (const [x0, x1, mat, part] of [[100, 138, oarWood, 1528 + id], [138, 150.2, woodMat('#3f7d84', false), 1529 + id]] as [number, number, THREE.Material, number][]) {
       const bgeo = new THREE.ExtrudeGeometry(bladeShape(x0, x1), { depth: .9, bevelEnabled: true, bevelThickness: .3, bevelSize: .3, bevelSegments: 2 });
-      uvScale(bgeo, 1 / 60, 1 / 20); bgeo.rotateX(-Math.PI / 2); bgeo.translate(0, -.45, 0); bgeo.rotateX(side * 1.05);   // blade turned half square, its face shows
+      uvScale(bgeo, 1 / 60, 1 / 20); bgeo.rotateX(-Math.PI / 2); bgeo.translate(0, -.45, 0); bgeo.rotateX(-.5);   // blade turned half square, its face shows
       oar.add(half(mesh(bgeo, mat, part), h));
     }
     g.add(oar);

@@ -1,7 +1,7 @@
 {
   "episode": "ep003",
   "locale": "es",
-  "notes": "ES-419 dub of the LOCKED v3 master (B_HowToFish.md). Same ids as script.json (en), 1:1. Neutral LatAm, tú form, curly quotes as EP002. Total chars ES/EN = 1.050 Lines over 1.20x: see docs/ep003/EP003_SCRIPT_ES419.md. DRAFT pending Producer approval.",
+  "notes": "ES-419 dub of the LOCKED v3 master (B_HowToFish.md). Same ids as script.json (en), 1:1. Neutral LatAm, tú form, curly quotes as EP002. Total chars ES/EN = 1.050 Lines over 1.20x: see docs/ep003/EP003_SCRIPT_ES419.md. LOCKED (Producer approved as is, 2026-10-12: "Apruebo el español del EP003 tal cual").",
   "lines": [
     {
       "id": "l01",
