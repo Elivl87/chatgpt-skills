@@ -1,0 +1,800 @@
+diff --git a/webview-ui/sqtools/decode-assets.ts b/webview-ui/sqtools/decode-assets.ts
+new file mode 100644
+index 0000000..9f643fb
+--- /dev/null
++++ b/webview-ui/sqtools/decode-assets.ts
+@@ -0,0 +1,60 @@
++// SecondQuest: pre-decode all bundled Pixel Agents assets into one JSON payload
++// (same data the standalone server sends over WebSocket on webviewReady).
++import * as fs from 'fs';
++import * as path from 'path';
++
++import { buildFurnitureCatalog } from '../../core/src/assets/build.ts';
++import {
++  decodeAllCarpets,
++  decodeAllCharacters,
++  decodeAllFloors,
++  decodeAllFurniture,
++  decodeAllWalls,
++} from '../../core/src/assets/loader.ts';
++import { decodePetPng } from '../../core/src/assets/pngDecoder.ts';
++
++const assetsDir = path.resolve(process.argv[2]);
++const out = path.resolve(process.argv[3]);
++
++const catalog = buildFurnitureCatalog(assetsDir);
++const petsDir = path.join(assetsDir, 'pets');
++const pets: unknown[] = [];
++const petNames: string[] = [];
++for (const dir of fs.readdirSync(petsDir).sort()) {
++  const m = JSON.parse(fs.readFileSync(path.join(petsDir, dir, 'manifest.json'), 'utf8'));
++  pets.push(decodePetPng(fs.readFileSync(path.join(petsDir, dir, 'pet.png'))));
++  petNames.push(m.name);
++}
++const layout = JSON.parse(fs.readFileSync(path.join(assetsDir, 'default-layout-1.json'), 'utf8'));
++layout.pets = petNames.map((_, i) => ({ id: `pet-${i}`, petType: i }));
++// Crop the empty (VOID) margin of the default layout so the office centers in the viewport:
++// keep one row above the first wall row (wall-mounted furniture sits there) and drop the
++// trailing void row/col. Furniture rows/cols shift by the same amount.
++{
++  const TOP = 8, KEEP_ROWS = 13, KEEP_COLS = 20;
++  const cols = layout.cols as number;
++  const crop = (arr: unknown[]) => {
++    const out: unknown[] = [];
++    for (let r = TOP; r < TOP + KEEP_ROWS; r++) out.push(...arr.slice(r * cols, r * cols + KEEP_COLS));
++    return out;
++  };
++  layout.tiles = crop(layout.tiles);
++  if (Array.isArray(layout.tileColors)) layout.tileColors = crop(layout.tileColors);
++  for (const f of layout.furniture) f.row -= TOP;
++  layout.rows = KEEP_ROWS;
++  layout.cols = KEEP_COLS;
++}
++
++const payload = {
++  characters: decodeAllCharacters(assetsDir),
++  pets,
++  petNames,
++  floorSprites: decodeAllFloors(assetsDir),
++  wallSets: decodeAllWalls(assetsDir),
++  carpetSets: decodeAllCarpets(assetsDir),
++  furnitureCatalog: catalog,
++  furnitureSprites: decodeAllFurniture(assetsDir, catalog),
++  layout,
++};
++fs.writeFileSync(out, JSON.stringify(payload));
++console.log('wrote', out, fs.statSync(out).size, 'bytes');
+diff --git a/webview-ui/sqtools/page/index.html b/webview-ui/sqtools/page/index.html
+new file mode 100644
+index 0000000..e8a2b1f
+--- /dev/null
++++ b/webview-ui/sqtools/page/index.html
+@@ -0,0 +1,82 @@
++<title>Sala de Agentes SecondQuest</title>
++<meta name="description" content="Oficina pixel-art en vivo: cada agente de SecondQuest es un personaje (Pixel Agents, MIT) que camina, se sienta y teclea según su estado.">
++<link rel="stylesheet" href="pixel-office.css">
++<style>
++/* Office renderer (Pixel Agents) fills the page; a small HUD shows status/now on top. */
++:root {
++  --sq-bg: #1e1e2e; --sq-panel: #26263a; --sq-ink: #f2ecdf; --sq-muted: #a59db5;
++  --sq-line: #44445e; --sq-gold: #f2c14e; --sq-shadow: #0a0a14;
++}
++@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sq-bg: #1e1e2e; } }
++:root[data-theme="dark"] { --sq-bg: #1e1e2e; }
++html, body { margin: 0; height: 100%; background: var(--sq-bg); overflow: hidden; }
++#root { position: fixed; inset: 0; }
++#sq-hud {
++  position: fixed; top: 8px; left: 56px; right: 8px; z-index: 60; pointer-events: none;
++  display: flex; justify-content: flex-end;
++}
++#sq-card {
++  pointer-events: auto; max-width: min(460px, 100%); box-sizing: border-box;
++  background: var(--sq-panel); color: var(--sq-ink); border: 2px solid var(--sq-line);
++  box-shadow: 2px 2px 0 var(--sq-shadow); padding: 6px 10px 8px; font-size: 18px; line-height: 1.05;
++}
++#sq-card[hidden] { display: none; }
++#sq-top { display: flex; gap: 8px; align-items: baseline; }
++#sq-ep { color: var(--sq-gold); white-space: nowrap; }
++#sq-head { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
++#sq-toggle {
++  font: inherit; font-size: 16px; color: var(--sq-ink); background: transparent; border: 2px solid var(--sq-line);
++  padding: 0 6px; cursor: pointer; line-height: 1.1;
++}
++#sq-bar { height: 6px; background: #11111b; margin-top: 6px; }
++#sq-bar > i { display: block; height: 100%; width: 0; background: var(--sq-gold); transition: width .6s; }
++#sq-log { list-style: none; margin: 6px 0 0; padding: 0; font-size: 16px; max-height: 30vh; overflow: auto; }
++#sq-log[hidden] { display: none; }
++#sq-log li { display: flex; gap: 8px; padding: 2px 0; border-top: 1px solid var(--sq-line); }
++#sq-log time { color: var(--sq-muted); white-space: nowrap; }
++#sq-offline { position: fixed; bottom: 8px; left: 8px; z-index: 60; color: var(--sq-muted); font-size: 16px; }
++</style>
++<div id="root"></div>
++<div id="sq-hud">
++  <div id="sq-card" hidden>
++    <div id="sq-top"><span id="sq-ep"></span><span id="sq-head"></span><button id="sq-toggle" type="button" aria-expanded="false" title="Bitácora">log</button></div>
++    <div id="sq-bar"><i></i></div>
++    <ol id="sq-log" hidden></ol>
++  </div>
++</div>
++<div id="sq-offline" hidden>sin conexión en esta vista</div>
++<script>
++(function () {
++  var $ = function (id) { return document.getElementById(id); };
++  var dbP = null;
++  try { dbP = window.claude && window.claude.use ? Promise.resolve(window.claude.use("db")) : null; } catch (e) { dbP = null; }
++  if (dbP) window.__SQ_DB__ = dbP;
++  var open = false;
++  try { open = localStorage.getItem("sq-log-open") === "1"; } catch (e) {}
++  function setOpen(v) {
++    open = v; $("sq-log").hidden = !v; $("sq-toggle").setAttribute("aria-expanded", String(v));
++    try { localStorage.setItem("sq-log-open", v ? "1" : "0"); } catch (e) {}
++  }
++  $("sq-toggle").onclick = function () { setOpen(!open); };
++  setOpen(open);
++  if (!dbP) { $("sq-offline").hidden = false; return; }
++  dbP.then(function (db) {
++    if (!db) { $("sq-offline").hidden = false; return; }
++    db.doc("status/now").onSnapshot(function (d) {
++      var v = d && d.exists !== false && d.data ? d.data() : null;
++      $("sq-card").hidden = !v; if (!v) return;
++      $("sq-ep").textContent = v.episode || "";
++      $("sq-head").textContent = v.headline || "";
++      $("sq-head").title = v.headline || "";
++      $("sq-bar").firstElementChild.style.width = Math.max(0, Math.min(100, Number(v.progress) || 0)) + "%";
++      var ol = $("sq-log"); ol.textContent = "";
++      var log = Array.isArray(v.log) ? v.log.slice(0, 8) : [];
++      log.forEach(function (e) {
++        var li = document.createElement("li"), t = document.createElement("time"), s = document.createElement("span");
++        t.textContent = e.t || ""; s.textContent = e.msg || ""; li.append(t, s); ol.append(li);
++      });
++    }, function () { $("sq-offline").hidden = false; });
++  }, function () { $("sq-offline").hidden = false; });
++})();
++</script>
++<script type="module" src="pixel-office.js"></script>
+diff --git a/webview-ui/sqtools/vite.sq.config.ts b/webview-ui/sqtools/vite.sq.config.ts
+new file mode 100644
+index 0000000..218a16e
+--- /dev/null
++++ b/webview-ui/sqtools/vite.sq.config.ts
+@@ -0,0 +1,27 @@
++import tailwindcss from '@tailwindcss/vite';
++import react from '@vitejs/plugin-react';
++import * as path from 'path';
++import { defineConfig } from 'vite';
++
++// SecondQuest build: serverless, db-driven office for a claude.ai Artifact.
++export default defineConfig({
++  root: path.resolve(__dirname, '..'),
++  plugins: [tailwindcss(), react()],
++  define: { __SQ__: 'true' },
++  publicDir: false,
++  base: './',
++  build: {
++    outDir: path.resolve(__dirname, '../../dist/sq'),
++    emptyOutDir: true,
++    assetsDir: '.',
++    cssCodeSplit: false,
++    modulePreload: false,
++    rollupOptions: {
++      output: {
++        entryFileNames: 'pixel-office.js',
++        chunkFileNames: 'pixel-office-[name].js',
++        assetFileNames: 'pixel-office[extname]',
++      },
++    },
++  },
++});
+diff --git a/webview-ui/src/App.tsx b/webview-ui/src/App.tsx
+index 68a2691..b3efa21 100644
+--- a/webview-ui/src/App.tsx
++++ b/webview-ui/src/App.tsx
+@@ -98,6 +98,23 @@ function App() {
+     setShowAreas,
+   } = useExtensionMessages(getOfficeState, editor.setLastSavedLayout, isEditDirty);
+ 
++  // SecondQuest: fit the office to the viewport (no toolbar; phone and desktop).
++  const { handleZoomChange } = editor;
++  useEffect(() => {
++    if (!__SQ__ || !layoutReady) return;
++    const fit = () => {
++      const l = getOfficeState().getLayout();
++      const dpr = window.devicePixelRatio || 1;
++      const w = window.innerWidth * dpr;
++      const h = (window.innerHeight - 56) * dpr;
++      const z = Math.floor(Math.min(w / (l.cols * 16 + 16), h / (l.rows * 16 + 24)));
++      handleZoomChange(Math.max(1, z));
++    };
++    fit();
++    window.addEventListener('resize', fit);
++    return () => window.removeEventListener('resize', fit);
++  }, [layoutReady, handleZoomChange]);
++
+   // Show migration notice once layout reset is detected
+   const [migrationNoticeDismissed, setMigrationNoticeDismissed] = useState(false);
+   const showMigrationNotice = layoutWasReset && !migrationNoticeDismissed;
+@@ -511,23 +528,23 @@ function App() {
+         </div>
+       </Modal>
+ 
+-      <BottomToolbar
++      {!__SQ__ && (<BottomToolbar
+         isEditMode={editor.isEditMode}
+         onOpenClaude={editor.handleOpenClaude}
+         onToggleEditMode={editor.handleToggleEditMode}
+         isSettingsOpen={isSettingsOpen}
+         onToggleSettings={() => setIsSettingsOpen((v) => !v)}
+         workspaceFolders={workspaceFolders}
+-      />
++      />)}
+ 
+-      <VersionIndicator
++      {!__SQ__ && (<VersionIndicator
+         currentVersion={extensionVersion}
+         lastSeenVersion={lastSeenVersion}
+         onDismiss={handleWhatsNewDismiss}
+         onOpenChangelog={handleOpenChangelog}
+-      />
++      />)}
+ 
+-      <ConnectionIndicator />
++      {!__SQ__ && <ConnectionIndicator />}
+ 
+       <ChangelogModal
+         isOpen={isChangelogOpen}
+diff --git a/webview-ui/src/index.css b/webview-ui/src/index.css
+index 8612d48..c887ea6 100644
+--- a/webview-ui/src/index.css
++++ b/webview-ui/src/index.css
+@@ -5,7 +5,7 @@
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+-  src: url('/fonts/FSPixelSansUnicode-Regular.ttf') format('truetype');
++  src: url('../public/fonts/FSPixelSansUnicode-Regular.ttf') format('truetype');
+ }
+ 
+ :root {
+diff --git a/webview-ui/src/office/components/ToolOverlay.tsx b/webview-ui/src/office/components/ToolOverlay.tsx
+index 1bb1e13..16f409e 100644
+--- a/webview-ui/src/office/components/ToolOverlay.tsx
++++ b/webview-ui/src/office/components/ToolOverlay.tsx
+@@ -27,7 +27,7 @@ import { CharacterState } from '../types.js';
+ // shows ONLY the checkmark (the label falls through to its normal idle text);
+ // going idle waiting on the user (Notification(idle_prompt)) additionally
+ // surfaces this label. Driven by Character.waitingAwaitingInput.
+-const WAITING_INPUT_ACTIVITY_TEXT = 'Waiting for input';
++const WAITING_INPUT_ACTIVITY_TEXT = __SQ__ ? 'Esperando' : 'Waiting for input';
+ 
+ interface ToolOverlayProps {
+   officeState: OfficeState;
+@@ -50,7 +50,7 @@ function getActivityText(
+   bubbleType: 'permission' | 'waiting' | null,
+   waitingAwaitingInput: boolean,
+ ): string {
+-  if (bubbleType === 'permission') return 'Needs approval';
++  if (bubbleType === 'permission') return __SQ__ ? 'Atascado: necesita ayuda' : 'Needs approval';
+   // Only the idle case ("Waiting for input") gets a dedicated label. A finished
+   // turn (Stop, waitingAwaitingInput=false) falls through so the checkmark alone
+   // signals "done", same as the original behavior.
+@@ -61,7 +61,7 @@ function getActivityText(
+     // Find the latest non-done tool
+     const activeTool = [...tools].reverse().find((t) => !t.done);
+     if (activeTool) {
+-      if (activeTool.permissionWait) return 'Needs approval';
++      if (activeTool.permissionWait) return __SQ__ ? 'Atascado: necesita ayuda' : 'Needs approval';
+       return activeTool.status;
+     }
+     // All tools done but agent still active (mid-turn) — keep showing last tool status
+@@ -71,7 +71,7 @@ function getActivityText(
+     }
+   }
+ 
+-  return 'Idle';
++  return __SQ__ ? 'Listo' : 'Idle';
+ }
+ 
+ function getFuelColor(ratio: number): string {
+@@ -145,7 +145,7 @@ export function ToolOverlay({
+         // panel back. When always-show is off, the early return above already
+         // keeps the panel hidden for idle agents.
+         const isDone = ch.bubbleType === 'waiting' && !ch.waitingAwaitingInput;
+-        if (isDone && !isSelected && !isHovered) {
++        if (isDone && !isSelected && !isHovered && !__SQ__) {
+           return (
+             <div
+               key={id}
+@@ -167,7 +167,7 @@ export function ToolOverlay({
+           activityText = WAITING_INPUT_ACTIVITY_TEXT;
+         } else if (isSub) {
+           if (subHasPermission) {
+-            activityText = 'Needs approval';
++            activityText = __SQ__ ? 'Atascado: necesita ayuda' : 'Needs approval';
+           } else {
+             // Hover shows the subtask title; SELECTING the sub reveals its live
+             // tool activity (watched sub-agents stream it via subagentToolStart).
+@@ -201,6 +201,63 @@ export function ToolOverlay({
+           dotColor = 'var(--color-status-active)';
+         }
+ 
++        // SecondQuest: compact name tag under the character's feet so the
++        // status bubbles above the head stay visible with labels always on.
++        if (__SQ__ && !isSub) {
++          // CSS px per sprite px: small on phones (dpr 3, zoom 3 -> 1), so the tag shrinks
++          // to the name only; tapping a character (select) still shows its task.
++          const cssScale = zoom / (window.devicePixelRatio || 1);
++          const compact = cssScale < 1.6 && !isSelected && !isHovered;
++          const footY = project.toScreenY(ch.y + sittingOffset);
++          const tagColor =
++            ch.bubbleType === 'permission'
++              ? '#E0403A'
++              : hasWaiting && ch.waitingAwaitingInput
++                ? '#CCA700'
++                : isActive
++                  ? '#3794FF'
++                  : '#44BB66';
++          return (
++            <div
++              key={id}
++              className="absolute flex flex-col items-center -translate-x-1/2"
++              style={{
++                left: screenX,
++                top: footY + 1,
++                pointerEvents: 'none',
++                zIndex: isSelected ? 42 : 41,
++                maxWidth: isSelected || isHovered ? 260 : compact ? 70 : 132,
++              }}
++              data-testid="agent-overlay"
++              data-agent-id={id}
++            >
++              <div
++                className="pixel-panel"
++                style={{
++                  padding: compact ? '0 3px 1px' : '1px 5px 2px',
++                  borderLeft: `${compact ? 3 : 4}px solid ${tagColor}`,
++                  maxWidth: '100%',
++                }}
++              >
++                <span
++                  className="block leading-none overflow-hidden text-ellipsis whitespace-nowrap"
++                  style={{ fontSize: compact ? '11px' : '16px', color: ch.agentName ? undefined : 'var(--color-text-muted)' }}
++                >
++                  {ch.agentName || '…'}
++                </span>
++                {!compact && (
++                  <span
++                    className="block leading-none overflow-hidden text-ellipsis whitespace-nowrap"
++                    style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}
++                  >
++                    {activityText}
++                  </span>
++                )}
++              </div>
++            </div>
++          );
++        }
++
+         // Team info
+         const teamRoleLabel = ch.isTeamLead ? 'LEAD' : ch.agentName || null;
+         const hasExtraLines = !!(ch.folderName || teamRoleLabel);
+diff --git a/webview-ui/src/office/engine/officeState.ts b/webview-ui/src/office/engine/officeState.ts
+index b2c22f6..0fd4409 100644
+--- a/webview-ui/src/office/engine/officeState.ts
++++ b/webview-ui/src/office/engine/officeState.ts
+@@ -792,6 +792,12 @@ export class OfficeState {
+     const ch = this.characters.get(id);
+     if (ch) {
+       ch.isActive = active;
++      // SecondQuest: going back to work ends a sticky "waiting on input" bubble.
++      if (__SQ__ && active && ch.bubbleType === 'waiting' && ch.waitingAwaitingInput) {
++        ch.bubbleType = null;
++        ch.bubbleTimer = 0;
++        ch.waitingAwaitingInput = false;
++      }
+       if (!active) {
+         // Sentinel -1: signals turn just ended, skip next seat rest timer.
+         // Prevents the WALK handler from setting a 2-4 min rest on arrival.
+@@ -1115,7 +1121,8 @@ export class OfficeState {
+       );
+ 
+       // Tick bubble timer for waiting bubbles
+-      if (ch.bubbleType === 'waiting') {
++      // SecondQuest: an agent waiting on input keeps its bubble until the db says otherwise.
++      if (ch.bubbleType === 'waiting' && !(__SQ__ && ch.waitingAwaitingInput)) {
+         ch.bubbleTimer -= dt;
+         if (ch.bubbleTimer <= 0) {
+           ch.bubbleType = null;
+diff --git a/webview-ui/src/office/engine/renderer.ts b/webview-ui/src/office/engine/renderer.ts
+index 89528f8..40d69a9 100644
+--- a/webview-ui/src/office/engine/renderer.ts
++++ b/webview-ui/src/office/engine/renderer.ts
+@@ -56,6 +56,8 @@ import { getCachedSprite, getOutlineSprite } from '../sprites/spriteCache.js';
+ import {
+   BUBBLE_HEART_SPRITE,
+   BUBBLE_PERMISSION_SPRITE,
++  BUBBLE_SQ_STUCK_SPRITE,
++  BUBBLE_SQ_WAITING_SPRITE,
+   BUBBLE_WAITING_SPRITE,
+   getCharacterSprites,
+ } from '../sprites/spriteData.js';
+@@ -777,14 +779,20 @@ function renderBubbles(
+     // The green checkmark bubble only represents "done" (turn finished). The
+     // idle "Waiting for input" state communicates via its overlay label, not a
+     // bubble, so skip the bubble for it.
+-    if (ch.bubbleType === 'waiting' && ch.waitingAwaitingInput) continue;
+-
++    // SecondQuest: "waiting on input" gets a persistent blue "..." bubble and
++    // "stuck" (permission) a red "!" so both read at a glance on a phone.
++    const sqWaiting = ch.bubbleType === 'waiting' && ch.waitingAwaitingInput;
+     const sprite =
+-      ch.bubbleType === 'permission' ? BUBBLE_PERMISSION_SPRITE : BUBBLE_WAITING_SPRITE;
++      ch.bubbleType === 'permission'
++        ? (__SQ__ ? BUBBLE_SQ_STUCK_SPRITE : BUBBLE_PERMISSION_SPRITE)
++        : sqWaiting
++          ? BUBBLE_SQ_WAITING_SPRITE
++          : BUBBLE_WAITING_SPRITE;
++    if (sqWaiting && !__SQ__) continue;
+ 
+     // Compute opacity: permission = full, waiting = fade in last 0.5s
+     let alpha = 1.0;
+-    if (ch.bubbleType === 'waiting' && ch.bubbleTimer < BUBBLE_FADE_DURATION_SEC) {
++    if (ch.bubbleType === 'waiting' && !sqWaiting && ch.bubbleTimer < BUBBLE_FADE_DURATION_SEC) {
+       alpha = ch.bubbleTimer / BUBBLE_FADE_DURATION_SEC;
+     }
+ 
+diff --git a/webview-ui/src/office/sprites/bubble-sq-stuck.json b/webview-ui/src/office/sprites/bubble-sq-stuck.json
+new file mode 100644
+index 0000000..3b13cde
+--- /dev/null
++++ b/webview-ui/src/office/sprites/bubble-sq-stuck.json
+@@ -0,0 +1 @@
++{"palette": {"_": "", "B": "#555566", "F": "#EEEEFF", "R": "#E0403A"}, "pixels": [["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "R", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "R", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "R", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "R", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "R", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"], ["_", "_", "_", "_", "B", "B", "B", "_", "_", "_", "_"], ["_", "_", "_", "_", "_", "B", "_", "_", "_", "_", "_"], ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_"]]}
+\ No newline at end of file
+diff --git a/webview-ui/src/office/sprites/bubble-sq-waiting.json b/webview-ui/src/office/sprites/bubble-sq-waiting.json
+new file mode 100644
+index 0000000..b4f4606
+--- /dev/null
++++ b/webview-ui/src/office/sprites/bubble-sq-waiting.json
+@@ -0,0 +1 @@
++{"name": "bubble-permission", "description": "Permission bubble: white square with '...' in amber, and a tail pointer (11x13)", "width": 11, "height": 13, "palette": {"_": "", "B": "#555566", "F": "#EEEEFF", "A": "#CCA700"}, "pixels": [["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "A", "F", "A", "F", "A", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "F", "F", "F", "F", "F", "F", "F", "F", "F", "B"], ["B", "B", "B", "B", "B", "B", "B", "B", "B", "B", "B"], ["_", "_", "_", "_", "B", "B", "B", "_", "_", "_", "_"], ["_", "_", "_", "_", "_", "B", "_", "_", "_", "_", "_"], ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_"]]}
+\ No newline at end of file
+diff --git a/webview-ui/src/office/sprites/spriteData.ts b/webview-ui/src/office/sprites/spriteData.ts
+index 6fd1f27..904e449 100644
+--- a/webview-ui/src/office/sprites/spriteData.ts
++++ b/webview-ui/src/office/sprites/spriteData.ts
+@@ -6,6 +6,8 @@ import { Direction as Dir } from '../types.js';
+ import bubblePermissionData from './bubble-permission.json';
+ import bubblePetData from './bubble-pet.json';
+ import bubbleWaitingData from './bubble-waiting.json';
++import bubbleSqStuckData from './bubble-sq-stuck.json';
++import bubbleSqWaitingData from './bubble-sq-waiting.json';
+ 
+ // ── Speech Bubble Sprites ───────────────────────────────────────
+ 
+@@ -24,6 +26,10 @@ export const BUBBLE_PERMISSION_SPRITE: SpriteData = resolveBubbleSprite(bubblePe
+ /** Waiting bubble: white square with green checkmark, and a tail pointer (11x13) */
+ export const BUBBLE_WAITING_SPRITE: SpriteData = resolveBubbleSprite(bubbleWaitingData);
+ 
++/** SecondQuest: blue "..." (waiting on input) and red "!" (stuck) bubbles */
++export const BUBBLE_SQ_WAITING_SPRITE: SpriteData = resolveBubbleSprite(bubbleSqWaitingData);
++export const BUBBLE_SQ_STUCK_SPRITE: SpriteData = resolveBubbleSprite(bubbleSqStuckData);
++
+ /** Heart bubble: pet petting feedback (11x13) */
+ export const BUBBLE_HEART_SPRITE: SpriteData = resolveBubbleSprite(bubblePetData);
+ 
+diff --git a/webview-ui/src/sq/sqTransport.ts b/webview-ui/src/sq/sqTransport.ts
+new file mode 100644
+index 0000000..e8a2c25
+--- /dev/null
++++ b/webview-ui/src/sq/sqTransport.ts
+@@ -0,0 +1,275 @@
++/**
++ * SecondQuest adapter: a serverless MessageTransport for the Pixel Agents webview.
++ *
++ * Instead of a VS Code extension or the standalone WebSocket server, this
++ * transport (1) replays the asset handshake from a pre-decoded static JSON file
++ * (office-data.json, produced at build time from the bundled PNGs) and
++ * (2) subscribes to the claude.ai Artifact db (`agents` collection) and turns
++ * each doc's status into the same ServerMessages the extension would emit.
++ *
++ *   working -> agentToolStart(task) + agentStatus active   (walks to desk, types/reads)
++ *   waiting -> agentToolsClear + agentStatus waiting(awaitingInput)  ("Esperando" label)
++ *   stuck   -> agentToolStart(permissionActive) + agentToolPermission (amber "..." bubble)
++ *   done    -> agentToolsClear + agentStatus waiting (green check bubble), then idle/wander
++ *   doc removed -> agentClosed (despawn effect)
++ */
++import { TRANSPORT_STATE_CONNECTED } from '../../../core/src/constants.js';
++import type { ClientMessage, ServerMessage } from '../../../core/src/messages.js';
++import type { MessageTransport, TransportState } from '../transport/types.js';
++
++export interface SqAgentDoc {
++  id: string;
++  name?: string;
++  short?: string;
++  role?: string;
++  task?: string;
++  status?: string;
++  progress?: number;
++  order?: number;
++  updated?: unknown;
++}
++
++interface OfficeData {
++  characters: unknown[];
++  pets: unknown[];
++  petNames: string[];
++  floorSprites: unknown;
++  wallSets: unknown;
++  carpetSets: unknown;
++  furnitureCatalog: unknown;
++  furnitureSprites: unknown;
++  layout: unknown;
++}
++
++interface DbLike {
++  collection(name: string): {
++    onSnapshot(cb: (snap: { docs: Array<{ id: string; data(): Record<string, unknown> }> }) => void): unknown;
++  };
++}
++
++interface Tracked {
++  num: number;
++  status: string;
++  task: string;
++  label: string;
++  role: string;
++  toolSeq: number;
++  toolId: string | null;
++}
++
++type Handler = (m: ServerMessage) => void;
++
++const READING_HINT = /investig|lee|leer|leyendo|revis|busca|research|read|review|analiz|audit|verific|estudi|consult/i;
++
++declare global {
++  interface Window {
++    claude?: { use(name: string): Promise<unknown> | unknown };
++    __SQ_DB__?: Promise<unknown>;
++    __SQ_FAKE_AGENTS__?: SqAgentDoc[];
++    __sqPixel?: { feed(docs: SqAgentDoc[]): void; officeData?: string };
++  }
++}
++
++export class SqTransport implements MessageTransport {
++  readonly state: TransportState = TRANSPORT_STATE_CONNECTED;
++  readonly ready: Promise<void> = Promise.resolve();
++  private handlers = new Set<Handler>();
++  private started = false;
++  private layoutSent = false;
++  private pendingDocs: SqAgentDoc[] | null = null;
++  private tracked = new Map<string, Tracked>();
++  private nextNum = 1;
++
++  send(message: ClientMessage): void {
++    // All client->server messages (seat saves, layout saves, settings) are
++    // ignored: the db is the only source of truth. webviewReady kicks off the replay.
++    if ((message as { type: string }).type === 'webviewReady' && !this.started) {
++      this.started = true;
++      void this.start();
++    }
++  }
++
++  onMessage(handler: Handler): () => void {
++    this.handlers.add(handler);
++    return () => this.handlers.delete(handler);
++  }
++
++  onStateChange(): () => void {
++    return () => {};
++  }
++
++  dispose(): void {
++    this.handlers.clear();
++  }
++
++  private emit(msg: Record<string, unknown>): void {
++    for (const h of this.handlers) {
++      try {
++        h(msg as unknown as ServerMessage);
++      } catch (err) {
++        console.error('[sq] handler error', msg.type, err);
++      }
++    }
++  }
++
++  private async start(): Promise<void> {
++    const url = window.__sqPixel?.officeData ?? 'office-data.json';
++    const data = (await fetch(url).then((r) => r.json())) as OfficeData;
++    this.emit({
++      type: 'providerCapabilities',
++      readingTools: ['Read', 'Grep', 'Glob', 'WebFetch', 'WebSearch'],
++      subagentToolNames: ['Task', 'Agent'],
++    });
++    this.emit({ type: 'characterSpritesLoaded', characters: data.characters });
++    this.emit({ type: 'petSpritesLoaded', pets: data.pets, petNames: data.petNames });
++    this.emit({ type: 'floorTilesLoaded', sprites: data.floorSprites });
++    this.emit({ type: 'wallTilesLoaded', sets: data.wallSets });
++    this.emit({ type: 'carpetTilesLoaded', sets: data.carpetSets });
++    this.emit({
++      type: 'furnitureAssetsLoaded',
++      catalog: data.furnitureCatalog,
++      sprites: data.furnitureSprites,
++    });
++    this.emit({
++      type: 'settingsLoaded',
++      soundEnabled: false,
++      lastSeenVersion: '',
++      extensionVersion: '',
++      watchAllSessions: false,
++      alwaysShowLabels: true,
++      ghostHeadlessAgents: false,
++      hooksEnabled: false,
++      hooksInfoShown: true,
++      externalAssetDirectories: [],
++      showAreas: false,
++    });
++    this.emit({ type: 'areaMappingsLoaded', mappings: {} });
++    this.emit({ type: 'layoutLoaded', layout: data.layout });
++    this.layoutSent = true;
++
++    // Expose a manual feed (used by tests / by the host page if it prefers to own the db).
++    window.__sqPixel = { ...(window.__sqPixel ?? {}), feed: (docs) => this.apply(docs) };
++    if (this.pendingDocs) this.apply(this.pendingDocs);
++    void this.subscribe();
++  }
++
++  private async subscribe(): Promise<void> {
++    try {
++      let dbP: unknown = window.__SQ_DB__;
++      if (!dbP && window.claude?.use) dbP = window.claude.use('db');
++      if (!dbP) {
++        if (window.__SQ_FAKE_AGENTS__) this.apply(window.__SQ_FAKE_AGENTS__);
++        return;
++      }
++      const db = (await dbP) as DbLike;
++      db.collection('agents').onSnapshot((snap) => {
++        this.apply(
++          snap.docs
++            .filter((d) => (d as { exists?: boolean }).exists !== false)
++            .map((d) => ({ id: d.id, ...d.data() }) as SqAgentDoc),
++        );
++      });
++    } catch (err) {
++      console.error('[sq] db subscribe failed', err);
++    }
++  }
++
++  /** Reconcile the full set of agent docs against the characters on screen. */
++  apply(docs: SqAgentDoc[]): void {
++    if (!this.layoutSent) {
++      this.pendingDocs = docs;
++      return;
++    }
++    const sorted = [...docs].sort(
++      (a, b) => (a.order ?? 999) - (b.order ?? 999) || String(a.id).localeCompare(String(b.id)),
++    );
++    const seen = new Set<string>();
++    for (const doc of sorted) {
++      if (!doc || !doc.id) continue;
++      seen.add(doc.id);
++      const label = String(doc.short || doc.name || doc.id);
++      const role = String(doc.role ?? '');
++      const task = String(doc.task ?? '').trim();
++      const status = normStatus(doc.status);
++      let t = this.tracked.get(doc.id);
++      if (!t) {
++        t = { num: this.nextNum++, status: '', task: '', label, role, toolSeq: 0, toolId: null };
++        this.tracked.set(doc.id, t);
++        this.emit({ type: 'agentCreated', id: t.num });
++        this.emit({ type: 'agentTeamInfo', id: t.num, agentName: label });
++      } else if (t.label !== label) {
++        t.label = label;
++        this.emit({ type: 'agentTeamInfo', id: t.num, agentName: label });
++      }
++      if (t.status !== status || t.task !== task) this.transition(t, status, task);
++    }
++    for (const [docId, t] of [...this.tracked]) {
++      if (seen.has(docId)) continue;
++      this.tracked.delete(docId);
++      this.emit({ type: 'agentClosed', id: t.num });
++    }
++  }
++
++  private startTool(t: Tracked, task: string, permission: boolean): void {
++    if (t.toolId) this.emit({ type: 'agentToolDone', id: t.num, toolId: t.toolId });
++    t.toolSeq += 1;
++    t.toolId = `sq-${t.num}-${t.toolSeq}`;
++    const reading = READING_HINT.test(task);
++    this.emit({
++      type: 'agentToolStart',
++      id: t.num,
++      toolId: t.toolId,
++      status: task || (reading ? 'Leyendo…' : 'Trabajando…'),
++      toolName: reading ? 'Read' : 'Write',
++      permissionActive: permission,
++    });
++  }
++
++  private clearTools(t: Tracked): void {
++    if (t.toolId) this.emit({ type: 'agentToolDone', id: t.num, toolId: t.toolId });
++    t.toolId = null;
++    this.emit({ type: 'agentToolsClear', id: t.num });
++  }
++
++  private transition(t: Tracked, status: string, task: string): void {
++    const prev = t.status;
++    t.status = status;
++    t.task = task;
++    switch (status) {
++      case 'working':
++        if (prev === 'stuck') this.emit({ type: 'agentToolPermissionClear', id: t.num });
++        this.startTool(t, task, false);
++        this.emit({ type: 'agentStatus', id: t.num, status: 'active' });
++        break;
++      case 'stuck':
++        this.startTool(t, task, true);
++        this.emit({ type: 'agentStatus', id: t.num, status: 'active' });
++        this.emit({ type: 'agentToolPermission', id: t.num });
++        break;
++      case 'waiting':
++        if (prev === 'stuck') this.emit({ type: 'agentToolPermissionClear', id: t.num });
++        this.clearTools(t);
++        this.emit({ type: 'agentStatus', id: t.num, status: 'waiting', awaitingInput: true });
++        break;
++      case 'done':
++      default:
++        if (prev === 'stuck') this.emit({ type: 'agentToolPermissionClear', id: t.num });
++        this.clearTools(t);
++        // Only celebrate a real finish; an agent that loads already-done just idles.
++        if (prev && prev !== 'done') {
++          this.emit({ type: 'agentStatus', id: t.num, status: 'waiting', awaitingInput: false });
++        } else {
++          this.emit({ type: 'agentStatus', id: t.num, status: 'idle' });
++        }
++        break;
++    }
++  }
++}
++
++function normStatus(s: unknown): string {
++  const v = String(s ?? '').toLowerCase();
++  if (v === 'working' || v === 'active' || v === 'running') return 'working';
++  if (v === 'waiting' || v === 'blocked' || v === 'pending') return 'waiting';
++  if (v === 'stuck' || v === 'error' || v === 'failed') return 'stuck';
++  return 'done';
++}
+diff --git a/webview-ui/src/transport/index.ts b/webview-ui/src/transport/index.ts
+index af5e6f6..d3e87f4 100644
+--- a/webview-ui/src/transport/index.ts
++++ b/webview-ui/src/transport/index.ts
+@@ -3,8 +3,11 @@ import { isBrowserRuntime } from '../runtime.js';
+ import { PostMessageTransport } from './postMessageTransport.js';
+ import type { MessageTransport } from './types.js';
+ import { WebSocketTransport } from './webSocketTransport.js';
++import { SqTransport } from '../sq/sqTransport.js';
+ 
+ function createTransport(): MessageTransport {
++  // SecondQuest build: no extension, no server — the claude.ai Artifact db drives the office.
++  if (__SQ__) return new SqTransport();
+   if (!isBrowserRuntime) {
+     return new PostMessageTransport();
+   }
+diff --git a/webview-ui/src/vite-env.d.ts b/webview-ui/src/vite-env.d.ts
+new file mode 100644
+index 0000000..4f8e826
+--- /dev/null
++++ b/webview-ui/src/vite-env.d.ts
+@@ -0,0 +1 @@
++declare const __SQ__: boolean;
+diff --git a/webview-ui/vite.config.ts b/webview-ui/vite.config.ts
+index 490f0a0..17e32eb 100644
+--- a/webview-ui/vite.config.ts
++++ b/webview-ui/vite.config.ts
+@@ -121,6 +121,7 @@ function browserMockAssetsPlugin(): Plugin {
+ 
+ export default defineConfig({
+   plugins: [tailwindcss(), react(), browserMockAssetsPlugin()],
++  define: { __SQ__: 'false' },
+   build: {
+     outDir: '../dist/webview',
+     emptyOutDir: true,

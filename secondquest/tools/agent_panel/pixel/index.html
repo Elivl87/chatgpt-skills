@@ -1,0 +1,82 @@
+<title>Sala de Agentes SecondQuest</title>
+<meta name="description" content="Oficina pixel-art en vivo: cada agente de SecondQuest es un personaje (Pixel Agents, MIT) que camina, se sienta y teclea según su estado.">
+<link rel="stylesheet" href="pixel-office.css">
+<style>
+/* Office renderer (Pixel Agents) fills the page; a small HUD shows status/now on top. */
+:root {
+  --sq-bg: #1e1e2e; --sq-panel: #26263a; --sq-ink: #f2ecdf; --sq-muted: #a59db5;
+  --sq-line: #44445e; --sq-gold: #f2c14e; --sq-shadow: #0a0a14;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sq-bg: #1e1e2e; } }
+:root[data-theme="dark"] { --sq-bg: #1e1e2e; }
+html, body { margin: 0; height: 100%; background: var(--sq-bg); overflow: hidden; }
+#root { position: fixed; inset: 0; }
+#sq-hud {
+  position: fixed; top: 8px; left: 56px; right: 8px; z-index: 60; pointer-events: none;
+  display: flex; justify-content: flex-end;
+}
+#sq-card {
+  pointer-events: auto; max-width: min(460px, 100%); box-sizing: border-box;
+  background: var(--sq-panel); color: var(--sq-ink); border: 2px solid var(--sq-line);
+  box-shadow: 2px 2px 0 var(--sq-shadow); padding: 6px 10px 8px; font-size: 18px; line-height: 1.05;
+}
+#sq-card[hidden] { display: none; }
+#sq-top { display: flex; gap: 8px; align-items: baseline; }
+#sq-ep { color: var(--sq-gold); white-space: nowrap; }
+#sq-head { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sq-toggle {
+  font: inherit; font-size: 16px; color: var(--sq-ink); background: transparent; border: 2px solid var(--sq-line);
+  padding: 0 6px; cursor: pointer; line-height: 1.1;
+}
+#sq-bar { height: 6px; background: #11111b; margin-top: 6px; }
+#sq-bar > i { display: block; height: 100%; width: 0; background: var(--sq-gold); transition: width .6s; }
+#sq-log { list-style: none; margin: 6px 0 0; padding: 0; font-size: 16px; max-height: 30vh; overflow: auto; }
+#sq-log[hidden] { display: none; }
+#sq-log li { display: flex; gap: 8px; padding: 2px 0; border-top: 1px solid var(--sq-line); }
+#sq-log time { color: var(--sq-muted); white-space: nowrap; }
+#sq-offline { position: fixed; bottom: 8px; left: 8px; z-index: 60; color: var(--sq-muted); font-size: 16px; }
+</style>
+<div id="root"></div>
+<div id="sq-hud">
+  <div id="sq-card" hidden>
+    <div id="sq-top"><span id="sq-ep"></span><span id="sq-head"></span><button id="sq-toggle" type="button" aria-expanded="false" title="Bitácora">log</button></div>
+    <div id="sq-bar"><i></i></div>
+    <ol id="sq-log" hidden></ol>
+  </div>
+</div>
+<div id="sq-offline" hidden>sin conexión en esta vista</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var dbP = null;
+  try { dbP = window.claude && window.claude.use ? Promise.resolve(window.claude.use("db")) : null; } catch (e) { dbP = null; }
+  if (dbP) window.__SQ_DB__ = dbP;
+  var open = false;
+  try { open = localStorage.getItem("sq-log-open") === "1"; } catch (e) {}
+  function setOpen(v) {
+    open = v; $("sq-log").hidden = !v; $("sq-toggle").setAttribute("aria-expanded", String(v));
+    try { localStorage.setItem("sq-log-open", v ? "1" : "0"); } catch (e) {}
+  }
+  $("sq-toggle").onclick = function () { setOpen(!open); };
+  setOpen(open);
+  if (!dbP) { $("sq-offline").hidden = false; return; }
+  dbP.then(function (db) {
+    if (!db) { $("sq-offline").hidden = false; return; }
+    db.doc("status/now").onSnapshot(function (d) {
+      var v = d && d.exists !== false && d.data ? d.data() : null;
+      $("sq-card").hidden = !v; if (!v) return;
+      $("sq-ep").textContent = v.episode || "";
+      $("sq-head").textContent = v.headline || "";
+      $("sq-head").title = v.headline || "";
+      $("sq-bar").firstElementChild.style.width = Math.max(0, Math.min(100, Number(v.progress) || 0)) + "%";
+      var ol = $("sq-log"); ol.textContent = "";
+      var log = Array.isArray(v.log) ? v.log.slice(0, 8) : [];
+      log.forEach(function (e) {
+        var li = document.createElement("li"), t = document.createElement("time"), s = document.createElement("span");
+        t.textContent = e.t || ""; s.textContent = e.msg || ""; li.append(t, s); ol.append(li);
+      });
+    }, function () { $("sq-offline").hidden = false; });
+  }, function () { $("sq-offline").hidden = false; });
+})();
+</script>
+<script type="module" src="pixel-office.js"></script>
