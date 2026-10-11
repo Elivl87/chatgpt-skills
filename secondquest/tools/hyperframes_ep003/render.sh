@@ -3,9 +3,12 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 source ./env.sh
-[ -f hook/assets/narration_hook.wav ] || python3 stage_assets.py
+python3 stage_assets.py                  # always re-stage: new voice, new SFX mix, new art
 python3 build.py
 OUT=../../docs/ep003/hyperframes/EP003_hook_hyperframes_sample.mp4
 mkdir -p "$(dirname "$OUT")"
 cd hook
-time hyperframes render --fps 30 --quality looks --crf 20 --output "../$OUT" "$@"
+RAW=../renders/raw_hook.mp4
+mkdir -p ../renders
+time hyperframes render --fps 30 --quality looks --crf 16 --output "$RAW" "$@"
+python3 ../finish_post.py "$RAW" "../$OUT"           # the approved finish pass (grain, vignette, shadow halftone)

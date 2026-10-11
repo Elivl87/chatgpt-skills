@@ -28,7 +28,12 @@ S = {'whoosh': SFX / 'whoosh.wav', 'pop': SFX / 'pop.wav', 'notify': SFX / 'noti
      'clunk': K_ / 'metalLatch.ogg', 'lid': K_ / 'impactPlate_light_000.ogg', 'paper': K_ / 'scratch_004.ogg',
      'click': K_ / 'click_001.ogg', 'knock': K_ / 'impactGeneric_light_000.ogg',
      'splash': W_ / 'splash_03.ogg', 'splash_s': W_ / 'splash_07.ogg', 'splash_b': W_ / 'splash_11.ogg',
-     'bubble': W_ / 'bubble_02.ogg', 'water': W_ / 'loop_water_02.ogg'}
+     'bubble': W_ / 'bubble_02.ogg', 'water': W_ / 'loop_water_02.ogg',
+     # quality pass (2026-10-12): more CC0 Kenney foley, and the crickets bed
+     'wood': K_ / 'impactWood_light_002.ogg', 'wood_m': K_ / 'impactWood_medium_001.ogg', 'punch': K_ / 'impactPunch_heavy_002.ogg',
+     'page': K_ / 'bookFlip1.ogg', 'page2': K_ / 'bookFlip2.ogg', 'door_open': K_ / 'doorOpen_1.ogg', 'door_slam': K_ / 'doorClose_2.ogg',
+     'coins': K_ / 'handleCoins2.ogg', 'creak': K_ / 'creak2.ogg', 'cloth': K_ / 'cloth2.ogg', 'crickets': SFX / 'crickets.wav'}
+SFX_GAIN = 7.0          # dB on every cue: the audit measured cues ~16 dB under the voice, inaudible on a phone (2026-10-12)
 
 
 def synth(name):
@@ -72,11 +77,11 @@ def cues():
     c = []
     a = c.append
     # A · hook
-    a((T('l01.w9') - .2, 'whoosh', -20)); a((T('l01.w11'), 'knock', -16))
+    a((T('l01.w9') - .2, 'whoosh', -20)); a((T('l01.w11'), 'wood_m', -16))
     for i, dt in enumerate((0, .25, .5)):
         a((T('l01.w13') + dt, 'splash_s', -18)); a((T('l01.w13') + dt + .85, 'splash', -20))
-    a((T('l03') - .05, 'whip', -14)); a((T('l03') + .02, 'impact', -14))
-    a((T('l03.w9'), 'money', -18)); a((T('l03.w13'), 'select', -18))
+    a((T('l03') - .05, 'whip', -14)); a((T('l03') + .02, 'punch', -12)); a((T('l03') + .02, 'impact', -18))
+    a((T('l03.w9'), 'coins', -18)); a((T('l03.w13'), 'select', -18))
     a((T('l04'), 'pop', -16)); a((T('l04.w6'), 'pop', -18)); a((T('l04.w16'), 'stamp', -16))
     a((T('l05'), 'whoosh', -22)); a((T('l05.w8'), 'pop', -20))
     # wordmark option 1 "The catch" (Producer, 2026-10-12): reel clicks, the line zip, one soft bobber plop; no sparkle
@@ -96,11 +101,11 @@ def cues():
     for k in ('l13', 'l14', 'l15', 'l16'):
         a((T(k), 'notify', -18))
     for i in range(3):
-        a((T('l17') + .35 * i, 'paper', -18))
+        a((T('l17') + .35 * i, 'page' if i % 2 == 0 else 'page2', -18))
     a((T('l17.w5'), 'chime', -22)); a((T('l17.w9'), 'clunk', -14)); a((T('l17.w9') + .45, 'clunk', -16))
     a((T('l17.w16'), 'drain', -18))
     a((T('l18.w12'), 'stamp', -20)); a((T('l18.w14'), 'stamp', -20)); a((T('l18.w18'), 'done', -16))
-    a((T('l19.w16'), 'chime', -18)); a((T('l19.w26'), 'knock', -14)); a((T('l20'), 'stamp', -14))
+    a((T('l19.w16') - .3, 'door_open', -16)); a((T('l19.w16'), 'chime', -22)); a((T('l19.w26'), 'door_slam', -12)); a((T('l20'), 'stamp', -14))
     # D · why fishing
     a((T('l22.w7'), 'pop', -18)); a((T('l22.w11'), 'pop', -18)); a((T('l23') - .1, 'whoosh', -20))
     a((T('l23.w14'), 'select', -20))
@@ -113,11 +118,11 @@ def cues():
     a((T('l28'), 'whoosh', -18)); a((T('l28') + .9, 'splash', -18))
     for k in ('l29.w6', 'l29.w12', 'l29.w16', 'l29.w20'):
         a((T(k), 'pop', -18))
-    a((T('l29.w16'), 'money', -20)); a((T('l29.w23'), 'paper', -20))
+    a((T('l29.w16'), 'coins', -18)); a((T('l29.w23'), 'paper', -20))
     a((T('l30.w13'), 'stamp', -14)); a((T('l31.w9'), 'stamp', -14))
     a((T('l32') + .55, 'splash_b', -14)); a((T('l32.w6') + .3, 'tension', -22)); a((T('l32.w17'), 'money', -18))
     a((T('l32.w29'), 'whoosh', -16)); a((T('l32.w29') + 1.3, 'splash_s', -22))
-    a((T('l33.w15'), 'poof', -22)); a((T('l33.w19') - .04, 'whip', -12)); a((T('l33.w19'), 'impact', -12))
+    a((T('l33.w15'), 'poof', -22)); a((T('l33.w19') - .04, 'whip', -12)); a((T('l33.w19'), 'punch', -10)); a((T('l33.w19'), 'impact', -16))
     for i in range(4):
         a((T('l35') + .5 + 1.3 * i, 'notify', -20))
     # F · friendslop and the Tuesday night
@@ -142,6 +147,11 @@ def cues():
     return c
 
 
+def night():
+    """Crickets under the blue-hour / night lake and the 1 AM living room (looped)."""
+    return [(T('l39') - .1, T('l41') - .1, -36), (T('l44') - .1, T('l52.end') + 2.5, -37)]
+
+
 def ambience():
     """A low water bed under the lake scenes (looped CC0)."""
     return [(T('l01') - .3, T('l03') - .1, -34), (T('l24') - .1, T('l25') - .1, -32), (T('l39') - .1, T('l41') - .1, -34),
@@ -152,8 +162,16 @@ def main():
     narr, sr = soundfile.read(str(ROOT / 'public/episodes/ep003/audio/narration.wav'), dtype='float32')
     n = len(narr)
     fx = np.zeros(n, np.float32)
+    rng = np.random.default_rng(2026)
+    seen = {}
     for t, name, db in cues():
-        x = load(name) * 10 ** (db / 20)
+        x = load(name)
+        seen[name] = seen.get(name, 0) + 1
+        if seen[name] > 1:                                               # repeats never machine-gun: +-3 semitones, +-2 dB
+            r = 2 ** (rng.uniform(-3, 3) / 12)
+            x = np.interp(np.arange(0, len(x) - 1, r), np.arange(len(x)), x).astype(np.float32)
+            db += rng.uniform(-2, 2)
+        x = x * 10 ** ((db + SFX_GAIN) / 20)
         i = int(t * SR)
         if 0 <= i < n:
             fx[i:i + len(x)] += x[:n - i]
@@ -163,6 +181,13 @@ def main():
         L = i1 - i0
         bed = np.tile(water, L // len(water) + 1)[:L] * 10 ** (db / 20)
         fade = np.minimum(1, np.minimum(np.arange(L), L - np.arange(L)) / (.6 * SR))
+        fx[i0:i1] += bed * fade
+    cr = load('crickets')
+    for t0, t1, db in night():
+        i0, i1 = int(t0 * SR), min(n, int(t1 * SR))
+        L = i1 - i0
+        bed = np.tile(cr, L // len(cr) + 1)[:L] * 10 ** (db / 20)
+        fade = np.minimum(1, np.minimum(np.arange(L), L - np.arange(L)) / (1.2 * SR))
         fx[i0:i1] += bed * fade
     tm = json.loads((ROOT / 'episodes/ep003/timings.json').read_text())['cues']
     duck = np.ones(n, np.float32)                                         # -4 dB under spoken words
