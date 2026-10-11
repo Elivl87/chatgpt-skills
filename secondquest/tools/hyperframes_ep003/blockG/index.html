@@ -495,7 +495,7 @@
       function doSplash(sp, at, seed) { const r = rng(seed); const s = sp.s;
         sp.rings.forEach((rg, i) => tl.fromTo(rg, { scale: .2, opacity: 0 }, { keyframes: [{ opacity: .95, duration: .02 }, { scale: 1.5 + i * .5, opacity: 0, duration: .9 + i * .3, ease: "power2.out" }] }, at + i * .1));
         sp.drops.forEach((d) => { const ang = -Math.PI / 2 + (r() - .5) * 2.2, v = (40 + r() * 70) * s; const dx = Math.cos(ang) * v * 1.4, hy = Math.sin(ang) * v;
-          tl.fromTo(d, { x: 0, opacity: 0, scale: Math.max(.5, s) }, { x: dx, duration: .7, ease: "none" }, at);
+          tl.fromTo(d, { x: 0, scale: Math.max(.5, s) }, { x: dx, duration: .7, ease: "none" }, at);   // (drops start at opacity 0 in CSS; no opacity here: the fromTo fix would hold it over the fade-in)
           tl.to(d, { opacity: 1, duration: .02 }, at);
           tl.fromTo(d, { y: 0 }, { keyframes: [{ y: hy, duration: .3, ease: "power2.out" }, { y: 30 * s, duration: .4, ease: "power2.in" }] }, at);
           tl.to(d, { opacity: 0, duration: .15 }, at + .55); }); }

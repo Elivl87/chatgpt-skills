@@ -442,7 +442,7 @@
       function doSplash(host, x, y, s, at, seed) { const sp = makeSplash(host, x, y, s); const r = rng(seed);
         sp.rings.forEach((rg, i) => tl.fromTo(rg, { scale: .2, opacity: .95 }, { scale: 1.5 + i * .5, opacity: 0, duration: .9 + i * .3, ease: "power2.out" }, at + i * .1));
         sp.drops.forEach((d) => { const ang = -Math.PI / 2 + (r() - .5) * 2.2, v = (40 + r() * 70) * s; const dx = Math.cos(ang) * v * 1.4, hy = Math.sin(ang) * v;
-          tl.fromTo(d, { x: 0, y: 0, opacity: 1, scale: s }, { x: dx, duration: .7, ease: "none" }, at);
+          tl.fromTo(d, { x: 0, scale: s }, { x: dx, duration: .7, ease: "none" }, at); tl.set(d, { opacity: 1 }, at);   // (no y/opacity here: the y arc and the fade have their own tweens, and the fromTo fix would hold them)
           tl.fromTo(d, { y: 0 }, { keyframes: [{ y: hy, duration: .3, ease: "power2.out" }, { y: 30 * s, duration: .4, ease: "power2.in" }] }, at);
           tl.to(d, { opacity: 0, duration: .15 }, at + .55); }); }
       LEAPS.forEach((L, i) => { const e = leapEls[i]; const t0 = 5.6 + L[5], d = .95; const w = L[4], h = w * 470 / 801;
