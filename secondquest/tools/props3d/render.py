@@ -91,7 +91,7 @@ def render(params, w, h, line=3.0, despeckle=0):
     n = len(params['shots'])
     # Chromium silently shrinks a WebGL drawing buffer above ~20 Mpx (passes then bleed into each other):
     # lower the supersampling to fit instead of failing
-    ss = min(SS, (MAX_PX / (w * h * 3 * n)) ** 0.5, 8192 / (w * n), 8192 / (h * 3))
+    ss = min(SS, (MAX_PX / (w * h * 3 * n)) ** 0.5, 8192 / (w * n), (8192 - 240) / (h * 3))   # 240: the window margin in render_raw
     assert ss >= 1, 'canvas too large for the WebGL buffer: render fewer shots per page'
     W2, H2 = int(w * ss), int(h * ss)
     raw = render_raw(params, W2, H2, n)
@@ -439,8 +439,12 @@ def ep3_render(name, **shot):
     prop, tgt, cam, fov, w, h, line = EP3[name]
     d = float(np.linalg.norm(np.subtract(cam, tgt)))                    # depth range around the prop: thin layered parts
     shot = {'near': d * .3, 'far': d * 3, **EP3_SHOT.get(name, {}), **shot}   # (planks, laps, ribs) need the precision
-    return render({'props': prop if isinstance(prop, list) else [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}],
-                   'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
+    for _ in range(3):                                                  # a cold browser can hand back an empty frame
+        img = render({'props': prop if isinstance(prop, list) else [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}],
+                      'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
+        if img[..., 3].any() and not img[[0, -1]][:, [0, -1], 3].all():   # neither empty nor an opaque (failed) page
+            return img
+    raise RuntimeError(f'{name} rendered empty')
 
 
 # EP003 game-world props (2026-10-12): our toy-like redraws of the game's ideas (docs/ep003/GAME_VISUAL_REFERENCE.md §6/7).
@@ -466,7 +470,6 @@ EP3.update({
     'slot_machine_34': ('slotMachine', [2, 53, 0], orbit(30, 10, 240, [2, 53, 0]), 30, 1300, 1700, 4.2),
     'slot_machine_front': ('slotMachine', [2, 53, 0], orbit(0, 4, 240, [2, 53, 0]), 30, 1300, 1700, 4.2),
     'fp_hands_pov': ('fpHands', [0, -6, -100], [0, 0, 0], 60, 1920, 1080, 4.0),
-    'fp_hands_34': ('fpHands', [2, -12, -46], orbit(70, 15, 110, [2, -12, -46]), 30, 1400, 1100, 4.0),
     'kettle_grill': ('kettleGrill', [0, 60, 0], orbit(-25, 14, 265, [0, 60, 0]), 30, 1100, 1500, 4.2),
     'seagull_34': ('seagull', [0, 2, 0], orbit(30, 25, 175, [0, 2, 0]), 30, 1600, 1100, 4.0),
     'seagull_front': ('seagull', [0, 2, 0], orbit(70, -12, 175, [0, 2, 0]), 30, 1600, 1100, 4.0),
@@ -476,7 +479,7 @@ EP3.update({
     'rowboat_motor_34': (['rowboat', 'outboardOnBoat'], [-30, 22, 14], orbit(-35, 24, 520, [-30, 22, 14]), 30, 1900, 1150, 5.0),
 })
 FP_RIGHT, FP_LEFT = list(range(2030, 2040)), list(range(2040, 2050))
-EP3_SHOT = {'roulette_top': {'hide': [1785]}, 'fp_hands_pov': {'near': 1, 'far': 600}, 'fp_hands_34': {'near': 5, 'far': 600}}
+EP3_SHOT = {'roulette_top': {'hide': [1785]}, 'fp_hands_pov': {'near': 1, 'far': 600}}
 GAMEWORLD = [n for n in EP3 if n.split('_')[0] in ('sniper', 'roulette', 'shop', 'blast', 'boss', 'lighthouse', 'toy', 'slot', 'fp',
                                                      'kettle', 'seagull', 'hotdog', 'outboard') or n in ('dynamite_lit', 'rowboat_motor_34')]
 
@@ -595,9 +598,8 @@ def job_ep003_gameworld_sheet():
     """Review sheet docs/ep003/props3d_gameworld_sheet.jpg: every game-world cut-out on a light tile, labelled, plus a
     small-size row (how the silhouettes read at thumbnail scale)."""
     T, BG, COLS = 380, 236, 8
-    names = [n for n in GAMEWORLD] + ['boss_shadow_soft', 'fp_hands_pov_right', 'fp_hands_pov_left']
-    names.sort(key=lambda n: GAMEWORLD.index(n) + .5 if n in GAMEWORLD else GAMEWORLD.index(n.rsplit('_', 1)[0] if 'soft' in n else 'fp_hands_pov') + .6)
-
+    extra = {'boss_shadow': ['boss_shadow_soft'], 'fp_hands_pov': ['fp_hands_pov_right', 'fp_hands_pov_left'], 'roulette_top': []}
+    names = [m for n in GAMEWORLD for m in [n] + extra.get(n, [])]
     def tile(im, label, w=T, h=T, bg=BG):
         t = np.full((h, w, 3), bg, np.uint8)
         k = min((w - 24) / im.shape[1], (h - 44) / im.shape[0]); im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)

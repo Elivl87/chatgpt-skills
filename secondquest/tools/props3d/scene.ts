@@ -2071,9 +2071,13 @@ const slotMachine = () => {
   g.add(box(27, 11, .6, [-5, 38, 19.1], cream, 2016, .2));
   g.add(box(30, 9, .4, [0, 25, 18.15], darkM, 2017));
   const steel = toon('#c3c8d0');
-  g.add(box(34, 2.4, 10, [0, 19.6, 22.6], steel, 2018, .6));
-  g.add(box(34, 6, 1.6, [0, 22, 27.2], steel, 2018, .6));
-  for (const x of [-16.6, 16.6]) g.add(box(1.6, 6, 10, [x, 22, 22.6], steel, 2018, .5));
+  {                                                                     // tray: one L-section (floor + front lip) between two end walls
+    const sec = rpoly([[-17.6, 18.4, .3], [-17.6, 20.8, .3], [-26.4, 20.8, .4], [-26.4, 25, .7], [-28, 25, .7], [-28, 18.4, 1]]);
+    const tg = new THREE.ExtrudeGeometry(sec, { depth: 32, bevelEnabled: true, bevelThickness: .4, bevelSize: .3, bevelSegments: 2, curveSegments: 6 });
+    tg.translate(0, 0, -16); tg.rotateY(Math.PI / 2);                  // section (-z, y) -> world: x = along the tray
+    g.add(mesh(tg, steel, 2018));
+  }
+  for (const x of [-16.6, 16.6]) g.add(box(1.6, 6.6, 10.4, [x, 21.9, 22.8], steel, 2023, .5));
   ([[-6, 21.2, 23.5, 0, 0], [3, 21.2, 24.6, 0, 0], [8, 22.4, 23, .9, .3]] as const).forEach(([x, y, z, rx, rz]) => { const cn = cyl(1.8, .45, [x, y, z], [rx, 0, rz], toon('#F5C542'), 2019); g.add(cn); });
   // lever
   g.add(cyl(3.2, 3.6, [26.6, 58, 2], [0, 0, Math.PI / 2], gold, 2020));
@@ -2123,7 +2127,7 @@ const fpHands = () => {
     seg([[0, 5.0], [4.7, 5.0], [4.95, 6], [4.95, 10.4], [4.75, 11.4], [0, 11.4]], '#a8282e', base + 4, 48);
     seg([[0, 11], [5.1, 11], [5.8, 15], [6.4, 30], [6.6, 70], [0, 70]], '#c8323a', base + 5);
   };
-  const d = V(-.14, .22, -1).normalize(), P0 = V(9, -13, -31);
+  const P0 = V(12, -14, -34), d = V(0, -2, -200).sub(P0).normalize();   // the grip line aims at the frame centre
   const place = (h: THREE.Group, pos: THREE.Vector3, roll: number, mirror: boolean, wd: THREE.Vector3, base: number) => {
     const zl = d.clone().negate(), xl = V(0, 1, 0).cross(zl).normalize(), yl = zl.clone().cross(xl);
     const holder = new THREE.Group(); holder.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xl, yl, zl)); holder.position.copy(pos);
@@ -2135,7 +2139,7 @@ const fpHands = () => {
   };
   const rolls = ((P as unknown as { handRoll?: number[] }).handRoll) ?? [.25, -.55];
   handGroups.right = place(hand(2030), P0, rolls[0], false, V(.7, -.75, .9), 2030);
-  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(23)), rolls[1], true, V(-.35, -.8, .85), 2040);
+  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(24)), rolls[1], true, V(-.35, -.8, .85), 2040);
   return root;
 };
 
@@ -2255,6 +2259,7 @@ const outboard = () => {
   }
   // clamp bracket over the transom (+x side), two T-screws
   g.add(sideExt(rpoly([[-3, 6], [5.5, 6], [5.5, -14], [2.5, -14], [2.5, 2.2], [-3, 2.2]], .8), 12, .7, slate, 2130));
+  g.add(box(6, 7, 9, [-4, 2.5, 0], dk, 2134, 1.5));                     // swivel bracket joining the leg to the clamp
   for (const z of [-3.2, 3.2]) {
     g.add(cyl(.7, 7, [7.4, -9, z], [0, 0, Math.PI / 2], dk, 2131));
     g.add(cyl(.6, 5, [10.6, -9, z], [Math.PI / 2, 0, 0], dk, 2131));
