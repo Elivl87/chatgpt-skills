@@ -423,6 +423,10 @@
 
       /* ------------------------------------------------------------------ the timeline */
       const tl = gsap.timeline({ paused: true });
+      // every fromTo also carries its from-only properties in the "to" vars (same value): GSAP keeps from-only props in
+      // startAt, and the motion-blur sub-frame seeks can revert a startAt mid-tween (seen: SLAP!/REVIVED vanishing)
+      { const ft = tl.fromTo.bind(tl);
+        tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
 
       // the camera breathes (2-3 % push, drift <= 1.5 %), each shot on its own phase; the breathing clock stops dead
       // during FREEZE (B5's 0.6 s of stillness), so nothing in the frame moves there
