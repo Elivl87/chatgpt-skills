@@ -52,3 +52,11 @@
 ## 2026-10-12 · Animatic v5 chosen
 - Producer: "La v5". Breathing camera (slow push + drift) + dust on plain cards adopted; camera-continuity rule updated
   in CLAUDE.md. v5 passes the style bible (15.6 cuts/min, 3.8 s avg shot, motion 51 %, 5.0 stills/min).
+
+## 2026-10-12 · Wordmark moment and voice
+- Producer: "Para el Wordmark usa 1 para la primera vez que sale, y 2 para el final." Hook = option 1 "The catch"
+  (line + hook reel the wordmark up into place, one bobber bounce; sound: reel clicks + line zip + plop). End = option 2
+  "Rising from the lake" (wordmark rises out of the water, drips; the fish surfaces and blinks; sound: water swell +
+  drips). The sparkle sound is dropped. The fish no longer dives into the star.
+- Voice: keep the MOSS + Bram-reference voice of the Hyperframes sample, perfected (narration v3: sentence-level
+  best-of-5, Bram-measured pauses). VoxCPM test stopped.
