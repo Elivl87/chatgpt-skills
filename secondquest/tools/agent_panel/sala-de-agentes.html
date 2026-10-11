@@ -2,60 +2,61 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
 <style>
-/* Layout: a pixel-art studio floor — one desk per agent, a status strip on top, a log below. */
+/* Layout: one pixel-art office (canvas) where every agent is a character; a click opens its card; a compact roster and log below. */
 :root {
-  --bg: #efe9dc; --floor: #e2d8c3; --panel: #fbf7ee; --ink: #23202b; --muted: #6c6578;
-  --line: #cbbfa6; --gold: #e0a92b; --red: #d6392f; --teal: #167880; --violet: #7860be;
-  --ok: #2f8a4c; --warn: #c27a12; --bad: #c0392b;
+  --bg: #efe9dc; --panel: #fbf7ee; --ink: #23202b; --muted: #6c6578; --line: #cbbfa6;
+  --gold: #e0a92b; --ok: #2f8a4c; --warn: #c27a12; --bad: #c0392b; --teal: #167880;
   --f-pixel: "Silkscreen", "Courier New", monospace;
   --f-body: "Atkinson Hyperlegible", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #17151f; --floor: #201d2b; --panel: #262234; --ink: #f2ecdf; --muted: #a59db5;
-  --line: #3a3550; --gold: #f2c14e; --red: #ff6b5e; --teal: #3fb3bb; --violet: #a993ec;
-  --ok: #5fcf83; --warn: #f0a742; --bad: #ff6b5e; color-scheme: dark } }
+  --bg: #15131c; --panel: #232031; --ink: #f2ecdf; --muted: #a59db5; --line: #3a3550;
+  --gold: #f2c14e; --ok: #5fcf83; --warn: #f0a742; --bad: #ff6b5e; --teal: #3fb3bb; color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #17151f; --floor: #201d2b; --panel: #262234; --ink: #f2ecdf; --muted: #a59db5;
-  --line: #3a3550; --gold: #f2c14e; --red: #ff6b5e; --teal: #3fb3bb; --violet: #a993ec;
-  --ok: #5fcf83; --warn: #f0a742; --bad: #ff6b5e; color-scheme: dark }
+  --bg: #15131c; --panel: #232031; --ink: #f2ecdf; --muted: #a59db5; --line: #3a3550;
+  --gold: #f2c14e; --ok: #5fcf83; --warn: #f0a742; --bad: #ff6b5e; --teal: #3fb3bb; color-scheme: dark }
 body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; }
-.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; gap: 18px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 40px; display: grid; gap: 14px; }
 header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px; }
-h1 { font-family: var(--f-pixel); font-weight: 700; font-size: clamp(22px, 4vw, 34px); margin: 0; letter-spacing: .02em; text-wrap: balance; }
+h1 { font-family: var(--f-pixel); font-weight: 700; font-size: clamp(22px, 4vw, 32px); margin: 0; }
 .sub { color: var(--muted); margin: 4px 0 0; }
+.tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .live { font-family: var(--f-pixel); font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
 .dot { width: 9px; height: 9px; background: var(--muted); }
 .dot.on { background: var(--ok); animation: blink 1.6s steps(2) infinite; }
-.strip { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { font-family: var(--f-pixel); font-size: 12px; padding: 6px 10px; border: 2px solid var(--line); background: var(--panel); display: flex; gap: 8px; align-items: center; }
-.chip b { font-size: 15px; font-variant-numeric: tabular-nums; }
-.goal { background: var(--panel); border: 2px solid var(--line); padding: 12px 14px; display: grid; gap: 8px; }
+button { font-family: var(--f-pixel); font-size: 12px; background: var(--panel); color: var(--ink); border: 2px solid var(--line); padding: 6px 10px; cursor: pointer; }
+button:hover { border-color: var(--gold); } button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.goal { background: var(--panel); border: 2px solid var(--line); padding: 10px 14px; display: grid; gap: 8px; }
 .goal .row { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-family: var(--f-pixel); font-size: 12px; color: var(--muted); }
-.goal .t { font-weight: 700; color: var(--ink); font-family: var(--f-body); font-size: 16px; min-width: 0; }
-.bar { height: 14px; background: var(--floor); border: 2px solid var(--line); position: relative; }
-.bar i { position: absolute; inset: 0 auto 0 0; background: repeating-linear-gradient(90deg, var(--gold) 0 8px, color-mix(in srgb, var(--gold) 80%, var(--ink)) 8px 10px); }
-.floor { background: var(--floor); border: 2px solid var(--line); padding: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
-.desk { background: var(--panel); border: 2px solid var(--line); display: grid; grid-template-rows: auto 1fr; min-width: 0; }
-.desk[data-s="working"] { border-color: var(--gold); }
-.desk[data-s="stuck"] { border-color: var(--bad); }
-.scene { display: block; width: 100%; height: auto; image-rendering: pixelated; aspect-ratio: 16 / 9; background: var(--floor); border-bottom: 2px solid var(--line); }
-.info { padding: 10px 12px 12px; display: grid; gap: 6px; min-width: 0; }
-.name { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
-.name strong { font-family: var(--f-pixel); font-size: 14px; }
-.badge { font-family: var(--f-pixel); font-size: 11px; padding: 2px 7px; border: 2px solid currentColor; white-space: nowrap; }
-.badge.working { color: var(--warn); } .badge.done { color: var(--ok); } .badge.waiting { color: var(--muted); } .badge.stuck { color: var(--bad); }
-.role { color: var(--muted); font-size: 13px; }
-.task { margin: 0; line-height: 1.4; overflow-wrap: anywhere; }
-.meta { display: flex; justify-content: space-between; font-family: var(--f-pixel); font-size: 11px; color: var(--muted); gap: 8px; }
-.mini { height: 8px; background: var(--floor); border: 2px solid var(--line); position: relative; }
-.mini i { position: absolute; inset: 0 auto 0 0; background: var(--teal); }
-.empty { grid-column: 1 / -1; text-align: center; padding: 40px 10px; color: var(--muted); }
-.empty p { font-family: var(--f-pixel); margin: 0 0 6px; color: var(--ink); }
-.log { background: var(--panel); border: 2px solid var(--line); padding: 12px 14px; }
-.log h2 { font-family: var(--f-pixel); font-size: 14px; margin: 0 0 8px; }
-.log ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.log li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; }
-.log time { font-family: var(--f-pixel); font-size: 11px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+.goal .t { font-weight: 700; font-size: 16px; min-width: 0; }
+.bar { height: 12px; background: var(--bg); border: 2px solid var(--line); position: relative; }
+.bar i { position: absolute; inset: 0 auto 0 0; background: repeating-linear-gradient(90deg, var(--gold) 0 8px, color-mix(in srgb, var(--gold) 75%, #000) 8px 10px); }
+.stage { position: relative; border: 3px solid var(--ink); background: #1b1826; max-width: 100%; }
+#office { display: block; width: 100%; height: auto; image-rendering: pixelated; cursor: pointer; }
+.card { position: absolute; width: min(300px, calc(100% - 20px)); background: var(--panel); border: 3px solid var(--ink); padding: 10px 12px; display: grid; gap: 6px; box-shadow: 4px 4px 0 rgba(0,0,0,.35); }
+.card h3 { margin: 0; font-family: var(--f-pixel); font-size: 14px; display: flex; justify-content: space-between; gap: 8px; }
+.card p { margin: 0; line-height: 1.4; overflow-wrap: anywhere; }
+.card .role { color: var(--muted); font-size: 13px; }
+.card .meta { font-family: var(--f-pixel); font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+.badge { font-family: var(--f-pixel); font-size: 11px; padding: 1px 6px; border: 2px solid currentColor; white-space: nowrap; }
+.working { color: var(--warn); } .done { color: var(--ok); } .waiting { color: var(--muted); } .stuck { color: var(--bad); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--f-pixel); font-size: 12px; }
+.legend span { border: 2px solid var(--line); background: var(--panel); padding: 4px 8px; }
+.legend b { font-size: 14px; font-variant-numeric: tabular-nums; }
+.cols { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 14px; }
+@media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+.box { background: var(--panel); border: 2px solid var(--line); padding: 12px 14px; min-width: 0; }
+.box h2 { font-family: var(--f-pixel); font-size: 14px; margin: 0 0 8px; }
+.roster { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.roster li { display: grid; grid-template-columns: 12px 1fr auto; gap: 8px; align-items: center; cursor: pointer; }
+.roster li .sw { width: 12px; height: 12px; }
+.roster li .n { font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.log { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.log li { display: grid; grid-template-columns: 48px 1fr; gap: 10px; }
+.log time { font-family: var(--f-pixel); font-size: 11px; color: var(--muted); padding-top: 2px; }
+.empty { color: var(--muted); }
+.roster li.empty, .log li.empty { display: block; }
+[hidden] { display: none !important; }
 @keyframes blink { 50% { opacity: .25 } }
 @media (prefers-reduced-motion: reduce) { .dot.on { animation: none } }
 </style>
@@ -64,137 +65,288 @@ h1 { font-family: var(--f-pixel); font-weight: 700; font-size: clamp(22px, 4vw, 
   <header>
     <div>
       <h1>Sala de Agentes</h1>
-      <p class="sub">Qué está haciendo cada agente de SecondQuest, en vivo.</p>
+      <p class="sub">La oficina de SecondQuest: cada personaje es un agente trabajando en el episodio. Toca uno para ver qué hace.</p>
     </div>
-    <div class="live"><span class="dot" id="dot"></span><span id="liveTxt">conectando…</span></div>
+    <div class="tools">
+      <button id="snd" type="button" aria-pressed="false">Sonido: no</button>
+      <div class="live"><span class="dot" id="dot"></span><span id="liveTxt">conectando…</span></div>
+    </div>
   </header>
 
   <section class="goal" id="goal" hidden>
-    <div class="row"><span id="goalEp">EP</span><span id="goalUpd"></span></div>
+    <div class="row"><span id="goalEp"></span><span id="goalUpd"></span></div>
     <div class="t" id="goalTxt"></div>
     <div class="bar"><i id="goalBar" style="width:0%"></i></div>
   </section>
 
-  <div class="strip" id="strip">
-    <span class="chip">trabajando <b id="nW">0</b></span>
-    <span class="chip">listos <b id="nD">0</b></span>
-    <span class="chip">en espera <b id="nWa">0</b></span>
-    <span class="chip">trabados <b id="nS">0</b></span>
+  <div class="stage" id="stage">
+    <canvas id="office" width="384" height="224" role="img" aria-label="Oficina pixelada con los agentes"></canvas>
+    <div class="card" id="card" hidden></div>
   </div>
 
-  <section class="floor" id="floor" aria-live="polite">
-    <div class="empty" id="empty"><p>La sala está vacía</p>Claude agrega aquí cada agente cuando lo pone a trabajar.</div>
-  </section>
+  <div class="legend">
+    <span class="working">trabajando <b id="nW">0</b></span>
+    <span class="waiting">en espera <b id="nWa">0</b></span>
+    <span class="stuck">trabados <b id="nS">0</b></span>
+    <span class="done">listos <b id="nD">0</b></span>
+  </div>
 
-  <section class="log" id="logBox" hidden>
-    <h2>Bitácora</h2>
-    <ol id="log"></ol>
-  </section>
+  <div class="cols">
+    <section class="box"><h2>Equipo</h2><ul class="roster" id="roster"><li class="empty">Claude agrega aquí cada agente cuando lo pone a trabajar.</li></ul></section>
+    <section class="box"><h2>Bitácora</h2><ol class="log" id="log"><li class="empty">Sin novedades todavía.</li></ol></section>
+  </div>
 </div>
 
 <script>
 (() => {
   const $ = (id) => document.getElementById(id);
-  const LABEL = { working: "trabajando", done: "listo", waiting: "en espera", stuck: "trabado" };
+  const cv = $("office"), g = cv.getContext("2d");
+  const W = 384, H = 224, T = 16;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let agents = [];
-
-  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  function hash(s) { let h = 7; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
-  const HOODIES = ["#d6392f", "#167880", "#7860be", "#d69628", "#2f8a4c", "#3a6fd0", "#c04a8a"];
+  const LABEL = { working: "trabajando", done: "listo", waiting: "en espera", stuck: "trabado" };
+  const C = { // the office's own palette (one look, readable on both page themes)
+    wall: "#3b3550", wallTop: "#2a2539", trim: "#5b5276", floorA: "#c79a63", floorB: "#b98c57", seam: "#a87d4c",
+    rug: "#7d3b46", rugB: "#8f4954", desk: "#7a4b28", deskTop: "#9b6236", deskEdge: "#5b3519", mon: "#22202c",
+    chair: "#433d57", plant: "#3f8f55", plantD: "#2c6b3e", pot: "#b5603b", ink: "#1b1826", white: "#fbf7ee",
+    gold: "#f2c14e", ok: "#5fcf83", bad: "#ff5f52", grey: "#9b94ad", sky: "#8ec9f0", skyN: "#253063", glass: "#bfe6ff",
+    couch: "#3a7c8c", couchD: "#2b5f6c", water: "#5ab4d6", waterD: "#3a8fb3", fish: "#5fb0bf", fishD: "#3f8d9e", lip: "#c9707a"
+  };
+  const HOOD = ["#d6392f", "#167880", "#7860be", "#d69628", "#2f8a4c", "#3a6fd0", "#c04a8a", "#e06a2b", "#4a8f9a", "#8a6a3a", "#5b6bd6", "#b0443c"];
   const SKIN = ["#f1c7a0", "#d9a07a", "#a8714e", "#7b4f34"];
-  const HAIR = ["#2b1d14", "#5a3a22", "#1d1d24", "#8a5a2b", "#c9a15a"];
+  const HAIR = ["#2b1d14", "#5a3a22", "#1d1d24", "#8a5a2b", "#c9a15a", "#3a2a4a"];
+  const hash = (s) => { let h = 7; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; };
+  const px = (x, y, w, h, c) => { g.fillStyle = c; g.fillRect(x | 0, y | 0, w, h); };
 
-  // one 64x36 pixel scene per desk: the agent at a desk with a monitor; typing when working
-  function draw(cv, a, frame) {
-    const g = cv.getContext("2d"), W = 64, H = 36, s = hash(a.id);
-    const px = (x, y, w, h, c) => { g.fillStyle = c; g.fillRect(x, y, w, h); };
-    g.clearRect(0, 0, W, H);
-    px(0, 0, W, 24, css("--floor")); px(0, 24, W, 12, css("--line"));
-    for (let x = 0; x < W; x += 8) px(x, 24, 1, 12, css("--floor"));
-    const hood = HOODIES[s % HOODIES.length], skin = SKIN[(s >> 3) % SKIN.length], hair = HAIR[(s >> 5) % HAIR.length];
-    const st = a.status || "waiting";
-    // desk + monitor
-    px(30, 20, 30, 3, "#8a5a2b"); px(32, 23, 2, 9, "#6b4420"); px(56, 23, 2, 9, "#6b4420");
-    px(38, 8, 18, 11, css("--ink")); px(46, 19, 2, 2, css("--ink"));
-    const scr = st === "working" ? css("--gold") : st === "done" ? css("--ok") : st === "stuck" ? css("--bad") : css("--muted");
-    px(39, 9, 16, 9, scr);
-    if (st === "working") { for (let i = 0; i < 3; i++) px(40, 10 + i * 3, 4 + ((frame + i * 5 + s) % 10), 1, css("--ink")); }
-    if (st === "done") { px(43, 14, 2, 2, css("--panel")); px(45, 15, 2, 2, css("--panel")); px(47, 13, 2, 2, css("--panel")); px(49, 11, 2, 2, css("--panel")); }
-    if (st === "stuck") { px(46, 10, 2, 5, css("--panel")); px(46, 16, 2, 1, css("--panel")); }
-    // chair + agent
-    px(14, 22, 12, 3, "#4a4458"); px(19, 25, 2, 7, "#4a4458");
-    const bob = st === "working" && !reduce ? (frame % 2) : 0;
-    px(15, 13 + bob, 10, 10, hood);                       // body
-    px(16, 5 + bob, 8, 8, skin);                          // head
-    px(16, 4 + bob, 8, 3, hair); px(15, 5 + bob, 2, 4, hair);
-    px(21, 8 + bob, 1, 1, css("--ink"));                  // eye looking at the screen
-    const arm = st === "working" && !reduce ? (frame % 2 ? 0 : 1) : 0;
-    px(24, 16 + bob, 8, 3, hood); px(31, 17 + arm + bob, 3, 2, skin);
-    if (st === "waiting") { px(26, 2, 2, 2, css("--muted")); px(29, 0, 3, 3, css("--muted")); }
-    if (st === "stuck") { px(26, 1, 2, 4, css("--bad")); px(26, 6, 2, 1, css("--bad")); }
+  // desks: two rows of six, each desk 2 tiles wide with the seat below it
+  const DESKS = [];
+  for (let r = 0; r < 2; r++) for (let i = 0; i < 6; i++) DESKS.push({ x: 24 + i * 40, y: 72 + r * 64 });
+  const LOUNGE = [{ x: 306, y: 168 }, { x: 330, y: 168 }, { x: 354, y: 168 }, { x: 318, y: 196 }, { x: 342, y: 196 }, { x: 296, y: 120 }, { x: 360, y: 120 }];
+  const DOOR = { x: 284, y: 214 };
+
+  let agents = [], chars = new Map(), sel = null, frame = 0, sound = false, actx = null;
+
+  function deskFor(a, i) { return DESKS[i % DESKS.length]; }
+  function seat(d) { return { x: d.x + 8, y: d.y + 22 }; }
+
+  function target(c) {
+    const st = c.a.status;
+    if (st === "done") return LOUNGE[c.lounge % LOUNGE.length];
+    const s = seat(c.desk);
+    return st === "working" ? s : { x: s.x + 14, y: s.y + 4 };   // waiting/stuck: stand beside the desk
   }
 
+  function sync(list) {
+    const sorted = [...list].sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+    const seen = new Set(); let li = 0;
+    sorted.forEach((a, i) => {
+      seen.add(a.id);
+      let c = chars.get(a.id);
+      const prev = c ? c.a.status : null;
+      if (!c) { c = { id: a.id, x: DOOR.x, y: DOOR.y, h: hash(a.id), path: [], walk: 0, flip: false, bubbleT: 0 }; chars.set(a.id, c); }
+      c.a = a; c.desk = deskFor(a, i); c.lounge = a.status === "done" ? li++ : 0;
+      if (prev && prev !== a.status) { c.bubbleT = 120; if (sound && a.status === "done") chime(880); if (sound && a.status === "stuck") chime(220); }
+      planPath(c);
+    });
+    for (const id of [...chars.keys()]) if (!seen.has(id)) chars.delete(id);
+  }
+
+  function planPath(c) {
+    const t = target(c), lane = 56 + 64 * (c.y > 120 ? 1 : 0) + 0; // walk along the aisle above the desk row
+    const aisleY = c.y < 120 ? 58 : 122;
+    const tAisle = t.y < 120 ? 58 : (t.y > 150 ? 186 : 122);
+    c.path = [{ x: c.x, y: aisleY }, { x: t.x, y: aisleY === tAisle ? aisleY : aisleY }, { x: t.x, y: tAisle }, { x: t.x, y: t.y }];
+    if (Math.abs(aisleY - tAisle) > 1) c.path.splice(1, 1, { x: 278, y: aisleY }, { x: 278, y: tAisle });
+    void lane;
+  }
+
+  function step(c) {
+    if (!c.path.length) { c.walk = 0; return; }
+    const p = c.path[0], dx = p.x - c.x, dy = p.y - c.y, d = Math.hypot(dx, dy), sp = reduce ? 99 : 1.1;
+    if (d <= sp) { c.x = p.x; c.y = p.y; c.path.shift(); }
+    else { c.x += dx / d * sp; c.y += dy / d * sp; if (Math.abs(dx) > .1) c.flip = dx < 0; }
+    c.walk++;
+  }
+
+  // ---- drawing
+  function room() {
+    const hr = new Date().getHours(), night = hr < 7 || hr >= 19;
+    px(0, 0, W, H, C.floorA);
+    for (let y = 48; y < H; y += 8) { px(0, y, W, 1, C.seam); for (let x = ((y / 8) % 2) * 24; x < W; x += 48) px(x, y, 1, 8, C.seam); }
+    px(0, 0, W, 44, C.wall); px(0, 0, W, 6, C.wallTop); px(0, 44, W, 4, C.trim);
+    for (const wx of [24, 104, 184]) { px(wx, 12, 48, 24, C.ink); px(wx + 2, 14, 44, 20, night ? C.skyN : C.sky); px(wx + 23, 14, 2, 20, C.ink); px(wx + 2, 23, 44, 2, C.ink);
+      if (night) { px(wx + 8, 17, 1, 1, C.white); px(wx + 34, 20, 1, 1, C.white); px(wx + 38, 16, 3, 3, "#f3edc8"); } else { px(wx + 10, 18, 8, 3, C.white); px(wx + 30, 26, 10, 3, C.white); } }
+    // SecondQuest wordmark-ish sign (our brand, drawn in pixels)
+    px(250, 14, 116, 20, C.ink); px(252, 16, 112, 16, "#2c2742");
+    g.fillStyle = C.white; g.font = "8px Silkscreen, monospace"; g.textBaseline = "middle"; g.fillText("SECOND", 256, 25); g.fillStyle = "#4fb3ff"; g.fillText("QUEST", 304, 25);
+    px(256, 30, 96, 1, C.gold);
+    // rug + lounge
+    px(290, 152, 86, 60, C.rug); for (let x = 292; x < 374; x += 6) px(x, 154, 3, 56, C.rugB);
+    px(296, 176, 70, 10, C.couch); px(296, 172, 70, 5, C.couchD); px(294, 176, 4, 12, C.couchD); px(364, 176, 4, 12, C.couchD);
+    // aquarium with the companion fish (click it)
+    px(336, 100, 40, 28, C.ink); px(338, 102, 36, 24, C.water); px(338, 102, 36, 4, C.glass); px(338, 120, 36, 6, C.waterD);
+    const fx = 346 + Math.round(Math.sin(frame / 40) * 8), fy = 110 + (fish.jump > 0 ? -Math.round(Math.sin(fish.jump / 20 * Math.PI) * 4) : 0);
+    px(fx, fy, 12, 7, C.fish); px(fx - 4, fy + 1, 4, 5, C.fishD); px(fx + 7, fy + 2, 3, 3, C.white); px(fx + 8, fy + 3, 2, 2, C.ink);
+    if (!fish.blink) px(fx + 7, fy + 2, 3, 1, C.fishD); else px(fx + 7, fy + 2, 3, 3, C.fishD);
+    px(fx + 12, fy + 4, 2, 2, C.lip);
+    for (const b of fish.bubbles) px(b.x, b.y, 2, 2, C.glass);
+    px(334, 128, 44, 4, C.deskEdge);
+    // plants + coffee
+    plant(6, 50); plant(270, 50); plant(6, 196);
+    px(300, 52, 14, 20, "#55505f"); px(302, 56, 10, 6, "#2b2733"); px(305, 64, 4, 4, C.white); if (frame % 60 < 30) px(306, 47, 1, 4, "#d9d4e4");
+    // door
+    px(276, 208, 16, 16, C.deskEdge); px(278, 210, 12, 14, "#8a5a2e");
+  }
+  function plant(x, y) { px(x + 3, y + 10, 8, 8, C.pot); px(x, y, 14, 10, C.plant); px(x + 3, y - 3, 8, 5, C.plantD); }
+
+  function deskBack(d, c) {
+    px(d.x + 4, d.y + 18, 24, 8, C.chair); px(d.x + 6, d.y + 26, 20, 3, C.chair);
+  }
+  function deskFront(d, c) {
+    px(d.x, d.y + 6, 32, 14, C.deskTop); px(d.x, d.y + 18, 32, 3, C.deskEdge); px(d.x + 2, d.y + 21, 3, 8, C.deskEdge); px(d.x + 27, d.y + 21, 3, 8, C.deskEdge);
+    const st = c ? c.a.status : null;
+    const scr = st === "working" ? C.gold : st === "done" ? C.ok : st === "stuck" ? C.bad : C.grey;
+    px(d.x + 9, d.y - 6, 14, 10, C.mon); px(d.x + 15, d.y + 4, 2, 3, C.mon); px(d.x + 11, d.y + 7, 10, 2, C.mon);
+    px(d.x + 10, d.y - 5, 12, 8, scr);
+    if (st === "working") for (let i = 0; i < 3; i++) px(d.x + 11, d.y - 4 + i * 2.5, 2 + ((frame / 6 + i * 3 + (c ? c.h : 0)) % 9 | 0), 1, C.ink);
+    px(d.x + 3, d.y + 9, 6, 4, C.white); px(d.x + 24, d.y + 8, 4, 5, "#e6e0d0");   // papers + mug
+  }
+
+  function person(c) {
+    const h = c.h, hood = HOOD[h % HOOD.length], skin = SKIN[(h >> 4) % SKIN.length], hair = HAIR[(h >> 7) % HAIR.length];
+    const st = c.a.status, x = Math.round(c.x) - 5, y = Math.round(c.y) - 20;
+    const moving = c.path.length > 0, seated = !moving && st === "working";
+    const lg = moving && !reduce ? (Math.floor(c.walk / 6) % 2) : 0;
+    px(x + 1, y + 21, 8, 2, "rgba(0,0,0,.25)");
+    if (!seated) { px(x + 2, y + 15, 2, 5 - lg, "#2b2f45"); px(x + 6, y + 15, 2, 4 + lg, "#2b2f45"); }
+    px(x + 1, y + 8, 8, 8, hood);                        // body
+    const typing = seated && !reduce ? Math.floor(frame / 5) % 2 : 0;
+    if (seated) { px(x - 1, y + 10 - typing, 2, 3, skin); px(x + 9, y + 10 - (1 - typing), 2, 3, skin); }
+    else if (st === "done" && !moving) { px(x - 1, y + 4, 2, 5, hood); px(x + 9, y + 4, 2, 5, hood); px(x - 1, y + 3, 2, 2, skin); px(x + 9, y + 3, 2, 2, skin); }
+    else { px(x, y + 9, 1, 5, hood); px(x + 9, y + 9, 1, 5, hood); }
+    px(x + 2, y + 1, 7, 7, skin); px(x + 1, y, 9, 3, hair); px(x + (c.flip ? 8 : 1), y + 2, 1, 3, hair);
+    px(x + (c.flip ? 3 : 6), y + 4, 1, 1, C.ink);        // eye
+  }
+
+  function bubble(c) {
+    const st = c.a.status, x = Math.round(c.x), y = Math.round(c.y) - 30;
+    if (st === "stuck") { const b = Math.floor(frame / 15) % 2; px(x - 5, y - b, 10, 9, C.white); px(x - 1, y + 9 - b, 2, 2, C.white); px(x - 1, y + 1 - b, 2, 4, C.bad); px(x - 1, y + 6 - b, 2, 2, C.bad); }
+    else if (st === "waiting") { px(x - 7, y, 14, 8, C.white); px(x - 1, y + 8, 2, 2, C.white); for (let i = 0; i < 3; i++) if (Math.floor(frame / 12) % 4 > i) px(x - 4 + i * 3, y + 3, 2, 2, C.ink); }
+    else if (c.bubbleT > 0 && st === "done") { px(x - 6, y, 12, 9, C.white); px(x - 1, y + 9, 2, 2, C.white); px(x - 3, y + 4, 2, 2, C.ok); px(x - 1, y + 5, 2, 2, C.ok); px(x + 1, y + 3, 2, 2, C.ok); px(x + 3, y + 1, 2, 2, C.ok); }
+  }
+
+  function shortName(a) {
+    if (a.short) return String(a.short).slice(0, 10);
+    let n = String(a.name || a.id).split("·")[0].replace(/^Agente( de)?\s+/i, "").replace(/^bloque\s+/i, "Bloque ").trim();
+    return n.slice(0, 10);
+  }
+  function label(c) {
+    if (c.a.status === "done" && sel !== c.id) return;          // the lounge stays readable: done agents show their name on tap
+    const name = shortName(c.a);
+    g.font = "6px Silkscreen, monospace"; const w = Math.ceil(g.measureText(name).width) + 4;
+    const x = Math.round(c.x - w / 2), y = Math.round(c.y) + 4;
+    px(x, y, w, 8, sel === c.id ? C.gold : "rgba(27,24,38,.8)"); g.fillStyle = sel === c.id ? C.ink : C.white; g.textBaseline = "top"; g.fillText(name, x + 2, y + 1);
+  }
+
+  const fish = { blink: 0, jump: 0, bubbles: [] };
+  function tickFish() {
+    if (fish.blink > 0) fish.blink--; else if (Math.random() < .004) fish.blink = 10;
+    if (fish.jump > 0) fish.jump--;
+    if (Math.random() < .02 && fish.bubbles.length < 6) fish.bubbles.push({ x: 344 + Math.random() * 24, y: 118 });
+    fish.bubbles = fish.bubbles.filter((b) => (b.y -= .3) > 103);
+  }
+
+  function draw() {
+    room();
+    const list = [...chars.values()];
+    // desks with their owners, back to front by row
+    DESKS.forEach((d) => { const c = list.find((k) => k.desk === d); deskBack(d, c); });
+    const seatedSet = new Set(list.filter((c) => !c.path.length && c.a.status === "working").map((c) => c.id));
+    list.filter((c) => seatedSet.has(c.id)).forEach(person);
+    DESKS.forEach((d) => { const c = list.find((k) => k.desk === d); deskFront(d, c); });
+    list.filter((c) => !seatedSet.has(c.id)).sort((a, b) => a.y - b.y).forEach(person);
+    list.forEach(bubble); list.forEach(label);
+  }
+
+  function loop() {
+    frame++; tickFish(); for (const c of chars.values()) { step(c); if (c.bubbleT > 0) c.bubbleT--; }
+    draw(); requestAnimationFrame(loop);
+  }
+
+  // ---- UI
   function ago(iso) {
-    if (!iso) return "";
-    const d = (Date.now() - new Date(iso).getTime()) / 1000;
-    if (!isFinite(d)) return "";
-    if (d < 60) return "hace segundos";
-    if (d < 3600) return "hace " + Math.round(d / 60) + " min";
-    if (d < 86400) return "hace " + Math.round(d / 3600) + " h";
+    if (!iso) return ""; const d = (Date.now() - new Date(iso).getTime()) / 1000; if (!isFinite(d)) return "";
+    if (d < 60) return "hace segundos"; if (d < 3600) return "hace " + Math.round(d / 60) + " min"; if (d < 86400) return "hace " + Math.round(d / 3600) + " h";
     return new Date(iso).toLocaleDateString();
   }
+  function showCard(id) {
+    const card = $("card"), c = chars.get(id); sel = id;
+    if (!c) { card.hidden = true; sel = null; return; }
+    const a = c.a, st = LABEL[a.status] ? a.status : "waiting";
+    card.textContent = "";
+    const h3 = document.createElement("h3"); const n = document.createElement("span"); n.textContent = a.name || a.id;
+    const b = document.createElement("span"); b.className = "badge " + st; b.textContent = LABEL[st]; h3.append(n, b);
+    const r = document.createElement("div"); r.className = "role"; r.textContent = a.role || "";
+    const p = document.createElement("p"); p.textContent = a.task || "";
+    const bar = document.createElement("div"); bar.className = "bar"; const i = document.createElement("i"); const pr = Math.max(0, Math.min(100, Number(a.progress) || (st === "done" ? 100 : 0))); i.style.width = pr + "%"; bar.append(i);
+    const m = document.createElement("div"); m.className = "meta"; const m1 = document.createElement("span"); m1.textContent = pr + "%"; const m2 = document.createElement("span"); m2.textContent = ago(a.updated); m.append(m1, m2);
+    const x = document.createElement("button"); x.type = "button"; x.textContent = "Cerrar"; x.onclick = (e) => { e.stopPropagation(); card.hidden = true; sel = null; };
+    card.append(h3, r, p, bar, m, x);
+    const sw = $("stage").clientWidth, sc = sw / W, left = Math.min(Math.max(8, c.x * sc - 150), sw - card.offsetWidth - 8);
+    card.style.left = Math.max(8, left) + "px"; card.style.top = Math.max(8, (c.y + 12) * sc) + "px";
+    card.hidden = false;
+    const cr = card.getBoundingClientRect(), stg = $("stage").getBoundingClientRect();
+    if (cr.bottom > stg.bottom) card.style.top = Math.max(8, (c.y - 34) * sc - card.offsetHeight) + "px";
+  }
+  cv.addEventListener("click", (e) => {
+    const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height;
+    if (x > 334 && x < 378 && y > 98 && y < 130) { fish.jump = 20; fish.blink = 12; for (let i = 0; i < 5; i++) fish.bubbles.push({ x: 344 + Math.random() * 24, y: 116 }); if (sound) chime(660); return; }
+    let best = null, bd = 14;
+    for (const c of chars.values()) { const d = Math.hypot(c.x - x, c.y - 10 - y); if (d < bd) { bd = d; best = c; } }
+    if (best) showCard(best.id); else { $("card").hidden = true; sel = null; }
+  });
 
-  function render() {
-    const floor = $("floor");
-    [...floor.querySelectorAll(".desk")].forEach((n) => n.remove());
-    $("empty").hidden = agents.length > 0;
+  function chime(f) {
+    try { actx = actx || new AudioContext(); const o = actx.createOscillator(), v = actx.createGain(); o.type = "square"; o.frequency.value = f;
+      v.gain.setValueAtTime(.06, actx.currentTime); v.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + .25); o.connect(v).connect(actx.destination); o.start(); o.stop(actx.currentTime + .26); } catch (e) {}
+  }
+  $("snd").addEventListener("click", () => { sound = !sound; $("snd").textContent = "Sonido: " + (sound ? "sí" : "no"); $("snd").setAttribute("aria-pressed", String(sound)); if (sound) chime(880); });
+
+  function renderLists() {
     const count = { working: 0, done: 0, waiting: 0, stuck: 0 };
-    const sorted = [...agents].sort((a, b) => ({ stuck: 0, working: 1, waiting: 2, done: 3 }[a.status] ?? 2) - ({ stuck: 0, working: 1, waiting: 2, done: 3 }[b.status] ?? 2) || (a.order ?? 99) - (b.order ?? 99));
+    const ul = $("roster"); ul.textContent = "";
+    const order = { stuck: 0, working: 1, waiting: 2, done: 3 };
+    const sorted = [...agents].sort((a, b) => (order[a.status] ?? 2) - (order[b.status] ?? 2) || (a.order ?? 99) - (b.order ?? 99));
     for (const a of sorted) {
       const st = LABEL[a.status] ? a.status : "waiting"; count[st]++;
-      const el = document.createElement("article"); el.className = "desk"; el.dataset.s = st;
-      const cv = document.createElement("canvas"); cv.className = "scene"; cv.width = 64; cv.height = 36; cv.setAttribute("role", "img");
-      cv.setAttribute("aria-label", (a.name || a.id) + ", " + LABEL[st]);
-      const info = document.createElement("div"); info.className = "info";
-      const nm = document.createElement("div"); nm.className = "name";
-      const strong = document.createElement("strong"); strong.textContent = a.name || a.id;
-      const badge = document.createElement("span"); badge.className = "badge " + st; badge.textContent = LABEL[st];
-      nm.append(strong, badge);
-      const role = document.createElement("div"); role.className = "role"; role.textContent = a.role || "";
-      const task = document.createElement("p"); task.className = "task"; task.textContent = a.task || "";
-      const mini = document.createElement("div"); mini.className = "mini"; const mi = document.createElement("i");
-      mi.style.width = Math.max(0, Math.min(100, Number(a.progress) || (st === "done" ? 100 : 0))) + "%"; mini.append(mi);
-      const meta = document.createElement("div"); meta.className = "meta";
-      const pct = document.createElement("span"); pct.textContent = (Number(a.progress) || (st === "done" ? 100 : 0)) + "%";
-      const upd = document.createElement("span"); upd.textContent = ago(a.updated); meta.append(pct, upd);
-      info.append(nm, role, task, mini, meta); el.append(cv, info); floor.append(el);
-      el._cv = cv; el._a = a; draw(cv, a, 0);
+      const li = document.createElement("li"); li.tabIndex = 0;
+      const sw = document.createElement("span"); sw.className = "sw"; sw.style.background = HOOD[hash(a.id) % HOOD.length];
+      const n = document.createElement("span"); n.className = "n"; n.textContent = a.name || a.id; n.title = a.task || "";
+      const b = document.createElement("span"); b.className = "badge " + st; b.textContent = LABEL[st];
+      li.append(sw, n, b); li.onclick = () => showCard(a.id); li.onkeydown = (e) => { if (e.key === "Enter") showCard(a.id); };
+      ul.append(li);
     }
+    if (!agents.length) { const li = document.createElement("li"); li.className = "empty"; li.textContent = "Claude agrega aquí cada agente cuando lo pone a trabajar."; ul.append(li); }
     $("nW").textContent = count.working; $("nD").textContent = count.done; $("nWa").textContent = count.waiting; $("nS").textContent = count.stuck;
+    if (sel) showCard(sel);
   }
 
-  let frame = 0;
-  if (!reduce) setInterval(() => { frame++; document.querySelectorAll(".desk[data-s='working']").forEach((d) => draw(d._cv, d._a, frame)); }, 380);
-  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", render);
-
+  requestAnimationFrame(loop);
   (async () => {
     const db = await window.claude?.use?.("db");
     if (!db) { $("liveTxt").textContent = "sin conexión en esta vista"; return; }
     $("dot").classList.add("on"); $("liveTxt").textContent = "en vivo";
     db.collection("agents").onSnapshot((snap) => {
       agents = snap.docs.filter((d) => d.exists).map((d) => Object.assign({ id: d.id }, d.data()));
-      render();
+      sync(agents); renderLists();
     }, () => { $("dot").classList.remove("on"); $("liveTxt").textContent = "conexión perdida, recarga la página"; });
     db.doc("status/now").onSnapshot((d) => {
       const v = d.exists ? d.data() : null; $("goal").hidden = !v; if (!v) return;
       $("goalEp").textContent = v.episode || ""; $("goalTxt").textContent = v.headline || "";
       $("goalUpd").textContent = ago(v.updated); $("goalBar").style.width = Math.max(0, Math.min(100, Number(v.progress) || 0)) + "%";
-      const log = Array.isArray(v.log) ? v.log.slice(0, 12) : [];
-      $("logBox").hidden = !log.length; const ol = $("log"); ol.textContent = "";
+      const log = Array.isArray(v.log) ? v.log.slice(0, 12) : []; const ol = $("log"); ol.textContent = "";
+      if (!log.length) { const li = document.createElement("li"); li.className = "empty"; li.textContent = "Sin novedades todavía."; ol.append(li); }
       for (const e of log) { const li = document.createElement("li"); const t = document.createElement("time"); t.textContent = e.t || ""; const p = document.createElement("span"); p.textContent = e.msg || ""; li.append(t, p); ol.append(li); }
     }, () => {});
   })();
-  setInterval(render, 60000);
 })();
 </script>
