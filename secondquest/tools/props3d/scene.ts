@@ -13,7 +13,8 @@
 import * as THREE from 'three';
 
 type V3 = [number, number, number];
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number }
+interface FishExpr { lid?: number; look?: [number, number]; mouth?: 'pout' | 'o' | 'flat'; sweat?: boolean }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr }
 type Poly = { outer: [number, number][]; holes: [number, number][][] };
 interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
@@ -924,6 +925,89 @@ const fish = () => {
   const mouth = cyl(1.2, 6, [29, -3, 0], [Math.PI / 2, 0, 0], toon('#2c4f57'), 1427); g.add(mouth);
   return g;
 };
+/** The companion fish v2 (cm), Producer 2026-10-12 ("me encanta esa cara… mejorarlo aún más"): the same deadpan face
+ * (big flat eyes under a heavy lid), now with a body that tapers to the tail, a darker back fading to a cream belly with
+ * a soft scale pattern, a curved forked tail, a spiky dorsal fin, side fins, a gill line, pouty lips and a catchlight in
+ * each eye. Expressions per shot (shot.fish): lid 0 (wide, impressed) .. .42 (deadpan) .. 1 (closed), look [up, side],
+ * mouth pout | o (yawn / surprise) | flat, sweat drop. */
+const fish2 = () => {
+  const g = new THREE.Group();
+  const geo = new THREE.SphereGeometry(20, 64, 40);
+  const pos = geo.attributes.position as THREE.BufferAttribute;
+  const col: number[] = [];
+  const back = new THREE.Color('#2f7487'), mid = new THREE.Color('#5fb0bf'), belly = new THREE.Color('#efe6c6'), spot = new THREE.Color('#3f8d9e');
+  for (let i = 0; i < pos.count; i++) {
+    let x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+    const k = x < 0 ? 1 + (x / 20) * .5 : 1 + (x / 20) * .06;      // taper to the tail, a slightly fuller head
+    y *= k; z *= k;
+    pos.setXYZ(i, x * 1.5, y * .95, z * .66);
+    const h = y / 20;                                                // -1 belly .. 1 back
+    const c = new THREE.Color();
+    if (h > .15) c.copy(mid).lerp(back, Math.min(1, (h - .15) / .7));
+    else if (h > -.3) c.copy(mid);
+    else c.copy(mid).lerp(belly, Math.min(1, (-.3 - h) / .25));
+    const sc = Math.sin(x * .55 + (Math.floor(y / 3.2) % 2) * 1.6) * Math.sin(y * 1.0);
+    if (h > -.25 && x < 12 && sc > .55) c.lerp(spot, .55);           // a soft scallop of scales on the flank (not on the face)
+    col.push(c.r, c.g, c.b);
+  }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  geo.computeVertexNormals();
+  const bm = new THREE.MeshToonMaterial({ vertexColors: true, gradientMap: ramp });
+  const body = new THREE.Mesh(geo, bm); body.userData.part = 1440; ids.push(body); g.add(body);
+  const finMat = toon('#3f8d9e');
+  const ext = (sh: THREE.Shape, d: number) => new THREE.ExtrudeGeometry(sh, { depth: d, bevelEnabled: true, bevelThickness: .5, bevelSize: .5, bevelSegments: 2, curveSegments: 16 });
+  // the forked tail, curved lobes
+  const tail = new THREE.Shape(); tail.moveTo(2, 0); tail.quadraticCurveTo(-10, 8, -24, 19); tail.quadraticCurveTo(-19, 8, -16, 0);
+  tail.quadraticCurveTo(-19, -8, -24, -19); tail.quadraticCurveTo(-10, -8, 2, 0);
+  const t = new THREE.Mesh(ext(tail, 1.6), finMat); t.position.set(-27, 0, -.8); t.userData.part = 1441; ids.push(t); g.add(t);
+  // spiky dorsal fin
+  const dor = new THREE.Shape(); dor.moveTo(10, 0); dor.lineTo(6, 9); dor.lineTo(2, 6); dor.lineTo(-3, 12); dor.lineTo(-7, 7); dor.lineTo(-13, 11); dor.lineTo(-16, 0);
+  const d = new THREE.Mesh(ext(dor, 1.2), finMat); d.position.set(0, 15.5, -.6); d.userData.part = 1442; ids.push(d); g.add(d);
+  // belly fin
+  const bel = new THREE.Shape(); bel.moveTo(4, 0); bel.quadraticCurveTo(-2, -7, -9, -6); bel.lineTo(-6, 0);
+  const b = new THREE.Mesh(ext(bel, 1), finMat); b.position.set(-4, -15, -.5); b.userData.part = 1443; ids.push(b); g.add(b);
+  const ex: FishExpr = {};
+  const eyes: { lid: THREE.Mesh; pup: THREE.Mesh; glint: THREE.Mesh; base: THREE.Vector3 }[] = [];
+  for (const sz of [-1, 1]) {
+    // side fin (pectoral), behind the gill
+    const pec = new THREE.Shape(); pec.moveTo(0, 0); pec.quadraticCurveTo(-5, 6, -12, 4); pec.quadraticCurveTo(-8, 0, -11, -3); pec.quadraticCurveTo(-5, -3, 0, 0);
+    const pf = new THREE.Mesh(ext(pec, .8), finMat); pf.position.set(4, -5, sz * 12.2); pf.rotation.set(0, sz * .5, -.2); pf.userData.part = 1444; ids.push(pf); g.add(pf);
+    // gill line
+    const gill = new THREE.Mesh(new THREE.TorusGeometry(9, .55, 8, 24, Math.PI * .55), toon('#2a6576'));
+    gill.position.set(10, -1, sz * 9.6); gill.rotation.set(0, sz > 0 ? 0 : Math.PI, Math.PI * .72); gill.scale.set(1, 1, .3); gill.userData.part = 1445; ids.push(gill); g.add(gill);
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(5.6, 24, 16), toon('#fbf8f0')); eye.position.set(15, 5.5, sz * 8.8); eye.userData.part = 1446; ids.push(eye); g.add(eye);
+    const pup = new THREE.Mesh(new THREE.SphereGeometry(2.5, 16, 12), toon('#121216')); pup.userData.part = 1447; ids.push(pup); g.add(pup);
+    const glint = new THREE.Mesh(new THREE.SphereGeometry(.8, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffffff })); glint.userData.part = 1448; ids.push(glint); g.add(glint);
+    const lid = new THREE.Mesh(new THREE.SphereGeometry(6.0, 24, 12, 0, Math.PI * 2, 0, Math.PI * .42), toon('#3f8d9e'));
+    lid.position.copy(eye.position); lid.rotation.set(0, 0, -.25); lid.userData.part = 1449; ids.push(lid); g.add(lid);
+    eyes.push({ lid, pup, glint, base: new THREE.Vector3(17.8, 4.4, sz * 12.6) });
+  }
+  // lips
+  const lipMat = toon('#c9707a');
+  const up = new THREE.Mesh(new THREE.SphereGeometry(2.6, 16, 10), lipMat); up.scale.set(.7, .55, 1.25); up.position.set(29.5, -2.2, 0); up.userData.part = 1450; ids.push(up); g.add(up);
+  const lo = new THREE.Mesh(new THREE.SphereGeometry(2.6, 16, 10), lipMat); lo.scale.set(.75, .6, 1.2); lo.position.set(29.2, -4.6, 0); lo.userData.part = 1451; ids.push(lo); g.add(lo);
+  const hole = new THREE.Mesh(new THREE.SphereGeometry(2.4, 16, 10), toon('#3a1c24')); hole.scale.set(.5, 1, 1); hole.position.set(30.6, -3.4, 0); hole.userData.part = 1452; ids.push(hole); g.add(hole);
+  const drop = new THREE.Mesh(new THREE.SphereGeometry(1.8, 14, 10), toon('#b9e4ff')); drop.scale.set(1, 1.5, 1); drop.position.set(19, 15, 12); drop.userData.part = 1453; ids.push(drop); g.add(drop);
+  g.userData.setExpr = (e: FishExpr) => {
+    const lidK = e.lid ?? .42, [lu, ls] = e.look ?? [0, 0];
+    for (const E of eyes) {
+      E.lid.geometry.dispose();
+      E.lid.geometry = new THREE.SphereGeometry(6.0, 24, 12, 0, Math.PI * 2, 0, Math.PI * Math.max(.02, Math.min(1, lidK)));
+      E.lid.visible = lidK > .03;
+      E.pup.position.set(E.base.x, E.base.y + lu * 1.8, E.base.z);
+      E.pup.position.x += ls * 1.2;
+      E.glint.position.set(E.pup.position.x + .6, E.pup.position.y + 1.1, E.pup.position.z + Math.sign(E.base.z) * 1.9);
+      E.pup.visible = E.glint.visible = lidK < .6;                      // past half-closed the lid covers the pupil
+    }
+    const m = e.mouth ?? 'pout';
+    hole.visible = m === 'o'; hole.scale.set(.5, m === 'o' ? 1.5 : 1, m === 'o' ? 1.3 : 1);
+    up.position.y = m === 'o' ? -1.0 : -2.2; lo.position.y = m === 'o' ? -6.2 : -4.6;
+    lo.scale.y = m === 'flat' ? .4 : .6;
+    drop.visible = !!e.sweat;
+  };
+  g.userData.setExpr(ex);
+  return g;
+};
 /** A dented metal trash can with a tilted lid (the "slop" gag, cm). */
 const trashcan = () => {
   const g = new THREE.Group();
@@ -1001,7 +1085,7 @@ if (P.props.includes('phone')) scene.add((props.phone = phone()));
 if (P.props.includes('mug')) scene.add((props.mug = mug()));
 if (P.props.includes('headphones')) scene.add((props.headphones = headphones()));
 if (P.props.includes('gamebox')) scene.add((props.gamebox = gamebox()));
-const EP003: Record<string, () => THREE.Object3D> = { rowboat, fishingRod, fish, trashcan, dynamite, chips, golfFlag, lantern };
+const EP003: Record<string, () => THREE.Object3D> = { rowboat, fishingRod, fish, fish2, trashcan, dynamite, chips, golfFlag, lantern };
 for (const [k, f] of Object.entries(EP003)) if (P.props.includes(k)) scene.add((props[k] = f()));
 
 if (P.light === 'neutral') {
@@ -1045,6 +1129,7 @@ function draw() {
       ids.forEach((m) => { if (m.userData.flap) m.visible = !shot.cart || shot.cart.y > HUMP_TOP - 1; });
     }
     if (props.horse && shot.pose != null) setGallop(shot.pose);
+    if (props.fish2) props.fish2.userData.setExpr(shot.fish ?? {});
     const x = W * i;
     for (let pass = 0; pass < 3; pass++) {
       ids.forEach((m) => {

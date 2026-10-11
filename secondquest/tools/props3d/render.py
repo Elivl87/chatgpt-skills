@@ -433,7 +433,33 @@ def job_ep003_props():
         print(f'{name}.png')
 
 
-JOBS = {'ep003_props': job_ep003_props, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+FISH_EXPR = {'deadpan': {}, 'blink': {'lid': 1}, 'wide': {'lid': .04, 'look': [.3, 0], 'mouth': 'o'},
+             'lookup': {'lid': .3, 'look': [1, 0]}, 'yawn': {'lid': .7, 'mouth': 'o'}, 'sweat': {'lid': .36, 'look': [0, -.6], 'sweat': True},
+             'wince': {'lid': .85, 'mouth': 'flat'}}
+
+
+def job_fish2():
+    """Companion fish v2 (Producer: "me encanta esa cara… mejorarlo aún más"): 3/4 and side cut-outs for every
+    expression in public/art/ep003/props3d/fish2_<view>_<expr>.png, plus a review sheet beside v1."""
+    OUT3.mkdir(parents=True, exist_ok=True)
+    views = {'34': ([4, 0, 0], orbit(35, 10, 200, [4, 0, 0])), 'side': ([2, 0, 0], orbit(0, 4, 200, [2, 0, 0]))}
+    sheet = []
+    for v, (tgt, cam) in views.items():
+        shots = [{'camera': cam, 'target': tgt, 'fov': 30, 'cart': None, 'fish': e} for e in FISH_EXPR.values()]
+        imgs = render({'props': ['fish2'], 'shots': shots, 'light': 'neutral'}, 1000, 760, line=4.0)
+        for name, img in zip(FISH_EXPR, imgs):
+            cv2.imwrite(str(OUT3 / f'fish2_{v}_{name}.png'), crop_alpha(img, pad=10))
+        sheet.append(np.concatenate(imgs, axis=1))
+    old = render({'props': ['fish'], 'shots': [{'camera': orbit(35, 10, 190, [4, 0, 0]), 'target': [4, 0, 0], 'fov': 30, 'cart': None}], 'light': 'neutral'}, 1000, 760, line=4.0)[0]
+    top = np.concatenate([old] + [np.zeros_like(old)] * (len(FISH_EXPR) - 1), axis=1)
+    full = np.concatenate([top] + sheet, axis=0)
+    bg = np.full(full.shape[:2] + (3,), 236, np.uint8)
+    a = full[..., 3:4] / 255.0
+    cv2.imwrite(str(ROOT / 'docs/ep003/fish2_sheet.jpg'), cv2.resize((full[..., :3] * a + bg * (1 - a)).astype(np.uint8), None, fx=.35, fy=.35))
+    print('docs/ep003/fish2_sheet.jpg', list(FISH_EXPR))
+
+
+JOBS = {'fish2': job_fish2, 'ep003_props': job_ep003_props, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
