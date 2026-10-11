@@ -1012,8 +1012,8 @@ const rowboat = () => {
   const ribMat = woodMat('#7c4b29');
   for (const ur of [.08, .24, .32, .4, .56, .64, .84]) {
     const pts: THREE.Vector3[] = [];
-    for (let i = 0; i <= 60; i++) { const t = -1 + i / 30, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 1.7))); }
-    const r = tube(pts, 1.5, ribMat, 1515, 60, 6); uvScale(r.geometry, 3, .3); g.add(half(r, 'back'));
+    for (let i = 0; i <= 60; i++) { const t = -1 + i / 30, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 2.0))); }
+    const r = tube(pts, 1.4, ribMat, 1515, 160, 6); uvScale(r.geometry, 3, .3); g.add(half(r, 'back'));
   }
   const SR = .3;
   for (const side of [1, -1]) {
