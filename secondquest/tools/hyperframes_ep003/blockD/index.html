@@ -986,7 +986,7 @@
         tl.fromTo(g.beam, { x: 0, opacity: .25, skewX: 0 }, { x: 760, opacity: .7, skewX: -24, duration: TL1 - TL0, ease: "power1.inOut" }, TL0);
         tl.fromTo(g.tint, { backgroundColor: "#ffffff" }, { keyframes: [{ backgroundColor: "#ffd7a4", duration: (TL1 - TL0) * .55 }, { backgroundColor: "#c88a9a", duration: (TL1 - TL0) * .45 }], ease: "none" }, TL0);
         [0, .3, .62, .95, 1.3].forEach((k, i) => tl.set(g.qw, { x: [0, -6, 4, -3, 0][i], rotation: [0, -1.5, 1, -.8, 0][i] }, TL0 + k * (TL1 - TL0) / 1.3)); });
-      tl.fromTo("#garageHost .scene", { filter: "brightness(1)" }, { filter: "brightness(.86)", duration: TL1 - TL0, ease: "none" }, TL0);
+      tl.fromTo("#garageHost .scene", { filter: "brightness(1)" }, { filter: "brightness(.86)", duration: TL1 - TL0, ease: "none", immediateRender: false }, TL0);
       // "Nobody": the garage shrinks back into its polaroid: the triptych
       const TRI = T.nobody3 - .05;
       bcam(TRI - .1, 0, 640, 285, 1.25);
