@@ -66,7 +66,7 @@ def fish_jump(base, t, t0, x, size, side=1):
 
 
 def a1(t):
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     if t >= T_BOAT - .2:                                             # the empty boat glides in from the right
         k = ease(min(1, (t - T_BOAT + .2) / .8))
         boat = K.sized(K.prop('rowboat_side'), w=P(900))
@@ -86,7 +86,7 @@ def a1(t):
 
 
 def boat4(t, cam):
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     K.boat_scene(base, PW * .5, WL, P(900), FRIENDS, t)
     return base
 
@@ -116,7 +116,7 @@ def flash(t):
         fr = fr.convert('RGBA'); fr.alpha_composite(ch, (int(W * .5 - ch.width / 2), int(lin(H, H * .52, k))))
         fr = K.marker_at(fr, 'the fish money', .5, .86, size=24, k=k)
     else:                                                               # the scope over the water
-        fr = K.crop_cam(LAKE.convert('RGBA'), (2.2, .62, .70))
+        fr = K.crop_cam(K.lake_at('dusk', t), (2.2, .62, .70))
         d = ImageDraw.Draw(fr, 'RGBA')
         k = ease(min(1, (t - T_SNIPE) / .3))
         r = S(230) * (1.4 - .4 * k)
@@ -129,7 +129,7 @@ def flash(t):
 
 
 def a4(t):
-    fr = K.crop_cam(LAKE.convert('RGBA'), (1.0, .5, .5))
+    fr = K.crop_cam(K.lake_at('dusk', t), (1.0, .5, .5))
     fr = Image.blend(fr.convert('RGB'), Image.new('RGB', fr.size, (20, 20, 30)), .45).convert('RGBA')
     fr = K.marker_at(fr, '$7.99', .5, .30, size=46, k=min(1, (t - T_A4) / .3))
     if t >= T_GOAL:
@@ -152,7 +152,7 @@ def a4(t):
 
 
 def a5(t):
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     n = int(min(60, 4 + 70 * ease(min(1, (t - T_A5) / 2.0))))
     import numpy as np
     rng = np.random.default_rng(9)
@@ -181,6 +181,7 @@ def a6(t):
 
 
 def render(t):
+    K.NOW[0] = t
     if t < T_A2:
         fr = a1(t)
     elif t < T_SLAP:
@@ -207,4 +208,4 @@ STILLS = (('a1', T_FISH + .4), ('a2', T_A2 + 1.2), ('a3s', T_SLAP + .3), ('a3m',
           ('a4', T_EST + 1.8), ('a5', T_ELSE + .5), ('a7l', T_LAND - .35), ('a7', T_WHY + .9), ('a7b', T_END - .1))
 
 if __name__ == '__main__':
-    K.run_block('A', T0, T_END, render, STILLS)
+    K.run_block('A', T0, T_END, render, STILLS, version=2)

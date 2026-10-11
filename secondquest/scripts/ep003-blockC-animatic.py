@@ -61,7 +61,10 @@ def c2(t, grey=0.0, sink=0.0):
     fr = dark(K.crop_cam(CITY.filter(ImageFilter.GaussianBlur(P(9))).convert('RGBA'), (1.15, .55, .45)))
     ph = K.phone_chat(group_msgs(), t, title='THE GROUP', grey=grey)
     k = ease(min(1, (t - T_C2) / .4))
-    fr.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(lin(H, H * .5 - ph.height / 2, k) + sink * H)))
+    if k < 1 or sink > 0:
+        fr.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(lin(H, H * .5 - ph.height / 2, k) + sink * H)))
+    else:                                                                 # coverage: close-up on each new line
+        fr = K.place_phone(fr, ph, t, T_LINES)
     return fr
 
 
@@ -160,7 +163,12 @@ def c6(t):
     return fr
 
 
+REFR = [(T_DIST - .05, T_TIME - .05, 1.35, .3, .5), (T_ASK - .05, T_PROP - .05, 1.5, .7, .55)]
+
+
 def render(t):
+    K.NOW[0] = t
+    K.REFRAMES[:] = REFR
     if t < T_C2:
         fr = c1(t)
     elif t < T_C3:
@@ -184,4 +192,4 @@ STILLS = (('c1', T0 + 1.5), ('c2', T_LINES[3] + .6), ('c3a', T_C3 + 1.3), ('c3k'
           ('c4', T_ASK + .6), ('c5', T_WANT + .5), ('c5b', T_NOBODY + 1.0), ('c6', T_C6 + .6))
 
 if __name__ == '__main__':
-    K.run_block('C', T0, T_END, render, STILLS)
+    K.run_block('C', T0, T_END, render, STILLS, version=2)

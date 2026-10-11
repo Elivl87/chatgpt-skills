@@ -36,7 +36,7 @@ WORDMARK = Image.open(ROOT / 'public/art/core/brand/secondquest_wordmark.png').c
 
 
 def scene(t, fish=None, seats=0.0):
-    base = NIGHT.convert('RGBA')
+    base = K.lake_at('night', t)
     K.boat_scene(base, PW * .5, WL, P(760), DUO, t, bob=.6)
     ln = K.sized(K.prop('lantern'), h=P(70))
     base.alpha_composite(ln, (int(PW * .5 - P(20)), int(WL - P(150))))
@@ -147,7 +147,15 @@ def g5(t):
     return fr
 
 
+REFR = [(T0 + 1.6, T_G2 - .05, 1.8, .5, .52),                          # the two of them, close
+        (T_G2 + .2, T_LOUD - .05, 1.7, .78, .68),                           # the companion waits
+        (T_FADE + 1.4, T_G5 - .05, 1.9, .5, .52),                           # "without ever having to say it"
+        (T_G5 - .05, T_WHY - .05, 1.3, .5, .58)]
+
+
 def render(t):
+    K.NOW[0] = t
+    K.REFRAMES[:] = REFR
     fr = (g1 if t < T_G2 else g2 if t < T_G3 else g3 if t < T_G4 else g4 if t < T_G5 else g5)(t)
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
@@ -160,4 +168,4 @@ STILLS = (('g1', T0 + 1.5), ('g2', T_LOUD + 1.0), ('g3', T_NOT + .9), ('g4', T_M
           ('g5m', T_END - .3))
 
 if __name__ == '__main__':
-    K.run_block('G', T0, T_END, render, STILLS)
+    K.run_block('G', T0, T_END, render, STILLS, version=2)

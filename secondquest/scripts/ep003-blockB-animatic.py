@@ -79,7 +79,10 @@ def b2(t):
         return fr
     k = ease(min(1, (t - T_CHAT) / .45))
     ph = K.phone_chat(msgs(), t, typing=T_CHAT + .2 if t < T_MSG else None)
-    fr.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(lin(H, H * .5 - ph.height / 2, k))))
+    if k < 1:
+        fr.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(lin(H, H * .5 - ph.height / 2, k))))
+    else:                                                                 # coverage: close-up on each new message
+        fr = K.place_phone(fr, ph, t, [m[0] for m in msgs()])
     return fr
 
 
@@ -95,6 +98,7 @@ def b4(t):
 
 
 def render(t):
+    K.NOW[0] = t
     fr = b1(t) if t < T_B2 else b2(t) if t < T_LATER else b4(t)
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
@@ -106,4 +110,4 @@ def render(t):
 STILLS = (('b1', T_INV + .6), ('b2', T_COPY + 1.0), ('b2c', T_MSG + .6), ('b3', T_BOUGHT[2] + .4), ('b4', T_NOT + .8))
 
 if __name__ == '__main__':
-    K.run_block('B', T0, T_END, render, STILLS)
+    K.run_block('B', T0, T_END, render, STILLS, version=2)

@@ -109,7 +109,7 @@ def boat_scene(base, cx, wl, boat_w, who, t=0.0, bob=1.0):
     top = wl - boat.height * .72 + dy                                   # the hull sits ~28 % under... the waterline
     for spec, dx, h, flip in who:
         im = silhouette(spec[1]) if isinstance(spec, tuple) else cutout(spec)
-        im = sized(im, h=h)
+        im = breathe(sized(im, h=h), t, phase=dx * 7)
         if flip:
             im = im.transpose(Image.FLIP_LEFT_RIGHT)
         x = cx + dx * boat_w - im.width / 2
@@ -210,6 +210,12 @@ def screen_paste(fr, im, x, y):
 
 
 # ------------------------------------------------------------------ block output (as the EP002 blocks: video + stills)
+def _fin(fr, t):
+    """The approved finish pass (Producer, 2026-10-11), the last step on every frame."""
+    from finish import finish
+    return finish(fr.convert('RGB'), t)
+
+
 def run_block(name, t0, t1, render, stills, version=1):
     """Render frames t0..t1 with the narration slice, plus stills. Output: docs/ep003/EP003_block<name>_animatic_v<N>.mp4."""
     import subprocess, sys
@@ -221,7 +227,7 @@ def run_block(name, t0, t1, render, stills, version=1):
 
     def save_stills():
         for sn, t in stills:
-            render(t).save(out_path(ROOT / f'docs/ep003/block{name}_v{version}_{sn}.jpg'), quality=85)
+            NOW[0] = t; _fin(render(t), t).save(out_path(ROOT / f'docs/ep003/block{name}_v{version}_{sn}.jpg'), quality=85)
     if '--stills' in sys.argv:
         save_stills(); print('stills'); return
     narr = ROOT / 'public/episodes/ep003/audio/narration.wav'
@@ -229,17 +235,79 @@ def run_block(name, t0, t1, render, stills, version=1):
                           '-ss', f'{t0:.3f}', '-t', f'{t1 - t0:.3f}', '-i', str(narr), '-map', '0:v', '-map', '1:a',
                           *video_args(), *audio_args(), '-shortest', str(out)], stdin=subprocess.PIPE)
     for n in range(int((t1 - t0) * FPS)):
-        p.stdin.write(render(t0 + n / FPS).convert('RGB').tobytes())
+        NOW[0] = t0 + n / FPS
+        p.stdin.write(_fin(render(t0 + n / FPS), t0 + n / FPS).convert('RGB').tobytes())
     p.stdin.close(); p.wait()
     save_stills()
     print(out.relative_to(ROOT), f'{t1 - t0:.2f}s')
 
 
+NOW = [0.0]          # the frame being drawn (set by each block's render): drives reframes and idle motion
+REFRAMES = []         # per block: (t0, t1, zoom_mul, x or None, y or None) — hard cuts to a different framing (coverage)
+
+
+def reframe_at(t):
+    for r in REFRAMES:
+        if r[0] <= t < r[1]:
+            return r
+    return None
+
+
 def crop_cam(plate, cam):
-    """cam = (zoom, x, y) in plate fractions -> the output frame."""
+    """cam = (zoom, x, y) in plate fractions -> the output frame. A coverage reframe active at NOW multiplies the zoom
+    and may move the centre: a cut to a medium/close shot of the same scene (camera-continuity rule: a clearly
+    different shot), so long holds get coverage like EP002 (style bible: >= 12 cuts/min)."""
     from lib import cam_box
+    r = reframe_at(NOW[0])
+    if r:
+        cam = (cam[0] * r[2], cam[1] if r[3] is None else r[3], cam[2] if r[4] is None else r[4])
     box = cam_box((cam, cam), 0)
     return plate.crop(tuple(int(v) for v in box)).resize((W, H), Image.BICUBIC)
+
+
+def spring(k, f=2.2, damp=5.5):
+    """0 -> 1 with a little overshoot and settle (entrances)."""
+    k = max(0.0, k)
+    return 1 - math.exp(-damp * k) * math.cos(2 * math.pi * f * k)
+
+
+def breathe(im, t, phase=0.0, amp=.012):
+    """Idle motion for a cut-out: a slow breath (vertical scale from the feet) and a slight sway."""
+    s = 1 + amp * math.sin(t * 2.1 + phase)
+    h = max(1, int(im.height * s))
+    im = im.resize((im.width, h), Image.BICUBIC)
+    sh = .012 * math.sin(t * 1.3 + phase * 1.7)
+    return im.transform(im.size, Image.AFFINE, (1, sh, -sh * im.height, 0, 1, 0), resample=Image.BICUBIC)
+
+
+def lake_at(time, t):
+    """The lake plate with life: ripples that drift, clouds that slide, glints that twinkle (all procedural, free)."""
+    base = plate_lake(time).convert('RGBA')
+    hz = PH * .46
+    lay = Image.new('RGBA', base.size); d = ImageDraw.Draw(lay)
+    rng = np.random.default_rng(21)
+    for i in range(70):                                               # drifting ripple dashes
+        y0 = hz + (PH - hz) * rng.uniform(.03, 1) ** 1.5
+        sp = P(8) + P(14) * (y0 - hz) / (PH - hz)
+        x = (rng.uniform(0, PW) + sp * t * (1 if i % 2 else -.6)) % (PW + P(200)) - P(100)
+        w = P(16) + P(70) * (y0 - hz) / (PH - hz)
+        a = int((40 + 50 * (y0 - hz) / (PH - hz)) * (.6 + .4 * math.sin(t * 1.5 + i)))
+        d.line((x - w, y0, x + w, y0), fill=(255, 255, 255, a), width=max(1, int(P(2))))
+    if time != 'night':                                               # clouds sliding
+        for i in range(4):
+            cx = (PW * (.15 + .27 * i) + P(10) * t) % (PW * 1.2) - PW * .1
+            cy = PH * (.10 + .07 * (i % 2))
+            for j in range(4):
+                r = P(46) + P(18) * j
+                d.ellipse((cx + j * P(52) - r, cy - r * .55, cx + j * P(52) + r, cy + r * .55), fill=(255, 245, 235, 60 if time == 'dusk' else 120))
+    for i in range(14):                                               # sun/moon glints on the water
+        k = (math.sin(t * 3 + i * 1.9) + 1) / 2
+        if k > .7:
+            gx = PW * (.70 if time == 'dusk' else .87) + P(60) * math.sin(i * 2.3)
+            gy = hz + P(18) + i * P(12)
+            d.line((gx - P(10) * k, gy, gx + P(10) * k, gy), fill=(255, 240, 200, int(200 * k)), width=max(1, int(P(3))))
+    base.alpha_composite(lay)
+    return base
 
 
 def cam_lerp(a, b, k):
@@ -251,7 +319,7 @@ def marker_at(fr, text, x, y, size=26, k=1.0, paper=False):
     """The channel's real-life marker label (family C) at output-fraction (x, y), popping in with k."""
     g = UI.marker(text, size=size, paper=paper)
     if k < 1:
-        sc = .6 + .4 * ease(k)
+        sc = .6 + .4 * spring(k * 1.6)
         g = g.resize((max(1, int(g.width * sc)), max(1, int(g.height * sc))), Image.LANCZOS)
         g = UI.fade(g, min(1, k * 3))
     out = fr.convert('RGBA'); out.alpha_composite(g, (int(x * W - g.width / 2), int(y * H - g.height / 2))); return out
@@ -385,3 +453,25 @@ def fish_into_star(fr, t, t_land, start=(.86, 1.08), y=.07, h=.14, dur=.9):
             r = S(16) + S(46) * k
             UI.sparkle(d, sx + r * math.cos(a), sy + r * math.sin(a), S(9) * (1 - k), (190, 235, 255), int(255 * (1 - k)))
     return out
+
+
+def place_phone(fr, ph, t, events, hold=1.1, zoom=1.45):
+    """Put the phone on screen; for `hold` s after each new message the shot cuts to a close-up on the newest bubble
+    (coverage for chat scenes), then back to the full phone."""
+    out = fr.convert('RGBA')
+    last = max([e for e in events if e <= t], default=None)
+    if last is not None and t - last < hold:
+        big = ph.resize((int(ph.width * zoom), int(ph.height * zoom)), Image.LANCZOS)
+        out.alpha_composite(big, (int(W / 2 - big.width / 2), int(H * .55 - big.height * .82)))
+    else:
+        out.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(H * .5 - ph.height / 2)))
+    return out
+
+
+def insert_close(fr, k_on, cx, cy, zoom=1.6):
+    """A close-up insert of a drawn card (digital crop of the composed frame around (cx, cy) frame fractions)."""
+    if not k_on:
+        return fr
+    cw, ch = W / zoom, H / zoom
+    x0 = min(max(cx * W - cw / 2, 0), W - cw); y0 = min(max(cy * H - ch / 2, 0), H - ch)
+    return fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)

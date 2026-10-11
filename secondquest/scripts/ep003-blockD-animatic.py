@@ -67,7 +67,7 @@ FOUR = [(('sil', 'quest2:laughing_pointing'), -.30, P(430), False), ('pixie:laug
 
 
 def d1(t):
-    base = LAKE_DAY.convert('RGBA')
+    base = K.lake_at('day', t)
     rod = K.sized(K.prop('rod'), h=PH * .9).rotate(-62, expand=True, resample=Image.BICUBIC)
     base.alpha_composite(rod, (int(-rod.width * .15), int(PH * .35)))
     dd = ImageDraw.Draw(base)
@@ -77,7 +77,7 @@ def d1(t):
 
 
 def d2(t):
-    fr = Image.blend(K.crop_cam(LAKE_DAY.convert('RGBA'), (1.1, .55, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .5).convert('RGBA')
+    fr = Image.blend(K.crop_cam(K.lake_at('day', t), (1.1, .55, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .5).convert('RGBA')
     if t >= T_MEET - .2:
         g = UI.sq_tag('1 · how to meet', 26)
         fr.alpha_composite(UI.fade(g, min(1, (t - T_MEET + .2) / .3)), (int(W * .5 - g.width / 2), int(H * .30)))
@@ -90,7 +90,7 @@ def d2(t):
 
 def d3(t):
     fr = Image.new('RGBA', (W, H), (40, 34, 30, 255))
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     K.boat_scene(base, PW * .5, WL, P(900), FOUR, 0)
     photo = K.crop_cam(base, (1.5, .5, .5)).resize((Si(620), Si(349)))
     f = K.sized(K.prop('fish_side'), h=S(120)).filter(ImageFilter.GaussianBlur(S(5)))
@@ -111,7 +111,7 @@ def d3(t):
 
 
 def d4(t):
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     K.boat_scene(base, PW * .5, WL, P(760), DUO, t, bob=.5)
     dd = ImageDraw.Draw(base)
     dd.line((PW * .62, PH * .45, PW * .70, WL + P(30)), fill=(240, 240, 240), width=max(1, int(P(2))))
@@ -162,7 +162,7 @@ def d5(t):
 
 
 def d6(t):
-    fr = Image.blend(K.crop_cam(LAKE.convert('RGBA'), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .5).convert('RGBA')
+    fr = Image.blend(K.crop_cam(K.lake_at('dusk', t), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .5).convert('RGBA')
     ph = K.phone_chat([(T_D6 + .3, 'A', 'new one. $7.99. tonight?', 'msg'), (T_FITS, 'Q', 'in.', 'sticker')], t, title='THE BOAT')
     fr.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(H * .5 - ph.height / 2)))
     b = K.sized(K.gamebox(), h=S(120))
@@ -171,7 +171,15 @@ def d6(t):
     return fr
 
 
+REFR = [(T('l24.w11') - .05, T('l24.w17') - .05, 1.7, .5, .47),          # two-shot close: nobody has to look
+        (T('l24.w17') - .05, T('l24.w23') - .05, 2.4, .25, .68),          # the companion's cutaway
+        (T('l24.w33') - .05, T_D5 - .05, 1.3, .56, .5),
+        (T('l23.w11') - .05, T_WHO - .05, 1.25, .5, .4)]
+
+
 def render(t):
+    K.NOW[0] = t
+    K.REFRAMES[:] = REFR
     fr = (d1 if t < T_D2 else d2 if t < T_D3 else d3 if t < T_D4 else d4 if t < T_D5 else d5 if t < T_D6 else d6)(t)
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
@@ -184,4 +192,4 @@ STILLS = (('d1', T0 + 1.5), ('d2', T_THERE + .6), ('d3', T_WHO + .8), ('d4', T_D
           ('d5p', T_POKER + .5), ('d5c', T_NOBODY + .5), ('d5all', T_GEN + 1.2), ('d6', T_FITS + .5))
 
 if __name__ == '__main__':
-    K.run_block('D', T0, T_END, render, STILLS)
+    K.run_block('D', T0, T_END, render, STILLS, version=2)

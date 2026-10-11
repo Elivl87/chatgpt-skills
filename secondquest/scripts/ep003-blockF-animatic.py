@@ -96,17 +96,17 @@ def f3(t):
 
 
 def boat_at(t, plate, cam):
-    base = plate.convert('RGBA')
+    base = K.lake_at(plate, t)
     K.boat_scene(base, PW * .5, WL, P(900), FOUR, t)
     return K.crop_cam(base, cam)
 
 
 def f4(t):
-    return boat_at(t, LAKE, K.cam_lerp((1.4, .5, .55), (1.0, .5, .55), (t - T_F4) / (T_F5 - T_F4)))
+    return boat_at(t, 'dusk', K.cam_lerp((1.4, .5, .55), (1.0, .5, .55), (t - T_F4) / (T_F5 - T_F4)))
 
 
 def f5(t):
-    fr = boat_at(t, NIGHT, K.cam_lerp((1.0, .5, .55), (1.25, .5, .55), (t - T_F5) / (T_F6 - T_F5)))
+    fr = boat_at(t, 'night', K.cam_lerp((1.0, .5, .55), (1.25, .5, .55), (t - T_F5) / (T_F6 - T_F5)))
     if t >= T_TUE - .2:
         g = UI.sq_tag('Tuesday · 9:00 PM', 24)
         fr.alpha_composite(UI.fade(g, min(1, (t - T_TUE + .2) / .3)), (int(W * .5 - g.width / 2), int(H * .08)))
@@ -158,11 +158,15 @@ def f7(t):
         fr = K.marker_at(fr, 'first paid game: did not do well', .76, .60, size=18, k=min(1, (t - T_FIRST) / .3), paper=True)
     if t >= T_SMALL:
         fr = K.marker_at(fr, 'a small game about friends', .5, .84, size=24, k=min(1, (t - T_SMALL) / .3))
+    if T_FIRST + .3 <= t < T_FIRST + 1.8:                                   # coverage: close on the falling chart
+        fr = K.insert_close(fr, True, .74, .42, 1.7)
+    elif T_SCHOOL <= t < T_SCHOOL + 1.4:
+        fr = K.insert_close(fr, True, .40, .45, 1.5)
     return fr
 
 
 def f8(t):
-    fr = Image.blend(K.crop_cam(NIGHT.convert('RGBA'), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .4).convert('RGBA')
+    fr = Image.blend(K.crop_cam(K.lake_at('night', t), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .4).convert('RGBA')
     import numpy as np
     rng = np.random.default_rng(4)
     n = int(70 * ease(min(1, (t - T_F8) / 2.4)))
@@ -175,7 +179,13 @@ def f8(t):
     return K.punch(fr, 'MILLIONS', max(0, t - T('l43.w2')), size=96, y=.5, col=(255, 200, 61)) if t >= T('l43.w2') else fr
 
 
+REFR = [(T_PLAN - .05, T_ALWAYS - .05, 1.6, .5, .5), (T_LAST - .05, T_NEVER - .05, 1.55, .32, .5),
+        (T_F4 + 1.8, T_F5 - .05, 1.5, .5, .55)]
+
+
 def render(t):
+    K.NOW[0] = t
+    K.REFRAMES[:] = REFR
     fr = (f1 if t < T_F2 else f2 if t < T_F3 else f3 if t < T_F4 else f4 if t < T_F5 else f5 if t < T_F6 else f6 if t < T_F7 else f7 if t < T_F8 else f8)(t)
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
@@ -188,4 +198,4 @@ STILLS = (('f1', T_CHEAP + .6), ('f2', T_INV + .8), ('f3', T_F3 + 1.0), ('f4', T
           ('f7', T_SMALL + .6), ('f8', T_END - .3))
 
 if __name__ == '__main__':
-    K.run_block('F', T0, T_END, render, STILLS)
+    K.run_block('F', T0, T_END, render, STILLS, version=2)

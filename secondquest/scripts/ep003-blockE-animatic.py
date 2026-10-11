@@ -49,7 +49,7 @@ FOUR = [(('sil', 'quest2:laughing_pointing'), -.30, P(430), False), ('pixie:laug
 
 
 def boat(t, who=FOUR, w=P(900)):
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     K.boat_scene(base, PW * .5, WL, w, who, t)
     return base
 
@@ -98,6 +98,23 @@ def slot(fr, x, label, im, k):
     fr.alpha_composite(UI.fade(lab, k), (int(x - lab.width / 2), int(H * .26 + g.height - S(6))))
 
 
+def _strip(t, upto):
+    fr = Image.blend(K.crop_cam(boat(t), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .55).convert('RGBA')
+    items = [(T_E3, 'nothing', None), (T_GUNS, 'guns + dynamite', None), (T_SELL, 'sell the catch', K.prop('fish_side')),
+             (T_GAMB, 'gamble it', K.prop('chips')), (T_BOSS, 'bosses', None)]
+    for i, (t0, lab, im) in enumerate(items[:upto + 1]):
+        x = W * (.12 + .19 * i)
+        slot(fr, x, lab, im, 1)
+        if lab == 'guns + dynamite':
+            r = rifle(S(52)); fr.alpha_composite(r, (int(x - r.width / 2), int(H * .26 + S(30))))
+            dy = K.sized(K.prop('dynamite'), h=S(70)); fr.alpha_composite(dy, (int(x - dy.width / 2), int(H * .26 + S(100))))
+        if lab == 'bosses':
+            d = ImageDraw.Draw(fr)
+            d.ellipse((x - S(70), H * .26 + S(60), x + S(70), H * .26 + S(130)), fill=(10, 20, 40, 230))
+            d.ellipse((x + S(20), H * .26 + S(80), x + S(34), H * .26 + S(94)), fill=(255, 220, 90, 255))
+    return fr
+
+
 def e3(t):
     fr = Image.blend(K.crop_cam(boat(t), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .55).convert('RGBA')
     if t < T_QUOTE:
@@ -109,6 +126,8 @@ def e3(t):
             x = W * (.12 + .19 * i)
             k = min(1, (t - t0) / .25)
             slot(fr, x, lab, im, k)
+            if 0 <= t - t0 < .9 and i > 0:                                 # coverage: a close insert on the new item
+                return K.insert_close(_strip(t, i), True, (.12 + .19 * i), .40, 1.9)
             if lab == 'guns + dynamite':
                 r = rifle(S(52)); fr.alpha_composite(UI.fade(r, k), (int(x - r.width / 2), int(H * .26 + S(30))))
                 dy = K.sized(K.prop('dynamite'), h=S(70)); fr.alpha_composite(UI.fade(dy, k), (int(x - dy.width / 2), int(H * .26 + S(100))))
@@ -180,7 +199,7 @@ def e6(t):
         ch = K.sized(K.prop('chips'), h=S(90)); fr.alpha_composite(UI.fade(ch, .35), (int(W / 2 - ch.width / 2), int(H * .1)))
         return K.marker_at(fr, 'savings: 0', .5, .12, size=26, k=1)
     k = min(1, (t - T_LAUNCH) / 1.4)                                        # launched across the island
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     q = K.sized(cutout('quest:arms_up_back'), h=P(220) * (1 - .6 * k)).rotate(360 * k, expand=True, resample=Image.BICUBIC)
     x = lin(PW * .7, PW * .26, k); y = PH * .62 - PH * .45 * math.sin(math.pi * k)
     d = ImageDraw.Draw(base)
@@ -192,7 +211,7 @@ def e6(t):
 
 
 def e7(t):
-    base = LAKE.convert('RGBA')
+    base = K.lake_at('dusk', t)
     if t < T_PICK:
         q = K.sized(cutout('quest:exhausted_slumped'), h=P(360)).rotate(80, expand=True, resample=Image.BICUBIC)
         b = K.sized(K.prop('rowboat_side'), w=P(900))
@@ -225,17 +244,22 @@ def e8(t):
 
 
 def e9(t):
-    fr = Image.blend(K.crop_cam(LAKE.convert('RGBA'), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .55).convert('RGBA')
+    fr = Image.blend(K.crop_cam(K.lake_at('dusk', t), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .55).convert('RGBA')
     m = [(T_E9 + .5, 'A', 'remember the dynamite night', 'msg'), (T_E9 + 1.8, 'P', 'who gambled the savings', 'msg'),
          (T_YEARS + .6, 'Q', 'never forget', 'sticker'), (T_YEARS + 1.8, 'B', 'what?', 'msg')]
     ph = K.phone_chat(m, t, title='THE BOAT')
-    fr.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(H * .5 - ph.height / 2)))
+    fr = K.place_phone(fr, ph, t, [x[0] for x in m])
     if t >= T_YEARS - .1:
         fr = K.marker_at(fr, 'years later', .82, .2, size=22, k=min(1, (t - T_YEARS + .1) / .3), paper=True)
     return fr
 
 
+REFR = [(T_E8 + .9, T_E9 - .05, 1.6, .5, .45)]                              # the deadpan close
+
+
 def render(t):
+    K.NOW[0] = t
+    K.REFRAMES[:] = REFR
     fr = (e1 if t < T_E3 else e3 if t < T_E4 else e4 if t < T_E5 else e5 if t < T_E6 else e6 if t < T_E7 else e7 if t < T_E8 else e8 if t < T_E9 else e9)(t)
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
@@ -249,4 +273,4 @@ STILLS = (('e1', T_ITEMS[2] + .4), ('e2', T_E2 + .7), ('e3', T_BOSS + .5), ('e3q
           ('e8', T_E8 + 1.6), ('e9', T_YEARS + 3.4))
 
 if __name__ == '__main__':
-    K.run_block('E', T0, T_END, render, STILLS)
+    K.run_block('E', T0, T_END, render, STILLS, version=2)
