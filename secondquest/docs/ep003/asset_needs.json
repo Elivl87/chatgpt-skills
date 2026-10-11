@@ -1,0 +1,29 @@
+{
+  "notes": "EP003 (How to Fish, LOCKED v3) asset needs per scene family, checked against the library BEFORE any art is planned (npm run assets:find -- --needs docs/ep003/asset_needs.json). 'avoid' lists what would break the scene (era, time of day, mood). Note: the finder only searches shared/art_catalog.json; library_v2, Pixie library and ep002 costume art are NOT catalogued and are inventoried by hand in docs/ep003/ASSET_FIT.md.",
+  "needs": [
+    { "id": "A_boat_lake", "sequences": ["hook", "thumbnail boat", "boat payoff"], "need": "boat rowboat lake water river fishing", "kind": "background",
+      "avoid": ["storm", "tractor", "harvester"], "notes": "Opening + thumbnail + 'same boat on a Tuesday night': a calm lake or river plate, dusk/night variant for the 1 a.m. beat." },
+    { "id": "B_group_chat", "sequences": ["price", "plan dies"], "need": "phone chat message screen group", "kind": "object",
+      "avoid": ["market", "wallet"], "notes": "Our own generic chat bubbles (no real brand UI). Probably programmatic via ui_kit." },
+    { "id": "C_quest_night_gaming", "sequences": ["buying", "last round", "payoff"], "need": "living room night gaming sofa tv", "kind": "background",
+      "avoid": ["morning", "day"], "notes": "Adult Quest at night playing; 1 a.m. 'last round' must read as late night, lamp + screen glow." },
+    { "id": "D_adult_life", "sequences": ["plan dies"], "need": "city traffic car apartment evening", "kind": "background",
+      "avoid": ["storm"], "notes": "Sick kid / car making a new noise / chat nobody scrolls back to. Mood: tired, deflated, no drama." },
+    { "id": "E_kids_door", "sequences": ["want to play"], "need": "door kid child front house porch neighborhood", "kind": "background",
+      "avoid": ["office", "bank"], "notes": "A kid at the door saying 'Want to play?': warm afternoon house exterior or hallway." },
+    { "id": "F_alibi_golf_poker_garage", "sequences": ["alibis"], "need": "golf course poker table cards garage workshop", "kind": "background",
+      "avoid": ["tractor", "farm"], "notes": "Three quick alibi gags: golf, poker night, car in garage." },
+    { "id": "G_chaos_montage", "sequences": ["failure montage"], "need": "water island sniper rifle weapon casino slot slap ragdoll", "kind": "object",
+      "avoid": ["war", "battlefield"], "notes": "Falls in water, weapon not meant for fish, gambling, launched across island, slap revive. Generic cartoon, no game art." },
+    { "id": "H_friendslop_card", "sequences": ["friendslop"], "need": "garbage trash bin genre card label", "kind": "object",
+      "notes": "Genre named after garbage; title card / trash can gag." },
+    { "id": "I_founders_high_school", "sequences": ["studio founders"], "need": "high school classroom students teenagers friends studio", "kind": "background",
+      "avoid": ["office", "bank"], "notes": "Two friends who met in high school; make a small game." },
+    { "id": "J_fish_character", "sequences": ["hook", "thumbnail", "payoff"], "need": "fish character unimpressed staring", "kind": "character",
+      "notes": "The unimpressed fish (thumbnail, recurring gag)." },
+    { "id": "K_friends_cast", "sequences": ["boat", "chat", "payoff"], "need": "friends group two friends characters laughing", "kind": "character",
+      "avoid": ["banker", "dragon"], "notes": "Quest's friends other than Pixie do not exist yet." },
+    { "id": "L_cta_outro", "sequences": ["CTA"], "need": "sunset sky horizon evening calm", "kind": "background",
+      "notes": "'Who would you put in your boat?' / 'next quest'. Quest + Pixie quiet closing shot." }
+  ]
+}

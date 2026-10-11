@@ -1,0 +1,24 @@
+{
+ "need": "boat rowboat lake water river fishing",
+ "avoid": [
+  "storm",
+  "tractor",
+  "harvester"
+ ],
+ "candidates": [
+  {
+   "key": "genre.farming.bg_riverbank",
+   "score": 3.0,
+   "kind": "background",
+   "brief": "Field edge ending in a river/lake bank, splashable water across the lower half, bright day.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_traffic",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Busy city street in a jam: car rows, taillights, billboards WITHOUT readable text, late-afternoon haze. Seen from driver height.",
+   "avoid_hits": []
+  }
+ ]
+}

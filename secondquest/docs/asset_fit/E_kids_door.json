@@ -1,0 +1,30 @@
+{
+ "need": "door kid child front house porch neighborhood",
+ "avoid": [
+  "office",
+  "bank"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.quest_bedroom_morning",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Canonical Quest bedroom, morning. Clean geometry, readable bed/nightstand/window, no characters. Leave clean lower/front space for Quest and alarm prop.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_farm_yard",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Farmyard mid-shot: barn, silo, animal pen with fence, feed troughs, open dirt space front for animals/props. Warm day.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_fantasy_doors",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Dim hall with three large doorways glowing different colours (red crime-city neon, blue war smoke, golden adventure ruins). Doors open, no people. Floor space centre-bottom for Quest (back view).",
+   "avoid_hits": []
+  }
+ ]
+}

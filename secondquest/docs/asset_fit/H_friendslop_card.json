@@ -1,0 +1,62 @@
+{
+ "need": "garbage trash bin genre card label",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "genre.farming.machine.combine",
+   "score": 1.5,
+   "kind": "object",
+   "brief": "Green combine harvester with header, side view facing left.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.animal.chickens",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Group of three chickens pecking.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.animal.cow",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Friendly cartoon cow, side view.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.animal.pig",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Happy pig, side view.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.layer.sunset_farm_midground",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Transparent farm midground strip registered exactly over sunset_sky.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.machine.broken_tractor",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Green tractor with open hood, smoke puff, a wheel off.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.machine.factory_harvester",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Absurdly huge harvester that looks like a moving factory/building, front-3/4 view.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.machine.grain_truck",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Blue semi-truck with a grain trailer, side view facing left.",
+   "avoid_hits": []
+  }
+ ]
+}

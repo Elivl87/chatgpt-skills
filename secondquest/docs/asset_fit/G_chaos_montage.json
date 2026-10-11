@@ -1,0 +1,16 @@
+{
+ "need": "water island sniper rifle weapon casino slot slap ragdoll",
+ "avoid": [
+  "war",
+  "battlefield"
+ ],
+ "candidates": [
+  {
+   "key": "genre.farming.machine.harvester_water",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Yellow harvester tipped into water with a big splash.",
+   "avoid_hits": []
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "need": "friends group two friends characters laughing",
+ "avoid": [
+  "banker",
+  "dragon"
+ ],
+ "candidates": [
+  {
+   "key": "genre.farming.quest.carrying_sacks",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Straining under two heavy sacks on the shoulders, gritted teeth.",
+   "avoid_hits": []
+  }
+ ]
+}

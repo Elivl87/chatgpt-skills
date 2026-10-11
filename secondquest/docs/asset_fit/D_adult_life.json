@@ -1,0 +1,64 @@
+{
+ "need": "city traffic car apartment evening",
+ "avoid": [
+  "storm"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.city_apartments_evening",
+   "score": 3.0,
+   "kind": "background",
+   "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_traffic",
+   "score": 3.0,
+   "kind": "background",
+   "brief": "Busy city street in a jam: car rows, taillights, billboards WITHOUT readable text, late-afternoon haze. Seen from driver height.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_day",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_crossroads",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Farm path splitting in two at golden hour: left path back toward a distant city, right path toward a big farm. A BLANK wooden two-arrow signpost stands in the middle.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_fantasy_doors",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Dim hall with three large doorways glowing different colours (red crime-city neon, blue war smoke, golden adventure ruins). Doors open, no people. Floor space centre-bottom for Quest (back view).",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.war.bg_battlefield_city",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Clearly readable fictional war/action-game environment: damaged urban street, smoke, distant armored silhouettes, sandbags/barricades, dramatic sky. No characters, no gore, no readable logos/text.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_real_farm",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "A rough, realistic-leaning (still cartoon) farm: muddy track, worn wooden gate with a BLANK sign board, tired fences, overcast sky.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg.mini_farm_diorama",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Full-frame 16:9 plate of the core.prop.mini_farm diorama on the workbench under the lamp (replaces the boxed prop card in M29/M43).",
+   "avoid_hits": []
+  }
+ ]
+}

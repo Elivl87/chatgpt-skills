@@ -1,0 +1,16 @@
+{
+ "need": "phone chat message screen group",
+ "avoid": [
+  "market",
+  "wallet"
+ ],
+ "candidates": [
+  {
+   "key": "genre.farming.animal.chickens",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Group of three chickens pecking.",
+   "avoid_hits": []
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+{
+ "need": "golf course poker table cards garage workshop",
+ "avoid": [
+  "tractor",
+  "farm"
+ ],
+ "candidates": []
+}

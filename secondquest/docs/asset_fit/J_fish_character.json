@@ -1,0 +1,62 @@
+{
+ "need": "fish character unimpressed staring",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "fear.peeking",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Fear peeking.",
+   "avoid_hits": []
+  },
+  {
+   "key": "grind.wheel",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "The Grind in hamster wheel.",
+   "avoid_hits": []
+  },
+  {
+   "key": "progress.cheering",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Progress cheering.",
+   "avoid_hits": []
+  },
+  {
+   "key": "progress.presenting",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Progress robot pointing to screen-right like a presenter, cheerful.",
+   "avoid_hits": []
+  },
+  {
+   "key": "quest.default.arms_up_back",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Back view, both arms raised in victory, facing the field.",
+   "avoid_hits": []
+  },
+  {
+   "key": "quest.default.bed_awake",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Exact same canvas/alignment as bed_sleeping; Quest awake reaching toward nightstand screen-right.",
+   "avoid_hits": []
+  },
+  {
+   "key": "quest.default.bed_sleeping",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Quest_v1 asleep in canonical bed-aligned pose; transparent character/duvet interaction layer, no bedroom background.",
+   "avoid_hits": []
+  },
+  {
+   "key": "quest.default.broom_bored",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Sweeping with a broom, slumped, bored face.",
+   "avoid_hits": []
+  }
+ ]
+}
