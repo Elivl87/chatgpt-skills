@@ -2094,23 +2094,22 @@ const fpHands = () => {
   const shade = (geo: THREE.BufferGeometry) => vcol(geo, (_x, y) => glove.clone().lerp(gloveD, .5 * (1 - sstep(-3, 3, y))));
   const hand = (base: number) => {
     const h = new THREE.Group(), RG = 2.2;
-    const palm = new THREE.SphereGeometry(1, 40, 28); palm.scale(3.6, 4.6, 5.0); palm.translate(RG + 2.7, .6, 0); shade(palm);
-    h.add(mesh(palm, gmat(), base));
-    const fingers: [number, number, number][] = [[-3.6, 1.35, 1.0], [-1.25, 1.42, 1.0], [1.15, 1.38, .96], [3.35, 1.18, .86]];
-    fingers.forEach(([z, fr, len]) => {
+    const palm = box(4.8, 8.6, 10.4, [0, 0, 0], vtoon(), base, 2.0); palm.position.set(RG + 2.5, .8, .2); shade(palm.geometry);
+    h.add(palm);
+    const fingers: [number, number, number, number][] = [[-3.75, 1.3, 1.0, 1], [-1.25, 1.36, 1.0, 6], [1.25, 1.32, .96, 7], [3.6, 1.15, .86, 8]];
+    fingers.forEach(([z, fr, len, id]) => {
       const R = RG + fr, pts: THREE.Vector3[] = [];
-      for (let k = 0; k <= 16; k++) { const a = .35 - k / 16 * (3.55 * len); pts.push(V(R * Math.cos(a) + 1.1 * (1 - k / 16) ** 2, R * Math.sin(a), z)); }
+      for (let k = 0; k <= 16; k++) { const a = .55 - k / 16 * (3.7 * len); pts.push(V(R * Math.cos(a) + 1.4 * (1 - k / 16) ** 2, R * Math.sin(a), z)); }
       const fg = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, fr, 16, false); shade(fg);
-      h.add(mesh(fg, gmat(), base + 1));
-      const tipG = new THREE.SphereGeometry(fr, 16, 12); shade(tipG); h.add(at(mesh(tipG, gmat(), base + 1), pts[16].x, pts[16].y, z));
+      h.add(mesh(fg, gmat(), base + id));
+      const tipG = new THREE.SphereGeometry(fr, 16, 12); shade(tipG); h.add(at(mesh(tipG, gmat(), base + id), pts[16].x, pts[16].y, z));
     });
-    const tp: THREE.Vector3[] = [];
-    for (let k = 0; k <= 14; k++) { const a = .9 + k / 14 * 1.55, R = RG + 1.45; tp.push(V(R * Math.cos(a) + 2.4 * (1 - k / 14) ** 1.5, R * Math.sin(a) + .4, 4.8 - 2.2 * k / 14)); }
-    const tg = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(tp), 30, 1.45, 16, false); shade(tg);
+    const tp = [V(RG + 3.2, 4.2, 4.6), V(RG + .8, RG + 2.4, 5.6), V(-.6, RG + 1.7, 5.2), V(-2.2, RG + .6, 4.4)];
+    const tg = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(tp), 30, 1.5, 16, false); shade(tg);
     h.add(mesh(tg, gmat(), base + 2));
-    const tt = new THREE.SphereGeometry(1.45, 16, 12); shade(tt); h.add(at(mesh(tt, gmat(), base + 2), tp[14].x, tp[14].y, tp[14].z));
-    for (const dz of [-2.2, 0, 2.2]) {                                        // stitch lines on the back of the hand
-      const st = tube([V(RG + 6.0, 2.4, dz * .9 - .6), V(RG + 6.25, .6, dz - .3), V(RG + 5.9, -1.4, dz * 1.1)], .2, toon('#b9ab8e'), base, 8, 6); h.add(st);
+    const tt = new THREE.SphereGeometry(1.5, 16, 12); shade(tt); h.add(at(mesh(tt, gmat(), base + 2), tp[3].x, tp[3].y, tp[3].z));
+    for (const dz of [-2.4, 0, 2.4]) {                                        // stitch lines on the back of the hand
+      const st = tube([V(RG + 4.95, 3.6, dz), V(RG + 5.0, .8, dz), V(RG + 4.95, -2.0, dz)], .2, toon('#b9ab8e'), base, 8, 6); h.add(st);
     }
     // wrist, flared cuff, ribbed hoodie cuff and sleeve, towards the viewer and down-right
     const wd = V(.55, -.45, .7).normalize(), w0 = V(RG + 3.4, -.6, 3.2);
@@ -2127,15 +2126,16 @@ const fpHands = () => {
     h.add(sl);
     return h;
   };
-  const d = V(-.14, .22, -1).normalize(), P0 = V(7, -15, -32);
+  const d = V(-.14, .22, -1).normalize(), P0 = V(9, -17, -42);
   const place = (h: THREE.Group, pos: THREE.Vector3, roll: number, mirror: boolean) => {
     const zl = d.clone().negate(), xl = V(0, 1, 0).cross(zl).normalize(), yl = zl.clone().cross(xl);
     const holder = new THREE.Group(); holder.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xl, yl, zl)); holder.position.copy(pos);
     const inner = new THREE.Group(); inner.rotation.z = roll; if (mirror) inner.scale.x = -1;
     inner.add(h); holder.add(inner); root.add(holder); return holder;
   };
-  handGroups.right = place(hand(2030), P0, .25, false);
-  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(30)), -.55, true);
+  const rolls = ((P as unknown as { handRoll?: number[] }).handRoll) ?? [.25, -.55];
+  handGroups.right = place(hand(2030), P0, rolls[0], false);
+  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(22)), rolls[1], true);
   return root;
 };
 

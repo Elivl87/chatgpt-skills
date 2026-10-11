@@ -53,7 +53,7 @@ def render_raw(params, w, h, n):
                         f'<script>window.PARAMS={json.dumps(params)}</script><script>{js}</script></body></html>')
         png = Path(td) / 'o.png'
         subprocess.run([CHROME, '--headless=new', '--no-sandbox', '--hide-scrollbars', '--use-angle=swiftshader', '--enable-unsafe-swiftshader',
-                        '--default-background-color=00000000', f'--window-size={w * n},{h * 3}', '--virtual-time-budget=20000',
+                        '--default-background-color=00000000', f'--window-size={w * n},{h * 3 + 240}', '--virtual-time-budget=20000',
                         f'--screenshot={png}', f'file://{html}'], check=True, capture_output=True, timeout=300)
         img = cv2.imread(str(png), cv2.IMREAD_UNCHANGED)
     return img
@@ -475,7 +475,7 @@ EP3.update({
     'outboard_34': ('outboard', [0, -10, 0], orbit(-35, 14, 200, [0, -10, 0]), 30, 1100, 1500, 4.2),
     'rowboat_motor_34': (['rowboat', 'outboardOnBoat'], [-30, 22, 14], orbit(-35, 24, 520, [-30, 22, 14]), 30, 1900, 1150, 5.0),
 })
-FP_RIGHT, FP_LEFT = list(range(2030, 2036)), list(range(2040, 2046))
+FP_RIGHT, FP_LEFT = list(range(2030, 2040)), list(range(2040, 2050))
 EP3_SHOT = {'roulette_top': {'hide': [1785]}, 'fp_hands_pov': {'near': 1, 'far': 600}, 'fp_hands_34': {'near': 5, 'far': 600}}
 GAMEWORLD = [n for n in EP3 if n.split('_')[0] in ('sniper', 'roulette', 'shop', 'blast', 'boss', 'lighthouse', 'toy', 'slot', 'fp',
                                                      'kettle', 'seagull', 'hotdog', 'outboard') or n in ('dynamite_lit', 'rowboat_motor_34')]

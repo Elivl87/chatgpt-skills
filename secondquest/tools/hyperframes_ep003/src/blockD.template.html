@@ -173,16 +173,16 @@
       .pin { position: absolute; width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 35% 32%, #ff9c8c 0%, #e0352f 40%, #8f1414 100%);
         box-shadow: 3px 6px 5px rgba(20, 6, 0, .55); border: 1.5px solid #5a0c0c; }
       .grade { filter: saturate(.9) contrast(1.04) sepia(.12) brightness(1.02); }
-      #hdr { position: absolute; left: 70px; top: 36px; width: 340px; height: 140px; transform: rotate(-4deg); background: #f3e6c4; border-radius: 3px; box-shadow: 0 10px 16px rgba(20, 8, 0, .45);
+      #hdr { position: absolute; left: 470px; top: 58px; width: 340px; height: 128px; transform: rotate(-2deg); background: #f3e6c4; border-radius: 3px; box-shadow: 0 10px 16px rgba(20, 8, 0, .45);
         background-image: linear-gradient(180deg, rgba(0,0,0,0) 0 38px, #d6453f 38px 41px, rgba(0,0,0,0) 41px), repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 27px, rgba(70, 110, 170, .35) 27px 29px); }
-      #hdr .t { position: absolute; left: 0; top: 40px; width: 100%; text-align: center; font: 400 76px "Anton"; color: var(--ink); letter-spacing: .04em; }
+      #hdr .t { position: absolute; left: 0; top: 40px; width: 100%; text-align: center; font: 400 68px "Anton"; color: var(--ink); letter-spacing: .04em; }
       #hdr .s { position: absolute; left: 0; top: 4px; width: 100%; text-align: center; font-size: 30px; color: #2b3170; }
       #slot4 { position: absolute; width: 258px; height: 232px; border: 4px dashed rgba(60, 30, 10, .65); border-radius: 6px; background: rgba(60, 30, 10, .12); }
       #slot4 .q { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 140px; color: #a31d1d; }
       #strings { position: absolute; left: 0; top: 0; width: 1280px; height: 900px; overflow: visible; }
       #bphone { position: absolute; left: 550px; top: 480px; width: 180px; height: 320px; border-radius: 26px; background: #1c1e24; border: 3px solid var(--ink); box-shadow: 0 14px 20px rgba(20,8,0,.55); }
       #bphone .screen { left: 7px; top: 7px; width: 160px; height: 300px; border-radius: 19px; }
-      #newest { position: absolute; left: 640px; top: 492px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
+      #newest { position: absolute; left: 676px; top: 560px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
       .pingring { position: absolute; border: 4px solid var(--gold); border-radius: 50%; }
 
       /* ---------- alibi scenes ---------- */
@@ -494,7 +494,7 @@
       const jack = makeSparks($("#jackSparks"), 28, 91);
 
       /* ---------------- D2 mini chat (callback to block B's thread) */
-      const NAMES = { Q: ["#d6392f", "Quest"], P: ["#167880", "Pixie"], A: ["#7860be", "A friend"], B: ["#d69628", "B friend"] };
+      const NAMES = { Q: ["#d6392f", "Quest"], P: ["#167880", "Pixie"], A: ["#7860be", "Max"], B: ["#d69628", "Leo"] };
       function chat(scr, k, opts) {          // k = px scale, builds a static thread; returns refs
         const w = scr.offsetWidth || opts.w; const head = mk("div", "chead", scr, `height:${58 * k}px`);
         "QPAB".split("").forEach((who, i) => { const a = mk("div", "av", head, `left:${(12 + i * 18) * k}px; top:${14 * k}px; width:${30 * k}px; height:${30 * k}px; background:${NAMES[who][0]}; font-size:${14 * k}px`); a.textContent = who; });
@@ -505,7 +505,7 @@
         (opts.msgs || []).forEach((m) => {
           if (m.kind === "msg") { const nm = mk("div", "who", scr, `left:${14 * k}px; top:${y}px; font-size:${11 * k}px; color:${NAMES[m.who][0]}`); nm.textContent = NAMES[m.who][1]; y += 15 * k;
             const b = mk("div", "msg", scr, `left:${(m.who === "Q" ? 0 : 12) * k}px; top:${y}px; max-width:${190 * k}px; padding:${8 * k}px ${12 * k}px; font-size:${15 * k}px; line-height:${19 * k}px; border-radius:${16 * k}px` + (m.who === "Q" ? `; left:auto; right:${12 * k}px; background:#d6392f; color:#fff` : ""));
-            b.textContent = m.text; out[m.id || "m" + y] = b; y += (m.h || 50) * k; }
+            b.textContent = m.text; out[m.id || "m" + y] = b; if (m.id) out[m.id + "_n"] = nm; y += (m.h || 50) * k; }
           else if (m.kind === "sticker") { const st = mk("div", "stk", scr, `top:${y}px; ${m.who === "Q" ? "right" : "left"}:${(m.x || 14) * k}px; background:${NAMES[m.who][0]}; font-size:${19 * k}px; padding:${4 * k}px ${12 * k}px; transform: rotate(${m.r || 0}deg); border-width:${3.5 * k}px; border-radius:${12 * k}px`);
             st.textContent = "Bought."; out[m.id || "s" + y] = st; y += (m.h || 46) * k; }
           else if (m.kind === "gap") { out[m.id] = { y }; y += m.h * k; }
@@ -556,9 +556,9 @@
         { kind: "gap", id: "img", h: 150 },
         { kind: "msg", who: "P", text: "tonight?", id: "tonight", h: 50 } ] });
       const ticks = mk("div", "", bscr, `position:absolute; right:12px; top:${bchat.img.y + 82}px; font: 800 9px Inter; color:#2a8fd6`); ticks.textContent = "✓✓ 7:12 pm";
-      const bpin = mk("div", "pin", bphone, "left: 75px; top: 6px");
+      const bpin = mk("div", "pin", bphone, "left: 75px; top: -10px");
       const newest = mk("div", "", $("#board"), ""); newest.id = "newest"; newest.textContent = "NEWEST";
-      const pings = [0, 1, 2].map(() => mk("div", "pingring", $("#board"), "left: 690px; top: 470px; width: 60px; height: 60px; opacity: 0"));
+      const pings = [0, 1, 2].map(() => mk("div", "pingring", $("#board"), "left: 700px; top: 500px; width: 60px; height: 60px; opacity: 0"));
 
       /* ---------------- alibi scenes: built twice (full frame + the polaroid's live miniature) */
       function buildGolf(host) {
@@ -695,8 +695,8 @@
             vec3 col = mix(deep, mid, smoothstep(.0,1.,uv.y));
             col = mix(col, sky, smoothstep(.35,1.,uv.y)*.7*(.65 + .35*vn(q*4.)));
             col += vec3(.55,.62,.75)*caus*.2;
-            float spark = step(.92, vn(q*38. + t*.6))*smoothstep(.45,1.,uv.y);
-            col += vec3(1.,.9,.75)*spark*.5;
+            float spark = step(.975, vn(q*24. + t*.6))*smoothstep(.6,1.,uv.y);
+            col += vec3(1.,.9,.75)*spark*.35;
             col += vec3(.9,.8,.9)*ring*.25;
             float vig = smoothstep(1.25,.35,length((uv-.5)*vec2(1.3,1.)));
             gl_FragColor = vec4(col*(.6 + .4*vig), 1.);
@@ -892,8 +892,8 @@
       tl.to("#c2P .lean", { rotation: -3, duration: 1.2, ease: "sine.inOut", transformOrigin: "50% 100%" }, T.dont);
       // REASON: by the bobber; it dips twice; the fish surfaces; the tag "a reason" swings onto it
       const RS = T.theFish - .05;
-      cam(RS, 0, focus(255, 505, 1.75));
-      cam(RS, T.and - RS, focus(262, 500, 1.82), "sine.inOut");
+      cam(RS, 0, focus(300, 505, 1.75));
+      cam(RS, T.and - RS, focus(306, 500, 1.82), "sine.inOut");
       [T.fish, T.afternoon].forEach((t) => { tl.to("#bob2", { keyframes: [{ y: 12, duration: .08 }, { y: -3, duration: .25, ease: "sine.out" }, { y: 0, duration: .3 }] }, t);
         b2rings.forEach((r, i) => tl.fromTo(r, { scale: .3, opacity: .9 }, { scale: 1.8 + i * .4, opacity: 0, duration: .9, ease: "power2.out", immediateRender: false }, t + i * .1)); });
       tl.set(surfTop, { opacity: 1 }, RS); tl.set(surfBot, { opacity: 0 }, RS); tl.to(surfBot, { opacity: .5, duration: .3 }, T.reason - .35);
@@ -1035,7 +1035,7 @@
       const fx = (ix - PHX) * PH + W / 2, fy = (iy - PHY) * PH + H / 2, k = (iw * PH) / W;
       tl.to("#world", { x: fx, y: fy, scale: k, clipPath: `inset(0px 0px 0px 0px round ${16 / k}px)`, duration: .55, ease: "power3.inOut" }, T.fits - .02);
       tl.to("#worldRing", { opacity: 1, duration: .3 }, T.fits + .2);
-      tl.set(ticks, { opacity: 0 }, 0); tl.set(bchat.tonight, { opacity: 0 }, 0);
+      tl.set(ticks, { opacity: 0 }, 0); tl.set([bchat.tonight, bchat.tonight_n], { opacity: 0 }, 0); tl.set(bchat.tonight_n, { opacity: 1 }, T.chat - .05);
       tl.to(ticks, { opacity: 1, duration: .2 }, T.fits + .6);
       // "chat.": ping
       tl.fromTo(bchat.tonight, { opacity: 0, scale: .4, y: 10 }, { opacity: 1, scale: 1, y: 0, duration: .32, ease: "back.out(2.6)", transformOrigin: "0% 100%" }, T.chat - .05);

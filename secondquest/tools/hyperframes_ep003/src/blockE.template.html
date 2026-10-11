@@ -92,7 +92,7 @@
       .ltick { overflow: visible; }
 
       /* ---------- E3 props (screen space) ---------- */
-      #board { position: absolute; left: 330px; top: 0; width: 620px; height: 330px; }
+      #board { position: absolute; left: 330px; top: -36px; width: 620px; height: 330px; }
       #board .rope { position: absolute; top: 0; width: 6px; height: 104px; background: repeating-linear-gradient(170deg, #c9a46a 0 6px, #8a6a3a 6px 11px); border: 1px solid #3a2414; }
       #board .plank { position: absolute; left: 0; top: 96px; width: 620px; height: 70px; border-radius: 10px; border: 4px solid var(--ink); box-shadow: 6px 7px 0 var(--ink);
         background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 21px, rgba(58, 30, 10, .35) 21px 23px), linear-gradient(180deg, #b47c46 0%, #9a6a3c 55%, #7a5028 100%);
@@ -121,10 +121,10 @@
       #qMark { position: absolute; left: 150px; top: 148px; font-size: 190px; color: var(--gold); }
       #qMarkEnd { position: absolute; font-size: 190px; color: var(--gold); }
       .qline { position: absolute; left: 0; width: 1280px; display: flex; justify-content: center; gap: 30px; }
-      .qw { display: block; font-size: 100px; color: var(--cream); }
+      .qw { display: block; font-size: 94px; color: var(--cream); }
       .qw.red { color: #ff5a5a; }
       .qw.gold { color: var(--gold); }
-      #qSmall { position: absolute; left: 0; top: 618px; width: 1280px; text-align: center; }
+      #qSmall { position: absolute; left: 0; top: 614px; width: 1280px; text-align: center; }
       #qSmall span { display: inline-block; font: 800 30px/1 "Inter", sans-serif; color: var(--cream); letter-spacing: .02em; -webkit-text-stroke: 6px var(--ink); paint-order: stroke fill; }
 
       /* ---------- E4: the GOAL tag ---------- */
@@ -212,8 +212,471 @@
       #flash { background: #fff8e8; }
     </style>
     <!-- BEGIN hud.html -->
+<!--
+  GameHUD: the EP003 "SecondQuest fishing HUD" (our own design, drawn in code). Reused by every block that shows the
+  game world (EP003: block E shots E3, E6, E7). It is a REDRAW in the channel's style of the HUD ideas described in
+  docs/ep003/GAME_VISUAL_REFERENCE.md §3/§6 — never the game's art, logo, names or layout:
+    · heart health (3 hearts) + a fishbone hunger ring, top-left       (their health/hunger rings → our hearts)
+    · a fish-coin money pill with rolling digits, top-right, green "+$" / red "-$" floats
+    · a 3-slot hotbar, bottom-centre, gold outline on the selected slot, slam-in fill
+    · a type-on combo popup ("FAIL ×N") with our own bonus lines
+    · a "???" boss bar with a thin white timer bar under it, top-centre
+    · hitmarker, KO stars, SLAP! mark, an "[E] …" prompt pill, a rainbow catch text
+  build.py only inlines INCLUDE markers from <project>/compositions/components, so a block template pastes this file
+  verbatim between "BEGIN hud.html" / "END hud.html" (block E does; keep the copy in sync).
+
+  Seek-safe: every element is built once at setup; the API only writes tweens into YOUR GSAP timeline, always as
+  fromTo/set with immediateRender:false, from a state the module tracks at authoring time. So: call the API in
+  chronological order per element (health, money, slots, combo…), all during setup, before the timeline is registered.
+
+  API
+    const hud = GameHUD(host, { hearts: 3, money: 0, digits: 5, slots: 3 });   // host = a full-frame layer (1280x720)
+    hud.on(tl, at) / hud.off(tl, at)                 // HUD boots in (staggered slide) / switches off (quick fade)
+    hud.health(tl, at, v, dur)                       // hearts to v (0..hearts, fractions ok); a refill flashes gold
+    hud.hunger(tl, at, frac, dur)                    // fishbone ring 0..1
+    hud.money(tl, at, v, dur)                        // digits roll (odometer) to v
+    hud.moneyFloat(tl, at, "+$1,250")                // green float if it starts with "+", red otherwise
+    hud.slot(tl, at, i, html, { name, select, soft }) -> item el  // slam an item (img/svg html) into slot i (0-based) + name label; soft = a feeble plop
+    hud.select(tl, at, i)                            // move the gold outline
+    hud.combo(tl, at, title, bonus)                  // type-on popup; title e.g. "FAIL ×2", bonus e.g. "+WRONG TOOL ×2"
+    hud.comboOut(tl, at)
+    hud.bossIn(tl, at, { name: "???" }) / hud.bossHit(tl, at, frac) / hud.bossTimer(tl, at, dur) / hud.bossOut(tl, at)
+    hud.hit(tl, at, x, y, { size, color })            // hitmarker X at frame point x,y
+    hud.ko(tl, at, x, y, dur, { rx, ry, size })       // 3 KO stars orbiting a point, for dur
+    hud.slap(tl, at, x, y, { scale, dur })            // starburst + "SLAP!"
+    hud.prompt(tl, at, key, text, { bottom }) -> el ; hud.promptOut(tl, at, el)
+    hud.rainbow(tl, at, text, { x, y, size, dur })    // rainbow catch text (animated gradient)
+    hud.jolt(tl, at, k)                               // small HUD shake on a big hit
+  Elements: hud.el (root), hud.vit, hud.cash, hud.bar, hud.slots[i], hud.boss, hud.card
+-->
+<style>
+  .hud { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; pointer-events: none; font-family: "Inter", sans-serif; }
+  .hud * { box-sizing: border-box; }
+  /* ---- vitals: hearts + fishbone hunger ring (top-left, title-safe) ---- */
+  .hud-vit { position: absolute; left: 50px; top: 38px; height: 64px; display: flex; align-items: center; gap: 8px; padding: 6px 16px 6px 10px;
+    border-radius: 34px; background: rgba(22, 22, 31, .58); border: 3px solid rgba(255, 244, 220, .9); box-shadow: 4px 5px 0 #16161f; }
+  .hud-ring { position: relative; width: 50px; height: 50px; margin-right: 4px; }
+  .hud-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .hud-heart { position: relative; width: 44px; height: 40px; }
+  .hud-heart svg { position: absolute; left: 0; bottom: 0; width: 44px; height: 40px; overflow: visible; }
+  .hud-hf { position: absolute; left: 0; bottom: 0; width: 44px; height: 100%; overflow: hidden; }
+  .hud-hglow { position: absolute; left: -10px; top: -12px; width: 64px; height: 64px; border-radius: 50%; opacity: 0;
+    background: radial-gradient(circle, rgba(255, 220, 120, .95) 0%, rgba(255, 200, 61, .45) 40%, rgba(255, 200, 61, 0) 70%); }
+  /* ---- money pill (top-right) ---- */
+  .hud-cash { position: absolute; right: 50px; top: 38px; height: 64px; display: flex; align-items: center; gap: 10px; padding: 0 22px 0 8px;
+    border-radius: 34px; background: rgba(22, 22, 31, .58); border: 3px solid rgba(255, 244, 220, .9); box-shadow: 4px 5px 0 #16161f; }
+  .hud-coin { width: 48px; height: 48px; }
+  .hud-coin svg { width: 100%; height: 100%; overflow: visible; }
+  .hud-num { display: flex; align-items: center; font: 800 38px/1 "Inter", sans-serif; color: #fff4dc; letter-spacing: -.01em; font-variant-numeric: tabular-nums;
+    text-shadow: 0 3px 0 #16161f; }
+  .hud-num .cur { margin-right: 4px; color: #ffc83d; }
+  .hud-dcol { display: block; height: 42px; overflow: hidden; width: .62em; text-align: center; }
+  .hud-dstrip { display: block; }
+  .hud-dstrip span { display: block; height: 42px; line-height: 42px; }
+  .hud-sep { display: block; width: .26em; text-align: center; }
+  .hud-float { position: absolute; right: 64px; top: 112px; font: 800 34px/1 "Inter", sans-serif; letter-spacing: -.01em; white-space: nowrap; opacity: 0;
+    -webkit-text-stroke: 7px #16161f; paint-order: stroke fill; }
+  .hud-float.up { color: #6bd66b; } .hud-float.down { color: #ff5a5a; }
+  /* ---- hotbar (bottom-centre) ---- */
+  .hud-bar { position: absolute; left: 480px; bottom: 34px; display: flex; gap: 16px; }
+  .hud-slot { position: relative; width: 96px; height: 96px; border-radius: 22px; background: rgba(22, 22, 31, .58); border: 4px solid rgba(255, 244, 220, .85);
+    box-shadow: 4px 5px 0 #16161f; }
+  .hud-slot .n { position: absolute; left: 9px; top: 5px; font: 800 17px/1 "Inter", sans-serif; color: rgba(255, 244, 220, .8); }
+  .hud-slot .sel { position: absolute; inset: -9px; border-radius: 28px; border: 5px solid #f5c542; box-shadow: 0 0 18px rgba(255, 200, 61, .75), inset 0 0 10px rgba(255, 200, 61, .45); opacity: 0; }
+  .hud-slot .item { position: absolute; left: 8px; top: 8px; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; opacity: 0; }
+  .hud-slot .item img, .hud-slot .item svg { max-width: 100%; max-height: 100%; overflow: visible; filter: drop-shadow(2px 3px 0 rgba(22, 22, 31, .8)); }
+  .hud-slot .ring { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 5px solid #fff4dc; opacity: 0; }
+  .hud-row { position: absolute; left: 0; width: 1280px; display: flex; justify-content: center; align-items: center; }
+  .hud-name { font: 800 20px/1 "Inter", sans-serif; letter-spacing: .14em; color: #fff4dc;
+    text-transform: uppercase; white-space: nowrap; -webkit-text-stroke: 5px #16161f; paint-order: stroke fill; opacity: 0; }
+  /* ---- combo popup (type-on) ---- */
+  .hud-card { position: absolute; right: 50px; top: 128px; width: 330px; padding: 14px 20px 14px; border-radius: 18px; background: rgba(22, 22, 31, .78);
+    border: 3px solid #ffc83d; box-shadow: 5px 6px 0 #16161f; opacity: 0; transform-origin: 100% 0%; }
+  .hud-ttl { position: relative; height: 62px; }
+  .hud-ttl .t { position: absolute; left: 0; top: 0; font: 400 58px/1 "Anton", sans-serif; color: #ff5a5a; letter-spacing: .02em; white-space: nowrap;
+    -webkit-text-stroke: 5px #16161f; paint-order: stroke fill; text-shadow: 3px 4px 0 #16161f; opacity: 0; }
+  .hud-ttl .t span, .hud-line span { opacity: 0; }
+  .hud-lines { position: relative; height: 112px; margin-top: 6px; }
+  .hud-line { position: absolute; left: 0; font: 800 22px/1 "Inter", sans-serif; color: #ffc83d; letter-spacing: .06em; white-space: nowrap; opacity: 0; }
+  .hud-line.new { color: #6bd66b; }
+  /* ---- boss bar (top-centre) ---- */
+  .hud-boss { position: absolute; left: 50%; top: 36px; width: 500px; margin-left: -250px; opacity: 0; }
+  .hud-boss .nm { text-align: center; font: 400 34px/1 "Anton", sans-serif; color: #fff4dc; letter-spacing: .16em; -webkit-text-stroke: 4px #16161f; paint-order: stroke fill;
+    text-shadow: 3px 3px 0 #16161f; margin-bottom: 6px; }
+  .hud-boss .hp { position: relative; height: 22px; border-radius: 11px; background: #2a1820; border: 3px solid #16161f; box-shadow: 0 0 0 2px rgba(255, 244, 220, .85), 4px 5px 0 #16161f; overflow: hidden; }
+  .hud-boss .trail { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: #ffb0a0; transform-origin: 0 50%; }
+  .hud-boss .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: linear-gradient(180deg, #ff7a6e 0%, #e8484a 55%, #b82e3a 100%); transform-origin: 0 50%; }
+  .hud-boss .tm { position: relative; margin: 7px auto 0; width: 86%; height: 6px; border-radius: 3px; background: rgba(22, 22, 31, .6); overflow: hidden; }
+  .hud-boss .tm i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: #ffffff; transform-origin: 0 50%; display: block; }
+  /* ---- marks ---- */
+  .hud-hit { position: absolute; width: 0; height: 0; opacity: 0; }
+  .hud-hit svg { position: absolute; left: -40px; top: -40px; width: 80px; height: 80px; overflow: visible; }
+  .hud-ko { position: absolute; width: 0; height: 0; opacity: 0; }
+  .hud-ko .s { position: absolute; left: -16px; top: -16px; width: 32px; height: 32px; }
+  .hud-ko svg { width: 100%; height: 100%; overflow: visible; }
+  .hud-slap { position: absolute; width: 0; height: 0; opacity: 0; }
+  .hud-slap .b { position: absolute; left: -135px; top: -105px; width: 270px; height: 210px; }
+  .hud-slap svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .hud-slap .t { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 400 74px/1 "Anton", sans-serif; color: #e5484d;
+    -webkit-text-stroke: 5px #16161f; paint-order: stroke fill; transform: rotate(-8deg); }
+  .hud-prompt { display: flex; align-items: center; gap: 12px; padding: 8px 20px 8px 8px;
+    border-radius: 30px; background: rgba(22, 22, 31, .72); border: 3px solid rgba(255, 244, 220, .9); box-shadow: 4px 5px 0 #16161f; opacity: 0; white-space: nowrap;
+    font: 800 25px/1 "Inter", sans-serif; color: #fff4dc; letter-spacing: .02em; }
+  .hud-prompt .k { width: 42px; height: 42px; border-radius: 10px; background: #fff4dc; border: 3px solid #16161f; box-shadow: 0 4px 0 #b9ac93;
+    display: flex; align-items: center; justify-content: center; color: #16161f; font: 800 23px/1 "Inter", sans-serif; }
+  .hud-rb { white-space: nowrap; opacity: 0; font: 400 64px/1.1 "Anton", sans-serif; letter-spacing: .03em;
+    background: linear-gradient(90deg, #ff5a5a, #ffb03d, #ffe14d, #6bd66b, #4cc3ff, #9a7bff, #ff6fd8, #ff5a5a); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 4px 0 #16161f) drop-shadow(2px 0 0 #16161f) drop-shadow(-2px 0 0 #16161f) drop-shadow(0 -2px 0 #16161f); }
+</style>
+<script>
+  window.GameHUD = (function () {
+    const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; };
+    const IR = { immediateRender: false };
+    const HEART = (fill, stroke) => `<svg viewBox="0 0 44 40"><path d="M22 37 C 10 28, 2 21, 2 12.5 C 2 6.5, 6.6 2.5, 12 2.5 C 16.2 2.5, 19.6 5, 22 8.6 C 24.4 5, 27.8 2.5, 32 2.5 C 37.4 2.5, 42 6.5, 42 12.5 C 42 21, 34 28, 22 37 Z" fill="${fill}" stroke="${stroke}" stroke-width="3.2" stroke-linejoin="round"/>` +
+      (fill !== "#3a2230" ? `<path d="M9 10.5 C 10 7.5, 12.5 6.2, 15 6.4" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="3" stroke-linecap="round"/>` : "") + `</svg>`;
+    // fish coin: a gold disc with an embossed fish (our icon)
+    const COIN = `<svg viewBox="0 0 48 48"><circle cx="24" cy="25" r="21" fill="#b9861f"/><circle cx="24" cy="23" r="21" fill="#ffc83d" stroke="#16161f" stroke-width="3"/>` +
+      `<circle cx="24" cy="23" r="15.5" fill="none" stroke="#e0a92a" stroke-width="2.4"/>` +
+      `<path d="M13 23 C 17 16.5, 26 16, 31 23 C 26 30, 17 29.5, 13 23 Z M31 23 L 37 18.5 L 36 23 L 37 27.5 Z" fill="#c88a17"/><circle cx="17.5" cy="22" r="1.7" fill="#ffe9a8"/>` +
+      `<path d="M11 15 C 13 11, 17 9, 20 8.6" fill="none" stroke="#fff3c2" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+    // hunger: a ring + a fishbone in the middle
+    const RING = (C) => `<svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="rgba(22,22,31,.6)" stroke="#16161f" stroke-width="8"/>` +
+      `<circle cx="25" cy="25" r="20" fill="none" stroke="#4a3a3a" stroke-width="5"/>` +
+      `<circle class="hud-rf" cx="25" cy="25" r="20" fill="none" stroke="#ff9f43" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0" transform="rotate(-90 25 25)"/>` +
+      `<g fill="none" stroke="#fff4dc" stroke-width="2.4" stroke-linecap="round"><path d="M13 25 L 33 25"/><path d="M17 20 L 18.5 25 L 17 30 M21 19 L 22.5 25 L 21 31 M25 19 L 26.5 25 L 25 31 M29 20 L 30 25 L 29 30"/></g>` +
+      `<path d="M33 25 L 38 21 L 38 29 Z" fill="#fff4dc"/><circle cx="11" cy="25" r="2.6" fill="#fff4dc"/></svg>`;
+    const STAR = `<svg viewBox="-20 -20 40 40"><path d="M0 -19 L 5.4 -6.6 L 18.6 -5.9 L 8.4 2.6 L 11.7 15.4 L 0 8.2 L -11.7 15.4 L -8.4 2.6 L -18.6 -5.9 L -5.4 -6.6 Z" fill="#ffd54a" stroke="#16161f" stroke-width="3" stroke-linejoin="round"/></svg>`;
+    const BURST = `<svg viewBox="0 0 270 210"><polygon points="135,0 158,54 218,14 197,77 270,83 208,116 255,172 182,145 166,210 133,156 95,204 89,145 18,176 60,120 0,95 66,72 35,18 108,52" fill="#ffc83d" stroke="#16161f" stroke-width="6" stroke-linejoin="round"/>` +
+      `<polygon points="135,40 150,76 190,50 176,92 224,96 184,118 214,154 168,138 158,176 134,140 108,172 104,136 58,154 86,118 46,102 90,88 72,52 116,76" fill="#fff4dc" opacity=".55"/></svg>`;
+    const HITX = (c) => `<svg viewBox="-40 -40 80 80"><g stroke="#16161f" stroke-width="10" stroke-linecap="round"><path d="M-30 -30 L -12 -12 M30 -30 L 12 -12 M-30 30 L -12 12 M30 30 L 12 12"/></g>` +
+      `<g stroke="${c}" stroke-width="5" stroke-linecap="round"><path d="M-30 -30 L -12 -12 M30 -30 L 12 -12 M-30 30 L -12 12 M30 30 L 12 12"/></g></svg>`;
+
+    function GameHUD(host, o) {
+      o = Object.assign({ hearts: 3, money: 0, digits: 5, slots: 3 }, o);
+      const root = el("div", "hud", host);
+      // vitals
+      const vit = el("div", "hud-vit", root);
+      const C = 2 * Math.PI * 20;
+      const ring = el("div", "hud-ring", vit, RING(C.toFixed(2)));
+      const ringFill = ring.querySelector(".hud-rf");
+      const hearts = Array.from({ length: o.hearts }, () => { const h = el("div", "hud-heart", vit); el("div", "", h, HEART("#3a2230", "#fff4dc"));
+        const f = el("div", "hud-hf", h, HEART("#e8484a", "#fff4dc")); const g = el("div", "hud-hglow", h); return { h, f, g }; });
+      // money
+      const cash = el("div", "hud-cash", root);
+      el("div", "hud-coin", cash, COIN);
+      const num = el("div", "hud-num", cash); el("span", "cur", num, "$");
+      const cols = [];
+      for (let i = o.digits - 1; i >= 0; i--) {
+        const c = el("span", "hud-dcol", num); const s = el("span", "hud-dstrip", c);
+        for (let k = 0; k <= 10; k++) el("span", "", s, String(k % 10));
+        cols.push({ c, s, k: i });
+        if (i === 3) el("span", "hud-sep", num, ",");
+      }
+      // hotbar
+      const bar = el("div", "hud-bar", root);
+      const slots = Array.from({ length: o.slots }, (_, i) => { const s = el("div", "hud-slot", bar); el("div", "n", s, String(i + 1));
+        const sel = el("div", "sel", s); const item = el("div", "item", s); const rg = el("div", "ring", s); return { s, sel, item, rg }; });
+      // combo card
+      const card = el("div", "hud-card", root);
+      const ttl = el("div", "hud-ttl", card);
+      const lines = el("div", "hud-lines", card);
+      // boss
+      const boss = el("div", "hud-boss", root);
+      const bnm = el("div", "nm", boss, "???");
+      const hp = el("div", "hp", boss); const trail = el("div", "trail", hp); const fill = el("div", "fill", hp);
+      const tm = el("i", "", el("div", "tm", boss));
+
+      const st = { hp: o.hearts, hunger: 1, money: o.money, sel: -1, ttl: null, nLines: 0, card: false, boss: 1, cardShown: false, cashBase: null };
+      const setMoney = (v) => {
+        const big = Math.max(0, v);
+        cols.forEach(({ c, s, k }) => {
+          const p = Math.pow(10, k);
+          let pos;
+          if (k === 0) pos = big % 10;
+          else { const r = big % p; pos = Math.floor(big / p) % 10 + Math.max(0, Math.min(1, r - (p - 1))); }
+          s.style.transform = `translateY(${-pos * 42}px)`;
+          c.style.opacity = big >= p || k === 0 ? 1 : .28;            // leading zeros dimmed
+        });
+      };
+      setMoney(o.money);
+      const wrapSplit = (txt) => txt.split("").map((ch) => `<span>${ch === " " ? "&nbsp;" : ch.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</span>`).join("");
+      const typeOn = (tl, e, at, step) => { const sp = Array.from(e.children); tl.set(sp, { opacity: 0 }, 0);
+        sp.forEach((s, i) => tl.set(s, { opacity: 1 }, at + i * step)); return at + sp.length * step; };
+
+      const api = {
+        el: root, vit, cash, bar, slots, boss, card,
+        on(tl, at) {
+          tl.set([vit, cash, bar], { opacity: 0 }, 0);
+          tl.fromTo(vit, { x: -260, opacity: 0 }, { x: 0, opacity: 1, duration: .45, ease: "back.out(1.7)", ...IR }, at);
+          tl.fromTo(cash, { x: 260, opacity: 0 }, { x: 0, opacity: 1, duration: .45, ease: "back.out(1.7)", ...IR }, at + .08);
+          tl.fromTo(bar, { y: 170, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: "back.out(1.6)", ...IR }, at + .16);
+          slots.forEach((s, i) => tl.fromTo(s.s, { scale: .6 }, { scale: 1, duration: .35, ease: "back.out(3)", ...IR }, at + .3 + i * .06));
+          return api; },
+        off(tl, at, d) { tl.to([vit, cash, bar, card, boss], { opacity: 0, duration: d == null ? .15 : d, ease: "power1.in" }, at); return api; },
+        health(tl, at, v, dur) { const from = st.hp; st.hp = v;
+          hearts.forEach((h, i) => { const a = Math.max(0, Math.min(1, from - i)), b = Math.max(0, Math.min(1, v - i)); if (a === b) return;
+            const d = (dur == null ? .5 : dur) / Math.max(1, Math.abs(from - v)), off = v < from ? (from - 1 - i) * d : (i - from) * d;
+            tl.fromTo(h.f, { height: a * 100 + "%" }, { height: b * 100 + "%", duration: Math.max(.08, d * Math.abs(a - b)), ease: v < from ? "power2.in" : "power2.out", ...IR }, at + Math.max(0, off));
+            if (v > from) { tl.fromTo(h.g, { opacity: 1, scale: .4 }, { opacity: 0, scale: 1.6, duration: .45, ease: "power2.out", ...IR }, at + Math.max(0, off) + .1);
+              tl.fromTo(h.h, { scale: 1.45 }, { scale: 1, duration: .45, ease: "elastic.out(1.1, .4)", ...IR }, at + Math.max(0, off) + .1); }
+            else tl.fromTo(h.h, { x: -5 }, { keyframes: [{ x: 5, duration: .05 }, { x: -3, duration: .05 }, { x: 0, duration: .05 }], ...IR }, at + Math.max(0, off)); });
+          return api; },
+        hunger(tl, at, frac, dur) { const a = st.hunger; st.hunger = frac;
+          tl.fromTo(ringFill, { attr: { "stroke-dashoffset": C * (1 - a) } }, { attr: { "stroke-dashoffset": C * (1 - frac) }, duration: dur == null ? .6 : dur, ease: "power2.inOut", ...IR }, at); return api; },
+        money(tl, at, v, dur) { const P = { v: st.money }, a = st.money; st.money = v;
+          tl.fromTo(P, { v: a }, { v, duration: dur == null ? .9 : dur, ease: "power2.out", onUpdate: () => setMoney(P.v), ...IR }, at);
+          tl.fromTo(num, { scale: 1.25 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)", ...IR }, at);
+          return api; },
+        moneyFloat(tl, at, txt) { const up = txt.trim()[0] === "+"; const f = el("div", "hud-float " + (up ? "up" : "down"), root, txt);
+          tl.fromTo(f, { y: up ? 30 : -6, opacity: 0, scale: .6 }, { y: up ? 0 : 10, opacity: 1, scale: 1, duration: .3, ease: "back.out(2.6)", ...IR }, at);
+          tl.to(f, { y: up ? -46 : 60, opacity: 0, duration: .6, ease: "power2.in" }, at + 1.0);
+          if (!up) tl.fromTo(cash, { x: -8 }, { keyframes: [{ x: 8, duration: .05 }, { x: -6, duration: .05 }, { x: 4, duration: .05 }, { x: 0, duration: .05 }], ...IR }, at);
+          return f; },
+        slot(tl, at, i, html, opt) { opt = opt || {}; const s = slots[i]; const it = el("div", "item", s.s, html);
+          tl.set(it, { opacity: 0 }, 0);
+          if (opt.soft) tl.fromTo(it, { opacity: 0, scale: .2, y: 10 }, { opacity: 1, scale: .7, y: 0, duration: .35, ease: "back.out(2)", ...IR }, at);   // a feeble plop
+          else {
+            tl.fromTo(it, { opacity: 1, scale: 2.6, y: -150, rotation: -35 }, { scale: 1, y: 0, rotation: 0, duration: .22, ease: "power3.in", ...IR }, at - .22);
+            tl.fromTo(s.s, { scale: 1 }, { keyframes: [{ scale: .82, scaleY: .74, duration: .06 }, { scale: 1, scaleY: 1, duration: .5, ease: "elastic.out(1.2, .35)" }], ...IR }, at);
+            tl.fromTo(s.rg, { opacity: 1, scale: .5 }, { opacity: 0, scale: 1.5, duration: .4, ease: "power2.out", ...IR }, at); }
+          if (opt.name) { const row = el("div", "hud-row", root); row.style.bottom = "146px"; const n = el("div", "hud-name", row, opt.name);
+            tl.fromTo(n, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .2, ease: "back.out(2)", ...IR }, at);
+            tl.to(n, { opacity: 0, duration: .2 }, at + (opt.nameDur || .9)); }
+          if (opt.select !== false) api.select(tl, at, i);
+          return it; },
+        select(tl, at, i) { const prev = st.sel; st.sel = i;
+          if (prev >= 0) tl.to(slots[prev].sel, { opacity: 0, duration: .08 }, at);
+          if (i >= 0) tl.fromTo(slots[i].sel, { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2.5)", ...IR }, at);
+          return api; },
+        combo(tl, at, title, bonus) {
+          if (!st.cardShown) { st.cardShown = true; tl.set(card, { opacity: 0 }, 0);
+            tl.fromTo(card, { opacity: 0, scale: .4, rotation: 6 }, { opacity: 1, scale: 1, rotation: 0, duration: .3, ease: "back.out(2.4)", ...IR }, at); }
+          else tl.fromTo(card, { scale: 1.12 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)", ...IR }, at);
+          if (st.ttl) tl.set(st.ttl, { opacity: 0 }, at);
+          const t = el("div", "t", ttl, wrapSplit(title)); st.ttl = t; tl.set(t, { opacity: 0 }, 0); tl.set(t, { opacity: 1 }, at);
+          const end = typeOn(tl, t, at + .02, .035);
+          tl.fromTo(t, { scale: 1.5, transformOrigin: "0% 60%" }, { scale: 1, duration: .35, ease: "back.out(3)", ...IR }, end);
+          if (bonus) { const idx = st.nLines++; const L = el("div", "hud-line new", lines, wrapSplit(bonus));
+            const prevLines = Array.from(lines.children).slice(0, -1);
+            tl.set(L, { opacity: 0, top: 0 }, 0);
+            prevLines.forEach((p, j) => { const row = idx - j; tl.to(p, { top: row * 28, opacity: row >= 4 ? 0 : .8, color: "#ffc83d", duration: .15 }, end); });
+            tl.set(L, { opacity: 1 }, end); typeOn(tl, L, end, .022); }
+          return api; },
+        comboOut(tl, at) { tl.to(card, { opacity: 0, x: 60, duration: .2, ease: "power2.in" }, at); return api; },
+        bossIn(tl, at, opt) { opt = opt || {}; bnm.textContent = opt.name || "???"; tl.set(boss, { opacity: 0 }, 0);
+          tl.fromTo(boss, { opacity: 0, y: -90 }, { opacity: 1, y: 0, duration: .45, ease: "back.out(2)", ...IR }, at);
+          tl.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: .7, ease: "power2.out", ...IR }, at + .2);
+          tl.fromTo(trail, { scaleX: 0 }, { scaleX: 1, duration: .7, ease: "power2.out", ...IR }, at + .2);
+          tl.fromTo(tm, { scaleX: 0 }, { scaleX: 1, duration: .5, ease: "power2.out", ...IR }, at + .45); return api; },
+        bossHit(tl, at, frac) { const a = st.boss; st.boss = frac;
+          tl.fromTo(fill, { scaleX: a }, { scaleX: frac, duration: .08, ...IR }, at);
+          tl.fromTo(trail, { scaleX: a }, { scaleX: frac, duration: .6, ease: "power2.in", ...IR }, at + .35); return api; },
+        bossTimer(tl, at, dur) { tl.fromTo(tm, { scaleX: 1 }, { scaleX: 0, duration: dur, ease: "none", ...IR }, at); return api; },
+        bossOut(tl, at) { tl.to(boss, { opacity: 0, y: -60, duration: .25, ease: "power2.in" }, at); return api; },
+        hit(tl, at, x, y, opt) { opt = opt || {}; const h = el("div", "hud-hit", root, HITX(opt.color || "#ffffff")); h.style.left = x + "px"; h.style.top = y + "px";
+          const s = opt.size || 1;
+          tl.set(h, { opacity: 0 }, 0);
+          tl.fromTo(h, { opacity: 1, scale: 1.7 * s, rotation: -10 }, { scale: s, rotation: 0, duration: .12, ease: "power3.out", ...IR }, at);
+          tl.to(h, { opacity: 0, scale: s * 1.1, duration: .2 }, at + (opt.dur || .45)); return h; },
+        ko(tl, at, x, y, dur, opt) { opt = opt || {}; const k = el("div", "hud-ko", root); k.style.left = x + "px"; k.style.top = y + "px";
+          const rx = opt.rx || 52, ry = opt.ry || 15, sz = opt.size || 1;
+          const ss = [0, 1, 2].map(() => el("div", "s", k, STAR));
+          const P = { a: 0 };
+          const draw = () => ss.forEach((s, i) => { const a = P.a + i * 2.094; const z = Math.sin(a);
+            s.style.transform = `translate(${Math.cos(a) * rx}px, ${z * ry}px) scale(${sz * (.8 + .25 * (z + 1) / 2)}) rotate(${P.a * 57}deg)`; s.style.zIndex = z > 0 ? 2 : 1; });
+          draw();
+          tl.set(k, { opacity: 0 }, 0);
+          tl.fromTo(k, { opacity: 0, scale: .3 }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2.5)", ...IR }, at);
+          tl.fromTo(P, { a: 0 }, { a: dur * 6.5, duration: dur, ease: "none", onUpdate: draw, ...IR }, at);
+          tl.to(k, { opacity: 0, scale: .6, duration: .2 }, at + dur); return k; },
+        slap(tl, at, x, y, opt) { opt = opt || {}; const s = el("div", "hud-slap", root, `<div class="b">${BURST}<div class="t">SLAP!</div></div>`);
+          s.style.left = x + "px"; s.style.top = y + "px"; const k = opt.scale || 1;
+          tl.set(s, { opacity: 0 }, 0);
+          tl.fromTo(s, { opacity: 1, scale: 0, rotation: -30 }, { scale: k, rotation: 0, duration: .5, ease: "elastic.out(1.1, .45)", ...IR }, at);
+          tl.to(s, { scale: k * 1.08, duration: .9, ease: "sine.inOut" }, at + .5);
+          tl.to(s, { opacity: 0, scale: k * 1.3, duration: .2 }, at + (opt.dur || 1.6)); return s; },
+        prompt(tl, at, key, text, opt) { opt = opt || {}; const row = el("div", "hud-row", root); row.style.bottom = (opt.bottom || 156) + "px";
+          const p = el("div", "hud-prompt", row, `<span class="k">${key}</span><span>${text}</span>`);
+          tl.set(p, { opacity: 0 }, 0);
+          tl.fromTo(p, { opacity: 0, y: 24, scale: .8 }, { opacity: 1, y: 0, scale: 1, duration: .3, ease: "back.out(2.4)", ...IR }, at); return p; },
+        promptOut(tl, at, p) { tl.to(p, { opacity: 0, y: 12, duration: .15 }, at); return api; },
+        rainbow(tl, at, text, opt) { opt = opt || {}; const sz = opt.size || 64; const row = el("div", "hud-row", root);
+          row.style.left = ((opt.x || 640) - 640) + "px"; row.style.top = ((opt.y || 300) - sz * .6) + "px"; row.style.height = (sz * 1.2) + "px";
+          const r = el("div", "hud-rb", row, text); r.style.fontSize = sz + "px";
+          const d = opt.dur || 2;
+          tl.set(r, { opacity: 0 }, 0);
+          tl.fromTo(r, { opacity: 1, scale: .3 }, { scale: 1, duration: .45, ease: "back.out(2.6)", ...IR }, at);
+          tl.fromTo(r, { backgroundPosition: "0% 0%" }, { backgroundPosition: "200% 0%", duration: d, ease: "none", ...IR }, at);
+          tl.to(r, { opacity: 0, y: -20, duration: .25 }, at + d); return r; },
+        jolt(tl, at, k) { k = k || 1; tl.fromTo(root, { x: 0, y: 0 }, { keyframes: [[7, -5], [-6, 4], [4, 3], [-2, -2], [0, 0]].map(([x, y]) => ({ x: x * k, y: y * k, duration: .045 })), ...IR }, at); return api; },
+      };
+      bar.style.left = (640 - (o.slots * 96 + (o.slots - 1) * 16) / 2) + "px";
+      return api;
+    }
+    return GameHUD;
+  })();
+</script>
     <!-- END hud.html -->
     <!-- BEGIN chat.html -->
+<!--
+  ChatPhone: the EP003 group-chat phone (our own UI, no brand), reused in blocks B, C, E, F, G.
+  build.py only inlines INCLUDE markers from <project>/compositions/components, so a block template pastes this file
+  verbatim between "BEGIN chat.html" / "END chat.html" (block B does). Everything is seek-safe: rows are built once at
+  setup in chronological order and only shown/hidden by the GSAP timeline; the list is bottom-anchored (flex-end), so
+  "scrolling" is layout, never a measured offset (no font-load race).
+
+  Legibility spec (QUALITY_AUDIT #11): phone >= 82 % of frame height (default 384 x 612 = 85 %), Inter 600 26 px
+  bubbles, 34 px line height, bubble max width 70 %, 8 px tails, sender names in their colour, ticks + timestamps,
+  "Bought." die-cut stickers (4 px white border + shadow, +-4 deg).
+
+  API
+    const chat = ChatPhone(host, {
+      title: "The boat", sub: "4 members", clock: "11:42", me: "Q",
+      members: { Q: { name: "Quest", color: "#d6392f", avatar: ChatPhone.avImg("assets/quest_wave.png", 688, 1024, 318, 170, 300) },
+                 A: { name: "Max", color: "#7860be", avatar: ChatPhone.avSil("#7860be") }, ... },
+      w: 384, h: 612 });                        // chat.el (position it), chat.screen, chat.list
+    const r1 = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM" });   // r1.words = word spans
+    const r2 = chat.sticker("P", "Bought.", { rot: -4 });
+    const d1 = chat.typing("B");                 // a "..." row
+    const s0 = chat.system("Today 11:41 PM", { visible: true });   // a centred chip (date / group event); visible = shown from the start
+    chat.show(tl, r2, at)                        // pop a row in (list grows, older rows slide up)
+    chat.typeWords(tl, r1, [t1, t2, ...])        // shows the row at t1 and each word on its time (one time per word)
+    chat.dots(tl, d1, tIn, tOut)                 // typing dots bounce from tIn, the row collapses at tOut
+    chat.hide(tl, row, at)                       // collapse a row
+    chat.read(tl, row, at)                       // ticks turn "read" (gold)
+  Rows must be created in the order they appear (DOM order = chat order). Outgoing rows (who === me) sit on the right.
+-->
+<style>
+  .ch-phone { position: absolute; width: 384px; height: 612px; }
+  .ch-body { position: absolute; inset: 0; border-radius: 58px; background: linear-gradient(160deg, #2c2a3c 0%, #1a1924 60%, #121119 100%);
+    border: 5px solid #16161f; box-shadow: 9px 11px 0 #16161f, inset 0 0 0 3px #4a4762, inset 0 0 0 7px #16161f; }
+  .ch-btn { position: absolute; width: 7px; border-radius: 3px; background: #16161f; }
+  .ch-screen { position: absolute; left: 15px; top: 15px; right: 15px; bottom: 15px; border-radius: 44px; overflow: hidden;
+    background: radial-gradient(ellipse 120% 70% at 50% 0%, #fbf7ee 0%, #f2ecdf 60%, #e9e2d2 100%); }
+  .ch-island { position: absolute; left: 50%; top: 11px; width: 92px; height: 26px; margin-left: -46px; border-radius: 14px; background: #121119; z-index: 5; }
+  .ch-status { position: absolute; left: 0; top: 0; right: 0; height: 44px; padding: 13px 30px 0; display: flex; justify-content: space-between;
+    font: 800 15px "Inter", sans-serif; color: #16161f; letter-spacing: .02em; z-index: 4; }
+  .ch-status .bat { display: inline-block; width: 26px; height: 13px; border: 2px solid #16161f; border-radius: 4px; position: relative; top: 1px; padding: 1px; }
+  .ch-status .bat i { display: block; width: 40%; height: 100%; background: #e5484d; border-radius: 1px; }
+  .ch-head { position: absolute; left: 0; top: 44px; right: 0; height: 74px; display: flex; align-items: center; gap: 10px; padding: 0 16px;
+    background: rgba(255, 255, 255, .62); border-bottom: 2px solid rgba(22, 22, 31, .12); z-index: 3; }
+  .ch-back { width: 14px; height: 14px; border-left: 3px solid #16161f; border-bottom: 3px solid #16161f; transform: rotate(45deg); margin: 0 4px 0 6px; }
+  .ch-gav { position: relative; width: 52px; height: 52px; flex: none; }
+  .ch-gav .ch-av { position: absolute; width: 30px; height: 30px; border-width: 2px; }
+  .ch-title { font: 800 22px/1.05 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sub { font: 600 14px/1.2 "Inter", sans-serif; color: rgba(22, 22, 31, .55); margin-top: 3px; }
+  .ch-list { position: absolute; left: 0; right: 0; top: 118px; bottom: 66px; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 12px 6px; overflow: hidden; }
+  .ch-input { position: absolute; left: 12px; right: 12px; bottom: 14px; height: 44px; border-radius: 22px; background: #fff; border: 2px solid rgba(22, 22, 31, .14);
+    display: flex; align-items: center; padding: 0 16px; font: 600 16px "Inter", sans-serif; color: rgba(22, 22, 31, .38); }
+  .ch-input .send { margin-left: auto; width: 30px; height: 30px; border-radius: 50%; background: #ffc83d; border: 2px solid #16161f; }
+  /* rows: hidden = max-height 0 (takes no space); shown by the timeline */
+  .ch-row { display: flex; align-items: flex-end; gap: 8px; max-height: 0; opacity: 0; overflow: hidden; padding: 0 4px; flex: none; }
+  .ch-row.out { justify-content: flex-end; }
+  .ch-pad { padding: 7px 0 7px; display: flex; align-items: flex-end; gap: 8px; width: 100%; }
+  .ch-row.out .ch-pad { justify-content: flex-end; }
+  .ch-av { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; flex: none; position: relative; border: 3px solid #16161f; background: #ddd; }
+  .ch-av img { position: absolute; display: block; }
+  .ch-av svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .ch-bub { position: relative; max-width: 70%; background: #fff; border-radius: 22px 22px 22px 6px; padding: 9px 15px 8px;
+    box-shadow: 0 2px 0 rgba(22, 22, 31, .10), 0 3px 10px rgba(22, 22, 31, .08); transform-origin: 0% 100%; }
+  .ch-bub::after { content: ""; position: absolute; left: -8px; bottom: 0; width: 8px; height: 12px; background: #fff;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%); }                 /* the 8 px tail */
+  .ch-row.out .ch-bub { background: #ffd65e; border-radius: 22px 22px 6px 22px; transform-origin: 100% 100%; }
+  .ch-row.out .ch-bub::after { left: auto; right: -8px; background: #ffd65e; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+  .ch-name { font: 800 15px/1.2 "Inter", sans-serif; margin-bottom: 2px; letter-spacing: .01em; }
+  .ch-txt { font: 600 26px/34px "Inter", sans-serif; color: #16161f; letter-spacing: -.005em; }
+  .ch-w { display: inline-block; white-space: pre; }
+  .ch-meta { font: 600 12px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .45); text-align: right; margin-top: 3px; white-space: nowrap; }
+  .ch-tick { display: inline-block; margin-left: 4px; color: rgba(22, 22, 31, .4); font-weight: 800; letter-spacing: -.25em; }
+  /* "Bought." sticker: die-cut, 4 px white border, shadow, rotated +-4 deg */
+  .ch-stk { position: relative; display: flex; flex-direction: column; align-items: flex-start; }
+  .ch-row.out .ch-stk { align-items: flex-end; }
+  .ch-stk .ch-name { margin: 0 0 4px 6px; }
+  .ch-sticker { display: flex; align-items: center; gap: 10px; padding: 9px 20px 9px 12px; border-radius: 20px; background: #ffc83d;
+    border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 0 rgba(22, 22, 31, .22), 0 10px 18px rgba(22, 22, 31, .28);
+    font: 800 30px/1 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sticker .chk { width: 30px; height: 30px; border-radius: 50%; background: #16161f; display: flex; align-items: center; justify-content: center; flex: none; }
+  .ch-sticker .chk svg { width: 18px; height: 18px; }
+  .ch-sys { justify-content: center; }
+  .ch-sys .ch-pad { justify-content: center; }
+  .ch-chip { font: 800 13px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .55); background: rgba(22, 22, 31, .07); padding: 7px 12px; border-radius: 12px; letter-spacing: .03em; text-align: center; }
+  .ch-dots { display: flex; gap: 6px; padding: 15px 18px 14px; }
+  .ch-dots i { display: block; width: 12px; height: 12px; border-radius: 50%; background: rgba(22, 22, 31, .35); }
+  .ch-tb { display: inline-block; max-width: none; }
+  .ch-typer { font: 600 16px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .5); margin: 0 0 6px 2px; white-space: nowrap; }
+</style>
+<script>
+  window.ChatPhone = (function () {
+    const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; };
+    const CHECK = '<svg viewBox="0 0 20 20"><path d="M4 10.5 L8.5 15 L16.5 5.5" fill="none" stroke="#ffc83d" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    function ChatPhone(host, o) {
+      o = Object.assign({ title: "The boat", sub: "4 members", clock: "11:42", me: "Q", w: 384, h: 612, members: {} }, o);
+      const root = el("div", "ch-phone", host); root.style.width = o.w + "px"; root.style.height = o.h + "px";
+      el("div", "ch-body", root);
+      [[-4, 150, 60], [-4, 222, 60], [o.w - 3, 170, 86]].forEach(([x, y, hh]) => { const b = el("div", "ch-btn", root); Object.assign(b.style, { left: x + "px", top: y + "px", height: hh + "px" }); });
+      const screen = el("div", "ch-screen", root);
+      el("div", "ch-island", screen);
+      el("div", "ch-status", screen, `<span>${o.clock}</span><span><span class="bat"><i></i></span></span>`);
+      const head = el("div", "ch-head", screen);
+      el("div", "ch-back", head);
+      const gav = el("div", "ch-gav", head);
+      Object.keys(o.members).slice(0, 4).forEach((k, i) => { const a = avatar(k, gav); a.style.left = (i % 2) * 22 + "px"; a.style.top = Math.floor(i / 2) * 22 + "px"; });
+      const tt = el("div", "", head); el("div", "ch-title", tt, o.title); el("div", "ch-sub", tt, o.sub);
+      const list = el("div", "ch-list", screen);
+      el("div", "ch-input", screen, `Message<span class="send"></span>`);
+      function avatar(who, parent) { const m = o.members[who] || {}; const a = el("div", "ch-av", parent, m.avatar || ""); a.style.background = m.color || "#ccc"; return a; }
+      function row(who) { const r = el("div", "ch-row" + (who === o.me ? " out" : ""), list); const pad = el("div", "ch-pad", r); if (who !== o.me) avatar(who, pad); return { el: r, pad, who }; }
+      const api = {
+        el: root, screen, list, head,
+        msg(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const b = el("div", "ch-bub", r.pad);
+          if (who !== o.me) el("div", "ch-name", b, m.name || who).style.color = m.color;
+          const tx = el("div", "ch-txt", b);
+          r.words = text.split(" ").map((w, i, a) => el("span", "ch-w", tx, (w + (i < a.length - 1 ? " " : "")).replace(/&/g, "&amp;").replace(/</g, "&lt;")));
+          const meta = el("div", "ch-meta", b, opt.time || "11:42 PM");
+          r.tick = who === o.me ? el("span", "ch-tick", meta, "✓✓") : null;
+          r.bub = b; r.h = opt.h || 60 + 34 * (opt.lines || 3); return r; },
+        sticker(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const s = el("div", "ch-stk", r.pad);
+          if (who !== o.me) el("div", "ch-name", s, m.name || who).style.color = m.color;
+          r.bub = el("div", "ch-sticker", s, `<span class="chk">${CHECK}</span><span>${text}</span>`);
+          r.bub.style.transform = `rotate(${opt.rot != null ? opt.rot : (who === o.me ? 4 : -4)}deg)`;
+          r.rot = opt.rot != null ? opt.rot : (who === o.me ? 4 : -4);
+          if (who === o.me) { const meta = el("div", "ch-meta", s, (opt.time || "11:43 PM")); meta.style.marginTop = "8px"; r.tick = el("span", "ch-tick", meta, "✓✓"); }
+          r.h = opt.h || 112; return r; },
+        system(text, opt) { opt = opt || {}; const r = { el: el("div", "ch-row ch-sys", list) }; const pad = el("div", "ch-pad", r.el);
+          r.bub = el("div", "ch-chip", pad, text); r.h = opt.h || 44; if (opt.visible) { r.el.style.maxHeight = r.h + "px"; r.el.style.opacity = 1; } return r; },
+        typing(who) { const r = row(who); const m = o.members[who] || {};
+          const c = el("div", "", r.pad); el("div", "ch-typer", c, `${m.name || who} is typing…`);
+          const b = el("div", "ch-bub ch-tb", c); r.dots = Array.from(el("div", "ch-dots", b, "<i></i><i></i><i></i>").children);
+          r.bub = b; r.h = 96; return r; },
+        show(tl, r, at, d) { d = d == null ? .32 : d;
+          tl.fromTo(r.el, { maxHeight: 0, opacity: 0 }, { maxHeight: r.h, opacity: 1, duration: d, ease: "power2.out", immediateRender: false }, at);
+          tl.fromTo(r.bub, { scale: .55, y: 14 }, { scale: 1, y: 0, rotation: r.rot || 0, duration: d + .18, ease: "back.out(2.2)", immediateRender: false }, at);
+          return r; },
+        typeWords(tl, r, times) { tl.set(r.words, { opacity: 0 }, 0); api.show(tl, r, times[0] - .04);
+          r.words.forEach((w, i) => tl.fromTo(w, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .14, ease: "power2.out", immediateRender: false }, times[Math.min(i, times.length - 1)]));
+          return r; },
+        dots(tl, r, tIn, tOut) { api.show(tl, r, tIn, .26);
+          const n = Math.max(1, Math.floor((tOut - tIn) / .42));
+          r.dots.forEach((d, i) => tl.fromTo(d, { y: 0, backgroundColor: "rgba(22, 22, 31, .35)" }, { y: -7, backgroundColor: "rgba(22, 22, 31, .8)", duration: .21, ease: "sine.inOut", yoyo: true, repeat: 2 * n - 1, immediateRender: false }, tIn + .08 + i * .12));
+          api.hide(tl, r, tOut); return r; },
+        hide(tl, r, at, d) { tl.to(r.el, { maxHeight: 0, opacity: 0, duration: d || .16, ease: "power2.in" }, at); return r; },
+        read(tl, r, at) { if (r.tick) { tl.set(r.tick, { color: "rgba(22, 22, 31, .4)" }, 0); tl.set(r.tick, { color: "#d99a00" }, at); } return r; },
+      };
+      return api;
+    }
+    // avatar from a cut-out: a square crop (cx, cy, size in source px) of an image (srcW x srcH) fills the circle
+    ChatPhone.avImg = (src, srcW, srcH, cx, cy, size, d) => { d = d || 100; const k = d / size;
+      return `<img src="${src}" alt="" style="width:${(srcW * k / d * 100).toFixed(2)}%; left:${(-(cx - size / 2) * k / d * 100).toFixed(2)}%; top:${(-(cy - size / 2) * k / d * 100).toFixed(2)}%" />`; };
+    // a silhouette avatar (the faceless friends of the hook), in their colour
+    ChatPhone.avSil = (color, dark) => `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${color}"/>` +
+      `<circle cx="50" cy="40" r="19" fill="${dark || "rgba(22,22,31,.38)"}"/><path d="M14 104 C 16 72, 32 62, 50 62 C 68 62, 84 72, 86 104 Z" fill="${dark || "rgba(22,22,31,.38)"}"/></svg>`;
+    return ChatPhone;
+  })();
+</script>
     <!-- END chat.html -->
   </head>
   <body>
@@ -250,7 +713,7 @@
             </div></div>
             <div id="L-water" class="L"><div class="F"><canvas id="water" width="1664" height="498"></canvas></div></div>
             <div id="L-boat" class="L"><div class="F" id="boatF">
-              <div id="bossSh" class="abs" style="left: 0; top: 560px; width: 980px; height: 300px; opacity: 0" data-hf-motion-blur='{"samplesPerFrame": 8}'>
+              <div id="bossSh" class="abs" style="left: 0; top: 525px; width: 980px; height: 300px; opacity: 0" data-hf-motion-blur='{"samplesPerFrame": 8}'>
                 <svg viewBox="0 0 980 300" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: blur(5px)">
                   <!-- a giant silhouette, crab-claw hints: OUR shape, no boss of the game -->
                   <path d="M40 150 C 120 60, 330 20, 560 40 C 700 52, 820 90, 900 140 C 930 160, 930 180, 900 196 C 820 236, 690 268, 540 270 C 330 272, 150 240, 60 176 Z" fill="rgba(10, 12, 34, .78)"/>
@@ -337,16 +800,16 @@
             <div id="quote">
               <div class="mk" id="qLabel">The developers' own description · Steam store page</div>
               <div id="qMark" class="big">&ldquo;</div>
-              <div class="qline" style="top: 196px"><span class="qw big" id="q1">cartoon</span><span class="qw big red" id="q2">violence</span></div>
-              <div class="qline" style="top: 300px"><span class="qw big" id="q3">towards</span><span class="qw big gold" id="q4">fish</span></div>
-              <div class="qline" style="top: 404px"><span class="qw big" id="q5">and</span><span class="qw big" id="q6">gambling</span></div>
-              <div class="qline" style="top: 508px"><span class="qw big" id="q7">with</span><span class="qw big gold" id="q8">fish</span><span class="qw big" id="qEnd" style="color: var(--gold)">&rdquo;</span></div>
+              <div class="qline" style="top: 184px"><span class="qw big" id="q1">cartoon</span><span class="qw big red" id="q2">violence</span></div>
+              <div class="qline" style="top: 284px"><span class="qw big" id="q3">towards</span><span class="qw big gold" id="q4">fish</span></div>
+              <div class="qline" style="top: 384px"><span class="qw big" id="q5">and</span><span class="qw big" id="q6">gambling</span></div>
+              <div class="qline" style="top: 484px"><span class="qw big" id="q7">with</span><span class="qw big gold" id="q8">fish</span><span class="qw big" id="qEnd" style="color: var(--gold)">&rdquo;</span></div>
               <div id="qSmall"><span id="q9">(no real money).</span></div>
             </div>
             <!-- E4 the goal tag + the stamp -->
             <div id="gTag"><div class="string"></div><div class="card"><div class="hole"></div><div class="l1">GOAL:</div><div class="l2 hand">catch fish</div><div id="gStrike"></div></div></div>
-            <div id="alibi" class="stamp" style="left: 600px; top: 150px; font-size: 104px">ALIBI</div>
-            <div id="failure" class="stamp" style="left: 330px; top: 110px; font-size: 140px">FAILURE.</div>
+            <div id="alibi" class="stamp" style="left: 668px; top: 84px; font-size: 82px; padding: 4px 22px 0">ALIBI</div>
+            <div id="failure" class="stamp" style="left: 330px; top: 60px; font-size: 140px">FAILURE.</div>
             <!-- E6 marks -->
             <div id="freeze"></div>
             <div id="crash"><svg viewBox="0 0 1280 720" id="crashSvg"></svg></div>
@@ -411,7 +874,7 @@
       const reeds = [];
       (function () { const host = $("#reeds");
         for (let i = 0; i < 14; i++) { const left = i < 7; const x = left ? -60 + i * 16 + R() * 8 : 1180 + (i - 7) * 18 + R() * 8;
-          const h = 120 + R() * 140; reeds.push(mk("div", "reed", host, `left:${x}px; height:${h}px; width:${7 + R() * 5}px`)); } })();
+          const h = 50 + R() * 70; reeds.push(mk("div", "reed", host, `left:${x}px; height:${h}px; width:${7 + R() * 5}px`)); } })();
       const ripples = []; (function () { const host = $("#ripples"); for (let i = 0; i < 4; i++) ripples.push(mk("div", "ripple", host, `left:${380}px; top:${585}px; width:520px; height:40px`)); })();
 
       // the companion fish v2 (fish_34) with its expression faces (opacity swaps, as the hook's buddyFace)
@@ -434,7 +897,7 @@
 
       /* ---------- the parchment list rows ---------- */
       const ICON_TARGET = `<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="#fff4dc" stroke="#3a2414" stroke-width="3"/><circle cx="30" cy="30" r="17" fill="#d6392f"/><circle cx="30" cy="30" r="9" fill="#fff4dc"/><circle cx="30" cy="30" r="4" fill="#d6392f"/></svg>`;
-      const ROWS = [["A boat", `<img src="assets/rowboat_side.png" alt="" style="width:96px" />`], ["A rod", `<img src="assets/rod.png" alt="" style="height:96px; transform: rotate(62deg)" />`], ["A goal", ICON_TARGET]];
+      const ROWS = [["A boat", `<img src="assets/rowboat_side.png" alt="" style="width:110px; max-width:none" />`], ["A rod", `<img src="assets/rod.png" alt="" style="height:128px; max-height:none; transform: rotate(64deg)" />`], ["A goal", ICON_TARGET]];
       const rowEls = ROWS.map(([txt, ico], i) => { const r = mk("div", "lrow", $("#listIn"), `top:${118 + i * 78}px`);
         mk("div", "", r, "", `<svg class="lbox" viewBox="0 0 50 50"><path d="M5 7 C 18 4, 34 6, 46 5 C 47 18, 45 32, 46 45 C 32 47, 17 45, 4 46 C 6 33, 3 19, 5 7 Z" fill="rgba(255,255,255,.35)" stroke="#3a2414" stroke-width="3.2" stroke-linejoin="round"/>` +
           `<path class="tk" d="M9 25 L 21 39 L 52 -4" fill="none" stroke="#d6392f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
@@ -629,6 +1092,7 @@
             tl.to(d, { opacity: 0, duration: .15 }, at + .55); } }); return sp; }
 
       // ---------------- initial state
+      tl.set("#L-fore", { autoAlpha: 0 }, 0); tl.set("#L-fore", { autoAlpha: 1 }, {{l31-0.04}}); tl.set("#L-fore", { autoAlpha: 0 }, {{l32-0.06}});
       ["#ov > *", "#casino", "#pt", "#tbl", "#phoneSh"].forEach((s) => tl.set(s, { autoAlpha: 0 }, 0));
       tl.set("#list", { autoAlpha: 0 }, 0);
       tl.set("#listIn", { rotation: 2, transformOrigin: "50% 50%" }, 0);
@@ -674,10 +1138,11 @@
       // the world answers each prop: the boat bumps, the rod springs, the goal (the fish) peeks up
       tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 7, duration: .08 }, { y: 0, duration: .7, ease: "elastic.out(1, .3)" }], ...IR }, {{l27.w11+0.1}});
       tl.fromTo("#rod", { rotation: -26 }, { keyframes: [{ rotation: -38, duration: .1 }, { rotation: -26, duration: .9, ease: "elastic.out(1.3, .25)" }], ...IR }, {{l27.w13+0.1}});
-      tl.set(buddy, { x: 960, y: 700, opacity: 1 }, {{l27.w15-0.2}});
-      tl.to(buddy, { y: 560, duration: .35, ease: "back.out(2)" }, {{l27.w15}});
+      tl.set(buddy, { x: 730, y: 720, opacity: 1 }, {{l27.w15-0.2}});
+      tl.to(buddy, { y: 575, duration: .35, ease: "back.out(2)" }, {{l27.w15}});
       face("lookup", {{l27.w15}});
-      tl.to(buddy, { y: 700, duration: .3, ease: "power2.in" }, {{l28-0.2}});
+      tl.to(buddy, { y: 720, duration: .3, ease: "power2.in" }, {{l28-0.2}});
+      tl.set(buddy, { opacity: 0 }, {{l28+0.12}});
 
       /* ================= E2 l28 "And then it gets rid of it almost immediately." ================= */
       face(null, {{l28}});
@@ -756,7 +1221,7 @@
       face(null, {{l29.w16}});
       tl.set("#wheelOv", { autoAlpha: 1 }, {{l29.w17-0.15}});
       tl.fromTo("#wheelOv", { y: -520, rotation: -20 }, { y: 0, rotation: 0, duration: .45, ease: "back.out(1.4)", ...IR }, {{l29.w17-0.15}});
-      spin(tl, wheelOv, {{l29.w17-0.1}}, {{l29.w19+0.05-l29.w17}}, 3, 1);
+      spin(tl, wheelOv, {{l29.w17-0.1}}, {{l29.w19+0.05-l29.w17}}, 3, 14);
       tl.set("#wallet", { autoAlpha: 1 }, {{l29.w17}});
       tl.set("#wHappy", { opacity: 1 }, {{l29.w17}});
       tl.fromTo("#wallet", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: .4, ease: "back.out(2.4)", ...IR }, {{l29.w17}});
@@ -775,10 +1240,10 @@
       tl.to("#bossSh", { x: 1500, duration: 1.4, ease: "power2.in" }, {{l29.w22+0.6}});
       tl.set("#bossSh", { opacity: 0 }, {{l29.w23}});
       tl.fromTo("#bossEyes", { opacity: .2 }, { opacity: 1, duration: .08, yoyo: true, repeat: 5, ease: "steps(1)", ...IR }, {{l29.w22}});
-      tl.set("#bossEyes", { opacity: .2 }, 0);
+      tl.set("#bossEyes", { opacity: .2 }, 0); tl.set("#bossEyes", { opacity: 1 }, {{l29.w22+0.5}});
       cam({{l29.w22-0.05}}, .5, focus(640, 560, 1.12), "power2.out");
-      tl.to("#tilt", { rotation: -3.2, duration: .35, ease: "power2.out", transformOrigin: "50% 60%" }, {{l29.w22}});
-      tl.to("#tilt", { rotation: 0, duration: 1.0, ease: "sine.inOut" }, {{l29.w22+0.9}});
+      tl.to("#tilt", { rotation: -3.2, scale: 1.09, duration: .35, ease: "power2.out", transformOrigin: "50% 60%" }, {{l29.w22}});
+      tl.to("#tilt", { rotation: 0, scale: 1, duration: 1.0, ease: "sine.inOut" }, {{l29.w22+0.9}});
       tl.to("#shake", { keyframes: Array.from({ length: 22 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (6 - i * .25), y: (i % 3 - 1) * (4 - i * .15), duration: .05 })) }, {{l29.w22}});
       MATES.forEach((m, i) => tl.fromTo(`${m} .pop`, { y: 0 }, { keyframes: [{ y: -18, duration: .12, ease: "power2.out" }, { y: 0, duration: .5, ease: "bounce.out" }], ...IR }, {{l29.w22+0.04}} + i * .03));
       face("wide", {{l29.w22}});
@@ -908,7 +1373,7 @@
       tl.fromTo("#casCam", { scale: 1.08 }, { scale: 1.16, duration: {{l32.w22-l32.w17}}, ease: "none", ...IR }, {{l32.w17-0.04}});
       tl.fromTo("#casChips", { x: 0, rotation: 0 }, { x: -190, rotation: -6, duration: .4, ease: "power3.out", ...IR }, {{l32.w18}});        // all in
       tl.fromTo("#allIn", { opacity: 0, scale: .3, rotation: -12 }, { opacity: 1, scale: 1, rotation: -5, duration: .3, ease: "back.out(2.6)", ...IR }, {{l32.w18+0.1}});
-      spin(tl, casWheel, {{l32.w17-0.08}}, {{l32.w20+0.04-l32.w17}}, 2.2, 14);
+      spin(tl, casWheel, {{l32.w17-0.08}}, {{l32.w20+0.04-l32.w17}}, 2, 1);
       hud.money(tl, {{l32.w20}}, 0, .4);
       hud.moneyFloat(tl, {{l32.w20+0.04}}, "-$3,480");
       tl.to("#casChips", { x: 420, opacity: 0, duration: .35, ease: "power2.in" }, {{l32.w20+0.15}});
