@@ -321,3 +321,67 @@ def wordmark(fr, dt, y=.07, h=.14, twinkle=True):
         sx, sy = W * (.5 + (.413 - .5) * h / .14), H * (y + 10 / 720 + (.157 - .07 - 10 / 720) * h / .14)
         UI.sparkle(ImageDraw.Draw(out), sx, sy, S(30) * k, (255, 250, 230), int(255 * k))
     return out
+
+
+# ------------------------------------------------------------------ the companion: the unimpressed fish (RULE, docs/ep003/COMPANION.md)
+EYE = (.585, .50, .655, .605)          # its visible eye on fish_34 (fractions), for the blink
+
+
+def buddy(h, blink=0.0, mirror=False, sweat=0.0, rot=0):
+    """The fish companion at height h (output px): blink 0..1 closes the eye, sweat shows one drop."""
+    f = sized(prop('fish_34'), h=h).copy()
+    if blink > 0 or sweat > 0:
+        d = ImageDraw.Draw(f)
+        x0, y0, x1, y1 = EYE[0] * f.width, EYE[1] * f.height, EYE[2] * f.width, EYE[3] * f.height
+        if blink > 0:
+            yb = y0 + (y1 - y0) * min(1, blink)
+            d.rectangle((x0, y0 - 1, x1, yb), fill=(74, 141, 155, 255))
+            d.line((x0, yb, x1, yb), fill=INK + (255,), width=max(1, int(h / 60)))
+        if sweat > 0:
+            r = h * .045; cx, cy = x1 + h * .05, y0 - h * .05 + h * .12 * sweat
+            d.polygon([(cx, cy - r * 1.8), (cx - r, cy), (cx + r, cy)], fill=(170, 220, 255, 255))
+            d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(170, 220, 255, 255), outline=INK + (255,))
+    if rot:
+        f = f.rotate(rot, expand=True, resample=Image.BICUBIC)
+    return f.transpose(Image.FLIP_LEFT_RIGHT) if mirror else f
+
+
+def blink_at(t, every=3.1, phase=0.0):
+    """A slow deadpan blink every few seconds (0..1..0 over .35 s)."""
+    k = ((t + phase) % every) / .35
+    return math.sin(math.pi * k) if k < 1 else 0.0
+
+
+def star_pos(y=.07, h=.14):
+    """The star in the wordmark's "o" (output px) for a wordmark at (y, h)."""
+    return W * (.5 + (.413 - .5) * h / .14), H * (y + 10 / 720 + (.157 - .07 - 10 / 720) * h / .14)
+
+
+def fish_into_star(fr, t, t_land, start=(.86, 1.08), y=.07, h=.14, dur=.9):
+    """The companion's wordmark moment: it leaps from the water in an arc and dives into the star of the "o", landing at
+    t_land (the wordmark's own twinkle follows). Returns the frame."""
+    t0 = t_land - dur
+    if t < t0 or t > t_land + .5:
+        return fr
+    out = fr.convert('RGBA')
+    sx, sy = star_pos(y, h)
+    if t <= t_land:
+        k = (t - t0) / dur
+        x = lin(start[0] * W, sx, k); yy = lin(start[1] * H, sy, k) - S(220) * math.sin(math.pi * k)
+        size = lin(S(150), S(34), k ** 1.4)
+        f = buddy(size, rot=lin(35, -60, k))
+        out.alpha_composite(f, (int(x - f.width / 2), int(yy - f.height / 2)))
+        d = ImageDraw.Draw(out)
+        for i in range(1, 7):                                         # a trail of water drops
+            kk = max(0, k - i * .04)
+            dx = lin(start[0] * W, sx, kk); dy = lin(start[1] * H, sy, kk) - S(220) * math.sin(math.pi * kk)
+            r = S(5) * (1 - i / 8)
+            d.ellipse((dx - r, dy - r, dx + r, dy + r), fill=(200, 235, 255, 200 - i * 25))
+    else:                                                             # a burst of sparkles where it went in
+        k = (t - t_land) / .5
+        d = ImageDraw.Draw(out)
+        for i in range(8):
+            a = i * math.pi / 4
+            r = S(16) + S(46) * k
+            UI.sparkle(d, sx + r * math.cos(a), sy + r * math.sin(a), S(9) * (1 - k), (190, 235, 255), int(255 * (1 - k)))
+    return out

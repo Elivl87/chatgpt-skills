@@ -139,6 +139,9 @@ def e4(t):
     fr = Image.blend(K.crop_cam(boat(t), (1.2, .5, .55)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .35).convert('RGBA')
     g = UI.sq_tag('GOAL: catch fish', 30)
     fr.alpha_composite(g, (int(W / 2 - g.width / 2), int(H * .14)))
+    kgo = max(0, min(1, (t - T_ALIBI - .4) / 1.0))                          # the companion reads the tag, sweats, swims off
+    f = K.buddy(S(120), blink=K.blink_at(t, every=2.6), sweat=min(1, max(0, (t - T_E4 - .8) / .8)), mirror=kgo > 0)
+    fr.alpha_composite(f, (int(W * .70 + S(500) * ease(kgo)), int(H * .62)))
     if t >= T_ALIBI:                                                        # the goal, renamed
         fr = K.punch(fr, '= ALIBI', t - T_ALIBI, size=80, y=.34, col=(255, 200, 61))
     return fr
@@ -211,6 +214,8 @@ def e7(t):
         pts = [(cx + S(110 + 40 * (i % 2)) * k * math.cos(i * math.pi / 8), cy + S(90 + 30 * (i % 2)) * k * math.sin(i * math.pi / 8)) for i in range(16)]
         d.polygon(pts, fill=(255, 200, 61), outline=UI.INK)
         fr = K.punch(fr, 'SLAP!', t - T_SLAP, size=70, y=.32, col=(214, 57, 47), x=.58)
+        f = K.buddy(S(100), blink=1.0 if t - T_SLAP < 1.2 else 0.0, rot=-10)   # the companion winces
+        fr.alpha_composite(f, (int(W * .84), int(H * .72)))
     return fr
 
 

@@ -30,6 +30,9 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
 - Fan out 3-5 research subagents in parallel (Agent tool), one per candidate game, each returning: the "why do we
   play/love it" angle, timeliness (news, remakes, anniversaries, search interest), visual payoff available in the
   first 5 s, IP/monetization risks (`docs/MONETIZATION_SAFETY_STANDARD.md`), reuse of existing art.
+- For each candidate, also the **companion detail** (RULE): 3 options of a small recurring companion from the game's
+  world (our own design) that accompanies Quest and interacts with the wordmark; after the topic is picked, write
+  `docs/<ep>/COMPANION.md` (options, the pick and why, where it appears per block) and plan it in the shot plan.
 - Choose using the lessons in the latest `docs/publish/EP00*/ANALYTICS_*.md` (Home traffic, CTR, 30 s retention).
   Record the choice and the runners-up in `docs/<ep>/PRODUCER_DECISIONS.md` (as "Claude decision, autonomous mode").
 
@@ -54,7 +57,8 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
   can be built with real timing before Bram is paid for.
 
 ### 5. Animatic (free)
-- Asset fit first (`asset_needs.json`, `npm run assets:find`). Then block by block in `QUALITY=draft`, design units,
+- Asset fit first (`asset_needs.json`, `npm run assets:find`). The companion detail is built here too: its gags per
+  block and its two wordmark moments (hook "Why?" + end), as Navi in EP002. Then block by block in `QUALITY=draft`, design units,
   available art + free 3D (`tools/props3d`) + engine overlays; stand-ins marked MISSING and listed in
   `docs/<ep>/MISSING_ART.md`.
 - QC subagent per finished block, in parallel while the next block is built: `scale_check.py`, `framing_qc.py`

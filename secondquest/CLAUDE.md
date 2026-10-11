@@ -62,6 +62,11 @@
 - **The hook ends on the wordmark (Producer rule, EP001/EP002, restated 2026-10-11):** on the hook's last "So, why?"/"Why?"
   the SecondQuest wordmark lands with its gold bar, followed by **1.5 s of silence** so it can be seen. Every episode,
   every narration (placeholder and Bram, EN and ES): the assembly inserts the pause, the animatic holds the wordmark.
+- **Every episode has its companion detail (Producer rule, 2026-10-11):** one small recurring character or object from
+  the episode's game world (drawn as OUR own design, never the game's art) that accompanies Quest through the video and
+  **interacts with the wordmark** at the hook's "Why?" and at the end (EP002: Navi, who flew into the star of the "o").
+  It is chosen in the research stage (3 candidates, one recommended, in `docs/<ep>/COMPANION.md`), planned in the shot
+  plan (where it appears, what it does), built in the animatic and used in the trailer Short. Free first (3D/engine).
 - **In the game world the HUD is on** (hearts, magic, rupees, buttons); off in real life and on era comparisons.
 - **Spanish dub (Producer, 2026-10-08):** Bram reads the approved ES-419 script; cut takes only inside real pauses,
   never split a breath, never overlap, speed up only as a last resort (<= ~1.075, rubberband R3), no room-tone fills.

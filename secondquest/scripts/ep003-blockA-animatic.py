@@ -13,7 +13,8 @@ first seconds pay off the thumbnail's promise.
   A5 l05  "Millions of people bought a fishing game": the lake fills with tiny boats. "To do everything else."
   A6 l06  "Together." back to the four, slow push in.
   A7 l07  "Why?": the SecondQuest wordmark lands with its gold bar (EP001/EP002 signature) and holds through 1.5 s of
-          silence before block B (Producer rule, 2026-10-11).
+          silence before block B (Producer rule, 2026-10-11). The companion (the unimpressed fish, docs/ep003/COMPANION.md)
+          leaps from beside the boat and dives into the star of the "o"; the star twinkles.
 HUD: off (real-life framing; How to Fish's world is drawn as ours). Music off. No subtitles (SUBS=1 for review only).
 """
 import math, sys
@@ -169,9 +170,13 @@ def a5(t):
     return fr
 
 
+T_LAND = T_WHY + .6                                                   # the companion dives into the wordmark's star
+
+
 def a6(t):
     base = boat4(t, None)
-    f = K.sized(K.prop('fish_34'), h=P(150)); base.alpha_composite(f, (int(PW * .66), int(PH * .70)))
+    if t < T_LAND - .9:                                                  # the fish waits by the boat, blinking, until its leap
+        f = K.buddy(P(150), blink=K.blink_at(t)); base.alpha_composite(f, (int(PW * .66), int(PH * .70)))
     return K.crop_cam(base, K.cam_lerp((1.05, .5, .55), (1.35, .5, .5), (t - T_TOG) / (T_END - T_TOG)))
 
 
@@ -190,6 +195,7 @@ def render(t):
         fr = a6(t)
         if t >= T_WHY:                                                  # the wordmark on "Why?", held 1.5 s (Producer rule)
             fr = K.wordmark(fr, t - T_WHY)
+        fr = K.fish_into_star(fr, t, T_LAND, start=(.80, .92))           # the companion (RULE): into the star of the "o"
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
     tag(d, 'EP003 BLOCK A · THE HOOK · v1 · PLANNING ONLY')
@@ -198,7 +204,7 @@ def render(t):
 
 
 STILLS = (('a1', T_FISH + .4), ('a2', T_A2 + 1.2), ('a3s', T_SLAP + .3), ('a3m', T_MONEY + .4), ('a3x', T_SNIPE + .5),
-          ('a4', T_EST + 1.8), ('a5', T_ELSE + .5), ('a7', T_WHY + .6), ('a7b', T_END - .1))
+          ('a4', T_EST + 1.8), ('a5', T_ELSE + .5), ('a7l', T_LAND - .35), ('a7', T_WHY + .9), ('a7b', T_END - .1))
 
 if __name__ == '__main__':
     K.run_block('A', T0, T_END, render, STILLS)

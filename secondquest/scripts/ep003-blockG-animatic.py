@@ -44,7 +44,7 @@ def scene(t, fish=None, seats=0.0):
     base.alpha_composite(glow.filter(ImageFilter.GaussianBlur(P(40))))
     if fish is not None:                                                  # the fish: surfaces, waits, leaves
         k_up, k_go = fish
-        f = K.sized(K.prop('fish_34'), h=P(120))
+        f = K.buddy(P(120), blink=K.blink_at(t, every=2.8))
         x = PW * .80 + P(500) * ease(k_go); y = WL + P(40) - P(80) * ease(k_up) + P(120) * ease(k_go)
         base.alpha_composite(f, (int(x), int(y)))
     if seats > 0:                                                         # empty seats glow, one by one
@@ -140,7 +140,8 @@ def g5(t):
     seats = min(1, (t - T_G5 - .6) / 1.6)
     fr = K.crop_cam(scene(t, seats=seats), K.cam_lerp((1.0, .5, .5), (1.0, .5, .58), (t - T_G5) / 3))
     if t >= T_WHY:
-        fr = wordmark(fr, t - T_WHY)
+        fr = K.wordmark(fr, t - T_WHY, y=.06, h=.11)
+    fr = K.fish_into_star(fr, t, T_WHY + .6, start=(.88, .95), y=.06, h=.11)   # the companion's book-end (RULE)
     if t >= T_COMM:
         fr = continue_menu(fr, t, min(1, (t - T_COMM) / .5))
     return fr

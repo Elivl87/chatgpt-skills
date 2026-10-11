@@ -70,6 +70,11 @@ def f2(t):
     fr = K.punch(fr, 'FRIENDSLOP', 1, size=110, y=.30, col=(255, 200, 61), x=.44)
     can = K.sized(K.prop('trashcan'), h=S(220))
     hop = S(16) * abs(math.sin((t - T_F2) * 9)) if t - T_F2 < 1.2 else 0
+    T_GARB = T('l37.w10')
+    if t >= T_GARB:                                                       # the companion inside the trash can, deadpan
+        f = K.buddy(S(90), blink=K.blink_at(t - T_GARB, every=2.4, phase=-.6), rot=20)
+        ky = ease(min(1, (t - T_GARB) / .35))
+        fr.alpha_composite(f, (int(W * .80 - f.width / 2), int(H * .30 - can.height / 2 - f.height * .55 * ky)))
     fr.alpha_composite(can, (int(W * .80 - can.width / 2), int(H * .30 - can.height / 2 - hop)))
     fr = K.marker_at(fr, '"slop" = garbage', .44, .52, size=22, k=min(1, (t - T_F2) / .3), paper=True)
     if t >= T_INV:

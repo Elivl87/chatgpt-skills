@@ -115,6 +115,8 @@ def d4(t):
     K.boat_scene(base, PW * .5, WL, P(760), DUO, t, bob=.5)
     dd = ImageDraw.Draw(base)
     dd.line((PW * .62, PH * .45, PW * .70, WL + P(30)), fill=(240, 240, 240), width=max(1, int(P(2))))
+    f = K.buddy(P(110), blink=K.blink_at(t, every=3.4))                       # the companion floats by, looking at them
+    base.alpha_composite(f, (int(PW * .22 + P(10) * math.sin(t * .8)), int(WL + P(10) - f.height * .5)))
     fr = K.crop_cam(base, K.cam_lerp((1.0, .5, .55), (1.5, .5, .5), (t - T_D4) / (T_D5 - T_D4)))
     if t >= T_REASON:
         fr = K.marker_at(fr, 'a reason', .30, .82, size=24, k=min(1, (t - T_REASON) / .3), paper=True)

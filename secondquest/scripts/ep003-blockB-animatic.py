@@ -88,6 +88,9 @@ def b4(t):
     if t >= T_NOT:                                                        # he greys out; "last seen"
         k = min(1, (t - T_NOT) / .4)
         fr = K.marker_at(fr, 'last seen: 3 weeks ago', .80, .78, size=18, k=k, paper=True)
+        f = K.buddy(S(110), blink=K.blink_at(t - T_NOT, every=2.2, phase=-.4), rot=8)   # the companion peeks, one slow blink
+        ky = ease(min(1, (t - T_NOT - .3) / .4))
+        fr.alpha_composite(f, (int(W * .64), int(lin(H + S(10), H - f.height * .62, ky))))
     return fr
 
 
