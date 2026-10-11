@@ -133,9 +133,12 @@ def boat_scene(base, cx, wl, boat_w, who, t=0.0, bob=1.0, light=None):
         light = 'night' if sky < 70 else 'sunset'
     rim_col = (255, 196, 120) if light == 'sunset' else (255, 214, 140)
     boat = sized(prop('rowboat_side'), w=boat_w)
+    # props v2 (2026-10-12): the boat comes in two layers on one canvas, so the people sit INSIDE the hull
+    halves = [sized(_prop_img(n).crop((10, 10, 1443, 310)), w=boat_w) for n in ('rowboat_side_back', 'rowboat_side_front')]
     dy = P(4) * bob * math.sin(t * 1.7)
     top = wl - boat.height * .72 + dy                                   # the hull sits ~28 % under... the waterline
     grp = Image.new('RGBA', base.size)                                  # people + boat on their own layer
+    grp.alpha_composite(halves[0], (int(cx - boat.width / 2), int(top)))  # far side + interior behind the people
     for spec, dx, h, flip in who:
         sil = isinstance(spec, tuple)
         im = silhouette(spec[1]) if sil else cutout(spec)
@@ -145,11 +148,11 @@ def boat_scene(base, cx, wl, boat_w, who, t=0.0, bob=1.0, light=None):
         if not sil:                                                     # after the flip, so the light side stays true
             im = _rim(im, rim_col, side=1 if light == 'sunset' else (1 if dx < 0 else -1))
         x = cx + dx * boat_w - im.width / 2
-        y = top + boat.height * .30 - im.height * .55 + P(3) * math.sin(t * 1.7 + dx * 4)
+        y = top + boat.height * .30 - im.height * .45 + P(3) * math.sin(t * 1.7 + dx * 4)   # v2 boat: lower, seated in the hull
         cut = top + boat.height * .6 - y                                # seated: nothing of them below the hull
         im = im.crop((0, 0, im.width, max(1, int(cut))))
         grp.alpha_composite(im, (int(x), int(y)))
-    grp.alpha_composite(boat, (int(cx - boat.width / 2), int(top)))
+    grp.alpha_composite(halves[1], (int(cx - boat.width / 2), int(top)))  # the near hull in front of them
     wy = int(wl + dy)
     # shadow of the hull on the water
     sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((cx - boat_w * .55, wy - P(10), cx + boat_w * .55, wy + P(46)), fill=(10, 12, 30, 90))
