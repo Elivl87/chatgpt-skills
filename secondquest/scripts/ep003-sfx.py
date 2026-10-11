@@ -133,7 +133,6 @@ def cues():
     a((T('l48') + .2, 'stamp', -18))
     for i in range(10):
         a((T('l50') + .25 + .12 * i, 'keys', -26))
-    a((T('l51') + .6, 'sparkle', -22)); a((T('l51') + 1.4, 'sparkle', -22))
     # wordmark option 2 "Rising from the lake": the water swells, drips fall, the fish surfaces with a small bubble
     w = T('l51.w14')
     a((w - .05, 'swell', -18))
