@@ -239,6 +239,7 @@
             <div id="drips"></div>
             <div id="wmRing"></div>
             <div id="fish5Host"></div>
+            <div id="wow" class="abs" style="left: 772px; top: 214px; width: 90px; height: 80px; opacity: 0"><svg width="90" height="80" viewBox="0 0 90 80" style="position: absolute; left: 0; top: 0; overflow: visible"><path d="M8 40 L24 30 M10 58 L26 52" stroke="#16161f" stroke-width="7" stroke-linecap="round"/><path d="M8 40 L24 30 M10 58 L26 52" stroke="#fff4dc" stroke-width="3.5" stroke-linecap="round"/></svg><div class="big" id="wowMark" style="position: absolute; left: 34px; top: 4px; font-size: 62px; -webkit-text-stroke: 4px var(--ink); text-shadow: 3px 4px 0 var(--ink); transform-origin: 50% 100%">!</div></div>
             <div id="fxSplash"></div>
             <div id="title3"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3" data-hf-motion-blur='{"samplesPerFrame": 8}'>FISH<span id="strike"></span></span></div>
             <div class="mk" id="tut">Tutorial</div>
@@ -548,7 +549,7 @@
       tl.to("#tw3", { rotation: 6, duration: .1, ease: "sine.inOut" }, Q.fishing48 + .3);
       const FALL = Q.fishing48 + .4, FLAND = FALL + .5, LX = 880, LY = 488;
       tl.to("#tw3", { y: LY - 215, x: 66, rotation: 80, duration: .5, ease: "power2.in" }, FALL);
-      tl.to("#tw3", { opacity: 0, scale: .8, duration: .07 }, FLAND - .07);
+      tl.set("#tw3", { opacity: 0 }, FLAND - .06);                                  // gone the instant it meets the water (no ghost)
       const sp3 = makeSplash($("#fxSplash"), LX, LY, 1.0); doSplash(sp3, FLAND - .03, 33);
       // the card becomes the chat text box
       tl.to(["#tw1", "#tw2", "#tut"], { scale: .6, opacity: 0, duration: .22, ease: "power2.in" }, Q.l49 - .02);
@@ -598,8 +599,8 @@
       (function () { const host = $("#wmRing"); for (let i = 0; i < 3; i++) { const r = mk("div", "ring", host, "left:-200px; top:-14px; width:400px; height:28px; opacity:0");
         tl.fromTo(r, { scale: .5, opacity: 0 }, { keyframes: [{ opacity: .9, duration: .02 }, { scale: 1.6 + i * .4, opacity: 0, duration: 1.4 + i * .3, ease: "power2.out" }] }, WHY + .05 + i * .22); } })();
       // the companion surfaces right under the gold bar and blinks (looking up at the logo)
-      const FX5 = 640, FY5 = 266, F5 = WHY + .95;
-      tl.set(fish5.rig, { x: FX5, y: FY5, scale: .52 }, 0);
+      const FX5 = 640, FY5 = 318, F5 = WHY + .95;                                   // big enough to read on a phone, just under the bar
+      tl.set(fish5.rig, { x: FX5, y: FY5, scale: 1.3 }, 0);
       tl.set("#fish5Host", { opacity: 1 }, F5 - .1);
       tl.set(fish5.faces.lookup, { opacity: 1 }, F5);
       tl.fromTo(fish5.copies, { y: 260 }, { y: -30, duration: .6, ease: "back.out(1.8)", immediateRender: false }, F5);
@@ -618,11 +619,14 @@
       // "quest.": the fish's eyes open fully for the first time (impressed), it dives; the splash lights NEXT QUEST
       tl.set(fish5.faces.lookup, { opacity: 0 }, Q.quest);
       tl.set(fish5.faces.wide, { opacity: 1 }, Q.quest);
-      tl.to(fish5.copies, { keyframes: [{ scale: 1.18, y: -40, duration: .12, ease: "power2.out" }, { scale: 1, y: -32, duration: .3, ease: "elastic.out(1, .4)" }] }, Q.quest);
-      const DIVE = Q.quest + .55, SPL = DIVE + .5;
-      tl.to(fish5.copies, { keyframes: [{ y: -120, rotation: -40, duration: .25, ease: "power2.out" }, { y: 60, rotation: -150, duration: .27, ease: "power2.in" }, { y: 260, duration: .25 }] }, DIVE);
+      tl.to(fish5.copies, { keyframes: [{ scale: 1.25, y: -38, duration: .12, ease: "power2.out" }, { scale: 1.15, y: -32, duration: .2, ease: "back.out(2)" }] }, Q.quest);
+      tl.fromTo("#wow", { opacity: 0, y: 14 }, { keyframes: [{ opacity: 1, y: 0, duration: .14, ease: "back.out(3)" }, { y: -4, duration: .2, ease: "sine.inOut" }, { y: 0, duration: .25 }] }, Q.quest + .04);
+      tl.fromTo("#wowMark", { scaleY: .4, rotation: 0 }, { keyframes: [{ scaleY: 1.25, rotation: 10, duration: .12 }, { scaleY: 1, rotation: 6, duration: .3, ease: "elastic.out(1, .35)" }] }, Q.quest + .04);
+      const DIVE = Q.quest + .32 + .5, SPL = DIVE + .5;                            // pop, hold ~0.5 s, then the dive
+      tl.to("#wow", { opacity: 0, duration: .15 }, DIVE + .05);
+      tl.to(fish5.copies, { keyframes: [{ y: -80, rotation: -40, duration: .25, ease: "power2.out" }, { y: 60, rotation: -150, duration: .27, ease: "power2.in" }, { y: 260, duration: .25 }] }, DIVE);
       tl.to(fish5.wl, { opacity: 0, duration: .3 }, SPL);
-      const sp5 = makeSplash($("#fxSplash"), FX5, FY5 - 4, .75); doSplash(sp5, SPL - .02, 51);
+      const sp5 = makeSplash($("#fxSplash"), FX5, FY5 - 4, 1.1); doSplash(sp5, SPL - .02, 51);
       tl.set("#glint", { x: FX5, y: FY5 - 10, opacity: 0 }, 0);
       tl.set("#glint", { opacity: 1 }, SPL + .05);
       tl.to("#glint", { x: NX + 8, duration: .5, ease: "power1.inOut" }, SPL + .05);
