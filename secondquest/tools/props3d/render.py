@@ -414,23 +414,87 @@ def job_back_sword():
 OUT3 = ROOT / 'public/art/ep003/props3d'
 
 
-def job_ep003_props():
-    """EP003 (How to Fish): our own generic props, neutral light, cut-outs for the animatic (free 3D, Producer rule)."""
+# EP003 props v2 (2026-10-12): name -> (prop, target, camera, fov, canvas w, h, line). Larger canvases than v1 so the
+# cut-outs stay sharp at 1440p; the line width follows the canvas so the ink keeps the same weight on screen.
+EP3 = {
+    'rowboat_34': ('rowboat', [0, 32, 0], orbit(-35, 24, 560, [0, 32, 0]), 30, 1900, 1150, 5.0),
+    'rowboat_side': ('rowboat', [0, 32, 0], orbit(0, 8, 600, [0, 32, 0]), 30, 1900, 900, 5.0),
+    'rod': ('fishingRod', [3, 107, 0], orbit(-20, 8, 470, [3, 107, 0]), 30, 900, 1900, 3.6),
+    'fish_side': ('fish', [0, 0, 0], orbit(0, 4, 190, [0, 0, 0]), 30, 1400, 1000, 4.0),
+    'fish_34': ('fish', [4, 0, 0], orbit(35, 10, 190, [4, 0, 0]), 30, 1400, 1000, 4.0),
+    'trashcan': ('trashcan', [0, 43, 0], orbit(-25, 14, 300, [0, 43, 0]), 28, 1300, 1400, 4.4),
+    'dynamite': ('dynamite', [2, 15, 2], orbit(-25, 18, 92, [2, 15, 2]), 28, 1100, 1300, 4.4),
+    'chips': ('chips', [0, 2, -1], orbit(-20, 42, 48, [0, 2, -1]), 30, 1500, 1100, 3.6),
+    'golf_flag': ('golfFlag', [10, 106, 0], orbit(-15, 6, 470, [10, 106, 0]), 30, 900, 1900, 3.8),
+    'lantern': ('lantern', [0, 15, 0], orbit(-20, 14, 82, [0, 15, 0]), 30, 1000, 1300, 4.2),
+}
+
+
+def ep3_render(name, **shot):
+    prop, tgt, cam, fov, w, h, line = EP3[name]
+    return render({'props': [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}], 'light': 'neutral'}, w, h, line=line)[0]
+
+
+def alpha_box(img, pad=10):
+    ys, xs = np.where(img[..., 3] > 8)
+    return max(0, ys.min() - pad), ys.max() + pad, max(0, xs.min() - pad), xs.max() + pad
+
+
+def job_ep003_props(only=None):
+    """EP003 (How to Fish): our own generic props, neutral light, cut-outs for the animatic (free 3D, Producer rule).
+    The rowboat side view also comes as two layers for characters seated INSIDE it, same camera and the same crop box
+    as rowboat_side.png, so they overlay pixel for pixel: rowboat_side_back.png (far side + interior: under the people)
+    and rowboat_side_front.png (near hull side, rail, oarlock and oar: over the people).
+    EP3_ONLY=rod,chips limits the run to some names (rowboat_side includes its two layers)."""
+    import os
     OUT3.mkdir(parents=True, exist_ok=True)
-    jobs = (('rowboat', 'rowboat_34', [0, 30, 0], orbit(-35, 24, 620, [0, 30, 0]), 30),
-            ('rowboat', 'rowboat_side', [0, 30, 0], orbit(0, 8, 640, [0, 30, 0]), 30),
-            ('fishingRod', 'rod', [0, 100, 0], orbit(-20, 8, 620, [0, 100, 0]), 30),
-            ('fish', 'fish_side', [0, 0, 0], orbit(0, 4, 190, [0, 0, 0]), 30),
-            ('fish', 'fish_34', [4, 0, 0], orbit(35, 10, 190, [4, 0, 0]), 30),
-            ('trashcan', 'trashcan', [0, 42, 0], orbit(-25, 14, 380, [0, 42, 0]), 28),
-            ('dynamite', 'dynamite', [0, 14, 0], orbit(-25, 18, 110, [0, 14, 0]), 28),
-            ('chips', 'chips', [0, 2, 0], orbit(-20, 42, 60, [0, 2, 0]), 30),
-            ('golfFlag', 'golf_flag', [0, 105, 0], orbit(-15, 6, 620, [0, 105, 0]), 30),
-            ('lantern', 'lantern', [0, 10, 0], orbit(-20, 14, 85, [0, 10, 0]), 30))
-    for prop, name, tgt, cam, fov in jobs:
-        img = render({'props': [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None}], 'light': 'neutral'}, 1400, 1000, line=4.0)[0]
-        cv2.imwrite(str(OUT3 / f'{name}.png'), crop_alpha(img, pad=10))
-        print(f'{name}.png')
+    only = only or [n for n in os.environ.get('EP3_ONLY', '').split(',') if n] or [n for n in EP3 if not n.startswith('fish')]
+    for name in only:
+        img = ep3_render(name)
+        if name == 'rowboat_side':
+            y0, y1, x0, x1 = alpha_box(img)
+            for suffix, layer in (('', img), ('_back', ep3_render(name, boat='back')), ('_front', ep3_render(name, boat='front'))):
+                cv2.imwrite(str(OUT3 / f'{name}{suffix}.png'), layer[y0:y1, x0:x1])
+                print(f'{name}{suffix}.png', layer[y0:y1, x0:x1].shape)
+        else:
+            cv2.imwrite(str(OUT3 / f'{name}.png'), crop_alpha(img, pad=10))
+            print(f'{name}.png')
+
+
+def job_ep003_props_sheet():
+    """Before/after review sheet docs/ep003/props3d_v2_sheet.jpg: v1 cut-outs (PROPS_V1_DIR) above the v2 ones, and the
+    rowboat layers (back, front, back + a stand-in figure + front) to check the sandwich."""
+    import os
+    old = Path(os.environ['PROPS_V1_DIR'])
+    names = ['rowboat_34', 'rowboat_side', 'rod', 'trashcan', 'dynamite', 'chips', 'golf_flag', 'lantern']
+    T, BG = 420, 236
+
+    def tile(im, w=T, h=T, label=None):
+        t = np.full((h, w, 3), BG, np.uint8)
+        if im is not None:
+            k = min((w - 30) / im.shape[1], (h - 50) / im.shape[0]); im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)
+            a = im[..., 3:] / 255.0; y, x = (h - 20 - im.shape[0]) // 2 + 4, (w - im.shape[1]) // 2
+            t[y:y + im.shape[0], x:x + im.shape[1]] = (im[..., :3] * a + t[y:y + im.shape[0], x:x + im.shape[1]] * (1 - a)).astype(np.uint8)
+        if label:
+            cv2.putText(t, label, (10, h - 12), cv2.FONT_HERSHEY_SIMPLEX, .55, (60, 60, 60), 1, cv2.LINE_AA)
+        return t
+    rd = lambda p: cv2.imread(str(p), cv2.IMREAD_UNCHANGED)
+    rows = [np.hstack([tile(rd(old / f'{n}.png'), label=f'v1 {n}') for n in names]),
+            np.hstack([tile(rd(OUT3 / f'{n}.png'), label=f'v2 {n}') for n in names])]
+    back, front = rd(OUT3 / 'rowboat_side_back.png'), rd(OUT3 / 'rowboat_side_front.png')
+    sand = back.copy()
+    fig = np.zeros_like(back); h, w = fig.shape[:2]                       # stand-in seated figures (grey capsules)
+    for cx in (.3, .5, .68):
+        cv2.ellipse(fig, (int(w * cx), int(h * .22)), (int(w * .035), int(h * .4)), 0, 0, 360, (150, 120, 200, 255), -1)
+    for lay in (fig, front):
+        a = lay[..., 3:] / 255.0
+        sand[..., :3] = (lay[..., :3] * a + sand[..., :3] * (1 - a)).astype(np.uint8); sand[..., 3] = np.maximum(sand[..., 3], lay[..., 3])
+    W3 = T * len(names) // 3
+    rows.append(np.hstack([tile(back, W3, 520, 'rowboat_side_back'), tile(front, W3, 520, 'rowboat_side_front'),
+                           tile(sand, T * len(names) - 2 * W3, 520, 'back + figures + front')]))
+    out = ROOT / 'docs/ep003/props3d_v2_sheet.jpg'
+    cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 88])
+    print(out.relative_to(ROOT))
 
 
 FISH_EXPR = {'deadpan': {}, 'blink': {'lid': 1}, 'wide': {'lid': .04, 'look': [.3, 0], 'mouth': 'o'},
@@ -459,7 +523,7 @@ def job_fish2():
     print('docs/ep003/fish2_sheet.jpg', list(FISH_EXPR))
 
 
-JOBS = {'fish2': job_fish2, 'ep003_props': job_ep003_props, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+JOBS = {'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

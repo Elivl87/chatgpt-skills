@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 type V3 = [number, number, number];
 interface FishExpr { lid?: number; look?: [number, number]; mouth?: 'pout' | 'o' | 'flat'; sweat?: boolean }
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; boat?: 'back' | 'front' }
 type Poly = { outer: [number, number][]; holes: [number, number][][] };
 interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
@@ -846,60 +846,310 @@ const scabbard = () => {
 };
 
 // ---------------------------------------------------------------- EP003 (How to Fish): our own generic props, no game art
-const WOOD = '#9a6236', WOOD_D = '#6e4325', WOOD_L = '#b9804c';
-/** A small wooden rowboat (~3 m long, cm units), bow towards +x: a lathe-like hull from stacked planks, two benches, oars. */
+// v2 (2026-10-12, "top de top" pass): planks with wood grain, ribs, oarlocks; reel, guides and line; dents and ribs on the
+// can; paper wrap and twine on the dynamite; striped chips; a waving flag; a glowing hurricane lantern.
+// Helpers below are shared by the v2 props. Grain and cork are procedural textures (no image files), multiplied with
+// vertex-colour gradients (darker towards the bottom, like soft occlusion).
+const TAU = Math.PI * 2;
+const mesh = (geo: THREE.BufferGeometry, mat: THREE.Material, part: number) => { const m = new THREE.Mesh(geo, mat); m.userData.part = part; ids.push(m); return m; };
+const hash = (x: number, y: number) => { const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); };
+const dataTex = (w: number, h: number, f: (u: number, v: number) => number) => {
+  const d = new Uint8Array(w * h * 4);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = (y * w + x) * 4, L = Math.round(255 * Math.max(0, Math.min(1, f(x / w, y / h)))); d[i] = d[i + 1] = d[i + 2] = L; d[i + 3] = 255; }
+  const t = new THREE.DataTexture(d, w, h);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.magFilter = THREE.LinearFilter; t.minFilter = THREE.LinearMipmapLinearFilter; t.generateMipmaps = true;
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; t.needsUpdate = true;
+  return t;
+};
+let _grain: THREE.DataTexture | null = null, _cork: THREE.DataTexture | null = null;
+/** Wood grain: streaks along u, swerving around a few knots; tileable. */
+const grainTex = () => (_grain ??= dataTex(512, 256, (u, v) => {
+  let s = v * 6 + .22 * Math.sin(TAU * (u * 2 + v)) + .1 * Math.sin(TAU * (u * 5 + 2 * v) + 1.7) + .04 * Math.sin(TAU * u * 13);
+  for (const [ku, kv] of [[.3, .4], [.78, .82], [.55, .12]]) { let du = u - ku, dv = v - kv; du -= Math.round(du); dv -= Math.round(dv); s += .55 * Math.exp(-((du * 10) ** 2 + (dv * 20) ** 2)); }
+  const f = s - Math.floor(s);
+  const line = Math.max(0, 1 - Math.abs(f - .5) / .085);
+  const broad = .5 + .5 * Math.sin(TAU * (v * 2 + .3 * Math.sin(TAU * u)));
+  return 1 - .2 * line - .07 * broad;
+}));
+/** Cork: dark flecks and a ring every 1/9 of the grip. */
+const corkTex = () => (_cork ??= dataTex(256, 256, (u, v) => {
+  const n = hash(Math.floor(u * 90), Math.floor(v * 90)), m = hash(Math.floor(u * 30) + 7, Math.floor(v * 30) + 3);
+  const ring = Math.abs(((v * 9) % 1) - .5) > .47 ? .8 : 1;
+  return (n > .86 ? .62 : n > .7 ? .85 : 1) * (m > .8 ? .9 : 1) * ring;
+}));
+const woodMat = (hex: string, vc = false) => new THREE.MeshToonMaterial({ color: new THREE.Color(hex), map: grainTex(), gradientMap: ramp, vertexColors: vc });
+const vtoon = (hex = '#ffffff') => new THREE.MeshToonMaterial({ color: new THREE.Color(hex), gradientMap: ramp, vertexColors: true });
+/** Per-vertex colour (a grey multiplier or a colour) from the position. */
+const vcol = (geo: THREE.BufferGeometry, f: (x: number, y: number, z: number, i: number) => number | THREE.Color) => {
+  const p = geo.attributes.position, c: number[] = [];
+  for (let i = 0; i < p.count; i++) { const r = f(p.getX(i), p.getY(i), p.getZ(i), i); if (typeof r === 'number') c.push(r, r, r); else c.push(r.r, r.g, r.b); }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(c, 3));
+  return geo;
+};
+const uvScale = (geo: THREE.BufferGeometry, su: number, sv: number, ou = 0, ov = 0) => {
+  const uv = geo.attributes.uv as THREE.BufferAttribute;
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * su + ou, uv.getY(i) * sv + ov);
+  return geo;
+};
+/** A quad grid over parameter lists (us x vs); f gives the position, uv and colour of each vertex. */
+const grid = <T>(us: number[], vs: T[], f: (u: number, v: T) => { p: THREE.Vector3; uv?: [number, number]; c?: number | THREE.Color }) => {
+  const pos: number[] = [], uv: number[] = [], col: number[] = [], idx: number[] = [];
+  for (const u of us) for (const v of vs) {
+    const r = f(u, v); pos.push(r.p.x, r.p.y, r.p.z); uv.push(...(r.uv ?? [0, 0]));
+    const c = r.c ?? 1; if (typeof c === 'number') col.push(c, c, c); else col.push(c.r, c.g, c.b);
+  }
+  const nv = vs.length;
+  for (let i = 0; i < us.length - 1; i++) for (let j = 0; j < nv - 1; j++) { const a = i * nv + j, b = a + nv; idx.push(a, b, a + 1, b, b + 1, a + 1); }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  geo.setIndex(idx); geo.computeVertexNormals();
+  return geo;
+};
+/** Flip the winding if the normals mostly point against probe(p) (the side that must face out). */
+const orient = (geo: THREE.BufferGeometry, probe: (p: THREE.Vector3) => THREE.Vector3) => {
+  const p = geo.attributes.position, n = geo.attributes.normal, v = new THREE.Vector3();
+  let s = 0;
+  for (let i = 0; i < p.count; i++) s += probe(v.set(p.getX(i), p.getY(i), p.getZ(i))).dot(new THREE.Vector3(n.getX(i), n.getY(i), n.getZ(i)));
+  if (s < 0) {
+    const ix = geo.index!.array as Uint16Array | Uint32Array;
+    for (let i = 0; i < ix.length; i += 3) { const t = ix[i + 1]; ix[i + 1] = ix[i + 2]; ix[i + 2] = t; }
+    geo.index!.needsUpdate = true; geo.computeVertexNormals();
+  }
+  return geo;
+};
+const lathe = (pts: [number, number][], seg: number, mat: THREE.Material, part: number) =>
+  mesh(new THREE.LatheGeometry(pts.map(([r, y]) => new THREE.Vector2(r, y)), seg), mat, part);
+const tube = (pts: THREE.Vector3[] | THREE.Curve<THREE.Vector3>, r: number, mat: THREE.Material, part: number, segs = 64, radial = 8, closed = false) =>
+  mesh(new THREE.TubeGeometry(Array.isArray(pts) ? new THREE.CatmullRomCurve3(pts, closed) : pts, segs, r, radial, closed), mat, part);
+/** Twisted strands on a tube (rope, twine, braided fuse): alternate light/dark along a helix. */
+const ropeCol = (geo: THREE.BufferGeometry, segs: number, radial: number, twists: number, dark = .72) =>
+  vcol(geo, (_x, _y, _z, i) => { const a = Math.floor(i / (radial + 1)) / segs, b = (i % (radial + 1)) / radial; return ((a * twists + b * 2) % 1) < .5 ? 1 : dark; });
+const V = (x: number, y: number, z: number) => new THREE.Vector3(x, y, z);
+const sstep = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+
+/** A small wooden rowboat (~3 m long, cm units), bow towards +x, transom stern at -x. Clinker planks (5 strakes a side,
+ * the top one painted), a lighter wooden interior with seams, ribs, risers, three thwarts, floorboards, a bow deck,
+ * keel and stem, gunwale rails, bronze oarlocks and two oars trailing in them (painted blade tips).
+ * Every mesh is tagged userData.half = 'front' (the near, +z hull side, rail, oarlock and oar) or 'back' (everything else),
+ * so shot.boat = 'back' | 'front' renders the layers that sandwich seated characters (render.py job ep003_props). */
 const rowboat = () => {
   const g = new THREE.Group();
-  const L = 300, B = 120, D = 45;
-  // hull: half-width per station along x, a rounded bottom, open top
-  const hull = new THREE.Group();
-  const N = 24, M = 14;
-  const pos: number[] = [], idx: number[] = [];
-  for (let i = 0; i <= N; i++) {
-    const u = i / N, x = (u - .5) * L;
-    const w = B / 2 * Math.pow(Math.sin(Math.PI * Math.min(1, u * 1.15 + .02)), .55) * (u > .85 ? 1 - (u - .85) * 3.5 : 1);
-    const lift = 10 * Math.pow(Math.abs(u - .45) * 2, 3);
-    for (let j = 0; j <= M; j++) {
-      const a = Math.PI * j / M;                      // 0 .. pi: starboard rim -> keel -> port rim
-      pos.push(x, D + lift - D * Math.sin(a) * (0.6 + 0.4 * Math.sin(Math.PI * u)), w * Math.cos(a));
-    }
+  const L = 300, B = 124, D = 46, S = 5, INS = 2.6, STEP = .9;
+  const halfW = (u: number) => u < .42 ? B / 2 * (1 - .27 * ((.42 - u) / .42) ** 2) : B / 2 * Math.pow(Math.max(0, 1 - ((u - .42) / .58) ** 2), .62);
+  const rimY = (u: number) => u > .45 ? D + 3 + 15 * ((u - .45) / .55) ** 2.2 : D + 3 + 5 * ((.45 - u) / .45) ** 2;
+  const botY = (u: number) => u > .55 ? 2 + D * .62 * ((u - .55) / .45) ** 2.4 : 2 + 4 * ((.55 - u) / .55) ** 2;
+  const taper = (u: number) => Math.min(1, Math.max(0, (1 - u) / .09));
+  const N2 = 2.8, sec0 = (u: number, th: number): [number, number] => [halfW(u) * (1 - .14 * Math.pow(Math.sin(th), 2 / N2)) * Math.pow(Math.cos(th), 2 / N2), (rimY(u) - botY(u)) * Math.pow(Math.sin(th), 2 / N2)];
+  const arc: number[] = [0];                                            // s = arc length fraction along the mid section,
+  for (let i = 1; i <= 400; i++) { const a = sec0(.45, (i - 1) / 400 * Math.PI / 2), b = sec0(.45, i / 400 * Math.PI / 2); arc.push(arc[i - 1] + Math.hypot(b[0] - a[0], b[1] - a[1])); }
+  const thOf = (s: number) => {                                         // so the strakes come out equally wide
+    const t = Math.min(1, Math.max(0, s)) * arc[400]; let i = 1; while (i < 400 && arc[i] < t) i++;
+    return ((i - 1) + (t - arc[i - 1]) / Math.max(1e-9, arc[i] - arc[i - 1])) / 400 * Math.PI / 2;
+  };
+  const base = (u: number, s: number): [number, number] => {          // section (z, y) for the +z side; s 0 rim .. 1 keel
+    const th = thOf(s), n = N2;
+    const zf = Math.pow(Math.cos(th), 2 / n), yf = Math.pow(Math.sin(th), 2 / n);
+    const top = rimY(u), bot = botY(u);
+    return [halfW(u) * (1 - .14 * yf) * zf, top - (top - bot) * yf];
+  };
+  const hp = (u: number, s: number, side: number, off: number) => {    // hull point, offset along the section normal
+    const e = 2e-3, a = base(u, Math.max(0, s - e)), b = base(u, Math.min(1, s + e)), c = base(u, s);
+    const tz = b[0] - a[0], ty = b[1] - a[1], l = Math.hypot(tz, ty) || 1;
+    const o = off * taper(u);
+    return V((u - .5) * L, c[1] + o * (tz / l), side * (c[0] + o * (-ty / l)));
+  };
+  const half = (m: THREE.Mesh, h: 'front' | 'back') => (m.userData.half = h, m);
+  const NU = 96, us = Array.from({ length: NU + 1 }, (_, i) => i / NU);
+  // outer planks (clinker: each strake laps over the one below, with a small lip)
+  const plank = ['#3f7d84', '#a3693a', '#93602f', '#a86f3e', '#8e5a2d'];
+  for (const side of [1, -1]) for (let k = 0; k < S; k++) {
+    const s0 = k / S - (k ? .3 / S : 0), s1 = (k + 1) / S, ok = STEP * (S - 1 - k), on = STEP * (S - 2 - k);
+    const rows: [number, number][] = [];
+    for (let j = 0; j <= 6; j++) rows.push([s0 + (s1 - s0) * j / 6, ok]);
+    if (k < S - 1) rows.push([s1, ok], [s1, on]);
+    const geo = grid(us, rows, (u, [s, o]) => { const p = hp(u, s, side, o); return { p, uv: [p.x / 170 + k * .37 + (side > 0 ? 0 : .5), (s - s0) * 2.2 + k * .29], c: .74 + .26 * (1 - s) }; });
+    orient(geo, () => V(0, -.3, side));
+    g.add(half(mesh(geo, woodMat(plank[k], true), 1500 + k + (side > 0 ? 0 : 5)), side > 0 ? 'front' : 'back'));
   }
-  for (let i = 0; i < N; i++) for (let j = 0; j < M; j++) {
-    const a = i * (M + 1) + j, b = a + M + 1;
-    idx.push(a, b, a + 1, b, b + 1, a + 1);
+  // interior skin: lighter wood, dark seams between strakes, darker towards the keel
+  const sl: number[] = [];
+  for (let k = 0; k < S; k++) { sl.push(k / S); for (let j = 1; j < 6; j++) sl.push(k / S + (j === 1 ? .012 : j === 5 ? 1 / S - .012 : (j - 1) / 4 / S)); }
+  sl.push(1);
+  const rows: [number, number][] = [...sl.map((s) => [s, 1] as [number, number]), ...sl.slice(0, -1).reverse().map((s) => [s, -1] as [number, number])];
+  const seam = (s: number) => (sl.indexOf(s) % 6 === 0 && s > 0 && s < 1 ? .6 : 1);
+  const inner = grid(us, rows, (u, [s, side]) => { const p = hp(u, s, side, -INS); return { p, uv: [p.x / 170 + .21, s * 2.4 + (side > 0 ? 0 : .5)], c: (.7 + .3 * (1 - s)) * seam(s) }; });
+  orient(inner, (p) => V(0, .3, -Math.sign(p.z)));
+  g.add(half(mesh(inner, woodMat('#c58c58', true), 1510), 'back'));
+  // transom (flat stern board) with a cap above the rim
+  const tp: THREE.Vector2[] = [];
+  for (let j = 0; j <= 16; j++) { const p = hp(0, j / 16, 1, STEP * (S - 1) + .6); tp.push(new THREE.Vector2(p.z, p.y + (j === 0 ? 2.5 : 0))); }
+  for (let j = 15; j >= 0; j--) { const p = hp(0, j / 16, -1, STEP * (S - 1) + .6); tp.push(new THREE.Vector2(p.z, p.y + (j === 0 ? 2.5 : 0))); }
+  const tg = new THREE.ExtrudeGeometry(new THREE.Shape(tp), { depth: 3.2, bevelEnabled: true, bevelThickness: .6, bevelSize: .6, bevelSegments: 2, curveSegments: 4 });
+  uvScale(tg, 1 / 90, 1 / 30); tg.rotateY(-Math.PI / 2); tg.translate(-L / 2 + .8, 0, 0);
+  vcol(tg, (_x, y) => .78 + .22 * Math.min(1, y / 50));
+  g.add(half(mesh(tg, woodMat('#8a5530', true), 1511), 'back'));
+  // keel and stem post (proud of the planks), knob on the stem head
+  const dark = woodMat('#6a4126');
+  const keel = Array.from({ length: 40 }, (_, i) => hp(-.005 + i / 39 * .99, 1, 1, 0).add(V(0, -.6, 0)));
+  const kt = tube(keel, 2.3, dark, 1512, 80, 8); uvScale(kt.geometry, 4, .3); g.add(half(kt, 'front'));
+  const stem = Array.from({ length: 12 }, (_, i) => { const s = 1 - i / 11, p = hp(1, s, 1, 0); return p.add(V(1.2 + 1.5 * (1 - s), 0, 0)); });
+  stem.push(V(L / 2 + 3.4, rimY(1) + 6, 0));
+  const st = tube(stem, 2.8, dark, 1512, 40, 8); uvScale(st.geometry, 2, .3); g.add(half(st, 'front'));
+  g.add(half(at(mesh(new THREE.SphereGeometry(3.3, 16, 12), dark, 1512), L / 2 + 3.4, rimY(1) + 6.5, 0), 'front'));
+  g.add(half(at(mesh(new THREE.SphereGeometry(2.4, 12, 10), dark, 1512), keel[39].x, keel[39].y, 0), 'front'));
+  // gunwale rails (cap the plank tops), with rounded ends
+  const railMat = woodMat('#6e4428');
+  for (const side of [1, -1]) {
+    const pts = Array.from({ length: 50 }, (_, i) => hp(-.012 + i / 49 * 1.0, 0, side, (STEP * (S - 1) - INS) / 2).add(V(0, 1.0, 0)));
+    const r = tube(pts, 3.1, railMat, side > 0 ? 1513 : 1514, 120, 10); uvScale(r.geometry, 5, .4);
+    g.add(half(r, side > 0 ? 'front' : 'back'));
+    g.add(half(at(mesh(new THREE.SphereGeometry(3.1, 12, 10), railMat, side > 0 ? 1513 : 1514), pts[0].x, pts[0].y, pts[0].z), side > 0 ? 'front' : 'back'));
   }
-  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
-  const outer = new THREE.Mesh(geo, new THREE.MeshToonMaterial({ color: new THREE.Color(WOOD), gradientMap: ramp, side: THREE.DoubleSide }));
-  outer.userData.part = 1400; ids.push(outer); hull.add(outer);
-  g.add(hull);
-  // gunwale strip and two benches
-  for (const sz of [-1, 1]) {
+  // ribs (frames) inside, risers along the sides
+  const ribMat = woodMat('#7c4b29');
+  for (const ur of [.1, .2, .3, .4, .5, .6, .7, .8, .88]) {
     const pts: THREE.Vector3[] = [];
-    for (let i = 1; i < N; i++) { const p = i * (M + 1) + (sz > 0 ? 0 : M); pts.push(new THREE.Vector3(pos[p * 3], pos[p * 3 + 1] + 1.5, pos[p * 3 + 2])); }
-    const rim = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, 3.2, 8), toon(WOOD_D));
-    rim.userData.part = 1401; ids.push(rim); g.add(rim);
+    for (let i = 0; i <= 24; i++) { const t = -1 + i / 12, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 1.0))); }
+    const r = tube(pts, 1.5, ribMat, 1515, 60, 6); uvScale(r.geometry, 3, .3); g.add(half(r, 'back'));
   }
-  g.add(box(16, 4, B * .86, [-55, D - 10, 0], toon(WOOD_L), 1402));
-  g.add(box(16, 4, B * .8, [55, D - 8, 0], toon(WOOD_L), 1402));
-  for (const sz of [-1, 1]) {                                   // oars resting along the sides
-    const oar = cyl(2.4, 230, [0, D + 4, sz * (B / 2 + 6)], [0, 0, Math.PI / 2 - .06 * sz], toon(WOOD_L), 1403);
+  const SR = .3;
+  for (const side of [1, -1]) {
+    const pts = Array.from({ length: 30 }, (_, i) => hp(.06 + i / 29 * .8, SR, side, -(INS + 1.0)));
+    const r = tube(pts, 1.4, ribMat, 1516, 80, 6); uvScale(r.geometry, 4, .3); g.add(half(r, 'back'));
+  }
+  // thwarts (benches) resting on the risers, a post under the rowing thwart
+  const innerZ = (u: number, y: number) => {                         // inner skin half-width at height y
+    let lo = 0, hi = .7;
+    for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (hp(u, m, 1, -INS).y > y) lo = m; else hi = m; }
+    return hp(u, lo, 1, -INS).z;
+  };
+  const benchCol = ['#b98250', '#c08a56', '#b47c4a'];
+  [[.17, 26], [.47, 20], [.75, 17]].forEach(([ub, wide], i) => {
+    const p = hp(ub, SR, 1, -(INS + 1.0)), y = p.y + 1.4 + 1.8, len = 2 * innerZ(ub, y + 1.8) + 3;
+    const b = box(len, 3.6, wide, [0, 0, 0], woodMat(benchCol[i], false), 1517 + i, .8);
+    uvScale(b.geometry, 1 / 110, 1 / 45, i * .3, i * .2);
+    b.rotation.y = Math.PI / 2; b.position.set(p.x, y, 0); g.add(half(b, 'back'));
+  });
+  // floorboards
+  const fy = Math.max(...[.13, .3, .45, .6, .66].map((u) => { let lo = 0, hi = 1; for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (hp(u, m, 1, -INS).z > 23) lo = m; else hi = m; } return hp(u, lo, 1, -INS).y; })) + 2.6;
+  for (const z of [-17, 0, 17]) {
+    const f = box(159, 1.6, 12, [(.395 - .5) * L, fy + .8, z], woodMat('#a87447', false), z === 0 ? 1521 : 1520, .5);
+    uvScale(f.geometry, 1 / 120, 1 / 40, z * .013, z * .021); g.add(half(f, 'back'));
+  }
+  const post = cyl(1.7, 1, [0, 0, 0], [0, 0, 0], ribMat, 1515);
+  { const y0 = fy + 1.6, y1 = hp(.47, SR, 1, 0).y + 1.4; post.scale.y = y1 - y0; post.position.set((.47 - .5) * L, (y0 + y1) / 2, 0); g.add(half(post, 'back')); }
+  // bow deck (breasthook) following the sheer
+  const bh = new THREE.Shape();
+  const bu = Array.from({ length: 14 }, (_, i) => .86 + i / 13 * .14);
+  bu.forEach((u, i) => { const p = hp(u, .02, 1, -INS + 1); (i ? bh.lineTo.bind(bh) : bh.moveTo.bind(bh))(p.x, -p.z); });
+  [...bu].reverse().forEach((u) => { const p = hp(u, .02, 1, -INS + 1); bh.lineTo(p.x, p.z); });
+  const bg = new THREE.ExtrudeGeometry(bh, { depth: 2.2, bevelEnabled: true, bevelThickness: .4, bevelSize: .4, bevelSegments: 2 });
+  uvScale(bg, 1 / 80, 1 / 30); bg.rotateX(-Math.PI / 2);
+  const bp = bg.attributes.position as THREE.BufferAttribute;
+  for (let i = 0; i < bp.count; i++) bp.setY(i, bp.getY(i) + rimY(bp.getX(i) / L + .5) - 3.4);
+  bg.computeVertexNormals(); vcol(bg, () => 1);
+  g.add(half(mesh(bg, woodMat('#a06a3c', true), 1522), 'back'));
+  // oarlocks on the rails, oars trailing aft (blades feathered flat)
+  const UO = .4, bronze = toon('#8a6a3a'), leather = toon('#dcc69c');
+  const hw = (x: number) => x < 112 ? 1.9 + 5.6 * sstep(100, 112, x) : x < 146 ? 7.5 : 7.5 * Math.sqrt(Math.max(0, 1 - ((x - 146) / 4.2) ** 2));
+  const bladeShape = (x0: number, x1: number) => {
+    const s = new THREE.Shape(), n = 24;
+    for (let i = 0; i <= n; i++) { const x = x0 + (x1 - x0) * i / n; i ? s.lineTo(x, hw(x)) : s.moveTo(x, hw(x)); }
+    for (let i = n; i >= 0; i--) { const x = x0 + (x1 - x0) * i / n; s.lineTo(x, -hw(x)); }
+    return s;
+  };
+  for (const side of [1, -1]) {
+    const h: 'front' | 'back' = side > 0 ? 'front' : 'back', id = side > 0 ? 0 : 7;
+    const R = hp(UO, 0, side, (STEP * (S - 1) - INS) / 2).add(V(0, 1.0, 0));
+    g.add(half(box(10, 2, 7, [R.x, R.y + 3.6, R.z], woodMat('#5e3a22', false), 1523 + id, .5), h));
+    const U = mesh(new THREE.TorusGeometry(3.0, .7, 8, 20, Math.PI), bronze, 1524 + id);
+    U.rotation.set(0, Math.PI / 2, Math.PI); U.position.set(R.x, R.y + 4.6 + 3.7, R.z); g.add(half(U, h));
+    g.add(half(cyl(.8, 3, [R.x, R.y + 5.6, R.z], [0, 0, 0], bronze, 1524 + id), h));
+    const pivot = V(R.x, R.y + 4.6 + 3.7 - 3.0 + .7 + 2.1, R.z);
+    const yaw = THREE.MathUtils.degToRad(8), pitch = THREE.MathUtils.degToRad(12);
+    const dx = V(-Math.cos(pitch) * Math.cos(yaw), -Math.sin(pitch), side * Math.cos(pitch) * Math.sin(yaw)).normalize();
+    const dy = V(0, 1, 0).sub(dx.clone().multiplyScalar(dx.y)).normalize(), dz = dx.clone().cross(dy);
+    const oar = new THREE.Group();
+    oar.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(dx, dy, dz)); oar.position.copy(pivot);
+    const along = (r0: number, r1: number, x0: number, x1: number, mat: THREE.Material, part: number) => {
+      const c = new THREE.CylinderGeometry(r1, r0, x1 - x0, 18, 4); c.rotateZ(-Math.PI / 2); c.translate((x0 + x1) / 2, 0, 0);
+      uvScale(c, 1, (x1 - x0) / 60); return mesh(c, mat, part);
+    };
+    const oarWood = woodMat('#c99a63', false);
+    oar.add(half(along(1.75, 1.75, -54, -40, woodMat('#5a3a22', false), 1525 + id), h));
+    oar.add(half(at(mesh(new THREE.SphereGeometry(1.75, 12, 10), woodMat('#5a3a22', false), 1525 + id), -54, 0, 0), h));
+    oar.add(half(along(2.1, 1.9, -40, 108, oarWood, 1526 + id), h));
+    oar.add(half(along(2.65, 2.65, -6, 6, leather, 1527 + id), h));
+    for (const [x0, x1, mat, part] of [[100, 138, oarWood, 1528 + id], [138, 150.2, woodMat('#3f7d84', false), 1529 + id]] as [number, number, THREE.Material, number][]) {
+      const bgeo = new THREE.ExtrudeGeometry(bladeShape(x0, x1), { depth: .9, bevelEnabled: true, bevelThickness: .3, bevelSize: .3, bevelSegments: 2 });
+      uvScale(bgeo, 1 / 60, 1 / 20); bgeo.rotateX(-Math.PI / 2); bgeo.translate(0, -.45, 0);
+      oar.add(half(mesh(bgeo, mat, part), h));
+    }
     g.add(oar);
-    g.add(box(34, 1.5, 12, [-112, D + 1, sz * (B / 2 + 6)], toon(WOOD_L), 1404));
   }
   return g;
 };
-/** A fishing rod (cm): cork grip, reel, a long tapering blank with guides, the line falling from the tip. */
+
+/** A fishing rod (cm), butt at y = 0, tip up at y = 212: rubber butt cap, cork grips with rings and flecks, a metal reel
+ * seat, gold winding check and thread wraps, a deep blue blank fading lighter to the tip, eight wire guides on feet with
+ * dark inserts, a spinning reel (body, rotor, spool full of line, bail, crank and knob) and the line running from the spool
+ * through every guide, with a little slack past the tip. Guides and reel on +x. */
 const fishingRod = () => {
   const g = new THREE.Group();
-  g.add(cyl(2.2, 32, [0, 16, 0], [0, 0, 0], toon('#c8a173'), 1410));                 // cork grip
-  g.add(cyl(4.5, 3, [5, 22, 0], [0, 0, Math.PI / 2], toon('#2b2f36'), 1411));        // reel
-  g.add(cyl(1.2, 6, [3, 22, 0], [0, 0, Math.PI / 2], toon('#2b2f36'), 1411));
-  const blank = new THREE.Mesh(new THREE.CylinderGeometry(.35, 1.3, 180, 10), toon('#2f5d8a'));
-  blank.position.set(0, 32 + 90, 0); blank.userData.part = 1412; ids.push(blank); g.add(blank);
-  for (const y of [60, 100, 140, 180]) {
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.8 - y / 200, .3, 6, 12), toon('#c9ccd2'));
-    ring.position.set(1.4, y, 0); ring.rotation.y = Math.PI / 2; ring.userData.part = 1413; ids.push(ring); g.add(ring);
+  const cork = new THREE.MeshToonMaterial({ color: new THREE.Color('#d6aa74'), map: corkTex(), gradientMap: ramp });
+  const metal = toon('#3a404b'), silver = toon('#c3c8d0'), gold = toon('#d0a443'), rubber = toon('#2a2b30');
+  g.add(lathe([[0, 0], [2.4, 0], [2.85, .5], [3.0, 1.4], [2.95, 2.7], [2.7, 3.3], [0, 3.3]], 40, rubber, 1570));
+  g.add(lathe([[0, 3.2], [2.7, 3.2], [2.95, 6], [3.05, 11], [2.95, 17], [2.7, 24], [2.45, 30.2], [0, 30.2]], 40, cork, 1571));
+  g.add(lathe([[0, 30], [2.1, 30], [2.1, 41], [0, 41]], 32, metal, 1572));
+  g.add(lathe([[0, 30], [2.5, 30], [2.6, 30.6], [2.6, 32.2], [2.2, 32.8], [0, 32.8]], 32, silver, 1573));
+  g.add(lathe([[0, 38.4], [2.2, 38.4], [2.6, 39], [2.6, 41], [0, 41]], 32, silver, 1573));
+  g.add(lathe([[0, 41], [2.45, 41], [2.45, 43.2], [0, 43.2]], 32, gold, 1574));
+  g.add(lathe([[0, 43.2], [2.3, 43.2], [2.2, 47], [1.85, 51], [0, 51]], 32, cork, 1576));
+  g.add(lathe([[0, 51], [1.95, 51], [1.95, 52], [0, 52]], 24, gold, 1574));
+  const rb = (y: number) => 1.55 - 1.1 * (y - 52) / 160;                 // blank radius at height y
+  const blank = new THREE.CylinderGeometry(rb(212), rb(52), 160, 20, 40); blank.translate(0, 132, 0);
+  const deep = new THREE.Color('#1d4b7d'), light = new THREE.Color('#4a8ac2');
+  vcol(blank, (_x, y) => deep.clone().lerp(light, Math.max(0, (y - 52) / 160) ** 1.5));
+  g.add(mesh(blank, vtoon(), 1575));
+  // decorative thread wrap above the fore grip: gold - red - gold
+  [[53, 55.5, gold], [55.5, 56.4, toon('#a5302a')], [56.4, 57.4, gold]].forEach(([y0, y1, m]) => g.add(lathe([[0, y0 as number], [rb(y0 as number) + .14, y0 as number], [rb(y1 as number) + .14, y1 as number], [0, y1 as number]], 24, m as THREE.Material, m === gold ? 1574 : 1577)));
+  // guides: ring on a two-legged foot, thread wraps on the blank
+  const guides = [[75, 2.7, 6.2], [101, 2.1, 4.8], [124, 1.6, 3.8], [145, 1.25, 3.1], [163, 1.0, 2.6], [179, 0.85, 2.2], [193, 0.75, 1.9], [204, 0.65, 1.6]];
+  const ring = (R: number, tr: number, c: THREE.Vector3, mat: THREE.Material, part: number) => { const t = mesh(new THREE.TorusGeometry(R, tr, 8, 28), mat, part); t.rotation.x = Math.PI / 2; t.position.copy(c); return t; };
+  const centres: THREE.Vector3[] = [];
+  for (const [y, R, h] of guides) {
+    const c = V(rb(y) + h, y, 0); centres.push(c);
+    g.add(ring(R, Math.max(.2, R * .14), c, silver, 1578));
+    if (R > 1.2) g.add(ring(R - R * .14 - .16, .16, c, toon('#25272c'), 1579));
+    const foot = V(c.x - R, y, 0);
+    for (const dy of [-1, 1]) g.add(tube([V(rb(y + dy * 2.4 * R), y + dy * 2.4 * R, 0), V((rb(y) + foot.x) / 2, y + dy * 1.2 * R, 0), foot], .2 + .05 * R, silver, 1578, 8, 6));
+    g.add(lathe([[0, y - 2.6 * R - .6], [rb(y) + .15, y - 2.6 * R - .6], [rb(y) + .15, y - 2.6 * R + .9], [0, y - 2.6 * R + .9]], 20, toon('#a5302a'), 1577));
   }
+  const tipC = V(rb(212) + .7, 212.6, 0);
+  g.add(ring(.55, .18, tipC, silver, 1578));
+  g.add(tube([V(0, 211, 0), V(tipC.x - .5, 212.6, 0)], .18, silver, 1578, 4, 6));
+  // spinning reel hanging on the +x side of the seat, spool facing the tip
+  const rx = 9.5, ry = 30.5;
+  g.add(tube([V(2, 35.5, 0), V(4.5, 35, 0), V(7, 33.5, 0), V(rx - .5, ry + 1, 0)], .9, metal, 1580, 12, 10));
+  g.add(box(1.0, 6.5, 2.2, [2.4, 35.6, 0], metal, 1580, .3));
+  const body = mesh(new THREE.SphereGeometry(3.4, 28, 18), toon('#30353f'), 1581); body.scale.set(1, 1.15, .85); body.position.set(rx, ry, 0); g.add(body);
+  g.add(lathe([[0, ry + 2.4], [2.6, ry + 2.4], [3.3, ry + 3.6], [3.4, ry + 5.6], [0, ry + 5.6]], 36, toon('#454c58'), 1582).translateX(rx));
+  g.add(lathe([[0, ry + 5.6], [3.6, ry + 5.6], [3.6, ry + 6.0], [3.0, ry + 6.1], [3.05, ry + 8.6], [3.6, ry + 8.8], [3.6, ry + 9.3], [0, ry + 9.3]], 40, gold, 1583).translateX(rx));
+  g.add(lathe([[0, ry + 6.05], [3.15, ry + 6.05], [3.25, ry + 7.3], [3.15, ry + 8.6], [0, ry + 8.6]], 40, toon('#9fe0d0'), 1584).translateX(rx));
+  g.add(lathe([[0, ry + 9.3], [1.6, ry + 9.3], [1.5, ry + 11], [1.1, ry + 11.4], [0, ry + 11.4]], 20, toon('#24272d'), 1585).translateX(rx));
+  const bail = mesh(new THREE.TorusGeometry(3.9, .32, 8, 24, Math.PI), silver, 1586); bail.position.set(rx, ry + 5.2, 0); bail.rotation.set(-1.25, 0, Math.PI / 2 + .25); g.add(bail);
+  // crank on the +z side: shaft, arm, knob
+  g.add(cyl(.55, 2.8, [rx, ry - .5, 3.6], [Math.PI / 2, 0, 0], metal, 1587));
+  g.add(box(1.2, 6.5, .8, [rx, ry - 3.2, 5.1], metal, 1587, .3));
+  g.add(cyl(.95, 2.6, [rx, ry - 6.2, 6.6], [Math.PI / 2, 0, 0], toon('#c79a62'), 1588));
+  // the line: off the spool, through each guide, out of the tip, a little slack
+  const path = new THREE.CurvePath<THREE.Vector3>();
+  const pts = [V(rx - 2.4, ry + 8.4, 0), ...centres, tipC];
+  for (let i = 0; i < pts.length - 1; i++) path.add(new THREE.LineCurve3(pts[i], pts[i + 1]));
+  path.add(new THREE.CatmullRomCurve3([tipC, V(tipC.x + 1.6, 213.4, 0), V(tipC.x + 4, 211.5, .5), V(tipC.x + 5.2, 206, 1), V(tipC.x + 5.4, 199, 1.2)]));
+  g.add(tube(path, .16, toon('#f4f6f8'), 1589, 600, 5));
   return g;
 };
 /** The unimpressed fish (cm): a squashed egg body, a forked tail, fins, big flat eyes with half-closed lids. */
@@ -1008,57 +1258,272 @@ const fish2 = () => {
   g.userData.setExpr(ex);
   return g;
 };
-/** A dented metal trash can with a tilted lid (the "slop" gag, cm). */
+/** A galvanised trash can (cm) for the "slop" gag: flared body with three raised ribs, two dents, a rolled rim, a foot
+ * ring, side handles on brackets, a dark inside with some rubbish (crumpled paper, a crushed can) and a domed, ribbed lid
+ * with a loop handle, resting ajar on the rim. Zinc mottling and grime as vertex colours. */
 const trashcan = () => {
   const g = new THREE.Group();
-  const prof = [[0, 0], [24, 0], [27, 4], [30, 70], [31, 72], [0, 72]].map(([r, y]) => new THREE.Vector2(r, y));
-  const body = new THREE.Mesh(new THREE.LatheGeometry(prof, 36), toon('#8a939c')); body.userData.part = 1430; ids.push(body); g.add(body);
-  for (const y of [18, 36, 54]) g.add(cyl(30.6 * (0.86 + y / 400), 2, [0, y, 0], [0, 0, 0], toon('#6f7881'), 1431));
+  const rr = (y: number) => 25.4 + 3.6 * (y - 3) / 67 + [17, 35, 53].reduce((a, c) => a + 1.05 * Math.exp(-(((y - c) / 1.5) ** 2)), 0);
+  const prof: [number, number][] = [[0, 0], [24.2, 0], [25, .8], [25.6, 2.2], [25.2, 3]];
+  for (let y = 3.6; y <= 70.01; y += .6) prof.push([rr(y), y]);
+  prof.push([29.1, 70.8]);
+  const geo = new THREE.LatheGeometry(prof.map(([r, y]) => new THREE.Vector2(r, y)), 120);
+  const dents = [[-.35, 27, 8.5, 2.2], [.95, 47, 7, 1.6], [-1.3, 60, 6, 1.4]];   // angle (0 = +z), height, radius, depth
+  const p = geo.attributes.position as THREE.BufferAttribute;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), y = p.getY(i), z = p.getZ(i), r = Math.hypot(x, z);
+    if (r < 20) continue;
+    const a = Math.atan2(x, z);
+    let d = 0;
+    for (const [da, dy, rad, dep] of dents) { let dd = a - da; dd -= TAU * Math.round(dd / TAU); d += dep * Math.exp(-((dd * r) ** 2 + (y - dy) ** 2) / rad ** 2); }
+    p.setXYZ(i, x * (r - d) / r, y, z * (r - d) / r);
+  }
+  geo.computeVertexNormals();
+  const zinc = new THREE.Color('#b0bac3'), grime = new THREE.Color('#7d7a6e');
+  const mottle = (x: number, y: number, z: number) => { const a = Math.atan2(x, z); return 1 + .045 * Math.sin(a * 7 + y * .3) * Math.sin(y * .21 - a * 3) + .03 * Math.sin(a * 23 + y * .9); };
+  vcol(geo, (x, y, z) => zinc.clone().lerp(grime, .55 * (1 - sstep(0, 14, y))).multiplyScalar((.8 + .2 * sstep(0, 60, y)) * mottle(x, y, z)));
+  g.add(mesh(geo, vtoon(), 1600));
+  const steel = toon('#98a2ab'), darkSteel = toon('#7b858e');
+  const rim = mesh(new THREE.TorusGeometry(29.2, 1.45, 10, 96), steel, 1601); rim.rotation.x = Math.PI / 2; rim.position.y = 71.1; g.add(rim);
+  const inside = new THREE.LatheGeometry([[28.0, 71], [27.6, 60], [26.5, 30], [25, 4], [0, 4]].map(([r, y]) => new THREE.Vector2(r, y)), 64);
+  orient(inside, (q) => V(-q.x, .2, -q.z));
+  g.add(mesh(vcol(inside, (_x, y) => .45 + .55 * sstep(40, 71, y)), vtoon('#69717a'), 1602));
+  // rubbish showing under the lid
+  const crumple = (r: number, seed: number) => {
+    const c = new THREE.IcosahedronGeometry(r, 1), q = c.attributes.position as THREE.BufferAttribute;
+    const key = (x: number, y: number, z: number) => hash(Math.round(x * 10) + seed, Math.round(y * 10) * 7 + Math.round(z * 10) * 13);
+    for (let i = 0; i < q.count; i++) { const v = V(q.getX(i), q.getY(i), q.getZ(i)); v.multiplyScalar(.82 + .3 * key(v.x, v.y, v.z)); q.setXYZ(i, v.x, v.y, v.z); }
+    c.computeVertexNormals(); return c;
+  };
+  const paper = new THREE.MeshToonMaterial({ color: new THREE.Color('#f1eee4'), gradientMap: ramp, flatShading: true });
+  const kraft = new THREE.MeshToonMaterial({ color: new THREE.Color('#d9bf8f'), gradientMap: ramp, flatShading: true });
+  g.add(at(mesh(crumple(7, 1), paper, 1603), 10, 69, -6));
+  g.add(at(mesh(crumple(5.5, 2), kraft, 1604), 17, 69, 9));
+  const can = lathe([[0, 0], [2.6, 0], [2.7, 1], [3.1, 2.5], [2.4, 4.5], [3.1, 6.5], [2.7, 9.5], [2.2, 10], [0, 10]], 20, toon('#c8463a'), 1605);
+  can.position.set(1, 70.5, 12); can.rotation.set(1.2, .3, -.5); g.add(can);
+  // side handles on brackets
+  for (const sx of [1, -1]) {
+    const hg = new THREE.Group();
+    const r58 = rr(58);
+    const t = new THREE.TorusGeometry(5.2, .95, 8, 20, Math.PI); t.rotateZ(-Math.PI / 2); t.rotateX(Math.PI / 2);
+    hg.add(at(mesh(t, darkSteel, 1606), r58 + .8, 58, 0));
+    for (const z of [-5.2, 5.2]) hg.add(box(1.4, 4.2, 2.6, [r58 + .3, 58, z], darkSteel, 1606, .3));
+    hg.rotation.y = sx > 0 ? 0 : Math.PI; g.add(hg);
+  }
+  // the lid: domed, two raised rings, rolled edge, loop handle
   const lid = new THREE.Group();
-  lid.add(cyl(33, 4, [0, 0, 0], [0, 0, 0], toon('#9aa3ac'), 1432));
-  lid.add(cyl(5, 6, [0, 5, 0], [0, 0, 0], toon('#6f7881'), 1433));
-  lid.position.set(-8, 80, 6); lid.rotation.set(.12, 0, .35); g.add(lid);
+  const lp: [number, number][] = [];
+  for (let r = 0; r <= 31; r += .5) lp.push([r, 5.2 - 4.3 * (r / 31) ** 1.8 + .75 * Math.exp(-(((r - 12) / 1.3) ** 2)) + .75 * Math.exp(-(((r - 22) / 1.3) ** 2))]);
+  lp.push([32.3, .1], [32.6, -1.6], [31.7, -1.8], [30.6, -.3], [0, 3.4]);
+  lp.reverse();                                                      // underside out, top back in: normals face out
+  const lg = new THREE.LatheGeometry(lp.map(([r, y]) => new THREE.Vector2(r, y)), 96);
+  vcol(lg, (x, y, z) => zinc.clone().multiplyScalar((.9 + .1 * y / 5) * mottle(x, y * 8, z)));
+  lid.add(mesh(lg, vtoon(), 1607));
+  const le = mesh(new THREE.TorusGeometry(32.3, 1.15, 10, 96), steel, 1608); le.rotation.x = Math.PI / 2; le.position.y = -1.2; lid.add(le);
+  const loop = new THREE.TorusGeometry(6, 1.1, 10, 24, Math.PI);
+  lid.add(at(mesh(loop, darkSteel, 1609), 0, 6.6, 0));
+  for (const x of [-6, 6]) lid.add(box(3.4, 2.2, 3.4, [x, 5.6, 0], darkSteel, 1609, .5));
+  lid.position.set(-5, 78.5, 3); lid.rotation.set(.1, .5, .32); g.add(lid);
   return g;
 };
-/** A bundle of three dynamite sticks with a fuse (cm). */
+
+/** A bundle of three dynamite sticks (cm): red paper wraps with a glued seam and tucked paper ends, two bands of twine
+ * (two turns each, a knot with two tails at the front), and a braided fuse from a copper cap, ending in a charred tip with
+ * an ember, ready for a 2D spark. */
 const dynamite = () => {
   const g = new THREE.Group();
-  for (const [x, z] of [[-3.4, 0], [3.4, 0], [0, 5.8]]) g.add(cyl(3.3, 22, [x, 11, z], [0, 0, 0], toon('#d6392f'), 1440));
-  g.add(cyl(7.0, 1.6, [0, 6, 1.9], [0, 0, 0], toon('#c9b98f'), 1441));   // tape
-  g.add(cyl(7.0, 1.6, [0, 16, 1.9], [0, 0, 0], toon('#c9b98f'), 1441));
-  const fuse = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(0, 22, 2), new THREE.Vector3(1, 27, 2), new THREE.Vector3(5, 29, 1)]), 12, .5, 6), toon('#e9d9a8'));
-  fuse.userData.part = 1442; ids.push(fuse); g.add(fuse);
+  const C: [number, number][] = [[-3.5, 0], [3.5, 0], [0, 6.0]], R = 3.35;
+  const red = new THREE.Color('#d33a2c');
+  C.forEach(([cx, cz], k) => {
+    const sg = new THREE.LatheGeometry([[0, .05], [2.4, 0], [3.05, .35], [R, 1.1], [R, 20.9], [3.05, 21.65], [2.4, 22], [0, 22.05]].map(([r, y]) => new THREE.Vector2(r, y)), 64);
+    const seamA = 1.9 + k * 2.1;
+    vcol(sg, (x, y, z) => {
+      let a = Math.atan2(z, x) - seamA; a -= TAU * Math.round(a / TAU);
+      const end = y < 1.6 || y > 20.4 ? .86 : 1;
+      return red.clone().multiplyScalar((.78 + .22 * y / 22) * end * (Math.abs(a) < .07 ? .72 : 1));
+    });
+    g.add(at(mesh(sg, vtoon(), 1630 + k), cx, 0, cz));
+    for (const pts of [[[2.45, 22.0], [1.35, 22.17], [1.15, 22.06], [.95, 22.17], [0, 22.2]], [[0, -.12], [.95, -.1], [1.15, 0], [1.35, -.1], [2.45, .03]]] as [number, number][][]) {
+      const e = lathe(pts, 40, toon('#ead7ad'), 1633); e.position.set(cx, 0, cz); g.add(e);       // tucked paper ends, a fold ring
+    }
+  });
+  // twine bands around the bundle outline
+  const hull = (y: number, off: number) => Array.from({ length: 96 }, (_, i) => {
+    const a = i / 96 * TAU, d = V(Math.cos(a), 0, Math.sin(a));
+    let best = -1e9, pt = V(0, 0, 0);
+    for (const [cx, cz] of C) { const s = cx * d.x + cz * d.z; if (s > best) { best = s; pt = V(cx + d.x * (R + off), y, cz + d.z * (R + off)); } }
+    return pt;
+  });
+  const twine = toon('#dcc28a');
+  for (const y of [5.2, 16.2]) for (const dy of [-.45, .45]) {
+    const t = tube(hull(y + dy, .42), .45, vtoon('#dcc28a'), 1634, 192, 8, true);
+    ropeCol(t.geometry, 192, 8, 70, .74); g.add(t);
+  }
+  const ka = Math.atan2(.92, -.38), kp = V(0, 0, 0);
+  { let best = -1e9; for (const [cx, cz] of C) { const s = cx * Math.cos(ka) + cz * Math.sin(ka); if (s > best) { best = s; kp.set(cx + Math.cos(ka) * (R + .9), 16.2, cz + Math.sin(ka) * (R + .9)); } } }
+  const knot = mesh(new THREE.SphereGeometry(1.0, 14, 10), twine, 1635); knot.scale.set(1.25, .9, .8); knot.position.copy(kp); g.add(knot);
+  const out = V(Math.cos(ka), 0, Math.sin(ka));
+  for (const sx of [-1, 1]) {
+    const side = V(-out.z, 0, out.x).multiplyScalar(sx);
+    const tail = tube([kp.clone(), kp.clone().add(side.clone().multiplyScalar(1.2)).add(out.clone().multiplyScalar(.6)).add(V(0, -1.6, 0)), kp.clone().add(side.clone().multiplyScalar(1.6)).add(out.clone().multiplyScalar(.9)).add(V(0, -3.6, 0))], .38, vtoon('#dcc28a'), 1635, 16, 6);
+    ropeCol(tail.geometry, 16, 6, 8, .74); g.add(tail);
+  }
+  // fuse: copper cap, braided cord, charred tip and ember
+  g.add(cyl(.85, 1.3, [3.5, 22.6, 0], [0, 0, 0], toon('#c07a45'), 1636));
+  const fc = new THREE.CatmullRomCurve3([V(3.5, 22.8, 0), V(3.6, 25.2, 0), V(4.5, 28.2, .4), V(6.6, 30.4, 1.2), V(9.4, 30.7, 2), V(11.6, 29.2, 2.5)]);
+  const fu = tube(fc, .5, vtoon('#efe6cf'), 1637, 90, 8); ropeCol(fu.geometry, 90, 8, 34, .55); g.add(fu);
+  const end = fc.getPoint(1), tan = fc.getTangent(1);
+  const tip = new THREE.CylinderGeometry(.62, .52, 1.1, 12); tip.translate(0, .55, 0);
+  const tm = mesh(tip, toon('#2b2320'), 1638); tm.position.copy(end); tm.quaternion.setFromUnitVectors(V(0, 1, 0), tan); g.add(tm);
+  const ember = mesh(new THREE.SphereGeometry(.42, 12, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color('#ff8a2a') }), 1639);
+  ember.position.copy(end.clone().add(tan.clone().multiplyScalar(1.15))); g.add(ember);
   return g;
 };
-/** Poker chips stacked and two cards (cm). */
+
+/** Poker chips (cm): stacks of striped chips (six edge inserts, an inlay disc, a little jitter in each stack), a few loose
+ * chips and two playing cards (a patterned back and a plain ace of spades, generic). */
 const chips = () => {
   const g = new THREE.Group();
-  const cols = ['#d6392f', '#2f5d8a', '#f2f2f4', '#2b2b2f'];
-  [[0, 0, 7], [6.5, 1.5, 4], [-5, 4, 3]].forEach(([x, z, n], s) => {
-    for (let i = 0; i < n; i++) g.add(cyl(2, .7, [x, .35 + i * .75, z], [0, 0, 0], toon(cols[(i + s) % 4]), 1450 + ((i + s) % 4)));
+  const H = .55, RC = 2.0;
+  const chipGeo = (base: string, stripe: string, rot: number) => {
+    const prof: [number, number][] = [[0, 0], [1.16, 0], [1.2, 0], [1.5, 0], [1.86, 0], [1.97, .04], [2.0, .12], [2.0, H - .12], [1.97, H - .04], [1.86, H], [1.5, H], [1.2, H], [1.16, H], [0, H]];
+    const geo = new THREE.LatheGeometry(prof.map(([r, y]) => new THREE.Vector2(r, y)), 144);
+    const b = new THREE.Color(base), s = new THREE.Color(stripe), inl = b.clone().lerp(new THREE.Color('#ffffff'), .5);
+    return vcol(geo, (x, y, z) => {
+      const r = Math.hypot(x, z), a = Math.atan2(z, x) + rot, f = ((a / TAU * 6) % 1 + 1) % 1;
+      if (r < 1.18) return inl;
+      if (r > 1.45 && f < .3) return s;
+      return b;
+    });
+  };
+  const kinds: Record<string, [string, string]> = { red: ['#cf3b2f', '#f4f1ea'], blue: ['#2d5fa0', '#f4f1ea'], green: ['#2f8b57', '#f4f1ea'], black: ['#2a2a2f', '#e2c25a'], white: ['#efece4', '#cf3b2f'] };
+  let n = 0;
+  const chip = (kind: string, x: number, y: number, z: number, tilt: [number, number] = [0, 0]) => {
+    const [b, s] = kinds[kind];
+    const m = mesh(chipGeo(b, s, hash(n, 3) * TAU), vtoon(), 1650 + (n++ % 40));
+    m.position.set(x, y, z); m.rotation.set(tilt[0], 0, tilt[1]); g.add(m);
+  };
+  const stack = (x: number, z: number, list: string[], lean = 0) => list.forEach((k, i) => chip(k, x + (hash(n, 1) - .5) * .16 + lean * i, i * (H + .02), z + (hash(n, 2) - .5) * .16));
+  stack(0, 0, ['red', 'red', 'white', 'red', 'red', 'red', 'white', 'red', 'red', 'red']);
+  stack(4.5, -1.6, ['blue', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue']);
+  stack(-4.4, 1.9, ['black', 'black', 'black', 'black', 'green']);
+  stack(1.9, 4.7, ['green', 'green', 'green'], .06);
+  chip('red', -1.8, .02, 6.4, [.04, -.05]);
+  chip('blue', 5.8, .02, 3.4, [-.03, .02]);
+  // cards: canvas-drawn faces (generic back pattern, ace of spades)
+  const cardTex = (face: boolean) => {
+    const cv = document.createElement('canvas'); cv.width = 252; cv.height = 352;
+    const c = cv.getContext('2d')!;
+    c.fillStyle = '#fbfaf5'; c.fillRect(0, 0, 252, 352);
+    if (!face) {
+      c.fillStyle = '#b8322b'; c.fillRect(16, 16, 220, 320);
+      c.strokeStyle = '#e46b5e'; c.lineWidth = 3;
+      for (let k = -360; k < 400; k += 22) { c.beginPath(); c.moveTo(16 + k, 16); c.lineTo(16 + k + 320, 336); c.stroke(); c.beginPath(); c.moveTo(16 + k + 320, 16); c.lineTo(16 + k, 336); c.stroke(); }
+      c.fillStyle = '#fbfaf5'; c.fillRect(0, 0, 252, 16); c.fillRect(0, 336, 252, 16); c.fillRect(0, 0, 16, 352); c.fillRect(236, 0, 16, 352);
+      c.strokeStyle = '#fbfaf5'; c.lineWidth = 4; c.strokeRect(26, 26, 200, 300);
+    } else {
+      const spade = (cx: number, cy: number, s: number) => {
+        c.beginPath(); c.moveTo(cx, cy - s);
+        c.bezierCurveTo(cx + s * .2, cy - s * .55, cx + s, cy - s * .2, cx + s * .82, cy + s * .35);
+        c.bezierCurveTo(cx + s * .65, cy + s * .8, cx + s * .15, cy + s * .7, cx + s * .06, cy + s * .42);
+        c.lineTo(cx + s * .3, cy + s * 1.05); c.lineTo(cx - s * .3, cy + s * 1.05); c.lineTo(cx - s * .06, cy + s * .42);
+        c.bezierCurveTo(cx - s * .15, cy + s * .7, cx - s * .65, cy + s * .8, cx - s * .82, cy + s * .35);
+        c.bezierCurveTo(cx - s, cy - s * .2, cx - s * .2, cy - s * .55, cx, cy - s);
+        c.fill();
+      };
+      c.fillStyle = '#1b1b20'; spade(126, 168, 58);
+      c.font = 'bold 44px sans-serif'; c.textAlign = 'center'; c.fillText('A', 32, 56); spade(32, 82, 13);
+      c.save(); c.translate(252, 352); c.rotate(Math.PI); c.fillText('A', 32, 56); spade(32, 82, 13); c.restore();
+    }
+    const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+  };
+  [[-4.2, -7.2, .32, false, 0], [3.2, -7.6, -.22, true, .09]].forEach(([x, z, r, face, y], k) => {
+    const w = 6.3, d = 8.8;
+    const geo = new THREE.ExtrudeGeometry(roundedRect(w, d, .45), { depth: .06, bevelEnabled: false, curveSegments: 8 });
+    const uv = geo.attributes.uv as THREE.BufferAttribute;
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, (uv.getX(i) + w / 2) / w, (uv.getY(i) + d / 2) / d);
+    geo.rotateX(-Math.PI / 2);
+    const m = mesh(geo, new THREE.MeshToonMaterial({ map: cardTex(face as boolean), gradientMap: ramp }), 1690 + k);
+    m.position.set(x as number, y as number, z as number); m.rotation.y = r as number; g.add(m);
   });
-  for (const [x, z, r] of [[-3, -5, .3], [3, -6, -.2]]) {
-    const c = box(6.3, .1, 8.8, [x, .1, z], toon('#fbfaf6'), 1455); c.rotation.y = r; g.add(c);
-  }
   return g;
 };
-/** A golf flag on its pin with the hole cup (cm). */
+
+/** A golf flag (cm): white pin with a ferrule ball, a red flag with a soft cloth wave on a sleeve, and the hole cup
+ * (white lip, dark hole) at ground level y = 0. */
 const golfFlag = () => {
   const g = new THREE.Group();
-  g.add(cyl(.8, 210, [0, 105, 0], [0, 0, 0], toon('#f2f2f4'), 1460));
-  const fl = new THREE.Shape(); fl.moveTo(0, 0); fl.lineTo(48, -12); fl.lineTo(0, -28);
-  const m = new THREE.Mesh(new THREE.ExtrudeGeometry(fl, { depth: .6, bevelEnabled: false }), toon('#d6392f'));
-  m.position.set(.8, 208, 0); m.userData.part = 1461; ids.push(m); g.add(m);
-  g.add(cyl(5.4, 1, [0, .2, 0], [0, 0, 0], toon('#1d1e22'), 1462));
+  const pole = new THREE.CylinderGeometry(.95, .95, 212, 16, 1); pole.translate(0, 104, 0);
+  g.add(mesh(vcol(pole, (_x, y) => .82 + .18 * sstep(0, 160, y)), vtoon('#f4f2ec'), 1700));
+  g.add(at(mesh(new THREE.SphereGeometry(1.7, 16, 12), toon('#f4f2ec'), 1701), 0, 210.6, 0));
+  const fg = new THREE.BoxGeometry(46, 30, .5, 60, 20, 1); fg.translate(23 + 1.2, 193, 0);
+  const q = fg.attributes.position as THREE.BufferAttribute;
+  for (let i = 0; i < q.count; i++) {
+    const x = q.getX(i) - 1.2, y = q.getY(i), k = Math.max(0, x / 46);
+    q.setXYZ(i, x + 1.2 - .9 * k * k * 2, y - 2.2 * k * k + .9 * Math.sin(x * .19 + 1) * k, q.getZ(i) + 3.0 * Math.sin(x * .16 - .5) * k ** .7 + .9 * Math.sin(y * .22 + x * .1) * k);
+  }
+  fg.computeVertexNormals();
+  const flagRed = new THREE.Color('#d8352c');
+  vcol(fg, (x) => flagRed.clone().multiplyScalar(.92 + .08 * Math.cos(x * .16 - .5)));
+  g.add(mesh(fg, vtoon(), 1702));
+  g.add(cyl(1.55, 31, [0, 193, 0], [0, 0, 0], toon('#f4f2ec'), 1703));
+  for (const y of [177.6, 208.4]) g.add(cyl(1.7, .7, [0, y, 0], [0, 0, 0], toon('#c9c6bd'), 1704));
+  const lip = mesh(new THREE.TorusGeometry(5.8, .6, 10, 40), toon('#f3f3ef'), 1705); lip.rotation.x = Math.PI / 2; lip.position.y = .3; g.add(lip);
+  const hole = mesh(new THREE.CircleGeometry(5.5, 40), toon('#151618'), 1706); hole.rotation.x = -Math.PI / 2; hole.position.y = .05; g.add(hole);
   return g;
 };
-/** A camping lantern (night boat, cm). */
+
+/** A hurricane lantern (cm) for the night boat: painted tank, brass burner and wick knob, a glowing glass globe (warm,
+ * brighter at the flame, a white catchlight) with the flame drawn through it, guard wires, a vented cap and a wire bail with
+ * a wooden grip. The glass and the flame are unlit (emissive), so they read warm in any scene light. */
 const lantern = () => {
   const g = new THREE.Group();
-  g.add(cyl(7, 3, [0, 1.5, 0], [0, 0, 0], toon('#3a3d44'), 1470));
-  g.add(cyl(5.2, 13, [0, 9.5, 0], [0, 0, 0], new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffd27a') }), 1471));
-  g.add(cyl(6.6, 3, [0, 17, 0], [0, 0, 0], toon('#3a3d44'), 1470));
-  const h = new THREE.Mesh(new THREE.TorusGeometry(5, .6, 8, 20, Math.PI), toon('#3a3d44')); h.position.set(0, 18.5, 0); h.userData.part = 1472; ids.push(h); g.add(h);
+  const paint = new THREE.Color('#b43c2c');
+  const painted = (pts: [number, number][], part: number) => { const m = lathe(pts, 48, vtoon(), part); vcol(m.geometry, (_x, y) => paint.clone().multiplyScalar(.8 + .2 * Math.min(1, y / 25))); return m; };
+  const brass = toon('#cfa64c'), wire = toon('#2c2d31');
+  g.add(painted([[0, 0], [6.3, 0], [7.0, .5], [7.4, 2.0], [7.2, 3.6], [6.2, 4.5], [4.0, 5.0], [0, 5.05]], 1715));
+  g.add(lathe([[0, 4.8], [4.0, 4.8], [4.1, 5.9], [3.5, 6.4], [0, 6.4]], 40, brass, 1716));
+  g.add(cyl(.35, 2.2, [4.6, 5.6, 0], [0, 0, Math.PI / 2], brass, 1717));
+  g.add(cyl(1.05, .55, [5.75, 5.6, 0], [0, 0, Math.PI / 2], brass, 1717));
+  // glass globe: unlit warm gradient + catchlight
+  const gp: [number, number][] = [[3.3, 6.2], [4.4, 7.6], [5.1, 9.4], [5.45, 11.4], [5.45, 13], [5.0, 15.2], [4.0, 17.4], [3.0, 19.1]];
+  const glass = new THREE.LatheGeometry(gp.map(([r, y]) => new THREE.Vector2(r, y)), 64);
+  const hot = new THREE.Color('#fff0b8'), warm = new THREE.Color('#ffbe5c'), amber = new THREE.Color('#e88a2e');
+  vcol(glass, (x, y, z) => {
+    const c = hot.clone().lerp(warm, Math.min(1, Math.abs(y - 11) / 5)).lerp(amber, sstep(4, 8, Math.abs(y - 11)) * .6);
+    const a = Math.atan2(z, x), hl = Math.cos(a - 2.25);
+    if (hl > .9 && y > 9 && y < 15.5) c.lerp(new THREE.Color('#ffffff'), .75);
+    return c;
+  });
+  g.add(mesh(glass, new THREE.MeshBasicMaterial({ vertexColors: true }), 1718));
+  const flame = (pts: [number, number][], col: [string, string, string], order: number) => {
+    const fgeo = new THREE.LatheGeometry(pts.map(([r, y]) => new THREE.Vector2(r, y)), 24);
+    const [c0, c1, c2] = col.map((c) => new THREE.Color(c));
+    vcol(fgeo, (_x, y) => { const t = (y - pts[0][1]) / (pts[pts.length - 1][1] - pts[0][1]); return t < .4 ? c0.clone().lerp(c1, t / .4) : c1.clone().lerp(c2, (t - .4) / .6); });
+    const m = mesh(fgeo, new THREE.MeshBasicMaterial({ vertexColors: true, depthTest: false }), 1719); m.renderOrder = order; return m;
+  };
+  g.add(flame([[0, 7.6], [.9, 8.1], [1.35, 9.3], [1.15, 10.8], [.55, 12.4], [0, 13.6]], ['#ff7a1e', '#ff9a2e', '#ff6a12'], 10));
+  g.add(flame([[0, 8.0], [.55, 8.4], [.8, 9.3], [.65, 10.4], [.3, 11.5], [0, 12.2]], ['#fff2c0', '#fffdf2', '#ffe08a'], 11));
+  // guard wires and a ring
+  for (let k = 0; k < 4; k++) {
+    const a = Math.PI / 4 + k * Math.PI / 2;
+    const pts = [[4.6, 5.6], ...gp.slice(1, -1).map(([r, y]) => [r + .75, y]), [4.3, 19.3]].map(([r, y]) => V(r * Math.cos(a), y, r * Math.sin(a)));
+    g.add(tube(pts, .26, wire, 1722, 40, 6));
+  }
+  const ringW = mesh(new THREE.TorusGeometry(6.25, .3, 6, 48), wire, 1722); ringW.rotation.x = Math.PI / 2; ringW.position.y = 12.2; g.add(ringW);
+  // vented cap
+  g.add(lathe([[0, 19], [4.4, 19], [4.9, 19.4], [4.9, 20], [0, 20]], 48, brass, 1721));
+  g.add(painted([[0, 19.9], [5.6, 19.9], [5.8, 20.6], [4.6, 21.8], [2.7, 22.7], [2.5, 24.0], [3.0, 24.3], [3.0, 25.2], [2.2, 25.6], [0, 25.7]], 1720));
+  for (let k = 0; k < 8; k++) {
+    const a = k / 8 * TAU, v = mesh(new THREE.SphereGeometry(.5, 8, 6), toon('#3a1f18'), 1723);
+    v.scale.set(1, .6, .6); v.position.set(4.2 * Math.cos(a), 21.1, 4.2 * Math.sin(a)); v.lookAt(0, 30, 0); g.add(v);
+  }
+  // wire bail with rivets and a wooden grip
+  const bail = Array.from({ length: 33 }, (_, i) => { const a = i / 32 * Math.PI; return V(6.6 * Math.cos(a), 18 + 12.5 * Math.sin(a), 0); });
+  g.add(tube(bail, .36, wire, 1724, 64, 8));
+  for (const x of [-6.6, 6.6]) g.add(at(mesh(new THREE.SphereGeometry(.75, 12, 8), brass, 1725), x, 18, 0));
+  for (const x of [-6.6, 6.6]) g.add(tube([V(x * .93, 18, 0), V(x * .78, 19.5, 0), V(x * .7, 20.2, 0)], .3, wire, 1722, 8, 6));
+  g.add(cyl(1.0, 4.2, [0, 30.5, 0], [0, 0, Math.PI / 2], woodMat('#a8763f', false), 1726));
   return g;
 };
 
@@ -1130,6 +1595,8 @@ function draw() {
     }
     if (props.horse && shot.pose != null) setGallop(shot.pose);
     if (props.fish2) props.fish2.userData.setExpr(shot.fish ?? {});
+    // rowboat layers for characters seated inside: 'back' = far side + interior, 'front' = near hull side, rail and oar
+    if (props.rowboat) props.rowboat.traverse((o: THREE.Object3D) => { if (o.userData.half) o.visible = !shot.boat || o.userData.half === shot.boat; });
     const x = W * i;
     for (let pass = 0; pass < 3; pass++) {
       ids.forEach((m) => {
