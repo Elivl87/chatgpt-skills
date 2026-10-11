@@ -12,7 +12,7 @@ Our situation (EP001, D6): CTR 3.5 %, 96 % Home traffic, 43 % retention at 0:30,
 | 2 | yt-dlp (metadata mode) (V) | Metadata, thumbnails, subtitles, chapters, heatmap ("most replayed") fields without a key | Unlicense (git/PyPI). Release binaries bundle GPLv3+ code, so use the pip package | None for public videos. NEVER use `--cookies` / `--cookies-from-browser` | Yes | ADOPT with limits (see ToS section) |
 | 3 | AgriciDaniel/claude-youtube (V) | 14 sub-skills: analyze (funnel diagnosis, retention-curve classes, traffic sources), hook (5 variants + drop-off risk), thumbnail brief (3 A/B variants), seo, competitor, ideate | MIT | None required. Optional: Data API key; OAuth (own channel only); DataForSEO and NanoBanana are paid/extra, skip | Yes | ADOPT as a prompt library. Read the SKILL.md files first and cherry-pick; do not install wholesale |
 | 4 | PySceneDetect (Breakthrough) (V) | Cut detection (ContentDetector/AdaptiveDetector). Gives shots per minute and the cut-rhythm of reference videos | BSD-3-Clause | None | Yes, fast | ADOPT. Pacing metric for reference videos |
-| 5 | SystemRandom faster-whisper (CTranslate2) (U) | Local transcripts with word timestamps, so words per minute, pauses and hook text | MIT (my knowledge) | None | Yes with `small`/`base` int8; slow-ish for 10 min, fine | ADOPT as fallback when captions are missing |
+| 5 | SYSTRAN/faster-whisper (CTranslate2) (U) | Local transcripts with word timestamps, so words per minute, pauses and hook text | MIT (my knowledge) | None | Yes with `small`/`base` int8; slow-ish for 10 min, fine | ADOPT as fallback when captions are missing |
 | 6 | jdepoix/youtube-transcript-api (V) | Fetches existing captions fast | MIT badge (V) | None; no cookies (feature broken) | Yes | USE WITH CAUTION. Uses an undocumented endpoint; cloud IPs are often blocked. Fallback chain: yt-dlp subtitles -> faster-whisper |
 | 7 | TheWhiteWater/tube-bridge (V) | Self-hosted YouTube MCP: search, video info, trending, transcripts, single frames, comments, local semantic corpus (SQLite + sqlite-vec, BGE-small via fastembed) | MIT | 14 of 17 tools need no key; comments/channel tools need the Data API key | Probably (small embedder; untested) | CONSIDER. Overlaps with 1 + 2 + 6 but one MCP; same ToS notes as yt-dlp and transcript-api. Maintenance unknown |
 | 8 | shipshitdev youtube-video-analyst skill (U) | Transcript-only deconstruction: hook architecture, structure blueprint, retention mechanics, pacing (11 sections) | Not stated in the root README (V) | None | Yes | CONSIDER as a prompt template. Its repo listing could not be confirmed (README does not list it); verify the path and licence before reuse |
@@ -24,7 +24,6 @@ Our situation (EP001, D6): CTR 3.5 %, 96 % Home traffic, 43 % retention at 0:30,
 | 14 | jeremylongshore/claude-code-plugins-plus-skills (yt-research etc.) (V licence) | Large skill collection with a YouTube research skill | MIT | Unknown | Yes | LOW PRIORITY. Quality unverified, bulk collection |
 | 15 | ishuagrawal/skills video-by-reference | Already known to the team | n/a | n/a | n/a | Keep for style/cuts/palette/audio of a single reference video |
 
-Note on row 5: the "SystemRandom" label is a typo for nothing; the tool is simply faster-whisper (SYSTRAN/faster-whisper).
 
 ## Rejected or not found
 
