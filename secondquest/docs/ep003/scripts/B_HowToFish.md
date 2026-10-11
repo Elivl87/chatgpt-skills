@@ -1,6 +1,6 @@
 # EP003 · Alternative B · How to Fish — "Nobody Is Fishing"
 
-Status: DRAFT v3 (not locked; v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: **LOCKED v3 (Producer, 2026-10-11)** — chosen for EP003. Used verbatim; any change only via a SCRIPT CHANGE PROPOSAL. Factual lock rechecks below run before recording. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `B_HowToFish_v1.md`.
 
 ## Creative spine

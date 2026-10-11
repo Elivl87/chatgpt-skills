@@ -1,6 +1,6 @@
 # EP003 · Alternative A · Grand Theft Auto VI — "Before GTA 6"
 
-Status: DRAFT v3 (not locked; v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: **RESERVED for EP004 (Producer, 2026-10-11)** — DRAFT v3, not locked. Depends on the GTA VI date (Nov 19, 2026): re-check and adapt before EP004 lock. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `A_GTA6_v1.md`.
 
 ## Creative spine
