@@ -20,6 +20,8 @@ ART = {
     'quest_laugh.png': ('docs/art_orders/quest/library_v2/results/02_laughing_pointing.png', 900),
     'pixie_laugh.png': ('docs/art_orders/pixie/library/results/04_laughing_pointing.png', 900),
     'rowboat_side.png': ('public/art/ep003/props3d/rowboat_side.png', None),
+    'rowboat_side_back.png': ('public/art/ep003/props3d/rowboat_side_back.png', None),
+    'rowboat_side_front.png': ('public/art/ep003/props3d/rowboat_side_front.png', None),
     'rowboat_34.png': ('public/art/ep003/props3d/rowboat_34.png', None),
     # the companion fish v2 (Producer, 2026-10-12): deadpan base + the rendered expressions
     'fish_34.png': ('public/art/ep003/props3d/fish2_34_deadpan.png', None),
