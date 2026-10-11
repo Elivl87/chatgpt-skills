@@ -126,7 +126,7 @@ def clock(fr, txt, k=1.0):
 
 
 def f6(t):
-    base = ROOM.convert('RGBA')
+    base = K.dolly('living_room_night_gaming', t, T_F6, T_F7, amp=-P(46))
     q = K.sized(cutout('quest:gaming_excited'), h=PH * .62)
     base.alpha_composite(q, (int(PW * .32 - q.width / 2), int(PH * .97 - q.height)))
     fr = K.crop_cam(base, K.cam_lerp((1.0, .5, .5), (1.12, .45, .55), (t - T_F6) / (T_F7 - T_F6)))

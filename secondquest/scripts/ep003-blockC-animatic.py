@@ -53,7 +53,7 @@ def dark(fr, k=.4):
 
 
 def c1(t):
-    fr = K.crop_cam(CITY.convert('RGBA'), K.cam_lerp((1.0, .5, .5), (1.15, .55, .45), (t - T0) / 4))
+    fr = K.crop_cam(K.dolly('city_apartments_evening', t, T0, T_C2), K.cam_lerp((1.0, .5, .5), (1.15, .55, .45), (t - T0) / 4))
     return K.marker_at(fr, 'the other way', .5, .15, size=26, k=min(1, (t - T0 - .4) / .3))
 
 
@@ -79,7 +79,7 @@ def thermometer(h):
 
 def c3(t):
     if t < T_KID:                                                          # three weeks: the calendar pages tear off
-        fr = dark(K.crop_cam(ROOM_N.convert('RGBA'), (1.1, .5, .5)), .3)
+        fr = dark(K.crop_cam(K.dolly('home_living_night', t, T_C3, T_KID), (1.1, .5, .5)), .3)
         c = K.sized(CAL, h=S(380))
         n = int(min(3, (t - T_C3) / .35))
         for i in range(3 - n):
@@ -92,13 +92,13 @@ def c3(t):
             fr.alpha_composite(c, (int(W / 2 - c.width / 2), int(H * .45 - c.height / 2)))
         return K.marker_at(fr, '3 weeks later', .5, .88, size=26, k=min(1, (t - T_C3) / .3))
     if t < T_CAR:                                                          # somebody's kid is sick
-        fr = dark(K.crop_cam(ROOM_N.convert('RGBA'), (1.2, .5, .55)), .2)
+        fr = dark(K.crop_cam(K.dolly('home_living_night', t, T_KID, T_CAR, amp=-P(40)), (1.2, .5, .55)), .2)
         th = thermometer(S(260) / (W / 1280))
         th = K.sized(th, h=S(260))
         fr.alpha_composite(th, (int(W * .5 - th.width / 2), int(H * .42 - th.height / 2)))
         return K.marker_at(fr, "sorry, kid's sick", .5, .82, size=24, k=min(1, (t - T_KID) / .3), paper=True)
     if t < T_DIES:                                                         # the car's new noise
-        base = TRAFFIC.convert('RGBA')
+        base = K.dolly('city_traffic', t, T_CAR, T_DIES)
         q = K.sized(DRIVE, h=PH * .78)
         base.alpha_composite(q, (int(PW * .5 - q.width / 2), int(PH - q.height)))
         fr = K.crop_cam(base, K.cam_lerp((1.05, .5, .5), (1.2, .5, .45), (t - T_CAR) / 3))
@@ -120,7 +120,7 @@ def cursor_box(fr, t, stamp=None):
 
 
 def c4(t):
-    fr = dark(K.crop_cam(ROOM_N.convert('RGBA'), (1.0, .5, .5)), .5)
+    fr = dark(K.crop_cam(K.dolly('home_living_night', t, T_C4, T_C5), (1.05, .5, .5)), .5)
     fr = cursor_box(fr, t)
     for t0, txt, x, ok in ((T_DIST, 'not distance', .22, False), (T_TIME, 'not even time', .5, False), (T_ASK, 'asking', .78, True)):
         if t >= t0:

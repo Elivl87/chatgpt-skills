@@ -43,7 +43,7 @@ def msgs():
 
 
 def b1(t):
-    fr = K.crop_cam(ROOM.convert('RGBA'), K.cam_lerp((1.0, .5, .5), (1.12, .5, .5), (t - T0) / 4))
+    fr = K.crop_cam(K.dolly('living_room_night_gaming', t, T0, T_B2), K.cam_lerp((1.0, .5, .5), (1.12, .5, .5), (t - T0) / 4))
     if t < T_INV - .15:
         return K.marker_at(fr, '$7.99', .5, .45, size=54, k=min(1, (t - T0) / .3))
     k = min(1, (t - T_INV + .15) / .35)

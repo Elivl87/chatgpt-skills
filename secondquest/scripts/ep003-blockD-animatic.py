@@ -138,7 +138,7 @@ def panel(which, t):
         fr.alpha_composite(lamp.filter(ImageFilter.GaussianBlur(S(20))))
         ch = K.sized(K.prop('chips'), h=S(220)); fr.alpha_composite(ch, (int(W / 2 - ch.width / 2), int(H * .6 - ch.height / 2)))
         return fr
-    base = SHOP.convert('RGBA')
+    base = K.dolly('workshop', t, T_CAR, T_NOBODY + 1.5)
     q = K.sized(WRENCH, h=PH * .7); base.alpha_composite(q, (int(PW * .5 - q.width / 2), int(PH * .95 - q.height)))
     return K.crop_cam(base, (1.0, .5, .5))
 

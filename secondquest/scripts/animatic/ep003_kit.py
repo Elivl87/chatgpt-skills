@@ -475,3 +475,40 @@ def insert_close(fr, k_on, cx, cy, zoom=1.6):
     cw, ch = W / zoom, H / zoom
     x0 = min(max(cx * W - cw / 2, 0), W - cw); y0 = min(max(cy * H - ch / 2, 0), H - ch)
     return fr.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.BICUBIC)
+
+
+# ------------------------------------------------------------------ 2.5D parallax on painted/photo plates (depth maps from
+# tools/depth/depth_maps.py, Depth Anything V2 Small, Apache-2.0). The plate is never edited: pixels are displaced by depth.
+PLATES = {'living_room_night_gaming': 'public/art/core/backgrounds/living_room_night_gaming.png',
+          'city_apartments_evening': 'public/art/core/backgrounds/city_apartments_evening.png',
+          'city_traffic': 'public/art/core/backgrounds/city_traffic.png',
+          'home_living_night': 'public/art/core/backgrounds/home_living_night.png',
+          'workshop': 'public/art/genres/farming/backgrounds/workshop.png'}
+
+
+@lru_cache(maxsize=8)
+def _plate_depth(name):
+    import cv2
+    img = np.asarray(Image.open(ROOT / PLATES[name]).convert('RGB').resize((PW, PH), Image.LANCZOS))
+    d = np.asarray(Image.open(ROOT / f'public/art/ep003/depth/{name}_depth.png'), np.float32) / 65535
+    d = cv2.resize(cv2.GaussianBlur(d, (0, 0), 3), (PW, PH))
+    return img, d
+
+
+def parallax(name, dx, dy=0.0):
+    """The plate seen from a camera moved by (dx, dy) plate px: near things shift more than far ones."""
+    import cv2
+    img, d = _plate_depth(name)
+    if abs(dx) < .5 and abs(dy) < .5:
+        return Image.fromarray(img).convert('RGBA')
+    yy, xx = np.mgrid[0:PH, 0:PW].astype(np.float32)
+    k = (d - .35)
+    out = cv2.remap(img, xx + dx * k, yy + dy * k, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+    return Image.fromarray(out).convert('RGBA')
+
+
+def dolly(name, t, t0, t1, amp=None, vertical=0.0):
+    """A slow lateral 2.5D camera move over a shot (t0..t1): the parallax shifts from -amp/2 to +amp/2."""
+    amp = P(46) if amp is None else amp
+    k = ease(min(1, max(0, (t - t0) / max(.1, t1 - t0))))
+    return parallax(name, amp * (k - .5), vertical * amp * (k - .5))
