@@ -34,11 +34,11 @@
         font: 800 30px/1 "Inter", sans-serif; letter-spacing: .06em; color: #fff; text-transform: uppercase; white-space: nowrap; -webkit-text-stroke: 1px rgba(22, 22, 31, .35); }
 
       /* ---------------- F1-F2: the genre stage, the tag, the trash can ---------------- */
-      #stBg { position: absolute; left: -220px; top: -140px; width: 1720px; height: 1000px;
+      #stBg { position: absolute; left: -520px; top: -260px; width: 2400px; height: 1240px;
         background: radial-gradient(ellipse 50% 52% at 50% 42%, #2e2b56 0%, #1c1a37 45%, #0c0b18 100%); }
-      #stFloor { position: absolute; left: -220px; top: 556px; width: 1720px; height: 320px;
+      #stFloor { position: absolute; left: -520px; top: 556px; width: 2400px; height: 420px;
         background: linear-gradient(180deg, rgba(56, 48, 96, .55) 0%, rgba(30, 27, 54, .85) 30%, rgba(14, 12, 26, .95) 100%); }
-      #stEdge { position: absolute; left: -220px; top: 554px; width: 1720px; height: 3px; background: rgba(255, 220, 170, .14); }
+      #stEdge { position: absolute; left: -520px; top: 554px; width: 2400px; height: 3px; background: rgba(255, 220, 170, .14); }
       #spotF { position: absolute; left: 905px; top: -90px; width: 0; height: 0; }
       #spotF .cone { position: absolute; left: -300px; top: 0; width: 600px; height: 700px; mix-blend-mode: screen;
         background: linear-gradient(180deg, rgba(255, 236, 190, .62) 0%, rgba(255, 220, 160, .26) 70%, rgba(255, 220, 160, 0) 100%);
@@ -81,7 +81,7 @@
       .scloud::before, .scloud::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
       .scloud::before { width: 46%; height: 150%; left: 14%; top: -62%; }
       .scloud::after { width: 34%; height: 120%; left: 50%; top: -40%; }
-      #sumSun { position: absolute; left: 934px; top: 114px; width: 140px; height: 140px; }
+      #sumSun { position: absolute; left: 939px; top: 163px; width: 130px; height: 130px; }
       #sumSun .glow { position: absolute; left: -130px; top: -130px; width: 400px; height: 400px; border-radius: 50%; mix-blend-mode: screen;
         background: radial-gradient(circle, rgba(255, 236, 170, .75) 0%, rgba(255, 210, 120, .25) 35%, rgba(255, 200, 120, 0) 65%); }
       #sumSun .disc { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 45% 40%, #fff6d8 0%, #ffe7a6 55%, #ffc978 100%); box-shadow: 0 0 40px 12px rgba(255, 214, 140, .75); }
@@ -147,28 +147,28 @@
       #lantern img { width: 100%; height: 100%; }
       #lanGlow { position: absolute; left: -140px; top: -170px; width: 340px; height: 340px; border-radius: 50%; mix-blend-mode: screen;
         background: radial-gradient(circle, rgba(255, 200, 120, .75) 0%, rgba(255, 170, 90, .25) 35%, rgba(255, 160, 80, 0) 68%); }
-      .dyn { position: absolute; left: 0; top: 0; width: 30px; height: 48px; }
+      .dyn { position: absolute; left: 0; top: 0; width: 38px; height: 61px; }
       .dyn img { width: 100%; height: 100%; }
-      #fishRod { position: absolute; left: 685px; top: -112px; width: 230px; height: 170px; }
+      #fishRod { position: absolute; left: 656px; top: -138px; width: 204px; height: 151px; filter: drop-shadow(2px -2px 0 rgba(190, 210, 255, .55)) brightness(1.15); }
       #fishRod img { transform: scaleX(-1); }
-      #fishRipple { position: absolute; left: 700px; top: 40px; width: 200px; height: 30px; border: 3px solid rgba(220, 230, 255, .55); border-radius: 50%; }
-      #chkTag { position: absolute; left: 865px; top: -27px; width: 0; height: 0; }
+      #fishRipple { position: absolute; left: 676px; top: 44px; width: 180px; height: 28px; border: 3px solid rgba(220, 230, 255, .55); border-radius: 50%; }
+      #chkTag { position: absolute; left: 897px; top: -37px; width: 0; height: 0; }
       #chkTag .str { position: absolute; left: -2px; top: 0; width: 3px; height: 46px; background: #e9e1cc; }
       #chkTag .pin { position: absolute; left: -9px; top: -12px; width: 18px; height: 26px; border-radius: 4px; background: #c98a4a; border: 3px solid var(--ink); }
       #chkCard { position: absolute; left: -92px; top: 44px; width: 184px; height: 78px; background: #fffaf0; border: 4px solid var(--ink); border-radius: 12px; box-shadow: 5px 6px 0 var(--ink);
-        display: flex; align-items: center; justify-content: center; gap: 14px; transform-origin: 50% 0%; }
+        display: flex; align-items: center; justify-content: center; gap: 14px; transform-origin: 50% 0%; filter: brightness(1.3); }
       #chkCard .box { width: 40px; height: 40px; border: 5px solid var(--ink); border-radius: 7px; background: #fff; }
       #chkCard .t { font-family: "Anton", sans-serif; font-size: 50px; line-height: 1; color: var(--ink); letter-spacing: .03em; }
       #gradeBlue { background: linear-gradient(180deg, #2a3a86 0%, #34418c 45%, #1c2554 100%); mix-blend-mode: multiply; }
       #warmL { background: radial-gradient(ellipse 80% 70% at 72% 40%, rgba(255, 180, 110, .55) 0%, rgba(255, 140, 90, .15) 50%, rgba(0,0,0,0) 80%); mix-blend-mode: screen; }
-      #banner { position: absolute; left: 330px; top: 38px; width: 620px; height: 108px; background: rgba(252, 249, 242, .97); border: 4px solid var(--ink); border-radius: 26px;
+      #banner { position: absolute; left: 300px; top: 38px; width: 680px; height: 118px; background: rgba(252, 249, 242, .97); border: 4px solid var(--ink); border-radius: 26px;
         box-shadow: 7px 8px 0 var(--ink), 0 14px 30px rgba(0, 0, 0, .35); display: flex; align-items: center; gap: 16px; padding: 0 22px; }
       #banner .gav { position: relative; width: 66px; height: 66px; flex: none; }
       #banner .gav .avd { width: 36px; height: 36px; border-width: 3px; box-shadow: none; }
       #banner .tx { flex: 1; }
-      #banner .l1 { display: flex; justify-content: space-between; font: 800 23px/1.1 "Inter", sans-serif; color: var(--ink); }
+      #banner .l1 { display: flex; justify-content: space-between; font: 800 26px/1.1 "Inter", sans-serif; color: var(--ink); }
       #banner .l1 .tm { font: 800 19px/1.2 "Inter", sans-serif; color: rgba(22, 22, 31, .55); }
-      #banner .l2 { font: 600 26px/1.3 "Inter", sans-serif; color: var(--ink); margin-top: 4px; }
+      #banner .l2 { font: 600 30px/1.3 "Inter", sans-serif; color: var(--ink); margin-top: 4px; }
       #banner .l2 b { font-weight: 800; color: var(--leo); }
 
       /* ---------------- F6: the living room at 1 AM ---------------- */
@@ -179,16 +179,16 @@
       .kid { position: absolute; }
       .kid img { position: absolute; inset: 0; width: 100%; height: 100%; filter: brightness(.94) drop-shadow(4px -1px 0 rgba(150, 200, 255, .45)); }
       .kid .shd { position: absolute; border-radius: 50%; background: radial-gradient(ellipse, rgba(10, 6, 14, .6) 0%, rgba(10, 6, 14, 0) 70%); }
-      #clockBox { position: absolute; left: 700px; top: 48px; width: 312px; height: 132px; }
+      #clockBox { position: absolute; left: 690px; top: 52px; width: 352px; height: 132px; }
       #clockBox .body { position: absolute; inset: 0; border-radius: 22px; background: linear-gradient(180deg, #2b2330 0%, #17121c 100%); border: 5px solid var(--ink); box-shadow: 7px 8px 0 var(--ink); }
       #clockBox .face { position: absolute; left: 16px; top: 14px; right: 16px; bottom: 14px; border-radius: 12px; background: #0b080e; box-shadow: inset 0 0 18px rgba(0,0,0,.9); overflow: hidden; }
       #clockBox .dig { position: absolute; top: 2px; height: 100px; display: flex; align-items: flex-start; font-family: "Anton", sans-serif; font-size: 92px; color: #ff5a4a;
         text-shadow: 0 0 14px rgba(255, 70, 60, .85), 0 0 3px rgba(255, 140, 120, .9); }
       .ccol { display: block; height: 100px; overflow: hidden; }
       .cstrip { display: block; }
-      .cstrip span, .csep { display: block; height: 100px; line-height: 104px; text-align: right; }
-      #clockBox .am { position: absolute; right: 26px; top: 24px; font: 800 18px "Inter", sans-serif; color: #ff5a4a; letter-spacing: .08em; text-shadow: 0 0 8px rgba(255, 70, 60, .8); }
-      #lastMk { position: absolute; left: 96px; top: 120px; width: 330px; height: 150px; }
+      .cstrip span, .csep { display: block; height: 100px; line-height: 104px; text-align: center; }
+      #clockBox .am { position: absolute; right: 24px; top: 28px; font: 800 18px "Inter", sans-serif; color: #ff5a4a; letter-spacing: .08em; text-shadow: 0 0 8px rgba(255, 70, 60, .8); }
+      #lastMk { position: absolute; left: 236px; top: 104px; width: 330px; height: 150px; }
       #lastMk .mk { left: 92px; top: 52px; font-size: 26px; }
       #lastMk .fing { position: absolute; left: 0; top: 0; width: 92px; height: 128px; }
       #lastStrike { position: absolute; left: 104px; top: 70px; width: 96px; height: 10px; background: var(--red); border: 3px solid var(--ink); border-radius: 5px; transform-origin: 0 50%; }
@@ -232,8 +232,8 @@
         border: 5px solid #fff; box-shadow: 0 0 0 2px rgba(22,22,31,.18), 0 7px 0 rgba(22,22,31,.22); font: 800 40px/1 "Inter", sans-serif; color: #16161f; transform: rotate(-4deg); transform-origin: 20% 50%; }
       .mini .k b { width: 38px; height: 38px; border-radius: 50%; background: #16161f; display: block; }
       .mini .fl { position: absolute; inset: 0; background: #fffbe8; opacity: 0; }
-      .mini .bd { position: absolute; right: -14px; top: -14px; width: 78px; height: 78px; border-radius: 50%; background: var(--red); border: 6px solid #fff; box-shadow: 0 0 0 3px #16161f;
-        display: flex; align-items: center; justify-content: center; font: 800 38px/1 "Inter", sans-serif; color: #fff; opacity: 0; }
+      .mini .bd { position: absolute; right: -40px; top: -40px; width: 160px; height: 160px; border-radius: 50%; background: var(--red); border: 12px solid #fff; box-shadow: 0 0 0 5px #16161f;
+        display: flex; align-items: center; justify-content: center; font: 800 80px/1 "Inter", sans-serif; color: #fff; opacity: 0; }
       #heroBadge { position: absolute; left: 798px; top: 34px; width: 78px; height: 78px; border-radius: 50%; background: var(--red); border: 6px solid #fff; box-shadow: 0 0 0 3px #16161f;
         display: flex; align-items: center; justify-content: center; font: 800 38px/1 "Inter", sans-serif; color: #fff; opacity: 0; }
       #reelDim { background: radial-gradient(ellipse 52% 34% at 50% 50%, rgba(10, 9, 22, .82) 0%, rgba(10, 9, 22, .55) 55%, rgba(10, 9, 22, 0) 100%); }
@@ -428,7 +428,7 @@
                   <path class="dr" d="M 500 600 C 530 590, 550 610, 580 600 S 640 590, 670 600"/>
                   <g id="stickA"><circle class="dr" cx="628" cy="392" r="22"/><path class="dr" d="M 628 414 L 628 466 M 628 432 L 600 452 M 628 432 L 650 448"/><g id="headA"><path class="dr" d="M 619 388 L 621 390 M 636 388 L 638 390 M 620 402 Q 628 408 636 402"/></g></g>
                   <g id="stickB"><circle class="dr" cx="748" cy="392" r="22"/><path class="dr" d="M 748 414 L 748 466 M 748 432 L 770 450"/><path class="dr" d="M 739 388 L 741 390 M 756 388 L 758 390 M 740 402 Q 748 408 756 402"/>
-                    <g id="armB"><path class="dr" d="M 748 432 L 716 418"/></g></g>
+                    <g id="armB"><path class="dr" d="M 748 432 L 674 406"/></g></g>
                 </g>
                 <g id="slapFx" fill="none" stroke="#d6392f" stroke-width="5" stroke-linecap="round"><path d="M 600 360 L 580 350 M 596 382 L 572 384 M 604 402 L 584 414"/></g>
               </svg>
@@ -459,7 +459,7 @@
                 <div class="tape" style="left: -30px; top: -6px; transform: rotate(-38deg)"></div><div class="tape" style="left: 222px; top: -6px; transform: rotate(38deg)"></div></div>
               <svg class="dw" viewBox="0 0 1140 640">
                 <path id="heart" d="M 570 268 C 552 238, 506 246, 514 284 C 520 312, 556 330, 570 350 C 584 330, 620 312, 626 284 C 634 246, 588 238, 570 268 Z" fill="none" stroke="#d6392f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                <path id="hsCircle" d="M 92 48 C 120 18, 330 20, 368 44 C 390 60, 330 78, 210 80 C 120 80, 70 70, 82 52 C 90 42, 110 36, 130 34" fill="none" stroke="#d6392f" stroke-width="5" stroke-linecap="round"/>
+                <path id="hsCircle" transform="translate(16 6)" d="M 92 48 C 120 18, 330 20, 368 44 C 390 60, 330 78, 210 80 C 120 80, 70 70, 82 52 C 90 42, 110 36, 130 34" fill="none" stroke="#d6392f" stroke-width="5" stroke-linecap="round"/>
               </svg>
               <div class="mk" id="mkFounders">The founders</div>
               <div class="shade"></div></div>
@@ -475,6 +475,7 @@
             <div id="gridRig"><div id="minis"></div><div id="heroPhone"></div><div id="heroBadge">1</div></div>
           </div>
         </div></div>
+        <div id="pings"></div>
         <div id="reelDim" class="full" style="opacity: 0"></div>
         <div id="bigF"><div id="reel" class="big"></div><span id="plus" class="big">+</span></div>
       </div>
@@ -796,24 +797,25 @@
       const HOURS = ["12", "1", "2", "3"];
       const clk = (function () { const host = $("#clkDig");
         const col = (cls, w, items) => { const c = mk("span", "ccol", host, `width:${w}px`); const s = mk("span", "cstrip", c); items.forEach((t) => { mk("span", "", s).textContent = t; }); return s; };
-        const h = col("", 92, HOURS); const sep = mk("span", "csep", host, "width:30px; text-align:center"); sep.textContent = ":";
-        const tens = col("", 52, Array.from({ length: 30 }, (_, i) => String(i % 6)));
-        const ones = col("", 52, Array.from({ length: 80 }, (_, i) => String(i % 10)));
+        const h = col("", 96, HOURS); h.style.textAlign = "right"; Array.from(h.children).forEach((c) => { c.style.textAlign = "right"; }); const sep = mk("span", "csep", host, "width:26px"); sep.textContent = ":";
+        const tens = col("", 48, Array.from({ length: 30 }, (_, i) => String(i % 6)));
+        const ones = col("", 48, Array.from({ length: 80 }, (_, i) => String(i % 10)));
         return { h, tens, ones, sep }; })();
       // [hour index, tens index, ones index] per stop: 12:41 -> 1:00 -> 1:47 -> 2:31 -> 3:12 (always rolling forward)
       const CLK = [[0, 4, 1], [1, 6, 10], [1, 10, 27], [2, 15, 41], [3, 19, 62]];
       const CAN = (c) => `<svg viewBox="0 0 34 60"><rect x="2" y="6" width="30" height="52" rx="6" fill="${c}" stroke="#16161f" stroke-width="3"/><rect x="2" y="24" width="30" height="12" fill="#f4efe6" stroke="#16161f" stroke-width="2"/><ellipse cx="17" cy="7" rx="13" ry="4" fill="#c9ced6" stroke="#16161f" stroke-width="3"/></svg>`;
+      const BAG = `<svg viewBox="0 0 110 90"><path d="M8 10 L 102 6 L 98 18 C 104 40, 104 60, 98 76 L 102 86 L 8 88 L 12 76 C 6 56, 6 36, 12 18 Z" fill="#f2b23a" stroke="#16161f" stroke-width="4" stroke-linejoin="round"/><path d="M12 18 L 98 16 M 12 76 L 98 76" stroke="#16161f" stroke-width="3" fill="none"/><ellipse cx="55" cy="47" rx="32" ry="17" fill="#d6392f" stroke="#16161f" stroke-width="3"/><text x="55" y="54" text-anchor="middle" font-family="Anton" font-size="19" fill="#fff4dc">CHIPS</text><path d="M 20 30 L 30 26 M 80 64 L 90 60" stroke="rgba(255,255,255,.6)" stroke-width="3" stroke-linecap="round"/></svg>`;
       // snacks, in waves: [x, y(bottom), kind, rot, layer]
       const SNACKS = [
-        [[548, 704, "can", -8, "F"], [906, 654, "chips", 6, "B"]],
-        [[118, 690, "can", 14, "F"], [660, 640, "can", 0, "B"], [1040, 700, "chips", -10, "F"]],
-        [[300, 712, "chips", 8, "F"], [612, 690, "can", 76, "F"], [1110, 640, "can", -4, "B"], [470, 620, "can", 0, "B"]],
-        [[60, 640, "chips", -14, "B"], [700, 712, "can", 90, "F"], [860, 708, "chips", 12, "F"], [1180, 700, "can", 10, "F"], [214, 650, "can", -6, "B"], [980, 640, "can", 0, "B"]],
+        [[548, 640, "can", -8, "F"], [905, 598, "chips", 6, "B"]],
+        [[150, 650, "can", 14, "F"], [655, 590, "can", 0, "B"], [985, 640, "chips", -10, "F"]],
+        [[312, 655, "chips", 8, "F"], [605, 652, "can", 76, "F"], [1040, 600, "can", -4, "B"], [470, 586, "can", 0, "B"]],
+        [[86, 604, "chips", -14, "B"], [712, 662, "can", 90, "F"], [840, 640, "chips", 12, "F"], [1062, 652, "can", 10, "F"], [226, 600, "can", -6, "B"], [960, 588, "can", 0, "B"]],
       ];
       const snackWaves = SNACKS.map((wave) => wave.map(([x, y, kind, rot, layer]) => {
-        const [w, h] = kind === "can" ? [38, 66] : [112, 86];
+        const [w, h] = kind === "can" ? [46, 80] : [104, 86];
         const e = mk("div", "snack", $(layer === "F" ? "#snacksFront" : "#snacksBack"), `left:${x - w / 2}px; top:${y - h}px; width:${w}px; height:${h}px; transform-origin: 50% 100%`);
-        e.innerHTML = kind === "can" ? CAN(["#d6392f", "#2f7fd6", "#d6392f", "#3aa35a"][Math.floor(R() * 4)]) : '<img src="assets/chips.png" alt="" />';
+        e.innerHTML = kind === "can" ? CAN(["#d6392f", "#2f7fd6", "#d6392f", "#3aa35a"][Math.floor(R() * 4)]) : BAG;
         return { e, rot }; }));
 
       /* ---------------- F7 rigs: hoodie silhouettes (no faces), draw-on paths ---------------- */
@@ -823,7 +825,7 @@
         `<path d="M 92 140 C 86 90, 106 70, 129 70 C 152 70, 172 90, 166 140 C 160 154, 98 154, 92 140 Z" fill="${d}"/>` +
         `<path d="M 112 170 L 108 214 M 146 170 L 150 214" stroke="#f4efe6" stroke-width="4" stroke-linecap="round"/>`;
       $("#ph1").innerHTML = HOOD("#2f8f8a", "#1b2a33"); $("#ph2").innerHTML = HOOD("#d9772f", "#2a1d1a");
-      const prepDraw = (els) => els.forEach((p) => { const L = p.getTotalLength(); p.style.strokeDasharray = L + " " + (L + 2); p.dataset.len = L; });
+      const prepDraw = (els) => els.forEach((p) => { const L = p.getTotalLength(); p.style.strokeDasharray = L + " " + (L + 40); p.dataset.len = L + 18; });
       prepDraw([$("#heart"), $("#hsCircle"), $("#p2axes"), $("#p2a"), $("#p2b"), $("#p3up")].concat($$("#p3boat .dr")));
       const p3hearts = [0, 1, 2].map((i) => { const e = mk("div", "abs", $("#p3hearts"), `left:${640 + i * 46}px; top:${360}px; width:34px; height:30px`);
         e.innerHTML = '<svg viewBox="0 0 34 30" style="width:100%;height:100%;overflow:visible"><path d="M17 8 C 14 0, 2 2, 4 12 C 6 20, 14 24, 17 29 C 20 24, 28 20, 30 12 C 32 2, 20 0, 17 8 Z" fill="#d6392f" stroke="#16161f" stroke-width="2.5"/></svg>'; return e; });
@@ -849,6 +851,7 @@
         for (const ch of value) { if (ch === ",") { mk("span", "dsep", host).textContent = ","; continue; }
           const col = mk("span", "dcol", host); const strip = mk("span", "dstrip", col); const stops = 20 + Number(ch);
           for (let i = 0; i <= stops; i++) mk("span", "", strip).textContent = String(i % 10); reelDigits.push({ strip, stops }); } })();
+      const pingRings = [0, 1, 2].map(() => mk("div", "ring", $("#pings"), "left:140px; top:-140px; width:1000px; height:1000px; opacity:0; border-width:10px; border-color: rgba(255, 246, 220, .95)"));
       // the black lake: a few static reflection streaks
       for (let i = 0; i < 9; i++) mk("div", "bl", $("#blackLines"), `left:${200 + R() * 880}px; top:${360 + i * 36 + R() * 10}px; width:${40 + R() * 140}px`);
 
@@ -935,7 +938,7 @@
       tl.to("#tagF", { y: -640, duration: .45, ease: "power3.in" }, T.invited - .3);
       cam("#pushStage", T.invited - .15, .7, focus(905, 410, .95), "power3.inOut");
       [["A", 0], ["B", .06], ["P", .1], ["Q", .16]].forEach(([k, d]) => { const f = FR[k];
-        tl.set(f.el, { x: f.dir * 900 }, 0);
+        tl.set(f.el, { x: f.dir * 1500, opacity: 0 }, 0); tl.set(f.el, { opacity: 1 }, T.invited - .05);
         tl.to(f.el, { x: 0, duration: .5, ease: "back.out(1.4)" }, T.invited + d);
         ft(f.el, { rotation: f.dir * 14 }, { rotation: 0, duration: .8, ease: "elastic.out(1, .45)", transformOrigin: "50% 100%" }, T.invited + d + .1); });
       // "friends": squeeze! everyone shoves in, the can wobbles, the fish's eyes go wide
@@ -971,8 +974,8 @@
       tl.to("#calRig", { y: 0, rotation: 0, duration: .7, ease: "bounce.out" }, T.maybe);
       cam("#pushSum", T.maybe, .9, focus(840, 380, 1.08), "power2.inOut");
       // "this year's": the sun rises from behind the calendar
-      tl.set("#sumSun", { y: 220 }, 0);
-      tl.to("#sumSun", { y: -6, duration: .9, ease: "back.out(1.6)" }, T.thisy - .1);
+      tl.set("#sumSun", { y: 260, opacity: 0 }, 0); tl.set("#sumSun", { opacity: 1 }, T.thisy - .12);
+      tl.to("#sumSun", { y: -70, duration: .9, ease: "back.out(1.6)" }, T.thisy - .1);
       tl.fromTo("#sumSun .glow", { scale: .9 }, { scale: 1.1, duration: .6, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, T.thisy);
       // "summer": three pages tear off (stagger), fall, bounce into a pile
       cpages.forEach((p, i) => { const at = T.summer - .04 + i * .09, dir = i % 2 ? 1 : -1;
@@ -985,7 +988,7 @@
       flash(T.hit + .22, .16);
       // the sun sinks behind the calendar's top edge; the camera settles to rest so it matches F4's dusk sun
       cam("#pushSum", T.hit + .15, T.but - T.hit - .15, focus(640, 360, 1.0), "power2.inOut");
-      tl.to("#sumSun", { y: 70, duration: T.but - T.hit - .3, ease: "power1.in" }, T.hit + .3);
+      tl.to("#sumSun", { y: 0, duration: T.but - T.hit - .3, ease: "power1.in" }, T.hit + .3);
 
       // ================= F4 (l39): rest beat. Dusk, the sun touches the water, blue hour =================
       const LAYERS = [["#L-sky", .1], ["#L-cloud", .16], ["#L-hills", .3], ["#L-island", .45], ["#L-water", .6], ["#L-boat", 1], ["#L-fore", 1.35]];
@@ -995,10 +998,10 @@
       const wenv = { t: 0, glow: 1 };
       tl.to(wenv, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wenv.t, wenv.glow) }, 0);
       tl.to(wenv, { glow: 0, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too);
-      lcam(0, 0, focus(1012, 300, 1.25));
+      lcam(0, 0, focus(900, 330, 1.12));
       lcam(T.but, T.some5 - T.but + 1.2, focus(700, 420, 1.0), "sine.inOut");      // a slow pull-back
-      tl.set("#sun", { y: -120 }, 0);
-      tl.to("#sun", { y: -97, duration: T.too - T.but, ease: "sine.in" }, T.but);
+      tl.set("#sun", { y: -83 }, 0);                                   // matches F3's sun on screen (the match cut)
+      tl.to("#sun", { y: -40, duration: T.too - T.but, ease: "sine.in" }, T.but);
       tl.to("#sun", { y: 40, duration: 4.2, ease: "sine.in" }, T.too);
       tl.to(["#sunglow", "#rays"], { opacity: 0, duration: 3.6, ease: "sine.inOut" }, T.too + .2);
       tl.fromTo("#rays", { rotation: 0 }, { rotation: 10, duration: 16, ease: "none", immediateRender: false }, T.but);
@@ -1020,7 +1023,7 @@
         tl.fromTo(`${m} .sway`, { rotation: -1.4 }, { rotation: 1.4, duration: 2.3 + i * .21, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "50% 100%", immediateRender: false }, T.but); });
       // the rod leans out over the water, a line into the lake; the fish is not there yet
       tl.set("#rod", { rotation: 72, transformOrigin: "50% 100%" }, 0);
-      tl.set(["#fishRod", "#fishRipple"], { opacity: 0 }, 0);
+      tl.set(["#fishRod", "#fishRipple"], { opacity: 0 }, 0); tl.set("#fishRod", { rotation: -16 }, 0);
       tl.set(["#leoArmL", "#leoArmR"], { opacity: 0 }, 0);
       tl.set(dyns, { opacity: 0 }, 0);
       // "never what they were for": the lantern clicks on (an idle event in the rest beat)
@@ -1044,23 +1047,24 @@
       ft("#banner", { rotation: -2 }, { rotation: 0, duration: .8, ease: "elastic.out(1.1, .4)" }, T.tuesday + .3);
       punch("#bnGav", T.tuesday + .35, 1.18);
       // "plan": the camera finds the rod; "☐ FISH" pins to it while Leo, behind, is already juggling dynamite
-      const PLANCAM = focus(985, 405, 1.42);
+      const PLANCAM = focus(915, 405, 1.2);
       lcam(T.plan - .2, .6, PLANCAM, "power3.inOut");
       tl.set("#chkTag", { opacity: 0 }, 0);
       tl.set("#chkTag", { opacity: 1 }, T.plan - .02);
       ft("#chkTag", { y: -320 }, { y: 0, duration: .3, ease: "power3.in" }, T.plan - .02);
       ft("#chkCard", { rotation: -50 }, { rotation: 0, duration: 1.6, ease: "elastic.out(1.2, .25)" }, T.plan + .26);
       ft("#chkTag", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .06 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }] }, T.plan + .28);
+      tl.to(reeds.slice(7), { opacity: 0, duration: .3 }, T.plan - .1);           // the right reeds step out of the rod shot
       // Leo's arms up, the juggling (seek-safe: positions are a pure function of time; the phase restarts on the cut)
       tl.set(["#leoArmL", "#leoArmR"], { opacity: 1 }, T.plan - .2);
       tl.set(dyns, { opacity: 1 }, T.plan - .2);
       const JUG = { t: 0 };
-      const P = .78, HL = [469, -58], HR = [611, -58], APEX = -205;
+      const P = .78, HL = [469, -58], HR = [611, -58], APEX = -165;
       const juggle = () => { const t = JUG.t;
         dyns.forEach((d, i) => { let ph = ((t / P) + i / 3) % 1; let x, y, rot;
           if (ph < .7) { const u = ph / .7; x = HL[0] + (HR[0] - HL[0]) * u; y = HL[1] + (APEX - HL[1]) * (1 - (2 * u - 1) * (2 * u - 1)); rot = 300 * u; }
           else { const u = (ph - .7) / .3; x = HR[0] + (HL[0] - HR[0]) * u; y = HR[1] + 14 * Math.sin(u * Math.PI); rot = 300 + 60 * u; }
-          gsap.set(d, { x: x - 15, y: y - 24, rotation: rot }); });
+          gsap.set(d, { x: x - 19, y: y - 30, rotation: rot }); });
         const sw = Math.sin(t / P * 2 * Math.PI);
         gsap.set("#leoArmL", { rotation: -22 + sw * 9 }); gsap.set("#leoArmR", { rotation: 22 + sw * 9 }); };
       tl.fromTo(JUG, { t: 0 }, { t: T.always - T.plan + .2, duration: T.always - T.plan + .2, ease: "none", onUpdate: juggle, immediateRender: false }, T.plan - .2);
@@ -1068,7 +1072,7 @@
       // "fish.": the empty box wobbles (nobody ticks it)
       ft("#chkCard", { rotation: 0 }, { keyframes: [{ rotation: 7, duration: .1 }, { rotation: -5, duration: .12 }, { rotation: 0, duration: .5, ease: "elastic.out(1, .35)" }] }, T.fish1 + .05);
       // ...the camera creeps in on the box while it is still unticked
-      lcam(T.plan + .5, T.always - T.plan - .55, focus(1030, 418, 1.62), "sine.inOut");
+      lcam(T.plan + .5, T.always - T.plan - .55, focus(985, 418, 1.42), "sine.inOut");
       // "always": HARD CUT to the identical frame. Still unchecked; the fish rests its chin on the rod and yawns
       lcam(T.always - .02, 0, PLANCAM);
       tl.set("#chkCard", { rotation: 0 }, T.always - .02);
@@ -1078,7 +1082,7 @@
       ft("#fishRod", { scaleY: 1 }, { keyframes: [{ scaleY: 1.06, duration: .45, ease: "sine.inOut" }, { scaleY: 1, duration: .5, ease: "sine.inOut" }], transformOrigin: "20% 85%" }, T.always + .12);
       tl.set("#frBlink", { opacity: 1 }, T.fish2 + .25); tl.set("#frBlink", { opacity: 0 }, T.fish2 + .65);
       tl.fromTo("#fishRipple", { scale: .8, opacity: .7 }, { scale: 1.25, opacity: 0, duration: 1.4, repeat: 1, ease: "sine.out", immediateRender: false }, T.always);
-      lcam(T.always + .4, T.l40end - T.always, focus(1000, 410, 1.47), "sine.inOut");
+      lcam(T.always + .3, T.l40end - T.always, focus(1010, 400, 1.45), "sine.inOut");
 
       // ================= F6 (l41): the living room at 1 AM; the clock wheel; "last round." =================
       cam("#pushRoom", 0, 0, focus(600, 380, 1.08));
@@ -1110,6 +1114,7 @@
       ft("#lastMk", { rotation: -3 }, { keyframes: [{ rotation: 4, duration: .08 }, { rotation: -3, duration: .6, ease: "elastic.out(1.1, .3)" }] }, T.never6 + .05);
       // the room grade cools as the night runs away
       tl.to("#coolG", { opacity: .62, duration: T.round2 - T.It + .6, ease: "sine.in" }, T.It - .2);
+      tl.set("#room", { filter: "saturate(1) brightness(1)" }, 0);
       tl.to("#room", { filter: "saturate(.75) brightness(.9)", duration: T.round2 - T.It + .6, ease: "sine.in" }, T.It - .2);
 
       // ================= F7 (l42): the founders in three page-turns =================
@@ -1178,10 +1183,10 @@
       // "friends doing something": they bob; "silly": B slaps A (soft whip)
       ft("#stickA", { y: 0 }, { y: -6, duration: .25, yoyo: true, repeat: 3, ease: "sine.inOut" }, T.friends7);
       ft("#stickB", { y: 0 }, { y: -6, duration: .25, yoyo: true, repeat: 3, ease: "sine.inOut" }, T.friends7 + .12);
-      tl.set("#armB", { rotation: 0, svgOrigin: "748 432" }, 0);
-      tl.to("#armB", { rotation: -40, duration: .18, ease: "power2.out", svgOrigin: "748 432" }, T.silly - .25);
-      tl.to("#armB", { rotation: 26, duration: .08, ease: "power4.in", svgOrigin: "748 432" }, T.silly - .05);
-      tl.to("#armB", { rotation: 0, duration: .5, ease: "power2.inOut", svgOrigin: "748 432" }, T.silly + .3);
+      tl.set("#armB", { rotation: -62, svgOrigin: "748 432" }, 0);
+      tl.to("#armB", { rotation: 55, duration: .2, ease: "power2.out", svgOrigin: "748 432" }, T.silly - .27);
+      tl.to("#armB", { rotation: -4, duration: .07, ease: "power4.in", svgOrigin: "748 432" }, T.silly - .04);
+      tl.to("#armB", { rotation: -62, duration: .5, ease: "power2.inOut", svgOrigin: "748 432" }, T.silly + .35);
       tl.to("#stickA", { rotation: -16, x: -10, duration: .07, svgOrigin: "628 466" }, T.silly + .03);
       tl.to("#stickA", { rotation: 0, x: 0, duration: .8, ease: "elastic.out(1.1, .3)", svgOrigin: "628 466" }, T.silly + .1);
       tl.set(["#slapFx", "#slapTxt"], { opacity: 0 }, 0);
@@ -1225,6 +1230,7 @@
       tl.set("#heroBadge", { opacity: 0 }, 0);
       ft("#heroBadge", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(3)" }, GP);
       kickCam("#kickGrid", GP, 1.04, -1.2);
+      pingRings.forEach((r, i) => { tl.set(r, { opacity: 0 }, 0); ft(r, { scale: .05, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .03 }, { scale: 1 + i * .45, opacity: 0, duration: .55, ease: "power2.out" }] }, GP + i * .07); });
       flash(GP, .2);
       // "chat.": hard cut to the black lake (no camera, no breathing: stillness)
 

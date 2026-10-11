@@ -1,11 +1,74 @@
 {
-  "quest_surprised.png": ["docs/art_orders/quest/library_v2/results/04_surprised_shocked.png", null],
-  "quest_slumped.png": ["public/art/core/quest/exhausted_slumped.png", 900],
-  "quest_arms_up.png": ["public/art/core/quest/arms_up_back.png", 400],
-  "quest_wave.png": ["docs/art_orders/quest/library_v2/results/01_wave_happy.png", null],
-  "pixie_wave.png": ["docs/art_orders/pixie/library/results/01_wave_happy.png", 1024],
-  "pixie_awe.png": ["docs/art_orders/pixie/library/results/03_looking_up_awe.png", 1024],
-  "wallet_happy.png": ["public/characters/wallet/wallet_happy.png", 600],
-  "wallet_worried.png": ["public/characters/wallet/wallet_worried.png", 600],
-  "wallet_fainted.png": ["public/characters/wallet/wallet_fainted.png", 600]
+  "quest_surprised.png": [
+    "docs/art_orders/quest/library_v2/results/04_surprised_shocked.png",
+    null
+  ],
+  "quest_slumped.png": [
+    "public/art/core/quest/exhausted_slumped.png",
+    900
+  ],
+  "quest_arms_up.png": [
+    "public/art/core/quest/arms_up_back.png",
+    400
+  ],
+  "quest_wave.png": [
+    "docs/art_orders/quest/library_v2/results/01_wave_happy.png",
+    null
+  ],
+  "pixie_wave.png": [
+    "docs/art_orders/pixie/library/results/01_wave_happy.png",
+    1024
+  ],
+  "pixie_awe.png": [
+    "docs/art_orders/pixie/library/results/03_looking_up_awe.png",
+    1024
+  ],
+  "wallet_happy.png": [
+    "public/characters/wallet/wallet_happy.png",
+    600
+  ],
+  "wallet_worried.png": [
+    "public/characters/wallet/wallet_worried.png",
+    600
+  ],
+  "wallet_fainted.png": [
+    "public/characters/wallet/wallet_fainted.png",
+    600
+  ],
+  "toy_pistol_side.png": [
+    "public/art/ep003/props3d/toy_pistol_side.png",
+    200
+  ],
+  "toy_smg_side.png": [
+    "public/art/ep003/props3d/toy_smg_side.png",
+    200
+  ],
+  "toy_shotgun_side.png": [
+    "public/art/ep003/props3d/toy_shotgun_side.png",
+    200
+  ],
+  "sniper_gold_side.png": [
+    "public/art/ep003/props3d/sniper_gold_side.png",
+    200
+  ],
+  "shop_board_front.png": [
+    "public/art/ep003/props3d/shop_board_front.png",
+    700
+  ],
+  "roulette_top.png": [
+    "public/art/ep003/props3d/roulette_top.png",
+    800
+  ],
+  "boss_shadow_soft.png": [
+    "public/art/ep003/props3d/boss_shadow_soft.png",
+    800
+  ],
+  "dynamite_lit.png": [
+    "public/art/ep003/props3d/dynamite_lit.png",
+    400
+  ],
+  "blast_puff.png": [
+    "public/art/ep003/props3d/blast_puff.png",
+    400
+  ]
 }
