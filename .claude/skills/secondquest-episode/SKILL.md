@@ -58,6 +58,11 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
   can be built with real timing before Bram is paid for.
 
 ### 5. Animatic (free)
+- **Quality bar (Producer, 2026-10-12, from EP004 on): spectacular, no errors, the viewer always wants to keep
+  watching.** Build in Hyperframes (copy `tools/hyperframes_ep003`; word tokens `{{lNN.wK}}`). Before building, run
+  the agent dopamine review per block and the full quality audit (models: `docs/ep003/hyperframes/DOPAMINE_PLAN.md`,
+  `docs/ep003/QUALITY_AUDIT.md`), adopt, then build; companion in our 3D with an expression set; sound pass at the
+  EP003 levels; `finish_post.py`; snapshot-review every block. See CLAUDE.md "The quality bar".
 - Asset fit first (`asset_needs.json`, `npm run assets:find`). The companion detail is built here too: its gags per
   block and its two wordmark moments (hook "Why?" + end), as Navi in EP002. Then block by block in `QUALITY=draft`, design units,
   available art + free 3D (`tools/props3d`) + engine overlays; stand-ins marked MISSING and listed in

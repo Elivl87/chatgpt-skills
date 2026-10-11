@@ -72,6 +72,17 @@
 - **Finish pass and pacing (Producer, 2026-10-11):** from EP003 on, every frame goes through `scripts/animatic/finish.py`
   (soft paper grain, vignette, halftone in deep shadows) as the last step; every animatic is measured with
   `scripts/style_bible.py` and must pass `scripts/pacing_qc.py` (targets in `docs/style/STYLE_BIBLE.md`) before it is sent.
+- **The quality bar: spectacular, no errors, the viewer always wants to keep watching (Producer, 2026-10-12, binding
+  from EP004 on).** Claude's job is to make every video look spectacular. Everything learned on EP003 is the standard:
+  - Engine: Hyperframes (`tools/hyperframes_ep003` as the template), every move keyed to narration words, never typed seconds.
+  - Before building: an agent "dopamine" review per block (`docs/ep003/hyperframes/DOPAMINE_PLAN.md` is the model) and a
+    full quality audit of everything we draw/build (`docs/ep003/QUALITY_AUDIT.md` is the model); adopt, then build.
+  - No shot holds > ~4 s without a change; rhythm map of spikes and rests; callbacks; the companion with its own arc,
+    built in our 3D with an expression set (fish v2 is the bar); every comedy beat with anticipation, hit, hold, reaction.
+  - Our 3D and plates at premium level; two-pass props when characters sit inside; light/grade matched to the scene.
+  - Sound: cues audible on a phone (hits ~7 dB under the voice), varied repeats, foley, ambience beds; master −14 LUFS.
+  - Scripts drafted against `docs/style/VOICE.md`; after publishing, `scripts/retention_read.py` → one fix for the next episode.
+  - Zero errors: framing QC, pacing QC, snapshot review of every block before it is sent; never send something with a known defect.
 - **In the game world the HUD is on** (hearts, magic, rupees, buttons); off in real life and on era comparisons.
 - **Spanish dub (Producer, 2026-10-08):** Bram reads the approved ES-419 script; cut takes only inside real pauses,
   never split a breath, never overlap, speed up only as a last resort (<= ~1.075, rubberband R3), no room-tone fills.

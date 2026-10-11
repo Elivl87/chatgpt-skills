@@ -907,17 +907,18 @@ const grid = <T>(us: number[], vs: T[], f: (u: number, v: T) => { p: THREE.Vecto
   geo.setIndex(idx); geo.computeVertexNormals();
   return geo;
 };
+const flipWinding = (geo: THREE.BufferGeometry) => {
+  const ix = geo.index!.array as Uint16Array | Uint32Array;
+  for (let i = 0; i < ix.length; i += 3) { const t = ix[i + 1]; ix[i + 1] = ix[i + 2]; ix[i + 2] = t; }
+  geo.index!.needsUpdate = true; geo.computeVertexNormals();
+  return geo;
+};
 /** Flip the winding if the normals mostly point against probe(p) (the side that must face out). */
 const orient = (geo: THREE.BufferGeometry, probe: (p: THREE.Vector3) => THREE.Vector3) => {
   const p = geo.attributes.position, n = geo.attributes.normal, v = new THREE.Vector3();
   let s = 0;
   for (let i = 0; i < p.count; i++) s += probe(v.set(p.getX(i), p.getY(i), p.getZ(i))).dot(new THREE.Vector3(n.getX(i), n.getY(i), n.getZ(i)));
-  if (s < 0) {
-    const ix = geo.index!.array as Uint16Array | Uint32Array;
-    for (let i = 0; i < ix.length; i += 3) { const t = ix[i + 1]; ix[i + 1] = ix[i + 2]; ix[i + 2] = t; }
-    geo.index!.needsUpdate = true; geo.computeVertexNormals();
-  }
-  return geo;
+  return s < 0 ? flipWinding(geo) : geo;
 };
 const lathe = (pts: [number, number][], seg: number, mat: THREE.Material, part: number) =>
   mesh(new THREE.LatheGeometry(pts.map(([r, y]) => new THREE.Vector2(r, y)), seg), mat, part);
@@ -1010,15 +1011,24 @@ const rowboat = () => {
   }
   // ribs (frames) inside, risers along the sides
   const ribMat = woodMat('#7c4b29');
+  // ribs and risers are swept ellipses sitting on the inner skin (frames from the hull, not Frenet: no twists or loops)
+  const strip = (at: (k: number) => [THREE.Vector3, THREE.Vector3, THREE.Vector3], n: number, ra: number, rb: number, part: number) => {
+    const ks = Array.from({ length: n + 1 }, (_, i) => i), ph = Array.from({ length: 17 }, (_, j) => j / 16 * TAU);
+    const geo = grid(ks, ph, (k, f) => { const [c, a, b] = at(k); return { p: c.clone().addScaledVector(a, ra * Math.cos(f)).addScaledVector(b, rb * Math.sin(f)), uv: [k / n * 3, f / TAU * .3] }; });
+    const [, a0] = at(n >> 1), nn = geo.attributes.normal, j0 = (n >> 1) * 17;        // vertex (mid, phi 0) must face along a
+    if (V(nn.getX(j0), nn.getY(j0), nn.getZ(j0)).dot(a0) < 0) flipWinding(geo);
+    return mesh(geo, ribMat, part);
+  };
+  const skinFrame = (u: number, s: number, side: number): [THREE.Vector3, THREE.Vector3] => {
+    const c = hp(u, s, side, -(INS + .9)), a = hp(u, s, side, -(INS + 1.9)).sub(c).normalize();
+    return [c, a];
+  };
   for (const ur of [.08, .24, .32, .4, .56, .64, .84]) {
-    const pts: THREE.Vector3[] = [];
-    for (let i = 0; i <= 60; i++) { const t = -1 + i / 30, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 2.0))); }
-    const r = tube(pts, 1.4, ribMat, 1515, 160, 6); uvScale(r.geometry, 3, .3); g.add(half(r, 'back'));
+    g.add(half(strip((k) => { const t = -1 + k / 40, [c, a] = skinFrame(ur, .05 + .95 * (1 - Math.abs(t)), t < 0 ? -1 : 1); return [c, a, V(1, 0, 0)]; }, 80, 2.0, 1.7, 1515), 'back'));
   }
   const SR = .3;
   for (const side of [1, -1]) {
-    const pts = Array.from({ length: 30 }, (_, i) => hp(.06 + i / 29 * .8, SR, side, -(INS + 1.7)));
-    const r = tube(pts, 1.4, ribMat, 1516, 80, 6); uvScale(r.geometry, 4, .3); g.add(half(r, 'back'));
+    g.add(half(strip((k) => { const u = .06 + k / 60 * .8, [c, a] = skinFrame(u, SR, side), d = hp(u, SR + .01, side, -INS).sub(hp(u, SR - .01, side, -INS)).normalize(); return [c, a, d]; }, 60, 2.0, 1.6, 1516), 'back'));
   }
   // thwarts (benches) resting on the risers, a post under the rowing thwart
   const innerZ = (u: number, y: number) => {                         // inner skin half-width at height y
@@ -1028,7 +1038,7 @@ const rowboat = () => {
   };
   const benchCol = ['#b98250', '#c08a56', '#b47c4a'];
   [[.17, 26], [.47, 20], [.75, 17]].forEach(([ub, wide], i) => {
-    const p = hp(ub, SR, 1, -(INS + 1.7)), y = p.y + 1.4 + 1.8, len = 2 * Math.min(innerZ(ub - wide / 2 / L, y + 1.8), innerZ(ub + wide / 2 / L, y + 1.8)) + 1.6;
+    const p = hp(ub, SR, 1, -(INS + 1.7)), y = p.y + 1.6 + 1.8, len = 2 * Math.min(innerZ(ub - wide / 2 / L, y + 1.8), innerZ(ub + wide / 2 / L, y + 1.8)) + 1.6;
     const b = box(len, 3.6, wide, [0, 0, 0], woodMat(benchCol[i], false), 1517 + i, .8);
     uvScale(b.geometry, 1 / 110, 1 / 45, i * .3, i * .2);
     b.rotation.y = Math.PI / 2; b.position.set(p.x, y, 0); g.add(half(b, 'back'));
