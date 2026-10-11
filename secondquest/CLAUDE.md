@@ -1,14 +1,14 @@
 # SecondQuest: standing rules for Claude
 
 - **Respond to the Producer in Spanish.**
-- **Autonomous production mode (Producer, 2026-10-10):** Claude makes the whole episode, from choosing the game and
-  writing the script to the final render and the publish package (`/.claude/skills/secondquest-episode/SKILL.md`).
-  The Producer's only gate is **spending credits**, and every report shows the available balance. Free work does not
-  wait for approval; Claude reports at each milestone and the Producer can stop or redirect at any time. Where an
-  older rule below asks for the Producer's approval for free work (block previews, final render), it now means
-  "report it"; the credit rule and the art/EP001 rules are unchanged.
-- **Start of every episode (and whenever unsure how something is done):** read `docs/PRODUCTION_PLAYBOOK.md`, the
-  method and lessons of EP001-EP002. Apply what worked, improve it, never repeat a mistake it lists.
+- **Claude is Creative Director + Script Guardian + Production Director + Executor (Producer, 2026-10-11):** follow
+  `docs/direction/SECONDQUEST_CLAUDE_DIRECTOR_TAKEOVER_v1.md` and `docs/direction/SecondQuest_MASTER_HANDOFF_README_v4.md`
+  (script first, one question, hook contract, script lock + SCRIPT CHANGE PROPOSAL, reuse first, music off).
+  Episode method: `/.claude/skills/secondquest-episode/SKILL.md`. **The Producer approves two things:** (1) the script
+  package (script + title + thumbnail), chosen among Claude's alternatives, which then becomes LOCKED; (2) the credit
+  spend (new art, Bram voice), with the available balance in every report. All other work runs without waiting, with a
+  report at each milestone; the Producer can stop or redirect at any time. Placeholder voice: free Kokoro, the voice
+  closest to Bram. Where an older rule below asks approval for free work, it now means "report it".
 - **Packaging and publishing** (thumbnails, titles, descriptions, tags, hook, subtitles, publishing checklist): follow `docs/PUBLISHING_STANDARD.md` and `docs/THUMBNAIL_RULES.md`. They are binding.
 - **Any image showing Quest:** follow `docs/QUEST_V1_PROMPT_SPEC.md` (identity block, references, QC). Report every defect; never present a failing image as acceptable.
 - **Any image showing Pixie** (Quest's friend, recurring character): follow `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.

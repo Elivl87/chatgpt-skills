@@ -5,9 +5,11 @@ description: Produce a whole SecondQuest episode end to end (topic, script EN + 
 
 # SecondQuest: full-episode production (autonomous mode)
 
-**Producer decision, 2026-10-10:** Claude makes the whole episode. The Producer's only gate is **spending credits**:
-nothing that costs credits is generated without the Producer's explicit approval, and every report shows the
-**available balance**. Everything free (research, writing, 3D, animatic, QC, renders, packaging) runs without waiting.
+**Producer decisions, 2026-10-10/11:** Claude makes the whole episode as Creative Director
+(`secondquest/docs/direction/*.md`). The Producer approves **two things**: (1) the **script package** (script + title +
+thumbnail), chosen among 3 researched alternatives of 6-7 min each, then LOCKED; (2) **spending credits**, with the
+available balance in every report. Everything else runs without waiting. Research and script review run as Workflows
+(Producer: "Arranca con workflow"), reporting the usage spent.
 
 Always also follow `secondquest/CLAUDE.md` and `secondquest/docs/PRODUCTION_PLAYBOOK.md` (method + lessons). Reply in
 Spanish. Report at each milestone (what was done, what it shows, improvements and their cost, balance) and keep going;
