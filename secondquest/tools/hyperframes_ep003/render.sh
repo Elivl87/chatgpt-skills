@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 source ./env.sh
 python3 stage_assets.py                  # always re-stage: new voice, new SFX mix, new art
 python3 build.py
-OUT=../../docs/ep003/hyperframes/EP003_hook_hyperframes_sample.mp4
+OUT=${OUT:-../../docs/ep003/hyperframes/EP003_hook_hyperframes_sample.mp4}
 mkdir -p "$(dirname "$OUT")"
 cd hook
 RAW=../renders/raw_hook.mp4
