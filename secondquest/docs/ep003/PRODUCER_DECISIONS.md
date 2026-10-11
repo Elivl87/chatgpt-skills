@@ -30,3 +30,9 @@
   placeholder; never in a published video, Short or delivery (Bram's voice is licensed through the paid platform; a
   published clone would need written permission or a licence). EN placeholder = MOSS + Bram reference; ES stays Kokoro
   until MOSS pronounces Spanish cleanly.
+
+## 2026-10-11 · Hook line and companion
+- Producer: "No dice: So, Why? Rompe lo del EP001 y EP002." Script B -> LOCKED v3.2: l07 "Why?" -> "So, why?"
+  (ES "Entonces, ¿por qué?", as EP002). Rule written: the hook always ends on exactly "So, why?", the wordmark lands on
+  it, 1.5 s of silence follow.
+- Companion detail (RULE): EP003 = the unimpressed fish (docs/ep003/COMPANION.md).

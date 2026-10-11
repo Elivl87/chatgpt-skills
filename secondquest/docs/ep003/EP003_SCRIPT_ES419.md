@@ -19,7 +19,7 @@ Flagged lines (both are very short, so the difference is a fraction of a second)
 | l04 | It costs about eight dollars. Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million. | Cuesta unos ocho dólares. Sus creadores esperaban vender unas doscientas mil copias. A principios de octubre, una firma de análisis estimaba más de diez millones. | 1.02 |
 | l05 | Millions of people bought a fishing game. To do everything else. | Millones de jugadores compraron un juego de pesca. Para hacer todo lo demás. | 1.19 |
 | l06 | Together. | Juntos. | 0.78 |
-| l07 | Why? | ¿Por qué? | 2.25 **FLAG** |
+| l07 | So, why? | Entonces, ¿por qué? | 2.38 |
 | l08 | Start with the price. Eight dollars is not really a price. It's an invitation. | Empecemos por el precio. Ocho dólares no es realmente un precio. Es una invitación. | 1.06 |
 | l09 | Because this is not really a game you play alone. Everyone in the boat buys their own copy. So it usually begins the same way. A message in a group chat. "It's eight dollars. Just get it." | Porque este no es un juego para jugar solo. Cada uno en el bote compra su propia copia. Así que casi siempre empieza igual. Un mensaje en el chat del grupo. “Son ocho dólares. Cómpralo y ya.” | 1.02 |
 | l10 | And then, one by one: Bought. Bought. Bought. | Y luego, uno por uno: Comprado. Comprado. Comprado. | 1.13 |

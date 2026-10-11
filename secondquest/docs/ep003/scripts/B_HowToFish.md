@@ -1,6 +1,6 @@
 # EP003 · Alternative B · How to Fish — "Nobody Is Fishing"
 
-Status: **LOCKED v3.1 (Producer, 2026-10-11; SCRIPT CHANGE PROPOSAL 01 items 1+2 approved)** — chosen for EP003. Used verbatim; any change only via a SCRIPT CHANGE PROPOSAL. Factual lock rechecks below run before recording. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: **LOCKED v3.2 (Producer, 2026-10-11; proposal 01 items 1+2; hook ends on "So, why?" as EP001/EP002)** — chosen for EP003. Used verbatim; any change only via a SCRIPT CHANGE PROPOSAL. Factual lock rechecks below run before recording. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `B_HowToFish_v1.md`.
 
 ## Creative spine
@@ -36,7 +36,7 @@ Millions of people bought a fishing game. To do everything else.
 
 Together.
 
-Why?
+So, why?
 
 Start with the price. Eight dollars is not really a price. It's an invitation.
 

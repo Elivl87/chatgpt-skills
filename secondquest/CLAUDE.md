@@ -59,8 +59,8 @@
   - Judge each candidate against the scene's moment (era, time of day, mood), not just its first impression.
 - **Clean episode video (Producer rules, 2026-10-06):** no burned-in subtitles in the episode (EN and ES go as .srt),
   no planning tags or guides in anything delivered; Shorts keep burned-in English captions.
-- **The hook ends on the wordmark (Producer rule, EP001/EP002, restated 2026-10-11):** on the hook's last "So, why?"/"Why?"
-  the SecondQuest wordmark lands with its gold bar, followed by **1.5 s of silence** so it can be seen. Every episode,
+- **The hook ends on "So, why?" + the wordmark (Producer rule, EP001/EP002, restated 2026-10-11):** the hook's last line
+  is always exactly **"So, why?"** (ES-419: **"Entonces, ¿por qué?"**), never a bare "Why?"; on it the SecondQuest wordmark lands with its gold bar, followed by **1.5 s of silence** so it can be seen. Every episode,
   every narration (placeholder and Bram, EN and ES): the assembly inserts the pause, the animatic holds the wordmark.
 - **Every episode has its companion detail (Producer rule, 2026-10-11):** one small recurring character or object from
   the episode's game world (drawn as OUR own design, never the game's art) that accompanies Quest through the video and

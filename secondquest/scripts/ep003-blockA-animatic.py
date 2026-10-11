@@ -37,7 +37,7 @@ T_EST = T('l04.w16')            # "By early October..."
 T_A5 = T('l05') - .1
 T_ELSE = T('l05.w8')            # "To do everything else."
 T_TOG = T('l06') - .1
-T_WHY = T('l07') - .05
+T_WHY = T('l07.w2') - .05                    # "So, WHY?": the wordmark lands on "why"
 
 LAKE = K.plate_lake('dusk')
 WL = PH * .70                                                     # the boat's waterline (plate px)

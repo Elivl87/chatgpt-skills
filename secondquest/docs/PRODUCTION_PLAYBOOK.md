@@ -63,8 +63,8 @@ EP002, with its date and words, is in `docs/ep002/PRODUCER_DECISIONS.md`.
 - **Homages are welcome as our own drawing** (the one-eyed spider in the cobweb), never a copy.
 - **Thought bubbles:** the "memory" look (warm glow, dissolving edge, sparkles), not ink-outlined circles.
 - **The wordmark** with its gold bar on "So, why?"/"why?" and Navi flying into the star of the "o": the channel's
-  signature, used at the opening and the end, and in the trailer Short. **The hook always ends on it: the wordmark
-  lands on the hook's "Why?" and 1.5 s of silence follow** (Producer, 2026-10-11, after EP003 v1 missed it): the
+  signature, used at the opening and the end, and in the trailer Short. **The hook always ends on the line "So, why?"
+  (ES "Entonces, ¿por qué?"), never a bare "Why?", the wordmark lands on it and 1.5 s of silence follow** (Producer, 2026-10-11, after EP003 v1 missed it): the
   narration assembly inserts the pause (placeholder and Bram, EN and ES) and the hook block holds the wordmark.
 - **The companion detail (RULE, Producer 2026-10-11):** every episode has one small recurring companion from its game's
   world, our own design: it accompanies Quest through the video (a few gags per act, never stealing the line), and it
