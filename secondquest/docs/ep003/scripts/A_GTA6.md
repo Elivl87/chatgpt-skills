@@ -1,6 +1,6 @@
 # EP003 · Alternative A · Grand Theft Auto VI — "Before GTA 6"
 
-Status: DRAFT v2 (not locked) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: DRAFT v3 (not locked; v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `A_GTA6_v1.md`.
 
 ## Creative spine
@@ -44,11 +44,11 @@ And the internet never stopped.
 
 Every time the world did something enormous, someone added it to the list. Artificial intelligence? Before GTA 6.
 
-It sounds like a complaint about a video game. But look at what it actually does. It turns the absence of one game into a calendar. A very specific calendar, in which every single month is called "not yet."
+It sounds like a complaint about a video game. But look at what it actually does. It turns the absence of one game into a calendar for real life.
 
-GTA V came out in September 2013. One writer noted that it was released six months after his son was born. Years later, he wrote, that baby was in high school.
+GTA V came out in September 2013. One writer noted it came out six months after his son was born. That son is now in high school.
 
-The game stayed two trailers. The baby got to high school.
+The game is still two trailers.
 
 There is even a subreddit for GTA 6 that was created in September 2012. More than a year before GTA V came out. The sequel's fan club is older than the game it follows.
 
@@ -56,21 +56,23 @@ So the wait became a clock. But clocks only tick. And this wait was doing someth
 
 People were not sitting still. They were busy.
 
-Busy watching two trailers. Not twice. Hundreds of times. Frame by frame. Zooming into a billboard in the background. Building entire theories out of a reflection in a car window. Some people have studied ninety seconds of video harder than anything they ever studied in school.
+Busy watching two trailers. Not twice. Hundreds of times. Frame by frame. Zooming into a billboard in the background. Building entire theories out of a reflection in a car window. Some people have studied those two trailers harder than anything they ever studied in school.
 
 When the first trailer leaked early, Rockstar released it that same night. In twenty-four hours, it passed ninety million views on YouTube. A Guinness world record for a game reveal. For a minute and a half of a game nobody could buy.
 
-On that subreddit, people wear their waiting like a badge. One flair simply says: "Waiting for Nov 19th." Another: "Looking for the next trailer." Which, to be fair, is also a pretty accurate summary of the last few years of their lives.
+On that subreddit, people wear their waiting like a badge. One flair simply says: "Waiting for Nov 19th." Another: "Looking for the next trailer." Which is also a fair summary of their last few years.
 
 Fans even learned to read Take-Two's earnings calls the way farmers read the sky. The last delay arrived on earnings day, in a sentence promising "the level of polish you have come to expect and deserve."
 
 Which is a very elegant way of saying: not yet.
 
+When a new trailer finally drops, the internet stops being an audience and becomes a forensic lab.
+
 When there is almost no information, people start producing it themselves. The theories. The memes. The countdowns.
 
 Waiting was not the delay before the hobby. Waiting was the hobby.
 
-But why this game? People wait for sequels all the time. Nobody built a calendar around a printer update.
+But why this game? People wait for sequels all the time. Most sequels arrive before anyone has time to miss them.
 
 Part of the answer is that GTA V never left. Same game. Three generations of consoles. People bought it on one machine, then the next, then the next. The old city kept the lights on while the new one was being built.
 
@@ -82,17 +84,19 @@ So for thirteen years, everyone has been playing their own version of GTA 6. In 
 
 And that version is perfect. It has no bugs. No server queues. No price. It is exactly as big as you need it to be. And it runs beautifully on hardware that does not exist.
 
+And everyone's version is slightly different. Which means that on launch day, millions of people will be disappointed by completely different things.
+
 The imagined game has had a thirteen-year head start on the real one.
 
 On the scheduled day, those two games finally meet. And only one of them has ever been perfect.
 
 But that is not the biggest thing we are about to lose.
 
-Think about how rare it is now for everyone to wait for the same thing. Your feed and mine have almost nothing in common. Different shows. Different jokes. Different algorithms deciding what matters.
+Think about how rare it is now for everyone to wait for the same thing. Your feed and mine have almost nothing in common.
 
 Except one sentence.
 
-A total solar eclipse happens, and somewhere in the comments, someone types four words. And a stranger on the other side of the world knows exactly what they mean.
+A total solar eclipse happens, and somewhere in the comments, someone types three words. And a stranger on the other side of the world knows exactly what they mean.
 
 Before GTA 6.
 

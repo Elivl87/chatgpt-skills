@@ -1,6 +1,6 @@
 # EP003 · Alternative B · How to Fish — "Nobody Is Fishing"
 
-Status: DRAFT v2 (not locked) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: DRAFT v3 (not locked; v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `B_HowToFish_v1.md`.
 
 ## Creative spine
@@ -28,11 +28,11 @@ There is a game called How to Fish. A boat. A rod. A lot of fish.
 
 And almost nobody seems to be fishing.
 
-They are slapping each other in the face. Gambling the fish money. Shooting at seagulls with a sniper rifle.
+They are slapping each other in the face. Gambling the fish money. Fishing with a sniper rifle.
 
 It costs about eight dollars. Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million.
 
-The game is called How to Fish. And millions of people bought it to do everything else.
+Millions of people bought a fishing game. To do everything else.
 
 Together.
 
@@ -73,13 +73,11 @@ And fishing is not the only alibi adults have invented. The golf course. The pok
 
 How to Fish is just the newest one. It fits in a group chat.
 
-How to Fish keeps that reason. There is a boat. There is a rod. There is a goal.
+And like every good alibi, it comes with props. A boat. A rod. A goal.
 
 And then it gets rid of it almost immediately.
 
-You begin with simple tools. Soon you have heavy weapons. You sell your catch. You gamble the money. You fight bosses. The developers' own description on Steam reads, word for word: "cartoon violence towards fish and gambling with fish."
-
-Which might be the most honest description of a friendship ever written on a store page.
+You begin with simple tools. Soon you have heavy weapons. You sell your catch. You gamble the money. You fight bosses. The developers' own description on Steam reads, word for word: "cartoon violence towards fish and gambling with fish... (no real money)." 
 
 The goal is still there. But the goal is not the point. The goal is the alibi.
 
@@ -89,21 +87,21 @@ Someone falls in the water. Someone finds a weapon that was clearly not designed
 
 And when a teammate goes down, the way you bring them back is by picking them up... and slapping them in the face.
 
-Which, if we are honest, is roughly how friends say a lot of things.
+Which, if we're honest, is how most friendships handle feelings.
 
-Winning alone gives you a score. Failing together gives you a story. Nobody retells the time everything went perfectly. They retell the time someone gambled away the savings... and the only way to save your best friend was a slap.
+Nobody retells the time everything went perfectly. They retell the night it all went wrong. Usually years later, in the same group chat, with no context, to the confusion of everyone who wasn't there.
 
 The internet even invented a name for games like this. Friendslop. Half a joke, half an insult. Cheap, chaotic co-op games built for playing with friends.
 
-We named a whole genre after the word for garbage. And this one, by one estimate, sold more than ten million copies.
-
-Apparently, garbage is a lot more fun when you bring your friends.
+We named a whole genre after the word for garbage. Then we invited our friends to it.
 
 Some say it's short. Maybe it is just this year's summer hit.
 
-But nobody judges a fishing trip by how long the lake lasts.
+But fishing trips end too. That was never what they were for.
 
 Some games just need to get a few friends into the same boat on a Tuesday night. The plan was to fish. The plan is always to fish.
+
+And at some point, around one in the morning, someone says "last round." It is never the last round.
 
 And the two friends who founded the studio behind it? They met in high school. Their first paid game had not done well. So they made a small game about friends doing something silly together.
 

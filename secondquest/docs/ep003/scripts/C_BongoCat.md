@@ -1,6 +1,6 @@
 # EP003 · Alternative C · Bongo Cat — "Someone Else Is Still Here"
 
-Status: DRAFT v2 (not locked) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: DRAFT v3 (not locked; v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `C_BongoCat_v1.md`. Thesis moved from "my work is seen" (too close to
 EP001) to "I am not alone while I do it".
 
@@ -31,7 +31,7 @@ A small cat sits at the bottom of your screen. It's called Bongo Cat. Every time
 
 That's it. That's the game.
 
-There is no story. No enemies. No ending. It does not even ask you to look at it. It might be the only game in history that is happy you're doing something else.
+There is no story. No enemies. No ending. It does not even ask you to look at it. It might be the only game in history that is happy you're doing something else. You can't lose. You can't win. You can only... type.
 
 And yet people leave it running for hours. Days.
 
@@ -47,7 +47,7 @@ And the items can be traded. So, technically, your cat is a small investment por
 
 Notice what that does. You don't play to earn hats. You do whatever you were already doing. Emails. Spreadsheets. Homework. The work you had to do anyway quietly becomes the grind.
 
-Your inbox becomes a slot machine. Somewhere, right now, someone is finishing a very boring report... mostly for a hat.
+Your inbox becomes a slot machine. The quarterly report is now a loot box.
 
 But that explanation has a problem. Because a lot of people forget the cat is even there. They leave it running behind other games, behind work, behind everything. Sometimes they only notice it when they glance down.
 
@@ -55,13 +55,13 @@ And that glance is the interesting part.
 
 Most screen work isn't just invisible. It's lonely. Eight hours. One window. Nobody else in the room.
 
-For a lot of people, working from home turned the office into a room with one person in it. No small talk. No coffee machine. Nobody at the next desk, also pretending to work. The commute is a hallway. The coworker is a plant. And the plant is not great at conversation.
+For a lot of people, working from home turned the office into a room with one person in it. No small talk. No coffee machine. The commute is a hallway. The coworker is a plant. And the plant is not great at conversation.
 
 Bongo Cat puts something at the edge of that window. Something that moves when you move.
 
-Type slowly, and it taps along. Stop to think, and it stops too, like it's thinking with you. Write an angry email, and you look down to find the cat absolutely losing its mind on your behalf.
+Type slowly, and it taps along. Stop to think, and it stops too, like it's thinking with you. Write an angry email, and you look down to find the cat absolutely losing its mind on your behalf. It does not judge the email. It simply agrees, at full speed.
 
-And at two in the morning, when the whole house is asleep, the only other thing still moving... is a paw.
+And late at night, when the whole house is asleep, the only other thing still moving... is a paw.
 
 The game's own Steam page calls it, in five words: "A friend while working hard."
 
@@ -71,15 +71,13 @@ The cat does not know what you are typing. It does not know if you are working o
 
 Which means somewhere out there, right now, a cat is slapping a taskbar for nobody at all.
 
-Bongo Cat was a meme long before it was a game. In 2018, someone drew a cat-like blob hitting a table, and someone else put bongos and music under it. Back then, you watched the cat.
+Bongo Cat was a meme long before this game existed. In 2018, someone drew a cat-like blob hitting a table, and someone else put bongos and music under it. Back then, you watched the cat.
 
 Now the cat watches you. Sort of.
 
-And the game did not even start as a cat. The very first prototype was a drill, digging into a stone. Same keys. Same points.
+And the game did not even start as a cat. The very first prototype was a drill, digging into a stone.
 
 The cat came later.
-
-Nobody, it turns out, wanted a drill for company.
 
 So by any reasonable measure, nobody is really watching you. And yet it still works.
 
@@ -91,13 +89,15 @@ Since August 2025, up to a hundred players' cats can share one lobby. A hundred 
 
 Somewhere it is three in the morning, and someone is finishing a thesis. Somewhere it is lunch, and someone is pretending to answer emails. Somewhere, someone is just... typing.
 
-Some of them are probably scripts. But the rest are people, each at their own desk, in their own time zone, in their own quiet room.
+Some of them are probably scripts. But plenty of them are people, each at their own desk, in their own time zone, in their own quiet room.
 
 And for a moment, a hundred cats are tapping together.
 
-None of them will ever meet. Nobody in that lobby can see what the others are writing.
+Nobody in that lobby can see what the others are writing.
 
 It is a little like an office, really. You never talk to the person at the next desk either. But you would notice if they left.
+
+That's all a lobby like this really is. A hundred people agreeing, without a word, to keep going for a little longer.
 
 But every paw that moves says the same thing.
 
@@ -107,11 +107,11 @@ So... why do so many people keep a cat watching them type?
 
 Not for the hats. Not really.
 
-Nobody claps when you send an email. Nobody notices the paragraph you rewrote four times. For most of the day, the only thing moving in the room is you.
+For most of the day, the only thing moving in the room is you.
 
 Bongo Cat cannot really see you. It never could.
 
-But at the bottom of your screen there is a small paw that moves when you move. And every time you finish something nobody else will ever notice, it gives you the smallest possible slap that says...
+But at the bottom of your screen, a small paw moves when you move. Like it's saying...
 
 I saw that.
 
