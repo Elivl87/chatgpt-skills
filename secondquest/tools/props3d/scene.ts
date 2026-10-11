@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 type V3 = [number, number, number];
 interface FishExpr { lid?: number; look?: [number, number]; mouth?: 'pout' | 'o' | 'flat'; sweat?: boolean }
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; boat?: 'back' | 'front' }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; boat?: 'back' | 'front'; hide?: number[] }
 type Poly = { outer: [number, number][]; holes: [number, number][][] };
 interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
@@ -968,7 +968,7 @@ const rowboat = () => {
     const s0 = k / S - (k ? .3 / S : 0), s1 = (k + 1) / S, ok = STEP * (S - 1 - k), on = STEP * (S - 2 - k);
     const rows: [number, number][] = [];
     for (let j = 0; j <= 6; j++) rows.push([s0 + (s1 - s0) * j / 6, ok]);
-    if (k < S - 1) rows.push([s1, ok], [s1, on]);
+    if (k < S - 1) rows.push([s1, ok], [s1, on - .4]);                // the lip tucks under the next strake
     const geo = grid(us, rows, (u, [s, o]) => { const p = hp(u, s, side, o); return { p, uv: [p.x / 170 + k * .37 + (side > 0 ? 0 : .5), (s - s0) * 2.2 + k * .29], c: .74 + .26 * (1 - s) }; });
     orient(geo, () => V(0, -.3, side));
     g.add(half(mesh(geo, woodMat(plank[k], true), 1500 + k + (side > 0 ? 0 : 5)), side > 0 ? 'front' : 'back'));
@@ -986,8 +986,8 @@ const rowboat = () => {
   const tp: THREE.Vector2[] = [];
   for (let j = 0; j <= 16; j++) { const p = hp(0, j / 16, 1, STEP * (S - 1) + .6); tp.push(new THREE.Vector2(p.z, p.y + (j === 0 ? 2.5 : 0))); }
   for (let j = 15; j >= 0; j--) { const p = hp(0, j / 16, -1, STEP * (S - 1) + .6); tp.push(new THREE.Vector2(p.z, p.y + (j === 0 ? 2.5 : 0))); }
-  const tg = new THREE.ExtrudeGeometry(new THREE.Shape(tp), { depth: 3.2, bevelEnabled: true, bevelThickness: .6, bevelSize: .6, bevelSegments: 2, curveSegments: 4 });
-  uvScale(tg, 1 / 90, 1 / 30); tg.rotateY(-Math.PI / 2); tg.translate(-L / 2 + .8, 0, 0);
+  const tg = new THREE.ExtrudeGeometry(new THREE.Shape(tp), { depth: 4, bevelEnabled: false, curveSegments: 4 });
+  uvScale(tg, 1 / 90, 1 / 30); tg.rotateY(-Math.PI / 2); tg.translate(-L / 2 + 2, 0, 0);
   vcol(tg, (_x, y) => .78 + .22 * Math.min(1, y / 50));
   g.add(half(mesh(tg, woodMat('#8a5530', true), 1511), 'back'));
   // keel and stem post (proud of the planks), knob on the stem head
@@ -1009,14 +1009,14 @@ const rowboat = () => {
   }
   // ribs (frames) inside, risers along the sides
   const ribMat = woodMat('#7c4b29');
-  for (const ur of [.1, .2, .3, .4, .5, .6, .7, .8, .88]) {
+  for (const ur of [.08, .24, .32, .4, .56, .64, .84]) {
     const pts: THREE.Vector3[] = [];
-    for (let i = 0; i <= 24; i++) { const t = -1 + i / 12, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 1.0))); }
+    for (let i = 0; i <= 24; i++) { const t = -1 + i / 12, s = .05 + .95 * (1 - Math.abs(t)); pts.push(hp(ur, s, t < 0 ? -1 : 1, -(INS + 1.7))); }
     const r = tube(pts, 1.5, ribMat, 1515, 60, 6); uvScale(r.geometry, 3, .3); g.add(half(r, 'back'));
   }
   const SR = .3;
   for (const side of [1, -1]) {
-    const pts = Array.from({ length: 30 }, (_, i) => hp(.06 + i / 29 * .8, SR, side, -(INS + 1.0)));
+    const pts = Array.from({ length: 30 }, (_, i) => hp(.06 + i / 29 * .8, SR, side, -(INS + 1.7)));
     const r = tube(pts, 1.4, ribMat, 1516, 80, 6); uvScale(r.geometry, 4, .3); g.add(half(r, 'back'));
   }
   // thwarts (benches) resting on the risers, a post under the rowing thwart
@@ -1027,7 +1027,7 @@ const rowboat = () => {
   };
   const benchCol = ['#b98250', '#c08a56', '#b47c4a'];
   [[.17, 26], [.47, 20], [.75, 17]].forEach(([ub, wide], i) => {
-    const p = hp(ub, SR, 1, -(INS + 1.0)), y = p.y + 1.4 + 1.8, len = 2 * innerZ(ub, y + 1.8) + 3;
+    const p = hp(ub, SR, 1, -(INS + 1.7)), y = p.y + 1.4 + 1.8, len = 2 * innerZ(ub, y + 1.8) + 3;
     const b = box(len, 3.6, wide, [0, 0, 0], woodMat(benchCol[i], false), 1517 + i, .8);
     uvScale(b.geometry, 1 / 110, 1 / 45, i * .3, i * .2);
     b.rotation.y = Math.PI / 2; b.position.set(p.x, y, 0); g.add(half(b, 'back'));
@@ -1068,7 +1068,7 @@ const rowboat = () => {
     U.rotation.set(0, Math.PI / 2, Math.PI); U.position.set(R.x, R.y + 4.6 + 3.7, R.z); g.add(half(U, h));
     g.add(half(cyl(.8, 3, [R.x, R.y + 5.6, R.z], [0, 0, 0], bronze, 1524 + id), h));
     const pivot = V(R.x, R.y + 4.6 + 3.7 - 3.0 + .7 + 2.1, R.z);
-    const yaw = THREE.MathUtils.degToRad(8), pitch = THREE.MathUtils.degToRad(12);
+    const yaw = THREE.MathUtils.degToRad(10), pitch = THREE.MathUtils.degToRad(14);
     const dx = V(-Math.cos(pitch) * Math.cos(yaw), -Math.sin(pitch), side * Math.cos(pitch) * Math.sin(yaw)).normalize();
     const dy = V(0, 1, 0).sub(dx.clone().multiplyScalar(dx.y)).normalize(), dz = dx.clone().cross(dy);
     const oar = new THREE.Group();
@@ -1084,7 +1084,7 @@ const rowboat = () => {
     oar.add(half(along(2.65, 2.65, -6, 6, leather, 1527 + id), h));
     for (const [x0, x1, mat, part] of [[100, 138, oarWood, 1528 + id], [138, 150.2, woodMat('#3f7d84', false), 1529 + id]] as [number, number, THREE.Material, number][]) {
       const bgeo = new THREE.ExtrudeGeometry(bladeShape(x0, x1), { depth: .9, bevelEnabled: true, bevelThickness: .3, bevelSize: .3, bevelSegments: 2 });
-      uvScale(bgeo, 1 / 60, 1 / 20); bgeo.rotateX(-Math.PI / 2); bgeo.translate(0, -.45, 0);
+      uvScale(bgeo, 1 / 60, 1 / 20); bgeo.rotateX(-Math.PI / 2); bgeo.translate(0, -.45, 0); bgeo.rotateX(side * 1.05);   // blade turned half square, its face shows
       oar.add(half(mesh(bgeo, mat, part), h));
     }
     g.add(oar);
@@ -1597,6 +1597,7 @@ function draw() {
     if (props.fish2) props.fish2.userData.setExpr(shot.fish ?? {});
     // rowboat layers for characters seated inside: 'back' = far side + interior, 'front' = near hull side, rail and oar
     if (props.rowboat) props.rowboat.traverse((o: THREE.Object3D) => { if (o.userData.half) o.visible = !shot.boat || o.userData.half === shot.boat; });
+    if (shot.hide) ids.forEach((m) => { if (shot.hide!.includes(m.userData.part)) m.visible = false; });   // debug: hide parts
     const x = W * i;
     for (let pass = 0; pass < 3; pass++) {
       ids.forEach((m) => {

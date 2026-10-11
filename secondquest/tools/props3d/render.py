@@ -417,8 +417,8 @@ OUT3 = ROOT / 'public/art/ep003/props3d'
 # EP003 props v2 (2026-10-12): name -> (prop, target, camera, fov, canvas w, h, line). Larger canvases than v1 so the
 # cut-outs stay sharp at 1440p; the line width follows the canvas so the ink keeps the same weight on screen.
 EP3 = {
-    'rowboat_34': ('rowboat', [0, 32, 0], orbit(-35, 24, 560, [0, 32, 0]), 30, 1900, 1150, 5.0),
-    'rowboat_side': ('rowboat', [0, 32, 0], orbit(0, 8, 600, [0, 32, 0]), 30, 1900, 900, 5.0),
+    'rowboat_34': ('rowboat', [-10, 28, 10], orbit(-35, 24, 450, [-10, 28, 10]), 30, 1900, 1150, 5.0),
+    'rowboat_side': ('rowboat', [-5, 32, 0], orbit(0, 8, 440, [-5, 32, 0]), 30, 1900, 900, 5.0),
     'rod': ('fishingRod', [3, 107, 0], orbit(-20, 8, 470, [3, 107, 0]), 30, 900, 1900, 3.6),
     'fish_side': ('fish', [0, 0, 0], orbit(0, 4, 190, [0, 0, 0]), 30, 1400, 1000, 4.0),
     'fish_34': ('fish', [4, 0, 0], orbit(35, 10, 190, [4, 0, 0]), 30, 1400, 1000, 4.0),
