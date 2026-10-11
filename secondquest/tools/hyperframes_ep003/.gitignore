@@ -1,0 +1,12 @@
+node_modules/
+renders/
+.cache/
+*.mp4
+.bin/
+hook/assets/
+hook/renders/
+hook/.hyperframes/
+hook/snapshots/
+node_modules/
+renders/
+*.mp4

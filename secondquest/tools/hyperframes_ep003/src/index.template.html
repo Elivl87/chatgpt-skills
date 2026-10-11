@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>EP003 hook - HyperFrames sample</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      :root { --gold: #ffc83d; --ink: #16161f; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1280px; height: 720px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Inter", sans-serif; }
+      .abs { position: absolute; }
+      .full { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+
+      /* ---------- the world: parallax layers, each with 15% bleed, children in frame coords ---------- */
+      #world { overflow: hidden; }
+      .L { position: absolute; left: -192px; top: -108px; width: 1664px; height: 936px; }
+      .F { position: absolute; left: 192px; top: 108px; width: 1280px; height: 720px; }
+      #L-sky .sky { position: absolute; left: -192px; top: -108px; width: 1664px; height: 560px;
+        background: linear-gradient(180deg, #1f2150 0%, #3c3470 22%, #7a4c86 44%, #c9688a 62%, #f4907a 76%, #ffbe7c 88%, #ffd9a2 100%); }
+      #sun { position: absolute; left: 950px; top: 252px; width: 124px; height: 124px; }
+      #sun .disc { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 45% 40%, #fff6d8 0%, #ffe7a6 55%, #ffc978 100%); box-shadow: 0 0 40px 12px rgba(255, 214, 140, .75); }
+      #sunglow { position: absolute; left: 512px; top: -186px; width: 1000px; height: 1000px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 210, 140, .55) 0%, rgba(255, 170, 120, .22) 30%, rgba(255, 150, 120, 0) 62%); mix-blend-mode: screen; }
+      #rays { position: absolute; left: 212px; top: -486px; width: 1600px; height: 1600px; border-radius: 50%; mix-blend-mode: screen; opacity: .22;
+        background: repeating-conic-gradient(from 0deg, rgba(255, 220, 170, .55) 0deg 4deg, rgba(255, 220, 170, 0) 4deg 13deg);
+        -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,.6) 25%, transparent 60%); mask-image: radial-gradient(circle, #000 0%, rgba(0,0,0,.6) 25%, transparent 60%); }
+      .cloud { position: absolute; height: 46px; border-radius: 40px; background: linear-gradient(180deg, rgba(255, 214, 200, .0) 0%, rgba(255, 190, 175, .55) 60%, rgba(255, 160, 150, .75) 100%); filter: blur(1.5px); }
+      .cloud::before, .cloud::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
+      .cloud::before { width: 46%; height: 150%; left: 14%; top: -62%; }
+      .cloud::after { width: 34%; height: 120%; left: 50%; top: -40%; }
+      #water { position: absolute; left: -192px; top: 330px; width: 1664px; height: 498px; }
+      /* ---------- boat + crew ---------- */
+      #boatEnter { position: absolute; left: 330px; top: 452px; width: 620px; height: 145px; }
+      #boatBob, #boatRock { position: absolute; inset: 0; }
+      .boatimg { position: absolute; left: 0; top: 0; width: 620px; height: 145px; }
+      #boatRefl { position: absolute; left: 0; top: 128px; width: 620px; height: 145px; opacity: .3; filter: blur(2px) brightness(.8);
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 40%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 40%, transparent 100%); }
+      #boatRefl img { width: 100%; height: 100%; transform: scaleY(-1); }
+      #crewClip { position: absolute; left: -80px; top: -330px; width: 780px; height: 405px; overflow: hidden; }
+      .mate { position: absolute; bottom: -95px; width: 200px; height: 290px; }
+      .mate .pop, .mate .lean, .mate .breathe, .mate .sway { position: absolute; inset: 0; }
+      .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
+        filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .9)) drop-shadow(0 0 10px rgba(255, 170, 110, .25)) brightness(.97) saturate(1.05); }
+      .sil svg { position: absolute; left: 0; bottom: 0; width: 200px; height: 290px; overflow: visible;
+        filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .95)) drop-shadow(0 0 10px rgba(255, 170, 110, .3)); }
+      .arm { position: absolute; width: 120px; height: 26px; }
+      .arm svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(2px -1px 0 rgba(255, 196, 128, .95)); }
+      #rod { position: absolute; left: 548px; top: -262px; width: 27px; height: 330px; }
+      #rod img { width: 100%; height: 100%; }
+      #line { position: absolute; left: -100px; top: -350px; width: 840px; height: 520px; overflow: visible; }
+      .ripple { position: absolute; border: 2px solid rgba(255, 228, 210, .55); border-radius: 50%; }
+      /* ---------- fx ---------- */
+      .fish { position: absolute; }
+      .fish img { width: 100%; height: 100%; display: block; }
+      .lid { position: absolute; background: #4a8d9b; border-bottom: 2px solid #16161f; }
+      .ring { position: absolute; border: 3px solid rgba(255, 240, 225, .9); border-radius: 50%; }
+      .drop { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #e9f6ff; box-shadow: 0 0 4px rgba(255,255,255,.6); }
+      .star4 { position: absolute; width: 40px; height: 40px; }
+      .star4 svg { width: 100%; height: 100%; overflow: visible; }
+      .reed { position: absolute; bottom: -20px; width: 10px; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #2b2340, #120f1e); transform-origin: 50% 100%; }
+      .fleetboat { position: absolute; }
+      .fleetboat .fb-in, .fleetboat .fb-bob { position: absolute; inset: 0; }
+      .fleetboat img { position: absolute; left: 0; bottom: 0; width: 100%; filter: brightness(.82) saturate(.9); }
+      .head { position: absolute; border-radius: 50% 50% 40% 40%; background: #3d3856; box-shadow: 2px -1px 0 rgba(255, 196, 128, .8); }
+      .boom { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fff7d0 0%, #ffcc5a 35%, #ff7b3a 60%, rgba(255, 90, 40, 0) 72%); }
+      /* ---------- typography (channel style) ---------- */
+      .mk { position: absolute; background: var(--gold); border: 3px solid var(--ink); border-radius: 10px; box-shadow: 4px 5px 0 var(--ink);
+        color: var(--ink); font: 800 22px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
+      .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 5px 6px 0 var(--ink); letter-spacing: .01em; line-height: 1; white-space: nowrap; }
+      #title { position: absolute; left: 0; top: 150px; width: 1280px; height: 130px; display: flex; justify-content: center; gap: 26px; }
+      #title .w { display: block; font-size: 118px; }
+      /* ---------- inserts ---------- */
+      #shotTable { overflow: hidden; background: #1b1220; }
+      #tblCam { position: absolute; inset: 0; }
+      #tblWall { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 38% 30%, #5b3a3a 0%, #2a1a26 55%, #120c16 100%); }
+      #tblTop { position: absolute; left: -200px; top: 380px; width: 1680px; height: 420px;
+        background: repeating-linear-gradient(90deg, rgba(0,0,0,.0) 0 90px, rgba(0,0,0,.12) 90px 93px), linear-gradient(180deg, #8a5532 0%, #6b3f24 50%, #4a2a17 100%); }
+      #tblLight { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; mix-blend-mode: screen;
+        background: radial-gradient(ellipse 34% 40% at 30% 52%, rgba(255, 196, 110, .55) 0%, rgba(255, 150, 80, .18) 45%, rgba(0,0,0,0) 75%); }
+      #shotScope { overflow: hidden; }
+      #scopeRig { position: absolute; left: -1280px; top: -720px; width: 3840px; height: 2160px; }
+      #scopeMask { position: absolute; inset: 0; background: radial-gradient(circle 262px at 50% 50%, rgba(0,0,0,0) 0 96%, #050508 100%); }
+      #scopeRing { position: absolute; left: 1658px; top: 818px; width: 524px; height: 524px; border-radius: 50%;
+        box-shadow: inset 0 0 0 6px #0b0b10, inset 0 0 60px 26px rgba(0,0,0,.75), inset 0 0 0 9px rgba(120, 140, 160, .35); }
+      #scopeTint { position: absolute; left: 1658px; top: 818px; width: 524px; height: 524px; border-radius: 50%; 
+        background: radial-gradient(circle, rgba(150, 230, 210, .10) 0%, rgba(60, 120, 130, .35) 100%); }
+      .xh { position: absolute; background: #0b0b10; }
+      #numsDim { background: radial-gradient(ellipse at 50% 45%, rgba(22, 22, 31, .25) 0%, rgba(22, 22, 31, .72) 100%); }
+      #tag { position: absolute; left: 190px; top: -40px; width: 340px; height: 420px; }
+      #tag .string { position: absolute; left: 168px; top: 0; width: 4px; height: 250px; background: linear-gradient(180deg, rgba(255,255,255,0), #f3e7cf 30%); }
+      #tag .card { position: absolute; left: 20px; top: 236px; width: 300px; height: 168px; background: var(--gold); border: 5px solid var(--ink); border-radius: 22px 22px 22px 22px;
+        box-shadow: 7px 8px 0 var(--ink); display: flex; align-items: center; justify-content: center; }
+      #tag .hole { position: absolute; left: 136px; top: 9px; width: 22px; height: 22px; border-radius: 50%; background: #2a2236; border: 4px solid var(--ink); }
+      #tag .price { font-family: "Anton", sans-serif; font-size: 92px; color: var(--ink); line-height: 1; margin-top: 40px; }
+      #hoped { position: absolute; left: 700px; top: 120px; width: 460px; height: 200px; }
+      #hoped .mk { left: 0; top: 0; }
+      #hoped .num { position: absolute; left: 0; top: 54px; font-size: 104px; color: #fff4dc; }
+      #strike { position: absolute; left: -12px; top: 108px; width: 440px; height: 14px; background: #e5484d; border: 3px solid var(--ink); border-radius: 6px; transform-origin: 0 50%; }
+      #big { position: absolute; left: 0; top: 330px; width: 1280px; height: 190px; display: flex; justify-content: center; }
+      #reel { display: flex; align-items: flex-start; font-size: 168px; height: 172px; }
+      .dcol { display: block; height: 172px; overflow: hidden; }
+      .dstrip { display: block; }
+      .dstrip span, .dsep { display: block; height: 172px; line-height: 172px; }
+      #plus { display: block; font-size: 168px; line-height: 172px; }
+      #src { position: absolute; left: 0; top: 534px; width: 1280px; text-align: center; font: 600 17px "Inter", sans-serif; color: rgba(255, 244, 220, .85); letter-spacing: .04em; }
+      #burstWrap { position: absolute; left: 640px; top: 420px; width: 0; height: 0; }
+      .spark { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: #ffe08a; box-shadow: 0 0 10px #ffc83d; }
+      #slapBurst { position: absolute; left: 770px; top: 120px; width: 260px; height: 200px; }
+      #slapBurst svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      #slapBurst .t { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "Anton", sans-serif; font-size: 70px; color: #e5484d; -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; transform: rotate(-8deg); }
+      #flash { background: #fff8e8; }
+      #wm { position: absolute; left: 349px; top: 50px; width: 582px; height: 100px; }
+      #wm img { width: 100%; height: 100%; filter: drop-shadow(0 5px 0 #16161f) drop-shadow(0 0 22px rgba(22, 22, 31, .45)); }
+      #wmBar { position: absolute; left: 440px; top: 166px; width: 400px; height: 9px; background: var(--gold); border-radius: 4px; box-shadow: 0 3px 0 var(--ink); transform-origin: 50% 50%; }
+      #warm { background: radial-gradient(ellipse 80% 70% at 72% 40%, rgba(255, 180, 110, .55) 0%, rgba(255, 140, 90, .15) 50%, rgba(0,0,0,0) 80%); mix-blend-mode: screen; }
+      #vignette { background: radial-gradient(ellipse 75% 70% at 50% 48%, rgba(0,0,0,0) 55%, rgba(14, 10, 30, .55) 100%); pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="36" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration_hook.wav" data-start="0" data-duration="36" data-track-index="9" data-volume="1"></audio>
+
+      <!-- ================= THE WORLD (persistent lake, camera via per-layer parallax) ================= -->
+      <div id="world" class="full clip" data-start="0" data-duration="36" data-track-index="0">
+        <div id="breath" class="full"><div id="shake" class="full">
+          <div id="L-sky" class="L"><div class="F">
+            <div class="sky"></div>
+            <div id="sunglow"></div>
+            <div id="rays"></div>
+            <div id="sun"><div class="disc"></div></div>
+          </div></div>
+          <div id="L-cloud" class="L"><div class="F">
+            <div class="cloud" id="c1" style="left: 60px; top: 70px; width: 260px"></div>
+            <div class="cloud" id="c2" style="left: 420px; top: 128px; width: 190px; opacity: .8"></div>
+            <div class="cloud" id="c3" style="left: 760px; top: 60px; width: 300px"></div>
+            <div class="cloud" id="c4" style="left: 1130px; top: 150px; width: 210px; opacity: .7"></div>
+          </div></div>
+          <div id="L-hills" class="L"><div class="F">
+            <svg class="abs" style="left: -192px; top: 230px" width="1664" height="140" viewBox="-192 230 1664 140">
+              <defs><linearGradient id="hz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5a8c"/><stop offset="1" stop-color="#5d4a7c"/></linearGradient></defs>
+              <path d="M-192 300 C -60 270, 60 282, 180 296 S 420 262, 560 290 S 820 300, 900 286 S 1120 268, 1250 290 S 1420 296, 1472 288 L 1472 370 L -192 370 Z" fill="url(#hz)"/>
+              <g id="pines" fill="#4b3c6c"></g>
+            </svg>
+          </div></div>
+          <div id="L-island" class="L"><div class="F">
+            <svg class="abs" style="left: -192px; top: 250px" width="700" height="110" viewBox="-192 250 700 110">
+              <path d="M-192 336 C -120 300, -20 306, 60 314 C 160 300, 260 310, 330 326 C 380 332, 420 336, 440 340 L -192 340 Z" fill="#3a2f58"/>
+              <path d="M-120 312 C -40 304, 60 310, 160 304 C 240 306, 300 318, 330 326" fill="none" stroke="rgba(255,190,140,.55)" stroke-width="2"/>
+              <g id="islandPines" fill="#2e2548"></g>
+            </svg>
+          </div></div>
+          <div id="L-water" class="L"><div class="F">
+            <canvas id="water" width="1664" height="498"></canvas>
+          </div></div>
+          <div id="L-fleet" class="L"><div class="F" id="fleet"></div></div>
+          <div id="L-boat" class="L"><div class="F">
+            <div id="ripples"></div>
+            <div id="fishBack"></div>
+            <div id="boatEnter">
+              <div id="boatRefl"><img src="assets/rowboat_side.png" alt="" /></div>
+              <div id="boatBob"><div id="boatRock">
+                <div id="crewClip">
+                  <div class="mate sil" id="silA" style="left: 445px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
+                    <svg viewBox="0 0 200 290"><path d="M48 290 C 44 200, 50 140, 70 118 C 82 106, 94 102, 100 102 C 106 102, 120 106, 132 118 C 152 140, 156 200, 152 290 Z" fill="#4a4566"/><circle cx="101" cy="62" r="36" fill="#4a4566"/><path d="M68 52 C 70 22, 124 16, 136 46 C 120 34, 88 34, 68 52 Z" fill="#3d3856"/></svg>
+                    <div class="arm" id="armA" style="left: 118px; top: 112px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#4a4566"/><circle cx="108" cy="14" r="11" fill="#4a4566"/></svg></div>
+                  </div></div></div></div></div>
+                  <div class="mate sil" id="silB" style="left: 560px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
+                    <svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="#544e70"/><g id="headB"><circle cx="100" cy="60" r="35" fill="#544e70"/><path d="M66 54 C 60 26, 92 10, 118 20 C 138 28, 140 46, 136 56 C 122 38, 90 36, 66 54 Z" fill="#463f60"/></g></svg>
+                    <div class="arm" id="armB" style="left: 124px; top: 110px; width: 92px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#544e70"/><circle cx="108" cy="14" r="11" fill="#544e70"/></svg></div>
+                  </div></div></div></div></div>
+                  <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /></div></div></div></div></div>
+                  <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /></div></div></div></div></div>
+                  <div id="ko" class="abs" style="left: 600px; top: 110px; width: 120px; height: 60px"></div>
+                </div>
+                <svg id="line" viewBox="-100 -350 840 520"><path id="linePath" d="M 417 -229 C 380 -150, 230 -175, 175 -95 C 170 -40, 260 -30, 380 -36 C 520 -44, 640 -60, 640 -20 C 640 20, 470 30, 330 24 C 200 18, 150 30, 170 50 C 200 80, 420 60, 560 70 C 650 76, 700 110, 690 160" fill="none" stroke="#f6efe0" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <div id="rod"><img src="assets/rod.png" alt="" /></div>
+                <img class="boatimg" src="assets/rowboat_side.png" alt="" />
+              </div></div>
+            </div>
+            <div id="fishFront"></div>
+          </div></div>
+          <div id="L-fore" class="L"><div class="F" id="reeds"></div></div>
+        </div></div>
+        <div id="numsDim" class="full" style="opacity: 0"></div>
+        <div id="warm" class="full" style="opacity: .35"></div>
+      </div>
+
+      <!-- ================= TITLE (l01) ================= -->
+      <div id="titleClip" class="full clip" data-start="1.3" data-duration="5.4" data-track-index="2">
+        <div id="title"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3">FISH</span></div>
+      </div>
+
+      <!-- ================= SLAP burst (l03) ================= -->
+      <div id="slapClip" class="full clip" data-start="10.5" data-duration="1.62" data-track-index="2">
+        <div id="slapBurst" data-hf-motion-blur='{"samplesPerFrame": 10}'>
+          <svg viewBox="0 0 260 200"><polygon points="130,0 152,52 210,14 190,74 260,80 200,112 246,166 176,140 160,200 128,150 92,196 86,140 18,170 58,116 0,92 64,70 34,18 104,50" fill="#ffc83d" stroke="#16161f" stroke-width="6" stroke-linejoin="round"/></svg>
+          <div class="t">SLAP!</div>
+        </div>
+      </div>
+
+      <!-- ================= INSERT: the fish money (l03) ================= -->
+      <div id="shotTable" class="full clip" data-start="12.1" data-duration="1.96" data-track-index="3">
+        <div id="tblCam">
+          <div id="tblWall"></div>
+          <div id="tblTop"></div>
+          <div id="lantern" class="abs" style="left: 250px; top: 205px; width: 120px; height: 221px"><img src="assets/lantern.png" alt="" style="width: 100%; height: 100%" /></div>
+          <div id="tblLight" class="abs"></div>
+          <div id="tblFish" class="fish" style="left: 520px; top: 330px; width: 380px; height: 223px"><img src="assets/fish_side.png" alt="" /><div class="lid" id="tblLid"></div></div>
+          <div id="tblChips" class="abs" style="left: 840px; top: 380px; width: 280px; height: 201px"><img src="assets/chips.png" alt="" style="width: 100%; height: 100%" /></div>
+          <div class="mk" id="mkMoney" style="left: 486px; top: 610px">The fish money</div>
+        </div>
+      </div>
+
+      <!-- ================= INSERT: the scope (l03) ================= -->
+      <div id="shotScope" class="full clip" data-start="14.06" data-duration="1.76" data-track-index="3">
+        <div id="scopeRig">
+          <div id="scopeTint"></div>
+          <div id="scopeMask"></div>
+          <div id="scopeRing"></div>
+          <div class="xh" style="left: 1660px; top: 1078px; width: 210px; height: 3px"></div>
+          <div class="xh" style="left: 1970px; top: 1078px; width: 210px; height: 3px"></div>
+          <div class="xh" style="left: 1918px; top: 820px; width: 3px; height: 210px"></div>
+          <div class="xh" style="left: 1918px; top: 1130px; width: 3px; height: 210px"></div>
+          <div class="xh" style="left: 1870px; top: 1079px; width: 100px; height: 1px"></div>
+          <div class="xh" style="left: 1919px; top: 1030px; width: 1px; height: 100px"></div>
+          <div id="dot" class="abs" style="left: 1915px; top: 1075px; width: 9px; height: 9px; border-radius: 50%; background: #ff4040; box-shadow: 0 0 8px #ff4040"></div>
+        </div>
+      </div>
+
+      <!-- ================= NUMBERS (l04) ================= -->
+      <div id="shotNums" class="full clip" data-start="15.82" data-duration="10.1" data-track-index="2">
+        <div id="tag" data-hf-motion-blur='{"samplesPerFrame": 10}'><div class="string"></div><div class="card"><div class="hole"></div><div class="price">$7.99</div></div></div>
+        <div id="hoped"><div class="mk" id="mkHoped">They hoped</div><div class="num big" id="hopedNum">0</div><div id="strike"></div></div>
+        <div id="big"><div id="reel" class="big"></div><span id="plus" class="big">+</span></div>
+        <div id="src">estimate · Alinea Analytics · early October</div>
+        <div id="burstWrap"></div>
+      </div>
+
+      <!-- ================= l05 card ================= -->
+      <div id="elseClip" class="full clip" data-start="28" data-duration="3.1" data-track-index="2">
+        <div class="mk" id="mkElse" style="left: 452px; top: 64px; font-size: 30px" data-hf-motion-blur='{"samplesPerFrame": 10}'>To do everything else</div>
+      </div>
+
+      <!-- ================= WORDMARK (l07 "why") ================= -->
+      <div id="wmClip" class="full clip" data-start="33.7" data-duration="2.3" data-track-index="4">
+        <div id="wm" data-hf-motion-blur='{"samplesPerFrame": 12}'><img src="assets/wordmark.png" alt="SecondQuest" /></div>
+        <div id="wmBar"></div>
+        <div id="leap" class="fish" style="left: 0; top: 0; width: 150px; height: 110px" data-hf-motion-blur='{"samplesPerFrame": 12}'><img src="assets/fish_34.png" alt="" /></div>
+        <div id="starFx" class="abs" style="left: 530px; top: 104px; width: 0; height: 0"></div>
+      </div>
+
+      <div id="flash" class="full" style="opacity: 0"></div>
+      <div id="vignette" class="full"></div>
+      <!--INCLUDE grain-overlay.html-->
+    </div>
+
+    <script>
+      /* ------------------------------------------------------------------ setup (deterministic) */
+      const W = 1280, H = 720;
+      function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const R = rng(3003);
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+      const SVGNS = "http://www.w3.org/2000/svg";
+
+      // pines on the far hills and the island (seeded)
+      (function () {
+        const g = $("#pines"); for (let i = 0; i < 26; i++) { const x = -150 + i * 26 + R() * 14; if (x > 360) break; const h = 16 + R() * 18, y = 296 + R() * 6;
+          const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", `M${x} ${y - h} L${x + h * .32} ${y} L${x - h * .32} ${y} Z`); g.appendChild(p); }
+        const g2 = $("#islandPines"); for (let i = 0; i < 16; i++) { const x = -170 + i * 30 + R() * 16; const h = 26 + R() * 30, y = 322 + R() * 8;
+          const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", `M${x} ${y - h} L${x + h * .3} ${y} L${x - h * .3} ${y} Z`); g2.appendChild(p); }
+      })();
+      // foreground reeds (bottom corners)
+      const reeds = [];
+      (function () { const host = $("#reeds");
+        for (let i = 0; i < 14; i++) { const left = i < 7; const x = left ? -60 + i * 16 + R() * 8 : 1180 + (i - 7) * 18 + R() * 8;
+          const h = 120 + R() * 140; const e = mk("div", "reed", host, `left:${x}px; height:${h}px; width:${7 + R() * 5}px`); reeds.push(e); } })();
+      // ripples around the hull
+      const ripples = []; (function () { const host = $("#ripples"); for (let i = 0; i < 4; i++) ripples.push(mk("div", "ripple", host, `left:${380}px; top:${585}px; width:520px; height:40px`)); })();
+
+      // fish leapers for "A lot of fish." [x0, x1, waterY, apex, w, delay, img, flip, host]
+      const LEAPS = [
+        [40, 170, 480, 110, 80, 0.00, "fish_side", false, "fishBack"],
+        [1180, 1060, 470, 120, 76, 0.12, "fish_side", true, "fishBack"],
+        [120, 260, 650, 170, 112, 0.22, "fish_side", false, "fishFront"],
+        [1010, 1150, 660, 150, 100, 0.36, "fish_side", true, "fishFront"],
+      ];
+      const leapEls = LEAPS.map((L, i) => { const e = mk("div", "fish", $("#" + L[8]), `left:0; top:0; width:${L[4]}px; height:${L[4] * 470 / 801}px`);
+        e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}'); const im = mk("img", "", e); im.src = `assets/${L[6]}.png`; if (L[7]) im.style.transform = "scaleX(-1)"; return e; });
+      // the companion (fish_34) in the boat layer
+      const buddy = mk("div", "fish", $("#fishFront"), "left:0; top:0; width:170px; height:125px"); buddy.id = "buddy";
+      buddy.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+      (function () { const im = mk("img", "", buddy); im.src = "assets/fish_34.png"; })();
+      const buddyLid = mk("div", "lid", buddy, `left:${.585 * 170}px; top:${.5 * 125}px; width:${.07 * 170}px; height:${.105 * 125}px; transform-origin:50% 0`);
+      // splash rigs
+      function makeSplash(host, x, y, s) { const g = mk("div", "abs", host, `left:${x}px; top:${y}px; width:0; height:0`); const rings = [], drops = [];
+        for (let i = 0; i < 2; i++) rings.push(mk("div", "ring", g, `left:${-60 * s}px; top:${-12 * s}px; width:${120 * s}px; height:${24 * s}px`));
+        for (let i = 0; i < 9; i++) drops.push(mk("div", "drop", g, `left:-4px; top:-4px`)); return { rings, drops, s }; }
+      // fleet (l05)
+      const fleet = [];
+      (function () { const host = $("#fleet"); const rows = 8;
+        for (let r = 0; r < rows; r++) { const k = r / (rows - 1); const y = 346 + Math.pow(k, 1.55) * 345; const sc = 0.045 + Math.pow(k, 1.5) * 0.25; const n = 16 - Math.round(k * 10);
+          for (let i = 0; i < n; i++) { let x = -170 + (i + 0.5) * (1620 / n) + (R() - 0.5) * (1620 / n) * 0.5;
+            if (Math.abs(x - 640) < 420 && y > 420) continue;
+            const use34 = R() < 0.3; const w = (use34 ? 880 : 912) * sc, h = (use34 ? 371 : 213) * sc;
+            const b = mk("div", "fleetboat", host, `left:${x - w / 2}px; top:${y - h}px; width:${w}px; height:${h}px`);
+            const inn = mk("div", "fb-in", b), bob = mk("div", "fb-bob", inn);
+            const nh = 1 + Math.floor(R() * 3); for (let j = 0; j < nh; j++) { const hs = 62 * sc; mk("div", "head", bob, `left:${w * (0.28 + j * 0.17 + R() * 0.04)}px; top:${-hs * 0.45}px; width:${hs}px; height:${hs * 1.1}px`); }
+            const im = mk("img", "", bob); im.src = `assets/${use34 ? "rowboat_34" : "rowboat_side"}.png`; if (R() < 0.5) im.style.transform = "scaleX(-1)";
+            fleet.push({ b, inn, bob, x, y, w, h, sc, k }); } } })();
+      // chaos props in some fleet boats (l05 "to do everything else")
+      const chaos = []; (function () { const picks = fleet.filter((f) => f.k > 0.25).sort((a, b) => a.x - b.x); const step = Math.max(1, Math.floor(picks.length / 7));
+        for (let i = 0; i < 7 && i * step < picks.length; i++) { const f = picks[i * step]; const kind = ["dynamite", "chips", "fish_side"][i % 3];
+          const sz = kind === "dynamite" ? [70 * f.sc / .3, 147 * f.sc / .3] : kind === "chips" ? [120 * f.sc / .3, 86 * f.sc / .3] : [120 * f.sc / .3, 70 * f.sc / .3];
+          const e = mk("div", "fish", f.bob, `left:${f.w / 2 - sz[0] / 2}px; top:${-sz[1] * 0.6}px; width:${sz[0]}px; height:${sz[1]}px`); const im = mk("img", "", e); im.src = `assets/${kind}.png`;
+          const boom = kind === "dynamite" ? mk("div", "boom", f.bob, `left:${f.w / 2 - 110 * f.sc / .3}px; top:${-200 * f.sc / .3}px; width:${220 * f.sc / .3}px; height:${220 * f.sc / .3}px`) : null;
+          chaos.push({ e, kind, f, boom, sz, i }); } })();
+      // number reel 10,000,000
+      const reelDigits = []; (function () { const host = $("#reel"); const value = "10,000,000";
+        for (const ch of value) { if (ch === ",") { const s = mk("span", "dsep", host); s.textContent = ","; continue; }
+          const col = mk("span", "dcol", host); const strip = mk("span", "dstrip", col); const stops = 20 + Number(ch);
+          for (let i = 0; i <= stops; i++) { const d = mk("span", "", strip); d.textContent = String(i % 10); } reelDigits.push({ strip, stops }); } })();
+      // spark bursts
+      function makeSparks(host, n, seed) { const r = rng(seed); return Array.from({ length: n }, () => ({ e: mk("div", "spark", host), a: r() * Math.PI * 2, d: 120 + r() * 260, s: 0.6 + r() * 1.2 })); }
+      const numSparks = makeSparks($("#burstWrap"), 26, 77);
+      // 4-point sparkle svg
+      function star4(host, x, y, size, color) { const e = mk("div", "star4", host, `left:${x - size / 2}px; top:${y - size / 2}px; width:${size}px; height:${size}px`);
+        e.innerHTML = `<svg viewBox="-20 -20 40 40"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="${color}"/></svg>`; return e; }
+      const koStars = [0, 1, 2].map((i) => star4($("#ko"), 20 + i * 38, 20, 26, "#ffc83d"));
+      const starMain = star4($("#starFx"), 0, 0, 64, "#fff6d6");
+      const starSparks = Array.from({ length: 8 }, (_, i) => star4($("#starFx"), 0, 0, 22, i % 2 ? "#bfe9ff" : "#ffe08a"));
+
+      /* ------------------------------------------------------------------ water shader (WebGL, seek-driven) */
+      const water = (function () {
+        const cv = $("#water"); const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
+        if (!gl) return { draw() {} };
+        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
+        const fs = `precision mediump float; uniform float t; uniform vec2 res; uniform float sunU; uniform float glow;
+          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
+          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
+          void main(){
+            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x; float v = 1. - fc.y/res.y;
+            float z = 1./(v*1.05 + .04); float wx = (u-.5)*z*2.6; float wz = z;
+            float far = smoothstep(.0,.12,v);
+            vec3 cHor = vec3(.93,.64,.62), cMid = vec3(.52,.40,.64), cDeep = vec3(.21,.19,.41);
+            vec3 col = mix(cHor, cMid, smoothstep(.0,.38,v)); col = mix(col, cDeep, smoothstep(.3,1.,v));
+            float sw = sin(wz*5.2 - t*1.5 + sin(wx*1.3 + t*.45)*1.4)*.5 + .5;
+            float n = vn(vec2(wx*1.6 + t*.07, wz*7.5 - t*.9));
+            float crest = smoothstep(.78,.93, sw*.55 + n*.5) * far;
+            col = mix(col, col*1.22 + vec3(.06,.04,.07), crest*.6);
+            float trough = smoothstep(.32,.08, sw*.55 + n*.45) * far;
+            col *= 1. - trough*.16;
+            float dash = step(.91, vn(vec2(wx*.7 + t*.04, wz*13.))) * far;
+            col = mix(col, vec3(1.,.87,.8), dash*.32*(1.-v*.4));
+            float dx = abs(u - sunU); float cw = .018 + v*.10; float column = exp(-(dx/cw)*(dx/cw));
+            float glit = step(.70 - column*.22, vn(vec2(wx*5. + t*.25, wz*20. - t*1.3)));
+            col = mix(col, vec3(1.,.88,.58), column*(.28 + .72*glit*far)*(1.-v*.55)*glow);
+            col += vec3(1.,.72,.5)*column*.12*glow;
+            col = mix(col, vec3(1.,.8,.68), smoothstep(.07,.0,v)*.65);
+            gl_FragColor = vec4(col, 1.);
+          }`;
+        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
+        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        const uT = gl.getUniformLocation(pr, "t"), uRes = gl.getUniformLocation(pr, "res"), uSun = gl.getUniformLocation(pr, "sunU"), uGlow = gl.getUniformLocation(pr, "glow");
+        gl.viewport(0, 0, cv.width, cv.height);
+        return { draw(t, glow) { gl.uniform1f(uT, t); gl.uniform2f(uRes, cv.width, cv.height); gl.uniform1f(uSun, (1012 + 192) / 1664); gl.uniform1f(uGlow, glow); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
+      })();
+
+      /* ------------------------------------------------------------------ the timeline */
+      const tl = gsap.timeline({ paused: true });
+      const DUR = 36;
+      const env = { t: 0, glow: 1 };
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(env.t, env.glow) }, 0);
+      tl.to(env, { glow: 1.25, duration: 4, ease: "sine.inOut" }, 31);
+
+      // camera: per-layer parallax. f = depth factor (0 far .. 1 boat .. >1 foreground)
+      const LAYERS = [["#L-sky", .1], ["#L-cloud", .16], ["#L-hills", .3], ["#L-island", .45], ["#L-water", .6], ["#L-fleet", .8], ["#L-boat", 1], ["#L-fore", 1.35]];
+      function cam(at, dur, c, ease) {
+        const x = c.x || 0, y = c.y || 0, s = c.s || 1;
+        LAYERS.forEach(([sel, f]) => { const v = { x: x * f, y: y * f, scale: 1 + (s - 1) * Math.min(1.2, .35 + .65 * f) };
+          if (dur <= 0) tl.set(sel, v, at); else tl.to(sel, Object.assign(v, { duration: dur, ease: ease || "sine.inOut" }), at); });
+      }
+      // focus helper: camera that puts frame point (px,py) at the frame centre (+ offset) with zoom s
+      const focus = (px, py, s, ox, oy) => ({ x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), s });
+
+      // ambient: sun sinks, clouds drift, rays turn, reeds sway, boat bobs, crew breathes, ripples
+      tl.fromTo("#sun", { y: 0 }, { y: 30, duration: DUR, ease: "none" }, 0);
+      tl.fromTo("#rays", { rotation: 0 }, { rotation: 14, duration: DUR, ease: "none" }, 0);
+      ["#c1", "#c2", "#c3", "#c4"].forEach((c, i) => tl.fromTo(c, { x: 0 }, { x: 40 + i * 14, duration: DUR, ease: "none" }, 0));
+      reeds.forEach((e, i) => tl.fromTo(e, { rotation: -2 - (i % 3) }, { rotation: 3 + (i % 2), duration: 1.6 + (i % 5) * .23, ease: "sine.inOut", yoyo: true, repeat: 22 }, 0));
+      tl.fromTo("#boatBob", { y: -3 }, { y: 4, duration: 1.45, ease: "sine.inOut", yoyo: true, repeat: 24 }, 0);
+      tl.fromTo("#boatRock", { rotation: -1.1 }, { rotation: 1.1, duration: 2.05, ease: "sine.inOut", yoyo: true, repeat: 17, transformOrigin: "50% 90%" }, 0);
+      ripples.forEach((r, i) => tl.fromTo(r, { scale: .7, opacity: .0 }, { keyframes: [{ scale: .95, opacity: .7, duration: .6 }, { scale: 1.35, opacity: 0, duration: 1.4 }], repeat: 17, ease: "none" }, 3.6 + i * .5));
+      const MATES = ["#pixie", "#quest", "#silA", "#silB"];
+      MATES.forEach((m, i) => {
+        tl.fromTo(`${m} .breathe`, { scaleY: 1 }, { scaleY: 1.022, duration: 1.7 + i * .17, ease: "sine.inOut", yoyo: true, repeat: 21, transformOrigin: "50% 100%" }, 0);
+        tl.fromTo(`${m} .sway`, { rotation: -1.4 }, { rotation: 1.4, duration: 2.3 + i * .21, ease: "sine.inOut", yoyo: true, repeat: 15, transformOrigin: "50% 100%" }, 0);
+      });
+      tl.fromTo("#armB", { rotation: -70 }, { rotation: -115, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "0% 50%" }, 7.2);
+
+      // ---------------- SHOT A (0 - 12.1): the lake
+      cam(0, 0, focus(640, 330, 1.16, 0, 40));
+      cam(0, 3.2, focus(640, 400, 1.08));
+      tl.set("#boatEnter", { x: -1100 }, 0);
+      tl.set("#rod", { y: -620, rotation: -34, transformOrigin: "50% 100%", opacity: 1 }, 0);
+      tl.set("#linePath", { strokeDasharray: 1600, strokeDashoffset: 1600 }, 0);
+      MATES.forEach((m) => tl.set(`${m} .pop`, { y: 260 }, 0));
+      tl.set(buddy, { x: 940, y: 640, rotation: 0, opacity: 0 }, 0);
+      tl.set(buddyLid, { scaleY: 0 }, 0);
+      tl.set("#armA", { rotation: -25, transformOrigin: "0% 50%" }, 0);
+      // title words on "How" "to" "Fish."
+      [["#tw1", 1.44], ["#tw2", 1.86], ["#tw3", 2.06]].forEach(([s, t]) => tl.fromTo(s, { y: -160, scale: 1.5, opacity: 0, rotation: -6 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: .55, ease: "back.out(2.6)" }, t - .08));
+      tl.to("#title", { y: -118, scale: .42, duration: .55, ease: "power3.inOut" }, 3.0);
+      tl.to("#title", { opacity: 0, duration: .3 }, 6.4);
+      // "A boat." - slides in with spring settle + wake
+      tl.to("#boatEnter", { x: 0, duration: 1.15, ease: "back.out(1.25)" }, 3.2);
+      tl.fromTo("#boatEnter", { rotation: 0 }, { keyframes: [{ rotation: -3.5, duration: .35 }, { rotation: 2.2, duration: .4 }, { rotation: 0, duration: .9, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 90%" }, 3.6);
+      cam(3.3, 1.6, focus(640, 470, 1.12, 0, 20));
+      // "A rod." - drops in, wobbles on a spring
+      tl.to("#rod", { y: 0, duration: .42, ease: "power3.in" }, 4.48);
+      tl.fromTo("#rod", { rotation: -34 }, { rotation: -26, duration: 1.1, ease: "elastic.out(1.2, .25)", immediateRender: false }, 4.9);
+      tl.fromTo("#boatBob", { scaleY: 1 }, { keyframes: [{ scaleY: .97, duration: .08 }, { scaleY: 1, duration: .5, ease: "elastic.out(1, .3)" }], transformOrigin: "50% 100%", immediateRender: false }, 4.9);
+      // "A lot of fish." - leaps with motion blur + splashes
+      const splashes = [];
+      function doSplash(host, x, y, s, at, seed) { const sp = makeSplash(host, x, y, s); const r = rng(seed);
+        sp.rings.forEach((rg, i) => tl.fromTo(rg, { scale: .2, opacity: .95 }, { scale: 1.5 + i * .5, opacity: 0, duration: .9 + i * .3, ease: "power2.out" }, at + i * .1));
+        sp.drops.forEach((d) => { const ang = -Math.PI / 2 + (r() - .5) * 2.2, v = (40 + r() * 70) * s; const dx = Math.cos(ang) * v * 1.4, hy = Math.sin(ang) * v;
+          tl.fromTo(d, { x: 0, y: 0, opacity: 1, scale: s }, { x: dx, duration: .7, ease: "none" }, at);
+          tl.fromTo(d, { y: 0 }, { keyframes: [{ y: hy, duration: .3, ease: "power2.out" }, { y: 30 * s, duration: .4, ease: "power2.in" }] }, at);
+          tl.to(d, { opacity: 0, duration: .15 }, at + .55); }); }
+      LEAPS.forEach((L, i) => { const e = leapEls[i]; const t0 = 5.6 + L[5], d = .95; const w = L[4], h = w * 470 / 801;
+        tl.set(e, { x: L[0] - w / 2, y: L[2], rotation: L[7] ? 40 : -40, opacity: 0 }, 0);
+        tl.set(e, { opacity: 1 }, t0);
+        tl.to(e, { x: L[1] - w / 2, duration: d, ease: "none" }, t0);
+        tl.to(e, { keyframes: [{ y: L[2] - L[3], duration: d / 2, ease: "power2.out" }, { y: L[2], duration: d / 2, ease: "power2.in" }] }, t0);
+        tl.to(e, { rotation: L[7] ? -45 : 45, duration: d, ease: "sine.inOut" }, t0);
+        tl.set(e, { opacity: 0 }, t0 + d);
+        doSplash($("#" + L[8]), L[0], L[2] + h * .6, w / 150, t0 - .05, 10 + i); doSplash($("#" + L[8]), L[1], L[2] + h * .6, w / 150, t0 + d - .05, 20 + i); });
+      // the companion: leaps, freezes mid-air at the apex and stares at camera, blinks, drops
+      tl.set(buddy, { opacity: 1, x: 900, y: 640, rotation: -35 }, 5.78);
+      tl.to(buddy, { x: 960, y: 392, rotation: 0, duration: .34, ease: "power3.out" }, 5.78);
+      tl.to(buddy, { y: 384, duration: .55, ease: "sine.inOut" }, 6.12);
+      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .12 }, { scaleY: 0, duration: .14 }] }, 6.28);
+      tl.to(buddy, { x: 900, y: 600, rotation: 50, duration: .4, ease: "power2.in" }, 6.72);
+      tl.set(buddy, { opacity: 0 }, 7.12);
+      tl.set(buddy, { opacity: 1 }, 7.5);
+      doSplash($("#fishFront"), 985, 660, 1.3, 7.08, 31);
+      cam(5.55, .9, focus(760, 470, 1.18, 0, 10), "power2.inOut");
+      // "And almost nobody..." - the crew pops into the boat (overshoot), then the camera pulls back
+      [["#quest", 6.81], ["#pixie", 6.98], ["#silA", 7.12], ["#silB", 7.24]].forEach(([m, t]) => tl.to(`${m} .pop`, { y: 0, duration: .55, ease: "back.out(1.15)" }, t));
+      tl.fromTo("#boatBob", { y: 0 }, { keyframes: [{ y: 9, duration: .12 }, { y: 0, duration: .9, ease: "elastic.out(1, .35)" }], immediateRender: false }, 6.95);
+      cam(6.85, .9, focus(640, 420, 1.3), "power2.out");
+      cam(7.88, 1.9, focus(640, 400, 1.0, 0, -10), "power2.inOut");
+      tl.to("#linePath", { strokeDashoffset: 0, duration: 1.5, ease: "power1.inOut" }, 7.95);
+      // the companion peeks at the frame's edge, unimpressed
+      tl.set(buddy, { x: 1010, y: 640, rotation: -8, scale: .9 }, 7.5);
+      tl.fromTo(buddy, { y: 680 }, { y: 618, duration: .6, ease: "back.out(2)", immediateRender: false }, 8.3);
+      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .14 }, { scaleY: 0, duration: .18 }] }, 9.2);
+      tl.to(buddy, { y: 680, duration: .3, ease: "power2.in" }, 9.75);
+      // "slapping each other in the face" - whip to the pair, swing, SLAP, shake, KO stars
+      cam(10.06, .3, focus(800, 375, 1.85), "expo.inOut");
+      tl.to("#armA", { rotation: -95, duration: .25, ease: "power2.out" }, 10.24);
+      tl.to("#armA", { rotation: 10, duration: .12, ease: "power4.in" }, 10.5);
+      tl.to("#headB", { rotation: 22, x: 10, transformOrigin: "100px 100px", duration: .07, ease: "power2.out" }, 10.62);
+      tl.to("#headB", { rotation: 0, x: 0, duration: .8, ease: "elastic.out(1.1, .3)" }, 10.7);
+      tl.to("#silB .lean", { rotation: 9, x: 8, transformOrigin: "50% 100%", duration: .08 }, 10.62);
+      tl.to("#silB .lean", { rotation: 0, x: 0, duration: .9, ease: "elastic.out(1, .3)" }, 10.72);
+      tl.to("#armA", { rotation: -25, duration: .6, ease: "power2.inOut" }, 11.0);
+      tl.fromTo("#slapBurst", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: .5, ease: "elastic.out(1.1, .45)" }, 10.62);
+      tl.to("#slapBurst", { scale: 1.08, duration: .9, ease: "sine.inOut" }, 11.12);
+      tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .55, duration: .03 }, { opacity: 0, duration: .14 }] }, 10.62);
+      const SH = [[14, -9], [-12, 8], [9, 6], [-7, -5], [5, 3], [-3, -2], [0, 0]];
+      tl.to("#shake", { keyframes: SH.map(([x, y]) => ({ x, y, duration: .045 })) }, 10.62);
+      tl.set("#ko", { opacity: 0 }, 0);
+      tl.to("#ko", { opacity: 1, duration: .1 }, 10.8);
+      tl.set("#ko", { opacity: 0 }, 12.1);
+      koStars.forEach((s, i) => tl.fromTo(s, { rotation: 0, y: 0 }, { rotation: 360, y: -8, duration: 1.2, ease: "none", repeat: 0 }, 10.8 + i * .06));
+      tl.to("#ko", { rotation: 360, duration: 1.3, ease: "none", transformOrigin: "50% 50%" }, 10.8);
+      cam(10.8, 1.3, focus(790, 380, 1.95), "sine.out");
+
+      // ---------------- INSERT: the fish money (12.1 - 14.06)
+      tl.fromTo("#tblCam", { scale: 1.12, x: 30 }, { scale: 1.02, x: 0, duration: 1.96, ease: "power2.out" }, 12.1);
+      tl.fromTo("#lantern", { rotation: -5 }, { rotation: 4, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 0%" }, 12.1);
+      tl.fromTo("#tblLight", { opacity: .8 }, { opacity: 1, duration: .25, ease: "sine.inOut", yoyo: true, repeat: 7 }, 12.1);
+      tl.fromTo("#tblFish", { x: -700, rotation: -8 }, { x: 0, rotation: 0, duration: .5, ease: "back.out(1.6)" }, 12.4);
+      tl.fromTo("#tblChips", { y: -560, rotation: 20 }, { y: 0, rotation: 0, duration: .55, ease: "bounce.out" }, 12.7);
+      tl.fromTo("#mkMoney", { y: 80, scale: .6, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .4, ease: "back.out(2.5)" }, 12.82);
+      tl.set("#tblLid", { left: .585 * 380 * 0 + (1 - .655) * 380, top: .5 * 223, width: .07 * 380, height: .105 * 223, scaleY: 0, transformOrigin: "50% 0%" }, 12.1);
+      tl.to("#tblLid", { keyframes: [{ scaleY: 1, duration: .12 }, { scaleY: 0, duration: .16 }] }, 13.45);
+
+      // ---------------- INSERT: the scope (14.06 - 15.82): the world seen through a scope, locks on the fish
+      const SCOPEFISH = { x: 1000, y: 560 };
+      tl.set(buddy, { x: SCOPEFISH.x - 85, y: SCOPEFISH.y - 62, rotation: 0, scale: 1, opacity: 1 }, 14.06);
+      MATES.forEach((m) => tl.set(m, { opacity: 0 }, 14.06));
+      tl.set(["#boatEnter", "#ripples"], { opacity: 0 }, 14.06);
+      cam(14.06, 0, focus(SCOPEFISH.x, SCOPEFISH.y, 2.4, -140, 70));
+      cam(14.06, 1.7, focus(SCOPEFISH.x, SCOPEFISH.y, 2.6), "power2.out");
+      tl.fromTo("#scopeRig", { x: -260, y: 90 }, { keyframes: [{ x: 120, y: -40, duration: .4, ease: "sine.inOut" }, { x: -40, y: 30, duration: .3, ease: "sine.inOut" }, { x: 0, y: 0, duration: .32, ease: "back.out(2)" }] }, 14.06);
+      tl.fromTo("#dot", { scale: 1 }, { scale: 2.2, duration: .12, yoyo: true, repeat: 3, ease: "sine.inOut" }, 14.84);
+      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .14 }, { scaleY: 0, duration: .2 }] }, 15.15);
+
+      // ---------------- NUMBERS (15.82 - 25.95): the lake out of focus behind the cards
+      tl.set(buddy, { opacity: 0 }, 15.82);
+      MATES.forEach((m) => tl.set(m, { opacity: 1 }, 15.82));
+      tl.set(["#boatEnter", "#ripples"], { opacity: 1 }, 15.82);
+      tl.set("#breath", { filter: "blur(7px) saturate(1.1)" }, 15.82);
+      tl.set("#numsDim", { opacity: 1 }, 15.82);
+      cam(15.82, 0, focus(600, 380, 1.06));
+      cam(15.82, 10.1, focus(680, 400, 1.12), "none");
+      tl.fromTo("#tag", { y: -460, rotation: -70 }, { y: 0, duration: .5, ease: "power2.in" }, 16.0);
+      tl.to("#tag", { rotation: 0, duration: 2.2, ease: "elastic.out(1.15, .22)", transformOrigin: "170px 0px" }, 16.25);
+      tl.fromTo("#mkHoped", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: .5, ease: "back.out(2.8)", transformOrigin: "0% 50%" }, 17.8);
+      const hoped = { v: 0 };
+      tl.set("#hopedNum", { opacity: 0 }, 15.82);
+      tl.fromTo("#hopedNum", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .3, ease: "power2.out" }, 19.25);
+      tl.to(hoped, { v: 200000, duration: 1.1, ease: "power3.out", onUpdate: () => { $("#hopedNum").textContent = Math.round(hoped.v / 1000) * 1000 >= 1000 ? Math.round(hoped.v).toLocaleString("en-US") : "0"; } }, 19.3);
+      tl.fromTo("#strike", { scaleX: 0 }, { scaleX: 1, duration: .35, ease: "power3.out" }, 21.5);
+      tl.to("#hoped", { scale: .62, x: 150, y: -60, opacity: .55, rotation: 4, duration: .6, ease: "power3.inOut" }, 22.0);
+      tl.to("#tag", { scale: .7, x: -80, y: -40, opacity: .7, duration: .6, ease: "power3.inOut" }, 22.0);
+      tl.fromTo("#big", { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2)" }, 22.45);
+      reelDigits.slice().reverse().forEach((d, i) => tl.fromTo(d.strip, { y: 0 }, { y: -172 * d.stops, duration: 2.0 - i * .06, ease: "power3.inOut" }, 22.7 + i * .06));
+      tl.fromTo("#plus", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: .55, ease: "elastic.out(1.2, .4)" }, 25.0);
+      tl.fromTo("#big", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: .08 }, { scale: 1, duration: .6, ease: "elastic.out(1, .35)" }], immediateRender: false }, 24.8);
+      tl.fromTo("#src", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5 }, 23.4);
+      numSparks.forEach((s) => { tl.fromTo(s.e, { x: 0, y: 0, scale: s.s, opacity: 1 }, { x: Math.cos(s.a) * s.d * 1.6, y: Math.sin(s.a) * s.d * .7, opacity: 0, duration: .9, ease: "power3.out" }, 24.8); });
+      tl.set(numSparks.map((s) => s.e), { opacity: 0 }, 15.82);
+      tl.to("#shake", { keyframes: [[6, -4], [-5, 3], [3, 2], [0, 0]].map(([x, y]) => ({ x, y, duration: .05 })) }, 24.8);
+
+      // ---------------- FLEET (25.95 - 31.2): "Millions of people bought a fishing game."
+      tl.set("#breath", { filter: "none" }, 25.95);
+      tl.set("#numsDim", { opacity: 0 }, 25.95);
+      tl.set("#L-fleet", { opacity: 0 }, 0);
+      tl.set("#L-fleet", { opacity: 1 }, 25.95);
+      cam(25.95, 0, focus(640, 420, 1.2, 0, -30));
+      cam(25.95, 4.6, focus(640, 430, 1.0, 0, -90), "power1.inOut");
+      fleet.forEach((f, i) => { const dist = Math.hypot(f.x - 640, (f.y - 470) * 3) / 900;
+        tl.fromTo(f.inn, { y: 40 * f.sc + 10, scale: .4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .55, ease: "back.out(2.4)", transformOrigin: "50% 100%" }, 25.95 + .15 + dist * 1.5);
+        tl.fromTo(f.bob, { y: -3 * f.sc * 2, rotation: -1.5 }, { y: 3 * f.sc * 2, rotation: 1.5, duration: 1.2 + R() * .9, ease: "sine.inOut", yoyo: true, repeat: 5, transformOrigin: "50% 90%" }, 25.95 + R() * .5); });
+      tl.set(fleet.map((f) => f.inn), { opacity: 0 }, 0);
+      // "To do everything else." - card slams, chaos in the boats
+      tl.fromTo("#mkElse", { y: -200, scale: 1.4, rotation: -6 }, { y: 0, scale: 1, rotation: -2, duration: .5, ease: "back.out(2.2)" }, 28.05);
+      chaos.forEach((c, i) => { const t = 28.3 + i * .2; tl.set(c.e, { opacity: 0 }, 0);
+        if (c.kind === "dynamite") { tl.fromTo(c.e, { opacity: 1, y: 20, rotation: 0 }, { y: -c.sz[1] * 1.4, rotation: 200, duration: .5, ease: "power2.out" }, t);
+          tl.set(c.e, { opacity: 0 }, t + .55); tl.fromTo(c.boom, { scale: 0, opacity: 1 }, { scale: 1.4, opacity: 0, duration: .6, ease: "power2.out" }, t + .5); tl.set(c.boom, { opacity: 0 }, 0); }
+        else if (c.kind === "chips") { tl.fromTo(c.e, { opacity: 1, y: 10, scale: .6 }, { y: -c.sz[1] * 1.2, scale: 1, rotation: -25, duration: .45, ease: "back.out(2)" }, t); tl.to(c.e, { y: 0, opacity: 0, duration: .5, ease: "power2.in" }, t + 1.2); }
+        else { tl.fromTo(c.e, { opacity: 1, y: 10, rotation: -40 }, { keyframes: [{ y: -c.sz[1] * 2.2, rotation: 0, duration: .35, ease: "power2.out" }, { y: 20, rotation: 50, duration: .35, ease: "power2.in" }] }, t); tl.set(c.e, { opacity: 0 }, t + .7); } });
+
+      // ---------------- TOGETHER (31.23 - 33.0): back on the hero boat, close and warm
+      tl.set("#L-fleet", { opacity: 0 }, 31.18);
+      cam(31.18, 0, focus(655, 395, 1.5));
+      cam(31.18, 1.8, focus(655, 400, 1.62), "sine.inOut");
+      tl.to("#warm", { opacity: .9, duration: 2.2, ease: "sine.inOut" }, 31.2);
+      tl.to("#pixie .lean", { rotation: 5, x: 10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.25);
+      tl.to("#quest .lean", { rotation: -3, x: -6, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.3);
+      tl.to("#silA .lean", { rotation: -5, x: -10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.35);
+      tl.to("#silB .lean", { rotation: -6, x: -14, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.4);
+      tl.to("#linePath", { opacity: .5, duration: .5 }, 31.2);
+
+      // ---------------- SO, WHY? (33.0 - 36): pull back + tilt up, wordmark slams on "why", fish dives into the star of the "o"
+      cam(33.0, .85, focus(640, 300, 1.08, 0, 20), "power3.inOut");
+      tl.fromTo("#wm", { scale: 1.7, opacity: 0, y: -20 }, { scale: 1, opacity: 1, y: 0, duration: .38, ease: "back.out(2.4)" }, 33.8);
+      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.inOut" }, 34.05);
+      tl.to("#shake", { keyframes: [[0, 5], [0, -3], [0, 1], [0, 0]].map(([x, y]) => ({ x, y, duration: .05 })) }, 34.0);
+      const STAR = { x: 349 + .31 * 582, y: 50 + .52 * 100 };
+      tl.set("#leap", { x: 1100, y: 680, rotation: 35, scale: 1, opacity: 0 }, 33.7);
+      tl.set("#leap", { opacity: 1 }, 33.95);
+      tl.to("#leap", { x: STAR.x - 75, duration: .8, ease: "power1.in" }, 33.95);
+      tl.to("#leap", { keyframes: [{ y: STAR.y - 140, duration: .5, ease: "power2.out" }, { y: STAR.y - 55, duration: .3, ease: "power2.in" }] }, 33.95);
+      tl.to("#leap", { rotation: -60, scale: .2, duration: .8, ease: "power1.in" }, 33.95);
+      tl.set("#leap", { opacity: 0 }, 34.75);
+      tl.set(starSparks, { opacity: 0 }, 33.7);
+      tl.set(starMain, { scale: 0 }, 33.7);
+      tl.fromTo(starMain, { scale: 0, rotation: 0 }, { keyframes: [{ scale: 1.5, rotation: 45, duration: .22, ease: "power2.out" }, { scale: .55, rotation: 90, duration: .5, ease: "elastic.out(1, .4)" }] }, 34.75);
+      tl.fromTo(starMain, { opacity: 1 }, { opacity: .85, duration: .35, yoyo: true, repeat: 2, ease: "sine.inOut", immediateRender: false }, 35.3);
+      starSparks.forEach((s, i) => { const a = i * Math.PI / 4; tl.fromTo(s, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: Math.cos(a) * 70, y: Math.sin(a) * 70, opacity: 0, scale: .3, duration: .6, ease: "power2.out" }, 34.75); });
+      tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .35, duration: .03 }, { opacity: 0, duration: .2 }], immediateRender: false }, 33.8);
+      // the splash where the fish left the water
+      doSplash($("#fishFront"), 1150, 690, 1.4, 33.93, 41);
+
+      // the camera always breathes a little (documentary drift) - on the shake wrapper's parent scale
+      tl.fromTo("#breath", { scale: 1 }, { scale: 1.012, duration: 4.5, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "50% 50%" }, 0);
+
+      tl.set({}, {}, DUR);
+      window.__timelines["main"] = tl;
+    </script>
+    <!--INCLUDE motion-blur.html-->
+  </body>
+</html>

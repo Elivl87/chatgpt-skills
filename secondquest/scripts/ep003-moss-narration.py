@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EP = ROOT / 'episodes/ep003'
 BRAM = ROOT / 'public/episodes/ep002/audio/narration.wav'
 REF_AT, REF_LEN = 102.94, 17.5
+REF_TEXT = ''
 SEEDS = (7, 11, 23, 42)
 SR = 48000
 LEAD = 0.3
@@ -68,10 +69,14 @@ def eq_to(a, ref, sr=SR, max_db=4):
 
 def main():
     md = Path(sys.argv[1]); es = '--locale' in sys.argv and sys.argv[sys.argv.index('--locale') + 1] == 'es'
+    engine = sys.argv[sys.argv.index('--engine') + 1] if '--engine' in sys.argv else 'moss'   # moss | vox (VoxCPM 1.5)
     sfx = '.es' if es else ''
     lines = json.loads((EP / f'script{sfx}.json').read_text())['lines']
-    work = md / f'ep003_lines{sfx}'; work.mkdir(exist_ok=True)
+    work = md / f'ep003_lines{sfx}{"_vox" if engine == "vox" else ""}'; work.mkdir(exist_ok=True)
     ref = work / 'bram_ref.wav'
+    cues2 = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
+    global REF_TEXT
+    REF_TEXT = ' '.join(w['w'] for c in cues2.values() for w in c['words'] if REF_AT <= w['start'] and w['end'] <= REF_AT + REF_LEN)
     soundfile.write(str(ref), load(BRAM, REF_AT, REF_LEN), SR)
     from faster_whisper import WhisperModel
     stt = WhisperModel('small' if es else 'small.en', compute_type='int8')
@@ -80,10 +85,10 @@ def main():
         todo = [l for l in lines if l['id'] not in best or best[l['id']][0] > 0]
         if not todo:
             break
-        jobs = [{'text': l['text'], 'ref': str(ref), 'out': str(work / f"{l['id']}_s{seed}.wav"), 'seed': seed} for l in todo]
+        jobs = [{'text': l['text'], 'ref': str(ref), 'ref_text': REF_TEXT, 'out': str(work / f"{l['id']}_s{seed}.wav"), 'seed': seed} for l in todo]
         (work / 'jobs.json').write_text(json.dumps(jobs))
-        subprocess.run([str(md / 'mossenv/bin/python'), str(md / 'moss_gen.py'), str(work / 'jobs.json')], check=True,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run([str(md / 'mossenv/bin/python'), str(md / ('vox_gen.py' if engine == 'vox' else 'moss_gen.py')), str(work / 'jobs.json')],
+                       check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         for l in todo:
             p = work / f"{l['id']}_s{seed}.wav"
             segs, _ = stt.transcribe(str(p), language='es' if es else 'en', beam_size=5)
@@ -109,7 +114,7 @@ def main():
     y = eq_to(y, bram)
     r = np.sqrt(np.mean(bram[np.abs(bram) > .01] ** 2)); s = np.sqrt(np.mean(y[np.abs(y) > .01] ** 2))
     y = np.clip(y * r / s, -0.98, 0.98)
-    out = ROOT / f'public/episodes/ep003/audio/{"es/" if es else ""}narration.wav'
+    out = ROOT / f'public/episodes/ep003/audio/{"es/" if es else ""}narration{"_vox" if engine == "vox" else ""}.wav'
     out.parent.mkdir(parents=True, exist_ok=True)
     soundfile.write(str(out), y, SR, subtype='PCM_16')
     segs, _ = stt.transcribe(str(out), language='es' if es else 'en', word_timestamps=True, beam_size=5)
@@ -126,10 +131,10 @@ def main():
             words.append({'w': tok, 'start': round(st, 2), 'end': round(max(en, st + .05), 2)})
         c['words'] = words
     tm = {'source': f'audio/{"es/" if es else ""}narration.wav',
-          'generatedBy': f'PLACEHOLDER (internal only) moss-tts-nano-onnx + Bram reference EP002 {REF_AT}s+{REF_LEN}s (scripts/ep003-moss-narration.py)',
+          'generatedBy': f'PLACEHOLDER (internal only) {"VoxCPM1.5 (Apache-2.0)" if engine == "vox" else "moss-tts-nano-onnx"} + Bram reference EP002 {REF_AT}s+{REF_LEN}s (scripts/ep003-moss-narration.py)',
           'alignment': 'cue start/end from assembly; faster-whisper word timestamps mapped onto script words',
           'duration': round(len(y) / SR, 2), 'cues': cues}
-    (EP / f'timings{sfx}.json').write_text(json.dumps(tm, indent=2, ensure_ascii=False))
+    (EP / f'timings{sfx}{"_vox" if engine == "vox" else ""}.json').write_text(json.dumps(tm, indent=2, ensure_ascii=False))
     bad = {k: (c['stt_errors'], c['heard']) for k, c in cues.items() if c['stt_errors']}
     print('duration', tm['duration'], 'lines still with STT differences:', json.dumps(bad, ensure_ascii=False, indent=1))
 
