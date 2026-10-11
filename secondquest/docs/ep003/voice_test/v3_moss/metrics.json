@@ -1,0 +1,24 @@
+{
+ "kokoro_v3_en": {
+  "timbre": 3.81,
+  "f0": 143,
+  "f0_iqr": 53,
+  "dur": 16.7,
+  "stt": "There is a game called how to fish, a boat, a rod, a lot of fish, and almost nobody seems to be fishing. They are slapping each other in the face, gambling the fish money, fishing with a sniper rifle. Millions of people bought a fishing game to do everything else together, why?"
+ },
+ "moss_en": {
+  "timbre": 4.68,
+  "f0": 142,
+  "f0_iqr": 33,
+  "dur": 30.9,
+  "stt": "There is a game called How to Fish, a boat, a rod, a lot of fish, and almost nobody seems to be fishing. They are slapping each other in the face, gambling the fish money, fishing with a sniper rifle. It costs about $8. Its makers hoped it might sell 200,000 copies. By early October, one analytics firm estimated more than 10 million. Millions of people bought a fishing game. To do everything else, together, why?"
+ },
+ "kokoro_es": {
+  "dur": 24.0,
+  "stt": "Hay un juego que se llama Auto Fish. Un bote, una caña, muchos peces. Y casi nadie parece estar pescando. Se dan cachetadas, apuestan el dinero de la pesca. Pescan con un rifle de francotirador, cuesta unos 8 dólares. Sus creadores esperaban vender unas 200 mil copias. A principios de octubre, una firma de análisis estimaba más de 10 millones. Millones de jugadores compraron un juego de pesca para hacer todo lo demás. Juntos. Por qué."
+ },
+ "moss_es": {
+  "dur": 35.2,
+  "stt": "Hay un juego que se llama How to Fish, un bote, una caña, muchos peces y que si nadie parece estar pescando, se dan cachetadas, apuestan el dinero de la pesca. Pesca en con un rifle de francotirador cuesta unos ocho dólares, sus creadores esperaban vender unas doscientas mil copias, a principios de octubre, una firma de análisis estimaba más de 10 millones. Millones de jugadores compraron un juego de pesca, para hacer todo lo demás, juntos. ¿Por qué?"
+ }
+}

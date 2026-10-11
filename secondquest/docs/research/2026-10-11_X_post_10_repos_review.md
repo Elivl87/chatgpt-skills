@@ -29,3 +29,12 @@ for this session); treat the post's numbers as unverified.
   natural); (b) a long-term option: a channel-owned designed voice (voice design, Apache model) that could replace the
   Bram credits (~3.2 credits per 1,000 chars per language). Risks: quality and consistency vs Bram, CPU-only container
   (slow), ~5 GB of models on a limited disk, and the audience already knows Bram's voice (EP001, EP002).
+
+## Test 2026-10-11 (Producer authorized running MOSS-TTS-Nano, ONNX CPU, Apache-2.0)
+- Isolated venv in the scratchpad (CPU torch 2.7 + the repo); reference voice = our own Kokoro voice 3 (no third-party
+  voice cloned; its built-in presets include a real person's voice, never used).
+- Samples: `docs/ep003/voice_test/v3_moss/` (hook l01-l07, EN and ES), metrics in `metrics.json`.
+- EN: timbre distance to Bram 4.68 (Kokoro voice 3: 3.81), pitch movement IQR 33 Hz (Kokoro 53, Bram 74): flatter.
+  ES: STT shows slips ("que si nadie" for "casi nadie", "Pesca en") ; Kokoro ES reads "How to Fish" as "Auto Fish".
+  Speed: ~1.5 min of CPU per 30 s of audio (a full episode ~15 min). Disk: ~0.8 GB.
+- REA (4) and paperclip (6): not adopted (no gain over current tools; see the Producer reply).
