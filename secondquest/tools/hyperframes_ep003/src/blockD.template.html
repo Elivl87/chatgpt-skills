@@ -757,6 +757,7 @@
       tl.set([surfTop, surfBot], { opacity: 0 }, 0);
       tl.set(Object.values(sfA.f), { opacity: 0 }, 0);
       tl.set(["#lineSvg", "#rod", "#bob2", "#bob2rings"], { opacity: 0 }, 0);
+      tl.set("#L-fore", { opacity: 0 }, 0);                 // no foreground reeds in this block (they read as poles at these framings)
 
       /* ================= D1 l21: bobber drops, WHY FISHING?, slot reel lands on the fish ================= */
       cam(0, 0, focus(640, 430, 1.22, 0, 0));
@@ -773,7 +774,9 @@
       tl.to("#title", { y: -70, scale: .62, duration: .45, ease: "power3.inOut" }, T.of - .2);
       tl.fromTo("#slot", { scale: 0, rotation: -8 }, { scale: 1, rotation: 0, duration: .4, ease: "back.out(2.2)" }, T.of - .1);
       [T.could, T.be, T.about].forEach((t, r) => {
-        tl.fromTo(reels[r].strip, { y: 0 }, { y: -(NCELL - 1) * CELL + 2, duration: t - T.of, ease: "back.out(.9)" }, T.of);
+        const yF = -(NCELL - 1) * CELL + 2;
+        tl.fromTo(reels[r].strip, { y: 0 }, { y: yF, duration: t - T.of, ease: "power3.out" }, T.of);
+        tl.to(reels[r].strip, { keyframes: [{ y: yF - 16, duration: .06, ease: "power1.out" }, { y: yF, duration: .28, ease: "back.out(3)" }] }, t);
         tl.fromTo(`#slot .win:nth-of-type(${r + 1})`, { y: 0 }, { keyframes: [{ y: 5, duration: .05 }, { y: 0, duration: .2, ease: "back.out(3)" }], immediateRender: false }, t);
         tl.set(reels[r].fish.f.blink, { opacity: 0 }, 0); });
       bulbs.forEach((b, i) => tl.fromTo(b, { background: "#fff3c4" }, { background: i % 2 ? "#ff6b4a" : "#fff3c4", duration: .12, repeat: 21, yoyo: true, ease: "steps(1)" }, T.of + (i % 2) * .12));
