@@ -41,3 +41,10 @@
 - Producer: "Si me gusta la capa de acabado." `scripts/animatic/finish.py` (soft paper grain, vignette, halftone only
   in deep shadows) goes into EP003 and later episodes, applied last on every frame (animatic and final).
 - Style bible + pacing QC adopted (`docs/style/STYLE_BIBLE.md`, `scripts/pacing_qc.py`); EP003 must pass it.
+
+## 2026-10-12 · Scout adoption
+- Producer: "Si todo menos lo de los labios": adopt for SecondQuest (EP003 on) depth-map parallax (Depth Anything V2
+  Small, Apache-2.0), idle-motion warp (own code), springs/motion blur/log-zoom, procedural noise for water/sky,
+  post-render QC (black/frozen/silence/R128), verification-before-completion discipline. NOT lip-sync.
+- New channel concept A "Tiny Systems / Pequeños Sistemas" approved: Claude and its agents create it, all free.
+- Credit approval for EP003 left "for the end of everything".
