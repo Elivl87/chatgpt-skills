@@ -1,0 +1,60 @@
+{
+ "name": "EP001_hook",
+ "source": "renders/secondquest_ep001_hook_FINAL_ART_v2.mp4",
+ "duration_s": 45.5,
+ "shots": 22,
+ "avg_shot_s": 2.07,
+ "median_shot_s": 1.5,
+ "longest_shot_s": 7.0,
+ "cuts_per_min": 27.7,
+ "motion_share": 0.949,
+ "still_2s_runs": 0,
+ "brightness_mean": 0.477,
+ "saturation_mean": 0.498,
+ "palette": [
+  [
+   "#151014",
+   0.176
+  ],
+  [
+   "#232434",
+   0.169
+  ],
+  [
+   "#603c20",
+   0.147
+  ],
+  [
+   "#45444e",
+   0.095
+  ],
+  [
+   "#8c7161",
+   0.089
+  ],
+  [
+   "#db9e49",
+   0.086
+  ],
+  [
+   "#ab5629",
+   0.085
+  ],
+  [
+   "#72a6de",
+   0.058
+  ],
+  [
+   "#41598a",
+   0.048
+  ],
+  [
+   "#d6d0ce",
+   0.046
+  ]
+ ],
+ "loud_db_p90": -10.8,
+ "pauses_ge_0_5s": 0,
+ "pause_mean_s": 0,
+ "pause_longest_s": 0
+}

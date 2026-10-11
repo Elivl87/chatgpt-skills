@@ -1,0 +1,63 @@
+{
+ "name": "EP003_v3",
+ "source": "docs/ep003/EP003_animatic_full_v3_480p.mp4",
+ "duration_s": 337.2,
+ "shots": 47,
+ "avg_shot_s": 7.17,
+ "median_shot_s": 5.17,
+ "longest_shot_s": 36.17,
+ "cuts_per_min": 8.2,
+ "motion_share": 0.285,
+ "still_2s_runs": 48,
+ "brightness_mean": 0.427,
+ "saturation_mean": 0.391,
+ "palette": [
+  [
+   "#2a314c",
+   0.159
+  ],
+  [
+   "#3f4a69",
+   0.143
+  ],
+  [
+   "#646786",
+   0.136
+  ],
+  [
+   "#e0e0d9",
+   0.133
+  ],
+  [
+   "#11172e",
+   0.105
+  ],
+  [
+   "#d09f80",
+   0.091
+  ],
+  [
+   "#2f201f",
+   0.067
+  ],
+  [
+   "#86624d",
+   0.063
+  ],
+  [
+   "#583e32",
+   0.06
+  ],
+  [
+   "#79b45c",
+   0.044
+  ]
+ ],
+ "loud_db_p90": -16.4,
+ "pauses_ge_0_5s": 55,
+ "pause_mean_s": 0.61,
+ "pause_longest_s": 1.5,
+ "words": 887,
+ "wpm_overall": 158,
+ "wpm_while_speaking": 171
+}

@@ -1,0 +1,63 @@
+{
+ "name": "EP002_final",
+ "source": "docs/ep002/EP002_animatic_full_v8_1440p.mp4",
+ "duration_s": 412.5,
+ "shots": 95,
+ "avg_shot_s": 4.34,
+ "median_shot_s": 3.0,
+ "longest_shot_s": 23.67,
+ "cuts_per_min": 13.7,
+ "motion_share": 0.563,
+ "still_2s_runs": 38,
+ "brightness_mean": 0.493,
+ "saturation_mean": 0.393,
+ "palette": [
+  [
+   "#0f0b0e",
+   0.174
+  ],
+  [
+   "#282627",
+   0.152
+  ],
+  [
+   "#4c3a29",
+   0.138
+  ],
+  [
+   "#7d6235",
+   0.092
+  ],
+  [
+   "#a7933b",
+   0.085
+  ],
+  [
+   "#8a918b",
+   0.081
+  ],
+  [
+   "#88b7e1",
+   0.08
+  ],
+  [
+   "#daad6a",
+   0.075
+  ],
+  [
+   "#53616a",
+   0.073
+  ],
+  [
+   "#d8dbd5",
+   0.049
+  ]
+ ],
+ "loud_db_p90": -16.7,
+ "pauses_ge_0_5s": 25,
+ "pause_mean_s": 0.81,
+ "pause_longest_s": 3.0,
+ "words": 1018,
+ "wpm_overall": 148,
+ "wpm_while_speaking": 179
+}
