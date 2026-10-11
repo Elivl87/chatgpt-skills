@@ -114,8 +114,8 @@
       #clockShot { background: radial-gradient(ellipse 60% 70% at 50% 50%, #34304a 0%, #1a1826 70%, #100f18 100%); }
       #boxShot { background: radial-gradient(ellipse 70% 70% at 50% 48%, #1f1f2a 0%, #121219 75%, #0b0b10 100%); }
       .mbox { position: absolute; left: 240px; top: 300px; width: 800px; height: 112px; border-radius: 56px; background: #fff; border: 4px solid var(--ink); box-shadow: 0 16px 0 rgba(0,0,0,.35); }
-      .mbox .field { position: absolute; left: 52px; top: 0; height: 104px; display: flex; align-items: center; font: 600 36px "Inter", sans-serif; color: var(--ink); white-space: pre; }
-      .mbox .ph { position: absolute; left: 58px; top: 0; height: 104px; line-height: 104px; font: 600 36px "Inter", sans-serif; color: #b3ada4; white-space: nowrap; }
+      .mbox .field { position: absolute; left: 52px; top: 0; height: 104px; display: flex; align-items: center; font: 600 36px/104px "Inter", sans-serif; color: var(--ink); white-space: pre; }
+      .mbox .ph { position: absolute; left: 60px; top: 0; height: 104px; font: 600 36px/104px "Inter", sans-serif; color: #b3ada4; white-space: nowrap; }
       .mbox .cur { display: inline-block; width: 5px; height: 50px; margin-left: 2px; background: var(--ink); border-radius: 2px; }
       .mbox .send { position: absolute; right: 14px; top: 13px; width: 78px; height: 78px; border-radius: 50%; background: #d8d3ca; border: 4px solid var(--ink); }
       .mbox .send svg { position: absolute; left: 15px; top: 14px; width: 40px; height: 42px; }
@@ -296,7 +296,7 @@
       </div>
 
       <!-- ===== C4 "asking" ... C6 (l20): the message box; the doorway (C5) plays on top of it ===== -->
-      <div id="boxShot" class="full clip shot" data-start="{{l18.w19}}" data-duration="{{DUR-l18.w19}}" data-track-index="1">
+      <div id="boxShot" class="full clip shot" data-start="{{l18.w19}}" data-duration="{{DUR-l18.w19-0.002}}" data-track-index="1">
         <div class="br full" id="boxBr"><div class="shk full" id="boxShk"><div class="cam" id="boxCam">
           <div class="mbox" id="mbox">
             <div class="ph" id="mph">Message</div>
@@ -746,9 +746,9 @@
       // hard cut to an extreme close-up of the cursor: no breath, no drift, only the blink
       cam("#boxCam", CUT.box, 0, F(298, 392, 2.7));
       tl.to(ty, { a: T1.length, duration: T.admitting - .25 - T.proposing, ease: "none", onUpdate: drawTy }, T.proposing);
-      cam("#boxCam", T.proposing, .9, F(560, 380, 1.32), "power2.inOut");
+      cam("#boxCam", T.proposing, .9, F(640, 385, 1.2), "power2.inOut");
       tl.to(ty, { a: 0, duration: T.l18e + .1 - T.admitting, ease: "none", onUpdate: drawTy }, T.admitting);       // backspaced letter by letter
-      cam("#boxCam", T.admitting, CUT.door - T.admitting, F(520, 384, 1.5), "sine.inOut");
+      cam("#boxCam", T.admitting, CUT.door - T.admitting, F(480, 372, 1.55), "sine.inOut");
       // cursor blink (solid while typing)
       (function () { const on = (a, b) => { for (let t = a; t < b - .01; t += .5) { tl.set("#cur", { opacity: 1 }, t); tl.set("#cur", { opacity: 0 }, Math.min(b, t + .27)); } tl.set("#cur", { opacity: 1 }, b); };
         on(CUT.box, T.proposing); on(T.l18e + .1, CUT.door); on(CUT.box2, T.removes); })();

@@ -101,7 +101,7 @@ def render(params, w, h, line=3.0, despeckle=0):
         c, nm, idp = (col[k * H2:(k + 1) * H2] for k in range(3))
         if params.get('exposure'):  # light-coloured props read too bright under the toon ramp in a night room
             c = c.copy(); c[..., :3] = (c[..., :3].astype(np.float32) * params['exposure']).astype(np.uint8)
-        o = ink(c, nm, idp, line * ss / 2, despeckle)
+        o = ink(c, nm, idp, line * ss / 2, despeckle) if line > 0 else c   # line 0: no ink (boss shadow)
         shots.append(cv2.resize(o, (w, h), interpolation=cv2.INTER_AREA))
     return shots
 
@@ -439,7 +439,74 @@ def ep3_render(name, **shot):
     prop, tgt, cam, fov, w, h, line = EP3[name]
     d = float(np.linalg.norm(np.subtract(cam, tgt)))                    # depth range around the prop: thin layered parts
     shot = {'near': d * .3, 'far': d * 3, **shot}                       # (planks, laps, ribs) need the precision
-    return render({'props': [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}], 'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
+    shot = {**EP3_SHOT.get(name, {}), **shot}
+    return render({'props': prop if isinstance(prop, list) else [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}],
+                   'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
+
+
+# EP003 game-world props (2026-10-12): our toy-like redraws of the game's ideas (docs/ep003/GAME_VISUAL_REFERENCE.md §6/7).
+EP3.update({
+    'sniper_gold_34': ('sniperGold', [-3, 1, 0], orbit(35, 14, 175, [-3, 1, 0]), 30, 1900, 1000, 4.4),
+    'sniper_gold_side': ('sniperGold', [-4, 0, 0], orbit(0, 2, 155, [-4, 0, 0]), 30, 1900, 800, 4.4),
+    'roulette_34': ('roulette', [0, 5, 0], orbit(-20, 40, 185, [0, 5, 0]), 30, 1600, 1200, 4.0),
+    'roulette_top': ('roulette', [0, 6, 0], orbit(0, 89.9, 180, [0, 6, 0]), 30, 1600, 1600, 4.0),
+    'roulette_top_ball': ('roulette', [0, 6, 0], orbit(0, 89.9, 180, [0, 6, 0]), 30, 1600, 1600, 4.0),
+    'shop_board_front': ('shopBoard', [0, 18, 0], orbit(0, 3, 235, [0, 18, 0]), 30, 1500, 1400, 4.2),
+    'shop_board_34': ('shopBoard', [0, 18, 0], orbit(-28, 10, 235, [0, 18, 0]), 30, 1500, 1400, 4.2),
+    'dynamite_lit': ('dynamiteLit', [5, 18, 2], orbit(-25, 18, 112, [5, 18, 2]), 28, 1200, 1300, 4.4),
+    'blast_puff': ('blastPuff', [0, 17, 0], orbit(-15, 10, 200, [0, 17, 0]), 30, 1400, 1400, 4.6),
+    'boss_shadow': ('bossShadow', [-70, 0, 0], orbit(0, 89.9, 980, [-70, 0, 0]), 30, 2000, 1200, 0),
+    'lighthouse_side': ('lighthouse', [0, 76, 0], orbit(0, 3, 410, [0, 76, 0]), 30, 1200, 1600, 4.0),
+    'lighthouse_34': ('lighthouse', [0, 76, 0], orbit(-30, 12, 410, [0, 76, 0]), 30, 1200, 1600, 4.0),
+    'toy_pistol_side': ('toyPistol', [1, 0, 0], orbit(0, 2, 58, [1, 0, 0]), 30, 1400, 1100, 4.2),
+    'toy_pistol_34': ('toyPistol', [1, 0, 0], orbit(35, 14, 62, [1, 0, 0]), 30, 1400, 1100, 4.2),
+    'toy_smg_side': ('toySmg', [-1, -2, 0], orbit(0, 2, 70, [-1, -2, 0]), 30, 1700, 1000, 4.2),
+    'toy_smg_34': ('toySmg', [-1, -2, 0], orbit(35, 14, 76, [-1, -2, 0]), 30, 1700, 1000, 4.2),
+    'toy_shotgun_side': ('toyShotgun', [2, -2, 0], orbit(0, 2, 74, [2, -2, 0]), 30, 2000, 700, 4.2),
+    'toy_shotgun_34': ('toyShotgun', [2, -2, 0], orbit(35, 14, 84, [2, -2, 0]), 30, 2000, 900, 4.2),
+    'slot_machine_34': ('slotMachine', [2, 53, 0], orbit(-28, 10, 240, [2, 53, 0]), 30, 1300, 1700, 4.2),
+    'slot_machine_front': ('slotMachine', [2, 53, 0], orbit(0, 4, 240, [2, 53, 0]), 30, 1300, 1700, 4.2),
+    'fp_hands_pov': ('fpHands', [0, -6, -100], [0, 0, 0], 60, 1920, 1080, 4.0),
+    'fp_hands_34': ('fpHands', [2, -12, -46], orbit(70, 15, 110, [2, -12, -46]), 30, 1400, 1100, 4.0),
+    'kettle_grill': ('kettleGrill', [0, 60, 0], orbit(-25, 14, 265, [0, 60, 0]), 30, 1100, 1500, 4.2),
+    'seagull_34': ('seagull', [0, 2, 0], orbit(30, 25, 175, [0, 2, 0]), 30, 1600, 1100, 4.0),
+    'seagull_front': ('seagull', [0, 2, 0], orbit(70, -12, 175, [0, 2, 0]), 30, 1600, 1100, 4.0),
+    'hotdog_lure': ('hotdogLure', [1.5, 5, 0], orbit(-25, 16, 60, [1.5, 5, 0]), 30, 1000, 1300, 4.0),
+    'outboard_side': ('outboard', [0, -10, 0], orbit(0, 4, 200, [0, -10, 0]), 30, 1100, 1500, 4.2),
+    'outboard_34': ('outboard', [0, -10, 0], orbit(-35, 14, 200, [0, -10, 0]), 30, 1100, 1500, 4.2),
+    'rowboat_motor_34': (['rowboat', 'outboardOnBoat'], [-30, 22, 14], orbit(-35, 24, 520, [-30, 22, 14]), 30, 1900, 1150, 5.0),
+})
+FP_RIGHT, FP_LEFT = list(range(2030, 2036)), list(range(2040, 2046))
+EP3_SHOT = {'roulette_top': {'hide': [1785]}, 'fp_hands_pov': {'near': 1, 'far': 600}, 'fp_hands_34': {'near': 5, 'far': 600}}
+GAMEWORLD = [n for n in EP3 if n.split('_')[0] in ('sniper', 'roulette', 'shop', 'blast', 'boss', 'lighthouse', 'toy', 'slot', 'fp',
+                                                     'kettle', 'seagull', 'hotdog', 'outboard') or n in ('dynamite_lit', 'rowboat_motor_34')]
+
+
+def centred_square(img, pad=8):
+    """Crop a square centred on the canvas centre (the wheel's axis), so the cut-out can spin about its middle."""
+    h, w = img.shape[:2]
+    ys, xs = np.where(img[..., 3] > 8)
+    r = int(max(abs(xs - w / 2).max(), abs(ys - h / 2).max())) + pad
+    return img[max(0, h // 2 - r):h // 2 + r, max(0, w // 2 - r):w // 2 + r]
+
+
+def eye_glow(img):
+    """Boss shadow: red glow round the unlit eyes, plus a soft-edged copy for under-water compositing."""
+    b, gch, r, a = (img[..., k].astype(np.float32) for k in range(4))
+    eyes = ((r > 190) & (gch < 150) & (a > 0)).astype(np.float32)
+    glow = cv2.GaussianBlur(eyes, (0, 0), 18) * 1.6 + cv2.GaussianBlur(eyes, (0, 0), 6)
+    glow = np.clip(glow, 0, 1)
+    out = img.astype(np.float32)
+    col = np.array([40, 50, 255], np.float32)                                  # BGR warm red
+    k = glow[..., None] * (1 - eyes[..., None])
+    out[..., :3] = out[..., :3] * (1 - k * .8) + col * k * .8
+    out[..., 3] = np.maximum(out[..., 3], glow * 255)
+    sharp = out.clip(0, 255).astype(np.uint8)
+    soft = sharp.copy()
+    body = cv2.GaussianBlur(img[..., 3].astype(np.float32), (0, 0), 10)
+    soft[..., 3] = np.maximum(np.minimum(body, img[..., 3]) * .999, glow * 255).clip(0, 255).astype(np.uint8)
+    soft[..., 3] = np.maximum(soft[..., 3], (eyes * 255).astype(np.uint8))
+    return sharp, soft
 
 
 def alpha_box(img, pad=10):
@@ -455,7 +522,7 @@ def job_ep003_props(only=None):
     EP3_ONLY=rod,chips limits the run to some names (rowboat_side includes its two layers)."""
     import os
     OUT3.mkdir(parents=True, exist_ok=True)
-    only = only or [n for n in os.environ.get('EP3_ONLY', '').split(',') if n] or [n for n in EP3 if not n.startswith('fish')]
+    only = only or [n for n in os.environ.get('EP3_ONLY', '').split(',') if n] or [n for n in EP3 if not n.startswith('fish') and n not in GAMEWORLD]
     for name in only:
         img = ep3_render(name)
         if name == 'rowboat_side':
@@ -463,6 +530,18 @@ def job_ep003_props(only=None):
             for suffix, layer in (('', img), ('_back', ep3_render(name, boat='back')), ('_front', ep3_render(name, boat='front'))):
                 cv2.imwrite(str(OUT3 / f'{name}{suffix}.png'), layer[y0:y1, x0:x1])
                 print(f'{name}{suffix}.png', layer[y0:y1, x0:x1].shape)
+        elif name.startswith('roulette_top'):
+            cv2.imwrite(str(OUT3 / f'{name}.png'), centred_square(img)); print(f'{name}.png (centred square: spins about its middle)')
+        elif name == 'boss_shadow':
+            sharp, soft = eye_glow(img)
+            y0, y1, x0, x1 = alpha_box(sharp, 30)
+            cv2.imwrite(str(OUT3 / 'boss_shadow.png'), sharp[y0:y1, x0:x1]); cv2.imwrite(str(OUT3 / 'boss_shadow_soft.png'), soft[y0:y1, x0:x1])
+            print('boss_shadow.png, boss_shadow_soft.png')
+        elif name == 'fp_hands_pov':                                       # full 1920x1080 frame, both hands + one layer per hand
+            cv2.imwrite(str(OUT3 / f'{name}.png'), img)
+            cv2.imwrite(str(OUT3 / f'{name}_right.png'), ep3_render(name, hide=FP_LEFT))
+            cv2.imwrite(str(OUT3 / f'{name}_left.png'), ep3_render(name, hide=FP_RIGHT))
+            print(f'{name}.png (+ _right, _left), full frame')
         else:
             cv2.imwrite(str(OUT3 / f'{name}.png'), crop_alpha(img, pad=10))
             print(f'{name}.png')
