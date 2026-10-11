@@ -1,49 +1,41 @@
-# EP003 · Alternative C · Bongo Cat — "I Saw That"
+# EP003 · Alternative C · Bongo Cat — "Someone Else Is Still Here"
 
-Status: DRAFT v1 (not locked). Facts: only the "safe to say" list of `docs/ep003/research/02_dossiers_checked.json`.
+Status: DRAFT v2 (not locked) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Producer's note (more EP001-style humor). v1 kept as `C_BongoCat_v1.md`. Thesis moved from "my work is seen" (too close to
+EP001) to "I am not alone while I do it".
 
 ## Creative spine
 - **A. Viewer question:** Why do so many people keep a cat on their screen that slaps the taskbar every time they type?
-- **B. Hidden question:** Why do we want someone, or something, to notice the work nobody sees?
-- **C. Surface attraction:** it's cute, it's free, it drops hats you can trade.
-- **D. Deeper desire:** screen work is invisible and solitary. A tiny reaction to every keystroke turns hours of nothing-to-show into hours that were noticed.
-- **E. Thesis:** Bongo Cat is not a game you play. It is a witness. And the strange part is how little a witness has to do to matter.
-- **F. Payoff:** we don't need applause. Sometimes a small paw that says "I saw that" is enough... even when we know it can't really see.
-- **G. Risk:** too close to EP001 ("effort leaves a visible mark"); too thin for 6-7 minutes; "loneliness" can become preachy.
-- **H. Recognition anchors:** glancing down mid-email and the cat is going wild because you're angry-typing; forgetting it's on; the 1-in-500,000 hat; leaving it running behind another game; the hundred-cat lobby.
-- **I. Humor:** the developer once estimated about half the players may be bots: a fan club where half the members might be scripts; the first prototype was a drill digging a stone; "a friend while working hard" written on the store page of something that makes about the money of one salary.
-- **J. Why SecondQuest:** the most absurd "why do people play this?" on Steam right now, with a human answer that is quieter and sadder than the meme.
+- **B. Hidden question:** Why do we want something in the room with us while we work alone?
+- **C. Surface attraction:** it's cute, free, and drops hats you can trade.
+- **D. Deeper desire:** screen work isn't just invisible, it's lonely: eight hours, one window, nobody else in the room. A small thing that moves when you move is company.
+- **E. Thesis:** Bongo Cat isn't a game you play. It's a presence. It can't really see you, and it doesn't need to: it only needs to move when you do.
+- **F. Payoff:** in a lobby of a hundred cats, every paw says the same thing: someone else is still here. And yours says: I saw that.
+- **G. Risk:** EP001's "effort leaves a mark" (moved away from it); thin for 6-7 min; "loneliness" turning preachy.
+- **H. Recognition anchors:** the angry email and the cat losing its mind; forgetting it's on; the 1-in-500,000 hat; the paw at 2 a.m.; the hundred-cat lobby.
+- **I. Humor:** "the only game that is happy you're doing something else"; a small investment portfolio wearing a crown; a cat slapping a taskbar for nobody at all; the prototype was a drill.
+- **J. Why SecondQuest:** the most absurd "why do people play this?" on Steam right now, with a quieter, truer answer than the meme.
 
 ## Title (max 3) and thumbnail
-1. **Why Do 150,000 People Keep a Cat Watching Them Type?** ← recommended (51 characters)
+1. **Why Do So Many Players Keep a Cat Watching Them Type?** ← recommended (52 characters; evergreen, no fluctuating number; "watching" is the irony the essay pays off).
 2. Bongo Cat: The Game Where Nothing Happens
-3. The Strange Reason People Leave a Cat on Their Screen
+3. The Strange Reason Players Leave a Cat on Their Screen
 
-Why the recommended one: a concrete, surprising number of real people doing a slightly ridiculous thing, plus a hint of the deeper answer ("watching them") that the essay pays off.
-
-**Thumbnail:** Quest at his desk at night, lit by the monitor, typing; a tiny round cat at the bottom of the screen slapping the taskbar mid-swing; Quest glancing down at it with a small, tired smile. Text: **MY COWORKER** (variants: **IT WATCHES** / **150,000 OF US**). Our own original cat, never the game's sprite.
-
-## Act architecture
-| Act | Purpose | New for the viewer | Curiosity left | Interruption | Emotion |
-|---|---|---|---|---|---|
-| Hook | phenomenon → contradiction → turn → Why? | a game where nothing happens | why keep it? | "That's it. That's the game." | amused |
-| 1 · The obvious answer | hats, odds, trading | your emails become a slot machine | but people forget it's even on | 1 in 500,000 | curiosity |
-| 2 · Invisible work | screen work leaves no trace | the cat makes keystrokes visible | is that real company? | the angry email | recognition |
-| 3 · The witness can't see | bots, experiment, tiny revenue | the cat doesn't care if you're there | so why does it still work? | "half the members might be scripts" | deadpan → doubt |
-| 4 · A hundred cats | strangers, alone, in rhythm | small presences add up | (resolved) | the lobby | warm |
-| Payoff + CTA | answer + ritual | "I saw that" | next quest | silence | tender |
+**Thumbnail:** Quest at his desk at night, lit by the monitor, typing; a tiny original round cat at the bottom of the screen mid-slap; Quest glancing down at it with a small, tired smile. Text: **MY COWORKER** (variants **IT WATCHES** / **3 A.M. BUDDY**). An original cat with its own silhouette, never the game's sprite or the 2018 meme art.
 
 ## Master script (EN) — narration only
 
-On an ordinary day, around a hundred and fifty thousand people are playing a game in which nothing happens.
+On an ordinary day, well over a hundred thousand accounts are running a game in which nothing happens.
 
-A small cat sits at the bottom of your screen. Every time you press a key, it slaps your taskbar.
+A small cat sits at the bottom of your screen. It's called Bongo Cat. Every time you press a key, it slaps your taskbar.
 
 That's it. That's the game.
 
-There is no story. No enemies. No ending. It does not even ask you to look at it.
+There is no story. No enemies. No ending. It does not even ask you to look at it. It might be the only game in history that is happy you're doing something else.
 
-And yet people leave it running for hours. Days. Sometimes for most of the time their computer is on.
+And yet people leave it running for hours. Days.
+
+Right there, at the edge of their screen, while they work.
 
 Why?
 
@@ -51,53 +43,75 @@ The obvious answer is the hats.
 
 Bongo Cat is free. While you type and click, you earn points, and points unlock hats for your cat. Some are common. Some are rare. The legendary ones, according to the game's own published odds, drop once in five hundred thousand.
 
-And the items can be traded. So technically, your cat is a small investment portfolio wearing a crown.
+And the items can be traded. So, technically, your cat is a small investment portfolio wearing a crown.
 
-Notice what that does. You don't play to earn hats. You do whatever you were already doing. Emails. Spreadsheets. Homework. The work you had to do anyway quietly turns into the grind.
+Notice what that does. You don't play to earn hats. You do whatever you were already doing. Emails. Spreadsheets. Homework. The work you had to do anyway quietly becomes the grind.
 
-Your inbox becomes a slot machine.
+Your inbox becomes a slot machine. Somewhere, right now, someone is finishing a very boring report... mostly for a hat.
 
 But that explanation has a problem. Because a lot of people forget the cat is even there. They leave it running behind other games, behind work, behind everything. Sometimes they only notice it when they glance down.
 
 And that glance is the interesting part.
 
-Most of what we do on a screen leaves no trace. You can work for eight hours and, at the end of the day, there is nothing to point at. No pile of wood. No clean floor. Just a window you close.
+Most screen work isn't just invisible. It's lonely. Eight hours. One window. Nobody else in the room.
 
-Bongo Cat puts something at the edge of that invisible work. Every key gets a slap. Every click gets a reaction.
+For a lot of people, working from home turned the office into a room with one person in it. No small talk. No coffee machine. Nobody at the next desk, also pretending to work. The commute is a hallway. The coworker is a plant. And the plant is not great at conversation.
 
-Type slowly, and it taps along. Write an angry email, and you look down to find the cat absolutely losing its mind on your behalf.
+Bongo Cat puts something at the edge of that window. Something that moves when you move.
 
-The developer's own store page describes it in five words: "A friend while working hard."
+Type slowly, and it taps along. Stop to think, and it stops too, like it's thinking with you. Write an angry email, and you look down to find the cat absolutely losing its mind on your behalf.
+
+And at two in the morning, when the whole house is asleep, the only other thing still moving... is a paw.
+
+The game's own Steam page calls it, in five words: "A friend while working hard."
 
 Which sounds sweet. Until you learn how little that friend can actually do.
 
-The cat does not know what you are typing. It does not know if you are working or wasting time. It does not even know if you are a person. The developer once estimated that about half of its players might be bots.
+The cat does not know what you are typing. It does not know if you are working or wasting time. It does not even know if you are a person. In 2025, the developer estimated that maybe half of its players were bots.
 
-So, at its peak, a fan club where maybe half the members were scripts.
+Which means somewhere out there, right now, a cat is slapping a taskbar for nobody at all.
 
-And the game was not even designed as a companion. It began as an experiment with Steam's item market. The very first prototype was a drill digging into a stone. The cat came later. The developer said it was never meant to make money, and reported earning only a few thousand dollars a month.
+Bongo Cat was a meme long before it was a game. In 2018, someone drew a cat-like blob hitting a table, and someone else put bongos and music under it. Back then, you watched the cat.
 
-By any reasonable measure, nobody is really watching you.
+Now the cat watches you. Sort of.
 
-So why does it still work?
+And the game did not even start as a cat. The very first prototype was a drill, digging into a stone. Same keys. Same points.
 
-Maybe because it does not need to be real company to feel like company.
+The cat came later.
 
-In the multiplayer version, up to a hundred cats can share one lobby. A hundred taskbars. A hundred people somewhere, each alone at a desk, typing their own emails... and for a moment, tapping together.
+Nobody, it turns out, wanted a drill for company.
 
-None of them can see each other's work. But all of them can see that someone, somewhere, is also still going.
+So by any reasonable measure, nobody is really watching you. And yet it still works.
 
-So... why do so many people keep a cat on their screen?
+Because it doesn't need to be real company. It only needs to slap the taskbar at the exact moment you hit send.
+
+And then the developers added something that changes the picture.
+
+Since August 2025, up to a hundred players' cats can share one lobby. A hundred taskbars.
+
+Somewhere it is three in the morning, and someone is finishing a thesis. Somewhere it is lunch, and someone is pretending to answer emails. Somewhere, someone is just... typing.
+
+Some of them are probably scripts. But the rest are people, each at their own desk, in their own time zone, in their own quiet room.
+
+And for a moment, a hundred cats are tapping together.
+
+None of them will ever meet. Nobody in that lobby can see what the others are writing.
+
+It is a little like an office, really. You never talk to the person at the next desk either. But you would notice if they left.
+
+But every paw that moves says the same thing.
+
+Someone else is still here.
+
+So... why do so many people keep a cat watching them type?
 
 Not for the hats. Not really.
 
-Most of our work disappears the moment it's done. Nobody claps when you send an email. Nobody notices the paragraph you rewrote four times.
+Nobody claps when you send an email. Nobody notices the paragraph you rewrote four times. For most of the day, the only thing moving in the room is you.
 
-Bongo Cat cannot notice either. But it reacts. Every single time.
+Bongo Cat cannot really see you. It never could.
 
-And maybe that's all some of us wanted. Not applause. Not a reward.
-
-Just a small paw, at the bottom of the screen, that says:
+But at the bottom of your screen there is a small paw that moves when you move. And every time you finish something nobody else will ever notice, it gives you the smallest possible slap that says...
 
 I saw that.
 
@@ -106,9 +120,9 @@ So what game keeps you company? And what game deserves a "why?" next? Tell me in
 Maybe that's our next quest.
 
 ## Factual notes for lock
-- "Around a hundred and fifty thousand... on an ordinary day": SteamCharts ~147,000 on 2026-10-11; recheck.
-- Odds 1 in 500,000, "A friend while working hard": Steam page (safe list).
-- "About half... might be bots": "the developer once estimated" (mid-2025); "at its peak" placement kept vague on purpose.
-- Prototype drill, market experiment, "never meant to make money", "a few thousand dollars a month" (mid-2025): safe list, attributed.
-- Multiplayer lobby up to 100: Automaton (Aug 2025). Do not call it "no competition".
-- Our cat must be an original design (IP).
+- "Well over a hundred thousand accounts... on an ordinary day": SteamCharts ~147,000 concurrent (2026-10-11); recheck.
+- Odds 1 in 500,000, "A friend while working hard": Steam page.
+- Bots: "In 2025, the developer estimated that maybe half" (Automaton, June 2025; "we can't know exactly").
+- Prototype drill: Automaton. Multiplayer up to 100 cats per lobby since Aug 11, 2025 (Automaton). "Nobody in that lobby can see what the others are writing": verify before lock, otherwise cut.
+- "Stop to think, and it stops too": follows from the mechanic (it reacts to inputs); recheck on the game.
+- No revenue figures on air. Original cat design only (IP); no Steam UI, no game footage.

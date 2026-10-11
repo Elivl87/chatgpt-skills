@@ -1,0 +1,1344 @@
+[
+ {
+  "dim": "hook",
+  "review": {
+   "per_script": [
+    {
+     "script": "A",
+     "score": 5.5,
+     "strengths": [
+      "Best recognition device of the three: the 'Before GTA 6' meme arrives at about 0:08 as a payoff to a list of world events. A stranger who knows the meme laughs, and one who doesn't still gets the joke.",
+      "'for a game none of them has played' is a real contradiction, in the same register as EP002.",
+      "The final 'Why?' follows a statement, not a question, so the signature beat is not crowded."
+     ],
+     "findings": [
+      {
+       "id": "A-hook-1",
+       "severity": "blocker",
+       "problem": "The hook is too long and turns into exposition in the middle. It runs 116 words to the 'Why?'. EP002's hook is about 75 words and lands 'So, why?' at 0:25. At EP002's pace, A's 'Why?' lands at about 0:42. From 0:12 to 0:30 a stranger on Home hears a release date, a year count, a trailer count and a forum statistic. That is a data block in exactly the place the protocol says to avoid background exposition.",
+       "quote": "Grand Theft Auto VI is scheduled for November 19th, 2026. Thirteen years after the last one. In that time, Rockstar has released exactly two trailers. And around a million people still check a forum about it every single day... for a game none of them has played.",
+       "fix": "Compress it to one rhythmic line and cut the date: \"Thirteen years. Two trailers. And almost a million people in one forum... waiting for a game none of them has played.\""
+      },
+      {
+       "id": "A-hook-2",
+       "severity": "major",
+       "problem": "The release date is in the hook. Today is 2026-10-11. The date ages the opening as soon as the video publishes, and a delay would break the first 15 seconds. That goes against the evergreen-wording rule (handoff 4.13). The forum line is also an overclaim: about 949,000 subreddit members is not 'a million people check it every single day'.",
+       "quote": "scheduled for November 19th, 2026 ... around a million people still check a forum about it every single day",
+       "fix": "Keep the date for Act 4 or the payoff, where 'On November 19th' already appears. In the hook, say \"almost a million people in one forum\", which is members, not daily visits."
+      },
+      {
+       "id": "A-hook-3",
+       "severity": "major",
+       "problem": "There is no real human turn, and the line in its place gives away the thesis. 'This wait was never empty' is the thesis compressed (clock, hobby, shared place). After it, the 'Why?' asks the viewer to wait for an explanation of something already asserted. EP002's turn is personal ('You.'). A's stays abstract ('millions of people').",
+       "quote": "Which is strange. Because waiting is supposed to be the empty part. The dead time between wanting something... and getting it. / But for millions of people, this wait was never empty.",
+       "fix": "\"Waiting is supposed to be the empty part. / But this one... has our whole lives in it. / Why?\" This moves to 'our lives', the human turn, and keeps 'clock / hobby / together' hidden."
+      },
+      {
+       "id": "A-hook-4",
+       "severity": "major",
+       "problem": "The first 5 seconds don't pay off the thumbnail. The thumbnail promises '13 YEARS' and a calendar of crosses. The narration opens on 'Since 2013', a date the viewer has to subtract, and '13' as a spoken number doesn't come until about 0:14.",
+       "quote": "Since 2013, the world has had a pandemic.",
+       "fix": "Open on the thumbnail's words: \"Thirteen years. / Since the last Grand Theft Auto, the world has had a pandemic. A new pope. A total solar eclipse. A congressional hearing about aliens.\" Narration and the crossed-out calendar then match at 0:00."
+      },
+      {
+       "id": "A-hook-5",
+       "severity": "minor",
+       "problem": "Right after the 'Why?', Act 1 explains the meme the hook has already used ('Every time the world did something enormous, someone added it to the list. Pandemic. Eclipse. New pope.'). The list is repeated about 20 seconds after the hook gave it, so the first post-hook beat feels like a rerun.",
+       "quote": "Every time the world did something enormous, someone added it to the list. Pandemic. Eclipse. New pope. Artificial intelligence. Before GTA 6.",
+       "fix": "Cut the repeated list. Go from the TikTok origin straight to the reframe: \"And the internet never stopped. / It sounds like a complaint about a video game. But look at what it actually does...\""
+      },
+      {
+       "id": "A-title-1",
+       "severity": "minor",
+       "problem": "The title asks 'why the wait became part of the game', but the hook's 'Why?' asks why the wait was not empty. These are close but not the same contract, and the final echo ('So... why did the wait become part of the game?') answers the title, not the hook.",
+       "quote": "GTA 6: Why the Wait Became Part of the Game",
+       "fix": "Point the hook's last statement at the title's idea: \"But somehow, the waiting became part of the game. / Why?\" Or keep fix A-hook-3 and change the title to 'GTA 6: Why the Wait Has Our Lives in It'. Choose one wording for both."
+      }
+     ]
+    },
+    {
+     "script": "B",
+     "score": 6,
+     "strengths": [
+      "The strongest contradiction of the three, and it can be read in one line: 'The game is called How to Fish. And millions of people bought it to do everything else.'",
+      "The concrete chaos list (slapping, gambling the fish money, losing the boat) works as recognition for players and as a laugh for strangers.",
+      "The hook's 'Why?' matches the title and the payoff exactly. It is the cleanest single-question contract of the three."
+     ],
+     "findings": [
+      {
+       "id": "B-hook-1",
+       "severity": "blocker",
+       "problem": "It opens on background exposition: a date, a country, a school, a price and a sales target. The recognizable phenomenon (people not fishing) doesn't come until about 0:15. The first 5 seconds ('In August 2026, two friends from a high school in Sweden...') don't pay off the thumbnail (boat, tangled rod, '0 FISH'). A stranger on Home gets a press release instead of the picture they clicked.",
+       "quote": "In August 2026, two friends from a high school in Sweden released a game called How to Fish. It cost about eight dollars. Before launch, they hoped it might sell two hundred thousand copies.",
+       "fix": "Open on the thumbnail: \"There is a game called How to Fish. / Four friends. One small boat. One fishing rod. / Zero fish. / They are slapping each other in the face. Gambling the fish money. Losing the boat.\" Then the numbers in one beat: \"It costs eight dollars. Its makers hoped for two hundred thousand players. An estimated ten million bought it.\""
+      },
+      {
+       "id": "B-hook-2",
+       "severity": "major",
+       "problem": "The hook spends the payoff asset. The script's ending depends on 'It was made by two friends who met in high school.' Saying 'two friends from a high school in Sweden' in the first sentence uses it up, so the Act 4 reveal lands as a repeat.",
+       "quote": "two friends from a high school in Sweden",
+       "fix": "Remove the makers from the hook entirely (see B-hook-1). Keep 'two friends who met in high school' for Act 4 only."
+      },
+      {
+       "id": "B-hook-3",
+       "severity": "major",
+       "problem": "There is no human turn. The hook goes phenomenon → contradiction → the same contradiction restated → 'Why?'. The friendship angle, which is the human core, has no hint before the Why. The Why is earned by absurdity alone, so it feels like a gag question rather than the start of an essay.",
+       "quote": "The game is called How to Fish. And millions of people bought it to do everything else.\n\nWhy?",
+       "fix": "Add one line, without explaining the alibi thesis: \"The game is called How to Fish. And millions of people bought it to do everything else. / And almost none of them bought it alone. / Why?\""
+      },
+      {
+       "id": "B-hook-4",
+       "severity": "minor",
+       "problem": "'Shooting seagulls with a sniper rifle' is a specific claim, and seagulls are not in the recognition anchors (those say 'fishing with a sniper rifle'). A wrong detail in the first 20 seconds is where players spot errors in the comments.",
+       "quote": "Shooting seagulls with a sniper rifle.",
+       "fix": "Use the verified version until seagulls are checked: \"Fishing with a sniper rifle.\" It is also funnier because it keeps the fishing contradiction going."
+      },
+      {
+       "id": "B-title-1",
+       "severity": "minor",
+       "problem": "The title works, but the game's name is only in the description and on screen. Searchers who know the game won't match it.",
+       "quote": "Why Did Millions Buy a Fishing Game... to Not Fish?",
+       "fix": "Optional variant that keeps the contradiction and names the game: 'How to Fish: Why Millions Bought a Fishing Game to Not Fish' (around 60 characters; A/B test it against the current title)."
+      }
+     ]
+    },
+    {
+     "script": "C",
+     "score": 6.5,
+     "strengths": [
+      "Best pace: about 82 words, so the 'Why?' lands right at 0:30.",
+      "'That's it. That's the game.' is a real pattern interruption, and an EP002-style deadpan, inside the hook.",
+      "'It does not even ask you to look at it.' is a fresh, specific contradiction. No other game could use that line."
+     ],
+     "findings": [
+      {
+       "id": "C-hook-1",
+       "severity": "major",
+       "problem": "The first line is a statistic, not something the viewer recognizes, and the game is never named before the 'Why?' (the name first appears at 'Bongo Cat is free'). The thumbnail (Quest at a desk, the cat mid-slap, 'MY COWORKER') is paid off only at about 0:06, after an abstract claim. The claim also contradicts itself: 'a game in which nothing happens' is followed by the cat doing something on every key press.",
+       "quote": "On an ordinary day, around a hundred and fifty thousand people are playing a game in which nothing happens.",
+       "fix": "Open on the image: \"There's a small cat at the bottom of your screen. / Every time you press a key... it slaps your taskbar. / That's it. That's the game. It's called Bongo Cat.\" Move the number to the escalation slot (see C-hook-3)."
+      },
+      {
+       "id": "C-hook-2",
+       "severity": "major",
+       "problem": "There is no human turn. The hook describes software and then describes usage. Nothing reaches the viewer's own feeling, although the script's best recognition beat ('you look down to find the cat absolutely losing its mind on your behalf') and the thumbnail's tired smile are both available. The 'Why?' comes from oddity, not from 'I know this feeling'.",
+       "quote": "And yet people leave it running for hours. Days. Sometimes for most of the time their computer is on.",
+       "fix": "\"And yet around a hundred and fifty thousand people keep it running. All day. / And every so often, in the middle of a long day, they glance down... and smile at it. / Why?\" Keep the angry-email version in Act 2 so it stays fresh there."
+      },
+      {
+       "id": "C-hook-3",
+       "severity": "minor",
+       "problem": "The escalation falls flat at the end. 'Hours. Days.' builds, then 'Sometimes for most of the time their computer is on' is longer, vaguer and smaller than 'Days', so the beat before the signature Why goes slack.",
+       "quote": "Sometimes for most of the time their computer is on.",
+       "fix": "Cut it. Use the number as the climax instead: \"And yet around a hundred and fifty thousand people keep it running. Every day.\""
+      },
+      {
+       "id": "C-title-1",
+       "severity": "minor",
+       "problem": "The title's '150,000' is a fluctuating player count (about 147,000 on 2026-10-11), so it will be wrong on the title card within weeks. 'Watching them type' also claims something the script disproves ('The cat does not know what you are typing'). That makes the title an intentional misdirect, and the hook never sets it up.",
+       "quote": "Why Do 150,000 People Keep a Cat Watching Them Type?",
+       "fix": "Make it evergreen: 'Why Do So Many People Keep a Cat Watching Them Type?' Optionally plant 'watching' in the hook: \"It does not even ask you to look at it. / But it's always looking at you.\" Act 3 can then knock it down."
+      }
+     ]
+    }
+   ],
+   "ranking": [
+    "C: has the tightest hook (its 'Why?' lands at about 0:30) and a real in-hook deadpan reset, but it needs a human turn and the cat image as its first line to pay off the thumbnail",
+    "B: has the strongest contradiction and the cleanest question contract, but its first 15 seconds are background exposition that skips the thumbnail and gives away the high-school-friends payoff",
+    "A: has the best recognition joke ('Before GTA 6'), but it runs to about 0:42 through a date and statistics block, states the thesis right before the 'Why?', and puts a date in the opening that will age it"
+   ]
+  },
+  "verdict": {
+   "judged": [
+    {
+     "id": "A-hook-1",
+     "real": true,
+     "reason": "The finding holds up. The hook is 116 words to the 'Why?'. EP002's cues put 'So, why?' at 25.7s after about 75 words, so A lands around 0:40 or later. The date, trailer and forum lines in a row are generic exposition, which handoff 4.4 forbids. The fix keeps the contradiction ('none of them has played') and the rhythm.",
+     "better_fix": "Use the fix, but check it against A-hook-2's facts and A's opener: \"Thirteen years. Two trailers. And almost a million people in one forum... for a game none of them has played.\" Drop 'waiting' here, because the next beat ('waiting is supposed to be the empty part') needs that word fresh."
+    },
+    {
+     "id": "A-hook-2",
+     "real": true,
+     "reason": "The overclaim is the stronger half. The dossier says r/GTA6 has about 949k members and about 25k online at once. 'around a million people still check a forum about it every single day' is false as stated. The release date is 39 days from today and will expire around publication, while Act 4 already says 'On November 19th'. In the hook the date is not essential, so the 4.13 logic applies."
+    },
+    {
+     "id": "A-hook-3",
+     "real": true,
+     "reason": "The missing human turn is real. The handoff B2 checklist requires one, and 'for millions of people' is a crowd, not a person. But the diagnosis is wrong that 'this wait was never empty' gives away the thesis. It is the contradiction, and it is a strong line. The proposed 'has our whole lives in it' is vaguer, sentimental and weaker, and it hints at the clock idea more than the original does.",
+     "better_fix": "Keep the strong line and turn it toward the viewer, the way EP002's 'You.' does: \"But if you've been waiting since 2013... you know. / This wait was never empty. / Why?\""
+    },
+    {
+     "id": "A-hook-4",
+     "real": false,
+     "reason": "This is taste. EP002 itself opens on a year ('In 1998, Ocarina of Time...'), and the calendar thumbnail can be paid off visually over 'Since 2013' with no narration change. Adding 'Thirteen years.' in front also collides with A-hook-1's compressed line, which already starts with 'Thirteen years', and it delays the list that is the actual recognition joke."
+    },
+    {
+     "id": "A-hook-5",
+     "real": true,
+     "reason": "Act 1 repeats 'Pandemic. Eclipse. New pope.' about 20 seconds after the hook said it, so the first beat after the 'Why?' sounds like a rerun. The cut is cheap and loses nothing: the TikTok origin plus 'the internet never stopped' already explains the meme."
+    },
+    {
+     "id": "A-title-1",
+     "real": true,
+     "reason": "This is minor but real. The hook asks why the wait was never empty, while the title and the final echo ask why the wait became part of the game. A one-question contract is the channel's standard. The first option is fine, but it gives up the better contradiction line.",
+     "better_fix": "Keep the hook's line from the A-hook-3 fix and bridge to the title in Act 2's reframe ('Waiting was not the delay before the hobby. Waiting was the hobby.'), which already is the title idea. Then change the final echo to \"So... why was this wait never empty?\" so that hook, echo and payoff share one wording. Leave the title as it is."
+    },
+    {
+     "id": "B-hook-1",
+     "real": true,
+     "reason": "The opener reads like a press release: date, country, school, price, sales target. The recognizable chaos comes about 15s in. The fix itself adds problems. 'Zero fish' overclaims against the script's own 'almost nobody is fishing'. 'Four friends' is an unverified player cap. 'An estimated ten million bought it' drops the 'one analytics firm' attribution. 'players' replaces 'copies', which is a factual change.",
+     "better_fix": "\"There is a game called How to Fish. A boat. A rod. A lake full of fish. / And almost nobody is fishing. / They are slapping each other in the face. Gambling the fish money. Fishing with a sniper rifle. Losing the boat. / It costs about eight dollars. Its makers hoped for two hundred thousand copies. One analytics firm now estimates more than ten million.\""
+    },
+    {
+     "id": "B-hook-2",
+     "real": true,
+     "reason": "This is correct. 'two friends from a high school' in the first sentence uses up the Act 4 reveal ('made by two friends who met in high school'), which is the episode's mirror image. B-hook-1's fix resolves it."
+    },
+    {
+     "id": "B-hook-3",
+     "real": true,
+     "reason": "A human turn is required, and B goes straight from absurdity to the 'Why?'. But the proposed 'almost none of them bought it alone' is an unverified claim. It also contradicts the script's own Act 3 ('Some say it is fine alone').",
+     "better_fix": "\"The game is called How to Fish. And millions of people bought it to do everything else. / Together. / Why?\" This is true by observation, points at the friendship core without stating the alibi thesis, and keeps the 'Why?' clean."
+    },
+    {
+     "id": "B-hook-4",
+     "real": true,
+     "reason": "The dossier verifies sniper rifles as gear but nowhere mentions seagulls. An invented detail in the first 20 seconds is an easy factual hit in the comments, and 'Fishing with a sniper rifle' is a verified anchor that is also funnier."
+    },
+    {
+     "id": "B-title-1",
+     "real": false,
+     "reason": "This is a preference. The script explicitly chose to keep the name in the description, tags and on screen. The proposed title runs about 60 characters and puts the contradiction near the truncation point on mobile. At most it is an A/B variant, not a defect."
+    },
+    {
+     "id": "C-hook-1",
+     "real": false,
+     "reason": "'around a hundred and fifty thousand people are playing a game in which nothing happens' is a strong curiosity opener, structurally like EP002's fact-first line 1. The 'self-contradiction' is the setup for the deadpan 'That's it. That's the game.' The cat image arrives within about 6s anyway, so the thumbnail is paid off. The fix discards the 'nothing happens' line that the deadpan depends on."
+    },
+    {
+     "id": "C-hook-2",
+     "real": true,
+     "reason": "There is no human turn. The hook describes software and then usage, which fails B2. But the proposed fix spends 'they glance down... and smile', and Act 1/2 is built on 'that glance is the interesting part', so it would steal a body beat and hint at the payoff too early.",
+     "better_fix": "\"And yet people leave it running for hours. Days. / Right there, at the edge of their screen, while they work. / Why?\" This puts it next to the person without spending the glance or the witness idea."
+    },
+    {
+     "id": "C-hook-3",
+     "real": true,
+     "reason": "'Sometimes for most of the time their computer is on' is longer and smaller than 'Days', so the beat before the 'Why?' sags. But the proposed replacement repeats the 150,000 figure from line 1.",
+     "better_fix": "Just cut the sentence: \"And yet people leave it running for hours. Days.\" Then go to the human-turn line (C-hook-2) and the 'Why?'."
+    },
+    {
+     "id": "C-title-1",
+     "real": true,
+     "reason": "The count half is real. A title can't be edited quietly once thumbnails and Shorts reference it, and about 147k on the tracker today will drift, so 4.13 favors evergreen wording. The 'watching' half is an intentional misdirect that Act 3 knocks down, which is fine. The suggested plant 'But it's always looking at you' adds a creepy, surveillance tone the episode does not want.",
+     "better_fix": "Title: \"Why Do So Many People Keep a Cat Watching Them Type?\" Do not add the 'always looking at you' plant. Keep the number in narration, where 'on an ordinary day, around' hedges it, and in the thumbnail variant."
+    }
+   ],
+   "summary": "Of 16 findings, 13 are real and 3 are not. The 3 not real: A-hook-4 (EP002 itself opens on a year, and the thumbnail is paid off visually), B-title-1 (a deliberate naming choice) and C-hook-1 (the stat opener is strong and sets up the deadpan). Several real findings carry fixes that are weaker or wrong. B-hook-1's fix adds 'Zero fish' and 'Four friends', drops the 'one analytics firm' attribution and swaps 'copies' for 'players'. B-hook-3's 'almost none bought it alone' is unverified and contradicts Act 3. A-hook-3's 'has our whole lives in it' is mushier than the strong original 'this wait was never empty', which should stay, with a 'you' turn added. C-hook-2's fix spends the glance beat from Act 2. C-hook-3's fix repeats the 150k figure. Better fixes are given for each. The most important new fact: A's 'around a million people check it every single day' is false according to the dossier (about 949k members, about 25k online at once). The hook reviewer's ranking (C > B > A on hook) is reasonable."
+  }
+ },
+ {
+  "dim": "retention",
+  "review": {
+   "per_script": [
+    {
+     "script": "A",
+     "score": 6.5,
+     "strengths": [
+      "Hook is the strongest of the three: world events, then 'Before GTA 6.' as a one-line turn. It matches the Phenomenon > Contradiction > Turn > Why contract.",
+      "The subreddit joke reveals something: 'its members have been waiting for the sequel for longer than the previous game has been alive.' Deadpan, true and on-thesis.",
+      "'Fans learned to read Take-Two's earnings calls the way farmers read the sky' followed by 'Which is a very elegant way of saying: not yet.' is real escalation and the best dry line in the batch.",
+      "'The imagined game has had a thirteen-year head start on the real one.' is a strong line asset.",
+      "The payoff reframes the title meme: 'We finally get GTA 6. / What we lose... is \"before GTA 6.\"'"
+     ],
+     "findings": [
+      {
+       "id": "A-thread-1",
+       "severity": "blocker",
+       "quote": "Which brings us to the part nobody likes to say out loud. On November 19th, those two games finally meet. / But something else is about to change too.",
+       "problem": "This is curiosity betrayal. The script promises the confrontation everyone fears, the perfect imagined game against the real one, and drops it one line later for a different topic. Viewers who stayed for that answer get a pivot instead. It is the best open loop in the script and it is never closed.",
+       "fix": "Pay it off in two lines before pivoting: 'On November 19th, those two games finally meet. And the real one will have bugs. And a price. And a queue. That is not a flaw. That is what being real costs. But the imagined game is not the only thing that ends that day.' Alternatively, cut the 'part nobody likes to say' line completely."
+      },
+      {
+       "id": "A-act4-generic",
+       "severity": "major",
+       "quote": "Think about how rare it is now for everyone to wait for the same thing. Everyone has a different feed. A different show. A different algorithm deciding what matters to them. / Almost nothing is shared anymore.",
+       "problem": "This fails the identity test in section 7, because any culture essay could say it word for word. It is also the emotional climax, and it runs about 150 words with no specific example and no pattern interruption. The jokes stop after the earnings-call line, so the last third is monotone.",
+       "fix": "Anchor it in GTA behaviour: 'Think about the last thing everyone waited for together. Not everyone in your country. Everyone. Different feeds, different shows, different algorithms. But type \"before GTA 6\" under any eclipse livestream, and a stranger on the other side of the world knows exactly what you mean.' This turns the 'joke strangers could finish for each other' line into a scene and gives the act its interruption."
+      },
+      {
+       "id": "A-repeat-1",
+       "severity": "major",
+       "quote": "Since 2013, the world has had a pandemic. A new pope. A total solar eclipse... / Every time the world did something enormous, someone added it to the list. Pandemic. Eclipse. New pope. Artificial intelligence.",
+       "problem": "This is repetition disguised as reinforcement. Act 1 lists almost the same items the hook already used, so the examples do not escalate. Only 'Artificial intelligence' is new.",
+       "fix": "Escalate from big events to absurd ones in Act 1: 'Every time the world did something enormous, someone added it to the list. Artificial intelligence. A new pope. A second new pope would not have surprised anyone. Before GTA 6.' Or swap in any verified meme item that is stranger than the hook's. Do not repeat the hook list."
+      },
+      {
+       "id": "A-detour-1",
+       "severity": "major",
+       "quote": "But why this game? People wait for sequels all the time. / Part of the answer is that GTA V never left. Take-Two says it has sold over two hundred and thirty million units.",
+       "problem": "The act architecture puts 'why this game?' at the end of Act 1, but the script asks it after Act 2 has already shown the hobby. Progression goes backwards: the script returns to sales figures, the news-video risk the spine itself warns about (G), just as momentum peaks after 'Waiting was the hobby.'",
+       "fix": "Move the paragraph from 'But why this game?' to 'kept the light on while the new one was being built' to directly after 'Everything around it did.' in Act 1, and cut it to: 'Part of it is that GTA V never left. Same game, three generations of consoles. People bought it on one machine, then the next, then the next. The old game kept the light on.' Drop the 230 million figure from narration and put it on screen."
+      },
+      {
+       "id": "A-double-close",
+       "severity": "minor",
+       "quote": "The anticipation stopped being something Rockstar gave the fans. The fans built it. / Waiting was not the delay before the hobby. Waiting was the hobby.",
+       "problem": "The act ends twice on the same idea. The second line is stronger, so the first only dilutes it.",
+       "fix": "Cut 'The anticipation stopped being something Rockstar gave the fans. The fans built it.' and keep: 'When there is almost no information, people make it themselves. The theories. The memes. The countdowns. / Waiting was not the delay before the hobby. Waiting was the hobby.'"
+      },
+      {
+       "id": "A-signpost",
+       "severity": "minor",
+       "quote": "So the wait became a clock. But a clock just runs. Nobody runs a clock for fun.",
+       "problem": "This transition is mechanical, and 'Nobody runs a clock for fun' means nothing. It reads as a structural seam, not a beat.",
+       "fix": "'So the wait became a clock. But clocks are passive. And nobody waiting for GTA 6 was sitting still.'"
+      },
+      {
+       "id": "A-ep002-echo",
+       "severity": "minor",
+       "quote": "It was a way of saying: a lot has happened to us. The world changed. We changed.",
+       "problem": "The spine's own risk G is that this becomes EP002's 'you changed.' 'We changed' is EP002's thesis in miniature.",
+       "fix": "'It was a way of saying: a lot has happened. And we were still here. Waiting. Together.'"
+      },
+      {
+       "id": "A-title-answer",
+       "severity": "minor",
+       "quote": "So... why did the wait become part of the game? / Maybe because, for a lot of people, it was the longest thing they ever did together.",
+       "problem": "The answer does not quite fit the question. 'Part of the game' suggests play, but the answer is about togetherness. The title's promise is fully paid off only if the hobby idea from Act 2 comes back.",
+       "fix": "'Maybe because the waiting was the only part of GTA 6 everyone could already play. And for a lot of people, it was the longest thing they ever did together.'"
+      },
+      {
+       "id": "A-length",
+       "severity": "minor",
+       "problem": "The narration is about 877 words, just under the 900-1000 target. The fixes above add roughly 60-80 words in the right place (Act 4).",
+       "fix": "Do not pad. Let the A-thread-1 and A-act4-generic fixes supply the missing words."
+      }
+     ]
+    },
+    {
+     "script": "B",
+     "score": 7.5,
+     "strengths": [
+      "The best humor that reveals something in the batch. The adult calendar gag ('I'm free in three weeks.' / 'Three weeks works.' / 'And three weeks later, somebody's kid is sick.') is recognition, rhythm and thesis at once.",
+      "'Proposing a plan means admitting you want one.' and 'Eight dollars removes the asking.' are sharp, specific line assets.",
+      "The Steam content warning, quoted word for word ('cartoon violence towards fish and gambling with fish'), is a found joke and a reveal, and it needs no narrator help.",
+      "'Winning alone gives you a score. Failing together gives you a story.' plus the slap-revive line ('roughly how a lot of friends say \"I care about you\"') escalate the theme into something personal.",
+      "The tutorial reframe at the end turns the title upside down. It is a real payoff."
+     ],
+     "findings": [
+      {
+       "id": "B-hook-spends",
+       "severity": "major",
+       "quote": "They are slapping each other in the face. Gambling the fish money. Shooting seagulls with a sniper rifle. Losing the boat.",
+       "problem": "The hook spends the Act 3 material. Act 3 returns to the same examples ('Someone loses the savings', the slap revive, 'the time the boat disappeared'), so the examples do not escalate. The viewer has seen them all by second 20.",
+       "fix": "Hook keeps only two items: 'They are shooting seagulls with a sniper rifle. Gambling the fish money.' Save the slap and the lost boat for Act 3, where they arrive as new revelations. Act 3 can then open: 'Someone falls overboard. Someone loses the savings. Someone pokes something they absolutely should not have poked.'"
+      },
+      {
+       "id": "B-circular-1-2",
+       "severity": "major",
+       "quote": "Eight dollars removes the asking. Nobody says \"I miss you.\" ... / The fish gives the afternoon a reason. A reason nobody has to say out loud.",
+       "problem": "Acts 1 and 2 make the same point, that the pretext spares you from saying what you want, from two angles. Act 2 restates Act 1 instead of advancing it. The one new idea in Act 2 ('Or they don't talk, and that is fine too') is buried.",
+       "fix": "Make Act 2 about side-by-side instead of face-to-face, which is new: 'Fishing solves a second problem. Not how to meet. What to do once you are there. In a boat, nobody has to look at each other. Nobody has to fill the silence. You both look at the water. The fish gives the afternoon a reason, and the silence a job.'"
+      },
+      {
+       "id": "B-act4-dead",
+       "severity": "major",
+       "quote": "Some players say it is short. Some say it is fine alone, just better with friends. Some wonder if it is simply this year's summer hit... / Maybe. But maybe that misses what it was for.",
+       "problem": "This is a dead spot. Three 'some' sentences read like a review roundup, and 'Maybe. But maybe' is a limp turn. The viewer's energy drops right before the payoff run.",
+       "fix": "Compress it into one deadpan beat: 'Will anyone still be playing it next summer? Probably not. Most fishing trips don't last either. That was never the point of the boat.' Then go straight to 'Some games just need to get four people in the same place on a Tuesday night.'"
+      },
+      {
+       "id": "B-reveal-order",
+       "severity": "minor",
+       "quote": "In August 2026, two friends from a high school in Sweden released a game... / It was made by two friends who met in high school.",
+       "problem": "The creators' friendship is given away in the first sentence, so the late reveal lands as a repeat instead of a turn.",
+       "fix": "Hook: 'In August 2026, two developers in Sweden released a game called How to Fish.' Late beat: 'And here is the part I didn't know. The two people who made it met in high school. Their first paid game had not done well. So they made a game about friends doing something silly together.'"
+      },
+      {
+       "id": "B-double-payoff",
+       "severity": "minor",
+       "quote": "Because fishing was never really about the fish. / It was about having a reason to sit in the same boat. / How to Fish sounds like a tutorial...",
+       "problem": "There are two payoffs back to back. The 'reason to sit in the same boat' answer is the alibi idea from Act 2 repeated, and the tutorial reframe is the real ending.",
+       "fix": "Shorten the answer to one line, 'Because fishing was never about the fish.', and go straight to the tutorial reframe."
+      },
+      {
+       "id": "B-decor-joke",
+       "severity": "minor",
+       "quote": "No real money. Just real fish violence.",
+       "problem": "This is a decorative joke. It explains the Steam quote, which is already funny on its own, and says nothing about the player.",
+       "fix": "Cut it and let the quote land in silence, or replace it with something revealing: 'Which is the most honest description of a friendship I have ever read on a store page.'"
+      },
+      {
+       "id": "B-length",
+       "severity": "major",
+       "problem": "At about 752 words the narration runs short (around 5 minutes). Act 3 has the best material and the least room.",
+       "fix": "Add about 120-150 words to Act 3 as one escalating group-chat-to-chaos moment told in sequence (bought, launched, first ten minutes, the boat gone, the voice chat). Use the B-circular-1-2 rewrite for Act 2. Do not lengthen Act 4."
+      }
+     ]
+    },
+    {
+     "script": "C",
+     "score": 7,
+     "strengths": [
+      "The cleanest progression of the three: each act refutes the previous answer. Hats lead to 'but people forget it's there', which leads to invisible work, then 'it can't even see you', then 'so why does it work?'",
+      "'That's it. That's the game.' is a perfect deadpan pattern interruption in the hook.",
+      "'your cat is a small investment portfolio wearing a crown' and 'Your inbox becomes a slot machine.' are jokes that reveal the mechanism.",
+      "The angry-email beat ('the cat absolutely losing its mind on your behalf') is the funniest recognition moment in the batch.",
+      "The ending 'Bongo Cat cannot notice either. But it reacts.' leading to 'I saw that.' uses the Act 3 contradiction as the payoff. It is earned."
+     ],
+     "findings": [
+      {
+       "id": "C-length",
+       "severity": "blocker",
+       "problem": "At about 645 words this is roughly a 4:20 video, well short of the 6-7 minute target. Act 4, the emotional climax, is only two short paragraphs, so the turn from alone to together is asserted rather than felt.",
+       "fix": "Add about 250 words, mostly in Act 4 (see C-act4-thin) and in Act 2 with one more escalating example of invisible work. Do not add a fifth act."
+      },
+      {
+       "id": "C-act4-thin",
+       "severity": "major",
+       "quote": "In the multiplayer version, up to a hundred cats can share one lobby. A hundred taskbars. A hundred people somewhere, each alone at a desk, typing their own emails... and for a moment, tapping together.",
+       "problem": "This is the best image in the script and it gets one sentence. The jump from 'nobody is watching you' to strangers in a shared rhythm is never built, so the warmth arrives on credit.",
+       "fix": "Escalate in three steps: 'A hundred taskbars. Somewhere it is 3 a.m. and someone is finishing a thesis. Somewhere it is lunch and someone is pretending to answer emails. Somewhere someone is just... typing. None of them will ever meet. But for a moment, a hundred cats are slapping at the same time.' Then add a silence beat before 'None of them can see each other's work.'"
+      },
+      {
+       "id": "C-trivia-dump",
+       "severity": "major",
+       "quote": "The very first prototype was a drill digging into a stone. The cat came later. The developer said it was never meant to make money, and reported earning only a few thousand dollars a month. / By any reasonable measure, nobody is really watching you.",
+       "problem": "The revenue fact does not support the conclusion, because earnings have nothing to do with whether anyone is watching you. This stretch is a trivia list, not progression. The drill fact is wasted, though it is the strongest evidence in the script that the cat itself matters.",
+       "fix": "Cut the revenue sentence. Reframe the drill: 'The very first prototype was not a cat. It was a drill, digging into a stone. Same keys. Same points. Nobody kept a drill on their screen. The cat came later. And so did everyone else.' This makes it a reveal that feeds Act 4."
+      },
+      {
+       "id": "C-forced-joke",
+       "severity": "minor",
+       "quote": "So, at its peak, a fan club where maybe half the members were scripts.",
+       "problem": "The 'fan club' frame is forced, because players are not a fan club, and it softens a reveal that is already absurd.",
+       "fix": "'Which means somewhere out there, a cat is slapping a taskbar for nobody at all.' It is deadpan and it sets up 'I saw that.'"
+      },
+      {
+       "id": "C-repeat-payoff",
+       "severity": "minor",
+       "quote": "Most of our work disappears the moment it's done. Nobody claps when you send an email. Nobody notices the paragraph you rewrote four times.",
+       "problem": "The payoff partly restates Act 2's 'Most of what we do on a screen leaves no trace.' The line 'Most of our work disappears' is a near-verbatim repeat of that idea, not a reframe.",
+       "fix": "Drop the first sentence and keep the two specific ones, which are better: 'Nobody claps when you send an email. Nobody notices the paragraph you rewrote four times.'"
+      },
+      {
+       "id": "C-title-promise",
+       "severity": "minor",
+       "quote": "Why Do 150,000 People Keep a Cat Watching Them Type?",
+       "problem": "The title is good and its tension is productive (the script argues the cat cannot watch). The '150,000' number is a daily concurrent count the hook calls 'on an ordinary day', so it needs a recheck for wording consistency. The thumbnail text 'MY COWORKER' is the strongest of the three thumbnails.",
+       "fix": "Keep the title. Make the hook match its framing: 'On an ordinary day, around a hundred and fifty thousand people are playing it at the same time.'"
+      }
+     ]
+    }
+   ],
+   "ranking": [
+    "B - richest humor that reveals something (calendar gag, slap revive, Steam warning) and a payoff that reframes the title; held back by Acts 1 and 2 overlapping, the hook spending Act 3's examples, and a dead Act 4 review roundup.",
+    "C - cleanest act-by-act progression and strong deadpan; held back by being about 250 words short, a trivia dump in Act 3 and an Act 4 climax that is underbuilt.",
+    "A - best hook and the sharpest early jokes, but it drops its best open loop (imagined vs real game), detours into sales figures mid-climb, and ends on a generic, joke-free Act 4."
+   ]
+  },
+  "verdict": {
+   "judged": [
+    {
+     "id": "A-thread-1",
+     "real": true,
+     "reason": "The script plants \"the part nobody likes to say out loud\" and \"those two games finally meet\", then pivots away with \"But something else is about to change too.\" That leaves an open loop at the most charged moment. It is real, but it is major rather than a blocker. The proposed payoff (\"bugs. And a price. And a queue... That is what being real costs\") is wordy, and its moral tone works against the deadpan.",
+     "better_fix": "\"On November 19th, those two games finally meet. And the imagined one doesn't lose. It just stops existing. / But it is not the only thing that ends that day.\" This closes the loop in deadpan, sets up \"What we lose\", and keeps the pivot."
+    },
+    {
+     "id": "A-act4-generic",
+     "real": true,
+     "reason": "\"Everyone has a different feed. A different show. A different algorithm\" fails the section 7 identity/specificity test because any culture essay could say it word for word, and it sits on the emotional climax. The proposed fix is clunky (\"Not everyone in your country. Everyone.\"), and \"under any eclipse livestream\" is an unverified behaviour claim stated as fact.",
+     "better_fix": "Keep \"Almost nothing is shared anymore.\" and replace the feed/show/algorithm sentence with a GTA-specific scene: \"Think about it. A total solar eclipse happens, and somewhere in the comments, someone types four words. And a stranger on the other side of the world knows exactly what they mean.\" Show the eclipse comments as on-screen evidence only if one can be verified, otherwise keep it hypothetical (\"someone types\")."
+    },
+    {
+     "id": "A-repeat-1",
+     "real": true,
+     "reason": "Act 1 re-reads the hook's list almost item for item (\"Pandemic. Eclipse. New pope.\"), so the beat stalls instead of escalating. Severity is minor, not major, because the refrain is the meme's own format. The proposed \"A second new pope would not have surprised anyone\" is an invented, confusing joke and weaker than the original.",
+     "better_fix": "\"Every time the world did something enormous, someone added it to the list. Artificial intelligence? Before GTA 6.\" This keeps the one new item, keeps the refrain and cuts the rerun."
+    },
+    {
+     "id": "A-detour-1",
+     "real": false,
+     "reason": "The reorder is overreach. \"But why this game?\" sets up \"And part of the answer is what GTA promises... A whole place\", which is the bridge into Act 3's imagined game. Moving the GTA V paragraph into Act 1 orphans that second half. \"The old game kept the light on\" works better here, as the reason the wait stayed alive. The one valid point is that the sales figure reads like news.",
+     "better_fix": "Keep the paragraph where it is and cut only \"Take-Two says it has sold over two hundred and thirty million units.\" Put the figure on screen."
+    },
+    {
+     "id": "A-double-close",
+     "real": true,
+     "reason": "\"The anticipation stopped being something Rockstar gave the fans. The fans built it.\" says the same thing as the stronger closer \"Waiting was the hobby\" and steps on it. Cutting it tightens the act's button without losing information. The proposed fix is correct."
+    },
+    {
+     "id": "A-signpost",
+     "real": true,
+     "reason": "\"Nobody runs a clock for fun\" is muddled, because clocks run on their own, and it reads as a seam. However, the proposed \"nobody waiting for GTA 6 was sitting still\" duplicates the very next line, \"People were not sitting still.\"",
+     "better_fix": "\"So the wait became a clock. But clocks only tick. This wait was doing something else.\" Then continue with \"People were not sitting still. They were busy.\""
+    },
+    {
+     "id": "A-ep002-echo",
+     "real": true,
+     "reason": "\"We changed\" is the spine's own named risk G (EP002's \"you changed\"). The proposed fix duplicates the next sentence, which already says \"And we were still here. Waiting. Together.\"",
+     "better_fix": "Cut only \"We changed.\": \"It was a way of saying: a lot has happened to us. The world changed. And we were still here. Waiting. Together.\""
+    },
+    {
+     "id": "A-title-answer",
+     "real": true,
+     "reason": "The title asks how the wait became \"part of the game\", but the answer skips the game idea and goes straight to togetherness. The proposed added line (\"the waiting was the only part of GTA 6 everyone could already play\") pays off the title literally, calls back to the hobby act, and keeps the emotional line intact after it. That is a genuine improvement."
+    },
+    {
+     "id": "A-length",
+     "real": false,
+     "reason": "About 877 words is within normal tolerance of the 900-1000 target at narration pace. The finding names no defect beyond what A-thread-1 and A-act4-generic already cover, so it is not a separate problem."
+    },
+    {
+     "id": "B-hook-spends",
+     "real": false,
+     "reason": "The hook has to prove \"almost nobody is fishing\" with its most vivid images, and the slap is the funniest. In Act 3 the slap comes back with a new layer (it is the revive mechanic, and \"how a lot of friends say I care about you\"), which is escalation, not repetition. Stripping the slap from the hook weakens the first 20 seconds to protect a later beat that already escalates.",
+     "better_fix": "At most, drop \"Losing the boat.\" from the hook so that \"the time the boat disappeared\" lands fresh in Act 3. Keep the slap."
+    },
+    {
+     "id": "B-circular-1-2",
+     "real": true,
+     "reason": "\"Nobody says 'I miss you'\" in Act 1 and \"A reason nobody has to say out loud\" in Act 2 make the same point, so Act 2 restates instead of advancing. The proposed side-by-side angle (\"In a boat, nobody has to look at each other... the silence a job\") is genuinely new, true to life and on-voice. It also keeps \"reason\", which the later \"alibi\" line depends on."
+    },
+    {
+     "id": "B-act4-dead",
+     "real": true,
+     "reason": "Three \"Some...\" sentences followed by \"Maybe. But maybe\" read like a review roundup and sag right before the payoff run. The proposed compression is deadpan and keeps the honest caveat that the game may not last. Optional tightening: \"Will anyone still be playing it next summer? Probably not. Most fishing trips don't last either.\""
+    },
+    {
+     "id": "B-reveal-order",
+     "real": true,
+     "reason": "\"two friends from a high school in Sweden\" in the first sentence makes the later \"made by two friends who met in high school\" a repeat rather than a reveal. Moving it is right. However, \"here is the part I didn't know\" is a fake-naive aside, out of character for a narrator who has just cited sales estimates.",
+     "better_fix": "Hook: \"In August 2026, two developers in Sweden released a game called How to Fish.\" Late beat: \"And the two people who made it? They met in high school. Their first paid game had not done well. So they made a small game about friends doing something silly together.\""
+    },
+    {
+     "id": "B-double-payoff",
+     "real": false,
+     "reason": "\"It was about having a reason to sit in the same boat\" is the actual answer to the title question and a strong image. Without it, the answer is only a negation (\"never about the fish\"). The order answer, then tutorial reframe as the button, is a normal and earned structure. Cutting the line would weaken the ending."
+    },
+    {
+     "id": "B-decor-joke",
+     "real": true,
+     "reason": "\"No real money. Just real fish violence.\" is a button stepped onto a found joke that is funnier left alone, and it reveals nothing about the players. Prefer the cut with a silence beat. The proposed replacement (\"most honest description of a friendship\") spends the thesis early. If the \"no real money\" clarification is needed for accuracy, put it on screen."
+    },
+    {
+     "id": "B-length",
+     "real": true,
+     "reason": "About 752 words is roughly 5 minutes, clearly under the 6-7 minute target, and Act 3 has the best material with the least room. One caution on the fix: do not re-run Act 1's group-chat beat (\"bought. Bought. Bought.\"). Start the sequence at launch, with the first ten minutes, the boat gone and the voice chat."
+    },
+    {
+     "id": "C-length",
+     "real": true,
+     "reason": "About 645 words is roughly 4:20, far below the 6-7 minute target. The Act 4 climax is asserted rather than built. A blocker is justified, and the fix (add to Act 4 and to Act 2's invisible-work escalation, no new act) is correctly aimed."
+    },
+    {
+     "id": "C-act4-thin",
+     "real": true,
+     "reason": "The hundred-cat lobby is the script's warmest image and gets one sentence. The proposed three-step escalation (3 a.m. thesis, lunch emails, just typing) is specific and on-voice. However, \"None of them will ever meet\" followed by \"None of them can see each other's work\" doubles the same opener. Also, \"slapping at the same time\" claims synchrony the game does not have, and the original \"tapping together\" is softer and safer.",
+     "better_fix": "\"A hundred taskbars. Somewhere it is 3 a.m. and someone is finishing a thesis. Somewhere it is lunch and someone is pretending to answer emails. Somewhere someone is just... typing. And for a moment, a hundred cats are tapping together.\" Then add a silence beat, then \"None of them can see each other's work...\""
+    },
+    {
+     "id": "C-trivia-dump",
+     "real": true,
+     "reason": "The revenue sentence does not support \"nobody is really watching you\", so it is trivia and should go. The drill reframe goes too far: \"Nobody kept a drill on their screen... And so did everyone else\" implies a causal test the facts do not support.",
+     "better_fix": "Cut the revenue sentence and keep the drill as a plain reveal: \"The very first prototype was not even a cat. It was a drill, digging into a stone. The cat came later.\" Let Act 4 draw the inference."
+    },
+    {
+     "id": "C-forced-joke",
+     "real": true,
+     "reason": "\"So, at its peak, a fan club where maybe half the members were scripts\" is clunky, \"fan club\" is the wrong frame, and \"at its peak\" pulls against the factual note to keep the timing vague. The replacement (\"a cat is slapping a taskbar for nobody at all\") is drier and sets up \"I saw that\" by contrast."
+    },
+    {
+     "id": "C-repeat-payoff",
+     "real": true,
+     "reason": "\"Most of our work disappears the moment it's done\" nearly repeats Act 2's \"Most of what we do on a screen leaves no trace\". The two specific lines after it carry the payoff better on their own, and they follow \"Not for the hats. Not really.\" cleanly. This is a minor fix."
+    },
+    {
+     "id": "C-title-promise",
+     "real": true,
+     "reason": "The title is fine. The real issue is accuracy: about 147,000 is a concurrent count, but \"on an ordinary day... are playing\" implies a daily total. The proposed hook rewrite drops \"a game in which nothing happens\", which is the hook's contradiction.",
+     "better_fix": "\"At any moment on an ordinary day, around a hundred and fifty thousand people are playing a game in which nothing happens.\""
+    }
+   ],
+   "summary": "Of the 22 findings, 18 are real and 4 are not. Not real: A-detour-1, where the reorder would orphan the \\\"what GTA promises\\\" bridge and only the 230M sales line needs to go; A-length, which is within tolerance; B-hook-spends, because the hook needs the slap and Act 3 escalates it; and B-double-payoff, because \\\"same boat\\\" is the actual answer. Several real findings came with fixes that were weaker or self-duplicating, and those got replacement fixes: A-signpost and A-ep002-echo each duplicate the next line, A-repeat-1 invents a weak pope joke, A-act4-generic is clunky and unverified, C-trivia-dump makes an unsupported causal claim about the drill, C-title-promise drops the hook's contradiction, and B-reveal-order uses a fake-naive aside. Severity calibration: A-thread-1 is major rather than a blocker. C-length is a true blocker at about 645 words. B is also short at about 752 words."
+  }
+ },
+ {
+  "dim": "truth",
+  "review": {
+   "per_script": [
+    {
+     "script": "A",
+     "score": 7,
+     "strengths": [
+      "The best opening of the three for recognition: 'A pandemic. A new pope. A total solar eclipse. A congressional hearing about aliens.' followed by 'Before GTA 6.' Only GTA 6 could open this way.",
+      "The payoff image 'We finally get GTA 6. / What we lose... is \"before GTA 6.\"' is a real reframe. It turns the meme from a complaint into something we will miss. It is the strongest closing turn across the three drafts.",
+      "'Maybe because, for a lot of people, it was the longest thing they ever did together.' is a human truth that goes deeper than hype or mechanics.",
+      "The details are specific: the subreddit older than GTA V, the earnings-call weather joke, 'the level of polish you have come to expect and deserve', the father whose newborn is now in high school.",
+      "The CTA ritual is intact, and its personal question ('what game have you been waiting for the longest?') fits the episode."
+     ],
+     "findings": [
+      {
+       "id": "A-thesis-1",
+       "severity": "major",
+       "problem": "The title and the payoff answer different questions. The title promises to explain how the wait became PART OF THE GAME. The payoff answers 'why does the wait matter', with 'it was the longest thing they ever did together'. The 'part of the game' metaphor is never paid off, so the title reads like a hook that never gets cashed.",
+       "quote": "So... why did the wait become part of the game? / Maybe because, for a lot of people, it was the longest thing they ever did together.",
+       "fix": "Tie the answer back to the word 'game': \"So... why did the wait become part of the game? / Because for thirteen years, waiting was the only part of GTA 6 anyone could play. / And it was the only part we all played together.\""
+      },
+      {
+       "id": "A-payoff-2",
+       "severity": "major",
+       "problem": "Act 3 sets up a dramatic meeting ('those two games finally meet', the imagined perfect game against the real one) and then drops it. The very next line changes topic, so the setup is never paid off and reads like a second thesis.",
+       "quote": "Which brings us to the part nobody likes to say out loud. On November 19th, those two games finally meet. / But something else is about to change too.",
+       "fix": "Close the imagined-game thread in one beat before turning: \"On November 19th, those two games finally meet. And the real one will have a price. And queues. And bugs. / But that's not the biggest thing we're about to lose.\""
+      },
+      {
+       "id": "A-question-3",
+       "severity": "major",
+       "problem": "A second question competes with the main one. 'But why this game? People wait for sequels all the time.' opens a separate thread (GTA V's 230 million sales, the 'whole place' promise). That thread explains GTA's size and does not explain why the wait became full. It is the hype/news risk the spine itself warned about.",
+       "quote": "But why this game? People wait for sequels all the time.",
+       "fix": "Turn it into a step toward the thesis instead of a new question: \"And there was always something to wait inside. GTA V never left. Three console generations. Over two hundred and thirty million units. The old city kept the lights on while the new one was being built.\" Then cut 'Not a level. Not a story. A whole place.' or keep only one sentence of it."
+      },
+      {
+       "id": "A-ep002-4",
+       "severity": "major",
+       "problem": "Two lines drift into EP002's thesis (going back, you changed, same game and different person). That repeats the channel's last episode instead of saying something new.",
+       "quote": "The game did not change. Everything around it did. ... The world changed. We changed. And we were still here. Waiting. Together.",
+       "fix": "Cut 'We changed.' The ending becomes: \"It was a way of saying: a lot has happened. And we were still here. Waiting. Together.\" Replace 'The game did not change. Everything around it did.' with something only GTA 6 can say: \"The game never showed up. The baby did.\""
+      },
+      {
+       "id": "A-specific-5",
+       "severity": "major",
+       "problem": "These lines could be moved into an essay about Half-Life 3, Elder Scrolls VI or any monoculture topic. They are generic culture commentary, and 'Almost nothing is shared anymore' sounds bigger than it is.",
+       "quote": "Think about how rare it is now for everyone to wait for the same thing. Everyone has a different feed. A different show. A different algorithm deciding what matters to them. / Almost nothing is shared anymore.",
+       "fix": "Keep it tied to GTA's own recognition anchors: \"Your feed and mine have almost nothing in common. Except one sentence. Somewhere in both of them, someone is saying 'before GTA 6' — and everyone gets it.\""
+      },
+      {
+       "id": "A-specific-6",
+       "severity": "minor",
+       "problem": "The 'imagined perfect game' passage applies to any long-awaited sequel. It needs a GTA-shaped detail.",
+       "quote": "And that version is perfect. It has no bugs. No server queues. No price. It is exactly as big as you need it to be.",
+       "fix": "\"And that version is perfect. Its Vice City has exactly the beach you pictured. The radio station you would never change. No bugs. No queues. No price.\" (Check that the Vice City setting is on the safe list.)"
+      },
+      {
+       "id": "A-grandiose-7",
+       "severity": "minor",
+       "problem": "Pseudo-poetic line: it sounds profound but says nothing new.",
+       "quote": "A future everyone could see from wherever they were standing.",
+       "fix": "Cut it. 'A joke strangers could finish for each other.' already carries the beat, and it is the better line."
+      },
+      {
+       "id": "A-payoff-8",
+       "severity": "minor",
+       "problem": "The payoff depends on a date the script itself says is volatile. If GTA 6 slips again, 'On November 19th, the waiting ends' breaks the ending, which would be a FACTUAL SCRIPT REVIEW on the payoff line.",
+       "quote": "On November 19th, the waiting ends.",
+       "fix": "Use evergreen wording: \"One day soon, the waiting ends.\" Keep the date only in the factual hook line, where a correction is cheap."
+      },
+      {
+       "id": "A-humor-9",
+       "severity": "minor",
+       "problem": "A limp joke that functions as a transition, not a reset.",
+       "quote": "So the wait became a clock. But a clock just runs. Nobody runs a clock for fun.",
+       "fix": "\"So the wait became a clock. But clocks are passive. And nobody waiting for GTA 6 was passive.\""
+      }
+     ]
+    },
+    {
+     "script": "B",
+     "score": 7.5,
+     "strengths": [
+      "The clearest dominant question of the three. Title, hook ('millions of people bought it to do everything else') and payoff all serve 'why buy a fishing game and not fish?'",
+      "The deeper truth goes beyond mechanics and is new for the channel: 'the hard part of seeing your friends is not distance. It is not even time. It is asking. Proposing a plan means admitting you want one.'",
+      "Good distance from EP001 and EP002.",
+      "Specific, deadpan comedy that reveals something: the Steam content warning plus 'No real money. Just real fish violence.', the slap revive line, and 'We named a whole genre after garbage. And then we bought millions of them.'",
+      "The title reframe 'How to Fish sounds like a tutorial... Just not for fishing.' is a payoff only this game can give.",
+      "The CTA is ideal: 'So who would you put in your boat?' plus the intact ritual."
+     ],
+     "findings": [
+      {
+       "id": "B-payoff-1",
+       "severity": "major",
+       "problem": "The payoff is spent early. The thesis (fishing or the game is an excuse to meet) is stated outright three times before the ending: Act 1 ('Nobody says I miss you...'), Act 2 ('The goal is the alibi') and Act 3 ('how a lot of friends say I care about you'). So 'Making up an excuse... to see each other' only summarizes and does not reveal anything.",
+       "quote": "Eight dollars removes the asking. Nobody says \"I miss you.\" Somebody just says \"get the fishing game.\"",
+       "fix": "Keep 'Eight dollars removes the asking.' in Act 1 and move the 'I miss you' line to the ending: \"How to Fish sounds like a tutorial. And maybe it is. / Just not for fishing. / It teaches the thing adults are worst at. / How to say 'I miss you'... / without ever having to say it.\" Also soften the Act 3 echo to \"Which, if we are honest, is roughly how friends say a lot of things.\""
+      },
+      {
+       "id": "B-cliche-2",
+       "severity": "major",
+       "problem": "The answer to the title is the most worn formula in essay writing ('it was never about the X'). It sits right where the strongest line should go.",
+       "quote": "Because fishing was never really about the fish. / It was about having a reason to sit in the same boat.",
+       "fix": "\"Because nobody in that boat came for the fish. / The fish was just the thing you could say out loud.\""
+      },
+      {
+       "id": "B-specific-3",
+       "severity": "major",
+       "problem": "Act 3 and Act 4 drift into generic friendslop and co-op logic that fits Lethal Company, PEAK or R.E.P.O. unchanged. The fishing-as-alibi idea, the episode's unique angle, disappears from these sections.",
+       "quote": "Winning alone gives you a score. Failing together gives you a story. And stories are what friends keep. Nobody retells the time everything went perfectly.",
+       "fix": "Anchor it in the boat: \"Nobody retells the day they caught a good fish. They retell the day the boat sank, someone gambled the savings, and the only way to save Marcus was a slap.\""
+      },
+      {
+       "id": "B-act4-4",
+       "severity": "major",
+       "problem": "Act 4 opens on a defensive review roundup ('Some players say... Some say... Some wonder...'). That is a news-video detour. Its reply ('Some games just need to get four people in the same place on a Tuesday night') is generic and could be about any party game.",
+       "quote": "Which raises a fair question. Some players say it is short. Some say it is fine alone, just better with friends. Some wonder if it is simply this year's summer hit",
+       "fix": "Compress it to one line that ties back to fishing: \"Some say it's short. Maybe it's this year's summer hit. / But nobody judges a fishing trip by how long the lake lasts.\""
+      },
+      {
+       "id": "B-specific-5",
+       "severity": "minor",
+       "problem": "The core historical claim is hedged and vague ('For a very long time'), so the oldest-excuse thesis sounds asserted, not felt.",
+       "quote": "For a very long time, people have gone fishing without catching much.",
+       "fix": "Use a recognizable image: \"Ask anyone who went fishing with their dad what they caught. Most don't remember. They remember the boat.\""
+      },
+      {
+       "id": "B-title-6",
+       "severity": "minor",
+       "problem": "The recommended title leaves out the game name. That hurts search on a breakout hit, and it puts the whole contract on a slightly clunky '...to Not Fish?'",
+       "quote": "Why Did Millions Buy a Fishing Game... to Not Fish?",
+       "fix": "\"How to Fish: Why Millions Bought a Fishing Game to Not Fish\". Or keep it and lean on the thumbnail text '0 FISH', which is strong."
+      }
+     ]
+    },
+    {
+     "script": "C",
+     "score": 5.5,
+     "strengths": [
+      "A genuinely strange 'why' with sharp comedy that reveals the subject: 'your cat is a small investment portfolio wearing a crown', 'Your inbox becomes a slot machine', 'That's it. That's the game.'",
+      "Act 3 tears down the obvious answer well ('It does not even know if you are a person' and half the players being bots), which leads to 'nobody is really watching you. So why does it still work?'",
+      "'I saw that.' is a memorable, quiet closing line, and the 'watching' in the title sets it up.",
+      "The CTA is episode-specific ('what game keeps you company?') and the ritual is intact."
+     ],
+     "findings": [
+      {
+       "id": "C-ep001-1",
+       "severity": "blocker",
+       "problem": "The central turn restates EP001's thesis almost word for word ('a world where effort leaves a visible mark'), down to rural work imagery. The payoff ('Nobody notices the paragraph you rewrote four times') is the same 'invisible effort deserves a mark' idea. The channel would be repeating its first episode.",
+       "quote": "Most of what we do on a screen leaves no trace. You can work for eight hours and, at the end of the day, there is nothing to point at. No pile of wood. No clean floor.",
+       "fix": "Move the thesis from 'my work is seen' to 'I am not alone while I do it'. The script already reaches for this with the lobby. Rewrite the turn: \"Most screen work isn't just invisible. It's lonely. Eight hours, one window, nobody else in the room.\" Then rewrite the payoff around presence: \"Not applause. Just something in the room that moves when you do.\""
+      },
+      {
+       "id": "C-payoff-2",
+       "severity": "major",
+       "problem": "Two answers compete in the ending: the witness/acknowledgment idea ('I saw that') and company/presence (the hundred-cat lobby, 'someone, somewhere, is also still going'). The payoff picks the EP001-adjacent one and leaves the lobby, the more original idea, as an orphaned Act 4.",
+       "quote": "None of them can see each other's work. But all of them can see that someone, somewhere, is also still going.",
+       "fix": "Make the lobby the final image and let 'I saw that' close it: \"A hundred cats. A hundred desks. Nobody can see anybody's work. / But every paw that moves says the same thing. / Someone else is still here.\" If you keep 'I saw that', make it a callback rather than the thesis."
+      },
+      {
+       "id": "C-specific-3",
+       "severity": "major",
+       "problem": "The key 'why it works' line and the payoff lines fit lo-fi study streams, desktop pets, Tamagotchi or 'study with me' videos unchanged.",
+       "quote": "Maybe because it does not need to be real company to feel like company. ... Nobody claps when you send an email.",
+       "fix": "Tie it to the slap, which only Bongo Cat has: \"It doesn't need to be real company. It only needs to slap the taskbar at the exact moment you hit Send.\""
+      },
+      {
+       "id": "C-thin-4",
+       "severity": "major",
+       "problem": "At about 645 narration words (roughly 4.5 minutes) the emotional arc is too thin. Act 2 has one recognition beat (the angry email), Act 4 has one image, and the deeper truth is asserted, never felt.",
+       "quote": "Type slowly, and it taps along. Write an angry email, and you look down to find the cat absolutely losing its mind on your behalf.",
+       "fix": "Add escalating recognition beats from the spine's own anchors before the turn, for example: \"At 2 a.m., the only thing still moving in the house is a paw.\" or \"You stop typing to think. The cat stops too. Like it's thinking with you.\""
+      },
+      {
+       "id": "C-detour-5",
+       "severity": "minor",
+       "problem": "The revenue figure is a news detour. It does not advance 'nobody is watching you'; it moves the focus to the developer's finances.",
+       "quote": "The developer said it was never meant to make money, and reported earning only a few thousand dollars a month.",
+       "fix": "Cut it, or make it serve the thesis: \"It wasn't even designed to be a friend. It began as a drill digging into a stone.\" Then go straight to 'By any reasonable measure, nobody is really watching you.'"
+      },
+      {
+       "id": "C-grandiose-6",
+       "severity": "minor",
+       "problem": "The stacked negations near the end sound portentous and slow the landing.",
+       "quote": "And maybe that's all some of us wanted. Not applause. Not a reward.",
+       "fix": "\"And maybe that's enough.\""
+      }
+     ]
+    }
+   ],
+   "ranking": [
+    "B: one clean dominant question, a new human truth (adults can't ask) far from EP001/EP002, and the most game-specific comedy, but the payoff is spent three times before the ending and resolves on a cliche.",
+    "A: the most specific hook and the most powerful reframe ('what we lose is before GTA 6'), but the title promise is not paid off, a second question ('why this game?') competes, the imagined-game thread is dropped, and the ending drifts into EP002's 'we changed'.",
+    "C: charming and well-built comedy, but its central thesis restates EP001's 'effort leaves a visible mark', its emotional lines are swappable onto any companion app, and at ~645 words it is too thin to earn its payoff."
+   ]
+  },
+  "verdict": {
+   "judged": [
+    {
+     "id": "A-thesis-1",
+     "real": true,
+     "reason": "The title asks how the wait became 'part of the game', and the payoff never uses that idea. The proposed line cashes in the title cleanly, and 'only part anyone could play' is new information, not a restatement. It also replaces 'Maybe because, for a lot of people', which is softer."
+    },
+    {
+     "id": "A-payoff-2",
+     "real": true,
+     "reason": "'those two games finally meet' builds tension, and the next line drops it. One closing beat is needed. The fix repeats the 'no price, no queues, no bugs' list from three lines earlier, so it is weaker than it should be.",
+     "better_fix": "Close the thread with a contrast instead of repeating the list: \"On November 19th, those two games finally meet. And only one of them has ever been perfect. / But that's not the biggest thing we're about to lose.\""
+    },
+    {
+     "id": "A-question-3",
+     "real": false,
+     "reason": "'But why this game? People wait for sequels all the time' is the objection a viewer would actually raise, so answering it earns credibility. The 'A whole place' passage is the bridge into Act 3 ('nobody actually knows what that place is like'). Cutting it, as the fix suggests, breaks that bridge. At most, tighten the 230-million sentence."
+    },
+    {
+     "id": "A-ep002-4",
+     "real": true,
+     "reason": "I checked EP002's text. Its thesis is that going back is how 'you measure how much you changed'. 'We changed' repeats that directly. Cutting 'We changed.' is right. The proposed replacement, 'The game never showed up. The baby did.', is factually odd: the baby arrived in 2013, near GTA V, not instead of GTA 6.",
+     "better_fix": "Cut 'We changed.' Replace 'The game did not change. Everything around it did.' with \"The game stayed two trailers. The baby got to high school.\""
+    },
+    {
+     "id": "A-specific-5",
+     "real": true,
+     "reason": "'Almost nothing is shared anymore' is generic monoculture commentary and overstates the point. The fix ties the idea back to the episode's own recognition anchor (the 'before GTA 6' sentence turning up in everyone's feed), which makes it specific and true."
+    },
+    {
+     "id": "A-specific-6",
+     "real": false,
+     "reason": "This is a preference. The passage already reads as GTA-specific in context, and 'It is exactly as big as you need it to be' is a strong line that the fix drops. The Vice City detail also brings in a fact that has not been verified."
+    },
+    {
+     "id": "A-grandiose-7",
+     "real": true,
+     "reason": "'A future everyone could see from wherever they were standing' is padding after the stronger 'A joke strangers could finish for each other.' Cutting it tightens the beat with nothing lost."
+    },
+    {
+     "id": "A-payoff-8",
+     "real": false,
+     "reason": "Date volatility is already handled by the factual-lock recheck. 'One day soon, the waiting ends' is vague and weaker than the concrete date, and it softens the payoff. If the date slips, the line gets updated in review."
+    },
+    {
+     "id": "A-humor-9",
+     "real": false,
+     "reason": "'Nobody runs a clock for fun' sets up 'Waiting was the hobby' through the word 'fun'. The proposed fix duplicates the next line ('People were not sitting still'). This is taste, and the fix is not better."
+    },
+    {
+     "id": "B-payoff-1",
+     "real": true,
+     "reason": "Before the ending, the thesis is stated outright in Act 1 ('Nobody says I miss you'), in Act 2 ('The goal is the alibi') and in Act 3 ('I care about you'), so 'Making up an excuse... to see each other' only summarizes. Saving 'I miss you' for the final reveal gives the ending something it has not already said, and 'without ever having to say it' echoes Act 2's 'A reason nobody has to say out loud'."
+    },
+    {
+     "id": "B-cliche-2",
+     "real": true,
+     "reason": "'fishing was never really about the fish' is the most worn essay formula there is, and it sits on the line that answers the title. Script A repeats it ('was never really about a game'). The fix reuses the episode's own 'say out loud' motif, so it is more specific, not just different."
+    },
+    {
+     "id": "B-specific-3",
+     "real": true,
+     "reason": "'Winning alone gives you a score. Failing together gives you a story. And stories are what friends keep.' fits any co-op game. The original already ends with the anchored 'They retell the time the boat disappeared', so the simplest fix is a cut. The proposed fix invents a named character ('Marcus') nobody has met.",
+     "better_fix": "Cut the first three sentences and keep: \"Nobody retells the time everything went perfectly. They retell the time the boat sank, someone gambled the savings, and the only way to save your best friend was a slap.\""
+    },
+    {
+     "id": "B-act4-4",
+     "real": true,
+     "reason": "The three-part 'Some players say...' roundup is a review detour. Compressing it is right. But 'four people in the same place on a Tuesday night' is a specific, recognizable image and should stay.",
+     "better_fix": "\"Some say it's short. Maybe it's just this year's summer hit. / But nobody judges a fishing trip by how long the lake lasts. / Some games just need to get four people in the same boat on a Tuesday night.\""
+    },
+    {
+     "id": "B-specific-5",
+     "real": true,
+     "reason": "'For a very long time, people have gone fishing without catching much' is the factual basis of the oldest-excuse thesis, and it is hedged mush. A remembered image works better. Keep it to friends or family generally so it does not drift into a parent theme.",
+     "better_fix": "\"Ask anyone what they caught on their last fishing trip. Most don't remember. They remember who was in the boat.\""
+    },
+    {
+     "id": "B-title-6",
+     "real": false,
+     "reason": "The protocol (Handoff 4.3, Takeover 'curiosity contract') does not require the game's name in the title. The spine leaves it out on purpose and puts it on screen, in the description and in the tags. This is a search-strategy preference, and the reviewer's own fallback ('keep it') admits as much."
+    },
+    {
+     "id": "C-ep001-1",
+     "real": true,
+     "reason": "The spine itself names 'too close to EP001 (effort leaves a visible mark)' as the risk, and 'No pile of wood. No clean floor' with 'Nobody notices the paragraph you rewrote four times' walks straight into it. Moving the thesis to presence, the lobby idea the script already has, is the right repair."
+    },
+    {
+     "id": "C-payoff-2",
+     "real": true,
+     "reason": "The witness answer and the presence answer compete, and the lobby is left orphaned. But the proposed ending drops 'I saw that', which pays off the title ('Watching Them Type') and the spine's payoff. Keep it as the last line, reframed through presence.",
+     "better_fix": "After the lobby: \"Nobody can see anybody's work. But every paw that moves says the same thing: someone else is still here. / And at the bottom of your screen, a small paw that says... / I saw that.\" Cut 'Most of our work disappears... rewrote four times.'"
+    },
+    {
+     "id": "C-specific-3",
+     "real": true,
+     "reason": "'it does not need to be real company to feel like company' fits any lo-fi stream or desktop pet. Tying the line to the taskbar slap at the moment you hit Send makes it something only Bongo Cat could say."
+    },
+    {
+     "id": "C-thin-4",
+     "real": true,
+     "reason": "I counted 645 narration words, against a target of about 900-1000. The arc has one recognition beat per act, so the deeper truth is asserted, never felt. The proposed beats (2 a.m., the cat pausing while you think) come from the spine's anchors and add feeling without adding thesis. Note that B is also short, at 752 words."
+    },
+    {
+     "id": "C-detour-5",
+     "real": true,
+     "reason": "'reported earning only a few thousand dollars a month' moves the focus to the developer's income and does nothing for 'nobody is really watching you'. It is minor. Because the script is already short, cut only that sentence and keep the drill prototype, which does serve the 'not designed as a companion' point."
+    },
+    {
+     "id": "C-grandiose-6",
+     "real": false,
+     "reason": "'Not applause. Not a reward. / Just a small paw...' is a rhythmic setup that the 'Just' completes. 'And maybe that's enough.' breaks that construction and weakens the landing line. If anything changes, cut 'all some of us wanted' to 'maybe that's what we wanted', not the triad."
+    }
+   ],
+   "summary": "14 of 21 findings hold up. All 6 of C's are real except C-grandiose-6; that includes the blocker C-ep001-1, which repeats EP001 (the spine itself flags the risk), and C-thin-4, since the count is 645 words. All of B's hold except B-title-6, which is a search preference the protocol does not require. In A, the title-payoff gap, the 'We changed' echo of EP002 (confirmed against timings.json) and the generic monoculture lines are real. A-question-3, A-specific-6, A-payoff-8 and A-humor-9 are rejected as taste, or their fixes are weaker than the original or would cut the 'A whole place' bridge into Act 3. Several fixes needed correcting: A-payoff-2 repeats an earlier list; A-ep002-4 introduces a factually odd line ('The baby did'); B-specific-3 invents 'Marcus'; B-act4-4 drops the strong Tuesday-night image; C-payoff-2 drops 'I saw that', which pays off the title. Also: B's narration is 752 words, short of the ~900-1000 target, and the reviewer missed it. Sources read: /home/user/chatgpt-skills/secondquest/docs/ep003/scripts/{A_GTA6,B_HowToFish,C_BongoCat}.md and /home/user/chatgpt-skills/secondquest/episodes/ep002/timings.json."
+  }
+ },
+ {
+  "dim": "facts",
+  "review": {
+   "per_script": [
+    {
+     "script": "A",
+     "score": 4.5,
+     "strengths": [
+      "Core anchors are on the safe list: Nov 19 2026 as 'scheduled for', 13 years, Guinness 90M, r/GTA6 created 2012, the 230M figure, the aliens TikTok and the Aftermath anecdote.",
+      "Correctly avoids Trailer 2's 475M, pre-order prices, the Concord and White House items, the psychology paper, and the Zelnick paraphrase.",
+      "The thumbnail uses no game logo or art, which matches the IP risk note."
+     ],
+     "findings": [
+      {
+       "id": "A-fact-1",
+       "severity": "blocker",
+       "quote": "And around a million people still check a forum about it every single day... for a game none of them has played.",
+       "problem": "The dossier supports about 949,000 members and about 25,000 online in June 2026, and says r/GTA6 'members use flairs'. It does not support a million people checking every day. Members is not daily visitors, and the figure is stale. This is a hard false claim on air.",
+       "fix": "\"And a forum about it has close to a million members... for a game none of them has played.\" Recheck the member count the week of recording."
+      },
+      {
+       "id": "A-fact-2",
+       "severity": "blocker",
+       "quote": "Fans learned to read Take-Two's earnings calls the way farmers read the sky. Because that is where the delays arrived. Each one politely explained that the extra time would bring \"the level of polish you have come to expect and deserve.\"",
+       "problem": "The quote is verified only for the Nov 6, 2025 announcement, which coincided with the earnings report. 'Each one' is unsupported, since the earlier delay is not in the dossier. 'That is where the delays arrived' is also unverified for every delay, and the dossier says to attribute the quote to Rockstar's statement.",
+       "fix": "\"Fans learned to read Take-Two's earnings calls the way farmers read the sky. The last delay landed on earnings day, in a sentence promising 'the level of polish you have come to expect and deserve.'\""
+      },
+      {
+       "id": "A-fact-3",
+       "severity": "blocker",
+       "quote": "On November 19th, the waiting ends.\n\nWe finally get GTA 6.\n\nWhat we lose... is \"before GTA 6.\"",
+       "problem": "The payoff states the date and the release as fact. The do_not_say list forbids saying the date is final or the game is out until rechecked on Rockstar Newswire in publish week. The episode lands within days of launch, and the dossier says to write it so it works whether or not the game is out. 'The waiting ends' is also false if the date slips again. Line 98, 'On November 19th, those two games finally meet', has the same problem.",
+       "fix": "Make the ending conditional: \"If November 19th holds, the waiting ends. We get GTA 6. What we lose... is 'before GTA 6.'\" Prepare a post-launch variant labelled FACTUAL SCRIPT REVIEW, and change line 98 to \"On the scheduled day, those two games finally meet.\""
+      },
+      {
+       "id": "A-fact-4",
+       "severity": "blocker",
+       "quote": "In that time, Rockstar has released exactly two trailers.",
+       "problem": "'Exactly two' is a count that can be false by publication. Trailer 3 rumours were rated unverifiable, and a launch-month trailer is plausible. The whole 'only two trailers' spine (lines 70, 90) rests on it.",
+       "fix": "\"In that time, Rockstar has shown the world two trailers.\" Add 'so far' only if verified on Newswire in publish week, and tag the line RECHECK. Line 90 becomes \"Because with so few trailers, nobody actually knows...\""
+      },
+      {
+       "id": "A-fact-5",
+       "severity": "major",
+       "quote": "There is even a subreddit for GTA 6 that was created in 2012. A year before GTA V existed. Which means its members have been waiting for the sequel for longer than the previous game has been alive.",
+       "problem": "Two errors. First, GTA V was announced in 2011 and was in development, so 'existed' is false; the safe wording is 'more than a year before GTA V came out'. Second, the 'which means' inference does not follow. Today's members did not all join in 2012, and the sub is only about one year older than GTA V.",
+       "fix": "\"There is even a subreddit for GTA 6 created in September 2012. More than a year before GTA V came out. The sequel's fan page is older than the game it follows.\""
+      },
+      {
+       "id": "A-fact-6",
+       "severity": "major",
+       "quote": "One writer pointed out that it was released six months after his son was born. By the time GTA VI was delayed again, that baby was in high school.",
+       "problem": "The safe list says only that the writer 'is now in high school' in the Sept 2025-era post. 'By the time GTA VI was delayed again' invents a timeline, since the post predates the Nov 2025 delay. The arithmetic is also odd: a baby born in about March 2013 is about 12 in Sept 2025, which is not high school in most readings. The original wording needs re-opening, as the byline and attribution are already flagged.",
+       "fix": "Re-open the Aftermath post, then use only its words: \"One writer noted that GTA V came out six months after his son was born. Today, he says, that kid is [exact wording from the post].\" If it says 'about to start', say that."
+      },
+      {
+       "id": "A-fact-7",
+       "severity": "major",
+       "quote": "In July 2023, the day after a hearing about unidentified flying objects, a TikTok said:",
+       "problem": "The safe list gives July 27, 2023 and the post-hearing context. The checker states that 'day after the hearing' is NOT confirmed by KYM. It is a precise claim with no verified source.",
+       "fix": "\"In July 2023, right after a congressional hearing about unidentified flying objects, a TikTok said: ...\""
+      },
+      {
+       "id": "A-fact-8",
+       "severity": "major",
+       "quote": "In twenty-four hours, it reached ninety million views on YouTube. A world record.",
+       "problem": "The Guinness record is narrower: most-viewed videogame reveal in 24 hours, and most-viewed non-music video in 24 hours. BTS Butter holds the overall record, so a bare 'world record' can be fact-checked against it. Separately, the 475M claim for Trailer 2 is correctly absent, but the line implies Trailer 1 is the biggest, which leaves viewers open to the 475M counterpoint.",
+       "fix": "\"In twenty-four hours, it passed ninety million views on YouTube. A Guinness record for a videogame reveal.\""
+      },
+      {
+       "id": "A-fact-9",
+       "severity": "major",
+       "quote": "Part of the answer is that GTA V never left. ... People bought it on one machine, then the next, then the next. The old game kept the light on while the new one was being built.",
+       "problem": "The 230M figure is Take-Two sell-in 'across three console generations'. That does not show the same people re-bought it on each machine. 'Sold' must read as units sold in, not players. The 'kept the light on' causal claim is the script's own interpretation.",
+       "fix": "\"Take-Two says GTA V has sold in over two hundred and thirty million units, across three generations of consoles. The old game kept coming back on newer machines while the new one was being built.\""
+      },
+      {
+       "id": "A-fact-10",
+       "severity": "minor",
+       "quote": "Busy watching two trailers. Not twice. Hundreds of times. Frame by frame. Zooming into a billboard in the background. Building theories out of a reflection in a car window.",
+       "problem": "The dossier supports frame-by-frame analysis and rewatching, but 'hundreds of times', the billboard and the car-window reflection are not in the safe list. The billboard and reflection need a source, and showing them risks reproducing trailer frames.",
+       "fix": "\"Busy watching two trailers. Not twice. Over and over. Frame by frame. Pausing on every detail in the background.\" Add a specific detail only if sourced, and draw the visuals in our own style (see the IP note)."
+      },
+      {
+       "id": "A-fact-11",
+       "severity": "minor",
+       "quote": "Since 2013, the world has had a pandemic. A new pope. A total solar eclipse.",
+       "problem": "The pope, the pandemic and the eclipse are meme anchors, but the dossier marks Pope Leo XIV and the White House post as unverifiable. Pope Francis was also elected in March 2013, so 'since 2013 ... a new pope' is ambiguous. The eclipse needs a one-line source.",
+       "fix": "Keep the list, but source the eclipse (April 2024) and the pope in the lock notes. If unsure, replace the pope with a verified item, e.g. \"A pandemic. A total solar eclipse. A congressional hearing about aliens.\""
+      },
+      {
+       "id": "A-fact-12",
+       "severity": "minor",
+       "quote": "But for thirteen years, almost everyone who plays games, and plenty who do not, agreed on one thing about the future.",
+       "problem": "'Almost everyone who plays games' is an unsourced sweeping claim. It is the thesis, but it reads as a fact.",
+       "fix": "\"But for thirteen years, an enormous number of people, gamers and plenty of non-gamers, shared one picture of the future.\""
+      },
+      {
+       "id": "A-pack-1",
+       "severity": "major",
+       "quote": "Title: GTA 6: Why the Wait Became Part of the Game; Hook line: \"Why?\" after \"But for millions of people, this wait was never empty.\"",
+       "problem": "The title promises 'part of the game' but the script asks a different early question: why was the wait never empty? The title's own phrasing first appears on air only in the closing section, \"So... why did the wait become part of the game?\" The curiosity contract is not delivered early, and the viewer has no stake in the 'part of the game' framing until minute 6. 'The Game' is also loose, since the game does not exist yet.",
+       "fix": "Make the hook's final question the title's: \"But for millions of people, this wait was never empty. It had become part of the game itself. Why?\" Or change the title to \"GTA 6: Why Did the Wait Become the Best Part?\", which echoes the hobby and shared-place beats."
+      },
+      {
+       "id": "A-ip-1",
+       "severity": "minor",
+       "quote": "Thumbnail: ... wall calendar covered in thirteen years of red crosses ... Text: 13 YEARS (variants: STILL WAITING / BEFORE GTA 6) ... Visual beats: two trailers frame by frame, billboard, car-window reflection, Trailer 1 'ninety million'",
+       "problem": "The thumbnail is clean (no logo, no art). The risk is in the visual beats for lines 70-72: the IP note forbids trailer footage, logos, and Vice City, Lucia and Jason art, and the Tom Petty track. 'Before GTA 6' as thumbnail text is fine as nominative use, but the stylised logo is not.",
+       "fix": "Add to the lock notes: no trailer frames, no stylised logo, no real-person likenesses (e.g. the pope). Use generic analogues drawn in our style for the billboard and the reflection."
+      }
+     ]
+    },
+    {
+     "script": "B",
+     "score": 6.5,
+     "strengths": [
+      "Best fact discipline of the three. The Steam content descriptor is verbatim, with the 'No real money' follow-up. The 200,000 goal, the $7.99 price and the Gothenburg high-school origin are on the safe list. It avoids Gallup, Peak comparisons, the reviewer paraphrase quote, the 1M-in-2-days claim and the 5-6 hours.",
+      "The title contradiction ('fishing game ... not fish') lands in the first 30 seconds of narration, and the payoff \"Fishing was never really about the fish\" echoes it directly.",
+      "The factual notes section already flags the Alinea attribution and the 'recheck' items."
+     ],
+     "findings": [
+      {
+       "id": "B-fact-1",
+       "severity": "blocker",
+       "quote": "One analytics firm now estimates it has sold more than ten million.\n\nAnd if you watch people play it... almost nobody is fishing.",
+       "problem": "The Alinea estimate is a single third-party figure and must carry 'by early October' (stated in the script's own factual notes), but the narration says 'now', which will age badly. 'Almost nobody is fishing' is not a researched fact. The dossier calls 'fishing as alibi' interpretation, and the game's progression is built on selling catches. The line is a factual claim about player behaviour stated as observed.",
+       "fix": "\"By early October, the analytics firm Alinea estimated more than ten million copies. And in the clips, the fishing seems to be the least of it.\" The next paragraph can keep the slapping, gambling and sniper beats, which are sourced."
+      },
+      {
+       "id": "B-fact-2",
+       "severity": "major",
+       "quote": "In August 2026, two friends from a high school in Sweden released a game called How to Fish.",
+       "problem": "The do_not_say list: do not say the team is only two people; say two founders plus outside sound and music help. 'Two friends from a high school' also reads as currently students. The studio, Dazed Games, was founded in 2024, and they met at a Gothenburg high school. Line 104, \"It was made by two friends who met in high school\", repeats the problem.",
+       "fix": "\"In August 2026, a small Swedish studio, founded by two friends who met in high school, released a game called How to Fish.\" Line 104: \"It was founded by two friends who met in high school.\""
+      },
+      {
+       "id": "B-fact-3",
+       "severity": "major",
+       "quote": "The game's own content warning on Steam reads, word for word: \"cartoon violence towards fish and gambling with fish.\"",
+       "problem": "It is a developer-written content descriptor on the Steam page, not a platform content warning. Content Warning is also the name of a different co-op game in this same genre, so this invites confusion. The safe-list string includes '(no real money)', and the quote drops the parenthetical, then the next line says it anyway, so 'word for word' is acceptable only if the parenthetical is delivered in order.",
+       "fix": "\"The developers' own content descriptor on Steam reads, word for word: 'cartoon violence towards fish and gambling with fish.' In parentheses: 'no real money.'\" Then keep \"Just real fish violence.\""
+      },
+      {
+       "id": "B-fact-4",
+       "severity": "major",
+       "quote": "We named a whole genre after garbage. And then we bought millions of them.",
+       "problem": "The dossier says friendslop is a half-joking, half-dismissive label, its origin is disputed, and Castello argued it is not a real genre. 'Bought millions of them' implies millions of games in the genre, which rests on the unverified claim that Peak passed 10M (do_not_say). The only verified number is Alinea's estimate for this one game.",
+       "fix": "\"The internet even invented a name for games like this. Friendslop. Half a joke, half an insult. And this one, by one estimate, sold more than ten million.\""
+      },
+      {
+       "id": "B-fact-5",
+       "severity": "major",
+       "quote": "Some games just need to get four people in the same place on a Tuesday night.",
+       "problem": "The Steam page says one to four players, but a patch (1.0.4) raised lobbies to eight, and the dossier says to avoid stating the cap as fixed. The thumbnail has Quest plus three friends, which is four. Narration should not fix the number.",
+       "fix": "\"Some games just need to get a few friends into the same place on a Tuesday night.\" Keep the thumbnail at four, since it is an illustration, not a claim."
+      },
+      {
+       "id": "B-fact-6",
+       "severity": "major",
+       "quote": "They are slapping each other in the face. Gambling the fish money. Shooting seagulls with a sniper rifle. Losing the boat.",
+       "problem": "The slap revive, gambling and sniper-and-seagull trick shots are sourced (GamingOnLinux, GameRant). 'Losing the boat' comes only from the unverified reviewer paraphrase ('nobody knows where the boat is') and from the GameRant 'boat's savings' anchor, which is about money. It is repeated as a recurring joke (\"the time the boat disappeared\", line 92) with no verified source.",
+       "fix": "Replace the sourced-only items: \"Slapping each other in the face. Gambling the fish money. Shooting at seagulls with a sniper rifle. Arguing about where all the money went.\" Line 92: \"They retell the time somebody gambled away the savings.\""
+      },
+      {
+       "id": "B-fact-7",
+       "severity": "minor",
+       "quote": "And that might be the most fitting thing about How to Fish... Their first paid game had not done well. So they made a small game about friends doing something silly together.",
+       "problem": "The previous game sold below expectations (safe list), but the pivot date and cause are not verified in this pass. 'So they made' presents a causal chain as fact. 'Millions of people answered the same group chat' is rhetoric on top of an estimated number.",
+       "fix": "\"Their previous paid game, Out of Hand: Deluxe, sold well below what they hoped. Then they made a small game about friends doing something silly together. And by one estimate, millions of people answered the group chat.\""
+      },
+      {
+       "id": "B-fact-8",
+       "severity": "minor",
+       "quote": "Everyone in the boat needs their own copy.",
+       "problem": "The notes say to recheck on the Steam page; the dossier source is the 'each player needs own copy' anchor. The social mechanism rests on it, so if a Friend Pass exists it is false.",
+       "fix": "Verify on the Steam page at lock. If it holds, keep it; if not, say \"Everyone in the boat has to buy in.\""
+      },
+      {
+       "id": "B-fact-9",
+       "severity": "minor",
+       "quote": "Some players say it is short. Some say it is fine alone, just better with friends. Some wonder if it is simply this year's summer hit, and that next year everyone will have moved to the next boat.",
+       "problem": "The paraphrase of reviews and forum posts is supported for 'short but solid' and 'fine alone' (forum, review), and Player.One raises the 'summer hit' question. These should be attributed as 'reviews' and 'one outlet', and the three lines contradict friendslop being 'only with friends' two paragraphs earlier ('games you only play with friends').",
+       "fix": "Change the friendslop gloss to \"Cheap, chaotic co-op games built for playing with friends.\" Then: \"Reviews say it is short, and fine alone. One outlet asked whether it is just this summer's hit.\""
+      },
+      {
+       "id": "B-pack-1",
+       "severity": "major",
+       "quote": "Title: Why Did Millions Buy a Fishing Game... to Not Fish?  Thumbnail text: 0 FISH",
+       "problem": "Title and thumbnail promise a literal contradiction ('to not fish', '0 FISH'). The video delivers a softer one: fishing is the alibi and the goal stays. Players who know the game will see '0 FISH' as false. 'Millions' rests on Alinea's single-source estimate (developer-announced: about a million players). The game name does not appear in the title, which hurts search. The early promise is delivered (the hook line states the ten-million estimate and 'almost nobody is fishing'), but that line is the one that fails fact-checking.",
+       "fix": "Title: \"Why Did So Many People Buy a Fishing Game... and Not Fish?\" (or add the game name: \"How to Fish: Why Did Millions Buy It... to Not Fish?\" only with 'by one estimate' in the description). Thumbnail: change '0 FISH' to 'NOT FISHING' or 'WHY?!'; both variants are already in the file."
+      },
+      {
+       "id": "B-ip-1",
+       "severity": "minor",
+       "quote": "Thumbnail: Quest and three friends (Pixie + two new recurring friends) crammed into a tiny rowboat ... a single fish at the edge of the frame",
+       "problem": "The art is generic and avoids game art, which is correct. The IP note adds no Steam UI, no Discord UI and no Landfall/Peak look. 'Two new recurring friends' are new canon characters that need a spec and credit approval. The group-chat visuals must use our own generic chat bubbles.",
+       "fix": "Use two generic non-recurring friends in the thumbnail unless the Producer approves new characters. Add to the lock notes: no Steam capsule art or title lettering, no Peak or Lethal Company logos, our own generic chat bubbles."
+      }
+     ]
+    },
+    {
+     "script": "C",
+     "score": 5.5,
+     "strengths": [
+      "Most of the hard facts are verified and attributed: the 1-in-500,000 legendary odds, 'A friend while working hard', the stone-drill prototype, the developer's 'once estimated', and the up-to-100 lobby (Automaton).",
+      "The script already avoids 'admitted', the Marketplace-resale motive, 'friends only' and 'no competition'.",
+      "The thumbnail promises an original cat, never the game's sprite, which is the right IP call."
+     ],
+     "findings": [
+      {
+       "id": "C-fact-1",
+       "severity": "blocker",
+       "quote": "Title: Why Do 150,000 People Keep a Cat Watching Them Type?  Hook: \"around a hundred and fifty thousand people are playing a game in which nothing happens.\"  Thumbnail variant: 150,000 OF US",
+       "problem": "The 147K figure is concurrent Steam players, and the developer estimated about half may be bots (mid-2025, 'we can't know exactly'). The do_not_say list forbids 'hundreds of thousands of people' without qualification. The script itself says later that half the members may be scripts, so the title and hook contradict the body, and the thumbnail variant '150,000 OF US' is worse. SteamCharts moves daily, and a precise '150,000' can be off by publication.",
+       "fix": "Title: \"Why Do So Many Players Keep a Cat Watching Them Type?\" Hook: \"On an ordinary day, well over a hundred thousand accounts are running a game in which nothing happens.\" Delete the 150,000 OF US variant. The bot line then pays off the hook instead of contradicting it."
+      },
+      {
+       "id": "C-fact-2",
+       "severity": "major",
+       "quote": "The developer said it was never meant to make money, and reported earning only a few thousand dollars a month.",
+       "problem": "The revenue figures cover March to June 2025 only (net, about $3,000 a month on average) and are secondhand (WN Hub, Automaton; the Eurogamer original was not opened). The do_not_say list forbids saying the game earns $3K a month today. Stated without a date, the line implies it is current, which is false-sounding for a game at about 150K concurrent.",
+       "fix": "\"In mid-2025, the developer told Eurogamer, as reported by Automaton, that it was making only about three thousand dollars a month, and that it was never meant to make money.\" Or: \"In its first months, it made only a few thousand dollars a month.\""
+      },
+      {
+       "id": "C-fact-3",
+       "severity": "major",
+       "quote": "In the multiplayer version, up to a hundred cats can share one lobby. A hundred taskbars. A hundred people somewhere, each alone at a desk, typing their own emails... and for a moment, tapping together.\n\nNone of them can see each other's work.",
+       "problem": "The safe line is only 'up to 100 players' cats can hit the taskbar together in one lobby' (Aug 11, 2025 update, Automaton). It is an update, not a 'version'. 'A hundred people ... each alone at a desk, typing their own emails' invents the lobby members' situation, and by the script's own bot line some of the hundred may be scripts. 'None of them can see each other's work' is unsourced. Automaton also describes teams, so the lobby is not purely ambient.",
+       "fix": "\"Since August 2025, up to a hundred players' cats can share one lobby. A hundred cats, tapping the taskbar at once. Some of them are probably scripts. But the rest are people, each at their own desk.\" Cut \"None of them can see each other's work.\" or recast it as \"Nobody in the lobby can see what the others are typing.\" after verifying."
+      },
+      {
+       "id": "C-fact-4",
+       "severity": "major",
+       "quote": "So, at its peak, a fan club where maybe half the members were scripts.",
+       "problem": "The estimate is a mid-2025 'about 50% according to us, but we can't know exactly'. 'At its peak' implies the peak was when half were bots, which the dossier does not say, and 'were scripts' is flatter than 'might be'. The do_not_say list also forbids implying it is half today.",
+       "fix": "\"A fan club where, by the developer's own estimate in 2025, maybe half the members were scripts.\""
+      },
+      {
+       "id": "C-fact-5",
+       "severity": "major",
+       "quote": "And the game was not even designed as a companion. It began as an experiment with Steam's item market. The very first prototype was a drill digging into a stone.",
+       "problem": "The safe list: it began around December 2024 as an experiment with Steam's community market, and the first prototype was a drill digging a stone. 'Not even designed as a companion' is the script's inference, and it conflicts with the developer's own 'A friend while working hard' line, which the script has just quoted. The 'strategic success for marketing' note is omitted, which would give a fuller picture.",
+       "fix": "\"And it did not begin as a companion. In late 2024, it was an experiment with Steam's community market. The first prototype was a drill digging into a stone. The cat came later.\""
+      },
+      {
+       "id": "C-fact-6",
+       "severity": "minor",
+       "quote": "And yet people leave it running for hours. Days. Sometimes for most of the time their computer is on.",
+       "problem": "Supported by a secondary writeup (esports.net: 'days or weeks'; review hours that exceed play time) but not checked. 'Most of the time' is a general claim.",
+       "fix": "\"And yet people leave it running for hours. Sometimes for days.\""
+      },
+      {
+       "id": "C-fact-7",
+       "severity": "minor",
+       "quote": "The developer's own store page describes it in five words: \"A friend while working hard.\"",
+       "problem": "Verified quote and word count (the Steam page feature list). The phrase 'describes it' slightly oversells a bullet on the feature list. 'The developer' is Irox Games, which is also the publisher.",
+       "fix": "\"The game's own Steam page calls it, in five words, 'A friend while working hard.'\""
+      },
+      {
+       "id": "C-pack-1",
+       "severity": "major",
+       "quote": "Title: Why Do 150,000 People Keep a Cat Watching Them Type?  (the game is first named on air at: \"Bongo Cat is free.\")",
+       "problem": "The title and the thumbnail do not name the game, and the narration names it only about 45 seconds in. Viewers who searched for 'Bongo Cat' get nothing for 45 seconds. The title's 'watching them' is intentionally ironic (the cat cannot see), and that part is delivered, but the number and 'people' are the problem (C-fact-1). The answer is only fully given in the last minute, which is fine for a contract, as long as the hook shows the cat in the first 5 seconds.",
+       "fix": "Add the game name to the hook: \"A small cat, Bongo Cat, sits at the bottom of your screen.\" Put the game name in the description and tags, and on screen at 0:00."
+      },
+      {
+       "id": "C-ip-1",
+       "severity": "minor",
+       "quote": "Thumbnail: a tiny round cat at the bottom of the screen slapping the taskbar mid-swing ... Our own original cat, never the game's sprite.",
+       "problem": "The IP direction is correct. The risk is how close 'tiny round cat slapping' gets to the 2018 meme's cat-like blob (art by @StrayRogue and @DitzyFlama, licensing to the Steam game unverified) and to the game's sprite, hats and UI. A taskbar mock-up must also avoid Steam UI and the Marketplace UI.",
+       "fix": "Give our cat a deliberately distinct silhouette (a different head shape and colours) and no hats from the game. Add to the lock notes: no game footage or GIF, no Billie Eilish cover, and no Steam UI. Use a generic taskbar."
+      }
+     ]
+    }
+   ],
+   "ranking": [
+    "B: fewest hard problems, since the claims are on the safe list and the main risk is attribution wording ('now', 'two friends', 'almost nobody is fishing') and a literal '0 FISH' thumbnail; all fixable with line edits.",
+    "C: one root blocker (150,000 'people', repeated in the title, hook and thumbnail variant, contradicted by the script's own bot line) plus stale-revenue and multiplayer wording; fixable by changing the title and the hook.",
+    "A: four on-air blockers (the 'million check daily' claim, 'each one' of the delays quoted, the payoff stating the date as fact, and 'exactly two trailers'), a shaky subreddit inference and a title that is only paid off at the end."
+   ]
+  },
+  "verdict": {
+   "judged": [
+    {
+     "id": "A-fact-1",
+     "real": true,
+     "reason": "Dossier supports ~949K members, not a million daily checkers. Factual overreach on air; the fix is also tighter."
+    },
+    {
+     "id": "A-fact-2",
+     "real": true,
+     "reason": "Line 76 says 'where the delays arrived' and 'Each one' quoted; only the Nov 2025 delay is verified. Fix keeps the farmers line and is more accurate."
+    },
+    {
+     "id": "A-fact-3",
+     "real": true,
+     "reason": "Line 116 states the date as fact ('the waiting ends'). Episode lands near launch, so conditional wording is needed. Fix is acceptable but 'If November 19th holds' slightly softens the ending; keep it short and prepare a post-launch variant.",
+     "better_fix": "\"On November 19th, if the date holds, the waiting ends.\" Keep line 98 as 'On the scheduled day...'."
+    },
+    {
+     "id": "A-fact-4",
+     "real": true,
+     "reason": "'Exactly two trailers' (line 44) can be false by publication and anchors the spine. 'Shown the world two trailers' is nearly as punchy; add RECHECK tag."
+    },
+    {
+     "id": "A-fact-5",
+     "real": true,
+     "reason": "Line 64: 'a year before GTA V existed' is false (announced 2011) and the 'which means' inference does not follow. The proposed fix is cleaner."
+    },
+    {
+     "id": "A-fact-6",
+     "real": true,
+     "reason": "Line 60 invents a timeline ('By the time GTA VI was delayed again'). Reopen the post and use its words; fix is sound."
+    },
+    {
+     "id": "A-fact-7",
+     "real": true,
+     "reason": "'The day after a hearing' is explicitly unconfirmed by KYM. 'Right after' costs nothing."
+    },
+    {
+     "id": "A-fact-8",
+     "real": true,
+     "reason": "Bare 'A world record' is checkable against BTS Butter. 'A Guinness record for a videogame reveal' is accurate and loses little punch.",
+     "better_fix": "\"...passed ninety million views on YouTube. A Guinness world record for a game reveal.\""
+    },
+    {
+     "id": "A-fact-9",
+     "real": false,
+     "reason": "Line 86 already says 'Take-Two says it has sold over 230 million units'. The 're-bought on each machine' reading is a mild interpretation; the existing line is fine as voice. Minor tweak at most, not a real defect."
+    },
+    {
+     "id": "A-fact-10",
+     "real": false,
+     "reason": "'Hundreds of times' and billboard/reflection are comedic illustration in a meme-anchored bit, not claims a viewer would fact-check. Replacing with 'Pausing on every detail' flattens a strong, concrete line."
+    },
+    {
+     "id": "A-fact-11",
+     "real": false,
+     "reason": "The list is a safe, widely known set; Pope Francis elected March 2013 makes 'a new pope' literally true. Source in lock notes if desired; no line change needed."
+    },
+    {
+     "id": "A-fact-12",
+     "real": false,
+     "reason": "'Almost everyone who plays games' is the thesis voice, hedged with 'almost'. Proposed rewrite is limper and loses the voice."
+    },
+    {
+     "id": "A-pack-1",
+     "real": true,
+     "reason": "Title promises 'wait became part of the game' but the hook asks a different question; the phrase only appears near the end. Echoing the title in the hook closes the contract cheaply."
+    },
+    {
+     "id": "A-ip-1",
+     "real": false,
+     "reason": "Thumbnail is already clean; the ask is a lock-notes housekeeping item, not an episode-weakening problem and not a fact issue."
+    },
+    {
+     "id": "B-fact-1",
+     "real": true,
+     "reason": "Line 42 'almost nobody is fishing' is unresearched and the hook line; 'now' ages badly for a single-source estimate. Fix is reasonable; keep the punch by retaining the hook beat.",
+     "better_fix": "\"By early October, one analytics firm estimated more than ten million copies. And in the clips, almost nobody seems to be fishing.\""
+    },
+    {
+     "id": "B-fact-2",
+     "real": true,
+     "reason": "do_not_say forbids framing the team as only two people; 'two friends from a high school' also implies students. Founded-by wording fixes it and keeps the human angle."
+    },
+    {
+     "id": "B-fact-3",
+     "real": false,
+     "reason": "The script already delivers the quote verbatim and the 'no real money' follow-up. Reading it as the Steam page descriptor is clear; the 'Content Warning game' confusion is far-fetched. The proposed 'In parentheses' phrasing is clunkier than the original."
+    },
+    {
+     "id": "B-fact-4",
+     "real": true,
+     "reason": "'We bought millions of them' implies millions of friendslop games, resting on the unverified Peak claim. Fix keeps the joke and ties the number to this game."
+    },
+    {
+     "id": "B-fact-5",
+     "real": true,
+     "reason": "Patch raised lobbies to eight; hard 'four people' in narration is a fixable fact risk. 'A few friends' loses almost nothing."
+    },
+    {
+     "id": "B-fact-6",
+     "real": true,
+     "reason": "'Losing the boat' comes only from the unverified paraphrase and is reused as a callback (line 92). Replace both; 'arguing about where the money went' is a fair substitute."
+    },
+    {
+     "id": "B-fact-7",
+     "real": false,
+     "reason": "Causal 'so they made' is soft narrative glue and 'millions answered the group chat' is rhetoric already tied to the estimate earlier. Naming Out of Hand: Deluxe adds clutter. Low value."
+    },
+    {
+     "id": "B-fact-8",
+     "real": false,
+     "reason": "A recheck-at-lock item already flagged in the script's own notes; not a defect in the narration."
+    },
+    {
+     "id": "B-fact-9",
+     "real": true,
+     "reason": "Line 94 'games you only play with friends' contradicts line 98 'fine alone'. The gloss fix is real and cheap. Attribution tweak is optional."
+    },
+    {
+     "id": "B-pack-1",
+     "real": true,
+     "reason": "'0 FISH' and 'to not fish' state a literal contradiction the video softens, and 'millions' rests on one estimate. Using the existing NOT FISHING / WHY?! variant is a free fix."
+    },
+    {
+     "id": "B-ip-1",
+     "real": false,
+     "reason": "Thumbnail art is already generic; new recurring characters and lock-note additions are production housekeeping, not an episode-quality problem."
+    },
+    {
+     "id": "C-fact-1",
+     "real": true,
+     "reason": "Title, hook (line 38) and thumbnail variant claim ~150,000 'people' while line 74 says half may be bots; self-contradiction and a do_not_say violation. Changing to accounts and deleting the variant pays off the bot beat.",
+     "better_fix": "Hook: \"On an ordinary day, well over a hundred thousand accounts are running a game in which nothing happens.\" Title: \"Why Do So Many Players Keep a Cat Watching Them Type?\""
+    },
+    {
+     "id": "C-fact-2",
+     "real": true,
+     "reason": "Line 78 states a few thousand dollars a month undated; the figures are Mar-Jun 2025 and would read as current for a game at 150K concurrent. Dating it fixes it."
+    },
+    {
+     "id": "C-fact-3",
+     "real": true,
+     "reason": "Line 86 invents lobby members' situation ('each alone at a desk, typing their own emails') and 'multiplayer version'. Bot line undercuts it. Fix is accurate; keep the warm payoff."
+    },
+    {
+     "id": "C-fact-4",
+     "real": true,
+     "reason": "Line 76 'at its peak... were scripts' is flatter than the developer's mid-2025 estimate and misplaces the peak. Attribute to the estimate."
+    },
+    {
+     "id": "C-fact-5",
+     "real": false,
+     "reason": "'Not even designed as a companion' is a mild framing consistent with the market-experiment origin; the quoted tagline is marketing copy. Rewrite is a preference, though adding the late-2024 date is harmless."
+    },
+    {
+     "id": "C-fact-6",
+     "real": false,
+     "reason": "'Hours. Days.' is supported; 'most of the time their computer is on' is a recognition-gag beat. Trimming it is taste."
+    },
+    {
+     "id": "C-fact-7",
+     "real": false,
+     "reason": "Quote and word count are verified; 'describes it' vs 'calls it' is a nitpick."
+    },
+    {
+     "id": "C-pack-1",
+     "real": true,
+     "reason": "Game name first appears about 45 seconds in; searchers and viewers get no anchor. Naming the game in the hook is a cheap fix, and also keep it on screen at 0:00."
+    },
+    {
+     "id": "C-ip-1",
+     "real": false,
+     "reason": "Thumbnail already specifies an original cat; a distinct silhouette is a lock-notes production note, not an episode defect."
+    }
+   ],
+   "summary": "Most fact findings that touch on-air narration are real: A-fact-1 to A-fact-8, A-pack-1; B-fact-1, 2, 4, 5, 6, 9 and B-pack-1; C-fact-1 to C-fact-4 and C-pack-1. I rejected pure taste, lock-note housekeeping and items the script already handles (A-fact-9 to A-fact-12, A-ip-1, B-fact-3, B-fact-7, B-fact-8, B-ip-1, C-fact-5 to C-fact-7, C-ip-1). Three fixes need tweaks: A-fact-3 (keep the ending shorter), A-fact-8 (say 'Guinness world record') and B-fact-1 (keep 'almost nobody seems to be fishing' as the hook punch). C-fact-1 is the most important fix, since the title, hook and thumbnail variant contradict the script's own bot line."
+  }
+ }
+]

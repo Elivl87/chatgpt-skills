@@ -1,57 +1,50 @@
 # EP003 · Alternative B · How to Fish — "Nobody Is Fishing"
 
-Status: DRAFT v1 (not locked). Facts: only the "safe to say" list of `docs/ep003/research/02_dossiers_checked.json`.
+Status: DRAFT v2 (not locked) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Producer's note (more EP001-style humor). v1 kept as `B_HowToFish_v1.md`.
 
 ## Creative spine
 - **A. Viewer question:** Why did millions of people buy a cheap game about fishing... and then not fish?
 - **B. Hidden question:** Why do adults need an excuse to spend time with their friends?
-- **C. Surface attraction:** it's cheap, it's chaotic, it's funny, it makes great clips.
-- **D. Deeper desire:** adults don't stop needing friends; they stop having reasons to meet. The game hands them a reason that nobody has to say out loud.
-- **E. Thesis:** How to Fish works because it is the oldest excuse there is. Fishing has always been a way for people to sit together without explaining why. The fish is the alibi.
-- **F. Payoff:** the title was never a tutorial about fishing. It is a tutorial about how to see your friends.
-- **G. Risk:** generic "games bring people together"; a sales-news video; repeating EP001 ("why play a game about a mundane job").
-- **H. Recognition anchors:** the group chat ("it's eight dollars, just get it"), the slap-in-the-face revive, fishing with a sniper rifle, gambling the fish money, losing the boat, the word "friendslop".
-- **I. Humor:** Steam's own content warning, "cartoon violence towards fish and gambling with fish"; a genre named after garbage that sold millions; a goal of 200,000 copies vs an estimated ten million.
-- **J. Why SecondQuest:** an absurd surface ("a fishing game where nobody fishes") hiding a human truth about adult friendship, told with a deadpan smile. It is the channel's question in its purest form.
+- **C. Surface attraction:** it's cheap, chaotic and funny, and it makes great clips.
+- **D. Deeper desire:** adults don't stop needing friends; they stop having ways to ask. A cheap invitation and an activity that fills the silence do the asking for them.
+- **E. Thesis:** How to Fish works because fishing is the oldest excuse there is: it solves how to meet (an eight-dollar yes) and what to do once you're there (look at the water, not at each other). The fish is the alibi.
+- **F. Payoff:** the title is a tutorial after all: not for fishing, but for saying "I miss you" without having to say it.
+- **G. Risk:** generic "games bring people together"; a sales-news video; EP001's "a game about a mundane job".
+- **H. Recognition anchors:** the group chat ("It's eight dollars. Just get it."), the friend who'll "get it later", the slap-in-the-face revive, fishing gear that ends in heavy weapons, gambling the fish money, "friendslop".
+- **I. Humor:** the developers' own description, "cartoon violence towards fish and gambling with fish"; the plan that dies in a chat nobody scrolls back to; a genre named after garbage.
+- **J. Why SecondQuest:** an absurd surface ("a fishing game where nobody fishes") over a human truth about adult friendship, told deadpan.
 
 ## Title (max 3) and thumbnail
-1. **Why Did Millions Buy a Fishing Game... to Not Fish?** ← recommended (49 characters)
+1. **Why Did Millions Buy a Fishing Game... and Not Fish?** ← recommended (52 characters): a contradiction anyone gets in one read, and a question only the essay answers. Game name in the description, tags and on screen at 0:00.
 2. How to Fish: The Game That Isn't About Fishing
 3. Nobody Is Fishing in How to Fish
 
-Why the recommended one: a real contradiction any viewer can understand in one read (fishing game / not fishing), a real number class ("millions"), and a question only the essay answers. The game name stays in the description, tags and on screen at 0:00.
-
-**Thumbnail:** Quest and three friends (Pixie + two new recurring friends) crammed into a tiny rowboat, laughing, one of them holding a fishing rod tangled around everybody; a single fish at the edge of the frame looking at the camera, unimpressed. Text: **0 FISH** (variants: **NOT FISHING** / **WHY?!**). Our own style, no game art. The video opens on that boat in the first 5 seconds.
-
-## Act architecture
-| Act | Purpose | New for the viewer | Curiosity left | Interruption | Emotion |
-|---|---|---|---|---|---|
-| Hook | phenomenon → contradiction → turn → Why? | nobody is fishing | why buy it then? | the sniper rifle | laughter |
-| 1 · Eight dollars is an invitation | the price is a social mechanism | the hard part is asking | why fishing, of all things? | adult calendar gag | recognition |
-| 2 · Fishing is an alibi | the goal exists so nobody has to explain | people have always fished like this | then why abandon the fish so fast? | Steam's content warning | warm surprise |
-| 3 · Failing together | chaos makes stories | slap = care; "friendslop" | is it just a fad? | the slap revive | joy |
-| 4 · One night is enough | a game doesn't need to last | the makers are high-school friends | (resolved) | — | tender |
-| Payoff + CTA | answer + ritual | the title reframed | next quest | — | earned |
+**Thumbnail:** Quest and three friends (Pixie + two friends) crammed into a tiny rowboat, laughing, a fishing rod tangled around everybody; one fish at the edge of the frame staring at the camera, unimpressed. Text: **NOT FISHING** (variants **WHY?!** / **JUST GET IT**). Our own style, no game art. The video opens on that boat.
 
 ## Master script (EN) — narration only
 
-In August 2026, two friends from a high school in Sweden released a game called How to Fish. It cost about eight dollars. Before launch, they hoped it might sell two hundred thousand copies.
+There is a game called How to Fish. A boat. A rod. A lot of fish.
 
-One analytics firm now estimates it has sold more than ten million.
+And almost nobody seems to be fishing.
 
-And if you watch people play it... almost nobody is fishing.
+They are slapping each other in the face. Gambling the fish money. Shooting at seagulls with a sniper rifle.
 
-They are slapping each other in the face. Gambling the fish money. Shooting seagulls with a sniper rifle. Losing the boat.
+It costs about eight dollars. Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million.
 
 The game is called How to Fish. And millions of people bought it to do everything else.
 
+Together.
+
 Why?
 
-Start with the price. Eight dollars is not really a price. It is an invitation.
+Start with the price. Eight dollars is not really a price. It's an invitation.
 
-Because this is not a game you play alone. Everyone in the boat needs their own copy. So it usually begins the same way. A message in a group chat. "It's eight dollars. Just get it."
+Because this is not really a game you play alone. Everyone in the boat buys their own copy. So it usually begins the same way. A message in a group chat. "It's eight dollars. Just get it."
 
-And then, one by one: bought. Bought. Bought.
+And then, one by one: Bought. Bought. Bought.
+
+And one friend who says "I'll get it later." He will not get it later.
 
 Now compare that with the other way adults try to see their friends.
 
@@ -59,72 +52,87 @@ Now compare that with the other way adults try to see their friends.
 "Yes! Definitely."
 "I'm free in three weeks."
 "Three weeks works."
-And three weeks later, somebody's kid is sick.
 
-As an adult, the hard part of seeing your friends is not distance. It is not even time. It is asking. Proposing a plan means admitting you want one.
+And three weeks later, somebody's kid is sick. Somebody's car is making a new noise. And the plan quietly dies in a chat nobody will ever scroll back to.
 
-Eight dollars removes the asking. Nobody says "I miss you." Somebody just says "get the fishing game."
+As an adult, the hard part of seeing your friends is not distance. It isn't even time. It's asking. Proposing a plan means admitting you want one.
+
+Kids never had this problem. A kid just shows up at your door and says: "Want to play?" At some point, we lost that sentence. Nobody ever told us what replaced it.
+
+Eight dollars removes the asking.
 
 But why fishing? Of all the things a game could be about.
 
-Because fishing might be the oldest excuse people have ever had.
+Because fishing solves a second problem. Not how to meet. What to do once you're there.
 
-For a very long time, people have gone fishing without catching much. They sit in a boat. They wait. They talk. Or they don't talk, and that is fine too. The fish gives the afternoon a reason. A reason nobody has to say out loud.
+Ask anyone what they caught on their last fishing trip. Most don't remember. They remember who was in the boat.
+
+In a boat, nobody has to look at each other. Nobody has to fill the silence. You both look at the water. You talk. Or you don't, and that is fine too. The fish gives the afternoon a reason... and the silence a job.
+
+And fishing is not the only alibi adults have invented. The golf course. The poker night. The car that needs one more afternoon in the garage. Nobody in those places is really there for the golf, the cards or the car. Every generation has built its own excuse to sit next to each other.
+
+How to Fish is just the newest one. It fits in a group chat.
 
 How to Fish keeps that reason. There is a boat. There is a rod. There is a goal.
 
 And then it gets rid of it almost immediately.
 
-You begin with simple tools. Soon you have heavy weapons. You sell your catch. You gamble the money. You fight bosses. The game's own content warning on Steam reads, word for word: "cartoon violence towards fish and gambling with fish."
+You begin with simple tools. Soon you have heavy weapons. You sell your catch. You gamble the money. You fight bosses. The developers' own description on Steam reads, word for word: "cartoon violence towards fish and gambling with fish."
 
-No real money. Just real fish violence.
+Which might be the most honest description of a friendship ever written on a store page.
 
 The goal is still there. But the goal is not the point. The goal is the alibi.
 
 And what happens instead of fishing... is mostly failure.
 
-Someone falls overboard. Someone loses the savings. Someone gets launched across the island by something they absolutely should not have poked.
+Someone falls in the water. Someone finds a weapon that was clearly not designed for fish. Someone gambles the savings, and nobody will ever admit who it was. Someone gets launched across the island by something they absolutely should not have poked.
 
-When a teammate goes down, the way you bring them back is by picking them up... and slapping them in the face.
+And when a teammate goes down, the way you bring them back is by picking them up... and slapping them in the face.
 
-Which, if we are honest, is roughly how a lot of friends say "I care about you."
+Which, if we are honest, is roughly how friends say a lot of things.
 
-Winning alone gives you a score. Failing together gives you a story. And stories are what friends keep. Nobody retells the time everything went perfectly. They retell the time the boat disappeared.
+Winning alone gives you a score. Failing together gives you a story. Nobody retells the time everything went perfectly. They retell the time someone gambled away the savings... and the only way to save your best friend was a slap.
 
-The internet even invented a name for games like this. Friendslop. Half a joke, half an insult. Cheap, chaotic games you only play with friends.
+The internet even invented a name for games like this. Friendslop. Half a joke, half an insult. Cheap, chaotic co-op games built for playing with friends.
 
-We named a whole genre after garbage. And then we bought millions of them.
+We named a whole genre after the word for garbage. And this one, by one estimate, sold more than ten million copies.
 
-Which raises a fair question. Some players say it is short. Some say it is fine alone, just better with friends. Some wonder if it is simply this year's summer hit, and that next year everyone will have moved to the next boat.
+Apparently, garbage is a lot more fun when you bring your friends.
 
-Maybe. But maybe that misses what it was for.
+Some say it's short. Maybe it is just this year's summer hit.
 
-Not every game needs to last for years. Some games just need to get four people in the same place on a Tuesday night.
+But nobody judges a fishing trip by how long the lake lasts.
 
-And that might be the most fitting thing about How to Fish. It was made by two friends who met in high school. Their first paid game had not done well. So they made a small game about friends doing something silly together. And millions of people answered the same group chat.
+Some games just need to get a few friends into the same boat on a Tuesday night. The plan was to fish. The plan is always to fish.
+
+And the two friends who founded the studio behind it? They met in high school. Their first paid game had not done well. So they made a small game about friends doing something silly together.
+
+And millions of people answered the same group chat.
 
 So... why did millions of people buy a fishing game and not fish?
 
-Because fishing was never really about the fish.
+Because nobody in that boat came for the fish.
 
-It was about having a reason to sit in the same boat.
+The fish was just the thing you could say out loud.
 
 How to Fish sounds like a tutorial. And maybe it is.
 
 Just not for fishing.
 
-For something most adults forget how to do.
+It teaches the thing adults are worst at.
 
-Making up an excuse... to see each other.
+How to say "I miss you"... without ever having to say it.
 
 So who would you put in your boat? And what game deserves a "why?" next? Tell me in the comments.
 
 Maybe that's our next quest.
 
 ## Factual notes for lock
-- "About eight dollars" (list $7.99), "two friends from a high school in Sweden" (Gothenburg), "hoped... two hundred thousand" (Sweden Game Arena): safe.
-- "One analytics firm now estimates... more than ten million": Alinea, by early October; recheck at lock and say "by early October" in the description.
-- Content warning quote: verbatim from the Steam page (safe list); recheck wording at lock.
-- "Their first paid game had not done well": Out of Hand: Deluxe, summer 2025 (safe list).
-- "Some players say it is short / fine alone": paraphrase of several reviews, no number of hours.
-- "Everyone in the boat needs their own copy": the dossier states it as the social mechanism (anchor); recheck on the Steam page at lock.
+- "About eight dollars" (list $7.99), "hoped... two hundred thousand copies" (Sweden Game Arena), "by early October, one analytics firm estimated more than ten million" (Alinea, Oct 1): recheck at lock.
+- "Shooting at seagulls with a sniper rifle": GameRant trick-shot anchor; recheck wording at lock.
+- "Everyone in the boat buys their own copy": recheck on the Steam page (no Friend Pass).
+- Steam description quote: verbatim from the store page (developer-written descriptor); recheck.
+- "Two friends who founded the studio... met in high school" (Gothenburg); "first paid game had not done well" (Out of Hand: Deluxe, 2025). Never say the team is only two people.
+- "Someone gets launched across the island", "falls in the water": generic chaos imagery; the ragdoll launch is in the dossier anchors (recheck), no specific boss named.
+- No player count fixed in narration ("a few friends"): the lobby cap changed by patch.
+- Visuals: no Steam capsule art, no title lettering, no Peak/Lethal Company look; our own generic chat bubbles.
