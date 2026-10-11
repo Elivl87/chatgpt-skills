@@ -1,0 +1,881 @@
+[
+ {
+  "beat": "youtube",
+  "report": {
+   "candidates": [
+    {
+     "game": "Subway Surfers",
+     "signal": "Its 2012 launch trailer is reported as the most-viewed game trailer on YouTube, about 361M views, ahead of GTA VI. The figure is approximate and comes from a 2025-era article. This is not a fresh spike.",
+     "evidence": [
+      {
+       "claim": "Subway Surfers trailer still has more views than GTA 6; about 361M views per article. Search snippet only, I did not open the page.",
+       "source_url": "https://gamerant.com/subway-surfers-trailer-more-views-grand-theft-auto-6/",
+       "source_date": "2025 (exact date not found)"
+      },
+      {
+       "claim": "Subway Surfers is the most-viewed game trailer on YouTube per the Guinness/WatchMojo-type lists in search results",
+       "source_url": "https://www.watchmojo.com/articles/top-10-most-viewed-video-game-trailers",
+       "source_date": "not found"
+      }
+     ],
+     "why_question": "Why does a 2012 endless runner about a kid spraying graffiti out-watch every blockbuster trailer?",
+     "timeliness": "Evergreen. It could pair with the GTA VI hype wave in November as a contrast, but the view counts must be re-verified on YouTube before use.",
+     "risks": "Not a recent signal. I found no video-essay outlier on it. The 361M figure is approximate and undated."
+    },
+    {
+     "game": "Grand Theft Auto VI",
+     "signal": "Release is set for 2026-11-19, which falls just after the EP003 window. The late-July 2026 coverage I found says Trailer 3 had not been confirmed. Trailer 1 holds the Guinness record for most-viewed game reveal on YouTube in 24 hours.",
+     "evidence": [
+      {
+       "claim": "GTA VI is dated 2026-11-19 on PS5 and Xbox Series X|S after a delay. A Take-Two earnings call reportedly confirmed it. A PC version has not been announced.",
+       "source_url": "https://www.player.one/gta-6-trailer-3-rumored-launch-may-rockstar-locks-november-2026-release-date-162880",
+       "source_date": "2026-07 (approximate)"
+      },
+      {
+       "claim": "November 2026 is otherwise thin because publishers are avoiding GTA VI",
+       "source_url": "https://www.gtaboom.com/every-game-releasing-against-gta-6-in-november-2026",
+       "source_date": "2026 (exact date not found)"
+      },
+      {
+       "claim": "Trailer 1 reached 90,421,491 views in 24 hours as of 2023-12-05",
+       "source_url": "https://www.guinnessworldrecords.com/world-records/407081-most-viewed-videogame-reveal-on-youtube-in-24-hours",
+       "source_date": "2023-12-05"
+      },
+      {
+       "claim": "Trailer 3 had not been confirmed as of 2026-07-29",
+       "source_url": "https://allthings.how/gta-6-trailer-3-release-date-whats-confirmed-june-2026/",
+       "source_date": "2026-07-29"
+      }
+     ],
+     "why_question": "Why does the world wait years for one game, and what does waiting do to us?",
+     "timeliness": "Peak attention will be around Nov 19, within or just after the publish window. The topic is huge but crowded, so a human-angle essay would have to stand apart from news coverage.",
+     "risks": "The release may slip again. Many sources are low quality or speculative. Rockstar is litigious and the game cannot be shown. A video essay about anticipation may not need the game's footage."
+    },
+    {
+     "game": "Nodusfall (HoYoverse)",
+     "signal": "Top trailer by views at Gamescom ONL 2026, with 245K views four days after the show on The Game Awards channel (a fan tally). The reveal was on 2026-08-25. It is a new IP with no release date.",
+     "evidence": [
+      {
+       "claim": "Nodusfall had 245K views, first of the ONL trailers, 4 days after the show. The article was published 2026-08-30.",
+       "source_url": "https://gameroll.net/news/gamescom-2026-the-most-watched-trailers-revealed-and-the-winner-isnt-who-you-think/",
+       "source_date": "2026-08-30"
+      },
+      {
+       "claim": "Revealed 2026-08-25 as a multi-mythology co-op action game. Platforms and release date are unknown. It is unclear whether it will be free-to-play or gacha.",
+       "source_url": "https://www.gosugamers.net/entertainment/news/79039-hoyoverse-reveals-nodus-fall-a-dark-fantasy-co-op-rpg-at-gamescom-2026-opening-night-live",
+       "source_date": "2026-08"
+      }
+     ],
+     "why_question": "Why did a studio known for anime gacha games suddenly make a realistic dark-fantasy hunt?",
+     "timeliness": "A short news spike. Interest will fade unless new trailers land in the next 3-5 weeks.",
+     "risks": "The game is unreleased with almost no information. The numbers are from a single fan tally and counted only one channel. Weak fit for an emotional-truth essay."
+    },
+    {
+     "game": "The Witcher 3: Wild Hunt (Songs of the Past expansion)",
+     "signal": "Second-ranked Gamescom ONL trailer, with 153K views (same fan tally, about 4 days after the show). It is a new expansion for a 2015 game.",
+     "evidence": [
+      {
+       "claim": "The Witcher 3 Songs of the Past world premiere trailer had 153K views, second place",
+       "source_url": "https://gameroll.net/news/gamescom-2026-the-most-watched-trailers-revealed-and-the-winner-isnt-who-you-think/",
+       "source_date": "2026-08-30"
+      }
+     ],
+     "why_question": "Why do people keep returning to a game from 2015, and what is a mature game still saying to us?",
+     "timeliness": "Medium. The expansion news is fresh, and the game's evergreen appeal outlasts the spike.",
+     "risks": "I did not verify the expansion's release date. Heavy competition from existing Witcher content. It would not overlap with EP002's remake angle."
+    },
+    {
+     "game": "Final Fantasy VII (Revelation)",
+     "signal": "Third at Gamescom ONL with 54K views. It also appears in a VGTimes TGS 2026 roundup (not verified against a second source).",
+     "evidence": [
+      {
+       "claim": "FF VII Revelation world premiere trailer had 54K views. Square Enix shares it on several channels, so the count understates its reach.",
+       "source_url": "https://gameroll.net/news/gamescom-2026-the-most-watched-trailers-revealed-and-the-winner-isnt-who-you-think/",
+       "source_date": "2026-08-30"
+      },
+      {
+       "claim": "Final Fantasy 7 Revelation is listed among TGS 2026 titles. TGS ran 2026-09-17 to 09-21.",
+       "source_url": "https://vgtimes.com/games/wane/articles/",
+       "source_date": "2026-09"
+      }
+     ],
+     "why_question": "Why does a remake of a beloved story hurt as much as it thrills?",
+     "timeliness": "Current news, with rising interest around the trilogy's next entry.",
+     "risks": "Too close to EP002's remake-memory question, which is a strong reason to avoid it. The scale is small."
+    },
+    {
+     "game": "Hollow Knight: Silksong",
+     "signal": "A one-year anniversary falls just before this window (release 2025-09-02). I found no 2026 video-essay evidence for it.",
+     "evidence": [
+      {
+       "claim": "Silksong launched 2025-09-02 on Xbox Series X/S, PC, PS5 and Switch",
+       "source_url": "https://forum.tomshw.it/threads/hollow-knight-silksong.1221972/post-9153533",
+       "source_date": "2025-09"
+      }
+     ],
+     "why_question": "Why did millions of people wait years and then happily suffer through a brutally hard game?",
+     "timeliness": "Evergreen. It is past the anniversary news peak.",
+     "risks": "Very weak 2026 YouTube evidence. Source is a forum post. Needs real data."
+    },
+    {
+     "game": "Crazy Taxi: World Tour (Xbox TGS preview)",
+     "signal": "A pre-show preview mentioned it as a nostalgic highlight of the Xbox TGS 2026 showcase. This is unverified and was written before the show.",
+     "evidence": [
+      {
+       "claim": "Xbox TGS 2026 preview lists Crazy Taxi: World Tour, Call of Duty: Modern Warfare 4 and Wo Long 2: Wings of Ember",
+       "source_url": "https://solatatech.com/article/xbox-tokyo-game-show-2026-full-showcase-breakdown-announcements-surprises",
+       "source_date": "2026-09 (pre-show)"
+      }
+     ],
+     "why_question": "Why does a game about driving badly and fast feel like joy?",
+     "timeliness": "Medium. A one-off news spike.",
+     "risks": "Low-quality source and unconfirmed. Treat as a lead, not a result."
+    }
+   ],
+   "notes": "Limitations: the search tool could not reach YouTube analytics, Social Blade or channel pages, so I found NO verified outlier video-essay videos in the last 60 days. Do not treat the list as outlier-driven. Candidates come from trailer-view news and release calendars, and most have weak sourcing. Channel findings: a Game Maker's Toolkit community post dated 2026-09-28 says a 2+ hour video covering 400+ games comes to YouTube in October 2026 (a signal about format, not about a game; source: https://www.youtube.com/post/UgkxdiKmo700uYbKVDrh4zVfcdSghObS6xJS). A MinnMax post dated 2026-10-01 says Jacob Geller is no longer part of MinnMax (source: https://bsky.app/profile/gamemakerstoolkit.com, ambiguous). I found nothing for Any Austin, Razbuten, Snoman Gaming, Ahoy or Game Score Fanfare. Recommended next step: check the channel pages directly (sort by popular, last 60 days) for outliers. On spend (gasto de uso): I have no access to usage or billing data in this session, so I cannot say how much has been used. Check /usage or /cost in Claude Code, or the console usage page. This run used a handful of web searches and 1 page fetch, a small amount, but I cannot give a number.\""
+  },
+  "verdict": {
+   "checked": [
+    {
+     "item": "Subway Surfers",
+     "claim": "Trailer is most-viewed game trailer, ~361M views (2025-era article)",
+     "verdict": "weak",
+     "note": "I opened the Gamerant page. It is dated 2024-01-18, not 2025. At that date GTA VI Trailer 1 had about 168M views and Subway Surfers about 361M. The numbers are about 21 months old, and GTA VI has almost certainly passed 168M since then. The WatchMojo source is undated and I did not open it. This is not a fresh trend."
+    },
+    {
+     "item": "Grand Theft Auto VI",
+     "claim": "Release dated 2026-11-19 on PS5 and Xbox Series X|S, no PC date",
+     "verdict": "confirmed",
+     "note": "A search returned sources that agree: Rockstar announced the delay on 2025-11-06 (from 2026-05-26) and Take-Two reaffirmed the date. I did not open the Rockstar newswire post or the Take-Two earnings statement. Several sources the report cited (player.one, gtaboom) are low quality."
+    },
+    {
+     "item": "Grand Theft Auto VI",
+     "claim": "Trailer 1 reached 90,421,491 views in 24 hours (Guinness, 2023-12-05)",
+     "verdict": "unverifiable",
+     "note": "I did not open the Guinness page. The figure is plausible and well known, but not re-checked. The date is old, not recent."
+    },
+    {
+     "item": "Grand Theft Auto VI",
+     "claim": "Trailer 3 not confirmed as of 2026-07-29",
+     "verdict": "weak",
+     "note": "The claim is stale (about 10 weeks old) and the source is allthings.how. The trailer's status today, 2026-10-11, is unknown."
+    },
+    {
+     "item": "Nodusfall (HoYoverse)",
+     "claim": "Top Gamescom ONL 2026 trailer, 245K views 4 days after the show, article dated 2026-08-30",
+     "verdict": "confirmed",
+     "note": "The Gameroll page matches: 245,000 views, rank 1, published 2026-08-30. The article does not say which channel each count is from. It only says a fan tallied views on The Game Awards channel. The 245K figure is a one-channel fan tally and says little about overall reach. The 2026-08-25 reveal date, the lack of a release date and the 'new IP' claim were not checked, because I did not open the gosugamers page."
+    },
+    {
+     "item": "The Witcher 3 Songs of the Past",
+     "claim": "Second place at 153K views",
+     "verdict": "confirmed",
+     "note": "Matches the Gameroll table. The report did not verify the expansion's release date, so that stays unverified."
+    },
+    {
+     "item": "Final Fantasy VII Revelation",
+     "claim": "Third place at 54K views; Square Enix shares it on several channels",
+     "verdict": "confirmed",
+     "note": "Matches Gameroll, including the multi-channel note. The VGTimes TGS 2026 claim is unverified, and the cited URL is a generic listing page, so I treat it as weak."
+    },
+    {
+     "item": "Hollow Knight: Silksong",
+     "claim": "Launched 2025-09-02",
+     "verdict": "weak",
+     "note": "The date is plausible but the only source is a forum post, and the report found no 2026 evidence of a trend. I did not re-check."
+    },
+    {
+     "item": "Crazy Taxi: World Tour (Xbox TGS)",
+     "claim": "Listed in an Xbox TGS 2026 preview",
+     "verdict": "unverifiable",
+     "note": "The source is a low-quality pre-show site that I did not open, so this is only a lead."
+    },
+    {
+     "item": "Report-wide",
+     "claim": "No outlier video-essay data in the last 60 days",
+     "verdict": "confirmed",
+     "note": "The report states this limitation honestly. The only fresh evidence is the Gameroll fan tally. The GMTK and MinnMax/Geller notes are unverified and are not about a specific game."
+    },
+    {
+     "item": "Usage spend (gasto de uso)",
+     "claim": "No data available, so the report gave no number",
+     "verdict": "unverifiable",
+     "note": "I also have no access to usage or billing data in this session. The only truthful answer is to check /usage or /cost, or the console. This check used 3 fetches and 1 search, which is small, but I cannot give an exact figure."
+    }
+   ],
+   "corrections": [
+    "Subway Surfers: the Gamerant article is dated 2024-01-18, not 2025. At that date the GTA VI trailer had about 168M views, so the 361M comparison is stale.",
+    "Gameroll: the 245K, 153K and 54K figures are one-channel fan tallies at day 4, from an article dated 2026-08-30 (about 6 weeks old). They are not total reach. The article gives no per-trailer channel and no show date.",
+    "GTA VI: the 2026-11-19 date is solid, but 'Trailer 3 unconfirmed as of 2026-07-29' is stale and says nothing about today. The Guinness figure is from 2023, not from the last 60 days.",
+    "Usage spend: neither the original report nor this check could read usage data. Check /usage or /cost in Claude Code, or the console usage page."
+   ],
+   "summary": "Solid: GTA VI is dated 2026-11-19 (multiple sources agree, and Rockstar/Take-Two reaffirmed it, though I did not open the primary sources). The Gamescom ONL trailer ranking (Nodusfall 245K, Witcher 3 Songs of the Past 153K, FF VII Revelation 54K) matches the Gameroll article of 2026-08-30. It is only a one-channel fan tally at day 4, so it is a weak signal of interest and not total reach. Stale or hype: Subway Surfers (the source is from Jan 2024, not 2025, and the numbers are about 21 months old, so this is evergreen with no current spike). The GTA VI Trailer 3 claim is stale. The Guinness record is from 2023. Silksong, Crazy Taxi and the VGTimes TGS item are weak or unverifiable leads. There is no verified video-essay outlier in the last 60 days. The report itself is candid about this, and the candidates are not driven by YouTube data. On usage spend, I cannot give a number because I have no usage or billing access. Check /usage or /cost.\""
+  }
+ },
+ {
+  "beat": "social",
+  "report": {
+   "candidates": [
+    {
+     "game": "How to Fish (Dazed Games, Steam, launched 2026-08-20)",
+     "signal": "Friendslop co-op breakout. Steam data: 1M sold in 2 days, peak 370,901 CCU on 2026-08-25, ~94% positive on 16k+ reviews. Alinea (Oct 2026 report): 10.1M copies, >$50M, still ~40-50K copies/day in September.",
+     "evidence": [
+      {
+       "claim": "Launched 2026-08-20 at $5 co-op; 1M sold in 2 days (developer wording may mean 'players'); peak 370,901 CCU on Aug 25; ~94% positive; fishing plus cartoonish violence. Taken from search summaries; the Dot Esports page returned 403.",
+       "source_url": "https://dotesports.com/indies/news/how-to-fish-game-sales-friendslop-steam-indie-coop",
+       "source_date": "2026-08 (exact date not confirmed)"
+      },
+      {
+       "claim": "$19.3M September revenue at $7.99; over 10.1M copies and over $50M total; ~40-50K copies/day; 9% of its players also played Peak.",
+       "source_url": "https://alineaanalytics.substack.com/p/steams-top-september-2026-games",
+       "source_date": "2026-10 (September 2026 data)"
+      },
+      {
+       "claim": "Described as 'Steam's newest viral hit' with chaotic co-op games taking over.",
+       "source_url": "https://www.player.one/how-fish-steams-newest-viral-hit-why-are-chaotic-co-op-games-taking-over-163910",
+       "source_date": "2026-08 (not confirmed)"
+      }
+     ],
+     "why_question": "Why does a $5 game about fishing with friends sell 10 million copies in six weeks?",
+     "timeliness": "Strong now; the trend is about 7 weeks old and still selling. It could cool by mid-November, but the 'friendslop' phenomenon (Peak, Gamble with Your Friends) is bigger than one title. No TikTok-specific counts found."
+    },
+    {
+     "game": "Wardogs (Bulkhead, early access launched 2026-09-10)",
+     "signal": "Biggest Steam revenue of September 2026 ($86.9M). Peak 428,666 CCU on 2026-09-13 per SteamDB; 3M copies in 18 days; PS5 confirmed; review-bombed ('Mixed', ~66%) over server queues. Also #1 in Google Canada's trending game searches (Sept 2026, after GTA VI).",
+     "evidence": [
+      {
+       "claim": "$86.9M in September; over $100M lifetime on 3.2M copies; early access Sept 10.",
+       "source_url": "https://alineaanalytics.substack.com/p/steams-top-september-2026-games",
+       "source_date": "2026-10"
+      },
+      {
+       "claim": "All-time peak of 428,666 CCU on Sept 13; 3M copies in 18 days; 100 players, 3 teams, 256 km2 destructible map; ~500K beta players in August; Steam rating 'Mixed' ~66% per SteamDB.",
+       "source_url": "https://www.gosugamers.net/entertainment/news/79260-wardogs-sells-3-million-copies-in-just-over-two-weeks-after-early-access-launch",
+       "source_date": "2026-09"
+      },
+      {
+       "claim": "Wardogs ranks second in Google Trends trending game searches in Canada ahead of National Video Games Day (Sept 12).",
+       "source_url": "https://www.iphoneincanada.ca/2026/09/08/gta-vi-most-trending-game-search/",
+       "source_date": "2026-09-08 (inferred from URL)"
+      }
+     ],
+     "why_question": "Why do thousands of people keep queuing for a war game that review-bombs itself with the same crowd?",
+     "timeliness": "Hot now, but it is a mainstream multiplayer shooter. There is a hype risk, and the hook is mechanics more than emotion. No Reddit or TikTok data found."
+    },
+    {
+     "game": "Grand Theft Auto VI (Rockstar, release date 2026-11-19)",
+     "signal": "#1 trending game search in Canada via Google Trends (Sept 2026). Release is 19 November 2026, which falls right after the EP003 publishing window (3-5 weeks from Oct 11 is about Nov 1-15). Trailer figures: T1 93M in 24h on YouTube; T2 475M in 24h across all platforms (guide, undated).",
+     "evidence": [
+      {
+       "claim": "Google Trends put GTA VI first among trending video game searches in Canada ahead of Sept 12 National Video Games Day.",
+       "source_url": "https://www.iphoneincanada.ca/2026/09/08/gta-vi-most-trending-game-search/",
+       "source_date": "2026-09-08 (inferred)"
+      },
+      {
+       "claim": "Rockstar moved release from May 26, 2026 to Nov 19, 2026; Trailer 1 93M/24h on YouTube; Trailer 2 475M/24h all platforms. Trailer 3 not confirmed in the sources found.",
+       "source_url": "https://www.gtaboss.gg/gta-6/guides/gta-6-trailers",
+       "source_date": "undated, 2026"
+      },
+      {
+       "claim": "r/GTA6 listed at about 1.5M members (aggregator snapshot, date unknown).",
+       "source_url": "https://gummysearch.com/r/GTA6/",
+       "source_date": "undated"
+      }
+     ],
+     "why_question": "Why did a game nobody has played get 475 million views in a day?",
+     "timeliness": "Peaks around Nov 19. Risk: the video is not about a game that exists yet, and it is a saturated topic with many other channels. A date slip would shift it."
+    },
+    {
+     "game": "Tomodachi Life: Living the Dream (Switch, April 2026)",
+     "signal": "Best-selling 2026 physical release in Japan: 299,619 copies in Famitsu's April 27 to May 10 period. UK launch was 36% bigger than Pokopia's (Dring, physical only). A Reddit commenter (anecdote) said kids bought a Switch after seeing it on TikTok. Appears in Google Canada 'games like' and Switch 2 lists (Sept 2026).",
+     "evidence": [
+      {
+       "claim": "Tomodachi Life overtakes Pokopia as Japan's best-selling 2026 release; 299,619 retail copies in the two weeks Apr 27 to May 10.",
+       "source_url": "https://www.nintendolife.com/news/2026/05/japanese-charts-tomodachi-life-overtakes-pokopia-as-the-best-selling-2026-release",
+       "source_date": "2026-05"
+      },
+      {
+       "claim": "UK launch 36% bigger than Pokopia (physical only).",
+       "source_url": "https://www.gamereactor.eu/tomodachi-life-living-the-dream-totally-beats-pokemon-pokopia-at-its-uk-launch-1707663/",
+       "source_date": "2026-04/05 (not confirmed)"
+      },
+      {
+       "claim": "Listed under 'games like' and Switch 2 searches in Google Canada's trending report.",
+       "source_url": "https://www.iphoneincanada.ca/2026/09/08/gta-vi-most-trending-game-search/",
+       "source_date": "2026-09-08 (inferred)"
+      }
+     ],
+     "why_question": "Why do people love making tiny characters live pointless lives in a game that has no goal?",
+     "timeliness": "Evergreen, with a gift-season boost possible in November. TikTok virality is anecdotal only and not confirmed by numbers."
+    },
+    {
+     "game": "Pokemon Pokopia (Switch 2, 2026)",
+     "signal": "Over 5M units sold in about 4 months (Nintendo, Aug 2026); Bubbly Basin paid DLC out; 'Part 2' DLC planned for late 2026; present in Google Canada Switch 2 lists. It is a cozy building/healing game, close to the emotional register of EP001.",
+     "evidence": [
+      {
+       "claim": "Pokopia sold over 5 million units globally in just over four months; DLC Part 2 planned for late 2026.",
+       "source_url": "https://www.nintendolife.com/news/2026/08/pokemon-pokopia-sales-surpass-five-million-units-globally-in-just-over-four-months",
+       "source_date": "2026-08"
+      },
+      {
+       "claim": "Pokopia listed among Switch 2 searches.",
+       "source_url": "https://www.iphoneincanada.ca/2026/09/08/gta-vi-most-trending-game-search/",
+       "source_date": "2026-09-08 (inferred)"
+      }
+     ],
+     "why_question": "Why does a Pokemon game where you do not catch anything and just fix a ruined world feel so comforting?",
+     "timeliness": "DLC Part 2 in late 2026 may spike interest. No Reddit or TikTok counts found. It is a plausible slot but not clearly trending right now."
+    },
+    {
+     "game": "Roblox: Steal a Brainrot / Grow a Garden (Roblox experiences)",
+     "signal": "Single-game CCU record: Steal a Brainrot 25,868,678 on 2025-10-11 (low-authority blog). Grow a Garden 22.3M in Aug 2025 (Guinness record per blog). In Oct 2026, a TikTok discover page listed a Roblox Natural Disaster Survival emote trend (2026-10-05); there is no 2026 record. An Aug 2026 guide claims 'Grow a Garden 2' ~454K CCU (low reliability).",
+     "evidence": [
+      {
+       "claim": "Steal a Brainrot 25,868,678 CCU on Oct 11, 2025; Grow a Garden 22.3M in Aug 2025; the 2026 live rankings conflict across blogs.",
+       "source_url": "https://frvr.com/blog/news/roblox-hit-its-highest-concurrent-player-count-ever-with-45-million-users-more-than-steams-all-time-peak",
+       "source_date": "2025 data, reported later"
+      },
+      {
+       "claim": "TikTok discover page (Oct 5, 2026) shows a Roblox skin-transition emote trend tied to Natural Disaster Survival. Read via search summary only; TikTok page content not directly verified.",
+       "source_url": "https://www.tiktok.com/discover/trending-games-in-tiktok",
+       "source_date": "2026-10-05 (per search summary)"
+      }
+     ],
+     "why_question": "Why do kids play a game that is about stealing a meme?",
+     "timeliness": "Evergreen; the 2025 peaks are old. Risk: Roblox is a platform, not one game, and the video would require careful framing. Data is low-reliability."
+    },
+    {
+     "game": "The Witcher 3: Wild Hunt Remastered (2026-09-30)",
+     "signal": "Free upgrade for owners; daily active users spiked to ~2.4M on launch (Steam 48.6%, PS 40.4%, Xbox 11.0%), over 10x its 2026 average; ~130K copies sold in a single day (best since summer 2024). Over 66M total copies per Alinea.",
+     "evidence": [
+      {
+       "claim": "DAU spiked to about 2.4M, over 10x the 2026 average; about 130K copies in one day; over 66M copies overall.",
+       "source_url": "https://alineaanalytics.substack.com/p/steams-top-september-2026-games",
+       "source_date": "2026-10"
+      }
+     ],
+     "why_question": "Why do millions return to a game from 2015 when a remaster lets them replay it again?",
+     "timeliness": "Spike is fresh (Sept 30) but may fade by publication. It is a parallel to EP002's 'remake a memory' theme, so it risks repeating that angle. No social data found."
+    },
+    {
+     "game": "Control Resonant (launched 2026-09-24)",
+     "signal": "Reported $12.7M in under a week on Steam and ~300K Steam copies, with 90% positive. Reasonably new but there is no social or search evidence in my search results.",
+     "evidence": [
+      {
+       "claim": "$12.7M in first week; ~$15M total; ~300K Steam copies; 90% positive reviews.",
+       "source_url": "https://alineaanalytics.substack.com/p/steams-top-september-2026-games",
+       "source_date": "2026-10"
+      }
+     ],
+     "why_question": "Why is the strange office-building game so hard to describe and yet so liked?",
+     "timeliness": "Short-lived launch spike; weak on the social/search beat. It is included only as a low-confidence backup."
+    }
+   ],
+   "notes": "Coverage and limits. (1) TikTok Creative Center and tiktok.com pages could not be read directly; I only saw search summaries of TikTok discover pages, so I have no hashtag view counts. TikTok-level virality is unverified for every candidate except the one Roblox emote trend (2026-10-05), which is itself unverified. (2) Reddit: I found no dated 2026 thread or subreddit-growth figure for any candidate. The only Reddit items were an undated 'defend a bad game' thread (1,700+ comments in 18h, Notebookcheck, RE6) and a Reddit commenter anecdote about Tomodachi Life; r/GTA6 ~1.5M members is an undated aggregator snapshot. (3) X/Twitter: nothing found. (4) Google Trends: only one dated item, Google Canada's trending list (Sept 2026): GTA VI, Wardogs, Star Wars: Zero Company, Stage Tour, Fable, Marvel's Wolverine, Spider-Man 2, Pokemon; this is Canada only. A Google Trends item for the Ocarina of Time remake appears in the same list, which is excluded. (5) The Oct 2026 TikTok roundup by newengen.com (Two Fishes, Ramalama Costume Walk, Pumpkin Head Illusion, Patient Zero edits) names no games. (6) Best social-plus-sales fit for the 'Why?' format right now: How to Fish ('why do millions buy a $5 fishing game', adjacent to EP001 but should be framed differently from farming) and Tomodachi Life / Pokopia (emotional truth). Most data comes from search-tool summaries with dates partly inferred; verify key figures before scripting. On the user's request about usage spend: I have no tool in this session that exposes token cost or billing, so I cannot report it. This research used about 65K of the remaining context tokens (started near 15.0M, now about 14.93M), which is only an approximate token count, not money. Please run /cost or check the Claude usage page for actual spend.\""
+  },
+  "verdict": {
+   "checked": [
+    {
+     "item": "How to Fish",
+     "claim": "Launched 2026-08-20; 1M sold in 2 days",
+     "verdict": "weak",
+     "note": "Launch date and the 1M milestone in 2 days are confirmed by several outlets (Inven, 80.lv, NicheGamer). Wording is disputed: the developer said 1M players, not copies. The report already flags this."
+    },
+    {
+     "item": "How to Fish",
+     "claim": "Peak 370,901 CCU on 2026-08-25",
+     "verdict": "weak",
+     "note": "Sources disagree: Player.one says 370,901 on Aug 25, DLCompare says 340K+, NicheGamer says 268,101 on Aug 23. The figures likely reflect different dates. Check SteamDB before scripting."
+    },
+    {
+     "item": "How to Fish",
+     "claim": "$5 game, ~94% positive",
+     "verdict": "weak",
+     "note": "The price is $7.99. $4.95 was a 38% launch discount that ended Aug 27. 'A $5 game' is stale as the hook. About 94% positive is corroborated by search summaries only."
+    },
+    {
+     "item": "How to Fish",
+     "claim": "Alinea: $19.3M in September, over $50M total, 10.1M copies, ~40-50K copies/day",
+     "verdict": "confirmed",
+     "note": "The fetched Alinea page matches these figures. It does not state CCU or review %. The '9% also played Peak' detail and the claim that sales are still strong in late September were not re-verified. Alinea is a third-party estimate."
+    },
+    {
+     "item": "Wardogs",
+     "claim": "Early access Sept 10; 3M copies in 18 days; over 3.2M; $86.9M in September; >$100M on Steam",
+     "verdict": "confirmed",
+     "note": "Alinea and the GosuGamers, GamesBeat and Gfinity results agree. Timing differs by source: GamesBeat says 16 days, others say 18."
+    },
+    {
+     "item": "Wardogs",
+     "claim": "Peak 428,666 CCU on Sept 13 (SteamDB)",
+     "verdict": "confirmed",
+     "note": "Confirmed in search summaries. Daily peaks later held near 300K. Bulkhead itself said 3-5K CCU would be a sustainable community, so a decline is expected."
+    },
+    {
+     "item": "Wardogs",
+     "claim": "Review-bombed, Mixed ~66%",
+     "verdict": "unverifiable",
+     "note": "Not re-checked. Only the GosuGamers summary mentions it, and a SteamDB rating changes over time."
+    },
+    {
+     "item": "Wardogs",
+     "claim": "Google Canada trending #2 / #1",
+     "verdict": "weak",
+     "note": "The report is internally inconsistent: the signal field says #1 and the evidence field says second. Canada only, and the source is a minor blog. Not re-opened."
+    },
+    {
+     "item": "GTA VI",
+     "claim": "Release Nov 19, 2026; trailer view counts; #1 Google Canada trend",
+     "verdict": "weak",
+     "note": "The trailer numbers come from an undated fan guide. The Google Trends item is Canada only. Not independently confirmed. The timing risk and the 'no game to analyze' risk are valid."
+    },
+    {
+     "item": "GTA VI",
+     "claim": "r/GTA6 ~1.5M members",
+     "verdict": "unverifiable",
+     "note": "Undated aggregator snapshot. Likely stale."
+    },
+    {
+     "item": "Tomodachi Life",
+     "claim": "299,619 Japan physical copies Apr 27-May 10; UK launch +36% vs Pokopia",
+     "verdict": "weak",
+     "note": "The data is from April-May, outside the 60-day window. Not re-opened. The TikTok claim is an anecdote."
+    },
+    {
+     "item": "Pokopia",
+     "claim": "5M+ units in ~4 months; DLC Part 2 late 2026",
+     "verdict": "weak",
+     "note": "Not re-opened. The Nintendo Life August article is plausible but is not recent (over 60 days). The report itself says it is not clearly trending."
+    },
+    {
+     "item": "Roblox Steal a Brainrot / Grow a Garden",
+     "claim": "CCU records from 2025; TikTok trend Oct 5, 2026",
+     "verdict": "weak",
+     "note": "The 2025 data is stale. The TikTok page was never read. Low-authority blog sources. The report's own caveats are right."
+    },
+    {
+     "item": "Witcher 3 Remastered",
+     "claim": "~2.4M DAU, 48.6% Steam, 130K copies in one day, launched Sept 30",
+     "verdict": "confirmed",
+     "note": "Alinea confirms 2.4M DAU, 48.6% Steam and 130K copies on launch day across three platforms. Alinea does not state the '10x average', '66M total' or 'best since summer 2024' claims. Those were not verified. The 130K is across three platforms, not Steam alone."
+    },
+    {
+     "item": "Control Resonant",
+     "claim": "Launched Sept 24; $12.7M first week; ~300K Steam copies; 90% positive",
+     "verdict": "confirmed",
+     "note": "Alinea confirms all of these. It also notes about 41% of Steam players had played the original Control. There is no social evidence."
+    },
+    {
+     "item": "Pattern: social/TikTok/Reddit coverage",
+     "claim": "Social beat evidence",
+     "verdict": "weak",
+     "note": "The report found no hashtag counts, no dated Reddit data and no X data. This is a sales-led report, not a social-trend one. The report admits this."
+    },
+    {
+     "item": "Pattern: token spend",
+     "claim": "About 65K tokens used, no money figure",
+     "verdict": "unverifiable",
+     "note": "This is the researcher's own approximation, not a cost figure. This session has about 14.94M tokens left. No tool here exposes billing. The user should run /cost for real spend."
+    }
+   ],
+   "corrections": [
+    "How to Fish: change 'a $5 game' to $7.99. The $4.95 price was a 38% intro discount that ended Aug 27.",
+    "How to Fish: use 'over 1M players/sales in 2 days' and note that the developer said players. Give peak CCU as a range (268K on Aug 23, 340K+, 370,901 on Aug 25) or confirm on SteamDB.",
+    "Wardogs: fix the #1 vs #2 Google Canada inconsistency. Alinea gives about 250K players/day, which is DAU, not CCU.",
+    "Witcher 3: the 130K copies is across three platforms, not Steam only. The 10x, 66M and 'best since 2024' claims are not in the Alinea page.",
+    "Alinea figures are third-party estimates, not Steam-reported."
+   ],
+   "summary": "Solid: How to Fish (launch and sales scale confirmed by Alinea and several outlets, but the CCU peak and the '$5' price need correcting; it was $7.99 after Aug 27). Wardogs (3M+ copies, $86.9M in September, 428,666 CCU peak confirmed, though it is a decaying mainstream shooter). Witcher 3 Remastered and Control Resonant (confirmed by Alinea, but weak on social evidence and short-lived or off-theme). Weak or stale: GTA VI (undated fan sources, a game that is not out yet), Tomodachi Life and Pokopia (outside the 60-day window, not re-opened), Roblox (2025 data, TikTok page never read). Unverified: all TikTok, Reddit and X claims. The report found no real social data, so the 'social beat' is sales-led. How to Fish is still the best-supported candidate. Verify the CCU peak on SteamDB and reframe the price hook before scripting. Spend: no billing tool is available. About 14.94M tokens remain in this session. Run /cost for actual spend.\""
+  }
+ },
+ {
+  "beat": "market",
+  "report": {
+   "candidates": [
+    {
+     "game": "The Witcher 3: Wild Hunt (Remastered)",
+     "signal": "Remaster launched 2026-09-29. New all-time Steam peak of 137,724 concurrent on 2026-10-04 (SteamDB, per Collider). Early Metacritic average 94 on only a few reviews, so it may change.",
+     "evidence": [
+      {
+       "claim": "Remaster launched Sept 29; new all-time Steam peak 137,724 on Oct 4 per SteamDB; 30-day peak 137,043 vs 31,849 in August; free upgrade for owners; includes both expansions.",
+       "source_url": "https://collider.com/witcher-3-remastered-steam-player-record",
+       "source_date": "2026-10-10"
+      },
+      {
+       "claim": "Metacritic 94 vs 92 for the 2015 original (early reviews only); a new expansion 'Songs of the Past' is set for 2027. Article date not shown on the page.",
+       "source_url": "https://www.levelup.com/en/news/new-release-becomes-top-rated-game-of-2026-and-strong-goty-contender-though-it-originally-released-years-ago/",
+       "source_date": "not found"
+      },
+      {
+       "claim": "Launch day peak 120,975 concurrent; Steam user score about 92% Very Positive; some players report technical issues. Aggregated by search summary; the Oct 5 record date there conflicts with Collider's Oct 4.",
+       "source_url": "https://www.gosugamers.net/entertainment/news/79272-the-witcher-3-wild-hunt-remastered-hits-120-000-concurrent-players-at-launch",
+       "source_date": "2026-09 or 2026-10 (exact date not confirmed)"
+      }
+     ],
+     "why_question": "Why does an 11-year-old game get bigger than it ever was, and what does it mean to 'remaster' something people already love?",
+     "timeliness": "Hot now (peak this week). Likely holds 3-5 weeks via the Songs of the Past expansion talk, but the news spike will fade by mid-November, and GTA VI will take attention on Nov 19. Strong evergreen angle: why people return to it. Closest to the EP002 remake theme, so risk of repeating the premise.",
+     "risks": "EP002 was already a remake essay, so this is thematically close. Metacritic figure is based on few reviews. The Oct 4 vs Oct 5 record date discrepancy between sources is unresolved."
+    },
+    {
+     "game": "Grand Theft Auto VI",
+     "signal": "Release date November 19, 2026 on PS5 and Xbox Series X|S, per Rockstar's stated date (delayed from May 2026). Take-Two CEO Zelnick reportedly has very high confidence. No confirmed Trailer 3 date found.",
+     "evidence": [
+      {
+       "claim": "Release date Nov 19, 2026 (PS5/Xbox Series X|S), pushed back from May 2026. I found no source confirming Trailer 3 has been released as of Oct 11.",
+       "source_url": "https://newsweek.com/entertainment/video-games/gta-6-trailer-update-11035780",
+       "source_date": "2026 (date not shown in search result)"
+      },
+      {
+       "claim": "GTA VI lands four days after Xbox's 25th anniversary (Nov 15, 2026). Article is older and speculative about the anniversary plans.",
+       "source_url": "https://www.purexbox.com/features/the-timing-of-xboxs-25th-anniversary-just-got-a-lot-more-awkward",
+       "source_date": "2025-11-07"
+      },
+      {
+       "claim": "Dexerto's calendar says GTA 6 is the only major game releasing in November (exact date not in the visible text).",
+       "source_url": "https://www.dexerto.com/gaming/2026-video-game-release-calendar-3289874/",
+       "source_date": "2026-10-05"
+      }
+     ],
+     "why_question": "Why does the whole world wait over a decade for a game about being a criminal?",
+     "timeliness": "Maximum anticipation window. Publishing in 3-5 weeks (about Nov 1-15) lands right before launch. Risk: delay, or the video being drowned by the flood of GTA content. Date reconfirmation recommended before committing.",
+     "risks": "Hype is saturated and every channel covers it. We have little of our own to add before release. A second delay would hurt the premise."
+    },
+    {
+     "game": "Deadlock (Valve)",
+     "signal": "New all-time Steam peak of 262,145 concurrent on Oct 9 (UTC), beating Team Fortress 2's record of 253,997 (set July 13, 2023). Release status not confirmed here.",
+     "evidence": [
+      {
+       "claim": "262,145 peak concurrent on Oct 9 UTC per SteamDB, beating TF2's 253,997 peak. No stated cause; coincides with the 'City Never Sleeps' update and new heroes (Rat King Oct 2, Baba Oct 6, Solomon Oct 9).",
+       "source_url": "http://www.invenglobal.com/articles/27005/deadlock-surpasses-260000-concurrent-players-on-steam",
+       "source_date": "2026-10-10"
+      },
+      {
+       "claim": "Headline: Deadlock surpasses TF2's all-time concurrent peak as it adds a chess wizard. Page body was paywalled, so only the headline was verified.",
+       "source_url": "https://www.pcgamer.com/games/moba/deadlock-surpasses-team-fortress-2s-all-time-concurrent-player-count-peak-as-it-adds-a-chess-wizard/",
+       "source_date": "2026-10 (exact date not found)"
+      }
+     ],
+     "why_question": "Why is a game Valve never officially launched drawing more players than their classic ever did?",
+     "timeliness": "News spike this week. Interest may last as long as it keeps growing. Weak emotional hook for a video essay, since it is a competitive hero shooter and not very story-driven.",
+     "risks": "Not much 'emotional truth beneath the mechanics' to work with. Hard to animate in the channel's style. Release status unverified."
+    },
+    {
+     "game": "Bongo Cat",
+     "signal": "Ranked #4 on the SteamCharts front page snapshot with 148,508 current players and a 188,817 peak (timeframe of the peak not labeled). Another tracker: 150,029 average daily players in June 2026 (+12.01% month over month). All-time peak 194,508 (2025-05-04).",
+     "evidence": [
+      {
+       "claim": "Front-page snapshot: Bongo Cat 148,508 current / 188,817 peak, ahead of ARC Raiders, Valheim, PUBG and Rust. Snapshot date not given.",
+       "source_url": "https://steamcharts.com/",
+       "source_date": "2026-10-11 (fetched today)"
+      },
+      {
+       "claim": "107,577 to 144,570 players online in different snapshots; average daily 150,029 in June 2026; all-time peak 194,508 on 2025-05-04; 97% positive across 105,070 reviews; free-to-play. Core loop: each key press makes the cat punch the taskbar, and you collect points to unlock hats. Inferred explanation, no source analyzes why it is popular.",
+       "source_url": "https://steambase.io/apps/bongo-cat",
+       "source_date": "2026-07-29 (last updated per tracker)"
+      }
+     ],
+     "why_question": "Why do hundreds of thousands of people leave a cat on their screen, tapping along while they type?",
+     "timeliness": "Evergreen and steady since 2025, not tied to news. Safe at any publish date. Pairs naturally with the 'Farming Simulator' style of deadpan 'why do people play this?' framing.",
+     "risks": "Almost no narrative or lore, so the essay must be about the viewer's own psychology, and I found no source explaining the popularity. Not a game in the traditional sense. Few creator or developer interviews found."
+    },
+    {
+     "game": "Pokemon Pokopia (Switch 2)",
+     "signal": "Passed 5 million units sold globally in just over four months since launch on 2026-03-05 (announced 2026-08, after the Bubbly Basin DLC). Highest-rated Pokemon game on Metacritic per Insider Gaming. Expansion Pass Part 2 is due late 2026.",
+     "evidence": [
+      {
+       "claim": "Global sales surpass 5 million units in just over four months; Switch 2 exclusive; Part 2 of the Expansion Pass due late 2026, Part 3 in 2027.",
+       "source_url": "https://www.nintendolife.com/news/2026/08/pokemon-pokopia-sales-surpass-five-million-units-globally-in-just-over-four-months",
+       "source_date": "2026-08"
+      },
+      {
+       "claim": "2.2 million units in the first four days (1 million in Japan). A slow cozy life sim where you play Ditto restoring a desolate land.",
+       "source_url": "https://insider-gaming.com/pokemon-pokopia-surpassed-2-2-million-global-sales-in-4-days/",
+       "source_date": "2026-03"
+      },
+      {
+       "claim": "Pokemon Pokopia Expansion Pass Part 2 listed as 2026 with no exact date at the September Nintendo Direct.",
+       "source_url": "https://www.nintendolife.com/guides/nintendo-direct-september-2026-every-game-announcement-and-trailer",
+       "source_date": "2026-09-09"
+      }
+     ],
+     "why_question": "Why did the most hyped monster-catching franchise become a hit by making you rebuild a world instead of catching things?",
+     "timeliness": "Steady, and the Part 2 DLC in late 2026 gives a hook, but the date is unconfirmed. Not a sharp news spike.",
+     "risks": "Switch 2 only, so lower reach on non-Nintendo audiences. The Part 2 date is not confirmed. Also close to the Farming Simulator cozy angle."
+    },
+    {
+     "game": "Final Fantasy Resonance (first HD-2D Final Fantasy)",
+     "signal": "Releases October 22, 2026 on Switch 2, Switch, PS5, Xbox Series X|S, PC. Priced $49.99. Story is based on the first arc of the mobile game Final Fantasy Brave Exvius.",
+     "evidence": [
+      {
+       "claim": "Release Oct 22, 2026; first HD-2D Final Fantasy; Switch 2 version is a Game-Key Card. Steam date reportedly Oct 23 per one outlet, unverified.",
+       "source_url": "https://www.gematsu.com/2026/06/hd-2d-rpg-final-fantasy-resonance-announced-for-ps5-xbox-series-switch-2-switch-and-pc",
+       "source_date": "2026-06"
+      },
+      {
+       "claim": "Nintendo UK lists FINAL FANTASY RESONANCE for October 22, 'the first ever FINAL FANTASY game to be presented in HD-2D'.",
+       "source_url": "https://www.nintendo.com/en-gb/News/2026/October/Upcoming-Games-October-2026-3208377.html",
+       "source_date": "2026-10"
+      }
+     ],
+     "why_question": "Why does a series that keeps reinventing itself keep returning to a pixel look from 30 years ago?",
+     "timeliness": "Release lands about 1-3 weeks before the publish window, so reviews and sales will be fresh. Interest in nostalgia and HD-2D may last longer.",
+     "risks": "No review, preview or sales data found. The mobile-game origin makes the emotional angle weaker. Outcome unknown."
+    },
+    {
+     "game": "Resident Evil 2, 3 and 4 (Switch 2 release) / Capcom remakes",
+     "signal": "Resident Evil 2 Deluxe, 3 and 4 Gold Edition come to Switch 2 on October 16, 2026 (announced at the Sept 9 Nintendo Direct; Nintendo UK October listing).",
+     "evidence": [
+      {
+       "claim": "Nintendo Direct Sept 9, 2026: RE 2, 3 and 4 Remakes release Oct 16, 2026.",
+       "source_url": "https://www.nintendolife.com/guides/nintendo-direct-september-2026-every-game-announcement-and-trailer",
+       "source_date": "2026-09-11"
+      },
+      {
+       "claim": "Nintendo UK October slate lists the three titles for Switch 2 on Oct 16.",
+       "source_url": "https://www.nintendo.com/en-gb/News/2026/October/Upcoming-Games-October-2026-3208377.html",
+       "source_date": "2026-10"
+      }
+     ],
+     "why_question": "Why do we enjoy being scared by a game we know all the jumps of?",
+     "timeliness": "Window around Oct 16 to Halloween passes before our publish date, so a horror video in November would miss the seasonal peak. Weak fit for the timeline.",
+     "risks": "Too close to the EP002 remake theme and the Halloween window will have passed. Mention as a fallback only."
+    },
+    {
+     "game": "Halo (Xbox 25th anniversary / Halo franchise 25th)",
+     "signal": "Original Xbox's 25th anniversary is 2026-11-15, and Halopedia lists Nov 15 as the 25th anniversary of Halo: Combat Evolved. Microsoft is expected to commemorate on or around the date. An Xbox Series X25 Limited Edition console is listed for November 2026. Halo: Campaign Evolved is listed among Xbox's 2026 releases (date not confirmed).",
+     "evidence": [
+      {
+       "claim": "Original Xbox launched Nov 15, 2001; 25th anniversary Nov 15, 2026; Halo: Campaign Evolved among 2026 releases; no confirmed anniversary event; author's speculation only. This article is old (Nov 2025).",
+       "source_url": "https://www.purexbox.com/features/the-timing-of-xboxs-25th-anniversary-just-got-a-lot-more-awkward",
+       "source_date": "2025-11-07"
+      },
+      {
+       "claim": "Search summary: Halopedia lists Nov 15 as the 25th anniversary of Halo: Combat Evolved; Xbox Series X25 Limited Edition console release window November 2026.",
+       "source_url": "https://halopedia.org/2026",
+       "source_date": "2026 (undated page)"
+      }
+     ],
+     "why_question": "Why did a game about a faceless soldier on a ring-shaped world become the reason people bought a console?",
+     "timeliness": "A hard anniversary date (Nov 15) that falls inside the 3-5 week publish window, which is a good calendar hook. Verify what Microsoft actually plans, since I found only speculation and an undated wiki line.",
+     "risks": "Anniversary plans unverified, and the sources are old or undated. Competes with GTA VI four days later. The Halo: Campaign Evolved release date was not found."
+    }
+   ],
+   "notes": "Quick answer on usage spend: I cannot see token or cost usage from inside this subagent run. I started with about 15.0M tokens left and ended with about 14.92M, so this research used roughly 80K tokens (about 0.5 percent of that budget). That is token count, not dollars. The orchestrating session or /cost shows the real spend.\n\nGaps and caveats:\n1. SteamDB and SullyGnome were not directly readable. The Twitch (SullyGnome/TwitchTracker) ranking was NOT FOUND, so there is no Twitch viewership evidence for any candidate. The only Steam chart I read directly was the SteamCharts front page (undated snapshot, fetched 2026-10-11): CS2 712,676 current, Dota 2 567,371, FiveM 152,538, Bongo Cat 148,508, WARDOGS 147,255, ARC Raiders 131,956, Valheim 123,696, PUBG 105,588, Rust 87,225, TF2 78,557.\n2. Some WebSearch results are summaries without dates; I flagged those.\n3. Not verified: Valheim 1.0 release on 2026-09-09 (only hosting blogs and smaller outlets, no primary source). Valheim has 123,696 current players on the SteamCharts snapshot, so it could be a candidate (why do people keep building Viking longhouses?) once confirmed. ARC Raiders is also high on the chart (131,956 current) but I did not research it.\n4. Other calendar items found but not developed: Nintendo Direct 2026-09-09 dates (Pikmin 4 Switch 2 Edition 2026-11-12, Xenoblade Chronicles 3 Switch 2 Edition 2026-12-03, Monster Hunter Wilds Switch 2 listed 2026-12-04, Metroid Ravenous 2027-01-28, Persona 4 Revival 2027-05-20, Final Fantasy VII Revelation 2027-04-08), Rayman Legends Retold 2026-12-03, Godzilla Destroy All Monsters Melee Remastered 2026-11-03, World of Warcraft: Forever 2026-11-04, Minecraft Switch 2 enhanced edition 2026-10-27. Sources: https://www.nintendolife.com/guides/nintendo-direct-september-2026-every-game-announcement-and-trailer and https://www.dexerto.com/gaming/2026-video-game-release-calendar-3289874/ (Dexerto's monthly tables are cut off at 5 entries, so incomplete). Path of Exile 2 2026-12-11 came from a single search summary only. I found no separate October 2026 Nintendo Direct.\n5. Recommendation from the market and calendar beat alone: Witcher 3 Remastered (hot, concrete data, fresh) and Bongo Cat (pure 'why do people play this' in the EP001 tone, evergreen, no news dependence) fit best. GTA VI is the biggest anticipation signal but the most crowded. Halo and Xbox's Nov 15 anniversary is the best calendar hook but needs verification. Roblox 2026 records: not found (latest verified records are from 2025, so excluded)."
+  },
+  "verdict": {
+   "checked": [
+    {
+     "item": "Witcher 3 Remastered",
+     "claim": "Launched Sept 29; all-time Steam peak 137,724 (SteamDB); 30-day peak 137,043 vs 31,849 in August",
+     "verdict": "confirmed",
+     "note": "Collider (fetched) confirms 137,724 on Oct 4, 30-day peak 137,043 (Steam Charts), Aug peak 31,849. Another search summary says Oct 5, so the record date is Oct 4 vs 5, still unresolved. Steam only. Prior record was 103,329 in Jan 2020. Launch-day 120,975 corroborated by godisageek (Oct 2026)."
+    },
+    {
+     "item": "Witcher 3 Remastered",
+     "claim": "Metacritic 94 vs 92, Songs of the Past expansion 2027",
+     "verdict": "unverifiable",
+     "note": "Not re-opened; early-review Metacritic is volatile; undated source. Treat as weak."
+    },
+    {
+     "item": "Grand Theft Auto VI",
+     "claim": "Release Nov 19, 2026 on PS5/Xbox Series; delayed from May 2026",
+     "verdict": "confirmed",
+     "note": "Several outlets (Shacknews, Insider Gaming) report Take-Two reaffirmed Nov 19 on the Aug 7, 2026 earnings call. Zelnick's wording is 'planned', so a delay is not ruled out. Marketing was said to start this summer. Trailer 3 status not checked."
+    },
+    {
+     "item": "Deadlock",
+     "claim": "New all-time Steam peak 262,145 on Oct 9 UTC, beating TF2's 253,997 (July 13, 2023)",
+     "verdict": "confirmed",
+     "note": "Inven Global (fetched) confirms the figures and that the game is still in early development and not officially released. SteamDB not read directly. Weak fit for the channel, as the report says."
+    },
+    {
+     "item": "Bongo Cat",
+     "claim": "Ranked on the SteamCharts front page with ~148k current players; all-time peak 194,508 on 2025-05-04; ~97% positive",
+     "verdict": "weak",
+     "note": "Steambase (fetched) confirms 144,570 current, all-time peak 194,508 on 2025-05-04, 108,285 of 112,151 reviews positive (the report's 105,070 reviews figure is stale). The 150,029 June average and the +12% month-over-month were not verified. Evergreen, not a recent trend; no source explains why it is popular."
+    },
+    {
+     "item": "Pokemon Pokopia",
+     "claim": "Passed 5 million units in just over four months; launched 2026-03-05; Expansion Pass Part 2 late 2026",
+     "verdict": "confirmed",
+     "note": "Nintendo Life and the Pokémon Company press release (2026-08-14) confirm the 5 million mark and Part 2 in late 2026. Sales are sell-through, physical and digital. The 2.2M-in-four-days figure is also corroborated. The Metacritic ranking claim was not verified. The sale is from Aug, outside the 60-day window."
+    },
+    {
+     "item": "Final Fantasy Resonance",
+     "claim": "Release Oct 22, 2026; first HD-2D Final Fantasy; $49.99; based on Brave Exvius",
+     "verdict": "confirmed",
+     "note": "Nintendo UK listing and RPG Site confirm Oct 22. Onemoregame.ph says Oct 23, an unconfirmed outlier, possibly the Steam date. A free Chapter 1 demo has been out since early September. Still no reviews or sales yet."
+    },
+    {
+     "item": "Resident Evil 2/3/4 on Switch 2",
+     "claim": "Release Oct 16, 2026",
+     "verdict": "confirmed",
+     "note": "Gematsu, VGC and Nintendo Wire confirm Oct 16, digital; physical follows Jan 29, 2027. Correct that it is not a new release but a port, and the seasonal fit is weak."
+    },
+    {
+     "item": "Halo / Xbox 25th anniversary",
+     "claim": "Nov 15, 2026 anniversary; Halo: Campaign Evolved release date not confirmed; Series X25 console in November",
+     "verdict": "refuted",
+     "note": "Halo: Campaign Evolved already released July 28, 2026 (early access July 23) on Xbox, PC and PS5. The report's 'date not found' is stale. The Nov 15 anniversary and X25 hardware are confirmed. Microsoft has announced anniversary cosmetics, and one outlet speculates a next-console reveal, which is unconfirmed. The Purexbox source is from Nov 2025 and out of date."
+    },
+    {
+     "item": "Not researched (Valheim 1.0, ARC Raiders, Roblox)",
+     "claim": "Gaps flagged by the report",
+     "verdict": "unverifiable",
+     "note": "Not independently checked here."
+    }
+   ],
+   "corrections": [
+    "Halo: Campaign Evolved is NOT unreleased: it launched July 28, 2026. The Halo candidate should be re-framed as an anniversary-only hook with confirmed X25 hardware.",
+    "Witcher 3 record date: Collider says Oct 4, another summary says Oct 5. Use 'early October' unless SteamDB is read.",
+    "Bongo Cat review count is stale: Steambase shows 112,151 reviews, not 105,070. Current players are about 144.6k.",
+    "GTA VI date is reaffirmed (Aug 7 earnings call), but 'planned' wording means delay risk remains. Dexerto's 'only major November game' claim was not verified here.",
+    "The Pokopia 5M milestone is from Aug 14, outside the 60-day freshness window. The Pokopia Metacritic ranking claim is unverified.",
+    "Spend question: this subagent cannot see dollar cost. Usage in this check was about 70K tokens (about 15.0M to about 14.93M remaining); /cost in the main session shows real spend."
+   ],
+   "summary": "Solid: Witcher 3 Remastered's Steam record (a single-source Collider/SteamDB figure, with the Oct 4 vs 5 date still disputed), Deadlock's record (confirmed but a poor fit for the channel and not officially released), the GTA VI Nov 19 date (reaffirmed Aug 7, with delay risk), the Pokopia 5M milestone (confirmed but from Aug, so older than 60 days), the Final Fantasy Resonance Oct 22 date, and the RE Switch 2 Oct 16 date. Weak: Bongo Cat (real and large, but evergreen, with no explanation of why it is popular and some stale figures) and the Witcher Metacritic and expansion claims. Stale or wrong: the Halo claim that Campaign Evolved is unreleased (it released July 28), so Halo rests only on the Nov 15 Xbox anniversary hook. No Twitch or SteamDB-direct data was verified for any candidate."
+  }
+ },
+ {
+  "beat": "packaging",
+  "report": {
+   "title_patterns": [
+    {
+     "pattern": "Pair a clarity/keyword title with a curiosity/emotional alternative and test them (title-only or title+thumbnail) rather than guess; variants must differ meaningfully",
+     "evidence": "Vendor guide (not YouTube documentation) advises making variants meaningfully different and pairing keyword vs curiosity titles. Page dated 2026-07-14; vendor sells a competing test tool.",
+     "examples": [],
+     "source_url": "https://vidanalyze.com/news/youtube-ab-testing-for-titles-thumbnails-2026-guide"
+    },
+    {
+     "pattern": "Title and thumbnail should complement, not repeat: curiosity hook for commentary/essay content, clarity for tutorials",
+     "evidence": "Summary of a Reddit post by an experienced thumbnail maker. Anecdotal, single practitioner, unverified, date approx. Feb 2026 snapshot. Same post says rules for essayists do not transfer to gaming channels, so testing matters.",
+     "examples": [],
+     "source_url": "https://reddit.sentinel-team.org/posts/1r3dn01/snapshots/2026-02-13T18%3A34%3A02.506Z"
+    },
+    {
+     "pattern": "Curiosity-style titles with a specific game detail are the common template in 2026 gaming ideation lists (example: 'The Zelda secret room that 99% of players miss')",
+     "evidence": "Brainstormed Shorts ideas, not performance data. Shows the pattern exists but proves nothing about results. NOT FOUND: any measured data on question vs statement vs contradiction titles, title length, or game-name placement for 2026 gaming essays.",
+     "examples": [
+      "The Zelda secret room that 99% of players miss"
+     ],
+     "source_url": "https://fluxnote.io/guides/gaming-youtube-shorts-ideas"
+    }
+   ],
+   "thumbnail_patterns": [
+    {
+     "pattern": "Gaming thumbnails: high contrast, strong action moment, character renders, occasional shocked face, neon edge-lighting",
+     "evidence": "Vendor blog claim (thumbfa.st), 2026, no data. Aimed at gameplay/entertainment channels, not essays. Treat as opinion.",
+     "examples": [],
+     "source_url": "https://thumbfa.st/posts/youtube-thumbnail-maker-for-gaming"
+    },
+    {
+     "pattern": "Restraint over exaggeration: closed-mouth or natural expressions and 'controlled cinematic intensity' are replacing generic open-mouth shock faces",
+     "evidence": "Newsletter reading of MrBeast dashboard screenshots showing closed-mouth thumbnails winning, with no watch-time numbers or date; 2026 guide says look is shifting to controlled intensity. Secondary sources, no hard data. Relevant to SecondQuest: deadpan tone fits a calm, single-subject, low-hype thumbnail.",
+     "examples": [],
+     "source_url": "https://news.rizzle.com/p/youtubers-often-try-new-thumbnails-learn-mrbeast-strategy"
+    },
+    {
+     "pattern": "Conceptual contrast (big vs small, cheap vs expensive, before vs after) as the click driver, plus short on-thumbnail text legible on mobile (over half of traffic is mobile)",
+     "evidence": "Marketing blogs (alici.ai 2026; vidIQ summary via search snippet, vidIQ page returned 403 so not verified directly). No CTR numbers found.",
+     "examples": [],
+     "source_url": "https://alici.ai/blog/mrbeast-thumbnails-patterns-2026"
+    }
+   ],
+   "what_is_fading": [
+    "Generic open-mouth shocked faces: weak evidence only (secondary newsletter and blog claims, no figures). Source: https://news.rizzle.com/p/youtubers-often-try-new-thumbnails-learn-mrbeast-strategy",
+    "Misleading or bait thumbnails: vidIQ guidance (via search summary, unverified directly) advises against them, and Test & Compare's watch-time metric penalizes them in principle.",
+    "NOT FOUND: hard data on which title or thumbnail styles are overused or declining for gaming video essays."
+   ],
+   "youtube_guidance": [
+    {
+     "point": "Test & Compare (YouTube Studio) can test Title only, Thumbnail only, or both, up to 3 variants, one video per test, typically 1-2 weeks. Winner is chosen by watch time share, not CTR. Outcomes: Winner / Performed the same / Inconclusive. Needs Advanced Features (identity verification), desktop only, long-form public videos, no Shorts. Guidance of about 1,000-5,000 impressions per variant is the vendor's suggestion, not YouTube's. All of this comes from a third-party vendor article dated 2026-07-14, who sells a competing tool. I could not retrieve YouTube's own help page (the URL I tried returned an unrelated page).",
+     "source_url": "https://vanidanalyze.com/news/youtube-ab-testing-for-titles-thumbnails-2026-guide"
+    },
+    {
+     "point": "Rollout history: thumbnails announced at VidCon 2023, rolled out 2024; title tests were 'starting to experiment' with a small share of creators in July 2025 (Tubefilter); a vendor claims global expansion in December 2025 (unverified, and sources disagree on whether YPP membership is needed).",
+     "source_url": "https://www.tubefilter.com/?p=187324"
+    },
+    {
+     "point": "Implication for EP003: with a small channel, Test & Compare needs impressions, so plan to test two clearly different packages (curiosity 'Why' question vs clearer keyword title) in the first 1-2 weeks. Watch time share as winner favors packaging that matches the video's actual promise.",
+     "source_url": "https://vidanalyze.com/news/youtube-ab-testing-for-titles-thumbnails-2026-guide"
+    },
+    {
+     "point": "NOT FOUND: YouTube statements on Home vs Search differences for titles/thumbnails in 2026, and any concrete recent view-count-vs-channel-size examples of gaming essays.",
+     "source_url": ""
+    }
+   ],
+   "notes": "Research quality is LOW. Searches returned mostly SEO and tool-vendor blogs; I found no primary data and no YouTube-official page. I corrected a typo in one youtube_guidance source URL: the correct one is https://vidanalyze.com/news/youtube-ab-testing-for-titles-thumbnails-2026-guide (the first youtube_guidance entry has 'vanidanalyze' by mistake). No concrete example videos with views relative to channel size were found, so none are claimed. Channel-scale context only: Videogamedunkey over 7M subs as of Jan 2026 (https://en.wikipedia.org/wiki/Videogamedunkey), Any Austin about 182M total views (https://en.wikipedia.org/wiki/Any_Austin), neither a title or thumbnail finding. About the usage spend the user asked for: I have no tool in this session that reports token or cost spend, so I cannot state how much has been used; the only figure visible is the token budget remaining, about 14.94M tokens of 15M, which is not a cost. Check usage in the Claude settings or billing page. Recommendation: rely on a 2-variant Test & Compare plan for EP003 and treat the pattern claims as hypotheses."
+  },
+  "verdict": {
+   "checked": [
+    {
+     "item": "Test & Compare mechanics (up to 3 variants, title/thumb/both, watch time winner, desktop, Advanced Features, ~2 weeks, Shorts excluded)",
+     "claim": "YouTube Test & Compare works as described",
+     "verdict": "confirmed",
+     "note": "Confirmed by YouTube's own help page https://support.google.com/youtube/answer/16391400 (fetched 2026-10-11) and the vendor page. The report said it could not find YouTube's page; this is it. Outcome labels Winner / Performed Same / Inconclusive match. Date of help page not shown."
+    },
+    {
+     "item": "Vendor page dated 2026-07-14; variants must differ meaningfully; pair keyword with curiosity title",
+     "claim": "vidanalyze guide says this",
+     "verdict": "confirmed",
+     "note": "Page dated July 14, 2026. Vendor promotes its own A/B Testing Engine, so it is a promotional source. The advice that variants should differ is also echoed by Google's help guidance."
+    },
+    {
+     "item": "1,000-5,000 impressions per variant",
+     "claim": "Vendor guidance, not YouTube's",
+     "verdict": "weak",
+     "note": "Correctly attributed to the vendor only. The YouTube help page gives no impression threshold. Treat as a rough rule of thumb."
+    },
+    {
+     "item": "Rollout history (thumbnails VidCon 2023 / rolled out 2024; titles 'starting to experiment' July 2025 per Tubefilter)",
+     "claim": "Tubefilter source",
+     "verdict": "confirmed",
+     "note": "https://www.tubefilter.com/?p=187324 is dated July 16, 2025 and says exactly this. The December 2025 global expansion claim stays unverified, and the report flags it as such. It is stale context and does not matter for EP003, since the feature is available now per the help page."
+    },
+    {
+     "item": "Restraint over exaggeration / closed-mouth thumbnails beat shock faces (rizzle newsletter)",
+     "claim": "Newsletter reads MrBeast dashboard screenshots showing closed-mouth thumbnails winning",
+     "verdict": "refuted",
+     "note": "The cited page (dated Aug 1, 2024) does not mention closed-mouth thumbnails or any dashboard. It talks about expressive faces averaging about 150M views versus about 30M for reaction-centric thumbnails, which is closer to the opposite. The source is also not within the last 60 days. The pattern and the 'generic shock faces are fading' claim in what_is_fading lose their only support. Drop both, or mark them as unsourced opinion."
+    },
+    {
+     "item": "Title/thumbnail should complement not repeat; curiosity for essays (Reddit snapshot Feb 2026)",
+     "claim": "Single practitioner anecdote",
+     "verdict": "weak",
+     "note": "Not opened; the snapshot was not independently retrieved. It is old (Feb 2026) and anecdotal. The report already labels it as such."
+    },
+    {
+     "item": "Gaming Shorts ideas list (fluxnote) shows curiosity titles with a specific game detail",
+     "claim": "Pattern exists in ideation lists",
+     "verdict": "weak",
+     "note": "Not opened. The report admits it is brainstorming, not performance data, and it is about Shorts, which is not our format. The '99% of players miss' example is clickbait-style and sits awkwardly with a deadpan, honest tone."
+    },
+    {
+     "item": "Gaming thumbnails: high contrast, action, neon (thumbfa.st); conceptual contrast and mobile-legible text (alici.ai / vidIQ)",
+     "claim": "Vendor and blog opinion",
+     "verdict": "weak",
+     "note": "Not opened. No CTR data. The vidIQ page was never verified (403). Treat as general hypotheses only."
+    },
+    {
+     "item": "Channel-scale context: Videogamedunkey over 7M subs Jan 2026; Any Austin about 182M views (Wikipedia)",
+     "claim": "Context only",
+     "verdict": "unverifiable",
+     "note": "Not checked. Not relevant to packaging decisions."
+    },
+    {
+     "item": "Usage spend note",
+     "claim": "No tool reports cost; about 14.94M tokens remain of 15M",
+     "verdict": "unverifiable",
+     "note": "In this fact-check session I also have no cost tool. About 14.94M tokens remained at the end of checking. This is not a cost figure. The user should check usage on the Claude settings or billing page."
+    }
+   ],
+   "corrections": [
+    "The report says YouTube's own help page could not be retrieved. It exists at https://support.google.com/youtube/answer/16391400 and confirms the Test & Compare mechanics. Cite it as the primary source instead of the vendor article.",
+    "The 'restraint / closed-mouth thumbnails' pattern and the fading shock-face claim rest on a rizzle page dated 2024-08-01 that does not say that. Remove them or relabel as unsourced opinion.",
+    "Typo URL 'vanidanalyze' in the first youtube_guidance entry should be vidanalyze.com (the report already notes this).",
+    "Official docs call the outcomes Winner / Performed Same / Inconclusive, and Google recommends testing older videos first and using clearly different variants. For a brand-new EP003 upload, impressions may be low, so tests may end Inconclusive."
+   ],
+   "summary": "Solid: the Test & Compare mechanics (confirmed against YouTube's official help page and the July 2026 vendor article), the advice to test two clearly different variants, and the Tubefilter rollout history (July 2025, stale but accurate). Weak: the vendor impression thresholds, the Reddit anecdote, the Shorts idea list, and the gaming-thumbnail style blogs. These are opinion with no performance data, and several were not opened, so they stay hypotheses. Refuted: the closed-mouth / restraint thumbnail claim and the shock-faces-fading claim. The cited rizzle page is from August 2024 and says nothing of the sort. Overall packaging evidence is thin, with no hard data on title or thumbnail styles for gaming essays in the last 60 days. The 2-variant test plan is reasonable but rests on process, not on proven style trends. Spend: I cannot measure cost, only about 14.94M tokens left of 15M, and the user should check the billing page.\""
+  }
+ }
+]
