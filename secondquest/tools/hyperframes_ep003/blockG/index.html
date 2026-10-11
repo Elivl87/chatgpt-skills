@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>EP003 block G - payoff + CTA + end</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      :root { --gold: #ffc83d; --ink: #16161f; --lamp: #ffb860; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1280px; height: 720px; overflow: hidden; background: #0d1430; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Inter", sans-serif; }
+      .abs { position: absolute; }
+      .full { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+
+      /* ---------- the world: parallax layers (big bleed for the crane), children in frame coords ---------- */
+      #world { overflow: hidden; background: #0d1430; }
+      .L { position: absolute; left: -320px; top: -360px; width: 1920px; height: 1440px; }
+      .F { position: absolute; left: 320px; top: 360px; width: 1280px; height: 720px; }
+      /* blue-hour sky: #0d1430 at the frame top -> #2a3566 at the horizon, a residual warm band on it */
+      #L-sky .sky { position: absolute; left: -320px; top: -360px; width: 1920px; height: 720px;
+        background: linear-gradient(180deg, #070b1e 0%, #0d1430 50%, #18214b 74%, #2a3566 90%, #3d3a6c 95%, #7a5068 98.4%, #b06a5e 100%); }
+      #warmband { position: absolute; left: -320px; top: 268px; width: 1920px; height: 90px; mix-blend-mode: screen;
+        background: linear-gradient(180deg, rgba(200, 110, 90, 0) 0%, rgba(214, 128, 100, .22) 70%, rgba(255, 170, 120, .30) 100%); }
+      .star { position: absolute; border-radius: 50%; background: #f2f4ff; }
+      #moonWrap { position: absolute; left: 998px; top: 130px; width: 0; height: 0; }
+      #halo { position: absolute; left: -260px; top: -260px; width: 520px; height: 520px; border-radius: 50%; mix-blend-mode: screen;
+        background: radial-gradient(circle, rgba(214, 226, 255, .42) 0%, rgba(170, 190, 255, .16) 22%, rgba(120, 140, 220, .05) 48%, rgba(0, 0, 0, 0) 70%); }
+      #moon { position: absolute; left: -27px; top: -27px; width: 54px; height: 54px; border-radius: 50%;
+        background: radial-gradient(circle at 63% 40%, rgba(170, 168, 150, .35) 0%, rgba(170, 168, 150, 0) 14%),
+                    radial-gradient(circle at 36% 62%, rgba(170, 168, 150, .3) 0%, rgba(170, 168, 150, 0) 17%),
+                    radial-gradient(circle at 55% 72%, rgba(170, 168, 150, .22) 0%, rgba(170, 168, 150, 0) 10%),
+                    radial-gradient(circle at 40% 35%, #fffdf2 0%, #f1edd8 60%, #d9d4bd 100%);
+        box-shadow: 0 0 18px 6px rgba(225, 232, 255, .55), 0 0 60px 20px rgba(170, 190, 255, .18); }
+      #shoot { position: absolute; left: 0; top: 0; width: 170px; height: 2px; border-radius: 2px; opacity: 0; transform-origin: 100% 50%;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(220, 230, 255, .5) 70%, #ffffff 100%); box-shadow: 0 0 6px rgba(220,230,255,.8); }
+      #lhBeam { position: absolute; left: 0; top: -14px; width: 520px; height: 28px; transform-origin: 0% 50%; mix-blend-mode: screen;
+        clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 55%);
+        background: linear-gradient(90deg, rgba(255, 236, 180, .55) 0%, rgba(255, 230, 170, .14) 55%, rgba(255, 230, 170, 0) 100%); }
+      #lhGlow { position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%; mix-blend-mode: screen;
+        background: radial-gradient(circle, rgba(255, 244, 200, .95) 0%, rgba(255, 210, 130, .35) 40%, rgba(0,0,0,0) 72%); }
+      #water { position: absolute; left: -320px; top: 330px; width: 1920px; height: 760px; }
+      /* ---------- boat rig (two-layer v2 boat: back half, crew, front half) ---------- */
+      #boatRig { position: absolute; left: 0; top: 0; width: 620px; height: 145px; }
+      #boatBob, #boatRock { position: absolute; inset: 0; }
+      .boatimg { position: absolute; left: 0; top: 9px; width: 620px; height: 136px; filter: brightness(.62) saturate(.8) hue-rotate(-6deg); }
+      #boatRefl { position: absolute; left: 0; top: 122px; width: 620px; height: 145px; opacity: .26; filter: blur(2px) brightness(.55) saturate(.7);
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 35%, transparent 100%); }
+      #boatRefl img { width: 100%; height: 100%; transform: scaleY(-1); }
+      #crewClip { position: absolute; left: -80px; top: -300px; width: 780px; height: 405px; overflow: hidden; }
+      .mate { position: absolute; }
+      .mate .lean, .mate .breathe, .mate .sway { position: absolute; inset: 0; }
+      .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
+      #quest img { filter: brightness(.66) saturate(.82) contrast(1.06) drop-shadow(-3px -1px 0 rgba(255, 184, 96, .85)) drop-shadow(0 0 9px rgba(255, 170, 90, .28)); }
+      #pixie img { filter: brightness(.66) saturate(.82) contrast(1.06) drop-shadow(3px -1px 0 rgba(255, 184, 96, .85)) drop-shadow(0 0 9px rgba(255, 170, 90, .28)); }
+      .ghost svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 8px rgba(200, 220, 255, .55)); }
+      #lantern { position: absolute; }
+      #lantern img { width: 100%; height: 100%; filter: brightness(1.05) drop-shadow(0 0 6px rgba(255, 184, 96, .9)); }
+      #poolBoat { position: absolute; left: 115px; top: -175px; width: 400px; height: 330px; border-radius: 50%; mix-blend-mode: screen; pointer-events: none;
+        background: radial-gradient(ellipse at 50% 50%, rgba(255, 184, 96, .55) 0%, rgba(255, 184, 96, .22) 32%, rgba(255, 160, 80, .06) 58%, rgba(0,0,0,0) 72%); }
+      #poolWater { position: absolute; left: 25px; top: 104px; width: 580px; height: 120px; border-radius: 50%;
+        background: radial-gradient(ellipse at 50% 40%, rgba(255, 184, 96, .42) 0%, rgba(255, 170, 90, .16) 38%, rgba(0,0,0,0) 70%); }
+      .ripple { position: absolute; border: 2px solid rgba(200, 215, 255, .38); border-radius: 50%; }
+      .ring { position: absolute; border: 3px solid rgba(220, 232, 255, .85); border-radius: 50%; }
+      .drop { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #e3f0ff; box-shadow: 0 0 4px rgba(220,235,255,.7); }
+      /* the companion fish (v2 faces), split at the water line: dry part above, a tinted ghost below */
+      .fishRig { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+      .fClipA { position: absolute; left: -150px; top: -260px; width: 300px; height: 260px; overflow: hidden; }
+      .fClipB { position: absolute; left: -150px; top: 0; width: 300px; height: 110px; overflow: hidden; opacity: .38;
+        filter: blur(1.2px) brightness(.55) saturate(.6) hue-rotate(10deg); }
+      .fish { position: absolute; width: 170px; height: 125px; }
+      .fish img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain; }
+      .fish .face { opacity: 0; }
+      .fishA .fimg { filter: brightness(.78) saturate(.9) drop-shadow(0 0 1px rgba(210, 225, 255, .9)); }
+      .wl { position: absolute; left: -95px; top: -9px; width: 190px; height: 18px; border-radius: 50%; border: 2px solid rgba(225, 236, 255, .7); }
+      .bub { position: absolute; width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(225, 240, 255, .9);
+        background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.8) 0 18%, rgba(160, 200, 255, .15) 30%, rgba(0,0,0,0) 70%); }
+      /* ---------- typography (channel style) ---------- */
+      .mk { position: absolute; background: var(--gold); border: 3px solid var(--ink); border-radius: 10px; box-shadow: 4px 5px 0 var(--ink);
+        color: var(--ink); font: 800 22px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
+      .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 5px 6px 0 var(--ink); letter-spacing: .01em; line-height: 1; white-space: nowrap; }
+      /* G1: the question as a reflection in the water */
+      #refl { position: absolute; left: 90px; top: 462px; width: 1100px; height: 210px; transform: scaleY(-.8); transform-origin: 50% 50%; opacity: .62;
+        filter: url(#wob) brightness(.78) saturate(.85);
+        -webkit-mask-image: linear-gradient(0deg, rgba(0,0,0,.15) 0%, #000 45%, #000 80%, rgba(0,0,0,.5) 100%); mask-image: linear-gradient(0deg, rgba(0,0,0,.15) 0%, #000 45%, #000 80%, rgba(0,0,0,.5) 100%); }
+      #refl .ln { display: flex; justify-content: center; gap: .26em; }
+      #refl .rw { display: block; opacity: 0; }
+      #refl .big { -webkit-text-stroke: 4px var(--ink); text-shadow: 3px 4px 0 var(--ink); }
+      #dropFall { position: absolute; left: 0; top: 0; width: 6px; height: 16px; border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%; background: linear-gradient(180deg, rgba(230,240,255,.2), #f2f8ff); box-shadow: 0 0 6px rgba(220,235,255,.9); opacity: 0; }
+      /* G2 */
+      #say { position: absolute; left: 0; top: 0; padding: 12px 22px 13px; background: #fffaf0; border: 3px solid var(--ink); border-radius: 22px; box-shadow: 4px 5px 0 var(--ink);
+        font: 800 28px "Inter", sans-serif; color: var(--ink); white-space: nowrap; transform-origin: 30% 120%; }
+      #say::after { content: ""; position: absolute; left: 44px; bottom: -19px; width: 26px; height: 22px; background: #fffaf0; border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink);
+        transform: skewX(32deg) rotate(8deg); border-bottom-right-radius: 6px; }
+      #dex { position: absolute; left: 812px; top: 88px; width: 340px; height: 138px; transform-origin: 100% 0%; }
+      .sqbox { position: absolute; inset: 0; background: rgba(22, 22, 31, .86); border: 3px solid var(--gold); border-radius: 14px; box-shadow: 0 5px 12px rgba(0,0,0,.45); }
+      .sqbox::before { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(196, 150, 52, .7); border-radius: 9px; }
+      .sqbox::after { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 45%; border-radius: 12px 12px 4px 4px; background: rgba(255,255,255,.05); }
+      .dia { position: absolute; width: 11px; height: 11px; background: var(--gold); border: 2px solid var(--ink); transform: rotate(45deg); }
+      #dex .kick { position: absolute; left: 22px; top: 16px; font: 800 14px "Inter"; color: var(--gold); letter-spacing: .28em; }
+      #dex .no { position: absolute; right: 22px; top: 16px; font: 800 14px "Inter"; color: rgba(225, 228, 240, .6); letter-spacing: .12em; }
+      #dex .pic { position: absolute; left: 18px; top: 44px; width: 104px; height: 76px; border-radius: 10px; background: radial-gradient(circle, rgba(70, 120, 170, .55), rgba(20, 30, 60, .3)); border: 1px solid rgba(196,150,52,.5); }
+      #dex .pic img { position: absolute; left: 6px; top: 8px; width: 92px; height: 60px; object-fit: contain; }
+      #dex .row { position: absolute; left: 138px; font: 800 21px "Inter"; color: #e9ebf5; letter-spacing: .06em; white-space: nowrap; }
+      #dex .row b { font-weight: 800; }
+      /* G3: the hook's title, small and slow */
+      #title3 { position: absolute; left: 0; top: 150px; width: 1280px; height: 100px; display: flex; justify-content: center; gap: 20px; }
+      #title3 .w { display: block; position: relative; font-size: 86px; }
+      #strike { position: absolute; left: -8px; top: 38px; width: calc(100% + 16px); height: 13px; background: #e5484d; border: 3px solid var(--ink); border-radius: 6px; transform-origin: 0 50%; }
+      #tut { left: 563px; top: 92px; font-size: 18px; transform-origin: 50% 100%; }
+      /* G4: the chat composer (callback to block C) */
+      #chatBox { position: absolute; left: 210px; top: 450px; width: 860px; height: 108px; background: #ffffff; border: 4px solid var(--ink); border-radius: 54px;
+        box-shadow: 6px 8px 0 var(--ink), 0 0 60px rgba(255, 210, 150, .25); }
+      #chatBox .txt { position: absolute; left: 50px; top: 0; height: 100px; display: flex; align-items: center; font: 600 42px "Inter", sans-serif; color: var(--ink); white-space: pre; }
+      #ph { color: #aaa69f; }
+      #caret { display: inline-block; width: 4px; height: 52px; background: var(--ink); margin-left: 3px; border-radius: 2px; }
+      #sendBtn { position: absolute; right: 14px; top: 14px; width: 72px; height: 72px; border-radius: 50%; background: #d6392f; border: 3px solid var(--ink); }
+      #sendBtn svg { position: absolute; left: 17px; top: 16px; width: 34px; height: 34px; }
+      #sent { position: absolute; right: 210px; top: 340px; padding: 16px 28px; background: #d6392f; color: #fff; font: 800 34px "Inter"; border-radius: 30px 30px 8px 30px; border: 3px solid var(--ink);
+        box-shadow: 4px 5px 0 var(--ink); white-space: nowrap; transform-origin: 100% 100%; opacity: 0; }
+      #reply { position: absolute; left: 210px; top: 330px; height: 80px; transform-origin: 0% 100%; opacity: 0; }
+      #reply .av { position: absolute; left: 0; top: 14px; width: 54px; height: 54px; border-radius: 50%; background: #167880; border: 3px solid var(--ink); color: #fff; font: 800 26px "Inter"; display: flex; align-items: center; justify-content: center; }
+      #reply .stk { position: absolute; left: 70px; top: 4px; padding: 12px 26px; background: var(--gold); border: 3px solid var(--ink); border-radius: 16px; font: 800 38px "Inter"; color: var(--ink);
+        box-shadow: 0 0 0 5px #fffaf0, 5px 7px 0 5px var(--ink); white-space: nowrap; transform: rotate(-4deg); }
+      #dim { background: radial-gradient(ellipse at 50% 55%, rgba(8, 10, 26, .45) 0%, rgba(8, 10, 26, .78) 100%); }
+      /* G5: wordmark rising from the lake */
+      #wmClip { position: absolute; left: 0; top: 0; width: 1280px; height: 263px; overflow: hidden; }
+      #wmMove { position: absolute; left: 0; top: 0; width: 1280px; height: 263px; }
+      #wm { position: absolute; left: 360px; top: 92px; width: 560px; height: 96px; }
+      #wm img { width: 100%; height: 100%; filter: drop-shadow(0 5px 0 #16161f) drop-shadow(0 0 22px rgba(10, 14, 40, .6)); }
+      #wmSheen { position: absolute; left: 360px; top: 92px; width: 560px; height: 96px;
+        -webkit-mask-image: url(assets/wordmark.png); -webkit-mask-size: 100% 100%; mask-image: url(assets/wordmark.png); mask-size: 100% 100%;
+        background: linear-gradient(180deg, rgba(190, 225, 255, .75) 0%, rgba(120, 170, 230, .35) 45%, rgba(220, 240, 255, .8) 52%, rgba(90, 140, 210, .45) 100%); }
+      #wmBar { position: absolute; left: 440px; top: 206px; width: 400px; height: 9px; background: var(--gold); border-radius: 4px; box-shadow: 0 3px 0 var(--ink); transform-origin: 50% 50%; }
+      .stream { position: absolute; width: 3px; border-radius: 2px; background: linear-gradient(180deg, rgba(210, 235, 255, .9), rgba(170, 210, 255, 0)); transform-origin: 50% 0%; }
+      #wmRing { position: absolute; left: 640px; top: 263px; width: 0; height: 0; }
+      /* CONTINUE? menu (as EP002) */
+      #contT { position: absolute; left: 128px; top: 228px; height: 52px; padding: 0 30px 0 6px; display: flex; align-items: center;
+        background: linear-gradient(90deg, rgba(22,22,31,0) 0%, rgba(22,22,31,.66) 22%, rgba(22,22,31,.66) 78%, rgba(22,22,31,0) 100%); }
+      #contT span { font: 400 36px "Anton"; color: #fff; text-shadow: 3px 4px 0 var(--ink); letter-spacing: .02em; }
+      .item { position: absolute; height: 46px; }
+      .item .sqbox { border-radius: 10px; }
+      .item .lab { position: relative; padding: 0 22px; height: 46px; display: flex; align-items: center; font: 800 20px "Inter"; letter-spacing: .12em; color: #e1e4f0; white-space: nowrap; }
+      #iNext { left: 150px; top: 290px; }
+      #iJoin { right: 128px; top: 405px; }
+      #cursor { position: absolute; left: 0; top: 0; width: 22px; height: 26px; }
+      #glint { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: #fff3c4; box-shadow: 0 0 12px 5px rgba(255, 210, 120, .9); opacity: 0; }
+      .fly { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: #f4ffb0; box-shadow: 0 0 10px 4px rgba(230, 255, 140, .55); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0.0" data-duration="43.769" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="43.769" data-track-index="9" data-volume="1"></audio>
+      <svg width="0" height="0" style="position: absolute">
+        <filter id="wob" x="-8%" y="-30%" width="116%" height="160%" color-interpolation-filters="sRGB">
+          <feTurbulence id="wobT" type="fractalNoise" baseFrequency="0.006 0.085" numOctaves="2" seed="7" result="n" />
+          <feDisplacementMap id="wobM" in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+
+      <!-- ================= THE WORLD (night lake; camera via per-layer parallax + tilt) ================= -->
+      <div id="world" class="full clip" data-start="0.0" data-duration="43.769" data-track-index="0">
+        <div id="breath" class="full"><div id="shake" class="full">
+          <div id="layers" class="full">
+            <div id="L-sky" class="L"><div class="F">
+              <div class="sky"></div>
+              <div id="stars"></div>
+              <div id="warmband"></div>
+              <div id="moonWrap"><div id="halo"></div><div id="moon"></div></div>
+              <div id="shoot"></div>
+            </div></div>
+            <div id="L-hills" class="L"><div class="F">
+              <svg class="abs" style="left: -320px; top: 230px" width="1920" height="160" viewBox="-320 230 1920 160">
+                <path d="M-320 312 C -200 286, -60 290, 60 300 S 300 270, 460 296 S 760 306, 860 292 S 1100 276, 1240 296 S 1500 300, 1600 290 L 1600 390 L -320 390 Z" fill="#1d2550"/>
+                <path d="M-320 300 C -220 300, -150 300, -40 308 C 60 312, 140 296, 210 300 C 260 304, 300 314, 360 322 L 360 390 L -320 390 Z" fill="#141a3c"/>
+                <path d="M-260 304 C -150 298, -40 306, 100 300 C 180 298, 230 304, 330 318" fill="none" stroke="rgba(150, 160, 230, .35)" stroke-width="1.5"/>
+                <g id="pines" fill="#121836"></g>
+              </svg>
+              <!-- a small striped lighthouse on the far horizon (drawn in code), its beam slowly sweeping -->
+              <div id="lh" class="abs" style="left: 196px; top: 254px; width: 24px; height: 56px">
+                <svg width="24" height="56" viewBox="0 0 24 56" style="position: absolute; left: 0; top: 0; overflow: visible">
+                  <path d="M6 18 L18 18 L20 56 L4 56 Z" fill="#d9d4cf"/>
+                  <path d="M5.4 28 L18.6 28 L19 35 L5 35 Z M4.6 42 L19.4 42 L19.8 49 L4.2 49 Z M6 18 L18 18 L18.3 22 L5.7 22 Z" fill="#b8423c"/>
+                  <rect x="7" y="9" width="10" height="9" fill="#fff1c0"/>
+                  <path d="M5 9 L19 9 L12 2 Z" fill="#2a2440"/><rect x="4" y="17" width="16" height="2" fill="#2a2440"/>
+                  <path d="M6 18 L18 18 L20 56 L4 56 Z" fill="rgba(10, 14, 40, .35)"/>
+                </svg>
+                <div class="abs" style="left: 12px; top: 13px; width: 0; height: 0"><div id="lhBeam"></div><div id="lhGlow"></div></div>
+              </div>
+            </div></div>
+            <div id="L-water" class="L"><div class="F">
+              <canvas id="water" width="1920" height="760"></canvas>
+            </div></div>
+            <div id="L-boat" class="L"><div class="F" id="boatF">
+              <div id="refl">
+                <div class="ln big" style="font-size: 44px; color: #ffe39a"><span class="rw">SO...</span><span class="rw">WHY</span><span class="rw">DID</span><span class="rw">MILLIONS</span><span class="rw">OF</span><span class="rw">PEOPLE</span></div>
+                <div class="ln big" style="font-size: 60px; margin-top: 8px"><span class="rw">BUY</span><span class="rw">A</span><span class="rw">FISHING</span><span class="rw">GAME</span></div>
+                <div class="ln big" style="font-size: 80px; margin-top: 8px"><span class="rw">AND</span><span class="rw">NOT</span><span class="rw">FISH?</span></div>
+              </div>
+              <div id="reflRings" class="abs" style="left: 0; top: 0; width: 0; height: 0"></div>
+              <div id="boatRig">
+                <div id="poolWater"></div>
+                <div id="ripples"></div>
+                <div id="boatRefl"><img src="assets/rowboat_side.png" alt="" /></div>
+                <div id="boatBob"><div id="boatRock">
+                  <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />
+                  <div id="crewClip">
+                    <div class="mate ghost" id="ghostA" style="left: 74px; top: 239px; width: 160px; height: 232px"><div class="lean"><div class="sway">
+                      <svg viewBox="0 0 200 290"><path d="M48 290 C 44 200, 50 140, 70 118 C 82 106, 94 102, 100 102 C 106 102, 120 106, 132 118 C 152 140, 156 200, 152 290 Z" fill="rgba(200, 214, 255, .14)" stroke="#e4ebff" stroke-width="4" stroke-dasharray="10 8" stroke-linecap="round"/><circle cx="101" cy="62" r="36" fill="rgba(200, 214, 255, .14)" stroke="#e4ebff" stroke-width="4" stroke-dasharray="10 8" stroke-linecap="round"/></svg>
+                    </div></div></div>
+                    <div class="mate ghost" id="ghostB" style="left: 486px; top: 243px; width: 160px; height: 232px"><div class="lean"><div class="sway">
+                      <svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="rgba(200, 214, 255, .14)" stroke="#e4ebff" stroke-width="4" stroke-dasharray="10 8" stroke-linecap="round"/><circle cx="100" cy="60" r="35" fill="rgba(200, 214, 255, .14)" stroke="#e4ebff" stroke-width="4" stroke-dasharray="10 8" stroke-linecap="round"/></svg>
+                    </div></div></div>
+                    <div class="mate" id="pixie" style="left: 246px; top: 262px; width: 160px; height: 240px"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_sitting.png" alt="" /></div></div></div></div>
+                    <div class="mate" id="quest" style="left: 344px; top: 240px; width: 250px; height: 372px"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_nostalgic.png" alt="" /></div></div></div></div>
+                  </div>
+                  <img class="boatimg" src="assets/rowboat_side_front.png" alt="" />
+                  <div id="lantern" style="left: 296px; top: -24px; width: 33px; height: 75px"><img src="assets/lantern.png" alt="" /></div>
+                  <div id="poolBoat"></div>
+                </div></div>
+              </div>
+              <div id="fishHost"></div>
+              <div id="say">fishing tuesday?</div>
+              <div id="splashHost"></div>
+            </div></div>
+          </div>
+          <!-- frame-coordinate effects that breathe with the world but sit outside the parallax -->
+          <div id="fx" class="full">
+            <div id="dropFall"></div>
+            <div id="wmClip"><div id="wmMove">
+              <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /></div>
+              <div id="wmSheen"></div>
+              <div id="wmBar"></div>
+              <div id="streams"></div>
+            </div></div>
+            <div id="drips"></div>
+            <div id="wmRing"></div>
+            <div id="fish5Host"></div>
+            <div id="fxSplash"></div>
+            <div id="title3"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3" data-hf-motion-blur='{"samplesPerFrame": 8}'>FISH<span id="strike"></span></span></div>
+            <div class="mk" id="tut">Tutorial</div>
+          </div>
+          <div id="flies" class="full"></div>
+        </div></div>
+        <div id="dim" class="full" style="opacity: 0"></div>
+      </div>
+
+      <!-- ================= UI (not in the world) ================= -->
+      <div id="ui" class="full clip" data-start="0.0" data-duration="43.769" data-track-index="2">
+        <div id="dex">
+          <div class="sqbox"></div>
+          <div class="dia" style="left: -6px; top: -6px"></div><div class="dia" style="right: -6px; top: -6px"></div><div class="dia" style="left: -6px; bottom: -6px"></div><div class="dia" style="right: -6px; bottom: -6px"></div>
+          <div class="kick">FISH-O-DEX</div><div class="no">No. 001</div>
+          <div class="pic"><img src="assets/fish_side.png" alt="" /></div>
+          <div class="row" style="top: 50px">SEEN: <b style="color: var(--gold)">ALWAYS.</b></div>
+          <div class="row" style="top: 84px">CAUGHT: <b style="color: #ff6a5e">NEVER.</b></div>
+        </div>
+        <div id="chat" class="full">
+          <div id="sent">boat tonight?</div>
+          <div id="reply"><div class="av">P</div><div class="stk">Bought.</div></div>
+          <div id="chatBox">
+            <div class="txt"><span id="ph">Message...</span><span id="typed"></span><span id="caret"></span></div>
+            <div id="sendBtn"><svg viewBox="0 0 34 34"><path d="M4 17 L30 5 L22 30 L17 19 Z" fill="#fff" stroke="#16161f" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+        <div id="menu" class="full">
+          <div id="contT"><span>CONTINUE?</span></div>
+          <div class="item" id="iNext"><div class="sqbox"></div><div class="lab">NEXT QUEST</div></div>
+          <div class="item" id="iJoin"><div class="sqbox"></div><div class="lab">JOIN THE PARTY</div></div>
+          <div id="cursor"><svg width="22" height="26" viewBox="0 0 22 26"><path d="M2 2 L20 13 L2 24 Z" fill="#ffc83d" stroke="#16161f" stroke-width="3" stroke-linejoin="round"/></svg></div>
+          <div id="glint"></div>
+        </div>
+      </div>
+      <!-- grain + vignette come from the approved finish pass (finish_post.py), applied after the render -->
+    </div>
+
+    <script>
+      /* ------------------------------------------------------------------ setup (deterministic) */
+      const W = 1280, H = 720;
+      function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const R = rng(4404);
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+      const SVGNS = "http://www.w3.org/2000/svg";
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+      // ---- every beat is a narration word (block-relative, resolved by build.py) ----
+      const DUR = 43.769;
+      const S1 = 0, S2 = 5.962, S3 = 13.803, S5 = 31.557;
+      const Q = {
+        so: 0.197, why: 0.397, did: 1.397, mil: 1.637, of: 2.217, ppl: 2.477, buy: 2.757, a: 3.157, fishing: 3.337, game: 3.557,
+        and: 3.937, not: 4.517, fishQ: 4.857,
+        nobody: 6.237, came: 7.297, fishDot: 8.797, l46: 9.703, thing: 10.817, say46: 11.317, loud: 12.797, l46end: 13.381,
+        how: 13.857, to: 14.097, fish47: 14.297, tutorial: 15.577, maybe: 17.017, is47: 17.717,
+        fishing48: 19.957, l49: 21.039, worst: 23.397,
+        i: 25.357, miss: 26.357, you: 26.597, without: 27.017, ever: 27.797, having: 28.477, sayIt: 29.077, it: 29.277, l50end: 29.414,
+        so51: 29.957, boat: 32.137, and51: 33.097, whyQ: 34.737, next51: 35.277, tell: 37.097, comments: 38.317,
+        maybe52: 39.517, quest: 40.477, l52end: 41.269,
+      };
+      const S4 = Q.l49 + .3;                      // the cut to the close-up happens under the blur of the chat box
+
+      // stars (seeded), denser up high
+      const stars = [];
+      (function () { const host = $("#stars"); const r = rng(77);
+        for (let i = 0; i < 300; i++) { const x = -300 + r() * 1880; const y = -340 + Math.pow(r(), 1.5) * 620; const s = .9 + r() * r() * 2.4;
+          const base = (.3 + r() * .7) * (1 - clamp((y - 150) / 170, 0, .75));
+          const e = mk("div", "star", host, `left:${x}px; top:${y}px; width:${s}px; height:${s}px; opacity:${base}`);
+          if (s > 2.2) e.style.boxShadow = "0 0 4px rgba(220,230,255,.8)";
+          stars.push({ e, base, ph: r() * 6.28, sp: .6 + r() * 2.2, tw: r() < .4 }); } })();
+      // pines on the far ridge
+      (function () { const g = $("#pines"); const r = rng(9); for (let i = 0; i < 30; i++) { const x = -300 + i * 22 + r() * 12; if (x > 340) break; const h = 12 + r() * 16, y = 304 + r() * 6;
+        const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", `M${x} ${y - h} L${x + h * .3} ${y} L${x - h * .3} ${y} Z`); g.appendChild(p); }
+        for (let i = 0; i < 14; i++) { const x = 1180 + i * 26 + r() * 12; const h = 10 + r() * 12, y = 296 + r() * 4;
+        const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", `M${x} ${y - h} L${x + h * .3} ${y} L${x - h * .3} ${y} Z`); g.appendChild(p); } })();
+      // ripples around the hull
+      const ripples = []; (function () { const host = $("#ripples"); for (let i = 0; i < 3; i++) ripples.push(mk("div", "ripple", host, "left:40px; top:112px; width:540px; height:34px")); })();
+      // fireflies (frame coords) - the crickets' visual calm
+      const flies = []; (function () { const r = rng(55); const host = $("#flies");
+        for (let i = 0; i < 7; i++) flies.push({ e: mk("div", "fly", host), x: 560 + r() * 560, y: 360 + r() * 260, ax: 20 + r() * 30, ay: 10 + r() * 18, sx: .21 + r() * .3, sy: .33 + r() * .3, ph: r() * 6.28, bl: .5 + r() * .9 }); })();
+      // the companion fish (v2): base + rendered faces, split at the water line
+      function makeFish(host, cls) {
+        const rig = mk("div", "fishRig " + (cls || ""), host);
+        const ca = mk("div", "fClipA", rig), cb = mk("div", "fClipB", rig);
+        const copies = [], faces = { blink: [], lookup: [], wide: [] };
+        [[ca, 198, "fishA"], [cb, -62, "fishB"]].forEach(([c, top, k]) => {
+          const f = mk("div", "fish " + k, c, `left:65px; top:${top}px`); f.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+          const b = mk("img", "fimg", f); b.src = "assets/fish_34.png";
+          Object.keys(faces).forEach((n) => { const im = mk("img", "fimg face", f); im.src = `assets/fish_34_${n}.png`; faces[n].push(im); });
+          copies.push(f); });
+        const wl = mk("div", "wl", rig);
+        return { rig, copies, faces, wl };
+      }
+      const fish2 = makeFish($("#fishHost"));
+      const fish5 = makeFish($("#fish5Host"));
+      // splash rigs (as the hook)
+      function makeSplash(host, x, y, s) { const g = mk("div", "abs", host, `left:${x}px; top:${y}px; width:0; height:0`); const rings = [], drops = [];
+        for (let i = 0; i < 2; i++) rings.push(mk("div", "ring", g, `left:${-60 * s}px; top:${-12 * s}px; width:${120 * s}px; height:${24 * s}px; opacity:0`));
+        for (let i = 0; i < 9; i++) drops.push(mk("div", "drop", g, "left:-4px; top:-4px; opacity:0")); return { rings, drops, s }; }
+      // wordmark streams + drips
+      const streams = []; (function () { const r = rng(21); const host = $("#streams");
+        for (let i = 0; i < 12; i++) { const x = 380 + r() * 520; streams.push(mk("div", "stream", host, `left:${x}px; top:${170 + r() * 14}px; height:${30 + r() * 50}px; opacity:.0`)); } })();
+      const drips = []; (function () { const r = rng(31); const host = $("#drips");
+        for (let i = 0; i < 24; i++) drips.push({ e: mk("div", "drop", host, "opacity:0; width:6px; height:9px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%"), x: 385 + r() * 510, t0: .25 + r() * 1.7, y0: 178 + r() * 10 }); })();
+
+      /* ------------------------------------------------------------------ water shader (night; seek-driven) */
+      const water = (function () {
+        const cv = $("#water"); const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
+        if (!gl) return { draw() {} };
+        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
+        const fs = `precision mediump float; uniform float t; uniform vec2 res; uniform float moonU; uniform float glow;
+          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
+          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
+          void main(){
+            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x; float v = 1. - fc.y/res.y;
+            float z = 1./(v*1.1 + .035); float wx = (u-.5)*z*2.2; float wz = z;
+            float far = smoothstep(.0,.1,v);
+            vec3 cHor = vec3(.25,.27,.47), cMid = vec3(.10,.13,.29), cDeep = vec3(.035,.05,.13);
+            vec3 col = mix(cHor, cMid, smoothstep(.0,.30,v)); col = mix(col, cDeep, smoothstep(.25,1.,v));
+            float sw = sin(wz*5.2 - t*1.2 + sin(wx*1.3 + t*.35)*1.4)*.5 + .5;
+            float n = vn(vec2(wx*1.6 + t*.05, wz*7.5 - t*.7));
+            float crest = smoothstep(.78,.94, sw*.55 + n*.5) * far;
+            col = mix(col, col*1.28 + vec3(.03,.04,.08), crest*.55);
+            float trough = smoothstep(.32,.08, sw*.55 + n*.45) * far;
+            col *= 1. - trough*.18;
+            float dash = step(.92, vn(vec2(wx*.7 + t*.03, wz*13.))) * far;
+            col = mix(col, vec3(.62,.70,.95), dash*.22*(1.-v*.5));
+            float dx = abs(u - moonU); float cw = .012 + v*.075; float column = exp(-(dx/cw)*(dx/cw));
+            float glit = step(.70 - column*.24, vn(vec2(wx*5. + t*.2, wz*20. - t*1.1)));
+            col = mix(col, vec3(.88,.92,1.), column*(.16 + .84*glit*far)*(1.-v*.6)*glow);
+            col += vec3(.45,.52,.8)*column*.07*glow;
+            col = mix(col, vec3(.55,.42,.52), smoothstep(.045,.0,v)*.6);
+            col += (h21(fc + t) - .5)/160.;
+            gl_FragColor = vec4(col, 1.);
+          }`;
+        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
+        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        const uT = gl.getUniformLocation(pr, "t"), uRes = gl.getUniformLocation(pr, "res"), uM = gl.getUniformLocation(pr, "moonU"), uGlow = gl.getUniformLocation(pr, "glow");
+        gl.viewport(0, 0, cv.width, cv.height);
+        return { draw(t, mu) { gl.uniform1f(uT, t); gl.uniform2f(uRes, cv.width, cv.height); gl.uniform1f(uM, mu); gl.uniform1f(uGlow, 1); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
+      })();
+
+      /* ------------------------------------------------------------------ per-frame state (pure function of time) */
+      const noise1 = (x) => { const i = Math.floor(x), f = x - i; const h = (n) => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); }; const k = f * f * (3 - 2 * f); return h(i) * (1 - k) + h(i + 1) * k; };
+      // what the composer shows: [time, text] (typing, hesitation, backspace, retype)
+      const TYPE = []; (function () {
+        const add = (t, s) => TYPE.push([t, s]);
+        add(0, "");
+        add(Q.i, "I");
+        "I miss".slice(1).split("").forEach((c, k) => add(Q.miss - .06 + k * .045, "I miss".slice(0, 2 + k)));
+        " you".split("").forEach((c, k) => add(Q.you + k * .05, "I miss you".slice(0, 7 + k)));
+        const bs = Q.ever; for (let k = 0; k < 10; k++) add(bs + k * .05 - k * k * .0015, "I miss you".slice(0, 9 - k));
+        const msg = "boat tonight?"; const t0 = Q.having - .05; for (let k = 0; k < msg.length; k++) add(t0 + k * .05, msg.slice(0, k + 1));
+        add(Q.it, "");                                       // sent
+      })();
+      const SENT = Q.it;
+      function frame(t) {
+        water.draw(t, (998 + 320) / 1920);
+        // lantern flicker .92 - 1.0
+        const fl = .92 + .08 * (noise1(t * 7.3) * .65 + noise1(t * 17.1 + 4) * .35);
+        $("#poolBoat").style.opacity = fl; $("#poolWater").style.opacity = fl * .95;
+        $("#lantern img").style.filter = `brightness(${(.95 + .15 * fl).toFixed(3)}) drop-shadow(0 0 ${(5 + 4 * fl).toFixed(2)}px rgba(255, 184, 96, .9))`;
+        // stars twinkle
+        for (const s of stars) if (s.tw) s.e.style.opacity = (s.base * (.55 + .45 * Math.sin(t * s.sp + s.ph))).toFixed(3);
+        // fireflies drift and pulse
+        for (const f of flies) { const x = f.x + f.ax * Math.sin(t * f.sx + f.ph), y = f.y + f.ay * Math.sin(t * f.sy + f.ph * 1.7);
+          const p = Math.pow(.5 + .5 * Math.sin(t * f.bl * 2.2 + f.ph), 3); f.e.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(${(.6 + .5 * p).toFixed(3)})`; f.e.style.opacity = (.15 + .75 * p).toFixed(3); }
+        // the reflection's water wobble (breaks on the drop)
+        const hit = Q.fishQ + .3; const k = t < hit ? 0 : clamp((t - hit) / .7, 0, 1);
+        $("#wobT").setAttribute("baseFrequency", `${(.006 + .004 * k).toFixed(4)} ${(.085 + .01 * Math.sin(t * 1.3) + .05 * k).toFixed(4)}`);
+        $("#wobM").setAttribute("scale", (13 + 4 * Math.sin(t * 2.1) + 90 * Math.sin(k * Math.PI * .5)).toFixed(2));
+        // the composer
+        let s = ""; for (const [tt, ss] of TYPE) if (t >= tt) s = ss;
+        $("#typed").textContent = s; $("#ph").style.display = s.length || t >= SENT ? "none" : "inline";
+        let on = (t % .9) < .5;
+        if (t >= Q.i && t < Q.without) on = true;                                  // solid while typing
+        if (t >= Q.without && t < Q.ever) on = ((t - Q.without) % .38) < .19;      // hesitates: two blinks
+        if (t >= Q.ever && t < SENT) on = true;
+        $("#caret").style.opacity = on ? 1 : 0;
+        // the wordmark's drips
+        const dt = t - Q.whyQ; const wy = gsap.getProperty("#wmMove", "y");
+        for (const d of drips) { const u = dt - d.t0; if (u <= 0 || dt > 3) { d.e.style.opacity = 0; continue; }
+          const y = d.y0 + wy + u * u * 950; if (y > 262) { d.e.style.opacity = 0; continue; }
+          d.e.style.opacity = .9; d.e.style.transform = `translate(${d.x}px, ${y.toFixed(1)}px)`; }
+      }
+
+      /* ------------------------------------------------------------------ the timeline */
+      const tl = gsap.timeline({ paused: true });
+      const env = { t: 0 };
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => frame(env.t) }, 0);
+
+      // camera: per-layer parallax (x/y/s scale with depth f) + a tilt ty that moves every layer alike
+      const LAYERS = [["#L-sky", .08], ["#L-hills", .25], ["#L-water", .55], ["#L-boat", 1]];
+      function cam(at, dur, c, ease) {
+        const x = c.x || 0, y = c.y || 0, s = c.s || 1, ty = c.ty || 0;
+        LAYERS.forEach(([sel, f]) => { const v = { x: x * f, y: y * f + ty, scale: 1 + (s - 1) * Math.min(1.2, .35 + .65 * f) };
+          if (dur <= 0) tl.set(sel, v, at); else tl.to(sel, Object.assign(v, { duration: dur, ease: ease || "sine.inOut" }), at); });
+      }
+      const focus = (px, py, s, ox, oy) => ({ x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), s });
+      // the boat rig: centre x, water line y, scale (a cut moves it; the rig's water line sits at y 128 of its box)
+      function placeBoat(at, cx, wl, sc) { tl.set("#boatRig", { x: cx - 310, y: wl - 128, scale: sc, transformOrigin: "310px 128px" }, at); }
+      function moon(at, dy) { tl.set("#moonWrap", { y: dy }, at); }
+      // per-shot breathing (2-3 % push, <= 1.5 % drift, own phase per shot)
+      function breathe(t0, t1, ph) { const d = t1 - t0; const a = ph % 2 ? [1.032, 1.012] : [1.012, 1.032];
+        tl.fromTo("#breath", { scale: a[0] }, { scale: a[1], duration: d, ease: "sine.inOut", transformOrigin: "50% 50%", immediateRender: false }, t0);
+        tl.fromTo("#breath", { x: ph % 2 ? 9 : -9, y: ph % 3 ? -4 : 4 }, { x: ph % 2 ? -9 : 9, y: ph % 3 ? 4 : -4, duration: d, ease: "sine.inOut", immediateRender: false }, t0); }
+
+      // ---------------- ambient: boat bobs, crew breathes, ripples, lighthouse sweeps
+      tl.fromTo("#boatBob", { y: -2 }, { y: 3, duration: 1.7, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 1.7) }, 0);
+      tl.fromTo("#boatRock", { rotation: -.9 }, { rotation: .9, duration: 2.3, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 2.3), transformOrigin: "50% 90%" }, 0);
+      ripples.forEach((r, i) => tl.fromTo(r, { scale: .75, opacity: 0 }, { keyframes: [{ scale: .95, opacity: .7, duration: .8 }, { scale: 1.35, opacity: 0, duration: 1.8 }], repeat: Math.ceil(DUR / 2.6), ease: "none" }, .3 + i * .87));
+      ["#pixie", "#quest", "#ghostA", "#ghostB"].forEach((m, i) => {
+        if (i < 2) tl.fromTo(`${m} .breathe`, { scaleY: 1 }, { scaleY: 1.018, duration: 1.9 + i * .23, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 1.9), transformOrigin: "50% 100%" }, 0);
+        tl.fromTo(`${m} .sway`, { rotation: -1.1 }, { rotation: 1.1, duration: 2.6 + i * .27, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 2.6), transformOrigin: "50% 100%" }, 0); });
+      tl.fromTo("#lhBeam", { rotation: -18, scaleX: 1 }, { keyframes: [{ scaleX: .05, rotation: -14, duration: 2.6, ease: "sine.in" }, { scaleX: -1, rotation: -18, duration: 2.6, ease: "sine.out" },
+        { scaleX: .05, rotation: -14, duration: 2.6, ease: "sine.in" }, { scaleX: 1, rotation: -18, duration: 2.6, ease: "sine.out" }], repeat: Math.ceil(DUR / 10.4) }, 0);
+      tl.fromTo("#lhGlow", { scale: .7 }, { scale: 1.25, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 2.6) }, 0);
+      // initial states
+      tl.set(["#say", "#dex", "#chat", "#menu", "#title3 .w", "#tut", "#ghostA", "#ghostB"], { opacity: 0 }, 0);
+      tl.set(["#fish5Host", "#wmClip"], { opacity: 0 }, 0);
+      tl.set("#wmMove", { y: 175 }, 0);
+      tl.set("#strike", { scaleX: 0 }, 0); tl.set("#sendBtn", { scale: 0 }, 0);
+      [fish2, fish5].forEach((F) => { tl.set(F.copies, { y: 260, rotation: 0 }, 0); tl.set(F.wl, { opacity: 0 }, 0); });
+
+      // ================= G1 l44: the question as a reflection in the water (only the breathing camera moves)
+      cam(0, 0, { s: 1 });
+      placeBoat(0, 640, 418, .6);
+      moon(0, 0);
+      breathe(S1, S2, 0);
+      const RW = $$("#refl .rw");
+      [Q.so, Q.why, Q.did, Q.mil, Q.of, Q.ppl, Q.buy, Q.a, Q.fishing, Q.game, Q.and, Q.not, Q.fishQ].forEach((t, i) =>
+        tl.fromTo(RW[i], { opacity: 0, y: 10, scaleX: 1.25 }, { opacity: 1, y: 0, scaleX: 1, duration: .5, ease: "power2.out" }, t - .04));
+      // on "fish?" one drop falls; the ripple breaks the text
+      const HIT = Q.fishQ + .3, HX = 760, HY = 548;
+      tl.set("#dropFall", { x: HX - 3, y: -30, opacity: 1 }, Q.fishQ - .12);
+      tl.to("#dropFall", { y: HY - 14, duration: .42, ease: "power2.in" }, Q.fishQ - .12);
+      tl.set("#dropFall", { opacity: 0 }, HIT);
+      (function () { const host = $("#reflRings");
+        for (let i = 0; i < 4; i++) { const r = mk("div", "ring", host, `left:${HX - 60}px; top:${HY - 12}px; width:120px; height:24px; opacity:0; border-width:${3 - i * .5}px`);
+          tl.fromTo(r, { scale: .1, opacity: 0 }, { keyframes: [{ opacity: .95, duration: .02 }, { scale: 3.2 + i * 1.6, opacity: 0, duration: 1.3 + i * .25, ease: "power2.out" }] }, HIT + i * .14); } })();
+      RW.forEach((w, i) => { const b = w.getBoundingClientRect(); const dx = (b.left + b.width / 2) - HX;
+        tl.to(w, { x: dx * .18, y: -14 - Math.abs(dx) * .02, opacity: 0, filter: "blur(4px)", duration: .75, ease: "power2.out" }, HIT + .08 + Math.abs(dx) / 2400); });
+      const sp0 = makeSplash($("#splashHost"), HX, HY, .45);
+      function doSplash(sp, at, seed) { const r = rng(seed); const s = sp.s;
+        sp.rings.forEach((rg, i) => tl.fromTo(rg, { scale: .2, opacity: 0 }, { keyframes: [{ opacity: .95, duration: .02 }, { scale: 1.5 + i * .5, opacity: 0, duration: .9 + i * .3, ease: "power2.out" }] }, at + i * .1));
+        sp.drops.forEach((d) => { const ang = -Math.PI / 2 + (r() - .5) * 2.2, v = (40 + r() * 70) * s; const dx = Math.cos(ang) * v * 1.4, hy = Math.sin(ang) * v;
+          tl.fromTo(d, { x: 0, opacity: 0, scale: Math.max(.5, s) }, { x: dx, duration: .7, ease: "none" }, at);
+          tl.to(d, { opacity: 1, duration: .02 }, at);
+          tl.fromTo(d, { y: 0 }, { keyframes: [{ y: hy, duration: .3, ease: "power2.out" }, { y: 30 * s, duration: .4, ease: "power2.in" }] }, at);
+          tl.to(d, { opacity: 0, duration: .15 }, at + .55); }); }
+      doSplash(sp0, HIT, 5);
+      tl.set("#refl", { opacity: 0 }, S2);
+
+      // ================= G2 l45-46: the fish surfaces, hopes, is ignored, sinks
+      placeBoat(S2, 430, 522, 1.0);
+      breathe(S2, S3, 1);
+      const FX2 = 930, FY2 = 528;
+      tl.set(fish2.rig, { x: FX2, y: FY2, scaleX: -1, scaleY: 1 }, 0);          // faces the boat
+      tl.set(fish2.faces.lookup, { opacity: 1 }, Q.nobody);                     // eyes on the boat
+      tl.fromTo(fish2.copies, { y: 260 }, { y: -26, duration: .7, ease: "back.out(1.6)", immediateRender: false }, Q.nobody - .05);
+      tl.fromTo(fish2.copies, { rotation: 0 }, { keyframes: [{ rotation: 6, duration: .35 }, { rotation: -2, duration: .5 }, { rotation: 0, duration: .5 }], immediateRender: false }, Q.nobody + .1);
+      tl.fromTo(fish2.wl, { opacity: 0, scale: .5 }, { opacity: .9, scale: 1, duration: .5, immediateRender: false }, Q.nobody + .05);
+      const sp2 = makeSplash($("#splashHost"), FX2, FY2, .55); doSplash(sp2, Q.nobody + .05, 12);
+      // rack focus: the duo soft, the fish sharp (they keep looking at the water)
+      tl.fromTo("#boatRig", { filter: "blur(0px)" }, { filter: "blur(3.5px)", duration: .55, ease: "sine.inOut", immediateRender: false }, Q.nobody + .1);
+      tl.to(fish2.faces.blink, { keyframes: [{ opacity: 1, duration: .13, ease: "steps(1)" }, { opacity: 0, duration: .16, ease: "steps(1)" }] }, Q.came + .25);
+      // a hopeful little hop on "fish."
+      tl.to(fish2.copies, { keyframes: [{ y: -78, rotation: -10, duration: .26, ease: "power2.out" }, { y: -26, rotation: 3, duration: .3, ease: "power2.in" }, { rotation: 0, duration: .3 }] }, Q.fishDot - .05);
+      const sp2b = makeSplash($("#splashHost"), FX2, FY2, .4); doSplash(sp2b, Q.fishDot + .5, 14);
+      tl.to(fish2.faces.blink, { keyframes: [{ opacity: 1, duration: .13, ease: "steps(1)" }, { opacity: 0, duration: .16, ease: "steps(1)" }] }, Q.l46 + .3);
+      // the Fish-o-dex card (our HUD style) pops in and out before l46 ends
+      tl.fromTo("#dex", { opacity: 0, scale: .6, rotation: 4 }, { opacity: 1, scale: 1, rotation: 0, duration: .45, ease: "back.out(2.2)" }, Q.came);
+      tl.to("#dex", { opacity: 0, scale: .85, y: -12, duration: .3, ease: "power2.in" }, Q.say46 - .55);
+      // "fishing tuesday?" from the boat; focus racks back to the duo, the fish goes soft
+      tl.set("#say", { x: 330, y: 254 }, 0);
+      tl.fromTo("#say", { opacity: 0, scale: .3, rotation: -6 }, { opacity: 1, scale: 1, rotation: -2, duration: .5, ease: "back.out(2.4)" }, Q.say46 - .12);
+      tl.to("#boatRig", { filter: "blur(0px)", duration: .5, ease: "sine.inOut" }, Q.thing);
+      tl.to(fish2.rig, { filter: "blur(3px)", duration: .5, ease: "sine.inOut" }, Q.thing);
+      tl.set(fish2.faces.lookup, { opacity: 0 }, Q.loud - .3);                  // eyes drop, back to deadpan
+      tl.to(fish2.copies, { y: 260, rotation: -8, duration: 1.3, ease: "power1.in" }, Q.loud);
+      tl.to(fish2.wl, { opacity: 0, scale: 1.4, duration: .8 }, Q.loud + .5);
+      (function () { const b = mk("div", "bub", $("#splashHost"), `left:${FX2 - 8}px; top:${FY2 - 8}px; opacity:0`);
+        tl.fromTo(b, { opacity: 0, y: 8, scale: .4 }, { opacity: 1, y: -16, scale: 1, duration: .45, ease: "sine.out" }, Q.loud + .85);
+        tl.to(b, { scale: 1.8, opacity: 0, duration: .14 }, Q.loud + 1.32); })();
+      tl.to("#say", { opacity: 0, y: "-=14", duration: .3 }, S3 - .35);
+
+      // ================= G3 l47-48: the hook's title slam, small and slow; FISH falls into the lake
+      tl.set(fish2.rig, { opacity: 0 }, S3);
+      tl.set("#boatRig", { filter: "blur(0px)" }, S3);
+      placeBoat(S3, 400, 566, .82);
+      breathe(S3, S4, 2);
+      [["#tw1", Q.how], ["#tw2", Q.to], ["#tw3", Q.fish47]].forEach(([s, t]) => tl.fromTo(s, { y: -120, scale: 1.3, opacity: 0, rotation: -5 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: .85, ease: "back.out(2)" }, t - .08));
+      tl.fromTo("#title3", { scale: 1 }, { keyframes: [{ scale: 1.04, duration: .08 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], immediateRender: false }, Q.fish47 + .3);
+      tl.fromTo("#tut", { opacity: 0, scale: 0, rotation: -10 }, { opacity: 1, scale: 1, rotation: -3, duration: .45, ease: "back.out(2.6)" }, Q.tutorial);
+      tl.to("#tut", { keyframes: [{ rotation: 4, duration: .22 }, { rotation: -4, duration: .26 }, { rotation: -2, duration: .4, ease: "elastic.out(1, .4)" }] }, Q.maybe);   // the "maybe" shrug
+      // a shooting star (idle event in the quiet hold)
+      tl.set("#shoot", { x: 420, y: 40, rotation: 18, opacity: 0 }, 0);
+      tl.fromTo("#shoot", { x: 420, y: 40, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .1 }, { x: 640, y: 112, duration: .45, ease: "none" }, { opacity: 0, duration: .15 }], immediateRender: false }, Q.is47 + .3);
+      // "fishing.": FISH is struck, comes loose and drops into the lake
+      tl.to("#strike", { scaleX: 1, duration: .2, ease: "power3.out" }, Q.fishing48 - .04);
+      tl.to("#tw3", { rotation: 10, x: 6, transformOrigin: "0% 100%", duration: .12, ease: "power2.out" }, Q.fishing48 + .18);
+      tl.to("#tw3", { rotation: 6, duration: .1, ease: "sine.inOut" }, Q.fishing48 + .3);
+      const FALL = Q.fishing48 + .4, FLAND = FALL + .5, LX = 880, LY = 488;
+      tl.to("#tw3", { y: LY - 215, x: 66, rotation: 80, duration: .5, ease: "power2.in" }, FALL);
+      tl.to("#tw3", { opacity: 0, scale: .8, duration: .07 }, FLAND - .07);
+      const sp3 = makeSplash($("#fxSplash"), LX, LY, 1.0); doSplash(sp3, FLAND - .03, 33);
+      // the card becomes the chat text box
+      tl.to(["#tw1", "#tw2", "#tut"], { scale: .6, opacity: 0, duration: .22, ease: "power2.in" }, Q.l49 - .02);
+
+      // ================= G4 l49-50: the chat box; "I miss you" typed, deleted, "boat tonight?" sent, "Bought."
+      tl.fromTo(["#layers", "#fx"], { filter: "blur(0px)" }, { filter: "blur(9px)", duration: .4, ease: "sine.in", immediateRender: false }, Q.l49 - .1);
+      tl.fromTo("#dim", { opacity: 0 }, { opacity: 1, duration: .4, immediateRender: false }, Q.l49 - .15);
+      tl.set("#flies", { opacity: 0 }, Q.l49);
+      placeBoat(S4, 640, 560, .7);
+      cam(S4, 0, focus(640, 478, 2.0));
+      breathe(S4, S5, 3);
+      tl.set("#chat", { opacity: 1 }, Q.l49);
+      tl.fromTo("#chatBox", { scaleX: .5, scaleY: .62, opacity: 0, y: -305 }, { keyframes: [{ opacity: 1, duration: .08 }, { scaleX: 1, scaleY: 1, y: 0, duration: .55, ease: "back.out(1.3)" }] }, Q.l49 - .02);
+      tl.fromTo("#sendBtn", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: .35, ease: "back.out(2.5)", immediateRender: false }, Q.i + .02);
+      tl.to("#sendBtn", { scale: 0, duration: .2, ease: "power2.in" }, Q.ever + .45);
+      tl.to("#sendBtn", { scale: 1, duration: .3, ease: "back.out(2.5)" }, Q.having);
+      tl.to("#sendBtn", { keyframes: [{ scale: .82, duration: .08 }, { scale: 1.08, duration: .12 }, { scale: 1, duration: .2 }] }, SENT - .1);
+      tl.fromTo("#sent", { opacity: 0, scale: .4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: .4, ease: "back.out(1.8)", immediateRender: false }, SENT);
+      const BOUGHT = SENT + .5;
+      tl.to("#sent", { y: -98, duration: .35, ease: "power2.out" }, BOUGHT);
+      tl.fromTo("#reply", { opacity: 0, scale: .3 }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2.6)", immediateRender: false }, BOUGHT);
+      // the box dissolves into the slow crane-out (the only big camera move in G): the two of them, small, under the stars
+      const CR = SENT + 1.0;
+      tl.to("#chat", { opacity: 0, y: -40, filter: "blur(6px)", duration: .8, ease: "sine.inOut" }, CR);
+      tl.to(["#layers", "#fx"], { filter: "blur(0px)", duration: 1.1, ease: "sine.inOut" }, CR - .25);
+      tl.to("#dim", { opacity: 0, duration: 1.2, ease: "sine.inOut" }, CR - .25);
+      tl.set("#flies", { opacity: 1 }, CR);
+      cam(CR - .5, S5 - CR + .5, { x: 0, y: 0, s: .85, ty: 100 }, "power2.inOut");
+
+      // ================= G5 l51-52: CTA. Cut wide, the boat low-left; ghosts in the empty seats; the wordmark rises from the lake
+      cam(S5, 0, { s: 1, ty: -95 });
+      moon(S5, 85);
+      placeBoat(S5, 330, 734, .62);
+      breathe(S5, DUR, 4);
+      tl.set("#lhBeam", { opacity: .4 }, S5);                                      // the beam stays quiet behind the wordmark
+      tl.fromTo("#ghostA", { opacity: 0, scale: .2, y: 40 }, { opacity: .95, scale: 1, y: 0, duration: .45, ease: "back.out(2.6)", transformOrigin: "50% 100%" }, Q.boat - .02);
+      tl.fromTo("#ghostB", { opacity: 0, scale: .2, y: 40 }, { opacity: .95, scale: 1, y: 0, duration: .45, ease: "back.out(2.6)", transformOrigin: "50% 100%" }, Q.boat + .16);
+      tl.to(["#ghostA svg", "#ghostB svg"], { opacity: .7, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, Q.boat + .8);
+      tl.fromTo("#boatBob", { y: 0 }, { keyframes: [{ y: 6, duration: .12 }, { y: 0, duration: .8, ease: "elastic.out(1, .35)" }], immediateRender: false }, Q.boat + .05);
+      // the wordmark RISES from open water on "why?" - streams and drips, a wet sheen that dries; never near the boat
+      const WHY = Q.whyQ;
+      tl.set("#wmClip", { opacity: 1 }, WHY - .05);
+      tl.fromTo("#wmMove", { y: 175 }, { keyframes: [{ y: -10, duration: .95, ease: "power2.out" }, { y: 4, duration: .35, ease: "sine.inOut" }, { y: 0, duration: .4, ease: "sine.out" }], immediateRender: false }, WHY);
+      tl.fromTo("#wmSheen", { opacity: .9 }, { opacity: 0, duration: 2.0, ease: "power1.in", immediateRender: false }, WHY + .3);
+      tl.fromTo("#wmBar", { scaleX: .7 }, { scaleX: 1, duration: .45, ease: "back.out(2)", immediateRender: false }, WHY + .95);
+      streams.forEach((s, i) => tl.fromTo(s, { opacity: .85, scaleY: 1 }, { opacity: 0, scaleY: .1, duration: .9 + (i % 4) * .25, ease: "power1.in", immediateRender: false }, WHY + .4 + (i % 5) * .08));
+      (function () { const host = $("#wmRing"); for (let i = 0; i < 3; i++) { const r = mk("div", "ring", host, "left:-200px; top:-14px; width:400px; height:28px; opacity:0");
+        tl.fromTo(r, { scale: .5, opacity: 0 }, { keyframes: [{ opacity: .9, duration: .02 }, { scale: 1.6 + i * .4, opacity: 0, duration: 1.4 + i * .3, ease: "power2.out" }] }, WHY + .05 + i * .22); } })();
+      // the companion surfaces right under the gold bar and blinks (looking up at the logo)
+      const FX5 = 640, FY5 = 266, F5 = WHY + .95;
+      tl.set(fish5.rig, { x: FX5, y: FY5, scale: .52 }, 0);
+      tl.set("#fish5Host", { opacity: 1 }, F5 - .1);
+      tl.set(fish5.faces.lookup, { opacity: 1 }, F5);
+      tl.fromTo(fish5.copies, { y: 260 }, { y: -30, duration: .6, ease: "back.out(1.8)", immediateRender: false }, F5);
+      tl.fromTo(fish5.wl, { opacity: 0, scale: .5 }, { opacity: .9, scale: 1, duration: .5, immediateRender: false }, F5 + .05);
+      [F5 + 1.2, Q.comments + .1, Q.maybe52 + .2].forEach((t) => tl.to(fish5.faces.blink, { keyframes: [{ opacity: 1, duration: .13, ease: "steps(1)" }, { opacity: 0, duration: .17, ease: "steps(1)" }] }, t));
+      // the CONTINUE? menu (end-screen thirds kept clean) from "Tell"
+      tl.set("#menu", { opacity: 1 }, Q.tell - .05);
+      tl.fromTo("#contT", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: .45, ease: "power3.out", immediateRender: false }, Q.tell);
+      tl.fromTo("#iNext", { opacity: 0, scale: .5 }, { opacity: 1, scale: 1, duration: .4, ease: "back.out(2.4)", transformOrigin: "0% 50%", immediateRender: false }, Q.tell + .18);
+      tl.fromTo("#iJoin", { opacity: 0, scale: .5 }, { opacity: 1, scale: 1, duration: .4, ease: "back.out(2.4)", transformOrigin: "100% 50%", immediateRender: false }, Q.tell + .32);
+      const JX = 1152 - $("#iJoin").getBoundingClientRect().width - 30, JY = 405 + 10, NX = 150 - 30, NY = 290 + 10;
+      tl.set("#cursor", { opacity: 0, x: JX, y: JY }, 0);
+      tl.set("#cursor", { opacity: 1 }, Q.comments);
+      tl.set("#iJoin .lab", { color: "#ffc83d" }, Q.comments);
+      tl.fromTo("#cursor", { xPercent: 0 }, { xPercent: 22, duration: .28, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((DUR - Q.comments) / .28), immediateRender: false }, Q.comments);
+      // "quest.": the fish's eyes open fully for the first time (impressed), it dives; the splash lights NEXT QUEST
+      tl.set(fish5.faces.lookup, { opacity: 0 }, Q.quest);
+      tl.set(fish5.faces.wide, { opacity: 1 }, Q.quest);
+      tl.to(fish5.copies, { keyframes: [{ scale: 1.18, y: -40, duration: .12, ease: "power2.out" }, { scale: 1, y: -32, duration: .3, ease: "elastic.out(1, .4)" }] }, Q.quest);
+      const DIVE = Q.quest + .55, SPL = DIVE + .5;
+      tl.to(fish5.copies, { keyframes: [{ y: -120, rotation: -40, duration: .25, ease: "power2.out" }, { y: 60, rotation: -150, duration: .27, ease: "power2.in" }, { y: 260, duration: .25 }] }, DIVE);
+      tl.to(fish5.wl, { opacity: 0, duration: .3 }, SPL);
+      const sp5 = makeSplash($("#fxSplash"), FX5, FY5 - 4, .75); doSplash(sp5, SPL - .02, 51);
+      tl.set("#glint", { x: FX5, y: FY5 - 10, opacity: 0 }, 0);
+      tl.set("#glint", { opacity: 1 }, SPL + .05);
+      tl.to("#glint", { x: NX + 8, duration: .5, ease: "power1.inOut" }, SPL + .05);
+      tl.to("#glint", { keyframes: [{ y: FY5 - 120, duration: .22, ease: "power2.out" }, { y: NY + 13, duration: .28, ease: "power2.in" }] }, SPL + .05);
+      tl.to("#glint", { scale: 3, opacity: 0, duration: .25 }, SPL + .55);
+      const LIT = SPL + .55;
+      tl.set("#iJoin .lab", { color: "#e1e4f0" }, LIT);
+      tl.set("#iNext .lab", { color: "#ffc83d" }, LIT);
+      tl.set("#iNext .sqbox", { boxShadow: "0 0 18px 4px rgba(255, 200, 61, .55), 0 5px 12px rgba(0,0,0,.45)" }, LIT);
+      tl.set("#cursor", { x: NX, y: NY }, LIT);
+      tl.fromTo("#iNext", { scale: 1 }, { keyframes: [{ scale: 1.16, duration: .1 }, { scale: 1, duration: .6, ease: "elastic.out(1, .35)" }], transformOrigin: "0% 50%", immediateRender: false }, LIT);
+      tl.fromTo("#iNext .sqbox", { opacity: 1 }, { opacity: .8, duration: .6, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((DUR - LIT) / .6), immediateRender: false }, LIT + .7);
+
+      tl.set({}, {}, DUR);
+      window.__timelines["main"] = tl;
+    </script>
+    <!--
+  Motion Blur — After Effects-style shutter-based motion blur.
+
+  Usage: paste this snippet into your composition, then put
+  data-hf-motion-blur on any element your GSAP timeline animates.
+  Nothing else to call, and no order to get wrong.
+
+  How it works — the same model After Effects uses for the layer Motion Blur
+  switch (temporal supersampling), synthesised inside the page because the
+  renderer captures one instant per frame with no shutter:
+
+    1. After every timeline update (each rendered frame), the snippet seeks
+       the timeline to `samplesPerFrame` sub-frame times spread evenly across
+       the shutter window, reads each target's RESOLVED `transform` at every
+       sample, then restores the frame time. Seeks run with events suppressed,
+       so no user callbacks fire and the DOM ends up exactly where the frame
+       left it. Reading the resolved matrix rather than a list of named GSAP
+       properties is what makes every driver work: translation, scale,
+       rotation, 3D rotation and skew arrive in the same one value, and a
+       driver nobody thought of needs no change here.
+    2. One copy of the element per sample is stacked in an isolated group,
+       each carrying its sample's transform, each at 1/N opacity with
+       `mix-blend-mode: plus-lighter`. plus-lighter adds premultiplied colour,
+       so N+1 copies at 1/N sum to the average — the shutter integral. The
+       isolation is load-bearing: without a transparent backdrop of its own
+       the first copy would add onto the page and blow a light background out
+       to white. Result: a smear along the actual trajectory whose extent is
+       speed × shutter time, with no decaying one-sided trail. The tails —
+       where fewer copies overlap — step down evenly at 1/N per copy; wherever
+       the element travels less than its own size the copies pile up past 1
+       and clamp, so the middle of the smear is solid rather than a plateau.
+    3. The element itself paints over that group, sharp and at full opacity.
+       No single copy ever exceeds 1/N, so a moving edge resolves as a
+       staircase of ghosts behind a solid frame-time instance. The group
+       carries the element's own opacity, so a beat that moves and fades at
+       once fades its smear with it. With `sharp: 0` the element is hidden
+       while it moves instead, leaving only the shutter average.
+    4. When every sampled transform collapses to the current one (element at
+       rest), the group is hidden so the element renders sharp.
+
+  Shutter window (AE semantics, per frame at time t, frame interval 1/fps):
+    shutterTime = shutterAngle / 360 / fps
+    windowStart = t + shutterPhase / 360 / fps
+    copy k      = windowStart + k / N × shutterTime,   k = 0..N  (N+1 copies)
+  N counts sub-intervals, so both ends of the window carry a copy.
+  Defaults (shutterAngle 720, shutterPhase -360) integrate [t - 1/fps, t + 1/fps]:
+  a solid moving at 2000 px/s at 30 fps smears 133 px, centred on its position.
+
+  These defaults are measured, not assumed. On a 1920×1080 / 30 fps After Effects
+  export of translating text, the outermost duplicate on the trailing side sits
+  exactly at the previous frame's position and the outermost leading duplicate
+  exactly at the next frame's, with 8 evenly spaced duplicates in between on each
+  side (window = 2 frames = 720°, phase -360°, 16 sub-intervals). Reading the ghost
+  staircase across a stroke gives steps of 0.063 ± 0.002 of the sharp text
+  intensity — a flat 1/16 per duplicate, with no taper toward the window edges
+  (triangle weighting scores 1.6 dB worse against the same export). The sharp
+  instance on top is what keeps total ink above the unblurred frame's.
+
+  Requirements:
+  - Elements must be animated via `transform` (GSAP x/y/scale/rotation and the
+    3D and skew properties all qualify), not left/top. Transformed ancestors
+    are still not compensated.
+  - A 3D beat reads its perspective off the element's parent and applies it per
+    copy, so the vanishing point follows each copy's transform-origin rather
+    than the parent's perspective-origin. Those agree when the element is
+    centred in its perspective parent, which is how a 3D beat is authored.
+  - A copy drops the element's id but keeps its classes, because a class rule is
+    the only thing that can still style a copy's pseudo-elements. So a selector
+    written against a class matches the copies too: after attaching, address the
+    element by id or by reference, never by a class a copy also carries.
+  - A target is blurred once: a second attachMotionBlur() call naming the same
+    element leaves the first call's copies in place rather than stacking a
+    second set over them.
+  - Cost is N + 1 copies of the target's whole subtree, restyled on attach and
+    on resize and re-transformed every frame. Point it at the element that
+    moves, not at a container holding it.
+  - The host must render the timeline for the blur to update — HyperFrames
+    seeks every frame. A fresh paused timeline that is never seeked shows no
+    blur on its first frame.
+  - A declarative target is attached as soon as its composition's timeline is
+    registered, and the registry is also polled for about eight seconds after
+    load, so a composition that mounts asynchronously is picked up too. A
+    target added to the document after that window needs attachMotionBlur().
+  - GSAP must be loaded before this snippet executes.
+
+  API:
+    data-hf-motion-blur on the element that moves. Empty for defaults, else a
+      JSON OBJECT of the options below (double quotes on the keys). The
+      element's timeline is the one registered under the data-composition-id of
+      its nearest ancestor carrying that attribute, so a sub-composition's
+      targets follow that sub-composition.
+      Three things warn rather than rendering sharp in silence: a target no
+      composition ever registers a timeline for, a value that is not JSON, and
+      a value that parses but is not an object (null, a number, a string).
+      A second timeline registered under the same key also warns: the copies
+      keep following the first one.
+    attachMotionBlur(selector, timeline, options?) — the imperative form, for a
+      target built after the polling window. Call it AFTER defining all tweens,
+      so the timeline's final duration is known.
+      Either form blurs a given element once, whichever names it first.
+
+  Options:
+    shutterAngle     — degrees of the frame interval the shutter is open
+                       (default 720 = two frames, as measured off the AE
+                       reference; 360 = one frame, 0 disables)
+    shutterPhase     — degrees offset of the window start from the frame
+                       time (default -360 = centred on the frame, one frame
+                       back, like the AE reference)
+    samplesPerFrame  — sub-intervals of the shutter window, so N+1 duplicates
+                       each at 1/N opacity (default 16, max 64)
+    fps              — composition frame rate (default: the data-fps of the
+                       target's own composition root, else 30). Pass it
+                       explicitly when rendering with an fps override
+                       (`hyperframes render --fps`).
+    sharp            — 1 (default) paints the element itself, crisp, over its
+                       smear; 0 hides it while it moves, leaving only the
+                       shutter average: a soft blur with no frame-time edge.
+                       It hides through a marker attribute, never the
+                       element's own visibility, so autoAlpha still works
+                       (an inline visibility !important on it wins).
+
+  A key that is none of the five, or a value that is not a finite number, is
+  refused by name rather than read as defaults. Both halves matter: a
+  non-numeric angle hides the smear, and a non-numeric phase seeks every copy
+  to NaN, which parks them at the timeline's start.
+-->
+
+<script>
+  (function () {
+    /* SHUTTER_SNIPPET_START */
+    if (!window._hfMbUid) window._hfMbUid = 0;
+    if (!window._hfMbAttached) window._hfMbAttached = new WeakSet();
+    if (!window._hfMbSkipped) window._hfMbSkipped = new WeakSet();
+    if (!window._hfMbProxies) window._hfMbProxies = new WeakSet();
+    if (!window._hfMbTimeline) window._hfMbTimeline = new WeakMap();
+    if (!window._hfMbWarned) window._hfMbWarned = new WeakSet();
+
+    // The declarative form. A copy of a target must not carry it, or the copy is swept
+    // as a target of its own; the group's own marker is `data-hf-motion-blur-group`.
+    var SWEEP_ATTR = "data-hf-motion-blur";
+    // About eight seconds. Long enough for an asynchronously mounted sub-composition, short
+    // enough that a page with a genuine mistake in it reports before anyone stops watching.
+    var POLL_MS = 32;
+    var POLL_TICKS = 250;
+    var SWEEP_SELECTOR = "[" + SWEEP_ATTR + "]";
+    var OPTION_KEYS = ["shutterAngle", "shutterPhase", "samplesPerFrame", "fps", "sharp"];
+
+    // A copy is a deep clone, so the attribute rides along on the root AND on every marked
+    // descendant. Any one left behind is swept as a target of its own, which clones again.
+    var COPY_STRIP = [SWEEP_ATTR, "data-composition-id", "data-fps"];
+
+    // sharp 0 hides a moving target through this marker rather than its own visibility,
+    // which the author's timeline (autoAlpha) may be writing too.
+    var HIDE_ATTR = "data-hf-motion-blur-hiding";
+
+    function installHideRule() {
+      if (document.getElementById("hf-mb-hide")) return;
+      var rule = document.createElement("style");
+      rule.id = "hf-mb-hide";
+      rule.textContent = "[" + HIDE_ATTR + "]{visibility:hidden!important}";
+      (document.head || document.documentElement).appendChild(rule);
+    }
+
+    function stripAttrs(el) {
+      for (var a = 0; a < COPY_STRIP.length; a++) el.removeAttribute(COPY_STRIP[a]);
+    }
+
+    function stripCopyAttrs(root) {
+      stripAttrs(root);
+      var inner = root.querySelectorAll("[" + COPY_STRIP.join("],[") + "]");
+      for (var i = 0; i < inner.length; i++) stripAttrs(inner[i]);
+    }
+
+    // Shutter length is measured in frames, so the snippet must know the composition
+    // frame rate: explicit option, else the target's OWN root, else the first root in
+    // the document, else 30. The target's root is what makes two compositions on one
+    // page read their own data-fps instead of sharing the first one written.
+    function resolveFps(optionFps, target) {
+      var explicit = Number(optionFps);
+      if (explicit > 0) return explicit;
+
+      var scoped = target ? target.closest("[data-composition-id][data-fps]") : null;
+      var root = scoped || document.querySelector("[data-composition-id][data-fps]");
+      var rootFps = root ? Number(root.getAttribute("data-fps")) : 0;
+      if (rootFps > 0) return rootFps;
+
+      return 30;
+    }
+
+    function numOption(value, fallback) {
+      return value !== undefined ? Number(value) : fallback;
+    }
+
+    // A resolved `transform` is either "none", a 2D matrix(a,b,c,d,e,f) or a 3D
+    // matrix3d of 16. Splitting the numbers into the linear part and the
+    // translation is what lets the deadband below use a pixel tolerance on the
+    // one and an angle/ratio tolerance on the other.
+    function parseTransform(value) {
+      if (!value || value === "none") return { linear: [1, 0, 0, 1], translate: [0, 0, 0] };
+      var nums = value
+        .slice(value.indexOf("(") + 1, -1)
+        .split(",")
+        .map(parseFloat);
+      if (nums.length === 16) {
+        return {
+          linear: [
+            nums[0],
+            nums[1],
+            nums[2],
+            nums[4],
+            nums[5],
+            nums[6],
+            nums[8],
+            nums[9],
+            nums[10],
+            nums[3],
+            nums[7],
+            nums[11],
+            nums[15],
+          ],
+          translate: [nums[12], nums[13], nums[14]],
+        };
+      }
+      return {
+        linear: [nums[0], nums[1], nums[2], nums[3]],
+        translate: [nums[4], nums[5], 0],
+      };
+    }
+
+    // Deadband: half a pixel of travel, a thousandth of a unit of linear change,
+    // about 0.06 degrees or 0.1% of scale. Below it the average is the source.
+    // The 2D and 3D forms have different arities, so a change of form counts as
+    // movement rather than being compared component by component.
+    function differs(a, b) {
+      if (a.linear.length !== b.linear.length) return true;
+      for (var i = 0; i < a.linear.length; i++) {
+        if (Math.abs(a.linear[i] - b.linear[i]) > 0.001) return true;
+      }
+      for (var j = 0; j < 3; j++) {
+        if (Math.abs(a.translate[j] - b.translate[j]) > 0.5) return true;
+      }
+      return false;
+    }
+
+    window.attachMotionBlur = function (selector, tl, opts) {
+      opts = opts || {};
+      var shutterAngle = numOption(opts.shutterAngle, 720);
+      var shutterPhase = numOption(opts.shutterPhase, -360);
+      var requestedSamples = numOption(opts.samplesPerFrame, 16);
+      var sharp = opts.sharp !== 0;
+      if (!sharp) installHideRule();
+      var samples = Number.isFinite(requestedSamples)
+        ? Math.max(2, Math.min(64, Math.round(requestedSamples)))
+        : 16;
+      var items = Array.isArray(selector) ? selector : [selector];
+      var targets = items.reduce(function (acc, s) {
+        if (typeof s === "string") {
+          document.querySelectorAll(s).forEach(function (el) {
+            acc.push(el);
+          });
+        } else if (s instanceof Element) {
+          acc.push(s);
+        }
+        return acc;
+      }, []);
+
+      // `samples` counts sub-intervals of the shutter window, so there is one copy at
+      // every interval boundary — both ends of the window included — and each carries
+      // 1/samples of the source. That is what the reference export shows: the outermost
+      // copy sits exactly one frame away from the frame time, not half a step short.
+      var copies = samples + 1;
+      var alpha = String(1 / samples);
+
+      // A copy loses the `#id` rules that styled the original, so it carries its resolved style inline
+      // (enumerated: Chrome returns "" for a computed cssText). Visibility is not frozen: the root
+      // follows the group each frame, so a target hidden at attach still smears.
+      function resolvedStyles(source, out, parentVisibility) {
+        var cs = getComputedStyle(source);
+        var text = "";
+        for (var i = 0; i < cs.length; i++) {
+          var value = cs.getPropertyValue(cs[i]);
+          var inherited = parentVisibility === undefined || value === parentVisibility;
+          if (cs[i] === "visibility" && inherited) continue;
+          text += cs[i] + ":" + value + ";";
+        }
+        // A copy is a still of one instant. Left live, an inherited transition or
+        // keyframe animation would carry it somewhere the timeline never sampled.
+        out.push(text + "transition:none;animation:none;");
+        for (var c = 0; c < source.children.length; c++) {
+          resolvedStyles(source.children[c], out, cs.getPropertyValue("visibility"));
+        }
+        return out;
+      }
+
+      function paintResolvedStyles(copy, styles, cursor) {
+        copy.style.cssText = styles[cursor.i++];
+        for (var c = 0; c < copy.children.length; c++) {
+          paintResolvedStyles(copy.children[c], styles, cursor);
+        }
+      }
+
+      // Perspective applies to a parent's children only, and a copy is a grandchild.
+      // Sharing the parent's 3D context would need preserve-3d on the group, which
+      // mix-blend-mode flattens, so each copy carries the perspective itself. See the
+      // header for what that does to the vanishing point.
+      function parentPerspective(el) {
+        var value = el.parentNode ? getComputedStyle(el.parentNode).perspective : "none";
+        return value && value !== "none" ? "perspective(" + value + ") " : "";
+      }
+
+      function attachOne(el) {
+        var group = document.createElement("div");
+        group.setAttribute("data-hf-motion-blur-group", "hf-mb-" + window._hfMbUid++);
+        group.style.cssText =
+          "position:absolute;left:0;top:0;width:0;height:0;isolation:isolate;pointer-events:none;display:none;";
+
+        var clones = [];
+        for (var k = 0; k < copies; k++) {
+          var clone = el.cloneNode(true);
+          clone.removeAttribute("id");
+          stripCopyAttrs(clone);
+          clones.push(clone);
+          group.appendChild(clone);
+        }
+        var s = {
+          el: el,
+          group: group,
+          clones: clones,
+          samples: [],
+          perspective: "",
+          watch: null,
+        };
+
+        // Resolved styles and the parent's perspective are px once read, so a
+        // container-relative element needs them again when its box changes. Per frame
+        // that would walk the whole subtree once per copy; on resize it costs nothing
+        // on a fixed-size render and keeps a live preview honest.
+        function snapshot() {
+          // Read a target hidden right now (an autoAlpha entrance) as shown, so a descendant
+          // hidden by its own rule still differs from it; the inline value goes back exactly.
+          var hidden = getComputedStyle(el).visibility !== "visible";
+          var inline = el.style.getPropertyValue("visibility");
+          var priority = el.style.getPropertyPriority("visibility");
+          if (hidden) el.style.setProperty("visibility", "visible", "important");
+          var styles;
+          try {
+            styles = resolvedStyles(el, []);
+          } finally {
+            if (hidden) el.style.setProperty("visibility", inline, priority);
+          }
+          s.perspective = parentPerspective(el);
+          for (var c = 0; c < clones.length; c++) {
+            paintResolvedStyles(clones[c], styles, { i: 0 });
+            clones[c].style.position = "absolute";
+            clones[c].style.margin = "0";
+            clones[c].style.opacity = alpha;
+            clones[c].style.mixBlendMode = "plus-lighter";
+          }
+        }
+
+        // Snapshot BEFORE the group enters the page, so a throw in the style walk leaves
+        // nothing behind: the record the rollback needs does not exist until it returns.
+        snapshot();
+        el.parentNode.insertBefore(group, el);
+        if (typeof ResizeObserver === "function") {
+          s.watch = new ResizeObserver(snapshot);
+          s.watch.observe(el);
+        }
+        return s;
+      }
+
+      var state = [];
+      // Every element this call marked. A throw inside `attachOne` never returns its
+      // record, so `state` alone cannot give the marks back.
+      var claimed = [];
+      try {
+        for (var q = 0; q < targets.length; q++) {
+          var candidate = targets[q];
+          // One group per element, whether a second call names it or one call names it
+          // twice: a second set of copies over the first would double the ink. Marked
+          // BEFORE the copies go in: inserting them runs custom-element reactions
+          // synchronously, and one that registers a timeline re-enters the write trap.
+          if (window._hfMbAttached.has(candidate)) continue;
+          window._hfMbAttached.add(candidate);
+          window._hfMbTimeline.set(candidate, tl);
+          claimed.push(candidate);
+          state.push(attachOne(candidate));
+        }
+      } catch (e) {
+        unmark(claimed);
+        discard(state);
+        throw e;
+      }
+      // Nothing to blur means nothing to seek: a tracker here would run the whole sample
+      // loop every frame over an empty set.
+      if (state.length === 0) return;
+
+      // One seek loop drives the whole call, so the window is ONE length, and it belongs
+      // to the composition of an element this call actually attached.
+      var fps = resolveFps(opts.fps, state[0].el);
+      for (var d = 1; d < state.length; d++) {
+        if (resolveFps(opts.fps, state[d].el) === fps) continue;
+        var line = "one call cannot blur compositions at different frame rates; using ";
+        console.warn("[motion-blur] " + line + fps, state[d].el);
+        break;
+      }
+
+      function readTransform(el) {
+        var cs = getComputedStyle(el);
+        return {
+          css: cs.transform,
+          origin: cs.transformOrigin,
+          opacity: cs.opacity,
+          visibility: cs.visibility,
+          parsed: parseTransform(cs.transform),
+        };
+      }
+
+      var scheduled = false;
+
+      function applyShutter() {
+        var shutterTime = shutterAngle / 360 / fps;
+        if (!(shutterTime > 0)) {
+          state.forEach(function (s) {
+            s.group.style.display = "none";
+          });
+          return;
+        }
+
+        var t0 = tl.time();
+        var duration = tl.duration();
+        var windowStart = t0 + shutterPhase / 360 / fps;
+
+        // Sample the real trajectory: seek to each sub-frame time with events
+        // suppressed (so no tween callbacks, including this tracker's, fire),
+        // read the resolved transform, then restore the frame time.
+        try {
+          for (var k = 0; k < copies; k++) {
+            var tk = windowStart + (k / samples) * shutterTime;
+            tl.time(Math.min(duration, Math.max(0, tk)), true);
+            state.forEach(function (s) {
+              s.samples[k] = readTransform(s.el);
+            });
+          }
+        } finally {
+          tl.time(t0, true);
+        }
+
+        state.forEach(function (s) {
+          // Read the element as the timeline left it: the marker is this snippet's own.
+          if (!sharp) s.el.removeAttribute(HIDE_ATTR);
+          var current = readTransform(s.el);
+          var moved = false;
+          for (var i = 0; i < copies; i++) {
+            if (differs(s.samples[i].parsed, current.parsed)) {
+              moved = true;
+              break;
+            }
+          }
+          if (!moved) {
+            s.group.style.display = "none";
+            return;
+          }
+
+          // The copies are absolutely positioned inside the group, and the group sits at
+          // the origin of the element's own containing block, so the element's offset box
+          // places them. Re-read every frame: a beat is free to move the box itself.
+          var left = s.el.offsetLeft + "px";
+          var top = s.el.offsetTop + "px";
+          var width = s.el.offsetWidth + "px";
+          var height = s.el.offsetHeight + "px";
+          for (var j = 0; j < copies; j++) {
+            var clone = s.clones[j];
+            clone.style.left = left;
+            clone.style.top = top;
+            clone.style.width = width;
+            clone.style.height = height;
+            clone.style.transformOrigin = s.samples[j].origin;
+            clone.style.transform =
+              s.perspective + (s.samples[j].css === "none" ? "" : s.samples[j].css);
+          }
+          // The copies are the element's own ink, so they carry its opacity and visibility:
+          // a beat that moves and fades at once would otherwise leave a full-strength
+          // smear behind a vanishing element. It rides the group, not the copies, whose
+          // own opacity is the 1/N shutter weight.
+          s.group.style.opacity = current.opacity;
+          // Set only where the element differs from its parent: an explicit value would
+          // outlive an ancestor that hides later, like a clip that has ended.
+          var shared = getComputedStyle(s.el.parentNode).visibility;
+          s.group.style.visibility = current.visibility === shared ? "" : current.visibility;
+          s.group.style.display = "";
+          if (!sharp) s.el.setAttribute(HIDE_ATTR, "");
+        });
+      }
+
+      // tl.eventCallback("onUpdate") is unavailable under the HyperFrames runtime proxy, so a
+      // tracker tween's onUpdate fires on every seek. Sampling is deferred to a microtask:
+      // seeking GSAP from inside its own render reads stale tween state, while the microtask
+      // runs after the seek returns and before the frame is captured or painted.
+      var _proxy = { t: 0 };
+      try {
+        tl.to(
+          _proxy,
+          {
+            t: 1,
+            duration: Math.max(tl.duration(), 0.1),
+            ease: "none",
+            onUpdate: function () {
+              if (scheduled) return;
+              scheduled = true;
+              Promise.resolve().then(function () {
+                scheduled = false;
+                applyShutter();
+              });
+            },
+          },
+          0,
+        );
+      } catch (e) {
+        unmark(claimed);
+        discard(state);
+        throw e;
+      }
+    };
+
+    // An empty attribute means defaults; anything else is a JSON options object. A value that
+    // is not an options object is skipped loudly rather than read as defaults, because a typo
+    // in it would otherwise render as a silently unblurred element.
+    function sweepOptions(el) {
+      var text = (el.getAttribute(SWEEP_ATTR) || "").trim();
+      if (text === "") return {};
+      var parsed = null;
+      try {
+        parsed = JSON.parse(text);
+      } catch (e) {
+        return refuse(el, "is not JSON: " + text);
+      }
+      // `null`, a number and a string all parse. None of them is a set of options.
+      if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+        return refuse(el, "is not a JSON object: " + text);
+      }
+      var bad = unknownKey(parsed);
+      if (bad !== null) return refuse(el, "names no such option: " + bad);
+      var wrong = nonNumber(parsed);
+      if (wrong !== null) return refuse(el, "needs a number for " + wrong);
+      if (parsed.sharp !== undefined && parsed.sharp !== 0 && parsed.sharp !== 1) {
+        return refuse(el, "needs 0 or 1 for sharp");
+      }
+      return parsed;
+    }
+
+    // A misspelled key is the likeliest typo in a JSON object, and reading it as
+    // defaults is the silent no-op this attribute exists to remove.
+    function unknownKey(parsed) {
+      for (var key in parsed) {
+        if (OPTION_KEYS.indexOf(key) < 0) return key;
+      }
+      return null;
+    }
+
+    // A key with a value the shutter cannot use is the same silent no-op as a key it does
+    // not know: a non-numeric angle hides the smear, a non-numeric phase parks every copy
+    // at the timeline's start. JSON gives real numbers, so anything else is a typo.
+    function nonNumber(parsed) {
+      for (var i = 0; i < OPTION_KEYS.length; i++) {
+        var held = parsed[OPTION_KEYS[i]];
+        if (held === undefined) continue;
+        if (typeof held !== "number" || !Number.isFinite(held)) return OPTION_KEYS[i];
+      }
+      return null;
+    }
+
+    // A throw partway through an attach leaves an element blurred by nothing, so the copies
+    // go too, along with the observer that would otherwise keep walking a detached subtree
+    // on every resize of an element nothing blurs.
+    // The mark is what a second trigger reads, so it is the first thing to give back.
+    function unmark(els) {
+      for (var i = 0; i < els.length; i++) {
+        window._hfMbAttached.delete(els[i]);
+        window._hfMbTimeline.delete(els[i]);
+      }
+    }
+
+    function discard(state) {
+      for (var i = 0; i < state.length; i++) {
+        var s = state[i];
+        if (s.watch !== null) s.watch.disconnect();
+        if (s.group.parentNode !== null) s.group.parentNode.removeChild(s.group);
+      }
+    }
+
+    function refuse(el, why) {
+      window._hfMbSkipped.add(el);
+      console.warn("[motion-blur] " + SWEEP_ATTR + " " + why, el);
+      return null;
+    }
+
+    // An element belongs to the nearest composition above it, so a sub-composition's
+    // targets follow that sub-composition's own timeline.
+    function compositionOf(el) {
+      var host = el.closest("[data-composition-id]");
+      return host ? host.getAttribute("data-composition-id") : null;
+    }
+
+    // Anything else registered on the container is somebody else's bookkeeping: a
+    // timeline is the thing this snippet can seek and extend.
+    function isTimeline(value) {
+      return !!value && typeof value.time === "function" && typeof value.to === "function";
+    }
+
+    // Attached, or skipped as unparseable. Both are terminal, so a later trigger must not
+    // report or attach the element twice.
+    function handled(el) {
+      return window._hfMbAttached.has(el) || window._hfMbSkipped.has(el);
+    }
+
+    // The timeline registered for an element's own composition, or null. Read from the
+    // registry rather than taken from whoever wrote it, so every trigger agrees.
+    function timelineFor(el) {
+      var id = compositionOf(el);
+      if (id === null) return null;
+      var registry = window.__timelines;
+      var found = registry ? registry[id] : null;
+      return isTimeline(found) ? found : null;
+    }
+
+    // A marked element whose parent is not an Element has no target above it: the parent
+    // of a root is the Document, which has no `closest`.
+    function nestedInTarget(el) {
+      var parent = el.parentNode;
+      if (parent === null || typeof parent.closest !== "function") return false;
+      return parent.closest(SWEEP_SELECTOR) !== null;
+    }
+
+    // One owner of attaching one element. Answers whether the element still needs a trigger.
+    function claim(el) {
+      var tl = timelineFor(el);
+      if (handled(el)) {
+        var owner = window._hfMbTimeline.get(el);
+        // Re-registering a key with a DIFFERENT timeline leaves the copies driven by the one
+        // nobody seeks, which renders sharp and says nothing. Report it rather than guess.
+        var changed = tl !== null && owner !== undefined && owner !== tl;
+        if (changed && !window._hfMbWarned.has(el)) {
+          window._hfMbWarned.add(el);
+          console.warn(
+            "[motion-blur] a second timeline registered for this element; the copies still follow the first",
+            el,
+          );
+        }
+        return true;
+      }
+      // Its group would be inserted into the live outer element, so the outer target's
+      // style replay would walk a subtree its cursor no longer matches.
+      if (nestedInTarget(el)) {
+        refuse(el, "cannot blur a target inside another target; blur one of them");
+        return true;
+      }
+      var opts = sweepOptions(el);
+      if (opts === null) return true;
+      if (tl === null) return false;
+      window.attachMotionBlur(el, tl, opts);
+      return true;
+    }
+
+    // Returns the elements still waiting for their composition to register a timeline.
+    // The trap below runs this INSIDE the author's registration statement, so one bad
+    // target must not abort the rest of their composition script.
+    function sweep() {
+      var pending = [];
+      document.querySelectorAll(SWEEP_SELECTOR).forEach(function (el) {
+        try {
+          if (!claim(el)) pending.push(el);
+        } catch (e) {
+          window._hfMbSkipped.add(el);
+          console.warn("[motion-blur] could not blur this element: " + e, el);
+        }
+      });
+      return pending;
+    }
+
+    // Registering a timeline is the moment the author has finished building it, so trapping
+    // the write attaches before the renderer captures a frame. A microtask would be too
+    // early: it runs before the next `<script>` tag.
+    function registrationProxy(container) {
+      var proxy = new Proxy(container, {
+        set: function (target, key, value) {
+          target[key] = value;
+          if (typeof key === "string") sweep();
+          return true;
+        },
+      });
+      window._hfMbProxies.add(proxy);
+      return proxy;
+    }
+
+    function hookRegistration() {
+      var held = window.__timelines;
+      Object.defineProperty(window, "__timelines", {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+          return held;
+        },
+        set: function (value) {
+          var container = !!value && typeof value === "object";
+          var fresh = container && !window._hfMbProxies.has(value);
+          held = fresh ? registrationProxy(value) : value;
+          if (fresh) sweep();
+        },
+      });
+      // A container assigned before this snippet ran is replayed through the setter, so a
+      // timeline already registered on it is swept too.
+      if (held !== undefined) window.__timelines = held;
+    }
+
+    // The trap above cannot see every registration: the runtime owns the registry object,
+    // wraps it per sub-composition, and mounts nested compositions asynchronously. So the
+    // registry is also POLLED, which needs no cooperation from whoever writes it.
+    function poll(ticks) {
+      var pending = sweep();
+      // The WHOLE budget, every time. Stopping the first tick nothing is pending kills the
+      // poll one tick into an ordinary page, which is before a late composition arrives.
+      if (ticks > 0) {
+        setTimeout(function () {
+          poll(ticks - 1);
+        }, POLL_MS);
+        return;
+      }
+      if (pending.length === 0) return;
+      var count = pending.length + " element(s) carry " + SWEEP_ATTR;
+      console.warn(
+        "[motion-blur] " + count + ", and no composition registered a timeline for them",
+        pending,
+      );
+    }
+
+    if (!window._hfMbHooked) {
+      window._hfMbHooked = true;
+      hookRegistration();
+      poll(POLL_TICKS);
+    }
+    /* SHUTTER_SNIPPET_END */
+  })();
+</script>
+
+<!--
+  Timeline integration example:
+
+  <div id="root" data-composition-id="my-composition" data-duration="6" data-fps="30">
+    <div id="my-box" data-hf-motion-blur></div>
+    <div id="my-title" data-hf-motion-blur='{"shutterAngle": 360}'></div>
+  </div>
+
+  const tl = gsap.timeline({ paused: true });
+
+  tl.fromTo("#my-box", { x: -100 }, { x: 1700, duration: 1.2, ease: "power3.inOut" }, 0.5);
+
+  // Extend to data-duration so seeks past the last tween reach the blur callback.
+  tl.set(document.body, {}, DATA_DURATION);
+
+  // The registration below is what attaches both targets, in that order.
+  window.__timelines = window.__timelines || {};
+  window.__timelines["my-composition"] = tl;
+
+  // Only for an element created later than the polling window above:
+  attachMotionBlur("#late-box", tl, { shutterAngle: 720, samplesPerFrame: 16 });
+-->
+
+  </body>
+</html>
