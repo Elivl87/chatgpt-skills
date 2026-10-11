@@ -91,7 +91,8 @@ ImageDraw.ImageDraw.text = lambda self, xy, text, *a, font=None, **k: _draw_text
 ImageDraw.ImageDraw.textlength = lambda self, text, *a, font=None, **k: _draw_textlength(self, text, *a, font=_sym_font(text, font), **k)
 FSUB, FTAG, FLAB, FBIG = F(30), F(16), F(15), F(44)
 
-tm = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())
+EPISODE = _os.environ.get('EPISODE', 'ep002')                # which episode's timings T() reads (EP003 on: EPISODE=ep003)
+tm = json.loads((ROOT / f'episodes/{EPISODE}/timings.json').read_text())
 CUES = tm['cues']
 DURATION = tm['duration']
 
