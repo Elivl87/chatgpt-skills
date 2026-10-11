@@ -1,0 +1,267 @@
+{
+  "episode": "ep003",
+  "locale": "en",
+  "notes": "docs/ep003/scripts/B_HowToFish.md, section 'Master script (EN)' (LOCKED v3, 2026-10-11), verbatim. One line per blank-line-separated paragraph; the four-line dialogue is four lines.",
+  "lines": [
+    {
+      "id": "l01",
+      "text": "There is a game called How to Fish. A boat. A rod. A lot of fish.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l02",
+      "text": "And almost nobody seems to be fishing.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l03",
+      "text": "They are slapping each other in the face. Gambling the fish money. Fishing with a sniper rifle.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l04",
+      "text": "It costs about eight dollars. Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l05",
+      "text": "Millions of people bought a fishing game. To do everything else.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l06",
+      "text": "Together.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l07",
+      "text": "Why?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l08",
+      "text": "Start with the price. Eight dollars is not really a price. It's an invitation.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l09",
+      "text": "Because this is not really a game you play alone. Everyone in the boat buys their own copy. So it usually begins the same way. A message in a group chat. \"It's eight dollars. Just get it.\"",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l10",
+      "text": "And then, one by one: Bought. Bought. Bought.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l11",
+      "text": "And one friend who says \"I'll get it later.\" He will not get it later.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l12",
+      "text": "Now compare that with the other way adults try to see their friends.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l13",
+      "text": "\"We should hang out.\"",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l14",
+      "text": "\"Yes! Definitely.\"",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l15",
+      "text": "\"I'm free in three weeks.\"",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l16",
+      "text": "\"Three weeks works.\"",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l17",
+      "text": "And three weeks later, somebody's kid is sick. Somebody's car is making a new noise. And the plan quietly dies in a chat nobody will ever scroll back to.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l18",
+      "text": "As an adult, the hard part of seeing your friends is not distance. It isn't even time. It's asking. Proposing a plan means admitting you want one.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l19",
+      "text": "Kids never had this problem. A kid just shows up at your door and says: \"Want to play?\" At some point, we lost that sentence. Nobody ever told us what replaced it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l20",
+      "text": "Eight dollars removes the asking.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l21",
+      "text": "But why fishing? Of all the things a game could be about.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l22",
+      "text": "Because fishing solves a second problem. Not how to meet. What to do once you're there.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l23",
+      "text": "Ask anyone what they caught on their last fishing trip. Most don't remember. They remember who was in the boat.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l24",
+      "text": "In a boat, nobody has to look at each other. Nobody has to fill the silence. You both look at the water. You talk. Or you don't, and that is fine too. The fish gives the afternoon a reason... and the silence a job.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l25",
+      "text": "And fishing is not the only alibi adults have invented. The golf course. The poker night. The car that needs one more afternoon in the garage. Nobody in those places is really there for the golf, the cards or the car. Every generation has built its own excuse to sit next to each other.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l26",
+      "text": "How to Fish is just the newest one. It fits in a group chat.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l27",
+      "text": "And like every good alibi, it comes with props. A boat. A rod. A goal.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l28",
+      "text": "And then it gets rid of it almost immediately.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l29",
+      "text": "You begin with simple tools. Soon you have heavy weapons. You sell your catch. You gamble the money. You fight bosses. The developers' own description on Steam reads, word for word: \"cartoon violence towards fish and gambling with fish... (no real money).\"",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l30",
+      "text": "The goal is still there. But the goal is not the point. The goal is the alibi.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l31",
+      "text": "And what happens instead of fishing... is mostly failure.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l32",
+      "text": "Someone falls in the water. Someone finds a weapon that was clearly not designed for fish. Someone gambles the savings, and nobody will ever admit who it was. Someone gets launched across the island by something they absolutely should not have poked.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l33",
+      "text": "And when a teammate goes down, the way you bring them back is by picking them up... and slapping them in the face.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l34",
+      "text": "Which, if we're honest, is how most friendships handle feelings.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l35",
+      "text": "Nobody retells the time everything went perfectly. They retell the night it all went wrong. Usually years later, in the same group chat, with no context, to the confusion of everyone who wasn't there.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l36",
+      "text": "The internet even invented a name for games like this. Friendslop. Half a joke, half an insult. Cheap, chaotic co-op games built for playing with friends.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l37",
+      "text": "We named a whole genre after the word for garbage. Then we invited our friends to it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l38",
+      "text": "Some say it's short. Maybe it is just this year's summer hit.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l39",
+      "text": "But fishing trips end too. That was never what they were for.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l40",
+      "text": "Some games just need to get a few friends into the same boat on a Tuesday night. The plan was to fish. The plan is always to fish.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l41",
+      "text": "And at some point, around one in the morning, someone says \"last round.\" It is never the last round.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l42",
+      "text": "And the two friends who founded the studio behind it? They met in high school. Their first paid game had not done well. So they made a small game about friends doing something silly together.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l43",
+      "text": "And millions of people answered the same group chat.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l44",
+      "text": "So... why did millions of people buy a fishing game and not fish?",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l45",
+      "text": "Because nobody in that boat came for the fish.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l46",
+      "text": "The fish was just the thing you could say out loud.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l47",
+      "text": "How to Fish sounds like a tutorial. And maybe it is.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l48",
+      "text": "Just not for fishing.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l49",
+      "text": "It teaches the thing adults are worst at.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l50",
+      "text": "How to say \"I miss you\"... without ever having to say it.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l51",
+      "text": "So who would you put in your boat? And what game deserves a \"why?\" next? Tell me in the comments.",
+      "pauseAfter": 0.3
+    },
+    {
+      "id": "l52",
+      "text": "Maybe that's our next quest.",
+      "pauseAfter": 0.3
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "episode": "ep003",
+  "locale": "es",
+  "notes": "ES-419 dub of the LOCKED v3 master (B_HowToFish.md). Same ids as script.json (en), 1:1. Neutral LatAm, tú form, curly quotes as EP002. Total chars ES/EN = 1.050 Lines over 1.20x: see docs/ep003/EP003_SCRIPT_ES419.md. DRAFT pending Producer approval.",
+  "lines": [
+    {
+      "id": "l01",
+      "text": "Hay un juego que se llama How to Fish. Un bote. Una caña. Muchos peces."
+    },
+    {
+      "id": "l02",
+      "text": "Y casi nadie parece estar pescando."
+    },
+    {
+      "id": "l03",
+      "text": "Se dan cachetadas. Apuestan el dinero de la pesca. Pescan con un rifle de francotirador."
+    },
+    {
+      "id": "l04",
+      "text": "Cuesta unos ocho dólares. Sus creadores esperaban vender unas doscientas mil copias. A principios de octubre, una firma de análisis estimaba más de diez millones."
+    },
+    {
+      "id": "l05",
+      "text": "Millones de jugadores compraron un juego de pesca. Para hacer todo lo demás."
+    },
+    {
+      "id": "l06",
+      "text": "Juntos."
+    },
+    {
+      "id": "l07",
+      "text": "¿Por qué?"
+    },
+    {
+      "id": "l08",
+      "text": "Empecemos por el precio. Ocho dólares no es realmente un precio. Es una invitación."
+    },
+    {
+      "id": "l09",
+      "text": "Porque este no es un juego para jugar solo. Cada uno en el bote compra su propia copia. Así que casi siempre empieza igual. Un mensaje en el chat del grupo. “Son ocho dólares. Cómpralo y ya.”"
+    },
+    {
+      "id": "l10",
+      "text": "Y luego, uno por uno: Comprado. Comprado. Comprado."
+    },
+    {
+      "id": "l11",
+      "text": "Y ese amigo que dice: “Después lo compro”. No lo va a comprar después."
+    },
+    {
+      "id": "l12",
+      "text": "Ahora compara eso con la otra forma en que los adultos intentan ver a sus amigos."
+    },
+    {
+      "id": "l13",
+      "text": "“Tenemos que vernos.”"
+    },
+    {
+      "id": "l14",
+      "text": "“¡Sí! ¡Claro que sí!”"
+    },
+    {
+      "id": "l15",
+      "text": "“Yo puedo en tres semanas.”"
+    },
+    {
+      "id": "l16",
+      "text": "“Listo, tres semanas.”"
+    },
+    {
+      "id": "l17",
+      "text": "Y tres semanas después, a alguien se le enferma el hijo. Al auto de otro le sale un ruido nuevo. Y el plan muere en silencio en un chat que nadie va a volver a leer."
+    },
+    {
+      "id": "l18",
+      "text": "De adulto, lo difícil de ver a tus amigos no es la distancia. Ni siquiera es el tiempo. Es pedirlo. Proponer un plan es admitir que quieres uno."
+    },
+    {
+      "id": "l19",
+      "text": "Los niños nunca tuvieron este problema. Un niño llega a tu puerta y dice: “¿Quieres jugar?” En algún momento perdimos esa frase. Nadie nos dijo qué la reemplazó."
+    },
+    {
+      "id": "l20",
+      "text": "Ocho dólares te ahorran pedirlo."
+    },
+    {
+      "id": "l21",
+      "text": "Pero ¿por qué pescar? De todos los temas que podía tener un juego."
+    },
+    {
+      "id": "l22",
+      "text": "Porque la pesca resuelve un segundo problema. No cómo verse. Qué hacer una vez que ya están ahí."
+    },
+    {
+      "id": "l23",
+      "text": "Pregúntale a cualquiera qué pescó la última vez que fue de pesca. Casi nadie se acuerda. Se acuerdan de quién iba en el bote."
+    },
+    {
+      "id": "l24",
+      "text": "En un bote, nadie tiene que mirarse a la cara. Nadie tiene que llenar el silencio. Los dos miran el agua. Hablan. O no, y eso también está bien. El pez le da a la tarde un motivo... y al silencio, un trabajo."
+    },
+    {
+      "id": "l25",
+      "text": "Y la pesca no es la única coartada que inventaron los adultos. El campo de golf. La noche de póker. El auto que necesita una tarde más en el garaje. Nadie en esos lugares está ahí realmente por el golf, las cartas o el auto. Cada generación inventó su propia excusa para sentarse uno al lado del otro."
+    },
+    {
+      "id": "l26",
+      "text": "How to Fish es solo la más reciente. Cabe en un chat de grupo."
+    },
+    {
+      "id": "l27",
+      "text": "Y como toda buena coartada, viene con utilería. Un bote. Una caña. Un objetivo."
+    },
+    {
+      "id": "l28",
+      "text": "Y casi de inmediato, lo tira por la borda."
+    },
+    {
+      "id": "l29",
+      "text": "Empiezas con herramientas simples. Pronto tienes armamento pesado. Vendes lo que pescas. Apuestas el dinero. Peleas contra jefes. La propia descripción de los desarrolladores en Steam dice, textualmente: “violencia caricaturesca contra peces y apuestas con peces... (sin dinero real)”."
+    },
+    {
+      "id": "l30",
+      "text": "El objetivo sigue ahí. Pero el objetivo no es lo importante. El objetivo es la coartada."
+    },
+    {
+      "id": "l31",
+      "text": "Y lo que pasa en lugar de pescar... es casi puro fracaso."
+    },
+    {
+      "id": "l32",
+      "text": "Alguien se cae al agua. Alguien encuentra un arma que claramente no fue diseñada para peces. Alguien se apuesta los ahorros, y nadie va a admitir nunca quién fue. Alguien sale volando al otro lado de la isla por tocar algo que de ninguna manera había que tocar."
+    },
+    {
+      "id": "l33",
+      "text": "Y cuando un compañero cae, la forma de revivirlo es levantarlo... y darle una cachetada."
+    },
+    {
+      "id": "l34",
+      "text": "Que, seamos honestos, es como casi toda amistad maneja sus emociones."
+    },
+    {
+      "id": "l35",
+      "text": "Nadie cuenta la vez que todo salió perfecto. Todos cuentan la noche en que todo salió mal. Casi siempre años después, en el mismo chat del grupo, sin contexto, para confusión de todos los que no estuvieron."
+    },
+    {
+      "id": "l36",
+      "text": "Internet hasta inventó un nombre para juegos así. Friendslop. Mitad chiste, mitad insulto. Juegos cooperativos, baratos y caóticos, hechos para jugar con amigos."
+    },
+    {
+      "id": "l37",
+      "text": "Bautizamos un género con una palabra que significa basura. Y luego invitamos a nuestros amigos."
+    },
+    {
+      "id": "l38",
+      "text": "Algunos dicen que es corto. Quizá sea solo el éxito de este verano."
+    },
+    {
+      "id": "l39",
+      "text": "Pero los viajes de pesca también terminan. Nunca se trató de eso."
+    },
+    {
+      "id": "l40",
+      "text": "Algunos juegos solo necesitan subir a unos cuantos amigos al mismo bote un martes por la noche. El plan era pescar. El plan siempre es pescar."
+    },
+    {
+      "id": "l41",
+      "text": "Y en algún momento, como a la una de la mañana, alguien dice “la última y ya”. Nunca es la última."
+    },
+    {
+      "id": "l42",
+      "text": "¿Y los dos amigos que fundaron el estudio detrás del juego? Se conocieron en la escuela. Su primer juego comercial no había ido bien. Así que hicieron un juego pequeño sobre amigos haciendo algo tonto juntos."
+    },
+    {
+      "id": "l43",
+      "text": "Y millones de personas respondieron al mismo chat de grupo."
+    },
+    {
+      "id": "l44",
+      "text": "Entonces... ¿por qué millones compraron un juego de pesca y no pescaron?"
+    },
+    {
+      "id": "l45",
+      "text": "Porque nadie en ese bote vino por los peces."
+    },
+    {
+      "id": "l46",
+      "text": "El pez era solo lo que podías decir en voz alta."
+    },
+    {
+      "id": "l47",
+      "text": "How to Fish, “cómo pescar”, suena a tutorial. Y quizá lo sea."
+    },
+    {
+      "id": "l48",
+      "text": "Solo que no de pesca."
+    },
+    {
+      "id": "l49",
+      "text": "Enseña lo que peor nos sale a los adultos."
+    },
+    {
+      "id": "l50",
+      "text": "Cómo decir “te extraño”... sin tener que decirlo nunca."
+    },
+    {
+      "id": "l51",
+      "text": "Entonces, ¿a quién subirías a tu bote? ¿Y qué juego merece ser nuestro próximo “por qué”? Dímelo en los comentarios."
+    },
+    {
+      "id": "l52",
+      "text": "Quizá esa sea nuestra próxima quest."
+    }
+  ]
+}
