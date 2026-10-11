@@ -52,6 +52,15 @@ def main():
     vendor.mkdir(exist_ok=True)
     shutil.copy2(HERE / 'node_modules/gsap/dist/gsap.min.js', vendor / 'gsap.min.js')
     words = {k: [(w['w'], w['start'], w['end']) for w in cues[k]['words']] for k in [f'l0{i}' for i in range(1, 8)]}
+    # every word time as a table the compositions key their moves off (W('l07.w2') = start of "why"), so a new
+    # narration (Bram, v3) re-times the whole video without touching a single hand-typed second
+    table = {}
+    for k, c in cues.items():
+        table[k] = round(c['start'], 3); table[k + '.end'] = round(c['end'], 3)
+        for i, w in enumerate(c['words']):
+            table[f'{k}.w{i + 1}'] = round(w['start'], 3); table[f'{k}.w{i + 1}.end'] = round(w['end'], 3)
+    (OUT / 'words.js').write_text('window.WORDS = ' + json.dumps(table) + ';\n'
+                                  'window.W = (k, d = 0) => { if (!(k in window.WORDS)) throw new Error("no word " + k); return window.WORDS[k] + d; };\n')
     print('narration cut to', end, 's')
     print(json.dumps({k: [f'{w}@{s:.2f}' for w, s, _ in v] for k, v in words.items()}, indent=0)[:400])
 
