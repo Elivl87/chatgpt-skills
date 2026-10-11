@@ -100,26 +100,73 @@ def silhouette(name, tone=(96, 100, 112)):
     return ring
 
 
-def boat_scene(base, cx, wl, boat_w, who, t=0.0, bob=1.0):
+def _rim(im, col, side=1, w=None):
+    """A warm rim light on the edge of a cutout that faces the light (side=1: light from the right)."""
+    a = im.getchannel('A')
+    w = w or max(2, int(im.width * .018))
+    shifted = Image.new('L', a.size, 0); shifted.paste(a, (-side * w, 0))
+    edge = Image.fromarray(np.clip(np.asarray(a, np.int16) - np.asarray(shifted, np.int16), 0, 255).astype(np.uint8))
+    edge = edge.filter(ImageFilter.GaussianBlur(w * .6)).point(lambda v: int(v * .75))
+    lay = Image.new('RGBA', im.size, col + (0,)); lay.putalpha(edge)
+    out = im.copy(); out.alpha_composite(lay)
+    return out
+
+
+def boat_scene(base, cx, wl, boat_w, who, t=0.0, bob=1.0, light=None):
     """The rowboat on the water at (cx, wl) (plate px: centre x, waterline y), width boat_w, with people in it.
     who: [(spec, dx, h, flip)] — spec 'quest:...'/'pixie:...' or ('sil', 'quest2:...'); dx as a fraction of boat_w,
-    h in plate px (full-body height; the hull hides the legs)."""
+    h in plate px (full-body height; the hull hides the legs).
+    Boat upgrade (2026-10-12): the boat and the people are reflected in the lake (rippled, faded), the hull casts a
+    shadow on the water, ring ripples spread from the hull, and the people get a rim light from the sun (or the
+    lantern at night). light: 'sunset' | 'night' | None (guessed from the sky)."""
+    if light is None:
+        sky = np.asarray(base.crop((0, 0, base.width, int(base.height * .15))).convert('L')).mean()
+        light = 'night' if sky < 70 else 'sunset'
+    rim_col = (255, 196, 120) if light == 'sunset' else (255, 214, 140)
     boat = sized(prop('rowboat_side'), w=boat_w)
     dy = P(4) * bob * math.sin(t * 1.7)
     top = wl - boat.height * .72 + dy                                   # the hull sits ~28 % under... the waterline
+    grp = Image.new('RGBA', base.size)                                  # people + boat on their own layer
     for spec, dx, h, flip in who:
-        im = silhouette(spec[1]) if isinstance(spec, tuple) else cutout(spec)
+        sil = isinstance(spec, tuple)
+        im = silhouette(spec[1]) if sil else cutout(spec)
         im = breathe(sized(im, h=h), t, phase=dx * 7)
         if flip:
             im = im.transpose(Image.FLIP_LEFT_RIGHT)
+        if not sil:                                                     # after the flip, so the light side stays true
+            im = _rim(im, rim_col, side=1 if light == 'sunset' else (1 if dx < 0 else -1))
         x = cx + dx * boat_w - im.width / 2
         y = top + boat.height * .30 - im.height * .55 + P(3) * math.sin(t * 1.7 + dx * 4)
         cut = top + boat.height * .6 - y                                # seated: nothing of them below the hull
         im = im.crop((0, 0, im.width, max(1, int(cut))))
-        base.alpha_composite(im, (int(x), int(y)))
-    base.alpha_composite(boat, (int(cx - boat.width / 2), int(top)))
-    # the water line in front of the hull
+        grp.alpha_composite(im, (int(x), int(y)))
+    grp.alpha_composite(boat, (int(cx - boat.width / 2), int(top)))
+    wy = int(wl + dy)
+    # shadow of the hull on the water
+    sh = Image.new('RGBA', base.size); ImageDraw.Draw(sh).ellipse((cx - boat_w * .55, wy - P(10), cx + boat_w * .55, wy + P(46)), fill=(10, 12, 30, 90))
+    base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(P(18))))
+    # reflection: the layer flipped about the waterline, rippled row by row, faded with depth
+    above = grp.crop((0, 0, base.width, wy))
+    ref = above.transpose(Image.FLIP_TOP_BOTTOM)
+    rh = min(ref.height, base.height - wy, int(boat.height * 1.6 + P(200)))
+    if rh > 0:
+        ra = np.asarray(ref.crop((0, 0, ref.width, rh))).copy()
+        rows = np.arange(rh)
+        shift = (P(5) * np.sin(rows / P(7) + t * 3.1) * (.4 + rows / max(1, rh))).astype(int)
+        for i in range(0, rh):
+            if shift[i]:
+                ra[i] = np.roll(ra[i], shift[i], axis=0)
+        fade = np.clip(.38 * (1 - rows / rh) ** 1.4, 0, 1)
+        ra[..., 3] = (ra[..., 3] * fade[:, None]).astype(np.uint8)
+        ra[..., :3] = (ra[..., :3] * .55 + np.array((40, 50, 90)) * .45).astype(np.uint8)
+        base.alpha_composite(Image.fromarray(ra).filter(ImageFilter.GaussianBlur(P(1.5))), (0, wy))
+    base.alpha_composite(grp)
+    # ring ripples spreading from the hull, and the water line in front of it
     d = ImageDraw.Draw(base)
+    for i in range(3):
+        k = ((t * .35) + i / 3) % 1
+        rx = boat_w * (.52 + .35 * k); ry = P(14) + P(26) * k
+        d.ellipse((cx - rx, wy + P(4) - ry * .4, cx + rx, wy + P(4) + ry), outline=(255, 255, 255, int(80 * (1 - k))), width=max(1, int(P(2))))
     for i in range(3):
         y = wl + dy + P(6) + i * P(9)
         w = boat_w * (.52 + .06 * i)
