@@ -2083,7 +2083,7 @@ const slotMachine = () => {
   return g;
 };
 
-/** Two chunky cartoon gloved hands for the first-person shots (cm): cream gloves with three stitch lines on the back, a
+/** Two chunky cartoon gloved hands for the first-person shots (cm): cream gloves (thumb laid on top of the grip), a
  * flared cuff, Quest's red hoodie sleeve with a ribbed cuff. Both curl round an empty grip line (radius 2.2 cm) running
  * forward and a little up and left, so a rod or a rifle can be slotted in. Right hand parts 2030-2039, left 2040-2049. */
 const handGroups: Record<string, THREE.Group> = {};
@@ -2104,13 +2104,10 @@ const fpHands = () => {
       h.add(mesh(fg, gmat(), base + id));
       const tipG = new THREE.SphereGeometry(fr, 16, 12); shade(tipG); h.add(at(mesh(tipG, gmat(), base + id), pts[16].x, pts[16].y, z));
     });
-    const tp = [V(RG + 3.2, 4.2, 4.6), V(RG + .8, RG + 2.4, 5.6), V(-.6, RG + 1.7, 5.2), V(-2.2, RG + .6, 4.4)];
+    const tp = [V(RG + 2.6, 3.6, 3.4), V(RG + .4, RG + 2.0, 2.2), V(-.3, RG + 1.5, -.4), V(-.5, RG + 1.4, -2.8)];
     const tg = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(tp), 30, 1.5, 16, false); shade(tg);
-    h.add(mesh(tg, gmat(), base + 2));
-    const tt = new THREE.SphereGeometry(1.5, 16, 12); shade(tt); h.add(at(mesh(tt, gmat(), base + 2), tp[3].x, tp[3].y, tp[3].z));
-    for (const dz of [-2.4, 0, 2.4]) {                                        // stitch lines on the back of the hand
-      const st = tube([V(RG + 4.95, 3.6, dz), V(RG + 5.0, .8, dz), V(RG + 4.95, -2.0, dz)], .2, toon('#b9ab8e'), base, 8, 6); h.add(st);
-    }
+    h.add(mesh(tg, gmat(), base));
+    const tt = new THREE.SphereGeometry(1.5, 16, 12); shade(tt); h.add(at(mesh(tt, gmat(), base), tp[3].x, tp[3].y, tp[3].z));
     return h;
   };
   // wrist, flared cuff, ribbed hoodie cuff and sleeve: built in world space from the wrist point towards the frame edge
@@ -2122,23 +2119,23 @@ const fpHands = () => {
       const m = mesh(geo, vtoon(), part);
       m.quaternion.setFromUnitVectors(V(0, 1, 0), wd); m.position.copy(w); root.add(m);
     };
-    seg([[0, -2.5], [3.0, -2.5], [3.3, 1], [4.4, 4.6], [4.6, 5.8], [0, 5.8]], '#e9dcc0', base + 3);
+    seg([[0, -1.5], [3.0, -1.5], [3.3, 1], [4.3, 3.6], [4.45, 5.6], [0, 5.6]], '#e9dcc0', base + 3);
     seg([[0, 5.0], [4.7, 5.0], [4.95, 6], [4.95, 10.4], [4.75, 11.4], [0, 11.4]], '#a8282e', base + 4, 48);
     seg([[0, 11], [5.1, 11], [5.8, 15], [6.4, 30], [6.6, 70], [0, 70]], '#c8323a', base + 5);
   };
-  const d = V(-.14, .22, -1).normalize(), P0 = V(10, -15.5, -40);
+  const d = V(-.14, .22, -1).normalize(), P0 = V(9, -13, -31);
   const place = (h: THREE.Group, pos: THREE.Vector3, roll: number, mirror: boolean, wd: THREE.Vector3, base: number) => {
     const zl = d.clone().negate(), xl = V(0, 1, 0).cross(zl).normalize(), yl = zl.clone().cross(xl);
     const holder = new THREE.Group(); holder.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xl, yl, zl)); holder.position.copy(pos);
     const inner = new THREE.Group(); inner.rotation.z = roll; if (mirror) inner.scale.x = -1;
     inner.add(h); holder.add(inner); root.add(holder);
     holder.updateMatrixWorld(true);
-    sleeve(inner.localToWorld(V(2.2 + 2.6, -.4, 4.4)), wd.clone().normalize(), base);
+    sleeve(inner.localToWorld(V(2.2 + 2.4, -.6, 5.0)), wd.clone().normalize(), base);
     return holder;
   };
   const rolls = ((P as unknown as { handRoll?: number[] }).handRoll) ?? [.25, -.55];
   handGroups.right = place(hand(2030), P0, rolls[0], false, V(.7, -.75, .9), 2030);
-  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(26)), rolls[1], true, V(-.35, -.8, .85), 2040);
+  handGroups.left = place(hand(2040), P0.clone().add(d.clone().multiplyScalar(23)), rolls[1], true, V(-.35, -.8, .85), 2040);
   return root;
 };
 

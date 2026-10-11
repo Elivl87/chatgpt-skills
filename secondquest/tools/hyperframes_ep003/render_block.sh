@@ -12,3 +12,4 @@ cd "block$B"
 time hyperframes render --fps 30 --quality looks --crf 16 --output "../renders/raw_block$B.mp4" "$@"
 cd ..
 python3 finish_post.py "renders/raw_block$B.mp4" "../../docs/ep003/hyperframes/EP003_block$B.mp4"
+rm -f "renders/raw_block$B.mp4"                      # intermediate only; the finished block is in docs/

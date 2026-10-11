@@ -18,6 +18,7 @@
       .abs { position: absolute; }
       .full { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
       #stage, #view, #grade, #breath, #shake, #tilt { overflow: hidden; }
+      #stage { background: #4a3a6c; }
 
       /* ---------- the world (the hook's lake: per-layer parallax, each layer with 15% bleed) ---------- */
       .L { position: absolute; left: -192px; top: -108px; width: 1664px; height: 936px; }
@@ -167,7 +168,7 @@
       #casino .rail { position: absolute; left: -40px; right: -40px; bottom: -30px; height: 120px; border-radius: 60px 60px 0 0; background: linear-gradient(180deg, #8a5532 0%, #5c341c 100%); border-top: 6px solid var(--ink); }
       #casChips { position: absolute; left: 830px; top: 330px; width: 300px; height: 230px; }
       #casChips img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(6px 8px 0 rgba(0,0,0,.35)); }
-      #allIn { left: 860px; top: 270px; }
+      #allIn { left: 700px; top: 300px; }
       /* pointing loop insert */
       #pt { background: radial-gradient(ellipse 70% 80% at 50% 40%, #7a4c86 0%, #3c3470 55%, #1f2150 100%); opacity: 0; }
       #pt .floor { position: absolute; left: 0; right: 0; top: 600px; bottom: 0; background: linear-gradient(180deg, #2c2450 0%, #18142c 100%); border-top: 4px solid rgba(255, 196, 128, .5); }
@@ -290,14 +291,14 @@
   .hud-name { font: 800 20px/1 "Inter", sans-serif; letter-spacing: .14em; color: #fff4dc;
     text-transform: uppercase; white-space: nowrap; -webkit-text-stroke: 5px #16161f; paint-order: stroke fill; opacity: 0; }
   /* ---- combo popup (type-on) ---- */
-  .hud-card { position: absolute; right: 50px; top: 128px; width: 330px; padding: 14px 20px 14px; border-radius: 18px; background: rgba(22, 22, 31, .78);
+  .hud-card { position: absolute; right: 50px; top: 168px; width: 290px; padding: 10px 18px 10px; border-radius: 18px; background: rgba(22, 22, 31, .78);
     border: 3px solid #ffc83d; box-shadow: 5px 6px 0 #16161f; opacity: 0; transform-origin: 100% 0%; }
-  .hud-ttl { position: relative; height: 62px; }
-  .hud-ttl .t { position: absolute; left: 0; top: 0; font: 400 58px/1 "Anton", sans-serif; color: #ff5a5a; letter-spacing: .02em; white-space: nowrap;
+  .hud-ttl { position: relative; height: 54px; }
+  .hud-ttl .t { position: absolute; left: 0; top: 0; font: 400 50px/1 "Anton", sans-serif; color: #ff5a5a; letter-spacing: .02em; white-space: nowrap;
     -webkit-text-stroke: 5px #16161f; paint-order: stroke fill; text-shadow: 3px 4px 0 #16161f; opacity: 0; }
   .hud-ttl .t span, .hud-line span { opacity: 0; }
-  .hud-lines { position: relative; height: 112px; margin-top: 6px; }
-  .hud-line { position: absolute; left: 0; font: 800 22px/1 "Inter", sans-serif; color: #ffc83d; letter-spacing: .06em; white-space: nowrap; opacity: 0; }
+  .hud-lines { position: relative; height: 72px; margin-top: 4px; }
+  .hud-line { position: absolute; left: 0; font: 800 19px/1 "Inter", sans-serif; color: #ffc83d; letter-spacing: .06em; white-space: nowrap; opacity: 0; }
   .hud-line.new { color: #6bd66b; }
   /* ---- boss bar (top-centre) ---- */
   .hud-boss { position: absolute; left: 50%; top: 36px; width: 500px; margin-left: -250px; opacity: 0; }
@@ -429,8 +430,8 @@
           tl.fromTo(num, { scale: 1.25 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)", ...IR }, at);
           return api; },
         moneyFloat(tl, at, txt) { const up = txt.trim()[0] === "+"; const f = el("div", "hud-float " + (up ? "up" : "down"), root, txt);
-          tl.fromTo(f, { y: up ? 30 : -6, opacity: 0, scale: .6 }, { y: up ? 0 : 10, opacity: 1, scale: 1, duration: .3, ease: "back.out(2.6)", ...IR }, at);
-          tl.to(f, { y: up ? -46 : 60, opacity: 0, duration: .6, ease: "power2.in" }, at + 1.0);
+          tl.fromTo(f, { y: up ? 30 : -14, opacity: 0, scale: .6 }, { y: 0, opacity: 1, scale: 1, duration: .3, ease: "back.out(2.6)", ...IR }, at);
+          tl.to(f, { y: up ? -46 : 0, x: up ? 0 : -60, opacity: 0, duration: .5, ease: "power2.in" }, at + 1.0);
           if (!up) tl.fromTo(cash, { x: -8 }, { keyframes: [{ x: 8, duration: .05 }, { x: -6, duration: .05 }, { x: 4, duration: .05 }, { x: 0, duration: .05 }], ...IR }, at);
           return f; },
         slot(tl, at, i, html, opt) { opt = opt || {}; const s = slots[i]; const it = el("div", "item", s.s, html);
@@ -460,7 +461,7 @@
           if (bonus) { const idx = st.nLines++; const L = el("div", "hud-line new", lines, wrapSplit(bonus));
             const prevLines = Array.from(lines.children).slice(0, -1);
             tl.set(L, { opacity: 0, top: 0 }, 0);
-            prevLines.forEach((p, j) => { const row = idx - j; tl.to(p, { top: row * 28, opacity: row >= 4 ? 0 : .8, color: "#ffc83d", duration: .15 }, end); });
+            prevLines.forEach((p, j) => { const row = idx - j; tl.to(p, { top: row * 24, opacity: row >= 3 ? 0 : .8, color: "#ffc83d", duration: .15 }, end); });
             tl.set(L, { opacity: 1 }, end); typeOn(tl, L, end, .022); }
           return api; },
         comboOut(tl, at) { tl.to(card, { opacity: 0, x: 60, duration: .2, ease: "power2.in" }, at); return api; },
@@ -743,6 +744,7 @@
                   <rect x="0" y="0" width="420" height="230" fill="rgba(70, 60, 130, .28)"/>
                 </svg>
               </div>
+              <div id="pxRays"></div>
               <div id="boatEnter">
                 <div id="boatRefl"><img src="assets/rowboat_side.png" alt="" /></div>
                 <div id="boatBob"><div id="boatRock">
@@ -768,11 +770,11 @@
                   <img class="boatimg" src="assets/rowboat_side_front.png" alt="" />
                 </div></div>
               </div>
-              <div id="pxRays"></div>
               <div id="pxDyn" data-hf-motion-blur='{"samplesPerFrame": 6}'><img src="assets/dynamite.png" alt="" /><div class="spark" id="fuse"></div></div>
               <div id="stick"></div>
               <div id="fishFront"></div>
-              <div id="faller" data-hf-motion-blur='{"samplesPerFrame": 8}'><img src="assets/quest_surprised.png" alt="" /></div>
+              <div id="fallClip" class="abs" style="left: 0; top: 0; width: 1400px; height: 652px; overflow: hidden">
+                <div id="faller" data-hf-motion-blur='{"samplesPerFrame": 8}'><img src="assets/quest_surprised.png" alt="" /></div></div>
             </div></div>
             <div id="L-fore" class="L"><div class="F" id="reeds"></div></div>
           </div>
@@ -1069,9 +1071,9 @@
       const show = (sel, at) => tl.set(sel, { autoAlpha: 1 }, at), hide = (sel, at) => tl.set(sel, { autoAlpha: 0 }, at);
       // whip pan between gags: the frame smears out one side, the next shot smears in from the other
       function whip(at, dir, swap) { dir = dir || 1;
-        tl.to("#view", { x: -dir * 260, filter: "blur(18px)", duration: .08, ease: "power2.in" }, at);
+        tl.to("#view", { x: -dir * 150, filter: "blur(20px)", duration: .08, ease: "power2.in" }, at);
         if (swap) swap(at + .08);
-        tl.fromTo("#view", { x: dir * 260, filter: "blur(18px)" }, { x: 0, filter: "blur(0px)", duration: .13, ease: "power2.out", ...IR }, at + .08); }
+        tl.fromTo("#view", { x: dir * 150, filter: "blur(20px)" }, { x: 0, filter: "blur(0px)", duration: .13, ease: "power2.out", ...IR }, at + .08); }
       const SH = [[14, -9], [-12, 8], [9, 6], [-7, -5], [5, 3], [-3, -2], [0, 0]];               // the hook's slap shake
       const shake = (at, k) => tl.to("#shake", { keyframes: SH.map(([x, y]) => ({ x: x * (k || 1), y: y * (k || 1), duration: .045 })) }, at);
       // the fish: faces + blinks
@@ -1328,9 +1330,10 @@
       tl.set("#quest", { opacity: 0 }, {{l32.w2}});
       tl.set("#faller", { opacity: 1, x: 0, y: 0, rotation: 0 }, {{l32.w2}});
       tl.to("#faller", { x: 360, duration: .75, ease: "power1.in" }, {{l32.w2}});
-      tl.to("#faller", { keyframes: [{ y: -130, duration: .3, ease: "power2.out" }, { y: 300, duration: .45, ease: "power2.in" }] }, {{l32.w2}});
-      tl.to("#faller", { rotation: 150, duration: .75, ease: "power1.in", transformOrigin: "50% 40%" }, {{l32.w2}});
-      tl.set("#faller", { opacity: 0 }, {{l32.w2+0.72}});
+      tl.to("#faller", { keyframes: [{ y: -130, duration: .3, ease: "power2.out" }, { y: 190, duration: .45, ease: "power2.in" }] }, {{l32.w2}});
+      tl.to("#faller", { rotation: 168, duration: .75, ease: "power1.in", transformOrigin: "50% 40%" }, {{l32.w2}});
+      tl.to("#faller", { y: 420, duration: .35, ease: "power2.in" }, {{l32.w6-0.2}});        // after the freeze he sinks in
+      tl.set("#faller", { opacity: 0 }, {{l32.w6-0.12}});
       const FZ = [{{l32.w5+0.1}}, {{l32.w6-0.2}}];
       splash($("#fishFront"), 1060, 650, 2.2, {{l32.w5-0.06}}, 61, [FZ[0] - {{l32.w5-0.06}}, FZ[1] - FZ[0]]);
       tl.set("#freeze", { autoAlpha: 1 }, FZ[0]);

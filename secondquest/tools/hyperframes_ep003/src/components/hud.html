@@ -76,14 +76,14 @@
   .hud-name { font: 800 20px/1 "Inter", sans-serif; letter-spacing: .14em; color: #fff4dc;
     text-transform: uppercase; white-space: nowrap; -webkit-text-stroke: 5px #16161f; paint-order: stroke fill; opacity: 0; }
   /* ---- combo popup (type-on) ---- */
-  .hud-card { position: absolute; right: 50px; top: 128px; width: 330px; padding: 14px 20px 14px; border-radius: 18px; background: rgba(22, 22, 31, .78);
+  .hud-card { position: absolute; right: 50px; top: 168px; width: 290px; padding: 10px 18px 10px; border-radius: 18px; background: rgba(22, 22, 31, .78);
     border: 3px solid #ffc83d; box-shadow: 5px 6px 0 #16161f; opacity: 0; transform-origin: 100% 0%; }
-  .hud-ttl { position: relative; height: 62px; }
-  .hud-ttl .t { position: absolute; left: 0; top: 0; font: 400 58px/1 "Anton", sans-serif; color: #ff5a5a; letter-spacing: .02em; white-space: nowrap;
+  .hud-ttl { position: relative; height: 54px; }
+  .hud-ttl .t { position: absolute; left: 0; top: 0; font: 400 50px/1 "Anton", sans-serif; color: #ff5a5a; letter-spacing: .02em; white-space: nowrap;
     -webkit-text-stroke: 5px #16161f; paint-order: stroke fill; text-shadow: 3px 4px 0 #16161f; opacity: 0; }
   .hud-ttl .t span, .hud-line span { opacity: 0; }
-  .hud-lines { position: relative; height: 112px; margin-top: 6px; }
-  .hud-line { position: absolute; left: 0; font: 800 22px/1 "Inter", sans-serif; color: #ffc83d; letter-spacing: .06em; white-space: nowrap; opacity: 0; }
+  .hud-lines { position: relative; height: 72px; margin-top: 4px; }
+  .hud-line { position: absolute; left: 0; font: 800 19px/1 "Inter", sans-serif; color: #ffc83d; letter-spacing: .06em; white-space: nowrap; opacity: 0; }
   .hud-line.new { color: #6bd66b; }
   /* ---- boss bar (top-centre) ---- */
   .hud-boss { position: absolute; left: 50%; top: 36px; width: 500px; margin-left: -250px; opacity: 0; }
@@ -215,8 +215,8 @@
           tl.fromTo(num, { scale: 1.25 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)", ...IR }, at);
           return api; },
         moneyFloat(tl, at, txt) { const up = txt.trim()[0] === "+"; const f = el("div", "hud-float " + (up ? "up" : "down"), root, txt);
-          tl.fromTo(f, { y: up ? 30 : -6, opacity: 0, scale: .6 }, { y: up ? 0 : 10, opacity: 1, scale: 1, duration: .3, ease: "back.out(2.6)", ...IR }, at);
-          tl.to(f, { y: up ? -46 : 60, opacity: 0, duration: .6, ease: "power2.in" }, at + 1.0);
+          tl.fromTo(f, { y: up ? 30 : -14, opacity: 0, scale: .6 }, { y: 0, opacity: 1, scale: 1, duration: .3, ease: "back.out(2.6)", ...IR }, at);
+          tl.to(f, { y: up ? -46 : 0, x: up ? 0 : -60, opacity: 0, duration: .5, ease: "power2.in" }, at + 1.0);
           if (!up) tl.fromTo(cash, { x: -8 }, { keyframes: [{ x: 8, duration: .05 }, { x: -6, duration: .05 }, { x: 4, duration: .05 }, { x: 0, duration: .05 }], ...IR }, at);
           return f; },
         slot(tl, at, i, html, opt) { opt = opt || {}; const s = slots[i]; const it = el("div", "item", s.s, html);
@@ -246,7 +246,7 @@
           if (bonus) { const idx = st.nLines++; const L = el("div", "hud-line new", lines, wrapSplit(bonus));
             const prevLines = Array.from(lines.children).slice(0, -1);
             tl.set(L, { opacity: 0, top: 0 }, 0);
-            prevLines.forEach((p, j) => { const row = idx - j; tl.to(p, { top: row * 28, opacity: row >= 4 ? 0 : .8, color: "#ffc83d", duration: .15 }, end); });
+            prevLines.forEach((p, j) => { const row = idx - j; tl.to(p, { top: row * 24, opacity: row >= 3 ? 0 : .8, color: "#ffc83d", duration: .15 }, end); });
             tl.set(L, { opacity: 1 }, end); typeOn(tl, L, end, .022); }
           return api; },
         comboOut(tl, at) { tl.to(card, { opacity: 0, x: 60, duration: .2, ease: "power2.in" }, at); return api; },
