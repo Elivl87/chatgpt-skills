@@ -1634,11 +1634,11 @@ const mergeV = (geo: THREE.BufferGeometry) => {
  * dark rings with gold turrets and blue lenses, a dark muzzle brake and an orange safety tip. Generic: no real model. */
 const sniperGold = () => {
   const g = new THREE.Group();
-  const G0 = '#b07c12', G1 = '#f8d861', DARK = '#3a2c2a', dark = toon(DARK);
-  const stock = sideExt(rpoly([[-60, -10, 2], [-50, -11.5, 4], [-27, -4.5, 6], [-14, -4, 1.5], [24, -3, 2], [27.5, 0, 2], [27.5, 4.2, 1.2], [-12, 4.2, 1.5], [-22, 3.0, 4], [-36, 5.6, 4], [-60, 6.4, 2]]), 6.4, 1.5, vtoon(), 1750);
+  const G0 = '#a86a06', G1 = '#ffd640', DARK = '#3a2c2a', dark = toon(DARK);
+  const stock = sideExt(rpoly([[-60, -10, 2], [-50, -11.5, 4], [-27, -4.5, 6], [-14, -4, 1.5], [-3, -3.4, 1.5], [4, -1.8, 2], [24, -1.2, 2], [27.5, .8, 1.6], [27.5, 4.2, 1.2], [-12, 4.2, 1.5], [-22, 3.0, 4], [-36, 5.6, 4], [-60, 6.4, 2]]), 6.4, 1.5, vtoon(), 1750);
   ygrad(stock.geometry, -11, 6.5, G0, G1); g.add(stock);
   for (const zs of [1, -1]) {                                                          // painted gloss along the comb and the forend
-    for (const pts of [[[-57, 4.9], [-37, 4.1], [-27, 2.6], [-27.5, 1.6], [-37, 3.0], [-57, 3.8]], [[0, 2.9], [22, 2.9], [24, 2.3], [22, 1.9], [0, 1.9]]] as [number, number][][]) {
+    for (const pts of [[[-57, 4.9], [-37, 4.1], [-27, 2.6], [-27.5, 1.6], [-37, 3.0], [-57, 3.8]], [[2, 3.1], [22, 3.1], [24, 2.6], [22, 2.2], [2, 2.2]]] as [number, number][][]) {
       const sh = new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x, y)));
       const m = mesh(new THREE.ShapeGeometry(sh), new THREE.MeshBasicMaterial({ color: new THREE.Color('#fff2bf'), side: THREE.DoubleSide }), 1750);
       m.position.z = zs * 3.23; g.add(m);
