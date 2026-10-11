@@ -208,4 +208,4 @@ STILLS = (('a1', T_FISH + .4), ('a2', T_A2 + 1.2), ('a3s', T_SLAP + .3), ('a3m',
           ('a4', T_EST + 1.8), ('a5', T_ELSE + .5), ('a7l', T_LAND - .35), ('a7', T_WHY + .9), ('a7b', T_END - .1))
 
 if __name__ == '__main__':
-    K.run_block('A', T0, T_END, render, STILLS, version=2)
+    K.run_block('A', T0, T_END, render, STILLS, version=3)

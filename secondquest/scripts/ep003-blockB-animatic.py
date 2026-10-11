@@ -110,4 +110,4 @@ def render(t):
 STILLS = (('b1', T_INV + .6), ('b2', T_COPY + 1.0), ('b2c', T_MSG + .6), ('b3', T_BOUGHT[2] + .4), ('b4', T_NOT + .8))
 
 if __name__ == '__main__':
-    K.run_block('B', T0, T_END, render, STILLS, version=2)
+    K.run_block('B', T0, T_END, render, STILLS, version=3)

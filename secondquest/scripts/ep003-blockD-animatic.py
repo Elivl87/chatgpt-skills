@@ -192,4 +192,4 @@ STILLS = (('d1', T0 + 1.5), ('d2', T_THERE + .6), ('d3', T_WHO + .8), ('d4', T_D
           ('d5p', T_POKER + .5), ('d5c', T_NOBODY + .5), ('d5all', T_GEN + 1.2), ('d6', T_FITS + .5))
 
 if __name__ == '__main__':
-    K.run_block('D', T0, T_END, render, STILLS, version=2)
+    K.run_block('D', T0, T_END, render, STILLS, version=3)

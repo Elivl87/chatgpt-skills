@@ -168,4 +168,4 @@ STILLS = (('g1', T0 + 1.5), ('g2', T_LOUD + 1.0), ('g3', T_NOT + .9), ('g4', T_M
           ('g5m', T_END - .3))
 
 if __name__ == '__main__':
-    K.run_block('G', T0, T_END, render, STILLS, version=2)
+    K.run_block('G', T0, T_END, render, STILLS, version=3)

@@ -273,4 +273,4 @@ STILLS = (('e1', T_ITEMS[2] + .4), ('e2', T_E2 + .7), ('e3', T_BOSS + .5), ('e3q
           ('e8', T_E8 + 1.6), ('e9', T_YEARS + 3.4))
 
 if __name__ == '__main__':
-    K.run_block('E', T0, T_END, render, STILLS, version=2)
+    K.run_block('E', T0, T_END, render, STILLS, version=3)

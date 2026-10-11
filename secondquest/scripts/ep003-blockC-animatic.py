@@ -192,4 +192,4 @@ STILLS = (('c1', T0 + 1.5), ('c2', T_LINES[3] + .6), ('c3a', T_C3 + 1.3), ('c3k'
           ('c4', T_ASK + .6), ('c5', T_WANT + .5), ('c5b', T_NOBODY + 1.0), ('c6', T_C6 + .6))
 
 if __name__ == '__main__':
-    K.run_block('C', T0, T_END, render, STILLS, version=2)
+    K.run_block('C', T0, T_END, render, STILLS, version=3)

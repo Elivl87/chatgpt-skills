@@ -47,7 +47,7 @@ FOUR = [(('sil', 'quest2:laughing_pointing'), -.30, P(430), False), ('pixie:laug
 def card_bg():
     fr = Image.new('RGB', (W, H))
     K._grad(fr, (34, 30, 52), (16, 14, 26), 0, H)
-    return fr.convert('RGBA')
+    return K.dust(fr, K.NOW[0])
 
 
 def f1(t):
@@ -198,4 +198,4 @@ STILLS = (('f1', T_CHEAP + .6), ('f2', T_INV + .8), ('f3', T_F3 + 1.0), ('f4', T
           ('f7', T_SMALL + .6), ('f8', T_END - .3))
 
 if __name__ == '__main__':
-    K.run_block('F', T0, T_END, render, STILLS, version=2)
+    K.run_block('F', T0, T_END, render, STILLS, version=3)

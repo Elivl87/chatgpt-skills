@@ -261,6 +261,10 @@ def crop_cam(plate, cam):
     r = reframe_at(NOW[0])
     if r:
         cam = (cam[0] * r[2], cam[1] if r[3] is None else r[3], cam[2] if r[4] is None else r[4])
+    t = NOW[0]                                                        # the camera is never locked off (style bible):
+    cam = (cam[0] * (1.06 + .06 * math.sin(2 * math.pi * t / 11)),    # a slow breathing push and a drift, like a
+           cam[1] + .022 * math.sin(2 * math.pi * t / 15),             # handheld documentary camera
+           cam[2] + .014 * math.sin(2 * math.pi * t / 13 + 1))
     box = cam_box((cam, cam), 0)
     return plate.crop(tuple(int(v) for v in box)).resize((W, H), Image.BICUBIC)
 
@@ -512,3 +516,16 @@ def dolly(name, t, t0, t1, amp=None, vertical=0.0):
     amp = P(46) if amp is None else amp
     k = ease(min(1, max(0, (t - t0) / max(.1, t1 - t0))))
     return parallax(name, amp * (k - .5), vertical * amp * (k - .5))
+
+
+def dust(fr, t, n=40, seed=5, col=(255, 240, 210)):
+    """Floating motes over plain card backgrounds, so drawn cards are never dead still."""
+    out = fr.convert('RGBA'); lay = Image.new('RGBA', out.size); d = ImageDraw.Draw(lay)
+    rng = np.random.default_rng(seed)
+    for i in range(n):
+        x = (rng.uniform(0, W) + S(14) * t * rng.uniform(.3, 1)) % W
+        y = (rng.uniform(0, H) - S(9) * t * rng.uniform(.3, 1)) % H
+        r = S(rng.uniform(1.5, 4)); a = int(60 + 60 * math.sin(t * 2 + i))
+        d.ellipse((x - r, y - r, x + r, y + r), fill=col + (a,))
+    out.alpha_composite(lay.filter(ImageFilter.GaussianBlur(S(1))))
+    return out
