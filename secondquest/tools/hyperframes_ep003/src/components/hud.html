@@ -22,7 +22,7 @@
     hud.hunger(tl, at, frac, dur)                    // fishbone ring 0..1
     hud.money(tl, at, v, dur)                        // digits roll (odometer) to v
     hud.moneyFloat(tl, at, "+$1,250")                // green float if it starts with "+", red otherwise
-    hud.slot(tl, at, i, html, { name, select })      // slam an item (img/svg html) into slot i (0-based) + name label
+    hud.slot(tl, at, i, html, { name, select, soft }) -> item el  // slam an item (img/svg html) into slot i (0-based) + name label; soft = a feeble plop
     hud.select(tl, at, i)                            // move the gold outline
     hud.combo(tl, at, title, bonus)                  // type-on popup; title e.g. "FAIL ×2", bonus e.g. "+WRONG TOOL ×2"
     hud.comboOut(tl, at)
@@ -221,9 +221,11 @@
           return f; },
         slot(tl, at, i, html, opt) { opt = opt || {}; const s = slots[i]; const it = el("div", "item", s.s, html);
           tl.set(it, { opacity: 0 }, 0);
-          tl.fromTo(it, { opacity: 1, scale: 2.6, y: -150, rotation: -35 }, { scale: 1, y: 0, rotation: 0, duration: .22, ease: "power3.in", ...IR }, at - .22);
-          tl.fromTo(s.s, { scale: 1 }, { keyframes: [{ scale: .82, scaleY: .74, duration: .06 }, { scale: 1, scaleY: 1, duration: .5, ease: "elastic.out(1.2, .35)" }], ...IR }, at);
-          tl.fromTo(s.rg, { opacity: 1, scale: .5 }, { opacity: 0, scale: 1.5, duration: .4, ease: "power2.out", ...IR }, at);
+          if (opt.soft) tl.fromTo(it, { opacity: 0, scale: .2, y: 10 }, { opacity: 1, scale: .7, y: 0, duration: .35, ease: "back.out(2)", ...IR }, at);   // a feeble plop
+          else {
+            tl.fromTo(it, { opacity: 1, scale: 2.6, y: -150, rotation: -35 }, { scale: 1, y: 0, rotation: 0, duration: .22, ease: "power3.in", ...IR }, at - .22);
+            tl.fromTo(s.s, { scale: 1 }, { keyframes: [{ scale: .82, scaleY: .74, duration: .06 }, { scale: 1, scaleY: 1, duration: .5, ease: "elastic.out(1.2, .35)" }], ...IR }, at);
+            tl.fromTo(s.rg, { opacity: 1, scale: .5 }, { opacity: 0, scale: 1.5, duration: .4, ease: "power2.out", ...IR }, at); }
           if (opt.name) { const row = el("div", "hud-row", root); row.style.bottom = "146px"; const n = el("div", "hud-name", row, opt.name);
             tl.fromTo(n, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .2, ease: "back.out(2)", ...IR }, at);
             tl.to(n, { opacity: 0, duration: .2 }, at + (opt.nameDur || .9)); }

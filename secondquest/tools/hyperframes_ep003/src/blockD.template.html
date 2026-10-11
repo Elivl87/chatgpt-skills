@@ -1031,7 +1031,7 @@
       cam(T.it - .05, 1.2, focus(580, 440, 1.3), "sine.out");
       tl.fromTo(C4.map((m) => m.querySelector(".pop")), { y: 30 }, { y: 0, duration: .3, stagger: .04, ease: "back.out(2)" }, T.it - .05);
       // ... "fits": the whole lake shrinks into the chat's photo bubble (scale match onto the phone screen)
-      const ix = (550 + 7 + 14 * .6), iy = (440 + 7 + bchat.img.y), iw = 160 - 28 * .6;      // the gap in the thread (board px)
+      const ix = (550 + 7 + 14 * .6), iy = (480 + 7 + bchat.img.y), iw = 160 - 28 * .6;      // the gap in the thread (board px)
       const fx = (ix - PHX) * PH + W / 2, fy = (iy - PHY) * PH + H / 2, k = (iw * PH) / W;
       tl.to("#world", { x: fx, y: fy, scale: k, clipPath: `inset(0px 0px 0px 0px round ${16 / k}px)`, duration: .55, ease: "power3.inOut" }, T.fits - .02);
       tl.to("#worldRing", { opacity: 1, duration: .3 }, T.fits + .2);
