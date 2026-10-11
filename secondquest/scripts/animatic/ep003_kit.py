@@ -55,7 +55,7 @@ def plate_lake(time='dusk'):
         for _ in range(160):
             x, y, r = rng.uniform(0, PW), rng.uniform(0, hz * .9), rng.uniform(.6, 2.2) * PW / 1920
             d.ellipse((x - r, y - r, x + r, y + r), fill=(255, 250, 230, int(rng.uniform(90, 230))))
-        d.ellipse((PW * .78 - P(34), PH * .14 - P(34), PW * .78 + P(34), PH * .14 + P(34)), fill=(245, 240, 215, 255))
+        d.ellipse((PW * .87 - P(34), PH * .16 - P(34), PW * .87 + P(34), PH * .16 + P(34)), fill=(245, 240, 215, 255))
     elif time == 'dusk':
         g = Image.new('RGBA', img.size)
         ImageDraw.Draw(g).ellipse((PW * .58, hz - P(160), PW * .58 + P(300), hz + P(140)), fill=(255, 220, 160, 150))
