@@ -18,6 +18,7 @@
     const r1 = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM" });   // r1.words = word spans
     const r2 = chat.sticker("P", "Bought.", { rot: -4 });
     const d1 = chat.typing("B");                 // a "..." row
+    const s0 = chat.system("Today 11:41 PM", { visible: true });   // a centred chip (date / group event); visible = shown from the start
     chat.show(tl, r2, at)                        // pop a row in (list grows, older rows slide up)
     chat.typeWords(tl, r1, [t1, t2, ...])        // shows the row at t1 and each word on its time (one time per word)
     chat.dots(tl, d1, tIn, tOut)                 // typing dots bounce from tIn, the row collapses at tOut
@@ -77,9 +78,13 @@
     font: 800 30px/1 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
   .ch-sticker .chk { width: 30px; height: 30px; border-radius: 50%; background: #16161f; display: flex; align-items: center; justify-content: center; flex: none; }
   .ch-sticker .chk svg { width: 18px; height: 18px; }
+  .ch-sys { justify-content: center; }
+  .ch-sys .ch-pad { justify-content: center; }
+  .ch-chip { font: 800 13px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .55); background: rgba(22, 22, 31, .07); padding: 7px 12px; border-radius: 12px; letter-spacing: .03em; text-align: center; }
   .ch-dots { display: flex; gap: 6px; padding: 15px 18px 14px; }
-  .ch-dots i { display: block; width: 11px; height: 11px; border-radius: 50%; background: rgba(22, 22, 31, .45); }
-  .ch-typer { font: 600 13px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .5); margin: 0 0 6px 2px; white-space: nowrap; }
+  .ch-dots i { display: block; width: 12px; height: 12px; border-radius: 50%; background: rgba(22, 22, 31, .35); }
+  .ch-tb { display: inline-block; max-width: none; }
+  .ch-typer { font: 600 16px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .5); margin: 0 0 6px 2px; white-space: nowrap; }
 </style>
 <script>
   window.ChatPhone = (function () {
@@ -120,9 +125,11 @@
           r.rot = opt.rot != null ? opt.rot : (who === o.me ? 4 : -4);
           if (who === o.me) { const meta = el("div", "ch-meta", s, (opt.time || "11:43 PM")); meta.style.marginTop = "8px"; r.tick = el("span", "ch-tick", meta, "✓✓"); }
           r.h = opt.h || 112; return r; },
+        system(text, opt) { opt = opt || {}; const r = { el: el("div", "ch-row ch-sys", list) }; const pad = el("div", "ch-pad", r.el);
+          r.bub = el("div", "ch-chip", pad, text); r.h = opt.h || 44; if (opt.visible) { r.el.style.maxHeight = r.h + "px"; r.el.style.opacity = 1; } return r; },
         typing(who) { const r = row(who); const m = o.members[who] || {};
           const c = el("div", "", r.pad); el("div", "ch-typer", c, `${m.name || who} is typing…`);
-          const b = el("div", "ch-bub", c); r.dots = Array.from(el("div", "ch-dots", b, "<i></i><i></i><i></i>").children);
+          const b = el("div", "ch-bub ch-tb", c); r.dots = Array.from(el("div", "ch-dots", b, "<i></i><i></i><i></i>").children);
           r.bub = b; r.h = 96; return r; },
         show(tl, r, at, d) { d = d == null ? .32 : d;
           tl.fromTo(r.el, { maxHeight: 0, opacity: 0 }, { maxHeight: r.h, opacity: 1, duration: d, ease: "power2.out", immediateRender: false }, at);
@@ -133,7 +140,7 @@
           return r; },
         dots(tl, r, tIn, tOut) { api.show(tl, r, tIn, .26);
           const n = Math.max(1, Math.floor((tOut - tIn) / .42));
-          r.dots.forEach((d, i) => tl.fromTo(d, { y: 0, opacity: .45 }, { keyframes: [{ y: -6, opacity: 1, duration: .21, ease: "sine.out" }, { y: 0, opacity: .45, duration: .21, ease: "sine.in" }], repeat: n - 1, immediateRender: false }, tIn + .08 + i * .12));
+          r.dots.forEach((d, i) => tl.fromTo(d, { y: 0, backgroundColor: "rgba(22, 22, 31, .35)" }, { y: -7, backgroundColor: "rgba(22, 22, 31, .8)", duration: .21, ease: "sine.inOut", yoyo: true, repeat: 2 * n - 1, immediateRender: false }, tIn + .08 + i * .12));
           api.hide(tl, r, tOut); return r; },
         hide(tl, r, at, d) { tl.to(r.el, { maxHeight: 0, opacity: 0, duration: d || .16, ease: "power2.in" }, at); return r; },
         read(tl, r, at) { if (r.tick) { tl.set(r.tick, { color: "rgba(22, 22, 31, .4)" }, 0); tl.set(r.tick, { color: "#d99a00" }, at); } return r; },

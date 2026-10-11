@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>EP003 block B - The invitation</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      :root { --gold: #ffc83d; --ink: #16161f; --red: #e5484d; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1280px; height: 720px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Inter", sans-serif; }
+      .abs { position: absolute; }
+      .full { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      .shot { overflow: hidden; }
+      .cam, .push, .kick { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 5px 6px 0 var(--ink); letter-spacing: .01em; line-height: 1; white-space: nowrap; }
+
+      /* ---------------- B1: the living room at night, Quest and the price ---------------- */
+      #room { position: absolute; left: -40px; top: -22px; width: 1360px; height: 765px; }
+      #roomDim { background: radial-gradient(ellipse 70% 80% at 45% 45%, rgba(16, 14, 30, 0) 0%, rgba(16, 14, 30, .28) 60%, rgba(10, 8, 20, .62) 100%); }
+      #questWrap { position: absolute; left: 96px; top: 168px; width: 392px; height: 560px; }
+      #questWrap img { position: absolute; inset: 0; width: 100%; height: 100%; filter: brightness(.9) saturate(.96) drop-shadow(-3px -1px 0 rgba(255, 196, 128, .55)); }
+      #qShadow { position: absolute; left: 70px; top: 520px; width: 290px; height: 40px; border-radius: 50%; background: radial-gradient(ellipse, rgba(10, 6, 14, .55) 0%, rgba(10, 6, 14, 0) 70%); }
+      #phoneGlow { position: absolute; left: 228px; top: 158px; width: 280px; height: 280px; border-radius: 50%; mix-blend-mode: screen;
+        background: radial-gradient(circle, rgba(170, 220, 255, .55) 0%, rgba(120, 170, 255, .18) 38%, rgba(0, 0, 0, 0) 70%); }
+      #tag { position: absolute; left: 600px; top: -60px; width: 340px; height: 440px; }
+      #tag .string { position: absolute; left: 168px; top: 0; width: 4px; height: 262px; background: linear-gradient(180deg, rgba(255,255,255,0), #f3e7cf 30%); transform-origin: 50% 0%; }
+      #flipper { position: absolute; left: 20px; top: 248px; width: 300px; height: 168px; }
+      #tagCard { position: absolute; inset: 0; background: var(--gold); border: 5px solid var(--ink); border-radius: 22px; box-shadow: 7px 8px 0 var(--ink);
+        display: flex; align-items: center; justify-content: center; }
+      #tagCard .hole { position: absolute; left: 136px; top: 9px; width: 22px; height: 22px; border-radius: 50%; background: #2a2236; border: 4px solid var(--ink); }
+      #tagCard .price { font-family: "Anton", sans-serif; font-size: 92px; color: var(--ink); line-height: 1; margin-top: 40px; }
+      #strike { position: absolute; left: 22px; top: 104px; width: 256px; height: 16px; background: var(--red); border: 3px solid var(--ink); border-radius: 6px; transform-origin: 0 50%; }
+      #env { position: absolute; left: -30px; top: -31px; width: 360px; height: 230px; }
+      #env > * { position: absolute; }
+      #envBack { z-index: 0; left: 0; top: 0; width: 360px; height: 230px; background: #e8d6ae; border: 5px solid var(--ink); border-radius: 14px; box-shadow: 8px 9px 0 var(--ink); }
+      #inv { left: 22px; top: 16px; width: 316px; height: 200px; background: #fffaf0; border: 4px solid var(--ink); border-radius: 10px; display: flex; flex-direction: column; align-items: center; padding-top: 18px; }
+      #inv .t1 { font: 800 15px "Inter", sans-serif; letter-spacing: .3em; color: #b0475a; }
+      #inv .t2 { font-family: "Anton", sans-serif; font-size: 50px; line-height: 1.05; color: var(--ink); margin-top: 4px; }
+      #inv .bar { width: 150px; height: 6px; border-radius: 3px; background: var(--gold); border: 2px solid var(--ink); margin-top: 6px; }
+      #inv .seats { display: flex; gap: 12px; margin-top: 16px; }
+      #inv .seats i { display: block; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); border: 3px solid var(--ink); }
+      #pocket { z-index: 2; left: 0; top: 0; width: 360px; height: 230px; overflow: visible; }
+      #flap { left: 0; top: 0; width: 360px; height: 156px; transform-origin: 50% 0%; }
+      #flap svg { position: absolute; left: 0; top: 0; width: 360px; height: 156px; overflow: visible; }
+      #seal { position: absolute; left: 146px; top: 100px; width: 68px; height: 68px; }
+      #seal svg { width: 100%; height: 100%; overflow: visible; }
+      #envShine { z-index: 6; left: 0; top: 0; width: 360px; height: 230px; border-radius: 14px; pointer-events: none;
+        background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 45%, rgba(255,255,255,0) 60%); mix-blend-mode: screen; }
+      .burst { position: absolute; width: 0; height: 0; }
+      .burst i { position: absolute; left: -5px; top: -250px; width: 10px; height: 40px; border-radius: 5px; background: var(--gold); border: 2px solid var(--ink); }
+
+      /* ---------------- B2: the stage, avatars, the boat, the boxes ---------------- */
+      #stageBg { position: absolute; left: -120px; top: -80px; width: 1520px; height: 880px;
+        background: radial-gradient(ellipse 60% 55% at 50% 42%, #2c2a52 0%, #1b1a35 45%, #0e0d1c 100%); }
+      #stageWash { position: absolute; left: -120px; top: -80px; width: 1520px; height: 880px; mix-blend-mode: screen;
+        background: radial-gradient(ellipse 55% 45% at 50% 50%, rgba(255, 196, 120, .35) 0%, rgba(255, 150, 110, .12) 50%, rgba(0,0,0,0) 80%); }
+      #floor { position: absolute; left: -120px; top: 540px; width: 1520px; height: 260px; background: linear-gradient(180deg, rgba(40, 36, 72, .0) 0%, rgba(40, 36, 72, .55) 40%, rgba(20, 18, 38, .8) 100%); }
+      #spot { position: absolute; left: 640px; top: -60px; width: 0; height: 0; }
+      #spot .cone { position: absolute; left: -330px; top: 0; width: 660px; height: 720px; mix-blend-mode: screen;
+        background: linear-gradient(180deg, rgba(255, 236, 190, .55) 0%, rgba(255, 220, 160, .22) 70%, rgba(255, 220, 160, .0) 100%);
+        clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%); filter: blur(6px); }
+      #pool { position: absolute; left: 380px; top: 560px; width: 520px; height: 96px; border-radius: 50%; mix-blend-mode: screen;
+        background: radial-gradient(ellipse, rgba(255, 230, 170, .55) 0%, rgba(255, 210, 150, .2) 50%, rgba(0,0,0,0) 72%); }
+      .dust { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 240, 210, .8); }
+      .av { position: absolute; width: 0; height: 0; }
+      .av .in, .av .bob { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+      .av .disc { position: absolute; left: -95px; top: -95px; width: 190px; height: 190px; border-radius: 50%; overflow: hidden; border: 6px solid var(--ink);
+        box-shadow: 0 0 0 5px #fff6e2, 6px 8px 0 5px var(--ink); }
+      .av .disc img { position: absolute; display: block; }
+      .av .disc svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .av .nm { position: absolute; left: -90px; top: -158px; width: 180px; text-align: center; }
+      .av .nm span { display: inline-block; font: 800 22px/1 "Inter", sans-serif; color: #fff; padding: 7px 14px 6px; border-radius: 10px; border: 3px solid var(--ink); box-shadow: 3px 4px 0 var(--ink); letter-spacing: .02em; }
+      #boatRig { position: absolute; left: 90px; top: 404px; width: 1100px; height: 242px; }
+      #boatRig .bimg { position: absolute; left: 0; top: 0; width: 1100px; height: 242px; }
+      #avs { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      #boatFront { position: absolute; left: 90px; top: 404px; width: 1100px; height: 242px; }
+      #boatFront img { width: 100%; height: 100%; }
+      #waterLine { position: absolute; left: -120px; top: 600px; width: 1520px; height: 200px; background: linear-gradient(180deg, rgba(70, 80, 140, .0) 0%, rgba(50, 60, 120, .55) 30%, rgba(26, 28, 60, .9) 100%); }
+      .wv { position: absolute; height: 3px; border-radius: 2px; background: rgba(200, 210, 255, .35); }
+      .gbox { position: absolute; left: -54px; top: -144px; width: 108px; height: 144px; transform-origin: 50% 100%; }
+      .gbox .face { position: absolute; inset: 0; border-radius: 10px; border: 4px solid var(--ink); overflow: hidden; box-shadow: 6px 7px 0 var(--ink);
+        background: linear-gradient(180deg, #2b2760 0%, #5a3f86 34%, #e0767e 55%, #ffb27a 61%, #3c3470 62%, #2a2552 100%); }
+      .gbox .spine { position: absolute; left: 0; top: 0; width: 10px; height: 100%; background: rgba(22, 22, 31, .35); }
+      .gbox .ttl { position: absolute; left: 10px; right: 0; top: 8px; text-align: center; font-family: "Anton", sans-serif; font-size: 27px; line-height: 1; color: var(--gold);
+        -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; letter-spacing: .04em; }
+      .gbox .fsh { position: absolute; left: 20px; top: 70px; width: 78px; height: 58px; }
+      .gbox .boatico { position: absolute; left: 24px; top: 74px; width: 70px; height: 4px; }
+      .gbox .pz { position: absolute; right: -10px; top: 34px; width: 50px; height: 50px; border-radius: 50%; background: #fff4dc; border: 3px solid var(--ink);
+        display: flex; align-items: center; justify-content: center; font: 800 13px "Inter", sans-serif; color: var(--ink); transform: rotate(14deg); }
+      .pop { position: absolute; width: 0; height: 0; }
+      .pop i { position: absolute; left: -3px; top: -34px; width: 6px; height: 18px; border-radius: 3px; background: #fff3c4; transform-origin: 50% 34px; }
+      #flyRig { position: absolute; left: 0; top: 0; width: 0; height: 0; perspective: 1400px; }
+
+      /* ---------------- B3-B5: the chat ---------------- */
+      #chatBg { position: absolute; left: -60px; top: -40px; width: 1400px; height: 800px; filter: blur(9px) brightness(.5) saturate(.9); }
+      #chatBg img { width: 100%; height: 100%; }
+      #chatTint { background: radial-gradient(ellipse 50% 70% at 50% 50%, rgba(80, 110, 170, .28) 0%, rgba(14, 12, 26, .35) 60%, rgba(8, 6, 16, .7) 100%); }
+      #phoneHalo { position: absolute; left: 340px; top: 20px; width: 600px; height: 680px; border-radius: 50%; mix-blend-mode: screen;
+        background: radial-gradient(ellipse, rgba(255, 236, 200, .22) 0%, rgba(255, 210, 160, .06) 50%, rgba(0,0,0,0) 70%); }
+      #phoneRig { position: absolute; left: 448px; top: 54px; width: 384px; height: 612px; perspective: 1600px; }
+      #phoneFlip { position: absolute; inset: 0; }
+      .ring { position: absolute; border: 4px solid rgba(255, 216, 110, .9); border-radius: 50%; }
+      #fishPeek { position: absolute; left: 930px; top: 720px; width: 230px; height: 170px; }
+      #fishPeek img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain; transform: scaleX(-1); }   /* mirrored: it looks at the phone */
+      #flash { background: #fff8e8; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="{{DUR}}" data-track-index="9" data-volume="1"></audio>
+
+      <!-- ================= B1 (l08): night living room, the price tag, the invitation ================= -->
+      <div id="shotRoom" class="full clip shot" data-start="0" data-duration="{{l09.w1+0.24}}" data-track-index="0">
+        <div class="cam" id="camRoom"><div class="push" id="pushRoom"><div class="kick" id="kickRoom">
+          <img id="room" src="assets/room_night.png" alt="" />
+          <div id="roomDim" class="full"></div>
+          <div id="questWrap"><div id="qShadow"></div><img src="assets/quest_phone.png" alt="" /></div>
+          <div id="phoneGlow"></div>
+          <div class="burst" id="invBurst" style="left: 720px; top: 250px"></div>
+          <div id="tag">
+            <div class="string"></div>
+            <div id="flipper" data-hf-motion-blur='{"samplesPerFrame": 8}'>
+              <div id="tagCard"><div class="hole"></div><div class="price">$7.99</div><div id="strike"></div></div>
+              <div id="env">
+                <div id="envBack"></div>
+                <div id="inv"><div class="t1">TONIGHT</div><div class="t2">YOU'RE INVITED</div><div class="bar"></div><div class="seats"><i></i><i></i><i></i><i></i></div></div>
+                <svg id="pocket" viewBox="0 0 360 230"><path d="M 4 66 L 180 150 L 356 66 L 356 216 Q 356 226 346 226 L 14 226 Q 4 226 4 216 Z" fill="#f4e7c8" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/>
+                  <path d="M 4 216 L 150 132 M 356 216 L 210 132" fill="none" stroke="rgba(22,22,31,.25)" stroke-width="3"/></svg>
+                <div id="flap"><svg viewBox="0 0 360 156"><path d="M 4 4 L 356 4 L 356 62 L 198 144 Q 180 154 162 144 L 4 62 Z" fill="#eedcb2" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/></svg>
+                  <div id="seal"><svg viewBox="-34 -34 68 68"><path d="M0 -31 C 9 -33, 14 -26, 22 -24 C 31 -20, 30 -10, 32 -2 C 33 8, 27 13, 24 21 C 19 30, 9 30, 1 32 C -9 33, -14 27, -22 24 C -31 19, -31 9, -32 1 C -33 -9, -27 -14, -23 -22 C -18 -30, -9 -29, 0 -31 Z" fill="#c8323f" stroke="#16161f" stroke-width="4"/>
+                    <circle r="20" fill="#a62331"/><path d="M -12 0 C -6 -9, 6 -9, 11 0 C 6 9, -6 9, -12 0 Z M 11 0 L 17 -6 L 17 6 Z" fill="#e8606b"/><circle cx="-5" cy="-1" r="2" fill="#a62331"/></svg></div></div>
+                <div id="envShine"></div>
+              </div>
+            </div>
+          </div>
+        </div></div></div>
+      </div>
+
+      <!-- ================= B2 (l09a): the stage - alone, everyone, the boat, their own copy ================= -->
+      <div id="shotStage" class="full clip shot" data-start="{{l09.w1-0.02}}" data-duration="{{l09.w27-l09.w1+0.12}}" data-track-index="1">
+        <div class="cam" id="camStage"><div class="push" id="pushStage"><div class="kick" id="kickStage">
+          <div id="stageBg"></div>
+          <div id="stageWash" style="opacity: 0"></div>
+          <div id="floor"></div>
+          <div id="dusts"></div>
+          <div id="spot"><div class="cone"></div></div>
+          <div id="pool"></div>
+          <div id="waterLine" style="opacity: 0"></div>
+          <div id="waves"></div>
+          <div id="boatRig"><img class="bimg" src="assets/rowboat_side_back.png" alt="" /></div>
+          <div id="avs"></div>
+          <div id="boatFront"><img src="assets/rowboat_side_front.png" alt="" /></div>
+          <div id="boxes"></div>
+          <div id="pops"></div>
+          <div id="flyRig"></div>
+        </div></div></div>
+        <div id="whipIn" class="full" style="background: #0e0d1c; opacity: 0"></div>
+      </div>
+
+      <!-- ================= B3-B5 (l09b-l11): the group chat ================= -->
+      <div id="shotChat" class="full clip shot" data-start="{{l09.w27}}" data-duration="{{DUR-l09.w27}}" data-track-index="2">
+        <div class="cam" id="camChat"><div class="push" id="pushChat"><div class="kick" id="kickChat">
+          <div id="chatBg"><img src="assets/room_night.png" alt="" /></div>
+          <div id="chatTint" class="full"></div>
+          <div id="phoneHalo"></div>
+          <div id="rings"></div>
+          <div id="phoneRig"><div id="phoneFlip"></div></div>
+          <div id="fishPeek"><img src="assets/fish_34.png" alt="" /><img id="fishLook" src="assets/fish_34_lookup.png" alt="" /><img id="fishBlink" src="assets/fish_34_blink.png" alt="" /></div>
+        </div></div></div>
+      </div>
+
+      <div id="flash" class="full" style="opacity: 0"></div>
+      <!-- grain + vignette come from the approved finish pass (finish_post.py), applied after the render -->
+    </div>
+
+    <!-- BEGIN chat.html (verbatim copy of src/components/chat.html; edit there, then re-sync) -->
+<!--
+  ChatPhone: the EP003 group-chat phone (our own UI, no brand), reused in blocks B, C, E, F, G.
+  build.py only inlines INCLUDE markers from <project>/compositions/components, so a block template pastes this file
+  verbatim between "BEGIN chat.html" / "END chat.html" (block B does). Everything is seek-safe: rows are built once at
+  setup in chronological order and only shown/hidden by the GSAP timeline; the list is bottom-anchored (flex-end), so
+  "scrolling" is layout, never a measured offset (no font-load race).
+
+  Legibility spec (QUALITY_AUDIT #11): phone >= 82 % of frame height (default 384 x 612 = 85 %), Inter 600 26 px
+  bubbles, 34 px line height, bubble max width 70 %, 8 px tails, sender names in their colour, ticks + timestamps,
+  "Bought." die-cut stickers (4 px white border + shadow, +-4 deg).
+
+  API
+    const chat = ChatPhone(host, {
+      title: "The boat", sub: "4 members", clock: "11:42", me: "Q",
+      members: { Q: { name: "Quest", color: "#d6392f", avatar: ChatPhone.avImg("assets/quest_wave.png", 688, 1024, 318, 170, 300) },
+                 A: { name: "Max", color: "#7860be", avatar: ChatPhone.avSil("#7860be") }, ... },
+      w: 384, h: 612 });                        // chat.el (position it), chat.screen, chat.list
+    const r1 = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM" });   // r1.words = word spans
+    const r2 = chat.sticker("P", "Bought.", { rot: -4 });
+    const d1 = chat.typing("B");                 // a "..." row
+    const s0 = chat.system("Today 11:41 PM", { visible: true });   // a centred chip (date / group event); visible = shown from the start
+    chat.show(tl, r2, at)                        // pop a row in (list grows, older rows slide up)
+    chat.typeWords(tl, r1, [t1, t2, ...])        // shows the row at t1 and each word on its time (one time per word)
+    chat.dots(tl, d1, tIn, tOut)                 // typing dots bounce from tIn, the row collapses at tOut
+    chat.hide(tl, row, at)                       // collapse a row
+    chat.read(tl, row, at)                       // ticks turn "read" (gold)
+  Rows must be created in the order they appear (DOM order = chat order). Outgoing rows (who === me) sit on the right.
+-->
+<style>
+  .ch-phone { position: absolute; width: 384px; height: 612px; }
+  .ch-body { position: absolute; inset: 0; border-radius: 58px; background: linear-gradient(160deg, #2c2a3c 0%, #1a1924 60%, #121119 100%);
+    border: 5px solid #16161f; box-shadow: 9px 11px 0 #16161f, inset 0 0 0 3px #4a4762, inset 0 0 0 7px #16161f; }
+  .ch-btn { position: absolute; width: 7px; border-radius: 3px; background: #16161f; }
+  .ch-screen { position: absolute; left: 15px; top: 15px; right: 15px; bottom: 15px; border-radius: 44px; overflow: hidden;
+    background: radial-gradient(ellipse 120% 70% at 50% 0%, #fbf7ee 0%, #f2ecdf 60%, #e9e2d2 100%); }
+  .ch-island { position: absolute; left: 50%; top: 11px; width: 92px; height: 26px; margin-left: -46px; border-radius: 14px; background: #121119; z-index: 5; }
+  .ch-status { position: absolute; left: 0; top: 0; right: 0; height: 44px; padding: 13px 30px 0; display: flex; justify-content: space-between;
+    font: 800 15px "Inter", sans-serif; color: #16161f; letter-spacing: .02em; z-index: 4; }
+  .ch-status .bat { display: inline-block; width: 26px; height: 13px; border: 2px solid #16161f; border-radius: 4px; position: relative; top: 1px; padding: 1px; }
+  .ch-status .bat i { display: block; width: 40%; height: 100%; background: #e5484d; border-radius: 1px; }
+  .ch-head { position: absolute; left: 0; top: 44px; right: 0; height: 74px; display: flex; align-items: center; gap: 10px; padding: 0 16px;
+    background: rgba(255, 255, 255, .62); border-bottom: 2px solid rgba(22, 22, 31, .12); z-index: 3; }
+  .ch-back { width: 14px; height: 14px; border-left: 3px solid #16161f; border-bottom: 3px solid #16161f; transform: rotate(45deg); margin: 0 4px 0 6px; }
+  .ch-gav { position: relative; width: 52px; height: 52px; flex: none; }
+  .ch-gav .ch-av { position: absolute; width: 30px; height: 30px; border-width: 2px; }
+  .ch-title { font: 800 22px/1.05 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sub { font: 600 14px/1.2 "Inter", sans-serif; color: rgba(22, 22, 31, .55); margin-top: 3px; }
+  .ch-list { position: absolute; left: 0; right: 0; top: 118px; bottom: 66px; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 12px 6px; overflow: hidden; }
+  .ch-input { position: absolute; left: 12px; right: 12px; bottom: 14px; height: 44px; border-radius: 22px; background: #fff; border: 2px solid rgba(22, 22, 31, .14);
+    display: flex; align-items: center; padding: 0 16px; font: 600 16px "Inter", sans-serif; color: rgba(22, 22, 31, .38); }
+  .ch-input .send { margin-left: auto; width: 30px; height: 30px; border-radius: 50%; background: #ffc83d; border: 2px solid #16161f; }
+  /* rows: hidden = max-height 0 (takes no space); shown by the timeline */
+  .ch-row { display: flex; align-items: flex-end; gap: 8px; max-height: 0; opacity: 0; overflow: hidden; padding: 0 4px; flex: none; }
+  .ch-row.out { justify-content: flex-end; }
+  .ch-pad { padding: 7px 0 7px; display: flex; align-items: flex-end; gap: 8px; width: 100%; }
+  .ch-row.out .ch-pad { justify-content: flex-end; }
+  .ch-av { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; flex: none; position: relative; border: 3px solid #16161f; background: #ddd; }
+  .ch-av img { position: absolute; display: block; }
+  .ch-av svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .ch-bub { position: relative; max-width: 70%; background: #fff; border-radius: 22px 22px 22px 6px; padding: 9px 15px 8px;
+    box-shadow: 0 2px 0 rgba(22, 22, 31, .10), 0 3px 10px rgba(22, 22, 31, .08); transform-origin: 0% 100%; }
+  .ch-bub::after { content: ""; position: absolute; left: -8px; bottom: 0; width: 8px; height: 12px; background: #fff;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%); }                 /* the 8 px tail */
+  .ch-row.out .ch-bub { background: #ffd65e; border-radius: 22px 22px 6px 22px; transform-origin: 100% 100%; }
+  .ch-row.out .ch-bub::after { left: auto; right: -8px; background: #ffd65e; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+  .ch-name { font: 800 15px/1.2 "Inter", sans-serif; margin-bottom: 2px; letter-spacing: .01em; }
+  .ch-txt { font: 600 26px/34px "Inter", sans-serif; color: #16161f; letter-spacing: -.005em; }
+  .ch-w { display: inline-block; white-space: pre; }
+  .ch-meta { font: 600 12px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .45); text-align: right; margin-top: 3px; white-space: nowrap; }
+  .ch-tick { display: inline-block; margin-left: 4px; color: rgba(22, 22, 31, .4); font-weight: 800; letter-spacing: -.25em; }
+  /* "Bought." sticker: die-cut, 4 px white border, shadow, rotated +-4 deg */
+  .ch-stk { position: relative; display: flex; flex-direction: column; align-items: flex-start; }
+  .ch-row.out .ch-stk { align-items: flex-end; }
+  .ch-stk .ch-name { margin: 0 0 4px 6px; }
+  .ch-sticker { display: flex; align-items: center; gap: 10px; padding: 9px 20px 9px 12px; border-radius: 20px; background: #ffc83d;
+    border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 0 rgba(22, 22, 31, .22), 0 10px 18px rgba(22, 22, 31, .28);
+    font: 800 30px/1 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sticker .chk { width: 30px; height: 30px; border-radius: 50%; background: #16161f; display: flex; align-items: center; justify-content: center; flex: none; }
+  .ch-sticker .chk svg { width: 18px; height: 18px; }
+  .ch-sys { justify-content: center; }
+  .ch-sys .ch-pad { justify-content: center; }
+  .ch-chip { font: 800 13px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .55); background: rgba(22, 22, 31, .07); padding: 7px 12px; border-radius: 12px; letter-spacing: .03em; text-align: center; }
+  .ch-dots { display: flex; gap: 6px; padding: 15px 18px 14px; }
+  .ch-dots i { display: block; width: 12px; height: 12px; border-radius: 50%; background: rgba(22, 22, 31, .35); }
+  .ch-tb { display: inline-block; max-width: none; }
+  .ch-typer { font: 600 16px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .5); margin: 0 0 6px 2px; white-space: nowrap; }
+</style>
+<script>
+  window.ChatPhone = (function () {
+    const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; };
+    const CHECK = '<svg viewBox="0 0 20 20"><path d="M4 10.5 L8.5 15 L16.5 5.5" fill="none" stroke="#ffc83d" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    function ChatPhone(host, o) {
+      o = Object.assign({ title: "The boat", sub: "4 members", clock: "11:42", me: "Q", w: 384, h: 612, members: {} }, o);
+      const root = el("div", "ch-phone", host); root.style.width = o.w + "px"; root.style.height = o.h + "px";
+      el("div", "ch-body", root);
+      [[-4, 150, 60], [-4, 222, 60], [o.w - 3, 170, 86]].forEach(([x, y, hh]) => { const b = el("div", "ch-btn", root); Object.assign(b.style, { left: x + "px", top: y + "px", height: hh + "px" }); });
+      const screen = el("div", "ch-screen", root);
+      el("div", "ch-island", screen);
+      el("div", "ch-status", screen, `<span>${o.clock}</span><span><span class="bat"><i></i></span></span>`);
+      const head = el("div", "ch-head", screen);
+      el("div", "ch-back", head);
+      const gav = el("div", "ch-gav", head);
+      Object.keys(o.members).slice(0, 4).forEach((k, i) => { const a = avatar(k, gav); a.style.left = (i % 2) * 22 + "px"; a.style.top = Math.floor(i / 2) * 22 + "px"; });
+      const tt = el("div", "", head); el("div", "ch-title", tt, o.title); el("div", "ch-sub", tt, o.sub);
+      const list = el("div", "ch-list", screen);
+      el("div", "ch-input", screen, `Message<span class="send"></span>`);
+      function avatar(who, parent) { const m = o.members[who] || {}; const a = el("div", "ch-av", parent, m.avatar || ""); a.style.background = m.color || "#ccc"; return a; }
+      function row(who) { const r = el("div", "ch-row" + (who === o.me ? " out" : ""), list); const pad = el("div", "ch-pad", r); if (who !== o.me) avatar(who, pad); return { el: r, pad, who }; }
+      const api = {
+        el: root, screen, list, head,
+        msg(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const b = el("div", "ch-bub", r.pad);
+          if (who !== o.me) el("div", "ch-name", b, m.name || who).style.color = m.color;
+          const tx = el("div", "ch-txt", b);
+          r.words = text.split(" ").map((w, i, a) => el("span", "ch-w", tx, (w + (i < a.length - 1 ? " " : "")).replace(/&/g, "&amp;").replace(/</g, "&lt;")));
+          const meta = el("div", "ch-meta", b, opt.time || "11:42 PM");
+          r.tick = who === o.me ? el("span", "ch-tick", meta, "✓✓") : null;
+          r.bub = b; r.h = opt.h || 60 + 34 * (opt.lines || 3); return r; },
+        sticker(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const s = el("div", "ch-stk", r.pad);
+          if (who !== o.me) el("div", "ch-name", s, m.name || who).style.color = m.color;
+          r.bub = el("div", "ch-sticker", s, `<span class="chk">${CHECK}</span><span>${text}</span>`);
+          r.bub.style.transform = `rotate(${opt.rot != null ? opt.rot : (who === o.me ? 4 : -4)}deg)`;
+          r.rot = opt.rot != null ? opt.rot : (who === o.me ? 4 : -4);
+          if (who === o.me) { const meta = el("div", "ch-meta", s, (opt.time || "11:43 PM")); meta.style.marginTop = "8px"; r.tick = el("span", "ch-tick", meta, "✓✓"); }
+          r.h = opt.h || 112; return r; },
+        system(text, opt) { opt = opt || {}; const r = { el: el("div", "ch-row ch-sys", list) }; const pad = el("div", "ch-pad", r.el);
+          r.bub = el("div", "ch-chip", pad, text); r.h = opt.h || 44; if (opt.visible) { r.el.style.maxHeight = r.h + "px"; r.el.style.opacity = 1; } return r; },
+        typing(who) { const r = row(who); const m = o.members[who] || {};
+          const c = el("div", "", r.pad); el("div", "ch-typer", c, `${m.name || who} is typing…`);
+          const b = el("div", "ch-bub ch-tb", c); r.dots = Array.from(el("div", "ch-dots", b, "<i></i><i></i><i></i>").children);
+          r.bub = b; r.h = 96; return r; },
+        show(tl, r, at, d) { d = d == null ? .32 : d;
+          tl.fromTo(r.el, { maxHeight: 0, opacity: 0 }, { maxHeight: r.h, opacity: 1, duration: d, ease: "power2.out", immediateRender: false }, at);
+          tl.fromTo(r.bub, { scale: .55, y: 14 }, { scale: 1, y: 0, rotation: r.rot || 0, duration: d + .18, ease: "back.out(2.2)", immediateRender: false }, at);
+          return r; },
+        typeWords(tl, r, times) { tl.set(r.words, { opacity: 0 }, 0); api.show(tl, r, times[0] - .04);
+          r.words.forEach((w, i) => tl.fromTo(w, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .14, ease: "power2.out", immediateRender: false }, times[Math.min(i, times.length - 1)]));
+          return r; },
+        dots(tl, r, tIn, tOut) { api.show(tl, r, tIn, .26);
+          const n = Math.max(1, Math.floor((tOut - tIn) / .42));
+          r.dots.forEach((d, i) => tl.fromTo(d, { y: 0, backgroundColor: "rgba(22, 22, 31, .35)" }, { y: -7, backgroundColor: "rgba(22, 22, 31, .8)", duration: .21, ease: "sine.inOut", yoyo: true, repeat: 2 * n - 1, immediateRender: false }, tIn + .08 + i * .12));
+          api.hide(tl, r, tOut); return r; },
+        hide(tl, r, at, d) { tl.to(r.el, { maxHeight: 0, opacity: 0, duration: d || .16, ease: "power2.in" }, at); return r; },
+        read(tl, r, at) { if (r.tick) { tl.set(r.tick, { color: "rgba(22, 22, 31, .4)" }, 0); tl.set(r.tick, { color: "#d99a00" }, at); } return r; },
+      };
+      return api;
+    }
+    // avatar from a cut-out: a square crop (cx, cy, size in source px) of an image (srcW x srcH) fills the circle
+    ChatPhone.avImg = (src, srcW, srcH, cx, cy, size, d) => { d = d || 100; const k = d / size;
+      return `<img src="${src}" alt="" style="width:${(srcW * k / d * 100).toFixed(2)}%; left:${(-(cx - size / 2) * k / d * 100).toFixed(2)}%; top:${(-(cy - size / 2) * k / d * 100).toFixed(2)}%" />`; };
+    // a silhouette avatar (the faceless friends of the hook), in their colour
+    ChatPhone.avSil = (color, dark) => `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${color}"/>` +
+      `<circle cx="50" cy="40" r="19" fill="${dark || "rgba(22,22,31,.38)"}"/><path d="M14 104 C 16 72, 32 62, 50 62 C 68 62, 84 72, 86 104 Z" fill="${dark || "rgba(22,22,31,.38)"}"/></svg>`;
+    return ChatPhone;
+  })();
+</script>
+    <!-- END chat.html -->
+
+    <script>
+      /* ------------------------------------------------------------------ setup (deterministic) */
+      const W = 1280, H = 720;
+      function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const R = rng(808);
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+
+      // word times (block-relative, resolved by build.py from timings.json). The l08 alignment runs one word early
+      // between "with" and "dollars" (whisper merged "Eight dollars"), so "price" is the end of w4 and "eight" is w6.
+      const T = {
+        price: {{l08.w4.end}}, eight: {{l08.w6}}, not: {{l08.w8}}, price2: {{l08.w11}}, its: {{l08.w12}}, invitation: {{l08.w14}},
+        because: {{l09.w1}}, game: {{l09.w7}}, alone: {{l09.w10}}, everyone: {{l09.w11}}, boat: {{l09.w14}}, copy: {{l09.w18}},
+        so: {{l09.w19}}, same: {{l09.w24}}, way: {{l09.w25}}, message: {{l09.w27}}, group: {{l09.w30}}, chatEnd: {{l09.w31.end}},
+        q1: {{l09.w33-0.08}}, q2: {{l09.w34}}, q3: {{l09.w34+0.24}}, q4: {{l09.w35}}, q5: {{l09.w36}}, q6: {{l09.w37}}, qEnd: {{l09.w37.end}},
+        then: {{l10.w1}}, one: {{l10.w3}}, b1: {{l10.w6}}, b2: {{l10.w7}}, b2end: {{l10.w7.end}}, b3: {{l10.w8}}, b3end: {{l10.w8.end}},
+        friend: {{l11.w1}}, who: {{l11.w4}}, says: {{l11.w5}}, l1: {{l11.w6}}, l2: {{l11.w7}}, l3: {{l11.w8}}, l4: {{l11.w9}}, laterEnd: {{l11.w9.end}},
+        he: {{l11.w10}}, not2: {{l11.w12}}, get2: {{l11.w13}}, later2: {{l11.w15}},
+      };
+      const DUR = {{DUR}};
+      const FREEZE = [T.laterEnd, T.he];                                   // B5: dead still 0.6 s after "later."
+
+      /* ---------------- B1 rigs ---------------- */
+      const invBurst = Array.from({ length: 12 }, (_, i) => { const w = mk("b", "", $("#invBurst"), `position:absolute; left:0; top:0; width:0; height:0; transform: rotate(${i * 30}deg)`); return mk("i", "", w); });
+
+      /* ---------------- B2 rigs: avatars, boxes ---------------- */
+      const MEM = {
+        Q: { name: "Quest", color: "#d6392f", img: ["assets/quest_wave.png", 688, 1024, 318, 170, 300] },
+        P: { name: "Pixie", color: "#167880", img: ["assets/pixie_wave.png", 680, 1024, 320, 168, 280] },
+        A: { name: "Max", color: "#7860be" },
+        B: { name: "Leo", color: "#d69628" },
+      };
+      const SLOT = { P: 296, Q: 525, A: 755, B: 984 };
+      const AV_Y = 330, AV_SEAT = 384;                                     // floating, then seated in the boat
+      const avs = {};
+      Object.entries(MEM).forEach(([k, m]) => {
+        const a = mk("div", "av", $("#avs")); const inn = mk("div", "in", a); const bob = mk("div", "bob", inn);
+        const d = mk("div", "disc", bob); d.style.background = m.color;
+        d.innerHTML = m.img ? ChatPhone.avImg(...m.img) : ChatPhone.avSil(m.color);
+        const nm = mk("div", "nm", bob); nm.innerHTML = `<span style="background:${m.color}">${m.name}</span>`;
+        avs[k] = { a, inn, bob, d, nm };
+      });
+      const BOXY = 600;                                                    // box bottom: held up against the hull
+      const boxes = {};
+      ["P", "Q", "A", "B"].forEach((k) => {
+        const g = mk("div", "gbox", $("#boxes"));
+        g.innerHTML = `<div class="face"><div class="spine"></div><div class="ttl">FISH</div><img class="fsh" src="assets/fish_side.png" alt="" /></div><div class="pz">$7.99</div>`;
+        g.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+        boxes[k] = g;
+        const p = mk("div", "pop", $("#pops")); p.style.left = SLOT[k] + "px"; p.style.top = (BOXY - 70) + "px";
+        boxes[k].pop = Array.from({ length: 8 }, (_, i) => { const e = mk("i", "", p); e.style.transform = `rotate(${i * 45 + 22}deg)`; return e; });
+      });
+      // the flying box (the match cut): a copy of Leo's box that leaves the boat and becomes the phone
+      const fly = mk("div", "gbox", $("#flyRig")); fly.innerHTML = boxes.B.innerHTML; fly.style.transformOrigin = "50% 50%"; fly.style.top = "-72px";
+      fly.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+      const dusts = Array.from({ length: 16 }, () => mk("div", "dust", $("#dusts"), `left:${520 + R() * 240}px; top:${60 + R() * 480}px; opacity:${.3 + R() * .5}`));
+      const waves = Array.from({ length: 9 }, (_, i) => mk("div", "wv", $("#waves"), `left:${-60 + i * 160 + R() * 60}px; top:${630 + (i % 3) * 22}px; width:${70 + R() * 70}px`));
+
+      /* ---------------- B3-B5 rigs: the chat phone (component) ---------------- */
+      const chat = ChatPhone($("#phoneFlip"), {
+        title: "The boat", sub: "Quest, Pixie, Max, Leo", clock: "11:42", me: "Q",
+        members: {
+          Q: { name: "Quest", color: MEM.Q.color, avatar: ChatPhone.avImg(...MEM.Q.img) },
+          P: { name: "Pixie", color: MEM.P.color, avatar: ChatPhone.avImg(...MEM.P.img) },
+          A: { name: "Max", color: MEM.A.color, avatar: ChatPhone.avSil(MEM.A.color) },
+          B: { name: "Leo", color: MEM.B.color, avatar: ChatPhone.avSil(MEM.B.color) },
+        },
+      });
+      chat.system("Today 11:41 PM", { visible: true });
+      chat.system("Max named the group “The boat”", { visible: true, h: 52 });
+      const dA = chat.typing("A");
+      const mA = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 });
+      const dP = chat.typing("P");
+      const sP = chat.sticker("P", "Bought.", { rot: -4 });
+      const sQ = chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM" });
+      const dA2 = chat.typing("A");
+      const sA = chat.sticker("A", "Bought.", { rot: -3 });
+      const dB = chat.typing("B");
+      const mB = chat.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 });
+      const dB2 = chat.typing("B");
+      const rings = [0, 1, 2].map(() => mk("div", "ring", $("#rings"), "left:340px; top:120px; width:600px; height:600px; opacity:0"));
+
+      /* ------------------------------------------------------------------ the timeline */
+      const tl = gsap.timeline({ paused: true });
+
+      // the camera breathes (2-3 % push, drift <= 1.5 %), each shot on its own phase; the breathing clock stops dead
+      // during FREEZE (B5's 0.6 s of stillness), so nothing in the frame moves there
+      const CAMS = [["#camRoom", 0], ["#camStage", 2.1], ["#camChat", 4.0]];
+      const env = { p: 0 };
+      const breathe = () => { const t = env.p * DUR; const bt = t < FREEZE[0] ? t : t < FREEZE[1] ? FREEZE[0] : t - (FREEZE[1] - FREEZE[0]);
+        CAMS.forEach(([sel, ph]) => gsap.set(sel, { scale: 1.025 + .012 * Math.sin((bt + ph) * 2 * Math.PI / 5.5), x: 8 * Math.sin((bt + ph * 1.7) * 2 * Math.PI / 7.5), y: 4 * Math.sin((bt + ph * .6) * 2 * Math.PI / 6.5), transformOrigin: "50% 50%" })); };
+      tl.fromTo(env, { p: 0 }, { p: 1, duration: DUR, ease: "none", onUpdate: breathe, immediateRender: true }, 0);
+      // camera move on a shot's .push: put frame point (px, py) at the centre with zoom s
+      const focus = (px, py, s, ox, oy) => ({ x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), scale: s });
+      const cam = (sel, at, dur, f, ease) => dur <= 0 ? tl.set(sel, f, at) : tl.to(sel, Object.assign({}, f, { duration: dur, ease: ease || "sine.inOut" }), at);
+      // a camera kick: scale punch + rotation, settles on a spring
+      const kickCam = (sel, at, s, rot) => tl.fromTo(sel, { scale: 1, rotation: 0 }, { keyframes: [{ scale: s, rotation: rot, duration: .06, ease: "power3.out" }, { scale: 1, rotation: 0, duration: .55, ease: "elastic.out(1.1, .38)" }], transformOrigin: "50% 50%", immediateRender: false }, at);
+
+      // ================= B1 (0 - because): Quest's night, the price, the invitation =================
+      cam("#pushRoom", 0, 0, focus(560, 380, 1.08));
+      cam("#pushRoom", 0, T.its, focus(640, 360, 1.12), "sine.inOut");
+      tl.fromTo("#phoneGlow", { opacity: .7 }, { opacity: 1, duration: .5, ease: "sine.inOut", yoyo: true, repeat: Math.floor(T.its / .5) }, 0);
+      tl.set("#questWrap", { transformOrigin: "50% 100%" }, 0);
+      tl.fromTo("#questWrap", { y: 0 }, { y: -4, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0);
+      // "price": the $7.99 tag swings in on its string (the hook's tag, callback)
+      tl.set("#tag", { y: -520, rotation: -62, transformOrigin: "170px 0px" }, 0);
+      tl.to("#tag", { y: 0, duration: .42, ease: "power2.in" }, T.price - .3);
+      tl.to("#tag", { rotation: 0, duration: 2.1, ease: "elastic.out(1.15, .22)" }, T.price + .1);
+      tl.fromTo("#questWrap", { rotation: 0 }, { keyframes: [{ rotation: -3, duration: .12, ease: "power2.out" }, { rotation: 0, duration: .6, ease: "elastic.out(1, .4)" }], immediateRender: false }, T.price + .12);
+      // "Eight dollars": a little gold punch on the tag
+      tl.fromTo("#flipper", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: .08 }, { scale: 1, duration: .5, ease: "elastic.out(1, .35)" }], immediateRender: false }, T.eight);
+      // "not": the red strike draws through $7.99
+      tl.set("#strike", { scaleX: 0, rotation: -7 }, 0);
+      tl.to("#strike", { scaleX: 1, duration: .22, ease: "power3.out" }, T.not);
+      tl.fromTo("#tag", { rotation: 0 }, { keyframes: [{ rotation: 7, duration: .08 }, { rotation: 0, duration: .9, ease: "elastic.out(1.1, .3)" }], immediateRender: false }, T.not + .04);
+      cam("#kickRoom", T.not, 0, { transformOrigin: "50% 50%" });
+      kickCam("#kickRoom", T.not + .02, 1.025, -1);
+      // "...a price.": the tag swings, Quest leans in
+      tl.to("#questWrap", { x: 14, rotation: 2, duration: .5, ease: "back.out(2)" }, T.price2);
+      // "It's an invitation": the string snaps, the tag flips (3D) into a wax-sealed envelope that lands centre
+      tl.to("#tag .string", { scaleY: 0, duration: .18, ease: "power2.in" }, T.its);
+      tl.set("#env", { opacity: 0 }, 0);
+      tl.set("#flipper", { transformPerspective: 900 }, 0);
+      tl.to("#flipper", { rotationY: 90, scale: 1.14, x: -30, y: 60, duration: .2, ease: "power2.in" }, T.its + .04);
+      tl.set("#tagCard", { opacity: 0 }, T.its + .24);
+      tl.set("#env", { opacity: 1 }, T.its + .24);
+      tl.fromTo("#flipper", { rotationY: -90 }, { rotationY: 0, scale: 1.32, x: -50, y: 130, rotation: -3, duration: .42, ease: "back.out(1.7)", immediateRender: false }, T.its + .24);
+      tl.to("#flipper", { y: 138, rotation: 0, duration: 1.6, ease: "sine.inOut" }, T.invitation + .25);
+      tl.fromTo("#envShine", { x: -300, opacity: 1 }, { x: 300, duration: .45, ease: "power2.inOut" }, T.invitation - .05);
+      tl.set("#envShine", { opacity: 0 }, T.invitation + .4);
+      tl.to("#questWrap", { x: 0, rotation: -1, duration: .6, ease: "power2.out" }, T.its + .1);
+      // "invitation": the seal pops, the flap opens, the card slides up
+      tl.fromTo("#seal", { scale: 1, rotation: 0 }, { keyframes: [{ scale: 1.35, rotation: -12, duration: .12, ease: "power2.out" }, { scale: 1, rotation: 0, duration: .2 }] , transformOrigin: "50% 50%", immediateRender: false }, T.invitation);
+      tl.set("#flap", { transformPerspective: 700, rotationX: 0, zIndex: 4 }, 0);
+      tl.to("#flap", { rotationX: 178, duration: .45, ease: "power2.inOut" }, T.invitation + .3);
+      tl.set("#flap", { zIndex: 0 }, T.invitation + .52);
+      tl.set("#seal", { opacity: 0 }, T.invitation + .52);
+      tl.set("#seal", { opacity: 1 }, 0);
+      tl.set("#inv", { zIndex: 1 }, 0);
+      tl.fromTo("#inv", { y: 0 }, { y: -122, duration: .55, ease: "back.out(1.6)", immediateRender: false }, T.invitation + .62);
+      invBurst.forEach((b, i) => tl.fromTo(b, { opacity: 0, y: 0 }, { keyframes: [{ opacity: 1, y: -24, duration: .14, ease: "power2.out" }, { opacity: 0, y: -56, duration: .34 }], immediateRender: false }, T.invitation + .78 + (i % 2) * .03));
+      tl.set(invBurst, { opacity: 0 }, 0);
+      cam("#pushRoom", T.invitation + .2, 1.4, focus(720, 335, 1.12), "power2.inOut");
+      // whip out on "Because"
+      tl.to("#pushRoom", { x: "-=1500", duration: .24, ease: "power3.in" }, T.because - .02);
+      tl.to("#room", { filter: "blur(14px)", duration: .2, ease: "power2.in" }, T.because);
+
+      // ================= B2 (because - message): alone, everyone, the boat, their own copy =================
+      cam("#pushStage", 0, 0, focus(640, 330, 1.18));
+      tl.fromTo("#kickStage", { x: 1500 }, { x: 0, duration: .32, ease: "power3.out" }, T.because - .02);
+      tl.fromTo("#whipIn", { opacity: .9 }, { opacity: 0, duration: .25 }, T.because);
+      // a searchlight looks for someone ("not really a game you play...")
+      tl.set("#spot", { rotation: -34 }, 0); tl.set("#pool", { x: -420, opacity: .5 }, 0);
+      tl.to("#spot", { keyframes: [{ rotation: 26, duration: 1.1, ease: "sine.inOut" }, { rotation: -14, duration: .8, ease: "sine.inOut" }, { rotation: 0, duration: .45, ease: "back.out(2)" }] }, T.because + .1);
+      tl.to("#pool", { keyframes: [{ x: 330, duration: 1.1, ease: "sine.inOut" }, { x: -170, duration: .8, ease: "sine.inOut" }, { x: 0, opacity: 1, duration: .45, ease: "back.out(2)" }] }, T.because + .1);
+      dusts.forEach((d, i) => tl.fromTo(d, { y: 0, x: 0 }, { y: -40 - (i % 4) * 12, x: (i % 2 ? 10 : -10), duration: 6, ease: "none" }, T.because));
+      // "alone": one avatar, centred and spotlit
+      Object.entries(avs).forEach(([k, v]) => tl.set(v.a, { x: SLOT[k], y: AV_Y }, 0));
+      tl.set(avs.Q.a, { x: 640, y: 300 }, 0);
+      tl.set(avs.Q.inn, { scale: 0 }, 0);
+      tl.to(avs.Q.inn, { scale: 1.3, duration: .55, ease: "back.out(2.4)" }, T.alone - .06);
+      tl.fromTo(avs.Q.nm, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .3, ease: "back.out(2)", immediateRender: false }, T.alone + .25);
+      tl.set(avs.Q.nm, { opacity: 0 }, 0);
+      cam("#pushStage", T.alone - .1, 1.3, focus(640, 330, 1.26), "power2.out");
+      tl.fromTo("#spot .cone", { scaleX: 1 }, { scaleX: .7, duration: 1.2, ease: "sine.inOut", transformOrigin: "50% 0%" }, T.alone + .1);
+      // "Everyone": the lights come up, the others slide in, staggered
+      tl.to("#stageWash", { opacity: 1, duration: .4 }, T.everyone - .05);
+      tl.to(["#spot", "#pool"], { opacity: 0, duration: .35 }, T.everyone);
+      tl.to(avs.Q.a, { x: SLOT.Q, y: AV_Y, duration: .45, ease: "power3.inOut" }, T.everyone - .1);
+      tl.to(avs.Q.inn, { scale: 1, duration: .45, ease: "power3.inOut" }, T.everyone - .1);
+      [["P", -1, 0], ["A", 1, .12], ["B", 1, .24]].forEach(([k, dir, d]) => {
+        tl.set(avs[k].inn, { x: dir * 900 }, 0);
+        tl.to(avs[k].inn, { x: 0, duration: .5, ease: "back.out(1.5)" }, T.everyone + d);
+        tl.fromTo(avs[k].inn, { rotation: dir * -18 }, { rotation: 0, duration: .8, ease: "elastic.out(1, .45)", immediateRender: false }, T.everyone + d + .1);
+      });
+      cam("#pushStage", T.everyone - .1, .7, focus(640, 400, 1.0), "power3.inOut");
+      // "in the boat": the boat rises under them, they drop into their seats
+      tl.set(["#boatRig", "#boatFront"], { y: 420 }, 0);
+      tl.set("#waterLine", { opacity: 0 }, 0);
+      tl.to(["#boatRig", "#boatFront"], { y: 0, duration: .5, ease: "back.out(1.3)" }, T.boat - .25);
+      tl.to("#waterLine", { opacity: 1, duration: .4 }, T.boat - .2);
+      ["P", "Q", "A", "B"].forEach((k, i) => tl.to(avs[k].a, { keyframes: [{ y: AV_SEAT + 10, duration: .2, ease: "power2.in" }, { y: AV_SEAT, duration: .4, ease: "elastic.out(1, .4)" }] }, T.boat + .12 + i * .05));
+      tl.fromTo(["#boatRig", "#boatFront"], { rotation: -1.2 }, { rotation: 1.2, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, transformOrigin: "50% 80%", immediateRender: false }, T.boat + .3);
+      ["P", "Q", "A", "B"].forEach((k, i) => tl.fromTo(avs[k].bob, { y: 0 }, { y: -6, duration: .65 + i * .07, ease: "sine.inOut", yoyo: true, repeat: 5, immediateRender: false }, T.boat + .7));
+      waves.forEach((w, i) => tl.fromTo(w, { x: 0 }, { x: 40 + (i % 3) * 14, duration: 5, ease: "none" }, T.boat));
+      // "their own copy": four game boxes rain down, one each (pop x4)
+      ["P", "Q", "A", "B"].forEach((k, i) => {
+        const at = T.copy - .18 + i * .13;
+        tl.set(boxes[k], { x: SLOT[k], y: BOXY - 700, rotation: (i % 2 ? 22 : -22), opacity: 0 }, 0);
+        tl.set(boxes[k], { opacity: 1 }, at);
+        tl.to(boxes[k], { y: BOXY, rotation: (i % 2 ? 4 : -4), duration: .3, ease: "power2.in" }, at);
+        tl.to(boxes[k], { keyframes: [{ scaleY: .78, scaleX: 1.18, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }] }, at + .3);
+        boxes[k].pop.forEach((p) => tl.fromTo(p, { opacity: 0, y: 0, scaleY: .4 }, { keyframes: [{ opacity: 1, y: -26, scaleY: 1, duration: .1, ease: "power2.out" }, { opacity: 0, y: -46, duration: .22 }], immediateRender: false }, at + .3));
+        tl.set(boxes[k].pop, { opacity: 0 }, 0);
+        tl.fromTo(avs[k].d, { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], immediateRender: false }, at + .32);
+      });
+      kickCam("#kickStage", T.copy + .26, 1.03, .8);
+      kickCam("#kickStage", T.copy + .65, 1.04, -1.2);
+      // "So it usually begins the same way": the others dim, the camera leans in on the last box
+      cam("#pushStage", T.copy + .9, T.way - T.copy - .9, focus(740, 455, 1.07), "sine.inOut");
+      ["P", "Q", "A"].forEach((k) => tl.to([avs[k].a, boxes[k]], { opacity: .35, duration: .6, ease: "sine.inOut" }, T.same - .1));
+      tl.fromTo(boxes.B, { rotation: 4 }, { keyframes: [{ rotation: -6, duration: .08 }, { rotation: 6, duration: .08 }, { rotation: -3, duration: .08 }, { rotation: 4, duration: .1 }], immediateRender: false }, T.same + .1);
+      // "A message": the last box leaves the boat, spins to the centre and flips into the phone (match cut)
+      tl.set(fly, { x: SLOT.B, y: BOXY - 72, opacity: 0, transformPerspective: 1400 }, 0);
+      tl.set(fly, { opacity: 1 }, T.way);
+      tl.set(boxes.B, { opacity: 0 }, T.way);
+      cam("#pushStage", T.way, T.message - T.way, focus(640, 360, 1.0), "power2.inOut");
+      tl.to(fly, { x: 640, y: 360, scale: 3.1, rotation: 0, duration: T.message - T.way - .26, ease: "power3.inOut" }, T.way);
+      tl.fromTo(fly, { rotationY: 0 }, { rotationY: -25, duration: .4, ease: "sine.inOut", immediateRender: false }, T.way + .2);
+      tl.to(fly, { rotationY: 90, scale: 4.25, duration: .26, ease: "power2.in" }, T.message - .26);
+      tl.to(["#avs", "#boxes", "#boatRig", "#boatFront", "#waterLine", "#waves"], { opacity: 0, duration: .3 }, T.message - .4);
+
+      // ================= B3 (message - l10): the chat; "It's eight dollars. Just get it." types in =================
+      cam("#pushChat", T.message, 0, focus(640, 360, 1.0));
+      tl.set("#phoneRig", { transformPerspective: 1600 }, 0);
+      tl.fromTo("#phoneFlip", { rotationY: -90, scale: 1.04 }, { rotationY: 0, scale: 1, duration: .42, ease: "back.out(1.4)" }, T.message);
+      tl.fromTo("#chatBg", { opacity: 0 }, { opacity: 1, duration: .35 }, T.message);
+      tl.fromTo("#phoneHalo", { opacity: .6 }, { opacity: 1, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 5 }, T.message);
+      // "group chat": the header title punches
+      tl.fromTo(chat.head, { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .1 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 50%", immediateRender: false }, T.group);
+      chat.dots(tl, dA, T.chatEnd - .1, T.q1 - .02);
+      cam("#pushChat", T.chatEnd - .2, 1.1, focus(640, 452, 1.3), "power2.inOut");
+      chat.typeWords(tl, mA, [T.q1, T.q1, T.q2, T.q3, T.q4, T.q5, T.q6]);   // It's | eight | dollars. | Just | get | it.
+      tl.fromTo(mA.bub, { scale: 1 }, { keyframes: [{ scale: 1.05, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], immediateRender: false }, T.q6 + .02);
+      cam("#pushChat", T.qEnd + .1, 1.0, focus(640, 420, 1.17), "power2.inOut");
+
+      // ================= B4 (l10): Bought. Bought. Bought. - scale punch + camera kick, bigger each time =================
+      chat.dots(tl, dP, T.one, T.b1 - .02);
+      chat.show(tl, sP, T.b1 - .02, .26);
+      chat.show(tl, sQ, T.b2 - .02, .26);
+      chat.dots(tl, dA2, T.b2end + .08, T.b3 - .02);
+      chat.show(tl, sA, T.b3 - .02, .26);
+      chat.read(tl, sQ, T.b3 + .3);
+      [[sP, T.b1, 1.04, 2], [sQ, T.b2, 1.07, -3], [sA, T.b3, 1.1, 4]].forEach(([s, t, k, rot], i) => {
+        tl.fromTo(s.bub, { scale: 2.3, opacity: 0 }, { scale: 1, opacity: 1, rotation: s.rot, duration: .22, ease: "power4.in", immediateRender: false }, t - .04);
+        tl.fromTo(s.bub, { scale: 1 }, { keyframes: [{ scale: .9, duration: .05 }, { scale: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], immediateRender: false }, t + .18);
+        kickCam("#kickChat", t + .18, k, rot);
+        const r = rings[i];
+        tl.fromTo(r, { scale: .05, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .02 }, { scale: (520 + i * 160) / 600, opacity: 0, duration: .5, ease: "power2.out" }], immediateRender: false }, t + .18);
+        tl.set(r, { opacity: 0 }, 0);
+        tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .1 + i * .05, duration: .03 }, { opacity: 0, duration: .14 }], immediateRender: false }, t + .18);
+      });
+      cam("#pushChat", T.b1 - .3, T.b3 - T.b1 + .3, focus(640, 430, 1.22), "sine.inOut");
+
+      // ================= B5 (l11): "I'll get it later." - dead still - "He will not get it later." =================
+      cam("#pushChat", T.friend, T.l1 - T.friend, focus(640, 462, 1.32), "power2.inOut");
+      chat.dots(tl, dB, T.who, T.l1 - .02);
+      chat.typeWords(tl, mB, [T.l1, T.l2, T.l3, T.l4]);                 // I'll | get | it | later.
+      // FREEZE: laterEnd .. he - nothing moves (the breathing clock holds too)
+      // "He": the typing dots come back... and vanish on "not"
+      chat.dots(tl, dB2, T.he, T.not2);
+      // the companion fish peeks in at the frame's edge and slow-blinks on "later."
+      cam("#pushChat", T.not2, .9, focus(700, 452, 1.24), "power2.inOut");
+      tl.set("#fishPeek", { y: 30, rotation: -6, opacity: 0 }, 0);          // fully hidden until it peeks
+      tl.set("#fishPeek", { y: 0, opacity: 1 }, T.not2 + .1);
+      tl.to("#fishPeek", { y: -132, rotation: -2, duration: .55, ease: "back.out(1.8)" }, T.not2 + .12);
+      tl.set(["#fishBlink", "#fishLook"], { opacity: 0 }, 0);
+      tl.set("#fishLook", { opacity: 1 }, T.not2 + .12);                  // peeks up at the chat...
+      tl.set("#fishLook", { opacity: 0 }, T.get2 + .1);                   // ...then deadpan at the camera
+      tl.set("#fishBlink", { opacity: 1 }, T.later2);                     // one slow blink on "later."
+      tl.set("#fishBlink", { opacity: 0 }, T.later2 + .5);
+      // Leo's avatar greys out on "not"
+      tl.fromTo([mB.el, dB2.el].map((r) => r.querySelector(".ch-av")), { filter: "grayscale(0) brightness(1)" }, { filter: "grayscale(1) brightness(.85)", duration: .5, ease: "power2.out", immediateRender: false }, T.not2);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+    <!--INCLUDE motion-blur.html-->
+  </body>
+</html>
