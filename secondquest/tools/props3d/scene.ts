@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 type V3 = [number, number, number];
 interface FishExpr { lid?: number; look?: [number, number]; mouth?: 'pout' | 'o' | 'flat'; sweat?: boolean }
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; boat?: 'back' | 'front'; hide?: number[] }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; boat?: 'back' | 'front'; hide?: number[]; near?: number; far?: number }
 type Poly = { outer: [number, number][]; holes: [number, number][][] };
 interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
@@ -1117,9 +1117,9 @@ const fishingRod = () => {
   g.add(lathe([[0, 30], [2.5, 30], [2.6, 30.6], [2.6, 32.2], [2.2, 32.8], [0, 32.8]], 32, silver, 1573));
   g.add(lathe([[0, 38.4], [2.2, 38.4], [2.6, 39], [2.6, 41], [0, 41]], 32, silver, 1573));
   g.add(lathe([[0, 41], [2.45, 41], [2.45, 43.2], [0, 43.2]], 32, gold, 1574));
-  g.add(lathe([[0, 43.2], [2.3, 43.2], [2.2, 47], [1.85, 51], [0, 51]], 32, cork, 1576));
-  g.add(lathe([[0, 51], [1.95, 51], [1.95, 52], [0, 52]], 24, gold, 1574));
-  const rb = (y: number) => 1.55 - 1.1 * (y - 52) / 160;                 // blank radius at height y
+  g.add(lathe([[0, 43.2], [2.4, 43.2], [2.35, 47], [2.15, 51], [0, 51]], 32, cork, 1576));
+  g.add(lathe([[0, 51], [2.2, 51], [2.2, 52.2], [0, 52.2]], 24, gold, 1574));
+  const rb = (y: number) => 1.95 - 1.2 * (y - 52) / 160;                 // blank radius at height y (cartoon-thick)
   const blank = new THREE.CylinderGeometry(rb(212), rb(52), 160, 20, 40); blank.translate(0, 132, 0);
   const deep = new THREE.Color('#1d4b7d'), light = new THREE.Color('#4a8ac2');
   vcol(blank, (_x, y) => deep.clone().lerp(light, Math.max(0, (y - 52) / 160) ** 1.5));
@@ -1127,7 +1127,7 @@ const fishingRod = () => {
   // decorative thread wrap above the fore grip: gold - red - gold
   [[53, 55.5, gold], [55.5, 56.4, toon('#a5302a')], [56.4, 57.4, gold]].forEach(([y0, y1, m]) => g.add(lathe([[0, y0 as number], [rb(y0 as number) + .14, y0 as number], [rb(y1 as number) + .14, y1 as number], [0, y1 as number]], 24, m as THREE.Material, m === gold ? 1574 : 1577)));
   // guides: ring on a two-legged foot, thread wraps on the blank
-  const guides = [[75, 2.7, 6.2], [101, 2.1, 4.8], [124, 1.6, 3.8], [145, 1.25, 3.1], [163, 1.0, 2.6], [179, 0.85, 2.2], [193, 0.75, 1.9], [204, 0.65, 1.6]];
+  const guides = [[75, 2.7, 5.4], [101, 2.1, 4.2], [124, 1.6, 3.4], [145, 1.3, 2.8], [163, 1.1, 2.4], [179, 0.95, 2.1], [193, 0.85, 1.9], [204, 0.75, 1.7]];
   const ring = (R: number, tr: number, c: THREE.Vector3, mat: THREE.Material, part: number) => { const t = mesh(new THREE.TorusGeometry(R, tr, 8, 28), mat, part); t.rotation.x = Math.PI / 2; t.position.copy(c); return t; };
   const centres: THREE.Vector3[] = [];
   for (const [y, R, h] of guides) {
@@ -1142,22 +1142,24 @@ const fishingRod = () => {
   g.add(ring(.55, .18, tipC, silver, 1578));
   g.add(tube([V(0, 211, 0), V(tipC.x - .5, 212.6, 0)], .18, silver, 1578, 4, 6));
   // spinning reel hanging on the +x side of the seat, spool facing the tip
-  const rx = 9.5, ry = 30.5;
-  g.add(tube([V(2, 35.5, 0), V(4.5, 35, 0), V(7, 33.5, 0), V(rx - .5, ry + 1, 0)], .9, metal, 1580, 12, 10));
-  g.add(box(1.0, 6.5, 2.2, [2.4, 35.6, 0], metal, 1580, .3));
-  const body = mesh(new THREE.SphereGeometry(3.4, 28, 18), toon('#30353f'), 1581); body.scale.set(1, 1.15, .85); body.position.set(rx, ry, 0); g.add(body);
-  g.add(lathe([[0, ry + 2.4], [2.6, ry + 2.4], [3.3, ry + 3.6], [3.4, ry + 5.6], [0, ry + 5.6]], 36, toon('#454c58'), 1582).translateX(rx));
-  g.add(lathe([[0, ry + 5.6], [3.6, ry + 5.6], [3.6, ry + 6.0], [3.0, ry + 6.1], [3.05, ry + 8.6], [3.6, ry + 8.8], [3.6, ry + 9.3], [0, ry + 9.3]], 40, gold, 1583).translateX(rx));
-  g.add(lathe([[0, ry + 6.05], [3.15, ry + 6.05], [3.25, ry + 7.3], [3.15, ry + 8.6], [0, ry + 8.6]], 40, toon('#9fe0d0'), 1584).translateX(rx));
-  g.add(lathe([[0, ry + 9.3], [1.6, ry + 9.3], [1.5, ry + 11], [1.1, ry + 11.4], [0, ry + 11.4]], 20, toon('#24272d'), 1585).translateX(rx));
-  const bail = mesh(new THREE.TorusGeometry(3.9, .32, 8, 24, Math.PI), silver, 1586); bail.position.set(rx, ry + 5.2, 0); bail.rotation.set(-1.25, 0, Math.PI / 2 + .25); g.add(bail);
+  const rx = 9.5, ry = 30.5, reel = new THREE.Group();
+  reel.add(tube([V(2, 35.5, 0), V(4.5, 35, 0), V(7, 33.5, 0), V(rx - .5, ry + 1, 0)], .9, metal, 1580, 12, 10));
+  reel.add(box(1.0, 6.5, 2.2, [2.4, 35.6, 0], metal, 1580, .3));
+  const body = mesh(new THREE.SphereGeometry(3.4, 28, 18), toon('#30353f'), 1581); body.scale.set(1, 1.15, .85); body.position.set(rx, ry, 0); reel.add(body);
+  reel.add(lathe([[0, ry + 2.4], [2.6, ry + 2.4], [3.3, ry + 3.6], [3.4, ry + 5.6], [0, ry + 5.6]], 36, toon('#454c58'), 1582).translateX(rx));
+  reel.add(lathe([[0, ry + 5.6], [3.6, ry + 5.6], [3.6, ry + 6.0], [3.0, ry + 6.1], [3.05, ry + 8.6], [3.6, ry + 8.8], [3.6, ry + 9.3], [0, ry + 9.3]], 40, gold, 1583).translateX(rx));
+  reel.add(lathe([[0, ry + 6.05], [3.15, ry + 6.05], [3.25, ry + 7.3], [3.15, ry + 8.6], [0, ry + 8.6]], 40, toon('#9fe0d0'), 1584).translateX(rx));
+  reel.add(lathe([[0, ry + 9.3], [1.6, ry + 9.3], [1.5, ry + 11], [1.1, ry + 11.4], [0, ry + 11.4]], 20, toon('#24272d'), 1585).translateX(rx));
+  const bail = mesh(new THREE.TorusGeometry(3.9, .32, 8, 24, Math.PI), silver, 1586); bail.position.set(rx, ry + 5.2, 0); bail.rotation.set(-1.25, 0, Math.PI / 2 + .25); reel.add(bail);
   // crank on the +z side: shaft, arm, knob
-  g.add(cyl(.55, 2.8, [rx, ry - .5, 3.6], [Math.PI / 2, 0, 0], metal, 1587));
-  g.add(box(1.2, 6.5, .8, [rx, ry - 3.2, 5.1], metal, 1587, .3));
-  g.add(cyl(.95, 2.6, [rx, ry - 6.2, 6.6], [Math.PI / 2, 0, 0], toon('#c79a62'), 1588));
+  reel.add(cyl(.55, 2.8, [rx, ry - .5, 3.6], [Math.PI / 2, 0, 0], metal, 1587));
+  reel.add(box(1.2, 6.5, .8, [rx, ry - 3.2, 5.1], metal, 1587, .3));
+  reel.add(cyl(.95, 2.6, [rx, ry - 6.2, 6.6], [Math.PI / 2, 0, 0], toon('#c79a62'), 1588));
+  const RM = new THREE.Matrix4().makeTranslation(2, 35.5, 0).multiply(new THREE.Matrix4().makeScale(1.3, 1.3, 1.3)).multiply(new THREE.Matrix4().makeTranslation(-2, -35.5, 0));
+  reel.applyMatrix4(RM); g.add(reel);                                   // cartoon-sized reel, scaled about its foot
   // the line: off the spool, through each guide, out of the tip, a little slack
   const path = new THREE.CurvePath<THREE.Vector3>();
-  const pts = [V(rx - 2.4, ry + 8.4, 0), ...centres, tipC];
+  const pts = [V(rx - 2.4, ry + 8.4, 0).applyMatrix4(RM), ...centres, tipC];
   for (let i = 0; i < pts.length - 1; i++) path.add(new THREE.LineCurve3(pts[i], pts[i + 1]));
   path.add(new THREE.CatmullRomCurve3([tipC, V(tipC.x + 1.6, 213.4, 0), V(tipC.x + 4, 211.5, .5), V(tipC.x + 5.2, 206, 1), V(tipC.x + 5.4, 199, 1.2)]));
   g.add(tube(path, .16, toon('#f4f6f8'), 1589, 600, 5));
@@ -1274,12 +1276,12 @@ const fish2 = () => {
  * with a loop handle, resting ajar on the rim. Zinc mottling and grime as vertex colours. */
 const trashcan = () => {
   const g = new THREE.Group();
-  const rr = (y: number) => 25.4 + 3.6 * (y - 3) / 67 + [17, 35, 53].reduce((a, c) => a + 1.05 * Math.exp(-(((y - c) / 1.5) ** 2)), 0);
+  const rr = (y: number) => 25.4 + 3.6 * (y - 3) / 67 + [17, 35, 53].reduce((a, c) => a + 1.7 * Math.exp(-(((y - c) / 1.3) ** 2)), 0);
   const prof: [number, number][] = [[0, 0], [24.2, 0], [25, .8], [25.6, 2.2], [25.2, 3]];
   for (let y = 3.6; y <= 70.01; y += .6) prof.push([rr(y), y]);
   prof.push([29.1, 70.8]);
   const geo = new THREE.LatheGeometry(prof.map(([r, y]) => new THREE.Vector2(r, y)), 120);
-  const dents = [[-.35, 27, 8.5, 2.2], [.95, 47, 7, 1.6], [-1.3, 60, 6, 1.4]];   // angle (0 = +z), height, radius, depth
+  const dents = [[-.35, 27, 8, 3.4], [.75, 46, 6.5, 2.6], [-1.15, 61, 5.5, 2.2]];   // angle (0 = +z), height, radius, depth
   const p = geo.attributes.position as THREE.BufferAttribute;
   for (let i = 0; i < p.count; i++) {
     const x = p.getX(i), y = p.getY(i), z = p.getZ(i), r = Math.hypot(x, z);
@@ -1291,7 +1293,7 @@ const trashcan = () => {
   }
   geo.computeVertexNormals();
   const zinc = new THREE.Color('#b0bac3'), grime = new THREE.Color('#7d7a6e');
-  const mottle = (x: number, y: number, z: number) => { const a = Math.atan2(x, z); return 1 + .045 * Math.sin(a * 7 + y * .3) * Math.sin(y * .21 - a * 3) + .03 * Math.sin(a * 23 + y * .9); };
+  const mottle = (x: number, y: number, z: number) => { const a = Math.atan2(x, z); return 1 + .03 * Math.sin(a * 5 + y * .11) * Math.sin(y * .07 - a * 2); };
   vcol(geo, (x, y, z) => zinc.clone().lerp(grime, .55 * (1 - sstep(0, 14, y))).multiplyScalar((.8 + .2 * sstep(0, 60, y)) * mottle(x, y, z)));
   g.add(mesh(geo, vtoon(), 1600));
   const steel = toon('#98a2ab'), darkSteel = toon('#7b858e');
@@ -1308,10 +1310,10 @@ const trashcan = () => {
   };
   const paper = new THREE.MeshToonMaterial({ color: new THREE.Color('#f1eee4'), gradientMap: ramp, flatShading: true });
   const kraft = new THREE.MeshToonMaterial({ color: new THREE.Color('#d9bf8f'), gradientMap: ramp, flatShading: true });
-  g.add(at(mesh(crumple(7, 1), paper, 1603), 10, 69, -6));
-  g.add(at(mesh(crumple(5.5, 2), kraft, 1604), 17, 69, 9));
+  g.add(at(mesh(crumple(6.5, 1), paper, 1603), 15, 67, -7));
+  g.add(at(mesh(crumple(5.5, 2), kraft, 1604), 19, 68, 8));
   const can = lathe([[0, 0], [2.6, 0], [2.7, 1], [3.1, 2.5], [2.4, 4.5], [3.1, 6.5], [2.7, 9.5], [2.2, 10], [0, 10]], 20, toon('#c8463a'), 1605);
-  can.position.set(1, 70.5, 12); can.rotation.set(1.2, .3, -.5); g.add(can);
+  can.position.set(9, 69, 14); can.rotation.set(1.2, .3, -.5); g.add(can);
   // side handles on brackets
   for (const sx of [1, -1]) {
     const hg = new THREE.Group();
@@ -1324,17 +1326,17 @@ const trashcan = () => {
   // the lid: domed, two raised rings, rolled edge, loop handle
   const lid = new THREE.Group();
   const lp: [number, number][] = [];
-  for (let r = 0; r <= 31; r += .5) lp.push([r, 5.2 - 4.3 * (r / 31) ** 1.8 + .75 * Math.exp(-(((r - 12) / 1.3) ** 2)) + .75 * Math.exp(-(((r - 22) / 1.3) ** 2))]);
+  for (let r = 0; r <= 31; r += .5) lp.push([r, 5.2 - 4.3 * (r / 31) ** 1.8]);
   lp.push([32.3, .1], [32.6, -1.6], [31.7, -1.8], [30.6, -.3], [0, 3.4]);
   lp.reverse();                                                      // underside out, top back in: normals face out
   const lg = new THREE.LatheGeometry(lp.map(([r, y]) => new THREE.Vector2(r, y)), 96);
-  vcol(lg, (x, y, z) => zinc.clone().multiplyScalar((.9 + .1 * y / 5) * mottle(x, y * 8, z)));
+  vcol(lg, (x, y, z) => { const r = Math.hypot(x, z); return zinc.clone().multiplyScalar((.9 + .1 * y / 5) * mottle(x, y * 8, z) * (Math.abs(r - 12) < .9 || Math.abs(r - 22) < .9 ? .84 : 1)); });   // pressed rings as tone, no creases
   lid.add(mesh(lg, vtoon(), 1607));
   const le = mesh(new THREE.TorusGeometry(32.3, 1.15, 10, 96), steel, 1608); le.rotation.x = Math.PI / 2; le.position.y = -1.2; lid.add(le);
   const loop = new THREE.TorusGeometry(6, 1.1, 10, 24, Math.PI);
   lid.add(at(mesh(loop, darkSteel, 1609), 0, 6.6, 0));
   for (const x of [-6, 6]) lid.add(box(3.4, 2.2, 3.4, [x, 5.6, 0], darkSteel, 1609, .5));
-  lid.position.set(-5, 78.5, 3); lid.rotation.set(.1, .5, .32); g.add(lid);
+  lid.position.set(-13, 84.5, 2); lid.rotation.set(.14, .5, .5); g.add(lid);
   return g;
 };
 
@@ -1386,8 +1388,8 @@ const dynamite = () => {
   const end = fc.getPoint(1), tan = fc.getTangent(1);
   const tip = new THREE.CylinderGeometry(.62, .52, 1.1, 12); tip.translate(0, .55, 0);
   const tm = mesh(tip, toon('#2b2320'), 1638); tm.position.copy(end); tm.quaternion.setFromUnitVectors(V(0, 1, 0), tan); g.add(tm);
-  const ember = mesh(new THREE.SphereGeometry(.42, 12, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color('#ff8a2a') }), 1639);
-  ember.position.copy(end.clone().add(tan.clone().multiplyScalar(1.15))); g.add(ember);
+  const ember = mesh(new THREE.SphereGeometry(.6, 12, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color('#ff8a2a') }), 1639);
+  ember.position.copy(end.clone().add(tan.clone().multiplyScalar(1.05))); g.add(ember);
   return g;
 };
 
@@ -1464,21 +1466,21 @@ const chips = () => {
  * (white lip, dark hole) at ground level y = 0. */
 const golfFlag = () => {
   const g = new THREE.Group();
-  const pole = new THREE.CylinderGeometry(.95, .95, 212, 16, 1); pole.translate(0, 104, 0);
+  const pole = new THREE.CylinderGeometry(1.25, 1.25, 212, 16, 1); pole.translate(0, 104, 0);
   g.add(mesh(vcol(pole, (_x, y) => .82 + .18 * sstep(0, 160, y)), vtoon('#f4f2ec'), 1700));
   g.add(at(mesh(new THREE.SphereGeometry(1.7, 16, 12), toon('#f4f2ec'), 1701), 0, 210.6, 0));
   const fg = new THREE.BoxGeometry(46, 30, .5, 60, 20, 1); fg.translate(23 + 1.2, 193, 0);
   const q = fg.attributes.position as THREE.BufferAttribute;
   for (let i = 0; i < q.count; i++) {
     const x = q.getX(i) - 1.2, y = q.getY(i), k = Math.max(0, x / 46);
-    q.setXYZ(i, x + 1.2 - .9 * k * k * 2, y - 2.2 * k * k + .9 * Math.sin(x * .19 + 1) * k, q.getZ(i) + 3.0 * Math.sin(x * .16 - .5) * k ** .7 + .9 * Math.sin(y * .22 + x * .1) * k);
+    q.setXYZ(i, x + 1.2 - 3 * k * k, y - 3 * k * k + 2.2 * Math.sin(x * .2 + 1) * k, q.getZ(i) + 5.5 * Math.sin(x * .17 - .6) * k ** .7 + 1.2 * Math.sin(y * .22 + x * .1) * k);
   }
   fg.computeVertexNormals();
   const flagRed = new THREE.Color('#d8352c');
-  vcol(fg, (x) => flagRed.clone().multiplyScalar(.92 + .08 * Math.cos(x * .16 - .5)));
+  vcol(fg, (x) => flagRed.clone().multiplyScalar(.86 + .14 * Math.cos(x * .17 - .6 - .4)));
   g.add(mesh(fg, vtoon(), 1702));
-  g.add(cyl(1.55, 31, [0, 193, 0], [0, 0, 0], toon('#f4f2ec'), 1703));
-  for (const y of [177.6, 208.4]) g.add(cyl(1.7, .7, [0, y, 0], [0, 0, 0], toon('#c9c6bd'), 1704));
+  g.add(cyl(1.85, 31, [0, 193, 0], [0, 0, 0], toon('#f4f2ec'), 1703));
+  for (const y of [177.6, 208.4]) g.add(cyl(2.05, .7, [0, y, 0], [0, 0, 0], toon('#c9c6bd'), 1704));
   const lip = mesh(new THREE.TorusGeometry(5.8, .6, 10, 40), toon('#f3f3ef'), 1705); lip.rotation.x = Math.PI / 2; lip.position.y = .3; g.add(lip);
   const hole = mesh(new THREE.CircleGeometry(5.5, 40), toon('#151618'), 1706); hole.rotation.x = -Math.PI / 2; hole.position.y = .05; g.add(hole);
   return g;
@@ -1513,8 +1515,8 @@ const lantern = () => {
     vcol(fgeo, (_x, y) => { const t = (y - pts[0][1]) / (pts[pts.length - 1][1] - pts[0][1]); return t < .4 ? c0.clone().lerp(c1, t / .4) : c1.clone().lerp(c2, (t - .4) / .6); });
     const m = mesh(fgeo, new THREE.MeshBasicMaterial({ vertexColors: true, depthTest: false }), 1719); m.renderOrder = order; return m;
   };
-  g.add(flame([[0, 7.6], [.9, 8.1], [1.35, 9.3], [1.15, 10.8], [.55, 12.4], [0, 13.6]], ['#ff7a1e', '#ff9a2e', '#ff6a12'], 10));
-  g.add(flame([[0, 8.0], [.55, 8.4], [.8, 9.3], [.65, 10.4], [.3, 11.5], [0, 12.2]], ['#fff2c0', '#fffdf2', '#ffe08a'], 11));
+  g.add(flame([[0, 7.6], [.9, 8.1], [1.35, 9.3], [1.15, 10.8], [.55, 12.4], [0, 13.6]], ['#ffb347', '#ff9a2e', '#ff5a12'], 10));
+  g.add(flame([[0, 7.9], [.5, 8.3], [.7, 9.0], [.55, 9.9], [.25, 10.8], [0, 11.3]], ['#fff2c0', '#fffdf2', '#ffd36a'], 11));
   // guard wires and a ring
   for (let k = 0; k < 4; k++) {
     const a = Math.PI / 4 + k * Math.PI / 2;
@@ -1593,7 +1595,7 @@ const idMat = (p: number) => {
 function draw() {
   const saved = new Map(ids.map((m) => [m, m.material] as const));
   P.shots.forEach((shot, i) => {
-    const cam = new THREE.PerspectiveCamera(shot.fov ?? 30, W / H, 5, 60000);
+    const cam = new THREE.PerspectiveCamera(shot.fov ?? 30, W / H, shot.near ?? 5, shot.far ?? 60000);   // near/far: tighter depth range, no z-fighting on thin layered parts
     cam.position.set(...shot.camera);
     cam.lookAt(new THREE.Vector3(...shot.target));
     if (props.cartridge) {

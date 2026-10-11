@@ -59,8 +59,10 @@ def render_raw(params, w, h, n):
     return img
 
 
-def ink(color, normal, ident, scale):
-    """Outline = silhouette + part boundaries + creases (normal changes), thickness scaled to output size."""
+def ink(color, normal, ident, scale, despeckle=0):
+    """Outline = silhouette + part boundaries + creases (normal changes), thickness scaled to output size.
+    despeckle > 0 drops isolated edge specks smaller than that many pixels (sub-pixel slivers between layered parts
+    that would otherwise become ink dots after dilation)."""
     alpha = color[..., 3]
     sil = alpha > 8
     edges = np.zeros(sil.shape, np.uint8)
@@ -72,6 +74,9 @@ def ink(color, normal, ident, scale):
     nrm = normal[..., :3].astype(np.float32) / 127.5 - 1
     dn = np.maximum(np.linalg.norm(np.diff(nrm, axis=0, prepend=nrm[:1]), axis=2), np.linalg.norm(np.diff(nrm, axis=1, prepend=nrm[:, :1]), axis=2))
     edges |= ((dn > 0.55) & sil).astype(np.uint8) * 255
+    if despeckle:
+        n, lab, st, _ = cv2.connectedComponentsWithStats((edges > 0).astype(np.uint8), connectivity=8)
+        edges[(st[lab, cv2.CC_STAT_AREA] < despeckle) & (lab > 0)] = 0
     k = max(1, int(round(scale)))
     edges = cv2.dilate(edges, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * k + 1, 2 * k + 1)))
     out = color.copy()
@@ -81,7 +86,7 @@ def ink(color, normal, ident, scale):
     return out
 
 
-def render(params, w, h, line=3.0):
+def render(params, w, h, line=3.0, despeckle=0):
     """Returns one RGBA (BGRA) image per shot at w x h."""
     n = len(params['shots'])
     # Chromium silently shrinks a WebGL drawing buffer above ~20 Mpx (passes then bleed into each other):
@@ -96,7 +101,7 @@ def render(params, w, h, line=3.0):
         c, nm, idp = (col[k * H2:(k + 1) * H2] for k in range(3))
         if params.get('exposure'):  # light-coloured props read too bright under the toon ramp in a night room
             c = c.copy(); c[..., :3] = (c[..., :3].astype(np.float32) * params['exposure']).astype(np.uint8)
-        o = ink(c, nm, idp, line * ss / 2)
+        o = ink(c, nm, idp, line * ss / 2, despeckle)
         shots.append(cv2.resize(o, (w, h), interpolation=cv2.INTER_AREA))
     return shots
 
@@ -432,7 +437,9 @@ EP3 = {
 
 def ep3_render(name, **shot):
     prop, tgt, cam, fov, w, h, line = EP3[name]
-    return render({'props': [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}], 'light': 'neutral'}, w, h, line=line)[0]
+    d = float(np.linalg.norm(np.subtract(cam, tgt)))                    # depth range around the prop: thin layered parts
+    shot = {'near': d * .3, 'far': d * 3, **shot}                       # (planks, laps, ribs) need the precision
+    return render({'props': [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}], 'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
 
 
 def alpha_box(img, pad=10):
