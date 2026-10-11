@@ -73,3 +73,5 @@
 - Producer: "Así como hiciste con el pez, quiero que revises ABSOLUTAMENTE TODO, y lo mejores consigas lo top de top."
   → full quality pass on everything we build ourselves (3D props, drawn plates, UI cards/chat, type, sound, motion).
   Generated art is never edited (rule); only our own code-made layers and the engine improve.
+- Producer: "Sí, bájalo al 2–3%" — breathing camera push 2–3 %, drift ≤ 1.5 %, per-shot phase (kit + Hyperframes;
+  CLAUDE.md camera rule updated).

@@ -24,6 +24,6 @@ Generated art is never edited; every fix is our own layer or engine.
 | 19 | Repeats machine-gun; mono | ±3 semitones / ±2 dB per repeat ✔; stereo pans | sfx | variation ✔; stereo in the HF mix |
 | 20 | SFX keyed to the Python visuals, not the HF choreography | HF exports its GSAP beats → cue list | HF + sfx | build |
 | 21 | HF used a generic CSS grain, not the approved finish | `finish_post.py`: the exact finish.py pass on every HF frame | HF | ✔ |
-| 22 | Breathing camera 1.06 ± .06 softens plates | reduce to 2–3 % push / ≤ 1.5 % drift with per-shot phase | kit + HF | **Producer's call** (v5 look was chosen as is) |
+| 22 | Breathing camera 1.06 ± .06 softens plates | 2–3 % push / ≤ 1.5 % drift with per-shot phase | kit + HF | ✔ (Producer approved) |
 | 23 | All hard cuts | whip pans with motion blur, match cuts; white flash only for the slap | HF | build (DOPAMINE_PLAN) |
 | 24 | Thumbnail sketch uses the v1 fish and a flat boat | v2 deadpan fish ≥ 18 % frame, 3/4 3D boat, glance test 168×94 | packaging | with the hero art |

@@ -320,9 +320,10 @@ def crop_cam(plate, cam):
     if r:
         cam = (cam[0] * r[2], cam[1] if r[3] is None else r[3], cam[2] if r[4] is None else r[4])
     t = NOW[0]                                                        # the camera is never locked off (style bible):
-    cam = (cam[0] * (1.06 + .06 * math.sin(2 * math.pi * t / 11)),    # a slow breathing push and a drift, like a
-           cam[1] + .022 * math.sin(2 * math.pi * t / 15),             # handheld documentary camera
-           cam[2] + .014 * math.sin(2 * math.pi * t / 13 + 1))
+    ph = cam[1] * 7.3 + cam[2] * 5.1                                   # per-shot phase, so shots don't breathe in sync
+    cam = (cam[0] * (1.025 + .012 * math.sin(2 * math.pi * t / 11 + ph)),  # a slow breathing push (2-3 %, Producer
+           cam[1] + .012 * math.sin(2 * math.pi * t / 15 + ph),        # 2026-10-12) and a drift <= 1.5 %, like a
+           cam[2] + .008 * math.sin(2 * math.pi * t / 13 + 1 + ph))    # handheld documentary camera
     box = cam_box((cam, cam), 0)
     return plate.crop(tuple(int(v) for v in box)).resize((W, H), Image.BICUBIC)
 

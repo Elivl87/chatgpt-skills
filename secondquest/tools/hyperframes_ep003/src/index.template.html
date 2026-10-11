@@ -599,7 +599,9 @@
       tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .14, ease: "steps(1)" }, { opacity: 0, duration: .18, ease: "steps(1)" }] }, WHY + 1.0);
 
       // the camera always breathes a little (documentary drift) - on the shake wrapper's parent scale
-      tl.fromTo("#breath", { scale: 1 }, { scale: 1.012, duration: 4.5, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "50% 50%" }, 0);
+      tl.fromTo("#breath", { scale: 1.013 }, { scale: 1.037, duration: 5.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 5.5), transformOrigin: "50% 50%" }, 0);   // 2-3 % push (Producer, 2026-10-12)
+      tl.fromTo("#breath", { x: -8 }, { x: 8, duration: 7.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 7.5), immediateRender: false }, 0);   // drift <= 1.5 %
+      tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.5), immediateRender: false }, 0);
 
       tl.set({}, {}, DUR);
       window.__timelines["main"] = tl;
