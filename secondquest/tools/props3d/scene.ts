@@ -844,6 +844,140 @@ const scabbard = () => {
   return g;
 };
 
+// ---------------------------------------------------------------- EP003 (How to Fish): our own generic props, no game art
+const WOOD = '#9a6236', WOOD_D = '#6e4325', WOOD_L = '#b9804c';
+/** A small wooden rowboat (~3 m long, cm units), bow towards +x: a lathe-like hull from stacked planks, two benches, oars. */
+const rowboat = () => {
+  const g = new THREE.Group();
+  const L = 300, B = 120, D = 45;
+  // hull: half-width per station along x, a rounded bottom, open top
+  const hull = new THREE.Group();
+  const N = 24, M = 14;
+  const pos: number[] = [], idx: number[] = [];
+  for (let i = 0; i <= N; i++) {
+    const u = i / N, x = (u - .5) * L;
+    const w = B / 2 * Math.pow(Math.sin(Math.PI * Math.min(1, u * 1.15 + .02)), .55) * (u > .85 ? 1 - (u - .85) * 3.5 : 1);
+    const lift = 10 * Math.pow(Math.abs(u - .45) * 2, 3);
+    for (let j = 0; j <= M; j++) {
+      const a = Math.PI * j / M;                      // 0 .. pi: starboard rim -> keel -> port rim
+      pos.push(x, D + lift - D * Math.sin(a) * (0.6 + 0.4 * Math.sin(Math.PI * u)), w * Math.cos(a));
+    }
+  }
+  for (let i = 0; i < N; i++) for (let j = 0; j < M; j++) {
+    const a = i * (M + 1) + j, b = a + M + 1;
+    idx.push(a, b, a + 1, b, b + 1, a + 1);
+  }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+  const outer = new THREE.Mesh(geo, new THREE.MeshToonMaterial({ color: new THREE.Color(WOOD), gradientMap: ramp, side: THREE.DoubleSide }));
+  outer.userData.part = 1400; ids.push(outer); hull.add(outer);
+  g.add(hull);
+  // gunwale strip and two benches
+  for (const sz of [-1, 1]) {
+    const pts: THREE.Vector3[] = [];
+    for (let i = 1; i < N; i++) { const p = i * (M + 1) + (sz > 0 ? 0 : M); pts.push(new THREE.Vector3(pos[p * 3], pos[p * 3 + 1] + 1.5, pos[p * 3 + 2])); }
+    const rim = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, 3.2, 8), toon(WOOD_D));
+    rim.userData.part = 1401; ids.push(rim); g.add(rim);
+  }
+  g.add(box(16, 4, B * .86, [-55, D - 10, 0], toon(WOOD_L), 1402));
+  g.add(box(16, 4, B * .8, [55, D - 8, 0], toon(WOOD_L), 1402));
+  for (const sz of [-1, 1]) {                                   // oars resting along the sides
+    const oar = cyl(2.4, 230, [0, D + 4, sz * (B / 2 + 6)], [0, 0, Math.PI / 2 - .06 * sz], toon(WOOD_L), 1403);
+    g.add(oar);
+    g.add(box(34, 1.5, 12, [-112, D + 1, sz * (B / 2 + 6)], toon(WOOD_L), 1404));
+  }
+  return g;
+};
+/** A fishing rod (cm): cork grip, reel, a long tapering blank with guides, the line falling from the tip. */
+const fishingRod = () => {
+  const g = new THREE.Group();
+  g.add(cyl(2.2, 32, [0, 16, 0], [0, 0, 0], toon('#c8a173'), 1410));                 // cork grip
+  g.add(cyl(4.5, 3, [5, 22, 0], [0, 0, Math.PI / 2], toon('#2b2f36'), 1411));        // reel
+  g.add(cyl(1.2, 6, [3, 22, 0], [0, 0, Math.PI / 2], toon('#2b2f36'), 1411));
+  const blank = new THREE.Mesh(new THREE.CylinderGeometry(.35, 1.3, 180, 10), toon('#2f5d8a'));
+  blank.position.set(0, 32 + 90, 0); blank.userData.part = 1412; ids.push(blank); g.add(blank);
+  for (const y of [60, 100, 140, 180]) {
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.8 - y / 200, .3, 6, 12), toon('#c9ccd2'));
+    ring.position.set(1.4, y, 0); ring.rotation.y = Math.PI / 2; ring.userData.part = 1413; ids.push(ring); g.add(ring);
+  }
+  return g;
+};
+/** The unimpressed fish (cm): a squashed egg body, a forked tail, fins, big flat eyes with half-closed lids. */
+const fish = () => {
+  const g = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.SphereGeometry(20, 32, 20), toon('#5fa7b5'));
+  body.scale.set(1.5, .9, .6); body.userData.part = 1420; ids.push(body); g.add(body);
+  const belly = new THREE.Mesh(new THREE.SphereGeometry(19.6, 32, 20, 0, Math.PI * 2, Math.PI * .55, Math.PI * .45), toon('#e8e2c8'));
+  belly.scale.set(1.5, .9, .6); belly.userData.part = 1421; ids.push(belly); g.add(belly);
+  const tail = new THREE.Shape(); tail.moveTo(0, 0); tail.lineTo(-22, 16); tail.lineTo(-16, 0); tail.lineTo(-22, -16); tail.lineTo(0, 0);
+  const t = new THREE.Mesh(new THREE.ExtrudeGeometry(tail, { depth: 2, bevelEnabled: false }), toon('#4a8d9b'));
+  t.position.set(-26, 0, -1); t.userData.part = 1422; ids.push(t); g.add(t);
+  const fin = new THREE.Shape(); fin.moveTo(0, 0); fin.quadraticCurveTo(-6, 14, -16, 12); fin.lineTo(-10, 0);
+  const f = new THREE.Mesh(new THREE.ExtrudeGeometry(fin, { depth: 1.5, bevelEnabled: false }), toon('#4a8d9b'));
+  f.position.set(4, 15, -.75); f.userData.part = 1423; ids.push(f); g.add(f);
+  for (const sz of [-1, 1]) {
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(5.2, 20, 14), toon('#f7f5ee')); eye.position.set(15, 5, sz * 8.6); eye.userData.part = 1424; ids.push(eye); g.add(eye);
+    const pup = new THREE.Mesh(new THREE.SphereGeometry(2.2, 14, 10), toon('#141418')); pup.position.set(17.4, 4, sz * 12); pup.userData.part = 1425; ids.push(pup); g.add(pup);
+    // the heavy upper lid: unimpressed
+    const lid = new THREE.Mesh(new THREE.SphereGeometry(5.6, 20, 10, 0, Math.PI * 2, 0, Math.PI * .42), toon('#4a8d9b'));
+    lid.position.set(15, 5, sz * 8.6); lid.rotation.set(0, 0, -.25); lid.userData.part = 1426; ids.push(lid); g.add(lid);
+  }
+  const mouth = cyl(1.2, 6, [29, -3, 0], [Math.PI / 2, 0, 0], toon('#2c4f57'), 1427); g.add(mouth);
+  return g;
+};
+/** A dented metal trash can with a tilted lid (the "slop" gag, cm). */
+const trashcan = () => {
+  const g = new THREE.Group();
+  const prof = [[0, 0], [24, 0], [27, 4], [30, 70], [31, 72], [0, 72]].map(([r, y]) => new THREE.Vector2(r, y));
+  const body = new THREE.Mesh(new THREE.LatheGeometry(prof, 36), toon('#8a939c')); body.userData.part = 1430; ids.push(body); g.add(body);
+  for (const y of [18, 36, 54]) g.add(cyl(30.6 * (0.86 + y / 400), 2, [0, y, 0], [0, 0, 0], toon('#6f7881'), 1431));
+  const lid = new THREE.Group();
+  lid.add(cyl(33, 4, [0, 0, 0], [0, 0, 0], toon('#9aa3ac'), 1432));
+  lid.add(cyl(5, 6, [0, 5, 0], [0, 0, 0], toon('#6f7881'), 1433));
+  lid.position.set(-8, 80, 6); lid.rotation.set(.12, 0, .35); g.add(lid);
+  return g;
+};
+/** A bundle of three dynamite sticks with a fuse (cm). */
+const dynamite = () => {
+  const g = new THREE.Group();
+  for (const [x, z] of [[-3.4, 0], [3.4, 0], [0, 5.8]]) g.add(cyl(3.3, 22, [x, 11, z], [0, 0, 0], toon('#d6392f'), 1440));
+  g.add(cyl(7.0, 1.6, [0, 6, 1.9], [0, 0, 0], toon('#c9b98f'), 1441));   // tape
+  g.add(cyl(7.0, 1.6, [0, 16, 1.9], [0, 0, 0], toon('#c9b98f'), 1441));
+  const fuse = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(0, 22, 2), new THREE.Vector3(1, 27, 2), new THREE.Vector3(5, 29, 1)]), 12, .5, 6), toon('#e9d9a8'));
+  fuse.userData.part = 1442; ids.push(fuse); g.add(fuse);
+  return g;
+};
+/** Poker chips stacked and two cards (cm). */
+const chips = () => {
+  const g = new THREE.Group();
+  const cols = ['#d6392f', '#2f5d8a', '#f2f2f4', '#2b2b2f'];
+  [[0, 0, 7], [6.5, 1.5, 4], [-5, 4, 3]].forEach(([x, z, n], s) => {
+    for (let i = 0; i < n; i++) g.add(cyl(2, .7, [x, .35 + i * .75, z], [0, 0, 0], toon(cols[(i + s) % 4]), 1450 + ((i + s) % 4)));
+  });
+  for (const [x, z, r] of [[-3, -5, .3], [3, -6, -.2]]) {
+    const c = box(6.3, .1, 8.8, [x, .1, z], toon('#fbfaf6'), 1455); c.rotation.y = r; g.add(c);
+  }
+  return g;
+};
+/** A golf flag on its pin with the hole cup (cm). */
+const golfFlag = () => {
+  const g = new THREE.Group();
+  g.add(cyl(.8, 210, [0, 105, 0], [0, 0, 0], toon('#f2f2f4'), 1460));
+  const fl = new THREE.Shape(); fl.moveTo(0, 0); fl.lineTo(48, -12); fl.lineTo(0, -28);
+  const m = new THREE.Mesh(new THREE.ExtrudeGeometry(fl, { depth: .6, bevelEnabled: false }), toon('#d6392f'));
+  m.position.set(.8, 208, 0); m.userData.part = 1461; ids.push(m); g.add(m);
+  g.add(cyl(5.4, 1, [0, .2, 0], [0, 0, 0], toon('#1d1e22'), 1462));
+  return g;
+};
+/** A camping lantern (night boat, cm). */
+const lantern = () => {
+  const g = new THREE.Group();
+  g.add(cyl(7, 3, [0, 1.5, 0], [0, 0, 0], toon('#3a3d44'), 1470));
+  g.add(cyl(5.2, 13, [0, 9.5, 0], [0, 0, 0], new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffd27a') }), 1471));
+  g.add(cyl(6.6, 3, [0, 17, 0], [0, 0, 0], toon('#3a3d44'), 1470));
+  const h = new THREE.Mesh(new THREE.TorusGeometry(5, .6, 8, 20, Math.PI), toon('#3a3d44')); h.position.set(0, 18.5, 0); h.userData.part = 1472; ids.push(h); g.add(h);
+  return g;
+};
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -867,6 +1001,8 @@ if (P.props.includes('phone')) scene.add((props.phone = phone()));
 if (P.props.includes('mug')) scene.add((props.mug = mug()));
 if (P.props.includes('headphones')) scene.add((props.headphones = headphones()));
 if (P.props.includes('gamebox')) scene.add((props.gamebox = gamebox()));
+const EP003: Record<string, () => THREE.Object3D> = { rowboat, fishingRod, fish, trashcan, dynamite, chips, golfFlag, lantern };
+for (const [k, f] of Object.entries(EP003)) if (P.props.includes(k)) scene.add((props[k] = f()));
 
 if (P.light === 'neutral') {
   scene.add(new THREE.HemisphereLight(0xffffff, 0x404048, 1.6));

@@ -410,7 +410,30 @@ def job_back_sword():
     print('back_sword.png', img.shape)
 
 
-JOBS = {'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+
+OUT3 = ROOT / 'public/art/ep003/props3d'
+
+
+def job_ep003_props():
+    """EP003 (How to Fish): our own generic props, neutral light, cut-outs for the animatic (free 3D, Producer rule)."""
+    OUT3.mkdir(parents=True, exist_ok=True)
+    jobs = (('rowboat', 'rowboat_34', [0, 30, 0], orbit(-35, 24, 620, [0, 30, 0]), 30),
+            ('rowboat', 'rowboat_side', [0, 30, 0], orbit(0, 8, 640, [0, 30, 0]), 30),
+            ('fishingRod', 'rod', [0, 100, 0], orbit(-20, 8, 620, [0, 100, 0]), 30),
+            ('fish', 'fish_side', [0, 0, 0], orbit(0, 4, 190, [0, 0, 0]), 30),
+            ('fish', 'fish_34', [4, 0, 0], orbit(35, 10, 190, [4, 0, 0]), 30),
+            ('trashcan', 'trashcan', [0, 42, 0], orbit(-25, 14, 380, [0, 42, 0]), 28),
+            ('dynamite', 'dynamite', [0, 14, 0], orbit(-25, 18, 110, [0, 14, 0]), 28),
+            ('chips', 'chips', [0, 2, 0], orbit(-20, 42, 60, [0, 2, 0]), 30),
+            ('golfFlag', 'golf_flag', [0, 105, 0], orbit(-15, 6, 620, [0, 105, 0]), 30),
+            ('lantern', 'lantern', [0, 10, 0], orbit(-20, 14, 85, [0, 10, 0]), 30))
+    for prop, name, tgt, cam, fov in jobs:
+        img = render({'props': [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None}], 'light': 'neutral'}, 1400, 1000, line=4.0)[0]
+        cv2.imwrite(str(OUT3 / f'{name}.png'), crop_alpha(img, pad=10))
+        print(f'{name}.png')
+
+
+JOBS = {'ep003_props': job_ep003_props, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
