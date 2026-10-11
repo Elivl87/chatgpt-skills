@@ -1,0 +1,63 @@
+{
+ "name": "EP003_hyperframes",
+ "source": "docs/ep003/hyperframes/EP003_full_hyperframes.mp4",
+ "duration_s": 389.2,
+ "shots": 130,
+ "avg_shot_s": 2.99,
+ "median_shot_s": 2.0,
+ "longest_shot_s": 21.17,
+ "cuts_per_min": 19.9,
+ "motion_share": 0.886,
+ "still_2s_runs": 3,
+ "brightness_mean": 0.463,
+ "saturation_mean": 0.395,
+ "palette": [
+  [
+   "#181522",
+   0.157
+  ],
+  [
+   "#c8a09a",
+   0.131
+  ],
+  [
+   "#5c4e70",
+   0.127
+  ],
+  [
+   "#906f8b",
+   0.122
+  ],
+  [
+   "#3a2e3d",
+   0.098
+  ],
+  [
+   "#341f15",
+   0.09
+  ],
+  [
+   "#252b53",
+   0.085
+  ],
+  [
+   "#ae814d",
+   0.074
+  ],
+  [
+   "#eae2d4",
+   0.059
+  ],
+  [
+   "#69412b",
+   0.057
+  ]
+ ],
+ "loud_db_p90": -11.0,
+ "pauses_ge_0_5s": 60,
+ "pause_mean_s": 0.53,
+ "pause_longest_s": 1.5,
+ "words": 887,
+ "wpm_overall": 137,
+ "wpm_while_speaking": 147
+}
