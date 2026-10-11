@@ -33,6 +33,12 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
 - For each candidate, also the **companion detail** (RULE): 3 options of a small recurring companion from the game's
   world (our own design) that accompanies Quest and interacts with the wordmark; after the topic is picked, write
   `docs/<ep>/COMPANION.md` (options, the pick and why, where it appears per block) and plan it in the shot plan.
+- **Game visual reference (RULE, Producer 2026-10-12):** once the topic is picked, a research subagent studies the
+  game IN DETAIL — art style, palette, HUD/UI element by element (positions, shapes, colours, type, animations),
+  signature objects, places, bosses, community memes — from public sources, described in words (never downloading or
+  using the game's footage, screenshots, logo or assets). Output `docs/<ep>/GAME_VISUAL_REFERENCE.md` with a
+  translation table (each item → how we redraw it in our style, where it goes in the episode, what we must not copy)
+  and a needs list (props for `tools/props3d`, HUD drawn in code). The animatic uses it so the game world reads true.
 - Choose using the lessons in the latest `docs/publish/EP00*/ANALYTICS_*.md` (Home traffic, CTR, 30 s retention).
   Record the choice and the runners-up in `docs/<ep>/PRODUCER_DECISIONS.md` (as "Claude decision, autonomous mode").
 

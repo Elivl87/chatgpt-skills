@@ -83,6 +83,9 @@
   - Sound: cues audible on a phone (hits ~7 dB under the voice), varied repeats, foley, ambience beds; master −14 LUFS.
   - Scripts drafted against `docs/style/VOICE.md`; after publishing, `scripts/retention_read.py` → one fix for the next episode.
   - Zero errors: framing QC, pacing QC, snapshot review of every block before it is sent; never send something with a known defect.
+- **Game visual reference in research (Producer, 2026-10-12):** every episode studies the game's graphics, HUD,
+  objects and places in detail (`docs/<ep>/GAME_VISUAL_REFERENCE.md`) and brings them into our art, redrawn in our
+  style (never the game's footage, screenshots, logo or assets).
 - **In the game world the HUD is on** (hearts, magic, rupees, buttons); off in real life and on era comparisons.
 - **Spanish dub (Producer, 2026-10-08):** Bram reads the approved ES-419 script; cut takes only inside real pauses,
   never split a breath, never overlap, speed up only as a last resort (<= ~1.075, rubberband R3), no room-tone fills.

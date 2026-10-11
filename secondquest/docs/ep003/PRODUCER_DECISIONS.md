@@ -79,3 +79,10 @@
 ## 2026-10-12 · ES-419 script locked
 - Producer: "Apruebo el español del EP003 tal cual" — `episodes/ep003/script.es.json` (with l07 "Entonces, ¿por qué?")
   is LOCKED, used verbatim for Bram's Spanish dub.
+
+## 2026-10-12 · Autonomy + game visual reference rule
+- Producer: "Por qué paras y no sigues? Eso es falta de autonomía" — Claude chains the work without stopping; it only
+  waits for the two approvals (script package, credits).
+- Producer: "dentro de la investigación, toca revisar al detalle las gráficas, HUD, referencias de objetos y todo al
+  detalle del juego … para poderlas introducir en el arte" — new research rule (CLAUDE.md + episode skill stage 1);
+  done for How to Fish → `docs/ep003/GAME_VISUAL_REFERENCE.md`.
