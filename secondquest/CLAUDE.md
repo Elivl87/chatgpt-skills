@@ -59,6 +59,9 @@
   - Judge each candidate against the scene's moment (era, time of day, mood), not just its first impression.
 - **Clean episode video (Producer rules, 2026-10-06):** no burned-in subtitles in the episode (EN and ES go as .srt),
   no planning tags or guides in anything delivered; Shorts keep burned-in English captions.
+- **The hook ends on the wordmark (Producer rule, EP001/EP002, restated 2026-10-11):** on the hook's last "So, why?"/"Why?"
+  the SecondQuest wordmark lands with its gold bar, followed by **1.5 s of silence** so it can be seen. Every episode,
+  every narration (placeholder and Bram, EN and ES): the assembly inserts the pause, the animatic holds the wordmark.
 - **In the game world the HUD is on** (hearts, magic, rupees, buttons); off in real life and on era comparisons.
 - **Spanish dub (Producer, 2026-10-08):** Bram reads the approved ES-419 script; cut takes only inside real pauses,
   never split a breath, never overlap, speed up only as a last resort (<= ~1.075, rubberband R3), no room-tone fills.

@@ -35,7 +35,8 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
 
 ### 2. Script EN + ES-419 (free)
 - Write the English script in the channel's voice (EP001/EP002 scripts as the reference): a "why" video essay,
-  6-10 min, hook line in the first seconds, the thumbnail's promise paid off in the first 5-10 s, a concrete visual
+  6-10 min, hook line in the first seconds, the hook closing on "So, why?"/"Why?" where the wordmark lands and 1.5 s
+  of silence follow (narration assembly + hook block, every episode), the thumbnail's promise paid off in the first 5-10 s, a concrete visual
   beat every 60-90 s, the closing callback and the "what game deserves a why next" CTA.
 - Review in parallel with 4 reviewer subagents, each with its own brief: (a) hook and first 30 s, (b) retention
   beats and pacing, (c) originality and factual accuracy (sources), (d) IP / monetization safety and title/thumbnail

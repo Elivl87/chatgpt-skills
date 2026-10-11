@@ -22,8 +22,13 @@ VOICE, SPEED, PITCH = 'am_fenrir', 0.94, 1
 LEAD = 0.3
 
 
-def pause_after(text, nxt):
+HOOK_END = 'l07'          # the hook's "Why?": the wordmark lands on it, then 1.5 s of silence (Producer rule)
+
+
+def pause_after(text, nxt, lid=None):
     """Pauses shaped like Bram's reads: a beat after a sentence, longer after a question or a one/two-word line."""
+    if lid == HOOK_END:
+        return 1.5
     p = 0.45
     if text.endswith('?') or len(text.split()) <= 2 or (nxt and len(nxt.split()) <= 2):
         p = 0.8
@@ -59,7 +64,7 @@ def main():
         loud = np.where(np.abs(a) > 0.01)[0]
         a = a[max(0, loud[0] - int(.03 * SR)): loud[-1] + int(.05 * SR)]
         nxt = lines[i + 1]['text'] if i + 1 < len(lines) else None
-        gap = pause_after(ln['text'], nxt)
+        gap = pause_after(ln['text'], nxt, ln['id'])
         cues[ln['id']] = {'start': round(t, 3), 'end': round(t + len(a) / SR, 3), 'text': ln['text']}
         parts += [a, np.zeros(int(gap * SR), np.float32)]
         t += len(a) / SR + gap

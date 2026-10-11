@@ -24,7 +24,12 @@ LEAD = 0.3
 FF = __import__('imageio_ffmpeg').get_ffmpeg_exe()
 
 
-def pause_after(text, nxt):
+HOOK_END = 'l07'          # the hook's "Why?": the wordmark lands on it, then 1.5 s of silence (Producer rule)
+
+
+def pause_after(text, nxt, lid=None):
+    if lid == HOOK_END:
+        return 1.5
     p = 0.45
     if text.endswith('?') or len(text.split()) <= 2 or (nxt and len(nxt.split()) <= 2):
         p = 0.8
@@ -94,7 +99,7 @@ def main():
         loud = np.where(np.abs(a) > 0.01)[0]
         a = a[max(0, loud[0] - int(.03 * SR)): loud[-1] + int(.06 * SR)]
         nxt = lines[i + 1]['text'] if i + 1 < len(lines) else None
-        gap = pause_after(l['text'], nxt)
+        gap = pause_after(l['text'], nxt, l['id'])
         cues[l['id']] = {'start': round(t, 3), 'end': round(t + len(a) / SR, 3), 'text': l['text'], 'take': Path(p).name,
                          'stt_errors': e, 'heard': heard}
         parts += [a, np.zeros(int(gap * SR), np.float32)]

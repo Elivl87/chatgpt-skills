@@ -287,3 +287,37 @@ def gamebox():
     m = Image.fromarray((key * 255).astype(np.uint8))
     out = im.copy(); out.paste(cover, (0, 0), m)
     return out
+
+
+# ------------------------------------------------------------------ the channel's wordmark (EP001/EP002 signature)
+WORDMARK = ROOT / 'public/art/core/brand/secondquest_wordmark.png'
+
+
+def _out_back(x, c=1.70158):
+    return 1 + (c + 1) * (x - 1) ** 3 + c * (x - 1) ** 2
+
+
+def _in_out_cubic(x):
+    return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
+
+
+def wordmark(fr, dt, y=.07, h=.14, twinkle=True):
+    """The SecondQuest wordmark landing with its gold bar (as EP001 and EP002 block B), dt seconds after it lands.
+    Producer rule: it lands on the hook's "Why?" and holds through the 1.5 s of silence that follows."""
+    wm = Image.open(WORDMARK).convert('RGBA')
+    wh = int(H * h); ww = int(wm.width * wh / wm.height)
+    g = Image.new('RGBA', (max(ww, Si(420)) + Si(40), wh + Si(50)))
+    g.alpha_composite(wm.resize((ww, wh), Image.LANCZOS), ((g.width - ww) // 2, Si(10)))
+    bar = S(400) * h / .14 * _in_out_cubic(min(1, max(0, (dt - .25) / .45)))
+    if bar > S(1):
+        d = ImageDraw.Draw(g); yy = Si(10) + wh + S(12); x0 = (g.width - bar) / 2
+        d.rounded_rectangle((x0, yy + S(2), x0 + bar, yy + S(9)), S(3), fill=INK + (255,))
+        d.rounded_rectangle((x0, yy, x0 + bar, yy + S(7)), S(3), fill=(255, 200, 61, 255))
+    x = min(1, dt / .28); sc = 1.3 + (1 - 1.3) * _out_back(x)
+    g = g.resize((max(1, int(g.width * sc)), max(1, int(g.height * sc))), Image.LANCZOS)
+    out = fr.convert('RGBA'); out.alpha_composite(UI.fade(g, min(1, x * 4)), (int(W / 2 - g.width / 2), int(H * y)))
+    if twinkle and .7 < dt < 1.6:                                      # the star in the "o" twinkles once
+        k = math.sin((dt - .7) / .9 * math.pi)
+        sx, sy = W * (.5 + (.413 - .5) * h / .14), H * (y + 10 / 720 + (.157 - .07 - 10 / 720) * h / .14)
+        UI.sparkle(ImageDraw.Draw(out), sx, sy, S(30) * k, (255, 250, 230), int(255 * k))
+    return out

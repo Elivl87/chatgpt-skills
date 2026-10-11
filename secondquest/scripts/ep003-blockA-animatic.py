@@ -12,7 +12,8 @@ first seconds pay off the thumbnail's promise.
           source on screen).
   A5 l05  "Millions of people bought a fishing game": the lake fills with tiny boats. "To do everything else."
   A6 l06  "Together." back to the four, slow push in.
-  A7 l07  "Why?" punches in; the fish blinks.
+  A7 l07  "Why?": the SecondQuest wordmark lands with its gold bar (EP001/EP002 signature) and holds through 1.5 s of
+          silence before block B (Producer rule, 2026-10-11).
 HUD: off (real-life framing; How to Fish's world is drawn as ours). Music off. No subtitles (SUBS=1 for review only).
 """
 import math, sys
@@ -187,8 +188,8 @@ def render(t):
         fr = a5(t)
     else:
         fr = a6(t)
-        if t >= T_WHY:
-            fr = K.punch(fr, 'WHY?', t - T_WHY, size=150, y=.22)
+        if t >= T_WHY:                                                  # the wordmark on "Why?", held 1.5 s (Producer rule)
+            fr = K.wordmark(fr, t - T_WHY)
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
     tag(d, 'EP003 BLOCK A · THE HOOK · v1 · PLANNING ONLY')
@@ -197,7 +198,7 @@ def render(t):
 
 
 STILLS = (('a1', T_FISH + .4), ('a2', T_A2 + 1.2), ('a3s', T_SLAP + .3), ('a3m', T_MONEY + .4), ('a3x', T_SNIPE + .5),
-          ('a4', T_EST + 1.8), ('a5', T_ELSE + .5), ('a7', T_WHY + .6))
+          ('a4', T_EST + 1.8), ('a5', T_ELSE + .5), ('a7', T_WHY + .6), ('a7b', T_END - .1))
 
 if __name__ == '__main__':
     K.run_block('A', T0, T_END, render, STILLS)
