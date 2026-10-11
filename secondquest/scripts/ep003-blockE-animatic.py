@@ -221,8 +221,8 @@ def e8(t):
 
 def e9(t):
     fr = Image.blend(K.crop_cam(LAKE.convert('RGBA'), (1.0, .5, .5)).convert('RGB'), Image.new('RGB', (W, H), (14, 14, 22)), .55).convert('RGBA')
-    m = [(T_YEARS + .2, 'A', 'remember the dynamite night', 'msg'), (T_YEARS + 1.2, 'P', 'who gambled the savings', 'msg'),
-         (T_YEARS + 2.2, 'Q', 'never forget', 'sticker'), (T_YEARS + 3.0, 'B', 'what?', 'msg')]
+    m = [(T_E9 + .5, 'A', 'remember the dynamite night', 'msg'), (T_E9 + 1.8, 'P', 'who gambled the savings', 'msg'),
+         (T_YEARS + .6, 'Q', 'never forget', 'sticker'), (T_YEARS + 1.8, 'B', 'what?', 'msg')]
     ph = K.phone_chat(m, t, title='THE BOAT')
     fr.alpha_composite(ph, (int(W / 2 - ph.width / 2), int(H * .5 - ph.height / 2)))
     if t >= T_YEARS - .1:

@@ -142,7 +142,7 @@ def _avatar(d, x, y, r, who):
     d.text((x - tw / 2, y - r * .62), name[0], font=f, fill=(255, 255, 255, 255))
 
 
-def phone_chat(msgs, now, w=430, h=640, title='THE BOAT', typing=None, grey=0.0):
+def phone_chat(msgs, now, w=390, h=580, title='THE BOAT', typing=None, grey=0.0):
     """A phone showing a group chat. msgs: [(t_show, who, text, kind)] kind 'msg' | 'sticker'; who 'Q' is us (right).
     Messages pop in at t_show; the newest stay at the bottom. Returns an output-px RGBA image (design size w x h)."""
     g = UI._new(w + 30, h + 30); d = UI._D(g)

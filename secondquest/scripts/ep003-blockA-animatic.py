@@ -93,7 +93,7 @@ def a2(t):
     base = boat4(t, None)
     k = ease(min(1, (t - T_A2) / .6))                                 # the fish surfaces at the front and stares
     f = K.sized(K.prop('fish_34'), h=P(150))
-    base.alpha_composite(f, (int(PW * .78), int(lin(PH * 1.02, PH * .80, k))))
+    base.alpha_composite(f, (int(PW * .74), int(lin(PH * 1.02, PH * .74, k))))
     return K.crop_cam(base, K.cam_lerp((1.25, .5, .55), (1.05, .5, .55), (t - T_A2) / 2.2))
 
 
@@ -170,7 +170,7 @@ def a5(t):
 
 def a6(t):
     base = boat4(t, None)
-    f = K.sized(K.prop('fish_34'), h=P(150)); base.alpha_composite(f, (int(PW * .78), int(PH * .80)))
+    f = K.sized(K.prop('fish_34'), h=P(150)); base.alpha_composite(f, (int(PW * .66), int(PH * .70)))
     return K.crop_cam(base, K.cam_lerp((1.05, .5, .55), (1.35, .5, .5), (t - T_TOG) / (T_END - T_TOG)))
 
 
