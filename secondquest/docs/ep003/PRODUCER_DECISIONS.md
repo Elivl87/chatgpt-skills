@@ -60,3 +60,9 @@
   drips). The sparkle sound is dropped. The fish no longer dives into the star.
 - Voice: keep the MOSS + Bram-reference voice of the Hyperframes sample, perfected (narration v3: sentence-level
   best-of-5, Bram-measured pauses). VoxCPM test stopped.
+
+## 2026-10-12 · EP003 moves to Hyperframes
+- Producer: "Y si, el EP003 pasa a Hyperframe. Te quedó muy bien, igual revisa con tus agentes si se puede cambiar
+  alguna escena, mejorarla, darle vida y dinamismo. dopamina para el espectador". EP003's engine = Hyperframes
+  (heygen-com, Apache-2.0, free) in `tools/hyperframes_ep003`; the Python animatic stays as the reference cut and the
+  timing source. Agents review every block for livelier, more dynamic scenes (script stays LOCKED, verbatim).
