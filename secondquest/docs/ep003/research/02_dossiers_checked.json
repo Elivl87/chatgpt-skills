@@ -1,0 +1,1033 @@
+[
+ {
+  "key": "gta6",
+  "dossier": {
+   "game": "Grand Theft Auto VI",
+   "core_facts": [
+    {
+     "fact": "GTA VI is dated Thursday 2026-11-19 on PS5 and Xbox Series X|S (PC not announced; one source says it is likely later). Rockstar announced this on Nov 6, 2025 (some outlets date it Nov 7), moving it from May 26, 2026; before that it was fall 2025. Rockstar's wording: the extra months 'will allow us to finish the game with the level of polish you have come to expect and deserve.' Statement coincided with Take-Two earnings. Zelnick also said a 'limited amount of additional time is required for polish.'",
+     "source_url": "https://www.gematsu.com/2025/11/grand-theft-auto-vi-delayed-to-november-19-2026",
+     "date": "2025-11-06"
+    },
+    {
+     "fact": "Date reaffirmed as recently as Take-Two's quarter-ended-June-2026 report (reported Aug 7, 2026): Zelnick cited 'the November 19 release of Grand Theft Auto VI'; FY27 net bookings outlook $8-8.2B. NOT verified: anything after August 2026 (I found no report of a further delay or of the game going gold).",
+     "source_url": "https://www.gamedeveloper.com/business/gta-v-surpasses-230-million-sales-months-before-gta-vi-touches-down",
+     "date": "2026-08-07"
+    },
+    {
+     "fact": "GTA V released Sept 17, 2013. Take-Two (Aug 2026): over 230M units sold-in across three console generations; best-selling title of the past decade by units and dollars. Earlier: 220M+ reported Nov 2025.",
+     "source_url": "https://www.gamedeveloper.com/business/gta-v-surpasses-230-million-sales-months-before-gta-vi-touches-down",
+     "date": "2026-08-07"
+    },
+    {
+     "fact": "GTA V release date Sept 17, 2013 confirmed by Aftermath's anniversary piece; the writer notes GTA V came out about six months after his son was born, and that GTA V (2013) will be more 'retro' to VI (2026) than San Andreas' 1992 setting was at its 2004 release. Same article lists 2013 context: Katy Perry 'Roar' topped Billboard, Pope Francis became pope, Brooklyn Nine-Nine premiered that same day.",
+     "source_url": "https://aftermath.site/grand-theft-auto-v-was-released-on-september-17-2013.md",
+     "date": "2025"
+    },
+    {
+     "fact": "Gap math: Sept 17, 2013 to Nov 19, 2026 is about 13 years and 2 months (my arithmetic; matches a source stating ~13y2m). The 'decade-long wait' framing is an understatement: say 'thirteen years'.",
+     "source_url": "https://app.cohorted.co.uk/news/gta-6-release-date-what-1758358913888"
+    },
+    {
+     "fact": "Trailer 1: released Dec 5, 2023 (Rockstar posted it the night of Dec 4 after a leak; sources say 15-16 hours early). Guinness recognised 90,421,491 YouTube views in 24h (most-viewed videogame reveal on YouTube in 24h), 8.9M likes in 24h (most-liked videogame trailer), and most-viewed non-music YouTube video in 24h (beating MrBeast 59.4M). Not the all-time record: BTS 'Butter' 108.2M in 24h. VGC cites 93M YouTube views day one (different count) and 255M total at time of writing.",
+     "source_url": "https://www.pushsquare.com/news/2023/12/gta-6-trailer-pulls-90-million-views-in-24-hours-sets-new-world-records",
+     "date": "2023-12-05"
+    },
+    {
+     "fact": "Trailer 2: surprise drop Tuesday May 6, 2025. Rockstar told The Hollywood Reporter 475M+ views across all platforms in 24h and called it 'the biggest video launch of all time' (Deadpool & Wolverine trailer: 365M). CAUTION: it is an all-platform, Rockstar-supplied figure; YouTube alone was ~84M (some early reports 68-69M) and it did NOT beat Trailer 1's 90.4M YouTube Guinness mark. Do not compare 475M to 90M directly; if used, say 'Rockstar says'.",
+     "source_url": "https://www.videogameschronicle.com/news/at-nearly-half-a-billion-views-rockstar-says-gta-6s-new-trailer-is-the-biggest-video-launch-of-all-time",
+     "date": "2025-05-06"
+    },
+    {
+     "fact": "Only two trailers exist as of the latest sources I found; Trailer 3 not released/confirmed. Pre-orders reportedly opened June 25, 2026 at $79.99 Standard / $99.99 Ultimate, but this comes from lower-quality sources (fan sites); one claims Rockstar confirmation. An insider's guess of a trailer around Aug 6 passed without one. VERIFY on Rockstar Newswire before scripting any price or trailer claim.",
+     "source_url": "https://www.sportskeeda.com/gta/gta-6-pre-order-price-3rd-trailer-expected-release-date",
+     "date": "2026-06"
+    },
+    {
+     "fact": "'We got X before GTA 6' meme: crystallised on TikTok July 27, 2023 (@jadendunn, 'We gonna have aliens before GTA 6') the day after a congressional UAP hearing; earlier scattered Twitter/Reddit versions exist (e.g. a June 2021 'whole new ocean' tweet). Frequently cited real events: COVID-19, a new pope (Leo XIV, May 8, 2025), 2024 total solar eclipse, Paris 2024, Switch 2 (June 5, 2025), GPT-4o/GPT-5, Vision Pro (Feb 2024), Concord launching and shutting down within 11 days (Aug 2024). The White House posted 'We really saved America before GTA 6.' Note: KYM says nothing about 2019; ignore a claimed 2019 origin.",
+     "source_url": "https://knowyourmeme.com/memes/we-got-x-before-gta-6",
+     "date": "2023-07-27"
+    },
+    {
+     "fact": "r/GTA6: ~949,000 members and ~25,000 online at once (GTA Intel, June 2, 2026); ~1.5M per third-party trackers (GummySearch, Aug 2026; approximate). Subreddit was created Sept 9, 2012, more than a year BEFORE GTA V launched. Members use flairs like 'Waiting For Nov 19th, 2026' and 'Looking for the next trailer'; analyse the two trailers frame by frame. GTA Intel's summary: 'a countdown with a forum attached.'",
+     "source_url": "https://gtaintel.com/news/gta6-subreddit-nearly-one-million-members",
+     "date": "2026-06-02"
+    },
+    {
+     "fact": "Psychology: Kumar, Killingsworth & Gilovich (2014), 'Waiting for Merlot', Psychological Science: people get more happiness/excitement from anticipating experiential purchases than material ones (4 studies incl. experience sampling of 2,200+ adults and archival analysis of news stories about people waiting in line). Self-report, correlational. Game as an experience-like purchase is MY inference, not the paper's.",
+     "source_url": "https://worlddatabaseofhappiness.eur.nl/publications/waiting-for-merlot-anticipatory-consumption-of-experiential-and-material-purchases-10208/",
+     "date": "2014"
+    },
+    {
+     "fact": "Take-Two financial stakes: FY27 guidance up to roughly $8B+ driven by the Nov 19 launch (Take-Two's own words: FY27 will 'establish new record levels'). Analyst Piper Sandler projection of 45M+ day-one units exists (wccftech) but is an analyst guess, not fact.",
+     "source_url": "https://www.kitguru.net/gaming/matthew-wilson/take-two-reaffirms-gta-6-release-date-and-raises-forecast-to-8-billion/",
+     "date": "2026-05"
+    }
+   ],
+   "recognition_anchors": [
+    {
+     "anchor": "'We got ___ before GTA 6' as a unit of time (pandemic, aliens, new pope, eclipse, new moon, AI)",
+     "why_players_recognize_it": "Everyone has typed or upvoted one; it turned the wait into a calendar for real life.",
+     "source_url": "https://gtaintel.com/news/we-got-x-before-gta-6-meme-explained"
+    },
+    {
+     "anchor": "Frame-by-frame analysis of two trailers (rewatching the same ~90 seconds and a few minutes for years)",
+     "why_players_recognize_it": "Fans know the tiny details: Lucia, Jason, Vice City, the Tom Petty song, #JusticeForJason.",
+     "source_url": "https://gtaintel.com/news/gta6-subreddit-nearly-one-million-members"
+    },
+    {
+     "anchor": "Subreddit flairs that say 'Waiting For Nov 19th, 2026' and 'Looking for the next trailer'; checking the sub daily",
+     "why_players_recognize_it": "Waiting is a daily ritual and identity badge, not passive time.",
+     "source_url": "https://gtaintel.com/news/gta6-subreddit-nearly-one-million-members"
+    },
+    {
+     "anchor": "Trailer 1 leaked on Twitter, Rockstar released it early that night, and 90M people watched",
+     "why_players_recognize_it": "Shared 'I was there' moment of Dec 2023; players remember where they were.",
+     "source_url": "https://primagames.com/news/rockstar-releases-gta-6-trailer-early-amid-leaks"
+    },
+    {
+     "anchor": "Trailer 2 surprise-dropped with no warning (May 6, 2025) after months of 'when trailer?' begging, including a YouTuber doorstepping Rockstar North staff",
+     "why_players_recognize_it": "Trailer-drought desperation and Take-Two earnings-call tea-leaf reading are familiar rituals.",
+     "source_url": "https://www.notebookcheck.net/The-anticipation-for-GTA-6-is-making-some-fans-do-crazy-things.1129347.0.html"
+    },
+    {
+     "anchor": "Parents joke their kid was a baby when GTA V came out and is now in high school",
+     "why_players_recognize_it": "Concrete, human measure of the wait; a real example is the Aftermath writer's son (about 6 months old at GTA V launch).",
+     "source_url": "https://aftermath.site/grand-theft-auto-v-was-released-on-september-17-2013.md"
+    },
+    {
+     "anchor": "Delay announcements timed with Take-Two earnings (fall 2025 to May 2026 to Nov 2026), and the polite 'polish you have come to expect and deserve' wording",
+     "why_players_recognize_it": "Fans have learned to brace at every earnings date.",
+     "source_url": "https://www.techradar.com/gaming/gta-6-has-been-delayed-once-again-to-finish-the-game-with-the-level-of-polish-you-have-come-to-expect-and-deserve-though-im-not-convinced-this-is-actually-the-final-release-date"
+    },
+    {
+     "anchor": "Playing GTA V and GTA Online for 13 years across PS3, PS4/Xbox One, PS5/Series (three console generations; re-buying it)",
+     "why_players_recognize_it": "The wait was survivable because the old game never left; also why many bought it multiple times.",
+     "source_url": "https://www.gamedeveloper.com/business/gta-v-surpasses-230-million-sales-months-before-gta-vi-touches-down"
+    }
+   ],
+   "deeper_angles": [
+    "Waiting is the product. Kumar/Killingsworth/Gilovich (2014) found anticipation of experiences is more pleasurable than of material goods; a long-awaited game behaves like an experience (shared, social, story-laden). The wait gives people something to look forward to; evidence it applies to games specifically is my inference, not shown by the paper.",
+    "The wait as a shared clock: the 'we got X before GTA 6' meme converts a game's absence into a way to measure our own lives. The game has become a mirror for how much changed (a child went from baby to high schooler; pandemic, AI, new pope). Human truth candidate: we are not waiting for a game, we are waiting for proof that time was survivable. Interpretation, not sourced fact.",
+    "Who we were in 2013 vs who we will be in 2026: the strongest emotional hook is the person who played GTA V as a teen with friends and now plays as an adult (or parent). The game is a bookmark in a life. Source of concrete framing: Aftermath's anniversary piece (son born ~6 months before GTA V).",
+    "Scarcity of information makes the fans the content: with only two trailers in ~2.5 years, the community produces the anticipation itself (frame-by-frame analysis, flairs, memes). GTA Intel: 'a countdown with a forum attached.' r/GTA6 was founded Sept 2012, before GTA V existed, so some fans have waited for 'the next one' since before the last one.",
+    "Risk side (honest angle): what happens when a decade-plus of imagination meets a finite game. Over-hype commentary exists but I found no rigorous research on sequel-expectation gaps; do not claim any. Treat as an open question, not a finding.",
+    "Collective ritual: 90M and 475M-claimed views show people watch a minute-and-a-half video again and again as a ritual. Keep the 475M framed as Rockstar's all-platform claim."
+   ],
+   "visual_moments": [
+    "A calendar/wall tally with one X per year that slowly fills while the world outside the window changes (phone shape, masks, robot, eclipse) in our own 2D style.",
+    "A kid's height marks on a doorframe next to a GTA V disc case on the shelf, with the doorframe marks climbing to high-school height.",
+    "A person refreshing a subreddit/forum at 3 a.m. with a flair reading 'Waiting for Nov 19th'; deadpan tally of trailer rewatches.",
+    "Trailer drop moment: a room of people simultaneously hit play; counter ticking; leaked-early night.",
+    "Meme montage as a timeline: aliens, pandemic, new pope, eclipse each stamped 'before GTA 6'.",
+    "A PS3, PS4, PS5 in a row, same disc, different dust levels.",
+    "Corporate earnings call as a weather forecast: fans with umbrellas and tea leaves."
+   ],
+   "humor_material": [
+    "The subreddit r/GTA6 was created in September 2012, a year before GTA V came out. It has waited for the sequel for longer than the previous game has existed.",
+    "A game's wait got so long that the joke format 'we got X before GTA 6' needed new material every six months; the real-world list includes a pandemic, aliens hearings, a mini-moon and AI.",
+    "Concord launched and was shut down in 11 days (Aug 2024) and that is one of the events people cite as happening 'before GTA 6'.",
+    "A YouTuber doorstepped Rockstar North developers to ask when the next trailer is coming (reported by Notebookcheck).",
+    "The White House posted 'We really saved America before GTA 6' (via Inven Global); a head of state's account joined a shitposting format about a video game release date.",
+    "Two delays announced with the same polite sentence about 'polish you have come to expect and deserve', each timed to an earnings call.",
+    "The trailer that Rockstar called 'the biggest video launch of all time' is claimed at 475M views, but the number came from Rockstar, across all platforms, and on YouTube alone it did not beat the first trailer.",
+    "Take-Two and Rockstar's whole fiscal year is basically a single Thursday in November."
+   ],
+   "player_voices": [
+    {
+     "paraphrase": "A father: GTA V came out six months after my son was born, and he is now in high school (Aftermath writer Luke Plunkett, written when GTA VI slipped to May 2026).",
+     "source_url": "https://aftermath.site/grand-theft-auto-v-was-released-on-september-17-2013.md"
+    },
+    {
+     "paraphrase": "Reddit community describes itself with flairs 'Waiting For Nov 19th, 2026' and 'Looking for the next trailer'; members check daily and break trailers down frame by frame (GTA Intel paraphrase).",
+     "source_url": "https://gtaintel.com/news/gta6-subreddit-nearly-one-million-members"
+    },
+    {
+     "paraphrase": "A fan-made song titled 'All Before GTA 6' delighted thousands of waiting players (Sportskeeda); shows the wait producing its own culture.",
+     "source_url": "https://www.sportskeeda.com/gta/news-all-before-gta-6-fan-made-song-delights-hearts-thousands-waiting-game"
+    },
+    {
+     "paraphrase": "Fans cheered Lucia as the first female lead in the main series since the 90s and joked/complained about seeing so little of Jason (#JusticeForJason).",
+     "source_url": "https://www.ggrecon.com/articles/gta-6-players-demand-justice-for-jason/"
+    }
+   ],
+   "existing_coverage": [
+    {
+     "title": "We Got X Before GTA 6 (meme explainers: GTA Intel, Know Your Meme, Den of Geek)",
+     "angle": "Catalogues the meme and real events; descriptive, not about the emotional meaning of waiting.",
+     "url": "https://gtaintel.com/news/we-got-x-before-gta-6-meme-explained"
+    },
+    {
+     "title": "Aftermath: GTA V was released on September 17, 2013",
+     "angle": "Personal/anniversary essay tying GTA V to the author's child's age and pop-culture of 2013; closest tonal neighbour to our angle.",
+     "url": "https://aftermath.site/grand-theft-auto-v-was-released-on-september-17-2013.md"
+    },
+    {
+     "title": "GTA 6 Needs The Next Trailer Soon Before It Drifts Away From Memory (Exputer)",
+     "angle": "Marketing opinion on hype maintenance.",
+     "url": "https://exputer.com/features/gta-6-second-teaser-trailer-soon/"
+    },
+    {
+     "title": "YouTube essays on GTA 6 hype/delays",
+     "angle": "Could NOT verify specific titles; my search returned no real video essays. A manual YouTube check for 'GTA 6 wait essay' is needed before locking the angle."
+    }
+   ],
+   "ip_risks": "Do not use Rockstar/GTA trailer footage, logos, or the Vice City/Lucia/Jason character art; draw generic analogues in our own style and keep references to title names textual and nominative. Do not use the Tom Petty track. Using trademarks like 'GTA' in the title is common but avoid the stylised logo; the 'We Got X Before GTA 6' meme itself is fine to evoke but avoid copying specific creators' TikTok/Reddit images or the White House post. Avoid showing real-person likenesses (e.g. Pope Leo XIV, Trump); refer by text. Leaks/breach: a 2026 Rockstar data breach was mentioned in one PCGamesN snippet; do not discuss leaked content or the 2022 leaked footage as fact beyond the Dec 2023 trailer leak.",
+   "timeline_risks": "Publishing is Nov 2026, within days of the Nov 19 launch, so every date-sensitive claim is risky. (1) Release date has been delayed twice; I could find nothing after Aug 7, 2026 confirming it still holds. Re-check Rockstar Newswire and Take-Two news the week of publishing. Wording: 'scheduled for Nov 19' not 'comes out Nov 19'; or write a version that works whether released yet or not ('thirteen years, one month and a few weeks'). (2) Trailer 3 and pre-order/price (reported $79.99/$99.99 from weak sources) may change; avoid in script or verify. (3) Unit/subscriber counts (GTA V 230M+, r/GTA6 ~1.5M) will move; say 'more than 230 million' and 'over a million' with the 'at the time of writing' approach. (4) Launch reviews/Metacritic may land before or right after publishing; keep the essay about the wait, not the verdict. (5) Evergreen phrasing: 'more than thirteen years since GTA V' (Sept 2013 to Nov 2026 = 13y2m; before Sept 2026 it was 12y+). (6) Trailer-view numbers should always be attributed ('Rockstar says')."
+  },
+  "check": {
+   "checked": [
+    {
+     "claim": "Release date Nov 19, 2026 (PS5, Xbox Series), announced Nov 6, 2025, moved from May 26, 2026; Rockstar 'polish you have come to expect and deserve' quote",
+     "verdict": "confirmed",
+     "correction": "Gematsu timestamp is Nov 6, 2025 4:15 PM EDT. 'Fall 2025' prior date and 'PC not announced' not re-checked here."
+    },
+    {
+     "claim": "Zelnick said 'a limited amount of additional time is required for polish'",
+     "verdict": "weak",
+     "correction": "Not in Gematsu. Rolling Stone AU (via Variety) quotes Zelnick: 'Rockstar Games believes a limited amount of additional time is required for polish to support that view.' Paraphrase only; do not quote the shortened form verbatim. Not opened directly."
+    },
+    {
+     "claim": "Date reaffirmed Aug 7, 2026; Zelnick cited 'the November 19 release'; FY27 net bookings $8-8.2B",
+     "verdict": "confirmed",
+     "correction": "Exact words: 'our high degree of confidence around the November 19 release of Grand Theft Auto VI'. Game Developer, Aug 7, 2026."
+    },
+    {
+     "claim": "Nothing found after Aug 2026 indicating a delay",
+     "verdict": "unverifiable",
+     "correction": "My search also found nothing newer than Aug 2026 (no delay, no gold report), but absence is not proof. Must be rechecked at publish week."
+    },
+    {
+     "claim": "GTA V sold-in over 230M across three console generations; best-selling title of the past decade",
+     "verdict": "confirmed",
+     "correction": "Take-Two wording: 'sold-in over 230 million units to-date across three console generations'. Say 'sold' as sell-in, not players."
+    },
+    {
+     "claim": "GTA V release Sept 17, 2013; Aftermath details (son six months old, 'retro' comment, Roar, Pope Francis, Brooklyn Nine-Nine)",
+     "verdict": "confirmed",
+     "correction": "Quote about son and 'retro' is from Luke Plunkett's text, but the post's byline is Riley MacLeod. Dossier attributes to Plunkett; attribute as 'Aftermath writer Luke Plunkett, quoted in a post by Riley MacLeod' or avoid naming. Verify the post's framing before attributing."
+    },
+    {
+     "claim": "Gap ~13 years 2 months (Sept 17, 2013 to Nov 19, 2026)",
+     "verdict": "confirmed",
+     "correction": "Arithmetic is correct: 13 years, 2 months, 2 days."
+    },
+    {
+     "claim": "Trailer 1: Guinness 90,421,491 views in 24h (most-viewed videogame reveal), 8.9M likes, most-viewed non-music video in 24h; MrBeast 59.4M; BTS Butter holds overall",
+     "verdict": "confirmed",
+     "correction": "Push Square. Release Dec 5 vs leak-night Dec 4 and '15-16 hours early' not verified in this check; the 'leaked, then released early' story is separately sourced by Prima Games."
+    },
+    {
+     "claim": "Trailer 2: 475M+ views in 24h per Rockstar, 'biggest video launch of all time', Deadpool & Wolverine 365M",
+     "verdict": "confirmed",
+     "correction": "VGC: figure is Rockstar's, all platforms; Deadpool figure from THR via VGC. YouTube-only ~84M is unattributed in VGC, so treat as weak. The claim it did not beat Trailer 1 on YouTube rests on that unattributed number. Always attribute to Rockstar."
+    },
+    {
+     "claim": "Meme crystallised Jul 27, 2023 via @jadendunn TikTok after UAP hearing; 2021 'new ocean' joke",
+     "verdict": "confirmed",
+     "correction": "KYM confirms. The hearing was July 2023 (David Grusch's testimony; KYM text misspells it). KYM does NOT mention the White House post or Concord; those need separate sources. 'Day after the hearing' not confirmed by KYM."
+    },
+    {
+     "claim": "r/GTA6 ~949,000 members, ~25,000 online, created Sept 9, 2012, flairs, 'a countdown with a forum attached'",
+     "verdict": "confirmed",
+     "correction": "GTA Intel, June 2, 2026. The ~1.5M third-party figure not checked; the 949k is stale by now."
+    },
+    {
+     "claim": "Kumar, Killingsworth & Gilovich 2014 'Waiting for Merlot'",
+     "verdict": "weak",
+     "correction": "Not opened in this pass. Study details (4 studies, 2,200+ adults) are unchecked here."
+    },
+    {
+     "claim": "Pre-orders June 25, 2026 at $79.99/$99.99; Trailer 3",
+     "verdict": "unverifiable",
+     "correction": "Low-quality sources only. Do not say."
+    },
+    {
+     "claim": "Concord launched and shut down within 11 days; White House 'We really saved America before GTA 6' post; new pope Leo XIV May 8, 2025; Piper Sandler 45M day-one",
+     "verdict": "unverifiable",
+     "correction": "Not checked in this pass. Treat as needing separate primary sources."
+    }
+   ],
+   "safe_to_say_on_air": [
+    "GTA VI is scheduled for November 19, 2026 on PS5 and Xbox Series X|S (use 'scheduled for', not 'comes out')",
+    "Rockstar announced the delay to Nov 19, 2026 on Nov 6, 2025, moving it from May 26, 2026, saying the time would let them finish 'with the level of polish you have come to expect and deserve'",
+    "As of Take-Two's Aug 7, 2026 report, CEO Strauss Zelnick cited 'high degree of confidence around the November 19 release'",
+    "GTA V launched Sept 17, 2013; Take-Two says it has sold in over 230 million units across three console generations",
+    "It is about thirteen years between GTA V and the scheduled GTA VI date",
+    "Trailer 1 (Dec 2023): Guinness recognised 90,421,491 YouTube views in 24 hours, a record for a videogame reveal",
+    "Rockstar says Trailer 2 drew over 475 million views across all platforms in 24 hours (attribute to Rockstar, never compare with 90M)",
+    "The 'We gonna have aliens before GTA 6' TikTok by @jadendunn was posted July 27, 2023 and the format snowballed from there",
+    "r/GTA6 was created Sept 9, 2012, more than a year before GTA V came out; in June 2026 it had roughly 949,000 members; members use flairs like 'Waiting For Nov 19th, 2026'",
+    "An Aftermath post (Sept 2025-era GTA V anniversary) quotes a writer saying GTA V came out six months after his son was born and he is now in high school"
+   ],
+   "do_not_say": [
+    "Any claim that the date is final or that the game is out, gold, or reviewed, until rechecked on Rockstar Newswire the week of publish",
+    "Pre-order prices ($79.99/$99.99), a Trailer 3, or Piper Sandler's 45M day-one figure",
+    "That Trailer 2 beat Trailer 1 on YouTube, or that Trailer 2 YouTube views were exactly ~84M",
+    "475M compared directly to 90M, or 475M without 'Rockstar says'",
+    "The White House post, Concord's 11-day lifespan, or Pope Leo XIV date as fact until sourced separately (KYM does not cover them)",
+    "The psychology paper's details, or that it applies to video games, until the paper is opened",
+    "A verbatim 'limited amount of additional time is required for polish' as Zelnick's own words from the announcement (Gematsu has no Zelnick quote)",
+    "Attributing the Aftermath son/retro quote to Riley MacLeod; the page text says Luke Plunkett wrote it while the post carries MacLeod's byline, so attribute carefully",
+    "'Decade-long wait' (use thirteen years), or r/GTA6 ~1.5M members as fact"
+   ],
+   "summary": "Core release facts (Nov 19, 2026 date, Nov 6, 2025 announcement, Rockstar polish quote, Aug 2026 reaffirmation, GTA V 230M, Guinness 90.4M, the 475M Rockstar claim, r/GTA6 stats, meme origin, Aftermath son anecdote) held up against the sources I opened. Weak or unverified: Zelnick's exact quote wording, the psychology paper, pre-order prices and Trailer 3, YouTube-only Trailer 2 numbers, Concord, White House post, Leo XIV date. I found nothing after Aug 2026, but that is absence of evidence. The release date must be rechecked the week of publishing, since the episode lands within days of launch. Write the script so it works whether or not the game is out."
+  }
+ },
+ {
+  "key": "howtofish",
+  "dossier": {
+   "game": "How to Fish (Dazed Games, Steam, 2026) and the 'friendslop' co-op trend",
+   "core_facts": [
+    {
+     "fact": "Launch date confirmed: How to Fish released on Steam 2026-08-20. Steam page: 'physics-based fishing simulator', 1-4 players on the store page, single-player and online co-op, 16 languages.",
+     "source_url": "https://store.steampowered.com/app/4001890/",
+     "date": "2026-08-20"
+    },
+    {
+     "fact": "Price: $7.99 list on Steam. Launch discount 38% to $4.95, ending Aug 27 per Player.One and GameRant (one aggregator said Aug 28; minor conflict). Alinea in Oct still calls it 'the $7.99 viral game'.",
+     "source_url": "https://www.player.one/how-fish-steams-newest-viral-hit-why-are-chaotic-co-op-games-taking-over-163910"
+    },
+    {
+     "fact": "1M milestone: the studio announced about 1M within roughly 2 days. WARNING on wording: Sweden Game Arena and many outlets say 'copies sold'; Player.One and Outrun Gaming note the developer's own post said 'players / fishermen', not copies. For the script use 'a million players/buyers in about two days' or attribute it ('the developers announced').",
+     "source_url": "https://swedengamearena.com/en/news/dazed-games-hits-one-million-copies-sold-just-two-days/",
+     "date": "2026-08-22 to 2026-08-23"
+    },
+    {
+     "fact": "Peak concurrent on Steam per SteamDB/Steam charts as reported by Player.One: 268,101 (Aug 23), 341,691 (Aug 24), 370,901 (Aug 25). The lead fact '~370K around Aug 25' matches, but SteamDB itself returned 403 to me, so it is second-hand. Launch-day concurrent was about 18,000 (Techloy/aggregate search summary, unverified directly).",
+     "source_url": "https://www.player.one/how-fish-steams-newest-viral-hit-why-are-chaotic-co-op-games-taking-over-163910",
+     "date": "2026-08-25"
+    },
+    {
+     "fact": "Alinea Analytics newsletter (Oct 1, 2026): How to Fish made $19.3M on Steam in September, over $50M total, 10.1M copies sold overall, still 'wading in about 40K-50K copies a day'. This is an estimate from a third-party analytics firm, not a developer-confirmed number; attribute it ('analytics firm Alinea estimates'). No independent confirmation found.",
+     "source_url": "https://alineaanalytics.substack.com/p/steams-top-september-2026-games",
+     "date": "2026-10-01"
+    },
+    {
+     "fact": "Earlier Alinea post (about seven weeks before the Oct newsletter): ~1.9M copies, nearly $8M. Growth then from 1.9M to 10.1M, per Alinea, in about 6-7 weeks. (Reported via search summary; I did not open that post.)",
+     "source_url": "https://alineaanalytics.substack.com/p/steams-top-september-2026-games"
+    },
+    {
+     "fact": "Reviews on Steam at my fetch (today, ~Oct 2026): 'Overwhelmingly Positive', 95% of 27,758 English reviews; recent 94% of 18,372. Around Aug 25 it was ~94% of 16,000+. Count will keep rising; do not hard-code.",
+     "source_url": "https://store.steampowered.com/app/4001890/",
+     "date": "2026-10-11"
+    },
+    {
+     "fact": "Developer: Dazed Games, Swedish, founded 2024 by Carl-Vilhelm Johansson and Melvin Olsson, who met at high school in Gothenburg (LBS Kreativa Gymnasiet) and studied game development together. Outside help: sound design (Patrik Carlsson), music (Martin Weidenborn). Some outlets say 'literally two people'; the interview names two founders plus contributors, so say 'two founders'.",
+     "source_url": "https://swedengamearena.com/en/news/dazed-games-hits-one-million-copies-sold-just-two-days/"
+    },
+    {
+     "fact": "Before the hit: their first paid game Out of Hand: Deluxe (free prototype first) launched summer 2025 with weak sales. They pivoted to How to Fish in August 2025, about a year before launch. Melvin Olsson quote: 'It's completely crazy and not something we expected.' Their sales goal was about 200,000 copies.",
+     "source_url": "https://swedengamearena.com/en/news/dazed-games-hits-one-million-copies-sold-just-two-days/"
+    },
+    {
+     "fact": "Founders' own explanation of success: inexpensive, humorous, easy to play with others; marketing started long before release and built with audience; TikTok and Instagram videos drew millions of views; Discord 40,000+ members; ~1M Steam wishlists before launch. Carl-Vilhelm advises against a free version or demo of a short social game. Studio Landfall (Peak, TABS) made a project investment (no ownership stake) before launch.",
+     "source_url": "https://swedengamearena.com/en/news/dazed-games-hits-one-million-copies-sold-just-two-days/"
+    },
+    {
+     "fact": "Premise (Player.One): you and friends are stranded on a remote island and fish your way home. Progression: sell catches, buy better gear from spears and rods to SMGs, shotguns and sniper rifles; fight shark/crab bosses with health bars; hunt rare fish variants (compared to Pokemon shinies); gamble earnings; trick shots (360 quickscopes on fish and seagulls). Steam content descriptor: 'cartoon violence towards fish and gambling with fish (no real money)'.",
+     "source_url": "https://gamerant.com/new-steam-game-like-peak-co-op-fishing/"
+    },
+    {
+     "fact": "Lobby size: store page says 1-4; patch 1.0.4 raised to 8, later patch added private invite-only lobbies (per Player.One and guide sites, the latter unofficial). No built-in voice chat per unofficial guides (unverified); players use Discord.",
+     "source_url": "https://www.player.one/how-fish-steams-newest-viral-hit-why-are-chaotic-co-op-games-taking-over-163910"
+    },
+    {
+     "fact": "Length/replay: a review puts the main campaign at about 5-6 hours; forum users say about five islands, short but solid for the price, also playable solo. Xbox and PlayStation versions planned (Sweden Game Arena).",
+     "source_url": "https://ixbt.games/en/reviews/2026/08/26/glusim-rybu-vmeste-s-druziami-obzor-frendslop-how-to-fish.amp.html"
+    },
+    {
+     "fact": "'Friendslop' definition (Wiktionary): derogatory-humorous label for co-op multiplayer games typified by low-budget, low-cost indie games meant to motivate friend groups to buy and play together. Wikipedia: term originated from a tweet describing 'friendfarming' as an indie trend; genre purportedly traces to Among Us (2018) and grew in the pandemic; Peak (2025) made the word widespread, shifting it from derogatory to more descriptive. Adventure Gamers dates the meme to late 2024 (sources disagree on origin; avoid claiming a precise origin).",
+     "source_url": "https://en.wikipedia.org/wiki/Friendslop"
+    },
+    {
+     "fact": "Canon examples: Lethal Company (2023), Content Warning (2024), Webfishing (2024), Peak (2025), R.E.P.O. (2025). Peak was reported by TweakTown as passing 10M copies (announced at Gamescom ONL 2025 per a review newsletter); Peak hit 4.5M within a month. So How to Fish reaching an estimated 10.1M in about 7 weeks (Alinea) would be notable, but compare only with attribution.",
+     "source_url": "https://www.tweaktown.com/news/107179/peak-confirmed-to-have-sold-more-than-10-million-copies/index.html"
+    },
+    {
+     "fact": "Alinea audience overlap: ~9% of How to Fish's September players also played Peak that month; ~8% also played Gamble with Your Friends. Suggests these games are a rotating diet, not one-off loyalty.",
+     "source_url": "https://alineaanalytics.substack.com/p/steams-top-september-2026-games",
+     "date": "2026-10-01"
+    }
+   ],
+   "recognition_anchors": [
+    {
+     "anchor": "The group chat purchase: one person says 'it's $5, just get it' and four people buy it in the same hour (each player needs own copy).",
+     "why_players_recognize_it": "The cheap price is the social mechanism: it lowers the cost of saying yes. Player.One says low price makes it easy for friends to buy together; Daily Fandom calls friend recruitment a 'flywheel'.",
+     "source_url": "https://www.player.one/how-fish-steams-newest-viral-hit-why-are-chaotic-co-op-games-taking-over-163910"
+    },
+    {
+     "anchor": "Review-quote style: 'We caught 3 fish, committed 17 crimes, shot things that probably didn't need shooting, nobody knows where the boat is. Still learned absolutely nothing about fishing.' (paraphrase of a Steam review; confirm wording on the review page before quoting)",
+     "why_players_recognize_it": "The game is named like a tutorial and delivers the opposite; the stated goal (fish) is abandoned for chaos.",
+     "source_url": "https://steamcommunity.com/app/4001890/reviews/?browsefilter=toprated"
+    },
+    {
+     "anchor": "The revive: a teammate runs over, picks you up and slaps you in the face a few times to bring you back.",
+     "why_players_recognize_it": "Tenderness expressed as slapstick; friends rescue you in the stupidest possible way.",
+     "source_url": "https://www.gamingonlinux.com/2026/08/how-to-fish-is-another-brilliantly-funny-online-co-op-game/"
+    },
+    {
+     "anchor": "360 quickscope trick shots on a seagull for in-game money, in a game about fishing.",
+     "why_players_recognize_it": "Clip-worthy absurdity: millennials recognize the 2000s Call of Duty quickscope reference; everyone recognizes 'watch this' energy.",
+     "source_url": "https://gamerant.com/new-steam-game-like-peak-co-op-fishing/"
+    },
+    {
+     "anchor": "Gambling your fish money away and a friend losing the whole boat's savings.",
+     "why_players_recognize_it": "Shared stakes and betrayal-lite; the 'who did that' blame ritual.",
+     "source_url": "https://gamerant.com/new-steam-game-like-peak-co-op-fishing/"
+    },
+    {
+     "anchor": "Ragdoll: a mistake near a boss flings your character across the island.",
+     "why_players_recognize_it": "Physics failure as the main source of laughs, the shared grammar of Lethal Company, Peak, R.E.P.O.",
+     "source_url": "https://gamerant.com/new-steam-game-like-peak-co-op-fishing/"
+    },
+    {
+     "anchor": "The 'is it friendslop?' argument itself: thread where players debate whether the label means bad; one proposes Steam add a 'friendslop' tag.",
+     "why_players_recognize_it": "The word is used as both insult and affection; players defend 'it's a genre, not a judgment'.",
+     "source_url": "https://steamcommunity.com/app/4001890/discussions/0/582805931178586599/"
+    },
+    {
+     "anchor": "Playing it solo and finding it also fine but 'better with friends'.",
+     "why_players_recognize_it": "Many reviewers say it works alone; this complicates a pure 'friendship' story and is a good honest counterpoint.",
+     "source_url": "https://steamcommunity.com/app/4001890/discussions/0/582806239606653580/"
+    },
+    {
+     "anchor": "Playing on Discord because the game has no built-in voice (unofficial guides; verify).",
+     "why_players_recognize_it": "The game is the excuse; the call is the place. Possible kernel for the 'agenda-free hangout' angle.",
+     "source_url": "https://gamingpromax.com/how-to-fish-co-op-multiplayer-setup-guide/"
+    }
+   ],
+   "deeper_angles": [
+    "Angle tested: 'a cheap game about fishing with friends sells ~10M'. Supported by: low price lowers the cost of inviting people; founders say 'easy to play with others'; Alinea shows many players rotate between friendslop titles. Caveat: 10.1M is an analytics estimate and the '1M' was players not necessarily copies; also at $7.99 the group-buy dynamic (each needs a copy) multiplies sales per friend group.",
+    "Candidate human truth 1: Fishing is the alibi. Real fishing is 'doing nothing together' that adults find socially permitted; the game keeps the alibi (a goal, a boat) but turns the goal into noise. People want to be together without having to justify it. Supported by the stated pattern in reviews ('learned nothing about fishing', 'nobody knows where the boat is'). This is my inference; no source states it directly.",
+    "Candidate human truth 2: Adult friendship needs a small, cheap, low-commitment invitation. 'Let's meet' is a calendar negotiation; 'buy this $8 game' is a one-click yes. Daily Fandom argues socializing has real cost (Ally Bank survey cited) and that cheap, modest-hardware games let more friends join. Caution: that article focuses on Gen Z / young people and some claims rest on opinion; the Gallup 25% vs 17% loneliness gap and the 2023 poll (3 in 4 Gen Z lonely) are cited secondhand, verify before using on screen.",
+    "Candidate human truth 3: Shared failure is the bonding agent. Co-op games where everyone fails comically (ragdoll, slap-revive, lost boat) produce stories to retell. Daily Fandom cites proximity chat garbling a drowning friend as shared humor. Researchers cited (Cook et al.) found recreational gamers reported less loneliness while competitive MOBA/MMO players reported more; again secondhand, verify.",
+    "Candidate human truth 4 (counter-angle): the 'sold 10M' framing may hide that the game is short (5-6 hours) and the demand is a one-night event, not a ritual. Player.One asks whether it sustains a community or is a 'summer 2026 surprise hit'. The honest ending could be: the game isn't the point, the evening is.",
+    "Underdog hook: two Swedish friends from high school, a failed first game in 2025, a goal of ~200,000 copies, and the result is a game about two-plus friends hanging out. The makers are themselves a friendship story. Use with care: do not overstate their team size (two founders plus freelance sound/music).",
+    "The 'friendslop' word itself: a made-up insult for games whose point is friends. Aftermath's Jay Castello (via Wikipedia) argued it grew from resentment toward 'whimsy and joy'. Observational-deadpan hook: we named the genre with the word for garbage, and then bought ten million of them.",
+    "Possible research to add (not verified by me): third places decline (Business Insider cited secondhand by Daily Fandom); Robin Dunbar on time needed to maintain friendships (not researched here, would need sourcing); Gallup loneliness data (secondhand only)."
+   ],
+   "visual_moments": [
+    "Four cartoon friends on a tiny island in a rowboat with a spear, then with a sniper rifle, aiming at a seagull.",
+    "Group-chat bubble: 'its 5 dollars' followed by four 'bought' receipts (our own UI, no Steam branding).",
+    "A friend slapping another friend awake (the revive) in our own 2D style.",
+    "A calendar full of adult 'free in 3 weeks' conflicts vs a one-click 'Join lobby' button.",
+    "A boat that nobody can find, then everyone laughing at the empty ocean.",
+    "Ragdoll boss launch: a character flung into the sky above a giant crab (generic crab, not game assets).",
+    "A graph of concurrent players rising to ~370K drawn as a fishing line being reeled in (use our own chart; numbers sourced).",
+    "Four glowing avatars on a dark Discord-style call while the game is a small window; the call is the main thing."
+   ],
+   "humor_material": [
+    "The game is called How to Fish; players report learning nothing about fishing, committing 17 crimes, and losing the boat.",
+    "Steam content descriptor, verbatim: 'cartoon violence towards fish and gambling with fish (no real money)'.",
+    "A fishing game where you progress from spear to sniper rifle and gamble your fish money.",
+    "Two high-school friends targeted ~200,000 copies and got an estimated 10 million (Alinea). Margin of error: 50x.",
+    "The word 'friendslop' is a joke insult that became a purchasing category; one forum user proposed Steam add it as an official tag.",
+    "Revive mechanic is a slap in the face. That is also, roughly, how some of us say 'I care'.",
+    "Players argue online whether a game is 'friendslop' to decide whether their $5 purchase was respectable.",
+    "Developer advice: don't release a demo of a short social game. Meaning: the first free hour would be the whole product."
+   ],
+   "player_voices": [
+    {
+     "paraphrase": "Reviewer says they caught 3 fish, committed 17 crimes, shot things that didn't need shooting, nobody knows where the boat is, and learned nothing about fishing.",
+     "source_url": "https://steamcommunity.com/app/4001890/reviews/?browsefilter=toprated"
+    },
+    {
+     "paraphrase": "Forum poster says the price is a steal for the fun they had both with friends and solo.",
+     "source_url": "https://steamcommunity.com/app/4001890/discussions/0/582806239606675650/"
+    },
+    {
+     "paraphrase": "Commenters in the friendslop thread argue the label describes a genre of chaotic physics party games, not quality; comedy valued over polish, low replay value.",
+     "source_url": "https://steamcommunity.com/app/4001890/discussions/0/582805931178586599/"
+    },
+    {
+     "paraphrase": "A skeptic calls it 'youtuber bait' and lists red flags (Discord scam bots, achievement-focused posts); another replies scams happen in any multiplayer game and this one has no trading.",
+     "source_url": "https://steamcommunity.com/app/4001890/discussions/0/582805931178586599/"
+    },
+    {
+     "paraphrase": "Several players say it is 'pretty fun solo, but better with friends'; one says it is short (about five islands) but solid for the price.",
+     "source_url": "https://steamcommunity.com/app/4001890/discussions/0/582806239606653580/"
+    },
+    {
+     "paraphrase": "Critic reviewers: GamingOnLinux calls it 'brilliantly funny'; Steam Deck HQ says it is part of the rising friendslop trend and that the label does not automatically make it bad; a review puts the campaign at about 5-6 hours.",
+     "source_url": "https://www.gamingonlinux.com/2026/08/how-to-fish-is-another-brilliantly-funny-online-co-op-game/"
+    }
+   ],
+   "existing_coverage": [
+    {
+     "title": "How to Fish Is Steam's Newest Viral Hit: Why Are Chaotic Co-Op Games Taking Over?",
+     "channel": "Player.One",
+     "angle": "Explainer: simple premise, escalating systems, clippable moments, low price helps group buying; asks about longevity.",
+     "url": "https://www.player.one/how-fish-steams-newest-viral-hit-why-are-chaotic-co-op-games-taking-over-163910"
+    },
+    {
+     "title": "Viral New Co-Op Steam Game is Like Peak with Fishing and Quickscoping",
+     "channel": "GameRant",
+     "angle": "Feature rundown; comparison to Peak; quickscope trickshot nostalgia.",
+     "url": "https://gamerant.com/new-steam-game-like-peak-co-op-fishing/"
+    },
+    {
+     "title": "Dazed Games hits one million copies sold in just two days",
+     "channel": "Sweden Game Arena",
+     "angle": "Founder interview: underdog and marketing story (TikTok/Discord/wishlists, Landfall investment).",
+     "url": "https://swedengamearena.com/en/news/dazed-games-hits-one-million-copies-sold-just-two-days/"
+    },
+    {
+     "title": "How to Fish: The $5 Steam Game That Sold 1M in 2 Days",
+     "channel": "Techloy",
+     "angle": "Price and sales milestone news.",
+     "url": "https://www.techloy.com/how-to-fish-game-steam/"
+    },
+    {
+     "title": "'Friendslop' Games Are the Future of Gaming, Whether You Like It or Not",
+     "channel": "Gaming Bible",
+     "angle": "Trend piece, label as demeaning to small developers.",
+     "url": "https://www.gamingbible.com/news/friendslop-games-future-of-gaming-341068-20260122"
+    },
+    {
+     "title": "The Rise of 'Friendslop' Games: How Pandemic Play Turned Into Digital Bonds",
+     "channel": "The Daily Fandom",
+     "angle": "Loneliness / cost of socializing / intimacy through games; the closest to our deeper angle (written, not video).",
+     "url": "https://thedailyfandom.org/rise-friendslop-games/"
+    },
+    {
+     "title": "What is Friendslop? Lethal Company, co-op games",
+     "channel": "Exploring the Games (Substack)",
+     "angle": "Definitional debate: insult that named a booming genre.",
+     "url": "https://exploringthegames.substack.com/p/what-is-friendslop-lethal-company-co-op-games"
+    },
+    {
+     "title": "Note: no YouTube video essay on How to Fish or on friendslop-as-adult-friendship surfaced in my searches",
+     "channel": "n/a",
+     "angle": "My search tool did not index YouTube well. Producer should manually search YouTube for 'friendslop' and 'How to Fish' to confirm no one has done the 'being together without an agenda' angle."
+    }
+   ],
+   "ip_risks": "Game footage, Steam capsule art, character models, logos and the title lettering are Dazed Games IP; do not reuse them. Recreate the island, boat and chunky characters in our own style, keep them generic (four friends, a boat, a shark/crab-like creature), and do not copy distinctive character designs. Same for Peak, Lethal Company, R.E.P.O., Content Warning (Peak and Lethal references should be verbal or generic silhouettes, no logos). Short verbatim quotes from reviews and press are fine if attributed and brief; Steam reviewer paraphrases should be rechecked and shortened. Do not use Steam UI or Discord UI literally; use our own generic chat bubbles. Avoid the Landfall/TABS look.",
+   "timeline_risks": "Numbers will move before publication in 3-5 weeks. (1) The 10.1M / $50M+ comes from Alinea's Oct 1, 2026 newsletter; Alinea's October update (early Nov) will likely supersede it: word as 'more than ten million copies by early October, by one analytics estimate'. Daily sales 40K-50K per Alinea suggests it will pass further milestones. (2) Steam review counts and the 'Overwhelmingly Positive' label shift constantly: say 'more than 95% positive' only if rechecked. (3) The 1M milestone was players; do not say 'copies' in the first 2 days without attribution. (4) Peak concurrent ~370,901 on Aug 25 is from Player.One citing SteamDB; I could not open SteamDB (403). Verify on SteamDB before locking, and say 'roughly 370,000 at its peak' evergreen. (5) Price might change with sales; use 'about eight dollars' or 'under ten dollars'. (6) Lobby cap (4 vs 8), console ports (Xbox/PlayStation planned), roadmap and any DLC may change; avoid stating them as fixed. (7) A second 'friendslop' hit or a Steam sale could change the trend framing; keep the essay about the human reason, not rankings. (8) Hold the Peak 10M comparison to 'Peak reportedly passed ten million in 2025' only if the comparison stays accurate."
+  },
+  "check": {
+   "summary": "Core Steam facts, developer story, founders' quotes, peak concurrent and the Alinea figures all checked out against the pages I opened. The main risks are the 1M \"copies vs players\" wording (sources conflict), the Alinea estimate (single third-party source), the unopened earlier Alinea post, and the humane-truth angles, which are inference. I could not open SteamDB or TweakTown (403), so those figures are second-hand. I did not independently verify the Steam reviewer quote, the Daily Fandom/Gallup stats, the Discord-no-voice claim, the 5-6 hour length, or the \"17 crimes\" quote.",
+   "checked": [
+    {
+     "claim": "Release 2026-08-20; $7.99; 1-4 players; single-player and online co-op; Dazed Games developer",
+     "verdict": "confirmed",
+     "correction": "Steam page confirms. The '16 languages' detail was not in my fetch; omit."
+    },
+    {
+     "claim": "Content descriptor 'cartoon violence towards fish and gambling with fish (no real money)'",
+     "verdict": "confirmed",
+     "correction": "Steam page says the developers describe it this way, so it is the developer's own wording."
+    },
+    {
+     "claim": "Steam reviews: Overwhelmingly Positive 95% of 27,758; recent 94% of 18,372",
+     "verdict": "confirmed",
+     "correction": "Fetched today, but the page labels recent reviews 'Very Positive', not Overwhelmingly. The numbers will drift; do not hard-code."
+    },
+    {
+     "claim": "Launch discount to $4.95 ending Aug 27",
+     "verdict": "confirmed",
+     "correction": "Player.One says Aug 27. Irrelevant to narration; just say 'about eight dollars'."
+    },
+    {
+     "claim": "Peak concurrent 370,901 on Aug 25 (268,101 Aug 23; 341,691 Aug 24)",
+     "verdict": "weak",
+     "correction": "Player.One states it, citing SteamDB/Steam charts; I could not verify on SteamDB. Say 'roughly 370,000 at its peak' with attribution if used."
+    },
+    {
+     "claim": "1M within about two days",
+     "verdict": "weak",
+     "correction": "Sources conflict. Sweden Game Arena (the cited source) says 'more than one million copies sold' in two days. Player.One says the developer said 'fishermen' within the first few days and that outlets mis-reported it as copies. Use 'a million players, according to the developers' or avoid the two-day framing."
+    },
+    {
+     "claim": "Alinea Oct 1: $19.3M in September, over $50M lifetime, 10.1M copies, 40K-50K copies/day",
+     "verdict": "confirmed",
+     "correction": "Confirmed that the Alinea newsletter states these. It is a third-party estimate with no independent confirmation, so always attribute it ('analytics firm Alinea estimates')."
+    },
+    {
+     "claim": "Earlier Alinea post: ~1.9M copies, ~$8M, about seven weeks earlier; growth 1.9M to 10.1M in 6-7 weeks",
+     "verdict": "unverifiable",
+     "correction": "The Oct 1 newsletter has no earlier figures. The cited URL is the same post. Do not say on air."
+    },
+    {
+     "claim": "Alinea overlap: ~9% also played Peak, ~8% Gamble with Your Friends in September",
+     "verdict": "confirmed",
+     "correction": "Confirmed in the newsletter. The 'rotating diet' reading is interpretation; say 'some players overlap' only."
+    },
+    {
+     "claim": "Founders Carl-Vilhelm Johansson and Melvin Olsson met at LBS Kreativa Gymnasiet, Gothenburg",
+     "verdict": "confirmed",
+     "correction": "Per Sweden Game Arena. Studio founded 2024 and the sound/music names were not re-verified."
+    },
+    {
+     "claim": "Sales goal about 200,000 copies; quote 'It's completely crazy and not something we expected.'",
+     "verdict": "confirmed",
+     "correction": "Both in Sweden Game Arena. Quote is sourced from that article; attribute to Melvin Olsson."
+    },
+    {
+     "claim": "Out of Hand: Deluxe: free prototype, paid version summer 2025 sold below expectations; pivot to How to Fish in Aug 2025",
+     "verdict": "weak",
+     "correction": "Prototype free and paid version selling well below expectations in summer 2025 are confirmed. The August 2025 pivot date was not in my fetch."
+    },
+    {
+     "claim": "~1M Steam wishlists, 40,000+ Discord, Landfall project investment, advice against demo",
+     "verdict": "confirmed",
+     "correction": "Confirmed. The article gives Johansson's reason as players who tried it free may not buy later. The 'no ownership stake' detail was not in my fetch; omit."
+    },
+    {
+     "claim": "Premise and lobby: stranded on island; patch 1.0.4 raised lobbies to 8",
+     "verdict": "confirmed",
+     "correction": "Player.One confirms both. Lobby size may change; avoid stating as fixed."
+    },
+    {
+     "claim": "Revive: teammate picks you up and slaps you a few times",
+     "verdict": "confirmed",
+     "correction": "GamingOnLinux confirms; it applies to a downed player while one is still up in a boss fight. Article title says 'brilliantly funny'."
+    },
+    {
+     "claim": "Friendslop: Among Us origin, tweet about friendfarming, Peak popularised it, Castello 'whimsy and joy'",
+     "verdict": "weak",
+     "correction": "Wikipedia says 'reportedly' and 'said to trace'. Castello argued it isn't a real genre and traced the term to anger at people who used it to signal a preference for 'whimsy and joy'; that is not the same as saying the genre grew from resentment. Attribute; do not state an origin."
+    },
+    {
+     "claim": "Peak passed 10M copies; 4.5M within a month",
+     "verdict": "unverifiable",
+     "correction": "TweakTown returned 403. Not verified. Do not compare on air."
+    },
+    {
+     "claim": "Steam reviewer quote: 3 fish, 17 crimes, nobody knows where the boat is",
+     "verdict": "unverifiable",
+     "correction": "The dossier itself calls it a paraphrase. Do not use as a quote."
+    },
+    {
+     "claim": "Campaign about 5-6 hours; no built-in voice chat; Xbox/PlayStation planned",
+     "verdict": "unverifiable",
+     "correction": "GamingOnLinux gives no length and no voice-chat statement. Not verified."
+    },
+    {
+     "claim": "Gallup 25% vs 17% loneliness gap, 3 in 4 Gen Z lonely, Cook et al. loneliness study",
+     "verdict": "unverifiable",
+     "correction": "Secondhand via Daily Fandom, not checked. Do not use."
+    },
+    {
+     "claim": "Human-truth angles (fishing as alibi, cheap invitation, shared failure)",
+     "verdict": "weak",
+     "correction": "The dossier flags these as inference, so they are script interpretation, not facts. Never state them as research findings."
+    }
+   ],
+   "safe_to_say_on_air": [
+    "How to Fish launched on Steam in August 2026 from Swedish studio Dazed Games, for about eight dollars (list $7.99).",
+    "Two founders, Carl-Vilhelm Johansson and Melvin Olsson, met at a high school in Gothenburg.",
+    "Before launch they hoped to sell about 200,000 copies (Sweden Game Arena interview).",
+    "Olsson on the result: 'It's completely crazy and not something we expected.'",
+    "Their previous paid game, Out of Hand: Deluxe, sold well below expectations in summer 2025.",
+    "The developers announced about a million players in the first days (attribute to developers; do not say copies).",
+    "Analytics firm Alinea estimates more than ten million copies sold and over $50 million in Steam revenue by early October 2026.",
+    "Alinea estimates about 40,000 to 50,000 copies a day as of its Oct 1 newsletter.",
+    "Alinea also found some overlap with Peak and Gamble with Your Friends players in September (about 9% and 8%).",
+    "Steam content descriptor, as the developers wrote it: 'cartoon violence towards fish and gambling with fish (no real money)'.",
+    "Steam page lists one to four players; a patch later raised lobbies to eight (Player.One). Avoid stating the cap as fixed.",
+    "Steam reviews are overwhelmingly positive, roughly 95%, if rechecked at lock time.",
+    "Concurrent players peaked at roughly 370,000 in late August, per Player.One citing SteamDB; attribute it.",
+    "Revive: a teammate picks you up and slaps you in the face to bring you back (GamingOnLinux).",
+    "The game has a progression from simple tools to heavy weaponry, selling catches, gambling and boss fights (Player.One).",
+    "Founders credited low price, humor, easy play with others, early marketing, about a million wishlists and a 40,000+ member Discord; Landfall made a project investment.",
+    "'Friendslop' is a half-joking, half-dismissive label for low-budget co-op games meant for friends; its origin is disputed, so describe it only as slang that spread after Peak."
+   ],
+   "do_not_say": [
+    "Do not say 'sold one million copies in two days' as fact; the developer's own wording was players or 'fishermen'.",
+    "Do not state 10.1M copies or $50M as fact; always 'Alinea estimates' and 'by early October'.",
+    "Do not cite the 1.9M / $8M earlier Alinea figures or the 6-7 week growth rate; unverified.",
+    "Do not claim Peak passed 10M or compare sales with Peak; the source returned 403 and was not verified.",
+    "Do not quote the '3 fish, 17 crimes' review; it is a paraphrase and was not verified.",
+    "Do not claim the game has no built-in voice chat or that it is 5-6 hours long; unverified.",
+    "Do not claim Xbox or PlayStation versions as fact.",
+    "Do not use Gallup, 'Gen Z lonely' or Cook et al. statistics; secondhand and unchecked.",
+    "Do not give a precise origin for 'friendslop' or say it grew from resentment of joy; attribute Castello's argument or skip it.",
+    "Do not say the team is only two people; say two founders plus outside sound and music help.",
+    "Do not present the 'fishing as alibi', 'cheap invitation' or 'shared failure' ideas as research findings; they are the script's own interpretation.",
+    "Do not hard-code Steam review counts, peak numbers or prices that may shift before publication."
+   ]
+  }
+ },
+ {
+  "key": "bongocat",
+  "dossier": {
+   "game": "Bongo Cat (Steam, free desktop idle companion by Irox Games; Steam app 3419430)",
+   "core_facts": [
+    {
+     "fact": "CORRECTION to lead facts: Steam release was March 5, 2025 (not May 2025). Free-to-play, developer/publisher Irox Games.",
+     "source_url": "https://store.steampowered.com/app/3419430/Bongo_Cat/",
+     "date": "2025-03-05"
+    },
+    {
+     "fact": "Steam store description: 'Every time you press a key, Bongo Cat will punch your taskbar.' Typing, clicking, playing or working earns points, used to collect hats. Feature list calls it 'A friend while working hard.' Tags include Desktop Companion, Cats, Cute, Idler, Typing, Relaxing. Windows 10/11 and macOS.",
+     "source_url": "https://store.steampowered.com/app/3419430/Bongo_Cat/"
+    },
+    {
+     "fact": "Steam reviews: Overwhelmingly Positive, 96% of ~30,200 English reviews (store page at fetch time). GamesMarket (Feb 2026) cited 91,000+ total reviews, 97% positive. Counts differ by filter; use loosely.",
+     "source_url": "https://store.steampowered.com/app/3419430/Bongo_Cat/"
+    },
+    {
+     "fact": "Hat drop rates on store page (subject to change): Common 90%, Uncommon 9.5%, Rare 0.49%, Epic 0.01%, Legendary 1 in 500,000. Optional DLC packs roughly $5-$10 and in-game items $2.50-$4.99 (store page figures, currency conversions approximate).",
+     "source_url": "https://store.steampowered.com/app/3419430/Bongo_Cat/"
+    },
+    {
+     "fact": "All-time peak concurrent is about 194K, but sources differ: Tracker.gg 194,508; SteamCharts 193,859 (monthly table shows May 2025 peak 193,859; June 2025 peak 192,501). The ~194K figure is therefore verified as approximate. Peak was spring/early summer 2025, not at launch (March 2025 peak was only 50,099).",
+     "source_url": "https://steamcharts.com/app/3419430",
+     "date": "2025-05"
+    },
+    {
+     "fact": "Current concurrency 2026-10-11: SteamCharts showed 147,274 players, 24h peak 174,730; SteamDB showed 147,313 playing, rank #5 on Steam, 24h peak 174,771. So the ~148K lead fact is confirmed (approx 147K). SteamDB's own recorded high since July 2026 is 188,901 on Sep 24, 2026 (not a true all-time peak, SteamDB recording only started July 2026).",
+     "source_url": "https://steamdb.com/de/tools/steam-charts/3419430-bongo-cat",
+     "date": "2026-10-11"
+    },
+    {
+     "fact": "Growth path (SteamCharts monthly avg players): Mar 2025 31.6K; Apr 2025 106.6K; May 2025 139.8K; Jun 2025 151.4K; Jul 116.2K; Aug 78.9K; Oct 2025 88.0K; Dec 2025 111.1K; Jan 2026 129.6K; May 2026 133.9K; Jun 2026 147.8K; Sep 2026 147.1K. It dipped mid-2025 and then climbed back; it is still near its highs 19 months later.",
+     "source_url": "https://steamcharts.com/app/3419430"
+    },
+    {
+     "fact": "Developer Irox Games, created by Marcel Zurawka (CEO) and Julius Krueger. Per Eurogamer interview as reported secondhand: game was still not profitable; net revenue about $2,000 (Mar), $4,050 (Apr), $3,800 (May), $2,800 (June as of June 24, 2025); less than one developer's salary. Original Eurogamer article not fetched (domain blocked), so verify wording.",
+     "source_url": "https://wnhub.io/news/stores-and-publishing/item-48117",
+     "date": "2025-06-24"
+    },
+    {
+     "fact": "Zurawka admitted roughly half of the concurrent players are bots (reportedly farming items for resale on the Steam Marketplace). Steam daily online presence reported as 170-180K. Anti-bot measures reportedly under consideration. CRITICAL for the angle: 'hundreds of thousands of people' is not literally true; a large share of the concurrent count is not human (as of mid-2025 statement; current share unknown).",
+     "source_url": "https://automaton-media.com/articles/newsjp/bongo-cat-20250627-346431/",
+     "date": "2025-06-27"
+    },
+    {
+     "fact": "Developer called the game a 'strategic success' via marketing effect: it began as an experiment with the Steam community market (first prototype was a stone-drilling game; cat came later). Players earn items by wishlisting/watching trailer of Irox's game OKU (50,000+ wishlists at the time). Later items tied to publisher title Nightwater (wishlist for a backpack; play demo 5 minutes for a cat).",
+     "source_url": "https://automaton-media.com/articles/newsjp/bongo-cat-20250627-346431/"
+    },
+    {
+     "fact": "Total players: 5 million reached Jan 2026; 5.7 million total at Feb 24, 2026 (GamesMarket, citing SteamDB; 60th most played game all-time per that article). Unique player total is a different thing from concurrent.",
+     "source_url": "https://www.gamesmarket.global/bongo-cat-is-on-its-way-to-6-million-players",
+     "date": "2026-02-24"
+    },
+    {
+     "fact": "Origin of the meme: May 7, 2018, Twitter user @StrayRogue posted a cat-like blob slapping a table; @DitzyFlama added bongos synced to 'Athletic' from Super Mario World. Original artist said it is a 'cat-like blob'. Polygon and Uproxx named it best meme of 2018; Vice: 'the only good thing on the internet'. The Steam game is by a different team (Irox), not the original artist (relationship/licensing not verified).",
+     "source_url": "https://en.wikipedia.org/wiki/Bongo_Cat",
+     "date": "2018-05-07"
+    },
+    {
+     "fact": "Keyboard-mapping software in 2018 (based on open-source code by Hamish Duncanson, later modified by others) predates the Steam game; the idea of a cat reacting to your keys existed as a free fan tool years earlier. Wikipedia lists Billie Eilish 'What Was I Made For?' Bongo Cat cover viral on TikTok 2023-24.",
+     "source_url": "https://en.wikipedia.org/wiki/Bongo_Cat"
+    },
+    {
+     "fact": "Multiplayer 'Meowtiplayer' update August 2025: lobbies up to 100 players, friends invited via Steam, no competitive play, purely shared ambient bongoing; friends' cats can be seen. This is direct support for a 'being witnessed / company' angle.",
+     "source_url": "https://automaton-media.com/articles/newsjp/bongo-cat-20250812-353043/",
+     "date": "2025-08"
+    },
+    {
+     "fact": "Emoji Update Oct 1, 2025: 100 emojis added to the cosmetic pool; 200+ Steam comments complained it diluted rare drops; developer apologized and removed them from the pool about 24 hours later.",
+     "source_url": "https://www.gamegrin.com/news/bongo-cat-developer-changes-controversial-update-after-player-feedback-promptly/",
+     "date": "2025-10-01"
+    },
+    {
+     "fact": "Insider Gaming compared it to Banana (clicker with tradable skins, peaked above 900,000 concurrent). Items trade on Steam Community Market; at one point the highest-priced item was about GBP 10 (esports.net, April 2025).",
+     "source_url": "https://insider-gaming.com/what-is-bongo-cat-on-steam/"
+    },
+    {
+     "fact": "Ranked 8th among top new 2025 Steam releases by online presence (per WN Hub); April 2025 was fourth most-played on Steam per esports.net (Apr 18, 2025).",
+     "source_url": "https://www.esports.net/news/bongo-cat-steam-popularity",
+     "date": "2025-04-18"
+    }
+   ],
+   "recognition_anchors": [
+    {
+     "anchor": "Glancing at the taskbar mid-work and seeing the cat frantically slapping because you are typing an angry email",
+     "why_players_recognize_it": "The cat mirrors your effort in real time, including pointless effort (store description: it reacts to every key press).",
+     "source_url": "https://store.steampowered.com/app/3419430/Bongo_Cat/"
+    },
+    {
+     "anchor": "Forgetting it is running, then noticing days later how high the score/hat count has climbed",
+     "why_players_recognize_it": "Idle-game ritual; one writeup says players can forget it and later marvel at the score. Secondary source, writer's description.",
+     "source_url": "https://www.esports.net/news/bongo-cat-steam-popularity"
+    },
+    {
+     "anchor": "Leaving it on for weeks chasing a 1-in-500,000 Legendary hat",
+     "why_players_recognize_it": "Published drop rates make the slot-machine patience legible; a writeup says the legendary tier is why people leave it on for days or weeks.",
+     "source_url": "https://store.steampowered.com/app/3419430/Bongo_Cat/"
+    },
+    {
+     "anchor": "Running it behind another game: 'good to just sit in the background of other games'",
+     "why_players_recognize_it": "Real Steam review (KonigPanda, 1,032.5 hrs). Playtime in the hundreds/thousands of hours accumulates while doing other things.",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "anchor": "Review hours that do not match a human: 4,092.5 hrs 'It's taking my life force I can't operate without it'; 1,415 hrs 'Run it and forget it'",
+     "why_players_recognize_it": "Hours logged are really 'hours my computer was on', not hours played; a joke players make themselves.",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "anchor": "Review joke: 'Second most successful spyware after windows' (462 hrs, not recommended)",
+     "why_players_recognize_it": "A program that watches every key and click, which is literally its mechanic, framed as cute.",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "anchor": "Player wants a keybind to open chests quietly during matches",
+     "why_players_recognize_it": "Quiet-at-work/at-game ritual of opening rewards between tasks (review by imloadingdot, 477 hrs).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "anchor": "Veteran complaint: 'it used to be free', now ads and paid event tickets (1,672 hrs, not recommended)",
+     "why_players_recognize_it": "Familiar arc of a beloved free thing slowly monetized; alongside outrage over the emoji update diluting drop pools.",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "anchor": "Joining a lobby of up to 100 strangers' cats all bonging at once",
+     "why_players_recognize_it": "Meowtiplayer: no competition, just ambient shared tapping.",
+     "source_url": "https://automaton-media.com/articles/newsjp/bongo-cat-20250812-353043/"
+    },
+    {
+     "anchor": "The 'bing bong' meme/review ('Can I get a bing bong in the chat?')",
+     "why_players_recognize_it": "Meme culture around the cat's sound/taps; review by O'Long Robson, 733 hrs.",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    }
+   ],
+   "deeper_angles": [
+    "TEST RESULT of the lead angle: partly supported, partly undercut. Supported by developer's own copy ('A friend while working hard'), reviews calling it a background companion, and the multiplayer lobbies (shared ambient presence, no competition). Undercut by (1) Zurawka's statement that about half of concurrent players are bots and (2) the dev's own origin as a Steam-market experiment, with hats tradable for money. Honest framing: the headline number is partly machines pretending to be people leaving a cat on screen, which is itself a deadpan gift. Recommend a title/hook that does not claim 'hundreds of thousands of people' without qualification.",
+    "Being witnessed while doing invisible work: screen work leaves no trace; a cat that slaps the table once per keystroke gives every keystroke a witness. Candidate framing, no player testimony found directly saying this. Mark as interpretation.",
+    "Body doubling / social facilitation: people perform tasks differently when someone is present. Evidence is thin and mixed: small VR study (12 participants) found faster completion with human or AI body double; a 2025 conference poster found no significant effect; a 117-person survey was by a commercial body-doubling service. Use only as cautious context, not proof the cat 'works'. Sources: arxiv 2509.12153; ccsc.org Central Plains 2025 poster; neurodiversity.org. Note another arXiv listing (2609.21254) appeared in search; verify before citing.",
+    "Small rewards for invisible effort: every key press feeds a variable-ratio reward (published odds down to 1 in 500,000). The player does nothing extra; ordinary work becomes the grind. Genuine contrast with 'hustle' games.",
+    "The twist of the economy: the cat does not care whether a human is behind the keyboard. Bots farm it, humans leave it on while doing something else, the cat taps for both. A question for the essay: if the witness is a script and the worker is a script, who keeps whom company? Interpretation, not sourced.",
+    "Irox's actual motive was not companionship but an experiment in Steam market drops and a marketing channel for OKU/Nightwater. Cuteness as the wrapper for an attention economy; viewers may enjoy the irony, but keep the emotional truth about the players, not the developer.",
+    "Possible contrast with 2018 meme: the original cat-like blob slapped a table to a song; the Steam version moved it onto the taskbar and attached it to your own labor."
+   ],
+   "visual_moments": [
+    "A cat-like blob on a taskbar, slapping the bar once per keystroke; keyboard in foreground, a lone figure at night",
+    "Spreadsheet or email window with a tiny cat paw-slapping the bottom edge in sync with typing",
+    "Hat drop odds as a stack of bars: 90 / 9.5 / 0.49 / 0.01 / 1 in 500,000, with a tiny crowned cat at the end of a very long line",
+    "A lobby of 100 cats in a grid all tapping, with a caption that half the chairs are empty (bots) as a deadpan beat",
+    "Review counter: 4,092.5 hours next to a PC with nobody in the chair",
+    "Taskbar as a stage: cat plus tiny audience of other icons",
+    "Two ledger lines: developer net revenue about $3K a month vs 150K concurrent cats"
+   ],
+   "humor_material": [
+    "Developer net revenue of about $2,000 to $4,050 a month for a game with 170-180K daily presence; the dev said it is still not profitable.",
+    "Zurawka said about half the players are bots: a cat fan club where half the members are scripts.",
+    "Legendary hat drop odds: 1 in 500,000.",
+    "Steam review: 'Second most successful spyware after windows.'",
+    "Review with 4,092.5 hours: 'It's taking my life force I can't operate without it.'",
+    "Developer removed 100 emojis from the drop pool about 24 hours after 200+ complaints that they diluted rarity.",
+    "The game started as a prototype about drilling stone; the cat came later (Automaton).",
+    "The 2018 artist insisted it is a 'cat-like blob', not a cat.",
+    "Filipino congressman adopted the meme as 'Congressmeow' (Wikipedia, 2025); possibly off-topic."
+   ],
+   "player_voices": [
+    {
+     "paraphrase": "Run it and forget it, super addictive for item collectors (Pepp3rPotts, 1,415 hrs).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "paraphrase": "Good to just sit in the background of other games (KonigPanda, 1,032.5 hrs).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "paraphrase": "It's taking my life force, I can't operate without it (BabyJinx, 4,092.5 hrs; joking).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "paraphrase": "Fun at first, then mostly launched for achievements; used to be free and now has ads and paid event tickets (Collector, 1,672.4 hrs, not recommended).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "paraphrase": "400 hours to 100% the achievements, tap tap (imloadingdot, 477 hrs).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "paraphrase": "One reviewer calls the cat a perfect desktop companion; another says its reactions to typing make it the most productive way to waste time (via search summary of Steam reviews; exact quotes not verified).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    },
+    {
+     "paraphrase": "Negative reviews complain about monetization, battlepass-style reward systems and unfairness to non-payers (search summary; individual reviews not verified).",
+     "source_url": "https://steamcommunity.com/app/3419430/reviews/"
+    }
+   ],
+   "existing_coverage": [
+    {
+     "title": "What is Bongo Cat on Steam and Why Are 130,000 People Playing It?",
+     "channel": "Insider Gaming",
+     "angle": "Explainer; Banana comparison; tradable items as the reason people play",
+     "url": "https://insider-gaming.com/what-is-bongo-cat-on-steam/"
+    },
+    {
+     "title": "What Is Bongo Cat? The Trending Idle Game Taking Steam By Storm",
+     "channel": "esports.net",
+     "angle": "Explainer; hat drop rates; low effort, collecting, market value",
+     "url": "https://www.esports.net/news/bongo-cat-steam-popularity"
+    },
+    {
+     "title": "Bongo Cat did not turn a profit despite its popularity on Steam",
+     "channel": "WN Hub (from Eurogamer interview)",
+     "angle": "Business: low revenue, bots, marketing experiment",
+     "url": "https://wnhub.io/news/stores-and-publishing/item-48117"
+    },
+    {
+     "title": "Bongo Cat: c'est quoi ce jeu classe dans le top 5 de Steam mais qui ne sert a rien",
+     "channel": "RTBF",
+     "angle": "Useless-but-top-5 framing, meme origin",
+     "url": "https://www.rtbf.be/article/bongo-cat-c-est-quoi-ce-jeu-classe-dans-le-top-5-de-steam-mais-qui-ne-sert-a-rien-11568467"
+    },
+    {
+     "title": "You Probably Haven't Heard Of Bongo Cat, But Over 100,000 People Are Playing It Right Now",
+     "channel": "GameSpot",
+     "angle": "News explainer (page returned 403; content not read)",
+     "url": "https://www.gamespot.com/articles/you-probably-havent-heard-of-bongo-cat-but-over-100000-people-are-playing-it-right-now/1100-6530839/"
+    },
+    {
+     "title": "Bongo Cat is on Its Way to 6 Million Players",
+     "channel": "GamesMarket",
+     "angle": "Total players milestone, Feb 2026",
+     "url": "https://www.gamesmarket.global/bongo-cat-is-on-its-way-to-6-million-players"
+    },
+    {
+     "title": "YouTube video essays",
+     "channel": "unknown",
+     "angle": "My searches found no dedicated YouTube video essay on the human 'why' (companionship/witness) angle; this is not proof none exists, so run a manual YouTube search before scripting.",
+     "url": ""
+    }
+   ],
+   "ip_risks": "Bongo Cat Steam game is by Irox Games; the character art is the studio's. Do not reproduce its cat sprite, hats, UI or Steam capture; draw an original generic cat-like blob/cat in our style. The original 2018 meme art belongs to @StrayRogue (artist) and @DitzyFlama made the bongo version; the relationship to the Steam game's licensing is unverified. Avoid using the actual GIF, game footage, or the Billie Eilish cover. Mentioning name, taskbar mechanic, and stats is fair commentary. Quoting Steam reviews: paraphrase and credit usernames sparingly. Eurogamer interview was only read through secondary sources.",
+   "timeline_risks": "Concurrent numbers drift daily (147K now, 24h peak ~175K, rank #5 on Steam, 2026-10-11); word as 'around 150,000 at once on an ordinary day in late 2026' or avoid exact. Release date is March 5, 2025 (lead said May: wrong). Peak ~194K in spring 2025 (sources 193,859 to 194,508); say 'nearly 200,000'. The bot share (about half) was stated June 2025; may have changed, so say 'the developer once estimated'. Total players 5.7M was Feb 2026; likely higher now. Revenue numbers are mid-2025 only. Monetization (ads, event tickets, DLC) may change; Nightwater launch was set for Q3 2026, OKU release status unknown; check before mentioning. SteamDB rank may differ from SteamCharts front page. Steam's review counts vary by filter. Verify the Eurogamer original and the GameSpot piece, and check Steam news for any anti-bot or marketplace changes before publish."
+  },
+  "check": {
+   "checked": [
+    {
+     "claim": "Steam release March 5, 2025; free-to-play; developer and publisher Irox Games",
+     "verdict": "confirmed",
+     "correction": "Steam store page (store.steampowered.com/app/3419430) and Insider Gaming both say March 5."
+    },
+    {
+     "claim": "Store description 'Every time you press a key, Bongo cat will punch your taskbar'; feature line 'A friend while working hard'",
+     "verdict": "confirmed",
+     "correction": "Both lines confirmed (Steam page; Insider Gaming quotes the second). Steam page spells 'Bongo cat' with a lowercase c."
+    },
+    {
+     "claim": "Hat drop rates: Common 90%, Uncommon 9.5%, Rare 0.49%, Epic 0.01%, Legendary 1 in 500,000",
+     "verdict": "confirmed",
+     "correction": "Matches the Steam page, which labels them 'subject to change'."
+    },
+    {
+     "claim": "DLC packs roughly $5-$10",
+     "verdict": "confirmed",
+     "correction": "Steam page lists four packs at $10.09 and one at $5.05. The '$2.50-$4.99 in-game items' figure was not re-verified."
+    },
+    {
+     "claim": "Steam reviews: Overwhelmingly Positive, 96% of about 30,200 English reviews; 91,000+ total, 97% (GamesMarket)",
+     "verdict": "confirmed",
+     "correction": "Steam page showed 30,228 English reviews at 96%. GamesMarket says more than 91,000 reviews at 97%. The counts differ by filter, so do not combine them."
+    },
+    {
+     "claim": "All-time peak concurrent about 194K; May 2025 peak 193,859; June 2025 192,501; March 2025 peak 50,099",
+     "verdict": "confirmed",
+     "correction": "SteamCharts shows all-time peak 193,859 (May 2025), June 2025 peak 192,501 and March 2025 peak 50,099. The Tracker.gg figure of 194,508 was not opened. Say 'nearly 200,000' or 'about 194,000'. The peak came in spring 2025, not at launch."
+    },
+    {
+     "claim": "Current concurrency on 2026-10-11 about 147K, 24h peak about 175K; SteamDB rank #5, 188,901 on Sep 24, 2026",
+     "verdict": "weak",
+     "correction": "SteamCharts confirmed 147,274 now and a 24h peak of 174,730. SteamDB was not opened, so rank #5 and 188,901 are unverified. SteamCharts shows a Sep 2026 monthly peak of 188,817, which is close but not the same figure. The number drifts daily."
+    },
+    {
+     "claim": "Monthly average growth path (Mar 2025 31.6K ... Sep 2026 147.1K)",
+     "verdict": "confirmed",
+     "correction": "All listed values match SteamCharts. Extra context: Jul 2026 averaged 153.0K (the highest 2026 month), Aug 2026 144.1K, Nov 2025 86.7K (the low). 'Dipped mid-2025 then climbed back' is accurate: Jun 2025 151.4K, Aug 2025 78.9K, Jan 2026 129.6K."
+    },
+    {
+     "claim": "Eurogamer interview: not profitable; net revenue $2,000 (Mar), $4,050 (Apr), $3,800 (May), $2,800 (June as of about June 24)",
+     "verdict": "weak",
+     "correction": "WN Hub (dated June 26, 2025, not June 24) reports the same figures and says the dev 'never intended to make money'. The Eurogamer original was not opened. A search summary quotes Zurawka on March ($2,000 net) and April ($4,050) but says the sources differ slightly on May and June. Automaton says average monthly net profit is about $3,000, 'less than one developer's salary'. Attribute it as 'the developer told Eurogamer, as reported by WN Hub / Automaton'."
+    },
+    {
+     "claim": "Zurawka 'admitted' about half of concurrent players are bots, reportedly farming items for Marketplace resale",
+     "verdict": "weak",
+     "correction": "Overstated. Automaton says he estimates 'roughly half may be bots' but does not know the exact figure. A search summary of the Eurogamer interview quotes 'About 50% according to us. But we can't know exactly.' Use 'the developer estimated, without certainty'. The Marketplace-resale motive is described as 'reportedly' and is not stated by the dev. Daily online presence of 170-180K is attributed to SteamDB/WN Hub and is described by Automaton as the daily peak."
+    },
+    {
+     "claim": "Dev called the game a 'strategic success'; it began as a Steam-market experiment with a stone-drilling prototype; players get items for wishlisting OKU or watching its trailer; OKU 50,000+ wishlists",
+     "verdict": "confirmed",
+     "correction": "Automaton confirms all of it: the project started around December 2024 with a drill digging into a stone, and the cat idea came up while staff watched the prototype. The Nightwater tie-in (backpack for wishlist, cat for 5-minute demo) is NOT in the Automaton article and is unverified. OKU's 50,000 wishlists is a figure from mid-2025."
+    },
+    {
+     "claim": "Total players 5 million in Jan 2026; 5.7 million at Feb 24, 2026; 60th most played game",
+     "verdict": "weak",
+     "correction": "The totals are confirmed by GamesMarket (Pascal Wagner, Feb 24, 2026), which cites Irox Games for the 5.7M figure. The 60th rank is attributed to SteamDB, and the article does not say whether it is all-time or current. Drop the rank. The 5.7M figure is likely outdated."
+    },
+    {
+     "claim": "Meme origin May 7, 2018: @StrayRogue 'cat-like blob', @DitzyFlama bongos plus 'Athletic'; Polygon/Uproxx best meme of 2018; Vice 'the only good thing on the internet'; Duncanson open-source code; Billie Eilish cover",
+     "verdict": "confirmed",
+     "correction": "Wikipedia confirms the origin, the 'cat-like blob rather than an actual cat' line, Polygon and Uproxx naming it best meme of 2018, and the Duncanson code (published 2018). Vice is paraphrased on Wikipedia (Nicole Clark: the internet's only good thing at the time); do not present it as a verbatim quote. The Eilish cover went viral on TikTok in 2023 and fans sang along at her 2024 concerts. Congressmeow is Kiko Barzaga, 2025. This is Wikipedia-only and the original sources were not checked."
+    },
+    {
+     "claim": "Meowtiplayer update Aug 2025: lobbies up to 100, friends invited via Steam, no competitive play, friends' cats visible",
+     "verdict": "weak",
+     "correction": "Automaton (Aug 12, 2025) confirms release on Aug 11 and lobbies of up to 100 players whose cats all hit the taskbar together. It does NOT mention friend invites, and it describes a team system (Strawberry/Pineapple/Watermelon) with team-linked cosmetics. 'No competitive play' is therefore unconfirmed and arguably contradicted by the teams. Say only 'up to 100 players in one shared lobby' and avoid 'purely ambient' and 'friends'."
+    },
+    {
+     "claim": "Emoji Update Oct 1, 2025: 100 emojis; 200+ complaints; removed after about 24 hours with apology",
+     "verdict": "confirmed",
+     "correction": "GamGrin says 100 new collectibles on Oct 1, a little over 200 comments, some worried about diluting rare cosmetics (not all were complaints), removal 'barely 24 hours later' and an apology."
+    },
+    {
+     "claim": "Insider Gaming: compared to Banana (900,000+ concurrent); highest-priced item about GBP 10 (esports.net)",
+     "verdict": "weak",
+     "correction": "Banana comparison and 900K+ peak confirmed at Insider Gaming. The article states about 130,000 playing at the time. The GBP 10 item price comes from esports.net, which was not opened, so it is unverified."
+    },
+    {
+     "claim": "8th among top new 2025 Steam releases (WN Hub); 4th most played on Steam April 2025 (esports.net)",
+     "verdict": "weak",
+     "correction": "The 8th-place claim is confirmed in the WN Hub text. The esports.net claim and its Apr 18 date were not opened; a search result headline says 'Steam's 4th most played game', which points the same way."
+    },
+    {
+     "claim": "Steam review quotes and hours (KonigPanda 1,032.5 hrs; BabyJinx 4,092.5 hrs; 'Second most successful spyware after windows'; etc.)",
+     "verdict": "unverifiable",
+     "correction": "The dynamic reviews page could not be reliably fetched or confirmed. Reviews change and users can edit or delete them. Treat as unverified paraphrases and do not quote usernames or hours on air without re-opening each review."
+    },
+    {
+     "claim": "Body doubling studies (12-participant VR study, 2025 poster, 117-person survey, arXiv 2509.12153 and 2609.21254)",
+     "verdict": "unverifiable",
+     "correction": "Not checked. The arXiv ID 2609.21254 looks like a future-dated or invalid ID (2609 would be September 2026), so do not cite it. Keep body doubling out of the script or at most one hedged line."
+    },
+    {
+     "claim": "Possible gaps: GameSpot, RTBF and Eurogamer pieces; no existing YouTube video essay on the companionship angle",
+     "verdict": "unverifiable",
+     "correction": "GameSpot returned 403 and the Eurogamer original was not found. RTBF was not opened. No YouTube search was done."
+    }
+   ],
+   "safe_to_say_on_air": [
+    "Bongo Cat is a free Steam game from Irox Games, released March 5, 2025. (store.steampowered.com/app/3419430)",
+    "Every time you press a key, the cat punches your taskbar; typing and clicking earn points that unlock hats. The store feature list calls it 'A friend while working hard.' (Steam page)",
+    "Published hat odds: Common 90%, Uncommon 9.5%, Rare 0.49%, Epic 0.01%, Legendary 1 in 500,000, labelled 'subject to change'. (Steam page)",
+    "Peak concurrent players was nearly 194,000 in May 2025, after only about 50,000 in the launch month of March 2025. (steamcharts.com/app/3419430)",
+    "On Oct 11, 2026 around 147,000 were playing at once (SteamCharts), about 19 months after launch. Phrase it as 'around 150,000 at once on an ordinary day in late 2026' or 'well over 100,000'.",
+    "Monthly average players dipped to about 79,000 in Aug 2025 and climbed back to about 147,000 in Sep 2026. (SteamCharts)",
+    "The dev told Eurogamer (as reported by WN Hub and Automaton) that the game was not profitable, with net revenue of about $2,000 in March and about $4,050 in April 2025, roughly $3,000 a month on average, less than one developer's salary. Attribute it to the developer in mid-2025.",
+    "The developer estimated, without certainty, that about half of the players may be bots (Automaton, June 2025). Use 'the developer once estimated' and not 'admitted'.",
+    "The game began around Dec 2024 as an experiment with Steam's community market; the first prototype was a drill digging into a stone and the cat came later. The dev called the game a 'strategic success' for marketing, because players got items for wishlisting OKU. (Automaton)",
+    "The dev says the game was never meant to make money. (WN Hub)",
+    "The 2018 meme: May 7, 2018, @StrayRogue posted a 'cat-like blob' hitting a table, and @DitzyFlama added bongos synced to 'Athletic' from Super Mario World. (Wikipedia)",
+    "Oct 1, 2025 Emoji Update: 100 emojis added to the drop pool; the dev removed them and apologized about 24 hours later after a little over 200 comments. (GameGrin)",
+    "Items trade on the Steam Marketplace; Insider Gaming presents this as the main reason for its popularity and compares it to Banana. (Insider Gaming)",
+    "Multiplayer update (Aug 11, 2025): up to 100 players' cats can hit the taskbar together in one lobby. (Automaton)",
+    "Total players were about 5.7 million as of Feb 2026, per Irox via GamesMarket. If used, say 'over 5 million'."
+   ],
+   "do_not_say": [
+    "Do not say 'hundreds of thousands of people' without qualification: the dev estimates about half the count may be bots.",
+    "Do not say Zurawka 'admitted' a bot share or that it is exactly half, or that it is half today; it is a mid-2025 estimate with 'we can't know exactly'.",
+    "Do not say the bots are farming items for resale as the developer's statement; it is only 'reportedly' attributed by third-party coverage.",
+    "Do not say the multiplayer mode is friends-only, 'no competition' or 'purely ambient': Automaton describes teams, and friend invites are unsourced.",
+    "Do not cite SteamDB rank #5, 188,901, 'Tracker.gg 194,508' or '60th most played' as facts; they are unverified or ambiguous.",
+    "Do not claim the game 'earns' $3K a month today; those revenue figures cover March to June 2025 only.",
+    "Do not mention Nightwater's backpack/cat tie-in, its Q3 2026 launch, or OKU's release status; they are unverified.",
+    "Do not quote Steam reviews or usernames or hours (KonigPanda, BabyJinx, 'spyware after windows') as verified; re-check on the live page first.",
+    "Do not quote Vice verbatim; Wikipedia paraphrases it.",
+    "Do not use body-doubling research as proof the cat 'works', and do not cite arXiv 2609.21254.",
+    "Do not say 'peak at launch'; the peak was spring 2025.",
+    "Do not give the 'GBP 10 top item' figure; only esports.net reported it and it dates from April 2025.",
+    "Do not state any relationship or licensing between the Irox game and the 2018 meme artist; it is unverified.",
+    "Do not use the 'friends' invite' wording or the phrase 'witness' as a sourced player claim; those are interpretation."
+   ],
+   "summary": "Core facts are mostly sound. Confirmed by opening sources: release date, drop rates, store text, SteamCharts numbers (about 194K peak, 147K now, monthly path), revenue, the stone-drill origin, the emoji episode, 5.7M total, and the meme origin. Weak or corrected: the bot claim is softer than 'admitted' (about half 'according to us', 'can't know exactly'); the Meowtiplayer description (the source mentions teams, not friends or 'no competition'); SteamDB rank and high; Nightwater; esports.net figures; the WN Hub date (June 26, not June 24). Unverifiable: Steam review quotes and the body-doubling studies (one arXiv ID looks invalid). The Eurogamer original could not be opened, so all revenue and bot statements should be attributed as 'reported by'. The headline angle must be framed carefully: the count is partly bots, and the game was a marketing experiment. Re-check live numbers and Steam news right before publishing."
+  }
+ }
+]
