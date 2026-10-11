@@ -233,7 +233,7 @@ def e7(t):
         pts = [(cx + S(110 + 40 * (i % 2)) * k * math.cos(i * math.pi / 8), cy + S(90 + 30 * (i % 2)) * k * math.sin(i * math.pi / 8)) for i in range(16)]
         d.polygon(pts, fill=(255, 200, 61), outline=UI.INK)
         fr = K.punch(fr, 'SLAP!', t - T_SLAP, size=70, y=.32, col=(214, 57, 47), x=.58)
-        f = K.buddy(S(100), blink=1.0 if t - T_SLAP < 1.2 else 0.0, rot=-10)   # the companion winces
+        f = K.buddy(S(100), expr='wince' if t - T_SLAP < 1.2 else None, rot=-10)   # the companion winces
         fr.alpha_composite(f, (int(W * .84), int(H * .72)))
     return fr
 

@@ -56,8 +56,8 @@
       .ripple { position: absolute; border: 2px solid rgba(255, 228, 210, .55); border-radius: 50%; }
       /* ---------- fx ---------- */
       .fish { position: absolute; }
-      .fish img { width: 100%; height: 100%; display: block; }
-      .lid { position: absolute; background: #4a8d9b; border-bottom: 2px solid #16161f; }
+      .fish img { width: 100%; height: 100%; display: block; object-fit: contain; }
+      .lid { position: absolute; left: 0; top: 0; width: 100% !important; height: 100% !important; opacity: 0; }   /* fish v2: the blink is the rendered blink face on top */
       .ring { position: absolute; border: 3px solid rgba(255, 240, 225, .9); border-radius: 50%; }
       .drop { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #e9f6ff; box-shadow: 0 0 4px rgba(255,255,255,.6); }
       .star4 { position: absolute; width: 40px; height: 40px; }
@@ -210,7 +210,7 @@
           <div id="tblTop"></div>
           <div id="lantern" class="abs" style="left: 250px; top: 205px; width: 120px; height: 221px"><img src="assets/lantern.png" alt="" style="width: 100%; height: 100%" /></div>
           <div id="tblLight" class="abs"></div>
-          <div id="tblFish" class="fish" style="left: 520px; top: 330px; width: 380px; height: 223px"><img src="assets/fish_side.png" alt="" /><div class="lid" id="tblLid"></div></div>
+          <div id="tblFish" class="fish" style="left: 520px; top: 330px; width: 380px; height: 223px"><img src="assets/fish_side.png" alt="" /><img class="lid" id="tblLid" src="assets/fish_side_blink.png" alt="" /></div>
           <div id="tblChips" class="abs" style="left: 840px; top: 380px; width: 280px; height: 201px"><img src="assets/chips.png" alt="" style="width: 100%; height: 100%" /></div>
           <div class="mk" id="mkMoney" style="left: 486px; top: 610px">The fish money</div>
         </div>
@@ -377,7 +377,9 @@
       const buddy = mk("div", "fish", $("#fishFront"), "left:0; top:0; width:170px; height:125px"); buddy.id = "buddy";
       buddy.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
       (function () { const im = mk("img", "", buddy); im.src = "assets/fish_34.png"; })();
-      const buddyLid = mk("div", "lid", buddy, `left:${.585 * 170}px; top:${.5 * 125}px; width:${.07 * 170}px; height:${.105 * 125}px; transform-origin:50% 0`);
+      const buddyLid = mk("img", "lid", buddy, ""); buddyLid.src = "assets/fish_34_blink.png";
+      const buddyFace = (name) => { const im = mk("img", "lid", buddy, ""); im.src = `assets/fish_34_${name}.png`; return im; };
+      const faceLookup = buddyFace("lookup");
       // splash rigs
       function makeSplash(host, x, y, s) { const g = mk("div", "abs", host, `left:${x}px; top:${y}px; width:0; height:0`); const rings = [], drops = [];
         for (let i = 0; i < 2; i++) rings.push(mk("div", "ring", g, `left:${-60 * s}px; top:${-12 * s}px; width:${120 * s}px; height:${24 * s}px`));
@@ -493,7 +495,7 @@
       tl.set("#linePath", { strokeDasharray: 1600, strokeDashoffset: 1600 }, 0);
       MATES.forEach((m) => tl.set(`${m} .pop`, { y: 260 }, 0));
       tl.set(buddy, { x: 940, y: 640, rotation: 0, opacity: 0 }, 0);
-      tl.set(buddyLid, { scaleY: 0 }, 0);
+      tl.set(buddyLid, { opacity: 0 }, 0); tl.set(faceLookup, { opacity: 0 }, 0);
       tl.set("#armA", { rotation: -25, transformOrigin: "0% 50%" }, 0);
       // title words on "How" "to" "Fish."
       [["#tw1", 1.44], ["#tw2", 1.86], ["#tw3", 2.06]].forEach(([s, t]) => tl.fromTo(s, { y: -160, scale: 1.5, opacity: 0, rotation: -6 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: .55, ease: "back.out(2.6)" }, t - .08));
@@ -527,7 +529,7 @@
       tl.set(buddy, { opacity: 1, x: 900, y: 640, rotation: -35 }, 5.78);
       tl.to(buddy, { x: 960, y: 392, rotation: 0, duration: .34, ease: "power3.out" }, 5.78);
       tl.to(buddy, { y: 384, duration: .55, ease: "sine.inOut" }, 6.12);
-      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .12 }, { scaleY: 0, duration: .14 }] }, 6.28);
+      tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .12, ease: "steps(1)" }, { opacity: 0, duration: .14, ease: "steps(1)" }] }, 6.28);
       tl.to(buddy, { x: 900, y: 600, rotation: 50, duration: .4, ease: "power2.in" }, 6.72);
       tl.set(buddy, { opacity: 0 }, 7.12);
       tl.set(buddy, { opacity: 1 }, 7.5);
@@ -542,7 +544,7 @@
       // the companion peeks at the frame's edge, unimpressed
       tl.set(buddy, { x: 1010, y: 640, rotation: -8, scale: .9 }, 7.5);
       tl.fromTo(buddy, { y: 680 }, { y: 618, duration: .6, ease: "back.out(2)", immediateRender: false }, 8.3);
-      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .14 }, { scaleY: 0, duration: .18 }] }, 9.2);
+      tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .14, ease: "steps(1)" }, { opacity: 0, duration: .18, ease: "steps(1)" }] }, 9.2);
       tl.to(buddy, { y: 680, duration: .3, ease: "power2.in" }, 9.75);
       // "slapping each other in the face" - whip to the pair, swing, SLAP, shake, KO stars
       cam(10.06, .3, focus(800, 375, 1.85), "expo.inOut");
@@ -572,8 +574,8 @@
       tl.fromTo("#tblFish", { x: -700, rotation: -8 }, { x: 0, rotation: 0, duration: .5, ease: "back.out(1.6)" }, 12.4);
       tl.fromTo("#tblChips", { y: -560, rotation: 20 }, { y: 0, rotation: 0, duration: .55, ease: "bounce.out" }, 12.7);
       tl.fromTo("#mkMoney", { y: 80, scale: .6, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .4, ease: "back.out(2.5)" }, 12.82);
-      tl.set("#tblLid", { left: .585 * 380 * 0 + (1 - .655) * 380, top: .5 * 223, width: .07 * 380, height: .105 * 223, scaleY: 0, transformOrigin: "50% 0%" }, 12.1);
-      tl.to("#tblLid", { keyframes: [{ scaleY: 1, duration: .12 }, { scaleY: 0, duration: .16 }] }, 13.45);
+      tl.set("#tblLid", { opacity: 0 }, 12.1);
+      tl.to("#tblLid", { keyframes: [{ opacity: 1, duration: .12, ease: "steps(1)" }, { opacity: 0, duration: .16, ease: "steps(1)" }] }, 13.45);
 
       // ---------------- INSERT: the scope (14.06 - 15.82): the world seen through a scope, locks on the fish
       const SCOPEFISH = { x: 1000, y: 560 };
@@ -584,7 +586,7 @@
       cam(14.06, 1.7, focus(SCOPEFISH.x, SCOPEFISH.y, 2.6), "power2.out");
       tl.fromTo("#scopeRig", { x: -260, y: 90 }, { keyframes: [{ x: 120, y: -40, duration: .4, ease: "sine.inOut" }, { x: -40, y: 30, duration: .3, ease: "sine.inOut" }, { x: 0, y: 0, duration: .32, ease: "back.out(2)" }] }, 14.06);
       tl.fromTo("#dot", { scale: 1 }, { scale: 2.2, duration: .12, yoyo: true, repeat: 3, ease: "sine.inOut" }, 14.84);
-      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .14 }, { scaleY: 0, duration: .2 }] }, 15.15);
+      tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .14, ease: "steps(1)" }, { opacity: 0, duration: .2, ease: "steps(1)" }] }, 15.15);
 
       // ---------------- NUMBERS (15.82 - 25.95): the lake out of focus behind the cards
       tl.set(buddy, { opacity: 0 }, 15.82);
@@ -670,7 +672,8 @@
       // the companion stays by the boat and looks up at the catch (it no longer dives into the star)
       tl.set(buddy, { x: 900, y: 690, rotation: -8, scale: .9, opacity: 1 }, WHY - .4);
       tl.fromTo(buddy, { y: 690 }, { y: 470, duration: .5, ease: "back.out(2)", immediateRender: false }, WHY + .2);
-      tl.to(buddyLid, { keyframes: [{ scaleY: 1, duration: .14 }, { scaleY: 0, duration: .18 }] }, WHY + 1.0);
+      tl.set(faceLookup, { opacity: 1 }, WHY - .1);                                                       // looks up at the catch
+      tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .14, ease: "steps(1)" }, { opacity: 0, duration: .18, ease: "steps(1)" }] }, WHY + 1.0);
 
       // the camera always breathes a little (documentary drift) - on the shake wrapper's parent scale
       tl.fromTo("#breath", { scale: 1 }, { scale: 1.012, duration: 4.5, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "50% 50%" }, 0);

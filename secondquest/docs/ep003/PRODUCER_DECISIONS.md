@@ -66,3 +66,10 @@
   alguna escena, mejorarla, darle vida y dinamismo. dopamina para el espectador". EP003's engine = Hyperframes
   (heygen-com, Apache-2.0, free) in `tools/hyperframes_ep003`; the Python animatic stays as the reference cut and the
   timing source. Agents review every block for livelier, more dynamic scenes (script stays LOCKED, verbatim).
+
+## 2026-10-12 · Fish v2 adopted; "top de top" pass on everything
+- Producer: "Sí, adóptalo para todo el EP003" — companion fish v2 (our procedural 3D, 7 expressions) replaces v1 in the
+  animatic and in Hyperframes.
+- Producer: "Así como hiciste con el pez, quiero que revises ABSOLUTAMENTE TODO, y lo mejores consigas lo top de top."
+  → full quality pass on everything we build ourselves (3D props, drawn plates, UI cards/chat, type, sound, motion).
+  Generated art is never edited (rule); only our own code-made layers and the engine improve.

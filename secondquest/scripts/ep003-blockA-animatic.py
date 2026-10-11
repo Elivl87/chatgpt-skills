@@ -175,7 +175,7 @@ T_LAND = T_WHY + .6                                                   # the comp
 
 def a6(t):
     base = boat4(t, None)
-    f = K.buddy(P(150), blink=K.blink_at(t)); base.alpha_composite(f, (int(PW * .66), int(PH * .70)))   # watches the catch
+    f = K.buddy(P(150), blink=K.blink_at(t), expr='lookup' if t >= T_WHY - .3 else None); base.alpha_composite(f, (int(PW * .66), int(PH * .70)))   # watches the catch
     return K.crop_cam(base, K.cam_lerp((1.05, .5, .55), (1.35, .5, .5), (t - T_TOG) / (T_END - T_TOG)))
 
 

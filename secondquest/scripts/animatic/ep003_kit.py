@@ -18,8 +18,17 @@ PROPS = ROOT / 'public/art/ep003/props3d'
 INK = (22, 22, 31)
 
 
+FISH_V2 = {'fish_34': 'fish2_34_deadpan', 'fish_side': 'fish2_side_deadpan'}   # companion fish v2 (Producer, 2026-10-12)
+
+
+@lru_cache(maxsize=64)
+def _prop_img(name):
+    name = FISH_V2.get(name, name)
+    return Image.open(PROPS / f'{name}.png').convert('RGBA')
+
+
 def prop(name):
-    im = Image.open(PROPS / f'{name}.png').convert('RGBA')
+    im = _prop_img(name)
     return im.crop(im.getchannel('A').getbbox())
 
 
@@ -445,23 +454,17 @@ def wordmark(fr, dt, y=.07, h=.14, twinkle=True):
 
 
 # ------------------------------------------------------------------ the companion: the unimpressed fish (RULE, docs/ep003/COMPANION.md)
-EYE = (.585, .50, .655, .605)          # its visible eye on fish_34 (fractions), for the blink
 
 
-def buddy(h, blink=0.0, mirror=False, sweat=0.0, rot=0):
-    """The fish companion at height h (output px): blink 0..1 closes the eye, sweat shows one drop."""
-    f = sized(prop('fish_34'), h=h).copy()
-    if blink > 0 or sweat > 0:
-        d = ImageDraw.Draw(f)
-        x0, y0, x1, y1 = EYE[0] * f.width, EYE[1] * f.height, EYE[2] * f.width, EYE[3] * f.height
-        if blink > 0:
-            yb = y0 + (y1 - y0) * min(1, blink)
-            d.rectangle((x0, y0 - 1, x1, yb), fill=(74, 141, 155, 255))
-            d.line((x0, yb, x1, yb), fill=INK + (255,), width=max(1, int(h / 60)))
-        if sweat > 0:
-            r = h * .045; cx, cy = x1 + h * .05, y0 - h * .05 + h * .12 * sweat
-            d.polygon([(cx, cy - r * 1.8), (cx - r, cy), (cx + r, cy)], fill=(170, 220, 255, 255))
-            d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(170, 220, 255, 255), outline=INK + (255,))
+def buddy(h, blink=0.0, mirror=False, sweat=0.0, rot=0, expr=None):
+    """The fish companion (v2) at height h (output px). expr: deadpan | blink | wide | lookup | yawn | sweat | wince
+    (rendered 3D expressions); blink 0..1 (a blink closes the eye past .5), sweat > 0 shows the sweating face."""
+    e = expr or 'deadpan'
+    if sweat > 0:
+        e = 'sweat'
+    if blink > .5:
+        e = 'blink'
+    f = sized(prop(f'fish2_34_{e}'), h=h).copy()
     if rot:
         f = f.rotate(rot, expand=True, resample=Image.BICUBIC)
     return f.transpose(Image.FLIP_LEFT_RIGHT) if mirror else f

@@ -21,8 +21,11 @@ ART = {
     'pixie_laugh.png': ('docs/art_orders/pixie/library/results/04_laughing_pointing.png', 900),
     'rowboat_side.png': ('public/art/ep003/props3d/rowboat_side.png', None),
     'rowboat_34.png': ('public/art/ep003/props3d/rowboat_34.png', None),
-    'fish_34.png': ('public/art/ep003/props3d/fish_34.png', None),
-    'fish_side.png': ('public/art/ep003/props3d/fish_side.png', None),
+    # the companion fish v2 (Producer, 2026-10-12): deadpan base + the rendered expressions
+    'fish_34.png': ('public/art/ep003/props3d/fish2_34_deadpan.png', None),
+    'fish_side.png': ('public/art/ep003/props3d/fish2_side_deadpan.png', None),
+    **{f'fish_{v}_{e}.png': (f'public/art/ep003/props3d/fish2_{v}_{e}.png', None)
+       for v in ('34', 'side') for e in ('blink', 'wide', 'lookup', 'yawn', 'sweat', 'wince')},
     'rod.png': ('public/art/ep003/props3d/rod.png', None),
     'chips.png': ('public/art/ep003/props3d/chips.png', None),
     'dynamite.png': ('public/art/ep003/props3d/dynamite.png', None),

@@ -142,7 +142,7 @@ def g5(t):
     if t >= T_WHY:
         fr = K.wordmark_rise(fr, t - T_WHY, y=.06, h=.11)               # option 2 "Rising from the lake" (Producer, 2026-10-12)
         if t - T_WHY > .5:                                                # the companion surfaces beside it and blinks
-            f = K.buddy(S(90), blink=K.blink_at(t - T_WHY, every=1.8, phase=-.9))
+            f = K.buddy(S(90), blink=K.blink_at(t - T_WHY, every=1.8, phase=-.9), expr='wide' if t >= T_COMM + 1.0 else None)
             fr = fr.convert('RGBA'); fr.alpha_composite(f, (int(W * .72), int(H * .70 - f.height * .6 * ease(min(1, (t - T_WHY - .5) / .4)))))
     if t >= T_COMM:
         fr = continue_menu(fr, t, min(1, (t - T_COMM) / .5))
