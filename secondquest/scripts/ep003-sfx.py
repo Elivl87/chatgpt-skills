@@ -31,7 +31,37 @@ S = {'whoosh': SFX / 'whoosh.wav', 'pop': SFX / 'pop.wav', 'notify': SFX / 'noti
      'bubble': W_ / 'bubble_02.ogg', 'water': W_ / 'loop_water_02.ogg'}
 
 
+def synth(name):
+    """Our own synths for the wordmark moments (free, made here)."""
+    rng = np.random.default_rng(3)
+    if name in ('zip', 'zip_slack'):                                    # fishing line: a filtered noise sweep
+        L = int((.32 if name == 'zip' else .25) * SR); t = np.arange(L) / SR
+        n = rng.standard_normal(L)
+        f0, f1 = (5500, 1800) if name == 'zip' else (1500, 700)
+        out = np.zeros(L)
+        for i in range(0, L, 512):                                       # moving band-pass, block by block
+            f = f0 + (f1 - f0) * i / L
+            b, a_ = ss.butter(2, [f * .7 / (SR / 2), min(.99, f * 1.3 / (SR / 2))], 'band')
+            out[i:i + 512] = ss.lfilter(b, a_, n[i:i + 512])
+        env = np.minimum(1, t / .02) * np.exp(-t * (6 if name == 'zip' else 10))
+        return (out * env / (np.abs(out).max() + 1e-9)).astype(np.float32)
+    if name == 'swell':                                                  # water rising: low noise swell + the water loop
+        x = load('water')[:int(1.4 * SR)]
+        L = len(x); t = np.arange(L) / SR
+        b, a_ = ss.butter(2, 900 / (SR / 2))
+        rum = ss.lfilter(b, a_, rng.standard_normal(L)); rum /= np.abs(rum).max()
+        env = np.sin(np.pi * np.minimum(1, t / 1.4)) ** 1.5
+        return ((x / (np.abs(x).max() + 1e-9) * .8 + rum * .5) * env).astype(np.float32)
+    if name == 'drip':                                                   # a water drop: a fast upward pitch blip
+        L = int(.09 * SR); t = np.arange(L) / SR
+        f = 900 + 2600 * t / .09
+        return (np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 55)).astype(np.float32)
+    raise KeyError(name)
+
+
 def load(name):
+    if name not in S:
+        return synth(name)
     x, sr = soundfile.read(str(S[name]), dtype='float32', always_2d=True)
     x = x.mean(1)
     return ss.resample_poly(x, SR, sr).astype(np.float32) if sr != SR else x
@@ -49,7 +79,11 @@ def cues():
     a((T('l03.w9'), 'money', -18)); a((T('l03.w13'), 'select', -18))
     a((T('l04'), 'pop', -16)); a((T('l04.w6'), 'pop', -18)); a((T('l04.w16'), 'stamp', -16))
     a((T('l05'), 'whoosh', -22)); a((T('l05.w8'), 'pop', -20))
-    a((T('l07.w2') - .35, 'whoosh', -18)); a((T('l07.w2') + .55, 'splash_s', -20)); a((T('l07.w2') + .6, 'sparkle', -14))
+    # wordmark option 1 "The catch" (Producer, 2026-10-12): reel clicks, the line zip, one soft bobber plop; no sparkle
+    w = T('l07.w2') - .35
+    for i in range(9):
+        a((w + .38 + .07 * i, 'click', -24 + i * .4))
+    a((w + .02, 'zip', -20)); a((w + 1.12, 'bubble', -20)); a((w + 1.42, 'zip_slack', -28))
     # B · invitation
     a((T('l08.w12') - .15, 'whoosh', -20)); a((T('l08.w12'), 'paper', -18))
     for i in range(4):
@@ -100,7 +134,12 @@ def cues():
     for i in range(10):
         a((T('l50') + .25 + .12 * i, 'keys', -26))
     a((T('l51') + .6, 'sparkle', -22)); a((T('l51') + 1.4, 'sparkle', -22))
-    a((T('l51.w14') - .35, 'whoosh', -18)); a((T('l51.w14') + .6, 'sparkle', -14)); a((T('l51.w16') + .6, 'select', -20))
+    # wordmark option 2 "Rising from the lake": the water swells, drips fall, the fish surfaces with a small bubble
+    w = T('l51.w14')
+    a((w - .05, 'swell', -18))
+    for i, dt in enumerate((.75, .95, 1.2, 1.5, 1.85)):
+        a((w + dt, 'drip', -28 - 2 * (i % 2)))
+    a((w + .55, 'splash_s', -26)); a((w + .7, 'bubble', -22)); a((T('l51.w16') + .6, 'select', -20))
     return c
 
 

@@ -175,8 +175,7 @@ T_LAND = T_WHY + .6                                                   # the comp
 
 def a6(t):
     base = boat4(t, None)
-    if t < T_LAND - .9:                                                  # the fish waits by the boat, blinking, until its leap
-        f = K.buddy(P(150), blink=K.blink_at(t)); base.alpha_composite(f, (int(PW * .66), int(PH * .70)))
+    f = K.buddy(P(150), blink=K.blink_at(t)); base.alpha_composite(f, (int(PW * .66), int(PH * .70)))   # watches the catch
     return K.crop_cam(base, K.cam_lerp((1.05, .5, .55), (1.35, .5, .5), (t - T_TOG) / (T_END - T_TOG)))
 
 
@@ -194,9 +193,8 @@ def render(t):
         fr = a5(t)
     else:
         fr = a6(t)
-        if t >= T_WHY:                                                  # the wordmark on "Why?", held 1.5 s (Producer rule)
-            fr = K.wordmark(fr, t - T_WHY)
-        fr = K.fish_into_star(fr, t, T_LAND, start=(.80, .92))           # the companion (RULE): into the star of the "o"
+        if t >= T_WHY - .35:                                            # the wordmark on "why", held 1.5 s (Producer rule)
+            fr = K.wordmark_catch(fr, t - T_WHY + .35)                  # option 1 "The catch": the hook arrives on "why"
     fr = fr.convert('RGB')
     d = ImageDraw.Draw(fr)
     tag(d, 'EP003 BLOCK A · THE HOOK · v1 · PLANNING ONLY')

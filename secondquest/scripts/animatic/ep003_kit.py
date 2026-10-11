@@ -531,3 +531,76 @@ def dust(fr, t, n=40, seed=5, col=(255, 240, 210)):
         d.ellipse((x - r, y - r, x + r, y + r), fill=col + (a,))
     out.alpha_composite(lay.filter(ImageFilter.GaussianBlur(S(1))))
     return out
+
+
+# ------------------------------------------------------------------ EP003 wordmark moments (Producer, 2026-10-12)
+def _wm_image(h):
+    """The wordmark with its full gold bar, at height h (fraction of H); the image itself is never edited."""
+    wm = Image.open(WORDMARK).convert('RGBA')
+    wh = int(H * h); ww = int(wm.width * wh / wm.height)
+    g = Image.new('RGBA', (max(ww, Si(420)) + Si(40), wh + Si(50)))
+    g.alpha_composite(wm.resize((ww, wh), Image.LANCZOS), ((g.width - ww) // 2, Si(10)))
+    d = ImageDraw.Draw(g); bar = S(400) * h / .14; yy = Si(10) + wh + S(12); x0 = (g.width - bar) / 2
+    d.rounded_rectangle((x0, yy + S(2), x0 + bar, yy + S(9)), S(3), fill=INK + (255,))
+    d.rounded_rectangle((x0, yy, x0 + bar, yy + S(7)), S(3), fill=(255, 200, 61, 255))
+    return g, yy
+
+
+def wordmark_catch(fr, dt, y=.07, h=.14):
+    """Option 1 "The catch" (hook): a fishing line drops from the top, the hook snags the gold bar of the wordmark
+    waiting just under the frame and reels it up through the shot into place; one bobber bounce; then the line goes slack and leaves."""
+    g, bar_y = _wm_image(h)
+    out = fr.convert('RGBA'); d = ImageDraw.Draw(out)
+    low, top = H * 1.02, H * y                                        # the logo waits just under the frame
+    hx = W / 2
+    if dt < .35:                                                      # the line drops through the frame to it
+        k = ease(dt / .35)
+        wy = low; a = 1
+        hook_y = lin(-S(20), wy + bar_y, k)
+    elif dt < 1.05:                                                   # reeled up with one bobber bounce
+        k = (dt - .35) / .7
+        arrive = min(1, k / .55)
+        bob = S(30) * math.exp(-5 * max(0, k - .55)) * math.sin(2 * math.pi * 1.6 * max(0, k - .55))
+        wy = lin(low, top, 1 - (1 - arrive) ** 3) + bob; a = 1          # eases in, then one bobber dip (never above top)
+        hook_y = wy + bar_y
+    else:                                                             # slack line pulls out of frame
+        wy = top; a = 1
+        hook_y = wy + bar_y - S(260) * ease(min(1, (dt - 1.05) / .4))
+    out.alpha_composite(UI.fade(g, a), (int(hx - g.width / 2), int(wy)))
+    if hook_y > -S(10):
+        sag = S(10) * math.sin(min(1, dt) * math.pi) if dt > 1.05 else 0
+        d.line([(hx + S(4), -S(5)), (hx + S(4) + sag, hook_y - S(16))], fill=INK + (200,), width=max(2, Si(4)))
+        d.line([(hx + S(4), -S(5)), (hx + S(4) + sag, hook_y - S(16))], fill=(240, 242, 248, 255), width=max(1, Si(2)))
+        d.arc((hx - S(13), hook_y - S(22), hx + S(15), hook_y + S(10)), 0, 210, fill=INK + (255,), width=Si(6))
+        d.arc((hx - S(13), hook_y - S(22), hx + S(15), hook_y + S(10)), 0, 210, fill=(205, 210, 220, 255), width=Si(3))
+    return out
+
+
+def wordmark_rise(fr, dt, y=.06, h=.11, water_y=.70):
+    """Option 2 "Rising from the lake" (end): the wordmark rises out of the water, water streams and drips off it."""
+    g, _ = _wm_image(h)
+    out = fr.convert('RGBA')
+    k = min(1, dt / .9); k = 1 - (1 - k) ** 3                        # rises and settles (never above its place)
+    wy = lin(H * water_y, H * y, k) + S(10) * math.exp(-4 * max(0, dt - .9)) * math.sin(2 * math.pi * 1.2 * max(0, dt - .9))
+    vis = max(0, int(H * water_y - wy))                               # only the part above the water line shows
+    if vis > 0:
+        part = g.crop((0, 0, g.width, min(g.height, vis)))
+        wet = max(0.0, 1 - dt / 1.6)                                   # a wet blue sheen that dries off
+        if wet > 0:
+            tint = Image.new('RGBA', part.size, (140, 200, 255, int(70 * wet))); tint.putalpha(part.getchannel('A').point(lambda v: int(v * .3 * wet)))
+            part = part.copy(); part.alpha_composite(tint)
+        out.alpha_composite(part, (int(W / 2 - g.width / 2), int(wy)))
+    d = ImageDraw.Draw(out)
+    rng = np.random.default_rng(13)
+    for i in range(26):                                               # drips falling from the letters
+        x0 = W / 2 + rng.uniform(-.42, .42) * g.width; t0 = rng.uniform(.3, 1.6)
+        if dt > t0:
+            fall = (dt - t0) ** 2 * S(900)
+            yy = wy + g.height * .62 + fall
+            if yy < H * water_y:
+                r = S(3) * rng.uniform(.7, 1.3)
+                d.ellipse((x0 - r, yy - r * 1.6, x0 + r, yy + r), fill=(200, 230, 255, 200))
+    if dt < 1.4:                                                      # the splash ring where it came out
+        rr = S(60) + S(150) * dt
+        d.ellipse((W / 2 - rr, H * water_y - rr * .12, W / 2 + rr, H * water_y + rr * .12), outline=(230, 245, 255, int(200 * (1 - dt / 1.4))), width=Si(3))
+    return out

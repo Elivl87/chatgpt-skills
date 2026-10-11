@@ -140,8 +140,10 @@ def g5(t):
     seats = min(1, (t - T_G5 - .6) / 1.6)
     fr = K.crop_cam(scene(t, seats=seats), K.cam_lerp((1.0, .5, .5), (1.0, .5, .58), (t - T_G5) / 3))
     if t >= T_WHY:
-        fr = K.wordmark(fr, t - T_WHY, y=.06, h=.11)
-    fr = K.fish_into_star(fr, t, T_WHY + .6, start=(.88, .95), y=.06, h=.11)   # the companion's book-end (RULE)
+        fr = K.wordmark_rise(fr, t - T_WHY, y=.06, h=.11)               # option 2 "Rising from the lake" (Producer, 2026-10-12)
+        if t - T_WHY > .5:                                                # the companion surfaces beside it and blinks
+            f = K.buddy(S(90), blink=K.blink_at(t - T_WHY, every=1.8, phase=-.9))
+            fr = fr.convert('RGBA'); fr.alpha_composite(f, (int(W * .72), int(H * .70 - f.height * .6 * ease(min(1, (t - T_WHY - .5) / .4)))))
     if t >= T_COMM:
         fr = continue_menu(fr, t, min(1, (t - T_COMM) / .5))
     return fr
