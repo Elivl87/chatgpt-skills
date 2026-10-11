@@ -438,8 +438,7 @@ EP3 = {
 def ep3_render(name, **shot):
     prop, tgt, cam, fov, w, h, line = EP3[name]
     d = float(np.linalg.norm(np.subtract(cam, tgt)))                    # depth range around the prop: thin layered parts
-    shot = {'near': d * .3, 'far': d * 3, **shot}                       # (planks, laps, ribs) need the precision
-    shot = {**EP3_SHOT.get(name, {}), **shot}
+    shot = {'near': d * .3, 'far': d * 3, **EP3_SHOT.get(name, {}), **shot}   # (planks, laps, ribs) need the precision
     return render({'props': prop if isinstance(prop, list) else [prop], 'shots': [{'camera': cam, 'target': tgt, 'fov': fov, 'cart': None, **shot}],
                    'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
 
@@ -583,6 +582,40 @@ def job_ep003_props_sheet():
     print(out.relative_to(ROOT))
 
 
+def job_ep003_gameworld():
+    """EP003 game-world props (sniper, roulette, shop board, lit dynamite, blast, boss shadow, lighthouse, toy guns, slot
+    machine, first-person hands, grill, seagull, hot-dog lure, outboard): cut-outs in public/art/ep003/props3d/.
+    EP3_ONLY=roulette_top,boss_shadow limits the run."""
+    import os
+    only = [n for n in os.environ.get('EP3_ONLY', '').split(',') if n] or GAMEWORLD
+    job_ep003_props(only)
+
+
+def job_ep003_gameworld_sheet():
+    """Review sheet docs/ep003/props3d_gameworld_sheet.jpg: every game-world cut-out on a light tile, labelled, plus a
+    small-size row (how the silhouettes read at thumbnail scale)."""
+    T, BG, COLS = 380, 236, 8
+    names = [n for n in GAMEWORLD] + ['boss_shadow_soft', 'fp_hands_pov_right', 'fp_hands_pov_left']
+    names.sort(key=lambda n: GAMEWORLD.index(n) + .5 if n in GAMEWORLD else GAMEWORLD.index(n.rsplit('_', 1)[0] if 'soft' in n else 'fp_hands_pov') + .6)
+
+    def tile(im, label, w=T, h=T, bg=BG):
+        t = np.full((h, w, 3), bg, np.uint8)
+        k = min((w - 24) / im.shape[1], (h - 44) / im.shape[0]); im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)
+        a = im[..., 3:] / 255.0; y, x = (h - 18 - im.shape[0]) // 2 + 2, (w - im.shape[1]) // 2
+        t[y:y + im.shape[0], x:x + im.shape[1]] = (im[..., :3] * a + t[y:y + im.shape[0], x:x + im.shape[1]] * (1 - a)).astype(np.uint8)
+        cv2.putText(t, label, (8, h - 10), cv2.FONT_HERSHEY_SIMPLEX, .45, (60, 60, 60), 1, cv2.LINE_AA)
+        return t
+    rd = lambda n: cv2.imread(str(OUT3 / f'{n}.png'), cv2.IMREAD_UNCHANGED)
+    tiles = [tile(rd(n), n, bg=(150, 120, 70) if n.startswith('boss') else BG) for n in names]   # boss shadow on a sea-blue tile
+    while len(tiles) % COLS: tiles.append(np.full((T, T, 3), BG, np.uint8))
+    rows = [np.hstack(tiles[i:i + COLS]) for i in range(0, len(tiles), COLS)]
+    small = [tile(rd(n), '', 96, 96) for n in GAMEWORLD if not n.startswith('fp_hands_pov')]
+    strip = np.hstack(small); strip = np.hstack([strip, np.full((96, T * COLS - strip.shape[1], 3), BG, np.uint8)]) if strip.shape[1] < T * COLS else strip[:, :T * COLS]
+    out = ROOT / 'docs/ep003/props3d_gameworld_sheet.jpg'
+    cv2.imwrite(str(out), np.vstack(rows + [strip]), [cv2.IMWRITE_JPEG_QUALITY, 88])
+    print(out.relative_to(ROOT))
+
+
 FISH_EXPR = {'deadpan': {}, 'blink': {'lid': 1}, 'wide': {'lid': .04, 'look': [.3, 0], 'mouth': 'o'},
              'lookup': {'lid': .3, 'look': [1, 0]}, 'yawn': {'lid': .7, 'mouth': 'o'}, 'sweat': {'lid': .36, 'look': [0, -.6], 'sweat': True},
              'wince': {'lid': .85, 'mouth': 'flat'}}
@@ -609,7 +642,7 @@ def job_fish2():
     print('docs/ep003/fish2_sheet.jpg', list(FISH_EXPR))
 
 
-JOBS = {'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+JOBS = {'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

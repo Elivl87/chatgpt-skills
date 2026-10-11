@@ -304,8 +304,8 @@
           <div class="phone" id="miniPhone" style="left: 175px; top: 128px; width: 290px; height: 540px">
             <div class="screen" style="left: 10px; top: 10px; width: 264px; height: 514px; border-radius: 32px" id="miniScreen"></div>
           </div>
-          <div class="stamp" id="stamp799" style="left: 196px; top: 300px; width: 250px; height: 132px; font-size: 76px; line-height: 92px; transform: rotate(-13deg)">$7.99<div style="font: 800 20px Inter; letter-spacing: .3em; line-height: 22px; margin-top: -10px">PAID</div></div>
-          <div id="okStamp" class="abs" style="left: 330px; top: 120px; width: 190px; height: 190px">
+          <div class="stamp" id="stamp799" style="left: 186px; top: 318px; width: 270px; height: 136px; font-size: 70px; line-height: 84px; padding-top: 6px; transform: rotate(-13deg)">$7.99<div style="font: 800 20px Inter; letter-spacing: .4em; line-height: 24px">PAID</div></div>
+          <div id="okStamp" class="abs" style="left: 318px; top: 470px; width: 180px; height: 180px">
             <svg viewBox="0 0 190 190" style="width: 100%; height: 100%; overflow: visible; mix-blend-mode: multiply">
               <circle cx="95" cy="95" r="84" fill="rgba(46, 160, 90, .12)" stroke="#2c9a55" stroke-width="9"/>
               <circle cx="95" cy="95" r="70" fill="none" stroke="#2c9a55" stroke-width="3"/>
@@ -511,7 +511,7 @@
           else if (m.kind === "gap") { out[m.id] = { y }; y += m.h * k; }
         });
         return out; }
-      const mini = chat($("#miniScreen"), 1, { w: 264, msgs: [
+      const mini = chat($("#miniScreen"), 1.3, { w: 264, msgs: [
         { kind: "msg", who: "A", text: "It's eight dollars. Just get it.", h: 70 },
         { kind: "sticker", who: "P", r: -4, id: "sP" }, { kind: "sticker", who: "Q", r: 3, id: "sQ" }, { kind: "sticker", who: "A", r: -2, x: 40, id: "sA" },
         { kind: "msg", who: "B", text: "I'll get it later.", h: 60, id: "later" } ] });
@@ -812,8 +812,9 @@
       tl.fromTo("#qmark", { opacity: 0, scale: 0, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: .45, ease: "back.out(2.6)" }, T.what - .05);
       tl.fromTo("#qmark", { y: 0, rotation: -6 }, { y: -16, rotation: 6, duration: .42, yoyo: true, repeat: 4, ease: "sine.inOut", immediateRender: false }, T.what + .4);
       // "there." - push into the right panel and zoom straight through to the photo
-      tl.to(["#leftPane", "#divider", "#b2", "#mk2"], { x: "-=760", duration: .42, ease: "power3.in" }, T.there - .02);
-      cam(T.there, T.l23 - .05 - T.there, focus(960, 395, 4.2), "expo.in");
+      tl.to(["#leftPane", "#divider"], { x: "-=760", duration: .42, ease: "power3.in" }, T.there - .02);
+      tl.to(["#b2", "#mk2"], { opacity: 0, scale: 1.4, duration: .3, ease: "power2.in" }, T.there + .2);
+      cam(T.there, T.l23 - .05 - T.there, focus(975, 470, 4.4), "expo.in");
       tl.to("#qmark", { opacity: 0, duration: .25 }, T.there + .35);
       tl.fromTo("#breath", { filter: "blur(0px)" }, { filter: "blur(16px)", duration: .32, ease: "power2.in" }, T.l23 - .4);
       tl.fromTo("#flash", { opacity: 0 }, { opacity: .9, duration: .25, ease: "power2.in" }, T.l23 - .3);
