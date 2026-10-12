@@ -676,10 +676,10 @@
     <!-- END chat.html -->
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0.0" data-duration="87.015" data-fps="30" data-width="1280" data-height="720">
-      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="87.015" data-track-index="9" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0.0" data-duration="87.538" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="87.538" data-track-index="9" data-volume="1"></audio>
 
-      <div id="stage" class="full clip" data-start="0.0" data-duration="87.015" data-track-index="0">
+      <div id="stage" class="full clip" data-start="0.0" data-duration="87.538" data-track-index="0">
         <div id="view" class="full"><div id="grade" class="full"><div id="breath" class="full"><div id="shake" class="full"><div id="tilt" class="full">
 
           <!-- ================= THE WORLD: the hook's lake (persistent) ================= -->
@@ -835,8 +835,8 @@
       </div>
 
       <!-- ================= THE HUD (game world only: E3, E6, E7) ================= -->
-      <div id="hudL" class="full clip" data-start="0.0" data-duration="87.015" data-track-index="3"></div>
-      <div id="flashL" class="full clip" data-start="0.0" data-duration="87.015" data-track-index="4"><div id="flash" class="full" style="opacity: 0"></div></div>
+      <div id="hudL" class="full clip" data-start="0.0" data-duration="87.538" data-track-index="3"></div>
+      <div id="flashL" class="full clip" data-start="0.0" data-duration="87.538" data-track-index="4"><div id="flash" class="full" style="opacity: 0"></div></div>
     </div>
 
     <script>
@@ -1023,9 +1023,9 @@
       // startAt, and the motion-blur sub-frame seeks can revert a startAt mid-tween (seen: SLAP!/REVIVED vanishing)
       { const ft = tl.fromTo.bind(tl);
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
-      const DUR = 87.015;
+      const DUR = 87.538;
       // freeze frames (E6 "water."): the lake's time stops inside these windows
-      const FREEZE = [[43.645, 44.425]];
+      const FREEZE = [[42.969, 43.629]];
       const wt = (t) => FREEZE.reduce((a, [f0, f1]) => a - Math.max(0, Math.min(t, f1) - f0), t);
       const env = { t: 0, glow: 1 };
       tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wt(env.t) + 200, env.glow) }, 0);
@@ -1096,220 +1096,220 @@
       /* ================= E1 l27 "...it comes with props. A boat. A rod. A goal." ================= */
       const C1a = focus(640, 440, 1.06), C1b = focus(600, 446, 1.12), C1c = focus(450, 452, 1.16);
       cam(0, 0, C1a);
-      cam(0, 2.295, C1b, "sine.inOut");
-      cam(2.295, .6, C1c, "power3.out");                                  // "props." the list drops in, camera makes room
-      cam(2.895, 4.38, focus(440, 455, 1.2), "none");     // slow push under the ticks
-      tl.set("#list", { autoAlpha: 1 }, 2.295);
-      tl.fromTo("#list", { y: -560, rotation: -9 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.25)", ...IR }, 2.295);
-      tl.fromTo("#listIn", { scaleY: 1 }, { keyframes: [{ scaleY: .93, scaleX: 1.03, duration: .07 }, { scaleY: 1, scaleX: 1, duration: .5, ease: "elastic.out(1, .35)" }], transformOrigin: "50% 100%", ...IR }, 2.765);
-      tl.fromTo("#listUnder path", { strokeDasharray: 320, strokeDashoffset: 320 }, { strokeDashoffset: 0, duration: .35, ease: "power2.out", ...IR }, 2.845);
+      cam(0, 2.979, C1b, "sine.inOut");
+      cam(2.979, .6, C1c, "power3.out");                                  // "props." the list drops in, camera makes room
+      cam(3.579, 3.74, focus(440, 455, 1.2), "none");     // slow push under the ticks
+      tl.set("#list", { autoAlpha: 1 }, 2.979);
+      tl.fromTo("#list", { y: -560, rotation: -9 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.25)", ...IR }, 2.979);
+      tl.fromTo("#listIn", { scaleY: 1 }, { keyframes: [{ scaleY: .93, scaleX: 1.03, duration: .07 }, { scaleY: 1, scaleX: 1, duration: .5, ease: "elastic.out(1, .35)" }], transformOrigin: "50% 100%", ...IR }, 3.449);
+      tl.fromTo("#listUnder path", { strokeDasharray: 320, strokeDashoffset: 320 }, { strokeDashoffset: 0, duration: .35, ease: "power2.out", ...IR }, 3.529);
       tl.set("#listUnder path", { strokeDasharray: 320, strokeDashoffset: 320 }, 0);
-      [3.685, 4.865, 6.165].forEach((t, i) => {                      // ticks drawn on, each with a scale punch
+      [4.189, 5.169, 6.189].forEach((t, i) => {                      // ticks drawn on, each with a scale punch
         tl.to(ticks[i], { strokeDashoffset: 0, duration: .2, ease: "power2.out" }, t);
         tl.fromTo(rowEls[i], { scale: 1 }, { keyframes: [{ scale: 1.16, duration: .08, ease: "power2.out" }, { scale: 1, duration: .55, ease: "elastic.out(1.1, .35)" }], ...IR }, t + .12);
         tl.fromTo("#list", { y: 0 }, { keyframes: [{ y: 7, duration: .06 }, { y: 0, duration: .35, ease: "elastic.out(1, .4)" }], ...IR }, t + .12); });
       // the world answers each prop: the boat bumps, the rod springs, the goal (the fish) peeks up
-      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 7, duration: .08 }, { y: 0, duration: .7, ease: "elastic.out(1, .3)" }], ...IR }, 3.785);
-      tl.fromTo("#rod", { rotation: -26 }, { keyframes: [{ rotation: -38, duration: .1 }, { rotation: -26, duration: .9, ease: "elastic.out(1.3, .25)" }], ...IR }, 4.965);
-      tl.set(buddy, { x: 730, y: 720, opacity: 1 }, 5.965);
-      tl.to(buddy, { y: 575, duration: .35, ease: "back.out(2)" }, 6.165);
-      face("lookup", 6.165);
-      tl.to(buddy, { y: 720, duration: .3, ease: "power2.in" }, 6.942);
-      tl.set(buddy, { opacity: 0 }, 7.262);
+      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 7, duration: .08 }, { y: 0, duration: .7, ease: "elastic.out(1, .3)" }], ...IR }, 4.289);
+      tl.fromTo("#rod", { rotation: -26 }, { keyframes: [{ rotation: -38, duration: .1 }, { rotation: -26, duration: .9, ease: "elastic.out(1.3, .25)" }], ...IR }, 5.269);
+      tl.set(buddy, { x: 730, y: 720, opacity: 1 }, 5.989);
+      tl.to(buddy, { y: 575, duration: .35, ease: "back.out(2)" }, 6.189);
+      face("lookup", 6.189);
+      tl.to(buddy, { y: 720, duration: .3, ease: "power2.in" }, 6.962);
+      tl.set(buddy, { opacity: 0 }, 7.282);
 
       /* ================= E2 l28 "And then it gets rid of it almost immediately." ================= */
-      face(null, 7.142);
-      tl.to("#list", { y: -36, duration: .32, ease: "back.out(2)" }, 7.325);                 // anticipation: lift
-      tl.to("#listIn", { scaleY: .86, scaleX: 1.07, duration: .32, ease: "back.out(2)", transformOrigin: "50% 100%" }, 7.325);
-      tl.fromTo("#listIn", { rotation: 2 }, { rotation: 3.4, duration: .09, yoyo: true, repeat: Math.round((9.245 - 7.725) / .09), ease: "sine.inOut", ...IR }, 7.725);   // trembling hold
-      tl.to("#listIn", { scaleY: .74, scaleX: 1.12, rotation: -4, duration: .22, ease: "power2.in" }, 9.305);                // the wind-up
-      cam(7.325, 2.12, focus(440, 455, 1.26), "sine.inOut");
+      face(null, 7.162);
+      tl.to("#list", { y: -36, duration: .32, ease: "back.out(2)" }, 7.369);                 // anticipation: lift
+      tl.to("#listIn", { scaleY: .86, scaleX: 1.07, duration: .32, ease: "back.out(2)", transformOrigin: "50% 100%" }, 7.369);
+      tl.fromTo("#listIn", { rotation: 2 }, { rotation: 3.4, duration: .09, yoyo: true, repeat: Math.round((9.189 - 7.769) / .09), ease: "sine.inOut", ...IR }, 7.769);   // trembling hold
+      tl.to("#listIn", { scaleY: .74, scaleX: 1.12, rotation: -4, duration: .22, ease: "power2.in" }, 9.249);                // the wind-up
+      cam(7.369, 2.02, focus(440, 455, 1.26), "sine.inOut");
       // YEET on "immediately.": an expo arc over the boat into the water on the right, with motion blur
       const C2 = focus(860, 505, 1.25);
-      cam(9.525, .5, C2, "power3.inOut");
+      cam(9.469, .5, C2, "power3.inOut");
       const LAND = { wx: 1035, wy: 612 };
       const [lx, ly] = scr(C2, LAND.wx, LAND.wy);
       const L0 = { x: 62 + 589 / 2, y: 96 + 372 / 2 };
-      tl.to("#listIn", { scaleY: 1, scaleX: 1, rotation: 2, duration: .1 }, 9.545);
-      tl.to("#list", { x: lx - L0.x, duration: .58, ease: "expo.out" }, 9.545);
-      tl.to("#list", { keyframes: [{ y: -330, duration: .24, ease: "power3.out" }, { y: ly - L0.y, duration: .34, ease: "power2.in" }] }, 9.545);
-      tl.to("#list", { rotation: 610, scale: .1, duration: .58, ease: "power2.in" }, 9.545);
-      tl.set("#list", { autoAlpha: 0 }, 10.125);
-      splash($("#fishFront"), LAND.wx, LAND.wy, 1.5, 10.105, 41);
+      tl.to("#listIn", { scaleY: 1, scaleX: 1, rotation: 2, duration: .1 }, 9.489);
+      tl.to("#list", { x: lx - L0.x, duration: .58, ease: "expo.out" }, 9.489);
+      tl.to("#list", { keyframes: [{ y: -330, duration: .24, ease: "power3.out" }, { y: ly - L0.y, duration: .34, ease: "power2.in" }] }, 9.489);
+      tl.to("#list", { rotation: 610, scale: .1, duration: .58, ease: "power2.in" }, 9.489);
+      tl.set("#list", { autoAlpha: 0 }, 10.069);
+      splash($("#fishFront"), LAND.wx, LAND.wy, 1.5, 10.049, 41);
       // ...and the fish surfaces wearing it, and blinks
-      tl.set(buddy, { x: LAND.wx - 85, y: 720, opacity: 1, rotation: 0 }, 10.345);
-      tl.set(hat, { opacity: 1 }, 10.345);
-      tl.to(buddy, { y: LAND.wy - 74, duration: .4, ease: "back.out(1.8)" }, 10.395);
-      blink(10.401);
+      tl.set(buddy, { x: LAND.wx - 85, y: 720, opacity: 1, rotation: 0 }, 10.289);
+      tl.set(hat, { opacity: 1 }, 10.289);
+      tl.to(buddy, { y: LAND.wy - 74, duration: .4, ease: "back.out(1.8)" }, 10.339);
+      blink(10.742);
 
       /* ================= E3 l29 the game world (HUD on) ================= */
       // framed ~45 px lower than the lake's centre so the shop board's price tags (in the overlay) clear the crew's heads
       const C3 = focus(640, 455, 1.0);
-      cam(10.738, 0, C3);
-      cam(10.738, 4.027, focus(650, 463, 1.05), "none");
-      hud.on(tl, 10.758);
-      tl.set(buddy, { x: 940, y: 538 }, 10.738);
+      cam(11.041, 0, C3);
+      cam(11.041, 3.028, focus(650, 463, 1.05), "none");
+      hud.on(tl, 11.061);
+      tl.set(buddy, { x: 940, y: 538 }, 11.041);
       // "almost nothing.": a single seashell, and crickets (the fish blinks twice)
-      hud.slot(tl, 12.705, 0, SHELL, { name: "Seashell", soft: true });
-      blink(12.955); blink(13.455, true);
-      tl.to(buddy, { y: 530, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 1 }, 10.785);
+      hud.slot(tl, 12.269, 0, SHELL, { name: "Seashell", soft: true });
+      blink(12.519); blink(13.019, true);
+      tl.to(buddy, { y: 530, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 1 }, 11.109);
       // "Soon you have guns and dynamite.": our shop board drops, the tags go SOLD, the items slam into the slots
       tl.set("#board", { scale: .86, transformOrigin: "50% 263px" }, 0);    // smaller, pivoting on the top plank: the tags hang above the heads
-      tl.set("#board", { autoAlpha: 1 }, 13.825);
-      tl.fromTo("#board", { y: -480 }, { y: 0, duration: .5, ease: "bounce.out", ...IR }, 13.825);
-      tagEls.forEach((g, i) => { tl.fromTo(g.t, { rotation: -10 + i * 6 }, { rotation: 0, duration: 1.4, ease: "elastic.out(1.2, .25)", ...IR }, 14.225 + i * .05);
-        tl.fromTo(g.pe, { rotation: 12 - i * 7 }, { rotation: 0, duration: 1.6, ease: "elastic.out(1.2, .25)", ...IR }, 14.225 + i * .05); });
-      const PIST = hud.slot(tl, 14.765, 1, PISTOL, { name: "Pistol" });
-      tl.set(tagEls[0].sold, { opacity: 1 }, 14.765); tl.fromTo(tagEls[0].sold, { scale: 2.2 }, { scale: 1, duration: .14, ease: "power3.in", ...IR }, 14.665);
+      tl.set("#board", { autoAlpha: 1 }, 13.289);
+      tl.fromTo("#board", { y: -480 }, { y: 0, duration: .5, ease: "bounce.out", ...IR }, 13.289);
+      tagEls.forEach((g, i) => { tl.fromTo(g.t, { rotation: -10 + i * 6 }, { rotation: 0, duration: 1.4, ease: "elastic.out(1.2, .25)", ...IR }, 13.689 + i * .05);
+        tl.fromTo(g.pe, { rotation: 12 - i * 7 }, { rotation: 0, duration: 1.6, ease: "elastic.out(1.2, .25)", ...IR }, 13.689 + i * .05); });
+      const PIST = hud.slot(tl, 14.069, 1, PISTOL, { name: "Pistol" });
+      tl.set(tagEls[0].sold, { opacity: 1 }, 14.069); tl.fromTo(tagEls[0].sold, { scale: 2.2 }, { scale: 1, duration: .14, ease: "power3.in", ...IR }, 13.969);
       const shell = hud.slots[0].s.querySelector(".item");
-      tl.to(shell, { y: -260, x: -160, rotation: -300, opacity: 0, duration: .5, ease: "power2.out" }, 15.225);   // the seashell gets kicked out
-      hud.slot(tl, 15.265, 0, SHOTGUN, { name: "Shotgun" });
-      tl.set(tagEls[2].sold, { opacity: 1 }, 15.265); tl.fromTo(tagEls[2].sold, { scale: 2.2 }, { scale: 1, duration: .14, ease: "power3.in", ...IR }, 15.165);
-      hud.slot(tl, 15.765, 2, DYN, { name: "Dynamite" });
-      hud.jolt(tl, 14.765, .6); hud.jolt(tl, 15.765, 1);
-      shake(15.765, .35);
-      tl.to(tagEls[3].t, { rotation: 7, y: -6, duration: .2, yoyo: true, repeat: 3, ease: "sine.inOut" }, 16.065);     // the gold sniper stays unsold
-      tl.to("#board", { y: -500, duration: .4, ease: "back.in(1.6)" }, 16.675);
-      tl.set("#board", { autoAlpha: 0 }, 17.125);
+      tl.to(shell, { y: -260, x: -160, rotation: -300, opacity: 0, duration: .5, ease: "power2.out" }, 14.429);   // the seashell gets kicked out
+      hud.slot(tl, 14.469, 0, SHOTGUN, { name: "Shotgun" });
+      tl.set(tagEls[2].sold, { opacity: 1 }, 14.469); tl.fromTo(tagEls[2].sold, { scale: 2.2 }, { scale: 1, duration: .14, ease: "power3.in", ...IR }, 14.369);
+      hud.slot(tl, 14.869, 2, DYN, { name: "Dynamite" });
+      hud.jolt(tl, 14.069, .6); hud.jolt(tl, 14.869, 1);
+      shake(14.869, .35);
+      tl.to(tagEls[3].t, { rotation: 7, y: -6, duration: .2, yoyo: true, repeat: 3, ease: "sine.inOut" }, 15.169);     // the gold sniper stays unsold
+      tl.to("#board", { y: -500, duration: .4, ease: "back.in(1.6)" }, 15.579);
+      tl.set("#board", { autoAlpha: 0 }, 16.029);
       // "You sell your catch.": a fish into the sell crate, coins up
-      cam(16.925, 2.02, focus(600, 500, 1.08), "sine.inOut");
+      cam(15.829, 1.72, focus(600, 500, 1.08), "sine.inOut");
       const crate = mk("div", "abs", $("#fishFront"), "left: 150px; top: 560px; width: 150px; height: 104px",
         `<svg viewBox="0 0 150 104" style="width:100%; height:100%; overflow:visible"><rect x="4" y="10" width="142" height="90" rx="8" fill="#9a6a3c" stroke="#16161f" stroke-width="5"/>` +
         `<path d="M8 40 L 142 40 M8 70 L 142 70" stroke="#6a4424" stroke-width="5"/><rect x="34" y="28" width="82" height="34" rx="6" fill="#fff4dc" stroke="#16161f" stroke-width="4"/>` +
         `<text x="75" y="54" text-anchor="middle" font-family="Anton" font-size="26" fill="#2e9e5b">SELL</text></svg>`);
       tl.set(crate, { opacity: 0 }, 0);
-      tl.fromTo(crate, { opacity: 1, y: 70 }, { y: 0, duration: .4, ease: "back.out(2)", ...IR }, 16.875);
-      tl.to(crate, { y: 4, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 1 }, 17.325);
+      tl.fromTo(crate, { opacity: 1, y: 70 }, { y: 0, duration: .4, ease: "back.out(2)", ...IR }, 15.779);
+      tl.to(crate, { y: 4, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 1 }, 16.229);
       const sold = mk("div", "fish", $("#fishFront"), "left: 0; top: 0; width: 110px; height: 68px", `<img src="assets/fish_side.png" alt="" style="transform: scaleX(-1)" />`);
       sold.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
       tl.set(sold, { opacity: 0, x: 520, y: 470 }, 0);
-      tl.set(sold, { opacity: 1 }, 17.245);
-      tl.to(sold, { x: 170, duration: .6, ease: "none" }, 17.245);
-      tl.to(sold, { keyframes: [{ y: 330, duration: .3, ease: "power2.out" }, { y: 560, duration: .3, ease: "power2.in" }] }, 17.245);
-      tl.fromTo(sold, { rotation: -20 }, { rotation: -340, duration: .6, ease: "none", ...IR }, 17.245);
-      tl.set(sold, { opacity: 0 }, 17.845);
-      tl.fromTo(crate, { scaleY: 1 }, { keyframes: [{ scaleY: .82, scaleX: 1.1, duration: .07 }, { scaleY: 1, scaleX: 1, duration: .5, ease: "elastic.out(1.2, .3)" }], transformOrigin: "50% 100%", ...IR }, 17.845);
-      face("sweat", 17.695);                                                // the fish watches a fish get sold
-      hud.money(tl, 17.985, 1250, .8);
-      hud.moneyFloat(tl, 18.035, "+$1,250");
-      tl.to(crate, { y: 120, opacity: 0, duration: .35, ease: "power2.in" }, 18.845);
+      tl.set(sold, { opacity: 1 }, 16.069);
+      tl.to(sold, { x: 170, duration: .6, ease: "none" }, 16.069);
+      tl.to(sold, { keyframes: [{ y: 330, duration: .3, ease: "power2.out" }, { y: 560, duration: .3, ease: "power2.in" }] }, 16.069);
+      tl.fromTo(sold, { rotation: -20 }, { rotation: -340, duration: .6, ease: "none", ...IR }, 16.069);
+      tl.set(sold, { opacity: 0 }, 16.669);
+      tl.fromTo(crate, { scaleY: 1 }, { keyframes: [{ scaleY: .82, scaleX: 1.1, duration: .07 }, { scaleY: 1, scaleX: 1, duration: .5, ease: "elastic.out(1.2, .3)" }], transformOrigin: "50% 100%", ...IR }, 16.669);
+      face("sweat", 16.519);                                                // the fish watches a fish get sold
+      hud.money(tl, 16.749, 1250, .8);
+      hud.moneyFloat(tl, 16.799, "+$1,250");
+      tl.to(crate, { y: 120, opacity: 0, duration: .35, ease: "power2.in" }, 17.449);
       // "You gamble the money.": one green pocket, the ball lands next to it; the money rolls to 0; the Wallet faints
-      face(null, 19.045);
-      tl.set("#wheelOv", { autoAlpha: 1 }, 19.115);
-      tl.fromTo("#wheelOv", { y: -520, rotation: -20 }, { y: 0, rotation: 0, duration: .45, ease: "back.out(1.4)", ...IR }, 19.115);
-      spin(tl, wheelOv, 19.165, 0.83, 3, -1);    // bet green, lands next to it
-      tl.set("#wallet", { autoAlpha: 1 }, 19.265);
-      tl.set("#wHappy", { opacity: 1 }, 19.265);
-      tl.fromTo("#wallet", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: .4, ease: "back.out(2.4)", ...IR }, 19.265);
-      tl.set("#wHappy", { opacity: 0 }, 19.725); tl.set("#wWorried", { opacity: 1 }, 19.725);
-      tl.fromTo("#wallet", { x: 0 }, { keyframes: [{ x: -6, duration: .05 }, { x: 6, duration: .05 }, { x: -4, duration: .05 }, { x: 0, duration: .05 }], repeat: 1, ...IR }, 19.725);
-      hud.money(tl, 20.095, 0, .45);
-      hud.moneyFloat(tl, 20.125, "-$1,250");
-      tl.fromTo("#wheelOv", { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .06 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], ...IR }, 20.095);
-      tl.set("#wWorried", { opacity: 0 }, 20.345); tl.set("#wFaint", { opacity: 1 }, 20.345);
-      tl.fromTo("#wallet", { rotation: 0, y: 0 }, { rotation: -18, y: 30, duration: .35, ease: "bounce.out", ...IR }, 20.345);
-      tl.to(["#wheelOv", "#wallet"], { y: 640, duration: .4, ease: "power2.in" }, 21.025);
-      tl.set(["#wheelOv", "#wallet"], { autoAlpha: 0 }, 21.425);
+      face(null, 17.649);
+      tl.set("#wheelOv", { autoAlpha: 1 }, 17.639);
+      tl.fromTo("#wheelOv", { y: -520, rotation: -20 }, { y: 0, rotation: 0, duration: .45, ease: "back.out(1.4)", ...IR }, 17.639);
+      spin(tl, wheelOv, 17.689, 0.91, 3, -1);    // bet green, lands next to it
+      tl.set("#wallet", { autoAlpha: 1 }, 17.789);
+      tl.set("#wHappy", { opacity: 1 }, 17.789);
+      tl.fromTo("#wallet", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: .4, ease: "back.out(2.4)", ...IR }, 17.789);
+      tl.set("#wHappy", { opacity: 0 }, 18.189); tl.set("#wWorried", { opacity: 1 }, 18.189);
+      tl.fromTo("#wallet", { x: 0 }, { keyframes: [{ x: -6, duration: .05 }, { x: 6, duration: .05 }, { x: -4, duration: .05 }, { x: 0, duration: .05 }], repeat: 1, ...IR }, 18.189);
+      hud.money(tl, 18.699, 0, .45);
+      hud.moneyFloat(tl, 18.729, "-$1,250");
+      tl.fromTo("#wheelOv", { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .06 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], ...IR }, 18.699);
+      tl.set("#wWorried", { opacity: 0 }, 18.949); tl.set("#wFaint", { opacity: 1 }, 18.949);
+      tl.fromTo("#wallet", { rotation: 0, y: 0 }, { rotation: -18, y: 30, duration: .35, ease: "bounce.out", ...IR }, 18.949);
+      tl.to(["#wheelOv", "#wallet"], { y: 640, duration: .4, ease: "power2.in" }, 19.329);
+      tl.set(["#wheelOv", "#wallet"], { autoAlpha: 0 }, 19.729);
       // "You fight bosses.": a shadow with red eyes passes under the boat, camera tilt, rumble
-      tl.set("#bossSh", { opacity: 1, x: -950 }, 21.025);
-      tl.to("#bossSh", { x: 250, duration: 0.64, ease: "power2.out" }, 21.025);
-      tl.to("#bossSh", { x: 1500, duration: 1.4, ease: "power2.in" }, 22.165);
-      tl.set("#bossSh", { opacity: 0 }, 23.005);
-      tl.fromTo("#bossImg", { filter: "blur(2.5px) brightness(1)" }, { filter: "blur(2.5px) brightness(1.9)", duration: .08, yoyo: true, repeat: 5, ease: "steps(1)", ...IR }, 21.565);   // the eyes flare
-      cam(21.515, .5, focus(640, 560, 1.12), "power2.out");
-      tl.to("#tilt", { rotation: -3.2, scale: 1.09, duration: .35, ease: "power2.out", transformOrigin: "50% 60%" }, 21.565);
-      tl.to("#tilt", { rotation: 0, scale: 1, duration: 1.0, ease: "sine.inOut" }, 22.465);
-      tl.to("#shake", { keyframes: Array.from({ length: 22 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (6 - i * .25), y: (i % 3 - 1) * (4 - i * .15), duration: .05 })) }, 21.565);
-      MATES.forEach((m, i) => tl.fromTo(`${m} .pop`, { y: 0 }, { keyframes: [{ y: -18, duration: .12, ease: "power2.out" }, { y: 0, duration: .5, ease: "bounce.out" }], ...IR }, 21.605 + i * .03));
-      face("wide", 21.565);
-      tl.to(buddy, { y: 720, duration: .3, ease: "power2.in" }, 21.965);
-      hud.bossIn(tl, 21.565, { name: "???" });
-      hud.bossTimer(tl, 22.165, 6);
-      hud.off(tl, 22.955);
+      tl.set("#bossSh", { opacity: 1, x: -950 }, 19.329);
+      tl.to("#bossSh", { x: 250, duration: 1.16, ease: "power2.out" }, 19.329);
+      tl.to("#bossSh", { x: 1500, duration: 1.4, ease: "power2.in" }, 20.989);
+      tl.set("#bossSh", { opacity: 0 }, 21.189);
+      tl.fromTo("#bossImg", { filter: "blur(2.5px) brightness(1)" }, { filter: "blur(2.5px) brightness(1.9)", duration: .08, yoyo: true, repeat: 5, ease: "steps(1)", ...IR }, 20.389);   // the eyes flare
+      cam(20.339, .5, focus(640, 560, 1.12), "power2.out");
+      tl.to("#tilt", { rotation: -3.2, scale: 1.09, duration: .35, ease: "power2.out", transformOrigin: "50% 60%" }, 20.389);
+      tl.to("#tilt", { rotation: 0, scale: 1, duration: 1.0, ease: "sine.inOut" }, 21.289);
+      tl.to("#shake", { keyframes: Array.from({ length: 22 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (6 - i * .25), y: (i % 3 - 1) * (4 - i * .15), duration: .05 })) }, 20.389);
+      MATES.forEach((m, i) => tl.fromTo(`${m} .pop`, { y: 0 }, { keyframes: [{ y: -18, duration: .12, ease: "power2.out" }, { y: 0, duration: .5, ease: "bounce.out" }], ...IR }, 20.429 + i * .03));
+      face("wide", 20.389);
+      tl.to(buddy, { y: 720, duration: .3, ease: "power2.in" }, 20.789);
+      hud.bossIn(tl, 20.389, { name: "???" });
+      hud.bossTimer(tl, 20.989, 6);
+      hud.off(tl, 21.139);
 
       // ---------------- the developers' own description, verbatim, as kinetic type (HUD off: it is the store page talking)
-      const QT = 23.005;
+      const QT = 21.189;
       tl.set("#quote", { autoAlpha: 1 }, QT - .05);
       tl.set("#dim", { autoAlpha: 1 }, QT - .05);
       tl.fromTo("#dim", { opacity: 0 }, { opacity: 1, duration: .4, ...IR }, QT - .05);
       tl.fromTo("#world", { filter: "blur(0px)" }, { filter: "blur(9px)", duration: .4, ...IR }, QT - .05);
-      cam(QT - .05, 8.194, focus(640, 470, 1.18), "none");
+      cam(QT - .05, 8.27, focus(640, 470, 1.18), "none");
       tl.set(["#qLabel", "#qMark", "#q1", "#q2", "#q3", "#q4", "#q5", "#q6", "#q7", "#q8", "#qEnd", "#q9"], { opacity: 0 }, 0);
       tl.set("#qLabel", { x: -380 }, 0);
-      tl.fromTo("#qLabel", { opacity: 0, scale: .4, rotation: -6 }, { opacity: 1, scale: 1, rotation: -1, duration: .4, ease: "back.out(2.6)", ...IR }, 24.065);
-      tl.fromTo("#qMark", { opacity: 0, scale: 2.4, y: -40 }, { opacity: 1, scale: 1, y: 0, duration: .3, ease: "back.out(2)", ...IR }, 25.865);
-      [["#q1", 26.645], ["#q2", 27.105], ["#q3", 27.725], ["#q4", 28.105], ["#q5", 28.525], ["#q6", 28.745], ["#q7", 29.105], ["#q8", 29.445]].forEach(([s, t], i) =>
+      tl.fromTo("#qLabel", { opacity: 0, scale: .4, rotation: -6 }, { opacity: 1, scale: 1, rotation: -1, duration: .4, ease: "back.out(2.6)", ...IR }, 22.029);
+      tl.fromTo("#qMark", { opacity: 0, scale: 2.4, y: -40 }, { opacity: 1, scale: 1, y: 0, duration: .3, ease: "back.out(2)", ...IR }, 23.329);
+      [["#q1", 24.799], ["#q2", 25.269], ["#q3", 25.829], ["#q4", 26.189], ["#q5", 26.589], ["#q6", 26.889], ["#q7", 27.249], ["#q8", 27.509]].forEach(([s, t], i) =>
         tl.fromTo(s, { opacity: 0, y: 50, scale: 1.45, rotation: i % 2 ? 4 : -4 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: .32, ease: "back.out(2.4)", ...IR }, t - .04));
-      tl.fromTo("#q2", { x: 0, rotation: 0 }, { keyframes: Array.from({ length: 30 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (5 + (i % 3)), rotation: (i % 2 ? -1 : 1) * 2.2, duration: .05 })), ...IR }, 27.405);   // "violence" shakes
-      tl.fromTo("#qEnd", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2)", ...IR }, 29.645);
+      tl.fromTo("#q2", { x: 0, rotation: 0 }, { keyframes: Array.from({ length: 30 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (5 + (i % 3)), rotation: (i % 2 ? -1 : 1) * 2.2, duration: .05 })), ...IR }, 25.569);   // "violence" shakes
+      tl.fromTo("#qEnd", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2)", ...IR }, 27.709);
       // "(no real money)." drops in small and late
-      tl.fromTo("#q9", { opacity: 0, y: -150, rotation: -12 }, { opacity: 1, y: 0, rotation: -3, duration: .3, ease: "power3.in", ...IR }, 30.265);
-      tl.fromTo("#q9", { scaleY: 1 }, { keyframes: [{ scaleY: .7, scaleX: 1.15, duration: .05 }, { scaleY: 1, scaleX: 1, duration: .35, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%", ...IR }, 30.565);
-      tl.to(["#q1", "#q3", "#q4", "#q5", "#q6", "#q7", "#q8", "#qEnd", "#qMark", "#qLabel", "#q9"], { opacity: 0, y: -24, duration: .2, stagger: .015, ease: "power2.in" }, 30.899);
-      tl.to("#q2", { opacity: 0, duration: .15 }, 30.899);
-      tl.set("#quote", { autoAlpha: 0 }, 31.159);
-      tl.set("#dim", { autoAlpha: 0 }, 31.159);
-      tl.set("#world", { filter: "blur(0px)" }, 31.159);
+      tl.fromTo("#q9", { opacity: 0, y: -150, rotation: -12 }, { opacity: 1, y: 0, rotation: -3, duration: .3, ease: "power3.in", ...IR }, 28.709);
+      tl.fromTo("#q9", { scaleY: 1 }, { keyframes: [{ scaleY: .7, scaleX: 1.15, duration: .05 }, { scaleY: 1, scaleX: 1, duration: .35, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%", ...IR }, 29.009);
+      tl.to(["#q1", "#q3", "#q4", "#q5", "#q6", "#q7", "#q8", "#qEnd", "#qMark", "#qLabel", "#q9"], { opacity: 0, y: -24, duration: .2, stagger: .015, ease: "power2.in" }, 29.159);
+      tl.to("#q2", { opacity: 0, duration: .15 }, 29.159);
+      tl.set("#quote", { autoAlpha: 0 }, 29.419);
+      tl.set("#dim", { autoAlpha: 0 }, 29.419);
+      tl.set("#world", { filter: "blur(0px)" }, 29.419);
 
       /* ================= E4 l30 "The goal is still there. But the goal is not the point. The goal is the alibi." ================= */
       const C4 = focus(1000, 560, 2.1);
-      tl.set(buddy, { x: 905, y: 548, opacity: 1, rotation: 0, scale: 1 }, 31.159);
-      tl.set(hat, { opacity: 0 }, 31.159);
-      face("lookup", 31.159);
-      cam(31.159, 0, C4);
-      cam(31.199, 1.886, focus(985, 545, 2.18), "sine.inOut");
-      cam(33.085, 1.96, focus(990, 530, 2.3), "sine.inOut");
-      cam(35.145, 3.089, focus(985, 540, 2.15), "sine.inOut");
-      tl.set("#gTag", { autoAlpha: 1 }, 31.245);
-      tl.fromTo("#gTag", { y: -420, rotation: -60 }, { y: 0, duration: .45, ease: "power2.in", ...IR }, 31.245);
-      tl.to("#gTag", { rotation: 0, duration: 2.2, ease: "elastic.out(1.15, .22)", transformOrigin: "260px 0px" }, 31.645);
-      tl.to(buddy, { y: 538, rotation: -4, duration: .4, ease: "sine.inOut" }, 31.285);
-      face("sweat", 32.165);                                                     // "still there." it reads, it sweats
-      tl.fromTo(buddy, { x: 905 }, { keyframes: [{ x: 900, duration: .05 }, { x: 910, duration: .05 }, { x: 903, duration: .05 }, { x: 905, duration: .05 }], ...IR }, 32.165);
-      blink(34.045);
+      tl.set(buddy, { x: 905, y: 548, opacity: 1, rotation: 0, scale: 1 }, 29.419);
+      tl.set(hat, { opacity: 0 }, 29.419);
+      face("lookup", 29.419);
+      cam(29.419, 0, C4);
+      cam(29.459, 2.16, focus(985, 545, 2.18), "sine.inOut");
+      cam(31.619, 2.01, focus(990, 530, 2.3), "sine.inOut");
+      cam(33.729, 2.895, focus(985, 540, 2.15), "sine.inOut");
+      tl.set("#gTag", { autoAlpha: 1 }, 29.529);
+      tl.fromTo("#gTag", { y: -420, rotation: -60 }, { y: 0, duration: .45, ease: "power2.in", ...IR }, 29.529);
+      tl.to("#gTag", { rotation: 0, duration: 2.2, ease: "elastic.out(1.15, .22)", transformOrigin: "260px 0px" }, 29.929);
+      tl.to(buddy, { y: 538, rotation: -4, duration: .4, ease: "sine.inOut" }, 29.629);
+      face("sweat", 30.729);                                                     // "still there." it reads, it sweats
+      tl.fromTo(buddy, { x: 905 }, { keyframes: [{ x: 900, duration: .05 }, { x: 910, duration: .05 }, { x: 903, duration: .05 }, { x: 905, duration: .05 }], ...IR }, 30.729);
+      blink(31.869);
       tl.set("#gStrike", { scaleX: 0 }, 0);
-      tl.to("#gStrike", { scaleX: 1, duration: .22, ease: "power3.out" }, 35.045);   // "point." the red marker strikes GOAL
-      tl.fromTo("#gTag", { rotation: 0 }, { keyframes: [{ rotation: 4, duration: .1 }, { rotation: 0, duration: .9, ease: "elastic.out(1, .3)" }], transformOrigin: "260px 0px", ...IR }, 35.095);
-      face("lookup", 35.345);
+      tl.to("#gStrike", { scaleX: 1, duration: .22, ease: "power3.out" }, 33.629);   // "point." the red marker strikes GOAL
+      tl.fromTo("#gTag", { rotation: 0 }, { keyframes: [{ rotation: 4, duration: .1 }, { rotation: 0, duration: .9, ease: "elastic.out(1, .3)" }], transformOrigin: "260px 0px", ...IR }, 33.679);
+      face("lookup", 33.929);
       // "alibi.": the stamp, with shake
-      tl.set("#alibi", { autoAlpha: 1, rotation: -11 }, 37.125);
-      tl.fromTo("#alibi", { scale: 2.6, opacity: 0 }, { scale: 1, opacity: 1, duration: .12, ease: "power4.in", ...IR }, 37.125);
-      shake(37.245, .8);
-      face(null, 37.395); blink(37.595);
+      tl.set("#alibi", { autoAlpha: 1, rotation: -11 }, 35.429);
+      tl.fromTo("#alibi", { scale: 2.6, opacity: 0 }, { scale: 1, opacity: 1, duration: .12, ease: "power4.in", ...IR }, 35.429);
+      shake(35.549, .8);
+      face(null, 35.699); blink(35.899);
       // the fish swims off
-      tl.to(buddy, { scaleX: -1, duration: .08 }, 37.92);
-      tl.to(buddy, { x: 1420, y: 590, rotation: 8, duration: .45, ease: "power2.in" }, 38.02);
-      splash($("#fishFront"), 1000, 630, 1.0, 38.07, 51);
-      tl.set(["#gTag", "#alibi"], { autoAlpha: 0 }, 38.294);
+      tl.to(buddy, { scaleX: -1, duration: .08 }, 36.36);
+      tl.to(buddy, { x: 1420, y: 590, rotation: 8, duration: .45, ease: "power2.in" }, 36.46);
+      splash($("#fishFront"), 1000, 630, 1.0, 36.51, 51);
+      tl.set(["#gTag", "#alibi"], { autoAlpha: 0 }, 36.684);
 
       /* ================= E5 l31 "And what happens instead of fishing... is mostly failure." ================= */
-      tl.set(buddy, { opacity: 0, scaleX: 1 }, 38.294);
-      cam(38.294, 0, focus(640, 420, 1.0, 0, 10));
-      cam(38.294, 2.931, focus(640, 432, 1.08), "none");          // slow push, stillness through the pause
-      tl.set("#failure", { autoAlpha: 1, rotation: -6 }, 41.125);
-      tl.fromTo("#failure", { scale: 2.8, opacity: 0 }, { scale: 1, opacity: 1, duration: .1, ease: "power4.in", ...IR }, 41.125);
-      shake(41.225, 1);
-      tl.fromTo("#grade", { filter: "grayscale(0)" }, { filter: "grayscale(1)", duration: .02, ...IR }, 41.225);   // 0.3 s desaturate hit
-      tl.to("#grade", { filter: "grayscale(0)", duration: .12 }, 41.525);
-      tl.set("#failure", { autoAlpha: 0 }, 42.281);
+      tl.set(buddy, { opacity: 0, scaleX: 1 }, 36.684);
+      cam(36.684, 0, focus(640, 420, 1.0, 0, 10));
+      cam(36.684, 3.305, focus(640, 432, 1.08), "none");          // slow push, stillness through the pause
+      tl.set("#failure", { autoAlpha: 1, rotation: -6 }, 39.889);
+      tl.fromTo("#failure", { scale: 2.8, opacity: 0 }, { scale: 1, opacity: 1, duration: .1, ease: "power4.in", ...IR }, 39.889);
+      shake(39.989, 1);
+      tl.fromTo("#grade", { filter: "grayscale(0)" }, { filter: "grayscale(1)", duration: .02, ...IR }, 39.989);   // 0.3 s desaturate hit
+      tl.to("#grade", { filter: "grayscale(0)", duration: .12 }, 40.289);
+      tl.set("#failure", { autoAlpha: 0 }, 41.311);
 
       /* ================= E6 l32 the failure run (HUD on, FAIL xN) ================= */
-      hud.money(tl, 41.841, 3480, .01);
-      hud.on(tl, 42.281);
-      hud.hunger(tl, 42.341, .55, .01);
+      hud.money(tl, 40.871, 3480, .01);
+      hud.on(tl, 41.311);
+      hud.hunger(tl, 41.371, .55, .01);
       // (1) "Someone falls in the water." -> splash -> freeze frame
       const G1 = focus(800, 470, 1.32);
-      cam(42.281, 0, G1);
-      cam(42.281, 1.304, focus(830, 480, 1.4), "power1.inOut");
-      tl.set("#quest", { opacity: 0 }, 42.765);
-      tl.set("#faller", { opacity: 1, x: 0, y: 0, rotation: 0 }, 42.765);
-      tl.to("#faller", { x: 360, duration: .75, ease: "power1.in" }, 42.765);
-      tl.to("#faller", { keyframes: [{ y: -130, duration: .3, ease: "power2.out" }, { y: 190, duration: .45, ease: "power2.in" }] }, 42.765);
-      tl.to("#faller", { rotation: 168, duration: .75, ease: "power1.in", transformOrigin: "50% 40%" }, 42.765);
-      tl.to("#faller", { y: 420, duration: .35, ease: "power2.in" }, 44.425);        // after the freeze he sinks in
-      tl.set("#faller", { opacity: 0 }, 44.505);
-      const FZ = [43.645, 44.425];
-      splash($("#fishFront"), 1060, 650, 2.2, 43.485, 61, [FZ[0] - 43.485, FZ[1] - FZ[0]]);
+      cam(41.311, 0, G1);
+      cam(41.311, 1.598, focus(830, 480, 1.4), "power1.inOut");
+      tl.set("#quest", { opacity: 0 }, 41.769);
+      tl.set("#faller", { opacity: 1, x: 0, y: 0, rotation: 0 }, 41.769);
+      tl.to("#faller", { x: 360, duration: .75, ease: "power1.in" }, 41.769);
+      tl.to("#faller", { keyframes: [{ y: -130, duration: .3, ease: "power2.out" }, { y: 190, duration: .45, ease: "power2.in" }] }, 41.769);
+      tl.to("#faller", { rotation: 168, duration: .75, ease: "power1.in", transformOrigin: "50% 40%" }, 41.769);
+      tl.to("#faller", { y: 420, duration: .35, ease: "power2.in" }, 43.629);        // after the freeze he sinks in
+      tl.set("#faller", { opacity: 0 }, 43.709);
+      const FZ = [42.969, 43.629];
+      splash($("#fishFront"), 1060, 650, 2.2, 42.809, 61, [FZ[0] - 42.809, FZ[1] - FZ[0]]);
       tl.set("#freeze", { autoAlpha: 1 }, FZ[0]);
       tl.fromTo("#flash", { opacity: .7 }, { opacity: 0, duration: .1, ...IR }, FZ[0]);
       tl.fromTo("#grade", { filter: "saturate(1) contrast(1)" }, { filter: "saturate(.45) contrast(1.12)", duration: .02, ...IR }, FZ[0]);
@@ -1319,136 +1319,136 @@
       hud.combo(tl, FZ[0] + .05, "FAIL ×1", "+SPLASH");
       hud.health(tl, FZ[0], 2.5, .3);
       // whip -> (2) "Someone finds a weapon that was clearly not designed for fish."
-      whip(44.505, 1, (t) => { tl.set("#quest", { opacity: 1 }, t); cam(t, 0, focus(585, 432, 1.75)); tl.set("#pxLaugh", { opacity: 0 }, t); tl.set("#pxAwe", { opacity: 1 }, t); });
-      cam(44.625, 1.38, focus(580, 425, 1.9), "sine.inOut");
-      tl.set(["#pxDyn", "#pxRays"], { opacity: 1 }, 44.885);
-      tl.fromTo("#pxDyn", { y: -330, rotation: -30 }, { y: 0, rotation: 8, duration: .5, ease: "power2.in", ...IR }, 44.885);   // it drops in on "weapon"
-      tl.fromTo("#pxRays", { scale: .3, rotation: 0 }, { scale: 1, rotation: 90, duration: 1.4, ease: "power2.out", ...IR }, 44.885);
-      tl.to("#pxRays", { opacity: 0, duration: .3 }, 45.985);
-      tl.fromTo("#pxDyn", { scaleY: 1 }, { keyframes: [{ scaleY: .8, duration: .05 }, { scaleY: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%", ...IR }, 45.385);
-      tl.fromTo("#fuse", { scale: .6, rotation: 0 }, { scale: 1.3, rotation: 90, duration: .09, yoyo: true, repeat: Math.round((47.785 - 45.385) / .09), ease: "steps(2)", ...IR }, 45.385);
-      tl.set("#fuse", { scale: 0 }, 0); tl.set("#fuse", { scale: .6 }, 45.385);
+      whip(43.709, 1, (t) => { tl.set("#quest", { opacity: 1 }, t); cam(t, 0, focus(585, 432, 1.75)); tl.set("#pxLaugh", { opacity: 0 }, t); tl.set("#pxAwe", { opacity: 1 }, t); });
+      cam(43.829, 1.62, focus(580, 425, 1.9), "sine.inOut");
+      tl.set(["#pxDyn", "#pxRays"], { opacity: 1 }, 44.049);
+      tl.fromTo("#pxDyn", { y: -330, rotation: -30 }, { y: 0, rotation: 8, duration: .5, ease: "power2.in", ...IR }, 44.029);   // it drops in on "weapon"
+      tl.fromTo("#pxRays", { scale: .3, rotation: 0 }, { scale: 1, rotation: 90, duration: 1.4, ease: "power2.out", ...IR }, 44.049);
+      tl.to("#pxRays", { opacity: 0, duration: .3 }, 45.129);
+      tl.fromTo("#pxDyn", { scaleY: 1 }, { keyframes: [{ scaleY: .8, duration: .05 }, { scaleY: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%", ...IR }, 44.529);
+      tl.fromTo("#fuse", { scale: .6, rotation: 0 }, { scale: 1.3, rotation: 90, duration: .09, yoyo: true, repeat: Math.round((47.129 - 44.529) / .09), ease: "steps(2)", ...IR }, 44.529);
+      tl.set("#fuse", { scale: 0 }, 0); tl.set("#fuse", { scale: .6 }, 44.529);
       // crash zoom on "clearly"
-      cam(46.005, .14, focus(578, 430, 3.1), "expo.out");
-      cam(46.145, 1.58, focus(578, 432, 3.25), "none");
-      tl.set("#crash", { autoAlpha: 1 }, 46.005);
-      tl.fromTo("#crash", { opacity: 1, scale: 1.3 }, { opacity: 0, scale: 1, duration: .35, ease: "power2.out", ...IR }, 46.005);
-      shake(46.005, .5);
+      cam(45.449, .14, focus(578, 430, 3.1), "expo.out");
+      cam(45.589, 1.48, focus(578, 432, 3.25), "none");
+      tl.set("#crash", { autoAlpha: 1 }, 45.449);
+      tl.fromTo("#crash", { opacity: 1, scale: 1.3 }, { opacity: 0, scale: 1, duration: .35, ease: "power2.out", ...IR }, 45.449);
+      shake(45.449, .5);
       // the FAIL card would sit on Quest's face in the crash zoom: it ducks out for the zoom, back on the cut to the fish
-      tl.to(hud.card, { opacity: 0, duration: .06, ease: "power1.in" }, 45.965);
-      tl.set(hud.card, { opacity: 1 }, 47.745);
+      tl.to(hud.card, { opacity: 0, duration: .06, ease: "power1.in" }, 45.409);
+      tl.set(hud.card, { opacity: 1 }, 47.089);
       // cut to the deadpan fish on "fish."
       const GF = focus(1150, 610, 2.4);
-      tl.set(buddy, { x: 1065, y: 548, opacity: 1, rotation: 0, scaleX: 1, scale: 1 }, 47.745);
-      tl.set(["#pxDyn", "#pxRays"], { opacity: 0 }, 47.745);
-      tl.set("#pxAwe", { opacity: 0 }, 47.745); tl.set("#pxLaugh", { opacity: 1 }, 47.745);
-      face(null, 47.745);
-      cam(47.745, 0, GF);
-      cam(47.745, .9, focus(1150, 606, 2.5), "none");
-      blink(48.235, true);
-      hud.combo(tl, 47.835, "FAIL ×2", "+WRONG TOOL");
-      hud.health(tl, 47.835, 2, .3);
+      tl.set(buddy, { x: 1065, y: 548, opacity: 1, rotation: 0, scaleX: 1, scale: 1 }, 47.089);
+      tl.set(["#pxDyn", "#pxRays"], { opacity: 0 }, 47.089);
+      tl.set("#pxAwe", { opacity: 0 }, 47.089); tl.set("#pxLaugh", { opacity: 1 }, 47.089);
+      face(null, 47.089);
+      cam(47.089, 0, GF);
+      cam(47.089, .9, focus(1150, 606, 2.5), "none");
+      blink(47.579, true);
+      hud.combo(tl, 47.179, "FAIL ×2", "+WRONG TOOL");
+      hud.health(tl, 47.179, 2, .3);
       // whip -> (3) "Someone gambles the savings," -> the casino insert, the counter to 0
-      whip(48.545, 1, (t) => { show("#casino", t); tl.set(buddy, { opacity: 0 }, t); });
-      tl.fromTo("#casCam", { scale: 1.08 }, { scale: 1.16, duration: 2.24, ease: "none", ...IR }, 48.625);
-      tl.fromTo("#casChips", { x: 0, rotation: 0 }, { x: -190, rotation: -6, duration: .4, ease: "power3.out", ...IR }, 49.165);        // all in
-      tl.fromTo("#allIn", { opacity: 0, scale: .3, rotation: -12 }, { opacity: 1, scale: 1, rotation: -5, duration: .3, ease: "back.out(2.6)", ...IR }, 49.265);
-      spin(tl, casWheel, 48.585, 1.34, 2, 1);
-      hud.money(tl, 49.965, 0, .4);
-      hud.moneyFloat(tl, 50.005, "-$3,480");
-      tl.to("#casChips", { x: 420, opacity: 0, duration: .35, ease: "power2.in" }, 50.115);
-      tl.to("#allIn", { opacity: 0, y: 30, duration: .2 }, 50.165);
-      hud.combo(tl, 50.025, "FAIL ×3", "+ALL IN");
-      hud.health(tl, 50.025, 1.5, .3);
-      hud.jolt(tl, 49.965, .8);
+      whip(47.919, 1, (t) => { show("#casino", t); tl.set(buddy, { opacity: 0 }, t); });
+      tl.fromTo("#casCam", { scale: 1.08 }, { scale: 1.16, duration: 2.27, ease: "none", ...IR }, 47.999);
+      tl.fromTo("#casChips", { x: 0, rotation: 0 }, { x: -190, rotation: -6, duration: .4, ease: "power3.out", ...IR }, 48.469);        // all in
+      tl.fromTo("#allIn", { opacity: 0, scale: .3, rotation: -12 }, { opacity: 1, scale: 1, rotation: -5, duration: .3, ease: "back.out(2.6)", ...IR }, 48.569);
+      spin(tl, casWheel, 47.959, 1.27, 2, 1);
+      hud.money(tl, 49.269, 0, .4);
+      hud.moneyFloat(tl, 49.309, "-$3,480");
+      tl.to("#casChips", { x: 420, opacity: 0, duration: .35, ease: "power2.in" }, 49.419);
+      tl.to("#allIn", { opacity: 0, y: 30, duration: .2 }, 49.469);
+      hud.combo(tl, 49.329, "FAIL ×3", "+ALL IN");
+      hud.health(tl, 49.329, 1.5, .3);
+      hud.jolt(tl, 49.269, .8);
       // "and nobody will ever admit who it was.": whip loop of pointing fingers, the camera spins round to "was."
-      whip(50.785, 1, (t) => { hide("#casino", t); show("#pt", t); });
+      whip(50.189, 1, (t) => { hide("#casino", t); show("#pt", t); });
       const strip = (i) => -i * SPACING;
-      tl.set("#ptStrip", { x: strip(0) }, 50.865);
-      [[51.345, 1], [51.645, 2], [51.905, 3]].forEach(([t, i]) => {
+      tl.set("#ptStrip", { x: strip(0) }, 50.269);
+      [[50.789, 1], [51.089, 2], [51.409, 3]].forEach(([t, i]) => {
         tl.to("#ptStrip", { x: strip(i), duration: .16, ease: "expo.inOut" }, t - .08);
         tl.fromTo("#ptStrip", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(14px)", duration: .08 }, { filter: "blur(0px)", duration: .08 }], ...IR }, t - .08);
         tl.fromTo(ptFigs[i], { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .06 }, { scale: 1, duration: .3, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 100%", ...IR }, t + .08); });
-      tl.fromTo("#ptCam", { rotation: 0, scale: 1 }, { keyframes: [{ rotation: 200, scale: .62, duration: .3, ease: "power2.in" }, { rotation: 360, scale: 1, duration: .26, ease: "power3.out" }], ...IR }, 52.225);
-      tl.to("#ptStrip", { x: strip(4), duration: .5, ease: "power2.inOut" }, 52.285);
-      tl.fromTo("#ptStrip", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(10px)", duration: .25 }, { filter: "blur(0px)", duration: .25 }], ...IR }, 52.285);
-      tl.set("#ptCam", { rotation: 0 }, 52.885);
-      ptFigs.slice(0, 4).forEach((f, i) => tl.fromTo(f.querySelector(".q"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .2, ease: "back.out(3)", ...IR }, 51.005 + i * .3));
-      tl.fromTo("#ptLid", { opacity: 0 }, { keyframes: [{ opacity: 1, duration: .2, ease: "steps(1)" }, { opacity: 0, duration: .14, ease: "steps(1)" }], ...IR }, 53.145);
+      tl.fromTo("#ptCam", { rotation: 0, scale: 1 }, { keyframes: [{ rotation: 200, scale: .62, duration: .3, ease: "power2.in" }, { rotation: 360, scale: 1, duration: .26, ease: "power3.out" }], ...IR }, 51.789);
+      tl.to("#ptStrip", { x: strip(4), duration: .5, ease: "power2.inOut" }, 51.849);
+      tl.fromTo("#ptStrip", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(10px)", duration: .25 }, { filter: "blur(0px)", duration: .25 }], ...IR }, 51.849);
+      tl.set("#ptCam", { rotation: 0 }, 52.449);
+      ptFigs.slice(0, 4).forEach((f, i) => tl.fromTo(f.querySelector(".q"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .2, ease: "back.out(3)", ...IR }, 50.409 + i * .3));
+      tl.fromTo("#ptLid", { opacity: 0 }, { keyframes: [{ opacity: 1, duration: .2, ease: "steps(1)" }, { opacity: 0, duration: .14, ease: "steps(1)" }], ...IR }, 52.749);
       tl.set("#ptLid", { opacity: 0 }, 0);
       // whip -> (4) "Someone gets launched across the island by something they absolutely should not have poked."
       const G4 = focus(560, 360, 1.0);
-      whip(53.545, 1, (t) => { hide("#pt", t); cam(t, 0, G4); });
-      cam(54.205, .35, focus(500, 340, 1.08), "power2.out");
-      cam(54.555, 1.04, focus(440, 320, 1.16), "sine.inOut");   // slow-mo push at the apex
+      whip(52.629, 1, (t) => { hide("#pt", t); cam(t, 0, G4); });
+      cam(53.809, .35, focus(500, 340, 1.08), "power2.out");
+      cam(54.159, 1.24, focus(440, 320, 1.16), "sine.inOut");   // slow-mo push at the apex
       // the tiny figure: speed ramp (fast up, slow-mo at the apex on "island", fast away)
       const TP = { k: 0 };
       const path = (k) => { const x = 700 - 640 * k, y = 430 - 330 * Math.sin(Math.PI * Math.min(1, k * 1.05)) + 150 * Math.max(0, k - .7); return [x, y]; };
       const drawTiny = () => { const [x, y] = path(TP.k); gsap.set("#tiny", { x: x - 28, y: y - 42, rotation: TP.k * 900 });
         let d = ""; for (let j = 0; j <= 30; j++) { const [px, py] = path(TP.k * j / 30); d += (j ? " L " : "M ") + px.toFixed(1) + " " + py.toFixed(1); } $("#trailPath").setAttribute("d", d); };
-      tl.set(["#tiny", "#trail"], { autoAlpha: 1 }, 54.205);
-      tl.fromTo(TP, { k: 0 }, { k: .4, duration: .32, ease: "power3.out", onUpdate: drawTiny, ...IR }, 54.205);
-      tl.to(TP, { k: .52, duration: 1.06, ease: "sine.inOut", onUpdate: drawTiny }, 54.525);
-      tl.to(TP, { k: 1.05, duration: .4, ease: "power3.in", onUpdate: drawTiny }, 55.585);
-      tl.set(["#tiny", "#trail"], { autoAlpha: 0 }, 55.845);
-      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 12, duration: .08 }, { y: 0, duration: .8, ease: "elastic.out(1, .3)" }], ...IR }, 54.205);
-      splash($("#boatF"), 960, 600, 1.0, 54.205, 71);
+      tl.set(["#tiny", "#trail"], { autoAlpha: 1 }, 53.809);
+      tl.fromTo(TP, { k: 0 }, { k: .4, duration: .32, ease: "power3.out", onUpdate: drawTiny, ...IR }, 53.809);
+      tl.to(TP, { k: .52, duration: 1.24, ease: "sine.inOut", onUpdate: drawTiny }, 54.129);
+      tl.to(TP, { k: 1.05, duration: .4, ease: "power3.in", onUpdate: drawTiny }, 55.369);
+      tl.set(["#tiny", "#trail"], { autoAlpha: 0 }, 55.529);
+      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 12, duration: .08 }, { y: 0, duration: .8, ease: "elastic.out(1, .3)" }], ...IR }, 53.809);
+      splash($("#boatF"), 960, 600, 1.0, 53.809, 71);
       // reverse reveal on "something": rewind back to the water, a giant eye opens
-      tl.set("#rewind", { autoAlpha: 1 }, 55.845);
-      tl.fromTo("#rewind", { opacity: 1 }, { opacity: 0, duration: .1, yoyo: true, repeat: 3, ease: "steps(1)", ...IR }, 55.845);
-      tl.set("#rewind", { autoAlpha: 0 }, 56.365);
+      tl.set("#rewind", { autoAlpha: 1 }, 55.529);
+      tl.fromTo("#rewind", { opacity: 1 }, { opacity: 0, duration: .1, yoyo: true, repeat: 3, ease: "steps(1)", ...IR }, 55.529);
+      tl.set("#rewind", { autoAlpha: 0 }, 56.049);
       const G5 = focus(1030, 600, 1.55);
-      cam(55.845, .38, G5, "expo.inOut");
-      tl.set("#eye", { opacity: 1 }, 55.965);
-      tl.fromTo("#eyeOpen", { scaleY: .04 }, { scaleY: 1, duration: .45, ease: "back.out(1.6)", transformOrigin: "50% 50%", ...IR }, 56.085);
+      cam(55.529, .38, G5, "expo.inOut");
+      tl.set("#eye", { opacity: 1 }, 55.649);
+      tl.fromTo("#eyeOpen", { scaleY: .04 }, { scaleY: 1, duration: .45, ease: "back.out(1.6)", transformOrigin: "50% 50%", ...IR }, 55.769);
       tl.set("#eyeOpen", { scaleY: .04, transformOrigin: "50% 50%" }, 0);
-      tl.fromTo("#eyeIris", { x: 0 }, { x: -44, duration: .5, ease: "power2.inOut", ...IR }, 56.525);
-      shake(56.165, .4);
+      tl.fromTo("#eyeIris", { x: 0 }, { x: -44, duration: .5, ease: "power2.inOut", ...IR }, 56.329);
+      shake(55.849, .4);
       // "poked.": a tiny stick, boop, a distant splash
-      tl.set("#stick", { opacity: 1 }, 57.265);
-      tl.fromTo("#stick", { scaleX: 0, rotation: 32 }, { scaleX: 1, rotation: 32, duration: .3, ease: "power2.out", ...IR }, 57.265);
-      tl.to("#stick", { x: 10, duration: .08, yoyo: true, repeat: 1 }, 57.675);
-      tl.fromTo("#eyeOpen", { scaleY: 1 }, { keyframes: [{ scaleY: .5, duration: .06 }, { scaleY: 1, duration: .4, ease: "elastic.out(1, .35)" }], transformOrigin: "50% 50%", ...IR }, 57.725);
-      tl.set("#boop", { autoAlpha: 1 }, 57.725);
+      tl.set("#stick", { opacity: 1 }, 57.529);
+      tl.fromTo("#stick", { scaleX: 0, rotation: 32 }, { scaleX: 1, rotation: 32, duration: .3, ease: "power2.out", ...IR }, 57.529);
+      tl.to("#stick", { x: 10, duration: .08, yoyo: true, repeat: 1 }, 58.079);
+      tl.fromTo("#eyeOpen", { scaleY: 1 }, { keyframes: [{ scaleY: .5, duration: .06 }, { scaleY: 1, duration: .4, ease: "elastic.out(1, .35)" }], transformOrigin: "50% 50%", ...IR }, 58.129);
+      tl.set("#boop", { autoAlpha: 1 }, 58.129);
       tl.set("#boop", { x: 0, y: 0 }, 0);
-      tl.fromTo("#boop", { opacity: 1, scale: .4, x: 960, y: 420, rotation: -10 }, { scale: 1, y: 390, duration: .3, ease: "back.out(3)", ...IR }, 57.725);
-      tl.to("#boop", { opacity: 0, duration: .15 }, 58.114);
-      cam(58.204, .22, focus(250, 330, 1.15), "expo.inOut");                    // whip to the far shore: the distant splash
-      splash($("#islandF"), 236, 330, 1.0, 58.424, 81);
-      hud.combo(tl, 57.845, "FAIL ×4", "+AIRTIME");
-      hud.health(tl, 57.845, 1, .3);
-      hud.comboOut(tl, 59.002);
+      tl.fromTo("#boop", { opacity: 1, scale: .4, x: 960, y: 420, rotation: -10 }, { scale: 1, y: 390, duration: .3, ease: "back.out(3)", ...IR }, 58.129);
+      tl.to("#boop", { opacity: 0, duration: .15 }, 58.637);
+      cam(58.727, .22, focus(250, 330, 1.15), "expo.inOut");                    // whip to the far shore: the distant splash
+      splash($("#islandF"), 236, 330, 1.0, 58.947, 81);
+      hud.combo(tl, 58.249, "FAIL ×4", "+AIRTIME");
+      hud.health(tl, 58.249, 1, .3);
+      hud.comboOut(tl, 59.483);
 
       /* ================= E7 l33 the slap revive (HUD on) ================= */
-      tl.set(["#eye", "#stick"], { opacity: 0 }, 58.592);
-      const G7 = focus(700, 440, 1.55), HIT0 = 65.025;
-      cam(58.592, 0, G7);
-      cam(58.592, 2.353, focus(700, 445, 1.6), "none");
-      tl.set("#silA .flip", { scaleX: -1, transformOrigin: "50% 50%" }, 58.592);     // the slapper faces Quest, in front of him
-      tl.set("#silA", { zIndex: 5, x: 44 }, 58.592);
-      tl.set("#armA", { rotation: 24, opacity: 0 }, 58.592);                       // the arm only shows for the wind-up and the hit
-      tl.set("#armA", { opacity: 1 }, 63.875); tl.set("#armA", { opacity: 0 }, HIT0 + .9);
+      tl.set(["#eye", "#stick"], { opacity: 0 }, 59.073);
+      const G7 = focus(700, 440, 1.55), HIT0 = 66.379;
+      cam(59.073, 0, G7);
+      cam(59.073, 3.116, focus(700, 445, 1.6), "none");
+      tl.set("#silA .flip", { scaleX: -1, transformOrigin: "50% 50%" }, 59.073);     // the slapper faces Quest, in front of him
+      tl.set("#silA", { zIndex: 5, x: 44 }, 59.073);
+      tl.set("#armA", { rotation: 24, opacity: 0 }, 59.073);                       // the arm only shows for the wind-up and the hit
+      tl.set("#armA", { opacity: 1 }, 65.439); tl.set("#armA", { opacity: 0 }, HIT0 + .9);
       tl.set("#silA .flip", { scaleX: 1 }, 0); tl.set("#silA", { zIndex: 0, x: 0 }, 0);
       // "down,": he drops, KO stars, the last heart empties, hold
-      tl.set("#qLaugh", { opacity: 0 }, 59.865); tl.set("#qSlump", { opacity: 1 }, 59.865);
-      tl.to("#quest .pop", { y: 92, rotation: 10, duration: .22, ease: "power2.in", transformOrigin: "50% 100%" }, 59.865);
-      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 6, duration: .07 }, { y: 0, duration: .6, ease: "elastic.out(1, .3)" }], ...IR }, 60.085);
+      tl.set("#qLaugh", { opacity: 0 }, 61.009); tl.set("#qSlump", { opacity: 1 }, 61.009);
+      tl.to("#quest .pop", { y: 92, rotation: 10, duration: .22, ease: "power2.in", transformOrigin: "50% 100%" }, 61.009);
+      tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 6, duration: .07 }, { y: 0, duration: .6, ease: "elastic.out(1, .3)" }], ...IR }, 61.229);
       const [kx, ky] = scr(focus(700, 445, 1.6), 680, 452);
-      hud.ko(tl, 60.065, kx, ky, 4.99, { rx: 60, ry: 16 });
-      hud.health(tl, 60.015, 0, .35);
-      const pPick = hud.prompt(tl, 61.545, "E", "Pick up");
+      hud.ko(tl, 61.209, kx, ky, 5.2, { rx: 60, ry: 16 });
+      hud.health(tl, 61.159, 0, .35);
+      const pPick = hud.prompt(tl, 63.129, "E", "Pick up");
       // "picking them up...": back up, wobbly
-      tl.to("#silA .lean", { rotation: -6, x: -14, duration: .3, ease: "power2.out", transformOrigin: "50% 100%" }, 62.835);
-      tl.to("#quest .pop", { y: 0, rotation: -4, duration: .5, ease: "back.out(1.6)" }, 62.985);
-      tl.to("#quest .pop", { rotation: 4, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 2 }, 63.485);
-      hud.promptOut(tl, 63.035, pPick);
+      tl.to("#silA .lean", { rotation: -6, x: -14, duration: .3, ease: "power2.out", transformOrigin: "50% 100%" }, 64.439);
+      tl.to("#quest .pop", { y: 0, rotation: -4, duration: .5, ease: "back.out(1.6)" }, 64.589);
+      tl.to("#quest .pop", { rotation: 4, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 2 }, 65.089);
+      hud.promptOut(tl, 64.639, pPick);
       // the pause: the hand winds back, the camera creeps in, stillness
-      const pSlap = hud.prompt(tl, 63.925, "E", "Slap");
-      tl.to("#armA", { rotation: -105, duration: .5, ease: "power2.out" }, 63.875);
-      tl.to("#armA", { rotation: -110, duration: .06, yoyo: true, repeat: 5, ease: "sine.inOut" }, 64.425);
-      cam(63.825, 1.1, focus(705, 430, 1.82), "power1.in");
+      const pSlap = hud.prompt(tl, 65.489, "E", "Slap");
+      tl.to("#armA", { rotation: -105, duration: .5, ease: "power2.out" }, 65.439);
+      tl.to("#armA", { rotation: -110, duration: .06, yoyo: true, repeat: 5, ease: "sine.inOut" }, 65.989);
+      cam(65.389, 0.89, focus(705, 430, 1.82), "power1.in");
       // "slapping": whip-in, 2-frame flash, 3-frame hitstop, the hook's shake, SLAP!, the heart refills
-      const HIT = 65.025;
+      const HIT = 66.379;
       cam(HIT - .1, .1, focus(712, 410, 2.15), "expo.in");
       tl.to("#armA", { rotation: -50, duration: .08, ease: "power4.in" }, HIT - .08);
       hud.promptOut(tl, HIT, pSlap);
@@ -1464,84 +1464,84 @@
       hud.slap(tl, HIT + .1, sx + 150, sy - 120, { scale: 1, dur: 1.5 });
       hud.jolt(tl, HIT + .1, 1.4);
       hud.health(tl, HIT + .25, 3, .6);
-      hud.rainbow(tl, 66.185, "REVIVED!", { x: 420, y: 180, size: 72, dur: 1.4 });
+      hud.rainbow(tl, 67.189, "REVIVED!", { x: 420, y: 180, size: 72, dur: 1.4 });
       tl.to("#armA", { rotation: 24, duration: .5, ease: "power2.inOut" }, HIT + .4);
-      cam(HIT + .1, 2.575, focus(712, 420, 2.0), "power2.out");
+      cam(HIT + .1, 2.122, focus(712, 420, 2.0), "power2.out");
       // the fish winces at the frame edge on "face."
       const GE = focus(712, 420, 2.0);
       const bx = 712 + (1150 - 640) / 2.0 - 85, byy = 420 + (610 - 360) / 2.0 - 62;
-      tl.set(buddy, { x: bx, y: byy + 120, opacity: 1, scale: .7, rotation: -8, scaleX: 1 }, 66.105);
-      face(null, 66.105);
-      tl.to(buddy, { y: byy, duration: .3, ease: "back.out(2)" }, 66.105);
-      face("wince", 66.565);
-      tl.to(buddy, { y: byy + 140, duration: .25, ease: "power2.in" }, 67.48);
-      hud.off(tl, 67.72);
+      tl.set(buddy, { x: bx, y: byy + 120, opacity: 1, scale: .7, rotation: -8, scaleX: 1 }, 67.179);
+      face(null, 67.179);
+      tl.to(buddy, { y: byy, duration: .3, ease: "back.out(2)" }, 67.179);
+      face("wince", 67.649);
+      tl.to(buddy, { y: byy + 140, duration: .25, ease: "power2.in" }, 68.381);
+      hud.off(tl, 68.621);
 
       /* ================= E8 l34 "Which, if we're honest, is how most friendships handle feelings." ================= */
-      tl.set(buddy, { x: 905, y: 548, scale: 1, rotation: 0, opacity: 1 }, 67.74);
-      face(null, 67.74);
-      cam(67.74, 0, focus(990, 602, 2.2));
-      cam(67.74, 1.2, focus(990, 600, 2.28), "none");
-      blink(68.225, true);
+      tl.set(buddy, { x: 905, y: 548, scale: 1, rotation: 0, opacity: 1 }, 68.641);
+      face(null, 68.641);
+      cam(68.641, 0, focus(990, 602, 2.2));
+      cam(68.641, 1.2, focus(990, 600, 2.28), "none");
+      blink(69.159, true);
       // the two-shot: Quest with the handprint layer, the slapper beside him
-      cam(68.945, 0, focus(740, 435, 2.0));
-      cam(68.945, 3.83, focus(740, 432, 2.12), "none");
-      tl.set(buddy, { opacity: 0 }, 68.945);
+      cam(69.589, 0, focus(740, 435, 2.0));
+      cam(69.589, 3.637, focus(740, 432, 2.12), "none");
+      tl.set(buddy, { opacity: 0 }, 69.589);
       tl.set("#armA", { opacity: 1 }, 0);
-      tl.set("#hand", { opacity: 0 }, 68.945);
-      tl.fromTo("#hand", { opacity: 0, scale: 1.6 }, { opacity: .92, scale: 1, duration: .18, ease: "back.out(3)", ...IR }, 69.085);
-      tl.to("#hand", { scale: 1.08, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 69.385);
-      tl.set("#words", { autoAlpha: 1 }, 69.705);
+      tl.set("#hand", { opacity: 0 }, 69.589);
+      tl.fromTo("#hand", { opacity: 0, scale: 1.6 }, { opacity: .92, scale: 1, duration: .18, ease: "back.out(3)", ...IR }, 69.729);
+      tl.to("#hand", { scale: 1.08, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 70.029);
+      tl.set("#words", { autoAlpha: 1 }, 70.319);
       tl.set(["#w1", "#w2", "#w3", "#w4", "#w5"], { opacity: 0 }, 0);
-      [["#w1", 69.805], ["#w2", 70.125], ["#w3", 70.465], ["#w4", 70.925], ["#w5", 71.485]].forEach(([s, t]) =>
+      [["#w1", 70.419], ["#w2", 70.669], ["#w3", 71.089], ["#w4", 71.629], ["#w5", 72.109]].forEach(([s, t]) =>
         tl.fromTo(s, { opacity: 0, y: 40, scale: 1.4 }, { opacity: 1, y: 0, scale: 1, duration: .3, ease: "back.out(2.4)", ...IR }, t - .04));
-      tl.fromTo("#w5", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .08 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], ...IR }, 71.785);
-      tl.set("#words", { autoAlpha: 0 }, 72.755);
+      tl.fromTo("#w5", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .08 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], ...IR }, 72.409);
+      tl.set("#words", { autoAlpha: 0 }, 73.206);
 
       /* ================= E9 l35 years later, the same group chat ================= */
-      show("#tbl", 72.755);
-      tl.fromTo("#tblCam", { scale: 1.1, x: 0, y: 0 }, { scale: 1.02, duration: 3.35, ease: "power2.out", ...IR }, 72.755);
-      tl.fromTo("#tblLight", { opacity: .85 }, { opacity: 1, duration: .25, ease: "sine.inOut", yoyo: true, repeat: 40, ...IR }, 72.815);
+      show("#tbl", 73.206);
+      tl.fromTo("#tblCam", { scale: 1.1, x: 0, y: 0 }, { scale: 1.02, duration: 3.093, ease: "power2.out", ...IR }, 73.206);
+      tl.fromTo("#tblLight", { opacity: .85 }, { opacity: 1, duration: .25, ease: "sine.inOut", yoyo: true, repeat: 40, ...IR }, 73.266);
       // the sterile "perfect" polaroid, greyed out on "perfectly."
       tl.set(P0, { rotation: -3 }, 0);
-      tl.fromTo(P0, { y: -620, rotation: -14 }, { y: 0, rotation: -3, duration: .55, ease: "back.out(1.3)", ...IR }, 72.795);
-      tl.fromTo(P0, { filter: "saturate(1.35) brightness(1.08) grayscale(0)" }, { filter: "saturate(0) brightness(.82) grayscale(1)", duration: .55, ease: "power2.inOut", ...IR }, 75.105);
+      tl.fromTo(P0, { y: -620, rotation: -14 }, { y: 0, rotation: -3, duration: .55, ease: "back.out(1.3)", ...IR }, 73.246);
+      tl.fromTo(P0, { filter: "saturate(1.35) brightness(1.08) grayscale(0)" }, { filter: "saturate(0) brightness(.82) grayscale(1)", duration: .55, ease: "power2.inOut", ...IR }, 75.359);
       tl.set(P0, { filter: "saturate(1.35) brightness(1.08) grayscale(0)" }, 0);
-      tl.to(P0, { scale: .96, duration: .5, ease: "power2.out" }, 75.105);
+      tl.to(P0, { scale: .96, duration: .5, ease: "power2.out" }, 75.359);
       // "They retell the night it all went wrong.": it slides away; four fail frames slam onto the table
-      tl.to(P0, { x: -400, y: -150, scale: .62, rotation: -14, duration: .5, ease: "power3.inOut" }, 76.265);
-      tl.fromTo("#tblCam", { scale: 1.02 }, { scale: 1.06, duration: 3.84, ease: "none", ...IR }, 76.165);
-      const FT = [78.005, 78.285, 78.465, 78.765];
+      tl.to(P0, { x: -400, y: -150, scale: .62, rotation: -14, duration: .5, ease: "power3.inOut" }, 76.459);
+      tl.fromTo("#tblCam", { scale: 1.02 }, { scale: 1.06, duration: 2.93, ease: "none", ...IR }, 76.359);
+      const FT = [77.419, 77.789, 78.149, 78.549];
       const FR = [-7, 5, 4, -4];
       FAILS.forEach((p, i) => { tl.set(p, { autoAlpha: 0 }, 0); tl.set(p, { autoAlpha: 1 }, FT[i] - .1);
         tl.fromTo(p, { scale: 1.9, rotation: FR[i] * 3, y: -40 }, { scale: 1, rotation: FR[i], y: 0, duration: .12, ease: "power4.in", ...IR }, FT[i] - .1);
         tl.fromTo("#tblCam", { x: 0, y: 0 }, { keyframes: [{ x: 4 - i * 2, y: 5, duration: .04 }, { x: 0, y: 0, duration: .25, ease: "elastic.out(1, .4)" }], ...IR }, FT[i] + .02); });
-      tl.fromTo("#tblCam", { rotation: 0 }, { keyframes: [{ rotation: -1.2, duration: .05 }, { rotation: .8, duration: .05 }, { rotation: 0, duration: .3, ease: "elastic.out(1, .4)" }], ...IR }, 79.045);
-      tl.fromTo("#tblLight", { opacity: 1 }, { keyframes: [{ opacity: .3, duration: .05 }, { opacity: 1, duration: .05 }, { opacity: .5, duration: .05 }, { opacity: 1, duration: .1 }], ...IR }, 79.045);
+      tl.fromTo("#tblCam", { rotation: 0 }, { keyframes: [{ rotation: -1.2, duration: .05 }, { rotation: .8, duration: .05 }, { rotation: 0, duration: .3, ease: "elastic.out(1, .4)" }], ...IR }, 78.829);
+      tl.fromTo("#tblLight", { opacity: 1 }, { keyframes: [{ opacity: .3, duration: .05 }, { opacity: 1, duration: .05 }, { opacity: .5, duration: .05 }, { opacity: 1, duration: .1 }], ...IR }, 78.829);
       // "Usually years later,": the year wheel 2026 -> 2031
-      tl.to("#tblDim", { opacity: .78, duration: .4 }, 80.005);
-      tl.set("#years", { autoAlpha: 1 }, 80.275);
-      tl.fromTo("#years", { scale: .5, y: 40 }, { scale: 1, y: 0, duration: .35, ease: "back.out(2)", ...IR }, 80.275);
+      tl.to("#tblDim", { opacity: .78, duration: .4 }, 79.289);
+      tl.set("#years", { autoAlpha: 1 }, 80.419);
+      tl.fromTo("#years", { scale: .5, y: 40 }, { scale: 1, y: 0, duration: .35, ease: "back.out(2)", ...IR }, 80.419);
       const YR = { v: 2026 };
-      tl.fromTo(YR, { v: 2026 }, { v: 2031, duration: 1.05, ease: "power2.inOut", onUpdate: () => drawYear(YR.v), ...IR }, 80.425);
-      tl.set("#yLater", { autoAlpha: 1 }, 80.745);
-      tl.fromTo("#yLater", { scale: .3, rotation: -12 }, { scale: 1, rotation: -3, duration: .35, ease: "back.out(2.6)", ...IR }, 80.745);
-      tl.fromTo("#years", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], ...IR }, 81.475);
+      tl.fromTo(YR, { v: 2026 }, { v: 2031, duration: 1.05, ease: "power2.inOut", onUpdate: () => drawYear(YR.v), ...IR }, 80.569);
+      tl.set("#yLater", { autoAlpha: 1 }, 80.669);
+      tl.fromTo("#yLater", { scale: .3, rotation: -12 }, { scale: 1, rotation: -3, duration: .35, ease: "back.out(2.6)", ...IR }, 80.669);
+      tl.fromTo("#years", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], ...IR }, 81.619);
       // "in the same group chat,": the phone, big; the year moves aside
-      tl.to("#years", { x: -330, y: 60, scale: .62, duration: .45, ease: "power3.inOut" }, 82.045);
-      tl.to("#yLater", { x: -330, y: 2, scale: .9, duration: .45, ease: "power3.inOut" }, 82.045);
-      tl.to("#tblDim", { opacity: .86, duration: .4 }, 82.045);
-      show("#phoneSh", 82.095);
-      tl.fromTo("#phoneWrap", { y: 720, rotation: 6 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.3)", ...IR }, 82.095);
-      tl.fromTo("#phoneWrap", { y: 0 }, { y: -6, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 2, ...IR }, 82.645);
-      chat.show(tl, cDate, 82.395);
-      chat.show(tl, cJoin, 82.605);
-      chat.show(tl, cSlap, 83.285);                                                // "context,": the lone message
+      tl.to("#years", { x: -330, y: 60, scale: .62, duration: .45, ease: "power3.inOut" }, 81.949);
+      tl.to("#yLater", { x: -330, y: 2, scale: .9, duration: .45, ease: "power3.inOut" }, 81.949);
+      tl.to("#tblDim", { opacity: .86, duration: .4 }, 81.949);
+      show("#phoneSh", 81.999);
+      tl.fromTo("#phoneWrap", { y: 720, rotation: 6 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.3)", ...IR }, 81.999);
+      tl.fromTo("#phoneWrap", { y: 0 }, { y: -6, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 2, ...IR }, 82.549);
+      chat.show(tl, cDate, 82.299);
+      chat.show(tl, cJoin, 82.799);
+      chat.show(tl, cSlap, 83.209);                                                // "context,": the lone message
       tl.set(cSeen, { opacity: 0 }, 0);
-      chat.dots(tl, cDots, 84.505, 85.685);                                     // "confusion": the new member types...
-      chat.show(tl, cWhat, 85.735);
-      chat.read(tl, cSlap, 86.225);                                                   // ...and it ends on "seen"
-      tl.fromTo(cSeen, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .25, ease: "back.out(2)", ...IR }, 86.225);
+      chat.dots(tl, cDots, 84.479, 85.949);                                     // "confusion": the new member types...
+      chat.show(tl, cWhat, 85.999);
+      chat.read(tl, cSlap, 86.789);                                                   // ...and it ends on "seen"
+      tl.fromTo(cSeen, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .25, ease: "back.out(2)", ...IR }, 86.789);
 
       // the camera always breathes (2-3 % push, drift <= 1.5 %), its own phase
       tl.fromTo("#breath", { scale: 1.012 }, { scale: 1.034, duration: 5.9, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 5.9), transformOrigin: "50% 50%" }, 0);
