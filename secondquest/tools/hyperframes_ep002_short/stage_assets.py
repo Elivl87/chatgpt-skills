@@ -244,6 +244,7 @@ def active_rms_db(x, gate=-40):
 
 SFXD = ROOT / 'public/shared/sfx'
 K = SFXD / 'cc0/kenney'
+NAVI = ROOT / 'public/episodes/ep002/sfx/navi_original'      # the Producer's original Navi clips (EP002 PRODUCER_DECISIONS)
 
 
 def cues():
@@ -257,7 +258,8 @@ def cues():
         (t('l07.w9', -.1), K / 'lowDown.ogg', -12, None),                 # tilt down "from the ground up"
         (t('l08.w1', -.04), K / 'impactSoft_heavy_000.ogg', -5, None),    # "You."
         (t('l08.w1', -.04), SFXD / 'rumble.wav', -13, .6),
-        (t('l08.w1', .1), SFXD / 'own/fairy_fly_a.wav', -14, None),       # Navi pings beside him
+        (t('l08.end', .02), NAVI / 'NAVI_HELLO.wav', -9, None),           # Navi appears: "Hello!" in the pause after "You."
+        (t('S1', 0), NAVI / 'NAVI_SFX_01.wav', -14, None),                # and flies off into the room
         (t('S1', -.05), SFXD / 'whip.wav', -9, None),                     # into the room
         (t('l03.w1', .05), SFXD / 'tv_on.wav', -13, None),               # "New graphics."
         (t('l03.w4'), SFXD / 'chime.wav', -12, 1.0),                      # "An orchestra."
@@ -277,13 +279,13 @@ def cues():
         (t('l14.w3', -.05), K / 'switch_002.ogg', -10, None),             # "television"
         (t('l15.w1', -.1), K / 'footstep_wood_000.ogg', -11, None),       # Pixie hops in
         (t('l15.w3', -.1), K / 'footstep_wood_001.ogg', -11, None),
-        (t('l15.w6', -.05), SFXD / 'own/fairy_fly_c.wav', -13, None),     # "knew where to go": Navi circles her
+        (t('l15.w6', -.05), NAVI / 'NAVI_SFX_03.wav', -14, None),        # "knew where to go": Navi circles her
         (t('S3', 0), SFXD / 'wind.wav', -18, 1.2),                        # field ambience bed
         (t('l17.w8', -.15), K / 'lowDown.ogg', -9, None),                 # "felt enormous": the pull-out
         (t('l18.w1', -.08), K / 'minimize_001.ogg', -8, None),            # the field shrinks
         (t('l18.w4', 0), SFXD / 'stamp.wav', -8, None),                   # ACTUAL SIZE
         (t('l19.w1', -.1), K / 'maximize_001.ogg', -9, None),             # back in
-        (t('l19.w2', 0), SFXD / 'own/fairy_fly_b.wav', -15, None),
+        (t('l19.w2', 0), NAVI / 'NAVI_SFX_02.wav', -15, None),
         (t('S4', -.02), K / 'creak2.ogg', -10, None),                     # bed creak
         (t('l22.w2', -.05), K / 'impactSoft_medium_000.ogg', -8, None),   # he jolts awake
         (t('l23.w1', -.12), SFXD / 'cc0/rubberduck_water/bubble_01.ogg', -8, None),   # the thought bubble pops up
@@ -295,12 +297,11 @@ def cues():
         (t('l125.w8', -.06), K / 'forceField_002.ogg', -13, None),
         (t('S6', 0), SFXD / 'wind.wav', -19, 1.5),                        # field again
         (t('l09.w1', 0), K / 'footstep_wood_000.ogg', -17, None),
-        (t('l09.w6', -.1), SFXD / 'own/fairy_fly_d.wav', -15, None),
+        (t('l09.w6', -.1), NAVI / 'NAVI_SFX_04.wav', -15, None),
         (t('l10.w1', -.06), SFXD / 'impact.wav', -6, None),               # wordmark slam on "So,"
         (t('l10.w2', -.05), SFXD / 'whoosh.wav', -10, None),              # gold bar grows on "why?"
-        (t('l10.w2', .05), SFXD / 'fairy_flutter.wav', -12, None),        # Navi flies up and around the wordmark
+        (t('l10.w2', .05), NAVI / 'NAVI_SFX_01.wav', -14, None),        # Navi flies up and around the wordmark (her approved trail)
         (t('l10.end', .55), SFXD / 'sparkle.wav', -8, None),              # into the star of the "o"
-        (t('l10.end', .55), SFXD / 'fairy_shimmer.wav', -13, None),
         (t('VEND', .05), SFXD / 'ui_complete.wav', -10, None),            # end card
     ]
 

@@ -666,3 +666,10 @@
   writes the script (EN + ES-419), packaging, placeholder narration, animatic, QC, MISSING list; the only gate is the
   credit quote, with the balance in every report. Skill `.claude/skills/secondquest-episode/SKILL.md`; CLAUDE.md
   updated. Analytics routine: check-in 2026-10-12 19:31 UTC (trig_01S1gda9B2gF9u56Py2nv3Z9) for EP002's 48 h numbers.
+
+## Trailer Short (Hyperframes) v1: Navi sounds (2026-10-12)
+- Producer: "los sonidos que usaste para Navi NO. Para eso ya te había dado sonidos de Navi". Our own fairy sounds are
+  out; the Short uses only the Producer's original clips (`public/episodes/ep002/sfx/navi_original/`):
+  NAVI_HELLO in the pause after "You." (her appearance, ~9 dB under Bram), NAVI_SFX_01 as she flies into the room and
+  as she circles the wordmark (the approved trail, ~14 dB under), NAVI_SFX_03 / 02 / 04 on her other moves (~14–15 dB under).
+- Only the audio changed (remuxed, video untouched); master −14.1 LUFS. Risk as recorded for the first use (Nintendo audio).
