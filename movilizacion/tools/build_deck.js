@@ -124,7 +124,7 @@ s.addTable(rr, { x: 8.6, y: 2.2, w: 3.9, colW: [1.7, 1.1, 1.1], fontSize: 12, fo
 s.addText([
   { text: "2024: 70 movilizaciones, 6,4 por mes activo. 2025: 45, 5,0 por mes activo.", options: { breakLine: true, paraSpaceAfter: 6 } },
   { text: "En 2025 los meses de 1, 3 y 4 movilizaciones se comieron casi todo lo que ganaron los meses de 6 y 7.", options: { bold: true, color: C.text1, breakLine: true, paraSpaceAfter: 6 } },
-  { text: "Con horas reales del log: 2024 mejora y 2025 empeora (más horas de taladro)." },
+  { text: "Escenario prudente (frecuencia y mezcla de 2025, horas cotizadas por Petro Star): Petro Star −0,02 M y Ecotransur −0,01 M. Es el punto de equilibrio.", options: { bold: true, color: C.accent5 } },
 ], { x: 8.6, y: 3.75, w: 3.9, h: 2.9, fontSize: 12, color: C.text2, valign: "top", margin: 0, isTextBox: true });
 s.addNotes("Gráfico: frecuencia constante; con 1 movilización por mes las pérdidas son de −4,2 a −5,8 M (fuera de escala). Tabla: hojas Real 2024 / Real 2025 del simulador, horas del Excel.");
 
@@ -135,11 +135,11 @@ s.addText("Faltan siete datos y casi todos restan ventaja al tercerizado", { pla
 const tb = [[{ text: "Qué falta confirmar", options: { bold: true } }, { text: "Valor de trabajo", options: { bold: true } }, { text: "En juego (USD)", options: { bold: true, align: "right" } }, { text: "Quién", options: { bold: true } }]];
 PEND.top.forEach(p => tb.push([p[0], p[1], { text: p[2], options: { align: "right", color: p[2].startsWith("+") ? HEX.green : HEX.red } }, p[3]]));
 s.addTable(tb, { x: 0.6, y: 1.4, w: 8.0, colW: [3.4, 1.9, 1.5, 1.2], fontSize: 12, fontFace: "Calibri", color: HEX.ink, border: { type: "solid", pt: 0.5, color: HEX.grid }, rowH: 0.42, valign: "middle" });
-card(s, 9.0, 1.4, 3.7, 3.55, HEX.ink);
+card(s, 9.0, 1.4, 3.7, 3.6, HEX.ink);
 s.addText([
   { text: "Lectura", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true, paraSpaceAfter: 6 } },
   { text: PEND.lectura, options: { fontSize: 13, color: C.background1 } },
-], { x: 9.2, y: 1.6, w: 3.3, h: 3.2, valign: "top", margin: 0, isTextBox: true });
+], { x: 9.2, y: 1.6, w: 3.3, h: 3.3, valign: "top", margin: 0, isTextBox: true });
 s.addNotes("Detalle completo con valor de trabajo, alternativa y monto en juego por perfil de frecuencia: hoja Pendientes del simulador. Auditoría de la evaluación previa: archivo Auditoria_Evaluacion_Previa.xlsx.");
 
 (async () => {

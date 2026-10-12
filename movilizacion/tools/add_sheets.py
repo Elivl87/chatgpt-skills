@@ -159,7 +159,16 @@ table(ms, r + 2, ["SUPUESTO O PREMISA", "Origen", "Nota"], sup, height=28)
 # ================= SENSIBILIDAD =================
 se = sheet("Sensibilidad", [2, 46, 18, 22, 26, 16, 26, 16, 16], "Sensibilidad: qué variable mueve el ahorro de la campaña base",
            "Ahorro = costo WO − costo tercerizado (USD), campaña 15 misma loc. + 20 en 0,1–5 km. 'Mejora' = extremo que aumenta el ahorro del tercerizado; 'Empeora' = el que lo reduce. Ordenado por efecto. Calculado con el motor de referencia (tools/modelo.py), idéntico al simulador; no se recalcula al editar.")
-r = 4
+h1(se, 4, "ESCENARIOS COMBINADOS (campaña 15 + 20; ahorro frente al WO, USD)", "I")
+SC = [("Caso base: perfil 2024, 20 pozos en 0,1–5 km, horas Excel", 730502, -118526, 695386),
+      ("Perfil 2024 + mezcla de los logs 2025 (10/6/4)", 599214, -434833, 502719),
+      ("Perfil 2024 + mezcla 2025 + horas cotizadas por Petro Star (12/24/36/36)", 360430, -673617, 263935),
+      ("Perfil 2025, 20 pozos en 0,1–5 km, horas Excel", 352652, -390648, 427789),
+      ("Perfil 2025 + mezcla de los logs 2025", 215523, -706955, 227836),
+      ("Escenario prudente: perfil 2025 + mezcla 2025 + horas cotizadas", -23261, -945739, -10948)]
+r = table(se, 5, ["Escenario", "Petro Star normal", "Lump Sum (sin desc.)", "Ecotransur"], SC, [None, USD, USD, USD], height=28)
+se.cell(r, 2, "Horas cotizadas se aplican igual a Ecotransur (supuesto: su carta no declara tiempos). Calculado con tools/modelo.py.").font = NOTE
+r += 2
 names = {"PS": "Petro Star tarifa normal", "LS": "Petro Star Lump Sum (sin descuento)", "EC": "Ecotransur"}
 for prof in ("2024", "2025"):
     for o in ("PS", "LS", "EC"):
@@ -193,6 +202,7 @@ addp("Adicionales: ¿se cancelan?", "0 % ambos", "+5 % solo tercerizado", "adic5
 addp("Recargo de señalizadoras al WO", "Se carga", "No se carga", "senal_no", "PS", "SierraCol (contrato WO)", "Todas (igual)")
 rows.append(("Mes con campaña parada y contrato vigente", "No se cobra", "Se cobra el cargo de 0 movs", "Petro Star / Ecotransur", -S["mes_parado_usd"]["PS"], -S["mes_parado_usd"]["EC"], "Contrato (cláusula de suspensión)"))
 rows.append(("Demora no atribuible al transportador (por hora)", "Sin demora", "1 hora de demora", "Petro Star", -2813.2, None, "Cot. 1255 cláusula 7: taladro 1.456 + flota y señalizadores ~1.357 USD/h"))
+rows.append(("Ecotransur 6ª+: ¿cobra además el personal operativo usado (señaleras, supervisión)?", "No (solo equipos del Ítem 2)", "Sí", "Ecotransur", None, None, "Ecotransur (carta p. 4: 'equipos y el personal operativo efectivamente utilizado')"))
 rows.append(("Movilizaciones de más de 20 km", "Tarifa 10–20 km", "Sin tarifa", "Petro Star", None, None, "Petro Star (cotizar)"))
 rows.append(("Formato Ítem 1 y 2 de Ecotransur (bandas de horas A/B)", "Excel ítems 1.3/1.9/1.15/1.21", "Ítem según horas reales", "Ecotransur", None, None, "Ecotransur (enviar formato)"))
 rows.append(("NPT de perforación", "0 %", "20 % (barrido)", "Petro Star normal",
@@ -201,6 +211,6 @@ rows.append(("NPT de perforación", "0 %", "20 % (barrido)", "Petro Star normal"
 table(pe, 4, ["Pendiente", "Valor de trabajo", "Alternativa", "Oferta afectada", "En juego perfil 2024 (USD)", "En juego perfil 2025 (USD)", "Quién confirma"], rows,
       [None, None, None, None, USD, USD, None], height=30)
 
-wb.move_sheet("Método", offset=-(len(wb.sheetnames) - 1))
+wb.move_sheet("Método", offset=-(wb.sheetnames.index("Método") - 1))
 wb.save(PATH)
 print(wb.sheetnames)
