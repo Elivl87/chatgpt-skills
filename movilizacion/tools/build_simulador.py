@@ -86,7 +86,7 @@ ws.merge_cells("K6:M6"); put("K6", "Variable", B, fill=F_H2); put("N6", "Valor",
 SIDE = [(7, "¿Se cobran equipos y señalizadores por hora por encima del tiempo estipulado? (Cot. 1255 p. 5)", "Sí", None),
         (8, "Señalizadores por hora excedida: 20 × 54.375 COP (Cot. 1255 p. 5)", 1087500, COP),
         (9, "Meses bloqueados en la campaña (no se puede mover; contrato vigente)", 0, '0'),
-        (10, "Bono del Work Order por mover más rápido (% sobre la tarifa) · tabla WO por horas pendiente", 0, PCT),
+        (10, "Ajuste a la tarifa WO (%) · las del Excel son el TOPE (movilización rápida); si tarda más paga una tarifa fija menor: solo 0 o negativo", 0, PCT),
         (11, "Costo de un pozo en LCI, solo perforación (USD) · SierraCol: 500–600 k", 550000, USD),
         (12, "Horas de bloqueo social/escolar durante movilizaciones en la campaña (OpenWells 2025: 22,25 h en 45 movs → 17,3 h en 35)", 17.3, '0.0')]
 for r, lab, val, fmt in SIDE:

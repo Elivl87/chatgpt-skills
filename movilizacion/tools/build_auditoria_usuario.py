@@ -43,7 +43,7 @@ txt = [
     "La aritmética está bien: la campaña real 2025 se reproduce al dólar (Petro Star +56.743, Ecotransur +48.410, Lump Sum con descuento −1.024.254) y las hojas Escenarios y Movilizaciones 2025 son idénticas a los archivos fuente.",
     "Lo que cambia el resultado son tres cosas que la evaluación no cobra: (1) equipos y señalizadores por las horas que superan el tiempo cotizado, (2) meses enteros en lugar de fraccionarios, (3) el Lump Sum sin descuento como caso principal.",
     "Con esas correcciones la campaña real 2025 pasa de ahorro a pérdida para el tercerizado (Petro Star −70.830, Ecotransur −79.163) y la campaña proyectada a 6 movs/mes baja de 633 k a 570 k (Petro Star).",
-    "Sesgo: de 17 hallazgos, 9 favorecen al tercerizado y solo 1 al WO (el bono del WO por mover más rápido, que no está en ningún lado); el resto son neutros o indeterminados. Es un sesgo sistemático, igual que en la evaluación previa.",
+    "Sesgo: de 17 hallazgos, 10 favorecen al tercerizado y ninguno al WO (incluido el tope del WO: se compara contra el WO más caro posible); el resto son neutros o indeterminados. Es un sesgo sistemático, igual que en la evaluación previa.",
     "Tu aporte que incorporé a mi simulador: los bloqueos medidos en OpenWells (22,25 h en fase de movilización en 2025 → 17,3 h por campaña de 35 pozos) y el Truck Manager mensual en la campaña real.",
 ]
 for i, t in enumerate(txt):
@@ -78,7 +78,7 @@ HL = [
     ("Supuestos · NPT Social 2025", "B21 · B27 · A41", "La hoja NPT Social dice que la restricción escolar suma 6 h fijas por campaña, pero B27 = 0: no se aplica. Las horas de bloqueo base (12 h) son menores que lo medido escalado (22,25 × 35/45 = 17,3 h).", "Media", -11290, "Favorece tercerizado", "B27 = 6 con tu fórmula (−11.290); o usar las 17,3 h totales medidas a 2.813 USD/h (−48.668 en total)."),
     ("Supuestos · Huracán", "A5:O9", "El tornado solo evalúa Petro Star normal: Ecotransur y el Lump Sum no tienen sensibilidad.", "Media", None, "Neutro", "Agregar las otras ofertas al motor."),
     ("Supuestos · Huracán", "A7 · A36:A37 · E7:G7", "Distancia aparece como 2ª variable, pero SierraCol confirmó que los 20 pozos van en 0,1–5 km: no es variable de la campaña proyectada. Además los rótulos están invertidos: 'Distancia — mínimo (0 km)' calcula 10 km y 'máximo (10 km)' calcula 0 km.", "Media", None, "Neutro", "Quitar Distancia del tornado (o mostrarla como escenario) y corregir los rótulos."),
-    ("Todas", "DRL K4:K7 · Campaña Real D18:D21", "Bono del Work Order por mover más rápido no está considerado: las tarifas WO son los ítems 'más de X horas' (banda más lenta). Si el contratista movió más rápido, el WO real fue más caro.", "Media", None, "Favorece WO", "Pedir la tabla del WO por bandas de horas y aplicarla con las horas reales."),
+    ("Todas", "DRL K4:K7 · Campaña Real D18:D21", "CONFIRMADO por SierraCol: las tarifas WO son el tope (lo máximo, con movilización rápida); si tarda más se paga una tarifa fija menor. Ambas evaluaciones comparan contra el WO más caro posible, y el tercerizado no tiene tope. En 2025 las movilizaciones lentas habrían pagado menos en el WO.", "Media", None, "Favorece tercerizado", "Dejar el WO en su tope como cota superior y declararlo: el ahorro calculado es el máximo posible frente al WO."),
     ("Campaña Real 2025", "C26 · L26:M26", "Febrero tiene 1 movilización y paga el cargo fijo de 1 movilización: 133.751 (PS) y 181.054 (EC). CONFIRMADO por SierraCol: el pozo de enero tuvo problemas operativos y duró casi un mes; febrero sí fue mes de campaña. El cálculo es correcto y muestra el riesgo real: un pozo complicado deja un mes con pocas movilizaciones y el tercerizado cobra el cargo fijo igual.", "Baja", 0, "Neutro (correcto)", "Sin corrección. Usarlo como ejemplo del riesgo de meses con baja frecuencia."),
     ("NPT Social 2025", "E16 · E20 · E21 (01MIRU)", "Las esperas 'No social — equipos' en fase de movilización (7 h: poste eléctrico, soldadura, buldócer) se excluyen. En el tercerizado, si no son atribuibles al transportador, también las paga el cliente (taladro + equipos).", "Baja", -15316, "Favorece tercerizado", "Incluirlas escaladas a 35 pozos (7 × 35/45 = 5,4 h × 2.813)."),
     ("Resumen · Campaña Real 2025", "Resumen F7 · Campaña Real Q14, M16", "'Mínimo mensual Petro Star 6': la cotización dice 5 (p. 5, condición 2). El cálculo es correcto (cobra el cargo fijo con 5 según la tabla de la p. 4): es un rótulo.", "Baja", 0, "Neutro", "Rótulo: 'mínimo 5; con 5 aún paga cargo fijo (p. 4)'."),
@@ -119,7 +119,7 @@ CM = [
     ("Equipos y señalizadores por horas sobre el tiempo cotizado", "No", "Sí", "Cambia el signo de 2025."),
     ("Ecotransur y Lump Sum en la sensibilidad", "No", "Sí", ""),
     ("Lump Sum sin descuento como caso principal", "No (50 %)", "Sí", ""),
-    ("Bono del WO por mover más rápido", "No", "Parámetro (pendiente tabla)", "Favorecería al tercerizado."),
+    ("Tope del WO (tarifa máxima, con piso si tarda más)", "No explícito", "Sí", "El WO está acotado; el tercerizado no."),
     ("Meses bloqueados con contrato vigente", "No", "Sí", "160–226 k por mes."),
     ("Precios del Lump Sum del Excel vs Cot. 1255", "No", "Sí", "+0,44 M al LS si se usara la cotización."),
     ("Horas cotizadas por Petro Star (24 h en 0,1–5 km) vs 18 h del Excel", "Parcial (rango 15–21 h)", "Sí", "−0,17 M."),

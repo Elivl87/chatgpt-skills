@@ -47,7 +47,7 @@ m = sheet("Método", [2, 34, 22, 22, 30, 60], "Método: cómo está armado el co
 h1(m, 4, "1. CLASIFICACIÓN DE CADA RENGLÓN DE COSTO", "F")
 rows = [
     ("Tarifa por movilización (Work Order)", "Work Order", "Variable por movilización; escalón por rango", "Límites de rango 0,2 / 5 / 10 km", "No es monótona: 5–10 km (95.374) cuesta menos que 0,1–5 km (98.663)."),
-    ("Bono por mover más rápido", "Work Order", "Escalón por banda de horas", "Bandas de horas de la tabla WO (pendiente)", "Las tarifas del Excel son 'más de X horas' (banda lenta). Mover más rápido sube la tarifa del WO: el WO puede costar más que en el caso base."),
+    ("Tarifa con tope", "Work Order", "Acotada arriba y abajo", "Tope superior = tarifa del Excel (movilización rápida); si tarda más, tarifa fija menor", "El WO nunca paga más que la tarifa del Excel, tarde lo que tarde. Comparar contra el tope es el escenario más caro del WO, es decir, el más favorable al tercerizado."),
     ("Recargo de señalizadoras faltantes", "Work Order", "Variable; escalón 1 o 2 turnos", "12 h = 1 turno; más de 12 h = 2 turnos", "4 personas por turno × 375.000 COP (Cot. 1255 p. 5)."),
     ("Tarifa del transportador", "Tercerizado", "Variable; escalón por rango", "0,2 / 5 / 10 / 20 km", "Petro Star no cotiza más de 20 km: acantilado de cobertura."),
     ("Descuento desde la 6ª del mes", "Tercerizado", "Acantilado por número de movilización del mes", "6ª movilización del mes", "Petro Star: 50 % de la tarifa. Ecotransur: solo equipos. Lump Sum: sin descuento (evaluación principal)."),
@@ -151,7 +151,7 @@ sup = [("Work Order base y 12 señalizadoras", "Premisa SierraCol", "No está en
        ("Frecuencia esperada 5–6 movs/mes", "Premisa SierraCol", "Sensibilidad de 4 a 8 movs/mes."),
        ("TRM 3.700", "Premisa SierraCol", "Fija para el ejercicio."),
        ("Tiempo estipulado de Ecotransur = el de Petro Star (12/24/36/36 h) y mismas tarifas por hora", "Supuesto", "Su carta no declara tiempos ni tarifas horarias."),
-       ("Bono del WO por mover más rápido = 0 %", "Pendiente", "Falta la tabla del WO por horas."),
+       ("WO a su tarifa tope en todas las movilizaciones", "Premisa SierraCol", "Es el WO más caro posible: favorece al tercerizado. Si alguna tarda más, el WO paga menos."),
        ("Meses bloqueados = 0", "Riesgo operativo", "Cada mes bloqueado paga el cargo fijo de 0 movilizaciones."),
        ("Bloqueo social/escolar en movilización: 17,3 h por campaña, pagadas con taladro + equipos (condición 7); el WO no paga", "Medido (OpenWells 2025) escalado", "22,25 h en 45 movs de 2025 → 35/45. Si el contrato WO cobrara stand-by por bloqueos, el efecto se cancela en parte."),
        ("Lump Sum sin descuento (principal)", "Premisa SierraCol", "Con descuento: solo referencia."),
@@ -209,8 +209,8 @@ def st(k, o): return (P["5"][k][o], P["6"][k][o])
 rows = []
 def addp(item, trabajo, alt, k, o, quien, ofname):
     a, b = st(k, o); rows.append((item, trabajo, alt, ofname, a, b, quien))
-rows.append(("Tabla del Work Order por horas (bono por mover más rápido)", "Tarifa 'más de X horas' (la más baja)", "Tarifas de bandas más rápidas", "Todas (favorece al tercerizado)",
-             P["5"]["bono5"]["PS"], P["6"]["bono5"]["PS"], "SierraCol (contrato WO). Valor mostrado: +5 % al WO"))
+rows.append(("Tarifa WO cuando la movilización tarda más (tarifa fija menor que el tope)", "Tope del Excel en todas", "Tarifa fija menor en las lentas", "Todas (favorece al WO)",
+             -P["5"]["bono5"]["PS"], -P["6"]["bono5"]["PS"], "SierraCol (contrato WO). Valor mostrado: −5 % al WO"))
 addp("Horas que se pagan al taladro", "Excel 12/18/24/28", "Petro Star 12/24/36/36", "horas_ps", "PS", "SierraCol / Petro Star", "Todas (igual)")
 rows.append(("Mes bloqueado (no se puede mover; contrato vigente)", "0 meses", "1 mes", "Petro Star (ambas)", P["5"]["bloqueo"]["PS"], P["6"]["bloqueo"]["PS"], "Operaciones / contrato (¿cláusula de suspensión?)"))
 rows.append(("Mes bloqueado (no se puede mover; contrato vigente)", "0 meses", "1 mes", "Ecotransur", P["5"]["bloqueo"]["EC"], P["6"]["bloqueo"]["EC"], "Operaciones / contrato"))
@@ -257,7 +257,7 @@ NOTAS = [
     ("Ecotransur", "Desde la 5ª no cobra cargo fijo; desde la 6ª cobra solo equipos (123,18 / 139,005 / 167,055 M COP). Simulador filas 60/67."),
     ("Cargo fijo mensual", "Petro Star: tabla p. 4 de 0 a 5 movilizaciones (con 5 todavía cobra). Ecotransur: 80/60/40/20 % de 1 a 4. Simulador filas 72–78."),
     ("Horas excedidas", "Si una movilización supera el tiempo estipulado (12/24/36/36 h), se paga el taladro por esas horas y además equipos de la flota mínima y señalizadores por hora (Cot. 1255 p. 5). Simulador filas 41, 68, 69 y panel 1b."),
-    ("Bono del Work Order", "Las tarifas WO del Excel son los ítems 'más de X horas' (la banda más lenta). Si el contratista mueve más rápido, el WO paga una tarifa mayor (bono). Sin la tabla WO por horas se deja como % editable (Simulador N10) en 0."),
+    ("Tope del Work Order", "Confirmado por SierraCol: las tarifas WO del Excel son el tope (lo máximo que se paga, con movilización rápida). Si la movilización tarda más, se paga una tarifa fija menor. El tercerizado no tiene tope: cada hora extra se paga (taladro + equipos). Simulador N10 = 0 %."),
 ]
 table(ve, r + 1, ["Concepto", "Cómo está aplicado"], [(a, b) for a, b in NOTAS], height=60)
 for rr in range(r + 2, r + 2 + len(NOTAS)):

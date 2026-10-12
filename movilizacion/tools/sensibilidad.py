@@ -34,7 +34,7 @@ def tornado(frec):
          lambda: ahorro(con(BASE, horas=[14, 26, 38, 38]), frec)),
         ("Bloqueo social/escolar durante movilizaciones (h por campaña)", "Medido (OpenWells 2025)", f"{HB:g} h", "0 h", f"{2*HB:g} h (el doble)", lambda: ahorro(con(BASE, horas_bloqueo=0), frec), lambda: ahorro(con(BASE, horas_bloqueo=2 * HB), frec)),
         ("Meses bloqueados (contrato vigente)", "Riesgo operativo", "0", "0", "1 mes", lambda: b, lambda: ahorro(con(BASE, meses_bloqueados=1), frec)),
-        ("Bono del Work Order por mover más rápido", "Pendiente (tabla WO)", "0 %", "+5 % al WO", "0 %", lambda: ahorro(con(BASE, bono_wo=0.05), frec), lambda: b),
+        ("Tarifa WO en movilizaciones lentas (bajo el tope)", "Premisa SierraCol (tope)", "tope", "tope", "−5 % al WO", lambda: b, lambda: ahorro(con(BASE, bono_wo=-0.05), frec)),
         ("NPT de perforación (baja la frecuencia)", "Sin dato: barrido", "0 %", "0 %", "20 %", lambda: b, lambda: ahorro(frec=frec * 0.8)),
         ("Tarifa del taladro", "Medido", "34.944 USD/día", "−10 %", "+10 %", lambda: ahorro(con(BASE, taladro_dia=34944 * 0.9), frec), lambda: ahorro(con(BASE, taladro_dia=34944 * 1.1), frec)),
         ("Truck Manager", "Premisa SierraCol", "por movilización", "por movilización", "60 M COP fijo por mes", lambda: b, lambda: ahorro(con(BASE, tm_modo="mensual"), frec)),
