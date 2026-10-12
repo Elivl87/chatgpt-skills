@@ -1,149 +1,110 @@
-"""Sensibilidades y pendientes con el motor de referencia (mismo cálculo que el simulador)."""
+"""Sensibilidades, puntos de quiebre y pendientes con el motor de referencia (mismo cálculo que el simulador).
+Base fijada por SierraCol: campaña 15 misma loc. + 20 en 0,1–5 km, frecuencia esperada 5–6 movs/mes, TRM 3.700."""
 import sys, os, json
 sys.path.insert(0, os.path.dirname(__file__))
 from modelo import BASE, campana, proyeccion, con
+from logs import leer
 
-P24 = [7, 8, 7, 7, 7, 9, 7, 3, 6, 6, 3]; P25 = [1, 4, 7, 5, 6, 7, 7, 5, 3]
 OF = {"PS": "Petro Star normal", "LS": "Petro Star Lump Sum", "EC": "Ecotransur"}
+EQH = lambda p: (p["equipo_h_cop"][1] + p["personal_h_cop"]) / p["trm"]
 
 
-def reordenar(movs, misma_primero):
-    out = []
-    for mes in sorted({m for m, _, _ in movs}):
-        grupo = [x for x in movs if x[0] == mes]
-        grupo.sort(key=lambda x: (x[1] != 0) if misma_primero else (x[1] == 0))
-        out += grupo
-    return out
-
-
-def ahorro(p=None, perfil=P24, rango_otra=1, npt=0.0, orden=None, extra_ps_cop=None):
+def ahorro(p=None, frec=5.0, orden=None):
     p = p or BASE
-    movs = proyeccion(rango_otra=rango_otra, npt=npt, perfil=perfil)
+    movs = proyeccion(frec=frec)
     if orden is not None:
-        movs = reordenar(movs, orden)
+        out = []
+        for mes in sorted({m for m, _, _ in movs}):
+            g = [x for x in movs if x[0] == mes]; g.sort(key=lambda x: (x[1] != 0) if orden else (x[1] == 0)); out += g
+        movs = out
     t = campana(p, movs, desde_mes=1)
-    if extra_ps_cop:  # adicionales requeridos de PS normal cobrados aparte (Cot. 1255, azul)
-        t["PS"] += sum(extra_ps_cop[r] / p["trm"] for _, r, _ in movs)
     return {o: t["WO"] - t[o] for o in OF}
 
 
-def var(nombre, clase, base_txt, a_txt, b_txt, fa, fb):
-    return {"variable": nombre, "clase": clase, "base": base_txt, "a": a_txt, "b": b_txt, "fa": fa, "fb": fb}
-
-
-def tornado(perfil):
-    b = ahorro(perfil=perfil)
+def tornado(frec):
+    b = ahorro(frec=frec)
     V = [
-        var("Frecuencia mensual (perfil del log)", "Medido", "perfil del año", "perfil 2024", "perfil 2025",
-            lambda: ahorro(perfil=P24), lambda: ahorro(perfil=P25)),
-        var("Rango de los 20 pozos en otra localización", "Supuesto", "0,1–5 km", "0,1–5 km", "5–10 km",
-            lambda: ahorro(perfil=perfil, rango_otra=1), lambda: ahorro(perfil=perfil, rango_otra=2)),
-        var("Rango de los 20 pozos (extremo lejano)", "Supuesto", "0,1–5 km", "0,1–5 km", "más de 10 km",
-            lambda: ahorro(perfil=perfil, rango_otra=1), lambda: ahorro(perfil=perfil, rango_otra=3)),
-        var("Horas de taladro por movilización", "Medido vs dato Excel", "Excel 12/18/24/28", "Excel 12/18/24/28", "Petro Star 12/24/36/36",
-            lambda: b, lambda: ahorro(con(horas=[12, 24, 36, 36]), perfil)),
-        var("Sobretiempo por movilización (todas)", "Medido (log)", "0 h", "0 h", "+3,5 h (sobretiempo medio misma loc. 2025)",
-            lambda: b, lambda: ahorro(con(horas_extra=[3.5] * 4), perfil)),
-        var("NPT de perforación (baja la frecuencia)", "Sin dato: barrido", "0 %", "0 %", "20 %",
-            lambda: b, lambda: ahorro(perfil=perfil, npt=0.20)),
-        var("TRM", "Medido", "3.700", "4.070 (+10 %)", "3.330 (−10 %)",
-            lambda: ahorro(con(trm=4070), perfil), lambda: ahorro(con(trm=3330), perfil)),
-        var("Tarifa del taladro", "Medido", "34.944 USD/día", "31.450 (−10 %)", "38.438 (+10 %)",
-            lambda: ahorro(con(taladro_dia=34944 * 0.9), perfil), lambda: ahorro(con(taladro_dia=34944 * 1.1), perfil)),
-        var("Truck Manager", "Premisa SierraCol", "2.702,70 USD por mov.", "por movilización", "60 M COP fijo por mes",
-            lambda: b, lambda: ahorro(con(tm_modo="mensual"), perfil)),
-        var("Adicionales: ¿se cancelan entre modelos?", "Premisa SierraCol", "0 % / 0 %", "se cancelan", "+5 % solo en tercerizado",
-            lambda: b, lambda: ahorro(con(adic_base=0.05, adic_ls=0.05), perfil)),
-        var("Recargo de señalizadoras al WO", "Premisa SierraCol", "se carga", "se carga", "no se carga",
-            lambda: b, lambda: ahorro(con(senal_aplica=False), perfil)),
-        var("Cargo fijo de Petro Star con 5 movs/mes", "Medido (contradicción PDF)", "se cobra (p. 4)", "no se cobra (mínimo 5)", "se cobra",
-            lambda: ahorro(con(fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), perfil), lambda: b),
-        var("Ecotransur 6ª+ en misma localización", "Supuesto", "equipos 0–5 km", "equipos 0–5 km", "tarifa plena",
-            lambda: b, lambda: ahorro(con(eq_ec_cop=[140233002] + BASE["eq_ec_cop"][1:]), perfil)),
-        var("Orden de los pozos dentro del mes", "Supuesto", "intercalado", "otra loc. primero", "misma loc. primero",
-            lambda: ahorro(perfil=perfil, orden=False), lambda: ahorro(perfil=perfil, orden=True)),
-        var("Petro Star normal: equipos adicionales requeridos cobrados aparte", "Riesgo de oferta", "no se cobran", "no se cobran", "se cobran (Cot. 1255, azul)",
-            lambda: b, lambda: ahorro(perfil=perfil, extra_ps_cop=[0, 30302108, 72906324, 100359486])),
+        ("Frecuencia mensual", "Premisa (5–6)", f"{frec:g}/mes", "6/mes", "5/mes", lambda: ahorro(frec=6), lambda: ahorro(frec=5)),
+        ("Horas de taladro por movilización", "Dato Excel vs cotización", "Excel 12/18/24/28", "Excel 12/18/24/28", "Petro Star 12/24/36/36", lambda: b, lambda: ahorro(con(horas=[12, 24, 36, 36]), frec)),
+        ("Sobretiempo en cada movilización (solo taladro)", "Medido (logs)", "0 h", "0 h", "+3,5 h", lambda: b, lambda: ahorro(con(horas_extra=[3.5] * 4), frec)),
+        ("Horas por encima del tiempo estipulado (taladro + equipos)", "Medido (logs)", "0 h", "0 h", "+2 h sobre 12/24/36/36", lambda: b,
+         lambda: ahorro(con(horas=[14, 26, 38, 38]), frec)),
+        ("Meses bloqueados (contrato vigente)", "Riesgo operativo", "0", "0", "1 mes", lambda: b, lambda: ahorro(con(meses_bloqueados=1), frec)),
+        ("Bono del Work Order por mover más rápido", "Pendiente (tabla WO)", "0 %", "+5 % al WO", "0 %", lambda: ahorro(con(bono_wo=0.05), frec), lambda: b),
+        ("NPT de perforación (baja la frecuencia)", "Sin dato: barrido", "0 %", "0 %", "20 %", lambda: b, lambda: ahorro(frec=frec * 0.8)),
+        ("Tarifa del taladro", "Medido", "34.944 USD/día", "−10 %", "+10 %", lambda: ahorro(con(taladro_dia=34944 * 0.9), frec), lambda: ahorro(con(taladro_dia=34944 * 1.1), frec)),
+        ("Truck Manager", "Premisa SierraCol", "por movilización", "por movilización", "60 M COP fijo por mes", lambda: b, lambda: ahorro(con(tm_modo="mensual"), frec)),
+        ("Adicionales: ¿se cancelan entre modelos?", "Premisa SierraCol", "0 % / 0 %", "se cancelan", "+5 % solo en tercerizado", lambda: b, lambda: ahorro(con(adic_base=0.05, adic_ls=0.05), frec)),
+        ("Recargo de señalizadoras al WO", "Premisa SierraCol", "se carga", "se carga", "no se carga", lambda: b, lambda: ahorro(con(senal_aplica=False), frec)),
+        ("Cargo fijo de Petro Star con 5 movs/mes", "Medido (contradicción PDF)", "se cobra (p. 4)", "no se cobra", "se cobra", lambda: ahorro(con(fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), frec), lambda: b),
+        ("Ecotransur 6ª+ en misma localización", "Supuesto", "equipos 0–5 km", "equipos 0–5 km", "tarifa plena", lambda: b, lambda: ahorro(con(eq_ec_cop=[140233002] + BASE["eq_ec_cop"][1:]), frec)),
+        ("Orden de los pozos dentro del mes", "Supuesto", "intercalado", "misma loc. primero", "otra loc. primero", lambda: ahorro(frec=frec, orden=True), lambda: ahorro(frec=frec, orden=False)),
     ]
     rows = []
-    for v in V:
-        fa, fb = v.pop("fa")(), v.pop("fb")()
+    for nombre, clase, base, ta, tb, fa, fb in V:
+        a, c = fa(), fb()
         for o in OF:
-            lo, hi = sorted([fa[o], fb[o]])
-            rows.append({**v, "oferta": o, "base_usd": b[o], "favorable_usd": hi, "desfavorable_usd": lo,
-                         "favorable_txt": v["a"] if fa[o] >= fb[o] else v["b"], "desfavorable_txt": v["b"] if fa[o] >= fb[o] else v["a"],
-                         "efecto_usd": hi - lo})
+            lo, hi = sorted([a[o], c[o]])
+            rows.append({"variable": nombre, "clase": clase, "base": base, "oferta": o, "base_usd": b[o], "favorable_usd": hi, "desfavorable_usd": lo,
+                         "favorable_txt": ta if a[o] >= c[o] else tb, "desfavorable_txt": tb if a[o] >= c[o] else ta, "efecto_usd": hi - lo})
     return b, rows
+
+
+def frecuencias():
+    out = []
+    for f in (4, 4.5, 5, 5.5, 6, 6.5, 7, 8):
+        a = ahorro(frec=f); h = ahorro(con(horas=[12, 24, 36, 36]), f)
+        out.append([f, a["PS"], a["LS"], a["EC"], h["PS"], h["LS"], h["EC"]])
+    return out
+
+
+def quiebres():
+    out = []
+    for f in (5, 6):
+        b = ahorro(frec=f); p = BASE
+        for o in ("PS", "EC"):
+            S = b[o]; fijo0 = (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
+            out.append([f, OF[o], S, S / 35, S / 35 / 550000, S / (35 * 1456), S / (35 * (1456 + EQH(p))), S / 34944, S / fijo0])
+    return out
+
+
+def reales():
+    out = {}
+    for y in (2024, 2025):
+        L = leer(os.path.join(os.path.dirname(__file__), "..", "insumos", f"Movilizaciones_{y}.xlsx"))
+        movs = [(m["mes"], m["rango"], m["horas"]) for m in L]
+        a = campana(BASE, movs); r0 = campana(con(cobra_exceso=False), movs, usar_horas_reales=True); r1 = campana(BASE, movs, usar_horas_reales=True)
+        exc = [m for m in L if m["horas"] and m["horas"] > BASE["horas_estipuladas"][m["rango"]]]
+        hx = sum(m["horas"] - BASE["horas_estipuladas"][m["rango"]] for m in exc)
+        out[str(y)] = {"excel": {o: a["WO"] - a[o] for o in OF}, "reales_sin_equipos": {o: r0["WO"] - r0[o] for o in OF},
+                       "reales_con_equipos": {o: r1["WO"] - r1[o] for o in OF}, "movs_exceden": len(exc), "horas_excedidas": hx,
+                       "equipos_usd": hx * EQH(BASE), "taladro_usd": hx * 1456}
+    return out
 
 
 def pendientes():
     out = []
-    for nombre, perfil in (("2024", P24), ("2025", P25)):
-        b = ahorro(perfil=perfil)
-        items = {
-            "LS_pdf": ahorro(con(tarifa_cop={**BASE["tarifa_cop"], "LS": [140385441, 251155192, 311369322, 346822484]}), perfil),
-            "LS_desc": {o: v for o, v in campana_ls_desc(perfil).items()},
-            "fijo5": ahorro(con(fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), perfil),
-            "horas_ps": ahorro(con(horas=[12, 24, 36, 36]), perfil),
-            "ps_adic": ahorro(perfil=perfil, extra_ps_cop=[0, 30302108, 72906324, 100359486]),
-            "ec_misma": ahorro(con(eq_ec_cop=[140233002] + BASE["eq_ec_cop"][1:]), perfil),
-            "tm_mensual": ahorro(con(tm_modo="mensual"), perfil),
-            "adic5": ahorro(con(adic_base=0.05, adic_ls=0.05), perfil),
-            "rango_5_10": ahorro(perfil=perfil, rango_otra=2),
-            "rango_10": ahorro(perfil=perfil, rango_otra=3),
-            "senal_no": ahorro(con(senal_aplica=False), perfil),
-        }
-        out.append({"perfil": nombre, "base": b, **{k: {o: v[o] - b[o] for o in OF} for k, v in items.items()}})
+    for f in (5, 6):
+        b = ahorro(frec=f)
+        it = {"horas_ps": ahorro(con(horas=[12, 24, 36, 36]), f), "LS_pdf": ahorro(con(tarifa_cop={**BASE["tarifa_cop"], "LS": [140385441, 251155192, 311369322, 346822484]}), f),
+              "fijo5": ahorro(con(fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), f), "ec_misma": ahorro(con(eq_ec_cop=[140233002] + BASE["eq_ec_cop"][1:]), f),
+              "tm_mensual": ahorro(con(tm_modo="mensual"), f), "adic5": ahorro(con(adic_base=0.05, adic_ls=0.05), f), "senal_no": ahorro(con(senal_aplica=False), f),
+              "bloqueo": ahorro(con(meses_bloqueados=1), f), "bono5": ahorro(con(bono_wo=0.05), f), "npt20": ahorro(frec=f * 0.8)}
+        t = campana(BASE, proyeccion(frec=f), desde_mes=1)
+        it["LS_desc"] = {**b, "LS": t["WO"] - t["LSD"]}
+        out.append({"frec": f, "base": b, **{k: {o: v[o] - b[o] for o in OF} for k, v in it.items()}})
     return out
-
-
-def mezcla(otra, perfil, p=None):
-    """15 misma loc. + 20 otra loc. repartidos por rango (otra = [0,1–5; 5–10; >10]) en orden proporcional."""
-    p = p or BASE
-    movs = proyeccion(perfil=perfil); seq = []; tot = sum(otra); c = [0, 0, 0]
-    for i in range(tot):
-        j = max(range(3), key=lambda k: otra[k] * (i + 1) / tot - c[k]); c[j] += 1; seq.append(j + 1)
-    it = iter(seq); movs = [(m, r if r == 0 else next(it), h) for m, r, h in movs]
-    t = campana(p, movs, desde_mes=1)
-    return {o: t["WO"] - t[o] for o in OF}
-
-
-def escenarios():
-    ph = con(horas=[12, 24, 36, 36])
-    E = [("Caso base: perfil 2024, 20 pozos en 0,1–5 km, horas Excel", mezcla([20, 0, 0], P24)),
-         ("Perfil 2024 + mezcla de los logs 2025 (10/6/4)", mezcla([10, 6, 4], P24)),
-         ("Perfil 2024 + mezcla 2025 + horas cotizadas por Petro Star (12/24/36/36)", mezcla([10, 6, 4], P24, ph)),
-         ("Perfil 2025, 20 pozos en 0,1–5 km, horas Excel", mezcla([20, 0, 0], P25)),
-         ("Perfil 2025 + mezcla de los logs 2025", mezcla([10, 6, 4], P25)),
-         ("Escenario prudente: perfil 2025 + mezcla 2025 + horas cotizadas", mezcla([10, 6, 4], P25, ph))]
-    return [(n, v["PS"], v["LS"], v["EC"]) for n, v in E]
-
-
-def campana_ls_desc(perfil):
-    t = campana(BASE, proyeccion(perfil=perfil), desde_mes=1)
-    b = ahorro(perfil=perfil)
-    return {"PS": 0.0, "LS": (t["WO"] - t["LSD"]) - b["LS"] + b["LS"], "EC": 0.0} | {"LS": t["WO"] - t["LSD"]}
 
 
 if __name__ == "__main__":
     res = {}
-    for nombre, perfil in (("2024", P24), ("2025", P25)):
-        b, rows = tornado(perfil)
-        res[nombre] = {"base": b, "rows": rows}
-    pend = pendientes()
-    # pendiente: un mes parado con contrato vigente
-    trm = BASE["trm"]
-    res["mes_parado_usd"] = {"PS": BASE["fijo_ps_cop"][0] / trm, "EC": BASE["fijo_ec_cop"][0] / trm}
-    res["pendientes"] = pend
-    res["escenarios"] = escenarios()
+    for f in (5, 6):
+        b, rows = tornado(f); res[str(f)] = {"base": b, "rows": rows}
+    res["frecuencias"] = frecuencias(); res["quiebres"] = quiebres(); res["reales"] = reales(); res["pendientes"] = pendientes()
+    res["mes_bloqueado_usd"] = {"PS": BASE["fijo_ps_cop"][0] / BASE["trm"], "EC": BASE["fijo_ec_cop"][0] / BASE["trm"]}
+    res["hora_exceso_usd"] = {"transportador": EQH(BASE), "taladro": 1456.0, "total": EQH(BASE) + 1456}
     json.dump(res, open(sys.argv[1], "w"), indent=1, ensure_ascii=False, default=float)
-    for nombre in ("2024", "2025"):
-        print("== perfil", nombre, {o: round(v) for o, v in res[nombre]["base"].items()})
-        for o in OF:
-            rr = sorted([r for r in res[nombre]["rows"] if r["oferta"] == o], key=lambda r: -r["efecto_usd"])
-            print(" ", o)
-            for r in rr[:15]:
-                print(f"    {r['variable'][:52]:52s} fav {r['favorable_usd']:>11,.0f} ({r['favorable_txt'][:22]:22s}) desf {r['desfavorable_usd']:>11,.0f} ({r['desfavorable_txt'][:26]})")
-    print("mes parado", {k: round(v) for k, v in res["mes_parado_usd"].items()})
-    for p in pend:
-        print("pend", p["perfil"], {k: {o: round(x) for o, x in v.items()} for k, v in p.items() if k not in ("perfil",)})
+    for f in ("5", "6"):
+        print("== frec", f, {o: round(v) for o, v in res[f]["base"].items()})
+    for r in res["quiebres"]: print("quiebre", [round(x, 2) if isinstance(x, float) else x for x in r])
+    for y, v in res["reales"].items(): print(y, {k: ({o: round(x) for o, x in w.items()} if isinstance(w, dict) else round(w, 1)) for k, w in v.items()})

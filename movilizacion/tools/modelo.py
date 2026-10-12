@@ -32,6 +32,15 @@ BASE = {
     "fijo_ec_cop": [717374835 + 120000000, 573899868 + 96000000, 430424901 + 72000000,
                     286949934 + 48000000, 143474967 + 24000000],                         # 0..4; 5+ = 0
     "meses_cero_cobran": False,                      # meses sin movilización = campaña parada (SierraCol)
+    # Horas excedidas sobre el tiempo estipulado (Cot. 1255 p. 1–2: 12/24/36/36 h; Ecotransur: supuesto igual)
+    "horas_estipuladas": [12, 24, 36, 36],
+    "cobra_exceso": True,
+    # Flota mínima por escenario (Cot. 1255 p. 1–2) a tarifa por hora (p. 5): 2 cabezotes/3 camas altas/1 cama baja (misma loc.)
+    # o 4 cabezotes/1 cama alta/1 cama baja (demás), grúa 80 t, cargador, 2 camionetas, 4 torres (tarifa planta estadio), 2 baños
+    "equipo_h_cop": [3934000, 3934000, 3934000, 3934000],
+    "personal_h_cop": 20 * 54375,                    # 20 señalizadores a tarifa por hora (p. 5)
+    "meses_bloqueados": 0,                           # meses sin poder mover con contrato vigente (bloqueo / operación)
+    "bono_wo": 0.0,                                  # bono del WO por mover más rápido (tabla WO por horas: pendiente)
     # Work Order
     "wo": [75642, 98663, 95374, 110174],
     "senal_pers_turno": 4, "senal_cop_turno": 375000, "senal_turnos": [1, 2, 2, 2], "senal_aplica": True,
@@ -59,12 +68,13 @@ def costo_mov(p, oferta, rango, k, horas=None):
     adic = p["adic_ls"] if oferta in ("LS", "LSD") else p["adic_base"]
     h = p["horas"][rango] + p["horas_extra"][rango] if horas is None else horas
     tm = p["tm_cop_mes"] / trm / p["tm_movs_base"] if p["tm_modo"] == "por_mov" else 0.0
-    return tarifa * (1 + adic) + h * p["taladro_dia"] / 24 + tm
+    exceso = max(0.0, h - p["horas_estipuladas"][rango]) * (p["equipo_h_cop"][rango] + p["personal_h_cop"]) / trm if p["cobra_exceso"] else 0.0
+    return tarifa * (1 + adic) + h * p["taladro_dia"] / 24 + tm + exceso
 
 
 def costo_wo(p, rango):
     senal = p["senal_pers_turno"] * p["senal_cop_turno"] * p["senal_turnos"][rango] / p["trm"] if p["senal_aplica"] else 0
-    return p["wo"][rango] * (1 + p["adic_wo"]) + senal
+    return p["wo"][rango] * (1 + p["adic_wo"] + p["bono_wo"]) + senal
 
 
 def campana(p, movs, usar_horas_reales=False, desde_mes=None):
@@ -86,6 +96,8 @@ def campana(p, movs, usar_horas_reales=False, desde_mes=None):
             if mes not in por_mes:  # mes sin movilización dentro de la campaña (p. ej. por NPT): contrato vigente
                 for o in OFERTAS:
                     tot[o] += (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
+    for o in OFERTAS:  # meses bloqueados: no se puede mover pero el contrato sigue vigente
+        tot[o] += p["meses_bloqueados"] * (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
     for mes, n in por_mes.items():
         for o in OFERTAS:
             tot[o] += fijo_mes(p, o, n)

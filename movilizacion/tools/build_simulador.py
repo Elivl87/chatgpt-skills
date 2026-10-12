@@ -59,7 +59,7 @@ for c, t in zip("BCDEF", ["Variable", "Valor", "Unidad", "Clase", "Fuente"]):
     put(f"{c}6", t, B, fill=F_H2)
 ws.merge_cells("F6:I6")
 P = [
-    (7, "TRM", 3700, "COP/USD", "Medido", "Tarifas.xlsx · E3", COP, False),
+    (7, "TRM", 3700, "COP/USD", "Premisa SierraCol", "Tarifas.xlsx · E3 (fija para el ejercicio)", COP, False),
     (8, "Tarifa del taladro (24 h)", 34944, "USD/día", "Medido", "Tarifas.xlsx · E5", USD, False),
     (9, "Tarifa del taladro por hora", "=C8/24", "USD/h", "Cálculo", "Tarifas.xlsx · E6 (= E5/24)", USD2, False),
     (10, "Oferta que se muestra en la fila 88 (solo detalle)", OFERTAS[0], "", "Selección", "Lista: las 3 ofertas (Lump Sum con y sin descuento)", None, False),
@@ -80,6 +80,18 @@ P = [
 for r, lab, val, uni, cls, src, fmt, key in P:
     put(f"B{r}", lab); put(f"C{r}", val, BLUE if not str(val).startswith("=") else BLK, fmt, F_Y if key else None)
     put(f"D{r}", uni); put(f"E{r}", cls); put(f"F{r}", src); ws.merge_cells(f"F{r}:I{r}")
+# ---------- 1b. Riesgos operativos (panel lateral)
+ws.merge_cells("K5:N5"); c = ws["K5"]; c.value = "1b. HORAS EXCEDIDAS, BLOQUEOS, BONO WO Y COSTO DEL POZO"; c.font = H1; c.fill = F_H1
+ws.merge_cells("K6:M6"); put("K6", "Variable", B, fill=F_H2); put("N6", "Valor", B, fill=F_H2)
+SIDE = [(7, "¿Se cobran equipos y señalizadores por hora por encima del tiempo estipulado? (Cot. 1255 p. 5)", "Sí", None),
+        (8, "Señalizadores por hora excedida: 20 × 54.375 COP (Cot. 1255 p. 5)", 1087500, COP),
+        (9, "Meses bloqueados en la campaña (no se puede mover; contrato vigente)", 0, '0'),
+        (10, "Bono del Work Order por mover más rápido (% sobre la tarifa) · tabla WO por horas pendiente", 0, PCT),
+        (11, "Costo de un pozo en LCI, solo perforación (USD) · SierraCol: 500–600 k", 550000, USD)]
+for r, lab, val, fmt in SIDE:
+    ws.merge_cells(f"K{r}:M{r}"); put(f"K{r}", lab, wrap=True); put(f"N{r}", val, BLUE, fmt, F_Y)
+    ws.row_dimensions[r].height = 30
+dvs = DataValidation(type="list", formula1='"Sí,No"'); ws.add_data_validation(dvs); dvs.add("N7")
 dv = DataValidation(type="list", formula1='"' + ",".join([OFERTAS[0], OFERTAS[1], OFERTAS[3]]) + '"'); ws.add_data_validation(dv); dv.add("C10")
 dv2 = DataValidation(type="list", formula1='"Por movilización (Excel),Mensual fijo"'); ws.add_data_validation(dv2); dv2.add("C16")
 dv3 = DataValidation(type="list", formula1='"Sí,No"'); ws.add_data_validation(dv3); dv3.add("C22")
@@ -92,10 +104,10 @@ ws.merge_cells("F26:I26")
 C = [
     (27, "Pozos en la misma localización", 15, "pozos", "Premisa SierraCol", "Proyección de campaña entregada por SierraCol", '0'),
     (28, "Pozos en otra localización", 20, "pozos", "Premisa SierraCol", "Proyección de campaña entregada por SierraCol", '0'),
-    (29, "Rango de los pozos en otra localización (2 = 0,1–5 km · 3 = 5–10 km · 4 = más de 10 km)", 2, "1–4", "Supuesto", "La proyección dice 'Dif. Loc' sin distancia; los logs reparten esos movimientos en 3 rangos", '0'),
+    (29, "Rango de los pozos en otra localización (2 = 0,1–5 km · 3 = 5–10 km · 4 = más de 10 km)", 2, "1–4", "Premisa SierraCol", "Confirmado por SierraCol: 0,1–5 km", '0'),
     (30, "Total de pozos (movilizaciones)", "=C27+C28", "pozos", "Cálculo", "Máximo 60 en la tabla de detalle", '0'),
-    (31, "Frecuencia mensual", "Perfil 2024", "", "Medido (logs)", "Perfil 2024 / Perfil 2025 = movilizaciones de cada mes del log, en orden · Constante = valor de abajo", None),
-    (32, "Movilizaciones por mes si la frecuencia es constante", 6, "movs/mes", "Supuesto", "Solo se usa con 'Constante'", NUM),
+    (31, "Frecuencia mensual", "Constante", "", "Premisa SierraCol", "Esperado: 5 a 6 movs/mes (SierraCol). Perfil 2024 / Perfil 2025 = meses reales de los logs", None),
+    (32, "Movilizaciones por mes si la frecuencia es constante", 5, "movs/mes", "Premisa SierraCol", "Rango esperado 5–6; ver Sensibilidad (4 a 8)", NUM),
 ]
 for r, lab, val, uni, cls, src, fmt in C:
     put(f"B{r}", lab, wrap=(r == 29)); put(f"C{r}", val, BLUE if not str(val).startswith("=") else BLK, fmt, F_Y if r in (29, 31) else None)
@@ -123,7 +135,7 @@ ws.merge_cells("H38:I38")
 T = [
     (39, "Horas de movilización que se le pagan al taladro (tercerizado)", [12, 18, 24, 28], "Dato del Excel", "Tarifas.xlsx · C26, C52, C78, C104", '0.0', True),
     (40, "Horas extra por movilización (NPT de movilización)", [0, 0, 0, 0], "Supuesto (0)", "Logs: ver hojas Real 2024 / Real 2025", '0.0', True),
-    (41, "Referencia: horas totales que declara Petro Star (no se usan)", [12, 24, 36, 36], "Medido", "Cot. 1255 p. 1–2, 'Tiempo total de movilización'", '0', False),
+    (41, "Tiempo estipulado por el transportador (h): por encima se cobran equipos y señalizadores por hora", [12, 24, 36, 36], "Medido · Ecotransur = supuesto", "Cot. 1255 p. 1–2 'Tiempo total' y p. 5 (Ecotransur no declara tiempos)", '0', False),
     (42, "Turnos de señalizadoras por movilización", [1, 2, 2, 2], "Premisa SierraCol", "12 h = 1 turno; 18/24/28 h = 2 turnos", '0', False),
     (43, "Work Order base (USD por movilización)", [75642, 98663, 95374, 110174], "Premisa SierraCol", "Tarifas.xlsx · K4:K7 (dato SierraCol)", USD, False),
     (44, "Tarifa Petro Star normal (COP)", [140385441, 220853084, 238462998, 246462998], "Medido", "Tarifas.xlsx · E25, E51, E77, E103", COP, False),
@@ -147,7 +159,7 @@ def calc_row(r, lab, f, fmt=USD, bold=False, src=""):
 
 put("B49", "Work Order (USD por movilización)", B, fill=F_H2)
 calc_row(50, "Recargo de señalizadoras faltantes", '=IF($C$22="Sí",$C$20*$C$21*#42/$C$7,0)', USD2, src="Personas por turno × tarifa turno × turnos / TRM")
-calc_row(51, "Work Order total por movilización", "=#43*(1+$C$13)+#50", USD, True)
+calc_row(51, "Work Order total por movilización", "=#43*(1+$C$13+$N$10)+#50", USD, True)
 put("B52", "Tercerizado (USD por movilización)", B, fill=F_H2)
 calc_row(53, "Taladro durante la movilización", "=(#39+#40)*$C$9", USD, src="(Horas + horas extra) × tarifa por hora")
 calc_row(54, "Truck Manager por movilización", '=IF($C$16="Mensual fijo",0,$C$14/$C$7/$C$15)', USD2, src="Si es mensual fijo se suma por mes (sección 6)")
@@ -158,13 +170,16 @@ calc_row(58, "Lump Sum: tarifa 6ª en adelante (columna con descuento)", "=#57*(
 calc_row(59, "Ecotransur: tarifa, 1ª a 5ª del mes", "=#46/$C$7*(1+$C$11)")
 calc_row(60, "Ecotransur: 6ª en adelante (solo equipos)", "=#47/$C$7*(1+$C$11)")
 put("B61", "Costo total por movilización tercerizada = tarifa + taladro + Truck Manager", B, fill=F_H2)
-calc_row(62, "Petro Star normal, 1ª a 5ª  (= fila amarilla del Excel)", "=#55+#53+#54", USD, True)
-calc_row(63, "Petro Star normal, 6ª en adelante", "=#56+#53+#54", USD, True)
-calc_row(64, "Lump Sum sin descuento  (= fila amarilla del Excel)", "=#57+#53+#54", USD, True)
-calc_row(65, "Lump Sum con descuento, 6ª en adelante", "=#58+#53+#54", USD, True)
-calc_row(66, "Ecotransur, 1ª a 5ª  (= fila amarilla del Excel)", "=#59+#53+#54", USD, True)
-calc_row(67, "Ecotransur, 6ª en adelante", "=#60+#53+#54", USD, True)
-note(68, "Con los valores por defecto, las filas 62, 64 y 66 reproducen al centavo la fila amarilla 'Costo Suma Global (USD)' del Excel (filas 31, 57, 83 y 109). Ver hoja Reconciliación.")
+calc_row(62, "Petro Star normal, 1ª a 5ª  (= fila amarilla del Excel)", "=#55+#53+#54+#69", USD, True)
+calc_row(63, "Petro Star normal, 6ª en adelante", "=#56+#53+#54+#69", USD, True)
+calc_row(64, "Lump Sum sin descuento  (= fila amarilla del Excel)", "=#57+#53+#54+#69", USD, True)
+calc_row(65, "Lump Sum con descuento, 6ª en adelante", "=#58+#53+#54+#69", USD, True)
+calc_row(66, "Ecotransur, 1ª a 5ª  (= fila amarilla del Excel)", "=#59+#53+#54+#69", USD, True)
+calc_row(67, "Ecotransur, 6ª en adelante", "=#60+#53+#54+#69", USD, True)
+put("B68", "Equipos de la flota mínima por hora excedida (COP/h)")
+for i in range(4): put(f"{CL(3+i)}68", 3934000, BLUE, COP, F_Y)
+put("G68", "Estimado"); put("H68", "Flota mínima Cot. 1255 p. 1–2 a tarifa por hora p. 5 (Ecotransur: mismas tarifas, supuesto)"); ws.merge_cells("H68:I68")
+calc_row(69, "Cobro por horas excedidas (equipos + señalizadores), por movilización", '=IF($N$7="Sí",MAX(0,#39+#40-#41)*(#68+$N$8)/$C$7,0)', USD, src="Cero con las horas del Excel; aparece si las horas superan el tiempo estipulado")
 
 # ---------- 4. Cargo fijo mensual
 h1(70, "4. CARGO FIJO MENSUAL DEL TRANSPORTADOR (nómina + disponibilidad o stand-by), según movilizaciones del mes")
@@ -191,10 +206,10 @@ ws.row_dimensions[82].height = 28
 MV0, MV1 = 157, 216; M0, M1 = 115, 150
 rows = [
     (83, "Work Order (modelo directo)", f"=SUM(G{MV0}:G{MV1})", None, None),
-    (84, OFERTAS[0], f"=SUM(H{MV0}:H{MV1})+G{M1+1}+I{M1+1}", f"G{M1+1}", True),
-    (85, OFERTAS[1], f"=SUM(I{MV0}:I{MV1})+G{M1+1}+I{M1+1}", f"G{M1+1}", False),
-    (86, OFERTAS[2], f"=SUM(J{MV0}:J{MV1})+G{M1+1}+I{M1+1}", f"G{M1+1}", True),
-    (87, OFERTAS[3], f"=SUM(K{MV0}:K{MV1})+H{M1+1}+I{M1+1}", f"H{M1+1}", True),
+    (84, OFERTAS[0], f"=SUM(H{MV0}:H{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72", f"G{M1+1}+$N$9*$E$72", True),
+    (85, OFERTAS[1], f"=SUM(I{MV0}:I{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72", f"G{M1+1}+$N$9*$E$72", False),
+    (86, OFERTAS[2], f"=SUM(J{MV0}:J{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72", f"G{M1+1}+$N$9*$E$72", True),
+    (87, OFERTAS[3], f"=SUM(K{MV0}:K{MV1})+H{M1+1}+I{M1+1}+$N$9*$F$72", f"H{M1+1}+$N$9*$F$72", True),
 ]
 for r, lab, f, fijo, desc in rows:
     put(f"B{r}", lab, bold=(r == 83)); put(f"C{r}", f, BLK, USD)
@@ -203,6 +218,9 @@ for r, lab, f, fijo, desc in rows:
         put(f"F{r}", f'=COUNTIF($F${MV0}:$F${MV1},">="&$C$19)' if desc else 0, BLK, '0')
         put(f"G{r}", f"={fijo}", BLK, USD)
     put(f"H{r}", f'=COUNTIF($F${M0}:$F${M1},">0")', BLK, '0')
+put("L82", "Ahorro por pozo (USD)", B, fill=F_H2, wrap=True); put("M82", "Ahorro como % del costo de un pozo", B, fill=F_H2, wrap=True)
+for rr in range(84, 88):
+    put(f"L{rr}", f"=IF($C$30=0,0,D{rr}/$C$30)", BLK, USD); put(f"M{rr}", f"=IF($N$11=0,0,L{rr}/$N$11)", BLK, PCT)
 put("B88", "Oferta elegida en C10 (detalle)", bold=True, fill=F_Y)
 put("C88", "=INDEX(C84:C87,MATCH($C$10,$B$84:$B$87,0))", BLK, USD, F_Y, bold=True)
 put("D88", "=INDEX(D84:D87,MATCH($C$10,$B$84:$B$87,0))", BLK, USD, F_Y, bold=True)
@@ -312,6 +330,9 @@ def hoja_real(anio, path):
               "O": f"=IF(H{r}>={S('$C$19')},INDEX({S('$C$65:$F$65')},F{r}),INDEX({S('$C$64:$F$64')},F{r}))",
               "P": f"=IF(H{r}>={S('$C$19')},INDEX({S('$C$67:$F$67')},F{r}),INDEX({S('$C$66:$F$66')},F{r}))"}
         hr = f"(IF(I{r}=\"\",J{r}+INDEX({S('$C$40:$F$40')},F{r}),I{r})-J{r}-INDEX({S('$C$40:$F$40')},F{r}))*{S('$C$9')}"
+        hreal = f"IF(I{r}=\"\",J{r}+INDEX({S('$C$40:$F$40')},F{r}),I{r})"
+        hr += (f"-INDEX({S('$C$69:$F$69')},F{r})+IF({S('$N$7')}=\"Sí\",MAX(0,{hreal}-INDEX({S('$C$41:$F$41')},F{r}))"
+               f"*(INDEX({S('$C$68:$F$68')},F{r})+{S('$N$8')})/{S('$C$7')},0)")
         for a, bcol in zip("MNOP", "QRST"):
             fl[bcol] = f"={a}{r}+{hr}"
         for col, f in fl.items():
