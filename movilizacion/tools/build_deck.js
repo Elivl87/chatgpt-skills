@@ -55,18 +55,18 @@ s.addChart(pres.charts.BAR, [
   showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 10, dataLabelColor: HEX.mute, dataLabelFontFace: "+mn-lt",
   catAxisLabelColor: HEX.mute, catAxisLabelFontSize: 10, catAxisLabelFontFace: "+mn-lt", valAxisHidden: true, valGridLine: { style: "none" }, catGridLine: { style: "none" } });
 const stats = [
-  ["1–3 %", "del costo de cada pozo", "Ahorro por pozo con 5–6 movs/mes: Petro Star normal 6–16 k USD, Ecotransur 16–18 k USD (pozo de 500–600 k)"],
-  ["2 h", "de más por movilización", "sobre el tiempo cotizado borran el ahorro de Petro Star con 5 movs/mes; con 6, unas 6 h (taladro + equipos)"],
+  ["1–3 %", "del costo de cada pozo", "Ahorro por pozo con 5–6 movs/mes: Petro Star normal 4–15 k USD, Ecotransur 15–17 k USD (pozo de 500–600 k)"],
+  ["1,5 h", "de más por movilización", "sobre el tiempo cotizado borran el ahorro de Petro Star con 5 movs/mes; con 6, unas 5 h (taladro + equipos)"],
   ["No cruza", "con los precios del Excel", "Petro Star Lump Sum sin descuento. Con los precios de la cotización 1255 sí cruzaría: pendiente de Compras (SCM)"],
 ];
 stats.forEach((t, i) => {
   const y = 1.45 + i * 1.62;
   card(s, 7.3, y, 5.4, 1.42);
-  s.addText(t[0], { x: 7.5, y: y + 0.12, w: 1.9, h: 1.15, fontSize: t[0].length > 4 ? 26 : 36, bold: true, color: i == 0 ? C.accent4 : C.accent5, fontFace: "Cambria", valign: "middle", margin: 0, isTextBox: true });
+  s.addText(t[0], { x: 7.5, y: y + 0.12, w: 1.9, h: 1.15, fontSize: t[0].length > 5 ? 26 : 36, bold: true, color: i == 0 ? C.accent4 : C.accent5, fontFace: "Cambria", valign: "middle", margin: 0, isTextBox: true });
   s.addText([{ text: t[1], options: { bold: true, fontSize: 14, breakLine: true } }, { text: t[2], options: { fontSize: 12, color: C.text2 } }],
     { x: 9.5, y: y + 0.12, w: 3.05, h: 1.18, valign: "middle", color: C.text1, margin: 0, isTextBox: true });
 });
-s.addText("Campaña 15 + 20 pozos (0,1–5 km), frecuencia esperada 5–6 movs/mes, TRM 3.700. Con 4 movs/mes Petro Star ya pierde. Logs: 2024 tuvo 6 o más en 9 de 11 meses; 2025, en 4 de 9.",
+s.addText("Campaña 15 + 20 pozos (0,1–5 km), 5–6 movs/mes, TRM 3.700 y 17,3 h de bloqueo social medido (OpenWells 2025). Con 4 movs/mes Petro Star pierde. Logs: 2024 tuvo 6 o más en 9 de 11 meses; 2025, en 4 de 9.",
   { x: 7.3, y: 6.33, w: 5.4, h: 0.6, fontSize: 10.5, italic: true, color: C.text2, margin: 0, isTextBox: true });
 s.addNotes("Frontera calculada con el simulador (hoja Simulador, sección 6, y campaña con frecuencia constante). Los umbrales salen de Cot. 1255 p. 2 y p. 4 y de la carta de Ecotransur p. 2–4.");
 
@@ -144,7 +144,7 @@ const cols = [pick(5, "Petro Star normal"), pick(6, "Petro Star normal"), pick(5
 s.addTable(tq, { x: 0.6, y: 1.4, w: 8.0, colW: [3.6, 1.1, 1.1, 1.1, 1.1], fontSize: 12, fontFace: "Calibri", color: HEX.ink, border: { type: "solid", pt: 0.5, color: HEX.grid }, rowH: 0.42, valign: "middle" });
 s.addText([
   { text: "Por qué: ", options: { bold: true } },
-  { text: "en el Work Order una demora o un mes sin mover no cuesta nada. En el tercerizado cada hora sobre el tiempo cotizado cuesta unos 2.813 USD (taladro 1.456 + equipos y señalizadores 1.357) y un mes bloqueado paga el cargo fijo completo (Petro Star 161 k, Ecotransur 226 k)." },
+  { text: "en el Work Order una demora, un bloqueo o un mes sin mover no cuesta nada. En el tercerizado cada hora sobre el tiempo cotizado cuesta unos 2.813 USD (taladro 1.456 + equipos y señalizadores 1.357) y un mes bloqueado paga el cargo fijo completo (Petro Star 161 k, Ecotransur 226 k)." },
 ], { x: 0.6, y: 4.55, w: 8.0, h: 1.1, fontSize: 12, color: C.text2, valign: "top", margin: 0, isTextBox: true });
 card(s, 9.0, 1.4, 3.7, 4.3, HEX.ink);
 s.addText([

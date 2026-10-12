@@ -132,7 +132,8 @@ rc.cell(r + 1, 2, "Cargos fijos mensuales: Simulador C72:D78 transcritos de Cot.
 # ================= MEDIDO Y SUPUESTO =================
 ms = sheet("Medido y supuesto", [2, 50, 30, 60], "Lo medido y lo supuesto, separados",
            "Ningún supuesto tiene la autoridad de un dato medido. Los supuestos están en amarillo en el simulador.")
-med = [("Tarifas de las tres ofertas por rango", "Tarifas.xlsx E/F/G", "Precios tal cual SCM los pasó (F no coincide con la Cot. 1255)."),
+med = [("Bloqueos durante movilización 2025: 22,25 h social/escolar en fase 01MIRU (4 movs con paro, 3 con restricción escolar)", "Evaluacion_Drilling_IM_Jul_2026_v5.xlsx · NPT Social 2025 (OpenWells)", "Los bloqueos largos (17–72 h) cayeron en perforación: ambos modelos pagan igual."),
+       ("Tarifas de las tres ofertas por rango", "Tarifas.xlsx E/F/G", "Precios tal cual SCM los pasó (F no coincide con la Cot. 1255)."),
        ("TRM y tarifa del taladro", "Tarifas.xlsx E3, E5", ""),
        ("Cargo fijo mensual por número de movilizaciones", "Cot. 1255 p. 4 · Ecotransur p. 2–3", ""),
        ("Descuento desde la 6ª (Petro Star 50 %; Ecotransur solo equipos)", "Cot. 1255 p. 2 · Ecotransur p. 3–4", ""),
@@ -152,6 +153,7 @@ sup = [("Work Order base y 12 señalizadoras", "Premisa SierraCol", "No está en
        ("Tiempo estipulado de Ecotransur = el de Petro Star (12/24/36/36 h) y mismas tarifas por hora", "Supuesto", "Su carta no declara tiempos ni tarifas horarias."),
        ("Bono del WO por mover más rápido = 0 %", "Pendiente", "Falta la tabla del WO por horas."),
        ("Meses bloqueados = 0", "Riesgo operativo", "Cada mes bloqueado paga el cargo fijo de 0 movilizaciones."),
+       ("Bloqueo social/escolar en movilización: 17,3 h por campaña, pagadas con taladro + equipos (condición 7); el WO no paga", "Medido (OpenWells 2025) escalado", "22,25 h en 45 movs de 2025 → 35/45. Si el contrato WO cobrara stand-by por bloqueos, el efecto se cancela en parte."),
        ("Lump Sum sin descuento (principal)", "Premisa SierraCol", "Con descuento: solo referencia."),
        ("Ecotransur 6ª+ en misma loc. = equipos 0–5 km", "Supuesto", "El PDF no trae valor."),
        ("Orden de los pozos dentro del mes: intercalado", "Supuesto", "Sensibilidad: misma loc. primero / otra primero."),
@@ -165,7 +167,7 @@ table(ms, r + 2, ["SUPUESTO O PREMISA", "Origen", "Nota"], sup, height=28)
 
 # ================= SENSIBILIDAD =================
 se = sheet("Sensibilidad", [2, 46, 18, 22, 26, 16, 26, 16, 16, 16], "Sensibilidad: de qué depende que haya o no ahorro",
-           "Ahorro = costo WO − costo tercerizado (USD); positivo = el tercerizado cuesta menos. Campaña 15 misma loc. + 20 en 0,1–5 km, TRM 3.700. Valores calculados con tools/sensibilidad.py (mismo motor que el simulador); no se recalculan al editar.")
+           "Ahorro = costo WO − costo tercerizado (USD); positivo = el tercerizado cuesta menos. Campaña 15 misma loc. + 20 en 0,1–5 km, TRM 3.700, 17,3 h de bloqueo social en movilización (OpenWells 2025). Valores calculados con tools/sensibilidad.py (mismo motor que el simulador); no se recalculan al editar.")
 h1(se, 4, "1. FRECUENCIA: AHORRO DE LA CAMPAÑA SEGÚN MOVILIZACIONES POR MES (esperado 5–6)", "I")
 FQ = [[("%g" % x[0]).replace(".", ",")] + x[1:] for x in S["frecuencias"]]
 r = table(se, 5, ["Movs/mes", "PS normal · horas Excel", "Lump Sum · horas Excel", "Ecotransur · horas Excel", "PS normal · horas cotizadas", "Lump Sum · horas cotizadas", "Ecotransur · horas cotizadas"], FQ,
@@ -173,10 +175,10 @@ r = table(se, 5, ["Movs/mes", "PS normal · horas Excel", "Lump Sum · horas Exc
 se.cell(r, 2, "Horas cotizadas = 12/24/36/36 h (Cot. 1255). Con frecuencias no enteras se alternan meses (p. ej. 5,5 = meses de 6 y de 5). El último mes de la campaña puede quedar corto y pagar cargo fijo: por eso la curva tiene dientes.").font = NOTE
 r += 2
 h1(se, r, "2. PUNTOS DE QUIEBRE: CUÁNTO AGUANTA EL AHORRO ANTES DE DESAPARECER", "J"); r += 1
-QB = [[q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8]] for q in S["quiebres"]]
+QB = [[q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]] for q in S["quiebres"]]
 r = table(se, r, ["Movs/mes", "Oferta", "Ahorro campaña (USD)", "Ahorro por pozo (USD)", "% del costo de un pozo (550 k)", "Horas extra de taladro por movilización que lo anulan",
-                  "Horas sobre el tiempo estipulado que lo anulan (taladro + equipos)", "Días de taladro de demora en toda la campaña que lo anulan", "Meses bloqueados que lo anulan"], QB,
-          ['0', None, USD, USD, '0.0%', '0.0', '0.0', '0.0', '0.0'], height=30)
+                  "Horas sobre el tiempo estipulado que lo anulan (taladro + equipos)", "Días de taladro de demora en toda la campaña que lo anulan", "Meses bloqueados que lo anulan", "Horas de bloqueo en movilización que lo anulan (campaña)"], QB,
+          ['0', None, USD, USD, '0.0%', '0.0', '0.0', '0.0', '0.0', '0'], height=30)
 se.cell(r, 2, f"Hora excedida en el tercerizado: taladro 1.456 + equipos y señalizadores {S['hora_exceso_usd']['transportador']:,.0f} = {S['hora_exceso_usd']['total']:,.0f} USD/h (Cot. 1255 p. 5). En el Work Order cuesta 0. Un mes bloqueado: Petro Star {S['mes_bloqueado_usd']['PS']:,.0f} · Ecotransur {S['mes_bloqueado_usd']['EC']:,.0f} USD.".replace(",", ".")).font = NOTE
 r += 2
 h1(se, r, "3. LO QUE PASÓ CON LAS HORAS REALES (logs): campañas 2024 y 2025 repetidas con cada modelo", "J"); r += 1

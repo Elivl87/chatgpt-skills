@@ -40,7 +40,9 @@ BASE = {
     "equipo_h_cop": [3934000, 3934000, 3934000, 3934000],
     "personal_h_cop": 20 * 54375,                    # 20 señalizadores a tarifa por hora (p. 5)
     "meses_bloqueados": 0,                           # meses sin poder mover con contrato vigente (bloqueo / operación)
-    "bono_wo": 0.0,                                  # bono del WO por mover más rápido (tabla WO por horas: pendiente)
+    "bono_wo": 0.0,
+    "horas_bloqueo": 0.0,                            # horas de bloqueo social/escolar durante movilizaciones en la campaña
+                                                     # (OpenWells 2025: 22,25 h en 45 movs, fase 01MIRU). Proyección 35 pozos: 17,3 h                                  # bono del WO por mover más rápido (tabla WO por horas: pendiente)
     # Work Order
     "wo": [75642, 98663, 95374, 110174],
     "senal_pers_turno": 4, "senal_cop_turno": 375000, "senal_turnos": [1, 2, 2, 2], "senal_aplica": True,
@@ -96,6 +98,9 @@ def campana(p, movs, usar_horas_reales=False, desde_mes=None):
             if mes not in por_mes:  # mes sin movilización dentro de la campaña (p. ej. por NPT): contrato vigente
                 for o in OFERTAS:
                     tot[o] += (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
+    hb = p["horas_bloqueo"] * (p["taladro_dia"] / 24 + ((p["equipo_h_cop"][1] + p["personal_h_cop"]) / p["trm"] if p["cobra_exceso"] else 0))
+    for o in OFERTAS:  # bloqueos durante la movilización: taladro + equipos (Cot. 1255 condición 7); el WO no paga
+        tot[o] += hb
     for o in OFERTAS:  # meses bloqueados: no se puede mover pero el contrato sigue vigente
         tot[o] += p["meses_bloqueados"] * (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
     for mes, n in por_mes.items():

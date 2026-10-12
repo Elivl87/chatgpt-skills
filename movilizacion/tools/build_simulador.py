@@ -87,7 +87,8 @@ SIDE = [(7, "¿Se cobran equipos y señalizadores por hora por encima del tiempo
         (8, "Señalizadores por hora excedida: 20 × 54.375 COP (Cot. 1255 p. 5)", 1087500, COP),
         (9, "Meses bloqueados en la campaña (no se puede mover; contrato vigente)", 0, '0'),
         (10, "Bono del Work Order por mover más rápido (% sobre la tarifa) · tabla WO por horas pendiente", 0, PCT),
-        (11, "Costo de un pozo en LCI, solo perforación (USD) · SierraCol: 500–600 k", 550000, USD)]
+        (11, "Costo de un pozo en LCI, solo perforación (USD) · SierraCol: 500–600 k", 550000, USD),
+        (12, "Horas de bloqueo social/escolar durante movilizaciones en la campaña (OpenWells 2025: 22,25 h en 45 movs → 17,3 h en 35)", 17.3, '0.0')]
 for r, lab, val, fmt in SIDE:
     ws.merge_cells(f"K{r}:M{r}"); put(f"K{r}", lab, wrap=True); put(f"N{r}", val, BLUE, fmt, F_Y)
     ws.row_dimensions[r].height = 30
@@ -206,10 +207,10 @@ ws.row_dimensions[82].height = 28
 MV0, MV1 = 157, 216; M0, M1 = 115, 150
 rows = [
     (83, "Work Order (modelo directo)", f"=SUM(G{MV0}:G{MV1})", None, None),
-    (84, OFERTAS[0], f"=SUM(H{MV0}:H{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72", f"G{M1+1}+$N$9*$E$72", True),
-    (85, OFERTAS[1], f"=SUM(I{MV0}:I{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72", f"G{M1+1}+$N$9*$E$72", False),
-    (86, OFERTAS[2], f"=SUM(J{MV0}:J{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72", f"G{M1+1}+$N$9*$E$72", True),
-    (87, OFERTAS[3], f"=SUM(K{MV0}:K{MV1})+H{M1+1}+I{M1+1}+$N$9*$F$72", f"H{M1+1}+$N$9*$F$72", True),
+    (84, OFERTAS[0], f"=SUM(H{MV0}:H{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72+$N$12*($C$9+IF($N$7=\"Sí\",($D$68+$N$8)/$C$7,0))", f"G{M1+1}+$N$9*$E$72", True),
+    (85, OFERTAS[1], f"=SUM(I{MV0}:I{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72+$N$12*($C$9+IF($N$7=\"Sí\",($D$68+$N$8)/$C$7,0))", f"G{M1+1}+$N$9*$E$72", False),
+    (86, OFERTAS[2], f"=SUM(J{MV0}:J{MV1})+G{M1+1}+I{M1+1}+$N$9*$E$72+$N$12*($C$9+IF($N$7=\"Sí\",($D$68+$N$8)/$C$7,0))", f"G{M1+1}+$N$9*$E$72", True),
+    (87, OFERTAS[3], f"=SUM(K{MV0}:K{MV1})+H{M1+1}+I{M1+1}+$N$9*$F$72+$N$12*($C$9+IF($N$7=\"Sí\",($D$68+$N$8)/$C$7,0))", f"H{M1+1}+$N$9*$F$72", True),
 ]
 for r, lab, f, fijo, desc in rows:
     put(f"B{r}", lab, bold=(r == 83)); put(f"C{r}", f, BLK, USD)
