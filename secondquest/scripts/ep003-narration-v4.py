@@ -18,7 +18,7 @@ Same method as v3 (scripts/ep003-narration-v3.py), only the engine changes:
   python3 scripts/ep003-narration-v4.py <voicestudio dir: vsenv/ + vs_repo/ + ovtools/omni_gen.py + ovtools/utmos_score.py>
 Needs the pinned k2-fsa/OmniVoice snapshot (revision c5fdb5cc…) at OV_MODEL (default /dev/shm/hf/...) and the UTMOS
 checkpoint at /dev/shm/evalm/utmos.pt.
-Out: public/episodes/ep003/audio/narration.wav + episodes/ep003/timings.json (v3 kept as narration_v3.wav/timings_v3.json).
+Out: public/episodes/ep003/audio/narration_v4.wav + episodes/ep003/timings_v4.json (never the active narration.wav).
 """
 import difflib, importlib.util, json, os, re, shutil, subprocess, sys
 from pathlib import Path
@@ -135,9 +135,9 @@ def snap_words(cues, y):
 
 def main():
     if sys.argv[1] == '--retime':                  # re-snap the word edges of an existing v4 narration
-        y = load(ROOT / 'public/episodes/ep003/audio/narration.wav'); tm = json.loads((EP / 'timings.json').read_text())
+        y = load(ROOT / 'public/episodes/ep003/audio/narration_v4.wav'); tm = json.loads((EP / 'timings_v4.json').read_text())
         snap_words(tm['cues'], y); tm['alignment'] += '; word edges snapped out of silence'
-        (EP / 'timings.json').write_text(json.dumps(tm, indent=2, ensure_ascii=False)); return
+        (EP / 'timings_v4.json').write_text(json.dumps(tm, indent=2, ensure_ascii=False)); return
     md = Path(sys.argv[1])
     lines = json.loads((EP / 'script.json').read_text())['lines']
     work = md / 'ep003_sent_v4'
@@ -237,10 +237,9 @@ def finish(lines, sents, pick, bram, stt, work):
     y = eq_to(y, bram)
     r = np.sqrt(np.mean(bram[np.abs(bram) > .01] ** 2)); s_ = np.sqrt(np.mean(y[np.abs(y) > .01] ** 2))
     y = np.clip(y * r / s_, -.98, .98)
-    out = work / 'smoke_narration.wav' if SMOKE else ROOT / 'public/episodes/ep003/audio/narration.wav'
-    tpath = work / 'smoke_timings.json' if SMOKE else EP / 'timings.json'
-    if not SMOKE and out.exists() and not (out.parent / 'narration_v3.wav').exists():
-        shutil.copy(out, out.parent / 'narration_v3.wav'); shutil.copy(EP / 'timings.json', EP / 'timings_v3.json')
+    # never touches the active narration.wav/timings.json: the Creative Director switches after the Producer approves
+    out = work / 'smoke_narration.wav' if SMOKE else ROOT / 'public/episodes/ep003/audio/narration_v4.wav'
+    tpath = work / 'smoke_timings.json' if SMOKE else EP / 'timings_v4.json'
     soundfile.write(str(out), y, SR, subtype='PCM_16')
     segs, _ = stt.transcribe(str(out), language='en', word_timestamps=True, beam_size=5)
     ww = [(w.word, w.start, w.end) for s_ in segs for w in s_.words]
