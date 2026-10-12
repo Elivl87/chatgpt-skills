@@ -335,10 +335,10 @@ def stage_audio():
         m = m[m.rindex('Summary:'):]
         import re
         return float(re.search(r'I:\s+(-?[\d.]+) LUFS', m).group(1)), float(re.search(r'Peak:\s+(-?[\d.]+) dBFS', m).group(1))
-    I0, _ = meas(raw); gain = -14 - I0
-    for _ in range(3):
+    I0, _ = meas(raw); gain = -14 - I0 - 3.01                          # mono -> stereo (two equal channels) adds 3 dB
+    for _ in range(5):
         af = f'volume={gain:.2f}dB,aresample=192000,alimiter=limit=0.82:attack=2:release=80:level=disabled,aresample={SR}'
-        subprocess.run([FF, '-v', 'error', '-y', '-i', str(raw), '-af', af, '-c:a', 'pcm_s16le', '-ar', str(SR), str(OUT / 'narration.wav')], check=True)
+        subprocess.run([FF, '-v', 'error', '-y', '-i', str(raw), '-af', af, '-ac', '2', '-c:a', 'pcm_s16le', '-ar', str(SR), str(OUT / 'narration.wav')], check=True)
         I1, tp = meas(OUT / 'narration.wav')
         if abs(I1 + 14) < .15:
             break

@@ -153,7 +153,6 @@
         </div>
         <div id="gFrame" class="abs" style="left: 0; top: 0; width: 1080px; height: 1920px; border: 22px solid var(--ink); border-radius: 50px; transform-origin: 50% 46%; opacity: 0"></div>
         <div class="mk" id="mkSize" style="left: 290px; top: 290px">Actual size</div>
-        <div id="ruler" class="abs" style="left: 268px; top: 1330px; width: 544px; height: 40px; border: 7px solid #fff4dc; border-top: none; opacity: 0"></div>
       </div>
 
       <!-- ============ I · Nobody wakes up thinking: Man... (l22-l23) ============ -->
@@ -480,8 +479,7 @@
       tl.to("#gWrap", { scale: .42, y: -40, borderRadius: 60, duration: .5, ease: "back.inOut(1.2)" }, 30.24);       // the field: a small tile
       tl.fromTo("#gFrame", { scale: 1, opacity: 0 }, { scale: .42, y: -40, opacity: 1, duration: .5, ease: "back.inOut(1.2)" }, 30.24);
       tl.fromTo("#mkSize", { scale: 0, opacity: 1, rotation: -8 }, { scale: 1, opacity: 1, rotation: -3, duration: .3, ease: "back.out(2.5)" }, 30.97);
-      tl.fromTo("#ruler", { scaleX: 0, opacity: 1 }, { scaleX: 1, opacity: 1, duration: .3, ease: "power2.out" }, 30.97);
-      tl.to(["#mkSize", "#ruler"], { opacity: 0, duration: .15 }, 31.95);
+      tl.to(["#mkSize"], { opacity: 0, duration: .15 }, 31.95);
       tl.set("#youngLook", { opacity: 0 }, 31.95);
       tl.set(["#youngBack", "#outline"], { opacity: 1 }, 31.95);
       tl.set("#outline", { opacity: 0 }, 31.95);
