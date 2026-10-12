@@ -91,3 +91,9 @@
 - Producer: "Quiero escuchar primero antes que renderices. Yo tengo que aprobar la voz antes." — every new narration
   (placeholder engines included) goes to the Producer as A/B samples first; nothing is re-rendered with it until approved.
   Narration v4 (VoiceStudio) is on hold for approval; the current renders keep v3.
+
+## 2026-10-12 · Voice: VoiceStudio chosen; clone Bram "al 100%"
+- Producer: "Me quedo con la de voicestudio. Quiero que CLONES al 100% a Bram… Usa las voces de Bram del EP001 y EP002…
+  debes conseguir su naturalidad, absolutamente todo de Bram. Luego me pasas el vídeo (resolución baja, porque es
+  preliminar)." — VoiceStudio is the placeholder engine; narration v5 built from all of Bram's EP001+EP002 reads; A/B
+  to the Producer, then a low-res preliminary video. The clone stays an internal review placeholder (not published).
