@@ -1,0 +1,23 @@
+categoria	repo	url	lenguaje	estrellas	ultima_actividad	licencia	que_hace	como_ayuda	prioridad	nota
+Evaluación económica	numpy/numpy-financial	https://github.com/numpy/numpy-financial	Python	~411	2026-10-05	BSD-3	npv, irr, pmt estilo Excel	Verificar VPN/TIR del Excel (ojo convención t=0 vs t=1)	Alta	
+Evaluación económica	Anexen/pyxirr	https://github.com/Anexen/pyxirr	Rust/Python	~221	2025-11-03	Unlicense	XIRR/XNPV con fechas irregulares	Flujos con fechas reales de movilización	Media	
+Evaluación económica	PhilipGriffith/AHPy	https://github.com/PhilipGriffith/AHPy	Python	~154	2025-09-18	MIT	AHP con razón de consistencia	Pesos de criterios cualitativos (control, HSE, responsabilidad)	Alta	
+Evaluación económica	Valdecy/pyDecision	https://github.com/Valdecy/pyDecision	Python	~366	2026-06-03	Otra (ver LICENSE)	MCDA: AHP, TOPSIS, ELECTRE, PROMETHEE	Robustez del ranking A vs B	Alta	Revisar licencia
+Evaluación económica	quatrope/scikit-criteria	https://github.com/quatrope/scikit-criteria	Python	~105	2026-09-01	BSD-3	MCDA sobre pandas	Matriz de decisión auditable	Media	
+Evaluación económica	energyinpython/pyrepo-mcda	https://github.com/energyinpython/pyrepo-mcda	Python	~13	2026-08-17	MIT	MCDA con sensibilidad de pesos	Cuánto debe cambiar un peso para invertir la decisión	Baja	
+Evaluación económica	AnniceNajafi/RMCDA	https://github.com/AnniceNajafi/RMCDA	R	~8	2026-05-01	MIT	MCDA en R	Solo si se usa R	Baja	
+Evaluación económica	Pegah-Ardehkhani/Multi-Criteria-Decision-Making	https://github.com/Pegah-Ardehkhani/Multi-Criteria-Decision-Making	Jupyter	~4	2024-12-28	MIT	Notebooks didácticos MCDM	Replicar AHP/TOPSIS en Excel	Baja	
+Evaluación económica	SilverDecisions/SilverDecisions	https://github.com/SilverDecisions/SilverDecisions	JavaScript	~139	2023-03-04	LGPL-3.0	Árboles de decisión con valor esperado y sensibilidad	Árbol A vs B con ramas de demora; gráfico para PPT	Alta	
+Evaluación económica	causalincentives/pycid	https://github.com/causalincentives/pycid	Python	~115	2023-09-19	Apache-2.0	Diagramas de influencia	Formalización avanzada	Baja	
+Evaluación económica	eikeluedeling/decisionSupport	https://github.com/eikeluedeling/decisionSupport	R	~6	2026-02-27	no declarada	Análisis de decisiones con Monte Carlo y VOI	Valor de reducir la incertidumbre de demoras	Media	
+Evaluación económica	CWWhitney/Decision_Analysis_Course	https://github.com/CWWhitney/Decision_Analysis_Course	HTML/R	~27	2026-06-24	MIT	Curso de análisis de decisiones (Univ. Bonn)	Metodología citable	Baja	
+Evaluación económica	SURGroup/UQpy	https://github.com/SURGroup/UQpy	Python	~362	2026-08-27	MIT	Cuantificación de incertidumbre general	Probablemente excesivo	Baja	
+Evaluación económica	NLRWindSystems/LandBOSSE	https://github.com/NLRWindSystems/LandBOSSE	Python	~17	2026-07-28	Apache-2.0	Costos BOS eólicos: transporte, grúas, gestión, demoras por clima	Análogo más cercano a mover equipo pesado; estructura de rubros de B	Alta	
+Evaluación económica	NLRWindSystems/ORBIT	https://github.com/NLRWindSystems/ORBIT	Python	~23	2026-05-07	Apache-2.0	Instalación offshore: tarifa diaria, logística, clima	Patrón tarifa diaria × tiempo + demoras	Media	
+Evaluación económica	NatLabRockies/SAM	https://github.com/NatLabRockies/SAM	C++	~489	2026-10-06	BSD-3	Modelos financieros de proyectos de energía	Metodología de flujo de caja	Baja	
+Evaluación económica	pbtamarona/OpenPyTEA	https://github.com/pbtamarona/OpenPyTEA	Jupyter	~37	2026-10-08	MIT	Evaluación tecno-económica con tornado y Monte Carlo	Plantilla de encadenamiento costos → riesgo	Media	
+Evaluación económica	daniel-fink/rangekeeper	https://github.com/daniel-fink/rangekeeper	Jupyter	~45	2026-10-03	MPL-2.0	Modelado financiero con escenarios	Estructura base/optimista/pesimista	Media	
+Evaluación económica	NatLabRockies/GEOPHIRES-X	https://github.com/NatLabRockies/GEOPHIRES-X	Python	~61	2026-09-30	MIT	Tecno-económica geotérmica con costos de perforación	Referencia de economía de perforación	Baja	
+Evaluación económica	ahmed-khalil-hafsi/P2Predict	https://github.com/ahmed-khalil-hafsi/P2Predict	Python	~1	2026-07-08	Otra	Should-cost paramétrico para compras	Validar tarifa lump sum vs mercado	Baja	
+Evaluación económica	ManosV18/managers-lab	https://github.com/ManosV18/managers-lab	Python	0	2026-10-04	MIT	Punto de equilibrio y costos	Ejemplo sencillo	Baja	
+Evaluación económica	domokane/FinancePy	https://github.com/domokane/FinancePy	Python	~3.2k	2026-09-30	GPL-3.0	Derivados y riesgo financiero	Solo para cobertura cambiaria	Baja	
