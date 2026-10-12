@@ -148,7 +148,7 @@ s.addText([
 ], { x: 0.6, y: 4.55, w: 8.0, h: 1.1, fontSize: 12, color: C.text2, valign: "top", margin: 0, isTextBox: true });
 card(s, 9.0, 1.4, 3.7, 4.3, HEX.ink);
 s.addText([
-  { text: "Falta confirmar", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true, paraSpaceAfter: 6 } },
+  { text: "A tener en cuenta", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true, paraSpaceAfter: 6 } },
   { text: "El Work Order tiene tope: lo comparamos contra su tarifa máxima. El tercerizado no tiene tope; el riesgo de cada hora extra queda en SierraCol.", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
   { text: "Horas que se pagarán al taladro: con las cotizadas (24 h en 0,1–5 km) el ahorro baja 0,17 M.", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
   { text: "Precios del Lump Sum: el Excel está por encima de la cotización 1255 (+0,44 M).", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
