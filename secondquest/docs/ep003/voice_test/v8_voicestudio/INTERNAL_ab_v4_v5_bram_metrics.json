@@ -1,0 +1,102 @@
+{
+ "hook/v4": {
+  "dur": 35.27,
+  "wpm_speaking": 201,
+  "gap_median": 0.54,
+  "pauses_gt_0.1s": 20,
+  "f0_iqr": 65.8,
+  "f0_range_st": 11.4,
+  "energy_std_db": 6.75,
+  "sv_bram": 0.9721,
+  "utmos": 4.394,
+  "bram_dist_per_sentence": 2.77,
+  "statements_final_fall_share": 0.73
+ },
+ "hook/v5": {
+  "dur": 38.36,
+  "wpm_speaking": 173,
+  "gap_median": 0.4,
+  "pauses_gt_0.1s": 26,
+  "f0_iqr": 50.6,
+  "f0_range_st": 11.6,
+  "energy_std_db": 6.43,
+  "sv_bram": 0.985,
+  "utmos": 4.484,
+  "bram_dist_per_sentence": 2.08,
+  "statements_final_fall_share": 0.91
+ },
+ "boat_silence/v4": {
+  "dur": 43.15,
+  "wpm_speaking": 215,
+  "gap_median": 0.56,
+  "pauses_gt_0.1s": 27,
+  "f0_iqr": 74.1,
+  "f0_range_st": 12.3,
+  "energy_std_db": 6.7,
+  "sv_bram": 0.977,
+  "utmos": 4.391,
+  "bram_dist_per_sentence": 2.46,
+  "statements_final_fall_share": 0.82
+ },
+ "boat_silence/v5": {
+  "dur": 48.25,
+  "wpm_speaking": 179,
+  "gap_median": 0.39,
+  "pauses_gt_0.1s": 33,
+  "f0_iqr": 65.5,
+  "f0_range_st": 12.2,
+  "energy_std_db": 6.68,
+  "sv_bram": 0.9874,
+  "utmos": 4.49,
+  "bram_dist_per_sentence": 1.62,
+  "statements_final_fall_share": 0.82
+ },
+ "ending/v4": {
+  "dur": 18.77,
+  "wpm_speaking": 227,
+  "gap_median": 0.55,
+  "pauses_gt_0.1s": 15,
+  "f0_iqr": 70.4,
+  "f0_range_st": 12.5,
+  "energy_std_db": 6.71,
+  "sv_bram": 0.9793,
+  "utmos": 4.425,
+  "bram_dist_per_sentence": 3.25,
+  "statements_final_fall_share": 1.0
+ },
+ "ending/v5": {
+  "dur": 20.0,
+  "wpm_speaking": 186,
+  "gap_median": 0.43,
+  "pauses_gt_0.1s": 14,
+  "f0_iqr": 64.6,
+  "f0_range_st": 12.3,
+  "energy_std_db": 6.81,
+  "sv_bram": 0.9817,
+  "utmos": 4.512,
+  "bram_dist_per_sentence": 2.33,
+  "statements_final_fall_share": 1.0
+ },
+ "bram_ep002_hook/BRAM": {
+  "dur": 28.36,
+  "wpm_speaking": 179,
+  "gap_median": 0.36,
+  "pauses_gt_0.1s": 18,
+  "f0_iqr": 71.4,
+  "f0_range_st": 11.8,
+  "energy_std_db": 6.53,
+  "sv_bram": 0.9828,
+  "utmos": 4.438
+ },
+ "bram_ep002_ending/BRAM": {
+  "dur": 21.84,
+  "wpm_speaking": 217,
+  "gap_median": 0.36,
+  "pauses_gt_0.1s": 10,
+  "f0_iqr": 86.1,
+  "f0_range_st": 14.4,
+  "energy_std_db": 6.55,
+  "sv_bram": 0.9874,
+  "utmos": 4.501
+ }
+}

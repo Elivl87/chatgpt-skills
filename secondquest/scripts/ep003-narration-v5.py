@@ -12,7 +12,7 @@ What changes vs v4 (scripts/ep003-narration-v4.py; the Producer chose VoiceStudi
    contour of statements and questions, pauses at commas); each sentence gets Bram's duration for its type.
 3. Best of N per sentence with a Bram-likeness score: 0 STT errors, prosody distance to Bram's type stats,
    speaker-embedding cosine to the Bram corpus centroid (WavLM-base-plus-SV), UTMOS naturalness.
-4. Same assembly as v3/v4: Bram-measured sentence/line pauses, 1.5 s after "So, why?", levelling, EQ toward Bram,
+4. Pauses re-measured acoustically on Bram (shorter and less regular than v3/v4's), 1.5 s after "So, why?", levelling, EQ toward Bram,
    8 ms fades; word timings 1:1 with script.json tokens (difflib alignment, "Friendslop" is one token), edges snapped.
 
   python3 scripts/ep003-narration-v5.py <scratch dir: vsenv/ vs_repo/ ovtools/ bram_corpus/>
@@ -30,7 +30,12 @@ v4 = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(v4)
 v3 = v4.v3
 split_sentences, end_mark, load, mfcc_vec, eq_to, fades = v3.split_sentences, v3.end_mark, v3.load, v3.mfcc_vec, v3.eq_to, v3.fades
 trim, align_words, snap_words = v4.trim, v4.align_words, v4.snap_words
-BRAM, SR, LEAD, HOOK_END, GAP, LINE_GAP, LINE_FLOW = v3.BRAM, v3.SR, v3.LEAD, v3.HOOK_END, v3.GAP, v3.LINE_GAP, v3.LINE_FLOW
+BRAM, SR, LEAD, HOOK_END = v3.BRAM, v3.SR, v3.LEAD, v3.HOOK_END
+# Pauses re-measured ACOUSTICALLY on Bram (EP001+EP002, silence > 0.25 s): median 0.35-0.39 s, IQR 0.31-0.50, p90 0.53-0.64.
+# v3/v4's 0.48 s (from word timings) plus the takes' own edge tails came out at ~0.55 s, longer and more regular than
+# Bram. Inserted silence below + ~0.08 s of take tails = Bram's acoustic gaps; jitter +-0.06 s so it is never metronomic.
+GAP = {'.': .29, '?': .33, '!': .29, '...': .36}
+LINE_GAP, LINE_FLOW, JIT = .40, .20, .06
 FS = re.compile(r'(?i)friend[\s-]?slop')
 
 SEEDS = tuple(int(s) for s in os.environ.get('V5_SEEDS', '7,11,23').split(','))
@@ -147,7 +152,7 @@ def assemble(lines, sents, pick, bram, stt, out, tpath):
             a = fades(a * min(2.0, target / lv))
             parts.append(a); t += len(a) / SR
             if k < len(ss_) - 1:
-                g = GAP.get(end_mark(s), .48) + rng.uniform(-.04, .04)
+                g = GAP.get(end_mark(s), .29) + rng.uniform(-JIT, JIT)
                 parts.append(np.zeros(int(g * SR), np.float32)); t += g
         P = [pick[(l['id'], i)] for i, _ in ss_]
         cues[l['id']] = {'start': round(start, 3), 'end': round(t, 3), 'text': l['text'], 'takes': [int(p['seed']) for p in P],
@@ -155,7 +160,7 @@ def assemble(lines, sents, pick, bram, stt, out, tpath):
                          'bram_sv': round(float(np.mean([p['sv'] for p in P])), 4),
                          'bram_dist': round(float(np.mean([p['dist'] for p in P])), 2)}
         if li < len(lines) - 1 or l['id'] == HOOK_END:
-            g = 1.5 if l['id'] == HOOK_END else (LINE_FLOW if end_mark(ss_[-1][1]) == '...' else LINE_GAP + rng.uniform(-.05, .06))
+            g = 1.5 if l['id'] == HOOK_END else (LINE_FLOW if end_mark(ss_[-1][1]) == '...' else LINE_GAP + rng.uniform(-JIT, JIT * 1.5))
             parts.append(np.zeros(int(g * SR), np.float32)); t += g
     y = np.concatenate(parts + [np.zeros(int(.6 * SR), np.float32)])
     y = eq_to(y, bram)
