@@ -63,10 +63,10 @@ def trim(a, rel_db=32, pre=.04, post=.06):
 def target_duration(s):
     """OmniVoice's rule-based duration rushes short sentences (230-290 wpm vs Bram's 160-210, A/B 2026-10-12):
     short sentences get Bram's pace (175 wpm + 0.2 s, + 0.15 s per comma; floor by letters so one-word lines are not
-    stretched), "So, why?" gets Bram's own EP002 length (1.12 s), longer ones keep the model's own estimate."""
+    stretched), "So, why?" gets room for Bram's EP002 delivery, longer ones keep the model's own estimate."""
     w = len(s.split())
-    if s.strip() == 'So, why?':
-        return 1.2
+    if s.strip() == 'So, why?':                 # room for Bram's "So, ... why?" (1.25 s with a 0.3 s breath; A/B 2026-10-12)
+        return 1.8
     if w > 12:
         return None
     letters = sum(ch.isalpha() for ch in s)
@@ -117,7 +117,27 @@ def align_words(toks, ww, c0, c1):
     return out
 
 
+def snap_words(cues, y):
+    """Whisper word edges are sticky (a word often 'starts' where the previous one ended, inside a pause): move every
+    word start forward / end backward out of silence (10 ms frames > 38 dB under the narration's loud level)."""
+    h = int(.01 * SR); n = len(y) // h
+    db = 10 * np.log10(np.mean(y[:n * h].reshape(n, h) ** 2, 1) + 1e-12)
+    loud = db > np.percentile(db, 95) - 38
+    for c in cues.values():
+        for w in c['words']:
+            a, b = int(w['start'] * 100), int(w['end'] * 100)
+            while a < b - 5 and a < n and not loud[a]:
+                a += 1
+            while b > a + 5 and b - 1 < n and not loud[b - 1]:
+                b -= 1
+            w['start'], w['end'] = round(a / 100, 2), round(max(b, a + 5) / 100, 2)
+
+
 def main():
+    if sys.argv[1] == '--retime':                  # re-snap the word edges of an existing v4 narration
+        y = load(ROOT / 'public/episodes/ep003/audio/narration.wav'); tm = json.loads((EP / 'timings.json').read_text())
+        snap_words(tm['cues'], y); tm['alignment'] += '; word edges snapped out of silence'
+        (EP / 'timings.json').write_text(json.dumps(tm, indent=2, ensure_ascii=False)); return
     md = Path(sys.argv[1])
     lines = json.loads((EP / 'script.json').read_text())['lines']
     work = md / 'ep003_sent_v4'
@@ -149,8 +169,11 @@ def main():
     bram = load(BRAM, 150, 120)
     B = mfcc_vec(bram)
     generate(sents, SEEDS)
+    hook = [x for x in sents if x[0] == HOOK_END]           # the wordmark line always gets all five takes
+    generate(hook, REPAIR_SEEDS)
     pick = {}
     pick = choose(sents, SEEDS, work, stt, B)
+    pick.update(choose(hook, SEEDS + REPAIR_SEEDS, work, stt, B))
     bad = [(lid, i, s) for lid, i, s in sents if pick[(lid, i)][2] > 0]
     if bad:
         print('repair', [(lid, i) for lid, i, _ in bad], flush=True)
@@ -178,6 +201,8 @@ def choose(sents, seeds, work, stt, B):
             click = float(np.abs(np.diff(a[:200])).max() + np.abs(np.diff(a[-200:])).max())
             u = mos.get(str(p), 4.0)
             score = e * 10 + abs(wpm - TARGET_WPM) / 25 + abs(iqr - TARGET_IQR) / 30 + tim / 3 + click * 2 - (u - 4.0) * 2
+            if lid == HOOK_END:                                   # Bram's "So, why?": 1.25 s
+                score = e * 10 + abs(dur - 1.25) * 6 + tim / 3 + click * 2 - (u - 4.0) * 2
             if best is None or score < best[0]:
                 best = (score, a, e, heard, seed, round(wpm), round(iqr), u)
         pick[(lid, i)] = best
@@ -223,10 +248,11 @@ def finish(lines, sents, pick, bram, stt, work):
         inside = [w for w in ww if c['start'] - .15 <= (w[1] + w[2]) / 2 <= c['end'] + .15]
         c['words'] = align_words(c['text'].split(), inside, c['start'], c['end'])
         assert [w['w'] for w in c['words']] == c['text'].split()
+    snap_words(cues, y)
     tm = {'source': 'audio/narration.wav',
           'generatedBy': 'PLACEHOLDER (internal only) v4: VoiceStudio/OmniVoice (k2-fsa/OmniVoice, CC-BY-NC weights) + Bram '
                          f'reference, sentence-level best-of-{len(SEEDS)}, Bram-measured pauses (scripts/ep003-narration-v4.py)',
-          'alignment': 'cue start/end from assembly; faster-whisper word timestamps aligned (difflib) 1:1 onto script tokens',
+          'alignment': 'cue start/end from assembly; faster-whisper word timestamps aligned (difflib) 1:1 onto script tokens; word edges snapped out of silence',
           'hook_end': {'line': HOOK_END, 'silence_after': 1.5}, 'duration': round(len(y) / SR, 2), 'cues': cues}
     tpath.write_text(json.dumps(tm, indent=2, ensure_ascii=False))
     bad = {k: c['stt_errors'] for k, c in cues.items() if c['stt_errors']}
