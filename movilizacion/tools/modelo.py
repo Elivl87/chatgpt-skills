@@ -57,7 +57,7 @@ def costo_mov(p, oferta, rango, k, horas=None):
         elif oferta == "EC":
             tarifa = p["eq_ec_cop"][rango] / trm
     adic = p["adic_ls"] if oferta in ("LS", "LSD") else p["adic_base"]
-    h = (p["horas"][rango] if horas is None else horas) + p["horas_extra"][rango]
+    h = p["horas"][rango] + p["horas_extra"][rango] if horas is None else horas
     tm = p["tm_cop_mes"] / trm / p["tm_movs_base"] if p["tm_modo"] == "por_mov" else 0.0
     return tarifa * (1 + adic) + h * p["taladro_dia"] / 24 + tm
 
@@ -67,8 +67,9 @@ def costo_wo(p, rango):
     return p["wo"][rango] * (1 + p["adic_wo"]) + senal
 
 
-def campana(p, movs, usar_horas_reales=False):
-    """movs: lista ordenada de (mes, rango, horas_reales). Devuelve totales por modelo."""
+def campana(p, movs, usar_horas_reales=False, desde_mes=None):
+    """movs: lista ordenada de (mes, rango, horas_reales). Devuelve totales por modelo.
+    desde_mes: primer mes de la campaña (proyección = 1). Por defecto, el primer mes con movilizaciones (campañas reales)."""
     por_mes = Counter(m for m, _, _ in movs)
     vistos = Counter()
     tot = {o: 0.0 for o in OFERTAS}
@@ -80,6 +81,11 @@ def campana(p, movs, usar_horas_reales=False):
         for o in OFERTAS:
             tot[o] += costo_mov(p, o, r, k, hh)
         tot["WO"] += costo_wo(p, r)
+    if p.get("vacios_internos_cobran", True) and por_mes:
+        for mes in range(desde_mes or min(por_mes), max(por_mes) + 1):
+            if mes not in por_mes:  # mes sin movilización dentro de la campaña (p. ej. por NPT): contrato vigente
+                for o in OFERTAS:
+                    tot[o] += (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
     for mes, n in por_mes.items():
         for o in OFERTAS:
             tot[o] += fijo_mes(p, o, n)

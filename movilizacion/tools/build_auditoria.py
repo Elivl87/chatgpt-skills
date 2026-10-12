@@ -12,6 +12,11 @@ FIX = {
     "Simulador, perfil 2024: 15 + 20 en 0,1–5 km da PS 730.502 · EC 695.386. Con los 20 repartidos como 2024 (12/6/2): PS 615.695 · EC 532.934. Como 2025 (10/6/4): PS 599.214 · EC 502.719. Con perfil 2025 y mezcla 2025: PS 215.523 · EC 227.836.",
     "PS −134 k a −162 k; EC −192 k a −240 k (perfil 2024, mezcla 2024 o 2025)": "PS −115 k a −137 k; EC −162 k a −200 k (perfil 2024 o 2025, mezcla 2024 o 2025)",
     "Con la mezcla completa de 2024: PS −161 k": "No se cuantifica aparte: los 15 pozos son dato de SierraCol",
+    "≈1.063 USD/h de equipos (flota 0–5 km de p.1 a tarifa horaria de p.5) más ≈161 USD/h de nómina (430 M COP / 720 h), en total **≈2.681 USD/h**":
+    "≈1.357 USD/h de flota mínima (p.3) y 20 señalizadores a tarifa horaria de p.5, en total **≈2.813 USD/h** con el taladro (cifra única del simulador, hoja Pendientes)",
+    "PS ≈ 6,8 h por movilización (18.095/2.681)": "PS ≈ 6,4 h por movilización (18.095/2.813)",
+    "PS baja a ≈ 4,2 h": "PS baja a ≈ 4,0 h",
+    "≈2.681 USD/h (PS) y ≥1.456 USD/h (EC). Unas 6,8 h por movilización anulan el ahorro de PS.": "≈2.813 USD/h (PS) y ≥1.456 USD/h (EC). Unas 6,4 h por movilización anulan el ahorro de PS.",
 }
 for a, b in FIX.items():
     assert a in txt, a[:60]

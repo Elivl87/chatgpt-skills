@@ -21,7 +21,7 @@ def ahorro(p=None, perfil=P24, rango_otra=1, npt=0.0, orden=None, extra_ps_cop=N
     movs = proyeccion(rango_otra=rango_otra, npt=npt, perfil=perfil)
     if orden is not None:
         movs = reordenar(movs, orden)
-    t = campana(p, movs)
+    t = campana(p, movs, desde_mes=1)
     if extra_ps_cop:  # adicionales requeridos de PS normal cobrados aparte (Cot. 1255, azul)
         t["PS"] += sum(extra_ps_cop[r] / p["trm"] for _, r, _ in movs)
     return {o: t["WO"] - t[o] for o in OF}
@@ -97,8 +97,30 @@ def pendientes():
     return out
 
 
+def mezcla(otra, perfil, p=None):
+    """15 misma loc. + 20 otra loc. repartidos por rango (otra = [0,1–5; 5–10; >10]) en orden proporcional."""
+    p = p or BASE
+    movs = proyeccion(perfil=perfil); seq = []; tot = sum(otra); c = [0, 0, 0]
+    for i in range(tot):
+        j = max(range(3), key=lambda k: otra[k] * (i + 1) / tot - c[k]); c[j] += 1; seq.append(j + 1)
+    it = iter(seq); movs = [(m, r if r == 0 else next(it), h) for m, r, h in movs]
+    t = campana(p, movs, desde_mes=1)
+    return {o: t["WO"] - t[o] for o in OF}
+
+
+def escenarios():
+    ph = con(horas=[12, 24, 36, 36])
+    E = [("Caso base: perfil 2024, 20 pozos en 0,1–5 km, horas Excel", mezcla([20, 0, 0], P24)),
+         ("Perfil 2024 + mezcla de los logs 2025 (10/6/4)", mezcla([10, 6, 4], P24)),
+         ("Perfil 2024 + mezcla 2025 + horas cotizadas por Petro Star (12/24/36/36)", mezcla([10, 6, 4], P24, ph)),
+         ("Perfil 2025, 20 pozos en 0,1–5 km, horas Excel", mezcla([20, 0, 0], P25)),
+         ("Perfil 2025 + mezcla de los logs 2025", mezcla([10, 6, 4], P25)),
+         ("Escenario prudente: perfil 2025 + mezcla 2025 + horas cotizadas", mezcla([10, 6, 4], P25, ph))]
+    return [(n, v["PS"], v["LS"], v["EC"]) for n, v in E]
+
+
 def campana_ls_desc(perfil):
-    t = campana(BASE, proyeccion(perfil=perfil))
+    t = campana(BASE, proyeccion(perfil=perfil), desde_mes=1)
     b = ahorro(perfil=perfil)
     return {"PS": 0.0, "LS": (t["WO"] - t["LSD"]) - b["LS"] + b["LS"], "EC": 0.0} | {"LS": t["WO"] - t["LSD"]}
 
@@ -113,6 +135,7 @@ if __name__ == "__main__":
     trm = BASE["trm"]
     res["mes_parado_usd"] = {"PS": BASE["fijo_ps_cop"][0] / trm, "EC": BASE["fijo_ec_cop"][0] / trm}
     res["pendientes"] = pend
+    res["escenarios"] = escenarios()
     json.dump(res, open(sys.argv[1], "w"), indent=1, ensure_ascii=False, default=float)
     for nombre in ("2024", "2025"):
         print("== perfil", nombre, {o: round(v) for o, v in res[nombre]["base"].items()})

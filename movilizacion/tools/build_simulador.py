@@ -62,7 +62,7 @@ P = [
     (7, "TRM", 3700, "COP/USD", "Medido", "Tarifas.xlsx · E3", COP, False),
     (8, "Tarifa del taladro (24 h)", 34944, "USD/día", "Medido", "Tarifas.xlsx · E5", USD, False),
     (9, "Tarifa del taladro por hora", "=C8/24", "USD/h", "Cálculo", "Tarifas.xlsx · E6 (= E5/24)", USD2, False),
-    (10, "Oferta que se destaca en el resultado", OFERTAS[0], "", "Selección", "Lista: las 3 ofertas (Lump Sum con y sin descuento)", None, False),
+    (10, "Oferta que se muestra en la fila 88 (solo detalle)", OFERTAS[0], "", "Selección", "Lista: las 3 ofertas (Lump Sum con y sin descuento)", None, False),
     (11, "Adicionales sobre tarifa base (Petro Star normal y Ecotransur)", 0, "%", "Premisa SierraCol", "Tarifas.xlsx · E7. Se cancela con el WO; ver Pendientes", PCT, True),
     (12, "Adicionales sobre Lump Sum", 0, "%", "Premisa SierraCol", "Tarifas.xlsx · E8", PCT, True),
     (13, "Adicionales sobre Work Order", 0, "%", "Premisa SierraCol", "Simetría: los imprevistos también se pagan en el WO", PCT, True),
@@ -75,7 +75,7 @@ P = [
     (20, "Señalizadoras que faltan en el WO, por turno", 4, "personas", "Premisa SierraCol", "Ofertas: 10 por turno · WO: 6 por turno (dato SierraCol)", '0', False),
     (21, "Tarifa señalizador vial, turno 12 h", 375000, "COP/persona", "Medido", "Cot. 1255 p. 5, fila Señalizador vial, columna Turno 12 horas", COP, False),
     (22, "¿Cargar el recargo de señalizadoras al Work Order?", "Sí", "", "Decisión de modelo", "Aplica a toda movilización: misma loc. 1 turno, demás rangos 2 turnos", None, False),
-    (23, "Reducción de la frecuencia por NPT de perforación", 0, "%", "Supuesto (sin dato)", "No hay plan de pozos ni NPT operativo en los archivos: se deja en 0 y se sensibiliza", PCT, True),
+    (23, "Reducción de la frecuencia por tiempo no productivo (NPT) de perforación", 0, "%", "Supuesto (sin dato)", "No hay plan de pozos ni NPT operativo en los archivos: se deja en 0 y se sensibiliza", PCT, True),
 ]
 for r, lab, val, uni, cls, src, fmt, key in P:
     put(f"B{r}", lab); put(f"C{r}", val, BLUE if not str(val).startswith("=") else BLK, fmt, F_Y if key else None)
@@ -101,8 +101,13 @@ for r, lab, val, uni, cls, src, fmt in C:
     put(f"B{r}", lab, wrap=(r == 29)); put(f"C{r}", val, BLUE if not str(val).startswith("=") else BLK, fmt, F_Y if r in (29, 31) else None)
     put(f"D{r}", uni); put(f"E{r}", cls); put(f"F{r}", src); ws.merge_cells(f"F{r}:I{r}")
 ws.row_dimensions[29].height = 26
+ws["D29"] = '=INDEX({"Misma localización","0,1–5 km","5–10 km","Más de 10 km"},C29)'
 dv4 = DataValidation(type="list", formula1='"Perfil 2024,Perfil 2025,Constante"'); ws.add_data_validation(dv4); dv4.add("C31")
 dv5 = DataValidation(type="whole", operator="between", formula1="2", formula2="4"); ws.add_data_validation(dv5); dv5.add("C29")
+dv6 = DataValidation(type="custom", formula1="AND(C27>=0,C28>=0,C27+C28<=60)", showErrorMessage=True, error="Máximo 60 pozos en total"); ws.add_data_validation(dv6); dv6.add("C27:C28")
+dv7 = DataValidation(type="decimal", operator="between", formula1="0", formula2="0.9", showErrorMessage=True, error="Entre 0 % y 90 %"); ws.add_data_validation(dv7); dv7.add("C23")
+dv8 = DataValidation(type="decimal", operator="greaterThanOrEqual", formula1="1", showErrorMessage=True, error="Al menos 1"); ws.add_data_validation(dv8); dv8.add("C32")
+dv9 = DataValidation(type="whole", operator="between", formula1="2", formula2="12"); ws.add_data_validation(dv9); dv9.add("C19")
 p24 = [7, 8, 7, 7, 7, 9, 7, 3, 6, 6, 3]; p25 = [1, 4, 7, 5, 6, 7, 7, 5, 3]
 put("B33", "Perfil 2024: movilizaciones por mes (ene–nov, log)")
 for i, v in enumerate(p24): put(f"{CL(3+i)}33", v, BLUE, '0')
@@ -178,7 +183,7 @@ for i in range(7):
 note(79, "El cargo de Petro Star aplica igual a la tarifa normal y al Lump Sum (la tabla de la p. 4 es condición general de la oferta). Un mes sin movilizaciones no se cobra porque SierraCol lo trata como campaña parada; si el contrato sigue vigente, se cobraría la fila 0 (ver Pendientes).")
 
 # ---------- 5. Resultado
-h1(81, "5. RESULTADO DE LA CAMPAÑA")
+h1(81, "5. COSTO DE LA CAMPAÑA CON EL PERFIL ELEGIDO (ilustrativo; el resultado es la frontera, sección 6)")
 for c, t in zip("BCDEFGH", ["Modelo", "Costo de la campaña (USD)", "Ahorro frente al WO (USD)", "Ahorro %", "Movilizaciones con descuento", "Cargo fijo pagado (USD)", "Meses de campaña"]):
     put(f"{c}82", t, B, fill=F_H2, wrap=True)
 ws.row_dimensions[82].height = 28
@@ -198,11 +203,14 @@ for r, lab, f, fijo, desc in rows:
         put(f"F{r}", f'=COUNTIF($F${MV0}:$F${MV1},">="&$C$19)' if desc else 0, BLK, '0')
         put(f"G{r}", f"={fijo}", BLK, USD)
     put(f"H{r}", f'=COUNTIF($F${M0}:$F${M1},">0")', BLK, '0')
-put("B88", "Oferta destacada (C10)", bold=True, fill=F_Y)
+put("B88", "Oferta elegida en C10 (detalle)", bold=True, fill=F_Y)
 put("C88", "=INDEX(C84:C87,MATCH($C$10,$B$84:$B$87,0))", BLK, USD, F_Y, bold=True)
 put("D88", "=INDEX(D84:D87,MATCH($C$10,$B$84:$B$87,0))", BLK, USD, F_Y, bold=True)
 put("E88", "=INDEX(E84:E87,MATCH($C$10,$B$84:$B$87,0))", BLK, PCT, F_Y, bold=True)
 ws.conditional_formatting.add("D84:E88", CellIsRule(operator="lessThan", formula=["0"], font=Font(name=F, color="C00000")))
+put("I82", "Control", B, fill=F_H2)
+put("I83", f'=IF(COUNT(D{MV0}:D{MV1})<>$C$30,"CAMPAÑA RECORTADA (máx. 60 pozos)",IF(MAX(E{MV0}:E{MV1})>36,"CAMPAÑA DE MÁS DE 36 MESES: AMPLIAR",IF(COUNTIFS(F{M0}:F{M1},0,B{M0}:B{M1},"<="&MAX(E{MV0}:E{MV1}))>0,"OK · hay meses sin movilización que pagan cargo fijo","OK")))', BLK, None, F_Y, bold=True, wrap=True)
+ws.merge_cells("I83:K84")
 note(89, "La fila 'Lump Sum con descuento' es solo referencia; la evaluación principal usa el Lump Sum sin descuento. Esta cifra depende de la frecuencia, de la mezcla por rango y del orden de los pozos dentro del mes. No es el resultado del estudio: el resultado es la frontera (sección 6).")
 
 # ---------- 6. Frontera
@@ -230,19 +238,19 @@ note(109, "Verde = el tercerizado cuesta menos ese mes; rojo = cuesta más. Equi
 
 # ---------- 7. Detalle: meses
 h1(111, "7. DETALLE DE LA CAMPAÑA · meses (asignación de movilizaciones según la frecuencia)", "K")
-note(112, "Cada mes recibe las movilizaciones del perfil elegido (C31), reducidas por el NPT de perforación (C23). Con NPT la capacidad acumulada crece más lento y la campaña se alarga.", "K")
-for c, t in zip("BCDEFGHI", ["Mes de campaña", "Movs/mes del perfil", "Capacidad con NPT", "Capacidad acumulada", "Movilizaciones del mes", "Cargo fijo Petro Star (USD)", "Cargo fijo Ecotransur (USD)", "Truck Manager mensual (USD)"]):
+note(112, "Cada mes recibe las movilizaciones del perfil elegido (C31), reducidas por el NPT de perforación (C23). Con NPT la campaña se alarga; un mes que queda sin movilizaciones dentro de la campaña paga el cargo fijo de 0 movilizaciones (contrato vigente).", "K")
+for c, t in zip("BCDEFGHI", ["Mes de campaña", "Movs/mes del perfil (movs)", "Capacidad con NPT (movs)", "Capacidad acumulada (movs)", "Movilizaciones del mes", "Cargo fijo Petro Star (USD)", "Cargo fijo Ecotransur (USD)", "Truck Manager mensual (USD)"]):
     put(f"{c}114", t, B, fill=F_H2, wrap=True)
 ws.row_dimensions[114].height = 28
 for m in range(1, 37):
     r = M0 + m - 1
     put(f"B{r}", m, BLK, '0')
-    put(f"C{r}", f'=IF($C$31="Constante",$C$32,IF($C$31="Perfil 2024",INDEX($C$33:$M$33,MOD(B{r}-1,11)+1),INDEX($C$34:$K$34,MOD(B{r}-1,9)+1)))', BLK, NUM)
+    put(f"C{r}", f'=IF($C$31="Constante",$C$32,IF($C$31="Perfil 2024",INDEX($C$33:$M$33,MOD(B{r}-1,COUNT($C$33:$M$33))+1),INDEX($C$34:$M$34,MOD(B{r}-1,COUNT($C$34:$M$34))+1)))', BLK, NUM)
     put(f"D{r}", f"=C{r}*(1-$C$23)", BLK, NUM)
     put(f"E{r}", f"=D{r}" if m == 1 else f"=E{r-1}+D{r}", BLK, NUM)
     put(f"F{r}", f"=COUNTIF($E${MV0}:$E${MV1},B{r})", BLK, '0')
-    put(f"G{r}", f"=IF(F{r}=0,0,INDEX($E$72:$E$78,MIN(F{r},6)+1))", BLK, USD)
-    put(f"H{r}", f"=IF(F{r}=0,0,INDEX($F$72:$F$78,MIN(F{r},6)+1))", BLK, USD)
+    put(f"G{r}", f"=IF(F{r}=0,IF(B{r}<=MAX($E${MV0}:$E${MV1}),$E$72,0),INDEX($E$72:$E$78,MIN(F{r},6)+1))", BLK, USD)
+    put(f"H{r}", f"=IF(F{r}=0,IF(B{r}<=MAX($E${MV0}:$E${MV1}),$F$72,0),INDEX($F$72:$F$78,MIN(F{r},6)+1))", BLK, USD)
     put(f"I{r}", f'=IF(AND($C$16="Mensual fijo",F{r}>0),$C$14/$C$7,0)', BLK, USD)
 put(f"B{M1+1}", "Total", bold=True, fill=F_TOT)
 for c in "FGHI":
@@ -280,14 +288,15 @@ def hoja_real(anio, path):
     for i, w in enumerate(widths): s.column_dimensions[CL(i + 1)].width = w
     s["B1"] = f"Campaña real {anio} · taladro GRS 110 · cómo habría funcionado cada modelo"; s["B1"].font = TITLE
     s["B2"] = (f"Movimientos de Movilizaciones_{anio}.xlsx (detalle, columnas D, C, F, G, H), en orden de fecha. Los meses sin registro no se cuentan (campaña parada). "
-               "Parámetros y tarifas vienen de la hoja Simulador (verde). Bloque A usa las horas del Excel; bloque B, las horas reales del log.")
+               "Parámetros y tarifas vienen de la hoja Simulador (verde). Columnas M–P usan las horas del Excel; Q–T, las horas reales del log. Ahorro positivo = el tercerizado cuesta menos.")
     s["B2"].font = NOTE
     n = len(L); R0 = 8; R1 = R0 + n - 1
-    hdr = ["Fecha", "Pozo", "Km", "Rango (log)", "Rango nº", "Mes", "Nº en el mes", "Horas reales", "Horas Excel", "Sobretiempo (h)", "Work Order",
-           "A · PS normal", "A · LS sin desc.", "A · LS con desc.", "A · Ecotransur", "B · PS normal", "B · LS sin desc.", "B · LS con desc.", "B · Ecotransur", "Nota"]
+    hdr = ["Fecha", "Pozo", "Km", "Rango (log)", "Rango nº", "Mes", "Nº en el mes", "Horas reales", "Horas Excel", "Sobretiempo (h)", "Work Order (USD)",
+           "PS normal, horas Excel (USD)", "LS sin desc., horas Excel (USD)", "LS con desc. (ref.), horas Excel (USD)", "Ecotransur, horas Excel (USD)",
+           "PS normal, horas reales (USD)", "LS sin desc., horas reales (USD)", "LS con desc. (ref.), horas reales (USD)", "Ecotransur, horas reales (USD)", "Nota"]
     for i, t in enumerate(hdr):
         c = s.cell(7, 2 + i, t); c.font = B; c.fill = F_H2; c.border = BOX; c.alignment = Alignment(wrap_text=True, vertical="center")
-    s.row_dimensions[7].height = 30
+    s.row_dimensions[7].height = 54
     def S(ref): return f"Simulador!{ref}"
     for j, m in enumerate(L):
         r = R0 + j
@@ -302,7 +311,7 @@ def hoja_real(anio, path):
               "N": f"=INDEX({S('$C$64:$F$64')},F{r})",
               "O": f"=IF(H{r}>={S('$C$19')},INDEX({S('$C$65:$F$65')},F{r}),INDEX({S('$C$64:$F$64')},F{r}))",
               "P": f"=IF(H{r}>={S('$C$19')},INDEX({S('$C$67:$F$67')},F{r}),INDEX({S('$C$66:$F$66')},F{r}))"}
-        hr = f"(IF(I{r}=\"\",J{r},I{r})-J{r})*{S('$C$9')}"
+        hr = f"(IF(I{r}=\"\",J{r}+INDEX({S('$C$40:$F$40')},F{r}),I{r})-J{r}-INDEX({S('$C$40:$F$40')},F{r}))*{S('$C$9')}"
         for a, bcol in zip("MNOP", "QRST"):
             fl[bcol] = f"={a}{r}+{hr}"
         for col, f in fl.items():
@@ -331,9 +340,9 @@ def hoja_real(anio, path):
         s[f"C{r}"] = f"=COUNTIF($G${R0}:$G${R1},B{r})"
         for k, col in enumerate("DEFG"):
             s[f"{col}{r}"] = f"=COUNTIFS($G${R0}:$G${R1},B{r},$F${R0}:$F${R1},{k+1})"
-        s[f"H{r}"] = f"=INDEX({S('$E$72:$E$78')},MIN(C{r},6)+1)"
-        s[f"I{r}"] = f"=INDEX({S('$F$72:$F$78')},MIN(C{r},6)+1)"
-        s[f"J{r}"] = f'=IF({S("$C$16")}="Mensual fijo",{S("$C$14")}/{S("$C$7")},0)'
+        s[f"H{r}"] = f"=IF(C{r}=0,0,INDEX({S('$E$72:$E$78')},MIN(C{r},6)+1))"
+        s[f"I{r}"] = f"=IF(C{r}=0,0,INDEX({S('$F$72:$F$78')},MIN(C{r},6)+1))"
+        s[f"J{r}"] = f'=IF(AND(C{r}>0,{S("$C$16")}="Mensual fijo"),{S("$C$14")}/{S("$C$7")},0)'
         for col in "BCDEFGHIJ":
             c = s[f"{col}{r}"]; c.border = BOX; c.font = BLK; c.number_format = USD if col in "HIJ" else '0'
     ME = MT + 2 + len(meses) - 1
@@ -347,7 +356,7 @@ def hoja_real(anio, path):
         c = s.cell(3 + i, 23, t); c.font = B if i == 0 else BLK; c.border = BOX
         if i == 0: c.fill = F_H2
     s.column_dimensions["W"].width = 16
-    for j, t in enumerate(["A · horas Excel (USD)", "Ahorro A (USD)", "B · horas reales (USD)", "Ahorro B (USD)"]):
+    for j, t in enumerate(["Costo con horas Excel (USD)", "Ahorro con horas Excel (USD)", "Costo con horas reales (USD)", "Ahorro con horas reales (USD)"]):
         c = s.cell(3, 24 + j, t); c.font = B; c.fill = F_H2; c.border = BOX; c.alignment = Alignment(wrap_text=True)
         s.column_dimensions[CL(24 + j)].width = 16
     s.row_dimensions[3].height = 30
@@ -360,7 +369,7 @@ def hoja_real(anio, path):
     for r in range(4, 9):
         for col in ["X", "Y", "Z", "AA"]:
             c = s[f"{col}{r}"]; c.number_format = USD; c.border = BOX; c.font = BLK
-    s["W9"] = "Movilizaciones"; s["X9"] = n; s["W10"] = "Meses con movilizaciones"; s["X10"] = len(meses)
+    s["W9"] = "Movilizaciones"; s["X9"] = f"=COUNT(B{R0}:B{R1})"; s["W10"] = "Meses con movilizaciones"; s["X10"] = f'=COUNTIF(C{MT+2}:C{ME},">0")'
     s["W11"] = "Promedio movs/mes (meses activos)"; s["X11"] = f"=X9/X10"; s["X11"].number_format = '0.00'
     s["W12"] = "Meses con 6 o más movilizaciones"; s["X12"] = f'=COUNTIF(C{MT+2}:C{ME},">=6")'
     s["W13"] = "Meses con menos de 5 movilizaciones"; s["X13"] = f'=COUNTIF(C{MT+2}:C{ME},"<5")'

@@ -94,7 +94,7 @@ table(m, r + 2, ["Verificación", "Resultado", "Detalle"], rows, height=54)
 
 # ================= RECONCILIACIÓN =================
 rc = sheet("Reconciliación", [2, 46, 16, 16, 12, 52, 20], "Reconciliación: de dónde sale cada parámetro",
-           "Valor en simulador = enlace vivo (verde). Valor en fuente = copiado del archivo original. Control = OK si coinciden.")
+           "Valor en simulador = enlace vivo (verde). Valor en fuente = copiado del archivo original. Control = OK si coinciden; el control solo es válido con los valores por defecto del simulador.")
 rows = []
 def add(lab, ref, val, src, cls, fmt=None):
     rows.append((lab, f"=Simulador!{ref}", val, f'=IF(ABS(C{5+len(rows)}-D{5+len(rows)})<0.005,"OK","DIFERENCIA")', src, cls))
@@ -160,12 +160,7 @@ table(ms, r + 2, ["SUPUESTO O PREMISA", "Origen", "Nota"], sup, height=28)
 se = sheet("Sensibilidad", [2, 46, 18, 22, 26, 16, 26, 16, 16], "Sensibilidad: qué variable mueve el ahorro de la campaña base",
            "Ahorro = costo WO − costo tercerizado (USD), campaña 15 misma loc. + 20 en 0,1–5 km. 'Mejora' = extremo que aumenta el ahorro del tercerizado; 'Empeora' = el que lo reduce. Ordenado por efecto. Calculado con el motor de referencia (tools/modelo.py), idéntico al simulador; no se recalcula al editar.")
 h1(se, 4, "ESCENARIOS COMBINADOS (campaña 15 + 20; ahorro frente al WO, USD)", "I")
-SC = [("Caso base: perfil 2024, 20 pozos en 0,1–5 km, horas Excel", 730502, -118526, 695386),
-      ("Perfil 2024 + mezcla de los logs 2025 (10/6/4)", 599214, -434833, 502719),
-      ("Perfil 2024 + mezcla 2025 + horas cotizadas por Petro Star (12/24/36/36)", 360430, -673617, 263935),
-      ("Perfil 2025, 20 pozos en 0,1–5 km, horas Excel", 352652, -390648, 427789),
-      ("Perfil 2025 + mezcla de los logs 2025", 215523, -706955, 227836),
-      ("Escenario prudente: perfil 2025 + mezcla 2025 + horas cotizadas", -23261, -945739, -10948)]
+SC = [tuple(x) for x in S["escenarios"]]
 r = table(se, 5, ["Escenario", "Petro Star normal", "Lump Sum (sin desc.)", "Ecotransur"], SC, [None, USD, USD, USD], height=28)
 se.cell(r, 2, "Horas cotizadas se aplican igual a Ecotransur (supuesto: su carta no declara tiempos). Calculado con tools/modelo.py.").font = NOTE
 r += 2
@@ -180,7 +175,7 @@ for prof in ("2024", "2025"):
 
 # ================= PENDIENTES =================
 pe = sheet("Pendientes", [2, 44, 26, 30, 16, 16, 16, 16, 30], "Pendientes por confirmar: valor de trabajo y lo que está en juego",
-           "En juego = cambio del ahorro del tercerizado (USD) si el valor de trabajo se reemplaza por la alternativa. Negativo = el tercerizado pierde ventaja. Campaña base 15 + 20; perfil de frecuencia 2024 / 2025.")
+           "En juego = cambio del ahorro del tercerizado (USD) si el valor de trabajo se reemplaza por la alternativa. Negativo = el tercerizado pierde ventaja. Campaña base 15 + 20; perfil de frecuencia 2024 / 2025. Valores fijos calculados con tools/sensibilidad.py (mismo motor que el simulador); no se recalculan al editar el simulador.")
 P = {p["perfil"]: p for p in S["pendientes"]}
 def st(k, o): return (P["2024"][k][o], P["2025"][k][o])
 rows = []
@@ -200,9 +195,12 @@ addp("Truck Manager", "Por movilización", "60 M COP fijo por mes", "tm_mensual"
 addp("Adicionales: ¿se cancelan?", "0 % ambos", "+5 % solo tercerizado", "adic5", "PS", "SierraCol", "Petro Star normal")
 addp("Adicionales: ¿se cancelan?", "0 % ambos", "+5 % solo tercerizado", "adic5", "EC", "SierraCol", "Ecotransur")
 addp("Recargo de señalizadoras al WO", "Se carga", "No se carga", "senal_no", "PS", "SierraCol (contrato WO)", "Todas (igual)")
-rows.append(("Mes con campaña parada y contrato vigente", "No se cobra", "Se cobra el cargo de 0 movs", "Petro Star / Ecotransur", -S["mes_parado_usd"]["PS"], -S["mes_parado_usd"]["EC"], "Contrato (cláusula de suspensión)"))
-rows.append(("Demora no atribuible al transportador (por hora)", "Sin demora", "1 hora de demora", "Petro Star", -2813.2, None, "Cot. 1255 cláusula 7: taladro 1.456 + flota y señalizadores ~1.357 USD/h"))
+rows.append(("Mes con campaña parada y contrato vigente (por mes)", "No se cobra", "Se cobra el cargo de 0 movs", "Petro Star (ambas)", -S["mes_parado_usd"]["PS"], -S["mes_parado_usd"]["PS"], "Contrato (cláusula de suspensión)"))
+rows.append(("Mes con campaña parada y contrato vigente (por mes)", "No se cobra", "Se cobra el cargo de 0 movs", "Ecotransur", -S["mes_parado_usd"]["EC"], -S["mes_parado_usd"]["EC"], "Contrato (cláusula de suspensión)"))
+rows.append(("Demora no atribuible al transportador (por hora de demora, igual en ambos perfiles)", "Sin demora", "1 hora de demora", "Petro Star", -2813.2, -2813.2, "Cot. 1255 condición 7: taladro 1.456 + flota mínima y 20 señalizadores ~1.357 USD/h (tarifas p. 5)"))
+rows.append(("Perfil 2025 empieza en febrero con 1 movilización (¿mes parcial?)", "Cuenta como mes de campaña", "No cuenta", "Todas", None, None, "SierraCol (fecha real de inicio de la campaña 2025)"))
 rows.append(("Ecotransur 6ª+: ¿cobra además el personal operativo usado (señaleras, supervisión)?", "No (solo equipos del Ítem 2)", "Sí", "Ecotransur", None, None, "Ecotransur (carta p. 4: 'equipos y el personal operativo efectivamente utilizado')"))
+rows.append(("Riesgos no cuantificados del tercerizado: coordinación taladro–transportador, responsabilidad HSE y por daños (pólizas), disponibilidad del contratista, plazo y salida del contrato, pago en COP a 30 días y cargo fijo mensual", "Sin valorar", "—", "Todas", None, None, "Contratos / HSE / Tesorería"))
 rows.append(("Movilizaciones de más de 20 km", "Tarifa 10–20 km", "Sin tarifa", "Petro Star", None, None, "Petro Star (cotizar)"))
 rows.append(("Formato Ítem 1 y 2 de Ecotransur (bandas de horas A/B)", "Excel ítems 1.3/1.9/1.15/1.21", "Ítem según horas reales", "Ecotransur", None, None, "Ecotransur (enviar formato)"))
 rows.append(("NPT de perforación", "0 %", "20 % (barrido)", "Petro Star normal",
