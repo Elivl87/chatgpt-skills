@@ -1,0 +1,18 @@
+# Pila de herramientas – Evaluación de movilización (lump sum vs. tercerizado)
+# Construir y leer el Excel
+xlsxwriter>=3.2
+openpyxl>=3.1
+# Validar fórmulas sin Excel (segundo motor, además de LibreOffice)
+formulas>=1.3
+# Cálculo, riesgo y sensibilidad
+numpy>=2.0
+scipy>=1.13  # incluye la distribución PERT (helper propio en tools/pert.py)
+pandas>=2.2
+numpy-financial>=1.0
+SALib>=1.5
+ahpy>=2.0
+# Presentación y control de calidad
+python-pptx>=1.0
+matplotlib>=3.9
+pdf2image>=1.17
+markitdown>=0.1
