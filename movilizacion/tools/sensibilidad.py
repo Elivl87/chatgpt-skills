@@ -68,7 +68,7 @@ def quiebres():
         b = ahorro(frec=f); p = BASE
         for o in ("PS", "EC"):
             S = b[o]; fijo0 = (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
-            out.append([f, OF[o], S, S / 35, S / 35 / 550000, S / (35 * 1456), S / (35 * (1456 + EQH(p))), S / 34944, S / fijo0, S / (1456 + EQH(p))])
+            out.append([f, OF[o], S, S / 35, S / 35 / 600000, S / (35 * 1456), S / (35 * (1456 + EQH(p))), S / 34944, S / fijo0, S / (1456 + EQH(p))])
     return out
 
 

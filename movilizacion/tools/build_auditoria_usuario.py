@@ -123,7 +123,7 @@ CM = [
     ("Meses bloqueados con contrato vigente", "No", "Sí", "160–226 k por mes."),
     ("Precios del Lump Sum del Excel vs Cot. 1255", "No", "Sí", "+0,44 M al LS si se usara la cotización."),
     ("Horas cotizadas por Petro Star (24 h en 0,1–5 km) vs 18 h del Excel", "Parcial (rango 15–21 h)", "Sí", "−0,17 M."),
-    ("Ahorro por pozo y % del costo del pozo", "No", "Sí", "1–3 % de un pozo de 500–600 k."),
+    ("Ahorro por pozo y % del costo del pozo", "No", "Sí", "0,7–3 % de un pozo de 550–650 k (campaña de 35 pozos ≈ 21 M USD)."),
     ("NPT de perforación", "Sí (8 % base)", "Barrido 0–20 %", "Falta la fuente del 8 %."),
 ]
 table(C, 4, ["Tema", "Tu evaluación", "Mi evaluación", "Nota"], CM, h=30)

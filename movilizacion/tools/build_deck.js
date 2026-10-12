@@ -55,7 +55,7 @@ s.addChart(pres.charts.BAR, [
   showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 10, dataLabelColor: HEX.mute, dataLabelFontFace: "+mn-lt",
   catAxisLabelColor: HEX.mute, catAxisLabelFontSize: 10, catAxisLabelFontFace: "+mn-lt", valAxisHidden: true, valGridLine: { style: "none" }, catGridLine: { style: "none" } });
 const stats = [
-  ["1–3 %", "del costo de cada pozo", "Ahorro por pozo con 5–6 movs/mes: Petro Star normal 4–15 k USD, Ecotransur 15–17 k USD (pozo de 500–600 k)"],
+  ["0,7–3 %", "del costo de la campaña", "Ahorro de la campaña de 35 pozos (~21 M USD): 0,15–0,59 M, es decir 4–17 k USD por pozo (pozo de 550–650 k)"],
   ["1,5 h", "de más por movilización", "sobre el tiempo cotizado borran el ahorro de Petro Star con 5 movs/mes; con 6, unas 5 h (taladro + equipos)"],
   ["No cruza", "con los precios del Excel", "Petro Star Lump Sum sin descuento. Con los precios de la cotización 1255 sí cruzaría: pendiente de Compras (SCM)"],
 ];
@@ -137,7 +137,7 @@ const QB = PEND.quiebres;
 const tq = [[{ text: "Qué borra el ahorro", options: { bold: true } }, { text: "PS · 5/mes", options: { bold: true, align: "right" } }, { text: "PS · 6/mes", options: { bold: true, align: "right" } }, { text: "Eco · 5/mes", options: { bold: true, align: "right" } }, { text: "Eco · 6/mes", options: { bold: true, align: "right" } }]];
 const pick = (f, o) => QB.find(q => q[0] == f && q[1] == o);
 const cols = [pick(5, "Petro Star normal"), pick(6, "Petro Star normal"), pick(5, "Ecotransur"), pick(6, "Ecotransur")];
-[["Ahorro de la campaña (USD)", q => fmtM(q[2])], ["Ahorro por pozo (% de un pozo de 550 k)", q => (q[4] * 100).toFixed(1).replace(".", ",") + " %"],
+[["Ahorro de la campaña (USD)", q => fmtM(q[2])], ["Ahorro por pozo (% de un pozo de 600 k)", q => (q[4] * 100).toFixed(1).replace(".", ",") + " %"],
  ["Horas extra de taladro por movilización", q => fx(q[5]) + " h"], ["Horas sobre el tiempo cotizado (taladro + equipos)", q => fx(q[6]) + " h"],
  ["Días de taladro de demora en toda la campaña", q => fx(q[7]) + " d"], ["Meses bloqueados con contrato vigente", q => fx(q[8])]].forEach(([l, fn]) =>
   tq.push([l, ...cols.map(q => ({ text: fn(q), options: { align: "right" } }))]));

@@ -176,7 +176,7 @@ se.cell(r, 2, "Horas cotizadas = 12/24/36/36 h (Cot. 1255). Con frecuencias no e
 r += 2
 h1(se, r, "2. PUNTOS DE QUIEBRE: CUÁNTO AGUANTA EL AHORRO ANTES DE DESAPARECER", "J"); r += 1
 QB = [[q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]] for q in S["quiebres"]]
-r = table(se, r, ["Movs/mes", "Oferta", "Ahorro campaña (USD)", "Ahorro por pozo (USD)", "% del costo de un pozo (550 k)", "Horas extra de taladro por movilización que lo anulan",
+r = table(se, r, ["Movs/mes", "Oferta", "Ahorro campaña (USD)", "Ahorro por pozo (USD)", "% del costo de un pozo (600 k)", "Horas extra de taladro por movilización que lo anulan",
                   "Horas sobre el tiempo estipulado que lo anulan (taladro + equipos)", "Días de taladro de demora en toda la campaña que lo anulan", "Meses bloqueados que lo anulan", "Horas de bloqueo en movilización que lo anulan (campaña)"], QB,
           ['0', None, USD, USD, '0.0%', '0.0', '0.0', '0.0', '0.0', '0'], height=30)
 se.cell(r, 2, f"Hora excedida en el tercerizado: taladro 1.456 + equipos y señalizadores {S['hora_exceso_usd']['transportador']:,.0f} = {S['hora_exceso_usd']['total']:,.0f} USD/h (Cot. 1255 p. 5). En el Work Order cuesta 0. Un mes bloqueado: Petro Star {S['mes_bloqueado_usd']['PS']:,.0f} · Ecotransur {S['mes_bloqueado_usd']['EC']:,.0f} USD.".replace(",", ".")).font = NOTE
