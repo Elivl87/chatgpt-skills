@@ -673,3 +673,7 @@
   NAVI_HELLO in the pause after "You." (her appearance, ~9 dB under Bram), NAVI_SFX_01 as she flies into the room and
   as she circles the wordmark (the approved trail, ~14 dB under), NAVI_SFX_03 / 02 / 04 on her other moves (~14–15 dB under).
 - Only the audio changed (remuxed, video untouched); master −14.1 LUFS. Risk as recorded for the first use (Nintendo audio).
+- **APPROVED** (Producer, 2026-10-12: "Apruebo el shorts del EP002"): `EP002_short_hf_v1.mp4` (53.3 s, 1080x1920,
+  −14.1 LUFS) with its extended line selection (l11–l15, l17–l19, l22–l23, l125 beyond the trailer plan) and the
+  original Navi clips. Master delivered as draft Release `deliver-ep002-short-hf-v1`. Upload kit: title "The one
+  thing Nintendo can't rebuild"; related video = EP002; not made for kids; AI disclosure per the standard.
