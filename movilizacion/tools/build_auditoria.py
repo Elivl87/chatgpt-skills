@@ -48,7 +48,7 @@ def clean(s):
 
 for a, b in [("Su número", "Valor de la evaluación"), ("Mi número", "Valor recalculado"), ("mi número", "el valor recalculado"), ("Mi recálculo", "Recálculo"),
              ("Estimo", "Se estima"), ("lo reproduzco", "se reproduce"), ("Reproduje", "Se reprodujeron"), ("Leí ", "Se leyó "), ("Recalculé", "Se recalculó"),
-             ("Contrasté", "Se contrastaron"), ("tools/modelo.py", "un modelo independiente")]:
+             ("Contrasté", "Se contrastaron"), ("tools/modelo.py", "un modelo independiente"), ("PS normal", "Petro Star tarifa normal")]:
     txt = txt.replace(a, b)
 T = tables(txt)
 F = "Arial"; B = Font(name=F, size=10, bold=True); N = Font(name=F, size=10); NOTE = Font(name=F, size=9, italic=True, color="595959")
@@ -88,7 +88,7 @@ v.freeze_panes = "B5"
 d = wb.create_sheet("Detalle"); d.sheet_view.showGridLines = False
 widths = [2, 26, 22, 18, 18, 14, 70, 22, 34]
 for i, w in enumerate(widths): d.column_dimensions[chr(65 + i)].width = w
-d["B1"] = "Detalle sección por sección: evidencia, su número y mi número"; d["B1"].font = TITLE
+d["B1"] = "Detalle sección por sección: evidencia, valor de la evaluación y valor recalculado"; d["B1"].font = TITLE
 d["B2"] = "'Valor de la evaluación' = valor de la celda de la Zona 2. 'Valor recalculado' = recálculo independiente (✓ = reproducido al centavo)."; d["B2"].font = NOTE
 r = 4
 for t in T[:-1]:

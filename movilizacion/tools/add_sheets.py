@@ -170,7 +170,7 @@ se = sheet("Sensibilidad", [2, 46, 18, 22, 26, 16, 26, 16, 16, 16], "Sensibilida
            "Ahorro = costo WO − costo tercerizado (USD); positivo = el tercerizado cuesta menos. Campaña 15 misma loc. + 20 en 0,1–5 km, TRM 3.700, 17,3 h de bloqueo social en movilización (OpenWells 2025). Valores fijos calculados con el mismo modelo del Simulador; no cambian al editar el Simulador.")
 h1(se, 4, "1. FRECUENCIA: AHORRO DE LA CAMPAÑA SEGÚN MOVILIZACIONES POR MES (esperado 5–6)", "I")
 FQ = [[("%g" % x[0]).replace(".", ",")] + x[1:] for x in S["frecuencias"]]
-r = table(se, 5, ["Movs/mes", "PS normal · horas Excel", "Lump Sum · horas Excel", "Ecotransur · horas Excel", "PS normal · horas cotizadas", "Lump Sum · horas cotizadas", "Ecotransur · horas cotizadas"], FQ,
+r = table(se, 5, ["Movs/mes", "Petro Star tarifa normal · horas Excel", "Petro Star Lump Sum · horas Excel", "Ecotransur · horas Excel", "Petro Star tarifa normal · horas cotizadas", "Petro Star Lump Sum · horas cotizadas", "Ecotransur · horas cotizadas"], FQ,
           [None, USD, USD, USD, USD, USD, USD], height=18)
 se.cell(r, 2, "Horas cotizadas = 12/24/36/36 h (Cot. 1255). Con frecuencias no enteras se alternan meses (p. ej. 5,5 = meses de 6 y de 5). El último mes de la campaña puede quedar corto y pagar cargo fijo: por eso la curva sube y baja.").font = NOTE
 r += 2
