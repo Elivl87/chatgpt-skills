@@ -173,6 +173,10 @@ textarea:focus{border-color:var(--accent)}
 .notefoot .abtn{flex:1}
 .notefoot .del{flex:0 0 auto;padding:0 14px;color:var(--danger)}
 .abtn.save{background:var(--accent);color:#fff}
+.opt{width:100%;display:flex;align-items:center;gap:13px;text-align:left;padding:13px;border:1px solid var(--line);border-radius:16px;background:var(--card2);margin-bottom:9px;min-height:68px}
+.opt .ico{width:42px;height:42px;border-radius:12px;background:var(--accentsoft);color:var(--accentink);display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.opt b{display:block;font-size:15px}
+.opt small{display:block;font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}
 .ctx{font-size:12px;color:var(--muted);background:var(--card2);border-radius:10px;padding:9px 11px;margin-bottom:10px;line-height:1.45}
 @keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
@@ -287,6 +291,17 @@ textarea:focus{border-color:var(--accent)}
    <button class="abtn" id="reportShare">↗ Compartir</button>
    <button class="abtn" id="reportCopy">⧉ Copiar texto</button>
   </div>
+ </div>
+</div></div>
+
+<div id="saveOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="saveTitle"><div class="sheet">
+ <div class="grab"></div>
+ <div class="sheethead"><div><div class="kicker">Respaldo</div><strong id="saveTitle">¿Dónde quieres guardarlo?</strong><small id="saveName"></small></div><button class="xbtn" data-close="saveOverlay" aria-label="Cerrar">✕</button></div>
+ <div class="sheetbody">
+  <button class="opt hidden" id="saveFolder"><span class="ico">📁</span><span><b>Elegir carpeta…</b><small>Escoge la carpeta y el nombre del archivo.</small></span></button>
+  <button class="opt hidden" id="saveShare"><span class="ico">🗂️</span><span><b id="saveShareT">Guardar en Archivos…</b><small id="saveShareS"></small></span></button>
+  <button class="opt" id="saveDownload"><span class="ico">⤓</span><span><b>Descargar</b><small>Se guarda en la carpeta de descargas del navegador.</small></span></button>
+  <p class="foothint" id="saveNote"></p>
  </div>
 </div></div>
 
@@ -437,8 +452,8 @@ function hideToast(){$('toast').classList.remove('show')}
 /* ---------- Hojas (modales) ---------- */
 function openSheet(id){hideToast();$(id).classList.remove('hidden');document.body.style.overflow='hidden'}
 function closeSheet(id){$(id).classList.add('hidden');if(document.querySelectorAll('.overlay:not(.hidden)').length===0)document.body.style.overflow=''}
-for(const id of ['reportOverlay','noteOverlay'])$(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet(id)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')for(const id of ['noteOverlay','reportOverlay'])if(!$(id).classList.contains('hidden')){closeSheet(id);break}});
+for(const id of ['reportOverlay','noteOverlay','saveOverlay'])$(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet(id)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')for(const id of ['noteOverlay','saveOverlay','reportOverlay'])if(!$(id).classList.contains('hidden')){closeSheet(id);break}});
 
 function openNote(id){
  noteId=id;const t=byId.get(id);
@@ -485,18 +500,40 @@ if('IntersectionObserver' in window)new IntersectionObserver(([en])=>$('minipct'
 else $('minipct').classList.add('show');
 
 /* ---------- Respaldo ---------- */
-$('export').onclick=async()=>{
+const isIOS=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const isMobile=isIOS||/Android/i.test(navigator.userAgent);
+function backupFile(){
  const name='GRS110_respaldo_'+localDate()+'.json';
  const json=JSON.stringify({app:'GRS110',version:2,exported:new Date().toISOString(),state},null,2);
- const blob=new Blob([json],{type:'application/json'});
+ return {name,json,blob:new Blob([json],{type:'application/json'})};
+}
+function canShareFile(){try{return !!(navigator.canShare&&navigator.canShare({files:[new File(['{}'],'x.json',{type:'application/json'})]}))}catch(e){return false}}
+$('export').onclick=()=>{
+ const folder=typeof window.showSaveFilePicker==='function',share=isMobile&&canShareFile();
+ $('saveName').textContent=backupFile().name;
+ $('saveFolder').classList.toggle('hidden',!folder);
+ $('saveShare').classList.toggle('hidden',!share);
+ $('saveShareT').textContent=isIOS?'Guardar en Archivos…':'Guardar en Drive u otra app…';
+ $('saveShareS').textContent=isIOS?'Toca «Guardar en Archivos» y elige la carpeta (iPhone, iCloud Drive…).':'Elige Drive, Archivos u otra app de almacenamiento y la carpeta de destino.';
+ $('saveNote').textContent=folder||share?'':'Este navegador no permite elegir carpeta desde una página web: el archivo irá a Descargas y desde ahí puedes moverlo. Para elegir carpeta, abre la app en Chrome (computador) o Safari (iPhone).';
+ openSheet('saveOverlay');
+};
+$('saveFolder').onclick=async()=>{
+ const f=backupFile();
  try{
-  const file=new File([blob],name,{type:'application/json'});
-  if(navigator.canShare&&navigator.canShare({files:[file]})&&/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
-   await navigator.share({files:[file],title:'Respaldo GRS110'});toast('Respaldo listo');return;
-  }
- }catch(e){if(e&&e.name==='AbortError')return}
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();
- setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Respaldo descargado: '+name);
+  const h=await window.showSaveFilePicker({suggestedName:f.name,types:[{description:'Respaldo GRS110',accept:{'application/json':['.json']}}]});
+  const w=await h.createWritable();await w.write(f.blob);await w.close();
+  closeSheet('saveOverlay');toast('Respaldo guardado: '+h.name);
+ }catch(e){if(e&&e.name==='AbortError')return;toast('No se pudo guardar ahí. Prueba con «Descargar».')}
+};
+$('saveShare').onclick=async()=>{
+ const f=backupFile();
+ try{await navigator.share({files:[new File([f.blob],f.name,{type:'application/json'})],title:'Respaldo GRS110'});closeSheet('saveOverlay');toast('Respaldo enviado')}
+ catch(e){if(e&&e.name==='AbortError')return;toast('No se pudo compartir. Prueba con «Descargar».')}
+};
+$('saveDownload').onclick=()=>{
+ const f=backupFile(),a=document.createElement('a');a.href=URL.createObjectURL(f.blob);a.download=f.name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(a.href),4000);closeSheet('saveOverlay');toast('Respaldo descargado: '+f.name);
 };
 $('import').onclick=()=>$('file').click();
 $('file').onchange=async e=>{
