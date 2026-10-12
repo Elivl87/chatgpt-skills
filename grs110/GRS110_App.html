@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b2638">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<title>GRS110 · Alistamiento</title>
+<style>
+:root{
+ --bg:#eef3f6;--card:#fff;--card2:#f4f8f9;--ink:#132b3d;--ink2:#36505f;--muted:#6b7f8c;--line:#e2eaee;
+ --brand:#0b2638;--brand2:#134357;--accent:#0a8f7f;--accent2:#13a48a;--accentsoft:#e1f4ef;--accentink:#086a5e;
+ --warn:#b4660f;--warnsoft:#fff1de;--na:#6c7e8a;--nasoft:#eceff2;--danger:#c0392b;
+ --shadow:0 4px 18px #0e35401a;--r:18px;
+ --appbar:58px;--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);
+ color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+ --bg:#08131c;--card:#10202b;--card2:#162a37;--ink:#e5eef3;--ink2:#c3d3dc;--muted:#8ea3b0;--line:#1f3442;
+ --brand:#061019;--brand2:#0f3142;--accent:#2bc3a6;--accent2:#35d6b6;--accentsoft:#123a34;--accentink:#7ee6cf;
+ --warn:#f0a34a;--warnsoft:#3a2a14;--na:#8a9aa6;--nasoft:#1c2c38;--shadow:0 4px 18px #0006;color-scheme:dark}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--appbar) + var(--safe-t) + 70px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-synthesis:none;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0;touch-action:manipulation}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+.hidden{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* App bar */
+.appbar{position:sticky;top:0;z-index:20;background:var(--brand);color:#fff;padding:var(--safe-t) 16px 0;box-shadow:0 2px 12px #0003}
+.appbar-in{max-width:760px;margin:auto;height:var(--appbar);display:flex;align-items:center;gap:12px}
+.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#1d6b74,#0f4152);display:grid;place-items:center;font-size:20px;color:#dffcf4;flex-shrink:0}
+.apptitle{flex:1;min-width:0}
+.apptitle b{display:block;font-size:17px;font-weight:850;letter-spacing:.4px}
+.apptitle b em{font-style:normal;color:#57d6b6}
+.apptitle small{display:block;font-size:10.5px;color:#9dbac7;letter-spacing:.6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.minipct{font-weight:850;font-size:15px;background:#ffffff14;border-radius:999px;padding:6px 11px;opacity:0;transform:translateY(4px);transition:.2s}
+.minipct.show{opacity:1;transform:none}
+
+.wrap{max-width:760px;margin:0 auto;padding:14px 14px calc(96px + var(--safe-b))}
+
+/* Hero */
+.hero{background:linear-gradient(150deg,var(--brand2),var(--brand));color:#fff;border-radius:22px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:220px;height:220px;right:-90px;top:-110px;border:34px solid #ffffff0a;border-radius:50%;pointer-events:none}
+.herotop{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+.ring{width:104px;height:104px;flex-shrink:0;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:10}
+.ring .trk{stroke:#ffffff1c}
+.ring .val{stroke:#3fd5b4;stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+.ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:25px;font-weight:850;letter-spacing:-1px}
+.herotxt{min-width:0}
+.kicker{font-size:10.5px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#8cdbcb}
+.herotxt h1{font-size:19px;margin:4px 0 4px;line-height:1.2}
+.herotxt p{margin:0;font-size:12.5px;color:#b9d2dc}
+.countdown{display:inline-flex;align-items:center;gap:6px;margin-top:9px;background:#ffffff17;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700}
+.countdown.late{background:#c0392b55}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:16px;position:relative;z-index:1}
+.metric{background:#ffffff12;border-radius:13px;padding:10px 6px;text-align:center;border:1px solid #ffffff10}
+.metric strong{display:block;font-size:20px;font-weight:850}
+.metric span{display:block;font-size:9.5px;color:#a9c4cf;letter-spacing:.4px;margin-top:2px;text-transform:uppercase}
+.metric.warn strong{color:#ffc27a}
+.herohint{font-size:11.5px;color:#a9c4cf;margin:12px 2px 0;line-height:1.45;position:relative;z-index:1}
+
+/* Report CTA */
+.cta{margin:14px 0 4px;display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);width:100%;text-align:left}
+.cta .ico{width:44px;height:44px;border-radius:13px;background:var(--accentsoft);color:var(--accentink);display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.cta b{display:block;font-size:15px}
+.cta small{display:block;font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}
+.cta .go{margin-left:auto;color:var(--accent);font-size:22px}
+
+/* Sticky search + filters */
+.finder{position:sticky;top:calc(var(--appbar) + var(--safe-t));z-index:15;background:var(--bg);margin:0 -14px;padding:12px 14px 8px}
+.search{position:relative}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:19px;height:19px;color:var(--muted)}
+.search input{width:100%;height:48px;padding:0 44px 0 44px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:16px;outline:none;box-shadow:0 2px 8px #0e35400a;-webkit-appearance:none;appearance:none}
+.search input::-webkit-search-cancel-button{display:none}
+.search input:focus{border-color:var(--accent)}
+.clear{position:absolute;right:6px;top:6px;width:36px;height:36px;border-radius:10px;color:var(--muted);font-size:18px}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;height:36px;padding:0 13px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink2);font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.chip i{font-style:normal;font-size:11px;background:var(--card2);color:var(--muted);border-radius:999px;padding:2px 7px;font-weight:800}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip.on i{background:#ffffff26;color:inherit}
+.listhead{display:flex;align-items:center;justify-content:space-between;margin:12px 2px 2px;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.3px}
+.linkbtn{color:var(--accent);font-weight:800;font-size:12.5px;padding:8px 4px}
+
+/* Systems */
+.sys{background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin:10px 0;overflow:hidden;box-shadow:0 2px 10px #1032440a}
+.syshead{width:100%;display:flex;align-items:center;gap:12px;padding:14px;text-align:left;min-height:72px}
+.sysicon{width:44px;height:44px;border-radius:13px;background:var(--accentsoft);color:var(--accentink);display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.sysicon.full{background:var(--accent);color:#fff}
+.sysinfo{flex:1;min-width:0}
+.sysinfo b{display:block;font-size:14.5px;line-height:1.25}
+.sysinfo small{display:block;font-size:11.5px;color:var(--muted);margin-top:3px}
+.sysinfo small .cp{color:var(--warn);font-weight:700}
+.pbar{display:block;height:6px;background:var(--card2);border-radius:9px;overflow:hidden;margin-top:8px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:9px;transition:width .35s}
+.pct{font-weight:850;font-size:16px;color:var(--accent);white-space:nowrap;min-width:44px;text-align:right}
+.pct.na{color:var(--na)}
+.chev{width:20px;height:20px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+[aria-expanded=true] .chev{transform:rotate(90deg)}
+.sysbody{border-top:1px solid var(--line);padding:4px 0 6px}
+.eq{border-bottom:1px solid var(--line)}
+.eq:last-child{border-bottom:0}
+.eqhead{width:100%;display:flex;align-items:center;gap:10px;padding:12px 14px;text-align:left;min-height:58px}
+.eqtxt{flex:1;min-width:0}
+.eqtxt b{display:block;font-size:14px}
+.eqtxt small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.eqhead .pct{font-size:14px}
+.eqbar{width:46px;height:5px;background:var(--card2);border-radius:9px;overflow:hidden;flex-shrink:0}
+.eqbar i{display:block;height:100%;background:var(--accent)}
+.tasks{padding:0 10px 10px}
+
+/* Tasks */
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px 10px;border-radius:14px;background:var(--card2);margin-top:6px;transition:background .2s}
+.task.ok{background:var(--accentsoft)}
+.task.na{opacity:.72}
+.check{width:40px;height:40px;flex-shrink:0;border-radius:12px;border:2px solid #a9bcc4;background:var(--card);display:grid;place-items:center;color:#fff;font-size:20px;font-weight:900;transition:transform .12s,background .15s}
+.check:active{transform:scale(.9)}
+.task.ok .check{background:var(--accent);border-color:var(--accent);box-shadow:0 3px 10px #0d9b7e40}
+.task.na .check{background:var(--na);border-color:var(--na);font-size:11px;font-weight:800}
+.tbody{flex:1;min-width:0}
+.tname{font-size:14px;line-height:1.4;font-weight:650;padding-top:2px;overflow-wrap:anywhere}
+.task.ok .tname{color:var(--accentink)}
+.task.na .tname{text-decoration:line-through;text-decoration-color:#8a9aa680}
+.crit{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.4px;background:var(--warnsoft);color:var(--warn);border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:2px}
+.tdesc{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+.tmeta{font-size:11px;color:var(--muted);margin-top:4px}
+.note{font-size:12.5px;color:var(--ink2);background:var(--card);border-left:3px solid var(--accent2);padding:8px 10px;border-radius:6px;margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.tact{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.sbtn{height:32px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink2);font-size:12px;font-weight:700}
+.sbtn.on{background:var(--na);border-color:var(--na);color:#fff}
+.empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+.empty b{display:block;font-size:30px;margin-bottom:6px}
+.found{animation:flash 1.8s ease}
+@keyframes flash{0%,60%{box-shadow:0 0 0 3px var(--accent2)}100%{box-shadow:0 0 0 0 transparent}}
+
+/* Dock */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -6px 22px #1537481a;padding:8px 12px calc(8px + var(--safe-b))}
+.dock-in{max-width:760px;margin:auto;display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:8px}
+.dbtn{height:50px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:11px;font-weight:750;color:var(--ink2);background:var(--card2)}
+.dbtn span{font-size:17px;line-height:1}
+.dbtn.primary{background:var(--accent);color:#fff;flex-direction:row;gap:8px;font-size:14.5px;font-weight:800;box-shadow:0 4px 14px #0a8f7f40}
+
+/* Sheets */
+.overlay{position:fixed;inset:0;z-index:40;background:#04111bb3;display:flex;align-items:flex-end;justify-content:center;animation:fade .18s ease}
+.sheet{background:var(--card);width:100%;max-width:680px;border-radius:24px 24px 0 0;display:flex;flex-direction:column;max-height:94vh;max-height:94dvh;animation:up .24s cubic-bezier(.2,.8,.2,1);padding-bottom:var(--safe-b)}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line);margin:9px auto 0;flex-shrink:0}
+.sheethead{display:flex;align-items:flex-start;gap:12px;padding:12px 18px 10px;flex-shrink:0}
+.sheethead div{flex:1;min-width:0}
+.sheethead .kicker{color:var(--accent)}
+.sheethead strong{display:block;font-size:18px;margin-top:3px;line-height:1.3;overflow-wrap:anywhere}
+.sheethead small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
+.xbtn{width:40px;height:40px;border-radius:12px;background:var(--card2);font-size:17px;color:var(--ink2);flex-shrink:0}
+.sheetbody{overflow:auto;padding:4px 18px 14px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.sheetfoot{border-top:1px solid var(--line);padding:12px 18px;flex-shrink:0;background:var(--card)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.abtn{height:50px;border-radius:14px;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card2);color:var(--ink)}
+.abtn.pdf{background:var(--brand2);color:#fff}
+.abtn.wa{background:#1fa855;color:#fff}
+.abtn svg{width:19px;height:19px}
+.foothint{font-size:11px;color:var(--muted);margin:9px 2px 0;line-height:1.4}
+textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:16px;background:var(--card2);resize:vertical;outline:none;line-height:1.45}
+textarea:focus{border-color:var(--accent)}
+.notefoot{display:flex;gap:8px}
+.notefoot .abtn{flex:1}
+.notefoot .del{flex:0 0 auto;padding:0 14px;color:var(--danger)}
+.abtn.save{background:var(--accent);color:#fff}
+.ctx{font-size:12px;color:var(--muted);background:var(--card2);border-radius:10px;padding:9px 11px;margin-bottom:10px;line-height:1.45}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (min-width:700px){.overlay{align-items:center;padding:20px}.sheet{border-radius:22px;max-height:90vh}.grab{display:none}}
+@media (max-width:360px){.metric strong{font-size:17px}.metric span{font-size:8.5px}.ring{width:88px;height:88px}.ring span{font-size:21px}.herotxt h1{font-size:17px}}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:calc(78px + var(--safe-b));transform:translate(-50%,20px);z-index:60;background:#13222d;color:#fff;border-radius:14px;padding:11px 12px 11px 16px;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:12px;box-shadow:0 8px 26px #0006;opacity:0;pointer-events:none;transition:.22s;width:calc(100vw - 28px);max-width:460px}
+.toast span{flex:1;min-width:0;line-height:1.35}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{color:#5fe0c3;font-weight:800;padding:8px 10px;border-radius:8px;flex-shrink:0}
+
+/* Report document (preview + PDF): paper look in both themes */
+.rdoc{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:12.5px;color:#1d3343;line-height:1.5;background:#fff;border-radius:14px;padding:14px;border:1px solid #e1e9ec;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rdoc *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rbrand{background:linear-gradient(135deg,#134357,#0b2638);color:#fff;padding:16px;border-radius:12px}
+.rbrand b{display:block;font-size:22px;letter-spacing:.5px}
+.rbrand b em{font-style:normal;color:#57d6b6}
+.rbrand span{display:block;font-size:10px;letter-spacing:1.6px;color:#bce6d9;margin-top:2px}
+.rmeta{display:flex;flex-wrap:wrap;gap:4px 14px;color:#5a7381;font-size:11.5px;margin:10px 0}
+.rstats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.rstats div{background:#eaf4f2;border-radius:10px;padding:9px 6px;text-align:center}
+.rstats div.w{background:#fff1de}
+.rstats small{display:block;font-size:8.5px;color:#5b7b81;letter-spacing:.4px;font-weight:700}
+.rstats strong{display:block;font-size:19px;color:#087b71;line-height:1.3}
+.rstats div.w strong{color:#b4660f}
+.rdoc h3{font-size:13.5px;margin:18px 0 8px;border-bottom:2px solid #0b8d7d;padding-bottom:4px;color:#0b2638;break-after:avoid}
+.rdoc h4{font-size:12px;margin:10px 0 4px;color:#36505f}
+.rdoc p{margin:6px 0}
+.rdoc table{width:100%;border-collapse:collapse;font-size:11.5px}
+.rdoc th{font-size:10px;letter-spacing:.4px;color:#5b7b81;text-transform:uppercase}
+.rdoc th,.rdoc td{padding:7px 4px;border-bottom:1px solid #e1e9eb;text-align:left;vertical-align:middle}
+.rdoc td.n{text-align:right;white-space:nowrap}
+.rbar{display:inline-block;width:54px;height:6px;background:#e3ecee;border-radius:9px;overflow:hidden;vertical-align:middle;margin-right:6px}
+.rbar i{display:block;height:100%;background:#0a8f7f}
+.rdoc ol,.rdoc ul{padding-left:20px;margin:4px 0}
+.rdoc li{margin-bottom:5px;overflow-wrap:anywhere;break-inside:avoid}
+.rdoc .tag{font-size:9.5px;font-weight:800;border-radius:5px;padding:1px 5px;margin-left:4px;background:#eceff2;color:#58697a}
+.rdoc .tag.ok{background:#e1f4ef;color:#086a5e}
+.rdoc .tag.p{background:#fff1de;color:#a35d10}
+.rdoc .fine{font-size:10.5px;color:#6b7f8c}
+.rdoc .sign{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:34px}
+.rdoc .sign div{border-top:1px solid #9fb2bb;padding-top:5px;font-size:10.5px;color:#5a7381}
+#printArea{display:none}
+
+@media print{
+ @page{size:A4;margin:12mm}
+ html,body{background:#fff!important}
+ body>*:not(#printArea){display:none!important}
+ #printArea{display:block!important}
+ #printArea .rdoc{border:0;padding:0;border-radius:0;font-size:11.5px}
+ .rbrand{border-radius:0}
+}
+</style>
+</head>
+<body>
+<header class="appbar"><div class="appbar-in">
+ <div class="logo" aria-hidden="true">⚙</div>
+ <div class="apptitle"><b>GRS <em>110</em> · CONTROL</b><small>ALISTAMIENTO · OBJETIVO 01 NOV 2026</small></div>
+ <div class="minipct" id="minipct" aria-hidden="true">0%</div>
+</div></header>
+
+<main class="wrap">
+ <section class="hero" id="hero">
+  <div class="herotop">
+   <div class="ring" role="img" id="ringbox" aria-label="Avance general"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="50"/><circle class="val" id="ringval" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/></svg><span id="overall">0%</span></div>
+   <div class="herotxt">
+    <div class="kicker">Panel de avance · RIG 110</div>
+    <h1>Preparación general</h1>
+    <p id="totals">—</p>
+    <div class="countdown" id="countdown">—</div>
+   </div>
+  </div>
+  <div class="metrics">
+   <button class="metric" data-filter="done"><strong id="mDone">0</strong><span>Hechas</span></button>
+   <button class="metric" data-filter="pending"><strong id="mPending">0</strong><span>Pendientes</span></button>
+   <button class="metric warn" data-filter="critical"><strong id="mCritical">0</strong><span>Críticas pend.</span></button>
+   <button class="metric" data-filter="na"><strong id="mNa">0</strong><span>N/A</span></button>
+  </div>
+  <p class="herohint">Las pruebas solo se completan con resultado satisfactorio. N/A no cuenta para el porcentaje.</p>
+ </section>
+
+ <button class="cta" id="reportOpen"><span class="ico">📊</span><span><b>Reporte gerencial</b><small>Avance, críticas y observaciones · PDF o WhatsApp</small></span><span class="go">›</span></button>
+
+ <div class="finder">
+  <div class="search">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+   <input type="search" id="search" placeholder="Buscar sistema, equipo o actividad…" enterkeyhint="search" autocomplete="off" aria-label="Buscar">
+   <button class="clear hidden" id="clearSearch" aria-label="Borrar búsqueda">✕</button>
+  </div>
+  <div class="chips" id="chips" role="tablist"></div>
+ </div>
+ <div class="listhead"><span id="listinfo"></span><button class="linkbtn" id="expandAll">Expandir todo</button></div>
+ <div id="content"></div>
+</main>
+
+<nav class="dock"><div class="dock-in">
+ <button class="dbtn" id="export"><span>⤓</span>Respaldo</button>
+ <button class="dbtn" id="import"><span>⤒</span>Restaurar</button>
+ <button class="dbtn primary" id="reportOpen2">📊 Reporte</button>
+</div></nav>
+<input type="file" id="file" accept=".json,application/json" class="hidden">
+
+<div id="reportOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="reportTitle"><div class="sheet">
+ <div class="grab"></div>
+ <div class="sheethead"><div><div class="kicker">GRS110 · Inteligencia de avance</div><strong id="reportTitle">Reporte gerencial</strong></div><button class="xbtn" data-close="reportOverlay" aria-label="Cerrar">✕</button></div>
+ <div class="sheetbody" id="reportPreview"></div>
+ <div class="sheetfoot">
+  <div class="acts">
+   <button class="abtn pdf" id="reportPdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15h6M9 18h4"/></svg>PDF</button>
+   <button class="abtn wa" id="reportWhats"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2s.2-1.1.1-1.2-.2-.2-.5-.3z"/></svg>WhatsApp</button>
+   <button class="abtn" id="reportShare">↗ Compartir</button>
+   <button class="abtn" id="reportCopy">⧉ Copiar texto</button>
+  </div>
+  <p class="foothint">PDF: en el diálogo de impresión elige «Guardar como PDF». WhatsApp abre la app con el resumen listo para enviar.</p>
+ </div>
+</div></div>
+
+<div id="noteOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="noteTitle"><div class="sheet">
+ <div class="grab"></div>
+ <div class="sheethead"><div><div class="kicker">Observación</div><strong id="noteTitle"></strong><small id="noteEq"></small></div><button class="xbtn" data-close="noteOverlay" aria-label="Cerrar">✕</button></div>
+ <div class="sheetbody"><div class="ctx" id="noteCtx"></div><textarea id="noteInput" placeholder="Hallazgos, resultados, número de informe, pendientes…" maxlength="2000"></textarea></div>
+ <div class="sheetfoot notefoot"><button class="abtn del" id="noteDel">Borrar</button><button class="abtn" data-close="noteOverlay">Cancelar</button><button class="abtn save" id="noteSave">Guardar</button></div>
+</div></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button id="toastBtn" class="hidden">Deshacer</button></div>
+<div id="printArea"></div>
+<script>
+const tasks=[{"id":45,"s":"Sistema de potencia","e":"Unidad básica","a":"Motor diésel Caterpillar C27: mantenimiento e inspección","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Unidad básica"},{"id":46,"s":"Sistema de potencia","e":"Unidad básica","a":"Prueba funcional del motor, alarmas y paradas","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Unidad básica"},{"id":47,"s":"Sistema de potencia","e":"Unidad básica","a":"Acoplamiento Centaflex: reemplazo e inspección","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Unidad básica"},{"id":48,"s":"Sistema de potencia","e":"Unidad básica","a":"HPU: bombas y depósito hidráulico","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Unidad básica"},{"id":49,"s":"Sistema de potencia","e":"Unidad básica","a":"Mangueras, tuberías, válvulas y filtros hidráulicos","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Unidad básica"},{"id":50,"s":"Sistema de potencia","e":"Unidad básica","a":"Calidad y limpieza del aceite hidráulico","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Unidad básica"},{"id":51,"s":"Sistema de potencia","e":"Unidad básica","a":"Presiones, temperaturas y alarmas de HPU","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Unidad básica"},{"id":52,"s":"Sistema de potencia","e":"Unidad básica","a":"Prueba funcional HPU y estanqueidad","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Unidad básica"},{"id":53,"s":"Sistema de potencia","e":"Unidad básica","a":"Estructura y soportes","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Unidad básica"},{"id":54,"s":"Sistema de potencia","e":"Unidad básica","a":"Rig Up y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Unidad básica"},{"id":95,"s":"Sistema de potencia","e":"Generador #1","a":"Mantenimiento del motor diésel","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":96,"s":"Sistema de potencia","e":"Generador #1","a":"Alternador y cableado","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":97,"s":"Sistema de potencia","e":"Generador #1","a":"Protecciones, alarmas y paradas de emergencia","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":98,"s":"Sistema de potencia","e":"Generador #1","a":"Prueba funcional sin carga","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Generación"},{"id":99,"s":"Sistema de potencia","e":"Generador #1","a":"Prueba funcional con carga","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Generación"},{"id":100,"s":"Sistema de potencia","e":"Generador #2","a":"Mantenimiento del motor diésel","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":101,"s":"Sistema de potencia","e":"Generador #2","a":"Alternador y cableado","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":102,"s":"Sistema de potencia","e":"Generador #2","a":"Protecciones, alarmas y paradas de emergencia","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":103,"s":"Sistema de potencia","e":"Generador #2","a":"Prueba funcional sin carga","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Generación"},{"id":104,"s":"Sistema de potencia","e":"Generador #2","a":"Prueba funcional con carga","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Generación"},{"id":105,"s":"Sistema de potencia","e":"SCR y combustible","a":"Inspección de SCR y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":106,"s":"Sistema de potencia","e":"SCR y combustible","a":"Prueba de alimentación y control a motores DC","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Generación"},{"id":107,"s":"Sistema de potencia","e":"SCR y combustible","a":"Tanque de diésel: integridad y estanqueidad","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":108,"s":"Sistema de potencia","e":"SCR y combustible","a":"Combustible, tuberías y contención","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":109,"s":"Sistema de potencia","e":"SCR y combustible","a":"Puesta a tierra y seguridad eléctrica","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Generación"},{"id":153,"s":"Sistema de potencia","e":"Sistema neumático","a":"Compresor: inspección y mantenimiento","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Neumática"},{"id":154,"s":"Sistema de potencia","e":"Sistema neumático","a":"Depósito, líneas y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Neumática"},{"id":155,"s":"Sistema de potencia","e":"Sistema neumático","a":"Válvulas de alivio y regulación","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Neumática"},{"id":156,"s":"Sistema de potencia","e":"Sistema neumático","a":"Prueba funcional y de fugas","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Neumática"},{"id":55,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Inspección estructural y uniones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Mástil"},{"id":56,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Corona y elementos de izaje","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Mástil"},{"id":57,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Cilindros Pull Up: inspección y anclajes","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Mástil"},{"id":58,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Cilindros Pull Down: inspección de vástago, cromado y anclajes","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Mástil"},{"id":59,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Prueba Pull Down: bypass interno y fugas externas","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Mástil"},{"id":60,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Prueba Pull Down: retención de carga y carrera completa","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Mástil"},{"id":61,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Prueba de movimientos Pull Up/Down y límites","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Mástil"},{"id":62,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Winches auxiliares: inspección y prueba funcional si instalados","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Mástil"},{"id":63,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Prueba de carga de izaje conforme procedimiento aprobado","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Mástil"},{"id":64,"s":"Sistema de izaje y soporte","e":"Mástil","a":"DROPS, topes, alarmas y anticolisión","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Mástil"},{"id":65,"s":"Sistema de izaje y soporte","e":"Mástil","a":"Rig Up y aseguramiento","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Mástil"},{"id":76,"s":"Sistema de izaje y soporte","e":"Subestructura","a":"Inspección estructural y dimensional","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Subestructura"},{"id":77,"s":"Sistema de izaje y soporte","e":"Subestructura","a":"Evaluación de deformación en miembro DS reportado","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Subestructura"},{"id":78,"s":"Sistema de izaje y soporte","e":"Subestructura","a":"Reparaciones con procedimiento y soldadores calificados","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Subestructura"},{"id":79,"s":"Sistema de izaje y soporte","e":"Subestructura","a":"NDT y aceptación estructural posterior a reparación","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Subestructura"},{"id":80,"s":"Sistema de izaje y soporte","e":"Subestructura","a":"Pernos, pasadores, anclajes y nivelación","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Subestructura"},{"id":81,"s":"Sistema de izaje y soporte","e":"Subestructura","a":"Pasarelas, escaleras y barandas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Subestructura"},{"id":82,"s":"Sistema de izaje y soporte","e":"Subestructura","a":"Rig Up y verificación final","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Subestructura"},{"id":66,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Inspección estructural y mecánica","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Top Drive"},{"id":67,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Quill: inspección, trazabilidad y aceptación de reemplazo","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Top Drive"},{"id":68,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Washpipe, sellos y lubricación","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Top Drive"},{"id":69,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"IBOP y válvulas integradas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Top Drive"},{"id":70,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Sistema hidráulico y mangueras","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Top Drive"},{"id":71,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Link tilt, elevador y grabber","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Top Drive"},{"id":72,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Sistema de rotación, RPM y freno","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Top Drive"},{"id":73,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Prueba de torque real con patrón calibrado","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Top Drive"},{"id":74,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"Prueba funcional y de alarmas satisfactoria","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Top Drive"},{"id":75,"s":"Sistema de rotación y manejo de tubería","e":"Top Drive BAUER","a":"DROPS y aseguramiento","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Top Drive"},{"id":127,"s":"Sistema de rotación y manejo de tubería","e":"Pipe Handler","a":"Estructura, guías y soportes","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Pipe Handler"},{"id":128,"s":"Sistema de rotación y manejo de tubería","e":"Pipe Handler","a":"Sistema hidráulico y mangueras","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Pipe Handler"},{"id":129,"s":"Sistema de rotación y manejo de tubería","e":"Pipe Handler","a":"Mordazas y dispositivos de sujeción","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Pipe Handler"},{"id":130,"s":"Sistema de rotación y manejo de tubería","e":"Pipe Handler","a":"Sensores, límites y paradas de emergencia","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Pipe Handler"},{"id":131,"s":"Sistema de rotación y manejo de tubería","e":"Pipe Handler","a":"Prueba funcional de recorrido y manejo de tubería","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Pipe Handler"},{"id":132,"s":"Sistema de rotación y manejo de tubería","e":"Pipe Handler","a":"Prueba de interbloqueos con Top Drive","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Pipe Handler"},{"id":133,"s":"Sistema de rotación y manejo de tubería","e":"Llave hidráulica BAUER","a":"Inspección mecánica y de mordazas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Llave de potencia"},{"id":134,"s":"Sistema de rotación y manejo de tubería","e":"Llave hidráulica BAUER","a":"Sistema hidráulico y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Llave de potencia"},{"id":135,"s":"Sistema de rotación y manejo de tubería","e":"Llave hidráulica BAUER","a":"Spinner y accesorios aplicables","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Llave de potencia"},{"id":136,"s":"Sistema de rotación y manejo de tubería","e":"Llave hidráulica BAUER","a":"Calibración y prueba de torque make-up","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Llave de potencia"},{"id":137,"s":"Sistema de rotación y manejo de tubería","e":"Llave hidráulica BAUER","a":"Calibración y prueba de torque break-out","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Llave de potencia"},{"id":138,"s":"Sistema de rotación y manejo de tubería","e":"Llave hidráulica BAUER","a":"Prueba funcional, alarmas y parada de emergencia","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Llave de potencia"},{"id":1,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Rig Down y preparación","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":2,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Inspección del Power End","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":3,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Inspección del Fluid End y componentes internos","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":4,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Aceptación de módulos Fluid End reparados: dimensional, NDT e hidrostática","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Bombas de lodo"},{"id":5,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Sistema de lubricación y enfriamiento","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":6,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Motor DC, conexiones y ventilación","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":7,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Válvula de alivio, dámper y accesorios","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":8,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Rig Up y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":9,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Prueba funcional individual satisfactoria","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Bombas de lodo"},{"id":10,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Prueba de carga y presión según protocolo aprobado","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Bombas de lodo"},{"id":11,"s":"Sistema de circulación","e":"Bomba PZ9 #1","a":"Quinta rueda y transporte","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":12,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Rig Down y preparación","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":13,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Inspección del Power End","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":14,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Inspección del Fluid End y componentes internos","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":15,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Aceptación de módulos Fluid End reparados: dimensional, NDT e hidrostática","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Bombas de lodo"},{"id":16,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Sistema de lubricación y enfriamiento","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":17,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Motor DC, conexiones y ventilación","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":18,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Válvula de alivio, dámper y accesorios","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":19,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Rig Up y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":20,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Prueba funcional individual satisfactoria","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Bombas de lodo"},{"id":21,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Prueba de carga y presión según protocolo aprobado","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Bombas de lodo"},{"id":22,"s":"Sistema de circulación","e":"Bomba PZ9 #2","a":"Quinta rueda y transporte","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Bombas de lodo"},{"id":23,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Integridad de compartimientos: píldora 40, succión 80, intermedio 40, retorno 50 y trampa 40 bbl","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":24,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Medición de espesores y evaluación de corrosión","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Tanques de lodo"},{"id":25,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Reparaciones estructurales, soldaduras y NDT aplicable","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Tanques de lodo"},{"id":26,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Válvulas, líneas y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":27,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Agitadores y bombas centrífugas asociadas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":28,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Motores, tableros y conexiones eléctricas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":29,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Instrumentación y medición de nivel","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":30,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Prueba de estanqueidad de compartimientos","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Tanques de lodo"},{"id":31,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Pasarelas, barandas, señalización y pintura","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":32,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Rig Up y conexiones finales","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":33,"s":"Sistema de circulación","e":"Tanque #1 Activo","a":"Quinta rueda y transporte","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":34,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Integridad de Reserva 1 (120 bbl)","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":35,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Integridad de Reserva 2 (80 bbl)","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":36,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Medición de espesores y evaluación de corrosión","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Tanques de lodo"},{"id":37,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Reparaciones estructurales, soldaduras y NDT aplicable","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Tanques de lodo"},{"id":38,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Válvulas, líneas y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":39,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Equipos auxiliares mecánicos aplicables","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":40,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Equipos eléctricos aplicables","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":41,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Prueba de estanqueidad de ambas reservas","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Tanques de lodo"},{"id":42,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Pasarelas, barandas, señalización y pintura","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":43,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Rig Up y conexiones finales","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":44,"s":"Sistema de circulación","e":"Tanque #2 Reserva","a":"Quinta rueda y transporte","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Tanques de lodo"},{"id":83,"s":"Sistema de circulación","e":"Sistema de alta presión","a":"Manifold y conexiones de descarga","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Líneas de alta presión"},{"id":84,"s":"Sistema de circulación","e":"Sistema de alta presión","a":"Standpipe y soportes","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Líneas de alta presión"},{"id":85,"s":"Sistema de circulación","e":"Sistema de alta presión","a":"Rotary hose y vibrator hose: estado, certificación y radios de curvatura","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Líneas de alta presión"},{"id":86,"s":"Sistema de circulación","e":"Sistema de alta presión","a":"Gooseneck y conexiones Top Drive","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Líneas de alta presión"},{"id":87,"s":"Sistema de circulación","e":"Sistema de alta presión","a":"Válvulas y dispositivos de alivio aplicables","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Líneas de alta presión"},{"id":88,"s":"Sistema de circulación","e":"Sistema de alta presión","a":"Prueba de presión del circuito según componente limitante","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Líneas de alta presión"},{"id":89,"s":"Sistema de circulación","e":"Sistema de alta presión","a":"Inspección de fugas, soportes y aseguramientos","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Líneas de alta presión"},{"id":90,"s":"Sistema de circulación","e":"Tanque de agua","a":"Integridad estructural y corrosión","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Agua"},{"id":91,"s":"Sistema de circulación","e":"Tanque de agua","a":"Válvulas, líneas y accesorios","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Agua"},{"id":92,"s":"Sistema de circulación","e":"Tanque de agua","a":"Equipos de bombeo aplicables","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Agua"},{"id":93,"s":"Sistema de circulación","e":"Tanque de agua","a":"Prueba de estanqueidad","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Agua"},{"id":94,"s":"Sistema de circulación","e":"Tanque de agua","a":"Conexiones y Rig Up","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Agua"},{"id":139,"s":"Sistema de circulación","e":"Control de sólidos","a":"Shale Shakers: estructura, mallas y vibradores","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de sólidos"},{"id":140,"s":"Sistema de circulación","e":"Control de sólidos","a":"Prueba funcional de Shale Shakers","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de sólidos"},{"id":141,"s":"Sistema de circulación","e":"Control de sólidos","a":"Mud Cleaner e hidrociclones: inspección","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de sólidos"},{"id":142,"s":"Sistema de circulación","e":"Control de sólidos","a":"Prueba funcional de desander/desilter","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de sólidos"},{"id":143,"s":"Sistema de circulación","e":"Control de sólidos","a":"Desgasificador: inspección","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de sólidos"},{"id":144,"s":"Sistema de circulación","e":"Control de sólidos","a":"Prueba funcional de desgasificador","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de sólidos"},{"id":145,"s":"Sistema de circulación","e":"Control de sólidos","a":"Tuberías, válvulas y bombas asociadas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de sólidos"},{"id":146,"s":"Sistema de circulación","e":"Control de sólidos","a":"Conexiones eléctricas y protecciones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de sólidos"},{"id":110,"s":"Sistema de control de pozo","e":"BOP","a":"Identificación, certificados y condición de preventoras","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":111,"s":"Sistema de control de pozo","e":"BOP","a":"Inspección de elementos sellantes y conexiones","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de pozo"},{"id":112,"s":"Sistema de control de pozo","e":"BOP","a":"Prueba funcional de apertura/cierre","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":113,"s":"Sistema de control de pozo","e":"BOP","a":"Prueba de presión baja según procedimiento","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":114,"s":"Sistema de control de pozo","e":"BOP","a":"Prueba de presión alta según procedimiento","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":115,"s":"Sistema de control de pozo","e":"Acumulador","a":"Inspección de botellas, líneas y válvulas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de pozo"},{"id":116,"s":"Sistema de control de pozo","e":"Acumulador","a":"Verificación de precarga","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":117,"s":"Sistema de control de pozo","e":"Acumulador","a":"Verificación de presión y tiempo de recarga","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de pozo"},{"id":118,"s":"Sistema de control de pozo","e":"Acumulador","a":"Prueba de autonomía drawdown","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":119,"s":"Sistema de control de pozo","e":"Acumulador","a":"Prueba de controles remotos, alarmas y parada","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":120,"s":"Sistema de control de pozo","e":"Choke manifold y líneas","a":"Inspección de choke manifold y válvulas","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de pozo"},{"id":121,"s":"Sistema de control de pozo","e":"Choke manifold y líneas","a":"Inspección de choke y kill lines","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de pozo"},{"id":122,"s":"Sistema de control de pozo","e":"Choke manifold y líneas","a":"Prueba funcional de válvulas","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":123,"s":"Sistema de control de pozo","e":"Choke manifold y líneas","a":"Prueba de presión del conjunto aplicable","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":124,"s":"Sistema de control de pozo","e":"Separador de gas","a":"Integridad del poor boy degasser","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de pozo"},{"id":125,"s":"Sistema de control de pozo","e":"Separador de gas","a":"Líneas de venteo, drenaje y soportes","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Control de pozo"},{"id":126,"s":"Sistema de control de pozo","e":"Separador de gas","a":"Prueba funcional aplicable","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Control de pozo"},{"id":147,"s":"Sistema de control e instrumentación","e":"Cabina y controles","a":"Paneles, cableado y controles","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Cabina e instrumentación"},{"id":148,"s":"Sistema de control e instrumentación","e":"Cabina y controles","a":"Instrumentos de presión, temperatura y nivel","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Cabina e instrumentación"},{"id":149,"s":"Sistema de control e instrumentación","e":"Cabina y controles","a":"Calibraciones aplicables","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Cabina e instrumentación"},{"id":150,"s":"Sistema de control e instrumentación","e":"Cabina y controles","a":"Paradas de emergencia","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Cabina e instrumentación"},{"id":151,"s":"Sistema de control e instrumentación","e":"Cabina y controles","a":"Alarmas e interbloqueos","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Cabina e instrumentación"},{"id":152,"s":"Sistema de control e instrumentación","e":"Cabina y controles","a":"Prueba funcional de controles e indicaciones","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Cabina e instrumentación"},{"id":157,"s":"Pruebas integrales del RIG","e":"Integración final RIG","a":"Verificación de certificados e informes críticos pendientes","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Prueba integral"},{"id":158,"s":"Pruebas integrales del RIG","e":"Integración final RIG","a":"Prueba integrada de generación, HPU y controles","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Prueba integral"},{"id":159,"s":"Pruebas integrales del RIG","e":"Integración final RIG","a":"Prueba integrada de bombas y circulación","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Prueba integral"},{"id":160,"s":"Pruebas integrales del RIG","e":"Integración final RIG","a":"Prueba integrada de izaje, Top Drive y manejo de tubería","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Prueba integral"},{"id":161,"s":"Pruebas integrales del RIG","e":"Integración final RIG","a":"Verificación de seguridad y paradas de emergencia","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Prueba integral"},{"id":162,"s":"Pruebas integrales del RIG","e":"Integración final RIG","a":"Prueba de funcionamiento sostenido según protocolo aprobado","d":"Requiere resultado satisfactorio y evidencia/informe aplicable según procedimiento aprobado, fabricante y criterio del inspector.","c":true,"sub":"Prueba integral"},{"id":163,"s":"Pruebas integrales del RIG","e":"Integración final RIG","a":"Cierre de hallazgos críticos del inspector","d":"Verificar alcance indicado y registrar hallazgos o pendientes en observaciones.","c":false,"sub":"Prueba integral"}];
+const KEY='grs110_mobile_v1';
+const TARGET=new Date(2026,10,1);
+const TARGET_TXT='01/11/2026';
+const byId=new Map(tasks.map(t=>[t.id,t]));
+const SYSTEMS=[...new Set(tasks.map(t=>t.s))];
+const ICONS={'Sistema de potencia':'⚡','Sistema de circulación':'◉','Sistema de izaje y soporte':'↟','Sistema de rotación y manejo de tubería':'⟳','Sistema de control de pozo':'⬡','Sistema de control e instrumentación':'⌁','Pruebas integrales del RIG':'✓'};
+const FILTERS=[['all','Todos'],['pending','Pendientes'],['critical','⚠ Críticas'],['done','Hechas'],['na','N/A'],['notes','Con notas']];
+
+const $=id=>document.getElementById(id);
+const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=x=>String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const pad=n=>String(n).padStart(2,'0');
+const localDate=(d=new Date())=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+
+/* ---------- Estado ---------- */
+function sanitize(raw){
+ const out={};
+ if(!raw||typeof raw!=='object'||Array.isArray(raw))return out;
+ for(const [k,v] of Object.entries(raw)){
+  const id=Number(k);
+  if(!byId.has(id)||!v||typeof v!=='object')continue;
+  const e={};
+  if(v.status==='ok'||v.status==='na')e.status=v.status;
+  if(typeof v.note==='string'&&v.note.trim())e.note=v.note.slice(0,2000);
+  else if(typeof v.note==='number')e.note=String(v.note);
+  if(typeof v.at==='string'&&!isNaN(Date.parse(v.at)))e.at=v.at;
+  if(Object.keys(e).length)out[id]=e;
+ }
+ return out;
+}
+let state={};
+try{state=sanitize(JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){state={}}
+let mode='all',query='',opened={},expandAll=false,noteId=null;
+
+const status=t=>{const v=state[t.id]&&state[t.id].status;return v==='ok'||v==='na'?v:'p'};
+const noteOf=t=>(state[t.id]&&state[t.id].note)||'';
+const stats=a=>{const valid=a.filter(t=>status(t)!=='na'),done=valid.filter(t=>status(t)==='ok').length;return {done,total:valid.length,pct:valid.length?Math.round(done/valid.length*100):null}};
+const percent=s=>s.pct===null?'N/A':s.pct+'%';
+
+function persist(){
+ try{localStorage.setItem(KEY,JSON.stringify(state));return true}
+ catch(e){toast('⚠ No se pudo guardar en este navegador. Exporta un respaldo.');return false}
+}
+function setEntry(id,patch){
+ const cur={...(state[id]||{}),...patch};
+ if(cur.status==='p')delete cur.status;
+ if(!cur.note)delete cur.note;
+ if(!cur.status&&!cur.note)delete state[id];else state[id]=cur;
+ persist();render();
+}
+function changeStatus(id,v){
+ const t=byId.get(id),prev=state[id]?{...state[id]}:null;
+ setEntry(id,{status:v,at:new Date().toISOString()});
+ const msg=v==='ok'?'✓ Completada':v==='na'?'Marcada N/A':'Vuelve a pendiente';
+ if(v==='ok'&&navigator.vibrate)try{navigator.vibrate(12)}catch(e){}
+ toast(msg+' · '+t.a,()=>{if(prev)state[id]=prev;else delete state[id];persist();render()});
+}
+
+/* ---------- Plazo ---------- */
+function daysLeft(){const n=new Date();return Math.round((TARGET-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5)}
+function daysText(d){return d>1?'faltan '+d+' días':d===1?'falta 1 día':d===0?'vence hoy':'vencida hace '+(-d)+(d===-1?' día':' días')}
+
+/* ---------- Filtros ---------- */
+function filterOk(t,m){
+ const v=status(t);
+ return m==='all'||(m==='pending'&&v==='p')||(m==='critical'&&t.c)||(m==='done'&&v==='ok')||(m==='na'&&v==='na')||(m==='notes'&&!!noteOf(t));
+}
+function matches(t){
+ if(!filterOk(t,mode))return false;
+ if(!query)return true;
+ const q=norm(query);
+ return [t.s,t.sub,t.e,t.a].some(x=>norm(x).includes(q))||norm(noteOf(t)).includes(q);
+}
+const narrowed=()=>mode!=='all'||!!query;
+function isOpen(key){
+ if(key in opened)return opened[key];
+ return expandAll||(key.startsWith('s:')?!!query:narrowed());
+}
+
+/* ---------- Render ---------- */
+const CHEV='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+function render(){
+ const all=stats(tasks),pend=tasks.filter(t=>status(t)==='p').length,na=tasks.filter(t=>status(t)==='na').length,critP=tasks.filter(t=>t.c&&status(t)==='p').length;
+ const C=314.16;
+ $('ringval').style.strokeDashoffset=C-C*(all.pct||0)/100;
+ $('overall').textContent=percent(all);$('ringbox').setAttribute('aria-label','Avance general '+percent(all));
+ $('minipct').textContent=percent(all);
+ $('totals').textContent=all.done+' de '+all.total+' actividades aplicables';
+ const d=daysLeft();$('countdown').textContent='⏱ '+TARGET_TXT+' · '+daysText(d);$('countdown').classList.toggle('late',d<0&&all.pct!==100);
+ $('mDone').textContent=all.done;$('mPending').textContent=pend;$('mCritical').textContent=critP;$('mNa').textContent=na;
+
+ $('chips').innerHTML=FILTERS.map(([k,l])=>`<button class="chip ${mode===k?'on':''}" data-filter="${k}" role="tab" aria-selected="${mode===k}">${l}<i>${tasks.filter(t=>filterOk(t,k)).length}</i></button>`).join('');
+
+ let out='',shownCount=0;
+ SYSTEMS.forEach((s,si)=>{
+  const sys=tasks.filter(t=>t.s===s),shown=sys.filter(matches);if(!shown.length)return;
+  shownCount+=shown.length;
+  const st=stats(sys),skey='s:'+s,open=isOpen(skey),cp=sys.filter(t=>t.c&&status(t)==='p').length;
+  out+=`<section class="sys" id="sys-${si}"><button class="syshead" data-open="${safe(skey)}" aria-expanded="${open}"><span class="sysicon ${st.pct===100?'full':''}">${ICONS[s]||'⚙'}</span><span class="sysinfo"><b>${safe(s)}</b><small>${st.done}/${st.total} · ${new Set(sys.map(t=>t.e)).size} equipos${cp?` · <span class="cp">${cp} crít. pend.</span>`:''}${narrowed()?` · ${shown.length} en vista`:''}</small><span class="pbar"><i style="width:${st.pct||0}%"></i></span></span><span class="pct ${st.pct===null?'na':''}">${percent(st)}</span>${CHEV}</button>`;
+  if(open){
+   out+='<div class="sysbody">';
+   for(const e of [...new Set(shown.map(t=>t.e))]){
+    const eq=sys.filter(t=>t.e===e),visible=eq.filter(matches),es=stats(eq),ek='e:'+s+':'+e,eo=isOpen(ek);
+    out+=`<div class="eq" id="eq-${tasks.indexOf(eq[0])}"><button class="eqhead" data-open="${safe(ek)}" aria-expanded="${eo}"><span class="eqtxt"><b>${safe(e)}</b><small>${safe(eq[0].sub)} · ${es.done}/${es.total} completadas</small></span><span class="eqbar"><i style="width:${es.pct||0}%"></i></span><span class="pct ${es.pct===null?'na':''}">${percent(es)}</span>${CHEV}</button>`;
+    if(eo){
+     out+='<div class="tasks">';
+     for(const t of visible){
+      const v=status(t),n=noteOf(t),at=state[t.id]&&state[t.id].at;
+      const when=v!=='p'&&at?new Date(at).toLocaleString('es-CO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+      out+=`<div class="task ${v==='ok'?'ok':v==='na'?'na':''}"><button class="check" data-check="${t.id}" aria-pressed="${v==='ok'}" aria-label="${v==='ok'?'Desmarcar':'Completar'}: ${safe(t.a)}">${v==='ok'?'✓':v==='na'?'N/A':''}</button><div class="tbody"><div class="tname">${safe(t.a)}${t.c?'<span class="crit">CRÍTICA</span>':''}</div>${t.c&&v==='p'?'<div class="tdesc">Requiere resultado satisfactorio y evidencia/informe.</div>':''}${when?`<div class="tmeta">${v==='ok'?'Completada':'N/A'} · ${safe(when)}</div>`:''}${n?`<div class="note">📝 ${safe(n)}</div>`:''}<div class="tact"><button class="sbtn ${v==='na'?'on':''}" data-na="${t.id}">N/A</button><button class="sbtn" data-note="${t.id}">${n?'✎ Editar nota':'+ Observación'}</button></div></div></div>`;
+     }
+     out+='</div>';
+    }
+    out+='</div>';
+   }
+   out+='</div>';
+  }
+  out+='</section>';
+ });
+ $('content').innerHTML=out||`<div class="empty"><b>🔎</b>No hay actividades con esos filtros.<br><button class="linkbtn" data-filter="all" data-reset="1">Ver todas</button></div>`;
+ $('listinfo').textContent=narrowed()?shownCount+' actividades en vista':SYSTEMS.length+' sistemas · '+tasks.length+' actividades';
+ $('expandAll').textContent=expandAll?'Contraer todo':'Expandir todo';
+}
+
+/* ---------- Toast ---------- */
+let toastTimer;
+function toast(msg,undo){
+ $('toastMsg').textContent=msg.length>70?msg.slice(0,68)+'…':msg;
+ const b=$('toastBtn');b.classList.toggle('hidden',!undo);b.onclick=undo?()=>{undo();hideToast()}:null;
+ $('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(hideToast,undo?4500:2600);
+}
+function hideToast(){$('toast').classList.remove('show')}
+
+/* ---------- Hojas (modales) ---------- */
+function openSheet(id){hideToast();$(id).classList.remove('hidden');document.body.style.overflow='hidden'}
+function closeSheet(id){$(id).classList.add('hidden');if(document.querySelectorAll('.overlay:not(.hidden)').length===0)document.body.style.overflow=''}
+for(const id of ['reportOverlay','noteOverlay'])$(id).addEventListener('click',e=>{if(e.target.id===id)closeSheet(id)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')for(const id of ['noteOverlay','reportOverlay'])if(!$(id).classList.contains('hidden')){closeSheet(id);break}});
+
+function openNote(id){
+ noteId=id;const t=byId.get(id);
+ $('noteTitle').textContent=t.a;$('noteEq').textContent=t.s+' · '+t.e;$('noteCtx').textContent=t.d;
+ $('noteInput').value=noteOf(t);$('noteDel').classList.toggle('hidden',!noteOf(t));
+ openSheet('noteOverlay');
+}
+$('noteSave').onclick=()=>{const v=$('noteInput').value.trim();setEntry(noteId,{note:v});closeSheet('noteOverlay');toast(v?'Observación guardada':'Observación eliminada')};
+$('noteDel').onclick=()=>{if(!confirm('¿Borrar esta observación?'))return;setEntry(noteId,{note:''});closeSheet('noteOverlay');toast('Observación eliminada')};
+
+/* ---------- Eventos ---------- */
+document.addEventListener('click',ev=>{
+ const b=ev.target.closest('[data-check],[data-na],[data-note],[data-open],[data-filter],[data-close]');if(!b)return;
+ const ds=b.dataset;
+ if(ds.close){closeSheet(ds.close)}
+ else if(ds.check){const id=+ds.check;changeStatus(id,status(byId.get(id))==='ok'?'p':'ok')}
+ else if(ds.na){const id=+ds.na;changeStatus(id,status(byId.get(id))==='na'?'p':'na')}
+ else if(ds.note){openNote(+ds.note)}
+ else if(ds.open){opened[ds.open]=!isOpen(ds.open);render()}
+ else if(ds.filter){
+  mode=ds.filter;opened={};
+  if(ds.reset){query='';$('search').value='';$('clearSearch').classList.add('hidden')}
+  render();
+  if(b.classList.contains('metric'))document.querySelector('.finder').scrollIntoView({behavior:'smooth',block:'start'});
+ }
+});
+$('expandAll').onclick=()=>{expandAll=!expandAll;opened={};render()};
+$('search').addEventListener('input',e=>{query=e.target.value.trim();opened={};$('clearSearch').classList.toggle('hidden',!e.target.value);render()});
+$('clearSearch').onclick=()=>{$('search').value='';query='';opened={};$('clearSearch').classList.add('hidden');render();$('search').focus()};
+$('search').addEventListener('keydown',e=>{
+ if(e.key!=='Enter')return;e.preventDefault();e.target.blur();
+ query=e.target.value.trim();mode='all';opened={};
+ const q=norm(query);if(!q){render();return}
+ const hit=tasks.find(t=>norm(t.e)===q)||tasks.find(t=>norm(t.e).includes(q))||tasks.find(t=>norm(t.sub).includes(q))||tasks.find(t=>norm(t.a).includes(q))||tasks.find(t=>norm(t.s).includes(q));
+ if(!hit){render();return}
+ opened['s:'+hit.s]=true;opened['e:'+hit.s+':'+hit.e]=true;render();
+ const target=$('eq-'+tasks.indexOf(tasks.find(t=>t.s===hit.s&&t.e===hit.e)))||$('sys-'+SYSTEMS.indexOf(hit.s));
+ if(target){setTimeout(()=>{target.scrollIntoView({behavior:'smooth',block:'start'});target.classList.add('found');setTimeout(()=>target.classList.remove('found'),1900)},60)}
+});
+const hero=$('hero');
+if('IntersectionObserver' in window)new IntersectionObserver(([en])=>$('minipct').classList.toggle('show',!en.isIntersecting),{rootMargin:'-60px 0px 0px 0px'}).observe(hero);
+else $('minipct').classList.add('show');
+
+/* ---------- Respaldo ---------- */
+$('export').onclick=async()=>{
+ const name='GRS110_respaldo_'+localDate()+'.json';
+ const json=JSON.stringify({app:'GRS110',version:2,exported:new Date().toISOString(),state},null,2);
+ const blob=new Blob([json],{type:'application/json'});
+ try{
+  const file=new File([blob],name,{type:'application/json'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})&&/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+   await navigator.share({files:[file],title:'Respaldo GRS110'});toast('Respaldo listo');return;
+  }
+ }catch(e){if(e&&e.name==='AbortError')return}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast('Respaldo descargado: '+name);
+};
+$('import').onclick=()=>$('file').click();
+$('file').onchange=async e=>{
+ const f=e.target.files[0];e.target.value='';if(!f)return;
+ try{
+  const obj=JSON.parse(await f.text());
+  if(!obj||obj.app!=='GRS110'||!obj.state||typeof obj.state!=='object'||Array.isArray(obj.state))throw Error('el archivo no es un respaldo GRS110');
+  const clean=sanitize(obj.state),n=Object.keys(clean).length;
+  const when=obj.exported&&!isNaN(Date.parse(obj.exported))?new Date(obj.exported).toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'}):'fecha desconocida';
+  if(confirm('¿Restaurar respaldo del '+when+' ('+n+' registros)?\nReemplazará los avances actuales de este teléfono.')){state=clean;persist();opened={};render();toast('Respaldo restaurado ✓')}
+ }catch(err){alert('No se pudo leer el respaldo: '+err.message)}
+};
+
+/* ---------- Reporte ---------- */
+const sysShort=s=>s.replace(/^Sistema de /,'').replace(/^Pruebas integrales del RIG$/,'Pruebas integrales').replace(/^./,c=>c.toUpperCase());
+function makeReport(){
+ const all=stats(tasks);
+ const pending=tasks.filter(t=>status(t)==='p'),na=tasks.filter(t=>status(t)==='na'),crit=pending.filter(t=>t.c);
+ const systemRows=SYSTEMS.map(s=>{const sys=tasks.filter(t=>t.s===s);return {name:s,...stats(sys),critP:sys.filter(t=>t.c&&status(t)==='p').length,pend:sys.filter(t=>status(t)==='p').length}});
+ const focus=systemRows.filter(r=>r.total>0&&r.pct<100).sort((a,b)=>a.pct-b.pct||b.critP-a.critP||b.pend-a.pend).slice(0,3);
+ const notes=tasks.filter(t=>noteOf(t).trim()).map(t=>({t,note:noteOf(t).trim(),status:status(t)}));
+ const since=Date.now()-864e5;
+ const recent=tasks.filter(t=>status(t)==='ok'&&state[t.id].at&&Date.parse(state[t.id].at)>=since).sort((a,b)=>Date.parse(state[b.id].at)-Date.parse(state[a.id].at));
+ const d=daysLeft(),pace=pending.length&&d>0?Math.ceil(pending.length/d):null;
+ let diagnosis=all.pct===null?'No existen actividades aplicables para calcular el avance.'
+  :all.pct===100?'Todas las actividades aplicables están registradas como completadas. Esto no sustituye la aceptación formal de pruebas y documentación.'
+  :all.pct>=80?'El alistamiento registra un avance alto; la prioridad es cerrar las pruebas críticas y los pendientes restantes.'
+  :all.pct>=50?'El alistamiento presenta un avance intermedio; conviene concentrar recursos en los sistemas de menor ejecución y en los hitos críticos.'
+  :'El alistamiento registra un avance inicial; se recomienda priorizar los sistemas de menor avance y los controles críticos.';
+ if(pending.length&&d<0)diagnosis+=' La fecha objetivo ya venció con '+pending.length+' actividades pendientes.';
+ else if(pace)diagnosis+=' Para cumplir la fecha objetivo se requiere cerrar en promedio '+pace+' actividad'+(pace===1?'':'es')+' por día.';
+ const date=new Date().toLocaleString('es-CO',{dateStyle:'long',timeStyle:'short'});
+ return {all,systemRows,crit,pending,na,notes,recent,diagnosis,focus,date,d,pace};
+}
+const p=x=>x.pct===null?'N/A':x.pct+'%';
+const waClean=(s,max)=>{s=String(s).replace(/\s*\n+\s*/g,' / ').replace(/[*_~`]/g,'').replace(/\s{2,}/g,' ').trim();return s.length>max?s.slice(0,max-1)+'…':s};
+function reportText(r){
+ const L=[];
+ L.push('*REPORTE GERENCIAL · GRS110*','Alistamiento operacional RIG 110','Corte: '+r.date,'Fecha objetivo: '+TARGET_TXT+' ('+daysText(r.d)+')','');
+ L.push('*AVANCE GENERAL: '+p(r.all)+'*');
+ L.push('✅ Completadas: '+r.all.done+' de '+r.all.total+' aplicables');
+ L.push('⏳ Pendientes: '+r.pending.length);
+ L.push('➖ No aplican (N/A): '+r.na.length);
+ L.push('⚠️ Críticas pendientes: '+r.crit.length);
+ if(r.recent.length)L.push('📈 Completadas en las últimas 24 h: '+r.recent.length);
+ if(r.pace)L.push('🎯 Ritmo requerido: '+r.pace+' actividades/día');
+ L.push('','*AVANCE POR SISTEMA*');
+ for(const x of r.systemRows)L.push('• '+sysShort(x.name)+': *'+p(x)+'* ('+x.done+'/'+x.total+')'+(x.critP?' · ⚠️ '+x.critP+' crít.':''));
+ L.push('','*LECTURA GERENCIAL*',r.diagnosis);
+ if(r.focus.length)L.push('Focos de seguimiento: '+r.focus.map(x=>sysShort(x.name)+' ('+p(x)+')').join(', ')+'.');
+ L.push('','*CRÍTICAS PENDIENTES ('+r.crit.length+')*');
+ if(r.crit.length){r.crit.slice(0,10).forEach(t=>L.push('• '+t.e+': '+t.a));if(r.crit.length>10)L.push('… y '+(r.crit.length-10)+' más (ver PDF).')}
+ else L.push('Sin actividades críticas pendientes registradas.');
+ L.push('','*OBSERVACIONES ('+r.notes.length+')*');
+ if(r.notes.length){r.notes.slice(0,6).forEach(n=>L.push('• '+n.t.e+' · '+waClean(n.t.a,60)+': '+waClean(n.note,160)));if(r.notes.length>6)L.push('… y '+(r.notes.length-6)+' más (ver PDF).')}
+ else L.push('No se han registrado observaciones.');
+ L.push('','_Informe automático basado en los estados y observaciones registrados. Pendiente no equivale a falla; las pruebas completadas deben contar con aceptación satisfactoria._');
+ return L.join('\n');
+}
+function reportHtml(r){
+ const rows=r.systemRows.map(x=>`<tr><td>${safe(sysShort(x.name))}${x.critP?` <span class="tag p">${x.critP} crít.</span>`:''}</td><td class="n">${x.done}/${x.total}</td><td class="n"><span class="rbar"><i style="width:${x.pct||0}%"></i></span><strong>${p(x)}</strong></td></tr>`).join('');
+ const bySys=list=>SYSTEMS.map(s=>[s,list.filter(t=>t.s===s)]).filter(([,l])=>l.length);
+ const critical=r.crit.length?bySys(r.crit).map(([s,l])=>`<h4>${safe(sysShort(s))} (${l.length})</h4><ol>${l.map(t=>`<li><b>${safe(t.e)}</b> — ${safe(t.a)}</li>`).join('')}</ol>`).join(''):'<p>Sin actividades críticas pendientes registradas.</p>';
+ const lbl={ok:['ok','Completada'],na:['','N/A'],p:['p','Pendiente']};
+ const notes=r.notes.length?'<ul>'+r.notes.map(n=>`<li><b>${safe(n.t.e)} · ${safe(n.t.a)}</b><span class="tag ${lbl[n.status][0]}">${lbl[n.status][1]}</span><br>${safe(n.note).replace(/\n/g,'<br>')}</li>`).join('')+'</ul>':'<p>No se han registrado observaciones.</p>';
+ const recent=r.recent.length?'<ul>'+r.recent.map(t=>`<li><b>${safe(t.e)}</b> — ${safe(t.a)} <span class="fine">(${safe(new Date(state[t.id].at).toLocaleString('es-CO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}))})</span></li>`).join('')+'</ul>':'<p>No se registraron actividades completadas en las últimas 24 horas.</p>';
+ const na=r.na.length?'<ul>'+r.na.map(t=>`<li><b>${safe(t.e)}</b> — ${safe(t.a)}</li>`).join('')+'</ul>':'<p>Ninguna actividad marcada como N/A.</p>';
+ return `<article class="rdoc"><div class="rbrand"><b>GRS <em>110</em></b><span>REPORTE EJECUTIVO DE ALISTAMIENTO</span></div>
+<div class="rmeta"><span>Corte: <b>${safe(r.date)}</b></span><span>Objetivo: <b>${TARGET_TXT}</b> (${daysText(r.d)})</span></div>
+<div class="rstats"><div><small>AVANCE</small><strong>${p(r.all)}</strong></div><div><small>HECHAS</small><strong>${r.all.done}/${r.all.total}</strong></div><div><small>PENDIENTES</small><strong>${r.pending.length}</strong></div><div class="w"><small>CRÍTICAS PEND.</small><strong>${r.crit.length}</strong></div></div>
+<h3>1. Lectura gerencial</h3><p>${safe(r.diagnosis)}</p><p><b>Focos de seguimiento:</b> ${r.focus.length?safe(r.focus.map(x=>sysShort(x.name)+' ('+p(x)+(x.critP?', '+x.critP+' críticas pend.':'')+')').join('; ')):'Sin sistemas con pendientes'}.</p>${r.pace?`<p><b>Ritmo requerido:</b> ${r.pace} actividades por día hasta el ${TARGET_TXT}.</p>`:''}
+<h3>2. Avance por sistema</h3><table><thead><tr><th>Sistema</th><th class="n">Hechas</th><th class="n">Avance</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td><b>Total aplicable</b></td><td class="n"><b>${r.all.done}/${r.all.total}</b></td><td class="n"><b>${p(r.all)}</b></td></tr></tfoot></table>
+<h3>3. Actividades críticas pendientes (${r.crit.length})</h3>${critical}
+<h3>4. Avance últimas 24 horas (${r.recent.length})</h3>${recent}
+<h3>5. Observaciones de campo (${r.notes.length})</h3>${notes}
+<h3>6. Actividades excluidas por N/A (${r.na.length})</h3>${na}
+<h3>7. Criterios de interpretación</h3><p class="fine">El porcentaje se calcula sobre actividades aplicables; N/A se excluye. «Pendiente» no demuestra falla. Las pruebas solo deben marcarse completadas con resultado satisfactorio. Este documento no sustituye actas, certificados ni aprobación técnica.</p>
+<div class="sign"><div>Elaboró</div><div>Revisó / Aprobó</div></div></article>`;
+}
+function showReport(){
+ const r=makeReport();$('reportPreview').innerHTML=reportHtml(r); openSheet('reportOverlay');$('reportPreview').scrollTop=0;
+}
+$('reportOpen').onclick=showReport;$('reportOpen2').onclick=showReport;
+$('reportPdf').onclick=()=>{
+ if(typeof window.print!=='function'){toast('Este navegador no permite imprimir. Ábrelo en Chrome o Safari.');return}
+ $('printArea').innerHTML=reportHtml(makeReport());
+ const old=document.title;document.title='Reporte_GRS110_'+localDate();
+ const restore=()=>{document.title=old;window.removeEventListener('afterprint',restore)};
+ window.addEventListener('afterprint',restore);setTimeout(restore,60000);
+ window.print();
+};
+function waUrl(t){return 'https://wa.me/?text='+encodeURIComponent(t)}
+$('reportWhats').onclick=()=>{
+ const url=waUrl(reportText(makeReport()));
+ const w=window.open(url,'_blank');if(w)try{w.opener=null}catch(e){}
+ if(!w)location.href=url;
+};
+$('reportShare').onclick=async()=>{
+ const t=reportText(makeReport());
+ if(navigator.share){try{await navigator.share({text:t});return}catch(e){if(e.name==='AbortError')return}}
+ copyText(t,'Compartir no está disponible: el reporte se copió para pegarlo en WhatsApp.');
+};
+async function copyText(t,msg){
+ try{await navigator.clipboard.writeText(t)}
+ catch(e){const a=document.createElement('textarea');a.value=t;a.readOnly=true;a.style.cssText='position:fixed;top:0;left:0;opacity:0;font-size:16px';document.body.appendChild(a);a.select();a.setSelectionRange(0,t.length);let ok=false;try{ok=document.execCommand('copy')}catch(_){}a.remove();if(!ok){toast('No se pudo copiar automáticamente.');return}}
+ toast(msg||'Reporte copiado. Pégalo en WhatsApp.');
+}
+$('reportCopy').onclick=()=>copyText(reportText(makeReport()));
+
+render();
+</script>
+</body>
+</html>
