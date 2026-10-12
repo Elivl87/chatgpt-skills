@@ -134,6 +134,12 @@ can decide early (longer pauses in the English edit, or accept leads) instead of
   EPISODE ON THE CHANNEL, related video = the episode, uploaded after the episode.
 - Lessons from EP001's numbers (`docs/publish/EP001/ANALYTICS_D5.md`): first 30 s decide distribution; a concrete
   visual beat every 60–90 s; Shorts need an extreme, concrete claim.
+- Lessons from EP002 at 48 h (`docs/publish/EP002/ANALYTICS_48H.md`): CTR 9.1 % and ~40 % watched (2× EP001) on the
+  few who saw it, but 41/44 impressions came from **search** and Home gave 2: a small channel's next video gets no Home
+  test by default. So: (1) a searchable, timely angle (news/remake/sales milestone) with the game's search name in the
+  title, first description lines and chapters; (2) seed the first sessions outside YouTube (communities where the topic
+  is discussed) + the trailer Short; (3) chain the episodes (end screen → previous one) so each search visitor can
+  continue; (4) Spanish is the largest single audience (43 % via ES subtitles): ES title/description + Bram ES dub at launch.
 
 ## 7. Delivery and housekeeping
 
