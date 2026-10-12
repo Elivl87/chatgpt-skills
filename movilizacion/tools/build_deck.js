@@ -28,7 +28,7 @@ pres.defineSlideMaster({
 });
 
 const fmtM = v => (v >= 0 ? "+" : "−") + (Math.abs(v) / 1e6).toFixed(2).replace(".", ",") + " M";
-const fmtK = v => "$" + Math.round(v).toLocaleString("es-CO");
+const fmtK = v => Math.round(v).toLocaleString("es-CO");
 let n = 0;
 function card(s, x, y, w, h, fill) {
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, fill: { color: fill || C.background2 }, line: { color: fill || C.background2 }, rectRadius: 0.08, objectName: `card${++n}` });
@@ -43,7 +43,7 @@ s.addText([
   { text: "Mantener el Work Order (modelo directo: suma global por movilización, sin horas de taladro) o pasar al modelo tercerizado: SierraCol contrata aparte al transportador y paga además el taladro por hora durante la movilización y un coordinador de transporte (Truck Manager).", options: { fontSize: 13, breakLine: true, paraSpaceAfter: 8 } },
   { text: "Qué no se decide", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true } },
   { text: "No se adjudica proveedor ni se declara un ahorro único. Se evalúan tres ofertas: Petro Star tarifa normal, Petro Star precio cerrado (Lump Sum) y Ecotransur.", options: { fontSize: 13, breakLine: true, paraSpaceAfter: 8 } },
-  { text: "Por qué la respuesta es una frontera", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true } },
+  { text: "Por qué decide la cantidad de movilizaciones de cada mes", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true } },
   { text: "El Work Order cuesta lo mismo por movilización haya 1 o 9 en el mes. El tercerizado cobra cargo fijo hasta la 4ª o 5ª movilización del mes y descuenta desde la 6ª: el resultado lo decide cuántas movilizaciones caen en cada mes, no el promedio.", options: { fontSize: 13 } },
 ], { x: 0.6, y: 1.45, w: 6.2, h: 3.5, valign: "top", color: C.text1, margin: 0, isTextBox: true, fontSize: 13 });
 s.addChart(pres.charts.BAR, [
@@ -57,7 +57,7 @@ s.addChart(pres.charts.BAR, [
 const stats = [
   [PEND.kpi.pct, "del costo de la campaña", PEND.kpi.rango],
   [PEND.kpi.h5, "de más por movilización", `sobre el tiempo cotizado borran el ahorro de Petro Star con 5 movs/mes; con 6, unas ${PEND.kpi.h6} h (taladro + equipos)`],
-  ["No cruza", "con los precios del Excel", "Petro Star Lump Sum sin descuento. Con los precios de la cotización 1255 sí cruzaría: pendiente de Compras (SCM)"],
+  ["Pierde siempre", "Petro Star Lump Sum", PEND.kpi.ls],
 ];
 stats.forEach((t, i) => {
   const y = 1.45 + i * 1.62;
@@ -80,12 +80,12 @@ s.addChart(pres.charts.BAR, [
   { name: "Tarifa (WO o transportador)", labels: cats, values: [D.WO[0], D.PS1[0], D.PS6[0], D.EC1[0], D.EC6[0], D.LS1[0]] },
   { name: "Señalizadoras faltantes (WO)", labels: cats, values: [D.WO[1], 0, 0, 0, 0, 0] },
   { name: "Taladro 18 h × 1.456 USD/h", labels: cats, values: [0, D.PS1[1], D.PS6[1], D.EC1[1], D.EC6[1], D.LS1[1]] },
-  { name: "Truck Manager", labels: cats, values: [0, D.PS1[2], D.PS6[2], D.EC1[2], D.EC6[2], D.LS1[2]] },
+  { name: "Truck Manager (60 M COP/mes ÷ 5 movs)", labels: cats, values: [0, D.PS1[2], D.PS6[2], D.EC1[2], D.EC6[2], D.LS1[2]] },
 ], { x: 0.6, y: 1.4, w: 7.4, h: 5.4, barDir: "col", barGrouping: "stacked", chartColors: [HEX.ink, HEX.red, HEX.amber, HEX.pale],
   showTitle: true, title: "Costo de una movilización de 0,1–5 km (USD)", titleFontSize: 13, titleColor: HEX.ink, titleFontFace: "+mn-lt",
   showLegend: true, legendPos: "b", legendFontSize: 10, legendFontFace: "+mn-lt", legendColor: HEX.mute,
   catAxisLabelColor: HEX.mute, valAxisLabelColor: HEX.mute, catAxisLabelFontSize: 10, valAxisLabelFontSize: 10, catAxisLabelFontFace: "+mn-lt", valAxisLabelFontFace: "+mn-lt",
-  valAxisLabelFormatCode: "$#,##0", valGridLine: { color: HEX.grid, size: 0.5 }, catGridLine: { style: "none" },
+  valAxisLabelFormatCode: "#,##0", valGridLine: { color: HEX.grid, size: 0.5 }, catGridLine: { style: "none" },
   showValue: false });
 card(s, 8.4, 1.4, 4.3, 5.4);
 s.addText("Cargo fijo mensual si el mes no llega al mínimo (USD)", { x: 8.6, y: 1.55, w: 3.9, h: 0.6, fontSize: 14, bold: true, color: C.text1, margin: 0, isTextBox: true });
@@ -112,12 +112,12 @@ s.addChart(pres.charts.LINE, [
   showLegend: true, legendPos: "b", legendFontSize: 10, legendFontFace: "+mn-lt", legendColor: HEX.mute,
   catAxisTitle: "Movilizaciones por mes (esperado: 5 a 6)", showCatAxisTitle: true, catAxisTitleFontSize: 10, catAxisTitleColor: HEX.mute,
   catAxisLabelColor: HEX.mute, valAxisLabelColor: HEX.mute, catAxisLabelFontSize: 10, valAxisLabelFontSize: 10, catAxisLabelFontFace: "+mn-lt", valAxisLabelFontFace: "+mn-lt",
-  valAxisLabelFormatCode: "$#,##0", valGridLine: { color: HEX.grid, size: 0.5 }, catGridLine: { style: "none" } });
+  valAxisLabelFormatCode: "#,##0", valGridLine: { color: HEX.grid, size: 0.5 }, catGridLine: { style: "none" } });
 card(s, 8.4, 1.4, 4.3, 5.4);
-s.addText("Ilustración, no resultado: 2024 y 2025 repetidas con horas reales", { x: 8.6, y: 1.55, w: 3.9, h: 0.6, fontSize: 14, bold: true, color: C.text1, margin: 0, isTextBox: true });
+s.addText("Campañas reales 2024 y 2025 repetidas con horas reales", { x: 8.6, y: 1.55, w: 3.9, h: 0.6, fontSize: 14, bold: true, color: C.text1, margin: 0, isTextBox: true });
 const R2 = PEND.reales2;
 const rr = [[{ text: "+ = tercerizado más barato", options: { bold: true } }, { text: "2024", options: { bold: true, align: "right" } }, { text: "2025", options: { bold: true, align: "right" } }]];
-[["Petro Star normal", "PS"], ["Ecotransur", "EC"], ["Lump Sum", "LS"]].forEach(([l, k]) =>
+[["Petro Star tarifa normal", "PS"], ["Ecotransur", "EC"], ["Petro Star Lump Sum", "LS"]].forEach(([l, k]) =>
   rr.push([l, { text: fmtM(R2["2024"].reales_con_equipos[k]), options: { align: "right", color: R2["2024"].reales_con_equipos[k] >= 0 ? HEX.green : HEX.red } },
               { text: fmtM(R2["2025"].reales_con_equipos[k]), options: { align: "right", color: R2["2025"].reales_con_equipos[k] >= 0 ? HEX.green : HEX.red } }]));
 s.addTable(rr, { x: 8.6, y: 2.2, w: 3.9, colW: [1.7, 1.1, 1.1], fontSize: 12, fontFace: "Calibri", color: HEX.ink, border: { type: "solid", pt: 0.5, color: HEX.grid }, rowH: 0.34 });
@@ -126,7 +126,7 @@ s.addText([
   { text: `2025: ${R2["2025"].movs_exceden} movilizaciones se pasaron del tiempo (${Math.round(R2["2025"].horas_excedidas)} h). Con eso el tercerizado habría costado más que el Work Order.`, options: { bold: true, color: C.text1, breakLine: true, paraSpaceAfter: 6 } },
   { text: `2024 se movió más rápido que lo supuesto en el Excel y el ahorro se mantiene, aun con ${R2["2024"].movs_exceden} excesos (${Math.round(R2["2024"].horas_excedidas)} h).` },
 ], { x: 8.6, y: 3.75, w: 3.9, h: 2.9, fontSize: 12, color: C.text2, valign: "top", margin: 0, isTextBox: true });
-s.addNotes("Gráfico: hoja Sensibilidad, sección 1 (horas del Excel). Los dientes vienen del último mes de la campaña, que queda corto y vuelve a pagar cargo fijo. Tabla: hoja Sensibilidad, sección 3, y hojas Real 2024 / Real 2025.");
+s.addNotes("Gráfico: hoja Sensibilidad, sección 1 (horas del Excel). La curva sube y baja porque el último mes de la campaña puede quedar corto y vuelve a pagar cargo fijo. Tabla: hoja Sensibilidad, sección 3, y hojas Real 2024 / Real 2025.");
 
 // ---------------- Diapositiva 4: qué falta confirmar
 pres.addSection({ title: "Pendientes" });
@@ -134,27 +134,46 @@ s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Pendientes" });
 s.addText("El margen se pierde con pocas horas de más o un mes sin mover", { placeholder: "title" });
 const fx = v => v.toFixed(1).replace(".", ",");
 const QB = PEND.quiebres;
-const tq = [[{ text: "Qué borra el ahorro", options: { bold: true } }, { text: "PS · 5/mes", options: { bold: true, align: "right" } }, { text: "PS · 6/mes", options: { bold: true, align: "right" } }, { text: "Eco · 5/mes", options: { bold: true, align: "right" } }, { text: "Eco · 6/mes", options: { bold: true, align: "right" } }]];
+const tq = [[{ text: "Qué borra el ahorro", options: { bold: true } }, { text: "Petro Star · 5/mes", options: { bold: true, align: "right" } }, { text: "Petro Star · 6/mes", options: { bold: true, align: "right" } }, { text: "Ecotransur · 5/mes", options: { bold: true, align: "right" } }, { text: "Ecotransur · 6/mes", options: { bold: true, align: "right" } }]];
 const pick = (f, o) => QB.find(q => q[0] == f && q[1] == o);
 const cols = [pick(5, "Petro Star normal"), pick(6, "Petro Star normal"), pick(5, "Ecotransur"), pick(6, "Ecotransur")];
 [["Ahorro de la campaña (USD)", q => fmtM(q[2])], ["Ahorro por pozo (% de un pozo de 600 k)", q => (q[4] * 100).toFixed(1).replace(".", ",") + " %"],
  ["Horas extra de taladro por movilización", q => fx(q[5]) + " h"], ["Horas sobre el tiempo cotizado (taladro + equipos)", q => fx(q[6]) + " h"],
  ["Días de taladro de demora en toda la campaña", q => fx(q[7]) + " d"], ["Meses bloqueados con contrato vigente", q => fx(q[8])]].forEach(([l, fn]) =>
   tq.push([l, ...cols.map(q => ({ text: fn(q), options: { align: "right" } }))]));
-s.addTable(tq, { x: 0.6, y: 1.4, w: 8.0, colW: [3.6, 1.1, 1.1, 1.1, 1.1], fontSize: 12, fontFace: "Calibri", color: HEX.ink, border: { type: "solid", pt: 0.5, color: HEX.grid }, rowH: 0.42, valign: "middle" });
+s.addTable(tq, { x: 0.6, y: 1.4, w: 8.0, colW: [3.2, 1.2, 1.2, 1.2, 1.2], fontSize: 11, fontFace: "Calibri", color: HEX.ink, border: { type: "solid", pt: 0.5, color: HEX.grid }, rowH: 0.42, valign: "middle" });
 s.addText([
   { text: "Por qué: ", options: { bold: true } },
-  { text: "en el Work Order una demora, un bloqueo o un mes sin mover no cuesta nada. En el tercerizado cada hora sobre el tiempo cotizado cuesta unos 2.813 USD (taladro 1.456 + equipos y señalizadores 1.357) y un mes bloqueado paga el cargo fijo y el Truck Manager (Petro Star 177 k, Ecotransur 243 k)." },
+  { text: "en el Work Order una demora, un bloqueo o un mes sin mover no cuesta nada. En el tercerizado cada hora sobre el tiempo cotizado cuesta unos 2.813 USD (taladro 1.456 + equipos y señalizadores 1.357) y un mes bloqueado paga el cargo fijo más el Truck Manager (Petro Star 177 k, Ecotransur 243 k)." },
 ], { x: 0.6, y: 4.55, w: 8.0, h: 1.1, fontSize: 12, color: C.text2, valign: "top", margin: 0, isTextBox: true });
 card(s, 9.0, 1.4, 3.7, 4.3, HEX.ink);
 s.addText([
   { text: "A tener en cuenta", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true, paraSpaceAfter: 6 } },
   { text: "El Work Order tiene tope: lo comparamos contra su tarifa máxima. El tercerizado no tiene tope; el riesgo de cada hora extra queda en SierraCol.", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
   { text: "Horas que se pagarán al taladro: con las cotizadas (24 h en 0,1–5 km) el ahorro baja 0,17 M.", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
-  { text: "Precios del Lump Sum: el Excel está por encima de la cotización 1255 (+0,44 M).", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
+  { text: "Precios del Lump Sum: el Excel está por encima de la cotización 1255 (+0,44 M). Lo aclara Compras.", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
+  { text: "Si Petro Star no cobra cargo fijo con 5 movilizaciones, su ahorro sube unos 0,29 M con 5 movs/mes.", options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
   { text: "Riesgos no valorados: coordinación de dos contratistas, HSE y daños, disponibilidad, pago en COP.", options: { bullet: true } },
 ], { x: 9.2, y: 1.6, w: 3.3, h: 4.0, fontSize: 12, color: C.background1, valign: "top", margin: 0, isTextBox: true });
 s.addNotes("Puntos de quiebre: hoja Sensibilidad, sección 2. Pendientes completos con montos: hoja Pendientes. Auditoría de la evaluación previa: Auditoria_Evaluacion_Previa.xlsx.");
+
+// ---------------- Diapositiva 5: conclusión y recomendación
+pres.addSection({ title: "Recomendación" });
+s = pres.addSlide({ masterName: "CONTENIDO", sectionTitle: "Recomendación" });
+s.addText("Recomendación: mantener el Work Order", { placeholder: "title" });
+s.addText([
+  { text: "Conclusión", options: { bold: true, fontSize: 16, color: C.accent1, breakLine: true, paraSpaceAfter: 4 } },
+  ...PEND.concl.map((t, i, a) => ({ text: t, options: { bullet: true, breakLine: i < a.length - 1, paraSpaceAfter: 8 } })),
+], { x: 0.6, y: 1.4, w: 7.4, h: 5.3, fontSize: 13, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+card(s, 8.4, 1.4, 4.3, 3.6, HEX.ink);
+s.addText([
+  { text: "Se reconsidera el tercerizado solo si:", options: { bold: true, fontSize: 15, color: C.accent1, breakLine: true, paraSpaceAfter: 6 } },
+  { text: "Hay un plan de pozos con 6 o más movilizaciones todos los meses.", options: { bullet: { type: "number" }, breakLine: true, paraSpaceAfter: 6 } },
+  { text: "El contrato pone tope de horas o penalidad al transportador por pasarse del tiempo cotizado.", options: { bullet: { type: "number" }, breakLine: true, paraSpaceAfter: 6 } },
+  { text: "Una cláusula suspende el cargo fijo en meses con bloqueos o problemas operativos.", options: { bullet: { type: "number" }, breakLine: true, paraSpaceAfter: 12 } },
+  { text: "Antes de negociar: Compras aclara los precios del Lump Sum y Petro Star confirma si cobra cargo fijo con 5 movilizaciones.", options: { fontSize: 12 } },
+], { x: 8.6, y: 1.6, w: 3.9, h: 3.3, fontSize: 13, color: C.background1, valign: "top", margin: 0, isTextBox: true });
+s.addNotes("Texto completo en Simulador_Movilizacion_GRS110.xlsx, hoja Resumen, secciones 6 y 7.");
 
 (async () => {
   await pres.writeFile({ fileName: OUT });

@@ -13,7 +13,7 @@ TITLE = Font(name=F, size=14, bold=True, color="1F3864"); H1 = Font(name=F, size
 GRN = Font(name=F, size=10, color="008000"); BLUE = Font(name=F, size=10, color="0000FF")
 F_H1 = PatternFill("solid", fgColor="1F3864"); F_H2 = PatternFill("solid", fgColor="D9E1F2"); F_Y = PatternFill("solid", fgColor="FFFF00")
 thin = Side(style="thin", color="BFBFBF"); BOX = Border(left=thin, right=thin, top=thin, bottom=thin)
-USD = '$#,##0;($#,##0);"-"'; USD2 = '$#,##0.00;($#,##0.00);"-"'
+USD = '#,##0;−#,##0;"-"'; USD2 = '#,##0.00;−#,##0.00;"-"'
 WR = Alignment(wrap_text=True, vertical="top")
 
 
@@ -43,20 +43,20 @@ def h1(s, r, text, last):
 
 # ================= MÉTODO =================
 m = sheet("Método", [2, 34, 22, 22, 30, 60], "Método: cómo está armado el costo de cada modelo y qué se cancela",
-          "Se lee antes del simulador. Los umbrales son el estudio; el promedio no.")
+          "Se lee antes del Simulador. Lo que decide el resultado es cuántas movilizaciones caen en cada mes, no el promedio.")
 h1(m, 4, "1. CLASIFICACIÓN DE CADA RENGLÓN DE COSTO", "F")
 rows = [
     ("Tarifa por movilización (Work Order)", "Work Order", "Variable por movilización; escalón por rango", "Límites de rango 0,2 / 5 / 10 km", "No es monótona: 5–10 km (95.374) cuesta menos que 0,1–5 km (98.663)."),
     ("Tarifa con tope", "Work Order", "Acotada arriba y abajo", "Tope superior = tarifa del Excel (movilización rápida); si tarda más, tarifa fija menor", "El WO nunca paga más que la tarifa del Excel, tarde lo que tarde. Comparar contra el tope es el escenario más caro del WO, es decir, el más favorable al tercerizado."),
     ("Recargo de señalizadoras faltantes", "Work Order", "Variable; escalón 1 o 2 turnos", "12 h = 1 turno; más de 12 h = 2 turnos", "4 personas por turno × 375.000 COP (Cot. 1255 p. 5)."),
-    ("Tarifa del transportador", "Tercerizado", "Variable; escalón por rango", "0,2 / 5 / 10 / 20 km", "Petro Star no cotiza más de 20 km: acantilado de cobertura."),
-    ("Descuento desde la 6ª del mes", "Tercerizado", "Acantilado por número de movilización del mes", "6ª movilización del mes", "Petro Star: 50 % de la tarifa. Ecotransur: solo equipos. Lump Sum: sin descuento (evaluación principal)."),
+    ("Tarifa del transportador", "Tercerizado", "Variable; escalón por rango", "Misma localización / 5 / 10 / 20 km", "Petro Star no cotiza más de 20 km: no hay tarifa por encima de ese límite."),
+    ("Descuento desde la 6ª del mes", "Tercerizado", "Salto según el número de la movilización en el mes", "6ª movilización del mes", "Petro Star: 50 % de la tarifa. Ecotransur: solo equipos. Lump Sum: sin descuento (evaluación principal)."),
     ("Cargo fijo mensual (nómina + disponibilidad)", "Tercerizado", "Escalón decreciente; fijo mensual", "Petro Star 0–5 movs; Ecotransur 0–4 movs", "Petro Star todavía cobra con 5 movs (p. 4); Ecotransur no cobra desde la 5ª."),
     ("Taladro durante la movilización", "Tercerizado", "Variable por hora", "Horas por rango (12/18/24/28)", "34.944 USD/día. Bajo el WO no se paga (premisa SierraCol)."),
     ("Mes bloqueado (no se puede mover)", "Tercerizado", "Fijo mensual", "Mes con 0 movilizaciones y contrato vigente", "Petro Star 176.968 · Ecotransur 242.534 USD por mes (cargo de 0 movilizaciones + Truck Manager). Con el WO, 0."),
     ("Truck Manager", "Tercerizado", "Fijo mensual (así se modela)", "60 M COP por cada mes de campaña", "El Excel lo prorratea a 6 movs/mes (2.702,70 USD); con menos de 6 movs/mes ese prorrateo lo subestima. Por encima lo sobreestima."),
-    ("Horas excedidas sobre el tiempo estipulado", "Tercerizado", "Acantilado", "Tiempo total 12/24/36/36 h", "Se paga el taladro por hora (1.456 USD) y además equipos y señalizadores por hora (~1.357 USD; Cot. 1255 p. 5). Con el WO, 0."),
-    ("Bandas de horas por ítem (Opción A/B)", "Tercerizado (Ecotransur)", "Acantilado", "8–12 / ≤14 / 14–18 / 18–24 / ≤22 h", "El formato del Ítem 1 no viene adjunto: el Excel usa ítems 'más de X horas'."),
+    ("Horas excedidas sobre el tiempo estipulado", "Tercerizado", "Salto al pasar el tiempo cotizado", "Tiempo total 12/24/36/36 h", "Se paga el taladro por hora (1.456 USD) y además equipos y señalizadores por hora (~1.357 USD; Cot. 1255 p. 5). Con el WO, 0."),
+    ("Bandas de horas por ítem (Opción A/B)", "Tercerizado (Ecotransur)", "Salto por banda de horas", "8–12 / ≤14 / 14–18 / 18–24 / ≤22 h", "El formato del Ítem 1 no viene adjunto: el Excel usa ítems 'más de X horas'."),
     ("Personal, turnos o equipos fuera del mínimo", "Ambos", "Variable", "Lo que exceda el equipo mínimo", "Premisa: se cancela entre modelos (adicionales 0 %). Ver Pendientes."),
 ]
 r = table(m, 5, ["Renglón", "Modelo", "Tipo", "Umbral", "Nota"], rows, height=42)
@@ -122,7 +122,7 @@ yel = {"PS": ([58116.71378378378, 88600.7254054054, 102096.16162162162, 110082.3
        "EC": ([58075.51405405405, 85046.6491891892, 104944.81135135135, 111865.29783783785], 66, "G")}
 for o, (vals, row, xc) in yel.items():
     for g, col in enumerate("CDEF"):
-        add(f"Costo Suma Global {o} rango {g+1} (USD)", f"{col}{row}+IF(Simulador!$C$16=\"Mensual fijo\",Simulador!$C$14/Simulador!$C$7/Simulador!$C$15,0)", vals[g], f"Tarifas.xlsx · {xc}{[31,57,83,109][g]} (fila amarilla; se suma el TM prorrateado si es mensual)", "Control")
+        add(f"Costo Suma Global {o} rango {g+1} (USD)", f"{col}{row}-Simulador!{col}69+IF(Simulador!$C$16=\"Mensual fijo\",Simulador!$C$14/Simulador!$C$7/Simulador!$C$15,0)", vals[g], f"Tarifas.xlsx · {xc}{[31,57,83,109][g]} (fila amarilla; se suma el TM prorrateado si es mensual)", "Control")
 add("WO de la campaña 15+20 (USD)", "C83", 3130187.2972973, "Tarifas.xlsx · M18 (la nota J55 dice 3.107.890)", "Control")
 for i, v in enumerate([430000000, 164780000, 327959522, 166920000]):
     pass
@@ -131,7 +131,7 @@ rc.cell(r + 1, 2, "Cargos fijos mensuales: Simulador C72:D78 transcritos de Cot.
 
 # ================= MEDIDO Y SUPUESTO =================
 ms = sheet("Medido y supuesto", [2, 50, 30, 60], "Lo medido y lo supuesto, separados",
-           "Ningún supuesto tiene la autoridad de un dato medido. Los supuestos están en amarillo en el simulador.")
+           "Los supuestos van en amarillo en el Simulador y se tratan aparte de los datos medidos.")
 med = [("Bloqueos durante movilización 2025: 22,25 h social/escolar en fase 01MIRU (4 movs con paro, 3 con restricción escolar)", "Evaluacion_Drilling_IM_Jul_2026_v5.xlsx · NPT Social 2025 (OpenWells)", "Los bloqueos largos (17–72 h) cayeron en perforación: ambos modelos pagan igual."),
        ("Tarifas de las tres ofertas por rango", "Tarifas.xlsx E/F/G", "Precios tal cual SCM los pasó (F no coincide con la Cot. 1255)."),
        ("TRM y tarifa del taladro", "Tarifas.xlsx E3, E5", ""),
@@ -145,7 +145,7 @@ med = [("Bloqueos durante movilización 2025: 22,25 h social/escolar en fase 01M
        ("Cláusula de demoras no atribuibles (Petro Star)", "Cot. 1255 p. 5, condición 7", "Ecotransur no la trae.")]
 sup = [("Work Order base y 12 señalizadoras", "Premisa SierraCol", "No está en los archivos."),
        ("Adicionales 0 % en ambos modelos", "Premisa SierraCol", "Sensibilidad: +5 % solo en tercerizado."),
-       ("Truck Manager mensual: 60 M COP por mes de campaña", "Premisa SierraCol (evaluación v5)", "El Excel lo prorratea a 6 movs/mes; se deja como sensibilidad."),
+       ("Truck Manager mensual: 60 M COP por mes de campaña", "Premisa SierraCol (evaluación v5)", "El prorrateo del Excel (2.702,70 USD por movilización) queda solo como sensibilidad."),
        ("Campaña 15 misma loc. + 20 otra loc.", "Premisa SierraCol", "No sale de los logs."),
        ("Rango de los 20 pozos: 0,1–5 km", "Premisa SierraCol", "Confirmado por SierraCol."),
        ("Frecuencia esperada 5–6 movs/mes", "Premisa SierraCol", "Sensibilidad de 4 a 8 movs/mes."),
@@ -167,12 +167,12 @@ table(ms, r + 2, ["SUPUESTO O PREMISA", "Origen", "Nota"], sup, height=28)
 
 # ================= SENSIBILIDAD =================
 se = sheet("Sensibilidad", [2, 46, 18, 22, 26, 16, 26, 16, 16, 16], "Sensibilidad: de qué depende que haya o no ahorro",
-           "Ahorro = costo WO − costo tercerizado (USD); positivo = el tercerizado cuesta menos. Campaña 15 misma loc. + 20 en 0,1–5 km, TRM 3.700, 17,3 h de bloqueo social en movilización (OpenWells 2025). Valores calculados con tools/sensibilidad.py (mismo motor que el simulador); no se recalculan al editar.")
+           "Ahorro = costo WO − costo tercerizado (USD); positivo = el tercerizado cuesta menos. Campaña 15 misma loc. + 20 en 0,1–5 km, TRM 3.700, 17,3 h de bloqueo social en movilización (OpenWells 2025). Valores fijos calculados con el mismo modelo del Simulador; no cambian al editar el Simulador.")
 h1(se, 4, "1. FRECUENCIA: AHORRO DE LA CAMPAÑA SEGÚN MOVILIZACIONES POR MES (esperado 5–6)", "I")
 FQ = [[("%g" % x[0]).replace(".", ",")] + x[1:] for x in S["frecuencias"]]
 r = table(se, 5, ["Movs/mes", "PS normal · horas Excel", "Lump Sum · horas Excel", "Ecotransur · horas Excel", "PS normal · horas cotizadas", "Lump Sum · horas cotizadas", "Ecotransur · horas cotizadas"], FQ,
           [None, USD, USD, USD, USD, USD, USD], height=18)
-se.cell(r, 2, "Horas cotizadas = 12/24/36/36 h (Cot. 1255). Con frecuencias no enteras se alternan meses (p. ej. 5,5 = meses de 6 y de 5). El último mes de la campaña puede quedar corto y pagar cargo fijo: por eso la curva tiene dientes.").font = NOTE
+se.cell(r, 2, "Horas cotizadas = 12/24/36/36 h (Cot. 1255). Con frecuencias no enteras se alternan meses (p. ej. 5,5 = meses de 6 y de 5). El último mes de la campaña puede quedar corto y pagar cargo fijo: por eso la curva sube y baja.").font = NOTE
 r += 2
 h1(se, r, "2. PUNTOS DE QUIEBRE: CUÁNTO AGUANTA EL AHORRO ANTES DE DESAPARECER", "J"); r += 1
 QB = [[q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]] for q in S["quiebres"]]
@@ -203,7 +203,7 @@ for fq in ("5", "6"):
 
 # ================= PENDIENTES =================
 pe = sheet("Pendientes", [2, 50, 24, 28, 18, 16, 16, 34], "Pendientes por confirmar: valor de trabajo y lo que está en juego",
-           "En juego = cambio del ahorro del tercerizado (USD) si el valor de trabajo cambia por la alternativa. Negativo = el tercerizado pierde ventaja. Campaña 15 + 20 en 0,1–5 km; columnas con 5 y 6 movs/mes. Valores fijos de tools/sensibilidad.py.")
+           "En juego = cambio del ahorro del tercerizado (USD) si el valor de trabajo cambia por la alternativa. Negativo = el tercerizado pierde ventaja. Campaña 15 + 20 en 0,1–5 km; columnas con 5 y 6 movs/mes. Valores fijos calculados con el mismo modelo del Simulador; no cambian al editar el Simulador.")
 P = {str(int(x["frec"])): x for x in S["pendientes"]}
 def st(k, o): return (P["5"][k][o], P["6"][k][o])
 rows = []
@@ -238,14 +238,14 @@ VR = []
 TAR = {"E": [140385441, 220853084, 238462998, 246462998], "F": [178363885, 304284690, 373649874, 414800928], "G": [140233002, 207703002, 249003002, 253060002]}
 YEL = {"E": [58116.71378378378, 88600.7254054054, 102096.16162162162, 110082.3237837838], "F": [68381.15810810811, 111149.80810810812, 138633.15513513514, 155579.06162162163],
        "G": [58075.51405405405, 85046.6491891892, 104944.81135135135, 111865.29783783785]}
-NOM = {"E": "Petro Star normal", "F": "Petro Star Lump Sum", "G": "Ecotransur"}
-ROWS = [25, 51, 77, 103]; HRS = [12, 18, 24, 28]; RG = ["Misma loc. (<0,2 km)", "0,1–5 km", "5–10 km", "Más de 10 km"]
+NOM = {"E": "Petro Star tarifa normal", "F": "Petro Star Lump Sum", "G": "Ecotransur"}
+ROWS = [25, 51, 77, 103]; HRS = [12, 18, 24, 28]; RG = ["Misma localización", "0,1–5 km", "5–10 km", "Más de 10 km"]
 WOB = [75642, 98663, 95374, 110174]; SEN = [405.4054054054054, 810.8108108108108, 810.8108108108108, 810.8108108108108]
 for g in range(4):
     for c in "EFG":
         tar = TAR[c][g] / 3700; rig = HRS[g] * 1456; tm = 60000000 / 3700 / 6; tot = tar + rig + tm
         VR.append((RG[g], NOM[c], f"{c}{ROWS[g]} = {TAR[c][g]:,} COP / E3".replace(",", "."), tar, rig, tm, tot, WOB[g] + SEN[g], "OK" if abs(tot - YEL[c][g]) < 0.01 else "DIFERENCIA",
-                   "Sin descuento en el Excel (Zona 1 es tarifa plena)" + ("" if c != "F" else "; ≠ Cot. 1255 (ver Pendientes)")))
+                   "Sin descuento en el Excel (columnas B–G son tarifa plena)" + ("" if c != "F" else "; ≠ Cot. 1255 (ver Pendientes)")))
 table(ve, 4, ["Rango", "Oferta", "Celda de tarifa", "Tarifa (USD)", "Taladro (USD)", "Truck Manager (USD)", "Suma global (USD)", "WO + señalizadoras (USD)", "Control", "Nota"], VR,
       [None, None, None, USD2, USD, USD2, USD2, USD2, None, None], height=30)
 r = 6 + len(VR)
@@ -308,37 +308,43 @@ cons = [
     "Work Order: tarifa del Excel por rango más 8 señalizadoras que faltan (4 por turno a 375.000 COP). Esa tarifa es el tope: si la movilización tarda más, el WO paga una tarifa menor. Se compara contra el WO más caro posible.",
     "Tercerizado: tarifa del transportador + taladro a 1.456 USD/h por las horas de cada rango (12/18/24/28 h) + Truck Manager de 60 M COP por mes de campaña.",
     "Si una movilización supera el tiempo cotizado (12/24/36/36 h) se paga el taladro por esas horas y además equipos y señalizadores por hora: unos 2.813 USD por hora en total. El WO no paga nada extra.",
-    "Bloqueos sociales y escolares durante movilizaciones: 22,25 h en 45 movilizaciones de 2025 (OpenWells), es decir 17,3 h en una campaña de 35 pozos. En el tercerizado los paga SierraCol (condición 7); en el WO no.",
+    "Bloqueos sociales y escolares durante movilizaciones: 22,25 h en 45 movilizaciones de 2025 (OpenWells, fase de movilización), es decir 22,25 × 35/45 = 17,3 h en una campaña de 35 pozos. En el tercerizado los paga SierraCol (condición 7 de la cotización 1255); en el WO no.",
     "Petro Star normal: 50 % de descuento sobre su tarifa desde la 6ª movilización del mes. Lump Sum: sin descuento en la evaluación principal. Ecotransur: desde la 6ª solo cobra equipos.",
     "Un mes sin poder mover con el contrato vigente paga el cargo fijo completo más el Truck Manager (Petro Star 177 k, Ecotransur 243 k). El fin de la campaña termina el contrato y no genera cobro.",
-    "Adicionales en 0 % en ambos modelos (se cancelan). TRM fija en 3.700. Sin IVA.",
+    "Imprevistos y cobros adicionales: 0 % en ambos modelos (se asume que se compensan). TRM fija en 3.700. Sin IVA.",
     "Las campañas reales de 2024 y 2025 se repiten movilización por movilización con las tarifas de julio de 2026 y las horas reales del log.",
 ]
 for i, t in enumerate(cons): para(f"{i+1}. {t}", 30)
 
 head("4. RESULTADOS (USD; ahorro = costo WO − costo tercerizado; positivo = el tercerizado cuesta menos)")
-res = [("Campaña proyectada, 5 movs/mes", b5["PS"], b5["EC"], b5["LS"], "Tabla fija (motor de cálculo). Ver Sensibilidad, sección 1."),
-       ("Campaña proyectada, 6 movs/mes", b6["PS"], b6["EC"], b6["LS"], "Tabla fija (motor de cálculo)."),
+res = [("Campaña proyectada, 5 movs/mes", b5["PS"], b5["EC"], b5["LS"], "Valor fijo (no cambia al editar el Simulador). Ver Sensibilidad, sección 1."),
+       ("Campaña proyectada, 6 movs/mes", b6["PS"], b6["EC"], b6["LS"], "Valor fijo (no cambia al editar el Simulador)."),
        ("Escenario cargado hoy en el Simulador", "=Simulador!D84", "=Simulador!D87", "=Simulador!D85", "Enlace vivo: cambia al editar el Simulador."),
        ("Campaña real 2025, horas reales", "='Real 2025'!AA5", "='Real 2025'!AA8", "='Real 2025'!AA6", "Enlace vivo. Incluye equipos por horas excedidas."),
        ("Campaña real 2024, horas reales", "='Real 2024'!AA5", "='Real 2024'!AA8", "='Real 2024'!AA6", "Enlace vivo.")]
-r = table(rs, r, ["Escenario", "Petro Star normal", "Ecotransur", "Petro Star Lump Sum", "Nota"], res, [None, USD, USD, USD, None], height=30)
+r = table(rs, r, ["Escenario", "Petro Star tarifa normal (USD)", "Ecotransur (USD)", "Petro Star Lump Sum (USD)", "Nota"], res, [None, USD, USD, USD, None], height=30)
 rs.merge_cells(start_row=r - len(res) - 1, start_column=6, end_row=r - len(res) - 1, end_column=7)
 for rr in range(r - len(res), r): rs.merge_cells(start_row=rr, start_column=6, end_row=rr, end_column=7)
 para(f"En una campaña de 35 pozos (≈ 21 M USD a 600 k por pozo) el ahorro posible va de {M(b5['PS'])} a {M(b6['EC'])}: entre 4 k y 17 k por pozo, menos del 3 % del costo del pozo.", 30)
 
 head("5. VENTAJAS Y DESVENTAJAS DE CADA MODELO")
-pc = [("Costo por movilización", "Más alto por movilización.", "Más bajo por movilización si el mes llega a 5–6 movilizaciones."),
+pc = [("Costo por movilización", "Más alto por movilización.", "Más bajo por movilización, solo si se cumplen los tiempos y el mes llega a 5–6 movilizaciones."),
       ("Demoras en la movilización", "Las absorbe el contratista: la tarifa tiene tope.", "Las paga SierraCol: taladro + equipos ≈ 2.813 USD por hora."),
-      ("Meses con pocas movilizaciones", "Sin costo fijo: se paga solo lo que se mueve.", "Cargo fijo de nómina y equipos hasta la 4ª (Ecotransur) o 5ª (Petro Star) movilización."),
-      ("Bloqueos sociales o problemas operativos", "Sin costo adicional.", "Pagan taladro y equipos; un mes sin mover cuesta 177–243 k."),
-      ("Gestión", "Un solo contratista responde por todo.", "Dos contratistas: coordinación taladro–transportador, HSE, pólizas y disponibilidad a cargo de SierraCol."),
-      ("Control y flexibilidad", "Menos control directo sobre el transportador.", "Más control sobre flota y tiempos; puede negociar topes y penalidades."),
-      ("Previsibilidad del presupuesto", "Alta: costo cerrado por movilización.", "Baja: depende de la frecuencia mensual y de cumplir los tiempos.")]
-r = table(rs, r, ["Aspecto", "Work Order (directo)", "Tercerizado"], pc, height=30)
-for rr in range(r - len(pc) - 1, r):
-    rs.merge_cells(start_row=rr, start_column=3, end_row=rr, end_column=4); rs.merge_cells(start_row=rr, start_column=5, end_row=rr, end_column=7)
-    rs.cell(rr, 5).value = rs.cell(rr, 5).value if rs.cell(rr, 5).value else None
+      ("Meses con pocas movilizaciones", "Sin costo fijo: se paga solo lo que se mueve.", "Cargo fijo de nómina y equipos hasta la 5ª movilización (Petro Star) o la 4ª (Ecotransur); descuento desde la 6ª."),
+      ("Bloqueos sociales o problemas operativos", "Sin costo adicional.", "Los paga SierraCol (condición 7); un mes sin mover cuesta 177 k (Petro Star) o 243 k (Ecotransur), con el Truck Manager."),
+      ("Gestión", "Un solo contratista responde por todo.", "Dos contratistas más el Truck Manager: la coordinación, la seguridad (HSE), las pólizas y la disponibilidad quedan a cargo de SierraCol."),
+      ("Control y flexibilidad", "Menos control directo sobre el transportador.", "Control directo de la flota y de los tiempos; se pueden negociar topes y penalidades."),
+      ("Previsibilidad del presupuesto", "Alta: costo cerrado por movilización.", "Baja: depende de las movilizaciones de cada mes y de las horas reales.")]
+hdrs = ["Aspecto", "Work Order (directo)", "Tercerizado"]
+for rr_, row_ in enumerate([hdrs] + [list(x) for x in pc]):
+    rrr = r + rr_
+    rs.merge_cells(start_row=rrr, start_column=3, end_row=rrr, end_column=4); rs.merge_cells(start_row=rrr, start_column=5, end_row=rrr, end_column=7)
+    for ci, val in zip((2, 3, 5), row_):
+        c = rs.cell(rrr, ci, val); c.border = BOX; c.alignment = WR; c.font = B if rr_ == 0 else N
+        if rr_ == 0: c.fill = F_H2
+    for ci in (4, 6, 7): rs.cell(rrr, ci).border = BOX
+    rs.row_dimensions[rrr].height = 18 if rr_ == 0 else 30
+r += len(pc) + 1
 
 head("6. CONCLUSIÓN")
 concl = [
@@ -353,8 +359,8 @@ for t in concl: para("• " + t, 32)
 head("7. RECOMENDACIÓN")
 reco = ["Mantener el Work Order.",
         "Volver a evaluar el tercerizado solo si se cumplen tres condiciones: (1) un plan de pozos que asegure 6 o más movilizaciones todos los meses; (2) un contrato con tope de horas o penalidad al transportador por exceder el tiempo cotizado; (3) una cláusula que suspenda el cargo fijo en meses con bloqueos o problemas operativos.",
-        "Antes de cualquier negociación, Compras debe aclarar los precios del Lump Sum: los del Excel están por encima de la cotización 1255."]
-para(reco[0], 20, bold=True); para(reco[1], 44); para(reco[2], 20)
+        "Antes de cualquier negociación: Compras (SCM) debe aclarar los precios del Lump Sum, porque los del Excel están por encima de la cotización 1255, y Petro Star debe confirmar si cobra cargo fijo con 5 movilizaciones (si no lo cobra, su ahorro sube unos 0,29 M con 5 movs/mes)."]
+para(reco[0], 20, bold=True); para(reco[1], 44); para(reco[2], 44)
 
 head("8. HOJAS DE ESTE LIBRO")
 hojas = [("Resumen", "Esta hoja."), ("Gráficas", "Gráficos del ejercicio, con sus datos."), ("Simulador", "Modelo editable: parámetros, costo por movilización, cargos fijos, frontera y campaña mes a mes."),
@@ -389,7 +395,8 @@ COLS = ["C8860A", "2E7D5B", "7A8A99", "1F2A36", "B03A2E"]
 # 1. frecuencia
 r0 = 4; h1(gs, r0, "1. AHORRO DE LA CAMPAÑA DE 35 POZOS SEGÚN MOVILIZACIONES POR MES", "I")
 FQ = [[("%g" % x[0]).replace(".", ","), x[1], x[3], x[2]] for x in S["frecuencias"]]
-e = gtable(r0 + 1, ["Movs/mes", "Petro Star normal", "Ecotransur", "Lump Sum"], FQ, [None, USD, USD, USD])
+e = gtable(r0 + 1, ["Movs/mes", "Petro Star tarifa normal", "Ecotransur", "Petro Star Lump Sum"], FQ, [None, USD, USD, USD])
+gs.cell(e + 1, 2, "Con frecuencias no enteras se alternan meses; el último mes de la campaña puede quedar corto y pagar cargo fijo.").font = NOTE
 ch = LineChart(); style(ch, "Ahorro frente al WO según frecuencia (USD)", "USD")
 ch.add_data(Reference(gs, min_col=3, max_col=5, min_row=r0 + 1, max_row=e), titles_from_data=True)
 ch.set_categories(Reference(gs, min_col=2, min_row=r0 + 2, max_row=e)); ch.x_axis.title = "Movilizaciones por mes"
@@ -397,14 +404,14 @@ for i, sr in enumerate(ch.series): sr.graphicalProperties.line.solidFill = COLS[
 gs.add_chart(ch, f"G{r0+1}")
 # 2. costo por movilización 0,1–5 km (vivo)
 r0 = 24; h1(gs, r0, "2. COSTO DE UNA MOVILIZACIÓN DE 0,1–5 km (USD, enlazado al Simulador)", "I")
-TMc = "Simulador!$C$14/Simulador!$C$7/Simulador!$C$32"
-CR = [("Work Order", "=Simulador!D43", "=Simulador!D50", 0, 0),
+TMc = "IF(Simulador!$C$16=\"Mensual fijo\",Simulador!$C$14/Simulador!$C$7/Simulador!$C$32,Simulador!$D$54)"
+CR = [("Work Order", "=Simulador!D51-Simulador!D50", "=Simulador!D50", 0, 0),
       ("Petro Star 1ª–5ª", "=Simulador!D55", 0, "=Simulador!D53", f"={TMc}"),
       ("Petro Star 6ª+", "=Simulador!D56", 0, "=Simulador!D53", f"={TMc}"),
       ("Ecotransur 1ª–5ª", "=Simulador!D59", 0, "=Simulador!D53", f"={TMc}"),
       ("Ecotransur 6ª+", "=Simulador!D60", 0, "=Simulador!D53", f"={TMc}"),
       ("Lump Sum", "=Simulador!D57", 0, "=Simulador!D53", f"={TMc}")]
-e = gtable(r0 + 1, ["Concepto", "Tarifa", "Señalizadoras (WO)", "Taladro", "Truck Manager (60 M / movs del mes)"], CR, [None, USD, USD, USD, USD])
+e = gtable(r0 + 1, ["Concepto", "Tarifa", "Señalizadoras (WO)", "Taladro", "Truck Manager por movilización (60 M COP / movs del mes)"], CR, [None, USD, USD, USD, USD])
 ch = BarChart(); ch.type = "col"; ch.grouping = "stacked"; ch.overlap = 100; style(ch, "Costo de una movilización de 0,1–5 km (USD)", "USD")
 ch.add_data(Reference(gs, min_col=3, max_col=6, min_row=r0 + 1, max_row=e), titles_from_data=True)
 ch.set_categories(Reference(gs, min_col=2, min_row=r0 + 2, max_row=e))
@@ -417,7 +424,7 @@ def real_block(r0, anio, info):
     for j in range(info["n"]):
         rr = info["MT"] + 2 + j
         rows.append((f"='Real {anio}'!K{rr}", f"='Real {anio}'!C{rr}", f"='Real {anio}'!P{rr}", f"='Real {anio}'!Q{rr}"))
-    e = gtable(r0 + 1, ["Mes", "Movilizaciones", "Ahorro Petro Star", "Ahorro Ecotransur"], rows, [None, '0', USD, USD])
+    e = gtable(r0 + 1, ["Mes", "Movilizaciones", "Ahorro Petro Star tarifa normal (USD)", "Ahorro Ecotransur (USD)"], rows, [None, '0', USD, USD])
     ch = BarChart(); ch.type = "col"; style(ch, f"Campaña real {anio}: ahorro del tercerizado por mes (USD)", "USD")
     ch.add_data(Reference(gs, min_col=4, max_col=5, min_row=r0 + 1, max_row=e), titles_from_data=True)
     ch.set_categories(Reference(gs, min_col=2, min_row=r0 + 2, max_row=e))
@@ -444,10 +451,13 @@ ch.add_data(Reference(gs, min_col=3, max_col=4, min_row=r0 + 1, max_row=e), titl
 ch.set_categories(Reference(gs, min_col=2, min_row=r0 + 2, max_row=e))
 for i, sr in enumerate(ch.series): sr.graphicalProperties.solidFill = ["1F2A36", "C8860A"][i]; sr.graphicalProperties.line.noFill = True
 gs.add_chart(ch, f"G{r0+1}")
-gs.cell(e + 2, 2, "Con menos de 5 movilizaciones en el mes el tercerizado paga cargo fijo; desde la 6ª Petro Star descuenta el 50 %.").font = NOTE
+gs.cell(e + 2, 2, "Petro Star cobra cargo fijo hasta la 5ª movilización del mes y Ecotransur hasta la 4ª; desde la 6ª Petro Star descuenta el 50 % y Ecotransur cobra solo equipos.").font = NOTE
 
 order = ["Resumen", "Gráficas", "Simulador", "Método", "Real 2024", "Real 2025", "Reconciliación", "Medido y supuesto", "Sensibilidad", "Pendientes", "Verificación Excel"]
 wb._sheets = [wb[n] for n in order]
+for ws_ in wb.worksheets:
+    ws_.page_setup.orientation = "landscape"; ws_.page_setup.fitToWidth = 1; ws_.page_setup.fitToHeight = 0
+    ws_.sheet_properties.pageSetUpPr.fitToPage = True
 wb.active = 0
 wb.save(PATH)
 print(wb.sheetnames)

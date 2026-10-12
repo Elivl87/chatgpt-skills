@@ -9,7 +9,7 @@ TITLE = Font(name=F, size=14, bold=True, color="1F3864"); H1 = Font(name=F, size
 F_H1 = PatternFill("solid", fgColor="1F3864"); F_H2 = PatternFill("solid", fgColor="D9E1F2")
 SEV = {"Alta": "F8CBAD", "Media": "FFEB9C", "Baja": "E2EFDA"}; VER = {"CONSERVAR": "C6EFCE", "CORREGIR": "FFEB9C", "DESCARTAR": "F8CBAD"}
 thin = Side(style="thin", color="BFBFBF"); BOX = Border(left=thin, right=thin, top=thin, bottom=thin); WR = Alignment(wrap_text=True, vertical="top")
-USD = '$#,##0;($#,##0);"-"'
+USD = '#,##0;−#,##0;"-"'
 wb = Workbook()
 
 
@@ -37,23 +37,23 @@ def table(ws, r0, hdr, rows, fmts=None, h=None, fills=None):
 # ---------------- Resumen
 ws = wb.active; ws.title = "Resumen"
 sheet(ws, "Auditoría de la evaluación de SierraCol (Evaluacion_Drilling_IM_Jul_2026_v5.xlsx)",
-      "Se revisaron las 9 hojas (≈4.300 celdas, 2.435 fórmulas). Cada cifra se reprodujo con el motor independiente (tools/modelo.py). 'Tu número' = valor de tu archivo.", [2, 46, 20, 24, 24, 50])
+      "Se revisaron las 9 hojas (≈4.300 celdas, 2.435 fórmulas). Cada cifra se recalculó con un modelo de cálculo independiente.", [2, 46, 20, 24, 24, 50])
 ws.merge_cells("B2:F2")
 txt = [
     "La aritmética está bien: la campaña real 2025 se reproduce al dólar (Petro Star +56.743, Ecotransur +48.410, Lump Sum con descuento −1.024.254) y las hojas Escenarios y Movilizaciones 2025 son idénticas a los archivos fuente.",
     "Lo que cambia el resultado son tres cosas que la evaluación no cobra: (1) equipos y señalizadores por las horas que superan el tiempo cotizado, (2) meses enteros en lugar de fraccionarios, (3) el Lump Sum sin descuento como caso principal.",
-    "Con esas correcciones la campaña real 2025 pasa de ahorro a pérdida para el tercerizado (Petro Star −70.830, Ecotransur −79.163) y la campaña proyectada a 6 movs/mes baja de 633 k a 570 k (Petro Star).",
+    "Con esas correcciones la campaña real 2025 pasa de ahorro a pérdida para el tercerizado (Petro Star −70.830, Ecotransur −79.163). En la campaña proyectada a 6 movs/mes, el ahorro de Petro Star baja de 633 k a 570 k solo por usar meses enteros, y a 522 k al sumar el bloqueo social medido.",
     "Sesgo: de 17 hallazgos, 10 favorecen al tercerizado y ninguno al WO (incluido el tope del WO: se compara contra el WO más caro posible); el resto son neutros o indeterminados. Es un sesgo sistemático, igual que en la evaluación previa.",
-    "Tu aporte que incorporé a mi simulador: los bloqueos medidos en OpenWells (22,25 h en fase de movilización en 2025 → 17,3 h por campaña de 35 pozos) y el Truck Manager mensual en la campaña real.",
+    "Aportes de la evaluación SierraCol incorporados al Simulador: los bloqueos medidos en OpenWells (22,25 h en fase de movilización en 2025, es decir 22,25 × 35/45 = 17,3 h por campaña de 35 pozos) y el Truck Manager mensual, que pasa a ser el criterio base.",
 ]
 for i, t in enumerate(txt):
     r = 4 + i; ws.merge_cells(f"B{r}:F{r}"); c = ws[f"B{r}"]; c.value = "• " + t; c.font = N; c.alignment = WR; ws.row_dimensions[r].height = 32
 r = 10
-ws.merge_cells(f"B{r}:F{r}"); c = ws[f"B{r}"]; c.value = "TU NÚMERO, REPRODUCIDO Y CORREGIDO (USD, ahorro frente al WO; + = tercerizado más barato)"; c.font = H1; c.fill = F_H1
+ws.merge_cells(f"B{r}:F{r}"); c = ws[f"B{r}"]; c.value = "VALORES DE LA EVALUACIÓN, RECALCULADOS Y CORREGIDOS (USD, ahorro frente al WO; + = tercerizado más barato)"; c.font = H1; c.fill = F_H1
 rows = [
-    ("Proyectada 35 pozos · 6 movs/mes · Petro Star normal (Resumen E25, 'caso base')", 633333, 570244, 521576, "5.5 usa meses fraccionarios; 6/mes en meses enteros = 5 meses de 6 + 1 de 5 (paga cargo fijo). Mi número incluye además 17,3 h de bloqueo social medido; Truck Manager mensual en ambos."),
+    ("Proyectada 35 pozos · 6 movs/mes · Petro Star normal (Resumen E25, 'caso base')", 633333, 570244, 521576, "La sección 5.5 usa meses fraccionarios; 6/mes en meses enteros = 5 meses de 6 + 1 de 5 (paga cargo fijo). La corrección incluye además 17,3 h de bloqueo social medido; Truck Manager mensual en ambos."),
     ("Proyectada 35 pozos · 6 movs/mes · Ecotransur (Resumen H25)", 645791, 633169, 584501, "Mismo motivo."),
-    ("Proyectada · 5 movs/mes · Petro Star normal (Resumen E24)", 180835, 180835, 132168, "A 5/mes los meses son enteros: tu número es correcto. El mío resta además el bloqueo social medido (17,3 h)."),
+    ("Proyectada · 5 movs/mes · Petro Star normal (Resumen E24)", 180835, 180835, 132168, "A 5/mes los meses son enteros: el valor de la evaluación es correcto. La corrección resta el bloqueo social medido (17,3 h)."),
     ("Proyectada · 5 movs/mes · Ecotransur (Resumen H24)", 539203, 539203, 490535, "Ídem (Ecotransur no tiene cargo fijo con 5)."),
     ("Supuestos · caso base del tornado (6/mes, NPT 8 %, bloqueo 12 h) · Petro Star (T31)", 414014, 305587, None, "Mismas premisas en meses enteros: −108 k. El NPT 8 % no tiene fuente en el archivo."),
     ("Supuestos · 'Movilizaciones mínimo' (5/mes con NPT 8 %) · Petro Star (T34)", 76244, 25743, None, "Interpolar la nómina entre 4 y 5 movs suaviza un escalón real."),
@@ -62,14 +62,14 @@ rows = [
     ("Campaña real 2025 · Ecotransur (P94)", 48410, 48410, -79163, "Ídem (Ecotransur con las mismas tarifas horarias, supuesto)."),
     ("Campaña real 2025 · Lump Sum (M94)", -1024254, -1024254, -1448687, "Tu Lump Sum lleva 50 % de descuento (O14). Evaluación principal: sin descuento (−296.860) + horas excedidas."),
 ]
-r = table(ws, r + 1, ["Cifra", "Tu número", "Reproducido con tus premisas", "Corregido / mi evaluación", "Por qué difiere"], rows, [None, USD, USD, USD, None], h=44)
+r = table(ws, r + 1, ["Cifra", "Valor de la evaluación SierraCol", "Recalculado con sus mismas premisas", "Recalculado con las correcciones", "Por qué difiere"], rows, [None, USD, USD, USD, None], h=44)
 
 # ---------------- Hallazgos
 H = wb.create_sheet("Hallazgos")
 sheet(H, "Hallazgos línea por línea", "Ordenados por severidad. Efecto = cambio del ahorro del tercerizado (USD) al corregir. Dirección = hacia dónde empuja el error.", [2, 5, 18, 22, 58, 9, 16, 22, 52])
 HL = [
     ("Campaña Real 2025", "Q40:S84 · L40:L84", "No cobra equipos ni señalizadores por las horas que superan el tiempo cotizado (12/24/36/36 h). La Cot. 1255 p. 5 tarifa equipos por hora y la condición 7 traslada al cliente equipos y nómina en demoras no atribuibles al transportador. En 2025, 15 de 45 movilizaciones superaron el tiempo (94 h).", "Alta", -127573, "Favorece tercerizado", "Agregar por movilización: MAX(0; horas reales − tiempo estipulado) × (flota mínima 3.934.000 + 20 señalizadores 1.087.500 COP/h) / TRM. Resultado: PS −70.830; EC −79.163."),
-    ("Supuestos · DRL 5.5–5.7 · Resumen", "Supuestos G31:L41 · DRL J131:Y159 · Resumen E23:I27, C39:D43", "Meses fraccionarios (35/frecuencia), cuota de descuento uniforme y nómina interpolada entre escenarios enteros. Con 6/mes la realidad son 5 meses de 6 y 1 de 5 (cargo fijo de 40.953); con NPT la frecuencia queda fraccionada y el escalón de la nómina se suaviza.", "Alta", -108427, "Favorece tercerizado", "Simular mes a mes con conteos enteros (como hace tu propia hoja Campaña Real). Supuestos T31: 414.014 → 305.587; Resumen E25: 633.333 → 570.244."),
+    ("Supuestos · DRL 5.5–5.7 · Resumen", "Supuestos G31:L41 · DRL J131:Y159 · Resumen E23:I27, C39:D43", "Meses fraccionarios (35/frecuencia), cuota de descuento uniforme y nómina interpolada entre escenarios enteros. Con 6/mes la realidad son 5 meses de 6 y 1 de 5 (cargo fijo de 40.953); con NPT la frecuencia queda fraccionada y el escalón de la nómina se suaviza.", "Alta", -108427, "Favorece tercerizado", "Simular mes a mes con conteos enteros (como hace la propia hoja Campaña Real). Supuestos T31: 414.014 → 305.587; Resumen E25: 633.333 → 570.244."),
     ("Resumen · Supuestos · Huracán", "Resumen B25, B46 · Supuestos D5:D9", "Dos 'casos base' para la misma campaña: Resumen 633 k (6/mes, sin NPT ni bloqueo) y Supuestos/Huracán 414 k (6/mes, NPT 8 %, bloqueo 12 h). La conclusión B46 cita 633 k.", "Alta", None, "Favorece tercerizado (titular)", "Un solo caso base y una sola cifra por frecuencia (5 y 6 movs/mes)."),
     ("Resumen", "B49", "La conclusión dice que 'las horas pesan en segundo lugar'. Con el cobro de equipos por hora excedida, las horas son de primer orden: con las horas reales de 2025 el resultado cambia de signo.", "Alta", None, "Favorece tercerizado", "Reescribir: lo que decide es la frecuencia mensual y cumplir el tiempo cotizado en cada movilización."),
     ("Campaña Real 2025", "O14 · H18:H21 · M93:M95", "El Lump Sum lleva 50 % de descuento desde la 6ª ('lectura más favorable'). La evaluación principal es sin descuento.", "Media", -296860, "Favorece tercerizado (LS)", "O14 = 0 en la evaluación principal; dejar el 50 % como sensibilidad aparte."),
@@ -96,7 +96,7 @@ sheet(P, "Veredicto por hoja", "¿Está bien hecha? ¿Sirve? ¿Se conserva, se c
 PH = [
     ("Resumen", "Aritmética sí (todo son enlaces). Base y conclusiones no.", "Mezcla dos casos base; la conclusión subestima el peso de las horas; rótulo de mínimo 6.", "CORREGIR"),
     ("DRL USD - Escenarios 2025", "Idéntica celda por celda a Tarifas.xlsx (ya auditada).", "Ver Auditoria_Evaluacion_Previa.xlsx: 5.5–5.8 con meses fraccionarios, nota J55, mínimo 6 en J79.", "CORREGIR"),
-    ("Campaña Real 2025", "Sí: se reproduce al dólar. Orden dentro del mes, cargos fijos, descuentos y TM mensual correctos.", "Es la hoja más sólida. Faltan: equipos por hora excedida, Lump Sum sin descuento, bono WO y confirmar febrero.", "CORREGIR"),
+    ("Campaña Real 2025", "Sí: se reproduce al dólar. Orden dentro del mes, cargos fijos, descuentos y Truck Manager mensual correctos.", "Es la hoja más sólida. Faltan: equipos por hora excedida y Lump Sum sin descuento. Febrero confirmado como mes de campaña.", "CORREGIR"),
     ("Movilizaciones 2025", "Idéntica al log entregado.", "Fuente de frecuencia, mezcla y horas.", "CONSERVAR"),
     ("NPT Social 2025", "Sumas correctas (240,75 h; 22,25 h sociales en 01MIRU).", "Dato nuevo y valioso: incorporado a mi simulador. Aclarar la columna de costo.", "CONSERVAR"),
     ("Supuestos", "Fórmulas consistentes entre filas; ranking sin RANK.EQ correcto.", "Motor con meses fraccionarios, NPT 8 % sin fuente, stand-by 1.419 × 30 % sin fuente, solo Petro Star, Distancia con rótulos invertidos.", "CORREGIR"),
@@ -111,20 +111,20 @@ C = wb.create_sheet("Qué consideró cada uno")
 sheet(C, "Qué consideró cada evaluación y qué faltó", "Para cerrar una evaluación completa.", [2, 50, 22, 22, 50])
 CM = [
     ("Tarifas por rango, señalizadoras al WO, cargos fijos y descuentos desde la 6ª", "Sí", "Sí", "Coinciden."),
-    ("Campaña proyectada 35 pozos (15 + 20 en 0,1–5 km)", "Sí", "Sí", "Tú: frecuencia constante con meses fraccionarios. Yo: meses enteros."),
+    ("Campaña proyectada 35 pozos (15 + 20 en 0,1–5 km)", "Sí", "Sí", "SierraCol: frecuencia constante con meses fraccionarios. Esta revisión: meses enteros."),
     ("Campaña real 2025 movilización por movilización", "Sí", "Sí (y 2024)", "Cuadran al dólar con las mismas premisas."),
     ("Horas reales de taladro en la campaña real", "Sí", "Sí", ""),
-    ("Truck Manager mensual en la campaña real", "Sí", "Como sensibilidad", "Adopto tu criterio como el más realista."),
-    ("Bloqueos sociales medidos (OpenWells)", "Sí", "Ahora sí", "Incorporado: 17,3 h por campaña."),
+    ("Truck Manager mensual", "Sí (campaña real)", "Sí (base en todos los cálculos)", "Se adopta como criterio base."),
+    ("Bloqueos sociales medidos (OpenWells)", "Sí", "Sí (incorporado)", "22,25 × 35/45 = 17,3 h por campaña."),
     ("Equipos y señalizadores por horas sobre el tiempo cotizado", "No", "Sí", "Cambia el signo de 2025."),
     ("Ecotransur y Lump Sum en la sensibilidad", "No", "Sí", ""),
     ("Lump Sum sin descuento como caso principal", "No (50 %)", "Sí", ""),
-    ("Tope del WO (tarifa máxima, con piso si tarda más)", "No explícito", "Sí", "El WO está acotado; el tercerizado no."),
-    ("Meses bloqueados con contrato vigente", "No", "Sí", "177–243 k por mes con el Truck Manager."),
+    ("Tope del WO (tarifa máxima; tarifa menor si tarda más)", "No explícito", "Sí", "El WO está acotado; el tercerizado no."),
+    ("Meses bloqueados con contrato vigente", "No", "Sí", "177 k (Petro Star) o 243 k (Ecotransur) por mes, con el Truck Manager."),
     ("Precios del Lump Sum del Excel vs Cot. 1255", "No", "Sí", "+0,44 M al LS si se usara la cotización."),
     ("Horas cotizadas por Petro Star (24 h en 0,1–5 km) vs 18 h del Excel", "Parcial (rango 15–21 h)", "Sí", "−0,17 M."),
-    ("Ahorro por pozo y % del costo del pozo", "No", "Sí", "0,7–3 % de un pozo de 550–650 k (campaña de 35 pozos ≈ 21 M USD)."),
+    ("Ahorro por pozo y % del costo del pozo", "No", "Sí", "0,6–2,8 % del costo de un pozo de 600 k (rango 550–650 k)."),
     ("NPT de perforación", "Sí (8 % base)", "Barrido 0–20 %", "Falta la fuente del 8 %."),
 ]
-table(C, 4, ["Tema", "Tu evaluación", "Mi evaluación", "Nota"], CM, h=30)
+table(C, 4, ["Tema", "Evaluación SierraCol (v5)", "Esta revisión", "Nota"], CM, h=30)
 wb.save(OUT); print("ok")

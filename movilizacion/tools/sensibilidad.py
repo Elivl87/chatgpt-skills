@@ -40,7 +40,7 @@ def tornado(frec):
         ("Truck Manager", "Premisa SierraCol", "60 M COP por mes", "60 M COP por mes", "2.702,70 USD por movilización (Excel)", lambda: b, lambda: ahorro(con(BASE, tm_modo="por_mov"), frec)),
         ("Adicionales: ¿se cancelan entre modelos?", "Premisa SierraCol", "0 % / 0 %", "se cancelan", "+5 % solo en tercerizado", lambda: b, lambda: ahorro(con(BASE, adic_base=0.05, adic_ls=0.05), frec)),
         ("Recargo de señalizadoras al WO", "Premisa SierraCol", "se carga", "se carga", "no se carga", lambda: b, lambda: ahorro(con(BASE, senal_aplica=False), frec)),
-        ("Cargo fijo de Petro Star con 5 movs/mes", "Medido (contradicción PDF)", "se cobra (p. 4)", "no se cobra", "se cobra", lambda: ahorro(con(BASE, fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), frec), lambda: b),
+        ("Cargo fijo de Petro Star con 5 movs/mes", "Medido (la cotización dice mínimo 5, pero la tabla p. 4 cobra con 5)", "se cobra (p. 4)", "no se cobra", "se cobra", lambda: ahorro(con(BASE, fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), frec), lambda: b),
         ("Ecotransur 6ª+ en misma localización", "Supuesto", "equipos 0–5 km", "equipos 0–5 km", "tarifa plena", lambda: b, lambda: ahorro(con(BASE, eq_ec_cop=[140233002] + BASE["eq_ec_cop"][1:]), frec)),
         ("Orden de los pozos dentro del mes", "Supuesto", "intercalado", "misma loc. primero", "otra loc. primero", lambda: ahorro(frec=frec, orden=True), lambda: ahorro(frec=frec, orden=False)),
     ]
