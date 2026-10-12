@@ -16,6 +16,8 @@
 - **Credits:** quote every Higgsfield spend and get the Producer's explicit approval before generating.
 - **All 3D is built by Claude, free (Producer rule, 2026-10-03):** every 3D prop or model is made in our own procedural renderer (`tools/props3d`), like the N64 console. Never spend credits on 3D (no image-to-3D or text-to-3D generation), and never propose it.
 - **Final renders:** never render one without the Producer's explicit approval.
+- **Voice approval (Producer, 2026-10-12):** any new narration voice (placeholder or Bram) is sent as A/B samples first;
+  no video is rendered with it until the Producer approves it.
 - **Sounds are always free (Producer rule, 2026-10-03):** engine synths, CC0 libraries (licence file next to them, listed in `public/shared/sfx/SOURCES.md`) or our own recordings.
   - Never spend credits or money on sounds.
   - Third-party game audio (e.g. original Navi clips) is used only when the Producer supplies it and directs its use; it is recorded in `docs/<ep>/PRODUCER_DECISIONS.md` with its risk. Claude never downloads it on its own.

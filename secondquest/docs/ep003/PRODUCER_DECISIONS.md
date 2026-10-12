@@ -86,3 +86,8 @@
 - Producer: "dentro de la investigación, toca revisar al detalle las gráficas, HUD, referencias de objetos y todo al
   detalle del juego … para poderlas introducir en el arte" — new research rule (CLAUDE.md + episode skill stage 1);
   done for How to Fish → `docs/ep003/GAME_VISUAL_REFERENCE.md`.
+
+## 2026-10-12 · The Producer approves the voice before any render
+- Producer: "Quiero escuchar primero antes que renderices. Yo tengo que aprobar la voz antes." — every new narration
+  (placeholder engines included) goes to the Producer as A/B samples first; nothing is re-rendered with it until approved.
+  Narration v4 (VoiceStudio) is on hold for approval; the current renders keep v3.
