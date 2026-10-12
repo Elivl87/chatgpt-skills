@@ -9,3 +9,4 @@ short/renders/
 short/.hyperframes/
 short/node_modules/
 __pycache__/
+renders_log.txt
