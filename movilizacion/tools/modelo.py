@@ -14,7 +14,7 @@ BASE = {
     "horas": [12, 18, 24, 28],                       # Excel C26, C52, C78, C104
     "horas_extra": [0, 0, 0, 0],                     # NPT de movilización (supuesto editable, 0)
     "tm_cop_mes": 60_000_000, "tm_movs_base": 6,     # Excel C29 = (60.000.000/E3)/6
-    "tm_modo": "por_mov",                            # "por_mov" (Excel) o "mensual"
+    "tm_modo": "mensual",                            # "mensual" (60 M COP por mes con actividad; criterio SierraCol v5) o "por_mov" (Excel C29)
     "adic_base": 0.0, "adic_ls": 0.0, "adic_wo": 0.0,  # E7, E8 y simetría en el WO
     # Tarifas del transportador en COP (constantes de las fórmulas de las filas 25/51/77/103)
     "tarifa_cop": {
@@ -102,7 +102,8 @@ def campana(p, movs, usar_horas_reales=False, desde_mes=None):
     for o in OFERTAS:  # bloqueos durante la movilización: taladro + equipos (Cot. 1255 condición 7); el WO no paga
         tot[o] += hb
     for o in OFERTAS:  # meses bloqueados: no se puede mover pero el contrato sigue vigente
-        tot[o] += p["meses_bloqueados"] * (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
+        tot[o] += p["meses_bloqueados"] * ((p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
+                                           + (p["tm_cop_mes"] / p["trm"] if p["tm_modo"] == "mensual" else 0))
     for mes, n in por_mes.items():
         for o in OFERTAS:
             tot[o] += fijo_mes(p, o, n)

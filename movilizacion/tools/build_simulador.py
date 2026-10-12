@@ -68,7 +68,7 @@ P = [
     (13, "Adicionales sobre Work Order", 0, "%", "Premisa SierraCol", "Simetría: los imprevistos también se pagan en el WO", PCT, True),
     (14, "Truck Manager: valor mensual", 60000000, "COP/mes", "Medido", "Tarifas.xlsx · C29 = (60.000.000/E3)/6", COP, False),
     (15, "Truck Manager: movilizaciones/mes con que se prorratea", 6, "movs/mes", "Medido (fórmula Excel)", "Tarifas.xlsx · C29", '0', False),
-    (16, "Truck Manager: forma de cobro", "Por movilización (Excel)", "", "Premisa SierraCol", "Por movilización = 2.702,70 USD fijo por mov. Mensual fijo = 60 M COP por mes con movilizaciones", None, True),
+    (16, "Truck Manager: forma de cobro", "Mensual fijo", "", "Premisa SierraCol", "Mensual fijo = 60 M COP por cada mes de campaña (criterio de la evaluación SierraCol v5). Por movilización = 2.702,70 USD (Excel C29)", None, True),
     (17, "Descuento Petro Star tarifa normal desde la 6ª del mes", 0.5, "%", "Medido", "Cot. 1255 p. 2: '50% de cada escenario'", PCT, False),
     (18, "Descuento Lump Sum (solo para la columna de referencia)", 0.5, "%", "Referencia aparte", "Evaluación principal: Lump Sum SIN descuento (SierraCol). Esta columna se muestra aparte", PCT, True),
     (19, "Movilización del mes desde la que aplica el descuento", 6, "nº", "Medido", "Cot. 1255 p. 2 · Ecotransur p. 3–4", '0', False),
@@ -163,19 +163,19 @@ calc_row(50, "Recargo de señalizadoras faltantes", '=IF($C$22="Sí",$C$20*$C$21
 calc_row(51, "Work Order total por movilización", "=#43*(1+$C$13+$N$10)+#50", USD, True)
 put("B52", "Tercerizado (USD por movilización)", B, fill=F_H2)
 calc_row(53, "Taladro durante la movilización", "=(#39+#40)*$C$9", USD, src="(Horas + horas extra) × tarifa por hora")
-calc_row(54, "Truck Manager por movilización", '=IF($C$16="Mensual fijo",0,$C$14/$C$7/$C$15)', USD2, src="Si es mensual fijo se suma por mes (sección 6)")
+calc_row(54, "Truck Manager por movilización", '=IF($C$16="Mensual fijo",0,$C$14/$C$7/$C$15)', USD2, src="Si es mensual fijo vale 0 aquí y se suma por mes (sección 7)")
 calc_row(55, "Petro Star normal: tarifa, 1ª a 5ª del mes", "=#44/$C$7*(1+$C$11)")
 calc_row(56, "Petro Star normal: tarifa, 6ª en adelante", "=#55*(1-$C$17)")
 calc_row(57, "Lump Sum: tarifa (sin descuento)", "=#45/$C$7*(1+$C$12)")
 calc_row(58, "Lump Sum: tarifa 6ª en adelante (columna con descuento)", "=#57*(1-$C$18)")
 calc_row(59, "Ecotransur: tarifa, 1ª a 5ª del mes", "=#46/$C$7*(1+$C$11)")
 calc_row(60, "Ecotransur: 6ª en adelante (solo equipos)", "=#47/$C$7*(1+$C$11)")
-put("B61", "Costo total por movilización tercerizada = tarifa + taladro + Truck Manager", B, fill=F_H2)
-calc_row(62, "Petro Star normal, 1ª a 5ª  (= fila amarilla del Excel)", "=#55+#53+#54+#69", USD, True)
+put("B61", "Costo total por movilización tercerizada = tarifa + taladro + Truck Manager (si es por movilización) + horas excedidas", B, fill=F_H2)
+calc_row(62, "Petro Star normal, 1ª a 5ª (fila amarilla del Excel sin el TM)", "=#55+#53+#54+#69", USD, True)
 calc_row(63, "Petro Star normal, 6ª en adelante", "=#56+#53+#54+#69", USD, True)
-calc_row(64, "Lump Sum sin descuento  (= fila amarilla del Excel)", "=#57+#53+#54+#69", USD, True)
+calc_row(64, "Lump Sum sin descuento (fila amarilla del Excel sin el TM)", "=#57+#53+#54+#69", USD, True)
 calc_row(65, "Lump Sum con descuento, 6ª en adelante", "=#58+#53+#54+#69", USD, True)
-calc_row(66, "Ecotransur, 1ª a 5ª  (= fila amarilla del Excel)", "=#59+#53+#54+#69", USD, True)
+calc_row(66, "Ecotransur, 1ª a 5ª (fila amarilla del Excel sin el TM)", "=#59+#53+#54+#69", USD, True)
 calc_row(67, "Ecotransur, 6ª en adelante", "=#60+#53+#54+#69", USD, True)
 put("B68", "Equipos de la flota mínima por hora excedida (COP/h)")
 for i in range(4): put(f"{CL(3+i)}68", 3934000, BLUE, COP, F_Y)
@@ -368,6 +368,23 @@ def hoja_real(anio, path):
         for col in "BCDEFGHIJ":
             c = s[f"{col}{r}"]; c.border = BOX; c.font = BLK; c.number_format = USD if col in "HIJ" else '0'
     ME = MT + 2 + len(meses) - 1
+    MESN = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    for i, t in enumerate(["Mes (texto)", "Work Order (USD)", "PS normal, horas reales (USD)", "Ecotransur, horas reales (USD)", "Lump Sum, horas reales (USD)",
+                           "Ahorro PS normal (USD)", "Ahorro Ecotransur (USD)", "Ahorro Lump Sum (USD)"]):
+        c = s.cell(MT + 1, 11 + i, t); c.font = B; c.fill = F_H2; c.border = BOX; c.alignment = Alignment(wrap_text=True)
+    for j, mm in enumerate(meses):
+        r = MT + 2 + j
+        s[f"K{r}"] = MESN[mm]
+        s[f"L{r}"] = f"=SUMIF($G${R0}:$G${R1},B{r},$L${R0}:$L${R1})"
+        s[f"M{r}"] = f"=SUMIF($G${R0}:$G${R1},B{r},$Q${R0}:$Q${R1})+H{r}+J{r}"
+        s[f"N{r}"] = f"=SUMIF($G${R0}:$G${R1},B{r},$T${R0}:$T${R1})+I{r}+J{r}"
+        s[f"O{r}"] = f"=SUMIF($G${R0}:$G${R1},B{r},$R${R0}:$R${R1})+H{r}+J{r}"
+        s[f"P{r}"] = f"=L{r}-M{r}"; s[f"Q{r}"] = f"=L{r}-N{r}"; s[f"R{r}"] = f"=L{r}-O{r}"
+        for col in "KLMNOPQR":
+            c = s[f"{col}{r}"]; c.border = BOX; c.font = BLK
+            if col != "K": c.number_format = USD
+    for col in "LMNOPQR":
+        c = s[f"{col}{ME+1}"]; c.value = f"=SUM({col}{MT+2}:{col}{ME})"; c.font = B; c.fill = F_TOT; c.border = BOX; c.number_format = USD
     s[f"B{ME+1}"] = "Total"; s[f"B{ME+1}"].font = B
     for col in "CDEFGHIJ":
         c = s[f"{col}{ME+1}"]; c.value = f"=SUM({col}{MT+2}:{col}{ME})"; c.font = B; c.fill = F_TOT; c.border = BOX

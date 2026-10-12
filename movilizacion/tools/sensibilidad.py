@@ -37,7 +37,7 @@ def tornado(frec):
         ("Tarifa WO en movilizaciones lentas (bajo el tope)", "Premisa SierraCol (tope)", "tope", "tope", "−5 % al WO", lambda: b, lambda: ahorro(con(BASE, bono_wo=-0.05), frec)),
         ("NPT de perforación (baja la frecuencia)", "Sin dato: barrido", "0 %", "0 %", "20 %", lambda: b, lambda: ahorro(frec=frec * 0.8)),
         ("Tarifa del taladro", "Medido", "34.944 USD/día", "−10 %", "+10 %", lambda: ahorro(con(BASE, taladro_dia=34944 * 0.9), frec), lambda: ahorro(con(BASE, taladro_dia=34944 * 1.1), frec)),
-        ("Truck Manager", "Premisa SierraCol", "por movilización", "por movilización", "60 M COP fijo por mes", lambda: b, lambda: ahorro(con(BASE, tm_modo="mensual"), frec)),
+        ("Truck Manager", "Premisa SierraCol", "60 M COP por mes", "60 M COP por mes", "2.702,70 USD por movilización (Excel)", lambda: b, lambda: ahorro(con(BASE, tm_modo="por_mov"), frec)),
         ("Adicionales: ¿se cancelan entre modelos?", "Premisa SierraCol", "0 % / 0 %", "se cancelan", "+5 % solo en tercerizado", lambda: b, lambda: ahorro(con(BASE, adic_base=0.05, adic_ls=0.05), frec)),
         ("Recargo de señalizadoras al WO", "Premisa SierraCol", "se carga", "se carga", "no se carga", lambda: b, lambda: ahorro(con(BASE, senal_aplica=False), frec)),
         ("Cargo fijo de Petro Star con 5 movs/mes", "Medido (contradicción PDF)", "se cobra (p. 4)", "no se cobra", "se cobra", lambda: ahorro(con(BASE, fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), frec), lambda: b),
@@ -93,7 +93,7 @@ def pendientes():
         b = ahorro(frec=f)
         it = {"horas_ps": ahorro(con(BASE, horas=[12, 24, 36, 36]), f), "LS_pdf": ahorro(con(BASE, tarifa_cop={**BASE["tarifa_cop"], "LS": [140385441, 251155192, 311369322, 346822484]}), f),
               "fijo5": ahorro(con(BASE, fijo_ps_cop=BASE["fijo_ps_cop"][:5] + [0]), f), "ec_misma": ahorro(con(BASE, eq_ec_cop=[140233002] + BASE["eq_ec_cop"][1:]), f),
-              "tm_mensual": ahorro(con(BASE, tm_modo="mensual"), f), "adic5": ahorro(con(BASE, adic_base=0.05, adic_ls=0.05), f), "senal_no": ahorro(con(BASE, senal_aplica=False), f),
+              "tm_pormov": ahorro(con(BASE, tm_modo="por_mov"), f), "adic5": ahorro(con(BASE, adic_base=0.05, adic_ls=0.05), f), "senal_no": ahorro(con(BASE, senal_aplica=False), f),
               "bloqueo": ahorro(con(BASE, meses_bloqueados=1), f), "bono5": ahorro(con(BASE, bono_wo=0.05), f), "npt20": ahorro(frec=f * 0.8)}
         t = campana(BASE, proyeccion(frec=f), desde_mes=1)
         it["LS_desc"] = {**b, "LS": t["WO"] - t["LSD"]}
