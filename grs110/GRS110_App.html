@@ -89,7 +89,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .chip.on i{background:#ffffff26;color:inherit}
 .listhead{display:flex;align-items:center;justify-content:space-between;margin:12px 2px 2px;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.3px}
-.linkbtn{color:var(--accent);font-weight:800;font-size:12.5px;padding:8px 4px}
+.linkbtn{color:var(--accent);font-weight:800;font-size:12.5px;padding:11px 6px;margin-right:-6px}
 
 /* Systems */
 .sys{background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin:10px 0;overflow:hidden;box-shadow:0 2px 10px #1032440a}
@@ -160,9 +160,9 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .sheethead small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
 .xbtn{width:40px;height:40px;border-radius:12px;background:var(--card2);font-size:17px;color:var(--ink2);flex-shrink:0}
 .sheetbody{overflow:auto;padding:4px 18px 14px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.sheetfoot{border-top:1px solid var(--line);padding:12px 18px;flex-shrink:0;background:var(--card)}
+.sheetfoot{border-top:1px solid var(--line);padding:10px 14px;flex-shrink:0;background:var(--card)}
 .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.abtn{height:50px;border-radius:14px;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card2);color:var(--ink)}
+.abtn{height:46px;border-radius:14px;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card2);color:var(--ink)}
 .abtn.pdf{background:var(--brand2);color:#fff}
 .abtn.wa{background:#1fa855;color:#fff}
 .abtn svg{width:19px;height:19px}
@@ -205,7 +205,7 @@ textarea:focus{border-color:var(--accent)}
 .rdoc table{width:100%;border-collapse:collapse;font-size:11.5px}
 .rdoc th{font-size:10px;letter-spacing:.4px;color:#5b7b81;text-transform:uppercase}
 .rdoc th,.rdoc td{padding:7px 4px;border-bottom:1px solid #e1e9eb;text-align:left;vertical-align:middle}
-.rdoc td.n{text-align:right;white-space:nowrap}
+.rdoc td.n,.rdoc th.n{text-align:right;white-space:nowrap}
 .rbar{display:inline-block;width:54px;height:6px;background:#e3ecee;border-radius:9px;overflow:hidden;vertical-align:middle;margin-right:6px}
 .rbar i{display:block;height:100%;background:#0a8f7f}
 .rdoc ol,.rdoc ul{padding-left:20px;margin:4px 0}
@@ -249,7 +249,7 @@ textarea:focus{border-color:var(--accent)}
   <div class="metrics">
    <button class="metric" data-filter="done"><strong id="mDone">0</strong><span>Hechas</span></button>
    <button class="metric" data-filter="pending"><strong id="mPending">0</strong><span>Pendientes</span></button>
-   <button class="metric warn" data-filter="critical"><strong id="mCritical">0</strong><span>Críticas pend.</span></button>
+   <button class="metric warn" data-filter="critp"><strong id="mCritical">0</strong><span>Críticas pend.</span></button>
    <button class="metric" data-filter="na"><strong id="mNa">0</strong><span>N/A</span></button>
   </div>
   <p class="herohint">Las pruebas solo se completan con resultado satisfactorio. N/A no cuenta para el porcentaje.</p>
@@ -260,7 +260,7 @@ textarea:focus{border-color:var(--accent)}
  <div class="finder">
   <div class="search">
    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-   <input type="search" id="search" placeholder="Buscar sistema, equipo o actividad…" enterkeyhint="search" autocomplete="off" aria-label="Buscar">
+   <input type="search" id="search" placeholder="Buscar equipo o actividad…" enterkeyhint="search" autocomplete="off" aria-label="Buscar">
    <button class="clear hidden" id="clearSearch" aria-label="Borrar búsqueda">✕</button>
   </div>
   <div class="chips" id="chips" role="tablist"></div>
@@ -279,7 +279,7 @@ textarea:focus{border-color:var(--accent)}
 <div id="reportOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="reportTitle"><div class="sheet">
  <div class="grab"></div>
  <div class="sheethead"><div><div class="kicker">GRS110 · Inteligencia de avance</div><strong id="reportTitle">Reporte gerencial</strong></div><button class="xbtn" data-close="reportOverlay" aria-label="Cerrar">✕</button></div>
- <div class="sheetbody" id="reportPreview"></div>
+ <div class="sheetbody"><div class="ctx">PDF: en el diálogo de impresión elige «Guardar como PDF». WhatsApp abre la app con el resumen listo para enviar.</div><div id="reportPreview"></div></div>
  <div class="sheetfoot">
   <div class="acts">
    <button class="abtn pdf" id="reportPdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15h6M9 18h4"/></svg>PDF</button>
@@ -287,7 +287,6 @@ textarea:focus{border-color:var(--accent)}
    <button class="abtn" id="reportShare">↗ Compartir</button>
    <button class="abtn" id="reportCopy">⧉ Copiar texto</button>
   </div>
-  <p class="foothint">PDF: en el diálogo de impresión elige «Guardar como PDF». WhatsApp abre la app con el resumen listo para enviar.</p>
  </div>
 </div></div>
 
@@ -308,7 +307,7 @@ const TARGET_TXT='01/11/2026';
 const byId=new Map(tasks.map(t=>[t.id,t]));
 const SYSTEMS=[...new Set(tasks.map(t=>t.s))];
 const ICONS={'Sistema de potencia':'⚡','Sistema de circulación':'◉','Sistema de izaje y soporte':'↟','Sistema de rotación y manejo de tubería':'⟳','Sistema de control de pozo':'⬡','Sistema de control e instrumentación':'⌁','Pruebas integrales del RIG':'✓'};
-const FILTERS=[['all','Todos'],['pending','Pendientes'],['critical','⚠ Críticas'],['done','Hechas'],['na','N/A'],['notes','Con notas']];
+const FILTERS=[['all','Todos'],['pending','Pendientes'],['critp','⚠ Crít. pend.'],['critical','Críticas (todas)'],['done','Hechas'],['na','N/A'],['notes','Con notas']];
 
 const $=id=>document.getElementById(id);
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -367,7 +366,7 @@ function daysText(d){return d>1?'faltan '+d+' días':d===1?'falta 1 día':d===0?
 /* ---------- Filtros ---------- */
 function filterOk(t,m){
  const v=status(t);
- return m==='all'||(m==='pending'&&v==='p')||(m==='critical'&&t.c)||(m==='done'&&v==='ok')||(m==='na'&&v==='na')||(m==='notes'&&!!noteOf(t));
+ return m==='all'||(m==='pending'&&v==='p')||(m==='critical'&&t.c)||(m==='critp'&&t.c&&v==='p')||(m==='done'&&v==='ok')||(m==='na'&&v==='na')||(m==='notes'&&!!noteOf(t));
 }
 function matches(t){
  if(!filterOk(t,mode))return false;
@@ -471,13 +470,15 @@ $('search').addEventListener('input',e=>{query=e.target.value.trim();opened={};$
 $('clearSearch').onclick=()=>{$('search').value='';query='';opened={};$('clearSearch').classList.add('hidden');render();$('search').focus()};
 $('search').addEventListener('keydown',e=>{
  if(e.key!=='Enter')return;e.preventDefault();e.target.blur();
- query=e.target.value.trim();mode='all';opened={};
+ query=e.target.value.trim();opened={};
  const q=norm(query);if(!q){render();return}
- const hit=tasks.find(t=>norm(t.e)===q)||tasks.find(t=>norm(t.e).includes(q))||tasks.find(t=>norm(t.sub).includes(q))||tasks.find(t=>norm(t.a).includes(q))||tasks.find(t=>norm(t.s).includes(q));
+ const find=list=>list.find(t=>norm(t.e)===q)||list.find(t=>norm(t.e).includes(q))||list.find(t=>norm(t.sub).includes(q))||list.find(t=>norm(t.a).includes(q))||list.find(t=>norm(t.s).includes(q));
+ let hit=find(tasks.filter(t=>filterOk(t,mode)));
+ if(!hit&&(hit=find(tasks)))mode='all';
  if(!hit){render();return}
  opened['s:'+hit.s]=true;opened['e:'+hit.s+':'+hit.e]=true;render();
  const target=$('eq-'+tasks.indexOf(tasks.find(t=>t.s===hit.s&&t.e===hit.e)))||$('sys-'+SYSTEMS.indexOf(hit.s));
- if(target){setTimeout(()=>{target.scrollIntoView({behavior:'smooth',block:'start'});target.classList.add('found');setTimeout(()=>target.classList.remove('found'),1900)},60)}
+ if(target){setTimeout(()=>{const fb=document.querySelector('.finder').getBoundingClientRect().bottom;window.scrollTo({top:target.getBoundingClientRect().top+window.scrollY-fb-8,behavior:'smooth'});target.classList.add('found');setTimeout(()=>target.classList.remove('found'),1900)},60)}
 });
 const hero=$('hero');
 if('IntersectionObserver' in window)new IntersectionObserver(([en])=>$('minipct').classList.toggle('show',!en.isIntersecting),{rootMargin:'-60px 0px 0px 0px'}).observe(hero);
@@ -526,7 +527,6 @@ function makeReport(){
   :all.pct>=50?'El alistamiento presenta un avance intermedio; conviene concentrar recursos en los sistemas de menor ejecución y en los hitos críticos.'
   :'El alistamiento registra un avance inicial; se recomienda priorizar los sistemas de menor avance y los controles críticos.';
  if(pending.length&&d<0)diagnosis+=' La fecha objetivo ya venció con '+pending.length+' actividades pendientes.';
- else if(pace)diagnosis+=' Para cumplir la fecha objetivo se requiere cerrar en promedio '+pace+' actividad'+(pace===1?'':'es')+' por día.';
  const date=new Date().toLocaleString('es-CO',{dateStyle:'long',timeStyle:'short'});
  return {all,systemRows,crit,pending,na,notes,recent,diagnosis,focus,date,d,pace};
 }
@@ -541,7 +541,7 @@ function reportText(r){
  L.push('➖ No aplican (N/A): '+r.na.length);
  L.push('⚠️ Críticas pendientes: '+r.crit.length);
  if(r.recent.length)L.push('📈 Completadas en las últimas 24 h: '+r.recent.length);
- if(r.pace)L.push('🎯 Ritmo requerido: '+r.pace+' actividades/día');
+ if(r.pace)L.push('🎯 Ritmo requerido: '+r.pace+(r.pace===1?' actividad/día':' actividades/día'));
  L.push('','*AVANCE POR SISTEMA*');
  for(const x of r.systemRows)L.push('• '+sysShort(x.name)+': *'+p(x)+'* ('+x.done+'/'+x.total+')'+(x.critP?' · ⚠️ '+x.critP+' crít.':''));
  L.push('','*LECTURA GERENCIAL*',r.diagnosis);
@@ -549,8 +549,9 @@ function reportText(r){
  L.push('','*CRÍTICAS PENDIENTES ('+r.crit.length+')*');
  if(r.crit.length){r.crit.slice(0,10).forEach(t=>L.push('• '+t.e+': '+t.a));if(r.crit.length>10)L.push('… y '+(r.crit.length-10)+' más (ver PDF).')}
  else L.push('Sin actividades críticas pendientes registradas.');
- L.push('','*OBSERVACIONES ('+r.notes.length+')*');
- if(r.notes.length){r.notes.slice(0,6).forEach(n=>L.push('• '+n.t.e+' · '+waClean(n.t.a,60)+': '+waClean(n.note,160)));if(r.notes.length>6)L.push('… y '+(r.notes.length-6)+' más (ver PDF).')}
+ const wn=r.notes.map(n=>({n,txt:waClean(n.note,160)})).filter(x=>x.txt);
+ L.push('','*OBSERVACIONES ('+wn.length+')*');
+ if(wn.length){wn.slice(0,6).forEach(({n,txt})=>L.push('• '+n.t.e+' · '+waClean(n.t.a,60)+': '+txt));if(wn.length>6)L.push('… y '+(wn.length-6)+' más (ver PDF).')}
  else L.push('No se han registrado observaciones.');
  L.push('','_Informe automático basado en los estados y observaciones registrados. Pendiente no equivale a falla; las pruebas completadas deben contar con aceptación satisfactoria._');
  return L.join('\n');
@@ -566,7 +567,7 @@ function reportHtml(r){
  return `<article class="rdoc"><div class="rbrand"><b>GRS <em>110</em></b><span>REPORTE EJECUTIVO DE ALISTAMIENTO</span></div>
 <div class="rmeta"><span>Corte: <b>${safe(r.date)}</b></span><span>Objetivo: <b>${TARGET_TXT}</b> (${daysText(r.d)})</span></div>
 <div class="rstats"><div><small>AVANCE</small><strong>${p(r.all)}</strong></div><div><small>HECHAS</small><strong>${r.all.done}/${r.all.total}</strong></div><div><small>PENDIENTES</small><strong>${r.pending.length}</strong></div><div class="w"><small>CRÍTICAS PEND.</small><strong>${r.crit.length}</strong></div></div>
-<h3>1. Lectura gerencial</h3><p>${safe(r.diagnosis)}</p><p><b>Focos de seguimiento:</b> ${r.focus.length?safe(r.focus.map(x=>sysShort(x.name)+' ('+p(x)+(x.critP?', '+x.critP+' críticas pend.':'')+')').join('; ')):'Sin sistemas con pendientes'}.</p>${r.pace?`<p><b>Ritmo requerido:</b> ${r.pace} actividades por día hasta el ${TARGET_TXT}.</p>`:''}
+<h3>1. Lectura gerencial</h3><p>${safe(r.diagnosis)}</p><p><b>Focos de seguimiento:</b> ${r.focus.length?safe(r.focus.map(x=>sysShort(x.name)+' ('+p(x)+(x.critP?', '+x.critP+' críticas pend.':'')+')').join('; ')):'Sin sistemas con pendientes'}.</p>${r.pace?`<p><b>Ritmo requerido:</b> ${r.pace} actividad${r.pace===1?'':'es'} por día hasta el ${TARGET_TXT}.</p>`:''}
 <h3>2. Avance por sistema</h3><table><thead><tr><th>Sistema</th><th class="n">Hechas</th><th class="n">Avance</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td><b>Total aplicable</b></td><td class="n"><b>${r.all.done}/${r.all.total}</b></td><td class="n"><b>${p(r.all)}</b></td></tr></tfoot></table>
 <h3>3. Actividades críticas pendientes (${r.crit.length})</h3>${critical}
 <h3>4. Avance últimas 24 horas (${r.recent.length})</h3>${recent}
