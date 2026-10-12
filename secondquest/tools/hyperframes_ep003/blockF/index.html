@@ -253,11 +253,11 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0.0" data-duration="65.113" data-fps="30" data-width="1280" data-height="720">
-      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="65.113" data-track-index="9" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0.0" data-duration="68.23" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="68.23" data-track-index="9" data-volume="1"></audio>
 
       <!-- ================= F1-F2 (l36-l37): FRIENDSLOP, the trash can, the four squeeze in ================= -->
-      <div id="shotStage" class="full clip shot" data-start="0.0" data-duration="19.01" data-track-index="0">
+      <div id="shotStage" class="full clip shot" data-start="0.0" data-duration="19.431" data-track-index="0">
         <div class="cam" id="camStage"><div class="push" id="pushStage"><div class="kick" id="kickStage">
           <div id="stBg"></div>
           <div id="stFloor"></div>
@@ -297,7 +297,7 @@
       </div>
 
       <!-- ================= F3 (l38): short, summer, #1, the sun sinks ================= -->
-      <div id="shotSum" class="full clip shot" data-start="18.81" data-duration="5.56" data-track-index="1">
+      <div id="shotSum" class="full clip shot" data-start="19.231" data-duration="5.74" data-track-index="1">
         <div class="cam" id="camSum"><div class="push" id="pushSum"><div class="kick" id="kickSum">
           <div id="sumSky"></div>
           <div class="scloud" style="left: 90px; top: 90px; width: 230px"></div>
@@ -320,7 +320,7 @@
       </div>
 
       <!-- ================= F4-F5 (l39-l40): the lake at dusk -> blue hour, Tuesday night ================= -->
-      <div id="shotLake" class="full clip shot" data-start="24.35" data-duration="15.63" data-track-index="2">
+      <div id="shotLake" class="full clip shot" data-start="24.951" data-duration="16.55" data-track-index="2">
         <div class="cam" id="camLake"><div class="kick" id="kickLake">
           <div id="world" class="full">
             <div id="L-sky" class="L"><div class="F">
@@ -392,7 +392,7 @@
       </div>
 
       <!-- ================= F6 (l41): the living room, 1 AM, "last round" ================= -->
-      <div id="shotRoom" class="full clip shot" data-start="40.0" data-duration="8.04" data-track-index="3">
+      <div id="shotRoom" class="full clip shot" data-start="41.521" data-duration="8.91" data-track-index="3">
         <div class="cam" id="camRoom"><div class="push" id="pushRoom"><div class="kick" id="kickRoom">
           <img id="room" src="assets/room_night.png" alt="" />
           <div id="roomDim" class="full"></div>
@@ -413,7 +413,7 @@
       </div>
 
       <!-- ================= F7 (l42): the founders, three page-turns (no real faces) ================= -->
-      <div id="shotBook" class="full clip shot" data-start="47.25" data-duration="13.985" data-track-index="4">
+      <div id="shotBook" class="full clip shot" data-start="49.641" data-duration="14.615" data-track-index="4">
         <div class="cam" id="camBook"><div class="push" id="pushBook"><div class="kick" id="kickBook">
           <div id="desk"></div>
           <div id="bookRig">
@@ -468,7 +468,7 @@
       </div>
 
       <!-- ================= F8 (l43): one phone -> millions, the reel, the ping ================= -->
-      <div id="shotGrid" class="full clip shot" data-start="61.215" data-duration="2.835" data-track-index="5">
+      <div id="shotGrid" class="full clip shot" data-start="64.236" data-duration="3.055" data-track-index="5">
         <div class="cam" id="camGrid"><div class="kick" id="kickGrid">
           <div id="gridBg"></div>
           <div class="push" id="pushGrid">
@@ -481,7 +481,7 @@
       </div>
 
       <!-- ================= "chat." -> hard cut: pure stillness, the black lake (sets up block G) ================= -->
-      <div id="shotBlack" class="full clip shot" data-start="64.05" data-duration="1.063" data-track-index="6">
+      <div id="shotBlack" class="full clip shot" data-start="67.291" data-duration="0.939" data-track-index="6">
         <div id="blackSky"></div><div id="blackHz"></div><div id="blackWater"></div><div id="blackLines"></div>
       </div>
 
@@ -666,19 +666,19 @@
       // the second "half" w16, "insult" w18, "Cheap" w19, "chaotic" w20, "co-op" w21, "built" w23, "playing" w25
       // (checked against a fresh faster-whisper pass on the narration).
       const T = {
-        internet: 0.19, like: 2.79, this: 3.07, slop: 4.29, half1: 5.37, joke: 5.57, half2: 6.29, insult: 6.61,
-        cheap: 8.01, chaotic: 8.63, coop: 9.07, built: 9.91, playing: 10.63, l36end: 11.671,
-        we: 12.14, genre: 13.63, word: 14.71, garbage: 15.13, then: 16.05, invited: 16.51, friends2: 17.27, it: 18.13,
-        some: 19.11, short: 20.25, maybe: 21.37, thisy: 22.19, summer: 23.31, hit: 23.53, l38end: 23.873,
-        but: 24.37, too: 25.81, that: 27.01, never: 27.39, l39end: 28.959,
-        some5: 29.37, few: 31.25, boat: 32.59, tuesday: 33.81, plan: 35.25, fish1: 36.21, plan2: 37.29, always: 37.87, fish2: 39.05, l40end: 39.54,
-        and6: 40.03, one: 41.77, morning: 42.29, says: 42.91, last: 43.75, round1: 43.87, It: 44.83, never6: 45.31, last2: 45.99, round2: 46.29,
-        and7: 47.37, two: 48.51, founded: 49.27, studio: 49.89, met: 51.49, high: 52.09, school: 52.35,
-        their: 53.08, first: 53.43, had: 54.63, not7: 55.21, well: 55.93,
-        so: 57.01, small: 57.71, game8: 58.09, friends7: 58.87, silly: 60.05, together: 60.45, l42end: 61.035,
-        millions: 61.65, people: 62.29, answered: 62.57, same: 63.35, group: 63.69, chat: 64.05,
+        internet: 0.191, like: 3.031, this: 3.311, slop: 4.491, half1: 5.411, joke: 5.691, half2: 6.641, insult: 7.131,
+        cheap: 8.261, chaotic: 8.641, coop: 8.991, built: 9.941, playing: 10.571, l36end: 11.773,
+        we: 12.221, genre: 13.471, word: 14.711, garbage: 15.351, then: 16.291, invited: 17.231, friends2: 18.051, it: 18.731,
+        some: 19.531, short: 20.491, maybe: 20.751, thisy: 22.551, summer: 23.531, hit: 23.871, l38end: 24.428,
+        but: 24.971, too: 26.231, that: 27.171, never: 27.611, l39end: 29.742,
+        some5: 30.131, few: 31.991, boat: 34.291, tuesday: 35.231, plan: 36.551, fish1: 37.791, plan2: 38.791, always: 39.551, fish2: 40.491, l40end: 41.063,
+        and6: 41.551, one: 43.091, morning: 43.691, says: 44.761, last: 45.711, round1: 45.971, It: 46.971, never6: 47.331, last2: 48.311, round2: 48.671,
+        and7: 49.761, two: 49.991, founded: 51.491, studio: 52.251, met: 54.131, high: 54.871, school: 55.151,
+        their: 56.031, first: 56.131, had: 57.311, not7: 57.711, well: 58.531,
+        so: 59.391, small: 59.991, game8: 60.291, friends7: 61.211, silly: 62.851, together: 63.371, l42end: 64.056,
+        millions: 64.651, people: 65.271, answered: 65.671, same: 66.691, group: 66.991, chat: 67.291,
       };
-      const DUR = 65.113;
+      const DUR = 68.23;
       const GRID0 = T.l42end + .18;                                        // F8 starts on one phone
 
       function ellPts(cx, cy, rx, ry, rot, a0, a1, n) { const a = rot * Math.PI / 180, out = [];

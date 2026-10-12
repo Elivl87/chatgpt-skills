@@ -1,0 +1,60 @@
+{
+ "name": "EP003 Hyperframes v5 voice",
+ "source": "docs/ep003/hyperframes/EP003_full_hyperframes_review.mp4",
+ "duration_s": 393.5,
+ "shots": 125,
+ "avg_shot_s": 3.15,
+ "median_shot_s": 2.17,
+ "longest_shot_s": 21.0,
+ "cuts_per_min": 18.9,
+ "motion_share": 0.852,
+ "still_2s_runs": 2,
+ "brightness_mean": 0.464,
+ "saturation_mean": 0.393,
+ "palette": [
+  [
+   "#765c7f",
+   0.126
+  ],
+  [
+   "#232645",
+   0.12
+  ],
+  [
+   "#161114",
+   0.12
+  ],
+  [
+   "#4b4668",
+   0.108
+  ],
+  [
+   "#e7e0d1",
+   0.103
+  ],
+  [
+   "#a28095",
+   0.101
+  ],
+  [
+   "#332018",
+   0.1
+  ],
+  [
+   "#d8a196",
+   0.091
+  ],
+  [
+   "#a97f4f",
+   0.068
+  ],
+  [
+   "#633e2b",
+   0.063
+  ]
+ ],
+ "loud_db_p90": -10.8,
+ "pauses_ge_0_5s": 26,
+ "pause_mean_s": 0.52,
+ "pause_longest_s": 1.0
+}
