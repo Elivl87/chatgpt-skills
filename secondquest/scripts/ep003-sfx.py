@@ -10,7 +10,7 @@ template keys its move on ({{l09.w11}} there == T('l09.w11') here: block tokens 
 same word). Plain seconds in a block template are block-relative: B0['D'] + 0.24 = 0.24 s into block D. The hook was
 authored on narration v2 and is warped onto the current narration by build.py; HK(t_v2) applies the same warp, so
 hook cues are written with the hook's own numbers (HK(10.62) = the slap).
-Note: timings.json splits "Friendslop" in l36, so from l36.w12 on the index is +1 ("Half" = l36.w13); the cues use
+Note: timings.json splits "Friendslop" in l36, so from l36.w11 on the index is +1 ("Half" = l36.w12); the cues use
 block F's tokens.
 
 Out (48 kHz, 16-bit, STEREO): public/episodes/ep003/audio/sfx.wav (the SFX bed alone) and mix.wav (narration +
@@ -609,17 +609,17 @@ def cues():
     a(T('l36.w10'), 'clunk', -16); a(T('l36.w10') + .05, 'tin', -26)   # a spotlight clunks on over the trash can
     slop = T('l36.w11')
     a(slop - .14, 'page', -20); a(slop + .16, 'stamp', -18)           # the tag flips: FRIENDSLOP
-    a(T('l36.w13') + .12, 'sparkle', -22, -.1)                        # "Half a joke": FRIEND goes gold
-    a(T('l36.w16'), 'deflate:0.5', -26, .1)                           # "half an insult": SLOP sags...
+    a(T('l36.w12') + .12, 'sparkle', -22, -.1)                        # "Half a joke": FRIEND goes gold
+    a(T('l36.w15'), 'deflate:0.5', -26, .1)                           # "half an insult": SLOP sags...
     for i in range(4):                                                # ...and drips
         for k in range(2):
-            at = T('l36.w18') + .2 + i * .31 + k * 1.25 + .55
+            at = T('l36.w17') + .2 + i * .31 + k * 1.25 + .55
             if at < T('l38.w1') - .3:
                 a(at, 'drip', -30 - 2 * k, .15)
-    for k, x in (('l36.w19', 470), ('l36.w20', 690), ('l36.w21', 930)):   # three stickers slap on
+    for k, x in (('l36.w18', 470), ('l36.w19', 690), ('l36.w20', 930)):   # three stickers slap on
         a(T(k) + .02, 'squish', -18, P(x - 200)); a(T(k) + .04, 'paper2', -28, P(x - 200))
     for i in range(4):                                                # four friend discs pop
-        a(T('l36.w25') + i * .17 + .1, 'pop', -26, -.2 + i * .13)
+        a(T('l36.w24') + i * .17 + .1, 'pop', -26, -.2 + i * .13)
     a(T('l37.w1'), 'hud_off', -30)                                    # the discs leave
     gb = T('l37.w10')
     a(gb, 'tin', -17, .4); a(gb + .02, 'whoosh', -26, .45)            # "garbage": the lid flips off

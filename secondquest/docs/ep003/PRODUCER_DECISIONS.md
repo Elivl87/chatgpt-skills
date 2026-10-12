@@ -97,3 +97,8 @@
   debes conseguir su naturalidad, absolutamente todo de Bram. Luego me pasas el vídeo (resolución baja, porque es
   preliminar)." — VoiceStudio is the placeholder engine; narration v5 built from all of Bram's EP001+EP002 reads; A/B
   to the Producer, then a low-res preliminary video. The clone stays an internal review placeholder (not published).
+
+## 2026-10-12 · Voice approved: VoiceStudio v5 (Bram clone, internal placeholder)
+- Producer: "La voz del EP003 la del voicestudio" — narration v5 is the active EP003 placeholder (internal review cuts
+  only; the published episode uses Bram's licensed voice). Timings are now 1:1 with the script (Friendslop = one token):
+  block F tokens and SFX cues re-keyed accordingly. Preliminary low-res video follows.
