@@ -53,7 +53,7 @@ rows = [
     ("Descuento desde la 6ª del mes", "Tercerizado", "Acantilado por número de movilización del mes", "6ª movilización del mes", "Petro Star: 50 % de la tarifa. Ecotransur: solo equipos. Lump Sum: sin descuento (evaluación principal)."),
     ("Cargo fijo mensual (nómina + disponibilidad)", "Tercerizado", "Escalón decreciente; fijo mensual", "Petro Star 0–5 movs; Ecotransur 0–4 movs", "Petro Star todavía cobra con 5 movs (p. 4); Ecotransur no cobra desde la 5ª."),
     ("Taladro durante la movilización", "Tercerizado", "Variable por hora", "Horas por rango (12/18/24/28)", "34.944 USD/día. Bajo el WO no se paga (premisa SierraCol)."),
-    ("Mes bloqueado (no se puede mover)", "Tercerizado", "Fijo mensual", "Mes con 0 movilizaciones y contrato vigente", "Petro Star 160.751 · Ecotransur 226.318 USD por mes. Con el WO, 0."),
+    ("Mes bloqueado (no se puede mover)", "Tercerizado", "Fijo mensual", "Mes con 0 movilizaciones y contrato vigente", "Petro Star 176.968 · Ecotransur 242.534 USD por mes (cargo de 0 movilizaciones + Truck Manager). Con el WO, 0."),
     ("Truck Manager", "Tercerizado", "Fijo mensual (así se modela)", "60 M COP por cada mes de campaña", "El Excel lo prorratea a 6 movs/mes (2.702,70 USD); con menos de 6 movs/mes ese prorrateo lo subestima. Por encima lo sobreestima."),
     ("Horas excedidas sobre el tiempo estipulado", "Tercerizado", "Acantilado", "Tiempo total 12/24/36/36 h", "Se paga el taladro por hora (1.456 USD) y además equipos y señalizadores por hora (~1.357 USD; Cot. 1255 p. 5). Con el WO, 0."),
     ("Bandas de horas por ítem (Opción A/B)", "Tercerizado (Ecotransur)", "Acantilado", "8–12 / ≤14 / 14–18 / 18–24 / ≤22 h", "El formato del Ítem 1 no viene adjunto: el Excel usa ítems 'más de X horas'."),
@@ -310,7 +310,7 @@ cons = [
     "Si una movilización supera el tiempo cotizado (12/24/36/36 h) se paga el taladro por esas horas y además equipos y señalizadores por hora: unos 2.813 USD por hora en total. El WO no paga nada extra.",
     "Bloqueos sociales y escolares durante movilizaciones: 22,25 h en 45 movilizaciones de 2025 (OpenWells), es decir 17,3 h en una campaña de 35 pozos. En el tercerizado los paga SierraCol (condición 7); en el WO no.",
     "Petro Star normal: 50 % de descuento sobre su tarifa desde la 6ª movilización del mes. Lump Sum: sin descuento en la evaluación principal. Ecotransur: desde la 6ª solo cobra equipos.",
-    "Un mes sin poder mover con el contrato vigente paga el cargo fijo completo (Petro Star 161 k, Ecotransur 226 k). El fin de la campaña termina el contrato y no genera cobro.",
+    "Un mes sin poder mover con el contrato vigente paga el cargo fijo completo más el Truck Manager (Petro Star 177 k, Ecotransur 243 k). El fin de la campaña termina el contrato y no genera cobro.",
     "Adicionales en 0 % en ambos modelos (se cancelan). TRM fija en 3.700. Sin IVA.",
     "Las campañas reales de 2024 y 2025 se repiten movilización por movilización con las tarifas de julio de 2026 y las horas reales del log.",
 ]
@@ -331,7 +331,7 @@ head("5. VENTAJAS Y DESVENTAJAS DE CADA MODELO")
 pc = [("Costo por movilización", "Más alto por movilización.", "Más bajo por movilización si el mes llega a 5–6 movilizaciones."),
       ("Demoras en la movilización", "Las absorbe el contratista: la tarifa tiene tope.", "Las paga SierraCol: taladro + equipos ≈ 2.813 USD por hora."),
       ("Meses con pocas movilizaciones", "Sin costo fijo: se paga solo lo que se mueve.", "Cargo fijo de nómina y equipos hasta la 4ª (Ecotransur) o 5ª (Petro Star) movilización."),
-      ("Bloqueos sociales o problemas operativos", "Sin costo adicional.", "Pagan taladro y equipos; un mes sin mover cuesta 161–226 k."),
+      ("Bloqueos sociales o problemas operativos", "Sin costo adicional.", "Pagan taladro y equipos; un mes sin mover cuesta 177–243 k."),
       ("Gestión", "Un solo contratista responde por todo.", "Dos contratistas: coordinación taladro–transportador, HSE, pólizas y disponibilidad a cargo de SierraCol."),
       ("Control y flexibilidad", "Menos control directo sobre el transportador.", "Más control sobre flota y tiempos; puede negociar topes y penalidades."),
       ("Previsibilidad del presupuesto", "Alta: costo cerrado por movilización.", "Baja: depende de la frecuencia mensual y de cumplir los tiempos.")]

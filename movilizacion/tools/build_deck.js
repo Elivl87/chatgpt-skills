@@ -144,7 +144,7 @@ const cols = [pick(5, "Petro Star normal"), pick(6, "Petro Star normal"), pick(5
 s.addTable(tq, { x: 0.6, y: 1.4, w: 8.0, colW: [3.6, 1.1, 1.1, 1.1, 1.1], fontSize: 12, fontFace: "Calibri", color: HEX.ink, border: { type: "solid", pt: 0.5, color: HEX.grid }, rowH: 0.42, valign: "middle" });
 s.addText([
   { text: "Por qué: ", options: { bold: true } },
-  { text: "en el Work Order una demora, un bloqueo o un mes sin mover no cuesta nada. En el tercerizado cada hora sobre el tiempo cotizado cuesta unos 2.813 USD (taladro 1.456 + equipos y señalizadores 1.357) y un mes bloqueado paga el cargo fijo completo (Petro Star 161 k, Ecotransur 226 k)." },
+  { text: "en el Work Order una demora, un bloqueo o un mes sin mover no cuesta nada. En el tercerizado cada hora sobre el tiempo cotizado cuesta unos 2.813 USD (taladro 1.456 + equipos y señalizadores 1.357) y un mes bloqueado paga el cargo fijo y el Truck Manager (Petro Star 177 k, Ecotransur 243 k)." },
 ], { x: 0.6, y: 4.55, w: 8.0, h: 1.1, fontSize: 12, color: C.text2, valign: "top", margin: 0, isTextBox: true });
 card(s, 9.0, 1.4, 3.7, 4.3, HEX.ink);
 s.addText([

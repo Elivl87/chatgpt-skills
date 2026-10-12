@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from modelo import BASE, campana, proyeccion, con
 from logs import leer
 
-HB = round(22.25 * 35 / 45, 1)  # horas de bloqueo social/escolar en movilización (OpenWells 2025), escaladas a 35 pozos
+HB = 22.25 * 35 / 45  # horas de bloqueo social/escolar en movilización (OpenWells 2025), escaladas a 35 pozos
 BASE = con(BASE, horas_bloqueo=HB)
 
 OF = {"PS": "Petro Star normal", "LS": "Petro Star Lump Sum", "EC": "Ecotransur"}
@@ -32,7 +32,7 @@ def tornado(frec):
         ("Sobretiempo en cada movilización (solo taladro)", "Medido (logs)", "0 h", "0 h", "+3,5 h", lambda: b, lambda: ahorro(con(BASE, horas_extra=[3.5] * 4), frec)),
         ("Horas por encima del tiempo estipulado (taladro + equipos)", "Medido (logs)", "0 h", "0 h", "+2 h sobre 12/24/36/36", lambda: b,
          lambda: ahorro(con(BASE, horas=[14, 26, 38, 38]), frec)),
-        ("Bloqueo social/escolar durante movilizaciones (h por campaña)", "Medido (OpenWells 2025)", f"{HB:g} h", "0 h", f"{2*HB:g} h (el doble)", lambda: ahorro(con(BASE, horas_bloqueo=0), frec), lambda: ahorro(con(BASE, horas_bloqueo=2 * HB), frec)),
+        ("Bloqueo social/escolar durante movilizaciones (h por campaña)", "Medido (OpenWells 2025)", f"{HB:.1f} h".replace(".", ","), "0 h", f"{2*HB:.1f} h (el doble)".replace(".", ","), lambda: ahorro(con(BASE, horas_bloqueo=0), frec), lambda: ahorro(con(BASE, horas_bloqueo=2 * HB), frec)),
         ("Meses bloqueados (contrato vigente)", "Riesgo operativo", "0", "0", "1 mes", lambda: b, lambda: ahorro(con(BASE, meses_bloqueados=1), frec)),
         ("Tarifa WO en movilizaciones lentas (bajo el tope)", "Premisa SierraCol (tope)", "tope", "tope", "−5 % al WO", lambda: b, lambda: ahorro(con(BASE, bono_wo=-0.05), frec)),
         ("NPT de perforación (baja la frecuencia)", "Sin dato: barrido", "0 %", "0 %", "20 %", lambda: b, lambda: ahorro(frec=frec * 0.8)),
@@ -67,7 +67,7 @@ def quiebres():
     for f in (5, 6):
         b = ahorro(frec=f); p = BASE
         for o in ("PS", "EC"):
-            S = b[o]; fijo0 = (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"]
+            S = b[o]; fijo0 = (p["fijo_ec_cop"] if o == "EC" else p["fijo_ps_cop"])[0] / p["trm"] + (p["tm_cop_mes"] / p["trm"] if p["tm_modo"] == "mensual" else 0)
             out.append([f, OF[o], S, S / 35, S / 35 / 600000, S / (35 * 1456), S / (35 * (1456 + EQH(p))), S / 34944, S / fijo0, S / (1456 + EQH(p))])
     return out
 
@@ -106,7 +106,8 @@ if __name__ == "__main__":
     for f in (5, 6):
         b, rows = tornado(f); res[str(f)] = {"base": b, "rows": rows}
     res["frecuencias"] = frecuencias(); res["quiebres"] = quiebres(); res["reales"] = reales(); res["pendientes"] = pendientes()
-    res["mes_bloqueado_usd"] = {"PS": BASE["fijo_ps_cop"][0] / BASE["trm"], "EC": BASE["fijo_ec_cop"][0] / BASE["trm"]}
+    TMm = BASE["tm_cop_mes"] / BASE["trm"] if BASE["tm_modo"] == "mensual" else 0
+    res["mes_bloqueado_usd"] = {"PS": BASE["fijo_ps_cop"][0] / BASE["trm"] + TMm, "EC": BASE["fijo_ec_cop"][0] / BASE["trm"] + TMm}
     res["horas_bloqueo"] = HB
     res["hora_exceso_usd"] = {"transportador": EQH(BASE), "taladro": 1456.0, "total": EQH(BASE) + 1456}
     json.dump(res, open(sys.argv[1], "w"), indent=1, ensure_ascii=False, default=float)

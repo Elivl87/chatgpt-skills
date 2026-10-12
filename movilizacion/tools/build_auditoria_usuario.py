@@ -120,7 +120,7 @@ CM = [
     ("Ecotransur y Lump Sum en la sensibilidad", "No", "Sí", ""),
     ("Lump Sum sin descuento como caso principal", "No (50 %)", "Sí", ""),
     ("Tope del WO (tarifa máxima, con piso si tarda más)", "No explícito", "Sí", "El WO está acotado; el tercerizado no."),
-    ("Meses bloqueados con contrato vigente", "No", "Sí", "160–226 k por mes."),
+    ("Meses bloqueados con contrato vigente", "No", "Sí", "177–243 k por mes con el Truck Manager."),
     ("Precios del Lump Sum del Excel vs Cot. 1255", "No", "Sí", "+0,44 M al LS si se usara la cotización."),
     ("Horas cotizadas por Petro Star (24 h en 0,1–5 km) vs 18 h del Excel", "Parcial (rango 15–21 h)", "Sí", "−0,17 M."),
     ("Ahorro por pozo y % del costo del pozo", "No", "Sí", "0,7–3 % de un pozo de 550–650 k (campaña de 35 pozos ≈ 21 M USD)."),
