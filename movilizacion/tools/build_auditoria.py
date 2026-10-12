@@ -57,7 +57,9 @@ for c, w in zip("ABCDEF", [2, 34, 26, 14, 14, 70]): v.column_dimensions[c].width
 v["B1"] = "Auditoría de la evaluación previa (Zona 2 de Tarifas.xlsx)"; v["B1"].font = TITLE
 v["B2"] = ("Se auditó después de construir el modelo propio. Cada fórmula de la Zona 2 se recalculó: la aritmética cuadra al centavo; los problemas están en supuestos, bases y textos. "
            "Veredicto: CONSERVAR / CORREGIR / DESCARTAR. Detalle con evidencia por celda en la hoja 'Detalle'.")
-v["B2"].font = NOTE; v.merge_cells("B2:F2"); v["B2"].alignment = WR; v.row_dimensions[2].height = 30
+v["B2"].font = NOTE; v.merge_cells("B2:F2")
+v["B3"] = "Nota: las cifras propias de esta auditoría se calcularon con las premisas de la Zona 2 (Truck Manager por movilización, sin bloqueos, perfil 2024) para poder compararlas con ella. Los resultados vigentes del ejercicio están en Simulador_Movilizacion_GRS110.xlsx, hoja Resumen."
+v["B3"].font = NOTE; v.merge_cells("B3:F3"); v["B3"].alignment = WR; v.row_dimensions[3].height = 28; v["B2"].alignment = WR; v.row_dimensions[2].height = 30
 hdr = ["Sección", "Celdas", "¿Bien hecha?", "¿Sirve?", "Veredicto y por qué"]
 for i, h in enumerate(hdr):
     c = v.cell(4, 2 + i, h); c.font = B; c.fill = F_H2; c.border = BOX

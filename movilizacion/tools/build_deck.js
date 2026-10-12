@@ -55,8 +55,8 @@ s.addChart(pres.charts.BAR, [
   showValue: true, dataLabelPosition: "outEnd", dataLabelFontSize: 10, dataLabelColor: HEX.mute, dataLabelFontFace: "+mn-lt",
   catAxisLabelColor: HEX.mute, catAxisLabelFontSize: 10, catAxisLabelFontFace: "+mn-lt", valAxisHidden: true, valGridLine: { style: "none" }, catGridLine: { style: "none" } });
 const stats = [
-  ["0,7–3 %", "del costo de la campaña", "Ahorro de la campaña de 35 pozos (~21 M USD): 0,15–0,59 M, es decir 4–17 k USD por pozo (pozo de 550–650 k)"],
-  ["1,5 h", "de más por movilización", "sobre el tiempo cotizado borran el ahorro de Petro Star con 5 movs/mes; con 6, unas 5 h (taladro + equipos)"],
+  [PEND.kpi.pct, "del costo de la campaña", PEND.kpi.rango],
+  [PEND.kpi.h5, "de más por movilización", `sobre el tiempo cotizado borran el ahorro de Petro Star con 5 movs/mes; con 6, unas ${PEND.kpi.h6} h (taladro + equipos)`],
   ["No cruza", "con los precios del Excel", "Petro Star Lump Sum sin descuento. Con los precios de la cotización 1255 sí cruzaría: pendiente de Compras (SCM)"],
 ];
 stats.forEach((t, i) => {
@@ -66,7 +66,7 @@ stats.forEach((t, i) => {
   s.addText([{ text: t[1], options: { bold: true, fontSize: 14, breakLine: true } }, { text: t[2], options: { fontSize: 12, color: C.text2 } }],
     { x: 9.5, y: y + 0.12, w: 3.05, h: 1.18, valign: "middle", color: C.text1, margin: 0, isTextBox: true });
 });
-s.addText("Campaña 15 + 20 pozos (0,1–5 km), 5–6 movs/mes, TRM 3.700 y 17,3 h de bloqueo social medido (OpenWells 2025). Con 4 movs/mes Petro Star pierde. Logs: 2024 tuvo 6 o más en 9 de 11 meses; 2025, en 4 de 9.",
+s.addText("Campaña 15 + 20 pozos (0,1–5 km), 5–6 movs/mes, TRM 3.700, Truck Manager mensual y 17,3 h de bloqueo social medido (OpenWells 2025). Con 4 movs/mes Petro Star pierde. Logs: 2024 tuvo 6 o más en 9 de 11 meses; 2025, en 4 de 9.",
   { x: 7.3, y: 6.33, w: 5.4, h: 0.6, fontSize: 10.5, italic: true, color: C.text2, margin: 0, isTextBox: true });
 s.addNotes("Frontera calculada con el simulador (hoja Simulador, sección 6, y campaña con frecuencia constante). Los umbrales salen de Cot. 1255 p. 2 y p. 4 y de la carta de Ecotransur p. 2–4.");
 

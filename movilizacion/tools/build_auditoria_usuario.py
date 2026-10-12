@@ -51,10 +51,10 @@ for i, t in enumerate(txt):
 r = 10
 ws.merge_cells(f"B{r}:F{r}"); c = ws[f"B{r}"]; c.value = "TU NÚMERO, REPRODUCIDO Y CORREGIDO (USD, ahorro frente al WO; + = tercerizado más barato)"; c.font = H1; c.fill = F_H1
 rows = [
-    ("Proyectada 35 pozos · 6 movs/mes · Petro Star normal (Resumen E25, 'caso base')", 633333, 570244, 524279, "5.5 usa meses fraccionarios; 6/mes en meses enteros = 5 meses de 6 + 1 de 5 (paga cargo fijo). Mi número incluye 17,3 h de bloqueo social y TM por movilización."),
-    ("Proyectada 35 pozos · 6 movs/mes · Ecotransur (Resumen H25)", 645791, 633169, 587204, "Mismo motivo."),
-    ("Proyectada · 5 movs/mes · Petro Star normal (Resumen E24)", 180835, 180835, 151087, "A 5/mes los meses son enteros: tu número es correcto. El mío resta el bloqueo social medido."),
-    ("Proyectada · 5 movs/mes · Ecotransur (Resumen H24)", 539203, 539203, 509454, "Ídem."),
+    ("Proyectada 35 pozos · 6 movs/mes · Petro Star normal (Resumen E25, 'caso base')", 633333, 570244, 521576, "5.5 usa meses fraccionarios; 6/mes en meses enteros = 5 meses de 6 + 1 de 5 (paga cargo fijo). Mi número incluye además 17,3 h de bloqueo social medido; Truck Manager mensual en ambos."),
+    ("Proyectada 35 pozos · 6 movs/mes · Ecotransur (Resumen H25)", 645791, 633169, 584501, "Mismo motivo."),
+    ("Proyectada · 5 movs/mes · Petro Star normal (Resumen E24)", 180835, 180835, 132168, "A 5/mes los meses son enteros: tu número es correcto. El mío resta además el bloqueo social medido (17,3 h)."),
+    ("Proyectada · 5 movs/mes · Ecotransur (Resumen H24)", 539203, 539203, 490535, "Ídem (Ecotransur no tiene cargo fijo con 5)."),
     ("Supuestos · caso base del tornado (6/mes, NPT 8 %, bloqueo 12 h) · Petro Star (T31)", 414014, 305587, None, "Mismas premisas en meses enteros: −108 k. El NPT 8 % no tiene fuente en el archivo."),
     ("Supuestos · 'Movilizaciones mínimo' (5/mes con NPT 8 %) · Petro Star (T34)", 76244, 25743, None, "Interpolar la nómina entre 4 y 5 movs suaviza un escalón real."),
     ("Supuestos · 'Movilizaciones máximo' (7/mes con NPT 8 %) · Petro Star (T35)", 667402, 567675, None, ""),
