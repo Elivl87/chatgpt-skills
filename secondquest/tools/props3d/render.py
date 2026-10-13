@@ -652,15 +652,17 @@ FRIEND_VIEWS = {'34': (30, 6), 'front': (0, 4), 'side': (90, 4), 'back': (180, 6
 
 def friend_span(who, pose):
     """Height in cm covered by the canvas (h px) for this pose: px per cm = h / span."""
-    return FRIENDS[who][1] * {'sit': 1.06, 'cheer': 1.38}.get(pose, 1.12)
+    return FRIENDS[who][1] * {'sit': 1.06, 'sitflat': 1.06, 'cheer': 1.38}.get(pose, 1.12)
 
 
 def friend_render(who, view='34', expr='neutral', pose='stand', w=None, h=1500, line=4.4):
     """One friend, one view/expression/pose, transparent RGBA at w x h (the figure fills ~88 % of the height)."""
     prop, tall = FRIENDS[who]
     yaw, elev = FRIEND_VIEWS[view]
-    w = w or (1700 if pose == 'point' else 1150 if pose in ('cheer', 'phone') else 1000)   # room for reaching arms
-    sit = pose == 'sit'
+    if pose == 'sitflat':
+        elev += 12                                                      # legs out: see the lap from a little above
+    w = w or (1700 if pose == 'point' else 1500 if pose == 'sitflat' else 1150 if pose in ('cheer', 'phone') else 1000)   # room for reaching arms / legs
+    sit = pose in ('sit', 'sitflat')
     ty = tall * (.16 if sit else .62 if pose == 'cheer' else .5)       # seated: the seat is y = 0
     span = friend_span(who, pose)
     fov = 26
@@ -788,7 +790,163 @@ def job_friends_sheet():
     cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 88])
     print(out.relative_to(ROOT))
 
-JOBS = {'friends': job_friends, 'friends_sheet': job_friends_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+
+# ---- friends extras (Producer, 2026-10-13): lip-flap + blink frames, legs-flat sit, layers inside the rowboat.
+# New files only; the v1 cut-outs and jobs above are unchanged.
+FRIEND_FRAMES = ['m0', 'm1', 'm2', 'blink']                              # mouth closed / mid / open, eyes closed
+
+
+def friend_talk_jobs():
+    """(file, who, view, expr, pose): <base>_<m0|m1|m2|blink>.png for the standing 3/4 + front faces, the seated 3/4 faces,
+    seated front neutral and legs-flat 3/4 neutral + laugh. <base> is the v1 cut-out name the frame belongs to."""
+    out = []
+    for who in FRIENDS:
+        bases = [(f'{who}_{v}_{e}', v, e, 'stand') for v in ('34', 'front') for e in FRIEND_EXPRS]
+        bases += [(f'{who}_sit_34_{e}', '34', e, 'sit') for e in FRIEND_EXPRS] + [(f'{who}_sit_front_neutral', 'front', 'neutral', 'sit')]
+        bases += [(f'{who}_sitflat_34_{e}', '34', e, 'sitflat') for e in ('neutral', 'laugh')]
+        out += [(f'{b}_{fr}', who, v, f'{e}+{fr}', p) for b, v, e, p in bases for fr in FRIEND_FRAMES]
+    return out
+
+
+def friend_sitflat_jobs():
+    return [(f'{who}_sitflat_{v}_{e}', who, v, e, 'sitflat') for who in FRIENDS
+            for v, e in [('34', x) for x in FRIEND_EXPRS] + [('front', 'neutral'), ('side', 'neutral'), ('side', 'laugh')]]
+
+
+def run_friend_jobs(jobs, label):
+    import os, time
+    OUT3.mkdir(parents=True, exist_ok=True)
+    only = [n for n in os.environ.get('FRIENDS_ONLY', '').split(',') if n]
+    jobs = [j for j in jobs if not only or j[0] in only]
+    t0 = time.time()
+
+    def run(j):
+        name, who, view, expr, pose = j
+        cv2.imwrite(str(OUT3 / f'{name}.png'), crop_alpha(friend_render(who, view, expr, pose), pad=10))
+        return name
+    with ThreadPoolExecutor(4) as ex:
+        for n in ex.map(run, jobs):
+            print(f'{n}.png')
+    print(f'{label}: {len(jobs)} cut-outs in {time.time() - t0:.0f} s')
+
+
+def job_friends_talk():
+    """Lip-flap and blink frames: <v1 name>_m0 (closed) / _m1 (mid) / _m2 (open) / _blink (lids shut). Same canvas, camera
+    and crop rule as the v1 cut-out, so a frame swaps in place of its base (the crop box can differ by a few px: align by
+    the bottom centre)."""
+    run_friend_jobs(friend_talk_jobs(), 'friends_talk')
+
+
+def job_friends_sitflat():
+    """Legs-flat sit (on a dock or floor), hands planted beside the hips: <who>_sitflat_<34|front|side>_<expr>.png.
+    As in 'sit', the model's y = 0 is the seat (underside of the thighs)."""
+    run_friend_jobs(friend_sitflat_jobs(), 'friends_sitflat')
+
+
+# Inside the rowboat: the camera of rowboat_side (EP3) on a taller canvas with the same focal length in px, so the
+# boat keeps its exact size and the friends' heads fit above it. Layers share one crop box:
+#   rowboat_side_back_tall.png  (far side + interior)  <  boat_<who>_<expr>.png (one friend)  <  rowboat_side_front_tall.png
+BOAT_H = 1500
+BOAT_SEATS = {'max': ([-9, 27.4, 0, .6], 'mid'), 'leo': ([75, 29.2, 0, -.6], 'fwd')}   # [x, seat y, z, yaw]: facing each other, turned to camera
+BOAT_EXPRS = ['neutral', 'laugh', 'sideeye', 'shock']
+
+
+def boat_shot(**extra):
+    _, tgt, cam, fov, w, h, line = EP3['rowboat_side']
+    d = float(np.linalg.norm(np.subtract(cam, tgt)))
+    fov2 = float(np.degrees(2 * np.arctan(np.tan(np.radians(fov / 2)) * BOAT_H / h)))
+    return {'camera': cam, 'target': tgt, 'fov': fov2, 'cart': None, 'near': d * .3, 'far': d * 3, **extra}, w, line
+
+
+def boat_render(props, **extra):
+    shot, w, line = boat_shot(**extra)
+    for _ in range(3):
+        img = render({'props': props, 'shots': [shot], 'light': 'neutral'}, w, BOAT_H, line=line, despeckle=34)[0]
+        if img[..., 3].any() and not img[[0, -1]][:, [0, -1], 3].all():
+            return img
+    raise RuntimeError(f'boat layer {props} {extra} rendered empty')
+
+
+def job_friends_boat():
+    """Max and Leo seated inside the rowboat, side view, as layers that sandwich between the boat halves:
+    rowboat_side_back_tall.png, boat_<who>_<expr>[_<m0|m1|m2|blink>].png, rowboat_side_front_tall.png, all the same size
+    (one crop box), plus boat_layers.json (box, px per cm, seats). The tall halves are the rowboat_side_back/front boat
+    at the same scale with headroom on top: same width and bottom edge (+-1 px), taller by 'extra_top_px'."""
+    import time
+    t0 = time.time()
+    OUT3.mkdir(parents=True, exist_ok=True)
+    jobs = [('rowboat_side_back_tall', ['rowboat'], {'boat': 'back'}), ('rowboat_side_front_tall', ['rowboat'], {'boat': 'front'}),
+            ('_full', ['rowboat'], {})]
+    for who, (at, _) in BOAT_SEATS.items():
+        for e in BOAT_EXPRS:
+            for fr in [''] + FRIEND_FRAMES:
+                jobs.append((f'boat_{who}_{e}' + (f'_{fr}' if fr else ''), [FRIENDS[who][0]], {who: {'pose': 'sit', 'expr': e + (f'+{fr}' if fr else ''), 'at': at}}))
+    with ThreadPoolExecutor(4) as ex:
+        imgs = list(ex.map(lambda j: boat_render(j[1], **j[2]), jobs))
+    full = imgs[2]
+    y0b, y1, x0, x1 = alpha_box(full)
+    tops = [alpha_box(im)[0] for im in imgs[3:]]
+    y0 = min([y0b] + tops)
+    for (name, _, _), im in zip(jobs, imgs):
+        if name == '_full':
+            continue
+        lay = im[y0:y1, x0:x1]
+        cv2.imwrite(str(OUT3 / f'{name}.png'), lay)
+        print(f'{name}.png', lay.shape[:2])
+    _, tgt, cam, fov, w, h, line = EP3['rowboat_side']
+    pxcm = BOAT_H / 2 / np.tan(np.radians(boat_shot()[0]['fov'] / 2)) / float(np.linalg.norm(np.subtract(cam, tgt)))
+    meta = {'size': [int(x1 - x0), int(y1 - y0)], 'extra_top_px': int(y0b - y0), 'px_per_cm_at_boat_centre': round(float(pxcm), 3),
+            'seats': {who: {'thwart': s, 'at': a} for who, (a, s) in BOAT_SEATS.items()},
+            'order': ['rowboat_side_back_tall', 'boat_max_*', 'boat_leo_*', '2D crew', 'rowboat_side_front_tall'],
+            'note': 'all layers share one crop box; stack them at the same position. Same boat scale as rowboat_side_*.png.'}
+    (OUT3 / 'boat_layers.json').write_text(json.dumps(meta, indent=1))
+    print('boat_layers.json', meta['size'], f'extra_top_px={meta["extra_top_px"]}', f'{len(jobs)} renders in {time.time() - t0:.0f} s')
+
+
+def job_friends_extras_sheet():
+    """Review sheet docs/ep003/characters/FRIENDS_MAX_LEO_v1_extras.jpg: lip-flap + blink frames, legs-flat sit and the
+    boat sandwich (back + Max + Leo + front)."""
+    BG, INKC = (238, 236, 232), (40, 34, 30)
+    rd = lambda n: cv2.imread(str(OUT3 / f'{n}.png'), cv2.IMREAD_UNCHANGED)
+
+    def over(c, im, x, y, k):
+        im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA); ih, iw = im.shape[:2]
+        a = im[..., 3:] / 255.0; reg = c[y:y + ih, x:x + iw]
+        c[y:y + ih, x:x + iw] = (im[..., :3] * a + reg * (1 - a)).astype(np.uint8)
+
+    def text(c, s, x, y, sc=.9, th=1):
+        cv2.putText(c, s, (x, y), cv2.FONT_HERSHEY_DUPLEX, sc, INKC, th, cv2.LINE_AA)
+    W = 3000
+    rows = []
+    r = np.full((90, W, 3), BG, np.uint8); text(r, 'MAX & LEO v1 extras - lip-flap / blink, legs-flat sit, inside the rowboat', 40, 62, 1.5, 3); rows.append(r)
+    for who in FRIENDS:                                                  # talk frames, head crops
+        r = np.full((470, W, 3), BG, np.uint8)
+        text(r, f'{who}: 3/4 frames  m0 / m1 / m2 / blink  (neutral, laugh, shock)', 40, 40)
+        x = 40
+        for e in ('neutral', 'laugh', 'shock'):
+            for fr in FRIEND_FRAMES:
+                im = rd(f'{who}_34_{e}_{fr}'); im = im[:int(im.shape[0] * .34)]
+                k = 400 / im.shape[0]; over(r, im, x, 55, k); x += int(im.shape[1] * k) + 18
+            x += 50
+        rows.append(r)
+    r = np.full((620, W, 3), BG, np.uint8); text(r, 'legs-flat sit (dock / floor): 3/4, front, side', 40, 40)
+    x = 40
+    for who in FRIENDS:
+        for n in (f'{who}_sitflat_34_neutral', f'{who}_sitflat_front_neutral', f'{who}_sitflat_side_laugh'):
+            im = rd(n); k = 3.4 * friend_span(who, 'sitflat') / 1500; over(r, im, x, 600 - int(im.shape[0] * k), k); x += int(im.shape[1] * k) + 40
+    rows.append(r)
+    back, front = rd('rowboat_side_back_tall'), rd('rowboat_side_front_tall')
+    k = (W - 80) / 2 / back.shape[1]
+    r = np.full((int(back.shape[0] * k) + 70, W, 3), BG, np.uint8); text(r, 'inside the rowboat: back_tall + boat_max_* + boat_leo_* + front_tall  (left: neutral, right: laugh / sideeye)', 40, 40)
+    for i, (em, el) in enumerate((('neutral', 'neutral'), ('laugh', 'sideeye'))):
+        for lay in (back, rd(f'boat_max_{em}'), rd(f'boat_leo_{el}'), front):
+            over(r, lay, 40 + i * int(back.shape[1] * k + 0), 60, k)
+    rows.append(r)
+    out = ROOT / 'docs/ep003/characters/FRIENDS_MAX_LEO_v1_extras.jpg'
+    cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 88])
+    print(out.relative_to(ROOT))
+
+JOBS = {'friends': job_friends, 'friends_sheet': job_friends_sheet, 'friends_talk': job_friends_talk, 'friends_sitflat': job_friends_sitflat, 'friends_boat': job_friends_boat, 'friends_extras_sheet': job_friends_extras_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 

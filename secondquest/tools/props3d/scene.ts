@@ -2281,7 +2281,7 @@ const outboardOnBoat = () => { const o = outboard(); o.position.set(-153.5, 50, 
 /** shot.max / shot.leo: pose, expression and an optional placement [x, y, z, yaw] (e.g. on a rowboat thwart). */
 interface FriendShot { expr?: string; pose?: string; at?: [number, number, number, number] }
 interface FriendFace { lid?: number; low?: number; tilt?: number; look?: [number, number]; goofy?: number; eye?: number; pupil?: number;
-  mouth?: 'smile' | 'flat' | 'grin' | 'open' | 'o' | 'wobble'; sweat?: boolean; nod?: number }
+  mouth?: 'smile' | 'flat' | 'grin' | 'open' | 'o' | 'wobble'; sweat?: boolean; nod?: number; talk?: number }
 interface WormSpec {
   base: number; hipY: number; torso: [number, number, number][]; waist: number; bibTop: number;
   headL: number; headR: number; neckR: number; zs: number; bend: number; lean: number; eyeR: number; eyeY: number; eyeX: number;
@@ -2291,7 +2291,7 @@ interface WormSpec {
   skin: string; lidSkin: string; shirt: string; pants: string; boot: string; sole: string;
   outfit: 'overalls' | 'apron'; hat?: 'beanie'; faces: Record<string, FriendFace>;
 }
-const WORM_POSES = ['stand', 'sit', 'point', 'cheer', 'phone'] as const;
+const WORM_POSES = ['stand', 'sit', 'sitflat', 'point', 'cheer', 'phone'] as const;
 // seated knees-up (a rowboat thwart is ~22 cm above the floorboards): thighs rise ~39 deg, shins near vertical
 const SIT_HIP = -2.25, SIT_KNEE = 2.12;
 
@@ -2404,7 +2404,8 @@ const worm = (S: WormSpec) => {
     const glint = add(head, mesh(new THREE.SphereGeometry(.2, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff }), id(5)));
     const lid = add(head, mesh(new THREE.SphereGeometry(1, 28, 14), M.lid, id(6)));
     const low = add(head, mesh(new THREE.SphereGeometry(1, 28, 14), M.lid, id(6)));
-    return { sd, c, n, ball, pup, glint, lid, low };
+    const lash = add(head, mesh(new THREE.BufferGeometry(), M.mouth, id(41)));
+    return { sd, c, n, ball, pup, glint, lid, low, lash };
   });
   const sweat = add(head, lathe(range(0, 1, 10).map((t) => [Math.max(1e-3, 1.25 * Math.sin(Math.PI * t) ** 1.3 * (t < .5 ? 1 : 1 - (t - .5) * .55)), 3.6 * t] as [number, number]), 14, M.sweat, id(9)));
   { const p = headPt(1.12, S.eyeY + S.eyeR * .35, .8); sweat.position.copy(p); sweat.rotation.z = .35; sweat.scale.setScalar(1.45); }
@@ -2423,24 +2424,40 @@ const worm = (S: WormSpec) => {
     mouthGrp.add(tube(pts, r, M.mouth, id(7), 48, 8));
     for (const p of [pts[0], pts[pts.length - 1]]) mouthGrp.add(at(mesh(new THREE.SphereGeometry(r, 10, 8), M.mouth, id(7)), p.x, p.y, p.z));
   };
-  const setMouth = (kind: string) => {
+  /** An open mouth: dark lens with optional upper teeth and tongue; k = corner lift (smile), lift = top line height. */
+  const openMouth = (w: number, h: number, k: number, lift: number, teeth: boolean, tongue: boolean) => {
+    const top = (u: number) => k * u * u + lift, bot = (u: number) => top(u) - h * Math.pow(Math.max(0, 1 - u * u), .75);
+    mouthGrp.add(lens(w, top, bot, .22, M.mouth, id(7)));
+    if (teeth) {
+      const tH = (u: number) => Math.min(h * .26, (top(u) - bot(u)) * .55);
+      mouthGrp.add(lens(w, (u) => top(u) - .12, (u) => top(u) - .12 - tH(u), .42, M.teeth, id(8), -.84, .84));
+    }
+    if (tongue) {
+      const tg = (u: number) => bot(u) + .12;
+      mouthGrp.add(lens(w, (u) => tg(u) + (top(u) - bot(u)) * .32 * Math.sqrt(Math.max(0, 1 - (u / .55) ** 2)), tg, .36, M.tongue, id(13), -.55, .55));
+    }
+  };
+  /** kind = the expression's mouth; talk (0 closed .. 1 open), when given, makes the lip-flap frames of that mouth. */
+  const setMouth = (kind: string, talk?: number) => {
     mouthGrp.children.forEach((c) => { const m = c as THREE.Mesh; m.geometry.dispose(); const i = ids.indexOf(m); if (i >= 0) ids.splice(i, 1); });
     mouthGrp.clear();
     const W = S.mouthW;
+    if (talk != null && kind !== 'o') {
+      if (talk < .15) {
+        if (kind === 'flat' || kind === 'wobble') return setMouth(kind);
+        return line(W * .66, (u) => .62 * u * u, .34);                   // closed: a smile line
+      }
+      return openMouth(W * (.8 + .35 * talk), W * (.12 + .62 * talk), kind === 'flat' || kind === 'wobble' ? .25 : .7, .25 + .25 * talk, talk > .35, talk > .55);
+    }
     if (kind === 'smile') line(W * .62, (u) => .55 * u * u, .34);
     else if (kind === 'flat') line(W * .5, (u) => .28 * u - .1, .32);
     else if (kind === 'wobble') line(W * .7, (u) => .32 * Math.sin(u * Math.PI * 2.5) - .25 * u * u, .32);
     else if (kind === 'o') {
-      const h = W * .42, w = W * .3;
+      const f = talk == null ? 1 : .45 + .75 * talk, h = W * .42 * f, w = W * .3 * (.7 + .3 * f);
       mouthGrp.add(lens(w, (u) => h / 2 * Math.sqrt(1 - u * u) - .4, (u) => -h / 2 * Math.sqrt(1 - u * u) - .4, .22, M.mouth, id(7)));
     } else {
-      const big = kind === 'open', w = W * (big ? 1.22 : 1), h = W * (big ? .82 : .42), k = big ? .6 : .95;
-      const top = (u: number) => k * u * u + (big ? .5 : .2), bot = (u: number) => top(u) - h * Math.pow(Math.max(0, 1 - u * u), .75);
-      mouthGrp.add(lens(w, top, bot, .22, M.mouth, id(7)));
-      const tH = (u: number) => Math.min(h * .26, (top(u) - bot(u)) * .55);
-      mouthGrp.add(lens(w, (u) => top(u) - .12, (u) => top(u) - .12 - tH(u), .42, M.teeth, id(8), -.84, .84));
-      const tg = (u: number) => bot(u) + .12;
-      mouthGrp.add(lens(w, (u) => tg(u) + (top(u) - bot(u)) * .32 * Math.sqrt(Math.max(0, 1 - (u / .55) ** 2)), tg, .36, M.tongue, id(13), -.55, .55));
+      const big = kind === 'open';
+      openMouth(W * (big ? 1.22 : 1), W * (big ? .82 : .42), big ? .6 : .95, big ? .5 : .2, true, true);
     }
   };
   // ---- arms: long, sleeved (Max) or short-sleeved tee over skin (Leo); mitten hands with a thumb; the index finger is
@@ -2522,31 +2539,33 @@ const worm = (S: WormSpec) => {
     chest.add(tube([l0, torsoPt(.62, yTop - 3, 1.2), ...pts.reverse().slice(1, -1), torsoPt(-.62, yTop - 3, 1.2), r0], .65, flat('#4a2e1c'), id(36), 80, 8));
     for (const p of [l0, r0]) chest.add(at(ellip(.9, [1, 1, .6], [0, 0, 0], toon('#c9c3b2'), id(34), 12), p.x, p.y, p.z));
   }
-  const setSkirt = (sit: boolean) => {
+  const setSkirt = (sit: boolean, lap = false) => {
     if (S.outfit !== 'apron') return;
     if (skirt) { chest.remove(skirt); skirt.geometry.dispose(); ids.splice(ids.indexOf(skirt), 1); }
     const yw = S.waist - .8, P0 = 1.05;
-    const path = [V(0, 0, 0), V(0, -10, .9), V(0, -22, 1.9), V(0, -34, 2.6)];
+    const zc = torsoPt(0, yw, 1).z, ly = S.legR + 1.7 - yw;               // lap: over the flat thighs to the knees
+    const path = lap ? [V(0, 0, 0), V(0, ly * .6 + .9, 1.4), V(0, ly + 1.1, 4), V(0, ly + 1, 14), V(0, ly + .8, 24), V(0, ly - 3.2, 33 - zc * .25)]
+      : [V(0, 0, 0), V(0, -10, .9), V(0, -22, 1.9), V(0, -34, 2.6)];
     const pc = new THREE.CatmullRomCurve3(path);
     const geo = grid(range(0, 1, 16), range(-P0, P0, 20), (s, phi) => {
       const top = torsoPt(phi, yw, .8 + .2 * Math.cos(phi)), d = pc.getPoint(s);
       return { p: V(top.x * (1 + .05 * s), top.y + d.y, top.z + d.z), c: 1 - .12 * s };
     });
-    orient(geo, (p) => V(0, sit ? .6 : 0, 1).add(V(p.x * .05, 0, 0)));
+    orient(geo, (p) => V(0, lap ? .8 : 0, lap ? .3 : 1).add(V(p.x * .05, 0, 0)));
     const m = new THREE.MeshToonMaterial({ color: new THREE.Color('#a4713d'), gradientMap: ramp, vertexColors: true, flatShading: true, side: THREE.DoubleSide });
     skirt = mesh(geo, m, id(37)); chest.add(skirt);
     skirt.visible = !sit;                                                     // seated knees-up: the skirt lies hidden in the lap
   };
   const apronPocket = S.outfit === 'apron' ? (() => { const g = new THREE.Group(); chest.add(g); return g; })() : null;
-  const setPocket = (sit: boolean) => {
+  const setPocket = (sit: boolean, lap = false) => {
     if (!apronPocket || !skirt) return;
     apronPocket.children.forEach((c) => { const m = c as THREE.Mesh; m.geometry.dispose(); ids.splice(ids.indexOf(m), 1); }); apronPocket.clear();
     // a patch pocket on the skirt: sample the skirt surface and lift it a little
     const pg = skirt.geometry as THREE.BufferGeometry, pp = pg.attributes.position, nn = pg.attributes.normal;
     const nv = 21, at_ = (i: number, j: number) => { const k = i * nv + j; return V(pp.getX(k), pp.getY(k), pp.getZ(k)).addScaledVector(V(nn.getX(k), nn.getY(k), nn.getZ(k)), .45); };
-    const [s0, s1] = sit ? [5, 10] : [4, 10];
+    const [s0, s1] = lap ? [8, 13] : sit ? [5, 10] : [4, 10];
     const geo = grid(range(s0, s1, s1 - s0), range(5, 15, 10), (i, j) => ({ p: at_(i, j) }));
-    orient(geo, (p) => V(0, sit ? .6 : 0, 1).add(V(p.x * .05, 0, 0)));
+    orient(geo, (p) => V(0, lap ? .8 : 0, lap ? .3 : 1).add(V(p.x * .05, 0, 0)));
     const m = new THREE.MeshToonMaterial({ color: new THREE.Color('#8f5f31'), gradientMap: ramp, flatShading: true, side: THREE.DoubleSide });
     apronPocket.add(mesh(geo, m, id(38))); apronPocket.visible = !sit;
   };
@@ -2576,12 +2595,29 @@ const worm = (S: WormSpec) => {
       E.low.geometry.dispose(); E.low.geometry = new THREE.SphereGeometry(er * 1.06, 28, 14, 0, TAU, Math.PI * (1 - Math.max(.02, low)), Math.PI * Math.max(.02, low));
       for (const l of [E.lid, E.low]) { l.position.copy(c); l.quaternion.setFromAxisAngle(V(0, 0, 1), -E.sd * (f.tilt ?? 0)); l.rotateX(.18); }
       E.pup.visible = E.glint.visible = lid < .62;
+      E.lash.visible = lid > .95;                                             // closed: a lash line across the lid
+      if (E.lash.visible) {
+        const th = Math.PI * .6, pts = range(-1.15, 1.15, 14).map((ph) => V(Math.sin(ph) * Math.sin(th), Math.cos(th), Math.cos(ph) * Math.sin(th)).multiplyScalar(er * 1.09).applyQuaternion(E.lid.quaternion).add(c));
+        E.lash.geometry.dispose(); E.lash.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 32, .3, 6, false);
+      }
     }
-    setMouth(f.mouth ?? 'smile');
+    setMouth(f.mouth ?? 'smile', f.talk);
     sweat.visible = !!f.sweat;
     head.rotation.x = S.lean + poseNod + (f.nod ?? 0);
   };
-  root.userData.setExpr = (e: string | FriendFace = 'neutral') => { face_ = typeof e === 'string' ? (S.faces[e] ?? {}) : e; applyExpr(); };
+  /** e = a face name, a name with modifiers ('neutral+blink', 'laugh+m1': m0 closed, m1 mid, m2 open mouth), or a FriendFace. */
+  root.userData.setExpr = (e: string | FriendFace = 'neutral') => {
+    if (typeof e !== 'string') face_ = e;
+    else {
+      const [base, ...mods] = e.split('+');
+      face_ = { ...(S.faces[base] ?? {}) };
+      for (const m of mods) {
+        if (m === 'blink') Object.assign(face_, { lid: 1, low: 0 });
+        else if (/^m[012]$/.test(m)) face_.talk = +m[1] / 2;
+      }
+    }
+    applyExpr();
+  };
 
   // ---- poses
   const rest = () => {
@@ -2599,6 +2635,10 @@ const worm = (S: WormSpec) => {
       chest.rotation.x = .1;
       for (const A of arms) { aim(A.sh, -A.sd * .08, -.8, .6); A.el.rotation.set(-.95, 0, 0); A.wr.rotation.set(-.2, 0, 0); }
       poseNod = .02;
+    } else if (name === 'sitflat') {                                        // on a dock or floor, legs out flat
+      for (const G of legs) { G.hip.rotation.set(-Math.PI / 2 + .04, 0, G.sd * .07); G.kn.rotation.set(-.04, 0, 0); }
+      chest.rotation.x = -.06;
+      for (const A of arms) { aim(A.sh, A.sd * .56, -.82, -.14); A.el.rotation.set(.12, 0, 0); A.wr.rotation.set(0, 0, A.sd * .35); }   // hands planted beside the hips
     } else if (name === 'point') {
       aim(AL.sh, .86, .16, .48); AL.el.rotation.set(-.05, 0, 0); AL.wr.rotation.set(0, 0, 0);
       AL.index.visible = true; AL.fing.scale.set(.56, .5, .82);
@@ -2615,11 +2655,11 @@ const worm = (S: WormSpec) => {
       phoneG.visible = true; phoneG.position.set(S.handR * .45, -S.handR * 1.25, S.handR * .6); phoneG.rotation.set(-1.45, .0, Math.PI / 2 + .1);
       chest.rotation.x = .1; poseNod = .38; poseLook = [-.9, .05];
     }
-    setSkirt(name === 'sit'); setPocket(name === 'sit');
+    setSkirt(name === 'sit', name === 'sitflat'); setPocket(name === 'sit', name === 'sitflat');
     applyExpr();
     // standing poses: soles on y = 0; seated: the seat (bottom of the thighs) on y = 0
     root.position.y = 0; root.updateMatrixWorld(true);
-    if (name === 'sit') root.position.y = -S.hipY + S.legR * 1.0;
+    if (name === 'sit' || name === 'sitflat') root.position.y = -S.hipY + S.legR * 1.0;
     else { let mn = Infinity; for (const G of legs) mn = Math.min(mn, new THREE.Box3().setFromObject(G.kn).min.y); root.position.y = -mn; }
   };
   root.userData.poses = WORM_POSES;
