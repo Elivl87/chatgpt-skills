@@ -180,16 +180,22 @@ newchannel/
 - Los archivos que se escriben en vivo (renders) no se suben hasta que terminan.
 - Medir antes de entregar (estilo, ritmo, loudness, hoja de contactos) evitó todos los reenvíos.
 
-## 11 · Estado actual (2026-10-13) y siguientes pasos
+## 11 · Estado actual (2026-10-13, sesión `claude/new-session-cc5o6w`) y siguientes pasos
 
-- Hecho: concepto A aprobado; investigación de herramientas (`secondquest/docs/research/2026-10-12_*`, sobre todo
-  `SCOUT_SYNTHESIS_v2.md` §3 y `github_scout_new_channel.md`).
-- En preparación (puede estar terminado al abrir la sesión nueva; revisar `newchannel/`):
-  1. `NAME_CHECK.md`: disponibilidad de Tiny Systems / Pequeños Sistemas y alternativas, con recomendación.
-  2. `brand/`: logo (el punto), wordmark (la "i" con el punto vivo), paleta de 3 tintas + papel, tipografías OFL,
-     icono, banner, expresiones de la mascota.
-  3. `pilot/`: 5 temas, uno recomendado, guion completo EN + ES-419.
-  4. `pilot/sim_test.mp4`: prueba de 20 s del estilo.
-- Pendiente del Productor: elegir el **nombre** y el **tema del piloto** (y aprobar su guion).
-- Después: elegir la voz del canal (Kokoro EN/ES, pruebas A/B al Productor antes de usarla), motivo sonoro, motor
-  común en `engine/`, piloto completo, Short, ES-419, crear el canal (lo hace el Productor) y publicar.
+- **Nombre elegido por el Productor:** **Ten Thousand Dots / Diez Mil Puntos** (@tenthousanddots, @diezmilpuntos).
+  "Tiny Systems" queda como lema: *Tiny systems, explained with dots.* / *Pequeños sistemas, explicados con puntos.*
+- **Rama de trabajo actual:** `claude/new-session-cc5o6w`.
+- Hecho:
+  - `NAME_CHECK.md`, `PRODUCER_DECISIONS.md`, `LICENSES.md`.
+  - `brand/`: paleta, Martian Mono + Space Grotesk (OFL), mascota con 12 expresiones, wordmarks EN (la mascota es el
+    punto final) y ES (punto de la "i" de "Mil"), icono, banners EN/ES, `brand_board.png`, generador en `brand/src/`
+    (`brandkit` dibuja la mascota para el motor).
+  - `pilot/`: `TOPICS.md` (recomendado: "Why do buses come in threes?"), `FACTS.md`, `SCRIPT_EN.md`, `SCRIPT_ES419.md`.
+  - `pilot/sim_test/`: prueba de 20 s (atasco fantasma). Lecciones: llenar el plano, mascota más grande, no abrir con 4 s
+    tranquilos.
+  - `voice/`: 7 voces EN + 5 ES de Kokoro (`VOICE_TESTS.md`, `AB_EN.mp3`, `AB_ES.mp3`); recomendadas EN G + ES D
+    (mezclas propias del canal, mismo "personaje"). Español con acento latinoamericano vía espeak-ng.
+- En curso: `pilot/thumbnails/` (3 miniaturas EN/ES).
+- **Pendiente del Productor:** elegir la voz; elegir el paquete del piloto (tema + guion + título + miniatura).
+- Después: motor común en `engine/`, simulación de autobuses (semilla con un racimo de 3 visible, ver FACTS #2), voz
+  con el guion bloqueado, animatic + `pacing_qc.py`, sonido, render, Short, ES-419, búsqueda de marca (USPTO/EUIPO/IMPI).

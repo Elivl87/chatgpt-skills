@@ -1,4 +1,4 @@
-# Tiny Systems / Pequeños Sistemas: reglas para Claude
+# Ten Thousand Dots / Diez Mil Puntos (antes "Tiny Systems"): reglas para Claude
 
 - Lee `newchannel/README.md` entero antes de trabajar: concepto, roles, herramientas, agentes, pipeline, estado.
 - **Responde al Productor (Eli) en español.**
