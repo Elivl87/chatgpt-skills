@@ -677,3 +677,12 @@
   −14.1 LUFS) with its extended line selection (l11–l15, l17–l19, l22–l23, l125 beyond the trailer plan) and the
   original Navi clips. Master delivered as draft Release `deliver-ep002-short-hf-v1`. Upload kit: title "The one
   thing Nintendo can't rebuild"; related video = EP002; not made for kids; AI disclosure per the standard.
+
+## Thumbnail v3 (2026-10-13)
+- Producer: change the EP002 thumbnail to a big-face reaction like EP001's tractor (pointing) or big amazement at the
+  ocarina, the sword and the Triforce. Credits: Producer approved "hasta 2 créditos" (quote was 3.0); spent **2.0**
+  (gpt_image_2_5 1k x4: A = pointing, B = astonishment; jobs cb765b6c, 4c720f29, 8572969b, 69e176e6). Balance after: 26.25.
+- Words set by `scripts/ep002-thumbs-v3.py` (EXCEPT YOU / NOT YOU. / YOU CHANGED for Test & Compare):
+  `docs/publish/EP002/thumbnails/v3/`.
+- Risk note: the generator drew the relics close to the game's designs (Triforce shape, winged hilt, a small
+  Triforce mark on the ocarina and the sword). Same category as the v2 thumbnail's relics; no Nintendo logo or text.
