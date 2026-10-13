@@ -35,7 +35,7 @@ sello "LUNES", "~5000 pasajeros/día", "6 buses", "cada 6 min", "ESPERA".
 > *(sin narración)*
 
 - **Visual:** el papel se limpia; se compone **Diez Mil Puntos**: la mascota salta de la fila y **aterriza como el
-  punto de la "i" de "Diez"**. Debajo, pequeño: *Pequeños sistemas, explicados con puntos.*
+  punto de la "i" de "Mil"**. Debajo, pequeño: *Pequeños sistemas, explicados con puntos.*
 - **Sonido:** sello del canal (3 notas) y **1 s de silencio**.
 
 ---
