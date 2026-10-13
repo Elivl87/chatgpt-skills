@@ -152,8 +152,8 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0.0" data-duration="42.735" data-fps="30" data-width="1280" data-height="720">
-      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="42.735" data-track-index="9" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0.0" data-duration="34.5" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="34.5" data-track-index="9" data-volume="1"></audio>
       <svg width="0" height="0" style="position: absolute">
         <filter id="wob" x="-8%" y="-30%" width="116%" height="160%" color-interpolation-filters="sRGB">
           <feTurbulence id="wobT" type="fractalNoise" baseFrequency="0.006 0.085" numOctaves="2" seed="7" result="n" />
@@ -162,7 +162,7 @@
       </svg>
 
       <!-- ================= THE WORLD (night lake; camera via per-layer parallax + tilt) ================= -->
-      <div id="world" class="full clip" data-start="0.0" data-duration="42.735" data-track-index="0">
+      <div id="world" class="full clip" data-start="0.0" data-duration="34.5" data-track-index="0">
         <div id="breath" class="full"><div id="shake" class="full">
           <div id="layers" class="full">
             <div id="L-sky" class="L"><div class="F">
@@ -250,7 +250,7 @@
       </div>
 
       <!-- ================= UI (not in the world) ================= -->
-      <div id="ui" class="full clip" data-start="0.0" data-duration="42.735" data-track-index="2">
+      <div id="ui" class="full clip" data-start="0.0" data-duration="34.5" data-track-index="2">
         <div id="dex">
           <div class="sqbox"></div>
           <div class="dia" style="left: -6px; top: -6px"></div><div class="dia" style="right: -6px; top: -6px"></div><div class="dia" style="left: -6px; bottom: -6px"></div><div class="dia" style="right: -6px; bottom: -6px"></div>
@@ -290,17 +290,17 @@
       const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
       // ---- every beat is a narration word (block-relative, resolved by build.py) ----
-      const DUR = 42.735;
-      const S1 = 0, S2 = 5.523, S3 = 14.276, S5 = 31.441;
+      const DUR = 34.5;
+      const S1 = 0, S2 = 5.32, S3 = 11.84, S5 = 24.92;
       const Q = {
-        so: 0.221, why: 0.921, did: 1.161, mil: 1.361, of: 1.661, ppl: 1.981, buy: 2.281, a: 2.621, fishing: 2.821, game: 3.101,
-        and: 3.481, not: 4.001, fishQ: 4.361,
-        nobody: 5.961, came: 7.541, fishDot: 8.701, l46: 9.701, thing: 11.561, say46: 12.621, loud: 13.401, l46end: 13.901,
-        how: 14.401, to: 14.521, fish47: 14.761, tutorial: 16.061, maybe: 17.461, is47: 17.981,
-        fishing48: 19.941, l49: 20.974, worst: 23.141,
-        i: 25.941, miss: 26.061, you: 26.341, without: 27.351, ever: 27.601, having: 28.161, sayIt: 29.141, it: 29.341, l50end: 29.643,
-        so51: 30.141, boat: 32.381, and51: 33.281, whyQ: 34.741, next51: 35.141, tell: 36.341, comments: 37.341,
-        maybe52: 38.721, quest: 39.561, l52end: 40.235,
+        so: 0.05, why: 0.87, did: 1.1, mil: 1.27, of: 1.56, ppl: 1.89, buy: 2.12, a: 2.39, fishing: 2.61, game: 2.86,
+        and: 3.26, not: 3.88, fishQ: 4.26,
+        nobody: 5.68, came: 6.98, fishDot: 7.74, l46: 8.5, thing: 10.0, say46: 10.48, loud: 10.98, l46end: 11.3,
+        how: 11.89, to: 12.0, fish47: 12.22, tutorial: 13.74, maybe: 14.94, is47: 15.32,
+        fishing48: 16.8, l49: 17.58, worst: 19.22,
+        i: 20.86, miss: 21.1, you: 21.36, without: 22.06, ever: 22.26, having: 22.7, sayIt: 23.27, it: 23.5, l50end: 23.74,
+        so51: 24.06, boat: 25.76, and51: 26.38, whyQ: 27.74, next51: 28.18, tell: 28.78, comments: 29.7,
+        maybe52: 30.46, quest: 31.68, l52end: 32.0,
       };
       const S4 = Q.l49 + .3;                      // the cut to the close-up happens under the blur of the chat box
 

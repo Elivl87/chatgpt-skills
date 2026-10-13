@@ -121,11 +121,11 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0.0" data-duration="37.765" data-fps="30" data-width="1280" data-height="720">
-      <audio id="vo" src="assets/narration_hook.wav" data-start="0.0" data-duration="37.765" data-track-index="9" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0.0" data-duration="36.01" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration_hook.wav" data-start="0.0" data-duration="36.01" data-track-index="9" data-volume="1"></audio>
 
       <!-- ================= THE WORLD (persistent lake, camera via per-layer parallax) ================= -->
-      <div id="world" class="full clip" data-start="0.0" data-duration="37.765" data-track-index="0">
+      <div id="world" class="full clip" data-start="0.0" data-duration="36.01" data-track-index="0">
         <div id="breath" class="full"><div id="shake" class="full">
           <div id="L-sky" class="L"><div class="F">
             <div class="sky"></div>
@@ -154,7 +154,7 @@
             </svg>
           </div></div>
           <div id="L-water" class="L"><div class="F">
-            <canvas id="water" width="1664" height="498"></canvas>
+            <div id="plateHost"></div>   <!-- the lake plate (new art v1) + its seek-driven water -->
           </div></div>
           <div id="L-fleet" class="L"><div class="F" id="fleet"></div></div>
           <div id="L-boat" class="L"><div class="F">
@@ -165,17 +165,9 @@
               <div id="boatBob"><div id="boatRock">
                 <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />   <!-- props v2: far side + interior behind the crew -->
                 <div id="crewClip">
-                  <div class="mate sil" id="silA" style="left: 432px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
-                    <svg viewBox="0 0 200 290"><path d="M48 290 C 44 200, 50 140, 70 118 C 82 106, 94 102, 100 102 C 106 102, 120 106, 132 118 C 152 140, 156 200, 152 290 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="101" cy="62" r="36" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M68 52 C 70 22, 124 16, 136 46 C 120 34, 88 34, 68 52 Z" fill="#5d5678" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg>
-                    <div class="arm" id="armA" style="left: 118px; top: 112px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="108" cy="14" r="11" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
-                  </div></div></div></div></div>
-                  <div class="mate sil" id="silB" style="left: 520px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
-                    <svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><g id="headB"><circle cx="100" cy="60" r="35" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M66 54 C 60 26, 92 10, 118 20 C 138 28, 140 46, 136 56 C 122 38, 90 36, 66 54 Z" fill="#655e86" stroke="#16161f" stroke-width="3" paint-order="stroke"/></g></svg>
-                    <div class="arm" id="armB" style="left: 124px; top: 110px; width: 92px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="108" cy="14" r="11" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
-                  </div></div></div></div></div>
                   <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /></div></div></div></div></div>
                   <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /></div></div></div></div></div>
-                  <div id="ko" class="abs" style="left: 600px; top: 110px; width: 120px; height: 60px"></div>
+                  <div id="ko" class="abs" style="left: 562px; top: 222px; width: 120px; height: 60px"></div>
                 </div>
                 <svg id="line" viewBox="-100 -350 840 520"><path id="linePath" d="M 417 -229 C 380 -150, 230 -175, 175 -95 C 170 -40, 260 -30, 380 -36 C 520 -44, 640 -60, 640 -20 C 640 20, 470 30, 330 24 C 200 18, 150 30, 170 50 C 200 80, 420 60, 560 70 C 650 76, 700 110, 690 160" fill="none" stroke="#f6efe0" stroke-width="2.2" stroke-linecap="round"/></svg>
                 <div id="rod"><img src="assets/rod.png" alt="" /></div>
@@ -191,12 +183,12 @@
       </div>
 
       <!-- ================= TITLE (l01) ================= -->
-      <div id="titleClip" class="full clip" data-start="1.768" data-duration="5.534" data-track-index="2">
+      <div id="titleClip" class="full clip" data-start="1.396" data-duration="5.151" data-track-index="2">
         <div id="title"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3">FISH</span></div>
       </div>
 
       <!-- ================= SLAP burst (l03) ================= -->
-      <div id="slapClip" class="full clip" data-start="11.208" data-duration="2.589" data-track-index="2">
+      <div id="slapClip" class="full clip" data-start="9.712" data-duration="1.628" data-track-index="2">
         <div id="slapBurst" data-hf-motion-blur='{"samplesPerFrame": 10}'>
           <svg viewBox="0 0 260 200"><polygon points="130,0 152,52 210,14 190,74 260,80 200,112 246,166 176,140 160,200 128,150 92,196 86,140 18,170 58,116 0,92 64,70 34,18 104,50" fill="#ffc83d" stroke="#16161f" stroke-width="6" stroke-linejoin="round"/></svg>
           <div class="t">SLAP!</div>
@@ -204,7 +196,7 @@
       </div>
 
       <!-- ================= INSERT: the fish money (l03) ================= -->
-      <div id="shotTable" class="full clip" data-start="13.765" data-duration="2.035" data-track-index="3">
+      <div id="shotTable" class="full clip" data-start="11.32" data-duration="1.56" data-track-index="3">
         <div id="tblCam">
           <div id="tblWall"></div>
           <div id="tblTop"></div>
@@ -217,7 +209,7 @@
       </div>
 
       <!-- ================= INSERT: the scope (l03) ================= -->
-      <div id="shotScope" class="full clip" data-start="15.8" data-duration="1.97" data-track-index="3">
+      <div id="shotScope" class="full clip" data-start="12.88" data-duration="2.41" data-track-index="3">
         <div id="scopeRig">
           <div id="scopeTint"></div>
           <div id="scopeMask"></div>
@@ -233,7 +225,7 @@
       </div>
 
       <!-- ================= NUMBERS (l04) ================= -->
-      <div id="shotNums" class="full clip" data-start="17.77" data-duration="11.361" data-track-index="2">
+      <div id="shotNums" class="full clip" data-start="15.29" data-duration="10.845" data-track-index="2">
         <div id="tag" data-hf-motion-blur='{"samplesPerFrame": 10}'><div class="string"></div><div class="card"><div class="hole"></div><div class="price">$7.99</div></div></div>
         <div id="hoped"><div class="mk" id="mkHoped">They hoped</div><div class="num big" id="hopedNum">0</div><div id="strike"></div></div>
         <div id="big"><div id="reel" class="big"></div><span id="plus" class="big">+</span></div>
@@ -242,12 +234,12 @@
       </div>
 
       <!-- ================= l05 card ================= -->
-      <div id="elseClip" class="full clip" data-start="31.604" data-duration="2.308" data-track-index="2">
+      <div id="elseClip" class="full clip" data-start="29.056" data-duration="2.639" data-track-index="2">
         <div class="mk" id="mkElse" style="left: 452px; top: 64px; font-size: 30px" data-hf-motion-blur='{"samplesPerFrame": 10}'>To do everything else</div>
       </div>
 
       <!-- ================= WORDMARK (l07 "why") ================= -->
-      <div id="wmClip" class="full clip" data-start="35.231" data-duration="2.534" data-track-index="4">
+      <div id="wmClip" class="full clip" data-start="33.118" data-duration="2.892" data-track-index="4">
         <div id="wmGroup" class="full">
           <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /></div>
           <div id="wmBar"></div>
@@ -270,6 +262,101 @@
       function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
       const R = rng(3003);
       const $ = (s) => document.querySelector(s);
+      /* ------------------------------------------------------------------ the lake plate (new art v1, 2026-10-13)
+         docs/art_orders/ep003/new_art_v1/01_lake_dusk_plate.png (+ derived grades) replaces the engine-drawn sky,
+         hills, island and water. The art is never edited: it is shown as is (<img>), and a WebGL canvas on top of
+         its water re-samples the SAME pixels with a gentle, seek-driven ripple displacement (zero at the horizon, so
+         the seam is invisible) plus a flicker on the sun/moon glitter. Grades crossfade with k (0 = first image).
+         PlateLake(host, ["assets/lake_dusk.png", "assets/lake_night.png"]) -> { draw(t, k), imgs, set(k) } */
+      function PlateLake(host, srcs, o) {
+        o = Object.assign({ left: -196, top: -108, w: 1673, h: 936, hor: .4556, cTop: 296, amp: 1 }, o || {});
+        const imgs = srcs.map((s, i) => { const im = document.createElement("img"); im.src = s; im.alt = "";
+          im.style.cssText = `position:absolute; left:${o.left}px; top:${o.top}px; width:${o.w}px; height:${o.h}px; opacity:${i ? 0 : 1}`;
+          host.appendChild(im); return im; });
+        const cH = o.top + o.h - o.cTop;
+        const cv = document.createElement("canvas"); cv.width = o.w; cv.height = cH;
+        cv.style.cssText = `position:absolute; left:${o.left}px; top:${o.cTop}px; width:${o.w}px; height:${cH}px`;
+        host.appendChild(cv);
+        const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
+        const api = { imgs, canvas: cv, draw() {}, set(k) { imgs.forEach((im, i) => { im.style.opacity = i === 0 ? 1 : Math.max(0, Math.min(1, k - i + 1)); }); } };
+        if (!gl) return api;
+        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
+        const fs = `precision highp float; uniform float t, k, amp; uniform vec2 res; uniform sampler2D A, B; uniform vec4 geo;
+          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
+          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
+          void main(){
+            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x;
+            float y = geo.x + (res.y - fc.y)/res.y*geo.y;              // frame y of this pixel
+            float v = (y - geo.z)/geo.w;                                // plate v (0 top .. 1 bottom)
+            float d = clamp((v - ${o.hor.toFixed(4)})/(1. - ${o.hor.toFixed(4)}), 0., 1.);
+            float a = amp * .0042 * pow(d, 1.15);
+            float sw = sin(v*(620. - 380.*d) + t*1.25 + sin(u*6.3 + t*.37)*1.6);
+            float nz = vn(vec2(u*11./(.25 + d), v*170. - t*.85)) - .5;
+            vec2 uv = vec2(u + a*(sw*.65 + nz*.9), v + a*.32*sin(u*23. + t*.9 + v*260.));
+            vec3 c = mix(texture2D(A, uv).rgb, texture2D(B, uv).rgb, k);
+            float L = dot(c, vec3(.299,.587,.114));
+            float gl = smoothstep(.62, .9, L) * d;                      // the glitter path flickers
+            float fl = vn(vec2(u*260., v*520. - t*2.6));
+            c *= 1. + gl*(fl - .45)*.45;
+            gl_FragColor = vec4(c, 1.);
+          }`;
+        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
+        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        const U = (n) => gl.getUniformLocation(pr, n);
+        const texs = [null, null];
+        function upload(i) {
+          const im = imgs[Math.min(i, imgs.length - 1)];
+          if (!im.complete || !im.naturalWidth) return false;
+          const tx = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, tx);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, im); texs[i] = tx; return true;
+        }
+        gl.viewport(0, 0, cv.width, cv.height);
+        api.draw = function (t, k) {
+          k = k || 0;
+          if (!texs[0] && !upload(0)) { cv.style.opacity = 0; return; }
+          if (!texs[1] && !upload(1)) { cv.style.opacity = 0; return; }
+          cv.style.opacity = 1;
+          gl.uniform1i(U("A"), 0); gl.uniform1i(U("B"), 1);
+          gl.uniform1f(U("t"), t); gl.uniform1f(U("k"), Math.max(0, Math.min(1, k))); gl.uniform1f(U("amp"), o.amp);
+          gl.uniform2f(U("res"), cv.width, cv.height); gl.uniform4f(U("geo"), o.cTop, cH, o.top, o.h);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+          api.set(k);
+        };
+        return api;
+      }
+
+      /* ------------------------------------------------------------------ the friends Max and Leo (our 3D, 2026-10-13)
+         docs/ep003/characters/FRIENDS_MAX_LEO.md. Cut-outs staged as assets/<who>_<pose>_<expr>.png. Scale is keyed to
+         the 2D Quest in the same shot: hq = Quest's standing height on screen (px); Max stands 1.08 x Quest, Leo 0.95 x,
+         and every pose keeps the same px per cm (the sit/cheer canvases are converted, see render.py friend_span).
+         Friend(host, "max", { pose: "sit_34", exprs: ["neutral", "laugh"], hq: 286, x: 532, base: 150, id: "frMax" })
+           x = centre, base = the feet line (both in host px). Returns { el, face(tl, expr, at, fade) }.
+         The rig keeps the .pop/.lean/.breathe/.sway nesting of the old silhouettes, so the old moves still apply. */
+      const FR_REL = { max: { sit_34: .707, sit_side: .707, "34": 1.08, front: 1.08, cheer_34: 1.116, phone_34: 1.035, point_34: 1.081 },
+                       leo: { sit_34: .642, sit_side: .642, "34": .95, front: .95, cheer_34: .975, phone_34: .915, point_34: .95 } };
+      const FR_ASPECT = { max: { sit_34: .482, sit_side: .55, "34": .2243, front: .30, cheer_34: .441, phone_34: .341, point_34: .441 },
+                          leo: { sit_34: .535, sit_side: .58, "34": .274, front: .33, cheer_34: .502, phone_34: .398, point_34: .505 } };
+      function Friend(host, who, o) {
+        o = Object.assign({ pose: "sit_34", exprs: ["neutral"], hq: 286, x: 0, base: 0, flip: false, cls: "" }, o);
+        const fileOf = (e) => o.pose === "34" || o.pose === "front" ? `${who}_${o.pose}_${e}` : `${who}_${o.pose}_${e}`;
+        const h = o.hq * FR_REL[who][o.pose] * 1.016, w = h * FR_ASPECT[who][o.pose];
+        const el = document.createElement("div"); el.className = "mate fr " + o.cls; if (o.id) el.id = o.id;
+        el.style.cssText = `position:absolute; left:${o.x - w / 2}px; top:${o.base - h}px; width:${w}px; height:${h}px; bottom:auto`;
+        el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip"></div></div></div></div></div>`;
+        host.appendChild(el);
+        const fl = el.querySelector(".flip"); fl.style.cssText = "position:absolute; inset:0" + (o.flip ? "; transform:scaleX(-1)" : "");
+        const imgs = {};
+        o.exprs.forEach((e, i) => { const im = document.createElement("img"); im.src = `assets/${fileOf(e)}.png`; im.alt = "";
+          im.style.opacity = i ? 0 : 1; fl.appendChild(im); imgs[e] = im; });
+        return { el, imgs, w, h,
+          face(tl, e, at) { Object.entries(imgs).forEach(([k, im]) => tl.set(im, { opacity: k === e ? 1 : 0 }, at)); } };
+      }
+
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       const SVGNS = "http://www.w3.org/2000/svg";
 
@@ -297,6 +384,12 @@
       ];
       const leapEls = LEAPS.map((L, i) => { const e = mk("div", "fish", $("#" + L[8]), `left:0; top:0; width:${L[4]}px; height:${L[4] * 470 / 801}px`);
         e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}'); const im = mk("img", "", e); im.src = `assets/${L[6]}.png`; if (L[7]) im.style.transform = "scaleX(-1)"; return e; });
+      // the lake plate and the friends (Max, Leo: seated 3/4 cut-outs inside the two-pass boat, scaled to Quest = 286 px)
+      const lake = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
+      const crewHost = $("#crewClip"), pixieEl = $("#pixie");
+      const MAX = Friend(crewHost, "max", { id: "silA", pose: "sit_34", exprs: ["sideeye", "laugh", "neutral"], hq: 286, x: 530, base: 452 });
+      const LEO = Friend(crewHost, "leo", { id: "silB", pose: "sit_34", exprs: ["laugh", "shock", "neutral", "sweat"], hq: 286, x: 618, base: 452 });
+      crewHost.insertBefore(MAX.el, pixieEl); crewHost.insertBefore(LEO.el, pixieEl);
       // the companion (fish_34) in the boat layer
       const buddy = mk("div", "fish", $("#fishFront"), "left:0; top:0; width:170px; height:125px"); buddy.id = "buddy";
       buddy.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
@@ -341,43 +434,7 @@
       const koStars = [0, 1, 2].map((i) => star4($("#ko"), 20 + i * 38, 20, 26, "#ffc83d"));
 
       /* ------------------------------------------------------------------ water shader (WebGL, seek-driven) */
-      const water = (function () {
-        const cv = $("#water"); const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
-        if (!gl) return { draw() {} };
-        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
-        const fs = `precision mediump float; uniform float t; uniform vec2 res; uniform float sunU; uniform float glow;
-          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
-          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
-          void main(){
-            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x; float v = 1. - fc.y/res.y;
-            float z = 1./(v*1.05 + .04); float wx = (u-.5)*z*2.6; float wz = z;
-            float far = smoothstep(.0,.12,v);
-            vec3 cHor = vec3(.93,.64,.62), cMid = vec3(.52,.40,.64), cDeep = vec3(.21,.19,.41);
-            vec3 col = mix(cHor, cMid, smoothstep(.0,.38,v)); col = mix(col, cDeep, smoothstep(.3,1.,v));
-            float sw = sin(wz*5.2 - t*1.5 + sin(wx*1.3 + t*.45)*1.4)*.5 + .5;
-            float n = vn(vec2(wx*1.6 + t*.07, wz*7.5 - t*.9));
-            float crest = smoothstep(.78,.93, sw*.55 + n*.5) * far;
-            col = mix(col, col*1.22 + vec3(.06,.04,.07), crest*.6);
-            float trough = smoothstep(.32,.08, sw*.55 + n*.45) * far;
-            col *= 1. - trough*.16;
-            float dash = step(.91, vn(vec2(wx*.7 + t*.04, wz*13.))) * far;
-            col = mix(col, vec3(1.,.87,.8), dash*.32*(1.-v*.4));
-            float dx = abs(u - sunU); float cw = .018 + v*.10; float column = exp(-(dx/cw)*(dx/cw));
-            float glit = step(.70 - column*.22, vn(vec2(wx*5. + t*.25, wz*20. - t*1.3)));
-            col = mix(col, vec3(1.,.88,.58), column*(.28 + .72*glit*far)*(1.-v*.55)*glow);
-            col += vec3(1.,.72,.5)*column*.12*glow;
-            col = mix(col, vec3(1.,.8,.68), smoothstep(.07,.0,v)*.65);
-            gl_FragColor = vec4(col, 1.);
-          }`;
-        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
-        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
-        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-        const uT = gl.getUniformLocation(pr, "t"), uRes = gl.getUniformLocation(pr, "res"), uSun = gl.getUniformLocation(pr, "sunU"), uGlow = gl.getUniformLocation(pr, "glow");
-        gl.viewport(0, 0, cv.width, cv.height);
-        return { draw(t, glow) { gl.uniform1f(uT, t); gl.uniform2f(uRes, cv.width, cv.height); gl.uniform1f(uSun, (1012 + 192) / 1664); gl.uniform1f(uGlow, glow); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
-      })();
+      // (the old drawn water shader is replaced by the lake plate, see PlateLake)
 
       /* ------------------------------------------------------------------ the timeline */
       const tl = gsap.timeline({ paused: true });
@@ -387,7 +444,7 @@
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
       const DUR = 36.03;
       const env = { t: 0, glow: 1 };
-      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(env.t, env.glow) }, 0);
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => lake.draw(env.t, 0) }, 0);
       tl.to(env, { glow: 1.25, duration: 4, ease: "sine.inOut" }, 31);
 
       // camera: per-layer parallax. f = depth factor (0 far .. 1 boat .. >1 foreground)
@@ -413,7 +470,6 @@
         tl.fromTo(`${m} .breathe`, { scaleY: 1 }, { scaleY: 1.022, duration: 1.7 + i * .17, ease: "sine.inOut", yoyo: true, repeat: 21, transformOrigin: "50% 100%" }, 0);
         tl.fromTo(`${m} .sway`, { rotation: -1.4 }, { rotation: 1.4, duration: 2.3 + i * .21, ease: "sine.inOut", yoyo: true, repeat: 15, transformOrigin: "50% 100%" }, 0);
       });
-      tl.fromTo("#armB", { rotation: -70 }, { rotation: -115, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "0% 50%" }, 7.2);
 
       // ---------------- SHOT A (0 - 12.1): the lake
       cam(0, 0, focus(640, 330, 1.16, 0, 40));
@@ -424,7 +480,6 @@
       MATES.forEach((m) => tl.set(`${m} .pop`, { y: 260 }, 0));
       tl.set(buddy, { x: 940, y: 640, rotation: 0, opacity: 0 }, 0);
       tl.set(buddyLid, { opacity: 0 }, 0); tl.set(faceLookup, { opacity: 0 }, 0);
-      tl.set("#armA", { rotation: -25, transformOrigin: "0% 50%" }, 0);
       // title words on "How" "to" "Fish."
       [["#tw1", 1.44], ["#tw2", 1.86], ["#tw3", 2.06]].forEach(([s, t]) => tl.fromTo(s, { y: -160, scale: 1.5, opacity: 0, rotation: -6 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: .55, ease: "back.out(2.6)" }, t - .08));
       tl.to("#title", { y: -118, scale: .42, duration: .55, ease: "power3.inOut" }, 3.0);
@@ -465,6 +520,7 @@
       cam(5.55, .9, focus(760, 470, 1.18, 0, 10), "power2.inOut");
       // "And almost nobody..." - the crew pops into the boat (overshoot), then the camera pulls back
       [["#quest", 6.81], ["#pixie", 6.98], ["#silA", 7.12], ["#silB", 7.24]].forEach(([m, t]) => tl.to(`${m} .pop`, { y: 0, duration: .55, ease: "back.out(1.15)" }, t));
+      MAX.face(tl, "sideeye", 0); LEO.face(tl, "laugh", 0);
       tl.fromTo("#boatBob", { y: 0 }, { keyframes: [{ y: 9, duration: .12 }, { y: 0, duration: .9, ease: "elastic.out(1, .35)" }], immediateRender: false }, 6.95);
       cam(6.85, .9, focus(640, 420, 1.3), "power2.out");
       cam(7.88, 1.9, focus(640, 400, 1.0, 0, -10), "power2.inOut");
@@ -476,13 +532,15 @@
       tl.to(buddy, { y: 680, duration: .3, ease: "power2.in" }, 9.75);
       // "slapping each other in the face" - whip to the pair, swing, SLAP, shake, KO stars
       cam(10.06, .3, focus(800, 375, 1.85), "expo.inOut");
-      tl.to("#armA", { rotation: -95, duration: .25, ease: "power2.out" }, 10.24);
-      tl.to("#armA", { rotation: 10, duration: .12, ease: "power4.in" }, 10.5);
-      tl.to("#headB", { rotation: 22, x: 10, transformOrigin: "100px 100px", duration: .07, ease: "power2.out" }, 10.62);
-      tl.to("#headB", { rotation: 0, x: 0, duration: .8, ease: "elastic.out(1.1, .3)" }, 10.7);
-      tl.to("#silB .lean", { rotation: 9, x: 8, transformOrigin: "50% 100%", duration: .08 }, 10.62);
+      MAX.face(tl, "laugh", 10.2); LEO.face(tl, "neutral", 10.2);                         // anticipation: Max winds up, Leo unaware
+      tl.to("#silA .lean", { rotation: -10, x: -8, duration: .25, ease: "power2.out", transformOrigin: "50% 100%" }, 10.24);
+      tl.to("#silA .lean", { rotation: 16, x: 26, duration: .12, ease: "power4.in", transformOrigin: "50% 100%" }, 10.5);
+      LEO.face(tl, "shock", 10.62);                                                          // hit
+      LEO.face(tl, "sweat", 11.55);                                                          // reaction: dazed (KO stars)
+      LEO.face(tl, "laugh", 12.1);
+      tl.to("#silB .lean", { rotation: 14, x: 12, transformOrigin: "50% 100%", duration: .08 }, 10.62);
       tl.to("#silB .lean", { rotation: 0, x: 0, duration: .9, ease: "elastic.out(1, .3)" }, 10.72);
-      tl.to("#armA", { rotation: -25, duration: .6, ease: "power2.inOut" }, 11.0);
+      tl.to("#silA .lean", { rotation: 0, x: 0, duration: .6, ease: "power2.inOut" }, 11.0);
       tl.fromTo("#slapBurst", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: .5, ease: "elastic.out(1.1, .45)" }, 10.62);
       tl.to("#slapBurst", { scale: 1.08, duration: .9, ease: "sine.inOut" }, 11.12);
       tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .55, duration: .03 }, { opacity: 0, duration: .14 }] }, 10.62);
@@ -569,6 +627,7 @@
       tl.to("#warm", { opacity: .9, duration: 2.2, ease: "sine.inOut" }, 31.2);
       tl.to("#pixie .lean", { rotation: 5, x: 10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.25);
       tl.to("#quest .lean", { rotation: -3, x: -6, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.3);
+      MAX.face(tl, "laugh", 31.3); LEO.face(tl, "laugh", 31.3);
       tl.to("#silA .lean", { rotation: -5, x: -10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.35);
       tl.to("#silB .lean", { rotation: -6, x: -14, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.4);
       tl.to("#linePath", { opacity: .5, duration: .5 }, 31.2);
@@ -609,7 +668,7 @@
       tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.5), immediateRender: false }, 0);
 
       tl.set({}, {}, DUR);
-      const WARP = [[0.0, 0.0], [0.3, 0.3], [0.44, 0.5], [0.6, 0.86], [0.78, 1.22], [0.98, 1.42], [1.44, 1.92], [1.86, 2.44], [2.06, 2.84], [2.38, 3.24], [3.18, 3.78], [3.4, 3.9], [3.76, 4.2], [4.64, 4.72], [4.66, 4.8], [5.1, 5.16], [5.68, 5.68], [5.74, 5.82], [5.88, 6.06], [6.0, 6.32], [6.24, 6.72], [6.356, 6.975], [6.806, 7.402], [6.98, 7.6], [7.88, 7.94], [8.46, 8.5], [8.8, 8.98], [8.96, 9.27], [9.08, 9.44], [9.36, 9.88], [9.482, 10.082], [9.93, 10.47], [10.1, 10.6], [10.24, 10.78], [10.58, 11.34], [10.88, 11.76], [11.0, 11.98], [11.22, 12.5], [11.32, 12.66], [11.64, 13.04], [12.16, 13.86], [12.4, 14.08], [12.62, 14.46], [12.82, 14.7], [13.16, 15.06], [14.06, 15.8], [14.2, 15.85], [14.4, 16.3], [14.54, 16.48], [14.84, 16.8], [15.28, 17.28], [15.372, 17.386], [15.82, 17.77], [15.98, 17.92], [16.3, 18.66], [16.64, 19.14], [17.54, 20.14], [17.8, 20.28], [18.2, 20.64], [18.58, 21.06], [18.78, 21.32], [19.06, 21.56], [19.38, 21.9], [19.92, 22.33], [20.36, 22.75], [20.74, 23.18], [21.36, 24.25], [21.52, 24.38], [21.84, 24.72], [22.34, 25.26], [22.52, 25.64], [22.76, 25.88], [23.32, 26.38], [23.66, 26.76], [24.14, 27.3], [24.52, 27.6], [24.78, 27.84], [25.04, 28.12], [25.4, 28.5], [25.502, 28.722], [25.95, 29.16], [26.18, 29.44], [26.6, 29.8], [26.92, 30.14], [27.22, 30.72], [27.4, 31.0], [27.64, 31.26], [28.08, 31.68], [29.0, 32.22], [29.18, 32.42], [29.76, 32.92], [30.34, 33.42], [30.43, 33.572], [31.23, 33.977], [31.76, 34.32], [32.145, 34.557], [32.945, 34.985], [33.24, 35.18], [33.8, 35.36], [34.36, 36.08], [34.53, 36.265], [36.03, 37.765], [36.03, 37.765]];
+      const WARP = [[0.0, 0.0], [0.3, 0.34], [0.44, 0.54], [0.6, 0.68], [0.78, 0.84], [0.98, 1.02], [1.44, 1.56], [1.86, 1.9], [2.06, 2.14], [2.38, 2.5], [3.18, 3.12], [3.4, 3.22], [3.76, 3.5], [4.64, 4.24], [4.69, 4.29], [5.1, 4.62], [5.68, 5.18], [5.74, 5.28], [5.88, 5.6], [6.0, 5.82], [6.24, 6.14], [6.806, 6.64], [6.98, 6.78], [7.88, 7.1], [8.46, 7.64], [8.8, 7.98], [8.96, 8.18], [9.08, 8.32], [9.36, 8.68], [9.93, 9.0], [10.1, 9.19], [10.24, 9.36], [10.58, 9.82], [10.88, 10.14], [11.0, 10.24], [11.22, 10.42], [11.32, 10.54], [11.64, 10.86], [12.16, 11.38], [12.4, 11.58], [12.62, 11.92], [12.82, 12.14], [13.16, 12.46], [14.06, 12.88], [14.2, 13.1], [14.4, 13.52], [14.54, 13.78], [14.84, 14.18], [15.28, 14.66], [15.82, 15.29], [15.98, 15.4], [16.3, 15.94], [16.64, 16.26], [17.54, 16.82], [17.8, 17.12], [18.2, 17.44], [18.58, 17.76], [18.78, 17.89], [19.06, 18.1], [19.38, 18.42], [19.92, 18.78], [20.36, 19.13], [20.74, 19.5], [21.36, 20.58], [21.52, 20.76], [21.84, 21.1], [22.34, 21.64], [22.52, 22.0], [22.76, 22.2], [23.32, 22.62], [23.66, 22.98], [24.14, 23.42], [24.52, 23.72], [24.78, 23.98], [25.04, 24.44], [25.4, 25.36], [25.95, 26.18], [26.18, 26.4], [26.6, 26.94], [26.92, 27.34], [27.22, 27.76], [27.4, 28.26], [27.64, 28.68], [28.08, 29.14], [29.0, 29.7], [29.18, 29.98], [29.76, 30.6], [30.34, 31.26], [31.23, 31.77], [31.76, 32.14], [32.945, 32.98], [33.8, 33.24], [34.36, 34.1], [36.03, 36.01], [36.03, 35.6]];
       const master = gsap.timeline({ paused: true });                  // authored time -> narration time
       for (let i = 0; i + 1 < WARP.length; i++) master.add(tl.tweenFromTo(WARP[i][0], WARP[i + 1][0], { duration: WARP[i + 1][1] - WARP[i][1], ease: "none", immediateRender: false }), WARP[i][1]);
       window.__timelines["main"] = master;

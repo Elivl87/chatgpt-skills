@@ -111,11 +111,11 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0.0" data-duration="33.939" data-fps="30" data-width="1280" data-height="720">
-      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="33.939" data-track-index="9" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0.0" data-duration="29.4" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0.0" data-duration="29.4" data-track-index="9" data-volume="1"></audio>
 
       <!-- ================= B1 (l08): night living room, the price tag, the invitation ================= -->
-      <div id="shotRoom" class="full clip shot" data-start="0.0" data-duration="6.755" data-track-index="0">
+      <div id="shotRoom" class="full clip shot" data-start="0.0" data-duration="5.32" data-track-index="0">
         <div class="cam" id="camRoom"><div class="push" id="pushRoom"><div class="kick" id="kickRoom">
           <img id="room" src="assets/room_night.png" alt="" />
           <div id="roomDim" class="full"></div>
@@ -142,7 +142,7 @@
       </div>
 
       <!-- ================= B2 (l09a): the stage - alone, everyone, the boat, their own copy ================= -->
-      <div id="shotStage" class="full clip shot" data-start="6.495" data-duration="10.55" data-track-index="1">
+      <div id="shotStage" class="full clip shot" data-start="5.06" data-duration="9.28" data-track-index="1">
         <div class="cam" id="camStage"><div class="push" id="pushStage"><div class="kick" id="kickStage">
           <div id="stageBg"></div>
           <div id="stageWash" style="opacity: 0"></div>
@@ -163,7 +163,7 @@
       </div>
 
       <!-- ================= B3-B5 (l09b-l11): the group chat ================= -->
-      <div id="shotChat" class="full clip shot" data-start="16.945" data-duration="16.994" data-track-index="2">
+      <div id="shotChat" class="full clip shot" data-start="14.24" data-duration="15.16" data-track-index="2">
         <div class="cam" id="camChat"><div class="push" id="pushChat"><div class="kick" id="kickChat">
           <div id="chatBg"><img src="assets/room_night.png" alt="" /></div>
           <div id="chatTint" class="full"></div>
@@ -350,15 +350,15 @@
       // word times (block-relative, resolved by build.py from timings.json). The l08 alignment runs one word early
       // between "with" and "dollars" (whisper merged "Eight dollars"), so "price" is the end of w4 and "eight" is w6.
       const T = {
-        price: 1.245, eight: 1.925, not: 2.805, price2: 3.925, its: 4.965, invitation: 5.225,
-        because: 6.515, game: 8.505, alone: 9.685, everyone: 10.675, boat: 11.505, copy: 13.005,
-        so: 14.025, same: 15.865, way: 16.185, message: 16.945, group: 18.065, chatEnd: 18.725,
-        q1: 19.455, q2: 19.535, q3: 19.775, q4: 21.065, q5: 21.445, q6: 21.925, qEnd: 22.225,
-        then: 22.745, one: 23.515, b1: 25.045, b2: 25.705, b2end: 26.005, b3: 26.725, b3end: 26.905,
-        friend: 27.645, who: 28.505, says: 28.845, l1: 29.765, l2: 30.045, l3: 30.345, l4: 30.585, laterEnd: 30.865,
-        he: 31.345, not2: 32.005, get2: 32.425, later2: 33.125,
+        price: 0.98, eight: 1.73, not: 2.51, price2: 3.16, its: 3.84, invitation: 4.06,
+        because: 5.08, game: 6.56, alone: 7.42, everyone: 8.3, boat: 9.2, copy: 10.4,
+        so: 11.51, same: 13.14, way: 13.4, message: 14.24, group: 14.98, chatEnd: 15.48,
+        q1: 16.18, q2: 16.4, q3: 16.64, q4: 17.15, q5: 17.3, q6: 17.58, qEnd: 17.85,
+        then: 18.36, one: 19.05, b1: 20.9, b2: 22.89, b2end: 23.04, b3: 23.04, b3end: 23.8,
+        friend: 23.8, who: 24.5, says: 24.74, l1: 25.48, l2: 25.64, l3: 25.72, l4: 25.86, laterEnd: 26.14,
+        he: 26.85, not2: 27.26, get2: 27.62, later2: 28.25,
       };
-      const DUR = 33.939;
+      const DUR = 29.4;
       const FREEZE = [T.laterEnd, T.he];                                   // B5: dead still 0.6 s after "later."
 
       /* ---------------- B1 rigs ---------------- */

@@ -79,6 +79,7 @@ else:
     SRC, OUTF, COMP = HERE / 'src/index.template.html', HERE / 'hook/index.html', HERE / 'hook/compositions/components'
 src = SRC.read_text()
 out = re.sub(r'<!--INCLUDE ([\w.-]+)-->', lambda m: (COMP / m.group(1)).read_text(), src)
+out = re.sub(r'<!--SRC ([\w.-]+)-->', lambda m: (HERE / 'src/components' / m.group(1)).read_text(), out)   # shared src components (lakeplate.js)
 out = re.sub(r'\{\{([^}]+)\}\}', resolve, out)
 out = re.sub(r'data-start="([\d.]+)" data-duration="([\d.]+)"', clip, out)
 master = ('const WARP = ' + json.dumps([[round(a, 3), round(n, 3)] for a, n in anc]) + ';\n'

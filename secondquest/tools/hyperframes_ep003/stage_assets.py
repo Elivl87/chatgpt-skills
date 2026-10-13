@@ -33,6 +33,17 @@ ART = {
     'dynamite.png': ('public/art/ep003/props3d/dynamite.png', None),
     'lantern.png': ('public/art/ep003/props3d/lantern.png', None),
     'wordmark.png': ('public/art/core/brand/secondquest_wordmark.png', None),
+    # new art v1 (2026-10-13): the lake plate and its derived grades (derive_art.py; the original is never edited)
+    **{f'lake_{g}.png': (f'docs/art_orders/ep003/new_art_v1/derived/lake_{g}.png', None) for g in ('dusk', 'bluehour', 'night')},
+    # the friends Max (purple) and Leo (yellow), our 3D (docs/ep003/characters/FRIENDS_MAX_LEO.md); downscaled copies
+    **{f'{w}_sit_34_{e}.png': (f'public/art/ep003/props3d/{w}_sit_34_{e}.png', 520)
+       for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
+    **{f'{w}_34_{e}.png': (f'public/art/ep003/props3d/{w}_34_{e}.png', 760)
+       for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
+    **{f'{w}_front_{e}.png': (f'public/art/ep003/props3d/{w}_front_{e}.png', 760)
+       for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
+    **{f'{w}_{p}.png': (f'public/art/ep003/props3d/{w}_{p}.png', 760)
+       for w in ('max', 'leo') for p in ('cheer_34_laugh', 'point_34_neutral', 'phone_34_neutral', 'sit_side_laugh', 'sit_side_neutral')},
 }
 FONTS = ['Anton-Regular.woff2', 'Inter-800.woff2', 'Inter-600.woff2']
 
@@ -42,6 +53,7 @@ def main():
     a block's own extra art goes in src/block<X>.assets.json ({"name.png": ["repo/path.png", max_h or null]})."""
     import sys
     global OUT
+    subprocess.run(['python3', str(HERE / 'derive_art.py')], check=True)   # derived grades of the new art (only if missing)
     b = sys.argv[sys.argv.index('--block') + 1] if '--block' in sys.argv else 'A'
     sys.path.insert(0, str(HERE))
     from blocks import span, pdir

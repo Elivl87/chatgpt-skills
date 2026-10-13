@@ -154,7 +154,7 @@
             </svg>
           </div></div>
           <div id="L-water" class="L"><div class="F">
-            <canvas id="water" width="1664" height="498"></canvas>
+            <div id="plateHost"></div>   <!-- the lake plate (new art v1) + its seek-driven water -->
           </div></div>
           <div id="L-fleet" class="L"><div class="F" id="fleet"></div></div>
           <div id="L-boat" class="L"><div class="F">
@@ -165,17 +165,9 @@
               <div id="boatBob"><div id="boatRock">
                 <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />   <!-- props v2: far side + interior behind the crew -->
                 <div id="crewClip">
-                  <div class="mate sil" id="silA" style="left: 432px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
-                    <svg viewBox="0 0 200 290"><path d="M48 290 C 44 200, 50 140, 70 118 C 82 106, 94 102, 100 102 C 106 102, 120 106, 132 118 C 152 140, 156 200, 152 290 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="101" cy="62" r="36" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M68 52 C 70 22, 124 16, 136 46 C 120 34, 88 34, 68 52 Z" fill="#5d5678" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg>
-                    <div class="arm" id="armA" style="left: 118px; top: 112px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="108" cy="14" r="11" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
-                  </div></div></div></div></div>
-                  <div class="mate sil" id="silB" style="left: 520px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
-                    <svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><g id="headB"><circle cx="100" cy="60" r="35" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M66 54 C 60 26, 92 10, 118 20 C 138 28, 140 46, 136 56 C 122 38, 90 36, 66 54 Z" fill="#655e86" stroke="#16161f" stroke-width="3" paint-order="stroke"/></g></svg>
-                    <div class="arm" id="armB" style="left: 124px; top: 110px; width: 92px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="108" cy="14" r="11" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
-                  </div></div></div></div></div>
                   <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /></div></div></div></div></div>
                   <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /></div></div></div></div></div>
-                  <div id="ko" class="abs" style="left: 600px; top: 110px; width: 120px; height: 60px"></div>
+                  <div id="ko" class="abs" style="left: 562px; top: 222px; width: 120px; height: 60px"></div>
                 </div>
                 <svg id="line" viewBox="-100 -350 840 520"><path id="linePath" d="M 417 -229 C 380 -150, 230 -175, 175 -95 C 170 -40, 260 -30, 380 -36 C 520 -44, 640 -60, 640 -20 C 640 20, 470 30, 330 24 C 200 18, 150 30, 170 50 C 200 80, 420 60, 560 70 C 650 76, 700 110, 690 160" fill="none" stroke="#f6efe0" stroke-width="2.2" stroke-linecap="round"/></svg>
                 <div id="rod"><img src="assets/rod.png" alt="" /></div>
@@ -270,6 +262,8 @@
       function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
       const R = rng(3003);
       const $ = (s) => document.querySelector(s);
+<!--SRC lakeplate.js-->
+<!--SRC friends.js-->
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       const SVGNS = "http://www.w3.org/2000/svg";
 
@@ -297,6 +291,12 @@
       ];
       const leapEls = LEAPS.map((L, i) => { const e = mk("div", "fish", $("#" + L[8]), `left:0; top:0; width:${L[4]}px; height:${L[4] * 470 / 801}px`);
         e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}'); const im = mk("img", "", e); im.src = `assets/${L[6]}.png`; if (L[7]) im.style.transform = "scaleX(-1)"; return e; });
+      // the lake plate and the friends (Max, Leo: seated 3/4 cut-outs inside the two-pass boat, scaled to Quest = 286 px)
+      const lake = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
+      const crewHost = $("#crewClip"), pixieEl = $("#pixie");
+      const MAX = Friend(crewHost, "max", { id: "silA", pose: "sit_34", exprs: ["sideeye", "laugh", "neutral"], hq: 286, x: 530, base: 452 });
+      const LEO = Friend(crewHost, "leo", { id: "silB", pose: "sit_34", exprs: ["laugh", "shock", "neutral", "sweat"], hq: 286, x: 618, base: 452 });
+      crewHost.insertBefore(MAX.el, pixieEl); crewHost.insertBefore(LEO.el, pixieEl);
       // the companion (fish_34) in the boat layer
       const buddy = mk("div", "fish", $("#fishFront"), "left:0; top:0; width:170px; height:125px"); buddy.id = "buddy";
       buddy.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
@@ -341,43 +341,7 @@
       const koStars = [0, 1, 2].map((i) => star4($("#ko"), 20 + i * 38, 20, 26, "#ffc83d"));
 
       /* ------------------------------------------------------------------ water shader (WebGL, seek-driven) */
-      const water = (function () {
-        const cv = $("#water"); const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
-        if (!gl) return { draw() {} };
-        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
-        const fs = `precision mediump float; uniform float t; uniform vec2 res; uniform float sunU; uniform float glow;
-          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
-          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
-          void main(){
-            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x; float v = 1. - fc.y/res.y;
-            float z = 1./(v*1.05 + .04); float wx = (u-.5)*z*2.6; float wz = z;
-            float far = smoothstep(.0,.12,v);
-            vec3 cHor = vec3(.93,.64,.62), cMid = vec3(.52,.40,.64), cDeep = vec3(.21,.19,.41);
-            vec3 col = mix(cHor, cMid, smoothstep(.0,.38,v)); col = mix(col, cDeep, smoothstep(.3,1.,v));
-            float sw = sin(wz*5.2 - t*1.5 + sin(wx*1.3 + t*.45)*1.4)*.5 + .5;
-            float n = vn(vec2(wx*1.6 + t*.07, wz*7.5 - t*.9));
-            float crest = smoothstep(.78,.93, sw*.55 + n*.5) * far;
-            col = mix(col, col*1.22 + vec3(.06,.04,.07), crest*.6);
-            float trough = smoothstep(.32,.08, sw*.55 + n*.45) * far;
-            col *= 1. - trough*.16;
-            float dash = step(.91, vn(vec2(wx*.7 + t*.04, wz*13.))) * far;
-            col = mix(col, vec3(1.,.87,.8), dash*.32*(1.-v*.4));
-            float dx = abs(u - sunU); float cw = .018 + v*.10; float column = exp(-(dx/cw)*(dx/cw));
-            float glit = step(.70 - column*.22, vn(vec2(wx*5. + t*.25, wz*20. - t*1.3)));
-            col = mix(col, vec3(1.,.88,.58), column*(.28 + .72*glit*far)*(1.-v*.55)*glow);
-            col += vec3(1.,.72,.5)*column*.12*glow;
-            col = mix(col, vec3(1.,.8,.68), smoothstep(.07,.0,v)*.65);
-            gl_FragColor = vec4(col, 1.);
-          }`;
-        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
-        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
-        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-        const uT = gl.getUniformLocation(pr, "t"), uRes = gl.getUniformLocation(pr, "res"), uSun = gl.getUniformLocation(pr, "sunU"), uGlow = gl.getUniformLocation(pr, "glow");
-        gl.viewport(0, 0, cv.width, cv.height);
-        return { draw(t, glow) { gl.uniform1f(uT, t); gl.uniform2f(uRes, cv.width, cv.height); gl.uniform1f(uSun, (1012 + 192) / 1664); gl.uniform1f(uGlow, glow); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
-      })();
+      // (the old drawn water shader is replaced by the lake plate, see PlateLake)
 
       /* ------------------------------------------------------------------ the timeline */
       const tl = gsap.timeline({ paused: true });
@@ -387,7 +351,7 @@
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
       const DUR = {{DUR}};
       const env = { t: 0, glow: 1 };
-      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(env.t, env.glow) }, 0);
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => lake.draw(env.t, 0) }, 0);
       tl.to(env, { glow: 1.25, duration: 4, ease: "sine.inOut" }, 31);
 
       // camera: per-layer parallax. f = depth factor (0 far .. 1 boat .. >1 foreground)
@@ -413,7 +377,6 @@
         tl.fromTo(`${m} .breathe`, { scaleY: 1 }, { scaleY: 1.022, duration: 1.7 + i * .17, ease: "sine.inOut", yoyo: true, repeat: 21, transformOrigin: "50% 100%" }, 0);
         tl.fromTo(`${m} .sway`, { rotation: -1.4 }, { rotation: 1.4, duration: 2.3 + i * .21, ease: "sine.inOut", yoyo: true, repeat: 15, transformOrigin: "50% 100%" }, 0);
       });
-      tl.fromTo("#armB", { rotation: -70 }, { rotation: -115, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 7, transformOrigin: "0% 50%" }, 7.2);
 
       // ---------------- SHOT A (0 - 12.1): the lake
       cam(0, 0, focus(640, 330, 1.16, 0, 40));
@@ -424,7 +387,6 @@
       MATES.forEach((m) => tl.set(`${m} .pop`, { y: 260 }, 0));
       tl.set(buddy, { x: 940, y: 640, rotation: 0, opacity: 0 }, 0);
       tl.set(buddyLid, { opacity: 0 }, 0); tl.set(faceLookup, { opacity: 0 }, 0);
-      tl.set("#armA", { rotation: -25, transformOrigin: "0% 50%" }, 0);
       // title words on "How" "to" "Fish."
       [["#tw1", 1.44], ["#tw2", 1.86], ["#tw3", 2.06]].forEach(([s, t]) => tl.fromTo(s, { y: -160, scale: 1.5, opacity: 0, rotation: -6 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: .55, ease: "back.out(2.6)" }, t - .08));
       tl.to("#title", { y: -118, scale: .42, duration: .55, ease: "power3.inOut" }, 3.0);
@@ -465,6 +427,7 @@
       cam(5.55, .9, focus(760, 470, 1.18, 0, 10), "power2.inOut");
       // "And almost nobody..." - the crew pops into the boat (overshoot), then the camera pulls back
       [["#quest", 6.81], ["#pixie", 6.98], ["#silA", 7.12], ["#silB", 7.24]].forEach(([m, t]) => tl.to(`${m} .pop`, { y: 0, duration: .55, ease: "back.out(1.15)" }, t));
+      MAX.face(tl, "sideeye", 0); LEO.face(tl, "laugh", 0);
       tl.fromTo("#boatBob", { y: 0 }, { keyframes: [{ y: 9, duration: .12 }, { y: 0, duration: .9, ease: "elastic.out(1, .35)" }], immediateRender: false }, 6.95);
       cam(6.85, .9, focus(640, 420, 1.3), "power2.out");
       cam(7.88, 1.9, focus(640, 400, 1.0, 0, -10), "power2.inOut");
@@ -476,13 +439,15 @@
       tl.to(buddy, { y: 680, duration: .3, ease: "power2.in" }, 9.75);
       // "slapping each other in the face" - whip to the pair, swing, SLAP, shake, KO stars
       cam(10.06, .3, focus(800, 375, 1.85), "expo.inOut");
-      tl.to("#armA", { rotation: -95, duration: .25, ease: "power2.out" }, 10.24);
-      tl.to("#armA", { rotation: 10, duration: .12, ease: "power4.in" }, 10.5);
-      tl.to("#headB", { rotation: 22, x: 10, transformOrigin: "100px 100px", duration: .07, ease: "power2.out" }, 10.62);
-      tl.to("#headB", { rotation: 0, x: 0, duration: .8, ease: "elastic.out(1.1, .3)" }, 10.7);
-      tl.to("#silB .lean", { rotation: 9, x: 8, transformOrigin: "50% 100%", duration: .08 }, 10.62);
+      MAX.face(tl, "laugh", 10.2); LEO.face(tl, "neutral", 10.2);                         // anticipation: Max winds up, Leo unaware
+      tl.to("#silA .lean", { rotation: -10, x: -8, duration: .25, ease: "power2.out", transformOrigin: "50% 100%" }, 10.24);
+      tl.to("#silA .lean", { rotation: 16, x: 26, duration: .12, ease: "power4.in", transformOrigin: "50% 100%" }, 10.5);
+      LEO.face(tl, "shock", 10.62);                                                          // hit
+      LEO.face(tl, "sweat", 11.55);                                                          // reaction: dazed (KO stars)
+      LEO.face(tl, "laugh", 12.1);
+      tl.to("#silB .lean", { rotation: 14, x: 12, transformOrigin: "50% 100%", duration: .08 }, 10.62);
       tl.to("#silB .lean", { rotation: 0, x: 0, duration: .9, ease: "elastic.out(1, .3)" }, 10.72);
-      tl.to("#armA", { rotation: -25, duration: .6, ease: "power2.inOut" }, 11.0);
+      tl.to("#silA .lean", { rotation: 0, x: 0, duration: .6, ease: "power2.inOut" }, 11.0);
       tl.fromTo("#slapBurst", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: .5, ease: "elastic.out(1.1, .45)" }, 10.62);
       tl.to("#slapBurst", { scale: 1.08, duration: .9, ease: "sine.inOut" }, 11.12);
       tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .55, duration: .03 }, { opacity: 0, duration: .14 }] }, 10.62);
@@ -569,6 +534,7 @@
       tl.to("#warm", { opacity: .9, duration: 2.2, ease: "sine.inOut" }, 31.2);
       tl.to("#pixie .lean", { rotation: 5, x: 10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.25);
       tl.to("#quest .lean", { rotation: -3, x: -6, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.3);
+      MAX.face(tl, "laugh", 31.3); LEO.face(tl, "laugh", 31.3);
       tl.to("#silA .lean", { rotation: -5, x: -10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.35);
       tl.to("#silB .lean", { rotation: -6, x: -14, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.4);
       tl.to("#linePath", { opacity: .5, duration: .5 }, 31.2);
