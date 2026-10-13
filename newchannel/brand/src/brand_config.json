@@ -1,0 +1,25 @@
+{
+  "palette": "../palette.json",
+  "fonts": {
+    "display": {"path": "../fonts/MartianMono/MartianMono[wdth,wght].ttf", "axes": [800, 100]},
+    "display_stacked": {"path": "../fonts/MartianMono/MartianMono[wdth,wght].ttf", "axes": [800, 112]},
+    "label": {"path": "../fonts/MartianMono/MartianMono[wdth,wght].ttf", "axes": [500, 100]},
+    "body": {"path": "../fonts/SpaceGrotesk/SpaceGrotesk[wght].ttf", "axes": [500]},
+    "body_bold": {"path": "../fonts/SpaceGrotesk/SpaceGrotesk[wght].ttf", "axes": [700]}
+  },
+  "names": [
+    {
+      "slug": "tenthousanddots", "lang": "en",
+      "text": "Ten Thousand Dots.", "stacked": ["Ten Thousand", "Dots."], "anchor": "period",
+      "handle": "@tenthousanddots", "tagline": "Tiny systems, explained with dots.",
+      "bounce": [["glyph", "T", 1], ["glyph", "D", 0]]
+    },
+    {
+      "slug": "diezmilpuntos", "lang": "es-419",
+      "text": "Diez Mil Puntos", "stacked": ["Diez Mil", "Puntos"], "anchor": "tittle:1",
+      "handle": "@diezmilpuntos", "tagline": "Pequeños sistemas, explicados con puntos.",
+      "bounce": [["dot", 0], ["glyph", "M", 0]]
+    }
+  ],
+  "seed": 20261013
+}

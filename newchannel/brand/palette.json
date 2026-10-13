@@ -1,8 +1,15 @@
 {
-  "_note": "Seed palette fixed by the director on 2026-10-13 so brand, sim and pilot agents share one look. The brand agent may refine values in BRAND.md and must then update this file.",
+  "_note": "Seed palette fixed by the director on 2026-10-13; refined by the brand agent the same day (see BRAND.md section 2). Only 'second' changed: #2E8C83 -> #23746C, so it no longer has the same luminance as 'accent' (contrast 1.11 -> 1.53) and reads as text on paper (4.72:1).",
   "paper":  "#F3ECDD",
   "ink":    "#1C2433",
   "accent": "#E8553A",
-  "second": "#2E8C83",
-  "paper_shadow": "#E4DAC6"
+  "second": "#23746C",
+  "paper_shadow": "#E4DAC6",
+  "roles": {
+    "paper": "background of everything (uncoated stock, with grain)",
+    "ink": "type, crowd agents, outlines, the mascot's face",
+    "accent": "the companion dot ONLY (one vermilion dot per frame = the protagonist); rare highlights",
+    "second": "a second group of agents, trails, sparkles, data highlights",
+    "paper_shadow": "panels, cards, 'shadow' tints on paper (never a soft drop shadow)"
+  }
 }
