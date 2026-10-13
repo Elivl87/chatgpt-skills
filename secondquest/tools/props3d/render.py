@@ -924,10 +924,11 @@ def job_friends_extras_sheet():
         text(r, f'{who}: 3/4 frames  m0 / m1 / m2 / blink  (neutral, laugh, shock)', 40, 40)
         x = 40
         for e in ('neutral', 'laugh', 'shock'):
-            for fr in FRIEND_FRAMES:
-                im = rd(f'{who}_34_{e}_{fr}'); im = im[:int(im.shape[0] * .34)]
-                k = 400 / im.shape[0]; over(r, im, x, 55, k); x += int(im.shape[1] * k) + 18
-            x += 50
+            for fr in FRIEND_FRAMES:                                       # fixed tiles: 230 x 380
+                im = crop_alpha(rd(f'{who}_34_{e}_{fr}'), 0); im = im[:int(im.shape[0] * .3)]
+                k = min(380 / im.shape[0], 226 / im.shape[1]); over(r, im, x + (230 - int(im.shape[1] * k)) // 2, 60 + 380 - int(im.shape[0] * k), k)
+                x += 230
+            x += 40
         rows.append(r)
     r = np.full((620, W, 3), BG, np.uint8); text(r, 'legs-flat sit (dock / floor): 3/4, front, side', 40, 40)
     x = 40
