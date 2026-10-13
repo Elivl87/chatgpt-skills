@@ -53,10 +53,11 @@ def load_palette():
 
 def find_font(weight='SemiBold'):
     brand_fonts = os.path.join(HERE, '..', '..', 'brand', 'fonts')
-    if os.path.isdir(brand_fonts):
-        for fn in sorted(os.listdir(brand_fonts)):
-            if fn.lower().endswith(('.ttf', '.otf')) and weight.lower() in fn.lower():
-                return os.path.join(brand_fonts, fn)
+    if os.path.isdir(brand_fonts):                 # brand display face (Space Grotesk, OFL) if present
+        for root, _, files in sorted(os.walk(brand_fonts)):
+            for fn in sorted(files):
+                if fn.lower().startswith('spacegrotesk') and fn.lower().endswith(('.ttf', '.otf')):
+                    return os.path.join(root, fn)
     for c in ['/usr/share/fonts/opentype/inter/Inter-%s.otf' % weight,
               '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf']:
         if os.path.exists(c):
@@ -164,7 +165,7 @@ def story():
         s = sim.simulate()
         s['expr'] = sim.mascot_expressions(s)
         v, v_eq = s['v'], s['v_eq']
-        # tint: 0 = cruising ink, 1 = stuck accent
+        # tint: 0 = cruising ink, 1 = stuck (second ink)
         s['tint'] = smoothstep(4.2, 1.0, v)
         # jam centroid angle (smoothed) for the backwards arrow
         w = np.clip((v_eq - v) / v_eq, 0, 1) ** 2
@@ -215,40 +216,44 @@ def disc(d, c, r, fill):
 
 # ------------------------------------------------------------------ mascot
 def draw_mascot(d, cam, P, pos, heading, expr, pop, f):
+    """The companion (brand/mascot_expressions.png): flat accent disc, face overprinted in ink, features never
+    thinner than 1/14 of the diameter; extras (surprise burst) only outside the disc."""
     s = SS * cam.z
     rb = MASCOT_R * s * (1 + pop)
     ox, oy = REG_COLOR[0] * s, REG_COLOR[1] * s
-    disc(d, (pos[0] + ox, pos[1] + oy), rb, P['second'])
+    disc(d, (pos[0] + ox, pos[1] + oy), rb, P['accent'])
     ink = P['ink']
     cx, cy = pos
-    lx, ly = heading[0] * 2.2 * s, heading[1] * 1.6 * s       # eyes look where it is going
-    ex = 6.2 * s
+    lx, ly = heading[0] * 2.0 * s, heading[1] * 1.5 * s       # eyes look where it is going
+    w = max(1, int(round(3.2 * s)))                            # stroke >= diameter / 14
+    ex, er = 6.6 * s, 3.3 * s
     blink = (f % 97) in (0, 1, 2) and expr == sim.NEUTRAL
     if expr == sim.NEUTRAL:
         for sx in (-1, 1):
             if blink:
-                d.line([cx + sx * ex + lx - 2.4 * s, cy - 3 * s + ly, cx + sx * ex + lx + 2.4 * s, cy - 3 * s + ly], fill=ink, width=int(1.8 * s))
+                d.line([cx + sx * ex + lx - 3 * s, cy - 3 * s + ly, cx + sx * ex + lx + 3 * s, cy - 3 * s + ly], fill=ink, width=w)
             else:
-                disc(d, (cx + sx * ex + lx, cy - 3 * s + ly), 2.5 * s, ink)
-        d.line([cx - 4 * s + lx, cy + 6 * s + ly * .5, cx + 4 * s + lx, cy + 6 * s + ly * .5], fill=ink, width=int(2.0 * s))
+                disc(d, (cx + sx * ex + lx, cy - 3 * s + ly), er, ink)
+        d.line([cx - 4.5 * s + lx, cy + 6.5 * s + ly * .5, cx + 4.5 * s + lx, cy + 6.5 * s + ly * .5], fill=ink, width=w)
     elif expr == sim.SURPRISED:
         for sx in (-1, 1):
-            disc(d, (cx + sx * ex + lx, cy - 4.5 * s + ly), 3.3 * s, ink)
+            disc(d, (cx + sx * ex + lx, cy - 4 * s + ly), er * 1.15, ink)
         r0 = 3.6 * s
-        d.ellipse([cx - r0 + lx, cy + 7 * s - r0, cx + r0 + lx, cy + 7 * s + r0], outline=ink, width=int(1.8 * s))
-    elif expr == sim.ANNOYED:
+        d.ellipse([cx - r0 + lx, cy + 6.5 * s - r0, cx + r0 + lx, cy + 6.5 * s + r0], outline=ink, width=w)
+        for ang in (-35, 0, 35):                               # burst marks outside the disc
+            a = math.radians(90 + ang); r1, r2 = rb + 4 * s, rb + 10 * s
+            d.line([cx + r1 * math.cos(a), cy - r1 * math.sin(a), cx + r2 * math.cos(a), cy - r2 * math.sin(a)], fill=ink, width=w)
+    elif expr == sim.ANNOYED:                                  # brand "focused": lowered brows, flat mouth
         for sx in (-1, 1):
             exx = cx + sx * ex + lx * .4
-            disc(d, (exx, cy - 2.5 * s), 2.4 * s, ink)
-            # brows slant down toward the middle
-            d.line([exx + sx * 4.2 * s, cy - 10.5 * s, exx - sx * 2.6 * s, cy - 7.0 * s], fill=ink, width=int(2.3 * s))
-        # frown
-        d.arc([cx - 5 * s, cy + 6 * s, cx + 5 * s, cy + 12 * s], 200, 340, fill=ink, width=int(2.0 * s))
-    else:  # RELIEVED: closed happy eyes + smile
+            disc(d, (exx, cy - 2 * s), er * .9, ink)
+            d.line([exx + sx * 4.6 * s, cy - 10.5 * s, exx - sx * 3.2 * s, cy - 6.8 * s], fill=ink, width=w)
+        d.line([cx - 4 * s, cy + 8 * s, cx + 4 * s, cy + 8 * s], fill=ink, width=w)
+    else:  # RELIEVED (brand "delighted"): closed arc eyes + open smile
         for sx in (-1, 1):
             exx = cx + sx * ex + lx * .4
-            d.arc([exx - 3.4 * s, cy - 6.5 * s, exx + 3.4 * s, cy - 0.5 * s], 200, 340, fill=ink, width=int(2.4 * s))
-        d.arc([cx - 6 * s, cy + 0.5 * s, cx + 6 * s, cy + 10 * s], 25, 155, fill=ink, width=int(2.5 * s))
+            d.arc([exx - 3.8 * s, cy - 6.5 * s, exx + 3.8 * s, cy + 0.5 * s], 200, 340, fill=ink, width=w)
+        d.chord([cx - 6 * s, cy + 0.5 * s, cx + 6 * s, cy + 11 * s], 0, 180, fill=ink)
 
 
 # ------------------------------------------------------------------ frame
@@ -260,7 +265,7 @@ def render_frame(f):
     d = ImageDraw.Draw(img)
     n = s['n']
 
-    # --- polar space-time trail inside the ring: every car leaves a faint ink mark, stuck cars an accent mark
+    # --- polar space-time trail inside the ring: every car leaves a faint ink mark, stuck cars a second-ink mark
     for fs in range(f - (f % TRAIL_STEP), max(-1, f - int(TRAIL_AGE * FPS)), -TRAIL_STEP):
         age = (f - fs) / FPS
         rr = TRAIL_R0 - age * TRAIL_SPEED
@@ -273,7 +278,7 @@ def render_frame(f):
             q = cam.pt(px, py)
             tn = s['tint'][fs, i]
             if tn > .15:
-                col = lerp(P['paper'], P['accent'], min(1, .25 + .75 * tn) * fade)
+                col = lerp(P['paper'], P['second'], min(1, .25 + .75 * tn) * fade)
                 disc(d, (q[0] + REG_COLOR[0] * SS, q[1] + REG_COLOR[1] * SS), cam.r(2.6 + 1.0 * tn), col)
             else:
                 col = lerp(P['paper'], P['ink'], .22 * fade)
@@ -300,10 +305,10 @@ def render_frame(f):
         q = cam.pt(x, y)
         pulse = 1 + .18 * math.sin(max(0, t - tap_t) * 2 * math.pi * 1.6) * math.exp(-max(0, t - tap_t) * .6)
         rr = cam.r((DOT_R + 10) * pulse)
-        col = lerp(P['paper'], P['accent'], mk)
+        col = lerp(P['paper'], P['ink'], mk)
         d.ellipse([q[0] - rr, q[1] - rr, q[0] + rr, q[1] + rr], outline=col, width=int(3 * SS))
 
-    # --- cars (colour plate: ink -> accent as they slow down)
+    # --- cars (colour plate: ink -> second as they slow down; accent is reserved for the companion)
     for i, (x, y, th) in enumerate(pos):
         if i == m:
             continue
@@ -312,8 +317,8 @@ def render_frame(f):
         if tn < .02:
             disc(d, q, cam.r(DOT_R), P['ink'])
         else:
-            # accent plate grows as the car slows; the ink core shrinks away (two inks, never a muddy mix)
-            disc(d, cam.pt(x + REG_COLOR[0], y + REG_COLOR[1]), cam.r(DOT_R), P['accent'])
+            # second plate grows as the car slows; the ink core shrinks away (two inks, never a muddy mix)
+            disc(d, cam.pt(x + REG_COLOR[0], y + REG_COLOR[1]), cam.r(DOT_R), P['second'])
             core = DOT_R * (1 - tn) ** .8
             if core > .8:
                 disc(d, q, cam.r(core), P['ink'])
@@ -325,7 +330,7 @@ def render_frame(f):
         ra = R + ROAD / 2 + 26
         a0, a1 = ph + .10, ph - .55
         pts = [cam.pt(CX + ra * math.cos(a0 + (a1 - a0) * k / 40), CY - ra * math.sin(a0 + (a1 - a0) * k / 40)) for k in range(41)]
-        col = lerp(P['paper'], P['accent'], ar)
+        col = lerp(P['paper'], P['second'], ar)
         d.line(pts, fill=col, width=int(4 * SS), joint='curve')
         # arrow head pointing clockwise (tangent direction of decreasing angle)
         tip = pts[-1]
@@ -365,10 +370,10 @@ def render_frame(f):
         col = lerp(P['paper'], P['ink'], la)
         d.text((lx, ly), txt, font=font, fill=col)
         bb = d.textbbox((lx, ly), txt, font=font)
-        # accent underline, drawn on like a pen stroke
+        # underline in the second ink, drawn on like a pen stroke
         ul = ease((t - tap_t - .15) / .5)
         d.line([bb[0], bb[3] + 12 * SS, bb[0] + (bb[2] - bb[0]) * ul, bb[3] + 12 * SS],
-               fill=lerp(P['paper'], P['accent'], la), width=int(5 * SS))
+               fill=lerp(P['paper'], P['second'], la), width=int(5 * SS))
         # leader from the label to the braking dot
         x, y, th = pos[s['braker']]
         q = cam.pt(x, y)
@@ -398,7 +403,12 @@ def load_palette_cached():
 
 @lru_cache(maxsize=1)
 def label_font():
-    return ImageFont.truetype(find_font('SemiBold'), int(50 * SS))
+    fnt = ImageFont.truetype(find_font('SemiBold'), int(52 * SS))
+    try:
+        fnt.set_variation_by_axes([600])           # variable font: SemiBold
+    except Exception:
+        pass
+    return fnt
 
 
 def _work(args):
