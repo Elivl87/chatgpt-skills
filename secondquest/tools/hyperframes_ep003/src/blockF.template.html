@@ -691,8 +691,8 @@
       const MEM = {
         Q: { name: "Quest", color: "#d6392f", img: ["assets/quest_wave.png", 688, 1024, 318, 170, 300] },
         P: { name: "Pixie", color: "#167880", img: ["assets/pixie_wave.png", 680, 1024, 320, 168, 280] },
-        A: { name: "Max", color: "#7860be" },
-        B: { name: "Leo", color: "#d69628" },
+        A: { name: "Max", color: "#7860be", img: ["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210] },   // our 3D friends (2026-10-13)
+        B: { name: "Leo", color: "#d69628", img: ["assets/leo_front_laugh.png", 221, 760, 110.5, 118, 210], img2: ["assets/leo_front_sideeye.png", 221, 760, 110.5, 118, 210] },
       };
       const avHTML = (k) => MEM[k].img ? ChatPhone.avImg(...MEM[k].img) : ChatPhone.avSil(MEM[k].color);
       const SIL = (fill, dark) => `<svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="${fill}" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="100" cy="60" r="35" fill="${fill}" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M66 54 C 60 26, 92 10, 118 20 C 138 28, 140 46, 136 56 C 122 38, 90 36, 66 54 Z" fill="${dark}" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg>`;

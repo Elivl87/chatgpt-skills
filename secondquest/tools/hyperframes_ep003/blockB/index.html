@@ -368,8 +368,8 @@
       const MEM = {
         Q: { name: "Quest", color: "#d6392f", img: ["assets/quest_wave.png", 688, 1024, 318, 170, 300] },
         P: { name: "Pixie", color: "#167880", img: ["assets/pixie_wave.png", 680, 1024, 320, 168, 280] },
-        A: { name: "Max", color: "#7860be" },
-        B: { name: "Leo", color: "#d69628" },
+        A: { name: "Max", color: "#7860be", img: ["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210] },   // our 3D friends (2026-10-13)
+        B: { name: "Leo", color: "#d69628", img: ["assets/leo_front_laugh.png", 221, 760, 110.5, 118, 210], img2: ["assets/leo_front_sideeye.png", 221, 760, 110.5, 118, 210] },
       };
       const SLOT = { P: 296, Q: 525, A: 755, B: 984 };
       const AV_Y = 330, AV_SEAT = 384;                                     // floating, then seated in the boat
@@ -403,8 +403,8 @@
         members: {
           Q: { name: "Quest", color: MEM.Q.color, avatar: ChatPhone.avImg(...MEM.Q.img) },
           P: { name: "Pixie", color: MEM.P.color, avatar: ChatPhone.avImg(...MEM.P.img) },
-          A: { name: "Max", color: MEM.A.color, avatar: ChatPhone.avSil(MEM.A.color) },
-          B: { name: "Leo", color: MEM.B.color, avatar: ChatPhone.avSil(MEM.B.color) },
+          A: { name: "Max", color: MEM.A.color, avatar: ChatPhone.avImg(...MEM.A.img) },
+          B: { name: "Leo", color: MEM.B.color, avatar: ChatPhone.avImg(...MEM.B.img2) },   // side-eye: "I'll get it later"
         },
       });
       chat.system("Today 11:41 PM", { visible: true });

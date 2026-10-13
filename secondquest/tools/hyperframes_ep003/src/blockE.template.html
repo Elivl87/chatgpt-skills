@@ -964,8 +964,8 @@
       const chat = ChatPhone($("#phoneWrap"), { title: "The boat", sub: "5 members", clock: "9:14", me: "Q",
         members: { Q: { name: "Quest", color: "#d6392f", avatar: ChatPhone.avImg("assets/quest_wave.png", 688, 1024, 318, 170, 300) },
                    P: { name: "Pixie", color: "#1f8fa0", avatar: ChatPhone.avImg("assets/pixie_wave.png", 680, 1024, 312, 176, 250) },
-                   A: { name: "Max", color: "#7860be", avatar: ChatPhone.avSil("#7860be") },
-                   B: { name: "Jules", color: "#b0568a", avatar: ChatPhone.avSil("#b0568a") },
+                   A: { name: "Max", color: "#7860be", avatar: ChatPhone.avImg(...["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210]) },
+                   B: { name: "Leo", color: "#d69628", avatar: ChatPhone.avImg(...["assets/leo_front_laugh.png", 221, 760, 110.5, 118, 210]) },
                    S: { name: "Sam", color: "#2e9e5b", avatar: ChatPhone.avSil("#2e9e5b") } } });
       function sysRow(text) { const r = mk("div", "ch-row sysrow", chat.list); const pad = mk("div", "ch-pad", r); const b = mk("div", "sys", pad, "", text); return { el: r, bub: b, h: 46 }; }
       const cDate = sysRow("Today · 2031");

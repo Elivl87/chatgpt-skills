@@ -167,7 +167,7 @@
                 <div id="crewClip">
                   <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /></div></div></div></div></div>
                   <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /></div></div></div></div></div>
-                  <div id="ko" class="abs" style="left: 562px; top: 222px; width: 120px; height: 60px"></div>
+                  <div id="ko" class="abs" style="left: 566px; top: 196px; width: 120px; height: 60px"></div>
                 </div>
                 <svg id="line" viewBox="-100 -350 840 520"><path id="linePath" d="M 417 -229 C 380 -150, 230 -175, 175 -95 C 170 -40, 260 -30, 380 -36 C 520 -44, 640 -60, 640 -20 C 640 20, 470 30, 330 24 C 200 18, 150 30, 170 50 C 200 80, 420 60, 560 70 C 650 76, 700 110, 690 160" fill="none" stroke="#f6efe0" stroke-width="2.2" stroke-linecap="round"/></svg>
                 <div id="rod"><img src="assets/rod.png" alt="" /></div>
@@ -294,8 +294,8 @@
       // the lake plate and the friends (Max, Leo: seated 3/4 cut-outs inside the two-pass boat, scaled to Quest = 286 px)
       const lake = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
       const crewHost = $("#crewClip"), pixieEl = $("#pixie");
-      const MAX = Friend(crewHost, "max", { id: "silA", pose: "sit_34", exprs: ["sideeye", "laugh", "neutral"], hq: 286, x: 530, base: 452 });
-      const LEO = Friend(crewHost, "leo", { id: "silB", pose: "sit_34", exprs: ["laugh", "shock", "neutral", "sweat"], hq: 286, x: 618, base: 452 });
+      const MAX = Friend(crewHost, "max", { id: "silA", pose: "sit_34", exprs: ["sideeye", "laugh", "neutral"], hq: 286, x: 528, base: 412 });
+      const LEO = Friend(crewHost, "leo", { id: "silB", pose: "sit_34", exprs: ["laugh", "shock", "neutral", "sweat"], hq: 286, x: 622, base: 418 });
       crewHost.insertBefore(MAX.el, pixieEl); crewHost.insertBefore(LEO.el, pixieEl);
       // the companion (fish_34) in the boat layer
       const buddy = mk("div", "fish", $("#fishFront"), "left:0; top:0; width:170px; height:125px"); buddy.id = "buddy";
