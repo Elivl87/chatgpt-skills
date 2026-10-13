@@ -652,15 +652,16 @@ FRIEND_VIEWS = {'34': (30, 6), 'front': (0, 4), 'side': (90, 4), 'back': (180, 6
 
 def friend_span(who, pose):
     """Height in cm covered by the canvas (h px) for this pose: px per cm = h / span."""
-    return FRIENDS[who][1] * {'sit': .98, 'cheer': 1.38}.get(pose, 1.12)
+    return FRIENDS[who][1] * {'sit': 1.06, 'cheer': 1.38}.get(pose, 1.12)
 
 
-def friend_render(who, view='34', expr='neutral', pose='stand', w=1000, h=1500, line=4.4):
+def friend_render(who, view='34', expr='neutral', pose='stand', w=None, h=1500, line=4.4):
     """One friend, one view/expression/pose, transparent RGBA at w x h (the figure fills ~88 % of the height)."""
     prop, tall = FRIENDS[who]
     yaw, elev = FRIEND_VIEWS[view]
+    w = w or (1700 if pose == 'point' else 1150 if pose in ('cheer', 'phone') else 1000)   # room for reaching arms
     sit = pose == 'sit'
-    ty = tall * (.13 if sit else .62 if pose == 'cheer' else .5)       # seated: the seat is y = 0
+    ty = tall * (.16 if sit else .62 if pose == 'cheer' else .5)       # seated: the seat is y = 0
     span = friend_span(who, pose)
     fov = 26
     d = span / 2 / np.tan(np.radians(fov / 2))
@@ -668,8 +669,10 @@ def friend_render(who, view='34', expr='neutral', pose='stand', w=1000, h=1500, 
     shot = {'camera': orbit(yaw, elev, d, tgt), 'target': tgt, 'fov': fov, 'cart': None, 'near': d * .3, 'far': d * 3,
             who: {'expr': expr, 'pose': pose}}
     for _ in range(3):
-        img = render({'props': [prop], 'shots': [shot], 'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
+        img = render({'props': [prop], 'shots': [shot], 'light': 'neutral'}, w, h, line=line, despeckle=34)[0]   # 34: drops crease ticks at bent elbows/knees
         if img[..., 3].any() and not img[[0, -1]][:, [0, -1], 3].all():
+            if img[:, [0, -1], 3].any() or img[[0, -1], :, 3].any():
+                print(f'WARNING {who} {view} {expr} {pose}: the figure touches the canvas edge (cropped)')
             return img
     raise RuntimeError(f'{who} {view} {expr} {pose} rendered empty')
 

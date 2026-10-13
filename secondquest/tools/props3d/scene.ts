@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 type V3 = [number, number, number];
 interface FishExpr { lid?: number; look?: [number, number]; mouth?: 'pout' | 'o' | 'flat'; sweat?: boolean }
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; max?: { expr?: string; pose?: string }; leo?: { expr?: string; pose?: string }; boat?: 'back' | 'front'; hide?: number[]; near?: number; far?: number }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; max?: FriendShot; leo?: FriendShot; boat?: 'back' | 'front'; hide?: number[]; near?: number; far?: number }
 type Poly = { outer: [number, number][]; holes: [number, number][][] };
 interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
@@ -2278,6 +2278,8 @@ const outboardOnBoat = () => { const o = outboard(); o.position.set(-153.5, 50, 
  * limbs, mitten hands, chunky boots. Built in our toon ramp + ink like fish v2; clothes are lightly faceted.
  * Every friend has a skeleton (pelvis > chest > head / shoulders > elbows > wrists, hips > knees) driven by
  * g.userData.setPose(name) and a face driven by g.userData.setExpr(name | FriendFace); shot.max / shot.leo = { expr, pose }. */
+/** shot.max / shot.leo: pose, expression and an optional placement [x, y, z, yaw] (e.g. on a rowboat thwart). */
+interface FriendShot { expr?: string; pose?: string; at?: [number, number, number, number] }
 interface FriendFace { lid?: number; low?: number; tilt?: number; look?: [number, number]; goofy?: number; eye?: number; pupil?: number;
   mouth?: 'smile' | 'flat' | 'grin' | 'open' | 'o' | 'wobble'; sweat?: boolean; nod?: number }
 interface WormSpec {
@@ -2290,6 +2292,8 @@ interface WormSpec {
   outfit: 'overalls' | 'apron'; hat?: 'beanie'; faces: Record<string, FriendFace>;
 }
 const WORM_POSES = ['stand', 'sit', 'point', 'cheer', 'phone'] as const;
+// seated knees-up (a rowboat thwart is ~22 cm above the floorboards): thighs rise ~39 deg, shins near vertical
+const SIT_HIP = -2.25, SIT_KNEE = 2.12;
 
 const worm = (S: WormSpec) => {
   const root = new THREE.Group();
@@ -2339,7 +2343,9 @@ const worm = (S: WormSpec) => {
     for (let i = 0; i <= 6; i++) { const a = -Math.PI / 2 + i / 6 * Math.PI / 2; pts.push([r1 * Math.cos(a), -len + r1 * Math.sin(a)]); }
     for (let i = 0; i <= 6; i++) { const a = i / 6 * Math.PI / 2; pts.push([r0 * Math.cos(a), r0 * Math.sin(a)]); }
     pts[0][0] = 0; pts[pts.length - 1][0] = 0;
-    return lathe(pts.map(([r, y]) => [Math.max(r, 1e-3), y] as [number, number]), seg, mat, part);
+    const m = lathe(pts.map(([r, y]) => [Math.max(r, 1e-3), y] as [number, number]), seg, mat, part);
+    m.geometry.rotateY(Math.PI);                                              // lathe seam to the back (no crease tick in front)
+    return m;
   };
   const ellip = (r: number, sc: V3, pos: V3, mat: THREE.Material, part: number, seg = 18) => {
     const m = mesh(new THREE.SphereGeometry(r, seg, Math.round(seg * .7)), mat, part); m.scale.set(...sc); m.position.set(...pos); return m;
@@ -2520,9 +2526,7 @@ const worm = (S: WormSpec) => {
     if (S.outfit !== 'apron') return;
     if (skirt) { chest.remove(skirt); skirt.geometry.dispose(); ids.splice(ids.indexOf(skirt), 1); }
     const yw = S.waist - .8, P0 = 1.05;
-    const path = sit
-      ? [[0, 0], [-(yw - S.legR - 1.4) * .75, .6], [-(yw - S.legR - 1.4), 3.5], [-(yw - S.legR - 1.4), 13], [-(yw - S.legR - 1.4), 21], [-(yw - S.legR - 1.4) - 6, 26.5]].map(([y, z]) => V(0, y + (z > 2 ? z * .16 + 2.4 : 0), z))
-      : [V(0, 0, 0), V(0, -10, .9), V(0, -22, 1.9), V(0, -34, 2.6)];
+    const path = [V(0, 0, 0), V(0, -10, .9), V(0, -22, 1.9), V(0, -34, 2.6)];
     const pc = new THREE.CatmullRomCurve3(path);
     const geo = grid(range(0, 1, 16), range(-P0, P0, 20), (s, phi) => {
       const top = torsoPt(phi, yw, .8 + .2 * Math.cos(phi)), d = pc.getPoint(s);
@@ -2531,6 +2535,7 @@ const worm = (S: WormSpec) => {
     orient(geo, (p) => V(0, sit ? .6 : 0, 1).add(V(p.x * .05, 0, 0)));
     const m = new THREE.MeshToonMaterial({ color: new THREE.Color('#a4713d'), gradientMap: ramp, vertexColors: true, flatShading: true, side: THREE.DoubleSide });
     skirt = mesh(geo, m, id(37)); chest.add(skirt);
+    skirt.visible = !sit;                                                     // seated knees-up: the skirt lies hidden in the lap
   };
   const apronPocket = S.outfit === 'apron' ? (() => { const g = new THREE.Group(); chest.add(g); return g; })() : null;
   const setPocket = (sit: boolean) => {
@@ -2543,7 +2548,7 @@ const worm = (S: WormSpec) => {
     const geo = grid(range(s0, s1, s1 - s0), range(5, 15, 10), (i, j) => ({ p: at_(i, j) }));
     orient(geo, (p) => V(0, sit ? .6 : 0, 1).add(V(p.x * .05, 0, 0)));
     const m = new THREE.MeshToonMaterial({ color: new THREE.Color('#8f5f31'), gradientMap: ramp, flatShading: true, side: THREE.DoubleSide });
-    apronPocket.add(mesh(geo, m, id(38)));
+    apronPocket.add(mesh(geo, m, id(38))); apronPocket.visible = !sit;
   };
 
   // ---- expressions
@@ -2590,9 +2595,9 @@ const worm = (S: WormSpec) => {
     rest();
     const [AL, AR] = arms, [LL, LR] = legs;
     if (name === 'sit') {
-      for (const G of legs) { G.hip.rotation.set(-1.62, 0, G.sd * .09); G.kn.rotation.set(1.78, 0, 0); }
+      for (const G of legs) { G.hip.rotation.set(SIT_HIP, 0, G.sd * .1); G.kn.rotation.set(SIT_KNEE, 0, 0); }
       chest.rotation.x = .1;
-      for (const A of arms) { aim(A.sh, -A.sd * .07, -.85, .5); A.el.rotation.set(-.75, 0, 0); A.wr.rotation.set(-.2, 0, 0); }
+      for (const A of arms) { aim(A.sh, -A.sd * .08, -.8, .6); A.el.rotation.set(-.95, 0, 0); A.wr.rotation.set(-.2, 0, 0); }
       poseNod = .02;
     } else if (name === 'point') {
       aim(AL.sh, .86, .16, .48); AL.el.rotation.set(-.05, 0, 0); AL.wr.rotation.set(0, 0, 0);
@@ -2605,8 +2610,8 @@ const worm = (S: WormSpec) => {
       chest.rotation.x = -.06; poseNod = -.22; poseLook = [.35, 0];
       for (const G of legs) G.hip.rotation.set(0, 0, G.sd * .08);
     } else if (name === 'phone') {
-      AR.sh.rotation.set(-.32, 0, .12); AR.el.rotation.set(-1.45, .25, 0); AR.wr.rotation.set(-.15, 0, -.2);
-      AL.sh.rotation.set(-.25, 0, -.06); AL.el.rotation.set(-1.25, -.35, 0); AL.wr.rotation.set(0, 0, .3);
+      AR.sh.rotation.set(-.32, 0, -.12); AR.el.rotation.set(-1.45, .25, 0); AR.wr.rotation.set(-.15, 0, -.2);
+      AL.sh.rotation.set(-.25, 0, .1); AL.el.rotation.set(-1.25, -.35, 0); AL.wr.rotation.set(0, 0, .3);
       phoneG.visible = true; phoneG.position.set(S.handR * .45, -S.handR * 1.25, S.handR * .6); phoneG.rotation.set(-1.45, .0, Math.PI / 2 + .1);
       chest.rotation.x = .1; poseNod = .38; poseLook = [-.9, .05];
     }
@@ -2652,7 +2657,7 @@ const friendMax = () => worm({
 const friendLeo = () => {
   const g = worm({
     base: 3100, hipY: 74, waist: 7, bibTop: 36,
-    torso: [[-7.5, 0, 0], [-7, 7.5, 7], [-4, 15.6, 11.4], [0, 17.2, 12.2], [8, 17.6, 12.6], [20, 17.6, 12.6], [32, 17.2, 12], [41, 17.6, 11.5], [45.5, 16, 10.4], [48.5, 12.4, 9.4], [50, 9.4, 9], [50.3, 9.2, 8.9]],
+    torso: [[-7.5, 0, 0], [-7, 7.5, 7], [-4, 15.6, 11.4], [0, 17.2, 12.2], [8, 17.6, 12.6], [20, 17.6, 12.6], [32, 17.0, 12], [41, 16.8, 11.3], [45.5, 15.4, 10.2], [48.5, 12.4, 9.4], [50, 9.4, 9], [50.3, 9.2, 8.9]],
     headL: 40, headR: 10.6, neckR: 8.4, zs: .95, bend: 3.4, lean: .15, eyeR: 3.9, eyeY: 25.5, eyeX: 3.75, noseR: 1.8, mouthY: 15.5, mouthW: 9.5,
     armR: 4.2, shX: 16.4, shY: 43.5, upperL: 25, foreL: 23, handR: 5.4,
     legR: 7, hipX: 8.2, thighL: 33, shinL: 33, footL: 27,
@@ -2732,7 +2737,8 @@ function draw() {
     }
     if (props.horse && shot.pose != null) setGallop(shot.pose);
     if (props.fish2) props.fish2.userData.setExpr(shot.fish ?? {});
-    for (const [k, s] of [['friendMax', shot.max], ['friendLeo', shot.leo]] as const) if (props[k]) { props[k].userData.setPose(s?.pose ?? 'stand'); props[k].userData.setExpr(s?.expr ?? 'neutral'); }
+    for (const [k, s] of [['friendMax', shot.max], ['friendLeo', shot.leo]] as const) if (props[k]) { props[k].userData.setPose(s?.pose ?? 'stand'); props[k].userData.setExpr(s?.expr ?? 'neutral');
+      const [ax, ay, az, yaw] = s?.at ?? [0, 0, 0, 0]; props[k].position.x = ax; props[k].position.y += ay; props[k].position.z = az; props[k].rotation.y = yaw; }
     // rowboat layers for characters seated inside: 'back' = far side + interior, 'front' = near hull side, rail and oar
     if (props.rowboat) props.rowboat.traverse((o: THREE.Object3D) => { if (o.userData.half) o.visible = !shot.boat || o.userData.half === shot.boat; });
     ids.forEach((m) => { if (!saved.has(m)) saved.set(m, m.material); });   // meshes rebuilt per shot (friends' mouths, apron)
