@@ -1,0 +1,8 @@
+{
+  "_note": "Seed palette fixed by the director on 2026-10-13 so brand, sim and pilot agents share one look. The brand agent may refine values in BRAND.md and must then update this file.",
+  "paper":  "#F3ECDD",
+  "ink":    "#1C2433",
+  "accent": "#E8553A",
+  "second": "#2E8C83",
+  "paper_shadow": "#E4DAC6"
+}
