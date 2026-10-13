@@ -51,7 +51,9 @@
   current block's clip, never the full joined video, until the whole animatic is complete.
 - **Always improve (Producer rule):** blocking a defect is not enough.
   - Before executing any stage, and in every report, recommend concrete improvements: what could be better, how, and what it costs.
-  - The Producer decides which improvements go in.
+  - The Producer decides which improvements go in **when they cost credits**. Free improvements that raise quality
+    are applied without asking and listed in the report (Producer, 2026-10-13: "Haz todas las mejoras que consideres
+    y salgan gratis. La idea siempre es dar la mejor calidad posible").
 - **Scripts are never edited by Claude (Producer rule):** the approved script is used verbatim. In autonomous mode
   Claude writes the script; once it is locked (before Bram records it) it is used verbatim like any approved script.
   - Any check on a script (originality, structure, length) only reports to the Producer; it never rewrites.
