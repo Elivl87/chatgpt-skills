@@ -495,11 +495,21 @@
         el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip"></div></div></div></div></div>`;
         host.appendChild(el);
         const fl = el.querySelector(".flip"); fl.style.cssText = "position:absolute; inset:0" + (o.flip ? "; transform:scaleX(-1)" : "");
-        const imgs = {};
+        const imgs = {}, lids = {}, sched = [[0, o.exprs[0]]];
+        const canBlink = o.pose === "sit_34";                             // rendered blink frames exist for the seated 3/4 set
         o.exprs.forEach((e, i) => { const im = document.createElement("img"); im.src = `assets/${fileOf(e)}.png`; im.alt = "";
-          im.style.opacity = i ? 0 : 1; fl.appendChild(im); imgs[e] = im; });
+          im.style.opacity = i ? 0 : 1; fl.appendChild(im); imgs[e] = im;
+          if (canBlink) { const b = document.createElement("img"); b.src = `assets/${fileOf(e)}_blink.png`; b.alt = ""; b.style.opacity = 0; fl.appendChild(b); lids[e] = b; } });
         return { el, imgs, w, h,
-          face(tl, e, at) { Object.entries(imgs).forEach(([k, im]) => tl.set(im, { opacity: k === e ? 1 : 0 }, at)); } };
+          face(tl, e, at) { sched.push([at, e]); Object.entries(imgs).forEach(([k, im]) => tl.set(im, { opacity: k === e ? 1 : 0 }, at)); },
+          // idle blinks (every 2.4-4.6 s, seeded) on whichever face is showing; call after the last face()
+          blinks(tl, t0, t1, seed) { if (!canBlink) return; let r = seed || 7; const rnd = () => { r = (r * 16807) % 2147483647; return r / 2147483647; };
+            const ss = sched.slice().sort((a, b) => a[0] - b[0]);
+            Object.values(lids).forEach((b) => tl.set(b, { opacity: 0 }, 0));
+            for (let t = t0 + .8 + rnd() * 1.5; t < t1 - .3; t += 2.4 + rnd() * 2.2) {
+              let e = ss[0][1]; for (const [tt, ee] of ss) if (tt <= t) e = ee;
+              if (ss.some(([tt]) => Math.abs(tt - t) < .25)) continue;     // never on a face change
+              tl.set(lids[e], { opacity: 1 }, t); tl.set(lids[e], { opacity: 0 }, t + .12); } } };
       }
 
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
@@ -544,8 +554,9 @@
         m.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway">${inner.startsWith("<svg") ? inner : `<img src="assets/${inner}" alt="" />`}</div></div></div></div>`; return m; }
       // Max and Leo (our 3D, seated 3/4) take the grey friends' seats, scaled to Quest (286 px), inside the two-pass boat
       function crew4(host, pre) { return [mate(host, pre + "P", 220, "pixie_laugh.png"), mate(host, pre + "Q", 335, "quest_laugh.png"),
-        Friend(host, "max", { id: pre + "A", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 528, base: 412 }).el,
-        Friend(host, "leo", { id: pre + "B", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 622, base: 418 }).el]; }
+        FR1(Friend(host, "max", { id: pre + "A", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 528, base: 412 })),
+        FR1(Friend(host, "leo", { id: pre + "B", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 622, base: 418 }))]; }
+      const FRS = [], FR1 = (f) => { FRS.push(f); return f.el; };
       const C4 = crew4($("#crewClip"), "c4");
       const C2 = [mate($("#crewClip"), "c2P", 236, "pixie_sit.png", "width: 160px; height: 241px; bottom: -48px"),
                   mate($("#crewClip"), "c2Q", 352, "quest_calm.png")];
@@ -734,7 +745,7 @@
             <circle r="38" fill="#f5efe2" stroke="#16161f" stroke-width="5"/><g stroke="#16161f" stroke-width="3">${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => `<line x1="0" y1="-31" x2="0" y2="-26" transform="rotate(${i * 30})"/>`).join("")}</g>
             <line class="hh" x1="0" y1="4" x2="0" y2="-18" stroke="#16161f" stroke-width="5" stroke-linecap="round"/><line class="mh" x1="0" y1="5" x2="0" y2="-28" stroke="#d6392f" stroke-width="3.5" stroke-linecap="round"/><circle r="4" fill="#16161f"/></svg>
           <div class="abs" style="left:150px;top:560px;width:200px;height:133px"><img src="assets/toolbox.png" alt="" style="width:100%;height:100%;filter:drop-shadow(0 10px 8px rgba(0,0,0,.4))"/></div>
-          <div class="car abs" style="left:700px;top:360px;width:640px;height:302px">${CAR}</div>
+          <div class="car abs" style="left:628px;top:394px;width:560px;height:264px">${CAR}</div>
           <div class="qw abs" style="left:395px;top:268px;width:300px;height:402px"><img src="assets/quest_wrench.png" alt="" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 10px rgba(0,0,0,.35))"/></div>
           <div class="tint abs" style="left:0;top:0;width:1280px;height:720px;mix-blend-mode:multiply;background:#ffffff"></div>
         </div>`;
@@ -1154,6 +1165,7 @@
       tl.fromTo("#cuL .person, #cuR .person", { scale: 1 }, { scale: 1.03, duration: 2.4, ease: "sine.inOut", transformOrigin: "50% 30%" }, T.nobody - .05);
 
       tl.set({}, {}, DUR);
+      FRS.forEach((f, i) => f.blinks(tl, 0, 57.3, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>
     <!--

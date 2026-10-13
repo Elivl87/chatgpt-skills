@@ -356,7 +356,7 @@
         <div id="doorVig" class="full"></div>
         <!-- new art v1 (04_kid_door, never edited): through the open door, the kid who came to play -->
         <div id="kidShot" class="full" style="opacity: 0; overflow: hidden"><div id="kidCam" class="full">
-          <img id="kidImg" src="assets/kid_door.png" alt="" style="position: absolute; left: -32px; top: -16px; width: 1344px; height: 752px" />
+          <img id="kidImg" src="assets/kid_door.png" alt="" style="position: absolute; left: -32px; top: 0px; width: 1344px; height: 752px" />
           <div id="want"><span class="ln" id="wl1"></span><span class="ln" id="wl2"></span></div>
         </div></div>
       </div>
@@ -851,8 +851,8 @@
       // a 2-3 % breathing push on him; on "lost" the memory drains (desaturate, soften); back inside for the slam on "Nobody"
       tl.set("#kidShot", { opacity: 0 }, 0);
       tl.fromTo("#kidShot", { opacity: 0 }, { opacity: 1, duration: .32, ease: "power1.out" }, T.door + .28);
-      tl.fromTo("#kidCam", { scale: 1.14, x: -30, y: 10 }, { scale: 1.0, x: 0, y: 0, duration: .9, ease: "power2.out", transformOrigin: "50% 45%" }, T.door + .28);
-      tl.to("#kidCam", { scale: 1.028, x: -10, y: -4, duration: T.nobody2 - T.door - 1.4, ease: "sine.inOut", transformOrigin: "45% 40%" }, T.door + 1.18);
+      tl.fromTo("#kidCam", { scale: 1.14, x: -30, y: 10 }, { scale: 1.0, x: 0, y: 0, duration: .9, ease: "power2.out", transformOrigin: "47% 8%" }, T.door + .28);
+      tl.to("#kidCam", { scale: 1.028, x: -10, y: 0, duration: T.nobody2 - T.door - 1.4, ease: "sine.inOut", transformOrigin: "47% 8%" }, T.door + 1.18);
       tl.fromTo("#kidImg", { filter: "grayscale(0) brightness(1) blur(0px)" }, { filter: "grayscale(.85) brightness(.72) blur(1.2px)", duration: 1.5, ease: "sine.inOut" }, T.lost + .1);
       tl.set("#kidShot", { opacity: 0 }, T.nobody2 - .22);
       // "lost": the letters scatter like leaves out into the yard
