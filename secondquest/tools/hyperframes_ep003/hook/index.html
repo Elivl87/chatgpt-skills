@@ -350,11 +350,21 @@
         el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip"></div></div></div></div></div>`;
         host.appendChild(el);
         const fl = el.querySelector(".flip"); fl.style.cssText = "position:absolute; inset:0" + (o.flip ? "; transform:scaleX(-1)" : "");
-        const imgs = {};
+        const imgs = {}, lids = {}, sched = [[0, o.exprs[0]]];
+        const canBlink = o.pose === "sit_34";                             // rendered blink frames exist for the seated 3/4 set
         o.exprs.forEach((e, i) => { const im = document.createElement("img"); im.src = `assets/${fileOf(e)}.png`; im.alt = "";
-          im.style.opacity = i ? 0 : 1; fl.appendChild(im); imgs[e] = im; });
+          im.style.opacity = i ? 0 : 1; fl.appendChild(im); imgs[e] = im;
+          if (canBlink) { const b = document.createElement("img"); b.src = `assets/${fileOf(e)}_blink.png`; b.alt = ""; b.style.opacity = 0; fl.appendChild(b); lids[e] = b; } });
         return { el, imgs, w, h,
-          face(tl, e, at) { Object.entries(imgs).forEach(([k, im]) => tl.set(im, { opacity: k === e ? 1 : 0 }, at)); } };
+          face(tl, e, at) { sched.push([at, e]); Object.entries(imgs).forEach(([k, im]) => tl.set(im, { opacity: k === e ? 1 : 0 }, at)); },
+          // idle blinks (every 2.4-4.6 s, seeded) on whichever face is showing; call after the last face()
+          blinks(tl, t0, t1, seed) { if (!canBlink) return; let r = seed || 7; const rnd = () => { r = (r * 16807) % 2147483647; return r / 2147483647; };
+            const ss = sched.slice().sort((a, b) => a[0] - b[0]);
+            Object.values(lids).forEach((b) => tl.set(b, { opacity: 0 }, 0));
+            for (let t = t0 + .8 + rnd() * 1.5; t < t1 - .3; t += 2.4 + rnd() * 2.2) {
+              let e = ss[0][1]; for (const [tt, ee] of ss) if (tt <= t) e = ee;
+              if (ss.some(([tt]) => Math.abs(tt - t) < .25)) continue;     // never on a face change
+              tl.set(lids[e], { opacity: 1 }, t); tl.set(lids[e], { opacity: 0 }, t + .12); } } };
       }
 
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
@@ -668,6 +678,7 @@
       tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.5), immediateRender: false }, 0);
 
       tl.set({}, {}, DUR);
+      [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, 36.03, 11 + i * 7));   // idle blinks on the friends
       const WARP = [[0.0, 0.0], [0.3, 0.34], [0.44, 0.54], [0.6, 0.68], [0.78, 0.84], [0.98, 1.02], [1.44, 1.56], [1.86, 1.9], [2.06, 2.14], [2.38, 2.5], [3.18, 3.12], [3.4, 3.22], [3.76, 3.5], [4.64, 4.24], [4.69, 4.29], [5.1, 4.62], [5.68, 5.18], [5.74, 5.28], [5.88, 5.6], [6.0, 5.82], [6.24, 6.14], [6.806, 6.64], [6.98, 6.78], [7.88, 7.1], [8.46, 7.64], [8.8, 7.98], [8.96, 8.18], [9.08, 8.32], [9.36, 8.68], [9.93, 9.0], [10.1, 9.19], [10.24, 9.36], [10.58, 9.82], [10.88, 10.14], [11.0, 10.24], [11.22, 10.42], [11.32, 10.54], [11.64, 10.86], [12.16, 11.38], [12.4, 11.58], [12.62, 11.92], [12.82, 12.14], [13.16, 12.46], [14.06, 12.88], [14.2, 13.1], [14.4, 13.52], [14.54, 13.78], [14.84, 14.18], [15.28, 14.66], [15.82, 15.29], [15.98, 15.4], [16.3, 15.94], [16.64, 16.26], [17.54, 16.82], [17.8, 17.12], [18.2, 17.44], [18.58, 17.76], [18.78, 17.89], [19.06, 18.1], [19.38, 18.42], [19.92, 18.78], [20.36, 19.13], [20.74, 19.5], [21.36, 20.58], [21.52, 20.76], [21.84, 21.1], [22.34, 21.64], [22.52, 22.0], [22.76, 22.2], [23.32, 22.62], [23.66, 22.98], [24.14, 23.42], [24.52, 23.72], [24.78, 23.98], [25.04, 24.44], [25.4, 25.36], [25.95, 26.18], [26.18, 26.4], [26.6, 26.94], [26.92, 27.34], [27.22, 27.76], [27.4, 28.26], [27.64, 28.68], [28.08, 29.14], [29.0, 29.7], [29.18, 29.98], [29.76, 30.6], [30.34, 31.26], [31.23, 31.77], [31.76, 32.14], [32.945, 32.98], [33.8, 33.24], [34.36, 34.1], [36.03, 36.01], [36.03, 35.6]];
       const master = gsap.timeline({ paused: true });                  // authored time -> narration time
       for (let i = 0; i + 1 < WARP.length; i++) master.add(tl.tweenFromTo(WARP[i][0], WARP[i + 1][0], { duration: WARP[i + 1][1] - WARP[i][1], ease: "none", immediateRender: false }), WARP[i][1]);

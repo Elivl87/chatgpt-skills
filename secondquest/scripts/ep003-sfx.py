@@ -409,6 +409,7 @@ def cues():
     a(T('l19.w9'), 'door_knock', -16); a(T('l19.w10'), 'door_knock', -18)   # knock, knock
     dr = T('l19.w13')
     a(dr - .1, 'door_open', -16); a(dr + .1, 'chime', -30)            # the door swings open, the light pours in
+    a(dr + .26, 'whoosh', -30, .1)                                    # the push through the doorway onto the kid (new art 04)
     a(T('l19.w16') - .04, 'paper2', -28)                              # "Want to play?" writes itself
     a(T('l19.w23'), 'whoosh', -24, .3)                                # "lost": the letters scatter like leaves
     nb = T('l19.w26')
@@ -566,6 +567,8 @@ def cues():
     a(T('l32.w29') - .12, 'whip', -16, .3)
     l31 = T('l32.w31')
     a(l31, 'launch', -20, .3); a(l31, 'splash', -20, .5)              # launched across the island
+    a(l31 - .02, 'boom', -20, -.5)                                    # new art 03: the blast on the island
+    a(T('l32.w35'), 'whoosh', -24, .4)                                # the fast push into Quest at the apex
     a(T('l32.w36') - .12, 'rewind:0.45', -24)                         # rewind to the water...
     a(T('l32.w36') + .12, 'creak', -16, .45); a(T('l32.w36') + .2, 'rumble', -24, .45)   # ...a giant eye opens
     a(T('l32.w38'), 'squish', -30, .45)                               # the iris looks
@@ -586,8 +589,7 @@ def cues():
     a(T('l33.w21'), 'done', -20, -.2)                                 # REVIVED!
     # how friendships handle feelings
     a(T('l34.w4') + .1, 'squish', -22, .1)                            # the handprint
-    for k in ('l34.w6', 'l34.w7', 'l34.w8', 'l34.w9', 'l34.w10'):
-        a(T(k) - .04, 'pop', -28)
+    a(T('l34.w10') - .04, 'pop', -24)                                 # only the keyword lands on screen ("feelings.")
     # years later, the same group chat
     a(T('l35') + .35, 'place', -20, -.1)                              # the "perfect" polaroid drops
     a(T('l35.w7'), 'drain', -30)                                      # ...greyed out

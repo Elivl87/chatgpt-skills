@@ -18,9 +18,19 @@
         el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip"></div></div></div></div></div>`;
         host.appendChild(el);
         const fl = el.querySelector(".flip"); fl.style.cssText = "position:absolute; inset:0" + (o.flip ? "; transform:scaleX(-1)" : "");
-        const imgs = {};
+        const imgs = {}, lids = {}, sched = [[0, o.exprs[0]]];
+        const canBlink = o.pose === "sit_34";                             // rendered blink frames exist for the seated 3/4 set
         o.exprs.forEach((e, i) => { const im = document.createElement("img"); im.src = `assets/${fileOf(e)}.png`; im.alt = "";
-          im.style.opacity = i ? 0 : 1; fl.appendChild(im); imgs[e] = im; });
+          im.style.opacity = i ? 0 : 1; fl.appendChild(im); imgs[e] = im;
+          if (canBlink) { const b = document.createElement("img"); b.src = `assets/${fileOf(e)}_blink.png`; b.alt = ""; b.style.opacity = 0; fl.appendChild(b); lids[e] = b; } });
         return { el, imgs, w, h,
-          face(tl, e, at) { Object.entries(imgs).forEach(([k, im]) => tl.set(im, { opacity: k === e ? 1 : 0 }, at)); } };
+          face(tl, e, at) { sched.push([at, e]); Object.entries(imgs).forEach(([k, im]) => tl.set(im, { opacity: k === e ? 1 : 0 }, at)); },
+          // idle blinks (every 2.4-4.6 s, seeded) on whichever face is showing; call after the last face()
+          blinks(tl, t0, t1, seed) { if (!canBlink) return; let r = seed || 7; const rnd = () => { r = (r * 16807) % 2147483647; return r / 2147483647; };
+            const ss = sched.slice().sort((a, b) => a[0] - b[0]);
+            Object.values(lids).forEach((b) => tl.set(b, { opacity: 0 }, 0));
+            for (let t = t0 + .8 + rnd() * 1.5; t < t1 - .3; t += 2.4 + rnd() * 2.2) {
+              let e = ss[0][1]; for (const [tt, ee] of ss) if (tt <= t) e = ee;
+              if (ss.some(([tt]) => Math.abs(tt - t) < .25)) continue;     // never on a face change
+              tl.set(lids[e], { opacity: 1 }, t); tl.set(lids[e], { opacity: 0 }, t + .12); } } };
       }

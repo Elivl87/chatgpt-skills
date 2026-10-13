@@ -451,8 +451,9 @@
         m.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway">${inner.startsWith("<svg") ? inner : `<img src="assets/${inner}" alt="" />`}</div></div></div></div>`; return m; }
       // Max and Leo (our 3D, seated 3/4) take the grey friends' seats, scaled to Quest (286 px), inside the two-pass boat
       function crew4(host, pre) { return [mate(host, pre + "P", 220, "pixie_laugh.png"), mate(host, pre + "Q", 335, "quest_laugh.png"),
-        Friend(host, "max", { id: pre + "A", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 528, base: 412 }).el,
-        Friend(host, "leo", { id: pre + "B", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 622, base: 418 }).el]; }
+        FR1(Friend(host, "max", { id: pre + "A", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 528, base: 412 })),
+        FR1(Friend(host, "leo", { id: pre + "B", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 622, base: 418 }))]; }
+      const FRS = [], FR1 = (f) => { FRS.push(f); return f.el; };
       const C4 = crew4($("#crewClip"), "c4");
       const C2 = [mate($("#crewClip"), "c2P", 236, "pixie_sit.png", "width: 160px; height: 241px; bottom: -48px"),
                   mate($("#crewClip"), "c2Q", 352, "quest_calm.png")];
@@ -1061,6 +1062,7 @@
       tl.fromTo("#cuL .person, #cuR .person", { scale: 1 }, { scale: 1.03, duration: 2.4, ease: "sine.inOut", transformOrigin: "50% 30%" }, T.nobody - .05);
 
       tl.set({}, {}, DUR);
+      FRS.forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->

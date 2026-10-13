@@ -612,6 +612,7 @@
       tl.fromTo("#iNext .sqbox", { opacity: 1 }, { opacity: .8, duration: .6, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((DUR - LIT) / .6), immediateRender: false }, LIT + .7);
 
       tl.set({}, {}, DUR);
+      [GA, GB].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->

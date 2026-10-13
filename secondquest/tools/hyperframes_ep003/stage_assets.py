@@ -38,6 +38,8 @@ ART = {
     # the friends Max (purple) and Leo (yellow), our 3D (docs/ep003/characters/FRIENDS_MAX_LEO.md); downscaled copies
     **{f'{w}_sit_34_{e}.png': (f'public/art/ep003/props3d/{w}_sit_34_{e}.png', 520)
        for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
+    **{f'{w}_sit_34_{e}_blink.png': (f'public/art/ep003/props3d/{w}_sit_34_{e}_blink.png', 520)
+       for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
     **{f'{w}_34_{e}.png': (f'public/art/ep003/props3d/{w}_34_{e}.png', 760)
        for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
     **{f'{w}_front_{e}.png': (f'public/art/ep003/props3d/{w}_front_{e}.png', 760)

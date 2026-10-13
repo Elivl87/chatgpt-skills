@@ -1211,6 +1211,7 @@
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};
+      [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->

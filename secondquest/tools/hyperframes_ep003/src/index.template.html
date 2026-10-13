@@ -575,6 +575,7 @@
       tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.5), immediateRender: false }, 0);
 
       tl.set({}, {}, DUR);
+      [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->
