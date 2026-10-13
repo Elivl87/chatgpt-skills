@@ -1,0 +1,86 @@
+[
+ {
+  "name": "EN_A_af_heart",
+  "lang": "a",
+  "voice": "af_heart",
+  "speed": 0.89
+ },
+ {
+  "name": "EN_B_af_bella",
+  "lang": "a",
+  "voice": "af_bella",
+  "speed": 0.98
+ },
+ {
+  "name": "EN_C_am_michael",
+  "lang": "a",
+  "voice": "am_michael",
+  "speed": 1.01
+ },
+ {
+  "name": "EN_D_am_fenrir",
+  "lang": "a",
+  "voice": "am_fenrir",
+  "speed": 0.87
+ },
+ {
+  "name": "EN_E_bm_george",
+  "lang": "b",
+  "voice": "bm_george",
+  "speed": 1.0
+ },
+ {
+  "name": "EN_F_blend_heart60_bella40",
+  "lang": "a",
+  "voice": {
+   "af_heart": 0.6,
+   "af_bella": 0.4
+  },
+  "speed": 0.93
+ },
+ {
+  "name": "ES_A_ef_dora",
+  "lang": "es419",
+  "voice": "ef_dora",
+  "speed": 0.83
+ },
+ {
+  "name": "ES_B_em_alex",
+  "lang": "es419",
+  "voice": "em_alex",
+  "speed": 0.83
+ },
+ {
+  "name": "ES_C_em_santa",
+  "lang": "es419",
+  "voice": "em_santa",
+  "speed": 0.82
+ },
+ {
+  "name": "ES_D_blend_dora60_heart40",
+  "lang": "es419",
+  "voice": {
+   "ef_dora": 0.6,
+   "af_heart": 0.4
+  },
+  "speed": 0.92
+ },
+ {
+  "name": "ES_E_blend_alex60_michael40",
+  "lang": "es419",
+  "voice": {
+   "em_alex": 0.6,
+   "am_michael": 0.4
+  },
+  "speed": 0.97
+ },
+ {
+  "name": "EN_G_blend_heart70_dora30",
+  "lang": "a",
+  "voice": {
+   "af_heart": 0.7,
+   "ef_dora": 0.3
+  },
+  "speed": 0.84
+ }
+]
