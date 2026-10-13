@@ -184,7 +184,9 @@ newchannel/
 
 - Hecho: concepto A aprobado; investigación de herramientas (`secondquest/docs/research/2026-10-12_*`, sobre todo
   `SCOUT_SYNTHESIS_v2.md` §3 y `github_scout_new_channel.md`).
-- En preparación (puede estar terminado al abrir la sesión nueva; revisar `newchannel/`):
+- **Arranque detenido el 2026-10-13 por orden del Productor** ("aquí no hagas nada más que no sea SecondQuest"): se
+  continúa en la sesión nueva. Ya hecho: `NAME_CHECK.md`, fuentes en `brand/fonts/`, `engine/style.py` (inicio).
+  Falta:
   1. `NAME_CHECK.md`: disponibilidad de Tiny Systems / Pequeños Sistemas y alternativas, con recomendación.
   2. `brand/`: logo (el punto), wordmark (la "i" con el punto vivo), paleta de 3 tintas + papel, tipografías OFL,
      icono, banner, expresiones de la mascota.

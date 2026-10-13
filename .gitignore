@@ -1,3 +1,4 @@
 
 # full-episode masters (>100 MB) go out as Releases, not git
 secondquest/docs/ep003/hyperframes/EP003_full_hyperframes.mp4
+__pycache__/
