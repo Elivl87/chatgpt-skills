@@ -70,5 +70,13 @@
   "blast_puff.png": [
     "public/art/ep003/props3d/blast_puff.png",
     400
+  ],
+  "launched.png": [
+    "docs/art_orders/ep003/new_art_v1/03_launched.png",
+    null
+  ],
+  "slap_revive.png": [
+    "docs/art_orders/ep003/new_art_v1/02_slap_revive.png",
+    null
   ]
 }

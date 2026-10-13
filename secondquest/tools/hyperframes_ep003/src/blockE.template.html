@@ -197,8 +197,8 @@
       .sysrow .ch-pad { justify-content: center; }
       .sys { margin: 0 auto; padding: 6px 14px; border-radius: 14px; background: rgba(22,22,31,.08); font: 600 16px/1.2 "Inter", sans-serif; color: rgba(22,22,31,.6); }
 
-      #words { position: absolute; left: 0; top: 576px; width: 1280px; display: flex; justify-content: center; gap: 20px; }
-      #words .w { display: block; font-size: 66px; color: var(--cream); }
+      #words { position: absolute; left: 0; top: 540px; width: 1280px; display: flex; justify-content: center; gap: 20px; }
+      #words .w { display: block; font-size: 96px; color: var(--cream); }
       #words .w.gold { color: var(--gold); }
       #dim { background: radial-gradient(ellipse at 50% 45%, rgba(22, 22, 31, .55) 0%, rgba(22, 22, 31, .85) 100%); opacity: 0; }
       #flash { background: #fff8e8; }
@@ -707,7 +707,7 @@
                 <g id="islandPines" fill="#2e2548"></g>
               </svg>
             </div></div>
-            <div id="L-water" class="L"><div class="F"><canvas id="water" width="1664" height="498"></canvas></div></div>
+            <div id="L-water" class="L"><div class="F"><div id="plateHost"></div></div></div>   <!-- the lake plate (new art v1) + its water -->
             <div id="L-boat" class="L"><div class="F" id="boatF">
               <div id="bossSh" class="abs" style="left: 0; top: 372px; width: 780px; height: 548px; opacity: 0" data-hf-motion-blur='{"samplesPerFrame": 8}'>
                 <!-- props3d boss_shadow_soft (top view, red eyes, OUR shape; no boss of the game) -->
@@ -736,13 +736,6 @@
                 <div id="boatBob"><div id="boatRock">
                   <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />
                   <div id="crewClip">
-                    <div class="mate sil" id="silA" style="left: 432px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip">
-                      <svg viewBox="0 0 200 290"><path d="M48 290 C 44 200, 50 140, 70 118 C 82 106, 94 102, 100 102 C 106 102, 120 106, 132 118 C 152 140, 156 200, 152 290 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="101" cy="62" r="36" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M68 52 C 70 22, 124 16, 136 46 C 120 34, 88 34, 68 52 Z" fill="#5d5678" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg>
-                      <div class="arm" id="armA" style="left: 118px; top: 112px"><svg viewBox="0 0 120 26"><path d="M0 6 C 40 2, 84 4, 104 8 C 118 10, 120 20, 106 21 C 84 23, 40 22, 0 20 Z" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="108" cy="14" r="11" fill="#6d6688" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
-                    </div></div></div></div></div></div>
-                    <div class="mate sil" id="silB" style="left: 520px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
-                      <svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><g id="headB"><circle cx="100" cy="60" r="35" fill="#77709a" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M66 54 C 60 26, 92 10, 118 20 C 138 28, 140 46, 136 56 C 122 38, 90 36, 66 54 Z" fill="#655e86" stroke="#16161f" stroke-width="3" paint-order="stroke"/></g></svg>
-                    </div></div></div></div></div>
                     <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
                       <img id="pxLaugh" src="assets/pixie_laugh.png" alt="" /><img id="pxAwe" class="alt" src="assets/pixie_awe.png" alt="" />
                     </div></div></div></div></div>
@@ -803,7 +796,7 @@
             <div id="tiny" data-hf-motion-blur='{"samplesPerFrame": 10}'><img src="assets/quest_arms_up.png" alt="" /></div>
             <div class="boop hand" id="boop">boop</div>
             <!-- E8 the line -->
-            <div id="words"><span class="w big" id="w1">how</span><span class="w big" id="w2">most</span><span class="w big" id="w3">friendships</span><span class="w big" id="w4">handle</span><span class="w big gold" id="w5">feelings.</span></div>
+            <div id="words"><span class="w big gold" id="w5">feelings.</span></div>
           </div>
 
           <!-- ================= INSERT: the savings (E6 gag 3) ================= -->
@@ -820,6 +813,12 @@
             <div class="spot"></div><div class="floor"></div>
             <div id="ptCam"><div id="ptStrip"></div></div>
           </div>
+
+          <!-- ================= INSERTS: the new art v1 (never edited; framed by a camera wrapper) ================= -->
+          <div id="launchArt" class="full" style="overflow: hidden; background: #1b1830"><div id="laCam" class="full" style="transform-origin: 0 0">
+            <img src="assets/launched.png" alt="" style="position: absolute; left: -32px; top: -16px; width: 1344px; height: 752px" /></div></div>
+          <div id="slapArt" class="full" style="overflow: hidden; background: #1b1830"><div id="saCam" class="full" style="transform-origin: 0 0">
+            <img src="assets/slap_revive.png" alt="" style="position: absolute; left: -32px; top: -16px; width: 1344px; height: 752px" /></div></div>
 
           <!-- ================= INSERT: years later (E9) ================= -->
           <div id="tbl" class="full"><div id="tblCam">
@@ -845,6 +844,8 @@
       function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
       const R = rng(3005);
       const $ = (s) => document.querySelector(s);
+<!--SRC lakeplate.js-->
+<!--SRC friends.js-->
       const mk = (tag, cls, parent, style, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); if (html != null) e.innerHTML = html; parent.appendChild(e); return e; };
       const SVGNS = "http://www.w3.org/2000/svg";
       const IR = { immediateRender: false };
@@ -921,10 +922,12 @@
       const POINTER = (c) => `<svg viewBox="0 0 280 400"><path d="M78 400 C 72 290, 82 196, 110 166 C 124 152, 134 148, 140 148 C 150 148, 166 152, 180 166 C 206 194, 212 290, 206 400 Z" fill="${c}" stroke="#16161f" stroke-width="4" paint-order="stroke"/>` +
         `<circle cx="141" cy="98" r="48" fill="${c}" stroke="#16161f" stroke-width="4" paint-order="stroke"/>` +
         `<path d="M168 190 C 210 184, 248 180, 262 182 L 266 172 C 270 166, 280 170, 277 178 L 274 184 C 282 186, 282 198, 274 200 C 252 204, 210 210, 172 214 Z" fill="${c}" stroke="#16161f" stroke-width="4" stroke-linejoin="round" paint-order="stroke"/></svg>`;
-      const PF = [["img", "assets/quest_laugh.png"], ["img", "assets/pixie_laugh.png"], ["svg", POINTER("#6d6688")], ["svg", POINTER("#77709a")], ["fish", ""]];
+      const PF = [["img", "assets/quest_laugh.png"], ["img", "assets/pixie_laugh.png"], ["max", "assets/max_point_34_neutral.png"], ["leo", "assets/leo_point_34_neutral.png"], ["fish", ""]];
       const SPACING = 420;
       const ptFigs = PF.map(([k, v], i) => { const f = mk("div", "pf", $("#ptStrip"), `left:${640 - 140 + i * SPACING}px`);
         if (k === "img") mk("img", "", f).src = v; else if (k === "svg") f.innerHTML = v;
+        else if (k === "max" || k === "leo") { const hh = 395 * (k === "max" ? 1.081 : .95) * 1.016;     // Quest = 395 px here; Max 1.08x, Leo 0.95x
+          f.style.top = (610 - hh) + "px"; f.style.height = hh + "px"; f.style.width = "320px"; mk("img", "", f).src = v; }
         else { f.style.top = "330px"; f.style.height = "270px"; const fi = mk("img", "", f); fi.src = "assets/fish_34.png"; fi.style.objectFit = "contain"; const lid = mk("img", "lid", f); lid.src = "assets/fish_34_blink.png"; lid.id = "ptLid"; }
         mk("div", "q", f, "", "?"); return f; });
 
@@ -975,47 +978,16 @@
       const cDots = chat.typing("S");
       const cWhat = chat.msg("S", "???", { time: "9:16 PM", h: 112 });
 
+      /* ---------- the friends Max and Leo (our 3D, seated in the two-pass boat, scaled to Quest = 286 px) ---------- */
+      const FEX = ["neutral", "laugh", "shock", "sweat", "sideeye"];
+      const MAX = Friend($("#crewClip"), "max", { id: "silA", pose: "sit_34", exprs: FEX, hq: 286, x: 528, base: 412 });
+      const LEO = Friend($("#crewClip"), "leo", { id: "silB", pose: "sit_34", exprs: FEX, hq: 286, x: 622, base: 418 });
+      $("#crewClip").insertBefore(MAX.el, $("#pixie")); $("#crewClip").insertBefore(LEO.el, $("#pixie"));
       /* ---------- the HUD ---------- */
       const hud = GameHUD($("#hudL"), { hearts: 3, money: 0, digits: 5, slots: 3 });
 
       /* ------------------------------------------------------------------ water shader (the hook's; seek-driven) */
-      const water = (function () {
-        const cv = $("#water"); const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
-        if (!gl) return { draw() {} };
-        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
-        const fs = `precision mediump float; uniform float t; uniform vec2 res; uniform float sunU; uniform float glow;
-          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
-          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
-          void main(){
-            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x; float v = 1. - fc.y/res.y;
-            float z = 1./(v*1.05 + .04); float wx = (u-.5)*z*2.6; float wz = z;
-            float far = smoothstep(.0,.12,v);
-            vec3 cHor = vec3(.93,.64,.62), cMid = vec3(.52,.40,.64), cDeep = vec3(.21,.19,.41);
-            vec3 col = mix(cHor, cMid, smoothstep(.0,.38,v)); col = mix(col, cDeep, smoothstep(.3,1.,v));
-            float sw = sin(wz*5.2 - t*1.5 + sin(wx*1.3 + t*.45)*1.4)*.5 + .5;
-            float n = vn(vec2(wx*1.6 + t*.07, wz*7.5 - t*.9));
-            float crest = smoothstep(.78,.93, sw*.55 + n*.5) * far;
-            col = mix(col, col*1.22 + vec3(.06,.04,.07), crest*.6);
-            float trough = smoothstep(.32,.08, sw*.55 + n*.45) * far;
-            col *= 1. - trough*.16;
-            float dash = step(.91, vn(vec2(wx*.7 + t*.04, wz*13.))) * far;
-            col = mix(col, vec3(1.,.87,.8), dash*.32*(1.-v*.4));
-            float dx = abs(u - sunU); float cw = .018 + v*.10; float column = exp(-(dx/cw)*(dx/cw));
-            float glit = step(.70 - column*.22, vn(vec2(wx*5. + t*.25, wz*20. - t*1.3)));
-            col = mix(col, vec3(1.,.88,.58), column*(.28 + .72*glit*far)*(1.-v*.55)*glow);
-            col += vec3(1.,.72,.5)*column*.12*glow;
-            col = mix(col, vec3(1.,.8,.68), smoothstep(.07,.0,v)*.65);
-            gl_FragColor = vec4(col, 1.);
-          }`;
-        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
-        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
-        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-        const uT = gl.getUniformLocation(pr, "t"), uRes = gl.getUniformLocation(pr, "res"), uSun = gl.getUniformLocation(pr, "sunU"), uGlow = gl.getUniformLocation(pr, "glow");
-        gl.viewport(0, 0, cv.width, cv.height);
-        return { draw(t, glow) { gl.uniform1f(uT, t); gl.uniform2f(uRes, cv.width, cv.height); gl.uniform1f(uSun, (1012 + 192) / 1664); gl.uniform1f(uGlow, glow); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
-      })();
+      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);   // new art v1; the drawn water is retired
 
       /* ------------------------------------------------------------------ the timeline (every beat on a word token) */
       const tl = gsap.timeline({ paused: true });
@@ -1028,7 +1000,7 @@
       const FREEZE = [[{{l32.w5+0.1}}, {{l32.w6-0.2}}]];
       const wt = (t) => FREEZE.reduce((a, [f0, f1]) => a - Math.max(0, Math.min(t, f1) - f0), t);
       const env = { t: 0, glow: 1 };
-      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wt(env.t) + 200, env.glow) }, 0);
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wt(env.t) + 200, 0) }, 0);
 
       // camera: per-layer parallax (f: 0 far .. 1 boat .. >1 foreground), the hook's cam()/focus()
       const LAYERS = [["#L-sky", .1], ["#L-cloud", .16], ["#L-hills", .3], ["#L-island", .45], ["#L-water", .6], ["#L-boat", 1], ["#L-fore", 1.35]];
@@ -1039,6 +1011,11 @@
       }
       const focus = (px, py, s, ox, oy) => ({ x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), s });
       const scr = (c, wx, wy) => [W / 2 + (wx - W / 2) * c.s + c.x, H / 2 + (wy - H / 2) * c.s + c.y];   // boat-layer point -> frame
+      // a camera on a full-frame art insert (1344x752 at -32,-16): frame point (px, py) centred at zoom s, clamped so the art always covers the frame
+      function artCam(sel, at, dur, px, py, s, ease) {
+        let x = 640 - s * px, y = 360 - s * py;
+        x = Math.min(32 * s, Math.max(1280 - 1312 * s, x)); y = Math.min(16 * s, Math.max(720 - 736 * s, y));
+        if (dur <= 0) tl.set(sel, { x, y, scale: s }, at); else tl.to(sel, { x, y, scale: s, duration: dur, ease: ease || "sine.inOut" }, at); }
       const show = (sel, at) => tl.set(sel, { autoAlpha: 1 }, at), hide = (sel, at) => tl.set(sel, { autoAlpha: 0 }, at);
       // whip pan between gags: the frame smears out one side, the next shot smears in from the other
       function whip(at, dir, swap) { dir = dir || 1;
@@ -1066,7 +1043,7 @@
 
       // ---------------- initial state
       tl.set("#L-fore", { autoAlpha: 0 }, 0);                                          // the hook's reeds read as posts in these framings
-      ["#ov > *", "#casino", "#pt", "#tbl", "#phoneSh"].forEach((s) => tl.set(s, { autoAlpha: 0 }, 0));
+      ["#ov > *", "#casino", "#pt", "#tbl", "#phoneSh", "#launchArt", "#slapArt"].forEach((s) => tl.set(s, { autoAlpha: 0 }, 0));
       tl.set("#list", { autoAlpha: 0 }, 0);
       tl.set("#listIn", { rotation: 2, transformOrigin: "50% 50%" }, 0);
       tl.set(ticks, { strokeDasharray: 80, strokeDashoffset: 80 }, 0);
@@ -1074,7 +1051,6 @@
       tl.set(hat, { opacity: 0, rotation: -8 }, 0);
       face(null, 0);
       tl.set("#rod", { rotation: -26, transformOrigin: "50% 100%" }, 0);
-      tl.set("#armA", { rotation: -25, transformOrigin: "0% 50%" }, 0);
       tl.set(["#qSlump", "#qShock", "#pxAwe"], { opacity: 0 }, 0);
       tl.set(["#eye", "#stick", "#faller", "#pxDyn", "#pxRays"], { opacity: 0 }, 0);
       tl.set("#hand", { opacity: 0 }, 0);
@@ -1386,7 +1362,17 @@
       const path = (k) => { const x = 700 - 640 * k, y = 430 - 330 * Math.sin(Math.PI * Math.min(1, k * 1.05)) + 150 * Math.max(0, k - .7); return [x, y]; };
       const drawTiny = () => { const [x, y] = path(TP.k); gsap.set("#tiny", { x: x - 28, y: y - 42, rotation: TP.k * 900 });
         let d = ""; for (let j = 0; j <= 30; j++) { const [px, py] = path(TP.k * j / 30); d += (j ? " L " : "M ") + px.toFixed(1) + " " + py.toFixed(1); } $("#trailPath").setAttribute("d", d); };
-      tl.set(["#tiny", "#trail"], { autoAlpha: 1 }, {{l32.w31}});
+      // new art 03_launched: hard cut on "launched"; speed ramp: fast from the blast up the arc, slow-mo at the apex on
+      // "island", fast push into Quest, then the rewind (below) reveals what he poked
+      show("#launchArt", {{l32.w31-0.02}}); hide("#launchArt", {{l32.w36-0.12}});
+      artCam("#laCam", {{l32.w31-0.02}}, 0, 230, 520, 1.5);
+      artCam("#laCam", {{l32.w31}}, .34, 470, 330, 1.28, "power3.out");
+      artCam("#laCam", {{l32.w31+0.34}}, {{l32.w35-l32.w31-0.34}}, 720, 170, 1.42, "sine.inOut");
+      artCam("#laCam", {{l32.w35}}, {{l32.w36-l32.w35-0.14}}, 745, 110, 2.1, "power3.in");
+      tl.fromTo("#laCam", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(6px)", duration: .1 }, { filter: "blur(0px)", duration: .22 }], ...IR }, {{l32.w31}});
+      tl.to("#laCam", { filter: "blur(5px)", duration: .12, ease: "power2.in" }, {{l32.w36-0.26}});
+      shake({{l32.w31}}, .7);
+      tl.set(["#tiny", "#trail"], { autoAlpha: 0 }, {{l32.w31}});
       tl.fromTo(TP, { k: 0 }, { k: .4, duration: .32, ease: "power3.out", onUpdate: drawTiny, ...IR }, {{l32.w31}});
       tl.to(TP, { k: .52, duration: {{l32.w35-l32.w31-0.32}}, ease: "sine.inOut", onUpdate: drawTiny }, {{l32.w31+0.32}});
       tl.to(TP, { k: 1.05, duration: .4, ease: "power3.in", onUpdate: drawTiny }, {{l32.w35}});
@@ -1424,11 +1410,7 @@
       const G7 = focus(700, 440, 1.55), HIT0 = {{l33.w19+0.02}};
       cam({{l33-0.06}}, 0, G7);
       cam({{l33-0.06}}, {{l33.w7-l33}}, focus(700, 445, 1.6), "none");
-      tl.set("#silA .flip", { scaleX: -1, transformOrigin: "50% 50%" }, {{l33-0.06}});     // the slapper faces Quest, in front of him
-      tl.set("#silA", { zIndex: 5, x: 44 }, {{l33-0.06}});
-      tl.set("#armA", { rotation: 24, opacity: 0 }, {{l33-0.06}});                       // the arm only shows for the wind-up and the hit
-      tl.set("#armA", { opacity: 1 }, {{l33.w17+0.05}}); tl.set("#armA", { opacity: 0 }, HIT0 + .9);
-      tl.set("#silA .flip", { scaleX: 1 }, 0); tl.set("#silA", { zIndex: 0, x: 0 }, 0);
+      // Pixie is the medic (new art 02_slap_revive): she picks him up and winds up; Max and Leo watch
       // "down,": he drops, KO stars, the last heart empties, hold
       tl.set("#qLaugh", { opacity: 0 }, {{l33.w6-0.1}}); tl.set("#qSlump", { opacity: 1 }, {{l33.w6-0.1}});
       tl.to("#quest .pop", { y: 92, rotation: 10, duration: .22, ease: "power2.in", transformOrigin: "50% 100%" }, {{l33.w6-0.1}});
@@ -1438,19 +1420,24 @@
       hud.health(tl, {{l33.w6+0.05}}, 0, .35);
       const pPick = hud.prompt(tl, {{l33.w10}}, "E", "Pick up");
       // "picking them up...": back up, wobbly
-      tl.to("#silA .lean", { rotation: -6, x: -14, duration: .3, ease: "power2.out", transformOrigin: "50% 100%" }, {{l33.w15-0.15}});
+      tl.to("#pixie .lean", { rotation: 6, x: 14, duration: .3, ease: "power2.out", transformOrigin: "50% 100%" }, {{l33.w15-0.15}});
       tl.to("#quest .pop", { y: 0, rotation: -4, duration: .5, ease: "back.out(1.6)" }, {{l33.w15}});
       tl.to("#quest .pop", { rotation: 4, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 2 }, {{l33.w15+0.5}});
       hud.promptOut(tl, {{l33.w15+0.05}}, pPick);
       // the pause: the hand winds back, the camera creeps in, stillness
       const pSlap = hud.prompt(tl, {{l33.w17+0.1}}, "E", "Slap");
-      tl.to("#armA", { rotation: -105, duration: .5, ease: "power2.out" }, {{l33.w17+0.05}});
-      tl.to("#armA", { rotation: -110, duration: .06, yoyo: true, repeat: 5, ease: "sine.inOut" }, {{l33.w17+0.6}});
+      tl.to("#pixie .lean", { rotation: -9, x: -18, duration: .5, ease: "power2.out", transformOrigin: "50% 100%" }, {{l33.w17+0.05}});   // the wind-up
+      tl.to("#pixie .lean", { rotation: -10, duration: .06, yoyo: true, repeat: 5, ease: "sine.inOut" }, {{l33.w17+0.6}});
       cam({{l33.w17}}, {{l33.w19-l33.w17-0.08}}, focus(705, 430, 1.82), "power1.in");
       // "slapping": whip-in, 2-frame flash, 3-frame hitstop, the hook's shake, SLAP!, the heart refills
       const HIT = {{l33.w19+0.02}};
       cam(HIT - .1, .1, focus(712, 410, 2.15), "expo.in");
-      tl.to("#armA", { rotation: -50, duration: .08, ease: "power4.in" }, HIT - .08);
+      tl.to("#pixie .lean", { rotation: 14, x: 30, duration: .08, ease: "power4.in" }, HIT - .08);
+      // the hit: hard cut to the new art (Pixie's slap), 3-frame hitstop, the shake, then a slow push while it lands
+      show("#slapArt", HIT); hide("#slapArt", {{l33.w22-0.3}});
+      artCam("#saCam", HIT, 0, 470, 300, 1.16);
+      artCam("#saCam", HIT + .1, {{l33.w22-0.3}} - HIT - .1, 450, 290, 1.24, "power2.out");
+      tl.set("#pixie .lean", { rotation: 0, x: 0 }, {{l33.w22-0.3}});
       hud.promptOut(tl, HIT, pSlap);
       tl.fromTo("#flash", { opacity: .85 }, { opacity: 0, duration: .01, ...IR }, HIT + .066);          // 2 frames
       tl.set("#flash", { opacity: .85 }, HIT);
@@ -1461,11 +1448,10 @@
       shake(HIT + .1, 1.15);
       const [sx, sy] = scr(focus(712, 410, 2.15), 676, 398);
       hud.hit(tl, HIT + .1, sx + 10, sy + 20, { size: 1.3 });
-      hud.slap(tl, HIT + .1, sx + 150, sy - 120, { scale: 1, dur: 1.5 });
+      hud.slap(tl, HIT + .1, 1075, 470, { scale: .9, dur: 1.5 });              // clear of both faces in the slap art and the boat
       hud.jolt(tl, HIT + .1, 1.4);
       hud.health(tl, HIT + .25, 3, .6);
       hud.rainbow(tl, {{l33.w21}}, "REVIVED!", { x: 420, y: 180, size: 72, dur: 1.4 });
-      tl.to("#armA", { rotation: 24, duration: .5, ease: "power2.inOut" }, HIT + .4);
       cam(HIT + .1, {{l34-l33.w19-0.2}}, focus(712, 420, 2.0), "power2.out");
       // the fish winces at the frame edge on "face."
       const GE = focus(712, 420, 2.0);
@@ -1476,6 +1462,19 @@
       face("wince", {{l33.w23}});
       tl.to(buddy, { y: byy + 140, duration: .25, ease: "power2.in" }, {{l34-0.3}});
       hud.off(tl, {{l34-0.06}});
+      // Max and Leo react to every beat (one face per beat; anticipation / hit / reaction on the comedy)
+      MAX.face(tl, "neutral", 0); LEO.face(tl, "laugh", 0);
+      MAX.face(tl, "laugh", {{l27.w9}});
+      MAX.face(tl, "shock", {{l28.w5}}); LEO.face(tl, "shock", {{l28.w5}});
+      MAX.face(tl, "neutral", {{l29}}); LEO.face(tl, "laugh", {{l29}});
+      MAX.face(tl, "sideeye", {{l29.w9}});
+      MAX.face(tl, "sweat", {{l31.w9}}); LEO.face(tl, "sweat", {{l31.w9}});
+      MAX.face(tl, "laugh", {{l32.w2}}); LEO.face(tl, "shock", {{l32.w2}});
+      MAX.face(tl, "shock", {{l32.w36}}); LEO.face(tl, "shock", {{l32.w36}});
+      MAX.face(tl, "shock", {{l33.w6}}); LEO.face(tl, "shock", {{l33.w6}});
+      MAX.face(tl, "sweat", {{l33.w15}}); LEO.face(tl, "sweat", {{l33.w15}});
+      MAX.face(tl, "laugh", {{l33.w22-0.3}}); LEO.face(tl, "laugh", {{l33.w22-0.3}});
+      MAX.face(tl, "sideeye", {{l34.w4}}); LEO.face(tl, "laugh", {{l34.w4}});
 
       /* ================= E8 l34 "Which, if we're honest, is how most friendships handle feelings." ================= */
       tl.set(buddy, { x: 905, y: 548, scale: 1, rotation: 0, opacity: 1 }, {{l34-0.04}});
@@ -1487,13 +1486,12 @@
       cam({{l34.w4-0.04}}, 0, focus(740, 435, 2.0));
       cam({{l34.w4-0.04}}, {{l35-l34.w4}}, focus(740, 432, 2.12), "none");
       tl.set(buddy, { opacity: 0 }, {{l34.w4-0.04}});
-      tl.set("#armA", { opacity: 1 }, 0);
       tl.set("#hand", { opacity: 0 }, {{l34.w4-0.04}});
       tl.fromTo("#hand", { opacity: 0, scale: 1.6 }, { opacity: .92, scale: 1, duration: .18, ease: "back.out(3)", ...IR }, {{l34.w4+0.1}});
       tl.to("#hand", { scale: 1.08, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut" }, {{l34.w4+0.4}});
       tl.set("#words", { autoAlpha: 1 }, {{l34.w6-0.1}});
-      tl.set(["#w1", "#w2", "#w3", "#w4", "#w5"], { opacity: 0 }, 0);
-      [["#w1", {{l34.w6}}], ["#w2", {{l34.w7}}], ["#w3", {{l34.w8}}], ["#w4", {{l34.w9}}], ["#w5", {{l34.w10}}]].forEach(([s, t]) =>
+      tl.set(["#w5"], { opacity: 0 }, 0);
+      [["#w5", {{l34.w10}}]].forEach(([s, t]) =>
         tl.fromTo(s, { opacity: 0, y: 40, scale: 1.4 }, { opacity: 1, y: 0, scale: 1, duration: .3, ease: "back.out(2.4)", ...IR }, t - .04));
       tl.fromTo("#w5", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .08 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], ...IR }, {{l34.w10+0.3}});
       tl.set("#words", { autoAlpha: 0 }, {{l35-0.06}});

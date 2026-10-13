@@ -1,7 +1,26 @@
 {
-  "city_apartments.png": ["public/art/core/backgrounds/city_apartments_evening.png", null],
-  "city_traffic.png": ["public/art/core/backgrounds/city_traffic.png", 1440],
-  "living_night.png": ["public/art/core/backgrounds/home_living_night.png", 1080],
-  "calendar.png": ["public/art/core/objects/calendar_friday.png", null],
-  "drive_stressed.png": ["public/art/core/quest/drive_stressed.png", 1400]
+  "city_apartments.png": [
+    "public/art/core/backgrounds/city_apartments_evening.png",
+    null
+  ],
+  "city_traffic.png": [
+    "public/art/core/backgrounds/city_traffic.png",
+    1440
+  ],
+  "living_night.png": [
+    "public/art/core/backgrounds/home_living_night.png",
+    1080
+  ],
+  "calendar.png": [
+    "public/art/core/objects/calendar_friday.png",
+    null
+  ],
+  "drive_stressed.png": [
+    "public/art/core/quest/drive_stressed.png",
+    1400
+  ],
+  "kid_door.png": [
+    "docs/art_orders/ep003/new_art_v1/04_kid_door.png",
+    null
+  ]
 }

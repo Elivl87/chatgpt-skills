@@ -252,7 +252,7 @@
             </svg>
           </div></div>
           <div id="L-water" class="L"><div class="F">
-            <canvas id="water" width="1664" height="498"></canvas>
+            <div id="plateHost"></div>   <!-- the lake plate (new art v1) + its seek-driven water -->
             <div id="beam" class="abs" style="left: 1150px; top: 270px; width: 90px; height: 3px; opacity: 0; border-radius: 2px; background: linear-gradient(90deg, rgba(255,240,190,.9), rgba(255,240,190,0)); transform-origin: 0 50%"></div>
           </div></div>
           <div id="L-boat" class="L"><div class="F">
@@ -335,6 +335,7 @@
                   <div class="abs" style="left: 420px; top: 120px; width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle at 45% 40%, #fff6d8 0%, #ffe7a6 55%, #ffc978 100%); box-shadow: 0 0 30px 10px rgba(255, 214, 140, .7)"></div>
                   <svg class="abs" style="left: 0; top: 180px" width="600" height="60" viewBox="0 0 600 60"><path d="M0 40 C 80 22, 160 30, 240 38 S 420 20, 600 36 L 600 60 L 0 60 Z" fill="#6c5288"/></svg>
                   <canvas id="ph3water" width="600" height="174"></canvas>
+                  <img src="assets/lake_dusk.png" alt="" style="position: absolute; left: -58px; top: 0; width: 715px; height: 400px" />
                   <div id="ph3boat" class="abs" style="left: -120px; top: 262px; width: 620px; height: 145px; transform: scale(.9); transform-origin: 50% 100%">
                     <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />
                     <div class="crewClip" id="ph3crew"></div>
@@ -406,6 +407,8 @@
       function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
       const R = rng(4004);
       const $ = (s) => document.querySelector(s);
+<!--SRC lakeplate.js-->
+<!--SRC friends.js-->
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       const SVGNS = "http://www.w3.org/2000/svg";
       const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
@@ -446,7 +449,10 @@
       function mate(host, id, left, inner, style) {
         const m = mk("div", "mate" + (inner.startsWith("<svg") ? " sil" : ""), host, `left:${left}px;` + (style || "")); if (id) m.id = id;
         m.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway">${inner.startsWith("<svg") ? inner : `<img src="assets/${inner}" alt="" />`}</div></div></div></div>`; return m; }
-      function crew4(host, pre) { return [mate(host, pre + "P", 220, "pixie_laugh.png"), mate(host, pre + "Q", 335, "quest_laugh.png"), mate(host, pre + "A", 432, SIL.A), mate(host, pre + "B", 520, SIL.B)]; }
+      // Max and Leo (our 3D, seated 3/4) take the grey friends' seats, scaled to Quest (286 px), inside the two-pass boat
+      function crew4(host, pre) { return [mate(host, pre + "P", 220, "pixie_laugh.png"), mate(host, pre + "Q", 335, "quest_laugh.png"),
+        Friend(host, "max", { id: pre + "A", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 528, base: 412 }).el,
+        Friend(host, "leo", { id: pre + "B", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 622, base: 418 }).el]; }
       const C4 = crew4($("#crewClip"), "c4");
       const C2 = [mate($("#crewClip"), "c2P", 236, "pixie_sit.png", "width: 160px; height: 241px; bottom: -48px"),
                   mate($("#crewClip"), "c2Q", 352, "quest_calm.png")];
@@ -519,7 +525,7 @@
       /* ---------------- D3 hand-drawn circles round the four faces (photo coords) */
       const FACES = (function () { const ph = $("#photo3").getBoundingClientRect(); const k = ph.width / 600;
         return ["#p3P", "#p3Q", "#p3A", "#p3B"].map((id, i) => { const r = $(id).getBoundingClientRect();
-          return [(r.left + r.width / 2 - ph.left) / k + [-4, -8, 0, 0][i], (r.top - ph.top) / k + r.height / k * [.2, .2, .22, .22][i]]; }); })();
+          return [(r.left + r.width / 2 - ph.left) / k + [-4, -8, 0, 0][i], (r.top - ph.top) / k + r.height / k * [.2, .2, .13, .15][i]]; }); })();
       const circles = FACES.map(([cx, cy], i) => { const rr = rng(200 + i); let d = ""; const n = 46; const rx = 36 + rr() * 4, ry = 42 + rr() * 4;
         for (let k = 0; k <= n; k++) { const a = -2.0 + (k / n) * (Math.PI * 2 + .55); const wob = 1 + (rr() - .5) * .05 + k * .0016;
           d += (k ? " L " : "M ") + (cx + Math.cos(a) * rx * wob).toFixed(1) + " " + (cy + Math.sin(a) * ry * wob).toFixed(1); }
@@ -635,7 +641,7 @@
             <circle r="38" fill="#f5efe2" stroke="#16161f" stroke-width="5"/><g stroke="#16161f" stroke-width="3">${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => `<line x1="0" y1="-31" x2="0" y2="-26" transform="rotate(${i * 30})"/>`).join("")}</g>
             <line class="hh" x1="0" y1="4" x2="0" y2="-18" stroke="#16161f" stroke-width="5" stroke-linecap="round"/><line class="mh" x1="0" y1="5" x2="0" y2="-28" stroke="#d6392f" stroke-width="3.5" stroke-linecap="round"/><circle r="4" fill="#16161f"/></svg>
           <div class="abs" style="left:150px;top:560px;width:200px;height:133px"><img src="assets/toolbox.png" alt="" style="width:100%;height:100%;filter:drop-shadow(0 10px 8px rgba(0,0,0,.4))"/></div>
-          <div class="car abs" style="left:700px;top:360px;width:640px;height:302px">${CAR}</div>
+          <div class="car abs" style="left:628px;top:394px;width:560px;height:264px">${CAR}</div>
           <div class="qw abs" style="left:395px;top:268px;width:300px;height:402px"><img src="assets/quest_wrench.png" alt="" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 10px rgba(0,0,0,.35))"/></div>
           <div class="tint abs" style="left:0;top:0;width:1280px;height:720px;mix-blend-mode:multiply;background:#ffffff"></div>
         </div>`;
@@ -712,7 +718,8 @@
         gl.viewport(0, 0, cv.width, cv.height);
         return { draw(t, extra) { gl.useProgram(pr); setU(u, t, extra); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
       }
-      const water = lakeShader($("#water"), (1012 + 192) / 1664);
+      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
+      $("#beam").style.display = "none";                                  // the drawn lighthouse is not on the plate
       const photoWater = lakeShader($("#ph3water"), .76); photoWater.draw(3.0, 1.1);
       const pov = povShader($("#povWater"));
 
@@ -724,7 +731,7 @@
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
       const env = { t: 0, glow: 1, rip: 0 };
       const POV0 = T.water - .15, POV1 = T.or - .05;
-      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { water.draw(env.t, env.glow); if (env.t > POV0 - .1 && env.t < POV1 + .1) pov.draw(env.t, env.t - (T.water - .1)); } }, 0);
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { water.draw(env.t, 0); if (env.t > POV0 - .1 && env.t < POV1 + .1) pov.draw(env.t, env.t - (T.water - .1)); } }, 0);
 
       // camera: per-layer parallax (as the hook)
       const LAYERS = [["#L-sky", .1], ["#L-cloud", .16], ["#L-hills", .3], ["#L-island", .45], ["#L-water", .6], ["#L-boat", 1], ["#L-fore", 1.35]];

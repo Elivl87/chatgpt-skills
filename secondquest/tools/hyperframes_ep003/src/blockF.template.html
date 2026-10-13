@@ -352,7 +352,7 @@
               </svg>
             </div></div>
             <div id="L-water" class="L"><div class="F">
-              <canvas id="water" width="1664" height="498"></canvas>
+              <div id="plateHost"></div>   <!-- the lake plate (new art v1): dusk -> blue hour, with its water -->
             </div></div>
             <div id="L-boat" class="L"><div class="F">
               <div id="ripples"></div>
@@ -361,14 +361,6 @@
                 <div id="boatBob"><div id="boatRock">
                   <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />
                   <div id="crewClip">
-                    <div class="mate sil" id="silA" style="left: 432px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
-                      <svg viewBox="0 0 200 290"><path d="M48 290 C 44 200, 50 140, 70 118 C 82 106, 94 102, 100 102 C 106 102, 120 106, 132 118 C 152 140, 156 200, 152 290 Z" fill="#6f62a8" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="101" cy="62" r="36" fill="#6f62a8" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M68 52 C 70 22, 124 16, 136 46 C 120 34, 88 34, 68 52 Z" fill="#5d5294" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg>
-                    </div></div></div></div></div>
-                    <div class="mate sil" id="silB" style="left: 520px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway">
-                      <div class="larm" id="leoArmL" style="left: 58px; top: 19px"><svg viewBox="0 0 24 96"><path d="M5 92 C 4 60, 6 30, 8 14 C 9 8, 16 8, 17 14 C 19 30, 20 60, 19 92 Z" fill="#b58431" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="12" cy="11" r="10" fill="#b58431" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
-                      <div class="larm" id="leoArmR" style="left: 118px; top: 19px"><svg viewBox="0 0 24 96"><path d="M5 92 C 4 60, 6 30, 8 14 C 9 8, 16 8, 17 14 C 19 30, 20 60, 19 92 Z" fill="#b58431" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="12" cy="11" r="10" fill="#b58431" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg></div>
-                      <svg viewBox="0 0 200 290"><path d="M46 290 C 42 198, 50 138, 70 116 C 82 104, 94 100, 100 100 C 106 100, 120 104, 132 116 C 152 138, 158 198, 154 290 Z" fill="#c08c38" stroke="#16161f" stroke-width="3" paint-order="stroke"/><circle cx="100" cy="60" r="35" fill="#c08c38" stroke="#16161f" stroke-width="3" paint-order="stroke"/><path d="M66 54 C 60 26, 92 10, 118 20 C 138 28, 140 46, 136 56 C 122 38, 90 36, 66 54 Z" fill="#a8772c" stroke="#16161f" stroke-width="3" paint-order="stroke"/></svg>
-                    </div></div></div></div></div>
                     <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /></div></div></div></div></div>
                     <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /></div></div></div></div></div>
                   </div>
@@ -656,6 +648,8 @@
       function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
       const R = rng(3636);
       const $ = (s) => document.querySelector(s);
+<!--SRC lakeplate.js-->
+<!--SRC friends.js-->
       const $$ = (s) => Array.from(document.querySelectorAll(s));
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       const SVGNS = "http://www.w3.org/2000/svg";
@@ -733,7 +727,9 @@
         P: { el: mk("div", "friend", $("#friendsFront"), "left:512px; top:198px; width:266px; height:400px"), x: 512, dir: -1 },
         Q: { el: mk("div", "friend", $("#friendsFront"), "left:1052px; top:198px; width:269px; height:400px"), x: 1052, dir: 1 },
       };
-      FR.A.el.innerHTML = SIL("#7a68b8", "#62549c"); FR.B.el.innerHTML = SIL("#c8902f", "#a8772c");
+      [["A", "max", 774], ["B", "leo", 1036]].forEach(([k, who, cx]) => { const hh = 395 * FR_REL[who].cheer_34 * 1.016, ww = hh * FR_ASPECT[who].cheer_34;
+        Object.assign(FR[k].el.style, { left: (cx - ww / 2) + "px", top: (586 - hh) + "px", width: ww + "px", height: hh + "px" });
+        FR[k].el.innerHTML = `<img src="assets/${who}_cheer_34_laugh.png" alt="" />`; });
       FR.P.el.innerHTML = '<img src="assets/pixie_wave.png" alt="" />'; FR.Q.el.innerHTML = '<img src="assets/quest_wave.png" alt="" />';
 
       /* ---------------- F3 rigs ---------------- */
@@ -753,45 +749,15 @@
           const h = 120 + R() * 140; reeds.push(mk("div", "reed", host, `left:${x}px; height:${h}px; width:${7 + R() * 5}px`)); } })();
       const ripples = []; (function () { const host = $("#ripples"); for (let i = 0; i < 4; i++) ripples.push(mk("div", "ripple", host, `left:${380}px; top:${585}px; width:520px; height:40px`)); })();
       const stars = Array.from({ length: 60 }, () => { const s = 1 + R() * 2.2; return mk("div", "star", $("#stars"), `left:${-180 + R() * 1640}px; top:${-100 + R() * 380}px; width:${s}px; height:${s}px; opacity:${.4 + R() * .6}`); });
+      const FEX = ["neutral", "laugh", "sideeye"];
+      const MAX = Friend($("#crewClip"), "max", { id: "silA", pose: "sit_34", exprs: FEX, hq: 286, x: 528, base: 412 });
+      const LEO = Friend($("#crewClip"), "leo", { id: "silB", pose: "sit_34", exprs: FEX, hq: 286, x: 622, base: 418 });
+      const LEOJ = Friend($("#crewClip"), "leo", { id: "leoJ", pose: "cheer_34", exprs: ["laugh"], hq: 286, x: 620, base: 412 });   // stands up to juggle
+      [MAX, LEO, LEOJ].forEach((f) => $("#crewClip").insertBefore(f.el, $("#pixie")));
       const dyns = [0, 1, 2].map(() => { const e = mk("div", "dyn", $("#juggle")); e.innerHTML = '<img src="assets/dynamite.png" alt="" />'; return e; });
       (function () { const g = $("#bnGav"); ["Q", "P", "A", "B"].forEach((k, i) => { const a = mk("div", "avd", g, `left:${(i % 2) * 30}px; top:${Math.floor(i / 2) * 30}px; background:${MEM[k].color}`); a.innerHTML = avHTML(k); }); })();
-      const water = (function () {
-        const cv = $("#water"); const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
-        if (!gl) return { draw() {} };
-        const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }";
-        const fs = `precision mediump float; uniform float t; uniform vec2 res; uniform float sunU; uniform float glow;
-          float h21(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
-          float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-            return mix(mix(h21(i),h21(i+vec2(1.,0.)),f.x), mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),f.x), f.y); }
-          void main(){
-            vec2 fc = gl_FragCoord.xy; float u = fc.x/res.x; float v = 1. - fc.y/res.y;
-            float z = 1./(v*1.05 + .04); float wx = (u-.5)*z*2.6; float wz = z;
-            float far = smoothstep(.0,.12,v);
-            vec3 cHor = vec3(.93,.64,.62), cMid = vec3(.52,.40,.64), cDeep = vec3(.21,.19,.41);
-            vec3 col = mix(cHor, cMid, smoothstep(.0,.38,v)); col = mix(col, cDeep, smoothstep(.3,1.,v));
-            float sw = sin(wz*5.2 - t*1.5 + sin(wx*1.3 + t*.45)*1.4)*.5 + .5;
-            float n = vn(vec2(wx*1.6 + t*.07, wz*7.5 - t*.9));
-            float crest = smoothstep(.78,.93, sw*.55 + n*.5) * far;
-            col = mix(col, col*1.22 + vec3(.06,.04,.07), crest*.6);
-            float trough = smoothstep(.32,.08, sw*.55 + n*.45) * far;
-            col *= 1. - trough*.16;
-            float dash = step(.91, vn(vec2(wx*.7 + t*.04, wz*13.))) * far;
-            col = mix(col, vec3(1.,.87,.8), dash*.32*(1.-v*.4));
-            float dx = abs(u - sunU); float cw = .018 + v*.10; float column = exp(-(dx/cw)*(dx/cw));
-            float glit = step(.70 - column*.22, vn(vec2(wx*5. + t*.25, wz*20. - t*1.3)));
-            col = mix(col, vec3(1.,.88,.58), column*(.28 + .72*glit*far)*(1.-v*.55)*glow);
-            col += vec3(1.,.72,.5)*column*.12*glow;
-            col = mix(col, vec3(1.,.8,.68), smoothstep(.07,.0,v)*.65*(.35 + .65*glow));
-            gl_FragColor = vec4(col, 1.);
-          }`;
-        function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
-        const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
-        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-        const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-        const uT = gl.getUniformLocation(pr, "t"), uRes = gl.getUniformLocation(pr, "res"), uSun = gl.getUniformLocation(pr, "sunU"), uGlow = gl.getUniformLocation(pr, "glow");
-        gl.viewport(0, 0, cv.width, cv.height);
-        return { draw(t, glow) { gl.uniform1f(uT, t); gl.uniform2f(uRes, cv.width, cv.height); gl.uniform1f(uSun, (1012 + 192) / 1664); gl.uniform1f(uGlow, glow); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
-      })();
+      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png", "assets/lake_bluehour.png"]);   // new art v1 + its derived blue-hour grade
+      $("#plateHost").appendChild($("#stars"));                           // the stars come out over the plate's sky
 
       /* ---------------- F6 rigs: the clock wheel, the snacks ---------------- */
       const HOURS = ["12", "1", "2", "3"];
@@ -1000,8 +966,9 @@
       function lcam(at, dur, c, ease) { const x = c.x || 0, y = c.y || 0, s = c.scale || 1;
         LAYERS.forEach(([sel, f]) => { const v = { x: x * f, y: y * f, scale: 1 + (s - 1) * Math.min(1.2, .35 + .65 * f) };
           if (dur <= 0) tl.set(sel, v, at); else tl.to(sel, Object.assign(v, { duration: dur, ease: ease || "sine.inOut" }), at); }); }
-      const wenv = { t: 0, glow: 1 };
-      tl.to(wenv, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wenv.t, wenv.glow) }, 0);
+      const wenv = { t: 0, glow: 1, k: 0 };
+      tl.to(wenv, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wenv.t, wenv.k) }, 0);
+      tl.to(wenv, { k: 1, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too + .2);
       tl.to(wenv, { glow: 0, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too);
       lcam(0, 0, focus(900, 330, 1.12));
       lcam(T.but, T.some5 - T.but + 1.2, focus(700, 420, 1.0), "sine.inOut");      // a slow pull-back
@@ -1013,7 +980,7 @@
       // the grade to blue hour (sky, stars, a cool multiply over the whole world, the warm wash leaves)
       tl.set(["#blueSky", "#stars", "#gradeBlue"], { opacity: 0 }, 0);
       tl.to("#blueSky", { opacity: 1, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too + .2);
-      tl.to("#gradeBlue", { opacity: .78, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too + .2);
+      tl.to("#gradeBlue", { opacity: .5, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too + .2);
       tl.to("#stars", { opacity: 1, duration: 5, ease: "sine.in" }, T.never);
       tl.to("#warmL", { opacity: 0, duration: 3, ease: "sine.inOut" }, T.too + .2);
       ["#c1", "#c2", "#c3", "#c4"].forEach((c, i) => tl.fromTo(c, { x: 0 }, { x: 40 + i * 14, duration: DUR, ease: "none", immediateRender: false }, T.but));
@@ -1029,7 +996,7 @@
       // the rod leans out over the water, a line into the lake; the fish is not there yet
       tl.set("#rod", { rotation: 72, transformOrigin: "50% 100%" }, 0);
       tl.set(["#fishRod", "#fishRipple"], { opacity: 0 }, 0); tl.set("#fishRod", { rotation: -16 }, 0);
-      tl.set(["#leoArmL", "#leoArmR"], { opacity: 0 }, 0);
+      tl.set("#leoJ", { opacity: 0 }, 0);
       tl.set(dyns, { opacity: 0 }, 0);
       // "never what they were for": the lantern clicks on (an idle event in the rest beat)
       tl.set(["#lanGlow"], { opacity: 0 }, 0); tl.set("#lantern img", { filter: "brightness(.55)" }, 0);
@@ -1039,6 +1006,8 @@
 
       // ================= F5 (l40): Tuesday night. the banner, the "☐ FISH" gag, the hard cut, the yawn =================
       // "a few friends ... the same boat": the crew squeezes together, the boat dips
+      MAX.face(tl, "neutral", 0); LEO.face(tl, "neutral", 0);
+      MAX.face(tl, "laugh", T.few); LEO.face(tl, "laugh", T.few);
       tl.to("#pixie .lean", { rotation: 5, x: 10, duration: .9, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, T.few);
       tl.to("#quest .lean", { rotation: -3, x: -6, duration: .9, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, T.few + .06);
       tl.to("#silA .lean", { rotation: -5, x: -10, duration: .9, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, T.few + .12);
@@ -1061,17 +1030,18 @@
       ft("#chkTag", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .06 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }] }, T.plan + .28);
       tl.to(reeds.slice(7), { opacity: 0, duration: .3 }, T.plan - .1);           // the right reeds step out of the rod shot
       // Leo's arms up, the juggling (seek-safe: positions are a pure function of time; the phase restarts on the cut)
-      tl.set(["#leoArmL", "#leoArmR"], { opacity: 1 }, T.plan - .2);
+      tl.set("#leoJ", { opacity: 1 }, T.plan - .2); tl.set("#silB", { opacity: 0 }, T.plan - .2);
+      MAX.face(tl, "sideeye", T.plan);
       tl.set(dyns, { opacity: 1 }, T.plan - .2);
       const JUG = { t: 0 };
-      const P = .78, HL = [469, -58], HR = [611, -58], APEX = -165;
+      const P = .78, HL = [480, -160], HR = [598, -160], APEX = -268;     // Leo's raised hands (cheer pose)
       const juggle = () => { const t = JUG.t;
         dyns.forEach((d, i) => { let ph = ((t / P) + i / 3) % 1; let x, y, rot;
           if (ph < .7) { const u = ph / .7; x = HL[0] + (HR[0] - HL[0]) * u; y = HL[1] + (APEX - HL[1]) * (1 - (2 * u - 1) * (2 * u - 1)); rot = 300 * u; }
           else { const u = (ph - .7) / .3; x = HR[0] + (HL[0] - HR[0]) * u; y = HR[1] + 14 * Math.sin(u * Math.PI); rot = 300 + 60 * u; }
           gsap.set(d, { x: x - 19, y: y - 30, rotation: rot }); });
         const sw = Math.sin(t / P * 2 * Math.PI);
-        gsap.set("#leoArmL", { rotation: -22 + sw * 9 }); gsap.set("#leoArmR", { rotation: 22 + sw * 9 }); };
+        gsap.set("#leoJ .sway", { rotation: sw * 2.5 }); };
       tl.fromTo(JUG, { t: 0 }, { t: T.always - T.plan + .2, duration: T.always - T.plan + .2, ease: "none", onUpdate: juggle, immediateRender: false }, T.plan - .2);
       tl.fromTo(JUG, { t: 0 }, { t: T.l40end + .6 - T.always, duration: T.l40end + .6 - T.always, ease: "none", onUpdate: juggle, immediateRender: false }, T.always - .2);
       // "fish.": the empty box wobbles (nobody ticks it)
