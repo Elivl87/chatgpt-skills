@@ -1,0 +1,35 @@
+{
+ "lang": "en",
+ "voice": {
+  "lang_code": "a",
+  "g2p": null,
+  "recipe": {
+   "af_heart": 0.7,
+   "ef_dora": 0.3
+  },
+  "speed": 0.84,
+  "candidate": "EN G (blend heart70 dora30)"
+ },
+ "speed": 0.84,
+ "duration_s": 6.87,
+ "words": 15,
+ "wpm": 140.7,
+ "alignment": {
+  "matched": 15,
+  "words": 15,
+  "whisper_text": "one tap of the brakes, 22 drivers, and a jam that nobody caused rolling backwards.",
+  "unmatched": [],
+  "hyp_norm": "one tap of the brakes twenty two drivers and a jam that nobody caused rolling backwards"
+ },
+ "phonemes": [
+  "wˈʌn tˈæp ʌv ðə bɹˈAks.",
+  "twˈɛntitˌu dɹˈIvəɹz.",
+  "ˌænd ɐ ʤˈæm ðæt nˈObˌɑdi kˈɔzd, ɹˈOlɪŋ bˈækwəɹdz."
+ ],
+ "whisper_model": "small",
+ "sha256_12": {
+  "kokoro-v1_0.pth": "496dba118d1a",
+  "voices/af_heart.pt": "0ab5709b8ffa",
+  "voices/ef_dora.pt": "d9d69b0f8a2b"
+ }
+}

@@ -1,0 +1,122 @@
+[
+ {
+  "i": 0,
+  "word": "One",
+  "text": "One",
+  "start": 0.025,
+  "end": 0.285,
+  "conf": 1
+ },
+ {
+  "i": 1,
+  "word": "tap",
+  "text": "tap",
+  "start": 0.28,
+  "end": 0.6,
+  "conf": 1
+ },
+ {
+  "i": 2,
+  "word": "of",
+  "text": "of",
+  "start": 0.6,
+  "end": 0.78,
+  "conf": 1
+ },
+ {
+  "i": 3,
+  "word": "the",
+  "text": "the",
+  "start": 0.78,
+  "end": 0.88,
+  "conf": 1
+ },
+ {
+  "i": 4,
+  "word": "brakes",
+  "text": "brakes.",
+  "start": 0.88,
+  "end": 1.17,
+  "conf": 1
+ },
+ {
+  "i": 5,
+  "word": "Twenty-two",
+  "text": "Twenty-two",
+  "start": 1.93,
+  "end": 2.4,
+  "conf": 1
+ },
+ {
+  "i": 6,
+  "word": "drivers",
+  "text": "drivers.",
+  "start": 2.4,
+  "end": 3.04,
+  "conf": 1
+ },
+ {
+  "i": 7,
+  "word": "And",
+  "text": "And",
+  "start": 3.87,
+  "end": 3.98,
+  "conf": 1
+ },
+ {
+  "i": 8,
+  "word": "a",
+  "text": "a",
+  "start": 3.98,
+  "end": 4.08,
+  "conf": 1
+ },
+ {
+  "i": 9,
+  "word": "jam",
+  "text": "jam",
+  "start": 4.08,
+  "end": 4.34,
+  "conf": 1
+ },
+ {
+  "i": 10,
+  "word": "that",
+  "text": "that",
+  "start": 4.34,
+  "end": 4.56,
+  "conf": 1
+ },
+ {
+  "i": 11,
+  "word": "nobody",
+  "text": "nobody",
+  "start": 4.555,
+  "end": 4.84,
+  "conf": 1
+ },
+ {
+  "i": 12,
+  "word": "caused",
+  "text": "caused,",
+  "start": 4.84,
+  "end": 5.32,
+  "conf": 1
+ },
+ {
+  "i": 13,
+  "word": "rolling",
+  "text": "rolling",
+  "start": 5.32,
+  "end": 5.94,
+  "conf": 1
+ },
+ {
+  "i": 14,
+  "word": "backwards",
+  "text": "backwards.",
+  "start": 5.94,
+  "end": 6.42,
+  "conf": 1
+ }
+]
