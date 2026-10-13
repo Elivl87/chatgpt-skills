@@ -644,7 +644,148 @@ def job_fish2():
     print('docs/ep003/fish2_sheet.jpg', list(FISH_EXPR))
 
 
-JOBS = {'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+# EP003 friends Max and Leo (2026-10-13): our own "worm people" (docs/ep003/characters/FRIENDS_MAX_LEO.md).
+FRIENDS = {'max': ('friendMax', 180), 'leo': ('friendLeo', 158)}        # prop, approx. standing height (cm)
+FRIEND_EXPRS = ['neutral', 'laugh', 'shock', 'sideeye', 'sweat']
+FRIEND_VIEWS = {'34': (30, 6), 'front': (0, 4), 'side': (90, 4), 'back': (180, 6)}
+
+
+def friend_span(who, pose):
+    """Height in cm covered by the canvas (h px) for this pose: px per cm = h / span."""
+    return FRIENDS[who][1] * {'sit': .98, 'cheer': 1.38}.get(pose, 1.12)
+
+
+def friend_render(who, view='34', expr='neutral', pose='stand', w=1000, h=1500, line=4.4):
+    """One friend, one view/expression/pose, transparent RGBA at w x h (the figure fills ~88 % of the height)."""
+    prop, tall = FRIENDS[who]
+    yaw, elev = FRIEND_VIEWS[view]
+    sit = pose == 'sit'
+    ty = tall * (.13 if sit else .62 if pose == 'cheer' else .5)       # seated: the seat is y = 0
+    span = friend_span(who, pose)
+    fov = 26
+    d = span / 2 / np.tan(np.radians(fov / 2))
+    tgt = [0, ty, 12 if sit else 0]
+    shot = {'camera': orbit(yaw, elev, d, tgt), 'target': tgt, 'fov': fov, 'cart': None, 'near': d * .3, 'far': d * 3,
+            who: {'expr': expr, 'pose': pose}}
+    for _ in range(3):
+        img = render({'props': [prop], 'shots': [shot], 'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
+        if img[..., 3].any() and not img[[0, -1]][:, [0, -1], 3].all():
+            return img
+    raise RuntimeError(f'{who} {view} {expr} {pose} rendered empty')
+
+
+FRIEND_POSES = {'sit': [('34', e) for e in FRIEND_EXPRS] + [('front', 'neutral'), ('side', 'neutral'), ('side', 'laugh')],
+                'point': [('34', 'neutral'), ('front', 'neutral')], 'cheer': [('34', 'laugh'), ('front', 'laugh')],
+                'phone': [('34', 'neutral'), ('front', 'neutral')]}
+
+
+def friend_jobs():
+    """(file name, who, view, expr, pose) for every friends cut-out."""
+    out = []
+    for who in FRIENDS:
+        out += [(f'{who}_{v}_{e}', who, v, e, 'stand') for v in ('34', 'front') for e in FRIEND_EXPRS]
+        out += [(f'{who}_side_neutral', who, 'side', 'neutral', 'stand')]
+        out += [(f'{who}_{p}_{v}_{e}', who, v, e, p) for p, ve in FRIEND_POSES.items() for v, e in ve]
+    return out
+
+
+def job_friends():
+    """EP003 friends Max (purple) and Leo (yellow): transparent cut-outs in public/art/ep003/props3d/:
+    <who>_<34|front|side>_<expr>.png standing, <who>_<pose>_<view>_<expr>.png for sit / point / cheer / phone.
+    Seated cut-outs: the seat (bottom of the thighs) is the model's y = 0, for the rowboat thwarts.
+    FRIENDS_ONLY=max_34_laugh,leo_sit_34_neutral limits the run."""
+    import os, time
+    OUT3.mkdir(parents=True, exist_ok=True)
+    only = [n for n in os.environ.get('FRIENDS_ONLY', '').split(',') if n]
+    jobs = [j for j in friend_jobs() if not only or j[0] in only]
+    t0 = time.time()
+
+    def run(j):
+        name, who, view, expr, pose = j
+        cv2.imwrite(str(OUT3 / f'{name}.png'), crop_alpha(friend_render(who, view, expr, pose), pad=10))
+        return name
+    with ThreadPoolExecutor(4) as ex:
+        for n in ex.map(run, jobs):
+            print(f'{n}.png')
+    print(f'{len(jobs)} cut-outs in {time.time() - t0:.0f} s')
+
+
+def job_friends_sheet():
+    """Design sheet docs/ep003/characters/FRIENDS_MAX_LEO_v1.jpg from the friends cut-outs: turnaround (front, 3/4, side),
+    the expression row, the pose row, and a scale line-up beside our 2D Quest and Pixie (Max ~1.08x Quest, Leo ~0.95x)."""
+    BG, INKC = (238, 236, 232), (40, 34, 30)
+    rd = lambda p: cv2.imread(str(p), cv2.IMREAD_UNCHANGED)
+    fr = lambda n: rd(OUT3 / f'{n}.png')
+
+    def paste(canvas, im, x, y, h=None, w=None, k=None):
+        """Alpha-paste im (scaled by k, or fitted into a h tall and/or w wide box), bottom-centred at (x, y)."""
+        k = k or min(h / im.shape[0] if h else 9e9, w / im.shape[1] if w else 9e9)
+        im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)
+        ih, iw = im.shape[:2]; x0, y0 = int(x - iw / 2), int(y - ih)
+        a = im[..., 3:] / 255.0
+        reg = canvas[y0:y0 + ih, x0:x0 + iw]
+        canvas[y0:y0 + ih, x0:x0 + iw] = (im[..., :3] * a + reg * (1 - a)).astype(np.uint8)
+        return ih
+
+    def text(c, s, x, y, sc=1.0, th=2, col=INKC):
+        cv2.putText(c, s, (x, y), cv2.FONT_HERSHEY_DUPLEX, sc, col, th, cv2.LINE_AA)
+
+    W = 3000
+    PXCM, PXP = 4.1, 3.4                                                  # sheet px per cm: turnaround, poses
+    rows = []
+    # 1 turnaround
+    r = np.full((1000, W, 3), BG, np.uint8)
+    text(r, 'MAX & LEO  v1  -  EP003 friends (our 3D, toon + ink)', 40, 70, 1.6, 3)
+    text(r, 'turnaround: front / 3-4 / side', 40, 120, .9, 1)
+    for k, (who, col) in enumerate((('max', (184, 88, 113)), ('leo', (40, 150, 214)))):
+        x0 = 150 + k * 1450
+        text(r, who.upper(), x0 - 60, 190, 1.4, 3, col)
+        for i, v in enumerate(('front', '34', 'side')):
+            paste(r, fr(f'{who}_{v}_neutral'), x0 + 160 + i * 420, 960, k=PXCM * friend_span(who, 'stand') / 1500)
+    rows.append(r)
+    # 2 expressions (head and shoulders of the 3/4 cut-outs)
+    r = np.full((520, W, 3), BG, np.uint8)
+    text(r, 'expressions: neutral / laugh / shock / side-eye / sweat', 40, 50, .9, 1)
+    for k, who in enumerate(('max', 'leo')):
+        for i, e in enumerate(FRIEND_EXPRS):
+            im = fr(f'{who}_34_{e}'); im = im[:int(im.shape[0] * (.36 if who == 'max' else .38))]
+            paste(r, im, 150 + k * 1450 + i * 280, 470, h=400, w=260)
+            text(r, e, 150 + k * 1450 + i * 280 - 50, 510, .7, 1)
+    rows.append(r)
+    # 3 poses
+    r = np.full((760, W, 3), BG, np.uint8)
+    text(r, 'poses: stand / sit (seat = y 0) / point / cheer / hold-phone', 40, 50, .9, 1)
+    for k, who in enumerate(('max', 'leo')):
+        names = [('stand', f'{who}_34_neutral'), ('sit', f'{who}_sit_34_neutral'), ('point', f'{who}_point_34_neutral'), ('cheer', f'{who}_cheer_34_laugh'), ('phone', f'{who}_phone_34_neutral')]
+        for i, (p, n) in enumerate(names):                                # one scale for every pose (px per cm)
+            paste(r, fr(n), 150 + k * 1450 + i * 285, 720, k=PXP * friend_span(who, p) / 1500)
+    rows.append(r)
+    # 4 scale line-up beside the 2D cast
+    r = np.full((900, W, 3), BG, np.uint8)
+    text(r, 'scale line-up: Quest (2D) = 1.00, Max ~1.08, Leo ~0.95, Pixie (2D)', 40, 50, .9, 1)
+    q = rd(ROOT / 'docs/art_orders/quest/library_v2/results/01_wave_happy.png')
+    p = rd(ROOT / 'tools/hyperframes_ep003/blockB/assets/pixie_wave.png')
+    q, p = crop_alpha(q, 0), crop_alpha(p, 0)
+    HQ = 700; base = 860
+    k = HQ / q.shape[0]
+    xs = [700, 1150, 1600, 2050]
+    paste(r, q, xs[0], base, h=HQ)
+    paste(r, crop_alpha(fr('max_front_neutral'), 0), xs[1], base, h=int(HQ * 1.08))
+    paste(r, crop_alpha(fr('leo_front_neutral'), 0), xs[2], base, h=int(HQ * .95))
+    paste(r, p, xs[3], base, h=int(p.shape[0] * k))
+    for f in (1.0, 1.08, .95):
+        y = int(base - HQ * f); cv2.line(r, (450, y), (2300, y), (170, 165, 160), 1, cv2.LINE_AA)
+        text(r, f'{f:.2f}', 380, y + 8, .6, 1)
+    cv2.line(r, (450, base), (2300, base), (120, 115, 110), 2)
+    for x, s in zip(xs, ('Quest', 'Max', 'Leo', 'Pixie')):
+        text(r, s, x - 40, base + 32, .8, 1)
+    rows.append(r)
+    out = ROOT / 'docs/ep003/characters/FRIENDS_MAX_LEO_v1.jpg'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 88])
+    print(out.relative_to(ROOT))
+
+JOBS = {'friends': job_friends, 'friends_sheet': job_friends_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
