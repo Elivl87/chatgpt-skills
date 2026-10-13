@@ -29,7 +29,8 @@
    "higgsfield_job_id": "5f077c2d-6f13-46e6-a8f3-54cefaab5540",
    "attempts": 1,
    "sha256": "b1a35f938324c478764ed9248254fba4471054c6b6dc8c658c99498843d2eb5a",
-   "duration_s": 34.19
+   "duration_s": 34.19,
+   "stt_match": 0.9367
   },
   {
    "id": "B02",
@@ -48,7 +49,8 @@
    "higgsfield_job_id": "7ecb80af-a8b3-45ac-9574-8ef7efd3cbaa",
    "attempts": 1,
    "sha256": "2b4325b548b38b934322ecbc3b3736e406b9c1ad8dafdaf204a71e8f341787ae",
-   "duration_s": 28.84
+   "duration_s": 28.84,
+   "stt_match": 0.9589
   },
   {
    "id": "B03",
@@ -72,7 +74,8 @@
    "higgsfield_job_id": "d33a8067-2297-4af9-908d-21bcc9f320ab",
    "attempts": 1,
    "sha256": "f60e06ab13010efb2098b27342fffbd5bd72138c90aec83ac4f9e4566671ca4e",
-   "duration_s": 43.55
+   "duration_s": 43.55,
+   "stt_match": 1.0
   },
   {
    "id": "B04",
@@ -93,7 +96,8 @@
    "higgsfield_job_id": "2cb09864-b958-4479-b28b-ed9b467ced32",
    "attempts": 1,
    "sha256": "e4d791268699581e1608dbd286c5b7f1bc913abc8c3ae29bb2a914e23428240c",
-   "duration_s": 56.69
+   "duration_s": 56.69,
+   "stt_match": 1.0
   },
   {
    "id": "B05",
@@ -117,7 +121,8 @@
    "higgsfield_job_id": "4b8a5b6a-64f8-4304-b1ff-a85b9d79e368",
    "attempts": 1,
    "sha256": "26863bda934b1d0ae180ac8e5514bab16d17e0ff960d54aeb655113d2e1221fe",
-   "duration_s": 75.39
+   "duration_s": 75.39,
+   "stt_match": 0.995
   },
   {
    "id": "B06",
@@ -140,7 +145,8 @@
    "higgsfield_job_id": "913b57b0-8717-4b23-907d-ba1b7f5d4363",
    "attempts": 1,
    "sha256": "11fcd674e9aba09d9c317ddaecd8e7d1e2d523c95a78fc597db2cd7e30608d1c",
-   "duration_s": 54.05
+   "duration_s": 54.05,
+   "stt_match": 1.0
   },
   {
    "id": "B07",
@@ -164,7 +170,8 @@
    "higgsfield_job_id": "c7973281-92d1-4a43-84b1-d4836f938f0f",
    "attempts": 1,
    "sha256": "5e5a94f4548af2bb4ecc2d5f6007dcb613e31bbc30c665ea93effd3f15f94b22",
-   "duration_s": 32.6
+   "duration_s": 32.6,
+   "stt_match": 1.0
   }
  ]
 }
