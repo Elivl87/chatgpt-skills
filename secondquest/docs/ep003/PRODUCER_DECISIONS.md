@@ -102,3 +102,12 @@
 - Producer: "La voz del EP003 la del voicestudio" — narration v5 is the active EP003 placeholder (internal review cuts
   only; the published episode uses Bram's licensed voice). Timings are now 1:1 with the script (Friendslop = one token):
   block F tokens and SFX cues re-keyed accordingly. Preliminary low-res video follows.
+
+## 2026-10-13 · Friends in our 3D + new art + Bram approved
+- Max and Leo: built FREE in our 3D (tools/props3d), "inspired, not copied, but as close as possible, to the limit"
+  (Producer) to How to Fish's worm people (capsule head-neck, googly eyes, fisher outfits); our toon/ink finish and
+  chat colours (Max purple, Leo yellow). The game's store screenshots were studied only (scratchpad, never in the repo).
+- New art APPROVED ("Apruebo las imágenes 1 a 4 y la voz de Bram") and generated, 2.0 credits (gpt_image_2_5 1k x4):
+  01 lake dusk plate (27443c63), 02 slap revive (cb8ceb79), 03 launched (a30729de), 04 kid at the door (e31b2a20),
+  in `docs/art_orders/ep003/new_art_v1/`. QC pass (Quest/Pixie identity, red sneakers, no text/logos). Balance 24.25.
+- Bram EN narration APPROVED (~16 credits), script LOCKED v3.2 verbatim. The VoiceStudio clone stays internal only.
