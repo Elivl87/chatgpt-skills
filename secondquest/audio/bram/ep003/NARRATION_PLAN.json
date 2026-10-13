@@ -1,0 +1,170 @@
+{
+ "voice": {
+  "provider": "Higgsfield",
+  "model": "text2speech_v2",
+  "variant": "elevenlabs",
+  "voice_type": "preset",
+  "voice_id": "549ff70a-3ee7-4f04-a4d9-89a24fab7709",
+  "name": "Bram"
+ },
+ "script": "episodes/ep003/script.json (LOCKED v3.2, verbatim)",
+ "blocks": [
+  {
+   "id": "B01",
+   "block": "A",
+   "from": "l01",
+   "to": "l07",
+   "lines": [
+    "l01",
+    "l02",
+    "l03",
+    "l04",
+    "l05",
+    "l06",
+    "l07"
+   ],
+   "text": "There is a game called How to Fish. A boat. A rod. A lot of fish. And almost nobody seems to be fishing. They are slapping each other in the face. Gambling the fish money. Fishing with a sniper rifle. It costs about eight dollars. Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million. Millions of people bought a fishing game. To do everything else. Together. So, why?",
+   "chars": 444,
+   "file": "B01_l01_l07.mp3",
+   "higgsfield_job_id": "5f077c2d-6f13-46e6-a8f3-54cefaab5540",
+   "attempts": 1,
+   "sha256": "b1a35f938324c478764ed9248254fba4471054c6b6dc8c658c99498843d2eb5a",
+   "duration_s": 34.19
+  },
+  {
+   "id": "B02",
+   "block": "B",
+   "from": "l08",
+   "to": "l11",
+   "lines": [
+    "l08",
+    "l09",
+    "l10",
+    "l11"
+   ],
+   "text": "Start with the price. Eight dollars is not really a price. It's an invitation. Because this is not really a game you play alone. Everyone in the boat buys their own copy. So it usually begins the same way. A message in a group chat. \"It's eight dollars. Just get it.\" And then, one by one: Bought. Bought. Bought. And one friend who says \"I'll get it later.\" He will not get it later.",
+   "chars": 384,
+   "file": "B02_l08_l11.mp3",
+   "higgsfield_job_id": "7ecb80af-a8b3-45ac-9574-8ef7efd3cbaa",
+   "attempts": 1,
+   "sha256": "2b4325b548b38b934322ecbc3b3736e406b9c1ad8dafdaf204a71e8f341787ae",
+   "duration_s": 28.84
+  },
+  {
+   "id": "B03",
+   "block": "C",
+   "from": "l12",
+   "to": "l20",
+   "lines": [
+    "l12",
+    "l13",
+    "l14",
+    "l15",
+    "l16",
+    "l17",
+    "l18",
+    "l19",
+    "l20"
+   ],
+   "text": "Now compare that with the other way adults try to see their friends. \"We should hang out.\" \"Yes! Definitely.\" \"I'm free in three weeks.\" \"Three weeks works.\" And three weeks later, somebody's kid is sick. Somebody's car is making a new noise. And the plan quietly dies in a chat nobody will ever scroll back to. As an adult, the hard part of seeing your friends is not distance. It isn't even time. It's asking. Proposing a plan means admitting you want one. Kids never had this problem. A kid just shows up at your door and says: \"Want to play?\" At some point, we lost that sentence. Nobody ever told us what replaced it. Eight dollars removes the asking.",
+   "chars": 656,
+   "file": "B03_l12_l20.mp3",
+   "higgsfield_job_id": "d33a8067-2297-4af9-908d-21bcc9f320ab",
+   "attempts": 1,
+   "sha256": "f60e06ab13010efb2098b27342fffbd5bd72138c90aec83ac4f9e4566671ca4e",
+   "duration_s": 43.55
+  },
+  {
+   "id": "B04",
+   "block": "D",
+   "from": "l21",
+   "to": "l26",
+   "lines": [
+    "l21",
+    "l22",
+    "l23",
+    "l24",
+    "l25",
+    "l26"
+   ],
+   "text": "But why fishing? Of all the things a game could be about. Because fishing solves a second problem. Not how to meet. What to do once you're there. Ask anyone what they caught on their last fishing trip. Most don't remember. They remember who was in the boat. In a boat, nobody has to look at each other. Nobody has to fill the silence. You both look at the water. You talk. Or you don't, and that is fine too. The fish gives the afternoon a reason... and the silence a job. And fishing is not the only alibi adults have invented. The golf course. The poker night. The car that needs one more afternoon in the garage. Nobody in those places is really there for the golf, the cards or the car. Every generation has built its own excuse to sit next to each other. How to Fish is just the newest one. It fits in a group chat.",
+   "chars": 820,
+   "file": "B04_l21_l26.mp3",
+   "higgsfield_job_id": "2cb09864-b958-4479-b28b-ed9b467ced32",
+   "attempts": 1,
+   "sha256": "e4d791268699581e1608dbd286c5b7f1bc913abc8c3ae29bb2a914e23428240c",
+   "duration_s": 56.69
+  },
+  {
+   "id": "B05",
+   "block": "E",
+   "from": "l27",
+   "to": "l35",
+   "lines": [
+    "l27",
+    "l28",
+    "l29",
+    "l30",
+    "l31",
+    "l32",
+    "l33",
+    "l34",
+    "l35"
+   ],
+   "text": "And like every good alibi, it comes with props. A boat. A rod. A goal. And then it gets rid of it almost immediately. You begin with almost nothing. Soon you have guns and dynamite. You sell your catch. You gamble the money. You fight bosses. The developers' own description on Steam reads, word for word: \"cartoon violence towards fish and gambling with fish (no real money).\" The goal is still there. But the goal is not the point. The goal is the alibi. And what happens instead of fishing... is mostly failure. Someone falls in the water. Someone finds a weapon that was clearly not designed for fish. Someone gambles the savings, and nobody will ever admit who it was. Someone gets launched across the island by something they absolutely should not have poked. And when a teammate goes down, the way you bring them back is by picking them up... and slapping them in the face. Which, if we're honest, is how most friendships handle feelings. Nobody retells the time everything went perfectly. They retell the night it all went wrong. Usually years later, in the same group chat, with no context, to the confusion of everyone who wasn't there.",
+   "chars": 1146,
+   "file": "B05_l27_l35.mp3",
+   "higgsfield_job_id": "4b8a5b6a-64f8-4304-b1ff-a85b9d79e368",
+   "attempts": 1,
+   "sha256": "26863bda934b1d0ae180ac8e5514bab16d17e0ff960d54aeb655113d2e1221fe",
+   "duration_s": 75.39
+  },
+  {
+   "id": "B06",
+   "block": "F",
+   "from": "l36",
+   "to": "l43",
+   "lines": [
+    "l36",
+    "l37",
+    "l38",
+    "l39",
+    "l40",
+    "l41",
+    "l42",
+    "l43"
+   ],
+   "text": "The internet even invented a name for games like this. Friendslop. Half a joke, half an insult. Cheap, chaotic co-op games built for playing with friends. We named a whole genre after the word for garbage. Then we invited our friends to it. Some say it's short. Maybe it is just this year's summer hit. But fishing trips end too. That was never what they were for. Some games just need to get a few friends into the same boat on a Tuesday night. The plan was to fish. The plan is always to fish. And at some point, around one in the morning, someone says \"last round.\" It is never the last round. And the two friends who founded the studio behind it? They met in high school. Their first paid game had not done well. So they made a small game about friends doing something silly together. And millions of people answered the same group chat.",
+   "chars": 841,
+   "file": "B06_l36_l43.mp3",
+   "higgsfield_job_id": "913b57b0-8717-4b23-907d-ba1b7f5d4363",
+   "attempts": 1,
+   "sha256": "11fcd674e9aba09d9c317ddaecd8e7d1e2d523c95a78fc597db2cd7e30608d1c",
+   "duration_s": 54.05
+  },
+  {
+   "id": "B07",
+   "block": "G",
+   "from": "l44",
+   "to": "l52",
+   "lines": [
+    "l44",
+    "l45",
+    "l46",
+    "l47",
+    "l48",
+    "l49",
+    "l50",
+    "l51",
+    "l52"
+   ],
+   "text": "So... why did millions of people buy a fishing game and not fish? Because nobody in that boat came for the fish. The fish was just the thing you could say out loud. How to Fish sounds like a tutorial. And maybe it is. Just not for fishing. It teaches the thing adults are worst at. How to say \"I miss you\"... without ever having to say it. So who would you put in your boat? And what game deserves a \"why?\" next? Tell me in the comments. Maybe that's our next quest.",
+   "chars": 466,
+   "file": "B07_l44_l52.mp3",
+   "higgsfield_job_id": "c7973281-92d1-4a43-84b1-d4836f938f0f",
+   "attempts": 1,
+   "sha256": "5e5a94f4548af2bb4ecc2d5f6007dcb613e31bbc30c665ea93effd3f15f94b22",
+   "duration_s": 32.6
+  }
+ ]
+}
