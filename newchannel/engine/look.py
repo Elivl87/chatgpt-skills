@@ -175,6 +175,19 @@ class Frame:
         b = d.textbbox((x * self.ss, y * self.ss), s, font=f, anchor=anchor)
         return tuple(c / self.ss for c in b)
 
+    def label(self, plate, xy, s, role="label_bold", size=30, anchor="la", v=255, pad=8,
+              knock=("ink", "second", "shade", "shade2", "tint")):
+        """Text on a paper knock-out (the plates under its box are cleared first), so it reads over busy art."""
+        f = font(role, size * self.ss)
+        x, y = xy
+        b = self.draw(plate).textbbox((x * self.ss, y * self.ss), s, font=f, anchor=anchor)
+        x0, y0, x1, y1 = (c / self.ss for c in b)
+        if v >= 128:
+            for p in knock:
+                if p in self._img:
+                    self.rect(p, x0 - pad, y0 - pad, x1 + pad, y1 + pad, 0)
+        return self.text(plate, xy, s, role, size, anchor, v)
+
     def text_size(self, s, role="label", size=34):
         b = font(role, size * self.ss).getbbox(s)
         return (b[2] - b[0]) / self.ss, (b[3] - b[1]) / self.ss
@@ -277,6 +290,13 @@ def screen(tone_img: Image.Image, bbox, cell, angle, aa=0.8) -> Image.Image:
 
 # ------------------------------------------------------------------------------------------------ finishing
 
+@lru_cache(maxsize=16)
+def _ink_lut(hex_colour):
+    """Per-band lookup table for 'multiply by this ink colour' (Image.point on RGB)."""
+    c = rgb(hex_colour)
+    return [int(i * c[b] / 255 + 0.5) for b in range(3) for i in range(256)]
+
+
 class Look:
     """Finishing settings. Defaults follow BRAND.md sections 2 and 7."""
 
@@ -299,8 +319,11 @@ def finish(fr: Frame, frame_index: int = 0, look: Look = DEFAULT, base: Image.Im
     if look.grain > 0:
         out = ImageChops.multiply(out, grain_crop(w, h, frame_index, look.seed % 997, look.live))
     tex = _ink_tex(w, h, look.seed % 101, look.texture) if look.texture > 0 else None
+    plates = dict(fr._img)
+    if "face" in plates:                       # same ink, same registration: print face + ink as one plate
+        plates["ink"] = ImageChops.lighter(plates["ink"], plates.pop("face")) if "ink" in plates else plates.pop("face")
     for name in PLATES:
-        img = fr._img.get(name)
+        img = plates.get(name)
         if img is None:
             continue
         m = img.reduce(fr.ss) if fr.ss > 1 else img
@@ -324,10 +347,8 @@ def finish(fr: Frame, frame_index: int = 0, look: Look = DEFAULT, base: Image.Im
             continue
         cov = cov.crop((cx0 - x0, cy0 - y0, cx1 - x0, cy1 - y0))
         region = out.crop((cx0, cy0, cx1, cy1))
-        col = Image.new("RGB", region.size, rgb(pal[ink]))
-        white = Image.new("RGB", region.size, (255, 255, 255))
-        layer = Image.composite(col, white, cov)
-        out.paste(ImageChops.multiply(region, layer), (cx0, cy0))
+        # multiply blend, linear in coverage: lerp(region, region x ink colour, cov)
+        out.paste(Image.composite(region.point(_ink_lut(pal[ink])), region, cov), (cx0, cy0))
     return np.asarray(out)
 
 
