@@ -1,0 +1,96 @@
+# Ep 001 (pilot) · FACTS · "Why do traffic jams appear out of nowhere?" · 2026-10-13
+
+Every number or claim the narration uses (EN and ES-419), its primary source, and its status.
+Status: **verified** = matches the primary source as worded · **reworded** = narration changed to match what the source
+supports · **dropped** = not in the script · **model** = a property of our own simulation, not a claim about the world
+(the script says "our model" / shows "SPED UP ×N"). Sources accessed 2026-10-13; PDFs read in full text (pdftotext).
+
+## Primary sources
+
+- **[SUG]** Sugiyama, Y., Fukui, M., Kikuchi, M., Hasebe, K., Nakayama, A., Nishinari, K., Tadaki, S., Yukawa, S. (2008).
+  "Traffic jams without bottlenecks: experimental evidence for the physical mechanism of the formation of a jam."
+  *New Journal of Physics* 10, 033001. doi:10.1088/1367-2630/10/3/033001. Open access (CC BY), full text:
+  https://ir.library.osaka-u.ac.jp/repo/ouka/all/93262/NewJPhys_10_033001.pdf
+- **[TAD]** Tadaki, S., Kikuchi, M., Fukui, M., Nakayama, A., Nishinari, K., Shibata, A., Sugiyama, Y., Yosida, T., Yukawa, S.
+  (2013). "Phase transition in traffic jam experiment on a circuit." *New Journal of Physics* 15, 103034.
+  doi:10.1088/1367-2630/15/10/103034. Full text: https://ir.library.osaka-u.ac.jp/repo/ouka/all/93261/NewJPhys_15_103034.pdf
+- **[STERN]** Stern, R.E., Cui, S., Delle Monache, M.L., … Piccoli, B., Seibold, B., Sprinkle, J., Work, D.B. (2018).
+  "Dissipation of stop-and-go waves via control of autonomous vehicles: Field experiments." *Transportation Research
+  Part C* 89: 205-221. doi:10.1016/j.trc.2018.02.005. Preprint read in full: https://arxiv.org/abs/1705.01693 (May 2017).
+  Affiliations: University of Illinois at Urbana-Champaign, Temple, Inria, University of Arizona, Rutgers-Camden, others.
+  (The brief said "Illinois / Vanderbilt 2017": the preprint is 2017, the journal paper 2018; Vanderbilt is the corresponding
+  author's later affiliation, not on this paper. The script says "a few years later" / no year, to avoid the mix-up.)
+- **[CIRC]** Lee, J.W., Wang, H., Jang, K., Hayat, A., Bunting, M., … Bayen, A.M. (64 authors) (2025). "Traffic Control via
+  Connected and Automated Vehicles: An Open-Road Field Experiment with 100 CAVs." *IEEE Control Systems* 45(1): 28-60.
+  Preprint read in full: https://arxiv.org/abs/2402.17043 . Supporting: Vanderbilt press release (Nov 2022)
+  https://engineering.vanderbilt.edu/news/?p=19692
+- **[KTH]** Kesting, A., Treiber, M., Helbing, D. (2008). "Agents for Traffic Simulation." arXiv:0805.0300 (book chapter),
+  section 6.1 and Fig. 12. https://arxiv.org/abs/0805.0300
+- **[REV]** He, Z., Laval, J., Han, Y., Hegyi, A., Nishi, R., Wu, C. (2025). "A Review of Stop-and-Go Traffic Wave
+  Suppression Strategies: Variable Speed Limit vs. Jam-Absorption Driving." arXiv:2504.11372.
+- **[NISHI]** Nishi, R., Tomoeda, A., Shimura, K., Nishinari, K. (2013). "Theory of jam-absorption driving."
+  *Transportation Research Part B* 50: 116-129. doi:10.1016/j.trb.2013.02.003 (abstract via
+  https://ideas.repec.org/a/eee/transb/v50y2013icp116-129.html).
+- **[CPH]** City of Copenhagen, *Bicycle Account* (2014 ed., series 2004-2014; 2018 ed.): average cycling speed 15.3-16.9 km/h.
+  https://www.mobilize.org.br/midias/pesquisas/copenhagen-bicycle-account-2014.pdf
+
+## Claim table
+
+| # | Claim in the script (EN wording) | Source (quote / page) | Status | Note |
+|---|---|---|---|---|
+| 1 | Our ring: 22 cars, one circle; a single tap of the brakes starts a jam | Model (IDM on a ring, as in `pilot/sim_test`) | model | Hook says "one driver taps the brakes". In the real 2008 experiment there was no scripted tap: tiny fluctuations grew on their own (#4). Script keeps the two apart: hook = our sim; beat 5-6 = the real experiment. On-screen "SPED UP" label whenever time is compressed. |
+| 2 | A jam can form with no crash, no roadworks (ES: "sin conos"), no traffic light, nothing in the way | [SUG] p.6: "the emergence of a traffic jam with no obstacle or bottleneck"; p.7: "neither an apparent obstacle nor a bottleneck is needed for the formation of a jam" | verified | |
+| 3 | 2008, a team of physicists in Japan: 22 real cars, a circle 230 m around; drivers told to cruise at about 30 km/h | [SUG] p.4: "The circumference is 230 m, and the number of vehicles is 22"; "The drivers were requested to cruise at about 30 km h−1"; authors at Nagoya University / Meijo University (Nagoya) | reworded | The paper does not state where the 2008 circuit was (team mostly Nagoya University / Meijo University), so the script says "in Japan", not "in Nagoya". Paper also asked drivers "to follow the vehicle ahead in safety"; script: "drive safely, keep about thirty". |
+| 4 | For a while it flowed; tiny wobbles grew; about three minutes in, a jam | [SUG] p.4: "the free flow is maintained for a while… small fluctuations appeared in the headway distances and developed as time progressed"; Fig. 3(b) caption: "The snapshot 3 min later shows that a jam has been formed" | verified | "About three minutes in" = Fig. 3 caption. |
+| 5 | Five cars came to a full stop | [SUG] Fig. 3 caption: "A jam consists of five vehicles"; p.5: "The vehicles inside the cluster of the jam stop completely" | verified | |
+| 6 | Cars keep moving forward; the jam travels backwards at roughly 20 km/h | [SUG] p.5: "the cluster itself travels backward with a velocity of roughly 20 km h−1" | verified | |
+| 7 | …the same speed measured for jams on real highways | [SUG] p.5: "the common value of the velocity of a jam measured on real highways (figure 5)" | verified | |
+| 8 | ~20 km/h ≈ the speed of someone on a bicycle | [CPH]: Copenhagen average cycling speed 15.3-16.9 km/h (2004-2018) | reworded | Script: "about the speed of a bicycle" (EN) / "más o menos lo que va una bicicleta" (ES). A gloss, not a precise claim; 15-20 km/h range covers both. |
+| 9 | Each following driver reacts a moment later and brakes a little harder; a tap at the front becomes a stop further back | [KTH] §6.1: "Each following driver has to reduce his or her speed a bit more to regain the necessary safety distance. Eventually, vehicles further upstream in the platoon brake to a standstill." [STERN] p.1: "small perturbations amplify and grow into stop-and-go waves that travel backwards" | verified | "Ten cars back" in the narration is our sim (model), shown on the unrolled line. |
+| 10 | Engineers call this "string instability"; the string = the line of cars | [KTH] §6.1 ("vicious circle"; platoon stability); [STERN] p.2 cites "string stability" literature ("vehicle platoon remains stable") | reworded | Term is standard in control/traffic literature ("string stability" of a platoon). Script defines it before using it. |
+| 11 | The jam is a wave: cars enter at the back and leave at the front; the jam itself moves | [SUG] p.5: "The vehicle at the front of the cluster starts to accelerate and escapes from it, while another vehicle reaches the back of the cluster. The repetition of such a movement preserves the stability of the cluster" | verified | Stadium-wave analogy is ours (explanatory). |
+| 12 | Follow-up: the same group used a baseball stadium (Nagoya Dome), circle 314 m around | [TAD] p.3: "a circuit in the Nagoya Dome, an indoor Japanese Professional League baseball field. The new circuit was larger (314 m in circumference)" | verified | Experiment run 8-9 December 2009; paper 2013. Script: no year for the dome run ("a bigger follow-up"). |
+| 13 | 25 cars: flowed; 28 or more: jams. "Three extra cars" | [TAD] p.6: "In session 2125 (25 cars), all cars run smoothly… density fluctuation occurs but does not lead to a traffic jam"; p.11: "If on the other hand the number of cars is N ⩾ 28, jammed flows occur"; "critical density occurs between 0.08 m−1 (N = 25) and 0.09 m−1 (N = 28)" | verified | Sessions ran from 10 to 40 cars. The paper also notes metastable states in between; "three extra cars" is the 25→28 gap, faithful. |
+| 14 | Below a certain crowding, wobbles fade; above it, they grow (critical density) | [SUG] p.7: "A jam is generated spontaneously only if the average vehicle density exceeds the critical value. Under this condition, the free flow state is unstable and even a tiny fluctuation grows" | verified | |
+| 15 | On real highways, a single wave can roll backwards for more than ten kilometres | [KTH] §6.1: "Single stop-and-go waves propagate over more than 10 km leading to their description as 'phantom traffic jams'" (German A9, Munich); [REV] p.1: waves "propagate upstream while maintaining their structure even tens of kilometers" | verified | |
+| 16 | Real-highway waves move backwards at roughly 15-20 km/h | [KTH] §6.1: "typical values for this 'traffic constant' are in the range 15 ± 5 km/h"; A9 measured ≈15.5 km/h. [REV]: "10∼20 km/h". [SUG]: ~20 km/h | reworded | The brief's "~15-20 km/h" is right; script says "fifteen or twenty kilometres an hour". |
+| 17 | So the brake tap behind your jam may have happened half an hour ago or more, and that driver is long gone | Arithmetic from #15 + #16: 10 km ÷ 20 km/h = 30 min; ÷ 15 km/h = 40 min | reworded | Our inference, framed as "may have" / "could be". "Probably eating dinner" is a joke, not a claim. The brief's "20 minutes" was not in a source as a typical number; [REV] cites single-wave durations of minutes to tens of minutes; we use the distance-based "half an hour or more" with "may". |
+| 18 | A later US team recreated the circle with 21 cars and one car that could drive itself | [STERN] p.3: "single-lane circular track … (260 meter circumference) with 21 to 22 vehicles"; "One of the 22 vehicles is the University of Arizona self-driving capable … CAT Vehicle"; p.4: "only one vehicle is ever controlled to dampen the traffic wave" | verified | Self-driving = speed control only; "A trained human driver controls the steering wheel … at all times". Script says "a car whose speed was run by a computer" in ES, "a car that could drive itself" in EN beat 12 then "its computer set the speed" in beat 13. |
+| 19 | The human drivers were told to drive like it's rush hour and close any gap that opens | [STERN] p.5: "Drive as if you were in rush hour traffic. Follow the vehicle ahead without falling behind… But put an emphasis on catching up to the vehicle ahead, if a gap starts opening up." | verified | Researchers' reason: to stop humans from smoothing the waves themselves. |
+| 20 | The computer's strategy: don't chase the car ahead; drive at the average speed of traffic | [STERN] p.6: "One possible way to create a smooth driving profile is to follow the average speed of the vehicles ahead… By simply driving at the average speed, a vehicle covers the same distance in the same amount of time, but with less acceleration and breaking." | verified | (sic "breaking" in source). Controllers: FollowerStopper (Exp A), PI with saturation (Exp C). Simplified to "average speed + keep a safe gap". |
+| 21 | Result: speed swings dropped by about 80 %; hard braking almost vanished | [STERN] p.10: "the velocity standard deviation is reduced by 80.8%… the excessive braking events are reduced from 8.58 events per vehicle per kilometer to 0.12" (Experiment A, best interval) | verified | "Speed swings" = velocity standard deviation. Best interval, Exp A. |
+| 22 | The whole ring burned about 40 % less fuel | [STERN] p.3: "the Lagrangian control results in up to 40% less fuel consumption"; p.10: "fuel consumption is reduced by 42.5%" (Exp A); Exp B 22.1 %, Exp C 28.1 % | reworded | Script says "up to about forty percent less fuel, on that little track" (it is a low-speed ring, not a highway). ES same caveat. |
+| 23 | …and more cars got around per hour, not fewer | [STERN] p.10: "the throughput on the roadway increases by 14.1%" (Exp A) | verified | Exp C throughput −2.5 %; script says "in that run". |
+| 24 | When the car was set a bit faster than the average, the wave came back | [STERN] p.10: "the CAT Vehicle desired velocity is increased further to 8.00 m/s and the CAT Vehicle is, on average, faster than the flow of traffic—which inevitably induces a wave again" | verified | At 7.50 m/s "the CAT Vehicle's speed matches the average traffic speed almost precisely". |
+| 25 | In another run, no computer: one human driver told to drive at the average speed (unless safety says slower) | [STERN] p.9-10, Experiment B: "a trained human driver implements the control strategy … without the aid of automation… maintain a desired velocity, calculated by an external observer as the average velocity of the previous lap"; instruction "drive with an average speed of 14 miles per hour, unless safety requires slower speeds" | verified | The driver was trained and was told the speed by an observer; script: "a trained driver, told one number: the average speed". |
+| 26 | Speed swings roughly halved; fuel dropped by about a fifth | [STERN] Table 3: Exp B velocity st. dev. −49.5 %, fuel −22.1 % (21.8 → 17.0 l/100 km), braking −76.2 % | verified | "About a fifth" for 22 %. |
+| 27 | Researchers in Japan worked out the theory of this "jam-absorption driving" (slow in, fast out) | [NISHI] 2013 abstract: "a driving technique by which one car can dissolve a traffic jam… 'slow-in' and 'fast-out'"; [REV]: JAD "initially introduced in a manner similar to a popular science article, as discussed by Beaty on a website… not until 2013 that [Nishi et al.] sought to systematically examine" | verified | Beaty's website observations are anecdotal: **not named** in the script. The script names only the published theory, as text. |
+| 28 | Absorbing a jam only works when traffic isn't over capacity; it can also create secondary jams | [REV] §II.B: "JAD is effective only when the inflow is lower than the capacity" (theory of [NISHI]); secondary-wave risk | reworded | Script: "It's not magic. If the road is simply overfull, no driver can absorb that." Ties to #13. |
+| 29 | November 2022, a highway near Nashville, Tennessee: 100 cars with a smart cruise control in regular rush-hour traffic; biggest test of its kind | [CIRC] p.3: "Nashville, TN in November 2022"; §4.4: "The live traffic experiment took place on I-24 in November 2022. With 100 vehicles to deploy"; §6: "It is the largest field experiment to use CAVs to regulate the overall traffic flow"; Vanderbilt release: 14-18 Nov 2022, 100 vehicles | verified | Cars were driven by hired drivers; the system overrode the stock adaptive cruise control. No brand shown (Nissan not named on screen). |
+| 30 | They didn't erase every wave, and didn't expect to | [CIRC] §5: "Given the low penetration rate of the control vehicles on the highway, it was not expected that they would completely smooth out all traffic waves—and the plots … confirm that expectation" | verified | No headline fuel % for I-24 was found in the published paper; **no number used**. |
+| 31 | One wave: two smart cars pass through it and it shrinks; four cars with the system off go through and it grows; more smart cars and it shrinks again | [CIRC] §5: "First two active AVs notably dampen the wave; then the wave keeps on growing while four inactive AVs run through it (at x = 3km); followed by several active AVs (around x = 4km) notably dampening the wave again" (11/16/2022, ~07:00) | verified | Paper calls it "a notable anecdote"; script frames it as "one moment in the data". |
+| 32 | Driving at the speed traffic is actually moving gets you there in the same time with less braking | [STERN] p.6 quote in #20 | reworded | Script: "You won't get there later. Same distance, same time, less braking." On a ring/steady flow; we add "a safe gap, not a giant one" because [STERN] p.6 notes large gaps "may induce lane changing on multi-lane roadways". |
+| 33 | ES-419 uses the same numbers (22, 230, 30, 20, 25/28, 314, 80 %, 40 %, half, a fifth, 100, 2022) | — | verified | ES adds regional words (trancón, taco, tráfico, embotellamiento), which are vocabulary, not claims. |
+
+## Dropped or not used
+
+| Claim seen during research | Why |
+|---|---|
+| "One AV influences up to 20 surrounding cars" (Vanderbilt 2022 press release) | Press-release paraphrase of the ring result, not a measured highway number. **Dropped.** |
+| A fuel-savings % for the I-24 / CIRCLES test | Not in the published paper [CIRC] (only heatmaps and anecdotes; engagement 38 % on 11/16, 78 % on 11/17). **Dropped.** |
+| "43 % fuel reduction" (seen in a review citing the ring) | Same ring result as #22, rounded differently; we use the paper's own "up to 40 %". **Dropped (duplicate).** |
+| Beaty's "traffic waves" observations (website, 1990s onward) | Anecdotal, self-published. **Dropped by name**; the idea is credited to the peer-reviewed theory [NISHI]. |
+| Zipper merge | Real and useful, but a different mechanism (bottleneck, not a wave); would split the thesis. **Dropped** (possible Short). |
+| Horn's "bilateral control" (keep equal gaps front and back) cutting travel time "by almost half" | One news report (CBC 2018); the core of CGP Grey's video, which we deliberately do not remake. **Dropped.** |
+| "The 2008 experiment was held in Nagoya" (venue) | [SUG] does not state the venue; only the team's affiliation. **Reworded** to "a team of physicists in Japan". |
+| "Illinois/Vanderbilt 2017" | Paper is 2018 (preprint 2017); Vanderbilt not an affiliation. **Reworded** (no year, no university names in narration; affiliations on screen as small text). |
+| Wave "20 minutes earlier" | No source gives a typical age; replaced by the distance arithmetic in #17. **Reworded.** |
+| Jam forms "within seconds" | Our sim is sped up and tuned (`pilot/sim_test/QC.md`, weakness 2); real 2008 jam took ~3 min. Always label "SPED UP". |
+| 23-car run in 2008 also jammed at the same wave speed ([SUG] p.5) | True, not needed. Omitted. |
+| Critical density on expressways ≈ 25 cars/km ([TAD] p.12) | True, but adds a number without a payoff. Omitted. |
+
+## People and marks
+No private individuals portrayed. Researchers appear only as small on-screen source text (author surname + journal + year),
+never drawn, voiced or impersonated. The 2008 / 2013 / 2018 / 2025 experiments are **re-drawn** as our own sim in the brand
+style; no frames from their videos (the Sugiyama footage, New Scientist clip, etc.) and no CGP Grey material. No logos (Nagoya
+Dome, University of Arizona, Nissan, TDOT, I-24 MOTION) shown as marks; "Nagoya Dome" and "Nashville" are said as places.
