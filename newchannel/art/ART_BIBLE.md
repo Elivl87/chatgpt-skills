@@ -1,4 +1,9 @@
-# Diez Mil Puntos · Art Bible v1 (2026-10-14)
+# Diez Mil Puntos · Art Bible v2 (2026-10-14)
+
+> **v2 changes** (same day, after the v1 review): painterly lobed clouds, world-anchored ground brushwork, foreground
+> framing, full-body characters with poses, mascot ink gestures, rounded top-down cars, night life, an ambient-motion
+> rule, a baked wordmark, and the overcast-noon recipe drawn (style frame e, toll plaza). Frames: `styleframes/v2/`,
+> comparison `styleframes/v2/compare_v1_v2.jpg`, test `test/style_test_v2.mp4`, QC `test/QC_v2.md`.
 
 The Producer set the new art direction on 2026-10-14: **cinematic illustrated scenes drawn 100 % in JavaScript.** The
 reference is a 2-minute short whose frames are all made with JavaScript and whose characters are drawn by Claude. We
@@ -37,9 +42,25 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 - Hills are fbm silhouettes (`K.terrain.ridge`), with 3–4 ridges per scene, a lit top edge when backlit, and haze at the foot.
 - Trees are clusters of circles split into a shadow mass, a lit mass, a rim crescent and a few leaf flecks
   (`K.terrain.tree`: round / poplar / pine). Their size follows perspective.
-- Clouds are lumpy banks of stacked capsules (`K.sky.bank`). They have a flat body, a cooler top, and a lit underside
-  only where they face a low sun.
-- Cars are **tiny open-top bubble cars** (`K.car.rear / front / side / top`). Because they are open, every driver's round
+- **Clouds (v2)** are painterly lobed cumulus (`K.sky.cloudSprite` + `K.sky.drawClouds`): a back tier of big lobes and a
+  front tier along a flat base. The whole mass is filled in shade, the body is the same silhouette pushed toward the
+  light, the big lobes get a lit cap, and the sun-facing contour gets a thin rim (silhouette minus itself pushed away from
+  the light). Each cloud's light angle points at the scene's sun (`K.sky.angTo`), so near a low sun the bellies glow
+  and the tops stay violet; at noon tops are lit and bellies grey (`under`, `contours`). Sprites are baked once and
+  **drift** every frame (4-7 px/s, parallax with the camera yaw). The v1 capsule banks (`K.sky.bank`) are retired:
+  they read as stripes.
+- **Ground brushwork (v2)** is world-anchored, never screen-fixed: `K.terrain.brush` lays short dabs on the ground plane
+  in cells (2 m near, 16 m far), oriented across the terrain and foreshortened by the camera, so they travel with the
+  camera. Fields also get 1-3 local colour patches each (warm / darker blobs), plus wildflower dots, meadow tufts and a
+  fence along the verge near the camera. The close-up uses scrolling tiles at the right parallax (verge with tufts and
+  flowers, a worn-asphalt tile scrolling with the road).
+- **Foreground framing (v2)**: every wide frame has 1-2 out-of-focus framing elements at the edges (a leafy branch
+  hanging in from a top corner, reeds / tall grass in a bottom corner, a bush), drawn from blurred sprites
+  (`K.terrain.branchSprite`, `K.terrain.reedSprite`) and swayed (`drawSway`, `drawWind`). They never cover the subject or
+  the progress-bar band.
+- Cars are **tiny open-top bubble cars** (`K.car.rear / front / side / top`). The v2 top view is a bean-shaped footprint
+  with one smooth side wall, a domed top with a sun-side highlight and rim, a cockpit hollow, a curved windshield,
+  headlights, wheels peeking out, a soft contact shadow, and tail lamps that glow and spill red on the ground. Because they are open, every driver's round
   head is visible from every angle: *a road of cars is a road of dots*, which is the channel's name made literal.
 - Corners are always rounded, and there are no hard 1-px lines on objects. The only line work is the character outline
   and fine wires.
@@ -50,6 +71,13 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 - The head is a true circle of radius R. The brand face construction is kept exactly. Eyes are at x = ±0.32 R,
   y = −0.14 R, r = 0.135 R. The mouth is at y = +0.30 R with stroke 0.144 R and round caps. `look` slides the whole face
   ±0.12 R toward where the character looks.
+- **Full body (v2, `K.char.person`)**: about 2.6 heads tall. A big round head, a small bell-shaped body, short legs with
+  round shoes, noodle arms (two segments, round caps) with round hands, all with the ink line. Ten poses: stand, point,
+  shrug, wave, clipboard (with a pencil that wiggles), sit, walk, hips, cheer, think. Every pose breathes and bobs
+  (`t`), the wave and walk cycle, so no figure is ever frozen. Props: clipboard, safety vest (lime `#d8e04a` with a
+  reflective band; never orange-red, which would compete with the mascot). Shading is one flat shade on the side away
+  from the light plus an optional rim. Acting is driven by the sim (ring observers point / shrug when a car stops; toll
+  attendants hand the ticket while a car is served and wave it off when the barrier opens).
 - Proportions are a big head, a small body and simple hands. A seated driver is a head of 0.34–0.62 m against a 3.3 m
   car (cartoon scale). A standing figure is about 2.2 heads tall (`K.char.torso`).
 - **Generic people** have warm skin tones (6), simple hair shapes (short, bob, curly, bun, cap, none) and a thin
@@ -73,6 +101,14 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 - **Role:** it is *one of the agents*. In the pilot it drives car 8 of the IDM run, a teal (`#23746C`, the brand second)
   open-top car, so vermilion and teal, the two brand inks, read as "our dot" in a wide shot from 40 m away. When it
   watches (the night frame) it sits on a hill, seen from behind, as a disc with a tiny ink body.
+- **Gestures (v2 decision): tiny ink stick arms, allowed.** When the mascot acts it may grow two ink (`#1C2433`) stick
+  arms from the sides of the disc: line width 0.08 R, two segments, round dot hands 0.115 R (open hands are small
+  ellipses). Gestures: rest, shrug, point, wave, fist (a small shake), hips, cheer (`K.char.mascotArms`). Ink stick legs
+  (`K.char.mascotLegs`) only when it stands or sits outside a car. Arms and legs are ink, never vermilion, never
+  outlined, never on the face, and they appear only for a beat of acting (in the car the hands go back to the wheel).
+  In the close-up: shrug when the car stops ("really?"), a small fist shake when it turns grumpy, then back to the
+  wheel. At the toll plaza it turns round to us and shrugs at the queue. On the night hill one arm lifts to point at
+  the ribbon of lights.
 - It is the only character without an outline, which makes it pop against outlined people. It squashes and stretches
   like a rubber stamp and never rotates in 3D.
 
@@ -82,8 +118,8 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 |---|---|---|---|---|---|
 | **Golden hour** (pilot default) | `#5d6aa3` → `#b48aa8` → `#f0a77f` → `#ffe2a8` | Low sun (elev ≈ 5°) ahead of the camera, so everything is **backlit**: rim `#ffd88f` on top edges, camera-facing sides mixed 32 % toward `#3c2a52` | Long (≈ 8 × height), toward the camera, multiplied violet, α 0.45 | God rays (11, screen, α 0.10), sun wash, dust motes | soft-light `#ff9a5a` 22 %, multiply `#3a2050` 10 %, vignette `#2a1330` |
 | **Late afternoon, high angle** (ring) | `#93a9c4` → `#ffe0aa` strip | Sun upper left (elev ≈ 15°), front-lit | Swept footprints, violet α 0.55 on a separate layer (overlaps never double-darken) | Brake glows, shafts | warm-to-cool diagonal soft-light, `#ffb070` 20 % |
-| **Night with brake lights** | `#0b1030` → `#463f6e`, stars, faint milky way, moon with a cool wash | Moon rim `#9fb4ff` on silhouettes only | None (moonlit silhouettes) | Tail lights always on at 60 %, brake → 100 % with a big red glow; headlights `#fff1c8`; town lights; bloom 0.45 | soft-light `#3a4aa0` 25 %, vignette `#03040c` 0.55 |
-| **Overcast noon** (for explainer beats, not yet drawn) | flat `#c9ced6` → `#e8e6df` | Soft top light, no rim | Short, soft, under objects only (α 0.25) | None | desaturate 15 %, soft-light `#9fb6c8` 12 % |
+| **Night with brake lights** | `#0b1030` → `#463f6e`, stars, faint milky way, moon with a cool wash, moon-rimmed clouds | Moon rim `#9fb4ff` on silhouettes only | None (moonlit silhouettes) | Tail lights always on at 60 %, brake → 100 % with a big red glow; headlight cones on the asphalt; wet-road reflection streaks under every lamp; town clusters with halos and a blinking mast; a lit farmhouse (windows, porch lamp, TV flicker, chimney smoke); fireflies; bloom 0.45 | soft-light `#3a4aa0` 25 %, vignette `#03040c` 0.55 |
+| **Overcast noon** (explainer beats; drawn in v2 as frame e, `scenes/toll_plaza.js`) | flat `#b9c2cf` → `#d3d7dc` → `#e8e6df`, grey stratocumulus with lit tops | Soft top light, no rim | Short, soft radial pools under objects only (α 0.22-0.3) | Lane signals only (green), brake lights small (glow ×2.2) | `saturation` grey 15 %, soft-light `#9fb6c8` 12 % |
 | **Dusk title** (wordmark) | `#2a2b58` → `#a8657f` → `#ffcb8e` | Sun just under the horizon behind the letters | — | Rays fan up behind the name | soft-light `#ff9a5a` 15 % |
 
 ## 6 · Palette per scene, and how the brand survives
@@ -94,7 +130,9 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
   pastels (`K.car.COLORS`), with no vermilion-like hue (the terracotta was removed for that reason).
 - Brake and tail lights are a *light* red (`#ff4a36` with glow), not an ink. They are always a glow, never a flat disc of
   vermilion.
-- **Wordmark in the new style** (`K.type`): Martian Mono 800, word spaces 0.55 cell, the dotless ı with **true circle
+- **Wordmark in the new style** (`K.type`; v2: the lit glyphs are baked once into sprites with `K.type.bake` and blitted
+  with `K.type.drawBaked`, about 4x cheaper per frame than v1; the dusk sky behind the letters is kept deep violet,
+  measured ≥ 3.5:1 against the cream letters, and a soft violet pool sits behind the tagline): Martian Mono 800, word spaces 0.55 cell, the dotless ı with **true circle
   tittles**, and the mascot as the dot on the i of "Mil". The letters are cream paper lit by the scene: a soft warm glow
   behind them, a soft low cast shadow, and a thin rim of scene light on their top edge (`K.type.draw`). The plain dot of
   "Diez" is the stepping stone, and it squashes when the mascot lands on it. Periods drawn in titles (thumbnail
@@ -102,11 +140,23 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 
 ## 7 · Texture and finish
 
+- v2: the screen-space ground mottle is gone. Large ground areas get world-anchored brush dabs (§2); cached layers
+  (ridges, sky, tiles) keep the mottle because they move as one plane.
 - `K.tex.paint(layer)` is a brush mottle (fbm, sx 0.004–0.006, sy 0.02–0.05) masked to the layer's alpha, soft-light at
   35–55 %.
 - `K.tex.fillPath` adds fine noise inside dynamic shapes (characters, car bodies) at 22–28 %.
 - Grain is overlay at 13 % on 4 seeded 512² tiles, with the offset re-seeded every 2 frames. Bloom (quarter resolution,
   x³ highlight key) is 0.18–0.45. The vignette uses multiply with the scene colour.
+
+## 7b · Ambient motion (v2 rule: no frame is ever static)
+
+Every shot carries at least four of these, all pure functions of `t` (deterministic):
+cloud drift (sprites, 4-7 px/s); tree sway (`K.terrain.tree({ sway })`, a skew about the trunk base, per-tree phase);
+grass and reed wind (`tuft({ wind })`, `drawWind`); framing branch sway (`drawSway`); dust motes and bokeh
+(`K.particles.motes`); heat shimmer over the far road at golden hour (`K.light.shimmer`, rows slid by a travelling
+sine); birds (and their shadows on the ring field); drifting cloud shadows over the high-angle field; chimney smoke,
+TV flicker, twinkling town lights and fireflies at night; a windsock and a walking worker at the toll plaza; breathing,
+bobbing characters. A held shot with nothing moving is a bug.
 
 ## 8 · Camera
 
@@ -131,6 +181,8 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
   the camera and pure character acting.
 - No vermilion on anything but the mascot. Never two mascots, and never a mascot outline.
 - No text over the bottom 12 % (progress bar), and no faces under the end-screen area.
+- Any shot that plays the sim faster than real time says so on screen: the "ACELERADO ×2" pill (`K.light.speedLabel`,
+  Martian Mono 700, paper on a 62 % ink pill with a round dot, top-left safe area).
 
 ## 10 · Kit map (reusable for future worlds)
 
@@ -147,6 +199,7 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 | `lib/sim.js` | IDM on a closed lane: positions, speeds, brake intensity, onsets (deterministic) |
 | `lib/type.js` | wordmark layout with round tittles + mascot slot, lit cream type |
 | `lib/stage.js` | scene registry, post chain, renderer contract (`__frame(t)`, `__grab`, `__events`) |
+| v2 additions | `sky.cloudSprite / drawClouds / angTo`, `terrain.brush / branchSprite / reedSprite / drawSway / drawWind / house / fireflies`, tree `sway`, `char.person` + `POSES`, `char.mascotArms / mascotLegs`, new `car.top`, `light.shimmer / speedLabel`, `type.bake / drawBaked`, `sim.queue` (IDM queue at a booth with seeded service times). Parts sheet: `scenes/lab2.js` (`?part=clouds|people|cars`) |
 
 A new world (a supermarket queue, a bus line, a rumour on a city grid) reuses sky, light, terrain, characters, texture,
 camera and stage. It only needs its own props and its own model in `sim.js` style: deterministic arrays read by the
@@ -157,8 +210,8 @@ scene.
 ```
 cd newchannel/art/render
 node render.mjs --scene highway_golden --still 5.8 --png out.png      # any scene, any time (several: --still 1,2,3)
-./build_stills.sh                                                     # the 4 style frames + thumbnail B (1280x720, 168x94)
-TMPD=/tmp/claude-0/art_tmp ./build_test.sh                            # style_test.mp4: 2 Chromium workers -> sound -> H.264
+./build_stills.sh                                                     # v2: the 5 style frames (a-e) + thumbnail B + compare_v1_v2.jpg -> styleframes/v2/
+TMPD=/tmp/claude-0/art_tmp ./build_test.sh                            # style_test_v2.mp4: 2 Chromium workers -> sound -> H.264
 ```
 Needs node 22, the preinstalled Playwright and Chromium (`/opt/pw-browsers`, never `playwright install`), ffmpeg, and
 python3 with numpy (the sound bed imports `engine/sound.py` read-only). Time only ever comes from the renderer
