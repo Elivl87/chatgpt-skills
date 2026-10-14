@@ -34,7 +34,8 @@
         text-shadow: 6px 8px 0 var(--ink); line-height: 1.0; white-space: nowrap; letter-spacing: .01em; }
       /* the one title style: opening hook and its callback on l60 */
       .ttl { position: absolute; left: 65px; width: 853px; top: 330px; text-align: center; }
-      .ttl span { display: block; }
+      .ttl .ln { display: block; overflow: hidden; padding: 6px 30px 14px; margin-bottom: -14px; }   /* mask-up line reveal (kinetic-typography) */
+      .ttl .big { display: inline-block; }
       .ttl .a { font-size: 92px; color: #fff; }
       .ttl .b { font-size: 112px; }
       #hud img { position: absolute; display: block; }
@@ -209,10 +210,10 @@
 
       <!-- ===== the title: hook (0 - l52) and its callback (l60) — one style, one crisp entrance, no echo ===== -->
       <div id="ttl1Clip" class="full clip" data-start="0" data-duration="{{l52+0.1}}" data-track-index="16">
-        <div id="ttl1" class="ttl"><span class="big a">THE REMAKE'S</span><span class="big b">IMPOSSIBLE JOB</span></div>
+        <div id="ttl1" class="ttl" aria-label="The remake's impossible job"><span class="ln"><span class="big a">THE REMAKE'S</span></span><span class="ln"><span class="big b">IMPOSSIBLE JOB</span></span></div>
       </div>
-      <div id="ttl2Clip" class="full clip" data-start="{{l60-0.1}}" data-duration="{{l61-0.12-l60+0.1}}" data-track-index="16">
-        <div id="ttl2" class="ttl" style="top: 380px"><span class="big a">THAT IS THE</span><span class="big b">IMPOSSIBLE JOB</span></div>
+      <div id="ttl2Clip" class="full clip" data-start="{{l60-0.1}}" data-duration="{{l61-0.12-l60+0.1}}" data-track-index="22">
+        <div id="ttl2" class="ttl" style="top: 380px" aria-label="That is the impossible job"><span class="ln"><span class="big a">THAT IS THE</span></span><span class="ln"><span class="big b">IMPOSSIBLE JOB</span></span></div>
       </div>
 
       <!-- ===== wordmark + end card (the EP002 v3 thumbnail B1, whole) ===== -->
@@ -300,7 +301,8 @@
       cam("#camA", 0, {{l53-0.2}}, { z: 1.34, fx: 1446, fy: 1000 }, "sine.inOut");
       cam("#camA", {{l53}}, .9, { z: 1.24, fx: 1520, fy: 1000 }, "power2.inOut");           // room for Pixie: a gentle reframe to the two-shot
       breathe("#brA", 0, {{S1}}, .2);
-      tl.fromTo("#ttl1", { scale: 1.12, opacity: 0 }, { scale: 1, opacity: 1, duration: .28, ease: "power3.out", transformOrigin: "50% 50%" }, 0);
+      // one crisp entrance: each line rises out of its own mask (no blur, no echo), the second 80 ms after the first
+      tl.fromTo("#ttl1 .big", { yPercent: 105 }, { yPercent: 0, duration: .34, ease: "expo.out", stagger: .08 }, 0);
       tl.to("#ttl1", { opacity: 0, y: -24, duration: .25, ease: "power2.in" }, {{l52-0.18}});      // out before the HUD comes in
       tl.fromTo("#bub", { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .3, ease: "back.out(1.8)" }, .18);
       // the three dots breathe while nobody speaks, go quiet on "silence", and wait
@@ -399,7 +401,7 @@
       tl.to("#gNew", { clipPath: "inset(0px 0px 0px 0px)", duration: 2.0, ease: "sine.inOut" }, {{l59.w3}});
       tl.set("#scanG", { opacity: 0 }, {{l59.w3+2.0}});
       tl.to("#dimG", { opacity: 1, duration: .35, ease: "power2.out" }, {{l60-0.12}});
-      tl.fromTo("#ttl2", { scale: 1.12, opacity: 0 }, { scale: 1, opacity: 1, duration: .28, ease: "power3.out", transformOrigin: "50% 50%" }, {{l60-0.08}});
+      tl.fromTo("#ttl2 .big", { yPercent: 105 }, { yPercent: 0, duration: .34, ease: "expo.out", stagger: .08 }, {{l60-0.08}});
       tl.fromTo("#ttl2 .b", { scale: 1 }, { keyframes: [{ scale: 1.05, duration: .08 }, { scale: 1, duration: .2, ease: "power2.out" }], transformOrigin: "50% 50%", immediateRender: false }, {{l60.w4}});
 
       /* ---------------- H · "Make it different enough to justify existing..." */
