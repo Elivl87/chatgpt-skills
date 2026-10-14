@@ -111,6 +111,8 @@ SOURCES = {
     'nocturnal_cheers': ('Cheers', 'Nocturnal_Vanguard', OGA + 'cheers-0', 'CC0-1.0', None, 'premium'),
     'nocturnal_halloween': ('Happy Halloween! (Group)', 'Nocturnal_Vanguard', OGA + 'happy-halloween-group', 'CC0-1.0', None, 'premium'),
     'qubodup_sneeze': ('Genuine Sneeze Sound', 'qubodup', OGA + 'genuine-sneeze-sound', 'CC0-1.0', None, 'premium'),
+    'commons_crowd': ('Wikimedia Commons applause recordings (6 files)', 'various, see LICENSE file', 'https://commons.wikimedia.org/wiki/Category:Audio_files_of_applause',
+                      'CC0-1.0 / Public domain (per file)', None, 'premium'),
     'rpg_dice': ('2 dice roll (29 throws)', 'RPG (OGA user)', OGA + '2-dice-roll-29-throws', 'CC0-1.0', None, 'premium'),
     'derived': ('Edits of the CC0 files above', 'SecondQuest', '', 'CC0-1.0', None, 'premium'),
     'lrsf_ui': ('UI Sound Effects Library', 'Little Robot Sound Factory', OGA + 'ui-sound-effects-library', 'CC-BY-3.0',
@@ -118,6 +120,14 @@ SOURCES = {
     'lrsf_fantasy': ('Fantasy Sound Effects Library', 'Little Robot Sound Factory', OGA + 'fantasy-sound-effects-library', 'CC-BY-3.0',
                      'Sound effects: "Fantasy Sound Effects Library" by Little Robot Sound Factory (www.littlerobotsoundfactory.com), CC BY 3.0', 'premium'),
 }
+EXTRA = {'commons_crowd': '''Files (licence read on each file page, 2026-10-14):
+  277021_sandermotions_applause_2  File:277021 sandermotions applause-2.wav  - Sandermotions (via freesound 277021) - CC0
+  Sound_Effects_Applause_after_a_concert  File:Sound Effects - Applause after a concert.ogg - Amada44, own work - CC0
+  Applause_i / Applause_ii         File:Applause i.ogg / Applause ii.ogg  - thore (pdsounds.org) - Public domain
+  Clapping_hurray                  File:Clapping hurray.ogg - starlite (pdsounds.org) - Public domain
+  Slow_starting_applause           File:Slow starting applause.ogg - stephan (pdsounds.org) - Public domain
+  (Ogg Skeleton stream removed so libsndfile can decode; audio untouched before our conversion.)
+'''}
 OWN = ('SecondQuest own synthesis', 'SecondQuest', '', 'own', None, 'premium')
 
 # ------------------------------------------------------------------ categories
@@ -174,7 +184,7 @@ FOLDER_CAT = {
     'pauliuw_voices': 'crowd-reaction', 'yaroslav_children': 'crowd-reaction', 'expl0it3r_applause': 'crowd-reaction',
     'starninjas_crowd': 'crowd-reaction', 'nocturnal_giggle': 'crowd-reaction', 'supergeek_laughter': 'crowd-reaction',
     'almitory_applause': 'crowd-reaction', 'nocturnal_cheers': 'crowd-reaction', 'nocturnal_halloween': 'crowd-reaction',
-    'qubodup_sneeze': 'cartoon-comedy', 'rubberduck_mud': 'foley-water',
+    'qubodup_sneeze': 'cartoon-comedy', 'commons_crowd': 'crowd-reaction', 'rubberduck_mud': 'foley-water',
     'rubberduck_bangs': 'explosion-boom', 'owlishmedia': 'click-ui', 'derived': 'click-ui',
     # own synthesis families
     'boing': 'cartoon-comedy', 'slide_up': 'cartoon-comedy', 'slide_down': 'cartoon-comedy', 'pluck_pizz': 'cartoon-comedy',
@@ -377,7 +387,8 @@ def licence_files():
         if folder in ('kenney', 'owlishmedia', 'rubberduck_water', 'derived'):
             continue                                                   # older folders keep their own licence file
         head = (f'Pack: {name}\nAuthor: {author}\nSource: {url}\nLicence: {lic}\n'
-                f'Downloaded and converted (48 kHz Ogg Vorbis, trimmed, peak -1 dBFS) by SecondQuest on 2026-10-14.\n')
+                f'Downloaded and converted (48 kHz Ogg Vorbis, trimmed, peak -1 dBFS) by SecondQuest on 2026-10-14.\n'
+                + EXTRA.get(folder, ''))
         if attrib:
             (d / 'LICENSE_CC-BY-3.0.txt').write_text(head + f'Attribution REQUIRED in the video description:\n  {attrib}\n\n' + ccby)
         else:
@@ -406,7 +417,8 @@ def sources_md(counts):
              'Considered and skipped: Sonniss GDC bundles (licence fine: royalty-free, commercial, no attribution; but they are '
              'only distributed as multi-GB archives, no per-file subset, and disk is tight); freesound.org CC0 (downloads need '
              'a login/API key); "Well Done" (qubodup, file named CC-BY 3.0, page says CC0: unclear); circlerun Hi-Tech '
-             'buttons (archive empty of audio); everything NC/ND/SA or "personal use only".\n'
+             'buttons (archive empty of audio); Commons "Laughter(s).ogg" (CC0) and "Soundgoats - Audience Booing.wav" (PD): '
+             'licences fine, download rate-limited (HTTP 429), retry later; everything NC/ND/SA or "personal use only".\n'
              f'{b}')
     if a in txt:
         txt = re.sub(re.escape(a) + '.*?' + re.escape(b), lambda m: block, txt, flags=re.S)

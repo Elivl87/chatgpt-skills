@@ -1,6 +1,6 @@
 # SFX catalog
 
-3244 sounds, 63 MB, 48 kHz (generated 2026-10-14 by `tools/sfx/build_catalog.py`; machine-readable: `CATALOG.json`). Licences: `SOURCES.md`. Picker with no-repeat + variation: `scripts/sfx_pick.py`.
+3250 sounds, 65 MB, 48 kHz (generated 2026-10-14 by `tools/sfx/build_catalog.py`; machine-readable: `CATALOG.json`). Licences: `SOURCES.md`. Picker with no-repeat + variation: `scripts/sfx_pick.py`.
 
 Tiers: **premium** (default for the picker), **gag** (creatures, weird; only for a comedy beat), **arcade** (8-bit/chiptune; only when the gag is "video game" on purpose).
 
@@ -30,7 +30,7 @@ Tiers: **premium** (default for the picker), **gag** (creatures, weird; only for
 | `musical-sting` | short musical jingles and stings | 103 | 73 | Children's Xylophone, Fantasy Sound Effects Library, Music Jingles |
 | `nature-ambience` | birds, rain, wind, water, crickets, swamp, waves (beds) | 61 | 61 | 100 CC0 SFX #2, 30 CC0 SFX loops, 40 CC0 water / splash / slime SFX, AMB Morning Sounds (Perfect Loop), AMB Outside 1 … |
 | `ambience-tech` | machines, engines, highway, construction (beds) | 41 | 41 | 100 CC0 SFX #2, 30 CC0 SFX loops, 40 CC0 water / splash / slime SFX, engine synths (scripts/placeholder-audio.ts) |
-| `crowd-reaction` | applause, crowd, giggles, children, voices | 9 | 9 | Applause in a large hall or church, Background voices, Cheers, Children voices, Crowd Shouting/Speaking Ambience … |
+| `crowd-reaction` | applause, crowd, giggles, children, voices | 15 | 15 | Applause in a large hall or church, Background voices, Cheers, Children voices, Crowd Shouting/Speaking Ambience … |
 | `creature` | creature/monster vocal sounds | 228 | 0 | 80 CC0 RPG SFX, 80 CC0 creature SFX, 80 CC0 creature SFX #2, Background voices, Fantasy Sound Effects Library … |
 | `explosion-boom` | explosions, bangs, fireworks, thunder | 38 | 38 | 100 CC0 SFX, 100 CC0 SFX #2, 25 CC0 bang / firework SFX, 50 CC0 Sci-Fi SFX, Kenney audio packs (older subset) … |
 | `scifi` | sci-fi tones, lasers, engines, force fields | 161 | 161 | 50 CC0 Sci-Fi SFX, 60 CC0 Sci-Fi SFX, Atmospheric Interaction Sound Pack, Sci-fi Sounds |
@@ -80,6 +80,7 @@ Short aliases: `cloth, step, water, wood, metal, paper, glass, click, notify, ma
 ambience, crowd, boom, hit, impact, coins, retro`.
 
 At the end of a mix: `pk.attributions()` gives the credit lines for any CC-BY file used (`ccby/`), to paste into the
-video description; CC0 and own files need nothing. Try sounds quickly: `python3 scripts/sfx_pick.py whoosh --n 8`
+video description; CC0 and own files need nothing. `ccby/` files are off unless `Picker(..., allow_ccby=True)`
+(our rule is CC0; ask the Producer first). Try sounds quickly: `python3 scripts/sfx_pick.py whoosh --n 8`
 writes 8 picks to `build/sfx_cache/demo/` (git-ignored).
 

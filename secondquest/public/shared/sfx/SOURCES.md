@@ -108,12 +108,13 @@ All packs downloaded 2026-10-14 (Kenney and the older subsets: 2026-10-03 / 2026
 | `cc0/nocturnal_cheers/` | Cheers | Nocturnal_Vanguard | https://opengameart.org/content/cheers-0 | CC0-1.0 | no | 1 |
 | `cc0/nocturnal_halloween/` | Happy Halloween! (Group) | Nocturnal_Vanguard | https://opengameart.org/content/happy-halloween-group | CC0-1.0 | no | 1 |
 | `cc0/qubodup_sneeze/` | Genuine Sneeze Sound | qubodup | https://opengameart.org/content/genuine-sneeze-sound | CC0-1.0 | no | 1 |
+| `cc0/commons_crowd/` | Wikimedia Commons applause recordings (6 files) | various, see LICENSE file | https://commons.wikimedia.org/wiki/Category:Audio_files_of_applause | CC0-1.0 / Public domain (per file) | no | 6 |
 | `cc0/rpg_dice/` | 2 dice roll (29 throws) | RPG (OGA user) | https://opengameart.org/content/2-dice-roll-29-throws | CC0-1.0 | no | 29 |
 | `cc0/derived/` | Edits of the CC0 files above | SecondQuest | - | CC0-1.0 | no | 1 |
 | `ccby/lrsf_ui/` | UI Sound Effects Library | Little Robot Sound Factory | https://opengameart.org/content/ui-sound-effects-library | CC-BY-3.0 | YES: Sound effects: "UI Sound Effects Library" by Little Robot Sound Factory (www.littlerobotsoundfactory.com), CC BY 3.0 | 105 |
 | `ccby/lrsf_fantasy/` | Fantasy Sound Effects Library | Little Robot Sound Factory | https://opengameart.org/content/fantasy-sound-effects-library | CC-BY-3.0 | YES: Sound effects: "Fantasy Sound Effects Library" by Little Robot Sound Factory (www.littlerobotsoundfactory.com), CC BY 3.0 | 45 |
 
-**CC-BY packs (`ccby/`)**: allowed (attribution only, no NC/ND/SA). When a video uses any file from `ccby/`, paste its attribution line into the video description; `scripts/sfx_pick.py` lists them (`Picker.attributions()`).
+**CC-BY packs (`ccby/`)**: attribution-only licence (no NC/ND/SA), kept apart from `cc0/`. Our standing rule is CC0, so the picker leaves them out unless `Picker(..., allow_ccby=True)` (Producer OK first); a video that uses one pastes its attribution line into the description (`Picker.attributions()` lists them).
 
-Considered and skipped: Sonniss GDC bundles (licence fine: royalty-free, commercial, no attribution; but they are only distributed as multi-GB archives, no per-file subset, and disk is tight); freesound.org CC0 (downloads need a login/API key); "Well Done" (qubodup, file named CC-BY 3.0, page says CC0: unclear); circlerun Hi-Tech buttons (archive empty of audio); everything NC/ND/SA or "personal use only".
+Considered and skipped: Sonniss GDC bundles (licence fine: royalty-free, commercial, no attribution; but they are only distributed as multi-GB archives, no per-file subset, and disk is tight); freesound.org CC0 (downloads need a login/API key); "Well Done" (qubodup, file named CC-BY 3.0, page says CC0: unclear); circlerun Hi-Tech buttons (archive empty of audio); Commons "Laughter(s).ogg" (CC0) and "Soundgoats - Audience Booing.wav" (PD): licences fine, download rate-limited (HTTP 429), retry later; everything NC/ND/SA or "personal use only".
 <!-- PACKS:END -->

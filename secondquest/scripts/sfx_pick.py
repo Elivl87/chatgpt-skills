@@ -270,7 +270,7 @@ class Picker:
         """render() written to a cache wav (for cue lists that take a path). Same call -> same file."""
         x = self.render(category, t, **kw)
         f, p = self.history[-1][2], self.history[-1][3]
-        name = f"{ALIAS.get(category, category)}_{t:08.3f}_{Path(f).stem}_{abs(hash(json.dumps(p, sort_keys=True))) % 10**6:06d}.wav"
+        name = f"{ALIAS.get(category, category)}_{t:08.3f}_{Path(f).stem}_{hashlib.sha1(json.dumps(p, sort_keys=True).encode()).hexdigest()[:6]}.wav"
         self.cache.mkdir(parents=True, exist_ok=True)
         out = self.cache / name
         sf.write(str(out), x.T, SR, subtype='PCM_16')
