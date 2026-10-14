@@ -127,6 +127,20 @@ def stage_art():
     # the grown-up bedroom at night (final plate #15) as block H builds it: our 3D CRT on the bedside table playing 1998
     # Hyrule, the N64 on the floor, Quest (Q008) on the floor in profile lit by the screen; and the same room with the
     # TV off, his pensive reflection (#10 mirrored) in the dark glass. Composited in plate px, no camera crop.
+    PIX = crop_alpha(Image.open(ROOT / 'docs/art_orders/pixie/library/results/08_nostalgic_hug_knees.png').convert('RGBA'))
+    PIXIE_FLOOR = (BH.QSPEC[0] * PW - 400, BH.QSPEC[1] * PH - 14)        # plate px: centre x, feet y (just behind him)
+    info['pixie_floor'] = list(PIXIE_FLOOR)
+
+    # Pixie's portrait badge (her own library poses, head and shoulders): her reactions in the game-world shots
+    for code, name in (('01', 'wave_happy'), ('03', 'looking_up_awe'), ('04', 'laughing_pointing'), ('05', 'thinking_chin'),
+                       ('07', 'surprised_shocked'), ('09', 'determined_fists')):
+        im = Image.open(ROOT / f'docs/art_orders/pixie/library/results/{code}_{name}.png').convert('RGBA')
+        a = np.asarray(im.getchannel('A')) > 24
+        ys, xs = np.nonzero(a); y0, y1 = ys.min(), ys.max(); Hh = y1 - y0
+        band = np.nonzero(a[int(y0 + .06 * Hh):int(y0 + .16 * Hh)])[1]
+        cx = (np.percentile(band, 15) + np.percentile(band, 60)) / 2; S_ = int(.40 * Hh); cy = y0 + .17 * Hh
+        im.crop((int(cx - S_ / 2), int(cy - S_ * .42), int(cx + S_ / 2), int(cy + S_ * .58))).resize((360, 360), Image.LANCZOS).save(OUT / f'pix_{code}.png', optimize=True)
+
     def room(on):
         pic = BH.old_picture(BH.T_WONDER, (320, 240), pan=False) if on else Image.new('RGB', (320, 240), (14, 16, 20))
         base = BH.room_plate(0, pic)
@@ -142,6 +156,16 @@ def stage_art():
         sh = Image.new('RGBA', base.size)
         ImageDraw.Draw(sh).ellipse((Q[0] * PW - q.width * .45, Q[1] * PH - lib.P(24), Q[0] * PW + q.width * .45, Q[1] * PH + lib.P(14)), fill=(0, 0, 0, 120))
         base.alpha_composite(sh.filter(ImageFilter.GaussianBlur(lib.P(10))))
+        # Pixie (library #8, nostalgic, hugging her knees) on the floor beside him, a little further back, looking at
+        # him and the screen: face = 0.90 x Quest's (measured on the two arts: her height = 0.94 x his seated height)
+        ph_ = int(qh * .94)
+        pq = PIX.resize((int(PIX.width * ph_ / PIX.height), ph_), Image.LANCZOS)
+        pl = Image.blend(pq.convert('RGB'), Image.new('RGB', pq.size, (18, 22, 44)), .38 + .30 * (1 - glow)).convert('RGBA'); pl.putalpha(pq.getchannel('A'))
+        px_, pf_ = PIXIE_FLOOR
+        sh2 = Image.new('RGBA', base.size)
+        ImageDraw.Draw(sh2).ellipse((px_ - pq.width * .45, pf_ - lib.P(20), px_ + pq.width * .45, pf_ + lib.P(12)), fill=(0, 0, 0, 110))
+        base.alpha_composite(sh2.filter(ImageFilter.GaussianBlur(lib.P(10))))
+        base.alpha_composite(pl, (int(px_ - pq.width / 2), int(pf_ - ph_)))
         base.alpha_composite(ql, (int(Q[0] * PW - q.width / 2), int(Q[1] * PH - qh)))
         if on:
             rim = Image.new('RGBA', base.size); rd = ImageDraw.Draw(rim)

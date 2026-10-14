@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1080, height=1920" />
+    <meta name="viewport" content="width=540, height=960" />
     <title>EP002 Short 2</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
@@ -11,10 +11,10 @@
       @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
       :root { --gold: #ffc83d; --ink: #16161f; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #16161f; }
-      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; }
+      html, body { width: 540px; height: 960px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: 540px; height: 960px; overflow: hidden; font-family: "Inter", sans-serif; }
       /* everything is authored at 1080 x 1920; the 480p-class preview renders the same page scaled (build.py RES=540) */
-      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(1.0); transform-origin: 0 0; overflow: hidden; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(0.5); transform-origin: 0 0; overflow: hidden; }
       .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
       .abs { position: absolute; }
       .shot { overflow: hidden; background: #16161f; }
@@ -94,6 +94,13 @@
       #sTrack { position: absolute; left: 90px; top: 160px; width: 732px; height: 18px; border-radius: 9px; background: linear-gradient(90deg, #ffcf7a, #7fc6ff); border: 4px solid var(--ink); }
       #knob { position: absolute; left: 30px; top: 108px; width: 136px; height: 120px; }
       #knob img { width: 100%; height: 100%; filter: drop-shadow(0 6px 0 rgba(22,22,31,.6)); }
+      /* Pixie's portrait badge (her library poses): her reactions over the game-world shots */
+      #pix { position: absolute; left: 0; top: 0; width: 250px; height: 290px; transform-origin: 50% 50%; }
+      #pix .disc { position: absolute; left: 0; top: 0; width: 250px; height: 250px; border-radius: 50%; overflow: hidden; border: 9px solid var(--gold);
+        box-shadow: 0 0 0 6px var(--ink), 7px 10px 0 6px var(--ink); background: radial-gradient(circle at 50% 35%, #4fb6b8 0%, #1d5a66 60%, #12303a 100%); }
+      #pix .disc img { position: absolute; left: 0; top: 4px; width: 100%; height: 100%; opacity: 0; transform-origin: 50% 90%; }
+      #pix .tag { position: absolute; left: 62px; top: 226px; width: 126px; text-align: center; background: var(--gold); border: 5px solid var(--ink); border-radius: 12px;
+        font: 800 26px/1 "Inter", sans-serif; letter-spacing: .12em; color: var(--ink); padding: 7px 0 5px; box-shadow: 4px 6px 0 var(--ink); }
       /* wordmark + end card */
       #wm { position: absolute; left: 90px; top: 562px; width: 900px; height: 240px; transform-origin: 50% 32%; }
       #wm img { position: absolute; left: 0; top: 0; width: 900px; height: 155px; filter: drop-shadow(0 7px 0 #16161f) drop-shadow(0 0 30px rgba(22,22,31,.5)); }
@@ -108,7 +115,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="49.6" data-fps="30" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="49.6" data-fps="30" data-width="540" data-height="960">
       <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="49.6" data-track-index="30" data-volume="1"></audio>
       <div id="stage">
 
@@ -250,6 +257,14 @@
         <div id="twinkle"><div class="g"></div><svg viewBox="-70 -70 140 140"><polygon points="0,-70 12,-12 70,0 12,12 0,70 -12,12 -70,0 -12,-12" fill="#fffaf0"/></svg></div>
       </div>
 
+      <!-- ============ Pixie's reactions (badge) ============ -->
+      <div id="pixClip" class="full clip" data-start="0" data-duration="49.6" data-track-index="22">
+        <div id="pix" style="opacity: 0"><div class="disc">
+          <img id="px01" src="assets/pix_01.png" alt="" /><img id="px03" src="assets/pix_03.png" alt="" /><img id="px04" src="assets/pix_04.png" alt="" />
+          <img id="px05" src="assets/pix_05.png" alt="" /><img id="px07" src="assets/pix_07.png" alt="" /><img id="px09" src="assets/pix_09.png" alt="" />
+        </div><div class="tag">PIXIE</div></div>
+      </div>
+
       <!-- ============ Navi (our EP002 fairy: tools/fx/fairy.py twin) ============ -->
       <canvas id="navi" class="full clip" width="1080" height="1920" data-start="0" data-duration="49.6" data-track-index="19"></canvas>
 
@@ -287,6 +302,10 @@
  "panel_slider": [
   912,
   272
+ ],
+ "pixie_floor": [
+  1118.7199999999998,
+  1097.32
  ],
  "room": [
   2688,
@@ -588,9 +607,9 @@
       const SC = ART.screen;
       Object.assign($("#tvLine").style, { left: (SC.cx - SC.w / 2) + "px", top: (SC.cy - SC.h / 2) + "px", width: SC.w + "px", height: SC.h + "px" });
       const T_OFF = 44.34;
-      // opens on him whole (the TV glowing at the edge), pans with his look to the TV until he is out of frame
-      cam("#camG", 42.93, 0, { z: 1.0, fx: 1650, fy: 756 });
-      cam("#camG", 42.98, T_OFF - 42.98, { z: 1.9, fx: 2010, fy: 600 }, "power2.inOut");
+      // opens on Pixie and Quest whole on the floor, then pans with their look to the TV until they are out of frame
+      cam("#camG", 42.93, 0, { z: 1.0, fx: 1325, fy: 756 });                 // the two of them on the floor, whole (TV out of frame)
+      cam("#camG", 43.31, T_OFF - 43.31, { z: 1.9, fx: 2010, fy: 600 }, "power2.inOut");
       breathe("#brG", 42.93, 49.6, .15);
       tl.fromTo("#dimG", { opacity: 1 }, { opacity: 0, duration: .22, immediateRender: false }, 42.93);        // a quick dip from the bright field into the night room
       tl.set("#gOff", { opacity: 1 }, T_OFF + .02);
@@ -619,6 +638,35 @@
       tl.fromTo("#thumbBox", { scale: .8, opacity: 0, rotation: -3 }, { scale: 1, opacity: 1, rotation: 0, duration: .45, ease: "back.out(1.6)" }, CARD + .35);
       tl.to("#thumbBox", { scale: 1.05, duration: 49.6 - CARD - .8, ease: "sine.inOut" }, CARD + .8);   // a slow push on the whole thumbnail (never cropped)
       tl.fromTo("#cardBg", { scale: 1.05 }, { scale: 1.12, duration: 49.6 - CARD, ease: "none", transformOrigin: "30% 40%" }, CARD);
+
+      /* ---------------- Pixie: her portrait badge pops in where she reacts (awe, surprise, laugh, thinking, determined, wave) */
+      const PXS = ["#px01", "#px03", "#px04", "#px05", "#px07", "#px09"];
+      tl.set(PXS, { opacity: 0 }, 0);
+      function pixIn(at, x, y, ex, sc) { tl.set("#pix", { x, y }, at); tl.set(PXS, { opacity: 0 }, at); tl.set(ex, { opacity: 1 }, at);
+        tl.fromTo("#pix", { scale: 0, opacity: 1, rotation: -12 }, { scale: sc || 1, opacity: 1, rotation: 0, duration: .34, ease: "back.out(2.2)" }, at); }
+      function pixEx(at, ex) { tl.set(PXS, { opacity: 0 }, at); tl.set(ex, { opacity: 1 }, at);
+        tl.fromTo(ex, { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .9, scaleX: 1.06, duration: .07 }, { scaleY: 1.06, scaleX: .96, duration: .1 }, { scaleY: 1, scaleX: 1, duration: .16 }], immediateRender: false }, at); }
+      const pixNod = (at, y0) => tl.fromTo("#pix", { y: y0 }, { keyframes: [{ y: y0 - 18, duration: .1 }, { y: y0, duration: .18, ease: "bounce.out" }], immediateRender: false }, at);
+      const pixOut = (at) => tl.to("#pix", { scale: 0, opacity: 0, rotation: 10, duration: .2, ease: "back.in(2)" }, at);
+      // B: in awe as the bars fill, she bobs on each one; surprised when FAMILIAR can't be measured
+      pixIn(9.85, 46, 1000, "#px03");
+      [11.16, 12.26, 13.22, 14.28].forEach((t) => pixNod(t, 1000));
+      pixEx(16.45, "#px07");
+      pixOut(17.4);
+      // D: impressed by the big check... then laughs on "Probably."
+      pixIn(32.45, 46, 880, "#px03");
+      pixEx(33.61, "#px04");
+      pixOut(34.23);
+      // E: thinking as the memory quietly changes
+      pixIn(35.99, 50, 360, "#px05");
+      pixOut(37.8);
+      // F: determined as she pushes the slider to DIFFERENT
+      pixIn(40.26, 46, 880, "#px09");
+      pixNod(40.61, 880);
+      pixOut(42.78);
+      // end card: she waves the viewer over to the full episode
+      pixIn(CARD + .55, 64, 1262, "#px01", .88);
+      tl.fromTo("#px01", { rotation: 0 }, { rotation: 4, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", transformOrigin: "50% 90%", immediateRender: false }, CARD + .9);
 
       /* ---------------- captions: word-by-word, the word being said is gold; driven by the clock */
       const CAPEL = CAPS.map((c) => { const d = mk("div", "cap" + (c.big ? " bigc" : ""), $("#caps"));
