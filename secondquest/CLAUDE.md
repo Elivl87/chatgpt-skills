@@ -107,4 +107,8 @@
   overlaps unless designed (no text over HUD/faces, no ghost/echo text, no pasted floating boxes); characters who act
   appear full-figure (never as a portrait badge); every art choice is justified per beat; sound is restrained and
   purposeful (fewer, better cues).
+- **Shorts are 20–25 s (Producer, 2026-10-14):** 20 s target, 25 s max including the end card: dynamism, dopamine,
+  impact, but always one coherent mini-arc (hook ≤ 2 s → escalation → payoff → end card).
+- **Never fake an action the art can't do (Producer, 2026-10-14):** no gliding/bobbing a static pose to fake walking
+  or running; move the camera or cut between real poses instead.
 - **Review by timestamp:** when the Producer flags an interval, fix only that interval and prove the rest is unchanged.
