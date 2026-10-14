@@ -314,9 +314,9 @@
       cam("#camA", {{l53.w2-0.35}}, .5, { z: 1.6, fx: 1347, fy: 929 }, "power2.inOut");    // back out as the balloon pops and Pixie steps in
       breathe("#brA", 0, {{S1}}, .2);
       // one crisp entrance: each line rises out of its own mask (no blur, no echo), the second 80 ms after the first
-      tl.fromTo("#ttl1 .big", { yPercent: 105 }, { yPercent: 0, duration: .34, ease: "expo.out", stagger: .08 }, 0);
+      // frame 0 is the feed's still: the hook opens on the finished title (critic v2b), no reveal
       tl.to("#ttl1", { opacity: 0, duration: .25, ease: "power2.in" }, {{l52-0.39}});      // gone (opacity 0) by l52-0.14; the HUD only from l52+0.15
-      tl.fromTo("#bub", { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .3, ease: "back.out(1.8)" }, .18);
+      tl.set("#bub", { scale: 1, opacity: 1 }, 0);
       // the three dots breathe while nobody speaks, go quiet on "silence", and wait
       const DOTS = document.querySelectorAll("#dots i");
       DOTS.forEach((d, i) => tl.fromTo(d, { opacity: .25 }, { opacity: 1, duration: .32, ease: "sine.inOut", yoyo: true, repeat: 9 }, .5 + i * .16));
@@ -429,12 +429,12 @@
 
       /* ---------------- H · "Make it different enough to justify existing..." */
       cam("#camH", {{l61-0.12}}, 0, { z: 1.0, fx: 1185, fy: 756 });
-      cam("#camH", {{l61-0.12}}, {{l61.w4-l61+0.12}}, { z: 1.03, fx: 1190, fy: 756 }, "sine.inOut");
+      cam("#camH", {{l61-0.12}}, {{l61.w6-l61+0.12}}, { z: 1.03, fx: 1190, fy: 756 }, "sine.inOut");
       // critic v2 (my own check): a pan from them to the castle dragged princess Pixie half out of frame -> a soft
       // dissolve to the castle framing instead (two clearly different shots of the vista, nobody cut by the edge)
       cam("#camH2", {{l61-0.12}}, 0, { z: 1.0, fx: 2150, fy: 740 });
-      cam("#camH2", {{l61.w4}}, {{l62-l61.w4}}, { z: 1.05, fx: 2140, fy: 740 }, "sine.inOut");
-      tl.fromTo("#hB", { opacity: 0 }, { opacity: 1, duration: .45, ease: "sine.inOut" }, {{l61.w4-0.1}});
+      cam("#camH2", {{l61.w6-0.03}}, {{l62-l61.w6}}, { z: 1.05, fx: 2140, fy: 740 }, "sine.inOut");
+      tl.set("#hB", { opacity: 0 }, 0); tl.set("#hB", { opacity: 1 }, {{l61.w6-0.03}});      // a hard cut on "justify" (critic v2b: no dissolves between character shots)
       breathe("#brH", {{l61-0.12}}, {{l62}}, .6); breathe("#brH2", {{l61-0.12}}, {{l62}}, .1);
 
       /* ---------------- I · "...without making people wonder where their game went." */
@@ -470,13 +470,13 @@
       tl.to("#wm", { y: -560, scale: .56, duration: .55, ease: "power3.inOut" }, CARD);
       tl.to("#twinkle", { opacity: 0, duration: .2 }, CARD - .05);
       tl.to("#card", { opacity: 1, duration: .4, ease: "sine.inOut" }, CARD);
-      tl.fromTo("#sign", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "power3.out" }, CARD + .15);
-      tl.fromTo("#cT", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power3.out" }, CARD + .3);
+      tl.fromTo("#sign", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "power3.out" }, CARD + .56);   // after the wordmark has risen (critic v2b)
+      tl.fromTo("#cT", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power3.out" }, CARD + .5);
       // Pixie (her forest-friend tunic, as in the game beats) stands on the grass under the sign, between its posts, and waves
       const PCH = 492, PCW = PCH * ART.sizes["p2c.png"][0] / ART.sizes["p2c.png"][1];
       Object.assign($("#pixCard").style, { left: (540 - PCW / 2) + "px", top: (1502 - PCH) + "px", width: PCW + "px", height: PCH + "px", transformOrigin: "50% 100%" });
-      tl.fromTo("#pixCard", { y: 40, opacity: 0, scaleY: .94 }, { keyframes: [{ y: 0, opacity: 1, scaleY: 1.03, duration: .25, ease: "power3.out" }, { scaleY: 1, duration: .15 }] }, CARD + .4);
-      tl.fromTo("#pixCard", { rotation: 0 }, { rotation: 2.5, duration: .35, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, CARD + .8);
+      tl.fromTo("#pixCard", { y: 40, opacity: 0, scaleY: .94 }, { keyframes: [{ y: 0, opacity: 1, scaleY: 1.03, duration: .25, ease: "power3.out" }, { scaleY: 1, duration: .15 }] }, CARD + .72);
+      tl.fromTo("#pixCard", { rotation: 0 }, { rotation: 2.5, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, CARD + 1.05);
       tl.fromTo("#thumbImg", { scale: 1 }, { scale: 1.0, duration: .1 }, CARD);   // the thumbnail is shown whole and still
 
       /* ---------------- captions: word by word, the word being said is gold */
@@ -529,8 +529,8 @@
       orbit({{VEND+0.1}}, T_STAR - .12, 540, 780, 450, 170, 1.0, 28, 0);
       key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x - 40, STAR.y - 330, 20, 1);
       key(CARD + .3, 150, 700, 20, 1); key({{VEND+1.4}}, 170, 760, 22, 1);       // down the left side, under the card text,
-      key({{VEND+1.62}}, 560, 790, 24, 1);                                          // then into the sign
-      orbit({{VEND+1.67}}, {{DUR}}, 560, 790, 70, 30, 1.6, 22, 3.14);
+      key({{VEND+1.7}}, 560, 790, 24, 1);                                          // then into the sign
+      orbit({{VEND+1.75}}, {{DUR}}, 560, 790, 70, 30, 1.6, 22, 3.14);
       NK.sort((a, b) => a[0] - b[0]);
       function naviPath(t) {
         if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);

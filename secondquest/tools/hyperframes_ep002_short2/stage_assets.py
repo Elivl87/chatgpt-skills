@@ -176,7 +176,7 @@ def stage_art():
             # critic v2 #11: a reflection, not a picture: mirrored, grey-blue, ~20 % opacity, with a glass highlight streak
             qsP = BH.SCR_QUAD
             x0, x1 = min(p[0] for p in qsP), max(p[0] for p in qsP); y0, y1 = min(p[1] for p in qsP), max(p[1] for p in qsP)
-            f = BH.REFL; fh = int((y1 - y0) * .95); f = f.resize((int(f.width * fh / f.height), fh), Image.LANCZOS)
+            f = BH.REFL; fh = int((y1 - y0) * .57);   # critic v2b: ~60 % of the old size, sitting low in the glass f = f.resize((int(f.width * fh / f.height), fh), Image.LANCZOS)
             from PIL import ImageOps
             f = ImageOps.mirror(f)
             g = Image.blend(ImageOps.grayscale(f.convert('RGB')).convert('RGB'), Image.new('RGB', f.size, (150, 175, 215)), .35).convert('RGBA')
@@ -266,7 +266,7 @@ def cues():
         (t('l59.w3', 0), C('cc0/jaggedstone_magic/magical_4.ogg'), -15, None, '"every improvement quietly": the memory scan (quiet, same family)'),
         ((t('l62.w5', -.05), [(C('cc0/kenney/switch_006.ogg'), 0), (C('cc0/lokif_swamp/cricket_2.ogg'), -17)]), None, -10, 2.4, '"wonder": the CRT switches off; the night outside is all that is left'),
         ((t('VEND', -.2), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5)]), None, -9, None, 'the wordmark lands; Navi circles it (her trail, Producer clip)'),
-        (t('VEND', 1.6), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the thumbnail: "Look!" (Producer clip, no voice under it)'),
+        (t('VEND', 1.68), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the thumbnail: "Look!" (Producer clip, no voice under it)'),
     ]
 
 
