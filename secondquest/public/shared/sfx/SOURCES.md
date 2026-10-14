@@ -103,6 +103,11 @@ All packs downloaded 2026-10-14 (Kenney and the older subsets: 2026-10-03 / 2026
 | `cc0/starninjas_crowd/` | Crowd Shouting/Speaking Ambience | StarNinjas | https://opengameart.org/content/crowd-shoutingspeaking-ambience | CC0-1.0 | no | 1 |
 | `cc0/nocturnal_giggle/` | Group giggling | Nocturnal_Vanguard | https://opengameart.org/content/group-giggling | CC0-1.0 | no | 1 |
 | `cc0/yaroslav_children/` | Children voices | Yaroslav_Novikov | https://opengameart.org/content/children-voices | CC0-1.0 | no | 1 |
+| `cc0/supergeek_laughter/` | Do you remember laughter? | Supergeek | https://opengameart.org/content/do-you-remember-laughter | CC0-1.0 | no | 1 |
+| `cc0/almitory_applause/` | Fireworks With Applause Happy People | Almitory | https://opengameart.org/content/fireworks-with-applause-happy-people | CC0-1.0 (multi-licensed page; we use CC0) | no | 1 |
+| `cc0/nocturnal_cheers/` | Cheers | Nocturnal_Vanguard | https://opengameart.org/content/cheers-0 | CC0-1.0 | no | 1 |
+| `cc0/nocturnal_halloween/` | Happy Halloween! (Group) | Nocturnal_Vanguard | https://opengameart.org/content/happy-halloween-group | CC0-1.0 | no | 1 |
+| `cc0/qubodup_sneeze/` | Genuine Sneeze Sound | qubodup | https://opengameart.org/content/genuine-sneeze-sound | CC0-1.0 | no | 1 |
 | `cc0/rpg_dice/` | 2 dice roll (29 throws) | RPG (OGA user) | https://opengameart.org/content/2-dice-roll-29-throws | CC0-1.0 | no | 29 |
 | `cc0/derived/` | Edits of the CC0 files above | SecondQuest | - | CC0-1.0 | no | 1 |
 | `ccby/lrsf_ui/` | UI Sound Effects Library | Little Robot Sound Factory | https://opengameart.org/content/ui-sound-effects-library | CC-BY-3.0 | YES: Sound effects: "UI Sound Effects Library" by Little Robot Sound Factory (www.littlerobotsoundfactory.com), CC BY 3.0 | 105 |

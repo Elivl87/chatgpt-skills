@@ -16,6 +16,7 @@ Families (10-14 variations each, every one a different seed / pitch / shape, so 
   pluck_pizz    pizzicato comedy pluck (sneaking, small steps, "tip-toe")
   swell_reverse reverse-cymbal-like swell into a cut (0.8-1.6 s)
   thump_soft    soft sub thump (cartoon landing, box placed) with a felt click on top
+  impact_deep   heavy cinematic hit: sub drop + body + crack + debris ticks (title slams, big reveals)
 
 All renders: peak-normalised to -1 dBFS, 3 ms in / short out fades, a small synthetic room (exponential noise IR)
 where it helps. Re-run is deterministic (seeded).
@@ -89,6 +90,9 @@ def room(x, rng, rt=.35, wet=.18, bright=6000):
         irs.append(ir / np.sqrt(np.sum(ir ** 2)))
     if x.ndim == 1:
         x = np.stack([x, x])
+    fo = min(int(.04 * SR), x.shape[1] // 4)                          # no click where the dry signal ends
+    x = x.copy()
+    x[:, -fo:] *= np.linspace(1, 0, fo) ** 2
     pad = np.zeros((2, x.shape[1] + n))
     for c in range(2):
         pad[c, :x.shape[1]] += x[c] * (1 - wet)
@@ -270,12 +274,30 @@ def thump_soft(rng, i):
     return room(x * adsr(len(t), .001, .05), rng, .3, .1)
 
 
+def impact_deep(rng, i):
+    """heavy cinematic hit: pitched sub drop + felt/wood transient + short noisy debris tail"""
+    d = rng.uniform(.9, 1.6)
+    t = tt(d)
+    f = rng.uniform(42, 70) * (1 + rng.uniform(1.5, 3) * np.exp(-t * rng.uniform(25, 45)))
+    sub = osc(f) * np.exp(-t * rng.uniform(3.5, 6))
+    body = bp(rng.standard_normal(len(t)), rng.uniform(150, 300), rng.uniform(900, 1800)) * np.exp(-t * rng.uniform(18, 30)) * .9
+    crack = hp(rng.standard_normal(len(t)), 2500) * np.exp(-t * rng.uniform(70, 140)) * rng.uniform(.25, .5)
+    deb = np.zeros(len(t))
+    for _ in range(rng.integers(4, 10)):                                # small debris ticks after the hit
+        at = int(rng.uniform(.04, .45) * SR)
+        n = int(.012 * SR)
+        if at + n < len(t):
+            deb[at:at + n] += bp(rng.standard_normal(n), 1500, 6000) * np.exp(-np.arange(n) / (n / 4)) * rng.uniform(.03, .1)
+    x = np.tanh((sub * 1.1 + body + crack + deb) * 1.4) * adsr(len(t), .0005, .1)
+    return room(stereo(x, 0, .4, rng), rng, .6, .16)
+
+
 FAMILIES = {
     'boing': (boing, 12), 'slide_up': (lambda r, i: slide(r, i, True), 10), 'slide_down': (lambda r, i: slide(r, i, False), 10),
     'bloop': (bloop, 14), 'chime_soft': (chime_soft, 12), 'sparkle': (sparkle, 12),
     'whoosh_soft': (whoosh, 14), 'whoosh_fast': (lambda r, i: whoosh(r, i, True), 14), 'riser': (riser, 8),
     'tap_marimba': (tap_marimba, 12), 'pluck_pizz': (pluck_pizz, 9), 'swell_reverse': (swell_reverse, 8),
-    'thump_soft': (thump_soft, 10),
+    'thump_soft': (thump_soft, 10), 'impact_deep': (impact_deep, 12),
 }
 
 

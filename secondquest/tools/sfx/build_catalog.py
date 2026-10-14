@@ -106,6 +106,11 @@ SOURCES = {
     'starninjas_crowd': ('Crowd Shouting/Speaking Ambience', 'StarNinjas', OGA + 'crowd-shoutingspeaking-ambience', 'CC0-1.0', None, 'premium'),
     'nocturnal_giggle': ('Group giggling', 'Nocturnal_Vanguard', OGA + 'group-giggling', 'CC0-1.0', None, 'premium'),
     'yaroslav_children': ('Children voices', 'Yaroslav_Novikov', OGA + 'children-voices', 'CC0-1.0', None, 'premium'),
+    'supergeek_laughter': ('Do you remember laughter?', 'Supergeek', OGA + 'do-you-remember-laughter', 'CC0-1.0', None, 'premium'),
+    'almitory_applause': ('Fireworks With Applause Happy People', 'Almitory', OGA + 'fireworks-with-applause-happy-people', 'CC0-1.0 (multi-licensed page; we use CC0)', None, 'premium'),
+    'nocturnal_cheers': ('Cheers', 'Nocturnal_Vanguard', OGA + 'cheers-0', 'CC0-1.0', None, 'premium'),
+    'nocturnal_halloween': ('Happy Halloween! (Group)', 'Nocturnal_Vanguard', OGA + 'happy-halloween-group', 'CC0-1.0', None, 'premium'),
+    'qubodup_sneeze': ('Genuine Sneeze Sound', 'qubodup', OGA + 'genuine-sneeze-sound', 'CC0-1.0', None, 'premium'),
     'rpg_dice': ('2 dice roll (29 throws)', 'RPG (OGA user)', OGA + '2-dice-roll-29-throws', 'CC0-1.0', None, 'premium'),
     'derived': ('Edits of the CC0 files above', 'SecondQuest', '', 'CC0-1.0', None, 'premium'),
     'lrsf_ui': ('UI Sound Effects Library', 'Little Robot Sound Factory', OGA + 'ui-sound-effects-library', 'CC-BY-3.0',
@@ -167,13 +172,15 @@ FOLDER_CAT = {
     'kresiek_outside': 'nature-ambience', 'thimras_park': 'nature-ambience', 'pauliuw_forestbirds': 'nature-ambience',
     'isaiah_birds': 'nature-ambience', 'wolfgang_crickets': 'nature-ambience', 'sketchman_windwhoosh': 'nature-ambience',
     'pauliuw_voices': 'crowd-reaction', 'yaroslav_children': 'crowd-reaction', 'expl0it3r_applause': 'crowd-reaction',
-    'starninjas_crowd': 'crowd-reaction', 'nocturnal_giggle': 'crowd-reaction', 'rubberduck_mud': 'foley-water',
+    'starninjas_crowd': 'crowd-reaction', 'nocturnal_giggle': 'crowd-reaction', 'supergeek_laughter': 'crowd-reaction',
+    'almitory_applause': 'crowd-reaction', 'nocturnal_cheers': 'crowd-reaction', 'nocturnal_halloween': 'crowd-reaction',
+    'qubodup_sneeze': 'cartoon-comedy', 'rubberduck_mud': 'foley-water',
     'rubberduck_bangs': 'explosion-boom', 'owlishmedia': 'click-ui', 'derived': 'click-ui',
     # own synthesis families
     'boing': 'cartoon-comedy', 'slide_up': 'cartoon-comedy', 'slide_down': 'cartoon-comedy', 'pluck_pizz': 'cartoon-comedy',
     'bloop': 'pop', 'chime_soft': 'magic-sparkle', 'sparkle': 'magic-sparkle', 'whoosh_soft': 'whoosh',
     'whoosh_fast': 'whoosh', 'riser': 'riser-swell', 'swell_reverse': 'riser-swell', 'tap_marimba': 'click-ui',
-    'thump_soft': 'impact-soft',
+    'thump_soft': 'impact-soft', 'impact_deep': 'impact-heavy',
 }
 ROOT_CAT = {
     'alarm': 'notify-tech', 'buzzer': 'notify-tech', 'cart_click': 'click-ui', 'cart_slide': 'foley-misc',
@@ -393,8 +400,9 @@ def sources_md(counts):
              'folder; only audio + licence text kept, nothing executed; converted by `tools/sfx/import_packs.py`.\n'
              '`own/<family>/` is our own synthesis (`tools/sfx/own_library.py`, ours, free, no attribution).\n\n'
              + '\n'.join(rows) + '\n\n'
-             '**CC-BY packs (`ccby/`)**: allowed (attribution only, no NC/ND/SA). When a video uses any file from `ccby/`, '
-             'paste its attribution line into the video description; `scripts/sfx_pick.py` lists them (`Picker.attributions()`).\n\n'
+             '**CC-BY packs (`ccby/`)**: attribution-only licence (no NC/ND/SA), kept apart from `cc0/`. Our standing rule is CC0, so the '
+             'picker leaves them out unless `Picker(..., allow_ccby=True)` (Producer OK first); a video that uses one pastes its '
+             'attribution line into the description (`Picker.attributions()` lists them).\n\n'
              'Considered and skipped: Sonniss GDC bundles (licence fine: royalty-free, commercial, no attribution; but they are '
              'only distributed as multi-GB archives, no per-file subset, and disk is tight); freesound.org CC0 (downloads need '
              'a login/API key); "Well Done" (qubodup, file named CC-BY 3.0, page says CC0: unclear); circlerun Hi-Tech '
@@ -476,6 +484,53 @@ def main():
         print(f'  {c:18s} {len(cats.get(c, [])):5d}  premium {out["categories"][c]["premium"]:4d}')
 
 
+USAGE = """## How cue lists use it (episodes and Shorts)
+
+One `Picker` per video, seeded with the video id; ask for a *category* at a *time* instead of naming a file.
+The picker never gives the same file twice within 20 s, walks through the least-used files first, and varies every
+render (pitch +-2.5 st varispeed, +-10 % stretch on noisy sounds, +-1.5 dB gain, tilt EQ, random start on beds).
+Renders are loudness-matched to the old root wav of the category (`whoosh.wav`, `pop.wav`, ...), so the cue gains
+already tuned in our scripts stay valid.
+
+**Path-based cue lists** (`tools/hyperframes_*/stage_assets.py`: `(time, path, gain_db, length)`):
+
+```python
+sys.path.insert(0, str(ROOT / 'scripts')); from sfx_pick import Picker
+pk = Picker(seed='ep002_short2')
+def S(cat, t, **kw):                       # drop-in for SFXD / 'whoosh.wav'
+    return pk.file(cat, t, **kw)
+cues = [
+    (0.00, S('whoosh', 0.00), -9, None),
+    (t('l51.w9', -.05), S('magic-sparkle', t('l51.w9')), -12, None),
+    (0.00, S('nature-ambience', 0.0, length=3.4, tags=['wind']), -20, 3.4),   # bed: random start + loop
+    (t('l59', -.08), NAVI / 'NAVI_SFX_01.wav', -14, None),                   # Navi's original clips stay as they are
+]
+print(pk.report()); assert not pk.check()  # list of what was used; fails on a repeat inside 20 s
+```
+
+**Array-based mixers** (`scripts/ep003-sfx.py` style, `place(buffer, t, sound, gain, pan)`): replace the fixed
+`S['whoosh']` lookups by `pk.render('whoosh', t)` (a `(2, n)` float32 array at 48 kHz), and use layers for polish:
+
+```python
+place(fx, t, pk.layer('whoosh+cloth', t), -9, P(x))          # whoosh with a cloth rustle under it
+place(fx, t, pk.layer('impact+debris', t), -7, 0)            # big hit + wood debris + soft thump
+lead = ...; y = pk.layer('reveal', t); place(fx, t + pk.last_layer_lead, y, -10, 0)   # riser starts 1.2 s early
+```
+
+Presets in `LAYERS`: `whoosh+cloth`, `impact+debris`, `hit+thump`, `pop+sparkle`, `reveal`, `land`, `cartoon-hit`,
+`card-slide`, `coin-sparkle`; or any `'cat1+cat2'`, or a list `[(category, dB, offset_s, filters)]`.
+Filters: `tags=[...]`, `folder='boing'`, `min_dur/max_dur`, `bright=<Hz>`, `dark=<Hz>`, `not_match=<regex>`,
+`tiers=('premium','gag')` (creatures/weird) or `('arcade',)` (8-bit, only when the gag is "video game" on purpose).
+Short aliases: `cloth, step, water, wood, metal, paper, glass, click, notify, magic, bell, cartoon, riser, sting,
+ambience, crowd, boom, hit, impact, coins, retro`.
+
+At the end of a mix: `pk.attributions()` gives the credit lines for any CC-BY file used (`ccby/`), to paste into the
+video description; CC0 and own files need nothing. `ccby/` files are off unless `Picker(..., allow_ccby=True)`
+(our rule is CC0; ask the Producer first). Try sounds quickly: `python3 scripts/sfx_pick.py whoosh --n 8`
+writes 8 picks to `build/sfx_cache/demo/` (git-ignored).
+"""
+
+
 def write_md(out, cats):
     size = sum(p.stat().st_size for p in SFX.rglob('*') if p.is_file()) / 1e6
     L = ['# SFX catalog', '',
@@ -492,9 +547,7 @@ def write_md(out, cats):
     L += ['', 'Each entry in `CATALOG.json`: `file, category, tags, tier, description, pack, licence, attribution, '
           'duration, peak_db, lufs, centroid_hz, flatness, attack_s, decay_s, sweep_oct, onsets`.',
           'Descriptions are a listening proxy from the measures (length, noisy/tonal, brightness, attack, decay, sweep).', '',
-          '## Use', '', '```python', 'from sfx_pick import Picker            # scripts/sfx_pick.py',
-          "pk = Picker(seed='ep004')            # one per video", "path = pk.file('whoosh', t=12.3)      # varied render (cached wav), never the same file twice within 20 s",
-          "y = pk.layer('whoosh+foley-cloth', t=14.0)   # numpy stereo, layered", '```']
+          USAGE]
     (SFX / 'CATALOG.md').write_text('\n'.join(L) + '\n')
 
 
