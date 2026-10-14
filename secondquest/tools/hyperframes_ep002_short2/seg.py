@@ -21,10 +21,13 @@ CUES = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
 # (episode start, episode end) — each boundary inside a measured pause
 SEGMENTS = [
     (129.12, 137.75),   # l51-l53  "A silent character once left space for your imagination." ... "what that silence sounded like."   (hook)
-    (111.85, 129.12),   # l42-l50  "Because better is measurable." ... "But familiar is not measurable." ... "it might just feel empty."
-    (137.75, 158.45),   # l54-l62  "A camera you once fought with..." ... "Which is good. Probably." ... "where their game went." + 0.95 s of its pause
+    (111.85, 120.93),   # l42-l47  "Because better is measurable." ... "Better sound." "But familiar is not measurable."   (escalation + twist)
+    (149.82, 151.95),   # l60      "That is the impossible job."   (payoff; cut inside the measured 149.75-149.89 pause after l59)
 ]
-CARD = 3.0              # wordmark + Navi into its star + end card FULL EPISODE ON THE CHANNEL (silent but for its chime)
+# v3 (Producer 2026-10-14: "que los shorts duren 20 seg... de dinamismo, de impacto, PERO CON COHERENCIA", max 25 s):
+# hook -> escalation -> twist -> payoff -> card. Every boundary sits inside a measured pause (< -30 dB under the peak
+# for >= 60 ms): 137.56-138.00, 111.72-112.08, 120.48-120.97, 149.75-149.89, 151.68-152.13.
+CARD = 2.8              # wordmark + Navi into its star + end card FULL EPISODE ON THE CHANNEL
 
 OFFSETS = []
 _o = 0.0
