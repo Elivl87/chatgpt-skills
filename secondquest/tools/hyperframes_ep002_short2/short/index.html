@@ -26,7 +26,7 @@
       .cam > img.plate { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
       /* a character: a box in plate px (feet = bottom centre), its poses stacked inside, a soft contact shadow */
       .chr { position: absolute; transform-origin: 50% 100%; }
-      .chr img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; opacity: 0; }
+      .chr img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; opacity: 0; object-fit: contain; object-position: 50% 100%; transform-origin: 50% 100%; }
       .chr img.on { opacity: 1; }
       .chr .foot { position: absolute; left: 6%; width: 88%; bottom: -3.2%; height: 6.4%; border-radius: 50%;
         background: radial-gradient(ellipse, rgba(24,20,12,.55) 0%, rgba(24,20,12,.25) 45%, rgba(24,20,12,0) 72%); }
@@ -104,8 +104,8 @@
           <img class="plate" id="bMid" src="assets/field_mid.jpg" alt="" style="opacity: 0" />
           <img class="plate" id="bHd" src="assets/field.jpg" alt="" style="opacity: 0" />
           <div id="sun" class="abs" style="left: 300px; top: -500px; width: 1800px; height: 1400px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(ellipse at 40% 30%, rgba(255,226,150,.9) 0%, rgba(255,210,120,.3) 40%, rgba(255,200,100,0) 70%)"></div>
-          <div class="chr" id="qB" data-role="character"><div class="foot"></div><img class="on" src="assets/q3a.png" alt="quest" /></div>
-          <div class="chr" id="pB" data-role="character"><div class="foot"></div><img class="on" src="assets/p2d.png" alt="pixie" /></div>
+          <div class="chr" id="qB" data-role="character"><div class="foot"></div><img id="qB_b" class="on" src="assets/hero_front.png" alt="quest" /><img id="qB_a" src="assets/q3a.png" alt="quest" /><img id="qB_m" data-flip src="assets/q3a.png" alt="quest" /></div>
+          <div class="chr" id="pB" data-role="character"><div class="foot"></div><img id="pB_e" class="on" src="assets/p2e.png" alt="pixie" /><img id="pB_d" src="assets/p2d.png" alt="pixie" /></div>
         </div></div>
         <div id="beams" class="full" style="opacity: 0; mix-blend-mode: screen; transform: scaleX(-1)">
           <div class="abs" style="left: 700px; top: -300px; width: 140px; height: 1700px; transform: rotate(24deg); background: linear-gradient(rgba(255,240,190,.45), rgba(255,240,190,0))"></div>
@@ -126,7 +126,7 @@
         <div class="breath" id="brD"><div class="cam" id="camD">
           <img class="plate" src="assets/field_old.jpg" alt="" />
           <img class="plate" id="dHd" src="assets/field.jpg" alt="" style="clip-path: inset(0px 0px 1512px 0px)" />
-          <div class="chr" id="qD" data-role="character"><div class="foot"></div><img class="sa on" src="assets/young_back.png" alt="quest" /><img class="mir" src="assets/young_back.png" alt="quest" style="transform: scaleX(-1)" /></div>
+          <div class="chr" id="qD" data-role="character"><div class="foot"></div><img class="sa on" src="assets/young_back.png" alt="quest" /><img class="mir" data-flip src="assets/young_back.png" alt="quest" /></div>
         </div></div>
         <div id="scanD" class="abs" style="left: 0; top: 0; width: 1080px; height: 14px; background: #eafff0; box-shadow: 0 0 36px 14px rgba(150,255,180,.7); opacity: 0"></div>
         <div id="scanlines" class="full" style="background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 3px, rgba(0,0,0,0) 3px 7px); opacity: 0"></div>
@@ -140,7 +140,7 @@
         <div id="eRot" class="full" style="transform-origin: 540px 1100px">
           <div class="breath" id="brE"><div class="cam" id="camE">
             <img class="plate" src="assets/field.jpg" alt="" />
-            <div class="chr" id="qE" data-role="character"><div class="foot"></div><img class="sa on" src="assets/young_back.png" alt="quest" /><img class="mir" src="assets/young_back.png" alt="quest" style="transform: scaleX(-1)" /></div>
+            <div class="chr" id="qE" data-role="character"><div class="foot"></div><img class="sa on" src="assets/young_back.png" alt="quest" /><img class="mir" data-flip src="assets/young_back.png" alt="quest" /></div>
             <div class="chr" id="pE" data-role="character"><div class="foot"></div><img class="on" src="assets/p2f.png" alt="pixie" /></div>
           </div></div>
           <div id="rock" style="transform: translateX(1150px)">
@@ -412,7 +412,9 @@
 
       /* ---------------- A · the silent hero (frame 1 is the hook: title + hero + his empty balloon) */
       cam("#camA", 0, 0, { z: 1.575, fx: 1350, fy: 930 });
-      cam("#camA", 0, 8.63, { z: 1.62, fx: 1345, fy: 928 }, "sine.inOut");
+      cam("#camA", 0, 3.59, { z: 1.6, fx: 1347, fy: 929 }, "sine.inOut");
+      cam("#camA", 3.59, .6, { z: 1.78, fx: 1330, fy: 905 }, "power2.inOut");      // "Give that character a voice...": in on him and his empty balloon
+      cam("#camA", 5.05, .5, { z: 1.6, fx: 1347, fy: 929 }, "power2.inOut");    // back out as the balloon pops and Pixie steps in
       breathe("#brA", 0, 8.63, .2);
       // one crisp entrance: each line rises out of its own mask (no blur, no echo), the second 80 ms after the first
       tl.fromTo("#ttl1 .big", { yPercent: 105 }, { yPercent: 0, duration: .34, ease: "expo.out", stagger: .08 }, 0);
@@ -438,6 +440,16 @@
       tl.fromTo("#sun", { opacity: 0 }, { opacity: 1, duration: .5, ease: "power2.out" }, 12.21);
       tl.fromTo("#beams", { opacity: 0, x: -50 }, { opacity: .85, x: 0, duration: .7, ease: "power2.out" }, 12.21);
       tl.fromTo(["#qB", "#pB"], { filter: "brightness(.9)" }, { filter: "brightness(1.06)", duration: .5 }, 12.21);
+      // acting (director's note): on "Because better is measurable." Quest faces us and Pixie measures it, hand at her chin;
+      // "polygons": the world sharpens and they both look up (Quest first, Pixie a beat later, in awe);
+      // "lighting": both lean into the sun; "animation": hops; "sound": Quest turns to follow the birds, Pixie leans after them
+      pose("#qB", "#qB_b", "#qB_a", 11.21);
+      pose("#pB", "#pB_e", "#pB_d", 11.38);
+      tl.to("#qB", { rotation: -2.5, duration: .45, ease: "power2.out" }, 12.26);
+      tl.to("#pB", { rotation: -3, duration: .5, ease: "power2.out" }, 12.34);
+      tl.to(["#qB", "#pB"], { rotation: 0, duration: .3, ease: "power2.inOut" }, 13.07);
+      pose("#qB", "#qB_a", "#qB_m", 14.38);
+      tl.to("#pB", { rotation: 2.5, x: 6, duration: .6, ease: "power2.out" }, 14.46);
       // "Better animation.": they come alive (a hop each, offset)
       bob("#qB", 13.17, 26); bob("#pB", 13.3, 22); bob("#qB", 13.56, 10);
       // "Better sound.": a flock lifts out of the field and crosses the sky
@@ -484,7 +496,8 @@
       tl.to("#eRot", { keyframes: [{ rotation: -5, x: 50, scale: 1.06, duration: .38, ease: "power2.inOut" }, { rotation: 8, x: -80, scale: 1.12, duration: .32, ease: "power2.inOut" },
         { rotation: -3, x: 30, scale: 1.04, duration: .36 }, { rotation: 10, x: 110, y: -50, scale: 1.18, duration: .3, ease: "power3.in" }, { rotation: -6, x: -50, y: 20, scale: 1.08, duration: .42, ease: "power2.out" },
         { rotation: 4, x: 24, y: 0, scale: 1.05, duration: .4 }] }, 26.49);
-      tl.fromTo("#rock", { x: 1150 }, { keyframes: [{ x: 280, duration: .18, ease: "power3.out" }, { x: 280, duration: .34 }, { x: 1150, duration: .24, ease: "power2.in" }] }, 27.07);
+      // the clip: the camera backs into a wall beside them; the rock fills the right half for 0.7 s (grey <= 0.8 s), Quest stays in view
+      tl.fromTo("#rock", { x: 1150 }, { keyframes: [{ x: 560, duration: .12, ease: "power3.out" }, { x: 548, duration: .1 }, { x: 572, duration: .1 }, { x: 560, duration: .14 }, { x: 1150, duration: .22, ease: "power2.in" }] }, 27.07);
       shake(27.11, 12);
       steps("#qE", 25.9, 32.55, 5.4); walk("#qE", 1330, 320, 1250, 25.9, 6.65, 0);
       tl.to("#pE", { x: roadX(1250) - roadX(1330), y: -80, scale: hAt(320, 1330, 1250) / 320, duration: 6.65, ease: "none" }, 25.9);
@@ -502,6 +515,7 @@
       cam("#camF", 33.59, .32, { z: 1.66, fx: 1345, fy: 1010 }, "power3.out");          // "Probably.": in on her (both stay whole)
       breathe("#brF", 32.45, 34.53, .5);
       bob("#qF", 32.86, 12); bob("#pF", 32.91, 14);
+      tl.fromTo("#qF", { rotation: 0 }, { keyframes: [{ rotation: 2, duration: .14, ease: "power2.out" }, { rotation: 0, duration: .3, ease: "power2.inOut" }], immediateRender: false }, 32.86);
       pose("#pF", "#pF_d", "#pF_e", 33.61);
       tl.fromTo("#pF", { rotation: 0 }, { rotation: -2.5, duration: .4, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 100%", immediateRender: false }, 33.93);
 
@@ -518,7 +532,7 @@
 
       /* ---------------- H · "Make it different enough to justify existing..." */
       cam("#camH", 40.19, 0, { z: 1.0, fx: 1185, fy: 756 });
-      cam("#camH", 40.61, 2.42, { z: 1.04, fx: 2150, fy: 740 }, "power2.inOut");   // from the two of them to the remade world
+      cam("#camH", 40.61, 2.42, { z: 1.04, fx: 2150, fy: 740 }, "power3.out");   // from the two of them to the remade world
       breathe("#brH", 40.19, 43.03, .6);
 
       /* ---------------- I · "...without making people wonder where their game went." */
@@ -649,8 +663,11 @@
         ctx.fillStyle = `rgba(255,255,255,${op})`; ctx.beginPath(); ctx.arc(x, y, 9 * s, 0, 7); ctx.fill();
       }
 
+      const IDLE = Array.from(document.querySelectorAll(".chr")).map((c, i) => [c.querySelectorAll("img"), 1.7 + .23 * i, i * 1.3]);
+      function drawIdle(t) { for (const [imgs, f, ph] of IDLE) { const k = Math.sin(t * f + ph), sy = 1 + .012 * k, sx = 1 - .004 * k;
+        imgs.forEach((im) => { im.style.transform = (im.hasAttribute("data-flip") ? "scaleX(-1) " : "") + `scale(${sx}, ${sy})`; }); } }
       const env = { t: 0 };
-      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { const t = env.t; drawNavi(t); drawSteps(t); drawCaps(t); drawHud(t); } }, 0);
+      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { const t = env.t; drawNavi(t); drawSteps(t); drawIdle(t); drawCaps(t); drawHud(t); } }, 0);
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};

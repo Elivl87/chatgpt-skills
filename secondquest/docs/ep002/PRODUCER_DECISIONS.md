@@ -711,3 +711,8 @@
   Pixie only as a portrait badge; busy, cheap SFX (80 cues). Redo from the design up with a design gate (key frames +
   storyboard approved before render), full-figure Pixie (existing costume/kid/library art), restrained sound, and an
   independent critic pass. Quality-leap research + installation of skills/QA tools running in parallel.
+- v2 redesign after the rejection (2026-10-14): design gate approved by the director (8 key frames + storyboard in
+  `docs/publish/EP002/short2_hyperframes/v2_design/`, shot list `SHOT_LIST_v2.md`); director's notes applied (acting in
+  B/F with existing poses, idle breathing, a quick 0.7 s camera-clip in E). Preview `EP002_short2_hf_v2_preview540.mp4`
+  (540x960, -14.1 LUFS): Pixie full figure in 9 beats, no panels, no motion blur on text, 14 SFX onsets incl. Navi
+  (HELLO, SFX_01, LOOK: same clips and risk as recorded above). Gates: lint 0 E, frame_critic 0 E, sfx_audit 0/0, check ok.
