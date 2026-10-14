@@ -51,9 +51,9 @@
       #dots { position: absolute; left: 0; width: 76.9%; text-align: center; font: 800 150px/1 "Inter", sans-serif; color: #2a2a36; letter-spacing: .1em; }
       #dots i { font-style: normal; display: inline-block; }
       /* B · the sun and the birds */
-      .bird { position: absolute; width: 46px; height: 20px; }
+      .bird { position: absolute; width: 74px; height: 32px; }
       .bird svg { width: 100%; height: 100%; overflow: visible; }
-      .leaf { position: absolute; width: 40px; height: 22px; border-radius: 50% 0; background: #6fae3e; border: 3px solid #2c4a1c; }
+      .leaf { position: absolute; width: 46px; height: 28px; border-radius: 0 100% 0 100%; background: #6fae3e; border: 3px solid #2c4a1c; }
       /* E · the old camera: a viewfinder drawn on the frame itself + the low-poly rock it clips into */
       #vf { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
       #vf svg { width: 100%; height: 100%; overflow: visible; }
@@ -104,7 +104,7 @@
            world sharpens, its face appears), lighting (a sun flare), animation (the leaves fall), sound (a flock bursts out) ===== -->
       <div id="shB" class="full shot clip" data-start="8.63" data-duration="6.51" data-track-index="2">
         <div class="breath" id="brB"><div class="cam" id="camB">
-          <img class="plate" src="assets/tree_old.jpg" alt="" />
+          <img class="plate" src="assets/tree_old.jpg" alt="" style="filter: contrast(1.18) brightness(1.1) saturate(1.1)" />
           <img class="plate" id="bMid" src="assets/tree_mid.jpg" alt="" style="opacity: 0" />
           <img class="plate" id="bHd" src="assets/tree.jpg" alt="" style="opacity: 0" />
           <div id="sun" class="abs" style="left: -612px; top: -105px; width: 1600px; height: 1600px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(circle, rgba(255,240,200,1) 0%, rgba(255,214,140,.55) 12%, rgba(255,200,110,.18) 35%, rgba(255,190,100,0) 60%)"></div>
@@ -345,33 +345,41 @@
 
       function DOTS0() { return document.querySelectorAll("#dots i"); }
       /* ---------------- A · the silent hero (frame 1 is the hook: title + hero + his empty balloon) */
-      cam("#camA", 0, 0, { z: 1.575, fx: 1350, fy: 930 });
-      cam("#camA", 0, 3.59, { z: 1.6, fx: 1347, fy: 929 }, "sine.inOut");
-      cam("#camA", 3.59, .6, { z: 1.78, fx: 1330, fy: 905 }, "power2.inOut");      // "Give that character a voice...": in on him and his empty balloon
-      cam("#camA", 5.05, .5, { z: 1.6, fx: 1347, fy: 929 }, "power2.inOut");    // back out as the balloon pops and Pixie steps in
-      cam("#camA", 7.34, .5, { z: 1.72, fx: 1290, fy: 915 }, "power3.out");       // "silence": in on her, the one who has to decide
+      // critic v3 #1: the hook is cut into real shots on the words (camera, light, Navi and cuts only; nobody acts)
+      const F1 = 1 / 30;
+      cam("#camA", 0, 0, { z: 1.575, fx: 1350, fy: 930 });                                        // frame 0: the finished title still
+      cam("#camA", 0.7, .25, { z: 1.95, fx: 1300, fy: 860 }, "expo.out");             // "character": title snaps out, punch in on him + balloon
+      cam("#camA", 0.97, 2.62, { z: 2.02, fx: 1296, fy: 856 }, "sine.inOut");
+      cam("#camA", 3.62, 0, { z: 2.3, fx: 1290, fy: 860 });                             // "Give that character a voice": hard cut, waist-up hero + balloon
+      cam("#camA", 3.62, 1.66, { z: 2.38, fx: 1288, fy: 858 }, "sine.inOut");
+      cam("#camA", 5.38, 0, { z: 1.6, fx: 1347, fy: 929 });                           // "suddenly": hard cut to the wide two-shot, Pixie there
+      cam("#camA", 6.48, 0, { z: 3.6, fx: 1200, fy: 860 });                           // "decide": hard cut to Pixie, hand on her chin
+      cam("#camA", 6.48, 0.94, { z: 3.68, fx: 1200, fy: 858 }, "sine.inOut");
+      cam("#camA", 7.42, 0, { z: 1.62, fx: 1345, fy: 928 });                          // "silence": back to the two of them...
+      cam("#camA", 7.44, 1.19, { z: 1.85, fx: 1300, fy: 880 }, "sine.inOut");      // ...pushing into the empty space where the balloon was
       breathe("#brA", 0, 8.63, .2);
-      // one crisp entrance: each line rises out of its own mask (no blur, no echo), the second 80 ms after the first
-      // frame 0 is the feed's still: the hook opens on the finished title (critic v2b), no reveal
-      tl.to("#ttl1", { opacity: 0, duration: .25, ease: "power2.in" }, 3.25);      // gone (opacity 0) by l52-0.14; the HUD only from l52+0.15
+      tl.set("#ttl1", { opacity: 0 }, 0.7);                                           // a cut, never a fade
       tl.set("#bub", { scale: 1, opacity: 1 }, 0);
+      // "space": the empty balloon's outline brightens once (light, not action)
+      tl.fromTo("#bub", { filter: "drop-shadow(0 0 0 rgba(255,214,90,0))" }, { keyframes: [{ filter: "drop-shadow(0 0 22px rgba(255,214,90,.95))", duration: .18, ease: "power2.out" }, { filter: "drop-shadow(0 0 0 rgba(255,214,90,0))", duration: .5, ease: "sine.in" }] }, 1.8);
       tl.to(DOTS0(), { color: "#f0a400", duration: .12, stagger: .14 }, 2.51);
-      // the three dots breathe while nobody speaks, go quiet on "silence", and wait
       const DOTS = DOTS0();
       DOTS.forEach((d, i) => tl.fromTo(d, { opacity: .25 }, { opacity: 1, duration: .32, ease: "sine.inOut", yoyo: true, repeat: 9 }, .5 + i * .16));
-      // "and suddenly": the empty balloon pops (anticipation swell, then gone) and Pixie steps into its place
-      tl.to("#bub", { keyframes: [{ scale: 1.12, duration: .1, ease: "power2.out" }, { scale: 0, opacity: 0, duration: .14, ease: "power3.in" }] }, 5.2);
-      // she does not walk in (no walk art; Producer rule): the balloon pops and she is there, a hard reveal with a small settle
-      tl.set("#pA", { opacity: 0 }, 0);
-      tl.fromTo("#pA", { opacity: 1, scaleY: .94, scaleX: 1.03 }, { opacity: 1, scaleY: 1, scaleX: 1, duration: .2, ease: "back.out(2)" }, 5.32);
-      flash(5.31, .35, .2);
-      pose("#pA", "#pA_c", "#pA_e", 6.5);
+      // Navi's "Hello!": a small white flash and a glint; the HUD comes in on it
+      flash(3.02, .45, .25);
+      // "suddenly": the balloon pops in 3 frames (no cross-fade), then the cut reveals Pixie already there
+      tl.set("#bub", { scale: 1.15 }, 5.28);
+      tl.set("#bub", { scale: .5, opacity: .6 }, 5.313);
+      tl.set("#bub", { scale: 0, opacity: 0 }, 5.347);
+      tl.set("#pA", { opacity: 0 }, 0); tl.set("#pA", { opacity: 1 }, 5.38);
+      flash(5.38, .3, .18);
+      tl.set("#pA_c", { opacity: 0 }, 6.48); tl.set("#pA_e", { opacity: 1 }, 6.48);   // the pose changes on the cut
 
       /* ---------------- B · "Because better is measurable." then the giant tree upgrades on every word; the camera whips to
          each upgrade (a change every 0.7-1.2 s). Nobody fakes an action: the world, the light and the camera move. */
-      cam("#camB", 8.63, 0, { z: 1.0, fx: 1600, fy: 756 });
-      cam("#camB", 8.63, 2.43, { z: 1.06, fx: 1610, fy: 740 }, "sine.inOut");
-      cam("#camB", 11.08, .3, { z: 1.4, fx: 1720, fy: 500 }, "power3.out");      // "polygons": punch in on its face as it sharpens
+      cam("#camB", 8.63, 0, { z: 1.0, fx: 1650, fy: 756 });                                // the WHOLE tree in its N64 look (critic v3 #4)
+      cam("#camB", 8.63, 2.43, { z: 1.04, fx: 1655, fy: 740 }, "sine.inOut");
+      cam("#camB", 11.08, .3, { z: 1.5, fx: 1750, fy: 380 }, "power3.out");       // "polygons": punch in on its face as it sharpens
       cam("#camB", 12.18, .3, { z: 1.15, fx: 560, fy: 700 }, "power3.out");       // "lighting": whip to the sun, flare
       cam("#camB", 13.14, .3, { z: 1.22, fx: 1480, fy: 1000 }, "power3.out");      // "animation": back to the tree, leaves fall
       cam("#camB", 14.2, .3, { z: 1.12, fx: 1180, fy: 520 }, "power3.out");      // "sound": up into the canopy, the flock bursts out
@@ -380,23 +388,27 @@
       flash(12.22, .5, .3);
       tl.fromTo("#sun", { opacity: 0, scale: .6 }, { opacity: 1, scale: 1, duration: .45, ease: "power2.out", transformOrigin: "50% 50%" }, 12.21);
       tl.fromTo("#beams", { opacity: 0, x: 40 }, { opacity: .8, x: 0, duration: .6, ease: "power2.out" }, 12.21);
-      for (let i = 0; i < 14; i++) { const l = mk("div", "leaf", $("#leaves"), `left:${80 + R() * 900}px; top:${-80 - R() * 300}px; opacity:0; background:#d9a62c; border-color:#5a3a12`);
-        const t0 = 13.17 + i * .07; tl.fromTo(l, { x: 0, y: 0, rotation: 0, opacity: 1 }, { x: -160 + R() * 320, y: 1500 + R() * 400, rotation: 360 + R() * 540, opacity: 1, duration: 2.2 + R() * .6, ease: "sine.in" }, t0); }
-      for (let i = 0; i < 9; i++) { const b = mk("div", "bird", $("#birds"), `left:${430 + (i % 4) * 40}px; top:${760 + (i % 3) * 34}px; opacity:0`);
-        b.innerHTML = '<svg viewBox="0 0 46 20"><path d="M2 14 Q12 2 23 12 Q34 2 44 14" fill="none" stroke="#2a1e14" stroke-width="5" stroke-linecap="round"/></svg>';
+      tl.set("#beams", { opacity: 0 }, 13.12);                                       // the beams belong to the sun shot only (critic v3 #5)
+      for (let i = 0; i < 18; i++) { const l = mk("div", "leaf", $("#leaves"), `left:${60 + R() * 920}px; top:${200 + R() * 500}px; opacity:0; background:#d9a62c; border-color:#5a3a12`);
+        tl.set(l, { opacity: 0 }, 0);
+        const t0 = 13.14 + i * .03; tl.fromTo(l, { x: 0, y: 0, rotation: 0, opacity: 1 }, { x: -200 + R() * 400, y: 1100 + R() * 300, rotation: 300 + R() * 400, opacity: 1, duration: 1.5 + R() * .4, ease: "sine.in", immediateRender: false }, t0);
+        tl.set(l, { opacity: 0 }, 14.18); }
+      for (let i = 0; i < 9; i++) { const b = mk("div", "bird", $("#birds"), `left:${380 + (i % 4) * 70}px; top:${820 + (i % 3) * 60}px; opacity:0`);
+        b.innerHTML = '<svg viewBox="0 0 46 20"><path d="M2 14 Q12 2 23 12 Q34 2 44 14" fill="none" stroke="#1c140c" stroke-width="7" stroke-linecap="round"/></svg>';
         const t0 = 14.18 + i * .05; tl.fromTo(b, { x: 0, y: 0, opacity: 0, scale: .6 }, { x: (i % 2 ? 1 : -1) * (260 + i * 30), y: -520 - (i % 3) * 60, opacity: 1, scale: 1.1, duration: 1.3, ease: "power2.out" }, t0);
         tl.fromTo(b, { scaleY: 1 }, { scaleY: .4, duration: .08, yoyo: true, repeat: 13, ease: "sine.inOut", immediateRender: false }, t0);
         tl.to(b, { opacity: 0, duration: .25 }, t0 + 1.05); }
 
       /* ---------------- C · "But familiar is not measurable.": the twist, real life 1998 (kids in real poses, the camera drifts) */
       cam("#camC", 15.12, 0, { z: 1.0, fx: 1390, fy: 756 });
-      cam("#camC", 15.12, 2.57, { z: 1.0, fx: 1420, fy: 756 }, "sine.inOut");
+      cam("#camC", 15.12, 1.66, { z: 1.0, fx: 1410, fy: 756 }, "sine.inOut");
+      cam("#camC", 16.88, .7, { z: 1.0, fx: 2260, fy: 756 }, "power2.inOut");   // follow her finger: the TV, the N64 (critic v3 #7)
       breathe("#brC", 15.12, 17.79, .3);
 
       /* ---------------- V · the payoff on the remake's epic look: "That is the" on the two of them, a hard cut on "impossible" to the
          castle in the sun with the one bass-drop impact, a flare and the kinetic title */
-      cam("#camV1", 17.69, 0, { z: 1.0, fx: 1185, fy: 756 });
-      cam("#camV1", 17.69, 1.02, { z: 1.0, fx: 1200, fy: 756 }, "sine.out");
+      cam("#camV1", 17.69, 0, { z: 1.0, fx: 1385, fy: 756 });                         // her whole dress in, his back cropped on the left (critic v3 #3)
+      cam("#camV1", 17.69, 1.02, { z: 1.0, fx: 1380, fy: 756 }, "sine.out");
       breathe("#brV1", 17.69, 18.71, .5);
       const TCUT = 18.67;
       cam("#camV2", TCUT, 0, { z: 1.0, fx: 2160, fy: 756 });
@@ -406,9 +418,10 @@
       tl.fromTo("#vflare", { opacity: 0, scale: .5 }, { keyframes: [{ opacity: 1, scale: 1.1, duration: .25, ease: "power2.out" }, { opacity: .55, scale: 1, duration: .8, ease: "sine.inOut" }], transformOrigin: "50% 50%" }, TCUT);
       tl.to("#vdim", { opacity: 1, duration: .25 }, TCUT);
       tl.fromTo("#ttl2 .a", { yPercent: 105 }, { yPercent: 0, duration: .26, ease: "expo.out" }, TCUT);
-      tl.fromTo("#ttl2 .b", { scale: 1.2, opacity: 0 }, { scale: 1, opacity: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%" }, TCUT + .06);
+      tl.set("#ttl2 .b", { opacity: 0 }, 0);
+      tl.fromTo("#ttl2 .b", { scale: 1.18, opacity: 1 }, { scale: 1, opacity: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%", immediateRender: false }, TCUT + .07);
       tl.fromTo("#ttl2 .b", { scale: 1 }, { keyframes: [{ scale: 1.07, duration: .07 }, { scale: 1, duration: .22, ease: "power2.out" }], transformOrigin: "50% 50%", immediateRender: false }, 19.11);
-      tl.to("#ttl2", { opacity: 0, duration: .15, ease: "power2.in" }, 19.76);          // out before the wordmark lands
+      tl.set("#ttl2", { opacity: 0 }, 19.82);                                           // a cut: the wordmark lands only after (critic v3 #2)
       tl.to("#vnight", { opacity: .6, duration: .35, ease: "power2.in" }, 19.74);
 
       /* ---------------- wordmark (crisp, no blur), Navi into its star, then the end card */
@@ -448,7 +461,7 @@
           E.spans.forEach((sp, i) => { if (!c.big) sp.style.color = i === cur ? "#ffc83d" : "#ffffff"; }); });
       }
       // the HUD shows only in the game world, and never under a title
-      const HUDON = [[3.79, 15.12]];
+      const HUDON = [[3.02, 15.12]];
       const hudEl = $("#hud");
       const drawHud = (t) => { const r = HUDON.find(([a, b]) => t >= a && t < b); hudEl.style.opacity = r ? Math.min(1, (t - r[0]) / .2) : 0; };
 
@@ -458,8 +471,8 @@
       const orbit = (t0, t1, cx, cy, rx, ry, turns, r, a0) => { const n = Math.max(3, Math.round((t1 - t0) / .12)); for (let i = 0; i <= n; i++) { const k = i / n, a = (a0 || 0) + 2 * Math.PI * turns * k;
         key(t0 + (t1 - t0) * k, cx + rx * Math.cos(a), cy - ry * Math.sin(a), r); } };
       // A: she bursts into the silence on the pause after "imagination." ("Hello!"), and settles above the hero's shoulder
-      key(0, 900, 800, 20, 0); key(2.95, 900, 800, 20, 0); key(3.08, 890, 790, 24, 1);
-      key(3.45, 860, 700, 22, 1); key(4.58, 870, 560, 20, 1); key(5.4, 820, 440, 20, 1);
+      key(0, 900, 640, 20, 0); key(2.95, 900, 640, 20, 0); key(3.08, 900, 620, 24, 1);
+      key(3.45, 220, 1000, 22, 1); key(4.58, 240, 980, 20, 1); key(5.35, 240, 980, 20, 1); key(5.7, 820, 440, 20, 1);
       key(6.5, 790, 420, 20, 1); key(8.53, 760, 410, 20, 1);
       // B: she rides each upgrade: to the face (polygons), into the sun (lighting), with the leaves (animation), up with the flock (sound)
       key(8.63, 760, 410, 18, 1); key(11.16, 900, 1080, 18, 1); key(12.26, 300, 760, 18, 1); key(13.22, 620, 900, 18, 1);

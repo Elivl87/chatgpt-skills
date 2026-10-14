@@ -110,6 +110,8 @@ def stage_art():
     old_q, old_gp = BC_.QUEST_K, BC_.game_picture
     BC_.QUEST_K = qk
     from PIL import ImageEnhance
+    # critic v3 #7: the N64 sits a little further right, out of the first framing (whole when the camera pans to the TV)
+    old_n64 = BC_.N64_POS; BC_.N64_POS = (int(PW * .71), old_n64[1])
     def kids(new):
         BC_.game_picture = old_gp if new else (lambda t, size: BH.old_picture(BH.T_WONDER, size).convert('RGBA'))
         im = BC_.room_plate(BC_.T_SAT + 3, pk).convert('RGB')
@@ -122,6 +124,7 @@ def stage_art():
     info['kids'] = save(kids(False), 'kids_old.jpg', q=92)
     save(kids(True), 'kids_new.jpg', q=92)
     BC_.QUEST_K, BC_.game_picture = old_q, old_gp
+    BC_.N64_POS = old_n64
     q34 = [(BC_.TV_POS[0] + x * BC_.TV_SCALE, BC_.TV_POS[1] + y * BC_.TV_SCALE) for x, y in BC_.Q34]
     info['kids_tv'] = {'cx': round(sum(p[0] for p in q34) / 4, 1), 'cy': round(sum(p[1] for p in q34) / 4, 1),
                        'w': round(max(p[0] for p in q34) - min(p[0] for p in q34), 1), 'h': round(max(p[1] for p in q34) - min(p[1] for p in q34), 1)}
