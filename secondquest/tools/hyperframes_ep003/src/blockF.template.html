@@ -750,10 +750,10 @@
       const ripples = []; (function () { const host = $("#ripples"); for (let i = 0; i < 4; i++) ripples.push(mk("div", "ripple", host, `left:${380}px; top:${585}px; width:520px; height:40px`)); })();
       const stars = Array.from({ length: 60 }, () => { const s = 1 + R() * 2.2; return mk("div", "star", $("#stars"), `left:${-180 + R() * 1640}px; top:${-100 + R() * 380}px; width:${s}px; height:${s}px; opacity:${.4 + R() * .6}`); });
       const FEX = ["neutral", "laugh", "sideeye"];
-      const MAX = Friend($("#crewClip"), "max", { id: "silA", pose: "sit_34", exprs: FEX, hq: 286, x: 528, base: 412 });
-      const LEO = Friend($("#crewClip"), "leo", { id: "silB", pose: "sit_34", exprs: FEX, hq: 286, x: 622, base: 418 });
+      const BFR = BoatFriends($("#crewClip"), { ids: ["silA", "silB"], exprs: FEX });    // INSIDE the hull (in-boat 3D layers)
+      const MAX = BFR.max, LEO = BFR.leo;
       const LEOJ = Friend($("#crewClip"), "leo", { id: "leoJ", pose: "cheer_34", exprs: ["laugh"], hq: 286, x: 620, base: 412 });   // stands up to juggle
-      [MAX, LEO, LEOJ].forEach((f) => $("#crewClip").insertBefore(f.el, $("#pixie")));
+      $("#crewClip").insertBefore(LEOJ.el, $("#pixie"));
       const dyns = [0, 1, 2].map(() => { const e = mk("div", "dyn", $("#juggle")); e.innerHTML = '<img src="assets/dynamite.png" alt="" />'; return e; });
       (function () { const g = $("#bnGav"); ["Q", "P", "A", "B"].forEach((k, i) => { const a = mk("div", "avd", g, `left:${(i % 2) * 30}px; top:${Math.floor(i / 2) * 30}px; background:${MEM[k].color}`); a.innerHTML = avHTML(k); }); })();
       const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png", "assets/lake_bluehour.png"]);   // new art v1 + its derived blue-hour grade
@@ -1211,6 +1211,7 @@
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};
+      MAX.talk(tl, T.few + .05, T.few + 1.0); LEO.talk(tl, T.few + .1, T.few + 1.1);   // they laugh (lip-flap)
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>

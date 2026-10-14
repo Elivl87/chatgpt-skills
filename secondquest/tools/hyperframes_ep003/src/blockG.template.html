@@ -56,7 +56,7 @@
       .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
       #quest img { filter: brightness(.66) saturate(.82) contrast(1.06) drop-shadow(-3px -1px 0 rgba(255, 184, 96, .85)) drop-shadow(0 0 9px rgba(255, 170, 90, .28)); }
       #pixie img { filter: brightness(.66) saturate(.82) contrast(1.06) drop-shadow(3px -1px 0 rgba(255, 184, 96, .85)) drop-shadow(0 0 9px rgba(255, 170, 90, .28)); }
-      .fr img { filter: brightness(.7) saturate(.85) contrast(1.05) drop-shadow(0 0 7px rgba(205, 222, 255, .55)) drop-shadow(-2px -1px 0 rgba(255, 184, 96, .7)); }
+      .fr img { filter: brightness(.64) saturate(.8) hue-rotate(-6deg) drop-shadow(-2px -1px 0 rgba(255, 184, 96, .75)); }   /* the boat's night grade + the lantern rim */
       .ghost svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 8px rgba(200, 220, 255, .55)); }
       #lantern { position: absolute; }
       #lantern img { width: 100%; height: 100%; filter: brightness(1.05) drop-shadow(0 0 6px rgba(255, 184, 96, .9)); }
@@ -303,9 +303,10 @@
 
       // stars (seeded), denser up high
       // Max and Leo take the empty seats on "boat?" (they were the grey ghosts): seated 3/4 cut-outs, Quest here = 365 px
-      const GA = Friend($("#crewClip"), "max", { id: "ghostA", pose: "sit_34", exprs: ["laugh"], hq: 365, x: 150, base: 480, flip: true });
-      const GB = Friend($("#crewClip"), "leo", { id: "ghostB", pose: "sit_34", exprs: ["laugh"], hq: 365, x: 572, base: 484 });
-      $("#crewClip").insertBefore(GA.el, $("#crewClip").firstChild); $("#crewClip").insertBefore(GB.el, $("#pixie"));
+      // (2026-10-14 fix: Max sat OUTSIDE the stern) both INSIDE the hull with the in-boat 3D layers, scaled to this
+      // shot's larger 2D duo (x1.2 from the hull line); Pixie, Quest and the lantern slide toward the stern on the CTA cut
+      const BFR = BoatFriends($("#crewClip"), { ids: ["ghostA", "ghostB"], exprs: ["laugh", "neutral"], scale: 1.2, cls: "fr" });
+      const GA = BFR.max, GB = BFR.leo;
       const stars = [];
       (function () { const host = $("#stars"); const r = rng(77);
         for (let i = 0; i < 300; i++) { const x = -300 + r() * 1880; const y = -340 + Math.pow(r(), 1.5) * 620; const s = .9 + r() * r() * 2.4;
@@ -612,7 +613,16 @@
       tl.fromTo("#iNext .sqbox", { opacity: 1 }, { opacity: .8, duration: .6, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((DUR - LIT) / .6), immediateRender: false }, LIT + .7);
 
       tl.set({}, {}, DUR);
-      [GA, GB].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
+      // life in the calm CTA wide: they laugh on "boat?", Max leans in to Quest, Leo waves toward the wordmark, a blink
+      GA.face(tl, "laugh", 0); GB.face(tl, "laugh", 0);
+      GB.talk(tl, Q.boat + .2, Q.boat + .9); GA.talk(tl, Q.boat + .35, Q.boat + .95);
+      GA.face(tl, "neutral", Q.boat + 1.6); GB.face(tl, "neutral", Q.boat + 2.2);
+      tl.to("#ghostA .lean", { rotation: -5, x: -8, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 100%" }, Q.boat + 1.3);
+      tl.to("#ghostB .lean", { rotation: 4, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 3, transformOrigin: "50% 100%" }, Q.boat + 2.4);
+      tl.set(["#pixie", "#quest"], { x: 0 }, 0);
+      tl.set("#pixie", { x: -66 }, S5); tl.set("#quest", { x: -96 }, S5); tl.set(["#lantern", "#poolBoat", "#poolWater"], { x: -70 }, S5);
+      tl.set(["#lantern", "#poolBoat", "#poolWater"], { x: 0 }, 0);
+      [GA, GB].forEach((f, i) => f.blinks(tl, Q.boat + 1, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->

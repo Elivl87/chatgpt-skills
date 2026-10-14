@@ -980,9 +980,8 @@
 
       /* ---------- the friends Max and Leo (our 3D, seated in the two-pass boat, scaled to Quest = 286 px) ---------- */
       const FEX = ["neutral", "laugh", "shock", "sweat", "sideeye"];
-      const MAX = Friend($("#crewClip"), "max", { id: "silA", pose: "sit_34", exprs: FEX, hq: 286, x: 528, base: 412 });
-      const LEO = Friend($("#crewClip"), "leo", { id: "silB", pose: "sit_34", exprs: FEX, hq: 286, x: 622, base: 418 });
-      $("#crewClip").insertBefore(MAX.el, $("#pixie")); $("#crewClip").insertBefore(LEO.el, $("#pixie"));
+      const BFR = BoatFriends($("#crewClip"), { ids: ["silA", "silB"], exprs: FEX });    // INSIDE the hull (in-boat 3D layers)
+      const MAX = BFR.max, LEO = BFR.leo;
       /* ---------- the HUD ---------- */
       const hud = GameHUD($("#hudL"), { hearts: 3, money: 0, digits: 5, slots: 3 });
 
@@ -1547,6 +1546,9 @@
       tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.7, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.7), immediateRender: false }, 0);
 
       tl.set({}, {}, DUR);
+      MAX.talk(tl, {{l27.w9}}, {{l27.w9+0.7}});                                   // laughs (lip-flap)
+      MAX.talk(tl, {{l33.w22-0.25}}, {{l33.w22+0.95}}); LEO.talk(tl, {{l33.w22-0.2}}, {{l33.w22+1.1}});
+      LEO.talk(tl, {{l34.w4+0.1}}, {{l34.w4+0.8}});
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>
