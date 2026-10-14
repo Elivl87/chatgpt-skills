@@ -52,7 +52,6 @@ def stage_art():
     import lib                                                          # noqa: E402
     import hud                                                          # noqa: E402
     import ui_kit as UI                                                 # noqa: E402  the approved on-screen text style
-    from icons import camera_icon, wrench_icon                          # noqa: E402  the episode's camera + wrench icons
     PW, PH = lib.PW, lib.PH
     info = {}
     (OUT / 'fonts').mkdir(parents=True, exist_ok=True)
@@ -84,62 +83,54 @@ def stage_art():
     save(lib.final('quest_young_front'), 'hero_front.png', max_h=1500)          # #3b the silent young hero, facing us
     save(lib.final('quest_young_back'), 'young_back.png', max_h=900)            # #3 (the opposite step = #3 mirrored, in CSS)
 
-    # the "Saturday, 1998" polaroid (block F's memory: the kids' afternoon of block C), drawn bigger for 9:16, and the
-    # same photo after the upgrades (block H: cooler, sharper, the handwritten date gone)
-    BC = BH.BC
-    room = BC.room_plate(BC.T_SAT + 3, BC.PIXIE_SIT).convert('RGB')
-    ph = room.crop((int(.12 * PW), int(.45 * PH), int(.66 * PW), int(1.0 * PH)))
-    ph = ph.resize((760, round(760 * ph.height / ph.width)), Image.LANCZOS)
-    old = Image.blend(ph, Image.new('RGB', ph.size, (255, 200, 130)), .12)
-    from PIL import ImageEnhance
-    nw = ImageEnhance.Sharpness(ImageEnhance.Contrast(ImageEnhance.Color(old).enhance(1.7)).enhance(1.3)).enhance(2.5)
-    nw = Image.blend(nw, Image.new('RGB', nw.size, (150, 200, 255)), .12)
-    for nm, img, cap in (('pola_old.png', old, True), ('pola_new.png', nw, False)):
-        card = Image.new('RGBA', (img.width + 40, img.height + 120), (250, 246, 236, 255)); card.paste(img, (20, 20))
-        if cap:
-            ImageDraw.Draw(card).text((30, img.height + 38), 'Saturday, 1998', font=lib.F(26), fill=(70, 55, 40, 255))
-        card.save(OUT / nm, optimize=True)
-    info['pola'] = list(card.size)
-
-    # the upgrades that drift into the photo (block H chips), the episode's camera icon + wrench, the quest banner
-    for k in ('hd', 'camera', 'note', 'voice'):
-        BH.chip(k).save(OUT / f'chip_{k}.png', optimize=True)
-    camera_icon(rec=True, width=200).save(OUT / 'cam_icon.png', optimize=True)
-    w0 = wrench_icon(-24); w0.crop(w0.getchannel('A').getbbox()).save(OUT / 'wrench.png', optimize=True)
-    title = 'The Impossible Job'
-    frames = [UI.sq_banner('New quest', title, n=n, done_blink=False) for n in range(len(title) + 1)]
-    bw, bh = frames[0].size
-    sheet = Image.new('RGBA', (bw, bh * len(frames)))
-    for i, f in enumerate(frames):
-        sheet.alpha_composite(f, (0, i * bh))
-    sheet.save(OUT / 'banner_sprite.png', optimize=True)
-    info['banner'] = [bw, bh, len(frames)]
     UI.area_title('1998', retro=True, size=48).save(OUT / 'area_1998.png', optimize=True)
     UI.area_title('TODAY', size=48).save(OUT / 'area_today.png', optimize=True)
-    for nm, (w, h) in (('panel_meter', (440, 300)), ('panel_cast', (400, 214)), ('panel_slider', (440, 120))):
-        UI.sq_box(w, h).save(OUT / f'{nm}.png', optimize=True)
-        info[nm] = list(Image.open(OUT / f'{nm}.png').size)
+    # v2 (Producer 2026-10-14: "¿De qué sirve que Pixie salga en un circulito?"): Pixie acts FULL-FIGURE only.
+    # Game world: her forest-friend tunic poses (#2c waving, #2d awe, #2e thinking, #2f back) beside young Quest
+    # (#3b front, #3a looking up, #3 back); scaled in the page so her cut-out = 0.96 x his (95 % of his height to the top
+    # of the head, face ~0.90 x his, measured side by side on the two arts). Real life: library #1 (waving, end card).
+    for key, nm in (('pixie_tunic_wave', 'p2c'), ('pixie_tunic_awe', 'p2d'), ('pixie_tunic_think', 'p2e'), ('pixie_tunic_back', 'p2f'),
+                    ('quest_young_lookup', 'q3a')):
+        save(lib.final(key), f'{nm}.png', max_h=1300)
+    save(crop_alpha(Image.open(ROOT / 'docs/art_orders/pixie/library/results/01_wave_happy.png').convert('RGBA')), 'pix_wave.png', max_h=1300)
+    # the remake's "different" look for l61: final plate #17+18 (golden-hour vista, the two of them on the outcrop)
+    info['outcrop'] = save(lib.final_plate('outcrop'), 'outcrop.jpg', q=92)
 
-    # the ocarina knob of the FAMILIAR <-> DIFFERENT slider: one frame of our 3D ocarina turntable
-    oc = sorted((ROOT / 'public/art/ep002/props3d/ocarina_spin').glob('f*.png'))[3]
-    save(crop_alpha(Image.open(oc).convert('RGBA')), 'oca_knob.png', max_h=260)
+    # the 1998 childhood bedroom of block C (kid Quest #6a playing, kid Pixie #6b pointing at our 3D CRT, the N64 on the
+    # floor), re-staged for 9:16: the kids a step further into the room (smaller by perspective only, Pixie's face 0.9 x
+    # his) so both fit one vertical frame with their faces above the caption band. Two states: the warm 1998 afternoon
+    # (the TV in its 1998 look) and the same memory "improved" (cooler, sharper, the TV in today's HD).
+    BC_ = BH.BC
+    qk = BC_.sized('kid_quest_play', .455, .905, depth=.80 / 1.0 * .72 / .72 * 1.0)
+    qk['h'] = .40
+    pk = dict(BC_.sized('kid_pixie_point', .585, .865, BC_.PIXIE_RATIO), rot=-6)
+    pk['h'] = .40 * BC_.FACE['kid_quest_play'] / BC_.FACE['kid_pixie_point'] * BC_.PIXIE_RATIO * .93
+    old_q, old_gp = BC_.QUEST_K, BC_.game_picture
+    BC_.QUEST_K = qk
+    from PIL import ImageEnhance
+    def kids(new):
+        BC_.game_picture = old_gp if new else (lambda t, size: BH.old_picture(BH.T_WONDER, size).convert('RGBA'))
+        im = BC_.room_plate(BC_.T_SAT + 3, pk).convert('RGB')
+        if new:
+            im = ImageEnhance.Sharpness(ImageEnhance.Contrast(ImageEnhance.Color(im).enhance(1.25)).enhance(1.12)).enhance(1.8)
+            im = Image.blend(im, Image.new('RGB', im.size, (150, 195, 255)), .10)
+        else:
+            im = Image.blend(im, Image.new('RGB', im.size, (255, 160, 80)), .13)
+        return im
+    info['kids'] = save(kids(False), 'kids_old.jpg', q=92)
+    save(kids(True), 'kids_new.jpg', q=92)
+    BC_.QUEST_K, BC_.game_picture = old_q, old_gp
+    q34 = [(BC_.TV_POS[0] + x * BC_.TV_SCALE, BC_.TV_POS[1] + y * BC_.TV_SCALE) for x, y in BC_.Q34]
+    info['kids_tv'] = {'cx': round(sum(p[0] for p in q34) / 4, 1), 'cy': round(sum(p[1] for p in q34) / 4, 1),
+                       'w': round(max(p[0] for p in q34) - min(p[0] for p in q34), 1), 'h': round(max(p[1] for p in q34) - min(p[1] for p in q34), 1)}
+    info['kids_pos'] = {'quest': [qk['x'] * PW, qk['y'] * PH, qk['h'] * PH], 'pixie': [pk['x'] * PW, pk['y'] * PH, pk['h'] * PH]}
 
     # the grown-up bedroom at night (final plate #15) as block H builds it: our 3D CRT on the bedside table playing 1998
-    # Hyrule, the N64 on the floor, Quest (Q008) on the floor in profile lit by the screen; and the same room with the
-    # TV off, his pensive reflection (#10 mirrored) in the dark glass. Composited in plate px, no camera crop.
+    # Hyrule, the N64 on the floor, Quest (Q008) on the floor in profile lit by the screen, Pixie (library #8, hugging her
+    # knees, full figure) beside him; and the same room with the TV off, his pensive reflection in the dark glass.
     PIX = crop_alpha(Image.open(ROOT / 'docs/art_orders/pixie/library/results/08_nostalgic_hug_knees.png').convert('RGBA'))
     PIXIE_FLOOR = (BH.QSPEC[0] * PW - 400, BH.QSPEC[1] * PH - 14)        # plate px: centre x, feet y (just behind him)
     info['pixie_floor'] = list(PIXIE_FLOOR)
-
-    # Pixie's portrait badge (her own library poses, head and shoulders): her reactions in the game-world shots
-    for code, name in (('01', 'wave_happy'), ('03', 'looking_up_awe'), ('04', 'laughing_pointing'), ('05', 'thinking_chin'),
-                       ('07', 'surprised_shocked'), ('09', 'determined_fists')):
-        im = Image.open(ROOT / f'docs/art_orders/pixie/library/results/{code}_{name}.png').convert('RGBA')
-        a = np.asarray(im.getchannel('A')) > 24
-        ys, xs = np.nonzero(a); y0, y1 = ys.min(), ys.max(); Hh = y1 - y0
-        band = np.nonzero(a[int(y0 + .06 * Hh):int(y0 + .16 * Hh)])[1]
-        cx = (np.percentile(band, 15) + np.percentile(band, 60)) / 2; S_ = int(.40 * Hh); cy = y0 + .17 * Hh
-        im.crop((int(cx - S_ / 2), int(cy - S_ * .42), int(cx + S_ / 2), int(cy + S_ * .58))).resize((360, 360), Image.LANCZOS).save(OUT / f'pix_{code}.png', optimize=True)
 
     def room(on):
         pic = BH.old_picture(BH.T_WONDER, (320, 240), pan=False) if on else Image.new('RGB', (320, 240), (14, 16, 20))
@@ -194,9 +185,8 @@ def stage_art():
     # end card: the EP002 v3 thumbnail chosen as main (B1 "EXCEPT YOU"), whole and undistorted, over its own raw art
     shutil.copy2(ROOT / 'docs/publish/EP002/thumbnails/v3/EP002_thumb_v3_B1_EXCEPT_YOU.jpg', OUT / 'thumb.jpg')
     save(Image.open(ROOT / 'docs/publish/EP002/thumbnails/v3/raw_B1.png').convert('RGB'), 'thumb_raw.jpg', q=88)
-    info['sizes'] = {n: Image.open(OUT / n).size for n in ('hero_front.png', 'young_back.png', 'chip_hd.png', 'chip_camera.png',
-                                                          'chip_note.png', 'chip_voice.png', 'cam_icon.png', 'wrench.png',
-                                                          'area_1998.png', 'area_today.png', 'oca_knob.png')}
+    info['sizes'] = {n: Image.open(OUT / n).size for n in ('hero_front.png', 'young_back.png', 'q3a.png', 'p2c.png', 'p2d.png', 'p2e.png',
+                                                          'p2f.png', 'pix_wave.png', 'area_1998.png', 'area_today.png')}
 
     # the in-game HUD (scripts/animatic/hud.py, our own drawing) cut into its three groups for the 9:16 layout
     W2, H2 = lib.W, lib.H
