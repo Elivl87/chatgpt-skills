@@ -180,6 +180,10 @@ newchannel/
 - Los archivos que se escriben en vivo (renders) no se suben hasta que terminan.
 - Medir antes de entregar (estilo, ritmo, loudness, hoja de contactos) evitó todos los reenvíos.
 
+> **Cambio de rumbo 2026-10-14:** canal en **español primero** y **nuevo estilo de arte** (ilustración cinematográfica
+> dibujada en JavaScript; ver `PRODUCER_DECISIONS.md` y `art/ART_BIBLE.md`). Donde este README hable de "3 tintas +
+> papel + halftone" o de "EN primero", manda la decisión nueva.
+
 ## 11 · Estado actual (2026-10-13, sesión `claude/new-session-cc5o6w`) y siguientes pasos
 
 - **Nombre elegido por el Productor:** **Ten Thousand Dots / Diez Mil Puntos** (@tenthousanddots, @diezmilpuntos).
