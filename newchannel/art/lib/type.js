@@ -62,3 +62,34 @@
     ctx.restore();
   };
 })(typeof window !== 'undefined' ? window : globalThis);
+
+/* ---- v2: the lit letters are baked once per glyph (glow + soft shadow + cream fill + top rim) into sprites, so a
+   frame only blits 13 images (the v1 path blurred every glyph twice per frame: about 2x the render cost). */
+(function (root) {
+  const K = root.K;
+  K.type.bake = function (ctx, lay, o = {}) {
+    const size = lay.size, pad = Math.ceil(size * 0.45), font = `800 ${size}px ${K.type.FONT}`;
+    return lay.glyphs.map(g => {
+      const ch = g.ch === 'i' ? 'ı' : g.ch, S = K.canvas(Math.ceil(lay.adv + pad * 2), Math.ceil(size * 1.3 + pad * 2)), c = S.ctx;
+      const bx = pad, by = pad + size;           // baseline origin inside the sprite
+      c.font = font; c.textBaseline = 'alphabetic';
+      if (o.glow) { c.save(); c.filter = `blur(${size * 0.12}px)`; c.globalCompositeOperation = 'source-over'; c.globalAlpha = o.glowAlpha ?? 0.6; c.fillStyle = o.glow; c.fillText(ch, bx, by); c.restore(); }
+      if (o.shadow) { c.save(); c.filter = `blur(${Math.max(1, size * 0.025)}px)`; c.globalAlpha = o.shadowAlpha ?? 0.45; c.fillStyle = o.shadow; c.fillText(ch, bx + size * 0.012, by + size * 0.035); c.restore(); }
+      if (o.outline) { c.save(); c.lineJoin = 'round'; c.lineWidth = o.outlineW || size * 0.05; c.strokeStyle = o.outline; c.globalAlpha = o.outlineAlpha ?? 0.6; c.strokeText(ch, bx, by); c.restore(); }
+      c.fillStyle = o.color || K.PAPER; c.fillText(ch, bx, by);
+      if (o.rim) {
+        const R = K.canvas(S.w, S.h), r = R.ctx; r.font = font; r.textBaseline = 'alphabetic';
+        r.fillStyle = o.rim; r.fillText(ch, bx, by); r.globalCompositeOperation = 'destination-out'; r.fillText(ch, bx + (o.rimDx || 0), by + size * (o.rimW ?? 0.02));
+        c.globalAlpha = o.rimAlpha ?? 0.9; c.drawImage(R.c, 0, 0); c.globalAlpha = 1;
+      }
+      return { S, bx, by, glow: !!o.glow };
+    });
+  };
+  K.type.drawBaked = function (ctx, lay, baked, x, y, o = {}) {
+    lay.glyphs.forEach((g, k) => {
+      const pg = o.perGlyph ? o.perGlyph(k) : { dy: 0, a: 1 }; if (pg.a <= 0) return;
+      const b = baked[k]; ctx.globalAlpha = pg.a; ctx.drawImage(b.S.c, x + g.x - b.bx, y + (pg.dy || 0) - b.by);
+    });
+    ctx.globalAlpha = 1;
+  };
+})(typeof window !== 'undefined' ? window : globalThis);

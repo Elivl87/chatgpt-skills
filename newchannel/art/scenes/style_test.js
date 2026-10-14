@@ -8,7 +8,7 @@
     duration: DUR,
     setup() { E.highway(); E.oncoming(); },
     draw(ctx, t, frame) {
-      if (t < CUT1) E.drawGolden(ctx, t, frame);
+      if (t < CUT1) E.drawGolden(ctx, t, frame, { label: true, labelAlpha: K.clamp(t / 0.3) });   // the wide shot runs the sim at 2x: say so
       else if (t < CUT2) E.drawCloseup(ctx, t, frame, { t0: CUT1 });
       else {
         const tl = t - CUT2;

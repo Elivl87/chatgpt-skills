@@ -8,7 +8,7 @@
     setup() { E.highway(); E.oncoming(); },
     draw(ctx, t, frame) {
       const P = E.PAL.golden;
-      if (!Wt) Wt = E.highwayWorld({ P, horizon: 560, seed: 11 });
+      if (!Wt) Wt = E.highwayWorld({ P, horizon: 560, seed: 11, cloudList: E.goldenClouds([1250, 300]) });
       const run = E.highway(), T = 9.0;
       // camera low, right behind the mascot, which hangs back (we draw it ourselves, big, in the foreground)
       const sM = run.at(T).x[E.MASCOT];

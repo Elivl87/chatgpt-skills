@@ -116,3 +116,86 @@
     ctx.restore();
   };
 })(typeof window !== 'undefined' ? window : globalThis);
+
+/* ---- v2 painterly clouds: soft lobed cumulus built lobe by lobe. Each lobe is a flat disc split into shade / body /
+   lit cap / sun rim (offsets toward the light), drawn back tier first so every front lobe's shaded belly cuts across
+   the lit top of the lobe behind it (the cauliflower read). Flat bottom with a shaded underside, brush mottle inside.
+   Rendered once into a sprite (K.sky.cloudSprite) and drifted per frame (K.sky.drawClouds). */
+(function (root) {
+  const K = root.K;
+  // o: { seed, color, shade, lit, rim, ang (rad, direction the light comes FROM, screen), rimW, under (underside colour),
+  //      lobes, flat (0..1 flatness of the base), puff (vertical scale) }
+  K.sky.cloudSprite = function (w, h, o = {}) {
+    const key = 'c' + JSON.stringify([w, h, o]);
+    K.sky._cs = K.sky._cs || {};
+    if (K.sky._cs[key]) return K.sky._cs[key];
+    const r = K.rng(o.seed || 1), pad = Math.ceil(h * 0.5 + 8), S = K.canvas(Math.ceil(w + pad * 2), Math.ceil(h * 1.25 + pad * 2)), c = S.ctx;
+    const bx = S.w / 2, by = S.h - pad;                             // base centre (flat bottom)
+    const ang = o.ang ?? -Math.PI / 2, lx = Math.cos(ang), ly = Math.sin(ang);
+    const shade = o.shade || '#9a86a8', body = o.color || '#d8c3cf', lit = o.lit || '#fbe6d6', rim = o.rim || '#fff4e0';
+    const lobes = [];
+    const n = o.lobes || Math.max(4, Math.round(w / h * 2.2));
+    // back tier (tall, few) then front tier (wide, along the base)
+    const nb = Math.max(2, Math.round(n * 0.45));
+    for (let i = 0; i < nb; i++) {
+      const u = (i + 0.5 + (r() - 0.5) * 0.6) / nb, bell = Math.sin(Math.PI * K.clamp(u * 0.8 + 0.1));
+      const R = h * (0.30 + 0.22 * bell + r() * 0.08);
+      lobes.push({ x: bx - w * 0.36 + u * w * 0.72, y: by - h * 0.42 - bell * h * 0.22 * (o.puff || 1), R, tier: 0 });
+    }
+    for (let i = 0; i < n; i++) {
+      const u = (i + 0.5 + (r() - 0.5) * 0.5) / n, bell = Math.sin(Math.PI * u);
+      const R = h * (0.17 + 0.2 * bell + r() * 0.07);
+      lobes.push({ x: bx - w * 0.42 + u * w * 0.84, y: by - R * (0.55 + (1 - (o.flat ?? 0.6)) * 0.4) - r() * h * 0.05, R, tier: 1 });
+    }
+    const sil = (dx = 0, dy = 0, sc = 1, only = null) => { c.beginPath(); for (const L of lobes) { if (only && !only(L)) continue; c.moveTo(L.x + dx + L.R * sc, L.y + dy); c.arc(L.x + dx, L.y + dy, L.R * sc, 0, K.TAU); } };
+    const d = h * 0.16;
+    c.save(); c.beginPath(); c.rect(0, 0, S.w, by); c.clip();
+    sil(); c.fillStyle = shade; c.fill();                                        // the whole mass in shade
+    c.globalCompositeOperation = 'source-atop';
+    sil(lx * d, ly * d); c.fillStyle = body; c.fill();                           // body: all but a contour band away from the light
+    sil(lx * d * (o.litOff ?? 2.1), ly * d * (o.litOff ?? 2.1), o.litScale ?? 0.92, L => L.tier === 0 || L.R > h * 0.3);    // lit caps on the big lobes only
+    c.fillStyle = K.rgba(lit, 0.9); c.fill();
+    // a few lobe contours inside the mass: short shade arcs on the side of a front lobe away from the light
+    const fr = lobes.filter(L => L.tier === 1);
+    c.strokeStyle = K.rgba(shade, 0.55); c.lineCap = 'round'; c.lineWidth = Math.max(1.2, h * 0.022);
+    if (o.contours) for (let k = 1; k < fr.length - 1; k += 2) { const L = fr[k], a0 = ang + Math.PI;
+      c.beginPath(); c.arc(L.x + lx * L.R * 0.1, L.y + ly * L.R * 0.1, L.R * 0.96, a0 - 1.25, a0 - 0.35); c.stroke(); }
+    // shaded underside, darker toward the flat base
+    if (o.under) { const g = c.createLinearGradient(0, by - h * 0.3, 0, by);
+      g.addColorStop(0, K.rgba(o.under, 0)); g.addColorStop(0.6, K.rgba(o.under, 0.45)); g.addColorStop(1, K.rgba(o.under, 0.75));
+      c.fillStyle = g; c.fillRect(0, by - h * 0.3, S.w, h * 0.3); }
+    if (o.underLit) {                                            // low sun under the cloud: warm light soaking the belly
+      const g2 = c.createLinearGradient(0, by - h * 0.12, 0, by); g2.addColorStop(0, K.rgba(o.underLit, 0)); g2.addColorStop(1, K.rgba(o.underLit, 0.7));
+      c.fillStyle = g2; c.fillRect(0, by - h * 0.12, S.w, h * 0.12);
+    }
+    c.restore();
+    if (rim) {                                                    // sun-catching rim: silhouette minus itself pushed away from the light
+      const M = K.canvas(S.w, S.h), m = M.ctx, rw = Math.max(1.6, h * (o.rimW ?? 0.035));
+      m.beginPath(); m.rect(0, 0, S.w, by); m.clip();
+      m.fillStyle = rim; m.beginPath(); for (const L of lobes) { m.moveTo(L.x + L.R, L.y); m.arc(L.x, L.y, L.R, 0, K.TAU); } m.fill();
+      m.globalCompositeOperation = 'destination-out';
+      m.beginPath(); for (const L of lobes) { m.moveTo(L.x - lx * rw + L.R, L.y - ly * rw); m.arc(L.x - lx * rw, L.y - ly * rw, L.R, 0, K.TAU); } m.fill();
+      c.globalAlpha = o.rimAlpha ?? 0.95; c.drawImage(M.c, 0, 0); c.globalAlpha = 1;
+    }
+    // brush mottle inside + a few dry-brush streaks following the lobes (painterly, not stripes)
+    K.tex.paint(S, { amount: 0.4, mottle: { w: 600, h: 300, sx: 0.012, sy: 0.03, seed: (o.seed || 1) + 5, amp: 34 } });
+    S.bx = bx; S.by = by;
+    K.sky._cs[key] = S; return S;
+  };
+
+  // a list of clouds [{x, y, w, h, o, v (px/s drift), par}] drawn with drift; x wraps over [-600, W+600]
+  K.sky.drawClouds = function (ctx, list, t, o = {}) {
+    const span = K.W + 1400;
+    for (const cl of list) {
+      const S = K.sky.cloudSprite(cl.w, cl.h, cl.o);
+      let x = cl.x + (cl.v || 0) * t + (o.dx || 0) * (cl.par ?? 1);
+      x = ((x + 700) % span + span) % span - 700;
+      ctx.globalAlpha = cl.a ?? 1;
+      ctx.drawImage(S.c, x - S.bx, cl.y + (o.dy || 0) - S.by);
+      ctx.globalAlpha = 1;
+    }
+  };
+
+  // light direction from a cloud at (x, y) toward a sun at (sx, sy): the angle the light comes FROM
+  K.sky.angTo = (x, y, sx, sy) => Math.atan2(sy - y, sx - x);
+})(typeof window !== 'undefined' ? window : globalThis);

@@ -27,8 +27,6 @@
     const P = E.PAL.golden, HZ = 640;
     const sky = K.canvas(K.W, K.H);
     K.sky.gradient(sky.ctx, [[0, '#6b6aa6'], [0.25, '#b58aaa'], [0.45, '#f0a47e'], [0.6, '#ffc98c'], [0.7, '#ffe0a8']], 0, HZ + 80);
-    [[300, 150, 700, 38, '#8f78a6', '#f7b98d', 3, 1], [1150, 110, 560, 30, '#8d77a5', '#f4b28b', 2, 2], [1780, 200, 520, 30, '#9a7ea7', '#f8c092', 3, 3], [820, 330, 380, 18, '#c48ea1', '#ffd8a4', 2, 4]]
-      .forEach(([x, y, w, h, c, l, r, s]) => K.sky.bank(sky.ctx, x, y, w, h, { color: c, lit: l, rows: r, seed: 50 + s, top: K.shade(c, -0.15) }));
     K.tex.paint(sky, { amount: 0.35, mottle: { w: 1200, h: 540, sx: 0.0025, sy: 0.02, seed: 3, amp: 30 } });
     const far = tileLayer((c, t) => {
       K.terrain.ridge(c, { x0: 0, x1: TW, y: HZ - 40, amp: 200, freq: 0.0026, seed: 61, bottom: K.H, color: K.mix(P.far, P.haze, 0.5), rim: P.rim, rimW: 1.5, rimAlpha: 0.5,
@@ -52,12 +50,16 @@
       }
       K.tex.paint(t, { amount: 0.5, mottle: { w: 1000, h: 400, sx: 0.005, sy: 0.05, seed: 82, amp: 45 } });
     });
-    const mid = tileLayer((c, t) => {   // roadside trees + poles, slightly soft (depth of field)
-      const r = K.rng(91);
+    const midTrees = (grp) => tileLayer((c, t) => {   // roadside trees in two groups (they sway out of phase), soft (depth of field)
+      const r = K.rng(91); let k = 0;
       for (let x = 60; x < TW; x += 260 + r() * 300) {
-        const h = 260 + r() * 140, kind = r() < 0.3 ? 'poplar' : 'round';
-        K.terrain.tree(c, x, 830, h, { kind, seed: r() * 1e6 | 0, color: K.mix(P.tree, P.haze, 0.15), shade: K.mix(P.treeDark, P.haze, 0.1), trunk: '#4a3638', light: { dx: 0.7, back: 0.75, rim: P.rim } });
+        const h = 260 + r() * 140, kind = r() < 0.3 ? 'poplar' : 'round', sd = r() * 1e6 | 0;
+        if ((k++ % 2) === grp) K.terrain.tree(c, x, 830, h, { kind, seed: sd, color: K.mix(P.tree, P.haze, 0.15), shade: K.mix(P.treeDark, P.haze, 0.1), trunk: '#4a3638', light: { dx: 0.7, back: 0.75, rim: P.rim } });
       }
+      K.tex.paint(t, { amount: 0.4, mottle: { w: 1000, h: 500, sx: 0.006, sy: 0.04, seed: 92 + grp, amp: 45 } });
+    }, K.H, 2.5);
+    const midA = midTrees(0), midB = midTrees(1);
+    const mid = tileLayer((c, t) => {   // poles + wires
       for (let x = 0; x < TW; x += 600) { const arms = K.terrain.pole(c, x + 200, 840, 470, { color: '#3d2c30', rim: P.rim, dx: 1 }); void arms; }
       c.strokeStyle = K.rgba('#3a2a35', 0.7); c.lineWidth = 2;
       for (const yy of [394, 400]) { c.beginPath(); for (let x = -400; x <= TW + 400; x += 600) { c.moveTo(x + 200 - 68, yy); c.quadraticCurveTo(x + 500, yy + 40, x + 800 - 68, yy); } c.stroke(); }
@@ -66,13 +68,38 @@
     const verge = tileLayer((c, t) => {   // grass bank + guardrail right behind the far lane
       c.fillStyle = K.mix(P.grass, P.field, 0.35); c.fillRect(0, 800, TW, 70);
       const r = K.rng(101);
-      for (let x = 0; x < TW; x += 9) K.terrain.tuft(c, x + r() * 6, 836 + r() * 30, 26 + r() * 30, K.shade(P.grass, -0.25 + r() * 0.15), { seed: r() * 1e6 | 0, n: 4, rim: P.rim });
+      c.lineCap = 'round';
+      for (let k = 0; k < 900; k++) { const x = r() * TW, y = 802 + r() * 64; c.strokeStyle = K.rgba(r() < 0.5 ? P.rim : P.shadow, 0.18); c.lineWidth = 2 + r() * 4; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 10 + r() * 30, y + (r() - 0.5) * 3); c.stroke(); }
+      for (let x = 0; x < TW; x += 6) K.terrain.tuft(c, x + r() * 6, 836 + r() * 30, 22 + r() * 34, K.shade(P.grass, -0.28 + r() * 0.2), { seed: r() * 1e6 | 0, n: 5, rim: P.rim });
+      for (let k = 0; k < 160; k++) { const x = r() * TW, y = 830 + r() * 36; c.fillStyle = ['#fff4e0', '#ffd65a', '#c9a3e8', '#ff9a8a'][(r() * 4) | 0];
+        c.strokeStyle = K.rgba('#4a5a30', 0.8); c.lineWidth = 1.5; c.beginPath(); c.moveTo(x, y + 14); c.lineTo(x + (r() - 0.5) * 4, y); c.stroke(); K.circle(c, x, y, 2.6 + r() * 2.4); c.fill(); }
       // guardrail
       for (let x = 0; x < TW; x += 120) { c.fillStyle = '#5e5260'; c.fillRect(x + 20, 812, 10, 48); c.fillStyle = K.rgba(P.rim, 0.7); c.fillRect(x + 27, 812, 3, 48); }
       c.fillStyle = '#8d8a96'; c.fillRect(0, 812, TW, 16); c.fillStyle = K.rgba('#fff2cf', 0.75); c.fillRect(0, 812, TW, 4); c.fillStyle = '#5f5a6b'; c.fillRect(0, 826, TW, 4);
       K.tex.paint(t, { amount: 0.4 });
     });
-    return { sky, far, hills, fields, mid, verge, HZ };
+    // road texture tile: worn asphalt strokes, patches and tar seams (scrolls with the road at the car's depth)
+    const road = tileLayer((c, t) => {
+      const r = K.rng(111); c.lineCap = 'round';
+      for (let k = 0; k < 40; k++) { const x = r() * TW, y = 880 + r() * 190, w = 60 + r() * 220; c.fillStyle = K.rgba(r() < 0.5 ? '#3e3449' : '#7a6a7c', 0.18); K.blob(c, [[x, y], [x + w * 0.5, y - 8 - r() * 10], [x + w, y], [x + w * 0.6, y + 10 + r() * 8]]); c.fill(); }
+      for (let k = 0; k < 1400; k++) { const x = r() * TW, y = 875 + r() * 200; c.strokeStyle = K.rgba(r() < 0.55 ? '#2f283a' : '#9a8a96', 0.16); c.lineWidth = 1 + r() * 3; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 8 + r() * 40, y + (r() - 0.5) * 2); c.stroke(); }
+      for (let k = 0; k < 8; k++) { let x = r() * TW, y = 900 + r() * 150; c.strokeStyle = K.rgba('#2a2232', 0.4); c.lineWidth = 2; c.beginPath(); c.moveTo(x, y); for (let j = 0; j < 6; j++) { x += 10 + r() * 30; y += (r() - 0.5) * 14; c.lineTo(x, y); } c.stroke(); }
+    }, K.H);
+    // foreground grass clumps in front of the near lane edge (parallax 1.3, out of focus)
+    const fore = tileLayer((c, t) => {
+      const r = K.rng(121);
+      for (let x = 0; x < TW; x += 380 + r() * 520) {
+        const S = K.terrain.reedSprite({ w: 260, h: 150 + r() * 60, color: '#4c4a30', dark: '#2b2426', rim: P.rim, seed: (r() * 1e6) | 0, n: 26, heads: r() < 0.5 });
+        c.drawImage(S.c, x, K.H + 34 - S.h);
+      }
+    }, K.H + 40, 4);
+    // clouds (drawn live so they drift); lit from the sun at (1480, 250)
+    const clouds = [[260, 190, 560, 118, 1, 5], [1000, 120, 520, 104, 2, 4], [1760, 210, 470, 96, 3, 6], [640, 360, 300, 58, 4, 7], [2300, 330, 300, 60, 5, 6]].map(([x, y, w, h, seed, v]) => {
+      const far = K.clamp((y - 200) / 200);
+      return { x, y, w, h, v, o: { seed: 60 + seed, ang: K.sky.angTo(x, y - h * 0.4, 1480, 250), color: K.mix('#a3849f', '#d9a69a', far * 0.6), shade: K.mix('#7a6797', '#b98f9e', far * 0.6),
+        lit: K.mix('#eeb092', '#ffcfa4', far), rim: '#ffe6bc', underLit: '#ffcf98', litOff: 3.4, litScale: 0.72, rimW: 0.045 } };
+    });
+    return { sky, far, hills, fields, mid, midA, midB, verge, road, fore, clouds, HZ };
   }
 
   // reactions from the sim (sim time tau)
@@ -100,16 +127,24 @@
     // sun + glow behind the leader
     const sunX = 1480, sunY = 250;
     K.sky.sun(ctx, sunX, sunY, 48, { core: P.sun, halo: P.halo, glow: 650, glowAlpha: 0.6, rings: 4, ringStep: 0.9, ringAlpha: 0.07 });
+    K.sky.drawClouds(ctx, L.clouds, t, { dx: -pxShift * 0.004 });
+    // birds crossing high up
+    ctx.strokeStyle = K.rgba('#5a3d55', 0.7); ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+    for (let i = 0; i < 4; i++) { const bx = ((200 + i * 140 + t * (30 + i * 4)) % 2300) - 150, by = 300 + i * 26 + Math.sin(t * 0.9 + i) * 10, fl = Math.sin(t * 8 + i * 1.3) * 6, w = 11 - i;
+      ctx.beginPath(); ctx.moveTo(bx - w, by - fl); ctx.quadraticCurveTo(bx - w * 0.4, by - 3, bx, by); ctx.quadraticCurveTo(bx + w * 0.4, by - 3, bx + w, by - fl); ctx.stroke(); }
     drawTiled(ctx, L.far, pxShift * 0.01);
     drawTiled(ctx, L.hills, pxShift * 0.04);
     drawTiled(ctx, L.fields, pxShift * 0.12);
     K.light.rays(ctx, sunX, sunY, { n: 10, spread: 2.0, angle: Math.PI / 2 + 0.35, len: 1300, width: 0.05, alpha: 0.09, color: '#ffe0a0', t, seed: 9 });
+    const swayAt = (ph) => Math.sin(t * 1.1 + ph) * 0.012 + Math.sin(t * 2.6 + ph * 2) * 0.004;
+    for (const [lay, ph] of [[L.midA, 0], [L.midB, 1.9]]) { ctx.save(); ctx.translate(0, 830); ctx.transform(1, 0, swayAt(ph), 1, 0, 0); ctx.translate(0, -830); drawTiled(ctx, lay, pxShift * 0.35, 0, speedPx * 0.35); ctx.restore(); }
     drawTiled(ctx, L.mid, pxShift * 0.35, 0, speedPx * 0.35);
     drawTiled(ctx, L.verge, pxShift * 0.85, 0, speedPx * 0.85);
     // road
     const rg = ctx.createLinearGradient(0, 860, 0, K.H); rg.addColorStop(0, '#6a5a6e'); rg.addColorStop(1, '#4a3f55');
     ctx.fillStyle = rg; ctx.fillRect(-100, 860, K.W + 200, K.H - 860 + 100);
     ctx.fillStyle = K.rgba(P.halo, 0.18); ctx.fillRect(-100, 860, K.W + 200, 30);
+    drawTiled(ctx, L.road, pxShift, 0, speedPx);
     // lane dashes (far edge line + near edge line), motion-stretched
     const dash = (y, h, col, period, len) => {
       const off = -(((pxShift) % period) + period) % period; ctx.fillStyle = col;
@@ -162,17 +197,26 @@
         K.char.mascot(ctx, hx, hy, R, { expr, look, blink, rim: mRim, lightAng: -0.55, rimW: 0.08, shadeAlpha: 0.3,
           sx: 1 + (st.tStop && since(st.tStop) > 0 && since(st.tStop) < 0.4 ? 0.06 * Math.sin(since(st.tStop) * 20) * Math.exp(-since(st.tStop) * 6) : 0) });
         for (const ex of extras) K.char.extra(ctx, hx, hy, R, ex, ex === 'sweat' ? (tau * 0.8) % 1 : tau, { color: ex === 'puff' ? '#fff3df' : undefined });
-        // steering wheel + hands (ink, outside the disc)
+        // steering wheel + hands (ink, outside the disc). Acting: hands leave the wheel for a shrug when it stops
+        // ("really?"), then a small fist shake when it turns grumpy, then back on the wheel.
         ctx.save(); ctx.strokeStyle = K.INK; ctx.lineWidth = R * 0.09;
         ctx.beginPath(); ctx.ellipse(sx + R * 1.32, sy - R * 0.08, R * 0.09, R * 0.34, 0.32, 0, K.TAU); ctx.stroke();
-        ctx.fillStyle = K.INK; const grip = expr === 'worried' || expr === 'focused' ? 1 : 0;
-        K.circle(ctx, sx + R * 1.24 + inertia * 0.5, sy - R * 0.36 - grip * 3, R * 0.13); ctx.fill();
-        K.circle(ctx, sx + R * 1.4 + inertia * 0.5, sy + R * 0.16, R * 0.13); ctx.fill();
+        const sStop = st.tStop ? since(st.tStop) : -1;
+        const gesture = sStop > 0.2 && sStop < 0.95 ? 'shrug' : sStop >= 0.95 && sStop < 2.3 ? 'fist' : null;
+        if (gesture) { const ga = K.clamp(Math.min((sStop - (gesture === 'shrug' ? 0.2 : 0.95)) / 0.15, 1));
+          ctx.globalAlpha = 1; K.char.mascotArms(ctx, hx, hy + (1 - ga) * R * 0.3, R, gesture, tau, { dir: 1 }); }
+        else { ctx.fillStyle = K.INK; const grip = expr === 'worried' || expr === 'focused' ? 1 : 0;
+          K.circle(ctx, sx + R * 1.24 + inertia * 0.5, sy - R * 0.36 - grip * 3, R * 0.13); ctx.fill();
+          K.circle(ctx, sx + R * 1.4 + inertia * 0.5, sy + R * 0.16, R * 0.13); ctx.fill(); }
         ctx.restore();
       } });
     // foreground near lane edge (in front of the cars, soft)
     ctx.fillStyle = K.rgba('#3c3348', 0.9); ctx.fillRect(-100, 1046, K.W + 200, 60);
     dash(1052, 9, K.rgba('#f3e2bd', 0.55), 12 * SC, 4 * SC);
+    { // foreground grass: parallax 1.3, motion-blurred at speed, swaying in the wind when stopped
+      const k = Math.sin(t * 1.4) * 0.05 + Math.sin(t * 3.2) * 0.015;
+      ctx.save(); ctx.translate(0, K.H + 40); ctx.transform(1, 0, -k, 1, 0, 0); ctx.translate(0, -(K.H + 40));
+      drawTiled(ctx, L.fore, pxShift * 1.3 + 300, 0, speedPx * 1.3); ctx.restore(); }
     ctx.restore();
     // light, particles, grade (screen space)
     K.particles.motes(ctx, t, { n: 40, seed: 17, color: '#ffe6b0', alpha: 0.6, size: 2.4, vx: -12 - speedPx * 3, vy: -4 });

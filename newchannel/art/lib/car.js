@@ -227,3 +227,94 @@
       capColor: ['#3d6b8c', '#b8574a', '#4f7a4a', '#d9a640'][Math.floor(r() * 4)] };
   };
 })(typeof window !== 'undefined' ? window : globalThis);
+
+/* ---- v2 oblique top view: a rounded bubble car instead of a stacked extrusion. A soft contact shadow, four wheels
+   peeking out, one smooth side wall (the bean footprint swept from sill to shoulder in one colour), a domed top with a
+   sun-side highlight and rim, a cockpit hollow, a curved windshield, headlights, tail lamps that glow and spill red on
+   the ground when the sim says brake. Same signature and placement as v1 (K.car.top). */
+(function (root) {
+  const K = root.K, DARK = '#2a2230';
+  const bean = (ctx, L, W) => {          // footprint centred at 0, nose at +x: fuller at the front, rounded tail
+    const l = L / 2, w = W / 2;
+    ctx.beginPath();
+    ctx.moveTo(-l + 0.35, -w);
+    ctx.bezierCurveTo(-l * 0.1, -w * 1.06, l * 0.55, -w * 1.04, l - 0.32, -w * 0.86);
+    ctx.quadraticCurveTo(l + 0.04, -w * 0.62, l + 0.02, 0);
+    ctx.quadraticCurveTo(l + 0.04, w * 0.62, l - 0.32, w * 0.86);
+    ctx.bezierCurveTo(l * 0.55, w * 1.04, -l * 0.1, w * 1.06, -l + 0.35, w);
+    ctx.quadraticCurveTo(-l - 0.05, w * 0.9, -l - 0.04, 0);
+    ctx.quadraticCurveTo(-l - 0.05, -w * 0.9, -l + 0.35, -w);
+    ctx.closePath();
+  };
+  K.car.top = function (ctx, view, X, Z, heading, o = {}) {
+    const { sinE, cosE, ox, oy } = view, kk = o.k || 1, sc = view.sc * kk, body = o.color || K.car.COLORS[0], L = 3.3, Wd = 1.65;
+    X /= kk; Z /= kk;
+    const gx = ox + X * sc, gy = oy + Z * sc * sinE;
+    if (o.shadowOnly) {
+      const [dx, dz] = o.shadowOnly;
+      for (let i = 0; i <= 10; i++) { const u = i / 10; ctx.setTransform(sc, 0, 0, sc * sinE, gx + dx * u * sc, gy + dz * u * sc * sinE); ctx.rotate(heading);
+        bean(ctx, L, Wd); ctx.fill(); K.circle(ctx, -0.1, 0, 0.42); ctx.fill(); }
+      ctx.setTransform(1, 0, 0, 1, 0, 0); return;
+    }
+    const at = (h) => { ctx.setTransform(sc, 0, 0, sc * sinE, gx, gy - h * sc * cosE); ctx.rotate(heading); };
+    const lit = o.lit || {}, sunA = (lit.sunAng ?? -2.4) - heading, sdx = Math.cos(sunA), sdy = Math.sin(sunA);
+    const sideC = K.mix(body, o.shade || '#3a2a44', 0.42), topC = body, b = o.brake || 0, tail = o.tail || 0;
+    ctx.save();
+    // contact shadow (soft, under the car)
+    at(0); ctx.fillStyle = K.rgba('#20142a', 0.35); K.ellipse(ctx, 0, 0, L * 0.56, Wd * 0.62); ctx.fill();
+    ctx.fillStyle = K.rgba('#20142a', 0.3); K.ellipse(ctx, 0, 0, L * 0.46, Wd * 0.5); ctx.fill();
+    // wheels
+    at(0.28); ctx.fillStyle = DARK;
+    for (const [wx, wz] of [[-1.05, -0.78], [-1.05, 0.78], [1.0, -0.78], [1.0, 0.78]]) { K.rrect(ctx, wx - 0.33, wz - 0.17, 0.66, 0.34, 0.15); ctx.fill(); }
+    // side wall: the footprint swept from the sill to the shoulder (one colour, no steps)
+    ctx.fillStyle = sideC;
+    for (let i = 0; i <= 8; i++) { at(0.3 + 0.55 * i / 8); bean(ctx, L, Wd); ctx.fill(); }
+    // the darker lower lip of the wall (reads as roundness)
+    at(0.3); ctx.fillStyle = K.rgba(DARK, 0.25); bean(ctx, L, Wd); ctx.fill();
+    // brake / tail lamps on the rear wall
+    at(0.62); const lv = Math.max(b, tail * 0.55);
+    ctx.fillStyle = K.mix('#7a2a2a', '#ff5a40', K.clamp(lv * 1.3));
+    for (const s of [-1, 1]) { K.rrect(ctx, -L / 2 - 0.08, s * 0.5 - 0.17, 0.2, 0.34, 0.1); ctx.fill(); }
+    // top: domed, sun-side highlight, rim
+    at(0.88); bean(ctx, L * 0.98, Wd * 0.96); ctx.fillStyle = topC; ctx.fill();
+    ctx.save(); bean(ctx, L * 0.98, Wd * 0.96); ctx.clip();
+    ctx.fillStyle = K.rgba('#ffffff', 0.16); K.ellipse(ctx, sdx * 0.45 + 0.2, sdy * 0.3, L * 0.36, Wd * 0.3); ctx.fill();
+    ctx.fillStyle = K.rgba(o.shade || '#3a2a44', 0.18); bean(ctx, L * 0.98, Wd * 0.96); ctx.translate(sdx * 0.22, sdy * 0.22); ctx.rect(-5, -5, 10, 10); ctx.fill('evenodd');
+    ctx.restore();
+    if (lit.rim) { ctx.save(); bean(ctx, L * 0.98, Wd * 0.96); ctx.clip(); ctx.strokeStyle = K.rgba(lit.rim, 0.85); ctx.lineWidth = 0.14;
+      ctx.translate(-sdx * 0.07, -sdy * 0.07); bean(ctx, L * 0.98, Wd * 0.96); ctx.stroke(); ctx.restore(); }
+    // bumpers + headlights
+    ctx.fillStyle = K.mix(body, DARK, 0.35);
+    K.rrect(ctx, L / 2 - 0.2, -0.5, 0.16, 1.0, 0.08); ctx.fill(); K.rrect(ctx, -L / 2 + 0.02, -0.55, 0.14, 1.1, 0.07); ctx.fill();
+    ctx.fillStyle = o.head ? '#fff6d8' : '#efe6cf';
+    for (const s of [-1, 1]) { K.ellipse(ctx, L / 2 - 0.36, s * 0.52, 0.13, 0.17); ctx.fill(); }
+    // cockpit hollow, seat, windshield
+    ctx.fillStyle = K.mix(body, DARK, 0.62); K.ellipse(ctx, -0.32, 0, 0.78, 0.58); ctx.fill();
+    ctx.fillStyle = K.mix(body, DARK, 0.4); K.ellipse(ctx, -0.82, 0, 0.22, 0.46); ctx.fill();
+    ctx.strokeStyle = K.rgba('#eef6f6', 0.75); ctx.lineWidth = 0.13; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.arc(-0.2, 0, 0.82, -0.85, 0.85); ctx.stroke();
+    ctx.strokeStyle = K.rgba('#ffffff', 0.5); ctx.lineWidth = 0.05; ctx.beginPath(); ctx.arc(-0.2, 0, 0.84, -0.6, -0.1); ctx.stroke();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // driver head (a sphere projects as a circle)
+    const hx = X + Math.cos(heading) * -0.32, hz = Z + Math.sin(heading) * -0.32;
+    const sx = ox + hx * sc, sy = oy + hz * sc * sinE - 1.3 * sc * cosE, R = 0.42 * sc;
+    const look = o.look || [Math.cos(heading) * 0.9, Math.sin(heading) * sinE * 0.9 - 0.4];
+    if (o.mascot) K.char.mascot(ctx, sx, sy, R * 1.1, { expr: o.expr || 'neutral', look, rim: lit.rim, lightAng: lit.ang ?? -2.4, rimW: 0.12 });
+    else K.char.head(ctx, sx, sy, R, { view: 'front', skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, capColor: o.capColor, expr: o.expr || 'neutral', look,
+      light: lit.rim ? { ang: lit.ang ?? -2.4, rim: lit.rim, shade: lit.shade } : null });
+    if (o.after) o.after(sx, sy, R);
+    // lamp glow + a red spill on the ground behind the car
+    if (lv > 0.03) {
+      for (const side of [-0.5, 0.5]) {
+        const lx = X + Math.cos(heading) * (-L / 2) - Math.sin(heading) * side, lz = Z + Math.sin(heading) * (-L / 2) + Math.cos(heading) * side;
+        K.light.glow(ctx, ox + lx * sc, oy + lz * sc * sinE - 0.62 * sc * cosE, sc * 1.6, '#ff3a28', 0.65 * lv);
+        K.light.glow(ctx, ox + lx * sc, oy + lz * sc * sinE - 0.62 * sc * cosE, sc * 0.45, '#ffb090', 0.7 * lv);
+      }
+      const bx = X + Math.cos(heading) * (-L / 2 - 1.1), bz = Z + Math.sin(heading) * (-L / 2 - 1.1);
+      ctx.save(); ctx.translate(ox + bx * sc, oy + bz * sc * sinE); ctx.scale(1, sinE);
+      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, sc * 1.8); g.addColorStop(0, K.rgba('#ff3a28', 0.35 * lv)); g.addColorStop(1, K.rgba('#ff3a28', 0));
+      ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; K.circle(ctx, 0, 0, sc * 1.8); ctx.fill(); ctx.restore();
+    }
+    ctx.restore();
+  };
+})(typeof window !== 'undefined' ? window : globalThis);

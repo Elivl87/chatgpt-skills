@@ -82,3 +82,34 @@
     ctx.drawImage(b.c, 0, 0, K.W, K.H); ctx.restore();
   };
 })(typeof window !== 'undefined' ? window : globalThis);
+
+/* ---- v2: heat shimmer (rows of a band slid sideways by a travelling sine; strongest at the bottom of the band) and
+   a brand-type speed label ("ACELERADO ×2"). */
+(function (root) {
+  const K = root.K;
+  let sh = null;
+  K.light.shimmer = function (ctx, x, y, w, h, t, o = {}) {
+    x = Math.round(x); y = Math.round(y); w = Math.round(w); h = Math.round(h);
+    if (!sh || sh.w < w || sh.h < h) sh = K.canvas(Math.max(w, 1200), Math.max(h, 120));
+    sh.ctx.globalCompositeOperation = 'copy'; sh.ctx.drawImage(ctx.canvas, x, y, w, h, 0, 0, w, h);
+    const amp = o.amp || 2.2, rows = o.rows || 2;
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+    for (let r = 0; r < h; r += rows) {
+      const k = K.smooth(0, 1, r / h) * (1 - K.smooth(0.85, 1, r / h) * 0.5);
+      const dx = Math.sin(r * 0.55 - t * 7.5) * amp * k + Math.sin(r * 0.21 + t * 3.1) * amp * 0.5 * k;
+      ctx.drawImage(sh.c, 0, r, w, rows, x + dx, y + r, w, rows);
+    }
+    ctx.restore();
+  };
+  // speed label in the brand type: Martian Mono 700 on a translucent ink pill, top-left safe area
+  K.light.speedLabel = function (ctx, text = 'ACELERADO ×2', o = {}) {
+    const x = o.x ?? 96, y = o.y ?? 84, size = o.size || 30;
+    ctx.save(); ctx.font = `700 ${size}px "Martian Mono"`; ctx.textBaseline = 'middle';
+    const w = ctx.measureText(text).width, padX = size * 0.62, hh = size * 1.7;
+    ctx.globalAlpha = o.alpha ?? 1;
+    ctx.fillStyle = K.rgba('#1C2433', 0.62); K.rrect(ctx, x, y - hh / 2, w + padX * 2 + size * 0.9, hh, hh / 2); ctx.fill();
+    ctx.fillStyle = '#F3ECDD'; K.circle(ctx, x + padX + size * 0.22, y, size * 0.2); ctx.fill();   // round dot = brand tittle
+    ctx.fillText(text, x + padX + size * 0.75, y + size * 0.04);
+    ctx.restore();
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
