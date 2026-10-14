@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>EP002 trailer Short</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      :root { --gold: #ffc83d; --ink: #16161f; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .abs { position: absolute; }
+      .shot { overflow: hidden; background: #16161f; }
+      .breath { position: absolute; inset: 0; transform-origin: 50% 50%; }
+      .cam { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+      .cam > img.plate { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+      .cut { position: absolute; }
+      .cut img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+      .shadow { filter: drop-shadow(0 18px 18px rgba(10, 8, 6, .35)); }
+      .dark { background: radial-gradient(ellipse 70% 45% at 50% 45%, #2a2440 0%, #14121f 60%, #09080e 100%); }
+      .star { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #fff; }
+      .sprite { position: absolute; background-repeat: no-repeat; }
+      .glowdisc { position: absolute; border-radius: 50%; }
+      .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill; text-shadow: 7px 9px 0 var(--ink); line-height: 1.02; white-space: nowrap; letter-spacing: .01em; }
+      .mk { position: absolute; background: var(--gold); border: 5px solid var(--ink); border-radius: 16px; box-shadow: 6px 8px 0 var(--ink);
+        color: var(--ink); font: 800 52px "Inter", sans-serif; letter-spacing: .08em; text-transform: uppercase; padding: 12px 26px 10px; white-space: nowrap; }
+      /* the title band (episode title A, approved) */
+      #title { position: absolute; left: 0; top: 330px; width: 1080px; text-align: center; }
+      #title .l1 { display: block; font-size: 112px; color: #fff; }
+      #title .l2 { display: block; font-size: 92px; }
+      /* HUD (scripts/animatic/hud.py drawing, laid out for 9:16) */
+      #hud img { position: absolute; display: block; }
+      /* captions: Shorts standard, word-by-word, inside the safe area (above the bottom 20 %, left of the right 12 %) */
+      .cap { position: absolute; left: 110px; width: 840px; top: 1290px; text-align: center; font: 800 78px/1.14 "Inter", sans-serif;
+        color: #fff; word-spacing: .12em; -webkit-text-stroke: 15px var(--ink); paint-order: stroke fill; text-shadow: 0 8px 0 var(--ink); visibility: hidden; transform-origin: 50% 50%; }
+      .cap.bigc { font-size: 168px; top: 1225px; color: var(--gold); }
+      .cap span { display: inline-block; }
+      /* inserts */
+      .note { position: absolute; width: 90px; height: 120px; }
+      .note svg { width: 100%; height: 100%; overflow: visible; }
+      .bub { position: absolute; background: #fffaf0; border: 6px solid var(--ink); border-radius: 50px; box-shadow: 5px 7px 0 var(--ink); }
+      .corner { position: absolute; width: 0; height: 0; border-left: 34px solid transparent; border-right: 34px solid transparent; border-top: 46px solid var(--gold); filter: drop-shadow(0 4px 0 var(--ink)); }
+      #thought { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      #thought .c { position: absolute; border-radius: 50%; background: #fbfbfb; border: 6px solid #1e1e28; }
+      #cloud { position: absolute; left: 150px; top: 170px; width: 820px; height: 500px; border-radius: 50%; background: #fbfbfb; border: 8px solid #1e1e28; box-shadow: 0 10px 0 rgba(22,22,31,.35); }
+      #tex { position: absolute; left: 150px; top: 82px; width: 520px; height: 300px; border-radius: 26px; overflow: hidden; }
+      #texLab { position: absolute; left: 0; top: 396px; width: 820px; text-align: center; font: 800 38px "Inter", sans-serif; color: #2a2a36; }
+      #dots { position: absolute; left: 0; top: 190px; width: 820px; text-align: center; font: 800 120px/1 "Inter", sans-serif; color: #2a2a36; letter-spacing: .1em; }
+      #wm { position: absolute; left: 90px; top: 562px; width: 900px; height: 240px; transform-origin: 50% 32%; }
+      #wm img { position: absolute; left: 0; top: 0; width: 900px; height: 155px; filter: drop-shadow(0 7px 0 #16161f) drop-shadow(0 0 30px rgba(22,22,31,.5)); }
+      #wmBar { position: absolute; left: 150px; top: 182px; width: 600px; height: 13px; background: var(--gold); border-radius: 7px; box-shadow: 0 5px 0 var(--ink); transform-origin: 50% 50%; }
+      #twinkle { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+      #twinkle .g { position: absolute; left: -130px; top: -130px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(255,244,210,.95) 0%, rgba(255,230,160,.45) 35%, rgba(255,220,150,0) 70%); }
+      #twinkle svg { position: absolute; left: -70px; top: -70px; width: 140px; height: 140px; overflow: visible; }
+      #card .t1 { position: absolute; left: 0; width: 1080px; text-align: center; top: 470px; font-size: 128px; color: #fff; }
+      #card .t2 { position: absolute; left: 0; width: 1080px; text-align: center; top: 610px; font-size: 112px; }
+      #thumbBox { position: absolute; left: 80px; top: 830px; width: 920px; height: 518px; border: 10px solid var(--ink); border-radius: 30px; overflow: hidden; box-shadow: 10px 14px 0 var(--ink); background: #000; }
+      #thumbBox img { width: 100%; height: 100%; display: block; }
+      #play { position: absolute; left: 470px; top: 1020px; width: 140px; height: 140px; border-radius: 50%; background: rgba(229, 72, 77, .95); border: 8px solid var(--ink); }
+      #play::after { content: ""; position: absolute; left: 50px; top: 33px; border-left: 50px solid #fff; border-top: 29px solid transparent; border-bottom: 29px solid transparent; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-fps="30" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="{{DUR}}" data-track-index="30" data-volume="1"></audio>
+
+      <div id="shake" class="full">
+      <!-- ============ A · HOOK: the field, Quest from behind (l07-l08) ============ -->
+      <div id="shA" class="full shot clip" data-start="0" data-duration="{{S1+0.02}}" data-track-index="1">
+        <div class="breath" id="brA"><div class="cam" id="camA" style="width: 2688px; height: 1512px">
+          <img class="plate" src="assets/field.jpg" alt="" />
+          <div class="cut shadow" id="qA"><img src="assets/quest_adult_back.png" alt="" /></div>
+        </div></div>
+      </div>
+
+      <!-- ============ B · ROOM: New graphics. An orchestra. Voices. (l03) ============ -->
+      <div id="shB" class="full shot clip" data-start="{{S1}}" data-duration="{{l03.w6-S1}}" data-track-index="2">
+        <div class="breath" id="brB"><div class="cam" id="camB" style="width: 2688px; height: 1512px">
+          <img class="plate" src="assets/room.jpg" alt="" />
+          <div class="cut shadow" id="qB"><img src="assets/arms_up.png" alt="" /></div>
+        </div></div>
+        <div id="glint" class="abs" style="left: -400px; top: 0; width: 260px; height: 1920px; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.55), rgba(255,255,255,0)); transform: skewX(-18deg); mix-blend-mode: screen; opacity: 0"></div>
+        <div id="notes"></div>
+        <div id="voices"></div>
+      </div>
+
+      <!-- ============ B4-B5 · Modern controls. A new camera. (Switch 2, own 3D) ============ -->
+      <div id="shSw" class="full shot clip" data-start="{{l03.w6-0.08}}" data-duration="{{l04-l03.w6+0.0}}" data-track-index="3">
+        <img class="abs" src="assets/room.jpg" alt="" style="left: -1300px; top: 0; width: 3413px; height: 1920px; filter: blur(22px) brightness(.45) saturate(1.2)" />
+        <div id="swGlow" class="glowdisc" style="left: 40px; top: 400px; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(120,200,255,.55) 0%, rgba(120,200,255,0) 65%)"></div>
+        <div id="swWrap" class="abs" style="left: 60px; top: 650px; width: 960px; height: 516px" data-hf-motion-blur='{"samplesPerFrame": 8}'>
+          <img src="assets/switch2_game.png" alt="" style="width: 100%; height: 100%" />
+        </div>
+      </div>
+
+      <!-- ============ C · RELICS: the same ocarina / sword / Triforce (l04-l06) ============ -->
+      <div id="shC" class="full shot clip dark" data-start="{{l04-0.12}}" data-duration="{{S2-l04+0.14}}" data-track-index="4">
+        <div id="starsC" class="full"></div>
+        <div id="relicGlow" class="glowdisc" style="left: 90px; top: 410px; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255,214,120,.42) 0%, rgba(255,200,100,0) 65%); opacity: 0"></div>
+        <div id="oca" class="sprite" style="left: 160px; top: 530px; width: 760px; height: 659px; background-image: url(assets/oca_sprite.png); background-size: 18240px 659px"></div>
+        <div id="sword" class="sprite" style="left: 409px; top: 360px; width: 261px; height: 1000px; background-image: url(assets/sword_sprite.png); background-size: 6264px 1000px"></div>
+        <div id="tri" class="abs" style="left: 130px; top: 500px; width: 820px; height: 714px"><img src="assets/triforce.png" alt="" style="width: 100%; height: 100%; filter: drop-shadow(0 0 30px rgba(255, 210, 100, .8))" /></div>
+        <div id="lock" class="abs" style="left: 540px; top: 860px; width: 0; height: 0">
+          <div class="corner" style="left: -420px; top: -440px; transform: rotate(135deg)"></div>
+          <div class="corner" style="left: 352px; top: -440px; transform: rotate(-135deg)"></div>
+          <div class="corner" style="left: 352px; top: 400px; transform: rotate(-45deg)"></div>
+          <div class="corner" style="left: -420px; top: 400px; transform: rotate(45deg)"></div>
+        </div>
+      </div>
+
+      <!-- ============ D · THE CARTRIDGE (l11) ============ -->
+      <div id="shD" class="full shot clip dark" data-start="{{S2}}" data-duration="{{l12-S2}}" data-track-index="5">
+        <div id="starsD" class="full"></div>
+        <div id="cartWarm" class="glowdisc" style="left: 40px; top: 360px; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(255,190,90,.6) 0%, rgba(255,150,60,0) 65%)"></div>
+        <div id="cartCool" class="glowdisc" style="left: 40px; top: 360px; width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(110,170,255,.55) 0%, rgba(90,140,255,0) 65%); opacity: 0"></div>
+        <div id="cartWrap" class="abs" style="left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 870px">
+          <div id="cart" class="sprite" style="left: 110px; top: 605px; width: 860px; height: 530px; background-image: url(assets/cart_sprite.png); background-size: 20640px 530px"></div>
+        </div>
+      </div>
+
+      <!-- ============ E · It is the game... (CRT, own 3D) (l12) ============ -->
+      <div id="shE" class="full shot clip dark" data-start="{{l12-0.08}}" data-duration="{{l13-l12+0.4}}" data-track-index="6">
+        <div id="crtWrap" class="abs" style="left: 40px; top: 445px; width: 1000px; height: 831px; transform-origin: 50% 46%">
+          <img src="assets/crt_game.png" alt="" style="width: 100%; height: 100%" />
+        </div>
+      </div>
+
+      <!-- ============ F · plus the room. Plus the television. Plus the friend... (l13-l15) ============ -->
+      <div id="shF" class="full shot clip" data-start="{{l13-0.05}}" data-duration="{{S3-l13+0.07}}" data-track-index="7">
+        <div class="breath" id="brF"><div class="cam" id="camF" style="width: 2688px; height: 1512px">
+          <img class="plate" src="assets/bedroom.jpg" alt="" />
+          <div id="tvGlow" class="glowdisc" style="left: 1888px; top: 470px; width: 800px; height: 600px; background: radial-gradient(ellipse, rgba(150,200,255,.55) 0%, rgba(150,200,255,0) 65%); mix-blend-mode: screen; opacity: 0"></div>
+          <div class="cut" id="pixF"><img src="assets/pixie_point.png" alt="" /></div>
+          <div class="cut" id="kidF"><img src="assets/kid_play.png" alt="" /></div>
+        </div></div>
+      </div>
+
+      <!-- ============ G-H · Hyrule Field: enormous / actual size / you were smaller (l17-l19) ============ -->
+      <div id="shG" class="full shot clip dark" data-start="{{S3}}" data-duration="{{S4-S3+0.02}}" data-track-index="8">
+        <div id="starsG" class="full"></div>
+        <div id="gWrap" class="full" style="overflow: hidden; transform-origin: 50% 46%; border-radius: 0">
+          <div class="breath" id="brG"><div class="cam" id="camG" style="width: 2688px; height: 1512px">
+            <img class="plate" src="assets/field.jpg" alt="" />
+            <div class="cut" id="outline"><img src="assets/quest_adult_back.png" alt="" style="filter: brightness(0) invert(1) drop-shadow(0 0 18px rgba(255,255,255,.9))" /></div>
+            <div class="cut shadow" id="youngBack"><img src="assets/young_back.png" alt="" /></div>
+            <div class="cut shadow" id="youngLook"><img src="assets/young_lookup.png" alt="" style="transform: scaleX(-1)" /></div>
+          </div></div>
+        </div>
+        <div id="gFrame" class="abs" style="left: 0; top: 0; width: 1080px; height: 1920px; border: 22px solid var(--ink); border-radius: 50px; transform-origin: 50% 46%; opacity: 0"></div>
+        <div class="mk" id="mkSize" style="left: 290px; top: 290px">Actual size</div>
+      </div>
+
+      <!-- ============ I · Nobody wakes up thinking: Man... (l22-l23) ============ -->
+      <div id="shI" class="full shot clip" data-start="{{S4}}" data-duration="{{S5-S4+0.02}}" data-track-index="9">
+        <div id="iPush" class="full" style="transform-origin: 560px 420px">
+          <div class="breath" id="brI"><div class="cam" id="camI" style="width: 2688px; height: 1512px">
+            <img class="plate" src="assets/bedroom_soft.jpg" alt="" />
+          </div></div>
+          <div id="bedWrap" class="abs" style="left: 20px; top: 700px; width: 1040px; height: 701px; transform-origin: 50% 100%">
+            <img src="assets/bed_awake.png" alt="" style="width: 100%; height: 100%" />
+          </div>
+          <div id="thought">
+            <div class="c" id="tc1" style="left: 506px; top: 766px; width: 34px; height: 34px"></div>
+            <div class="c" id="tc2" style="left: 556px; top: 700px; width: 50px; height: 50px"></div>
+            <div class="c" id="tc3" style="left: 618px; top: 630px; width: 68px; height: 68px"></div>
+            <div id="cloud">
+              <div id="dots">...</div>
+              <div id="tex"><img src="assets/n64tex.png" alt="" style="width: 100%; height: 100%" /></div>
+              <div id="texLab">N64 texture filtering</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ J · But the person holding the controller is different. (l125) ============ -->
+      <div id="shJ" class="full shot clip" data-start="{{S5}}" data-duration="{{S6-S5+0.02}}" data-track-index="10">
+        <div class="breath" id="brJ"><div class="cam" id="camJ" style="width: 2688px; height: 1512px">
+          <img class="plate" src="assets/bedroom.jpg" alt="" />
+          <div class="cut" id="kidJ"><img src="assets/kid_play.png" alt="" /></div>
+        </div></div>
+        <div id="shJ2" class="full" style="opacity: 0">
+          <div class="breath" id="brJ2"><div class="cam" id="camJ2" style="width: 2688px; height: 1512px">
+            <img class="plate" src="assets/room.jpg" alt="" />
+            <div class="cut shadow" id="older"><img src="assets/older_pad.png" alt="" /></div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- ============ K · the road: And somehow... go back. So, why? (l09-l10) ============ -->
+      <div id="shK" class="full shot clip" data-start="{{S6}}" data-duration="{{DUR-S6}}" data-track-index="11">
+        <div class="breath" id="brK"><div class="cam" id="camK" style="width: 2688px; height: 1512px">
+          <img class="plate" src="assets/field.jpg" alt="" />
+          <div class="cut shadow" id="walker"><img id="walkA" src="assets/walk_a.png" alt="" /><img id="walkB" src="assets/walk_b.png" alt="" style="opacity: 0" /></div>
+        </div></div>
+        <div id="dimK" class="full" style="background: #08060a; opacity: 0"></div>
+      </div>
+      </div>
+
+      <!-- ============ HUD (game world only: A, G-H, K) ============ -->
+      <div id="hud" class="full clip" data-start="0" data-duration="{{l10.w1+0.2}}" data-track-index="15" style="opacity: 0">
+        <img src="assets/hud_hearts.png" alt="" style="left: 52px; top: 150px; width: 300px" />
+        <img src="assets/hud_rupee.png" alt="" style="left: 60px; top: 238px; width: 128px" />
+        <img src="assets/hud_buttons.png" alt="" style="left: 620px; top: 140px; width: 410px" />
+      </div>
+
+      <!-- ============ title band (episode title A) ============ -->
+      <div id="titleClip" class="full clip" data-start="0" data-duration="{{l08.w1+0.6}}" data-track-index="16">
+        <div id="title" data-hf-motion-blur='{"samplesPerFrame": 8}'><span class="big l1">THE ONE THING</span><span class="big l2">NINTENDO CAN'T REBUILD</span></div>
+      </div>
+
+      <!-- ============ wordmark (So, why?) + end card ============ -->
+      <div id="card" class="full clip" data-start="{{VEND-0.45}}" data-duration="{{DUR-VEND+0.45}}" data-track-index="17" style="opacity: 0">
+        <img class="abs" src="assets/field.jpg" alt="" style="left: -1200px; top: 0; width: 3413px; height: 1920px; filter: blur(26px) brightness(.38) saturate(1.1)" />
+        <div class="big t1" id="cT1">FULL EPISODE</div>
+        <div class="big t2" id="cT2">ON THE CHANNEL</div>
+        <div id="thumbBox"><img src="assets/thumb.jpg" alt="" /></div>
+      </div>
+      <div id="wmClip" class="full clip" data-start="{{l10.w1-0.08}}" data-duration="{{DUR-l10.w1+0.08}}" data-track-index="18">
+        <div id="wm" data-hf-motion-blur='{"samplesPerFrame": 8}'><img src="assets/wordmark.png" alt="" /><div id="wmBar"></div></div>
+        <div id="twinkle"><div class="g"></div><svg viewBox="-70 -70 140 140"><polygon points="0,-70 12,-12 70,0 12,12 0,70 -12,12 -70,0 -12,-12" fill="#fffaf0"/></svg></div>
+      </div>
+
+      <!-- ============ Navi (our EP002 fairy: tools/fx/fairy.py twin) ============ -->
+      <canvas id="navi" class="full clip" width="1080" height="1920" data-start="0" data-duration="{{DUR}}" data-track-index="19"></canvas>
+
+      <!-- ============ captions ============ -->
+      <div id="caps" class="full clip" data-start="0" data-duration="{{VEND}}" data-track-index="20"></div>
+
+      <div id="flash" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
+    </div>
+
+    <script>
+      const SW = 1080, SH = 1920;
+      const ART = /*ART*/;
+      const CAPS = /*CAPTIONS*/;
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+      function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const R = rng(2002);
+      const ease = (k) => { k = Math.min(1, Math.max(0, k)); return k * k * (3 - 2 * k); };
+
+      // place a cut-out in plate px: centre x, feet y, height h (its width follows the art)
+      function put(sel, file, cx, feet, h) { const [w0, h0] = ART.sizes[file]; const w = h * w0 / h0; const e = $(sel);
+        e.style.left = (cx - w / 2) + "px"; e.style.top = (feet - h) + "px"; e.style.width = w + "px"; e.style.height = h + "px"; return { x: cx - w / 2, y: feet - h, w, h }; }
+      // starfields (seeded)
+      ["#starsC", "#starsD", "#starsG"].forEach((s, j) => { const host = $(s); for (let i = 0; i < 70; i++) { const r = 1.5 + R() * 3;
+        mk("div", "star", host, `left:${R() * 1080}px; top:${R() * 1920}px; width:${r}px; height:${r}px; opacity:${.25 + R() * .6}`); } });
+
+      // layout (plate px; the plates are 2688 x 1512)
+      put("#qA", "quest_adult_back.png", 1390, 1580, 820);
+      put("#qB", "arms_up.png", 1667, 1436, 907);
+      const K = ART.kid;
+      for (const s of ["#kidF", "#kidJ"]) { const e = $(s); e.style.left = K.x + "px"; e.style.top = K.y + "px"; e.style.width = K.w + "px"; e.style.height = K.h + "px"; }
+      const PIX = put("#pixF", "pixie_point.png", 1085, 1345, 720);
+      $("#pixF").style.transformOrigin = "50% 100%";
+      put("#youngLook", "young_lookup.png", 1250, 1600, 960);
+      put("#youngBack", "young_back.png", 1300, 1420, 380);
+      put("#outline", "quest_adult_back.png", 1450, 1425, 640);
+      const OLD = put("#older", "older_pad.png", 1660, 1470, 900);
+
+      /* ------------------------------------------------------------------ timeline */
+      const tl = gsap.timeline({ paused: true });
+      <!--INCLUDE fromto_fix.js-->
+      const DUR = {{DUR}};
+
+      // camera: z = zoom over "plate fills the frame height", (fx, fy) = plate px at the frame centre; edges never show
+      function view(W0, H0, c) { const s = Math.max(SW / W0, SH / H0) * c.z; let x = SW / 2 - c.fx * s, y = SH / 2 - c.fy * s;
+        x = Math.min(0, Math.max(SW - W0 * s, x)); y = Math.min(0, Math.max(SH - H0 * s, y)); return { x, y, scale: s }; }
+      function cam(sel, at, dur, c, ez) { const v = view(2688, 1512, c);
+        if (dur <= 0) tl.set(sel, v, at); else tl.to(sel, Object.assign(v, { duration: dur, ease: ez || "sine.inOut" }), at); }
+      // the camera breathes: 2-3 % push + <= 1.5 % drift, each shot on its own phase (Producer, 2026-10-12)
+      function breathe(sel, a, b, ph) { const d = b - a;
+        tl.fromTo(sel, { scale: 1.02 + .006 * ph, x: -7 + 5 * ph, y: 3 - 4 * ph }, { scale: 1.035 - .004 * ph, x: 7 - 5 * ph, y: -3 + 4 * ph, duration: d, ease: "sine.inOut" }, a); }
+      const flash = (at, a, d) => tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
+      const shake = (at, amp) => tl.to("#shake", { keyframes: [[0, amp], [amp * .6, -amp * .5], [-amp * .4, amp * .3], [0, 0]].map(([x, y]) => ({ x, y, duration: .045 })) }, at);
+
+      /* ---------------- A · hook: frame 1 is already the punch */
+      cam("#camA", 0, 0, { z: 1.38, fx: 1420, fy: 930 });
+      cam("#camA", 0, .55, { z: 1.04, fx: 1500, fy: 760 }, "power3.out");
+      breathe("#brA", 0, {{S1}}, .2);
+      flash(0, .85, .3); shake(0.02, 14);
+      tl.fromTo("#title", { scale: 1.9, opacity: 0, y: -30 }, { scale: 1, opacity: 1, y: 0, duration: .32, ease: "back.out(1.6)", transformOrigin: "50% 50%" }, 0);
+      tl.fromTo("#title .l2", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .1 }, { scale: 1, duration: .2 }], transformOrigin: "50% 50%" }, {{l07.w8}});
+      // "Nintendo cannot rebuild...": a clearly different shot, the castle; "from the ground up": tilt down to the ground
+      cam("#camA", {{l07.w6-0.06}}, 0, { z: 1.9, fx: 1880, fy: 590 });
+      cam("#camA", {{l07.w6-0.06}}, {{l07.w9-l07.w6}}, { z: 2.02, fx: 1860, fy: 600 }, "none");
+      cam("#camA", {{l07.w9-0.05}}, {{l08.w1-l07.w9-0.05}}, { z: 1.7, fx: 1860, fy: 1250 }, "power2.inOut");
+      // "You.": smash to him, close
+      cam("#camA", {{l08.w1-0.05}}, 0, { z: 2.35, fx: 1390, fy: 960 });
+      cam("#camA", {{l08.w1-0.05}}, .35, { z: 2.1, fx: 1390, fy: 950 }, "power3.out");
+      shake({{l08.w1-0.03}}, 16); flash({{l08.w1-0.05}}, .35, .18);
+      tl.to("#title", { y: -520, opacity: 0, duration: .35, ease: "power2.in" }, {{l08.w1+0.2}});
+
+      /* ---------------- B · the living room (l03) */
+      cam("#camB", {{S1}}, 0, { z: 1.48, fx: 2400, fy: 380 });
+      cam("#camB", {{S1}}, {{l03.w3-S1-0.2}}, { z: 1.6, fx: 2410, fy: 400 }, "none");
+      tl.fromTo("#glint", { x: 0, opacity: 0 }, { x: 1600, opacity: 1, duration: .7, ease: "power2.inOut" }, {{l03.w2}});
+      cam("#camB", {{l03.w3-0.22}}, .38, { z: 1.15, fx: 1667, fy: 950 }, "power3.inOut");             // whip to him
+      cam("#camB", {{l03.w5-0.1}}, .9, { z: 1.36, fx: 1700, fy: 860 }, "power2.out");                  // "Voices.": push in
+      breathe("#brB", {{S1}}, {{l03.w6}}, .7);
+      tl.fromTo("#qB", { y: 0 }, { keyframes: [{ y: -26, duration: .16, ease: "power2.out" }, { y: 0, duration: .22, ease: "bounce.out" }] }, {{l03.w4}});
+      // notes leave the TV (off frame right) on "An orchestra."
+      const NOTE = '<svg viewBox="0 0 90 120"><path d="M60 8 L60 82 C60 100 40 112 24 106 C8 100 10 82 28 78 C38 76 46 78 50 82 L50 20 L84 12 L84 34 L60 40" fill="#ffd34d" stroke="#16161f" stroke-width="6" stroke-linejoin="round"/></svg>';
+      for (let i = 0; i < 7; i++) { const n = mk("div", "note", $("#notes"), `left:${1000 + R() * 80}px; top:${420 + R() * 300}px; opacity:0`); n.innerHTML = NOTE;
+        const t0 = {{l03.w4-0.15}} + i * .14; tl.fromTo(n, { x: 0, y: 0, opacity: 0, rotation: -20, scale: .6 }, { x: -380 - R() * 520, y: -260 - R() * 260, opacity: 1, rotation: 15, scale: 1.1, duration: 1.3, ease: "power1.out" }, t0);
+        tl.to(n, { opacity: 0, duration: .3 }, t0 + 1.25); }
+      // "Voices.": speech bubbles pop from the TV side
+      [[640, 380, 210, 120], [780, 560, 170, 100], [610, 700, 150, 90]].forEach(([x, y, w, h], i) => { const b = mk("div", "bub", $("#voices"), `left:${x}px; top:${y}px; width:${w}px; height:${h}px; opacity:0`);
+        b.innerHTML = `<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font:800 ${h * .7}px/1 Inter, sans-serif; color:#16161f; letter-spacing:.06em; padding-bottom:${h * .25}px">...</div>`;
+        const t0 = {{l03.w5-0.08}} + i * .12; tl.fromTo(b, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .28, ease: "back.out(2.4)", transformOrigin: "0% 100%" }, t0); tl.to(b, { opacity: 0, scale: .8, duration: .2 }, {{l03.w6-0.2}}); });
+
+      /* ---------------- B4-B5 · "Modern controls." the Switch 2; "A new camera." into its screen */
+      tl.fromTo("#swWrap", { y: 900, rotation: -14, scale: .7 }, { y: 0, rotation: -3, scale: 1, duration: .42, ease: "back.out(1.5)", transformOrigin: "50% 50%" }, {{l03.w6-0.08}});
+      tl.fromTo("#swGlow", { opacity: .3, scale: .8 }, { opacity: 1, scale: 1.1, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 2 }, {{l03.w7}});
+      tl.to("#swWrap", { rotation: 0, scale: 1.08, duration: .9, ease: "sine.inOut" }, {{l03.w7+0.2}});
+      tl.to("#swWrap", { scale: 6.2, y: 30, duration: .75, ease: "power3.in" }, {{l03.w8-0.05}});                    // "A new camera." dive into the screen
+      flash({{l04-0.13}}, 1, .32);
+
+      /* ---------------- C · relics */
+      function spin(sel, fw, n, t0, t1, fps, stopAt) { const o = { f: 0 }; const e = $(sel);
+        tl.fromTo(o, { f: 0 }, { f: (t1 - t0) * fps, duration: t1 - t0, ease: "none", onUpdate: () => { e.style.backgroundPosition = `${-(Math.floor(o.f) % n) * fw}px 0px`; } }, t0); }
+      const SPR = {};
+      [["#oca", ART.oca], ["#sword", ART.sword], ["#cart", ART.cart]].forEach(([sel, [fw, fh, n]]) => { const e = $(sel), h = parseFloat(e.style.height), w = fw * h / fh;
+        e.style.width = w + "px"; e.style.backgroundSize = `${w * n}px ${h}px`; SPR[sel] = w; });
+      spin("#oca", SPR["#oca"], 24, {{l04-0.12}}, {{l05}}, 20);
+      spin("#sword", SPR["#sword"], 24, {{l05-0.12}}, {{l06}}, 22);
+      tl.set(["#sword", "#tri"], { opacity: 0 }, 0);
+      tl.fromTo("#oca", { scale: .25, rotation: -30, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: .38, ease: "back.out(1.8)", transformOrigin: "50% 50%" }, {{l04-0.12}});
+      tl.fromTo("#oca", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .08 }, { scale: 1, duration: .25, ease: "back.out(3)" }] }, {{l04.w3-0.04}});
+      tl.to("#oca", { x: -1100, rotation: -40, duration: .26, ease: "power2.in" }, {{l05-0.2}});
+      tl.fromTo("#sword", { y: -1500, opacity: 1 }, { y: 0, opacity: 1, duration: .3, ease: "power3.in" }, {{l05-0.2}});
+      tl.fromTo("#sword", { scaleY: 1 }, { keyframes: [{ scaleY: .9, duration: .06 }, { scaleY: 1, duration: .25, ease: "back.out(3)" }], transformOrigin: "50% 100%" }, {{l05+0.1}});
+      shake({{l05+0.1}}, 9);
+      tl.to("#sword", { x: 1100, rotation: 30, duration: .26, ease: "power2.in" }, {{l06-0.2}});
+      tl.fromTo("#tri", { scale: 0, rotation: -200, opacity: 1 }, { scale: 1, rotation: 0, opacity: 1, duration: .55, ease: "back.out(1.4)", transformOrigin: "50% 58%" }, {{l06-0.12}});
+      tl.fromTo("#relicGlow", { opacity: 0, scale: .6 }, { opacity: 1, scale: 1.25, duration: .6, ease: "power2.out" }, {{l06.w3-0.05}});
+      tl.fromTo("#tri", { y: 0 }, { y: -14, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 1 }, {{l06.w3+0.3}});
+      flash({{l06.w3-0.04}}, .45, .3);
+      [{{l04-0.1}}, {{l05+0.05}}, {{l06.w3-0.05}}].forEach((t) => tl.fromTo("#lock", { scale: 1.45, opacity: 0 }, { scale: 1, opacity: 1, duration: .28, ease: "power3.out" }, t));
+
+      /* ---------------- D · the cartridge */
+      spin("#cart", SPR["#cart"], 24, {{S2}}, {{l11.w9}}, 9);
+      tl.set("#cart", { backgroundPosition: "0px 0px" }, {{l11.w9}});
+      tl.fromTo("#cartWrap", { scale: .8, y: 40 }, { scale: 1.05, y: 0, duration: {{l11.w9-S2}}, ease: "sine.out" }, {{S2}});
+      tl.to("#cartWarm", { opacity: 0, duration: .5 }, {{l11.w9}});                                    // "not exactly": the warm glow cools
+      tl.to("#cartCool", { opacity: 1, duration: .5 }, {{l11.w9}});
+      tl.to("#cartWrap", { scale: .95, filter: "saturate(.6) brightness(.9)", duration: .5 }, {{l11.w9}});
+      tl.to("#cartWrap", { scale: 5.5, filter: "saturate(1) brightness(1.4)", duration: {{l12-l11.w14}}, ease: "power3.in" }, {{l11.w14-0.05}});   // dive into the label
+
+      /* ---------------- E · the CRT: start inside its screen and pull back so the bezel shows */
+      tl.fromTo("#crtWrap", { scale: 2.6 }, { scale: 1, duration: .7, ease: "power3.out" }, {{l12-0.08}});
+      tl.to("#crtWrap", { scale: 1.08, duration: .6, ease: "sine.inOut" }, {{l12+0.62}});
+      tl.to("#crtWrap", { scale: 3.4, opacity: 0, duration: .45, ease: "power2.in" }, {{l13-0.05}});
+
+      /* ---------------- F · the bedroom, one continuous camera */
+      cam("#camF", {{l13-0.05}}, 0, { z: 3.4, fx: 2288, fy: 770 });
+      cam("#camF", {{l13-0.05}}, 1.6, { z: 1.05, fx: 2200, fy: 820 }, "power3.inOut");                // "plus the room."
+      cam("#camF", {{l14-0.05}}, 1.1, { z: 1.55, fx: 2300, fy: 790 }, "power2.inOut");                 // "Plus the television."
+      tl.fromTo("#tvGlow", { opacity: 0 }, { keyframes: [{ opacity: .9, duration: .25 }, { opacity: .45, duration: .3 }, { opacity: .8, duration: .3 }, { opacity: .3, duration: .4 }] }, {{l14.w3-0.1}});
+      cam("#camF", {{l15-0.12}}, .55, { z: 1.0, fx: 890, fy: 1000 }, "power3.inOut");                // "Plus the friend...": the kids
+      breathe("#brF", {{l13}}, {{S3}}, .45);
+      tl.set("#pixF", { opacity: 0 }, 0);
+      tl.fromTo("#pixF", { x: -1100, opacity: 1, rotation: -5 }, { x: 0, opacity: 1, rotation: -5, duration: .55, ease: "power2.out" }, {{l15-0.05}});
+      tl.fromTo("#pixF", { y: 0 }, { keyframes: [{ y: -40, duration: .14 }, { y: 0, duration: .14 }, { y: -30, duration: .13 }, { y: 0, duration: .14 }], ease: "sine.inOut" }, {{l15-0.05}});
+      tl.fromTo("#pixF", { rotation: -5 }, { rotation: -9, duration: .25, ease: "back.out(3)", yoyo: true, repeat: 1, immediateRender: false }, {{l15.w6-0.05}});   // "knew where to go": points harder
+      tl.fromTo("#kidF", { rotation: 0 }, { rotation: 2, duration: .4, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 100%", immediateRender: false }, {{l15.w3}});
+
+      /* ---------------- G · "felt enormous" / "Not because it actually was." / H · "Because you were smaller." */
+      tl.set(["#youngBack", "#outline"], { opacity: 0 }, 0);
+      tl.set("#mkSize", { opacity: 0 }, 0);
+      cam("#camG", {{S3}}, 0, { z: 1.78, fx: 1265, fy: 860 });
+      cam("#camG", {{S3}}, {{l17.w8-S3-0.1}}, { z: 1.9, fx: 1260, fy: 830 }, "none");
+      cam("#camG", {{l17.w8-0.1}}, 1.1, { z: 1.0, fx: 1500, fy: 756 }, "power2.inOut");                // pulls out: the field gets huge
+      tl.to("#youngLook", { scale: .42, y: -150, x: 60, duration: 1.1, ease: "power2.inOut", transformOrigin: "50% 100%" }, {{l17.w8-0.1}});
+      breathe("#brG", {{S3}}, {{S4}}, .1);
+      tl.to("#gWrap", { scale: .42, y: -40, borderRadius: 60, duration: .5, ease: "back.inOut(1.2)" }, {{l18-0.1}});       // the field: a small tile
+      tl.fromTo("#gFrame", { scale: 1, opacity: 0 }, { scale: .42, y: -40, opacity: 1, duration: .5, ease: "back.inOut(1.2)" }, {{l18-0.1}});
+      tl.fromTo("#mkSize", { scale: 0, opacity: 1, rotation: -8 }, { scale: 1, opacity: 1, rotation: -3, duration: .3, ease: "back.out(2.5)" }, {{l18.w4-0.05}});
+      tl.to(["#mkSize"], { opacity: 0, duration: .15 }, {{l19-0.15}});
+      tl.set("#youngLook", { opacity: 0 }, {{l19-0.15}});
+      tl.set(["#youngBack", "#outline"], { opacity: 1 }, {{l19-0.15}});
+      tl.set("#outline", { opacity: 0 }, {{l19-0.15}});
+      cam("#camG", {{l19-0.15}}, 0, { z: 1.32, fx: 1390, fy: 1150 });
+      cam("#camG", {{l19-0.15}}, {{S4-l19}}, { z: 1.4, fx: 1390, fy: 1140 }, "none");
+      tl.to("#gWrap", { scale: 1, y: 0, borderRadius: 0, duration: .45, ease: "power3.out" }, {{l19-0.15}});
+      tl.to("#gFrame", { scale: 1, y: 0, opacity: 0, duration: .45, ease: "power3.out" }, {{l19-0.15}});
+      tl.fromTo("#youngBack", { y: 0 }, { y: -10, duration: .27, ease: "sine.inOut", yoyo: true, repeat: 6 }, {{l19-0.15}});
+      tl.fromTo("#outline", { opacity: 0, scale: .9 }, { opacity: .55, scale: 1, duration: .5, ease: "power2.out", transformOrigin: "50% 100%" }, {{l19.w2-0.05}});   // his adult outline beside him
+
+      /* ---------------- I · Nobody wakes up thinking: Man... */
+      cam("#camI", {{S4}}, 0, { z: 1.0, fx: 1200, fy: 756 });
+      cam("#camI", {{S4}}, {{S5-S4}}, { z: 1.06, fx: 1300, fy: 756 }, "none");
+      tl.fromTo("#bedWrap", { y: 40, scale: 1.04 }, { y: 0, scale: 1, duration: .4, ease: "power2.out" }, {{S4}});
+      tl.fromTo("#bedWrap", { rotation: 0 }, { keyframes: [{ rotation: -2.5, y: -24, duration: .1 }, { rotation: 2, y: 0, duration: .12 }, { rotation: -1, duration: .1 }, { rotation: 0, duration: .15 }], transformOrigin: "50% 100%", immediateRender: false }, {{l22.w2-0.04}});
+      tl.set(["#tc1", "#tc2", "#tc3", "#cloud", "#tex", "#texLab"], { opacity: 0 }, 0);
+      ["#tc1", "#tc2", "#tc3"].forEach((s, i) => tl.fromTo(s, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .18, ease: "back.out(3)" }, {{l23.w1-0.15}} + i * .08));
+      tl.fromTo("#cloud", { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .32, ease: "back.out(1.8)", transformOrigin: "40% 90%" }, {{l23.w1+0.05}});
+      tl.fromTo("#dots", { opacity: 1 }, { opacity: .35, duration: .35, ease: "steps(3)", yoyo: true, repeat: 3 }, {{l23.w1+0.3}});
+      tl.set("#dots", { opacity: 0 }, {{l23.w5-0.08}});
+      tl.fromTo("#tex", { scale: .3, opacity: 0 }, { scale: 1, opacity: 1, duration: .3, ease: "back.out(2)" }, {{l23.w5-0.08}});
+      tl.fromTo("#texLab", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .25, ease: "power2.out" }, {{l23.w6}});
+      tl.to("#iPush", { scale: 1.18, duration: .7, ease: "power2.inOut" }, {{l23.w7-0.1}});                     // push in on the texture: the deadpan hold
+      tl.to("#tex img", { filter: "blur(3px) saturate(.8)", duration: .5 }, {{l23.w8-0.05}});
+      tl.to(["#cloud", "#tc1", "#tc2", "#tc3"], { scale: 1.12, opacity: 0, duration: .2, ease: "power2.in" }, {{l23.w8.end+0.15}});
+      tl.to("#iPush", { scale: 1.0, duration: .4, ease: "power2.inOut" }, {{l23.w8.end+0.15}});
+
+      /* ---------------- J · the controller ... different. (match cut kid -> today) */
+      const padK = { x: K.x + K.w * .55, y: K.y + K.h * .58 };
+      cam("#camJ", {{S5}}, 0, { z: 1.42, fx: 760, fy: 1010 });
+      cam("#camJ", {{S5}}, {{l125.w6-S5}}, { z: 1.5, fx: 765, fy: 1020 }, "none");
+      cam("#camJ", {{l125.w6-0.08}}, .7, { z: 2.25, fx: padK.x, fy: padK.y }, "power2.inOut");        // "controller": push to his hands
+      breathe("#brJ", {{S5}}, {{l125.w8}}, .85);
+      const padO = { x: OLD.x + OLD.w * .62, y: OLD.y + OLD.h * .74 };
+      tl.set("#shJ2", { opacity: 1 }, {{l125.w8-0.05}});
+      cam("#camJ2", {{l125.w8-0.05}}, 0, { z: 2.25, fx: padO.x, fy: padO.y });
+      cam("#camJ2", {{l125.w8-0.05}}, .75, { z: 1.2, fx: 1700, fy: 1000 }, "power3.out");               // the same hands, years later
+      breathe("#brJ2", {{l125.w8}}, {{S6}}, .3);
+      flash({{l125.w8-0.05}}, .9, .28); shake({{l125.w8-0.02}}, 10);
+
+      /* ---------------- K · the road (walk = block B's road_walk / walk_adult, same maths) */
+      cam("#camK", {{S6}}, 0, { z: 1.3, fx: 1344, fy: 1100 });
+      cam("#camK", {{S6}}, {{l09.w6-S6}}, { z: 1.16, fx: 1400, fy: 960 }, "sine.inOut");
+      cam("#camK", {{l09.w6}}, {{l10.w1-l09.w6}}, { z: 1.04, fx: 1500, fy: 770 }, "sine.inOut");      // "exactly why...": tilt up to Hyrule
+      breathe("#brK", {{S6}}, {{DUR}}, .55);
+      tl.to("#dimK", { opacity: .58, duration: .7, ease: "power2.out" }, {{l10.w1-0.05}});
+      const ROAD = [[.500, .970], [.511, .905], [.521, .845], [.529, .785], [.533, .750], [.536, .730]], VY = .68, RATE = 5.8, H0 = .46, Y0 = .97;
+      const WALK0 = {{l09.w1-0.1}};
+      const walkA = $("#walkA"), walkB = $("#walkB"), walker = $("#walker"), [wa0, wa1] = ART.sizes["walk_a.png"];
+      function walkAt(t) { const tt = Math.max(0, t - WALK0), ramp = .6;
+        const dist = .7 * RATE / Math.PI * (tt < ramp ? tt * tt / (2 * ramp) : tt - ramp / 2);
+        const z0 = 1.8 * 1.07 / H0, h = 1.8 * 1.07 / (z0 + dist), y = VY + (Y0 - VY) * h / H0;
+        let x = ROAD[0][0]; for (let i = 0; i + 1 < ROAD.length; i++) { const [xa, ya] = ROAD[i], [xb, yb] = ROAD[i + 1]; if (y <= ya && y >= yb) { x = xa + (xb - xa) * (ya - y) / (ya - yb); break; } if (y < yb) x = xb; }
+        const ph = ((RATE * tt) / Math.PI) % 2 / 2, bob = tt > 0 ? .008 * Math.abs(Math.sin(tt * RATE)) * h / H0 : 0;
+        const hp = h * 1512, wp = hp * wa0 / wa1;
+        walker.style.left = (x * 2688 - wp / 2) + "px"; walker.style.top = ((y - bob) * 1512 - hp) + "px"; walker.style.width = wp + "px"; walker.style.height = hp + "px";
+        const b = tt > 0 && ph >= .5; walkA.style.opacity = b ? 0 : 1; walkB.style.opacity = b ? 1 : 0; }
+
+      /* ---------------- wordmark on "So, why?" (+ 1.5 s of silence), then the end card */
+      const WHY = {{l10.w1}};
+      tl.set("#wm", { opacity: 0 }, 0);
+      tl.fromTo("#wm", { scale: 1.315, rotation: 2.8, opacity: 0, filter: "blur(10px)" }, { scale: 1, rotation: 0, opacity: 1, filter: "blur(0px)", duration: .28, ease: "back.out(1.7)" }, WHY - .06);
+      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.inOut" }, {{l10.w2-0.05}});
+      shake(WHY - .02, 12);
+      const STAR = { x: 90 + 808 * 900 / 2605, y: 562 + 235 * 900 / 2605 };
+      const T_STAR = {{l10.end+0.55}};
+      tl.set("#twinkle", { x: STAR.x, y: STAR.y, scale: 0, opacity: 1 }, 0);
+      tl.fromTo("#twinkle", { scale: 0, rotation: 0 }, { keyframes: [{ scale: 1.15, rotation: 45, duration: .3, ease: "power2.out" }, { scale: .35, rotation: 90, duration: .6, ease: "sine.inOut" }] }, T_STAR - .05);
+      tl.fromTo("#twinkle .g", { opacity: 1 }, { opacity: .55, duration: .9 }, T_STAR - .05);
+      // end card: the wordmark rises and stays above it
+      tl.to("#wm", { y: -330, scale: .64, duration: .55, ease: "power3.inOut" }, {{VEND-0.45}});
+      tl.to("#twinkle", { opacity: 0, duration: .2 }, {{VEND-0.5}});
+      tl.to("#card", { opacity: 1, duration: .5, ease: "sine.inOut" }, {{VEND-0.45}});
+      tl.fromTo("#cT1", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "back.out(1.8)" }, {{VEND-0.2}});
+      tl.fromTo("#cT2", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "back.out(1.8)" }, {{VEND-0.05}});
+      tl.fromTo("#thumbBox", { scale: .8, opacity: 0 }, { scale: 1, opacity: 1, duration: .45, ease: "back.out(1.6)" }, {{VEND+0.1}});
+
+      /* ---------------- captions: word-by-word, the word being said is gold; driven by the clock (no stacked sets) */
+      const CAPEL = CAPS.map((c) => { const d = mk("div", "cap" + (c.big ? " bigc" : ""), $("#caps"));
+        const spans = c.w.map(([w], i) => { if (i) d.appendChild(document.createTextNode(" ")); const s = mk("span", "", d); s.textContent = w; return s; });
+        return { d, spans, c, on: false }; });
+      const backOut = (k) => { const c1 = 2.2, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+      function drawCaps(t) {
+        CAPEL.forEach((E) => { const c = E.c, on = t >= c.a && t < c.e;
+          if (on !== E.on) { E.d.style.visibility = on ? "visible" : "hidden"; E.on = on; }
+          if (!on) return;
+          const k = Math.min(1, (t - c.a) / .16), sc = .8 + .2 * backOut(k);
+          E.d.style.transform = `translateY(${14 * (1 - k)}px) scale(${sc})`;
+          let cur = -1; c.w.forEach(([w, a], i) => { if (t >= a - .03) cur = i; });
+          E.spans.forEach((sp, i) => { if (c.big) { const kk = Math.min(1, Math.max(0, (t - c.w[i][1] + .03) / .16)); sp.style.opacity = i === 0 || kk > 0 ? 1 : 0;
+              sp.style.transform = i === 0 ? "" : `scale(${1.5 - .5 * backOut(kk)})`; }
+            else { sp.style.color = i === cur ? "#ffc83d" : "#ffffff";  } }); });
+      }
+      // the HUD shows only in the game world (A, G-H, K), driven by the clock too
+      const HUDON = [[0, {{S1}}], [{{S3}}, {{l18-0.1}}], [{{l19+0.25}}, {{S4}}], [{{S6}}, {{l10.w1-0.05}}]];
+      const hudEl = $("#hud");
+      const drawHud = (t) => { hudEl.style.opacity = HUDON.some(([a, b]) => t >= a && t < b) ? 1 : 0; };
+
+      /* ---------------- Navi: Python twin of tools/fx/fairy.py (glow, trail, flapping wings, white core) */
+      const NK = [];      // [t, x, y, r, op] in screen px
+      const key = (t, x, y, r, op) => NK.push([t, x, y, r, op === undefined ? 1 : op]);
+      const orbit = (t0, t1, cx, cy, rx, ry, turns, r, a0) => { const n = Math.max(3, Math.round((t1 - t0) / .12)); for (let i = 0; i <= n; i++) { const k = i / n, a = (a0 || 0) + 2 * Math.PI * turns * k;
+        key(t0 + (t1 - t0) * k, cx + rx * Math.cos(a), cy - ry * Math.sin(a), r); } };
+      key(0, 640, 1000, 20); key(.6, 620, 960, 20); key({{l07.w6-0.12}}, 610, 940, 20); key({{l07.w6-0.06}}, 610, 940, 20, 0);
+      key({{l08.w1-0.1}}, 760, 560, 26, 0); key({{l08.w1+0.05}}, 760, 560, 26, 1); key({{S1-0.05}}, 820, 520, 26, 1); key({{S1}}, 820, 520, 22, 0);
+      key({{l03.w3-0.3}}, 620, 380, 20, 0); key({{l03.w3}}, 620, 380, 20, 1);
+      orbit({{l03.w3+0.1}}, {{l03.w6-0.25}}, 540, 470, 330, 130, 1.25, 20);
+      key({{l03.w6-0.1}}, 900, 300, 20, 0); key({{l04+0.15}}, 760, 520, 20, 0);
+      orbit({{l04+0.3}}, {{S2-0.05}}, 540, 860, 430, 230, 1.6, 18);
+      key({{S2}}, 540, 600, 18, 0); key({{S2+0.3}}, 540, 600, 18, 1);
+      orbit({{S2+0.4}}, {{l11.w14-0.2}}, 540, 860, 470, 170, 1.4, 18, 1.57);
+      key({{l11.w14+0.1}}, 540, 860, 12, 1); key({{l12-0.15}}, 540, 870, 3, 0);
+      key({{l15.w6-0.4}}, 300, 300, 20, 0); key({{l15.w6-0.3}}, 380, 330, 20, 1);
+      orbit({{l15.w6-0.2}}, {{S3-0.15}}, 690, 440, 170, 70, 1.3, 20);
+      key({{S3-0.05}}, 690, 440, 20, 0); key({{S3+0.2}}, 760, 560, 22, 0); key({{S3+0.35}}, 760, 560, 22, 1); key({{l17.w8-0.15}}, 730, 520, 22, 1);
+      key({{l17.w8+1.0}}, 640, 960, 13, 1); key({{l18-0.15}}, 640, 960, 13, 1); key({{l18-0.05}}, 640, 960, 13, 0);
+      key({{l19+0.25}}, 660, 760, 18, 0); key({{l19+0.4}}, 660, 760, 18, 1); key({{S4-0.1}}, 640, 700, 18, 1); key({{S4}}, 640, 700, 18, 0);
+      key({{S6+0.1}}, 760, 520, 22, 0); key({{S6+0.3}}, 760, 520, 22, 1); key({{l09.w6}}, 650, 800, 20, 1); key({{l10.w1-0.1}}, 610, 1060, 18, 1);
+      key({{l10.w1+0.45}}, 1000, 640, 28, 1);
+      orbit({{l10.w1+0.55}}, {{l10.end+0.15}}, 540, 650, 470, 175, 1.25, 28, 0);
+      key(T_STAR, STAR.x, STAR.y, 24, 1); key(T_STAR + .12, STAR.x, STAR.y, 14, 0);
+      NK.sort((a, b) => a[0] - b[0]);
+      function naviPath(t) {
+        if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);
+        let i = 0; while (i < NK.length - 2 && t > NK[i + 1][0]) i++;
+        const p0 = NK[Math.max(0, i - 1)], p1 = NK[i], p2 = NK[i + 1], p3 = NK[Math.min(NK.length - 1, i + 2)];
+        const k = (t - p1[0]) / Math.max(1e-6, p2[0] - p1[0]), u = k * k * (3 - 2 * k);
+        const cr = (a, b, c, d) => .5 * (2 * b + (-a + c) * u + (2 * a - 5 * b + 4 * c - d) * u * u + (-a + 3 * b - 3 * c + d) * u * u * u);
+        return [cr(p0[1], p1[1], p2[1], p3[1]), cr(p0[2], p1[2], p2[2], p3[2]), p1[3] + (p2[3] - p1[3]) * k, p1[4] + (p2[4] - p1[4]) * k]; }
+      const at = (t) => { const [x, y, r, op] = naviPath(t); return [x + .4 * .012 * SH * Math.sin(t * 2.3) * .5, y + .012 * SH * .5 * Math.sin(t * 3.7), r, op]; };
+      const ctx = $("#navi").getContext("2d");
+      function drawNavi(t) {
+        ctx.clearRect(0, 0, SW, SH);
+        const [x, y, r, op] = at(t); if (op <= .01) return;
+        const s = r / 30, col = [120, 195, 255];
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3.2);
+        g.addColorStop(0, `rgba(${col},${.95 * op})`); g.addColorStop(.35, `rgba(${col},${.45 * op})`); g.addColorStop(1, `rgba(${col},0)`);
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * 3.2, 0, 7); ctx.fill();
+        for (let k = 0; k < 10; k++) { const [qx, qy, , qo] = at(t - (k + 1) * .045); const rr = (4.5 - 3 * k / 10) * s * 1.6;
+          ctx.fillStyle = `rgba(255,255,255,${op * Math.min(1, qo + .2) * .55 * (1 - k / 10)})`; ctx.beginPath(); ctx.arc(qx, qy, rr, 0, 7); ctx.fill(); }
+        const f = .6 + .4 * Math.sin(t * 6.4 * 2 * Math.PI);
+        for (const sx of [-1, 1]) {
+          ctx.fillStyle = `rgba(230,245,255,${.55 * op})`; ctx.beginPath(); ctx.ellipse(x + sx * 16.5 * s, y - (3 + 13 * f) * s, 13.5 * s, (1 + 13 * f) * s, 0, 0, 7); ctx.fill();
+          ctx.fillStyle = `rgba(230,245,255,${.4 * op})`; ctx.beginPath(); ctx.ellipse(x + sx * 16.5 * s, y + (3 + 7 * f) * s, 5.5 * s, (1 + 7 * f) * s, 0, 0, 7); ctx.fill(); }
+        ctx.fillStyle = `rgba(255,255,255,${op})`; ctx.beginPath(); ctx.arc(x, y, 9 * s, 0, 7); ctx.fill();
+      }
+
+      // one clock drives the procedural layers (Navi, the walk): deterministic at every seek
+      const env = { t: 0 };
+      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { drawNavi(env.t); walkAt(env.t); drawCaps(env.t); drawHud(env.t); } }, 0);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+    <!--INCLUDE motion-blur.html-->
+  </body>
+</html>
