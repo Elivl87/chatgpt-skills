@@ -94,4 +94,8 @@
 - **Spanish dub (Producer, 2026-10-08):** Bram reads the approved ES-419 script; cut takes only inside real pauses,
   never split a breath, never overlap, speed up only as a last resort (<= ~1.075, rubberband R3), no room-tone fills.
   Method and reasons: `docs/PRODUCTION_PLAYBOOK.md` §5.
+- **Every element sits right (Producer, 2026-10-14):** in every shot, every character AND object (lanterns, rods,
+  props, phones, signs, anything) rests where it belongs (on the seat, the table, in the hand; never floating, never
+  outside its boat or container), is not cut through by another object, keeps a consistent scale across shots and
+  matches the scene's light. QC samples every block every 0.5 s for this before anything is sent.
 - **Review by timestamp:** when the Producer flags an interval, fix only that interval and prove the rest is unchanged.
