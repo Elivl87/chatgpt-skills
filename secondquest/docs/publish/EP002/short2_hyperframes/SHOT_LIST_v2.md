@@ -1,0 +1,49 @@
+# EP002 Short #2 v2 "The remake's impossible job": shot list (design gate)
+
+Angle and lines kept (CANDIDATES.md option A): l51-l53, l42-l50, l54-l62 of Bram's EP002 narration, verbatim, cuts
+inside measured pauses, 46.6 s of voice + 3.0 s card = 49.6 s. Hook kept: no line in the episode puts a stronger
+picture in the first second than "A silent character once left space for your imagination." with the hero and his
+empty balloon on screen (B "Player two?" and C "You were a child" need context first; see CANDIDATES.md).
+
+**Pixie's role (new):** she is the friend who has to *decide* (l53), who looks up as the world gets "better" (l43-l46),
+who knew where to go in 1998 (l47, l59), who doubts the upgrade ("Probably.", l58, the comedy beat), who sits beside
+Quest when the old TV goes off (l62) and who sends the viewer to the full episode (end card). Always full figure.
+Scale: in the game world her cut-out = 0.96 x young Quest's (95 % of his height, face ~0.90 x his, checked side by
+side); kids keep block C's face rule (her face 0.9 x his).
+
+**Layout grid (1080 x 1920):** HUD band y 120-300 (game world only) · title zone y 190-420 (never together with the
+HUD) · focal band y 420-1300 · caption band y 1340-1500 · nothing that matters below y 1536 or right of x 918 · every
+text block centred on one axis, x = 491. Screen direction: in front shots Pixie stands on Quest's right (screen left);
+seen from behind (E) she is on the screen right.
+
+| # | Time (s) | Line | Focal point | Art (and why it is the best for this line) | Motion | Sound (why) |
+|---|---|---|---|---|---|---|
+| A1 | 0.0-3.6 | l51 "A silent character once left space for your imagination." | the hero's face + his EMPTY balloon | Final plate #11 Hyrule field (the game world in daylight: the remake's subject) + young Quest #3b facing us, smiling and silent (the "silent character" literally, looking at the viewer). The balloon is a comic balloon whose tail ends at his mouth: the "space" the line talks about. Title in the sky, HUD off under it. | Title: each line rises out of its own mask (expo.out 0.34 s, 80 ms stagger), no blur, no echo; exits up 0.25 s before the HUD fades in. Balloon pops in with a small overshoot; its dots breathe. Camera breathes. | Field bed -24 dB (the silence); NAVI_HELLO in the pause after "imagination." (Producer clip, -9). |
+| A2 | 3.6-5.2 | l52 "Give that character a voice..." | the balloon waiting | same | HUD fades in (game world). Navi settles above his shoulder. | - |
+| A3 | 5.2-8.6 | l53 "and suddenly somebody has to decide what that silence sounded like." | Pixie arriving, then thinking | Pixie #2c (forest-friend tunic, waving) steps in where the balloon was; on "decide" she becomes #2e (hand on chin): SHE is the "somebody" who has to decide. Same tunic world as Quest, his height x 0.96. | Balloon: swell then pop on "suddenly". Pixie enters from the left (power3.out 0.55 s) with two settling steps; pose change with a squash (anticipation, change, settle). | Pop on the balloon (-10). |
+| B1 | 8.6-10.9 | l42 "Because better is measurable." | the two of them in a 1998 world | The same field in its 1998 look (block G's blocky geometry, flat colour, fog: our own processing of #11) + Quest #3a looking up and Pixie #2d in awe: they look at the world that is about to be measured. | Slow push. | - |
+| B2 | 10.9-15.1 | l43-l46 "More polygons. Better lighting. Better animation. Better sound." | the world changing around them | Each word is applied live, no panels: polygons = blocks -> halfway -> today; lighting = a sun and beams open where both are looking; animation = they hop; sound = a flock lifts and crosses the sky. | One change per word, eased out. | Magical swell (polygons, -11); warm bell (lighting, -12); birdsong (sound, -12). Animation has no cue (the hop is enough; budget). |
+| C1 | 15.1-17.6 | l47 "But familiar is not measurable." | kid Pixie pointing at the CRT | Real life, 1998: block C's childhood bedroom (kid Quest #6a playing, kid Pixie #6b pointing at our 3D CRT, our N64), re-staged for 9:16 one step further into the room. "Familiar" = this exact Saturday, not the game. HUD off (real life). | Camera starts on both kids whole; on "measurable" it follows her finger to the TV and pushes into the screen. | - (the push is silent: the voice carries it). |
+| D1 | 17.6-21.2 | l48 "An empty field in 1998 could feel enormous." | the tiny hero in a huge field | Inside the TV: 1998 Hyrule (blocky #11) with young Quest #3 from behind, walking. Area title "1998" in the game's own place-name style (our UI kit). | Scanlines fade (we left the tube); on "enormous" the camera pulls out to the whole field (1.3 s). | - |
+| D2 | 21.2-23.6 | l49 "Rebuild it too literally today..." | the rebuild scan | Same field, rebuilt to today (#11 HD) by a scan line from the top; the area title becomes "TODAY". | Scan 1.15 s, one move. | Magical swell, same family as "polygons" (-11): same interaction, same family, other file. |
+| D3 | 23.6-25.9 | l50 "and it might just feel empty." | how small he is | Same HD field, wide; colour drains a little; a gust of leaves. | Camera back out, he keeps walking (no snap back). | - |
+| E1 | 25.9-29.6 | l54 "A camera you once fought with was part of learning the game." | the old camera itself | From behind (#3 back + Pixie #2f back): the viewer becomes the 1998 camera. A viewfinder (four corner brackets, REC dot) is drawn on the frame itself, and a low-poly rock (flat-shaded triangles, N64-era geometry) slides in front: the classic "camera inside the wall". | The frame lurches and tilts in six eased moves; the rock clips in on "fought". | Soft heavy impact + stone (-9) on the clip. |
+| E2 | 29.6-32.5 | l55-l56 "Fix it... and the game becomes easier to inhabit." | the frame snapping level | same | On "Fix it" the frame snaps level (0.16 s) and the brackets lock gold, then fade; a smooth glide follows them. | Switch + click (-10) on the snap. |
+| F1 | 32.5-33.6 | l57 "Which is good." | both happy | Front two-shot, closer than A1 and on the castle axis: Quest #3b smiling, Pixie #2d hands clasped (pleased). | Both give a small happy hop on "good". | - |
+| F2 | 33.6-34.4 | l58 "Probably." (comedy beat) | Pixie's doubt | Pixie switches to #2e (hand on chin) while Quest keeps smiling: the contrast is the joke. | Anticipation (the 0.46 s pause after "good."), hit: pose change with squash + a quick push in on her (both stay whole), hold: a slow head tilt. | The comedy sting lands AFTER the word, on her look: a dark falling pizzicato (-11). |
+| G1 | 34.4-38.0 | l59 "But every improvement quietly changes the memory attached to it." | the kids' memory changing | Callback to C1: the same 1998 bedroom; a rebuild scan (the l49 motif) passes over it and leaves it cooler, sharper, the CRT showing today's HD. The memory changes *quietly*: the kids stay. | Scan 2.0 s, slower and fainter than l49. | Magical swell, quietest of the family (-15). |
+| G2 | 38.0-40.2 | l60 "That is the impossible job." | the title | The improved memory, darkened at the top; the title returns in the opening's exact style: "THAT IS THE / IMPOSSIBLE JOB" (callback to the hook). | Same mask rise as the hook; a 5 % pulse on "impossible". | - |
+| H1 | 40.2-42.9 | l61 "Make it different enough to justify existing..." | the new vista | Final plate #17+18: the episode's golden-hour vista with adult Quest and Pixie-as-princess on the outcrop: the remake's own new look. HUD on (game world). | Starts on the two of them, then pans to the castle and the new world (one move). | - |
+| I1 | 42.9-46.6 | l62 "without making people wonder where their game went." | the old TV going dark | Real life, today: the grown-up bedroom at night (#15) with our CRT and N64, Quest and Pixie (library #8, hugging her knees, full figure) on the floor; on "wonder" the CRT switches off and his reflection shows in the dark glass: where the game went. | Pan with their look to the TV; the old switch-off (line, dot, dark); push to the glass. | CRT switch-off + the night outside (-10, bed -25). |
+| J1 | 46.4-47.6 | (wordmark) | SecondQuest wordmark | Our wordmark with its gold bar; Navi circles it into the star of the "o". | Lands crisp (scale 1.14 -> 1, power3.out 0.26 s), no blur. | Bell impact + NAVI_SFX_01 trail (layer, -9). |
+| J2 | 47.6-49.6 | (end card) | the thumbnail | EP002 v3 thumbnail B1 "EXCEPT YOU", whole and undistorted; "FULL EPISODE / ON THE CHANNEL"; Pixie (library #1 waving, full figure) stands ON the thumbnail's top edge and waves the viewer over; Navi flies into the thumbnail. | Thumbnail rises in, text, then Pixie lands with a small squash and waves. | NAVI_LOOK "Look!" (-9), no voice under it. |
+
+**Not used any more (and why):** the floating speech bubble with a waveform, the polaroid card, the REMAKE CHECK
+meter panel, the VOICE CASTING card, the FAMILIAR/DIFFERENT slider, the camera icon + wrench, the NEW QUEST banner,
+the check/question-mark stickers and Pixie's portrait badge: all were boxes pasted over the art (rubric §2). Their
+ideas now live inside the scenes (the world upgrades itself, the frame itself is the old camera, the memory is a
+place, Pixie acts in the scene).
+
+**Sound:** 14 onsets in 49.6 s (17/min, budget 18), 75 % of the runtime free of SFX, every cue hand-picked from the
+premium CC0 tier with its reason in `tools/hyperframes_ep002_short2/short/assets/sfx_plan.json`; Navi = the
+Producer's original clips only (HELLO, SFX_01, LOOK). Hits 9-12 dB under Bram, beds -24/-25 dB. Master -14.1 LUFS.

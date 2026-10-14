@@ -101,10 +101,10 @@ def stage_art():
     # his) so both fit one vertical frame with their faces above the caption band. Two states: the warm 1998 afternoon
     # (the TV in its 1998 look) and the same memory "improved" (cooler, sharper, the TV in today's HD).
     BC_ = BH.BC
-    qk = BC_.sized('kid_quest_play', .455, .905, depth=.80 / 1.0 * .72 / .72 * 1.0)
-    qk['h'] = .40
-    pk = dict(BC_.sized('kid_pixie_point', .585, .865, BC_.PIXIE_RATIO), rot=-6)
-    pk['h'] = .40 * BC_.FACE['kid_quest_play'] / BC_.FACE['kid_pixie_point'] * BC_.PIXIE_RATIO * .93
+    QK_H = .33                                                          # kid Quest seated, 0.33 plate heights
+    qk = dict(BC_.sized('kid_quest_play', .4465, .85), h=QK_H)
+    pk = dict(BC_.sized('kid_pixie_point', .558, .82, BC_.PIXIE_RATIO), rot=-6)
+    pk['h'] = QK_H * BC_.FACE['kid_quest_play'] / BC_.FACE['kid_pixie_point'] * BC_.PIXIE_RATIO * .93   # face 0.9 x his, a step behind
     old_q, old_gp = BC_.QUEST_K, BC_.game_picture
     BC_.QUEST_K = qk
     from PIL import ImageEnhance
@@ -227,93 +227,29 @@ NAVI = ROOT / 'public/episodes/ep002/sfx/navi_original'      # the Producer's or
 
 
 def cues():
-    """(short time, sound, dB relative to the voice, length s or None). Hits ~ -7 dB under the voice, beds ~ -20.
-    sound = a Path (Navi: only the Producer's original clips, HELLO/LOOK ~9 dB under Bram, SFX_01 ~14, SFX_02-04 ~15),
-    or a catalog spec for the no-repeat picker (scripts/sfx_pick.py, CATALOG.json): ('cat', {filters}) or
-    ('layer', preset | [(cat, dB, offset, {filters})]). The picker never uses the same file twice in this Short
-    (min_gap > the Short's length) and varies every render (pitch, stretch, tilt EQ, gain)."""
+    """v2 (Producer 2026-10-14: "ni se diga de los sonidos"; DESIGN_RUBRIC §7): restraint. 14 onsets in 49.6 s (budget
+    18/min), Navi and the two beds included; every cue is hand-picked from the premium tier of CATALOG.json (CC0 or
+    our own; no 8-bit, no creature, no boing) and names the on-screen event it serves. Same interaction = same family
+    (the three "upgrades/rebuild" moments are three different files of one magical-swell family), never the same file.
+    (time, file, dB relative to the voice, length s or None, why)."""
     T = seg.table()
     t = lambda k, d=0: T[k] + d                                         # noqa: E731
-    C = lambda cat, **f: (cat, f)                                       # noqa: E731
-    L = lambda spec: ('layer', spec)                                    # noqa: E731
+    C = lambda f: SFXD / f                                              # noqa: E731
     return [
-        # A · the silent hero (l51-l53)
-        (0.00, L([('impact-heavy', 0, 0, {'tags': ['slam', 'punch']}), ('whoosh', -4, -.18, {'max_dur': .7})]), -6, None),   # title slam, frame 1
-        (0.08, C('pop', max_dur=.6), -10, None),                                       # the empty bubble pops up
-        (0.00, C('nature-ambience', tags=['birds', 'forest']), -21, 3.4),               # a quiet field: the silence
-        (t('l51.w9', -.05), L('pop+sparkle'), -12, None),                               # "imagination": doodles float out
-        (t('l51.end', .04), NAVI / 'NAVI_HELLO.wav', -9, None),                          # Navi bursts into the silence: "Hello!"
-        (t('l52', -.05), L('whoosh+cloth'), -12, None),               # punch in on the two of them
-        (t('l52.w5', -.06), L([('riser-swell', 0, -.35, {'max_dur': .9}), ('magic-sparkle', -6, 0, {})]), -11, None),   # "voice": the bubble fills
-        (t('l53', -.1), L('card-slide'), -10, None),                                     # the casting card slides in
-        (t('l53.w3', 0), C('click-ui', max_dur=.4), -12, None),                          # Navi the cursor: take 1
-        (t('l53.w5', 0), C('click-ui', max_dur=.4), -12, None),                          # take 2
-        (t('l53.w6', -.04), L([('click-ui', 0, 0, {'tags': ['select']}), ('chime-bell', -7, .03, {'tags': ['ding', 'bell']})]), -8, None),   # "decide": picked
-        (t('l53.w6', 0), NAVI / 'NAVI_SFX_04.wav', -15, None),
-        (t('l53.w9', -.08), C('scifi', tags=['falling'], max_dur=.9), -12, None),       # "silence": the wave goes flat
-        (t('l53.w10', -.05), C('pop', max_dur=.5), -12, None),                           # it springs back, golden
-        # B · better is measurable (l42-l47)
-        (t('S1', -.05), L([('impact-soft', 0, 0, {}), ('whoosh', -3, -.14, {'max_dur': .5})]), -7, None),   # the meter panel slams in
-        (t('S1', .1), NAVI / 'NAVI_SFX_01.wav', -14, None),                             # Navi flies to the panel (her trail)
-        (t('l42.w4', -.05), C('pop', max_dur=.6), -12, None),                            # Pixie's badge pops in
-        (t('l43.w2', -.05), L([('scifi', 0, 0, {'tags': ['rising'], 'max_dur': 1.2}), ('magic-sparkle', -8, .05, {})]), -10, None),   # POLYGONS: the blocks smooth out
-        (t('l44.w2', -.05), C('chime-bell', tags=['bell', 'ding']), -11, 1.4),          # LIGHTING: the sun comes out
-        (t('l45.w2', -.05), C('foley-footstep', tags=['gravel', 'dirt', 'walking']), -12, None),   # ANIMATION: he walks
-        (t('l45.w2', .3), C('foley-footstep', tags=['gravel', 'dirt', 'walking']), -13, None),
-        (t('l46.w2', -.05), C('musical-sting', tags=['pizzi', 'xylophone']), -9, 1.6),  # SOUND: rings and notes
-        (t('l47.w2', -.05), C('notify-tech', tags=['question', 'error']), -11, None),   # FAMILIAR: ???
-        (t('l47.w4', -.05), C('cartoon-comedy', tags=['boing', 'spring']), -11, None),  # "not": Pixie is surprised
-        (t('l47.w5', -.05), C('foley-paper', tags=['card', 'flip', 'book']), -10, None),   # the polaroid
-        # C · 1998 / today / empty (l48-l50)
-        (t('l48', -.15), C('riser-swell', tags=['reverse']), -11, 1.0),                # back to 1998 (a reversed swell)
-        (t('l48.w5', -.05), C('retro-8bit', max_dur=.6), -13, None),                    # the 1998 tag
-        (t('l48', 0), C('nature-ambience', tags=['wind']), -20, 3.6),
-        (t('l48.w8', -.15), C('explosion-boom', tags=['low', 'frequency', 'thunder']), -15, None),   # "enormous": the pull-out
-        (t('l49', -.05), C('riser-swell', tags=['riser', 'swell']), -12, 1.25),         # the rebuild scan
-        (t('l49.w5', -.05), C('magic-sparkle'), -12, None),                              # TODAY
-        (t('l50', 0), L([('whoosh', 0, 0, {'tags': ['swosh', 'whoosh']}), ('nature-ambience', -4, .1, {'tags': ['wind', 'atmosphere']})]), -14, 2.2),   # a gust
-        (t('l50.w6', -.12), L([('whoosh', 0, 0, {'max_dur': .8}), ('foley-cloth', -6, .02, {'tags': ['rustle']})]), -14, None),   # "empty": snap back wide
-        # D · the camera you fought (l54-l58)
-        (t('S2', -.04), L('whoosh+cloth'), -9, None),
-        (t('l54.w2', -.08), C('pop', max_dur=.5), -11, None),                            # the camera icon
-        (t('l54.w5', -.08), L('impact+debris'), -8, None),                               # "fought": the camera clips into the wall
-        (t('l54.w5', 0), NAVI / 'NAVI_SFX_03.wav', -15, None),                          # Navi gets knocked about
-        (t('l54.w8', -.05), C('impact-soft', tags=['wood', 'impactwood']), -11, None),  # another lurch
-        (t('l55', -.05), C('foley-metal', tags=['tools', 'hammer', 'tin']), -8, None),  # "Fix it": the wrench taps
-        (t('l55.w2', 0), C('foley-metal', tags=['tools', 'hammer', 'tin']), -11, None),
-        (t('l55.w2', .2), C('notify-tech', tags=['confirmation', 'complete']), -10, None),   # the check badge
-        (t('l56.w3', 0), C('whoosh', max_dur=1.0), -14, None),                           # the camera settles behind him
-        (t('l57', -.1), C('pop', max_dur=.6), -12, None),                                # Pixie's badge
-        (t('l57.w3', -.08), L([('impact-soft', 0, 0, {}), ('musical-sting', -4, .02, {'tags': ['jingles'], 'max_dur': 1.4})]), -8, None),   # "Which is good."
-        (t('l58', -.08), C('cartoon-comedy', tags=['boing', 'spring', 'squeak']), -9, None),   # "Probably.": the check tilts
-        (t('l58', .25), NAVI / 'NAVI_SFX_02.wav', -15, None),
-        # E · the memory changes quietly; the impossible job (l59-l60)
-        (t('l59', -.1), C('whoosh', max_dur=1.0), -12, None),
-        (t('l59.w5', -.1), C('pop', max_dur=.5), -14, None),                             # Pixie's badge (thinking)
-        (t('l59.w3', .5), C('magic-sparkle', max_dur=1.6), -16, None),                   # each upgrade lands in the photo (quiet)
-        (t('l59.w4', .5), C('magic-sparkle', max_dur=1.6), -17, None),
-        (t('l59.w5', .5), C('magic-sparkle', max_dur=1.6), -16, None),
-        (t('l59.w7', .5), C('magic-sparkle', max_dur=1.6), -17, None),
-        (t('l60', -.08), L([('impact-soft', 0, 0, {}), ('foley-paper', -4, .03, {'tags': ['book', 'flip']})]), -9, None),   # NEW QUEST banner
-        (t('l60.w4', 0), C('click-ui', tags=['tap', 'click']), -14, None),               # it types out
-        (t('l60.w5', .1), C('musical-sting', tags=['jingles']), -11, 1.6),
-        # F · the slider (l61)
-        (t('l61', -.1), L('card-slide'), -10, None),
-        (t('l61', -.05), C('pop', max_dur=.5), -13, None),                               # Pixie's badge (determined)
-        (t('l61.w3', -.08), L([('scifi', 0, 0, {'tags': ['rising'], 'max_dur': 1.2}), ('foley-wood', -8, 0, {'tags': ['slide']})]), -12, None),   # the knob slides, Hyrule restyles
-        (t('l61.w4', 0), C('magic-sparkle'), -14, None),
-        # G · the bedroom: where their game went (l62)
-        (t('l62', -.12), C('whoosh', max_dur=.9), -14, None),
-        (t('l62', 0), C('nature-ambience', tags=['cricket', 'crickets', 'cicada']), -22, 2.6),   # night bed
-        (t('l62.w5', -.05), L([('foley-misc', 0, 0, {'tags': ['switch']}), ('scifi', -4, .02, {'tags': ['falling'], 'max_dur': .7})]), -11, None),   # the CRT switches off
-        # H · the wordmark, Navi into its star, the end card
-        (t('VEND', -.2), C('impact-heavy', tags=['heavy', 'slam']), -7, None),           # wordmark lands
-        (t('VEND', -.1), C('whoosh', max_dur=.8), -11, None),                            # gold bar grows
-        (t('VEND', .05), NAVI / 'NAVI_SFX_01.wav', -14, None),                          # Navi round the wordmark into its star (her trail)
-        (t('VEND', .85), C('magic-sparkle'), -9, None),                                  # the star twinkles
-        (t('VEND', 1.2), C('musical-sting', tags=['jingles']), -10, 1.8),                # end card
-        (t('VEND', 1.42), C('pop', max_dur=.5), -13, None),                              # Pixie waves
-        (t('VEND', 1.55), NAVI / 'NAVI_LOOK.wav', -9, None),                            # Navi at the thumbnail: "Look!" (no voice under it)
+        (0.00, C('cc0/kresiek_morning/amb_morning.ogg'), -24, T['l47'] - .1, 'bed: the quiet field (the silence the hero left)'),
+        (t('l51.end', .02), NAVI / 'NAVI_HELLO.wav', -9, None, 'Navi appears in the pause after "imagination." (Producer clip)'),
+        (t('l53.w2', -.1), C('cc0/wubitog_pops/pop2.ogg'), -10, None, 'the empty balloon pops on "suddenly"'),
+        (t('l43.w2', -.05), C('cc0/jaggedstone_magic/magical_1.ogg'), -11, None, '"More polygons": 1998 blocks smooth into today'),
+        (t('l44.w2', -.05), C('cc0/pwl_bells/bell_ding3.ogg'), -12, None, '"Better lighting": the sun opens over them'),
+        (t('l46.w2', -.05), C('cc0/pauliuw_forestbirds/Forest_Birds_4.ogg'), -12, 1.9, '"Better sound": the flock lifts and sings'),
+        (t('l49', -.05), C('cc0/jaggedstone_magic/magical_3.ogg'), -11, None, '"Rebuild it": the scan line rebuilds the field (same family as polygons)'),
+        ((t('l54.w5', -.08), [(C('cc0/kenney_impact/impactSoft_heavy_001.ogg'), 0), (C('cc0/rubberduck_rpg/item_stone_01.ogg'), -6)]), None, -9, None, '"fought": the camera slams into the low-poly rock'),
+        ((t('l55', -.04), [(C('cc0/kenney_interface/switch_005.ogg'), 0), (C('cc0/kenney/click2.ogg'), -5)]), None, -10, None, '"Fix it": the frame snaps level, the viewfinder locks'),
+        (t('l58.end', .07), C('cc0/kenney_jingles/jingles_PIZZI01.ogg'), -11, None, '"Probably.": the comedy hit lands AFTER the word, on her doubtful look'),
+        (t('l59.w3', 0), C('cc0/jaggedstone_magic/magical_4.ogg'), -15, None, '"every improvement quietly": the memory scan (quiet, same family)'),
+        ((t('l62.w5', -.05), [(C('cc0/kenney/switch_006.ogg'), 0), (C('cc0/kresiek_outside/amb_outdoor1_loop.ogg'), -15)]), None, -10, 2.4, '"wonder": the CRT switches off; the night outside is all that is left'),
+        ((t('VEND', -.2), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5)]), None, -9, None, 'the wordmark lands; Navi circles it (her trail, Producer clip)'),
+        (t('VEND', 1.6), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the thumbnail: "Look!" (Producer clip, no voice under it)'),
     ]
 
 
@@ -328,36 +264,25 @@ def stage_audio():
     v_db = active_rms_db(voice)
     sfx = np.zeros_like(voice)
     log = []
-    sys.path.insert(0, str(ROOT / 'scripts'))
-    from sfx_pick import Picker                                         # noqa: E402  the free CC0 catalog, no repeats
-    pk = Picker(seed='ep002_short2', min_gap=seg.DUR + 10)              # no file twice anywhere in the Short
-    for c_ in pk.by_cat:                                                # CC0 and our own sounds only: no credit line needed
-        pk.by_cat[c_] = [e for e in pk.by_cat[c_] if not e['licence'].startswith('CC-BY')]
-    def ok(cat, f):                                                     # relax filters that leave no candidate (max_dur, then tags)
-        for drop in ((), ('max_dur',), ('max_dur', 'tags')):
-            g = {k: v for k, v in f.items() if k not in drop}
-            if pk.candidates(cat, **g):
-                return g
-        raise LookupError(cat)
-    for at, spec, rel, fade in cues():
-        if not isinstance(spec, Path):
-            if spec[0] == 'layer' and not isinstance(spec[1], str):
-                spec = ('layer', [(c, db, off, ok(c, f)) for c, db, off, f in spec[1]])
-            elif spec[0] != 'layer':
-                spec = (spec[0], ok(spec[0], spec[1]))
-        if isinstance(spec, Path):
-            s = load(spec); path = spec.relative_to(ROOT)
-        elif spec[0] == 'layer':
-            y = pk.layer(spec[1], at, length=fade) if fade else pk.layer(spec[1], at)
-            at = at + pk.last_layer_lead; s = y.mean(0); path = f'layer {spec[1] if isinstance(spec[1], str) else "+".join(l[0] for l in spec[1])}'
+    plan = []
+    for at, spec, rel, length, why in cues():
+        if spec is None:                                                # a layer: [(file, dB within the layer)], one onset
+            at, parts = at
         else:
-            s = pk.render(spec[0], at, length=fade, **spec[1]).mean(0); path = f'{spec[0]}: {pk.history[-1][2]}'
-        if fade:
-            s = s[:round(fade * SR)].copy(); f = min(len(s), round(.25 * SR)); s[-f:] *= np.linspace(1, 0, f)
-        g = 10 ** ((v_db + rel - active_rms_db(s)) / 20)
-        i0 = max(0, round(at * SR)); n = min(len(s), len(sfx) - i0)
-        sfx[i0:i0 + n] += s[:n] * g
-        log.append(f'{at:6.2f}  {rel:+3d} dB  {path}')
+            parts = [(spec, 0)]
+        y = None
+        for f, d in parts:
+            x = load(f) * 10 ** (d / 20)
+            y = x if y is None else (np.pad(y, (0, max(0, len(x) - len(y)))) + np.pad(x, (0, max(0, len(y) - len(x)))))
+        if length:
+            y = y[:round(length * SR)].copy(); f_ = min(len(y), round(.35 * SR)); y[-f_:] *= np.linspace(1, 0, f_)
+        g = 10 ** ((v_db + rel - active_rms_db(y)) / 20)
+        i0 = max(0, round(at * SR)); n = min(len(y), len(sfx) - i0)
+        sfx[i0:i0 + n] += y[:n] * g
+        names = ' + '.join(str(Path(f).relative_to(ROOT)) for f, _ in parts)
+        log.append(f'{at:6.2f}  {rel:+3d} dB  {names}')
+        plan.append({'t': round(at, 3), 'rel_db': rel, 'spec': names, 'why': why})
+    (OUT / 'sfx_plan.json').write_text(json.dumps(plan, indent=1))
     mix = voice + sfx
     mix *= .9 / max(1e-6, float(np.abs(mix).max()))                   # headroom before loudnorm (no clipping in the 16-bit temp)
     raw = OUT / '_mix_raw.wav'
@@ -381,8 +306,7 @@ def stage_audio():
     m = subprocess.run([FF, '-hide_banner', '-i', str(OUT / 'narration.wav'), '-af', 'ebur128=peak=true', '-f', 'null', '-'],
                        capture_output=True, text=True).stderr
     summ = m[m.rindex('Summary:'):]
-    (OUT / 'sfx_cues.txt').write_text('\n'.join(log) + '\n\n' + pk.report() + '\n\n' + summ)
-    print(pk.report().splitlines()[-1]); print('attributions:', pk.attributions())
+    (OUT / 'sfx_cues.txt').write_text('\n'.join(log) + '\n\n' + summ)
     print(f'audio: {len(voice) / SR:.2f} s, voice active RMS {v_db:.1f} dBFS, {len(log)} SFX cues')
     print(' '.join(summ.split()))
 

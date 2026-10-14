@@ -7,7 +7,7 @@
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
       /* v2 layout grid (1080 x 1920, docs/style/DESIGN_RUBRIC.md):
-         HUD band y 120-300 (game world only) · TITLE zone y 330-560 · characters/focal y 560-1300 ·
+         HUD band y 120-300 (game world only) · TITLE zone y 190-420 (never with the HUD) · characters/focal y 560-1300 ·
          CAPTION band y 1340-1500 · nothing that matters below y 1536 (Shorts UI) or right of x 918 (action rail).
          Every text block is centred on one axis, x = 491 (the centre of the text-safe column 65-918). */
       @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
@@ -33,7 +33,7 @@
       .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill;
         text-shadow: 6px 8px 0 var(--ink); line-height: 1.0; white-space: nowrap; letter-spacing: .01em; }
       /* the one title style: opening hook and its callback on l60 */
-      .ttl { position: absolute; left: 65px; width: 853px; top: 330px; text-align: center; }
+      .ttl { position: absolute; left: 65px; width: 853px; top: 190px; text-align: center; }
       .ttl .ln { display: block; overflow: hidden; padding: 6px 30px 14px; margin-bottom: -14px; }   /* mask-up line reveal (kinetic-typography) */
       .ttl .big { display: inline-block; }
       .ttl .a { font-size: 92px; color: #fff; }
@@ -48,7 +48,7 @@
       /* A · the empty speech bubble: a comic balloon whose tail ends at the silent hero's mouth (it lives in the plate) */
       #bub { position: absolute; transform-origin: 92% 100%; }
       #bub svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-      #dots { position: absolute; left: 0; width: 100%; text-align: center; font: 800 150px/1 "Inter", sans-serif; color: #2a2a36; letter-spacing: .1em; }
+      #dots { position: absolute; left: 0; width: 76.9%; text-align: center; font: 800 150px/1 "Inter", sans-serif; color: #2a2a36; letter-spacing: .1em; }
       #dots i { font-style: normal; display: inline-block; }
       /* B · the sun and the birds */
       .bird { position: absolute; width: 46px; height: 20px; }
@@ -91,7 +91,7 @@
           <div class="chr" id="qA" data-role="character"><div class="foot"></div><img class="on" src="assets/hero_front.png" alt="quest" /></div>
           <div class="chr" id="pA" data-role="character"><div class="foot"></div><img id="pA_c" class="on" src="assets/p2c.png" alt="pixie" /><img id="pA_e" src="assets/p2e.png" alt="pixie" /></div>
           <div id="bub" data-critic-allow-overlap>
-            <svg viewBox="0 0 300 210"><path d="M38 6 H262 Q294 6 294 38 V128 Q294 160 262 160 H252 L286 206 L206 160 H38 Q6 160 6 128 V38 Q6 6 38 6 Z" fill="#fffdf6" stroke="#16161f" stroke-width="7" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 390 260"><path d="M38 6 H262 Q294 6 294 38 V128 Q294 160 262 160 H250 L380 252 L206 160 H38 Q6 160 6 128 V38 Q6 6 38 6 Z" fill="#fffdf6" stroke="#16161f" stroke-width="7" stroke-linejoin="round"/></svg>
             <div id="dots"><i>.</i><i>.</i><i>.</i></div>
           </div>
         </div></div>
@@ -103,11 +103,11 @@
           <img class="plate" src="assets/field_old.jpg" alt="" />
           <img class="plate" id="bMid" src="assets/field_mid.jpg" alt="" style="opacity: 0" />
           <img class="plate" id="bHd" src="assets/field.jpg" alt="" style="opacity: 0" />
-          <div id="sun" class="abs" style="left: 1400px; top: -500px; width: 1800px; height: 1400px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(ellipse at 70% 30%, rgba(255,226,150,.9) 0%, rgba(255,210,120,.3) 40%, rgba(255,200,100,0) 70%)"></div>
+          <div id="sun" class="abs" style="left: 300px; top: -500px; width: 1800px; height: 1400px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(ellipse at 40% 30%, rgba(255,226,150,.9) 0%, rgba(255,210,120,.3) 40%, rgba(255,200,100,0) 70%)"></div>
           <div class="chr" id="qB" data-role="character"><div class="foot"></div><img class="on" src="assets/q3a.png" alt="quest" /></div>
           <div class="chr" id="pB" data-role="character"><div class="foot"></div><img class="on" src="assets/p2d.png" alt="pixie" /></div>
         </div></div>
-        <div id="beams" class="full" style="opacity: 0; mix-blend-mode: screen">
+        <div id="beams" class="full" style="opacity: 0; mix-blend-mode: screen; transform: scaleX(-1)">
           <div class="abs" style="left: 700px; top: -300px; width: 140px; height: 1700px; transform: rotate(24deg); background: linear-gradient(rgba(255,240,190,.45), rgba(255,240,190,0))"></div>
           <div class="abs" style="left: 900px; top: -300px; width: 80px; height: 1500px; transform: rotate(24deg); background: linear-gradient(rgba(255,240,190,.35), rgba(255,240,190,0))"></div>
           <div class="abs" style="left: 520px; top: -300px; width: 60px; height: 1500px; transform: rotate(24deg); background: linear-gradient(rgba(255,240,190,.3), rgba(255,240,190,0))"></div>
@@ -210,10 +210,10 @@
 
       <!-- ===== the title: hook (0 - l52) and its callback (l60) — one style, one crisp entrance, no echo ===== -->
       <div id="ttl1Clip" class="full clip" data-start="0" data-duration="3.74" data-track-index="16">
-        <div id="ttl1" class="ttl" aria-label="The remake's impossible job"><span class="ln"><span class="big a">THE REMAKE'S</span></span><span class="ln"><span class="big b">IMPOSSIBLE JOB</span></span></div>
+        <div id="ttl1" class="ttl" aria-label="The remake's impossible job"><span class="ln" data-layout-allow-overflow><span class="big a">THE REMAKE'S</span></span><span class="ln" data-layout-allow-overflow><span class="big b">IMPOSSIBLE JOB</span></span></div>
       </div>
       <div id="ttl2Clip" class="full clip" data-start="37.95" data-duration="2.24" data-track-index="22">
-        <div id="ttl2" class="ttl" style="top: 380px" aria-label="That is the impossible job"><span class="ln"><span class="big a">THAT IS THE</span></span><span class="ln"><span class="big b">IMPOSSIBLE JOB</span></span></div>
+        <div id="ttl2" class="ttl" style="top: 380px" aria-label="That is the impossible job"><span class="ln" data-layout-allow-overflow><span class="big a">THAT IS THE</span></span><span class="ln" data-layout-allow-overflow><span class="big b">IMPOSSIBLE JOB</span></span></div>
       </div>
 
       <!-- ===== wordmark + end card (the EP002 v3 thumbnail B1, whole) ===== -->
@@ -229,7 +229,9 @@
       </div>
 
       <!-- ===== Navi (our EP002 fairy: tools/fx/fairy.py twin) ===== -->
-      <canvas id="navi" class="full clip" width="1080" height="1920" data-start="0" data-duration="49.6" data-track-index="19"></canvas>
+      <div id="naviClip" class="full clip" data-start="0" data-duration="49.6" data-track-index="19" style="pointer-events: none">
+        <canvas id="navi" data-critic-ignore class="abs" width="64" height="64" style="left: 0; top: 0; visibility: hidden"></canvas>
+      </div>
 
       <!-- ===== captions ===== -->
       <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="46.6" data-track-index="20"></div>
@@ -261,14 +263,14 @@
  },
  "kids_pos": {
   "quest": [
-   1223.04,
-   1368.3600000000001,
-   604.8000000000001
+   1200.192,
+   1285.2,
+   498.96000000000004
   ],
   "pixie": [
-   1572.48,
-   1307.8799999999999,
-   749.5914461538464
+   1499.9040000000002,
+   1239.84,
+   618.4129430769233
   ]
  },
  "pixie_floor": [
@@ -362,21 +364,23 @@
       const VY = .68 * PH, hAt = (h0, y0, y) => h0 * (y - VY) / (y0 - VY);
 
       // A: hero 400 px tall on the road, Pixie beside him (same ground line), the balloon anchored to his mouth
+      // (front shots keep one screen direction: Pixie on the left of Quest; from behind, E, she is on the right)
       const QA = put("#qA", "hero_front.png", 1400, 1100, 400);
-      const PA = put("#pA", "p2c.png", 1592, 1100, 400 * PIX);
-      Object.assign($("#bub").style, { left: (1400 - 286 * .62 - 8) + "px", top: (1100 - 400 * .755 - 206 * .62) + "px", width: (300 * .62) + "px", height: (210 * .62) + "px" });
-      $("#dots").style.top = (-62 * .62) + "px"; $("#dots").style.fontSize = (150 * .62) + "px";
+      const PA = put("#pA", "p2c.png", 1212, 1100, 400 * PIX);
+      const BK = .55;   // the balloon: tail tip at his mouth (plate 1368, 800), box up-left of his head, clear of the cap
+      Object.assign($("#bub").style, { left: (1368 - 380 * BK - 34) + "px", top: (800 - 252 * BK - 10) + "px", width: (390 * BK) + "px", height: (260 * BK) + "px" });
+      $("#dots").style.top = (-52 * BK) + "px"; $("#dots").style.fontSize = (150 * BK) + "px";
       // B: smaller in a wider frame, both looking up at the world as it is rebuilt
-      put("#qB", "q3a.png", 1372, 1080, 330);
-      put("#pB", "p2d.png", 1540, 1080, 330 * PIX);
+      put("#qB", "q3a.png", 1556, 1080, 360);
+      put("#pB", "p2d.png", 1380, 1080, 360 * PIX);
       // D: tiny on the 1998 road
       put("#qD", "young_back.png", roadX(1250), 1250, 205);
       // E: from behind, walking up the road side by side
       put("#qE", "young_back.png", roadX(1330) - 70, 1330, 320);
       put("#pE", "p2f.png", roadX(1330) + 110, 1330, 320 * PIX);
       // F: front two-shot, closer than A and centred on the castle axis (a clearly different shot of the same field)
-      put("#qF", "hero_front.png", 1336, 1150, 420);
-      put("#pF", "p2d.png", 1520, 1150, 420 * PIX);
+      put("#qF", "hero_front.png", 1484, 1150, 420);
+      put("#pF", "p2d.png", 1300, 1150, 420 * PIX);
 
       /* ------------------------------------------------------------------ timeline */
       const tl = gsap.timeline({ paused: true });
@@ -407,9 +411,8 @@
         const bb = on ? -5 * Math.abs(Math.sin((t - t0) * rate)) : 0; e.querySelectorAll("img").forEach((i) => i.style.top = bb + "px"); } }
 
       /* ---------------- A · the silent hero (frame 1 is the hook: title + hero + his empty balloon) */
-      cam("#camA", 0, 0, { z: 1.3, fx: 1442, fy: 1000 });
-      cam("#camA", 0, 4.98, { z: 1.34, fx: 1446, fy: 1000 }, "sine.inOut");
-      cam("#camA", 5.18, .9, { z: 1.24, fx: 1520, fy: 1000 }, "power2.inOut");           // room for Pixie: a gentle reframe to the two-shot
+      cam("#camA", 0, 0, { z: 1.575, fx: 1350, fy: 930 });
+      cam("#camA", 0, 8.63, { z: 1.62, fx: 1345, fy: 928 }, "sine.inOut");
       breathe("#brA", 0, 8.63, .2);
       // one crisp entrance: each line rises out of its own mask (no blur, no echo), the second 80 ms after the first
       tl.fromTo("#ttl1 .big", { yPercent: 105 }, { yPercent: 0, duration: .34, ease: "expo.out", stagger: .08 }, 0);
@@ -418,10 +421,9 @@
       // the three dots breathe while nobody speaks, go quiet on "silence", and wait
       const DOTS = document.querySelectorAll("#dots i");
       DOTS.forEach((d, i) => tl.fromTo(d, { opacity: .25 }, { opacity: 1, duration: .32, ease: "sine.inOut", yoyo: true, repeat: 9 }, .5 + i * .16));
-      tl.to(DOTS, { opacity: .12, duration: .3, ease: "power2.out" }, 7.39);
-      tl.to("#bub", { scale: .9, duration: .5, ease: "power2.inOut" }, 7.44);
-      // Pixie arrives on "suddenly" (a step in from the right, she waves), and on "decide" she becomes the one deciding
-      tl.fromTo("#pA", { x: 520, opacity: 1 }, { x: 0, opacity: 1, duration: .55, ease: "power3.out" }, 5.28);
+      // "and suddenly": the empty balloon pops (anticipation swell, then gone) and Pixie steps into its place
+      tl.to("#bub", { keyframes: [{ scale: 1.12, duration: .1, ease: "power2.out" }, { scale: 0, opacity: 0, duration: .14, ease: "power3.in" }] }, 5.2);
+      tl.fromTo("#pA", { x: -520, opacity: 1 }, { x: 0, opacity: 1, duration: .55, ease: "power3.out" }, 5.28);
       bob("#pA", 5.5, 16); bob("#pA", 5.76, 10);
       pose("#pA", "#pA_c", "#pA_e", 6.5);
       tl.set("#pA", { opacity: 0 }, 0); tl.set("#pA", { opacity: 1 }, 5.28);
@@ -447,9 +449,9 @@
 
       /* ---------------- C · "But familiar is not measurable.": 1998, the friend who knew where to go */
       const KQ = ART.kids_pos.quest, KP = ART.kids_pos.pixie, KT = ART.kids_tv;
-      cam("#camC", 15.12, 0, { z: 1.0, fx: 1415, fy: 1000 });
-      cam("#camC", 15.12, 1.38, { z: 1.04, fx: 1425, fy: 1000 }, "sine.out");
-      cam("#camC", 16.5, 0.86, { z: 1.25, fx: KT.cx - 90, fy: KT.cy + 60 }, "power2.inOut");   // follow her finger to the TV
+      cam("#camC", 15.12, 0, { z: 1.0, fx: 1390, fy: 756 });
+      cam("#camC", 15.12, 1.76, { z: 1.0, fx: 1400, fy: 756 }, "sine.out");
+      cam("#camC", 16.88, 0.48, { z: 1.25, fx: KT.cx - 90, fy: KT.cy + 60 }, "power2.inOut");   // follow her finger to the TV
       cam("#camC", 17.36, 0.26, { z: 1080 / KT.w / 1.27 * 1.08, fx: KT.cx, fy: KT.cy }, "power3.in");   // into the screen
       tl.to("#warmC", { opacity: 0, duration: .4 }, 17.16);
 
@@ -492,20 +494,20 @@
       tl.to("#vfLines", { attr: { stroke: "#ffc83d" }, duration: .08 }, 29.59);
       tl.fromTo("#vfLines", { scale: 1 }, { keyframes: [{ scale: .97, duration: .07 }, { scale: 1, duration: .16, ease: "back.out(3)" }], transformOrigin: "540px 825px", immediateRender: false }, 29.59);
       tl.to("#vf", { opacity: 0, duration: .5, ease: "power2.in" }, 30.49);
-      cam("#camE", 30.16, 2.34, { z: 1.2, fx: roadX(1280) + 20, fy: 880 }, "sine.inOut");   // a smooth glide: easy to inhabit
+      cam("#camE", 30.16, 2.34, { z: 1.3, fx: roadX(1280) + 20, fy: 900 }, "sine.inOut");   // a smooth glide: easy to inhabit
 
       /* ---------------- F · "Which is good." ... "Probably." */
-      cam("#camF", 32.45, 0, { z: 1.42, fx: 1428, fy: 1000 });
-      cam("#camF", 32.45, 1.08, { z: 1.45, fx: 1430, fy: 1000 }, "none");
-      cam("#camF", 33.59, .32, { z: 1.85, fx: 1525, fy: 1010 }, "power3.out");          // "Probably.": in on her
+      cam("#camF", 32.45, 0, { z: 1.42, fx: 1392, fy: 1000 });
+      cam("#camF", 32.45, 1.08, { z: 1.45, fx: 1390, fy: 1000 }, "none");
+      cam("#camF", 33.59, .32, { z: 1.66, fx: 1345, fy: 1010 }, "power3.out");          // "Probably.": in on her (both stay whole)
       breathe("#brF", 32.45, 34.53, .5);
       bob("#qF", 32.86, 12); bob("#pF", 32.91, 14);
       pose("#pF", "#pF_d", "#pF_e", 33.61);
       tl.fromTo("#pF", { rotation: 0 }, { rotation: -2.5, duration: .4, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 100%", immediateRender: false }, 33.93);
 
       /* ---------------- G · the memory quietly "improves" (the rebuild scan, callback to l49); the title returns */
-      cam("#camG", 34.41, 0, { z: 1.06, fx: 1420, fy: 990 });
-      cam("#camG", 34.41, 5.78, { z: 1.16, fx: 1430, fy: 980 }, "sine.inOut");
+      cam("#camG", 34.41, 0, { z: 1.0, fx: 1400, fy: 756 });
+      cam("#camG", 34.41, 5.78, { z: 1.0, fx: 1396, fy: 756 }, "sine.inOut");
       breathe("#brG", 34.41, 40.31, .3);
       tl.fromTo("#scanG", { y: -14, opacity: .9 }, { y: 1930, opacity: .9, duration: 2.0, ease: "sine.inOut" }, 35.09);
       tl.to("#gNew", { clipPath: "inset(0px 0px 0px 0px)", duration: 2.0, ease: "sine.inOut" }, 35.09);
@@ -515,8 +517,8 @@
       tl.fromTo("#ttl2 .b", { scale: 1 }, { keyframes: [{ scale: 1.05, duration: .08 }, { scale: 1, duration: .2, ease: "power2.out" }], transformOrigin: "50% 50%", immediateRender: false }, 38.97);
 
       /* ---------------- H · "Make it different enough to justify existing..." */
-      cam("#camH", 40.19, 0, { z: 2.0, fx: 1800, fy: 700 });
-      cam("#camH", 40.19, 2.72, { z: 1.05, fx: 1180, fy: 820 }, "power2.inOut");
+      cam("#camH", 40.19, 0, { z: 1.0, fx: 1185, fy: 756 });
+      cam("#camH", 40.61, 2.42, { z: 1.04, fx: 2150, fy: 740 }, "power2.inOut");   // from the two of them to the remade world
       breathe("#brH", 40.19, 43.03, .6);
 
       /* ---------------- I · "...without making people wonder where their game went." */
@@ -528,8 +530,12 @@
       breathe("#brI", 42.93, 49.6, .15);
       tl.fromTo("#dimI", { opacity: 1 }, { opacity: 0, duration: .25, immediateRender: false }, 42.93);
       tl.set("#iOff", { opacity: 1 }, T_OFF + .02);
-      tl.fromTo("#tvLine", { opacity: 1, scaleX: 1, scaleY: 1 }, { keyframes: [{ scaleY: .04, duration: .12, ease: "power2.in" }, { scaleX: 0, duration: .22, ease: "power2.in" }, { opacity: 0, duration: .05 }], immediateRender: false }, T_OFF);
-      tl.set("#tvLine", { opacity: 0 }, 0);
+      // the CRT switch-off: every state is explicit (cold render workers seek straight into it; lint gate)
+      tl.set("#tvLine", { opacity: 0, scaleX: 1, scaleY: 1 }, 0);
+      tl.set("#tvLine", { opacity: 1, scaleX: 1, scaleY: 1 }, T_OFF);
+      tl.to("#tvLine", { scaleY: .04, opacity: 1, duration: .12, ease: "power2.in" }, T_OFF);
+      tl.to("#tvLine", { scaleX: 0, opacity: 1, duration: .22, ease: "power2.in" }, T_OFF + .12);
+      tl.to("#tvLine", { opacity: 0, duration: .05 }, T_OFF + .34);
       cam("#camI", T_OFF + .15, .95, { z: 3.4, fx: SC.cx - 6, fy: SC.cy + 4 }, "power2.inOut");
       tl.to("#dimI", { opacity: .62, duration: .5, ease: "power2.in" }, 46.1);
 
@@ -580,11 +586,11 @@
       const orbit = (t0, t1, cx, cy, rx, ry, turns, r, a0) => { const n = Math.max(3, Math.round((t1 - t0) / .12)); for (let i = 0; i <= n; i++) { const k = i / n, a = (a0 || 0) + 2 * Math.PI * turns * k;
         key(t0 + (t1 - t0) * k, cx + rx * Math.cos(a), cy - ry * Math.sin(a), r); } };
       // A: she bursts into the silence on the pause after "imagination." ("Hello!"), and settles above the hero's shoulder
-      key(0, 960, 600, 20, 0); key(2.95, 960, 600, 20, 0); key(3.08, 930, 620, 24, 1);
-      key(3.45, 700, 720, 22, 1); key(4.58, 640, 700, 20, 1); key(5.4, 620, 680, 20, 1);
-      key(6.5, 600, 640, 20, 1); key(8.53, 580, 620, 20, 1);
+      key(0, 900, 800, 20, 0); key(2.95, 900, 800, 20, 0); key(3.08, 890, 790, 24, 1);
+      key(3.45, 860, 700, 22, 1); key(4.58, 870, 560, 20, 1); key(5.4, 820, 440, 20, 1);
+      key(6.5, 790, 420, 20, 1); key(8.53, 760, 410, 20, 1);
       // B: she rides each upgrade: down to the field (polygons), up to the sun (lighting), round them (animation), with the birds (sound)
-      key(8.63, 560, 600, 18, 1); key(11.16, 470, 1000, 18, 1); key(12.26, 820, 520, 18, 1); key(12.68, 760, 640, 18, 1);
+      key(8.63, 560, 600, 18, 1); key(11.16, 560, 1235, 18, 1); key(12.26, 260, 520, 18, 1); key(12.68, 320, 640, 18, 1);
       orbit(13.12, 13.88, 560, 860, 200, 60, 1, 18, 0);
       key(14.28, 480, 700, 18, 1); key(15.1, 820, 470, 18, 1); key(15.1, 860, 460, 18, 0);
       // D: she drifts by the tiny hero; on "empty" she droops, dim
@@ -595,17 +601,19 @@
       orbit(26.87, 29.15, 560, 800, 240, 160, 2, 18, 1);
       key(29.61, 600, 640, 18, 1); key(30.49, 560, 760, 18, 1); key(32.43, 560, 760, 18, 0);
       // F: beside them for "good", a little dip on "Probably."
-      key(32.5, 300, 660, 20, 0); key(32.55, 300, 660, 20, 1); key(32.91, 280, 620, 20, 1); key(33.63, 260, 660, 20, 1); key(33.93, 250, 720, 18, 1); key(34.33, 250, 700, 18, 1); key(34.4, 250, 700, 18, 0);
+      key(32.5, 560, 400, 20, 0); key(32.55, 560, 400, 20, 1); key(32.91, 575, 370, 20, 1); key(33.63, 565, 420, 20, 1); key(33.93, 575, 520, 18, 1); key(34.33, 575, 510, 18, 1); key(34.4, 575, 510, 18, 0);
       // H: she flies out over the new vista
-      key(40.21, 760, 640, 18, 0); key(40.41, 760, 640, 18, 1); key(42.83, 500, 760, 16, 1); key(42.92, 500, 760, 16, 0);
+      key(40.21, 880, 470, 18, 0); key(40.41, 880, 470, 18, 1); key(41.27, 860, 520, 18, 1); key(42.83, 600, 820, 16, 1); key(42.92, 600, 820, 16, 0);
       // I: by the old TV's glow; she goes out with it
       key(43.31, 720, 640, 16, 0); key(43.63, 720, 640, 16, .85); key(44.39, 700, 600, 16, .85); key(44.69, 700, 600, 14, 0);
       // wordmark: round it into its star, then up with it and down into the thumbnail
       key(46.5, 1000, 830, 26, 0); key(46.65, 1000, 790, 28, 1);
       orbit(46.7, T_STAR - .12, 540, 780, 450, 170, 1.0, 28, 0);
-      key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x, STAR.y - 380, 20, 1);
-      key(48.15, 64 + 880 * .5, 930 + 495 * .3, 24, 1);
-      orbit(48.2, 49.6, 64 + 880 * .5, 930 + 495 * .3, 70, 30, 1.6, 22, 3.14);
+      key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x - 40, STAR.y - 330, 20, 1);
+      key(CARD + .3, 240, 330, 20, 1); key(47.95, 230, 700, 22, 1);      // down Pixie's side of the card, clear of the text,
+      key(48.1, 262, 1000, 22, 1);                                          // then across into the thumbnail, under the text
+      key(48.22, 64 + 880 * .5, 930 + 495 * .3, 24, 1);
+      orbit(48.27, 49.6, 64 + 880 * .5, 930 + 495 * .3, 70, 30, 1.6, 22, 3.14);
       NK.sort((a, b) => a[0] - b[0]);
       function naviPath(t) {
         if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);
@@ -615,15 +623,24 @@
         const cr = (a, b, c, d) => .5 * (2 * b + (-a + c) * u + (2 * a - 5 * b + 4 * c - d) * u * u + (-a + 3 * b - 3 * c + d) * u * u * u);
         return [cr(p0[1], p1[1], p2[1], p3[1]), cr(p0[2], p1[2], p2[2], p3[2]), p1[3] + (p2[3] - p1[3]) * k, p1[4] + (p2[4] - p1[4]) * k]; }
       const at = (t) => { const [x, y, r, op] = naviPath(t); return [x + .4 * .012 * SH * Math.sin(t * 2.3) * .5, y + .012 * SH * .5 * Math.sin(t * 3.7), r, op]; };
-      const ctx = $("#navi").getContext("2d");
+      // Navi's canvas is only as big as she is (520 px square) and follows her, so nothing else counts as covered
+      // (its canvas is sized every frame to her glow + trail, so it never "covers" anything she is not actually over)
+      const NC = $("#navi"), ctx = NC.getContext("2d");
       function drawNavi(t) {
-        ctx.clearRect(0, 0, SW, SH);
-        const [x, y, r, op] = at(t); if (op <= .01) return;
+        const [x0, y0, r, op] = at(t);
+        if (op <= .01) { NC.style.visibility = "hidden"; return; }
+        const TR = []; for (let k = 0; k < 10; k++) { const q = at(t - (k + 1) * .045); if (Math.hypot(q[0] - x0, q[1] - y0) > 170) break; TR.push(q); }   // a short trail: never a long streak across the frame
+        const pad = r * 3.3;
+        const bx0 = Math.floor(Math.min(x0, ...TR.map((q) => q[0])) - pad), by0 = Math.floor(Math.min(y0, ...TR.map((q) => q[1])) - pad);
+        const bx1 = Math.ceil(Math.max(x0, ...TR.map((q) => q[0])) + pad), by1 = Math.ceil(Math.max(y0, ...TR.map((q) => q[1])) + pad);
+        NC.width = bx1 - bx0; NC.height = by1 - by0; ctx.clearRect(0, 0, NC.width, NC.height);
+        NC.style.visibility = "visible"; NC.style.transform = `translate(${bx0}px, ${by0}px)`;
+        const x = x0 - bx0, y = y0 - by0;
         const s = r / 30, col = [120, 195, 255];
         const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3.2);
         g.addColorStop(0, `rgba(${col},${.95 * op})`); g.addColorStop(.35, `rgba(${col},${.45 * op})`); g.addColorStop(1, `rgba(${col},0)`);
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * 3.2, 0, 7); ctx.fill();
-        for (let k = 0; k < 10; k++) { const [qx, qy, , qo] = at(t - (k + 1) * .045); const rr = (4.5 - 3 * k / 10) * s * 1.6;
+        for (let k = 0; k < TR.length; k++) { let [qx, qy, , qo] = TR[k]; qx -= bx0; qy -= by0; const rr = (4.5 - 3 * k / 10) * s * 1.6;
           ctx.fillStyle = `rgba(255,255,255,${op * Math.min(1, qo + .2) * .55 * (1 - k / 10)})`; ctx.beginPath(); ctx.arc(qx, qy, rr, 0, 7); ctx.fill(); }
         const f = .6 + .4 * Math.sin(t * 6.4 * 2 * Math.PI);
         for (const sx of [-1, 1]) {
