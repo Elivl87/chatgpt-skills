@@ -49,8 +49,7 @@ def chunks():
     res = []
     # critic v2 #6/#7: a caption never outlives its shot (it ends at the next cut), and none is shown while a title says the
     # same words (l60 is the "THAT IS THE / IMPOSSIBLE JOB" title)
-    CUTS = sorted(T[k] + d for k, d in (('S1', 0), ('l47', -.1), ('l48', -.08), ('S2', 0), ('l57', -.1), ('l59', -.12),
-                                          ('l60', -.1), ('l61', -.12), ('l62', -.1)))   # l60-0.1: the title takes over
+    CUTS = sorted(T[k] + d for k, d in (('S1', 0), ('l47', -.1), ('l60', -.1)))   # l60-0.1: the title takes over
     out = [c for c in out if c[0][0] != 'l60']
     for i, c in enumerate(out):
         nxt = out[i + 1][0][2] - .06 if i + 1 < len(out) else seg.VOICE_END
