@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Assemble short/index.html from src/short.template.html.
+"""Assemble short/index.html from src/short.template.html (EP002 Short #2).
+
+RES=540 builds the 480p-class preview (540x960: the same 1080x1920 page scaled by 0.5 inside #stage); default 1080.
 
 Time tokens are Short-time word tokens resolved through seg.py (the line selection): {{l07.w2}} = start of word 2 of
 line l07 (1-based), {{l07.w2.end}}, {{l07}} = line start, {{l07.end}}, {{S3}} = start of segment 3, {{VEND}} = end of
@@ -7,7 +9,7 @@ the voice, {{DUR}} = end of the Short; plain arithmetic allowed ({{l07.w2-0.4}})
 /*CAPTIONS*/ -> the caption chunks (word-by-word), /*ART*/ -> staged art geometry (short/assets/art_info.json).
 <!--INCLUDE name--> inlines src/components/<name> or short/compositions/components/<name>.
 """
-import json, re, sys
+import json, os, re, sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -48,7 +50,7 @@ def chunks():
     for i, c in enumerate(out):
         nxt = out[i + 1][0][2] - .06 if i + 1 < len(out) else seg.VOICE_END
         end = min(nxt - .01, c[-1][3] + .7)
-        res.append({'big': c[0][0] in ('l08', 'l10'), 'a': round(c[0][2] - .06, 3), 'e': round(end, 3),
+        res.append({'big': c[0][0] in ('l58',), 'a': round(c[0][2] - .06, 3), 'e': round(end, 3),
                     'w': [[w, round(a, 3), round(b, 3)] for _, w, a, b in c]})
     return res
 
@@ -63,9 +65,11 @@ def include(m):
     raise FileNotFoundError(m.group(1))
 
 
+RES = int(os.environ.get('RES', '1080'))
+src = src.replace('{{RW}}', str(RES)).replace('{{RH}}', str(RES * 16 // 9)).replace('{{RK}}', str(RES / 1080))
 out = re.sub(r'<!--INCLUDE ([\w.-]+)-->', include, src)
 out = re.sub(r'\{\{([^}]+)\}\}', resolve, out)
 out = out.replace('/*CAPTIONS*/', json.dumps(chunks()))
 out = out.replace('/*ART*/', (HERE / 'short/assets/art_info.json').read_text())
 (HERE / 'short/index.html').write_text(out)
-print('wrote short/index.html', len(out), 'bytes; DUR', T['DUR'], '; voice end', T['VEND'])
+print('wrote short/index.html', len(out), 'bytes; RES', RES, '; DUR', T['DUR'], '; voice end', T['VEND'])

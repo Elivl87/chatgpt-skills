@@ -36,3 +36,5 @@ docs/publish/*/short*/_v.mp4
 docs/publish/*/short*/_a.wav
 audio/bram/ep002_es/EP002_audio_es.wav
 docs/publish/*/short_hyperframes/*_v1.mp4
+# Short #2 Hyperframes masters (> 50 MB): kept local, delivered as draft Releases; the _light and _preview copies are versioned
+docs/publish/*/short2_hyperframes/*_hf_v[0-9].mp4

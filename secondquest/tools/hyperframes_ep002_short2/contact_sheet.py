@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Contact sheet of a rendered Short at its beats (word tokens), with the Shorts UI zones marked (bottom 20 %, right 12 %),
-plus a < 30 MB copy when the file is larger (chat limit) and the final loudness.
+"""QC of a rendered Short: a contact sheet every 0.5 s with the Shorts UI zones marked (bottom 20 %, right 12 %), a
+pacing read (visual change events and the longest hold, measured on the frames), the final loudness, and a < 30 MB
+copy when the file is larger (chat limit).
 
-  python3 contact_sheet.py docs/publish/EP002/short_hyperframes/EP002_short_hf_v1.mp4
+  python3 contact_sheet.py docs/publish/EP002/short2_hyperframes/EP002_short2_hf_v1.mp4
 """
 import re, subprocess, sys
 from pathlib import Path
+import numpy as np
 from PIL import Image, ImageDraw
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -14,28 +16,37 @@ import imageio_ffmpeg
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
 src = Path(sys.argv[1])
-T = seg.table()
-BEATS = [('hook', .15), ('castle', T['l07.w8']), ('ground', T['l07.w11']), ('You.', T['l08.w1'] + .2), ('graphics', T['l03.w2']),
-         ('orchestra', T['l03.w4'] + .3), ('voices', T['l03.w5'] + .3), ('controls', T['l03.w7']), ('camera', T['l03.w10']),
-         ('ocarina', T['l04.w3']), ('sword', T['l05.w3']), ('Triforce', T['l06.w3'] + .2), ('cartridge', T['l11.w5']),
-         ('not exactly', T['l11.w10']), ('game...', T['l12.w4']), ('room', T['l13.w3']), ('television', T['l14.w3']),
-         ('friend', T['l15.w6']), ('enormous?', T['l17.w4']), ('enormous', T['l17.w9'] + .4), ('actual size', T['l18.w5']),
-         ('smaller', T['l19.w4']), ('wakes', T['l22.w2'] + .1), ('Man...', T['l23.w2']), ('texture', T['l23.w8']),
-         ('controller', T['l125.w6'] + .4), ('different', T['l125.w8'] + .3), ('go back', T['l09.w6']), ('So, why?', T['l10.w2'] + .3),
-         ('star', T['l10.end'] + .6), ('card', T['DUR'] - .4)]
-w, h, cols = 216, 384, 8
-rows = (len(BEATS) + cols - 1) // cols
-sheet = Image.new('RGB', (cols * (w + 6), rows * (h + 22)), (28, 28, 34)); d = ImageDraw.Draw(sheet)
-for i, (name, t) in enumerate(BEATS):
-    raw = subprocess.run([FF, '-v', 'error', '-ss', f'{t:.3f}', '-i', str(src), '-frames:v', '1', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'],
-                         capture_output=True, check=True).stdout
-    im = Image.frombytes('RGB', (1080, 1920), raw).resize((w, h), Image.LANCZOS)
-    x, y = (i % cols) * (w + 6), (i // cols) * (h + 22)
-    sheet.paste(im, (x, y + 20)); d.text((x + 3, y + 4), f'{t:5.2f}s {name}', fill=(255, 220, 90))
-    d.line((x, y + 20 + h * .8, x + w, y + 20 + h * .8), fill=(255, 70, 70)); d.line((x + w * .88, y + 20, x + w * .88, y + 20 + h), fill=(255, 70, 70))
+info = subprocess.run([FF, '-i', str(src)], capture_output=True, text=True).stderr
+VW, VH = map(int, re.search(r', (\d{3,5})x(\d{3,5})', info).groups())
+
+# every 0.5 s: one decode pass at 2 fps (frame k = k * 0.5 s + 0.25 s, the middle of each half second)
+tw, th, cols = 162, 288, 12
+raw = subprocess.run([FF, '-v', 'error', '-i', str(src), '-vf', f'fps=2:start_time=0,scale={tw}:{th}', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'],
+                     capture_output=True, check=True).stdout
+n = len(raw) // (tw * th * 3)
+rows = (n + cols - 1) // cols
+sheet = Image.new('RGB', (cols * (tw + 4), rows * (th + 18)), (28, 28, 34)); d = ImageDraw.Draw(sheet)
+for i in range(n):
+    im = Image.frombytes('RGB', (tw, th), raw[i * tw * th * 3:(i + 1) * tw * th * 3])
+    x, y = (i % cols) * (tw + 4), (i // cols) * (th + 18)
+    sheet.paste(im, (x, y + 16)); d.text((x + 3, y + 3), f'{i * .5:5.1f}s', fill=(255, 220, 90))
+    d.line((x, y + 16 + th * .8, x + tw, y + 16 + th * .8), fill=(255, 70, 70)); d.line((x + tw * .88, y + 16, x + tw * .88, y + 16 + th), fill=(255, 70, 70))
 out = src.with_name(src.stem + '_contact.jpg')
-sheet.save(out, quality=86)
-print('sheet', out)
+sheet.save(out, quality=84)
+print('sheet', out, f'({n} frames, every 0.5 s)')
+
+# pacing: visual change events at 10 fps (mean abs luma difference between frames > threshold), longest hold
+raw = subprocess.run([FF, '-v', 'error', '-i', str(src), '-vf', 'fps=10,scale=90:160,format=gray', '-f', 'rawvideo', '-'], capture_output=True, check=True).stdout
+fr = np.frombuffer(raw, np.uint8).reshape(-1, 160, 90).astype(np.float32)
+diff = np.abs(np.diff(fr, axis=0)).mean((1, 2))
+ev = [i / 10 for i in range(1, len(diff)) if diff[i] > 6 and diff[i] >= diff[i - 1]]
+evs = []
+for t in ev:
+    if not evs or t - evs[-1] > .4:
+        evs.append(t)
+gaps = np.diff([0] + evs + [len(fr) / 10])
+print(f'pacing: {len(evs)} visual change events in {len(fr) / 10:.1f} s ({len(evs) / (len(fr) / 600):.1f}/min), '
+      f'longest hold {gaps.max():.2f} s (ends {([0] + evs + [len(fr) / 10])[int(gaps.argmax()) + 1]:.1f} s)')
 
 mb = src.stat().st_size / 1e6
 if mb > 30:                                                         # a copy under the chat limit
@@ -44,7 +55,10 @@ if mb > 30:                                                         # a copy und
     for p in (1, 2):
         subprocess.run([FF, '-v', 'error', '-y', '-i', str(src), '-c:v', 'libx264', '-preset', 'slow', '-b:v', f'{kbps}k', '-pass', str(p),
                         '-passlogfile', str(HERE / 'renders/x264pass'), '-pix_fmt', 'yuv420p']
-                       + (['-an', '-f', 'mp4', '/dev/null'] if p == 1 else ['-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', str(lite)]), check=True)
+                       + (['-an', '-f', 'mp4', '/dev/null'] if p == 1 else ['-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', str(HERE / 'renders/_light.mp4')]), check=True)
+    Path(HERE / 'renders/_light.mp4').replace(lite)
+    for f in HERE.glob('renders/x264pass*'):
+        f.unlink()
     print('light copy', lite, f'{lite.stat().st_size / 1e6:.1f} MB')
 m = subprocess.run([FF, '-hide_banner', '-i', str(src), '-af', 'ebur128=peak=true', '-f', 'null', '-'], capture_output=True, text=True).stderr
-print(src.name, f'{mb:.1f} MB;', ' '.join(m[m.rindex('Summary:'):].split()[:30]))
+print(src.name, f'{VW}x{VH}, {mb:.1f} MB;', ' '.join(m[m.rindex('Summary:'):].split()[:30]))

@@ -686,3 +686,13 @@
   `docs/publish/EP002/thumbnails/v3/`.
 - Risk note: the generator drew the relics close to the game's designs (Triforce shape, winged hilt, a small
   Triforce mark on the ocarina and the sword). Same category as the v2 thumbnail's relics; no Nintendo logo or text.
+
+## Short #2 (Hyperframes) "The remake's impossible job" (2026-10-14)
+- Producer brief: a different angle from the same episode, 480p preview first, the new v3 thumbnail (B1 "EXCEPT YOU")
+  on the end card, Navi with the Producer's original clips. Candidates in `docs/publish/EP002/short2_hyperframes/CANDIDATES.md`;
+  Claude picked A: l51-l53, l42-l50, l54-l62 (49.6 s, cuts inside measured pauses). Tool: `tools/hyperframes_ep002_short2/`.
+- Navi clips used (all from `public/episodes/ep002/sfx/navi_original/`): NAVI_HELLO in the pause after "imagination."
+  (~9 dB under Bram), NAVI_SFX_01 as her trail (~14 dB under), SFX_02/03/04 on her moves (~15 dB under), and
+  **NAVI_LOOK** ("Look!") on the end card as she flies into the thumbnail, with no voice under it (~9 dB under the voice
+  level). LOOK is a new use of the pack; risk as recorded for the first use (Nintendo audio).
+- Preview delivered: `EP002_short2_hf_v1_preview540.mp4` (540x960). The 1080x1920 master waits for the Producer's OK.

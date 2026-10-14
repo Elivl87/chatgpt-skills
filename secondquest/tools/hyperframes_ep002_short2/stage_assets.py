@@ -167,7 +167,9 @@ def stage_art():
     info['quest_floor'] = {'x': BH.QSPEC[0] * PW, 'feet': BH.QSPEC[1] * PH, 'h': BH.QSPEC[2] * PH}
 
     shutil.copy2(ROOT / 'public/art/core/brand/secondquest_wordmark.png', OUT / 'wordmark.png')
-    shutil.copy2(ROOT / 'docs/publish/EP002/thumbnails/v2/EP002_thumb_opt1d_EXCEPT_YOU.jpg', OUT / 'thumb.jpg')
+    # end card: the EP002 v3 thumbnail chosen as main (B1 "EXCEPT YOU"), whole and undistorted, over its own raw art
+    shutil.copy2(ROOT / 'docs/publish/EP002/thumbnails/v3/EP002_thumb_v3_B1_EXCEPT_YOU.jpg', OUT / 'thumb.jpg')
+    save(Image.open(ROOT / 'docs/publish/EP002/thumbnails/v3/raw_B1.png').convert('RGB'), 'thumb_raw.jpg', q=88)
     info['sizes'] = {n: Image.open(OUT / n).size for n in ('hero_front.png', 'young_back.png', 'chip_hd.png', 'chip_camera.png',
                                                           'chip_note.png', 'chip_voice.png', 'cam_icon.png', 'wrench.png',
                                                           'area_1998.png', 'area_today.png', 'oca_knob.png')}
@@ -288,6 +290,7 @@ def cues():
         (t('VEND', .05), NAVI / 'NAVI_SFX_01.wav', -14, None),          # Navi flies round the wordmark into its star (her trail)
         (t('VEND', .85), SFXD / 'sparkle.wav', -8, None),               # the star twinkles
         (t('VEND', 1.25), SFXD / 'ui_complete.wav', -10, None),          # end card
+        (t('VEND', 1.55), NAVI / 'NAVI_LOOK.wav', -9, None),            # Navi at the thumbnail: "Look!" (no voice under it)
     ]
 
 
