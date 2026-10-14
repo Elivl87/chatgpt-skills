@@ -2,39 +2,39 @@
  "name": "EP003_bram",
  "source": "docs/ep003/hyperframes/EP003_full_hyperframes_review.mp4",
  "duration_s": 332.0,
- "shots": 109,
- "avg_shot_s": 3.05,
+ "shots": 110,
+ "avg_shot_s": 3.02,
  "median_shot_s": 2.0,
  "longest_shot_s": 17.83,
- "cuts_per_min": 19.5,
- "motion_share": 0.83,
+ "cuts_per_min": 19.7,
+ "motion_share": 0.828,
  "still_2s_runs": 6,
  "brightness_mean": 0.473,
- "saturation_mean": 0.453,
+ "saturation_mean": 0.454,
  "palette": [
   [
    "#19141b",
-   0.199
+   0.2
   ],
   [
    "#20203e",
-   0.187
+   0.188
   ],
   [
    "#a1694a",
-   0.11
+   0.109
   ],
   [
    "#56362d",
-   0.101
+   0.1
   ],
   [
    "#514e6d",
-   0.098
+   0.099
   ],
   [
    "#e98a48",
-   0.097
+   0.096
   ],
   [
    "#d6d4c2",
@@ -49,12 +49,12 @@
    0.045
   ],
   [
-   "#6fb5d4",
+   "#70b5d4",
    0.033
   ]
  ],
  "loud_db_p90": -11.0,
- "pauses_ge_0_5s": 25,
+ "pauses_ge_0_5s": 24,
  "pause_mean_s": 0.6,
  "pause_longest_s": 1.5,
  "words": 887,
