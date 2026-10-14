@@ -76,6 +76,9 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
 - QC subagent per finished block, in parallel while the next block is built: `scale_check.py`, `framing_qc.py`
   sheet, camera continuity, HUD rule, ui_kit text style, walk rules, the "mistakes not to repeat" list of the
   playbook. Fix what it finds before moving on.
+- **Design gate + critic gate (Producer, 2026-10-14, binding; see "Craft skills and the critic gate" below):** no block
+  or Short is rendered in full before its storyboard + full-size key frames pass `docs/style/DESIGN_RUBRIC.md`, and
+  nothing is sent before an independent `frame-critic` agent returns PASS with 0 automated errors.
 - Full animatic at `QUALITY=review` when all blocks pass; send it to the Producer as a progress report.
 
 ### 6. Credit gate (the Producer approves)
@@ -95,6 +98,37 @@ cheapest viable set marked. Nothing in it is generated until approved; partial a
 - Retention: ask for the Studio audience-retention CSV export and run
   `python3 scripts/retention_read.py <csv> --episode ep00N` (hook leak at 30/60 s, 5 steepest cliffs mapped to script
   lines, mid-video slope, ONE fix); paste its output into `ANALYTICS_48H.md`. `--demo` self-tests it.
+
+## Craft skills and the critic gate (2026-10-14, after the Short #2 v2 rejection)
+
+The Producer rejected Short #2 v2 for defects these skills and tools already describe (ghost/echo title over the HUD,
+Pixie as a round badge, pasted box, 80 SFX cues). Discovery was never the problem; adoption was. So:
+
+1. **Builders load the craft skills before designing, and cite them in the storyboard.** Vendored in
+   `/.claude/skills/` (licences + SOURCE.md inside each):
+   - composition and hierarchy: `shot-composition` (focal point, safe areas, 9:16 restack), `hyperframes-creative`
+     (read `references/house-style.md` and `references/video-composition.md` first; `typography.md`,
+     `beat-direction.md`, `storyboard-recipe.md`, `review-loop.md`, `captions/`);
+   - motion: `animation-principles` (12 principles, easing, timing), `motion-art-direction` (restraint, motion
+     language), `motion-design` (choreography, quality checklist), `hyperframes-animation` (rules, transitions;
+     `references/motion-blur.md`: never blur readable text), `kinetic-typography` (titles and captions),
+     `beat-sync-editing` (cuts and rhythm), `gsap-core` / `gsap-timeline` / `gsap-performance`;
+   - structure: `explainer-video` (scene grammar; ignore its Remotion commands);
+   - discipline: `verification-before-completion` (evidence before "done").
+2. **Storyboard first** (`hyperframes-creative/references/storyboard-recipe.md` + `review-loop.md`): one row per beat
+   with focal point, art choice and why it fits this line, text, motion, and sound cues with their reason. Key frames
+   at full size. The director (main agent) reviews against `docs/style/DESIGN_RUBRIC.md` before the build.
+3. **Builder self-checks** (all must show 0 errors before handing over):
+   `source tools/hyperframes_ep003/env.sh; hyperframes lint --json <project>`;
+   `python3 scripts/frame_critic.py <project> --lint --out build/critic/<name>` (ghost text, text over text/HUD/faces,
+   portrait badges, safe zone, tiny text, small characters, clutter; annotated frames + `flags_sheet.jpg`);
+   `python3 scripts/sfx_audit.py <cue log> --mix <mix>` (density, bursts, rest, fatigue, harsh/sound-alike cues,
+   loudness); `hyperframes check <project> --json --at-transitions` once lint is clean; framing/pacing QC.
+4. **Independent critic** (a separate subagent with the `frame-critic` skill, never the builder) reruns the tools,
+   looks at full-size frames every 0.5 s (0.1 s around titles and transitions), checks the last rejection's defects
+   one by one, and returns the PASS/FIX/FAIL sheet. Only PASS goes to the Producer, with the sheet attached.
+5. Every new defect the Producer finds becomes (a) a rubric line and (b) where possible a `frame_critic.py` /
+   `sfx_audit.py` rule, so it cannot repeat silently.
 
 ## Subagents and workflows
 - Subagents (Agent tool) are part of this mode: research, reviews, QC. Give each a self-contained brief with the
