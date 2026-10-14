@@ -111,3 +111,9 @@
   01 lake dusk plate (27443c63), 02 slap revive (cb8ceb79), 03 launched (a30729de), 04 kid at the door (e31b2a20),
   in `docs/art_orders/ep003/new_art_v1/`. QC pass (Quest/Pixie identity, red sneakers, no text/logos). Balance 24.25.
 - Bram EN narration APPROVED (~16 credits), script LOCKED v3.2 verbatim. The VoiceStudio clone stays internal only.
+
+## 2026-10-14 · Preliminary (Bram + new art + Max/Leo) review
+- Producer flagged 5:23 (block G night wide shot): "uno de los personajes queda fuera del bote" (Max at the stern,
+  outside the hull). QC miss. Fix: all four inside the hull (in-boat layers), plus a sweep of every boat shot; free
+  polish (lip-flap, livelier G wide shot) in the same pass. QC rule added: boat shots are checked every 0.5 s for
+  anyone outside the hull.
