@@ -702,3 +702,12 @@
   card) plus a full-figure shot sitting on the bedroom floor beside grown-up Quest (library #8, face 0.90× his). SFX
   redone with the CC0 catalog + `scripts/sfx_pick.py`: 80 renders, 80 distinct files, no file twice, layered cues, CC0
   and our own sounds only. Navi's clips are unchanged.
+
+## 2026-10-14 · Short #2 v2 preview REJECTED
+- Producer: "Mira esa caja sobrepuesta mal diseñada. ¿De qué sirve que Pixie salga en un circulito? ... Repiten errores
+  constantemente, la selección de algunas artes es debatible, ni se diga de los sonidos ... busca en GitHub qué te puede
+  ayudar ... a DAR ESE SALTO DE CALIDAD ... y nuevamente, repite el Short para el EP002."
+- Defects: title with ghost/echo copies overlapping the HUD (0–2.5 s); floating speech box over the polaroid (36 s);
+  Pixie only as a portrait badge; busy, cheap SFX (80 cues). Redo from the design up with a design gate (key frames +
+  storyboard approved before render), full-figure Pixie (existing costume/kid/library art), restrained sound, and an
+  independent critic pass. Quality-leap research + installation of skills/QA tools running in parallel.

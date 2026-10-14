@@ -101,4 +101,10 @@
   props, phones, signs, anything) rests where it belongs (on the seat, the table, in the hand; never floating, never
   outside its boat or container), is not cut through by another object, keeps a consistent scale across shots and
   matches the scene's light. QC samples every block every 0.5 s for this before anything is sent.
+- **Design gate + independent critic (Producer, 2026-10-14: "no estás dando la talla... repiten errores"):** before any
+  full render, key frames at full size + a storyboard are reviewed against `docs/style/DESIGN_RUBRIC.md` and approved by
+  the director; after the render a second, independent critique pass (not the builder) checks every 0.5 s. Nothing
+  overlaps unless designed (no text over HUD/faces, no ghost/echo text, no pasted floating boxes); characters who act
+  appear full-figure (never as a portrait badge); every art choice is justified per beat; sound is restrained and
+  purposeful (fewer, better cues).
 - **Review by timestamp:** when the Producer flags an interval, fix only that interval and prove the rest is unchanged.
