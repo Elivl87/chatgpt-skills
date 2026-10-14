@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=540, height=960" />
+    <meta name="viewport" content="width=1080, height=1920" />
     <title>EP002 Short 2</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
@@ -11,10 +11,10 @@
       @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
       :root { --gold: #ffc83d; --ink: #16161f; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 540px; height: 960px; overflow: hidden; background: #16161f; }
-      #root { position: relative; width: 540px; height: 960px; overflow: hidden; font-family: "Inter", sans-serif; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; }
       /* everything is authored at 1080 x 1920; the 480p-class preview renders the same page scaled (build.py RES=540) */
-      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(0.5); transform-origin: 0 0; overflow: hidden; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(1.0); transform-origin: 0 0; overflow: hidden; }
       .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
       .abs { position: absolute; }
       .shot { overflow: hidden; background: #16161f; }
@@ -115,7 +115,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="49.6" data-fps="30" data-width="540" data-height="960">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="49.6" data-fps="30" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="49.6" data-track-index="30" data-volume="1"></audio>
       <div id="stage">
 

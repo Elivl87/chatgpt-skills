@@ -696,3 +696,9 @@
   **NAVI_LOOK** ("Look!") on the end card as she flies into the thumbnail, with no voice under it (~9 dB under the voice
   level). LOOK is a new use of the pack; risk as recorded for the first use (Nintendo audio).
 - Preview delivered: `EP002_short2_hf_v1_preview540.mp4` (540x960). The 1080x1920 master waits for the Producer's OK.
+- Pass 2 (Producer: "usa a Pixie más… me gustan los sonidos de Navi… los demás sonidos son repetitivos"): Pixie carries
+  6 beats: a portrait badge from her library poses (awe and then surprise on the REMAKE CHECK bars, impressed and then
+  laughing on "Which is good. Probably.", thinking as the polaroid changes, determined on the slider, waving on the end
+  card) plus a full-figure shot sitting on the bedroom floor beside grown-up Quest (library #8, face 0.90× his). SFX
+  redone with the CC0 catalog + `scripts/sfx_pick.py`: 80 renders, 80 distinct files, no file twice, layered cues, CC0
+  and our own sounds only. Navi's clips are unchanged.
