@@ -100,3 +100,15 @@ entrance/exit, the l60 title, the wordmark and card, and every cut. They are scr
 | 11 | The reflection reads as a picture | New plate `room_dark` (TV just off, dark glass). The switch-off line plays on it, then the reflection rises over 0.7 s: mirrored, grey-blue, 21 % opacity, with a diagonal glass highlight streak. |
 | Sound | Daytime bed at 44.34 s | Replaced by crickets (`lokif_swamp/cricket_2.ogg`, -17 dB within the CRT-off layer). Still 14 onsets; the "lighting" bell stays (no cut needed). |
 | Own check | 28-30 s and 35-42 s at full size | 28-30 s: fine. 35-38 s: fine (the scan line reads; faces clear). 41.2 s: the vista pan dragged princess Pixie half out of frame, so it is replaced by a 0.45 s dissolve from the two of them to the castle framing. |
+
+## Critic v2b (FIX, minor) -> what changed
+
+| # | Item | Fix |
+|---|---|---|
+| 1 | 41.03-41.27 s: see-through characters in the vista dissolve | Hard cut to the castle framing on "justify" (l61.w6, 41.47 s). No dissolves between character shots. |
+| 2 | 47.73-47.87 s: the full-size wordmark over the rising sign | The card builds only after the wordmark reaches its small top position: text at CARD+0.5, sign at CARD+0.56, Pixie at CARD+0.72. Navi and her "Look!" follow (+0.08 s). |
+| 3 | Frame 0: title in sliced strips | The hook opens on the finished still (title and balloon already in place, no reveal). |
+| 4 | Reflection too big | The reflection is now ~60 % of its old size, sitting low in the glass. |
+
+Checked by eye on frames pulled from the rendered MP4 (0.0, 0.033, 41.37, 41.43, 41.5, 45.8, 47.7-48.1 s): no
+semi-transparent overlaps. gates.sh adds a 1/30 s window at 40.9-41.8 s; all windows have 0 errors.
