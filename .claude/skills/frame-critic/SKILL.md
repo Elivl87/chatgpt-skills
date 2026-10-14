@@ -24,6 +24,9 @@ the latest rejection notes in `secondquest/docs/<ep>/PRODUCER_DECISIONS.md`, and
    - `python3 secondquest/scripts/frame_critic.py <project> --step 0.25 --lint --out <scratch>/critic` : read
      `critic.md`; open every `flag_t*.png` with errors at full size and confirm or reject each finding (boxes
      include transparent margins, so TEXT_OVER_CHARACTER needs your eye on the face).
+     **Plus a 1/30 s sweep (`--step 0.0333`) over ±0.5 s around every title entrance/exit, every cut and every HUD
+     fade** (lesson 2026-10-14: a 0.25 s sweep stepped over a 4-frame title-over-HUD overlap that the Producer had
+     already rejected). Builders run the same sweeps before claiming done.
    - `hyperframes check <project> --json --at-transitions --caption-zone "x0=0;y0=.80;x1=1;y1=1"` (9:16) when lint
      passes: layout, contrast, motion sidecar.
    - `python3 secondquest/scripts/sfx_audit.py <cues> --mix <mix> --kind short|episode`.
