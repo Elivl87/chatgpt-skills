@@ -716,3 +716,7 @@
   B/F with existing poses, idle breathing, a quick 0.7 s camera-clip in E). Preview `EP002_short2_hf_v2_preview540.mp4`
   (540x960, -14.1 LUFS): Pixie full figure in 9 beats, no panels, no motion blur on text, 14 SFX onsets incl. Navi
   (HELLO, SFX_01, LOOK: same clips and risk as recorded above). Gates: lint 0 E, frame_critic 0 E, sfx_audit 0/0, check ok.
+- v3 re-cut (Producer, 2026-10-14: 20-25 s, dopamine with coherence; no faked actions; end on the thumbnail; use the
+  princess vista and the giant tree): 22.6 s (l51-l53, l42-l47, l60 + 2.8 s card), hook -> giant-tree escalation ->
+  1998 twist -> vista payoff (hard cut + one bass-drop impact) -> thumbnail sign. Preview `EP002_short2_hf_v3_preview540.mp4`.
+  Navi: HELLO, SFX_01, LOOK (same clips and risk as recorded above).

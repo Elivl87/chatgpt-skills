@@ -75,3 +75,14 @@ def n64(src_img):
     f = np.clip(1 - np.abs(yy - .5) / .2, 0, 1)[..., None] * .45
     out = out * (1 - f) + hor * f
     return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+
+
+def build_generic(plate, dark=1.0):
+    """Any plate (no skybox tracing): (old, mid) = coarse flat-shaded low-poly with a flat, dimmer 1998 light and fog,
+    and a finer halfway step. Used for the giant tree (#14) in the v3 escalation."""
+    global src, H, W
+    src = np.asarray(plate.convert('RGB')).astype(np.float32)
+    H, W = src.shape[:2]
+    old = np.asarray(lowpoly(22, seed=21, fog=.1, sat=.75)).astype(np.float32)
+    g = old.mean(2, keepdims=True); old = (g + (old - g) * .85) * dark       # flat 1998 lighting: less contrast, dimmer
+    return Image.fromarray(np.clip(old, 0, 255).astype(np.uint8)), lowpoly(11, seed=23, fog=.04, sat=.95)

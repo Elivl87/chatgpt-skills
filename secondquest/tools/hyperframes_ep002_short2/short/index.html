@@ -82,8 +82,8 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="49.6" data-fps="30" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="49.6" data-track-index="30" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="22.64" data-fps="30" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="22.64" data-track-index="30" data-volume="1"></audio>
       <div id="stage">
       <div id="shake" class="full">
 
@@ -100,114 +100,51 @@
         </div></div>
       </div>
 
-      <!-- ===== B · l42-l46 · the same field in its 1998 look; each "better" is applied live; the two look up at it ===== -->
+      <!-- ===== B · l42-l46 · the giant tree (#14) in its 1998 look; each "better" upgrades it on the word: polygons (the low-poly
+           world sharpens, its face appears), lighting (a sun flare), animation (the leaves fall), sound (a flock bursts out) ===== -->
       <div id="shB" class="full shot clip" data-start="8.63" data-duration="6.51" data-track-index="2">
         <div class="breath" id="brB"><div class="cam" id="camB">
-          <img class="plate" src="assets/field_old.jpg" alt="" />
-          <img class="plate" id="bMid" src="assets/field_mid.jpg" alt="" style="opacity: 0" />
-          <img class="plate" id="bHd" src="assets/field.jpg" alt="" style="opacity: 0" />
-          <div id="sun" class="abs" style="left: 300px; top: -500px; width: 1800px; height: 1400px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(ellipse at 40% 30%, rgba(255,226,150,.9) 0%, rgba(255,210,120,.3) 40%, rgba(255,200,100,0) 70%)"></div>
-          <div class="chr" id="qB" data-role="character"><div class="foot"></div><img id="qB_b" class="on" src="assets/hero_front.png" alt="quest" /><img id="qB_a" src="assets/q3a.png" alt="quest" /><img id="qB_m" data-flip src="assets/q3a.png" alt="quest" /></div>
-          <div class="chr" id="pB" data-role="character"><div class="foot"></div><img id="pB_e" class="on" src="assets/p2e.png" alt="pixie" /><img id="pB_d" src="assets/p2d.png" alt="pixie" /></div>
+          <img class="plate" src="assets/tree_old.jpg" alt="" />
+          <img class="plate" id="bMid" src="assets/tree_mid.jpg" alt="" style="opacity: 0" />
+          <img class="plate" id="bHd" src="assets/tree.jpg" alt="" style="opacity: 0" />
+          <div id="sun" class="abs" style="left: -612px; top: -105px; width: 1600px; height: 1600px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(circle, rgba(255,240,200,1) 0%, rgba(255,214,140,.55) 12%, rgba(255,200,110,.18) 35%, rgba(255,190,100,0) 60%)"></div>
+          <div id="streak" class="abs" style="left: -812px; top: 683px; width: 2000px; height: 24px; opacity: 0; mix-blend-mode: screen; border-radius: 12px; background: linear-gradient(90deg, rgba(255,220,160,0), rgba(255,236,200,.9) 50%, rgba(255,220,160,0))"></div>
         </div></div>
-        <div id="beams" class="full" style="opacity: 0; mix-blend-mode: screen; transform: scaleX(-1)">
-          <div class="abs" style="left: 700px; top: -300px; width: 140px; height: 1700px; transform: rotate(24deg); background: linear-gradient(rgba(255,240,190,.45), rgba(255,240,190,0))"></div>
-          <div class="abs" style="left: 900px; top: -300px; width: 80px; height: 1500px; transform: rotate(24deg); background: linear-gradient(rgba(255,240,190,.35), rgba(255,240,190,0))"></div>
-          <div class="abs" style="left: 520px; top: -300px; width: 60px; height: 1500px; transform: rotate(24deg); background: linear-gradient(rgba(255,240,190,.3), rgba(255,240,190,0))"></div>
+        <div id="beams" class="full" style="opacity: 0; mix-blend-mode: screen">
+          <div class="abs" style="left: 120px; top: -300px; width: 150px; height: 2000px; transform: rotate(-28deg); background: linear-gradient(rgba(255,236,180,.5), rgba(255,236,180,0))"></div>
+          <div class="abs" style="left: 380px; top: -300px; width: 90px; height: 2000px; transform: rotate(-28deg); background: linear-gradient(rgba(255,236,180,.38), rgba(255,236,180,0))"></div>
+          <div class="abs" style="left: 600px; top: -300px; width: 60px; height: 2000px; transform: rotate(-28deg); background: linear-gradient(rgba(255,236,180,.3), rgba(255,236,180,0))"></div>
         </div>
+        <div id="leaves" class="full"></div>
         <div id="birds" class="full"></div>
       </div>
 
-      <!-- ===== C · l47 · real life, 1998: the childhood bedroom; kid Pixie (#6b) points the way on the CRT; push into the screen ===== -->
-      <div id="shC" class="full shot clip" data-start="15.12" data-duration="2.52" data-track-index="3">
-        <div class="breath" id="brC"><div class="cam" id="camC"><img class="plate" src="assets/kids_old.jpg" alt="kid quest and kid pixie" /></div></div>
+      <!-- ===== C · l47 + l60 · real life, 1998: the childhood bedroom (kid Quest #6a, kid Pixie #6b pointing at our CRT): the
+           twist "But familiar is not measurable." and the payoff: the memory is "improved" under a rebuild scan while the
+           title returns: THAT IS THE IMPOSSIBLE JOB (one continuous shot) ===== -->
+      <div id="shC" class="full shot clip" data-start="15.12" data-duration="2.59" data-track-index="3">
+        <div class="breath" id="brC"><div class="cam" id="camC">
+          <img class="plate" src="assets/kids_old.jpg" alt="kid quest and kid pixie" />
+          <img class="plate" id="cNew" src="assets/kids_new.jpg" alt="kid quest and kid pixie" style="clip-path: inset(0px 0px 1512px 0px)" />
+        </div></div>
         <div id="warmC" class="full" style="mix-blend-mode: soft-light; background: radial-gradient(ellipse at 30% 80%, rgba(255,170,90,.45), rgba(255,170,90,0) 70%)"></div>
       </div>
 
-      <!-- ===== D · l48-l50 · inside the TV: 1998 Hyrule, enormous; rebuilt "today"; and empty ===== -->
-      <div id="shD" class="full shot clip" data-start="17.62" data-duration="8.3" data-track-index="4">
-        <div class="breath" id="brD"><div class="cam" id="camD">
-          <img class="plate" src="assets/field_old.jpg" alt="" />
-          <img class="plate" id="dHd" src="assets/field.jpg" alt="" style="clip-path: inset(0px 0px 1512px 0px)" />
-          <div class="chr" id="qD" data-role="character"><div class="foot"></div><img class="sa on" src="assets/young_back.png" alt="quest" /><img class="mir" data-flip src="assets/young_back.png" alt="quest" /></div>
+      <!-- ===== V · l60 payoff: the remake's epic new look (#17+18, princess Pixie + adult Quest on the outcrop) on "That is the",
+           then a hard cut on "impossible" to the castle in the sun: the bass drop, a flare and the kinetic title ===== -->
+      <div id="shV1" class="full shot clip" data-start="17.69" data-duration="1.0" data-track-index="4">
+        <div class="breath" id="brV1"><div class="cam" id="camV1"><img class="plate" src="assets/outcrop.jpg" alt="quest and pixie" /></div></div>
+      </div>
+      <div id="shV2" class="full shot clip" data-start="18.67" data-duration="3.97" data-track-index="5">
+        <div class="breath" id="brV2"><div class="cam" id="camV2"><img class="plate" src="assets/outcrop.jpg" alt="" />
+          <div id="vflare" class="abs" style="left: 1201px; top: 35px; width: 1200px; height: 1200px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(circle, rgba(255,246,214,1) 0%, rgba(255,214,140,.6) 10%, rgba(255,190,110,.2) 32%, rgba(255,180,100,0) 58%)"></div>
         </div></div>
-        <div id="scanD" class="abs" style="left: 0; top: 0; width: 1080px; height: 14px; background: #eafff0; box-shadow: 0 0 36px 14px rgba(150,255,180,.7); opacity: 0"></div>
-        <div id="scanlines" class="full" style="background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 3px, rgba(0,0,0,0) 3px 7px); opacity: 0"></div>
-        <img id="a98" class="abs" src="assets/area_1998.png" alt="1998" style="left: 91px; top: 360px; width: 800px; opacity: 0" />
-        <img id="aTo" class="abs" src="assets/area_today.png" alt="today" style="left: 159px; top: 344px; width: 664px; opacity: 0" />
-        <div id="leaves" class="full"></div>
+        <div id="vdim" class="full" style="background: linear-gradient(180deg, rgba(20,10,10,.55) 0%, rgba(20,10,10,.15) 30%, rgba(20,10,10,0) 45%); opacity: 0"></div>
+        <div id="vnight" class="full" style="background: #07060a; opacity: 0"></div>
       </div>
 
-      <!-- ===== E · l54-l56 · behind the two of them on the road: the old game camera fights them (viewfinder + a low-poly rock it clips into); fixed ===== -->
-      <div id="shE" class="full shot clip" data-start="25.9" data-duration="6.57" data-track-index="5">
-        <div id="eRot" class="full" style="transform-origin: 540px 1100px">
-          <div class="breath" id="brE"><div class="cam" id="camE">
-            <img class="plate" src="assets/field.jpg" alt="" />
-            <div class="chr" id="qE" data-role="character"><div class="foot"></div><img class="sa on" src="assets/young_back.png" alt="quest" /><img class="mir" data-flip src="assets/young_back.png" alt="quest" /></div>
-            <div class="chr" id="pE" data-role="character"><div class="foot"></div><img class="on" src="assets/p2f.png" alt="pixie" /></div>
-          </div></div>
-          <div id="rock" style="transform: translateX(1150px)">
-            <svg viewBox="0 0 900 1920" preserveAspectRatio="none">
-              <polygon points="90,0 900,0 900,1920 0,1920 60,1500 20,1100 110,720 40,380" fill="#5d5a52"/>
-              <polygon points="90,0 420,0 300,420 40,380" fill="#77736a"/><polygon points="420,0 900,0 900,300 300,420" fill="#6a665d"/>
-              <polygon points="40,380 300,420 260,820 110,720" fill="#4e4b44"/><polygon points="300,420 900,300 900,900 260,820" fill="#625e55"/>
-              <polygon points="110,720 260,820 220,1240 20,1100" fill="#6f6b61"/><polygon points="260,820 900,900 900,1400 220,1240" fill="#56534b"/>
-              <polygon points="20,1100 220,1240 160,1640 60,1500" fill="#4a4740"/><polygon points="220,1240 900,1400 900,1920 0,1920 60,1500 160,1640" fill="#5f5b52"/>
-              <polygon points="90,0 300,0 230,90 60,70" fill="#5e8a3a"/><polygon points="300,0 900,0 900,60 230,90" fill="#4f7a31"/>
-              <polyline points="90,0 40,380 110,720 20,1100 60,1500 0,1920" fill="none" stroke="#16161f" stroke-width="10" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-        <div id="vf" data-critic-ignore>
-          <svg viewBox="0 0 1080 1920">
-            <g id="vfLines" fill="none" stroke="#fffdf6" stroke-width="9" stroke-linecap="round" opacity=".92">
-              <path d="M72 470 V378 H164"/><path d="M1008 470 V378 H916"/><path d="M72 1180 V1272 H164"/><path d="M1008 1180 V1272 H916"/>
-              <path d="M520 825 H560 M540 805 V845" stroke-width="5"/>
-            </g>
-            <circle id="vfRec" cx="104" cy="336" r="13" fill="#ff4d5e"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- ===== F · l57-l58 · front two-shot: "Which is good." (#3b + #2d) / "Probably." (Pixie #2e, the push in) ===== -->
-      <div id="shF" class="full shot clip" data-start="32.45" data-duration="1.98" data-track-index="6">
-        <div class="breath" id="brF"><div class="cam" id="camF">
-          <img class="plate" src="assets/field.jpg" alt="" />
-          <div class="chr" id="qF" data-role="character"><div class="foot"></div><img class="on" src="assets/hero_front.png" alt="quest" /></div>
-          <div class="chr" id="pF" data-role="character"><div class="foot"></div><img id="pF_d" class="on" src="assets/p2d.png" alt="pixie" /><img id="pF_e" src="assets/p2e.png" alt="pixie" /></div>
-        </div></div>
-      </div>
-
-      <!-- ===== G · l59-l60 · back in the 1998 bedroom: the memory is "improved" under a rebuild scan; the title returns ===== -->
-      <div id="shG" class="full shot clip" data-start="34.41" data-duration="5.8" data-track-index="7">
-        <div class="breath" id="brG"><div class="cam" id="camG">
-          <img class="plate" src="assets/kids_old.jpg" alt="kid quest and kid pixie" />
-          <img class="plate" id="gNew" src="assets/kids_new.jpg" alt="kid quest and kid pixie" style="clip-path: inset(0px 0px 1512px 0px)" />
-        </div></div>
-        <div id="scanG" class="abs" style="left: 0; top: 0; width: 1080px; height: 10px; background: #eaf4ff; box-shadow: 0 0 30px 12px rgba(170,210,255,.6); opacity: 0"></div>
-        <div id="dimG" class="full" style="background: linear-gradient(180deg, rgba(10,10,20,.62) 0%, rgba(10,10,20,.25) 34%, rgba(10,10,20,0) 50%); opacity: 0"></div>
-      </div>
-
-      <!-- ===== H · l61 · the remake's own new look: the golden-hour vista (#17+18), pull back from the castle to the two of them ===== -->
-      <div id="shH" class="full shot clip" data-start="40.19" data-duration="2.76" data-track-index="8">
-        <div class="breath" id="brH"><div class="cam" id="camH"><img class="plate" src="assets/outcrop.jpg" alt="quest and pixie" /></div></div>
-        <div id="hB" class="full" style="opacity: 0"><div class="breath" id="brH2"><div class="cam" id="camH2"><img class="plate" src="assets/outcrop.jpg" alt="" /></div></div></div>
-      </div>
-
-      <!-- ===== I · l62 · real life, today: the grown-up bedroom, the two of them on the floor (Pixie library #8); the CRT goes off ===== -->
-      <div id="shI" class="full shot clip" data-start="42.93" data-duration="6.67" data-track-index="9">
-        <div class="breath" id="brI"><div class="cam" id="camI">
-          <img class="plate" src="assets/room_on.jpg" alt="quest and pixie" />
-          <img class="plate" id="iDark" src="assets/room_dark.jpg" alt="" style="opacity: 0" />
-          <img class="plate" id="iOff" src="assets/room_off.jpg" alt="" style="opacity: 0" />
-          <div id="tvLine" class="abs" style="background: #fff; opacity: 0; box-shadow: 0 0 30px 10px rgba(200,230,255,.8)"></div>
-        </div></div>
-        <div id="dimI" class="full" style="background: #07060a; opacity: 0"></div>
-      </div>
-      </div>
-
-      <!-- ===== HUD: game world only (A after the title, B, D, E, F, H) ===== -->
-      <div id="hud" class="full clip" data-role="hud" data-start="0" data-duration="43.03" data-track-index="15" style="opacity: 0">
+      <!-- ===== HUD: game world only (A after the title, B) ===== -->
+      <div id="hud" class="full clip" data-role="hud" data-start="0" data-duration="15.22" data-track-index="15" style="opacity: 0">
         <img src="assets/hud_hearts.png" alt="" style="left: 60px; top: 150px; width: 290px" />
         <img src="assets/hud_rupee.png" alt="" style="left: 66px; top: 236px; width: 120px" />
         <img src="assets/hud_buttons.png" alt="" style="left: 640px; top: 132px; width: 380px" />
@@ -217,32 +154,32 @@
       <div id="ttl1Clip" class="full clip" data-start="0" data-duration="3.55" data-track-index="16">
         <div id="ttl1" class="ttl" aria-label="The remake's impossible job"><span class="ln" data-layout-allow-overflow><span class="big a">THE REMAKE'S</span></span><span class="ln" data-layout-allow-overflow><span class="big b">IMPOSSIBLE JOB</span></span></div>
       </div>
-      <div id="ttl2Clip" class="full clip" data-start="37.95" data-duration="2.24" data-track-index="22">
-        <div id="ttl2" class="ttl" style="top: 380px" aria-label="That is the impossible job"><span class="ln" data-layout-allow-overflow><span class="big a">THAT IS THE</span></span><span class="ln" data-layout-allow-overflow><span class="big b">IMPOSSIBLE JOB</span></span></div>
+      <div id="ttl2Clip" class="full clip" data-start="18.65" data-duration="1.29" data-track-index="22">
+        <div id="ttl2" class="ttl" style="top: 230px" aria-label="That is the impossible job"><span class="ln" data-layout-allow-overflow><span class="big a">THAT IS THE</span></span><span class="ln" data-layout-allow-overflow><span class="big b">IMPOSSIBLE JOB</span></span></div>
       </div>
 
       <!-- ===== wordmark + end card (the EP002 v3 thumbnail B1, whole) ===== -->
-      <div id="card" class="full clip" data-start="47.5" data-duration="2.1" data-track-index="17" style="opacity: 0">
+      <div id="card" class="full clip" data-start="20.74" data-duration="1.9" data-track-index="17" style="opacity: 0">
         <img id="cardBg" class="abs" src="assets/field.jpg" alt="" style="left: -920px; top: 0; width: 3413px; height: 1920px; filter: blur(2px) brightness(.72) saturate(.95)" />
         <div id="cT"><span class="big a">FULL EPISODE</span><span class="big b">ON THE CHANNEL</span></div>
         <div id="sign"><div class="shadow"></div><div class="post" style="left: 110px"></div><div class="post" style="left: 660px"></div>
           <div id="thumbBox"><img id="thumbImg" src="assets/thumb.jpg" alt="" /></div></div>
         <div id="pixCard" data-role="character"><div class="foot"></div><img src="assets/p2c.png" alt="pixie" /></div>
       </div>
-      <div id="wmClip" class="full clip" data-start="46.3" data-duration="3.3" data-track-index="18">
+      <div id="wmClip" class="full clip" data-start="19.54" data-duration="3.1" data-track-index="18">
         <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
         <div id="twinkle"><div class="g"></div><svg viewBox="-70 -70 140 140"><polygon points="0,-70 12,-12 70,0 12,12 0,70 -12,12 -70,0 -12,-12" fill="#fffaf0"/></svg></div>
       </div>
 
       <!-- ===== Navi (our EP002 fairy: tools/fx/fairy.py twin) ===== -->
-      <div id="naviClip" class="full clip" data-start="0" data-duration="49.6" data-track-index="19" style="pointer-events: none">
+      <div id="naviClip" class="full clip" data-start="0" data-duration="22.64" data-track-index="19" style="pointer-events: none">
         <canvas id="navi" data-critic-ignore class="abs" width="64" height="64" style="left: 0; top: 0; visibility: hidden"></canvas>
       </div>
 
       <!-- ===== captions ===== -->
-      <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="46.6" data-track-index="20"></div>
+      <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="19.84" data-track-index="20"></div>
 
-      <div id="flash" class="full clip" data-start="0" data-duration="49.6" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
+      <div id="flash" class="full clip" data-start="0" data-duration="22.64" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
       </div>
     </div>
 
@@ -355,7 +292,7 @@
   ]
  }
 };
-      const CAPS = [{"big": false, "a": 0.14, "e": 1.15, "w": [["A", 0.2, 0.38], ["silent", 0.38, 0.72], ["character", 0.72, 1.22]]}, {"big": false, "a": 1.16, "e": 2.37, "w": [["once", 1.22, 1.54], ["left", 1.54, 1.84], ["space", 1.84, 2.2], ["for", 2.2, 2.44]]}, {"big": false, "a": 2.38, "e": 3.57, "w": [["your", 2.44, 2.56], ["imagination.", 2.56, 3.0]]}, {"big": false, "a": 3.58, "e": 4.29, "w": [["Give", 3.64, 3.84], ["that", 3.84, 4.06], ["character", 4.06, 4.36]]}, {"big": false, "a": 4.3, "e": 5.11, "w": [["a", 4.36, 4.58], ["voice...", 4.58, 4.88]]}, {"big": false, "a": 5.12, "e": 5.67, "w": [["and", 5.18, 5.4], ["suddenly", 5.4, 5.74]]}, {"big": false, "a": 5.68, "e": 6.43, "w": [["somebody", 5.74, 6.06], ["has", 6.06, 6.32], ["to", 6.32, 6.5]]}, {"big": false, "a": 6.44, "e": 7.37, "w": [["decide", 6.5, 6.82], ["what", 6.82, 7.2], ["that", 7.2, 7.44]]}, {"big": false, "a": 7.38, "e": 8.13, "w": [["silence", 7.44, 7.86], ["sounded", 7.86, 8.2]]}, {"big": false, "a": 8.14, "e": 8.629, "w": [["like.", 8.2, 8.54]]}, {"big": false, "a": 8.78, "e": 9.43, "w": [["Because", 8.84, 9.14], ["better", 9.14, 9.5]]}, {"big": false, "a": 9.44, "e": 10.83, "w": [["is", 9.5, 9.9], ["measurable.", 9.9, 10.4]]}, {"big": false, "a": 10.84, "e": 12.05, "w": [["More", 10.9, 11.16], ["polygons.", 11.16, 11.86]]}, {"big": false, "a": 12.06, "e": 12.99, "w": [["Better", 12.12, 12.26], ["lighting.", 12.26, 12.68]]}, {"big": false, "a": 13.0, "e": 14.05, "w": [["Better", 13.06, 13.22], ["animation.", 13.22, 13.78]]}, {"big": false, "a": 14.06, "e": 15.119, "w": [["Better", 14.12, 14.28], ["sound.", 14.28, 14.8]]}, {"big": false, "a": 15.16, "e": 16.43, "w": [["But", 15.22, 15.42], ["familiar", 15.42, 15.88], ["is", 15.88, 16.5]]}, {"big": false, "a": 16.44, "e": 17.619, "w": [["not", 16.5, 16.88], ["measurable.", 16.88, 17.36]]}, {"big": false, "a": 17.64, "e": 18.91, "w": [["An", 17.7, 18.0], ["empty", 18.0, 18.36], ["field", 18.36, 18.74], ["in", 18.74, 18.98]]}, {"big": false, "a": 18.92, "e": 20.13, "w": [["1998", 18.98, 19.76], ["could", 19.76, 20.2]]}, {"big": false, "a": 20.14, "e": 21.83, "w": [["feel", 20.2, 20.6], ["enormous.", 20.6, 21.18]]}, {"big": false, "a": 21.84, "e": 22.67, "w": [["Rebuild", 21.9, 22.2], ["it", 22.2, 22.42], ["too", 22.42, 22.74]]}, {"big": false, "a": 22.68, "e": 23.97, "w": [["literally", 22.74, 23.16], ["today...", 23.16, 23.62]]}, {"big": false, "a": 23.98, "e": 24.87, "w": [["and", 24.04, 24.26], ["it", 24.26, 24.4], ["might", 24.4, 24.64], ["just", 24.64, 24.94]]}, {"big": false, "a": 24.88, "e": 25.899, "w": [["feel", 24.94, 25.3], ["empty.", 25.3, 25.72]]}, {"big": false, "a": 26.05, "e": 27.1, "w": [["A", 26.11, 26.27], ["camera", 26.27, 26.59], ["you", 26.59, 26.87], ["once", 26.87, 27.17]]}, {"big": false, "a": 27.11, "e": 28.24, "w": [["fought", 27.17, 27.47], ["with", 27.47, 27.75], ["was", 27.75, 27.99], ["part", 27.99, 28.31]]}, {"big": false, "a": 28.25, "e": 28.58, "w": [["of", 28.31, 28.47], ["learning", 28.47, 28.65]]}, {"big": false, "a": 28.59, "e": 29.54, "w": [["the", 28.65, 28.87], ["game.", 28.87, 29.15]]}, {"big": false, "a": 29.55, "e": 30.14, "w": [["Fix", 29.61, 29.73], ["it...", 29.73, 30.01]]}, {"big": false, "a": 30.15, "e": 30.94, "w": [["and", 30.21, 30.35], ["the", 30.35, 30.49], ["game", 30.49, 30.67], ["becomes", 30.67, 31.01]]}, {"big": false, "a": 30.95, "e": 32.449, "w": [["easier", 31.01, 31.49], ["to", 31.49, 31.75], ["inhabit.", 31.75, 32.13]]}, {"big": false, "a": 32.49, "e": 33.56, "w": [["Which", 32.55, 32.75], ["is", 32.75, 32.91], ["good.", 32.91, 33.17]]}, {"big": true, "a": 33.57, "e": 34.409, "w": [["Probably.", 33.63, 34.11]]}, {"big": false, "a": 34.47, "e": 35.02, "w": [["But", 34.53, 34.73], ["every", 34.73, 35.09]]}, {"big": false, "a": 35.03, "e": 36.02, "w": [["improvement", 35.09, 35.67], ["quietly", 35.67, 36.09]]}, {"big": false, "a": 36.03, "e": 37.12, "w": [["changes", 36.09, 36.69], ["the", 36.69, 36.91], ["memory", 36.91, 37.19]]}, {"big": false, "a": 37.13, "e": 37.949, "w": [["attached", 37.19, 37.53], ["to", 37.53, 37.85], ["it.", 37.85, 38.05]]}, {"big": false, "a": 40.25, "e": 40.86, "w": [["Make", 40.31, 40.43], ["it", 40.43, 40.61], ["different", 40.61, 40.93]]}, {"big": false, "a": 40.87, "e": 41.44, "w": [["enough", 40.93, 41.27], ["to", 41.27, 41.51]]}, {"big": false, "a": 41.45, "e": 42.929, "w": [["justify", 41.51, 42.03], ["existing...", 42.03, 42.59]]}, {"big": false, "a": 42.97, "e": 43.56, "w": [["without", 43.03, 43.31], ["making", 43.31, 43.63]]}, {"big": false, "a": 43.57, "e": 44.74, "w": [["people", 43.63, 43.97], ["wonder", 43.97, 44.39], ["where", 44.39, 44.81]]}, {"big": false, "a": 44.75, "e": 46.35, "w": [["their", 44.81, 45.05], ["game", 45.05, 45.33], ["went.", 45.33, 45.65]]}];
+      const CAPS = [{"big": false, "a": 0.14, "e": 1.15, "w": [["A", 0.2, 0.38], ["silent", 0.38, 0.72], ["character", 0.72, 1.22]]}, {"big": false, "a": 1.16, "e": 2.37, "w": [["once", 1.22, 1.54], ["left", 1.54, 1.84], ["space", 1.84, 2.2], ["for", 2.2, 2.44]]}, {"big": false, "a": 2.38, "e": 3.57, "w": [["your", 2.44, 2.56], ["imagination.", 2.56, 3.0]]}, {"big": false, "a": 3.58, "e": 4.29, "w": [["Give", 3.64, 3.84], ["that", 3.84, 4.06], ["character", 4.06, 4.36]]}, {"big": false, "a": 4.3, "e": 5.11, "w": [["a", 4.36, 4.58], ["voice...", 4.58, 4.88]]}, {"big": false, "a": 5.12, "e": 5.67, "w": [["and", 5.18, 5.4], ["suddenly", 5.4, 5.74]]}, {"big": false, "a": 5.68, "e": 6.43, "w": [["somebody", 5.74, 6.06], ["has", 6.06, 6.32], ["to", 6.32, 6.5]]}, {"big": false, "a": 6.44, "e": 7.37, "w": [["decide", 6.5, 6.82], ["what", 6.82, 7.2], ["that", 7.2, 7.44]]}, {"big": false, "a": 7.38, "e": 8.13, "w": [["silence", 7.44, 7.86], ["sounded", 7.86, 8.2]]}, {"big": false, "a": 8.14, "e": 8.629, "w": [["like.", 8.2, 8.54]]}, {"big": false, "a": 8.78, "e": 9.43, "w": [["Because", 8.84, 9.14], ["better", 9.14, 9.5]]}, {"big": false, "a": 9.44, "e": 10.83, "w": [["is", 9.5, 9.9], ["measurable.", 9.9, 10.4]]}, {"big": false, "a": 10.84, "e": 12.05, "w": [["More", 10.9, 11.16], ["polygons.", 11.16, 11.86]]}, {"big": false, "a": 12.06, "e": 12.99, "w": [["Better", 12.12, 12.26], ["lighting.", 12.26, 12.68]]}, {"big": false, "a": 13.0, "e": 14.05, "w": [["Better", 13.06, 13.22], ["animation.", 13.22, 13.78]]}, {"big": false, "a": 14.06, "e": 15.119, "w": [["Better", 14.12, 14.28], ["sound.", 14.28, 14.8]]}, {"big": false, "a": 15.16, "e": 16.43, "w": [["But", 15.22, 15.42], ["familiar", 15.42, 15.88], ["is", 15.88, 16.5]]}, {"big": false, "a": 16.44, "e": 17.689, "w": [["not", 16.5, 16.88], ["measurable.", 16.88, 17.36]]}];
       const $ = (s) => document.querySelector(s);
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
@@ -370,23 +307,12 @@
       const VY = .68 * PH, hAt = (h0, y0, y) => h0 * (y - VY) / (y0 - VY);
 
       // A: hero 400 px tall on the road, Pixie beside him (same ground line), the balloon anchored to his mouth
-      // (front shots keep one screen direction: Pixie on the left of Quest; from behind, E, she is on the right)
+      // (front shots keep one screen direction: Pixie on the left of Quest)
       const QA = put("#qA", "hero_front.png", 1400, 1100, 400);
       const PA = put("#pA", "p2c.png", 1212, 1100, 400 * PIX);
       const BK = .55;   // the balloon: tail tip at his mouth (plate 1368, 800), box up-left of his head, clear of the cap
       Object.assign($("#bub").style, { left: (1368 - 380 * BK - 34) + "px", top: (800 - 252 * BK + 12) + "px", width: (390 * BK) + "px", height: (260 * BK) + "px" });
       $("#dots").style.top = (-52 * BK) + "px"; $("#dots").style.fontSize = (150 * BK) + "px";
-      // B: smaller in a wider frame, both looking up at the world as it is rebuilt
-      put("#qB", "q3a.png", 1556, 1080, 360);
-      put("#pB", "p2d.png", 1380, 1080, 360 * PIX);
-      // D: tiny on the 1998 road
-      put("#qD", "young_back.png", roadX(1250), 1250, 205);
-      // E: from behind, walking up the road side by side
-      put("#qE", "young_back.png", roadX(1330) - 70, 1330, 320);
-      put("#pE", "p2f.png", roadX(1330) + 110, 1330, 320 * PIX);
-      // F: front two-shot, closer than A and centred on the castle axis (a clearly different shot of the same field)
-      put("#qF", "hero_front.png", 1484, 1150, 420);
-      put("#pF", "p2d.png", 1300, 1150, 420 * PIX);
 
       /* ------------------------------------------------------------------ timeline */
       const tl = gsap.timeline({ paused: true });
@@ -395,7 +321,7 @@
       { const ft = tl.fromTo.bind(tl);
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
 
-      const DUR = 49.6;
+      const DUR = 22.64;
       function view(c) { const s = Math.max(SW / PW, SH / PH) * c.z; let x = SW / 2 - c.fx * s, y = SH / 2 - c.fy * s;
         x = Math.min(0, Math.max(SW - PW * s, x)); y = Math.min(0, Math.max(SH - PH * s, y)); return { x, y, scale: s }; }
       function cam(sel, at, dur, c, ez) { const v = view(c);
@@ -417,176 +343,95 @@
         else e.querySelectorAll("img").forEach((i) => i.style.rotate = on ? (1.6 * Math.sin((t - t0) * rate)) + "deg" : "0deg");   // one-pose walkers sway step to step
         const bb = on ? -5 * Math.abs(Math.sin((t - t0) * rate)) : 0; e.querySelectorAll("img").forEach((i) => i.style.top = bb + "px"); } }
 
+      function DOTS0() { return document.querySelectorAll("#dots i"); }
       /* ---------------- A · the silent hero (frame 1 is the hook: title + hero + his empty balloon) */
       cam("#camA", 0, 0, { z: 1.575, fx: 1350, fy: 930 });
       cam("#camA", 0, 3.59, { z: 1.6, fx: 1347, fy: 929 }, "sine.inOut");
       cam("#camA", 3.59, .6, { z: 1.78, fx: 1330, fy: 905 }, "power2.inOut");      // "Give that character a voice...": in on him and his empty balloon
       cam("#camA", 5.05, .5, { z: 1.6, fx: 1347, fy: 929 }, "power2.inOut");    // back out as the balloon pops and Pixie steps in
+      cam("#camA", 7.34, .5, { z: 1.72, fx: 1290, fy: 915 }, "power3.out");       // "silence": in on her, the one who has to decide
       breathe("#brA", 0, 8.63, .2);
       // one crisp entrance: each line rises out of its own mask (no blur, no echo), the second 80 ms after the first
       // frame 0 is the feed's still: the hook opens on the finished title (critic v2b), no reveal
       tl.to("#ttl1", { opacity: 0, duration: .25, ease: "power2.in" }, 3.25);      // gone (opacity 0) by l52-0.14; the HUD only from l52+0.15
       tl.set("#bub", { scale: 1, opacity: 1 }, 0);
+      tl.to(DOTS0(), { color: "#f0a400", duration: .12, stagger: .14 }, 2.51);
       // the three dots breathe while nobody speaks, go quiet on "silence", and wait
-      const DOTS = document.querySelectorAll("#dots i");
+      const DOTS = DOTS0();
       DOTS.forEach((d, i) => tl.fromTo(d, { opacity: .25 }, { opacity: 1, duration: .32, ease: "sine.inOut", yoyo: true, repeat: 9 }, .5 + i * .16));
       // "and suddenly": the empty balloon pops (anticipation swell, then gone) and Pixie steps into its place
       tl.to("#bub", { keyframes: [{ scale: 1.12, duration: .1, ease: "power2.out" }, { scale: 0, opacity: 0, duration: .14, ease: "power3.in" }] }, 5.2);
-      tl.fromTo("#pA", { x: -520, opacity: 1 }, { x: 0, opacity: 1, duration: .55, ease: "power3.out" }, 5.28);
-      bob("#pA", 5.5, 16); bob("#pA", 5.76, 10);
+      // she does not walk in (no walk art; Producer rule): the balloon pops and she is there, a hard reveal with a small settle
+      tl.set("#pA", { opacity: 0 }, 0);
+      tl.fromTo("#pA", { opacity: 1, scaleY: .94, scaleX: 1.03 }, { opacity: 1, scaleY: 1, scaleX: 1, duration: .2, ease: "back.out(2)" }, 5.32);
+      flash(5.31, .35, .2);
       pose("#pA", "#pA_c", "#pA_e", 6.5);
-      tl.set("#pA", { opacity: 0 }, 0); tl.set("#pA", { opacity: 1 }, 5.28);
 
-      /* ---------------- B · "Because better is measurable." then each "better" applied to 1998 Hyrule */
-      cam("#camB", 8.63, 0, { z: 1.12, fx: 1450, fy: 900 });
-      cam("#camB", 8.63, 6.59, { z: 1.2, fx: 1470, fy: 880 }, "sine.inOut");
+      /* ---------------- B · "Because better is measurable." then the giant tree upgrades on every word; the camera whips to
+         each upgrade (a change every 0.7-1.2 s). Nobody fakes an action: the world, the light and the camera move. */
+      cam("#camB", 8.63, 0, { z: 1.0, fx: 1600, fy: 756 });
+      cam("#camB", 8.63, 2.43, { z: 1.06, fx: 1610, fy: 740 }, "sine.inOut");
+      cam("#camB", 11.08, .3, { z: 1.4, fx: 1720, fy: 500 }, "power3.out");      // "polygons": punch in on its face as it sharpens
+      cam("#camB", 12.18, .3, { z: 1.15, fx: 560, fy: 700 }, "power3.out");       // "lighting": whip to the sun, flare
+      cam("#camB", 13.14, .3, { z: 1.22, fx: 1480, fy: 1000 }, "power3.out");      // "animation": back to the tree, leaves fall
+      cam("#camB", 14.2, .3, { z: 1.12, fx: 1180, fy: 520 }, "power3.out");      // "sound": up into the canopy, the flock bursts out
       breathe("#brB", 8.63, 15.22, .7);
-      // "More polygons.": the blocks smooth out (1998 -> halfway -> today)
-      tl.to("#bMid", { opacity: 1, duration: .12 }, 11.11); tl.to("#bHd", { opacity: 1, duration: .3, ease: "power2.out" }, 11.36);
-      // "Better lighting.": the sun opens over them
-      tl.fromTo("#sun", { opacity: 0 }, { opacity: 1, duration: .5, ease: "power2.out" }, 12.21);
-      tl.fromTo("#beams", { opacity: 0, x: -50 }, { opacity: .85, x: 0, duration: .7, ease: "power2.out" }, 12.21);
-      tl.fromTo(["#qB", "#pB"], { filter: "brightness(.9)" }, { filter: "brightness(1.06)", duration: .5 }, 12.21);
-      // acting (director's note): on "Because better is measurable." Quest faces us and Pixie measures it, hand at her chin;
-      // "polygons": the world sharpens and they both look up (Quest first, Pixie a beat later, in awe);
-      // "lighting": both lean into the sun; "animation": hops; "sound": Quest turns to follow the birds, Pixie leans after them
-      pose("#qB", "#qB_b", "#qB_a", 11.21);
-      pose("#pB", "#pB_e", "#pB_d", 11.38);
-      tl.to("#qB", { rotation: -2.5, duration: .45, ease: "power2.out" }, 12.26);
-      tl.to("#pB", { rotation: -3, duration: .5, ease: "power2.out" }, 12.34);
-      tl.to(["#qB", "#pB"], { rotation: 0, duration: .3, ease: "power2.inOut" }, 13.07);
-      pose("#qB", "#qB_a", "#qB_m", 14.38);
-      tl.to("#pB", { rotation: 2.5, x: 6, duration: .6, ease: "power2.out" }, 14.46);
-      // "Better animation.": they come alive (a hop each, offset)
-      bob("#qB", 13.17, 26); bob("#pB", 13.3, 22); bob("#qB", 13.56, 10);
-      // "Better sound.": a flock lifts out of the field and crosses the sky
-      for (let i = 0; i < 7; i++) { const b = mk("div", "bird", $("#birds"), `left:${300 + (i % 4) * 34}px; top:${720 + (i % 3) * 28}px; opacity:0`);
-        b.innerHTML = '<svg viewBox="0 0 46 20"><path d="M2 14 Q12 2 23 12 Q34 2 44 14" fill="none" stroke="#1e2430" stroke-width="5" stroke-linecap="round"/></svg>';
-        const t0 = 14.18 + i * .06; tl.fromTo(b, { x: 0, y: 0, opacity: 0, scale: .6 }, { x: 520 + i * 26, y: -300 - (i % 3) * 40, opacity: 1, scale: 1, duration: 1.6, ease: "power1.out" }, t0);
-        tl.fromTo(b, { scaleY: 1 }, { scaleY: .4, duration: .09, yoyo: true, repeat: 15, ease: "sine.inOut", immediateRender: false }, t0);
-        tl.to(b, { opacity: 0, duration: .3 }, t0 + 1.3); }
+      tl.to("#bMid", { opacity: 1, duration: .1 }, 11.11); tl.to("#bHd", { opacity: 1, duration: .28, ease: "power2.out" }, 11.34);
+      flash(12.22, .5, .3);
+      tl.fromTo("#sun", { opacity: 0, scale: .6 }, { opacity: 1, scale: 1, duration: .45, ease: "power2.out", transformOrigin: "50% 50%" }, 12.21);
+      tl.fromTo("#beams", { opacity: 0, x: 40 }, { opacity: .8, x: 0, duration: .6, ease: "power2.out" }, 12.21);
+      for (let i = 0; i < 14; i++) { const l = mk("div", "leaf", $("#leaves"), `left:${80 + R() * 900}px; top:${-80 - R() * 300}px; opacity:0; background:#d9a62c; border-color:#5a3a12`);
+        const t0 = 13.17 + i * .07; tl.fromTo(l, { x: 0, y: 0, rotation: 0, opacity: 1 }, { x: -160 + R() * 320, y: 1500 + R() * 400, rotation: 360 + R() * 540, opacity: 1, duration: 2.2 + R() * .6, ease: "sine.in" }, t0); }
+      for (let i = 0; i < 9; i++) { const b = mk("div", "bird", $("#birds"), `left:${430 + (i % 4) * 40}px; top:${760 + (i % 3) * 34}px; opacity:0`);
+        b.innerHTML = '<svg viewBox="0 0 46 20"><path d="M2 14 Q12 2 23 12 Q34 2 44 14" fill="none" stroke="#2a1e14" stroke-width="5" stroke-linecap="round"/></svg>';
+        const t0 = 14.18 + i * .05; tl.fromTo(b, { x: 0, y: 0, opacity: 0, scale: .6 }, { x: (i % 2 ? 1 : -1) * (260 + i * 30), y: -520 - (i % 3) * 60, opacity: 1, scale: 1.1, duration: 1.3, ease: "power2.out" }, t0);
+        tl.fromTo(b, { scaleY: 1 }, { scaleY: .4, duration: .08, yoyo: true, repeat: 13, ease: "sine.inOut", immediateRender: false }, t0);
+        tl.to(b, { opacity: 0, duration: .25 }, t0 + 1.05); }
 
-      /* ---------------- C · "But familiar is not measurable.": 1998, the friend who knew where to go */
-      const KQ = ART.kids_pos.quest, KP = ART.kids_pos.pixie, KT = ART.kids_tv;
+      /* ---------------- C · "But familiar is not measurable.": the twist, real life 1998 (kids in real poses, the camera drifts) */
       cam("#camC", 15.12, 0, { z: 1.0, fx: 1390, fy: 756 });
-      cam("#camC", 15.12, 1.76, { z: 1.0, fx: 1400, fy: 756 }, "sine.out");
-      cam("#camC", 16.88, 0.48, { z: 1.25, fx: KT.cx - 90, fy: KT.cy + 60 }, "power2.inOut");   // follow her finger to the TV
-      cam("#camC", 17.36, 0.26, { z: 1080 / KT.w / 1.27 * 1.08, fx: KT.cx, fy: KT.cy }, "power3.in");   // into the screen
-      tl.to("#warmC", { opacity: 0, duration: .4 }, 17.16);
+      cam("#camC", 15.12, 2.57, { z: 1.0, fx: 1420, fy: 756 }, "sine.inOut");
+      breathe("#brC", 15.12, 17.79, .3);
 
-      /* ---------------- D · "An empty field in 1998 could feel enormous." / rebuilt today / empty */
-      cam("#camD", 17.62, 0, { z: 2.4, fx: roadX(1250), fy: 1150 });
-      cam("#camD", 17.62, 2.9, { z: 2.2, fx: roadX(1250), fy: 1140 }, "none");
-      cam("#camD", 20.45, 1.3, { z: 1.0, fx: 1127, fy: 756 }, "power2.inOut");                  // "enormous": the field gets huge
-      cam("#camD", 23.11, 1.0, { z: 1.12, fx: 1162, fy: 900 }, "power2.inOut");         // "today": a little closer, sharp
-      cam("#camD", 25.1, .9, { z: 1.0, fx: 1140, fy: 756 }, "power2.inOut");                   // "empty": back out, nothing there
-      breathe("#brD", 17.62, 25.9, .35);
-      tl.fromTo("#scanlines", { opacity: .9 }, { opacity: 0, duration: .9, ease: "power1.in" }, 17.62);   // still the TV picture, then the world
-      tl.fromTo("#a98", { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: .32, ease: "power3.out" }, 18.88);
-      tl.fromTo("#scanD", { y: -20, opacity: 1 }, { y: 1940, opacity: 1, duration: 1.15, ease: "power1.inOut" }, 21.85);
-      tl.to("#dHd", { clipPath: "inset(0px 0px 0px 0px)", duration: 1.15, ease: "power1.inOut" }, 21.85);
-      tl.set("#scanD", { opacity: 0 }, 23.02);
-      tl.to("#a98", { opacity: 0, duration: .2 }, 22.91);
-      tl.fromTo("#aTo", { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: .32, ease: "power3.out" }, 23.11);
-      tl.to("#aTo", { opacity: 0, duration: .3 }, 24.64);
-      steps("#qD", 23.94, 25.9); walk("#qD", 1250, 205, 1190, 23.94, 1.96);
-      tl.fromTo("#camD", { filter: "saturate(1) brightness(1)" }, { filter: "saturate(.62) brightness(.93)", duration: 1.0, ease: "sine.inOut" }, 24.94);
-      for (let i = 0; i < 6; i++) { const l = mk("div", "leaf", $("#leaves"), `left:-70px; top:${760 + R() * 520}px; opacity:0`);
-        const t0 = 23.99 + i * .16; tl.fromTo(l, { x: 0, y: 0, rotation: 0, opacity: 1 }, { x: 1250, y: -120 + R() * 240, rotation: 540 + R() * 360, opacity: 1, duration: 1.4 + R() * .4, ease: "power1.in" }, t0); }
-
-      /* ---------------- E · the camera you once fought with; fixed; easier to inhabit */
-      cam("#camE", 25.9, 0, { z: 1.32, fx: roadX(1330) + 20, fy: 940 });
-      breathe("#brE", 25.9, 32.55, .85);
-      tl.set("#vf", { opacity: 0 }, 0); tl.set("#vf", { opacity: 1 }, 25.9);
-      tl.fromTo("#vfRec", { opacity: 1 }, { opacity: .15, duration: .3, ease: "steps(1)", yoyo: true, repeat: 7 }, 25.9);
-      // the old camera: it swings, tilts and clips into the rock; they keep walking through it
-      tl.to("#eRot", { keyframes: [{ rotation: -5, x: 50, scale: 1.06, duration: .38, ease: "power2.inOut" }, { rotation: 8, x: -80, scale: 1.12, duration: .32, ease: "power2.inOut" },
-        { rotation: -3, x: 30, scale: 1.04, duration: .36 }, { rotation: 10, x: 110, y: -50, scale: 1.18, duration: .3, ease: "power3.in" }, { rotation: -6, x: -50, y: 20, scale: 1.08, duration: .42, ease: "power2.out" },
-        { rotation: 4, x: 24, y: 0, scale: 1.05, duration: .4 }] }, 26.49);
-      // the clip: the camera backs into a wall beside them; the rock fills the right half for 0.7 s (grey <= 0.8 s), Quest stays in view
-      tl.fromTo("#rock", { x: 1150 }, { keyframes: [{ x: 560, duration: .12, ease: "power3.out" }, { x: 548, duration: .1 }, { x: 572, duration: .1 }, { x: 560, duration: .14 }, { x: 1150, duration: .22, ease: "power2.in" }] }, 27.07);
-      shake(27.11, 12);
-      steps("#qE", 25.9, 32.55, 5.4); walk("#qE", 1330, 320, 1250, 25.9, 6.65, 0);
-      tl.to("#pE", { x: roadX(1250) - roadX(1330), y: -80, scale: hAt(320, 1330, 1250) / 320, duration: 6.65, ease: "none" }, 25.9);
-      steps("#pE", 25.9 + .09, 32.55, 5.4);
-      // "Fix it...": the frame snaps level on the word, the viewfinder locks gold, then lets go
-      tl.to("#eRot", { rotation: 0, x: 0, y: 0, scale: 1, duration: .16, ease: "power3.out", overwrite: false }, 29.57);
-      tl.to("#vfLines", { attr: { stroke: "#ffc83d" }, duration: .08 }, 29.59);
-      tl.fromTo("#vfLines", { scale: 1 }, { keyframes: [{ scale: .97, duration: .07 }, { scale: 1, duration: .16, ease: "back.out(3)" }], transformOrigin: "540px 825px", immediateRender: false }, 29.59);
-      tl.to("#vf", { opacity: 0, duration: .5, ease: "power2.in" }, 30.49);
-      cam("#camE", 30.16, 2.34, { z: 1.3, fx: roadX(1280) + 20, fy: 900 }, "sine.inOut");   // a smooth glide: easy to inhabit
-
-      /* ---------------- F · "Which is good." ... "Probably." */
-      cam("#camF", 32.45, 0, { z: 1.42, fx: 1392, fy: 1000 });
-      cam("#camF", 32.45, 1.08, { z: 1.45, fx: 1390, fy: 1000 }, "none");
-      cam("#camF", 33.59, .32, { z: 1.66, fx: 1345, fy: 1010 }, "power3.out");          // "Probably.": in on her (both stay whole)
-      breathe("#brF", 32.45, 34.53, .5);
-      bob("#qF", 32.86, 12); bob("#pF", 32.91, 14);
-      tl.fromTo("#qF", { rotation: 0 }, { keyframes: [{ rotation: 2, duration: .14, ease: "power2.out" }, { rotation: 0, duration: .3, ease: "power2.inOut" }], immediateRender: false }, 32.86);
-      pose("#pF", "#pF_d", "#pF_e", 33.61);
-      tl.fromTo("#pF", { rotation: 0 }, { rotation: -2.5, duration: .4, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 100%", immediateRender: false }, 33.93);
-
-      /* ---------------- G · the memory quietly "improves" (the rebuild scan, callback to l49); the title returns */
-      cam("#camG", 34.41, 0, { z: 1.0, fx: 1400, fy: 756 });
-      cam("#camG", 34.41, 5.78, { z: 1.0, fx: 1396, fy: 756 }, "sine.inOut");
-      breathe("#brG", 34.41, 40.31, .3);
-      tl.fromTo("#scanG", { y: -14, opacity: .9 }, { y: 1930, opacity: .9, duration: 2.0, ease: "sine.inOut" }, 35.09);
-      tl.to("#gNew", { clipPath: "inset(0px 0px 0px 0px)", duration: 2.0, ease: "sine.inOut" }, 35.09);
-      tl.set("#scanG", { opacity: 0 }, 37.09);
-      tl.to("#dimG", { opacity: 1, duration: .35, ease: "power2.out" }, 37.93);
-      tl.fromTo("#ttl2 .big", { yPercent: 105 }, { yPercent: 0, duration: .34, ease: "expo.out", stagger: .08 }, 37.97);
-      tl.fromTo("#ttl2 .b", { scale: 1 }, { keyframes: [{ scale: 1.05, duration: .08 }, { scale: 1, duration: .2, ease: "power2.out" }], transformOrigin: "50% 50%", immediateRender: false }, 38.97);
-
-      /* ---------------- H · "Make it different enough to justify existing..." */
-      cam("#camH", 40.19, 0, { z: 1.0, fx: 1185, fy: 756 });
-      cam("#camH", 40.19, 1.32, { z: 1.03, fx: 1190, fy: 756 }, "sine.inOut");
-      // critic v2 (my own check): a pan from them to the castle dragged princess Pixie half out of frame -> a soft
-      // dissolve to the castle framing instead (two clearly different shots of the vista, nobody cut by the edge)
-      cam("#camH2", 40.19, 0, { z: 1.0, fx: 2150, fy: 740 });
-      cam("#camH2", 41.48, 1.52, { z: 1.05, fx: 2140, fy: 740 }, "sine.inOut");
-      tl.set("#hB", { opacity: 0 }, 0); tl.set("#hB", { opacity: 1 }, 41.48);      // a hard cut on "justify" (critic v2b: no dissolves between character shots)
-      breathe("#brH", 40.19, 43.03, .6); breathe("#brH2", 40.19, 43.03, .1);
-
-      /* ---------------- I · "...without making people wonder where their game went." */
-      const SC = ART.screen;
-      Object.assign($("#tvLine").style, { left: (SC.cx - SC.w / 2) + "px", top: (SC.cy - SC.h / 2) + "px", width: SC.w + "px", height: SC.h + "px" });
-      const T_OFF = 44.34;
-      cam("#camI", 42.93, 0, { z: 1.0, fx: 1325, fy: 756 });
-      cam("#camI", 43.31, T_OFF - 43.31, { z: 1.9, fx: 2010, fy: 600 }, "power2.inOut");
-      breathe("#brI", 42.93, 49.6, .15);
-      tl.fromTo("#dimI", { opacity: 1 }, { opacity: 0, duration: .25, immediateRender: false }, 42.93);
-      tl.set("#iDark", { opacity: 0 }, 0); tl.set("#iDark", { opacity: 1 }, T_OFF + .02);
-      tl.set("#iOff", { opacity: 0 }, 0); tl.to("#iOff", { opacity: 1, duration: .7, ease: "sine.inOut" }, T_OFF + .45);
-      // the CRT switch-off: every state is explicit (cold render workers seek straight into it; lint gate)
-      tl.set("#tvLine", { opacity: 0, scaleX: 1, scaleY: 1 }, 0);
-      tl.set("#tvLine", { opacity: 1, scaleX: 1, scaleY: 1 }, T_OFF);
-      tl.to("#tvLine", { scaleY: .04, opacity: 1, duration: .12, ease: "power2.in" }, T_OFF);
-      tl.to("#tvLine", { scaleX: 0, opacity: 1, duration: .22, ease: "power2.in" }, T_OFF + .12);
-      tl.to("#tvLine", { opacity: 0, duration: .05 }, T_OFF + .34);
-      cam("#camI", T_OFF + .15, .95, { z: 3.4, fx: SC.cx - 6, fy: SC.cy + 4 }, "power2.inOut");
-      tl.to("#dimI", { opacity: .62, duration: .5, ease: "power2.in" }, 46.1);
+      /* ---------------- V · the payoff on the remake's epic look: "That is the" on the two of them, a hard cut on "impossible" to the
+         castle in the sun with the one bass-drop impact, a flare and the kinetic title */
+      cam("#camV1", 17.69, 0, { z: 1.0, fx: 1185, fy: 756 });
+      cam("#camV1", 17.69, 1.02, { z: 1.0, fx: 1200, fy: 756 }, "sine.out");
+      breathe("#brV1", 17.69, 18.71, .5);
+      const TCUT = 18.67;
+      cam("#camV2", TCUT, 0, { z: 1.0, fx: 2160, fy: 756 });
+      cam("#camV2", TCUT, 22.64 - TCUT, { z: 1.12, fx: 2130, fy: 820 }, "power2.out");     // (her dress stays fully out of frame)     // a push into the castle and the sun
+      breathe("#brV2", TCUT, 22.64, .2);
+      flash(TCUT, .75, .35); shake(TCUT + .02, 16);
+      tl.fromTo("#vflare", { opacity: 0, scale: .5 }, { keyframes: [{ opacity: 1, scale: 1.1, duration: .25, ease: "power2.out" }, { opacity: .55, scale: 1, duration: .8, ease: "sine.inOut" }], transformOrigin: "50% 50%" }, TCUT);
+      tl.to("#vdim", { opacity: 1, duration: .25 }, TCUT);
+      tl.fromTo("#ttl2 .a", { yPercent: 105 }, { yPercent: 0, duration: .26, ease: "expo.out" }, TCUT);
+      tl.fromTo("#ttl2 .b", { scale: 1.2, opacity: 0 }, { scale: 1, opacity: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%" }, TCUT + .06);
+      tl.fromTo("#ttl2 .b", { scale: 1 }, { keyframes: [{ scale: 1.07, duration: .07 }, { scale: 1, duration: .22, ease: "power2.out" }], transformOrigin: "50% 50%", immediateRender: false }, 19.11);
+      tl.to("#ttl2", { opacity: 0, duration: .15, ease: "power2.in" }, 19.76);          // out before the wordmark lands
+      tl.to("#vnight", { opacity: .6, duration: .35, ease: "power2.in" }, 19.74);
 
       /* ---------------- wordmark (crisp, no blur), Navi into its star, then the end card */
-      const WHY = 46.4;
+      const WHY = 19.95;
       tl.set("#wm", { opacity: 0 }, 0);
       tl.fromTo("#wm", { scale: 1.14, opacity: 0 }, { scale: 1, opacity: 1, duration: .26, ease: "power3.out" }, WHY - .06);
       tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.inOut" }, WHY + .1);
       const STAR = { x: 90 + 808 * 900 / 2605, y: 690 + 235 * 900 / 2605 };
-      const T_STAR = 47.45;
+      const T_STAR = 20.46;
       tl.set("#twinkle", { x: STAR.x, y: STAR.y, scale: 0, opacity: 1 }, 0);
       tl.fromTo("#twinkle", { scale: 0, rotation: 0 }, { keyframes: [{ scale: 1.15, rotation: 45, duration: .3, ease: "power2.out" }, { scale: .35, rotation: 90, duration: .6, ease: "sine.inOut" }] }, T_STAR - .05);
-      const CARD = 47.55;
+      const CARD = 20.54;
       // the wordmark rises to the top of the card (centre y ~ 215) and shrinks; the card fades in under it
       tl.to("#wm", { y: -560, scale: .56, duration: .55, ease: "power3.inOut" }, CARD);
       tl.to("#twinkle", { opacity: 0, duration: .2 }, CARD - .05);
       tl.to("#card", { opacity: 1, duration: .4, ease: "sine.inOut" }, CARD);
-      tl.fromTo("#sign", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "power3.out" }, CARD + .56);   // after the wordmark has risen (critic v2b)
-      tl.fromTo("#cT", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power3.out" }, CARD + .5);
+      tl.fromTo("#sign", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "power3.out" }, CARD + .5);   // after the wordmark has risen (critic v2b)
+      tl.fromTo("#cT", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power3.out" }, CARD + .45);
       // Pixie (her forest-friend tunic, as in the game beats) stands on the grass under the sign, between its posts, and waves
       const PCH = 492, PCW = PCH * ART.sizes["p2c.png"][0] / ART.sizes["p2c.png"][1];
       Object.assign($("#pixCard").style, { left: (540 - PCW / 2) + "px", top: (1502 - PCH) + "px", width: PCW + "px", height: PCH + "px", transformOrigin: "50% 100%" });
-      tl.fromTo("#pixCard", { y: 40, opacity: 0, scaleY: .94 }, { keyframes: [{ y: 0, opacity: 1, scaleY: 1.03, duration: .25, ease: "power3.out" }, { scaleY: 1, duration: .15 }] }, CARD + .72);
-      tl.fromTo("#pixCard", { rotation: 0 }, { rotation: 2.5, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, CARD + 1.05);
+      tl.fromTo("#pixCard", { y: 40, opacity: 0, scaleY: .94 }, { keyframes: [{ y: 0, opacity: 1, scaleY: 1.03, duration: .25, ease: "power3.out" }, { scaleY: 1, duration: .15 }] }, CARD + .62);
+      tl.fromTo("#pixCard", { rotation: 0 }, { rotation: 2.5, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, CARD + .9);
       tl.fromTo("#thumbImg", { scale: 1 }, { scale: 1.0, duration: .1 }, CARD);   // the thumbnail is shown whole and still
 
       /* ---------------- captions: word by word, the word being said is gold */
@@ -603,7 +448,7 @@
           E.spans.forEach((sp, i) => { if (!c.big) sp.style.color = i === cur ? "#ffc83d" : "#ffffff"; }); });
       }
       // the HUD shows only in the game world, and never under a title
-      const HUDON = [[3.79, 15.12], [17.62, 34.41], [40.19, 42.93]];
+      const HUDON = [[3.79, 15.12]];
       const hudEl = $("#hud");
       const drawHud = (t) => { const r = HUDON.find(([a, b]) => t >= a && t < b); hudEl.style.opacity = r ? Math.min(1, (t - r[0]) / .2) : 0; };
 
@@ -616,31 +461,22 @@
       key(0, 900, 800, 20, 0); key(2.95, 900, 800, 20, 0); key(3.08, 890, 790, 24, 1);
       key(3.45, 860, 700, 22, 1); key(4.58, 870, 560, 20, 1); key(5.4, 820, 440, 20, 1);
       key(6.5, 790, 420, 20, 1); key(8.53, 760, 410, 20, 1);
-      // B: she rides each upgrade: down to the field (polygons), up to the sun (lighting), round them (animation), with the birds (sound)
-      key(8.63, 560, 600, 18, 1); key(11.16, 560, 1235, 18, 1); key(11.46, 880, 1120, 18, 1); key(11.96, 880, 660, 18, 1);
-      key(12.26, 300, 520, 18, 1); key(12.68, 340, 560, 18, 1);
-      orbit(13.12, 13.88, 540, 580, 260, 50, 1, 18, 0);
-      key(14.28, 480, 600, 18, 1); key(15.1, 820, 470, 18, 1); key(15.1, 860, 460, 18, 0);
-      // D: she drifts by the tiny hero; on "empty" she droops, dim
-      key(18.0, 700, 820, 16, 0); key(18.98, 700, 820, 16, .9); key(21.7, 620, 1000, 12, .9);
-      key(24.04, 620, 1000, 12, .9); key(25.6, 600, 1150, 11, .5); key(25.85, 600, 1160, 11, 0);
-      // E: knocked about by the old camera, then calm beside them
-      key(26.0, 700, 760, 18, 0); key(26.27, 700, 760, 18, 1);
-      orbit(26.87, 29.15, 560, 800, 240, 160, 2, 18, 1);
-      key(29.61, 600, 640, 18, 1); key(30.49, 560, 760, 18, 1); key(32.43, 560, 760, 18, 0);
-      // F: beside them for "good", a little dip on "Probably."
-      key(32.5, 560, 400, 20, 0); key(32.55, 560, 400, 20, 1); key(32.91, 575, 370, 20, 1); key(33.63, 565, 420, 20, 1); key(33.93, 575, 520, 18, 1); key(34.33, 575, 510, 18, 1); key(34.4, 575, 510, 18, 0);
-      // H: she flies out over the new vista
-      key(40.21, 880, 470, 18, 0); key(40.41, 880, 470, 18, 1); key(41.27, 860, 520, 18, 1); key(42.83, 600, 820, 16, 1); key(42.92, 600, 820, 16, 0);
-      // I: by the old TV's glow; she goes out with it
-      key(43.31, 720, 640, 16, 0); key(43.63, 720, 640, 16, .85); key(44.39, 700, 600, 16, .85); key(44.69, 700, 600, 14, 0);
+      // B: she rides each upgrade: to the face (polygons), into the sun (lighting), with the leaves (animation), up with the flock (sound)
+      key(8.63, 760, 410, 18, 1); key(11.16, 900, 1080, 18, 1); key(12.26, 300, 760, 18, 1); key(13.22, 620, 900, 18, 1);
+      key(14.28, 560, 900, 18, 1); key(15.2, 760, 420, 18, 1); key(15.1, 780, 400, 18, 0);
+      // C: she slips in from the TV side and circles kid Pixie's pointing hand (the friend who knew the way), then waits above them
+      key(15.88, 1120, 800, 18, 0); key(15.98, 1100, 800, 18, 1);
+      orbit(16.5, 17.56, 930, 830, 70, 30, 1.2, 18, 0);
+      key(17.64, 760, 760, 18, 1); key(17.69, 760, 760, 18, 0);
+      // V: over the two of them, then into the sun with the cut
+      key(17.74, 900, 330, 18, 0); key(17.84, 900, 330, 18, 1); key(TCUT, 880, 360, 18, 1); key(TCUT + .4, 560, 800, 20, 1); key(19.64, 600, 760, 18, 1); key(19.79, 600, 760, 18, 0);
       // wordmark: round it into its star, then up with it and down into the thumbnail
-      key(46.5, 1000, 830, 26, 0); key(46.65, 1000, 790, 28, 1);
-      orbit(46.7, T_STAR - .12, 540, 780, 450, 170, 1.0, 28, 0);
+      key(19.89, 1000, 830, 26, 0); key(19.99, 1000, 790, 28, 1);
+      orbit(20.02, T_STAR - .1, 540, 780, 450, 170, 1.0, 28, 0);
       key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x - 40, STAR.y - 330, 20, 1);
-      key(CARD + .3, 150, 700, 20, 1); key(48.0, 170, 760, 22, 1);       // down the left side, under the card text,
-      key(48.3, 560, 790, 24, 1);                                          // then into the sign
-      orbit(48.35, 49.6, 560, 790, 70, 30, 1.6, 22, 3.14);
+      key(CARD + .25, 150, 700, 20, 1); key(CARD + .5, 170, 760, 22, 1);          // down the left side, under the card text,
+      key(CARD + .8, 560, 790, 24, 1);                                            // then into the sign
+      orbit(CARD + .85, 22.64, 560, 790, 70, 30, 1.2, 22, 3.14);
       NK.sort((a, b) => a[0] - b[0]);
       function naviPath(t) {
         if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);

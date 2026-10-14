@@ -73,6 +73,13 @@ def stage_art():
     f_old, f_mid = n64_look.build(field)
     save(f_old, 'field_old.jpg', q=92)
     save(f_mid, 'field_mid.jpg', q=92)
+    # v3 (Producer: "¿El fondo de Deku Tree?"): the escalation happens on the giant tree, final plate #14, upgraded word
+    # by word from the same N64 look (low-poly, flat 1998 light, fog) to the painted plate
+    tree = lib.final_plate('tree')
+    save(tree, 'tree.jpg', q=92)
+    t_old, t_mid = n64_look.build_generic(tree)          # (flat light, no darkening: the tree must still read)
+    save(t_old, 'tree_old.jpg', q=92)
+    save(t_mid, 'tree_mid.jpg', q=92)
 
     # characters (final art, alpha-cropped with the engine's overlays)
     save(lib.final('quest_young_front'), 'hero_front.png', max_h=1500)          # #3b the silent young hero, facing us
@@ -254,21 +261,15 @@ def cues():
     T = seg.table()
     t = lambda k, d=0: T[k] + d                                         # noqa: E731
     C = lambda f: SFXD / f                                              # noqa: E731
+    # v3 (22.6 s): 6 onsets (18/min budget), Navi included: the hook stays silent but for Bram and Navi's "Hello!"
     return [
-        (0.00, C('cc0/kresiek_morning/amb_morning.ogg'), -24, T['l47'] - .1, 'bed: the quiet field (the silence the hero left)'),
         (t('l51.end', .02), NAVI / 'NAVI_HELLO.wav', -9, None, 'Navi appears in the pause after "imagination." (Producer clip)'),
-        (t('l53.w2', -.1), C('cc0/wubitog_pops/pop2.ogg'), -10, None, 'the empty balloon pops on "suddenly"'),
-        (t('l43.w2', -.05), C('cc0/jaggedstone_magic/magical_1.ogg'), -11, None, '"More polygons": 1998 blocks smooth into today'),
-        (t('l44.w2', -.05), C('cc0/pwl_bells/bell_ding3.ogg'), -12, None, '"Better lighting": the sun opens over them'),
-        (t('l46.w2', -.05), C('cc0/pauliuw_forestbirds/Forest_Birds_4.ogg'), -12, 1.9, '"Better sound": the flock lifts and sings'),
-        (t('l49', -.05), C('cc0/jaggedstone_magic/magical_3.ogg'), -11, None, '"Rebuild it": the scan line rebuilds the field (same family as polygons)'),
-        ((t('l54.w5', -.08), [(C('cc0/kenney_impact/impactSoft_heavy_001.ogg'), 0), (C('cc0/rubberduck_rpg/item_stone_01.ogg'), -6)]), None, -9, None, '"fought": the camera slams into the low-poly rock'),
-        ((t('l55', -.04), [(C('cc0/kenney_interface/switch_005.ogg'), 0), (C('cc0/kenney/click2.ogg'), -5)]), None, -10, None, '"Fix it": the frame snaps level, the viewfinder locks'),
-        (t('l58.end', .07), C('cc0/kenney_jingles/jingles_PIZZI01.ogg'), -11, None, '"Probably.": the comedy hit lands AFTER the word, on her doubtful look'),
-        (t('l59.w3', 0), C('cc0/jaggedstone_magic/magical_4.ogg'), -15, None, '"every improvement quietly": the memory scan (quiet, same family)'),
-        ((t('l62.w5', -.05), [(C('cc0/kenney/switch_006.ogg'), 0), (C('cc0/lokif_swamp/cricket_2.ogg'), -17)]), None, -10, 2.4, '"wonder": the CRT switches off; the night outside is all that is left'),
-        ((t('VEND', -.2), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5)]), None, -9, None, 'the wordmark lands; Navi circles it (her trail, Producer clip)'),
-        (t('VEND', 1.68), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the thumbnail: "Look!" (Producer clip, no voice under it)'),
+        (t('l43.w2', -.05), C('cc0/jaggedstone_magic/magical_1.ogg'), -11, None, '"More polygons": the 1998 tree sharpens, its face appears'),
+        (t('l46.w2', -.05), C('cc0/pauliuw_forestbirds/Forest_Birds_4.ogg'), -12, 1.6, '"Better sound": the flock bursts out of the canopy'),
+        ((t('l60.w4', -.06), [(C('cc0/kenney_impact/impactPunch_heavy_000.ogg'), 0), (C('cc0/kenney/impactSoft_heavy_000.ogg'), -3)]), None, -7, None,
+         'the payoff: the one bass-drop impact on the hard cut to the castle ("impossible")'),
+        ((t('VEND', .08), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5)]), None, -9, None, 'the wordmark lands; Navi circles it (her trail, Producer clip)'),
+        (t('VEND', 1.5), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the sign: "Look!" (Producer clip, no voice under it)'),
     ]
 
 
