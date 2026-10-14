@@ -57,8 +57,9 @@
           const left = (b0 + dx) * BF_K, w = (b1 - b0) * BF_K;
           const el = document.createElement("div"); el.className = "mate bf " + o.cls; el.id = o.ids[wi];
           el.style.cssText = `position:absolute; left:${left + 80}px; top:${BF_TOP + 300}px; width:${w}px; height:${BF_H}px; bottom:auto`;
-          el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip"></div></div></div></div></div>`;
+          el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="rx"><div class="flip"></div></div></div></div></div></div>`;
           clip.appendChild(el);
+          const rx = el.querySelector(".rx"); rx.style.cssText = "position:absolute; inset:0";
           const fl = el.querySelector(".flip");
           fl.style.cssText = `position:absolute; inset:0; transform-origin:50% 100%; transform:scale(${o.scale})`;
           const frames = {};
@@ -71,7 +72,23 @@
           const cur = (t) => { let e = exprs[0]; for (const [tt, ee] of sched.slice().sort((a, b) => a[0] - b[0])) if (tt <= t) e = ee; return e; };
           const all = () => Object.values(frames).flatMap((f) => [f.base, f.blink, ...f.m]);
           out[who] = { el, w, frames,
-            face(tl, e, at) { e = map(e); sched.push([at, e]); all().forEach((im) => tl.set(im, { opacity: im === frames[e].base ? 1 : 0 }, at)); },
+            // a face change is a reaction: 2-3 frames of anticipation (a small squash), then the swap with its body beat:
+            // laugh = a bounce, shock = a jolt back, sweat/side-eye = a guilty sink; neutral = settle
+            face(tl, e, at) { const raw = e; e = map(e); sched.push([at, e]);
+              const a0 = Math.max(0, at - .08);
+              if (at > .2) tl.to(rx, { scaleY: .975, scaleX: 1.01, duration: .08, ease: "power1.in", transformOrigin: "50% 100%" }, a0);
+              all().forEach((im) => tl.set(im, { opacity: im === frames[e].base ? 1 : 0 }, at));
+              if (at <= .2) return;
+              const R = { laugh: [{ y: -7, scaleY: 1.03, scaleX: .99, duration: .12, ease: "power2.out" }, { y: 0, scaleY: 1, scaleX: 1, duration: .5, ease: "bounce.out" }],
+                          shock: [{ x: 6, y: -4, rotation: 4, scaleY: 1.04, scaleX: 1, duration: .07, ease: "power3.out" }, { x: 0, y: 0, rotation: 0, scaleY: 1, duration: .55, ease: "elastic.out(1, .4)" }],
+                          sweat: [{ y: 5, scaleY: .97, scaleX: 1, duration: .25, ease: "sine.out" }, { y: 0, scaleY: 1, duration: .8, ease: "sine.inOut" }],
+                          sideeye: [{ rotation: -2.5, scaleY: 1, scaleX: 1, duration: .2, ease: "sine.out" }, { rotation: 0, duration: .9, ease: "sine.inOut" }],
+                          neutral: [{ scaleY: 1, scaleX: 1, duration: .2, ease: "sine.out" }] }[raw] || [{ scaleY: 1, scaleX: 1, duration: .2 }];
+              tl.to(rx, { keyframes: R, transformOrigin: "50% 100%" }, at); },
+            // idle life (blocks that do not already breathe the crew): breathing 1.5 %, a slow sway, own phase
+            idle(tl, t0, t1, ph) { ph = ph || 0; const d = t1 - t0;
+              tl.fromTo(el.querySelector(".breathe"), { scaleY: 1 }, { scaleY: 1.015, duration: 1.8 + ph * .2, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / 1.8), transformOrigin: "50% 100%", immediateRender: false }, t0);
+              tl.fromTo(el.querySelector(".sway"), { rotation: -1.1 }, { rotation: 1.1, duration: 2.5 + ph * .3, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / 2.5), transformOrigin: "50% 100%", immediateRender: false }, t0); },
             // lip-flap m0 -> m1 -> m2 -> m1 at 10 fps (laughs and talk), then back to the face
             talk(tl, t0, t1) { const e = cur(t0 + .001), f = frames[e]; const seq = [0, 1, 2, 1];
               let i = 0; for (let t = t0; t < t1; t += .1, i++) { const k = seq[i % 4];
@@ -83,4 +100,30 @@
                 const f = frames[cur(t)]; tl.set(f.blink, { opacity: 1 }, t); tl.set(f.blink, { opacity: 0 }, t + .1); } } };
         });
         return out;
+      }
+
+      /* ------------------------------------------------------------------ seagulls (our 3D gull, 2026-10-14)
+         public/art/ep003/props3d/seagull_34.png (staged as assets/seagull_34.png). The cut-out is a gliding pose; the
+         wing-flap is a squash cycle on the wings' plane (scaleY 1 -> .5 -> 1), which reads as a flap at gull size.
+         Gull(host, { w: 150 }) -> { el, fly(tl, t0, t1, pts, o) } ; pts = [[x, y], ...] frame/layer coords of the centre,
+         o.flip faces left, o.flaps = [[ta, tb], ...] windows that flap (else it glides with a slow bank). */
+      function Gull(host, o) {
+        o = Object.assign({ w: 150 }, o);
+        const h = o.w * 747 / 875;
+        const el = document.createElement("div"); el.className = "gull";
+        el.style.cssText = `position:absolute; left:${-o.w / 2}px; top:${-h / 2}px; width:${o.w}px; height:${h}px; opacity:0; pointer-events:none`;
+        const wing = document.createElement("div"); wing.style.cssText = "position:absolute; inset:0";
+        const im = document.createElement("img"); im.src = "assets/seagull_34.png"; im.alt = "";
+        im.style.cssText = "position:absolute; inset:0; width:100%; height:100%" + (o.flip ? "; transform:scaleX(-1)" : "") + (o.filter ? `; filter:${o.filter}` : "");
+        wing.appendChild(im); el.appendChild(wing); host.appendChild(el);
+        return { el, wing,
+          fly(tl, t0, t1, pts, f) { f = f || {};
+            tl.set(el, { opacity: 1, x: pts[0][0], y: pts[0][1], rotation: 0 }, t0);
+            const seg = (t1 - t0) / (pts.length - 1);
+            pts.slice(1).forEach(([x, y], i) => tl.to(el, { x, y, duration: seg, ease: "none" }, t0 + i * seg));
+            tl.fromTo(el, { rotation: -4 }, { rotation: 4, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.3), immediateRender: false }, t0);
+            (f.flaps || [[t0, t0 + Math.min(1.2, t1 - t0)]]).forEach(([a, b]) => {
+              const n = Math.max(1, Math.round((b - a) / .34));
+              tl.fromTo(wing, { scaleY: 1 }, { scaleY: .5, duration: .17, ease: "sine.inOut", yoyo: true, repeat: n * 2 - 1, transformOrigin: "50% 45%", immediateRender: false }, a); });
+            tl.set(el, { opacity: 0 }, t1); } };
       }

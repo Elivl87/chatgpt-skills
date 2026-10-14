@@ -33,6 +33,7 @@ ART = {
     'dynamite.png': ('public/art/ep003/props3d/dynamite.png', None),
     'lantern.png': ('public/art/ep003/props3d/lantern.png', None),
     'wordmark.png': ('public/art/core/brand/secondquest_wordmark.png', None),
+    'seagull_34.png': ('public/art/ep003/props3d/seagull_34.png', 300),
     # new art v1 (2026-10-13): the lake plate and its derived grades (derive_art.py; the original is never edited)
     **{f'lake_{g}.png': (f'docs/art_orders/ep003/new_art_v1/derived/lake_{g}.png', None) for g in ('dusk', 'bluehour', 'night')},
     # the friends Max (purple) and Leo (yellow), our 3D (docs/ep003/characters/FRIENDS_MAX_LEO.md); downscaled copies
