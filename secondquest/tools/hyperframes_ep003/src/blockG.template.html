@@ -304,8 +304,8 @@
       // stars (seeded), denser up high
       // Max and Leo take the empty seats on "boat?" (they were the grey ghosts): seated 3/4 cut-outs, Quest here = 365 px
       // (2026-10-14 fix: Max sat OUTSIDE the stern) both INSIDE the hull with the in-boat 3D layers, scaled to this
-      // shot's larger 2D duo (x1.2 from the hull line); Pixie, Quest and the lantern slide toward the stern on the CTA cut
-      const BFR = BoatFriends($("#crewClip"), { ids: ["ghostA", "ghostB"], exprs: ["laugh", "neutral"], scale: 1.2, cls: "fr" });
+      // shot's larger 2D duo (x1.06 from the hull line, knees stay under the rail); Pixie, Quest and the lantern slide toward the stern on the CTA cut
+      const BFR = BoatFriends($("#crewClip"), { ids: ["ghostA", "ghostB"], exprs: ["laugh", "neutral"], scale: 1.06, cls: "fr" });
       const GA = BFR.max, GB = BFR.leo;
       const stars = [];
       (function () { const host = $("#stars"); const r = rng(77);

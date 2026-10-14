@@ -584,9 +584,9 @@
             <path d="M 306 112 C 310 96, 380 88, 448 90 C 514 92, 546 102, 546 112 C 536 128, 440 134, 382 130 C 334 126, 306 122, 306 112 Z" fill="#ecd9a3"/>
             <ellipse cx="690" cy="66" rx="9" ry="3.6" fill="#141414"/></svg>
           <svg class="abs" style="left:0;top:0;overflow:visible" width="1280" height="720" viewBox="0 0 1280 720">
-            <line x1="690" y1="396" x2="690" y2="196" stroke="#16161f" stroke-width="7" stroke-linecap="round"/>
-            <line x1="690" y1="396" x2="690" y2="196" stroke="#f1f1ef" stroke-width="4" stroke-linecap="round"/>
-            <path class="flag" d="M 690 200 L 760 214 L 690 236 Z" fill="#e5484d" stroke="#16161f" stroke-width="3.5" stroke-linejoin="round"/></svg>
+            <path class="flag" d="M 690 200 L 760 214 L 690 236 Z" fill="none" opacity="0"/></svg>
+          <!-- our 3D golf flag (props3d golf_flag), its cup on the hole at (690, 396); the cloth ripples on a scaleX wave -->
+          <div class="flag3d abs" style="left:682.6px;top:191px;width:51.4px;height:207px;transform-origin:7.4px 50%"><img src="assets/golf_flag.png" alt="" style="width:100%;height:100%;filter:drop-shadow(0 4px 3px rgba(20,40,10,.35))"/></div>
           <div class="ballSh abs" style="left:0;top:0;width:40px;height:12px;border-radius:50%;background:rgba(20,40,10,.45)"></div>
           <div class="ball abs" style="left:0;top:0;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 38% 34%,#ffffff 0%,#f1f1ee 45%,#c9ccd2 100%);border:2px solid #4a4a52"></div>
         </div>`;
@@ -718,7 +718,7 @@
         gl.viewport(0, 0, cv.width, cv.height);
         return { draw(t, extra) { gl.useProgram(pr); setU(u, t, extra); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
       }
-      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
+      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"], { lighthouse: true });
       $("#beam").style.display = "none";                                  // the drawn lighthouse is not on the plate
       const photoWater = lakeShader($("#ph3water"), .76); photoWater.draw(3.0, 1.1);
       const pov = povShader($("#povWater"));
@@ -974,6 +974,7 @@
         const w = (k) => Math.sin(t * 7 - k * 2.4) * 7 * k;
         const d = `M 690 200 C ${712} ${200 + w(.3)}, ${738} ${206 + w(.6)}, ${764} ${216 + w(1)} C ${740} ${224 + w(.7)}, ${712} ${232 + w(.35)}, 690 238 Z`;
         GOLF.forEach((g) => g.flag.setAttribute("d", d)); } }, 0);
+      document.querySelectorAll(".flag3d").forEach((f, i) => tl.fromTo(f, { scaleX: 1, skewY: 0 }, { scaleX: .9, skewY: -2.5, duration: .55 + i * .07, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / .55), immediateRender: false }, 0));
       // whip to poker
       const WP = T.poker - .1;
       tl.to("#golfHost", { x: -1500, duration: .3, ease: "power2.in" }, WP);
@@ -1061,6 +1062,10 @@
       tl.fromTo("#cuL .person, #cuR .person", { scale: 1 }, { scale: 1.03, duration: 2.4, ease: "sine.inOut", transformOrigin: "50% 30%" }, T.nobody - .05);
 
       tl.set({}, {}, DUR);
+      // seagulls over the lake wides: one across WHY FISHING?, one gliding through the calm boat shot (l24)
+      { const host = $("#L-water .F");
+        Gull(host, { w: 52, flip: true }).fly(tl, 0, T.l22 - .1, [[120, 120], [600, 104], [1100, 96], [1390, 80]], { flaps: [[.2, 1.0], [T.l22 - 1.6, T.l22 - .9]] });
+        Gull(host, { w: 40 }).fly(tl, T.l24, T.l24 + 6, [[1380, 140], [980, 120], [560, 112], [-100, 96]], { flaps: [[T.l24, T.l24 + .9], [T.l24 + 3.6, T.l24 + 4.2]] }); }
       FRS.forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>

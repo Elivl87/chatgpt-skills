@@ -14,3 +14,4 @@ need the Producer's approval. Third-party game audio (rips) is never added here 
 recorded in docs/<ep>/PRODUCER_DECISIONS.md.
 
 Discarded (Producer, 2026-10-03): Kokoro own-voice "Hey! Listen!" for the fairy ("no se parece a Navi").
+- `gull`, `flap` (EP003, 2026-10-14): our own synths in `scripts/ep003-sfx.py` (`synth()`): a two-glide gull call with harmonics, and three band-passed noise wing whumps. Ours, free.

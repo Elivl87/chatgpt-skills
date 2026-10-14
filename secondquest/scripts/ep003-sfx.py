@@ -127,6 +127,20 @@ def synth(name):
         rum = ss.lfilter(b, a_, rng.standard_normal(L)); rum /= np.abs(rum).max()
         env = np.sin(np.pi * np.minimum(1, t / 1.4)) ** 1.5
         return ((x / (np.abs(x).max() + 1e-9) * .8 + rum * .5) * env).astype(np.float32)
+    if base == 'gull':                                                   # our gull call: two "kee-ow" glides, nasal harmonics
+        L = int(.75 * SR); t = env_t(L); out = np.zeros(L)
+        for k0, d in ((0, .32), (.38, .34)):
+            i0, n = int(k0 * SR), int(d * SR); u = np.arange(n) / SR
+            f = 1500 + 900 * np.sin(np.pi * np.minimum(1, u / d) * .55) - 700 * (u / d) ** 2 + 18 * np.sin(2 * np.pi * 23 * u)
+            ph = 2 * np.pi * np.cumsum(f) / SR
+            x = np.sin(ph) + .55 * np.sin(2 * ph) + .3 * np.sin(3 * ph) + .12 * np.sin(5 * ph)
+            out[i0:i0 + n] += x * np.sin(np.pi * u / d) ** .7
+        return (out / (np.abs(out).max() + 1e-9)).astype(np.float32)
+    if base == 'flap':                                                   # wing flaps: three soft low noise whumps
+        L = int(.5 * SR); t = env_t(L); n = rng.standard_normal(L)
+        b, a_ = ss.butter(2, [180 / (SR / 2), 1400 / (SR / 2)], 'band'); n = ss.lfilter(b, a_, n)
+        env = sum(np.exp(-((t - c) / .035) ** 2) for c in (.06, .22, .38))
+        return (n * env / (np.abs(n * env).max() + 1e-9)).astype(np.float32)
     if base == 'drip':                                                   # a water drop: a fast upward pitch blip
         L = int(.09 * SR); t = env_t(L)
         f = 900 + 2600 * t / .09
@@ -238,6 +252,7 @@ def cues():
     for t in (1.44, 1.86, 2.06):                                    # "How" "to" "Fish." drop in with a bounce
         a(HK(t) + .08, 'wood', -22)
     a(HK(3.0), 'whoosh', -28)                                       # the title shrinks up
+    a(HK(.3), 'gull', -32, .5); a(HK(3.6), 'gull', -36, -.4)          # distant gulls over the opening lake (our synth)
     a(HK(3.2) - .05, 'whoosh', -20, -.45); a(HK(3.65), 'splash_s', -26, -.1)    # "A boat." slides in, settles in its wake
     a(HK(4.88), 'wood_m', -16); a(HK(4.92), 'creak', -26)           # "A rod." drops, springs
     LEAPS = [(40, 170, 0.00, -6), (1180, 1060, 0.12, -6), (120, 260, 0.22, 0), (1010, 1150, 0.36, 0)]
@@ -575,6 +590,9 @@ def cues():
     a(T('l32.w42'), 'boop', -16, .4); a(T('l32.w42') + .02, 'squish', -24, .45)   # "poked.": boop
     a(T('l32.w42') + .12, 'error', -24)                               # FAIL x4
     a(T('l32.end') + .04, 'whip', -20, -.4); a(T('l32.end') + .26, 'splash_s', -28, -.55)   # the distant splash
+    # the gull steals the rod on "instead of fishing..."
+    a(T('l31.w2'), 'gull', -24, .45); a(T('l31.w6') + .05, 'flap', -20, -.1); a(T('l31.w6') + .1, 'whoosh', -26, -.3)
+    a(T('l31.w6') + .35, 'gull', -28, -.5)
     # the slap revive
     a(T('l33.w6') - .1, 'thud', -18); a(T('l33.w6') + .12, 'wood', -26)   # he goes down; the boat bumps
     a(T('l33.w6') + .05, 'lowdown', -28); a(T('l33.w6') + .12, 'sparkle', -28)   # the last heart empties, KO stars
@@ -645,7 +663,9 @@ def cues():
     for i in range(3):                                                # "summer": three pages tear off
         a(T('l38.w11') - .04 + i * .09, 'paper' if i % 2 == 0 else 'paper2', -22, .25 + (-.2, .1, .3)[i])
     a(T('l38.w12') + .2, 'stamp', -16, .25)                           # "hit.": #1
-    a(T('l39.w8'), 'switch', -20, -.3)                                # the lantern clicks on (rest beat)
+    a(T('l39.w8'), 'switch', -20, -.3)
+    a(T('l39.w1') + .5, 'gull', -36, -.3)                             # a far gull glides home into the sun
+    a(T('l21') + .3, 'gull', -34, -.4); a(T('l24') + .4, 'gull', -36, .5)   # D: gulls over the lake wides                                # the lantern clicks on (rest beat)
     a(T('l40.w8') + .1, 'cloth', -28)                                 # the crew squeezes together
     a(T('l40.w13'), 'wood', -24); a(T('l40.w13') + .05, 'splash_s', -30)   # the boat dips
     a(T('l40.w16') - .1, 'notify', -18, .1)                           # "Tuesday": the group-chat banner

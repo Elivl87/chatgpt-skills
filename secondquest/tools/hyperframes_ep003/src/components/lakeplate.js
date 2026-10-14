@@ -13,6 +13,10 @@
         const cv = document.createElement("canvas"); cv.width = o.w; cv.height = cH;
         cv.style.cssText = `position:absolute; left:${o.left}px; top:${o.cTop}px; width:${o.w}px; height:${cH}px`;
         host.appendChild(cv);
+        if (o.lighthouse) {   // our 3D lighthouse (props3d lighthouse_side) on the far right shore of the plate, dusk-graded
+          const lh = document.createElement("img"); lh.src = "assets/lighthouse_side.png"; lh.alt = ""; const hh = 46, ww = hh * 1200 / 1503;
+          lh.style.cssText = `position:absolute; left:${1186 - ww / 2}px; top:${317 - hh}px; width:${ww}px; height:${hh}px; filter:brightness(.62) saturate(.75) sepia(.25) hue-rotate(-12deg)`;
+          host.appendChild(lh); api.lighthouse = lh; }
         const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
         const api = { imgs, canvas: cv, draw() {}, set(k) { imgs.forEach((im, i) => { im.style.opacity = i === 0 ? 1 : Math.max(0, Math.min(1, k - i + 1)); }); } };
         if (!gl) return api;

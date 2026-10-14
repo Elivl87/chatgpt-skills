@@ -1,7 +1,26 @@
 {
-  "quest_calm.png": ["docs/art_orders/quest/library_v2/results/05_nostalgic_smile.png", null],
-  "pixie_sit.png": ["docs/art_orders/pixie/library/results/10_sitting_relaxed.png", 1400],
-  "quest_wrench.png": ["public/art/core/quest/wrench_fixing.png", 1000],
-  "workshop.png": ["public/art/genres/farming/backgrounds/workshop.png", 900],
-  "toolbox.png": ["public/art/core/objects/toolbox.png", null]
+  "quest_calm.png": [
+    "docs/art_orders/quest/library_v2/results/05_nostalgic_smile.png",
+    null
+  ],
+  "pixie_sit.png": [
+    "docs/art_orders/pixie/library/results/10_sitting_relaxed.png",
+    1400
+  ],
+  "quest_wrench.png": [
+    "public/art/core/quest/wrench_fixing.png",
+    1000
+  ],
+  "workshop.png": [
+    "public/art/genres/farming/backgrounds/workshop.png",
+    900
+  ],
+  "toolbox.png": [
+    "public/art/core/objects/toolbox.png",
+    null
+  ],
+  "golf_flag.png": [
+    "public/art/ep003/props3d/golf_flag.png",
+    420
+  ]
 }

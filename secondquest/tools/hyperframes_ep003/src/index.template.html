@@ -292,7 +292,7 @@
       const leapEls = LEAPS.map((L, i) => { const e = mk("div", "fish", $("#" + L[8]), `left:0; top:0; width:${L[4]}px; height:${L[4] * 470 / 801}px`);
         e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}'); const im = mk("img", "", e); im.src = `assets/${L[6]}.png`; if (L[7]) im.style.transform = "scaleX(-1)"; return e; });
       // the lake plate and the friends (Max, Leo: seated 3/4 cut-outs inside the two-pass boat, scaled to Quest = 286 px)
-      const lake = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
+      const lake = PlateLake($("#plateHost"), ["assets/lake_dusk.png"], { lighthouse: true });
       const crewHost = $("#crewClip"), pixieEl = $("#pixie");
       // Max and Leo INSIDE the hull: the in-boat 3D layers between the back half and the 2D crew (2026-10-14)
       const BFR = BoatFriends(crewHost, { ids: ["silA", "silB"], exprs: ["sideeye", "laugh", "neutral", "shock", "sweat"] });
@@ -576,6 +576,10 @@
 
       tl.set({}, {}, DUR);
       MAX.talk(tl, 31.36, 32.2); LEO.talk(tl, 31.3, 32.3);                 // "Together.": they laugh (lip-flap)
+      // seagulls (our 3D gull): two distant ones cross the opening lake at different depths, flapping then gliding
+      { const host = $("#L-water .F");
+        Gull(host, { w: 46 }).fly(tl, 0, 7.4, [[1360, 150], [900, 128], [420, 118], [-90, 96]], { flaps: [[0, 1.1], [3.4, 4.3]] });
+        Gull(host, { w: 30, flip: true }).fly(tl, .6, 6.8, [[180, 190], [560, 176], [1010, 170], [1380, 150]], { flaps: [[.6, 1.5], [4.2, 4.9]] }); }
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>

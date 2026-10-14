@@ -986,7 +986,7 @@
       const hud = GameHUD($("#hudL"), { hearts: 3, money: 0, digits: 5, slots: 3 });
 
       /* ------------------------------------------------------------------ water shader (the hook's; seek-driven) */
-      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);   // new art v1; the drawn water is retired
+      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"], { lighthouse: true });   // new art v1; the drawn water is retired
 
       /* ------------------------------------------------------------------ the timeline (every beat on a word token) */
       const tl = gsap.timeline({ paused: true });
@@ -1267,6 +1267,19 @@
       tl.fromTo("#grade", { filter: "grayscale(0)" }, { filter: "grayscale(1)", duration: .02, ...IR }, {{l31.w9}});   // 0.3 s desaturate hit
       tl.to("#grade", { filter: "grayscale(0)", duration: .12 }, {{l31.w9+0.3}});
       tl.set("#failure", { autoAlpha: 0 }, {{l32-0.06}});
+      // a seagull (the game's signature pest, our 3D gull) steals the rod on "instead of fishing...": it glides in
+      // (anticipation, everyone looks up), grabs the rod tip on "fishing", flaps off with it; Max and Leo react
+      { const G = Gull($("#boatRock"), { w: 130, flip: true });
+        const tip = [417, -255], T0 = {{l31.w2}}, GRAB = {{l31.w6+0.05}}, OUT = GRAB + .95;
+        G.fly(tl, T0, GRAB, [[1150, -420], [800, -330], tip], { flaps: [[T0, T0 + .7]] });
+        tl.set(G.el, { opacity: 1 }, GRAB);
+        tl.to(G.el, { x: -250, y: -520, duration: OUT - GRAB, ease: "power2.in" }, GRAB);
+        tl.fromTo(G.wing, { scaleY: 1 }, { scaleY: .45, duration: .12, yoyo: true, repeat: 7, ease: "sine.inOut", transformOrigin: "50% 45%", immediateRender: false }, GRAB);
+        tl.set(G.el, { opacity: 0 }, OUT);
+        tl.to("#rod", { x: -667, y: -265, rotation: -64, duration: OUT - GRAB, ease: "power2.in" }, GRAB);
+        tl.fromTo("#rod", { opacity: 1 }, { opacity: 0, duration: .01, immediateRender: false }, OUT);
+        tl.set("#rod", { x: 0, y: 0, rotation: -26, opacity: 1 }, {{l32-0.06}});
+        MAX.face(tl, "shock", GRAB + .08); LEO.face(tl, "shock", GRAB + .02); }
 
       /* ================= E6 l32 the failure run (HUD on, FAIL xN) ================= */
       hud.money(tl, {{l32-0.5}}, 3480, .01);

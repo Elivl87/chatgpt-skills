@@ -422,6 +422,10 @@
         const cv = document.createElement("canvas"); cv.width = o.w; cv.height = cH;
         cv.style.cssText = `position:absolute; left:${o.left}px; top:${o.cTop}px; width:${o.w}px; height:${cH}px`;
         host.appendChild(cv);
+        if (o.lighthouse) {   // our 3D lighthouse (props3d lighthouse_side) on the far right shore of the plate, dusk-graded
+          const lh = document.createElement("img"); lh.src = "assets/lighthouse_side.png"; lh.alt = ""; const hh = 46, ww = hh * 1200 / 1503;
+          lh.style.cssText = `position:absolute; left:${1186 - ww / 2}px; top:${317 - hh}px; width:${ww}px; height:${hh}px; filter:brightness(.62) saturate(.75) sepia(.25) hue-rotate(-12deg)`;
+          host.appendChild(lh); api.lighthouse = lh; }
         const gl = cv.getContext("webgl", { preserveDrawingBuffer: true, antialias: false, premultipliedAlpha: false });
         const api = { imgs, canvas: cv, draw() {}, set(k) { imgs.forEach((im, i) => { im.style.opacity = i === 0 ? 1 : Math.max(0, Math.min(1, k - i + 1)); }); } };
         if (!gl) return api;
@@ -511,6 +515,99 @@
               if (ss.some(([tt]) => Math.abs(tt - t) < .25)) continue;     // never on a face change
               tl.set(lids[e], { opacity: 1 }, t); tl.set(lids[e], { opacity: 0 }, t + .12); } } };
       }
+      /* ------------------------------------------------------------------ Max and Leo INSIDE the rowboat (2026-10-14)
+         The 3D builder's in-boat layers (public/art/ep003/props3d/boat_layers.json): boat_max_* / boat_leo_* share one
+         1453x535 crop with rowboat_side_back/front_tall (= the v1 halves + 216 px headroom), so stacked on our two-pass
+         boat (back img 620 wide at top 9) they sit on their thwarts with their legs behind the near hull. Each friend
+         gets a wrapper the width of his figure (so lean/breathe pivot on him), inside a clip like #crewClip (so the old
+         pop-from-below moves stay hidden under the boat). Order: back half -> these friends -> the 2D crew -> front half.
+         BoatFriends(crewClipEl, { ids: ["silA", "silB"], exprs: [...], dx: { max: 150, leo: 150 }, scale: 1, cls: "" })
+         dx in layer px (the builder allows +-150); sweat maps to shock (no in-boat sweat face). */
+      const BF_K = 620 / 1452, BF_TOP = 9 - 216 * 620 / 1452, BF_H = 535 * 620 / 1452;
+      const BF_BOX = { max: [735, 1000], leo: [955, 1215] };
+      function BoatFriends(crewClipEl, o) {
+        o = Object.assign({ ids: ["silA", "silB"], exprs: ["neutral"], dx: { max: 150, leo: 150 }, scale: 1, cls: "" }, o);
+        const clip = document.createElement("div");
+        clip.style.cssText = "position:absolute; left:-80px; top:-300px; width:780px; height:405px; overflow:hidden";
+        crewClipEl.parentNode.insertBefore(clip, crewClipEl);
+        const map = (e) => (e === "sweat" ? "shock" : e);
+        const exprs = [...new Set(o.exprs.map(map))];
+        const out = {};
+        ["max", "leo"].forEach((who, wi) => {
+          const [b0, b1] = BF_BOX[who], dx = o.dx[who] || 0;
+          const left = (b0 + dx) * BF_K, w = (b1 - b0) * BF_K;
+          const el = document.createElement("div"); el.className = "mate bf " + o.cls; el.id = o.ids[wi];
+          el.style.cssText = `position:absolute; left:${left + 80}px; top:${BF_TOP + 300}px; width:${w}px; height:${BF_H}px; bottom:auto`;
+          el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="rx"><div class="flip"></div></div></div></div></div></div>`;
+          clip.appendChild(el);
+          const rx = el.querySelector(".rx"); rx.style.cssText = "position:absolute; inset:0";
+          const fl = el.querySelector(".flip");
+          fl.style.cssText = `position:absolute; inset:0; transform-origin:50% 100%; transform:scale(${o.scale})`;
+          const frames = {};
+          const mkImg = (name) => { const im = document.createElement("img"); im.src = `assets/boat_${who}_${name}.png`; im.alt = "";
+            im.style.cssText = `position:absolute; left:${-b0 * BF_K}px; top:0; width:${620 * 1453 / 1452}px; height:${BF_H}px; max-width:none; opacity:0; object-fit:fill`;
+            fl.appendChild(im); return im; };
+          exprs.forEach((e, i) => { frames[e] = { base: mkImg(e), blink: mkImg(e + "_blink"), m: [0, 1, 2].map((k) => mkImg(`${e}_m${k}`)) };
+            if (i === 0) frames[e].base.style.opacity = 1; });
+          const sched = [[0, exprs[0]]], talks = [];
+          const cur = (t) => { let e = exprs[0]; for (const [tt, ee] of sched.slice().sort((a, b) => a[0] - b[0])) if (tt <= t) e = ee; return e; };
+          const all = () => Object.values(frames).flatMap((f) => [f.base, f.blink, ...f.m]);
+          out[who] = { el, w, frames,
+            // a face change is a reaction: 2-3 frames of anticipation (a small squash), then the swap with its body beat:
+            // laugh = a bounce, shock = a jolt back, sweat/side-eye = a guilty sink; neutral = settle
+            face(tl, e, at) { const raw = e; e = map(e); sched.push([at, e]);
+              const a0 = Math.max(0, at - .08);
+              if (at > .2) tl.to(rx, { scaleY: .975, scaleX: 1.01, duration: .08, ease: "power1.in", transformOrigin: "50% 100%" }, a0);
+              all().forEach((im) => tl.set(im, { opacity: im === frames[e].base ? 1 : 0 }, at));
+              if (at <= .2) return;
+              const R = { laugh: [{ y: -7, scaleY: 1.03, scaleX: .99, duration: .12, ease: "power2.out" }, { y: 0, scaleY: 1, scaleX: 1, duration: .5, ease: "bounce.out" }],
+                          shock: [{ x: 6, y: -4, rotation: 4, scaleY: 1.04, scaleX: 1, duration: .07, ease: "power3.out" }, { x: 0, y: 0, rotation: 0, scaleY: 1, duration: .55, ease: "elastic.out(1, .4)" }],
+                          sweat: [{ y: 5, scaleY: .97, scaleX: 1, duration: .25, ease: "sine.out" }, { y: 0, scaleY: 1, duration: .8, ease: "sine.inOut" }],
+                          sideeye: [{ rotation: -2.5, scaleY: 1, scaleX: 1, duration: .2, ease: "sine.out" }, { rotation: 0, duration: .9, ease: "sine.inOut" }],
+                          neutral: [{ scaleY: 1, scaleX: 1, duration: .2, ease: "sine.out" }] }[raw] || [{ scaleY: 1, scaleX: 1, duration: .2 }];
+              tl.to(rx, { keyframes: R, transformOrigin: "50% 100%" }, at); },
+            // idle life (blocks that do not already breathe the crew): breathing 1.5 %, a slow sway, own phase
+            idle(tl, t0, t1, ph) { ph = ph || 0; const d = t1 - t0;
+              tl.fromTo(el.querySelector(".breathe"), { scaleY: 1 }, { scaleY: 1.015, duration: 1.8 + ph * .2, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / 1.8), transformOrigin: "50% 100%", immediateRender: false }, t0);
+              tl.fromTo(el.querySelector(".sway"), { rotation: -1.1 }, { rotation: 1.1, duration: 2.5 + ph * .3, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / 2.5), transformOrigin: "50% 100%", immediateRender: false }, t0); },
+            // lip-flap m0 -> m1 -> m2 -> m1 at 10 fps (laughs and talk), then back to the face
+            talk(tl, t0, t1) { const e = cur(t0 + .001), f = frames[e]; const seq = [0, 1, 2, 1];
+              let i = 0; for (let t = t0; t < t1; t += .1, i++) { const k = seq[i % 4];
+                tl.set(f.base, { opacity: 0 }, t); f.m.forEach((im, j) => tl.set(im, { opacity: j === k ? 1 : 0 }, t)); }
+              f.m.forEach((im) => tl.set(im, { opacity: 0 }, t1)); tl.set(f.base, { opacity: 1 }, t1); talks.push([t0 - .3, t1 + .3]); },
+            blinks(tl, t0, t1, seed) { let r = seed || 7; const rnd = () => { r = (r * 16807) % 2147483647; return r / 2147483647; };
+              for (let t = t0 + .8 + rnd() * 1.5; t < t1 - .3; t += 2.4 + rnd() * 2.2) {
+                if (sched.some(([tt]) => Math.abs(tt - t) < .35) || talks.some(([a, b]) => t > a && t < b)) continue;
+                const f = frames[cur(t)]; tl.set(f.blink, { opacity: 1 }, t); tl.set(f.blink, { opacity: 0 }, t + .1); } } };
+        });
+        return out;
+      }
+
+      /* ------------------------------------------------------------------ seagulls (our 3D gull, 2026-10-14)
+         public/art/ep003/props3d/seagull_34.png (staged as assets/seagull_34.png). The cut-out is a gliding pose; the
+         wing-flap is a squash cycle on the wings' plane (scaleY 1 -> .5 -> 1), which reads as a flap at gull size.
+         Gull(host, { w: 150 }) -> { el, fly(tl, t0, t1, pts, o) } ; pts = [[x, y], ...] frame/layer coords of the centre,
+         o.flip faces left, o.flaps = [[ta, tb], ...] windows that flap (else it glides with a slow bank). */
+      function Gull(host, o) {
+        o = Object.assign({ w: 150 }, o);
+        const h = o.w * 747 / 875;
+        const el = document.createElement("div"); el.className = "gull";
+        el.style.cssText = `position:absolute; left:${-o.w / 2}px; top:${-h / 2}px; width:${o.w}px; height:${h}px; opacity:0; pointer-events:none`;
+        const wing = document.createElement("div"); wing.style.cssText = "position:absolute; inset:0";
+        const im = document.createElement("img"); im.src = "assets/seagull_34.png"; im.alt = "";
+        im.style.cssText = "position:absolute; inset:0; width:100%; height:100%" + (o.flip ? "; transform:scaleX(-1)" : "") + (o.filter ? `; filter:${o.filter}` : "");
+        wing.appendChild(im); el.appendChild(wing); host.appendChild(el);
+        return { el, wing,
+          fly(tl, t0, t1, pts, f) { f = f || {};
+            tl.set(el, { opacity: 1, x: pts[0][0], y: pts[0][1], rotation: 0 }, t0);
+            const seg = (t1 - t0) / (pts.length - 1);
+            pts.slice(1).forEach(([x, y], i) => tl.to(el, { x, y, duration: seg, ease: "none" }, t0 + i * seg));
+            tl.fromTo(el, { rotation: -4 }, { rotation: 4, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.3), immediateRender: false }, t0);
+            (f.flaps || [[t0, t0 + Math.min(1.2, t1 - t0)]]).forEach(([a, b]) => {
+              const n = Math.max(1, Math.round((b - a) / .34));
+              tl.fromTo(wing, { scaleY: 1 }, { scaleY: .5, duration: .17, ease: "sine.inOut", yoyo: true, repeat: n * 2 - 1, transformOrigin: "50% 45%", immediateRender: false }, a); });
+            tl.set(el, { opacity: 0 }, t1); } };
+      }
 
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       const SVGNS = "http://www.w3.org/2000/svg";
@@ -552,10 +649,9 @@
       function mate(host, id, left, inner, style) {
         const m = mk("div", "mate" + (inner.startsWith("<svg") ? " sil" : ""), host, `left:${left}px;` + (style || "")); if (id) m.id = id;
         m.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway">${inner.startsWith("<svg") ? inner : `<img src="assets/${inner}" alt="" />`}</div></div></div></div>`; return m; }
-      // Max and Leo (our 3D, seated 3/4) take the grey friends' seats, scaled to Quest (286 px), inside the two-pass boat
+      // Max and Leo sit INSIDE the hull: the in-boat 3D layers (back half -> friends -> 2D crew -> front half)
       function crew4(host, pre) { return [mate(host, pre + "P", 220, "pixie_laugh.png"), mate(host, pre + "Q", 335, "quest_laugh.png"),
-        FR1(Friend(host, "max", { id: pre + "A", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 528, base: 412 })),
-        FR1(Friend(host, "leo", { id: pre + "B", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 622, base: 418 }))]; }
+        ...(() => { const b = BoatFriends(host, { ids: [pre + "A", pre + "B"], exprs: ["laugh"] }); FR1(b.max); FR1(b.leo); return [b.max.el, b.leo.el]; })()]; }
       const FRS = [], FR1 = (f) => { FRS.push(f); return f.el; };
       const C4 = crew4($("#crewClip"), "c4");
       const C2 = [mate($("#crewClip"), "c2P", 236, "pixie_sit.png", "width: 160px; height: 241px; bottom: -48px"),
@@ -629,7 +725,7 @@
       /* ---------------- D3 hand-drawn circles round the four faces (photo coords) */
       const FACES = (function () { const ph = $("#photo3").getBoundingClientRect(); const k = ph.width / 600;
         return ["#p3P", "#p3Q", "#p3A", "#p3B"].map((id, i) => { const r = $(id).getBoundingClientRect();
-          return [(r.left + r.width / 2 - ph.left) / k + [-4, -8, 0, 0][i], (r.top - ph.top) / k + r.height / k * [.2, .2, .13, .15][i]]; }); })();
+          return [(r.left + r.width / 2 - ph.left) / k + [-4, -8, 0, 0][i], (r.top - ph.top) / k + r.height / k * [.2, .2, .19, .22][i]]; }); })();
       const circles = FACES.map(([cx, cy], i) => { const rr = rng(200 + i); let d = ""; const n = 46; const rx = 36 + rr() * 4, ry = 42 + rr() * 4;
         for (let k = 0; k <= n; k++) { const a = -2.0 + (k / n) * (Math.PI * 2 + .55); const wob = 1 + (rr() - .5) * .05 + k * .0016;
           d += (k ? " L " : "M ") + (cx + Math.cos(a) * rx * wob).toFixed(1) + " " + (cy + Math.sin(a) * ry * wob).toFixed(1); }
@@ -688,9 +784,9 @@
             <path d="M 306 112 C 310 96, 380 88, 448 90 C 514 92, 546 102, 546 112 C 536 128, 440 134, 382 130 C 334 126, 306 122, 306 112 Z" fill="#ecd9a3"/>
             <ellipse cx="690" cy="66" rx="9" ry="3.6" fill="#141414"/></svg>
           <svg class="abs" style="left:0;top:0;overflow:visible" width="1280" height="720" viewBox="0 0 1280 720">
-            <line x1="690" y1="396" x2="690" y2="196" stroke="#16161f" stroke-width="7" stroke-linecap="round"/>
-            <line x1="690" y1="396" x2="690" y2="196" stroke="#f1f1ef" stroke-width="4" stroke-linecap="round"/>
-            <path class="flag" d="M 690 200 L 760 214 L 690 236 Z" fill="#e5484d" stroke="#16161f" stroke-width="3.5" stroke-linejoin="round"/></svg>
+            <path class="flag" d="M 690 200 L 760 214 L 690 236 Z" fill="none" opacity="0"/></svg>
+          <!-- our 3D golf flag (props3d golf_flag), its cup on the hole at (690, 396); the cloth ripples on a scaleX wave -->
+          <div class="flag3d abs" style="left:682.6px;top:191px;width:51.4px;height:207px;transform-origin:7.4px 50%"><img src="assets/golf_flag.png" alt="" style="width:100%;height:100%;filter:drop-shadow(0 4px 3px rgba(20,40,10,.35))"/></div>
           <div class="ballSh abs" style="left:0;top:0;width:40px;height:12px;border-radius:50%;background:rgba(20,40,10,.45)"></div>
           <div class="ball abs" style="left:0;top:0;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 38% 34%,#ffffff 0%,#f1f1ee 45%,#c9ccd2 100%);border:2px solid #4a4a52"></div>
         </div>`;
@@ -822,7 +918,7 @@
         gl.viewport(0, 0, cv.width, cv.height);
         return { draw(t, extra) { gl.useProgram(pr); setU(u, t, extra); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); } };
       }
-      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
+      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png"], { lighthouse: true });
       $("#beam").style.display = "none";                                  // the drawn lighthouse is not on the plate
       const photoWater = lakeShader($("#ph3water"), .76); photoWater.draw(3.0, 1.1);
       const pov = povShader($("#povWater"));
@@ -1078,6 +1174,7 @@
         const w = (k) => Math.sin(t * 7 - k * 2.4) * 7 * k;
         const d = `M 690 200 C ${712} ${200 + w(.3)}, ${738} ${206 + w(.6)}, ${764} ${216 + w(1)} C ${740} ${224 + w(.7)}, ${712} ${232 + w(.35)}, 690 238 Z`;
         GOLF.forEach((g) => g.flag.setAttribute("d", d)); } }, 0);
+      document.querySelectorAll(".flag3d").forEach((f, i) => tl.fromTo(f, { scaleX: 1, skewY: 0 }, { scaleX: .9, skewY: -2.5, duration: .55 + i * .07, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / .55), immediateRender: false }, 0));
       // whip to poker
       const WP = T.poker - .1;
       tl.to("#golfHost", { x: -1500, duration: .3, ease: "power2.in" }, WP);
@@ -1165,6 +1262,10 @@
       tl.fromTo("#cuL .person, #cuR .person", { scale: 1 }, { scale: 1.03, duration: 2.4, ease: "sine.inOut", transformOrigin: "50% 30%" }, T.nobody - .05);
 
       tl.set({}, {}, DUR);
+      // seagulls over the lake wides: one across WHY FISHING?, one gliding through the calm boat shot (l24)
+      { const host = $("#L-water .F");
+        Gull(host, { w: 52, flip: true }).fly(tl, 0, T.l22 - .1, [[120, 120], [600, 104], [1100, 96], [1390, 80]], { flaps: [[.2, 1.0], [T.l22 - 1.6, T.l22 - .9]] });
+        Gull(host, { w: 40 }).fly(tl, T.l24, T.l24 + 6, [[1380, 140], [980, 120], [560, 112], [-100, 96]], { flaps: [[T.l24, T.l24 + .9], [T.l24 + 3.6, T.l24 + 4.2]] }); }
       FRS.forEach((f, i) => f.blinks(tl, 0, 57.3, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;
     </script>

@@ -756,7 +756,7 @@
       $("#crewClip").insertBefore(LEOJ.el, $("#pixie"));
       const dyns = [0, 1, 2].map(() => { const e = mk("div", "dyn", $("#juggle")); e.innerHTML = '<img src="assets/dynamite.png" alt="" />'; return e; });
       (function () { const g = $("#bnGav"); ["Q", "P", "A", "B"].forEach((k, i) => { const a = mk("div", "avd", g, `left:${(i % 2) * 30}px; top:${Math.floor(i / 2) * 30}px; background:${MEM[k].color}`); a.innerHTML = avHTML(k); }); })();
-      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png", "assets/lake_bluehour.png"]);   // new art v1 + its derived blue-hour grade
+      const water = PlateLake($("#plateHost"), ["assets/lake_dusk.png", "assets/lake_bluehour.png"], { lighthouse: true });   // new art v1 + its derived blue-hour grade
       $("#plateHost").appendChild($("#stars"));                           // the stars come out over the plate's sky
 
       /* ---------------- F6 rigs: the clock wheel, the snacks ---------------- */
@@ -972,6 +972,8 @@
       tl.to(wenv, { glow: 0, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too);
       lcam(0, 0, focus(900, 330, 1.12));
       lcam(T.but, T.some5 - T.but + 1.2, focus(700, 420, 1.0), "sine.inOut");      // a slow pull-back
+      // a seagull glides home into the low sun (the dusk wide's idle event), small and far
+      Gull($("#L-water .F"), { w: 38, flip: true }).fly(tl, T.but + .3, T.tuesday - .4, [[200, 170], [620, 150], [960, 132], [1180, 120]], { flaps: [[T.but + .3, T.but + 1.1]] });
       tl.set("#sun", { y: -83 }, 0);                                   // matches F3's sun on screen (the match cut)
       tl.to("#sun", { y: -40, duration: T.too - T.but, ease: "sine.in" }, T.but);
       tl.to("#sun", { y: 40, duration: 4.2, ease: "sine.in" }, T.too);
