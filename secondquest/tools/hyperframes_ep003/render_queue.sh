@@ -3,5 +3,5 @@
 cd "$(dirname "$0")"
 for b in "$@"; do
   echo "== block $b $(date +%T)"
-  ./render_block.sh "$b" --workers 2 > "renders/log_block$b.txt" 2>&1 && echo "ok $b" || echo "FAILED $b"
+  ./render_block.sh "$b" --workers 4 > "renders/log_block$b.txt" 2>&1 && echo "ok $b" || echo "FAILED $b"
 done
