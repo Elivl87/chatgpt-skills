@@ -449,10 +449,9 @@
       function mate(host, id, left, inner, style) {
         const m = mk("div", "mate" + (inner.startsWith("<svg") ? " sil" : ""), host, `left:${left}px;` + (style || "")); if (id) m.id = id;
         m.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway">${inner.startsWith("<svg") ? inner : `<img src="assets/${inner}" alt="" />`}</div></div></div></div>`; return m; }
-      // Max and Leo (our 3D, seated 3/4) take the grey friends' seats, scaled to Quest (286 px), inside the two-pass boat
+      // Max and Leo sit INSIDE the hull: the in-boat 3D layers (back half -> friends -> 2D crew -> front half)
       function crew4(host, pre) { return [mate(host, pre + "P", 220, "pixie_laugh.png"), mate(host, pre + "Q", 335, "quest_laugh.png"),
-        FR1(Friend(host, "max", { id: pre + "A", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 528, base: 412 })),
-        FR1(Friend(host, "leo", { id: pre + "B", pose: "sit_34", exprs: ["laugh"], hq: 286, x: 622, base: 418 }))]; }
+        ...(() => { const b = BoatFriends(host, { ids: [pre + "A", pre + "B"], exprs: ["laugh"] }); FR1(b.max); FR1(b.leo); return [b.max.el, b.leo.el]; })()]; }
       const FRS = [], FR1 = (f) => { FRS.push(f); return f.el; };
       const C4 = crew4($("#crewClip"), "c4");
       const C2 = [mate($("#crewClip"), "c2P", 236, "pixie_sit.png", "width: 160px; height: 241px; bottom: -48px"),
@@ -526,7 +525,7 @@
       /* ---------------- D3 hand-drawn circles round the four faces (photo coords) */
       const FACES = (function () { const ph = $("#photo3").getBoundingClientRect(); const k = ph.width / 600;
         return ["#p3P", "#p3Q", "#p3A", "#p3B"].map((id, i) => { const r = $(id).getBoundingClientRect();
-          return [(r.left + r.width / 2 - ph.left) / k + [-4, -8, 0, 0][i], (r.top - ph.top) / k + r.height / k * [.2, .2, .13, .15][i]]; }); })();
+          return [(r.left + r.width / 2 - ph.left) / k + [-4, -8, 0, 0][i], (r.top - ph.top) / k + r.height / k * [.2, .2, .19, .22][i]]; }); })();
       const circles = FACES.map(([cx, cy], i) => { const rr = rng(200 + i); let d = ""; const n = 46; const rx = 36 + rr() * 4, ry = 42 + rr() * 4;
         for (let k = 0; k <= n; k++) { const a = -2.0 + (k / n) * (Math.PI * 2 + .55); const wob = 1 + (rr() - .5) * .05 + k * .0016;
           d += (k ? " L " : "M ") + (cx + Math.cos(a) * rx * wob).toFixed(1) + " " + (cy + Math.sin(a) * ry * wob).toFixed(1); }

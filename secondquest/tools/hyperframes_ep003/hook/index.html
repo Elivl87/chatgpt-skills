@@ -167,7 +167,7 @@
                 <div id="crewClip">
                   <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /></div></div></div></div></div>
                   <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /></div></div></div></div></div>
-                  <div id="ko" class="abs" style="left: 566px; top: 196px; width: 120px; height: 60px"></div>
+                  <div id="ko" class="abs" style="left: 547px; top: 182px; width: 120px; height: 60px"></div>
                 </div>
                 <svg id="line" viewBox="-100 -350 840 520"><path id="linePath" d="M 417 -229 C 380 -150, 230 -175, 175 -95 C 170 -40, 260 -30, 380 -36 C 520 -44, 640 -60, 640 -20 C 640 20, 470 30, 330 24 C 200 18, 150 30, 170 50 C 200 80, 420 60, 560 70 C 650 76, 700 110, 690 160" fill="none" stroke="#f6efe0" stroke-width="2.2" stroke-linecap="round"/></svg>
                 <div id="rod"><img src="assets/rod.png" alt="" /></div>
@@ -366,6 +366,56 @@
               if (ss.some(([tt]) => Math.abs(tt - t) < .25)) continue;     // never on a face change
               tl.set(lids[e], { opacity: 1 }, t); tl.set(lids[e], { opacity: 0 }, t + .12); } } };
       }
+      /* ------------------------------------------------------------------ Max and Leo INSIDE the rowboat (2026-10-14)
+         The 3D builder's in-boat layers (public/art/ep003/props3d/boat_layers.json): boat_max_* / boat_leo_* share one
+         1453x535 crop with rowboat_side_back/front_tall (= the v1 halves + 216 px headroom), so stacked on our two-pass
+         boat (back img 620 wide at top 9) they sit on their thwarts with their legs behind the near hull. Each friend
+         gets a wrapper the width of his figure (so lean/breathe pivot on him), inside a clip like #crewClip (so the old
+         pop-from-below moves stay hidden under the boat). Order: back half -> these friends -> the 2D crew -> front half.
+         BoatFriends(crewClipEl, { ids: ["silA", "silB"], exprs: [...], dx: { max: 150, leo: 150 }, scale: 1, cls: "" })
+         dx in layer px (the builder allows +-150); sweat maps to shock (no in-boat sweat face). */
+      const BF_K = 620 / 1452, BF_TOP = 9 - 216 * 620 / 1452, BF_H = 535 * 620 / 1452;
+      const BF_BOX = { max: [735, 1000], leo: [955, 1215] };
+      function BoatFriends(crewClipEl, o) {
+        o = Object.assign({ ids: ["silA", "silB"], exprs: ["neutral"], dx: { max: 150, leo: 150 }, scale: 1, cls: "" }, o);
+        const clip = document.createElement("div");
+        clip.style.cssText = "position:absolute; left:-80px; top:-300px; width:780px; height:405px; overflow:hidden";
+        crewClipEl.parentNode.insertBefore(clip, crewClipEl);
+        const map = (e) => (e === "sweat" ? "shock" : e);
+        const exprs = [...new Set(o.exprs.map(map))];
+        const out = {};
+        ["max", "leo"].forEach((who, wi) => {
+          const [b0, b1] = BF_BOX[who], dx = o.dx[who] || 0;
+          const left = (b0 + dx) * BF_K, w = (b1 - b0) * BF_K;
+          const el = document.createElement("div"); el.className = "mate bf " + o.cls; el.id = o.ids[wi];
+          el.style.cssText = `position:absolute; left:${left + 80}px; top:${BF_TOP + 300}px; width:${w}px; height:${BF_H}px; bottom:auto`;
+          el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip"></div></div></div></div></div>`;
+          clip.appendChild(el);
+          const fl = el.querySelector(".flip");
+          fl.style.cssText = `position:absolute; inset:0; transform-origin:50% 100%; transform:scale(${o.scale})`;
+          const frames = {};
+          const mkImg = (name) => { const im = document.createElement("img"); im.src = `assets/boat_${who}_${name}.png`; im.alt = "";
+            im.style.cssText = `position:absolute; left:${-b0 * BF_K}px; top:0; width:${620 * 1453 / 1452}px; height:${BF_H}px; max-width:none; opacity:0; object-fit:fill`;
+            fl.appendChild(im); return im; };
+          exprs.forEach((e, i) => { frames[e] = { base: mkImg(e), blink: mkImg(e + "_blink"), m: [0, 1, 2].map((k) => mkImg(`${e}_m${k}`)) };
+            if (i === 0) frames[e].base.style.opacity = 1; });
+          const sched = [[0, exprs[0]]], talks = [];
+          const cur = (t) => { let e = exprs[0]; for (const [tt, ee] of sched.slice().sort((a, b) => a[0] - b[0])) if (tt <= t) e = ee; return e; };
+          const all = () => Object.values(frames).flatMap((f) => [f.base, f.blink, ...f.m]);
+          out[who] = { el, w, frames,
+            face(tl, e, at) { e = map(e); sched.push([at, e]); all().forEach((im) => tl.set(im, { opacity: im === frames[e].base ? 1 : 0 }, at)); },
+            // lip-flap m0 -> m1 -> m2 -> m1 at 10 fps (laughs and talk), then back to the face
+            talk(tl, t0, t1) { const e = cur(t0 + .001), f = frames[e]; const seq = [0, 1, 2, 1];
+              let i = 0; for (let t = t0; t < t1; t += .1, i++) { const k = seq[i % 4];
+                tl.set(f.base, { opacity: 0 }, t); f.m.forEach((im, j) => tl.set(im, { opacity: j === k ? 1 : 0 }, t)); }
+              f.m.forEach((im) => tl.set(im, { opacity: 0 }, t1)); tl.set(f.base, { opacity: 1 }, t1); talks.push([t0 - .3, t1 + .3]); },
+            blinks(tl, t0, t1, seed) { let r = seed || 7; const rnd = () => { r = (r * 16807) % 2147483647; return r / 2147483647; };
+              for (let t = t0 + .8 + rnd() * 1.5; t < t1 - .3; t += 2.4 + rnd() * 2.2) {
+                if (sched.some(([tt]) => Math.abs(tt - t) < .35) || talks.some(([a, b]) => t > a && t < b)) continue;
+                const f = frames[cur(t)]; tl.set(f.blink, { opacity: 1 }, t); tl.set(f.blink, { opacity: 0 }, t + .1); } } };
+        });
+        return out;
+      }
 
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       const SVGNS = "http://www.w3.org/2000/svg";
@@ -397,9 +447,9 @@
       // the lake plate and the friends (Max, Leo: seated 3/4 cut-outs inside the two-pass boat, scaled to Quest = 286 px)
       const lake = PlateLake($("#plateHost"), ["assets/lake_dusk.png"]);
       const crewHost = $("#crewClip"), pixieEl = $("#pixie");
-      const MAX = Friend(crewHost, "max", { id: "silA", pose: "sit_34", exprs: ["sideeye", "laugh", "neutral"], hq: 286, x: 528, base: 412 });
-      const LEO = Friend(crewHost, "leo", { id: "silB", pose: "sit_34", exprs: ["laugh", "shock", "neutral", "sweat"], hq: 286, x: 622, base: 418 });
-      crewHost.insertBefore(MAX.el, pixieEl); crewHost.insertBefore(LEO.el, pixieEl);
+      // Max and Leo INSIDE the hull: the in-boat 3D layers between the back half and the 2D crew (2026-10-14)
+      const BFR = BoatFriends(crewHost, { ids: ["silA", "silB"], exprs: ["sideeye", "laugh", "neutral", "shock", "sweat"] });
+      const MAX = BFR.max, LEO = BFR.leo;
       // the companion (fish_34) in the boat layer
       const buddy = mk("div", "fish", $("#fishFront"), "left:0; top:0; width:170px; height:125px"); buddy.id = "buddy";
       buddy.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
@@ -678,6 +728,7 @@
       tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.5), immediateRender: false }, 0);
 
       tl.set({}, {}, DUR);
+      MAX.talk(tl, 31.36, 32.2); LEO.talk(tl, 31.3, 32.3);                 // "Together.": they laugh (lip-flap)
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, 36.03, 11 + i * 7));   // idle blinks on the friends
       const WARP = [[0.0, 0.0], [0.3, 0.34], [0.44, 0.54], [0.6, 0.68], [0.78, 0.84], [0.98, 1.02], [1.44, 1.56], [1.86, 1.9], [2.06, 2.14], [2.38, 2.5], [3.18, 3.12], [3.4, 3.22], [3.76, 3.5], [4.64, 4.24], [4.69, 4.29], [5.1, 4.62], [5.68, 5.18], [5.74, 5.28], [5.88, 5.6], [6.0, 5.82], [6.24, 6.14], [6.806, 6.64], [6.98, 6.78], [7.88, 7.1], [8.46, 7.64], [8.8, 7.98], [8.96, 8.18], [9.08, 8.32], [9.36, 8.68], [9.93, 9.0], [10.1, 9.19], [10.24, 9.36], [10.58, 9.82], [10.88, 10.14], [11.0, 10.24], [11.22, 10.42], [11.32, 10.54], [11.64, 10.86], [12.16, 11.38], [12.4, 11.58], [12.62, 11.92], [12.82, 12.14], [13.16, 12.46], [14.06, 12.88], [14.2, 13.1], [14.4, 13.52], [14.54, 13.78], [14.84, 14.18], [15.28, 14.66], [15.82, 15.29], [15.98, 15.4], [16.3, 15.94], [16.64, 16.26], [17.54, 16.82], [17.8, 17.12], [18.2, 17.44], [18.58, 17.76], [18.78, 17.89], [19.06, 18.1], [19.38, 18.42], [19.92, 18.78], [20.36, 19.13], [20.74, 19.5], [21.36, 20.58], [21.52, 20.76], [21.84, 21.1], [22.34, 21.64], [22.52, 22.0], [22.76, 22.2], [23.32, 22.62], [23.66, 22.98], [24.14, 23.42], [24.52, 23.72], [24.78, 23.98], [25.04, 24.44], [25.4, 25.36], [25.95, 26.18], [26.18, 26.4], [26.6, 26.94], [26.92, 27.34], [27.22, 27.76], [27.4, 28.26], [27.64, 28.68], [28.08, 29.14], [29.0, 29.7], [29.18, 29.98], [29.76, 30.6], [30.34, 31.26], [31.23, 31.77], [31.76, 32.14], [32.945, 32.98], [33.8, 33.24], [34.36, 34.1], [36.03, 36.01], [36.03, 35.6]];
       const master = gsap.timeline({ paused: true });                  // authored time -> narration time

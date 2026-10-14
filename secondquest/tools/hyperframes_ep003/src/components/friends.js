@@ -34,3 +34,53 @@
               if (ss.some(([tt]) => Math.abs(tt - t) < .25)) continue;     // never on a face change
               tl.set(lids[e], { opacity: 1 }, t); tl.set(lids[e], { opacity: 0 }, t + .12); } } };
       }
+      /* ------------------------------------------------------------------ Max and Leo INSIDE the rowboat (2026-10-14)
+         The 3D builder's in-boat layers (public/art/ep003/props3d/boat_layers.json): boat_max_* / boat_leo_* share one
+         1453x535 crop with rowboat_side_back/front_tall (= the v1 halves + 216 px headroom), so stacked on our two-pass
+         boat (back img 620 wide at top 9) they sit on their thwarts with their legs behind the near hull. Each friend
+         gets a wrapper the width of his figure (so lean/breathe pivot on him), inside a clip like #crewClip (so the old
+         pop-from-below moves stay hidden under the boat). Order: back half -> these friends -> the 2D crew -> front half.
+         BoatFriends(crewClipEl, { ids: ["silA", "silB"], exprs: [...], dx: { max: 150, leo: 150 }, scale: 1, cls: "" })
+         dx in layer px (the builder allows +-150); sweat maps to shock (no in-boat sweat face). */
+      const BF_K = 620 / 1452, BF_TOP = 9 - 216 * 620 / 1452, BF_H = 535 * 620 / 1452;
+      const BF_BOX = { max: [735, 1000], leo: [955, 1215] };
+      function BoatFriends(crewClipEl, o) {
+        o = Object.assign({ ids: ["silA", "silB"], exprs: ["neutral"], dx: { max: 150, leo: 150 }, scale: 1, cls: "" }, o);
+        const clip = document.createElement("div");
+        clip.style.cssText = "position:absolute; left:-80px; top:-300px; width:780px; height:405px; overflow:hidden";
+        crewClipEl.parentNode.insertBefore(clip, crewClipEl);
+        const map = (e) => (e === "sweat" ? "shock" : e);
+        const exprs = [...new Set(o.exprs.map(map))];
+        const out = {};
+        ["max", "leo"].forEach((who, wi) => {
+          const [b0, b1] = BF_BOX[who], dx = o.dx[who] || 0;
+          const left = (b0 + dx) * BF_K, w = (b1 - b0) * BF_K;
+          const el = document.createElement("div"); el.className = "mate bf " + o.cls; el.id = o.ids[wi];
+          el.style.cssText = `position:absolute; left:${left + 80}px; top:${BF_TOP + 300}px; width:${w}px; height:${BF_H}px; bottom:auto`;
+          el.innerHTML = `<div class="pop"><div class="lean"><div class="breathe"><div class="sway"><div class="flip"></div></div></div></div></div>`;
+          clip.appendChild(el);
+          const fl = el.querySelector(".flip");
+          fl.style.cssText = `position:absolute; inset:0; transform-origin:50% 100%; transform:scale(${o.scale})`;
+          const frames = {};
+          const mkImg = (name) => { const im = document.createElement("img"); im.src = `assets/boat_${who}_${name}.png`; im.alt = "";
+            im.style.cssText = `position:absolute; left:${-b0 * BF_K}px; top:0; width:${620 * 1453 / 1452}px; height:${BF_H}px; max-width:none; opacity:0; object-fit:fill`;
+            fl.appendChild(im); return im; };
+          exprs.forEach((e, i) => { frames[e] = { base: mkImg(e), blink: mkImg(e + "_blink"), m: [0, 1, 2].map((k) => mkImg(`${e}_m${k}`)) };
+            if (i === 0) frames[e].base.style.opacity = 1; });
+          const sched = [[0, exprs[0]]], talks = [];
+          const cur = (t) => { let e = exprs[0]; for (const [tt, ee] of sched.slice().sort((a, b) => a[0] - b[0])) if (tt <= t) e = ee; return e; };
+          const all = () => Object.values(frames).flatMap((f) => [f.base, f.blink, ...f.m]);
+          out[who] = { el, w, frames,
+            face(tl, e, at) { e = map(e); sched.push([at, e]); all().forEach((im) => tl.set(im, { opacity: im === frames[e].base ? 1 : 0 }, at)); },
+            // lip-flap m0 -> m1 -> m2 -> m1 at 10 fps (laughs and talk), then back to the face
+            talk(tl, t0, t1) { const e = cur(t0 + .001), f = frames[e]; const seq = [0, 1, 2, 1];
+              let i = 0; for (let t = t0; t < t1; t += .1, i++) { const k = seq[i % 4];
+                tl.set(f.base, { opacity: 0 }, t); f.m.forEach((im, j) => tl.set(im, { opacity: j === k ? 1 : 0 }, t)); }
+              f.m.forEach((im) => tl.set(im, { opacity: 0 }, t1)); tl.set(f.base, { opacity: 1 }, t1); talks.push([t0 - .3, t1 + .3]); },
+            blinks(tl, t0, t1, seed) { let r = seed || 7; const rnd = () => { r = (r * 16807) % 2147483647; return r / 2147483647; };
+              for (let t = t0 + .8 + rnd() * 1.5; t < t1 - .3; t += 2.4 + rnd() * 2.2) {
+                if (sched.some(([tt]) => Math.abs(tt - t) < .35) || talks.some(([a, b]) => t > a && t < b)) continue;
+                const f = frames[cur(t)]; tl.set(f.blink, { opacity: 1 }, t); tl.set(f.blink, { opacity: 0 }, t + .1); } } };
+        });
+        return out;
+      }

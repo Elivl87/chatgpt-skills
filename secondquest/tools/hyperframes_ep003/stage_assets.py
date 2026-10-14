@@ -40,6 +40,9 @@ ART = {
        for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
     **{f'{w}_sit_34_{e}_blink.png': (f'public/art/ep003/props3d/{w}_sit_34_{e}_blink.png', 520)
        for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
+    # the friends INSIDE the rowboat (shared 1453x535 crop with the tall boat halves) + talk/blink frames (full size: the slap shots zoom 2x)
+    **{f'boat_{w}_{e}{m}.png': (f'public/art/ep003/props3d/boat_{w}_{e}{m}.png', None)
+       for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye') for m in ('', '_blink', '_m0', '_m1', '_m2')},
     **{f'{w}_34_{e}.png': (f'public/art/ep003/props3d/{w}_34_{e}.png', 760)
        for w in ('max', 'leo') for e in ('neutral', 'laugh', 'shock', 'sideeye', 'sweat')},
     **{f'{w}_front_{e}.png': (f'public/art/ep003/props3d/{w}_front_{e}.png', 760)
