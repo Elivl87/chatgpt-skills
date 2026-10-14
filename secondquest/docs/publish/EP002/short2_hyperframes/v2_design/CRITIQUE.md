@@ -112,3 +112,11 @@ entrance/exit, the l60 title, the wordmark and card, and every cut. They are scr
 
 Checked by eye on frames pulled from the rendered MP4 (0.0, 0.033, 41.37, 41.43, 41.5, 45.8, 47.7-48.1 s): no
 semi-transparent overlaps. gates.sh adds a 1/30 s window at 40.9-41.8 s; all windows have 0 errors.
+
+## Critic v2c -> the reflection
+
+The reflection is the whole head inside the glass (hair, face, chin on his hand), about 40 % of the screen height, with
+the hair top in the upper third and not cut by the bezel. It is #10 as block H mirrors it (my earlier extra mirror,
+which flipped it back, was removed). It is grey-blue at 30 % opacity, keeps the highlight streak, and the shoulders
+fade into the dark glass with no cut edge. Evidence: `reflection_46.0s_crop100_preview540.png` (100 % crop of the
+rendered preview at 46.0 s). gates.sh adds a 1/30 s window at 44.5-46.5 s: 0 errors.

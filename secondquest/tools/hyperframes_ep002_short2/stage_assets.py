@@ -176,13 +176,15 @@ def stage_art():
             # critic v2 #11: a reflection, not a picture: mirrored, grey-blue, ~20 % opacity, with a glass highlight streak
             qsP = BH.SCR_QUAD
             x0, x1 = min(p[0] for p in qsP), max(p[0] for p in qsP); y0, y1 = min(p[1] for p in qsP), max(p[1] for p in qsP)
-            f = BH.REFL; fh = int((y1 - y0) * .57);   # critic v2b: ~60 % of the old size, sitting low in the glass f = f.resize((int(f.width * fh / f.height), fh), Image.LANCZOS)
+            # critic v2c: the whole head readable inside the glass: BH.REFL is #10 already mirrored (head, shoulders, the
+            # hand at his chin); its head ~40 % of the screen height, hair top in the upper third, grey-blue, ~30 %
+            f = BH.REFL; f = f.crop(f.getchannel('A').getbbox()); fh = int((y1 - y0) * .62); f = f.resize((int(f.width * fh / f.height), fh), Image.LANCZOS)
             from PIL import ImageOps
-            f = ImageOps.mirror(f)
             g = Image.blend(ImageOps.grayscale(f.convert('RGB')).convert('RGB'), Image.new('RGB', f.size, (150, 175, 215)), .35).convert('RGBA')
-            g.putalpha(f.getchannel('A').point(lambda v: int(v * .21)))
+            fade = np.clip((1 - np.linspace(0, 1, fh)) / .4, 0, 1)[:, None]          # the shoulders melt into the dark glass (no cut edge)
+            g.putalpha(Image.fromarray((np.asarray(f.getchannel('A')) * .30 * fade).astype(np.uint8)))
             m = Image.new('L', base.size, 0); ImageDraw.Draw(m).polygon(qsP, fill=255)
-            layer = Image.new('RGBA', base.size); layer.alpha_composite(g, (int((x0 + x1) / 2 - g.width * .55), int(y1 - fh)))
+            layer = Image.new('RGBA', base.size); layer.alpha_composite(g, (int((x0 + x1) / 2 - g.width * .5), int(y0 + (y1 - y0) * .1)))
             layer.putalpha(Image.fromarray(np.minimum(np.asarray(layer.getchannel('A')), np.asarray(m))))
             base.alpha_composite(layer)
             st = Image.new('RGBA', base.size); sd = ImageDraw.Draw(st)
