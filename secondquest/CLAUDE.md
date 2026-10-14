@@ -20,6 +20,9 @@
   no video is rendered with it until the Producer approves it.
 - **Sounds are always free (Producer rule, 2026-10-03):** engine synths, CC0 libraries (licence file next to them, listed in `public/shared/sfx/SOURCES.md`) or our own recordings.
   - Never spend credits or money on sounds.
+  - **No repetitive sounds (Producer, 2026-10-14):** pick from the full catalog (`public/shared/sfx/CATALOG.json`)
+    with variation; the same sound never repeats identically within a video; layer for polish. Navi's original
+    clips are liked and stay.
   - Third-party game audio (e.g. original Navi clips) is used only when the Producer supplies it and directs its use; it is recorded in `docs/<ep>/PRODUCER_DECISIONS.md` with its risk. Claude never downloads it on its own.
 - **Camera continuity (Producer rule, never break):** when two consecutive scenes use the same background, the second must not snap back to the opening framing and start again (it looks cropped).
   - It either continues the camera from where the previous scene ended, or cuts to a clearly different shot.
