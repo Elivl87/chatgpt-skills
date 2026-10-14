@@ -350,8 +350,8 @@
       cam("#camA", 0, 0, { z: 1.575, fx: 1350, fy: 930 });                                        // frame 0: the finished title still
       cam("#camA", 0.7, .25, { z: 1.95, fx: 1300, fy: 860 }, "expo.out");             // "character": title snaps out, punch in on him + balloon
       cam("#camA", 0.97, 2.62, { z: 2.02, fx: 1296, fy: 856 }, "sine.inOut");
-      cam("#camA", 3.62, 0, { z: 2.3, fx: 1290, fy: 860 });                             // "Give that character a voice": hard cut, waist-up hero + balloon
-      cam("#camA", 3.62, 1.66, { z: 2.38, fx: 1288, fy: 858 }, "sine.inOut");
+      cam("#camA", 3.62, 0, { z: 2.3, fx: 1262, fy: 860 });                             // "Give that character a voice": hard cut, waist-up hero + balloon
+      cam("#camA", 3.62, 1.66, { z: 2.36, fx: 1258, fy: 858 }, "sine.inOut");
       cam("#camA", 5.38, 0, { z: 1.6, fx: 1347, fy: 929 });                           // "suddenly": hard cut to the wide two-shot, Pixie there
       cam("#camA", 6.48, 0, { z: 3.6, fx: 1200, fy: 860 });                           // "decide": hard cut to Pixie, hand on her chin
       cam("#camA", 6.48, 0.94, { z: 3.68, fx: 1200, fy: 858 }, "sine.inOut");
@@ -369,7 +369,7 @@
       flash(3.02, .45, .25);
       // "suddenly": the balloon pops in 3 frames (no cross-fade), then the cut reveals Pixie already there
       tl.set("#bub", { scale: 1.15 }, 5.28);
-      tl.set("#bub", { scale: .5, opacity: .6 }, 5.313);
+      tl.set("#bub", { scale: .5, opacity: 1 }, 5.313);
       tl.set("#bub", { scale: 0, opacity: 0 }, 5.347);
       tl.set("#pA", { opacity: 0 }, 0); tl.set("#pA", { opacity: 1 }, 5.38);
       flash(5.38, .3, .18);
@@ -427,7 +427,7 @@
       /* ---------------- wordmark (crisp, no blur), Navi into its star, then the end card */
       const WHY = 19.95;
       tl.set("#wm", { opacity: 0 }, 0);
-      tl.fromTo("#wm", { scale: 1.14, opacity: 0 }, { scale: 1, opacity: 1, duration: .26, ease: "power3.out" }, WHY - .06);
+      tl.fromTo("#wm", { scale: 1.14, opacity: 1 }, { scale: 1, opacity: 1, duration: .26, ease: "power3.out", immediateRender: false }, WHY - .06);   // lands opaque: no ghost frame (critic v3)
       tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.inOut" }, WHY + .1);
       const STAR = { x: 90 + 808 * 900 / 2605, y: 690 + 235 * 900 / 2605 };
       const T_STAR = 20.46;
