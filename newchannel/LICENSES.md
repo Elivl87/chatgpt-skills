@@ -25,3 +25,6 @@ Allowed: MIT, Apache-2.0, BSD, CC0, OFL, ISC, HPND (and LGPL only as a separate 
 | librosa 1.0 | F0 / timbre measurement (QC) | https://librosa.org | ISC |
 | jiwer 4.0 | word error rate (QC) | https://github.com/jitsi/jiwer | Apache-2.0 |
 | SciPy, soundfile | filters, WAV I/O | https://scipy.org · https://github.com/bastibe/python-soundfile | BSD-3-Clause |
+| Playwright 1.56.1 (preinstalled global Node package, not vendored) | headless frame stepping for the JS art (`art/render/render.mjs`) | https://github.com/microsoft/playwright | Apache-2.0 |
+| Chromium headless shell 1194 (preinstalled in /opt/pw-browsers, separate binary) | Canvas 2D rasteriser for `art/` scenes | https://www.chromium.org | BSD-3-Clause (+ bundled third-party notices; used as an unmodified separate tool) |
+| Martian Mono + Space Grotesk (already listed above) | `art/` wordmark, thumbnail words, tagline, via `@font-face` from `brand/fonts/` (no new font added: the brand display face already fits the illustrated style) | see rows above | SIL OFL 1.1 |

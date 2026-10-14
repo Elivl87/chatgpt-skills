@@ -1,9 +1,9 @@
 /* Ep 001 · night: the jam wave as a ribbon of red lights, seen from a hill. Same world kit as the golden shot; a longer
-   lane (110 cars on 2.2 km) so the ribbon runs to the horizon. The mascot watches from the hill (back view). */
+   lane (130 cars on 2.2 km) so the ribbon runs to the horizon. The mascot watches from the hill (back view). */
 (function (root) {
   const K = root.K, E = K.ep1;
   Object.assign(E.PAL.night, { grassFar: '#1f2846', field: '#1a2442', field2: '#202a48', tree: '#141c38', treeDark: '#0a1026', halo: '#9fb4ff', line: '#5a5f80', sun: '#f6efd8' });
-  E.NIGHT = { N: 110, L: 2200, v0: 22, T: 1.0, a: 0.5, b: 1.5, s0: 2, carLen: 4.5, timeScale: 2, fps: 30, preroll: 3, duration: 30,
+  E.NIGHT = { N: 130, L: 2200, v0: 22, T: 1.0, a: 0.5, b: 1.5, s0: 2, carLen: 4.5, timeScale: 2, fps: 30, preroll: 3, duration: 30,
     taps: [{ car: 60, t: 0.5, dur: 1.2, decel: 5 }] };
   let nr = null, no = null, Wn = null;
   E.nightRun = () => (nr = nr || K.sim.ring(E.NIGHT));
@@ -34,9 +34,11 @@
     for (let x = 0; x < 1300; x += 7) K.terrain.tuft(ctx, x + rr() * 5, hillY(x) + 5, 16 + rr() * 22, '#0a0f22', { seed: rr() * 1e6 | 0, n: 4, wind: Math.sin(t * 1.2 + x * 0.01) * 0.25, rim: rr() < 0.3 ? '#5a6cb0' : null });
     K.terrain.tree(ctx, 150, hillY(150) + 8, 360, { color: '#10172f', shade: '#080c1c', trunk: '#080c1c', seed: 4, light: { dx: -0.8, back: 0.6, rim: '#7f93d8' } });
     // the mascot, sitting on the hill top, seen from behind: disc + tiny ink body, moonlit rim
-    const mx = 430, R = 40, my = hillY(mx) - R * 1.55;
-    ctx.fillStyle = '#121a36'; K.rrect(ctx, mx - R * 0.6, my + R * 0.7, R * 1.2, R * 0.95, [R * 0.45, R * 0.45, R * 0.2, R * 0.2]); ctx.fill();
-    ctx.strokeStyle = K.rgba('#a9bcff', 0.6); ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(mx - R * 0.6, my + R * 1.4); ctx.lineTo(mx - R * 0.6, my + R * 1.0); ctx.quadraticCurveTo(mx - R * 0.6, my + R * 0.7, mx - R * 0.2, my + R * 0.7); ctx.stroke();
+    const mx = 430, R = 44, my = hillY(mx) - R * 1.45;
+    ctx.fillStyle = '#0c1230'; K.rrect(ctx, mx - R * 0.62, my + R * 0.62, R * 1.24, R * 1.0, [R * 0.5, R * 0.5, R * 0.2, R * 0.2]); ctx.fill();
+    ctx.save(); K.rrect(ctx, mx - R * 0.62, my + R * 0.62, R * 1.24, R * 1.0, [R * 0.5, R * 0.5, R * 0.2, R * 0.2]); ctx.clip();
+    ctx.strokeStyle = K.rgba('#a9bcff', 0.75); ctx.lineWidth = 5; K.rrect(ctx, mx - R * 0.62 - 2, my + R * 0.62 - 2, R * 1.24, R * 1.0, [R * 0.5, R * 0.5, R * 0.2, R * 0.2]); ctx.stroke(); ctx.restore();
+    ctx.fillStyle = '#0c1230'; K.circle(ctx, mx + R * 0.55, my + R * 1.15, R * 0.17); ctx.fill();   // a hand resting on the knee
     ctx.fillStyle = K.VERMILION; K.circle(ctx, mx, my, R); ctx.fill();
     K.circle(ctx, mx, my, R); K.tex.fillPath(ctx, 0.25, 0.4);
     K.char.discLight(ctx, mx, my, R, { ang: -2.3, rim: '#b4c4ff', rimW: 0.12, rimAlpha: 0.85, shade: '#2a0f2a', shadeAlpha: 0.5 });

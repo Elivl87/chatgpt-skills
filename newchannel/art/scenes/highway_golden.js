@@ -82,7 +82,7 @@
         [380, 120, 620, 34, '#8c76a6', '#f6b98e', 3], [1180, 70, 760, 40, '#8a74a4', '#f3b08a', 3], [1900, 150, 520, 30, '#937aa6', '#f6be92', 2],
         [760, 250, 420, 20, '#c58fa0', '#ffd6a2', 2], [1640, 290, 360, 16, '#cf95a0', '#ffdcaa', 2], [120, 300, 300, 14, '#c992a2', '#ffd6a2', 1],
       ];
-      banks.forEach(([x, y, w, h, col, lit, rows], k) => K.sky.bank(c, x + 300, y, w, h, { color: col, lit, rows, seed: 30 + k, litAlpha: 0.85, top: K.shade(col, -0.15) }));
+      banks.forEach(([x, y, w, h, col, lit, rows], k) => K.sky.bank(c, x + 300, y, w * 1.1, h * 1.35, { color: col, lit, rows, seed: 30 + k, litAlpha: 0.6, litH: 0.18, top: K.shade(col, -0.12) }));
     }
     K.tex.paint(L, { amount: 0.35, mottle: { w: 1200, h: 540, sx: 0.0025, sy: 0.02, seed: 3, amp: 30 } });
     return L;
@@ -303,7 +303,7 @@
     const run = E.highway();
     return {
       t, simT: t, run, onc: E.oncoming(), sCam: E.camS(t) + GOLD.sCamOff, lCam: GOLD.lCam + Math.sin(t * 0.3) * 0.15,
-      H: 8.2 + t * 0.12, pitch: 0.068 + t * 0.002, yaw: -0.012 + Math.sin(t * 0.2) * 0.004, f: 1600 + t * 8,
+      H: 8.2 + t * 0.12, pitch: 0.068 + t * 0.002, yaw: -0.012 + Math.sin(t * 0.2) * 0.004, f: 1600 + 420 * K.ease.sine(K.clamp(t / 6.5)),
       sun: { az: 0.035, elev: 0.095, r: 42 }, brake: i => run.brake(i, t),
     };
   };

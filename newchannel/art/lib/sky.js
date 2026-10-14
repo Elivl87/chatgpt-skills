@@ -75,8 +75,8 @@
     if (o.lit) {                                          // only the undersides facing the low sun catch light
       for (const [cx, cy, cw, ch, k] of caps) {
         if (k % 1) continue;
-        ctx.fillStyle = K.rgba(o.lit, (o.litAlpha ?? 0.9) * (k === 0 ? 1 : 0.55));
-        ctx.beginPath(); ctx.roundRect(cx + ch * 0.3, cy - ch * (o.litH || 0.26), cw - ch * 0.6, ch * (o.litH || 0.26) + 1, ch * 0.13); ctx.fill();
+        ctx.fillStyle = K.rgba(o.lit, (o.litAlpha ?? 0.65) * (k === 0 ? 1 : 0.5));
+        ctx.beginPath(); ctx.roundRect(cx + ch * 0.3, cy - ch * (o.litH || 0.2), cw - ch * 0.6, ch * (o.litH || 0.2) + 1, ch * 0.13); ctx.fill();
       }
     }
     ctx.restore();
