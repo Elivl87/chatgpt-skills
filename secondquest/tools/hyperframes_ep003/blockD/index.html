@@ -1264,7 +1264,7 @@
       tl.set({}, {}, DUR);
       // seagulls over the lake wides: one across WHY FISHING?, one gliding through the calm boat shot (l24)
       { const host = $("#L-water .F");
-        Gull(host, { w: 52, flip: true }).fly(tl, 0, T.l22 - .1, [[120, 120], [600, 104], [1100, 96], [1390, 80]], { flaps: [[.2, 1.0], [T.l22 - 1.6, T.l22 - .9]] });
+        Gull(host, { w: 52, flip: true }).fly(tl, 0, T.l22 - .1, [[60, 200], [600, 186], [1100, 176], [1390, 166]], { flaps: [[.2, 1.0], [T.l22 - 1.6, T.l22 - .9]] });
         Gull(host, { w: 40 }).fly(tl, T.l24, T.l24 + 6, [[1380, 140], [980, 120], [560, 112], [-100, 96]], { flaps: [[T.l24, T.l24 + .9], [T.l24 + 3.6, T.l24 + 4.2]] }); }
       FRS.forEach((f, i) => f.blinks(tl, 0, 57.3, 11 + i * 7));   // idle blinks on the friends
       window.__timelines["main"] = tl;

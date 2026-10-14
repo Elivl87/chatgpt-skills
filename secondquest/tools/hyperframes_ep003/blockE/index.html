@@ -1698,6 +1698,8 @@
       cam(60.14, 0, focus(740, 435, 2.0));
       cam(60.14, 2.88, focus(740, 432, 2.12), "none");
       tl.set(buddy, { opacity: 0 }, 60.14);
+      tl.set("#quest", { x: -36 }, 60.14); tl.set("#quest", { x: 0 }, 63.0);   // Max's face stays clear of Quest in the two-shot
+      tl.set("#quest", { x: 0 }, 0);
       tl.set("#hand", { opacity: 0 }, 60.14);
       tl.fromTo("#hand", { opacity: 0, scale: 1.6 }, { opacity: .92, scale: 1, duration: .18, ease: "back.out(3)", ...IR }, 60.28);
       tl.to("#hand", { scale: 1.08, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 60.58);
