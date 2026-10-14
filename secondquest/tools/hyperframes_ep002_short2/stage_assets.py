@@ -69,15 +69,10 @@ def stage_art():
     field = lib.final_plate('field')
     info['field'] = save(field, 'field.jpg', q=92)
 
-    def blocky(im, cell, sat, fog_k):
-        b = im.resize((PW // cell, PH // cell), Image.BILINEAR).resize((PW, PH), Image.NEAREST)
-        a = np.asarray(b).astype(np.float32); g = a.mean(2, keepdims=True); a = g + (a - g) * sat
-        yy = np.mgrid[0:PH, 0:PW][0] / PH
-        fog = np.clip(1 - np.abs(yy - .45) / .22, 0, 1)[..., None] * fog_k
-        a = a * (1 - fog) + np.array([205, 215, 225]) * fog
-        return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-    save(blocky(field, 48, .7, .35), 'field_old.jpg', q=92)
-    save(blocky(field, 14, .85, .16), 'field_mid.jpg', q=92)
+    import n64_look                                                     # noqa: E402  v2.1: N64 low-poly + fog, not a mosaic
+    f_old, f_mid = n64_look.build(field)
+    save(f_old, 'field_old.jpg', q=92)
+    save(f_mid, 'field_mid.jpg', q=92)
 
     # characters (final art, alpha-cropped with the engine's overlays)
     save(lib.final('quest_young_front'), 'hero_front.png', max_h=1500)          # #3b the silent young hero, facing us
@@ -132,7 +127,8 @@ def stage_art():
     PIXIE_FLOOR = (BH.QSPEC[0] * PW - 400, BH.QSPEC[1] * PH - 14)        # plate px: centre x, feet y (just behind him)
     info['pixie_floor'] = list(PIXIE_FLOOR)
 
-    def room(on):
+    def room(mode):
+        on = mode == 'on'
         pic = BH.old_picture(BH.T_WONDER, (320, 240), pan=False) if on else Image.new('RGB', (320, 240), (14, 16, 20))
         base = BH.room_plate(0, pic)
         glow = 1.0 if on else 0.0
@@ -158,24 +154,45 @@ def stage_art():
         base.alpha_composite(sh2.filter(ImageFilter.GaussianBlur(lib.P(10))))
         base.alpha_composite(pl, (int(px_ - pq.width / 2), int(pf_ - ph_)))
         base.alpha_composite(ql, (int(Q[0] * PW - q.width / 2), int(Q[1] * PH - qh)))
+        # critic v2 #9 (PRODUCTION_PLAYBOOK §3): Q008 holds a modern-shaped pad while the N64 on the floor runs 1998
+        # Hyrule on the CRT -> our 3D N64 pad goes in his hands (graded like him), his fingers repainted over it
+        pad = Image.open(ROOT / 'public/art/ep002/props3d/n64_pad_room.png').convert('RGBA')
+        pad = crop_alpha(pad); pw_ = 156; pad = pad.resize((pw_, round(pad.height * pw_ / pad.width)), Image.LANCZOS).rotate(-6, expand=True, resample=Image.BICUBIC)
+        pg = Image.blend(pad.convert('RGB'), Image.new('RGB', pad.size, (18, 22, 44)), .30 + .30 * (1 - glow)).convert('RGBA'); pg.putalpha(pad.getchannel('A'))
+        hb = (1522, 868, 1668, 960)                                       # plate px around his hands and the old pad
+        before = np.asarray(base.crop(hb).convert('RGB')).astype(int)
+        r_, g_, b_ = before[..., 0], before[..., 1], before[..., 2]
+        hand = ((r_ > b_ + 30) & (g_ > b_) & (r_ > 100) & (b_ > .5 * r_)).astype(np.uint8) * 255   # skin only (not the old pad's yellow buttons)
+        hand = Image.fromarray(hand).filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.GaussianBlur(.8))
+        base.alpha_composite(pg, (1606 - pg.width // 2, 908 - pg.height // 2))
+        handl = base.crop(hb).copy(); handl.paste(Image.fromarray(before.astype(np.uint8)), (0, 0)); handl.putalpha(hand)
+        base.alpha_composite(handl, hb[:2])
         if on:
             rim = Image.new('RGBA', base.size); rd = ImageDraw.Draw(rim)
             fx = Q[0] * PW + q.width * .22; fy = Q[1] * PH - qh * .72
             rd.ellipse((fx - lib.P(120), fy - lib.P(140), fx + lib.P(160), fy + lib.P(260)), fill=(120, 170, 255, 60))
             base.alpha_composite(rim.filter(ImageFilter.GaussianBlur(lib.P(40))))
-        else:
+        elif mode == 'off':
+            # critic v2 #11: a reflection, not a picture: mirrored, grey-blue, ~20 % opacity, with a glass highlight streak
             qsP = BH.SCR_QUAD
             x0, x1 = min(p[0] for p in qsP), max(p[0] for p in qsP); y0, y1 = min(p[1] for p in qsP), max(p[1] for p in qsP)
             f = BH.REFL; fh = int((y1 - y0) * .95); f = f.resize((int(f.width * fh / f.height), fh), Image.LANCZOS)
-            g = Image.blend(f.convert('RGB'), Image.new('RGB', f.size, (140, 170, 210)), .4).convert('RGBA')
-            g.putalpha(f.getchannel('A').point(lambda v: int(v * .45)))
+            from PIL import ImageOps
+            f = ImageOps.mirror(f)
+            g = Image.blend(ImageOps.grayscale(f.convert('RGB')).convert('RGB'), Image.new('RGB', f.size, (150, 175, 215)), .35).convert('RGBA')
+            g.putalpha(f.getchannel('A').point(lambda v: int(v * .21)))
             m = Image.new('L', base.size, 0); ImageDraw.Draw(m).polygon(qsP, fill=255)
             layer = Image.new('RGBA', base.size); layer.alpha_composite(g, (int((x0 + x1) / 2 - g.width * .55), int(y1 - fh)))
             layer.putalpha(Image.fromarray(np.minimum(np.asarray(layer.getchannel('A')), np.asarray(m))))
             base.alpha_composite(layer)
+            st = Image.new('RGBA', base.size); sd = ImageDraw.Draw(st)
+            sd.polygon([(x0 + (x1 - x0) * .55, y0), (x0 + (x1 - x0) * .72, y0), (x0 + (x1 - x0) * .30, y1), (x0 + (x1 - x0) * .13, y1)], fill=(220, 235, 255, 34))
+            st = st.filter(ImageFilter.GaussianBlur(3)); st.putalpha(Image.fromarray(np.minimum(np.asarray(st.getchannel('A')), np.asarray(m))))
+            base.alpha_composite(st)
         return base.convert('RGB')
-    info['room'] = save(room(True), 'room_on.jpg', q=92)
-    save(room(False), 'room_off.jpg', q=92)
+    info['room'] = save(room('on'), 'room_on.jpg', q=92)
+    save(room('dark'), 'room_dark.jpg', q=92)                          # the TV just went off: dark glass, nothing yet
+    save(room('off'), 'room_off.jpg', q=92)                            # ...then his faint reflection rises in it
     qs = BH.SCR_QUAD
     info['screen'] = {'cx': round(BH.SCR_C[0] * PW, 1), 'cy': round(BH.SCR_C[1] * PH, 1),
                       'w': round(max(p[0] for p in qs) - min(p[0] for p in qs), 1), 'h': round(max(p[1] for p in qs) - min(p[1] for p in qs), 1)}
@@ -247,7 +264,7 @@ def cues():
         ((t('l55', -.04), [(C('cc0/kenney_interface/switch_005.ogg'), 0), (C('cc0/kenney/click2.ogg'), -5)]), None, -10, None, '"Fix it": the frame snaps level, the viewfinder locks'),
         (t('l58.end', .07), C('cc0/kenney_jingles/jingles_PIZZI01.ogg'), -11, None, '"Probably.": the comedy hit lands AFTER the word, on her doubtful look'),
         (t('l59.w3', 0), C('cc0/jaggedstone_magic/magical_4.ogg'), -15, None, '"every improvement quietly": the memory scan (quiet, same family)'),
-        ((t('l62.w5', -.05), [(C('cc0/kenney/switch_006.ogg'), 0), (C('cc0/kresiek_outside/amb_outdoor1_loop.ogg'), -15)]), None, -10, 2.4, '"wonder": the CRT switches off; the night outside is all that is left'),
+        ((t('l62.w5', -.05), [(C('cc0/kenney/switch_006.ogg'), 0), (C('cc0/lokif_swamp/cricket_2.ogg'), -17)]), None, -10, 2.4, '"wonder": the CRT switches off; the night outside is all that is left'),
         ((t('VEND', -.2), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5)]), None, -9, None, 'the wordmark lands; Navi circles it (her trail, Producer clip)'),
         (t('VEND', 1.6), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the thumbnail: "Look!" (Producer clip, no voice under it)'),
     ]

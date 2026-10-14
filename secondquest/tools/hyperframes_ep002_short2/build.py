@@ -47,9 +47,15 @@ def chunks():
         if len(out[i]) == 1 and out[i][0][0] == out[i - 1][-1][0] and len(out[i - 1]) >= 3 and out[i][0][2] - out[i - 1][-1][3] < .45:
             out[i].insert(0, out[i - 1].pop())
     res = []
+    # critic v2 #6/#7: a caption never outlives its shot (it ends at the next cut), and none is shown while a title says the
+    # same words (l60 is the "THAT IS THE / IMPOSSIBLE JOB" title)
+    CUTS = sorted(T[k] + d for k, d in (('S1', 0), ('l47', -.1), ('l48', -.08), ('S2', 0), ('l57', -.1), ('l59', -.12),
+                                          ('l60', -.1), ('l61', -.12), ('l62', -.1)))   # l60-0.1: the title takes over
+    out = [c for c in out if c[0][0] != 'l60']
     for i, c in enumerate(out):
         nxt = out[i + 1][0][2] - .06 if i + 1 < len(out) else seg.VOICE_END
         end = min(nxt - .01, c[-1][3] + .7)
+        end = min([end] + [x - .001 for x in CUTS if x > c[0][2]])
         res.append({'big': c[0][0] in ('l58',), 'a': round(c[0][2] - .06, 3), 'e': round(end, 3),
                     'w': [[w, round(a, 3), round(b, 3)] for _, w, a, b in c]})
     return res

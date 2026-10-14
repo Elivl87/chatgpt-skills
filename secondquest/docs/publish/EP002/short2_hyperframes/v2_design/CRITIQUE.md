@@ -78,3 +78,25 @@ point, art + why, motion and sound per beat).
 - The vista (#17+18) shows adult Quest and princess Pixie (baked into the plate): the only beat where they are adults
   in costume; chosen because it is the episode's "new look" image and the remake line asks for exactly that.
 - Not yet done (after the go): the 540x960 preview render, finish pass, contact sheet every 0.5 s, independent critic.
+
+## Independent critic v2 (FIX) -> what changed (builder, 2026-10-14)
+
+Every item of `../CRITIC_v2.md` was applied. The gates now include a 1/30 s frame_critic sweep around every title
+entrance/exit, the l60 title, the wordmark and card, and every cut. They are scripted in
+`tools/hyperframes_ep002_short2/gates.sh`, which exits 1 on any error.
+
+| # | Critic item | Fix |
+|---|---|---|
+| 1 | Title fading over the HUD 3.62-3.74 s (repeat) | The title fades out (no move) at l52-0.39 and reaches opacity 0 at 3.50. Its clip ends at 3.55. The HUD starts at l52+0.15 = 3.79. 1/30 s sweep 3.0-4.0: 0 errors. |
+| 2 | Balloon touching the title | The balloon is 22 px (plate) lower and the title lines are 10 px tighter: clear sky between them. |
+| 3 | "1998" reads as a censor mosaic | New `tools/hyperframes_ep002_short2/n64_look.py`: an N64 skybox gradient above the traced mountain line of #11, flat-shaded low-poly terrain (big facets near, small far, finer on the castle so its silhouette survives), and fog at the horizon. The "More polygons" mid step is a finer low-poly. Used in B1 and D1-D2. |
+| 4 | Caption on the tiny hero 22-25.9 s | D2-D3 frame him on the right third (screen x ~ 840-880), clear of the centred captions. A higher placement is impossible at z >= 1 on this plate, because the road sits in the bottom band. |
+| 5 | Navi across faces 11.6-11.8 / 12.9-13.1 s | "Polygons": she goes round the outside of Quest and over the heads. "Animation": she orbits above the caps (y 530-630). |
+| 6 | "Probably." 2 frames into the cut | build.py ends every caption at the next cut (and when the l60 title enters). |
+| 7 | Title + caption with the same words (l60) | The l60 captions are dropped (the title is the caption). The l59 tail also ends when the title enters. The hook keeps its caption, because its words differ from the title. |
+| 8 | Pixie gliding 29.6-32.5 s | She walks in Quest's step rhythm: a bob plus a +-1.6 deg sway per step (one-pose walker). |
+| 9 | Controllers | Checked at full size. Adult Quest (night room, an N64 on the CRT) held a modern-shaped pad: our 3D N64 pad (`props3d/n64_pad_room.png`) is now in his hands, graded like him, with his fingers repainted over it. Kid Quest (1998 bedroom, block C art) holds a plain grey corded pad with no modern features (approved in block C): left as drawn, because an overlay would sit on top of his fingers. |
+| 10 | End card: Pixie on a floating card | The thumbnail is now a wooden signboard (frame + two posts with a contact shadow) planted in Hyrule field. Pixie (#2c tunic, waving, full figure, 26 % of the frame) stands on the grass between its posts. The text sits in the sky above. Navi flies into the sign. The thumbnail is still whole and undistorted. |
+| 11 | The reflection reads as a picture | New plate `room_dark` (TV just off, dark glass). The switch-off line plays on it, then the reflection rises over 0.7 s: mirrored, grey-blue, 21 % opacity, with a diagonal glass highlight streak. |
+| Sound | Daytime bed at 44.34 s | Replaced by crickets (`lokif_swamp/cricket_2.ogg`, -17 dB within the CRT-off layer). Still 14 onsets; the "lighting" bell stays (no cut needed). |
+| Own check | 28-30 s and 35-42 s at full size | 28-30 s: fine. 35-38 s: fine (the scan line reads; faces clear). 41.2 s: the vista pan dragged princess Pixie half out of frame, so it is replaced by a 0.45 s dissolve from the two of them to the castle framing. |

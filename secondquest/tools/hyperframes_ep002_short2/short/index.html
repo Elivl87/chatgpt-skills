@@ -34,7 +34,7 @@
         text-shadow: 6px 8px 0 var(--ink); line-height: 1.0; white-space: nowrap; letter-spacing: .01em; }
       /* the one title style: opening hook and its callback on l60 */
       .ttl { position: absolute; left: 65px; width: 853px; top: 190px; text-align: center; }
-      .ttl .ln { display: block; overflow: hidden; padding: 6px 30px 14px; margin-bottom: -14px; }   /* mask-up line reveal (kinetic-typography) */
+      .ttl .ln { display: block; overflow: hidden; padding: 6px 30px 14px; margin-bottom: -24px; }   /* mask-up line reveal (kinetic-typography) */
       .ttl .big { display: inline-block; }
       .ttl .a { font-size: 92px; color: #fff; }
       .ttl .b { font-size: 112px; }
@@ -66,11 +66,14 @@
       #twinkle { position: absolute; left: 0; top: 0; width: 0; height: 0; }
       #twinkle .g { position: absolute; left: -130px; top: -130px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(255,244,210,.95) 0%, rgba(255,230,160,.45) 35%, rgba(255,220,150,0) 70%); }
       #twinkle svg { position: absolute; left: -70px; top: -70px; width: 140px; height: 140px; overflow: visible; }
-      #cT { position: absolute; left: 372px; width: 546px; top: 560px; text-align: center; }
+      #cT { position: absolute; left: 65px; width: 853px; top: 312px; text-align: center; }
       #cT span { display: block; }
       #cT .a { font-size: 96px; color: #fff; }
       #cT .b { font-size: 76px; margin-top: 6px; }
-      #thumbBox { position: absolute; left: 64px; top: 930px; width: 880px; height: 495px; border: 10px solid var(--ink); border-radius: 26px; overflow: hidden;
+      #sign { position: absolute; left: 140px; top: 560px; width: 800px; height: 960px; }
+      #sign .post { position: absolute; top: 400px; width: 30px; height: 540px; border: 6px solid var(--ink); border-radius: 6px; background: linear-gradient(90deg, #5a3b20, #8a5d34 45%, #5a3b20); }
+      #sign .shadow { position: absolute; left: 60px; top: 912px; width: 680px; height: 46px; border-radius: 50%; background: radial-gradient(ellipse, rgba(20,16,8,.5) 0%, rgba(20,16,8,0) 70%); }
+      #thumbBox { position: absolute; left: 0; top: 0; width: 800px; height: 452px; border: 18px solid #7a5230; outline: 6px solid var(--ink); border-radius: 14px; overflow: hidden;
         box-shadow: 10px 14px 0 var(--ink); background: #000; }
       #thumbBox img { width: 100%; height: 100%; display: block; }
       #pixCard { position: absolute; }
@@ -188,12 +191,14 @@
       <!-- ===== H · l61 · the remake's own new look: the golden-hour vista (#17+18), pull back from the castle to the two of them ===== -->
       <div id="shH" class="full shot clip" data-start="40.19" data-duration="2.76" data-track-index="8">
         <div class="breath" id="brH"><div class="cam" id="camH"><img class="plate" src="assets/outcrop.jpg" alt="quest and pixie" /></div></div>
+        <div id="hB" class="full" style="opacity: 0"><div class="breath" id="brH2"><div class="cam" id="camH2"><img class="plate" src="assets/outcrop.jpg" alt="" /></div></div></div>
       </div>
 
       <!-- ===== I · l62 · real life, today: the grown-up bedroom, the two of them on the floor (Pixie library #8); the CRT goes off ===== -->
       <div id="shI" class="full shot clip" data-start="42.93" data-duration="6.67" data-track-index="9">
         <div class="breath" id="brI"><div class="cam" id="camI">
           <img class="plate" src="assets/room_on.jpg" alt="quest and pixie" />
+          <img class="plate" id="iDark" src="assets/room_dark.jpg" alt="" style="opacity: 0" />
           <img class="plate" id="iOff" src="assets/room_off.jpg" alt="" style="opacity: 0" />
           <div id="tvLine" class="abs" style="background: #fff; opacity: 0; box-shadow: 0 0 30px 10px rgba(200,230,255,.8)"></div>
         </div></div>
@@ -209,7 +214,7 @@
       </div>
 
       <!-- ===== the title: hook (0 - l52) and its callback (l60) — one style, one crisp entrance, no echo ===== -->
-      <div id="ttl1Clip" class="full clip" data-start="0" data-duration="3.74" data-track-index="16">
+      <div id="ttl1Clip" class="full clip" data-start="0" data-duration="3.55" data-track-index="16">
         <div id="ttl1" class="ttl" aria-label="The remake's impossible job"><span class="ln" data-layout-allow-overflow><span class="big a">THE REMAKE'S</span></span><span class="ln" data-layout-allow-overflow><span class="big b">IMPOSSIBLE JOB</span></span></div>
       </div>
       <div id="ttl2Clip" class="full clip" data-start="37.95" data-duration="2.24" data-track-index="22">
@@ -218,10 +223,11 @@
 
       <!-- ===== wordmark + end card (the EP002 v3 thumbnail B1, whole) ===== -->
       <div id="card" class="full clip" data-start="47.5" data-duration="2.1" data-track-index="17" style="opacity: 0">
-        <img id="cardBg" class="abs" src="assets/thumb_raw.jpg" alt="" style="left: -480px; top: 0; width: 3431px; height: 1920px; filter: blur(22px) brightness(.38) saturate(1.1)" />
+        <img id="cardBg" class="abs" src="assets/field.jpg" alt="" style="left: -920px; top: 0; width: 3413px; height: 1920px; filter: blur(2px) brightness(.72) saturate(.95)" />
         <div id="cT"><span class="big a">FULL EPISODE</span><span class="big b">ON THE CHANNEL</span></div>
-        <div id="thumbBox"><img id="thumbImg" src="assets/thumb.jpg" alt="" /></div>
-        <div id="pixCard" data-role="character"><div class="foot"></div><img src="assets/pix_wave.png" alt="pixie" /></div>
+        <div id="sign"><div class="shadow"></div><div class="post" style="left: 110px"></div><div class="post" style="left: 660px"></div>
+          <div id="thumbBox"><img id="thumbImg" src="assets/thumb.jpg" alt="" /></div></div>
+        <div id="pixCard" data-role="character"><div class="foot"></div><img src="assets/p2c.png" alt="pixie" /></div>
       </div>
       <div id="wmClip" class="full clip" data-start="46.3" data-duration="3.3" data-track-index="18">
         <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
@@ -349,7 +355,7 @@
   ]
  }
 };
-      const CAPS = [{"big": false, "a": 0.14, "e": 1.15, "w": [["A", 0.2, 0.38], ["silent", 0.38, 0.72], ["character", 0.72, 1.22]]}, {"big": false, "a": 1.16, "e": 2.37, "w": [["once", 1.22, 1.54], ["left", 1.54, 1.84], ["space", 1.84, 2.2], ["for", 2.2, 2.44]]}, {"big": false, "a": 2.38, "e": 3.57, "w": [["your", 2.44, 2.56], ["imagination.", 2.56, 3.0]]}, {"big": false, "a": 3.58, "e": 4.29, "w": [["Give", 3.64, 3.84], ["that", 3.84, 4.06], ["character", 4.06, 4.36]]}, {"big": false, "a": 4.3, "e": 5.11, "w": [["a", 4.36, 4.58], ["voice...", 4.58, 4.88]]}, {"big": false, "a": 5.12, "e": 5.67, "w": [["and", 5.18, 5.4], ["suddenly", 5.4, 5.74]]}, {"big": false, "a": 5.68, "e": 6.43, "w": [["somebody", 5.74, 6.06], ["has", 6.06, 6.32], ["to", 6.32, 6.5]]}, {"big": false, "a": 6.44, "e": 7.37, "w": [["decide", 6.5, 6.82], ["what", 6.82, 7.2], ["that", 7.2, 7.44]]}, {"big": false, "a": 7.38, "e": 8.13, "w": [["silence", 7.44, 7.86], ["sounded", 7.86, 8.2]]}, {"big": false, "a": 8.14, "e": 8.77, "w": [["like.", 8.2, 8.54]]}, {"big": false, "a": 8.78, "e": 9.43, "w": [["Because", 8.84, 9.14], ["better", 9.14, 9.5]]}, {"big": false, "a": 9.44, "e": 10.83, "w": [["is", 9.5, 9.9], ["measurable.", 9.9, 10.4]]}, {"big": false, "a": 10.84, "e": 12.05, "w": [["More", 10.9, 11.16], ["polygons.", 11.16, 11.86]]}, {"big": false, "a": 12.06, "e": 12.99, "w": [["Better", 12.12, 12.26], ["lighting.", 12.26, 12.68]]}, {"big": false, "a": 13.0, "e": 14.05, "w": [["Better", 13.06, 13.22], ["animation.", 13.22, 13.78]]}, {"big": false, "a": 14.06, "e": 15.15, "w": [["Better", 14.12, 14.28], ["sound.", 14.28, 14.8]]}, {"big": false, "a": 15.16, "e": 16.43, "w": [["But", 15.22, 15.42], ["familiar", 15.42, 15.88], ["is", 15.88, 16.5]]}, {"big": false, "a": 16.44, "e": 17.63, "w": [["not", 16.5, 16.88], ["measurable.", 16.88, 17.36]]}, {"big": false, "a": 17.64, "e": 18.91, "w": [["An", 17.7, 18.0], ["empty", 18.0, 18.36], ["field", 18.36, 18.74], ["in", 18.74, 18.98]]}, {"big": false, "a": 18.92, "e": 20.13, "w": [["1998", 18.98, 19.76], ["could", 19.76, 20.2]]}, {"big": false, "a": 20.14, "e": 21.83, "w": [["feel", 20.2, 20.6], ["enormous.", 20.6, 21.18]]}, {"big": false, "a": 21.84, "e": 22.67, "w": [["Rebuild", 21.9, 22.2], ["it", 22.2, 22.42], ["too", 22.42, 22.74]]}, {"big": false, "a": 22.68, "e": 23.97, "w": [["literally", 22.74, 23.16], ["today...", 23.16, 23.62]]}, {"big": false, "a": 23.98, "e": 24.87, "w": [["and", 24.04, 24.26], ["it", 24.26, 24.4], ["might", 24.4, 24.64], ["just", 24.64, 24.94]]}, {"big": false, "a": 24.88, "e": 26.04, "w": [["feel", 24.94, 25.3], ["empty.", 25.3, 25.72]]}, {"big": false, "a": 26.05, "e": 27.1, "w": [["A", 26.11, 26.27], ["camera", 26.27, 26.59], ["you", 26.59, 26.87], ["once", 26.87, 27.17]]}, {"big": false, "a": 27.11, "e": 28.24, "w": [["fought", 27.17, 27.47], ["with", 27.47, 27.75], ["was", 27.75, 27.99], ["part", 27.99, 28.31]]}, {"big": false, "a": 28.25, "e": 28.58, "w": [["of", 28.31, 28.47], ["learning", 28.47, 28.65]]}, {"big": false, "a": 28.59, "e": 29.54, "w": [["the", 28.65, 28.87], ["game.", 28.87, 29.15]]}, {"big": false, "a": 29.55, "e": 30.14, "w": [["Fix", 29.61, 29.73], ["it...", 29.73, 30.01]]}, {"big": false, "a": 30.15, "e": 30.94, "w": [["and", 30.21, 30.35], ["the", 30.35, 30.49], ["game", 30.49, 30.67], ["becomes", 30.67, 31.01]]}, {"big": false, "a": 30.95, "e": 32.48, "w": [["easier", 31.01, 31.49], ["to", 31.49, 31.75], ["inhabit.", 31.75, 32.13]]}, {"big": false, "a": 32.49, "e": 33.56, "w": [["Which", 32.55, 32.75], ["is", 32.75, 32.91], ["good.", 32.91, 33.17]]}, {"big": true, "a": 33.57, "e": 34.46, "w": [["Probably.", 33.63, 34.11]]}, {"big": false, "a": 34.47, "e": 35.02, "w": [["But", 34.53, 34.73], ["every", 34.73, 35.09]]}, {"big": false, "a": 35.03, "e": 36.02, "w": [["improvement", 35.09, 35.67], ["quietly", 35.67, 36.09]]}, {"big": false, "a": 36.03, "e": 37.12, "w": [["changes", 36.09, 36.69], ["the", 36.69, 36.91], ["memory", 36.91, 37.19]]}, {"big": false, "a": 37.13, "e": 37.98, "w": [["attached", 37.19, 37.53], ["to", 37.53, 37.85], ["it.", 37.85, 38.05]]}, {"big": false, "a": 37.99, "e": 38.9, "w": [["That", 38.05, 38.61], ["is", 38.61, 38.81], ["the", 38.81, 38.97]]}, {"big": false, "a": 38.91, "e": 40.24, "w": [["impossible", 38.97, 39.37], ["job.", 39.37, 39.93]]}, {"big": false, "a": 40.25, "e": 40.86, "w": [["Make", 40.31, 40.43], ["it", 40.43, 40.61], ["different", 40.61, 40.93]]}, {"big": false, "a": 40.87, "e": 41.44, "w": [["enough", 40.93, 41.27], ["to", 41.27, 41.51]]}, {"big": false, "a": 41.45, "e": 42.96, "w": [["justify", 41.51, 42.03], ["existing...", 42.03, 42.59]]}, {"big": false, "a": 42.97, "e": 43.56, "w": [["without", 43.03, 43.31], ["making", 43.31, 43.63]]}, {"big": false, "a": 43.57, "e": 44.74, "w": [["people", 43.63, 43.97], ["wonder", 43.97, 44.39], ["where", 44.39, 44.81]]}, {"big": false, "a": 44.75, "e": 46.35, "w": [["their", 44.81, 45.05], ["game", 45.05, 45.33], ["went.", 45.33, 45.65]]}];
+      const CAPS = [{"big": false, "a": 0.14, "e": 1.15, "w": [["A", 0.2, 0.38], ["silent", 0.38, 0.72], ["character", 0.72, 1.22]]}, {"big": false, "a": 1.16, "e": 2.37, "w": [["once", 1.22, 1.54], ["left", 1.54, 1.84], ["space", 1.84, 2.2], ["for", 2.2, 2.44]]}, {"big": false, "a": 2.38, "e": 3.57, "w": [["your", 2.44, 2.56], ["imagination.", 2.56, 3.0]]}, {"big": false, "a": 3.58, "e": 4.29, "w": [["Give", 3.64, 3.84], ["that", 3.84, 4.06], ["character", 4.06, 4.36]]}, {"big": false, "a": 4.3, "e": 5.11, "w": [["a", 4.36, 4.58], ["voice...", 4.58, 4.88]]}, {"big": false, "a": 5.12, "e": 5.67, "w": [["and", 5.18, 5.4], ["suddenly", 5.4, 5.74]]}, {"big": false, "a": 5.68, "e": 6.43, "w": [["somebody", 5.74, 6.06], ["has", 6.06, 6.32], ["to", 6.32, 6.5]]}, {"big": false, "a": 6.44, "e": 7.37, "w": [["decide", 6.5, 6.82], ["what", 6.82, 7.2], ["that", 7.2, 7.44]]}, {"big": false, "a": 7.38, "e": 8.13, "w": [["silence", 7.44, 7.86], ["sounded", 7.86, 8.2]]}, {"big": false, "a": 8.14, "e": 8.629, "w": [["like.", 8.2, 8.54]]}, {"big": false, "a": 8.78, "e": 9.43, "w": [["Because", 8.84, 9.14], ["better", 9.14, 9.5]]}, {"big": false, "a": 9.44, "e": 10.83, "w": [["is", 9.5, 9.9], ["measurable.", 9.9, 10.4]]}, {"big": false, "a": 10.84, "e": 12.05, "w": [["More", 10.9, 11.16], ["polygons.", 11.16, 11.86]]}, {"big": false, "a": 12.06, "e": 12.99, "w": [["Better", 12.12, 12.26], ["lighting.", 12.26, 12.68]]}, {"big": false, "a": 13.0, "e": 14.05, "w": [["Better", 13.06, 13.22], ["animation.", 13.22, 13.78]]}, {"big": false, "a": 14.06, "e": 15.119, "w": [["Better", 14.12, 14.28], ["sound.", 14.28, 14.8]]}, {"big": false, "a": 15.16, "e": 16.43, "w": [["But", 15.22, 15.42], ["familiar", 15.42, 15.88], ["is", 15.88, 16.5]]}, {"big": false, "a": 16.44, "e": 17.619, "w": [["not", 16.5, 16.88], ["measurable.", 16.88, 17.36]]}, {"big": false, "a": 17.64, "e": 18.91, "w": [["An", 17.7, 18.0], ["empty", 18.0, 18.36], ["field", 18.36, 18.74], ["in", 18.74, 18.98]]}, {"big": false, "a": 18.92, "e": 20.13, "w": [["1998", 18.98, 19.76], ["could", 19.76, 20.2]]}, {"big": false, "a": 20.14, "e": 21.83, "w": [["feel", 20.2, 20.6], ["enormous.", 20.6, 21.18]]}, {"big": false, "a": 21.84, "e": 22.67, "w": [["Rebuild", 21.9, 22.2], ["it", 22.2, 22.42], ["too", 22.42, 22.74]]}, {"big": false, "a": 22.68, "e": 23.97, "w": [["literally", 22.74, 23.16], ["today...", 23.16, 23.62]]}, {"big": false, "a": 23.98, "e": 24.87, "w": [["and", 24.04, 24.26], ["it", 24.26, 24.4], ["might", 24.4, 24.64], ["just", 24.64, 24.94]]}, {"big": false, "a": 24.88, "e": 25.899, "w": [["feel", 24.94, 25.3], ["empty.", 25.3, 25.72]]}, {"big": false, "a": 26.05, "e": 27.1, "w": [["A", 26.11, 26.27], ["camera", 26.27, 26.59], ["you", 26.59, 26.87], ["once", 26.87, 27.17]]}, {"big": false, "a": 27.11, "e": 28.24, "w": [["fought", 27.17, 27.47], ["with", 27.47, 27.75], ["was", 27.75, 27.99], ["part", 27.99, 28.31]]}, {"big": false, "a": 28.25, "e": 28.58, "w": [["of", 28.31, 28.47], ["learning", 28.47, 28.65]]}, {"big": false, "a": 28.59, "e": 29.54, "w": [["the", 28.65, 28.87], ["game.", 28.87, 29.15]]}, {"big": false, "a": 29.55, "e": 30.14, "w": [["Fix", 29.61, 29.73], ["it...", 29.73, 30.01]]}, {"big": false, "a": 30.15, "e": 30.94, "w": [["and", 30.21, 30.35], ["the", 30.35, 30.49], ["game", 30.49, 30.67], ["becomes", 30.67, 31.01]]}, {"big": false, "a": 30.95, "e": 32.449, "w": [["easier", 31.01, 31.49], ["to", 31.49, 31.75], ["inhabit.", 31.75, 32.13]]}, {"big": false, "a": 32.49, "e": 33.56, "w": [["Which", 32.55, 32.75], ["is", 32.75, 32.91], ["good.", 32.91, 33.17]]}, {"big": true, "a": 33.57, "e": 34.409, "w": [["Probably.", 33.63, 34.11]]}, {"big": false, "a": 34.47, "e": 35.02, "w": [["But", 34.53, 34.73], ["every", 34.73, 35.09]]}, {"big": false, "a": 35.03, "e": 36.02, "w": [["improvement", 35.09, 35.67], ["quietly", 35.67, 36.09]]}, {"big": false, "a": 36.03, "e": 37.12, "w": [["changes", 36.09, 36.69], ["the", 36.69, 36.91], ["memory", 36.91, 37.19]]}, {"big": false, "a": 37.13, "e": 37.949, "w": [["attached", 37.19, 37.53], ["to", 37.53, 37.85], ["it.", 37.85, 38.05]]}, {"big": false, "a": 40.25, "e": 40.86, "w": [["Make", 40.31, 40.43], ["it", 40.43, 40.61], ["different", 40.61, 40.93]]}, {"big": false, "a": 40.87, "e": 41.44, "w": [["enough", 40.93, 41.27], ["to", 41.27, 41.51]]}, {"big": false, "a": 41.45, "e": 42.929, "w": [["justify", 41.51, 42.03], ["existing...", 42.03, 42.59]]}, {"big": false, "a": 42.97, "e": 43.56, "w": [["without", 43.03, 43.31], ["making", 43.31, 43.63]]}, {"big": false, "a": 43.57, "e": 44.74, "w": [["people", 43.63, 43.97], ["wonder", 43.97, 44.39], ["where", 44.39, 44.81]]}, {"big": false, "a": 44.75, "e": 46.35, "w": [["their", 44.81, 45.05], ["game", 45.05, 45.33], ["went.", 45.33, 45.65]]}];
       const $ = (s) => document.querySelector(s);
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
@@ -368,7 +374,7 @@
       const QA = put("#qA", "hero_front.png", 1400, 1100, 400);
       const PA = put("#pA", "p2c.png", 1212, 1100, 400 * PIX);
       const BK = .55;   // the balloon: tail tip at his mouth (plate 1368, 800), box up-left of his head, clear of the cap
-      Object.assign($("#bub").style, { left: (1368 - 380 * BK - 34) + "px", top: (800 - 252 * BK - 10) + "px", width: (390 * BK) + "px", height: (260 * BK) + "px" });
+      Object.assign($("#bub").style, { left: (1368 - 380 * BK - 34) + "px", top: (800 - 252 * BK + 12) + "px", width: (390 * BK) + "px", height: (260 * BK) + "px" });
       $("#dots").style.top = (-52 * BK) + "px"; $("#dots").style.fontSize = (150 * BK) + "px";
       // B: smaller in a wider frame, both looking up at the world as it is rebuilt
       put("#qB", "q3a.png", 1556, 1080, 360);
@@ -408,6 +414,7 @@
       const steps = (sel, t0, t1, rate) => STEPS.push([sel, t0, t1, rate || 5.6]);
       function drawSteps(t) { for (const [sel, t0, t1, rate] of STEPS) { const on = t >= t0 && t < t1, e = $(sel), a = e.querySelector(".sa"), b = e.querySelector(".mir");
         const k = on ? Math.floor((t - t0) * rate / Math.PI) % 2 : 0; if (a && b) { a.style.opacity = k ? 0 : 1; b.style.opacity = k ? 1 : 0; }
+        else e.querySelectorAll("img").forEach((i) => i.style.rotate = on ? (1.6 * Math.sin((t - t0) * rate)) + "deg" : "0deg");   // one-pose walkers sway step to step
         const bb = on ? -5 * Math.abs(Math.sin((t - t0) * rate)) : 0; e.querySelectorAll("img").forEach((i) => i.style.top = bb + "px"); } }
 
       /* ---------------- A · the silent hero (frame 1 is the hook: title + hero + his empty balloon) */
@@ -418,7 +425,7 @@
       breathe("#brA", 0, 8.63, .2);
       // one crisp entrance: each line rises out of its own mask (no blur, no echo), the second 80 ms after the first
       tl.fromTo("#ttl1 .big", { yPercent: 105 }, { yPercent: 0, duration: .34, ease: "expo.out", stagger: .08 }, 0);
-      tl.to("#ttl1", { opacity: 0, y: -24, duration: .25, ease: "power2.in" }, 3.46);      // out before the HUD comes in
+      tl.to("#ttl1", { opacity: 0, duration: .25, ease: "power2.in" }, 3.25);      // gone (opacity 0) by l52-0.14; the HUD only from l52+0.15
       tl.fromTo("#bub", { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .3, ease: "back.out(1.8)" }, .18);
       // the three dots breathe while nobody speaks, go quiet on "silence", and wait
       const DOTS = document.querySelectorAll("#dots i");
@@ -470,9 +477,9 @@
       /* ---------------- D · "An empty field in 1998 could feel enormous." / rebuilt today / empty */
       cam("#camD", 17.62, 0, { z: 2.4, fx: roadX(1250), fy: 1150 });
       cam("#camD", 17.62, 2.9, { z: 2.2, fx: roadX(1250), fy: 1140 }, "none");
-      cam("#camD", 20.45, 1.3, { z: 1.0, fx: 1400, fy: 756 }, "power2.inOut");                  // "enormous": the field gets huge
-      cam("#camD", 23.11, 1.0, { z: 1.12, fx: roadX(1240), fy: 900 }, "power2.inOut");         // "today": a little closer, sharp
-      cam("#camD", 25.1, .9, { z: 1.0, fx: 1420, fy: 756 }, "power2.inOut");                   // "empty": back out, nothing there
+      cam("#camD", 20.45, 1.3, { z: 1.0, fx: 1127, fy: 756 }, "power2.inOut");                  // "enormous": the field gets huge
+      cam("#camD", 23.11, 1.0, { z: 1.12, fx: 1162, fy: 900 }, "power2.inOut");         // "today": a little closer, sharp
+      cam("#camD", 25.1, .9, { z: 1.0, fx: 1140, fy: 756 }, "power2.inOut");                   // "empty": back out, nothing there
       breathe("#brD", 17.62, 25.9, .35);
       tl.fromTo("#scanlines", { opacity: .9 }, { opacity: 0, duration: .9, ease: "power1.in" }, 17.62);   // still the TV picture, then the world
       tl.fromTo("#a98", { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: .32, ease: "power3.out" }, 18.88);
@@ -501,7 +508,7 @@
       shake(27.11, 12);
       steps("#qE", 25.9, 32.55, 5.4); walk("#qE", 1330, 320, 1250, 25.9, 6.65, 0);
       tl.to("#pE", { x: roadX(1250) - roadX(1330), y: -80, scale: hAt(320, 1330, 1250) / 320, duration: 6.65, ease: "none" }, 25.9);
-      for (let k = 0; k < 14; k++) bob("#pE", 25.9 + .1 + k * .5, 5);
+      steps("#pE", 25.9 + .09, 32.55, 5.4);
       // "Fix it...": the frame snaps level on the word, the viewfinder locks gold, then lets go
       tl.to("#eRot", { rotation: 0, x: 0, y: 0, scale: 1, duration: .16, ease: "power3.out", overwrite: false }, 29.57);
       tl.to("#vfLines", { attr: { stroke: "#ffc83d" }, duration: .08 }, 29.59);
@@ -532,8 +539,13 @@
 
       /* ---------------- H · "Make it different enough to justify existing..." */
       cam("#camH", 40.19, 0, { z: 1.0, fx: 1185, fy: 756 });
-      cam("#camH", 40.61, 2.42, { z: 1.04, fx: 2150, fy: 740 }, "power3.out");   // from the two of them to the remade world
-      breathe("#brH", 40.19, 43.03, .6);
+      cam("#camH", 40.19, 0.74, { z: 1.03, fx: 1190, fy: 756 }, "sine.inOut");
+      // critic v2 (my own check): a pan from them to the castle dragged princess Pixie half out of frame -> a soft
+      // dissolve to the castle framing instead (two clearly different shots of the vista, nobody cut by the edge)
+      cam("#camH2", 40.19, 0, { z: 1.0, fx: 2150, fy: 740 });
+      cam("#camH2", 40.93, 2.1, { z: 1.05, fx: 2140, fy: 740 }, "sine.inOut");
+      tl.fromTo("#hB", { opacity: 0 }, { opacity: 1, duration: .45, ease: "sine.inOut" }, 40.83);
+      breathe("#brH", 40.19, 43.03, .6); breathe("#brH2", 40.19, 43.03, .1);
 
       /* ---------------- I · "...without making people wonder where their game went." */
       const SC = ART.screen;
@@ -543,7 +555,8 @@
       cam("#camI", 43.31, T_OFF - 43.31, { z: 1.9, fx: 2010, fy: 600 }, "power2.inOut");
       breathe("#brI", 42.93, 49.6, .15);
       tl.fromTo("#dimI", { opacity: 1 }, { opacity: 0, duration: .25, immediateRender: false }, 42.93);
-      tl.set("#iOff", { opacity: 1 }, T_OFF + .02);
+      tl.set("#iDark", { opacity: 0 }, 0); tl.set("#iDark", { opacity: 1 }, T_OFF + .02);
+      tl.set("#iOff", { opacity: 0 }, 0); tl.to("#iOff", { opacity: 1, duration: .7, ease: "sine.inOut" }, T_OFF + .45);
       // the CRT switch-off: every state is explicit (cold render workers seek straight into it; lint gate)
       tl.set("#tvLine", { opacity: 0, scaleX: 1, scaleY: 1 }, 0);
       tl.set("#tvLine", { opacity: 1, scaleX: 1, scaleY: 1 }, T_OFF);
@@ -567,11 +580,11 @@
       tl.to("#wm", { y: -560, scale: .56, duration: .55, ease: "power3.inOut" }, CARD);
       tl.to("#twinkle", { opacity: 0, duration: .2 }, CARD - .05);
       tl.to("#card", { opacity: 1, duration: .4, ease: "sine.inOut" }, CARD);
-      tl.fromTo("#thumbBox", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "power3.out" }, CARD + .15);
+      tl.fromTo("#sign", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "power3.out" }, CARD + .15);
       tl.fromTo("#cT", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power3.out" }, CARD + .3);
-      // Pixie stands on the thumbnail's top edge and waves the viewer over
-      const PCH = 560, PCW = PCH * ART.sizes["pix_wave.png"][0] / ART.sizes["pix_wave.png"][1];
-      Object.assign($("#pixCard").style, { left: "96px", top: (930 - PCH + 8) + "px", width: PCW + "px", height: PCH + "px", transformOrigin: "50% 100%" });
+      // Pixie (her forest-friend tunic, as in the game beats) stands on the grass under the sign, between its posts, and waves
+      const PCH = 492, PCW = PCH * ART.sizes["p2c.png"][0] / ART.sizes["p2c.png"][1];
+      Object.assign($("#pixCard").style, { left: (540 - PCW / 2) + "px", top: (1502 - PCH) + "px", width: PCW + "px", height: PCH + "px", transformOrigin: "50% 100%" });
       tl.fromTo("#pixCard", { y: 40, opacity: 0, scaleY: .94 }, { keyframes: [{ y: 0, opacity: 1, scaleY: 1.03, duration: .25, ease: "power3.out" }, { scaleY: 1, duration: .15 }] }, CARD + .4);
       tl.fromTo("#pixCard", { rotation: 0 }, { rotation: 2.5, duration: .35, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, CARD + .8);
       tl.fromTo("#thumbImg", { scale: 1 }, { scale: 1.0, duration: .1 }, CARD);   // the thumbnail is shown whole and still
@@ -590,7 +603,7 @@
           E.spans.forEach((sp, i) => { if (!c.big) sp.style.color = i === cur ? "#ffc83d" : "#ffffff"; }); });
       }
       // the HUD shows only in the game world, and never under a title
-      const HUDON = [[3.62, 15.12], [17.62, 34.41], [40.19, 42.93]];
+      const HUDON = [[3.79, 15.12], [17.62, 34.41], [40.19, 42.93]];
       const hudEl = $("#hud");
       const drawHud = (t) => { const r = HUDON.find(([a, b]) => t >= a && t < b); hudEl.style.opacity = r ? Math.min(1, (t - r[0]) / .2) : 0; };
 
@@ -604,9 +617,10 @@
       key(3.45, 860, 700, 22, 1); key(4.58, 870, 560, 20, 1); key(5.4, 820, 440, 20, 1);
       key(6.5, 790, 420, 20, 1); key(8.53, 760, 410, 20, 1);
       // B: she rides each upgrade: down to the field (polygons), up to the sun (lighting), round them (animation), with the birds (sound)
-      key(8.63, 560, 600, 18, 1); key(11.16, 560, 1235, 18, 1); key(12.26, 260, 520, 18, 1); key(12.68, 320, 640, 18, 1);
-      orbit(13.12, 13.88, 560, 860, 200, 60, 1, 18, 0);
-      key(14.28, 480, 700, 18, 1); key(15.1, 820, 470, 18, 1); key(15.1, 860, 460, 18, 0);
+      key(8.63, 560, 600, 18, 1); key(11.16, 560, 1235, 18, 1); key(11.46, 880, 1120, 18, 1); key(11.96, 880, 660, 18, 1);
+      key(12.26, 300, 520, 18, 1); key(12.68, 340, 560, 18, 1);
+      orbit(13.12, 13.88, 540, 580, 260, 50, 1, 18, 0);
+      key(14.28, 480, 600, 18, 1); key(15.1, 820, 470, 18, 1); key(15.1, 860, 460, 18, 0);
       // D: she drifts by the tiny hero; on "empty" she droops, dim
       key(18.0, 700, 820, 16, 0); key(18.98, 700, 820, 16, .9); key(21.7, 620, 1000, 12, .9);
       key(24.04, 620, 1000, 12, .9); key(25.6, 600, 1150, 11, .5); key(25.85, 600, 1160, 11, 0);
@@ -624,10 +638,9 @@
       key(46.5, 1000, 830, 26, 0); key(46.65, 1000, 790, 28, 1);
       orbit(46.7, T_STAR - .12, 540, 780, 450, 170, 1.0, 28, 0);
       key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x - 40, STAR.y - 330, 20, 1);
-      key(CARD + .3, 240, 330, 20, 1); key(47.95, 230, 700, 22, 1);      // down Pixie's side of the card, clear of the text,
-      key(48.1, 262, 1000, 22, 1);                                          // then across into the thumbnail, under the text
-      key(48.22, 64 + 880 * .5, 930 + 495 * .3, 24, 1);
-      orbit(48.27, 49.6, 64 + 880 * .5, 930 + 495 * .3, 70, 30, 1.6, 22, 3.14);
+      key(CARD + .3, 150, 700, 20, 1); key(48.0, 170, 760, 22, 1);       // down the left side, under the card text,
+      key(48.22, 560, 790, 24, 1);                                          // then into the sign
+      orbit(48.27, 49.6, 560, 790, 70, 30, 1.6, 22, 3.14);
       NK.sort((a, b) => a[0] - b[0]);
       function naviPath(t) {
         if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);
