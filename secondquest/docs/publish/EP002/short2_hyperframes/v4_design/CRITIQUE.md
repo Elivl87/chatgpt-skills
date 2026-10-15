@@ -83,3 +83,19 @@ v3.3 is kept: git tag `short2-v3.3`, its files untouched.
   - sfx_audit: 0/0.
   - check: ok. Runtime warnings are only the three.js deprecation and GL ReadPixels notes.
 - **By eye on the rendered MP4 (2 render workers, cold seeks):** the Triforce frames at 3.1-4.2 s show no black frames and no flicker; the boot reads as a short game load; the vista, wordmark and card are clean.
+
+## Critics v4 (design + retention) -> what changed (v4.1)
+
+| # | Item | Fix |
+|---|---|---|
+| 1 | The vista dissolved into the card (see-through characters, 19.90-20.17 s) | The card is now a hard cut. **New automated rule `CROSSFADE_CHARACTERS`** (error) in `scripts/frame_critic.py` + `scripts/qa/dom_sampler.cjs`: it flags any sample where two full-frame shots (clips holding a plate image of at least 50 % of the frame) are visible together, one is mid-fade (opacity 0.05-0.95), and either holds a character. Tested on the v4 build: it caught `#shV@1.00*, #card@0.10` at 19.97-20.17 s. After the fix: 0. |
+| 2 | "0 %" on her waving hand | The P2 meter now sits in the sky band (top 345 px), clear of her hand and of the HUD rupee. |
+| 3 | Triforce edge-on / too early / flat | It is revealed on "golden" (3.0 s) and never turns more than ~35° (no edge-on frame). Our own lighting: a key from the sunlit window side, a warm rim behind it, PBR reflections of an environment matched to the painting (PMREM), three slightly different golds, a bloom, and a contact glow on the pedestal. |
+| 4 | The P2 meter drained | It slams in at 0 % on "none", mirroring P1's climb to 100 %. |
+| 5 | Busy split exit | A hard cut to P1's world on "one", then the PLAYER ONE slam. |
+| 6 | Still tree face 12.45-14.10 s | "think:" cuts to Pixie looking up (#2d). "That is an" cuts back to the face from lower, with a slow push. The pull-back starts at 14.1 s ("large"). |
+| 7 | Silence after the drop | The drop rings out into a vista wind bed that runs straight under the card (about -35 dB RMS at 18-19 s, -25 to -30 dB under the card). Still 6 onsets. |
+| 8 | "immediately" | Punch in on the smug veteran (expo, 0.25 s). |
+| opt. | Boot noise | While the picture is blocky, the boot blocks are quantised to a 5-level retro palette. |
+
+gates.sh: PASS (0 errors). This includes the new crossfade rule and the 1/30 s windows, now including 12.6-14.6 s. Checked by eye on the MP4: the Triforce reads as bright, varied gold; the "think" cut works; the card is a hard cut.
