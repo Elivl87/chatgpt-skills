@@ -160,7 +160,8 @@
     // camera: slow push-in toward the mascot, tiny drift
     const z = 1 + 0.07 * K.ease.sine(K.inv(0, 6, t - (opt.t0 ?? 6))) , headX = CX - 40, headY = GROUND - 1.25 * SC;
     ctx.save();
-    ctx.translate(headX, headY); ctx.scale(z, z); ctx.translate(-headX + Math.sin(t * 0.4) * 3, -headY + Math.sin(t * 0.33) * 2);
+    const FR = opt.frame || { z: 1, wx: headX, wy: headY, sx: headX, sy: headY };   // v4: framed close-ups (bigger characters)
+    ctx.translate(FR.sx, FR.sy); ctx.scale(z * FR.z, z * FR.z); ctx.translate(-FR.wx + Math.sin(t * 0.4) * 3, -FR.wy + Math.sin(t * 0.33) * 2);
     ctx.drawImage(L.sky.c, 0, 0);
     // sun + glow behind the leader
     const sunX = 1480, sunY = 250;
