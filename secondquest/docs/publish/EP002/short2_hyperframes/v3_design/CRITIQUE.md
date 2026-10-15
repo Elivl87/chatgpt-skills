@@ -75,3 +75,16 @@ There are 13 visual change events in 22.6 s (pacing read on the render), and the
 | 9 | No flock on "sound" | 9 bigger, dark birds (74 px) burst out across the canopy. |
 
 Sound unchanged (6 onsets). gates.sh: PASS, 0 errors. By eye on frames pulled from the rendered MP4: no ghost text and nothing important cut off.
+
+## Retention critic v3 + design note -> what changed (v3.2)
+
+| # | Item | Fix |
+|---|---|---|
+| 1 | 1998 tree hole (8.63-11.08 s) | **The N64 look is redone:** a low-res, bilinear-filtered texture (1/14 resolution) under big flat-shaded facets. This is how 1998 really looked, and the face and moustache now read. The art is untouched; the look is made at load time. **Three shots on the words:** "Because" is the tree at full height with a warm light on its face; "better" (9.14 s) is a hard cut punch-in to the face, with a slow push toward the mouth line; "measurable" (9.9 s) sweeps a scan line across the facets. The polygons upgrade stays at 11.08 s. |
+| 2 | Hook words | The title holds to 1.16 s, then the punch-in. "space" (1.84 s): hard cut to a close-up of the empty balloon, outline lit. "imagination" (2.56 s): his face. Navi's flash at 3.02 s, kept off his face. "Give" (3.62 s): a clearly new, wider shot of hero + balloon. "voice" (4.58 s): punch into the balloon, so the instant opaque pop at 5.28 s fills the frame; Pixie is revealed on the cut. |
+| 3 | Sound beds (no new hits) | A low wind swells from the end of l47 (17.38 s) and cuts dead into the bass drop at 18.67 s, in the same layer as the hit. A quiet field wind (-28 dB RMS) plays under the card to 22.64 s, so the loop back to frame 0 is continuous. Still 6 onsets (16/min), with 89 % rest. |
+| 4 | Bedroom pan | It starts on "familiar" (15.42 s) and follows her finger to the TV + N64 over 1.3 s. |
+| 5 | Card Pixie fade | Now a cut-in with a small settle; no translucent frames. |
+
+Pacing on the render: 23 visual events in 22.6 s (was 18); the longest hold is 2.0 s (the end card).
+gates.sh: PASS. The 1/30 s windows now also cover 0-2.0, 1.8-3.9, 4.4-5.6 and 8.4-11.3 s. Checked by eye on MP4 frames.

@@ -78,11 +78,24 @@ def n64(src_img):
 
 
 def build_generic(plate, dark=1.0):
-    """Any plate (no skybox tracing): (old, mid) = coarse flat-shaded low-poly with a flat, dimmer 1998 light and fog,
-    and a finer halfway step. Used for the giant tree (#14) in the v3 escalation."""
+    """Any plate: (old, mid). v3.2 (retention critic: the tree must READ): the N64 way, not a mosaic: low-poly geometry
+    with a low-res, bilinear-filtered texture on it. Old = the plate at 1/12 resolution blown back up (soft, blurry
+    texture: the face still reads), with flat per-facet shading over big triangles and a little fog; mid = 1/5."""
     global src, H, W
-    src = np.asarray(plate.convert('RGB')).astype(np.float32)
-    H, W = src.shape[:2]
-    old = np.asarray(lowpoly(34, seed=21, fog=0, sat=.85)).astype(np.float32)
-    g = old.mean(2, keepdims=True); old = (g + (old - g) * .85) * dark       # flat 1998 lighting: less contrast, dimmer
-    return Image.fromarray(np.clip(old, 0, 255).astype(np.uint8)), lowpoly(11, seed=23, fog=.04, sat=.95)
+    src0 = np.asarray(plate.convert('RGB')).astype(np.float32)
+    H, W = src0.shape[:2]
+    def tex(k):
+        small = cv2.resize(src0, (W // k, H // k), interpolation=cv2.INTER_AREA)
+        return cv2.resize(small, (W, H), interpolation=cv2.INTER_LINEAR)
+    def facets(img, cell, amp, seed):
+        global src
+        src = np.full((H, W, 3), 128, np.float32)
+        lp = np.asarray(lowpoly(cell, seed=seed, fog=0, sat=1.0)).astype(np.float32)   # flat grey + per-facet light
+        rng = np.random.default_rng(seed)
+        sh = lp[..., :1] / 128.0
+        sh = 1 + (sh - 1) * (amp / .07)
+        return img * sh
+    old = facets(tex(14), 80, .17, 31)
+    g = old.mean(2, keepdims=True); old = (g + (old - g) * .82) * dark * 1.04
+    mid = facets(tex(5), 45, .05, 33)
+    return (Image.fromarray(np.clip(old, 0, 255).astype(np.uint8)), Image.fromarray(np.clip(mid, 0, 255).astype(np.uint8)))

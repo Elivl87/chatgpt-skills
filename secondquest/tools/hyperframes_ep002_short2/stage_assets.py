@@ -269,9 +269,15 @@ def cues():
         (t('l51.end', .02), NAVI / 'NAVI_HELLO.wav', -9, None, 'Navi appears in the pause after "imagination." (Producer clip)'),
         (t('l43.w2', -.05), C('cc0/jaggedstone_magic/magical_1.ogg'), -11, None, '"More polygons": the 1998 tree sharpens, its face appears'),
         (t('l46.w2', -.05), C('cc0/pauliuw_forestbirds/Forest_Birds_4.ogg'), -12, 1.6, '"Better sound": the flock bursts out of the canopy'),
-        ((t('l60.w4', -.06), [(C('cc0/kenney_impact/impactPunch_heavy_000.ogg'), 0), (C('cc0/kenney/impactSoft_heavy_000.ogg'), -3)]), None, -7, None,
-         'the payoff: the one bass-drop impact on the hard cut to the castle ("impossible")'),
-        ((t('VEND', .08), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5)]), None, -9, None, 'the wordmark lands; Navi circles it (her trail, Producer clip)'),
+        # retention critic v3: a low wind swells under "That is the" from the end of l47 and cuts DEAD into the bass drop
+        ((t('l47.end', .02), [(C('cc0/sketchman_windwhoosh/wind_woosh_loop.ogg'), -9, 0, t('l60.w4', -.06) - t('l47.end', .02), 'swell'),
+                               (C('cc0/kenney_impact/impactPunch_heavy_000.ogg'), 0, t('l60.w4', -.06) - t('l47.end', .02)),
+                               (C('cc0/kenney/impactSoft_heavy_000.ogg'), -3, t('l60.w4', -.06) - t('l47.end', .02))]), None, -7, None,
+         'held breath (wind) cut dead into the payoff: the one bass-drop impact on the hard cut to the castle ("impossible")'),
+        # ...and a quiet field-wind bed under the card so the last second is not dead air and the loop back to frame 0 flows
+        ((t('VEND', .08), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5),
+                           (C('cc0/thimras_park/park_ambience_wind.ogg'), -19, 0, seg.DUR - t('VEND', .08), 'bed')]), None, -9, None,
+         'the wordmark lands; Navi circles it (her trail, Producer clip); a quiet field wind under the card'),
         (t('VEND', 1.5), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the sign: "Look!" (Producer clip, no voice under it)'),
     ]
 
@@ -294,15 +300,24 @@ def stage_audio():
         else:
             parts = [(spec, 0)]
         y = None
-        for f, d in parts:
+        for pt in parts:
+            f, d = pt[0], pt[1]; off = pt[2] if len(pt) > 2 else 0
             x = load(f) * 10 ** (d / 20)
+            if len(pt) > 3:                                             # (file, dB, offset, length, 'swell'|'bed')
+                x = x[:round(pt[3] * SR)].copy()
+                if pt[4] == 'swell':
+                    x *= np.linspace(0, 1, len(x)) ** 1.5               # rises, then cut dead (no fade out)
+                else:
+                    fi = min(len(x), round(.3 * SR)); x[:fi] *= np.linspace(0, 1, fi); fo = min(len(x), round(.25 * SR)); x[-fo:] *= np.linspace(1, 0, fo)
+            x = np.concatenate([np.zeros(round(off * SR), np.float32), x])
             y = x if y is None else (np.pad(y, (0, max(0, len(x) - len(y)))) + np.pad(x, (0, max(0, len(y) - len(x)))))
         if length:
             y = y[:round(length * SR)].copy(); f_ = min(len(y), round(.35 * SR)); y[-f_:] *= np.linspace(1, 0, f_)
-        g = 10 ** ((v_db + rel - active_rms_db(y)) / 20)
+        hit0 = round(max((pt[2] if len(pt) > 2 and len(pt) < 4 else 0) for pt in parts) * SR)   # the level is set on the hit, not the swell
+        g = 10 ** ((v_db + rel - active_rms_db(y[hit0:])) / 20)
         i0 = max(0, round(at * SR)); n = min(len(y), len(sfx) - i0)
         sfx[i0:i0 + n] += y[:n] * g
-        names = ' + '.join(str(Path(f).relative_to(ROOT)) for f, _ in parts)
+        names = ' + '.join(str(Path(pt[0]).relative_to(ROOT)) for pt in parts)
         log.append(f'{at:6.2f}  {rel:+3d} dB  {names}')
         plan.append({'t': round(at, 3), 'rel_db': rel, 'spec': names, 'why': why})
     (OUT / 'sfx_plan.json').write_text(json.dumps(plan, indent=1))

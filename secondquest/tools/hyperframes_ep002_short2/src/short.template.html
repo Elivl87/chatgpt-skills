@@ -104,7 +104,8 @@
            world sharpens, its face appears), lighting (a sun flare), animation (the leaves fall), sound (a flock bursts out) ===== -->
       <div id="shB" class="full shot clip" data-start="{{S1}}" data-duration="{{l47-0.1-S1+0.02}}" data-track-index="2">
         <div class="breath" id="brB"><div class="cam" id="camB">
-          <img class="plate" src="assets/tree_old.jpg" alt="" style="filter: contrast(1.18) brightness(1.1) saturate(1.1)" />
+          <img class="plate" src="assets/tree_old.jpg" alt="" style="filter: contrast(1.08) brightness(1.04)" />
+          <div id="faceLight" class="abs" style="left: 1170px; top: -150px; width: 1100px; height: 900px; mix-blend-mode: screen; background: radial-gradient(ellipse, rgba(255,226,170,.55) 0%, rgba(255,210,150,.2) 40%, rgba(255,200,140,0) 70%)"></div>
           <img class="plate" id="bMid" src="assets/tree_mid.jpg" alt="" style="opacity: 0" />
           <img class="plate" id="bHd" src="assets/tree.jpg" alt="" style="opacity: 0" />
           <div id="sun" class="abs" style="left: -612px; top: -105px; width: 1600px; height: 1600px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(circle, rgba(255,240,200,1) 0%, rgba(255,214,140,.55) 12%, rgba(255,200,110,.18) 35%, rgba(255,190,100,0) 60%)"></div>
@@ -115,6 +116,7 @@
           <div class="abs" style="left: 380px; top: -300px; width: 90px; height: 2000px; transform: rotate(-28deg); background: linear-gradient(rgba(255,236,180,.38), rgba(255,236,180,0))"></div>
           <div class="abs" style="left: 600px; top: -300px; width: 60px; height: 2000px; transform: rotate(-28deg); background: linear-gradient(rgba(255,236,180,.3), rgba(255,236,180,0))"></div>
         </div>
+        <div id="scanB" class="abs" style="left: 0; top: 0; width: 160px; height: 1920px; opacity: 0; mix-blend-mode: screen; background: linear-gradient(90deg, rgba(200,255,220,0), rgba(220,255,230,.75) 50%, rgba(200,255,220,0)); transform: skewX(-12deg)"></div>
         <div id="leaves" class="full"></div>
         <div id="birds" class="full"></div>
       </div>
@@ -238,20 +240,26 @@
       // critic v3 #1: the hook is cut into real shots on the words (camera, light, Navi and cuts only; nobody acts)
       const F1 = 1 / 30;
       cam("#camA", 0, 0, { z: 1.575, fx: 1350, fy: 930 });                                        // frame 0: the finished title still
-      cam("#camA", {{l51.w3-0.02}}, .25, { z: 1.95, fx: 1300, fy: 860 }, "expo.out");             // "character": title snaps out, punch in on him + balloon
-      cam("#camA", {{l51.w3+0.25}}, {{l52-l51.w3-0.3}}, { z: 2.02, fx: 1296, fy: 856 }, "sine.inOut");
+      cam("#camA", {{l51.w4-0.06}}, .25, { z: 1.95, fx: 1300, fy: 860 }, "expo.out");             // after "character": title snaps out, punch in on him + balloon
+      cam("#camA", {{l51.w6-0.02}}, 0, { z: 3.4, fx: 1190, fy: 748 });                           // "space": hard cut to the lit, empty balloon
+      cam("#camA", {{l51.w6-0.02}}, {{l51.w9-l51.w6}}, { z: 3.48, fx: 1190, fy: 748 }, "sine.inOut");
+      cam("#camA", {{l51.w9-0.02}}, 0, { z: 3.5, fx: 1440, fy: 790 });                          // "imagination": his face
+      cam("#camA", {{l51.w9-0.02}}, {{l52-l51.w9}}, { z: 3.58, fx: 1440, fy: 788 }, "sine.inOut");
       cam("#camA", {{l52-0.02}}, 0, { z: 2.18, fx: 1298, fy: 860 });                             // "Give that character a voice": hard cut, waist-up hero + balloon
-      cam("#camA", {{l52-0.02}}, {{l53.w2-l52-0.1}}, { z: 2.23, fx: 1298, fy: 858 }, "sine.inOut");
+      cam("#camA", {{l52-0.02}}, {{l52.w5-l52-0.1}}, { z: 2.23, fx: 1298, fy: 858 }, "sine.inOut");
+      cam("#camA", {{l52.w5-0.04}}, .22, { z: 3.4, fx: 1190, fy: 748 }, "expo.out");             // "voice": punch into the balloon, so the pop fills the frame
+      cam("#camA", {{l52.w5+0.2}}, {{l53.w2-l52.w5-0.3}}, { z: 3.48, fx: 1190, fy: 748 }, "sine.inOut");
       cam("#camA", {{l53.w2-0.02}}, 0, { z: 1.6, fx: 1347, fy: 929 });                           // "suddenly": hard cut to the wide two-shot, Pixie there
       cam("#camA", {{l53.w6-0.02}}, 0, { z: 3.6, fx: 1200, fy: 860 });                           // "decide": hard cut to Pixie, hand on her chin
       cam("#camA", {{l53.w6-0.02}}, {{l53.w9-l53.w6}}, { z: 3.68, fx: 1200, fy: 858 }, "sine.inOut");
       cam("#camA", {{l53.w9-0.02}}, 0, { z: 1.62, fx: 1345, fy: 928 });                          // "silence": back to the two of them...
       cam("#camA", {{l53.w9}}, {{S1-l53.w9}}, { z: 1.85, fx: 1300, fy: 880 }, "sine.inOut");      // ...pushing into the empty space where the balloon was
       breathe("#brA", 0, {{S1}}, .2);
-      tl.set("#ttl1", { opacity: 0 }, {{l51.w3-0.02}});                                           // a cut, never a fade
+      tl.set("#ttl1", { opacity: 0 }, {{l51.w4-0.06}});                                           // a cut, never a fade
       tl.set("#bub", { scale: 1, opacity: 1 }, 0);
       // "space": the empty balloon's outline brightens once (light, not action)
-      tl.fromTo("#bub", { filter: "drop-shadow(0 0 0 rgba(255,214,90,0))" }, { keyframes: [{ filter: "drop-shadow(0 0 22px rgba(255,214,90,.95))", duration: .18, ease: "power2.out" }, { filter: "drop-shadow(0 0 0 rgba(255,214,90,0))", duration: .5, ease: "sine.in" }] }, {{l51.w6-0.04}});
+      tl.fromTo("#bub", { filter: "drop-shadow(0 0 0 rgba(255,214,90,0))" }, { keyframes: [{ filter: "drop-shadow(0 0 22px rgba(255,214,90,.95))", duration: .18, ease: "power2.out" }, { filter: "drop-shadow(0 0 8px rgba(255,214,90,.5))", duration: .5, ease: "sine.in" }] }, {{l51.w6-0.02}});
+      tl.set("#bub", { filter: "drop-shadow(0 0 0 rgba(255,214,90,0))" }, {{l51.w9-0.02}});
       tl.to(DOTS0(), { color: "#f0a400", duration: .12, stagger: .14 }, {{l51.w9-0.05}});
       const DOTS = DOTS0();
       DOTS.forEach((d, i) => tl.fromTo(d, { opacity: .25 }, { opacity: 1, duration: .32, ease: "sine.inOut", yoyo: true, repeat: 9 }, .5 + i * .16));
@@ -267,8 +275,14 @@
 
       /* ---------------- B · "Because better is measurable." then the giant tree upgrades on every word; the camera whips to
          each upgrade (a change every 0.7-1.2 s). Nobody fakes an action: the world, the light and the camera move. */
-      cam("#camB", {{S1}}, 0, { z: 1.0, fx: 1650, fy: 756 });                                // the WHOLE tree in its N64 look (critic v3 #4)
-      cam("#camB", {{S1}}, {{l43.w2-S1-0.1}}, { z: 1.04, fx: 1655, fy: 740 }, "sine.inOut");
+      // retention v3: three shots on the words, the tree lit so it reads (face light: engine-side, the art is untouched)
+      cam("#camB", {{S1}}, 0, { z: 1.0, fx: 1660, fy: 756 });                                // "Because": the tree, full height, its face lit
+      cam("#camB", {{S1}}, {{l42.w2-S1}}, { z: 1.02, fx: 1665, fy: 750 }, "sine.inOut");
+      cam("#camB", {{l42.w2-0.02}}, 0, { z: 1.45, fx: 1700, fy: 420 });                     // "better": hard cut, punch in on the face
+      cam("#camB", {{l42.w2-0.02}}, {{l43.w2-l42.w2-0.1}}, { z: 1.48, fx: 1705, fy: 440 }, "sine.inOut");   // a slow push toward the mouth line
+      tl.fromTo("#scanB", { x: -200, opacity: 1 }, { x: 1180, opacity: 1, duration: .55, ease: "power2.inOut" }, {{l42.w4-0.04}});   // "measurable": a scan line over the facets
+      tl.set("#scanB", { opacity: 0 }, {{l42.w4+0.52}});
+      tl.to("#faceLight", { opacity: 0, duration: .3 }, {{l43.w2+0.2}});
       cam("#camB", {{l43.w2-0.08}}, .3, { z: 1.5, fx: 1750, fy: 380 }, "power3.out");       // "polygons": punch in on its face as it sharpens
       cam("#camB", {{l44.w2-0.08}}, .3, { z: 1.15, fx: 560, fy: 700 }, "power3.out");       // "lighting": whip to the sun, flare
       cam("#camB", {{l45.w2-0.08}}, .3, { z: 1.22, fx: 1480, fy: 1000 }, "power3.out");      // "animation": back to the tree, leaves fall
@@ -291,8 +305,8 @@
 
       /* ---------------- C · "But familiar is not measurable.": the twist, real life 1998 (kids in real poses, the camera drifts) */
       cam("#camC", {{l47-0.1}}, 0, { z: 1.0, fx: 1390, fy: 756 });
-      cam("#camC", {{l47-0.1}}, {{l47.w5-l47}}, { z: 1.0, fx: 1410, fy: 756 }, "sine.inOut");
-      cam("#camC", {{l47.w5}}, .7, { z: 1.0, fx: 2260, fy: 756 }, "power2.inOut");   // follow her finger: the TV, the N64 (critic v3 #7)
+      cam("#camC", {{l47-0.1}}, {{l47.w2-l47+0.1}}, { z: 1.0, fx: 1410, fy: 756 }, "sine.inOut");
+      cam("#camC", {{l47.w2}}, 1.3, { z: 1.0, fx: 2260, fy: 756 }, "power2.inOut");            // on "familiar": follow her finger to the TV and the N64   // follow her finger: the TV, the N64 (critic v3 #7)
       breathe("#brC", {{l47-0.1}}, {{l60}}, .3);
 
       /* ---------------- V · the payoff on the remake's epic look: "That is the" on the two of them, a hard cut on "impossible" to the
@@ -333,7 +347,8 @@
       // Pixie (her forest-friend tunic, as in the game beats) stands on the grass under the sign, between its posts, and waves
       const PCH = 492, PCW = PCH * ART.sizes["p2c.png"][0] / ART.sizes["p2c.png"][1];
       Object.assign($("#pixCard").style, { left: (540 - PCW / 2) + "px", top: (1502 - PCH) + "px", width: PCW + "px", height: PCH + "px", transformOrigin: "50% 100%" });
-      tl.fromTo("#pixCard", { y: 40, opacity: 0, scaleY: .94 }, { keyframes: [{ y: 0, opacity: 1, scaleY: 1.03, duration: .25, ease: "power3.out" }, { scaleY: 1, duration: .15 }] }, CARD + .62);
+      tl.set("#pixCard", { opacity: 0 }, 0); tl.set("#pixCard", { opacity: 1 }, CARD + .62);     // a cut-in, never a fade (design critic v3b)
+      tl.fromTo("#pixCard", { scaleY: .96 }, { keyframes: [{ scaleY: 1.02, duration: .1, ease: "power2.out" }, { scaleY: 1, duration: .15 }], immediateRender: false }, CARD + .62);
       tl.fromTo("#pixCard", { rotation: 0 }, { rotation: 2.5, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, CARD + .9);
       tl.fromTo("#thumbImg", { scale: 1 }, { scale: 1.0, duration: .1 }, CARD);   // the thumbnail is shown whole and still
 
@@ -361,8 +376,8 @@
       const orbit = (t0, t1, cx, cy, rx, ry, turns, r, a0) => { const n = Math.max(3, Math.round((t1 - t0) / .12)); for (let i = 0; i <= n; i++) { const k = i / n, a = (a0 || 0) + 2 * Math.PI * turns * k;
         key(t0 + (t1 - t0) * k, cx + rx * Math.cos(a), cy - ry * Math.sin(a), r); } };
       // A: she bursts into the silence on the pause after "imagination." ("Hello!"), and settles above the hero's shoulder
-      key(0, 900, 640, 20, 0); key({{l51.end-0.05}}, 900, 640, 20, 0); key({{l51.end+0.08}}, 900, 620, 24, 1);
-      key({{l51.end+0.45}}, 220, 1000, 22, 1); key({{l52.w5}}, 240, 980, 20, 1); key({{l53.w2-0.05}}, 240, 980, 20, 1); key({{l53.w2+0.3}}, 820, 440, 20, 1);
+      key(0, 880, 420, 20, 0); key({{l51.end-0.05}}, 880, 420, 20, 0); key({{l51.end+0.08}}, 880, 400, 24, 1);
+      key({{l51.end+0.45}}, 900, 430, 22, 1); key({{l52}}, 910, 440, 22, 1); key({{l52+0.4}}, 240, 980, 20, 1); key({{l52.w5-0.1}}, 240, 980, 20, 1); key({{l52.w5+0.1}}, 160, 1300, 20, 1); key({{l53.w2-0.05}}, 160, 1300, 20, 1); key({{l53.w2+0.3}}, 820, 440, 20, 1);
       key({{l53.w6}}, 790, 420, 20, 1); key({{S1-0.1}}, 760, 410, 20, 1);
       // B: she rides each upgrade: to the face (polygons), into the sun (lighting), with the leaves (animation), up with the flock (sound)
       key({{S1}}, 760, 410, 18, 1); key({{l43.w2}}, 900, 1080, 18, 1); key({{l44.w2}}, 300, 760, 18, 1); key({{l45.w2}}, 620, 900, 18, 1);
