@@ -98,12 +98,26 @@ const exe = process.env.HYPERFRAMES_BROWSER_PATH;
           mb: flag(el, 'data-hf-motion-blur'), allowOverlap: flag(el, 'data-layout-allow-overlap') || flag(el, 'data-critic-allow-overlap'),
           ignore: flag(el, 'data-layout-ignore') || flag(el, 'data-critic-ignore'), allowDup: flag(el, 'data-critic-allow-duplicate') });
       });
-      return out;
+      // shots: every visible full-frame clip that holds a plate (an image covering >= 50 % of the frame), with its own
+      // effective opacity and whether a character is visible inside it (CROSSFADE_CHARACTERS in frame_critic.py)
+      const shots = [];
+      const charRe = /(pixie|quest|navi|hero|kid|child|char|mate|person|people|face|villain|princess)/i;
+      document.querySelectorAll('.clip').forEach((cl) => {
+        const op = effOpacity(cl); if (op < 0.05) return;
+        const r = cl.getBoundingClientRect(); if (r.width * r.height < 0.8 * W * H) return;
+        let plate = false, ch = false;
+        cl.querySelectorAll('img, canvas').forEach((im) => { if (effOpacity(im) < 0.05) return; const b = im.getBoundingClientRect();
+          const vis = Math.max(0, Math.min(b.right, W) - Math.max(b.left, 0)) * Math.max(0, Math.min(b.bottom, H) - Math.max(b.top, 0));
+          if (vis >= 0.5 * W * H) plate = true;
+          if (vis > 0 && (im.closest('[data-role=character]') || charRe.test(im.getAttribute('src') || '') || charRe.test(im.getAttribute('alt') || ''))) ch = true; });
+        if (plate) shots.push({ sel: sel(cl), op: +op.toFixed(3), ch });
+      });
+      return { els: out, shots };
     });
     await new Promise((r) => setTimeout(r, settle));
     let shot = null;
     if (shotsDir) { fs.mkdirSync(shotsDir, { recursive: true }); shot = path.join(shotsDir, `t${t.toFixed(2)}.png`); await page.screenshot({ path: shot }); }
-    frames.push({ t, els, shot });
+    frames.push({ t, els: els.els, shots: els.shots, shot });
   }
   fs.writeFileSync(out, JSON.stringify({ html: path.resolve(html), width: root0.w, height: root0.h, mode, errors, frames }));
   await browser.close();

@@ -16,6 +16,8 @@ visible text / image at each sample time and flags the defects the Producer keep
   TINY_TEXT            rendered glyph size below the legibility floor for the frame size                          warning
   CHAR_SMALL           the largest visible character is small in the frame (full figure should read)             warning
   CLUTTER              more than 3 separate text blocks on screen at once (one focal point per beat)              warning
+  CROSSFADE_CHARACTERS two full-frame shots (plates) visible at once, one mid-fade, a character in either            error
+                       (see-through people: hard-cut between character shots)
   RUNTIME              page errors while seeking                                                                  error
 
 Characters are found by [data-role=character] or by name (pixie|quest|navi|hero|kid|char|mate...) in the img src / id.
@@ -49,7 +51,7 @@ SAMPLER = ROOT / 'scripts/qa/dom_sampler.cjs'
 CHAR_RE = re.compile(r'(pixie|quest|navi|hero|kid|child|char|mate|person|people|face|villain|princess|\bpx\d)', re.I)
 SEV = {'GHOST_TEXT': 'error', 'MOTION_BLUR_ON_TEXT': 'error', 'TEXT_OVERLAP': 'error', 'TEXT_OVER_HUD': 'error',
        'CHAR_BADGE': 'error', 'RUNTIME': 'error', 'TEXT_OVER_CHARACTER': 'warning', 'SAFE_ZONE': 'warning',
-       'TINY_TEXT': 'warning', 'CHAR_SMALL': 'warning', 'CLUTTER': 'warning'}
+       'TINY_TEXT': 'warning', 'CHAR_SMALL': 'warning', 'CLUTTER': 'warning', 'CROSSFADE_CHARACTERS': 'error'}
 
 
 def area(b):
@@ -155,6 +157,11 @@ def critique(data, args):
                     + (' (caption: treat as error)' if a['role'] == 'caption' else ''), [a['box'], safe], a['path'])
             if a['fontPx'] and a['fontPx'] < min_font and a['op'] > 0.5:
                 add('TINY_TEXT', t, f'"{a["text"][:30]}" renders at {a["fontPx"]:.0f}px (< {min_font:.0f}px floor)', [a['box']], a['path'])
+        # cross-dissolve between two shots while a character is in either: see-through people (Producer-rejected defect)
+        sh = f.get('shots', [])
+        if len(sh) >= 2 and any(.05 < x['op'] < .95 for x in sh) and any(x['ch'] for x in sh):
+            add('CROSSFADE_CHARACTERS', t, 'shots ' + ', '.join(f'{x["sel"]}@{x["op"]:.2f}' + ('*' if x['ch'] else '') for x in sh)
+                + ' are cross-dissolving with a character in frame (* = holds a character): use a hard cut', [], 'crossfade')
         for c in chars:
             if c['badge']:
                 add('CHAR_BADGE', t, f'character {c["src"][-40:] or c["sel"]} shown inside a round badge: show the full figure when she acts or speaks',

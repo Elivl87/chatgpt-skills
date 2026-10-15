@@ -108,6 +108,7 @@
           <img class="plate" src="assets/temple.jpg" alt="" />
           <div id="tfGlow" class="abs" style="left: 1044px; top: 30px; width: 600px; height: 600px; opacity: 0; mix-blend-mode: screen; border-radius: 50%; background: radial-gradient(circle, rgba(255,224,140,.75) 0%, rgba(255,200,90,.25) 35%, rgba(255,190,80,0) 65%)"></div>
           <div class="chr" id="vil" data-role="character"><div class="foot"></div><img class="on" src="assets/villain.png" alt="villain" /></div>
+          <div id="tfContact" class="abs" style="left: 1144px; top: 520px; width: 400px; height: 80px; opacity: 0; mix-blend-mode: screen; border-radius: 50%; background: radial-gradient(ellipse, rgba(255,214,120,.8) 0%, rgba(255,200,100,0) 70%)"></div>
           <canvas id="tf" class="abs" width="800" height="800" style="left: 1044px; top: 30px; width: 600px; height: 600px"></canvas>
           <canvas id="sparks" class="abs" width="600" height="600" style="left: 1044px; top: 30px; width: 600px; height: 600px"></canvas>
           <div class="chr" id="q1" data-role="character"><div class="foot"></div><img id="q1a" class="on" src="assets/q1.png" alt="quest" /><img id="q1b" src="assets/q2.png" alt="quest" /></div>
@@ -175,14 +176,14 @@
       </div>
 
       <!-- ===== titles & meters (above the HUD layer, never together with it) ===== -->
-      <div id="ttlClip" class="full clip" data-start="{{l66.w1-0.02}}" data-duration="{{l66.w3+0.1-l66.w1}}" data-track-index="16">
+      <div id="ttlClip" class="full clip" data-start="{{l66.w2-0.02}}" data-duration="{{l66.w3+0.1-l66.w2}}" data-track-index="16">
         <div class="ttl" id="ttlP1" style="top: 250px" aria-label="Player one"><span class="big" style="font-size: 160px; display: inline-block">PLAYER ONE</span></div>
       </div>
       <div id="m1Clip" class="full clip" data-start="{{l66.w4-0.05}}" data-duration="{{S1-l66.w4+0.05}}" data-track-index="17">
         <div class="meter" id="m1"><span class="big num" id="m1n">0%</span><span class="lbl">KNOWS IT ALL</span></div>
       </div>
       <div id="m2Clip" class="full clip" data-start="{{l72.w4-0.05}}" data-duration="{{l73-0.12-l72.w4+0.05}}" data-track-index="17">
-        <div class="meter" id="m2"><span class="big num" id="m2n" style="color: #7fd0ff">0%</span><span class="lbl">KNOWS IT ALL</span></div>
+        <div class="meter" id="m2" style="top: 345px"><span class="big num" id="m2n" style="color: #7fd0ff">0%</span><span class="lbl">KNOWS IT ALL</span></div>
       </div>
 
       <!-- ===== wordmark + end card (the EP002 v3 thumbnail B1, whole) ===== -->
@@ -248,11 +249,10 @@
         x = Math.min(0, Math.max(SW - PW * s, x)); y = Math.min(0, Math.max(960 - PH * s, y)); return { x, y, scale: s }; };
       tl.set("#camS", vh({ z: 1.0, fx: 1330, fy: 1000 }), 0);
       breathe("#brS", 0, {{l66.w1+0.3}}, .3);
-      const T1 = {{l66.w1-0.02}};
-      tl.to("#botHalf", { y: 960, duration: .3, ease: "expo.in" }, T1);                 // the bottom half drops away, P1 takes the screen
-      tl.set("#splitUi", { opacity: 0 }, T1);                                             // the split UI cuts out with it (no fade)
-      cam("#camP1", T1, .3, { z: 1.0, fx: 1130, fy: 900 }, "expo.in");
-      cam("#camP1", T1 + .3, {{S1}} - T1 - .3, { z: 1.08, fx: 1110, fy: 960 }, "sine.inOut");
+      const T1 = {{l66.w2-0.02}};                                                         // "one": a hard cut to P1's world, full frame (critic v4)
+      tl.set(["#botHalf", "#splitUi"], { opacity: 0 }, T1);
+      cam("#camP1", T1, 0, { z: 1.0, fx: 1130, fy: 900 });
+      cam("#camP1", T1, {{S1}} - T1, { z: 1.08, fx: 1110, fy: 960 }, "sine.inOut");
       tl.fromTo("#ttlP1 .big", { scale: 1.25 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%" }, T1);   // slams in opaque
       shake(T1 + .02, 10); flash(T1, .35, .2);
       // "already knows everything": the meter counts to 100 % and locks on "everything"
@@ -266,7 +266,8 @@
       cam("#camP1", {{S1-0.02}}, {{l69.w4-S1}}, { z: 1.3, fx: 1344, fy: 540 }, "sine.inOut");
       cam("#camP1", {{l69.w4-0.03}}, .3, { z: 1.75, fx: 1344, fy: 400 }, "expo.out");  // "golden": punch in on it
       cam("#camP1", {{l69.w6-0.02}}, 0, { z: 1.7, fx: 960, fy: 1130 });                 // "immediately understand": P1, smiling, knows
-      cam("#camP1", {{l69.w6-0.02}}, {{l69.w9-l69.w6}}, { z: 1.78, fx: 962, fy: 1120 }, "sine.inOut");
+      cam("#camP1", {{l69.w7-0.04}}, .25, { z: 2.2, fx: 945, fy: 1010 }, "expo.out");      // "immediately": punch in on the smug veteran
+      cam("#camP1", {{l69.w7+0.21}}, {{l69.w9-l69.w7-0.25}}, { z: 2.26, fx: 945, fy: 1005 }, "sine.inOut");
       cam("#camP1", {{l69.w9-0.02}}, 0, { z: 1.0, fx: 1470, fy: 760 });                // "that somebody": the villain, behind the pedestal
       cam("#camP1", {{l69.w9-0.02}}, {{l69.w17-l69.w9}}, { z: 1.2, fx: 1420, fy: 560 }, "sine.inOut");   // a slow push toward the claw and the Triforce
       cam("#camP1", {{l69.w17-0.02}}, 0, { z: 1.85, fx: 930, fy: 1120 });              // "bad decision": P1 already knows how this ends
@@ -274,28 +275,36 @@
       tl.set("#vil", { opacity: 1 }, {{l69.w9-0.02}});
       tl.set("#q1a", { opacity: 0 }, {{l69.w17-0.02}}); tl.set("#q1b", { opacity: 1 }, {{l69.w17-0.02}});   // the pose changes on the cut
       shake({{l69.w17}}, 9);
-      tl.fromTo("#tfGlow", { opacity: 0, scale: .4 }, { opacity: 1, scale: 1, duration: .5, ease: "power2.out", transformOrigin: "50% 50%" }, {{l69.w3}});
-      const TF = { on: {{l69.w3-0.05}}, rise: {{l69.w3}}, red: {{l69.w16}} };
+      tl.set("#tfGlow", { opacity: 0 }, 0); tl.set("#tfContact", { opacity: 0 }, 0);
+      tl.fromTo("#tfGlow", { opacity: 0, scale: .4 }, { opacity: 1, scale: 1, duration: .5, ease: "power2.out", transformOrigin: "50% 50%", immediateRender: false }, {{l69.w4-0.04}});   // bloom
+      tl.fromTo("#tfContact", { opacity: 0 }, { opacity: 1, duration: .4, ease: "power2.out", immediateRender: false }, {{l69.w4}});                                  // its light on the pedestal
+      const TF = { on: {{l69.w4-0.04}}, rise: {{l69.w4-0.04}}, red: {{l69.w16}} };
       const renderer = new THREE.WebGLRenderer({ canvas: $("#tf"), antialias: true, alpha: true, preserveDrawingBuffer: true });
       renderer.setPixelRatio(1); renderer.setSize(800, 800, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0); renderer.clear();
       const scene = new THREE.Scene(), cam3 = new THREE.PerspectiveCamera(28, 1, .1, 100); cam3.position.set(0, 0, 9);
       function triGeo(s) { const sh = new THREE.Shape(); sh.moveTo(0, s * .577); sh.lineTo(s / 2, -s * .289); sh.lineTo(-s / 2, -s * .289); sh.closePath();
         const g = new THREE.ExtrudeGeometry(sh, { depth: .2, bevelEnabled: true, bevelThickness: .06, bevelSize: .05, bevelSegments: 3 }); g.center(); return g; }
-      const gold = new THREE.MeshStandardMaterial({ color: 0xf2b632, metalness: .55, roughness: .32, emissive: 0x3a2200, emissiveIntensity: .5 });
+      // an environment to reflect, matched to the temple painting: warm window light above, sky blue, warm stone below
+      const envScene = new THREE.Scene(), envBox = new THREE.BoxGeometry(1, 1, 1);
+      [[0xfff1cc, 0, 6, 0, 8], [0x9cc4ee, 6, 1, -2, 5], [0xb48c5c, 0, -6, 0, 8], [0xffe0a0, -6, 2, 3, 4], [0x6e5a42, 0, 0, -7, 8]].forEach(([c, x, y, z, sz]) => {
+        const m = new THREE.Mesh(envBox, new THREE.MeshBasicMaterial({ color: c, side: THREE.BackSide })); m.position.set(x, y, z); m.scale.setScalar(sz); envScene.add(m); });
+      const pmrem = new THREE.PMREMGenerator(renderer); scene.environment = pmrem.fromScene(envScene, .04).texture;
+      const golds = [0xf3c04a, 0xe9b03a, 0xf6c856].map((c, i) => new THREE.MeshStandardMaterial({ color: c, metalness: .78, roughness: .24 + .05 * i, envMapIntensity: 2.2, emissive: 0x6a4400, emissiveIntensity: .45 }));
+      const gold = golds[0];
       const tri = new THREE.Group(); const ts = 1.0, th = ts * .866;
-      [[0, th / 2], [-ts / 2, -th / 2], [ts / 2, -th / 2]].forEach(([x, y], i) => { const m = new THREE.Mesh(triGeo(ts * .96), gold); m.position.set(x, y, 0); m.userData.i = i; tri.add(m); });
+      [[0, th / 2], [-ts / 2, -th / 2], [ts / 2, -th / 2]].forEach(([x, y], i) => { const m = new THREE.Mesh(triGeo(ts * .96), golds[i]); m.position.set(x, y, 0); m.userData.i = i; tri.add(m); });
       scene.add(tri); scene.add(new THREE.HemisphereLight(0xfff4d6, 0x5a4020, 1.2));
-      const key3 = new THREE.DirectionalLight(0xffffff, 2.6); key3.position.set(3, 4, 6); scene.add(key3);
-      const rim3 = new THREE.PointLight(0xffd27a, 40, 20); rim3.position.set(-3, -1, 3); scene.add(rim3);
+      const key3 = new THREE.DirectionalLight(0xfff0d0, 2.4); key3.position.set(4, 5, 4); scene.add(key3);        // key from the sunlit window side (upper right)
+      const rim3 = new THREE.DirectionalLight(0xffb85a, 2.2); rim3.position.set(-4, 1, -3); scene.add(rim3);      // warm rim from behind-left
       function drawTF(t) {
         if (t < TF.on || t >= {{S2}}) { renderer.clear(); return; }
         const k = Math.min(1, Math.max(0, (t - TF.rise) / .6)), e = 1 - Math.pow(1 - k, 3);
         tri.position.y = -1.2 * (1 - e); tri.scale.setScalar(.2 + .8 * e);
-        tri.rotation.y = -Math.PI * 2 * (1 - e) + .45 * Math.sin((t - TF.rise) * 1.5); tri.rotation.x = .1 * Math.sin(t * 1.3);   // one full turn as it rises, then a slow sway (it always reads face-on)
+        tri.rotation.y = .35 * (1 - e) + .28 * Math.sin((t - TF.rise) * 1.4); tri.rotation.x = .08 * Math.sin(t * 1.3);   // always face-on: never more than ~35 deg (no edge-on frame)
         // the three triangles drift apart a hair and snap together on "triangles"
         tri.children.forEach((m, i) => { const sp = Math.max(0, 1 - Math.max(0, (t - {{l69.w5}}) / .25)) * .25 * (t < {{l69.w5}} ? 1 : 1); const a = i * 2.094 + 1.57; m.position.z = sp * Math.cos(a) * .3; });
         const red = t >= TF.red ? (.5 + .5 * Math.sin((t - TF.red) * 40)) : 0;               // "very bad decision": it flickers red
-        gold.emissive.setRGB(.23 + .7 * red, .13 * (1 - red), 0); gold.color.setRGB(.95, .71 * (1 - .6 * red), .2 * (1 - red));
+        golds.forEach((g, i) => { g.emissive.setRGB(.42 + .5 * red, .27 * (1 - red), 0); if (red) g.color.setRGB(.95, .55 * (1 - .5 * red), .15); else g.color.setHex([0xf3c04a, 0xe9b03a, 0xf6c856][i]); });
         renderer.render(scene, cam3);
       }
       // golden sparks with a visible source: they burst out of the Triforce on "triangles" (deterministic hash, no randomness)
@@ -330,6 +339,7 @@
         const fs = `precision mediump float; varying vec2 uv; uniform sampler2D tex; uniform float mos; uniform float k;
           void main(){ vec2 cell = vec2(mos / 540., mos / 960.); vec2 q = (floor(uv / cell) + .5) * cell; if (mos < 1.5) q = uv;
             float sh = .006 * k; vec3 c = vec3(texture2D(tex, q + vec2(sh, 0.)).r, texture2D(tex, q).g, texture2D(tex, q - vec2(sh, 0.)).b);
+            if (mos > 1.5) c = floor(c * 5. + .5) / 5.;                                           // a limited retro palette while blocky
             c *= 1. - .18 * k * step(.5, fract(uv.y * 240.)); gl_FragColor = vec4(c, 1.); }`;
         const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
         bootProg = gl.createProgram(); gl.attachShader(bootProg, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(bootProg, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(bootProg); gl.useProgram(bootProg);
@@ -348,10 +358,7 @@
         const k = 1 - Math.min(1, (t - TB) / TBD), mos = Math.max(1, Math.round(1 + 36 * k * k * k));   // big blocks only in the first frames, sharp by the end
         gl.viewport(0, 0, 540, 960); gl.bindTexture(gl.TEXTURE_2D, bootTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, off); gl.uniform1f(uMos, mos); gl.uniform1f(uK, k); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); }
-      const M2 = { v: 100 };
-      tl.to(M2, { v: 0, duration: .45, ease: "power2.in", onUpdate: () => { $("#m2n").textContent = Math.round(M2.v) + "%"; } }, {{l72.w4-0.05}});
-      tl.fromTo("#m2", { scale: 1 }, { keyframes: [{ scale: .9, duration: .08 }, { scale: 1, duration: .25, ease: "back.out(3)" }], transformOrigin: "0% 50%", immediateRender: false }, {{l72.w4+0.4}});
-      tl.set("#m2n", { textContent: "100%" }, 0);
+      tl.fromTo("#m2", { scale: 1.4 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "0% 50%" }, {{l72.w4-0.05}});   // "none": it slams in at 0 % (the mirror of P1's 100 %)
       tl.set("#hudP1", { opacity: 0 }, {{S2}}); tl.set("#hudP2", { opacity: 1 }, {{S2}});
 
       /* ---------------- TREE: rack focus from Pixie to its face, the "extremely large" pull-back, the "personal problem" punch, her doubt */
@@ -359,8 +366,11 @@
       cam("#camT", T0, 0, { z: 2.3, fx: 1040, fy: 1240 });                                      // Pixie at the roots, looking up
       cam("#camT", T0, {{l73.w4-l73}}, { z: 2.35, fx: 1045, fy: 1230 }, "sine.inOut");
       cam("#camT", {{l73.w4}}, .8, { z: 1.5, fx: 1700, fy: 430 }, "power2.inOut");             // "the Great Deku Tree": up to its face
-      cam("#camT", {{l73.w4+0.8}}, {{l74-l73.w4-0.8}}, { z: 1.56, fx: 1700, fy: 420 }, "sine.inOut");
-      cam("#camT", {{l74.w4-0.05}}, .9, { z: 1.0, fx: 1300, fy: 756 }, "power2.inOut");         // "extremely large tree": pull all the way back
+      cam("#camT", {{l73.w4+0.8}}, {{l73.w8-l73.w4-0.8}}, { z: 1.56, fx: 1700, fy: 420 }, "sine.inOut");
+      cam("#camT", {{l73.w8+0.01}}, 0, { z: 3.1, fx: 1002, fy: 1250 });                       // "think:": cut to her, looking up
+      cam("#camT", {{l74-0.02}}, 0, { z: 1.5, fx: 1700, fy: 560 });                          // "That is an": the face again, from lower
+      cam("#camT", {{l74-0.02}}, {{l74.w5-l74-0.23}}, { z: 1.6, fx: 1700, fy: 520 }, "sine.inOut");
+      cam("#camT", {{l74.w5-0.25}}, .9, { z: 1.0, fx: 1300, fy: 756 }, "power2.inOut");         // "large": pull all the way back
       cam("#camT", {{l74.w10-0.04}}, .2, { z: 1.95, fx: 1715, fy: 330 }, "expo.out");          // "personal": punch into the face
       cam("#camT", {{l74.w11-0.02}}, 0, { z: 3.1, fx: 1002, fy: 1250 });                        // "problem": hard cut to her doubt
       cam("#camT", {{l74.w11-0.02}}, {{VEND+0.45-l74.w11}}, { z: 3.18, fx: 1002, fy: 1248 }, "sine.inOut");
@@ -397,7 +407,7 @@
       // the wordmark rises to the top of the card (centre y ~ 215) and shrinks; the card fades in under it
       tl.to("#wm", { y: -560, scale: .56, duration: .55, ease: "power3.inOut" }, CARD);
       tl.to("#twinkle", { opacity: 0, duration: .2 }, CARD - .05);
-      tl.to("#card", { opacity: 1, duration: .4, ease: "sine.inOut" }, CARD);
+      tl.set("#card", { opacity: 1 }, CARD);                                                   // a hard cut, never a dissolve over characters (critic v4)
       tl.set("#sign", { opacity: 0 }, 0); tl.set("#sign", { opacity: 1 }, CARD + .5);      // cut-ins, no fades
       tl.fromTo("#sign", { y: 24 }, { y: 0, duration: .22, ease: "back.out(2)", immediateRender: false }, CARD + .5);   // after the wordmark has risen (critic v2b)
       tl.set("#cT", { opacity: 0 }, 0); tl.set("#cT", { opacity: 1 }, CARD + .45);
@@ -434,7 +444,7 @@
         key(t0 + (t1 - t0) * k, cx + rx * Math.cos(a), cy - ry * Math.sin(a), r); } };
       key(0, 730, 860, 20, 0); key({{l71.end+0.05}}, 730, 860, 20, 0); key({{l71.end+0.15}}, 730, 860, 24, 1);   // "Hello!": she pops out of the P2 port
       key({{l72-0.2}}, 760, 760, 22, 1); key({{l72}}, 860, 560, 20, 1); key({{l72.w4}}, 900, 520, 20, 1); key({{l73-0.15}}, 880, 520, 20, 1);
-      key({{l73-0.1}}, 760, 900, 18, 1); key({{l73.w4}}, 820, 820, 18, 1); key({{l74}}, 300, 700, 18, 1); key({{l74.w10-0.1}}, 260, 760, 16, 1);
+      key({{l73-0.1}}, 760, 900, 18, 1); key({{l73.w4}}, 820, 820, 18, 1); key({{l73.w8}}, 200, 560, 18, 1); key({{l74-0.05}}, 220, 600, 18, 1); key({{l74.w5}}, 300, 700, 18, 1); key({{l74.w10-0.1}}, 260, 760, 16, 1);
       key({{l74.w11}}, 800, 700, 20, 1); key({{VEND+0.4}}, 820, 680, 20, 1);
       key({{VEND+0.5}}, 900, 520, 20, 1); key({{VEND+2.0}}, 880, 560, 20, 1);
       key({{VEND+2.2}}, 1000, 790, 28, 1);
