@@ -238,8 +238,8 @@
       const x = x0 + 110 + step * (k + 0.5) - step * 0.15;
       C.draw(ctx, id, x, gy, u, { view: 'front', expr: 'neutral', t: t + k, light, shadow: 0.25 });
       const S = C.SPECS[id], top = gy - S.h * u;
-      ctx.save(); ctx.strokeStyle = 'rgba(80,50,60,0.45)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + step * 0.3, top); ctx.lineTo(x + step * 0.45, top); ctx.stroke(); ctx.restore();
-      label(ctx, INFO[id].name + ' ' + S.h.toFixed(2).replace('.', ','), x + step * 0.36, top - 8, { font: '600 13px "Martian Mono"', color: SIG[id] });
+      ctx.save(); ctx.strokeStyle = 'rgba(80,50,60,0.45)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x + step * 0.12, top); ctx.lineTo(x + step * 0.28, top); ctx.stroke(); ctx.restore();
+      label(ctx, INFO[id].name + ' ' + S.h.toFixed(2).replace('.', ','), x + step * 0.24, top - 8, { font: '600 13px "Martian Mono"', color: SIG[id] });
     });
     void hmax;
   }
