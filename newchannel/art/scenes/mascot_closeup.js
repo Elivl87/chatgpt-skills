@@ -62,12 +62,14 @@
       K.tex.paint(t, { amount: 0.4, mottle: { w: 1000, h: 500, sx: 0.006, sy: 0.04, seed: 92 + grp, amp: 45 } });
     }, K.H, 2.5);
     const midA = midTrees(0), midB = midTrees(1);
-    const mid = tileLayer((c, t) => {   // poles + wires
-      for (let x = 0; x < TW; x += 600) { const arms = K.terrain.pole(c, x + 200, 840, 470, { color: '#3d2c30', rim: P.rim, dx: 1 }); void arms; }
-      c.strokeStyle = K.rgba('#3a2a35', 0.7); c.lineWidth = 2;
-      for (const yy of [394, 400]) { c.beginPath(); for (let x = -400; x <= TW + 400; x += 600) { c.moveTo(x + 200 - 68, yy); c.quadraticCurveTo(x + 500, yy + 40, x + 800 - 68, yy); } c.stroke(); }
-      K.tex.paint(t, { amount: 0.4, mottle: { w: 1000, h: 500, sx: 0.006, sy: 0.04, seed: 92, amp: 45 } });
-    }, K.H, 2.5);
+    const mid = tileLayer((c, t) => {   // poles + wires (v4: crisp and dark, they sit just behind the verge)
+      for (let x = 0; x < TW; x += 600) K.terrain.pole(c, x + 200, 840, 470, { color: '#33232a', rim: P.rim, dx: 1 });
+      for (let x = 0; x < TW; x += 600) { c.fillStyle = '#33232a'; c.fillRect(x + 200 - 7, 370, 14, 470); c.fillStyle = K.rgba(P.rim, 0.55); c.fillRect(x + 200 + 3, 370, 3, 470);
+        c.fillStyle = '#33232a'; K.rrect(c, x + 200 - 80, 376, 160, 9, 3); c.fill(); for (const k of [-60, 60]) { c.fillStyle = '#5a4a48'; K.rrect(c, x + 200 + k - 4, 366, 8, 12, 3); c.fill(); } }
+      c.strokeStyle = K.rgba('#2e2028', 0.85); c.lineWidth = 2.4;
+      for (const yy of [372, 378]) { c.beginPath(); for (let x = -400; x <= TW + 400; x += 600) { c.moveTo(x + 200 - 60, yy); c.quadraticCurveTo(x + 500, yy + 44, x + 800 - 60, yy); } c.stroke(); }
+      K.tex.paint(t, { amount: 0.3, mottle: { w: 1000, h: 500, sx: 0.006, sy: 0.04, seed: 92, amp: 45 } });
+    }, K.H, 0.8);
     const verge = tileLayer((c, t) => {   // grass bank + guardrail right behind the far lane
       c.fillStyle = K.mix(P.grass, P.field, 0.35); c.fillRect(0, 800, TW, 70);
       const r = K.rng(101);
@@ -88,14 +90,19 @@
       for (let k = 0; k < 1400; k++) { const x = r() * TW, y = 875 + r() * 200; c.strokeStyle = K.rgba(r() < 0.55 ? '#2f283a' : '#9a8a96', 0.16); c.lineWidth = 1 + r() * 3; c.beginPath(); c.moveTo(x, y); c.lineTo(x + 8 + r() * 40, y + (r() - 0.5) * 2); c.stroke(); }
       for (let k = 0; k < 8; k++) { let x = r() * TW, y = 900 + r() * 150; c.strokeStyle = K.rgba('#2a2232', 0.4); c.lineWidth = 2; c.beginPath(); c.moveTo(x, y); for (let j = 0; j < 6; j++) { x += 10 + r() * 30; y += (r() - 0.5) * 14; c.lineTo(x, y); } c.stroke(); }
     }, K.H);
-    // foreground grass clumps in front of the near lane edge (parallax 1.3, out of focus)
+    // foreground grass bank in front of the near lane edge (parallax 1.3, out of focus). v4: an opaque bank of blades
+    // (no see-through reeds), with a few taller clumps and lit tips
     const fore = tileLayer((c, t) => {
-      const r = K.rng(121);
-      for (let x = 0; x < TW; x += 380 + r() * 520) {
-        const S = K.terrain.reedSprite({ w: 260, h: 150 + r() * 60, color: '#4c4a30', dark: '#2b2426', rim: P.rim, seed: (r() * 1e6) | 0, n: 26, heads: r() < 0.5 });
-        c.drawImage(S.c, x, K.H + 34 - S.h);
-      }
-    }, K.H + 40, 2.5);
+      const r = K.rng(121), base = K.H + 40;
+      c.fillStyle = '#2f2a22'; c.fillRect(0, base - 70, TW, 72);
+      const blade = (x, hgt, w, lean, col) => { c.fillStyle = col; c.beginPath(); c.moveTo(x - w, base); c.quadraticCurveTo(x - w * 0.3 + lean * 0.4, base - hgt * 0.6, x + lean, base - hgt); c.quadraticCurveTo(x + w * 0.3 + lean * 0.4, base - hgt * 0.6, x + w, base); c.closePath(); c.fill(); };
+      for (let x = -20; x < TW + 20; x += 4 + r() * 5) blade(x, 95 + r() * 50, 7 + r() * 6, (r() - 0.4) * 24, K.mix('#2c2a20', '#4a4a2c', r()));
+      for (let k = 0; k < 9; k++) { const cx = (k + r() * 0.6) * (TW / 9);
+        for (let j = 0; j < 30; j++) blade(cx + (r() - 0.5) * 140, 140 + r() * 90, 6 + r() * 6, (r() - 0.45) * 50, K.mix('#262419', '#545433', r())); }
+      // lit tips (back light)
+      c.globalCompositeOperation = 'source-atop'; const g = c.createLinearGradient(0, base - 160, 0, base - 30); g.addColorStop(0, K.rgba(P.rim, 0.55)); g.addColorStop(1, K.rgba(P.rim, 0));
+      c.fillStyle = g; c.fillRect(0, base - 170, TW, 150); c.globalCompositeOperation = 'source-over';
+    }, K.H + 40, 2.2);
     // clouds (drawn live so they drift); lit from the sun at (1480, 250)
     const clouds = [[260, 190, 560, 118, 1, 5], [1000, 120, 520, 104, 2, 4], [1760, 210, 470, 96, 3, 6], [640, 360, 300, 58, 4, 7], [2300, 330, 300, 60, 5, 6]].map(([x, y, w, h, seed, v]) => {
       const far = K.clamp((y - 200) / 200);
@@ -166,7 +173,7 @@
     K.light.rays(ctx, sunX, sunY, { n: 10, spread: 2.0, angle: Math.PI / 2 + 0.35, len: 1300, width: 0.05, alpha: 0.09, color: '#ffe0a0', t, seed: 9 });
     const swayAt = (ph) => Math.sin(t * 1.1 + ph) * 0.012 + Math.sin(t * 2.6 + ph * 2) * 0.004;
     for (const [lay, ph] of [[L.midA, 0], [L.midB, 1.9]]) { ctx.save(); ctx.translate(0, 830); ctx.transform(1, 0, swayAt(ph), 1, 0, 0); ctx.translate(0, -830); drawTiled(ctx, lay, pxShift * 0.35, 0, speedPx * 0.35); ctx.restore(); }
-    drawTiled(ctx, L.mid, pxShift * 0.35, 0, Math.min(8, speedPx * 0.35));   // v3: poles keep their density (capped blur)
+    drawTiled(ctx, L.mid, pxShift * 0.35, 0, Math.min(4, speedPx * 0.35), true);   // v4: poles stay crisp and opaque (capped blur, opaque smear)
     drawTiled(ctx, L.verge, pxShift * 0.85, 0, speedPx * 0.85);
     // road
     const rg = ctx.createLinearGradient(0, 860, 0, K.H); rg.addColorStop(0, '#6a5a6e'); rg.addColorStop(1, '#4a3f55');
@@ -214,6 +221,7 @@
     const HL = Object.assign({}, K.hero.LIGHT.golden, { ang: -0.75, rim: mRim, rimW: 0.045 });
     K.car.side(ctx, CX, GROUND + bob * 0.3, SC, { color: K.TEAL, lit: { rim: mRim, shade: P.shadow, dx: 1 }, brake: st.bM, pitch, wheel: st.x * 3.1,
       drawDriver: (sx, sy) => {
+        if (opt.crew) { opt.crew(ctx, sx, sy, SC, { tau, bob, rim: mRim, inertia }); return; }
         const u = 0.6 * SC;
         // Quest: driver (far seat, at the wheel), 3/4 toward the leader
         const qi = K.hero.draw(ctx, 'quest', sx + 0.3 * SC, sy + 0.5 * SC + bob, u, Object.assign({ t: tau, light: HL, noLegs: true, contact: 0, seat: 0, yaw: 0.95, bow: inertia, seed: 1 }, act.quest));
@@ -226,6 +234,7 @@
         // Pixie: passenger (near seat, a little behind), turned toward Quest and the camera
         K.hero.draw(ctx, 'pixie', sx - 0.72 * SC, sy + 0.55 * SC + bob * 0.8, u, Object.assign({ t: tau, light: HL, noLegs: true, contact: 0, seat: 0, yaw: 0.45, bow: inertia * 0.8, seed: 2 }, act.pixie));
       } });
+    if (opt.after) opt.after(ctx, CX, GROUND + bob * 0.3, SC, { tau, bob, rim: mRim });
     // foreground near lane edge (in front of the cars, soft)
     ctx.fillStyle = K.rgba('#3c3348', 0.9); ctx.fillRect(-100, 1046, K.W + 200, 60);
     dash(1052, 9, K.rgba('#f3e2bd', 0.55), 12 * SC, 4 * SC);
