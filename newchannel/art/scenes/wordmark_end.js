@@ -1,12 +1,12 @@
 /* Ep 001 · the wordmark in the illustrated world: dusk over the valley, letters of cream paper lit by the last sun.
-   v3 (no mascot): Pixie stands on the M of "Mil" holding the brand dot (a flat vermilion disc); she lifts it, tosses it,
-   and it lands as the dot of the i with a squash and a hop. Quest, standing on the l, flinches when it lands next to
-   him, then laughs. 2.0 s of acting (0.6 -> 2.6 s). Contact times are exported for the sound bed (sting on the toss,
+   v4: Mila stands on the M of "Mil" with the brand dot (a flat vermilion disc) on her palm; she flicks it, it bonks Eli's
+   beanie (he stands on the l: beanie squash, flinch, grumble, laugh) and bounces back to land as the dot of the i with a
+   squash. Under 3 s of acting (0.55 -> ~2.8 s). Contact times are exported for the sound bed (sting on the toss,
    the touch and the settle). The vermilion of the dot is the brand accent's only home in the illustrated world. */
 (function (root) {
   const K = root.K, E = K.ep1;
   const SIZE = 140, BASE_Y = 540;
-  E.WM = { drop: 0.6, c1: 1.0, c2: 1.42, land: 1.72, tagline: 2.2 };
+  E.WM = { drop: 0.55, c1: 1.0, c2: 1.42, land: 1.78, tagline: 2.3 };   // v4: flick (c1), bonk on Eli's beanie (c2), land; the gag ends by ~2.8 s
   let Bw = null;
 
   function build(ctx) {
@@ -38,15 +38,16 @@
     return { bg, lay, HZ, baked, clouds, shadowDot, ascL };
   }
 
-  // the brand dot's path (layout coordinates). held by Pixie -> lifted -> tossed -> touch + hop -> settles on the i
-  function dotPose(lay, tl, hands) {
+  // the brand dot's path (layout coordinates): on Mila's palm -> flicked up in an arc -> bonks Eli's beanie (c2) ->
+  // bounces back and lands on the i (land) with a squash -> settles. hand / bonk points come from the characters.
+  function dotPose(lay, tl, hand, bonk) {
     const W = E.WM, tM = lay.tittles[1], R = tM.r * 0.8;
-    if (tl < W.c1) return { held: true, R, sx: 1, sy: 1 };
+    if (tl < W.c1) return { held: true, x: hand.x, y: hand.y - R * 0.95, R, sx: 1, sy: 1 };
     const arc = (a, b, u, h) => ({ x: K.lerp(a.x, b.x, u), y: K.lerp(a.y, b.y, u) - h * 4 * u * (1 - u) });
     let p, sx = 1, sy = 1;
-    if (tl < W.c2) { const u = K.inv(W.c1, W.c2, tl); p = arc(hands, { x: tM.x, y: tM.y }, u, 150); const st = Math.sin(u * Math.PI) * 0.1; sx = 1 - st; sy = 1 + st; }
-    else if (tl < W.land) { const u = K.inv(W.c2, W.land, tl); p = { x: tM.x, y: tM.y - 26 * 4 * u * (1 - u) }; const k = Math.exp(-u * 9); sx = 1 + 0.3 * k; sy = 1 - 0.3 * k; }
-    else { const u = tl - W.land, k = Math.exp(-u * 7) * Math.cos(u * 22); p = { x: tM.x, y: tM.y }; sx = 1 + 0.16 * k; sy = 1 - 0.16 * k; }
+    if (tl < W.c2) { const u = K.inv(W.c1, W.c2, tl); p = arc({ x: hand.x, y: hand.y - R }, bonk, u, 60); const st = Math.sin(u * Math.PI) * 0.12; sx = 1 - st; sy = 1 + st; }
+    else if (tl < W.land) { const u = K.inv(W.c2, W.land, tl), k = Math.exp(-u * 10); p = arc(bonk, { x: tM.x, y: tM.y }, u, 45); sx = 1 + 0.35 * k; sy = 1 - 0.35 * k; }
+    else { const u = tl - W.land, k = Math.exp(-u * 7) * Math.cos(u * 22); p = { x: tM.x, y: tM.y }; sx = 1 + 0.18 * k; sy = 1 - 0.18 * k; }
     return { x: p.x, y: p.y, R, sx, sy };
   }
 
@@ -71,48 +72,39 @@
     // plain tittle of "Diez"
     const t1 = lay.tittles[0], a1 = per(t1.k).a;
     if (a1 > 0) { ctx.save(); ctx.globalAlpha = a1; K.type.dot(ctx, lay, t1, x0, y0 + per(t1.k).dy, { color: '#f6ecd8', shadow: '#2a1838', squash: 0 }); ctx.restore(); }
-    // Quest (on the l) and Pixie (on the M) ride up with their letters
-    const W = E.WM, HL = Object.assign({}, K.hero.LIGHT.dusk, { ang: -1.25, rim: '#ffd9a0', rimW: 0.06 }), u = 31;
-    const gM = lay.glyphs[4], gL = lay.glyphs[6], pM = per(4), pL = per(6);
-    const px = x0 + gM.x + lay.adv * 0.5, py = y0 - lay.cap + pM.dy, qx = x0 + gL.x + lay.adv * 0.48, qy = y0 - Bw.ascL + pL.dy;
-    const PC = K.hero.CHARS.pixie, ramp = (a, d) => K.ease.sine(K.clamp((tl - a) / d));
-    // Pixie: hold at the chest -> lift overhead (0.6-0.95) -> toss toward the i (1.0) -> follow-through -> happy
-    const lift = ramp(W.drop, 0.35) * (1 - ramp(W.c1 - 0.02, 0.12)), toss = ramp(W.c1 - 0.04, 0.12) * (1 - ramp(W.c1 + 0.45, 0.3));
-    const hold = [[-0.16, PC.chest - 0.25, PC.depth + 0.55], [0.16, PC.chest - 0.25, PC.depth + 0.55]];
-    const up = [[-0.2, PC.skull + 0.25, 0.25], [0.2, PC.skull + 0.25, 0.25]], fw = [[0.9, PC.shJ + 1.0, 0.9], [1.3, PC.shJ + 1.1, 0.6]];
-    const rest = [[-0.62, PC.hem + 0.2, 0.1], [0.62, PC.hem + 0.2, 0.1]];
-    const done = ramp(W.c1 + 0.55, 0.35);
-    const tg = j => hold[j].map((h, i) => { let v2 = K.lerp(h, up[j][i], lift); v2 = K.lerp(v2, fw[j][i], toss); return K.lerp(v2, rest[j][i], done); });
-    const pa = Math.min(pM.a, 1);
-    if (pa > 0) {
-      ctx.save(); ctx.globalAlpha = pa;
-      const pi = K.hero.draw(ctx, 'pixie', px, py, u, { pose: 'stand', t: tl, yaw: 0.35, light: HL, contact: 0.25, seed: 2,
-        expr: tl < W.c1 ? 'happy' : tl < W.land + 0.1 ? 'surprised' : 'smug', look: tl > W.c1 - 0.1 && tl < W.land + 0.4 ? [0.8, 0.2] : [0.6, 0],
-        armL: { ik: tg(0), pole: [-1, -1, 0], hand: 'open' }, armR: { ik: tg(1), pole: [1, -1, 0], hand: done > 0.5 ? 'fist' : 'open' } });
-      Bw.hands = pi ? { x: (pi.hands.L[0] + pi.hands.R[0]) / 2 - x0, y: (pi.hands.L[1] + pi.hands.R[1]) / 2 - y0 - 6 - lift * lay.tittles[1].r * 0.75 } : Bw.hands;
-      ctx.restore();
-    }
-    // Quest: watches Pixie, flinches when the dot lands beside him, then laughs
-    const qa = Math.min(pL.a, 1);
-    if (qa > 0) {
-      const fl = ramp(W.c2, 0.1) * (1 - ramp(W.c2 + 0.45, 0.25));
-      ctx.save(); ctx.globalAlpha = qa;
-      K.hero.draw(ctx, 'quest', qx, qy, u, { pose: tl < W.c2 + 0.5 ? 'stand' : 'laugh', blend: tl < W.c2 + 0.5 ? { pose: 'surprised', k: fl } : null, t: tl, yaw: -0.4, light: HL, contact: 0.25, seed: 1,
-        lean: fl * 0.12, expr: tl < W.c2 ? 'neutral' : tl < W.c2 + 0.5 ? 'surprised' : 'laughing', look: tl < W.c2 ? [-0.6, 0.1] : [-0.7, 0.3],
-        extras: tl > W.c2 && tl < W.c2 + 0.45 ? ['ticks'] : [] });
-      ctx.restore();
-    }
-    // the brand dot: a flat vermilion disc (no face), lit like the letters; its shadow on the i
-    const P = E.PAL.golden, hands = Bw.hands || { x: gM.x + lay.adv * 0.5, y: -lay.cap - 60 };
-    const dp = dotPose(lay, tl, hands);
-    if (pa > 0) {
-      const dx = dp.held ? x0 + hands.x : x0 + dp.x, dy = dp.held ? y0 + hands.y : y0 + dp.y, R = dp.R * (dp.held ? 0.8 : 1);
-      if (!dp.held && tl > W.c2 - 0.12) { const k = R / 50 * K.clamp((tl - W.c2 + 0.12) / 0.12); ctx.drawImage(Bw.shadowDot.c, x0 + lay.tittles[1].x + SIZE * 0.012 - 80 * k, y0 + lay.tittles[1].y + SIZE * 0.035 - 80 * k, 160 * k, 160 * k); }
+    // v4: Mila (on the M) flicks the dot of the i; it bonks Eli's beanie (on the l) and lands. <= 3 s of acting.
+    const W = E.WM, HL = Object.assign({}, K.cast.LIGHT.dusk), u = 205;
+    const gM = lay.glyphs[4], gL = lay.glyphs[6], pM = per(4), pL = per(6), ramp = (a, d) => K.ease.sine(K.clamp((tl - a) / d));
+    const mx = x0 + gM.x + lay.adv * 0.42, my = y0 - lay.cap + pM.dy, ex = x0 + gL.x + lay.adv * 0.5, ey = y0 - Bw.ascL + pL.dy;
+    const ma = Math.min(pM.a, 1), ea = Math.min(pL.a, 1);
+    // Eli: watches, gets bonked (beanie squash + flinch), grumbles, then laughs
+    const hit = tl > W.c2 ? Math.exp(-(tl - W.c2) * 7) * K.clamp((tl - W.c2) / 0.03) : 0;
+    let eO = { view: 'q', dir: -1, pose: 'stand', expr: 'neutral', look: [0.6, -0.3], t: tl, light: HL, shadow: 0.25, hatHit: hit, lean: -hit * 0.08 };
+    if (tl > W.c1) eO.look = [0.4, -0.9];                                        // follows the dot coming at him
+    if (tl > W.c2) Object.assign(eO, { expr: 'surprised', pose: 'stand', blend: { pose: 'surprise', k: 1 - ramp(W.c2 + 0.35, 0.2) } });
+    if (tl > W.c2 + 0.45) Object.assign(eO, { expr: 'annoyed', blend: { pose: 'scratch', k: ramp(W.c2 + 0.45, 0.15) * (1 - ramp(W.c2 + 1.0, 0.2)) }, look: [0.7, 0] });
+    if (tl > W.c2 + 1.15) Object.assign(eO, { expr: 'laugh', blend: { pose: 'belly', k: ramp(W.c2 + 1.15, 0.2) } });
+    // Mila: the dot on her palm -> wind-up -> flick (arm snaps out) -> follow-through -> smug
+    const wind = ramp(W.drop, 0.3) * (1 - ramp(W.c1 - 0.06, 0.06)), flick = ramp(W.c1 - 0.06, 0.08) * (1 - ramp(W.c1 + 0.5, 0.3));
+    let mO = { view: 'q', dir: 1, pose: 'palm', expr: 'happy', look: [0.5, -0.2], t: tl, light: HL, shadow: 0.25, tilt: -wind * 0.06, lean: -wind * 0.04 + flick * 0.05 };
+    if (flick > 0) mO.blend = { pose: 'point', k: flick };
+    if (tl > W.c1) { mO.expr = 'curious'; mO.look = [0.7, -0.6]; }
+    if (tl > W.land) { mO.expr = 'smug'; mO.look = [0.8, 0]; if (flick <= 0) mO.blend = { pose: 'crossed', k: ramp(W.land + 0.1, 0.25) }; }
+    let hand = Bw.hand || { x: mx + 40, y: my - 80 }, bonk = Bw.bonk || { x: ex, y: ey - 150 };
+    if (ma > 0) { ctx.save(); ctx.globalAlpha = ma; const r = K.cast.draw(ctx, 'mila1', mx, my, u, mO); ctx.restore(); if (tl < W.c1) Bw.hand = hand = { x: r.hands.lead[0], y: r.hands.lead[1] }; }
+    if (ea > 0) { ctx.save(); ctx.globalAlpha = ea; const r = K.cast.draw(ctx, 'eli1', ex, ey, u, eO); ctx.restore(); Bw.bonk = bonk = { x: r.head[0] + 6, y: r.top - 0.04 * u }; }
+    // the brand dot: a flat vermilion disc (no face), lit like the letters; its shadow on the i once it lands
+    const P = E.PAL.golden, rel = q => ({ x: q.x - x0, y: q.y - y0 });
+    const dp = dotPose(lay, tl, rel(hand), rel(bonk));
+    if (ma > 0 && tl > W.drop - 0.25) {
+      const dx = x0 + dp.x, dy = y0 + dp.y, R = dp.R;
+      if (tl > W.land - 0.12) { const k = R / 50 * K.clamp((tl - W.land + 0.12) / 0.12); ctx.drawImage(Bw.shadowDot.c, x0 + lay.tittles[1].x + SIZE * 0.012 - 80 * k, y0 + lay.tittles[1].y + SIZE * 0.035 - 80 * k, 160 * k, 160 * k); }
       if (tl > W.land) K.light.glow(ctx, dx, dy, R * 4, '#ffcf8a', 0.25 * K.clamp((tl - W.land) * 2), 'screen');
-      ctx.save(); ctx.globalAlpha = pa; ctx.translate(dx, dy + (dp.held ? 0 : R * (1 - dp.sy))); ctx.scale(dp.sx, dp.sy);
+      ctx.save(); ctx.globalAlpha = Math.min(ma, K.clamp((tl - W.drop + 0.25) / 0.2)); ctx.translate(dx, dy + R * (1 - dp.sy)); ctx.scale(dp.sx, dp.sy);
       ctx.fillStyle = K.VERMILION; K.circle(ctx, 0, 0, R); ctx.fill(); K.circle(ctx, 0, 0, R); K.tex.fillPath(ctx, 0.22, 0.5);
       K.char.discLight(ctx, 0, 0, R, { ang: -1.4, rim: P.rim, rimW: 0.1, rimAlpha: 0.9, shade: '#5a1f2c', shadeAlpha: 0.25 });
       ctx.restore();
+      if (tl > W.c2 && tl < W.c2 + 0.3) K.char.extra(ctx, bonk.x, bonk.y + 30, 40, 'ticks', tl, { ink: '#fbe9cf' });   // the bonk
     }
     // tagline
     const ta = K.clamp((tl - E.WM.tagline) / 0.6);

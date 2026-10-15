@@ -1,8 +1,8 @@
-/* Ep 001 · 18.6 s style test: golden-hour highway (the wave, from the real IDM run) -> close-up of the mascot as the
-   wave reaches it -> the wordmark. One idea per shot. events() exports the sim-derived cues for the sound bed. */
+/* Ep 001 · 19.6 s style test (v4): golden-hour highway (the wave, from the real IDM run) -> close-up of Eli + Mila as
+   the wave reaches them (Eli yells «¡¿Quién fue?!», Mila looks back) -> the wordmark (Mila flicks the dot). One idea per shot. events() exports the sim-derived cues for the sound bed. */
 (function (root) {
   const K = root.K, E = K.ep1;
-  const CUT1 = 6.0, CUT2 = 13.0, XF = 0.4, DUR = 18.6;
+  const CUT1 = 6.0, CUT2 = 15.2, XF = 0.4, DUR = 19.6;   // v4: the close-up holds to the yell and Mila's look back
   let off = null;
   K.scene('style_test', {
     duration: DUR,
