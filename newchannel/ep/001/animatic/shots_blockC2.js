@@ -13,14 +13,14 @@
       const def = this, T0 = def.t0, w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
       // ---- words
       const tEntran = w('entran', 1, '11'), tSalen = w('salen', 1, '11'), tLos2 = w('Los', 2, '11'), tVan = w('van', 1, '11'), tQueda = w('queda', 1, '11');
-      const tEs1 = w('Es', 1, '11'), tNadie = w('nadie', 1, '11'), tPero11 = w('pero', 1, '11'), tVueltaE = w('entera', 1, '11', { edge: 'end' }), tUn = w('Un', 1, '11'), tEs2 = w('Es', 2, '11'), tOla3 = w('ola', 3, '11');
+      const tEs1 = w('Es', 2, '11'), tNadie = w('nadie', 1, '11'), tPero11 = w('pero', 1, '11'), tVueltaE = w('entera', 1, '11', { edge: 'end' }), tUn = w('Un', 3, '11'), tEs2 = w('Es', 3, '11'), tOla3 = w('ola', 3, '11');
       const tPero = w('Pero', 1, '12'), tEl = w('El', 1, '12'), tEstadio = w('estadio', 1, '12'), tCon1 = w('con', 1, '12'), tTresc = w('trescientos', 1, '12'), tMetrosE = w('metros', 1, '12', { edge: 'end' });
       const tCon2 = w('Con', 2, '12'), tVeinti5 = w('veinticinco', 1, '12'), tCon3 = w('Con', 3, '12'), tVeinti8 = w('veintiocho', 1, '12'), tEmbot = w('embotellamiento', 1, '12'), tTres = w('Tres', 1, '12');
       const tQuien = A.at('Quién', 1, { beat: '12', speaker: 'eli' }), tF = A.at('f', 1, { beat: '12', speaker: 'eli', edge: 'end' }), tLo = w('Lo', 1, '12'), tTramo = w('tramo', 1, '12');
       const tLos12 = w('los', 2, '12'), tDens = w('densidad', 1, '12'), tPor1 = w('Por', 1, '12'), tPor2 = w('Por', 2, '12'), tCrecenE = w('crecen', 1, '12', { edge: 'end' });
-      const tAhora = w('Ahora', 1, '13'), tAhi = w('Ahí', 1, '13'), tDiez = w('diez', 1, '13'), tA13 = w('a', 2, '13'), tO = w('O', 1, '13');
-      const tEmb13 = w('embotellamiento', 1, '13'), tTrancon = w('trancón', 1, '13'), tTaco = w('taco', 1, '13'), tTrafico = w('tráfico', 1, '13'), tEn13 = w('en', 1, '13');
-      const tPudo = w('pudo', 1, '13'), tMedia = w('media', 1, '13'), tEse = w('Ese', 1, '13'), tCasa = w('casa', 1, '13'), tSeguro = w('Seguro', 1, '13'), tPor13 = w('Por', 1, '13');
+      const tAhora = w('Ahora', 1, '13'), tAhi = w('Ahí', 1, '13'), tDiez = w('diez', 1, '13'), tA13 = w('a', 2, '13'), tO = w('O', 2, '13');
+      const tEmb13 = w('embotellamiento', 1, '13'), tTrancon = w('trancón', 1, '13'), tTaco = w('taco', 1, '13'), tTrafico = w('tráfico', 1, '13'), tEn13 = w('en', 2, '13');
+      const tPudo = w('pudo', 1, '13'), tMedia = w('media', 1, '13'), tEse = w('Ese', 2, '13'), tCasa = w('casa', 1, '13'), tSeguro = w('Seguro', 1, '13'), tPor13 = w('Por', 2, '13');
       const tRazon2 = w('razón', 2, '13'), tCenarE = w('cenar', 1, '13', { edge: 'end' }), tNi = A.at('Ni', 1, { beat: '13', speaker: 'eli' }), tPerdonE = A.at('perdón', 1, { beat: '13', speaker: 'eli', edge: 'end' });
       // ---- sim events
       const sEnter = A.ev('S2', 'marked_enters_jam'), M2 = A.map(sEnter, tEntran, 3);
@@ -84,7 +84,7 @@
         draw(c, t, lt) { A.dome(c, t, { run: R25(), simT: 100 + (t - tPero) }); } });
       shots.push({ id: 'D08_cars', start: tEl - 0.1, bg: 'dome_close', focus: [960, 560], push: 0.03, pushDir: -1, over: (c) => { rec(c, false); dsrc(c); },
         post: { grain: 0.13, vignette: 0.45, vignetteColor: '#1a1020', bloom: 0.25 },
-        draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(2.0, 2.0); c.translate(-1250, -760); A.dome(c, t, { run: R25(), simT: 100 + (t - tPero) }); c.restore(); } });
+        draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(2.0, 2.0); c.translate(-1060, -800); A.dome(c, t, { run: R25(), simT: 100 + (t - tPero) }); c.restore(); } });
       shots.push({ id: 'D08_domo', start: tEstadio - 0.1, bg: 'dome', focus: [960, 520], push: 0.02, pushDir: -1, zBase: 1.08, over: (c) => { rec(c, false); dsrc(c); },
         post: { grain: 0.13, vignette: 0.45, vignetteColor: '#1a1020', bloom: 0.25 },
         draw(c, t, lt) { A.dome(c, t, { run: R25(), simT: 100 + (t - tPero) }); } });
@@ -101,7 +101,7 @@
         c.save(); c.beginPath(); c.rect(960, 0, 960, K.H); c.clip(); A.dome(c, t, { run: R28(), simT: D28(t), view: vR, k: 2.6, bg: false, eli: 18, drop: o.drop, hide: o.hide, carOver: o.carOver28, marks: o.marks28 }); c.restore();
         if (o.marks25) o.marks25(c, vL, R25().at(D25(t)));
         c.fillStyle = '#1a1020'; c.fillRect(956, 0, 8, K.H);
-        P.badge(c, 480, 210, '25', 80, o.a25 ?? 1); P.badge(c, 1440, 210, '28', 80, o.a28 ?? 1);
+        P.badge(c, 480, 300, '25', 80, o.a25 ?? 1); P.badge(c, 1440, 300, '28', 80, o.a28 ?? 1);
       };
       const domePost = { grain: 0.13, vignette: 0.4, vignetteColor: '#1a1020', bloom: 0.22 };
       shots.push({ id: 'D10_25', start: tCon2 - 0.12, bg: 'split', label: 'ACELERADO ×10', focus: [960, 560], push: 0.02, post: domePost, over: (c) => { rec(c, true); dsrc(c); },
@@ -119,18 +119,18 @@
       shots.push({ id: 'D13_quienf', start: tQuien - 0.3, bg: 'dome_eli', focus: [960, 520], push: 0.035, pushDir: 1, post: domePost,
         draw(c, t, lt) { const ts = D28(t);
           c.save(); c.translate(960, 560); c.scale(3.4, 3.4); const v = A.domeView(), S = R28().at(ts), a = A.ringAng ? ((S.x[18] % 314) / 314 * K.TAU) : 0, p = A.domePt(a, v); c.translate(-p[0], -p[1] + 20);
-          A.dome(c, t, { run: R28(), simT: ts, eli: 18, carOver: (cx, i, x, y) => { if (i === 18) { const r = K.cast.draw(cx, 'eli1', x + 6, y - 6, 60, { view: 'front', pose: 'fist', expr: 'furious', t, light: K.cast.LIGHT.golden, talk: 0 }); A._eh = r.head; } } });
+          A.dome(c, t, { run: R28(), simT: ts, eli: 18, carOver: (cx, i, x, y) => { if (i === 18) { const r = K.cast.draw(cx, 'eli1', x + 6, y - 6, 80, { view: 'front', pose: 'fist', expr: 'furious', t, light: K.cast.LIGHT.golden, talk: 0 }); A._eh = r.head; } } });
           c.restore();
           if (t > tQuien - 0.03) K.cast.bubble(c, [1000, 470, 90], '¡¿QUIÉN F…?', A.pulse(t, tQuien - 0.03, 0.06, tF - tQuien + 0.4, 0.2)); },
         cues: A => [{ t: tQuien, kind: 'pop' }, { t: tF, kind: 'record_scratch' }] });
-      shots.push({ id: 'D13_screen', start: tF + 0.1, bg: 'dome_screen', focus: [960, 500], push: 0.03, pushDir: -1, post: domePost,
+      shots.push({ id: 'D13_screen', start: tF + 0.05, bg: 'dome_screen', focus: [960, 500], push: 0.03, pushDir: -1, post: domePost,
         draw(c, t, lt) { A.dome(c, t, { run: R28(), simT: D28(t), eli: 18 });
           // the stadium's big screen: Eli, mouth open, with an arrow pointing at him
           c.fillStyle = '#14101e'; K.rrect(c, 560, 70, 800, 450, 18); c.fill(); c.fillStyle = '#3a3050'; K.rrect(c, 580, 90, 760, 410, 10); c.fill();
           c.save(); c.beginPath(); c.rect(580, 90, 760, 410); c.clip(); c.fillStyle = '#6f8a5a'; c.fillRect(580, 90, 760, 410);
           K.cast.draw(c, 'eli1', 900, 700, 620, { view: 'front', pose: 'fist', expr: 'furious', t, light: K.cast.LIGHT.board }); c.restore();
           P.chevron(c, 1240, 230, 50, Math.PI * 0.8, 1, '#f2c230'); P.pill(c, 1250, 150, 'ÉL', 40, 1, { align: 'center' }); } });
-      shots.push({ id: 'D13_upsi', start: tF + 0.95, bg: 'dome_stand', focus: [960, 520], push: 0.03, pushDir: 1, post: domePost,
+      shots.push({ id: 'D13_upsi', start: tF + 0.75, bg: 'dome_stand', focus: [960, 520], push: 0.03, pushDir: 1, post: domePost,
         draw(c, t, lt) { c.save(); c.translate(960, 600); c.scale(1.6, 1.6); c.translate(-760, -300); A.dome(c, t, { run: R28(), simT: D28(t), eli: 18 }); c.restore();
           K.cast.draw(c, 'eli1', 1420, 1160, 700, { view: 'q', dir: -1, pose: 'drive', seated: false, expr: t < tF + 1.5 ? 'surprised' : 'sheepish', t, light: K.cast.LIGHT.golden });
           K.cast.draw(c, 'mila1', 520, 1100, 520, { view: 'q', dir: 1, pose: 'wave', expr: 'smug', t, light: K.cast.LIGHT.golden }); P.callout(c, 640, 420, 'upsi', 56, A.pulse(t, tF + 1.3, 0.1, 0.6, 0.2)); } });
@@ -139,7 +139,7 @@
         for (let j = 0; j <= 20; j++) { const p = A.domePt(K.lerp(a0, a1, j / 20), view, -6); j ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1]); } cx.stroke(); cx.restore();
         let n = 0; for (let i = 0; i < R.N; i++) { const a = ((S.x[i] % 314) / 314) * K.TAU; const d = Math.atan2(Math.sin(a - (a0 + a1) / 2), Math.cos(a - (a0 + a1) / 2)); if (Math.abs(d) < (a1 - a0) / 2) n++; }
         const p = A.domePt((a0 + a1) / 2, view, 16); P.badge(cx, p[0] + 40, p[1] + 50, String(n), 56, 1); };
-      shots.push({ id: 'D14_tramo', start: tLo - 0.1, bg: 'split3', label: 'ACELERADO ×10', focus: [960, 560], push: 0.022, pushDir: -1, post: domePost, over: (c) => rec(c, true),
+      shots.push({ id: 'D14_tramo', start: tLo + 0.55, bg: 'split3', label: 'ACELERADO ×10', focus: [960, 560], push: 0.022, pushDir: -1, post: domePost, over: (c) => rec(c, true),
         draw(c, t, lt) { split(c, t, { marks25: (cx, v, S) => { if (t > tTramo - 0.2) segMarks(cx, v, S, R25()); }, marks28: (cx, v, S) => { if (t > tTramo - 0.2) segMarks(cx, v, S, R28()); } }); } });
       const meter = (c, x, y, v, a) => { if (a <= 0.01) return; c.save(); c.globalAlpha = a; c.translate(x, y);
         const cols = ['#5aa36a', '#a3b85a', '#e2b04a', '#d9773a', '#a8466e']; for (let k = 0; k < 5; k++) { c.strokeStyle = cols[k]; c.lineWidth = 34; c.beginPath(); c.arc(0, 0, 150, Math.PI + k / 5 * Math.PI, Math.PI + (k + 1) / 5 * Math.PI); c.stroke(); }
@@ -214,8 +214,8 @@
     ambience(A) {
       const w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
       const t0 = A.at('No', 1, { beat: '11' }), t1 = A.at('Entonces', 1, { beat: '14' });
-      return [{ kind: 'music_light', t0, t1: w('Ahora', 1, '13') - 0.2 }, { kind: 'wind_grass', t0, t1: w('Es', 1, '11') - 0.1 },
-        { kind: 'crowd', t0: w('Es', 1, '11') - 0.1, t1: w('Pero', 1, '12') - 0.1 }, { kind: 'dome_room', t0: w('Pero', 1, '12') - 0.1, t1: w('Ahora', 1, '13') - 0.2 },
+      return [{ kind: 'music_light', t0, t1: w('Ahora', 1, '13') - 0.2 }, { kind: 'wind_grass', t0, t1: w('Es', 2, '11') - 0.1 },
+        { kind: 'crowd', t0: w('Es', 2, '11') - 0.1, t1: w('Pero', 1, '12') - 0.1 }, { kind: 'dome_room', t0: w('Pero', 1, '12') - 0.1, t1: w('Ahora', 1, '13') - 0.2 },
         { kind: 'crickets', t0: w('Ahora', 1, '13') - 0.2, t1 }, { kind: 'night_pad', t0: w('Ahora', 1, '13') - 0.2, t1 }];
     },
   });

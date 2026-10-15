@@ -13,13 +13,13 @@
   };
   // keep a zoomed view inside the baked 1920x1080 world (z = zoom about the screen centre)
   A.clampView = (p, z) => [K.clamp(p[0], 960 / z + 4, K.W - 960 / z - 4), K.clamp(p[1], 540 / z + 4, K.H - 540 / z - 4)];
-  // ring geometry helpers (ground metres -> design px of the ring view)
-  A.ringPt = (i, S, dr = 0) => { const L = A.s2().p.L, a = (S.x[i] % L) / L * K.TAU, R = E.RING_RAD + dr; return E.ringG2S(Math.cos(a) * R, Math.sin(a) * R); };
-  A.ringAng = (i, S) => { const L = A.s2().p.L; return (S.x[i] % L) / L * K.TAU; };
+  // ring geometry helpers (A._rr = the ring run of the current block: S2 by default, S7/S8/S9 in Act 3) (ground metres -> design px of the ring view)
+  A.ringPt = (i, S, dr = 0) => { const L = (A._rr || A.s2()).p.L, a = (S.x[i] % L) / L * K.TAU, R = E.RING_RAD + dr; return E.ringG2S(Math.cos(a) * R, Math.sin(a) * R); };
+  A.ringAng = (i, S) => { const L = (A._rr || A.s2()).p.L; return (S.x[i] % L) / L * K.TAU; };
   A.angPt = (a, dr = 0, Y = 0) => E.ringG2S(Math.cos(a) * (E.RING_RAD + dr), Math.sin(a) * (E.RING_RAD + dr), Y);
   // the jam centre at sim time ts: circular mean angle of the stopped cars (null if none)
   A.jamAt = function (ts) {
-    const R = A.s2(), S = R.at(ts); let sx = 0, sy = 0, n = 0;
+    const R = A._rr || A.s2(), S = R.at(ts); let sx = 0, sy = 0, n = 0;
     for (let i = 0; i < R.N; i++) if (S.v[i] < 1.0) { const a = A.ringAng(i, S); sx += Math.cos(a); sy += Math.sin(a); n++; }
     return n ? { a: Math.atan2(sy, sx), n } : null;
   };
@@ -64,7 +64,7 @@
   //      track in metres: which part of the near arc sits at screen centre) }
   A.field = function (ctx, t, c) {
     if (!FS) buildField();
-    const Pf = E.PAL.field, R = A.s2(), S = R.at(c.simT), L = R.p.L, fr = c.frame || { z: 1, x: 960, y: 540 };
+    const Pf = E.PAL.field, R = c.run || A.s2(), S = R.at(c.simT), L = R.p.L, fr = c.frame || { z: 1, x: 960, y: 540 };
     ctx.save(); ctx.translate(960, 540); ctx.scale(fr.z, fr.z); ctx.translate(-fr.x, -fr.y);
     ctx.drawImage(FS.bg.c, 0, 0);
     // drifting clouds
@@ -74,6 +74,7 @@
     const items = [];
     for (let i = 0; i < R.N; i++) {
       const a = (S.x[i] % L) / L * K.TAU, sa = Math.sin(a), ca = Math.cos(a);
+      if (c.hide && c.hide(i)) continue;
       if (sa > 0.05) items.push({ i, x: 960 + ca * E.RING_RAD * PXM * (c.spread || 1.0) + (c.shift || 0) * PXM, y: TRACK_Y, s: PXM * 1.35, dir: -1 });
       else if (sa < -0.2) items.push({ i, x: 960 + ca * E.RING_RAD * 7, y: HZ + 40, s: 6.5, dir: 1, far: true });
     }

@@ -44,7 +44,7 @@
   //      eli(ctx, sx, sy, s) (draw Eli at the wheel), chars(ctx, toX), drivers(i, b, stopped) -> expr }
   A.line = function (ctx, t, c) {
     if (!L) build();
-    const R = A.s3(), S = R.at(c.simT), pxm = c.pxm || 11, GY = A.LINE.GY, camS = c.camS;
+    const R = c.run || A.s3(), S = R.at(c.simT), pxm = c.pxm || 11, GY = A.LINE.GY, camS = c.camS, ELI_I = c.eliI ?? A.LINE.ELI;
     const toX = s => 960 + (s - camS) * pxm;
     ctx.drawImage(L.sky.c, 0, 0);
     K.sky.drawClouds(ctx, L.clouds, t, { dx: -camS * 0.6 });
@@ -59,7 +59,7 @@
     const lit = { rim: PAL.rim, shade: PAL.shade, dx: 0 };
     for (let i = 0; i < R.N; i++) {
       const x = toX(S.x[i]), s = pxm * (c.carK ?? (pxm < 30 ? 2.1 : 1)); if (x < -6 * s || x > K.W + 6 * s) continue;   // wide shots: cars drawn bigger than world scale, placed exactly
-      const b = R.brake(i, c.simT), stopped = S.v[i] < 0.3, pe = E.persona(500 + i), isE = i === A.LINE.ELI;
+      const b = R.brake(i, c.simT), stopped = S.v[i] < 0.3, pe = E.persona(500 + i), isE = i === ELI_I;
       ctx.fillStyle = K.rgba(PAL.shade, 0.25); K.ellipse(ctx, x, GY + 2, 1.9 * s, 0.16 * s); ctx.fill();
       K.car.side(ctx, x, GY, s, { color: isE ? TEAL : pe.color, lit, brake: b, wheel: S.x[i] * 3.1,
         drawDriver: (sx, sy) => { if (isE && c.eli) c.eli(ctx, sx, sy, s, S, b); else if (s > 5) K.char.head(ctx, sx, sy - s * 0.3, s * 0.36, { view: 'q', dir: 1, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,

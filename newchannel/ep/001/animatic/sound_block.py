@@ -64,6 +64,17 @@ for amb in ev["ambience"]:
                     if i0 + len(ch) < n:
                         c[i0:i0 + len(ch)] += ch * 0.5
         sfx.add(0, c * win(a0, a1, 0.4, 0.4), 0.2, 0.35)
+    elif k == "crowd":
+        cr = S._bandnoise(n, 300, 2500, 140) * (0.6 + 0.4 * np.sin(2 * np.pi * 0.3 * t)) * 0.14 * win(a0, a1, 0.3, 0.3)
+        sfx.add(0, cr.astype(np.float32), 0.0, 0.5)
+    elif k == "dome_room":
+        rm = S._bandnoise(n, 80, 600, 141) * 0.12 * win(a0, a1, 0.3, 0.3)
+        sfx.add(0, rm.astype(np.float32), 0.0, 0.5)
+    elif k == "night_pad":
+        music.add(0, S.pad(n, ("A3", "E4", "G4", "C5"), 0.05) * win(a0, a1, 1.0, 0.6), 0.0, 0.45)
+    elif k == "patient_tone":
+        f = S.note("D4"); tone = (np.sin(2 * np.pi * f * t) + 0.3 * np.sin(2 * np.pi * 2 * f * t)) * 0.08 * win(a0, a1, 0.8, 0.8)
+        music.add(0, tone.astype(np.float32), 0.0, 0.5)
     elif k == "field_birds":
         rng = np.random.default_rng(7)
         for bt in np.arange(a0 + 0.5, a1 - 0.5, 1.7):
@@ -146,6 +157,33 @@ for cu in ev["cues"]:
             sfx.add(ct + j * cu["d"], S._bandnoise(int(0.25 * SR), 2000 - j * 120, 6000 - j * 300, 120 + j) * np.hanning(int(0.25 * SR)), 0.6 - 0.12 * j, 0.06 + 0.03 * j)
     elif k == "murmur":
         sfx.add(ct, (S._bandnoise(int(0.8 * SR), 200, 1200, 130) * np.hanning(int(0.8 * SR))).astype(np.float32), 0.0, 0.35)
+    elif k == "crowd_wave":
+        d = cu["t1"] - ct; m = int(d * SR); sw = S._bandnoise(m, 300, 2000, 150) * np.sin(np.linspace(0, np.pi, m)) ** 2
+        for j in range(8):
+            seg = sw[j * m // 8:(j + 1) * m // 8]
+            sfx.add(ct + j * d / 8, seg.astype(np.float32), -0.9 + j * 0.25, 0.5)
+    elif k == "eh":
+        sfx.add(ct, S.glide(300, 420, 0.25, 0.15, 0.5), 0.1, 0.3)
+    elif k == "plop":
+        sfx.add(ct, S.pop(500), 0.3, 0.5); sfx.add(ct, S.thunk(10, 200, 90), 0.3, 0.25)
+    elif k == "record_scratch":
+        sfx.add(ct, S.glide(1200, 300, 0.25, 0.2, 0.3), 0.0, 0.2)
+    elif k == "flip":
+        sfx.add(ct, S.whoosh(0.12, 2000, 6000, 160), 0.0, 0.3)
+    elif k == "cutlery":
+        for j in range(2):
+            sfx.add(ct + j * 0.11, S.chime(S.note("C7"), 0.25, 0.05), 0.3, 0.08)
+    elif k == "crunch":
+        m = int(0.18 * SR); sfx.add(ct, (S._bandnoise(m, 1000, 7000, 170) * np.exp(-np.arange(m) / (0.05 * SR))).astype(np.float32), 0.0, 0.5)
+    elif k == "minor":
+        for j, nm in enumerate(("E4", "G4", "B4")):
+            music.add(ct + j * 0.05, S.marimba(S.note(nm), 1.2, 0.4), 0.0, 0.2)
+    elif k == "ding":
+        sfx.add(ct, S.chime(S.note("A5"), 1.0, 0.3), 0.0, 0.25)
+    elif k == "gauge":
+        sfx.add(ct, S.whoosh(0.25, 800, 3000, 180), 0.0, 0.25); sfx.add(ct + 0.2, S.marimba(S.note("E5"), 0.7, 0.2), 0.0, 0.3)
+    elif k == "chime_avg":
+        sfx.add(ct, S.chime(S.note("D5"), 1.5, 0.5), 0.0, 0.18)
     elif k == "squeal":
         sfx.add(ct, S.glide(2100, 1700, 0.9, 0.6, 0.15), 0.0, 0.10)
     elif k == "stop_thunk":
