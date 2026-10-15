@@ -1,0 +1,1908 @@
+{
+ "S1": {
+  "timeScale": 3,
+  "simT0": 7,
+  "N": 30,
+  "roles": {
+   "tapper": 26,
+   "eli": 20,
+   "eliLeader": 21,
+   "behindEli": [
+    19,
+    18,
+    17,
+    16,
+    15,
+    14,
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "frontCar": 29,
+   "carsBehindTapper": [
+    25,
+    24,
+    23,
+    22,
+    21,
+    20
+   ]
+  },
+  "events": [
+   {
+    "type": "tap_start",
+    "tSim": 10,
+    "t": 1,
+    "car": 26,
+    "label": "el conductor toca el freno"
+   },
+   {
+    "type": "tap_end",
+    "tSim": 18,
+    "t": 3.667,
+    "car": 26
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 21.24,
+    "t": 4.747,
+    "car": 23,
+    "back": 3,
+    "peakDecel": 0.64,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 23.04,
+    "t": 5.347,
+    "car": 22,
+    "back": 4,
+    "peakDecel": 0.71,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 24.96,
+    "t": 5.987,
+    "car": 21,
+    "back": 5,
+    "peakDecel": 0.82,
+    "eli": false
+   },
+   {
+    "type": "leader_brake_onset",
+    "tSim": 24.96,
+    "t": 5.987,
+    "car": 21,
+    "label": "el auto de adelante frena"
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 26.04,
+    "t": 6.347,
+    "car": 20,
+    "back": 6,
+    "peakDecel": 3,
+    "eli": true
+   },
+   {
+    "type": "eli_brake_onset",
+    "tSim": 26.04,
+    "t": 6.347,
+    "car": 20,
+    "label": "la ola llega a Eli"
+   },
+   {
+    "type": "eli_hard_brake",
+    "tSim": 26.64,
+    "t": 6.547,
+    "car": 20
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 27.24,
+    "t": 6.747,
+    "car": 19,
+    "back": 7,
+    "peakDecel": 4.04,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 28.44,
+    "t": 7.147,
+    "car": 18,
+    "back": 8,
+    "peakDecel": 3.33,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 28.86,
+    "t": 7.287,
+    "car": 20,
+    "back": 6,
+    "eli": true
+   },
+   {
+    "type": "eli_stop",
+    "tSim": 28.86,
+    "t": 7.287,
+    "car": 20
+   },
+   {
+    "type": "eli_restart",
+    "tSim": 29.4,
+    "t": 7.467,
+    "car": 20
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 29.58,
+    "t": 7.527,
+    "car": 17,
+    "back": 9,
+    "peakDecel": 3.48,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 30.84,
+    "t": 7.947,
+    "car": 19,
+    "back": 7,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 30.9,
+    "t": 7.967,
+    "car": 16,
+    "back": 10,
+    "peakDecel": 3.59,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 31.5,
+    "t": 8.167,
+    "car": 18,
+    "back": 8,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 32.16,
+    "t": 8.387,
+    "car": 15,
+    "back": 11,
+    "peakDecel": 3.54,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 32.64,
+    "t": 8.547,
+    "car": 17,
+    "back": 9,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 33.36,
+    "t": 8.787,
+    "car": 14,
+    "back": 12,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 33.9,
+    "t": 8.967,
+    "car": 16,
+    "back": 10,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 34.62,
+    "t": 9.207,
+    "car": 13,
+    "back": 13,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 35.1,
+    "t": 9.367,
+    "car": 15,
+    "back": 11,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 35.88,
+    "t": 9.627,
+    "car": 12,
+    "back": 14,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 36.36,
+    "t": 9.787,
+    "car": 14,
+    "back": 12,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 37.14,
+    "t": 10.047,
+    "car": 11,
+    "back": 15,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 37.62,
+    "t": 10.207,
+    "car": 13,
+    "back": 13,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 38.4,
+    "t": 10.467,
+    "car": 10,
+    "back": 16,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 38.88,
+    "t": 10.627,
+    "car": 12,
+    "back": 14,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 39.6,
+    "t": 10.867,
+    "car": 9,
+    "back": 17,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 40.14,
+    "t": 11.047,
+    "car": 11,
+    "back": 15,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 40.86,
+    "t": 11.287,
+    "car": 8,
+    "back": 18,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 41.34,
+    "t": 11.447,
+    "car": 10,
+    "back": 16,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 42.12,
+    "t": 11.707,
+    "car": 7,
+    "back": 19,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 42.6,
+    "t": 11.867,
+    "car": 9,
+    "back": 17,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 43.38,
+    "t": 12.127,
+    "car": 6,
+    "back": 20,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 43.86,
+    "t": 12.287,
+    "car": 8,
+    "back": 18,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 44.64,
+    "t": 12.547,
+    "car": 5,
+    "back": 21,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 45.12,
+    "t": 12.707,
+    "car": 7,
+    "back": 19,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 45.84,
+    "t": 12.947,
+    "car": 4,
+    "back": 22,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 46.38,
+    "t": 13.127,
+    "car": 6,
+    "back": 20,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 47.1,
+    "t": 13.367,
+    "car": 3,
+    "back": 23,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 47.58,
+    "t": 13.527,
+    "car": 5,
+    "back": 21,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 48.36,
+    "t": 13.787,
+    "car": 2,
+    "back": 24,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 48.84,
+    "t": 13.947,
+    "car": 4,
+    "back": 22,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 49.62,
+    "t": 14.207,
+    "car": 1,
+    "back": 25,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 50.1,
+    "t": 14.367,
+    "car": 3,
+    "back": 23,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 50.88,
+    "t": 14.627,
+    "car": 0,
+    "back": 26,
+    "peakDecel": 3.53,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 51.36,
+    "t": 14.787,
+    "car": 2,
+    "back": 24,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 52.62,
+    "t": 15.207,
+    "car": 1,
+    "back": 25,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 53.82,
+    "t": 15.607,
+    "car": 0,
+    "back": 26,
+    "eli": false
+   }
+  ]
+ },
+ "S2": {
+  "timeScale": 10,
+  "simT0": 0,
+  "N": 22,
+  "roles": {
+   "L": 230,
+   "marked": 3
+  },
+  "events": [
+   {
+    "type": "first_wobble",
+    "tSim": 22.5,
+    "t": 2.25,
+    "label": "primer titubeo visible"
+   },
+   {
+    "type": "first_stop",
+    "tSim": 143.5,
+    "t": 14.35,
+    "label": "primer auto parado"
+   },
+   {
+    "type": "five_stopped",
+    "tSim": 151,
+    "t": 15.1,
+    "label": "5 autos parados"
+   },
+   {
+    "type": "clock_3min",
+    "tSim": 180,
+    "t": 18,
+    "label": "reloj 3:00",
+    "stopped": 5
+   },
+   {
+    "type": "marked_enters_jam",
+    "tSim": 203.5,
+    "t": 20.35,
+    "car": 3
+   },
+   {
+    "type": "marked_leaves_jam",
+    "tSim": 212,
+    "t": 21.2,
+    "car": 3
+   }
+  ],
+  "metrics": {
+   "waveKmh": -18.754,
+   "firstStop": 143.5
+  }
+ },
+ "S3": {
+  "timeScale": 2,
+  "simT0": 3,
+  "N": 12,
+  "roles": {
+   "tapper": 11,
+   "eli": 2,
+   "behindEli": [
+    1,
+    0
+   ]
+  },
+  "events": [
+   {
+    "type": "tap_start",
+    "tSim": 5,
+    "t": 1,
+    "car": 11,
+    "carNo": 1
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 8.64,
+    "t": 2.82,
+    "car": 11,
+    "carNo": 1,
+    "peakDecel": 0.5
+   },
+   {
+    "type": "car2_reaction_window",
+    "tSim": 8.64,
+    "t": 2.82,
+    "until": 11.04,
+    "untilVideo": 4.02,
+    "gapFrom": 10.25,
+    "gapTo": 8,
+    "label": "relojito de arena + regla"
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 11.04,
+    "t": 4.02,
+    "car": 10,
+    "carNo": 2,
+    "peakDecel": 0.51
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 13.14,
+    "t": 5.07,
+    "car": 9,
+    "carNo": 3,
+    "peakDecel": 0.56
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 15.24,
+    "t": 6.12,
+    "car": 8,
+    "carNo": 4,
+    "peakDecel": 0.64
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 17.28,
+    "t": 7.14,
+    "car": 7,
+    "carNo": 5,
+    "peakDecel": 0.73
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 19.32,
+    "t": 8.16,
+    "car": 6,
+    "carNo": 6,
+    "peakDecel": 0.86
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 21.36,
+    "t": 9.18,
+    "car": 5,
+    "carNo": 7,
+    "peakDecel": 1.04
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 23.4,
+    "t": 10.2,
+    "car": 4,
+    "carNo": 8,
+    "peakDecel": 1.34
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 25.38,
+    "t": 11.19,
+    "car": 3,
+    "carNo": 9,
+    "peakDecel": 1.86
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 27.36,
+    "t": 12.18,
+    "car": 2,
+    "carNo": 10,
+    "peakDecel": 2.2
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 28.98,
+    "t": 12.99,
+    "car": 1,
+    "carNo": 11,
+    "peakDecel": 2.79
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 30.36,
+    "t": 13.68,
+    "car": 0,
+    "carNo": 12,
+    "peakDecel": 3.34
+   },
+   {
+    "type": "stop",
+    "tSim": 32.04,
+    "t": 14.52,
+    "car": 2,
+    "carNo": 10
+   },
+   {
+    "type": "stop",
+    "tSim": 32.46,
+    "t": 14.73,
+    "car": 1,
+    "carNo": 11
+   },
+   {
+    "type": "stop",
+    "tSim": 33.42,
+    "t": 15.21,
+    "car": 0,
+    "carNo": 12
+   }
+  ],
+  "metrics": {
+   "bars": [
+    {
+     "carNo": 1,
+     "peakDecel": 0.5,
+     "minKmh": 22.8,
+     "onsetSim": 8.64,
+     "onsetVideo": 2.82
+    },
+    {
+     "carNo": 2,
+     "peakDecel": 0.51,
+     "minKmh": 21.9,
+     "onsetSim": 11.04,
+     "onsetVideo": 4.02
+    },
+    {
+     "carNo": 3,
+     "peakDecel": 0.56,
+     "minKmh": 21,
+     "onsetSim": 13.14,
+     "onsetVideo": 5.07
+    },
+    {
+     "carNo": 4,
+     "peakDecel": 0.64,
+     "minKmh": 19.7,
+     "onsetSim": 15.24,
+     "onsetVideo": 6.12
+    },
+    {
+     "carNo": 5,
+     "peakDecel": 0.73,
+     "minKmh": 18.1,
+     "onsetSim": 17.28,
+     "onsetVideo": 7.14
+    },
+    {
+     "carNo": 6,
+     "peakDecel": 0.86,
+     "minKmh": 15.9,
+     "onsetSim": 19.32,
+     "onsetVideo": 8.16
+    },
+    {
+     "carNo": 7,
+     "peakDecel": 1.04,
+     "minKmh": 13,
+     "onsetSim": 21.36,
+     "onsetVideo": 9.18
+    },
+    {
+     "carNo": 8,
+     "peakDecel": 1.34,
+     "minKmh": 8.7,
+     "onsetSim": 23.4,
+     "onsetVideo": 10.2
+    },
+    {
+     "carNo": 9,
+     "peakDecel": 1.86,
+     "minKmh": 3.7,
+     "onsetSim": 25.38,
+     "onsetVideo": 11.19
+    },
+    {
+     "carNo": 10,
+     "peakDecel": 2.2,
+     "minKmh": 0,
+     "onsetSim": 27.36,
+     "onsetVideo": 12.18
+    },
+    {
+     "carNo": 11,
+     "peakDecel": 2.79,
+     "minKmh": 0,
+     "onsetSim": 28.98,
+     "onsetVideo": 12.99
+    },
+    {
+     "carNo": 12,
+     "peakDecel": 3.34,
+     "minKmh": 0,
+     "onsetSim": 30.36,
+     "onsetVideo": 13.68
+    }
+   ],
+   "reaction": {
+    "car1Onset": 8.64,
+    "car2Onset": 11.04,
+    "delay": 2.4,
+    "gapAtCar1Onset": 10.253,
+    "gapAtCar2Onset": 8.003,
+    "tau": 1
+   }
+  }
+ },
+ "S3B_ELI": {
+  "timeScale": 2,
+  "simT0": 8,
+  "N": 15,
+  "roles": {
+   "tapper": 11,
+   "eli": 5,
+   "eliLeader": 6,
+   "behindEli": [
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "frontCar": 14,
+   "carsBehindTapper": [
+    10,
+    9,
+    8,
+    7,
+    6,
+    5
+   ]
+  },
+  "events": [
+   {
+    "type": "tap_start",
+    "tSim": 10,
+    "t": 1,
+    "car": 11,
+    "label": "el conductor toca el freno"
+   },
+   {
+    "type": "tap_end",
+    "tSim": 18,
+    "t": 5,
+    "car": 11
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 21.24,
+    "t": 6.62,
+    "car": 8,
+    "back": 3,
+    "peakDecel": 0.64,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 23.04,
+    "t": 7.52,
+    "car": 7,
+    "back": 4,
+    "peakDecel": 0.71,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 24.96,
+    "t": 8.48,
+    "car": 6,
+    "back": 5,
+    "peakDecel": 0.82,
+    "eli": false
+   },
+   {
+    "type": "leader_brake_onset",
+    "tSim": 24.96,
+    "t": 8.48,
+    "car": 6,
+    "label": "el auto de adelante frena"
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 26.04,
+    "t": 9.02,
+    "car": 5,
+    "back": 6,
+    "peakDecel": 3,
+    "eli": true
+   },
+   {
+    "type": "eli_brake_onset",
+    "tSim": 26.04,
+    "t": 9.02,
+    "car": 5,
+    "label": "Eli frena"
+   },
+   {
+    "type": "eli_hard_brake",
+    "tSim": 26.64,
+    "t": 9.32,
+    "car": 5
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 27.24,
+    "t": 9.62,
+    "car": 4,
+    "back": 7,
+    "peakDecel": 4.04,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 28.44,
+    "t": 10.22,
+    "car": 3,
+    "back": 8,
+    "peakDecel": 3.33,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 28.86,
+    "t": 10.43,
+    "car": 5,
+    "back": 6,
+    "eli": true
+   },
+   {
+    "type": "eli_stop",
+    "tSim": 28.86,
+    "t": 10.43,
+    "car": 5
+   },
+   {
+    "type": "eli_restart",
+    "tSim": 29.4,
+    "t": 10.7,
+    "car": 5
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 29.58,
+    "t": 10.79,
+    "car": 2,
+    "back": 9,
+    "peakDecel": 3.48,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 30.84,
+    "t": 11.42,
+    "car": 4,
+    "back": 7,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 30.9,
+    "t": 11.45,
+    "car": 1,
+    "back": 10,
+    "peakDecel": 3.59,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 31.5,
+    "t": 11.75,
+    "car": 3,
+    "back": 8,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 32.16,
+    "t": 12.08,
+    "car": 0,
+    "back": 11,
+    "peakDecel": 3.54,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 32.64,
+    "t": 12.32,
+    "car": 2,
+    "back": 9,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 33.9,
+    "t": 12.95,
+    "car": 1,
+    "back": 10,
+    "eli": false
+   },
+   {
+    "type": "stop",
+    "tSim": 35.1,
+    "t": 13.55,
+    "car": 0,
+    "back": 11,
+    "eli": false
+   }
+  ]
+ },
+ "S3B_MILA": {
+  "timeScale": 2,
+  "simT0": 8,
+  "N": 15,
+  "roles": {
+   "tapper": 11,
+   "eli": 5,
+   "eliLeader": 6,
+   "behindEli": [
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "frontCar": 14,
+   "carsBehindTapper": [
+    10,
+    9,
+    8,
+    7,
+    6,
+    5
+   ],
+   "mila": 5
+  },
+  "events": [
+   {
+    "type": "tap_start",
+    "tSim": 10,
+    "t": 1,
+    "car": 11,
+    "label": "el conductor toca el freno"
+   },
+   {
+    "type": "tap_end",
+    "tSim": 18,
+    "t": 5,
+    "car": 11
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 21.24,
+    "t": 6.62,
+    "car": 8,
+    "back": 3,
+    "peakDecel": 0.64,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 23.04,
+    "t": 7.52,
+    "car": 7,
+    "back": 4,
+    "peakDecel": 0.71,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 24.96,
+    "t": 8.48,
+    "car": 6,
+    "back": 5,
+    "peakDecel": 0.82,
+    "eli": false
+   },
+   {
+    "type": "leader_brake_onset",
+    "tSim": 24.96,
+    "t": 8.48,
+    "car": 6,
+    "label": "el auto de adelante frena"
+   }
+  ]
+ },
+ "S4": {
+  "timeScale": 2,
+  "simT0": 3,
+  "N": 12,
+  "roles": {},
+  "events": [],
+  "metrics": {
+   "stable": [
+    {
+     "car": 1,
+     "dipKmh": 6.48,
+     "peakDecel": 0.6
+    },
+    {
+     "car": 2,
+     "dipKmh": 4.93,
+     "peakDecel": 0.385
+    },
+    {
+     "car": 3,
+     "dipKmh": 4.06,
+     "peakDecel": 0.278
+    },
+    {
+     "car": 4,
+     "dipKmh": 3.6,
+     "peakDecel": 0.203
+    },
+    {
+     "car": 5,
+     "dipKmh": 3.31,
+     "peakDecel": 0.159
+    },
+    {
+     "car": 6,
+     "dipKmh": 3.1,
+     "peakDecel": 0.133
+    },
+    {
+     "car": 7,
+     "dipKmh": 2.94,
+     "peakDecel": 0.115
+    },
+    {
+     "car": 8,
+     "dipKmh": 2.82,
+     "peakDecel": 0.102
+    },
+    {
+     "car": 9,
+     "dipKmh": 2.71,
+     "peakDecel": 0.092
+    },
+    {
+     "car": 10,
+     "dipKmh": 2.62,
+     "peakDecel": 0.085
+    },
+    {
+     "car": 11,
+     "dipKmh": 2.54,
+     "peakDecel": 0.078
+    },
+    {
+     "car": 12,
+     "dipKmh": 2.47,
+     "peakDecel": 0.073
+    }
+   ],
+   "unstable": [
+    {
+     "car": 1,
+     "dipKmh": 6.48,
+     "peakDecel": 0.6
+    },
+    {
+     "car": 2,
+     "dipKmh": 6.7,
+     "peakDecel": 0.535
+    },
+    {
+     "car": 3,
+     "dipKmh": 7.22,
+     "peakDecel": 0.538
+    },
+    {
+     "car": 4,
+     "dipKmh": 8.07,
+     "peakDecel": 0.545
+    },
+    {
+     "car": 5,
+     "dipKmh": 9.18,
+     "peakDecel": 0.582
+    },
+    {
+     "car": 6,
+     "dipKmh": 10.59,
+     "peakDecel": 0.647
+    },
+    {
+     "car": 7,
+     "dipKmh": 12.37,
+     "peakDecel": 0.745
+    },
+    {
+     "car": 8,
+     "dipKmh": 14.69,
+     "peakDecel": 0.886
+    },
+    {
+     "car": 9,
+     "dipKmh": 17.87,
+     "peakDecel": 1.095
+    },
+    {
+     "car": 10,
+     "dipKmh": 22.4,
+     "peakDecel": 1.405
+    },
+    {
+     "car": 11,
+     "dipKmh": 27.56,
+     "peakDecel": 1.97
+    },
+    {
+     "car": 12,
+     "dipKmh": 29.99,
+     "peakDecel": 2.27
+    }
+   ]
+  }
+ },
+ "S5_25": {
+  "timeScale": 10,
+  "simT0": 0,
+  "N": 25,
+  "roles": {
+   "L": 314
+  },
+  "events": []
+ },
+ "S5_28": {
+  "timeScale": 10,
+  "simT0": 0,
+  "N": 28,
+  "roles": {
+   "L": 314,
+   "added": [
+    9,
+    18,
+    27
+   ],
+   "eli": 18
+  },
+  "events": [
+   {
+    "type": "first_stop",
+    "tSim": 172.75,
+    "t": 17.275,
+    "label": "aparece el embotellamiento"
+   }
+  ]
+ },
+ "S5_40": {
+  "timeScale": 10,
+  "simT0": 0,
+  "N": 40,
+  "roles": {
+   "L": 314,
+   "av": 0
+  },
+  "events": [
+   {
+    "type": "first_stop",
+    "tSim": 40.5,
+    "t": 4.05,
+    "label": "aparece el embotellamiento"
+   }
+  ],
+  "metrics": {
+   "without": {
+    "meanV": 2.234,
+    "stdV": 3.259,
+    "hardBrakesPerVehKm": 15.629,
+    "fuelPer100km": 19.043,
+    "flowVehPerHour": 1024.54,
+    "hardBrakes": 559,
+    "distKm": 35.767
+   },
+   "with": {
+    "meanV": 2.294,
+    "stdV": 0.854,
+    "hardBrakesPerVehKm": 16.253,
+    "fuelPer100km": 13.883,
+    "flowVehPerHour": 1052.171,
+    "hardBrakes": 597,
+    "distKm": 36.732
+   },
+   "free25": {
+    "meanV": 9.687,
+    "stdV": 0.38,
+    "hardBrakesPerVehKm": 0,
+    "fuelPer100km": 4.282,
+    "flowVehPerHour": 2776.441,
+    "hardBrakes": 0,
+    "distKm": 96.927
+   }
+  }
+ },
+ "S6": {
+  "timeScale": 120,
+  "simT0": -180,
+  "N": 711,
+  "roles": {
+   "L": 16000,
+   "tapCar": 533,
+   "tapX": 11994.374
+  },
+  "events": [
+   {
+    "type": "tap_start",
+    "tSim": 60,
+    "t": 2,
+    "car": 533,
+    "x": 11994,
+    "label": "el frenazo de hace media hora"
+   },
+   {
+    "type": "wave_km",
+    "tSim": 660,
+    "t": 7,
+    "km": 2
+   },
+   {
+    "type": "wave_km",
+    "tSim": 994,
+    "t": 9.783,
+    "km": 4
+   },
+   {
+    "type": "wave_km",
+    "tSim": 1328,
+    "t": 12.567,
+    "km": 6
+   },
+   {
+    "type": "wave_km",
+    "tSim": 1882,
+    "t": 17.183,
+    "km": 8
+   },
+   {
+    "type": "wave_10km",
+    "tSim": 2112,
+    "t": 19.1,
+    "label": "la ola ya recorrió 10 km hacia atrás"
+   }
+  ],
+  "metrics": {
+   "waveKmh": -18.987,
+   "t10km": 2112,
+   "minVwave": 0,
+   "veqKmh": 55.339,
+   "N": 711,
+   "density": 44.438
+  }
+ },
+ "S7": {
+  "timeScale": 4,
+  "simT0": 240,
+  "N": 21,
+  "roles": {
+   "L": 260,
+   "av": 0
+  },
+  "events": [
+   {
+    "type": "control_on",
+    "tSim": 300,
+    "t": 15,
+    "car": 0,
+    "label": "se activa la computadora"
+   },
+   {
+    "type": "wave_melted",
+    "tSim": 353.25,
+    "t": 28.313,
+    "label": "la ola se derritió"
+   }
+  ],
+  "metrics": {
+   "pre": {
+    "meanV": 3.844,
+    "stdV": 3.743,
+    "hardBrakesPerVehKm": 8.139,
+    "fuelPer100km": 11.464,
+    "flowVehPerHour": 1117.651,
+    "hardBrakes": 79,
+    "distKm": 9.706
+   },
+   "post": {
+    "meanV": 3.977,
+    "stdV": 0.432,
+    "hardBrakesPerVehKm": 0,
+    "fuelPer100km": 7.931,
+    "flowVehPerHour": 1156.471,
+    "hardBrakes": 0,
+    "distKm": 20.066
+   },
+   "meltT": 353.25,
+   "meltLaps": 0.722
+  }
+ },
+ "S8": {
+  "timeScale": 4,
+  "simT0": 560,
+  "N": 21,
+  "roles": {
+   "L": 260,
+   "av": 0
+  },
+  "events": [
+   {
+    "type": "knob_up",
+    "tSim": 600,
+    "t": 10,
+    "car": 0,
+    "label": "clic: perilla arriba (+7 %)",
+    "U": 3.95
+   },
+   {
+    "type": "wave_back",
+    "tSim": 651,
+    "t": 22.75,
+    "label": "vuelve a formarse un grupo rojo"
+   },
+   {
+    "type": "knob_down",
+    "tSim": 720,
+    "t": 40,
+    "car": 0,
+    "label": "clic: perilla abajo (promedio)"
+   }
+  ],
+  "metrics": {
+   "Uavg": 3.948,
+   "smooth": {
+    "meanV": 3.976,
+    "stdV": 0.404,
+    "hardBrakesPerVehKm": 0,
+    "fuelPer100km": 7.914,
+    "flowVehPerHour": 1156.197,
+    "hardBrakes": 0,
+    "distKm": 10.041
+   },
+   "eager": {
+    "meanV": 4.509,
+    "stdV": 3.35,
+    "hardBrakesPerVehKm": 8.413,
+    "fuelPer100km": 9.824,
+    "flowVehPerHour": 1311.203,
+    "hardBrakes": 48,
+    "distKm": 5.706
+   },
+   "back": {
+    "meanV": 3.806,
+    "stdV": 0.377,
+    "hardBrakesPerVehKm": 0,
+    "fuelPer100km": 8.164,
+    "flowVehPerHour": 1106.543,
+    "hardBrakes": 0,
+    "distKm": 16.003
+   },
+   "waveBack": 651
+  }
+ },
+ "S9": {
+  "timeScale": 4,
+  "simT0": 240,
+  "N": 21,
+  "roles": {
+   "L": 260,
+   "av": 0,
+   "mila": 0
+  },
+  "events": [
+   {
+    "type": "mila_takes_wheel",
+    "tSim": 300,
+    "t": 15,
+    "car": 0,
+    "label": "el halo salta al auto teal: Mila maneja"
+   }
+  ],
+  "metrics": {
+   "pre": {
+    "meanV": 3.844,
+    "stdV": 3.743,
+    "hardBrakesPerVehKm": 8.139,
+    "fuelPer100km": 11.464,
+    "flowVehPerHour": 1117.651,
+    "hardBrakes": 79,
+    "distKm": 9.706
+   },
+   "post": {
+    "meanV": 5.606,
+    "stdV": 1.675,
+    "hardBrakesPerVehKm": 1.414,
+    "fuelPer100km": 6.529,
+    "flowVehPerHour": 1629.95,
+    "hardBrakes": 40,
+    "distKm": 28.282
+   }
+  }
+ },
+ "S10": {
+  "timeScale": 6,
+  "simT0": 8,
+  "N": 260,
+  "roles": {
+   "tap": 257,
+   "active": [
+    227,
+    221,
+    132,
+    130,
+    128,
+    126,
+    124
+   ],
+   "inactive": [
+    187,
+    181,
+    175,
+    169
+   ],
+   "act1": [
+    227,
+    221
+   ],
+   "act2": [
+    132,
+    130,
+    128,
+    126,
+    124
+   ],
+   "front": 259,
+   "penetration": 0.042
+  },
+  "events": [
+   {
+    "type": "wave_passes_active",
+    "tSim": 73,
+    "t": 10.833,
+    "car": 227
+   },
+   {
+    "type": "wave_passes_active",
+    "tSim": 97.75,
+    "t": 14.958,
+    "car": 221
+   },
+   {
+    "type": "wave_passes_inactive",
+    "tSim": 135.5,
+    "t": 21.25,
+    "car": 187
+   },
+   {
+    "type": "wave_passes_inactive",
+    "tSim": 142.25,
+    "t": 22.375,
+    "car": 181
+   },
+   {
+    "type": "wave_passes_inactive",
+    "tSim": 149,
+    "t": 23.5,
+    "car": 175
+   },
+   {
+    "type": "wave_passes_inactive",
+    "tSim": 156,
+    "t": 24.667,
+    "car": 169
+   },
+   {
+    "type": "wave_passes_active",
+    "tSim": 218.75,
+    "t": 35.125,
+    "car": 132
+   },
+   {
+    "type": "wave_passes_active",
+    "tSim": 248.25,
+    "t": 40.042,
+    "car": 130
+   },
+   {
+    "type": "wave_passes_active",
+    "tSim": 277.5,
+    "t": 44.917,
+    "car": 128
+   },
+   {
+    "type": "wave_passes_active",
+    "tSim": 305.75,
+    "t": 49.625,
+    "car": 126
+   },
+   {
+    "type": "wave_passes_active",
+    "tSim": 333.5,
+    "t": 54.25,
+    "car": 124
+   }
+  ],
+  "metrics": {
+   "beforeAct1": 9.142,
+   "afterAct1": 2.398,
+   "beforeInact": 2.818,
+   "afterInact": 3.133,
+   "beforeAct2": 3.785,
+   "afterAct2": 3.211,
+   "profile": [
+    {
+     "car": 256,
+     "amp": 12.3
+    },
+    {
+     "car": 253,
+     "amp": 10.1
+    },
+    {
+     "car": 250,
+     "amp": 9.4
+    },
+    {
+     "car": 247,
+     "amp": 9.1
+    },
+    {
+     "car": 244,
+     "amp": 8.9
+    },
+    {
+     "car": 241,
+     "amp": 8.9
+    },
+    {
+     "car": 238,
+     "amp": 8.9
+    },
+    {
+     "car": 235,
+     "amp": 8.9
+    },
+    {
+     "car": 232,
+     "amp": 9
+    },
+    {
+     "car": 229,
+     "amp": 9.1
+    },
+    {
+     "car": 226,
+     "amp": 3.9
+    },
+    {
+     "car": 223,
+     "amp": 4
+    },
+    {
+     "car": 220,
+     "amp": 2.4
+    },
+    {
+     "car": 217,
+     "amp": 2.4
+    },
+    {
+     "car": 214,
+     "amp": 2.5
+    },
+    {
+     "car": 211,
+     "amp": 2.5
+    },
+    {
+     "car": 208,
+     "amp": 2.5
+    },
+    {
+     "car": 205,
+     "amp": 2.6
+    },
+    {
+     "car": 202,
+     "amp": 2.6
+    },
+    {
+     "car": 199,
+     "amp": 2.7
+    },
+    {
+     "car": 196,
+     "amp": 2.7
+    },
+    {
+     "car": 193,
+     "amp": 2.7
+    },
+    {
+     "car": 190,
+     "amp": 2.8
+    },
+    {
+     "car": 187,
+     "amp": 2.8
+    },
+    {
+     "car": 184,
+     "amp": 2.9
+    },
+    {
+     "car": 181,
+     "amp": 2.9
+    },
+    {
+     "car": 178,
+     "amp": 3
+    },
+    {
+     "car": 175,
+     "amp": 3
+    },
+    {
+     "car": 172,
+     "amp": 3.1
+    },
+    {
+     "car": 169,
+     "amp": 3.1
+    },
+    {
+     "car": 166,
+     "amp": 3.2
+    },
+    {
+     "car": 163,
+     "amp": 3.2
+    },
+    {
+     "car": 160,
+     "amp": 3.3
+    },
+    {
+     "car": 157,
+     "amp": 3.3
+    },
+    {
+     "car": 154,
+     "amp": 3.4
+    },
+    {
+     "car": 151,
+     "amp": 3.4
+    },
+    {
+     "car": 148,
+     "amp": 3.5
+    },
+    {
+     "car": 145,
+     "amp": 3.5
+    },
+    {
+     "car": 142,
+     "amp": 3.6
+    },
+    {
+     "car": 139,
+     "amp": 3.7
+    },
+    {
+     "car": 136,
+     "amp": 3.7
+    },
+    {
+     "car": 133,
+     "amp": 3.8
+    },
+    {
+     "car": 130,
+     "amp": 2.5
+    },
+    {
+     "car": 127,
+     "amp": 2.6
+    },
+    {
+     "car": 124,
+     "amp": 3.2
+    },
+    {
+     "car": 121,
+     "amp": 3.2
+    },
+    {
+     "car": 118,
+     "amp": 3.2
+    },
+    {
+     "car": 115,
+     "amp": 3.2
+    }
+   ]
+  }
+ },
+ "S11": {
+  "timeScale": 3,
+  "simT0": 7,
+  "N": 30,
+  "roles": {
+   "tapper": 26,
+   "eli": 20,
+   "eliLeader": 21,
+   "behindEli": [
+    19,
+    18,
+    17,
+    16,
+    15,
+    14,
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+   ],
+   "frontCar": 29,
+   "carsBehindTapper": [
+    25,
+    24,
+    23,
+    22,
+    21,
+    20
+   ]
+  },
+  "events": [
+   {
+    "type": "tap_start",
+    "tSim": 10,
+    "t": 1,
+    "car": 26,
+    "label": "el conductor toca el freno"
+   },
+   {
+    "type": "tap_end",
+    "tSim": 18,
+    "t": 3.667,
+    "car": 26
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 21.24,
+    "t": 4.747,
+    "car": 23,
+    "back": 3,
+    "peakDecel": 0.64,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 23.04,
+    "t": 5.347,
+    "car": 22,
+    "back": 4,
+    "peakDecel": 0.71,
+    "eli": false
+   },
+   {
+    "type": "brake_onset",
+    "tSim": 24.96,
+    "t": 5.987,
+    "car": 21,
+    "back": 5,
+    "peakDecel": 0.82,
+    "eli": false
+   },
+   {
+    "type": "leader_brake_onset",
+    "tSim": 24.96,
+    "t": 5.987,
+    "car": 21,
+    "label": "el auto de adelante frena"
+   },
+   {
+    "type": "eli_gap_min",
+    "tSim": 35.22,
+    "t": 9.407,
+    "car": 20,
+    "gap": 8.8,
+    "label": "el resorte del hueco se encoge al máximo"
+   }
+  ],
+  "metrics": {
+   "eliGapMin": 8.787
+  }
+ },
+ "TOLL": {
+  "timeScale": 4,
+  "simT0": 0,
+  "N": 60,
+  "roles": {
+   "eli": 12,
+   "booth": 25
+  },
+  "events": [
+   {
+    "type": "eli_leaves_gap",
+    "tSim": 20,
+    "t": 5,
+    "label": "Eli deja un espacio enorme en la cola (variante paciente)"
+   }
+  ],
+  "metrics": {
+   "q60": 29,
+   "q120": 42,
+   "q60p": 29,
+   "q120p": 42,
+   "served": 11,
+   "servedP": 11
+  }
+ },
+ "SH": {
+  "timeScale": 1,
+  "simT0": 0,
+  "N": 0,
+  "roles": {},
+  "events": [],
+  "metrics": {
+   "s2wave": -18.754,
+   "s6wave": -18.987
+  }
+ }
+}

@@ -28,6 +28,7 @@
     return Math.sqrt(-2 * Math.log(u)) * Math.cos(K.TAU * r());
   };
   S.KMH = 3.6;
+  S.BOOTH_IDM = { a: 1.0, b: 2.0, T: 1.0, s0: 2.0, v0: 15, delta: 4 };   // how controllers stop at a toll barrier
   S.idm = function (d, v, gap, dv) {                         // IDM acceleration; dv = v - v_leader (closing speed)
     const sStar = d.s0 + Math.max(0, v * d.T + v * dv / (2 * Math.sqrt(d.a * d.b)));
     return d.a * (1 - Math.pow(Math.max(v, 0) / d.v0, d.delta || 4) - Math.pow(sStar / Math.max(gap, 0.05), 2));
@@ -70,7 +71,7 @@
     const rng = K.rng(p.seed);
     const drv = p.drivers.map(d => Object.assign({}, d));
     const x = Float64Array.from(p.x0), v = Float64Array.from(p.v0init);
-    const acc = new Float64Array(N), noise = new Float64Array(N);
+    const acc = new Float64Array(N), noise = new Float64Array(N), panicUntil = new Float64Array(N).fill(-1);
     // delayed perception: ring buffers of gap and leader speed (per car), sized for the largest tau
     const maxTau = Math.max(0, ...drv.map(d => d.tau || 0), ...p.schedule.map(e => (e.set && e.set.tau) || 0));
     const H = Math.max(1, Math.round(maxTau / dt) + 2);
@@ -80,7 +81,7 @@
     const Ust = new Float64Array(N), lapStart = new Float64Array(N), lapSum = new Float64Array(N), lapX = new Float64Array(N);
     const paid = new Uint8Array(N), since = new Float64Array(N).fill(-1), serv = new Float64Array(N);
     if (p.booth) for (let i = 0; i < N; i++) serv[i] = p.booth.service[0] + rng() * (p.booth.service[1] - p.booth.service[0]);
-    const avgWin = []; let avgAllNow = 0;                    // moving average of mean traffic speed (for 'avgAll')
+    let vmEma = 0; for (let i = 0; i < N; i++) vmEma += v[i] / N;      // moving average of the mean traffic speed
     for (let i = 0; i < N; i++) { Ust[i] = drv[i].U || v[i]; lapX[i] = x[i]; }
     const nSteps = Math.round(p.tEnd / dt), recEvery = Math.max(1, Math.round(p.recDt / dt)), nRec = Math.floor(nSteps / recEvery) + 1;
     const X = new Float32Array(nRec * N), V = new Float32Array(nRec * N), A = new Float32Array(nRec * N), AMIN = new Float32Array(nRec * N);
@@ -105,12 +106,18 @@
     const tauSteps = d => Math.min(H - 1, Math.round((d.tau || 0) / dt));
     for (let step = 0; step < nSteps; step++) {
       const t = step * dt;
-      while (si < sched.length && sched[si].t <= t) { const e = sched[si++]; Object.assign(drv[e.car], e.set); if (e.set.Ureset) Ust[e.car] = e.set.Ureset; }
+      while (si < sched.length && sched[si].t <= t) {
+        const e = sched[si++]; Object.assign(drv[e.car], e.set);
+        if (e.set.Ureset) Ust[e.car] = e.set.Ureset;           // explicit target
+        else if (e.set.kind && e.set.kind !== 'idm') Ust[e.car] = vmEma;   // a controller starts from the recent average
+        if (e.set.kind) { lapStart[e.car] = t; lapX[e.car] = x[e.car]; lapSum[e.car] = 0; }
+      }
       // history push
       hHead = (hHead + 1) % H;
       for (let i = 0; i < N; i++) { const j = leaderOf(i); histGap[hHead * N + i] = gapOf(i); histVl[hHead * N + i] = j >= 0 ? v[j] : (p.front.kind === 'const' ? p.front.v : v[i]); histV[hHead * N + i] = v[i]; }
       // average traffic speed (for 'avgAll' targets): exponential moving average of the mean speed
       let vm = 0; for (let i = 0; i < N; i++) vm += v[i]; vm /= N;
+      vmEma += (vm - vmEma) * dt / 60;                       // 60 s moving average of the mean traffic speed
       for (let i = 0; i < N; i++) {
         const d = drv[i], j = leaderOf(i);
         const gNow = gapOf(i), vl = j >= 0 ? v[j] : (p.front.kind === 'const' ? p.front.v : 1e9);
@@ -123,8 +130,15 @@
             // perceived now: delayed gap/leader speed, extrapolated by the own (felt) speed change since then
             const gP = gD - (v[i] - vD) * (d.tau || 0) * 0.5;
             a = j >= 0 ? S.idm(d, v[i], gP, v[i] - vlD) : d.a * (1 - Math.pow(v[i] / d.v0, d.delta || 4));
+            // emergency reflex (no delay): only bites below ~a quarter of the normal time gap; keeps delayed drivers
+            // collision-free, as real drivers stamp on the brake when a crash is imminent
+            if (j >= 0) a = Math.min(a, S.idm(Object.assign({}, d, { T: d.T * (d.emT ?? 0.25), s0: d.s0 * 0.5 }), v[i], gNow, v[i] - vl));
           } else {
             a = j >= 0 ? S.idm(d, v[i], gNow, v[i] - vl) : d.a * (1 - Math.pow(v[i] / d.v0, d.delta || 4));
+          }
+          if (d.panicThr) {                                  // over-reaction: once the needed braking passes panicThr, the
+            if (panicUntil[i] < t && a < -d.panicThr) panicUntil[i] = t + d.panicHold;   // driver stamps on the brake
+            if (panicUntil[i] >= t) a = Math.min(a, -d.panicDecel);                      // for panicHold seconds
           }
           if (d.noise) {                                     // OU acceleration noise (seeded); tc = correlation time
             const tc = d.noiseTc || 2;
@@ -139,31 +153,53 @@
             lapSum[i] += vm * dt;
             const trav = x[i] - lapX[i];
             if (trav >= L) { Ust[i] = lapSum[i] / (t - lapStart[i] || 1); lapSum[i] = 0; lapStart[i] = t; lapX[i] = x[i]; }
-          } else if (d.Usrc === 'fixed' || !d.Usrc) Ust[i] = d.U;
+          } else if (d.kind !== 'absorb' && (d.Usrc === 'fixed' || !d.Usrc)) Ust[i] = d.U ?? Ust[i];
           const U = Ust[i] * (d.Ufactor || 1);
           if (d.kind === 'fs') {
             const vc = S.fsCmd(d, gNow, v[i], vl, U);
             a = K.clamp(d.kp * (vc - v[i]), -(d.bmax || 3), d.amax || 1.5);
+            // a target above what the traffic can sustain leaves the car pinned behind its leader (gap under the
+            // FollowerStopper's 'cruise' threshold): it is then just chasing the car ahead, modelled with the humans' law
+            if (d.chase && gNow < d.dx0[2] + 0.5) a = S.idm(d.chase, v[i], gNow, v[i] - vl);
           } else if (d.kind === 'human_patient') {
             // a trained human holding one number: target speed U, approached with a slow lag; a small seeded wobble
             const wob = d.wobble ? d.wobble * Math.sin(K.TAU * t / (d.wobbleP || 9) + i) : 0;
             a = K.clamp((U + wob - v[i]) / (d.lag || 2.5), -(d.bmax || 2), d.amax || 1.2);
+            // ...but a human is still pulled by the car ahead: blend in a share 'follow' of ordinary car-following
+            if (d.follow && j >= 0) a = (1 - d.follow) * a + d.follow * S.idm(d.followIdm, v[i], gNow, v[i] - vl);
           } else if (d.kind === 'absorb') {
             // jam-absorbing driver: tracks a heavily smoothed leader speed (drive at the average, don't chase),
             // eases off gently (bsoft), lets the gap shrink and refill.
-            Ust[i] += (Math.min(vl, d.vmax || 40) - Ust[i]) * dt / (d.ema || 25);
+            { let vla = vl;                                    // a patient driver also watches the brake lights further ahead
+              for (let q = 2, jj = j; q <= (d.look || 1) && jj >= 0; q++) { jj = leaderOf(jj); if (jj < 0 || jj === i) break; vla = Math.min(vla, v[jj] + (d.lookSlack || 0)); }
+              const tgt = Math.min(vla, d.vmax || 40), w = tgt < Ust[i] ? (d.emaDown || d.ema || 25) : (d.emaUp || d.ema || 25);
+              Ust[i] += (tgt - Ust[i]) * dt / w; }
             a = K.clamp((Ust[i] - v[i]) / (d.lag || 3), -(d.bsoft || 0.2), d.amax || 0.6);
           }
+          else if (d.kind === 'spring') {
+            // a soft spring on the gap (the ink spring of the storyboard): a = kp (gap - gref) + kd (vLeaderSmoothed - v).
+            // Low gains = the car's motion is a slow low-pass of the leader's: the gap stretches and shrinks, the car
+            // never copies the sharp dips. gref: the gap it keeps at cruise (a safe gap, not a huge one).
+            Ust[i] += (Math.min(vl, 40) - Ust[i]) * dt / (d.ema || 8);
+            a = K.clamp(d.kp * (gNow - d.gref) + d.kd * (Ust[i] - v[i]), -(d.bsoft || 0.2), d.amax || 0.4);
+          }
           if (d.safety && j >= 0) a = Math.min(a, S.idm(d.safety, v[i], gNow, v[i] - vl));   // never closer than safe
+          if (d.kin && j >= 0) {                              // kinematic safety: the decel needed to stop closing before smin
+            const dv = v[i] - vl, room = gNow - d.kin.smin - v[i] * (d.kin.th || 0);
+            if (room <= 0.1) a = Math.min(a, -Math.max(2, dv > 0 ? 3 : 0.5)); else if (dv > 0 && room / dv < (d.kin.ttc || 1e9)) a = Math.min(a, -dv * dv / (2 * room));
+          }
         }
         // toll barrier: the first unpaid car sees a standing leader at the booth
         if (p.booth && !paid[i]) {
           let first = true; for (let k = i + 1; k < N; k++) if (!paid[k]) { first = false; break; }
-          if (first) { const ds = p.booth.G - x[i] - 0.3; if (ds > -1) a = Math.min(a, S.idm(d.kind === 'idm' ? d : (d.safety || d), v[i], Math.max(ds, 0.05), v[i])); }
+          if (first) { const ds = p.booth.G - x[i] - 0.3; if (ds > -1) a = Math.min(a, S.idm(d.kind === 'idm' ? d : (d.safety || S.BOOTH_IDM), v[i], Math.max(ds, 0.05), v[i])); }
         }
         acc[i] = Math.max(-9, a);
       }
-      for (const tp of p.taps) if (t >= tp.t && t < tp.t + tp.dur) acc[tp.car] = Math.min(acc[tp.car], -tp.decel);
+      for (const tp of p.taps) if (t >= tp.t && t < tp.t + tp.dur) {     // a tap: brake at decel (smooth: sin^2 pulse)
+        const f = tp.shape === 'smooth' ? Math.pow(Math.sin(Math.PI * (t - tp.t) / tp.dur), 2) : 1;
+        acc[tp.car] = Math.min(acc[tp.car], -tp.decel * f);
+      }
       for (let i = 0; i < N; i++) {
         const vn = Math.max(0, v[i] + acc[i] * dt);
         x[i] += (v[i] + vn) / 2 * dt;
