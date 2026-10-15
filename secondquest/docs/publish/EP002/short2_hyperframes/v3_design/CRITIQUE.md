@@ -59,3 +59,19 @@ There are 13 visual change events in 22.6 s (pacing read on the render), and the
 - At the castle cut a sliver of the princess's dress showed, so the framing is now clear of it.
 - Navi sat on the tree's moustache; her path was moved.
 - The title slam overshot the safe area for one frame; the slam now starts at 1.2.
+
+## Critic v3 (FIX) -> what changed (v3.1)
+
+| # | Item | Fix |
+|---|---|---|
+| 1 | Static hook (0-8.6 s) | Re-cut into shots on the words, using camera, light, Navi and cuts only. Frame 0 is the finished title still. "character" (0.7 s): the title cuts out and the camera punches in on Quest + balloon (expo 0.25 s). "space": the balloon outline glows once. "Hello!" (3.0 s): flash, and the HUD comes in. "Give that character a voice" (3.6 s): hard cut to the closer hero + balloon, both whole. "suddenly" (5.4 s): a 3-frame pop (opaque) and a hard cut to the wide two-shot, Pixie already there in #2c. "decide" (6.5 s): hard cut to Pixie #2e. "silence" (7.4 s): back to the two of them, pushing into the empty space where the balloon was. The pacing read went from 13 to 18 visual events in 22.6 s; the longest hold is now 2.5 s. |
+| 2 | Title -> wordmark ghost | The title is cut (set to 0), and the wordmark lands opaque on the next frames (scale 1.14 -> 1, no fade). Checked on the MP4 at 19.85, 19.88 and 19.92 s. |
+| 3 | Princess hem cut | The vista is framed on her (whole dress in), and Quest's back crops on the left, deliberately. |
+| 4 | 1998 tree murk | Bigger flat facets (cell 34) and a contrast lift. The face and roots read before the punch-in on "polygons". The whole tree cannot fit 9:16 at z >= 1 (the plate is 16:9), so it opens on the trunk + face, full height. |
+| 5 | Chevrons / no leaves on "animation" | The beams are cut at the "animation" cut. 18 leaf-shaped leaves fall on the "animation" shot (hidden before it, gone at "sound"). |
+| 6 | Translucent slam frame | "IMPOSSIBLE JOB" slams opaque from its first frame (1.18 -> 1, 0.07 s after the flash peak); nothing goes outside the safe area. |
+| 7 | N64 half out / TV off-frame | The N64 sits further right (out of the opening framing). On "measurable" the camera follows her finger to the CRT and the console, and both end whole in frame. |
+| 8 | Pixie through the balloon | Instant opaque pop, then the cut (item 1). |
+| 9 | No flock on "sound" | 9 bigger, dark birds (74 px) burst out across the canopy. |
+
+Sound unchanged (6 onsets). gates.sh: PASS, 0 errors. By eye on frames pulled from the rendered MP4: no ghost text and nothing important cut off.
