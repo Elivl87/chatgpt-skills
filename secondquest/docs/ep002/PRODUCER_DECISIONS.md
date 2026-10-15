@@ -726,3 +726,9 @@
   (l66, l69, l71–l74: player one knows everything / player two meets the Great Deku Tree "an extremely large tree with
   an extremely personal problem"). Keep the loved ending (vista → wordmark + Navi → thumbnail signboard card).
 - Brief: "Métele Hyperframes al máximo ... analiza Hyperframes a fondo, y EXPLÓTALO." Design gate first.
+- v4.3 "Player Two" (22.0 s): P1 = VETERAN (Quest, temple, live three.js Triforce), P2 = NEW PLAYER (tunic Pixie),
+  player-select split → boot shader "P2 LOADING" → Deku Tree punchline → co-op vista → wordmark + Navi → thumbnail
+  signboard (B1). 6 SFX onsets, Navi = Producer clips only, −14.1 LUFS. Both independent critics PASS
+  (`CRITIC_v4_3.md`, `CRITIC_RETENTION_v4_3.md`) after four fix rounds.
+- **APPROVED** (Producer, 2026-10-15: "Aprobado"): preview `EP002_short2_hf_v4_preview540.mp4`. Master 1080x1920 +
+  light copy authorised.
