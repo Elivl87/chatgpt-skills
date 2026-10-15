@@ -67,7 +67,7 @@
 
   // a generic round-headed extra about 1.0 unit tall (K.char.person is ~4.2 head radii tall)
   function extra(ctx, x, gy, u, t) {
-    K.char.person(ctx, x, gy, u * 1.0 / 4.25, { pose: 'stand', t, skin: '#c98a64', hair: '#3a2a22', hairStyle: 'short', shirt: '#8aa0b8', pants: '#4a5266', light: { ang: -0.75, rim: '#fff1d2', shade: '#4a3560' } });
+    K.char.person(ctx, x, gy, u * 1.0 / 4.1, { pose: 'stand', t, skin: '#c98a64', hair: '#3a2a22', hairStyle: 'short', shirt: '#8aa0b8', pants: '#4a5266', light: { ang: -0.75, rim: '#fff1d2', shade: '#4a3560' } });
   }
 
   function lineup(ctx, A, x0, x1, gy, hpx, t, light, o = {}) {
@@ -83,25 +83,26 @@
       C.draw(ctx, id, x, gy, u, { view: 'front', expr: 'neutral', t: t + k, light, shadow: 0.25 });
       const top = gy - S.h * u;
       ctx.save(); ctx.strokeStyle = K.rgba(A.sig[k], 0.7); ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x + step * 0.18, top); ctx.lineTo(x + step * 0.36, top); ctx.stroke(); ctx.restore();
-      label(ctx, `${names[k]} ${hstr(S.h)}`, x + step * 0.3, top - 8, { font: `700 ${o.big ? 17 : 14}px "Martian Mono"`, color: A.sig[k] });
+      label(ctx, `${names[k]} ${hstr(S.h)}`, x + step * 0.3, top - 8, { font: `700 ${o.big ? 22 : 14}px "Martian Mono"`, color: A.sig[k] });
     });
     extra(ctx, xs[2], gy, u, t);
-    label(ctx, 'extra 1,00', xs[2] + step * 0.3, gy - u - 8, { font: `600 ${o.big ? 15 : 13}px "Martian Mono"`, color: 'rgba(60,36,48,0.6)' });
+    label(ctx, 'extra 1,00', xs[2] + (o.big ? 0 : step * 0.3), o.big ? gy + 30 : gy - u - 8, { font: `600 ${o.big ? 18 : 13}px "Martian Mono"`, color: 'rgba(60,36,48,0.6)' });
   }
 
   function card(ctx, A, who, x, y, w, h, color) {
     const id = A[who], S = C.SPECS[id], sw = A.sw[who];
     panel(ctx, x, y, w, h, null, { fill: 'rgba(255,250,242,0.7)' });
     ctx.save(); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    ctx.font = '700 40px "Space Grotesk"'; ctx.fillStyle = color; ctx.fillText(S.name, x + 20, y + 48);
+    ctx.font = '700 34px "Space Grotesk"'; ctx.fillStyle = color; ctx.fillText(S.name, x + 18, y + 40);
     const nw = ctx.measureText(S.name).width;
-    ctx.font = '500 15px "Martian Mono"'; ctx.fillStyle = 'rgba(60,36,48,0.75)';
-    ctx.fillText(who === 'eli' ? `estatura ${hstr(S.h)} · el impaciente` : `estatura ${hstr(S.h)} · la paciente y curiosa`, x + 32 + nw, y + 46);
-    const n = sw.length, step = Math.min(92, (w - 40) / n);
+    ctx.font = '500 14px "Martian Mono"'; ctx.fillStyle = 'rgba(60,36,48,0.75)';
+    ctx.fillText(who === 'eli' ? `${hstr(S.h)} · el impaciente, ruidoso` : `${hstr(S.h)} · la paciente y curiosa`, x + 28 + nw, y + 37);
+    const n = sw.length, step = (w - 36) / n;
     sw.forEach(([nm, col], k) => {
-      const cx = x + 20 + step * k + 26, cy = y + h - 46;
-      ctx.fillStyle = col; ctx.strokeStyle = 'rgba(40,24,32,0.55)'; ctx.lineWidth = 2; K.circle(ctx, cx, cy, 18); ctx.fill(); ctx.stroke();
-      ctx.font = '500 12px "Martian Mono"'; ctx.fillStyle = 'rgba(60,36,48,0.8)'; ctx.textAlign = 'center'; ctx.fillText(nm, cx, cy + 34); ctx.fillText(col.toLowerCase(), cx, cy - 25); ctx.textAlign = 'left';
+      const cx = x + 18 + step * (k + 0.5), cy = y + 66;
+      ctx.fillStyle = col; ctx.strokeStyle = 'rgba(40,24,32,0.55)'; ctx.lineWidth = 2; K.circle(ctx, cx, cy, 13); ctx.fill(); ctx.stroke();
+      ctx.textAlign = 'center'; ctx.font = '600 12px "Martian Mono"'; ctx.fillStyle = 'rgba(60,36,48,0.85)'; ctx.fillText(nm, cx, cy + 30);
+      ctx.font = '500 11px "Martian Mono"'; ctx.fillStyle = 'rgba(60,36,48,0.6)'; ctx.fillText(col.toLowerCase(), cx, cy + 44); ctx.textAlign = 'left';
     });
     ctx.restore();
   }
@@ -163,7 +164,7 @@
 
     // 5 · line-up + concept
     panel(ctx, 16, 824, 640, 242, 'estatura (junto a un extra de cabeza redonda)');
-    lineup(ctx, A, 30, 640, 1052, 196, t, light);
+    lineup(ctx, A, 30, 640, 1056, 172, t, light);
     card(ctx, A, 'eli', 670, 824, 612, 116, A.sig[0]);
     card(ctx, A, 'mila', 1292, 824, 612, 116, A.sig[1]);
     panel(ctx, 670, 950, 1234, 116, 'concepto', { fill: 'rgba(255,250,242,0.7)' });
@@ -217,7 +218,7 @@
   });
   K.scene('alt_lineup', {
     setup(ctx, opts) { this.n = Number(opts.alt || 1); },
-    draw(ctx, t) { ctx.drawImage(boardBg().c, 0, 0); lineup(ctx, C.ALTS[this.n], 10, 950, 380, 320, t, C.LIGHT.board, { big: true }); },
+    draw(ctx, t) { ctx.drawImage(boardBg().c, 0, 0); lineup(ctx, C.ALTS[this.n], 10, 650, 390, 320, t, C.LIGHT.board, { big: true }); },
     post: { grain: 0.06, vignette: 0 },
   });
   K.scene('alt_lab', {

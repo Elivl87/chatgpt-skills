@@ -354,7 +354,7 @@
     arm: { w: 0.042, skinPart: true, sleeve: BURG, sleeveTo: 0.62, sleeveW: 0.054, hand: 0.029 },   // rolled sleeves
     skin: '#c98a64', hair: '#6e4426',
     boot: { h: 0.11, w: 0.042, foot: 0.066, toe: 0.054, back: 0.014, sole: 0.022, color: '#7a4a2a', soleColor: '#2b1e18', laces: true, laceColor: '#d8402a', lip: true },
-    face: { eyes: 'iris', eyeR: 0.03, eyeSep: 0.036, eyeY: -0.022, pupil: 0.32, irisK: 1.9, iris: '#6a4022', goofy: 0, nose: 0.016, noseY: 0.03, mouthY: 0.07, mouthW: 0.04, brows: 0.009, browW: 1.15, browGap: 1.75, browColor: '#3a2416', grinOpen: 0.15, grinW: 0.8, lip: '#3a1a14' },
+    face: { eyes: 'iris', eyeR: 0.03, eyeSep: 0.036, eyeY: -0.022, pupil: 0.32, irisK: 2.55, iris: '#6a4022', goofy: 0, nose: 0.016, noseY: 0.03, mouthY: 0.07, mouthW: 0.04, brows: 0.009, browW: 1.15, browGap: 1.75, browColor: '#3a2416', grinOpen: 0.15, grinW: 0.8, lip: '#3a1a14' },
     collar(c, B) { // open shirt collar points over a cream tee
       const x = B.tcx + B.dir * B.s * B.wT * 0.3, y = B.Ttop;
       c.fillStyle = '#efe6d2'; c.beginPath(); c.moveTo(x - 0.03, y); c.lineTo(x, y + 0.06); c.lineTo(x + 0.03, y); c.closePath(); c.fill();
@@ -393,7 +393,7 @@
     arm: { w: 0.044, sleeve: SKY, cuff: SKY_D, hand: 0.026 },
     skin: '#f4cdb2', hair: '#b5502c',
     boot: { h: 0.13, w: 0.036, foot: 0.06, toe: 0.048, back: 0.012, sole: 0.016, color: RAINY, soleColor: '#7a5a1a', lip: true },
-    face: { eyes: 'iris', eyeR: 0.025, eyeSep: 0.029, eyeY: -0.03, pupil: 0.32, irisK: 1.95, iris: '#4f8a4a', goofy: 0, nose: 0.01, noseY: 0.04, mouthY: 0.058, mouthW: 0.032, brows: 0.0072, browW: 1.1, browGap: 1.8, browColor: '#8a3a1e', lashes: true, lip: '#b0384a', freckles: '#c0704a', grinOpen: 0.11, grinW: 0.66 },
+    face: { eyes: 'iris', eyeR: 0.025, eyeSep: 0.029, eyeY: -0.03, pupil: 0.32, irisK: 2.55, iris: '#4f8a4a', goofy: 0, nose: 0.01, noseY: 0.04, mouthY: 0.058, mouthW: 0.032, brows: 0.0072, browW: 1.1, browGap: 1.8, browColor: '#8a3a1e', lashes: true, lip: '#b0384a', freckles: '#c0704a', grinOpen: 0.11, grinW: 0.66 },
     under(c, B) { c.fillStyle = SKY_D; c.strokeStyle = INK; c.lineWidth = B.lw * 2; K.ellipse(c, B.tcx - B.dir * B.s * 0.03, B.Ttop + 0.008, B.wT * 0.9, 0.04); c.stroke(); c.fill(); },
     collar(c, B) { // rain-jacket stand collar + binoculars on a strap
       const x = B.tcx + B.dir * B.s * B.wT * 0.3, y = B.Ttop;
@@ -483,12 +483,12 @@
     c.beginPath(); c.moveTo(x - w, y + 0.012); c.quadraticCurveTo(x - w * 0.9, y - 0.016, x - w * 0.2, y - 0.012); c.quadraticCurveTo(x, y - 0.006, x + w * 0.2, y - 0.012); c.quadraticCurveTo(x + w * 0.9, y - 0.016, x + w, y + 0.012); c.quadraticCurveTo(x + w * 0.5, y + 0.004, x, y + 0.01); c.quadraticCurveTo(x - w * 0.5, y + 0.004, x - w, y + 0.012); c.closePath(); c.stroke(); c.fill();
   };
   ELI5.hat = function (c, H) { // brass goggles on the forehead, amber lenses
-    const hw = H.hw, hh = H.hh, fd = H.faceDir, fs = H.fs, y = -hh * 0.62 - H.hatHit * 0.01;
-    c.save(); h.headPath(c, ELI5.head); c.clip(); c.fillStyle = '#3a2a22'; c.fillRect(-hw * 1.3, y - 0.012, hw * 2.6, 0.024); c.restore();
+    const hw = H.hw, hh = H.hh, fd = H.faceDir, fs = H.fs, y = -hh * 1.12 - H.hatHit * 0.01;
+    c.fillStyle = '#3a2a22'; c.strokeStyle = INK; c.lineWidth = H.lw * 1.4; K.rrect(c, -hw * 1.22, y - 0.01, hw * 2.44, 0.02, 0.01); c.fill(); c.stroke();
     const sep = 0.04 * (1 - 0.4 * fs), x0 = fd * fs * hw * 0.5;
     for (const sg of (fs > 0.85 ? [fd] : [-1, 1])) { const x = x0 + sg * sep, r = 0.028 * (sg === -fd && fs > 0.2 ? 0.8 : 1);
       c.fillStyle = '#c9963a'; c.strokeStyle = INK; c.lineWidth = H.lw * 2; K.ellipse(c, x, y, r * (1 - 0.3 * fs), r); c.stroke(); c.fill();
-      c.fillStyle = '#f0a83a'; K.ellipse(c, x, y, r * 0.7 * (1 - 0.3 * fs), r * 0.7); c.fill(); c.lineWidth = H.lw * 1.2; c.stroke();
+      c.fillStyle = '#3d5560'; K.ellipse(c, x, y, r * 0.7 * (1 - 0.3 * fs), r * 0.7); c.fill(); c.lineWidth = H.lw * 1.2; c.stroke();
       c.fillStyle = K.rgba('#fff4d0', 0.85); K.ellipse(c, x - r * 0.25, y - r * 0.25, r * 0.18, r * 0.12, -0.6); c.fill(); }
   };
   function bigGlasses(c, H, eyes, ey, rr) {
@@ -501,12 +501,12 @@
     if (H.fs > 0.2) { const x = eyes[0][0], back = -H.faceDir; c.beginPath(); c.moveTo(x + back * R * (1 - 0.2 * H.fs), ey - R * 0.2); c.lineTo(x + back * H.hw * 0.9, ey - R * 0.4); c.stroke(); }
   }
   const MILA5 = mk({ name: 'Mila', h: 1.06, phase: 0.3, shadowW: 0.13, legLen: 0.45, shoulderW: 0.066, hipW: 0.034, legW: 0.046, legColor: CHAR,
-    head: { kind: 'pill', hw: 0.064, hh: 0.158, lean: 0.05, neck: 0.03 }, hairTop: 0.006,
+    head: { kind: 'pill', hw: 0.074, hh: 0.15, lean: 0.05, neck: 0.03 }, hairTop: 0.006,
     torso: { wTop: 0.084, wBot: 0.08, dTop: 0.06, dBot: 0.062, color: NAVY5 },
     arm: { w: 0.044, sleeve: LABC, cuff: LABC_D, hand: 0.026 },
     skin: '#f1d0a8', hair: '#18141c',
     boot: { h: 0.05, w: 0.034, foot: 0.05, toe: 0.045, back: 0.012, sole: 0.014, color: '#7a2a2e', soleColor: '#2a1214' },
-    face: { eyes: 'dot', eyeR: 0.0135, eyeSep: 0.031, eyeY: -0.035, goofy: 0, turnK: 0.55, nose: 0.01, noseY: 0.045, mouthY: 0.06, mouthW: 0.032, brows: 0.0075, browW: 1.05, browGap: 2.3, browColor: '#18141c', lashes: true, lip: '#9a2e40', glasses: bigGlasses, grinOpen: 0.11, grinW: 0.64, lidBias: 0.12 },
+    face: { eyes: 'dot', eyeR: 0.0145, eyeSep: 0.034, eyeY: -0.035, goofy: 0, turnK: 0.55, nose: 0.01, noseY: 0.045, mouthY: 0.06, mouthW: 0.032, brows: 0.0075, browW: 1.05, browGap: 2.3, browColor: '#18141c', lashes: true, lip: '#9a2e40', glasses: bigGlasses, grinOpen: 0.11, grinW: 0.64, lidBias: 0.12 },
     collar: turtleneck(NAVY5, 0.9),
     under(c, B) { // lab-coat tails behind the legs (open at the front), they swing a little
       if (B.seated) return; const sw = Math.sin(B.t * 1.7) * 0.005 - B.drag * 0.02 * B.dir, y1 = -B.S.legLen * 0.42;
@@ -528,13 +528,13 @@
     },
   });
   MILA5.hairBack = function (c, H) { // a blunt bob: a mass behind the head ending at the jaw, with a grey streak
-    const S = MILA5, hw = H.hw, hh = H.hh, bx = backX(H, 0.35), sw = Math.sin(H.t * 2.1) * 0.003 - H.drag * 0.015 * H.dir, y1 = H.F.mouthY + 0.03;
+    const S = MILA5, hw = H.hw, hh = H.hh, bx = backX(H, 0.18), sw = Math.sin(H.t * 2.1) * 0.003 - H.drag * 0.015 * H.dir, y1 = H.F.mouthY + 0.03;
     c.fillStyle = S.hair; c.strokeStyle = INK; c.lineWidth = H.lw * 2;
-    const W = hw * 1.26; c.beginPath(); c.moveTo(bx - hw * 0.8 + sw, y1 + 0.004); c.quadraticCurveTo(bx - W * 1.05 + sw, y1 + 0.01, bx - W, y1 - 0.04); c.lineTo(bx - W, -hh * 0.6); c.quadraticCurveTo(bx - W, -hh - 0.016, bx, -hh - 0.016); c.quadraticCurveTo(bx + W, -hh - 0.016, bx + W, -hh * 0.6); c.lineTo(bx + W, y1 - 0.04); c.quadraticCurveTo(bx + W * 1.05 + sw, y1 + 0.01, bx + hw * 0.8 + sw, y1 + 0.004); c.closePath(); c.stroke(); c.fill();
+    const W = hw * 1.14, Wb = hw * 1.5; c.beginPath(); c.moveTo(bx - hw * 0.8 + sw, y1 + 0.004); c.quadraticCurveTo(bx - Wb + sw, y1 + 0.012, bx - Wb + sw * 0.5, y1 - 0.03); c.quadraticCurveTo(bx - W * 1.02, -hh * 0.2, bx - W, -hh * 0.6); c.quadraticCurveTo(bx - W, -hh - 0.016, bx, -hh - 0.016); c.quadraticCurveTo(bx + W, -hh - 0.016, bx + W, -hh * 0.6); c.quadraticCurveTo(bx + W * 1.02, -hh * 0.2, bx + Wb + sw * 0.5, y1 - 0.03); c.quadraticCurveTo(bx + Wb + sw, y1 + 0.012, bx + hw * 0.8 + sw, y1 + 0.004); c.closePath(); c.stroke(); c.fill();
   };
   MILA5.hairFront = function (c, H) { // blunt bangs + sides to the jaw, one grey streak
     const S = MILA5, hw = H.hw, hh = H.hh, fd = H.faceDir, fs = H.fs, by = H.F.eyeY - H.F.eyeR * 3.4;
-    if (fs > 0.8) { profileCap(c, H, S, S.hair, 0.55, (by - 0.004) / hh, (H.F.mouthY + 0.03) / hh); return; }
+    if (fs > 0.8) { profileCap(c, H, S, S.hair, 0.15, (by - 0.004) / hh, (H.F.mouthY + 0.03) / hh); return; }
     c.save(); h.headPath(c, S.head); c.clip();
     c.fillStyle = S.hair; c.beginPath(); c.moveTo(-hw * 1.3, H.F.mouthY + 0.03); c.lineTo(-hw * 1.3, -hh * 1.3); c.lineTo(hw * 1.3, -hh * 1.3); c.lineTo(hw * 1.3, H.F.mouthY + 0.03);
     const sideIn = (sg) => (fs > 0.4 && sg === fd) ? hw * (1.3 - 0.5 * fs) : hw * (0.86 + (sg === -fd ? -0.5 * fs : 0));
@@ -558,7 +558,7 @@
     2: { name: 'Carretera 70', es: 'Carretera 70 (road trip retro)', concept: 'Road trip de los 70: afro y aviadores, campana de pana; ella con cabello largo, diadema tejida, chaleco de flecos; cobalto y frambuesa.',
       eli: 'eli2', mila: 'mila2', sig: ['#3557c9', '#c2386f'],
       sw: { eli: [['playera', COBALT], ['ribete', CREAM], ['pana', CORD], ['piel', '#9a6447'], ['pelo', '#1c1314']], mila: [['cuello alto', RASP], ['chaleco', SUEDE], ['campana', CREAM], ['piel', '#e2b98f'], ['pelo', '#5a2a22']] } },
-    3: { name: 'Barrio', es: 'Barrio (streetwear, más jóvenes)', concept: 'Más jóvenes y chibi: cabezas de huevo, ojos punto con cejas; él con gorra al revés, sudadera lima y audífonos; ella con chongos y chamarra varsity cobalto.',
+    3: { name: 'Barrio', es: 'Barrio (streetwear, más jóvenes)', concept: 'Más jóvenes y chibi: cabezas de huevo, ojos punto con cejas; él con gorra al revés, sudadera lima, pecas y audífonos; ella con un chongo alto rizado, aretes de botón y chamarra varsity cobalto.',
       eli: 'eli3', mila: 'mila3', sig: ['#7fa828', '#2f55c8'],
       sw: { eli: [['sudadera', LIME], ['cargo', CARGO], ['tenis', '#f6f2e8'], ['piel', '#f0c3a0'], ['pelo', '#c8632e']], mila: [['varsity', VCOB], ['mangas', VCREAM], ['jeans', DENIM], ['piel', '#5e3a2a'], ['pelo', '#1a1012']] } },
     4: { name: 'Ruta verde', es: 'Ruta verde (aire libre, él es el alto)', concept: 'Excursionistas de 30: él alto, barbudo, franela de cuadros y gorro de pompón; ella con trenza pelirroja, impermeable celeste y binoculares.',

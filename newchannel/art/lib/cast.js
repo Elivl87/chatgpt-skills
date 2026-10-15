@@ -58,7 +58,7 @@
     }
     if (light.rimA > 0) {
       const off = (light.rimInset ?? lw * 0.95) * u;            // = the ink width: the rim starts where the ink ends
-      const rw = Math.max(1.2, light.rimW * u);
+      const rw = Math.min(light.rimMax ?? 9, Math.max(1.2, light.rimW * u));
       t.globalCompositeOperation = 'source-over'; t.clearRect(0, 0, w, h);
       t.drawImage(L.c, -dx * off, -dy * off); t.globalCompositeOperation = 'source-in'; t.fillStyle = light.rim; t.fillRect(0, 0, w, h);
       t.globalCompositeOperation = 'destination-out'; t.drawImage(L.c, -dx * (rw + off), -dy * (rw + off));
@@ -507,7 +507,7 @@
     const S = C.SPECS[id]; if (!S) throw new Error('cast: unknown ' + id);
     // crisp under a scaled transform: re-raster at the true pixel size in screen space
     const m = ctx.getTransform(), k = Math.hypot(m.a, m.b);
-    if (Math.abs(k - 1) > 1e-3 || Math.abs(m.b) > 1e-6) {
+    if (Math.abs(k - 1) > 1e-3 || Math.abs(m.b) > 1e-6 || Math.abs(m.e) > 1e-6 || Math.abs(m.f) > 1e-6 || m.a < 0) {
       const p = m.transformPoint(new DOMPoint(x, y));
       ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
       const r = C.draw(ctx, id, p.x, p.y, u * k, Object.assign({}, o, { shadowScale: k }));

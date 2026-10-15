@@ -47,8 +47,8 @@ for k, n in enumerate(range(1, 6)):
     y = 64 + k * (lab + H + pad)
     d.text((pad, y + 10), f"Alt {n} · {names[n]}", fill="#f3ecdd", font=fm)
     sheet.paste(Image.open(f"{out}/alt_{n}_scene.png").convert("RGB").resize((W, H), Image.LANCZOS), (pad, y + lab))
-    lu = Image.open(f"{tmp}/lineup_{n}.png").convert("RGB").crop((0, 0, 960, 400)).resize((LW, 250), Image.LANCZOS)
-    box = Image.new("RGB", (LW, H), "#f2dcc2"); box.paste(lu, (0, (H - 250) // 2)); sheet.paste(box, (2 * pad + W, y + lab))
+    lu = Image.open(f"{tmp}/lineup_{n}.png").convert("RGB").crop((0, 20, 660, 420)).resize((LW, round(400 * LW / 660)), Image.LANCZOS)
+    box = Image.new("RGB", (LW, H), "#f3e2cc"); box.paste(lu, (0, (H - lu.height) // 2)); sheet.paste(box, (2 * pad + W, y + lab))
 print("overview", save_small(sheet, f"{out}/alternatives_overview_small.jpg", 450_000, w=1100))
 PY
 ls -la "$OUT"
