@@ -2,7 +2,8 @@
    Everything in the kit is deterministic: no Math.random, no wall clock. Same inputs -> same pixels. */
 (function (root) {
   const K = root.K = root.K || {};
-  K.W = 1920; K.H = 1080;
+  { const q = typeof location !== 'undefined' && location.search ? new URLSearchParams(location.search) : null;   // sheets may ask for a bigger canvas (?W=..&H=..)
+    K.W = Number(q && q.get('W')) || 1920; K.H = Number(q && q.get('H')) || 1080; }
 
   // ---------------------------------------------------------------- randomness
   K.rng = function (seed) {               // mulberry32 -> () => [0,1)

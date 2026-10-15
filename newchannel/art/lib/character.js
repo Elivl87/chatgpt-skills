@@ -44,10 +44,17 @@
       case 'wavy': ctx.moveTo(x - R * 0.24, y); for (let i = 1; i <= 6; i++) ctx.lineTo(x - R * 0.24 + i * R * 0.08, y + (i % 2 ? -1 : 1) * R * 0.05); ctx.stroke(); break;
       case 'grumble': ctx.moveTo(x - R * 0.2, y + R * 0.04); ctx.quadraticCurveTo(x, y - R * 0.07, x + R * 0.2, y + R * 0.04); ctx.stroke(); break;
       case 'tiny': K.circle(ctx, x, y, R * 0.06); ctx.fill(); break;
+      case 'yell': { const W = R * 0.24, D = R * 0.36; ctx.moveTo(x - W, y + R * 0.02); ctx.quadraticCurveTo(x, y - R * 0.08, x + W, y + R * 0.02); ctx.quadraticCurveTo(x + W * 0.9, y + D, x, y + D); ctx.quadraticCurveTo(x - W * 0.9, y + D, x - W, y + R * 0.02); ctx.closePath(); ctx.fill();
+        ctx.save(); ctx.clip(); ctx.fillStyle = '#fbf6ec'; ctx.fillRect(x - W, y - R * 0.1, W * 2, R * 0.1); ctx.fillStyle = '#e0707a'; K.ellipse(ctx, x, y + D * 0.85, W * 0.55, D * 0.25); ctx.fill(); ctx.restore(); break; }
+      case 'laugh': ctx.moveTo(x - R * 0.27, y - R * 0.05); ctx.quadraticCurveTo(x, y - R * 0.01, x + R * 0.27, y - R * 0.05); ctx.quadraticCurveTo(x + R * 0.2, y + R * 0.34, x, y + R * 0.35); ctx.quadraticCurveTo(x - R * 0.2, y + R * 0.34, x - R * 0.27, y - R * 0.05); ctx.fill();
+        ctx.save(); ctx.clip(); ctx.fillStyle = '#e0707a'; K.ellipse(ctx, x, y + R * 0.3, R * 0.14, R * 0.08); ctx.fill(); ctx.restore(); break;
+      case 'sheep': ctx.lineWidth = w * 0.8; ctx.moveTo(x - R * 0.22, y); ctx.quadraticCurveTo(x - R * 0.11, y + R * 0.08, x, y + R * 0.02); ctx.quadraticCurveTo(x + R * 0.11, y + R * 0.1, x + R * 0.22, y - R * 0.02); ctx.stroke(); break;
+      case 'set': ctx.moveTo(x - R * 0.18, y + R * 0.03); ctx.quadraticCurveTo(x, y - R * 0.01, x + R * 0.18, y + R * 0.03); ctx.stroke(); break;
+      case 'think': ctx.moveTo(x + R * 0.0, y + R * 0.02); ctx.quadraticCurveTo(x + R * 0.12, y - R * 0.03, x + R * 0.22, y + R * 0.03); ctx.stroke(); break;
     }
   }
   // brows: (outer dy, inner dy) in R units; negative = up
-  const BROWS = { worried: [0.07, -0.06], angry: [-0.06, 0.08], up: [-0.05, -0.05], flat: [0.02, 0.02] };
+  const BROWS = { worried: [0.07, -0.06], angry: [-0.06, 0.08], furious: [-0.1, 0.13], up: [-0.09, -0.09], flat: [0.02, 0.02], one: [0, 0], sad: [0.08, -0.08] };
   function brows(ctx, x, y, R, kind, ink) {
     const b = BROWS[kind]; if (!b) return;
     ctx.strokeStyle = ink; ctx.lineWidth = R * 0.1; ctx.lineCap = 'round';
@@ -64,7 +71,7 @@
     neutral:   { eyes: 'dot', mouth: 'line' },
     content:   { eyes: 'dot', mouth: 'smile' },
     curious:   { eyes: 'dot', mouth: 'tilt', eyeScale: [0.85, 1.15] },
-    surprised: { eyes: 'dot', mouth: 'o', eyeScale: [1.15, 1.15], lift: -0.03 },
+    surprised: { eyes: 'dot', mouth: 'O', eyeScale: [1.35, 1.35], lift: -0.03 },
     shocked:   { eyes: 'big', mouth: 'O', brows: 'up', lift: -0.04 },
     worried:   { eyes: 'dot', mouth: 'wavy', brows: 'worried' },
     delighted: { eyes: 'happy', mouth: 'grin' },
@@ -77,25 +84,61 @@
     laughing:  { eyes: 'chevron', mouth: 'grin' },
     annoyed:   { eyes: 'half', mouth: 'grumble', brows: 'angry' },
     grumpy:    { eyes: 'half', mouth: 'frown', brows: 'angry' },
+    // v4 emotion set (shared with Eli + Mila, see characters/leo_mila/CHARACTERS.md)
+    happy:     { eyes: 'happy', mouth: 'grin', brows: 'up', lift: -0.02, blush: 0.3 },
+    laugh:     { eyes: 'chevron', mouth: 'laugh', brows: 'up', lift: -0.03, tilt: -0.12, blush: 0.35 },
+    awe:       { eyes: 'big', mouth: 'O', brows: 'up', lift: -0.03, sparkle: 1, tilt: -0.06 },
+    thinking:  { eyes: 'dot', mouth: 'think', brows: 'one', look: [0.6, -0.8], tilt: 0.08 },
+    sheepish:  { eyes: 'dot', mouth: 'sheep', brows: 'sad', look: [-0.8, 0.5], blush: 0.45, sweat: 1, tilt: -0.08 },
+    furious:   { eyes: 'half', mouth: 'yell', brows: 'furious', tilt: 0.05, anger: 1 },
+    determined: { eyes: 'half', mouth: 'set', brows: 'angry' },
   };
+  EXPR.laughing.mouth = 'laugh'; EXPR.smug.brows = 'one'; EXPR.curious.brows = 'one'; EXPR.surprised.brows = 'up'; EXPR.worried.sweat = 1; EXPR.sly = EXPR.smug;
+  K.char.EXPR = EXPR;
   K.char.EXPRESSIONS = Object.keys(EXPR);
 
-  // face only, centred on a head of radius R at (x, y)
+  // face only, centred on a head of radius R at (x, y). v4: o.view 'front' | 'q' | 'side' + o.dir, so every emotion
+  // reads in 3/4 and profile too (profile: one eye, one brow, a mouth on the face edge, nose bump drawn by the head)
   K.char.face = function (ctx, x, y, R, expr = 'neutral', o = {}) {
-    const e = EXPR[expr] || EXPR.neutral, ink = o.ink || FACE_INK;
-    const lx = (o.look ? o.look[0] : 0) * 0.12 * R, ly = (o.look ? o.look[1] : 0) * 0.12 * R;
-    const fx = x + lx, fy = y + ly + (e.lift || 0) * R;
+    const e = EXPR[expr] || EXPR.neutral, ink = o.ink || FACE_INK, s = { front: 0, q: 0.55, side: 1 }[o.view || 'front'] ?? 0, d = o.dir || 1;
+    const look = o.look || e.look || [0, 0];
+    const lx = look[0] * 0.12 * R, ly = look[1] * 0.12 * R;
+    const fx = x + lx * (1 - s * 0.6) + d * s * R * 0.5, fy = y + ly + (e.lift || 0) * R;
     const er = R * 0.135, blink = o.blink || 0;
     const kinds = Array.isArray(e.eyes) ? e.eyes : [e.eyes, e.eyes];
-    for (let s = 0; s < 2; s++) {
-      const ex = fx + (s ? 1 : -1) * R * 0.32, ey = fy - R * 0.14;
-      const sc = e.eyeScale ? e.eyeScale[s] : 1;
-      if (blink > 0.5 && (kinds[s] === 'dot' || kinds[s] === 'big')) eye(ctx, ex, ey, er, 'line', ink);
-      else eye(ctx, ex, ey, er * sc, kinds[s], ink, s ? 1 : -1);
+    const eyes = s > 0.88 ? [[fx + d * R * 0.1, d, 1]] : [[fx - R * 0.32 * (1 - 0.3 * s), -1, d > 0 ? 1 : 1 - 0.3 * s], [fx + R * 0.32 * (1 - 0.3 * s), 1, d > 0 ? 1 - 0.3 * s : 1]];
+    eyes.forEach(([ex, sd, sx], k) => {
+      const ey = fy - R * 0.14, kind = kinds[s > 0.88 ? 1 : k], sc = e.eyeScale ? e.eyeScale[k] : 1;
+      ctx.save(); ctx.translate(ex, ey); ctx.scale(sx, 1); ctx.translate(-ex, -ey);
+      if (blink > 0.5 && (kind === 'dot' || kind === 'big')) eye(ctx, ex, ey, er, 'line', ink);
+      else eye(ctx, ex, ey, er * sc * (s > 0.88 ? 1.25 : 1), kind, ink, sd);
+      ctx.restore();
+      // brows (per eye; 'one' arches the brow on the look side)
+      const b = BROWS[e.brows]; if (!b) return;
+      ctx.strokeStyle = ink; ctx.lineWidth = R * 0.1; ctx.lineCap = 'round';
+      const by = ey - R * 0.22 - (e.eyes === 'big' ? R * 0.06 : 0), w = R * 0.14 * sx;
+      let bo = b[0], bi = b[1]; if (e.brows === 'one') { const lift = (sd === (look[0] >= 0 ? 1 : -1) || s > 0.88) ? -0.1 : 0.02; bo = lift; bi = lift * 0.4; }
+      ctx.beginPath(); ctx.moveTo(ex + sd * w * 1.05, by + bo * R); ctx.quadraticCurveTo(ex, by - R * 0.04 + (bo + bi) * R * 0.5, ex - sd * w * 0.95, by + bi * R); ctx.stroke();
+    });
+    const mk = o.mouth || e.mouth;
+    if (s > 0.88) { // profile mouth on the face edge
+      const mx = x + d * R * 0.86, my = fy + R * 0.3; ctx.save(); ctx.translate(mx, my); ctx.scale(d * 1.35, 1.35); ctx.fillStyle = ink; ctx.strokeStyle = ink; ctx.lineCap = 'round'; ctx.lineWidth = R * 0.12;
+      if (['grin', 'laugh', 'yell', 'O'].includes(mk)) { const sz = { grin: 0.6, laugh: 0.85, yell: 1.05, O: 0.7 }[mk]; ctx.beginPath(); ctx.moveTo(R * 0.12, -R * 0.06 * sz); ctx.quadraticCurveTo(-R * 0.18 * sz, -R * 0.04, -R * 0.2 * sz, R * 0.06); ctx.quadraticCurveTo(-R * 0.12 * sz, R * 0.28 * sz, R * 0.12, R * 0.24 * sz); ctx.closePath(); ctx.fill();
+        if (mk !== 'O') { ctx.save(); ctx.clip(); ctx.fillStyle = '#fbf6ec'; ctx.fillRect(-R * 0.3, -R * 0.1, R * 0.5, R * 0.07); ctx.restore(); } }
+      else if (mk === 'o' || mk === 'tiny') { K.ellipse(ctx, -R * 0.04, R * 0.03, R * 0.06, R * 0.08); ctx.fill(); }
+      else { const curl = { smile: -1, smirk: -1.4, sheep: -0.5, frown: 1, wavy: 0.4, grumble: 0.6, set: 0.3, think: 0.3, line: 0, short: 0, tilt: -0.3 }[mk] ?? 0;
+        ctx.beginPath(); ctx.moveTo(R * 0.05, 0); ctx.quadraticCurveTo(-R * 0.08, R * 0.02 + curl * R * 0.02, -R * 0.17, curl * R * 0.09); ctx.stroke(); }
+      ctx.restore();
+    } else {
+      const mx = fx + d * s * R * 0.08; ctx.save(); ctx.translate(mx, fy + R * 0.30); ctx.scale(1 - 0.3 * s, 1); mouth(ctx, 0, 0, R, mk, ink); ctx.restore();
     }
-    brows(ctx, fx, fy, R, e.brows, ink);
-    mouth(ctx, fx, fy + R * 0.30, R, o.mouth || e.mouth, ink);
-    if (o.blush) { ctx.fillStyle = K.rgba('#ff7a6a', o.blush); K.ellipse(ctx, fx - R * 0.5, fy + R * 0.14, R * 0.13, R * 0.07); ctx.fill(); K.ellipse(ctx, fx + R * 0.5, fy + R * 0.14, R * 0.13, R * 0.07); ctx.fill(); }
+    const bl = (o.blush || 0) + (e.blush || 0) * (R > 8 ? 1 : 0);
+    if (bl) { ctx.fillStyle = K.rgba('#ff7a6a', Math.min(0.55, bl)); for (const [ex, sd] of eyes) { K.ellipse(ctx, ex + sd * R * 0.12, fy + R * 0.12, R * 0.13, R * 0.07); ctx.fill(); } }
+    if (R > 8) { // secondary cues, sparingly
+      if (e.sweat) { const sx = x - d * (s > 0.3 ? R * 0.75 : -R * 0.75), sy = y - R * 0.45; ctx.fillStyle = '#9fd3f0'; ctx.strokeStyle = ink; ctx.lineWidth = R * 0.04; ctx.beginPath(); ctx.moveTo(sx, sy - R * 0.2); ctx.quadraticCurveTo(sx + R * 0.12, sy, sx, sy + R * 0.08); ctx.quadraticCurveTo(sx - R * 0.12, sy, sx, sy - R * 0.2); ctx.fill(); ctx.stroke(); }
+      if (e.anger) K.char.extra(ctx, x - d * s * R * 0.4, y, R, 'anger', 0, { ink });
+      if (e.sparkle) K.char.extra(ctx, x, y, R, 'sparkle', 0, { color: '#f3c94a' });
+    }
   };
 
   // rim light + flat shade crescent inside a circle (lightAng = direction the light comes FROM, radians, 0 = right)
@@ -179,20 +222,27 @@
       if (st === 'bob') { K.rrect(ctx, x - R * 1.1, y - R * 1.05, R * 2.2, R * 1.9, [R, R, R * 0.35, R * 0.35]); ctx.fill(); if (R > 6) ctx.stroke(); }
       else { for (let i = 0; i < 9; i++) { const a = -Math.PI + i / 8 * Math.PI * 1.0 - 0.0; K.circle(ctx, x + Math.cos(a) * R * 0.95, y + Math.sin(a) * R * 0.85, R * 0.38); ctx.fill(); } }
     }
-    // ears
-    if (view === 'front' && R > 8) { ctx.fillStyle = col(skin); for (const s of [-1, 1]) { K.circle(ctx, x + s * R * 0.98, y + R * 0.08, R * 0.2); ctx.fill(); ctx.stroke(); } }
+    // ears (front: both; 3/4: the back one; profile: one, set back) and the profile nose bump
+    const sv = { front: 0, q: 0.55, side: 1 }[view] ?? 0, dv = o.dir || 1, faceV = view !== 'back';
+    if (faceV && R > 8) { ctx.fillStyle = col(skin); const ears = sv < 0.1 ? [-1, 1] : [-dv];
+      for (const sg of ears) { const ex = sv < 0.1 ? x + sg * R * 0.98 : x - dv * R * (0.98 - 0.85 * sv); K.circle(ctx, ex, y + R * 0.08, R * 0.2); ctx.fill(); ctx.stroke(); } }
+    if (sv > 0.88 && R > 4) { ctx.fillStyle = col(skin); K.circle(ctx, x + dv * R * 0.97, y + R * 0.06, R * 0.16); ctx.fill(); if (R > 6) ctx.stroke(); }
     // head
     ctx.fillStyle = col(view === 'back' && st !== 'none' ? hair : skin); K.circle(ctx, x, y, R); ctx.fill();
     if (R > 6) ctx.stroke();
-    if (view === 'front') {
-      // hair on top
+    if (sv > 0.88 && R > 4) { ctx.fillStyle = col(skin); K.circle(ctx, x + dv * R * 0.97, y + R * 0.06, R * 0.16); ctx.fill(); }
+    if (faceV) {
+      // hair on top (3/4 + profile: shifted toward the back of the head)
+      ctx.save(); if (sv > 0.05) { ctx.beginPath(); K.circle(ctx, x, y, R * 1.02); ctx.clip(); ctx.translate(-dv * sv * R * 0.42, -sv * R * 0.12); }
       ctx.fillStyle = col(hair);
       if (st === 'short') { ctx.beginPath(); ctx.arc(x, y, R, Math.PI * 1.05, Math.PI * 1.95); ctx.quadraticCurveTo(x + R * 0.2, y - R * 0.35, x - R * 0.2, y - R * 0.45); ctx.quadraticCurveTo(x - R * 0.7, y - R * 0.45, x - R, y - R * 0.05); ctx.fill(); }
       else if (st === 'bob') { ctx.beginPath(); ctx.arc(x, y, R, Math.PI * 1.0, Math.PI * 2.0); ctx.quadraticCurveTo(x + R * 0.4, y - R * 0.55, x, y - R * 0.5); ctx.quadraticCurveTo(x - R * 0.5, y - R * 0.5, x - R, y); ctx.fill(); }
       else if (st === 'curly') { for (let i = 0; i < 7; i++) { const a = Math.PI * (1.05 + i * 0.15); K.circle(ctx, x + Math.cos(a) * R * 0.82, y + Math.sin(a) * R * 0.8, R * 0.32); ctx.fill(); } }
       else if (st === 'bun') { ctx.beginPath(); ctx.arc(x, y, R, Math.PI * 1.1, Math.PI * 1.9); ctx.quadraticCurveTo(x, y - R * 0.5, x - R * 0.95, y - R * 0.3); ctx.fill(); K.circle(ctx, x, y - R * 1.05, R * 0.38); ctx.fill(); if (R > 6) ctx.stroke(); }
       else if (st === 'cap') { ctx.fillStyle = col(o.capColor || '#3d6b8c'); ctx.beginPath(); ctx.arc(x, y - R * 0.25, R * 0.98, Math.PI, 0); ctx.closePath(); ctx.fill(); if (R > 6) ctx.stroke(); K.rrect(ctx, x - R * 0.1, y - R * 0.42, R * 1.3, R * 0.2, R * 0.1); ctx.fill(); if (R > 6) ctx.stroke(); }
-      if (R > 3) K.char.face(ctx, x, y + R * 0.08, R * 0.92, o.expr || 'neutral', { look: o.look, blink: o.blink, ink: col(FACE_INK), blush: R > 10 ? 0.25 : 0 });
+      ctx.restore();
+      if (sv > 0.05 && st !== 'none' && st !== 'cap') { ctx.save(); K.circle(ctx, x, y, R); ctx.clip(); ctx.fillStyle = col(hair); K.circle(ctx, x - dv * R * (1.3 - 0.1 * sv), y - R * 0.2, R * (0.45 + 0.12 * sv)); ctx.fill(); ctx.restore(); K.circle(ctx, x, y, R); if (R > 6) ctx.stroke(); }
+      if (R > 3) K.char.face(ctx, x, y + R * 0.08, R * 0.92, o.expr || 'neutral', { look: o.look, blink: o.blink, ink: col(FACE_INK), blush: R > 10 ? 0.25 : 0, view, dir: dv });
     } else if (st === 'bun') { ctx.fillStyle = col(hair); K.circle(ctx, x, y - R * 0.95, R * 0.4); ctx.fill(); }
     if (o.light && R > 2) K.char.discLight(ctx, x, y, R, { ang: o.light.ang, rim: o.light.rim, rimW: 0.12, rimAlpha: 0.8, shade: o.light.shade, shadeAlpha: 0.25 });
   };
@@ -226,7 +276,19 @@
     hips:      { L: [1.05, -1.8], R: [1.05, -1.8] },
     cheer:     { L: [2.25, 0.35], R: [2.25, 0.35], hand: { L: 'open', R: 'open' } },
     think:     { L: [0.25, -1.3], R: [0.5, -3.1], headTilt: -0.08 },
+    // v4 body language for the emotion set
+    surprise:  { L: [1.0, 1.75], R: [1.0, 1.75], shoulders: -0.1, hand: { L: 'open', R: 'open' } },
+    belly:     { L: [0.3, -1.35], R: [0.3, -1.35], shoulders: -0.06 },
+    clasp:     { L: [0.32, -2.15], R: [0.32, -2.15] },
+    crossed:   { L: [0.42, -2.45], R: [0.42, -2.45] },
+    scratch:   { L: [0.12, 0.10], R: [2.55, 2.25], headTilt: -0.08, shoulders: -0.05, late: true },
+    pump:      { L: [0.12, 0.10], R: [0.45, -1.95] },
+    fist:      { L: [0.12, 0.10], R: [2.2, 0.7], shake: true, late: true },
+    open:      { L: [0.55, 1.2], R: [0.55, 1.2], hand: { L: 'open', R: 'open' } },
+    chin:      { L: [0.25, -1.3], R: [0.5, -3.1], headTilt: 0.06 },
   };
+  K.char.EMO_POSE = { neutral: 'stand', happy: 'open', laugh: 'belly', surprised: 'surprise', curious: 'chin', awe: 'clasp', smug: 'crossed', thinking: 'think',
+    worried: 'clasp', sheepish: 'scratch', annoyed: 'crossed', furious: 'fist', determined: 'pump' };
   K.char.POSES = Object.keys(POSES);
 
   K.char.person = function (ctx, x, y, R, o = {}) {
@@ -235,7 +297,7 @@
     const line = col(o.line || LINE), lw = Math.max(0.7, R * 0.075);
     const skin = col(o.skin || K.char.SKIN[0]), shirt = col(o.shirt || '#6b8fb0'), pants = col(o.pants || '#3f4a63'), shoes = col(o.shoes || '#2b2230');
     const breathe = Math.sin(t * 2.1 + ph) * 0.025, lean = (o.lean || 0) + (P.walk ? Math.sin(t * 7 + ph) * 0.03 : 0);
-    const legH = P.sit ? 0 : R * 0.95, bodyH = R * 1.28 * (1 + breathe), bodyW = R * 1.18;
+    const sv = { front: 0, q: 0.55, side: 1 }[o.view || 'front'] ?? 0, legH = P.sit ? 0 : R * 0.95, bodyH = R * 1.28 * (1 + breathe), bodyW = R * 1.18 * (1 - 0.22 * sv);
     const bounce = P.walk ? Math.abs(Math.sin(t * 7 + ph)) * R * 0.08 : 0;
     const hipY = y - legH - bounce, topY = hipY - bodyH + (P.shoulders || 0) * R;
     ctx.save(); ctx.translate(x, y); ctx.rotate(lean); ctx.translate(-x, -y);
@@ -265,6 +327,7 @@
       const s = side === 'L' ? -1 : 1; let [a1, a2] = P[side];
       if (P.walk) a1 += Math.sin(t * 7 + ph + (s > 0 ? 0 : Math.PI)) * 0.35;
       if (side === 'R' && P.waveR) a2 += Math.sin(t * 9 + ph) * 0.45;
+      if (side === 'R' && P.shake) a1 += Math.sin(t * 22) * 0.08;
       a1 += Math.sin(t * 2.1 + ph + s) * 0.03;
       const [sx0, sy0] = sh[side];
       const ex = sx0 + s * Math.sin(a1) * armLen, ey = sy0 + Math.cos(a1) * armLen;
@@ -327,11 +390,12 @@
     }
     drawHand('L'); drawHand('R');
     // head (with a little bob + tilt); face looks toward dir by default
-    const look = o.look || [0.35 * (o.dir || 0), 0.05];
+    const EX = K.char.EXPR[o.expr] || {}, look = o.look || EX.look || [0.35 * (o.dir || 0), 0.05];
     const hx = x + (P.headTilt || 0) * R * 0.6, hy = topY - R * 0.82 + Math.sin(t * 2.1 + ph + 0.6) * R * 0.03;
-    ctx.save(); ctx.translate(hx, hy); ctx.rotate((P.headTilt || 0) + (o.headTilt || 0)); ctx.translate(-hx, -hy);
-    K.char.head(ctx, hx, hy, R, { skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, capColor: o.capColor, expr: o.expr || 'content', look, blink: o.blink, fog, light: o.light });
+    ctx.save(); ctx.translate(hx, hy); ctx.rotate((P.headTilt || 0) + (o.headTilt || 0) + (EX.tilt || 0) * (o.dir || 1)); ctx.translate(-hx, -hy);
+    K.char.head(ctx, hx, hy, R, { skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, capColor: o.capColor, expr: o.expr || 'content', look, blink: o.blink, fog, light: o.light, view: o.view, dir: o.dir || 1 });
     ctx.restore();
+    if (P.late) { arm('R'); drawHand('R'); }   // a hand raised over / beside the head stays in front of it
     ctx.restore();
     return { head: [hx, hy], hands };
   };

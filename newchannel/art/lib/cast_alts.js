@@ -128,7 +128,8 @@
     arm: { w: 0.038, skinPart: true, sleeve: TEE, sleeveTo: 0.36, sleeveW: 0.066, hand: 0.029 },
     skin: '#7a4d32',
     boot: { h: 0.077, w: 0.042, foot: 0.062, toe: 0.05, back: 0.014, sole: 0.016, color: '#2b2729', soleColor: '#151214', laces: true },
-    face: { eyes: 'googly', eyeR: 0.035, eyeSep: 0.034, eyeY: -0.014, pupil: 0.36, goofy: 0.8, nose: 0.012, noseY: 0.045, mouthY: 0.068, mouthW: 0.043, lidBias: -0.1, grinOpen: 0.16, grinW: 0.8 },
+    face: { eyes: 'googly', eyeR: 0.035, eyeSep: 0.034, eyeY: -0.004, pupil: 0.36, goofy: 0.8, nose: 0.012, noseY: 0.04, mouthY: 0.07, mouthW: 0.05, lidBias: -0.1, grinOpen: 0.16, grinW: 0.8,
+      brows: 0.013, browColor: '#1a100e', browGap: 1.38, browW: 1.0, browsLate: true },
     collar: crewCollar('#dcd5c6'), outfitTop: apron, hat: beanie(BEANIE, BEANIE_D) });
   const MILA1 = mk({ name: 'Mila', h: 1.08, phase: 0.8, shadowW: 0.13, legLen: 0.46, shoulderW: 0.069, hipW: 0.034, legW: 0.05, legColor: MUSTARD,
     head: { kind: 'capsule', hw: 0.063, hh: 0.152, lean: 0.06 }, hairTop: 0.01,
@@ -136,7 +137,8 @@
     arm: { w: 0.04, sleeve: PURPLE, cuff: PURPLE_D, hand: 0.027 },
     skin: '#d9a66c',
     boot: { h: 0.148, w: 0.034, foot: 0.062, toe: 0.05, back: 0.012, sole: 0.014, color: GREEN, lip: true },
-    face: { eyes: 'googly', eyeR: 0.034, eyeSep: 0.031, eyeY: -0.046, pupil: 0.34, goofy: 0.6, nose: 0.011, noseY: 0.05, mouthY: 0.05, mouthW: 0.034, lidBias: 0.36, lashes: true, lip: '#8e3346', grinOpen: 0.1, grinW: 0.62 },
+    face: { eyes: 'googly', eyeR: 0.034, eyeSep: 0.031, eyeY: -0.04, pupil: 0.34, goofy: 0.6, nose: 0.011, noseY: 0.048, mouthY: 0.056, mouthW: 0.041, lidBias: 0.36, lashes: true, lip: '#8e3346', grinOpen: 0.1, grinW: 0.62,
+      brows: 0.011, browColor: '#2e1d22', browGap: 1.4, browW: 0.95, browsLate: true, profMouth: 1.45 },
     collar: crewCollar(PURPLE_D), outfit: overalls, hair: '#2e1d22' });
   MILA1.hairBack = function (c, H) { // high ponytail that swings (t) and trails in the wind (drag)
     const back = H.fs > 0.05 ? -H.faceDir : -1, rx = H.fs > 0.05 ? back * H.hw * 0.35 * H.fs : 0, ry = -H.hh + 0.012;

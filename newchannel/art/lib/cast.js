@@ -150,30 +150,39 @@
     palm:    { lead: A([0.6, -0.22], [0.6, -0.2], 'palm', [0.4, -1], [-0.2, -1]), trail: HANG() },
     think:   { lead: A(null, null, 'hide', [1, -1], [0, -1], { at: 'crossL' }), trail: A(null, null, 'fist', [1, -0.6], [0, -1], { at: 'chin' }) },
     lap:     { lead: A(null, null, 'mitt', [1, -1], [-0.3, -1], { at: 'lap' }), trail: A(null, null, 'mitt', [1, -1], [-0.3, -1], { at: 'lap' }) },
+    open:    { lead: A([0.45, -0.55], [0.4, -0.5], 'palm', [1, -0.6], [-0.4, -1]), trail: A([0.45, -0.55], [0.3, -0.55], 'palm', [1, -0.6], [-0.4, -1]) },
+    belly:   { lead: A(null, null, 'relax', [1, -0.4], [-1, -0.3], { at: 'belly' }), trail: A(null, null, 'relax', [1, -0.4], [-1, -0.3], { at: 'belly' }), lift: 0.012 },
+    surprise: { lead: A([0.62, 0.3], [0.5, -0.15], 'palm', [1, -0.8], [-0.6, -1]), trail: A([0.62, 0.3], [0.35, -0.2], 'palm', [1, -0.8], [-0.6, -1]), lift: 0.014 },
+    clasp:   { lead: A(null, null, 'fist', [1, -0.6], [0, -1], { at: 'chest' }), trail: A(null, null, 'fist', [1, -0.6], [0, -1], { at: 'chest' }) },
+    chin:    { lead: A(null, null, 'hide', [1, -1], [0, -1], { at: 'crossL' }), trail: A(null, null, 'point', [1, -0.6], [0, -1], { at: 'chin' }) },
+    scratch: { lead: HANG(), trail: A(null, null, 'fist', [1, 0.2], [-0.6, 0.6], { at: 'nape' }), lift: 0.01 },
+    pump:    { lead: HANG(), trail: A([0.3, -0.05], [0.55, 0.02], 'fist', [1, -1], [-0.5, -1]) },
     lapPoint: { lead: A(null, null, 'mitt', [1, -1], [-0.3, -1], { at: 'lap' }), trail: A([-0.6, 0.35], [-0.85, 0.3], 'point', [0, -1], [0, -1]) },
   };
 
   // ------------------------------------------------------------------ expressions
   // lid 0 open .. 1 shut, low = lower lid, tilt +angry / -worried, eye scale, pupil scale, mouth kind, extras
-  C.EXPR = {
+  C.EXPR = {   // browUp: raise both brows, browOne: arch one brow, sq: head stretch (>1) / squash (<1), body: default pose
     neutral:   { lid: 0.12, mouth: 'smile' },
-    happy:     { lid: 0.0, low: 0.0, mouth: 'grin', head: -0.06, noBias: 1, look: [0, -0.5], grin: 1.3, eye: 1.05 },
-    laugh:     { happyEyes: 1, mouth: 'laugh', head: -0.12, noBias: 1, lift: -0.006, blush: 0.25 },
-    surprised: { lid: 0.0, eye: 1.22, pupil: 0.58, mouth: 'o', noBias: 1, lift: -0.006 },
-    annoyed:   { lid: 0.45, tilt: 0.3, mouth: 'flat', look: [0.45, 0.05], noBias: 0.5 },
-    grumpy:    { lid: 0.44, tilt: 0.55, mouth: 'frown', noBias: 0.6 },
-    furious:   { lid: 0.3, tilt: 0.9, eye: 1.06, pupil: 0.72, mouth: 'yell', noBias: 1, head: 0.04, extras: ['anger'] },
-    worried:   { lid: 0.22, tilt: -0.5, mouth: 'wobble', pupil: 0.85, noBias: 0.7, sweat: 1 },
-    thinking:  { lid: 0.3, tilt: 0.1, mouth: 'think', look: [0.6, -0.75], head: 0.06, noBias: 0.4 },
-    awe:       { lid: 0.0, eye: 1.24, pupil: 1.0, mouth: 'awe', look: [0, -0.4], noBias: 1, sparkle: 1 },
-    smug:      { lid: 0.5, low: 0.24, mouth: 'smirk', look: [0.8, 0], tilt: 0.12, noBias: 0.7 },
-    sheepish:  { lid: 0.16, tilt: -0.35, mouth: 'sheep', look: [-0.75, 0.35], noBias: 0.8, blush: 0.45, sweat: 1 },
-    determined: { lid: 0.36, tilt: 0.5, mouth: 'set', look: [0.6, 0], noBias: 0.6 },
-    curious:   { lid: 0.02, eye: 1.08, mouth: 'smallo', look: [0.4, -0.5], noBias: 0.7 },
+    happy:     { lid: 0.0, low: 0.24, mouth: 'grin', head: -0.06, noBias: 1, look: [0, -0.3], grin: 1.3, eye: 1.04, browUp: 0.45, sq: 1.02, body: 'open' },
+    laugh:     { happyEyes: 1, mouth: 'laugh', head: -0.13, noBias: 1, lift: -0.006, blush: 0.3, browUp: 0.6, sq: 1.04, body: 'belly' },
+    surprised: { lid: 0.0, eye: 1.24, pupil: 0.55, mouth: 'o', noBias: 1, lift: -0.008, browUp: 1.1, sq: 1.05, body: 'surprise', extras: ['ticks'] },
+    curious:   { lid: 0.0, eye: 1.12, mouth: 'smallo', look: [0.5, -0.35], noBias: 0.8, browOne: 1, browUp: 0.3, head: 0.1, lean: 0.05, body: 'chin' },
+    awe:       { lid: 0.0, eye: 1.26, pupil: 1.05, mouth: 'awe', look: [0, -0.55], noBias: 1, sparkle: 1, browUp: 0.9, head: -0.08, sq: 1.03, body: 'clasp', extras: ['sparkle'] },
+    smug:      { lid: 0.52, low: 0.26, mouth: 'smirk', look: [0.85, 0], tilt: 0.1, noBias: 0.6, browOne: 1.1, head: 0.07, body: 'crossed' },
+    thinking:  { lid: 0.28, mouth: 'think', look: [0.6, -0.8], head: 0.08, noBias: 0.4, browOne: 0.8, body: 'think' },
+    worried:   { lid: 0.18, tilt: -0.65, mouth: 'wobble', pupil: 0.8, noBias: 0.7, sweat: 1, sq: 0.98, body: 'clasp' },
+    sheepish:  { lid: 0.14, tilt: -0.45, mouth: 'sheep', look: [-0.8, 0.4], noBias: 0.8, blush: 0.5, sweat: 1, head: -0.08, body: 'scratch' },
+    annoyed:   { lid: 0.46, tilt: 0.4, mouth: 'flat', look: [0.5, 0.05], noBias: 0.5, body: 'crossed' },
+    grumpy:    { lid: 0.44, tilt: 0.6, mouth: 'frown', noBias: 0.6, body: 'crossed' },
+    furious:   { lid: 0.28, tilt: 1.0, eye: 1.06, pupil: 0.7, mouth: 'yell', noBias: 1, head: 0.05, sq: 0.97, lean: 0.06, extras: ['anger'], body: 'fist' },
+    determined: { lid: 0.34, tilt: 0.55, mouth: 'set', look: [0.6, 0], noBias: 0.6, sq: 0.99, body: 'pump' },
     talk:      { lid: 0.12, mouth: 'talk' },
   };
   C.EXPR.sly = C.EXPR.smug;
   C.EXPRESSIONS = ['neutral', 'laugh', 'surprised', 'furious', 'worried', 'smug'];
+  C.EMOTIONS = ['neutral', 'happy', 'laugh', 'surprised', 'curious', 'awe', 'smug', 'thinking', 'worried', 'sheepish', 'annoyed', 'furious', 'determined'];
+  C.EMOTIONS_ES = { neutral: 'neutral', happy: 'feliz', laugh: 'risa', surprised: 'sorpresa', curious: 'curiosa/o', awe: 'asombro', smug: 'pícara/o', thinking: 'pensando', worried: 'preocupada/o', sheepish: 'apenada/o', annoyed: 'molesta/o', furious: 'furia (grita)', determined: 'decidida/o' };
 
   // ------------------------------------------------------------------ the face (head-local units, origin = head centre)
   function eyeShape(c, x, y, rx, ry) { c.beginPath(); c.ellipse(x, y, Math.max(1e-4, rx), Math.max(1e-4, ry), 0, 0, K.TAU); }
@@ -183,7 +192,7 @@
   }
   function drawEye(c, H, ex, ey, rr, side, far) {
     const F = H.F, E = H.E, lw = H.lw;
-    const k = E.eye || 1, rx = rr * k * (1 - 0.32 * H.fs * (far ? 1.4 : 0.6)), ry = rr * k;
+    const pk = H.fs > 0.88 ? (F.profEye || 1.12) : 1, k = (E.eye || 1) * pk, rx = rr * k * (1 - 0.32 * H.fs * (far ? 1.4 : 0.6)) * (H.fs > 0.88 ? 1.25 : 1), ry = rr * k;
     let lid = lidOf(H);
     const low = E.low || 0, m = -side * (E.tilt || 0);
     const look = H.look;
@@ -244,7 +253,7 @@
   function drawMouth(c, H, mx, my, mw) {
     const E = H.E, lw = H.lw, kind = H.talk > 0.05 && !['yell', 'laugh'].includes(E.mouth) ? 'talk' : E.mouth;
     const lip = H.F.lip || INK, w = mw, st = Math.max(lw * 1.1, w * 0.13);
-    if (H.fs > 0.78) return profileMouth(c, H, kind, my, w, st, lip);
+    if (H.fs > 0.78) return profileMouth(c, H, kind, my, w * (H.F.profMouth || 1.3), st * 1.1, lip);
     const sx = 1 - 0.4 * H.fs;
     c.save(); c.translate(mx, my); c.scale(sx, 1); c.lineCap = 'round'; c.lineJoin = 'round';
     c.strokeStyle = lip; c.fillStyle = INK; c.lineWidth = st;
@@ -312,7 +321,8 @@
     }
     if (F.freckles) { c.fillStyle = K.rgba(F.freckles, 0.6); for (const sg of [-1, 1]) for (let i = 0; i < 3; i++) { const x = fx + sg * (sep + rr * 0.2) + (i - 1) * rr * 0.32, y = ey + rr * 1.35 + (i % 2) * rr * 0.18; if (H.fs > 0.5 && sg === -fdir) continue; K.circle(c, x, y, rr * 0.07); c.fill(); } }
     for (const [x, side, far] of eyes.sort((a, b) => (a[2] ? -1 : 1) - (b[2] ? -1 : 1))) drawEye(c, H, x, ey, rr, side, far);
-    if (F.brows) drawBrows(c, H, eyes, ey, rr);
+    if (F.brows && !F.browsLate) drawBrows(c, H, eyes, ey, rr);
+    H._browArgs = [eyes, ey, rr];
     if (F.glasses) F.glasses(c, H, eyes, ey, rr);
     const bl = (F.blush || 0) + (E.blush || 0);
     if (bl) { c.fillStyle = K.rgba(F.blushColor || '#ff7a6a', Math.min(0.6, bl)); for (const [x, side, far] of eyes) if (!far) { K.ellipse(c, x + side * rr * 0.45, ey + rr * 1.35, rr * 0.55, rr * 0.3); c.fill(); } }
@@ -324,15 +334,18 @@
       c.beginPath(); c.moveTo(sx, sy - rr * 0.9); c.quadraticCurveTo(sx + rr * 0.5, sy, sx, sy + rr * 0.35); c.quadraticCurveTo(sx - rr * 0.5, sy, sx, sy - rr * 0.9); c.fill(); c.stroke(); }
     return { fx, fy, ey, eyes };
   };
-  function drawBrows(c, H, eyes, ey, rr) {
-    const F = H.F, E = H.E;
+  function drawBrows(c, H, eyes, ey, rr) { // brows carry the emotion in every view (tilt: + angry / - worried)
+    const F = H.F, E = H.E, k = (E.eye || 1);
     c.strokeStyle = F.browColor || INK; c.lineCap = 'round'; c.lineWidth = F.brows;
-    const bt = (E.tilt || 0) * (F.browK ?? 1.2), up = (F.browY || 0) + (E.eye && E.eye > 1.1 ? -rr * 0.35 : 0) + (E.happyEyes ? -rr * 0.2 : 0);
+    const bt = (E.tilt || 0) * (F.browK ?? 1.0), up = (E.browUp || 0) * rr * 0.55 - (E.happyEyes ? 0 : 0);
+    const oneSide = eyes.length === 1 ? eyes[0][1] : (H.look[0] >= 0 ? 1 : -1);
     for (const [x, side, far] of eyes) {
-      const by = ey - rr * (F.browGap || 1.55) + up, w = rr * (F.browW || 0.9) * (far ? 0.75 : 1), inner = -side;
-      let yi = by + bt * rr * 0.42, yo = by - bt * rr * 0.12;
-      if (E.mouth === 'smirk' && side === eyes[0][1]) { yi -= rr * 0.3; yo -= rr * 0.4; }
-      c.beginPath(); c.moveTo(x + inner * w * 0.7, yi); c.quadraticCurveTo(x, (yi + yo) / 2 - rr * 0.14, x - inner * w * 0.75, yo); c.stroke();
+      const gap = rr * k * (F.browGap || 1.45) + (E.lid > 0.3 ? -rr * 0.12 : 0);
+      const by = ey - gap - up + (F.browY || 0), w = rr * (F.browW || 0.95) * (far ? 0.75 : 1), inner = -side;
+      let yi = by + bt * rr * 0.5, yo = by - bt * rr * 0.18;
+      if (E.browOne && side === oneSide) { yi -= rr * 0.35 * E.browOne; yo -= rr * 0.5 * E.browOne; }
+      const arch = (E.browOne && side === oneSide ? 0.3 : 0.14) * rr;
+      c.beginPath(); c.moveTo(x + inner * w * 0.75, yi); c.quadraticCurveTo(x, (yi + yo) / 2 - arch, x - inner * w * 0.8, yo); c.stroke();
     }
   }
 
@@ -378,7 +391,7 @@
     const faceDir = fsRaw >= 0 ? dir : -dir, fs = Math.min(1, Math.abs(fsRaw));
     const E = Object.assign({}, C.EXPR[o.expr] || C.EXPR.neutral);
     const tilt = (o.tilt || 0) + K.lerp(P.tilt || 0, PB ? PB.tilt || 0 : 0, bk) * dir + (E.head || 0) * faceDir;
-    const lean = (o.lean || 0) + K.lerp(P.lean || 0, PB ? PB.lean || 0 : 0, bk);
+    const lean = (o.lean || 0) + (E.lean || 0) * (o.seated ? 0.5 : 1) + K.lerp(P.lean || 0, PB ? PB.lean || 0 : 0, bk);
     const hcx = tcx + dir * s * (S.head.lean || 0) * 0.5, hcy = -S.head.cy - breathe * 1.4 - lift;
     const H = { cx: 0, cy: 0, hw, hh, s, fs, faceDir, dir, lw, skin: S.skin, lidColor: S.lidColor, F: S.face, E, t, blink: o.blink || 0, talk: o.talk || 0,
       look: o.look || E.look || [0, 0], headTurn, drag: o.drag || 0, hatHit: o.hatHit || 0, back: false };
@@ -392,6 +405,10 @@
         case 'crossT': return [tcx - sg * wT * 0.55 * cosT + dir * s * wT * 0.8, chestY + 0.045];
         case 'chin': return [hcx + faceDir * fs * hw * 0.6 + (1 - fs) * 0.0, hcy + hh * 0.95];
         case 'lap': return [tcx + sg * wB * 0.5 * cosT + dir * s * (wB + 0.06), Tbot - 0.01];
+        case 'chest': return [tcx + sg * 0.018 * cosT + dir * s * wT * 1.05, K.lerp(Ttop, Tbot, 0.3)];
+        case 'belly': return [tcx + sg * wB * 0.55 * cosT + dir * s * wB * 0.95, K.lerp(Ttop, Tbot, 0.78)];
+        case 'nape': return [hcx - faceDir * hw * 0.95 * Math.max(0.4, fs) + (fs < 0.3 ? sg * hw * 0.95 : 0), hcy + hh * 0.15];
+        case 'cheek': return [hcx + sg * hw * 1.25 * cosT + dir * s * hw * 0.6, hcy + hh * 0.45];
       }
       return [tcx, chestY];
     };
@@ -456,7 +473,7 @@
     };
     const B = { s, dir, t, lw, tcx, Ttop, Tbot, wT, wB, shY, hipY, cosT, torsoPath, hcx, hcy, hw, hh, fs, faceDir, seated: !!o.seated, S, H, drag: o.drag || 0 };
     const headDraw = (c, layer) => {
-      c.save(); c.translate(hcx, hcy + hh); c.rotate(tilt); c.translate(0, -hh);
+      c.save(); c.translate(hcx, hcy + hh); c.rotate(tilt); c.scale(1 / Math.sqrt(E.sq || 1), E.sq || 1); c.translate(0, -hh);
       if (layer === 'back') { if (S.hairBack) S.hairBack(c, H, B); c.restore(); return; }
       const hp = () => headPath(c, S.head);
       if (S.ears) S.ears(c, H, B);
@@ -464,6 +481,7 @@
       if (S.hairFront) S.hairFront(c, H, B);
       const fi = C.face(c, H);
       if (S.hat) S.hat(c, H, B);
+      if (S.F_late || (S.face.brows && S.face.browsLate)) drawBrows(c, H, ...H._browArgs);
       if (S.headTop) S.headTop(c, H, B, fi);
       c.restore();
     };
