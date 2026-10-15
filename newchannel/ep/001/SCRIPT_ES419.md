@@ -6,7 +6,7 @@ Estado: **borrador para el Productor** (el guion no está aprobado hasta que él
 
 - Canal: **Diez Mil Puntos** (el nombre sale solo en el beat 5 y el beat 24). Lema: *Pequeños sistemas, explicados con puntos.*
 - Título (fijado por el Productor el 2026-10-14): **¿Por qué hay embotellamientos sin razón aparente?**
-- Personajes: **Eli** y **Mila** (Max & Eli de SecondQuest adaptados al estilo del canal; Max pasa a ser
+- Personajes: **Eli** y **Mila** (Max & Leo de SecondQuest adaptados al estilo del canal; Leo pasa a llamarse Eli y Max pasa a ser
   Mila; identidad en `art/characters/leo_mila/CHARACTERS.md`; decisión 2026-10-15). La mascota punto ya no existe.
 - Arte: escenas de `art/ART_BIBLE.md` v2 (carretera dorada, anillo en el campo, colina de noche, peaje nublado, título al
   atardecer). Toda simulación es real (IDM, semilla fija). Toda simulación acelerada lleva el sello **ACELERADO ×N**.
