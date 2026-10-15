@@ -64,6 +64,25 @@ for amb in ev["ambience"]:
                     if i0 + len(ch) < n:
                         c[i0:i0 + len(ch)] += ch * 0.5
         sfx.add(0, c * win(a0, a1, 0.4, 0.4), 0.2, 0.35)
+    elif k == "field_birds":
+        rng = np.random.default_rng(7)
+        for bt in np.arange(a0 + 0.5, a1 - 0.5, 1.7):
+            if rng.random() < 0.7:
+                f0 = 2800 + rng.random() * 1200
+                sfx.add(bt + rng.random() * 0.6, S.glide(f0, f0 * 1.25, 0.08, 0.05, 0.1), rng.random() - 0.5, 0.08)
+                sfx.add(bt + 0.14, S.glide(f0 * 1.2, f0, 0.07, 0.05, 0.1), rng.random() - 0.5, 0.06)
+    elif k == "wind_grass":
+        w = S._bandnoise(n, 500, 2500, 13) * (0.5 + 0.5 * np.sin(2 * np.pi * 0.11 * t)) * 0.12 * win(a0, a1, 0.3, 0.3)
+        sfx.add(0, w.astype(np.float32), 0.0, 0.5)
+    elif k in ("ring_hum", "ring_hum_fast"):
+        f0 = 70 if k == "ring_hum" else 110
+        ph = 2 * np.pi * f0 * t + 0.3 * np.sin(2 * np.pi * (0.5 if k == "ring_hum" else 3.0) * t)
+        h = (np.sin(ph) + 0.4 * np.sin(2 * ph)) * 0.12 * win(a0, a1, 0.2, 0.2)
+        sfx.add(0, h.astype(np.float32), 0.0, 0.5)
+    elif k == "music_light":
+        music.add(0, S.pad(n, ("D4", "G4", "B4", "E5"), 0.09) * win(a0, a1, 0.8, 0.6), 0.0, 0.5)
+        for j, bt in enumerate(np.arange(a0 + 0.3, a1 - 0.3, 0.6)):
+            music.add(bt, S.pluck(S.PENTA[(j * 3) % 7] / 2, 0.4, 0.12, 0.25), 0.0, 0.16)
 
 ladder = [S.note(x) for x in ("A5", "G5", "E5", "D5", "B4", "A4", "G4", "E4", "D4")]
 for cu in ev["cues"]:
@@ -72,6 +91,37 @@ for cu in ev["cues"]:
         st = cu.get("step", 1)
         sfx.add(ct, S.marimba(ladder[min(st, len(ladder) - 1)], 0.9, 0.25), 0.1, 0.25 + 0.06 * st)
         sfx.add(ct, S.tick(3000 - 200 * st, 3 + st), 0.1, 0.06)
+    elif k == "drag":
+        r = S._bandnoise(int((cu["t1"] - ct) * SR), 150, 900, 51) * 0.5
+        sfx.add(ct, (r * np.sin(np.linspace(0, np.pi, len(r))) ** 0.5).astype(np.float32), -0.2, 0.35)
+    elif k == "spin":
+        for j, tt in enumerate(np.linspace(ct, cu["t1"], 7)):
+            sfx.add(tt, S.whoosh(0.18, 600, 3000, 70 + j), 0.6 - j * 0.2, 0.2)
+    elif k == "bonk_small":
+        sfx.add(ct, S.pop(600), 0.0, 0.4); sfx.add(ct, S.chime(S.note("B5"), 0.5, 0.1), 0.0, 0.1)
+    elif k == "cough":
+        for j in range(2):
+            sfx.add(ct + j * 0.18, S._bandnoise(int(0.09 * SR), 300, 1800, 80 + j) * np.exp(-np.arange(int(0.09 * SR)) / (0.03 * SR)), 0.0, 0.25)
+    elif k == "spring":
+        sfx.add(ct, S.glide(300, 900, 0.35, 0.3, 0.6) * (1 + 0.5 * np.sin(np.arange(int(0.35 * SR)) / SR * 2 * np.pi * 18)), 0.0, 0.18)
+    elif k == "squeeze":
+        sfx.add(ct, S.glide(900, 400, 0.25, 0.2, 0.4), 0.0, 0.2)
+    elif k == "clock_tick":
+        for j in range(3):
+            sfx.add(ct - 0.5 + j * 0.25, S.tick(2600, 90 + j), 0.4, 0.15)
+        sfx.add(ct, S.chime(S.note("A5"), 0.8, 0.2), 0.4, 0.12)
+    elif k == "clonc":
+        sfx.add(ct, S.thunk(5, 160, 60), 0.0, 0.5); sfx.add(ct, S.marimba(S.note("G3"), 0.8, 0.3), 0.0, 0.3)
+    elif k == "wind_gust":
+        sfx.add(ct, S.whoosh(1.4, 200, 1200, 91), 0.0, 0.3)
+    elif k == "shrug_wave":
+        for j in range(cu["n"]):
+            sfx.add(ct + j * cu["d"], S.glide(500 - j * 8, 380 - j * 6, 0.12, 0.08, 0.2), 0.8 - 1.6 * j / cu["n"], 0.12)
+    elif k == "mm":
+        sfx.add(ct, S.glide(220, 180, 0.3, 0.2, 0.3), 0.0, 0.25)
+    elif k == "bell":
+        for j in range(2):
+            sfx.add(ct + j * 0.22, S.chime(S.note("E6"), 0.7, 0.25), 0.2, 0.16); sfx.add(ct + j * 0.22, S.chime(S.note("G6"), 0.6, 0.2), 0.2, 0.08)
     elif k == "squeal":
         sfx.add(ct, S.glide(2100, 1700, 0.9, 0.6, 0.15), 0.0, 0.10)
     elif k == "stop_thunk":

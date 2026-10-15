@@ -66,7 +66,7 @@
   // an adapter with the K.sim.ring interface expected by the kit's highway (sim seconds in, open road = no wrap)
   A.adapter = function (id) {
     const run = A.run(id);
-    return { N: run.N, p: { L: 1e9 }, at: ts => run.atSim(ts), brake: (i, ts) => run.brakeSim(i, ts), raw: run };
+    return { N: run.N, p: { L: run.p.geometry === 'ring' ? run.p.L : 1e9 }, at: ts => run.atSim(ts), brake: (i, ts) => run.brakeSim(i, ts), raw: run };
   };
   // the close-up state for car i of a run at sim time ts (same fields as E.closeState, so E.drawCloseup can draw it)
   A.closeState = function (id, i, ts, o = {}) {

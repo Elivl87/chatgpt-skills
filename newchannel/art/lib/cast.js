@@ -187,6 +187,7 @@
     pump:    { lead: HANG(), trail: A([0.3, -0.05], [0.55, 0.02], 'fist', [1, -1], [-0.5, -1]) },
     walk:    { lead: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: 1 }), trail: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: -1 }), walk: 1 },
     clipboard: { lead: A(null, null, 'fist', [1, -0.6], [-0.3, -1], { at: 'write' }), trail: A(null, null, 'mitt', [1, -0.4], [-0.3, -1], { at: 'board' }), prop: 'clipboard' },
+    pointSelf: { lead: HANG(), trail: A(null, null, 'point', [1, -0.6], [0, -1], { at: 'chest' }), lift: 0.008 },
     visor:   { lead: HANG(), trail: A(null, null, 'mitt', [1, 0.3], [-0.2, 0.2], { at: 'visor' }), lean: 0.04 },
     detective: { lead: A(null, null, 'hide', [1, 0.2], [-1, 0.2], { at: 'backhand' }), trail: A(null, null, 'fist', [1, -0.7], [-0.4, -1], { at: 'lens' }), prop: 'magnifier', lean: 0.05 },
     sitPoint: { lead: A([0.8, 0.5], [0.92, 0.42], 'point', [0, -1], [0, -1]), trail: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }) },

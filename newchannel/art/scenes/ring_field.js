@@ -68,7 +68,7 @@
     return { bg, props };
   }
 
-  function drawProp(ctx, p, P, t = 0, jam = null) {
+  function drawProp(ctx, p, P, t = 0, jam = null, opt = {}) {
     const [x, y] = g2s(p.X, p.Z), s = VIEW.sc;
     if (p.k === 'bush') { const w = p.s * s * 1.3; ctx.fillStyle = K.mix(P.treeDark, P.tree, 0.3); for (let k = 0; k < 4; k++) { K.circle(ctx, x + (k - 1.5) * w * 0.45, y - w * 0.35 - (k % 2) * w * 0.15, w * 0.5); ctx.fill(); }
       ctx.fillStyle = P.tree; for (let k = 0; k < 4; k++) { K.circle(ctx, x + (k - 1.5) * w * 0.45 - w * 0.08, y - w * 0.45 - (k % 2) * w * 0.15, w * 0.38); ctx.fill(); }
@@ -103,7 +103,7 @@
         shrug:  { pose: on ? 'shrug' : 'stand', expr: on ? 'worried' : 'content', shirt: '#e2b04a' },
         camera: { pose: 'think', expr: on ? 'curious' : 'neutral', shirt: '#8aa3c9' },
       };
-      const ro = roles[p.role] || roles.clip, flip = ro.dir === -1;
+      const ro = Object.assign({}, roles[p.role] || roles.clip); if (opt.person) opt.person(p, ro, jam, t); const flip = ro.dir === -1;
       ctx.save(); if (flip) { ctx.translate(x, 0); ctx.scale(-1, 1); ctx.translate(-x, 0); }
       K.char.person(ctx, x, y, R, Object.assign({ t, seed: p.seed, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, pants: '#3f4a63',
         light: { ang: flip ? -0.7 : -2.4, rim: P.rim, shade: '#3a3358' }, look: [0.4, 0.3] }, ro));
@@ -111,9 +111,15 @@
     }
   }
 
+  // animatic hooks (optional, defaults = v4): opt.run (another ring run with the same interface, e.g. the S2 adapter;
+  // simT is then in that run's time), opt.hero(ctx, p, x, y, u, jam, t) (draw Eli / Mila yourself; return true to skip the
+  // default), opt.person(p, ro, jam) (adjust an observer's acting), opt.carExpr(i, stopped), opt.carOver(ctx, i, x, y, b)
+  // (after each car: marks, shrugs), opt.under(ctx, g2s) (on the field, under the cars), opt.over(ctx, g2s) (after the cars)
+  E.ringG2S = (X, Z, Y = 0) => g2s(X, Z, Y);
+  E.RING_RAD = RAD;
   E.drawRing = function (ctx, t, frame, opt = {}) {
     if (!B) B = build();
-    const P = E.PAL.field, run = E.ringRun(), simT = opt.simT ?? t;
+    const P = E.PAL.field, run = opt.run || E.ringRun(), simT = opt.simT ?? t;
     const S = run.at(simT);
     ctx.save();
     const z = opt.zoom || 1; ctx.translate(K.W / 2, K.H / 2); ctx.scale(z, z); ctx.translate(-K.W / 2 + (opt.dx || 0), -K.H / 2 + (opt.dy || 0));
@@ -151,6 +157,7 @@
       const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 420); g.addColorStop(0, K.rgba('#8a86a8', 0.38)); g.addColorStop(0.6, K.rgba('#8a86a8', 0.22)); g.addColorStop(1, K.rgba('#8a86a8', 0));
       ctx.fillStyle = g; ctx.save(); ctx.translate(cx, cy); ctx.scale(1.6, 0.6); ctx.translate(-cx, -cy); ctx.fillRect(cx - 420, cy - 420, 840, 840); ctx.restore(); }
     ctx.restore();
+    if (opt.under) opt.under(ctx, g2s, cars, S);
     // where is the jam? (slowest car, if stopped) -> the observers react to it
     let jam = { on: false, x: 960 };
     { let j = 0; for (let i = 1; i < run.N; i++) if (S.v[i] < S.v[j]) j = i; if (S.v[j] < 1.0) { const c = cars[j]; jam = { on: true, x: g2s(c.X, c.Z)[0] }; } }
@@ -159,14 +166,17 @@
     items.sort((a, b) => a.z - b.z);
     const lit = { rim: P.rim, ang: -2.45, shade: P.shadow, sunAng: Math.atan2(SUN[1], SUN[0]) };
     for (const it of items) {
-      if (it.p) drawProp(ctx, it.p, P, t, jam);
+      if (it.p) { if (it.p.k === 'hero' && opt.hero) { const [hx, hy] = g2s(it.p.X, it.p.Z); if (opt.hero(ctx, it.p, hx, hy, VIEW.sc * 7.2, jam, t)) continue; }
+        drawProp(ctx, it.p, P, t, jam, opt); }
       else {
-        const c = it.c, isM = c.i === E.RING_MASCOT, pe = E.persona(300 + c.i);
+        const c = it.c, isM = c.i === (opt.mascot ?? E.RING_MASCOT), pe = E.persona(300 + c.i);
         const stopped = S.v[c.i] < 1.0;
         K.car.top(ctx, VIEW, c.X, c.Z, c.heading, { k: 1.45, color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
-          mascot: isM, expr: isM ? (stopped ? 'annoyed' : 'content') : (stopped ? 'worried' : 'content'), brake: c.b, lit });
+          mascot: isM, expr: opt.carExpr ? opt.carExpr(c.i, stopped) : isM ? (stopped ? 'annoyed' : 'content') : (stopped ? 'worried' : 'content'), brake: c.b, lit });
+        if (opt.carOver) { const [cx2, cy2] = g2s(c.X, c.Z); opt.carOver(ctx, c.i, cx2, cy2, c.b, S); }
       }
     }
+    if (opt.over) opt.over(ctx, g2s, cars, S);
     ctx.restore();
     { // warm key from the upper left, cool fall-off to the lower right
       const g = ctx.createLinearGradient(0, 0, K.W, K.H); g.addColorStop(0, K.rgba('#ffcf8a', 0.55)); g.addColorStop(0.55, K.rgba('#ffcf8a', 0)); g.addColorStop(1, K.rgba('#5a4a8a', 0.5));

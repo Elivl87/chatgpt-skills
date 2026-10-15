@@ -82,8 +82,8 @@
       shots.push({ id: 'A05_crane', start: tDetras - 0.08, bg: 'hw_crane', label: 'ACELERADO ×3', focus: [960, 470], push: 0.025,
         draw(c, t, lt) {
           const ts = G5(t), R = A.s1(), xE = A.camX(ELI, ts, 2), xT = R.at(ts).x[TAP];
-          const sCam = xE - 22, aim = A.aim(sCam, -1.2, 11, 2300, (xE + xT) / 2 + 4, 1.85, 0, [980, 500]);
-          A.hw(c, t, { simT: ts, sCam, lCam: -1.2, H: 11, pitch: aim.pitch, yaw: aim.yaw, f: 2300, fg: false,
+          const sCam = xE - 22, aim = A.aim(sCam, -1.2, 11, 2100, (xE + xT) / 2 + 4, 1.85, 0, [980, 400]);
+          A.hw(c, t, { simT: ts, sCam, lCam: -1.2, H: 11, pitch: aim.pitch, yaw: aim.yaw, f: 2100, fg: false,
             crew: tt => ({ eli: { pose: 'drive', blink: 0 }, mila: { pose: 'lap' } }) });
         },
         cues: A => [23, 22].map((car, k) => ({ t: tMas1 + (A.ev('S1', 'brake_onset', e => e.car === car) - s23) / 3, kind: 'brake_note', step: k + 2 })) });
@@ -193,7 +193,7 @@
       shots.push({ id: 'A13_bird', start: gap0 + gapU * 1.75, bg: 'bird', focus: [960, 520], push: 0.035, pushDir: 1, breath: true,
         draw(c, t, lt) {
           drawBirdInsert(c, t, { shrug: A.ramp(t, gap0 + gapU * 2.55, 0.18) * (1 - A.ramp(t, gap1 - 0.05, 0.2)), caught: t < gap0 + gapU * 2.55 });
-          P.callout(c, 1260, 330, 'pío', 64, A.pulse(t, gap0 + gapU * 2.62, 0.1, 0.4, 0.2));
+          P.callout(c, 1260, 330, 'pío', 80, A.pulse(t, gap0 + gapU * 2.62, 0.08, 0.5, 0.2));
         },
         cues: A => [{ t: gap0 + gapU * 2.55, kind: 'flutter' }, { t: gap0 + gapU * 2.62, kind: 'chirp' }] });
 

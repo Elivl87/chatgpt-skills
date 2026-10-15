@@ -28,7 +28,7 @@ if [ ! -f "$NAR" ]; then NAR="$TMPD/narration_es.wav"; [ -f "$NAR" ] || (cd "$NC
 TTD_TMP="$TMPD" python3 "$HERE/sound_block.py" "$TMPD/events.json" "$NAR" "$TMPD/block.wav"
 # 4 · encode (never write the mp4 in place until it is complete)
 MP4="$HERE/block${B}_${Q}.mp4"; PART="$TMPD/block.part.mp4"
-CRF=${CRF:-27}; [ "$Q" = "final" ] && CRF=18
+CRF=${CRF:-23}; [ "$Q" = "final" ] && CRF=18
 ffmpeg -v error -y -framerate $FPS -i "$TMPD/frames/f_%05d.png" -i "$TMPD/block.wav" -c:v libx264 -preset slow -crf $CRF -pix_fmt yuv420p \
   -profile:v high -r $FPS -c:a aac -b:a 160k -ar 48000 -movflags +faststart -shortest "$PART"
 mv "$PART" "$MP4"; echo "mp4: $MP4 ($(du -h "$MP4" | cut -f1))"
