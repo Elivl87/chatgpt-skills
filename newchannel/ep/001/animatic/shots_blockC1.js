@@ -35,7 +35,7 @@
       const eliAt = (eO) => (cx, sx, sy, s, S, b) => K.cast.crew2(cx, sx, sy, s, { driver: 'eli1', t: cx.__t || 0, light: N, u: 2.7 * s, driverO: eO });
       // the camera rides back along the line with the brake wave (the car whose light comes on now), smoothed
       const waveCam = ts => { let acc = 0, wsum = 0; for (let k = -6; k <= 6; k++) { const tt = ts + k * 0.3, nf = K.clamp(3 + (tt - on(3)) / ((on(10) - on(3)) / 7), 1, 10), n0 = Math.floor(nf), u = nf - n0, S = R().at(tt), xa = S.x[IDX(n0)], xb = S.x[IDX(Math.min(10, n0 + 1))], ww = Math.exp(-k * k / 12); acc += K.lerp(xa, xb, u) * ww; wsum += ww; } return acc / wsum - 6; };
-      const WZ = (c, f) => { c.save(); c.translate(960, 850); c.scale(1.35, 1.35); c.translate(-960, -850); f(); c.restore(); };   // wide line shots: frame the road, not the sky
+      const WZ = (c, f) => { c.save(); c.translate(960, 900); c.scale(1.6, 1.6); c.translate(-960, -900); f(); c.restore(); };   // wide line shots: frame the road, not the sky
       const shots = [];
 
       // C01 · «Vamos más despacio.» Mila, at the edge of the field, slows the class down
@@ -137,7 +137,8 @@
         draw(c, t, lt) {
           const ts = sStop10 + 2 + (t - tLos) * 0.5;
           WZ(c, () => A.line(c, t, { simT: ts, camS: platoon(ts, 2, 7), pxm: 13, carK: 2.2 }));
-          P.plate(c, 960, 260, 'INESTABILIDAD DE CADENA', 58, A.ramp(t, tInest - 0.05, 0.3));
+          K.cast.draw(c, 'mila1', 1560, 1150, 760, { view: 'q', dir: -1, pose: t > tInest ? 'point' : 'clipboard', expr: 'happy', t, look: [-0.9, -0.3], light: N, shadow: 0 });
+          P.plate(c, 900, 240, 'INESTABILIDAD DE CADENA', 58, A.ramp(t, tInest - 0.05, 0.3));
         },
         cues: A => [{ t: tInest, kind: 'plate' }] });
       shots.push({ id: 'C10_chain', start: tLa - 0.1, bg: 'line_wide2', focus: [960, 560], push: 0.025, pushDir: -1,
@@ -145,6 +146,7 @@
           const ts = sStop10 + 2 + (tLos - tLos) + (t - tLos) * 0.5, k = K.clamp((t - tCadena2) / (tAutos - tCadena2));
           WZ(c, () => A.line(c, t, { simT: ts, camS: platoon(ts, 4, 11) + 2, pxm: 13, carK: 2.2,
             chars: (cx, toX, S) => { for (let i = 1; i < 11; i++) { const a = toX(S.x[i]) + 3.3 * 13 * 2.2 * 0.5, b = toX(S.x[i + 1]) - 3.3 * 13 * 2.2 * 0.5; const kk = K.clamp(k * 10 - (10 - i)); P.chain(cx, a, b, A.LINE.GY - 0.6 * 13 * 2.2, kk); } } }));
+          K.cast.draw(c, 'eli1', 330, 1180, 720, { view: 'q', dir: 1, pose: 'crossed', expr: k > 0.5 ? 'thinking' : 'curious', t, look: [0.9, -0.2], light: N, shadow: 0 });
         },
         cues: A => [{ t: tCadena2, kind: 'chain', t1: tAutos }] });
       const S4m = (anchor, N4) => A.map(A.s4().p.taps[0].t, anchor, N4);   // S4 records no events: the tap time comes from its spec
