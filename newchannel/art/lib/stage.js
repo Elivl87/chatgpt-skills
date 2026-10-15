@@ -18,7 +18,12 @@
     const q = new URLSearchParams(root.location.search);
     const name = q.get('scene');
     const cv = document.getElementById('cv');
-    cv.width = K.W; cv.height = K.H;
+    // output size (?out=854x480): scenes keep drawing in design units (K.W x K.H, 1920x1080 by default) and the stage
+    // scales the whole frame (draw + post) to the output canvas. Without ?out the canvas is K.W x K.H (scale 1).
+    const oq = (q.get('out') || '').split('x').map(Number);
+    const OW = oq[0] || K.W, OH = oq[1] || K.H, SC = OW / K.W;
+    K.OUT = [OW, OH]; K.OUTSCALE = SC;
+    cv.width = OW; cv.height = OH;
     const ctx = cv.getContext('2d', { alpha: false });
     await Promise.all([
       document.fonts.load(`800 100px "Martian Mono"`), document.fonts.load(`500 100px "Martian Mono"`),
@@ -29,11 +34,12 @@
     const opts = Object.fromEntries(q.entries());
     if (sc.setup) await sc.setup(ctx, opts);
     root.__frame = (t, frame) => {
-      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+      ctx.save(); ctx.setTransform(SC, 0, 0, SC, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
       sc.draw(ctx, t, frame);
-      ctx.restore(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.restore(); ctx.setTransform(SC, 0, 0, SC, 0, 0);
       const p = typeof sc.post === 'function' ? sc.post(t) : (sc.post || {});
       K.post(ctx, frame, p);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       return true;
     };
     root.__grab = (type = 'image/png', q2 = 0.95) => cv.toDataURL(type, q2);

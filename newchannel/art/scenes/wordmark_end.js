@@ -40,8 +40,8 @@
 
   // the brand dot's path (layout coordinates): on Mila's palm -> flicked up in an arc -> bonks Eli's beanie (c2) ->
   // bounces back and lands on the i (land) with a squash -> settles. hand / bonk points come from the characters.
-  function dotPose(lay, tl, hand, bonk) {
-    const W = E.WM, tM = lay.tittles[1], R = tM.r * 0.8;
+  function dotPose(lay, tl, hand, bonk, W = E.WM) {
+    const tM = lay.tittles[1], R = tM.r * 0.8;
     if (tl < W.c1) return { held: true, x: hand.x, y: hand.y - R * 0.95, R, sx: 1, sy: 1 };
     const arc = (a, b, u, h) => ({ x: K.lerp(a.x, b.x, u), y: K.lerp(a.y, b.y, u) - h * 4 * u * (1 - u) });
     let p, sx = 1, sy = 1;
@@ -51,7 +51,9 @@
     return { x: p.x, y: p.y, R, sx, sy };
   }
 
-  E.drawWordmark = function (ctx, tl, frame) {
+  // animatic hooks (optional): opt.wm overrides the gag timing (E.WM), opt.eli(o, tl, W) / opt.mila(o, tl, W) adjust
+  // the acting options after the defaults are set.
+  E.drawWordmark = function (ctx, tl, frame, opt = {}) {
     if (!Bw) Bw = build(ctx);
     const lay = Bw.lay, x0 = (K.W - lay.width) / 2, y0 = BASE_Y;
     const z = 1.0 + 0.04 * K.ease.sine(K.clamp(tl / 5.5));
@@ -73,7 +75,7 @@
     const t1 = lay.tittles[0], a1 = per(t1.k).a;
     if (a1 > 0) { ctx.save(); ctx.globalAlpha = a1; K.type.dot(ctx, lay, t1, x0, y0 + per(t1.k).dy, { color: '#f6ecd8', shadow: '#2a1838', squash: 0 }); ctx.restore(); }
     // v4: Mila (on the M) flicks the dot of the i; it bonks Eli's beanie (on the l) and lands. <= 3 s of acting.
-    const W = E.WM, HL = Object.assign({}, K.cast.LIGHT.dusk), u = 205;
+    const W = opt.wm || E.WM, HL = Object.assign({}, K.cast.LIGHT.dusk), u = 205;
     const gM = lay.glyphs[4], gL = lay.glyphs[6], pM = per(4), pL = per(6), ramp = (a, d) => K.ease.sine(K.clamp((tl - a) / d));
     const mx = x0 + gM.x + lay.adv * 0.42, my = y0 - lay.cap + pM.dy, ex = x0 + gL.x + lay.adv * 0.5, ey = y0 - Bw.ascL + pL.dy;
     const ma = Math.min(pM.a, 1), ea = Math.min(pL.a, 1);
@@ -90,12 +92,14 @@
     if (flick > 0) mO.blend = { pose: 'point', k: flick };
     if (tl > W.c1) { mO.expr = 'curious'; mO.look = [0.7, -0.6]; }
     if (tl > W.land) { mO.expr = 'smug'; mO.look = [0.8, 0]; if (flick <= 0) mO.blend = { pose: 'crossed', k: ramp(W.land + 0.1, 0.25) }; }
+    if (opt.eli) opt.eli(eO, tl, W);
+    if (opt.mila) opt.mila(mO, tl, W);
     let hand = Bw.hand || { x: mx + 40, y: my - 80 }, bonk = Bw.bonk || { x: ex, y: ey - 150 };
     if (ma > 0) { ctx.save(); ctx.globalAlpha = ma; const r = K.cast.draw(ctx, 'mila1', mx, my, u, mO); ctx.restore(); if (tl < W.c1) Bw.hand = hand = { x: r.hands.lead[0], y: r.hands.lead[1] }; }
     if (ea > 0) { ctx.save(); ctx.globalAlpha = ea; const r = K.cast.draw(ctx, 'eli1', ex, ey, u, eO); ctx.restore(); Bw.bonk = bonk = { x: r.head[0] + 6, y: r.top - 0.04 * u }; }
     // the brand dot: a flat vermilion disc (no face), lit like the letters; its shadow on the i once it lands
     const P = E.PAL.golden, rel = q => ({ x: q.x - x0, y: q.y - y0 });
-    const dp = dotPose(lay, tl, rel(hand), rel(bonk));
+    const dp = dotPose(lay, tl, rel(hand), rel(bonk), W);
     if (ma > 0 && tl > W.drop - 0.25) {
       const dx = x0 + dp.x, dy = y0 + dp.y, R = dp.R;
       if (tl > W.land - 0.12) { const k = R / 50 * K.clamp((tl - W.land + 0.12) / 0.12); ctx.drawImage(Bw.shadowDot.c, x0 + lay.tittles[1].x + SIZE * 0.012 - 80 * k, y0 + lay.tittles[1].y + SIZE * 0.035 - 80 * k, 160 * k, 160 * k); }
@@ -107,7 +111,7 @@
       if (tl > W.c2 && tl < W.c2 + 0.3) K.char.extra(ctx, bonk.x, bonk.y + 30, 40, 'ticks', tl, { ink: '#fbe9cf' });   // the bonk
     }
     // tagline
-    const ta = K.clamp((tl - E.WM.tagline) / 0.6);
+    const ta = K.clamp((tl - W.tagline) / 0.6);
     if (ta > 0) {
       { // a soft dusk-violet shadow pool behind the tagline so cream type keeps contrast over the warm hills
         const gx = K.W / 2, gy = y0 + 84; ctx.save(); ctx.globalAlpha = ta; ctx.translate(gx, gy); ctx.scale(1, 0.16);

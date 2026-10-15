@@ -158,7 +158,7 @@
 
   E.drawCloseup = function (ctx, t, frame, opt = {}) {
     if (!L) L = build();
-    const P = E.PAL.golden, st = E.closeState(t), tau = st.tau;
+    const P = E.PAL.golden, st = opt.state || E.closeState(t), tau = st.tau;   // animatic: opt.state = the same fields from another sim run
     const pxShift = st.x * SC, speedPx = st.v * 2 * SC / 30;          // px per frame at the car's depth (timescale 2)
     // camera: slow push-in toward the mascot, tiny drift
     const z = 1 + 0.07 * K.ease.sine(K.inv(0, 6, t - (opt.t0 ?? 6))) , headX = CX - 40, headY = GROUND - 1.25 * SC;
@@ -207,8 +207,8 @@
         drawDriver: (sx, sy) => K.char.head(ctx, sx, sy - SC * 0.3, SC * 0.36, { view: 'front', skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
           expr: brake > 0.5 ? 'worried' : 'content', look: [0.9, 0], light: { ang: -0.6, rim: P.rim, shade: P.shadow } }) });
     };
-    if (leadX < K.W + 800) drawCarAt(leadX, E.LEADER, st.bL);
-    if (follX > -800) drawCarAt(follX, E.MASCOT - 1, st.run.brake(E.MASCOT - 1, tau));
+    if (leadX < K.W + 800) drawCarAt(leadX, st.leadI ?? E.LEADER, st.bL);
+    if (follX > -800) drawCarAt(follX, st.follI ?? E.MASCOT - 1, st.bF ?? st.run.brake(E.MASCOT - 1, tau));
     // the leader's brake light spills red into the frame even before its car enters
     if (st.bL > 0.02) {
       const lx = Math.min(K.W + 250, leadX - 3.3 * SC * 0.495), ly = GROUND - 0.7 * SC;

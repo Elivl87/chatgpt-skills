@@ -9,7 +9,8 @@
             blink, talk (0..1), seated, light: K.cast.LIGHT.golden | {...}, fog:[colour,k], extras:[..],
             headTurn (-1.6..1 extra head yaw; negative = look back over the shoulder), tilt (head roll),
             lean (upper-body lean, + = forward), shadow (contact alpha), blend: { pose, k } (pose cross-fade),
-            drag (0..1 wind on hair / loose cloth), hatHit (0..1 impulse squashes the hat) }
+            drag (0..1 wind on hair / loose cloth), hatHit (0..1 impulse squashes the hat),
+            hairFlop (0..1, Mila: the ponytail swings over the top of the head and lands on her face; 0 = normal) }
      poses: stand, point, shrug, drive, driveFist, crossed, fist, wave, cheer, hips, palm, think, lap, lapPoint
      exprs: neutral, happy, laugh, surprised, annoyed, grumpy, furious, worried, thinking, awe, smug (= sly), sheepish,
             determined, curious, talk
@@ -186,6 +187,7 @@
     pump:    { lead: HANG(), trail: A([0.3, -0.05], [0.55, 0.02], 'fist', [1, -1], [-0.5, -1]) },
     walk:    { lead: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: 1 }), trail: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: -1 }), walk: 1 },
     clipboard: { lead: A(null, null, 'fist', [1, -0.6], [-0.3, -1], { at: 'write' }), trail: A(null, null, 'mitt', [1, -0.4], [-0.3, -1], { at: 'board' }), prop: 'clipboard' },
+    visor:   { lead: HANG(), trail: A(null, null, 'mitt', [1, 0.3], [-0.2, 0.2], { at: 'visor' }), lean: 0.04 },
     detective: { lead: A(null, null, 'hide', [1, 0.2], [-1, 0.2], { at: 'backhand' }), trail: A(null, null, 'fist', [1, -0.7], [-0.4, -1], { at: 'lens' }), prop: 'magnifier', lean: 0.05 },
     sitPoint: { lead: A([0.8, 0.5], [0.92, 0.42], 'point', [0, -1], [0, -1]), trail: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }) },
     sit:     { lead: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }), trail: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }) },
@@ -498,7 +500,7 @@
     const lean = (o.lean || 0) + (E.lean || 0) * (o.seated ? 0.5 : 1) + K.lerp(P.lean || 0, PB ? PB.lean || 0 : 0, bk);
     const hcx = tcx + dir * s * (S.head.lean || 0) * 0.5, hcy = -S.head.cy - breathe * 1.4 - lift;
     const H = { cx: 0, cy: 0, hw, hh, s, fs, faceDir, dir, lw, skin: S.skin, lidColor: S.lidColor, F: S.face, E, t, blink: o.blink || 0, talk: o.talk || 0, viseme: o.viseme,
-      look: o.look || E.look || [0, 0], headTurn, drag: o.drag || 0, hatHit: o.hatHit || 0, back, chin: S.head.cy - S.torso.top - 0.001 };
+      look: o.look || E.look || [0, 0], headTurn, drag: o.drag || 0, hatHit: o.hatHit || 0, flop: o.hairFlop || 0, back, chin: S.head.cy - S.torso.top - 0.001 };
     const sh = sg => [tcx + sg * S.shoulderW * cosT + dir * s * (S.shoulderFwd || 0), shY];
     const L1 = S.arm.upper, L2 = S.arm.fore, LA = L1 + L2;
     const anchor = (name, sg) => {
@@ -519,6 +521,8 @@
         case 'board': { const b = boardAt(); return [b[0] - dir * 0.03 * (1 - s) + dir * s * -0.02, b[1] + 0.05]; }
         case 'write': { const b = boardAt(); return [b[0] + dir * 0.012 + Math.sin(t * 11) * 0.006, b[1] - 0.005 + Math.cos(t * 7) * 0.005]; }
         case 'lens': return [hcx + faceDir * (fs * hw * 1.05 + (1 - fs) * 0.0) + (fs < 0.3 ? -dir * hw * 0.2 : 0), hcy + S.face.eyeY + 0.075];
+        // a flat hand shading the eyes (looking far ahead): above the brows, toward the face side, never over an eye
+        case 'visor': return [hcx + faceDir * fs * hw * 0.55 + (fs < 0.3 ? sg * hw * 0.25 : 0), hcy + S.face.eyeY - 0.034];
         case 'backhand': return [tcx - dir * s * (wB + 0.02) + (1 - s) * sg * wB * 0.6, Tbot - 0.03];
         case 'knee': return kneeAt(sg);
       }

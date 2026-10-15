@@ -71,16 +71,17 @@
   K.car.front = function (ctx, x, y, s, o = {}) {
     const fog = o.fog, body = C(o.color || K.car.COLORS[1], fog), lit = o.lit || {};
     const bodyShade = lit.shade ? K.mix(body, C(lit.shade, fog), lit.shadeK ?? 0.35) : body;
-    const W = 1.7 * s, top = y - 0.95 * s, bot = y - 0.18 * s;
+    const W = 1.7 * s * (o.seats === 2 ? 1.24 : 1), top = y - 0.95 * s, bot = y - 0.18 * s;
     ctx.fillStyle = C(DARK, fog);
     K.rrect(ctx, x - W * 0.47, y - 0.36 * s, 0.26 * s, 0.36 * s, 0.07 * s); ctx.fill();
     K.rrect(ctx, x + W * 0.47 - 0.26 * s, y - 0.36 * s, 0.26 * s, 0.36 * s, 0.07 * s); ctx.fill();
     if (s > 1.2) {
       const R = 0.34 * s;
-      K.char.head(ctx, x - 0.32 * s, top - R * 0.5, R, { view: 'front', skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, capColor: o.capColor, expr: o.expr || 'content', fog,
+      if (o.drawDriver) o.drawDriver(x, top, s, W);    // animatic: custom crew (e.g. Eli + Mila seen from the front)
+      else K.char.head(ctx, x - 0.32 * s, top - R * 0.5, R, { view: 'front', skin: o.skin, hair: o.hair, hairStyle: o.hairStyle, capColor: o.capColor, expr: o.expr || 'content', fog,
         light: lit.rim ? { ang: lit.ang ?? -1.3, rim: C(lit.rim, fog), shade: lit.shade } : null });
       // windshield (glass in front of the face): pale, reflective
-      ctx.fillStyle = K.rgba(C('#f4efe6', fog), 0.28);
+      ctx.fillStyle = K.rgba(C('#f4efe6', fog), o.glass ?? 0.28);
       K.rrect(ctx, x - W * 0.4, top - 0.48 * s, W * 0.8, 0.5 * s, [0.2 * s, 0.2 * s, 0, 0]); ctx.fill();
       ctx.strokeStyle = K.rgba(C(DARK, fog), 0.5); ctx.lineWidth = Math.max(0.5, 0.04 * s);
       K.rrect(ctx, x - W * 0.4, top - 0.48 * s, W * 0.8, 0.5 * s, [0.2 * s, 0.2 * s, 0, 0]); ctx.stroke();

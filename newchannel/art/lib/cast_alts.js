@@ -168,7 +168,26 @@
     face: { eyes: 'googly', eyeR: 0.034, eyeSep: 0.031, eyeY: -0.04, pupil: 0.34, goofy: 0.6, nose: 0.011, noseY: 0.048, mouthY: 0.056, mouthW: 0.041, lidBias: 0.36, lashes: true, lip: '#8e3346', grinOpen: 0.1, grinW: 0.62,
       brows: 0.011, browColor: '#2e1d22', browGap: 1.4, browW: 0.95, browsLate: true, profMouth: 1.45 },
     collar: crewCollar(PURPLE_D), outfit: overalls, outfitTop: overallStraps, hair: '#2e1d22' });
+  // hairFlop (animatic, beat 2 gag): the ponytail swings over the top of the head (0 -> 0.5: up) and lands on her face
+  // (1). Drawn behind the head while it is still behind/up (< 0.45), over the face after that (headTop).
+  function ponyFlop(c, H, k) {
+    const back = H.fs > 0.05 ? -H.faceDir : -1, rx = H.fs > 0.05 ? back * H.hw * 0.35 * H.fs : 0, ry = -H.hh + 0.012, fd = -back;
+    const N = [[rx + back * 0.1, ry - 0.03], [rx + back * 0.105, ry + 0.13]], U = [[rx + back * 0.05, ry - 0.09], [rx + back * 0.015, ry - 0.155]],
+      F = [[fd * H.hw * 1.0, -H.hh - 0.03], [fd * H.hw * 0.3, H.F.mouthY + 0.02]];
+    const L = (a, b, u) => [K.lerp(a[0], b[0], u), K.lerp(a[1], b[1], u)];
+    const u = K.clamp(k), ctl = u < 0.5 ? L(N[0], U[0], u * 2) : L(U[0], F[0], u * 2 - 1), tip = u < 0.5 ? L(N[1], U[1], u * 2) : L(U[1], F[1], u * 2 - 1);
+    const sw = Math.sin(H.t * 2.4) * 0.006, P0 = [rx, ry], pts = [];
+    for (let i = 0; i <= 12; i++) { const v = i / 12, a = (1 - v) * (1 - v), b = 2 * v * (1 - v), d = v * v; pts.push([a * P0[0] + b * ctl[0] + d * (tip[0] + sw), a * P0[1] + b * ctl[1] + d * tip[1]]); }
+    const left = [], right = [];
+    for (let i = 0; i <= 12; i++) { const p = pts[i], q = pts[Math.min(12, i + 1)], o2 = pts[Math.max(0, i - 1)], dx = q[0] - o2[0], dy = q[1] - o2[1], dl = Math.hypot(dx, dy) || 1;
+      const w = K.lerp(0.022, 0.011, i / 12) * (1 + 0.7 * Math.sin(Math.PI * i / 12) * K.clamp(k * 2 - 1, 0, 1) + 0.4 * Math.sin(Math.PI * i / 12)); left.push([p[0] - dy / dl * w, p[1] + dx / dl * w]); right.push([p[0] + dy / dl * w, p[1] - dx / dl * w]); }
+    c.fillStyle = MILA1.hair; c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.lineJoin = 'round';
+    c.beginPath(); c.moveTo(left[0][0], left[0][1]); for (const p of left) c.lineTo(p[0], p[1]); for (let i = right.length - 1; i >= 0; i--) c.lineTo(right[i][0], right[i][1]); c.closePath(); c.stroke(); c.fill();
+    c.strokeStyle = K.rgba('#5a3a3a', 0.8); c.lineWidth = H.lw * 1.2; c.beginPath(); c.moveTo(pts[1][0], pts[1][1]); for (let i = 2; i < 12; i++) c.lineTo(pts[i][0], pts[i][1]); c.stroke();
+    c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = H.lw * 1.5; K.ellipse(c, rx + back * 0.004, ry - 0.006, 0.016, 0.0095, back * 0.55); c.fill(); c.stroke();
+  }
   MILA1.hairBack = function (c, H) { // high ponytail that swings (t) and trails in the wind (drag)
+    if (H.flop > 0.001) { if (H.flop < 0.45) ponyFlop(c, H, H.flop); return; }
     const back = H.fs > 0.05 ? -H.faceDir : -1, rx = H.fs > 0.05 ? back * H.hw * 0.35 * H.fs : 0, ry = -H.hh + 0.012;
     const sw = Math.sin(H.t * 2.4) * 0.012 + Math.sin(H.t * 5.1) * 0.004 - H.drag * 0.03 * H.dir;
     c.fillStyle = MILA1.hair; c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.lineJoin = 'round';
@@ -193,6 +212,7 @@
     c.restore(); outlineHead(c, H, S);
   };
   MILA1.headTop = function (c, H, B) {
+    if (H.flop >= 0.45 && !H.back) { drops(GOLD, H.F.mouthY - 0.006)(c, H); ponyFlop(c, H, H.flop); return; }
     const back = H.fs > 0.05 ? -H.faceDir : -1, rx = backX(H, 0.35), ry = -H.hh + 0.004;
     c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = H.lw * 1.5; K.ellipse(c, rx + back * 0.008, ry - 0.008, 0.016, 0.0095, back * 0.55); c.fill(); c.stroke();
     c.strokeStyle = K.rgba(INK, 0.45); c.lineWidth = H.lw * 0.9; c.beginPath(); c.moveTo(rx + back * 0.002, ry - 0.016); c.lineTo(rx + back * 0.014, ry); c.stroke();

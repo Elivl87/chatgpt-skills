@@ -108,12 +108,16 @@
   };
 
   // st: { sCam, lCam, H, pitch, yaw, f, t, brake(i), sun: {az, elev, r}, mascotExpr }
+  // animatic additions (all optional, defaults = the v4 behaviour): mascot (index of the teal car, default E.MASCOT),
+  // reverse (look back down the road: no sun, cars seen from the front with a red brake spill, oncoming from the rear),
+  // carExpr(i, brake) (faces of the drivers seen from the front), hide(i) (skip a car: the animatic draws it itself), onGround(ctx, g) (after the road lines, under the
+  // cars), onTop(ctx, g) (after everything); g = { cam, rig, road, hz }.
   E.drawHighway = function (ctx, W, st) {
-    const P = W.P, o = W.opts, road = W.road, t = st.t;
+    const P = W.P, o = W.opts, road = W.road, t = st.t, rev = !!st.reverse, MASC = st.mascot ?? E.MASCOT;
     const cam = K.persp({ f: st.f, H: st.H, pitch: st.pitch, cy: st.cy ?? K.H / 2 });
-    const rig = road.rig(st.sCam, st.lCam, st.yaw || 0);
+    const rig = road.rig(st.sCam, st.lCam, (st.yaw || 0) + (rev ? Math.PI : 0));
     const hz = cam.horizon, th0 = road.head(0);
-    const yawPx = -(rig.th - th0) * cam.f;
+    const yawPx = -(rig.th - th0 - (rev ? Math.PI : 0)) * cam.f;
     // sky
     ctx.fillStyle = P.sky[0][1]; ctx.fillRect(0, 0, K.W, K.H);
     ctx.drawImage(W.sky.c, -300 + yawPx * 0.15, hz - (o.horizon || hz));
@@ -125,6 +129,12 @@
       ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = mw; ctx.fillRect(-900, -900, 1800, 1800); ctx.restore();
       K.sky.stars(ctx, { seed: 21, n: 520, y1: hz, t }); K.sky.moon(ctx, sunX, sunY, st.sun.r, { glow: '#8ea4ff' });
       if (W.clouds) K.sky.drawClouds(ctx, W.clouds, t, { dx: yawPx * 0.15, dy: hz - (o.horizon || hz) });
+    }
+    else if (rev) {   // looking away from the low sun: a cooler zenith, warm light on the clouds, no sun disc
+      const g = ctx.createLinearGradient(0, 0, 0, hz); g.addColorStop(0, K.rgba('#3c4c8a', 0.35)); g.addColorStop(1, K.rgba('#3c4c8a', 0));
+      ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = g; ctx.fillRect(0, 0, K.W, hz); ctx.restore();
+      if (W.clouds) K.sky.drawClouds(ctx, W.clouds, t, { dx: yawPx * 0.15 + 400, dy: hz - (o.horizon || hz) });
+      K.light.haze(ctx, hz - 200, hz - 10, hz + 60, P.haze, 0.45);
     }
     else {
       K.sky.sun(ctx, sunX, sunY, st.sun.r, { core: P.sun, halo: P.halo, glow: st.sun.r * 14, glowAlpha: 0.6, rings: 4, ringStep: 0.9, ringAlpha: 0.07 });
@@ -146,7 +156,7 @@
     ctx.fillStyle = gg; ctx.fillRect(0, hz - 2, K.W, K.H - hz + 2);
     const fogOf = d => [P.haze, K.clamp(1 - Math.exp(-d / (o.fogDist || 650)), 0, o.night ? 0.75 : 0.92)];
     const camD = (s, l) => { const w = road.world(s, l), c = rig.toCam(w.x, w.z); return c[1]; };
-    const sMin = st.sCam + 2, sMax = st.sCam + (o.far || 2600);
+    const sMin = rev ? st.sCam - (o.far || 2600) : st.sCam + 2, sMax = rev ? st.sCam - 2 : st.sCam + (o.far || 2600), ahead = s => (rev ? st.sCam - s : s - st.sCam);
     // fields
     const fcols = o.fieldColors || [P.field, P.field2, K.mix(P.field, P.grass, 0.5), K.mix(P.field2, '#c9b46a', 0.4), P.grass, '#c79a5e', '#9b9a62'];
     for (const fd of W.sc.fields) {
@@ -184,14 +194,15 @@
     // v2 painterly ground: world-anchored brush dabs (travel with the camera, follow the ground plane)
     const ptOf = (s, l) => { const w = road.world(s, l), c = rig.toCam(w.x, w.z); if (c[1] < 1.5) return null; const p = cam.proj(c[0], 0, c[1]); return { x: p.x, y: p.y, d: c[1] }; };
     if (o.groundTex !== false) {
-      K.terrain.brush(ctx, ptOf, { sCam: st.sCam, sMin: st.sCam + 2, sMax: st.sCam + (o.brushFar || 700), per: o.night ? 2 : 3,
+      const mir = rev ? (s => 2 * st.sCam - s) : (s => s);   // reverse: the brush walks a mirrored road (the reverse shots hold the camera still)
+      K.terrain.brush(ctx, (s, l) => ptOf(mir(s), l), { sCam: st.sCam, sMin: st.sCam + 2, sMax: st.sCam + (o.brushFar || 700), per: o.night ? 2 : 3,
         lAt: d => [st.lCam - d * 0.75 - 6, st.lCam + d * 0.75 + 6], skip: (s, l) => Math.abs(l) < 4.9,
         fogK: d => 1 - fogOf(d)[1] * 0.85,
         colors: o.brushColors || (o.night ? [['#1f2852', 0.14], ['#05081a', 0.3]] :
           [[P.rim, 0.17], [P.shadow, 0.13], ['#e7b45e', 0.15], ['#5f7a3c', 0.15], ['#fff1d0', 0.08]]) });
       if (!o.night) {   // wildflowers near the camera (world-anchored dots)
         const fl = { '#fff4e0': [], '#ffd65a': [], '#c9a3e8': [], '#ff9a8a': [] }, fk = Object.keys(fl);
-        for (let s = Math.floor((st.sCam + 2) / 2) * 2; s < st.sCam + 60; s += 2) for (let l = -40; l < 40; l += 2) {
+        for (let s = Math.floor((rev ? st.sCam - 60 : st.sCam + 2) / 2) * 2; s < (rev ? st.sCam - 2 : st.sCam + 60); s += 2) for (let l = -40; l < 40; l += 2) {
           if (Math.abs(l) < 5 || K.vnoise(s * 0.06, l * 0.1, 33) < 0.64) continue;
           const r = K.rng(((s * 7919) ^ (l * 104729)) >>> 0 || 3);
           for (let k = 0; k < 3; k++) { const p = ptOf(s + r() * 2, l + r() * 2); if (!p) continue; fl[fk[(r() * 4) | 0]].push(p.x, p.y, Math.max(0.6, Math.min(4, 0.05 * cam.f / p.d))); }
@@ -202,9 +213,9 @@
     // road surface (strip of quads), shoulders, lines
     const strip = (l0, l1, col, fogScale = 1) => {
       let prev = null;
-      const step = s => (s - st.sCam < 60 ? 4 : s - st.sCam < 300 ? 12 : 40);
-      for (let s = sMin; s < sMax; s += step(s)) {
-        const s2 = Math.min(sMax, s + step(s));
+      const step = s => (ahead(s) < 60 ? 4 : ahead(s) < 300 ? 12 : 40);
+      for (let s = sMin; s < sMax; s += step(rev ? s + 40 : s)) {
+        const s2 = Math.min(sMax, s + step(rev ? s + 40 : s));
         const q = K.groundPoly(road, rig, cam, [[s, l0], [s2, l0], [s2, l1], [s, l1]], 1.5); if (!q) continue;
         const fog = fogOf(camD(s, 0) * fogScale);
         ctx.fillStyle = K.mix(col, fog[0], fog[1]); K.fillPoly(ctx, q); ctx.fill();
@@ -216,7 +227,7 @@
     strip(-4.6, 4.6, o.night ? '#1d2236' : K.mix(P.road, P.grass, 0.35));
     strip(-3.9, 3.9, P.road);
     // sun sheen on the asphalt (toward the sun, far part of road glows)
-    if (!o.night) {
+    if (!o.night && !rev) {
       const g = ctx.createLinearGradient(0, hz, 0, hz + 160);
       g.addColorStop(0, K.rgba(P.halo, 0.55)); g.addColorStop(1, K.rgba(P.halo, 0));
       ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = g;
@@ -226,16 +237,18 @@
     // lane lines
     const lineCol = o.night ? '#6e7090' : P.line;
     for (const l of [-3.55, 3.55]) {
-      for (let s = Math.floor(sMin / 4) * 4; s < Math.min(sMax, st.sCam + 900); s += 4) {
+      for (let s = Math.floor(Math.max(sMin, st.sCam - 900) / 4) * 4; s < Math.min(sMax, st.sCam + 900); s += 4) {
         const q = K.groundPoly(road, rig, cam, [[s, l - 0.1], [s + 4.05, l - 0.1], [s + 4.05, l + 0.1], [s, l + 0.1]], 1.5); if (!q) continue;
         const fog = fogOf(camD(s, l)); ctx.fillStyle = K.mix(lineCol, fog[0], fog[1] * 0.8); K.fillPoly(ctx, q); ctx.fill();
       }
     }
-    for (let s = Math.floor(sMin / 12) * 12; s < Math.min(sMax, st.sCam + 900); s += 12) {
+    for (let s = Math.floor(Math.max(sMin, st.sCam - 900) / 12) * 12; s < Math.min(sMax, st.sCam + 900); s += 12) {
       const q = K.groundPoly(road, rig, cam, [[s, -0.09], [s + 4, -0.09], [s + 4, 0.09], [s, 0.09]], 1.5); if (!q) continue;
       const fog = fogOf(camD(s, 0)); ctx.fillStyle = K.mix(lineCol, fog[0], fog[1] * 0.8); K.fillPoly(ctx, q); ctx.fill();
     }
 
+    const G = { cam, rig, road, hz };
+    if (st.onGround) st.onGround(ctx, G);
     // ---- night: headlight cones on the asphalt and wet-road reflections of every lamp (drawn under the cars)
     if (o.night && (st.run || st.onc)) {
       ctx.save(); ctx.globalCompositeOperation = 'lighter';
@@ -263,9 +276,9 @@
     const sunLat = Math.tan(st.sun.az) || 0, shLen = 1 / Math.tan(Math.max(0.05, st.sun.elev));
     const shadows = [];
     for (const ob of W.sc.objs) {
-      if (ob.s < sMin - (ob.k === 'tree' ? 120 : 10) || ob.s > sMax) continue;
+      if (ob.s < sMin - (ob.k === 'tree' && !rev ? 120 : 10) || ob.s > sMax + (rev && ob.k === 'tree' ? 120 : 0)) continue;
       if (ob.k === 'house' && o.night !== true) continue;
-      if ((ob.k === 'tuft' && ob.s > st.sCam + (ob.field ? 55 : 70)) || (ob.k === 'fence' && ob.s > st.sCam + 260)) continue;
+      if ((ob.k === 'tuft' && ahead(ob.s) > (ob.field ? 55 : 70)) || (ob.k === 'fence' && ahead(ob.s) > 260)) continue;
       const w = road.world(ob.s, ob.l), c = rig.toCam(w.x, w.z);
       if (o.shadows !== false && (ob.k === 'tree' || ob.k === 'pole') && c[1] > -150) shadows.push(ob);
       if (c[1] < 1.5) continue;
@@ -277,7 +290,7 @@
       const S = run.at(st.simT ?? t);
       for (let i = 0; i < run.N; i++) {
         const s = wrap(S.x[i], run.p.L, st.sCam - 60);
-        if (s < sMin || s > sMax) continue;
+        if (s < sMin || s > sMax || (st.hide && st.hide(i))) continue;
         const w = road.world(s, 1.85), c = rig.toCam(w.x, w.z);
         items.push({ car: i, s, d: c[1], X: c[0], v: S.v[i] });
         if (c[1] > -30) shadows.push({ k: 'car', s, l: 1.85, h: 1.3 });
@@ -346,7 +359,15 @@
           K.terrain.tuft(ctx, p.x, p.y, hpx, K.mix(o.night ? '#0e1630' : K.shade(P.grass, -0.25), fog[0], fog[1]), { seed: ob.seed, n: 6, rim: o.night ? null : P.rim, wind: Math.sin(t * 2 + ob.s) * 0.15 });
         }
       } else if (it.car !== undefined) {
-        const i = it.car, pe = E.persona(i), isM = i === E.MASCOT;
+        const i = it.car, pe = E.persona(i), isM = i === MASC;
+        if (rev) {   // seen from the front: the brake lights spill red round the body; the driver's face reacts
+          const b = st.brake(i), cf = [fog[0], fog[1]];
+          if (b > 0.04) { K.light.glow(ctx, p.x, p.y - 0.75 * p.s, 2.2 * p.s * (0.7 + 0.5 * b), '#ff2a1a', 0.55 * b * (1 - fog[1] * 0.5), 'lighter');
+            K.light.glow(ctx, p.x, p.y - 0.1 * p.s, 1.6 * p.s, '#ff3a28', 0.35 * b * (1 - fog[1] * 0.5), 'screen'); }
+          K.car.front(ctx, p.x, p.y, p.s, { color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
+            fog: cf, lit: { rim: P.rim, shade: P.shadow, ang: -1.2, shadeK: 0.18, rimAlpha: 0.5 }, head: 0.15, glowScale: 0.6, expr: st.carExpr ? st.carExpr(i, b) : 'content' });
+          continue;
+        }
         const bob = it.v > 0.5 ? Math.sin(t * 9 + i * 1.7) * 0.025 : 0;
         const cfog = [fog[0], fog[1] * (o.night ? 0.6 : 1)];
         K.car.rear(ctx, p.x, p.y, p.s, { color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
@@ -357,6 +378,7 @@
             K.cast.draw(ctx, 'mila1', hx + W * 0.21, seat + 0.02 * s, u, Object.assign({ view: 'back', pose: 'lap', seated: true, t, light: L, fog: cfog }, ao.mila || {})); } : null });
       } else if (it.onc !== undefined) {
         const pe = E.persona(100 + it.onc);
+        if (rev) { K.car.rear(ctx, p.x, p.y, p.s, { color: pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, fog: [fog[0], fog[1]], lit, brake: 0 }); continue; }
         K.car.front(ctx, p.x, p.y, p.s, { color: pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
           fog: [fog[0], fog[1] * (o.night ? 0.6 : 1)], lit, head: o.night ? 1 : 0.35, glowScale: o.night ? 2.2 : 0.8, expr: 'content' });
       }
@@ -368,6 +390,7 @@
       const fog = fogOf(a.d);
       for (let j = 0; j < 2; j++) K.terrain.wire(ctx, a.arms[j], b.arms[j], 6 * Math.min(3, 30 / Math.max(5, a.d)) + 2, K.rgba(K.mix(o.night ? '#1a2040' : '#3a2a35', fog[0], fog[1]), 0.8), Math.max(0.6, 1.4 * 20 / Math.max(10, a.d)));
     }
+    if (st.onTop) st.onTop(ctx, G);
     return { cam, rig, sunX, sunY, hz };
   };
 

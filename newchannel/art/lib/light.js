@@ -89,6 +89,8 @@
   const K = root.K;
   let sh = null;
   K.light.shimmer = function (ctx, x, y, w, h, t, o = {}) {
+    { const m = ctx.getTransform();   // works under a scale/translate (output scaling, camera zoom): map the band to device px
+      if (m.a !== 1 || m.d !== 1 || m.e !== 0 || m.f !== 0) { x = x * m.a + m.e; y = y * m.d + m.f; w *= m.a; h *= m.d; o = Object.assign({}, o, { amp: (o.amp || 2.2) * m.a }); } }
     x = Math.round(x); y = Math.round(y); w = Math.round(w); h = Math.round(h);
     if (!sh || sh.w < w || sh.h < h) sh = K.canvas(Math.max(w, 1200), Math.max(h, 120));
     sh.ctx.globalCompositeOperation = 'copy'; sh.ctx.drawImage(ctx.canvas, x, y, w, h, 0, 0, w, h);

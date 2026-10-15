@@ -2,6 +2,7 @@
 // pre-installed Chromium (Playwright from the global node install; never `playwright install`), steps time frame by
 // frame (t = frame / fps, no wall clock) and writes PNGs. Usage:
 //   node render.mjs --scene highway_golden --still 4.2 --png out.png
+//   node render.mjs --page ep/001/animatic/index.html --scene ep001_A --query out=854x480 --fps 30 --dur 42 --out /tmp/f
 //   node render.mjs --scene style_test --fps 30 --start 0 --dur 17.7 --out /tmp/frames [--from 0 --to 530] [--events ev.json]
 import http from 'node:http';
 import fs from 'node:fs';
@@ -33,7 +34,8 @@ const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, de
 page.on('console', m => { if (m.type() === 'error' || args.verbose) console.log('[page]', m.text()); });
 page.on('pageerror', e => console.log('[pageerror]', e.message));
 const extra = args.query ? '&' + args.query : '';
-await page.goto(`http://127.0.0.1:${port}/art/scenes/index.html?scene=${args.scene}${extra}`);
+const pageUrl = args.page || 'art/scenes/index.html';   // --page ep/001/animatic/index.html (relative to newchannel/)
+await page.goto(`http://127.0.0.1:${port}/${pageUrl}?scene=${args.scene}${extra}`);
 await page.waitForFunction(() => window.__ready || window.__error, null, { timeout: 180000 });
 const err = await page.evaluate(() => window.__error);
 if (err) { console.error(err); process.exit(2); }
