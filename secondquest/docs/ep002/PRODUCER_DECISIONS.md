@@ -736,3 +736,6 @@
   delivered as draft Release `deliver-ep002-short2-hf-v4`; light copy `EP002_short2_hf_v4_1080_light.mp4` (21.6 MB)
   and contact sheet in git. Frame diff vs the approved 540 preview (downscaled): mean 1.7/255 (grain only); no black
   or flicker frames.
+- **PUBLISHED** (Producer, 2026-10-15: "Publicado"), with the upload kit `short2_hyperframes/UPLOAD_KIT_SHORT2.md`
+  (titles rewritten to veteran vs first-timer so it doesn't read as co-op). Analytics read due at 48–72 h
+  (compare against `ANALYTICS_SHORT1_72H.md`, stay rate 28 %).
