@@ -4,9 +4,11 @@ The critic did not build this piece and did not edit it. It judges attention onl
 design critic (`CRITIC_v3.md`).
 
 **What was reviewed:**
-- `EP002_short2_hf_v3_preview540.mp4`, the render saved at 2026-10-15 00:00:51 UTC (sha1 `d1388cf0…`). It is 540x960,
-  30 fps and 22.64 s long.
-- The contact sheet saved at 00:00:52.
+- `EP002_short2_hf_v3_preview540.mp4`, the builder's final v3.1 render, saved at 2026-10-15 00:06:01 UTC (commit
+  bab5426, sha1 `9a201160…`). It is 540x960, 30 fps and 22.64 s long.
+- The earlier 00:00:51 render (sha1 `d1388cf0…`) was also checked. Its frame-difference profile is identical except
+  for 3.5-5.0 s, where the 3.62 s cut is now a milder push to a closer full figure rather than a waist-up shot.
+  Every finding below holds for both.
 - `v3_design/` and the design critic's `CRITIC_v3.md`.
 - The caption timings and camera cues in `tools/hyperframes_ep002_short2/short/index.html`, from the working tree.
 - The Producer's Short history in `docs/ep002/PRODUCER_DECISIONS.md`.
@@ -29,7 +31,7 @@ design critic (`CRITIC_v3.md`).
 - **8.63 to 11.08 s is a 2.45 s hole.** It scores 0. The N64 tree is unreadable brown murk on screen, the camera barely
   moves (1.00 to 1.04) and the only motion is Navi. It falls on the abstract line "Because better is measurable".
   That is a confusion beat at the point where a Short loses the most viewers, right after the hook.
-- **The hook has two flat stretches of 1.4 to 2 s each.** They are at 1.0 to 3.0 s and 3.9 to 5.3 s.
+- **The hook has two flat stretches of 1.6 to 2 s each.** They are at 1.0 to 3.0 s and 3.65 to 5.3 s.
 - **There is dead air before the payoff, and the end card goes silent.**
 
 Fix those three and this is a PASS.
@@ -45,7 +47,7 @@ End card .......... PASS (note) - card 20.54-22.64 s = 2.1 s (wordmark + card 2.
 Loop .............. BONUS - last frame (field, dirt road, Pixie) flows back to frame 0 (same field, dirt road, Quest)
 Coherence ......... PASS (note) - nobody fakes an action; the 1998 twist only reads once the CRT/N64 shows at 17.2 s
 Captions .......... PASS  - one line, word-by-word, gold on the spoken word, never on a face; dropped under the l60 title
-Stretches <=1 >1.2 s: 1.0-3.0 (2.0 s), 3.9-5.3 (1.4 s), 8.7-11.1 (2.4 s, includes 0s)
+Stretches <=1 >1.2 s: 1.0-3.0 (2.0 s), 3.65-5.3 (1.6 s), 8.7-11.1 (2.4 s, includes 0s)
 ```
 
 ## Attention curve (0 to 3, per 0.5 s)
@@ -67,9 +69,9 @@ The curve uses the rubric in the skill:
 | 2.0 | "your" | Same shot | 1.3 | 1 |
 | 2.5 | "imagination." | Dots turn gold (2.51), small | 1.0 | 1 |
 | 3.0 | (Navi "Hello!") | White flash, HUD fades in, Navi glint | 5.5 | **3** |
-| 3.5 | "Give that" | 3.62 hard cut, waist-up hero + balloon | 3.2 | 2 |
-| 4.0 | "character" | Same shot, slow push | 1.3 | 1 |
-| 4.5 | "a voice…" | Same shot | 1.1 | 1 |
+| 3.5 | "Give that" | 3.62 cut to a closer full-figure hero + balloon (mild: diff 26) | 2.4 | 2 |
+| 4.0 | "character" | Same shot, slow push | 1.1 | 1 |
+| 4.5 | "a voice…" | Same shot | 0.9 | 1 |
 | 5.0 | "and suddenly" | 5.28 balloon pops, 5.38 cut to two-shot, Pixie revealed + flash | 5.9 | **3** |
 | 5.5 | "somebody" | Static two-shot (Pixie waving pose) | 0.9 | 1 |
 | 6.0 | "has to" | Same | 0.5 | 1 |
@@ -130,7 +132,8 @@ The curve uses the rubric in the skill:
      mood, not a question.
    - **Is "the remake's impossible job" clear by 2 s?** Only for viewers who read the title in its 0.7 s. That is
      4 words at a glance, which is borderline. For everyone else it becomes clear at 18.67 s.
-3. **3.9 to 5.28 s (1.4 s, scores 1): "character a voice…" on a static waist-up shot.**
+3. **3.65 to 5.28 s (1.6 s, scores 1): "character a voice…" on a static, closer full-figure shot.** The 3.62 s cut
+   changes the size of the shot so little that it barely registers as a new shot.
    - It is saved by the pop at 5.28 s. But the pop is a payoff with no build: the balloon is small and off-centre when
      it pops.
 4. **17.36 to 18.0 s, dead air (about -50 dB for 0.6 s) at the vista cut.**
@@ -169,7 +172,7 @@ The curve uses the rubric in the skill:
      - **3.02 s:** keep Navi's flash and the HUD.
      - **4.58 s, "voice":** a hard punch to a close-up of the balloon, so that the pop at 5.28 s fills the frame and pays
        off the build. Then cut to the two-shot at 5.38 s as now.
-   - This removes the 2.0 s and 1.4 s flat stretches and makes the balloon the visual thread of the hook.
+   - This removes the 2.0 s and 1.6 s flat stretches and makes the balloon the visual thread of the hook.
 3. **Sound under the two gaps: before the payoff and on the card.**
    - **17.36 to 18.67 s:** run a low, quiet riser or wind bed, rising and cut dead at the bass drop at 18.67 s. The
      silence then becomes a held breath and the impact hits harder. This adds no new SFX onset for the Producer's
