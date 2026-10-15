@@ -24,7 +24,7 @@
   C.POSES.yellT = { lead: { f: [0.5, -0.5], sd: [0.5, -0.45], hand: 'fist', pf: [1, -0.6], ps: [-0.5, -1] }, trail: { f: [0.45, 0.8], sd: [0.2, 0.9], hand: 'fist', pf: [1, -0.4], ps: [-1, -0.4], shake: 1 }, lean: 0.05 };
   C.EXPR.furiousT = Object.assign({}, C.EXPR.furious, { tilt: 1.15, eye: 1.1, pupil: 0.62, extras: [] });
   C.EXPR.slyT = { lid: 0.4, low: 0.3, mouth: 'grin', grin: 0.75, look: [0.95, 0.05], tilt: 0.25, noBias: 0.9, browOne: 1.5, head: 0.08, body: 'point' };
-  C.EXPR.caughtT = Object.assign({}, C.EXPR.sheepish, { eye: 1.12, pupil: 0.7, extras: [] });
+  C.EXPR.caughtT = Object.assign({}, C.EXPR.worried, { eye: 1.28, pupil: 0.48, lid: 0.0, tilt: -1.0, noBias: 1, blush: 0.5, extras: ['sweat'] });   // caught: plate eyes sliding away, worried brows, wobbly mouth, sweat
 
   // ------------------------------------------------------------------ layers
   const pool = {};
@@ -103,6 +103,7 @@
       });
       out.push(box);
     }
+    for (const [dx, dy, dr, col] of o.extraDots || []) { wc.fillStyle = col; K.circle(wc, dx, dy, dr); wc.fill(); }
     // compose: soft drop shadow, hard extrusion (reads at 168 px), outline, letters, top rim of scene light
     if (o.shadow) { const S = solid(WL, o.shadow); ctx.save(); ctx.filter = `blur(${o.shadowBlur ?? 14}px)`; ctx.globalAlpha = o.shadowAlpha ?? 0.7; ctx.drawImage(S.c, o.shadowDx ?? 10, o.shadowDy ?? 22); ctx.restore(); }
     if (o.outline) {
@@ -144,7 +145,7 @@
       if (TA == null) TA = jamTime(run, E.MASCOT + 1, E.MASCOT + 9);
       const T = TA, sM = run.at(T).x[E.MASCOT];
       const hide = { at: (tt) => { const S = run.at(tt); const x = Array.from(S.x); for (let i = 0; i <= E.MASCOT; i++) x[i] = -1e6; return Object.assign({}, S, { x }); }, N: run.N, p: run.p, brake: run.brake };
-      const st = { t: T, simT: T, run: hide, onc: null, sCam: sM - 3, lCam: 1.2, H: 1.25, pitch: -0.035, yaw: -0.045, f: 1250, cy: 470, glowScale: 9,
+      const st = { t: T, simT: T, run: hide, onc: null, sCam: sM - 3, lCam: 4.4, H: 2.9, pitch: 0.0, yaw: -0.02, f: 1250, cy: 500, glowScale: 9,
         sun: { az: -0.06, elev: 0.035, r: 54 }, brake: () => 1 };
       // world -> its own layer, softened (depth of field behind the faces)
       const BG = layer('bg'); const g = E.drawHighway(BG.ctx, WA, st);
@@ -152,7 +153,7 @@
       K.light.rays(ctx, g.sunX, g.sunY, { n: 14, spread: 3.0, angle: Math.PI / 2, len: 1700, width: 0.05, alpha: 0.16, color: '#ffe0a0', t: 2, seed: 5 });
       K.sky.wash(ctx, g.sunX, g.sunY, 700, '#ffc070', 0.45);
       // the tail of brake lights: a red bloom along the road toward the sun
-      for (let k = 0; k < 9; k++) K.light.glow(ctx, K.lerp(1010, g.sunX, k / 8), K.lerp(860, g.sunY + 40, Math.pow(k / 8, 0.6)), K.lerp(420, 90, k / 8), '#ff3a24', 0.32, 'screen');
+      for (let k = 0; k < 9; k++) K.light.glow(ctx, K.lerp(760, 975, k / 8), K.lerp(720, 530, Math.pow(k / 8, 0.7)), K.lerp(330, 80, k / 8), '#ff3a24', 0.3, 'screen');
       // the frame darkens toward the edges (backlit: the light is all in the middle)
       { const vg = ctx.createRadialGradient(g.sunX, g.sunY + 120, 120, g.sunX, g.sunY + 120, 1400);
         vg.addColorStop(0, 'rgba(40,16,48,0)'); vg.addColorStop(0.55, 'rgba(40,16,48,0.25)'); vg.addColorStop(1, 'rgba(26,10,34,0.8)');
@@ -162,7 +163,7 @@
 
       // Mila: small, front passenger seat, turned round to look back at the yelling (worried)
       const BL = Object.assign({}, C.LIGHT.backlit, { ang: -2.2, rimW: 0.02, rimMax: 12, shadeA: 0.42 });
-      const M = castLayer('mila', [['mila1', 600, 940, 760, { view: 'q', dir: 1, pose: 'clasp', expr: 'worried', seated: true, t: 1.3, light: BL, look: [0.9, -0.2], headTurn: 0.1 }]]);
+      const M = castLayer('mila', [['mila1', 360, 1010, 880, { view: 'q', dir: 1, pose: 'clasp', expr: 'worried', seated: true, t: 1.3, light: BL, look: [0.9, -0.25], extras: [] }]]);
       tint(M.L, c => { c.fillStyle = 'rgba(255,90,60,0.35)'; c.fillRect(0, 0, K.W, K.H); }, 'soft-light', 1);
       ctx.drawImage(M.L.c, 0, 0);
       // Eli: HUGE, standing in the car, turned round to the camera, yelling, fist up; rim from the sun behind him
@@ -173,7 +174,7 @@
       // a dark halo behind Eli so the silhouette pops from the bright sky
       { const S = solid(El.L, '#1a0c24', 'eliHalo'); ctx.save(); ctx.filter = 'blur(26px)'; ctx.globalAlpha = 0.55; ctx.drawImage(S.c, 0, 0); ctx.restore(); }
       ctx.drawImage(El.L.c, 0, 0);
-      { const [hx, hy, hr] = El.info[0].head; K.char.extra(ctx, hx - hr * 1.25, hy - hr * 1.55, hr * 0.85, 'anger', 0.3, { ink: '#24161a' }); }
+      { const [hx, hy, hr] = El.info[0].head; const R = 230, ax = hx - hr * 1.05, ay = hy - hr * 0.95; K.char.extra(ctx, ax - 0.78 * R, ay + 0.78 * R, R, 'anger', 0.3, { ink: '#24161a' }); }
       // the car's rear deck across the bottom (closest to the camera), backlit
       const lit = { rim: P.rim, shade: P.shadow, ang: -2.0, dx: -1, shadeK: 0.45 };
       K.car.rear(ctx, 1010, 1080 + 980, 1100, { color: K.TEAL, lit, brake: 0, driver: false, seats: 2 });
@@ -191,6 +192,8 @@
     if (BGB) return BGB; BGB = K.canvas(K.W, K.H); const c = BGB.ctx;
     K.sky.gradient(c, [[0, '#f3b77c'], [0.35, '#ffd9a0'], [0.62, '#fff1d0'], [0.75, '#ffd7a0'], [1, '#c98a72']], 0, K.H);
     K.sky.wash(c, 960, 560, 900, '#fff6e2', 0.9);
+    K.sky.sun(c, 900, 330, 70, { core: '#fffaf0', halo: '#ffe2a8', glow: 900, glowAlpha: 0.7, rings: 4, ringStep: 0.9, ringAlpha: 0.08 });
+    K.light.rays(c, 900, 330, { n: 16, spread: K.TAU, angle: 0, len: 1400, width: 0.05, alpha: 0.14, color: '#fff2d0', t: 1, seed: 9 });
     // far hills and the road, painted soft (out of focus)
     c.fillStyle = '#e7b48e'; K.terrain.ridgePath(c, { x0: -20, x1: 1940, y: 700, amp: 60, freq: 0.002, seed: 4, oct: 4, bottom: 1100 }); c.fill();
     c.fillStyle = '#c99079'; K.terrain.ridgePath(c, { x0: -20, x1: 1940, y: 760, amp: 34, freq: 0.004, seed: 8, oct: 4, bottom: 1100 }); c.fill();
@@ -217,16 +220,17 @@
       const mx = 470, my = 360 + 0.918 * u;
       const mO = { view: 'q', dir: 1, pose: 'point', expr: 'slyT', t: 0.6, light: FL, tilt: 0.06 };
       const ex = 1560, ey = 590 + 0.782 * u;
-      const eO = { view: 'q', dir: 1, pose: 'scratch', expr: 'caughtT', t: 0.2, light: FL, look: [-0.9, 0.35], headTurn: -0.25 };
+      const eO = { view: 'front', dir: -1, pose: 'clasp', expr: 'caughtT', t: 0.2, light: FL, look: [0.95, 0.2], tilt: -0.06, extras: [] };
       const CL = castLayer('cast', [['eliT', ex, ey, u, eO], ['milaT', mx, my, u, mO]]);
       const tip = CL.info[1].hands.lead;
       // soft violet ground shadow behind them, then the cast
       { const S = solid(CL.L, '#5a2a48', 'castSh'); ctx.save(); ctx.filter = 'blur(30px)'; ctx.globalAlpha = 0.35; ctx.drawImage(S.c, 16, 24); ctx.restore(); }
       ctx.drawImage(CL.L.c, 0, 0);
       // words: ink letters on the light; the period is the vermilion brand dot touching Mila's fingertip
-      const size = 210, y2 = tip[1] + size * 0.06;
-      words(ctx, [{ text: 'FUE', x: tip[0] - 40, y: y2 - size * 1.13, size, align: 'right', fill: INK }, { text: 'ÉL.', x: tip[0] + size * 0.30, y: y2, size, align: 'right', fill: INK }],
-        { dotColor: VERM, dotScale: 1.45, outline: '#fff4dc', outlineW: 7, shadow: '#5a2a3a', shadowAlpha: 0.35, shadowBlur: 16, shadowDy: 14 });
+      // the full stop: a vermilion disc resting on the tip of Mila's index finger; the words end right before it
+      const size = 210, dr = size * 0.15, dX = tip[0] + dr * 1.25, dY = tip[1] - dr * 0.35, y2 = dY + dr, right = dX - dr - size * 0.07;
+      words(ctx, [{ text: 'FUE', x: right, y: y2 - size * 1.22, size, align: 'right', fill: INK }, { text: 'ÉL', x: right, y: y2, size, align: 'right', fill: INK }],
+        { extraDots: [[dX, dY, dr, VERM]], outline: '#fff4dc', outlineW: 7, shadow: '#5a2a3a', shadowAlpha: 0.35, shadowBlur: 16, shadowDy: 14 });
       K.light.grade(ctx, '#ff9a5a', 0.12, 'soft-light');
     },
     post: { grain: 0.1, vignette: 0.35, vignetteColor: '#6a2a40', bloom: 0.15 },
@@ -259,7 +263,7 @@
       for (let i = 0; i < run.N; i++) { const b = st.brake(i); if (b > 0.5) { let s = S.x[i]; while (s < st.sCam - 60) s += run.p.L; while (s >= st.sCam - 60 + run.p.L) s -= run.p.L; const p = scr(s, 1.85); if (p) bmax.push(p); } }
       for (const p of bmax) { K.light.glow(ctx, p[0], p[1], 50 + p[2] * 40, '#ff3a24', 0.22, 'screen'); K.light.glow(ctx, p[0], p[1], 8 + p[2] * 5, '#ffb090', 0.5, 'screen'); }
       // the arrow: a fat teal brush stroke riding just above the ribbon, from the far end of the wave back toward the camera
-      const pts = []; for (let s = st.sCam + 1000; s >= st.sCam + 100; s -= 10) { const p = scr(s, -15); if (!p) continue; const q = [p[0], p[1] + 18 + p[2] * 2]; if (q[0] > 1640 || q[1] > 930) break; pts.push(q); }
+      const pts = []; for (let s = st.sCam + 620; s >= st.sCam + 100; s -= 10) { const p = scr(s, -15); if (!p) continue; const q = [p[0], p[1] + 18 + p[2] * 2]; if (q[0] > 1640 || q[1] > 930) break; pts.push(q); }
       if (pts.length > 3) {
         const head = pts[pts.length - 1], prev = pts[Math.max(0, pts.length - 6)], ang = Math.atan2(head[1] - prev[1], head[0] - prev[0]);
         const body = pts.slice(0, -1);
@@ -278,12 +282,12 @@
       const CL = castLayer('cast', [
         ['mila1', 330, 455 + 0.918 * u, u, { view: 'q', dir: 1, pose: 'clasp', expr: 'awe', t: 0.9, light: RL, look: [0.9, -0.05], extras: [] }],
         ['eli1', 790, 650 + 0.782 * u, u, { view: 'q', dir: 1, pose: 'surprise', expr: 'awe', t: 0.4, light: RL, look: [0.9, 0.0], extras: ['sparkle'] }]]);
-      tint(CL.L, c => { const gr = c.createLinearGradient(100, 0, 1200, 0); gr.addColorStop(0, 'rgba(20,26,70,0.55)'); gr.addColorStop(1, 'rgba(255,60,40,0.5)'); c.fillStyle = gr; c.fillRect(0, 0, K.W, K.H); }, 'soft-light', 1);
+      tint(CL.L, c => { const gr = c.createLinearGradient(100, 0, 1200, 0); gr.addColorStop(0, 'rgba(20,26,70,0.4)'); gr.addColorStop(1, 'rgba(255,60,40,0.5)'); c.fillStyle = gr; c.fillRect(0, 0, K.W, K.H); }, 'soft-light', 0.8);
       tint(CL.L, c => { const gr = c.createRadialGradient(1500, 650, 100, 1500, 650, 1300); gr.addColorStop(0, 'rgba(255,70,40,0.6)'); gr.addColorStop(1, 'rgba(255,70,40,0)'); c.fillStyle = gr; c.fillRect(0, 0, K.W, K.H); }, 'screen', 0.4);
       ctx.drawImage(CL.L.c, 0, 0);
       K.light.glow(ctx, 900, 700, 500, '#ff3a24', 0.1, 'screen');
       // words, top right, three short lines on the night sky
-      words(ctx, [{ text: '¡VA', x: 1860, y: 190, size: 158, align: 'right' }, { text: 'HACIA', x: 1860, y: 362, size: 158, align: 'right' }, { text: 'ATRÁS!', x: 1860, y: 534, size: 158, align: 'right' }],
+      words(ctx, [{ text: '¡VA', x: 1860, y: 180, size: 156, align: 'right' }, { text: 'HACIA', x: 1860, y: 370, size: 156, align: 'right' }, { text: 'ATRÁS!', x: 1860, y: 560, size: 156, align: 'right' }],
         { fill: PAPER, depth: 11, extrude: '#05071a', shadow: '#000', shadowAlpha: 0.7, rim: '#ffb4a0', rimW: 4 });
       K.light.grade(ctx, '#3a4aa0', 0.2, 'soft-light');
     },
