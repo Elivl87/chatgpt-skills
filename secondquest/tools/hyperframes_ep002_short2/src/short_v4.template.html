@@ -150,7 +150,7 @@
       <div id="shT" class="full shot clip" data-start="{{l73-0.12}}" data-duration="{{VEND+0.45-l73+0.12+0.02}}" data-track-index="5">
         <div class="breath" id="brT"><div class="cam" id="camT">
           <img class="plate" id="tplate" src="assets/tree.jpg" alt="" />
-          <div class="chr" id="pT" data-role="character"><div class="foot"></div><img id="pTd" class="on" src="assets/p2d.png" alt="pixie" /><img id="pTe" src="assets/p2e.png" alt="pixie" /></div>
+          <div class="chr" id="pT" data-role="character"><div class="foot"></div><img id="pTd" class="on" src="assets/p2d.png" alt="pixie" /><img id="pTe" src="assets/p2e.png" alt="pixie" /><img id="pTf" src="assets/p2f.png" alt="pixie" /></div>
         </div></div>
       </div>
 
@@ -183,7 +183,7 @@
         <div class="meter" id="m1"><span class="big num" id="m1n">0%</span><span class="lbl">KNOWS IT ALL</span></div>
       </div>
       <div id="m2Clip" class="full clip" data-start="{{l72.w4-0.05}}" data-duration="{{l73-0.12-l72.w4+0.05}}" data-track-index="17">
-        <div class="meter" id="m2" style="top: 345px"><span class="big num" id="m2n" style="color: #7fd0ff">0%</span><span class="lbl">KNOWS IT ALL</span></div>
+        <div class="meter" id="m2" style="top: 385px"><span class="big num" id="m2n" style="color: #7fd0ff">0%</span><span class="lbl">KNOWS IT ALL</span></div>
       </div>
 
       <!-- ===== wordmark + end card (the EP002 v3 thumbnail B1, whole) ===== -->
@@ -310,9 +310,9 @@
       // golden sparks with a visible source: they burst out of the Triforce on "triangles" (deterministic hash, no randomness)
       const SPK = $("#sparks").getContext("2d");
       function drawSparks(t) { SPK.clearRect(0, 0, 600, 600); const t0 = {{l69.w5-0.04}}; if (t < t0 || t > t0 + 1.4) return;
-        for (let i = 0; i < 46; i++) { const a = hash(i, 1) * 6.283, v = 140 + 260 * hash(i, 2), u = t - t0, d = v * u * (1 - u * .35);
+        for (let i = 0; i < 46; i++) { const a = hash(i, 1) * 6.283, v = 140 + 260 * hash(i, 2), u = t - t0, d = 175 + v * u * (1 - u * .35);   // born at the silhouette's edge, flying outward
           const x = 300 + Math.cos(a) * d, y = 300 + Math.sin(a) * d + 60 * u * u, o = Math.max(0, 1 - u / 1.4) * (.5 + .5 * hash(i, 3));
-          SPK.fillStyle = `rgba(255,${210 + 40 * hash(i, 4) | 0},120,${o})`; SPK.beginPath(); SPK.arc(x, y, 3 + 4 * hash(i, 5), 0, 7); SPK.fill(); } }
+          SPK.fillStyle = `rgba(255,${238 + 17 * hash(i, 4) | 0},${200 + 50 * hash(i, 6) | 0},${o})`; SPK.beginPath(); SPK.arc(x, y, 1.4 + 1.6 * hash(i, 5), 0, 7); SPK.fill(); } }   // small bright points
 
       /* ---------------- SELECT: "Player two?" — the player-select screen; the title wobbles with Bram's voice (audio-reactive) */
       tl.fromTo("#p2word", { scale: 1.3 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%" }, {{S2}});
@@ -358,7 +358,7 @@
         const k = 1 - Math.min(1, (t - TB) / TBD), mos = Math.max(1, Math.round(1 + 36 * k * k * k));   // big blocks only in the first frames, sharp by the end
         gl.viewport(0, 0, 540, 960); gl.bindTexture(gl.TEXTURE_2D, bootTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, off); gl.uniform1f(uMos, mos); gl.uniform1f(uK, k); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); }
-      tl.fromTo("#m2", { scale: 1.4 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "0% 50%" }, {{l72.w4-0.05}});   // "none": it slams in at 0 % (the mirror of P1's 100 %)
+      tl.fromTo("#m2", { scale: 1.05 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "0% 50%" }, {{l72.w4-0.05}});   // "none": it slams in at 0 % (the mirror of P1's 100 %)
       tl.set("#hudP1", { opacity: 0 }, {{S2}}); tl.set("#hudP2", { opacity: 1 }, {{S2}});
 
       /* ---------------- TREE: rack focus from Pixie to its face, the "extremely large" pull-back, the "personal problem" punch, her doubt */
@@ -368,6 +368,9 @@
       cam("#camT", {{l73.w4}}, .8, { z: 1.5, fx: 1700, fy: 430 }, "power2.inOut");             // "the Great Deku Tree": up to its face
       cam("#camT", {{l73.w4+0.8}}, {{l73.w8-l73.w4-0.8}}, { z: 1.56, fx: 1700, fy: 420 }, "sine.inOut");
       cam("#camT", {{l73.w8+0.01}}, 0, { z: 3.1, fx: 1002, fy: 1250 });                       // "think:": cut to her, looking up
+      // "think:": her real back pose (#2f): she faces the giant tree (a different pose from her #2d look-up at 11.2 s)
+      tl.set("#pTd", { opacity: 0 }, {{l73.w8+0.01}}); tl.set("#pTf", { opacity: 1 }, {{l73.w8+0.01}});
+      tl.set("#pTf", { opacity: 0 }, {{l74-0.02}}); tl.set("#pTd", { opacity: 1 }, {{l74-0.02}});
       cam("#camT", {{l74-0.02}}, 0, { z: 1.5, fx: 1700, fy: 560 });                          // "That is an": the face again, from lower
       cam("#camT", {{l74-0.02}}, {{l74.w5-l74-0.23}}, { z: 1.6, fx: 1700, fy: 520 }, "sine.inOut");
       cam("#camT", {{l74.w5-0.25}}, .9, { z: 1.0, fx: 1300, fy: 756 }, "power2.inOut");         // "large": pull all the way back
@@ -451,7 +454,10 @@
       orbit({{VEND+2.25}}, T_STAR - .1, 540, 780, 450, 170, 1.0, 28, 0);
       key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x - 40, STAR.y - 330, 20, 1);
       key(CARD + .25, 150, 700, 20, 1); key(CARD + .5, 170, 760, 22, 1); key(CARD + .8, 560, 790, 24, 1);
-      orbit(CARD + .85, {{DUR}}, 560, 790, 70, 30, 1.2, 22, 3.14);
+      // one slow loop around the signboard (clear of the text above and Pixie's head below), then at rest by the sign's corner
+      key(CARD + 1.0, 1010, 770, 22, 1);
+      orbit(CARD + 1.05, {{DUR-0.4}}, 540, 770, 470, 225, 1.0, 22, 0);
+      key({{DUR-0.2}}, 960, 600, 20, 1); key({{DUR}}, 960, 600, 20, 1);
       NK.sort((a, b) => a[0] - b[0]);
       function naviPath(t) {
         if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);

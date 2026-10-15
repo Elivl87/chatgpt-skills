@@ -99,3 +99,14 @@ v3.3 is kept: git tag `short2-v3.3`, its files untouched.
 | opt. | Boot noise | While the picture is blocky, the boot blocks are quantised to a 5-level retro palette. |
 
 gates.sh: PASS (0 errors). This includes the new crossfade rule and the 1/30 s windows, now including 12.6-14.6 s. Checked by eye on the MP4: the Triforce reads as bright, varied gold; the "think" cut works; the card is a hard cut.
+
+## v4.1 -> v4.2
+
+| # | Item | Fix |
+|---|---|---|
+| 1 | TEXT_OVER_HUD on the first "0%" frame (10.03-10.06 s) | The P2 meter is 40 px lower (top 385) and slams in from scale 1.05 (was 1.4). The 1/30 s sweep at 7.8-11.5 s gives 0 errors. |
+| 2 | The sparks read as blotches | They are now small bright points (1.4-3 px), born at the triangle's silhouette edge and flying outward. |
+| 3 | Static end card | Navi makes one slow loop around the signboard (clear of the text above and Pixie's head below), then rests by the sign's top-right corner before 22.0 s. No glint, no new sound. |
+| 4 | "think:" reused #2d | The cut now uses her real back pose (#2f): she faces the giant tree. "That is an" returns to #2d. There is no other tunic pose; #2e is kept for "problem." |
+
+gates.sh: PASS. That covers lint 0 E; frame_critic 0 E, including CROSSFADE_CHARACTERS and the 1/30 s windows (0-1, 1-2.2, 2-3.6, 3.7-5.3, 7-9.4, 7.8-11.5, 12.6-14.6, 15.7-17.8, 19-22 s); sfx_audit 0/0 with 6 onsets; and check ok. The MP4 was rendered first and the contact sheet was written after it. Checked by eye on MP4 frames at 3.4, 3.55, 10.04, 12.9 and 20.8-21.95 s.
