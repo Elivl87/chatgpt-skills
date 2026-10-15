@@ -26,6 +26,10 @@ attention. Both must pass.
 3. Check the retention beats:
    - **Frame 0 (the still the feed shows):** readable at thumbnail size, one focal point, a reason to tap (curiosity,
      face with emotion, bold claim). No half-drawn titles, no blank frames.
+   - **Real data (EP002 Short #1, `docs/publish/EP002/ANALYTICS_SHORT1_72H.md`):** frame 0 = back view + caption
+     mid-sentence, then 3 s of empty landscape → 72 % swiped, the curve fell from 100 % to ~62 % between 1.5 and 5 s.
+     So: frame 0 shows a face with emotion and a complete readable statement; no plate without a character or clear
+     focal subject in 0–3 s. Any of these is a FIX.
    - **0–2 s hook:** the promise/question lands by 2 s (words + picture together). Would someone who doesn't know the
      episode understand what this is about?
    - **Open loop:** is there a question the viewer needs answered? When is it closed?
