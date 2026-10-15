@@ -11,6 +11,8 @@
   A.ring = function (ctx, t, c) {
     return E.drawRing(ctx, t, 0, Object.assign({ run: A.s2(), simT: c.simT, mascot: -1 }, c));
   };
+  // keep a zoomed view inside the baked 1920x1080 world (z = zoom about the screen centre)
+  A.clampView = (p, z) => [K.clamp(p[0], 960 / z + 4, K.W - 960 / z - 4), K.clamp(p[1], 540 / z + 4, K.H - 540 / z - 4)];
   // ring geometry helpers (ground metres -> design px of the ring view)
   A.ringPt = (i, S, dr = 0) => { const L = A.s2().p.L, a = (S.x[i] % L) / L * K.TAU, R = E.RING_RAD + dr; return E.ringG2S(Math.cos(a) * R, Math.sin(a) * R); };
   A.ringAng = (i, S) => { const L = A.s2().p.L; return (S.x[i] % L) / L * K.TAU; };

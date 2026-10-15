@@ -172,16 +172,18 @@
   // ---------------------------------------------------------------- oblique top view (high angle, orthographic)
   // view = { sc: px per metre, sinE, cosE, ox, oy } ; (X, Z) ground position in metres; heading = angle in the ground plane
   K.car.top = function (ctx, view, X, Z, heading, o = {}) {
+    // transforms are composed with the caller's (output scale, camera): identical to before under an identity transform
+    const BASE = ctx.getTransform(), ST = (a, b, c, d, e, f) => ctx.setTransform(BASE.multiply(new DOMMatrix([a, b, c, d, e, f])));
     const { sinE, cosE, ox, oy } = view, kk = o.k || 1, sc = view.sc * kk, body = o.color || K.car.COLORS[0], L = 3.3, Wd = 1.6;
     X /= kk; Z /= kk;                       // sprite drawn kk times larger than the world (stylised), same placement
     const gx = ox + X * sc, gy = oy + Z * sc * sinE;
     if (o.shadowOnly) {                       // long shadow: footprint swept along the sun's shadow vector (metres)
       const [dx, dz] = o.shadowOnly;
-      for (let i = 0; i <= 10; i++) { const u = i / 10; ctx.setTransform(sc, 0, 0, sc * sinE, gx + dx * u * sc, gy + dz * u * sc * sinE); ctx.rotate(heading);
+      for (let i = 0; i <= 10; i++) { const u = i / 10; ST(sc, 0, 0, sc * sinE, gx + dx * u * sc, gy + dz * u * sc * sinE); ctx.rotate(heading);
         K.rrect(ctx, -L / 2, -Wd / 2, L, Wd, 0.6); ctx.fill(); K.circle(ctx, -0.1, 0, 0.36); ctx.fill(); }
-      ctx.setTransform(1, 0, 0, 1, 0, 0); return;
+      ctx.setTransform(BASE); return;
     }
-    const at = (h) => { ctx.setTransform(sc, 0, 0, sc * sinE, gx, gy - h * sc * cosE); ctx.rotate(heading); };
+    const at = (h) => { ST(sc, 0, 0, sc * sinE, gx, gy - h * sc * cosE); ctx.rotate(heading); };
     ctx.save();
     // extrusion: stack the footprint from the sill up to the shoulder
     const steps = 5;
@@ -202,7 +204,7 @@
     }
     if (o.lit && o.lit.rim) { at(0.95); ctx.strokeStyle = K.rgba(o.lit.rim, 0.8); ctx.lineWidth = 0.1; ctx.beginPath();
       const a0 = (o.lit.sunAng ?? -2.4) - heading; ctx.ellipse(0, 0, L / 2 - 0.12, Wd / 2 - 0.1, 0, a0 - 0.9, a0 + 0.9); ctx.stroke(); }
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.setTransform(BASE);
     // head (spheres project as circles)
     const hx = X + Math.cos(heading) * -0.1, hz = Z + Math.sin(heading) * -0.1;
     const sx = ox + hx * sc, sy = oy + hz * sc * sinE - 1.35 * sc * cosE, R = 0.36 * sc;
@@ -249,16 +251,17 @@
     ctx.closePath();
   };
   K.car.top = function (ctx, view, X, Z, heading, o = {}) {
+    const BASE = ctx.getTransform(), ST = (a, b, c, d, e, f) => ctx.setTransform(BASE.multiply(new DOMMatrix([a, b, c, d, e, f])));   // composed with the caller's transform
     const { sinE, cosE, ox, oy } = view, kk = o.k || 1, sc = view.sc * kk, body = o.color || K.car.COLORS[0], L = 3.3, Wd = 1.65;
     X /= kk; Z /= kk;
     const gx = ox + X * sc, gy = oy + Z * sc * sinE;
     if (o.shadowOnly) {
       const [dx, dz] = o.shadowOnly;
-      for (let i = 0; i <= 10; i++) { const u = i / 10; ctx.setTransform(sc, 0, 0, sc * sinE, gx + dx * u * sc, gy + dz * u * sc * sinE); ctx.rotate(heading);
+      for (let i = 0; i <= 10; i++) { const u = i / 10; ST(sc, 0, 0, sc * sinE, gx + dx * u * sc, gy + dz * u * sc * sinE); ctx.rotate(heading);
         bean(ctx, L, Wd); ctx.fill(); K.circle(ctx, -0.1, 0, 0.42); ctx.fill(); }
-      ctx.setTransform(1, 0, 0, 1, 0, 0); return;
+      ctx.setTransform(BASE); return;
     }
-    const at = (h) => { ctx.setTransform(sc, 0, 0, sc * sinE, gx, gy - h * sc * cosE); ctx.rotate(heading); };
+    const at = (h) => { ST(sc, 0, 0, sc * sinE, gx, gy - h * sc * cosE); ctx.rotate(heading); };
     const lit = o.lit || {}, sunA = (lit.sunAng ?? -2.4) - heading, sdx = Math.cos(sunA), sdy = Math.sin(sunA);
     const sideC = K.mix(body, o.shade || '#3a2a44', 0.42), topC = body, b = o.brake || 0, tail = o.tail || 0;
     ctx.save();
@@ -296,7 +299,7 @@
     ctx.strokeStyle = K.rgba('#eef6f6', 0.75); ctx.lineWidth = 0.13; ctx.lineCap = 'round';
     ctx.beginPath(); ctx.arc(-0.2, 0, 0.82, -0.85, 0.85); ctx.stroke();
     ctx.strokeStyle = K.rgba('#ffffff', 0.5); ctx.lineWidth = 0.05; ctx.beginPath(); ctx.arc(-0.2, 0, 0.84, -0.6, -0.1); ctx.stroke();
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.setTransform(BASE);
     // driver head (a sphere projects as a circle)
     const hx = X + Math.cos(heading) * -0.32, hz = Z + Math.sin(heading) * -0.32;
     const sx = ox + hx * sc, sy = oy + hz * sc * sinE - 1.3 * sc * cosE, R = 0.42 * sc;

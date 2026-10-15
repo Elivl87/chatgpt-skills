@@ -115,6 +115,7 @@
       },
       draw(ctx, tv, frame) {
         const t = def.t0 + tv;                 // block-local video time -> episode time (narration time)
+        ctx.fillStyle = '#120c18'; ctx.fillRect(0, 0, K.W, K.H);   // never keep pixels from the previous frame
         let k = shots.findIndex(s => t >= s.start && t < s.end); if (k < 0) k = t < shots[0].start ? 0 : shots.length - 1;
         const S = shots[k], lt = t - S.start, dur = S.end - S.start;
         const drawShot = (c, Sx, kx) => {

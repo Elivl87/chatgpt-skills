@@ -1,0 +1,124 @@
+{
+ "checks": [
+  [
+   "codec H.264 / yuv420p",
+   "PASS",
+   "h264 yuv420p"
+  ],
+  [
+   "resolution",
+   "PASS",
+   "854x480"
+  ],
+  [
+   "file size <= 30 MB (chat delivery)",
+   "PASS",
+   "7.65 MB"
+  ],
+  [
+   "audio AAC 48 kHz",
+   "PASS",
+   "aac 48000"
+  ],
+  [
+   "loudness -14 LUFS (+-1)",
+   "PASS",
+   "-14.1 LUFS"
+  ],
+  [
+   "true peak <= -1.0 dBTP",
+   "PASS",
+   "-1.4 dBTP"
+  ],
+  [
+   "no black frames",
+   "PASS",
+   "none"
+  ],
+  [
+   "no undeclared freezes >= 0.5 s",
+   "PASS",
+   "none"
+  ],
+  [
+   "no undeclared silence >= 0.5 s",
+   "PASS",
+   "none"
+  ]
+ ],
+ "loudness": {
+  "I": -14.1,
+  "TP": -1.4,
+  "LRA": 2.0
+ },
+ "detect": {
+  "black": [],
+  "freeze": [],
+  "silence": []
+ },
+ "pacing": {
+  "name": "blockB",
+  "source": "/home/user/chatgpt-skills/newchannel/ep/001/animatic/blockB_draft.mp4",
+  "duration_s": 53.3,
+  "shots": 22,
+  "avg_shot_s": 2.42,
+  "median_shot_s": 2.41,
+  "longest_shot_s": 4.5,
+  "cuts_per_min": 23.6,
+  "motion_share": 1.0,
+  "still_2s_runs": 0,
+  "brightness_mean": 0.616,
+  "saturation_mean": 0.386,
+  "palette": [
+   [
+    "#99914f",
+    0.178
+   ],
+   [
+    "#aba458",
+    0.177
+   ],
+   [
+    "#857b46",
+    0.133
+   ],
+   [
+    "#cbb9a0",
+    0.105
+   ],
+   [
+    "#6d5e3e",
+    0.085
+   ],
+   [
+    "#ead4b0",
+    0.078
+   ],
+   [
+    "#c0b074",
+    0.077
+   ],
+   [
+    "#79686b",
+    0.063
+   ],
+   [
+    "#50463b",
+    0.053
+   ],
+   [
+    "#a29380",
+    0.052
+   ]
+  ],
+  "loud_db_p90": -11.6,
+  "pauses_ge_0_5s": 0,
+  "pause_mean_s": 0,
+  "pause_longest_s": 0,
+  "words": 124,
+  "wpm_overall": 139,
+  "wpm_while_speaking": 187
+ },
+ "duration": 53.366667,
+ "size": 7646047
+}

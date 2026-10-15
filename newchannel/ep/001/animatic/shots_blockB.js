@@ -72,7 +72,7 @@
         draw(c, t, lt) { A.ring(c, t, { simT: A.map(0, T0, 1)(t), carExpr: () => 'focused' }); } });
 
       // B04 · «puso veintidós autos»: closer, the counter
-      shots.push({ id: 'B04_count', start: tPuso - 0.1, bg: 'ring_close', focus: [960, 540], push: 0.03, pushDir: -1, zBase: 1.0,
+      shots.push({ id: 'B04_count', start: tPuso - 0.1, bg: 'ring_close', focus: [960, 540], push: 0.03, pushDir: -1,
         over: (c, t) => { recPill(c, false); const n = Math.round(22 * A.ramp(t, tVeinti - 0.05, 0.55)); P.badge(c, K.W - 260, 220, String(Math.max(1, n)), 110, A.ramp(t, tVeinti - 0.1, 0.2), 'autos'); P.source(c, SRC, 1); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.75, 1.75); c.translate(-1180, -700); A.ring(c, t, { simT: A.map(0, T0, 1)(t), carExpr: () => 'focused' }); c.restore(); } });
 
@@ -107,8 +107,8 @@
       shots.push({ id: 'B07_drivers', start: hit + 1.25, bg: 'field_track', focus: [960, 560], push: 0.03, pushDir: -1,
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
-          A.field(c, t, { simT: A.map(0, T0, 1)(t), frame: { z: 1.9, x: 960, y: 690 }, front: false, carExpr: () => (A.blink(7, t) ? 'neutral' : 'focused'),
-            chars: (cx) => K.cast.draw(cx, 'eli1', 560, 1090, 520, { view: 'backq', dir: 1, pose: 'crossed', t, light: LF }) });
+          A.field(c, t, { simT: A.map(0, T0, 1)(t), frame: { z: 2.5, x: 1000, y: 680 }, front: false, carExpr: () => (A.blink(7, t) ? 'neutral' : 'focused'),
+            chars: (cx) => K.cast.draw(cx, 'eli1', 600, 1010, 520, { view: 'backq', dir: 1, pose: 'crossed', t, light: LF }) });
         } });
 
       // B08 · «manejar con cuidado, a unos treinta kilómetros por hora»: the dial
@@ -125,7 +125,7 @@
 
       // largest / smallest gap at a sim time (for the ink marks)
       const gaps = ts => { const R = A.s2(), S = R.at(ts), L = R.p.L, out = []; for (let i = 0; i < R.N; i++) { const j = (i + 1) % R.N; out.push({ i, j, g: ((S.x[j] - S.x[i]) % L + L) % L - 4.5 }); } return out.sort((a, b) => a.g - b.g); };
-      shots.push({ id: 'B10_wobble', start: tLuego - 0.1, bg: 'ring_close', focus: [960, 540], push: 0.03, pushDir: 1, zBase: 1.0,
+      shots.push({ id: 'B10_wobble', start: tLuego - 0.1, bg: 'ring_close', focus: [960, 540], push: 0.03, pushDir: 1,
         over: (c, t) => acc(c, t, C1),
         draw(c, t, lt) {
           const ts = C1(t), gs = gaps(C1(tHueco)), big = gs[gs.length - 1];
@@ -135,7 +135,7 @@
           c.restore();
         },
         cues: A => [{ t: tHueco, kind: 'spring' }] });
-      shots.push({ id: 'B11_squeeze', start: tUn2 - 0.08, bg: 'ring_close2', focus: [960, 540], push: 0.03, pushDir: -1, zBase: 1.0,
+      shots.push({ id: 'B11_squeeze', start: tUn2 - 0.08, bg: 'ring_close2', focus: [960, 540], push: 0.03, pushDir: -1,
         over: (c, t) => acc(c, t, C2),
         draw(c, t, lt) {
           const ts = C2(t), gs = gaps(C2(tApreton)), sm = gs[0];
@@ -150,10 +150,10 @@
         draw(c, t, lt) { A.ring(c, t, { simT: C3(t), carExpr: (i, st) => (st ? 'annoyed' : 'content') }); },
         cues: A => [{ t: tMinutos, kind: 'clock_tick' }] });
       // B13 · «cinco autos estaban completamente parados» (real speed: the five are stopped at 3:00)
-      shots.push({ id: 'B13_five', start: tCinco - 0.25, bg: 'ring_jam', focus: [960, 540], push: 0.03, pushDir: 1, zBase: 1.0,
+      shots.push({ id: 'B13_five', start: tCinco - 0.25, bg: 'ring_jam', focus: [960, 540], push: 0.03, pushDir: 1,
         over: (c, t) => { recPill(c, false); P.clock(c, C4(t)); P.badge(c, K.W - 230, 230, '5', 120, A.ramp(t, tCinco, 0.2), 'parados'); P.source(c, SRC, 1); },
         draw(c, t, lt) {
-          const ts = C4(t), j = A.jamSmooth(C4(tCinco), 2), jp = A.angPt(j);
+          const ts = C4(t), j = A.jamSmooth(C4(tCinco), 2), jp = A.clampView(A.angPt(j), 2.0);
           c.save(); c.translate(960, 540); c.scale(2.0, 2.0); c.translate(-jp[0], -jp[1]);
           A.ring(c, t, { simT: ts, carExpr: (i, st) => (st ? (A.blink(i + 2, t) ? 'grumpy' : 'annoyed') : 'worried'),
             carOver: (cx, i, x, y, b, S) => { if (S.v[i] < 0.3) P.ring(cx, x, y - 8, 30, 20, A.ramp(t, tCinco + 0.05 * (i % 5), 0.3), { w: 3.5 }); } });
@@ -177,7 +177,7 @@
         cues: A => [{ t: tQuien, kind: 'pop' }] });
       // B16 · the shrug wave: every driver shrugs, one after the other, backwards round the ring; then the observers
       const sw0 = tFueE + 0.4, swN = 22, swD = 0.055;
-      shots.push({ id: 'B16_shrugs', start: tFueE + 0.35, bg: 'ring_shrug', focus: [960, 520], push: 0.025, pushDir: 1, zBase: 1.0,
+      shots.push({ id: 'B16_shrugs', start: tFueE + 0.35, bg: 'ring_shrug', focus: [960, 520], push: 0.025, pushDir: 1,
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           const ts = C4(t), R = A.s2(), S0 = R.at(ts);
@@ -186,7 +186,7 @@
           const sh = i => A.pulse(t, sw0 + order(i) * swD, 0.1, 0.45, 0.25);
           c.save(); c.translate(960, 540); c.scale(1.18, 1.18); c.translate(-960, -600);
           A.ring(c, t, { simT: ts, carExpr: i => (sh(i) > 0.3 ? 'sheepish' : 'annoyed'),
-            carOver: (cx, i, x, y) => P.shrug(cx, x, y - 30, 16, sh(i)),
+            carOver: (cx, i, x, y) => P.shrug(cx, x, y - 34, 28, sh(i)),
             person: (p, ro) => { if (t > sw0 + swN * swD) { ro.pose = 'shrug'; ro.expr = 'sheepish'; } },
             hero: (cx, p, x, y, u, jam, tt) => { if (p.who === 'eli1') K.cast.draw(cx, 'eli1', x, y, u, { view: 'q', dir: 1, pose: 'fist', expr: 'furious', t: tt, light: LF, shadow: 0.3 });
               else K.cast.draw(cx, 'mila1', x, y, u, { view: 'q', dir: -1, pose: 'clasp', expr: 'happy', t: tt, light: LF, shadow: 0.3 }); return true; } });
@@ -207,11 +207,11 @@
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           A.field(c, t, { simT: C5(t), frame: { z: 1.6, x: 980, y: 640 },
-            chars: (cx) => K.cast.draw(cx, 'mila1', 980, G + 10, 660, { view: 'q', dir: -1, pose: 'sit', seated: true, legs: true, sitGround: true, expr: t > A.at('encanta', 1, { beat: '08' }) ? 'awe' : 'curious', t, look: [-0.7, -0.3], light: LF, shadow: 0.3, blink: blink(5, t) }) });
+            chars: (cx) => K.cast.draw(cx, 'mila1', 980, G - 70, 660, { view: 'q', dir: -1, pose: 'sit', seated: true, legs: true, sitGround: true, expr: t > A.at('encanta', 1, { beat: '08' }) ? 'awe' : 'curious', t, look: [-0.7, -0.3], light: LF, shadow: 0.3, blink: blink(5, t) }) });
         } });
       // B19 · «los autos siempre avanzan»: teal chevrons along the direction of travel
-      const jamCam = (c, t, z) => { const j = A.jamSmooth(C5(t), 3), jp = A.angPt(j); c.translate(960, 560); c.scale(z, z); c.translate(-jp[0], -jp[1]); };
-      shots.push({ id: 'B19_forward', start: tLos8 - 0.1, bg: 'ring_follow', focus: [960, 540], push: 0.025, pushDir: -1, zBase: 1.0,
+      const jamCam = (c, t, z) => { const j = A.jamSmooth(C5(t), 3), jp = A.clampView(A.angPt(j), z); c.translate(960, 540); c.scale(z, z); c.translate(-jp[0], -jp[1]); };
+      shots.push({ id: 'B19_forward', start: tLos8 - 0.1, bg: 'ring_follow', focus: [960, 540], push: 0.025, pushDir: -1,
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           const ts = C5(t); c.save(); jamCam(c, t, 1.7);
@@ -220,7 +220,7 @@
           c.restore();
         } });
       // B20 · «y el embotellamiento se desliza hacia atrás»: the camera follows the jam; the arrow points back
-      shots.push({ id: 'B20_back', start: tY - 0.05, bg: 'ring_follow2', focus: [960, 540], push: 0.025, pushDir: 1, zBase: 1.0,
+      shots.push({ id: 'B20_back', start: tY - 0.05, bg: 'ring_follow2', focus: [960, 540], push: 0.025, pushDir: 1,
         over: (c, t) => { recPill(c, false); },
         draw(c, t, lt) {
           const ts = C5(t); c.save(); jamCam(c, t, 2.2);
@@ -249,12 +249,12 @@
             hero: () => true });
         } });
       // B22 · «Más o menos lo que va una bicicleta»: the little ink bicycle rides beside the jam
-      shots.push({ id: 'B22_bike', start: tMas8 - 0.1, bg: 'ring_follow3', focus: [960, 540], push: 0.03, pushDir: 1, zBase: 1.0,
+      shots.push({ id: 'B22_bike', start: tMas8 - 0.1, bg: 'ring_follow3', focus: [960, 540], push: 0.03, pushDir: 1,
         over: (c, t) => recPill(c, false),
         draw(c, t, lt) {
           const ts = C5(t); c.save(); jamCam(c, t, 2.0);
           A.ring(c, t, { simT: ts, carExpr: (i, st) => (st ? 'annoyed' : 'content'), hero: () => true,
-            over: (cx) => { const j = A.jamSmooth(ts, 3), pb = A.angPt(j - 0.02, 10), pm = A.angPt(j + 0.06, 8), u = 17.5 * 7.2 * 1.6;
+            over: (cx) => { const j = A.jamSmooth(ts, 3), pb = A.angPt(j - 0.02, -10), pm = A.angPt(j + 0.07, -9), u = 17.5 * 7.2 * 1.6;
               K.cast.draw(cx, 'mila1', pm[0], pm[1], u, { view: 'q', dir: Math.cos(j) > 0 ? -1 : 1, pose: 'walk', expr: 'laugh', t: -t, light: LF, shadow: 0.3 });
               P.bike(cx, pb[0], pb[1] - 18, 46, t * 9, Math.cos(j) > 0 ? -1 : 1, A.pulse(t, tBici + 0.2, 0.05, 0.4, 0.2)); } });
           c.restore();

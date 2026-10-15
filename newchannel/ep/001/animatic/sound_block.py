@@ -122,6 +122,30 @@ for cu in ev["cues"]:
     elif k == "bell":
         for j in range(2):
             sfx.add(ct + j * 0.22, S.chime(S.note("E6"), 0.7, 0.25), 0.2, 0.16); sfx.add(ct + j * 0.22, S.chime(S.note("G6"), 0.6, 0.2), 0.2, 0.08)
+    elif k == "stretch":
+        sfx.add(ct, S.glide(200, 600, cu["t1"] - ct, (cu["t1"] - ct) * 0.8, 0.3), 0.0, 0.12)
+    elif k == "line_brake":
+        st = cu.get("step", 1)
+        sfx.add(ct, S.marimba(ladder[min(st - 1, len(ladder) - 1)], 0.9, 0.25), 0.3 - 0.06 * st, 0.25 + 0.04 * st)
+    elif k == "tick_tock":
+        for j, tt in enumerate(np.arange(ct, cu["t1"], 0.3)):
+            sfx.add(tt, S.tick(2200 if j % 2 else 1700, 100 + j), 0.2, 0.12)
+    elif k == "ruler":
+        sfx.add(ct, S.whoosh(0.3, 1500, 5000, 55), 0.0, 0.25)
+    elif k == "hat_clonk":
+        sfx.add(ct, S.thunk(7, 260, 120), 0.0, 0.35); sfx.add(ct, S.marimba(S.note("C4"), 0.6, 0.2), 0.0, 0.25)
+    elif k == "tick_pencil":
+        sfx.add(ct, S.whoosh(0.12, 3000, 8000, 57), 0.4, 0.3)
+    elif k == "plate":
+        sfx.add(ct, S.whoosh(0.3, 400, 2500, 58), 0.0, 0.3); sfx.add(ct + 0.25, S.thunk(9, 140, 70), 0.0, 0.2)
+    elif k == "chain":
+        for j, tt in enumerate(np.linspace(ct, cu["t1"], 10)):
+            sfx.add(tt, S.chime(S.note("A6") * (1 + 0.02 * j), 0.2, 0.05), 0.6 - 0.12 * j, 0.06)
+    elif k == "whisper_grow":
+        for j in range(cu["n"]):
+            sfx.add(ct + j * cu["d"], S._bandnoise(int(0.25 * SR), 2000 - j * 120, 6000 - j * 300, 120 + j) * np.hanning(int(0.25 * SR)), 0.6 - 0.12 * j, 0.06 + 0.03 * j)
+    elif k == "murmur":
+        sfx.add(ct, (S._bandnoise(int(0.8 * SR), 200, 1200, 130) * np.hanning(int(0.8 * SR))).astype(np.float32), 0.0, 0.35)
     elif k == "squeal":
         sfx.add(ct, S.glide(2100, 1700, 0.9, 0.6, 0.15), 0.0, 0.10)
     elif k == "stop_thunk":
