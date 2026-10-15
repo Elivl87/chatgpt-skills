@@ -28,8 +28,8 @@
     ctx.restore();
     // wings: rest along the body; shrug = both lift up and out (palms-up of a bird)
     for (const side of [-1, 1]) {
-      const wx = side < 0 ? -R * 0.35 : R * 0.15, base = cy + R * 0.05, lift = sh * R * 0.75, out = sh * R * 0.55;
-      ctx.save(); ctx.translate(wx, base); ctx.rotate(side * (-0.25 - sh * 0.9));
+      const wg = side > 0 ? K.clamp(o.wing || 0) : 0, shs = Math.max(sh, wg), wx = side < 0 ? -R * 0.35 : R * 0.15, base = cy + R * 0.05, lift = shs * R * 0.75 + wg * R * 0.5, out = shs * R * 0.55;
+      ctx.save(); ctx.translate(wx, base); ctx.rotate(side * (-0.25 - shs * 0.9 - wg * 0.6));
       ctx.fillStyle = side < 0 ? K.shade(wing, -0.08) : wing;
       ctx.beginPath(); ctx.moveTo(0, -R * 0.35); ctx.quadraticCurveTo(side * (R * 0.7 + out), -R * 0.25 - lift, side * (R * 0.9 + out), R * 0.15 - lift * 0.6);
       ctx.quadraticCurveTo(side * R * 0.45, R * 0.45, 0, R * 0.35); ctx.closePath(); ctx.fill(); ctx.stroke();

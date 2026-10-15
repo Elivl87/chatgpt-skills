@@ -51,6 +51,19 @@
     return { x: p.x, y: p.y, R, sx, sy };
   }
 
+  // the catch variant (animatic finale, opt.catch): flicked (c1) -> caught in Eli's hand (c2) -> carried -> he places it
+  // on the i (W.place -> W.land) -> settles. eh = Eli's lead hand (layout coordinates).
+  function dotCatch(lay, tl, hand, eh, W) {
+    const tM = lay.tittles[1], R = tM.r * 0.8;
+    if (tl < W.c1) return { held: true, x: hand.x, y: hand.y - R * 0.95, R, sx: 1, sy: 1 };
+    const arc = (a, b, u, h) => ({ x: K.lerp(a.x, b.x, u), y: K.lerp(a.y, b.y, u) - h * 4 * u * (1 - u) });
+    const held = { x: eh.x, y: eh.y - R * 0.9 };
+    if (tl < W.c2) { const u = K.inv(W.c1, W.c2, tl); const p = arc({ x: hand.x, y: hand.y - R }, held, u, 90); return { x: p.x, y: p.y, R, sx: 1, sy: 1 }; }
+    if (tl < W.place) { const k = Math.exp(-(tl - W.c2) * 12); return { x: held.x, y: held.y, R, sx: 1 + 0.25 * k, sy: 1 - 0.25 * k }; }
+    if (tl < W.land) { const u = K.ease.inOut(K.inv(W.place, W.land, tl)); const p = arc(held, { x: tM.x, y: tM.y }, u, 30); return { x: p.x, y: p.y, R, sx: 1, sy: 1 }; }
+    const u = tl - W.land, k = Math.exp(-u * 7) * Math.cos(u * 22); return { x: tM.x, y: tM.y, R, sx: 1 + 0.18 * k, sy: 1 - 0.18 * k };
+  }
+
   // animatic hooks (optional): opt.wm overrides the gag timing (E.WM), opt.eli(o, tl, W) / opt.mila(o, tl, W) adjust
   // the acting options after the defaults are set.
   E.drawWordmark = function (ctx, tl, frame, opt = {}) {
@@ -80,7 +93,7 @@
     const mx = x0 + gM.x + lay.adv * 0.42, my = y0 - lay.cap + pM.dy, ex = x0 + gL.x + lay.adv * 0.5, ey = y0 - Bw.ascL + pL.dy;
     const ma = Math.min(pM.a, 1), ea = Math.min(pL.a, 1);
     // Eli: watches, gets bonked (beanie squash + flinch), grumbles, then laughs
-    const hit = tl > W.c2 ? Math.exp(-(tl - W.c2) * 7) * K.clamp((tl - W.c2) / 0.03) : 0;
+    const hit = opt.catch ? 0 : tl > W.c2 ? Math.exp(-(tl - W.c2) * 7) * K.clamp((tl - W.c2) / 0.03) : 0;
     let eO = { view: 'q', dir: -1, pose: 'stand', expr: 'neutral', look: [0.6, -0.3], t: tl, light: HL, shadow: 0.25, hatHit: hit, lean: -hit * 0.08 };
     if (tl > W.c1) eO.look = [0.4, -0.9];                                        // follows the dot coming at him
     if (tl > W.c2) Object.assign(eO, { expr: 'surprised', pose: 'stand', blend: { pose: 'surprise', k: 1 - ramp(W.c2 + 0.35, 0.2) } });
@@ -96,10 +109,10 @@
     if (opt.mila) opt.mila(mO, tl, W);
     let hand = Bw.hand || { x: mx + 40, y: my - 80 }, bonk = Bw.bonk || { x: ex, y: ey - 150 };
     if (ma > 0) { ctx.save(); ctx.globalAlpha = ma; const r = K.cast.draw(ctx, 'mila1', mx, my, u, mO); ctx.restore(); if (tl < W.c1) Bw.hand = hand = { x: r.hands.lead[0], y: r.hands.lead[1] }; }
-    if (ea > 0) { ctx.save(); ctx.globalAlpha = ea; const r = K.cast.draw(ctx, 'eli1', ex, ey, u, eO); ctx.restore(); Bw.bonk = bonk = { x: r.head[0] + 6, y: r.top - 0.04 * u }; }
+    if (ea > 0) { ctx.save(); ctx.globalAlpha = ea; const r = K.cast.draw(ctx, 'eli1', ex, ey, u, eO); ctx.restore(); Bw.bonk = bonk = { x: r.head[0] + 6, y: r.top - 0.04 * u }; Bw.eHand = { x: r.hands.lead[0], y: r.hands.lead[1] }; }
     // the brand dot: a flat vermilion disc (no face), lit like the letters; its shadow on the i once it lands
     const P = E.PAL.golden, rel = q => ({ x: q.x - x0, y: q.y - y0 });
-    const dp = dotPose(lay, tl, rel(hand), rel(bonk), W);
+    const dp = opt.catch ? dotCatch(lay, tl, rel(hand), rel(Bw.eHand || bonk), W) : dotPose(lay, tl, rel(hand), rel(bonk), W);
     if (ma > 0 && tl > W.drop - 0.25) {
       const dx = x0 + dp.x, dy = y0 + dp.y, R = dp.R;
       if (tl > W.land - 0.12) { const k = R / 50 * K.clamp((tl - W.land + 0.12) / 0.12); ctx.drawImage(Bw.shadowDot.c, x0 + lay.tittles[1].x + SIZE * 0.012 - 80 * k, y0 + lay.tittles[1].y + SIZE * 0.035 - 80 * k, 160 * k, 160 * k); }
@@ -108,7 +121,7 @@
       ctx.fillStyle = K.VERMILION; K.circle(ctx, 0, 0, R); ctx.fill(); K.circle(ctx, 0, 0, R); K.tex.fillPath(ctx, 0.22, 0.5);
       K.char.discLight(ctx, 0, 0, R, { ang: -1.4, rim: P.rim, rimW: 0.1, rimAlpha: 0.9, shade: '#5a1f2c', shadeAlpha: 0.25 });
       ctx.restore();
-      if (tl > W.c2 && tl < W.c2 + 0.3) K.char.extra(ctx, bonk.x, bonk.y + 30, 40, 'ticks', tl, { ink: '#fbe9cf' });   // the bonk
+      if (!opt.catch && tl > W.c2 && tl < W.c2 + 0.3) K.char.extra(ctx, bonk.x, bonk.y + 30, 40, 'ticks', tl, { ink: '#fbe9cf' });   // the bonk
     }
     // tagline
     const ta = K.clamp((tl - W.tagline) / 0.6);

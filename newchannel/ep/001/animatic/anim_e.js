@@ -223,4 +223,95 @@
     ctx.fillStyle = TEAL_L; ctx.strokeStyle = INK; ctx.lineWidth = s * 0.03; ctx.beginPath(); ctx.moveTo(0, -s); ctx.quadraticCurveTo(s * 0.4, -s * 0.9 + fl, s * 0.8, -s * 0.78 + fl * 1.5); ctx.quadraticCurveTo(s * 0.4, -s * 0.72 - fl, 0, -s * 0.56); ctx.closePath(); ctx.fill(); ctx.stroke();
     ctx.restore();
   };
+
+  // ------------------------------------------------------------------ end screen: our own bus stop (no brands)
+  // c: { chars(ctx, GY, SEAT) people; buses: [{ x (front, design px), col }] drawn in front of the sidewalk; bird }
+  let BS = null;
+  A.BUS = { GY: 830, SEAT: 700, ROAD: 1050 };
+  function buildBus() {
+    const bg = K.canvas(K.W, K.H), c = bg.ctx;
+    K.sky.gradient(c, [[0, '#8b8cc0'], [0.45, '#e6a98f'], [0.75, '#ffd09a'], [1, '#ffe2b0']], 0, 640);
+    K.sky.wash(c, 1650, 560, 700, '#fff0c0', 0.6);
+    // town silhouettes: low roofs, a water tower, trees (generic, no signs)
+    const r = K.rng(301);
+    for (let x = -40; x < K.W + 40;) { const w = 120 + r() * 160, h = 90 + r() * 140; c.fillStyle = K.mix('#a07a8e', '#ffd09a', 0.25 + r() * 0.2); c.fillRect(x, 640 - h, w, h);
+      c.fillStyle = K.rgba('#ffe6b0', 0.5); for (let k = 0; k < 3; k++) c.fillRect(x + 14 + k * 36, 640 - h + 24, 16, 20); x += w + 10 + r() * 30; }
+    c.fillStyle = '#8a6a80'; c.fillRect(1400, 360, 10, 280); c.fillRect(1470, 360, 10, 280); K.rrect(c, 1370, 300, 140, 80, 20); c.fill();
+    for (let k = 0; k < 9; k++) { const x = r() * K.W; c.fillStyle = '#7a8a5a'; K.circle(c, x, 610 - r() * 30, 40 + r() * 30); c.fill(); }
+    c.fillStyle = '#c9b49a'; c.fillRect(0, 640, K.W, 190);            // back wall / verge
+    c.fillStyle = '#d8c6aa'; c.fillRect(0, 800, K.W, 60);             // sidewalk
+    c.fillStyle = '#9a8a80'; c.fillRect(0, 856, K.W, 10);             // kerb
+    c.fillStyle = '#5d5868'; c.fillRect(0, 866, K.W, K.H - 866);       // road
+    c.fillStyle = K.rgba('#f3ecdd', 0.8); for (let x = 0; x < K.W; x += 160) c.fillRect(x, 1000, 90, 8);
+    K.tex.paint(bg, { amount: 0.35, mottle: { w: 1200, h: 680, sx: 0.004, sy: 0.02, seed: 302, amp: 26 } });
+    BS = { bg };
+  }
+  A.busStop = function (ctx, t, c = {}) {
+    if (!BS) buildBus();
+    const GY = A.BUS.GY, SEAT = A.BUS.SEAT;
+    ctx.drawImage(BS.bg.c, 0, 0);
+    K.light.rays(ctx, 1650, 560, { n: 9, spread: 1.8, angle: -Math.PI / 2 - 0.4, len: 1300, width: 0.05, alpha: 0.07, color: '#ffe0a0', t, seed: 305 });
+    // the shelter: back panel, roof, bench; the stop sign on its pole (a plain bus pictogram)
+    ctx.fillStyle = K.rgba('#cfe3e6', 0.35); ctx.fillRect(170, 420, 640, 380); ctx.strokeStyle = '#3d3a4c'; ctx.lineWidth = 8; ctx.strokeRect(170, 420, 640, 380);
+    ctx.fillStyle = '#3d3a4c'; ctx.fillRect(160, 400, 20, 430); ctx.fillRect(800, 400, 20, 430); ctx.fillStyle = '#23746C'; K.rrect(ctx, 130, 380, 720, 40, 12); ctx.fill();
+    ctx.fillStyle = K.rgba('#ffe2a6', 0.6); ctx.fillRect(130, 380, 720, 6);
+    ctx.fillStyle = '#7a5a46'; K.rrect(ctx, 220, SEAT - 4, 540, 26, 8); ctx.fill(); ctx.fillStyle = '#3d3a4c'; ctx.fillRect(250, SEAT + 20, 14, GY - SEAT - 20); ctx.fillRect(716, SEAT + 20, 14, GY - SEAT - 20);
+    ctx.fillStyle = '#4a3f55'; ctx.fillRect(930, 330, 14, 500);
+    ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = INK; ctx.lineWidth = 6; K.circle(ctx, 937, 320, 58); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#23746C'; K.rrect(ctx, 905, 290, 64, 48, 10); ctx.fill(); ctx.fillStyle = '#fbf3e4'; ctx.fillRect(913, 298, 48, 16); ctx.fillStyle = INK; K.circle(ctx, 916, 342, 7); ctx.fill(); K.circle(ctx, 958, 342, 7); ctx.fill();
+    if (c.bird) c.bird(ctx, 937, 262);
+    if (c.chars) c.chars(ctx, GY, SEAT);
+    for (const b of (c.buses || [])) P.bus(ctx, b.x, A.BUS.ROAD, b.col, t, b);
+    K.particles.motes(ctx, t, { n: 30, seed: 307, color: '#ffe6b0', alpha: 0.4, size: 2.2, vx: 5, vy: -3 });
+    K.light.grade(ctx, '#ff9a5a', 0.14, 'soft-light');
+  };
+  // a side-view city bus facing left: front at x, wheels on y; o.door 0..1 open, o.puff 0..1 brake air
+  P.bus = function (ctx, x, y, col, t, o = {}) {
+    const L = 540, H = 300, top = y - H - 40;
+    ctx.save(); ctx.lineJoin = 'round';
+    ctx.fillStyle = K.rgba('#20142a', 0.3); K.ellipse(ctx, x + L / 2, y + 6, L * 0.55, 18); ctx.fill();
+    ctx.fillStyle = col || '#e2b04a'; ctx.strokeStyle = INK; ctx.lineWidth = 7; K.rrect(ctx, x, top, L, H, 34); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#23746C'; ctx.fillRect(x + 4, top + H - 80, L - 8, 26);
+    ctx.fillStyle = '#cfe3e6'; K.rrect(ctx, x + 14, top + 30, 70, 150, 16); ctx.fill(); ctx.stroke();               // windscreen
+    for (let k = 0; k < 5; k++) { K.rrect(ctx, x + 150 + k * 76, top + 34, 62, 92, 10); ctx.fill(); ctx.stroke(); }
+    // passengers' heads in the windows
+    for (let k = 0; k < 5; k++) { if (hash(k, o.seed || 1) < 0.4) continue; const pe = K.car.persona(k * 13 + (o.seed || 1), 3); ctx.fillStyle = pe.skin; K.circle(ctx, x + 181 + k * 76, top + 100, 18); ctx.fill(); ctx.fillStyle = pe.hair; ctx.beginPath(); ctx.arc(x + 181 + k * 76, top + 96, 18, Math.PI, 0); ctx.fill(); }
+    const dk = K.clamp(o.door || 0); ctx.fillStyle = '#3d3a4c'; ctx.fillRect(x + 92, top + 40, 50, H - 60); ctx.fillStyle = '#cfe3e6'; ctx.fillRect(x + 92 + dk * 22, top + 40, 50 - dk * 44, H - 60); ctx.strokeRect(x + 92, top + 40, 50, H - 60);
+    ctx.fillStyle = INK; K.rrect(ctx, x + 18, top + 4, 120, 22, 6); ctx.fill(); ctx.fillStyle = '#ffcf6a'; ctx.font = '700 18px "Martian Mono"'; ctx.textBaseline = 'middle'; ctx.fillText(o.route || '3', x + 30, top + 16);
+    ctx.fillStyle = '#fff1c8'; K.circle(ctx, x + 18, y - 70, 12); ctx.fill();
+    for (const wx of [x + 110, x + L - 110]) { ctx.fillStyle = INK; K.circle(ctx, wx, y - 18, 44); ctx.fill(); ctx.fillStyle = '#9a96a6'; K.circle(ctx, wx, y - 18, 18); ctx.fill(); }
+    if ((o.puff || 0) > 0.01) for (let j = 0; j < 4; j++) { const u = K.clamp(o.puff * 1.2 - j * 0.1); ctx.fillStyle = K.rgba('#fbf3e4', 0.7 * (1 - u)); K.circle(ctx, x + L - 70 + j * 30 + u * 80, y - 30 - u * 40, 20 + u * 40); ctx.fill(); }
+    ctx.restore();
+  };
+  // the glovebox insert (dashboard close-up): open 0..1 (door swings down), badge flight u 0..1 (out, up, lands on the
+  // dash), knee 0..1 (Mila's knee bumps it shut from the left), badgeIn: badge visible inside
+  P.glovebox = function (ctx, t, o = {}) {
+    ctx.fillStyle = '#1f5f59'; ctx.fillRect(0, 0, K.W, K.H);
+    const g = ctx.createLinearGradient(0, 0, 0, K.H); g.addColorStop(0, K.rgba('#ffe2a6', 0.35)); g.addColorStop(0.5, K.rgba('#ffe2a6', 0)); ctx.fillStyle = g; ctx.fillRect(0, 0, K.W, K.H);
+    ctx.fillStyle = '#2d7a72'; K.rrect(ctx, -40, 120, K.W + 80, 260, 60); ctx.fill(); ctx.strokeStyle = INK; ctx.lineWidth = 8; ctx.stroke();       // dash top
+    ctx.fillStyle = '#cfe3e6'; ctx.fillRect(0, 0, K.W, 110); K.sky.wash(ctx, 1500, 60, 600, '#ffd99a', 0.6);                                      // windscreen
+    const bx = 640, by = 480, bw = 640, bh = 300, open = K.ease.outBack(K.clamp(o.open || 0)) * (1 - K.clamp(o.knee || 0) * 0.98);
+    ctx.fillStyle = '#123f3b'; ctx.fillRect(bx, by, bw, bh); ctx.strokeStyle = INK; ctx.lineWidth = 8; ctx.strokeRect(bx, by, bw, bh);              // the box
+    if (o.badgeIn) { ctx.save(); ctx.translate(bx + 220, by + 150); ctx.rotate(0.15); badge(ctx, 0, 0, 1); ctx.restore(); }
+    // the door: hinge at the bottom, swings towards the camera (foreshortened)
+    // the door: hinge at the bottom edge; closed it covers the box, open it hangs towards the camera (a trapezoid below)
+    const an = Math.min(1.5, open * 1.5), ch = Math.cos(an), sh = Math.sin(an), top = by + bh - bh * ch, grow = 1 + 0.25 * sh;
+    ctx.fillStyle = '#2d7a72'; ctx.beginPath();
+    if (ch > 0.05) { ctx.moveTo(bx, by + bh); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx + bw + (grow - 1) * bw * 0.5, top); ctx.lineTo(bx - (grow - 1) * bw * 0.5, top); }
+    const low = by + bh + bh * 0.55 * sh; if (sh > 0.2) { ctx.moveTo(bx, by + bh); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx + bw + bw * 0.12 * sh, low); ctx.lineTo(bx - bw * 0.12 * sh, low); }
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    if (open < 0.3) { ctx.fillStyle = '#c9b49a'; K.rrect(ctx, bx + bw / 2 - 50, top + 22, 100, 24, 10); ctx.fill(); ctx.stroke(); }
+    else if (sh > 0.2) { ctx.fillStyle = '#c9b49a'; K.rrect(ctx, bx + bw / 2 - 60, low - 40, 120, 26, 10); ctx.fill(); ctx.stroke(); }
+    // the badge flying out
+    const u = K.clamp(o.badge || 0); if (u > 0) { const px = K.lerp(bx + 260, 1500, u), py = K.lerp(by + 150, 300, u) - 380 * 4 * u * (1 - u); ctx.save(); ctx.translate(px, py); ctx.rotate(u * 6.5); badge(ctx, 0, 0, 1.3); ctx.restore(); }
+    // Mila's knee (purple overalls) coming in from the left
+    const kk = K.clamp(o.knee || 0); if (kk > 0) { const kx = K.lerp(-420, bx - 30, K.ease.out(kk)); ctx.fillStyle = '#7158b8'; ctx.strokeStyle = INK; ctx.lineWidth = 8; K.rrect(ctx, kx - 420, by + 60, 460, 240, 110); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = K.rgba('#ffe2a6', 0.6); ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(kx - 60, by + 170, 90, -1.2, -0.2); ctx.stroke(); }
+  };
+  function badge(ctx, x, y, s) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(s, s); ctx.fillStyle = PAPER; ctx.strokeStyle = INK; ctx.lineWidth = 5; K.rrect(ctx, -120, -60, 240, 120, 12); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = INK; ctx.font = '800 22px "Martian Mono"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('SI SE ABRE', 0, -30); ctx.fillText('UN HUECO,', 0, 0); ctx.fillText('CIÉRRALO', 0, 30);
+    ctx.fillStyle = '#e7c25a'; K.circle(ctx, -104, -44, 7); ctx.fill(); ctx.restore();
+  }
+  P.gloveBadge = badge;
 })(typeof window !== 'undefined' ? window : globalThis);

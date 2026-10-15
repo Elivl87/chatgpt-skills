@@ -6,7 +6,7 @@
   const ELI = 20;
   A.ELI = ELI;
   let Wg = null, run = null;
-  A.s1 = () => (run = run || A.adapter('S1'));
+  A.s1 = () => A._hwR || (run = run || A.adapter('S1'));   // A._hwR: another run on the same road (S11, block E2)
 
   // smoothed camera anchor on car i (sim seconds window) so a tracking crane never jerks on a hard brake
   A.camX = function (i, ts, win = 0.8) {
