@@ -1,3 +1,7 @@
+> **SECONDARY, OUT OF DATE vs the ES master v2** (`SCRIPT_ES419.md`, 2026-10-15). The channel is Spanish-first; this
+> English draft still uses the dropped dot mascot and the v1 beats. Do not produce from it. An English version, if ever
+> made, will be re-derived from the ES master.
+
 # Ep 001 (PILOT) · SCRIPT (EN) · "Why do traffic jams appear out of nowhere?" · draft v1 · 2026-10-13
 
 Channel: **Ten Thousand Dots** (name appears only in beat 4 and beat 22). Tagline: *Tiny systems, explained with dots.*
