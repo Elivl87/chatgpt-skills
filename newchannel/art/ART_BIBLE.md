@@ -1,4 +1,10 @@
-# Diez Mil Puntos · Art Bible v2 (2026-10-14)
+# Diez Mil Puntos · Art Bible v2 (2026-10-14) · characters v4 (2026-10-15)
+
+> **v4 changes (2026-10-15, characters only; the world style is unchanged):** the channel's characters are **Eli + Mila**
+> (Alt 1 «Taller», `characters/leo_mila/CHARACTERS.md`); the dot mascot is **dropped**; vermilion now belongs to the
+> wordmark dot / brand accent; a new §3b sets the **emotion rule** for every character; the paper speech balloon is
+> added (§3c). Frames: `styleframes/v4/`, comparison `styleframes/v4/compare_v2_v4.jpg`, test `test/style_test_v4.mp4`,
+> QC `test/QC_v4.md`.
 
 > **v2 changes** (same day, after the v1 review): painterly lobed clouds, world-anchored ground brushwork, foreground
 > framing, full-body characters with poses, mascot ink gestures, rounded top-down cars, night life, an ambient-motion
@@ -12,7 +18,7 @@ our prompts or our files.
 
 Our subject doesn't change: everyday systems explained with **real simulations**. What changes is that each simulation
 now plays inside an illustrated world. **The art is a skin over a true simulation.** Every car you see is an agent of a
-deterministic model (IDM, fixed seed), and the brake light, the gap, the mascot's expression and the sound cue all come
+deterministic model (IDM, fixed seed), and the brake light, the gap, Eli and Mila's expressions and the sound cue all come
 from the same arrays.
 
 Code: `art/lib/` is the reusable kit, `art/scenes/` holds the scenes for each episode, `art/render/` holds the headless
@@ -33,7 +39,7 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
    (`K.tex.paint`), and film grain sits on top of everything (`K.tex.grain`, re-seeded every 2 frames so it lives without
    boiling).
 5. **One mood colour per scene, one idea per shot.** Each scene has its own grade (golden / night / overcast) and each
-   shot carries one readable idea: the wave arrives, the mascot reacts, the name lands.
+   shot carries one readable idea: the wave arrives, Eli and Mila react, the name lands.
 6. **Slow camera.** Push-ins of 3–25 %, crane rises, drifts of ≤ 4 px. One fast element at most (motion blur on the
    foreground when we track a moving car).
 
@@ -67,6 +73,16 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 
 ## 3 · Characters
 
+**The protagonists (v4): Eli + Mila.** Eli (0.95 units, short wide capsule head, yellow beanie, white tee, brown apron,
+jeans, black boots, dark brown skin, big grin) is the loud, impatient gap-closer; Mila (1.08 units, tall capsule head,
+tan skin, sleepy lids, high ponytail with a mustard tie, purple sweater, mustard overalls, green boots, small gold drop
+earrings) is the calm, curious, patient one. Capsule heads keep them apart from the round-headed extras; yellow / purple
+read apart at phone size in every palette. Full spec, API, colours and QC: `characters/leo_mila/CHARACTERS.md`; sheets
+`model_sheet.png`, `emotion_sheet.png`. Engine: `lib/cast.js` (layers, scene light with the rim **on** the ink line,
+soft IK arms, walk cycle, back views, sitting, props) + `lib/cast_alts.js` (the specs, ids `eli1`, `mila1`).
+
+**Generic people (the extras)** keep the construction below.
+
 **Construction** (`K.char`):
 - The head is a true circle of radius R. The brand face construction is kept exactly. Eyes are at x = ±0.32 R,
   y = −0.14 R, r = 0.135 R. The mouth is at y = +0.30 R with stroke 0.144 R and round caps. `look` slides the whole face
@@ -75,7 +91,7 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
   round shoes, noodle arms (two segments, round caps) with round hands, all with the ink line. Ten poses: stand, point,
   shrug, wave, clipboard (with a pencil that wiggles), sit, walk, hips, cheer, think. Every pose breathes and bobs
   (`t`), the wave and walk cycle, so no figure is ever frozen. Props: clipboard, safety vest (lime `#d8e04a` with a
-  reflective band; never orange-red, which would compete with the mascot). Shading is one flat shade on the side away
+  reflective band; never orange-red, which would compete with the brand vermilion). Shading is one flat shade on the side away
   from the light plus an optional rim. Acting is driven by the sim (ring observers point / shrug when a car stops; toll
   attendants hand the ticket while a car is served and wave it off when the barrier opens).
 - Proportions are a big head, a small body and simple hands. A seated driver is a head of 0.34–0.62 m against a 3.3 m
@@ -87,30 +103,41 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
   sad, focused, laughing, annoyed, grumpy, plus `blink` on top of any of them. Extras sit outside the head in ink, teal
   or paper and never in vermilion: ticks, sweat, steam puffs, anger mark, sparkles, `!`. See `scenes/lab.js` for the
   sheet.
-- Acting is driven by the simulation, not by keyframes. Example from the close-up: the car ahead's brake onset makes
+- Acting is driven by the simulation, not by keyframes. Example from the close-up (v2 wording; v4 does the same with Eli
+  and Mila: surprised -> worried -> set jaw while tailgating -> annoyed shrug at the stop -> furious «¡¿Quién fue?!»,
+  while Mila turns round to look back): the car ahead's brake onset made
   the mascot surprised (ticks). Its own onset makes it worried (sweat), then focused. Coming to a stop makes it annoyed
   (puffs), and 0.9 s later grumpy (anger mark). The nose dip follows the simulated deceleration, with a spring rebound
   at the stop.
 
-## 4 · The mascot in this world
+## 3b · Emotions (Producer's standing rule, 2026-10-15)
 
-- **It stays the vermilion dot with a face**: a flat `#E8553A` disc with no outline and the brand face. It is the only
-  vermilion character in any frame.
-- In the illustrated world it gains only light. It gets a **rim crescent** from the scene's key light and a **flat shade
-  crescent** on the far side (`K.char.discLight`). It never gets a gradient blob or a specular highlight.
-- **Role:** it is *one of the agents*. In the pilot it drives car 8 of the IDM run, a teal (`#23746C`, the brand second)
-  open-top car, so vermilion and teal, the two brand inks, read as "our dot" in a wide shot from 40 m away. When it
-  watches (the night frame) it sits on a hill, seen from behind, as a disc with a tiny ink body.
-- **Gestures (v2 decision): tiny ink stick arms, allowed.** When the mascot acts it may grow two ink (`#1C2433`) stick
-  arms from the sides of the disc: line width 0.08 R, two segments, round dot hands 0.115 R (open hands are small
-  ellipses). Gestures: rest, shrug, point, wave, fist (a small shake), hips, cheer (`K.char.mascotArms`). Ink stick legs
-  (`K.char.mascotLegs`) only when it stands or sits outside a car. Arms and legs are ink, never vermilion, never
-  outlined, never on the face, and they appear only for a beat of acting (in the car the hands go back to the wheel).
-  In the close-up: shrug when the car stops ("really?"), a small fist shake when it turns grumpy, then back to the
-  wheel. At the toll plaza it turns round to us and shrugs at the queue. On the night hill one arm lifts to point at
-  the ribbon of lights.
-- It is the only character without an outline, which makes it pop against outlined people. It squashes and stretches
-  like a rubber stamp and never rotates in 3D.
+"Always keep improving details; every character in this universe must express emotions well, in profile, front and
+3/4, happy, angry, everything." So:
+
+- **Every character, every view.** Eli, Mila and the extras share one 13-emotion vocabulary (neutral, happy, laugh,
+  surprised, curious, awe, sly, thinking, worried, sheepish, annoyed, furious/yelling, determined) and each one must read
+  in front, 3/4 and profile (and from the back through body language). `characters/leo_mila/emotion_sheet.png` is the
+  test: every cell must read at phone size.
+- **Four layers, strongest first:** brows + lids (the eye shape), mouth, head (tilt, squash/stretch, lean), body
+  (shoulders, arms, posture). Secondary cues (sweat, anger mark, steam puffs, sparkles, ticks) at most two at a time,
+  never vermilion.
+- **Profile is not a downgrade:** one eye drawn 25 % bigger, one brow, the mouth on the face edge (open = a wedge with
+  teeth, closed = a curl), the extras get a nose bump. When a beat must land, turn the body toward the camera.
+- **Acting comes from the simulation** (brake onsets, stop, gap, speed), poses cross-fade, big moves get anticipation.
+
+## 3c · Speech balloon
+
+A paper balloon (`#fbf3e4`, ink outline 4 px at 1080p, a soft violet drop shadow, Space Grotesk 700), tail to the
+speaker's mouth, pops in with a small overshoot and fades. Only for short shouted lines (≤ 3 words, e.g.
+«¡¿Quién fue?!»); dialogue is otherwise voice + subtitles. Never over the bottom 12 % of the frame.
+
+## 4 · The mascot (dropped, 2026-10-15)
+
+The vermilion dot mascot is **dropped** (Producer: "No me gusta nuestra mascota"). Its rules are kept in git history
+(v2 of this file) for reference only. What survives of it: the **brand dot** itself, a flat vermilion `#E8553A` disc
+with no face and no outline, which lives only as the dot of the «i» of «Mil» in the wordmark (in the end sting Mila
+flicks it into place) and as the brand accent in graphics. The pilot's teal car (`#23746C`) is now Eli and Mila's car.
 
 ## 5 · Lighting recipes
 
@@ -124,8 +151,8 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 
 ## 6 · Palette per scene, and how the brand survives
 
-- Brand inks keep their roles. Vermilion `#E8553A` is **only the mascot**. Teal `#23746C` is the mascot's car and the
-  extras. Ink `#1C2433` is faces, hands and type shadows. Paper `#F3ECDD` is letters, puffs and plates.
+- Brand inks keep their roles. Vermilion `#E8553A` is **only the wordmark dot / brand accent** (v4; it used to be the
+  mascot). Teal `#23746C` is Eli and Mila's car and the extras. Ink `#1C2433` is faces, hands and type shadows. Paper `#F3ECDD` is letters, puffs and plates.
 - Scene palettes live in `scenes/ep001_world.js` (`E.PAL.golden / night / field`). Generic cars use 10 desaturated
   pastels (`K.car.COLORS`), with no vermilion-like hue (the terracotta was removed for that reason).
 - Brake and tail lights are a *light* red (`#ff4a36` with glow), not an ink. They are always a glow, never a flat disc of
@@ -133,9 +160,9 @@ renderer and build scripts. The style frames are in `art/styleframes/` and the a
 - **Wordmark in the new style** (`K.type`; v2: the lit glyphs are baked once into sprites with `K.type.bake` and blitted
   with `K.type.drawBaked`, about 4x cheaper per frame than v1; the dusk sky behind the letters is kept deep violet,
   measured ≥ 3.5:1 against the cream letters, and a soft violet pool sits behind the tagline): Martian Mono 800, word spaces 0.55 cell, the dotless ı with **true circle
-  tittles**, and the mascot as the dot on the i of "Mil". The letters are cream paper lit by the scene: a soft warm glow
+  tittles**, and the brand dot as the dot on the i of "Mil" (v4: Mila flicks it in; it bonks Eli's beanie and lands). The letters are cream paper lit by the scene: a soft warm glow
   behind them, a soft low cast shadow, and a thin rim of scene light on their top edge (`K.type.draw`). The plain dot of
-  "Diez" is the stepping stone, and it squashes when the mascot lands on it. Periods drawn in titles (thumbnail
+  "Diez" is a plain round tittle. Periods drawn in titles (thumbnail
   "PUNTO.") are circles too.
 
 ## 7 · Texture and finish
@@ -175,11 +202,13 @@ bobbing characters. A held shot with nothing moving is a bug.
 - **No third-party IP**: no characters, logos, outfits or scenes from the reference or anywhere else. The reference
   teaches technique only.
 - No stock, no photos, no AI-generated images, no traced footage.
-- No 3D blobs, no glossy gradients on characters, no bevels, no specular highlights on the mascot.
+- No 3D blobs, no glossy gradients on characters, no bevels, no specular highlights on characters.
 - No real people, and no real brands on cars or signs.
 - No fake simulation: if it moves like traffic, an IDM (or the episode's model) moves it. Hand animation is reserved for
   the camera and pure character acting.
-- No vermilion on anything but the mascot. Never two mascots, and never a mascot outline.
+- No vermilion on anything but the wordmark dot / brand accent; no mascot (dropped).
+- No round heads on the protagonists; never change Eli and Mila's silhouettes, colours or wardrobe without the Producer.
+- No blank face in a story beat: every character emotes, in every view (§3b).
 - No text over the bottom 12 % (progress bar), and no faces under the end-screen area.
 - Any shot that plays the sim faster than real time says so on screen: the "ACELERADO ×2" pill (`K.light.speedLabel`,
   Martian Mono 700, paper on a 62 % ink pill with a round dot, top-left safe area).
@@ -193,11 +222,12 @@ bobbing characters. A held shot with nothing moving is a bug.
 | `lib/sky.js` | gradient sky, sun with halo rings, cloud banks / streaks / puffs, stars, moon |
 | `lib/light.js` | god rays, parallel shafts, glows, haze bands, grade, vignette, bloom |
 | `lib/terrain.js` | ridges, trees (3 kinds), grass tufts, poles + wires |
-| `lib/character.js` | faces (16 expressions), mascot, people heads, torso, extras |
+| `lib/character.js` | faces (16 + v4 emotion set, front / 3/4 / profile), people heads, torso, extras with body language (`EMO_POSE`) |
+| `lib/cast.js`, `lib/cast_alts.js` | v4: Eli + Mila engine and specs (see `characters/leo_mila/CHARACTERS.md`) |
 | `lib/car.js` | open-top cars in 4 views, lamps with glow, personas |
 | `lib/world.js` | perspective camera, roads, near-clipped ground polygons, 2D camera, particles |
 | `lib/sim.js` | IDM on a closed lane: positions, speeds, brake intensity, onsets (deterministic) |
-| `lib/type.js` | wordmark layout with round tittles + mascot slot, lit cream type |
+| `lib/type.js` | wordmark layout with round tittles + the brand-dot slot, lit cream type |
 | `lib/stage.js` | scene registry, post chain, renderer contract (`__frame(t)`, `__grab`, `__events`) |
 | v2 additions | `sky.cloudSprite / drawClouds / angTo`, `terrain.brush / branchSprite / reedSprite / drawSway / drawWind / house / fireflies`, tree `sway`, `char.person` + `POSES`, `char.mascotArms / mascotLegs`, new `car.top`, `light.shimmer / speedLabel`, `type.bake / drawBaked`, `sim.queue` (IDM queue at a booth with seeded service times). Parts sheet: `scenes/lab2.js` (`?part=clouds|people|cars`) |
 
@@ -212,6 +242,8 @@ cd newchannel/art/render
 node render.mjs --scene highway_golden --still 5.8 --png out.png      # any scene, any time (several: --still 1,2,3)
 ./build_stills.sh                                                     # v2: the 5 style frames (a-e) + thumbnail B + compare_v1_v2.jpg -> styleframes/v2/
 TMPD=/tmp/claude-0/art_tmp ./build_test.sh                            # style_test_v2.mp4: 2 Chromium workers -> sound -> H.264
+./build_stills_v4.sh                                                  # v4: frames a-e (Eli + Mila), compare_v2_v4, model + emotion sheets, small JPGs
+TMPD=<tmp> ./build_test_v4.sh                                         # style_test_v4.mp4 (19.6 s)
 ```
 Needs node 22, the preinstalled Playwright and Chromium (`/opt/pw-browsers`, never `playwright install`), ffmpeg, and
 python3 with numpy (the sound bed imports `engine/sound.py` read-only). Time only ever comes from the renderer
