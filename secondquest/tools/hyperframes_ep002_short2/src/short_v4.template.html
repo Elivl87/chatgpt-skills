@@ -53,6 +53,9 @@
       .ptag { position: absolute; height: 74px; padding: 0 22px; border-radius: 37px; border: 7px solid var(--ink); font: 400 52px/60px "Anton", sans-serif;
         color: var(--ink); box-shadow: 4px 6px 0 var(--ink); white-space: nowrap; }
       .ptag.p1 { background: var(--gold); } .ptag.p2 { background: #7fd0ff; }
+      .pblk { position: absolute; left: 70px; }
+      .pblk .big { display: block; font-size: 104px; }
+      .pblk .role { display: block; margin-top: 18px; }
       .role { position: absolute; left: 74px; font: 800 48px "Inter", sans-serif; color: #fff; -webkit-text-stroke: 11px var(--ink); paint-order: stroke fill; letter-spacing: .1em; }
       .pttl { position: absolute; left: 70px; font-size: 104px; }
       /* counters (100 % / 0 %) */
@@ -64,10 +67,11 @@
       .port { position: absolute; top: 720px; width: 380px; height: 420px; border-radius: 34px; border: 8px solid #3a4466; background: rgba(255,255,255,.04); }
       .port svg { position: absolute; left: 40px; top: 70px; width: 300px; height: 200px; }
       .port .st2 { position: absolute; left: 0; width: 100%; top: 330px; text-align: center; font: 400 52px "Anton", sans-serif; }
-      .port .st { position: absolute; left: 0; width: 100%; top: 250px; text-align: center; font: 400 60px "Anton", sans-serif; }
+      .port .st { position: absolute; left: 0; width: 100%; top: 290px; text-align: center; font: 400 64px/1 "Anton", sans-serif; }
+      .port .st small { font-size: 50px; }
       #ttlP2 { position: absolute; left: 65px; width: 853px; top: 250px; text-align: center; }
       #ttlP2 .big { font-size: 150px; display: inline-block; }
-      #pressStart { position: absolute; left: 65px; width: 853px; top: 130px; text-align: center; font-size: 96px; color: #fff; }
+      #pressStart { position: absolute; left: 65px; width: 853px; top: 205px; text-align: center; font-size: 96px; color: #fff; }
       .gl { position: absolute; pointer-events: none; }
       /* wordmark + end card */
       #wm { position: absolute; left: 90px; top: 690px; width: 900px; height: 240px; transform-origin: 50% 32%; }
@@ -117,17 +121,15 @@
         </div></div></div>
         <div id="splitUi" class="full">
           <div id="seam"></div><div id="vs">VS</div>
-          <div class="ptag p1" style="left: 560px; top: 708px">P1</div>
-          <div class="ptag p2" style="left: 575px; top: 1188px">P2</div>
-          <div class="big pttl" style="top: 690px; color: var(--gold)">PLAYER ONE</div><div class="role" style="top: 808px">VETERAN</div>
-          <div class="big pttl" style="top: 1170px; color: #7fd0ff">PLAYER TWO</div><div class="role" style="top: 1288px">NEW PLAYER</div>
+          <div class="pblk" style="top: 690px"><span class="big" style="color: var(--gold)">PLAYER ONE</span><span class="role">VETERAN</span></div>
+          <div class="pblk" style="top: 1170px"><span class="big" style="color: #7fd0ff">PLAYER TWO</span><span class="role">NEW PLAYER</span></div>
         </div>
       </div>
 
       <!-- ===== SELECT · l71 "Player two?" · a player-select screen in our own game-UI style ===== -->
-      <div id="sel" class="full shot clip" data-start="{{S2}}" data-duration="{{l72-0.18-S2+0.02}}" data-track-index="3">
-        <div class="port" id="port1" style="left: 80px; border-color: var(--gold)"><svg viewBox="0 0 300 200"><use href="#pad" fill="#ffc83d"/></svg><div class="st" style="color: var(--gold)">VETERAN</div><div class="st2" style="color: var(--gold)">P1 READY</div></div>
-        <div class="port" id="port2" style="left: 540px"><svg viewBox="0 0 300 200"><use href="#pad" id="pad2" fill="#3a4466"/></svg><div class="st" style="color: #7fd0ff">NEW PLAYER</div><div class="st2" id="p2st" style="color: #7fd0ff">P2 ?</div></div>
+      <div id="sel" class="full shot clip" data-start="{{S2}}" data-duration="{{l72-0.18-S2}}" data-track-index="3">
+        <div class="port" id="port1" style="left: 80px; border-color: var(--gold)"><svg viewBox="0 0 300 200"><use href="#pad" fill="#ffc83d"/></svg><div class="st" style="color: var(--gold)">VETERAN</div></div>
+        <div class="port" id="port2" style="left: 540px"><svg viewBox="0 0 300 200"><use href="#pad" id="pad2" fill="#3a4466"/></svg><div class="st" id="p2st" style="color: #7fd0ff">NEW PLAYER</div></div>
         <div id="ttlP2" aria-label="Player two?"><span class="big" id="p2word">PLAYER TWO?</span></div>
         <svg width="0" height="0" style="position: absolute"><defs><g id="pad"><path d="M70 40 H230 Q290 40 296 110 L300 160 Q300 196 266 190 L222 150 H78 L34 190 Q0 196 0 160 L4 110 Q10 40 70 40 Z" stroke="#16161f" stroke-width="10"/>
           <circle cx="85" cy="95" r="22" fill="#16161f"/><circle cx="215" cy="85" r="12" fill="#16161f"/><circle cx="240" cy="110" r="12" fill="#16161f"/><circle cx="190" cy="110" r="12" fill="#16161f"/><circle cx="215" cy="135" r="12" fill="#16161f"/></g></defs></svg>
@@ -168,8 +170,8 @@
         <img src="assets/hud_hearts.png" alt="" style="left: 60px; top: 150px; width: 290px" />
         <img src="assets/hud_rupee.png" alt="" style="left: 66px; top: 236px; width: 120px" />
         <img src="assets/hud_buttons.png" alt="" style="left: 640px; top: 132px; width: 380px" />
-        <div class="ptag p1" id="hudP1" style="left: 430px; top: 160px">P1</div>
-        <div class="ptag p2" id="hudP2" style="left: 430px; top: 160px; opacity: 0">P2</div>
+        <div class="ptag p1" id="hudP1" style="left: 430px; top: 184px">P1</div>
+        <div class="ptag p2" id="hudP2" style="left: 430px; top: 184px; opacity: 0">P2</div>
       </div>
 
       <!-- ===== titles & meters (above the HUD layer, never together with it) ===== -->
@@ -378,7 +380,7 @@
       tl.set("#vtag1", { opacity: 1 }, TV + .2); tl.set("#vtag2", { opacity: 1 }, TV + .32);
       tl.fromTo(["#vtag1", "#vtag2"], { scale: 1.3 }, { scale: 1, duration: .2, ease: "back.out(3)", stagger: .12, immediateRender: false }, TV + .2);
       tl.set("#pressStart", { opacity: 0 }, 0);
-      [0, .5, .9, 1.3].forEach((d) => { tl.set("#pressStart", { opacity: 1 }, TV + .55 + d); tl.set("#pressStart", { opacity: 0 }, TV + .55 + d + .3); });   // a hard blink, never translucent
+      [0, .4, .75].forEach((d) => { tl.set("#pressStart", { opacity: 1 }, TV + .55 + d); tl.set("#pressStart", { opacity: 0 }, TV + .55 + d + .28); });   // a hard blink, never translucent
       tl.set(["#pressStart", "#vtag1", "#vtag2"], { opacity: 0 }, {{VEND+2.1}});                 // cut out before the wordmark lands
       tl.to("#vnight", { opacity: .6, duration: .35, ease: "power2.in" }, {{VEND+2.05}});
 

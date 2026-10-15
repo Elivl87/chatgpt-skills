@@ -53,6 +53,9 @@
       .ptag { position: absolute; height: 74px; padding: 0 22px; border-radius: 37px; border: 7px solid var(--ink); font: 400 52px/60px "Anton", sans-serif;
         color: var(--ink); box-shadow: 4px 6px 0 var(--ink); white-space: nowrap; }
       .ptag.p1 { background: var(--gold); } .ptag.p2 { background: #7fd0ff; }
+      .pblk { position: absolute; left: 70px; }
+      .pblk .big { display: block; font-size: 104px; }
+      .pblk .role { display: block; margin-top: 18px; }
       .role { position: absolute; left: 74px; font: 800 48px "Inter", sans-serif; color: #fff; -webkit-text-stroke: 11px var(--ink); paint-order: stroke fill; letter-spacing: .1em; }
       .pttl { position: absolute; left: 70px; font-size: 104px; }
       /* counters (100 % / 0 %) */
@@ -64,10 +67,11 @@
       .port { position: absolute; top: 720px; width: 380px; height: 420px; border-radius: 34px; border: 8px solid #3a4466; background: rgba(255,255,255,.04); }
       .port svg { position: absolute; left: 40px; top: 70px; width: 300px; height: 200px; }
       .port .st2 { position: absolute; left: 0; width: 100%; top: 330px; text-align: center; font: 400 52px "Anton", sans-serif; }
-      .port .st { position: absolute; left: 0; width: 100%; top: 250px; text-align: center; font: 400 60px "Anton", sans-serif; }
+      .port .st { position: absolute; left: 0; width: 100%; top: 290px; text-align: center; font: 400 64px/1 "Anton", sans-serif; }
+      .port .st small { font-size: 50px; }
       #ttlP2 { position: absolute; left: 65px; width: 853px; top: 250px; text-align: center; }
       #ttlP2 .big { font-size: 150px; display: inline-block; }
-      #pressStart { position: absolute; left: 65px; width: 853px; top: 130px; text-align: center; font-size: 96px; color: #fff; }
+      #pressStart { position: absolute; left: 65px; width: 853px; top: 205px; text-align: center; font-size: 96px; color: #fff; }
       .gl { position: absolute; pointer-events: none; }
       /* wordmark + end card */
       #wm { position: absolute; left: 90px; top: 690px; width: 900px; height: 240px; transform-origin: 50% 32%; }
@@ -117,17 +121,15 @@
         </div></div></div>
         <div id="splitUi" class="full">
           <div id="seam"></div><div id="vs">VS</div>
-          <div class="ptag p1" style="left: 560px; top: 708px">P1</div>
-          <div class="ptag p2" style="left: 575px; top: 1188px">P2</div>
-          <div class="big pttl" style="top: 690px; color: var(--gold)">PLAYER ONE</div><div class="role" style="top: 808px">VETERAN</div>
-          <div class="big pttl" style="top: 1170px; color: #7fd0ff">PLAYER TWO</div><div class="role" style="top: 1288px">NEW PLAYER</div>
+          <div class="pblk" style="top: 690px"><span class="big" style="color: var(--gold)">PLAYER ONE</span><span class="role">VETERAN</span></div>
+          <div class="pblk" style="top: 1170px"><span class="big" style="color: #7fd0ff">PLAYER TWO</span><span class="role">NEW PLAYER</span></div>
         </div>
       </div>
 
       <!-- ===== SELECT · l71 "Player two?" · a player-select screen in our own game-UI style ===== -->
-      <div id="sel" class="full shot clip" data-start="7.95" data-duration="1.02" data-track-index="3">
-        <div class="port" id="port1" style="left: 80px; border-color: var(--gold)"><svg viewBox="0 0 300 200"><use href="#pad" fill="#ffc83d"/></svg><div class="st" style="color: var(--gold)">VETERAN</div><div class="st2" style="color: var(--gold)">P1 READY</div></div>
-        <div class="port" id="port2" style="left: 540px"><svg viewBox="0 0 300 200"><use href="#pad" id="pad2" fill="#3a4466"/></svg><div class="st" style="color: #7fd0ff">NEW PLAYER</div><div class="st2" id="p2st" style="color: #7fd0ff">P2 ?</div></div>
+      <div id="sel" class="full shot clip" data-start="7.95" data-duration="1.0" data-track-index="3">
+        <div class="port" id="port1" style="left: 80px; border-color: var(--gold)"><svg viewBox="0 0 300 200"><use href="#pad" fill="#ffc83d"/></svg><div class="st" style="color: var(--gold)">VETERAN</div></div>
+        <div class="port" id="port2" style="left: 540px"><svg viewBox="0 0 300 200"><use href="#pad" id="pad2" fill="#3a4466"/></svg><div class="st" id="p2st" style="color: #7fd0ff">NEW PLAYER</div></div>
         <div id="ttlP2" aria-label="Player two?"><span class="big" id="p2word">PLAYER TWO?</span></div>
         <svg width="0" height="0" style="position: absolute"><defs><g id="pad"><path d="M70 40 H230 Q290 40 296 110 L300 160 Q300 196 266 190 L222 150 H78 L34 190 Q0 196 0 160 L4 110 Q10 40 70 40 Z" stroke="#16161f" stroke-width="10"/>
           <circle cx="85" cy="95" r="22" fill="#16161f"/><circle cx="215" cy="85" r="12" fill="#16161f"/><circle cx="240" cy="110" r="12" fill="#16161f"/><circle cx="190" cy="110" r="12" fill="#16161f"/><circle cx="215" cy="135" r="12" fill="#16161f"/></g></defs></svg>
@@ -140,6 +142,7 @@
           <div class="chr" id="p2" data-role="character"><div class="foot"></div><img class="on" id="p2img" src="assets/p2c.png" alt="pixie" /></div>
         </div></div>
         <canvas id="boot" class="full gl" width="540" height="960" style="width: 1080px; height: 1920px; visibility: hidden" data-critic-ignore></canvas>
+        <div id="loading" class="abs" style="left: 65px; width: 853px; top: 860px; text-align: center; visibility: hidden"><span class="big" style="font-size: 120px; color: #7fd0ff">P2 LOADING</span></div>
       </div>
 
       <!-- ===== TREE · l73-l74 · the giant tree (#14) and Pixie (#2d awe, #2e doubt): the punchline and its hold ===== -->
@@ -167,8 +170,8 @@
         <img src="assets/hud_hearts.png" alt="" style="left: 60px; top: 150px; width: 290px" />
         <img src="assets/hud_rupee.png" alt="" style="left: 66px; top: 236px; width: 120px" />
         <img src="assets/hud_buttons.png" alt="" style="left: 640px; top: 132px; width: 380px" />
-        <div class="ptag p1" id="hudP1" style="left: 430px; top: 160px">P1</div>
-        <div class="ptag p2" id="hudP2" style="left: 430px; top: 160px; opacity: 0">P2</div>
+        <div class="ptag p1" id="hudP1" style="left: 430px; top: 184px">P1</div>
+        <div class="ptag p2" id="hudP2" style="left: 430px; top: 184px; opacity: 0">P2</div>
       </div>
 
       <!-- ===== titles & meters (above the HUD layer, never together with it) ===== -->
@@ -317,7 +320,7 @@
         $("#p2st").style.opacity = (t > 8.33 || Math.floor(t * 6) % 2) ? 1 : .2; }
 
       /* ---------------- P2: a pixel "boot" (WebGL fragment shader: mosaic -> sharp, RGB split, scanlines), then Pixie, delighted, at 0 % */
-      const TB = 8.95, TBD = .42;
+      const TB = 8.95, TBD = .36;   // director: <= 0.4 s, a designed game boot, resolving sharp in its last frames
       const P2C = { z: 1.15, fx: 1480, fy: 950 };
       cam("#camP2", TB, 0, P2C);
       cam("#camP2", TB, 1.12, { z: 1.2, fx: 1480, fy: 960 }, "sine.inOut");
@@ -340,11 +343,13 @@
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         uMos = gl.getUniformLocation(bootProg, "mos"); uK = gl.getUniformLocation(bootProg, "k");
       }
-      function drawBoot(t) { const on = gl && t >= TB && t < TB + TBD; BC.style.visibility = on ? "visible" : "hidden"; if (!on) return;
+      function drawBoot(t) { const on = gl && t >= TB && t < TB + TBD; BC.style.visibility = on ? "visible" : "hidden";
+        $("#loading").style.visibility = (t >= TB && t < TB + .22) ? "visible" : "hidden";   // P2 LOADING: a hard UI flash over the boot, gone before the picture resolves
+        if (!on) return;
         const v = view(P2C), s = v.scale / 2; octx.clearRect(0, 0, 540, 960);
         octx.drawImage($("#p2plate"), v.x / 2, v.y / 2, PW * s, PH * s);
         const pe = $("#p2"); octx.drawImage($("#p2img"), v.x / 2 + parseFloat(pe.style.left) * s, v.y / 2 + parseFloat(pe.style.top) * s, parseFloat(pe.style.width) * s, parseFloat(pe.style.height) * s);
-        const k = 1 - Math.min(1, (t - TB) / TBD), mos = Math.max(1, Math.round(1 + 44 * k * k));
+        const k = 1 - Math.min(1, (t - TB) / TBD), mos = Math.max(1, Math.round(1 + 36 * k * k * k));   // big blocks only in the first frames, sharp by the end
         gl.viewport(0, 0, 540, 960); gl.bindTexture(gl.TEXTURE_2D, bootTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, off); gl.uniform1f(uMos, mos); gl.uniform1f(uK, k); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); }
       const M2 = { v: 100 };
@@ -379,7 +384,7 @@
       tl.set("#vtag1", { opacity: 1 }, TV + .2); tl.set("#vtag2", { opacity: 1 }, TV + .32);
       tl.fromTo(["#vtag1", "#vtag2"], { scale: 1.3 }, { scale: 1, duration: .2, ease: "back.out(3)", stagger: .12, immediateRender: false }, TV + .2);
       tl.set("#pressStart", { opacity: 0 }, 0);
-      [0, .5, .9, 1.3].forEach((d) => { tl.set("#pressStart", { opacity: 1 }, TV + .55 + d); tl.set("#pressStart", { opacity: 0 }, TV + .55 + d + .3); });   // a hard blink, never translucent
+      [0, .4, .75].forEach((d) => { tl.set("#pressStart", { opacity: 1 }, TV + .55 + d); tl.set("#pressStart", { opacity: 0 }, TV + .55 + d + .28); });   // a hard blink, never translucent
       tl.set(["#pressStart", "#vtag1", "#vtag2"], { opacity: 0 }, 19.2);                 // cut out before the wordmark lands
       tl.to("#vnight", { opacity: .6, duration: .35, ease: "power2.in" }, 19.15);
 

@@ -71,3 +71,15 @@ v3.3 is kept: git tag `short2-v3.3`, its files untouched.
   3. The temple's empty pedestal hosts our 3D Triforce. It is our own geometry; the risk note is the same as the thumbnail relics (Triforce shape).
   4. The vista tags label the adults P1/P2 (the same two people, now co-op).
 - **Gates:** `hyperframes lint` 0 errors. The full gate run (frame_critic sweeps incl. 1/30 s, sfx_audit, check) runs after the go, on the build.
+
+## After the director's GO (build v4.0)
+
+- **Boot (note 1):** 0.36 s long. The big blocks appear only in the first frames (the mosaic shrinks cubically to 1 px). A hard-cut "P2 LOADING" UI flash sits over its first 0.22 s and is gone before the picture resolves.
+- **Punchline (note 2):** the cut to Pixie's doubt is at 16.39 s, "problem." ends at 16.95 s, and the impact into the vista lands at 17.55 s. That gives a 0.6 s hold after the word (1.16 s on the shot), with a wind swell under it, cut dead into the drop.
+- **Gate fixes:** each split-screen title and its role are now one block ("PLAYER ONE / VETERAN"); the redundant P-tags are removed. The player-select ports carry one label each. The select clip now ends exactly at the boot. The HUD P-tags and PRESS START sit inside the safe area, and PRESS START no longer blinks past the wordmark cut.
+- **gates.sh: PASS.**
+  - lint: 0 E.
+  - frame_critic: 0.25 s sweep + 1/30 s windows (0-1, 1-2.2, 2-3.4, 3.7-5.3, 7-9.4, 10.8-11.4, 13.3-14.3, 15.7-17.8, 19-22 s), 0 errors. Warnings: CHAR_SMALL on the pull-back (by design); TEXT_OVER_CHARACTER on legs and torso only (no face), checked by eye.
+  - sfx_audit: 0/0.
+  - check: ok. Runtime warnings are only the three.js deprecation and GL ReadPixels notes.
+- **By eye on the rendered MP4 (2 render workers, cold seeks):** the Triforce frames at 3.1-4.2 s show no black frames and no flicker; the boot reads as a short game load; the vista, wordmark and card are clean.
