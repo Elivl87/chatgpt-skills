@@ -77,7 +77,18 @@ def clean(raw):
         e['id'] = f'e{i:02d}'
         e['system'] = sysof.get(e['ids'][0], 'fund')
     d['evidence'] = ev
-    d['pageTitles'] = [page_title(t) for t in d['ocr']]
+    curated = {}
+    tp = os.path.join(HERE, 'page_titles.txt')
+    if os.path.exists(tp):
+        for line in open(tp, encoding='utf-8'):
+            n, _, t = line.rstrip('\n').partition('\t')
+            if n.isdigit() and t:
+                curated[int(n)] = t
+    d['pageTitles'] = [curated.get(i + 1) or page_title(t) for i, t in enumerate(d['ocr'])]
+    amap = json.load(open(os.path.join(HERE, 'api_map.json'), encoding='utf-8'))
+    d['apiRoles'] = amap.pop('_roles')
+    for r in d['records']:
+        r['apis'] = amap.get(r['id'], [])
     d['meta'] = {'apiReview': '13 de octubre de 2026', 'coReview': '13 de octubre de 2026', 'v2Date': v2_date,
                  'links': {'catalog': 'https://www.api.org/products-and-services/standards/digital-catalog',
                            'errata': 'https://www.api.org/products-and-services/standards/addenda-and-errata',

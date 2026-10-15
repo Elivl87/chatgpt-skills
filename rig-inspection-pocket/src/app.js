@@ -36,6 +36,7 @@ const IC={
   back:'<path d="M19 12H5M11 6l-6 6 6 6"/>',
   chev:'<path d="m9 6 6 6-6 6"/>',
   x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  check:'<path d="m4.5 12.5 5 5L19.5 7"/>',
   prev:'<path d="M15 6l-6 6 6 6"/>',
   next:'<path d="m9 6 6 6-6 6"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
@@ -81,6 +82,12 @@ for(const e of D.evidence){for(const id of e.ids){if(!EVID_BY_REC.has(id))EVID_B
 const K_ORDER=['manual','editorial','external','warning'];
 const K_LABEL={manual:'En el libro',editorial:'Síntesis editorial',external:'Verificar fuera',warning:'Precaución'};
 const K_LONG={manual:'Corresponde a un apartado del manual 2023 (respaldo temático, no cita literal).',editorial:'Síntesis creada para consulta; no es una exigencia citada del libro.',external:'El manual no basta: confirmar norma, edición, OEM o procedimiento.',warning:'Advertencia de uso seguro, no cita de una norma.'};
+const API_BY_CODE=new Map(D.api.map(a=>[a.code,a]));
+const ROLE={insp:['Inspección y mantenimiento','INSP'],dis:['Diseño y fabricación','DISEÑO'],oper:['Instalación, operación y pruebas','OPER'],seg:['Seguridad operacional','SEG'],elec:['Instalación eléctrica','ELÉC'],ndt:['Servicios NDT','NDT'],rep:['Reparación y remanufactura','REPAR']};
+const apisOf=r=>(r.apis||[]).map(c=>API_BY_CODE.get(c)).filter(Boolean);
+const RECS_BY_API=new Map();for(const r of D.records)for(const c of r.apis||[]){if(!RECS_BY_API.has(c))RECS_BY_API.set(c,[]);RECS_BY_API.get(c).push(r)}
+function sysApis(sys){const n=new Map();for(const r of D.records)if(r.system===sys)for(const c of r.apis||[])n.set(c,(n.get(c)||0)+1);return [...n.entries()].sort((a,b)=>b[1]-a[1]).map(([c,k])=>({a:API_BY_CODE.get(c),k})).filter(x=>x.a)}
+const apiShort=c=>c.replace(/^API\s+/,'');
 const kCounts=id=>{const o={manual:0,editorial:0,external:0,warning:0};for(const c of CLAIMS.get(id)||[])o[c.k]++;return o};
 
 /* ------------------------------------------------------------ storage */
@@ -88,6 +95,7 @@ let favs=load('rig-pocket-favs',[]);if(!Array.isArray(favs))favs=[];
 let recent=load('rig-pocket-recent',[]);if(!Array.isArray(recent))recent=[];
 let pagesSaved=load('rig-pocket-pages-v14',[]);if(!Array.isArray(pagesSaved))pagesSaved=[];
 let notes=load('rig-pocket-notes-v14',{});if(!notes||typeof notes!=='object'||Array.isArray(notes))notes={};
+let reviews=load('rig-pocket-review-v21',{});if(!reviews||typeof reviews!=='object'||Array.isArray(reviews))reviews={};
 favs=favs.filter(id=>REC.has(id));recent=recent.filter(id=>REC.has(id));pagesSaved=pagesSaved.filter(n=>Number.isInteger(n)&&n>=1&&n<=TOTAL);
 
 /* ------------------------------------------------------------ theme */
@@ -156,7 +164,7 @@ function rank(docs,words,{fuzzy=true,min=.6,boost,relaxed=false}={}){
 }
 /* corpora, built once */
 const IDX={
-  rec:D.records.map(r=>({r,title:field(r.title+' '+r.aliases.join(' ')),body:field([r.description,...r.checks,...r.docs,r.alert,...(D.deep[r.id]||[]).map(x=>x.slice(0,4).join(' '))].join(' '))})),
+  rec:D.records.map(r=>({r,title:field(r.title+' '+r.aliases.join(' ')),body:field([(r.apis||[]).join(' '),r.description,...r.checks,...r.docs,r.alert,...(D.deep[r.id]||[]).map(x=>x.slice(0,4).join(' '))].join(' '))})),
   sub:Object.entries(D.deep).flatMap(([id,rows])=>byId(id)?rows.map((x,i)=>({r:byId(id),i,row:x,title:field(x[0]+' '+byId(id).title+' '+byId(id).aliases.join(' ')),body:field(x.slice(1,4).join(' '))})):[]),
   guide:D.guides.map(g=>({g,title:field(g.q),body:field(g.a+' '+g.steps.join(' ')+' '+g.group)})),
   gloss:D.glossary.map(g=>({g,title:field(g.term),body:field(g.definition+' '+g.group)})),
@@ -215,9 +223,9 @@ function setParams(obj,{push=false}={}){const p=new URLSearchParams(cur.params);
 function route(){
   const prevKey=lastMainKey;scrollMem.set(prevKey,window.scrollY);
   cur=parse();const key=mainKey(cur);
-  if(key!==lastMainKey){renderMain();lastMainKey=key;
+  if(key!==lastMainKey){const swap=()=>renderMain();if(freshNav&&document.startViewTransition&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.startViewTransition(swap);else swap();lastMainKey=key;
     if(freshNav)window.scrollTo(0,0);else window.scrollTo(0,scrollMem.get(key)||0);
-    if(freshNav&&prevKey)focusHead()}
+    if(freshNav&&prevKey)setTimeout(focusHead,80)}
   renderReader();freshNav=false;
 }
 function focusHead(){const h=$('main h1');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}}
@@ -244,10 +252,11 @@ const kTag=k=>`<span class="tag">${kGlyph(k)}${K_LABEL[k]}</span>`;
 const legend=()=>`<div class="legend">${K_ORDER.map(k=>`<span>${kGlyph(k)}${K_LABEL[k]}</span>`).join('')}</div>`;
 function kBar(c){const t=K_ORDER.reduce((a,k)=>a+c[k],0)||1;return `<div class="bar" role="img" aria-label="${K_ORDER.map(k=>c[k]+' '+K_LABEL[k].toLowerCase()).join(', ')}">${K_ORDER.map(k=>c[k]?`<i class="b-${k}" style="width:${(c[k]/t*100).toFixed(1)}%"></i>`:'').join('')}</div>`}
 function recRow(r,re){const m=MOD.get(r.system),c=kCounts(r.id);
-  return `<a class="row" href="#/ficha/${r.id}"><span class="code">${recCode(r.id)}</span><span class="body"><span class="t">${hl(r.title,re)}</span><span class="d">${hl(r.description.length>150?r.description.slice(0,148)+'…':r.description,re)}</span><span class="m mono">${esc(m.name)} · PDF ${r.pages.map(pad).join(' ')} · ${c.manual}/${c.manual+c.editorial+c.external+c.warning} en el libro${favs.includes(r.id)?' · <b>guardada</b>':''}</span></span>${ico('chev',16).replace('class="i"','class="i go"')}</a>`}
+  return `<a class="row" href="#/ficha/${r.id}"><span class="code">${recCode(r.id)}</span><span class="body"><span class="t">${hl(r.title,re)}</span><span class="d">${hl(r.description.length>150?r.description.slice(0,148)+'…':r.description,re)}</span><span class="m mono">${esc(m.name)}${r.apis?.length?' · <b>'+esc(r.apis.slice(0,2).map(apiShort).join(' · '))+'</b>':''} · PDF ${r.pages.map(pad).join(' ')} · ${c.manual}/${c.manual+c.editorial+c.external+c.warning} en el libro${favs.includes(r.id)?' · <b>guardada</b>':''}</span></span>${ico('chev',16).replace('class="i"','class="i go"')}</a>`}
 function pageRow(n,q,re){const m=modOf(n);return `<button class="row" data-pg="${n}"><span class="code">PDF<br>${pad(n)}</span><span class="body"><span class="t">${hl(D.pageTitles[n-1],re)}</span><span class="d">${q?hl(snippet(n,q),re):esc(m?m.name:'Preliminares / cierre')}</span>${pagesSaved.includes(n)?'<span class="m mono"><b>marcada</b></span>':''}</span></button>`}
 function thumbs(ps){return `<div class="thumbs">${ps.map(n=>`<button class="thumb" data-pg="${n}" aria-label="Abrir página ${n}"><span class="ph"><img loading="lazy" decoding="async" alt="" src="${imgURL(n)}"></span><span class="mono">PDF ${pad(n)}</span></button>`).join('')}</div>`}
 function evBlock(e,withRecs){return `<div class="ev"><span class="mono">Cotejo visual · PDF ${pad(e.page)} · ${esc(e.basis)}</span><strong>${esc(e.title)}</strong><p>${esc(e.point)}</p><div class="pgs">${pgBtn(e.page,'Abrir lámina '+pad(e.page))}<button class="pg" data-a="cite" data-n="${e.page}" data-t="${esc(e.title)}">${ico('copy',13)} Citar</button>${withRecs?e.ids.map(id=>byId(id)?`<a class="pg" href="#/ficha/${id}">${recCode(id)} ${esc(byId(id).title)}</a>`:'').join(''):''}</div></div>`}
+const apiChip=a=>`<a class="api-chip" href="#/api/${a.id}" title="${esc(ROLE[D.apiRoles[a.code]]?.[0]||'')}"><b>${esc(apiShort(a.code))}</b><span>${esc(ROLE[D.apiRoles[a.code]]?.[1]||'REF')}</span></a>`;
 const scope=t=>`<p class="note"><strong>Alcance.</strong> ${t}</p>`;
 const field_=(id,ph,val,label,small)=>`<label class="sr" for="${id}">${label}</label><div class="field${small?' small':''}">${ico('search',20)}<input id="${id}" data-p="q" type="search" autocomplete="off" enterkeyhint="search" placeholder="${esc(ph)}" value="${esc(val||'')}"></div>`;
 
@@ -268,11 +277,12 @@ V.home=()=>{
    <div class="home-meta"><div><strong>${D.records.length}</strong><span class="mono">fichas</span></div><div><strong>${TOTAL}</strong><span class="mono">láminas</span></div><div><strong>${D.claims.length}</strong><span class="mono">enunciados auditados</span></div></div>
   </section>
   <section class="sec">${sec(1,'Sistemas del taladro',`PDF 1–${TOTAL}`)}
-   ${D.modules.map(m=>{const n=D.records.filter(r=>r.system===m.id).length;return `<a class="sys" href="#/sistema/${m.id}"><span class="no">${pad2(MOD.get(m.id).no)}</span><span class="t">${esc(m.name)}</span><span class="cnt">${n} fichas</span><span class="d">${esc(m.subtitle)}</span><span class="track" title="Páginas ${m.start}–${m.end}"><i style="left:${((m.start-1)/TOTAL*100).toFixed(2)}%;width:${((m.end-m.start+1)/TOTAL*100).toFixed(2)}%"></i></span></a>`}).join('')}
+   ${D.modules.map(m=>{const n=D.records.filter(r=>r.system===m.id).length;return `<a class="sys" href="#/sistema/${m.id}"><span class="no">${pad2(MOD.get(m.id).no)}</span><span class="t">${esc(m.name)}</span><span class="cnt">${n} fichas</span><span class="d">${esc(m.subtitle)}<span class="sys-api">${sysApis(m.id).slice(0,3).map(x=>esc(apiShort(x.a.code))).join(' · ')}</span></span><span class="track" title="Páginas ${m.start}–${m.end}"><i style="left:${((m.start-1)/TOTAL*100).toFixed(2)}%;width:${((m.end-m.start+1)/TOTAL*100).toFixed(2)}%"></i></span></a>`}).join('')}
   </section>
   <section class="sec">${sec(2,'Herramientas')}
    <div class="tools">${tools.map(([p,t,d,i],k)=>`<a class="tool" href="#/${p}"><span class="tn"><span>T-${pad2(k+1)}</span>${ico(i,20)}</span><strong>${t}</strong><span class="d">${d}</span></a>`).join('')}</div>
   </section>
+  ${(()=>{const ks=Object.keys(reviews).filter(id=>byId(id)&&Object.values(reviews[id].items||{}).some(x=>x.s)).sort((a,b)=>(reviews[b].updated||'').localeCompare(reviews[a].updated||''));if(!ks.length)return '';const id=ks[0],r=byId(id),R=reviews[id],n=r.checks.length+r.docs.length,dn=Object.values(R.items).filter(x=>x.s).length;return `<a class="resume" href="${H('ficha/'+id,{rev:1})}"><span class="mono"><b>Revisión en curso</b> · ${dn}/${n}</span><strong>${esc(r.title)}</strong><span class="d">${esc(R.equip||'Equipo sin identificar')}</span><span class="rv-prog"><i style="width:${(dn/n*100).toFixed(1)}%"></i></span></a>`})()}
   ${rc.length?`<section class="sec">${sec(3,'Consultado recientemente')}<div class="rows">${rc.map(r=>recRow(r)).join('')}</div></section>`:''}
   <section class="sec">${sec(rc.length?4:3,'Procedencia')}
    <p class="lede">Las ${D.records.length} fichas son síntesis editoriales del manual de capacitación ACE Internacional / Ecopetrol 2023. Se revisaron contra el manual: ${changed} necesitaron corregir sus páginas de referencia. Cada enunciado indica si corresponde al libro, si es síntesis o si debe verificarse fuera.</p>
@@ -324,15 +334,18 @@ V.sistemas=()=>{const m=cur.params.get('m')||'';const list=D.records.filter(r=>!
 V.sistema=()=>{const m=MOD.get(cur.parts[1]);if(!m)return V.sistemas();const list=D.records.filter(r=>r.system===m.id);
   return `${head(`${sysCode(m.id)} · Manual PDF ${m.start}–${m.end}`,esc(m.name),esc(m.subtitle),'#/')}
   <div class="btns"><a class="btn" href="${H('manual',{m:m.id})}">${ico('book',16)} Láminas del módulo (${m.end-m.start+1})</a>${pgBtn(m.start,'Abrir PDF '+pad(m.start))}</div>
-  <section class="sec">${sec(1,'Fichas técnicas',list.length+' fichas')}<div class="rows">${list.map(r=>recRow(r)).join('')}</div></section>${foot()}`};
+  ${(()=>{const xs=sysApis(m.id);return xs.length?`<section class="sec">${sec(1,'Normas API del sistema',xs.length+' normas')}<p class="note">Normas que aparecen asociadas a las fichas de este sistema. Cuál aplica depende del componente y de si se evalúa su diseño o su condición en servicio: abre cada ficha para ver su asociación concreta.</p><div class="rows">${xs.map(({a,k})=>`<a class="row" href="#/api/${a.id}"><span class="code">${esc(ROLE[D.apiRoles[a.code]]?.[1]||'REF')}</span><span class="body"><span class="t">${esc(a.code)}</span><span class="d">${esc(a.title)}</span><span class="m mono">${k} ${k===1?'ficha':'fichas'} · ${esc(a.edition==='No confirmada'?'edición por confirmar':a.edition)}${a.book?' · <b>citada en el libro</b>':''}</span></span></a>`).join('')}</div></section>`:''})()}
+  <section class="sec">${sec(2,'Fichas técnicas',list.length+' fichas')}<div class="rows">${list.map(r=>recRow(r)).join('')}</div></section>${foot()}`};
 
 V.ficha=()=>{
   const r=byId(cur.parts[1]);if(!r)return notFound();
   recent=[r.id,...recent.filter(x=>x!==r.id)].slice(0,14);save('rig-pocket-recent',recent);
   const m=MOD.get(r.system),c=kCounts(r.id),a=AUDIT.get(r.id)||{},ev=(EVID_BY_REC.get(r.id)||[]),deep=D.deep[r.id]||[],fav=favs.includes(r.id);
-  const total=K_ORDER.reduce((s,k)=>s+c[k],0);
-  const item=(t,i,icoK)=>{const cl=claimOf(r.id,t)||{k:'editorial'};const p=cl.page||a.main;
-    return `<li class="chk is-${cl.k}"><span class="no">${pad2(i+1)}</span><span class="tx">${esc(t)}</span><span class="meta">${kTag(cl.k)}${pgBtn(p,'p. '+pad(p))}</span></li>`};
+  const total=K_ORDER.reduce((s,k)=>s+c[k],0),apis=apisOf(r),rv=cur.params.get('rev')==='1',R=reviews[r.id]||{items:{}};
+  const items=[...r.checks.map((t,i)=>['c'+i,t]),...r.docs.map((t,i)=>['d'+i,t])],done=items.filter(([k])=>R.items[k]?.s).length,obs=items.filter(([k])=>R.items[k]?.s==='obs').length;
+  const item=(t,i,key)=>{const cl=claimOf(r.id,t)||{k:'editorial'};const p=cl.page||a.main;const st=R.items[key]||{};
+    const ctl=rv?`<span class="rv" role="group" aria-label="Estado del punto ${i+1}">${[['ok','Conforme','check'],['obs','Observación','alert'],['na','No aplica','minus']].map(([v,l,ic])=>`<button class="rv-b rv-${v} ${st.s===v?'on':''}" data-a="rv" data-id="${r.id}" data-k="${key}" data-v="${v}" aria-pressed="${st.s===v}">${ico(ic,15)}<span>${l}</span></button>`).join('')}</span>${st.s==='obs'?`<textarea class="ta rv-note" data-rvnote="${r.id}|${key}" rows="2" maxlength="600" placeholder="Describe la observación, ubicación o evidencia…">${esc(st.n||'')}</textarea>`:''}`:'';
+    return `<li class="chk is-${cl.k}${rv&&st.s?' rv-'+st.s+'-row':''}"><span class="no">${rv&&st.s==='ok'?ico('check',14):pad2(i+1)}</span><span class="tx">${esc(t)}</span><span class="meta">${kTag(cl.k)}${pgBtn(p,'p. '+pad(p))}</span>${ctl}</li>`};
   const rel=D.records.filter(t=>t.system===r.system&&t.id!==r.id).slice(0,5);
   const warn=r.alert?`<div class="caution" role="note">${ico('alert',18)}<div><strong>Precaución técnica</strong>${esc(r.alert)}</div></div>`:'';
   return `<a class="back" href="#/sistema/${m.id}">${ico('back',14)} ${esc(m.name)}</a>
@@ -342,23 +355,31 @@ V.ficha=()=>{
    <div><span class="mono">Láminas PDF</span><span class="v mono">${r.pages.map(pad).join(' · ')}</span></div>
    <div><span class="mono">Cotejos visuales</span><span class="v">${ev.length?plural(ev.length,'lámina','láminas'):'Sin cotejo puntual'}</span></div>
    <div><span class="mono">Fuente</span><span class="v">Manual 2023</span></div>
+   <div class="full"><span class="mono">Normas API asociadas</span>${apis.length?`<div class="api-chips">${apis.map(apiChip).join('')}</div>`:'<span class="v">Sin norma API específica en el catálogo · seguir OEM</span>'}</div>
    <div class="full"><span class="mono">Respaldo de ${total} enunciados · ${c.manual} libro · ${c.editorial} síntesis · ${c.external} externo · ${c.warning} alerta</span>${kBar(c)}</div>
   </div>
-  <div class="btns"><button class="btn ${fav?'on':''}" data-a="fav" data-id="${r.id}" aria-pressed="${fav}">${ico('mark',16)} ${fav?'Guardada':'Guardar'}</button><button class="btn" data-a="copy" data-id="${r.id}">${ico('copy',16)} Copiar resumen</button><button class="btn" data-a="tonotes">${ico('text',16)} ${notes[r.id]?'Ver nota':'Añadir nota'}</button></div>
+  <div class="btns"><button class="btn ${fav?'on':''}" data-a="fav" data-id="${r.id}" aria-pressed="${fav}">${ico('mark',16)} ${fav?'Guardada':'Guardar'}</button><button class="btn" data-a="copy" data-id="${r.id}">${ico('copy',16)} Copiar resumen</button><button class="btn" data-a="tonotes">${ico('text',16)} ${notes[r.id]?'Ver nota':'Añadir nota'}</button><a class="btn ${rv?'on':'solid'}" href="${H('ficha/'+r.id,rv?{}:{rev:1})}">${ico('clipboard',16)} ${rv?'Salir de revisión':done?`Revisión ${done}/${items.length}`:'Modo revisión'}</a></div>
+  ${rv?`<section class="rv-panel" aria-label="Revisión en campo"><div class="rv-head"><span class="mono"><b>Revisión en campo</b> · ${done}/${items.length} puntos · ${obs} ${obs===1?'observación':'observaciones'}</span><span class="mono">${R.updated?'Guardado '+new Date(R.updated).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'}):'Sin iniciar'}</span></div>
+   <div class="rv-prog" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${done}"><i style="width:${(done/items.length*100).toFixed(1)}%"></i>${obs?`<i class="o" style="width:${(obs/items.length*100).toFixed(1)}%"></i>`:''}</div>
+   <div class="rv-fields"><label><span class="lbl">Equipo · serie o placa</span><input class="sel" data-rvf="${r.id}|equip" value="${esc(R.equip||'')}" placeholder="p. ej. Bomba #2, S/N…"></label><label><span class="lbl">Ubicación · taladro</span><input class="sel" data-rvf="${r.id}|place" value="${esc(R.place||'')}" placeholder="p. ej. Rig 12, pozo…"></label></div>
+   <div class="btns"><button class="btn" data-a="rvcopy" data-id="${r.id}">${ico('copy',16)} Copiar informe</button><button class="btn" data-a="rvprint">${ico('download',16)} Imprimir / PDF</button><button class="btn" data-a="rvclear" data-id="${r.id}">${ico('x',16)} Borrar</button></div>
+   <p class="note">Registro personal de consulta guardado en este navegador. <strong>No es un acta de inspección</strong> ni libera equipos: los criterios de aceptación salen de la norma, el OEM y el procedimiento aprobado.</p></section>`:''}
   ${warn}
-  <section class="sec">${sec(1,'Qué revisar',r.checks.length+' puntos')}<ol class="rows">${r.checks.map((t,i)=>item(t,i)).join('')}</ol>${legend()}</section>
-  <section class="sec">${sec(2,'Evidencia a solicitar')}<ol class="rows">${r.docs.map((t,i)=>item(t,i)).join('')}</ol></section>
-  ${deep.length?`<section class="sec">${sec(3,'Por subconjunto',deep.length+' partes')}<p class="note">Organiza la revisión. Las alertas son señales para investigar, <strong>no</strong> criterios automáticos de rechazo.</p>${deep.map((x,i)=>`<details class="sub" id="sub-${i}"><summary><span class="code">.${pad2(i+1)}</span><strong>${esc(x[0])}</strong>${ico('chev',16)}</summary><div class="sub-body"><dl><div><dt>Qué observar</dt><dd>${esc(x[1])}</dd></div><div><dt>Alertas y posibles defectos</dt><dd>${esc(x[2])}</dd></div><div><dt>Evidencia</dt><dd>${esc(x[3])}</dd></div></dl><div>${pgBtn(x[4],'Fuente · PDF '+pad(x[4]))}</div></div></details>`).join('')}</section>`:''}
-  <section class="sec">${sec(deep.length?4:3,'Láminas del manual',r.pages.length+' páginas')}${thumbs(r.pages)}${ev.map(e=>evBlock(e)).join('')}</section>
-  <section class="sec">${sec(deep.length?5:4,'Procedencia')}<div class="prov">
+  <section class="sec">${sec(1,'Qué revisar',r.checks.length+' puntos')}<ol class="rows">${r.checks.map((t,i)=>item(t,i,'c'+i)).join('')}</ol>${legend()}</section>
+  <section class="sec">${sec(2,'Evidencia a solicitar')}<ol class="rows">${r.docs.map((t,i)=>item(t,i,'d'+i)).join('')}</ol></section>
+  <section class="sec noprint">${sec(3,'Normas API asociadas',apis.length?apis.length+' normas':'')}${apis.length?`<div class="rows">${apis.map(x=>`<a class="row" href="#/api/${x.id}"><span class="code">${esc(ROLE[D.apiRoles[x.code]]?.[1]||'REF')}</span><span class="body"><span class="t">${esc(x.code)} <span class="mono">· ${esc(ROLE[D.apiRoles[x.code]]?.[0]||'')}</span></span><span class="d">${esc(x.title)}</span><span class="m mono">${esc(x.edition==='No confirmada'?'Edición por confirmar':x.edition)}${x.book?' · <b>citada en el libro</b>':' · complementaria'}</span></span>${ico('chev',16).replace('class="i"','class="i go"')}</a>`).join('')}</div>`:'<p class="lede">El catálogo no tiene una norma API específica para este equipo. Rigen el manual del fabricante (OEM), el procedimiento de la empresa y, si aplica, la normativa eléctrica o de seguridad.</p>'}
+   <p class="note"><strong>Por qué varía.</strong> Para un mismo equipo suele haber una norma de <em>diseño y fabricación</em> (Spec) y otra de <em>inspección y mantenimiento en servicio</em> (RP). La que aplica depende de qué se evalúa, del tipo y modelo de equipo, del contrato y del regulador. Esta asociación es editorial: confirma alcance y edición en la norma.</p></section>
+  ${deep.length?`<section class="sec noprint">${sec(4,'Por subconjunto',deep.length+' partes')}<p class="note">Organiza la revisión. Las alertas son señales para investigar, <strong>no</strong> criterios automáticos de rechazo.</p>${deep.map((x,i)=>`<details class="sub" id="sub-${i}"><summary><span class="code">.${pad2(i+1)}</span><strong>${esc(x[0])}</strong>${ico('chev',16)}</summary><div class="sub-body"><dl><div><dt>Qué observar</dt><dd>${esc(x[1])}</dd></div><div><dt>Alertas y posibles defectos</dt><dd>${esc(x[2])}</dd></div><div><dt>Evidencia</dt><dd>${esc(x[3])}</dd></div></dl><div>${pgBtn(x[4],'Fuente · PDF '+pad(x[4]))}</div></div></details>`).join('')}</section>`:''}
+  <section class="sec noprint">${sec(deep.length?5:4,'Láminas del manual',r.pages.length+' páginas')}${thumbs(r.pages)}${ev.map(e=>evBlock(e)).join('')}</section>
+  <section class="sec noprint">${sec(deep.length?6:5,'Procedencia')}<div class="prov">
    <p><b>Revisión de páginas.</b> ${esc(a.note||'Sin registro.')} ${a.changed?'<span class="st acc">Páginas corregidas en auditoría</span>':''}</p>
    <p><b>Tratamiento.</b> ${esc(a.action||'Pendiente.')}</p>
    ${K_ORDER.filter(k=>c[k]).map(k=>`<p>${kGlyph(k)} <b>${K_LABEL[k]} (${c[k]}).</b> ${K_LONG[k]}</p>`).join('')}
    <p class="note">Una página vinculada o un cotejo parcial no validan cada frase ni la vigencia de una norma. Ante cifras o límites, prioriza la lámina original, la edición vigente y el OEM.</p></div></section>
-  <section class="sec" id="notas">${sec(deep.length?6:5,'Nota privada')}<p class="note">Se guarda solo en este navegador. Exporta una copia desde Guardados si cambias de dispositivo.</p>
+  <section class="sec noprint" id="notas">${sec(deep.length?7:6,'Nota privada')}<p class="note">Se guarda solo en este navegador. Exporta una copia desde Guardados si cambias de dispositivo.</p>
    <label class="sr" for="note">Nota sobre ${esc(r.title)}</label><textarea id="note" class="ta" maxlength="1500" placeholder="Duda pendiente, referencia, hallazgo a consultar…" style="margin-top:12px">${esc(notes[r.id]||'')}</textarea>
    <div class="btns"><button class="btn solid" data-a="note" data-id="${r.id}">Guardar nota</button></div></section>
-  ${rel.length?`<section class="sec">${sec(deep.length?7:6,'Mismo sistema')}<div class="rows">${rel.map(x=>recRow(x)).join('')}</div></section>`:''}${foot()}`;
+  ${rel.length?`<section class="sec noprint">${sec(deep.length?8:7,'Mismo sistema')}<div class="rows">${rel.map(x=>recRow(x)).join('')}</div></section>`:''}${foot()}`;
 };
 
 function notFound(){return `${head('Error 404','No encontrado','Esa dirección no corresponde a ninguna ficha o sección.')}<div class="btns"><a class="btn solid" href="#/">Ir al inicio</a></div>`}
@@ -441,6 +462,7 @@ V.apiDetail=()=>{const a=D.api.find(x=>x.id===cur.parts[1]);if(!a)return notFoun
    <div><dt>En el manual 2023</dt><dd>${a.book?`El manual menciona ${esc(a.code)}${a.code==='API RP 4G'?' e identifica la 5.ª edición (2019) y sus adendas en las páginas 53–54':'; la lista normativa no le asigna edición'}.`:'No aparece en la lista API del manual (PDF 30–31). Se añadió como referencia complementaria.'}${a.book?pgList(a.pages.slice(0,8)):''}</dd></div>
   </dl>
   <div class="btns"><a class="btn" href="${esc(a.source)}" target="_blank" rel="noopener noreferrer">${ico('external',16)} Registro API</a>${a.source2&&a.source2!==a.source?`<a class="btn" href="${esc(a.source2)}" target="_blank" rel="noopener noreferrer">${ico('external',16)} Actualizaciones</a>`:''}</div>
+  ${(RECS_BY_API.get(a.code)||[]).length?`<section class="sec">${sec(1,'Fichas asociadas',RECS_BY_API.get(a.code).length)}<p class="note">Rol de esta norma en esas fichas: <strong>${esc(ROLE[D.apiRoles[a.code]]?.[0]||'referencia')}</strong>.</p><div class="rows">${RECS_BY_API.get(a.code).map(r=>recRow(r)).join('')}</div></section>`:''}
   ${scope('una especificación de fabricación no determina por sí sola pruebas, frecuencia ni aceptación en servicio. Esta ficha no da acceso al texto licenciado ni certifica vigencia jurídica.')}${foot()}`};
 
 const coRow=(c,re)=>`<a class="row" href="#/colombia/${c.id}"><span class="code">${esc(c.kind.slice(0,4).toUpperCase())}</span><span class="body"><span class="t">${hl(c.name,re)}</span><span class="d">${hl(c.update,re)}</span><span class="m"><span class="st ${/Derogada|Sustituida|Derogaci/.test(c.status)?'alert':c.status==='Actualizado'?'ok':''}">${esc(c.status)}</span> <span class="mono">${esc(c.group)}${c.pages.length?' · libro PDF '+c.pages.map(pad).join(' '):''}</span></span></span></a>`;
@@ -494,7 +516,8 @@ V.guardados=()=>{const fr=favs.map(byId).filter(Boolean),nk=Object.keys(notes).f
   <section class="sec">${sec(1,'Fichas',fr.length)}${fr.length?`<div class="rows">${fr.map(r=>recRow(r)).join('')}</div>`:'<p class="note">Guarda una ficha con el botón «Guardar» para tenerla aquí.</p>'}</section>
   <section class="sec">${sec(2,'Láminas marcadas',pagesSaved.length)}${pagesSaved.length?`<div class="rows">${pagesSaved.map(n=>pageRow(n,'',null)).join('')}</div>`:'<p class="note">Marca láminas desde el visor del manual.</p>'}</section>
   <section class="sec">${sec(3,'Notas',nk.length)}${nk.length?`<div class="rows">${nk.map(id=>`<a class="row" href="${H('ficha/'+id,{nota:1})}"><span class="code">${recCode(id)}</span><span class="body"><span class="t">${esc(byId(id).title)}</span><span class="d">${esc(notes[id].slice(0,160))}</span></span></a>`).join('')}</div>`:'<p class="note">Las notas se escriben al final de cada ficha.</p>'}</section>
-  <section class="sec">${sec(4,'Copia de seguridad')}<p class="lede">Un archivo JSON con fichas, láminas, recientes y notas. La importación también acepta copias de versiones anteriores.</p>
+  ${(()=>{const ks=Object.keys(reviews).filter(id=>byId(id)&&Object.keys(reviews[id].items||{}).length);return `<section class="sec">${sec(4,'Revisiones en campo',ks.length)}${ks.length?`<div class="rows">${ks.map(id=>{const r=byId(id),R=reviews[id],n=r.checks.length+r.docs.length,d=Object.values(R.items).filter(x=>x.s).length,o=Object.values(R.items).filter(x=>x.s==='obs').length;return `<a class="row" href="${H('ficha/'+id,{rev:1})}"><span class="code">${recCode(id)}</span><span class="body"><span class="t">${esc(r.title)}</span><span class="d">${esc(R.equip||'Equipo sin identificar')}${R.place?' · '+esc(R.place):''}</span><span class="m mono">${d}/${n} puntos · ${o} obs. · ${R.updated?new Date(R.updated).toLocaleDateString('es-CO'):''}</span></span></a>`}).join('')}</div>`:'<p class="note">Abre una ficha y pulsa «Modo revisión» para marcar cada punto en campo.</p>'}</section>`})()}
+  <section class="sec">${sec(5,'Copia de seguridad')}<p class="lede">Un archivo JSON con fichas, láminas, recientes y notas. La importación también acepta copias de versiones anteriores.</p>
    <div class="btns"><button class="btn solid" data-a="export">${ico('download',16)} Exportar copia</button><button class="btn" data-a="import">${ico('upload',16)} Importar copia</button><input type="file" id="importf" accept=".json,application/json" hidden></div></section>${foot()}`};
 
 V.mas=()=>{const items=[['guardados','Guardados',`${favs.length} fichas · ${pagesSaved.length} láminas`,'saved'],['guias','Guías y glosario',`${D.guides.length} respuestas · ${D.glossary.length} términos`,'faq'],['atlas','Atlas del rig','Subconjuntos por sistema','layers'],['ndt','Centro NDT','Métodos y límites','probe'],['defectos','Defectos y hallazgos',`${D.defects.length} condiciones`,'defect'],['api','Biblioteca API',`${D.api.length} normas`,'std'],['colombia','Normativa Colombia',`${D.colombia.length} referencias`,'law'],['certificados','Verificar certificados',`${D.portals.length} portales`,'cert'],['evidencia','Evidencia',`${D.evidence.length} cotejos visuales`,'evidence'],['auditoria','Auditoría',`${D.claims.length} enunciados`,'audit']];
@@ -551,7 +574,9 @@ function cite(n,title){const s=`ACE Internacional / Ecopetrol. Rig Inspection, m
 function copyRecord(id){const r=byId(id);if(!r)return;const line=t=>{const c=claimOf(id,t);return '- '+t+(c?` [${K_LABEL[c.k]}${c.page?', PDF '+c.page:''}]`:'')};
   copyText([r.title,r.description,'','Qué revisar:',...r.checks.map(line),'','Evidencia a solicitar:',...r.docs.map(line),r.alert?'\nPrecaución: '+r.alert:'','',`Manual Rig Inspection 2023 (ACE/Ecopetrol), PDF ${r.pages.join(', ')}. Guía de consulta: verificar norma, edición y OEM.`].join('\n'),'Resumen copiado')}
 function copyGuide(id){const g=D.guides.find(x=>x.id===id);if(!g)return;copyText([g.q,g.a,'','Puntos para consultar:',...g.steps.map(x=>'- '+x),'',`Manual ACE/Ecopetrol 2023, PDF ${g.pages.join(', ')}. ${g.status==='manual'?'Resumen editorial.':'Síntesis orientativa.'} Confirmar OEM, norma y procedimiento.`].join('\n'),'Guía copiada')}
-function exportData(){download(JSON.stringify({schema:'rig-pocket-v21',version:VERSION,exportedAt:new Date().toISOString(),favorites:favs,recent,pages:pagesSaved,notes},null,2),'rig-inspection-pocket-copia.json');toast('Copia exportada')}
+function copyReview(id){const r=byId(id),R=reviews[id]||{items:{}};if(!r)return;const L={ok:'CONFORME',obs:'OBSERVACIÓN',na:'NO APLICA'};const line=(k,t)=>{const x=R.items[k]||{};return `[${x.s?L[x.s]:'PENDIENTE'}] ${t}${x.n?'\n    Obs.: '+x.n:''}`};
+  copyText([`REVISIÓN EN CAMPO · ${r.title}`,`Equipo: ${R.equip||'—'} · Ubicación: ${R.place||'—'} · Fecha: ${new Date(R.updated||Date.now()).toLocaleString('es-CO')}`,`Normas asociadas: ${(r.apis||[]).join(', ')||'OEM'}`,'','Qué revisar:',...r.checks.map((t,i)=>line('c'+i,t)),'','Evidencia a solicitar:',...r.docs.map((t,i)=>line('d'+i,t)),'',`Referencia: manual Rig Inspection 2023 (ACE/Ecopetrol), PDF ${r.pages.join(', ')}.`,'Registro personal de consulta generado con Rig Inspection Pocket. No es un acta de inspección ni libera equipos.'].join('\n'),'Informe copiado')}
+function exportData(){download(JSON.stringify({schema:'rig-pocket-v21',version:VERSION,exportedAt:new Date().toISOString(),favorites:favs,recent,pages:pagesSaved,notes,reviews},null,2),'rig-inspection-pocket-copia.json');toast('Copia exportada')}
 async function importData(file){
   try{if(file.size>1048576)throw Error('archivo demasiado grande');const d=JSON.parse(await file.text());
     let f=[],p=[],nt={};
@@ -560,6 +585,8 @@ async function importData(file){
     else throw Error('formato no reconocido');
     f=f.filter(id=>typeof id==='string'&&REC.has(id));p=p.filter(n=>Number.isInteger(n)&&n>=1&&n<=TOTAL);
     for(const[k,v]of Object.entries(nt))if(REC.has(k)&&typeof v==='string'&&v.length<=1500)notes[k]=v;
+    if(d.reviews&&typeof d.reviews==='object'&&!Array.isArray(d.reviews))for(const[k,v]of Object.entries(d.reviews))if(REC.has(k)&&v&&typeof v.items==='object')reviews[k]={items:v.items,equip:String(v.equip||'').slice(0,120),place:String(v.place||'').slice(0,120),updated:v.updated||null};
+    save('rig-pocket-review-v21',reviews);
     favs=[...new Set([...favs,...f])];pagesSaved=[...new Set([...pagesSaved,...p])].slice(0,200);
     const ok=[save('rig-pocket-favs',favs),save('rig-pocket-pages-v14',pagesSaved),save('rig-pocket-notes-v14',notes)].every(Boolean);
     renderMain();toast(ok?`Importado: ${f.length} fichas, ${p.length} láminas`:'Importado solo para esta sesión');
@@ -578,6 +605,10 @@ document.addEventListener('click',e=>{
   if(a==='cite')return cite(+b.dataset.n,b.dataset.t);
   if(a==='note'){const v=($('#note')?.value||'').trim();if(v)notes[b.dataset.id]=v;else delete notes[b.dataset.id];toast(save('rig-pocket-notes-v14',notes)?(v?'Nota guardada':'Nota borrada'):'Nota solo en esta sesión: exporta una copia');return}
   if(a==='export')return exportData();
+  if(a==='rv'){const id=b.dataset.id,k=b.dataset.k,v=b.dataset.v;const R=reviews[id]||(reviews[id]={items:{}});const it=R.items[k]||(R.items[k]={});it.s=it.s===v?'':v;if(!it.s&&!it.n)delete R.items[k];R.updated=new Date().toISOString();save('rig-pocket-review-v21',reviews);const y=window.scrollY;renderMain();window.scrollTo(0,y);if(v==='obs'&&it.s)document.querySelector(`[data-rvnote="${id}|${k}"]`)?.focus({preventScroll:true});return}
+  if(a==='rvcopy')return copyReview(b.dataset.id);
+  if(a==='rvprint'){document.body.classList.add('print-review');window.print();setTimeout(()=>document.body.classList.remove('print-review'),500);return}
+  if(a==='rvclear'){if(!confirm('¿Borrar esta revisión? No se puede deshacer.'))return;delete reviews[b.dataset.id];save('rig-pocket-review-v21',reviews);const y=window.scrollY;renderMain();window.scrollTo(0,y);toast('Revisión borrada');return}
   if(a==='import')return $('#importf')?.click();
   if(a==='moreaudit'){setParams({n:(parseInt(cur.params.get('n')||'40',10)||40)+40});refreshResults();return}
   if(a==='rclose')return closeReader();
@@ -594,7 +625,9 @@ document.addEventListener('submit',e=>{const f=e.target,a=f.dataset.a;e.preventD
   document.activeElement?.blur?.();
 });
 let inT=0;
-document.addEventListener('input',e=>{const t=e.target,p=t.dataset.p;if(!p||t.type==='checkbox'||t.tagName==='SELECT'||t.id==='hq')return;
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.dataset.rvnote||t.dataset.rvf){const[id,k]=(t.dataset.rvnote||t.dataset.rvf).split('|');const R=reviews[id]||(reviews[id]={items:{}});if(t.dataset.rvnote){(R.items[k]||(R.items[k]={})).n=t.value.slice(0,600)}else R[k]=t.value.slice(0,120);R.updated=new Date().toISOString();save('rig-pocket-review-v21',reviews);return}
+  const p=t.dataset.p;if(!p||t.type==='checkbox'||t.tagName==='SELECT'||t.id==='hq')return;
   clearTimeout(inT);inT=setTimeout(()=>{setParams({[p]:t.value.trim(),o:'',n:''});refreshResults()},120)});
 document.addEventListener('change',e=>{const t=e.target;
   if(t.id==='importf'&&t.files?.[0]){importData(t.files[0]);t.value='';return}

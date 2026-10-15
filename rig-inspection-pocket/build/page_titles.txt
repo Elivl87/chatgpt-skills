@@ -1,0 +1,274 @@
+1	Portada · Rig Inspection, manual de estudio
+2	Mapa de experiencia
+3	Contenido · Módulos I y II
+4	Contenido · Módulos III a V
+5	Contenido · Módulos VI y VII
+6	Introducción
+7	Créditos y derechos de publicación
+8	Autoridades técnicas del manual
+9	Portada del Módulo I · Introducción
+10	Alianzas y certificaciones
+11	Por qué inspeccionar un taladro · sistemas principales
+12	Terminología · prueba, norma, peritaje, auditoría
+13	Terminología · buenas prácticas y estándares
+14	Terminología · certificar y certificación de taladros
+15	Terminología · diferencias entre inspección y auditoría
+16	Entes relacionados · API
+17	Entes relacionados · ASTM y NACE
+18	Entes relacionados · ASME y ANSI
+19	Entes relacionados · ISO y OSHA
+20	Entes relacionados · marcado CE y DROPS
+21	Entes relacionados · IADC y OMI
+22	Entes relacionados · RETIE y normas técnicas colombianas
+23	Entes relacionados · ONAC y LADS
+24	Entes relacionados · CSP y SENA
+25	Asociaciones de la industria en Colombia · categorías de inspección
+26	Frecuencia de inspección
+27	Ensayos y pruebas NDT · sistema de seguridad
+28	Métodos NDT (ensayos no destructivos)
+29	Ensayos destructivos · reporte de inspección
+30	Normas y estándares internacionales aplicados
+31	Normas y estándares internacionales aplicados
+32	Normas internacionales y nacionales aplicadas
+33	Resolución 181495 de 2009 · MinEnergía
+34	Resolución 181495 de 2009 · MinEnergía
+35	Resolución 40230 de 2022 · abandono de pozos
+36	Retos en perforación · 10 reglas que salvan vidas
+37	Caída de objetos (DROPS) y cálculo de consecuencias
+38	Protección contra H2S
+39	Límites de exposición de H2S · equipos necesarios
+40	Elementos de protección personal · equipo contraincendio
+41	Plan de emergencia · alarmas audibles
+42	Plan de emergencia · MEDEVAC
+43	Señalización · extintores · documentación
+44	Página de notas
+45	Página de notas
+46	Página de notas
+47	Página de notas
+48	Portada del Módulo II · Sistema de levante
+49	Testimonio de participante
+50	Componentes del sistema de izaje · categorías torre y subestructura
+51	Categorías de inspección de torre · frecuencia equipo de izaje (API RP 8B)
+52	Frecuencia de inspección equipo de izaje (API RP 8B) · torre o estructura
+53	Placa de identificación de la torre · API RP 4G 5.ª ed.
+54	API RP 4G 5.ª ed. · categorías y criterios de rechazo
+55	Criterios de inspección y rechazo · clasificación del daño (API RP 4G)
+56	Anexos para categorías III y IV (API RP 4G)
+57	Verificación de la torre · fórmulas de carga y puntos críticos
+58	Travesaños, vigas y accesorios de la torre
+59	Tips para la inspección de la torre (API RP 4G)
+60	Ejemplos de inspección · torre
+61	Ejemplos de inspección · bloque de corona
+62	Bloque de corona · marcación de poleas (API Spec 8C)
+63	Qué inspeccionar · inspección de poleas
+64	Causas de desgaste de poleas · tips
+65	Trabajadero (monkey board)
+66	Ejemplos de inspección · trabajadero
+67	Bloque viajero y gancho
+68	Bloque viajero: inspección adicional · portada malacate
+69	Malacate · componentes
+70	Malacate · transmisión y tambor
+71	Malacate · frenos de banda
+72	Zapatas de freno · frenos de disco
+73	Frenos de disco · sistema auxiliar de frenos
+74	Sistema auxiliar de frenos · seguridad de operaciones
+75	Ejemplos de inspección · malacate
+76	Ejemplos de inspección · malacate
+77	Ejemplos de inspección · frenos
+78	Cable de perforación · construcción
+79	Cable de perforación · tipos de núcleo
+80	Cable de perforación · tablas de construcción y resistencia
+81	Cable de perforación · recomendaciones y factores de diseño
+82	Cable de perforación · verificaciones en tambor
+83	Cable de perforación · verificaciones en poleas y bloque
+84	Presión entre cable, poleas y tambores · tensión de flexión
+85	Zonas de desgaste del cable · trabajo realizado (ton-milla)
+86	Ejemplos de cables deteriorados
+87	Ejemplos de cables deteriorados
+88	Ejemplos de cables deteriorados
+89	Cables deteriorados · instrucciones de manejo del cable
+90	Instrucciones para el manejo del cable de acero
+91	Cálculo de trabajo del cable (ton-milla)
+92	Ancla de línea muerta · aspectos a verificar
+93	Ejemplos de inspección · winches hidráulicos y neumáticos
+94	Aspectos a verificar en el winche · winche para personal
+95	Ejemplos de inspección · winches
+96	Ejemplos de inspección · subestructura y piso de perforación
+97	Placa de la subestructura (API Spec 4F) · subestructura
+98	Catwalk o planchada · escaleras de acceso
+99	Catwalk automatizado o pipe handler
+100	Subestructura · sistema de izaje y descenso
+101	Sistemas skidding y walking · requisitos de cimentación
+102	Carrier o unidad básica
+103	Vientos y anclajes de mástiles portátiles · piso de perforación
+104	Piso de perforación · llaves manuales y de potencia
+105	Uso de llaves de potencia · elevadores de tubería
+106	Brazos de elevadores · cuñas para tubería y BHA
+107	Estrobos y eslingas de acero · lifting subs
+108	Estrobos y eslingas de acero
+109	Eslingas sintéticas
+110	Alerta de grillete Crosby · herramientas y repuestos críticos
+111	Herramientas y repuestos críticos del malacate
+112	Herramientas y repuestos críticos · sistema de levante
+113	Ejercicios prácticos · ¿qué se debe corregir?
+114	Ejercicio · ¿qué se debe corregir?
+115	Ejercicio · ¿qué se debe corregir?
+116	Ejercicio · ¿qué se debe corregir?
+117	Ejercicio · ¿qué se debe corregir?
+118	Página de notas
+119	Página de notas
+120	Página de notas
+121	Página de notas
+122	Portada del Módulo III · Sistema rotatorio
+123	Página en blanco
+124	Equipos del sistema rotatorio · swivel, power swivel y kelly spinner
+125	Swivel · soporte tipo U
+126	Swivel · componentes
+127	Swivel · puntos de inspección
+128	Power swivel y kelly spinner · top drive
+129	Top drive · componentes
+130	Top drive · despiece
+131	Top drive · adaptador de rotación y manejo de tubería
+132	Top drive · controles y curva de torque
+133	Top drive · requisitos de inspección
+134	Top drive · tips para la inspección
+135	Tips · válvula superior (IBOP) e inferior de kelly
+136	Kelly de perforación · kelly spinner · kelly saver sub
+137	Kelly bushing · buje maestro
+138	Insertos del buje maestro · prueba de desgaste (papel)
+139	Mesa rotaria
+140	Mesa rotaria · ejemplos de inspección
+141	Ejemplos de inspección · mesa rotaria
+142	Ejemplos de inspección · mesa rotaria
+143	Ejemplos de inspección · portada sarta de perforación
+144	Tubería de perforación
+145	Tubería nueva y usada
+146	Ambiente y nivel de inspección · drill pipe y HWDP
+147	Cuerpo y recubrimiento interno · conexiones premium
+148	Inspección visual de drill collars · crossovers
+149	Tips · herramientas y repuestos críticos del top drive
+150	Herramientas y repuestos críticos del top drive
+151	Herramientas y repuestos críticos del top drive
+152	Herramientas y repuestos críticos · ejercicios prácticos
+153	Ejercicio · ¿qué se debe corregir?
+154	Ejercicio · ¿qué se debe corregir?
+155	Ejercicio · ¿qué se debe corregir?
+156	Página de notas
+157	Página de notas
+158	Página de notas
+159	Página de notas
+160	Portada del Módulo IV · Sistema de circulación
+161	Testimonio de participante
+162	Componentes del sistema de circulación · bombas de lodo
+163	Bomba de lodo · power end y fluid end
+164	Módulo hidráulico (fluid end) · válvula de seguridad
+165	Válvula de seguridad por shear pins · dampener
+166	Líneas de succión · líneas de descarga
+167	Standpipe, manifold y manguera de perforación
+168	Uniones de golpe (hammer unions)
+169	Líneas de flujo de retorno · tips
+170	Tips · equipo primario de control de sólidos
+171	Shale shakers o zarandas
+172	Zarandas · posibles fallas
+173	Desgasificador · desarenador
+174	Desarcillador · sistema de tanques
+175	Diagrama del sistema de tanques · tanques
+176	Sistema de tanques · verificaciones
+177	Agitadores · válvulas de fondo y descarga
+178	Herramientas y repuestos críticos · bombas
+179	Herramientas y repuestos críticos · bombas
+180	Herramientas y repuestos críticos · bombas
+181	Herramientas y repuestos críticos · bombas
+182	Herramientas y repuestos críticos · bombas
+183	Herramientas y repuestos críticos · ejercicios prácticos
+184	Ejercicio · ¿qué se debe corregir?
+185	Ejercicio · ¿qué se debe corregir?
+186	Ejercicio · ¿qué se debe corregir?
+187	Ejercicio · ¿qué se debe corregir?
+188	Página de notas
+189	Página de notas
+190	Página de notas
+191	Página de notas
+192	Portada del Módulo V · Sistema de potencia
+193	Página en blanco
+194	Sistema de potencia · motor primario y generador
+195	Motor primario y generador · motores diésel
+196	Motores diésel · caseta de generación
+197	Caseta de generación · generadores
+198	Casa de fuerza (SCR/VFD/MCC/PCR) · control de generación
+199	Compresor de aire · tanque de aire
+200	Pruebas de aceptación · cableado de control y potencia
+201	Consola de perforación y HMI
+202	Consola de perforación y HMI
+203	Herramientas y repuestos críticos · potencia
+204	Herramientas y repuestos críticos · potencia
+205	Herramientas y repuestos críticos · ejercicios prácticos
+206	Ejercicio · ¿qué se debe corregir?
+207	Ejercicio · ¿qué se debe corregir?
+208	Ejercicio · ¿qué se debe corregir?
+209	Página de notas
+210	Página de notas
+211	Página de notas
+212	Página de notas
+213	Portada del Módulo VI · Sistema de control de pozos
+214	Testimonio de participante
+215	Introducción · ¿qué es un reventón de pozo?
+216	Estadísticas de 55 reventones
+217	Estadísticas de una compañía · normativa API de control de pozos
+218	Acumulador · API Std 53
+219	Acumulador: fluido de control · sistema de bombas (Std 53)
+220	Acumulador · sistema de bombas
+221	Acumulador: botellas · capacidad y drawdown test
+222	Acumulador: manómetros y reguladores (Std 53)
+223	Preventora anular (anular BOP)
+224	Preventoras de ariete (ram BOP)
+225	Preventoras de ariete · ejemplos de inspección
+226	Ejemplos de inspección · acumulador y desgasificador
+227	Ejemplos de inspección · bloques de ariete y gomas
+228	API Std 53 · presión de trabajo de preventoras
+229	API Std 53 · MASP y ejemplo de clase
+230	API Std 53 · arreglo clase 4
+231	API Std 53 · clase 5 y almacenamiento
+232	API Std 53 · spools (adapter, spacer, drilling)
+233	Choke manifold
+234	Choke manifold · API Std 53 4.2.3
+235	Choke manifold · verificaciones y norma aplicable
+236	API Std 53 · presión de prueba
+237	API Std 53 4.2.3 · choke manifold 2K a 10K
+238	API Std 53 · choke manifold 15K · 5.3.5
+239	Kill lines · válvulas de líneas de choke y kill
+240	Válvulas: sello metálico Cameron F · válvulas de retención
+241	Pruebas de presión del BOP · pruebas de aceptación
+242	Pruebas de funcionamiento
+243	Pruebas de funcionamiento
+244	Prueba de presión del BOP · fluido, duración y aceptación
+245	Prueba de presión del BOP
+246	Prueba de presión del BOP
+247	Repuestos de control de pozos a verificar
+248	Repuestos de control de pozos a verificar
+249	Repuestos de control de pozos a verificar
+250	Kit de reparación · ejercicios prácticos
+251	Ejercicio · ¿qué se debe corregir?
+252	Ejercicio · ¿qué se debe corregir?
+253	Ejercicio · ¿qué se debe corregir?
+254	Página de notas
+255	Página de notas
+256	Página de notas
+257	Página de notas
+258	Portada del Módulo VII · Equipos auxiliares
+259	Página en blanco
+260	Indicador de peso
+261	Indicador de presión de bomba · indicador de RPM
+262	Indicador de RPM de la rotaria · indicador de SPM
+263	Indicador de SPM · indicador de torque de la rotaria
+264	Indicador de torque · indicador de profundidad
+265	Flujo de retorno anular · detector de gas total
+266	Detectores de gases · totalizador de lodo
+267	Equipo de oxicorte
+268	Almacenamiento y manejo de cilindros
+269	Página de notas
+270	Página de notas
+271	Página de notas
+272	Página de notas
+273	Áreas de especialización
+274	Contraportada · contacto
