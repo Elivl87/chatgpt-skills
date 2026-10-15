@@ -60,7 +60,7 @@
   // ------------------------------------------------------------------ side close-up of the teal car (Eli = car 20)
   // c: { simT, frame: {z, wx, wy, sx, sy}, tStop (sim), crew(ctx, sx, sy, SC, st, info), after(ctx, CX, GY, SC, st), dx }
   A.close = function (ctx, t, frame, c) {
-    const st = A.closeState('S1', ELI, c.simT, { tStop: c.tStop ?? null, dx: c.dx });
+    const st = A.closeState(c.id || 'S1', c.idx ?? ELI, c.simT, { tStop: c.tStop ?? null, dx: c.dx });   // c.id/c.idx: another run (e.g. S9, Mila's car = 0)
     A._outer = ctx.getTransform();
     return E.drawCloseup(ctx, t, frame, { t0: 1e9, frame: c.frame, state: st, crew: c.crew, after: c.after });
   };

@@ -75,6 +75,13 @@ for amb in ev["ambience"]:
     elif k == "patient_tone":
         f = S.note("D4"); tone = (np.sin(2 * np.pi * f * t) + 0.3 * np.sin(2 * np.pi * 2 * f * t)) * 0.08 * win(a0, a1, 0.8, 0.8)
         music.add(0, tone.astype(np.float32), 0.0, 0.5)
+    elif k == "mila_theme":   # Mila's theme: three flute-like notes, repeated softly
+        for j, bt in enumerate(np.arange(a0 + 0.4, a1 - 1.0, 2.4)):
+            for q, nm in enumerate(("B4", "D5", "A4")):
+                f = S.note(nm); m = int(0.7 * SR); tt = np.arange(m) / SR
+                fl = (np.sin(2 * np.pi * f * tt + 0.3 * np.sin(2 * np.pi * 5 * tt)) * np.minimum(1, tt / 0.08) * np.exp(-tt / 0.5)).astype(np.float32)
+                music.add(bt + q * 0.45, fl, 0.1, 0.22)
+        music.add(0, S.pad(n, ("G3", "B3", "D4", "G4"), 0.06) * win(a0, a1, 0.8, 0.8), 0.0, 0.4)
     elif k == "field_birds":
         rng = np.random.default_rng(7)
         for bt in np.arange(a0 + 0.5, a1 - 0.5, 1.7):
@@ -184,6 +191,19 @@ for cu in ev["cues"]:
         sfx.add(ct, S.whoosh(0.25, 800, 3000, 180), 0.0, 0.25); sfx.add(ct + 0.2, S.marimba(S.note("E5"), 0.7, 0.2), 0.0, 0.3)
     elif k == "chime_avg":
         sfx.add(ct, S.chime(S.note("D5"), 1.5, 0.5), 0.0, 0.18)
+    elif k == "whistle":
+        d = cu["t1"] - ct; m = int(d * SR); tt = np.arange(m) / SR
+        f = 1300 + 250 * np.sin(2 * np.pi * 1.3 * tt) + 120 * np.sin(2 * np.pi * 3.1 * tt)
+        sfx.add(ct, (np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.pi * tt / d) * 0.5).astype(np.float32), 0.3, 0.12)
+    elif k == "click":
+        sfx.add(ct, S.tick(2600, 191), 0.2, 0.35)
+    elif k == "fiu":
+        sfx.add(ct, S.whoosh(1.6, 600, 2400, 192), -0.6, 0.15)
+    elif k == "silence_hit":
+        pass
+    elif k == "horn":
+        m = int(0.6 * SR); tt = np.arange(m) / SR
+        sfx.add(ct, ((np.sign(np.sin(2 * np.pi * 330 * tt)) * 0.3 + np.sin(2 * np.pi * 415 * tt)) * np.minimum(1, tt / 0.03) * np.exp(-tt / 0.5) * 0.4).astype(np.float32), 0.6, 0.08)
     elif k == "squeal":
         sfx.add(ct, S.glide(2100, 1700, 0.9, 0.6, 0.15), 0.0, 0.10)
     elif k == "stop_thunk":

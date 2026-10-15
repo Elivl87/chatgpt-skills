@@ -94,7 +94,7 @@
       // E06 · the instruction: an observer hands the drivers a card; the waves; «manejen como en hora pico»
       shots.push({ id: 'E06_instr', start: tA - 0.1, bg: 'field_obs', focus: [960, 520], push: 0.03, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S7(), simT: PRE(t), frame: { z: 1.45, x: 960, y: 600 }, chars: cx => {
-          K.char.person(cx, 760, G, 150, { t, seed: 3, skin: '#c98a64', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'point', expr: 'focused', light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
+          K.char.person(cx, 700, G, 64, { t, seed: 3, skin: '#c98a64', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'point', expr: 'focused', light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
           K.cast.draw(cx, 'mila1', 1240, G - 6, 560, { view: 'q', dir: -1, pose: 'clipboard', expr: 'curious', t, look: [-0.8, 0], light: LF, shadow: 0.3 });
           cx.save(); cx.translate(900, 700); cx.rotate(-0.08); P.plate(cx, 0, 0, '¡NO ARREGLEN NADA!', 34, A.ramp(t, tPara - 0.2, 0.3)); cx.restore(); } }); } });
       shots.push({ id: 'E06_waves', start: tPara + 0.95, bg: 'ring_jam', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
@@ -118,10 +118,9 @@
       // ================================================================ BEAT 15 · the different car
       shots.push({ id: 'E09_distinct', start: tPero - 0.1, bg: 'ring_av', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.8); c.save(); c.translate(960, 540); c.scale(1.8, 1.8); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts)); c.restore(); } });
-      shots.push({ id: 'E10_computer', start: tUna - 0.1, bg: 'field_av', focus: [960, 560], push: 0.03, pushDir: 1, over: c => rec(c, false),
-        draw(c, t, lt) { A.field(c, t, { run: S7(), simT: CTRL(t), frame: { z: 2.2, x: 960, y: 680 }, front: false, carExpr: (i) => (i === AV ? 'content' : 'determined'),
-          carOver: (cx, i, x, y, s) => { if (i === AV) { K.light.glow(cx, x, y - s * 0.6, s * 3, '#23746C', 0.5, 'screen'); P.pill(cx, x, y - s * 2.3, 'COMPUTADORA', 22, 1, { align: 'center', bg: K.rgba('#23746C', 0.9) }); } },
-          chars: cx => K.cast.draw(cx, 'mila1', 1400, 900, 340, { view: 'q', dir: -1, pose: 'clipboard', expr: 'awe', t, look: [-0.9, -0.1], light: LF }) }); } });
+      shots.push({ id: 'E10_computer', start: tUna - 0.1, bg: 'ring_av_close', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
+        draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.6); c.save(); c.translate(960, 540); c.scale(2.6, 2.6); c.translate(-p[0], -p[1]);
+          A.ring(c, t, ringOpts(ts, { carOver: (cx, i, x, y) => { if (i === AV) P.pill(cx, x, y - 70, 'COMPUTADORA', 14, A.ramp(t, tCompu - 0.1, 0.2), { align: 'center', bg: K.rgba('#23746C', 0.92) }); } })); c.restore(); } });
       shots.push({ id: 'E10_nochase', start: tNo - 0.1, bg: 'ring_av2', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.1); c.save(); c.translate(960, 540); c.scale(2.1, 2.1); c.translate(-p[0], -p[1]);
           A.ring(c, t, ringOpts(ts, { extra: { over: (cx, g2s, cars, S2) => { const q = A.ringPt(AV, S2), lead = A.ringPt(AV + 1, S2); P.spring(cx, q, lead, 0.9); } } })); c.restore(); } });
@@ -134,13 +133,14 @@
             if (i === AV) P.pill(cx, x, y - 90, 'PROMEDIO', 18, A.ramp(t, w('promedio', 1, '15') - 0.1, 0.2), { align: 'center', bg: K.rgba('#23746C', 0.92) }); } }));
           c.restore(); } });
       // E12 · «contando frenadas y arrancones»: one ordinary car's speed (up and down) and the straight average
-      shots.push({ id: 'E12_avg', start: tO - 0.1, bg: 'graph_speed', focus: [960, 540], push: 0.025, pushDir: -1, post: { grain: 0.1, vignette: 0.25, vignetteColor: '#5a4a50', bloom: 0 },
+      shots.push({ id: 'E12_avg', start: tO - 0.1, bg: 'graph_speed', focus: [960, 540], push: 0.05, drift: 0.012, pushDir: 1, post: { grain: 0.1, vignette: 0.25, vignetteColor: '#5a4a50', bloom: 0 },
         draw(c, t, lt) { c.fillStyle = '#efe8da'; c.fillRect(0, 0, K.W, K.H);
-          const R = S7(), ts0 = sOn - 60, span = 120, k = K.clamp((t - tO + 0.1) / (tEl - tO - 0.3)), x0 = 200, x1 = 1720, yb = 760, sc = 34;
+          const R = S7(), ts0 = sOn - 60, span = 120, k = K.clamp(0.04 + (t - tO + 0.1) / (tEl - tO - 0.3)), x0 = 200, x1 = 1720, yb = 760, sc = 34;
           c.strokeStyle = K.rgba('#2a1a1e', 0.5); c.lineWidth = 3; c.beginPath(); c.moveTo(x0, yb); c.lineTo(x1, yb); c.moveTo(x0, yb); c.lineTo(x0, 260); c.stroke();
           let avg = 0, n = 0; for (let j = 0; j <= 300; j++) { const ts = ts0 + j / 300 * span, S = R.at(ts); let m = 0; for (let i = 0; i < R.N; i++) m += S.v[i]; avg += m / R.N; n++; } avg /= n;
           c.strokeStyle = '#a8466e'; c.lineWidth = 6; c.lineJoin = 'round'; c.beginPath();
-          for (let j = 0; j <= 300 * k; j++) { const ts = ts0 + j / 300 * span, v = R.at(ts).v[5], x = K.lerp(x0, x1, j / 300), y = yb - v * sc; j ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke();
+          let hx = x0, hy = yb; for (let j = 0; j <= 300 * k; j++) { const ts = ts0 + j / 300 * span, v = R.at(ts).v[5], x = K.lerp(x0, x1, j / 300), y = yb - v * sc; j ? c.lineTo(x, y) : c.moveTo(x, y); hx = x; hy = y; } c.stroke();
+          c.fillStyle = '#a8466e'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; K.circle(c, hx, hy, 12); c.fill(); c.stroke();   // the pen
           if (t > tContando + 0.4) { const kk = A.ramp(t, tContando + 0.4, 0.6); c.strokeStyle = '#23746C'; c.lineWidth = 8; c.beginPath(); c.moveTo(x0, yb - avg * sc); c.lineTo(K.lerp(x0, x1, kk), yb - avg * sc); c.stroke();
             P.pill(c, x1 - 140, yb - avg * sc - 46, 'PROMEDIO', 30, kk, { align: 'center', bg: K.rgba('#23746C', 0.92) }); }
           c.font = '600 26px "Space Grotesk"'; c.fillStyle = K.rgba('#2a1a1e', 0.7); c.fillText('velocidad de un auto normal', x0 + 20, 240); c.fillText('tiempo →', x1 - 140, yb + 44); },
@@ -171,7 +171,7 @@
           P.gauge(c, 960, 260, text, sub, A.ramp(t, keyT - 0.1, 0.25)); },
         cues: A => [{ t: keyT, kind: 'gauge' }] });
       gaugeShot('E15_80', tLos1 - 0.1, '−80 %', 'cambios de velocidad', tOchenta, 'field_g1');
-      shots.push({ id: 'E16_brakes', start: tLos2 - 0.1, bg: 'ring_candles', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: (c, t) => { rec(c, true); P.gauge(c, K.W - 330, 240, 'frenazos ≈ 0', null, A.ramp(t, tCasi, 0.25)); src(c); },
+      shots.push({ id: 'E16_brakes', start: tLos2 - 0.1, bg: 'ring_candles', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: (c, t) => { rec(c, true); P.gauge(c, K.W - 470, 240, 'frenazos ≈ 0', null, A.ramp(t, tCasi, 0.25)); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.3, 1.3); c.translate(-960, -620); A.ring(c, t, ringOpts(MELT(t))); c.restore(); } });
       shots.push({ id: 'E17_fuel', start: tEn - 0.1, bg: 'ring_fuel', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: (c, t) => { rec(c, true); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.12, 1.12); c.translate(-960, -560); A.ring(c, t, ringOpts(MELT(t))); c.restore(); } });
