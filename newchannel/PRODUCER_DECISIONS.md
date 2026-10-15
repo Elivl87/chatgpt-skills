@@ -14,3 +14,5 @@
 | 2026-10-14 | Pilot title: "Why Traffic Jams Happen for No Reason" → ES **"¿Por qué hay embotellamientos sin razón aparente?"** | picked title 1 |
 | 2026-10-14 | Pilot thumbnail: concept **B "SÉ ESTE PUNTO."** preferred as idea only; **NOT approved** — the thumbnail is approved only after the channel art is closed | picked B; then: "la miniatura se aprobará solo cuando cerremos el arte del canal" |
 | 2026-10-14 | Pilot script: not approved yet; Producer redirected language and art first | — |
+| 2026-10-15 | **Channel art approved/closed** (style v2: `art/ART_BIBLE.md`, `art/styleframes/v2/`, `art/test/style_test_v2.mp4`) | "Listo tienes el arte." |
+| 2026-10-15 | **The dot mascot is dropped.** The channel's characters are **Quest and Pixie** (the Producer's own SecondQuest characters), redrawn in code in the channel's art style, keeping their identity specs (`secondquest/docs/QUEST_V1_PROMPT_SPEC.md`, `secondquest/docs/characters/PIXIE_V1_PROMPT_SPEC.md`) | "No me gusta nuestra mascota, puedes usar a Quest y Pixie?" |
