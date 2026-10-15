@@ -1,0 +1,836 @@
+{
+ "qc": {
+  "kokoro_E1": {
+   "line": "E1",
+   "speaker": "eli",
+   "raw_dur": 0.71,
+   "stray_tail_s": 0.0,
+   "dur": 0.71,
+   "hyp": "¿Quién fue?",
+   "ref_words": 2,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.667
+  },
+  "kokoro_E2": {
+   "line": "E2",
+   "speaker": "eli",
+   "raw_dur": 1.16,
+   "stray_tail_s": 0.0,
+   "dur": 1.16,
+   "hyp": "Fue el viento.",
+   "ref_words": 3,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.861
+  },
+  "kokoro_E3": {
+   "line": "E3",
+   "speaker": "eli",
+   "raw_dur": 2.18,
+   "stray_tail_s": 0.0,
+   "dur": 2.18,
+   "hyp": "Hay un hueco, un hueco enorme.",
+   "ref_words": 6,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.822
+  },
+  "kokoro_M1": {
+   "line": "M1",
+   "speaker": "mila",
+   "raw_dur": 1.94,
+   "stray_tail_s": 0.0,
+   "dur": 1.94,
+   "hyp": "Eli va para atrás.",
+   "ref_words": 4,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.732
+  },
+  "kokoro_M2": {
+   "line": "M2",
+   "speaker": "mila",
+   "raw_dur": 1.62,
+   "stray_tail_s": 0.0,
+   "dur": 1.62,
+   "hyp": "Ese hueco es mi amigo.",
+   "ref_words": 5,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.826
+  },
+  "kokoro_M3": {
+   "line": "M3",
+   "speaker": "mila",
+   "raw_dur": 0.92,
+   "stray_tail_s": 0.0,
+   "dur": 0.89,
+   "hyp": "Fuiste tu.",
+   "ref_words": 2,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.648
+  },
+  "kokoro_N1": {
+   "line": "N1",
+   "speaker": "narrator",
+   "raw_dur": 5.93,
+   "stray_tail_s": 0.0,
+   "dur": 5.93,
+   "hyp": "una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez.",
+   "ref_words": 13,
+   "wer": 0.0,
+   "errors": [],
+   "seseo_db": {
+    "vez": -12.3
+   },
+   "sim_ref": 0.926
+  },
+  "kokoro_N2": {
+   "line": "N2",
+   "speaker": "narrator",
+   "raw_dur": 5.89,
+   "stray_tail_s": 0.0,
+   "dur": 5.89,
+   "hyp": "Lo que importa es cuántos autos hay en cada tramo de pista. Los ingenieros le dicen densidad.",
+   "ref_words": 17,
+   "wer": 0.0,
+   "errors": [],
+   "seseo_db": {
+    "dicen": -1.7
+   },
+   "sim_ref": 0.923
+  },
+  "cb_base_x05_E1": {
+   "line": "E1",
+   "speaker": "eli",
+   "raw_dur": 3.0,
+   "stray_tail_s": 0.0,
+   "dur": 0.8,
+   "hyp": "¿Quién fue?",
+   "ref_words": 2,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.656
+  },
+  "cb_base_x05_E2": {
+   "line": "E2",
+   "speaker": "eli",
+   "raw_dur": 2.64,
+   "stray_tail_s": 0.0,
+   "dur": 1.84,
+   "hyp": "Fue el viento.",
+   "ref_words": 3,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.716
+  },
+  "cb_base_x05_E3": {
+   "line": "E3",
+   "speaker": "eli",
+   "raw_dur": 3.4,
+   "stray_tail_s": 0.0,
+   "dur": 3.33,
+   "hyp": "Hay un hueco, un hueco enorme.",
+   "ref_words": 6,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.865
+  },
+  "cb_base_x05_M1": {
+   "line": "M1",
+   "speaker": "mila",
+   "raw_dur": 4.62,
+   "stray_tail_s": 0.0,
+   "dur": 4.57,
+   "hyp": "Eli va para atras Eli va para",
+   "ref_words": 4,
+   "wer": 0.75,
+   "errors": [
+    "+eli",
+    "+va",
+    "+para"
+   ],
+   "sim_ref": 0.841
+  },
+  "cb_base_x05_M2": {
+   "line": "M2",
+   "speaker": "mila",
+   "raw_dur": 1.94,
+   "stray_tail_s": 0.0,
+   "dur": 1.7,
+   "hyp": "ese hueco es mi amigo.",
+   "ref_words": 5,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.814
+  },
+  "cb_base_x05_M3": {
+   "line": "M3",
+   "speaker": "mila",
+   "raw_dur": 1.82,
+   "stray_tail_s": 0.0,
+   "dur": 1.71,
+   "hyp": "Fuiste tú. Tú.",
+   "ref_words": 2,
+   "wer": 0.5,
+   "errors": [
+    "+tu"
+   ],
+   "sim_ref": 0.83
+  },
+  "cb_base_x05_N1": {
+   "line": "N1",
+   "speaker": "narrator",
+   "raw_dur": 6.0,
+   "stray_tail_s": 0.0,
+   "dur": 5.5,
+   "hyp": "una carretera despejada. Allá delante, un conductor toca el freno una sola vez.",
+   "ref_words": 13,
+   "wer": 0.077,
+   "errors": [
+    "adelante->delante"
+   ],
+   "seseo_db": {
+    "vez": 5.6
+   },
+   "sim_ref": 0.919
+  },
+  "cb_base_x05_N2": {
+   "line": "N2",
+   "speaker": "narrator",
+   "raw_dur": 5.56,
+   "stray_tail_s": 0.0,
+   "dur": 5.02,
+   "hyp": "Lo que importa es cuántos autos hay en cada tramo de pista. Los ingenieros le dicen densidad.",
+   "ref_words": 17,
+   "wer": 0.0,
+   "errors": [],
+   "seseo_db": {
+    "dicen": -0.1
+   },
+   "sim_ref": 0.942
+  },
+  "cb_base_x08_E1": {
+   "line": "E1",
+   "speaker": "eli",
+   "raw_dur": 2.76,
+   "stray_tail_s": 0.0,
+   "dur": 0.82,
+   "hyp": "¿Quién fue?",
+   "ref_words": 2,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.703
+  },
+  "cb_base_x08_E2": {
+   "line": "E2",
+   "speaker": "eli",
+   "raw_dur": 1.56,
+   "stray_tail_s": 0.0,
+   "dur": 1.28,
+   "hyp": "Fue el viento.",
+   "ref_words": 3,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.789
+  },
+  "cb_base_x08_E3": {
+   "line": "E3",
+   "speaker": "eli",
+   "raw_dur": 3.36,
+   "stray_tail_s": 0.0,
+   "dur": 2.56,
+   "hyp": "Hay un hueco, un hueco enorme.",
+   "ref_words": 6,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.848
+  },
+  "cb_base_x08_M1": {
+   "line": "M1",
+   "speaker": "mila",
+   "raw_dur": 4.9,
+   "stray_tail_s": 0.0,
+   "dur": 3.0,
+   "hyp": "Ellie va para atrás.",
+   "ref_words": 4,
+   "wer": 0.25,
+   "errors": [
+    "eli->ellie"
+   ],
+   "sim_ref": 0.836
+  },
+  "cb_base_x08_M2": {
+   "line": "M2",
+   "speaker": "mila",
+   "raw_dur": 1.94,
+   "stray_tail_s": 0.0,
+   "dur": 1.68,
+   "hyp": "Ese hueco es mi amigo.",
+   "ref_words": 5,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.819
+  },
+  "cb_base_x08_M3": {
+   "line": "M3",
+   "speaker": "mila",
+   "raw_dur": 5.62,
+   "stray_tail_s": 0.0,
+   "dur": 5.51,
+   "hyp": "Fuiste tú, Alvapor de Alavero Ordes.",
+   "ref_words": 2,
+   "wer": 2.0,
+   "errors": [
+    "+alvapor",
+    "+de",
+    "+alavero",
+    "+ordes"
+   ],
+   "sim_ref": 0.852
+  },
+  "cb_base_x08_N1": {
+   "line": "N1",
+   "speaker": "narrator",
+   "raw_dur": 5.72,
+   "stray_tail_s": 0.0,
+   "dur": 5.12,
+   "hyp": "Una carretera despejada, allá delante, un conductor toca el freno una sola vez.",
+   "ref_words": 13,
+   "wer": 0.077,
+   "errors": [
+    "adelante->delante"
+   ],
+   "seseo_db": {
+    "vez": 2.2
+   },
+   "sim_ref": 0.928
+  },
+  "cb_base_x08_N2": {
+   "line": "N2",
+   "speaker": "narrator",
+   "raw_dur": 6.4,
+   "stray_tail_s": 0.0,
+   "dur": 5.78,
+   "hyp": "Lo que importa es cuántos autos hay en cada tramo de pista. Los ingenieros le dicen densidad.",
+   "ref_words": 17,
+   "wer": 0.0,
+   "errors": [],
+   "seseo_db": {
+    "dicen": -1.8
+   },
+   "sim_ref": 0.942
+  },
+  "cb_latam_x05_E1": {
+   "line": "E1",
+   "speaker": "eli",
+   "raw_dur": 0.88,
+   "stray_tail_s": 0.0,
+   "dur": 0.6,
+   "hyp": "¿Quién fue?",
+   "ref_words": 2,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.672
+  },
+  "cb_latam_x05_E2": {
+   "line": "E2",
+   "speaker": "eli",
+   "raw_dur": 8.64,
+   "stray_tail_s": 0.0,
+   "dur": 8.57,
+   "hyp": "fue el viento. Ollén del apartador y délas que el apartador es ceído. Una doce hiliencia.",
+   "ref_words": 3,
+   "wer": 4.333,
+   "errors": [
+    "+ollen",
+    "+del",
+    "+apartador",
+    "+y",
+    "+delas",
+    "+que",
+    "+el",
+    "+apartador",
+    "+es",
+    "+ceido",
+    "+una",
+    "+doce",
+    "+hiliencia"
+   ],
+   "seseo_db": {
+    "ceido": 0.3,
+    "doce": 0.8,
+    "hiliencia": -1.6
+   },
+   "sim_ref": 0.908
+  },
+  "cb_latam_x05_E3": {
+   "line": "E3",
+   "speaker": "eli",
+   "raw_dur": 2.76,
+   "stray_tail_s": 0.0,
+   "dur": 2.26,
+   "hyp": "Hay un hueco, un hueco enorme.",
+   "ref_words": 6,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.81
+  },
+  "cb_latam_x05_M1": {
+   "line": "M1",
+   "speaker": "mila",
+   "raw_dur": 2.26,
+   "stray_tail_s": 0.0,
+   "dur": 1.56,
+   "hyp": "Ellie va para atrás.",
+   "ref_words": 4,
+   "wer": 0.25,
+   "errors": [
+    "eli->ellie"
+   ],
+   "sim_ref": 0.833
+  },
+  "cb_latam_x05_M2": {
+   "line": "M2",
+   "speaker": "mila",
+   "raw_dur": 2.38,
+   "stray_tail_s": 0.0,
+   "dur": 2.33,
+   "hyp": "Ese hueco es mi amigo.",
+   "ref_words": 5,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.812
+  },
+  "cb_latam_x05_M3": {
+   "line": "M3",
+   "speaker": "mila",
+   "raw_dur": 1.94,
+   "stray_tail_s": 0.0,
+   "dur": 1.87,
+   "hyp": "fuiste tu.",
+   "ref_words": 2,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.804
+  },
+  "cb_latam_x05_N1": {
+   "line": "N1",
+   "speaker": "narrator",
+   "raw_dur": 5.28,
+   "stray_tail_s": 0.0,
+   "dur": 5.28,
+   "hyp": "una carretera despejada. Allá delante, un conductor toca el freno una sola vez.",
+   "ref_words": 13,
+   "wer": 0.077,
+   "errors": [
+    "adelante->delante"
+   ],
+   "seseo_db": {
+    "vez": 3.2
+   },
+   "sim_ref": 0.9
+  },
+  "cb_latam_x05_N2": {
+   "line": "N2",
+   "speaker": "narrator",
+   "raw_dur": 5.72,
+   "stray_tail_s": 0.0,
+   "dur": 5.16,
+   "hyp": "Lo que importa es cuántos autos hay en cada tramo de pista. Los ingenieros le dicen densidad.",
+   "ref_words": 17,
+   "wer": 0.0,
+   "errors": [],
+   "seseo_db": {
+    "dicen": 0.7
+   },
+   "sim_ref": 0.937
+  },
+  "cb_latam_x08_E1": {
+   "line": "E1",
+   "speaker": "eli",
+   "raw_dur": 2.48,
+   "stray_tail_s": 0.0,
+   "dur": 2.41,
+   "hyp": "¿Quién fue? ¿Quién fue?",
+   "ref_words": 2,
+   "wer": 1.0,
+   "errors": [
+    "+quien",
+    "+fue"
+   ],
+   "sim_ref": 0.747
+  },
+  "cb_latam_x08_E2": {
+   "line": "E2",
+   "speaker": "eli",
+   "raw_dur": 2.72,
+   "stray_tail_s": 0.0,
+   "dur": 2.63,
+   "hyp": "Fue el viento, fue el bien.",
+   "ref_words": 3,
+   "wer": 1.0,
+   "errors": [
+    "+fue",
+    "+el",
+    "+bien"
+   ],
+   "sim_ref": 0.844
+  },
+  "cb_latam_x08_E3": {
+   "line": "E3",
+   "speaker": "eli",
+   "raw_dur": 2.56,
+   "stray_tail_s": 0.0,
+   "dur": 2.18,
+   "hyp": "Hay un hueco, un hueco enorme.",
+   "ref_words": 6,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.822
+  },
+  "cb_latam_x08_M1": {
+   "line": "M1",
+   "speaker": "mila",
+   "raw_dur": 2.3,
+   "stray_tail_s": 0.6,
+   "dur": 1.56,
+   "hyp": "Ellie va para atrás.",
+   "ref_words": 4,
+   "wer": 0.25,
+   "errors": [
+    "eli->ellie"
+   ],
+   "sim_ref": 0.83
+  },
+  "cb_latam_x08_M2": {
+   "line": "M2",
+   "speaker": "mila",
+   "raw_dur": 2.62,
+   "stray_tail_s": 0.0,
+   "dur": 2.57,
+   "hyp": "Ese hueco es mi amigo.",
+   "ref_words": 5,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.818
+  },
+  "cb_latam_x08_M3": {
+   "line": "M3",
+   "speaker": "mila",
+   "raw_dur": 1.9,
+   "stray_tail_s": 0.0,
+   "dur": 1.83,
+   "hyp": "Fuiste tú.",
+   "ref_words": 2,
+   "wer": 0.0,
+   "errors": [],
+   "sim_ref": 0.747
+  },
+  "cb_latam_x08_N1": {
+   "line": "N1",
+   "speaker": "narrator",
+   "raw_dur": 5.64,
+   "stray_tail_s": 0.0,
+   "dur": 4.86,
+   "hyp": "una carretera despejada. Allá adelante, un conductor toca el freno una sola vez.",
+   "ref_words": 13,
+   "wer": 0.0,
+   "errors": [],
+   "seseo_db": {
+    "vez": -3.2
+   },
+   "sim_ref": 0.933
+  },
+  "cb_latam_x08_N2": {
+   "line": "N2",
+   "speaker": "narrator",
+   "raw_dur": 6.08,
+   "stray_tail_s": 0.0,
+   "dur": 5.95,
+   "hyp": "Lo que importa es cuántos autos hay en cada tramo de pista. Los ingenieros le dicen densidad.",
+   "ref_words": 17,
+   "wer": 0.0,
+   "errors": [],
+   "seseo_db": {
+    "dicen": -0.7
+   },
+   "sim_ref": 0.937
+  }
+ },
+ "watermark": {
+  "cb_base_x05_N1": {
+   "raw": 1.0,
+   "norm_48k": 1.0,
+   "mp3_128k": 1.0
+  },
+  "cb_base_x05_N2": {
+   "raw": 1.0,
+   "norm_48k": 1.0,
+   "mp3_128k": 1.0
+  },
+  "cb_latam_x05_N1": {
+   "raw": 1.0,
+   "norm_48k": 1.0,
+   "mp3_128k": 1.0
+  },
+  "cb_latam_x05_N2": {
+   "raw": 1.0,
+   "norm_48k": 1.0,
+   "mp3_128k": 1.0
+  },
+  "kokoro_N1": {
+   "raw": 0.0,
+   "norm_48k": 0.0,
+   "mp3_128k": 0.0
+  },
+  "kokoro_N2": {
+   "raw": 0.0,
+   "norm_48k": 0.0,
+   "mp3_128k": 0.0
+  },
+  "cb_base_x05_M2": {
+   "raw": 1.0,
+   "norm_48k": 1.0,
+   "mp3_128k": 1.0
+  },
+  "cb_latam_x05_M2": {
+   "raw": 1.0,
+   "norm_48k": 1.0,
+   "mp3_128k": 1.0
+  }
+ },
+ "speed_cb_base": {
+  "_load_s": 18.5,
+  "x05_E1": {
+   "sec": 3.0,
+   "synth_s": 49.3,
+   "rtf": 16.45
+  },
+  "x08_E1": {
+   "sec": 2.76,
+   "synth_s": 33.7,
+   "rtf": 12.23
+  },
+  "x05_N1": {
+   "sec": 6.0,
+   "synth_s": 63.5,
+   "rtf": 10.58
+  },
+  "x08_N1": {
+   "sec": 5.72,
+   "synth_s": 54.7,
+   "rtf": 9.57
+  },
+  "x05_N2": {
+   "sec": 5.56,
+   "synth_s": 54.6,
+   "rtf": 9.82
+  },
+  "x08_N2": {
+   "sec": 6.4,
+   "synth_s": 59.9,
+   "rtf": 9.35
+  },
+  "x05_E2": {
+   "sec": 2.64,
+   "synth_s": 40.7,
+   "rtf": 15.41
+  },
+  "x08_E2": {
+   "sec": 1.56,
+   "synth_s": 36.9,
+   "rtf": 23.64
+  },
+  "x05_E3": {
+   "sec": 3.4,
+   "synth_s": 38.4,
+   "rtf": 11.28
+  },
+  "x08_E3": {
+   "sec": 3.36,
+   "synth_s": 86.1,
+   "rtf": 25.62
+  },
+  "x05_M1": {
+   "sec": 4.62,
+   "synth_s": 82.9,
+   "rtf": 17.93
+  },
+  "x08_M1": {
+   "sec": 4.9,
+   "synth_s": 50.8,
+   "rtf": 10.36
+  },
+  "x05_M2": {
+   "sec": 1.94,
+   "synth_s": 30.8,
+   "rtf": 15.86
+  },
+  "x08_M2": {
+   "sec": 1.94,
+   "synth_s": 32.8,
+   "rtf": 16.91
+  },
+  "x05_M3": {
+   "sec": 1.82,
+   "synth_s": 30.5,
+   "rtf": 16.75
+  },
+  "x08_M3": {
+   "sec": 5.62,
+   "synth_s": 54.8,
+   "rtf": 9.75
+  }
+ },
+ "speed_cb_latam": {
+  "_load_s": 14.8,
+  "x05_N1": {
+   "sec": 5.28,
+   "synth_s": 57.3,
+   "rtf": 10.86
+  },
+  "x08_N1": {
+   "sec": 5.64,
+   "synth_s": 57.5,
+   "rtf": 10.19
+  },
+  "x05_N2": {
+   "sec": 5.72,
+   "synth_s": 55.5,
+   "rtf": 9.7
+  },
+  "x08_N2": {
+   "sec": 6.08,
+   "synth_s": 71.6,
+   "rtf": 11.77
+  },
+  "x05_E1": {
+   "sec": 0.88,
+   "synth_s": 25.2,
+   "rtf": 28.68
+  },
+  "x08_E1": {
+   "sec": 2.48,
+   "synth_s": 35.5,
+   "rtf": 14.31
+  },
+  "x05_E2": {
+   "sec": 8.64,
+   "synth_s": 77.3,
+   "rtf": 8.94
+  },
+  "x08_E2": {
+   "sec": 2.72,
+   "synth_s": 35.7,
+   "rtf": 13.13
+  },
+  "x05_E3": {
+   "sec": 2.76,
+   "synth_s": 34.2,
+   "rtf": 12.38
+  },
+  "x08_E3": {
+   "sec": 2.56,
+   "synth_s": 36.3,
+   "rtf": 14.19
+  },
+  "x05_M1": {
+   "sec": 2.26,
+   "synth_s": 40.9,
+   "rtf": 18.08
+  },
+  "x08_M1": {
+   "sec": 2.3,
+   "synth_s": 37.1,
+   "rtf": 16.14
+  },
+  "x05_M2": {
+   "sec": 2.38,
+   "synth_s": 41.6,
+   "rtf": 17.48
+  },
+  "x08_M2": {
+   "sec": 2.62,
+   "synth_s": 40.9,
+   "rtf": 15.61
+  },
+  "x05_M3": {
+   "sec": 1.94,
+   "synth_s": 29.5,
+   "rtf": 15.21
+  },
+  "x08_M3": {
+   "sec": 1.9,
+   "synth_s": 29.7,
+   "rtf": 15.66
+  }
+ },
+ "speed_kokoro": {
+  "N1": {
+   "sec": 5.928,
+   "synth_s": 12.88,
+   "phonemes": [
+    "ˈuna kˌaretˈeɾa ðˌespexˈaða.",
+    "ajjˈa ˌaðelˈante, ˈun kˌonduktˈoɾ tˈoka el fɾˈeno.",
+    "ˈuna sˈola βˈes."
+   ]
+  },
+  "N2": {
+   "sec": 5.886,
+   "synth_s": 4.22,
+   "phonemes": [
+    "lo ke impˈoɾta ˈes kwˈantos ˈWtos ˈI en kˈaða tɾˈamo ðe pˈista: los ˌiŋxenjˈeɾos le ðˈisen dˌensiðˈad."
+   ]
+  },
+  "E1": {
+   "sec": 0.706,
+   "synth_s": 1.31,
+   "phonemes": [
+    "¡¿kjˈen fwˈe?!"
+   ]
+  },
+  "E2": {
+   "sec": 1.164,
+   "synth_s": 1.04,
+   "phonemes": [
+    "…fwˈe el βjˈɛnto."
+   ]
+  },
+  "E3": {
+   "sec": 2.179,
+   "synth_s": 1.77,
+   "phonemes": [
+    "¡ˈI ˈun wˈeko!",
+    "¡ˈun wˈeko enˈoɾme!"
+   ]
+  },
+  "M1": {
+   "sec": 1.937,
+   "synth_s": 2.04,
+   "phonemes": [
+    "ˈeli.",
+    "bˈa pˌaɾa atɾˈas."
+   ]
+  },
+  "M2": {
+   "sec": 1.619,
+   "synth_s": 1.44,
+   "phonemes": [
+    "ˈese wˈeko ˈes mi amˈiɣo."
+   ]
+  },
+  "M3": {
+   "sec": 0.918,
+   "synth_s": 0.97,
+   "phonemes": [
+    "fwˈiste tˈu."
+   ]
+  },
+  "ref_narrator": 10.0,
+  "ref_eli": 8.24,
+  "ref_mila": 9.4
+ }
+}
