@@ -732,3 +732,7 @@
   (`CRITIC_v4_3.md`, `CRITIC_RETENTION_v4_3.md`) after four fix rounds.
 - **APPROVED** (Producer, 2026-10-15: "Aprobado"): preview `EP002_short2_hf_v4_preview540.mp4`. Master 1080x1920 +
   light copy authorised.
+- v4.3 master (approved): `EP002_short2_hf_v4_master1080.mp4` (1080x1920, 22.0 s, -14.1 LUFS, -4.7 dBTP, 42.4 MB)
+  delivered as draft Release `deliver-ep002-short2-hf-v4`; light copy `EP002_short2_hf_v4_1080_light.mp4` (21.6 MB)
+  and contact sheet in git. Frame diff vs the approved 540 preview (downscaled): mean 1.7/255 (grain only); no black
+  or flicker frames.
