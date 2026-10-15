@@ -62,7 +62,7 @@
     for (let x = -60; x < 60; x += 2.5 + r() * 3) props.push({ k: 'tree', X: x, Z: -45.5 - r() * 1.5, h: 5 + r() * 3, kind: r() < 0.5 ? 'poplar' : 'round', seed: r() * 1e6 | 0 });
     for (let k = 0; k < 16; k++) { const a = k / 16 * K.TAU + 0.1; props.push({ k: 'cone', X: Math.cos(a) * (RAD - 4.4), Z: Math.sin(a) * (RAD - 4.4) }); }
     props.push({ k: 'tent', X: -7, Z: -5 }, { k: 'tripod', X: 5.6, Z: 2.2 },
-      { k: 'hero', who: 'pixie', X: 1.0, Z: 15.5 }, { k: 'hero', who: 'quest', X: -3.2, Z: 16.5 }, { k: 'person', X: -6.2, Z: 5.0, seed: 3, role: 'shrug' },
+      { k: 'hero', who: 'mila1', X: 1.2, Z: 15.5 }, { k: 'hero', who: 'eli1', X: -3.4, Z: 16.8 }, { k: 'person', X: -6.2, Z: 5.0, seed: 3, role: 'shrug' },
       { k: 'person', X: 7.4, Z: 2.6, seed: 4, role: 'camera' });
     for (let i = 0; i < 26; i++) { const a = r() * K.TAU, rr = RAD + 7 + r() * 14, X = Math.cos(a) * rr, Z = Math.sin(a) * rr; if (Z < -38) continue; props.push({ k: 'bush', X, Z, seed: r() * 1e6 | 0, s: 0.8 + r() * 0.9 }); }
     return { bg, props };
@@ -86,13 +86,13 @@
       for (const dx of [-0.5, 0, 0.5]) { ctx.beginPath(); ctx.moveTo(x + dx * s, y); ctx.lineTo(x, y - h); ctx.stroke(); }
       ctx.fillStyle = '#2a2230'; K.rrect(ctx, x - s * 0.35, y - h - s * 0.4, s * 0.7, s * 0.45, 3); ctx.fill();
     } else if (p.k === 'hero') {
-      // v3: Quest and Pixie among the observers. Pixie takes notes on the clipboard; Quest stands hands-on-hips, then
-      // points at the jam once a car stops (acting from the sim, like the other observers)
-      const on = jam && jam.on, u = s * 1.45, Lt = Object.assign({}, K.hero.LIGHT.golden, { ang: -2.45, rim: P.rim, rimW: 0.06, shade: '#3a3358', shadeK: 0.3, amb: '#ffe0b0', ambK: 0.06 });
-      const sh = { dx: -2.55 / VIEW.cosE, k: -(2.04 * VIEW.sinE) / VIEW.cosE, alpha: 0.32, color: P.shadow };
-      if (p.who === 'pixie') K.hero.draw(ctx, 'pixie', x, y, u, { pose: 'clipboard', t, expr: on ? 'surprised' : 'neutral', yaw: on ? 0.55 : -0.25, headYaw: on ? 0.3 : 0, look: on ? [0.8, 0.3] : [0, 0.5], light: Lt, shadow: sh, contact: 0.3 });
-      else { const toR = jam && jam.x > x; K.hero.draw(ctx, 'quest', x, y, u, { pose: on ? 'point' : 'hips', blend: null, t, expr: on ? 'surprised' : 'smug', yaw: on ? (toR ? 0.7 : -0.7) : 0.2, aim: 0.4, aimZ: 0.2,
-        armR: on && !toR ? undefined : undefined, light: Lt, shadow: sh, contact: 0.3, look: on ? [0.8, 0.2] : [0, 0.3] }); }
+      // v4: Eli and Mila among the observers (same scale as the extras: 1 unit = an extra's height). Mila takes notes on
+      // her clipboard and looks up, curious, when a car stops; Eli plays detective with a magnifier, then turns to the jam
+      // and points (acting from the sim, like the other observers)
+      const on = jam && jam.on, u = s * 7.2, Lt = Object.assign({}, K.cast.LIGHT.golden, { ang: -2.45, rim: P.rim, shade: '#3a3358' });
+      ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(P.shadow, 0.35); ctx.translate(x, y); ctx.transform(1, 0, -2.55 / VIEW.cosE * 0.25, 0.3, 0, 0); K.ellipse(ctx, -s * 0.8, 0, s * 0.9, s * 0.5); ctx.fill(); ctx.restore();
+      if (p.who === 'mila1') K.cast.draw(ctx, 'mila1', x, y, u, { view: 'q', dir: on && jam.x < x ? -1 : 1, pose: 'clipboard', t, expr: on ? 'curious' : 'thinking', look: on ? [0.8, -0.1] : [0.2, 0.6], light: Lt, shadow: 0.3 });
+      else { const toR = jam && jam.x > x; K.cast.draw(ctx, 'eli1', x, y, u, { view: 'q', dir: on ? (toR ? 1 : -1) : 1, pose: on ? 'point' : 'detective', t, expr: on ? 'surprised' : 'curious', look: [0.7, 0.2], light: Lt, shadow: 0.3 }); }
     } else if (p.k === 'person') {
       // acting follows the sim: once a car is stopped (jam), the pointer points at it, the shrugger shrugs,
       // the note-taker looks up surprised. Before that: calm, chatting, writing.

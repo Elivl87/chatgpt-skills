@@ -27,6 +27,10 @@
   C.LIGHT = {
     golden: { ang: -0.55, rim: '#ffd88f', rimA: 0.9, rimW: 0.011, shade: '#3c2a52', shadeA: 0.30, shadeW: 0.05, tex: 0.22 },
     board: { ang: -0.75, rim: '#fff1d2', rimA: 0.8, rimW: 0.009, shade: '#4a3560', shadeA: 0.22, shadeW: 0.045, tex: 0.2 },
+    backlit: { ang: -1.75, rim: '#ffd88f', rimA: 0.95, rimW: 0.014, shade: '#3c2a52', shadeA: 0.38, shadeW: 0.07, tex: 0.2 },
+    night: { ang: -2.4, rim: '#9fb4ff', rimA: 0.85, rimW: 0.013, shade: '#0b1030', shadeA: 0.5, shadeW: 0.07, tex: 0.15 },
+    noon: { ang: -1.57, rim: '#ffffff', rimA: 0.35, rimW: 0.008, shade: '#4a5068', shadeA: 0.2, shadeW: 0.05, tex: 0.18 },
+    dusk: { ang: -1.25, rim: '#ffd9a0', rimA: 0.9, rimW: 0.012, shade: '#2a1838', shadeA: 0.3, shadeW: 0.05, tex: 0.2 },
   };
   const TURN = { front: 0, q: 0.55, side: 1, back: 0, backq: 0.55, backside: 1 };
 
@@ -274,7 +278,13 @@
         c.fillRect(-W * 1.2, D * 0.84, W * 2.4, w * 0.3);
         c.fillStyle = '#e0707a'; K.ellipse(c, 0, D * 0.78, W * 0.55, D * 0.2); c.fill(); c.restore();
         pm(); c.lineWidth = lw * 1.1; c.strokeStyle = INK; c.stroke(); break; }
-      case 'talk': openMouth(c, w, 0.04 + H.talk * 0.2, 0.5 + 0.1 * Math.sin(H.talk * 9), lw); break;
+      case 'talk': { // visemes: M (closed) · E (wide, teeth) · A (open) · O (round)
+        const v = H.viseme || (H.talk < 0.12 ? 'M' : H.talk < 0.45 ? 'E' : H.talk < 0.8 ? 'A' : 'O');
+        if (v === 'M') { c.beginPath(); c.moveTo(-w * 0.38, w * 0.02); c.quadraticCurveTo(0, w * 0.08, w * 0.38, w * 0.02); c.stroke(); }
+        else if (v === 'E') openMouth(c, w, 0.03, 0.78, lw);
+        else if (v === 'A') openMouth(c, w, 0.34, 0.56, lw);
+        else { c.fillStyle = '#3a1520'; K.ellipse(c, 0, w * 0.12, w * 0.22, w * 0.3); c.fill(); c.save(); K.ellipse(c, 0, w * 0.12, w * 0.22, w * 0.3); c.clip(); c.fillStyle = '#e0707a'; K.ellipse(c, 0, w * 0.38, w * 0.16, w * 0.12); c.fill(); c.restore(); K.ellipse(c, 0, w * 0.12, w * 0.22, w * 0.3); c.lineWidth = lw; c.strokeStyle = INK; c.stroke(); }
+        break; }
       case 'o': c.fillStyle = '#3a1520'; K.ellipse(c, 0, w * 0.1, w * 0.21, w * 0.29); c.fill(); c.lineWidth = lw * 1.0; c.strokeStyle = INK; c.stroke(); break;
       case 'awe': c.fillStyle = '#3a1520'; K.ellipse(c, 0, w * 0.14, w * 0.26, w * 0.34); c.fill(); c.save(); K.ellipse(c, 0, w * 0.14, w * 0.26, w * 0.34); c.clip(); c.fillStyle = '#e0707a'; K.ellipse(c, 0, w * 0.42, w * 0.2, w * 0.14); c.fill(); c.restore(); K.ellipse(c, 0, w * 0.14, w * 0.26, w * 0.34); c.lineWidth = lw; c.strokeStyle = INK; c.stroke(); break;
       case 'smallo': c.fillStyle = '#3a1520'; K.ellipse(c, w * 0.05, w * 0.05, w * 0.12, w * 0.15); c.fill(); c.lineWidth = lw * 1.4; c.strokeStyle = INK; c.stroke(); break;
@@ -400,7 +410,7 @@
     const tilt = (o.tilt || 0) + K.lerp(P.tilt || 0, PB ? PB.tilt || 0 : 0, bk) * dir + (E.head || 0) * faceDir;
     const lean = (o.lean || 0) + (E.lean || 0) * (o.seated ? 0.5 : 1) + K.lerp(P.lean || 0, PB ? PB.lean || 0 : 0, bk);
     const hcx = tcx + dir * s * (S.head.lean || 0) * 0.5, hcy = -S.head.cy - breathe * 1.4 - lift;
-    const H = { cx: 0, cy: 0, hw, hh, s, fs, faceDir, dir, lw, skin: S.skin, lidColor: S.lidColor, F: S.face, E, t, blink: o.blink || 0, talk: o.talk || 0,
+    const H = { cx: 0, cy: 0, hw, hh, s, fs, faceDir, dir, lw, skin: S.skin, lidColor: S.lidColor, F: S.face, E, t, blink: o.blink || 0, talk: o.talk || 0, viseme: o.viseme,
       look: o.look || E.look || [0, 0], headTurn, drag: o.drag || 0, hatHit: o.hatHit || 0, back };
     const sh = sg => [tcx + sg * S.shoulderW * cosT + dir * s * (S.shoulderFwd || 0), shY];
     const L1 = S.arm.upper, L2 = S.arm.fore, LA = L1 + L2;
@@ -617,6 +627,13 @@
     return { head: [hx, hy, hr], hands: { lead: map(R.info.hands.lead), trail: map(R.info.hands.trail) }, top: y + (R.info.top + so) * u };
   };
 
+  // where the hands/head WOULD be for a pose (no drawing): props like the steering wheel stay put while the hands act
+  C.probe = function (id, x, y, u, o = {}) {
+    if (C.ALIAS[id]) id = C.ALIAS[id]; const S = C.SPECS[id], view = o.view || 'front', s = TURN[view] ?? 0, dir = o.dir || 1;
+    const R = biped(S, Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: String(view).startsWith('back') })), so = o.seated ? S.legLen : 0;
+    const map = p => [x + p[0] * u, y + (p[1] + so) * u];
+    return { hands: { lead: map(R.info.hands.lead), trail: map(R.info.hands.trail) }, head: map(R.info.head) };
+  };
   C.SPECS = {};
   C.ALIAS = {};
   C.define = (id, spec) => { C.SPECS[id] = spec; };

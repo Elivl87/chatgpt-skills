@@ -351,8 +351,10 @@
         const cfog = [fog[0], fog[1] * (o.night ? 0.6 : 1)];
         K.car.rear(ctx, p.x, p.y, p.s, { color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
           brake: st.brake(i), tail: o.night ? 1 : 0, fog: cfog, lit, bob, glowScale: st.glowScale || (o.night ? 7 : 5),
-          seats: isM ? 2 : 1, drawDriver: isM ? (hx, top, s, W) => K.hero.rearPair(ctx, hx, top + bob * s, s, W, { t, fog: cfog, light: o.night ? K.hero.LIGHT.night : K.hero.LIGHT.backlit,
-            quest: st.questOpts ? st.questOpts(t) : null, pixie: st.pixieOpts ? st.pixieOpts(t) : null }) : null });
+          seats: isM ? 2 : 1, drawDriver: isM ? (hx, top, s, W) => {   // v4: Eli (driver, left) and Mila seen from behind; she points ahead when the wave comes
+            const L = Object.assign({}, K.cast.LIGHT.backlit, o.night ? K.cast.LIGHT.night : {}), u = 2.7 * s, seat = top + 0.34 * s + bob * s, ao = st.crewOpts ? st.crewOpts(t) : {};
+            K.cast.draw(ctx, 'eli1', hx - W * 0.21, seat, u, Object.assign({ view: 'back', pose: 'drive', seated: true, t, light: L, fog: cfog }, ao.eli || {}));
+            K.cast.draw(ctx, 'mila1', hx + W * 0.21, seat + 0.02 * s, u, Object.assign({ view: 'back', pose: 'lap', seated: true, t, light: L, fog: cfog }, ao.mila || {})); } : null });
       } else if (it.onc !== undefined) {
         const pe = E.persona(100 + it.onc);
         K.car.front(ctx, p.x, p.y, p.s, { color: pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
@@ -378,11 +380,9 @@
       t, simT: t, run, onc: E.oncoming(), sCam: E.camS(t) + GOLD.sCamOff, lCam: GOLD.lCam + Math.sin(t * 0.3) * 0.15,
       H: 8.2 + t * 0.12, pitch: 0.068 + t * 0.002, yaw: -0.012 + Math.sin(t * 0.2) * 0.004, f: 1600 + 420 * K.ease.sine(K.clamp(t / 6.5)),
       sun: { az: 0.035, elev: 0.095, r: 42 }, brake: i => run.brake(i, t),
-      // v3 acting (rear view): when the car ahead brakes, Pixie points ahead at the wave; Quest leans on the wheel
-      pixieOpts: tt => { const k = K.ease.sine(K.clamp(run.brake(E.LEADER, tt) * 1.6)), PC = K.hero.CHARS.pixie;
-        const rest = [0.25, PC.hipJ + 0.15, 0.95], aim = [0.55, PC.shJ + 0.95, 1.1];
-        return { armR: { ik: rest.map((r, i) => K.lerp(r, aim[i], k)), pole: [1, -1, 0], hand: k > 0.5 ? 'point' : 'relaxed' }, headYaw: -0.15 * k }; },
-      questOpts: tt => ({ bow: 0.1 * K.clamp(run.brake(E.MASCOT, tt)) }),
+      // v4 acting (rear view): when the car ahead brakes, Mila points ahead at the wave; Eli leans on the wheel
+      crewOpts: tt => { const k = K.ease.sine(K.clamp(run.brake(E.LEADER, tt) * 1.6));
+        return { mila: k > 0.3 ? { pose: 'point', blend: null } : {}, eli: { lean: 0.05 * K.clamp(run.brake(E.MASCOT, tt)) } }; },
     };
   };
   // golden clouds: painterly lobed cumulus, each lit from the direction of the low sun (sun ~ (1100, 190) on screen)

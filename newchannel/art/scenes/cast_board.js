@@ -266,7 +266,7 @@
       const passengerO = this.cand === 'B' ? { expr: 'curious', headTurn: -1.15, pose: 'stand' } : { expr: 'smug', look: [0.85, 0.05], pose: 'stand' };
       if (this.cand === 'A2') Object.assign(passengerO, { expr: 'smug' });
       E.drawCloseup(ctx, t, frame, {
-        t0: 6,
+        t0: 6, wide: true,
         crew: (c, sx, sy, SC, st) => {
           const light = Object.assign({}, C.LIGHT.golden, { rim: st.rim });
           C.crew(c, sx, sy, SC, { driver: CD.car.driver, passenger: CD.car.passenger, t: st.tau, light, bob: st.bob, u: 2.7 * SC, driverO, passengerO });

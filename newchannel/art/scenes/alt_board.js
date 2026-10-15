@@ -28,7 +28,8 @@
     if (cfg.driver) {
       const o = Object.assign({ view: 'q', dir: 1, pose: 'drive', expr: 'neutral', t, light, seated: true }, cfg.driverO || {});
       out.driver = C.draw(ctx, cfg.driver, sx + 0.24 * SC, seatY, u, o);
-      wheel(out.driver, o.pose === 'drive' || o.pose === 'driveFist');
+      const pr = C.probe(cfg.driver, sx + 0.24 * SC, seatY, u, Object.assign({}, o, { pose: 'drive', blend: null, expr: 'neutral' }));   // the wheel sits where the drive pose puts the hands
+      wheel({ hands: { lead: pr.hands.lead, trail: pr.hands.lead } }, true);
     }
     if (cfg.passenger) {
       const o = Object.assign({ view: 'q', dir: 1, pose: 'lap', expr: 'neutral', t, light, seated: true }, cfg.passengerO || {});
@@ -189,20 +190,19 @@
     if (o.bubble !== false && C._lastCrew && C._lastCrew.driver) bubble(ctx, C._lastCrew.driver.head, '¡¿Quién fue?!');
   }
   // a paper speech balloon (screen space), tail toward the speaker's mouth
-  function bubble(ctx, head, text) {
-    const m = ctx.getTransform(); void m;
-    const [hx, hy, hr] = head, k = Math.max(0.6, Math.min(1.4, hr / 150));
-    const fs = Math.round(58 * k); ctx.save(); ctx.font = `700 ${fs}px "Space Grotesk"`; const tw = ctx.measureText(text).width;
+  function bubble(ctx, head, text, a = 1) {
+    const [hx, hy, hr] = head, k = Math.max(0.6, Math.min(1.4, hr / 150)) * (0.6 + 0.4 * K.ease.outBack(K.clamp(a)));
+    const fs = Math.round(58 * k); ctx.save(); ctx.globalAlpha = K.clamp(a * 1.5); ctx.font = `700 ${fs}px "Space Grotesk"`; const tw = ctx.measureText(text).width;
     const bw = tw + 70 * k, bh = fs * 1.75, bx = Math.min(K.W - bw - 40, hx + hr * 0.9), by = Math.max(40, hy - hr * 2.1 - bh);
     ctx.fillStyle = K.rgba('#2a1830', 0.25); K.rrect(ctx, bx + 6, by + 8, bw, bh, bh / 2); ctx.fill();
     ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = '#2a1a1e'; ctx.lineWidth = 4 * k; ctx.lineJoin = 'round';
-    ctx.beginPath(); const tx = bx + bw * 0.22, ty = by + bh; ctx.moveTo(tx - 22 * k, ty - 4); ctx.lineTo(hx + hr * 0.72, hy + hr * 0.02); ctx.lineTo(tx + 22 * k, ty - 4); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); const tx = bx + bw * 0.22, ty = by + bh; ctx.moveTo(tx - 22 * k, ty - 4); ctx.lineTo(hx + hr * 0.7, hy + hr * 0.28); ctx.lineTo(tx + 22 * k, ty - 4); ctx.closePath(); ctx.fill(); ctx.stroke();
     K.rrect(ctx, bx, by, bw, bh, bh / 2); ctx.fill(); ctx.stroke();
     ctx.fillStyle = '#fbf3e4'; ctx.fillRect(tx - 18 * k, ty - 6 * k, 36 * k, 9 * k);
     ctx.fillStyle = '#2a1a1e'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, bx + bw / 2, by + bh / 2 + 2);
     ctx.restore();
   }
-  C.drawAltScene = drawScene;
+  C.drawAltScene = drawScene; C.bubble = bubble;
 
   // ------------------------------------------------------------------ scenes
   function loadImg(src) { return new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; }); }

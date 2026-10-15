@@ -190,12 +190,12 @@
           const stopped = S.v[i] < 0.3, waiting = stopped && !S.paid[i];
           K.car.rear(ctx, p.x, p.y, p.s, { color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, driver: !isM, seats: isM ? 2 : 1,
             brake: q.brake(i, t), fog: [fg[0], fg[1]], lit, bob: S.v[i] > 0.5 ? Math.sin(t * 9 + i) * 0.02 : 0, glowScale: 2.2 });
-          if (isM) {   // v3: Quest turns round to us and shrugs at the queue; Pixie (passenger) watches the booth, then glances back at him
-            const W = 1.7 * 1.24 * p.s, top = p.y - 1.0 * p.s, u = 0.66 * p.s, NL = Object.assign({}, K.hero.LIGHT.noon, { fog: [fg[0], fg[1]] });
+          if (isM) {   // v4: Eli turns round to us and shrugs at the queue; Mila (passenger) watches the booth, then glances back at him
+            const W = 1.7 * 1.24 * p.s, top = p.y - 1.0 * p.s, u = 2.7 * p.s, seat = top + 0.34 * p.s, NL = Object.assign({}, K.cast.LIGHT.noon);
             const cyc = t % 4.2, sk = waiting ? K.ease.sine(K.clamp(cyc / 0.3)) * (1 - K.ease.sine(K.clamp((cyc - 2.3) / 0.3))) : 0;
-            K.hero.draw(ctx, 'pixie', p.x + W * 0.22, top + 0.42 * p.s, u, { pose: 'ride', seat: 0, noLegs: true, contact: 0, yaw: Math.PI + 0.1, headYaw: -0.9 * sk, t, light: NL, fog: [fg[0], fg[1]], seed: 2 });
-            K.hero.draw(ctx, 'quest', p.x - W * 0.2, top + 0.42 * p.s, u, { pose: 'ride', blend: { pose: 'shrug', k: sk }, seat: 0, noLegs: true, contact: 0, yaw: 0.25, t, light: NL, fog: [fg[0], fg[1]],
-              expr: waiting ? (sk > 0.3 ? 'annoyed' : 'sleepy') : 'happy', seed: 1 });
+            K.cast.draw(ctx, 'mila1', p.x + W * 0.21, seat + 0.02 * p.s, u, { view: sk > 0.5 ? 'backq' : 'back', dir: -1, pose: 'lap', seated: true, t, light: NL, fog: [fg[0], fg[1]] });
+            K.cast.draw(ctx, 'eli1', p.x - W * 0.21, seat, u, { view: 'front', pose: 'lap', blend: { pose: 'shrug', k: sk }, seated: true, t, light: NL, fog: [fg[0], fg[1]],
+              expr: waiting ? (sk > 0.3 ? 'annoyed' : 'neutral') : 'happy', look: [0.2, 0] });
             // the car body in front of their lower halves
             ctx.save(); ctx.beginPath(); ctx.rect(p.x - p.s * 1.5, p.y - 1.0 * p.s, p.s * 3, p.s * 1.0); ctx.clip();
             K.car.rear(ctx, p.x, p.y, p.s, { color: K.TEAL, driver: false, seats: 2, brake: q.brake(i, t), fog: [fg[0], fg[1]], lit, glowScale: 2.2 }); ctx.restore();

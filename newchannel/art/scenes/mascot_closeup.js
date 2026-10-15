@@ -7,7 +7,7 @@
 (function (root) {
   const K = root.K, E = K.ep1;
   const SC = 215, GROUND = 992, CX = 610, TW = 2400;   // px per metre, ground line, mascot car centre, tile width
-  E.CLOSE = { simOffset: -0.6 };                        // close-up sim time = video time - 0.6 s (editorial overlap)
+  E.CLOSE = { simOffset: -0.6, frame: { z: 1.62, wx: 585, wy: 610, sx: 920, sy: 470 } };   // v4: tight framing, Eli + Mila big                        // close-up sim time = video time - 0.6 s (editorial overlap)
   let L = null;
 
   function tileLayer(draw, h = K.H, blur = 0) {
@@ -128,29 +128,32 @@
     return { run, tau, S, v, aS, leadOn, selfOn, tStop, x: S.x[M], gapL: S.x[E.LEADER] - S.x[M] - 4.5, gapF: S.x[M] - S.x[M - 1] - 4.5, bL: run.brake(E.LEADER, tau), bM: run.brake(M, tau) };
   };
 
-  // acting (Quest at the wheel, Pixie beside him), all from sim events. Poses blend over 0.25 s so nothing pops.
+  // v4 acting: Eli at the wheel, Mila beside him. Everything is read from the sim (brake onsets, stop, gap, speed);
+  // poses cross-fade (blend) so nothing pops, except Mila's deliberate snap-turn to look back (anticipation squash).
   E.closeActing = function (st, t) {
     const tau = st.tau, since = e => (e == null ? -1 : tau - e), ramp = (x, d = 0.25) => K.ease.sine(K.clamp(x / d));
-    const q = { pose: 'drive', expr: 'happy' }, p = { pose: 'ride', expr: 'happy', talk: 0 };
     const sL = since(st.leadOn), sS = since(st.selfOn), sT = st.tStop ? since(st.tStop) : -1;
-    // before the wave: Pixie chats (lip flap), hands in her lap; Quest smiles at the road
-    p.talk = sL < 0 ? 0.9 : 0; p.headYaw = 0.35; p.look = [0.6, 0];
-    q.look = [0.6, 0];
-    if (sL > 0.12) { q.expr = 'surprised'; q.extras = ['bang']; p.expr = 'surprised'; p.headYaw = 0.5; p.look = [0.9, 0]; }
-    if (sS > 0.15) { q.expr = 'worried'; q.extras = ['sweat']; p.expr = 'worried'; p.pose = 'ride'; }
-    if (sS > 1.6) { q.expr = 'determined'; q.extras = []; p.expr = 'thinking'; p.look = [0.8, -0.4]; }
-    if (sT > 0.15) {                 // stopped: Quest lets go of the wheel and shrugs ("¿en serio?")
-      q.expr = 'annoyed'; q.extras = ['puff']; q.blend = { pose: 'shrug', k: ramp(sT - 0.15) * (1 - ramp(sT - 0.85)) };
-      p.expr = 'thinking'; p.look = [0.7, -0.5];
+    const eli = { pose: 'drive', expr: 'happy', look: [0.6, 0], talk: 0 }, mila = { pose: 'lap', expr: 'happy', view: 'q', dir: 1, headTurn: 0.25, look: [0.7, 0], talk: 0 };
+    let bubble = 0;
+    if (sL < 0) { mila.talk = 0.25 + 0.75 * Math.abs(Math.sin(tau * 9.5)) * (Math.sin(tau * 2.3) > -0.3 ? 1 : 0); eli.expr = 'happy'; }   // chatting while cruising
+    if (sL > 0.12) { eli.expr = 'surprised'; mila.expr = 'surprised'; mila.headTurn = 0.45; mila.look = [0.9, -0.1]; }
+    if (sS > 0.15) { eli.expr = 'worried'; mila.expr = 'worried'; }
+    if (sS > 1.4) { eli.expr = st.gapL < 6 && st.v > 1 ? 'determined' : 'annoyed'; mila.expr = 'thinking'; mila.look = [0.6, -0.6]; mila.headTurn = 0.1; }   // tailgating: set jaw
+    if (sT > 0.15) { eli.expr = 'annoyed'; eli.blend = { pose: 'shrug', k: ramp(sT - 0.15) * (1 - ramp(sT - 0.75)) }; eli.look = [-0.6, 0]; }
+    if (sT > 0.9) {   // «¡¿Quién fue?!»: furious, fist out of the car, leaning in
+      eli.expr = 'furious'; eli.blend = { pose: 'driveFist', k: ramp(sT - 0.9, 0.18) }; eli.look = [0.7, -0.2]; eli.extras = ['anger', 'puff'];
+      bubble = ramp(sT - 0.95, 0.12) * (1 - ramp(sT - 2.5, 0.25));
     }
-    if (sT > 0.9) {                  // then grumpy, arms crossed; Pixie explains the wave to him, open palm, talking
-      q.expr = 'grumpy'; q.extras = ['puff', 'anger']; q.blend = { pose: 'crossed', k: ramp(sT - 0.9) }; q.look = [0.3, 0.15];
-      p.expr = 'happy'; p.talk = sT > 1.1 ? 0.9 : 0; p.headYaw = 0.25; p.look = [0.5, 0];
-      const k = ramp(sT - 1.0, 0.3), PC = K.hero.CHARS.pixie;   // an open palm on her far side, away from Quest
-      p.armL = { ik: [K.lerp(-0.25, -0.95, k), K.lerp(PC.hipJ + 0.15, PC.waist + 0.55 + Math.sin(tau * 5) * 0.05 * k, k), K.lerp(0.95, 0.75, k)], pole: [-1, -1, 0], hand: k > 0.4 ? 'palmUp' : 'relaxed' };
+    if (sT > 2.6) { eli.expr = 'grumpy'; eli.blend = { pose: 'driveFist', k: 1 - ramp(sT - 2.6, 0.3) }; eli.extras = ['puff']; eli.look = [0.5, 0.1]; }
+    if (sT > 1.3) {   // Mila turns round in her seat to look back: anticipation (head first), then the body snaps round
+      const k = ramp(sT - 1.3, 0.2);
+      mila.headTurn = K.lerp(0.1, -0.9, k); mila.expr = 'curious'; mila.look = [-0.4, -0.2];
+      if (sT > 1.55) { mila.dir = -1; mila.headTurn = 0; mila.look = [0.5, -0.25]; mila.tilt = 0.06 * Math.exp(-(sT - 1.55) * 6); }
+      if (sT > 2.5) { mila.expr = 'awe'; mila.look = [0.3, -0.5]; }
+      if (sT > 3.3) { mila.expr = 'smug'; mila.look = [-0.85, 0]; }    // ... «Fuiste tú.»
     }
-    if (q.expr === 'happy') q.blink = undefined;
-    return { quest: q, pixie: p };
+    eli.lean = (eli.expr === 'furious' ? 0.03 : 0);
+    return { eli, mila, bubble };
   };
 
   E.drawCloseup = function (ctx, t, frame, opt = {}) {
@@ -160,7 +163,7 @@
     // camera: slow push-in toward the mascot, tiny drift
     const z = 1 + 0.07 * K.ease.sine(K.inv(0, 6, t - (opt.t0 ?? 6))) , headX = CX - 40, headY = GROUND - 1.25 * SC;
     ctx.save();
-    const FR = opt.frame || { z: 1, wx: headX, wy: headY, sx: headX, sy: headY };   // v4: framed close-ups (bigger characters)
+    const FR = opt.frame || (opt.wide ? { z: 1, wx: headX, wy: headY, sx: headX, sy: headY } : E.CLOSE.frame);   // v4: framed close-ups (bigger characters)
     ctx.translate(FR.sx, FR.sy); ctx.scale(z * FR.z, z * FR.z); ctx.translate(-FR.wx + Math.sin(t * 0.4) * 3, -FR.wy + Math.sin(t * 0.33) * 2);
     ctx.drawImage(L.sky.c, 0, 0);
     // sun + glow behind the leader
@@ -226,17 +229,10 @@
     K.car.side(ctx, CX, GROUND + bob * 0.3, SC, { color: K.TEAL, lit: { rim: mRim, shade: P.shadow, dx: 1 }, brake: st.bM, pitch, wheel: st.x * 3.1,
       drawDriver: (sx, sy) => {
         if (opt.crew) { opt.crew(ctx, sx, sy, SC, { tau, bob, rim: mRim, inertia }); return; }
-        const u = 0.6 * SC;
-        // Quest: driver (far seat, at the wheel), 3/4 toward the leader
-        const qi = K.hero.draw(ctx, 'quest', sx + 0.3 * SC, sy + 0.5 * SC + bob, u, Object.assign({ t: tau, light: HL, noLegs: true, contact: 0, seat: 0, yaw: 0.95, bow: inertia, seed: 1 }, act.quest));
-        // the steering wheel (rim over the gripping hands)
-        if (qi) { const hx = (qi.hands.L[0] + qi.hands.R[0]) / 2, hy = (qi.hands.L[1] + qi.hands.R[1]) / 2, onWheel = act.quest.pose === 'drive' && !(act.quest.blend && act.quest.blend.k > 0.2);
-          const wx = onWheel ? hx + 0.03 * SC : sx + 0.95 * SC, wy = onWheel ? hy : sy - 0.02 * SC;
-          ctx.save(); ctx.strokeStyle = '#1c2433'; ctx.lineWidth = 0.05 * SC; ctx.beginPath(); ctx.ellipse(wx, wy, 0.06 * SC, 0.24 * SC, 0.3, 0, K.TAU); ctx.stroke();
-          ctx.strokeStyle = K.rgba(mRim, 0.6); ctx.lineWidth = 0.015 * SC; ctx.beginPath(); ctx.ellipse(wx, wy, 0.06 * SC, 0.24 * SC, 0.3, -2.2, -0.6); ctx.stroke();
-          ctx.strokeStyle = '#1c2433'; ctx.lineWidth = 0.04 * SC; ctx.beginPath(); ctx.moveTo(wx + 0.02 * SC, wy + 0.05 * SC); ctx.lineTo(sx + 1.2 * SC, sy + 0.3 * SC); ctx.stroke(); ctx.restore(); }
-        // Pixie: passenger (near seat, a little behind), turned toward Quest and the camera
-        K.hero.draw(ctx, 'pixie', sx - 0.72 * SC, sy + 0.55 * SC + bob * 0.8, u, Object.assign({ t: tau, light: HL, noLegs: true, contact: 0, seat: 0, yaw: 0.45, bow: inertia * 0.8, seed: 2 }, act.pixie));
+        const light = Object.assign({}, K.cast.LIGHT.golden, { rim: mRim });
+        const r = K.cast.crew2(ctx, sx, sy, SC, { driver: 'eli1', passenger: 'mila1', t: tau, light, bob, u: 2.7 * SC, driverO: act.eli, passengerO: act.mila });
+        const m = ctx.getTransform(), sp = q => { const z = m.transformPoint(new DOMPoint(q[0], q[1])); return [z.x, z.y]; };
+        if (r.driver) E._eliHead = [...sp(r.driver.head), r.driver.head[2] * Math.hypot(m.a, m.b)];
       } });
     if (opt.after) opt.after(ctx, CX, GROUND + bob * 0.3, SC, { tau, bob, rim: mRim });
     // foreground near lane edge (in front of the cars, soft)
@@ -248,6 +244,7 @@
       drawTiled(ctx, L.fore, pxShift * 1.3 + 300, 0, Math.min(40, speedPx * 1.3), true); ctx.restore(); }   // v3: opaque smear
     ctx.restore();
     // light, particles, grade (screen space)
+    if (!opt.crew && act.bubble > 0.01 && E._eliHead && K.cast.bubble) K.cast.bubble(ctx, E._eliHead, '¡¿Quién fue?!', act.bubble);
     K.particles.motes(ctx, t, { n: 40, seed: 17, color: '#ffe6b0', alpha: 0.6, size: 2.4, vx: -12 - speedPx * 3, vy: -4 });
     K.particles.motes(ctx, t, { n: 7, seed: 18, color: '#ffd9a0', alpha: 0.35, size: 26, vx: -20 - speedPx * 4, vy: -2, y0: 100, y1: 700 });
     K.sky.wash(ctx, sunX, sunY, 900, '#ffb070', 0.22);

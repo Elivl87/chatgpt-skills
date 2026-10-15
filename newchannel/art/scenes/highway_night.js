@@ -47,17 +47,14 @@
     const rr = K.rng(9);
     for (let x = 0; x < 1300; x += 7) K.terrain.tuft(ctx, x + rr() * 5, hillY(x) + 5, 16 + rr() * 22, '#0a0f22', { seed: rr() * 1e6 | 0, n: 4, wind: Math.sin(t * 1.2 + x * 0.01) * 0.25, rim: rr() < 0.3 ? '#5a6cb0' : null });
     K.terrain.tree(ctx, 150, hillY(150) + 8, 360, { color: '#10172f', shade: '#080c1c', trunk: '#080c1c', seed: 4, light: { dx: -0.8, back: 0.6, rim: '#7f93d8' }, sway: Math.sin(t * 0.9) * 0.018 + Math.sin(t * 2.2) * 0.005 });
-    // v3: Quest and Pixie sit on the hill top, seen from behind, watching the ribbon of lights. Every ~7 s Pixie lifts
-    // her arm and points at the wave; Quest turns his head to follow. Moonlit rim from the upper left.
-    { const NL = Object.assign({}, K.hero.LIGHT.night, { ang: -2.4 }), u = 42;
-      const cyc = t % 7, pk = K.ease.sine(K.clamp((cyc - 3.0) / 0.4)) * (1 - K.ease.sine(K.clamp((cyc - 5.6) / 0.4)));
-      const qx = 380, px = 495, PC = K.hero.CHARS.pixie;
-      K.hero.draw(ctx, 'quest', qx, hillY(qx) + 6, u, { pose: 'sit', view: 0.42, yaw: Math.PI - 0.28, t, light: NL, contact: 0, headYaw: -0.25 * pk, seed: 1 });
-      const rest = [-0.55, PC.hipJ + 0.55, 1.2], aimP = [-1.45, PC.shJ + 0.2, 0.95];
-      const tgt = rest.map((r, i) => K.lerp(r, aimP[i], pk));
-      K.hero.draw(ctx, 'pixie', px, hillY(px) + 6, u, { pose: 'sit', view: 0.42, yaw: Math.PI - 0.42, t, light: NL, contact: 0, seed: 2,
-        armL: { ik: tgt, pole: [-1, -1, 0], hand: pk > 0.5 ? 'point' : 'relaxed' } });
-      K.light.glow(ctx, (qx + px) / 2 + 60, hillY(qx) - 40, 160, '#ff4a36', 0.12, 'screen');   // the ribbon's red light reaching them
+    // v4: Eli and Mila sit on the hill top, seen from behind (3/4), watching the ribbon of lights. Mila points at the
+    // wave (every ~7 s she lifts her arm again); Eli turns his head to follow. Moonlit rim from the upper left.
+    { const NL = Object.assign({}, K.cast.LIGHT.night), u = 300, fog = ['#141a3a', 0.22];
+      const cyc = t % 7, pk = K.ease.sine(K.clamp((cyc - 0.6) / 0.4)) * (1 - K.ease.sine(K.clamp((cyc - 5.6) / 0.4)));
+      const ex = 330, mx = 560;
+      K.cast.draw(ctx, 'eli1', ex, hillY(ex) - 2, u, { view: 'backq', dir: 1, pose: 'sit', seated: true, legs: true, sitGround: true, t, light: NL, fog, headTurn: 0, look: [0.4, 0] });
+      K.cast.draw(ctx, 'mila1', mx, hillY(mx) - 2, u, { view: 'backq', dir: 1, pose: 'sit', blend: { pose: 'sitPoint', k: pk }, seated: true, legs: true, sitGround: true, t, light: NL, fog });
+      K.light.glow(ctx, (ex + mx) / 2 + 60, hillY(ex) - 40, 160, '#ff4a36', 0.12, 'screen');   // the ribbon's red light reaching them
     }
     ctx.restore();
     K.particles.motes(ctx, t, { n: 22, seed: 61, color: '#cfe0ff', alpha: 0.3, size: 1.4, vx: 4, vy: -2, y0: 300, y1: 1000 });   // moonlit dust
