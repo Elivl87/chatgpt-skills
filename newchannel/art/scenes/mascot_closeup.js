@@ -94,14 +94,17 @@
     // (no see-through reeds), with a few taller clumps and lit tips
     const fore = tileLayer((c, t) => {
       const r = K.rng(121), base = K.H + 40;
-      c.fillStyle = '#2f2a22'; c.fillRect(0, base - 70, TW, 72);
       const blade = (x, hgt, w, lean, col) => { c.fillStyle = col; c.beginPath(); c.moveTo(x - w, base); c.quadraticCurveTo(x - w * 0.3 + lean * 0.4, base - hgt * 0.6, x + lean, base - hgt); c.quadraticCurveTo(x + w * 0.3 + lean * 0.4, base - hgt * 0.6, x + w, base); c.closePath(); c.fill(); };
-      for (let x = -20; x < TW + 20; x += 4 + r() * 5) blade(x, 95 + r() * 50, 7 + r() * 6, (r() - 0.4) * 24, K.mix('#2c2a20', '#4a4a2c', r()));
+      // solid bank with a wavy top (fully opaque: nothing shows through)
+      c.fillStyle = '#2a261e'; c.beginPath(); c.moveTo(0, base);
+      for (let x = 0; x <= TW; x += 20) c.lineTo(x, base - 92 - 10 * Math.sin(x * 0.013) - 8 * Math.sin(x * 0.041 + 1));
+      c.lineTo(TW, base); c.closePath(); c.fill();
+      for (let x = -20; x < TW + 20; x += 3 + r() * 4) blade(x, 110 + r() * 45, 7 + r() * 6, (r() - 0.4) * 22, K.mix('#24211a', '#3d3c26', r()));
       for (let k = 0; k < 9; k++) { const cx = (k + r() * 0.6) * (TW / 9);
-        for (let j = 0; j < 30; j++) blade(cx + (r() - 0.5) * 140, 140 + r() * 90, 6 + r() * 6, (r() - 0.45) * 50, K.mix('#262419', '#545433', r())); }
-      // lit tips (back light)
-      c.globalCompositeOperation = 'source-atop'; const g = c.createLinearGradient(0, base - 160, 0, base - 30); g.addColorStop(0, K.rgba(P.rim, 0.55)); g.addColorStop(1, K.rgba(P.rim, 0));
-      c.fillStyle = g; c.fillRect(0, base - 170, TW, 150); c.globalCompositeOperation = 'source-over';
+        for (let j = 0; j < 34; j++) blade(cx + (r() - 0.5) * 130, 150 + r() * 80, 6 + r() * 6, (r() - 0.45) * 46, K.mix('#211e17', '#46452b', r())); }
+      // thin lit tips (back light), only the top of the tall blades
+      c.globalCompositeOperation = 'source-atop'; const g = c.createLinearGradient(0, base - 230, 0, base - 150); g.addColorStop(0, K.rgba(P.rim, 0.45)); g.addColorStop(1, K.rgba(P.rim, 0));
+      c.fillStyle = g; c.fillRect(0, base - 240, TW, 100); c.globalCompositeOperation = 'source-over';
     }, K.H + 40, 2.2);
     // clouds (drawn live so they drift); lit from the sun at (1480, 250)
     const clouds = [[260, 190, 560, 118, 1, 5], [1000, 120, 520, 104, 2, 4], [1760, 210, 470, 96, 3, 6], [640, 360, 300, 58, 4, 7], [2300, 330, 300, 60, 5, 6]].map(([x, y, w, h, seed, v]) => {

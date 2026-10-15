@@ -124,12 +124,12 @@
   // lid 0 open .. 1 shut, low = lower lid, tilt +angry / -worried, eye scale, pupil scale, mouth kind, extras
   C.EXPR = {
     neutral:   { lid: 0.12, mouth: 'smile' },
-    happy:     { lid: 0.0, low: 0.12, mouth: 'grin', head: -0.06, brow: -0.016, noBias: 1, look: [0, -0.35] },
+    happy:     { lid: 0.0, low: 0.0, mouth: 'grin', head: -0.07, brow: -0.018, noBias: 1, look: [0, -0.55], grin: 1.45, eye: 1.06 },
     surprised: { lid: 0.0, eye: 1.2, pupil: 0.62, mouth: 'o', brow: -0.022, noBias: 1, lift: -0.006 },
     grumpy:    { lid: 0.42, tilt: 0.45, mouth: 'frown', brow: 0.01, browTilt: 1, noBias: 0.6 },
     annoyed:   { lid: 0.42, tilt: 0.3, mouth: 'flat', browTilt: 0.7 },
     worried:   { lid: 0.22, tilt: -0.4, mouth: 'wobble', pupil: 0.85, brow: -0.012, browTilt: -1, sweat: 1 },
-    smug:      { lid: 0.55, low: 0.18, mouth: 'smirk', look: [0.75, 0], browTilt: 0.2, browUp: 1 },
+    smug:      { lid: 0.48, low: 0.22, mouth: 'smirk', look: [0.8, 0], browTilt: 0.2, browUp: 1, noBias: 0.7, tilt: 0.12 },
     curious:   { lid: 0.02, eye: 1.08, mouth: 'smallo', look: [0.4, -0.5], brow: -0.016, noBias: 0.7 },
     talk:      { lid: 0.12, mouth: 'talk' },
   };
@@ -197,7 +197,7 @@
     };
     switch (kind) {
       case 'smile': c.beginPath(); c.moveTo(-w * 0.55, -w * 0.08); c.quadraticCurveTo(0, w * 0.32, w * 0.55, -w * 0.08); c.stroke(); break;
-      case 'grin': open(H.F.grinOpen ?? 0.12, H.F.grinW ?? 0.7); break;
+      case 'grin': open((H.F.grinOpen ?? 0.12) * (E.grin || 1), (H.F.grinW ?? 0.7) * Math.sqrt(E.grin || 1)); break;
       case 'talk': open(0.04 + H.talk * 0.14, 0.5); break;
       case 'o': c.fillStyle = '#3a1520'; K.ellipse(c, 0, w * 0.08, w * 0.2, w * 0.27); c.fill(); c.lineWidth = lw * 1.0; c.strokeStyle = INK; c.stroke(); break;
       case 'smallo': c.fillStyle = '#3a1520'; K.ellipse(c, w * 0.05, w * 0.05, w * 0.12, w * 0.15); c.fill(); c.lineWidth = lw * 1.4; c.strokeStyle = INK; c.stroke(); break;

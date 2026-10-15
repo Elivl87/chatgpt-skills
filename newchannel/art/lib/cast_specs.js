@@ -153,19 +153,21 @@
   // ---------------------------------------------------------------- LIA (Leo as a woman) for A2
   const LIA = Object.assign({}, LEO, { name: 'Lía', phase: 1.4,
     face: Object.assign({}, LEO.face, { lashes: true, lip: '#5a1f2a' }),
-    hairBack(c, H) { // two short braids from under the beanie
-      const hw = H.hw, sw = Math.sin(H.t * 2.2) * 0.006;
+    hairBack: null,
+    braids(c, H) { // two braids from under the beanie, hanging to the shoulders (they swing a little)
+      const hw = H.hw, sw = Math.sin(H.t * 2.2) * 0.005;
       const sides = H.fs < 0.2 ? [-1, 1] : [-H.faceDir];
       for (const sg of sides) {
-        const x0 = H.fs < 0.2 ? sg * hw * 0.95 : -H.faceDir * hw * (0.95 - 0.4 * H.fs), y0 = -H.hh + 0.1;
-        for (let k = 0; k < 4; k++) { const x = x0 + sg * 0.006 * (H.fs < 0.2 ? 1 : 0) + sw * k * 0.5, y = y0 + 0.012 + k * 0.024;
-          c.fillStyle = '#1e1414'; c.strokeStyle = INK; c.lineWidth = H.lw * 1.6; K.ellipse(c, x, y, 0.014, 0.016); c.fill(); c.stroke(); }
-        const x = x0 + sw * 2, y = y0 + 0.012 + 4 * 0.024 - 0.006;
-        c.fillStyle = BEANIE; K.ellipse(c, x, y, 0.011, 0.007); c.fill(); c.stroke();
-        c.fillStyle = '#1e1414'; K.ellipse(c, x, y + 0.016, 0.009, 0.013); c.fill(); c.stroke();
+        const x0 = H.fs < 0.2 ? sg * hw * 1.02 : -H.faceDir * hw * (1.0 - 0.35 * H.fs), y0 = -H.hh + 0.085;
+        c.fillStyle = '#1e1414'; c.strokeStyle = INK; c.lineWidth = H.lw * 1.6;
+        for (let k = 0; k < 5; k++) { const x = x0 + sg * 0.004 + sw * k * 0.6, y = y0 + 0.015 + k * 0.026; K.ellipse(c, x, y, 0.017 - k * 0.0012, 0.018); c.fill(); c.stroke(); }
+        const x = x0 + sw * 3, y = y0 + 0.015 + 5 * 0.026 - 0.01;
+        c.fillStyle = BEANIE; K.ellipse(c, x, y, 0.013, 0.008); c.fill(); c.stroke();
+        c.fillStyle = '#1e1414'; c.beginPath(); c.moveTo(x - 0.01, y + 0.006); c.quadraticCurveTo(x, y + 0.035, x + 0.01, y + 0.006); c.closePath(); c.fill(); c.stroke();
       }
     },
-    headTop(c, H) { // gold hoops
+    headTop(c, H) { // braids + gold hoops
+      LIA.braids(c, H);
       const ey = H.F.mouthY - 0.012, ears = H.fs < 0.2 ? [-1, 1] : [-H.faceDir];
       for (const sg of ears) { const ex = H.fs < 0.2 ? sg * H.hw * 1.0 : -H.faceDir * H.hw * (1 - H.fs * 0.5);
         c.strokeStyle = INK; c.lineWidth = H.lw * 3.4; K.circle(c, ex, ey + 0.016, 0.013); c.stroke(); c.strokeStyle = '#f0c24a'; c.lineWidth = H.lw * 1.6; c.stroke(); }
@@ -176,11 +178,11 @@
   // ---------------------------------------------------------------- PAZ (B, patient + curious)
   const ROSE = '#e0849b', ROSE_D = '#b8607a', PLUM = '#5d3a6b', CREAM = '#f4ead6', PTEAL = '#2f8a80';
   function glasses(c, H, eyes, ey, rr) {
-    const lw = H.lw, R = rr * 2.15;
+    const lw = H.lw, R = rr * 1.85;
     c.strokeStyle = '#3b2440'; c.lineWidth = lw * 2.2;
     const pos = eyes.map(e => e[0]).sort((a, b) => a - b);
     for (const [x, side, far] of eyes) {
-      c.fillStyle = 'rgba(255,255,255,0.16)'; K.ellipse(c, x, ey, R * (far ? 0.72 : 1) * (1 - 0.25 * H.fs), R); c.fill(); c.stroke();
+      c.fillStyle = 'rgba(255,255,255,0.07)'; K.ellipse(c, x, ey, R * (far ? 0.72 : 1) * (1 - 0.25 * H.fs), R); c.fill(); c.stroke();
       c.strokeStyle = 'rgba(255,255,255,0.55)'; c.lineWidth = lw * 1.2; c.beginPath(); c.ellipse(x, ey, R * 0.72 * (far ? 0.72 : 1) * (1 - 0.25 * H.fs), R * 0.72, 0, -2.6, -1.9); c.stroke();
       c.strokeStyle = '#3b2440'; c.lineWidth = lw * 2.2;
     }
@@ -195,7 +197,7 @@
     arm: { upper: 0.13, fore: 0.12, w: 0.036, sleeve: ROSE, cuff: CREAM, hand: 0.025 },
     skin: '#b97c55', handColor: '#b97c55',
     boot: { h: 0.05, w: 0.034, foot: 0.05, toe: 0.042, back: 0.01, sole: 0.014, color: CREAM, soleColor: PTEAL },
-    face: { eyes: 'dot', eyeR: 0.019, eyeSep: 0.047, eyeY: 0.004, mouthY: 0.058, mouthW: 0.03, brows: 0.0075, browW: 1.2, browGap: 2.75,
+    face: { eyes: 'dot', eyeR: 0.022, eyeSep: 0.047, eyeY: 0.004, mouthY: 0.062, mouthW: 0.032, brows: 0.0105, browW: 1.15, browGap: 2.95,
       blush: 0.32, lashes: true, lip: '#6a2436', glasses, turnK: 0.5 },
     outfit(c, B) { // coat: placket, three big round buttons (dots), pockets
       const s = B.s, d = B.dir, px = B.tcx + d * s * B.wB * 0.45;
@@ -285,20 +287,28 @@
     legLen: 0.055, shoulder: 0.165, shoulderW: 0.112, hipW: 0.045, legW: 0.026, legColor: AMBER, legSplay: 0.006,
     torso: { top: 0.12, bot: 0.06, wTop: 0.02, wBot: 0.02, color: AMBER },
     head: { kind: 'circle', hw: 0.125, hh: 0.125, cy: 0.175 },
-    arm: { upper: 0.042, fore: 0.04, w: 0.026, sleeve: AMBER, hand: 0.021 }, limbRim: 0.35,
+    arm: { upper: 0.035, fore: 0.033, w: 0.021, sleeve: AMBER, hand: 0.019 }, limbRim: 0,
     skin: AMBER, handColor: AMBER, extraK: 0.9,
     boot: { h: 0.03, w: 0.024, foot: 0.03, toe: 0.026, back: 0.006, sole: 0.009, color: PTEAL, soleColor: CREAM },
     face: { eyes: 'googly', eyeR: 0.036, eyeSep: 0.042, eyeY: -0.008, pupil: 0.6, catch: 0.38, goofy: 0, mouthY: 0.05, mouthW: 0.032, blush: 0.45, blushColor: '#ff6f5a',
       lidColor: '#f29a26', grinW: 0.7, grinOpen: 0.14, turnK: 0.5, brows: 0.007, browGap: 1.5, browW: 0.8 },
     lidColor: '#f0a02a',
     glow: { color: '#ffb84a', r: 2.6, a: 0.55 },
-    hat(c, H) { // the flame tuft (sways)
-      const r = H.hw, sw = Math.sin(H.t * 4.2) * 0.012 + Math.sin(H.t * 9.3) * 0.004, fl = 1 + Math.sin(H.t * 7) * 0.05;
-      const bx = H.faceDir * H.fs * r * 0.15;
-      const flame = (sc, col) => { c.beginPath(); c.moveTo(bx - 0.034 * sc, -r * 0.93); c.bezierCurveTo(bx - 0.05 * sc, -r - 0.05 * sc, bx + sw - 0.01, -r - 0.07 * sc * fl, bx + sw * 1.6, -r - 0.105 * sc * fl);
-        c.bezierCurveTo(bx + sw + 0.012, -r - 0.06 * sc, bx + 0.05 * sc, -r - 0.04 * sc, bx + 0.034 * sc, -r * 0.93); c.closePath(); c.fillStyle = col; };
-      flame(1, '#ffe27a'); c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.lineJoin = 'round'; c.stroke(); c.fill();
-      flame(0.55, '#fff6d0'); c.fill();
+    hat(c, H) { // the spark: a little two-tongued flame that acts (taller + redder when angry, small when worried)
+      const r = H.hw, ex = H.E, mood = ex.mouth === 'frown' || ex.mouth === 'flat' ? 1.25 : ex.sweat ? 0.75 : ex.mouth === 'o' ? 1.2 : 1;
+      const sw = Math.sin(H.t * 4.2) * 0.01 + Math.sin(H.t * 9.3) * 0.004, fl = (1 + Math.sin(H.t * 7) * 0.06) * mood;
+      const bx = H.faceDir * H.fs * r * 0.12, by = -r * 0.9, back = H.fs > 0.05 ? -H.faceDir : -1;
+      const tongue = (sc, col, line) => {
+        c.beginPath(); c.moveTo(bx - 0.045 * sc, by + 0.01);
+        c.bezierCurveTo(bx - 0.06 * sc, by - 0.05 * sc * fl, bx - 0.012 * sc + sw, by - 0.06 * sc * fl, bx + back * 0.012 * sc + sw * 1.5, by - 0.115 * sc * fl);   // main tongue tip
+        c.bezierCurveTo(bx + 0.012 * sc + sw, by - 0.075 * sc * fl, bx + 0.02 * sc, by - 0.06 * sc * fl, bx + 0.028 * sc, by - 0.05 * sc * fl);
+        c.quadraticCurveTo(bx + 0.04 * sc + sw * 0.5, by - 0.075 * sc * fl, bx - back * 0.05 * sc + sw, by - 0.085 * sc * fl);                                  // small tongue
+        c.bezierCurveTo(bx + 0.06 * sc, by - 0.04 * sc * fl, bx + 0.058 * sc, by - 0.01, bx + 0.045 * sc, by + 0.01);
+        c.closePath(); c.fillStyle = col;
+        if (line) { c.strokeStyle = INK; c.lineWidth = H.lw * 1.8; c.lineJoin = 'round'; c.stroke(); }
+        c.fill();
+      };
+      tongue(1, mood > 1.1 ? '#ff7a2a' : '#ff9b2f', true); tongue(0.72, '#ffcf4a'); tongue(0.42, '#fff3c2');
     },
   };
   C.define('chispa', CHISPA);
@@ -315,17 +325,21 @@
     face: { eyes: 'dot', eyeR: 0.019, eyeSep: 0.043, eyeY: -0.02, mouthY: 0.04, mouthW: 0.036, brows: 0.011, browW: 1.15, browGap: 2.1, blush: 0.0, turnK: 0.5,
       grinW: 0.75, grinOpen: 0.14 },
     lidColor: '#d84a32',
-    headTop(c, H) { // teal knit scarf around the bottom of the disc, tail flutters
-      const r = H.hw, y = r * 0.62, fl = Math.sin(H.t * 5) * 0.012, back = H.fs > 0.05 ? -H.faceDir : -1;
-      c.save(); K.circle(c, 0, 0, r * 1.02); c.clip();
-      c.fillStyle = '#23746C'; c.beginPath(); c.moveTo(-r * 1.1, y - 0.01); c.quadraticCurveTo(0, y + 0.03, r * 1.1, y - 0.01); c.lineTo(r * 1.1, y + 0.05); c.quadraticCurveTo(0, y + 0.09, -r * 1.1, y + 0.05); c.closePath(); c.fill();
-      c.strokeStyle = '#1a5a54'; c.lineWidth = H.lw * 1.4; for (let i = -5; i <= 5; i++) { const x = i * r * 0.2; c.beginPath(); c.moveTo(x, y + 0.012 + Math.abs(x) * -0.05); c.lineTo(x + 0.006, y + 0.055 - Math.abs(x) * 0.08); c.stroke(); }
+    headTop(c, H) { // teal knit scarf wrapped round the lower disc, knot on the far-back side, two tails that flutter
+      const r = H.hw, y = r * 0.38, back = H.fs > 0.05 ? -H.faceDir : 1, fl = Math.sin(H.t * 5) * 0.01, fl2 = Math.sin(H.t * 5 + 1.3) * 0.01;
+      const TEAL = '#23746C', TEAL_D = '#185a53', lw = H.lw;
+      c.save(); K.circle(c, 0, 0, r * 1.06); c.clip();
+      const band = () => { c.beginPath(); c.moveTo(-r * 1.2, y - 0.02); c.quadraticCurveTo(0, y + 0.03, r * 1.2, y - 0.02); c.lineTo(r * 1.2, y + 0.04); c.quadraticCurveTo(0, y + 0.09, -r * 1.2, y + 0.04); c.closePath(); };
+      band(); c.fillStyle = TEAL; c.fill();
+      c.strokeStyle = TEAL_D; c.lineWidth = lw * 1.3; for (let i = -6; i <= 6; i++) { const x = i * r * 0.17; const yy = y + 0.005 + 0.025 * (1 - (x / r) * (x / r)); c.beginPath(); c.moveTo(x, yy - 0.012); c.lineTo(x + 0.004, yy + 0.032); c.stroke(); }
       c.restore();
-      // tail
-      const tx = back * r * 0.55, ty = y + 0.04;
-      c.fillStyle = '#23746C'; c.beginPath(); c.moveTo(tx - 0.018, ty - 0.01); c.quadraticCurveTo(tx + back * 0.03, ty + 0.03, tx + back * (0.075) , ty + 0.03 + fl);
-      c.lineTo(tx + back * 0.08, ty + 0.06 + fl); c.quadraticCurveTo(tx + back * 0.02, ty + 0.06, tx + 0.018 * back, ty + 0.0); c.closePath(); c.fill();
-      c.strokeStyle = '#f3ecdd'; c.lineWidth = H.lw * 1.6; for (const k of [0.6, 0.85]) { c.beginPath(); c.moveTo(tx + back * 0.075 * k, ty + 0.025 + fl * k); c.lineTo(tx + back * 0.08 * k, ty + 0.055 + fl * k); c.stroke(); }
+      // knot + tails on the side
+      const kx = back * r * 0.72, ky = y + 0.03;
+      c.fillStyle = TEAL;
+      const tail = (dx, len, f) => { c.beginPath(); c.moveTo(kx - 0.016, ky); c.quadraticCurveTo(kx + back * dx * 0.5, ky + len * 0.5, kx + back * dx + f, ky + len); c.lineTo(kx + back * (dx + 0.03) + f, ky + len - 0.006); c.quadraticCurveTo(kx + back * (dx * 0.5 + 0.025), ky + len * 0.45, kx + 0.016, ky); c.closePath(); c.fill();
+        c.strokeStyle = '#f3ecdd'; c.lineWidth = lw * 1.4; c.beginPath(); c.moveTo(kx + back * dx * 0.85 + f, ky + len * 0.86); c.lineTo(kx + back * (dx * 0.85 + 0.028) + f, ky + len * 0.84); c.stroke(); };
+      tail(0.05, 0.11, fl); tail(0.085, 0.085, fl2);
+      c.fillStyle = TEAL_D; K.circle(c, kx, ky, 0.02); c.fill(); c.fillStyle = TEAL; K.circle(c, kx - 0.003, ky - 0.003, 0.016); c.fill();
     },
   };
   C.define('punto', PUNTO);

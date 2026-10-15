@@ -23,9 +23,9 @@
       line: 'Bajito y redondo, enérgico, se enoja rápido y se le pasa rápido.', sw: [['chamarra', '#3a5bb5'], ['franja', '#f4ecdc'], ['pantalón', '#6f7280'], ['tenis', '#f08a3c'], ['piel', '#e7b089'], ['pelo', '#1d1416']] },
     paz: { name: 'Paz', alt: 'otros: Lupe, Ada', role: 'La paciente y curiosa: lentes redondos, mira atrás y entiende la ola.',
       line: 'Alta y serena, observa, anota y sonríe antes de explicar.', sw: [['abrigo', '#e0849b'], ['botones', '#f4ead6'], ['mallas', '#5d3a6b'], ['detalles', '#2f8a80'], ['piel', '#b97c55'], ['lentes', '#3b2440']] },
-    chispa: { name: 'Chispa', alt: 'otros: Tilde, Pepa', role: 'Compañera de cada episodio: es el punto de la «i» de Mil y reacciona a la simulación.',
+    chispa: { name: 'Chispa', alt: 'otros: Tilde, Pepa', role: 'Compañera de cada episodio y punto de la «i» de Mil.',
       line: 'Una chispa con patas: brilla, se asusta, aplaude y nunca se está quieta.', sw: [['cuerpo', '#ffb53d'], ['llama', '#ffe27a'], ['tenis', '#2f8a80'], ['mejillas', '#ff6f5a'], ['tinta', '#2a1a1e']] },
-    punto: { name: 'Punto', alt: 'otros: Don Punto, Puntito', role: 'La mascota original, mejorada: el punto de la «i» de Mil, con cejas, bufanda y tenis.',
+    punto: { name: 'Punto', alt: 'otros: Don Punto, Puntito', role: 'La mascota original, mejorada; sigue siendo el punto de la «i».',
       line: 'El punto bermellón de siempre, ahora con cara de verdad.', sw: [['disco', '#E8553A'], ['bufanda', '#23746C'], ['tinta', '#1C2433'], ['suela', '#f4ead6']] },
   };
   const EXPR_ES = { neutral: 'neutral', happy: 'feliz', surprised: 'sorpresa', grumpy: 'gruñón', worried: 'preocupado', smug: 'pícaro' };
@@ -46,7 +46,8 @@
     };
     if (cfg.driver) {
       const d = cfg.driver, o = Object.assign({ view: 'q', dir: 1, pose: 'drive', expr: 'neutral', t, light, seated: true }, cfg.driverO || {});
-      const info = C.draw(ctx, d, sx + 0.22 * SC, seatY, u, o);
+      const lift = C.SPECS[d].mascot ? -0.36 * SC : 0;   // a mascot sits on a cushion so it reads above the door
+      const info = C.draw(ctx, d, sx + 0.22 * SC, seatY + lift, u, o);
       drawWheel(info, o.pose === 'drive');
       out.driver = info;
     }
@@ -140,12 +141,12 @@
     // 1 · turnaround
     panel(ctx, 16, 70, 1140, 440, 'giro · frente / 3/4 / perfil');
     const hmax = Math.max(...ids.map(i => C.SPECS[i].h));
-    const gy1 = 482, uT = (duo ? 345 : 330) / hmax;
+    const gy1 = 474, uT = (duo ? 350 : 330) / hmax;
     ground(ctx, 30, 1140, gy1);
     ids.forEach((id, k) => {
       const xs = duo ? [130 + k * 560, 290 + k * 560, 445 + k * 560] : [250, 590, 920];
       ['front', 'q', 'side'].forEach((v, j) => C.draw(ctx, id, xs[j], gy1, uT, { view: v, t: t + j * 0.7 + k, expr: 'neutral', light, shadow: 0.28 }));
-      label(ctx, INFO[id].name, duo ? xs[1] : xs[1], 106, { font: '700 24px "Space Grotesk"', color: SIG[id] });
+      label(ctx, INFO[id].name, xs[1], 503, { font: '700 22px "Space Grotesk"', color: SIG[id] });
     });
 
     // 2 · the test scene (rendered separately, same for all candidates)
@@ -179,15 +180,17 @@
     panel(ctx, 1170, 522, 734, duo ? 290 : 160, 'expresiones');
     ids.forEach((id, k) => {
       const S = C.SPECS[id];
-      const cellW = 118, cellH = duo ? 128 : 120, top = 550 + k * (cellH + 4);
-      const uE = (S.mascot ? 92 : 92) / (2 * (S.head.hh + (S.head.kind === 'circle' ? 0.03 : 0)));
+      const cellW = 118, cellH = duo ? 128 : 136, top = 550 + k * (cellH + 4);
+      const hs = S.head.hh * 2 + (S.head.kind === 'circle' ? 0.05 : 0.02);
+      const uE = (duo ? 84 : 92) / hs;
       ex.forEach((e, j) => {
         const cx = 1182 + j * cellW + cellW / 2;
         ctx.save(); K.rrect(ctx, cx - cellW / 2 + 3, top, cellW - 6, cellH - 4, 10); ctx.fillStyle = 'rgba(255,252,246,0.6)'; ctx.fill(); ctx.clip();
-        const hy = top + cellH * 0.52;
-        C.draw(ctx, id, cx, hy + S.head.cy * uE, uE, { view: 'front', expr: e, t: t + j, light, extras: e === 'grumpy' ? [] : [] });
+        const hy = top + (duo ? 56 : 62) + (S.head.kind === 'circle' ? 6 : 0);
+        C.draw(ctx, id, cx, hy + S.head.cy * uE, uE, { view: 'front', expr: e, t: t + j, light });
+        ctx.fillStyle = 'rgba(255,250,240,0.92)'; K.rrect(ctx, cx - 50, top + cellH - 27, 100, 20, 9); ctx.fill();
         ctx.restore();
-        label(ctx, EXPR_ES[e], cx, top + cellH - 10, { font: '600 12px "Martian Mono"' });
+        label(ctx, EXPR_ES[e], cx, top + cellH - 12, { font: '600 12px "Martian Mono"' });
       });
     });
     if (!duo) wordmarkPanel(ctx, ids[0], 1170, 690, 734, 122, t);
@@ -217,7 +220,7 @@
     K.type.draw(ctx, lay, x0, y0, { color: '#f6ecd8', shadow: '#160b22', shadowAlpha: 0.7, rim: '#ffe6b0', rimAlpha: 0.9 });
     K.type.dot(ctx, lay, lay.tittles[0], x0, y0, { color: '#f6ecd8' });
     const tm = lay.tittles[1], S = C.SPECS[id];
-    const u = (tm.r * 2.6) / (2 * S.head.hw);
+    const u = (tm.r * 3.3) / (2 * S.head.hw);
     C.draw(ctx, id, x0 + tm.x, y0 + tm.y + (S.head.cy) * u - S.head.hw * u * 0.05, u, { view: 'front', expr: 'happy', pose: 'cheer', t, light: { ang: -1.4, rim: '#ffe6b0', rimA: 0.9, rimW: 0.01, shade: '#2a1838', shadeA: 0.3, shadeW: 0.05, tex: 0.2 }, glow: 0.8 });
     ctx.restore();
     label(ctx, 'EL PUNTO DE LA «i»', x + 16, y + 24, { align: 'left', color: 'rgba(255,236,210,0.85)', font: '600 13px "Martian Mono"' });
@@ -271,7 +274,7 @@
         after: CD.car.mascot ? (c, cx, gy, SC, st) => {
           const light = Object.assign({}, C.LIGHT.golden, { rim: st.rim });
           const mO = CD.car.mascot === 'chispa' ? { expr: 'worried', pose: 'shrug', view: 'q', dir: -1 } : { expr: 'annoyed', pose: 'hips', view: 'q', dir: -1 };
-          C.dashMascot(c, cx + 0.66 * SC, gy - 1.03 * SC, SC, { mascot: CD.car.mascot, t: st.tau, light, mascotO: mO, mu: 2.4 * SC });
+          C.dashMascot(c, cx + 1.22 * SC, gy - 1.0 * SC, SC, { mascot: CD.car.mascot, t: st.tau, light, mascotO: mO, mu: 2.5 * SC });
         } : null,
       });
     },
