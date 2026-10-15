@@ -10,8 +10,9 @@
   (Eli, Mila y extras), de frente, 3/4 y perfil; mejorar los detalles en cada entrega (regla del Productor).
 - **Shorts: 30-45 s, objetivo 35-40 s** (Productor, 2026-10-15).
 - Claude es director creativo, productor y ejecutor del canal, **autónomo**: encadena el trabajo, reparte en agentes,
-  releva a cualquier agente parado. Solo pregunta lo que decide el Productor: nombre, paquete de cada vídeo
-  (tema + guion + título + miniatura) y publicar.
+  releva a cualquier agente parado. Solo pregunta lo que decide el Productor: nombre, tema, título + miniatura de cada vídeo y publicar.
+- **El guion lo aprueban Claude y sus agentes** (Productor, 2026-10-15): revisión independiente de claridad (que explique)
+  y de humor (siempre); al aprobarlo queda bloqueado y se usa palabra por palabra.
 - **Todo gratis:** 0 créditos, 0 dinero, solo licencias permisivas (registradas en `LICENSES.md`). Nada NC/AGPL.
 - Sin propiedad intelectual ajena, sin voces clonadas, sin contenido plantillado (política de YouTube de
   "contenido no auténtico"): cada vídeo con tesis, simulación y visuales propios.
