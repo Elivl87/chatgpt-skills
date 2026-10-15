@@ -443,41 +443,46 @@ dirección y verse honesto. Toda corrida más rápida que el tiempo real lleva *
 | `S9` | anillo en el campo | `S7` pero el auto paciente = **auto de Eli y Mila con Mila al volante**; objetivo = velocidad promedio de la vuelta anterior, con un pequeño titubeo humano | la ola baja más o menos a la mitad (no desaparece) | 18 |
 | `S10` | carretera dorada, alta, 4 carriles | se puede simular un carril y dibujarlo como 4; ~1-2 % de autos inteligentes; una ola pasa por 2 activos → 4 inactivos → varios activos | amplitud de la ola: baja → sube → baja | 20-21 |
 | `S11` | carretera dorada | repetición exacta de `S1` (mismo toque, mismo instante) pero el **auto de Eli usa el control paciente con hueco** | la ola muere en el hueco de Eli: **ningún auto detrás de él enciende la luz de freno** (verificar en los datos, no solo a ojo). **ACELERADO ×3** | 22-23 |
-| `SH` | Short (vertical) | recortes de `S1`, `S2`, `S7`, `S11` reencuadrados a 9:16 | igual que sus fuentes, con sus sellos ACELERADO | Short |
+| `SH` | Short (vertical) | recortes de `S1`, `S2`, `S6`, `S7`, `S11` reencuadrados a 9:16 | igual que sus fuentes, con sus sellos ACELERADO | Short |
 
 ---
 
-## SHORT (vertical 9:16, ≤ 30 s, subtítulos ES quemados)
+## SHORT (vertical 9:16, 35-40 s, subtítulos ES quemados)
 
-**Regla del Productor (2026-10-15): Shorts de 30 s como máximo.** Esta versión reemplaza la anterior (~50-55 s, 111
-palabras); no se conserva nada de ella. Una sola idea: el embotellamiento es una ola que viajó hacia atrás, y un solo
-auto que no persigue al de adelante la apaga. Remate en bucle: **ELI "¡¿Quién fue?!"** abre, **MILA "Fuiste tú."** cierra,
-y el final empalma con el primer cuadro.
+**Regla del Productor (actualizada): Shorts de 30-45 s, objetivo 35-40 s.** Esta versión reemplaza las anteriores
+(~50-55 s con 111 palabras; luego un corte de 28 s); no se conserva nada más. Una sola idea: el embotellamiento es una
+ola que viaja hacia atrás, y un solo auto que no persigue al de adelante la apaga. El tiempo extra va al beat que hace
+visible la ola (hacia atrás, ~20 km/h, como una bicicleta). Remate en bucle: **ELI "¡¿Quién fue?!"** abre, **MILA
+"Fuiste tú."** cierra, y el final empalma con el primer cuadro.
 
-**Narración: 63 palabras → 24,4 s a 155 ppm** (incluye las dos líneas de personaje). Con pausas de acción (~2,8 s) y el
-cierre de 0,8 s: **duración final 28,0 s** (≤ 30,0 s). Escenas: recortes 9:16 de `S1`, `S2`, `S7`, `S11` (ver `SH`), con
-sus sellos ACELERADO. Subtítulos quemados en ES, palabra a palabra, en el tercio central (lejos de la UI de YouTube).
+**Narración: 92 palabras → 35,6 s a 155 ppm** (incluye las dos líneas de personaje). Con pausas de acción (~2,1 s) y el
+cierre de 0,8 s: **duración final 38,5 s** (dentro de 35-40 s). Escenas: recortes 9:16 de `S1`, `S2`, `S6`, `S7`, `S11`,
+con sus sellos ACELERADO. Subtítulos quemados en ES, palabra a palabra, en el tercio central (lejos de la UI de YouTube).
 
 | Tiempo | Narración | Visual · actuación (Eli y Mila) | Sonido |
 |---|---|---|---|
 | 0,0-1,3 | **ELI:** ¡¿Quién fue?! | **Cuadro 0 ya en plena ruptura:** carretera dorada vertical, la cascada de luces de freno rojas baja por la pantalla y llega al auto de Eli; frenazo, Eli se pone de pie en el asiento: ceño fruncido, boca enorme, puño arriba, marca de ira. Mila a su lado, tranquila. Sello **ACELERADO ×3**. | Chirrido corto de frenos + grito seco; sin música aún. |
 | 1,3-4,6 | Nadie chocó. No hay nada en el camino. | Grúa vertical hacia adelante: la carretera está despejada hasta el horizonte. Eli busca al culpable, girando la cabeza a los dos lados (perfil, 3/4). | Viento, motor al ralentí. |
 | 4,6-10,6 | Alguien tocó el freno, apenas, y cada auto de atrás frenó un poco más fuerte. | Rebobinado rápido al toque de freno (0:01 de `S1`); la luz roja salta de auto en auto, cada una más intensa, hasta el auto de Eli. | "Tic" de rebobinado; cada luz de freno, una nota que sube. |
-| 10,6-14,6 | Mira: el embotellamiento va hacia atrás. Es una ola. | Contracampo por encima del hombro de Mila: los autos siguen hacia adelante, la mancha roja se aleja hacia atrás. Mila, ojos curiosos, se gira; Eli, boca abierta (asombro). | Un "whoosh" grave que se aleja. |
-| 14,6-21,2 | En Estados Unidos, un solo auto manejó a la velocidad promedio del tráfico, sin perseguir al de adelante. | Anillo en el campo (recreación ilustrada, `S7`, **ACELERADO ×4**): auto con halo y un resorte en su hueco; no acelera ni frena de golpe. | Pulso suave, regular. |
-| 21,2-22,8 | Los frenazos casi desaparecieron. | Las luces de freno del anillo se apagan una por una. | Las notas se apagan. |
-| 22,8-24,8 | Así que deja un espacio. | Carretera dorada (`S11`): Eli, a regañadientes, levanta el pie y deja el hueco; la ola muere frente a él; detrás, ninguna luz roja. | Acorde que se resuelve. |
-| 24,8-27,2 | **MILA:** Fuiste tú. | Mila lo señala con el dedo, media sonrisa; Eli: ojos de plato y luego pecho inflado, orgulloso (doble sentido: él la borró). | Silencio de medio segundo antes de la línea; "plin". |
-| 27,2-28,0 | — | Cierre de **0,8 s**: **Diez Mil Puntos**, Eli pone el punto de la "i", que se enciende en rojo como una luz de freno: empalma con el cuadro 0 (bucle). | El "plin" se vuelve el chirrido del cuadro 0. |
+| 10,6-18,3 | Mira: el embotellamiento va hacia atrás, a unos veinte kilómetros por hora, más o menos lo que va una bicicleta. | Contracampo por encima del hombro de Mila; corte a la colina de noche (`S6`): la mancha roja se aleja hacia atrás por la autopista y, al lado, en el arcén dibujado, una bicicleta pedalea al mismo ritmo. Mila, ojos curiosos y brillantes; Eli, boca abierta (asombro). | Un "whoosh" grave que se aleja; timbre de bicicleta. |
+| 18,3-22,5 | Los autos avanzan, pero la fila retrocede. Es una ola. | Plano cenital vertical: flechas teal sobre los autos apuntan hacia arriba (adelante); una flecha roja grande sobre la fila apunta hacia abajo (atrás). Destello: ola del estadio; Eli la hace tarde. | Rugido corto de estadio. |
+| 22,5-29,5 | En Estados Unidos, un solo auto manejó a la velocidad promedio del tráfico, sin perseguir al de adelante. | Anillo en el campo (recreación ilustrada, `S7`, **ACELERADO ×4**): auto con halo y un resorte en su hueco; no acelera ni frena de golpe. | Pulso suave, regular. |
+| 29,5-31,2 | Los frenazos casi desaparecieron. | Las luces de freno del anillo se apagan una por una. | Las notas se apagan. |
+| 31,2-33,1 | Así que deja un espacio. | Carretera dorada (`S11`): Eli, a regañadientes, levanta el pie y deja el hueco. | Acorde que empieza a resolverse. |
+| 33,1-36,2 | Nadie detrás de ti lo va a notar. | La ola muere frente a Eli; la cámara baja por la fila de atrás: ninguna luz roja, la gente detrás canta en sus autos sin saber nada. | El acorde se resuelve. |
+| 36,2-37,7 | **MILA:** Fuiste tú. | Silencio breve; Mila lo señala con el dedo, media sonrisa; Eli: ojos de plato y luego pecho inflado, orgulloso (doble sentido: él la borró). | Medio segundo de silencio antes de la línea; "plin". |
+| 37,7-38,5 | — | Cierre de **0,8 s**: **Diez Mil Puntos**, Eli pone el punto de la "i", que se enciende en rojo como una luz de freno: empalma con el cuadro 0 (bucle). | El "plin" se vuelve el chirrido del cuadro 0. |
 
-Texto completo (63 palabras): *ELI: ¡¿Quién fue?! / Nadie chocó. No hay nada en el camino. Alguien tocó el freno, apenas, y
-cada auto de atrás frenó un poco más fuerte. Mira: el embotellamiento va hacia atrás. Es una ola. En Estados Unidos, un
-solo auto manejó a la velocidad promedio del tráfico, sin perseguir al de adelante. Los frenazos casi desaparecieron. Así
-que deja un espacio. / MILA: Fuiste tú.*
+Texto completo (92 palabras): *ELI: ¡¿Quién fue?! / Nadie chocó. No hay nada en el camino. Alguien tocó el freno, apenas, y
+cada auto de atrás frenó un poco más fuerte. Mira: el embotellamiento va hacia atrás, a unos veinte kilómetros por hora,
+más o menos lo que va una bicicleta. Los autos avanzan, pero la fila retrocede. Es una ola. En Estados Unidos, un solo
+auto manejó a la velocidad promedio del tráfico, sin perseguir al de adelante. Los frenazos casi desaparecieron. Así
+que deja un espacio. Nadie detrás de ti lo va a notar. / MILA: Fuiste tú.*
 
-Datos (todos en `FACTS.md`): sin choque ni obstáculo (#2) · cada auto frena un poco más (#9) · la ola va hacia atrás (#6,
-#11) · un solo auto a la velocidad promedio en EE. UU. (#18, #20) · frenazos casi desaparecen (#21) · la ola muere en el
-hueco de Eli = nuestra simulación `S11` (#1, modelo).
+Datos (todos en `FACTS.md`): sin choque ni obstáculo (#2) · cada auto frena un poco más (#9) · la ola va hacia atrás a
+~20 km/h (#6, #7, #16) · "más o menos lo que va una bicicleta" (#8, glosa ya aprobada) · los autos entran por atrás y salen
+por adelante (#11) · un solo auto a la velocidad promedio en EE. UU. (#18, #20) · frenazos casi desaparecen (#21) · la ola
+muere en el hueco de Eli y nadie detrás frena = nuestra simulación `S11` (#1, modelo).
 
 Título del Short: **"¿Quién causó este embotellamiento? (Fuiste tú)"**.
 

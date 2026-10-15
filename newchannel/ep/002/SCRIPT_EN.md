@@ -325,37 +325,42 @@ Ten Thousand Dots. Tiny systems, explained with dots. Next time, the same loop, 
 
 ---
 
-## SHORT (vertical, 9:16, ≤ 30 s, EN subtitles burned in)
+## SHORT (vertical, 9:16, 35-40 s, EN subtitles burned in)
 
-**Producer rule (2026-10-15): Shorts are 30 s maximum.** This replaces the old version (~51 s, 127 words, with the dot
-mascot); nothing of it is kept. Characters: **Eli + Mila** (Alt 1 "Taller"). One idea: a tiny delay feeds itself until
-the buses clump, which is why you take the second one. The ending cuts into frame 0 (loop).
+**Producer rule (updated): Shorts are 30-45 s, target 35-40 s.** This replaces the earlier versions (~51 s with 127
+words and the dot mascot; then a 28 s cut); nothing else is kept. Characters: **Eli + Mila** (Alt 1 "Taller"). One
+idea: a tiny delay feeds itself until the buses clump; waiting half a gap fixes it, and if three show up anyway, take
+the second. The ending cuts into frame 0 (loop).
 
-**Narration: 61 words → 24.4 s at 150 wpm** (includes Eli's and Mila's lines). With action pauses (~2.6 s) and a 0.8 s
-end card: **finished length 27.8 s** (≤ 30.0 s). Scenes: 9:16 crops of `S0`/`S1`/`S2` plus Eli and Mila's stop.
-EN subtitles burned in, word by word, in the middle third.
+**Narration: 92 words → 36.8 s at 150 wpm** (includes Eli's and Mila's lines). With action pauses (~1.7 s) and a 0.8 s
+end card: **finished length 39.3 s** (within 35-40 s). Scenes: 9:16 crops of `S0`/`S1`/`S2`/`S3` plus Eli and Mila's
+stop. EN subtitles burned in, word by word, in the middle third.
 
 | Time | Narration | Visual · acting (Eli and Mila) | Sound |
 |---|---|---|---|
-| 0.0-1.4 | **ELI:** Three at once?! | **Frame 0 already shows the clump:** three buses nose to tail pull into the stop; Eli (short, yellow beanie, apron) jumps in fury, arms wide, huge mouth; Mila (tall, ponytail, purple sweater) checks her watch, calm. | Three dings becoming a chord; air brakes. |
-| 1.4-3.8 | One bus runs a little late. | Rewind wipe to the even loop (`S0` vertical); one slow boarder; "+20 s" stamp on the bus. | Rewind tick. |
-| 3.8-9.0 | Now more people are waiting, so it stops longer, and falls further behind. | Follow-cam; queue dots growing at every stop; delay counter climbing. | Ticking speeds up. |
-| 9.0-13.0 | The bus behind finds empty stops, and catches up. | Empty stops, trailing bus zooms; they touch: **bonk**. Eli points accusingly from the stop. | Cartoon bonk. |
-| 13.0-15.4 | Big gaps grow, small gaps shrink. | Whole-route view: one gap stretches, one squeezes; the third bus joins. | Frame-0 chord, lower. |
-| 15.4-19.1 | In pairs, your average wait doubles. Same buses. | 10,000-dot drop on a vertical timeline; marker 3:00 → 6:00, "×2". Eli melts on the bench, impatient. | Rain of plips; hit on "×2". |
-| 19.1-23.9 | The first one's usually packed, and the third might skip your stop. | Back at the stop: bus 1 crammed to the windows; bus 3 with a "NOT STOPPING" sign. Mila raises a finger, curious and sure. | Doors that won't close; horn fading away. |
-| 24.2-25.8 | **MILA:** Take the second one. | Mila points at bus 2, patient half smile. | Half-second silence before the line. |
-| 25.8-27.0 | — | Eli hops onto bus 2, grabs a free seat, huge grin (clear joy). | Hop pop. |
-| 27.0-27.8 | — | **0.8 s** end card: **Ten Thousand Dots.**; the full stop rolls like a bus into the stop: cuts into frame 0 (loop). | The chord starts again. |
+| 0.0-1.6 | **ELI:** Three at once?! | **Frame 0 already shows the clump:** three buses nose to tail pull into the stop; Eli (short, yellow beanie, apron) jumps in fury, arms wide, huge mouth; Mila (tall, ponytail, purple sweater) checks her watch, calm. | Three dings becoming a chord; air brakes. |
+| 1.6-4.0 | One bus runs a little late. | Rewind wipe to the even loop (`S0` vertical); one slow boarder; "+20 s" stamp on the bus. | Rewind tick. |
+| 4.0-9.2 | Now more people are waiting, so it stops longer, and falls further behind. | Follow-cam; queue dots growing at every stop; delay counter climbing. | Ticking speeds up. |
+| 9.2-13.1 | The bus behind finds empty stops, and catches up. | Empty stops, trailing bus zooms; they touch: **bonk**. Eli points accusingly from the stop. | Cartoon bonk. |
+| 13.1-15.5 | Big gaps grow, small gaps shrink. | Whole-route view: one gap stretches, one squeezes; the third bus joins. | Frame-0 chord, lower. |
+| 15.5-18.2 | In pairs, your average wait doubles. | 10,000-dot drop on a vertical timeline; marker 3:00 → 6:00, "×2". Eli melts on the bench, impatient. | Rain of plips; hit on "×2". |
+| 18.2-25.0 | The fix? In Atlanta, each bus waited at the end of the line about half a gap. | Torn paper timetable; at the end of the line a bus waits while a dial fills to half its gap to the bus behind (`S3`); the clump melts. Mila nods, pleased; Eli, disbelieving: waiting fixes it? | Paper rip; soft dial tick. |
+| 25.0-30.0 | Shortest gap: from one second to almost two and a half minutes. | Vertical ruler: **0:01 → 2:28**; buses spread out evenly. Eli's jaw drops, convinced (clear surprise). | Rising ding at 2:28. |
+| 30.0-31.6 | Three show up anyway? | Back at the stop: the three-bus clump arrives again. | Frame-0 chord. |
+| 31.6-36.4 | The first one's usually packed, and the third might skip your stop. | Bus 1 crammed to the windows; bus 3 with a "NOT STOPPING" sign. Mila raises a finger, curious and sure. | Doors that won't close; horn fading away. |
+| 36.4-38.5 | **MILA:** Take the second one. | Mila points at bus 2, patient half smile; Eli hops on, free seat, huge grin (clear joy). | Half-second silence before the line; hop pop. |
+| 38.5-39.3 | — | **0.8 s** end card: **Ten Thousand Dots.**; the full stop rolls like a bus into the stop: cuts into frame 0 (loop). | The chord starts again. |
 
-Full text (61 words): *ELI: Three at once?! / One bus runs a little late. Now more people are waiting, so it stops
+Full text (92 words): *ELI: Three at once?! / One bus runs a little late. Now more people are waiting, so it stops
 longer, and falls further behind. The bus behind finds empty stops, and catches up. Big gaps grow, small gaps shrink. In
-pairs, your average wait doubles. Same buses. The first one's usually packed, and the third might skip your stop. /
-MILA: Take the second one.*
+pairs, your average wait doubles. The fix? In Atlanta, each bus waited at the end of the line about half a gap.
+Shortest gap: from one second to almost two and a half minutes. Three show up anyway? The first one's usually packed,
+and the third might skip your stop. / MILA: Take the second one.*
 
-Facts (all in `FACTS.md`): feedback mechanism (#6) · buses in twos or threes (#8) · pairs double the average wait, same
-buses (#10, #11, model) · take the second; first fights the crowd, third may skip stops (#24; "usually" keeps the
-empty-seats caveat) · on-screen "+20 s" = our sim (#2).
+Facts (all in `FACTS.md`): feedback mechanism (#6) · buses in twos or threes (#8) · pairs double the average wait (#10,
+#11, model) · Atlanta (Georgia Tech): wait at the end of the line about half the time until the next bus (#14, #17;
+"about" as in FACTS) · shortest gap 1 s → 2:28 (#15, #19) · take the second; first fights the crowd, third may skip
+stops (#24; "usually" keeps the empty-seats caveat) · on-screen "+20 s" = our sim (#2).
 
 Short title: "Three buses at once? Take the second one" · ES: "¿Llegan tres buses juntos? Súbete al segundo".
 

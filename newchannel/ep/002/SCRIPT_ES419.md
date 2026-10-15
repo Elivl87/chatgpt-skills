@@ -242,38 +242,43 @@ explicados con puntos. La próxima: el mismo circuito, pero con autos, y sin bus
 
 ---
 
-## SHORT (vertical 9:16, ≤ 30 s, subtítulos ES quemados)
+## SHORT (vertical 9:16, 35-40 s, subtítulos ES quemados)
 
-**Regla del Productor (2026-10-15): Shorts de 30 s como máximo.** Esta versión reemplaza la anterior (~51 s, 131
-palabras, con la mascota punto); no se conserva nada de ella. Personajes: **Eli + Mila** (Alt 1 "Taller"). Una sola idea:
-un atraso chiquito se alimenta solo hasta juntar los buses, y por eso conviene el segundo. El final empalma con el
-primer cuadro (bucle).
+**Regla del Productor (actualizada): Shorts de 30-45 s, objetivo 35-40 s.** Esta versión reemplaza las anteriores
+(~51 s con 131 palabras y la mascota punto; luego un corte de 28 s); no se conserva nada más. Personajes: **Eli + Mila**
+(Alt 1 "Taller"). Una sola idea: un atraso chiquito se alimenta solo hasta juntar los buses; esperar medio hueco lo
+arregla, y si igual llegan tres, conviene el segundo. El final empalma con el primer cuadro (bucle).
 
-**Narración: 62 palabras → 24,0 s a 155 ppm** (incluye las líneas de Eli y Mila). Con pausas de acción (~3,4 s) y el
-cierre de 0,8 s: **duración final 28,2 s** (≤ 30,0 s). Escenas: recortes 9:16 de `S0`/`S1`/`S2` y la parada de Eli y Mila.
-Subtítulos quemados en ES, palabra a palabra, en el tercio central.
+**Narración: 95 palabras → 36,8 s a 155 ppm** (incluye las líneas de Eli y Mila). Con pausas de acción (~1,7 s) y el
+cierre de 0,8 s: **duración final 39,3 s** (dentro de 35-40 s). Escenas: recortes 9:16 de `S0`/`S1`/`S2`/`S3` y la parada de
+Eli y Mila. Subtítulos quemados en ES, palabra a palabra, en el tercio central.
 
 | Tiempo | Narración | Visual · actuación (Eli y Mila) | Sonido |
 |---|---|---|---|
-| 0,0-1,3 | **ELI:** ¡¿Tres juntos?! | **Cuadro 0 ya con el pelotón:** tres buses pegados llegan a la parada; Eli (bajito, gorro amarillo, delantal) brinca de rabia, brazos abiertos, boca enorme; Mila (alta, cola de caballo, suéter morado) mira el reloj, tranquila. | Tres timbres que se vuelven un acorde; frenos de aire. |
-| 1,3-3,8 | Un bus se atrasa un poquito. | Rebobinado a la ruta pareja (`S0` vertical); un pasajero lento; sello "+20 s" en el bus. | "Tic" de rebobinado. |
-| 3,8-9,0 | Ahora lo espera más gente, se queda más tiempo, y se atrasa más. | Cámara que sigue al bus; la fila de puntos crece en cada parada; contador de atraso subiendo. | Tictac que se acelera. |
-| 9,0-13,3 | El de atrás encuentra las paradas vacías, y lo alcanza. | Paradas vacías, el bus de atrás vuela; se tocan: **bonk**. Eli, desde la parada, señala acusador. | "Bonk" de caricatura. |
-| 13,3-16,5 | Los huecos grandes crecen, los chicos se achican. | Vista de la ruta completa: un hueco se estira, otro se aprieta; llega el tercero. | Acorde del cuadro 0, más grave. |
-| 16,5-20,5 | En pareja, tu espera promedio se duplica. Mismos buses. | Lluvia de 10 000 puntos en una línea de tiempo vertical; marcador 3:00 → 6:00, "×2". Eli se derrite de impaciencia en la banca. | Lluvia de "plips"; golpe en "×2". |
-| 20,5-24,8 | El primero suele ir repleto; el tercero puede saltarse tu parada. | De vuelta en la parada: bus 1 lleno hasta las ventanas; bus 3 con letrero "NO PARA". Mila levanta un dedo, curiosa y segura. | Puertas que no cierran; bocina que se aleja. |
-| 24,8-26,6 | **MILA:** Súbete al segundo. | Mila señala el bus 2, media sonrisa paciente. | Medio segundo de silencio antes de la línea. |
-| 26,6-27,4 | — | Eli sube de un salto al bus 2, se sienta con asiento libre, sonrisa enorme (alegría clara). | "Pop" de salto. |
-| 27,4-28,2 | — | Cierre de **0,8 s**: **Diez Mil Puntos**; el punto de la "i" rueda como un bus y llega a la parada: empalma con el cuadro 0 (bucle). | El acorde arranca de nuevo. |
+| 0,0-1,2 | **ELI:** ¡¿Tres juntos?! | **Cuadro 0 ya con el pelotón:** tres buses pegados llegan a la parada; Eli (bajito, gorro amarillo, delantal) brinca de rabia, brazos abiertos, boca enorme; Mila (alta, cola de caballo, suéter morado) mira el reloj, tranquila. | Tres timbres que se vuelven un acorde; frenos de aire. |
+| 1,2-3,5 | Un bus se atrasa un poquito. | Rebobinado a la ruta pareja (`S0` vertical); un pasajero lento; sello "+20 s" en el bus. | "Tic" de rebobinado. |
+| 3,5-8,5 | Ahora lo espera más gente, se queda más tiempo, y se atrasa más. | Cámara que sigue al bus; la fila de puntos crece en cada parada; contador de atraso subiendo. | Tictac que se acelera. |
+| 8,5-12,7 | El de atrás encuentra las paradas vacías, y lo alcanza. | Paradas vacías, el bus de atrás vuela; se tocan: **bonk**. Eli, desde la parada, señala acusador. | "Bonk" de caricatura. |
+| 12,7-15,8 | Los huecos grandes crecen, los chicos se achican. | Vista de la ruta completa: un hueco se estira, otro se aprieta; llega el tercero. | Acorde del cuadro 0, más grave. |
+| 15,8-18,8 | En pareja, tu espera promedio se duplica. | Lluvia de 10 000 puntos en una línea de tiempo vertical; marcador 3:00 → 6:00, "×2". Eli se derrite de impaciencia en la banca. | Lluvia de "plips"; golpe en "×2". |
+| 18,8-25,4 | ¿El arreglo? En Atlanta, cada bus esperó al final de la línea más o menos medio hueco. | Horario de papel que se rompe; al final de la línea, un bus espera con un dial que se llena hasta la mitad del hueco con el bus de atrás (`S3`); el pelotón se derrite. Mila asiente, satisfecha; Eli, incrédulo: ¿esperar arregla algo? | Papel rasgado; tic suave del dial. |
+| 25,4-31,0 | El hueco más corto pasó de un segundo a casi dos minutos y medio. | Regla vertical: **0:01 → 2:28**; los buses se separan parejos. Eli abre la boca, convencido (sorpresa clara). | "Ding" ascendente en 2:28. |
+| 31,0-32,6 | ¿Y si llegan tres? | De vuelta en la parada: llega otra vez el pelotón de tres. | Acorde del cuadro 0. |
+| 32,6-36,8 | El primero suele ir repleto; el tercero puede saltarse tu parada. | Bus 1 lleno hasta las ventanas; bus 3 con letrero "NO PARA". Mila levanta un dedo, curiosa y segura. | Puertas que no cierran; bocina que se aleja. |
+| 36,8-38,5 | **MILA:** Súbete al segundo. | Mila señala el bus 2, media sonrisa paciente; Eli sube de un salto, asiento libre, sonrisa enorme (alegría clara). | Medio segundo de silencio antes de la línea; "pop" de salto. |
+| 38,5-39,3 | — | Cierre de **0,8 s**: **Diez Mil Puntos**; el punto de la "i" rueda como un bus y llega a la parada: empalma con el cuadro 0 (bucle). | El acorde arranca de nuevo. |
 
-Texto completo (62 palabras): *ELI: ¡¿Tres juntos?! / Un bus se atrasa un poquito. Ahora lo espera más gente, se queda más
+Texto completo (95 palabras): *ELI: ¡¿Tres juntos?! / Un bus se atrasa un poquito. Ahora lo espera más gente, se queda más
 tiempo, y se atrasa más. El de atrás encuentra las paradas vacías, y lo alcanza. Los huecos grandes crecen, los chicos
-se achican. En pareja, tu espera promedio se duplica. Mismos buses. El primero suele ir repleto; el tercero puede
-saltarse tu parada. / MILA: Súbete al segundo.*
+se achican. En pareja, tu espera promedio se duplica. ¿El arreglo? En Atlanta, cada bus esperó al final de la línea más
+o menos medio hueco. El hueco más corto pasó de un segundo a casi dos minutos y medio. ¿Y si llegan tres? El primero
+suele ir repleto; el tercero puede saltarse tu parada. / MILA: Súbete al segundo.*
 
 Datos (todos en `FACTS.md`): mecanismo de la bola de nieve (#6) · buses de a dos o tres (#8) · en pareja la espera se
-duplica, mismos buses (#10, #11, modelo) · tomar el segundo; el primero lucha con la multitud, el tercero puede saltarse
-paradas (#24, "suele" conserva la salvedad de los asientos libres) · "+20 s" en pantalla = nuestra simulación (#2).
+duplica (#10, #11, modelo) · Atlanta (Georgia Tech): esperar al final de la línea más o menos la mitad del tiempo hasta el
+siguiente bus (#14, #17, "más o menos" como en FACTS) · hueco más corto de 1 s a 2:28 (#15, #19) · tomar el segundo; el
+primero lucha con la multitud, el tercero puede saltarse paradas (#24, "suele" conserva la salvedad de los asientos
+libres) · "+20 s" en pantalla = nuestra simulación (#2).
 
 Título del Short: **"¿Llegan tres buses juntos? Súbete al segundo"**.
 
