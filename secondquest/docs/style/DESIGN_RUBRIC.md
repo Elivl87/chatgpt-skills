@@ -69,6 +69,9 @@ script that checks it; everything else is checked by eye on full-size frames (ne
 - Before building, read the "mistakes not to repeat" in `docs/PRODUCTION_PLAYBOOK.md` and the last rejection in
   `docs/<ep>/PRODUCER_DECISIONS.md`; the critic checks each listed mistake explicitly and reports "checked: no repeat".
 - Same interaction = same motion and same sound family across the video (consistency), different files (variety).
+- No unmotivated light effects (lesson 2026-10-15, three times in EP002 Short #2): no diagonal light bars, scan
+  streaks, chevrons or flare lines that a viewer could read as a glitch, watermark or scratched film. Any light effect
+  must have a visible source in the scene, match its colour temperature and move with the camera.
 
 ## Gate order (every block / Short)
 1. Storyboard + key frames at full size, each with focal point, art justification and sound cues -> director review.
