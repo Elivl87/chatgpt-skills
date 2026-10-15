@@ -18,8 +18,9 @@
     // road drivers (S1, S3, S4, S11): IDM + 1.0 s reaction time (delayed perception), emergency reflex.
     HUMAN: { kind: 'idm', a: 1.0, b: 2.0, T: 1.0, s0: 2.0, v0: 14, delta: 4, tau: 1.0 },
     // Eli the gap-closer (S1, S19 top): follows at 0.4 s, eager acceleration, and over-reacts: once the braking he
-    // needs passes 0.8 m/s^2 he stamps on the brake at 3 m/s^2 for 2.5 s.
-    ELI_CLOSER: { kind: 'idm', a: 2.0, b: 2.0, T: 0.4, s0: 2.0, v0: 14, delta: 4, tau: 1.0, panicThr: 0.8, panicDecel: 3.0, panicHold: 2.5 },
+    // needs passes 0.8 m/s^2 he stamps on the brake at 3 m/s^2 for 2.5 s; once stopped he stays put 10 s (standing up,
+    // yelling «¡¿Quién fue?!»).
+    ELI_CLOSER: { kind: 'idm', a: 2.0, b: 2.0, T: 0.4, s0: 2.0, v0: 14, delta: 4, tau: 1.0, panicThr: 0.8, panicDecel: 3.0, panicHold: 2.5, holdAfterStop: 10 },
     // Eli / Mila patient (S11, S19 bottom): a soft spring on a 34 m gap (4 s at 30 km/h) (natural period ~13 min, damping 0.9);
     // follows a smoothed leader speed; never brakes harder than 0.25 m/s^2 unless safety demands it.
     PATIENT: { kind: 'spring', gref: 34, kp: 0.008 * 0.008, kd: 1.8 * 0.008, ema: 8, bsoft: 0.25, amax: 0.3, kin: { smin: 2.5, th: 0, ttc: 2.0 } },

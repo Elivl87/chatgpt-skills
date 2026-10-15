@@ -71,7 +71,7 @@
     const rng = K.rng(p.seed);
     const drv = p.drivers.map(d => Object.assign({}, d));
     const x = Float64Array.from(p.x0), v = Float64Array.from(p.v0init);
-    const acc = new Float64Array(N), noise = new Float64Array(N), panicUntil = new Float64Array(N).fill(-1);
+    const acc = new Float64Array(N), noise = new Float64Array(N), panicUntil = new Float64Array(N).fill(-1), holdUntil = new Float64Array(N).fill(-1);
     // delayed perception: ring buffers of gap and leader speed (per car), sized for the largest tau
     const maxTau = Math.max(0, ...drv.map(d => d.tau || 0), ...p.schedule.map(e => (e.set && e.set.tau) || 0));
     const H = Math.max(1, Math.round(maxTau / dt) + 2);
@@ -139,6 +139,10 @@
           if (d.panicThr) {                                  // over-reaction: once the needed braking passes panicThr, the
             if (panicUntil[i] < t && a < -d.panicThr) panicUntil[i] = t + d.panicHold;   // driver stamps on the brake
             if (panicUntil[i] >= t) a = Math.min(a, -d.panicDecel);                      // for panicHold seconds
+          }
+          if (d.holdAfterStop) {                             // once stopped, stays stopped holdAfterStop seconds
+            if (holdUntil[i] < 0 && v[i] < 0.05 && t > 1) holdUntil[i] = t + d.holdAfterStop;   // (Eli stands up and yells)
+            if (holdUntil[i] > t) a = Math.min(a, -3);
           }
           if (d.noise) {                                     // OU acceleration noise (seeded); tc = correlation time
             const tc = d.noiseTc || 2;

@@ -18,7 +18,7 @@ Comprobación cruzada con el kit: con parámetros homogéneos y sin retraso, `en
 |---|---|---|
 | `RING_JP` (idm) | a=1.5, b=3, T=0.6, s0=1.2, v0=14, delta=4, noise=0.2, noiseTc=2 | S2, S5 |
 | `HUMAN` (idm) | a=1, b=2, T=1, s0=2, v0=14, delta=4, tau=1 | S1, S3, S4, S11, peaje |
-| `ELI_CLOSER` (idm) | a=2, b=2, T=0.4, s0=2, v0=14, delta=4, tau=1, panicThr=0.8, panicDecel=3, panicHold=2.5 | S1, S19 arriba |
+| `ELI_CLOSER` (idm) | a=2, b=2, T=0.4, s0=2, v0=14, delta=4, tau=1, panicThr=0.8, panicDecel=3, panicHold=2.5, holdAfterStop=10 | S1, S19 arriba |
 | `PATIENT` (spring) | gref=34, kp=0.000064, kd=0.014400000000000001, ema=8, bsoft=0.25, amax=0.3; kin smin=2.5 m, ttc=2 s | S11, S19 abajo |
 | `CLOSER_US` (idm) | a=1, b=1.5, T=0.8, s0=2, v0=12, delta=4, noise=0.2, noiseTc=2 | S7-S9 |
 | `FS` (fs) | Usrc=avgAll, Uwin=60, kp=0.6, amax=1, bmax=3; dx0=4.5/5.25/6 m, d=1.5/1/0.5 | S7, S8, S5 (40) |
@@ -52,7 +52,7 @@ Valores físicamente razonables: a 0,5-2 m/s², b 1,5-3 m/s², T 0,4-1,2 s, s0 1
 
 ## S1 · Carretera dorada: un toque, Eli (6.º detrás) se queda quieto
 
-- Beats: 1-4, 23 (referencia), Short · ACELERADO ×3 · simT0 = 7 s · semilla 1 · 30 autos · carril abierto · dt 0.02 s · cálculo 244 ms
+- Beats: 1-4, 23 (referencia), Short · ACELERADO ×3 · simT0 = 7 s · semilla 1 · 30 autos · carril abierto · dt 0.02 s · cálculo 158 ms
 - Roles: `{"tapper":26,"eli":20,"eliLeader":21,"behindEli":"[20 autos]","frontCar":29,"carsBehindTapper":[25,24,23,22,21,20]}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -72,12 +72,12 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 - `eli_brake_onset` t = 6.347 s (t_sim 26.04 s) · auto 20 · la ola llega a Eli
 - `eli_hard_brake` t = 6.547 s (t_sim 26.64 s) · auto 20
 - `eli_stop` t = 7.287 s (t_sim 28.86 s) · auto 20
-- `eli_restart` t = 7.467 s (t_sim 29.4 s) · auto 20
-- inicios de frenado (24): #3@4.747s, #4@5.347s, #5@5.987s, #6@6.347s, #7@6.747s, #8@7.147s, #9@7.527s, #10@7.967s, #11@8.387s, #12@8.787s, #13@9.207s, #14@9.627s, #15@10.047s, #16@10.467s …
+- `eli_restart` t = 10.727 s (t_sim 39.18 s) · auto 20
+- inicios de frenado (24): #3@4.747s, #4@5.347s, #5@5.987s, #6@6.347s, #7@6.747s, #8@7.147s, #9@7.527s, #10@7.927s, #11@8.347s, #12@8.767s, #13@9.167s, #14@9.587s, #15@10.007s, #16@10.427s …
 
 ## S2 · Anillo 2008: 22 autos en 230 m, sin toque
 
-- Beats: 6-8, Short · ACELERADO ×10 · simT0 = 0 s · semilla 13 · 22 autos · anillo 230 m · periódico · dt 0.05 s · cálculo 153 ms
+- Beats: 6-8, Short · ACELERADO ×10 · simT0 = 0 s · semilla 13 · 22 autos · anillo 230 m · periódico · dt 0.05 s · cálculo 96 ms
 - Roles: `{"L":230,"marked":3}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -100,7 +100,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S3 · Fila recta (nublado): el auto 1 frena, el 10 (Eli) se para
 
-- Beats: 9 (y 19 de fondo) · ACELERADO ×2 · simT0 = 3 s · semilla 1 · 12 autos · carril abierto · dt 0.02 s · cálculo 85 ms
+- Beats: 9 (y 19 de fondo) · ACELERADO ×2 · simT0 = 3 s · semilla 1 · 12 autos · carril abierto · dt 0.02 s · cálculo 80 ms
 - Roles: `{"tapper":11,"eli":2,"behindEli":[1,0]}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -120,7 +120,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S3B_ELI · Beat 19 arriba: Eli maneja (se pega, frena hasta parar, todos detrás frenan)
 
-- Beats: 19 · ACELERADO ×2 · simT0 = 8 s · semilla 1 · 15 autos · carril abierto · dt 0.02 s · cálculo 121 ms
+- Beats: 19 · ACELERADO ×2 · simT0 = 8 s · semilla 1 · 15 autos · carril abierto · dt 0.02 s · cálculo 74 ms
 - Roles: `{"tapper":11,"eli":5,"eliLeader":6,"behindEli":[4,3,2,1,0],"frontCar":14,"carsBehindTapper":[10,9,8,7,6,5]}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -136,12 +136,12 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 - `eli_brake_onset` t = 9.02 s (t_sim 26.04 s) · auto 5 · Eli frena
 - `eli_hard_brake` t = 9.32 s (t_sim 26.64 s) · auto 5
 - `eli_stop` t = 10.43 s (t_sim 28.86 s) · auto 5
-- `eli_restart` t = 10.7 s (t_sim 29.4 s) · auto 5
-- inicios de frenado (9): #3@6.62s, #4@7.52s, #5@8.48s, #6@9.02s, #7@9.62s, #8@10.22s, #9@10.79s, #10@11.45s, #11@12.08s
+- `eli_restart` t = 15.59 s (t_sim 39.18 s) · auto 5
+- inicios de frenado (9): #3@6.62s, #4@7.52s, #5@8.48s, #6@9.02s, #7@9.62s, #8@10.22s, #9@10.79s, #10@11.39s, #11@12.02s
 
 ## S3B_MILA · Beat 19 abajo: Mila maneja (llega tarde, pasa sin detenerse, detrás nadie frena)
 
-- Beats: 19 · ACELERADO ×2 · simT0 = 8 s · semilla 1 · 15 autos · carril abierto · dt 0.02 s · cálculo 108 ms
+- Beats: 19 · ACELERADO ×2 · simT0 = 8 s · semilla 1 · 15 autos · carril abierto · dt 0.02 s · cálculo 81 ms
 - Roles: `{"tapper":11,"eli":5,"eliLeader":6,"behindEli":[4,3,2,1,0],"frontCar":14,"carsBehindTapper":[10,9,8,7,6,5],"mila":5}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -159,7 +159,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S4 · Inestabilidad de cadena: la misma joroba, cadena estable (arriba) vs inestable (abajo)
 
-- Beats: 10 · ACELERADO ×2 · simT0 = 3 s · semilla 1 · 12 autos · carril abierto · dt 0.02 s · cálculo 173 ms
+- Beats: 10 · ACELERADO ×2 · simT0 = 3 s · semilla 1 · 12 autos · carril abierto · dt 0.02 s · cálculo 110 ms
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
 |---|---|---|---|---|
@@ -168,7 +168,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S5_25 · Domo 314 m, 25 autos: los titubeos se apagan
 
-- Beats: 12 · ACELERADO ×10 · simT0 = 0 s · semilla 33 · 25 autos · anillo 314 m · periódico · dt 0.05 s · cálculo 215 ms
+- Beats: 12 · ACELERADO ×10 · simT0 = 0 s · semilla 33 · 25 autos · anillo 314 m · periódico · dt 0.05 s · cálculo 138 ms
 - Roles: `{"L":314}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -178,7 +178,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S5_28 · Domo 314 m, 28 autos (los mismos 25 + 3, Eli uno de ellos): embotellamiento
 
-- Beats: 12 · ACELERADO ×10 · simT0 = 0 s · semilla 33 · 28 autos · anillo 314 m · periódico · dt 0.05 s · cálculo 180 ms
+- Beats: 12 · ACELERADO ×10 · simT0 = 0 s · semilla 33 · 28 autos · anillo 314 m · periódico · dt 0.05 s · cálculo 116 ms
 - Roles: `{"L":314,"added":[9,18,27],"eli":18}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -192,7 +192,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S5_40 · Domo sobrellenado: 40 autos, con y sin auto paciente (no es magia)
 
-- Beats: 19 · ACELERADO ×10 · simT0 = 0 s · semilla 33 · 40 autos · anillo 314 m · periódico · dt 0.05 s · cálculo 537 ms
+- Beats: 19 · ACELERADO ×10 · simT0 = 0 s · semilla 33 · 40 autos · anillo 314 m · periódico · dt 0.05 s · cálculo 429 ms
 - Roles: `{"L":314,"av":0}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -205,7 +205,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S6 · Colina de noche: una ola viaja más de 10 km hacia atrás
 
-- Beats: 13, Short · ACELERADO ×120 · simT0 = -180 s · semilla 1 · 1778 autos · anillo 40000 m · periódico · dt 0.1 s · cálculo 14704 ms
+- Beats: 13, Short · ACELERADO ×120 · simT0 = -180 s · semilla 1 · 1778 autos · anillo 40000 m · periódico · dt 0.1 s · cálculo 13435 ms
 - Roles: `{"L":40000,"tapCar":1334,"tapX":30011.24859392576}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -224,7 +224,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S7 · Anillo EE. UU.: 20 cierra-huecos + 1 auto paciente (FollowerStopper) que se activa con la ola ya formada
 
-- Beats: 14-16, Short · ACELERADO ×4 · simT0 = 240 s · semilla 14 · 21 autos · anillo 260 m · periódico · dt 0.05 s · cálculo 286 ms
+- Beats: 14-16, Short · ACELERADO ×4 · simT0 = 240 s · semilla 14 · 21 autos · anillo 260 m · periódico · dt 0.05 s · cálculo 232 ms
 - Roles: `{"L":260,"av":0}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -246,7 +246,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S8 · La perilla: el auto paciente un poquito más rápido que el promedio (+7 %): la ola vuelve; al bajarla, se apaga
 
-- Beats: 17 · ACELERADO ×4 · simT0 = 560 s · semilla 14 · 21 autos · anillo 260 m · periódico · dt 0.05 s · cálculo 410 ms
+- Beats: 17 · ACELERADO ×4 · simT0 = 560 s · semilla 14 · 21 autos · anillo 260 m · periódico · dt 0.05 s · cálculo 357 ms
 - Roles: `{"L":260,"av":0}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -264,7 +264,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S9 · Mila al volante: una persona paciente con un solo número (promedio de la vuelta anterior)
 
-- Beats: 18 · ACELERADO ×4 · simT0 = 240 s · semilla 14 · 21 autos · anillo 260 m · periódico · dt 0.05 s · cálculo 243 ms
+- Beats: 18 · ACELERADO ×4 · simT0 = 240 s · semilla 14 · 21 autos · anillo 260 m · periódico · dt 0.05 s · cálculo 224 ms
 - Roles: `{"L":260,"av":0,"mila":0}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -281,7 +281,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S10 · Autopista de 4 carriles (1 simulado): la ola pasa 2 activos → 4 apagados → varios activos
 
-- Beats: 20-21 · ACELERADO ×6 · simT0 = 8 s · semilla 1 · 260 autos · carril abierto · dt 0.05 s · cálculo 569 ms
+- Beats: 20-21 · ACELERADO ×6 · simT0 = 8 s · semilla 1 · 260 autos · carril abierto · dt 0.05 s · cálculo 586 ms
 - Roles: `{"tap":257,"active":[227,221,132,130,128,126,124],"inactive":[187,181,175,169],"act1":[227,221],"act2":[132,130,128,126,124],"front":259,"penetration":0.04230769230769231}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -296,7 +296,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## S11 · Carretera dorada: el mismo toque, Eli deja el espacio y la ola muere
 
-- Beats: 22-23, Short · ACELERADO ×3 · simT0 = 7 s · semilla 1 · 30 autos · carril abierto · dt 0.02 s · cálculo 105 ms
+- Beats: 22-23, Short · ACELERADO ×3 · simT0 = 7 s · semilla 1 · 30 autos · carril abierto · dt 0.02 s · cálculo 85 ms
 - Roles: `{"tapper":26,"eli":20,"eliLeader":21,"behindEli":"[20 autos]","frontCar":29,"carsBehindTapper":[25,24,23,22,21,20]}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -319,7 +319,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## TOLL · Peaje nublado: llegan más autos de los que la caseta atiende; el hueco de Eli no arregla nada (y se le meten)
 
-- Beats: 19 · ACELERADO ×4 · simT0 = 0 s · semilla 21 · 60 autos · carril abierto · dt 0.05 s · cálculo 489 ms
+- Beats: 19 · ACELERADO ×4 · simT0 = 0 s · semilla 21 · 60 autos · carril abierto · dt 0.05 s · cálculo 380 ms
 - Roles: `{"eli":12,"booth":25}`
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
@@ -333,7 +333,7 @@ Eventos clave (t = segundos de video, t_sim = segundos de simulación):
 
 ## SH · Short 9:16: recortes de S1, S2, S6, S7, S11 con sus sellos ACELERADO
 
-- Beats: Short · ACELERADO ×1 · simT0 = 0 s · semilla — · 0 autos · dt — s · cálculo 2 ms
+- Beats: Short · ACELERADO ×1 · simT0 = 0 s · semilla — · 0 autos · dt — s · cálculo 3 ms
 
 | | Afirmación (guion) | Medido en el sim | Objetivo | |
 |---|---|---|---|---|

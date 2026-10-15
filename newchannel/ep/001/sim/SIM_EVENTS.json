@@ -124,7 +124,7 @@
     "t": 7.147,
     "car": 18,
     "back": 8,
-    "peakDecel": 3.33,
+    "peakDecel": 3.57,
     "eli": false
    },
    {
@@ -142,66 +142,60 @@
     "car": 20
    },
    {
-    "type": "eli_restart",
-    "tSim": 29.4,
-    "t": 7.467,
-    "car": 20
-   },
-   {
     "type": "brake_onset",
     "tSim": 29.58,
     "t": 7.527,
     "car": 17,
     "back": 9,
-    "peakDecel": 3.48,
+    "peakDecel": 3.54,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 30.84,
-    "t": 7.947,
+    "tSim": 30.06,
+    "t": 7.687,
     "car": 19,
     "back": 7,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 30.9,
-    "t": 7.967,
+    "tSim": 30.78,
+    "t": 7.927,
     "car": 16,
     "back": 10,
-    "peakDecel": 3.59,
+    "peakDecel": 3.53,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 31.5,
-    "t": 8.167,
+    "tSim": 31.26,
+    "t": 8.087,
     "car": 18,
     "back": 8,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 32.16,
-    "t": 8.387,
+    "tSim": 32.04,
+    "t": 8.347,
     "car": 15,
     "back": 11,
-    "peakDecel": 3.54,
+    "peakDecel": 3.53,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 32.64,
-    "t": 8.547,
+    "tSim": 32.52,
+    "t": 8.507,
     "car": 17,
     "back": 9,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 33.36,
-    "t": 8.787,
+    "tSim": 33.3,
+    "t": 8.767,
     "car": 14,
     "back": 12,
     "peakDecel": 3.53,
@@ -209,16 +203,16 @@
    },
    {
     "type": "stop",
-    "tSim": 33.9,
-    "t": 8.967,
+    "tSim": 33.78,
+    "t": 8.927,
     "car": 16,
     "back": 10,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 34.62,
-    "t": 9.207,
+    "tSim": 34.5,
+    "t": 9.167,
     "car": 13,
     "back": 13,
     "peakDecel": 3.53,
@@ -226,16 +220,16 @@
    },
    {
     "type": "stop",
-    "tSim": 35.1,
-    "t": 9.367,
+    "tSim": 35.04,
+    "t": 9.347,
     "car": 15,
     "back": 11,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 35.88,
-    "t": 9.627,
+    "tSim": 35.76,
+    "t": 9.587,
     "car": 12,
     "back": 14,
     "peakDecel": 3.53,
@@ -243,16 +237,16 @@
    },
    {
     "type": "stop",
-    "tSim": 36.36,
-    "t": 9.787,
+    "tSim": 36.24,
+    "t": 9.747,
     "car": 14,
     "back": 12,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 37.14,
-    "t": 10.047,
+    "tSim": 37.02,
+    "t": 10.007,
     "car": 11,
     "back": 15,
     "peakDecel": 3.53,
@@ -260,16 +254,16 @@
    },
    {
     "type": "stop",
-    "tSim": 37.62,
-    "t": 10.207,
+    "tSim": 37.5,
+    "t": 10.167,
     "car": 13,
     "back": 13,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 38.4,
-    "t": 10.467,
+    "tSim": 38.28,
+    "t": 10.427,
     "car": 10,
     "back": 16,
     "peakDecel": 3.53,
@@ -277,16 +271,22 @@
    },
    {
     "type": "stop",
-    "tSim": 38.88,
-    "t": 10.627,
+    "tSim": 38.76,
+    "t": 10.587,
     "car": 12,
     "back": 14,
     "eli": false
    },
    {
+    "type": "eli_restart",
+    "tSim": 39.18,
+    "t": 10.727,
+    "car": 20
+   },
+   {
     "type": "brake_onset",
-    "tSim": 39.6,
-    "t": 10.867,
+    "tSim": 39.54,
+    "t": 10.847,
     "car": 9,
     "back": 17,
     "peakDecel": 3.53,
@@ -294,16 +294,16 @@
    },
    {
     "type": "stop",
-    "tSim": 40.14,
-    "t": 11.047,
+    "tSim": 40.02,
+    "t": 11.007,
     "car": 11,
     "back": 15,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 40.86,
-    "t": 11.287,
+    "tSim": 40.74,
+    "t": 11.247,
     "car": 8,
     "back": 18,
     "peakDecel": 3.53,
@@ -311,16 +311,16 @@
    },
    {
     "type": "stop",
-    "tSim": 41.34,
-    "t": 11.447,
+    "tSim": 41.28,
+    "t": 11.427,
     "car": 10,
     "back": 16,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 42.12,
-    "t": 11.707,
+    "tSim": 42,
+    "t": 11.667,
     "car": 7,
     "back": 19,
     "peakDecel": 3.53,
@@ -328,16 +328,16 @@
    },
    {
     "type": "stop",
-    "tSim": 42.6,
-    "t": 11.867,
+    "tSim": 42.48,
+    "t": 11.827,
     "car": 9,
     "back": 17,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 43.38,
-    "t": 12.127,
+    "tSim": 43.26,
+    "t": 12.087,
     "car": 6,
     "back": 20,
     "peakDecel": 3.53,
@@ -345,16 +345,16 @@
    },
    {
     "type": "stop",
-    "tSim": 43.86,
-    "t": 12.287,
+    "tSim": 43.74,
+    "t": 12.247,
     "car": 8,
     "back": 18,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 44.64,
-    "t": 12.547,
+    "tSim": 44.52,
+    "t": 12.507,
     "car": 5,
     "back": 21,
     "peakDecel": 3.53,
@@ -362,16 +362,16 @@
    },
    {
     "type": "stop",
-    "tSim": 45.12,
-    "t": 12.707,
+    "tSim": 45,
+    "t": 12.667,
     "car": 7,
     "back": 19,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 45.84,
-    "t": 12.947,
+    "tSim": 45.78,
+    "t": 12.927,
     "car": 4,
     "back": 22,
     "peakDecel": 3.53,
@@ -379,16 +379,16 @@
    },
    {
     "type": "stop",
-    "tSim": 46.38,
-    "t": 13.127,
+    "tSim": 46.26,
+    "t": 13.087,
     "car": 6,
     "back": 20,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 47.1,
-    "t": 13.367,
+    "tSim": 46.98,
+    "t": 13.327,
     "car": 3,
     "back": 23,
     "peakDecel": 3.53,
@@ -396,16 +396,16 @@
    },
    {
     "type": "stop",
-    "tSim": 47.58,
-    "t": 13.527,
+    "tSim": 47.52,
+    "t": 13.507,
     "car": 5,
     "back": 21,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 48.36,
-    "t": 13.787,
+    "tSim": 48.24,
+    "t": 13.747,
     "car": 2,
     "back": 24,
     "peakDecel": 3.53,
@@ -413,16 +413,16 @@
    },
    {
     "type": "stop",
-    "tSim": 48.84,
-    "t": 13.947,
+    "tSim": 48.72,
+    "t": 13.907,
     "car": 4,
     "back": 22,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 49.62,
-    "t": 14.207,
+    "tSim": 49.5,
+    "t": 14.167,
     "car": 1,
     "back": 25,
     "peakDecel": 3.53,
@@ -430,16 +430,16 @@
    },
    {
     "type": "stop",
-    "tSim": 50.1,
-    "t": 14.367,
+    "tSim": 49.98,
+    "t": 14.327,
     "car": 3,
     "back": 23,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 50.88,
-    "t": 14.627,
+    "tSim": 50.76,
+    "t": 14.587,
     "car": 0,
     "back": 26,
     "peakDecel": 3.53,
@@ -447,24 +447,24 @@
    },
    {
     "type": "stop",
-    "tSim": 51.36,
-    "t": 14.787,
+    "tSim": 51.24,
+    "t": 14.747,
     "car": 2,
     "back": 24,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 52.62,
-    "t": 15.207,
+    "tSim": 52.5,
+    "t": 15.167,
     "car": 1,
     "back": 25,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 53.82,
-    "t": 15.607,
+    "tSim": 53.76,
+    "t": 15.587,
     "car": 0,
     "back": 26,
     "eli": false
@@ -878,7 +878,7 @@
     "t": 10.22,
     "car": 3,
     "back": 8,
-    "peakDecel": 3.33,
+    "peakDecel": 3.57,
     "eli": false
    },
    {
@@ -896,77 +896,77 @@
     "car": 5
    },
    {
-    "type": "eli_restart",
-    "tSim": 29.4,
-    "t": 10.7,
-    "car": 5
-   },
-   {
     "type": "brake_onset",
     "tSim": 29.58,
     "t": 10.79,
     "car": 2,
     "back": 9,
-    "peakDecel": 3.48,
+    "peakDecel": 3.54,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 30.84,
-    "t": 11.42,
+    "tSim": 30.06,
+    "t": 11.03,
     "car": 4,
     "back": 7,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 30.9,
-    "t": 11.45,
+    "tSim": 30.78,
+    "t": 11.39,
     "car": 1,
     "back": 10,
-    "peakDecel": 3.59,
+    "peakDecel": 3.53,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 31.5,
-    "t": 11.75,
+    "tSim": 31.26,
+    "t": 11.63,
     "car": 3,
     "back": 8,
     "eli": false
    },
    {
     "type": "brake_onset",
-    "tSim": 32.16,
-    "t": 12.08,
+    "tSim": 32.04,
+    "t": 12.02,
     "car": 0,
     "back": 11,
-    "peakDecel": 3.54,
+    "peakDecel": 3.53,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 32.64,
-    "t": 12.32,
+    "tSim": 32.52,
+    "t": 12.26,
     "car": 2,
     "back": 9,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 33.9,
-    "t": 12.95,
+    "tSim": 33.78,
+    "t": 12.89,
     "car": 1,
     "back": 10,
     "eli": false
    },
    {
     "type": "stop",
-    "tSim": 35.1,
-    "t": 13.55,
+    "tSim": 35.04,
+    "t": 13.52,
     "car": 0,
     "back": 11,
     "eli": false
+   },
+   {
+    "type": "eli_restart",
+    "tSim": 39.18,
+    "t": 15.59,
+    "car": 5
    }
   ]
  },
