@@ -28,13 +28,14 @@
   K.car.rear = function (ctx, x, y, s, o = {}) {
     const fog = o.fog, body = C(o.color || K.car.COLORS[0], fog), lit = o.lit || {};
     const bodyShade = lit.shade ? K.mix(body, C(lit.shade, fog), lit.shadeK ?? 0.35) : body;
-    const W = 1.7 * s, top = y - 1.0 * s, bot = y - 0.18 * s;
+    const W = 1.7 * s * (o.seats === 2 ? 1.24 : 1), top = y - 1.0 * s, bot = y - 0.18 * s;
     // wheels
     ctx.fillStyle = C(DARK, fog);
     K.rrect(ctx, x - W * 0.47, y - 0.36 * s, 0.26 * s, 0.36 * s, 0.07 * s); ctx.fill();
     K.rrect(ctx, x + W * 0.47 - 0.26 * s, y - 0.36 * s, 0.26 * s, 0.36 * s, 0.07 * s); ctx.fill();
     // driver head (behind the body top)
-    if (o.driver !== false && s > 1.2) {
+    if (o.drawDriver && s > 1.2) { ctx.fillStyle = K.rgba(C('#dfe9f0', fog), 0.18); K.rrect(ctx, x - W * 0.36, top - 0.42 * s, W * 0.72, 0.42 * s, [0.18 * s, 0.18 * s, 0, 0]); ctx.fill(); o.drawDriver(x, top, s, W); }
+    else if (o.driver !== false && s > 1.2) {
       // windshield seen from behind: a pale translucent sliver beyond the head
       ctx.fillStyle = K.rgba(C('#dfe9f0', fog), 0.18);
       K.rrect(ctx, x - W * 0.36, top - 0.42 * s, W * 0.72, 0.42 * s, [0.18 * s, 0.18 * s, 0, 0]); ctx.fill();

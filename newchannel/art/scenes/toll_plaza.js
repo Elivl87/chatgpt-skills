@@ -2,7 +2,7 @@
    fourth is a free-flow lane. Every car is an agent of K.sim.queue (IDM + a barrier that opens after a seeded service
    time); brake lights, gaps and the attendants' acting (hand the ticket while a car is served, wave when it leaves)
    read the same arrays. Flat soft top light: short soft shadows under objects, no rim, desaturated 15 %.
-   Generic people only. The mascot waits third in lane 2 and shrugs at the queue. */
+   Generic people plus Quest and Pixie: their teal two-seater waits third in lane 2; Quest turns round and shrugs at the queue. */
 (function (root) {
   const K = root.K, E = K.ep1;
   const PAL = {
@@ -188,16 +188,17 @@
           const p = P(sC, lc, 0); if (!p) return; const fg = fogOf(d);
           ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(PAL.shadow, 0.3); K.ellipse(ctx, p.x, p.y + p.s * 0.04, p.s * 1.0, p.s * 0.14); ctx.fill(); ctx.restore();
           const stopped = S.v[i] < 0.3, waiting = stopped && !S.paid[i];
-          K.car.rear(ctx, p.x, p.y, p.s, { color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, mascot: false, driver: !isM,
+          K.car.rear(ctx, p.x, p.y, p.s, { color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, driver: !isM, seats: isM ? 2 : 1,
             brake: q.brake(i, t), fog: [fg[0], fg[1]], lit, bob: S.v[i] > 0.5 ? Math.sin(t * 9 + i) * 0.02 : 0, glowScale: 2.2 });
-          if (isM) {   // the mascot turns round to us and shrugs at the queue (ink stick arms), annoyed while it waits
-            const R = 0.34 * p.s * 1.12, hx = p.x, hy = p.y - 1.0 * p.s - R * 0.5;
-            const g = waiting ? ((t % 4.2) < 2.4 ? 'shrug' : 'rest') : 'rest';
-            K.char.mascotArms(ctx, hx, hy, R, g, t, { dir: 1 });
-            K.char.mascot(ctx, hx, hy, R, { expr: waiting ? (g === 'shrug' ? 'annoyed' : 'sleepy') : 'content', look: [0, 0.1], rim: '#ffffff', rimAlpha: 0.35, lightAng: -1.57, shadeAlpha: 0.22, blink: (t % 3.1) < 0.1 ? 1 : 0 });
-            // the body of the car in front of the arms' lower half
-            ctx.save(); ctx.beginPath(); ctx.rect(p.x - p.s * 1.2, p.y - 1.0 * p.s, p.s * 2.4, p.s * 1.0); ctx.clip();
-            K.car.rear(ctx, p.x, p.y, p.s, { color: K.TEAL, driver: false, brake: q.brake(i, t), fog: [fg[0], fg[1]], lit, glowScale: 2.2 }); ctx.restore();
+          if (isM) {   // v3: Quest turns round to us and shrugs at the queue; Pixie (passenger) watches the booth, then glances back at him
+            const W = 1.7 * 1.24 * p.s, top = p.y - 1.0 * p.s, u = 0.66 * p.s, NL = Object.assign({}, K.hero.LIGHT.noon, { fog: [fg[0], fg[1]] });
+            const cyc = t % 4.2, sk = waiting ? K.ease.sine(K.clamp(cyc / 0.3)) * (1 - K.ease.sine(K.clamp((cyc - 2.3) / 0.3))) : 0;
+            K.hero.draw(ctx, 'pixie', p.x + W * 0.22, top + 0.42 * p.s, u, { pose: 'ride', seat: 0, noLegs: true, contact: 0, yaw: Math.PI + 0.1, headYaw: -0.9 * sk, t, light: NL, fog: [fg[0], fg[1]], seed: 2 });
+            K.hero.draw(ctx, 'quest', p.x - W * 0.2, top + 0.42 * p.s, u, { pose: 'ride', blend: { pose: 'shrug', k: sk }, seat: 0, noLegs: true, contact: 0, yaw: 0.25, t, light: NL, fog: [fg[0], fg[1]],
+              expr: waiting ? (sk > 0.3 ? 'annoyed' : 'sleepy') : 'happy', seed: 1 });
+            // the car body in front of their lower halves
+            ctx.save(); ctx.beginPath(); ctx.rect(p.x - p.s * 1.5, p.y - 1.0 * p.s, p.s * 3, p.s * 1.0); ctx.clip();
+            K.car.rear(ctx, p.x, p.y, p.s, { color: K.TEAL, driver: false, seats: 2, brake: q.brake(i, t), fog: [fg[0], fg[1]], lit, glowScale: 2.2 }); ctx.restore();
           }
         });
       }
@@ -217,7 +218,7 @@
       }
     });
     // the supervisor on the near island with a clipboard, and a colleague walking up the island
-    { const sP = G - 10.5, lP = 0.0, d = dOf(sP, lP); const pe = K.car.persona(801, 5);
+    { const sP = G - 9.5, lP = 7.2, d = dOf(sP, lP); const pe = K.car.persona(801, 5);   // v3: moved off the heroes' lane
       push(d - 0.05, () => { const p = P(sP, lP, 0.22); if (!p) return; K.char.person(ctx, p.x, p.y, 0.5 * p.s, { pose: 'clipboard', expr: 'focused', t, seed: 9, skin: pe.skin, hair: pe.hair, hairStyle: 'bun', shirt: '#5d8a8f', pants: '#2f4f4a', vest: '#d8e04a', light: { ang: -1.57, shade: PAL.shadow }, look: [-0.3, 0.2] }); }); }
     { const sP = G - 6 - ((t * 0.9) % 14) * 0 - Math.min(5, t * 0.45), lP = 3.6, d = dOf(sP, lP); const pe = K.car.persona(802, 5);
       push(d - 0.05, () => { const p = P(sP, lP, 0.22); if (!p) return; K.char.person(ctx, p.x, p.y, 0.5 * p.s, { pose: 'walk', expr: 'content', t, seed: 4, skin: pe.skin, hair: pe.hair, hairStyle: 'cap', capColor: '#4f7a4a', shirt: '#c9b46a', pants: '#3f4a63', vest: '#d8e04a', light: { ang: -1.57, shade: PAL.shadow }, look: [0, 0.2] }); }); }

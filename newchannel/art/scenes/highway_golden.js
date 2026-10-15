@@ -348,8 +348,11 @@
       } else if (it.car !== undefined) {
         const i = it.car, pe = E.persona(i), isM = i === E.MASCOT;
         const bob = it.v > 0.5 ? Math.sin(t * 9 + i * 1.7) * 0.025 : 0;
+        const cfog = [fog[0], fog[1] * (o.night ? 0.6 : 1)];
         K.car.rear(ctx, p.x, p.y, p.s, { color: isM ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
-          mascot: isM, brake: st.brake(i), tail: o.night ? 1 : 0, fog: [fog[0], fog[1] * (o.night ? 0.6 : 1)], lit, bob, glowScale: st.glowScale || (o.night ? 7 : 5) });
+          brake: st.brake(i), tail: o.night ? 1 : 0, fog: cfog, lit, bob, glowScale: st.glowScale || (o.night ? 7 : 5),
+          seats: isM ? 2 : 1, drawDriver: isM ? (hx, top, s, W) => K.hero.rearPair(ctx, hx, top + bob * s, s, W, { t, fog: cfog, light: o.night ? K.hero.LIGHT.night : K.hero.LIGHT.backlit,
+            quest: st.questOpts ? st.questOpts(t) : null, pixie: st.pixieOpts ? st.pixieOpts(t) : null }) : null });
       } else if (it.onc !== undefined) {
         const pe = E.persona(100 + it.onc);
         K.car.front(ctx, p.x, p.y, p.s, { color: pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor,
@@ -375,6 +378,11 @@
       t, simT: t, run, onc: E.oncoming(), sCam: E.camS(t) + GOLD.sCamOff, lCam: GOLD.lCam + Math.sin(t * 0.3) * 0.15,
       H: 8.2 + t * 0.12, pitch: 0.068 + t * 0.002, yaw: -0.012 + Math.sin(t * 0.2) * 0.004, f: 1600 + 420 * K.ease.sine(K.clamp(t / 6.5)),
       sun: { az: 0.035, elev: 0.095, r: 42 }, brake: i => run.brake(i, t),
+      // v3 acting (rear view): when the car ahead brakes, Pixie points ahead at the wave; Quest leans on the wheel
+      pixieOpts: tt => { const k = K.ease.sine(K.clamp(run.brake(E.LEADER, tt) * 1.6)), PC = K.hero.CHARS.pixie;
+        const rest = [0.25, PC.hipJ + 0.15, 0.95], aim = [0.55, PC.shJ + 0.95, 1.1];
+        return { armR: { ik: rest.map((r, i) => K.lerp(r, aim[i], k)), pole: [1, -1, 0], hand: k > 0.5 ? 'point' : 'relaxed' }, headYaw: -0.15 * k }; },
+      questOpts: tt => ({ bow: 0.1 * K.clamp(run.brake(E.MASCOT, tt)) }),
     };
   };
   // golden clouds: painterly lobed cumulus, each lit from the direction of the low sun (sun ~ (1100, 190) on screen)

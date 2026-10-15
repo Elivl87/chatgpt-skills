@@ -1,5 +1,5 @@
 /* Ep 001 · night: the jam wave as a ribbon of red lights, seen from a hill. Same world kit as the golden shot; a longer
-   lane (130 cars on 2.2 km) so the ribbon runs to the horizon. The mascot watches from the hill (back view). */
+   lane (130 cars on 2.2 km) so the ribbon runs to the horizon. Quest and Pixie watch from the hill (back view). */
 (function (root) {
   const K = root.K, E = K.ep1;
   Object.assign(E.PAL.night, { grassFar: '#1f2846', field: '#1a2442', field2: '#202a48', tree: '#141c38', treeDark: '#0a1026', halo: '#9fb4ff', line: '#5a5f80', sun: '#f6efd8' });
@@ -47,18 +47,18 @@
     const rr = K.rng(9);
     for (let x = 0; x < 1300; x += 7) K.terrain.tuft(ctx, x + rr() * 5, hillY(x) + 5, 16 + rr() * 22, '#0a0f22', { seed: rr() * 1e6 | 0, n: 4, wind: Math.sin(t * 1.2 + x * 0.01) * 0.25, rim: rr() < 0.3 ? '#5a6cb0' : null });
     K.terrain.tree(ctx, 150, hillY(150) + 8, 360, { color: '#10172f', shade: '#080c1c', trunk: '#080c1c', seed: 4, light: { dx: -0.8, back: 0.6, rim: '#7f93d8' }, sway: Math.sin(t * 0.9) * 0.018 + Math.sin(t * 2.2) * 0.005 });
-    // the mascot, sitting on the hill top, seen from behind: disc + tiny ink body, moonlit rim
-    const mx = 430, R = 44, my = hillY(mx) - R * 1.45;
-    ctx.fillStyle = '#0c1230'; K.rrect(ctx, mx - R * 0.62, my + R * 0.62, R * 1.24, R * 1.0, [R * 0.5, R * 0.5, R * 0.2, R * 0.2]); ctx.fill();
-    ctx.save(); K.rrect(ctx, mx - R * 0.62, my + R * 0.62, R * 1.24, R * 1.0, [R * 0.5, R * 0.5, R * 0.2, R * 0.2]); ctx.clip();
-    ctx.strokeStyle = K.rgba('#a9bcff', 0.75); ctx.lineWidth = 5; K.rrect(ctx, mx - R * 0.62 - 2, my + R * 0.62 - 2, R * 1.24, R * 1.0, [R * 0.5, R * 0.5, R * 0.2, R * 0.2]); ctx.stroke(); ctx.restore();
-    ctx.fillStyle = '#0c1230'; K.circle(ctx, mx + R * 0.55, my + R * 1.15, R * 0.17); ctx.fill();   // a hand resting on the knee
-    // little ink arms: one hugging the knees, the other lifting now and then to point at the ribbon of lights
-    K.char.mascotArms(ctx, mx, my, R, (t % 7) > 3.2 && (t % 7) < 5.6 ? 'point' : 'rest', t, { dir: 1, ink: '#070a1c' });
-    ctx.fillStyle = K.VERMILION; K.circle(ctx, mx, my, R); ctx.fill();
-    K.circle(ctx, mx, my, R); K.tex.fillPath(ctx, 0.25, 0.4);
-    K.char.discLight(ctx, mx, my, R, { ang: -2.3, rim: '#b4c4ff', rimW: 0.12, rimAlpha: 0.85, shade: '#2a0f2a', shadeAlpha: 0.5 });
-    K.light.glow(ctx, mx + R * 0.7, my + R * 0.1, R * 1.6, '#ff4a36', 0.2, 'screen');
+    // v3: Quest and Pixie sit on the hill top, seen from behind, watching the ribbon of lights. Every ~7 s Pixie lifts
+    // her arm and points at the wave; Quest turns his head to follow. Moonlit rim from the upper left.
+    { const NL = Object.assign({}, K.hero.LIGHT.night, { ang: -2.4 }), u = 42;
+      const cyc = t % 7, pk = K.ease.sine(K.clamp((cyc - 3.0) / 0.4)) * (1 - K.ease.sine(K.clamp((cyc - 5.6) / 0.4)));
+      const qx = 380, px = 495, PC = K.hero.CHARS.pixie;
+      K.hero.draw(ctx, 'quest', qx, hillY(qx) + 6, u, { pose: 'sit', view: 0.42, yaw: Math.PI - 0.28, t, light: NL, contact: 0, headYaw: -0.25 * pk, seed: 1 });
+      const rest = [-0.55, PC.hipJ + 0.55, 1.2], aimP = [-1.45, PC.shJ + 0.2, 0.95];
+      const tgt = rest.map((r, i) => K.lerp(r, aimP[i], pk));
+      K.hero.draw(ctx, 'pixie', px, hillY(px) + 6, u, { pose: 'sit', view: 0.42, yaw: Math.PI - 0.42, t, light: NL, contact: 0, seed: 2,
+        armL: { ik: tgt, pole: [-1, -1, 0], hand: pk > 0.5 ? 'point' : 'relaxed' } });
+      K.light.glow(ctx, (qx + px) / 2 + 60, hillY(qx) - 40, 160, '#ff4a36', 0.12, 'screen');   // the ribbon's red light reaching them
+    }
     ctx.restore();
     K.particles.motes(ctx, t, { n: 22, seed: 61, color: '#cfe0ff', alpha: 0.3, size: 1.4, vx: 4, vy: -2, y0: 300, y1: 1000 });   // moonlit dust
     K.terrain.fireflies(ctx, t, { n: 44, seed: 62, x0: 0, x1: 1300, y0: 700, y1: 1060, size: 1.7 });
