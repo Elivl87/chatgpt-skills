@@ -25,3 +25,4 @@
 | 2026-10-15 | **Shorts: 30 seconds maximum** | "Los shorts máximo de 30 segundos" |
 | 2026-10-15 | **Shorts: 30-45 s** (replaces "30 s max"); Claude's recommended target **35-40 s** | "Que duren entre 30-45 seg. O que recomiendas?" |
 | 2026-10-15 | **Scripts are approved by Claude and its agents** (no longer by the Producer), judged against the channel's purpose: every script must **explain clearly and always have humor**. Producer still decides title + thumbnail and publishing | "El guion debes aprobarlo tú y tus agentes acorde a lo que trata el canal, la idea es que explique, y tenga siempre humor." |
+| 2026-10-15 | **Pilot thumbnail locked: v3 A «¿QUIÉN FUE?»** (lead); B «FUE ÉL.» and C «¡VA HACIA ATRÁS!» go to Test & Compare | picked A |
