@@ -88,3 +88,14 @@ Sound unchanged (6 onsets). gates.sh: PASS, 0 errors. By eye on frames pulled fr
 
 Pacing on the render: 23 visual events in 22.6 s (was 18); the longest hold is 2.0 s (the end card).
 gates.sh: PASS. The 1/30 s windows now also cover 0-2.0, 1.8-3.9, 4.4-5.6 and 8.4-11.3 s. Checked by eye on MP4 frames.
+
+## Design critic v3c -> what changed (v3.3)
+
+| # | Item | Fix |
+|---|---|---|
+| 1 | The "measurable" scan read as a diagonal glitch bar | Removed. I also tried a soft, warm horizontal glow; on the MP4 it still read as a smear band, so it is gone too. On "measurable" the warm light on the tree's face now swells once instead: a light, not a bar. There are no light bars anywhere. |
+| 2 | The wide "Because" shot read as moss | The tree beat opens on the face framing (z 1.25: brow, nose, moustache in frame). "better" punches in further (z 1.62). |
+| 3 | Beds too quiet | Layer gains are now set on the hits only, so the beds ride at their own level. The riser before the drop now measures about -36 to -34 dB RMS before the voice comes in at 17.79 s and rises into the cut (it stays under Bram on "That is the"). The card bed measures -30 dB RMS at 22.0-22.6 s. Master -14.1 LUFS, -4.7 dBTP; still 6 onsets. |
+| 4 | Card fades | The text and the sign cut in (opacity set, with a small y settle), like Pixie. |
+
+gates.sh: PASS. Checked by eye on MP4 frames at 8.7-11.2 s and 20.9-21.3 s.

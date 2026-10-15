@@ -116,7 +116,6 @@
           <div class="abs" style="left: 380px; top: -300px; width: 90px; height: 2000px; transform: rotate(-28deg); background: linear-gradient(rgba(255,236,180,.38), rgba(255,236,180,0))"></div>
           <div class="abs" style="left: 600px; top: -300px; width: 60px; height: 2000px; transform: rotate(-28deg); background: linear-gradient(rgba(255,236,180,.3), rgba(255,236,180,0))"></div>
         </div>
-        <div id="scanB" class="abs" style="left: 0; top: 0; width: 160px; height: 1920px; opacity: 0; mix-blend-mode: screen; background: linear-gradient(90deg, rgba(200,255,220,0), rgba(220,255,230,.75) 50%, rgba(200,255,220,0)); transform: skewX(-12deg)"></div>
         <div id="leaves" class="full"></div>
         <div id="birds" class="full"></div>
       </div>
@@ -276,12 +275,12 @@
       /* ---------------- B · "Because better is measurable." then the giant tree upgrades on every word; the camera whips to
          each upgrade (a change every 0.7-1.2 s). Nobody fakes an action: the world, the light and the camera move. */
       // retention v3: three shots on the words, the tree lit so it reads (face light: engine-side, the art is untouched)
-      cam("#camB", {{S1}}, 0, { z: 1.0, fx: 1660, fy: 756 });                                // "Because": the tree, full height, its face lit
-      cam("#camB", {{S1}}, {{l42.w2-S1}}, { z: 1.02, fx: 1665, fy: 750 }, "sine.inOut");
-      cam("#camB", {{l42.w2-0.02}}, 0, { z: 1.45, fx: 1700, fy: 420 });                     // "better": hard cut, punch in on the face
-      cam("#camB", {{l42.w2-0.02}}, {{l43.w2-l42.w2-0.1}}, { z: 1.48, fx: 1705, fy: 440 }, "sine.inOut");   // a slow push toward the mouth line
-      tl.fromTo("#scanB", { x: -200, opacity: 1 }, { x: 1180, opacity: 1, duration: .55, ease: "power2.inOut" }, {{l42.w4-0.04}});   // "measurable": a scan line over the facets
-      tl.set("#scanB", { opacity: 0 }, {{l42.w4+0.52}});
+      cam("#camB", {{S1}}, 0, { z: 1.25, fx: 1700, fy: 560 });                               // "Because": the face (brow, nose, moustache) from the first frame
+      cam("#camB", {{S1}}, {{l42.w2-S1}}, { z: 1.28, fx: 1702, fy: 555 }, "sine.inOut");
+      cam("#camB", {{l42.w2-0.02}}, 0, { z: 1.62, fx: 1705, fy: 430 });                     // "better": hard cut, punch in on the face
+      cam("#camB", {{l42.w2-0.02}}, {{l43.w2-l42.w2-0.1}}, { z: 1.66, fx: 1708, fy: 440 }, "sine.inOut");   // a slow push toward the mouth line
+      // "measurable": the warm light on its face swells once (a light, not a bar: the scan read as an artefact, design critic v3c)
+      tl.fromTo("#faceLight", { opacity: 1, scale: 1 }, { keyframes: [{ opacity: 1, scale: 1.25, filter: "brightness(1.6)", duration: .22, ease: "power2.out" }, { scale: 1, filter: "brightness(1)", duration: .5, ease: "sine.inOut" }], transformOrigin: "50% 40%", immediateRender: false }, {{l42.w4-0.04}});
       tl.to("#faceLight", { opacity: 0, duration: .3 }, {{l43.w2+0.2}});
       cam("#camB", {{l43.w2-0.08}}, .3, { z: 1.5, fx: 1750, fy: 380 }, "power3.out");       // "polygons": punch in on its face as it sharpens
       cam("#camB", {{l44.w2-0.08}}, .3, { z: 1.15, fx: 560, fy: 700 }, "power3.out");       // "lighting": whip to the sun, flare
@@ -342,8 +341,10 @@
       tl.to("#wm", { y: -560, scale: .56, duration: .55, ease: "power3.inOut" }, CARD);
       tl.to("#twinkle", { opacity: 0, duration: .2 }, CARD - .05);
       tl.to("#card", { opacity: 1, duration: .4, ease: "sine.inOut" }, CARD);
-      tl.fromTo("#sign", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .4, ease: "power3.out" }, CARD + .5);   // after the wordmark has risen (critic v2b)
-      tl.fromTo("#cT", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35, ease: "power3.out" }, CARD + .45);
+      tl.set("#sign", { opacity: 0 }, 0); tl.set("#sign", { opacity: 1 }, CARD + .5);      // cut-ins, no fades
+      tl.fromTo("#sign", { y: 24 }, { y: 0, duration: .22, ease: "back.out(2)", immediateRender: false }, CARD + .5);   // after the wordmark has risen (critic v2b)
+      tl.set("#cT", { opacity: 0 }, 0); tl.set("#cT", { opacity: 1 }, CARD + .45);
+      tl.fromTo("#cT", { y: 20 }, { y: 0, duration: .2, ease: "back.out(2)", immediateRender: false }, CARD + .45);
       // Pixie (her forest-friend tunic, as in the game beats) stands on the grass under the sign, between its posts, and waves
       const PCH = 492, PCW = PCH * ART.sizes["p2c.png"][0] / ART.sizes["p2c.png"][1];
       Object.assign($("#pixCard").style, { left: (540 - PCW / 2) + "px", top: (1502 - PCH) + "px", width: PCW + "px", height: PCH + "px", transformOrigin: "50% 100%" });
