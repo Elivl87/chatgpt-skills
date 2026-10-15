@@ -720,3 +720,9 @@
   princess vista and the giant tree): 22.6 s (l51-l53, l42-l47, l60 + 2.8 s card), hook -> giant-tree escalation ->
   1998 twist -> vista payoff (hard cut + one bass-drop impact) -> thumbnail sign. Preview `EP002_short2_hf_v3_preview540.mp4`.
   Navi: HELLO, SFX_01, LOOK (same clips and risk as recorded above).
+
+## 2026-10-15 · Short #2: new script "Player Two" (option B)
+- Producer on v3.3: "El final sí me encantó. La parte del guión no me convenció." Chose option B "Player Two"
+  (l66, l69, l71–l74: player one knows everything / player two meets the Great Deku Tree "an extremely large tree with
+  an extremely personal problem"). Keep the loved ending (vista → wordmark + Navi → thumbnail signboard card).
+- Brief: "Métele Hyperframes al máximo ... analiza Hyperframes a fondo, y EXPLÓTALO." Design gate first.
