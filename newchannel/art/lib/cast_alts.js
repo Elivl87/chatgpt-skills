@@ -28,12 +28,18 @@
   const clipHead = (c, H) => { c.save(); h.headPath(c, Object.assign({}, H.S || {}, { kind: H.headKind, hw: H.hw, hh: H.hh, neck: H.neck || 0 })); c.clip(); };
   const backX = (H, k) => (H.fs > 0.05 ? -H.faceDir * H.hw * k * H.fs : 0);
   const outlineHead = (c, H, S) => { h.headPath(c, S.head); c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.stroke(); };
+  // crew neckline (detail pass): a rib band that hugs the neck, clipped to the torso so it never pokes out in 3/4 or
+  // profile; ink only on its lower edge (one clean line), a faint rib line inside
   function crewCollar(color) {
     return (c, B) => {
-      const w = B.hw * 1.15, y = B.Ttop + 0.002, x = B.tcx + B.dir * B.s * B.wT * 0.25;
-      c.strokeStyle = INK; c.lineWidth = B.lw * 2; c.lineCap = 'round';
-      c.fillStyle = color; c.beginPath(); c.moveTo(x - w, y); c.quadraticCurveTo(x, y + 0.045, x + w, y); c.quadraticCurveTo(x, y + 0.022, x - w, y); c.closePath(); c.fill();
-      c.beginPath(); c.moveTo(x - w, y); c.quadraticCurveTo(x, y + 0.045, x + w, y); c.stroke();
+      const w = Math.min(B.hw * 0.86, B.wT * 0.82) * (1 - 0.25 * B.s), y = B.Ttop - 0.004, x = B.hcx + B.dir * B.s * B.hw * 0.25, d = 0.034, bh = 0.016;
+      c.save(); B.torsoPath(c); c.clip();
+      c.fillStyle = color; c.beginPath(); c.moveTo(x - w - 0.01, y); c.quadraticCurveTo(x, y + d * 2, x + w + 0.01, y); c.lineTo(x + w + 0.01, y - 0.02); c.lineTo(x - w - 0.01, y - 0.02); c.closePath(); c.fill();
+      c.fillStyle = B.H.skin; c.beginPath(); c.moveTo(x - w + bh, y); c.quadraticCurveTo(x, y + (d - bh * 0.9) * 2, x + w - bh, y); c.lineTo(x + w, y - 0.03); c.lineTo(x - w, y - 0.03); c.closePath(); c.fill();
+      c.strokeStyle = INK; c.lineCap = 'round'; c.lineWidth = B.lw * 1.6;
+      c.beginPath(); c.moveTo(x - w - 0.01, y); c.quadraticCurveTo(x, y + d * 2, x + w + 0.01, y); c.stroke();
+      c.lineWidth = B.lw * 1.1; c.beginPath(); c.moveTo(x - w + bh, y); c.quadraticCurveTo(x, y + (d - bh * 0.9) * 2, x + w - bh, y); c.stroke();
+      c.restore();
     };
   }
   function turtleneck(color, k = 1) {
@@ -60,48 +66,70 @@
   function overalls(c, B) {
     const s = B.s, d = B.dir, bx = B.tcx + d * s * B.wT * 0.4, bw = 0.056 * (1 - 0.45 * s), top = B.Ttop + 0.095, waist = B.Tbot - 0.09;
     c.fillStyle = MUSTARD; c.fillRect(B.tcx - 0.2, waist, 0.4, 0.2);
-    c.strokeStyle = INK; c.lineWidth = B.lw * 2;
+    c.strokeStyle = INK; c.lineWidth = B.lw * 2; c.lineJoin = 'round';
     c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath();
     c.fill(); c.stroke();
+    // bib pocket: a patch with a flap (one flap line, one stitch line)
+    const px = bx + d * s * 0.008, py = top + 0.026, pw = 0.024 * (1 - 0.4 * s), ph = 0.036;
+    c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; K.rrect(c, px - pw, py, pw * 2, ph, 0.005); c.fill(); c.stroke();
+    c.fillStyle = MUSTARD; K.rrect(c, px - pw, py, pw * 2, ph * 0.34, [0.005, 0.005, 0.002, 0.002]); c.fill(); c.stroke();
+    c.strokeStyle = K.rgba(INK, 0.4); c.lineWidth = B.lw * 0.9; c.beginPath(); c.moveTo(bx, waist + 0.03); c.lineTo(bx, B.Tbot + 0.01); c.stroke();
+  }
+  function overallStraps(c, B) { // over the sweater collar, tucked over the shoulders (clipped to the torso), brass buttons
+    const s = B.s, d = B.dir, bx = B.tcx + d * s * B.wT * 0.4, bw = 0.056 * (1 - 0.45 * s), top = B.Ttop + 0.095, sw = 0.017;
+    c.save(); B.torsoPath(c); c.clip();
     for (const sg of [-1, 1]) { if (!(s < 0.9 || sg === -d)) continue;
-      const sx = bx + sg * bw * 0.72, ex = B.tcx + sg * B.wT * 0.62 * (1 - 0.5 * s) - d * s * 0.02;
-      c.strokeStyle = INK; c.lineWidth = 0.016 + B.lw * 2; c.lineCap = 'butt'; c.beginPath(); c.moveTo(sx, top + 0.01); c.lineTo(ex, B.Ttop - 0.01); c.stroke();
-      c.strokeStyle = MUSTARD; c.lineWidth = 0.016; c.beginPath(); c.moveTo(sx, top + 0.012); c.lineTo(ex, B.Ttop - 0.01); c.stroke();
-      c.fillStyle = BRASS; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; K.circle(c, sx, top + 0.014, 0.0085); c.fill(); c.stroke(); }
-    const px = bx - bw * 0.15 + d * s * 0.01, py = top + 0.03, pw = 0.022 * (1 - 0.4 * s);
-    c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; K.rrect(c, px - pw, py, pw * 2, 0.04, 0.005); c.fill(); c.stroke();
-    c.beginPath(); c.moveTo(px - pw, py + 0.012); c.lineTo(px + pw, py + 0.012); c.stroke();
-    c.strokeStyle = K.rgba(INK, 0.45); c.lineWidth = B.lw; c.beginPath(); c.moveTo(bx, waist + 0.02); c.lineTo(bx, B.Tbot + 0.01); c.stroke();
+      const sx = bx + sg * bw * 0.66, ex = B.tcx + sg * B.wT * 0.58 * (1 - 0.5 * s) - d * s * 0.02;
+      c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = sw + B.lw * 2; c.beginPath(); c.moveTo(sx, top + 0.008); c.lineTo(ex, B.Ttop - 0.02); c.stroke();
+      c.strokeStyle = MUSTARD; c.lineWidth = sw; c.beginPath(); c.moveTo(sx, top + 0.01); c.lineTo(ex, B.Ttop - 0.02); c.stroke(); }
+    c.restore();
+    for (const sg of [-1, 1]) { if (!(s < 0.9 || sg === -d)) continue; const sx = bx + sg * bw * 0.66;
+      c.fillStyle = BRASS; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; K.circle(c, sx, top + 0.012, 0.0082); c.fill(); c.stroke();
+      c.fillStyle = '#fff3c0'; K.circle(c, sx - 0.0025, top + 0.0095, 0.0022); c.fill(); }
   }
   function apron(c, B) {
     const s = B.s, d = B.dir, bx = B.tcx + d * s * B.wT * 0.45, bw = 0.064 * (1 - 0.5 * s), top = B.Ttop + 0.055;
     c.fillStyle = APRON; c.strokeStyle = INK; c.lineWidth = B.lw * 2;
     c.beginPath(); c.moveTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw * 1.25, B.Tbot + 0.03); c.lineTo(bx - bw * 1.25, B.Tbot + 0.03); c.closePath(); c.fill(); c.stroke();
-    c.strokeStyle = '#3b2a20'; c.lineWidth = 0.008; c.beginPath(); c.moveTo(bx - bw * 0.85, top + 0.004); c.lineTo(B.hcx - B.hw * 0.7 * (1 - 0.6 * s), B.Ttop + 0.004); c.moveTo(bx + bw * 0.85, top + 0.004); c.lineTo(B.hcx + B.hw * 0.7 * (1 - 0.6 * s), B.Ttop + 0.004); c.stroke();
-    c.strokeStyle = K.rgba(INK, 0.35); c.lineWidth = B.lw; c.beginPath(); c.moveTo(bx - bw * 0.7, top + 0.03); c.lineTo(bx + bw * 0.7, top + 0.03); c.stroke();
+    // neck strap: one flat band per side from the bib corner up over the collar to the back of the neck (clipped to the
+    // torso: it never pokes out as a loose cord in 3/4 or profile)
+    { const nw = Math.min(B.hw * 0.86, B.wT * 0.82) * (1 - 0.25 * s), nx = B.hcx + d * s * B.hw * 0.25, stw = 0.012;
+      c.save(); B.torsoPath(c); c.clip(); c.lineCap = 'butt';
+      for (const sg of [-1, 1]) { if (s > 0.85 && sg === -d) continue;
+        const x0 = bx + sg * bw * 0.78, y0 = top + 0.006, x1 = nx + sg * nw * 0.62, y1 = B.Ttop - 0.02;
+        c.strokeStyle = INK; c.lineWidth = stw + B.lw * 2; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x1, y1); c.stroke();
+        c.strokeStyle = APRON_D; c.lineWidth = stw; c.beginPath(); c.moveTo(x0, y0 + 0.002); c.lineTo(x1, y1); c.stroke(); }
+      c.restore(); }
+    c.strokeStyle = K.rgba(INK, 0.3); c.lineWidth = B.lw * 0.9; c.setLineDash([0.008, 0.006]); c.beginPath(); c.moveTo(bx - bw * 0.78, top + 0.014); c.lineTo(bx + bw * 0.78, top + 0.014); c.stroke(); c.setLineDash([]);
     // the skirt sways (secondary motion)
     if (B.seated) return;
     const sway = Math.sin(B.t * 1.9 + 0.7) * 0.006 - B.drag * 0.02 * d;
     const sbx = B.tcx + d * s * B.wB * 0.5, w0 = 0.085 * (1 - 0.55 * s), w1 = 0.09 * (1 - 0.5 * s), y0 = B.Tbot + 0.012, y1 = -B.S.legLen * 0.52;
     c.fillStyle = APRON; c.beginPath(); c.moveTo(sbx - w0, y0); c.lineTo(sbx + w0, y0); c.lineTo(sbx + w1 + sway, y1 - 0.01); c.quadraticCurveTo(sbx + w1 + sway, y1, sbx + w1 - 0.01 + sway, y1); c.lineTo(sbx - w1 + 0.01 + sway, y1); c.quadraticCurveTo(sbx - w1 + sway, y1, sbx - w1 + sway, y1 - 0.01); c.closePath(); c.fill(); c.stroke();
     c.fillStyle = APRON_D; K.rrect(c, sbx - 0.045 * (1 - 0.5 * s) + sway * 0.6, y0 + 0.04, 0.09 * (1 - 0.5 * s), 0.06, 0.006); c.fill(); c.lineWidth = B.lw * 1.4; c.stroke();
-    c.fillStyle = '#3b2a20'; K.rrect(c, B.tcx - B.wB * 1.04, B.Tbot - 0.004, B.wB * 2.08, 0.022, 0.008); c.fill(); c.stroke();
+    c.fillStyle = '#3b2a20'; K.rrect(c, B.tcx - B.wB * 1.0, B.Tbot - 0.004, B.wB * 2.0, 0.02, 0.006); c.fill(); c.lineWidth = B.lw * 1.4; c.stroke();
   }
+  // beanie (detail pass): it pops up when the brows rise (surprise, awe, worry) so the brows always sit on the skin, never
+  // on the cuff; the knit is a few soft ribs in a tone of the yarn (no dark stripes), the cuff ribs line up with the dome
+  // ribs, and the fold gets one light edge
   function beanie(color, dark, pom) {
     return (c, H) => {
       const hw = H.hw, hh = H.hh, cuffY = -hh + 0.046, cuffH = 0.036;
-      const bob = Math.sin(H.t * 3.1 + 0.4) * 0.0022, sq = 1 - H.hatHit * 0.22;
+      const lift = H.browTop != null ? K.clamp((cuffY + cuffH + 0.006) - H.browTop, 0, 0.042) : 0;
+      const bob = Math.sin(H.t * 3.1 + 0.4) * 0.0022 - lift, sq = 1 - H.hatHit * 0.22;
       c.save(); c.translate(0, cuffY + cuffH + bob + H.hatHit * 0.008); c.scale(1 + H.hatHit * 0.08, sq); c.translate(0, -(cuffY + cuffH));
       const dome = () => { c.beginPath(); c.moveTo(-hw * 1.07, cuffY + 0.005); c.bezierCurveTo(-hw * 1.1, -hh - 0.05, hw * 1.1, -hh - 0.05, hw * 1.07, cuffY + 0.005); c.closePath(); };
       if (pom) { const sw = Math.sin(H.t * 2.6) * 0.006 + H.drag * -0.02 * H.dir; lobedShape(c, sw + H.faceDir * H.fs * 0.004, -hh - 0.05, 0.03, 9, 77, pom, H.lw, 0.42); }
       h.shape(c, dome, color, H.lw);
-      c.save(); dome(); c.clip(); c.strokeStyle = dark; c.lineWidth = H.lw * 1.4;
-      for (let i = -4; i <= 4; i++) { const x = i * hw * 0.26 + H.faceDir * H.fs * hw * 0.2; c.beginPath(); c.moveTo(x, cuffY); c.quadraticCurveTo(x * 0.85, -hh - 0.01, x * 0.3, -hh - 0.04); c.stroke(); }
+      const rib = K.rgba(dark, 0.75), sp = hw * 0.3, off = H.faceDir * H.fs * hw * 0.22;
+      c.save(); dome(); c.clip(); c.strokeStyle = rib; c.lineWidth = H.lw * 1.1; c.lineCap = 'round';
+      for (let i = -3; i <= 3; i++) { const x = i * sp + off; c.beginPath(); c.moveTo(x, cuffY); c.quadraticCurveTo(x * 0.9, -hh - 0.01, x * 0.35, -hh - 0.036); c.stroke(); }
       c.restore();
       const cuff = () => K.rrect(c, -hw * 1.14, cuffY, hw * 2.28, cuffH, 0.016);
-      h.shape(c, cuff, K.shade(color, 0.05), H.lw);
-      c.save(); cuff(); c.clip(); c.strokeStyle = dark; c.lineWidth = H.lw * 1.3;
-      for (let i = -6; i <= 6; i++) { const x = i * hw * 0.19; c.beginPath(); c.moveTo(x, cuffY + 0.006); c.lineTo(x, cuffY + cuffH - 0.006); c.stroke(); }
+      h.shape(c, cuff, K.shade(color, 0.04), H.lw);
+      c.save(); cuff(); c.clip(); c.strokeStyle = rib; c.lineWidth = H.lw * 1.1; c.lineCap = 'round';
+      for (let i = -4; i <= 4; i++) { const x = i * sp * 0.5 + off; if (Math.abs(x) > hw * 1.08) continue; c.beginPath(); c.moveTo(x, cuffY + 0.008); c.lineTo(x, cuffY + cuffH - 0.008); c.stroke(); }
+      c.strokeStyle = K.rgba('#fff3c4', 0.55); c.lineWidth = H.lw * 1.0; c.beginPath(); c.moveTo(-hw * 1.0, cuffY + 0.0045); c.lineTo(hw * 1.0, cuffY + 0.0045); c.stroke();
       c.restore(); c.restore();
     };
   }
@@ -125,7 +153,7 @@
   const ELI1 = mk({ name: 'Eli', h: 0.95, phase: 2.1, shadowW: 0.15, legLen: 0.37, shoulderW: 0.09, hipW: 0.047, legW: 0.057, legColor: JEANS,
     head: { kind: 'capsule', hw: 0.082, hh: 0.138, lean: 0.03 }, hairTop: 0.03,
     torso: { wTop: 0.107, wBot: 0.099, dTop: 0.082, dBot: 0.084, color: TEE, belly: 0.012 },
-    arm: { w: 0.038, skinPart: true, sleeve: TEE, sleeveTo: 0.36, sleeveW: 0.066, hand: 0.029 },
+    arm: { w: 0.038, skinPart: true, sleeve: TEE, sleeveTo: 0.36, sleeveW: 0.058, hand: 0.029 },
     skin: '#7a4d32',
     boot: { h: 0.077, w: 0.042, foot: 0.062, toe: 0.05, back: 0.014, sole: 0.016, color: '#2b2729', soleColor: '#151214', laces: true },
     face: { eyes: 'googly', eyeR: 0.035, eyeSep: 0.034, eyeY: -0.004, pupil: 0.36, goofy: 0.8, nose: 0.012, noseY: 0.04, mouthY: 0.07, mouthW: 0.05, lidBias: -0.1, grinOpen: 0.16, grinW: 0.8,
@@ -139,7 +167,7 @@
     boot: { h: 0.148, w: 0.034, foot: 0.062, toe: 0.05, back: 0.012, sole: 0.014, color: GREEN, lip: true },
     face: { eyes: 'googly', eyeR: 0.034, eyeSep: 0.031, eyeY: -0.04, pupil: 0.34, goofy: 0.6, nose: 0.011, noseY: 0.048, mouthY: 0.056, mouthW: 0.041, lidBias: 0.36, lashes: true, lip: '#8e3346', grinOpen: 0.1, grinW: 0.62,
       brows: 0.011, browColor: '#2e1d22', browGap: 1.4, browW: 0.95, browsLate: true, profMouth: 1.45 },
-    collar: crewCollar(PURPLE_D), outfit: overalls, hair: '#2e1d22' });
+    collar: crewCollar(PURPLE_D), outfit: overalls, outfitTop: overallStraps, hair: '#2e1d22' });
   MILA1.hairBack = function (c, H) { // high ponytail that swings (t) and trails in the wind (drag)
     const back = H.fs > 0.05 ? -H.faceDir : -1, rx = H.fs > 0.05 ? back * H.hw * 0.35 * H.fs : 0, ry = -H.hh + 0.012;
     const sw = Math.sin(H.t * 2.4) * 0.012 + Math.sin(H.t * 5.1) * 0.004 - H.drag * 0.03 * H.dir;
@@ -166,7 +194,8 @@
   };
   MILA1.headTop = function (c, H, B) {
     const back = H.fs > 0.05 ? -H.faceDir : -1, rx = backX(H, 0.35), ry = -H.hh + 0.004;
-    c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = H.lw * 1.6; K.ellipse(c, rx + back * 0.006, ry - 0.006, 0.02, 0.012, back * 0.5); c.fill(); c.stroke();
+    c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = H.lw * 1.5; K.ellipse(c, rx + back * 0.008, ry - 0.008, 0.016, 0.0095, back * 0.55); c.fill(); c.stroke();
+    c.strokeStyle = K.rgba(INK, 0.45); c.lineWidth = H.lw * 0.9; c.beginPath(); c.moveTo(rx + back * 0.002, ry - 0.016); c.lineTo(rx + back * 0.014, ry); c.stroke();
     drops(GOLD, H.F.mouthY - 0.006)(c, H);
   };
   // back views (turnaround, wide rear shots, the night hill)
@@ -182,10 +211,13 @@
   MILA1.outfitBack = function (c, B) { // overall back: a small bib and straps crossing in an X, brass buttons
     const waist = B.Tbot - 0.09, top = B.Ttop + 0.13, bw = 0.045 * (1 - 0.45 * B.s), bx = B.tcx;
     c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = B.lw * 2;
-    c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw * 0.8, top); c.lineTo(bx + bw * 0.8, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath(); c.fill(); c.stroke();
-    for (const sg of [-1, 1]) { const sx = bx + sg * bw * 0.6, ex = B.tcx - sg * B.wT * 0.62;
+    c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath(); c.fill(); c.stroke();
+    for (const sg of [-1, 1]) { const sx = bx + sg * bw * 0.72, ex = B.tcx - sg * B.wT * 0.62;
       c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = 0.016 + B.lw * 2; c.beginPath(); c.moveTo(sx, top + 0.01); c.lineTo(ex, B.Ttop - 0.01); c.stroke();
       c.strokeStyle = MUSTARD; c.lineWidth = 0.016; c.beginPath(); c.moveTo(sx, top + 0.012); c.lineTo(ex, B.Ttop - 0.01); c.stroke(); }
+    { // a stitched patch where the straps cross (reads as an X over the bib, never as a letter)
+      const cy = K.lerp(top + 0.01, B.Ttop - 0.01, (bw * 0.72) / (bw * 0.72 + B.wT * 0.62)), cx = B.tcx; c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4;
+      K.rrect(c, cx - 0.013, cy - 0.013, 0.026, 0.026, 0.006); c.fill(); c.stroke(); }
     c.fillStyle = MUSTARD_D; c.lineWidth = B.lw * 1.4; c.strokeStyle = INK; for (const sg of [-1, 1]) { K.rrect(c, B.tcx + sg * 0.045 - 0.02, waist + 0.03, 0.04, 0.035, 0.005); c.fill(); c.stroke(); }
   };
   MILA1.backHair = function (c, H) { // back of the head: hair cap over the crown + the ponytail hanging in front of it
