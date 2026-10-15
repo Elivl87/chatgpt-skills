@@ -1,0 +1,56 @@
+{
+ "duration_s": 37.35,
+ "loudness": {
+  "I": -18.0,
+  "TP": -2.1,
+  "LRA": 2.0
+ },
+ "beats": {
+  "S": {
+   "start": 0.1,
+   "voice_end": 36.7508,
+   "slot_end": 37.3508,
+   "words": 92,
+   "voice_span": 36.65,
+   "slot": 37.25
+  }
+ },
+ "asr": {
+  "S": {
+   "heard": "¿Quién fue? No hay nada en el camino. Alguien tocó el freno apenas y cada auto de atrás frenó un poco más fuerte. Mira, el embotellamiento va hacia atrás a unos 20 kilómetros por hora como una bicicleta. Los autos avanzan, pero la fila retrocede. Es una ola. En una pista de Estados Unidos, un solo auto fue a la velocidad promedio sin perseguir al de adelante. Los frenazos casi desaparecieron. Así que deja un espacio. Si tu espacio se come el frenazo, los de atrás no tienen que frenar.",
+   "wer_raw": 0.0217,
+   "errors_raw": [
+    "-fuiste",
+    "-tu"
+   ],
+   "wer": 0.0217,
+   "errors": [
+    "-fuiste",
+    "-tu"
+   ],
+   "ref_words": 92,
+   "aligned": "90/92",
+   "unmatched": [
+    "Fuiste",
+    "tú."
+   ]
+  }
+ },
+ "longest_silence": [
+  19.1,
+  0.85
+ ],
+ "silences_over_1s": [],
+ "longest_silence_inside_a_line": [
+  19.1,
+  0.85,
+  "short_01_narrator"
+ ],
+ "narrator_wpm_in_segments": 154.9,
+ "words": 92,
+ "conf0_words": [
+  "Fuiste",
+  "tú"
+ ],
+ "last_word_end": 36.705
+}

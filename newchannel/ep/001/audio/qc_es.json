@@ -1,0 +1,626 @@
+{
+ "duration_s": 479.13,
+ "loudness": {
+  "I": -18.0,
+  "TP": -2.1,
+  "LRA": 2.2
+ },
+ "beats": {
+  "01": {
+   "start": 0.25,
+   "voice_end": 7.8552,
+   "slot_end": 8.3552,
+   "words": 16,
+   "voice_span": 7.61,
+   "slot": 8.11
+  },
+  "02": {
+   "start": 8.36,
+   "voice_end": 17.020400000000002,
+   "slot_end": 17.4704,
+   "words": 22,
+   "voice_span": 8.67,
+   "slot": 9.12
+  },
+  "03": {
+   "start": 17.47,
+   "voice_end": 26.186799999999998,
+   "slot_end": 28.186799999999998,
+   "words": 22,
+   "voice_span": 8.72,
+   "slot": 10.72
+  },
+  "04": {
+   "start": 28.19,
+   "voice_end": 37.0087,
+   "slot_end": 42.0087,
+   "words": 18,
+   "voice_span": 8.82,
+   "slot": 13.82
+  },
+  "06": {
+   "start": 42.01,
+   "voice_end": 66.155,
+   "slot_end": 66.755,
+   "words": 60,
+   "voice_span": 24.15,
+   "slot": 24.75
+  },
+  "07": {
+   "start": 66.75,
+   "voice_end": 81.2792,
+   "slot_end": 83.7792,
+   "words": 33,
+   "voice_span": 14.52,
+   "slot": 17.02
+  },
+  "08": {
+   "start": 83.78,
+   "voice_end": 94.73440000000001,
+   "slot_end": 95.38440000000001,
+   "words": 31,
+   "voice_span": 10.96,
+   "slot": 11.61
+  },
+  "09": {
+   "start": 95.38,
+   "voice_end": 117.8663,
+   "slot_end": 118.5163,
+   "words": 57,
+   "voice_span": 22.48,
+   "slot": 23.13
+  },
+  "10": {
+   "start": 118.52,
+   "voice_end": 137.93959999999998,
+   "slot_end": 138.5896,
+   "words": 50,
+   "voice_span": 19.42,
+   "slot": 20.07
+  },
+  "11": {
+   "start": 138.59,
+   "voice_end": 158.9393,
+   "slot_end": 159.5893,
+   "words": 55,
+   "voice_span": 20.35,
+   "slot": 21.0
+  },
+  "12": {
+   "start": 159.59,
+   "voice_end": 191.6705,
+   "slot_end": 192.3205,
+   "words": 75,
+   "voice_span": 32.08,
+   "slot": 32.73
+  },
+  "13": {
+   "start": 192.32,
+   "voice_end": 221.5899,
+   "slot_end": 222.5899,
+   "words": 78,
+   "voice_span": 29.27,
+   "slot": 30.27
+  },
+  "14": {
+   "start": 222.59,
+   "voice_end": 246.61499999999998,
+   "slot_end": 247.415,
+   "words": 64,
+   "voice_span": 24.02,
+   "slot": 24.82
+  },
+  "15": {
+   "start": 247.41,
+   "voice_end": 267.6578,
+   "slot_end": 268.3078,
+   "words": 54,
+   "voice_span": 20.24,
+   "slot": 20.89
+  },
+  "16": {
+   "start": 268.31,
+   "voice_end": 285.3206,
+   "slot_end": 285.9706,
+   "words": 43,
+   "voice_span": 17.01,
+   "slot": 17.66
+  },
+  "17": {
+   "start": 285.97,
+   "voice_end": 300.6581,
+   "slot_end": 301.30809999999997,
+   "words": 30,
+   "voice_span": 14.69,
+   "slot": 15.34
+  },
+  "18": {
+   "start": 301.31,
+   "voice_end": 325.0875,
+   "slot_end": 325.73749999999995,
+   "words": 56,
+   "voice_span": 23.78,
+   "slot": 24.43
+  },
+  "19": {
+   "start": 325.74,
+   "voice_end": 359.71889999999996,
+   "slot_end": 360.36889999999994,
+   "words": 88,
+   "voice_span": 33.98,
+   "slot": 34.63
+  },
+  "20": {
+   "start": 360.37,
+   "voice_end": 385.7632,
+   "slot_end": 386.41319999999996,
+   "words": 63,
+   "voice_span": 25.39,
+   "slot": 26.04
+  },
+  "21": {
+   "start": 386.41,
+   "voice_end": 407.6563,
+   "slot_end": 408.6563,
+   "words": 55,
+   "voice_span": 21.24,
+   "slot": 22.24
+  },
+  "22": {
+   "start": 408.66,
+   "voice_end": 427.6907,
+   "slot_end": 428.34069999999997,
+   "words": 55,
+   "voice_span": 19.03,
+   "slot": 19.68
+  },
+  "23": {
+   "start": 428.34,
+   "voice_end": 442.0958,
+   "slot_end": 443.0958,
+   "words": 20,
+   "voice_span": 13.76,
+   "slot": 14.76
+  },
+  "24": {
+   "start": 443.1,
+   "voice_end": 456.1333,
+   "slot_end": 459.1333,
+   "words": 31,
+   "voice_span": 13.04,
+   "slot": 16.04
+  },
+  "end": {
+   "start": 459.13,
+   "voice_end": 463.5664,
+   "slot_end": 463.5664,
+   "words": 13,
+   "voice_span": 4.43,
+   "slot": 4.43
+  }
+ },
+ "asr": {
+  "01": {
+   "heard": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 16,
+   "aligned": "16/16",
+   "unmatched": []
+  },
+  "02": {
+   "heard": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte, más fuerte, hasta que alguien se queda quieto, Ellie.",
+   "wer_raw": 0.0455,
+   "errors_raw": [
+    "eli->ellie"
+   ],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 22,
+   "aligned": "22/22",
+   "unmatched": []
+  },
+  "03": {
+   "heard": "¿Quién fue? Él está seguro, alguien allá adelante tiene la culpa, pero allá no hay nada, ni choque, ni conos, ni semáforo.",
+   "wer_raw": 0.0455,
+   "errors_raw": [
+    "eli->el"
+   ],
+   "wer": 0.0455,
+   "errors": [
+    "eli->el"
+   ],
+   "ref_words": 22,
+   "aligned": "21/22",
+   "unmatched": [
+    "Eli"
+   ]
+  },
+  "04": {
+   "heard": "Mila, su amiga, mira atrás. Eli, va para atrás. ¿Qué? Entonces, ¿por qué hay embotellamiento sin razón aparente?",
+   "wer_raw": 0.0556,
+   "errors_raw": [
+    "embotellamientos->embotellamiento"
+   ],
+   "wer": 0.0556,
+   "errors": [
+    "embotellamientos->embotellamiento"
+   ],
+   "ref_words": 18,
+   "aligned": "17/18",
+   "unmatched": [
+    "embotellamientos"
+   ]
+  },
+  "06": {
+   "heard": "Mila arrastra a Ellie a un experimento de verdad. Ya entendí. Fue el de adelante. En 2008, un equipo de físicos en Japón puso 22 autos en una pista circular de 230 metros. Problema en un círculo, todos tienen a alguien adelante. Los conductores tenían una sola tarea, manejar con cuidado a unos 30 kilómetros por hora.",
+   "wer_raw": 0.0167,
+   "errors_raw": [
+    "eli->ellie"
+   ],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 60,
+   "aligned": "60/60",
+   "unmatched": []
+  },
+  "07": {
+   "heard": "Al principio, todo bien. Luego aparecieron titubeos, un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía. ¿Quién fue?",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 33,
+   "aligned": "33/33",
+   "unmatched": []
+  },
+  "08": {
+   "heard": "Lo que a Mila le encanta. Los autos siempre avanzan y el embotellamiento se desliza hacia atrás a unos 20 kilómetros por hora, más o menos lo que va una bicicleta.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 31,
+   "aligned": "31/31",
+   "unmatched": []
+  },
+  "09": {
+   "heard": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero más tarde y más fuerte todavía. No, no, no. Para el auto número 10, alto total.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 57,
+   "aligned": "57/57",
+   "unmatched": []
+  },
+  "10": {
+   "heard": "Los ingenieros le llaman inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta.",
+   "wer_raw": 0.06,
+   "errors_raw": [
+    "-que",
+    "-yo",
+    "-que"
+   ],
+   "wer": 0.06,
+   "errors": [
+    "-que",
+    "-yo",
+    "-que"
+   ],
+   "ref_words": 50,
+   "aligned": "47/50",
+   "unmatched": [
+    "¡¿Que",
+    "yo",
+    "qué?!"
+   ]
+  },
+  "11": {
+   "heard": "No es un grupo fijo de autos. Los autos entran por detrás, avanzan despacito y salen por delante. Los autos se van. El embotellamiento se queda. Es como la ola en un estadio. Nadie se cambia de asiento, pero la ola le da la vuelta entera. Un embotellamiento no es un lugar, es una ola.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 55,
+   "aligned": "55/55",
+   "unmatched": []
+  },
+  "12": {
+   "heard": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de 314 metros. Con 25 autos, el tráfico fluyó. Con 28 o más. En botellamiento. Tres autos de más. ¿Quién fue? Lo que importa es cuántos autos hay en cada tramo de pista. Los ingenieros le dicen densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima crecen.",
+   "wer_raw": 0.0405,
+   "errors_raw": [
+    "+en",
+    "embotellamiento->botellamiento",
+    "+fue"
+   ],
+   "wer": 0.0405,
+   "errors": [
+    "+en",
+    "embotellamiento->botellamiento",
+    "+fue"
+   ],
+   "ref_words": 74,
+   "aligned": "73/75",
+   "unmatched": [
+    "embotellamiento.",
+    "f…?"
+   ]
+  },
+  "13": {
+   "heard": "Ahora, llévalo a una autopista en hora pico. Ahí, una sola ola puede viajar hacia atrás más de 10 kilómetros, a 15 o 20 kilómetros por hora. O sea, que ese embotellamiento, trancón, taco o tráfico, en el que estás ahora mismo, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Seguro ya está cenando. Por eso no ves ninguna razón, la razón ya se fue a cenar. Ni un perdón.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 78,
+   "aligned": "78/78",
+   "unmatched": []
+  },
+  "14": {
+   "heard": "Entonces, ¿cómo se detiene una ola? Hay que cambiar a todos los conductores. Llenar la autopista de AutosRobot. Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con 21 autos. A los conductores les dieron una instrucción para que no arreglaran las olas por su cuenta. Manejen como en hora pico. Si se abre un hueco, cierrenlo. ¡Mi lema!",
+   "wer_raw": 0.0312,
+   "errors_raw": [
+    "-autos",
+    "robot->autosrobot"
+   ],
+   "wer": 0.0312,
+   "errors": [
+    "-autos",
+    "robot->autosrobot"
+   ],
+   "ref_words": 64,
+   "aligned": "62/64",
+   "unmatched": [
+    "autos",
+    "robot?"
+   ]
+  },
+  "15": {
+   "heard": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad con una idea muy simple, no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 54,
+   "aligned": "54/54",
+   "unmatched": []
+  },
+  "16": {
+   "heard": "La ola se derritió. Los cambios de velocidad bajaron cerca de un 80%. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un 40 % menos de gasolina. Todo eso con un solo auto de 21.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 43,
+   "aligned": "43/43",
+   "unmatched": []
+  },
+  "17": {
+   "heard": "Después, programaron la computadora un poquito más rápido que el promedio. Slaola volvió. ¿Quién fue? Ellie. ¿Fue el viento? Ser paciente no es ir lento. Es ir al promedio.",
+   "wer_raw": 0.1,
+   "errors_raw": [
+    "-la",
+    "ola->slaola",
+    "eli->ellie"
+   ],
+   "wer": 0.0667,
+   "errors": [
+    "-la",
+    "ola->slaola"
+   ],
+   "ref_words": 30,
+   "aligned": "28/30",
+   "unmatched": [
+    "La",
+    "ola"
+   ]
+  },
+  "18": {
+   "heard": "Esta es la parte favorita de Mila. En otra prueba, no hubo computadora. Sólo un conductor entrenado, con un único número, la velocidad promedio. Hay un hueco, un hueco enorme. Ese hueco es mi amigo. Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 56,
+   "aligned": "56/56",
+   "unmatched": []
+  },
+  "19": {
+   "heard": "¿Por qué funciona? Porque un espacio libre es un amortiguador. Se come el frenazo antes de que llegue a los demás. El autopaciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada. Yo llego tarde a todo. En Japón le pusieron a esto un nombre muy literal, manejo que absorbe embotellamientos. Ojo, no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso.",
+   "wer_raw": 0.0227,
+   "errors_raw": [
+    "-auto",
+    "paciente->autopaciente"
+   ],
+   "wer": 0.0225,
+   "errors": [
+    "-auto",
+    "paciente->autopaciente"
+   ],
+   "ref_words": 88,
+   "aligned": "86/88",
+   "unmatched": [
+    "auto",
+    "paciente"
+   ]
+  },
+  "20": {
+   "heard": "Funciona en una autopista de verdad. En noviembre de 2022, cerca de Nashville, en Tennessee, un equipo metió 100 autos al tráfico de hora pico, con un control de crucero inteligente. Un programa que decide cuándo acelerar y cuándo frenar. El resultado. Es complicado si en autos son una gota en una autopista. No borraron todas las olas y tampoco esperaban hacerlo.",
+   "wer_raw": 0.0317,
+   "errors_raw": [
+    "+si",
+    "cien->en"
+   ],
+   "wer": 0.0317,
+   "errors": [
+    "+si",
+    "cien->en"
+   ],
+   "ref_words": 63,
+   "aligned": "62/63",
+   "unmatched": [
+    "Cien"
+   ]
+  },
+  "21": {
+   "heard": "Pero hay un momento que Ellie no deja de repetir. Una ola viaja hacia atrás por la autopista. Pasan dos autos inteligentes y se achica. Dale, dale. Pasan cuatro con el sistema apagado y crece. No. Pasan más autos inteligentes y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.",
+   "wer_raw": 0.0364,
+   "errors_raw": [
+    "eli->ellie",
+    "nooo->no"
+   ],
+   "wer": 0.0182,
+   "errors": [
+    "nooo->no"
+   ],
+   "ref_words": 55,
+   "aligned": "54/55",
+   "unmatched": [
+    "¡Nooo!"
+   ]
+  },
+  "22": {
+   "heard": "O sea que tú también eres parte de la ola. Así que deja un espacio, uno seguro no uno enorme. No corras a cerrarlo. Maneja a la velocidad a la que de verdad se mueve el tráfico, no a la que te gustaría. No llegas más tarde, la misma distancia el mismo tiempo menos frenazos.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 55,
+   "aligned": "55/55",
+   "unmatched": []
+  },
+  "23": {
+   "heard": "Mismo camino. Mismo toque de freno allá adelante. Sólo que esta vez, Ellie deja el espacio. ¿Quién fue? Fuiste tú.",
+   "wer_raw": 0.05,
+   "errors_raw": [
+    "eli->ellie"
+   ],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 20,
+   "aligned": "20/20",
+   "unmatched": []
+  },
+  "24": {
+   "heard": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor, paciente, puede absorberla. Esto es 10 .000 puntos.",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 31,
+   "aligned": "30/31",
+   "unmatched": [
+    "Mil"
+   ]
+  },
+  "end": {
+   "heard": "La próxima vez, ¿por qué los buses llegan de A3? ¿Quién fue?",
+   "wer_raw": 0.0,
+   "errors_raw": [],
+   "wer": 0.0,
+   "errors": [],
+   "ref_words": 13,
+   "aligned": "13/13",
+   "unmatched": []
+  }
+ },
+ "longest_silence": [
+  463.53000000000003,
+  15.6
+ ],
+ "silences_over_1s": [
+  [
+   26.15,
+   2.06
+  ],
+  [
+   36.98,
+   5.05
+  ],
+  [
+   81.25,
+   2.55
+  ],
+  [
+   136.04,
+   1.05
+  ],
+  [
+   154.24,
+   1.26
+  ],
+  [
+   178.91,
+   1.52
+  ],
+  [
+   219.27,
+   1.27
+  ],
+  [
+   221.54,
+   1.07
+  ],
+  [
+   292.7,
+   1.24
+  ],
+  [
+   296.04,
+   1.07
+  ],
+  [
+   315.34,
+   1.56
+  ],
+  [
+   407.62,
+   1.06
+  ],
+  [
+   434.83,
+   5.06
+  ],
+  [
+   442.05,
+   1.07
+  ],
+  [
+   456.08,
+   3.07
+  ],
+  [
+   463.53,
+   15.6
+  ]
+ ],
+ "longest_silence_inside_a_line": [
+  154.24,
+  1.26,
+  "b11_22_narrator"
+ ],
+ "narrator_wpm_in_segments": 156.6,
+ "words": 1089,
+ "conf0_words": [
+  "Eli",
+  "embotellamientos",
+  "Que",
+  "yo",
+  "qué",
+  "embotellamiento",
+  "f",
+  "autos",
+  "robot",
+  "La",
+  "ola",
+  "auto",
+  "paciente",
+  "Cien",
+  "Nooo",
+  "Mil"
+ ],
+ "last_word_end": 463.335
+}
