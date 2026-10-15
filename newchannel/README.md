@@ -16,7 +16,7 @@ del Productor (Eli) **sin depender de la sesión de SecondQuest**. Léelo entero
 - **Formato:** cada vídeo responde UNA pregunta "¿por qué pasa esto?" con una **simulación programada para ese
   vídeo** (por qué un atasco aparece de la nada, por qué la otra fila avanza más rápido, cómo se propaga un rumor, por
   qué las ciudades crecen en círculos). El espectador ve el sistema "romperse" y después lo entiende.
-- **Duración:** 6-8 min el vídeo largo; de cada simulación sale un Short de **30 s como máximo** (Productor, 2026-10-15).
+- **Duración:** 6-8 min el vídeo largo; de cada simulación sale un Short de **30-45 s, objetivo 35-40 s** (Productor, 2026-10-15).
 - **Idiomas:** EN primero + versión ES-419 (menos competencia en español).
 - **Ventaja:** el arte es código. Cada vídeo es un experimento original: imposible de copiar o de plantillar.
 - **Coste por vídeo:** 0 créditos, 0 dinero.
