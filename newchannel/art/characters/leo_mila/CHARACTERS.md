@@ -6,6 +6,7 @@ canonical. No mascot. **Standing rule:** every character in this universe (Eli, 
 must express every emotion clearly in front, 3/4 and profile, and every delivery keeps improving the details.
 
 Sheets: `model_sheet.png` (+ `model_sheet_small.jpg`) · `emotion_sheet.png` (+ `emotion_sheet_small.jpg`) ·
+detail pass: `DETAIL_AUDIT.md` (+ `audit_crops_small.jpg`, `detail_before_after_small.jpg`) ·
 history: `alternatives/` (the 5 designs the Producer chose from).
 
 ## 1 · Identity
@@ -15,9 +16,9 @@ history: `alternatives/` (the 5 designs the Producer chose from).
 | Role | loud, impatient, optimistic; the gap-closer; yells «¡¿Quién fue?!» | tall, calm, curious, patient; sees what nobody sees; «Fuiste tú.» |
 | Height (units, 1 = an extra) | **0.95** | **1.08** (≈ 14 % taller) |
 | Head | short, wide capsule (hw 0.082, hh 0.138), dark brown skin | tall, narrow capsule (hw 0.063, hh 0.152), tan skin |
-| Face | big googly eyes, tiny pupils that don't quite agree, nose bump, big grin, dark brows (drawn over the beanie cuff) | googly eyes with sleepy lids (lid bias 0.36), lashes, wine lips, dark brows, nose bump |
+| Face | big googly eyes, pupils that don't quite agree (they do agree in surprise / awe), small catchlight, nose bump, big grin, dark brows that always sit on the skin (the beanie pops up when they rise) | googly eyes with sleepy lids (lid bias 0.36), small catchlight, lashes, wine lips, dark brows, nose bump |
 | Hair / hat | yellow ribbed beanie with a folded cuff (bobs; squashes when hit) | high ponytail with a mustard tie (swings, trails in the wind), side fringe |
-| Clothes | white tee, brown canvas apron (bib, neck cord, waist tie with a bow at the back, skirt with a patch pocket that sways), blue jeans, black work boots | purple long sleeves with darker cuffs, mustard bib overalls (straps crossing in an X at the back, brass buttons, chest pocket), green rubber boots with a rolled lip |
+| Clothes | white tee (rib crew collar, short sleeves cut square at the hem), brown canvas apron (bib, flat neck straps over the collar, waist tie with a bow at the back, skirt with a patch pocket that sways), blue jeans, black work boots | purple long sleeves with darker cuffs and a rib crew collar, mustard bib overalls (straps over the collar with brass buttons, flap chest pocket; at the back the straps meet the bib under a stitched patch), green rubber boots with a rolled lip |
 | Accessories | none | small gold **drop earrings** (stud on the head edge + a drop hanging outside the silhouette; they swing) |
 | Signature colour | **yellow** | **purple** |
 
@@ -98,9 +99,9 @@ drop, anger mark, steam puffs, sparkles, ticks) are seasoning: at most one or tw
 | neutral | relaxed (Mila sleepy) | small smile | — | arms hang | — |
 | happy | brows up, cheeks push lower lids | open grin | back a little, stretch | palms open | — |
 | laugh | eyes closed in arcs | wide open, tongue | thrown back | hands on belly, shoulders up | blush |
-| surprised | brows high, eyes 1.24×, tiny pupils | «o» | stretch 5 % | palms up by the shoulders | ticks |
+| surprised | brows high and arched, whites fully open (no lid), eyes 1.24×, pupils centred a touch up with a clear catchlight, pupils agree; Eli's beanie pops up | «o» | stretch 5 % | palms up by the shoulders | ticks |
 | curious | one brow arched, eyes wide | small «o» | tilted, leaning in | hand at the chin | — |
-| awe | brows up, huge pupils with double catchlights | tall «o» | up and back | hands clasped | sparkles |
+| awe | brows up and arched, whites fully open, big pupils looking up with a catchlight + a small second sparkle (never bigger than ~0.4× the pupil) | tall «o» with tongue | up and back | hands clasped | sparkles |
 | sly / smug | heavy lid + raised lower lid, one brow up, side glance | smirk | tilt | arms crossed | — |
 | thinking | one brow up, eyes up-side | mouth pushed aside | tilt | hand to chin | — |
 | worried | inner brows up, wobbly lids | wobble | squash 2 % | hands clasped at the chest | sweat |
@@ -122,8 +123,8 @@ drop, anger mark, steam puffs, sparkles, ticks) are seasoning: at most one or tw
 
 1. Render the `emotion_sheet` and look at the **phone-size** JPG (≈ 1600 px wide): every cell must read instantly.
 2. Front / 3/4 / profile / back turnaround: same proportions, colours and accessories in every view.
-3. Hands never kinked: elbows are soft curves; idle arms hang with a slight bend; hands relaxed.
-4. Rim light hugs the ink line (no second line); shade crescent on the far side; grain on top.
+3. Hands never kinked: elbows are soft curves; idle arms hang with a slight bend; hands are mittens with a thumb (§6).
+4. Rim light: a thin edge just inside the ink, light side only, never a second line (§6); shade crescent capped; grain on top.
 5. Earrings hang outside the head (never read as bolts); ponytail and apron move with `t`.
 6. In cars: heads and torsos big in close-ups (the pair fills about half the frame); the wheel stays put while the
    hands act (`K.cast.probe`).
@@ -131,8 +132,58 @@ drop, anger mark, steam puffs, sparkles, ticks) are seasoning: at most one or tw
 8. No vermilion on the characters; signature yellow / purple visible in every shot.
 9. Extras: emotions read in 3/4 and profile too (profile nose, one eye, one brow, edge mouth).
 10. Light JPG (≤ 400 KB) for the Producer of everything he will see.
+11. Run the **Detail QC checklist** (§6) on every delivery.
 
-## 6 · Never
+## 6 · Detail QC checklist (run on EVERY delivery that shows Eli or Mila)
+
+Producer, 2026-10-15: «los detalles son raros … ese tipo de cosas toca cuidar». Look at every item **at full size and
+at phone size** (the delivery's small JPG, and a 168×94 tile for thumbnails). Close-ups:
+`art/render/render.mjs --scene detail_lab --still 1 --query "part=faces|hands|clothes|rim&W=2400&H=1350"`.
+A delivery with one unchecked box is not finished. History of what went wrong: `DETAIL_AUDIT.md`.
+
+**Eyes, per emotion**
+- [ ] No grey / shaded slab on any eye white, in any light (eyes are masked from shade, rim and grain).
+- [ ] Pupils fully inside the white, never cut by the outline or parked on the edge; a small catchlight up-left inside
+      the pupil (never so big that only a dark crescent is left).
+- [ ] **Surprise:** whites fully open (no lid), eyes 1.24×, pupils centred or a touch up, pupils agree, brows high
+      and arched, mouth «o». **Awe:** the same plus bigger pupils looking up with a second small sparkle, tall «o».
+- [ ] Lidded emotions (neutral Mila, smug, annoyed, determined, happy's lower lid): the lid is the face; no ring of
+      eye outline over the lid skin (no "spectacles"), some white always visible except on a blink.
+- [ ] Eyes pop past the head edge only a little (<= 0.22× eye radius; profile <= 0.5×), cleanly inked.
+- [ ] Brows on the skin, never on Eli's beanie cuff (the beanie pops up instead); one brow in profile.
+
+**Mouths and faces**
+- [ ] Yell: arched top lip, both rows of teeth and the tongue visible, the whole mouth above the collar.
+- [ ] Profile mouths sit inside the face edge (no notch cut into the outline); worried = a smooth wave.
+- [ ] No hand over an eye or across the mouth (scratch = side/back of the head; curious = curled fingers under the chin).
+- [ ] Blush only where the emotion calls for it; no ears on either character, in any view.
+
+**Hands** (`K.cast` `hand`, drawn at 1.45× `arm.hand`, about 1.5× the forearm)
+- [ ] Every hand reads as a hand at phone size: relaxed mitten + thumb, open hand (three fingers + thumb), fist
+      (knuckle creases + thumb across), point (index + tucked thumb), grip on the wheel, clasped (two fists).
+- [ ] No balls, stumps or blobs; at most two short creases per hand; same size relative to the head in every shot.
+
+**Clothing items**
+- [ ] Eli: apron neck straps are flat bands from the bib over the collar, never thin cords or stubs outside the
+      silhouette; collar is a narrow rib band under the straps; tee sleeves are short tubes cut square at the hem (no
+      balloons, no shoulder lumps, also with the arm up); waist band = torso width; bow at the back.
+- [ ] Eli: beanie = 7 soft ribs + aligned cuff ribs + one light fold edge; never split half-yellow / half-dark.
+- [ ] Mila: rib collar under the overall straps; straps over the collar to the shoulder line; brass buttons; flap
+      pocket; at the back the straps meet the bib under a patch (no letter shapes); ponytail tie small; fringe one
+      clean shape; drop earrings hang outside the head; boots with the rolled lip.
+- [ ] Nothing pokes out of the silhouette in 3/4, profile or back (collars, straps, cords are clipped to the torso).
+
+**Rim light and shade**
+- [ ] Rim = a thin light edge just inside the ink (<= 0.75× the ink width), on the side facing the light only, never
+      a second outline, never on internal edges (arm over torso).
+- [ ] Shade crescent narrow (capped 0.028 units): it never splits a face, a beanie or a sleeve in half.
+
+**Line hygiene**
+- [ ] Every seam, fold and crease is a single purposeful line; no stray strokes, no doubled lines, no gaps between
+      ink and fill, no AA ghost rings.
+- [ ] Ink weight consistent between the two characters and with the props in the same shot.
+
+## 7 · Never
 
 - Never change their silhouettes (capsule heads, heights, beanie, ponytail), their signature colours or their wardrobe
   without the Producer.

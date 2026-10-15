@@ -52,7 +52,7 @@
       // 4 · expressions (front busts)
       panel(ctx, 16, 1146, 1300, 540, 'emociones clave (la hoja completa: emotion_sheet.png)');
       { const ex = ['neutral', 'happy', 'laugh', 'surprised', 'curious', 'smug', 'worried', 'furious'];
-        [E_, M_].forEach((id, r) => { const S = C.SPECS[id], top = S.head.cy + S.head.hh + 0.05, span = top - (S.shoulder - 0.05), uu = 215 / span;
+        [E_, M_].forEach((id, r) => { const S = C.SPECS[id], top = S.head.cy + S.head.hh + (id === E_ ? 0.08 : 0.05), span = top - (S.shoulder - 0.05), uu = 215 / span;
           ex.forEach((e, k) => { const x0 = 30 + k * 160, y0 = 1186 + r * 246; ctx.save(); K.rrect(ctx, x0, y0, 152, 236, 12); ctx.fillStyle = 'rgba(255,252,246,0.6)'; ctx.fill(); ctx.clip();
             C.draw(ctx, id, x0 + 76, y0 + 8 + top * uu, uu, { view: 'q', dir: k % 2 ? -1 : 1, expr: e, pose: 'stand', t, light: L() }); ctx.restore(); if (r === 1) label(ctx, C.EMOTIONS_ES[e], x0 + 76, 1680, '600 13px "Martian Mono"'); }); }); }
       // 5 · talk + blink

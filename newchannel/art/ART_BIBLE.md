@@ -78,8 +78,12 @@ jeans, black boots, dark brown skin, big grin) is the loud, impatient gap-closer
 tan skin, sleepy lids, high ponytail with a mustard tie, purple sweater, mustard overalls, green boots, small gold drop
 earrings) is the calm, curious, patient one. Capsule heads keep them apart from the round-headed extras; yellow / purple
 read apart at phone size in every palette. Full spec, API, colours and QC: `characters/leo_mila/CHARACTERS.md`; sheets
-`model_sheet.png`, `emotion_sheet.png`. Engine: `lib/cast.js` (layers, scene light with the rim **on** the ink line,
-soft IK arms, walk cycle, back views, sitting, props) + `lib/cast_alts.js` (the specs, ids `eli1`, `mila1`).
+`model_sheet.png`, `emotion_sheet.png`. Engine: `lib/cast.js` (layers, scene light, soft IK arms, mitten hands with a
+thumb, walk cycle, back views, sitting, props) + `lib/cast_alts.js` (the specs, ids `eli1`, `mila1`). Light on the cast
+(detail pass 2026-10-15): the rim is a thin light edge just inside the ink line (<= 0.75x the ink width), on the side
+facing the light only, computed once on the whole silhouette (never on internal edges); the shade crescent is capped
+(<= 0.028 units); eyes are masked from shade, rim and grain. Every delivery runs the **Detail QC checklist** in
+`CHARACTERS.md` §6 (close-ups: `scenes/detail_lab.js`).
 
 **Generic people (the extras)** keep the construction below.
 

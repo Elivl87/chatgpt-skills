@@ -181,7 +181,7 @@
     belly:   { lead: A(null, null, 'relax', [1, -0.4], [-1, -0.3], { at: 'belly' }), trail: A(null, null, 'relax', [1, -0.4], [-1, -0.3], { at: 'belly' }), lift: 0.012 },
     surprise: { lead: A([0.62, 0.3], [0.5, -0.15], 'palm', [1, -0.8], [-0.6, -1]), trail: A([0.62, 0.3], [0.35, -0.2], 'palm', [1, -0.8], [-0.6, -1]), lift: 0.014 },
     clasp:   { lead: A(null, null, 'fist', [1, -0.6], [0, -1], { at: 'chest' }), trail: A(null, null, 'fist', [1, -0.6], [0, -1], { at: 'chest' }) },
-    chin:    { lead: A(null, null, 'hide', [1, -1], [0, -1], { at: 'crossL' }), trail: A(null, null, 'point', [1, -0.6], [0, -1], { at: 'chin' }) },
+    chin:    { lead: A(null, null, 'hide', [1, -1], [0, -1], { at: 'crossL' }), trail: A(null, null, 'mitt', [1, -0.6], [0, -1], { at: 'chinTap' }) },
     scratch: { lead: HANG(), trail: A(null, null, 'fist', [1, 0.2], [-0.6, 0.6], { at: 'nape' }), lift: 0.01 },
     pump:    { lead: HANG(), trail: A([0.3, -0.05], [0.55, 0.02], 'fist', [1, -1], [-0.5, -1]) },
     walk:    { lead: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: 1 }), trail: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: -1 }), walk: 1 },
@@ -508,10 +508,13 @@
         case 'crossL': return [tcx - sg * wT * 0.5 * cosT + dir * s * wT * 0.6, chestY + 0.02];
         case 'crossT': return [tcx - sg * wT * 0.55 * cosT + dir * s * wT * 0.8, chestY + 0.045];
         case 'chin': return [hcx + faceDir * fs * hw * 0.6 + (1 - fs) * 0.0, hcy + hh * 0.95];
+        // curious: curled fingers resting just under the chin ("hmm"), below the mouth, never across it
+        case 'chinTap': return [hcx + faceDir * fs * hw * 0.55, hcy + hh * 0.95 + S.arm.hand * 1.15];
         case 'lap': return [tcx + sg * wB * 0.5 * cosT + dir * s * (wB + 0.06), Tbot - 0.01];
         case 'chest': return [tcx + sg * 0.018 * cosT + dir * s * wT * 1.05, K.lerp(Ttop, Tbot, 0.3)];
         case 'belly': return [tcx + sg * wB * 0.55 * cosT + dir * s * wB * 0.95, K.lerp(Ttop, Tbot, 0.78)];
-        case 'nape': return [hcx - faceDir * hw * 0.95 * Math.max(0.4, fs) + (fs < 0.3 ? sg * hw * 0.95 : 0), hcy + hh * 0.15];
+        // scratching the back / side of the head: the hand stays off the face (never over an eye) in every view
+        case 'nape': return [hcx - faceDir * hw * 1.05 * Math.max(0.45, fs) + (fs < 0.3 ? sg * hw * 0.95 : 0), hcy - hh * 0.12];
         case 'cheek': return [hcx + sg * hw * 1.25 * cosT + dir * s * hw * 0.6, hcy + hh * 0.45];
         case 'board': { const b = boardAt(); return [b[0] - dir * 0.03 * (1 - s) + dir * s * -0.02, b[1] + 0.05]; }
         case 'write': { const b = boardAt(); return [b[0] + dir * 0.012 + Math.sin(t * 11) * 0.006, b[1] - 0.005 + Math.cos(t * 7) * 0.005]; }

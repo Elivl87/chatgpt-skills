@@ -11,6 +11,14 @@ Estado: **propuestas**. Solo el Productor aprueba la miniatura; el arte del cana
 | `preview_sheet_small.jpg` | las 3 al 50 % y cada una a 168x94 en un feed blanco y uno oscuro (#0F0F0F), entre tarjetas neutras, con barras grises y chip de duración (289 KB) |
 | `src/` | generador: `TMPD=<tmp> ./build.sh` (1 Chromium, unos 10 s). `thumbs_v3.js` (escenas con el kit `art/lib` + el mundo ep001, sin tocarlos), `thumbs.html`, `render.mjs`, `finish.py` (numpy/Pillow). Determinista: dos builds dan los mismos md5. |
 
+## Pase de detalle (2026-10-15, tras «los detalles son raros … sus ojos de sorpresa estaban mal diseñados»)
+
+Mismas composiciones; A sigue siendo la elegida. Re-render con el kit corregido (`art/characters/leo_mila/DETAIL_AUDIT.md`,
+30 detalles): **C** ahora lee asombro claro (blancos abiertos sin sombra gris, pupilas centradas mirando al valle con
+brillo, cejas arqueadas, gorro de Eli que salta); manos dibujadas (puño, mano que señala, palmas, manos juntas); cuello y
+tirantes limpios; luz de borde fina por dentro de la línea (ya no doble contorno rojo/crema); en A el grito muestra las
+dos filas de dientes y la lengua por encima del cuello. Antes / después: `art/characters/leo_mila/detail_before_after_small.jpg`.
+
 ## Las tres (distintas a propósito: texto, valor del fondo y escala cambian en cada una)
 
 | | A · ¿QUIÉN FUE? | B · FUE ÉL. | C · ¡VA HACIA ATRÁS! |

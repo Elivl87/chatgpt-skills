@@ -20,7 +20,7 @@
       K.char.person(ctx, cx, y, R, { pose: K.char.EMO_POSE[emo] || 'stand', expr: XEXPR[emo] || emo, t, view, dir: 1, skin: '#c98a64', hair: '#3a2a22', hairStyle: 'short', shirt: '#8aa0b8', pants: '#4a5266',
         light: { ang: -0.75, rim: '#fff1d2', shade: '#4a3560' } });
     } else {
-      const S = C.SPECS[who], top = S.head.cy + S.head.hh + (who === 'eli1' ? 0.05 : 0.04), span = top - (S.shoulder - 0.13), u = (h - 18) / span;
+      const S = C.SPECS[who], top = S.head.cy + S.head.hh + (who === 'eli1' ? 0.085 : 0.045), span = top - (S.shoulder - 0.13), u = (h - 18) / span;
       const E = C.EXPR[emo] || {}, y = y0 + 12 + top * u;
       C.draw(ctx, who, cx - (view === 'side' ? w * 0.06 : 0), y, u, { view, dir: 1, expr: emo, pose: E.body || 'stand', t, light });
     }

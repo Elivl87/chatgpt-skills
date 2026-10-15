@@ -115,7 +115,7 @@
   function beanie(color, dark, pom) {
     return (c, H) => {
       const hw = H.hw, hh = H.hh, cuffY = -hh + 0.046, cuffH = 0.036;
-      const lift = H.browTop != null ? K.clamp((cuffY + cuffH + 0.006) - H.browTop, 0, 0.042) : 0;
+      const lift = H.browTop != null ? K.clamp((cuffY + cuffH + 0.005) - H.browTop, 0, 0.034) : 0;
       const bob = Math.sin(H.t * 3.1 + 0.4) * 0.0022 - lift, sq = 1 - H.hatHit * 0.22;
       c.save(); c.translate(0, cuffY + cuffH + bob + H.hatHit * 0.008); c.scale(1 + H.hatHit * 0.08, sq); c.translate(0, -(cuffY + cuffH));
       const dome = () => { c.beginPath(); c.moveTo(-hw * 1.07, cuffY + 0.005); c.bezierCurveTo(-hw * 1.1, -hh - 0.05, hw * 1.1, -hh - 0.05, hw * 1.07, cuffY + 0.005); c.closePath(); };
@@ -212,12 +212,12 @@
     const waist = B.Tbot - 0.09, top = B.Ttop + 0.13, bw = 0.045 * (1 - 0.45 * B.s), bx = B.tcx;
     c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = B.lw * 2;
     c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath(); c.fill(); c.stroke();
-    for (const sg of [-1, 1]) { const sx = bx + sg * bw * 0.72, ex = B.tcx - sg * B.wT * 0.62;
-      c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = 0.016 + B.lw * 2; c.beginPath(); c.moveTo(sx, top + 0.01); c.lineTo(ex, B.Ttop - 0.01); c.stroke();
-      c.strokeStyle = MUSTARD; c.lineWidth = 0.016; c.beginPath(); c.moveTo(sx, top + 0.012); c.lineTo(ex, B.Ttop - 0.01); c.stroke(); }
-    { // a stitched patch where the straps cross (reads as an X over the bib, never as a letter)
-      const cy = K.lerp(top + 0.01, B.Ttop - 0.01, (bw * 0.72) / (bw * 0.72 + B.wT * 0.62)), cx = B.tcx; c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4;
-      K.rrect(c, cx - 0.013, cy - 0.013, 0.026, 0.026, 0.006); c.fill(); c.stroke(); }
+    for (const sg of [-1, 1]) { const sx = bx + sg * bw * 0.22, ex = B.tcx - sg * B.wT * 0.62;
+      c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = 0.016 + B.lw * 2; c.beginPath(); c.moveTo(sx, top - 0.004); c.lineTo(ex, B.Ttop - 0.01); c.stroke();
+      c.strokeStyle = MUSTARD; c.lineWidth = 0.016; c.beginPath(); c.moveTo(sx, top - 0.002); c.lineTo(ex, B.Ttop - 0.01); c.stroke(); }
+    { // a stitched patch where the straps meet the bib (a clean yoke, never a letter «A»)
+      const cy = top - 0.012, cx = B.tcx; c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4;
+      K.rrect(c, cx - 0.016, cy - 0.014, 0.032, 0.028, 0.006); c.fill(); c.stroke(); }
     c.fillStyle = MUSTARD_D; c.lineWidth = B.lw * 1.4; c.strokeStyle = INK; for (const sg of [-1, 1]) { K.rrect(c, B.tcx + sg * 0.045 - 0.02, waist + 0.03, 0.04, 0.035, 0.005); c.fill(); c.stroke(); }
   };
   MILA1.backHair = function (c, H) { // back of the head: hair cap over the crown + the ponytail hanging in front of it
