@@ -28,7 +28,7 @@
     golden: { ang: -0.55, rim: '#ffd88f', rimA: 0.9, rimW: 0.011, shade: '#3c2a52', shadeA: 0.30, shadeW: 0.05, tex: 0.22 },
     board: { ang: -0.75, rim: '#fff1d2', rimA: 0.8, rimW: 0.009, shade: '#4a3560', shadeA: 0.22, shadeW: 0.045, tex: 0.2 },
   };
-  const TURN = { front: 0, q: 0.55, side: 1 };
+  const TURN = { front: 0, q: 0.55, side: 1, back: 0, backq: 0.55, backside: 1 };
 
   // ------------------------------------------------------------------ buffers
   const pool = {};
@@ -157,6 +157,11 @@
     chin:    { lead: A(null, null, 'hide', [1, -1], [0, -1], { at: 'crossL' }), trail: A(null, null, 'point', [1, -0.6], [0, -1], { at: 'chin' }) },
     scratch: { lead: HANG(), trail: A(null, null, 'fist', [1, 0.2], [-0.6, 0.6], { at: 'nape' }), lift: 0.01 },
     pump:    { lead: HANG(), trail: A([0.3, -0.05], [0.55, 0.02], 'fist', [1, -1], [-0.5, -1]) },
+    walk:    { lead: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: 1 }), trail: A([0.12, -0.97], [0.0, -0.97], 'relax', [1, 0.1], [-1, 0.25], { swing: -1 }), walk: 1 },
+    clipboard: { lead: A(null, null, 'fist', [1, -0.6], [-0.3, -1], { at: 'write' }), trail: A(null, null, 'mitt', [1, -0.4], [-0.3, -1], { at: 'board' }), prop: 'clipboard' },
+    detective: { lead: A(null, null, 'hide', [1, 0.2], [-1, 0.2], { at: 'backhand' }), trail: A(null, null, 'fist', [1, -0.7], [-0.4, -1], { at: 'lens' }), prop: 'magnifier', lean: 0.05 },
+    sitPoint: { lead: A([0.8, 0.5], [0.92, 0.42], 'point', [0, -1], [0, -1]), trail: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }) },
+    sit:     { lead: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }), trail: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }) },
     lapPoint: { lead: A(null, null, 'mitt', [1, -1], [-0.3, -1], { at: 'lap' }), trail: A([-0.6, 0.35], [-0.85, 0.3], 'point', [0, -1], [0, -1]) },
   };
 
@@ -381,7 +386,9 @@
     const P = C.POSES[o.pose] || C.POSES.stand, PB = o.blend ? (C.POSES[o.blend.pose] || C.POSES.stand) : null, bk = o.blend ? K.clamp(o.blend.k) : 0;
     const cosT = Math.cos(s * Math.PI / 2);
     const breathe = Math.sin(t * 2.1 + (S.phase || 0)) * 0.0035, lift = K.lerp(P.lift || 0, PB ? PB.lift || 0 : 0, bk);
-    const hipY = -S.legLen, shY = -S.shoulder - breathe - lift, legsOn = !o.seated;
+    const back = !!o.back, walkK = K.lerp(P.walk || 0, PB ? PB.walk || 0 : 0, bk), wph = t * K.TAU * 0.95 + (S.phase || 0);
+    const bobY = -Math.abs(Math.cos(wph)) * 0.012 * walkK;
+    const hipY = -S.legLen, shY = -S.shoulder - breathe - lift, legsOn = !o.seated, sitLegs = !!(o.seated && o.legs);
     const Ttop = -S.torso.top - breathe - lift * 0.5, Tbot = -S.torso.bot;
     const wT = K.lerp(S.torso.wTop, S.torso.dTop ?? S.torso.wTop * 0.7, s), wB = K.lerp(S.torso.wBot, S.torso.dBot ?? S.torso.wBot * 0.75, s);
     const tcx = dir * s * (S.torso.lean || 0);
@@ -394,7 +401,7 @@
     const lean = (o.lean || 0) + (E.lean || 0) * (o.seated ? 0.5 : 1) + K.lerp(P.lean || 0, PB ? PB.lean || 0 : 0, bk);
     const hcx = tcx + dir * s * (S.head.lean || 0) * 0.5, hcy = -S.head.cy - breathe * 1.4 - lift;
     const H = { cx: 0, cy: 0, hw, hh, s, fs, faceDir, dir, lw, skin: S.skin, lidColor: S.lidColor, F: S.face, E, t, blink: o.blink || 0, talk: o.talk || 0,
-      look: o.look || E.look || [0, 0], headTurn, drag: o.drag || 0, hatHit: o.hatHit || 0, back: false };
+      look: o.look || E.look || [0, 0], headTurn, drag: o.drag || 0, hatHit: o.hatHit || 0, back };
     const sh = sg => [tcx + sg * S.shoulderW * cosT + dir * s * (S.shoulderFwd || 0), shY];
     const L1 = S.arm.upper, L2 = S.arm.fore, LA = L1 + L2;
     const anchor = (name, sg) => {
@@ -409,9 +416,17 @@
         case 'belly': return [tcx + sg * wB * 0.55 * cosT + dir * s * wB * 0.95, K.lerp(Ttop, Tbot, 0.78)];
         case 'nape': return [hcx - faceDir * hw * 0.95 * Math.max(0.4, fs) + (fs < 0.3 ? sg * hw * 0.95 : 0), hcy + hh * 0.15];
         case 'cheek': return [hcx + sg * hw * 1.25 * cosT + dir * s * hw * 0.6, hcy + hh * 0.45];
+        case 'board': { const b = boardAt(); return [b[0] - dir * 0.03 * (1 - s) + dir * s * -0.02, b[1] + 0.05]; }
+        case 'write': { const b = boardAt(); return [b[0] + dir * 0.012 + Math.sin(t * 11) * 0.006, b[1] - 0.005 + Math.cos(t * 7) * 0.005]; }
+        case 'lens': return [hcx + faceDir * (fs * hw * 1.05 + (1 - fs) * 0.0) + (fs < 0.3 ? -dir * hw * 0.2 : 0), hcy + S.face.eyeY + 0.075];
+        case 'backhand': return [tcx - dir * s * (wB + 0.02) + (1 - s) * sg * wB * 0.6, Tbot - 0.03];
+        case 'knee': return kneeAt(sg);
       }
       return [tcx, chestY];
     };
+    function boardAt() { return [tcx + dir * s * (wT + 0.035), K.lerp(Ttop, Tbot, 0.42)]; }
+    const thigh = S.legLen * 0.5, shin = S.legLen * 0.5;
+    function kneeAt(sg) { const hx = sg * S.hipW * cosT; return o.sitGround ? [hx + dir * s * thigh * 0.62 + (1 - s) * sg * 0.035, hipY - thigh * 0.78 * s - (1 - s) * 0.07] : [hx + dir * s * thigh * 0.95 + (1 - s) * sg * 0.015, hipY - 0.01 + (1 - s) * 0.03]; }
     const target = (sg, a) => {
       const S0 = sh(sg);
       let T;
@@ -420,6 +435,7 @@
       if (a.idle) T = [T[0] + Math.sin(t * 1.3 + sg * 1.7 + (S.phase || 0)) * 0.01 * sg, T[1] + Math.sin(t * 2.1 + (S.phase || 0)) * 0.004];
       if (a.shake) T = [T[0] + Math.sin(t * 22) * 0.012, T[1] + Math.cos(t * 22) * 0.01];
       if (a.wave) T = [T[0] + Math.sin(t * 8) * 0.04 * sg, T[1]];
+      if (a.swing) T = [T[0] + dir * Math.max(0.25, s) * LA * 0.32 * Math.sin(wph) * a.swing, T[1] - Math.abs(Math.sin(wph)) * 0.01];
       const pole = [K.lerp(a.pf[0] * sg, a.ps[0] * dir, s), K.lerp(-a.pf[1], -a.ps[1], s)];
       return { T, pole, S0 };
     };
@@ -446,9 +462,15 @@
       if (o.prop && o.prop.hand === (Aa === lead ? 'lead' : 'trail') && o.prop.draw) o.prop.draw(c, pts[pts.length - 1], Aa.dv, S, H);
     };
     const drawLeg = (c, sg) => {
-      const hp = [sg * S.hipW * cosT, hipY], fx = hp[0] + (S.legSplay || 0) * sg * cosT;
-      const b = S.boot, ankle = [fx, -(b.h * 0.5)];
-      noodle(c, [hp, ankle], S.legW, S.legColor, lw);
+      const hp = [sg * S.hipW * cosT, hipY], b = S.boot;
+      let ankle, knee = null;
+      if (sitLegs) { knee = kneeAt(sg); ankle = o.sitGround ? [knee[0] + dir * s * shin * 0.42 + (1 - s) * sg * 0.006, hipY - b.h * 0.42] : [knee[0] + dir * s * 0.03, knee[1] + shin]; }
+      else if (walkK > 0) { const lp = wph + (sg === dir ? 0 : Math.PI), st = 0.11 * walkK; ankle = [hp[0] + (S.legSplay || 0) * sg * cosT + dir * Math.max(0.15, s) * Math.sin(lp) * st, -(b.h * 0.5) - Math.max(0, Math.cos(lp)) * 0.05 * walkK];
+        if (s >= 0.2) { const j = ik(hp, ankle, (S.legLen - b.h * 0.5) / 2 + 0.003, (S.legLen - b.h * 0.5) / 2 + 0.003, [dir + 1e-4, 0]); knee = j[1]; } }
+      else ankle = [hp[0] + (S.legSplay || 0) * sg * cosT, -(b.h * 0.5)];
+      const fx = ankle[0], ay = ankle[1] + b.h * 0.5;   // ay: boot base offset from the ground (0 when standing)
+      noodle(c, knee ? softLimb([hp, knee, ankle], 0.2) : [hp, ankle], S.legW, S.legColor, lw);
+      c.save(); c.translate(0, ay);
       if (S.flare) { const fw = S.legW * 0.5, fw2 = S.legW * (0.5 + S.flare); c.fillStyle = S.legColor; c.strokeStyle = INK; c.lineWidth = lw * 2;
         c.beginPath(); c.moveTo(fx - fw, -b.h - 0.07); c.lineTo(fx - fw2, -b.foot * 0.6); c.lineTo(fx + fw2 + dir * s * 0.01, -b.foot * 0.6); c.lineTo(fx + fw, -b.h - 0.07); c.stroke(); c.fill(); }
       if (S.legStripe) { c.strokeStyle = S.legStripe; c.lineWidth = S.legW * 0.18; c.beginPath(); c.moveTo(hp[0] + sg * S.legW * 0.3 * cosT, hp[1] + 0.02); c.lineTo(fx + sg * S.legW * 0.3 * cosT, ankle[1]); c.stroke(); }
@@ -463,6 +485,7 @@
       footP(); c.strokeStyle = INK; c.lineWidth = lw * 1.6; c.stroke();
       if (b.lip) { c.fillStyle = K.shade(b.color, 0.12); c.strokeStyle = INK; c.lineWidth = lw * 1.4; K.rrect(c, fx - bw * 1.08, -b.h - 0.004, bw * 2.16, 0.022, 0.01); c.fill(); c.stroke(); }
       if (b.laces) { c.strokeStyle = K.rgba(b.laceColor || INK, 0.7); c.lineWidth = lw * 1.1; for (let i = 0; i < 2; i++) { c.beginPath(); c.moveTo(fx - bw * 0.5 + dir * s * bw * 0.6, -b.foot * (0.75 - i * 0.22)); c.lineTo(fx + bw * 0.5 + dir * s * bw * 0.6, -b.foot * (0.75 - i * 0.22)); c.stroke(); } }
+      c.restore();
     };
     const torsoPath = (c) => {
       const r = Math.min(wT * 0.75, S.torso.round ?? 0.05), rb = Math.min(wB * 0.3, 0.03);
@@ -478,6 +501,7 @@
       const hp = () => headPath(c, S.head);
       if (S.ears) S.ears(c, H, B);
       if (S.head.noLine) { hp(); c.fillStyle = S.skin; c.fill(); } else shape(c, hp, S.skin, lw);
+      if (back) { if (S.backHair) S.backHair(c, H, B); if (S.hairBack) S.hairBack(c, H, B); if (S.hat) S.hat(c, H, B); if (S.headTop) S.headTop(c, H, B, null); c.restore(); return; }
       if (S.hairFront) S.hairFront(c, H, B);
       const fi = C.face(c, H);
       if (S.hat) S.hat(c, H, B);
@@ -485,33 +509,60 @@
       if (S.headTop) S.headTop(c, H, B, fi);
       c.restore();
     };
+    const drawBoard = (c) => { // Mila's clipboard: board + paper + clip, held at the chest
+      const [bx, by] = boardAt(), w = 0.075 * (1 - 0.35 * s), hh2 = 0.1;
+      c.save(); c.translate(bx, by); c.rotate(-0.1 * dir);
+      c.fillStyle = '#b88a5a'; c.strokeStyle = INK; c.lineWidth = lw * 2; K.rrect(c, -w / 2, -hh2 / 2, w, hh2, 0.008); c.stroke(); c.fill();
+      c.fillStyle = '#f6f1e4'; K.rrect(c, -w * 0.4, -hh2 * 0.38, w * 0.8, hh2 * 0.82, 0.004); c.fill();
+      c.strokeStyle = '#9aa2b4'; c.lineWidth = lw * 0.9; for (let k = 0; k < 4; k++) { c.beginPath(); c.moveTo(-w * 0.3, -hh2 * 0.22 + k * hh2 * 0.17); c.lineTo(w * (0.3 - (k % 2) * 0.12), -hh2 * 0.22 + k * hh2 * 0.17); c.stroke(); }
+      c.fillStyle = '#8f8a88'; c.strokeStyle = INK; c.lineWidth = lw * 1.2; K.rrect(c, -w * 0.18, -hh2 * 0.58, w * 0.36, hh2 * 0.14, 0.004); c.fill(); c.stroke();
+      c.restore();
+    };
+    const drawPencil = (c, Hd) => { c.strokeStyle = INK; c.lineWidth = 0.012 + lw * 2; c.lineCap = 'round'; c.beginPath(); c.moveTo(Hd[0], Hd[1]); c.lineTo(Hd[0] + 0.012 * dir, Hd[1] - 0.04); c.stroke();
+      c.strokeStyle = '#e8b33a'; c.lineWidth = 0.012; c.stroke(); };
+    const drawLens = (c, Hd) => { const lx = Hd[0] + faceDir * 0.004, ly = Hd[1] - 0.07, r = 0.04;
+      c.strokeStyle = INK; c.lineWidth = 0.012 + lw * 2; c.lineCap = 'round'; c.beginPath(); c.moveTo(Hd[0], Hd[1] + 0.02); c.lineTo(lx, ly + r); c.stroke(); c.strokeStyle = '#6a3e22'; c.lineWidth = 0.012; c.stroke();
+      c.fillStyle = 'rgba(200,232,255,0.28)'; K.circle(c, lx, ly, r); c.fill(); c.strokeStyle = INK; c.lineWidth = 0.011 + lw * 2; c.stroke(); c.strokeStyle = '#d9a63a'; c.lineWidth = 0.011; c.stroke();
+      c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = lw * 1.4; c.beginPath(); c.arc(lx, ly, r * 0.65, -2.6, -1.7); c.stroke(); };
     const upper = (c, fn) => { if (!lean) return fn(); c.save(); c.translate(0, hipY); c.rotate(lean * dir); c.translate(0, -hipY); fn(); c.restore(); };
     return {
       lead, trail, H, B,
       layers: {
         back(c) {
-          upper(c, () => { headDraw(c, 'back'); if (s > 0.05) drawArm(c, lead); });
-          if (legsOn && s > 0.05) drawLeg(c, dir);
+          c.translate(0, bobY);
+          upper(c, () => { if (!back) headDraw(c, 'back'); if (s > 0.05) drawArm(c, back ? trail : lead); });
+          if ((legsOn || sitLegs) && s > 0.05) drawLeg(c, back ? -dir : dir);
         },
         body(c) {
-          if (legsOn) { if (s <= 0.05) { drawLeg(c, -1); drawLeg(c, 1); } else drawLeg(c, -dir); }
+          c.translate(0, bobY);
+          if (legsOn) { if (s <= 0.05) { drawLeg(c, -1); drawLeg(c, 1); } else drawLeg(c, back ? dir : -dir); }
           upper(c, () => {
             if (S.under) S.under(c, B);
             if (!S.headOver) headDraw(c, 'front');
             shape(c, () => torsoPath(c), S.torso.color, lw);
-            if (S.outfit) { c.save(); torsoPath(c); c.clip(); S.outfit(c, B); c.restore(); }
-            if (S.outfitTop) S.outfitTop(c, B);
-            if (S.collar) S.collar(c, B);
+            if (back && S.outfitBack) { c.save(); torsoPath(c); c.clip(); S.outfitBack(c, B); c.restore(); }
+            else if (!back) {
+              if (S.outfit) { c.save(); torsoPath(c); c.clip(); S.outfit(c, B); c.restore(); }
+              if (S.outfitTop) S.outfitTop(c, B);
+              if (S.collar) S.collar(c, B);
+            }
             if (S.headOver) headDraw(c, 'front');
           });
+          if (sitLegs && s > 0.05) drawLeg(c, back ? dir : -dir);
         },
         front(c) {
+          c.translate(0, bobY);
+          if (sitLegs && s <= 0.05) { drawLeg(c, -1); drawLeg(c, 1); }
           upper(c, () => {
+            const prop = P.prop || (PB && bk > 0.5 && PB.prop);
+            if (prop === 'clipboard' && !back) drawBoard(c);
             if (s <= 0.05) {
               const crossed = (o.pose === 'crossed' && bk < 0.5) || (PB && o.blend.pose === 'crossed' && bk >= 0.5);
               for (const Aa of (crossed ? [lead, trail] : [trail, lead])) drawArm(c, Aa);
-            } else drawArm(c, trail);
-            if (S.front) S.front(c, B);
+            } else drawArm(c, back ? lead : trail);
+            if (prop === 'clipboard' && !back) drawPencil(c, lead.pts[lead.pts.length - 1]);
+            if (prop === 'magnifier') drawLens(c, trail.pts[trail.pts.length - 1]);
+            if (S.front && !back) S.front(c, B);
           });
         },
       },
@@ -535,7 +586,7 @@
       return { head: [hh[0], hh[1], r.head[2] / k], hands: { lead: back(r.hands.lead), trail: back(r.hands.trail) }, top: back([0, r.top])[1] };
     }
     const view = o.view || 'front', s = TURN[view] ?? (typeof view === 'number' ? view : 0), dir = o.dir || 1;
-    const oo = Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir });
+    const oo = Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: String(view).startsWith('back') });
     const R = (S.kind === 'biped' ? biped : S.build)(S, oo);
     const bw = Math.ceil(u * (S.box ? S.box[0] : 1.8)), bh = Math.ceil(u * (S.box ? S.box[1] : 1.62));
     const ox = bw / 2, oy = Math.ceil(u * (S.box ? S.box[2] : 1.42)) - (o.seated ? Math.round(S.legLen * u) : 0);

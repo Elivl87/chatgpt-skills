@@ -46,3 +46,20 @@
     post: { grain: 0.05, vignette: 0.1, vignetteColor: '#6a4a50' },
   });
 })(typeof window !== 'undefined' ? window : globalThis);
+(function (root) { // pose lab (development): ?scene=pose_lab&id=mila1&poses=walk,clipboard&views=front,q,side,back,backq
+  const K = root.K, C = K.cast;
+  K.scene('pose_lab', {
+    setup(ctx, o) { this.id = o.id || 'mila1'; this.poses = (o.poses || 'stand').split(','); this.views = (o.views || 'front,q,side,back').split(','); this.expr = o.expr || 'neutral'; this.seated = !!o.seated; this.ground = !!o.ground; },
+    draw(ctx, t) {
+      ctx.fillStyle = '#efe0cc'; ctx.fillRect(0, 0, K.W, K.H);
+      const n = this.poses.length * this.views.length, w = K.W / n, u = Math.min(800, w * 2.2);
+      let k = 0; for (const p of this.poses) for (const v of this.views) {
+        const x = w * (k + 0.5), y = this.seated ? 760 : 1020;
+        if (this.seated) { ctx.fillStyle = 'rgba(80,60,60,0.25)'; ctx.fillRect(x - w * 0.45, y, w * 0.9, 6); }
+        C.draw(ctx, this.id, x, y, Math.min(u, 900), { view: v, pose: p, expr: this.expr, t: t + k * 0.13, seated: this.seated, legs: this.seated, sitGround: this.ground, light: C.LIGHT.board, shadow: 0.3 });
+        k++;
+      }
+    },
+    post: { grain: 0.04, vignette: 0 },
+  });
+})(typeof window !== 'undefined' ? window : globalThis);

@@ -169,6 +169,35 @@
     c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = H.lw * 1.6; K.ellipse(c, rx + back * 0.006, ry - 0.006, 0.02, 0.012, back * 0.5); c.fill(); c.stroke();
     drops(GOLD, H.F.mouthY - 0.006)(c, H);
   };
+  // back views (turnaround, wide rear shots, the night hill)
+  ELI1.outfitBack = function (c, B) { // tee back: apron neck cord behind the collar, waist tie with a bow
+    c.strokeStyle = '#3b2a20'; c.lineWidth = 0.008; c.beginPath(); c.moveTo(B.tcx - B.wT * 0.55, B.Ttop + 0.004); c.quadraticCurveTo(B.tcx, B.Ttop + 0.03, B.tcx + B.wT * 0.55, B.Ttop + 0.004); c.stroke();
+    c.fillStyle = '#3b2a20'; c.fillRect(-1, B.Tbot - 0.026, 2, 0.022);
+    const bx = B.tcx - B.dir * B.s * 0.02, by = B.Tbot - 0.015, sw = Math.sin(B.t * 2.3) * 0.004;
+    c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; c.fillStyle = '#4a3326';
+    for (const sg of [-1, 1]) { c.beginPath(); c.ellipse(bx + sg * 0.018, by - 0.004, 0.018, 0.011, sg * 0.3, 0, K.TAU); c.fill(); c.stroke(); }
+    c.strokeStyle = '#3b2a20'; c.lineWidth = 0.007; c.beginPath(); c.moveTo(bx, by); c.lineTo(bx - 0.012 + sw, by + 0.05); c.moveTo(bx, by); c.lineTo(bx + 0.014 + sw, by + 0.045); c.stroke();
+    c.fillStyle = '#4a3326'; K.circle(c, bx, by, 0.007); c.fill();
+  };
+  MILA1.outfitBack = function (c, B) { // overall back: a small bib and straps crossing in an X, brass buttons
+    const waist = B.Tbot - 0.09, top = B.Ttop + 0.13, bw = 0.045 * (1 - 0.45 * B.s), bx = B.tcx;
+    c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = B.lw * 2;
+    c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw * 0.8, top); c.lineTo(bx + bw * 0.8, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath(); c.fill(); c.stroke();
+    for (const sg of [-1, 1]) { const sx = bx + sg * bw * 0.6, ex = B.tcx - sg * B.wT * 0.62;
+      c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = 0.016 + B.lw * 2; c.beginPath(); c.moveTo(sx, top + 0.01); c.lineTo(ex, B.Ttop - 0.01); c.stroke();
+      c.strokeStyle = MUSTARD; c.lineWidth = 0.016; c.beginPath(); c.moveTo(sx, top + 0.012); c.lineTo(ex, B.Ttop - 0.01); c.stroke(); }
+    c.fillStyle = MUSTARD_D; c.lineWidth = B.lw * 1.4; c.strokeStyle = INK; for (const sg of [-1, 1]) { K.rrect(c, B.tcx + sg * 0.045 - 0.02, waist + 0.03, 0.04, 0.035, 0.005); c.fill(); c.stroke(); }
+  };
+  MILA1.backHair = function (c, H) { // back of the head: hair cap over the crown + the ponytail hanging in front of it
+    c.save(); h.headPath(c, MILA1.head); c.clip(); c.fillStyle = MILA1.hair; c.beginPath(); c.moveTo(-H.hw * 1.3, -H.hh * 0.2); c.quadraticCurveTo(0, -H.hh * 0.02, H.hw * 1.3, -H.hh * 0.2); c.lineTo(H.hw * 1.3, -H.hh * 1.3); c.lineTo(-H.hw * 1.3, -H.hh * 1.3); c.closePath(); c.fill();
+    c.strokeStyle = K.rgba('#6a4646', 0.85); c.lineWidth = H.lw * 1.2; for (const k of [-0.5, 0.5]) { c.beginPath(); c.moveTo(0, -H.hh + 0.01); c.quadraticCurveTo(k * H.hw * 0.9, -H.hh * 0.5, k * H.hw * 1.0, -H.hh * 0.15); c.stroke(); }
+    c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.beginPath(); c.moveTo(-H.hw * 1.3, -H.hh * 0.2); c.quadraticCurveTo(0, -H.hh * 0.02, H.hw * 1.3, -H.hh * 0.2); c.stroke(); c.restore(); outlineHead(c, H, MILA1);
+    const sw = Math.sin(H.t * 2.4) * 0.01 - H.drag * 0.03 * H.dir, x = -H.faceDir * H.s * H.hw * 0.2, y0 = -H.hh + 0.01;
+    c.fillStyle = MILA1.hair; c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.beginPath(); c.moveTo(x - 0.02, y0 - 0.01); c.quadraticCurveTo(x - 0.034, y0 + 0.12, x - 0.012 + sw, y0 + 0.24); c.quadraticCurveTo(x + sw, y0 + 0.265, x + 0.012 + sw, y0 + 0.24); c.quadraticCurveTo(x + 0.034, y0 + 0.12, x + 0.02, y0 - 0.01); c.closePath(); c.stroke(); c.fill();
+    c.strokeStyle = K.rgba('#5a3a3a', 0.8); c.lineWidth = H.lw * 1.1; c.beginPath(); c.moveTo(x, y0 + 0.02); c.quadraticCurveTo(x - 0.008, y0 + 0.12, x + sw * 0.8, y0 + 0.22); c.stroke();
+    c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = H.lw * 1.6; K.ellipse(c, x, y0 + 0.004, 0.024, 0.012); c.fill(); c.stroke();
+  };
+  { const hb = MILA1.hairBack; MILA1.hairBack = function (c, H, B) { if (H.back) return; hb(c, H, B); }; }
   C.define('eli1', ELI1); C.define('mila1', MILA1);
 
   // =============================================================== ALT 2 · Carretera 70 (retro road trip)
