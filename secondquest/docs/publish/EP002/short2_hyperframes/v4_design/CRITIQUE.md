@@ -110,3 +110,12 @@ gates.sh: PASS (0 errors). This includes the new crossfade rule and the 1/30 s w
 | 4 | "think:" reused #2d | The cut now uses her real back pose (#2f): she faces the giant tree. "That is an" returns to #2d. There is no other tunic pose; #2e is kept for "problem." |
 
 gates.sh: PASS. That covers lint 0 E; frame_critic 0 E, including CROSSFADE_CHARACTERS and the 1/30 s windows (0-1, 1-2.2, 2-3.6, 3.7-5.3, 7-9.4, 7.8-11.5, 12.6-14.6, 15.7-17.8, 19-22 s); sfx_audit 0/0 with 6 onsets; and check ok. The MP4 was rendered first and the contact sheet was written after it. Checked by eye on MP4 frames at 3.4, 3.55, 10.04, 12.9 and 20.8-21.95 s.
+
+## v4.2 -> v4.3
+
+| # | Item | Fix |
+|---|---|---|
+| 1 | Navi crossed "EXCEPT YOU" (21.37-21.55 s) | After the star she goes straight to the sign's right edge, before the card text appears. She loops around the sign's lower-right corner, **outside its frame**: (1015,650) → (1040,860) → (1010,1085) → (900,1140), under the frame, right of the post and of Pixie → (1030,980) → (1035,740). She then rests top-right (985,585). She is bigger on the card (r 28, was 22) and her trail is brighter (alpha .75, was .55). She is never over the card text, the thumbnail's text, or a face. Navi is a canvas and the thumbnail text is baked into its image, so DOM boxes cannot check this. It was checked by eye on every 1/15 s frame of the rendered MP4 from 19.8 to 22.0 s (tile sheet), plus the 1/30 s DOM sweep 19-22 s (0 errors). |
+| 2 (opt.) | Sparks | Every 6th spark is a brighter 3-4 px point with a short soft glow. They are still born at the Triforce's edge and fly outward. |
+
+gates.sh: PASS (lint 0 E, frame_critic 0 E incl. CROSSFADE_CHARACTERS and every 1/30 s window, sfx_audit 0/0, check ok). The MP4 was rendered first; the contact sheet was written after it.

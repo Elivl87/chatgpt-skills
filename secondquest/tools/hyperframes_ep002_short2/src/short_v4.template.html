@@ -312,7 +312,10 @@
       function drawSparks(t) { SPK.clearRect(0, 0, 600, 600); const t0 = {{l69.w5-0.04}}; if (t < t0 || t > t0 + 1.4) return;
         for (let i = 0; i < 46; i++) { const a = hash(i, 1) * 6.283, v = 140 + 260 * hash(i, 2), u = t - t0, d = 175 + v * u * (1 - u * .35);   // born at the silhouette's edge, flying outward
           const x = 300 + Math.cos(a) * d, y = 300 + Math.sin(a) * d + 60 * u * u, o = Math.max(0, 1 - u / 1.4) * (.5 + .5 * hash(i, 3));
-          SPK.fillStyle = `rgba(255,${238 + 17 * hash(i, 4) | 0},${200 + 50 * hash(i, 6) | 0},${o})`; SPK.beginPath(); SPK.arc(x, y, 1.4 + 1.6 * hash(i, 5), 0, 7); SPK.fill(); } }   // small bright points
+          const big = i % 6 === 0, rr = big ? 3 + hash(i, 5) : 1.4 + 1.6 * hash(i, 5);
+          if (big) { const gg = SPK.createRadialGradient(x, y, 0, x, y, rr * 4); gg.addColorStop(0, `rgba(255,236,170,${.55 * o})`); gg.addColorStop(1, "rgba(255,220,140,0)");
+            SPK.fillStyle = gg; SPK.beginPath(); SPK.arc(x, y, rr * 4, 0, 7); SPK.fill(); }                // a few brighter points with a short soft glow
+          SPK.fillStyle = `rgba(255,${238 + 17 * hash(i, 4) | 0},${200 + 50 * hash(i, 6) | 0},${o})`; SPK.beginPath(); SPK.arc(x, y, rr, 0, 7); SPK.fill(); } }
 
       /* ---------------- SELECT: "Player two?" — the player-select screen; the title wobbles with Bram's voice (audio-reactive) */
       tl.fromTo("#p2word", { scale: 1.3 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%" }, {{S2}});
@@ -453,11 +456,11 @@
       key({{VEND+2.2}}, 1000, 790, 28, 1);
       orbit({{VEND+2.25}}, T_STAR - .1, 540, 780, 450, 170, 1.0, 28, 0);
       key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x - 40, STAR.y - 330, 20, 1);
-      key(CARD + .25, 150, 700, 20, 1); key(CARD + .5, 170, 760, 22, 1); key(CARD + .8, 560, 790, 24, 1);
-      // one slow loop around the signboard (clear of the text above and Pixie's head below), then at rest by the sign's corner
-      key(CARD + 1.0, 1010, 770, 22, 1);
-      orbit(CARD + 1.05, {{DUR-0.4}}, 540, 770, 470, 225, 1.0, 22, 0);
-      key({{DUR-0.2}}, 960, 600, 20, 1); key({{DUR}}, 960, 600, 20, 1);
+      key(CARD + .3, 1010, 560, 24, 1);                                          // straight to the sign's right edge, before the card text appears (never over a face or text)
+      // one loop around the sign's lower-right corner, OUTSIDE its frame (never over EXCEPT YOU or the card text), then at rest top-right
+      key(CARD + 1.05, 1015, 650, 28, 1); key(CARD + 1.3, 1040, 860, 28, 1); key(CARD + 1.55, 1010, 1085, 28, 1);
+      key(CARD + 1.8, 900, 1140, 28, 1); key(CARD + 2.05, 1030, 980, 28, 1); key(CARD + 2.3, 1035, 740, 28, 1);
+      key({{DUR-0.25}}, 990, 590, 26, 1); key({{DUR}}, 985, 585, 26, 1);
       NK.sort((a, b) => a[0] - b[0]);
       function naviPath(t) {
         if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);
@@ -485,7 +488,7 @@
         g.addColorStop(0, `rgba(${col},${.95 * op})`); g.addColorStop(.35, `rgba(${col},${.45 * op})`); g.addColorStop(1, `rgba(${col},0)`);
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * 3.2, 0, 7); ctx.fill();
         for (let k = 0; k < TR.length; k++) { let [qx, qy, , qo] = TR[k]; qx -= bx0; qy -= by0; const rr = (4.5 - 3 * k / 10) * s * 1.6;
-          ctx.fillStyle = `rgba(255,255,255,${op * Math.min(1, qo + .2) * .55 * (1 - k / 10)})`; ctx.beginPath(); ctx.arc(qx, qy, rr, 0, 7); ctx.fill(); }
+          ctx.fillStyle = `rgba(255,255,255,${op * Math.min(1, qo + .2) * .75 * (1 - k / 10)})`; ctx.beginPath(); ctx.arc(qx, qy, rr, 0, 7); ctx.fill(); }
         const f = .6 + .4 * Math.sin(t * 6.4 * 2 * Math.PI);
         for (const sx of [-1, 1]) {
           ctx.fillStyle = `rgba(230,245,255,${.55 * op})`; ctx.beginPath(); ctx.ellipse(x + sx * 16.5 * s, y - (3 + 13 * f) * s, 13.5 * s, (1 + 13 * f) * s, 0, 0, 7); ctx.fill();
