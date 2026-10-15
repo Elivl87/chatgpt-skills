@@ -49,8 +49,11 @@ def chunks():
     res = []
     # critic v2 #6/#7: a caption never outlives its shot (it ends at the next cut), and none is shown while a title says the
     # same words (l60 is the "THAT IS THE / IMPOSSIBLE JOB" title)
-    CUTS = sorted(T[k] + d for k, d in (('S1', 0), ('l47', -.1), ('l60', -.1)))   # l60-0.1: the title takes over
-    out = [c for c in out if c[0][0] != 'l60']
+    CUTS = sorted(T[k] + d for k, d in (('S1', 0), ('S2', 0), ('l72', -.18), ('l73', -.12)))
+    # words that a title shows on screen are not captioned again (no title + caption saying the same words)
+    TITLED = {('l66', 'Player'), ('l66', 'one'), ('l71', 'Player'), ('l71', 'two?')}
+    out = [[w for w in c if (w[0], w[1]) not in TITLED] for c in out]
+    out = [c for c in out if c]
     for i, c in enumerate(out):
         nxt = out[i + 1][0][2] - .06 if i + 1 < len(out) else seg.VOICE_END
         end = min(nxt - .01, c[-1][3] + .7)
@@ -60,7 +63,7 @@ def chunks():
     return res
 
 
-src = (HERE / 'src/short.template.html').read_text()
+src = (HERE / ('src/' + os.environ.get('TEMPLATE', 'short_v4.template.html'))).read_text()
 
 
 def include(m):

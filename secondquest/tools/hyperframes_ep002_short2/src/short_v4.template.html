@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width={{RW}}, height={{RH}}" />
+    <title>EP002 Short 2 v4 Player Two</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/three.min.js"></script>
+    <style>
+      /* v4 "Player Two" layout (1080 x 1920): HUD band y 120-300 (game world only, never under a title) · titles y 190-420 or
+         in the split halves · captions y 1340-1500 · nothing that matters below y 1536 or right of x 918. */
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      :root { --gold: #ffc83d; --ink: #16161f; --axis: 491px; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: {{RW}}px; height: {{RH}}px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: {{RW}}px; height: {{RH}}px; overflow: hidden; font-family: "Inter", sans-serif; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale({{RK}}); transform-origin: 0 0; overflow: hidden; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .abs { position: absolute; }
+      .shot { overflow: hidden; background: #16161f; }
+      .breath { position: absolute; inset: 0; transform-origin: 50% 50%; }
+      .cam { position: absolute; left: 0; top: 0; transform-origin: 0 0; width: 2688px; height: 1512px; }
+      .cam > img.plate { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+      /* a character: a box in plate px (feet = bottom centre), its poses stacked inside, a soft contact shadow */
+      .chr { position: absolute; transform-origin: 50% 100%; }
+      .chr img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; opacity: 0; object-fit: contain; object-position: 50% 100%; transform-origin: 50% 100%; }
+      .chr img.on { opacity: 1; }
+      .chr .foot { position: absolute; left: 6%; width: 88%; bottom: -3.2%; height: 6.4%; border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(24,20,12,.55) 0%, rgba(24,20,12,.25) 45%, rgba(24,20,12,0) 72%); }
+      .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill;
+        text-shadow: 6px 8px 0 var(--ink); line-height: 1.0; white-space: nowrap; letter-spacing: .01em; }
+      /* the one title style: opening hook and its callback on l60 */
+      .ttl { position: absolute; left: 65px; width: 853px; top: 190px; text-align: center; }
+      .ttl .ln { display: block; overflow: hidden; padding: 6px 30px 14px; margin-bottom: -24px; }   /* mask-up line reveal (kinetic-typography) */
+      .ttl .big { display: inline-block; }
+      .ttl .a { font-size: 92px; color: #fff; }
+      .ttl .b { font-size: 112px; }
+      #hud img { position: absolute; display: block; }
+      /* captions: Shorts standard, word by word, on the text axis, inside x 6-85 % and above the bottom UI */
+      .cap { position: absolute; left: 81px; width: 820px; top: 1340px; text-align: center; font: 800 74px/1.14 "Inter", sans-serif;
+        color: #fff; word-spacing: .1em; -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; text-shadow: 0 7px 0 var(--ink);
+        visibility: hidden; transform-origin: 50% 50%; }
+      .cap.bigc { font-size: 132px; top: 1310px; color: var(--gold); }
+      .cap span { display: inline-block; }
+
+      /* split-screen frame 0 */
+      .half { position: absolute; left: 0; width: 1080px; overflow: hidden; }
+      #seam { position: absolute; left: 0; top: 948px; width: 1080px; height: 24px; background: var(--gold); box-shadow: 0 0 0 6px var(--ink); }
+      #vs { position: absolute; left: 470px; top: 900px; width: 140px; height: 120px; border-radius: 60px; background: var(--ink); border: 8px solid var(--gold);
+        font: 400 74px/104px "Anton", sans-serif; color: #fff; text-align: center; }
+      .ptag { position: absolute; height: 74px; padding: 0 22px; border-radius: 37px; border: 7px solid var(--ink); font: 400 52px/60px "Anton", sans-serif;
+        color: var(--ink); box-shadow: 4px 6px 0 var(--ink); white-space: nowrap; }
+      .ptag.p1 { background: var(--gold); } .ptag.p2 { background: #7fd0ff; }
+      .pttl { position: absolute; left: 70px; font-size: 104px; }
+      /* counters (100 % / 0 %) */
+      .meter { position: absolute; left: 70px; top: 560px; width: 440px; text-align: left; }
+      .meter .num { display: block; font-size: 190px; }
+      .meter .lbl { display: block; font: 800 46px "Inter", sans-serif; color: #fff; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; letter-spacing: .08em; margin-top: 4px; }
+      /* player select */
+      #sel { background: radial-gradient(ellipse at 50% 40%, #1d2a4a 0%, #0c1022 70%); }
+      .port { position: absolute; top: 720px; width: 380px; height: 420px; border-radius: 34px; border: 8px solid #3a4466; background: rgba(255,255,255,.04); }
+      .port svg { position: absolute; left: 40px; top: 70px; width: 300px; height: 200px; }
+      .port .st { position: absolute; left: 0; width: 100%; top: 300px; text-align: center; font: 400 64px "Anton", sans-serif; }
+      #ttlP2 { position: absolute; left: 65px; width: 853px; top: 250px; text-align: center; }
+      #ttlP2 .big { font-size: 150px; display: inline-block; }
+      #pressStart { position: absolute; left: 65px; width: 853px; top: 130px; text-align: center; font-size: 96px; color: #fff; }
+      .gl { position: absolute; pointer-events: none; }
+      /* wordmark + end card */
+      #wm { position: absolute; left: 90px; top: 690px; width: 900px; height: 240px; transform-origin: 50% 32%; }
+      #wm img { position: absolute; left: 0; top: 0; width: 900px; height: 155px; filter: drop-shadow(0 7px 0 #16161f) drop-shadow(0 0 30px rgba(22,22,31,.5)); }
+      #wmBar { position: absolute; left: 150px; top: 182px; width: 600px; height: 13px; background: var(--gold); border-radius: 7px; box-shadow: 0 5px 0 var(--ink); transform-origin: 50% 50%; }
+      #twinkle { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+      #twinkle .g { position: absolute; left: -130px; top: -130px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(255,244,210,.95) 0%, rgba(255,230,160,.45) 35%, rgba(255,220,150,0) 70%); }
+      #twinkle svg { position: absolute; left: -70px; top: -70px; width: 140px; height: 140px; overflow: visible; }
+      #cT { position: absolute; left: 65px; width: 853px; top: 312px; text-align: center; }
+      #cT span { display: block; }
+      #cT .a { font-size: 96px; color: #fff; }
+      #cT .b { font-size: 76px; margin-top: 6px; }
+      #sign { position: absolute; left: 140px; top: 560px; width: 800px; height: 960px; }
+      #sign .post { position: absolute; top: 400px; width: 30px; height: 540px; border: 6px solid var(--ink); border-radius: 6px; background: linear-gradient(90deg, #5a3b20, #8a5d34 45%, #5a3b20); }
+      #sign .shadow { position: absolute; left: 60px; top: 912px; width: 680px; height: 46px; border-radius: 50%; background: radial-gradient(ellipse, rgba(20,16,8,.5) 0%, rgba(20,16,8,0) 70%); }
+      #thumbBox { position: absolute; left: 0; top: 0; width: 800px; height: 452px; border: 18px solid #7a5230; outline: 6px solid var(--ink); border-radius: 14px; overflow: hidden;
+        box-shadow: 10px 14px 0 var(--ink); background: #000; }
+      #thumbBox img { width: 100%; height: 100%; display: block; }
+      #pixCard { position: absolute; }
+      #pixCard img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      #pixCard .foot { position: absolute; left: 4%; width: 92%; bottom: -3%; height: 5%; border-radius: 50%; background: radial-gradient(ellipse, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 72%); }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-fps="30" data-width="{{RW}}" data-height="{{RH}}">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="{{DUR}}" data-track-index="30" data-volume="1"></audio>
+      <div id="stage">
+      <div id="shake" class="full">
+
+      <!-- ===== P1 · l66 + l69 · the temple (#13): veteran Quest (#1 -> #2 scared), the 3D Triforce on the pedestal, the villain (#8) ===== -->
+      <div id="shP1" class="full shot clip" data-start="0" data-duration="{{S2+0.02}}" data-track-index="1">
+        <div class="breath" id="brP1"><div class="cam" id="camP1">
+          <img class="plate" src="assets/temple.jpg" alt="" />
+          <div id="tfGlow" class="abs" style="left: 1044px; top: 30px; width: 600px; height: 600px; opacity: 0; mix-blend-mode: screen; border-radius: 50%; background: radial-gradient(circle, rgba(255,224,140,.75) 0%, rgba(255,200,90,.25) 35%, rgba(255,190,80,0) 65%)"></div>
+          <div class="chr" id="vil" data-role="character"><div class="foot"></div><img class="on" src="assets/villain.png" alt="villain" /></div>
+          <canvas id="tf" class="abs" width="800" height="800" style="left: 1044px; top: 30px; width: 600px; height: 600px"></canvas>
+          <canvas id="sparks" class="abs" width="600" height="600" style="left: 1044px; top: 30px; width: 600px; height: 600px"></canvas>
+          <div class="chr" id="q1" data-role="character"><div class="foot"></div><img id="q1a" class="on" src="assets/q1.png" alt="quest" /><img id="q1b" src="assets/q2.png" alt="quest" /></div>
+        </div></div>
+      </div>
+      <!-- frame 0: the bottom half of the split screen (P2 in the forest, #2e confused); the P1 temple shows in the top half -->
+      <div id="shSplit" class="full clip" data-start="0" data-duration="{{l66.w1+0.3}}" data-track-index="2">
+        <div id="botHalf" class="half" style="top: 960px; height: 960px"><div class="breath" id="brS"><div class="cam" id="camS">
+          <img class="plate" src="assets/forest.jpg" alt="" />
+          <div class="chr" id="pS" data-role="character"><div class="foot"></div><img class="on" src="assets/p2e.png" alt="pixie" /></div>
+        </div></div></div>
+        <div id="splitUi" class="full">
+          <div id="seam"></div><div id="vs">VS</div>
+          <div class="ptag p1" style="left: 790px; top: 760px">P1</div>
+          <div class="ptag p2" style="left: 790px; top: 1170px">P2</div>
+          <div class="big pttl" style="top: 790px; color: var(--gold)">PLAYER ONE</div>
+          <div class="big pttl" style="top: 1170px; color: #7fd0ff">PLAYER TWO</div>
+        </div>
+      </div>
+
+      <!-- ===== SELECT · l71 "Player two?" · a player-select screen in our own game-UI style ===== -->
+      <div id="sel" class="full shot clip" data-start="{{S2}}" data-duration="{{l72-0.18-S2+0.02}}" data-track-index="3">
+        <div class="port" id="port1" style="left: 80px; border-color: var(--gold)"><svg viewBox="0 0 300 200"><use href="#pad" fill="#ffc83d"/></svg><div class="st" style="color: var(--gold)">P1 READY</div></div>
+        <div class="port" id="port2" style="left: 540px"><svg viewBox="0 0 300 200"><use href="#pad" id="pad2" fill="#3a4466"/></svg><div class="st" id="p2st" style="color: #7fd0ff">P2 ?</div></div>
+        <div id="ttlP2" aria-label="Player two?"><span class="big" id="p2word">PLAYER TWO?</span></div>
+        <svg width="0" height="0" style="position: absolute"><defs><g id="pad"><path d="M70 40 H230 Q290 40 296 110 L300 160 Q300 196 266 190 L222 150 H78 L34 190 Q0 196 0 160 L4 110 Q10 40 70 40 Z" stroke="#16161f" stroke-width="10"/>
+          <circle cx="85" cy="95" r="22" fill="#16161f"/><circle cx="215" cy="85" r="12" fill="#16161f"/><circle cx="240" cy="110" r="12" fill="#16161f"/><circle cx="190" cy="110" r="12" fill="#16161f"/><circle cx="215" cy="135" r="12" fill="#16161f"/></g></defs></svg>
+      </div>
+
+      <!-- ===== P2 · l72 · the forest village (#12): forest-friend Pixie (#2c, waving: she knows none of it and is delighted) ===== -->
+      <div id="shP2" class="full shot clip" data-start="{{l72-0.18}}" data-duration="{{l73-0.12-l72+0.18+0.02}}" data-track-index="4">
+        <div class="breath" id="brP2"><div class="cam" id="camP2">
+          <img class="plate" id="p2plate" src="assets/forest.jpg" alt="" />
+          <div class="chr" id="p2" data-role="character"><div class="foot"></div><img class="on" id="p2img" src="assets/p2c.png" alt="pixie" /></div>
+        </div></div>
+        <canvas id="boot" class="full gl" width="540" height="960" style="width: 1080px; height: 1920px; visibility: hidden" data-critic-ignore></canvas>
+      </div>
+
+      <!-- ===== TREE · l73-l74 · the giant tree (#14) and Pixie (#2d awe, #2e doubt): the punchline and its hold ===== -->
+      <div id="shT" class="full shot clip" data-start="{{l73-0.12}}" data-duration="{{VEND+0.45-l73+0.12+0.02}}" data-track-index="5">
+        <div class="breath" id="brT"><div class="cam" id="camT">
+          <img class="plate" id="tplate" src="assets/tree.jpg" alt="" />
+          <div class="chr" id="pT" data-role="character"><div class="foot"></div><img id="pTd" class="on" src="assets/p2d.png" alt="pixie" /><img id="pTe" src="assets/p2e.png" alt="pixie" /></div>
+        </div></div>
+      </div>
+
+      <!-- ===== VISTA · the ending he loved: co-op at last (#17+18): P1 Quest + P2 princess Pixie, PRESS START ===== -->
+      <div id="shV" class="full shot clip" data-start="{{VEND+0.45}}" data-duration="{{DUR-VEND-0.45}}" data-track-index="6">
+        <div class="breath" id="brV"><div class="cam" id="camV"><img class="plate" src="assets/outcrop.jpg" alt="quest and pixie" />
+          <div id="vflare" class="abs" style="left: 1201px; top: 35px; width: 1200px; height: 1200px; opacity: 0; mix-blend-mode: screen; background: radial-gradient(circle, rgba(255,246,214,1) 0%, rgba(255,214,140,.6) 10%, rgba(255,190,110,.2) 32%, rgba(255,180,100,0) 58%)"></div>
+        </div></div>
+        <div class="ptag p1" id="vtag1" style="opacity: 0">P1</div>
+        <div class="ptag p2" id="vtag2" style="opacity: 0">P2</div>
+        <div class="big" id="pressStart" aria-label="Press start">PRESS START</div>
+        <div id="vnight" class="full" style="background: #07060a; opacity: 0"></div>
+      </div>
+      </div>
+
+      <!-- ===== HUD (game world only, never under a title) ===== -->
+      <div id="hud" class="full clip" data-role="hud" data-start="0" data-duration="{{VEND+0.45}}" data-track-index="15" style="opacity: 0">
+        <img src="assets/hud_hearts.png" alt="" style="left: 60px; top: 150px; width: 290px" />
+        <img src="assets/hud_rupee.png" alt="" style="left: 66px; top: 236px; width: 120px" />
+        <img src="assets/hud_buttons.png" alt="" style="left: 640px; top: 132px; width: 380px" />
+        <div class="ptag p1" id="hudP1" style="left: 430px; top: 160px">P1</div>
+        <div class="ptag p2" id="hudP2" style="left: 430px; top: 160px; opacity: 0">P2</div>
+      </div>
+
+      <!-- ===== titles & meters (above the HUD layer, never together with it) ===== -->
+      <div id="ttlClip" class="full clip" data-start="{{l66.w1-0.02}}" data-duration="{{l66.w3+0.1-l66.w1}}" data-track-index="16">
+        <div class="ttl" id="ttlP1" style="top: 250px" aria-label="Player one"><span class="big" style="font-size: 160px; display: inline-block">PLAYER ONE</span></div>
+      </div>
+      <div id="m1Clip" class="full clip" data-start="{{l66.w4-0.05}}" data-duration="{{S1-l66.w4+0.05}}" data-track-index="17">
+        <div class="meter" id="m1"><span class="big num" id="m1n">0%</span><span class="lbl">KNOWS IT ALL</span></div>
+      </div>
+      <div id="m2Clip" class="full clip" data-start="{{l72.w4-0.05}}" data-duration="{{l73-0.12-l72.w4+0.05}}" data-track-index="17">
+        <div class="meter" id="m2"><span class="big num" id="m2n" style="color: #7fd0ff">0%</span><span class="lbl">KNOWS IT ALL</span></div>
+      </div>
+
+      <!-- ===== wordmark + end card (the EP002 v3 thumbnail B1, whole) ===== -->
+      <div id="card" class="full clip" data-start="{{VEND+0.9}}" data-duration="{{DUR-VEND-0.9}}" data-track-index="17" style="opacity: 0">
+        <img id="cardBg" class="abs" src="assets/field.jpg" alt="" style="left: -920px; top: 0; width: 3413px; height: 1920px; filter: blur(2px) brightness(.72) saturate(.95)" />
+        <div id="cT"><span class="big a">FULL EPISODE</span><span class="big b">ON THE CHANNEL</span></div>
+        <div id="sign"><div class="shadow"></div><div class="post" style="left: 110px"></div><div class="post" style="left: 660px"></div>
+          <div id="thumbBox"><img id="thumbImg" src="assets/thumb.jpg" alt="" /></div></div>
+        <div id="pixCard" data-role="character"><div class="foot"></div><img src="assets/p2c.png" alt="pixie" /></div>
+      </div>
+      <div id="wmClip" class="full clip" data-start="{{VEND-0.3}}" data-duration="{{DUR-VEND+0.3}}" data-track-index="18">
+        <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
+        <div id="twinkle"><div class="g"></div><svg viewBox="-70 -70 140 140"><polygon points="0,-70 12,-12 70,0 12,12 0,70 -12,12 -70,0 -12,-12" fill="#fffaf0"/></svg></div>
+      </div>
+
+
+      <div id="naviClip" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="19" style="pointer-events: none">
+        <canvas id="navi" data-critic-ignore class="abs" width="64" height="64" style="left: 0; top: 0; visibility: hidden"></canvas>
+      </div>
+      <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="{{VEND}}" data-track-index="20"></div>
+      <div id="flash" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
+      </div>
+    </div>
+
+    <script>
+      const SW = 1080, SH = 1920, PW = 2688, PH = 1512;
+      const ART = /*ART*/;
+      const CAPS = /*CAPTIONS*/;
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+      const hash = (i, j) => { let n = i * 374761393 + j * 668265263; n = (n ^ (n >> 13)) * 1274126177; return ((n ^ (n >> 16)) & 0x7fffffff) / 0x7fffffff; };
+      // a character box in plate px: centre x, feet y, height h (its width follows the art)
+      function put(sel, file, cx, feet, h) { const [w0, h0] = ART.sizes[file]; const w = h * w0 / h0; const e = $(sel);
+        Object.assign(e.style, { left: (cx - w / 2) + "px", top: (feet - h) + "px", width: w + "px", height: h + "px" }); return { x: cx - w / 2, y: feet - h, w, h }; }
+      const PIX = .96;       // Pixie's cut-out = 0.96 x young Quest's: 95 % of his height, face ~0.90 x his (PIXIE_V1 spec)
+
+      const tl = gsap.timeline({ paused: true });
+      <!--INCLUDE fromto_fix.js-->
+      const DUR = {{DUR}};
+      function view(c) { const s = Math.max(SW / PW, SH / PH) * c.z; let x = SW / 2 - c.fx * s, y = (c.sy || SH / 2) - c.fy * s;
+        x = Math.min(0, Math.max(SW - PW * s, x)); y = Math.min(0, Math.max((c.sy ? 2 * c.sy : SH) - PH * s, y)); return { x, y, scale: s }; }
+      function cam(sel, at, dur, c, ez) { const v = view(c);
+        if (dur <= 0) tl.set(sel, v, at); else tl.to(sel, Object.assign(v, { duration: dur, ease: ez || "sine.inOut" }), at); }
+      // the camera breathes: 2-3 % push + <= 1.5 % drift, each shot on its own phase
+      function breathe(sel, a, b, ph) { tl.fromTo(sel, { scale: 1.0 + .004 * ph, x: -6 + 5 * ph, y: 3 - 4 * ph }, { scale: 1.025 - .003 * ph, x: 6 - 5 * ph, y: -3 + 4 * ph, duration: b - a, ease: "sine.inOut" }, a); }
+      const flash = (at, a, d) => tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
+      const shake = (at, amp) => tl.to("#shake", { keyframes: [[0, amp], [amp * .6, -amp * .5], [-amp * .4, amp * .3], [0, 0]].map(([x, y]) => ({ x, y, duration: .045 })) }, at);
+      // pose swap with acting: a quick squash on the change (anticipation -> new pose -> settle)
+      function pose(sel, from, to, at) { tl.set(from, { opacity: 0 }, at); tl.set(to, { opacity: 1 }, at);
+        tl.fromTo(sel, { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .95, scaleX: 1.03, duration: .07, ease: "power2.out" }, { scaleY: 1.025, scaleX: .985, duration: .1 }, { scaleY: 1, scaleX: 1, duration: .16, ease: "power2.out" }], immediateRender: false }, at - .07); }
+
+      /* ---------------- placements (plate px: centre x, feet y, height) */
+      put("#q1", "q1.png", 920, 1420, 600);                 // P1: veteran Quest on the temple floor, left of the pedestal
+      put("#vil", "villain.png", 1560, 1000, 560);          // the villain on the platform behind the pedestal, claw toward the Triforce
+      put("#pS", "p2e.png", 1600, 1330, 560 * PIX);         // frame 0 bottom half: P2 Pixie, confused, in the forest village
+      put("#p2", "p2c.png", 1480, 1330, 560 * PIX);         // P2: Pixie waving on the village path
+      put("#pT", "p2d.png", 1000, 1400, 330 * PIX);          // the tree: Pixie small at its roots, looking up
+      tl.set("#vil", { opacity: 0 }, 0);
+
+      /* ---------------- frame 0: the finished split-screen still (P1 top, P2 bottom); "Player one": P1 takes the screen */
+      cam("#camP1", 0, 0, { z: 1.0, fx: 1130, fy: 1060, sy: 480 });
+      const vh = (c) => { const s = Math.max(SW / PW, SH / PH) * c.z; let x = 540 - c.fx * s, y = 480 - c.fy * s;
+        x = Math.min(0, Math.max(SW - PW * s, x)); y = Math.min(0, Math.max(960 - PH * s, y)); return { x, y, scale: s }; };
+      tl.set("#camS", vh({ z: 1.0, fx: 1430, fy: 1000 }), 0);
+      breathe("#brS", 0, {{l66.w1+0.3}}, .3);
+      const T1 = {{l66.w1-0.02}};
+      tl.to("#botHalf", { y: 960, duration: .3, ease: "expo.in" }, T1);                 // the bottom half drops away, P1 takes the screen
+      tl.set("#splitUi", { opacity: 0 }, T1);                                             // the split UI cuts out with it (no fade)
+      cam("#camP1", T1, .3, { z: 1.0, fx: 1130, fy: 900 }, "expo.in");
+      cam("#camP1", T1 + .3, {{S1}} - T1 - .3, { z: 1.08, fx: 1110, fy: 960 }, "sine.inOut");
+      tl.fromTo("#ttlP1 .big", { scale: 1.25 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%" }, T1);   // slams in opaque
+      shake(T1 + .02, 10); flash(T1, .35, .2);
+      // "already knows everything": the meter counts to 100 % and locks on "everything"
+      const M1 = { v: 0 };
+      tl.to(M1, { v: 100, duration: {{l66.w5-l66.w4+0.15}}, ease: "power2.in", onUpdate: () => { $("#m1n").textContent = Math.round(M1.v) + "%"; } }, {{l66.w4}});
+      tl.fromTo("#m1", { scale: 1 }, { keyframes: [{ scale: 1.12, duration: .08 }, { scale: 1, duration: .25, ease: "back.out(3)" }], transformOrigin: "0% 50%", immediateRender: false }, {{l66.w5+0.15}});
+      tl.set("#m1n", { textContent: "0%" }, 0);
+
+      /* ---------------- P1: "They see three golden triangles": the Triforce, real-time 3D (three.js, our own geometry) */
+      cam("#camP1", {{S1-0.02}}, 0, { z: 1.25, fx: 1344, fy: 560 });                   // the pedestal
+      cam("#camP1", {{S1-0.02}}, {{l69.w4-S1}}, { z: 1.3, fx: 1344, fy: 540 }, "sine.inOut");
+      cam("#camP1", {{l69.w4-0.03}}, .3, { z: 1.75, fx: 1344, fy: 400 }, "expo.out");  // "golden": punch in on it
+      cam("#camP1", {{l69.w6-0.02}}, 0, { z: 1.7, fx: 960, fy: 1130 });                 // "immediately understand": P1, smiling, knows
+      cam("#camP1", {{l69.w6-0.02}}, {{l69.w9-l69.w6}}, { z: 1.78, fx: 962, fy: 1120 }, "sine.inOut");
+      cam("#camP1", {{l69.w9-0.02}}, 0, { z: 1.0, fx: 1470, fy: 760 });                // "that somebody": the villain, behind the pedestal
+      cam("#camP1", {{l69.w9-0.02}}, {{l69.w17-l69.w9}}, { z: 1.2, fx: 1420, fy: 560 }, "sine.inOut");   // a slow push toward the claw and the Triforce
+      cam("#camP1", {{l69.w17-0.02}}, 0, { z: 1.85, fx: 930, fy: 1120 });              // "bad decision": P1 already knows how this ends
+      breathe("#brP1", 0, {{S2}}, .4);
+      tl.set("#vil", { opacity: 1 }, {{l69.w9-0.02}});
+      tl.set("#q1a", { opacity: 0 }, {{l69.w17-0.02}}); tl.set("#q1b", { opacity: 1 }, {{l69.w17-0.02}});   // the pose changes on the cut
+      shake({{l69.w17}}, 9);
+      tl.fromTo("#tfGlow", { opacity: 0, scale: .4 }, { opacity: 1, scale: 1, duration: .5, ease: "power2.out", transformOrigin: "50% 50%" }, {{l69.w3}});
+      const TF = { on: {{l69.w3-0.05}}, rise: {{l69.w3}}, red: {{l69.w16}} };
+      const renderer = new THREE.WebGLRenderer({ canvas: $("#tf"), antialias: true, alpha: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(800, 800, false); renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setClearColor(0x000000, 0); renderer.clear();
+      const scene = new THREE.Scene(), cam3 = new THREE.PerspectiveCamera(28, 1, .1, 100); cam3.position.set(0, 0, 9);
+      function triGeo(s) { const sh = new THREE.Shape(); sh.moveTo(0, s * .577); sh.lineTo(s / 2, -s * .289); sh.lineTo(-s / 2, -s * .289); sh.closePath();
+        const g = new THREE.ExtrudeGeometry(sh, { depth: .2, bevelEnabled: true, bevelThickness: .06, bevelSize: .05, bevelSegments: 3 }); g.center(); return g; }
+      const gold = new THREE.MeshStandardMaterial({ color: 0xf2b632, metalness: .55, roughness: .32, emissive: 0x3a2200, emissiveIntensity: .5 });
+      const tri = new THREE.Group(); const ts = 1.0, th = ts * .866;
+      [[0, th / 2], [-ts / 2, -th / 2], [ts / 2, -th / 2]].forEach(([x, y], i) => { const m = new THREE.Mesh(triGeo(ts * .96), gold); m.position.set(x, y, 0); m.userData.i = i; tri.add(m); });
+      scene.add(tri); scene.add(new THREE.HemisphereLight(0xfff4d6, 0x5a4020, 1.2));
+      const key3 = new THREE.DirectionalLight(0xffffff, 2.6); key3.position.set(3, 4, 6); scene.add(key3);
+      const rim3 = new THREE.PointLight(0xffd27a, 40, 20); rim3.position.set(-3, -1, 3); scene.add(rim3);
+      function drawTF(t) {
+        if (t < TF.on || t >= {{S2}}) { renderer.clear(); return; }
+        const k = Math.min(1, Math.max(0, (t - TF.rise) / .6)), e = 1 - Math.pow(1 - k, 3);
+        tri.position.y = -1.2 * (1 - e); tri.scale.setScalar(.2 + .8 * e);
+        tri.rotation.y = -Math.PI * 2 * (1 - e) + .45 * Math.sin((t - TF.rise) * 1.5); tri.rotation.x = .1 * Math.sin(t * 1.3);   // one full turn as it rises, then a slow sway (it always reads face-on)
+        // the three triangles drift apart a hair and snap together on "triangles"
+        tri.children.forEach((m, i) => { const sp = Math.max(0, 1 - Math.max(0, (t - {{l69.w5}}) / .25)) * .25 * (t < {{l69.w5}} ? 1 : 1); const a = i * 2.094 + 1.57; m.position.z = sp * Math.cos(a) * .3; });
+        const red = t >= TF.red ? (.5 + .5 * Math.sin((t - TF.red) * 40)) : 0;               // "very bad decision": it flickers red
+        gold.emissive.setRGB(.23 + .7 * red, .13 * (1 - red), 0); gold.color.setRGB(.95, .71 * (1 - .6 * red), .2 * (1 - red));
+        renderer.render(scene, cam3);
+      }
+      // golden sparks with a visible source: they burst out of the Triforce on "triangles" (deterministic hash, no randomness)
+      const SPK = $("#sparks").getContext("2d");
+      function drawSparks(t) { SPK.clearRect(0, 0, 600, 600); const t0 = {{l69.w5-0.04}}; if (t < t0 || t > t0 + 1.4) return;
+        for (let i = 0; i < 46; i++) { const a = hash(i, 1) * 6.283, v = 140 + 260 * hash(i, 2), u = t - t0, d = v * u * (1 - u * .35);
+          const x = 300 + Math.cos(a) * d, y = 300 + Math.sin(a) * d + 60 * u * u, o = Math.max(0, 1 - u / 1.4) * (.5 + .5 * hash(i, 3));
+          SPK.fillStyle = `rgba(255,${210 + 40 * hash(i, 4) | 0},120,${o})`; SPK.beginPath(); SPK.arc(x, y, 3 + 4 * hash(i, 5), 0, 7); SPK.fill(); } }
+
+      /* ---------------- SELECT: "Player two?" — the player-select screen; the title wobbles with Bram's voice (audio-reactive) */
+      tl.fromTo("#p2word", { scale: 1.3 }, { scale: 1, duration: .2, ease: "power4.out", transformOrigin: "50% 50%" }, {{S2}});
+      tl.set("#pad2", { attr: { fill: "#7fd0ff" } }, {{l71.w2}}); tl.set("#port2", { borderColor: "#7fd0ff" }, {{l71.w2}});
+      tl.fromTo("#port2", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .08 }, { scale: 1, duration: .25, ease: "back.out(3)" }], transformOrigin: "50% 50%", immediateRender: false }, {{l71.w2}});
+      tl.set("#port2", { borderColor: "#3a4466" }, 0); tl.set("#pad2", { attr: { fill: "#3a4466" } }, 0);
+      const ENV = ART.env || [];
+      function drawSel(t) { if (t < {{S2}} || t > {{l72}}) return; const v = ENV[Math.min(ENV.length - 1, Math.round(t * 30))] || 0;
+        $("#p2word").style.transform = `scale(${1 + .06 * v}) rotate(${-3 * v}deg)`;
+        $("#p2st").style.opacity = (t > {{l71.w2}} || Math.floor(t * 6) % 2) ? 1 : .2; }
+
+      /* ---------------- P2: a pixel "boot" (WebGL fragment shader: mosaic -> sharp, RGB split, scanlines), then Pixie, delighted, at 0 % */
+      const TB = {{l72-0.18}}, TBD = .42;
+      const P2C = { z: 1.15, fx: 1480, fy: 950 };
+      cam("#camP2", TB, 0, P2C);
+      cam("#camP2", TB, {{l72.w4-l72+0.18}}, { z: 1.2, fx: 1480, fy: 960 }, "sine.inOut");
+      cam("#camP2", {{l72.w4-0.04}}, .3, { z: 1.45, fx: 1470, fy: 1000 }, "expo.out");   // "none": punch in on her (she is delighted)
+      breathe("#brP2", TB, {{l73}}, .6);
+      const BC = $("#boot"), gl = BC.getContext("webgl", { preserveDrawingBuffer: true, premultipliedAlpha: false });
+      const off = document.createElement("canvas"); off.width = 540; off.height = 960; const octx = off.getContext("2d");
+      let bootProg = null, bootTex = null, uMos, uK;
+      if (gl) {
+        const vs = "attribute vec2 p; varying vec2 uv; void main(){ uv = vec2(p.x * .5 + .5, .5 - p.y * .5); gl_Position = vec4(p, 0., 1.); }";
+        const fs = `precision mediump float; varying vec2 uv; uniform sampler2D tex; uniform float mos; uniform float k;
+          void main(){ vec2 cell = vec2(mos / 540., mos / 960.); vec2 q = (floor(uv / cell) + .5) * cell; if (mos < 1.5) q = uv;
+            float sh = .006 * k; vec3 c = vec3(texture2D(tex, q + vec2(sh, 0.)).r, texture2D(tex, q).g, texture2D(tex, q - vec2(sh, 0.)).b);
+            c *= 1. - .18 * k * step(.5, fract(uv.y * 240.)); gl_FragColor = vec4(c, 1.); }`;
+        const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+        bootProg = gl.createProgram(); gl.attachShader(bootProg, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(bootProg, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(bootProg); gl.useProgram(bootProg);
+        const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(bootProg, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        bootTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, bootTex);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        uMos = gl.getUniformLocation(bootProg, "mos"); uK = gl.getUniformLocation(bootProg, "k");
+      }
+      function drawBoot(t) { const on = gl && t >= TB && t < TB + TBD; BC.style.visibility = on ? "visible" : "hidden"; if (!on) return;
+        const v = view(P2C), s = v.scale / 2; octx.clearRect(0, 0, 540, 960);
+        octx.drawImage($("#p2plate"), v.x / 2, v.y / 2, PW * s, PH * s);
+        const pe = $("#p2"); octx.drawImage($("#p2img"), v.x / 2 + parseFloat(pe.style.left) * s, v.y / 2 + parseFloat(pe.style.top) * s, parseFloat(pe.style.width) * s, parseFloat(pe.style.height) * s);
+        const k = 1 - Math.min(1, (t - TB) / TBD), mos = Math.max(1, Math.round(1 + 44 * k * k));
+        gl.viewport(0, 0, 540, 960); gl.bindTexture(gl.TEXTURE_2D, bootTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, off); gl.uniform1f(uMos, mos); gl.uniform1f(uK, k); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); }
+      const M2 = { v: 100 };
+      tl.to(M2, { v: 0, duration: .45, ease: "power2.in", onUpdate: () => { $("#m2n").textContent = Math.round(M2.v) + "%"; } }, {{l72.w4-0.05}});
+      tl.fromTo("#m2", { scale: 1 }, { keyframes: [{ scale: .9, duration: .08 }, { scale: 1, duration: .25, ease: "back.out(3)" }], transformOrigin: "0% 50%", immediateRender: false }, {{l72.w4+0.4}});
+      tl.set("#m2n", { textContent: "100%" }, 0);
+      tl.set("#hudP1", { opacity: 0 }, {{S2}}); tl.set("#hudP2", { opacity: 1 }, {{S2}});
+
+      /* ---------------- TREE: rack focus from Pixie to its face, the "extremely large" pull-back, the "personal problem" punch, her doubt */
+      const T0 = {{l73-0.12}};
+      cam("#camT", T0, 0, { z: 2.3, fx: 1040, fy: 1240 });                                      // Pixie at the roots, looking up
+      cam("#camT", T0, {{l73.w4-l73}}, { z: 2.35, fx: 1045, fy: 1230 }, "sine.inOut");
+      cam("#camT", {{l73.w4}}, .8, { z: 1.5, fx: 1700, fy: 430 }, "power2.inOut");             // "the Great Deku Tree": up to its face
+      cam("#camT", {{l73.w4+0.8}}, {{l74-l73.w4-0.8}}, { z: 1.56, fx: 1700, fy: 420 }, "sine.inOut");
+      cam("#camT", {{l74.w4-0.05}}, .9, { z: 1.0, fx: 1300, fy: 756 }, "power2.inOut");         // "extremely large tree": pull all the way back
+      cam("#camT", {{l74.w10-0.04}}, .2, { z: 1.95, fx: 1715, fy: 330 }, "expo.out");          // "personal": punch into the face
+      cam("#camT", {{l74.w11-0.02}}, 0, { z: 3.1, fx: 1002, fy: 1250 });                        // "problem": hard cut to her doubt
+      cam("#camT", {{l74.w11-0.02}}, {{VEND+0.45-l74.w11}}, { z: 3.18, fx: 1002, fy: 1248 }, "sine.inOut");
+      breathe("#brT", T0, {{VEND+0.5}}, .2);
+      tl.fromTo("#tplate", { filter: "blur(6px)" }, { filter: "blur(0px)", duration: .5, ease: "power2.inOut" }, {{l73.w4}});   // rack focus to the tree
+      tl.set("#pTd", { opacity: 0 }, {{l74.w11-0.02}}); tl.set("#pTe", { opacity: 1 }, {{l74.w11-0.02}});
+
+      /* ---------------- VISTA: the ending he loved: hard cut + flash + the one bass drop; co-op: P1 and P2 together; PRESS START */
+      const TV = {{VEND+0.45}}, VC = { z: 1.0, fx: 1385, fy: 756 };
+      cam("#camV", TV, 0, VC); cam("#camV", TV, {{DUR}} - TV, { z: 1.06, fx: 1380, fy: 740 }, "power2.out");
+      breathe("#brV", TV, {{DUR}}, .5);
+      flash(TV, .8, .35); shake(TV + .02, 16);
+      tl.fromTo("#vflare", { opacity: 0, scale: .5 }, { keyframes: [{ opacity: 1, scale: 1.1, duration: .25, ease: "power2.out" }, { opacity: .55, scale: 1, duration: .8, ease: "sine.inOut" }], transformOrigin: "50% 50%" }, TV);
+      const vv = view(VC), sp = (px, py) => [vv.x + px * vv.scale, vv.y + py * vv.scale];
+      const [t1x, t1y] = sp(1060, 250), [t2x, t2y] = sp(1430, 420);
+      Object.assign($("#vtag1").style, { left: (t1x - 50) + "px", top: (t1y - 90) + "px" }); Object.assign($("#vtag2").style, { left: (t2x - 50) + "px", top: (t2y - 90) + "px" });
+      tl.set("#vtag1", { opacity: 1 }, TV + .2); tl.set("#vtag2", { opacity: 1 }, TV + .32);
+      tl.fromTo(["#vtag1", "#vtag2"], { scale: 1.3 }, { scale: 1, duration: .2, ease: "back.out(3)", stagger: .12, immediateRender: false }, TV + .2);
+      tl.set("#pressStart", { opacity: 0 }, 0);
+      [0, .5, .9, 1.3].forEach((d) => { tl.set("#pressStart", { opacity: 1 }, TV + .55 + d); tl.set("#pressStart", { opacity: 0 }, TV + .55 + d + .3); });   // a hard blink, never translucent
+      tl.set(["#pressStart", "#vtag1", "#vtag2"], { opacity: 0 }, {{VEND+2.1}});                 // cut out before the wordmark lands
+      tl.to("#vnight", { opacity: .6, duration: .35, ease: "power2.in" }, {{VEND+2.05}});
+
+      /* ---------------- wordmark (crisp, no blur), Navi into its star, then the end card */
+      const WHY = {{VEND+2.16}};
+      tl.set("#wm", { opacity: 0 }, 0);
+      tl.fromTo("#wm", { scale: 1.14, opacity: 1 }, { scale: 1, opacity: 1, duration: .26, ease: "power3.out", immediateRender: false }, WHY - .06);   // lands opaque: no ghost frame (critic v3)
+      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.inOut" }, WHY + .1);
+      const STAR = { x: 90 + 808 * 900 / 2605, y: 690 + 235 * 900 / 2605 };
+      const T_STAR = {{VEND+2.67}};
+      tl.set("#twinkle", { x: STAR.x, y: STAR.y, scale: 0, opacity: 1 }, 0);
+      tl.fromTo("#twinkle", { scale: 0, rotation: 0 }, { keyframes: [{ scale: 1.15, rotation: 45, duration: .3, ease: "power2.out" }, { scale: .35, rotation: 90, duration: .6, ease: "sine.inOut" }] }, T_STAR - .05);
+      const CARD = {{VEND+2.75}};
+      // the wordmark rises to the top of the card (centre y ~ 215) and shrinks; the card fades in under it
+      tl.to("#wm", { y: -560, scale: .56, duration: .55, ease: "power3.inOut" }, CARD);
+      tl.to("#twinkle", { opacity: 0, duration: .2 }, CARD - .05);
+      tl.to("#card", { opacity: 1, duration: .4, ease: "sine.inOut" }, CARD);
+      tl.set("#sign", { opacity: 0 }, 0); tl.set("#sign", { opacity: 1 }, CARD + .5);      // cut-ins, no fades
+      tl.fromTo("#sign", { y: 24 }, { y: 0, duration: .22, ease: "back.out(2)", immediateRender: false }, CARD + .5);   // after the wordmark has risen (critic v2b)
+      tl.set("#cT", { opacity: 0 }, 0); tl.set("#cT", { opacity: 1 }, CARD + .45);
+      tl.fromTo("#cT", { y: 20 }, { y: 0, duration: .2, ease: "back.out(2)", immediateRender: false }, CARD + .45);
+      // Pixie (her forest-friend tunic, as in the game beats) stands on the grass under the sign, between its posts, and waves
+      const PCH = 492, PCW = PCH * ART.sizes["p2c.png"][0] / ART.sizes["p2c.png"][1];
+      Object.assign($("#pixCard").style, { left: (540 - PCW / 2) + "px", top: (1502 - PCH) + "px", width: PCW + "px", height: PCH + "px", transformOrigin: "50% 100%" });
+      tl.set("#pixCard", { opacity: 0 }, 0); tl.set("#pixCard", { opacity: 1 }, CARD + .62);     // a cut-in, never a fade (design critic v3b)
+      tl.fromTo("#pixCard", { scaleY: .96 }, { keyframes: [{ scaleY: 1.02, duration: .1, ease: "power2.out" }, { scaleY: 1, duration: .15 }], immediateRender: false }, CARD + .62);
+      tl.fromTo("#pixCard", { rotation: 0 }, { rotation: 2.5, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, CARD + .9);
+      tl.fromTo("#thumbImg", { scale: 1 }, { scale: 1.0, duration: .1 }, CARD);   // the thumbnail is shown whole and still
+
+      const CAPEL = CAPS.map((c) => { const d = mk("div", "cap" + (c.big ? " bigc" : ""), $("#caps"));
+        const spans = c.w.map(([w], i) => { if (i) d.appendChild(document.createTextNode(" ")); const s = mk("span", "", d); s.textContent = w; return s; });
+        return { d, spans, c, on: false }; });
+      function drawCaps(t) {
+        CAPEL.forEach((E) => { const c = E.c, on = t >= c.a && t < c.e;
+          if (on !== E.on) { E.d.style.visibility = on ? "visible" : "hidden"; E.on = on; }
+          if (!on) return;
+          const k = Math.min(1, (t - c.a) / .14), e = 1 - Math.pow(1 - k, 3);
+          E.d.style.transform = `translateY(${10 * (1 - e)}px) scale(${.94 + .06 * e})`;
+          let cur = -1; c.w.forEach(([w, a], i) => { if (t >= a - .03) cur = i; });
+          E.spans.forEach((sp, i) => { if (!c.big) sp.style.color = i === cur ? "#ffc83d" : "#ffffff"; }); });
+      }
+
+      const HUDON = [[{{l66.w3+0.1}}, {{S2}}], [{{l72-0.18+0.42}}, {{VEND+0.45}}]];
+      const hudEl = $("#hud");
+      const drawHud = (t) => { const r = HUDON.find(([a, b]) => t >= a && t < b); hudEl.style.opacity = r ? Math.min(1, (t - r[0]) / .2) : 0; };
+
+      /* ---------------- Navi: P1 needs no guide; she appears for the lost player two */
+      const NK = [];
+      const key = (t, x, y, r, op) => NK.push([t, x, y, r, op === undefined ? 1 : op]);
+      const orbit = (t0, t1, cx, cy, rx, ry, turns, r, a0) => { const n = Math.max(3, Math.round((t1 - t0) / .12)); for (let i = 0; i <= n; i++) { const k = i / n, a = (a0 || 0) + 2 * Math.PI * turns * k;
+        key(t0 + (t1 - t0) * k, cx + rx * Math.cos(a), cy - ry * Math.sin(a), r); } };
+      key(0, 730, 860, 20, 0); key({{l71.end+0.05}}, 730, 860, 20, 0); key({{l71.end+0.15}}, 730, 860, 24, 1);   // "Hello!": she pops out of the P2 port
+      key({{l72-0.2}}, 760, 760, 22, 1); key({{l72}}, 860, 560, 20, 1); key({{l72.w4}}, 900, 520, 20, 1); key({{l73-0.15}}, 880, 520, 20, 1);
+      key({{l73-0.1}}, 760, 900, 18, 1); key({{l73.w4}}, 820, 820, 18, 1); key({{l74}}, 300, 700, 18, 1); key({{l74.w10-0.1}}, 260, 760, 16, 1);
+      key({{l74.w11}}, 800, 700, 20, 1); key({{VEND+0.4}}, 820, 680, 20, 1);
+      key({{VEND+0.5}}, 900, 520, 20, 1); key({{VEND+2.0}}, 880, 560, 20, 1);
+      key({{VEND+2.2}}, 1000, 790, 28, 1);
+      orbit({{VEND+2.25}}, T_STAR - .1, 540, 780, 450, 170, 1.0, 28, 0);
+      key(T_STAR, STAR.x, STAR.y, 24, 1); key(CARD, STAR.x - 40, STAR.y - 330, 20, 1);
+      key(CARD + .25, 150, 700, 20, 1); key(CARD + .5, 170, 760, 22, 1); key(CARD + .8, 560, 790, 24, 1);
+      orbit(CARD + .85, {{DUR}}, 560, 790, 70, 30, 1.2, 22, 3.14);
+      NK.sort((a, b) => a[0] - b[0]);
+      function naviPath(t) {
+        if (t <= NK[0][0]) return NK[0].slice(1); if (t >= NK[NK.length - 1][0]) return NK[NK.length - 1].slice(1);
+        let i = 0; while (i < NK.length - 2 && t > NK[i + 1][0]) i++;
+        const p0 = NK[Math.max(0, i - 1)], p1 = NK[i], p2 = NK[i + 1], p3 = NK[Math.min(NK.length - 1, i + 2)];
+        const k = (t - p1[0]) / Math.max(1e-6, p2[0] - p1[0]), u = k * k * (3 - 2 * k);
+        const cr = (a, b, c, d) => .5 * (2 * b + (-a + c) * u + (2 * a - 5 * b + 4 * c - d) * u * u + (-a + 3 * b - 3 * c + d) * u * u * u);
+        return [cr(p0[1], p1[1], p2[1], p3[1]), cr(p0[2], p1[2], p2[2], p3[2]), p1[3] + (p2[3] - p1[3]) * k, p1[4] + (p2[4] - p1[4]) * k]; }
+      const at = (t) => { const [x, y, r, op] = naviPath(t); return [x + .4 * .012 * SH * Math.sin(t * 2.3) * .5, y + .012 * SH * .5 * Math.sin(t * 3.7), r, op]; };
+      // Navi's canvas is only as big as she is (520 px square) and follows her, so nothing else counts as covered
+      // (its canvas is sized every frame to her glow + trail, so it never "covers" anything she is not actually over)
+      const NC = $("#navi"), ctx = NC.getContext("2d");
+      function drawNavi(t) {
+        const [x0, y0, r, op] = at(t);
+        if (op <= .01) { NC.style.visibility = "hidden"; return; }
+        const TR = []; for (let k = 0; k < 10; k++) { const q = at(t - (k + 1) * .045); if (Math.hypot(q[0] - x0, q[1] - y0) > 170) break; TR.push(q); }   // a short trail: never a long streak across the frame
+        const pad = r * 3.3;
+        const bx0 = Math.floor(Math.min(x0, ...TR.map((q) => q[0])) - pad), by0 = Math.floor(Math.min(y0, ...TR.map((q) => q[1])) - pad);
+        const bx1 = Math.ceil(Math.max(x0, ...TR.map((q) => q[0])) + pad), by1 = Math.ceil(Math.max(y0, ...TR.map((q) => q[1])) + pad);
+        NC.width = bx1 - bx0; NC.height = by1 - by0; ctx.clearRect(0, 0, NC.width, NC.height);
+        NC.style.visibility = "visible"; NC.style.transform = `translate(${bx0}px, ${by0}px)`;
+        const x = x0 - bx0, y = y0 - by0;
+        const s = r / 30, col = [120, 195, 255];
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3.2);
+        g.addColorStop(0, `rgba(${col},${.95 * op})`); g.addColorStop(.35, `rgba(${col},${.45 * op})`); g.addColorStop(1, `rgba(${col},0)`);
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * 3.2, 0, 7); ctx.fill();
+        for (let k = 0; k < TR.length; k++) { let [qx, qy, , qo] = TR[k]; qx -= bx0; qy -= by0; const rr = (4.5 - 3 * k / 10) * s * 1.6;
+          ctx.fillStyle = `rgba(255,255,255,${op * Math.min(1, qo + .2) * .55 * (1 - k / 10)})`; ctx.beginPath(); ctx.arc(qx, qy, rr, 0, 7); ctx.fill(); }
+        const f = .6 + .4 * Math.sin(t * 6.4 * 2 * Math.PI);
+        for (const sx of [-1, 1]) {
+          ctx.fillStyle = `rgba(230,245,255,${.55 * op})`; ctx.beginPath(); ctx.ellipse(x + sx * 16.5 * s, y - (3 + 13 * f) * s, 13.5 * s, (1 + 13 * f) * s, 0, 0, 7); ctx.fill();
+          ctx.fillStyle = `rgba(230,245,255,${.4 * op})`; ctx.beginPath(); ctx.ellipse(x + sx * 16.5 * s, y + (3 + 7 * f) * s, 5.5 * s, (1 + 7 * f) * s, 0, 0, 7); ctx.fill(); }
+        ctx.fillStyle = `rgba(255,255,255,${op})`; ctx.beginPath(); ctx.arc(x, y, 9 * s, 0, 7); ctx.fill();
+      }
+
+      const IDLE = Array.from(document.querySelectorAll(".chr")).map((c, i) => [c.querySelectorAll("img"), 1.7 + .23 * i, i * 1.3]);
+      function drawIdle(t) { for (const [imgs, f, ph] of IDLE) { const k = Math.sin(t * f + ph), sy = 1 + .012 * k, sx = 1 - .004 * k;
+        imgs.forEach((im) => { im.style.transform = (im.hasAttribute("data-flip") ? "scaleX(-1) " : "") + `scale(${sx}, ${sy})`; }); } }
+      const env = { t: 0 };
+      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { const t = env.t; drawNavi(t); drawIdle(t); drawCaps(t); drawHud(t); drawTF(t); drawSparks(t); drawSel(t); drawBoot(t); } }, 0);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+
+    </script>
+  </body>
+</html>

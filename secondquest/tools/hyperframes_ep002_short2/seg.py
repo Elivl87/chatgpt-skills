@@ -20,14 +20,13 @@ CUES = json.loads((ROOT / 'episodes/ep002/timings.json').read_text())['cues']
 
 # (episode start, episode end) — each boundary inside a measured pause
 SEGMENTS = [
-    (129.12, 137.75),   # l51-l53  "A silent character once left space for your imagination." ... "what that silence sounded like."   (hook)
-    (111.85, 120.93),   # l42-l47  "Because better is measurable." ... "Better sound." "But familiar is not measurable."   (escalation + twist)
-    (149.82, 151.95),   # l60      "That is the impossible job."   (payoff; cut inside the measured 149.75-149.89 pause after l59)
+    (165.90, 168.00),   # l66  "Player one already knows everything."                    (pauses 165.53-166.05 / 167.74-168.23)
+    (172.70, 178.55),   # l69  "They see three golden triangles ... a very bad decision." (pauses 172.50-172.91 / 178.29-178.76)
+    (185.60, 194.75),   # l71-l74 "Player two?" ... "an extremely personal problem."    (pauses 185.49-185.77 / 194.50-194.98)
 ]
-# v3 (Producer 2026-10-14: "que los shorts duren 20 seg... de dinamismo, de impacto, PERO CON COHERENCIA", max 25 s):
-# hook -> escalation -> twist -> payoff -> card. Every boundary sits inside a measured pause (< -30 dB under the peak
-# for >= 60 ms): 137.56-138.00, 111.72-112.08, 120.48-120.97, 149.75-149.89, 151.68-152.13.
-CARD = 2.8              # wordmark + Navi into its star + end card FULL EPISODE ON THE CHANNEL
+# v4 "Player Two" (Producer 2026-10-14, option B, comedy; v3.3 is kept at git tag short2-v3.3). After the voice: the
+# punchline hold, the co-op vista (the ending he loved), the wordmark with Navi, the thumbnail sign.
+CARD = 4.9              # VEND -> DUR: hold 0.45, vista 1.65, wordmark 0.6, card 2.2
 
 OFFSETS = []
 _o = 0.0

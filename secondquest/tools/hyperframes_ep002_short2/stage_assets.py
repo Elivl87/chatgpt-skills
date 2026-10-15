@@ -73,6 +73,14 @@ def stage_art():
     f_old, f_mid = n64_look.build(field)
     save(f_old, 'field_old.jpg', q=92)
     save(f_mid, 'field_mid.jpg', q=92)
+    # v4 "Player Two": P1 = veteran Quest (#1, confident; #2 scared) in the temple (#13, its empty pedestal is where the
+    # Triforce rises); the villain (#8, hooded, claw reaching) is "somebody about to make a very bad decision";
+    # P2 = forest-friend Pixie (#2c/#2d/#2e) in the forest village (#12), then at the giant tree (#14)
+    info['temple'] = save(lib.final_plate('temple'), 'temple.jpg', q=92)
+    info['forest'] = save(lib.final_plate('forest'), 'forest.jpg', q=92)
+    for key, nm in (('quest_veteran', 'q1'), ('quest_scared', 'q2'), ('villain_hooded', 'villain')):
+        save(lib.final(key), f'{nm}.png', max_h=1400)
+    shutil.copy2(ROOT / 'tools/hyperframes_ep002_short2/vendor/three.min.js', OUT / 'vendor/three.min.js')
     # v3 (Producer: "¿El fondo de Deku Tree?"): the escalation happens on the giant tree, final plate #14, upgraded word
     # by word from the same N64 look (low-poly, flat 1998 light, fog) to the painted plate
     tree = lib.final_plate('tree')
@@ -214,7 +222,7 @@ def stage_art():
     # end card: the EP002 v3 thumbnail chosen as main (B1 "EXCEPT YOU"), whole and undistorted, over its own raw art
     shutil.copy2(ROOT / 'docs/publish/EP002/thumbnails/v3/EP002_thumb_v3_B1_EXCEPT_YOU.jpg', OUT / 'thumb.jpg')
     save(Image.open(ROOT / 'docs/publish/EP002/thumbnails/v3/raw_B1.png').convert('RGB'), 'thumb_raw.jpg', q=88)
-    info['sizes'] = {n: Image.open(OUT / n).size for n in ('hero_front.png', 'young_back.png', 'q3a.png', 'p2c.png', 'p2d.png', 'p2e.png',
+    info['sizes'] = {n: Image.open(OUT / n).size for n in ('hero_front.png', 'young_back.png', 'q3a.png', 'p2c.png', 'p2d.png', 'p2e.png', 'q1.png', 'q2.png', 'villain.png',
                                                           'p2f.png', 'pix_wave.png', 'area_1998.png', 'area_today.png')}
 
     # the in-game HUD (scripts/animatic/hud.py, our own drawing) cut into its three groups for the 9:16 layout
@@ -264,21 +272,20 @@ def cues():
     T = seg.table()
     t = lambda k, d=0: T[k] + d                                         # noqa: E731
     C = lambda f: SFXD / f                                              # noqa: E731
-    # v3 (22.6 s): 6 onsets (18/min budget), Navi included: the hook stays silent but for Bram and Navi's "Hello!"
+    # v4 "Player Two" (22.0 s): 6 onsets incl. Navi (16/min); each names its picture
+    TV = t('VEND', .45)                                                 # the hard cut to the co-op vista
     return [
-        (t('l51.end', .02), NAVI / 'NAVI_HELLO.wav', -9, None, 'Navi appears in the pause after "imagination." (Producer clip)'),
-        (t('l43.w2', -.05), C('cc0/jaggedstone_magic/magical_1.ogg'), -11, None, '"More polygons": the 1998 tree sharpens, its face appears'),
-        (t('l46.w2', -.05), C('cc0/pauliuw_forestbirds/Forest_Birds_4.ogg'), -12, 1.6, '"Better sound": the flock bursts out of the canopy'),
-        # retention critic v3: a low wind swells under "That is the" from the end of l47 and cuts DEAD into the bass drop
-        ((t('l47.end', .02), [(C('cc0/sketchman_windwhoosh/wind_woosh_loop.ogg'), -3, 0, t('l60.w4', -.06) - t('l47.end', .02), 'swell'),
-                               (C('cc0/kenney_impact/impactPunch_heavy_000.ogg'), 0, t('l60.w4', -.06) - t('l47.end', .02)),
-                               (C('cc0/kenney/impactSoft_heavy_000.ogg'), -3, t('l60.w4', -.06) - t('l47.end', .02))]), None, -7, None,
-         'held breath (wind) cut dead into the payoff: the one bass-drop impact on the hard cut to the castle ("impossible")'),
-        # ...and a quiet field-wind bed under the card so the last second is not dead air and the loop back to frame 0 flows
-        ((t('VEND', .08), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5),
-                           (C('cc0/thimras_park/park_ambience_wind.ogg'), -5, 0, seg.DUR - t('VEND', .08), 'bed')]), None, -9, None,
+        (t('l69.w3', -.04), C('cc0/jaggedstone_magic/magical_3.ogg'), -11, None, '"three golden triangles": the 3D Triforce rises out of the pedestal'),
+        (t('l71', -.06), C('cc0/kenney/switch_002.ogg'), -10, None, '"Player two?": hard cut to the player-select screen, the P2 port lights'),
+        (t('l71.end', .1), NAVI / 'NAVI_HELLO.wav', -9, None, 'Navi, the guide of every lost new player, greets P2 (Producer clip)'),
+        ((t('l74.end', .02), [(C('cc0/sketchman_windwhoosh/wind_woosh_loop.ogg'), -3, 0, TV - t('l74.end', .02), 'swell'),
+                              (C('cc0/kenney_impact/impactPunch_heavy_000.ogg'), 0, TV - t('l74.end', .02)),
+                              (C('cc0/kenney/impactSoft_heavy_000.ogg'), -3, TV - t('l74.end', .02))]), None, -7, None,
+         'the punchline hold breathes (wind) and cuts dead into the one bass drop on the hard cut to the co-op vista'),
+        ((t('VEND', 2.1), [(C('cc0/kenney_impact/impactBell_heavy_002.ogg'), 0), (NAVI / 'NAVI_SFX_01.wav', -5),
+                           (C('cc0/thimras_park/park_ambience_wind.ogg'), -5, 0, seg.DUR - t('VEND', 2.1), 'bed')]), None, -9, None,
          'the wordmark lands; Navi circles it (her trail, Producer clip); a quiet field wind under the card'),
-        (t('VEND', 1.5), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the sign: "Look!" (Producer clip, no voice under it)'),
+        (t('VEND', 3.6), NAVI / 'NAVI_LOOK.wav', -9, None, 'Navi reaches the sign: "Look!" (Producer clip, no voice under it)'),
     ]
 
 
@@ -291,6 +298,10 @@ def stage_audio():
         parts.append(x)
     voice = np.concatenate(parts + [np.zeros(round(seg.CARD * SR), np.float32)])
     v_db = active_rms_db(voice)
+    hop = SR // 30; n = len(voice) // hop
+    env = np.sqrt((voice[:n * hop].reshape(n, hop) ** 2).mean(1)); env = np.clip(env / (np.percentile(env, 98) + 1e-9), 0, 1)
+    ai = json.loads((OUT / 'art_info.json').read_text()); ai['env'] = [round(float(v), 3) for v in env]
+    (OUT / 'art_info.json').write_text(json.dumps(ai))
     sfx = np.zeros_like(voice)
     log = []
     plan = []
