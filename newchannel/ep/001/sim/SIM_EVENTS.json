@@ -1259,19 +1259,19 @@
  "S6": {
   "timeScale": 120,
   "simT0": -180,
-  "N": 711,
+  "N": 1778,
   "roles": {
-   "L": 16000,
-   "tapCar": 533,
-   "tapX": 11994.374
+   "L": 40000,
+   "tapCar": 1334,
+   "tapX": 30011.249
   },
   "events": [
    {
     "type": "tap_start",
     "tSim": 60,
     "t": 2,
-    "car": 533,
-    "x": 11994,
+    "car": 1334,
+    "x": 30011,
     "label": "el frenazo de hace media hora"
    },
    {
@@ -1282,36 +1282,36 @@
    },
    {
     "type": "wave_km",
-    "tSim": 994,
-    "t": 9.783,
+    "tSim": 993,
+    "t": 9.775,
     "km": 4
    },
    {
     "type": "wave_km",
-    "tSim": 1328,
-    "t": 12.567,
+    "tSim": 1329,
+    "t": 12.575,
     "km": 6
    },
    {
     "type": "wave_km",
-    "tSim": 1882,
-    "t": 17.183,
+    "tSim": 2019,
+    "t": 18.325,
     "km": 8
    },
    {
     "type": "wave_10km",
-    "tSim": 2112,
-    "t": 19.1,
+    "tSim": 2022,
+    "t": 18.35,
     "label": "la ola ya recorrió 10 km hacia atrás"
    }
   ],
   "metrics": {
-   "waveKmh": -18.987,
-   "t10km": 2112,
+   "waveKmh": -19.708,
+   "t10km": 2022,
    "minVwave": 0,
-   "veqKmh": 55.339,
-   "N": 711,
-   "density": 44.438
+   "veqKmh": 55.32,
+   "N": 1778,
+   "density": 44.45
   }
  },
  "S7": {
@@ -1902,7 +1902,7 @@
   "events": [],
   "metrics": {
    "s2wave": -18.754,
-   "s6wave": -18.987
+   "s6wave": -19.708
   }
  }
 }

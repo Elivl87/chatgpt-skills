@@ -358,7 +358,7 @@
   };
 
   // ================================================================== S6 · night highway: one wave, 10 km back (beat 13)
-  const S6P = { L: 16000, gap: 18, seed: 6, tEnd: 2400, tapSim: 60, recDt: 2, timeScale: 120 };
+  const S6P = { L: 40000, gap: 18, seed: 6, tEnd: 2400, tapSim: 60, recDt: 3, timeScale: 120 };
   S.states.S6 = {
     id: 'S6', title: 'Colina de noche: una ola viaja más de 10 km hacia atrás', beats: '13, Short',
     build() {
@@ -396,7 +396,7 @@
       return [
         C('S6.speed', 'Una ola viaja hacia atrás a quince o veinte kilómetros por hora', `${f1(m.waveKmh)} km/h`, '−15 a −21 km/h', m.waveKmh <= -15 && m.waveKmh >= -21),
         C('S6.10km', 'Más de diez kilómetros', m.t10km ? `10 km a los ${f1(mins)} min; recorrido total ${f1((run.roles.tapX - run.wavePath[run.wavePath.length - 1].x) / 1000)} km` : 'no llega', '≥ 10 km', !!m.t10km),
-        C('S6.clock', 'Reloj 0:00 → 0:30 en 10 km ("un frenazo de hace media hora")', mins ? `0:00 → 0:${String(Math.round(mins)).padStart(2, '0')}` : 'n/a', '28-36 min', mins && mins >= 28 && mins <= 36, 'El frente tarda ~2-3 min en formarse; a −19 km/h la ola cubre 10 km en ~34 min desde el frenazo: el reloj en pantalla debe decir 0:00 → 0:34 (o poner la marca de 10 km donde está a los 30 min, ~8,8 km).'),
+        C('S6.clock', 'Reloj 0:00 → 0:30 en 10 km ("un frenazo de hace media hora")', mins ? `0:00 → 0:${String(Math.round(mins)).padStart(2, '0')}` : 'n/a', '28-36 min', mins && mins >= 28 && mins <= 36, `El frente tarda unos minutos en formarse; la ola cubre 10 km en ${f1(mins)} min desde el frenazo: el reloj en pantalla debe decir 0:00 → 0:${String(Math.round(mins)).padStart(2, '0')} (o la marca de 10 km va donde esté la ola a los 30 min).`),
         C('S6.stopgo', 'Es un embotellamiento de verdad (autos casi parados dentro de la ola)', `vel. mín. dentro de la ola ${f1(kmh(m.minVwave))} km/h; flujo ${f1(m.veqKmh)} km/h`, '< 15 km/h', kmh(m.minVwave) < 15),
       ];
     },
