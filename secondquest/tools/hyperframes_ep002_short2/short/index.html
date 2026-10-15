@@ -117,8 +117,8 @@
         </div></div></div>
         <div id="splitUi" class="full">
           <div id="seam"></div><div id="vs">VS</div>
-          <div class="ptag p1" style="left: 790px; top: 700px">P1</div>
-          <div class="ptag p2" style="left: 790px; top: 1170px">P2</div>
+          <div class="ptag p1" style="left: 560px; top: 708px">P1</div>
+          <div class="ptag p2" style="left: 575px; top: 1188px">P2</div>
           <div class="big pttl" style="top: 690px; color: var(--gold)">PLAYER ONE</div><div class="role" style="top: 808px">VETERAN</div>
           <div class="big pttl" style="top: 1170px; color: #7fd0ff">PLAYER TWO</div><div class="role" style="top: 1288px">NEW PLAYER</div>
         </div>
@@ -247,7 +247,7 @@
       cam("#camP1", 0, 0, { z: 1.0, fx: 1130, fy: 1060, sy: 480 });
       const vh = (c) => { const s = Math.max(SW / PW, SH / PH) * c.z; let x = 540 - c.fx * s, y = 480 - c.fy * s;
         x = Math.min(0, Math.max(SW - PW * s, x)); y = Math.min(0, Math.max(960 - PH * s, y)); return { x, y, scale: s }; };
-      tl.set("#camS", vh({ z: 1.0, fx: 1430, fy: 1000 }), 0);
+      tl.set("#camS", vh({ z: 1.0, fx: 1330, fy: 1000 }), 0);
       breathe("#brS", 0, 0.58, .3);
       const T1 = 0.26;
       tl.to("#botHalf", { y: 960, duration: .3, ease: "expo.in" }, T1);                 // the bottom half drops away, P1 takes the screen

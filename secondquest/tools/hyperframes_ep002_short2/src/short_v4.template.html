@@ -140,6 +140,7 @@
           <div class="chr" id="p2" data-role="character"><div class="foot"></div><img class="on" id="p2img" src="assets/p2c.png" alt="pixie" /></div>
         </div></div>
         <canvas id="boot" class="full gl" width="540" height="960" style="width: 1080px; height: 1920px; visibility: hidden" data-critic-ignore></canvas>
+        <div id="loading" class="abs" style="left: 65px; width: 853px; top: 860px; text-align: center; visibility: hidden"><span class="big" style="font-size: 120px; color: #7fd0ff">P2 LOADING</span></div>
       </div>
 
       <!-- ===== TREE · l73-l74 · the giant tree (#14) and Pixie (#2d awe, #2e doubt): the punchline and its hold ===== -->
@@ -313,7 +314,7 @@
         $("#p2st").style.opacity = (t > {{l71.w2}} || Math.floor(t * 6) % 2) ? 1 : .2; }
 
       /* ---------------- P2: a pixel "boot" (WebGL fragment shader: mosaic -> sharp, RGB split, scanlines), then Pixie, delighted, at 0 % */
-      const TB = {{l72-0.18}}, TBD = .42;
+      const TB = {{l72-0.18}}, TBD = .36;   // director: <= 0.4 s, a designed game boot, resolving sharp in its last frames
       const P2C = { z: 1.15, fx: 1480, fy: 950 };
       cam("#camP2", TB, 0, P2C);
       cam("#camP2", TB, {{l72.w4-l72+0.18}}, { z: 1.2, fx: 1480, fy: 960 }, "sine.inOut");
@@ -336,11 +337,13 @@
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         uMos = gl.getUniformLocation(bootProg, "mos"); uK = gl.getUniformLocation(bootProg, "k");
       }
-      function drawBoot(t) { const on = gl && t >= TB && t < TB + TBD; BC.style.visibility = on ? "visible" : "hidden"; if (!on) return;
+      function drawBoot(t) { const on = gl && t >= TB && t < TB + TBD; BC.style.visibility = on ? "visible" : "hidden";
+        $("#loading").style.visibility = (t >= TB && t < TB + .22) ? "visible" : "hidden";   // P2 LOADING: a hard UI flash over the boot, gone before the picture resolves
+        if (!on) return;
         const v = view(P2C), s = v.scale / 2; octx.clearRect(0, 0, 540, 960);
         octx.drawImage($("#p2plate"), v.x / 2, v.y / 2, PW * s, PH * s);
         const pe = $("#p2"); octx.drawImage($("#p2img"), v.x / 2 + parseFloat(pe.style.left) * s, v.y / 2 + parseFloat(pe.style.top) * s, parseFloat(pe.style.width) * s, parseFloat(pe.style.height) * s);
-        const k = 1 - Math.min(1, (t - TB) / TBD), mos = Math.max(1, Math.round(1 + 44 * k * k));
+        const k = 1 - Math.min(1, (t - TB) / TBD), mos = Math.max(1, Math.round(1 + 36 * k * k * k));   // big blocks only in the first frames, sharp by the end
         gl.viewport(0, 0, 540, 960); gl.bindTexture(gl.TEXTURE_2D, bootTex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, off); gl.uniform1f(uMos, mos); gl.uniform1f(uK, k); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); }
       const M2 = { v: 100 };
