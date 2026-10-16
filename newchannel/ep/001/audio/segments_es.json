@@ -1,739 +1,1524 @@
 {
- "voices": {
-  "narrator": {
-   "recipe": {
-    "ef_dora": 0.6,
-    "af_heart": 0.4
-   },
-   "speed": 0.92,
-   "semitones": 0.0
-  },
-  "eli": {
-   "recipe": {
-    "em_alex": 1.0
-   },
-   "speed": 1.0,
-   "semitones": 0.0
-  },
-  "mila": {
-   "recipe": {
-    "ef_dora": 0.65,
-    "bf_emma": 0.35
-   },
-   "speed": 0.95,
-   "semitones": 2.0
-  }
- },
- "respell_tts_only": {
-  "Nashville": "Náshvil",
-  "Tennessee": "Tenesí",
-  "corras": "corrras"
+ "engine": "chatterbox",
+ "voice": {
+  "ref": "producer_reference_clean.flac:63a69a2da6",
+  "model": "v3",
+  "s3gen": "base",
+  "mode": "chunk",
+  "exaggeration": 0.45,
+  "cfg_weight": 0.4,
+  "temperature": 0.75,
+  "speed": 1.0,
+  "speed_jitter": 0.0,
+  "pause_jitter": 0.0,
+  "ex_jitter": 0.0
  },
  "target_lufs": -18.0,
  "tp_ceiling": -2.0,
- "post_gain_db": 9.0,
+ "post_gain_db": 9.3,
  "segments": [
   {
    "name": "b01_00_narrator",
    "beat": "01",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
-   "tts": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
    "start": 0.25,
-   "dur": 7.6052,
+   "dur": 7.2,
    "after": 0.5,
-   "gain_db": 5.45,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.4,
+   "pieces": [
+    {
+     "text": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+     "tts": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Una carretera despejada, allá adelante un conductor toca el freno, una sola vez, apenas un poquito.",
+     "tries": 1,
+     "seed": 3878351,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 12.51
+    }
+   ]
   },
   {
    "name": "b02_01_narrator",
    "beat": "02",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
-   "tts": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
-   "start": 8.3552,
-   "dur": 8.6652,
+   "start": 7.95,
+   "dur": 9.8,
    "after": 0.45,
-   "gain_db": 5.55,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.65,
+   "pieces": [
+    {
+     "text": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+     "tts": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Detrás, cada auto frena un poco más fuerte que el anterior, más fuerte, más fuerte hasta que alguien se queda quieto, Ellie.",
+     "tries": 1,
+     "seed": 458031,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 12.53
+    }
+   ]
   },
   {
    "name": "b03_02_eli",
    "beat": "03",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡¿Quién fue?!",
-   "tts": "¡¿Quién fue?!",
-   "start": 17.4703,
+   "start": 18.2,
    "dur": 0.7077,
    "after": 0.4,
-   "gain_db": 5.87,
-   "speed": 1.05,
-   "semitones": 1.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b03_03_narrator",
    "beat": "03",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
-   "tts": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
-   "start": 18.5781,
-   "dur": 7.6087,
+   "start": 19.3077,
+   "dur": 8.76,
    "after": 2.0,
-   "gain_db": 6.07,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.89,
+   "pieces": [
+    {
+     "text": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+     "tts": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Ellie está seguro, alguien allá adelante tiene la culpa, pero allá no hay nada, ni choque, ni conos, ni semáforo.",
+     "tries": 1,
+     "seed": 5614448,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.27
+    }
+   ]
   },
   {
    "name": "b04_05_narrator",
    "beat": "04",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Mila, su amiga, mira atrás.",
-   "tts": "Mila, su amiga, mira atrás.",
-   "start": 28.1868,
-   "dur": 1.8744,
+   "start": 30.0677,
+   "dur": 2.5,
    "after": 0.35,
-   "gain_db": 6.11,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -3.93,
+   "pieces": [
+    {
+     "text": "Mila, su amiga, mira atrás.",
+     "tts": "Mila, su amiga, mira atrás.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Mila, su amiga, mira atrás.",
+     "tries": 1,
+     "seed": 872355,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 22.89
+    }
+   ]
   },
   {
    "name": "b04_06_mila",
    "beat": "04",
    "speaker": "mila",
+   "voiced": false,
    "text": "Eli… va para atrás.",
-   "tts": "Eli. Va para atrás.",
-   "start": 30.4112,
+   "start": 32.9177,
    "dur": 1.9326,
    "after": 0.35,
-   "gain_db": 3.06,
-   "speed": 0.95,
-   "semitones": 2.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b04_07_eli",
    "beat": "04",
    "speaker": "eli",
+   "voiced": false,
    "text": "¿Qué?",
-   "tts": "¿Qué…?",
-   "start": 32.6939,
+   "start": 35.2003,
    "dur": 0.5012,
    "after": 0.45,
-   "gain_db": 6.22,
-   "speed": 1.0,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b04_08_narrator",
    "beat": "04",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
-   "tts": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
-   "start": 33.6451,
-   "dur": 3.3636,
+   "start": 36.1515,
+   "dur": 5.04,
    "after": 5.0,
-   "gain_db": 6.17,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -3.05,
+   "pieces": [
+    {
+     "text": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+     "tts": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+     "tries": 1,
+     "seed": 16356834,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 16.84
+    }
+   ]
   },
   {
    "name": "b06_10_narrator",
    "beat": "06",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Mila arrastra a Eli a un experimento de verdad.",
-   "tts": "Mila arrastra a Eli a un experimento de verdad.",
-   "start": 42.0087,
-   "dur": 2.9835,
+   "start": 46.1915,
+   "dur": 3.44,
    "after": 0.3,
-   "gain_db": 6.27,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -3.79,
+   "pieces": [
+    {
+     "text": "Mila arrastra a Eli a un experimento de verdad.",
+     "tts": "Mila arrastra a Eli a un experimento de verdad.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Mila arrastra a Ellie a un experimento de verdad.",
+     "tries": 1,
+     "seed": 4993186,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 16.12
+    }
+   ]
   },
   {
    "name": "b06_11_eli",
    "beat": "06",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡Ya entendí! ¡Fue el de adelante!",
-   "tts": "¡Ya entendí! ¡Fue el de adelante!",
-   "start": 45.2923,
+   "start": 49.9315,
    "dur": 2.2648,
    "after": 0.4,
-   "gain_db": 5.75,
-   "speed": 1.1,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b06_12_narrator",
    "beat": "06",
    "speaker": "narrator",
+   "voiced": true,
    "text": "En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante. Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
-   "tts": "En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante. Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
-   "start": 47.9571,
-   "dur": 18.1979,
+   "start": 52.5963,
+   "dur": 19.14,
    "after": 0.6,
-   "gain_db": 6.2,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.04,
+   "pieces": [
+    {
+     "text": "En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante.",
+     "tts": "En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En 2008, un equipo de físicos en Japón puso 22 autos en una pista circular de 230 metros. Problema, en un círculo, todos tienen a alguien adelante.",
+     "tries": 1,
+     "seed": 12225262,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 12.14
+    },
+    {
+     "text": "Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
+     "tts": "Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Los conductores tenían una sola tarea, manejar con cuidado a unos 30 kilómetros por hora.",
+     "tries": 1,
+     "seed": 4880958,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.1
+    }
+   ]
   },
   {
    "name": "b07_13_narrator",
    "beat": "07",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía.",
-   "tts": "Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía.",
-   "start": 66.755,
-   "dur": 13.4665,
+   "start": 72.3363,
+   "dur": 15.8,
    "after": 0.35,
-   "gain_db": 5.93,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -6.14,
+   "pieces": [
+    {
+     "text": "Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía.",
+     "tts": "Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Al principio todo bien luego aparecieron titubeos un hueco por aquí un apretón por allá a los tres minutos más o menos cinco autos estaban completamente parados en una pista vacía",
+     "tries": 1,
+     "seed": 3746434,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.96
+    }
+   ]
   },
   {
    "name": "b07_14_eli",
    "beat": "07",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡¿Quién fue?!",
-   "tts": "¡¿Quién fue?!",
-   "start": 80.5715,
+   "start": 88.4863,
    "dur": 0.7077,
    "after": 2.5,
-   "gain_db": 6.4,
-   "speed": 1.05,
-   "semitones": 1.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b08_16_narrator",
    "beat": "08",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte kilómetros por hora. Más o menos lo que va una bicicleta.",
-   "tts": "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte kilómetros por hora. Más o menos lo que va una bicicleta.",
-   "start": 83.7792,
-   "dur": 10.9552,
+   "start": 91.694,
+   "dur": 10.44,
    "after": 0.65,
-   "gain_db": 6.02,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.47,
+   "pieces": [
+    {
+     "text": "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte kilómetros por hora. Más o menos lo que va una bicicleta.",
+     "tts": "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte kilómetros por hora. Más o menos lo que va una bicicleta.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Lo que a Mila le encanta, los autos siempre avanzan y el embotellamiento se desliza hacia atrás a unos 20 kilómetros por hora, más o menos lo que va una bicicleta.",
+     "tries": 1,
+     "seed": 11760169,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.87
+    }
+   ]
   },
   {
    "name": "b09_17_narrator",
    "beat": "09",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía.",
-   "tts": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía.",
-   "start": 95.3844,
-   "dur": 18.602,
+   "start": 102.784,
+   "dur": 18.34,
    "after": 0.35,
-   "gain_db": 6.13,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.36,
+   "pieces": [
+    {
+     "text": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "tts": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "tries": 2,
+     "seed": 8460600,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 11.95
+    },
+    {
+     "text": "En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía.",
+     "tts": "En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En ese instante ya se acercó así que tiene que frenar un poco más fuerte el tercero más tarde y más fuerte todavía",
+     "tries": 4,
+     "seed": 10740272,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.32
+    }
+   ]
   },
   {
    "name": "b09_18_eli",
    "beat": "09",
    "speaker": "eli",
+   "voiced": false,
    "text": "No… no… ¡no!",
-   "tts": "No… no… ¡no!",
-   "start": 114.3363,
+   "start": 121.474,
    "dur": 0.9101,
    "after": 0.35,
-   "gain_db": 5.95,
-   "speed": 1.0,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b09_19_narrator",
    "beat": "09",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Para el auto número diez: alto total.",
-   "tts": "Para el auto número diez: alto total.",
-   "start": 115.5964,
-   "dur": 2.2699,
+   "start": 122.7341,
+   "dur": 3.2,
    "after": 0.65,
-   "gain_db": 5.77,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.86,
+   "pieces": [
+    {
+     "text": "Para el auto número diez: alto total.",
+     "tts": "Para el auto número diez: alto total.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "para el auto número 10, alto total.",
+     "tries": 1,
+     "seed": 14872948,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 18.14
+    }
+   ]
   },
   {
    "name": "b10_20_narrator",
    "beat": "10",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Los ingenieros le llaman inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta.",
-   "tts": "Los ingenieros le llaman inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta.",
-   "start": 118.5163,
-   "dur": 17.5562,
+   "start": 126.5841,
+   "dur": 19.76,
    "after": 1.0,
-   "gain_db": 6.16,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.4,
+   "pieces": [
+    {
+     "text": "Los ingenieros le llaman inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás.",
+     "tts": "Los ingenieros le llaman inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Los ingenieros le llaman inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás.",
+     "tries": 1,
+     "seed": 2893093,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 12.09
+    },
+    {
+     "text": "Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta.",
+     "tts": "Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta.",
+     "tries": 1,
+     "seed": 15918893,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.95
+    }
+   ]
   },
   {
    "name": "b10_21_eli",
    "beat": "10",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡¿Que yo qué?!",
-   "tts": "¡¿Que yo qué?!",
-   "start": 137.0725,
+   "start": 147.3441,
    "dur": 0.8671,
    "after": 0.65,
-   "gain_db": 5.77,
-   "speed": 1.05,
-   "semitones": 1.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b11_22_narrator",
    "beat": "11",
    "speaker": "narrator",
+   "voiced": true,
    "text": "No es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Los autos se van; el embotellamiento se queda. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. Un embotellamiento no es un lugar. Es una ola.",
-   "tts": "No es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Los autos se van; el embotellamiento se queda. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. [pause 1.2] Un embotellamiento no es un lugar. Es una ola.",
-   "start": 138.5897,
-   "dur": 20.3496,
+   "start": 148.8612,
+   "dur": 22.26,
    "after": 0.65,
-   "gain_db": 6.11,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.95,
+   "pieces": [
+    {
+     "text": "No es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Los autos se van; el embotellamiento se queda.",
+     "tts": "No es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Los autos se van; el embotellamiento se queda.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "No es un grupo fijo de autos. Los autos entran por detrás, avanzan despacito y salen por delante. Los autos se van, el embotellamiento se queda.",
+     "tries": 1,
+     "seed": 10849604,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.18
+    },
+    {
+     "text": "Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera.",
+     "tts": "Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "es como la ola en un estadio nadie se cambia de asiento pero la ola le da la vuelta entera",
+     "tries": 1,
+     "seed": 15189705,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.84
+    },
+    {
+     "text": "Un embotellamiento no es un lugar. Es una ola.",
+     "tts": "Un embotellamiento no es un lugar. Es una ola.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Un embotellamiento no es un lugar, es una ola.",
+     "tries": 1,
+     "seed": 1005006,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 19.05
+    }
+   ]
   },
   {
    "name": "b12_23_narrator",
    "beat": "12",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros. Con veinticinco autos, el tráfico fluyó. Con veintiocho o más: embotellamiento. Tres autos de más.",
-   "tts": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros. Con veinticinco autos, el tráfico fluyó. Con veintiocho o más, [pause 0.3] embotellamiento. Tres autos de más.",
-   "start": 159.5893,
-   "dur": 18.4184,
+   "start": 171.7712,
+   "dur": 20.06,
    "after": 0.35,
-   "gain_db": 5.89,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.77,
+   "pieces": [
+    {
+     "text": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros.",
+     "tts": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de 314 metros.",
+     "tries": 1,
+     "seed": 828189,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 12.53
+    },
+    {
+     "text": "Con veinticinco autos, el tráfico fluyó. Con veintiocho o más,",
+     "tts": "Con veinticinco autos, el tráfico fluyó. Con veintiocho o más,",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Con 25 autos, el tráfico fluyó. Con 28 o más.",
+     "tries": 1,
+     "seed": 11320481,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 16.08
+    },
+    {
+     "text": "embotellamiento. Tres autos de más.",
+     "tts": "embotellamiento. Tres autos de más.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "embotellamiento, tres autos de más.",
+     "tries": 1,
+     "seed": 12983043,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 19.48
+    }
+   ]
   },
   {
    "name": "b12_24_eli",
    "beat": "12",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡¿Quién f…?",
-   "tts": "¡¿Quién fue?!",
-   "start": 178.3577,
+   "start": 192.1812,
    "dur": 0.5488,
    "after": 1.5,
-   "gain_db": 5.04,
-   "speed": 1.05,
-   "semitones": 1.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b12_25_narrator",
    "beat": "12",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Lo que importa es cuántos autos hay en cada tramo de pista: los ingenieros le dicen densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
-   "tts": "Lo que importa es cuántos autos hay en cada tramo de pista: los ingenieros le dicen densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
-   "start": 180.4065,
-   "dur": 11.264,
+   "start": 194.23,
+   "dur": 13.08,
    "after": 0.65,
-   "gain_db": 6.03,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.89,
+   "pieces": [
+    {
+     "text": "Lo que importa es cuántos autos hay en cada tramo de pista: los ingenieros le dicen densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
+     "tts": "Lo que importa es cuántos autos hay en cada tramo de pista: los ingenieros le dicen densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Lo que importa es cuántos autos hay en cada tramo de pista. Los ingenieros le dicen densidad. Por debajo de cierta densidad los titubeos se apagan. Por encima crecen.",
+     "tries": 1,
+     "seed": 10906143,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 12.44
+    }
+   ]
   },
   {
    "name": "b13_26_narrator",
    "beat": "13",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Ahora llévalo a una autopista en hora pico. Ahí, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte kilómetros por hora. O sea que ese embotellamiento, trancón, taco o tráfico, en el que estás ahora mismo, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Seguro ya está cenando. Por eso no ves ninguna razón: la razón ya se fue a cenar.",
-   "tts": "Ahora llévalo a una autopista en hora pico. Ahí, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte kilómetros por hora. O sea que ese embotellamiento, trancón, taco o tráfico, en el que estás ahora mismo, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Seguro ya está cenando. Por eso no ves ninguna razón: la razón ya se fue a cenar.",
-   "start": 192.3205,
-   "dur": 26.9936,
+   "start": 207.96,
+   "dur": 28.8,
    "after": 1.2,
-   "gain_db": 6.24,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.57,
+   "pieces": [
+    {
+     "text": "Ahora llévalo a una autopista en hora pico. Ahí, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte kilómetros por hora.",
+     "tts": "Ahora llévalo a una autopista en hora pico. Ahí, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte kilómetros por hora.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Ahora llévalo a una autopista en hora pico, ahí una sola ola puede viajar hacia atrás más de 10 kilómetros a 15 o 20 kilómetros por hora.",
+     "tries": 1,
+     "seed": 1669774,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.2
+    },
+    {
+     "text": "O sea que ese embotellamiento, trancón, taco o tráfico, en el que estás ahora mismo, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Seguro ya está cenando.",
+     "tts": "O sea que ese embotellamiento, trancón, taco o tráfico, en el que estás ahora mismo, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Seguro ya está cenando.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "O sea, que ese embotellamiento, trancón, taco o tráfico en el que estás ahora mismo, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Seguro ya está cenando.",
+     "tries": 1,
+     "seed": 9511775,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.65
+    },
+    {
+     "text": "Por eso no ves ninguna razón: la razón ya se fue a cenar.",
+     "tts": "Por eso no ves ninguna razón: la razón ya se fue a cenar.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Por eso no ves ninguna razón. La razón ya se fue a cenar.",
+     "tries": 1,
+     "seed": 5791903,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 15.79
+    }
+   ]
   },
   {
    "name": "b13_27_eli",
    "beat": "13",
    "speaker": "eli",
+   "voiced": false,
    "text": "¿Ni un perdón?",
-   "tts": "¿Ni un perdón?",
-   "start": 220.514,
+   "start": 237.96,
    "dur": 1.0759,
    "after": 1.0,
-   "gain_db": 5.34,
-   "speed": 0.95,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b14_28_narrator",
    "beat": "14",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo.",
-   "tts": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo.",
-   "start": 222.59,
-   "dur": 23.0134,
+   "start": 240.0359,
+   "dur": 25.05,
    "after": 0.35,
-   "gain_db": 6.18,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.86,
+   "pieces": [
+    {
+     "text": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot?",
+     "tts": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot?",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot?",
+     "tries": 1,
+     "seed": 13675985,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.89
+    },
+    {
+     "text": "Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos.",
+     "tts": "Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "unos años después un equipo en estados unidos armó otra vez el círculo con 21 autos",
+     "tries": 1,
+     "seed": 16197266,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 15.79
+    },
+    {
+     "text": "A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo.",
+     "tts": "A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "A los conductores les dieron una instrucción para que no arreglaran las olas por su cuenta, manejen como en hora pico. Si se abre un hueco, cierrenlo.",
+     "tries": 1,
+     "seed": 77889,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 15.54
+    }
+   ]
   },
   {
    "name": "b14_29_eli",
    "beat": "14",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡Mi lema!",
-   "tts": "¡Mi lema!",
-   "start": 245.9534,
+   "start": 265.4359,
    "dur": 0.6616,
    "after": 0.8,
-   "gain_db": 4.62,
-   "speed": 1.0,
-   "semitones": 1.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b15_30_narrator",
    "beat": "15",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte.",
-   "tts": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte.",
-   "start": 247.415,
-   "dur": 20.2428,
+   "start": 266.8975,
+   "dur": 21.84,
    "after": 0.65,
-   "gain_db": 6.17,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.99,
+   "pieces": [
+    {
+     "text": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante.",
+     "tts": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple, no perseguir al de adelante.",
+     "tries": 1,
+     "seed": 9129250,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.08
+    },
+    {
+     "text": "Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte.",
+     "tts": "Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte.",
+     "tries": 1,
+     "seed": 5648365,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.24
+    }
+   ]
   },
   {
    "name": "b16_31_narrator",
    "beat": "16",
    "speaker": "narrator",
+   "voiced": true,
    "text": "La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno.",
-   "tts": "La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno.",
-   "start": 268.3077,
-   "dur": 17.0129,
+   "start": 289.3875,
+   "dur": 17.42,
    "after": 0.65,
-   "gain_db": 6.04,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.23,
+   "pieces": [
+    {
+     "text": "La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron.",
+     "tts": "La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "La ola se derritió. Los cambios de velocidad bajaron cerca de un 80%. Los frenazos fuertes casi desaparecieron.",
+     "tries": 1,
+     "seed": 11343545,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.61
+    },
+    {
+     "text": "En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno.",
+     "tts": "En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En esa pista chiquita, los autos gastaron hasta un 40 % menos de gasolina. Todo eso con un solo auto de 21.",
+     "tries": 1,
+     "seed": 16352315,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.28
+    }
+   ]
   },
   {
    "name": "b17_32_narrator",
    "beat": "17",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Después, programaron la computadora un poquito más rápido que el promedio. La ola volvió.",
-   "tts": "Después, programaron la computadora un poquito más rápido que el promedio. La ola volvió.",
-   "start": 285.9706,
-   "dur": 5.7537,
+   "start": 307.4575,
+   "dur": 6.78,
    "after": 0.3,
-   "gain_db": 6.19,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.34,
+   "pieces": [
+    {
+     "text": "Después, programaron la computadora un poquito más rápido que el promedio. La ola volvió.",
+     "tts": "Después, programaron la computadora un poquito más rápido que el promedio. La ola volvió.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Después, programaron la computadora un poquito más rápido que el promedio. La ola volvió.",
+     "tries": 1,
+     "seed": 1890704,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 15.22
+    }
+   ]
   },
   {
    "name": "b17_33_eli",
    "beat": "17",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡¿Quién fue?!",
-   "tts": "¡¿Quién fue?!",
-   "start": 292.0243,
+   "start": 314.5375,
    "dur": 0.7075,
    "after": 1.2,
-   "gain_db": 6.89,
-   "speed": 1.05,
-   "semitones": 1.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b17_35_mila",
    "beat": "17",
    "speaker": "mila",
+   "voiced": false,
    "text": "Eli.",
-   "tts": "Eli.",
-   "start": 293.9318,
+   "start": 316.445,
    "dur": 0.5464,
    "after": 0.45,
-   "gain_db": 4.12,
-   "speed": 0.95,
-   "semitones": 2.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b17_36_eli",
    "beat": "17",
    "speaker": "eli",
+   "voiced": false,
    "text": "…Fue el viento.",
-   "tts": "…Fue el viento.",
-   "start": 294.9282,
+   "start": 317.4414,
    "dur": 1.164,
    "after": 1.0,
-   "gain_db": 5.38,
-   "speed": 0.9,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b17_37_narrator",
    "beat": "17",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Ser paciente no es ir lento. Es ir al promedio.",
-   "tts": "Ser paciente no es ir lento. Es ir al promedio.",
-   "start": 297.0922,
-   "dur": 3.5659,
+   "start": 319.6054,
+   "dur": 4.72,
    "after": 0.65,
-   "gain_db": 5.78,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.53,
+   "pieces": [
+    {
+     "text": "Ser paciente no es ir lento. Es ir al promedio.",
+     "tts": "Ser paciente no es ir lento. Es ir al promedio.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Ser paciente no es ir lento, es ir al promedio.",
+     "tries": 1,
+     "seed": 6805452,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 18.01
+    }
+   ]
   },
   {
    "name": "b18_38_narrator",
    "beat": "18",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Esta es la parte favorita de Mila. En otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio.",
-   "tts": "Esta es la parte favorita de Mila. En otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio.",
-   "start": 301.3082,
-   "dur": 9.5678,
+   "start": 324.9754,
+   "dur": 9.26,
    "after": 0.35,
-   "gain_db": 6.1,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.29,
+   "pieces": [
+    {
+     "text": "Esta es la parte favorita de Mila. En otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio.",
+     "tts": "Esta es la parte favorita de Mila. En otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Esta es la parte favorita de Mila. En otra prueba no hubo computadora. Sólo un conductor entrenado, con un único número, la velocidad promedio.",
+     "tries": 1,
+     "seed": 5946173,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 15.81
+    }
+   ]
   },
   {
    "name": "b18_39_eli",
    "beat": "18",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡Hay un hueco! ¡Un hueco enorme!",
-   "tts": "¡Hay un hueco! ¡Un hueco enorme!",
-   "start": 311.2259,
+   "start": 334.5854,
    "dur": 2.1787,
    "after": 0.35,
-   "gain_db": 6.88,
-   "speed": 1.15,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b18_40_mila",
    "beat": "18",
    "speaker": "mila",
+   "voiced": false,
    "text": "Ese hueco es mi amigo.",
-   "tts": "Ese hueco es mi amigo.",
-   "start": 313.7547,
+   "start": 337.1141,
    "dur": 1.6195,
    "after": 1.5,
-   "gain_db": 4.65,
-   "speed": 0.92,
-   "semitones": 2.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b18_41_narrator",
    "beat": "18",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
-   "tts": "Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
-   "start": 316.8741,
-   "dur": 8.2134,
+   "start": 340.2336,
+   "dur": 7.36,
    "after": 0.65,
-   "gain_db": 5.99,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.01,
+   "pieces": [
+    {
+     "text": "Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
+     "tts": "Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Los cambios de velocidad bajaron casi a la mitad. La gasolina más o menos una quinta parte, una sola persona paciente.",
+     "tries": 1,
+     "seed": 14604606,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 15.67
+    }
+   ]
   },
   {
    "name": "b19_42_narrator",
    "beat": "19",
    "speaker": "narrator",
+   "voiced": true,
    "text": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada.",
-   "tts": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada.",
-   "start": 325.7375,
-   "dur": 19.4395,
+   "start": 348.2436,
+   "dur": 20.44,
    "after": 0.35,
-   "gain_db": 5.87,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.18,
+   "pieces": [
+    {
+     "text": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás.",
+     "tts": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "¿Por qué funciona? Porque un espacio libre es un amortiguador, se come el frenazo antes de que llegue a los demás.",
+     "tries": 1,
+     "seed": 293068,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.87
+    },
+    {
+     "text": "El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada.",
+     "tts": "El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada.",
+     "wer": 0.0606,
+     "errors": [
+      "-auto",
+      "paciente->autopaciente"
+     ],
+     "heard": "El autopaciente llega tarde al embotellamiento, cuando ya se está despejando así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada.",
+     "tries": 6,
+     "seed": 9957787,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.37
+    }
+   ]
   },
   {
    "name": "b19_43_eli",
    "beat": "19",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡Yo llego tarde a todo!",
-   "tts": "¡Yo llego tarde a todo!",
-   "start": 345.527,
+   "start": 369.0336,
    "dur": 1.6242,
    "after": 0.6,
-   "gain_db": 5.21,
-   "speed": 1.0,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b19_44_narrator",
    "beat": "19",
    "speaker": "narrator",
+   "voiced": true,
    "text": "En Japón le pusieron a esto un nombre muy literal: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso.",
-   "tts": "En Japón le pusieron a esto un nombre muy literal: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso.",
-   "start": 347.7512,
-   "dur": 11.9677,
+   "start": 371.2578,
+   "dur": 11.32,
    "after": 0.65,
-   "gain_db": 6.08,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.23,
+   "pieces": [
+    {
+     "text": "En Japón le pusieron a esto un nombre muy literal: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso.",
+     "tts": "En Japón le pusieron a esto un nombre muy literal: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En Japón le pusieron a esto un nombre muy literal, manejo que absorbe embotellamientos. Ojo, no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso.",
+     "tries": 1,
+     "seed": 5677148,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.86
+    }
+   ]
   },
   {
    "name": "b20_45_narrator",
    "beat": "20",
    "speaker": "narrator",
+   "voiced": true,
    "text": "¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee, un equipo metió cien autos al tráfico de hora pico, con un control de crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo.",
-   "tts": "¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Náshvil, en Tenesí, un equipo metió cien autos al tráfico de hora pico, con un control de crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo.",
-   "start": 360.3689,
-   "dur": 25.3943,
+   "start": 383.2278,
+   "dur": 28.39,
    "after": 0.65,
-   "gain_db": 6.02,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.29,
+   "pieces": [
+    {
+     "text": "¿Funciona en una autopista de verdad?",
+     "tts": "¿Funciona en una autopista de verdad?",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "¿Funciona en una autopista de verdad?",
+     "tries": 1,
+     "seed": 8595640,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 18.93
+    },
+    {
+     "text": "En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee, un equipo metió cien autos al tráfico de hora pico, con un control de crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar.",
+     "tts": "En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee, un equipo metió cien autos al tráfico de hora pico, con un control de crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En noviembre de 2022, cerca de Nashville, en Tennessee, un equipo metió 100 autos al tráfico de hora pico con un control de crucero inteligente, un programa que decide cuándo acelerar y cuándo frenar.",
+     "tries": 1,
+     "seed": 6539800,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.15
+    },
+    {
+     "text": "¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo.",
+     "tts": "¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "El resultado es complicado. 100 autos son una gota en una autopista. No borraron todas las olas y tampoco esperaban hacerlo.",
+     "tries": 1,
+     "seed": 7433426,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.54
+    }
+   ]
   },
   {
    "name": "b21_46_narrator",
    "beat": "21",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás por la autopista. Pasan dos autos inteligentes, y se achica.",
-   "tts": "Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás por la autopista. Pasan dos autos inteligentes, y se achica.",
-   "start": 386.4132,
-   "dur": 8.8398,
+   "start": 412.2678,
+   "dur": 10.68,
    "after": 0.3,
-   "gain_db": 6.02,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.4,
+   "pieces": [
+    {
+     "text": "Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás por la autopista. Pasan dos autos inteligentes, y se achica.",
+     "tts": "Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás por la autopista. Pasan dos autos inteligentes, y se achica.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Pero hay un momento que Ellie no deja de repetir. Una ola viaja hacia atrás por la autopista. Pasan dos autos inteligentes y se achica.",
+     "tries": 1,
+     "seed": 1048203,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 24.65
+    }
+   ]
   },
   {
    "name": "b21_47_eli",
    "beat": "21",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡Dale, dale!",
-   "tts": "¡Dale, dale!",
-   "start": 395.553,
+   "start": 423.2478,
    "dur": 0.9508,
    "after": 0.3,
-   "gain_db": 0.14,
-   "speed": 1.0,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b21_48_narrator",
    "beat": "21",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Pasan cuatro con el sistema apagado, y crece.",
-   "tts": "Pasan cuatro con el sistema apagado, y crece.",
-   "start": 396.8038,
-   "dur": 2.9764,
+   "start": 424.4986,
+   "dur": 3.6,
    "after": 0.3,
-   "gain_db": 6.26,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -2.85,
+   "pieces": [
+    {
+     "text": "Pasan cuatro con el sistema apagado, y crece.",
+     "tts": "Pasan cuatro con el sistema apagado, y crece.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Pasan cuatro con el sistema apagado y crece.",
+     "tries": 3,
+     "seed": 7986543,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 16.66
+    }
+   ]
   },
   {
    "name": "b21_49_eli",
    "beat": "21",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡Nooo!",
-   "tts": "¡Noo!",
-   "start": 400.0802,
+   "start": 428.3986,
    "dur": 0.6156,
    "after": 0.3,
-   "gain_db": 0.48,
-   "speed": 1.0,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b21_50_narrator",
    "beat": "21",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.",
-   "tts": "Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.",
-   "start": 400.9958,
-   "dur": 6.6605,
+   "start": 429.3142,
+   "dur": 7.36,
    "after": 1.0,
-   "gain_db": 6.19,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -4.9,
+   "pieces": [
+    {
+     "text": "Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.",
+     "tts": "Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Pasan más autos inteligentes y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.",
+     "tries": 1,
+     "seed": 4953108,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.87
+    }
+   ]
   },
   {
    "name": "b22_51_narrator",
    "beat": "22",
    "speaker": "narrator",
+   "voiced": true,
    "text": "O sea que tú también eres parte de la ola. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad a la que de verdad se mueve el tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
-   "tts": "O sea que tú también eres parte de la ola. Así que deja un espacio: uno seguro, no uno enorme. No corrras a cerrarlo. [pause 0.8] Maneja a la velocidad a la que de verdad se mueve el tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
-   "start": 408.6563,
-   "dur": 19.0344,
+   "start": 437.6742,
+   "dur": 20.52,
    "after": 0.65,
-   "gain_db": 6.2,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.4,
+   "pieces": [
+    {
+     "text": "O sea que tú también eres parte de la ola. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo.",
+     "tts": "O sea que tú también eres parte de la ola. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "O sea que tú también eres parte de la ola así que deja un espacio uno seguro no uno enorme no corras a cerrarlo",
+     "tries": 1,
+     "seed": 9157432,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.37
+    },
+    {
+     "text": "Maneja a la velocidad a la que de verdad se mueve el tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
+     "tts": "Maneja a la velocidad a la que de verdad se mueve el tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Maneja a la velocidad a la que de verdad se mueve el tráfico, no a la que te gustaría. No llegas más tarde, la misma distancia, el mismo tiempo, menos frenazos.",
+     "tries": 1,
+     "seed": 12248724,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 19.3
+    }
+   ]
   },
   {
    "name": "b23_52_narrator",
    "beat": "23",
    "speaker": "narrator",
+   "voiced": true,
    "text": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli deja el espacio.",
-   "tts": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli deja el espacio.",
-   "start": 428.3407,
-   "dur": 6.5195,
+   "start": 458.8442,
+   "dur": 7.66,
    "after": 5.0,
-   "gain_db": 5.78,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -6.86,
+   "pieces": [
+    {
+     "text": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli deja el espacio.",
+     "tts": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli deja el espacio.",
+     "wer": 0.125,
+     "errors": [
+      "+el",
+      "eli->y"
+     ],
+     "heard": "Mismo camino, mismo toque de freno, allá adelante, solo que esta vez, él y deja el espacio.",
+     "tries": 6,
+     "seed": 4669200,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 16.77
+    }
+   ]
   },
   {
    "name": "b23_54_eli",
    "beat": "23",
    "speaker": "eli",
+   "voiced": false,
    "text": "¿…Quién fue?",
-   "tts": "¿Quién fue?",
-   "start": 439.8601,
+   "start": 471.5042,
    "dur": 0.8174,
    "after": 0.5,
-   "gain_db": 0.8,
-   "speed": 0.9,
-   "semitones": 0.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b23_55_mila",
    "beat": "23",
    "speaker": "mila",
+   "voiced": false,
    "text": "Fuiste tú.",
-   "tts": "Fuiste tú.",
-   "start": 441.1775,
+   "start": 472.8216,
    "dur": 0.9183,
    "after": 1.0,
-   "gain_db": 4.47,
-   "speed": 0.92,
-   "semitones": 2.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   },
   {
    "name": "b24_56_narrator",
    "beat": "24",
    "speaker": "narrator",
+   "voiced": true,
    "text": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. Esto es Diez Mil Puntos.",
-   "tts": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. [pause 0.5] Esto es Diez Mil Puntos.",
-   "start": 443.0958,
-   "dur": 13.0375,
+   "start": 474.7399,
+   "dur": 13.6,
    "after": 3.0,
-   "gain_db": 6.05,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.67,
+   "pieces": [
+    {
+     "text": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla.",
+     "tts": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar, es una ola. Un solo conductor paciente puede absorberla.",
+     "tries": 1,
+     "seed": 2323690,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 11.66
+    },
+    {
+     "text": "Esto es Diez Mil Puntos.",
+     "tts": "Esto es Diez Mil Puntos.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Esto es 10 .000 puntos.",
+     "tries": 1,
+     "seed": 7566752,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 19.69
+    }
+   ]
   },
   {
    "name": "bend_57_narrator",
    "beat": "end",
    "speaker": "narrator",
+   "voiced": true,
    "text": "La próxima vez: ¿por qué los buses llegan de a tres?",
-   "tts": "La próxima vez: ¿por qué los buses llegan de a tres?",
-   "start": 459.1333,
-   "dur": 3.1254,
+   "start": 491.3399,
+   "dur": 4.26,
    "after": 0.6,
-   "gain_db": 5.94,
-   "speed": 0.92,
-   "semitones": 0.0
+   "gain_db": -5.13,
+   "pieces": [
+    {
+     "text": "La próxima vez: ¿por qué los buses llegan de a tres?",
+     "tts": "La próxima vez: ¿por qué los buses llegan de a tres?",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "La próxima vez, ¿por qué los buses llegan de A3?",
+     "tries": 1,
+     "seed": 13112598,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.91
+    }
+   ]
   },
   {
    "name": "bend_58_eli",
    "beat": "end",
    "speaker": "eli",
+   "voiced": false,
    "text": "¡¿Quién fue?!",
-   "tts": "¡¿Quién fue?!",
-   "start": 462.8587,
+   "start": 496.1999,
    "dur": 0.7077,
    "after": 0.0,
-   "gain_db": 5.87,
-   "speed": 1.05,
-   "semitones": 1.0
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
   }
  ]
 }

@@ -12,6 +12,8 @@ respellings (Náshvil, Tenesí, corrras) are NOT used: Chatterbox reads grapheme
 every take of a piece fails Whisper.
 Auto-retry rule: every piece is re-synthesized with a new seed while its faster-whisper transcript differs from the
 script (WER > 0 after the production normaliser), up to TRIES; the best take is kept and logged.
+Kokoro reference files (slot lengths, comparison): ../segments_es_kokoro.json, ../narration_es_kokoro.wav.
+After QC the main files in ../ (timings_es.json, segments_es.json, narration_es.wav, + Short) are copies of these.
 Output (this folder): narration_es.wav (48 kHz 24 bit, -18 LUFS, TP <= -2 dBTP; not in git), narration_es_preview.mp3,
 segments/*.flac (narrator lines), segments_es.json, timings_es.json (+ _short_ versions), qc_es.json.
 """
@@ -103,7 +105,7 @@ def model():
 
 
 def kokoro_manifest(kind):
-    f = AUD / ("segments_es.json" if kind == "episode" else "segments_short_es.json")
+    f = AUD / ("segments_es_kokoro.json" if kind == "episode" else "segments_short_es_kokoro.json")
     return {s["name"]: s for s in json.loads(f.read_text())["segments"]}
 
 
@@ -127,7 +129,7 @@ def render(kind):
             sp = VOICE["speed"] * (1 + (rng.uniform(-VOICE["speed_jitter"], VOICE["speed_jitter"]) if VOICE["speed_jitter"] else 0))
             pj = rng.uniform(-VOICE["pause_jitter"], VOICE["pause_jitter"]) if VOICE["pause_jitter"] else 0.0
             kw = dict(exaggeration=round(ex, 3), cfg_weight=VOICE["cfg_weight"], temperature=VOICE["temperature"])
-            key = _hash(txt, kw, ref_id(), VOICE["model"], VOICE["s3gen"], TRIES)
+            key = _hash(txt, kw, ref_id(), VOICE["model"], VOICE["s3gen"], 6)   # key ignores the retry budget (CB_TRIES)
             f = CACHE / f"{s['name']}_{pi:02d}_{key}.wav"
             jf = f.with_suffix(".json")
             if not f.exists():
@@ -284,7 +286,7 @@ def align(kind):
 def qc(kind):
     wav = HERE / ("narration_es.wav" if kind == "episode" else "short_es.wav")
     man = json.loads((HERE / ("segments_es.json" if kind == "episode" else "segments_short_es.json")).read_text())
-    kman = json.loads((AUD / ("segments_es.json" if kind == "episode" else "segments_short_es.json")).read_text())
+    kman = json.loads((AUD / ("segments_es_kokoro.json" if kind == "episode" else "segments_short_es_kokoro.json")).read_text())
     asr = json.loads((HERE / ("asr_es.json" if kind == "episode" else "asr_short_es.json")).read_text())
     tim = json.loads((HERE / ("timings_es.json" if kind == "episode" else "timings_short_es.json")).read_text())
     m = es.measure_file(wav)
@@ -308,8 +310,9 @@ def qc(kind):
     errs = sum(round((asr[k]["wer"]) * asr[k]["ref_words"]) for k in asr)
     spk = sum(s["dur"] for s in man["segments"] if s["voiced"])
     pieces = [p for s in man["segments"] if s["voiced"] for p in s["pieces"]]
-    res = {"duration_s": round(info.duration, 2), "kokoro_duration_s": round(sf.info(str(AUD / wav.name)).duration, 2)
-           if (AUD / wav.name).exists() else None, "loudness": m, "words_narrator": nw, "word_errors": errs,
+    kw_ = AUD / wav.name.replace(".wav", "_kokoro.wav")
+    res = {"duration_s": round(info.duration, 2), "kokoro_duration_s": round(sf.info(str(kw_)).duration, 2)
+           if kw_.exists() else None, "loudness": m, "words_narrator": nw, "word_errors": errs,
            "wer": round(errs / max(1, nw), 4), "pieces": len(pieces), "retries": sum(p["tries"] - 1 for p in pieces),
            "pieces_wer_gt0": [(p["text"], p["heard"]) for p in pieces if p["wer"] > 0],
            "narrator_wpm_in_lines": round(nw / spk * 60, 1), "silent_slots": [

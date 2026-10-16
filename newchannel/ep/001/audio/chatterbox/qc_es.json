@@ -1,0 +1,430 @@
+{
+ "duration_s": 511.34,
+ "kokoro_duration_s": 479.13,
+ "loudness": {
+  "I": -18.0,
+  "TP": -2.1,
+  "LRA": 3.5
+ },
+ "words_narrator": 1030,
+ "word_errors": 6,
+ "wer": 0.0058,
+ "pieces": 51,
+ "retries": 16,
+ "pieces_wer_gt0": [
+  [
+   "El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada.",
+   "El autopaciente llega tarde al embotellamiento, cuando ya se está despejando así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada."
+  ],
+  [
+   "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli deja el espacio.",
+   "Mismo camino, mismo toque de freno, allá adelante, solo que esta vez, él y deja el espacio."
+  ]
+ ],
+ "narrator_wpm_in_lines": 144.4,
+ "silent_slots": [
+  {
+   "line": "b03_02_eli",
+   "speaker": "eli",
+   "start": 18.2,
+   "dur": 0.7077,
+   "text": "¡¿Quién fue?!"
+  },
+  {
+   "line": "b04_06_mila",
+   "speaker": "mila",
+   "start": 32.9177,
+   "dur": 1.9326,
+   "text": "Eli… va para atrás."
+  },
+  {
+   "line": "b04_07_eli",
+   "speaker": "eli",
+   "start": 35.2003,
+   "dur": 0.5012,
+   "text": "¿Qué?"
+  },
+  {
+   "line": "b06_11_eli",
+   "speaker": "eli",
+   "start": 49.9315,
+   "dur": 2.2648,
+   "text": "¡Ya entendí! ¡Fue el de adelante!"
+  },
+  {
+   "line": "b07_14_eli",
+   "speaker": "eli",
+   "start": 88.4863,
+   "dur": 0.7077,
+   "text": "¡¿Quién fue?!"
+  },
+  {
+   "line": "b09_18_eli",
+   "speaker": "eli",
+   "start": 121.474,
+   "dur": 0.9101,
+   "text": "No… no… ¡no!"
+  },
+  {
+   "line": "b10_21_eli",
+   "speaker": "eli",
+   "start": 147.3441,
+   "dur": 0.8671,
+   "text": "¡¿Que yo qué?!"
+  },
+  {
+   "line": "b12_24_eli",
+   "speaker": "eli",
+   "start": 192.1812,
+   "dur": 0.5488,
+   "text": "¡¿Quién f…?"
+  },
+  {
+   "line": "b13_27_eli",
+   "speaker": "eli",
+   "start": 237.96,
+   "dur": 1.0759,
+   "text": "¿Ni un perdón?"
+  },
+  {
+   "line": "b14_29_eli",
+   "speaker": "eli",
+   "start": 265.4359,
+   "dur": 0.6616,
+   "text": "¡Mi lema!"
+  },
+  {
+   "line": "b17_33_eli",
+   "speaker": "eli",
+   "start": 314.5375,
+   "dur": 0.7075,
+   "text": "¡¿Quién fue?!"
+  },
+  {
+   "line": "b17_35_mila",
+   "speaker": "mila",
+   "start": 316.445,
+   "dur": 0.5464,
+   "text": "Eli."
+  },
+  {
+   "line": "b17_36_eli",
+   "speaker": "eli",
+   "start": 317.4414,
+   "dur": 1.164,
+   "text": "…Fue el viento."
+  },
+  {
+   "line": "b18_39_eli",
+   "speaker": "eli",
+   "start": 334.5854,
+   "dur": 2.1787,
+   "text": "¡Hay un hueco! ¡Un hueco enorme!"
+  },
+  {
+   "line": "b18_40_mila",
+   "speaker": "mila",
+   "start": 337.1141,
+   "dur": 1.6195,
+   "text": "Ese hueco es mi amigo."
+  },
+  {
+   "line": "b19_43_eli",
+   "speaker": "eli",
+   "start": 369.0336,
+   "dur": 1.6242,
+   "text": "¡Yo llego tarde a todo!"
+  },
+  {
+   "line": "b21_47_eli",
+   "speaker": "eli",
+   "start": 423.2478,
+   "dur": 0.9508,
+   "text": "¡Dale, dale!"
+  },
+  {
+   "line": "b21_49_eli",
+   "speaker": "eli",
+   "start": 428.3986,
+   "dur": 0.6156,
+   "text": "¡Nooo!"
+  },
+  {
+   "line": "b23_54_eli",
+   "speaker": "eli",
+   "start": 471.5042,
+   "dur": 0.8174,
+   "text": "¿…Quién fue?"
+  },
+  {
+   "line": "b23_55_mila",
+   "speaker": "mila",
+   "start": 472.8216,
+   "dur": 0.9183,
+   "text": "Fuiste tú."
+  },
+  {
+   "line": "bend_58_eli",
+   "speaker": "eli",
+   "start": 496.1999,
+   "dur": 0.7077,
+   "text": "¡¿Quién fue?!"
+  }
+ ],
+ "words": 1089,
+ "beats": {
+  "01": {
+   "start": 0.25,
+   "slot": 7.7,
+   "kokoro_start": 0.25,
+   "kokoro_slot": 8.11,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "02": {
+   "start": 7.95,
+   "slot": 10.25,
+   "kokoro_start": 8.36,
+   "kokoro_slot": 9.12,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "03": {
+   "start": 18.2,
+   "slot": 11.87,
+   "kokoro_start": 17.47,
+   "kokoro_slot": 10.72,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "04": {
+   "start": 30.07,
+   "slot": 16.12,
+   "kokoro_start": 28.19,
+   "kokoro_slot": 13.82,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "06": {
+   "start": 46.19,
+   "slot": 26.14,
+   "kokoro_start": 42.01,
+   "kokoro_slot": 24.75,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "07": {
+   "start": 72.34,
+   "slot": 19.36,
+   "kokoro_start": 66.75,
+   "kokoro_slot": 17.02,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "08": {
+   "start": 91.69,
+   "slot": 11.09,
+   "kokoro_start": 83.78,
+   "kokoro_slot": 11.61,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "09": {
+   "start": 102.78,
+   "slot": 23.8,
+   "kokoro_start": 95.38,
+   "kokoro_slot": 23.13,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 4,
+   "pieces_imperfect": []
+  },
+  "10": {
+   "start": 126.58,
+   "slot": 22.28,
+   "kokoro_start": 118.52,
+   "kokoro_slot": 20.07,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "11": {
+   "start": 148.86,
+   "slot": 22.91,
+   "kokoro_start": 138.59,
+   "kokoro_slot": 21.0,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "12": {
+   "start": 171.77,
+   "slot": 36.19,
+   "kokoro_start": 159.59,
+   "kokoro_slot": 32.73,
+   "wer": 0.0137,
+   "errors": [
+    "repitio->repicio"
+   ],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "13": {
+   "start": 207.96,
+   "slot": 32.08,
+   "kokoro_start": 192.32,
+   "kokoro_slot": 30.27,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "14": {
+   "start": 240.04,
+   "slot": 26.86,
+   "kokoro_start": 222.59,
+   "kokoro_slot": 24.82,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "15": {
+   "start": 266.9,
+   "slot": 22.49,
+   "kokoro_start": 247.41,
+   "kokoro_slot": 20.89,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "16": {
+   "start": 289.39,
+   "slot": 18.07,
+   "kokoro_start": 268.31,
+   "kokoro_slot": 17.66,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "17": {
+   "start": 307.46,
+   "slot": 17.52,
+   "kokoro_start": 285.97,
+   "kokoro_slot": 15.34,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "18": {
+   "start": 324.98,
+   "slot": 23.27,
+   "kokoro_start": 301.31,
+   "kokoro_slot": 24.43,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "19": {
+   "start": 348.24,
+   "slot": 34.98,
+   "kokoro_start": 325.74,
+   "kokoro_slot": 34.63,
+   "wer": 0.0357,
+   "errors": [
+    "-auto",
+    "paciente->autopaciente",
+    "puede->pueda"
+   ],
+   "retries": 5,
+   "pieces_imperfect": [
+    "El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada."
+   ]
+  },
+  "20": {
+   "start": 383.23,
+   "slot": 29.04,
+   "kokoro_start": 360.37,
+   "kokoro_slot": 26.04,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "21": {
+   "start": 412.27,
+   "slot": 25.41,
+   "kokoro_start": 386.41,
+   "kokoro_slot": 22.24,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 2,
+   "pieces_imperfect": []
+  },
+  "22": {
+   "start": 437.67,
+   "slot": 21.17,
+   "kokoro_start": 408.66,
+   "kokoro_slot": 19.68,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "23": {
+   "start": 458.84,
+   "slot": 15.9,
+   "kokoro_start": 428.34,
+   "kokoro_slot": 14.76,
+   "wer": 0.125,
+   "errors": [
+    "+el",
+    "eli->y"
+   ],
+   "retries": 5,
+   "pieces_imperfect": [
+    "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli deja el espacio."
+   ]
+  },
+  "24": {
+   "start": 474.74,
+   "slot": 16.6,
+   "kokoro_start": 443.1,
+   "kokoro_slot": 16.04,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  },
+  "end": {
+   "start": 491.34,
+   "slot": 5.57,
+   "kokoro_start": 459.13,
+   "kokoro_slot": 4.43,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  }
+ }
+}

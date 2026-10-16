@@ -1,0 +1,76 @@
+{
+ "voices": {
+  "narrator": {
+   "recipe": {
+    "ef_dora": 0.6,
+    "af_heart": 0.4
+   },
+   "speed": 0.92,
+   "semitones": 0.0
+  },
+  "eli": {
+   "recipe": {
+    "em_alex": 1.0
+   },
+   "speed": 1.0,
+   "semitones": 0.0
+  },
+  "mila": {
+   "recipe": {
+    "ef_dora": 0.65,
+    "bf_emma": 0.35
+   },
+   "speed": 0.95,
+   "semitones": 2.0
+  }
+ },
+ "respell_tts_only": {
+  "Nashville": "Náshvil",
+  "Tennessee": "Tenesí",
+  "corras": "corrras"
+ },
+ "target_lufs": -18.0,
+ "tp_ceiling": -2.0,
+ "post_gain_db": 9.0,
+ "segments": [
+  {
+   "name": "short_00_eli",
+   "beat": "S",
+   "speaker": "eli",
+   "text": "¡¿Quién fue?!",
+   "tts": "¡¿Quién fue?!",
+   "start": 0.1,
+   "dur": 0.7075,
+   "after": 0.45,
+   "gain_db": 5.91,
+   "speed": 1.05,
+   "semitones": 1.0
+  },
+  {
+   "name": "short_01_narrator",
+   "beat": "S",
+   "speaker": "narrator",
+   "text": "No hay nada en el camino. Alguien tocó el freno, apenas, y cada auto de atrás frenó un poco más fuerte. Mira: el embotellamiento va hacia atrás, a unos veinte kilómetros por hora, como una bicicleta. Los autos avanzan, pero la fila retrocede. Es una ola. En una pista de Estados Unidos, un solo auto fue a la velocidad promedio, sin perseguir al de adelante. Los frenazos casi desaparecieron. Así que deja un espacio. Si tu espacio se come el frenazo, los de atrás no tienen que frenar.",
+   "tts": "No hay nada en el camino. [pause 0.7] Alguien tocó el freno, apenas, y cada auto de atrás frenó un poco más fuerte. [pause 0.45] Mira: el embotellamiento va hacia atrás, a unos veinte kilómetros por hora, como una bicicleta. [pause 0.6] Los autos avanzan, pero la fila retrocede. Es una ola. [pause 0.8] En una pista de Estados Unidos, un solo auto fue a la velocidad promedio, sin perseguir al de adelante. Los frenazos casi desaparecieron. [pause 0.45] Así que deja un espacio. Si tu espacio se come el frenazo, los de atrás no tienen que frenar.",
+   "start": 1.2575,
+   "dur": 34.0756,
+   "after": 0.5,
+   "gain_db": 6.23,
+   "speed": 0.92,
+   "semitones": 0.0
+  },
+  {
+   "name": "short_02_mila",
+   "beat": "S",
+   "speaker": "mila",
+   "text": "Fuiste tú.",
+   "tts": "Fuiste tú.",
+   "start": 35.8332,
+   "dur": 0.9176,
+   "after": 0.6,
+   "gain_db": 4.44,
+   "speed": 0.92,
+   "semitones": 2.0
+  }
+ ]
+}
