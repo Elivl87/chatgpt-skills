@@ -1,12 +1,12 @@
 # QC · blockD1
 
-File: `blockD1_draft.mp4` · 63.37 s · 30/1 fps · 7.84 MB · 1.0 Mb/s
+File: `blockD1_draft.mp4` · 63.37 s · 30/1 fps · 7.81 MB · 1.0 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 854x480 |
-| file size <= 30 MB (chat delivery) | **PASS** | 7.84 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 7.81 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.1 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -1.1 dBTP |
@@ -28,7 +28,7 @@ Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.1 dBTP, LRA 1.7 
 | motion_share | 0.897 |
 | still_2s_runs | 1 |
 | brightness_mean | 0.654 |
-| saturation_mean | 0.344 |
+| saturation_mean | 0.345 |
 | wpm_overall | 153 |
 | wpm_while_speaking | 193 |
 
