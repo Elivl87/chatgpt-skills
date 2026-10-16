@@ -113,12 +113,12 @@
     const w = B.c.width, h = B.c.height, d = B.ctx.getImageData(0, 0, w, h).data;
     let x0 = w, y0 = h, x1 = -1, y1 = -1, n = 0; const cl = { yellow: 0, purple: 0, mustard: 0, green: 0, blue: 0, brown: 0, white: 0, vermilion: 0 };
     const PAL = root.__clothesPal ? Object.entries(root.__clothesPal).map(([k, v]) => [k, parseInt(v.slice(1, 3), 16), parseInt(v.slice(3, 5), 16), parseInt(v.slice(5, 7), 16)]) : null;
-    const pal = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palY = PAL ? Object.fromEntries(PAL.map(q => [q[0], [1e9, -1e9]])) : null;
+    const pal = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palRaw = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palY = PAL ? Object.fromEntries(PAL.map(q => [q[0], [1e9, -1e9]])) : null;
     const M = new Uint8Array(w * h), LB = PAL ? new Int8Array(w * h).fill(-1) : null;
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
       const i = (y * w + x) * 4; if (d[i + 3] < 110) continue;
       M[y * w + x] = 1;
-      if (PAL && d[i + 3] > 250) for (let qi = 0; qi < PAL.length; qi++) { const q = PAL[qi], dr = d[i] - q[1], dg = d[i + 1] - q[2], db = d[i + 2] - q[3]; if (dr * dr + dg * dg + db * db < 60) { LB[y * w + x] = qi; break; } }
+      if (PAL && d[i + 3] > 250) for (let qi = 0; qi < PAL.length; qi++) { const q = PAL[qi], dr = d[i] - q[1], dg = d[i + 1] - q[2], db = d[i + 2] - q[3]; if (dr * dr + dg * dg + db * db < 60) { LB[y * w + x] = qi; palRaw[q[0]]++; break; } }
       n++; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
       const r = d[i] / 255, g = d[i + 1] / 255, b = d[i + 2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), c = mx - mn;
       if (mx > 0.82 && c < 0.12) { cl.white++; continue; }
@@ -138,7 +138,7 @@
       const k = PAL[q][0]; pal[k]++; const yy = palY[k]; if (y < yy[0]) yy[0] = y; if (y > yy[1]) yy[1] = y; }
     for (const k in cl) cl[k] = n ? +(cl[k] / n).toFixed(4) : 0;
     const out = { box: n ? [ox + x0, oy + y0, ox + x1 + 1, oy + y1 + 1] : null, px: n, cl };
-    if (pal) { out.pal = pal; out.palY = Object.fromEntries(Object.entries(palY).map(([k, v]) => [k, v[1] < 0 ? null : [oy + v[0], oy + v[1]]])); }
+    if (pal) { out.pal = pal; out.palRaw = palRaw; out.palY = Object.fromEntries(Object.entries(palY).map(([k, v]) => [k, v[1] < 0 ? null : [oy + v[0], oy + v[1]]])); }
     if (X && X.ink >= (root.__thinMinInk || 1.4) && n) {   // thin features: M minus open(M, r) with a square r ~ 1.3 ink
       const r = Math.max(1, Math.round(X.ink * 1.3)), E = new Uint8Array(w * h), T = new Uint8Array(w * h);
       const pass = (S0, D0, horiz, isMin) => { for (let a = 0; a < (horiz ? h : w); a++) for (let b = 0; b < (horiz ? w : h); b++) {
@@ -668,7 +668,11 @@
     const lead = armFor(dir, P.lead, PB && PB.lead), trail = armFor(-dir, P.trail, PB && PB.trail);
     // frac < 1: only the upper part of the arm (shoulder -> elbow), e.g. a hand in front of the chest seen from the back
     const drawArm = (c, Aa, frac = 1, handA = 0) => {
-      const pts = frac < 1 ? partial(Aa.pts, frac) : Aa.pts, ar = S.arm;
+      let pts = frac < 1 ? partial(Aa.pts, frac) : Aa.pts; const ar = S.arm;
+      if (frac < 1 && back) {   // seen from behind the elbow sits at the side of the back, never as a stub in the middle of it
+        const n = pts.length, e = pts[n - 1], edge = tcx + Aa.sg * (K.lerp(wT, wB, 0.4) + ar.w * 0.15), need = (edge - e[0]) * Aa.sg;
+        if (need > 0) pts = pts.map((q, i) => [q[0] + Aa.sg * need * (i / (n - 1)) ** 1.5, q[1]]);
+      }
       noodle(c, pts, ar.w, ar.skinPart ? S.skin : ar.sleeve, lw);
       if (ar.skinPart) { // a short sleeve: one tube from the round shoulder, slightly flared, cut square at the hem
         // clothes QC 2026-10-16: the round-capped part used to end 0.05 arm-lengths before the hem, but its cap radius
@@ -779,7 +783,7 @@
             if (!back && s <= 0.05) for (const Aa of [trail, lead]) if (Aa.at === 'backhand') drawArm(c, Aa);
             // back views: a hand in front of the face / chest is hidden behind the head and torso (Guardian 2026-10-16:
             // the visor fist was drawn on the back of Eli's head, A14; Mila's crossed arm lay across her back, A16)
-            if (back) for (const Aa of (s > 0.05 ? [lead] : [trail, lead])) if (Aa.ff > 0) { drawArm(c, Aa); if ((P.prop || (PB && bk > 0.5 && PB.prop)) === 'magnifier' && Aa === trail) drawLens(c, trail.pts[trail.pts.length - 1]); }
+            // (back views: such arms are drawn as upper arms in the front layer, see front())
           });
           if ((legsOn || sitLegs) && s > 0.05) drawLeg(c, back ? -dir : dir);
         },
@@ -799,10 +803,6 @@
             if (back) {
               if (S.outfitBack) { c.save(); torsoPath(c); c.clip(); S.outfitBack(c, B); c.restore(); }
               if (S.outfitBackTop) S.outfitBackTop(c, B);   // parts that hang past the torso (apron bow + ties)
-              // back views: a hand in front of the face / chest is hidden, but the UPPER arm still shows along the back
-              // (clothes QC 2026-10-16: crossed arms / visor from behind read as an armless torso)
-              // (a blend into / out of such a pose shortens the drawn arm continuously: no pop at k = 0.5)
-              for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (Aa.ff > 0) { const f = K.ease.sine(Aa.ff); drawArm(c, Aa, Math.min(0.999, 1 - 0.5 * f), 1 - f); }
             } else {
               if (S.outfit) { c.save(); torsoPath(c); c.clip(); S.outfit(c, B); c.restore(); }
               if (S.collar) S.collar(c, B);            // the neckline first: straps and apron cords go over it
@@ -826,6 +826,10 @@
               const crossed = (o.pose === 'crossed' && bk < 0.5) || (PB && o.blend.pose === 'crossed' && bk >= 0.5);
               for (const Aa of (crossed ? [lead, trail] : [trail, lead])) if (!(back && Aa.ff > 0) && !(!back && Aa.at === 'backhand')) drawArm(c, Aa);
             } else if (!(back && lead.ff > 0)) drawArm(c, back ? lead : trail);
+            // back views: a hand in front of the face / chest is hidden, but the UPPER arm still shows along the back
+            // (clothes QC 2026-10-16: crossed arms / visor from behind read as an armless torso); a blend into / out of
+            // such a pose shortens the arm continuously in this same layer (no pop at k = 0.5, no layer swap)
+            if (back) for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (Aa.ff > 0) { const f = K.ease.sine(Aa.ff); drawArm(c, Aa, Math.min(0.999, 1 - 0.5 * f), 1 - f); }
             c.globalAlpha = ga * propA;
             if (prop === 'clipboard' && !back) drawPencil(c, lead.pts[lead.pts.length - 1]);
             if (prop === 'magnifier' && !(back && s <= 0.05)) drawLens(c, trail.pts[trail.pts.length - 1]);

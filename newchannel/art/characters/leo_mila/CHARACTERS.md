@@ -34,7 +34,7 @@ They stand out from the extras by silhouette (capsule heads vs round heads; tall
 | tee | `#f1ede2` | overalls | `#c99633` (pocket `#a87a24`) |
 | apron | `#a4713d` (pocket `#7d532a`, ties `#3b2a20`) | boots | `#2f6b45` |
 | jeans | `#3f5f96` | skin | `#d9a66c` |
-| skin | `#7a4d32` | hair | `#2e1d22` |
+| skin | `#905a38` (2026-10-16, «algo más claro»; was `#7a4d32`) | hair | `#2e1d22` |
 | boots | `#2b2729` (sole `#151214`) | earrings / buttons | `#f0c24a` / `#e7c25a` |
 | brows | `#1a100e` | lips | `#8e3346` |
 
@@ -136,6 +136,7 @@ drop, anger mark, steam puffs, sparkles, ticks) are seasoning: at most one or tw
 11. Run the **Detail QC checklist** (§6) on every delivery.
 12. Run the **automated eye check** (§6b) on every delivery: 0 pupil failures.
 13. Run the **Guardian body audit** (§6c) on every delivery: 0 body failures, every warning looked at.
+14. Run the **clothing audit** (§6d) on every delivery and after any kit change: 0 clothing failures.
 
 ## 6 · Detail QC checklist (run on EVERY delivery that shows Eli or Mila)
 
@@ -239,6 +240,49 @@ Rules added by the Guardian (2026-10-16), enforced in the kit:
 - Continuity props: the «SI SE ABRE UN HUECO, CIÉRRALO» badge is on Eli from «¡Mi lema!» (D1) to the glovebox (E2)
   (`def.eliBadge` in the animatic block, `heroAfter` in ring shots); the popcorn bucket stays with Eli in the stadium.
 - When Eli + Mila ride car AV (S9) or the camera follows a car tight, they are not also drawn among the ring observers.
+
+## 6d · Clothing audit (MANDATORY QC, Producer 2026-10-16: «Las ropas a veces tienen desperfectos»)
+
+Two parts, both must report **0 failures** before a delivery:
+
+1. **Lab (after any change to `cast.js` / `cast_alts.js`):** `node ep/001/animatic/clothes_audit.mjs --dir <scratch>/clothes
+   --sheets 1` then `python3 ep/001/animatic/clothes_check.py lab <scratch>/clothes ep/001/animatic/qc`. The clothes lab
+   (`art/scenes/clothes_lab.js`, `?scene=clothes_lab&id=eli1|mila1&light=golden|dusk|night|noon&set=stand1|stand2|car|ground`)
+   draws every pose the animatic uses (standing: stand walk point crossed hips scratch fist wave clipboard detective
+   visor surprise clasp shrug palm cheer pump think pointSelf open chin belly; in the car: drive driveFist lap lapPoint
+   crossed cheer palm fist point visor belly; on the ground: sit sitPoint belly palm crossed point) in all five views
+   (front, 3/4, profile, back, back 3/4). Checks, on the character's own pixels:
+   - **parts** (flat light, exact wardrobe colours, interior pixels only): every garment part expected in that view is
+     there — Eli: beanie, tee, apron bib + skirt (3/4 back: the skirt edge), neck straps (back: the strap loop), waist
+     band, jeans, boots; Mila: sweater, overalls, back patch / pockets, brass buttons (front / 3/4 with open arms),
+     earrings, hair, boots;
+   - **thin**: silhouette pixels thinner than ~2.6 ink widths outside the head and hands (stray strokes, cords, stubs);
+   - **pop**: over 20 consecutive frames (idle, walk, wave) and over every pose blend (rest -> pose, k 0..1) no part
+     appears / vanishes in one frame.
+   Then **look** at the 32 contact sheets (`sheet_<id>_<set>_<light>_<1080|draft>.jpg`) and at 4x crops of anything odd.
+2. **Animatic blocks:** `body_audit.sh` now also runs `clothes_check.py block` on the same key acting frames plus the
+   frame 1/30 s later (`faces_audit.mjs` stores it): **colour** (tee white / apron brown / jeans blue on Eli, sweater
+   purple / overall mustard / green boots on Mila, where the view shows them), **thin** (where the ink is >= 1.4 px)
+   and **pop** (a garment family share or the silhouette jumping between consecutive frames of the same shot).
+
+**Clothing rules enforced in the kit (2026-10-16, see GUARDIAN_LOG):**
+- Garment pieces drawn on top of the body (bib, skirt, overall panel, back panel) are **stroked first, then filled**,
+  so they show ONE ink weight like every silhouette (fill-then-stroke showed the full 2 lw ink: thick black bars).
+- Tee sleeves: the round-capped part stops one cap radius before the hem (no white crescent below the hem line); the
+  hem line has butt caps and ends on the sleeve's outer ink (no knobs).
+- Holes that are not gaps in the form (the leg slot under Eli's skirt / Mila's seat) are solid for the shade test (no
+  shade patch on the hem between the legs).
+- A hand behind the back (detective) is drawn behind the torso in front view and is a relaxed hand, never a stump.
+- Back views: hands in front of the face / chest are hidden, but the **upper arm** shows along the back (no armless
+  torso); blending into / out of such a pose shortens the arm continuously (no pop at k = 0.5).
+- Pose blends solve both poses and blend the joints (an elbow never flips side mid-blend); the walk knee eases in;
+  props (clipboard, magnifier) fade over the middle of a blend.
+- Eli back: the apron neck strap is the same flat band as in front; the bow and its ties hang free over the jeans
+  (seated: they rest, clipped); back 3/4: the far edge of the apron skirt peeks past the body. Seated: the skirt is a
+  short flap over the lap and the waist band stays.
+- Mila back 3/4: the back panel (straps, patch, pockets) turns with the body.
+- Small round details (buttons, jewel highlights, the bow knot) are true-radius discs, never `K.circle` in body units
+  (it clamps r >= 0.01 = a pale disc as big as the button).
 
 ## 7 · Never
 

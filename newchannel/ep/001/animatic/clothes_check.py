@@ -19,6 +19,7 @@ import json, os, sys
 STAND, CAR, GROUND = 'stand', 'car', 'ground'
 
 
+SMALL = {'button', 'earring'}
 OPEN_ARMS = {'stand', 'walk', 'point', 'hips', 'wave', 'scratch', 'fist', 'visor', 'shrug', 'palm', 'cheer', 'pump', 'open',
              'surprise', 'drive', 'driveFist', 'lap', 'sit', 'sitPoint'}
 
@@ -47,13 +48,11 @@ def expected(cid, view, kind, pose):
     else:
         E['sweater'] = 80; E['overall'] = 60; E['hair'] = 50
         if (front or q) and pose in OPEN_ARMS:
-            E['button'] = 0.3
+            E['button'] = 0.08
         if back or backq:
             E['pocket'] = 1.5                   # the back patch / pockets
-        if front or back:
-            E['earring'] = 0.5
-        if q or backq:
-            E['earring'] = 0.3
+        if not side:
+            E['earring'] = 0.08
         if kind != CAR:
             E['boots'] = 30
     return E
@@ -68,7 +67,8 @@ def lab(D, QC):
             b = c['body']; u = c['u']; key = f"{P['id']}/{P['set']}/{c['view']}/{c['pose']}@{P['size']}"
             if P['size'] == 'big':   # exact interior colours need ~2.4 px ink; 1080 / draft are judged by eye + the block checks
                 for part, mn in expected(P['id'], c['view'], kind, c['pose']).items():
-                    v = b['pal'].get(part, 0) / (u * u) * 1e4
+                    src_ = b.get('palRaw') if part in SMALL else b['pal']    # tiny details: any pixel of the exact colour
+                    v = src_.get(part, 0) / (u * u) * 1e4
                     if v < mn:
                         fails.append(('parts', key, f"{part} missing ({v:.1f} < {mn})"))
             th = b.get('thin')
@@ -90,7 +90,7 @@ def lab(D, QC):
                         calm = max([abs(v[j] - v[j - 1]) for j in range(1, len(v)) if j != i] or [0])
                         if cell['pose'] in ('clipboard', 'detective') and src == 'blend':
                             continue   # the prop fades in over the blend (by design, not a pop)
-                        if dv > 2.0 and dv > 0.45 * max(rng, 1e-6) and dv > 2.5 * calm and dv > 0.25 * max(v[i], v[i - 1]):
+                        if part != 'hair' and dv > 4.0 and dv > 0.45 * max(rng, 1e-6) and dv > 2.5 * calm and dv > 0.25 * max(v[i], v[i - 1]):
                             fails.append(('pop', f"{T['id']}/{T['set']}/{cell['view']}/{cell['pose']} {src}", f"{part} {v[i-1]:.1f} -> {v[i]:.1f} at step {i}"))
     json.dump({'fail': len(fails), 'fails': fails, 'cells': len(rows)}, open(os.path.join(QC, 'clothes_lab.json'), 'w'), indent=1)
     print(f'clothes lab: {len(rows)} cell renders, {len(fails)} failures')

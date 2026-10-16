@@ -164,7 +164,7 @@
     const hx = head ? head[0] : W * 0.5, hy = head ? head[1] : H * 0.3, hr = head ? Math.max(14, head[2]) : 0;
     const avoid = (o.avoid || []).concat(head ? [[hx - hr * 1.15, hy - hr * 1.75, hx + hr * 1.15, hy + hr * 1.2]] : []);
     const pref = o.side || (hx > W * 0.55 ? -1 : 1), cands = [];
-    const gap = hr * 1.25 + 24;
+    const gap = hr * 1.2 + (m.kind === 'thought' ? 110 : m.kind === 'shout' ? 110 : 64);   // room for a visible tail / thought dots
     for (const sd of [pref, -pref]) for (const dy of [-0.9, -0.4, -1.5, 0.2, -2.2]) cands.push([hx + sd * (gap + m.w / 2), hy + dy * hr - m.h * 0.35, sd]);
     cands.push([hx, hy - hr * 2 - m.h / 2 - 20, pref]);
     let best = null, bs = Infinity;
@@ -279,6 +279,6 @@
       const M2 = ctx.getTransform(), P = [[rect[0], rect[1]], [rect[2], rect[3]]].map(([x, y]) => [M2.a * x + M2.c * y + M2.e, M2.b * x + M2.d * y + M2.f]);
       root.__ovLog.push({ kind: 'textbox:' + String(o.text).slice(0, 20), a: +(ctx.globalAlpha * alpha).toFixed(2), r: [P[0][0], P[0][1], P[1][0], P[1][1]] });
     }
-    return { rect, tip: tipS, size: m.fs };
+    return { rect, full: [cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2], tip: tipS, size: m.fs };
   };
 })(typeof window !== 'undefined' ? window : globalThis);

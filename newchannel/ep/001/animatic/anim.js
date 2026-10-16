@@ -154,7 +154,8 @@
     if (A._demo) {   // style sheet: ?tbdemo=kind:who:text|kind:who:text (boxes at rest, anchored to the heads in this frame)
       const H = A._heads || {}, av = Object.values(H).map(x => [x.head[0] - x.head[2] * 1.2, x.head[1] - x.head[2] * 1.8, x.head[0] + x.head[2] * 1.2, x.head[1] + x.head[2] * 1.25]);
       for (const [kind, who, text, side] of A._demo) { const h = H[who];
-        K.tbox.draw(ctx, { text, kind, head: h ? h.head : null, light: S.tbLight || def.tbLight || (h && h.light) || 'golden', age: 1.2, avoid: av, side: side ? Number(side) : undefined }); }
+        const r = K.tbox.draw(ctx, { text, kind, head: h ? h.head : null, light: S.tbLight || def.tbLight || (h && h.light) || 'golden', age: 1.2, avoid: av, side: side ? Number(side) : undefined });
+        if (r) av.push([r.full[0] - 16, r.full[1] - 16, r.full[2] + 16, r.full[3] + 16]); }
       return;
     }
     const H = A._heads || {}, avoid = [];
@@ -165,8 +166,9 @@
       if (t < L.show0 || t > L.show1 || L.show1 < def.t0 || L.show0 > def.t1) continue;
       const h = H[L.speaker], ov = (S.say && S.say[L.id]) || {};
       const out = K.clamp((t - (L.show1 - 0.16)) / 0.16);
-      K.tbox.draw(ctx, Object.assign({ text: L.text, kind: L.kind || 'speech', head: h ? h.head : null, light: ov.light || S.tbLight || def.tbLight || (h && h.light) || 'golden',
+      const rr = K.tbox.draw(ctx, Object.assign({ text: L.text, kind: L.kind || 'speech', head: h ? h.head : null, light: ov.light || S.tbLight || def.tbLight || (h && h.light) || 'golden',
         age: t - L.show0, a: 1 - out, out, avoid, side: L.side || (h && h.side), at: L.at || (h ? null : [K.W * 0.27, K.H * 0.2]) }, ov));
+      if (rr) avoid.push([rr.full[0] - 16, rr.full[1] - 16, rr.full[2] + 16, rr.full[3] + 16]);   // two boxes never overlap
     }
   };
 
