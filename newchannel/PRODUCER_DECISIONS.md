@@ -34,3 +34,5 @@
 | 2026-10-16 | **Eli and Mila have NO voices**: their lines appear only as text boxes designed to match the art | "no quiero que tengan voces los personajes (solo en cuadro de texto que estén más acorde al arte)" |
 | 2026-10-16 | **Narrator voice: Chatterbox**, tuned for more naturalness (replaces Kokoro) | "La voz con chatterbox, con más naturalidad." |
 | 2026-10-16 | **Sound direction: "Cine suave"** — constant warm music bed (like the reference), real ambience (wind, birds, distant engines), few subtle effects that never distract from the narration | picked "Cine suave" |
+| 2026-10-16 | **Eli's skin a bit lighter** | "Haría a Eli algo más claro." |
+| 2026-10-16 | Producer asks to **clone his own voice** for the narrator. Allowed as the one exception to "never clone a real voice": it is the Producer's own voice, with his explicit consent (voice reference only from a recording he supplies) | "Como podemos clonar mi voz?" |
