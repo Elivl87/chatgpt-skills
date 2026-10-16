@@ -62,13 +62,15 @@
 
   // =============================================================== ALT 1 · Taller (polished current pair)
   const PURPLE = '#7158b8', PURPLE_D = '#5a4596', MUSTARD = '#c99633', MUSTARD_D = '#a87a24', GREEN = '#2f6b45', BRASS = '#e7c25a', GOLD = '#f0c24a';
+  // Eli's skin (Producer 2026-10-16: «algo más claro»): warm medium brown, was #7a4d32
+  const ELI_SKIN = '#905a38';
   const TEE = '#f1ede2', APRON = '#a4713d', APRON_D = '#7d532a', JEANS = '#3f5f96', BEANIE = '#f2c230', BEANIE_D = '#cf9d1f';
   function overalls(c, B) {
     const s = B.s, d = B.dir, bx = B.tcx + d * s * B.wT * 0.4, bw = 0.056 * (1 - 0.45 * s), top = B.Ttop + 0.095, waist = B.Tbot - 0.09;
     c.fillStyle = MUSTARD; c.fillRect(B.tcx - 0.2, waist, 0.4, 0.2);
     c.strokeStyle = INK; c.lineWidth = B.lw * 2; c.lineJoin = 'round';
     c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath();
-    c.fill(); c.stroke();
+    c.stroke(); c.fill();   // clothes QC 2026-10-16: stroke THEN fill (fill-then-stroke showed the full 2 lw ink = thick black bars)
     // bib pocket: a patch with a flap (one flap line, one stitch line)
     const px = bx + d * s * 0.008, py = top + 0.026, pw = 0.024 * (1 - 0.4 * s), ph = 0.036;
     c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; K.rrect(c, px - pw, py, pw * 2, ph, 0.005); c.fill(); c.stroke();
@@ -90,7 +92,7 @@
   function apron(c, B) {
     const s = B.s, d = B.dir, bx = B.tcx + d * s * B.wT * 0.45, bw = 0.064 * (1 - 0.5 * s), top = B.Ttop + 0.055;
     c.fillStyle = APRON; c.strokeStyle = INK; c.lineWidth = B.lw * 2;
-    c.beginPath(); c.moveTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw * 1.25, B.Tbot + 0.03); c.lineTo(bx - bw * 1.25, B.Tbot + 0.03); c.closePath(); c.fill(); c.stroke();
+    c.beginPath(); c.moveTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw * 1.25, B.Tbot + 0.03); c.lineTo(bx - bw * 1.25, B.Tbot + 0.03); c.closePath(); c.stroke(); c.fill();
     // neck strap: one flat band per side from the bib corner up over the collar to the back of the neck (clipped to the
     // torso: it never pokes out as a loose cord in 3/4 or profile)
     { const nw = Math.min(B.hw * 0.86, B.wT * 0.82) * (1 - 0.25 * s), nx = B.hcx + d * s * B.hw * 0.25, stw = 0.012;
@@ -102,12 +104,19 @@
       c.restore(); }
     c.strokeStyle = K.rgba(INK, 0.3); c.lineWidth = B.lw * 0.9; c.setLineDash([0.008, 0.006]); c.beginPath(); c.moveTo(bx - bw * 0.78, top + 0.014); c.lineTo(bx + bw * 0.78, top + 0.014); c.stroke(); c.setLineDash([]);
     // the skirt sways (secondary motion)
-    if (B.seated) return;
-    const sway = Math.sin(B.t * 1.9 + 0.7) * 0.006 - B.drag * 0.02 * d;
-    const sbx = B.tcx + d * s * B.wB * 0.5, w0 = 0.085 * (1 - 0.55 * s), w1 = 0.09 * (1 - 0.5 * s), y0 = B.Tbot + 0.012, y1 = -B.S.legLen * 0.52;
-    c.fillStyle = APRON; c.beginPath(); c.moveTo(sbx - w0, y0); c.lineTo(sbx + w0, y0); c.lineTo(sbx + w1 + sway, y1 - 0.01); c.quadraticCurveTo(sbx + w1 + sway, y1, sbx + w1 - 0.01 + sway, y1); c.lineTo(sbx - w1 + 0.01 + sway, y1); c.quadraticCurveTo(sbx - w1 + sway, y1, sbx - w1 + sway, y1 - 0.01); c.closePath(); c.fill(); c.stroke();
-    c.fillStyle = APRON_D; K.rrect(c, sbx - 0.045 * (1 - 0.5 * s) + sway * 0.6, y0 + 0.04, 0.09 * (1 - 0.5 * s), 0.06, 0.006); c.fill(); c.lineWidth = B.lw * 1.4; c.stroke();
-    c.fillStyle = '#3b2a20'; K.rrect(c, B.tcx - B.wB * 1.0, B.Tbot - 0.004, B.wB * 2.0, 0.02, 0.006); c.fill(); c.lineWidth = B.lw * 1.4; c.stroke();
+    // seated: the skirt is a short flap over the lap (clothes QC 2026-10-16: it and the waist band used to vanish when
+    // seated, so on the ground the apron ended in mid-air above the thighs)
+    apronSkirt(c, B, B.tcx + d * s * B.wB * 0.5, !B.seated);
+    c.fillStyle = '#3b2a20'; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; K.rrect(c, B.tcx - B.wB * 1.0, B.Tbot - 0.004, B.wB * 2.0, 0.02, 0.006); c.fill(); c.stroke();
+  }
+  // the apron skirt (front: over the jeans; back 3/4: the far edge peeking past the body, drawn before the legs)
+  function apronSkirt(c, B, sbx, pocket) {
+    const s = B.s, d = B.dir, sway = Math.sin(B.t * 1.9 + 0.7) * 0.006 - B.drag * 0.02 * d;
+    const w0 = 0.085 * (1 - 0.55 * s), w1 = 0.09 * (1 - 0.5 * s), y0 = B.Tbot + 0.012, y1 = B.seated ? B.Tbot + 0.07 : -B.S.legLen * 0.52;
+    c.fillStyle = APRON; c.strokeStyle = INK; c.lineWidth = B.lw * 2; c.lineJoin = 'round';
+    if (B.seated && B.s > 0.85) return;   // profile seated: the thigh runs forward, the flap reads as a stray tab
+    c.beginPath(); c.moveTo(sbx - w0, y0 - (pocket ? 0 : 0.03)); c.lineTo(sbx + w0, y0 - (pocket ? 0 : 0.03)); c.lineTo(sbx + w1 + sway, y1 - 0.01); c.quadraticCurveTo(sbx + w1 + sway, y1, sbx + w1 - 0.01 + sway, y1); c.lineTo(sbx - w1 + 0.01 + sway, y1); c.quadraticCurveTo(sbx - w1 + sway, y1, sbx - w1 + sway, y1 - 0.01); c.closePath(); c.stroke(); c.fill();
+    if (pocket) { c.fillStyle = APRON_D; K.rrect(c, sbx - 0.045 * (1 - 0.5 * s) + sway * 0.6, y0 + 0.04, 0.09 * (1 - 0.5 * s), 0.06, 0.006); c.fill(); c.lineWidth = B.lw * 1.4; c.stroke(); }
   }
   // beanie (detail pass): it pops up when the brows rise (surprise, awe, worry) so the brows always sit on the skin, never
   // on the cuff; the knit is a few soft ribs in a tone of the yarn (no dark stripes), the cuff ribs line up with the dome
@@ -154,7 +163,7 @@
     head: { kind: 'capsule', hw: 0.082, hh: 0.138, lean: 0.03 }, hairTop: 0.03,
     torso: { wTop: 0.107, wBot: 0.099, dTop: 0.082, dBot: 0.084, color: TEE, belly: 0.012 },
     arm: { w: 0.038, skinPart: true, sleeve: TEE, sleeveTo: 0.36, sleeveW: 0.058, hand: 0.029 },
-    skin: '#7a4d32',
+    skin: ELI_SKIN,
     boot: { h: 0.077, w: 0.042, foot: 0.062, toe: 0.05, back: 0.014, sole: 0.016, color: '#2b2729', soleColor: '#151214', laces: true },
     face: { eyes: 'googly', eyeR: 0.035, eyeSep: 0.034, eyeY: -0.004, pupil: 0.36, goofy: 0.8, nose: 0.012, noseY: 0.04, mouthY: 0.07, mouthW: 0.05, lidBias: -0.1, grinOpen: 0.16, grinW: 0.8,
       brows: 0.013, browColor: '#1a100e', browGap: 1.38, browW: 1.0, browsLate: true },
@@ -219,26 +228,43 @@
     drops(GOLD, H.F.mouthY - 0.006)(c, H);
   };
   // back views (turnaround, wide rear shots, the night hill)
-  ELI1.outfitBack = function (c, B) { // tee back: apron neck cord behind the collar, waist tie with a bow
-    c.strokeStyle = '#3b2a20'; c.lineWidth = 0.008; c.beginPath(); c.moveTo(B.tcx - B.wT * 0.55, B.Ttop + 0.004); c.quadraticCurveTo(B.tcx, B.Ttop + 0.03, B.tcx + B.wT * 0.55, B.Ttop + 0.004); c.stroke();
-    c.fillStyle = '#3b2a20'; c.fillRect(-1, B.Tbot - 0.026, 2, 0.022);
-    const bx = B.tcx - B.dir * B.s * 0.02, by = B.Tbot - 0.015, sw = Math.sin(B.t * 2.3) * 0.004;
-    c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; c.fillStyle = '#4a3326';
-    for (const sg of [-1, 1]) { c.beginPath(); c.ellipse(bx + sg * 0.018, by - 0.004, 0.018, 0.011, sg * 0.3, 0, K.TAU); c.fill(); c.stroke(); }
-    c.strokeStyle = '#3b2a20'; c.lineWidth = 0.007; c.beginPath(); c.moveTo(bx, by); c.lineTo(bx - 0.012 + sw, by + 0.05); c.moveTo(bx, by); c.lineTo(bx + 0.014 + sw, by + 0.045); c.stroke();
-    c.fillStyle = '#4a3326'; K.circle(c, bx, by, 0.007); c.fill();
+  ELI1.outfitBack = function (c, B) { // tee back (clipped to the torso): the apron neck strap + the waist band
+    // clothes QC 2026-10-16: the neck strap is the SAME flat band as in front (apron-dark, ink edges), looping behind the
+    // neck under the collar line (it used to be a thin dark cord here and a flat band in front)
+    const nw = Math.min(B.hw * 0.86, B.wT * 0.82) * (1 - 0.25 * B.s), nx = B.hcx, y = B.Ttop + 0.004;
+    const loop = () => { c.beginPath(); c.moveTo(nx - nw * 0.75, B.Ttop - 0.02); c.quadraticCurveTo(nx - nw * 0.6, y + 0.01, nx, y + 0.012); c.quadraticCurveTo(nx + nw * 0.6, y + 0.01, nx + nw * 0.75, B.Ttop - 0.02); };
+    c.lineCap = 'butt'; loop(); c.strokeStyle = INK; c.lineWidth = 0.012 + B.lw * 2; c.stroke(); loop(); c.strokeStyle = APRON_D; c.lineWidth = 0.012; c.stroke();
+    c.fillStyle = '#3b2a20'; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; c.beginPath(); c.rect(B.tcx - 0.3, B.Tbot - 0.024, 0.6, 0.02); c.fill(); c.stroke();
   };
+  ELI1.outfitBackTop = function (c, B) { // the bow at the back of the waist and its two ties, hanging free over the jeans
+    if (B.seated) { c.save(); B.torsoPath(c); c.clip(); }   // seated: the ties rest on the seat (no strands in the air)
+    const bx = B.tcx - B.dir * B.s * B.wB * 0.35, by = B.Tbot - 0.014, sw = Math.sin(B.t * 2.3) * 0.004;
+    const ties = () => { c.beginPath(); c.moveTo(bx, by); c.quadraticCurveTo(bx - 0.008, by + 0.03, bx - 0.012 + sw, by + 0.055); c.moveTo(bx, by); c.quadraticCurveTo(bx + 0.01, by + 0.028, bx + 0.016 + sw, by + 0.05); };
+    c.lineCap = 'round'; ties(); c.strokeStyle = INK; c.lineWidth = 0.009 + B.lw * 2; c.stroke(); ties(); c.strokeStyle = '#4a3326'; c.lineWidth = 0.009; c.stroke();
+    c.strokeStyle = INK; c.lineWidth = B.lw * 2; c.fillStyle = '#4a3326';
+    for (const sg of [-1, 1]) { c.beginPath(); c.ellipse(bx + sg * 0.017, by - 0.003, 0.017, 0.0105, sg * 0.3, 0, K.TAU); c.stroke(); }
+    for (const sg of [-1, 1]) { c.beginPath(); c.ellipse(bx + sg * 0.017, by - 0.003, 0.017, 0.0105, sg * 0.3, 0, K.TAU); c.fill(); }
+    c.lineWidth = B.lw * 1.4; K.circle(c, bx, by - 0.002, 0.0075); c.fill(); c.stroke();
+    if (B.seated) c.restore();
+  };
+  ELI1.backUnder = function (c, B) { // back 3/4: the far edge of the apron skirt peeks past the body (it used to vanish)
+    if (B.s < 0.3 || B.seated) return;
+    apronSkirt(c, B, B.tcx + B.dir * B.s * B.wB * 0.5, false);
+  };
+  ELI1.solidTo = S => -S.legLen * 0.52 + 0.012;   // the leg slot under the skirt is solid for the shade test
   MILA1.outfitBack = function (c, B) { // overall back: a small bib and straps crossing in an X, brass buttons
-    const waist = B.Tbot - 0.09, top = B.Ttop + 0.13, bw = 0.045 * (1 - 0.45 * B.s), bx = B.tcx;
+    // clothes QC 2026-10-16: in back 3/4 the back panel turns with the body (its centre moves away from the facing side);
+    // it used to stay centred, so the straps, patch and pockets slid across the turned torso
+    const waist = B.Tbot - 0.09, top = B.Ttop + 0.13, bw = 0.045 * (1 - 0.45 * B.s), bx = B.tcx - B.dir * B.s * B.wT * 0.35;
     c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = B.lw * 2;
-    c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath(); c.fill(); c.stroke();
-    for (const sg of [-1, 1]) { const sx = bx + sg * bw * 0.22, ex = B.tcx - sg * B.wT * 0.62;
+    c.beginPath(); c.moveTo(B.tcx - 0.2, waist); c.lineTo(bx - bw, waist); c.lineTo(bx - bw, top); c.lineTo(bx + bw, top); c.lineTo(bx + bw, waist); c.lineTo(B.tcx + 0.2, waist); c.lineTo(B.tcx + 0.2, 0.2); c.lineTo(B.tcx - 0.2, 0.2); c.closePath(); c.stroke(); c.fill();
+    for (const sg of [-1, 1]) { const sx = bx + sg * bw * 0.22, ex = bx - sg * B.wT * 0.62 * (1 - 0.3 * B.s);
       c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = 0.016 + B.lw * 2; c.beginPath(); c.moveTo(sx, top - 0.004); c.lineTo(ex, B.Ttop - 0.01); c.stroke();
       c.strokeStyle = MUSTARD; c.lineWidth = 0.016; c.beginPath(); c.moveTo(sx, top - 0.002); c.lineTo(ex, B.Ttop - 0.01); c.stroke(); }
     { // a stitched patch where the straps meet the bib (a clean yoke, never a letter «A»)
-      const cy = top - 0.012, cx = B.tcx; c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4;
+      const cy = top - 0.012, cx = bx; c.fillStyle = MUSTARD_D; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4;
       K.rrect(c, cx - 0.016, cy - 0.014, 0.032, 0.028, 0.006); c.fill(); c.stroke(); }
-    c.fillStyle = MUSTARD_D; c.lineWidth = B.lw * 1.4; c.strokeStyle = INK; for (const sg of [-1, 1]) { K.rrect(c, B.tcx + sg * 0.045 - 0.02, waist + 0.03, 0.04, 0.035, 0.005); c.fill(); c.stroke(); }
+    c.fillStyle = MUSTARD_D; c.lineWidth = B.lw * 1.4; c.strokeStyle = INK; for (const sg of [-1, 1]) { const pw = 0.04 * (1 - 0.3 * B.s); K.rrect(c, bx + sg * 0.045 * (1 - 0.3 * B.s) - pw / 2, waist + 0.03, pw, 0.035, 0.005); c.fill(); c.stroke(); }
   };
   MILA1.backHair = function (c, H) { // back of the head: hair cap over the crown + the ponytail hanging in front of it
     c.save(); h.headPath(c, MILA1.head); c.clip(); c.fillStyle = MILA1.hair; c.beginPath(); c.moveTo(-H.hw * 1.3, -H.hh * 0.2); c.quadraticCurveTo(0, -H.hh * 0.02, H.hw * 1.3, -H.hh * 0.2); c.lineTo(H.hw * 1.3, -H.hh * 1.3); c.lineTo(-H.hw * 1.3, -H.hh * 1.3); c.closePath(); c.fill();
@@ -250,7 +276,7 @@
     c.fillStyle = MUSTARD; c.strokeStyle = INK; c.lineWidth = H.lw * 1.6; K.ellipse(c, x, y0 + 0.004, 0.024, 0.012); c.fill(); c.stroke();
   };
   { const hb = MILA1.hairBack; MILA1.hairBack = function (c, H, B) { if (H.back) return; hb(c, H, B); }; }
-  C.define('eli1', ELI1); C.define('mila1', MILA1);
+  C.define('eli1', ELI1); C.define('mila1', MILA1); C.ELI_SKIN = ELI_SKIN;
 
   // =============================================================== ALT 2 · Carretera 70 (retro road trip)
   const COBALT = '#3557c9', COBALT_D = '#26409a', CREAM = '#f1e6cc', CORD = '#6b4a32', RASP = '#c2386f', RASP_D = '#962a55', SUEDE = '#c99a62', SUEDE_D = '#a37845';
@@ -637,7 +663,7 @@
   C.ALTS = {
     1: { name: 'Taller', es: 'Taller (los actuales, pulidos)', concept: 'Los Max & Leo adaptados, pulidos: cabezas cápsula, ojos saltones, ropa de trabajo; amarillo y morado.',
       eli: 'eli1', mila: 'mila1', sig: ['#c99412', '#6a4fb3'],
-      sw: { eli: [['gorro', BEANIE], ['playera', TEE], ['delantal', APRON], ['jeans', JEANS], ['piel', '#7a4d32']], mila: [['suéter', PURPLE], ['overol', MUSTARD], ['botas', GREEN], ['piel', '#d9a66c'], ['aretes', GOLD]] } },
+      sw: { eli: [['gorro', BEANIE], ['playera', TEE], ['delantal', APRON], ['jeans', JEANS], ['piel', ELI_SKIN]], mila: [['suéter', PURPLE], ['overol', MUSTARD], ['botas', GREEN], ['piel', '#d9a66c'], ['aretes', GOLD]] } },
     2: { name: 'Carretera 70', es: 'Carretera 70 (road trip retro)', concept: 'Road trip de los 70: afro y aviadores, campana de pana; ella con cabello largo, diadema tejida, chaleco de flecos; cobalto y frambuesa.',
       eli: 'eli2', mila: 'mila2', sig: ['#3557c9', '#c2386f'],
       sw: { eli: [['playera', COBALT], ['ribete', CREAM], ['pana', CORD], ['piel', '#9a6447'], ['pelo', '#1c1314']], mila: [['cuello alto', RASP], ['chaleco', SUEDE], ['campana', CREAM], ['piel', '#e2b98f'], ['pelo', '#5a2a22']] } },

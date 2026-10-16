@@ -106,6 +106,64 @@
     d1.__badge = 1; K.cast.draw = d1;
   };
 
+  // ------------------------------------------------------------------ silent characters: text boxes (2026-10-16)
+  // Producer: Eli and Mila have no voices; every line they had is a text box (art/lib/textbox.js, ART_BIBLE §3c). The
+  // lines come from the word timings (speaker eli / mila, grouped by line id), so a box covers exactly the slot the voice
+  // had (the voice agent keeps the slots), and stays up for max(slot, 0.4 s + 0.06 s per character). Each frame the kit
+  // reports where Eli's / Mila's heads were drawn (screen design units); a shot may also register a head itself
+  // (A.speaker) when it draws a character through its own transform. Off-screen speaker: the box sits at a corner with
+  // no tail. Style per line (kind, preferred side, position) in A.LINES.
+  A.LINES = {
+    b03_02_eli: { kind: 'shout' }, b04_06_mila: {}, b04_07_eli: {}, b06_11_eli: {}, b07_14_eli: { kind: 'shout' },
+    b09_18_eli: {}, b10_21_eli: { kind: 'shout' }, b12_24_eli: { kind: 'shout' }, b13_27_eli: {}, b14_29_eli: {},
+    b17_33_eli: { kind: 'shout' }, b17_35_mila: {}, b17_36_eli: { kind: 'whisper' }, b18_39_eli: {}, b18_40_mila: {},
+    b19_43_eli: {}, b21_47_eli: { kind: 'shout' }, b21_49_eli: { kind: 'shout' }, b23_54_eli: { kind: 'whisper' },
+    b23_55_mila: {}, bend_58_eli: { kind: 'shout' },
+  };
+  A.lineList = function () {
+    if (A._lineList) return A._lineList;
+    const by = {};
+    for (const w of A.words) if (w.speaker === 'eli' || w.speaker === 'mila') {
+      const L = by[w.line] = by[w.line] || { id: w.line, speaker: w.speaker, start: w.start, end: w.end, words: [] };
+      L.start = Math.min(L.start, w.start); L.end = Math.max(L.end, w.end); L.words.push(w.text);
+    }
+    A._lineList = Object.values(by).map(L => Object.assign(L, { text: L.words.join(' ') }, A.LINES[L.id] || {}));
+    for (const L of A._lineList) { L.show0 = L.start - 0.06; L.show1 = Math.max(L.end, L.start + K.tbox.readTime(L.text)) + 0.12; }
+    return A._lineList;
+  };
+  A.speaker = function (who, head, o = {}) { if (head && A._heads) A._heads[who] = Object.assign({ head, light: A._heads[who] && A._heads[who].light, pinned: true }, o); };
+  A.installHeads = function () {
+    if (K.cast.draw.__heads) return;
+    const d0 = K.cast.draw;
+    const d1 = function (ctx, id, x, y, u, o = {}) {
+      const r = d0.call(this, ctx, id, x, y, u, o);
+      const who = id === 'eli1' || id === 'eli' ? 'eli' : id === 'mila1' ? 'mila' : null;
+      if (who && A._heads && r && r.head && r.head[2] > 0 && ctx.canvas.isConnected && ctx.globalAlpha > 0.5 && !(A._heads[who] && A._heads[who].pinned)) {
+        const m = ctx.getTransform(), S = K.OUTSCALE || 1, k = Math.hypot(m.a, m.b) / S;
+        const hx = (m.a * r.head[0] + m.c * r.head[1] + m.e) / S, hy = (m.b * r.head[0] + m.d * r.head[1] + m.f) / S;
+        const li = o.light || {}, rim = String(li.rim || '#ffd88f'), bl = parseInt(rim.slice(5, 7), 16) || 0, rd = parseInt(rim.slice(1, 3), 16) || 0;
+        const light = bl > rd + 20 ? 'night' : (li.rimA != null && li.rimA < 0.5) ? 'noon' : 'golden';
+        if (hx > -200 && hx < K.W + 200 && hy > -200 && hy < K.H + 200) A._heads[who] = { head: [hx, hy, r.head[2] * k], light };
+      }
+      return r;
+    };
+    d1.__heads = 1; d1.__badge = d0.__badge; K.cast.draw = d1;
+  };
+  A.drawLines = function (ctx, t, def, S) {
+    if (A._noSay) return;
+    const H = A._heads || {}, avoid = [];
+    for (const k in H) { const h = H[k].head; avoid.push([h[0] - h[2] * 1.2, h[1] - h[2] * 1.8, h[0] + h[2] * 1.2, h[1] + h[2] * 1.25]); }
+    if (S.label) avoid.push([20, 10, 640, 120]);                 // the shot's label pill (top left)
+    avoid.push(...(S.sayAvoid || []));                           // per shot: important action the boxes must not cover
+    for (const L of A.lineList()) {
+      if (t < L.show0 || t > L.show1 || L.show1 < def.t0 || L.show0 > def.t1) continue;
+      const h = H[L.speaker], ov = (S.say && S.say[L.id]) || {};
+      const out = K.clamp((t - (L.show1 - 0.16)) / 0.16);
+      K.tbox.draw(ctx, Object.assign({ text: L.text, kind: L.kind || 'speech', head: h ? h.head : null, light: ov.light || S.tbLight || def.tbLight || (h && h.light) || 'golden',
+        age: t - L.show0, a: 1 - out, out, avoid, side: L.side || (h && h.side), at: L.at || (h ? null : [K.W * 0.27, K.H * 0.2]) }, ov));
+    }
+  };
+
   // ------------------------------------------------------------------ the camera: breathing on top of each shot
   // push 2-3 % (in/out alternating by shot), drift <= 1.2 % of the width, own phase per shot (seeded by its id).
   function seedOf(s) { let h = 7; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
@@ -127,6 +185,7 @@
         await A.load();
         A._bySpk = {}; for (const w of A.words) (A._bySpk[w.speaker] = A._bySpk[w.speaker] || []).push(w);
         A.installBadge();
+        A.installHeads();
         if (def.setup) await def.setup(ctx, opts);
         shots = def.shots(A).map((s, k) => Object.assign({ k }, s));
         for (let k = 0; k < shots.length; k++) shots[k].end = k + 1 < shots.length ? shots[k + 1].start : def.t1;
@@ -137,6 +196,7 @@
       draw(ctx, tv, frame) {
         const t = def.t0 + tv;                 // block-local video time -> episode time (narration time)
         A._autoBadge = !!def.eliBadge;
+        A._heads = {};
         ctx.fillStyle = '#120c18'; ctx.fillRect(0, 0, K.W, K.H);   // never keep pixels from the previous frame
         let k = shots.findIndex(s => t >= s.start && t < s.end); if (k < 0) k = t < shots[0].start ? 0 : shots.length - 1;
         const S = shots[k], lt = t - S.start, dur = S.end - S.start;
@@ -158,6 +218,7 @@
           drawShot(ctx, shots[k - 1], k - 1);                 // previous shot
           ctx.save(); ctx.globalAlpha = K.ease.sine(lt / S.xf); ctx.drawImage(buf.c, 0, 0, K.W, K.H); ctx.restore();
         }
+        A.drawLines(ctx, t, def, S);           // the characters' lines: text boxes, over the shot, under the grade
         A._post = S.post || def.post;
       },
       post(tv) { return A._post || { grain: 0.13, vignette: 0.45, vignetteColor: '#2a1330', bloom: 0.22 }; },

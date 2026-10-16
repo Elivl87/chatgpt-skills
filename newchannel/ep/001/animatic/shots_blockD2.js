@@ -55,7 +55,7 @@
       shots.push({ id: 'F03_yell', start: tQuien - 0.3, bg: 'field_eli', focus: [900, 480], push: 0.03, pushDir: -1, over: c => rec(c, false),
         draw(c, t, lt) { let head = null; const yell = A.pulse(t, tQuien - 0.03, 0.08, tFueE - tQuien + 0.25, 0.2);
           A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.55, x: 900, y: 560 }, chars: cx => { const r = K.cast.draw(cx, 'eli1', 860, G, 640, { view: 'q', dir: -1, pose: 'fist', expr: 'furious', t, light: LF, shadow: 0.3, lean: 0.06, extras: ['anger'] }); head = r.head; } });
-          if (head && yell > 0.01) K.cast.bubble(c, [960 + (head[0] - 900) * 1.55, 540 + (head[1] - 560) * 1.55, head[2] * 1.55], '¡¿QUIÉN FUE?!', yell); },
+          if (head) A.speaker('eli', [960 + (head[0] - 900) * 1.55, 540 + (head[1] - 560) * 1.55, head[2] * 1.55]); },
         cues: A => [{ t: tQuien, kind: 'pop' }] });
       // F04 · silence: everybody turns to look at him (the drivers in the band, the observers, Mila)
       shots.push({ id: 'F04_stare', start: tFueE + 0.3, bg: 'field_stare', focus: [960, 540], push: 0.02, pushDir: 1, over: c => rec(c, false),

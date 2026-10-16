@@ -85,7 +85,7 @@
       const pe = E.persona(700 + cr.i), stopped = S.v[cr.i] < 1, isE = cr.i === c.eli;
       const X = Math.cos(cr.a) * DR, Z = Math.sin(cr.a) * DR;
       const extra = c.drop ? c.drop(cr.i) : 0;
-      K.car.top(ctx, { sc: view.sc, sinE: view.sinE, cosE: view.cosE, ox: view.ox, oy: view.oy - extra }, X, Z, cr.a + Math.PI / 2, { k: c.k || 1.6, color: isE ? TEAL : pe.color, skin: isE ? '#7a4d32' : pe.skin, hair: pe.hair,
+      K.car.top(ctx, { sc: view.sc, sinE: view.sinE, cosE: view.cosE, ox: view.ox, oy: view.oy - extra }, X, Z, cr.a + Math.PI / 2, { k: c.k || 1.6, color: isE ? TEAL : pe.color, skin: isE ? K.cast.ELI_SKIN : pe.skin, hair: pe.hair,
         hairStyle: isE ? 'cap' : pe.hairStyle, capColor: isE ? '#f2c230' : pe.capColor, expr: stopped ? 'annoyed' : 'content', brake: R.brake(cr.i, c.simT), lit });
       if (c.carOver) { const p = A.domePt(cr.a, view); c.carOver(ctx, cr.i, p[0], p[1] - extra, S); }
     }

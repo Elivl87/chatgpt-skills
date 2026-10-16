@@ -126,7 +126,7 @@
           c.save(); c.translate(960, 560); c.scale(3.4, 3.4); const v = A.domeView(), S = R28().at(ts), a = A.ringAng ? ((S.x[18] % 314) / 314 * K.TAU) : 0, p = A.domePt(a, v); c.translate(-p[0], -p[1] + 20);
           A.dome(c, t, { run: R28(), simT: ts, eli: 18, carOver: (cx, i, x, y) => { if (i === 18) { const r = K.cast.draw(cx, 'eli1', x + 6, y - 6, 80, { view: 'front', pose: 'fist', expr: 'furious', t, light: K.cast.LIGHT.golden, talk: 0 }); A._eh = r.head; } } });
           c.restore();
-          if (t > tQuien - 0.03) K.cast.bubble(c, [1000, 470, 90], '¡¿QUIÉN F…?', A.pulse(t, tQuien - 0.03, 0.06, tF - tQuien + 0.4, 0.2)); },
+          },
         cues: A => [{ t: tQuien, kind: 'pop' }, { t: tF, kind: 'record_scratch' }] });
       shots.push({ id: 'D13_screen', start: tF + 0.05, bg: 'dome_screen', focus: [960, 500], push: 0.03, pushDir: -1, post: domePost,
         draw(c, t, lt) { A.dome(c, t, { run: R28(), simT: D28(t), eli: 18 });
@@ -141,7 +141,9 @@
           // he used to stand on the field in the drive pose with no car under him
           K.car.front(c, 1420, 1150, 259, { color: K.TEAL, head: 0.35, glowScale: 0.5, lit: { rim: '#ffd99a', shade: '#3a3358', ang: -1.2, shadeK: 0.2 },
             drawDriver: (x, top, s) => K.cast.draw(c, 'eli1', x, top + 0.34 * s, 700, { view: 'front', pose: 'lap', seated: true, look: [-0.5, 0], expr: t < tF + 1.5 ? 'surprised' : 'sheepish', t, light: K.cast.LIGHT.golden }) });
-          K.cast.draw(c, 'mila1', 520, 1100, 520, { view: 'q', dir: 1, pose: 'wave', expr: 'smug', t, light: K.cast.LIGHT.golden }); P.callout(c, 640, 420, 'upsi', 56, A.pulse(t, tF + 1.3, 0.1, 0.6, 0.2)); } });
+          K.cast.draw(c, 'mila1', 520, 1100, 520, { view: 'q', dir: 1, pose: 'wave', expr: 'smug', t, light: K.cast.LIGHT.golden }); { const ua = A.pulse(t, tF + 1.3, 0.1, 0.6, 0.2), hm = A._heads && A._heads.mila;   // Mila's «upsi»: a text box (no voice)
+            if (ua > 0.003) { c.save(); c.setTransform(K.OUTSCALE, 0, 0, K.OUTSCALE, 0, 0);   // screen space (heads are screen coords)
+              K.tbox.draw(c, { text: 'upsi', kind: 'speech', head: hm ? hm.head : null, light: hm ? hm.light : 'golden', age: t - (tF + 1.3), a: ua, out: K.clamp((t - (tF + 2.0)) / 0.2), avoid: [] }); c.restore(); } } } });
       // density: a stretch of track counted (4 vs 5), the word, the meter
       const segMarks = (cx, view, S, R) => { const a0 = -0.3, a1 = 0.45; cx.save(); cx.strokeStyle = K.rgba('#f2c230', 0.85); cx.lineWidth = 20; cx.lineCap = 'round'; cx.beginPath();
         for (let j = 0; j <= 20; j++) { const p = A.domePt(K.lerp(a0, a1, j / 20), view, -6); j ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1]); } cx.stroke(); cx.restore();

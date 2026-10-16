@@ -140,7 +140,7 @@
       for (let row = 0; row < 3; row++) { ctx.beginPath(); let xx = -s * 0.75; const yy = -s * 0.32 + row * s * 0.3; ctx.moveTo(xx, yy);
         while (xx < s * (o.doodle ? 0.05 : 0.72)) { xx += s * 0.06; ctx.lineTo(xx, yy + (r() - 0.5) * s * 0.14); } ctx.stroke(); }
       if (o.doodle) { // a little Eli: capsule head, yellow beanie, angry brows
-        ctx.save(); ctx.translate(s * 0.48, s * 0.02); const hs = s * 0.32; ctx.fillStyle = '#7a4d32'; ctx.lineWidth = Math.max(1.5, s * 0.03);
+        ctx.save(); ctx.translate(s * 0.48, s * 0.02); const hs = s * 0.32; ctx.fillStyle = K.cast.ELI_SKIN; ctx.lineWidth = Math.max(1.5, s * 0.03);
         K.rrect(ctx, -hs * 0.55, -hs * 0.7, hs * 1.1, hs * 1.5, hs * 0.5); ctx.fill(); ctx.stroke();
         ctx.fillStyle = '#f2c230'; K.rrect(ctx, -hs * 0.62, -hs * 0.95, hs * 1.24, hs * 0.55, hs * 0.25); ctx.fill(); ctx.stroke();
         ctx.fillStyle = '#fbf7ee'; for (const sg of [-1, 1]) { K.circle(ctx, sg * hs * 0.22, -hs * 0.1, hs * 0.15); ctx.fill(); ctx.stroke(); }

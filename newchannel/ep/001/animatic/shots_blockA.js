@@ -131,7 +131,7 @@
           A.close(c, t, 0, { simT: ts, tStop: sStop, frame: { z: 1.25, wx: 800, wy: 560, sx: 960, sy: 540 },
             crew: (cx, sx, sy, SC, info) => { heads = A.crew(cx, sx, sy, SC, info, eO, mO, { eliStand: eliRise(t) }); } });
           if (heads && heads.milaHead) { const [hx, hy, hr] = heads.milaHead; P.blow(c, hx + hr * 0.5, hy + hr * 0.25, hr * 1.4, blowK(t), 1); }
-          if (heads && heads.eliHead && yell > 0.01) K.cast.bubble(c, heads.eliHead, '¡¿QUIÉN FUE?!', yell);
+          if (heads && heads.eliHead) A.speaker('eli', heads.eliHead);   // the line is a text box (A.drawLines)
         },
         cues: A => [{ t: tEli2 + 0.12, kind: 'whoosh_up' }, { t: tQuien, kind: 'pop' }, { t: tFueEnd + 0.08, kind: 'blow' }] });
 
@@ -240,7 +240,7 @@
           if (eliR) {   // the magnifier enlarges his eye
             const u = 2.7 * p.s, hd = eliR.hands.trail, lx = hd[0] + 0.004 * u, ly = hd[1] - 0.07 * u, r = 0.04 * u * 0.9;
             c.save(); K.circle(c, lx, ly, r); c.clip();
-            c.fillStyle = '#7a4d32'; c.fillRect(lx - r, ly - r, 2 * r, 2 * r);
+            c.fillStyle = K.cast.ELI_SKIN; c.fillRect(lx - r, ly - r, 2 * r, 2 * r);
             c.fillStyle = '#fbf7ee'; K.ellipse(c, lx, ly + r * 0.05, r * 0.78, r * 0.7); c.fill(); c.strokeStyle = '#2a1a1e'; c.lineWidth = r * 0.08; c.stroke();
             c.fillStyle = '#2a1a1e'; K.circle(c, lx + r * 0.05, ly + r * 0.08, r * 0.36); c.fill();
             c.fillStyle = '#ffffff'; K.circle(c, lx - r * 0.08, ly - r * 0.06, r * 0.1); c.fill();

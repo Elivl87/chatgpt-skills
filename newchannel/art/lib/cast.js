@@ -106,11 +106,19 @@
   const scaleOf = c => { const m = c.getTransform(); return Math.sqrt(Math.abs(m.a * m.d - m.b * m.c)) || 1; };
   // QC (Guardian body audit, only while __faceLog is on): the character's own pixels before compositing -> tight box in
   // canvas px + the share of each wardrobe colour family (hue classes) + vermilion (never allowed on them)
-  function bodyStats(B, ox, oy) {
+  // clothes QC (2026-10-16): + `pal` exact wardrobe-colour pixel counts (only when root.__clothesPal = { name: '#hex' } is
+  // set, e.g. the clothes lab in flat light), and `thin`: pixels of the silhouette thinner than ~2.6 ink widths (a
+  // morphological opening of the alpha mask) outside the head and hand zones = stray strokes, cords and stubs poking out
+  function bodyStats(B, ox, oy, X) {
     const w = B.c.width, h = B.c.height, d = B.ctx.getImageData(0, 0, w, h).data;
     let x0 = w, y0 = h, x1 = -1, y1 = -1, n = 0; const cl = { yellow: 0, purple: 0, mustard: 0, green: 0, blue: 0, brown: 0, white: 0, vermilion: 0 };
+    const PAL = root.__clothesPal ? Object.entries(root.__clothesPal).map(([k, v]) => [k, parseInt(v.slice(1, 3), 16), parseInt(v.slice(3, 5), 16), parseInt(v.slice(5, 7), 16)]) : null;
+    const pal = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palY = PAL ? Object.fromEntries(PAL.map(q => [q[0], [1e9, -1e9]])) : null;
+    const M = new Uint8Array(w * h), LB = PAL ? new Int8Array(w * h).fill(-1) : null;
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
       const i = (y * w + x) * 4; if (d[i + 3] < 110) continue;
+      M[y * w + x] = 1;
+      if (PAL && d[i + 3] > 250) for (let qi = 0; qi < PAL.length; qi++) { const q = PAL[qi], dr = d[i] - q[1], dg = d[i + 1] - q[2], db = d[i + 2] - q[3]; if (dr * dr + dg * dg + db * db < 60) { LB[y * w + x] = qi; break; } }
       n++; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
       const r = d[i] / 255, g = d[i + 1] / 255, b = d[i + 2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), c = mx - mn;
       if (mx > 0.82 && c < 0.12) { cl.white++; continue; }
@@ -124,8 +132,33 @@
       else if (hu >= 205 && hu < 235 && sat > 0.3) cl.blue++;
       else if (hu >= 240 && hu < 290 && sat > 0.25) cl.purple++;
     }
+    // a garment pixel counts only inside its own colour (all 4 neighbours the same): anti-aliased ink edges never fake a part
+    if (PAL) for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const j = y * w + x, q = LB[j];
+      if (q < 0 || LB[j - 1] !== q || LB[j + 1] !== q || LB[j - w] !== q || LB[j + w] !== q) continue;
+      const k = PAL[q][0]; pal[k]++; const yy = palY[k]; if (y < yy[0]) yy[0] = y; if (y > yy[1]) yy[1] = y; }
     for (const k in cl) cl[k] = n ? +(cl[k] / n).toFixed(4) : 0;
-    return { box: n ? [ox + x0, oy + y0, ox + x1 + 1, oy + y1 + 1] : null, px: n, cl };
+    const out = { box: n ? [ox + x0, oy + y0, ox + x1 + 1, oy + y1 + 1] : null, px: n, cl };
+    if (pal) { out.pal = pal; out.palY = Object.fromEntries(Object.entries(palY).map(([k, v]) => [k, v[1] < 0 ? null : [oy + v[0], oy + v[1]]])); }
+    if (X && X.ink >= (root.__thinMinInk || 1.4) && n) {   // thin features: M minus open(M, r) with a square r ~ 1.3 ink
+      const r = Math.max(1, Math.round(X.ink * 1.3)), E = new Uint8Array(w * h), T = new Uint8Array(w * h);
+      const pass = (S0, D0, horiz, isMin) => { for (let a = 0; a < (horiz ? h : w); a++) for (let b = 0; b < (horiz ? w : h); b++) {
+        let v = isMin ? 1 : 0; for (let k = -r; k <= r && (isMin ? v : !v); k++) { const bb = b + k; const idx = horiz ? a * w + bb : bb * w + a;
+          const val = bb < 0 || bb >= (horiz ? w : h) ? 0 : S0[idx]; if (isMin && !val) v = 0; if (!isMin && val) v = 1; }
+        D0[horiz ? a * w + b : b * w + a] = v; } };
+      pass(M, T, true, true); pass(T, E, false, true); pass(E, T, true, false); pass(T, E, false, false);   // E = opened
+      const [hx, hy, hr] = X.head, hz = (xx, yy) => (xx - hx) ** 2 / (hr * 1.7) ** 2 + (yy - hy) ** 2 / (hr * 1.9) ** 2 < 1;
+      const nearHand = (xx, yy) => X.hands.some(p => (xx - p[0]) ** 2 + (yy - p[1]) ** 2 < (X.hand * 2.4 + X.ink * 2) ** 2);
+      let thin = 0, worst = 0; const seen = new Uint8Array(w * h), comps = [];
+      for (let i = 0; i < w * h; i++) { if (!M[i] || E[i] || seen[i]) continue;
+        const st = [i]; seen[i] = 1; let cnt = 0, bx0 = w, by0 = h, bx1 = 0, by1 = 0, outside = 0;
+        while (st.length) { const j = st.pop(), xx = j % w, yy = (j / w) | 0; cnt++; if (!hz(xx, yy) && !nearHand(xx, yy)) outside++;
+          if (xx < bx0) bx0 = xx; if (xx > bx1) bx1 = xx; if (yy < by0) by0 = yy; if (yy > by1) by1 = yy;
+          for (const k of [j - 1, j + 1, j - w, j + w]) if (k >= 0 && k < w * h && M[k] && !E[k] && !seen[k] && Math.abs((k % w) - xx) <= 1) { seen[k] = 1; st.push(k); } }
+        const len = Math.max(bx1 - bx0, by1 - by0) + 1;
+        if (outside > 0 && len >= X.ink * 3.5 && outside >= X.ink * X.ink * 2.5) { thin += outside; worst = Math.max(worst, len); comps.push([ox + bx0, oy + by0, ox + bx1 + 1, oy + by1 + 1, outside]); } }
+      out.thin = { px: thin, worst: +(worst / X.ink).toFixed(1), comps: comps.slice(0, 6), r };
+    }
+    return out;
   }
   function eyeMask(M, list, pad) {
     const c = M.ctx;
@@ -755,12 +788,13 @@
             if (S.under) S.under(c, B);
             if (!S.headOver) headDraw(c, 'front');
             shape(c, () => torsoPath(c), S.torso.color, lw);
-            if (back && S.outfitBack) { c.save(); torsoPath(c); c.clip(); S.outfitBack(c, B); c.restore(); }
-            if (back && S.outfitBackTop) S.outfitBackTop(c, B);   // parts that hang past the torso (apron bow + ties)
-            // back views: a hand in front of the face / chest is hidden, but the UPPER arm still shows along the back
-            // (clothes QC 2026-10-16: crossed arms / visor from behind read as an armless torso)
-            if (back) for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (FACE_FRONT[Aa.at]) drawArm(c, Aa, 0.5);
-            else if (!back) {
+            if (back) {
+              if (S.outfitBack) { c.save(); torsoPath(c); c.clip(); S.outfitBack(c, B); c.restore(); }
+              if (S.outfitBackTop) S.outfitBackTop(c, B);   // parts that hang past the torso (apron bow + ties)
+              // back views: a hand in front of the face / chest is hidden, but the UPPER arm still shows along the back
+              // (clothes QC 2026-10-16: crossed arms / visor from behind read as an armless torso)
+              for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (FACE_FRONT[Aa.at]) drawArm(c, Aa, 0.5);
+            } else {
               if (S.outfit) { c.save(); torsoPath(c); c.clip(); S.outfit(c, B); c.restore(); }
               if (S.collar) S.collar(c, B);            // the neckline first: straps and apron cords go over it
               if (S.outfitTop) S.outfitTop(c, B);
@@ -773,7 +807,7 @@
           c.translate(0, bobY);
           if (sitLegs && s <= 0.05) { drawLeg(c, -1); drawLeg(c, 1); }
           upper(c, () => {
-            const prop = P.prop || (PB && bk > 0.5 && PB.prop);
+            const prop = P.prop || (PB && PB.prop);
             // a prop that comes or goes with a pose blend fades over the middle of the blend (it used to pop at k = 0.5)
             const propA = !PB || P.prop === PB.prop ? 1 : K.clamp(((P.prop === prop ? 1 - bk : bk) - 0.3) / 0.4);
             const ga = c.globalAlpha; c.globalAlpha = ga * propA;
@@ -842,7 +876,8 @@
     }
     rimLight(OUT, light, u, lwS, MK);
     if (o.fog) { OUT.ctx.globalCompositeOperation = 'source-atop'; OUT.ctx.fillStyle = K.rgba(o.fog[0], o.fog[1]); OUT.ctx.fillRect(0, 0, W, Hh); OUT.ctx.globalCompositeOperation = 'source-over'; }
-    if (rec) rec.body = bodyStats(OUT, sx0, sy0);
+    if (rec) { const so0 = o.seated ? S.legLen : 0, h0 = R.info.head, mp = p => [x + p[0] * u - sx0, y + (p[1] + so0) * u - sy0];
+      rec.body = bodyStats(OUT, sx0, sy0, { head: [...mp(h0), h0[2] * u], hands: [mp(R.info.hands.lead), mp(R.info.hands.trail)], ink: lwS * u, hand: (S.arm.hand || 0.027) * 1.45 * u }); }
     if (o.shadow && !o.seated) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(o.shadowColor || '#3c2a52', o.shadow); K.ellipse(ctx, x, y, u * (S.shadowW || 0.16), u * 0.022); ctx.fill(); ctx.restore(); }
     ctx.drawImage(OUT.c, sx0, sy0);
     if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } if (rec.lens) { rec.lens[0] += sx0; rec.lens[1] += sy0; } rec.alpha = ctx.globalAlpha; LOG.push(rec); }

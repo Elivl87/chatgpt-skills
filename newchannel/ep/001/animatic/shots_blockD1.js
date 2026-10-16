@@ -20,16 +20,8 @@
     ctx.fillStyle = '#e7c25a'; K.circle(ctx, w * 0.06, h * 0.12, Math.max(2, u * 0.006)); ctx.fill(); ctx.restore();
   };
   // a paper thought bubble (cloud) that pops
-  P.thought = function (ctx, x, y, w, h, a, inner) {
-    if (a <= 0.01) return;
-    const k = 0.6 + 0.4 * K.ease.outBack(K.clamp(a));
-    ctx.save(); ctx.globalAlpha = K.clamp(a * 2); ctx.translate(x, y); ctx.scale(k, k);
-    ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = '#2a1a1e'; ctx.lineWidth = 6;
-    ctx.beginPath(); for (let j = 0; j < 14; j++) { const an = j / 14 * K.TAU, rx = w / 2 * (1 + 0.08 * Math.sin(j * 3)), ry = h / 2 * (1 + 0.08 * Math.cos(j * 2)); ctx.moveTo(Math.cos(an) * rx + 60, Math.sin(an) * ry); ctx.arc(Math.cos(an) * rx, Math.sin(an) * ry, 60, 0, K.TAU); }
-    ctx.stroke(); ctx.fill(); ctx.beginPath(); ctx.ellipse(0, 0, w / 2, h / 2, 0, 0, K.TAU); ctx.fill();
-    for (const [dx, dy, r] of [[-w * 0.35, h * 0.62, 26], [-w * 0.45, h * 0.85, 16]]) { K.circle(ctx, dx, dy, r); ctx.fill(); ctx.stroke(); }
-    if (inner) inner(ctx);
-    ctx.restore();
+  P.thought = function (ctx, x, y, w, h, a, inner) {   // text-box system panel (paper, ink brush, scene shadow)
+    K.tbox.panel(ctx, { kind: 'thought', x, y, w, h, a, light: 'field', bw: 8, seed: 41, trail: [[-w * 0.35, h * 0.62, 26], [-w * 0.45, h * 0.85, 16]], inner });
   };
   // a percent gauge (paper), with the paper's figure
   P.gauge = function (ctx, x, y, text, sub, a) {

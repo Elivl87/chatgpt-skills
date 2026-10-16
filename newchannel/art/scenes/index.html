@@ -3,6 +3,9 @@
 <style>
 @font-face { font-family: "Martian Mono"; src: url("../../brand/fonts/MartianMono/MartianMono[wdth,wght].ttf") format("truetype"); font-weight: 100 900; font-stretch: 75% 112.5%; }
 @font-face { font-family: "Space Grotesk"; src: url("../../brand/fonts/SpaceGrotesk/SpaceGrotesk[wght].ttf") format("truetype"); font-weight: 300 700; }
+@font-face { font-family: "TB Speech"; src: url("../../brand/fonts/ShantellSans/ShantellSans-Speech.ttf") format("truetype"); }
+@font-face { font-family: "TB Shout"; src: url("../../brand/fonts/ShantellSans/ShantellSans-Shout.ttf") format("truetype"); }
+@font-face { font-family: "TB Soft"; src: url("../../brand/fonts/ShantellSans/ShantellSans-Soft.ttf") format("truetype"); }
 html, body { margin: 0; background: #000; } canvas { display: block; }
 </style></head>
 <body><canvas id="cv"></canvas>
@@ -20,6 +23,7 @@ html, body { margin: 0; background: #000; } canvas { display: block; }
 <script src="../lib/world.js"></script>
 <script src="../lib/sim.js"></script>
 <script src="../lib/type.js"></script>
+<script src="../lib/textbox.js"></script>
 <script src="../lib/stage.js"></script>
 <script src="ep001_world.js"></script>
 <script src="highway_golden.js"></script>
@@ -41,5 +45,6 @@ html, body { margin: 0; background: #000; } canvas { display: block; }
 <script src="eye_lab.js"></script>
 <script src="guardian_lab.js"></script>
 <script src="clothes_lab.js"></script>
+<script src="textbox_lab.js"></script>
 <script>K.stage().catch(e => { window.__error = String(e && e.stack || e); });</script>
 </body></html>

@@ -2,6 +2,7 @@
    Every pose x view the animatic uses, for one character in one scene light, as a grid (rows = views, columns = poses):
      ?scene=clothes_lab&id=eli1|mila1&light=golden|dusk|night|noon&set=stand1|stand2|car|ground[&out=854x480]
      &t=<seconds>  (time for breathing / sway / walk phase)   &flat=1 (no light, no grain: exact wardrobe colours)
+     &blend=<0..1> (every cell blends from the set's rest pose — stand / lap / sit — into its pose: popping test)
    The automated clothing audit (ep/001/animatic/clothes_audit.mjs) drives this scene; the grid is also read by eye at
    draft (854x480) and 1080p. Cells: K.cast.CLOTHES_CELLS (exported for the audit). */
 (function (root) {
@@ -34,11 +35,11 @@
     const S = C.SPECS[id], cw = (K.W - 20) / ncol, ch = (K.H - 30) / VIEWS.length, seated = set === 'car' || set === 'ground';
     const span = seated ? (set === 'ground' ? S.h * 0.78 : S.h - S.legLen + 0.08) : S.h + 0.12;
     const u = Math.min((ch - 14) / span, cw * 1.25);
-    const x = 10 + k * cw + cw / 2, y = 30 + r * ch + ch - 8 - (set === 'car' ? 0.02 * u : 0);
+    const x = 10 + k * cw + cw / 2, y = 30 + r * ch + ch - (set === 'ground' ? 16 : 8) - (set === 'car' ? 0.02 * u : 0);
     return { x, y, u, cell: [10 + k * cw, 30 + r * ch, cw, ch] };
   };
   K.scene('clothes_lab', {
-    setup(ctx, o) { this.o = o; this.id = o.id || 'eli1'; this.set = o.set || 'stand1'; this.light = o.light || 'golden'; this.flat = o.flat === '1'; this.t0 = Number(o.t || 0.6); },
+    setup(ctx, o) { this.o = o; this.blend = o.blend != null ? Number(o.blend) : null; this.id = o.id || 'eli1'; this.set = o.set || 'stand1'; this.light = o.light || 'golden'; this.flat = o.flat === '1'; this.t0 = Number(o.t || 0.6); },
     draw(ctx, t) {
       const bg = BG[this.light] || BG.golden, id = this.id, { poses, out } = cells(this.set, id);
       if (this.flat) { ctx.fillStyle = '#ff00ff'; ctx.fillRect(0, 0, K.W, K.H); }
@@ -55,7 +56,9 @@
           ctx.font = '500 11px "Martian Mono"'; ctx.fillStyle = ink; ctx.fillText(`${o.view}·${o.pose}`, cx + 4, cy + 12); ctx.restore();
         }
         ctx.save(); ctx.beginPath(); ctx.rect(cx + 1, cy + 1, cw - 2, ch - 2); ctx.clip();
-        C.draw(ctx, id, L.x, L.y, L.u, Object.assign({ t: this.t0 + t, light, shadow: this.flat ? 0 : 0.3 }, o));
+        const oo = Object.assign({ t: this.t0 + t, light, shadow: this.flat ? 0 : 0.3 }, o);
+        if (this.blend != null) { const rest = this.set === 'car' ? 'lap' : this.set === 'ground' ? 'sit' : 'stand'; oo.blend = { pose: o.pose, k: this.blend }; oo.pose = rest; }
+        C.draw(ctx, id, L.x, L.y, L.u, oo);
         ctx.restore();
       }
     },

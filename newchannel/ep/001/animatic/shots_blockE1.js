@@ -123,7 +123,7 @@
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           pair(c, t, { pose: 'cheer', expr: 'laugh', look: [0.2, 0.5], talk: sp.talk, viseme: sp.viseme, lean: 0.04 * Math.sin(t * 14) }, { pose: 'crossed', expr: 'happy', look: [-0.9, -0.1] },
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 0.2, wave: 0.5, f: 14 }); head = rE.head; } } });
-          if (head) K.cast.bubble(c, head, '¡DALE, DALE!', A.pulse(t, tDale - 0.05, 0.08, tDale2E - tDale + 0.2, 0.15), { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
+          if (head) A.speaker('eli', head, { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
         cues: A => [{ t: tDale, kind: 'pop' }] });
       shots.push({ id: 'G14_off', start: tPasan2 - 0.08, bg: 'line_off', label: 'ACELERADO ×9', focus: [960, 540], push: 0.025, pushDir: -1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G14(t), { off: 1, dx: -20, kpx: 70, zoom: 'escala ×2,7' }); },
@@ -132,7 +132,7 @@
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           pair(c, t, { pose: 'surprise', expr: 'worried', look: [0.1, 0.6], talk: sp.talk, viseme: sp.viseme, extras: ['sweat'] }, { pose: 'crossed', expr: 'surprised', look: [-0.9, 0] },
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 3.05, wave: 0.04 }); head = rE.head; } }, u: 740 });   // Guardian: u 820 -> 740 (Mila's ponytail touched the top edge)
-          if (head) K.cast.bubble(c, head, '¡NOOO!', A.pulse(t, tNooo - 0.05, 0.08, tNoooE - tNooo + 0.15, 0.12), { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
+          if (head) A.speaker('eli', head, { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
         cues: A => [{ t: tNooo, kind: 'minor' }] });
       shots.push({ id: 'G16_act2', start: tPasan3 - 0.08, bg: 'line_act2', label: 'ACELERADO ×14', focus: [960, 520], push: 0.03, pushDir: 1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G16(t), { sc: 4.8, dx: 30, kpx: 70, zoom: 'escala ×2,7' }); },

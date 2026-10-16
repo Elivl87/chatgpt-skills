@@ -85,6 +85,14 @@ for (const s of samples) {
   const png = `s_${String(i).padStart(3, '0')}.png`;
   const url = await page.evaluate(() => window.__grab('image/png'));
   fs.writeFileSync(path.join(DIR, png), Buffer.from(url.slice(url.indexOf(',') + 1), 'base64'));
+  // clothing audit (2026-10-16): the frame 1/30 s later, stats only (garment colour shares, silhouette size) -> popping
+  if (process.env.CLOTHES !== '0') {
+    const t2 = s.t + 1 / FPS;
+    const [f2, sh2] = await page.evaluate(([t, f, t0]) => { window.__faceLog = []; window.__frame(t, f); const L = window.__faceLog; window.__faceLog = null;
+      const cur = K.anim.current, te = t + (cur ? cur.def.t0 : 0); const sh = cur ? (cur.shots.find(x => te >= x.start && te < x.end) || {}).id : null;
+      return [L.filter(r => r.id === 'eli1' || r.id === 'mila1').map(r => ({ id: r.id, pose: r.pose, view: r.view, body: r.body ? { box: r.body.box, px: r.body.px, cl: r.body.cl } : null })), sh]; }, [t2, Math.round(t2 * FPS)]);
+    s.next = f2; s.next_shot = sh2;
+  }
   res.push(Object.assign({ i, png, faces: mine }, s)); i++;
 }
 fs.writeFileSync(path.join(DIR, 'faces.json'), JSON.stringify({ block: B, out: OUT, samples: res }, null, 1));

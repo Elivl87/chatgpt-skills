@@ -28,6 +28,7 @@
     await Promise.all([
       document.fonts.load(`800 100px "Martian Mono"`), document.fonts.load(`500 100px "Martian Mono"`),
       document.fonts.load(`500 100px "Space Grotesk"`), document.fonts.load(`700 100px "Space Grotesk"`),
+      document.fonts.load(`100px "TB Speech"`), document.fonts.load(`100px "TB Shout"`), document.fonts.load(`100px "TB Soft"`),
     ]);
     const sc = K.scenes[name];
     if (!sc) throw new Error('unknown scene ' + name);

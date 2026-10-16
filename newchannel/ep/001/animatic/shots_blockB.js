@@ -172,7 +172,7 @@
           let head = null; const yell = A.pulse(t, tQuien - 0.03, 0.08, tFueE - tQuien + 0.2, 0.2);
           A.field(c, t, { simT: C4(t), frame: { z: 1.55, x: 900, y: 560 },
             chars: (cx) => { const r = K.cast.draw(cx, 'eli1', 860, G, 640, { view: 'q', dir: -1, pose: 'fist', expr: t < tQuien - 0.05 ? 'grumpy' : 'furious', t, look: [-0.8, -0.2], light: LF, shadow: 0.3, lean: t < tQuien ? -0.04 : 0.06, extras: t > tQuien ? ['anger'] : [] }); head = r.head; } });
-          if (head && yell > 0.01) { const z = 1.55, hp = [960 + (head[0] - 900) * z, 540 + (head[1] - 560) * z, head[2] * z]; K.cast.bubble(c, hp, '¡¿QUIÉN FUE?!', yell); }
+          if (head) { const z = 1.55, hp = [960 + (head[0] - 900) * z, 540 + (head[1] - 560) * z, head[2] * z]; A.speaker('eli', hp); }
         },
         cues: A => [{ t: tQuien, kind: 'pop' }] });
       // B16 · the shrug wave: every driver shrugs, one after the other, backwards round the ring; then the observers

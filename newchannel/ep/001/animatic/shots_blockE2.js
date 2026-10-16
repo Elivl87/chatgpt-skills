@@ -138,13 +138,13 @@
           inCar(c, t, ts, { z: 1.9, wx: 650, wy: 500, sx: 980, sy: 560 },
             { pose: 'drive', view: 'q', dir: -1, expr: 'curious', look: [-0.9, -0.1], headTurn: 0.3, talk: sp.talk, viseme: sp.viseme, blink: 0 },
             { pose: 'lap', view: 'q', dir: 1, expr: 'happy', look: [-0.6, -0.1], blink: milaBlink(t) }, { badge: 1 });
-          P.callout(c, 1300, 300, '¿…quién fue?', 52, A.pulse(t, tQuien, 0.15, tFueE - tQuien + 0.2, 0.2)); } });
+          /* the whisper «¿…Quién fue?» is a text box now (A.drawLines) */ } });
       shots.push({ id: 'I07_you', start: tFuiste - 0.25, bg: 'close_mila', focus: [880, 500], push: 0.035, pushDir: -1,
         draw(c, t, lt) { const ts = G23(t), sp = A.talk('mila', t), laugh = t > tTuE + 0.2; let heads = null;
           heads = inCar(c, t, ts, { z: 1.7, wx: 600, wy: 560, sx: 900, sy: 560 },
             { pose: 'drive', view: 'q', dir: 1, expr: laugh ? 'laugh' : 'sheepish', look: [-0.5, 0], blink: eliBlink(t) },
             { pose: 'lap', blend: { pose: 'point', k: 0.62 }, view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], talk: sp.talk, viseme: sp.viseme, blink: 0 }, { badge: 1 });   // Guardian: a lower, shorter point at his badge (the full point covered Eli's nose and mouth)
-          if (heads && heads.milaHead) K.cast.bubble(c, heads.milaHead, 'Fuiste tú.', A.pulse(t, tFuiste - 0.05, 0.1, tTuE - tFuiste + 0.25, 0.2)); },
+          if (heads && heads.milaHead) A.speaker('mila', heads.milaHead); },
         cues: A => [{ t: tTuE + 0.25, kind: 'mm' }] });
       shots.push({ id: 'I08_bird', start: tTuE + 0.1, bg: 'bird', focus: [960, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) { birdInsert(c, t, A.ramp(t, tTuE + 0.75, 0.2)); P.callout(c, 1260, 330, 'pío', 80, A.pulse(t, tTuE + 0.85, 0.08, 0.5, 0.2)); },
@@ -218,7 +218,7 @@
         draw(c, t, lt) { const sp = A.talk('eli', t); let rr = null, shrug = t > tQ2E + 0.25;
           A.busStop(c, t, { chars: (cx, GY, SEAT) => { rr = duo(cx, t, GY, SEAT, { pose: 'fist', expr: 'furious', look: [0.8, -0.1], talk: sp.talk, viseme: sp.viseme, extras: ['anger'] },
             shrug ? { view: 'front', pose: 'shrug', expr: 'happy', look: [0, 0] } : { pose: 'crossed', expr: 'neutral', look: [0.6, -0.4] }, { eFeet: SEAT }); }, buses: buses(t) });
-          if (rr && rr.rE) K.cast.bubble(c, rr.rE.head, '¡¿QUIÉN FUE?!', A.pulse(t, tQ2 - 0.05, 0.08, tQ2E - tQ2 + 0.35, 0.2)); },
+          if (rr && rr.rE) A.speaker('eli', rr.rE.head); },
         cues: A => [{ t: tQ2, kind: 'pop' }, { t: tQ2E + 0.3, kind: 'shrug_wave', n: 3, d: 0.1 }] });
       // the end-card zone: the pair sits on the left, the right 55 % stays clear (YouTube end-screen elements go there)
       const tSit = tQ2E + 1.4, tLeave = tSit + 0.3;

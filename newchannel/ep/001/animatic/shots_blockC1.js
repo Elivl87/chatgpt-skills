@@ -179,7 +179,7 @@
           A.line(c, t, { simT: ts, camS: carCam(ELI, ts) + 0.6, pxm: 200,
             eli: (cx, sx, sy, s) => { const r = K.cast.crew2(cx, sx, sy, s, { driver: 'eli1', t, light: N, u: 2.7 * s, driverO: eO }); head = r.driver.head; } });
           P.gossip(c, 520 - shove * 700, 330 - shove * 120, 230, 1 - A.ramp(t, tQueE + 0.25, 0.2), { seed: 31, doodle: true, tail: -1 });
-          if (!read && head) K.cast.bubble(c, [960 + 40, 520, 120], '¡¿QUE YO QUÉ?!', A.pulse(t, tQue, 0.08, tQueE - tQue + 0.3, 0.2));
+          // (the text box finds Eli's head itself)
         },
         cues: A => [{ t: tQue - 0.7, kind: 'murmur' }, { t: tQue, kind: 'pop' }, { t: tQue + 0.15, kind: 'whoosh_up' }] });
       return shots;
