@@ -13,5 +13,6 @@
   "offframe": 2
  },
  "failures": 0,
- "fail_list": []
+ "fail_list": [],
+ "framing_warnings": []
 }

@@ -4,7 +4,7 @@
  "samples": 97,
  "faces": 191,
  "eyes": {
-  "pass": 238,
+  "pass": 244,
   "fail": 0,
   "closed": 26,
   "covered": 0,
@@ -13,5 +13,6 @@
   "offframe": 0
  },
  "failures": 0,
- "fail_list": []
+ "fail_list": [],
+ "framing_warnings": []
 }
