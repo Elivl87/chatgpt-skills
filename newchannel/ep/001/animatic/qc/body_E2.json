@@ -2,7 +2,7 @@
  "block": "E2",
  "samples": 97,
  "fail": 0,
- "warn": 99,
+ "warn": 0,
  "frames": [
   {
    "t": 0.19999999999998863,
@@ -441,32 +441,7 @@
    "shot": "H03_store",
    "why": "start",
    "png": "s_008.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -682,32 +657,7 @@
    "shot": "H03_back",
    "why": "mid",
    "png": "s_012.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -761,32 +711,7 @@
    "shot": "H03_back",
    "why": "end",
    "png": "s_013.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -840,32 +765,7 @@
    "shot": "H04_breathe",
    "why": "cue:tick_tock",
    "png": "s_014.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -919,32 +819,7 @@
    "shot": "H04_breathe",
    "why": "mid",
    "png": "s_015.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -998,32 +873,7 @@
    "shot": "H04_breathe",
    "why": "cue:blow",
    "png": "s_016.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -1077,32 +927,7 @@
    "shot": "H04_breathe",
    "why": "end",
    "png": "s_017.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -1156,32 +981,7 @@
    "shot": "H05_calm",
    "why": "start",
    "png": "s_018.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -1235,32 +1035,7 @@
    "shot": "H05_calm",
    "why": "mid",
    "png": "s_019.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -1314,32 +1089,7 @@
    "shot": "H05_calm",
    "why": "end",
    "png": "s_020.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2041,32 +1791,7 @@
    "shot": "I04_ease",
    "why": "start",
    "png": "s_033.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2120,32 +1845,7 @@
    "shot": "I04_ease",
    "why": "cue:brake_note",
    "png": "s_034.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2199,32 +1899,7 @@
    "shot": "I04_ease",
    "why": "mid",
    "png": "s_035.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2278,32 +1953,7 @@
    "shot": "I04_ease",
    "why": "end",
    "png": "s_036.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2453,32 +2103,7 @@
    "shot": "I06_who",
    "why": "start",
    "png": "s_040.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2532,32 +2157,7 @@
    "shot": "I06_who",
    "why": "line:eli:Qui\u00e9n",
    "png": "s_041.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2611,32 +2211,7 @@
    "shot": "I06_who",
    "why": "line:eli:fue",
    "png": "s_042.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2690,32 +2265,7 @@
    "shot": "I06_who",
    "why": "end",
    "png": "s_043.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2769,38 +2319,7 @@
    "shot": "I07_you",
    "why": "line:mila:Fuiste",
    "png": "s_044.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Mila",
-     "box over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2854,38 +2373,7 @@
    "shot": "I07_you",
    "why": "mid",
    "png": "s_045.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Mila",
-     "box over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -2939,38 +2427,7 @@
    "shot": "I07_you",
    "why": "line:mila:t\u00fa",
    "png": "s_046.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Mila",
-     "box over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -3402,32 +2859,7 @@
    "shot": "J03_calm",
    "why": "start",
    "png": "s_054.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -3481,32 +2913,7 @@
    "shot": "J03_calm",
    "why": "mid",
    "png": "s_055.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",
@@ -3560,32 +2967,7 @@
    "shot": "J03_calm",
    "why": "end",
    "png": "s_056.png",
-   "problems": [
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "box over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:SI SE ABRE over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:UN HUECO, over the body"
-    ],
-    [
-     "warn",
-     "overlay-body",
-     "Eli",
-     "text:CI\u00c9RRALO over the body"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "eli1",

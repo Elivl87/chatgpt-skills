@@ -64,7 +64,7 @@ ring / field shots) are not audited; at final 1080p they are 2.25x bigger.
   edge is a «framing warning»): D1 E10_computer / E10_nochase had Eli + Mila cut by the frame top / right edge in the
   tight shots that follow the computer car; they are left out of those two shots. 0 framing warnings in all 8 blocks.
 - Remaining (minor, honest): crowd-scale Eli / Mila in the widest ring / field shots are 10-20 px tall at draft (their
-  eyes are < 3 px and not audited; at final 1080p they are 2.25x bigger). In B07 the «RECREACIÓN ILUSTRADA» pill touches
+  eyes are < 3 px and not audited; at final 1080p they are 2.25x bigger). In B07 the «RECREACIÓN ILUSTRADA» pill touched (fixed by the Guardian, see GUARDIAN_REPORT_animatic_v2.md)
   the top of Eli's beanie (back view). Outputs: re-rendered `block<X>_draft.mp4` (all 8), face sheets
   `qc/faces_block<X>_small.jpg`, `qc/faces_<X>_before.json` / `faces_<X>_after.json`,
   `art/characters/leo_mila/eyes_before_after_small.jpg`, emotion / model sheets re-rendered. Joined preview (not in git):

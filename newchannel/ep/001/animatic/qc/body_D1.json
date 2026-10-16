@@ -1,7 +1,7 @@
 {
  "block": "D1",
  "samples": 45,
- "fail": 9,
+ "fail": 0,
  "warn": 0,
  "frames": [
   {
@@ -2172,38 +2172,7 @@
    "shot": "E17_40",
    "why": "cue:gauge",
    "png": "s_043.png",
-   "problems": [
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "box over the head zone"
-    ],
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "box over the head zone"
-    ],
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "text:hasta \u221240 % over the head zone"
-    ],
-    [
-     "FAIL",
-     "overlay-head",
-     "Eli",
-     "box over the head zone"
-    ],
-    [
-     "FAIL",
-     "overlay-head",
-     "Eli",
-     "box over the head zone"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",
@@ -2257,32 +2226,7 @@
    "shot": "E17_40",
    "why": "end",
    "png": "s_044.png",
-   "problems": [
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "box over the head zone"
-    ],
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "box over the head zone"
-    ],
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "text:hasta \u221240 % over the head zone"
-    ],
-    [
-     "FAIL",
-     "overlay-head",
-     "Eli",
-     "box over the head zone"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",

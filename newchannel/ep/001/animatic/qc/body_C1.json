@@ -1,7 +1,7 @@
 {
  "block": "C1",
  "samples": 26,
- "fail": 2,
+ "fail": 0,
  "warn": 0,
  "frames": [
   {
@@ -562,14 +562,7 @@
    "shot": "C09_plate",
    "why": "mid",
    "png": "s_014.png",
-   "problems": [
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "box over the head zone"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",
@@ -601,14 +594,7 @@
    "shot": "C09_plate",
    "why": "end",
    "png": "s_015.png",
-   "problems": [
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "box over the head zone"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",
