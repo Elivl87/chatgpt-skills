@@ -30,7 +30,7 @@
  "longest_shot": 4.36,
  "longest_id": "G02_card",
  "avg_shot": 2.42,
- "size_mb": 5.17,
+ "size_mb": 5.15,
  "contact_kb": 320
 }
 ```
