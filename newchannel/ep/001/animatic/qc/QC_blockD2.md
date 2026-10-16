@@ -1,12 +1,12 @@
 # QC · blockD2
 
-File: `blockD2_draft.mp4` · 74.40 s · 30/1 fps · 9.80 MB · 1.1 Mb/s
+File: `blockD2_draft.mp4` · 74.40 s · 30/1 fps · 9.79 MB · 1.1 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 854x480 |
-| file size <= 30 MB (chat delivery) | **PASS** | 9.80 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 9.79 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.1 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -1.4 dBTP |
