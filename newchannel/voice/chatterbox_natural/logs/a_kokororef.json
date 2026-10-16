@@ -1,0 +1,492 @@
+{
+ "summary": {
+  "name": "a_kokororef",
+  "args": {
+   "name": "a_kokororef",
+   "ref": "/tmp/claude-0/cbnat/work/ref/ref_kokoro_narr.wav",
+   "model": "v3",
+   "s3gen": "base",
+   "mode": "chunk",
+   "ex": 0.5,
+   "cfg": 0.4,
+   "temp": 0.75,
+   "speed": 1.0,
+   "speed_jitter": 0.0,
+   "pause_jitter": 0.0,
+   "ex_jitter": 0.0,
+   "tries": 6,
+   "only": 0
+  },
+  "model_info": {
+   "model": "v3",
+   "s3gen": "base",
+   "load_s": 14.3
+  },
+  "dur_s": 51.46,
+  "words": 125,
+  "word_errors": 2,
+  "wer": 0.016,
+  "retries": 10,
+  "chunks": 8,
+  "wpm_in_speech": 161.4,
+  "synth_s": 1545.8,
+  "similarity_to_ref": 0.966
+ },
+ "chunks": [
+  {
+   "seed": 1000,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "una carretera despejada. Allá adelante un conductor toca el freno, una sola vez, apenas un poquito.",
+   "dur": 6.4,
+   "raw_dur": 6.88,
+   "dropped": 0.0,
+   "synth_s": 71.3,
+   "rtf": 11.14,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1000,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "una carretera despejada. Allá adelante un conductor toca el freno, una sola vez, apenas un poquito.",
+     "dur": 6.4,
+     "raw_dur": 6.88,
+     "dropped": 0.0,
+     "synth_s": 71.3,
+     "rtf": 11.14,
+     "too_long": false
+    }
+   ],
+   "text": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+   "tts": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+   "beat": "01",
+   "start": 0.0,
+   "dur_out": 6.4,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1037,
+   "wer": 0.0455,
+   "errors": [
+    "queda->quiera"
+   ],
+   "heard": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte, más fuerte, hasta que alguien se quiera quieto. Eli.",
+   "dur": 8.24,
+   "raw_dur": 8.8,
+   "dropped": 0.0,
+   "synth_s": 90.2,
+   "rtf": 10.95,
+   "too_long": false,
+   "tries": 6,
+   "takes": [
+    {
+     "seed": 1037,
+     "wer": 0.0455,
+     "errors": [
+      "queda->quiera"
+     ],
+     "heard": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte, más fuerte, hasta que alguien se quiera quieto. Eli.",
+     "dur": 8.24,
+     "raw_dur": 8.8,
+     "dropped": 0.0,
+     "synth_s": 90.2,
+     "rtf": 10.95,
+     "too_long": false
+    },
+    {
+     "seed": 8956,
+     "wer": 0.1364,
+     "errors": [
+      "frena->freina",
+      "queda->quede",
+      "eli->alli"
+     ],
+     "heard": "Detrás, cada auto freina un poco más fuerte que el anterior, más fuerte, más fuerte hasta que alguien se quede quieto allí.",
+     "dur": 6.2,
+     "raw_dur": 6.68,
+     "dropped": 0.0,
+     "synth_s": 76.0,
+     "rtf": 12.25,
+     "too_long": false
+    },
+    {
+     "seed": 16875,
+     "wer": 0.0455,
+     "errors": [
+      "queda->quede"
+     ],
+     "heard": "Detrás, cada auto frena un poco más fuerte que el anterior, más fuerte, más fuerte hasta que alguien se quede quieto, Ellie.",
+     "dur": 7.44,
+     "raw_dur": 7.96,
+     "dropped": 0.0,
+     "synth_s": 89.6,
+     "rtf": 12.04,
+     "too_long": false
+    },
+    {
+     "seed": 24794,
+     "wer": 0.0455,
+     "errors": [
+      "queda->quede"
+     ],
+     "heard": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte, hasta que alguien se quede quieto, Ellie.",
+     "dur": 6.6,
+     "raw_dur": 7.08,
+     "dropped": 0.0,
+     "synth_s": 90.4,
+     "rtf": 13.7,
+     "too_long": false
+    },
+    {
+     "seed": 32713,
+     "wer": 0.0455,
+     "errors": [
+      "queda->quede"
+     ],
+     "heard": "Detrás cada auto frena un poco más fuerte que el anterior, más fuerte, más fuerte hasta que alguien se quede quieto, Ellie.",
+     "dur": 8.16,
+     "raw_dur": 8.68,
+     "dropped": 0.0,
+     "synth_s": 90.8,
+     "rtf": 11.13,
+     "too_long": false
+    },
+    {
+     "seed": 40632,
+     "wer": 0.0455,
+     "errors": [
+      "queda->quede"
+     ],
+     "heard": "Detrás, cada auto frena un poco más fuerte que el anterior, más fuerte, más fuerte hasta que alguien se quede quieto, Ellie.",
+     "dur": 7.16,
+     "raw_dur": 7.64,
+     "dropped": 0.0,
+     "synth_s": 85.3,
+     "rtf": 11.91,
+     "too_long": false
+    }
+   ],
+   "text": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+   "tts": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+   "beat": "02",
+   "start": 7.2,
+   "dur_out": 8.24,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1074,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "Ellie está seguro. Alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+   "dur": 7.54,
+   "raw_dur": 8.04,
+   "dropped": 0.0,
+   "synth_s": 97.0,
+   "rtf": 12.87,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1074,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Ellie está seguro. Alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+     "dur": 7.54,
+     "raw_dur": 8.04,
+     "dropped": 0.0,
+     "synth_s": 97.0,
+     "rtf": 12.87,
+     "too_long": false
+    }
+   ],
+   "text": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+   "tts": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+   "beat": "03",
+   "start": 16.24,
+   "dur_out": 7.54,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1111,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "Mila, su amiga, mira atrás.",
+   "dur": 2.22,
+   "raw_dur": 2.68,
+   "dropped": 0.0,
+   "synth_s": 45.3,
+   "rtf": 20.43,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1111,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Mila, su amiga, mira atrás.",
+     "dur": 2.22,
+     "raw_dur": 2.68,
+     "dropped": 0.0,
+     "synth_s": 45.3,
+     "rtf": 20.43,
+     "too_long": false
+    }
+   ],
+   "text": "Mila, su amiga, mira atrás.",
+   "tts": "Mila, su amiga, mira atrás.",
+   "beat": "04",
+   "start": 24.58,
+   "dur_out": 2.22,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1148,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+   "dur": 4.1,
+   "raw_dur": 4.6,
+   "dropped": 0.0,
+   "synth_s": 64.7,
+   "rtf": 15.78,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1148,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+     "dur": 4.1,
+     "raw_dur": 4.6,
+     "dropped": 0.0,
+     "synth_s": 64.7,
+     "rtf": 15.78,
+     "too_long": false
+    }
+   ],
+   "text": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+   "tts": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+   "beat": "04",
+   "start": 27.3,
+   "dur_out": 4.1,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1185,
+   "wer": 0.0417,
+   "errors": [
+    "volverlo->volverle"
+   ],
+   "heard": "Vamos más despacio. Estiremos el círculo hasta volverle una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+   "dur": 9.0,
+   "raw_dur": 9.52,
+   "dropped": 0.0,
+   "synth_s": 98.6,
+   "rtf": 10.95,
+   "too_long": false,
+   "tries": 6,
+   "takes": [
+    {
+     "seed": 1185,
+     "wer": 0.0417,
+     "errors": [
+      "volverlo->volverle"
+     ],
+     "heard": "Vamos más despacio. Estiremos el círculo hasta volverle una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "dur": 9.0,
+     "raw_dur": 9.52,
+     "dropped": 0.0,
+     "synth_s": 98.6,
+     "rtf": 10.95,
+     "too_long": false
+    },
+    {
+     "seed": 9104,
+     "wer": 0.0417,
+     "errors": [
+      "volverlo->volverle"
+     ],
+     "heard": "Vamos más despacio. Estiremos el círculo hasta volverle una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "dur": 8.66,
+     "raw_dur": 9.2,
+     "dropped": 0.0,
+     "synth_s": 94.4,
+     "rtf": 10.9,
+     "too_long": false
+    },
+    {
+     "seed": 17023,
+     "wer": 0.0833,
+     "errors": [
+      "el->al",
+      "volverlo->volverle"
+     ],
+     "heard": "Vamos más despacio. Estiremos al círculo hasta volverle una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "dur": 8.4,
+     "raw_dur": 8.88,
+     "dropped": 0.0,
+     "synth_s": 103.9,
+     "rtf": 12.37,
+     "too_long": false
+    },
+    {
+     "seed": 24942,
+     "wer": 0.0417,
+     "errors": [
+      "volverlo->volverle"
+     ],
+     "heard": "Vamos más despacio. Estiremos el círculo hasta volverle una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "dur": 8.6,
+     "raw_dur": 9.12,
+     "dropped": 0.0,
+     "synth_s": 112.8,
+     "rtf": 13.11,
+     "too_long": false
+    },
+    {
+     "seed": 32861,
+     "wer": 0.0417,
+     "errors": [
+      "+a"
+     ],
+     "heard": "Vamos más despacio. Estiremos el círculo hasta volverlo a una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "dur": 9.06,
+     "raw_dur": 9.56,
+     "dropped": 0.0,
+     "synth_s": 107.9,
+     "rtf": 11.91,
+     "too_long": false
+    },
+    {
+     "seed": 40780,
+     "wer": 0.0417,
+     "errors": [
+      "volverlo->volverle"
+     ],
+     "heard": "Vamos más despacio. Estiremos el círculo hasta volverle una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+     "dur": 8.94,
+     "raw_dur": 9.44,
+     "dropped": 0.0,
+     "synth_s": 105.7,
+     "rtf": 11.82,
+     "too_long": false
+    }
+   ],
+   "text": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+   "tts": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde.",
+   "beat": "09",
+   "start": 32.2,
+   "dur_out": 9.0,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1222,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero más tarde y más fuerte todavía.",
+   "dur": 6.66,
+   "raw_dur": 7.16,
+   "dropped": 0.0,
+   "synth_s": 82.3,
+   "rtf": 12.35,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1222,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero más tarde y más fuerte todavía.",
+     "dur": 6.66,
+     "raw_dur": 7.16,
+     "dropped": 0.0,
+     "synth_s": 82.3,
+     "rtf": 12.35,
+     "too_long": false
+    }
+   ],
+   "text": "En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía.",
+   "tts": "En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía.",
+   "beat": "09",
+   "start": 42.0,
+   "dur_out": 6.66,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1259,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "para el auto número 10, alto total.",
+   "dur": 2.3,
+   "raw_dur": 2.64,
+   "dropped": 0.0,
+   "synth_s": 39.6,
+   "rtf": 17.23,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1259,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "para el auto número 10, alto total.",
+     "dur": 2.3,
+     "raw_dur": 2.64,
+     "dropped": 0.0,
+     "synth_s": 39.6,
+     "rtf": 17.23,
+     "too_long": false
+    }
+   ],
+   "text": "Para el auto número diez: alto total.",
+   "tts": "Para el auto número diez: alto total.",
+   "beat": "09",
+   "start": 49.16,
+   "dur_out": 2.3,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.5,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  }
+ ]
+}
