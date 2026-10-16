@@ -6,7 +6,8 @@ canonical. No mascot. **Standing rule:** every character in this universe (Eli, 
 must express every emotion clearly in front, 3/4 and profile, and every delivery keeps improving the details.
 
 Sheets: `model_sheet.png` (+ `model_sheet_small.jpg`) · `emotion_sheet.png` (+ `emotion_sheet_small.jpg`) ·
-detail pass: `DETAIL_AUDIT.md` (+ `audit_crops_small.jpg`, `detail_before_after_small.jpg`) ·
+detail pass: `DETAIL_AUDIT.md` (+ `audit_crops_small.jpg`, `detail_before_after_small.jpg`) · eyes pass (2026-10-16):
+§6b + `eyes_before_after_small.jpg` + `ep/001/animatic/qc/QC_eyes.md` · Guardian log: `GUARDIAN_LOG.md` ·
 history: `alternatives/` (the 5 designs the Producer chose from).
 
 ## 1 · Identity

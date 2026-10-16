@@ -35,7 +35,17 @@ thin dark crescent in every eye, so the surprise read as closed / sleepy rings).
 
 ## Automated eye check: failures before -> after (draft 854x480, key acting frames)
 
-AFTER_TABLE
+| Block | frames audited | eyes audited (before) | failures before | of which no visible pupil (pixels) | eyes audited (after) | failures after | closed / covered / fading (declared) | crowd-scale (not audited) |
+|---|---|---|---|---|---|---|---|---|
+| A | 58 | 122 | 122 | 83 | 118 | **0** | 0 / 4 / 4 | 0 |
+| B | 79 | 139 | 139 | 94 | 139 | **0** | 10 / 0 / 0 | 99 |
+| C1 | 26 | 58 | 58 | 45 | 58 | **0** | 0 / 0 / 0 | 2 |
+| C2 | 48 | 99 | 99 | 90 | 99 | **0** | 8 / 0 / 0 | 13 |
+| D1 | 50 | 129 | 129 | 115 | 121 | **0** | 0 / 0 / 0 | 57 |
+| D2 | 101 | 214 | 214 | 176 | 214 | **0** | 0 / 0 / 0 | 143 |
+| E1 | 21 | 68 | 68 | 68 | 68 | **0** | 16 / 0 / 0 | 0 |
+| E2 | 97 | 244 | 244 | 200 | 244 | **0** | 26 / 0 / 4 | 0 |
+| **total** | | | **1073** | **871** | 1061 | **0** | | |
 
 «before» = the kit and shot lists at commit 7d8196b (with the log hook added only to measure); every audited eye failed
 the geometry rule (catchlight > 0.36x pupil, drawn at the clamped 0.01 radius) and the «pixel» column counts the eyes
@@ -50,6 +60,12 @@ ring / field shots) are not audited; at final 1080p they are 2.25x bigger.
   I06 «¿…quién fue?» curious, I07 Mila happy «fuiste tú»; K03 Eli furious «¿quién fue?» at the bus stop.
 - Mouths: talk visemes alternate on every Eli / Mila line in the sheets (tagged «talk»).
 - Eyes look at something motivated (the road, the other character, the laptop, the knob).
-- Remaining (minor, honest): in D1 E10_computer / E10_nochase (tight ring shots that follow the computer car) the two
-  observers standing at the track edge are cropped by the frame top / right edge for ~2 s; they are incidental there
-  (the car is the subject). Crowd-scale Eli / Mila in the widest ring shots are 10-20 px tall at draft.
+- Fixed after the first audit pass (framing check added to `faces_check.py`: a face whose head box crosses the frame
+  edge is a «framing warning»): D1 E10_computer / E10_nochase had Eli + Mila cut by the frame top / right edge in the
+  tight shots that follow the computer car; they are left out of those two shots. 0 framing warnings in all 8 blocks.
+- Remaining (minor, honest): crowd-scale Eli / Mila in the widest ring / field shots are 10-20 px tall at draft (their
+  eyes are < 3 px and not audited; at final 1080p they are 2.25x bigger). In B07 the «RECREACIÓN ILUSTRADA» pill touches
+  the top of Eli's beanie (back view). Outputs: re-rendered `block<X>_draft.mp4` (all 8), face sheets
+  `qc/faces_block<X>_small.jpg`, `qc/faces_<X>_before.json` / `faces_<X>_after.json`,
+  `art/characters/leo_mila/eyes_before_after_small.jpg`, emotion / model sheets re-rendered. Joined preview (not in git):
+  `ep001_animatic_preview_v2.mp4` (7:59, 854x480, 25.7 MB).

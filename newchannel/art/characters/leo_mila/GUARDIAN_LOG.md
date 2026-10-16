@@ -11,3 +11,4 @@
 | 2026-10-16 | animatic D2 F10 | Eli cortado por el borde izquierdo en el primer plano del auto | encuadre wx 760 | wx 690 | arreglado |
 | 2026-10-16 | animatic E2 I05 | mirada atrás: solo se veía la nuca / gorro de Eli | vista `backq` (sin cara) | Eli girado en el asiento, 3/4 hacia cámara mirando la carretera: curioso -> doble toma de sorpresa | arreglado |
 | 2026-10-16 | QC | no había chequeo automático de pupilas | — | `faces_audit.sh` (+ `faces_audit.mjs`, `faces_check.py`): fotogramas clave, ojos registrados por el kit, píxeles finales; obligatorio (CHARACTERS.md §6b) | nuevo control |
+| 2026-10-16 | animatic D1 E10_computer / E10_nochase | Eli y Mila cortados por el borde superior / derecho en los planos cerrados del auto computadora | observadores fijos al borde de la pista; la cámara sigue al auto | se omiten en esos dos planos (el auto es el sujeto); chequeo de encuadre automático en `faces_check.py` (0 avisos) | arreglado |
