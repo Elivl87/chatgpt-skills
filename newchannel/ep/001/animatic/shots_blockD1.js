@@ -122,10 +122,10 @@
       // frame edge, cut off (head over the top / right edge): they are left out of these two shots (hero: () => true)
       shots.push({ id: 'E10_computer', start: tUna - 0.1, bg: 'ring_av_close', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.6); c.save(); c.translate(960, 540); c.scale(2.6, 2.6); c.translate(-p[0], -p[1]);
-          A.ring(c, t, ringOpts(ts, { hero: () => true, carOver: (cx, i, x, y) => { if (i === AV) P.pill(cx, x, y - 70, 'COMPUTADORA', 14, A.ramp(t, tCompu - 0.1, 0.2), { align: 'center', bg: K.rgba('#23746C', 0.92) }); } })); c.restore(); } });
+          A.ring(c, t, ringOpts(ts, { extra: { hero: () => true }, carOver: (cx, i, x, y) => { if (i === AV) P.pill(cx, x, y - 70, 'COMPUTADORA', 14, A.ramp(t, tCompu - 0.1, 0.2), { align: 'center', bg: K.rgba('#23746C', 0.92) }); } })); c.restore(); } });
       shots.push({ id: 'E10_nochase', start: tNo - 0.1, bg: 'ring_av2', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.1); c.save(); c.translate(960, 540); c.scale(2.1, 2.1); c.translate(-p[0], -p[1]);
-          A.ring(c, t, ringOpts(ts, { hero: () => true, extra: { over: (cx, g2s, cars, S2) => { const q = A.ringPt(AV, S2), lead = A.ringPt(AV + 1, S2); P.spring(cx, q, lead, 0.9); } } })); c.restore(); } });
+          A.ring(c, t, ringOpts(ts, { extra: { hero: () => true, over: (cx, g2s, cars, S2) => { const q = A.ringPt(AV, S2), lead = A.ringPt(AV + 1, S2); P.spring(cx, q, lead, 0.9); } } })); c.restore(); } });
       // E11 · PROMEDIO: the computer's needle stays still while the others jump
       shots.push({ id: 'E11_promedio', start: tIr - 0.1, bg: 'ring_needles', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.7);
@@ -150,7 +150,7 @@
       // E13 · the spring in front of the computer car; Eli's fingers itch, he steps in to push... Mila pulls him back
       shots.push({ id: 'E13_spring', start: tEl - 0.1, bg: 'ring_spring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.3); c.save(); c.translate(960, 540); c.scale(2.3, 2.3); c.translate(-p[0], -p[1]);
-          A.ring(c, t, ringOpts(ts, { hero: () => true, extra: { over: (cx, g2s, cars, S2) => P.spring(cx, A.ringPt(AV, S2), A.ringPt(AV + 1, S2), 1) } })); c.restore(); },
+          A.ring(c, t, ringOpts(ts, { extra: { hero: () => true, over: (cx, g2s, cars, S2) => P.spring(cx, A.ringPt(AV, S2), A.ringPt(AV + 1, S2), 1) } })); c.restore(); },
         cues: A => [{ t: tEstira, kind: 'spring' }, { t: w('encoge', 1, '15'), kind: 'spring' }] });
       const pull = tResorteE - 0.15;
       shots.push({ id: 'E13_pull', start: tComo - 0.1, bg: 'field_pull', focus: [960, 520], push: 0.03, pushDir: -1, over: c => rec(c, false),

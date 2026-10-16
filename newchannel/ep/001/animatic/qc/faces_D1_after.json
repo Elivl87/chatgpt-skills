@@ -1,49 +1,18 @@
 {
  "block": "D1",
  "tag": "after",
- "samples": 55,
- "faces": 103,
+ "samples": 49,
+ "faces": 92,
  "eyes": {
-  "pass": 129,
+  "pass": 121,
   "fail": 0,
   "closed": 0,
   "covered": 0,
   "fading": 0,
   "tiny": 57,
-  "offframe": 20
+  "offframe": 6
  },
  "failures": 0,
  "fail_list": [],
- "framing_warnings": [
-  {
-   "t": 29.59,
-   "shot": "E10_computer",
-   "id": "mila1",
-   "head": [
-    444,
-    14,
-    23
-   ]
-  },
-  {
-   "t": 32.75,
-   "shot": "E10_nochase",
-   "id": "eli1",
-   "head": [
-    855,
-    138,
-    17
-   ]
-  },
-  {
-   "t": 33.56,
-   "shot": "E10_nochase",
-   "id": "eli1",
-   "head": [
-    850,
-    140,
-    17
-   ]
-  }
- ]
+ "framing_warnings": []
 }
