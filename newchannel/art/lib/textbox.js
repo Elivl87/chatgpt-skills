@@ -159,8 +159,8 @@
   }
   // choose the box centre beside the speaker's head (screen px, design units)
   T.place = function (m, head, o = {}) {
-    const W = K.W, H = K.H, M = 48, bottom = H * 0.88 - 8, chip = [W - 300, 0, W, 100];
-    if (o.at) return o.at;
+    const W = K.W, H = K.H, M = 48, bottom = H * 0.88 - 8, chip = [W - 300, 0, W, 100], pill = [0, 0, 600, 112];   // duration chip, label pill
+    if (o.at) return [o.at[0], o.at[1], 0];
     const hx = head ? head[0] : W * 0.5, hy = head ? head[1] : H * 0.3, hr = head ? Math.max(14, head[2]) : 0;
     const avoid = (o.avoid || []).concat(head ? [[hx - hr * 1.15, hy - hr * 1.75, hx + hr * 1.15, hy + hr * 1.2]] : []);
     const pref = o.side || (hx > W * 0.55 ? -1 : 1), cands = [];
@@ -176,7 +176,9 @@
       let s = Math.hypot(cx - cx0, cy - cy0) * 2 + Math.hypot(cx - hx, cy - hy) * (sd === 0 ? 0.6 : 0.15) + (sd === 0 ? 900 : sd !== pref ? 140 : 0);
       for (const a of avoid) if (R[0] < a[2] && a[0] < R[2] && R[1] < a[3] && a[1] < R[3]) s += 5000;
       if (R[0] < chip[2] && chip[0] < R[2] && R[1] < chip[3] && chip[1] < R[3]) s += 3000;
-      if (s < bs) { bs = s; best = [cx, cy]; }
+      if (R[0] < pill[2] && pill[0] < R[2] && R[1] < pill[3] && pill[1] < R[3]) s += 3000;
+      for (const a of (o.soft || [])) if (R[0] < a[2] && a[0] < R[2] && R[1] < a[3] && a[1] < R[3]) s += 1500;   // bodies / action: avoid if possible
+      if (s < bs) { bs = s; best = [cx, cy, s]; }
     }
     return best;
   };
@@ -202,8 +204,13 @@
     const a = K.clamp(o.a ?? 1); if (a <= 0.003 || !o.text) return null;
     const L = Object.assign({}, T.LIGHT[o.light] || T.LIGHT.golden, o.lightO || {});
     if ((o.kind || 'speech') === 'shout') o = Object.assign({}, o, { text: String(o.text).toLocaleUpperCase('es') });   // shouts are lettered in capitals
-    const m = measure(ctx, o), kind = m.kind, seed = o.seed ?? [...String(o.text)].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
-    const head = o.head, [cx, cy] = T.place(m, head, o), age = o.age ?? 1;
+    let m = measure(ctx, o); const kind = m.kind, seed = o.seed ?? [...String(o.text)].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7);
+    const head = o.head; let P = T.place(m, head, o);
+    if (P[2] >= 1500 && !o.at) {   // crowded: try the line wrapped narrower (two short lines fit beside a head more often)
+      const m2 = measure(ctx, Object.assign({}, o, { maxW: Math.max(220, m.tw * 0.55) })), P2 = T.place(m2, head, o);
+      if (P2[2] < P[2]) { m = m2; P = P2; }
+    }
+    const [cx, cy] = P, age = o.age ?? 1;
     // pop: scale with a small overshoot (whisper: no overshoot), alpha, settle rotation; out: fade + 0.92
     const ins = K.clamp(age / (kind === 'whisper' ? 0.28 : 0.2)), outK = o.out ?? 0;
     const sIn = kind === 'whisper' ? 0.85 + 0.15 * K.ease.sine(ins) : 0.7 + 0.3 * K.ease.outBack(ins);

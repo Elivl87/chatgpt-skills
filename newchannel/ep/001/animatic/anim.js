@@ -135,7 +135,7 @@
     for (const L of A._lineList) { L.show0 = L.start - 0.06; L.show1 = Math.max(L.end, L.start + K.tbox.readTime(L.text)) + 0.12; }
     return A._lineList;
   };
-  A.speaker = function (who, head, o = {}) { if (head && A._heads) A._heads[who] = Object.assign({ head, light: A._heads[who] && A._heads[who].light, pinned: true }, o); };
+  A.speaker = function (who, head, o = {}) { const p = A._heads && A._heads[who]; if (head && A._heads) A._heads[who] = Object.assign({ head, light: p && p.light, body: p && p.body, pinned: true }, o); };
   A.installHeads = function () {
     if (K.cast.draw.__heads) return;
     const d0 = K.cast.draw;
@@ -147,7 +147,8 @@
         const hx = (m.a * r.head[0] + m.c * r.head[1] + m.e) / S, hy = (m.b * r.head[0] + m.d * r.head[1] + m.f) / S;
         const li = o.light || {}, rim = String(li.rim || '#ffd88f'), bl = parseInt(rim.slice(5, 7), 16) || 0, rd = parseInt(rim.slice(1, 3), 16) || 0;
         const light = bl > rd + 20 ? 'night' : (li.rimA != null && li.rimA < 0.5) ? 'noon' : 'golden';
-        if (hx > -200 && hx < K.W + 200 && hy > -200 && hy < K.H + 200) A._heads[who] = { head: [hx, hy, r.head[2] * k], light };
+        const fy = (m.b * x + m.d * y + m.f) / S, fx = (m.a * x + m.c * y + m.e) / S, hr = r.head[2] * k;
+        if (hx > -200 && hx < K.W + 200 && hy > -200 && hy < K.H + 200) A._heads[who] = { head: [hx, hy, hr], light, body: [Math.min(hx, fx) - hr * 1.6, hy + hr, Math.max(hx, fx) + hr * 1.6, Math.max(fy, hy + hr * 2)] };
       }
       return r;
     };
@@ -165,13 +166,14 @@
     const H = A._heads || {}, avoid = [];
     for (const k in H) { const h = H[k].head; avoid.push([h[0] - h[2] * 1.2, h[1] - h[2] * 1.8, h[0] + h[2] * 1.2, h[1] + h[2] * 1.25]); }
     if (S.label) avoid.push([20, 10, 640, 120]);                 // the shot's label pill (top left)
+    const soft = Object.values(H).filter(x => x.body).map(x => x.body);   // the characters' bodies: avoided when there is room
     avoid.push(...(S.sayAvoid || []));                           // per shot: important action the boxes must not cover
     for (const L of A.lineList()) {
       if (t < L.show0 || t > L.show1 || L.show1 < def.t0 || L.show0 > def.t1) continue;
       const h = H[L.speaker], ov = (S.say && S.say[L.id]) || {};
       const out = K.clamp((t - (L.show1 - 0.16)) / 0.16);
       const rr = K.tbox.draw(ctx, Object.assign({ text: L.text, kind: L.kind || 'speech', head: h ? h.head : null, light: ov.light || S.tbLight || def.tbLight || (h && h.light) || 'golden',
-        age: t - L.show0, a: 1 - out, out, avoid, side: L.side || (h && h.side), at: L.at || (h ? null : [K.W * 0.27, K.H * 0.2]) }, ov));
+        age: t - L.show0, a: 1 - out, out, avoid, soft, side: L.side || (h && h.side), at: L.at || (h ? null : [K.W * 0.27, K.H * 0.2]) }, ov));
       if (rr) avoid.push([rr.full[0] - 16, rr.full[1] - 16, rr.full[2] + 16, rr.full[3] + 16]);   // two boxes never overlap
     }
   };

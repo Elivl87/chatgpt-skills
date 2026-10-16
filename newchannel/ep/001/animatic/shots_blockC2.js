@@ -128,7 +128,8 @@
           c.restore();
           },
         cues: A => [{ t: tQuien, kind: 'pop' }, { t: tF, kind: 'record_scratch' }] });
-      shots.push({ id: 'D13_screen', start: tF + 0.05, bg: 'dome_screen', focus: [960, 500], push: 0.03, pushDir: -1, post: domePost,
+      shots.push({ id: 'D13_screen', start: tF + 0.05, bg: 'dome_screen', sayAvoid: [[520, 30, 1400, 520]],   // the big screen is the gag: no text box on it
+        focus: [960, 500], push: 0.03, pushDir: -1, post: domePost,
         draw(c, t, lt) { A.dome(c, t, { run: R28(), simT: D28(t), eli: 18 });
           // the stadium's big screen: Eli, mouth open, with an arrow pointing at him
           c.fillStyle = '#14101e'; K.rrect(c, 560, 70, 800, 450, 18); c.fill(); c.fillStyle = '#3a3050'; K.rrect(c, 580, 90, 760, 410, 10); c.fill();

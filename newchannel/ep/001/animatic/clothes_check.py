@@ -111,7 +111,8 @@ def block(D, B, QC):
                 continue
             n += 1
             hpx = b['box'][3] - b['box'][1]; cl = b['cl']; H_ = s.get('size', [854, 480])[1]
-            feet = bool(f.get('foot')) and f['foot'][1] <= H_ - 2 and b['box'][3] >= f['foot'][1] - 0.02 * f.get('u', 0)   # legs in frame v = str(f['view']); key = f"{s['shot']} t{s['t']:.2f} {f['id']} {f['pose']}/{v}"
+            feet = bool(f.get('foot')) and f['foot'][1] <= H_ - 2 and b['box'][3] >= f['foot'][1] - 0.02 * f.get('u', 0)   # legs in frame
+            v = str(f['view']); key = f"{s['shot']} t{s['t']:.2f} {f['id']} {f['pose']}/{v}"
             if hpx >= 60 and b['px'] > 1500:
                 if f['id'] == 'eli1':
                     if cl['white'] + cl.get('pale', 0) < 0.02:
