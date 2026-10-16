@@ -1,0 +1,154 @@
+{
+ "engine": "chatterbox",
+ "voice": {
+  "ref": "producer_reference_clean.flac:63a69a2da6",
+  "model": "v3",
+  "s3gen": "base",
+  "mode": "chunk",
+  "exaggeration": 0.45,
+  "cfg_weight": 0.4,
+  "temperature": 0.75,
+  "speed": 1.0,
+  "speed_jitter": 0.0,
+  "pause_jitter": 0.0,
+  "ex_jitter": 0.0
+ },
+ "target_lufs": -18.0,
+ "tp_ceiling": -2.0,
+ "post_gain_db": 9.4,
+ "segments": [
+  {
+   "name": "short_00_eli",
+   "beat": "S",
+   "speaker": "eli",
+   "voiced": false,
+   "text": "¡¿Quién fue?!",
+   "start": 0.1,
+   "dur": 0.7075,
+   "after": 0.45,
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
+  },
+  {
+   "name": "short_01_narrator",
+   "beat": "S",
+   "speaker": "narrator",
+   "voiced": true,
+   "text": "No hay nada en el camino. Alguien tocó el freno, apenas, y cada auto de atrás frenó un poco más fuerte. Mira: el embotellamiento va hacia atrás, a unos veinte kilómetros por hora, como una bicicleta. Los autos avanzan, pero la fila retrocede. Es una ola. En una pista de Estados Unidos, un solo auto fue a la velocidad promedio, sin perseguir al de adelante. Los frenazos casi desaparecieron. Así que deja un espacio. Si tu espacio se come el frenazo, los de atrás no tienen que frenar.",
+   "start": 1.2575,
+   "dur": 37.14,
+   "after": 0.5,
+   "gain_db": -4.09,
+   "pieces": [
+    {
+     "text": "No hay nada en el camino.",
+     "tts": "No hay nada en el camino.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "No hay nada en el camino.",
+     "tries": 1,
+     "seed": 15136122,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 29.9
+    },
+    {
+     "text": "Alguien tocó el freno, apenas, y cada auto de atrás frenó un poco más fuerte.",
+     "tts": "Alguien tocó el freno, apenas, y cada auto de atrás frenó un poco más fuerte.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Alguien tocó el freno apenas y cada auto de atrás frenó un poco más fuerte.",
+     "tries": 1,
+     "seed": 13363627,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.06
+    },
+    {
+     "text": "Mira: el embotellamiento va hacia atrás, a unos veinte kilómetros por hora, como una bicicleta.",
+     "tts": "Mira: el embotellamiento va hacia atrás, a unos veinte kilómetros por hora, como una bicicleta.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Mira, el embotellamiento va hacia atrás, a unos 20 kilómetros por hora, como una bicicleta.",
+     "tries": 1,
+     "seed": 76685,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 12.15
+    },
+    {
+     "text": "Los autos avanzan, pero la fila retrocede. Es una ola.",
+     "tts": "Los autos avanzan, pero la fila retrocede. Es una ola.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Los autos avanzan, pero la fila retrocede. Es una ola.",
+     "tries": 1,
+     "seed": 5244400,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.27
+    },
+    {
+     "text": "En una pista de Estados Unidos, un solo auto fue a la velocidad promedio, sin perseguir al de adelante. Los frenazos casi desaparecieron.",
+     "tts": "En una pista de Estados Unidos, un solo auto fue a la velocidad promedio, sin perseguir al de adelante. Los frenazos casi desaparecieron.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "En una pista de Estados Unidos, un solo auto fue a la velocidad promedio, sin perseguir al de adelante. Los frenazos casi desaparecieron.",
+     "tries": 1,
+     "seed": 254749,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 13.12
+    },
+    {
+     "text": "Así que deja un espacio. Si tu espacio se come el frenazo, los de atrás no tienen que frenar.",
+     "tts": "Así que deja un espacio. Si tu espacio se come el frenazo, los de atrás no tienen que frenar.",
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Así que deja un espacio, si tu espacio se come el frenazo, los de atrás no tienen que frenar.",
+     "tries": 1,
+     "seed": 12573536,
+     "kw": {
+      "exaggeration": 0.45,
+      "cfg_weight": 0.4,
+      "temperature": 0.75
+     },
+     "speed": 1.0,
+     "rtf": 14.59
+    }
+   ]
+  },
+  {
+   "name": "short_02_mila",
+   "beat": "S",
+   "speaker": "mila",
+   "voiced": false,
+   "text": "Fuiste tú.",
+   "start": 38.8975,
+   "dur": 0.9176,
+   "after": 0.6,
+   "gain_db": 0.0,
+   "slot_note": "silent text-box slot = Kokoro line duration"
+  }
+ ]
+}

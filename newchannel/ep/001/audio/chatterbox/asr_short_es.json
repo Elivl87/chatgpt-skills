@@ -1,0 +1,11 @@
+{
+ "S": {
+  "heard": "No hay nada en el camino. Alguien tocó el freno apenas y cada auto de atrás frenó un poco más fuerte. Mira, el embotellamiento va hacia atrás, a unos 20 kilómetros por hora, como una bicicleta. Los autos avanzan, pero la fila retrocede. Es una ola. En una pista de Estados Unidos, un solo auto fue a la velocidad promedio, sin perseguir al de adelante. los frenazos casi desaparecieron así que deja un espacio si tu espacio se come el frenazo los de atrás no tienen que frenar",
+  "wer_raw": 0.0,
+  "wer": 0.0,
+  "errors": [],
+  "ref_words": 88,
+  "aligned": "88/88",
+  "unmatched": []
+ }
+}

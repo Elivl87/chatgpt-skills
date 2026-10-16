@@ -1,0 +1,45 @@
+{
+ "duration_s": 40.42,
+ "kokoro_duration_s": 37.35,
+ "loudness": {
+  "I": -18.0,
+  "TP": -2.1,
+  "LRA": 2.2
+ },
+ "words_narrator": 88,
+ "word_errors": 0,
+ "wer": 0.0,
+ "pieces": 6,
+ "retries": 0,
+ "pieces_wer_gt0": [],
+ "narrator_wpm_in_lines": 142.2,
+ "silent_slots": [
+  {
+   "line": "short_00_eli",
+   "speaker": "eli",
+   "start": 0.1,
+   "dur": 0.7075,
+   "text": "¡¿Quién fue?!"
+  },
+  {
+   "line": "short_02_mila",
+   "speaker": "mila",
+   "start": 38.8975,
+   "dur": 0.9176,
+   "text": "Fuiste tú."
+  }
+ ],
+ "words": 92,
+ "beats": {
+  "S": {
+   "start": 0.1,
+   "slot": 40.32,
+   "kokoro_start": 0.1,
+   "kokoro_slot": 37.25,
+   "wer": 0.0,
+   "errors": [],
+   "retries": 0,
+   "pieces_imperfect": []
+  }
+ }
+}
