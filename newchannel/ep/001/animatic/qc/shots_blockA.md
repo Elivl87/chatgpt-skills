@@ -31,7 +31,7 @@
  "longest_shot": 3.73,
  "longest_id": "A17_backtoback",
  "avg_shot": 2.0,
- "size_mb": 5.35,
- "contact_kb": 322
+ "size_mb": 5.44,
+ "contact_kb": 324
 }
 ```

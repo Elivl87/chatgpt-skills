@@ -23,12 +23,12 @@
       297
      ],
      "cl": {
-      "yellow": 0.0037,
+      "yellow": 0.003,
       "purple": 0.1498,
-      "mustard": 0.3476,
+      "mustard": 0.3587,
       "green": 0.0487,
       "blue": 0,
-      "brown": 0.0775,
+      "brown": 0.0768,
       "white": 0.0089,
       "vermilion": 0
      }
@@ -45,13 +45,13 @@
       306
      ],
      "cl": {
-      "yellow": 0.0655,
+      "yellow": 0.065,
       "purple": 0,
-      "mustard": 0.138,
+      "mustard": 0.1539,
       "green": 0,
-      "blue": 0.0583,
-      "brown": 0.234,
-      "white": 0.0486,
+      "blue": 0.0528,
+      "brown": 0.2382,
+      "white": 0.0502,
       "vermilion": 0
      }
     }
@@ -77,12 +77,12 @@
       327
      ],
      "cl": {
-      "yellow": 0.0015,
-      "purple": 0.1519,
-      "mustard": 0.3507,
+      "yellow": 0.0007,
+      "purple": 0.1504,
+      "mustard": 0.3661,
       "green": 0.0536,
       "blue": 0,
-      "brown": 0.0778,
+      "brown": 0.0756,
       "white": 0.0081,
       "vermilion": 0
      }
@@ -99,13 +99,13 @@
       336
      ],
      "cl": {
-      "yellow": 0.061,
+      "yellow": 0.0607,
       "purple": 0,
-      "mustard": 0.1577,
+      "mustard": 0.165,
       "green": 0,
-      "blue": 0.0617,
-      "brown": 0.2416,
-      "white": 0.047,
+      "blue": 0.0575,
+      "brown": 0.2434,
+      "white": 0.0461,
       "vermilion": 0
      }
     }
@@ -131,12 +131,12 @@
       455
      ],
      "cl": {
-      "yellow": 0.0042,
-      "purple": 0.1507,
-      "mustard": 0.344,
+      "yellow": 0.0028,
+      "purple": 0.15,
+      "mustard": 0.3545,
       "green": 0.0551,
       "blue": 0,
-      "brown": 0.0761,
+      "brown": 0.0747,
       "white": 0.0098,
       "vermilion": 0
      }
@@ -153,13 +153,13 @@
       464
      ],
      "cl": {
-      "yellow": 0.0627,
+      "yellow": 0.0625,
       "purple": 0,
-      "mustard": 0.1339,
+      "mustard": 0.1557,
       "green": 0,
-      "blue": 0.0498,
-      "brown": 0.2604,
-      "white": 0.0541,
+      "blue": 0.049,
+      "brown": 0.2551,
+      "white": 0.0552,
       "vermilion": 0
      }
     }
@@ -268,10 +268,10 @@
      "cl": {
       "yellow": 0.0016,
       "purple": 0.1482,
-      "mustard": 0.337,
+      "mustard": 0.3401,
       "green": 0.0406,
       "blue": 0,
-      "brown": 0.1076,
+      "brown": 0.1139,
       "white": 0.0062,
       "vermilion": 0
      }
@@ -288,13 +288,13 @@
       369
      ],
      "cl": {
-      "yellow": 0.0662,
+      "yellow": 0.0657,
       "purple": 0,
-      "mustard": 0.1592,
+      "mustard": 0.1622,
       "green": 0,
-      "blue": 0.0521,
-      "brown": 0.238,
-      "white": 0.0437,
+      "blue": 0.0462,
+      "brown": 0.2573,
+      "white": 0.0448,
       "vermilion": 0
      }
     }
@@ -320,12 +320,12 @@
       361
      ],
      "cl": {
-      "yellow": 0.0016,
-      "purple": 0.1535,
-      "mustard": 0.3393,
+      "yellow": 0,
+      "purple": 0.1519,
+      "mustard": 0.3506,
       "green": 0.042,
       "blue": 0,
-      "brown": 0.0953,
+      "brown": 0.0921,
       "white": 0.0016,
       "vermilion": 0
      }
@@ -342,13 +342,13 @@
       367
      ],
      "cl": {
-      "yellow": 0.0652,
+      "yellow": 0.0651,
       "purple": 0,
-      "mustard": 0.1558,
+      "mustard": 0.1627,
       "green": 0,
-      "blue": 0.051,
-      "brown": 0.2465,
-      "white": 0.0482,
+      "blue": 0.0523,
+      "brown": 0.2574,
+      "white": 0.0481,
       "vermilion": 0
      }
     }
@@ -374,9 +374,9 @@
       358
      ],
      "cl": {
-      "yellow": 0.005,
+      "yellow": 0.0034,
       "purple": 0.1563,
-      "mustard": 0.3563,
+      "mustard": 0.363,
       "green": 0.0454,
       "blue": 0,
       "brown": 0.0807,
@@ -396,13 +396,13 @@
       364
      ],
      "cl": {
-      "yellow": 0.069,
+      "yellow": 0.0684,
       "purple": 0,
-      "mustard": 0.1595,
+      "mustard": 0.1724,
       "green": 0,
-      "blue": 0.0632,
-      "brown": 0.2083,
-      "white": 0.0474,
+      "blue": 0.0627,
+      "brown": 0.2251,
+      "white": 0.0484,
       "vermilion": 0
      }
     }
@@ -428,13 +428,13 @@
       423
      ],
      "cl": {
-      "yellow": 0.0037,
-      "purple": 0.2556,
-      "mustard": 0.3019,
+      "yellow": 0.0005,
+      "purple": 0.2552,
+      "mustard": 0.3079,
       "green": 0,
       "blue": 0,
-      "brown": 0.0793,
-      "white": 0.0122,
+      "brown": 0.0927,
+      "white": 0.0123,
       "vermilion": 0
      }
     },
@@ -447,16 +447,16 @@
       426,
       346,
       462,
-      424
+      429
      ],
      "cl": {
-      "yellow": 0.0978,
+      "yellow": 0.0919,
       "purple": 0,
-      "mustard": 0.2164,
+      "mustard": 0.2343,
       "green": 0,
       "blue": 0,
-      "brown": 0.2114,
-      "white": 0.0809,
+      "brown": 0.2445,
+      "white": 0.0775,
       "vermilion": 0
      }
     }
@@ -482,13 +482,13 @@
       425
      ],
      "cl": {
-      "yellow": 0.0032,
-      "purple": 0.2533,
-      "mustard": 0.31,
+      "yellow": 0.0011,
+      "purple": 0.2537,
+      "mustard": 0.3201,
       "green": 0,
       "blue": 0,
-      "brown": 0.0742,
-      "white": 0.0132,
+      "brown": 0.0966,
+      "white": 0.0133,
       "vermilion": 0
      }
     },
@@ -501,16 +501,16 @@
       424,
       347,
       461,
-      426
+      431
      ],
      "cl": {
-      "yellow": 0.1025,
+      "yellow": 0.0965,
       "purple": 0,
-      "mustard": 0.2061,
+      "mustard": 0.2394,
       "green": 0,
       "blue": 0,
-      "brown": 0.2104,
-      "white": 0.0815,
+      "brown": 0.2381,
+      "white": 0.079,
       "vermilion": 0
      }
     }
@@ -536,12 +536,12 @@
       427
      ],
      "cl": {
-      "yellow": 0.0046,
-      "purple": 0.2559,
-      "mustard": 0.2833,
+      "yellow": 0.0005,
+      "purple": 0.2567,
+      "mustard": 0.3152,
       "green": 0,
       "blue": 0,
-      "brown": 0.1042,
+      "brown": 0.0952,
       "white": 0.0129,
       "vermilion": 0
      }
@@ -555,16 +555,16 @@
       423,
       349,
       460,
-      428
+      433
      ],
      "cl": {
-      "yellow": 0.1046,
+      "yellow": 0.0983,
       "purple": 0,
-      "mustard": 0.1911,
+      "mustard": 0.2226,
       "green": 0,
       "blue": 0,
-      "brown": 0.2087,
-      "white": 0.0889,
+      "brown": 0.2293,
+      "white": 0.0845,
       "vermilion": 0
      }
     }
@@ -590,12 +590,12 @@
       427
      ],
      "cl": {
-      "yellow": 0.002,
+      "yellow": 0.0026,
       "purple": 0.2561,
-      "mustard": 0.2949,
+      "mustard": 0.3173,
       "green": 0,
       "blue": 0,
-      "brown": 0.0786,
+      "brown": 0.0842,
       "white": 0.0102,
       "vermilion": 0
      }
@@ -609,16 +609,16 @@
       423,
       349,
       460,
-      428
+      433
      ],
      "cl": {
-      "yellow": 0.1129,
+      "yellow": 0.1063,
       "purple": 0,
-      "mustard": 0.1871,
+      "mustard": 0.217,
       "green": 0,
       "blue": 0,
-      "brown": 0.2079,
-      "white": 0.0855,
+      "brown": 0.237,
+      "white": 0.0818,
       "vermilion": 0
      }
     }
@@ -644,12 +644,12 @@
       372
      ],
      "cl": {
-      "yellow": 0.0035,
-      "purple": 0.2693,
-      "mustard": 0.3013,
+      "yellow": 0.0018,
+      "purple": 0.2697,
+      "mustard": 0.3195,
       "green": 0,
       "blue": 0,
-      "brown": 0.0552,
+      "brown": 0.0574,
       "white": 0.0222,
       "vermilion": 0
      }
@@ -663,16 +663,16 @@
       459,
       221,
       530,
-      373
+      383
      ],
      "cl": {
-      "yellow": 0.1014,
+      "yellow": 0.0952,
       "purple": 0,
-      "mustard": 0.2047,
+      "mustard": 0.238,
       "green": 0,
       "blue": 0,
-      "brown": 0.2046,
-      "white": 0.113,
+      "brown": 0.221,
+      "white": 0.1063,
       "vermilion": 0
      }
     }
@@ -698,13 +698,13 @@
       370
      ],
      "cl": {
-      "yellow": 0.0038,
-      "purple": 0.2639,
-      "mustard": 0.3071,
+      "yellow": 0.0016,
+      "purple": 0.2643,
+      "mustard": 0.3307,
       "green": 0,
       "blue": 0,
-      "brown": 0.0554,
-      "white": 0.022,
+      "brown": 0.0634,
+      "white": 0.0221,
       "vermilion": 0
      }
     },
@@ -717,16 +717,16 @@
       459,
       221,
       527,
-      371
+      380
      ],
      "cl": {
-      "yellow": 0.1008,
+      "yellow": 0.095,
       "purple": 0,
-      "mustard": 0.2118,
+      "mustard": 0.2391,
       "green": 0,
       "blue": 0,
-      "brown": 0.204,
-      "white": 0.1116,
+      "brown": 0.2274,
+      "white": 0.1057,
       "vermilion": 0
      }
     }
@@ -752,12 +752,12 @@
       367
      ],
      "cl": {
-      "yellow": 0.0034,
-      "purple": 0.2598,
-      "mustard": 0.3008,
+      "yellow": 0.0019,
+      "purple": 0.2602,
+      "mustard": 0.319,
       "green": 0,
       "blue": 0,
-      "brown": 0.0553,
+      "brown": 0.063,
       "white": 0.0215,
       "vermilion": 0
      }
@@ -771,16 +771,16 @@
       456,
       222,
       525,
-      369
+      378
      ],
      "cl": {
-      "yellow": 0.098,
+      "yellow": 0.0925,
       "purple": 0,
-      "mustard": 0.2076,
+      "mustard": 0.2375,
       "green": 0,
       "blue": 0,
-      "brown": 0.1958,
-      "white": 0.1108,
+      "brown": 0.2199,
+      "white": 0.1046,
       "vermilion": 0
      }
     }
@@ -806,12 +806,12 @@
       488
      ],
      "cl": {
-      "yellow": 0.0043,
-      "purple": 0.2744,
-      "mustard": 0.2999,
+      "yellow": 0.0025,
+      "purple": 0.2748,
+      "mustard": 0.3252,
       "green": 0,
       "blue": 0,
-      "brown": 0.0338,
+      "brown": 0.034,
       "white": 0.0253,
       "vermilion": 0
      }
@@ -822,19 +822,19 @@
      "pose": "lap",
      "view": "front",
      "box": [
-      376,
+      377,
       271,
       486,
       488
      ],
      "cl": {
-      "yellow": 0.1083,
+      "yellow": 0.1082,
       "purple": 0,
-      "mustard": 0.208,
+      "mustard": 0.2283,
       "green": 0,
       "blue": 0,
-      "brown": 0.2009,
-      "white": 0.1196,
+      "brown": 0.2101,
+      "white": 0.1199,
       "vermilion": 0
      }
     }
@@ -860,13 +860,13 @@
       488
      ],
      "cl": {
-      "yellow": 0.0045,
-      "purple": 0.2798,
-      "mustard": 0.3033,
+      "yellow": 0.0025,
+      "purple": 0.2803,
+      "mustard": 0.3332,
       "green": 0,
       "blue": 0,
-      "brown": 0.0309,
-      "white": 0.0257,
+      "brown": 0.0315,
+      "white": 0.0258,
       "vermilion": 0
      }
     },
@@ -882,13 +882,13 @@
       410
      ],
      "cl": {
-      "yellow": 0.0637,
+      "yellow": 0.0631,
       "purple": 0,
-      "mustard": 0.2038,
+      "mustard": 0.2234,
       "green": 0,
-      "blue": 0.0536,
-      "brown": 0.1933,
-      "white": 0.099,
+      "blue": 0.0504,
+      "brown": 0.1757,
+      "white": 0.0985,
       "vermilion": 0
      }
     }
@@ -914,13 +914,13 @@
       488
      ],
      "cl": {
-      "yellow": 0.0046,
-      "purple": 0.2717,
-      "mustard": 0.3121,
+      "yellow": 0.0024,
+      "purple": 0.2721,
+      "mustard": 0.3392,
       "green": 0,
       "blue": 0,
-      "brown": 0.031,
-      "white": 0.0268,
+      "brown": 0.0317,
+      "white": 0.0269,
       "vermilion": 0
      }
     },
@@ -936,13 +936,13 @@
       415
      ],
      "cl": {
-      "yellow": 0.0631,
+      "yellow": 0.0625,
       "purple": 0,
-      "mustard": 0.2056,
+      "mustard": 0.2247,
       "green": 0,
-      "blue": 0.0526,
-      "brown": 0.1863,
-      "white": 0.102,
+      "blue": 0.0495,
+      "brown": 0.1705,
+      "white": 0.1014,
       "vermilion": 0
      }
     }
@@ -968,12 +968,12 @@
       424
      ],
      "cl": {
-      "yellow": 0.0031,
-      "purple": 0.2709,
-      "mustard": 0.3134,
+      "yellow": 0,
+      "purple": 0.2713,
+      "mustard": 0.342,
       "green": 0,
       "blue": 0,
-      "brown": 0.0877,
+      "brown": 0.0936,
       "white": 0,
       "vermilion": 0
      }
@@ -987,16 +987,16 @@
       431,
       342,
       468,
-      425
+      430
      ],
      "cl": {
-      "yellow": 0.1037,
+      "yellow": 0.0978,
       "purple": 0,
-      "mustard": 0.1963,
+      "mustard": 0.2245,
       "green": 0,
       "blue": 0,
-      "brown": 0.206,
-      "white": 0.0782,
+      "brown": 0.2358,
+      "white": 0.0738,
       "vermilion": 0
      }
     }
@@ -1022,12 +1022,12 @@
       418
      ],
      "cl": {
-      "yellow": 0.0016,
-      "purple": 0.1774,
-      "mustard": 0.365,
+      "yellow": 0.0006,
+      "purple": 0.1775,
+      "mustard": 0.3841,
       "green": 0.0583,
       "blue": 0,
-      "brown": 0.063,
+      "brown": 0.0574,
       "white": 0,
       "vermilion": 0
      }
@@ -1041,16 +1041,16 @@
       432,
       343,
       469,
-      424
+      429
      ],
      "cl": {
-      "yellow": 0.1018,
+      "yellow": 0.0958,
       "purple": 0,
-      "mustard": 0.1942,
+      "mustard": 0.2169,
       "green": 0,
       "blue": 0,
-      "brown": 0.2092,
-      "white": 0.0787,
+      "brown": 0.2467,
+      "white": 0.0754,
       "vermilion": 0
      }
     }
@@ -1076,13 +1076,13 @@
       423
      ],
      "cl": {
-      "yellow": 0.0026,
-      "purple": 0.2637,
-      "mustard": 0.3096,
+      "yellow": 0.0005,
+      "purple": 0.264,
+      "mustard": 0.3384,
       "green": 0,
       "blue": 0,
-      "brown": 0.1013,
-      "white": 0.0005,
+      "brown": 0.094,
+      "white": 0,
       "vermilion": 0
      }
     },
@@ -1094,17 +1094,17 @@
      "box": [
       432,
       342,
-      469,
-      424
+      468,
+      429
      ],
      "cl": {
-      "yellow": 0.1028,
+      "yellow": 0.0968,
       "purple": 0,
-      "mustard": 0.1957,
+      "mustard": 0.2163,
       "green": 0,
       "blue": 0,
-      "brown": 0.2112,
-      "white": 0.0736,
+      "brown": 0.239,
+      "white": 0.0715,
       "vermilion": 0
      }
     }
@@ -1130,12 +1130,12 @@
       422
      ],
      "cl": {
-      "yellow": 0.0032,
-      "purple": 0.2599,
-      "mustard": 0.3098,
+      "yellow": 0.0005,
+      "purple": 0.2603,
+      "mustard": 0.3419,
       "green": 0,
       "blue": 0,
-      "brown": 0.0906,
+      "brown": 0.0966,
       "white": 0,
       "vermilion": 0
      }
@@ -1149,16 +1149,16 @@
       429,
       343,
       465,
-      423
+      428
      ],
      "cl": {
-      "yellow": 0.1014,
+      "yellow": 0.0954,
       "purple": 0,
-      "mustard": 0.1937,
+      "mustard": 0.2166,
       "green": 0,
       "blue": 0,
-      "brown": 0.2126,
-      "white": 0.0749,
+      "brown": 0.2502,
+      "white": 0.0722,
       "vermilion": 0
      }
     }
@@ -1184,13 +1184,13 @@
       274
      ],
      "cl": {
-      "yellow": 0.0641,
-      "purple": 0.0014,
-      "mustard": 0.2049,
+      "yellow": 0.0639,
+      "purple": 0.0012,
+      "mustard": 0.2235,
       "green": 0,
-      "blue": 0.0428,
-      "brown": 0.2002,
-      "white": 0.0722,
+      "blue": 0.0409,
+      "brown": 0.1936,
+      "white": 0.0734,
       "vermilion": 0
      }
     }
@@ -1216,12 +1216,12 @@
       274
      ],
      "cl": {
-      "yellow": 0.0663,
+      "yellow": 0.0656,
       "purple": 0,
-      "mustard": 0.2105,
+      "mustard": 0.2272,
       "green": 0,
-      "blue": 0.0466,
-      "brown": 0.1988,
+      "blue": 0.0453,
+      "brown": 0.1861,
       "white": 0.0791,
       "vermilion": 0
      }
@@ -1248,13 +1248,13 @@
       275
      ],
      "cl": {
-      "yellow": 0.0672,
-      "purple": 0.0028,
-      "mustard": 0.204,
+      "yellow": 0.0668,
+      "purple": 0.0025,
+      "mustard": 0.2227,
       "green": 0,
-      "blue": 0.0449,
-      "brown": 0.2109,
-      "white": 0.0765,
+      "blue": 0.0419,
+      "brown": 0.1973,
+      "white": 0.0769,
       "vermilion": 0
      }
     }
@@ -1280,13 +1280,13 @@
       317
      ],
      "cl": {
-      "yellow": 0.0627,
+      "yellow": 0.0621,
       "purple": 0.0001,
-      "mustard": 0.2048,
+      "mustard": 0.2277,
       "green": 0,
-      "blue": 0.0546,
-      "brown": 0.1847,
-      "white": 0.1028,
+      "blue": 0.0517,
+      "brown": 0.1676,
+      "white": 0.1019,
       "vermilion": 0
      }
     }
@@ -1312,13 +1312,13 @@
       316
      ],
      "cl": {
-      "yellow": 0.0628,
+      "yellow": 0.0622,
       "purple": 0.0001,
-      "mustard": 0.2048,
+      "mustard": 0.2278,
       "green": 0,
-      "blue": 0.0542,
-      "brown": 0.1872,
-      "white": 0.102,
+      "blue": 0.0511,
+      "brown": 0.1693,
+      "white": 0.1008,
       "vermilion": 0
      }
     }
@@ -1344,13 +1344,13 @@
       314
      ],
      "cl": {
-      "yellow": 0.0627,
+      "yellow": 0.0622,
       "purple": 0,
-      "mustard": 0.2038,
+      "mustard": 0.2276,
       "green": 0,
-      "blue": 0.0554,
-      "brown": 0.1854,
-      "white": 0.1023,
+      "blue": 0.0522,
+      "brown": 0.1708,
+      "white": 0.1015,
       "vermilion": 0
      }
     }
@@ -1370,19 +1370,19 @@
      "pose": "lap",
      "view": "front",
      "box": [
-      589,
+      590,
       244,
       686,
-      468
+      481
      ],
      "cl": {
-      "yellow": 0.0882,
+      "yellow": 0.0833,
       "purple": 0,
-      "mustard": 0.2036,
+      "mustard": 0.2395,
       "green": 0,
       "blue": 0,
-      "brown": 0.1984,
-      "white": 0.1279,
+      "brown": 0.2103,
+      "white": 0.1208,
       "vermilion": 0
      }
     },
@@ -1398,12 +1398,12 @@
       488
      ],
      "cl": {
-      "yellow": 0.0014,
-      "purple": 0.1751,
-      "mustard": 0.3775,
+      "yellow": 0.0012,
+      "purple": 0.1752,
+      "mustard": 0.3886,
       "green": 0.0444,
       "blue": 0,
-      "brown": 0.0673,
+      "brown": 0.0727,
       "white": 0.0015,
       "vermilion": 0
      }
@@ -1427,16 +1427,16 @@
       590,
       247,
       689,
-      472
+      485
      ],
      "cl": {
-      "yellow": 0.0899,
+      "yellow": 0.0849,
       "purple": 0,
-      "mustard": 0.2001,
+      "mustard": 0.234,
       "green": 0,
       "blue": 0,
-      "brown": 0.1993,
-      "white": 0.131,
+      "brown": 0.2079,
+      "white": 0.1238,
       "vermilion": 0
      }
     },
@@ -1452,12 +1452,12 @@
       488
      ],
      "cl": {
-      "yellow": 0.0009,
-      "purple": 0.179,
-      "mustard": 0.3894,
+      "yellow": 0.0007,
+      "purple": 0.1791,
+      "mustard": 0.405,
       "green": 0.0377,
       "blue": 0,
-      "brown": 0.0585,
+      "brown": 0.0597,
       "white": 0.0019,
       "vermilion": 0
      }
@@ -1481,16 +1481,16 @@
       591,
       260,
       692,
-      475
+      488
      ],
      "cl": {
-      "yellow": 0.1006,
+      "yellow": 0.0948,
       "purple": 0,
-      "mustard": 0.2108,
+      "mustard": 0.2475,
       "green": 0,
-      "blue": 0.001,
-      "brown": 0.1833,
-      "white": 0.1106,
+      "blue": 0.0009,
+      "brown": 0.1949,
+      "white": 0.1045,
       "vermilion": 0
      }
     },
@@ -1506,12 +1506,12 @@
       488
      ],
      "cl": {
-      "yellow": 0.0007,
-      "purple": 0.1842,
-      "mustard": 0.3967,
+      "yellow": 0.0011,
+      "purple": 0.1843,
+      "mustard": 0.4151,
       "green": 0.0341,
       "blue": 0,
-      "brown": 0.0667,
+      "brown": 0.0672,
       "white": 0.0016,
       "vermilion": 0
      }
@@ -1538,12 +1538,12 @@
       361
      ],
      "cl": {
-      "yellow": 0.0762,
+      "yellow": 0.0761,
       "purple": 0.002,
-      "mustard": 0.0128,
+      "mustard": 0.0127,
       "green": 0,
       "blue": 0.0577,
-      "brown": 0,
+      "brown": 0.006,
       "white": 0,
       "vermilion": 0
      }
@@ -1560,12 +1560,12 @@
       381
      ],
      "cl": {
-      "yellow": 0.0007,
-      "purple": 0.2627,
-      "mustard": 0.1597,
+      "yellow": 0,
+      "purple": 0.2579,
+      "mustard": 0.1816,
       "green": 0.0585,
       "blue": 0.0018,
-      "brown": 0.0712,
+      "brown": 0.0731,
       "white": 0,
       "vermilion": 0
      }
@@ -1592,12 +1592,12 @@
       359
      ],
      "cl": {
-      "yellow": 0.0734,
-      "purple": 0.0024,
+      "yellow": 0.0733,
+      "purple": 0.0027,
       "mustard": 0.024,
       "green": 0,
-      "blue": 0.0585,
-      "brown": 0,
+      "blue": 0.0584,
+      "brown": 0.0041,
       "white": 0,
       "vermilion": 0
      }
@@ -1615,11 +1615,11 @@
      ],
      "cl": {
       "yellow": 0,
-      "purple": 0.265,
-      "mustard": 0.1633,
+      "purple": 0.2617,
+      "mustard": 0.1751,
       "green": 0.0621,
       "blue": 0.0019,
-      "brown": 0.0726,
+      "brown": 0.0825,
       "white": 0,
       "vermilion": 0
      }
@@ -1646,12 +1646,12 @@
       357
      ],
      "cl": {
-      "yellow": 0.0712,
-      "purple": 0.0014,
-      "mustard": 0.029,
+      "yellow": 0.0711,
+      "purple": 0.0031,
+      "mustard": 0.0289,
       "green": 0,
       "blue": 0.0593,
-      "brown": 0,
+      "brown": 0.0042,
       "white": 0,
       "vermilion": 0
      }
@@ -1668,12 +1668,12 @@
       377
      ],
      "cl": {
-      "yellow": 0.0004,
-      "purple": 0.2679,
-      "mustard": 0.1616,
+      "yellow": 0,
+      "purple": 0.2638,
+      "mustard": 0.1827,
       "green": 0.0592,
       "blue": 0.0015,
-      "brown": 0.0678,
+      "brown": 0.0712,
       "white": 0,
       "vermilion": 0
      }
@@ -1700,12 +1700,12 @@
       356
      ],
      "cl": {
-      "yellow": 0.0732,
-      "purple": 0.0007,
-      "mustard": 0.0208,
+      "yellow": 0.0731,
+      "purple": 0.0032,
+      "mustard": 0.0207,
       "green": 0,
       "blue": 0.0598,
-      "brown": 0.0035,
+      "brown": 0.0077,
       "white": 0,
       "vermilion": 0
      }
@@ -1723,11 +1723,11 @@
      ],
      "cl": {
       "yellow": 0,
-      "purple": 0.2633,
-      "mustard": 0.1614,
+      "purple": 0.2598,
+      "mustard": 0.1752,
       "green": 0.0646,
       "blue": 0.0008,
-      "brown": 0.0703,
+      "brown": 0.0807,
       "white": 0,
       "vermilion": 0
      }
@@ -1754,12 +1754,12 @@
       358
      ],
      "cl": {
-      "yellow": 0.0701,
-      "purple": 0.0003,
+      "yellow": 0.07,
+      "purple": 0.0027,
       "mustard": 0.0284,
       "green": 0,
-      "blue": 0.0569,
-      "brown": 0,
+      "blue": 0.0568,
+      "brown": 0.0044,
       "white": 0,
       "vermilion": 0
      }
@@ -1776,9 +1776,9 @@
       378
      ],
      "cl": {
-      "yellow": 0.0007,
-      "purple": 0.2587,
-      "mustard": 0.1574,
+      "yellow": 0,
+      "purple": 0.2605,
+      "mustard": 0.1826,
       "green": 0.0632,
       "blue": 0.0015,
       "brown": 0.0684,
@@ -1808,12 +1808,12 @@
       360
      ],
      "cl": {
-      "yellow": 0.0766,
-      "purple": 0.002,
+      "yellow": 0.0765,
+      "purple": 0.0023,
       "mustard": 0.0177,
       "green": 0,
-      "blue": 0.0572,
-      "brown": 0.002,
+      "blue": 0.0568,
+      "brown": 0.0057,
       "white": 0,
       "vermilion": 0
      }
@@ -1830,12 +1830,12 @@
       380
      ],
      "cl": {
-      "yellow": 0.0004,
-      "purple": 0.2674,
-      "mustard": 0.1507,
-      "green": 0.0609,
+      "yellow": 0,
+      "purple": 0.2639,
+      "mustard": 0.1715,
+      "green": 0.061,
       "blue": 0.0015,
-      "brown": 0.0908,
+      "brown": 0.0843,
       "white": 0,
       "vermilion": 0
      }
@@ -1862,12 +1862,12 @@
       361
      ],
      "cl": {
-      "yellow": 0.0715,
-      "purple": 0.0013,
+      "yellow": 0.0714,
+      "purple": 0.0027,
       "mustard": 0.0163,
       "green": 0,
-      "blue": 0.0599,
-      "brown": 0.0073,
+      "blue": 0.0601,
+      "brown": 0.0126,
       "white": 0,
       "vermilion": 0
      }
@@ -1884,12 +1884,12 @@
       381
      ],
      "cl": {
-      "yellow": 0.0004,
-      "purple": 0.2596,
-      "mustard": 0.1598,
+      "yellow": 0,
+      "purple": 0.2578,
+      "mustard": 0.1797,
       "green": 0.0585,
       "blue": 0.0011,
-      "brown": 0.0744,
+      "brown": 0.0792,
       "white": 0,
       "vermilion": 0
      }
@@ -1917,11 +1917,11 @@
      ],
      "cl": {
       "yellow": 0.0715,
-      "purple": 0.002,
+      "purple": 0.0034,
       "mustard": 0.0272,
       "green": 0,
-      "blue": 0.0593,
-      "brown": 0,
+      "blue": 0.0589,
+      "brown": 0.0051,
       "white": 0,
       "vermilion": 0
      }
@@ -1938,12 +1938,12 @@
       378
      ],
      "cl": {
-      "yellow": 0.0008,
-      "purple": 0.2614,
-      "mustard": 0.1614,
+      "yellow": 0,
+      "purple": 0.2565,
+      "mustard": 0.1852,
       "green": 0.0619,
       "blue": 0.0011,
-      "brown": 0.0747,
+      "brown": 0.0762,
       "white": 0,
       "vermilion": 0
      }
@@ -1970,12 +1970,12 @@
       357
      ],
      "cl": {
-      "yellow": 0.08,
-      "purple": 0.0014,
+      "yellow": 0.0799,
+      "purple": 0.0028,
       "mustard": 0.019,
       "green": 0,
-      "blue": 0.0571,
-      "brown": 0.0018,
+      "blue": 0.057,
+      "brown": 0.0063,
       "white": 0,
       "vermilion": 0
      }
@@ -1992,12 +1992,12 @@
       376
      ],
      "cl": {
-      "yellow": 0.0004,
-      "purple": 0.2728,
-      "mustard": 0.1594,
+      "yellow": 0,
+      "purple": 0.2701,
+      "mustard": 0.1813,
       "green": 0.0619,
       "blue": 0.0015,
-      "brown": 0.0741,
+      "brown": 0.0734,
       "white": 0,
       "vermilion": 0
      }
@@ -2024,12 +2024,12 @@
       337
      ],
      "cl": {
-      "yellow": 0.0803,
-      "purple": 0.0027,
+      "yellow": 0.0802,
+      "purple": 0.0024,
       "mustard": 0.0158,
       "green": 0,
-      "blue": 0.06,
-      "brown": 0.0013,
+      "blue": 0.0594,
+      "brown": 0.0077,
       "white": 0,
       "vermilion": 0
      }
@@ -2046,12 +2046,12 @@
       375
      ],
      "cl": {
-      "yellow": 0.0014,
+      "yellow": 0.0003,
       "purple": 0.2475,
-      "mustard": 0.1548,
-      "green": 0.0662,
-      "blue": 0.0055,
-      "brown": 0.082,
+      "mustard": 0.1744,
+      "green": 0.0663,
+      "blue": 0.0053,
+      "brown": 0.0832,
       "white": 0,
       "vermilion": 0
      }
@@ -2079,11 +2079,11 @@
      ],
      "cl": {
       "yellow": 0.0842,
-      "purple": 0.0057,
+      "purple": 0.0015,
       "mustard": 0.0124,
       "green": 0,
-      "blue": 0.0622,
-      "brown": 0.0002,
+      "blue": 0.0615,
+      "brown": 0.0067,
       "white": 0,
       "vermilion": 0
      }
@@ -2100,12 +2100,12 @@
       374
      ],
      "cl": {
-      "yellow": 0.0012,
-      "purple": 0.2462,
-      "mustard": 0.1579,
+      "yellow": 0.0006,
+      "purple": 0.2423,
+      "mustard": 0.1782,
       "green": 0.0658,
-      "blue": 0.0109,
-      "brown": 0.0773,
+      "blue": 0.0116,
+      "brown": 0.0822,
       "white": 0,
       "vermilion": 0
      }
@@ -2132,12 +2132,12 @@
       335
      ],
      "cl": {
-      "yellow": 0.0809,
-      "purple": 0.0068,
+      "yellow": 0.0808,
+      "purple": 0.0067,
       "mustard": 0.0129,
       "green": 0,
-      "blue": 0.0606,
-      "brown": 0.0008,
+      "blue": 0.06,
+      "brown": 0.0067,
       "white": 0,
       "vermilion": 0
      }
@@ -2154,12 +2154,12 @@
       372
      ],
      "cl": {
-      "yellow": 0.0014,
-      "purple": 0.2432,
-      "mustard": 0.1529,
+      "yellow": 0.0004,
+      "purple": 0.2391,
+      "mustard": 0.173,
       "green": 0.0675,
-      "blue": 0.0105,
-      "brown": 0.0842,
+      "blue": 0.011,
+      "brown": 0.0888,
       "white": 0,
       "vermilion": 0
      }
@@ -2183,16 +2183,16 @@
       295,
       247,
       473,
-      454
+      467
      ],
      "cl": {
-      "yellow": 0.0863,
-      "purple": 0.0021,
-      "mustard": 0.0761,
+      "yellow": 0.0825,
+      "purple": 0.0019,
+      "mustard": 0.0958,
       "green": 0,
-      "blue": 0.0477,
-      "brown": 0.1822,
-      "white": 0.0971,
+      "blue": 0.0454,
+      "brown": 0.1839,
+      "white": 0.0935,
       "vermilion": 0
      }
     },
@@ -2208,12 +2208,12 @@
       445
      ],
      "cl": {
-      "yellow": 0.0001,
+      "yellow": 0.0005,
       "purple": 0.2062,
-      "mustard": 0.235,
-      "green": 0.1066,
+      "mustard": 0.2459,
+      "green": 0.1067,
       "blue": 0.007,
-      "brown": 0.0223,
+      "brown": 0.0245,
       "white": 0.0149,
       "vermilion": 0
      }
@@ -2236,17 +2236,17 @@
      "box": [
       292,
       242,
-      429,
-      456
+      439,
+      469
      ],
      "cl": {
-      "yellow": 0.0843,
-      "purple": 0.0033,
-      "mustard": 0.0791,
+      "yellow": 0.0822,
+      "purple": 0.0039,
+      "mustard": 0.1016,
       "green": 0,
-      "blue": 0.048,
-      "brown": 0.179,
-      "white": 0.0961,
+      "blue": 0.0462,
+      "brown": 0.1815,
+      "white": 0.0903,
       "vermilion": 0
      }
     },
@@ -2262,12 +2262,12 @@
       447
      ],
      "cl": {
-      "yellow": 0,
+      "yellow": 0.0004,
       "purple": 0.2039,
-      "mustard": 0.2333,
+      "mustard": 0.2446,
       "green": 0.1048,
       "blue": 0.0075,
-      "brown": 0.022,
+      "brown": 0.023,
       "white": 0.0162,
       "vermilion": 0
      }
@@ -2291,16 +2291,16 @@
       290,
       242,
       410,
-      457
+      470
      ],
      "cl": {
-      "yellow": 0.0917,
-      "purple": 0.002,
-      "mustard": 0.0858,
+      "yellow": 0.0874,
+      "purple": 0.0021,
+      "mustard": 0.1091,
       "green": 0,
-      "blue": 0.0503,
-      "brown": 0.1932,
-      "white": 0.0991,
+      "blue": 0.0477,
+      "brown": 0.1888,
+      "white": 0.0945,
       "vermilion": 0
      }
     },
@@ -2316,12 +2316,12 @@
       447
      ],
      "cl": {
-      "yellow": 0,
-      "purple": 0.2038,
-      "mustard": 0.2321,
-      "green": 0.1069,
+      "yellow": 0.0003,
+      "purple": 0.2039,
+      "mustard": 0.2429,
+      "green": 0.107,
       "blue": 0.0081,
-      "brown": 0.0229,
+      "brown": 0.0272,
       "white": 0.0155,
       "vermilion": 0
      }
@@ -2345,16 +2345,16 @@
       288,
       234,
       407,
-      459
+      472
      ],
      "cl": {
-      "yellow": 0.094,
-      "purple": 0.0036,
-      "mustard": 0.1105,
+      "yellow": 0.0896,
+      "purple": 0.0033,
+      "mustard": 0.1336,
       "green": 0,
-      "blue": 0.0422,
-      "brown": 0.202,
-      "white": 0.0913,
+      "blue": 0.0403,
+      "brown": 0.201,
+      "white": 0.0874,
       "vermilion": 0
      }
     },
@@ -2370,12 +2370,12 @@
       466
      ],
      "cl": {
-      "yellow": 0.0001,
+      "yellow": 0.0004,
       "purple": 0.1992,
-      "mustard": 0.2529,
+      "mustard": 0.2677,
       "green": 0.1036,
       "blue": 0.0101,
-      "brown": 0.0209,
+      "brown": 0.0198,
       "white": 0.0152,
       "vermilion": 0
      }

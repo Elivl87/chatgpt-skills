@@ -1,0 +1,17 @@
+{
+ "block": "A",
+ "checked": 110,
+ "fail": 2,
+ "fails": [
+  [
+   "pop",
+   "A01_wide t1.01 mila1 lap/back",
+   "brown share 0.106 -> 0.063 in 1/30 s"
+  ],
+  [
+   "colour",
+   "A09_visor t19.61 eli1 visor/q",
+   "no jeans blue (0.008)"
+  ]
+ ]
+}

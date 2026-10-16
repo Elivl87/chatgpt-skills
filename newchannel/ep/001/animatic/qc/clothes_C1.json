@@ -1,0 +1,22 @@
+{
+ "block": "C1",
+ "checked": 29,
+ "fail": 3,
+ "fails": [
+  [
+   "colour",
+   "C01_slow t0.25 mila1 palm/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "C01_slow t0.83 mila1 palm/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "C01_slow t1.50 mila1 palm/q",
+   "no green boots (0.000)"
+  ]
+ ]
+}

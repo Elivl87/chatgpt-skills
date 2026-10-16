@@ -1,0 +1,147 @@
+{
+ "block": "D2",
+ "checked": 166,
+ "fail": 28,
+ "fails": [
+  [
+   "colour",
+   "F01_knob t2.86 eli1 point/q",
+   "no jeans blue (0.000)"
+  ],
+  [
+   "colour",
+   "F01_knob t3.58 eli1 point/q",
+   "no jeans blue (0.000)"
+  ],
+  [
+   "colour",
+   "F01_knob t4.39 eli1 point/q",
+   "no jeans blue (0.000)"
+  ],
+  [
+   "colour",
+   "F03_yell t5.98 eli1 fist/q",
+   "no jeans blue (0.004)"
+  ],
+  [
+   "colour",
+   "F03_yell t6.30 eli1 fist/q",
+   "no jeans blue (0.009)"
+  ],
+  [
+   "colour",
+   "F05_eli t7.94 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F05_eli t8.19 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F05_eli t8.52 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F08_fav t15.50 mila1 clasp/front",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F08_fav t16.48 mila1 clasp/front",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F08_fav t17.56 mila1 clasp/front",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t57.05 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t57.87 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t59.25 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t59.25 eli1 surprise/front",
+   "no jeans blue (0.009)"
+  ],
+  [
+   "colour",
+   "F19_late t59.64 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t59.64 eli1 pointSelf/front",
+   "no jeans blue (0.009)"
+  ],
+  [
+   "colour",
+   "F19_late t60.23 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t60.23 eli1 pointSelf/front",
+   "no jeans blue (0.006)"
+  ],
+  [
+   "colour",
+   "F19_late t60.59 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t60.59 eli1 pointSelf/front",
+   "no jeans blue (0.006)"
+  ],
+  [
+   "colour",
+   "F19_late t60.85 mila1 crossed/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t60.85 eli1 pointSelf/front",
+   "no jeans blue (0.005)"
+  ],
+  [
+   "colour",
+   "F19_late t61.54 mila1 palm/q",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F19_late t61.54 eli1 pointSelf/front",
+   "no jeans blue (0.004)"
+  ],
+  [
+   "colour",
+   "F22_ojo t66.95 mila1 point/front",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F22_ojo t67.81 mila1 point/front",
+   "no green boots (0.000)"
+  ],
+  [
+   "colour",
+   "F22_ojo t68.77 mila1 point/front",
+   "no green boots (0.000)"
+  ]
+ ]
+}

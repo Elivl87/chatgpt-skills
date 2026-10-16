@@ -13,7 +13,7 @@
   [
    "file size <= 30 MB (chat delivery)",
    "PASS",
-   "5.35 MB"
+   "5.44 MB"
   ],
   [
    "audio AAC 48 kHz",
@@ -28,7 +28,7 @@
   [
    "true peak <= -1.0 dBTP",
    "PASS",
-   "-1.5 dBTP"
+   "-1.4 dBTP"
   ],
   [
    "no black frames",
@@ -43,80 +43,75 @@
   [
    "no undeclared silence >= 0.5 s",
    "PASS",
-   "declared only: [(40.9602, 42.0267)]"
+   "none"
   ]
  ],
  "loudness": {
   "I": -14.1,
-  "TP": -1.5,
-  "LRA": 3.6
+  "TP": -1.4,
+  "LRA": 9.2
  },
  "detect": {
   "black": [],
   "freeze": [],
-  "silence": [
-   [
-    40.9602,
-    42.0267
-   ]
-  ]
+  "silence": []
  },
  "pacing": {
   "name": "blockA",
   "source": "/home/user/chatgpt-skills/newchannel/ep/001/animatic/blockA_draft.mp4",
   "duration_s": 42.0,
-  "shots": 22,
-  "avg_shot_s": 1.91,
-  "median_shot_s": 1.58,
+  "shots": 21,
+  "avg_shot_s": 2.0,
+  "median_shot_s": 1.66,
   "longest_shot_s": 3.84,
-  "cuts_per_min": 30.0,
-  "motion_share": 0.888,
+  "cuts_per_min": 28.6,
+  "motion_share": 0.904,
   "still_2s_runs": 0,
-  "brightness_mean": 0.605,
-  "saturation_mean": 0.364,
+  "brightness_mean": 0.606,
+  "saturation_mean": 0.363,
   "palette": [
    [
-    "#644f62",
-    0.154
+    "#634f5f",
+    0.168
    ],
    [
-    "#bf9783",
-    0.147
+    "#be9684",
+    0.143
    ],
    [
     "#ddb68d",
-    0.124
-   ],
-   [
-    "#947e4d",
     0.123
    ],
    [
-    "#b7915d",
-    0.118
+    "#977f4e",
+    0.122
    ],
    [
-    "#906d7b",
+    "#b9925d",
+    0.112
+   ],
+   [
+    "#8f6d7b",
     0.104
    ],
    [
-    "#453346",
-    0.104
+    "#443346",
+    0.1
    ],
    [
-    "#716044",
-    0.094
+    "#776444",
+    0.091
    ],
    [
     "#33665e",
     0.019
    ],
    [
-    "#e8d9c8",
-    0.015
+    "#e9dccb",
+    0.018
    ]
   ],
-  "loud_db_p90": -11.6,
+  "loud_db_p90": -11.7,
   "pauses_ge_0_5s": 0,
   "pause_mean_s": 0,
   "pause_longest_s": 0,
@@ -125,5 +120,5 @@
   "wpm_while_speaking": 207
  },
  "duration": 42.033333,
- "size": 5345559
+ "size": 5439922
 }

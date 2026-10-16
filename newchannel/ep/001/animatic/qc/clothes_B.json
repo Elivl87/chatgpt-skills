@@ -1,0 +1,37 @@
+{
+ "block": "B",
+ "checked": 129,
+ "fail": 6,
+ "fails": [
+  [
+   "thin",
+   "B06_finger t14.17 eli1 point/q",
+   "35 px of stray thin strokes, worst 3.5 ink long at [[353, 482, 361, 488, 35]]"
+  ],
+  [
+   "thin",
+   "B06_finger t14.49 eli1 point/q",
+   "35 px of stray thin strokes, worst 3.5 ink long at [[353, 482, 361, 488, 35]]"
+  ],
+  [
+   "thin",
+   "B06_finger t17.37 mila1 clipboard/q",
+   "37 px of stray thin strokes, worst 3.5 ink long at [[618, 482, 626, 488, 37]]"
+  ],
+  [
+   "thin",
+   "B06_finger t17.87 mila1 clipboard/q",
+   "29 px of stray thin strokes, worst 3.5 ink long at [[619, 483, 627, 488, 29]]"
+  ],
+  [
+   "colour",
+   "B17_eli_shrug t41.20 eli1 shrug/front",
+   "no jeans blue (0.000)"
+  ],
+  [
+   "colour",
+   "B17_eli_shrug t41.64 eli1 shrug/front",
+   "no jeans blue (0.000)"
+  ]
+ ]
+}

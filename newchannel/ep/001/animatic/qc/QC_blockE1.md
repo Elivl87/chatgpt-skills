@@ -1,12 +1,12 @@
 # QC · blockE1
 
-File: `blockE1_draft.mp4` · 48.29 s · 30/1 fps · 5.20 MB · 0.9 Mb/s
+File: `blockE1_draft.mp4` · 48.29 s · 30/1 fps · 5.26 MB · 0.9 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 854x480 |
-| file size <= 30 MB (chat delivery) | **PASS** | 5.20 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 5.26 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.1 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -1.4 dBTP |
@@ -14,7 +14,7 @@ File: `blockE1_draft.mp4` · 48.29 s · 30/1 fps · 5.20 MB · 0.9 Mb/s
 | no undeclared freezes >= 0.5 s | **PASS** | none |
 | no undeclared silence >= 0.5 s | **PASS** | none |
 
-Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.4 dBTP, LRA 1.7 LU.
+Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.4 dBTP, LRA 1.9 LU.
 
 ## Pacing (secondquest style_bible.py + pacing_qc.py)
 
@@ -27,7 +27,7 @@ Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.4 dBTP, LRA 1.7 
 | cuts_per_min | 21.1 |
 | motion_share | 0.948 |
 | still_2s_runs | 0 |
-| brightness_mean | 0.643 |
+| brightness_mean | 0.644 |
 | saturation_mean | 0.309 |
 | wpm_overall | 146 |
 | wpm_while_speaking | 187 |
