@@ -13,7 +13,7 @@
   [
    "file size <= 30 MB (chat delivery)",
    "PASS",
-   "5.44 MB"
+   "5.43 MB"
   ],
   [
    "audio AAC 48 kHz",
@@ -65,7 +65,7 @@
   "median_shot_s": 1.66,
   "longest_shot_s": 3.84,
   "cuts_per_min": 28.6,
-  "motion_share": 0.904,
+  "motion_share": 0.9,
   "still_2s_runs": 0,
   "brightness_mean": 0.606,
   "saturation_mean": 0.363,
@@ -107,7 +107,7 @@
     0.019
    ],
    [
-    "#e9dccb",
+    "#e9dcca",
     0.018
    ]
   ],
@@ -120,5 +120,5 @@
   "wpm_while_speaking": 207
  },
  "duration": 42.033333,
- "size": 5439922
+ "size": 5427950
 }

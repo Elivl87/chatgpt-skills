@@ -4,60 +4,15 @@
  "samples": 92,
  "faces": 166,
  "eyes": {
-  "pass": 187,
-  "fail": 4,
+  "pass": 191,
+  "fail": 0,
   "closed": 0,
   "covered": 0,
   "fading": 0,
   "tiny": 133,
   "offframe": 0
  },
- "failures": 4,
- "fail_list": [
-  {
-   "t": 6.95,
-   "shot": "F04_stare",
-   "why_sample": "cue:silence_hit",
-   "id": "mila1",
-   "expr": "annoyed",
-   "view": "q",
-   "eye": 0,
-   "problem": "pupil not dark/visible (0% dark, need 35%)",
-   "eye_px": 10.9
-  },
-  {
-   "t": 6.95,
-   "shot": "F04_stare",
-   "why_sample": "cue:silence_hit",
-   "id": "mila1",
-   "expr": "annoyed",
-   "view": "q",
-   "eye": 1,
-   "problem": "pupil not dark/visible (0% dark, need 35%)",
-   "eye_px": 10.9
-  },
-  {
-   "t": 7.3,
-   "shot": "F04_stare",
-   "why_sample": "mid",
-   "id": "mila1",
-   "expr": "annoyed",
-   "view": "q",
-   "eye": 0,
-   "problem": "pupil not dark/visible (0% dark, need 35%)",
-   "eye_px": 11.0
-  },
-  {
-   "t": 7.3,
-   "shot": "F04_stare",
-   "why_sample": "mid",
-   "id": "mila1",
-   "expr": "annoyed",
-   "view": "q",
-   "eye": 1,
-   "problem": "pupil not dark/visible (0% dark, need 35%)",
-   "eye_px": 11.0
-  }
- ],
+ "failures": 0,
+ "fail_list": [],
  "framing_warnings": []
 }

@@ -4,60 +4,15 @@
  "samples": 21,
  "faces": 42,
  "eyes": {
-  "pass": 64,
-  "fail": 4,
+  "pass": 68,
+  "fail": 0,
   "closed": 16,
   "covered": 0,
   "fading": 0,
   "tiny": 0,
   "offframe": 0
  },
- "failures": 4,
- "fail_list": [
-  {
-   "t": 35.29,
-   "shot": "G13_dale",
-   "why_sample": "line:eli:Dale",
-   "id": "mila1",
-   "expr": "happy",
-   "view": "q",
-   "eye": 0,
-   "problem": "pupil not dark/visible (5% dark, need 55%)",
-   "eye_px": 12.9
-  },
-  {
-   "t": 35.29,
-   "shot": "G13_dale",
-   "why_sample": "line:eli:Dale",
-   "id": "mila1",
-   "expr": "happy",
-   "view": "q",
-   "eye": 1,
-   "problem": "pupil not dark/visible (0% dark, need 55%)",
-   "eye_px": 12.9
-  },
-  {
-   "t": 35.7,
-   "shot": "G13_dale",
-   "why_sample": "line:eli:dale",
-   "id": "mila1",
-   "expr": "happy",
-   "view": "q",
-   "eye": 1,
-   "problem": "pupil not dark/visible (16% dark, need 55%)",
-   "eye_px": 13.0
-  },
-  {
-   "t": 36.21,
-   "shot": "G13_dale",
-   "why_sample": "end",
-   "id": "mila1",
-   "expr": "happy",
-   "view": "q",
-   "eye": 1,
-   "problem": "pupil not dark/visible (11% dark, need 55%)",
-   "eye_px": 13.3
-  }
- ],
+ "failures": 0,
+ "fail_list": [],
  "framing_warnings": []
 }

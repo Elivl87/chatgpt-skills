@@ -1,37 +1,6 @@
 {
  "block": "D1",
  "checked": 82,
- "fail": 6,
- "fails": [
-  [
-   "thin",
-   "E01_how t0.20 eli1 think/q",
-   "33 px of stray thin strokes, worst 3.7 ink long at [[334, 482, 343, 488, 33]]"
-  ],
-  [
-   "colour",
-   "E08_lema t23.15 mila1 crossed/q",
-   "no green boots (0.000)"
-  ],
-  [
-   "colour",
-   "E08_lema t23.41 mila1 crossed/q",
-   "no green boots (0.000)"
-  ],
-  [
-   "colour",
-   "E08_lema t23.81 mila1 crossed/q",
-   "no green boots (0.000)"
-  ],
-  [
-   "colour",
-   "E08_lema t24.57 mila1 crossed/q",
-   "no green boots (0.000)"
-  ],
-  [
-   "colour",
-   "E08_lema t24.57 eli1 pump/q",
-   "no jeans blue (0.009)"
-  ]
- ]
+ "fail": 0,
+ "fails": []
 }

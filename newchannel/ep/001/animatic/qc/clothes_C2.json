@@ -1,67 +1,6 @@
 {
  "block": "C2",
  "checked": 84,
- "fail": 12,
- "fails": [
-  [
-   "colour",
-   "D17_hill t53.87 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D17_hill t55.11 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D17_hill t56.45 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D18_wave t56.85 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D18_wave t58.71 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D18_wave t60.66 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D21_halfhour t67.81 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D21_halfhour t69.90 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D21_halfhour t72.09 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D24_finger t77.15 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D24_finger t77.98 eli1 sit/backq",
-   "no tee white (0.000)"
-  ],
-  [
-   "colour",
-   "D24_finger t78.90 eli1 sit/backq",
-   "no tee white (0.000)"
-  ]
- ]
+ "fail": 0,
+ "fails": []
 }

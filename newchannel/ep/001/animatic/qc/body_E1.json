@@ -1,7 +1,7 @@
 {
  "block": "E1",
  "samples": 21,
- "fail": 3,
+ "fail": 0,
  "warn": 0,
  "frames": [
   {
@@ -30,7 +30,8 @@
       "blue": 0,
       "brown": 0.0371,
       "white": 0.0238,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0338
      }
     },
     {
@@ -52,7 +53,8 @@
       "blue": 0.0666,
       "brown": 0.1798,
       "white": 0.1268,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1794
      }
     }
    ],
@@ -84,29 +86,31 @@
       "blue": 0,
       "brown": 0.0349,
       "white": 0.024,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0331
      }
     },
     {
      "id": "eli1",
      "expr": "determined",
-     "pose": "point",
+     "pose": "visor",
      "view": "q",
      "box": [
-      173,
+      176,
       53,
-      395,
+      394,
       418
      ],
      "cl": {
-      "yellow": 0.074,
+      "yellow": 0.0749,
       "purple": 0,
-      "mustard": 0.1739,
+      "mustard": 0.1752,
       "green": 0,
-      "blue": 0.0652,
-      "brown": 0.2015,
-      "white": 0.0752,
-      "vermilion": 0
+      "blue": 0.0673,
+      "brown": 0.2041,
+      "white": 0.0717,
+      "vermilion": 0,
+      "pale": 0.122
      }
     }
    ],
@@ -138,7 +142,8 @@
       "blue": 0,
       "brown": 0.0388,
       "white": 0.0238,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0336
      }
     },
     {
@@ -160,7 +165,8 @@
       "blue": 0.0666,
       "brown": 0.2072,
       "white": 0.0684,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1191
      }
     }
    ],
@@ -192,7 +198,8 @@
       "blue": 0,
       "brown": 0.0351,
       "white": 0,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0051
      }
     },
     {
@@ -214,7 +221,8 @@
       "blue": 0.0668,
       "brown": 0.1869,
       "white": 0.1026,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1378
      }
     }
    ],
@@ -246,7 +254,8 @@
       "blue": 0,
       "brown": 0.036,
       "white": 0,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0051
      }
     },
     {
@@ -268,7 +277,8 @@
       "blue": 0.0666,
       "brown": 0.1855,
       "white": 0.1029,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1365
      }
     }
    ],
@@ -300,7 +310,8 @@
       "blue": 0,
       "brown": 0.0382,
       "white": 0,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0053
      }
     },
     {
@@ -322,7 +333,8 @@
       "blue": 0.0677,
       "brown": 0.1906,
       "white": 0.1038,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1356
      }
     }
    ],
@@ -354,7 +366,8 @@
       "blue": 0,
       "brown": 0.0334,
       "white": 0.0141,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0226
      }
     },
     {
@@ -376,7 +389,8 @@
       "blue": 0.0728,
       "brown": 0.172,
       "white": 0.0898,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1148
      }
     }
    ],
@@ -408,7 +422,8 @@
       "blue": 0,
       "brown": 0.0413,
       "white": 0.0238,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0337
      }
     },
     {
@@ -430,7 +445,8 @@
       "blue": 0.0686,
       "brown": 0.2033,
       "white": 0.0937,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1436
      }
     }
    ],
@@ -462,7 +478,8 @@
       "blue": 0,
       "brown": 0.0378,
       "white": 0.0238,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0339
      }
     },
     {
@@ -484,7 +501,8 @@
       "blue": 0.0648,
       "brown": 0.1868,
       "white": 0.1052,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1552
      }
     }
    ],
@@ -495,14 +513,7 @@
    "shot": "G13_dale",
    "why": "line:eli:Dale",
    "png": "s_009.png",
-   "problems": [
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "textbox:\u00a1DALE, DALE! over the head zone"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",
@@ -523,7 +534,8 @@
       "blue": 0,
       "brown": 0.0365,
       "white": 0.0138,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0223
      }
     },
     {
@@ -545,7 +557,8 @@
       "blue": 0.0671,
       "brown": 0.2033,
       "white": 0.0932,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1411
      }
     }
    ],
@@ -556,14 +569,7 @@
    "shot": "G13_dale",
    "why": "line:eli:dale",
    "png": "s_010.png",
-   "problems": [
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "textbox:\u00a1DALE, DALE! over the head zone"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",
@@ -584,7 +590,8 @@
       "blue": 0,
       "brown": 0.035,
       "white": 0.0137,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.022
      }
     },
     {
@@ -606,7 +613,8 @@
       "blue": 0.0666,
       "brown": 0.2049,
       "white": 0.0921,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1423
      }
     }
    ],
@@ -617,14 +625,7 @@
    "shot": "G13_dale",
    "why": "end",
    "png": "s_011.png",
-   "problems": [
-    [
-     "FAIL",
-     "overlay-head",
-     "Mila",
-     "textbox:\u00a1DALE, DALE! over the head zone"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",
@@ -645,7 +646,8 @@
       "blue": 0,
       "brown": 0.0383,
       "white": 0.0141,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0226
      }
     },
     {
@@ -667,7 +669,8 @@
       "blue": 0.0715,
       "brown": 0.2054,
       "white": 0.0922,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1401
      }
     }
    ],
@@ -699,7 +702,8 @@
       "blue": 0,
       "brown": 0.0379,
       "white": 0.0312,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0423
      }
     },
     {
@@ -721,7 +725,8 @@
       "blue": 0.0708,
       "brown": 0.188,
       "white": 0.1036,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1411
      }
     }
    ],
@@ -753,7 +758,8 @@
       "blue": 0,
       "brown": 0.037,
       "white": 0.0315,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0424
      }
     },
     {
@@ -775,7 +781,8 @@
       "blue": 0.0699,
       "brown": 0.186,
       "white": 0.1046,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1416
      }
     }
    ],
@@ -807,7 +814,8 @@
       "blue": 0,
       "brown": 0.0428,
       "white": 0,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0055
      }
     },
     {
@@ -829,7 +837,8 @@
       "blue": 0.0717,
       "brown": 0.1935,
       "white": 0.1047,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1421
      }
     }
    ],
@@ -861,7 +870,8 @@
       "blue": 0,
       "brown": 0.0409,
       "white": 0.0129,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0243
      }
     },
     {
@@ -883,7 +893,8 @@
       "blue": 0.0707,
       "brown": 0.1861,
       "white": 0.0791,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1068
      }
     }
    ],
@@ -915,7 +926,8 @@
       "blue": 0,
       "brown": 0.043,
       "white": 0.0129,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0234
      }
     },
     {
@@ -930,14 +942,15 @@
       418
      ],
      "cl": {
-      "yellow": 0.0796,
+      "yellow": 0.0797,
       "purple": 0.0004,
-      "mustard": 0.2011,
+      "mustard": 0.2018,
       "green": 0,
-      "blue": 0.0728,
-      "brown": 0.1815,
-      "white": 0.0742,
-      "vermilion": 0
+      "blue": 0.0734,
+      "brown": 0.1808,
+      "white": 0.0741,
+      "vermilion": 0,
+      "pale": 0.1025
      }
     }
    ],
@@ -969,7 +982,8 @@
       "blue": 0,
       "brown": 0.0452,
       "white": 0.0129,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0218
      }
     },
     {
@@ -991,7 +1005,8 @@
       "blue": 0.071,
       "brown": 0.1877,
       "white": 0.0939,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.125
      }
     }
    ],
@@ -1023,7 +1038,8 @@
       "blue": 0,
       "brown": 0.036,
       "white": 0.0159,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.0258
      }
     },
     {
@@ -1045,7 +1061,8 @@
       "blue": 0.0653,
       "brown": 0.1859,
       "white": 0.118,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1706
      }
     }
    ],
@@ -1077,7 +1094,8 @@
       "blue": 0,
       "brown": 0.033,
       "white": 0.0162,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.025
      }
     },
     {
@@ -1099,7 +1117,8 @@
       "blue": 0.0637,
       "brown": 0.1886,
       "white": 0.1188,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.169
      }
     }
    ],
@@ -1131,7 +1150,8 @@
       "blue": 0,
       "brown": 0.0392,
       "white": 0.0162,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.025
      }
     },
     {
@@ -1153,7 +1173,8 @@
       "blue": 0.0641,
       "brown": 0.1867,
       "white": 0.1189,
-      "vermilion": 0
+      "vermilion": 0,
+      "pale": 0.1692
      }
     }
    ],

@@ -21,10 +21,10 @@ Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.2 dBTP, LRA 8.8 
 | metric | value |
 |---|---|
 | duration_s | 74.3 |
-| shots | 34 |
-| avg_shot_s | 2.19 |
+| shots | 35 |
+| avg_shot_s | 2.12 |
 | longest_shot_s | 4.84 |
-| cuts_per_min | 26.6 |
+| cuts_per_min | 27.4 |
 | motion_share | 0.998 |
 | still_2s_runs | 0 |
 | brightness_mean | 0.617 |
@@ -33,8 +33,8 @@ Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.2 dBTP, LRA 8.8 
 | wpm_while_speaking | 194 |
 
 ```
-PASS  cuts_per_min           26.6   target >= 12.0
-PASS  avg_shot_s             2.19   target <= 5.0
+PASS  cuts_per_min           27.4   target >= 12.0
+PASS  avg_shot_s             2.12   target <= 5.0
 PASS  longest_shot_s         4.84   target <= 25.0
 PASS  motion_share          0.998   target >= 0.5
 PASS  still_2s_per_min        0.0   target <= 6.0

@@ -56,7 +56,25 @@ track; `KEEP_CHAR_VOICES=1` restores them), so the preview plays narration + sou
 
 ## 3 · Audits after the re-render (draft 854×480, all 8 blocks)
 
-RESULTS_PLACEHOLDER
+| Block | Duration | Draft mp4 | Eye failures | Body failures | Clothing failures |
+|---|---|---|---|---|---|
+| A | 42.0 s | 5.43 MB | 0 | 0 (0 warn) | 0 (110 draws) |
+| B | 53.4 s | 7.76 MB | 0 | 0 (0 warn) | 0 (129 draws) |
+| C1 | 43.2 s | 3.58 MB | 0 | 0 (0 warn) | 0 (29 draws) |
+| C2 | 84.0 s | 11.52 MB | 0 | 0 (0 warn) | 0 (84 draws) |
+| D1 | 63.4 s | 7.95 MB | 0 | 0 (0 warn) | 0 (82 draws) |
+| D2 | 74.4 s | 9.92 MB | 0 | 0 (40 warn) | 0 (166 draws) |
+| E1 | 48.3 s | 5.26 MB | 0 | 0 (0 warn) | 0 (42 draws) |
+| E2 | 70.5 s | 9.19 MB | 0 | 0 (0 warn) | 0 (189 draws) |
+
+- **Clothes lab:** 1170 cell renders (2 characters × 4 sets × 5 views, big + 1080 + draft, 20 idle frames and 21-step
+  pose blends per set): **0 failures** (`qc/clothes_lab.json`); 32 contact sheets (4 lights × 2 sizes) inspected by eye.
+- **Text boxes** (`textbox_check.mjs`): **21 lines, 0 failures**: each box on screen over the whole
+  voice slot and for max(slot, read time), never over a head, inside the safe area (`qc/textbox_check.json`).
+- Body warnings left: D2 F10-F12 «PROMEDIO» laptop prop over the bodies (pre-existing prop placement, looked at: it
+  stands in front of the legs by design, no face covered).
+- **Preview:** `ep001_animatic_preview_v3.mp4` (scratchpad, not in git): 854×480, 7 min 59 s, 27.6 MB (26.3 MiB),
+  narration + sound; character slots muted in the bed (≈ −31 dB there vs ≈ −18 dB under narration).
 
 ## 4 · Honest notes
 
