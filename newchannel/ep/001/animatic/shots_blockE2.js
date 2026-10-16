@@ -82,7 +82,7 @@
         over: (c, t) => P.plate(c, 960, 160, 'MANEJA AL PROMEDIO', 56, A.ramp(t, tVel, 0.3)),
         draw(c, t, lt) { const ts = G22(t), give = A.pulse(t, tKnee + 0.6, 0.2, 0.6, 0.2);
           inCar(c, t, ts, { z: 1.5, wx: 620, wy: 625, sx: 950, sy: 545 },
-            { pose: 'drive', view: 'q', dir: 1, expr: t < tKnee + 1.0 ? 'surprised' : 'sheepish', look: [0.2, 0.3], blink: eliBlink(t) },
+            { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tKnee + 1.0, 'surprised', 'sheepish'), look: [0.2, 0.3], blink: eliBlink(t) },
             { ...A.pzv(give, 0.3, 'lap', 'palm'), view: 'q', dir: 1, expr: 'smug', look: [0.9, -0.05], blink: milaBlink(t) },
             { badge: A.ramp(t, tKnee + 0.9, 0.2) }); },
         cues: A => [{ t: tVel, kind: 'plate' }] });
@@ -90,7 +90,7 @@
       shots.push({ id: 'H04_breathe', start: tTrafE - 0.1, bg: 'close3', focus: [880, 480], push: 0.035, pushDir: 1,
         draw(c, t, lt) { const ts = G22(t), calm = A.ramp(t, tGustaria + 0.2, 0.5), drum = 1 - calm;
           inCar(c, t, ts, { z: 2.0, wx: 650, wy: 560, sx: 940, sy: 560 },
-            { pose: 'drive', view: 'q', dir: 1, expr: calm > 0.5 ? 'happy' : 'worried', look: [0.9, 0], tilt: drum * 0.04 * Math.sin(t * 30), lean: drum * 0.02 * Math.sin(t * 22), extras: calm > 0.3 && calm < 0.9 ? ['puff'] : [], blink: eliBlink(t) },
+            { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tGustaria + 0.45, 'worried', 'happy'), look: [0.9, 0], tilt: drum * 0.04 * Math.sin(t * 30), lean: drum * 0.02 * Math.sin(t * 22), extras: calm > 0.3 && calm < 0.9 ? ['puff'] : [], blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], blink: milaBlink(t) }, { badge: 1 });
           if (drum > 0.05) for (let k = 0; k < 3; k++) P.callout(c, 1300 + k * 50, 760 - (k % 2) * 30, 'tap', 30, drum * (Math.sin(t * 25 + k * 2) > 0 ? 1 : 0.3)); },   // Guardian: the «tap» marks moved down to the wheel (they floated beside Eli's face)
         cues: A => [{ t: tTrafE, kind: 'tick_tock', t1: tGustaria + 0.2 }, { t: tGustaria + 0.25, kind: 'blow' }] });
@@ -119,7 +119,7 @@
       shots.push({ id: 'I04_ease', start: tLeadV - 0.35, bg: 'close', label: 'ACELERADO ×3', focus: [920, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t);
           inCar(c, t, ts, { z: 1.45, wx: 700, wy: 615, sx: 940, sy: 540 },
-            { pose: 'drive', view: 'q', dir: 1, expr: t < tLeadV + 0.2 ? 'determined' : 'happy', look: [0.9, 0], blink: eliBlink(t) },
+            { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tLeadV + 0.2, 'determined', 'happy'), look: [0.9, 0], blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, expr: 'curious', look: [0.9, -0.05], blink: milaBlink(t) }, { badge: 1 }); },
         cues: A => [{ t: tLeadV, kind: 'brake_note', step: 6 }] });
       // over Eli's shoulder, looking back: the golden road, flowing, not one brake light
@@ -130,7 +130,7 @@
           // eyes pass: was a back-3/4 (only the back of the beanie read); now Eli turned round in his seat, 3/4 toward the
           // camera and looking down the road behind: curious, then the incredulous double take (no brake light at all)
           const rE = K.cast.draw(c, 'eli1', 300, 1400, 1500, { view: 'q', dir: 1, seated: true, pose: 'drive', t, light: FRONTLIT, look: [0.9, -0.05], blink: 0,
-            expr: t < tLeadV + 2.0 ? 'curious' : 'surprised', tilt: -0.06 * A.ramp(t, tLeadV + 2.0, 0.25) });
+            ...A.ez(t, tLeadV + 2.0, 'curious', 'surprised'), tilt: -0.06 * A.ramp(t, tLeadV + 2.0, 0.25) });
           { const [hx, hy, hr] = rE.head; P.gloveBadge(c, hx + hr * 0.15, hy + hr * 1.75, hr / 260); } },   // Guardian: the badge stays on his chest (continuity with H04-J03)
         cues: A => [{ t: tLeadV + 2.6, kind: 'chirp' }] });
       shots.push({ id: 'I06_who', start: tQuien - 0.45, bg: 'close_tight', focus: [980, 470], push: 0.035, pushDir: 1,
@@ -142,7 +142,7 @@
       shots.push({ id: 'I07_you', start: tFuiste - 0.25, bg: 'close_mila', focus: [880, 500], push: 0.035, pushDir: -1,
         draw(c, t, lt) { const ts = G23(t), sp = A.talk('mila', t), laugh = t > tTuE + 0.2; let heads = null;
           heads = inCar(c, t, ts, { z: 1.7, wx: 600, wy: 560, sx: 900, sy: 560 },
-            { pose: 'drive', view: 'q', dir: 1, expr: laugh ? 'laugh' : 'sheepish', look: [-0.5, 0], blink: eliBlink(t) },
+            { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tTuE + 0.2, 'sheepish', 'laugh'), look: [-0.5, 0], blink: eliBlink(t) },
             { pose: 'lap', blend: { pose: 'point', k: 0.62 }, view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], talk: sp.talk, viseme: sp.viseme, blink: 0 }, { badge: 1 });   // Guardian: a lower, shorter point at his badge (the full point covered Eli's nose and mouth)
           if (heads && heads.milaHead) A.speaker('mila', heads.milaHead); },
         cues: A => [{ t: tTuE + 0.25, kind: 'mm' }] });
@@ -170,19 +170,18 @@
         draw(c, t, lt) { const ts = G23(t);
           inCar(c, t, ts, { z: 1.3, wx: 760, wy: 600, sx: 960, sy: 540 },
             { pose: 'drive', view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.05], blink: eliBlink(t) },
-            { pose: 'lap', view: 'q', dir: 1, expr: t > tPaciente ? 'happy' : 'neutral', look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 1 }); } });
+            { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tPaciente, 'neutral', 'happy'), look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 1 }); } });
       // the wordmark, the payoff: Eli catches the dot ON TIME and places it on the i himself; fist bump
       const tWM = tEsto - 0.15, WM = { drop: 0.55, c1: 1.0, c2: tPuntosE - tWM, place: tPuntosE - tWM + 0.75, land: tPuntosE - tWM + 1.25, tagline: tPuntosE - tWM + 1.9 };
       const tBump = tWM + WM.land + 0.65;
       const wmOpt = { wm: WM, catch: true,
-        eli: (o, tl, W) => {
-          if (tl > W.c1 - 0.1) Object.assign(o, { look: [-0.5, -0.8], expr: 'determined' });
-          if (tl > W.c2 - 0.12) Object.assign(o, { pose: 'palm', expr: 'surprised', blend: null, look: [-0.4, -0.6] });
-          if (tl > W.c2 + 0.25) Object.assign(o, { pose: 'palm', expr: 'awe', look: [-0.3, -0.5] });
-          if (tl > W.place) Object.assign(o, { pose: 'point', expr: 'happy', look: [-0.8, -0.3] });
-          if (tl > W.land + 0.3) Object.assign(o, { pose: 'pump', expr: 'laugh', look: [-0.8, 0] });
-        },
-        mila: (o, tl, W) => { if (tl > W.c2) Object.assign(o, { expr: 'awe', look: [0.8, -0.4] }); if (tl > W.land + 0.3) Object.assign(o, { pose: 'pump', blend: null, expr: 'laugh', look: [0.8, 0] }); } };
+        // Guardian v3: blended sequences (the catch, the place and the fist bump used to snap arms and faces in one frame)
+        eli: (o, tl, W) => Object.assign(o, A.seq(tl, [[0, { pose: 'stand', blend: null, expr: 'neutral', look: o.look }],
+          [W.c1 - 0.1, { pose: 'stand', blend: null, expr: 'determined', look: [-0.5, -0.8] }], [W.c2 - 0.08, { pose: 'palm', blend: null, expr: 'surprised', look: [-0.4, -0.6] }],
+          [W.c2 + 0.25, { pose: 'palm', blend: null, expr: 'awe', look: [-0.3, -0.5] }], [W.place, { pose: 'point', blend: null, expr: 'happy', look: [-0.8, -0.3] }],
+          [W.land + 0.3, { pose: 'pump', blend: null, expr: 'laugh', look: [-0.8, 0] }]], 0.16)),
+        mila: (o, tl, W) => { if (tl > W.c2) Object.assign(o, A.ez(tl, W.c2 + 0.07, 'curious', 'awe'), { look: [0.8, -0.4] });
+          if (tl > W.land) Object.assign(o, A.seq(tl, [[0, { pose: 'palm', blend: null, expr: 'awe', look: [0.8, -0.4] }], [W.land + 0.3, { pose: 'pump', blend: null, expr: 'laugh', look: [0.8, 0] }]], 0.2)); } };
       shots.push({ id: 'J04_wm', start: tWM, bg: 'wm', xf: 0.3, focus: [960, 520], push: 0.02, pushDir: 1, breath: true,
         post: { grain: 0.13, vignette: 0.5, vignetteColor: '#1a0f26', bloom: 0.3 },
         draw(c, t, lt) { E.drawWordmark(c, t - tWM, 0, wmOpt); },
@@ -220,7 +219,7 @@
       shots.push({ id: 'K03_who', start: tQ2 - 0.45, bg: 'busstop_bench', focus: [600, 360], push: 0.04, pushDir: 1, post: { grain: 0.12, vignette: 0.35, vignetteColor: '#3a2030', bloom: 0.18 },
         draw(c, t, lt) { const sp = A.talk('eli', t); let rr = null, shrug = t > tQ2E + 0.25;
           A.busStop(c, t, { chars: (cx, GY, SEAT) => { rr = duo(cx, t, GY, SEAT, { pose: 'fist', expr: 'furious', look: [0.8, -0.1], talk: sp.talk, viseme: sp.viseme, extras: ['anger'] },
-            Object.assign({ view: 0.55 * (1 - A.ramp(t, tQ2E + 0.13, 0.24)), expr: shrug ? 'happy' : 'neutral', look: shrug ? [0, 0] : [0.6, -0.4] }, A.pz(t, tQ2E + 0.25, 'crossed', 'shrug', 0.24)), { eFeet: SEAT }); }, buses: buses(t) });
+            Object.assign({ view: 0.55 * (1 - A.ramp(t, tQ2E + 0.13, 0.24)), ...A.ez(t, tQ2E + 0.25, 'neutral', 'happy'), look: shrug ? [0, 0] : [0.6, -0.4] }, A.pz(t, tQ2E + 0.25, 'crossed', 'shrug', 0.24)), { eFeet: SEAT }); }, buses: buses(t) });
           if (rr && rr.rE) A.speaker('eli', rr.rE.head); },
         cues: A => [{ t: tQ2, kind: 'pop' }, { t: tQ2E + 0.3, kind: 'shrug_wave', n: 3, d: 0.1 }] });
       // the end-card zone: the pair sits on the left, the right 55 % stays clear (YouTube end-screen elements go there)
@@ -237,7 +236,7 @@
       endShot('K05_late', tSit + 4.0, { focus: [620, 520], dir: -1, rise: byRise,
         eO: t => A.seq(t, [[0, { pose: 'sit', view: 'q', expr: 'annoyed', look: [0.8, -0.3] }], [tBy - 0.15, { pose: 'wave', view: 'front', expr: 'worried', look: [0.8, 0] }],
           [tBy + 2.05, { pose: 'sit', view: 'q', expr: 'sheepish', look: [0.8, -0.3] }]], 0.25),
-        mO: t => ({ pose: 'sit', expr: t > tBy + 0.6 ? 'laugh' : 'neutral', look: [0.8, 0] }),
+        mO: t => ({ pose: 'sit', ...A.ez(t, tBy + 0.6, 'neutral', 'laugh'), look: [0.8, 0] }),
         buses: t => [{ x: K.lerp(2300, -900, K.clamp((t - tBy) / 1.4)), col: '#e2b04a', seed: 9, route: '3' }],
         cues: A => [{ t: tBy + 0.3, kind: 'whoosh_up' }, { t: tBy + 1.0, kind: 'minor' }] });
       endShot('K06_bird', tSit + 8.0, { focus: [760, 480], eO: t => ({ pose: 'sit', expr: 'happy', look: [0.4, -0.8] }), mO: t => ({ pose: 'sit', expr: 'happy', look: [0.5, -0.8] }),

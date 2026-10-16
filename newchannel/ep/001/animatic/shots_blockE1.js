@@ -64,7 +64,8 @@
       // Eli and Mila on the footbridge: Eli squints down, starts pointing at the halos
       shots.push({ id: 'G04_bridge', start: tCon - 0.1, bg: 'bridge', focus: [900, 420], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const p = t > tInt;
-          pair(c, t, { ...A.pz(t, tInt, 'visor', 'point'), expr: p ? 'determined' : 'curious', look: [-0.3, 0.7], dir: p ? -1 : 1 }, { pose: 'crossed', expr: 'curious', look: [-0.7, 0.2] }); } });
+          const fk = K.clamp((t - (tInt - 0.15)) / 0.3);   // Guardian v3: he turns through the front view (was a one-frame mirror flip)
+          pair(c, t, { ...A.pz(t, tInt, 'visor', 'point'), ...A.ez(t, tInt, 'curious', 'determined'), look: [-0.3, 0.7], view: 0.55 * Math.abs(1 - 2 * K.ease.sine(fk)), dir: fk < 0.5 ? 1 : -1 }, { pose: 'crossed', expr: 'curious', look: [-0.7, 0.2] }); } });
       shots.push({ id: 'G05_chip', start: tProg - 0.1, bg: 'i24_close', focus: [960, 540], push: 0.03, pushDir: -1,
         over: (c, t) => { rec(c); P.pill(c, 960, 210, '▲ acelerar', 44, A.ramp(t, tAcel, 0.2) * (1 - A.ramp(t, tFrenar - 0.15, 0.15)), { align: 'center', bg: K.rgba('#23746C', 0.92) });
           P.pill(c, 960, 210, '▼ frenar', 44, A.ramp(t, tFrenar, 0.2), { align: 'center', bg: K.rgba('#b8452f', 0.92) }); },
@@ -108,8 +109,8 @@
 
       // ================================================================ BEAT 21 · the wave remembers
       shots.push({ id: 'G10_flag', start: tPero - 0.1, bg: 'bridge_flag', focus: [820, 400], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { const out = t > tEliN; pair(c, t, { ...A.pz(t, tEliN, 'stand', 'cheer'), expr: out ? 'happy' : 'determined', look: [0.4, 0.3], extras: out && t < tEliN + 0.6 ? ['sparkle'] : [] },
-          { pose: 'crossed', expr: out ? 'curious' : 'happy', look: [-0.9, -0.1] }, { after: (cx, rE, rM) => { if (out && rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 0.1 }); if (out && rM) P.shrug(cx, rM.head[0], rM.head[1] - rM.head[2] * 1.6, 40, A.pulse(t, tEliN + 0.4, 0.2, 0.8, 0.2)); } }); },
+        draw(c, t, lt) { const out = t > tEliN; pair(c, t, { ...A.pz(t, tEliN, 'stand', 'cheer'), ...A.ez(t, tEliN, 'determined', 'happy'), look: [0.4, 0.3], extras: out && t < tEliN + 0.6 ? ['sparkle'] : [] },
+          { pose: 'crossed', ...A.ez(t, tEliN, 'happy', 'curious'), look: [-0.9, -0.1] }, { after: (cx, rE, rM) => { if (out && rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300 * K.lerp(0.15, 1, K.ease.out(K.clamp((t - tEliN) / 0.18))), t, { ang: 0.1 });   // Guardian v3: springs out of his hand (it appeared full size in one frame) if (out && rM) P.shrug(cx, rM.head[0], rM.head[1] - rM.head[2] * 1.6, 40, A.pulse(t, tEliN + 0.4, 0.2, 0.8, 0.2)); } }); },
         cues: A => [{ t: tEliN, kind: 'pop' }] });
       const strip = (c, t, ts, o = {}) => { const g = A.i24(c, t, { simT: ts, sC: A.waveS(ts) + (o.dx || 0), sc: o.sc || 4.2, sinE: 0.5, oy: o.oy || 830, zk: 2.6, halo: 1, off: o.off || 0 });
         return A.speedLine(c, ts, g, { y: o.y || 560, kpx: o.kpx || 26, zoom: o.zoom }); };
@@ -143,11 +144,11 @@
         draw(c, t, lt) {
           const up = k => A.pulse(t, tUp + k * 0.12, 0.14, 0.25, 0.25);
           const people = [[180, 1, 'cap'], [400, 2, 'bun'], [1450, 3, 'short'], [1660, 4, 'cap'], [1850, 5, 'long']];
-          pair(c, t, { ...A.pzv(up(0), 0.4, 'stand', 'cheer'), expr: t > tUp + 0.55 ? 'surprised' : 'happy', look: t > tUp + 0.55 ? [0.6, -0.1] : [0, 0.3], lift: up(0) * 0.05 },
+          pair(c, t, { ...A.pzv(up(0), 0.4, 'stand', 'cheer'), ...A.ez(t, tUp + 0.55, 'happy', 'surprised'), look: t > tUp + 0.55 ? [0.6, -0.1] : [0, 0.3], lift: up(0) * 0.05 },
             { pose: 'crossed', expr: 'happy', look: [-0.9, -0.1] },
             { u: 640, ex: 760, mx: 1060, extras: cx => people.forEach(([x, seed, hs], k) => { const kk = x < 760 ? 1 + k * 0 : 2 + k; const u2 = up(x < 760 ? -1 : k); const pe = K.car.persona(seed * 7, 3);
               K.char.person(cx, x, GY - 90 - u2 * 40, 54, { t, seed: seed * 7, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, shirt: K.car.COLORS[seed % 10], ...A.pzv(u2, 0.4, 'stand', 'cheer'), expr: u2 > 0.4 ? 'laugh' : 'content', light: { ang: -0.6, rim: '#ffd99a', shade: '#3c2a52' } }); void kk; }),
-              after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 230, t, up(0) > 0.4 || t > tUp ? { ang: 0.1, wave: 0.3 } : { ang: 3.05, wave: 0.04 }); } }); },
+              after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 230, t, { ang: K.lerp(3.05, 0.1, A.ramp(t, tUp, 0.16)), wave: K.lerp(0.04, 0.3, A.ramp(t, tUp, 0.16)) });   // Guardian v3: swings up with the arm (it flipped in one frame) } }); },
         cues: A => [{ t: tUp - 0.1, kind: 'crowd_wave', t1: tUp + 1.3 }] });
       shots.push({ id: 'G18_mila', start: tCada - 0.1, bg: 'bridge_mila', focus: [1100, 500], push: 0.035, pushDir: 1,   // Guardian: focus y 380 -> 500, u 880 -> 760 (Mila's head cut by the top edge)
         draw(c, t, lt) { pair(c, t, { pose: 'cheer', expr: 'surprised', look: [0.7, -0.2] }, { pose: 'crossed', expr: 'happy', look: [-1, 0.05], headTurn: -0.2 }, { ex: 600, mx: 1150, u: 760 }); } });

@@ -736,7 +736,7 @@
       else ankle = [hp[0] + (S.legSplay || 0) * sg * cosT, -(b.h * 0.5)];
       // crouch (Guardian v3, 2026-10-16: stand-ups were one-frame jumps): the whole body is drawn o.crouch units lower
       // (see C.draw), the feet stay on the ground and the knees bend (forward in profile, out + foreshortened in front)
-      if (crouchD > 0 && !sitLegs && walkK <= 0) { ankle = [ankle[0] + dir * s * (o.crouchFwd || 0) * (thigh * 0.95 + 0.03), ankle[1] - crouchD];   // crouchFwd 1 = the feet where a chair-seated pose puts them const L = (S.legLen - b.h * 0.5) / 2 + 0.003, j = ik(hp, ankle, L, L, [sg * (1 - s) + dir * s, 0]);
+      if (crouchD > 0 && !sitLegs && walkK <= 0) { ankle = [ankle[0] + dir * s * (o.crouchFwd || 0) * (thigh * 0.95 + 0.03), ankle[1] - crouchD];   /* crouchFwd 1 = the feet where a chair-seated pose puts them */ const L = (S.legLen - b.h * 0.5) / 2 + 0.003, j = ik(hp, ankle, L, L, [sg * (1 - s) + dir * s, 0]);
         const mx = (hp[0] + ankle[0]) / 2, my = (hp[1] + ankle[1]) / 2, f = 0.35 + 0.65 * s; knee = [mx + (j[1][0] - mx) * f, my + (j[1][1] - my) * f]; }
       const fx = ankle[0], ay = ankle[1] + b.h * 0.5;   // ay: boot base offset from the ground (0 when standing)
       noodle(c, knee ? softLimb([hp, knee, ankle], 0.2) : [hp, ankle], S.legW, S.legColor, lw);

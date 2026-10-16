@@ -158,6 +158,13 @@
     return { kind, fs, font, lines, tw, lh, w: tw + padX * 2, h: lines.length * lh + padY * 2 };
   }
   // choose the box centre beside the speaker's head (screen px, design units)
+  function segHits(x0, y0, x1, y1, a) {   // does the segment cross rect a (Liang-Barsky)
+    let t0 = 0, t1 = 1; const dx = x1 - x0, dy = y1 - y0;
+    for (const [p, q] of [[-dx, x0 - a[0]], [dx, a[2] - x0], [-dy, y0 - a[1]], [dy, a[3] - y0]]) {
+      if (p === 0) { if (q < 0) return false; continue; }
+      const r = q / p; if (p < 0) { if (r > t1) return false; if (r > t0) t0 = r; } else { if (r < t0) return false; if (r < t1) t1 = r; } }
+    return t0 < t1; }
+  T.segHits = segHits;
   T.place = function (m, head, o = {}) {
     const W = K.W, H = K.H, M = 48, bottom = H * 0.88 - 8, chip = [W - 300, 0, W, 100], pill = [0, 0, 600, 112];   // duration chip, label pill
     if (o.at) return [o.at[0], o.at[1], 0];
@@ -175,6 +182,9 @@
       const R = [cx - m.w / 2 - 10, cy - m.h / 2 - 10, cx + m.w / 2 + 10, cy + m.h / 2 + 14];
       let s = Math.hypot(cx - cx0, cy - cy0) * 2 + Math.hypot(cx - hx, cy - hy) * (sd === 0 ? 0.6 : 0.15) + (sd === 0 ? 900 : sd !== pref ? 140 : 0);
       for (const a of avoid) if (R[0] < a[2] && a[0] < R[2] && R[1] < a[3] && a[1] < R[3]) s += 5000;
+      // Guardian v3: the tail (box -> speaker) must not cross another head or box (D2 F04: a carried-over shout's tail ran
+      // across Mila's head and read as her line)
+      if (head) for (const a of (o.avoid || [])) { if (hx > a[0] && hx < a[2] && hy > a[1] && hy < a[3]) continue; if (segHits(cx, cy, hx, hy, [a[0], a[1], a[2], a[3] + (a[3] - a[1]) * 0.45])) s += 4000; }   // + the chin / neck below the head zone (capsule faces)
       if (R[0] < chip[2] && chip[0] < R[2] && R[1] < chip[3] && chip[1] < R[3]) s += 3000;
       if (R[0] < pill[2] && pill[0] < R[2] && R[1] < pill[3] && pill[1] < R[3]) s += 3000;
       for (const a of (o.soft || [])) if (R[0] < a[2] && a[0] < R[2] && R[1] < a[3] && a[1] < R[3]) s += 1500;   // bodies / action: avoid if possible
@@ -286,7 +296,8 @@
     // QC hook: the body audit records overlay rects (box only; the tail stops outside the head zone by construction)
     if (root.__ovLog && ctx.canvas.isConnected && ctx.globalAlpha * alpha >= 0.05) {
       const M2 = ctx.getTransform(), P = [[rect[0], rect[1]], [rect[2], rect[3]]].map(([x, y]) => [M2.a * x + M2.c * y + M2.e, M2.b * x + M2.d * y + M2.f]);
-      root.__ovLog.push({ kind: 'textbox:' + String(o.text).slice(0, 20), a: +(ctx.globalAlpha * alpha).toFixed(2), r: [P[0][0], P[0][1], P[1][0], P[1][1]] });
+      root.__ovLog.push({ kind: 'textbox:' + String(o.text).slice(0, 20), a: +(ctx.globalAlpha * alpha).toFixed(2), r: [P[0][0], P[0][1], P[1][0], P[1][1]],
+        tail: tipS ? [M2.a * cx + M2.c * cy + M2.e, M2.b * cx + M2.d * cy + M2.f, M2.a * tipS[0] + M2.c * tipS[1] + M2.e, M2.b * tipS[0] + M2.d * tipS[1] + M2.f] : null });
     }
     return { rect, full: [cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2], tip: tipS, size: m.fs };
   };

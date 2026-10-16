@@ -126,7 +126,7 @@
           const eO = Object.assign({ view: 'q', dir: 1, blink: 0, look: [0.8, -0.1], extras: t < tQuien - 0.03 ? [] : t < tFueEnd + 0.5 ? ['anger', 'puff'] : ['anger'] }, A.seq(t, [
             [0, { pose: 'stand', expr: 'annoyed', lean: -0.04 * eliRise(t) }], [tQuien - 0.45, { pose: 'fist', expr: 'grumpy', lean: -0.05 }],   // inhale (anticipation)
             [tQuien - 0.03, { pose: 'fist', expr: 'furious', lean: 0.06 }], [tFueEnd + 0.5, { pose: 'fist', expr: 'furious', lean: 0.03 }]], 0.2));
-          const mO = { pose: 'lap', view: 'q', dir: 1, headTurn: 0.2, look: [0.4, -0.1], blink: 0, hairFlop: milaFlop(t), expr: blowK(t) > 0 && blowK(t) < 1 ? 'curious' : t > tFueEnd + 0.6 ? 'neutral' : 'annoyed' };
+          const mO = { pose: 'lap', view: 'q', dir: 1, headTurn: 0.2, look: [0.4, -0.1], blink: 0, hairFlop: milaFlop(t), ...A.ezs(t, [[0, 'annoyed'], [tFueEnd + 0.05, 'curious'], [tFueEnd + 0.5, 'annoyed'], [tFueEnd + 0.6, 'neutral']], 0.1) };
           let heads = null;
           A.close(c, t, 0, { simT: ts, tStop: sStop, frame: { z: 1.25, wx: 800, wy: 560, sx: 960, sy: 540 },
             crew: (cx, sx, sy, SC, info) => { heads = A.crew(cx, sx, sy, SC, info, eO, mO, { eliStand: eliRise(t) }); } });
@@ -203,7 +203,7 @@
           const ts = HOLD(t), R = A.s1(), xE = R.at(ts).x[ELI];
           const sCam = xE - 4.6, aim = A.aim(sCam, 1.85, 1.65, 1150, xE - 0.4, 1.85, 1.15, [960, 600]);   // Guardian: was 520 (beanie cut by the top edge)
           const turnHead = A.ramp(t, tMira, 0.14), snap = t > tAtrasN, sp = A.talk('mila', t);
-          const mila = snap ? { view: 'front', seated: true, pose: 'crossed', expr: t > tEliM - 0.25 ? 'awe' : 'curious', look: [0.15, -0.15], lean: 0.08, light: FRONTLIT, talk: sp.talk, viseme: sp.viseme,
+          const mila = snap ? { view: 'front', seated: true, pose: 'crossed', ...A.ez(t, tEliM - 0.25, 'curious', 'awe'), look: [0.15, -0.15], lean: 0.08, light: FRONTLIT, talk: sp.talk, viseme: sp.viseme,
             tilt: 0.06 * Math.exp(-(t - tAtrasN) * 6), blink: milaBlink(t) }
             : { view: 'back', seated: true, pose: 'lap', headTurn: -1.2 * turnHead, light: BACK };
           A.hw(c, t, { simT: ts, sCam, lCam: 1.85, H: 1.65, pitch: aim.pitch, yaw: aim.yaw, f: 1150,
@@ -256,7 +256,7 @@
         draw(c, t, lt) {
           const ts = HOLD(t);
           const eO = { view: 'side', dir: 1, pose: 'detective', expr: 'curious', look: [1, -0.05], blink: eliBlink(t) };
-          const mO = { view: 'side', dir: -1, pose: 'crossed', expr: t > A.at('embotellamientos', 1, { beat: '04' }) ? 'awe' : 'curious', look: [1, -0.2], lean: 0.05, blink: milaBlink(t) };
+          const mO = { view: 'side', dir: -1, pose: 'crossed', ...A.ez(t, A.at('embotellamientos', 1, { beat: '04' }), 'curious', 'awe'), look: [1, -0.2], lean: 0.05, blink: milaBlink(t) };
           A.close(c, t, 0, { simT: ts, tStop: sStop, frame: { z: 1.3, wx: 760, wy: 600, sx: 960, sy: 540 },
             crew: (cx, sx, sy, SC, info) => A.crew(cx, sx, sy, SC, info, eO, mO, { eliStand: 1 }) });
         },
@@ -265,10 +265,13 @@
       // ================================================================ BEAT 5 · wordmark
       const wmOpt = { wm: WM,
         eli: (o, tl, W) => {                            // ducks late, rubs his head, looks up: grudging smile
-          if (tl > W.c2 + 0.08 && tl < W.c2 + 0.45) Object.assign(o, { expr: 'surprised', blend: { pose: 'surprise', k: A.ramp(tl, W.c2 + 0.08, 0.1) } });
-          if (tl > W.c2 + 0.45) Object.assign(o, { expr: 'annoyed', blend: { pose: 'scratch', k: A.ramp(tl, W.c2 + 0.45, 0.12) }, look: [0.6, 0.1] });
-          if (tl > W.land + 0.75) Object.assign(o, { expr: 'sheepish', look: [0.45, -0.9], blend: { pose: 'scratch', k: 1 } });
-          if (tl > W.land + 1.35) Object.assign(o, { expr: 'happy', look: [0.5, -0.8], blend: { pose: 'scratch', k: 1 - A.ramp(tl, W.land + 1.35, 0.3) } });
+          // Guardian v3: one blended sequence (the base flinch and these overrides used to fight: full surprise for 2
+          // frames, back to stand, then surprise again; surprise -> scratch swapped poses at full weight)
+          Object.assign(o, A.seq(tl, [[0, { pose: 'stand', blend: null, expr: 'neutral', look: o.look }],
+            [W.c2 + 0.13, { pose: 'surprise', blend: null, expr: 'surprised', look: o.look }],
+            [W.c2 + 0.5, { pose: 'scratch', blend: null, expr: 'annoyed', look: [0.6, 0.1] }],
+            [W.land + 0.75, { pose: 'scratch', blend: null, expr: 'sheepish', look: [0.45, -0.9] }],
+            [W.land + 1.5, { pose: 'stand', blend: null, expr: 'happy', look: [0.5, -0.8] }]], 0.16));
         } };
       shots.push({ id: 'A18_wordmark', start: tWM, bg: 'wm', xf: 0.28, focus: [960, 520], push: 0.02, pushDir: 1,
         post: { grain: 0.13, vignette: 0.5, vignetteColor: '#1a0f26', bloom: 0.3 },

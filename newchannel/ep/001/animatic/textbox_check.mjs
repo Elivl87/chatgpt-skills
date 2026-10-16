@@ -28,12 +28,17 @@ const DIR = args.dir; fs.mkdirSync(DIR, { recursive: true });
 const OUT = args.out || '854x480';
 const BLOCKS = ['A', 'B', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2'];
 const report = []; let fails = 0;
+function segHit([x0, y0, x1, y1], a) { let t0 = 0, t1 = 1; const dx = x1 - x0, dy = y1 - y0;
+  for (const [p, q] of [[-dx, x0 - a[0]], [dx, a[2] - x0], [-dy, y0 - a[1]], [dy, a[3] - y0]]) {
+    if (p === 0) { if (q < 0) return false; continue; } const r = q / p;
+    if (p < 0) { if (r > t1) return false; if (r > t0) t0 = r; } else { if (r < t0) return false; if (r < t1) t1 = r; } }
+  return t0 < t1; }
 for (const B of BLOCKS) {
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
   page.on('pageerror', e => console.log('[pageerror]', e.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/ep/001/animatic/index.html?scene=ep001_${B}&out=${OUT}`);
   await page.waitForFunction(() => window.__ready || window.__error, null, { timeout: 180000 });
-  const lines = await page.evaluate(() => { const d = K.anim.current.def; return K.anim.lineList().filter(L => L.start >= d.t0 && L.start < d.t1).map(L => ({ id: L.id, text: L.text, kind: L.kind || 'speech', start: L.start, end: L.end, show0: L.show0, show1: L.show1, t0: d.t0, read: K.tbox.readTime(L.text) })); });
+  const lines = await page.evaluate(() => { const d = K.anim.current.def; return K.anim.lineList().filter(L => L.start >= d.t0 && L.start < d.t1).map(L => ({ id: L.id, speaker: L.speaker, text: L.text, kind: L.kind || 'speech', start: L.start, end: L.end, show0: L.show0, show1: L.show1, t0: d.t0, read: K.tbox.readTime(L.text) })); });
   for (const L of lines) {
     const ts = []; for (let t = L.start + 0.02; t < L.show1 - 0.17; t += 0.1) ts.push(+t.toFixed(3)); ts.push(+(L.show1 - 0.18).toFixed(3));
     const probs = []; let seen = 0, mid = null;
@@ -45,7 +50,9 @@ for (const B of BLOCKS) {
       seen++;
       const [W, H] = r.size, bx = mine[0].r;
       for (const [who, h] of r.heads) { const z = [h[0] - h[2] * 1.1, h[1] - h[2] * 1.6, h[0] + h[2] * 1.1, h[1] + h[2] * 1.1];
-        if (bx[0] < z[2] && z[0] < bx[2] && bx[1] < z[3] && z[1] < bx[3]) probs.push(`t ${t.toFixed(2)}: box over ${who}'s head`); }
+        if (bx[0] < z[2] && z[0] < bx[2] && bx[1] < z[3] && z[1] < bx[3]) probs.push(`t ${t.toFixed(2)}: box over ${who}'s head`);
+        // Guardian v3: the tail never crosses the OTHER character's head (it reads as their line)
+        const tl = mine[0].tail; if (tl && who !== L.speaker && segHit(tl, [z[0], z[1], z[2], h[1] + h[2] * 2.2])) probs.push(`t ${t.toFixed(2)}: tail crosses ${who}'s head`); }
       if (bx[3] > H * 0.88 + 2 || bx[0] < 2 || bx[1] < 2 || bx[2] > W - 2) probs.push(`t ${t.toFixed(2)}: box outside the safe area ${bx.map(v => Math.round(v))}`);
       if (!mid && t >= (L.start + Math.max(L.end, L.start + L.read)) / 2) { mid = t;
         const url = await page.evaluate(() => window.__grab('image/png')); fs.writeFileSync(path.join(DIR, `tb_${L.id}.png`), Buffer.from(url.slice(url.indexOf(',') + 1), 'base64')); }

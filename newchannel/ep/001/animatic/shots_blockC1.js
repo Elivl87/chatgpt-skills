@@ -54,7 +54,7 @@
           c.save(); c.strokeStyle = K.rgba('#2a1a1e', 0.25); c.lineWidth = 3; c.setLineDash([12, 14]);
           c.beginPath(); for (let k = 0; k <= 60; k++) { const a = k / 60 * K.TAU, cpx = 960 + Math.cos(a) * 330, cpy = 540 + Math.sin(a) * 330 * 0.62, lx = 260 + k / 60 * 1400; const x = K.lerp(cpx, lx, u), y = K.lerp(cpy, 560, u); k ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); c.restore();
           for (let i = 0; i < 12; i++) {
-            const a = -Math.PI / 2 + i / 12 * K.TAU, cpx = 960 + Math.cos(a) * 330, cpy = 540 + Math.sin(a) * 330 * 0.62, lx = 1600 - i * 125;
+            const a = -Math.PI / 2 + i / 12 * K.TAU, cpx = 960 + Math.cos(a) * 330, cpy = 540 + Math.sin(a) * 330 * 0.62, lx = 1600 - i * 125 + 70 * Math.max(0, t - (tRecta - 0.3));   // once straight the line keeps rolling (no freeze on the longer narration)
             const x = K.lerp(cpx, lx, u), y = K.lerp(cpy, 560, u), hd = K.lerp(a + Math.PI / 2, 0, u);
             const pe = E.persona(500 + i);
             K.car.top(c, { sc: 26, sinE: 0.62, cosE: 0.78, ox: x, oy: y }, 0, 0, hd, { k: 1, color: i === 9 ? K.TEAL : pe.color, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, expr: 'content' });
@@ -109,7 +109,7 @@
       shots.push({ id: 'C07_no', start: noT[0] - 0.22, bg: 'line_eli', label: 'ACELERADO ×3', focus: [900, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) {
           const ts = L3(t), sp = A.talk('eli', t), k = noT.filter(x => t > x - 0.02).length;
-          const eO = { pose: 'drive', expr: k >= 3 ? 'surprised' : 'worried', look: [0.9, -0.3], t, talk: sp.talk, viseme: sp.viseme, lean: 0.02 * k };
+          const eO = { pose: 'drive', ...A.ez(t, noT[2] - 0.02, 'worried', 'surprised'), look: [0.9, -0.3], t, talk: sp.talk, viseme: sp.viseme, lean: 0.02 * k };
           c.__t = t;
           A.line(c, t, { simT: ts, camS: carCam(ELI, ts) + 1.2, pxm: 190, eli: eliAt(eO), carOver: (cx, i, x, y, s) => bars(cx, i, x, y, s, ts, 140, 1, true) });
         },
@@ -119,11 +119,11 @@
       shots.push({ id: 'C08_hat', start: tPara - 0.12, bg: 'line_eli_stop', label: 'ACELERADO ×3', focus: [960, 520], push: 0.03, pushDir: -1,
         draw(c, t, lt) {
           const ts = L3(t), since = t - stopAt;
-          const eO = { pose: 'drive', expr: since < 0 ? 'determined' : since < 0.5 ? 'surprised' : 'annoyed', look: since > 0.6 ? [0.15, -0.95] : [0.9, -0.1], t, lean: since > 0 ? 0.08 * Math.exp(-since * 5) : 0 };
+          const eO = { pose: 'drive', ...A.ezs(t, [[0, 'determined'], [stopAt, 'surprised'], [stopAt + 0.5, 'annoyed']], 0.12), look: since > 0.6 ? [0.15, -0.95] : [0.9, -0.1], t, lean: since > 0 ? 0.08 * Math.exp(-since * 5) : 0 };
           let head = null; c.__t = t; A._outer = c.getTransform();
           const g = A.line(c, t, { simT: ts, camS: carCam(ELI, ts) + 2.6, pxm: 150,
             eli: (cx, sx, sy, s, S, b) => { const r = K.cast.crew2(cx, sx, sy, s, { driver: 'eli1', t, light: N, u: 2.7 * s, driverO: eO }); head = A.toOuter(cx, r.driver.head[0], r.driver.head[1]); head[2] *= r.driver.head[2]; },
-            chars: (cx, toX, S) => K.cast.draw(cx, 'mila1', toX(S.x[ELI]) - 430, 1070, 640, { view: 'q', dir: 1, pose: 'clipboard', expr: since > 0.3 ? 'smug' : 'thinking', t, look: [0.9, -0.2], light: N, shadow: 0.25 }) });
+            chars: (cx, toX, S) => K.cast.draw(cx, 'mila1', toX(S.x[ELI]) - 430, 1070, 640, { view: 'q', dir: 1, pose: 'clipboard', ...A.ez(t, stopAt + 0.3, 'thinking', 'smug'), t, look: [0.9, -0.2], light: N, shadow: 0.25 }) });
           if (head) {   // the bar of car 10 (its true peak) drops onto the beanie at the stop
             const h = A.peakSoFar(ELI, ts) * 140, drop = since < 0 ? 0 : K.ease.outBack(K.clamp(since / 0.35));
             const top = head[1] - head[2] * 1.55, yb = K.lerp(top - 320, top, drop);
@@ -146,7 +146,7 @@
           const ts = sStop10 + 2 + (tLos - tLos) + (t - tLos) * 0.5, k = K.clamp((t - tCadena2) / (tAutos - tCadena2));
           WZ(c, () => A.line(c, t, { simT: ts, camS: platoon(ts, 4, 11) + 2, pxm: 13, carK: 2.2,
             chars: (cx, toX, S) => { for (let i = 1; i < 11; i++) { const a = toX(S.x[i]) + 3.3 * 13 * 2.2 * 0.5, b = toX(S.x[i + 1]) - 3.3 * 13 * 2.2 * 0.5; const kk = K.clamp(k * 10 - (10 - i)); P.chain(cx, a, b, A.LINE.GY - 0.6 * 13 * 2.2, kk); } } }));
-          K.cast.draw(c, 'eli1', 330, 1180, 720, { view: 'q', dir: 1, pose: 'crossed', expr: k > 0.5 ? 'thinking' : 'curious', t, look: [0.9, -0.2], light: N, shadow: 0 });
+          K.cast.draw(c, 'eli1', 330, 1180, 720, { view: 'q', dir: 1, pose: 'crossed', ...A.ez(t, (tCadena2 + tAutos) / 2, 'curious', 'thinking'), t, look: [0.9, -0.2], light: N, shadow: 0 });
         },
         cues: A => [{ t: tCadena2, kind: 'chain', t1: tAutos }] });
       const S4m = (anchor, N4) => A.map(A.s4().p.taps[0].t, anchor, N4);   // S4 records no events: the tap time comes from its spec

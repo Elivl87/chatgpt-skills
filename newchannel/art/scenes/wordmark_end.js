@@ -96,15 +96,17 @@
     const hit = opt.catch ? 0 : tl > W.c2 ? Math.exp(-(tl - W.c2) * 7) * K.clamp((tl - W.c2) / 0.03) : 0;
     let eO = { view: 'q', dir: -1, pose: 'stand', expr: 'neutral', look: [0.6, -0.3], t: tl, light: HL, shadow: 0.25, hatHit: hit, lean: -hit * 0.08 };
     if (tl > W.c1) eO.look = [0.4, -0.9];                                        // follows the dot coming at him
-    if (tl > W.c2) Object.assign(eO, { expr: 'surprised', pose: 'stand', blend: { pose: 'surprise', k: 1 - ramp(W.c2 + 0.35, 0.2) } });
+    // Guardian v3: every blend weight starts at 0 (the flinch used to appear at full strength in one frame) and one blend
+    // has fully left before the next begins
+    if (tl > W.c2) Object.assign(eO, { expr: 'surprised', pose: 'stand', blend: { pose: 'surprise', k: ramp(W.c2, 0.07) * (1 - ramp(W.c2 + 0.3, 0.15)) } });
     if (tl > W.c2 + 0.45) Object.assign(eO, { expr: 'annoyed', blend: { pose: 'scratch', k: ramp(W.c2 + 0.45, 0.15) * (1 - ramp(W.c2 + 1.0, 0.2)) }, look: [0.7, 0] });
-    if (tl > W.c2 + 1.15) Object.assign(eO, { expr: 'laugh', blend: { pose: 'belly', k: ramp(W.c2 + 1.15, 0.2) } });
+    if (tl > W.c2 + 1.2) Object.assign(eO, { expr: 'laugh', blend: { pose: 'belly', k: ramp(W.c2 + 1.2, 0.2) } });
     // Mila: the dot on her palm -> wind-up -> flick (arm snaps out) -> follow-through -> smug
     const wind = ramp(W.drop, 0.3) * (1 - ramp(W.c1 - 0.06, 0.06)), flick = ramp(W.c1 - 0.06, 0.08) * (1 - ramp(W.c1 + 0.5, 0.3));
     let mO = { view: 'q', dir: 1, pose: 'palm', expr: 'happy', look: [0.5, -0.2], t: tl, light: HL, shadow: 0.25, tilt: -wind * 0.06, lean: -wind * 0.04 + flick * 0.05 };
     if (flick > 0) mO.blend = { pose: 'point', k: flick };
     if (tl > W.c1) { mO.expr = 'curious'; mO.look = [0.7, -0.6]; }
-    if (tl > W.land) { mO.expr = 'smug'; mO.look = [0.8, 0]; if (flick <= 0) mO.blend = { pose: 'crossed', k: ramp(W.land + 0.1, 0.25) }; }
+    if (tl > W.land) { mO.expr = 'smug'; mO.look = [0.8, 0]; const ck = ramp(W.land + 0.1, 0.25); if (ck > flick) mO.blend = { pose: 'crossed', k: ck }; }
     if (opt.eli) opt.eli(eO, tl, W);
     if (opt.mila) opt.mila(mO, tl, W);
     let hand = Bw.hand || { x: mx + 40, y: my - 80 }, bonk = Bw.bonk || { x: ex, y: ey - 150 };

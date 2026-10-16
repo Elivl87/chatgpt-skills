@@ -284,6 +284,29 @@ Two parts, both must report **0 failures** before a delivery:
 - Small round details (buttons, jewel highlights, the bow knot) are true-radius discs, never `K.circle` in body units
   (it clamps r >= 0.01 = a pale disc as big as the button).
 
+## 6e · Motion audit: one-frame pops in the finished video (Guardian v3, 2026-10-16)
+
+The key-frame audits (6b-6d) sample a few moments per shot; a garment, arm, prop or face that snaps between two of
+them is invisible to them. **Every delivery with Eli / Mila in motion also runs**
+`python3 ep/001/animatic/pop_check.py block<X>_draft.mp4 <events.json> X <qc dir> --body qc/body_<X>.json` (decodes
+EVERY frame, 24 px cells inside the characters' boxes; STEP = a cell changes in one frame while its neighbourhood was
+quiet the frame before and after; FLASH = something shows for exactly one frame; cuts excluded) and the sheet of
+before / now / after crops is **read by eye**: blinks, mouth visemes, text-box pop-ins and scripted hits are fine; a
+sleeve, strap, apron, limb, prop, badge or a whole face that snaps is a defect.
+
+Rules (kit `art/lib/cast.js` + `ep/001/animatic/anim.js`):
+- **No hard switches in shot lists.** Never `pose: t > T ? 'b' : 'a'`, `if / else` chains of `{ pose, expr }`, or
+  `cond ? A.pz(..) : A.pz(..)`. Use `A.pz` / `A.pzv` (pose), `A.ez` / `A.ezs` (face: `o.exprBlend = { expr, k }`
+  interpolates lids, brows, eye / pupil scale, gaze, head tilt; mouth and flags switch at k = 0.5) and `A.seq(t, keys, d)`
+  (pose + face + lean / tilt / headTurn / look + front-3/4-profile view, all blended at each boundary).
+- **Stand-ups / sit-downs are continuous**: `o.crouch` (units) draws the body lower with the feet on the ground and the
+  knees bent (forward in profile, out in front); `o.crouchFwd` puts the feet where a chair-seated pose has them. Stadium
+  (C2) and bench (E2 K05) use it; never flip `seated` in one frame.
+- **Seated on an open bench / chair: `legs: true`** (the legs were missing on the bus-stop bench, E2 K04-K07).
+- Props that depend on a pose follow its blend weight (Eli's badge height, the popcorn bucket from lap to hand).
+- Turns away from camera go through profile (numeric view) before the back view, never q -> back 3/4 mirrored.
+- Text boxes: the tail never crosses another head or box (`K.tbox.place` penalty; `textbox_check.mjs` fails it).
+
 ## 7 · Never
 
 - Never change their silhouettes (capsule heads, heights, beanie, ponytail), their signature colours or their wardrobe

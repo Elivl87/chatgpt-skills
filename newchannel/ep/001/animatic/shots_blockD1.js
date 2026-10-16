@@ -66,7 +66,7 @@
       shots.push({ id: 'E02_rulebook', start: tHay - 0.1, bg: 'field_book', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { const k = A.ramp(t, tHay + 0.5, 0.4);
           A.field(c, t, { run: S7(), simT: PRE(t) - 20, frame: { z: 1.5, x: 960, y: 600 }, chars: cx => {
-            const r = K.cast.draw(cx, 'eli1', 960, G + k * 20, 620, { view: 'front', pose: 'cheer', expr: k > 0.5 ? 'worried' : 'determined', t, lean: 0, light: LF, shadow: 0.3, extras: k > 0.5 ? ['sweat'] : [] });
+            const r = K.cast.draw(cx, 'eli1', 960, G + k * 20, 620, { view: 'front', pose: 'cheer', ...A.ez(t, tHay + 0.7, 'determined', 'worried'), t, lean: 0, light: LF, shadow: 0.3, extras: k > 0.5 ? ['sweat'] : [] });
             const bx = (r.hands.lead[0] + r.hands.trail[0]) / 2, by = Math.min(r.hands.lead[1], r.hands.trail[1]) - 20 + k * 40 + Math.sin(t * 18) * 3 * k;
             cx.save(); cx.translate(bx, by); cx.rotate(-0.05 + 0.08 * k); cx.fillStyle = '#7a3f4a'; cx.strokeStyle = '#2a1a1e'; cx.lineWidth = 6; K.rrect(cx, -230, -170, 460, 170, 14); cx.fill(); cx.stroke();
             cx.fillStyle = '#fbf3e4'; cx.fillRect(-222, -40, 444, 30); cx.font = '800 44px "Martian Mono"'; cx.textAlign = 'center'; cx.fillStyle = '#f2c230'; cx.fillText('PARA TODOS', 0, -90); cx.restore(); } });
@@ -108,8 +108,8 @@
       shots.push({ id: 'E08_lema', start: tMi - 0.45, bg: 'field_lema', focus: [960, 480], push: 0.035, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { const sp = A.talk('eli', t);
           A.field(c, t, { run: S7(), simT: PRE(t), frame: { z: 1.6, x: 960, y: 560 }, chars: cx => {
-            K.cast.draw(cx, 'mila1', 1290, G - 6, 640, { view: 'q', dir: -1, pose: 'crossed', expr: t > tMi + 0.3 ? 'smug' : 'neutral', t, look: [-0.9, 0], light: LF, shadow: 0.3 });
-            const u = 660, r = K.cast.draw(cx, 'eli1', 860, G, u, { view: 'q', dir: 1, ...A.pz(t, tMi, 'clasp', 'pump'), expr: t > tMi - 0.05 ? 'happy' : 'curious', t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: t > tMi + 0.1 ? ['sparkle'] : [] });
+            K.cast.draw(cx, 'mila1', 1290, G - 6, 640, { view: 'q', dir: -1, pose: 'crossed', ...A.ez(t, tMi + 0.3, 'neutral', 'smug'), t, look: [-0.9, 0], light: LF, shadow: 0.3 });
+            const u = 660, r = K.cast.draw(cx, 'eli1', 860, G, u, { view: 'q', dir: 1, ...A.pz(t, tMi, 'clasp', 'pump'), ...A.ez(t, tMi - 0.05, 'curious', 'happy'), t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: t > tMi + 0.1 ? ['sparkle'] : [] });
             eliBadge(cx, r, u, t); } }); },
         cues: A => [{ t: tMi, kind: 'ding' }] });
 
@@ -155,7 +155,7 @@
         draw(c, t, lt) { const step = A.ramp(t, tComo + 0.1, 0.35) * (1 - A.ramp(t, pull, 0.12));
           A.field(c, t, { run: S7(), simT: CTRL(t), frame: { z: 1.5, x: 960, y: 580 }, chars: cx => {
             const ex = 900 - step * 160 + 0, u = 620;
-            const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: -1, ...A.pz(t, pull + 0.9, 'open', 'stand'), expr: t < pull ? 'determined' : 'surprised', t, lean: step * 0.12 - (t > pull ? 0.06 * Math.exp(-(t - pull) * 4) : 0), light: LF, shadow: 0.3 });
+            const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: -1, ...A.pz(t, pull + 0.9, 'open', 'stand'), ...A.ez(t, pull, 'determined', 'surprised'), t, lean: step * 0.12 - (t > pull ? 0.06 * Math.exp(-(t - pull) * 4) : 0), light: LF, shadow: 0.3 });
             eliBadge(cx, rE, u, t);
             const rM = K.cast.draw(cx, 'mila1', 1260, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, pull - 0.1, 'clipboard', 'point'), expr: 'neutral', t, look: [-0.2, 0.3], light: LF, shadow: 0.3 });
             if (t > pull - 0.1) { cx.strokeStyle = K.cast.INK; cx.lineWidth = 9; cx.beginPath(); cx.moveTo(rE.head[0] + 30, rE.head[1] + u * 0.22); cx.lineTo(rM.hands.lead[0], rM.hands.lead[1]); cx.stroke(); cx.strokeStyle = '#3b2a20'; cx.lineWidth = 5; cx.stroke(); } } }); },
@@ -166,8 +166,8 @@
         draw(c, t, lt) { A.ring(c, t, ringOpts(MELT(t))); } });
       const gaugeShot = (id, start, text, sub, keyT, bg, gp = [1090, 230]) => shots.push({ id, start, bg, focus: [960, 520], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S7(), simT: MELT(t), frame: { z: 1.5, x: 960, y: 580 }, chars: cx => {
-          K.cast.draw(cx, 'mila1', 1300, G - 6 - (t > keyT ? 14 * Math.abs(Math.sin(t * 7)) : 0), 600, { view: 'q', dir: -1, ...A.pz(t, keyT, 'clipboard', 'clasp'), expr: t > keyT ? 'happy' : 'curious', t, light: LF, shadow: 0.3 });
-          const u = 620, r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, ...A.pz(t, fixT, 'crossed', 'point'), expr: droop(t) > 0.3 ? 'sheepish' : 'neutral', t, look: droop(t) > 0.3 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t, !(t > fixT)); } });
+          K.cast.draw(cx, 'mila1', 1300, G - 6 - (t > keyT ? 14 * Math.abs(Math.sin(t * 7)) : 0), 600, { view: 'q', dir: -1, ...A.pz(t, keyT, 'clipboard', 'clasp'), ...A.ez(t, keyT, 'curious', 'happy'), t, light: LF, shadow: 0.3 });
+          const u = 620, r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, ...A.pz(t, fixT, 'crossed', 'point'), expr: droop(t) > 0.3 ? 'sheepish' : 'neutral', t, look: droop(t) > 0.3 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t, 1 - K.ease.sine(K.clamp((t - (fixT - 0.1)) / 0.2))); } });   // follows the crossed -> point blend
           P.gauge(c, gp[0], gp[1], text, sub, A.ramp(t, keyT - 0.1, 0.25)); },   // Guardian: was (960, 260), touching Eli's beanie
         cues: A => [{ t: keyT, kind: 'gauge' }] });
       gaugeShot('E15_80', tLos1 - 0.1, '−80 %', 'cambios de velocidad', tOchenta, 'field_g1');

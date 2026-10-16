@@ -87,6 +87,11 @@
   A.pz = (t, T, a, b, d = 0.2) => { const k = K.clamp((t - (T - d / 2)) / d); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
   // expression change without a one-frame snap (Guardian v3): the face eases a -> b over d seconds centred on T
   A.ez = (t, T, a, b, d = 0.14) => { const k = K.clamp((t - (T - d / 2)) / d); return k <= 0 || a === b ? { expr: a } : k >= 1 ? { expr: b } : { expr: a, exprBlend: { expr: b, k: K.ease.sine(k) } }; };
+  // expression sequence: keys = [[T, expr], ...] (first T ignored), each change eased over d (A.ez)
+  A.ezs = (t, keys, d = 0.14) => { let i = 0; while (i + 1 < keys.length && t >= keys[i + 1][0]) i++;
+    if (i + 1 < keys.length && t > keys[i + 1][0] - d / 2) return A.ez(t, keys[i + 1][0], keys[i][1], keys[i + 1][1], d);
+    if (i > 0 && t < keys[i][0] + d / 2) return A.ez(t, keys[i][0], keys[i - 1][1], keys[i][1], d);
+    return { expr: keys[i][1] }; };
   // acting sequence (Guardian v3): keys = [[T, { pose, expr, view, look, lean, tilt, ... }], ...] in time order (the first T
   // is ignored). Instead of an if / else chain that snaps pose, face and limbs in one frame, each boundary blends the
   // pose (A.pz), the face (A.ez), numeric fields (lean, tilt, headTurn, look) and front / 3/4 / profile views over d s.
@@ -146,7 +151,7 @@
   A.LINES = {
     b03_02_eli: { kind: 'shout' }, b04_06_mila: {}, b04_07_eli: {}, b06_11_eli: {}, b07_14_eli: { kind: 'shout' },
     b09_18_eli: {}, b10_21_eli: { kind: 'shout' }, b12_24_eli: { kind: 'shout' }, b13_27_eli: {}, b14_29_eli: {},
-    b17_33_eli: { kind: 'shout' }, b17_35_mila: {}, b17_36_eli: { kind: 'whisper', side: -1 }, b18_39_eli: {}, b18_40_mila: {},
+    b17_33_eli: { kind: 'shout' }, b17_35_mila: {}, b17_36_eli: { kind: 'whisper', side: -1 }, b18_39_eli: { side: -1 }, b18_40_mila: {},
     b19_43_eli: {}, b21_47_eli: { kind: 'shout' }, b21_49_eli: { kind: 'shout' }, b23_54_eli: { kind: 'whisper' },
     b23_55_mila: {}, bend_58_eli: { kind: 'shout' },
   };

@@ -61,8 +61,8 @@
           const ts = A.map(0, T0, 1)(t), sp = A.talk('eli', t), pt = t > el('Fue', 1, '06') - 0.1;
           A.field(c, t, { simT: ts, frame: { z: 1.35, x: 860, y: 560 },
             chars: (cx) => {
-              K.cast.draw(cx, 'mila1', 1180, G - 8, 560, { view: 'q', dir: -1, pose: 'clipboard', expr: pt ? 'smug' : 'neutral', t, look: [-0.8, 0.1], light: LF, shadow: 0.3, blink: blink(5, t) });
-              K.cast.draw(cx, 'eli1', 760, G, 600, { view: 'q', dir: -1, ...A.pz(t, el('Fue', 1, '06') - 0.1, 'pump', 'point'), expr: pt ? 'smug' : 'happy', t, look: [-0.9, 0], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, blink: blink(3, t) });
+              K.cast.draw(cx, 'mila1', 1180, G - 8, 560, { view: 'q', dir: -1, pose: 'clipboard', ...A.ez(t, el('Fue', 1, '06') - 0.1, 'neutral', 'smug'), t, look: [-0.8, 0.1], light: LF, shadow: 0.3, blink: blink(5, t) });
+              K.cast.draw(cx, 'eli1', 760, G, 600, { view: 'q', dir: -1, ...A.pz(t, el('Fue', 1, '06') - 0.1, 'pump', 'point'), ...A.ez(t, el('Fue', 1, '06') - 0.1, 'happy', 'smug'), t, look: [-0.9, 0], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, blink: blink(3, t) });
             } });
         } });
 
@@ -173,7 +173,7 @@
         draw(c, t, lt) {
           let head = null; const yell = A.pulse(t, tQuien - 0.03, 0.08, tFueE - tQuien + 0.2, 0.2);
           A.field(c, t, { simT: C4(t), frame: { z: 1.55, x: 900, y: 560 },
-            chars: (cx) => { const r = K.cast.draw(cx, 'eli1', 860, G, 640, { view: 'q', dir: -1, pose: 'fist', expr: t < tQuien - 0.05 ? 'grumpy' : 'furious', t, look: [-0.8, -0.2], light: LF, shadow: 0.3, lean: t < tQuien ? -0.04 : 0.06, extras: t > tQuien ? ['anger'] : [] }); head = r.head; } });
+            chars: (cx) => { const r = K.cast.draw(cx, 'eli1', 860, G, 640, { view: 'q', dir: -1, pose: 'fist', ...A.ez(t, tQuien - 0.05, 'grumpy', 'furious'), t, look: [-0.8, -0.2], light: LF, shadow: 0.3, lean: t < tQuien ? -0.04 : 0.06, extras: t > tQuien ? ['anger'] : [] }); head = r.head; } });
           if (head) { const z = 1.55, hp = [960 + (head[0] - 900) * z, 540 + (head[1] - 560) * z, head[2] * z]; A.speaker('eli', hp); }
         },
         cues: A => [{ t: tQuien, kind: 'pop' }] });
@@ -209,7 +209,7 @@
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           A.field(c, t, { simT: C5(t), frame: { z: 1.6, x: 980, y: 640 },
-            chars: (cx) => K.cast.draw(cx, 'mila1', 980, G - 70, 660, { view: 'q', dir: -1, pose: 'sit', seated: true, legs: true, sitGround: true, expr: t > A.at('encanta', 1, { beat: '08' }) ? 'awe' : 'curious', t, look: [-0.7, -0.3], light: LF, shadow: 0.3, blink: blink(5, t) }) });
+            chars: (cx) => K.cast.draw(cx, 'mila1', 980, G - 70, 660, { view: 'q', dir: -1, pose: 'sit', seated: true, legs: true, sitGround: true, ...A.ez(t, A.at('encanta', 1, { beat: '08' }), 'curious', 'awe'), t, look: [-0.7, -0.3], light: LF, shadow: 0.3, blink: blink(5, t) }) });
         } });
       // B19 · «los autos siempre avanzan»: teal chevrons along the direction of travel
       const jamCam = (c, t, z) => { const j = A.jamSmooth(C5(t), 3), jp = A.clampView(A.angPt(j), z); c.translate(960, 540); c.scale(z, z); c.translate(-jp[0], -jp[1]); };

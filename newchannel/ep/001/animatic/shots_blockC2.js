@@ -152,7 +152,7 @@
           // Eli is still IN his car (he is one of the three cars that fell; script: «cierra la boca despacio»). Guardian:
           // he used to stand on the field in the drive pose with no car under him
           K.car.front(c, 1420, 1150, 259, { color: K.TEAL, head: 0.35, glowScale: 0.5, lit: { rim: '#ffd99a', shade: '#3a3358', ang: -1.2, shadeK: 0.2 },
-            drawDriver: (x, top, s) => K.cast.draw(c, 'eli1', x, top + 0.34 * s, 700, { view: 'front', pose: 'lap', seated: true, look: [-0.5, 0], expr: t < tF + 1.5 ? 'surprised' : 'sheepish', t, light: K.cast.LIGHT.golden }) });
+            drawDriver: (x, top, s) => K.cast.draw(c, 'eli1', x, top + 0.34 * s, 700, { view: 'front', pose: 'lap', seated: true, look: [-0.5, 0], ...A.ez(t, tF + 1.5, 'surprised', 'sheepish'), t, light: K.cast.LIGHT.golden }) });
           K.cast.draw(c, 'mila1', 520, 1100, 520, { view: 'q', dir: 1, pose: 'wave', expr: 'smug', t, light: K.cast.LIGHT.golden }); { const ua = A.pulse(t, tF + 1.3, 0.1, 0.6, 0.2), hm = A._heads && A._heads.mila;   // Mila's «upsi»: a text box (no voice)
             if (ua > 0.003) { c.save(); c.setTransform(K.OUTSCALE, 0, 0, K.OUTSCALE, 0, 0);   // screen space (heads are screen coords)
               K.tbox.draw(c, { text: 'upsi', kind: 'speech', head: hm ? hm.head : null, light: hm ? hm.light : 'golden', age: t - (tF + 1.3), a: ua, out: K.clamp((t - (tF + 2.0)) / 0.2), avoid: [] }); c.restore(); } } } });
@@ -220,9 +220,9 @@
           { const g = c.createLinearGradient(0, 0, 0, K.H); g.addColorStop(0, '#0b1030'); g.addColorStop(0.7, '#2c3366'); g.addColorStop(1, '#463f6e'); c.fillStyle = g; c.fillRect(0, 0, K.W, K.H); }
           K.sky.stars(c, { seed: 41, n: 260, y1: 700, t }); K.light.glow(c, 1500, 980, 600, '#ff4a36', 0.15, 'screen');
           c.fillStyle = '#0a0f22'; c.beginPath(); c.moveTo(0, 900); c.quadraticCurveTo(960, 820, 1920, 930); c.lineTo(1920, 1080); c.lineTo(0, 1080); c.fill();
-          const sp = A.talk('eli', t), fu = finger(t);
+          const sp = A.talk('eli', t), fu = finger(t) * (1 - A.ramp(t, sandT, 0.2));   // the finger is down before he turns to the sandwich (no pose swap mid-blend)
           K.cast.draw(c, 'eli1', 760, 960, 700, { view: 'q', dir: 1, ...(fu > 0.001 ? { pose: t > sandT + 0.35 ? 'belly' : 'sit', blend: { pose: 'sitPoint', k: fu } } : A.pz(t, sandT + 0.35, 'sit', 'belly')), seated: true, legs: true, sitGround: true, t, light: NL,
-            expr: t < tNi - 0.3 ? 'grumpy' : t < sandT + 0.3 ? 'sad' in K.cast.EXPR ? 'sad' : 'worried' : 'happy', talk: sp.talk, viseme: sp.viseme, look: t > sandT ? [0.6, 0.1] : [0.9, 0] });
+            ...A.ezs(t, [[0, 'grumpy'], [tNi - 0.3, 'worried'], [sandT + 0.3, 'happy']]), talk: sp.talk, viseme: sp.viseme, look: t > sandT ? [0.6, 0.1] : [0.9, 0] });
           const give = A.ramp(t, sandT, 0.35);
           const rm = K.cast.draw(c, 'mila1', 1180, 960, 700, { view: 'q', dir: -1, ...A.pzv(give, 0.1, 'sit', 'palm'), seated: true, legs: true, sitGround: true, t, light: NL, expr: 'happy', look: [-0.8, 0] });
           if (give > 0.05) { const hx = K.lerp(rm.hands.lead[0], 980, give), hy = K.lerp(rm.hands.lead[1], 760, give);   // half a sandwich
