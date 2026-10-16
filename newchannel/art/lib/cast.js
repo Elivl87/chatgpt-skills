@@ -60,13 +60,17 @@
   // width; the shade crescent is capped (<= shadeMax units, so it never splits a beanie or a face in half); eyes are
   // masked out of shade, rim and grain (whites stay clean and fully open in every light).
   function maskOut(T, M) { if (M) { T.ctx.globalCompositeOperation = 'destination-out'; T.ctx.drawImage(M.c, 0, 0); } }
-  function lightLayer(L, light, u, lw, M) {
+  function lightLayer(L, light, u, lw, M, SOL) {
     const w = L.w, h = L.h, dx = Math.cos(light.ang), dy = Math.sin(light.ang), T = buf('tmp', w, h), t = T.ctx;
     if (light.shadeA > 0) {
       const sh = Math.min(light.shadeW, light.shadeMax ?? 0.028) * u;
       t.globalCompositeOperation = 'source-over'; t.clearRect(0, 0, w, h);
       t.drawImage(L.c, 0, 0); t.globalCompositeOperation = 'source-in'; t.fillStyle = light.shade; t.fillRect(0, 0, w, h);
-      t.globalCompositeOperation = 'destination-out'; t.drawImage(L.c, dx * sh, dy * sh); maskOut(T, M);
+      t.globalCompositeOperation = 'destination-out'; t.drawImage(L.c, dx * sh, dy * sh);
+      // clothes QC 2026-10-16: holes that are not real gaps in the form (the slot between the legs under Eli's apron skirt /
+      // Mila's overall seat) count as solid for the shade test, so no shade patch appears on the hem over the leg gap
+      if (SOL) t.drawImage(SOL.c, dx * sh, dy * sh);
+      maskOut(T, M);
       L.ctx.globalCompositeOperation = 'source-atop'; L.ctx.globalAlpha = light.shadeA; L.ctx.drawImage(T.c, 0, 0);
       L.ctx.globalAlpha = 1; L.ctx.globalCompositeOperation = 'source-over';
     }
@@ -94,6 +98,7 @@
   C.lightLayer = lightLayer; C.rimLight = rimLight;
   // eyes drawn in the current layer register themselves here (with the canvas transform), to be masked from the light
   let EYES = null;
+  let SOLIDC = null;   // the current layer's "solid" mask context (see lightLayer)
   // QC hook (faces audit): when root.__faceLog is an array, every C.draw on the visible canvas logs each eye in canvas
   // px ({ id, expr, view, eyes: [{ cx, cy, rx, ry, px, py, pr, cr, closed, lid }] }); nothing is logged otherwise
   let FACE = null;
@@ -620,14 +625,22 @@
       const j = ik(A0.S0, T, L1, L2, pole);
       const pts = softLimb(j, 0.35);
       const e = pts[pts.length - 1], q = pts[pts.length - 3], dl = Math.hypot(e[0] - q[0], e[1] - q[1]) || 1;
+      // clothes QC 2026-10-16: a hand tucked behind the back is a relaxed hand, never a bare stump (front detective)
+      if (hk === 'hide' && ((b && bk > 0.5 ? b.at : a.at) === 'backhand')) hk = 'relax';
       return { j, pts, hand: hk, dv: [(e[0] - q[0]) / dl, (e[1] - q[1]) / dl], sg, at: (b && bk > 0.5 ? b.at : a.at) || null };
     };
     const lead = armFor(dir, P.lead, PB && PB.lead), trail = armFor(-dir, P.trail, PB && PB.trail);
-    const drawArm = (c, Aa) => {
-      const pts = Aa.pts, ar = S.arm;
+    // frac < 1: only the upper part of the arm (shoulder -> elbow), e.g. a hand in front of the chest seen from the back
+    const drawArm = (c, Aa, frac = 1) => {
+      const pts = frac < 1 ? partial(Aa.pts, frac) : Aa.pts, ar = S.arm;
       noodle(c, pts, ar.w, ar.skinPart ? S.skin : ar.sleeve, lw);
       if (ar.skinPart) { // a short sleeve: one tube from the round shoulder, slightly flared, cut square at the hem
-        const sw = ar.sleeveW || ar.w * 1.25, p = partial(pts, ar.sleeveTo - 0.05), q = partial(pts, ar.sleeveTo, ar.sleeveTo - 0.07);
+        // clothes QC 2026-10-16: the round-capped part used to end 0.05 arm-lengths before the hem, but its cap radius
+        // (0.46 sw) is longer than that, so a white crescent of sleeve bulged out BELOW the hem line. The round part now
+        // stops one cap radius before the hem; the square-cut part covers the rest.
+        let L = 0; for (let i = 1; i < pts.length; i++) L += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+        const sw = ar.sleeveW || ar.w * 1.25, st = Math.min(1, ar.sleeveTo / frac), capF = (sw * 0.46 + lw) / Math.max(1e-4, L);
+        const p = partial(pts, Math.max(0.02, st - capF - 0.01)), q = partial(pts, st, Math.max(0, st - capF - 0.04));
         c.lineJoin = 'round';
         c.lineCap = 'round'; path(c, p); c.strokeStyle = INK; c.lineWidth = sw * 0.92 + 2 * lw; c.stroke();
         c.lineCap = 'butt'; path(c, q); c.lineWidth = sw + 2 * lw; c.stroke();
@@ -635,11 +648,13 @@
         c.lineCap = 'butt'; path(c, q); c.lineWidth = sw; c.stroke();
         if (ar.sleeveBand) { const qb = partial(pts, ar.sleeveTo, ar.sleeveTo - 0.035); path(c, qb); c.strokeStyle = ar.sleeveBand; c.lineWidth = sw * 0.98; c.stroke(); }
         const e = q[q.length - 1], e0 = q[0], dl = Math.hypot(e[0] - e0[0], e[1] - e0[1]) || 1, nx = -(e[1] - e0[1]) / dl, ny = (e[0] - e0[0]) / dl;
-        c.lineCap = 'round'; c.strokeStyle = INK; c.lineWidth = lw * 1.6; c.beginPath(); c.moveTo(e[0] - nx * (sw / 2 + lw * 0.5), e[1] - ny * (sw / 2 + lw * 0.5)); c.lineTo(e[0] + nx * (sw / 2 + lw * 0.5), e[1] + ny * (sw / 2 + lw * 0.5)); c.stroke(); }
+        // the hem line ends exactly on the sleeve's outer ink (butt caps): it used to poke out as two little knobs
+        c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = lw * 1.6; c.beginPath(); c.moveTo(e[0] - nx * (sw / 2 + lw * 0.95), e[1] - ny * (sw / 2 + lw * 0.95)); c.lineTo(e[0] + nx * (sw / 2 + lw * 0.95), e[1] + ny * (sw / 2 + lw * 0.95)); c.stroke(); c.lineCap = 'round'; }
       if (ar.upperColor) { const p = partial(pts, ar.upperTo || 0.5); noodle(c, p, ar.w * 1.02, ar.upperColor, lw); }
       if (ar.stripe) { c.lineCap = 'round'; path(c, partial(pts, 0.86)); c.strokeStyle = ar.stripe; c.lineWidth = ar.w * 0.22; c.stroke(); }
       if (ar.flare) { const p = partial(pts, 0.92), qq = p[p.length - 1]; c.fillStyle = ar.cuff || ar.sleeve; c.strokeStyle = INK; c.lineWidth = lw * 2; K.ellipse(c, qq[0], qq[1], ar.w * 0.85, ar.w * 0.85, 0); c.stroke(); c.fill(); }
       else if (!ar.skinPart && ar.cuff) { const p = partial(pts, 0.92, 0.86); c.lineCap = 'butt'; path(c, p); c.strokeStyle = INK; c.lineWidth = ar.w + 2 * lw; c.stroke(); c.strokeStyle = ar.cuff; c.lineWidth = ar.w; c.stroke(); }
+      if (frac < 1) return;
       if (o.prop && o.prop.hand === (Aa === lead ? 'lead' : 'trail') && o.prop.under) o.prop.under(c, pts[pts.length - 1], Aa.dv, S, H);
       hand(c, pts[pts.length - 1], Aa.dv, Aa.hand, ar.hand, S.handColor || S.skin, lw, Aa.sg * (s > 0.3 ? dir * Aa.sg : 1) > 0 ? 1 : -1);
       if (ar.watch && Aa === trail) { const p = partial(pts, 0.88), qq = p[p.length - 1]; c.fillStyle = ar.watch; c.strokeStyle = INK; c.lineWidth = lw * 1.4; K.circle(c, qq[0], qq[1], ar.w * 0.45); c.fill(); c.stroke(); }
@@ -719,6 +734,8 @@
           c.translate(0, bobY);
           upper(c, () => {
             if (!back) headDraw(c, 'back'); if (s > 0.05) drawArm(c, back ? trail : lead);
+            // front view: a hand tucked behind the back (detective) is drawn behind the torso (it used to cross the apron)
+            if (!back && s <= 0.05) for (const Aa of [trail, lead]) if (Aa.at === 'backhand') drawArm(c, Aa);
             // back views: a hand in front of the face / chest is hidden behind the head and torso (Guardian 2026-10-16:
             // the visor fist was drawn on the back of Eli's head, A14; Mila's crossed arm lay across her back, A16)
             if (back) for (const Aa of (s > 0.05 ? [lead] : [trail, lead])) if (FACE_FRONT[Aa.at]) { drawArm(c, Aa); if ((P.prop || (PB && bk > 0.5 && PB.prop)) === 'magnifier' && Aa === trail) drawLens(c, trail.pts[trail.pts.length - 1]); }
@@ -727,12 +744,22 @@
         },
         body(c) {
           c.translate(0, bobY);
+          if (back && S.backUnder) S.backUnder(c, B);       // garment parts on the far (front) side, peeking past the body
+          if (SOLIDC && legsOn && s < 0.9) {                 // the leg slot under the hem is solid for the shade test
+            const m = c.getTransform(); SOLIDC.setTransform(m); SOLIDC.fillStyle = '#000';
+            const gx = S.hipW * cosT, y0 = Tbot - 0.03, y1 = S.solidTo != null ? S.solidTo(S) : Tbot + 0.012;
+            SOLIDC.fillRect(tcx - gx, y0, gx * 2, Math.max(0, y1 - y0)); SOLIDC.setTransform(1, 0, 0, 1, 0, 0);
+          }
           if (legsOn) { if (s <= 0.05) { drawLeg(c, -1); drawLeg(c, 1); } else drawLeg(c, back ? dir : -dir); }
           upper(c, () => {
             if (S.under) S.under(c, B);
             if (!S.headOver) headDraw(c, 'front');
             shape(c, () => torsoPath(c), S.torso.color, lw);
             if (back && S.outfitBack) { c.save(); torsoPath(c); c.clip(); S.outfitBack(c, B); c.restore(); }
+            if (back && S.outfitBackTop) S.outfitBackTop(c, B);   // parts that hang past the torso (apron bow + ties)
+            // back views: a hand in front of the face / chest is hidden, but the UPPER arm still shows along the back
+            // (clothes QC 2026-10-16: crossed arms / visor from behind read as an armless torso)
+            if (back) for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (FACE_FRONT[Aa.at]) drawArm(c, Aa, 0.5);
             else if (!back) {
               if (S.outfit) { c.save(); torsoPath(c); c.clip(); S.outfit(c, B); c.restore(); }
               if (S.collar) S.collar(c, B);            // the neckline first: straps and apron cords go over it
@@ -747,13 +774,19 @@
           if (sitLegs && s <= 0.05) { drawLeg(c, -1); drawLeg(c, 1); }
           upper(c, () => {
             const prop = P.prop || (PB && bk > 0.5 && PB.prop);
+            // a prop that comes or goes with a pose blend fades over the middle of the blend (it used to pop at k = 0.5)
+            const propA = !PB || P.prop === PB.prop ? 1 : K.clamp(((P.prop === prop ? 1 - bk : bk) - 0.3) / 0.4);
+            const ga = c.globalAlpha; c.globalAlpha = ga * propA;
             if (prop === 'clipboard' && !back) drawBoard(c);
+            c.globalAlpha = ga;
             if (s <= 0.05) {
               const crossed = (o.pose === 'crossed' && bk < 0.5) || (PB && o.blend.pose === 'crossed' && bk >= 0.5);
-              for (const Aa of (crossed ? [lead, trail] : [trail, lead])) if (!(back && FACE_FRONT[Aa.at])) drawArm(c, Aa);
+              for (const Aa of (crossed ? [lead, trail] : [trail, lead])) if (!(back && FACE_FRONT[Aa.at]) && !(!back && Aa.at === 'backhand')) drawArm(c, Aa);
             } else if (!(back && FACE_FRONT[lead.at])) drawArm(c, back ? lead : trail);
+            c.globalAlpha = ga * propA;
             if (prop === 'clipboard' && !back) drawPencil(c, lead.pts[lead.pts.length - 1]);
             if (prop === 'magnifier' && !(back && s <= 0.05)) drawLens(c, trail.pts[trail.pts.length - 1]);
+            c.globalAlpha = ga;
             if (S.front && !back) S.front(c, B);
           });
         },
@@ -792,8 +825,9 @@
     const OUT = buf('out', W, Hh), MK = buf('eyemask', W, Hh), lwS = S.lw || 0.0075;
     const LOG = root.__faceLog && ctx.canvas && ctx.canvas.isConnected ? root.__faceLog : null;
     const rec = LOG ? { id, expr: o.expr || 'neutral', view, blink: o.blink || 0, talk: o.talk || 0, look: o.look || null, headTurn: o.headTurn || 0, hairFlop: o.hairFlop || 0, pose: o.pose || 'stand', u, eyes: [] } : null;
-    for (const name of ['back', 'body', 'front']) {
-      const Lb = buf('L', W, Hh), c = Lb.ctx;
+    for (const name of (o.dbgLayers || ['back', 'body', 'front'])) {
+      const Lb = buf('L', W, Hh), c = Lb.ctx, SB = buf('solid', W, Hh);
+      SOLIDC = SB.ctx;
       FACE = rec;
       EYES = [];
       c.setTransform(u, 0, 0, u, lox, loy); if (o.seated) c.translate(0, S.legLen);
@@ -802,7 +836,8 @@
       c.setTransform(1, 0, 0, 1, 0, 0);
       if (EYES.length) eyeMask(MK, EYES, -lwS * 0.2);
       EYES = null;
-      lightLayer(Lb, name === 'back' ? Object.assign({}, light, { shadeA: light.shadeA * 1.4 }) : light, u, lwS, MK);
+      SOLIDC = null;
+      lightLayer(Lb, name === 'back' ? Object.assign({}, light, { shadeA: light.shadeA * 1.4 }) : light, u, lwS, MK, name === 'body' ? SB : null);
       OUT.ctx.drawImage(Lb.c, 0, 0);
     }
     rimLight(OUT, light, u, lwS, MK);
