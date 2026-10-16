@@ -8,6 +8,9 @@
   Las simulaciones siguen siendo reales (el arte es la piel de una simulación verdadera).
 - **Personajes del canal: Eli + Mila** (Alt 1 "Taller", 2026-10-15). **Emociones claras siempre** en TODOS los personajes
   (Eli, Mila y extras), de frente, 3/4 y perfil; mejorar los detalles en cada entrega (regla del Productor).
+- **Guardián de Eli y Mila** (Productor, 2026-10-16): agente exclusivo `.claude/agents/guardian-eli-mila.md`. **Nada**
+  sale al Productor (ni un preliminar, bloque, miniatura o imagen) sin su PASS: cero errores de la punta del cabello a la
+  punta del pie. Sus hallazgos quedan en `art/characters/leo_mila/GUARDIAN_LOG.md`.
 - **Shorts: 30-45 s, objetivo 35-40 s** (Productor, 2026-10-15).
 - Claude es director creativo, productor y ejecutor del canal, **autónomo**: encadena el trabajo, reparte en agentes,
   releva a cualquier agente parado. Solo pregunta lo que decide el Productor: nombre, tema, título + miniatura de cada vídeo y publicar.
