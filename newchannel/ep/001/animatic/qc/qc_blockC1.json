@@ -65,7 +65,7 @@
   "median_shot_s": 3.33,
   "longest_shot_s": 8.17,
   "cuts_per_min": 13.9,
-  "motion_share": 0.876,
+  "motion_share": 0.872,
   "still_2s_runs": 0,
   "brightness_mean": 0.729,
   "saturation_mean": 0.131,
@@ -83,7 +83,7 @@
     0.128
    ],
    [
-    "#bdc2c8",
+    "#bcc2c7",
     0.12
    ],
    [
@@ -92,7 +92,7 @@
    ],
    [
     "#ddd5c6",
-    0.092
+    0.093
    ],
    [
     "#8e905d",
@@ -100,11 +100,11 @@
    ],
    [
     "#a6adb4",
-    0.071
+    0.07
    ],
    [
-    "#94988a",
-    0.062
+    "#949889",
+    0.063
    ],
    [
     "#d0c4b0",
@@ -120,5 +120,5 @@
   "wpm_while_speaking": 192
  },
  "duration": 43.2,
- "size": 3518594
+ "size": 3518955
 }
