@@ -34,6 +34,28 @@ await page.goto(`http://127.0.0.1:${server.address().port}/${pageUrl}?scene=${sc
 await page.waitForFunction(() => window.__ready || window.__error, null, { timeout: 180000 });
 const err = await page.evaluate(() => window.__error); if (err) { console.error(err); process.exit(2); }
 
+// overlay log (Guardian body audit): every label / pill / badge / balloon / source line drawn on the visible canvas is
+// recorded as a screen rect (canvas px) while its function runs, so body_check.py can test overlaps with Eli / Mila
+await page.evaluate(() => {
+  window.__ovLog = null; let depth = 0;
+  const rec = (ctx, x0, y0, x1, y1, kind) => {
+    if (!window.__ovLog || !depth || !ctx.canvas.isConnected || ctx.globalAlpha < 0.05) return;
+    const m = ctx.getTransform(), P = [[x0, y0], [x1, y0], [x0, y1], [x1, y1]].map(([x, y]) => [m.a * x + m.c * y + m.e, m.b * x + m.d * y + m.f]);
+    window.__ovLog.push({ kind, a: +ctx.globalAlpha.toFixed(2), r: [Math.min(...P.map(p => p[0])), Math.min(...P.map(p => p[1])), Math.max(...P.map(p => p[0])), Math.max(...P.map(p => p[1]))] });
+  };
+  const CP = CanvasRenderingContext2D.prototype;
+  for (const fn of ['fillText', 'strokeText']) { const o = CP[fn]; CP[fn] = function (text, x, y, ...r) {
+    if (window.__ovLog && depth) { const mt = this.measureText(text), al = this.textAlign, w = mt.width;
+      const xl = al === 'center' ? x - w / 2 : (al === 'right' || al === 'end') ? x - w : x;
+      rec(this, xl, y - (mt.actualBoundingBoxAscent || 0), xl + w, y + (mt.actualBoundingBoxDescent || 0), 'text:' + String(text).slice(0, 24)); }
+    return o.call(this, text, x, y, ...r); }; }
+  const rr = K.rrect; K.rrect = function (ctx, x, y, w, h, ...r) { rec(ctx, x, y, x + w, y + h, 'box'); return rr.call(this, ctx, x, y, w, h, ...r); };
+  const wrap = (obj, name) => { const f = obj && obj[name]; if (typeof f !== 'function' || f.__ov) return; const g = function (...a) { depth++; try { return f.apply(this, a); } finally { depth--; } }; g.__ov = 1; obj[name] = g; };
+  wrap(K.anim, 'label'); wrap(K.light, 'speedLabel'); wrap(K.cast, 'bubble');
+  for (const n of ['pill', 'clock', 'source', 'badge', 'dial', 'callout', 'plate', 'num', 'gloveBadge', 'card']) wrap(K.props, n);
+  const cur = K.anim.current; if (cur) for (const s of cur.shots) wrap(s, 'over');
+});
+
 // key acting moments (block-local video seconds) + the shot each one is in
 const samples = await page.evaluate(() => {
   const A = K.anim, cur = A.current;
@@ -54,8 +76,11 @@ const samples = await page.evaluate(() => {
 const res = [];
 let i = 0;
 for (const s of samples) {
-  const faces = await page.evaluate(([t, f]) => { window.__faceLog = []; window.__frame(t, f); const L = window.__faceLog; window.__faceLog = null; return L; }, [s.t, Math.round(s.t * FPS)]);
+  const [faces, over, size] = await page.evaluate(([t, f]) => { window.__faceLog = []; window.__ovLog = []; window.__frame(t, f); const L = window.__faceLog, O = window.__ovLog; window.__faceLog = null; window.__ovLog = null;
+    const c = document.querySelector('canvas'); return [L, O, [c.width, c.height]]; }, [s.t, Math.round(s.t * FPS)]);
   const mine = faces.filter(r => (r.id === 'eli1' || r.id === 'mila1'));
+  s.extras = faces.filter(r => r.id === 'extra').map(r => ({ box: r.box.map(v => +v.toFixed(1)), R: +r.R.toFixed(1), expr: r.expr, view: r.view, alpha: r.alpha }));
+  s.over = over; s.size = size;
   if (!mine.length) continue;
   const png = `s_${String(i).padStart(3, '0')}.png`;
   const url = await page.evaluate(() => window.__grab('image/png'));

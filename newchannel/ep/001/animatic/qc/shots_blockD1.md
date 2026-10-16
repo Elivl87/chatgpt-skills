@@ -34,7 +34,7 @@
  "longest_shot": 5.05,
  "longest_id": "E12_avg",
  "avg_shot": 2.64,
- "size_mb": 7.79,
- "contact_kb": 328
+ "size_mb": 7.84,
+ "contact_kb": 327
 }
 ```

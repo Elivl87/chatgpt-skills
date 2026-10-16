@@ -8,6 +8,7 @@
   const REC = 'RECREACIÓN ILUSTRADA', SRC = 'Lee et al., IEEE Control Systems 2025 · 1 carril simulado, 3 ilustrados';
 
   A.block('E1', {
+    eliBadge: true,   // Guardian: Eli keeps the badge on between «¡Mi lema!» (D1) and the glovebox (E2)
     t0: null, t1: null,
     async setup() { this.t0 = A.at('Funciona', 1, { beat: '20' }); this.t1 = A.at('O', 1, { beat: '22' }); },
     post: { grain: 0.12, vignette: 0.38, vignetteColor: '#2a1a2a', bloom: 0.2 },
@@ -122,16 +123,16 @@
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           pair(c, t, { pose: 'cheer', expr: 'laugh', look: [0.2, 0.5], talk: sp.talk, viseme: sp.viseme, lean: 0.04 * Math.sin(t * 14) }, { pose: 'crossed', expr: 'happy', look: [-0.9, -0.1] },
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 0.2, wave: 0.5, f: 14 }); head = rE.head; } } });
-          if (head) K.cast.bubble(c, head, '¡DALE, DALE!', A.pulse(t, tDale - 0.05, 0.08, tDale2E - tDale + 0.2, 0.15)); },
+          if (head) K.cast.bubble(c, head, '¡DALE, DALE!', A.pulse(t, tDale - 0.05, 0.08, tDale2E - tDale + 0.2, 0.15), { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
         cues: A => [{ t: tDale, kind: 'pop' }] });
       shots.push({ id: 'G14_off', start: tPasan2 - 0.08, bg: 'line_off', label: 'ACELERADO ×9', focus: [960, 540], push: 0.025, pushDir: -1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G14(t), { off: 1, dx: -20, kpx: 70, zoom: 'escala ×2,7' }); },
         cues: A => [{ t: tApagado, kind: 'murmur' }, { t: tCrece - 0.6, kind: 'whisper_grow', n: 5, d: 0.15 }] });
-      shots.push({ id: 'G15_nooo', start: tNooo - 0.2, bg: 'bridge_nooo', focus: [780, 380], push: 0.04, pushDir: 1,
+      shots.push({ id: 'G15_nooo', start: tNooo - 0.2, bg: 'bridge_nooo', focus: [780, 500], push: 0.04, pushDir: 1,   // Guardian: focus y 380 -> 500 (Mila's ponytail cut by the top edge)
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           pair(c, t, { pose: 'surprise', expr: 'worried', look: [0.1, 0.6], talk: sp.talk, viseme: sp.viseme, extras: ['sweat'] }, { pose: 'crossed', expr: 'surprised', look: [-0.9, 0] },
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 3.05, wave: 0.04 }); head = rE.head; } } });
-          if (head) K.cast.bubble(c, head, '¡NOOO!', A.pulse(t, tNooo - 0.05, 0.08, tNoooE - tNooo + 0.15, 0.12)); },
+          if (head) K.cast.bubble(c, head, '¡NOOO!', A.pulse(t, tNooo - 0.05, 0.08, tNoooE - tNooo + 0.15, 0.12), { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
         cues: A => [{ t: tNooo, kind: 'minor' }] });
       shots.push({ id: 'G16_act2', start: tPasan3 - 0.08, bg: 'line_act2', label: 'ACELERADO ×14', focus: [960, 520], push: 0.03, pushDir: 1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G16(t), { sc: 4.8, dx: 30, kpx: 70, zoom: 'escala ×2,7' }); },
@@ -148,8 +149,8 @@
               K.char.person(cx, x, GY - 90 - u2 * 40, 54, { t, seed: seed * 7, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, shirt: K.car.COLORS[seed % 10], pose: u2 > 0.4 ? 'cheer' : 'stand', expr: u2 > 0.4 ? 'laugh' : 'content', light: { ang: -0.6, rim: '#ffd99a', shade: '#3c2a52' } }); void kk; }),
               after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 230, t, up(0) > 0.4 || t > tUp ? { ang: 0.1, wave: 0.3 } : { ang: 3.05, wave: 0.04 }); } }); },
         cues: A => [{ t: tUp - 0.1, kind: 'crowd_wave', t1: tUp + 1.3 }] });
-      shots.push({ id: 'G18_mila', start: tCada - 0.1, bg: 'bridge_mila', focus: [1100, 380], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { pair(c, t, { pose: 'cheer', expr: 'surprised', look: [0.7, -0.2] }, { pose: 'crossed', expr: 'happy', look: [-1, 0.05], headTurn: -0.2 }, { ex: 600, mx: 1150, u: 880 }); } });
+      shots.push({ id: 'G18_mila', start: tCada - 0.1, bg: 'bridge_mila', focus: [1100, 500], push: 0.035, pushDir: 1,   // Guardian: focus y 380 -> 500, u 880 -> 830 (Mila's head cut by the top edge)
+        draw(c, t, lt) { pair(c, t, { pose: 'cheer', expr: 'surprised', look: [0.7, -0.2] }, { pose: 'crossed', expr: 'happy', look: [-1, 0.05], headTurn: -0.2 }, { ex: 600, mx: 1150, u: 830 }); } });
       // «la hace crecer o encoger»: what each car that crosses did to the bump (the true S10 profile, front → back)
       shots.push({ id: 'G19_profile', start: tCrecer - 0.5, bg: 'profile', focus: [960, 540], push: 0.025, pushDir: -1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0.08 },
         over: c => src(c),

@@ -25,7 +25,7 @@
  "longest_shot": 4.56,
  "longest_id": "C11_stable",
  "avg_shot": 2.88,
- "size_mb": 3.52,
+ "size_mb": 3.51,
  "contact_kb": 291
 }
 ```

@@ -6,12 +6,17 @@
   const REC = 'RECREACIÓN ILUSTRADA', SRC = 'Stern et al., Transp. Res. C 2018', AV = 0;
 
   // the badge Eli pins to his chest («¡Mi lema!»): a paper card hanging from one pin; droop 0..1 bends it down
-  P.badgeCard = function (ctx, head, u, droop = 0, a = 1) {
+  P.badgeCard = function (ctx, head, u, droop = 0, a = 1, high = false) {
     if (a <= 0.01 || !head) return;
-    const x = head[0] + u * 0.01, y = head[1] + u * 0.24, w = u * 0.11, h = u * 0.075;
+    // high: pinned on the upper bib, above crossed arms (Guardian: with the arms crossed the card lay over the forearms)
+    const x = head[0] + u * 0.01, y = head[1] + u * (high ? 0.155 : 0.24), w = u * 0.11, h = u * 0.075;
     ctx.save(); ctx.globalAlpha = a; ctx.translate(x - w / 2, y); ctx.rotate(droop * 1.1);
     ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = '#2a1a1e'; ctx.lineWidth = Math.max(1.5, u * 0.004); K.rrect(ctx, 0, 0, w, h, h * 0.15); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = '#2a1a1e'; for (let k = 0; k < 3; k++) ctx.fillRect(w * 0.12, h * (0.25 + k * 0.22), w * (0.76 - k * 0.15), Math.max(1, h * 0.07));
+    // the same card as in the glovebox gag (block E2): its three lines of text when big enough to read, ink bars below that
+    const m = ctx.getTransform(), px = w * Math.hypot(m.a, m.b);
+    ctx.fillStyle = '#2a1a1e';
+    if (px >= 56) { ctx.font = `800 ${h * 0.19}px "Martian Mono"`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ['SI SE ABRE', 'UN HUECO,', 'CIÉRRALO'].forEach((s2, k) => ctx.fillText(s2, w / 2, h * (0.25 + k * 0.25))); }
+    else for (let k = 0; k < 3; k++) ctx.fillRect(w * 0.12, h * (0.25 + k * 0.22), w * (0.76 - k * 0.15), Math.max(1, h * 0.07));
     ctx.fillStyle = '#e7c25a'; K.circle(ctx, w * 0.06, h * 0.12, Math.max(2, u * 0.006)); ctx.fill(); ctx.restore();
   };
   // a paper thought bubble (cloud) that pops
@@ -51,12 +56,13 @@
       const LF = A.LIGHT_FIELD, G = A.FIELD.GROUND;
       const rec = (c, acc) => P.pill(c, 96, acc ? 152 : 84, REC, 26, 1), src = c => P.source(c, SRC, 1);
       const halo = (cx, x, y, a = 1) => { K.light.glow(cx, x, y - 6, 70, '#23746C', 0.55 * a, 'screen'); cx.save(); cx.globalAlpha = a; cx.strokeStyle = '#4fb3a8'; cx.lineWidth = 4; K.ellipse(cx, x, y - 4, 44, 24); cx.stroke(); cx.restore(); };
-      const ringOpts = (ts, o = {}) => Object.assign({ run: S7(), simT: ts, carExpr: (i, st) => (i === AV ? 'content' : st ? 'annoyed' : 'content'),
+      // Guardian: the badge card stays pinned on Eli in the ring shots after «¡Mi lema!» (it vanished there, E09-E11)
+      const ringOpts = (ts, o = {}) => Object.assign({ run: S7(), simT: ts, heroAfter: (cx, who, r, u, t) => { if (who === 'eli1') eliBadge(cx, r, u, t); }, carExpr: (i, st) => (i === AV ? 'content' : st ? 'annoyed' : 'content'),
         carOver: (cx, i, x, y, b, S) => { if (i === AV) halo(cx, x, y); if (o.carOver) o.carOver(cx, i, x, y, b, S); } }, o.extra || {});
       // Eli's badge state: pinned on «Mi»; droops with each gauge; held straight with a finger at the end
       const tPin = tMi - 0.1, droops = [tOchenta + 0.4, tCasi + 0.4], fixT = tCuarenta + 0.6;
       const droop = t => { if (t < droops[0]) return 0; if (t < droops[0] + 0.9) return A.ramp(t, droops[0], 0.25) * (1 - A.ramp(t, droops[0] + 0.6, 0.2)); if (t < droops[1]) return 0; if (t < fixT) return A.ramp(t, droops[1], 0.25); return 1 - A.ramp(t, fixT, 0.15); };
-      const eliBadge = (c, r, u, t) => { if (t > tPin) P.badgeCard(c, r.head, u, droop(t), A.ramp(t, tPin, 0.15)); };
+      const eliBadge = (c, r, u, t, high = false) => { if (t > tPin) P.badgeCard(c, r.head, u, droop(t), A.ramp(t, tPin, 0.15), high); };
       const shots = [];
 
       // ================================================================ BEAT 14
@@ -96,9 +102,9 @@
         draw(c, t, lt) { A.field(c, t, { run: S7(), simT: PRE(t), frame: { z: 1.45, x: 960, y: 600 }, chars: cx => {
           K.char.person(cx, 700, G, 64, { t, seed: 3, skin: '#c98a64', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'point', expr: 'focused', light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
           K.cast.draw(cx, 'mila1', 1240, G - 6, 560, { view: 'q', dir: -1, pose: 'clipboard', expr: 'curious', t, look: [-0.8, 0], light: LF, shadow: 0.3 });
-          cx.save(); cx.translate(900, 700); cx.rotate(-0.08); P.plate(cx, 0, 0, '¡NO ARREGLEN NADA!', 34, A.ramp(t, tPara - 0.2, 0.3)); cx.restore(); } }); } });
+          cx.save(); cx.translate(870, 700); cx.rotate(-0.08); P.plate(cx, 0, 0, '¡NO ARREGLEN NADA!', 34, A.ramp(t, tPara - 0.2, 0.3)); cx.restore(); } }); } });
       shots.push({ id: 'E06_waves', start: tPara + 0.95, bg: 'ring_jam', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
-        draw(c, t, lt) { const ts = PRE(t), j = A.clampView(A.angPt(A.jamSmooth(ts, 3) || 0), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-j[0], -j[1]); A.ring(c, t, ringOpts(ts)); c.restore(); } });
+        draw(c, t, lt) { const ts = PRE(t), j = A.clampView(A.angPt(A.jamSmooth(ts, 3) || 0), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-j[0], -j[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); } });   // Guardian: Eli + Mila were cut at the frame corner under the source line (the camera follows the jam): left out
       shots.push({ id: 'E06_rush', start: tManejen - 0.1, bg: 'field_track', focus: [960, 600], push: 0.035, pushDir: -1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S7(), simT: PRE(t), frame: { z: 2.5, x: 1000, y: 680 }, front: false, carExpr: () => 'determined' }); } });
       // E07 · the card
@@ -117,7 +123,7 @@
 
       // ================================================================ BEAT 15 · the different car
       shots.push({ id: 'E09_distinct', start: tPero - 0.1, bg: 'ring_av', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, over: c => { rec(c, true); src(c); },
-        draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.8); c.save(); c.translate(960, 540); c.scale(1.8, 1.8); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts)); c.restore(); } });
+        draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.8); c.save(); c.translate(960, 540); c.scale(1.8, 1.8); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); } });   // Guardian: Eli + Mila were cut at the frame corner (camera on the computer car): left out
       // eyes pass (2026-10-16): in the two tight E10 shots (the computer car is the subject) Eli + Mila stood at the very
       // frame edge, cut off (head over the top / right edge): they are left out of these two shots (hero: () => true)
       shots.push({ id: 'E10_computer', start: tUna - 0.1, bg: 'ring_av_close', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
@@ -169,8 +175,8 @@
       const gaugeShot = (id, start, text, sub, keyT, bg) => shots.push({ id, start, bg, focus: [960, 520], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S7(), simT: MELT(t), frame: { z: 1.5, x: 960, y: 580 }, chars: cx => {
           K.cast.draw(cx, 'mila1', 1300, G - 6 - (t > keyT ? 14 * Math.abs(Math.sin(t * 7)) : 0), 600, { view: 'q', dir: -1, pose: t > keyT ? 'clasp' : 'clipboard', expr: t > keyT ? 'happy' : 'curious', t, light: LF, shadow: 0.3 });
-          const u = 620, r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, pose: t > fixT ? 'point' : 'crossed', expr: droop(t) > 0.3 ? 'sheepish' : 'neutral', t, look: droop(t) > 0.3 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t); } });
-          P.gauge(c, 960, 260, text, sub, A.ramp(t, keyT - 0.1, 0.25)); },
+          const u = 620, r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, pose: t > fixT ? 'point' : 'crossed', expr: droop(t) > 0.3 ? 'sheepish' : 'neutral', t, look: droop(t) > 0.3 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t, !(t > fixT)); } });
+          P.gauge(c, 1090, 230, text, sub, A.ramp(t, keyT - 0.1, 0.25)); },   // Guardian: was (960, 260), touching Eli's beanie
         cues: A => [{ t: keyT, kind: 'gauge' }] });
       gaugeShot('E15_80', tLos1 - 0.1, '−80 %', 'cambios de velocidad', tOchenta, 'field_g1');
       shots.push({ id: 'E16_brakes', start: tLos2 - 0.1, bg: 'ring_candles', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: (c, t) => { rec(c, true); P.gauge(c, K.W - 470, 240, 'frenazos ≈ 0', null, A.ramp(t, tCasi, 0.25)); src(c); },

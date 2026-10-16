@@ -41,7 +41,7 @@
       // C01 · «Vamos más despacio.» Mila, at the edge of the field, slows the class down
       shots.push({ id: 'C01_slow', start: T0, bg: 'field_mila', focus: [960, 520], push: 0.03,
         draw(c, t, lt) {
-          A.field(c, t, { simT: A.ev('S2', 'clock_3min') + 40 + (t - T0) * 0.4, frame: { z: 1.6, x: 920, y: 600 },
+          A.field(c, t, { simT: A.ev('S2', 'clock_3min') + 40 + (t - T0) * 0.4, frame: { z: 1.6, x: 920, y: 552 },
             chars: (cx) => K.cast.draw(cx, 'mila1', 920, A.FIELD.GROUND, 660, { view: 'q', dir: -1, pose: 'palm', expr: 'happy', t, look: [-0.6, 0.1], light: A.LIGHT_FIELD, shadow: 0.3, talk: 0, blink: A.blink(5, t) }) });
         } });
 

@@ -201,7 +201,7 @@
       shots.push({ id: 'A14_turn', start: tMila - 0.05, bg: 'hw_behind', focus: [960, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt) {
           const ts = HOLD(t), R = A.s1(), xE = R.at(ts).x[ELI];
-          const sCam = xE - 4.6, aim = A.aim(sCam, 1.85, 1.65, 1150, xE - 0.4, 1.85, 1.15, [960, 520]);
+          const sCam = xE - 4.6, aim = A.aim(sCam, 1.85, 1.65, 1150, xE - 0.4, 1.85, 1.15, [960, 600]);   // Guardian: was 520 (beanie cut by the top edge)
           const turnHead = A.ramp(t, tMira, 0.14), snap = t > tAtrasN, sp = A.talk('mila', t);
           const mila = snap ? { view: 'front', seated: true, pose: 'crossed', expr: t > tEliM - 0.25 ? 'awe' : 'curious', look: [0.15, -0.15], lean: 0.08, light: FRONTLIT, talk: sp.talk, viseme: sp.viseme,
             tilt: 0.06 * Math.exp(-(t - tAtrasN) * 6), blink: milaBlink(t) }

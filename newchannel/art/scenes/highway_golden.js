@@ -326,7 +326,7 @@
     }
     items.sort((a, b) => b.d - a.d);
     const lit = { rim: P.rim, shade: P.shadow, ang: o.night ? -1.57 : -2.0 + (st.sun.az * 2), dx: -1, shadeK: o.night ? 0.55 : 0.32, rimAlpha: o.night ? 0.25 : 0.9 };
-    const wires = [];
+    const wires = [], wiresDone = new Set();
     for (const it of items) {
       const p = cam.proj(it.X, 0, it.d), fog = fogOf(it.d);
       if (p.y < hz - 2) continue;
@@ -360,6 +360,7 @@
         }
       } else if (it.car !== undefined) {
         const i = it.car, pe = E.persona(i), isM = i === MASC;
+        if (isM) drawWires(it.d);
         if (rev) {   // seen from the front: the brake lights spill red round the body; the driver's face reacts
           const b = st.brake(i), cf = [fog[0], fog[1]];
           if (b > 0.04) { K.light.glow(ctx, p.x, p.y - 0.75 * p.s, 2.2 * p.s * (0.7 + 0.5 * b), '#ff2a1a', 0.55 * b * (1 - fog[1] * 0.5), 'lighter');
@@ -383,15 +384,23 @@
           fog: [fog[0], fog[1] * (o.night ? 0.6 : 1)], lit, head: o.night ? 1 : 0.35, glowScale: o.night ? 2.2 : 0.8, expr: 'content' });
       }
     }
-    // wires between consecutive poles
-    wires.sort((a, b) => a.s - b.s);
-    for (let k = 0; k < wires.length - 1; k++) {
-      const a = wires[k], b = wires[k + 1]; if (b.s - a.s > 50) continue;
-      const fog = fogOf(a.d);
-      for (let j = 0; j < 2; j++) K.terrain.wire(ctx, a.arms[j], b.arms[j], 6 * Math.min(3, 30 / Math.max(5, a.d)) + 2, K.rgba(K.mix(o.night ? '#1a2040' : '#3a2a35', fog[0], fog[1]), 0.8), Math.max(0.6, 1.4 * 20 / Math.max(10, a.d)));
-    }
+    drawWires();
     if (st.onTop) st.onTop(ctx, G);
     return { cam, rig, sunX, sunY, hz };
+    // wires between consecutive poles. Guardian 2026-10-16: the wires used to be drawn after every car, so a span
+    // behind the crew car crossed Eli's back as a stray zigzag (A14); spans whose two poles are both farther than the
+    // crew car are now drawn just before it (nearer spans still go on top)
+    function drawWires(dMin) {
+      const ws = wires.slice().sort((a, b) => a.s - b.s);
+      for (let k = 0; k < ws.length - 1; k++) {
+        const a = ws[k], b = ws[k + 1]; if (b.s - a.s > 50) continue;
+        const key = a.s + '|' + b.s; if (wiresDone.has(key)) continue;
+        if (dMin != null && !(a.d > dMin && b.d > dMin)) continue;
+        wiresDone.add(key);
+        const fog = fogOf(a.d);
+        for (let j = 0; j < 2; j++) K.terrain.wire(ctx, a.arms[j], b.arms[j], 6 * Math.min(3, 30 / Math.max(5, a.d)) + 2, K.rgba(K.mix(o.night ? '#1a2040' : '#3a2a35', fog[0], fog[1]), 0.8), Math.max(0.6, 1.4 * 20 / Math.max(10, a.d)));
+      }
+    }
   };
 
   // ---------------------------------------------------------------- the golden-hour wide shot

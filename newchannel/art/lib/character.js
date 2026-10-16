@@ -293,6 +293,11 @@
 
   K.char.person = function (ctx, x, y, R, o = {}) {
     const P = POSES[o.pose || 'stand'] || POSES.stand, t = o.t || 0, ph = (o.seed || 0) * 1.7;
+    if (root.__faceLog && ctx.canvas && ctx.canvas.isConnected) {   // QC (Guardian body audit): extras on screen, canvas px
+      const m = ctx.getTransform(), tp = (a, b) => [m.a * a + m.c * b + m.e, m.b * a + m.d * b + m.f], p0 = tp(x - R * 1.25, y - R * 3.1), p1 = tp(x + R * 1.25, y + R * 0.1);
+      root.__faceLog.push({ id: 'extra', expr: o.expr || 'neutral', view: o.view || 'front', pose: o.pose || 'stand', R: R * Math.hypot(m.a, m.b), alpha: ctx.globalAlpha,
+        box: [Math.min(p0[0], p1[0]), Math.min(p0[1], p1[1]), Math.max(p0[0], p1[0]), Math.max(p0[1], p1[1])] });
+    }
     const fog = o.fog, col = c => (fog ? K.mix(c, fog[0], fog[1]) : c);
     const line = col(o.line || LINE), lw = Math.max(0.7, R * 0.075);
     const skin = col(o.skin || K.char.SKIN[0]), shirt = col(o.shirt || '#6b8fb0'), pants = col(o.pants || '#3f4a63'), shoes = col(o.shoes || '#2b2230');

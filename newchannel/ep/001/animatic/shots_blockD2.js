@@ -6,6 +6,7 @@
   const REC = 'RECREACIÓN ILUSTRADA', SRC = 'Stern et al., Transp. Res. C 2018', SRC3 = 'Nishi et al., Transp. Res. B 2013', AV = 0;
 
   A.block('D2', {
+    eliBadge: true,   // Guardian: Eli keeps the badge on between «¡Mi lema!» (D1) and the glovebox (E2)
     t0: null, t1: null,
     async setup() { this.t0 = A.at('Después', 1, { beat: '17' }); this.t1 = A.at('Funciona', 1, { beat: '20' }); A._rr = A.adapter('S8'); },
     post: { grain: 0.13, vignette: 0.4, vignetteColor: '#2a1a2a', bloom: 0.18 },
@@ -86,7 +87,9 @@
         cues: A => [{ t: tEs, kind: 'plate' }] });
 
       // ================================================================ BEAT 18 · a patient person (S9, Mila at the wheel)
-      const ring9 = (ts, o = {}) => Object.assign({ run: S9(), simT: ts, carExpr: (i, st) => (st ? 'annoyed' : 'content'), carOver: (cx, i, x, y) => { if (i === AV && ts > ev('S9', 'mila_takes_wheel')) halo(cx, x, y); } }, o);
+      // Guardian: in S9 Eli + Mila are IN car AV (Mila drives), so they are not also drawn among the ring observers (they
+      // stood there twice and were cut at the frame corner by the following camera)
+      const ring9 = (ts, o = {}) => Object.assign({ run: S9(), simT: ts, hero: () => ts > ev('S9', 'mila_takes_wheel'), carExpr: (i, st) => (st ? 'annoyed' : 'content'), carOver: (cx, i, x, y) => { if (i === AV && ts > ev('S9', 'mila_takes_wheel')) halo(cx, x, y); } }, o);
       shots.push({ id: 'F08_fav', start: tEsta - 0.1, bg: 'field_mila2', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S9(), simT: M9(t), frame: { z: 1.7, x: 980, y: 560 }, chars: cx => K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'front', pose: 'clasp', expr: 'awe', t, look: [0, -0.3], light: LF, shadow: 0.3 }) }); } });
       shots.push({ id: 'F09_jump', start: tEn - 0.1, bg: 'ring9', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, over: (c, t) => { rec(c, true); src(c); P.pill(c, K.W - 96, 230, 'Mila hace de conductora', 28, A.ramp(t, tCompu + 0.2, 0.3), { align: 'right', bg: K.rgba('#7158b8', 0.92) }); },
@@ -99,17 +102,18 @@
       const sticker = (cx, sx, sy, SC, a) => { cx.save(); cx.translate(sx + 0.75 * SC, sy - 0.05 * SC); cx.rotate(-0.12); P.pill(cx, 0, 0, 'PROMEDIO', 0.09 * SC, a, { align: 'center', bg: K.rgba('#23746C', 0.95) }); cx.restore(); };
       shots.push({ id: 'F10_wheel', start: tSolo - 0.1, bg: 'close9', focus: [920, 540], push: 0.03, pushDir: 1,
         draw(c, t, lt) { inCar(c, t, { z: 1.55, wx: 600, wy: 640, sx: 940, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon, 0.3))); } });
-      shots.push({ id: 'F10_sticker', start: tCon - 0.1, bg: 'close9s', focus: [960, 540], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { inCar(c, t, { z: 2.6, wx: 690, wy: 700, sx: 960, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon + 0.3, 0.3))); } });
+      shots.push({ id: 'F10_sticker', start: tCon - 0.1, bg: 'close9s', focus: [960, 540], push: 0.035, pushDir: 1,   // Guardian: z 2.6 -> 2.5, wy 700 -> 664 (Mila's ponytail and Eli's beanie were cut by the top edge)
+        draw(c, t, lt) { inCar(c, t, { z: 2.5, wx: 690, wy: 664, sx: 960, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon + 0.3, 0.3))); } });
       shots.push({ id: 'F11_gap', start: tHay - 0.25, bg: 'close9b', focus: [980, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           inCar(c, t, { z: 1.6, wx: 620, wy: 630, sx: 960, sy: 560 }, { pose: 'drive', expr: 'neutral', look: [0.9, 0] },
             { pose: 'point', view: 'q', dir: 1, expr: 'worried', look: [0.9, -0.1], talk: sp.talk, viseme: sp.viseme, extras: ['sweat'], lean: 0.05 }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1));
           P.ruler(c, 1500, 1880, 760, Math.max(0, A.closeState('S9', AV, M9(t)).gapL), 1); } });
+      // Guardian: Eli's sulk turn (back to camera) used 'surprised' (surprise ticks over a sulking back): grumpy throughout
       shots.push({ id: 'F12_friend', start: tEse - 0.2, bg: 'close9c', focus: [900, 520], push: 0.03, pushDir: -1,
         draw(c, t, lt) { const sp = A.talk('mila', t), grab = A.ramp(t, tAmigoE + 0.1, 0.2) * (1 - A.ramp(t, tAmigoE + 0.7, 0.2)), crossed = t > tAmigoE + 0.9, back = t > tAmigoE + 1.4;
           inCar(c, t, { z: 1.75, wx: 560, wy: 610, sx: 900, sy: 560 }, { pose: grab > 0.3 ? 'drive' : 'drive', expr: 'happy', look: grab > 0.3 ? [-0.6, 0.3] : [0.9, 0], talk: sp.talk, viseme: sp.viseme },
-            { pose: crossed ? 'crossed' : grab > 0.3 ? 'drive' : 'lap', view: back ? 'backq' : 'q', dir: back ? -1 : 1, expr: crossed ? (back ? 'surprised' : 'grumpy') : 'worried', look: [0.9, 0] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1)); } });
+            { pose: crossed ? 'crossed' : grab > 0.3 ? 'drive' : 'lap', view: back ? 'backq' : 'q', dir: back ? -1 : 1, expr: crossed ? 'grumpy' : 'worried', look: [0.9, 0] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1)); } });
       const g9 = (id, start, text, sub, keyT) => shots.push({ id, start, bg: 'ring9_' + id, label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1,
         over: (c, t) => { rec(c, true); src(c); P.badge(c, 960, 240, text, 84, A.ramp(t, keyT - 0.1, 0.25), sub); },
         draw(c, t, lt) { A._rr = S9(); const ts = M9(t), S = S9().at(ts), p = A.clampView(A.ringPt(AV, S), 1.5); c.save(); c.translate(960, 600); c.scale(1.5, 1.5); c.translate(-p[0], -p[1]); A.ring(c, t, ring9(ts)); c.restore(); A._rr = S8(); },

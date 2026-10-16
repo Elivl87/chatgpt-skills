@@ -135,6 +135,7 @@ drop, anger mark, steam puffs, sparkles, ticks) are seasoning: at most one or tw
 10. Light JPG (≤ 400 KB) for the Producer of everything he will see.
 11. Run the **Detail QC checklist** (§6) on every delivery.
 12. Run the **automated eye check** (§6b) on every delivery: 0 pupil failures.
+13. Run the **Guardian body audit** (§6c) on every delivery: 0 body failures, every warning looked at.
 
 ## 6 · Detail QC checklist (run on EVERY delivery that shows Eli or Mila)
 
@@ -213,6 +214,31 @@ Declared closed eyes, the ponytail-flop gag, fades and crowd-scale eyes (< 3 px 
 pupil failure is not finished.** Then look at the sheet yourself: the expression matches the script beat, the mouth
 syncs, the eyes look at something, faces are not cut by the frame, overlays or balloons, and not lost in the grade.
 Lab: `art/scenes/eye_lab.js` (`?scene=eye_lab&part=sizes|lights`, also at `&out=854x480`).
+
+## 6c · Guardian body audit (head to toe, automated + by eye) — 2026-10-16
+
+`TMPD=<scratch> ep/001/animatic/body_audit.sh A B …` renders the key acting frames ONCE (`faces_audit.mjs`) and runs
+both the eye check (`faces_check.py`, 0 pupil failures) and the body check (`body_check.py`). The kit logs, while the
+audit is on, the tight box of each Eli / Mila draw (their own pixels), wardrobe colour shares, the ground point and seat
+state; every extra's box; and every overlay rect (labels, pills, badges, plates, balloons, source line). Checks:
+**overlay-head** (FAIL: an overlay crosses the head zone, beanie / ponytail included), **overlay-body** (warn, look),
+**cut-head** (FAIL: head zone crossing a frame edge), **colour** (FAIL: no beanie yellow on Eli / no sweater purple on Mila
+when >= 18 px tall; any vermilion), **float** (FAIL: standing feet above the ground point), **scale** (warn: side by side
+with different u — heights must read Eli 0.95 / Mila 1.08). Body pages (`<TMPD>/pages/body_<X>_pNN.jpg`: frame at
+phone size with the boxes + head-to-toe crops) are then read by eye. For close inspection render the audit at
+`OUT=1920x1080` too, and use `art/scenes/guardian_lab.js` (`?scene=guardian_lab&cfg=[…]`) to reproduce a pose / view.
+
+Rules added by the Guardian (2026-10-16), enforced in the kit:
+- Back views: a hand anchored in front of the face / chest (visor, magnifier, chin, crossed arms, clasp, belly, lap,
+  clipboard) is hidden behind the head and torso, never painted on the back of the head or across the back.
+- `visor` sits at the hat brim / hairline and `scratch` (nape) at the back edge of the head at temple height (front view:
+  at the side of the beanie / crown): the brows and eyes always stay clear.
+- Balloon tails stop beside the speaker's head (never cross the beanie, eyes or face); `bubble(..., { side: -1 })` puts
+  the balloon up-left when someone stands to the speaker's right.
+- Highway wires behind the crew car are drawn before it (no wire across Eli / Mila).
+- Continuity props: the «SI SE ABRE UN HUECO, CIÉRRALO» badge is on Eli from «¡Mi lema!» (D1) to the glovebox (E2)
+  (`def.eliBadge` in the animatic block, `heroAfter` in ring shots); the popcorn bucket stays with Eli in the stadium.
+- When Eli + Mila ride car AV (S9) or the camera follows a car tight, they are not also drawn among the ring observers.
 
 ## 7 · Never
 

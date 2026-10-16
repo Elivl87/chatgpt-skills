@@ -98,7 +98,7 @@
           A.field(c, t, { simT: ts, frame: { z: 1.3, x: 960, y: 570 },
             chars: (cx) => {
               K.cast.draw(cx, 'mila1', 1330, G - 10, 560, { view: 'q', dir: -1, pose: 'clipboard', expr: t > hit ? 'smug' : 'thinking', t, look: t > hit ? [-0.9, 0] : [0.2, 0.6], light: LF, shadow: 0.3, blink: blink(5, t) });
-              K.cast.draw(cx, 'eli1', 900, G, 640, Object.assign({ t, light: LF, shadow: 0.3 }, eO));
+              K.cast.draw(cx, 'eli1', 900, G + 6, 580, Object.assign({ t, light: LF, shadow: 0.3 }, eO));   // Guardian: was u 640 (Eli as tall as Mila side by side)
             } });
         },
         cues: A => [{ t: g0, kind: 'spin', t1: g1 }, { t: hit, kind: 'bonk_small' }, { t: hit + 0.5, kind: 'cough' }] });
@@ -108,7 +108,7 @@
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           A.field(c, t, { simT: A.map(0, T0, 1)(t), frame: { z: 2.5, x: 1000, y: 680 }, front: false, carExpr: () => (A.blink(7, t) ? 'neutral' : 'focused'),
-            chars: (cx) => K.cast.draw(cx, 'eli1', 730, 1010, 520, { view: 'backq', dir: 1, pose: 'crossed', t, light: LF }) });   // eyes pass: was a sliver at the left edge (x 600 -> screen -40)
+            chars: (cx) => K.cast.draw(cx, 'eli1', 745, 1048, 520, { view: 'backq', dir: 1, pose: 'crossed', t, light: LF }) });   // eyes pass: was a sliver at the left edge (x 600 -> screen -40); Guardian: y 1010 -> 1048 (the «RECREACIÓN ILUSTRADA» pill touched the beanie)
         } });
 
       // B08 · «manejar con cuidado, a unos treinta kilómetros por hora»: the dial

@@ -56,10 +56,14 @@
       const heroes = (c, t, y, R, o = {}) => {
         const mUp = waveAt(t)(860), eUp = t > lateUp ? A.pulse(t, lateUp, 0.12, 0.8, 0.35) : 0;
         K.cast.draw(c, 'mila1', 860, y + 8, 260, { view: 'front', pose: mUp > 0.4 ? 'cheer' : 'lap', seated: mUp <= 0.4, expr: mUp > 0.4 ? 'laugh' : 'happy', t, light: LF });
-        K.cast.draw(c, 'eli1', 1000, y + 8 - eUp * 60, 260, { view: 'front', pose: eUp > 0.3 ? 'cheer' : 'lap', seated: eUp <= 0.3, expr: eUp > 0.3 ? (t > lateUp + 0.5 ? 'sheepish' : 'happy') : (o.popcorn ? 'content' : 'happy'), look: eUp > 0.3 && t > lateUp + 0.45 ? [Math.sin(t * 4) * 0.8, 0] : [0, 0.3], t, light: LF });
-        if (eUp <= 0.3) { c.fillStyle = '#c94a5a'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.moveTo(1010, y - 40); c.lineTo(1052, y - 40); c.lineTo(1046, y + 6); c.lineTo(1016, y + 6); c.closePath(); c.fill(); c.stroke();
-          c.fillStyle = '#fff4dc'; for (let k = 0; k < 6; k++) { K.circle(c, 1014 + k * 7, y - 44 - (k % 2) * 6, 7); c.fill(); } }
+        const rE = K.cast.draw(c, 'eli1', 1000, y + 8 - eUp * 60, 260, { view: 'front', pose: eUp > 0.3 ? 'cheer' : 'lap', seated: eUp <= 0.3, expr: eUp > 0.3 ? (t > lateUp + 0.5 ? 'sheepish' : 'happy') : (o.popcorn ? 'content' : 'happy'), look: eUp > 0.3 && t > lateUp + 0.45 ? [Math.sin(t * 4) * 0.8, 0] : [0, 0.3], t, light: LF });
+        // the popcorn bucket stays with Eli in every stadium shot (Guardian: it vanished when he stood up and in D06):
+        // on his lap when seated, raised in his hand when he jumps up late
+        if (eUp <= 0.3) popcorn(c, 1031, y - 17); else popcorn(c, rE.hands.trail[0] + 6, rE.hands.trail[1] - 20, 0.85);
       };
+      const popcorn = (c, x, y, k = 1) => { c.save(); c.translate(x, y); c.scale(k, k);
+        c.fillStyle = '#c94a5a'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.moveTo(-21, -23); c.lineTo(21, -23); c.lineTo(15, 23); c.lineTo(-15, 23); c.closePath(); c.fill(); c.stroke();
+        c.fillStyle = '#fff4dc'; for (let j = 0; j < 6; j++) { K.circle(c, -17 + j * 7, -27 - (j % 2) * 6, 7); c.fill(); } c.restore(); };
       shots.push({ id: 'D04_stadium', start: tEs1 - 0.1, bg: 'stadium', focus: [960, 560], push: 0.022, pushDir: 1,
         draw(c, t, lt) { A.stadium(c, t, { wave: waveAt(t), row: 2, skip: f => f.row === 2 && f.x > 800 && f.x < 1070, chars: (cx, y, R) => heroes(cx, t, y, R, { popcorn: true }) }); },
         cues: A => [{ t: tNadie - 0.2, kind: 'crowd_wave', t1: tVueltaE }] });
@@ -73,7 +77,8 @@
       shots.push({ id: 'D06_plate', start: tUn - 0.1, bg: 'stadium_wide', focus: [960, 520], push: 0.022, pushDir: -1,
         draw(c, t, lt) { const w2 = x => Math.exp(-Math.pow((x - K.lerp(-300, 2300, ((t - tUn) % 3.2) / 3.2)) / 160, 2));
           A.stadium(c, t, { wave: w2, row: 2, skip: f => f.row === 2 && f.x > 800 && f.x < 1070, chars: (cx, y) => { K.cast.draw(cx, 'mila1', 860, y + 8, 260, { view: 'front', pose: w2(860) > 0.4 ? 'cheer' : 'lap', seated: w2(860) <= 0.4, expr: 'laugh', t, light: LF });
-            K.cast.draw(cx, 'eli1', 1000, y + 8, 260, { view: 'front', pose: w2(1000) > 0.4 ? 'cheer' : 'lap', seated: w2(1000) <= 0.4, expr: w2(1000) > 0.4 ? 'laugh' : 'happy', t, light: LF }); } });
+            const rE = K.cast.draw(cx, 'eli1', 1000, y + 8, 260, { view: 'front', pose: w2(1000) > 0.4 ? 'cheer' : 'lap', seated: w2(1000) <= 0.4, expr: w2(1000) > 0.4 ? 'laugh' : 'happy', t, light: LF });
+            if (w2(1000) <= 0.4) popcorn(cx, 1031, y - 17); else popcorn(cx, rE.hands.trail[0] + 6, rE.hands.trail[1] - 20, 0.85); } });
           P.plate(c, 960, 240, 'UN EMBOTELLAMIENTO ES UNA OLA', 54, A.ramp(t, tEs2 - 0.1, 0.3)); },
         cues: A => [{ t: tEs2 - 0.1, kind: 'plate' }] });
 
@@ -131,8 +136,11 @@
           K.cast.draw(c, 'eli1', 900, 700, 620, { view: 'front', pose: 'fist', expr: 'furious', t, light: K.cast.LIGHT.board }); c.restore();
           P.chevron(c, 1240, 230, 50, Math.PI * 0.8, 1, '#f2c230'); P.pill(c, 1250, 150, 'ÉL', 40, 1, { align: 'center' }); } });
       shots.push({ id: 'D13_upsi', start: tF + 0.75, bg: 'dome_stand', focus: [960, 520], push: 0.03, pushDir: 1, post: domePost,
-        draw(c, t, lt) { c.save(); c.translate(960, 600); c.scale(1.6, 1.6); c.translate(-760, -300); A.dome(c, t, { run: R28(), simT: D28(t), eli: 18 }); c.restore();
-          K.cast.draw(c, 'eli1', 1420, 1160, 700, { view: 'q', dir: -1, pose: 'drive', seated: false, expr: t < tF + 1.5 ? 'surprised' : 'sheepish', t, light: K.cast.LIGHT.golden });
+        draw(c, t, lt) { c.save(); c.translate(960, 600); c.scale(1.6, 1.6); c.translate(-760, -395); A.dome(c, t, { run: R28(), simT: D28(t), eli: 18 }); c.restore();   // Guardian: y -300 -> -395 (a dark band showed above the dome canvas)
+          // Eli is still IN his car (he is one of the three cars that fell; script: «cierra la boca despacio»). Guardian:
+          // he used to stand on the field in the drive pose with no car under him
+          K.car.front(c, 1420, 1150, 259, { color: K.TEAL, head: 0.35, glowScale: 0.5, lit: { rim: '#ffd99a', shade: '#3a3358', ang: -1.2, shadeK: 0.2 },
+            drawDriver: (x, top, s) => K.cast.draw(c, 'eli1', x, top + 0.34 * s, 700, { view: 'front', pose: 'lap', seated: true, look: [-0.5, 0], expr: t < tF + 1.5 ? 'surprised' : 'sheepish', t, light: K.cast.LIGHT.golden }) });
           K.cast.draw(c, 'mila1', 520, 1100, 520, { view: 'q', dir: 1, pose: 'wave', expr: 'smug', t, light: K.cast.LIGHT.golden }); P.callout(c, 640, 420, 'upsi', 56, A.pulse(t, tF + 1.3, 0.1, 0.6, 0.2)); } });
       // density: a stretch of track counted (4 vs 5), the word, the meter
       const segMarks = (cx, view, S, R) => { const a0 = -0.3, a1 = 0.45; cx.save(); cx.strokeStyle = K.rgba('#f2c230', 0.85); cx.lineWidth = 20; cx.lineCap = 'round'; cx.beginPath();
@@ -167,7 +175,7 @@
         draw(c, t, lt) { A.night(c, t, { simT: sTap6 - 4 + (t - tAhora), chars: (cx, hy) => hillChars(cx, t, hy) }); } });
       const ruler10 = (c, roadPt, b0, b1, k) => { if (k <= 0) return; const u0 = 1 - (0 - b0) / (b1 - b0), u1 = 1 - (10000 - b0) / (b1 - b0); c.save(); c.strokeStyle = '#e2b04a'; c.lineWidth = 6; c.setLineDash([18, 10]); c.beginPath();
         for (let j = 0; j <= 40 * k; j++) { const p = roadPt(K.lerp(u0, u1, j / 40)); j ? c.lineTo(p[0], p[1] - 40 * p[2] - 14) : c.moveTo(p[0], p[1] - 40 * p[2] - 14); } c.stroke(); c.restore();
-        if (k > 0.95) { const p = roadPt(u1); P.badge(c, p[0] + 40, p[1] - 120, '10 km', 54, 1); } };
+        if (k > 0.95) { const p = roadPt(K.lerp(u0, u1, 0.55)); P.badge(c, p[0], p[1] - 40 * p[2] - 95, '10 km', 54, 1); } };   // Guardian: was at the near end, over Eli and Mila on the hill
       shots.push({ id: 'D18_wave', start: tAhi - 0.1, bg: 'night_wide', label: 'ACELERADO ×120', focus: [900, 600], push: 0.022, pushDir: 1, post: nightPost,
         over: (c, t) => clock6(c, N6(t)),
         draw(c, t, lt) { A.night(c, t, { simT: N6(t), label: (cx, roadPt, b0, b1) => ruler10(cx, roadPt, b0, b1, A.ramp(t, tDiez - 0.3, 0.8)), chars: (cx, hy) => hillChars(cx, t, hy) }); } });

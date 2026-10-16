@@ -86,6 +86,26 @@
   // ------------------------------------------------------------------ overlays (screen space, design units)
   A.label = function (ctx, text, a = 1, o = {}) { if (a > 0.01) K.light.speedLabel(ctx, text, Object.assign({ alpha: a }, o)); };
 
+  // ------------------------------------------------------------------ continuity: Eli's badge (Guardian 2026-10-16)
+  // Script: Eli pins the «SI SE ABRE UN HUECO, CIÉRRALO» badge on at «¡Mi lema!» (block D1) and only takes it off in the
+  // glovebox gag (block E2). Blocks that set def.eliBadge draw it on every front / 3/4 Eli automatically (it used to
+  // vanish in D2 and E1). Drawn right after Eli, so a car door drawn later still covers it.
+  const HIGH = { crossed: 1, clasp: 1, think: 1, chin: 1, pointSelf: 1, belly: 1 };
+  A.installBadge = function () {
+    if (K.cast.draw.__badge) return;
+    const d0 = K.cast.draw;
+    const d1 = function (ctx, id, x, y, u, o = {}) {
+      const r = d0.call(this, ctx, id, x, y, u, o);
+      const v = String(o.view || 'front');
+      if (A._autoBadge && (id === 'eli1' || id === 'eli') && !o.noBadge && !v.startsWith('back') && v !== 'side' && K.props && K.props.badgeCard && r && r.head && r.head[2] > 0) {
+        const pose = (o.blend && o.blend.k > 0.5) ? o.blend.pose : (o.pose || 'stand');
+        K.props.badgeCard(ctx, r.head, u, 0, ctx.globalAlpha, !!HIGH[pose]);
+      }
+      return r;
+    };
+    d1.__badge = 1; K.cast.draw = d1;
+  };
+
   // ------------------------------------------------------------------ the camera: breathing on top of each shot
   // push 2-3 % (in/out alternating by shot), drift <= 1.2 % of the width, own phase per shot (seeded by its id).
   function seedOf(s) { let h = 7; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
@@ -106,6 +126,7 @@
       async setup(ctx, opts) {
         await A.load();
         A._bySpk = {}; for (const w of A.words) (A._bySpk[w.speaker] = A._bySpk[w.speaker] || []).push(w);
+        A.installBadge();
         if (def.setup) await def.setup(ctx, opts);
         shots = def.shots(A).map((s, k) => Object.assign({ k }, s));
         for (let k = 0; k < shots.length; k++) shots[k].end = k + 1 < shots.length ? shots[k + 1].start : def.t1;
@@ -115,6 +136,7 @@
       },
       draw(ctx, tv, frame) {
         const t = def.t0 + tv;                 // block-local video time -> episode time (narration time)
+        A._autoBadge = !!def.eliBadge;
         ctx.fillStyle = '#120c18'; ctx.fillRect(0, 0, K.W, K.H);   // never keep pixels from the previous frame
         let k = shots.findIndex(s => t >= s.start && t < s.end); if (k < 0) k = t < shots[0].start ? 0 : shots.length - 1;
         const S = shots[k], lt = t - S.start, dur = S.end - S.start;

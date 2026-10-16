@@ -1,12 +1,12 @@
 # QC · blockC2
 
-File: `blockC2_draft.mp4` · 84.00 s · 30/1 fps · 11.34 MB · 1.1 Mb/s
+File: `blockC2_draft.mp4` · 84.00 s · 30/1 fps · 11.36 MB · 1.1 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 854x480 |
-| file size <= 30 MB (chat delivery) | **PASS** | 11.34 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 11.36 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.1 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -1.3 dBTP |
@@ -27,7 +27,7 @@ Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.3 dBTP, LRA 2.2 
 | cuts_per_min | 17.1 |
 | motion_share | 0.742 |
 | still_2s_runs | 5 |
-| brightness_mean | 0.403 |
+| brightness_mean | 0.404 |
 | saturation_mean | 0.45 |
 | wpm_overall | 149 |
 | wpm_while_speaking | 201 |

@@ -33,6 +33,9 @@
     noon: { ang: -1.57, rim: '#ffffff', rimA: 0.35, rimW: 0.008, shade: '#4a5068', shadeA: 0.2, shadeW: 0.05, tex: 0.18 },
     dusk: { ang: -1.25, rim: '#ffd9a0', rimA: 0.9, rimW: 0.012, shade: '#2a1838', shadeA: 0.3, shadeW: 0.05, tex: 0.2 },
   };
+  // hand anchors in FRONT of the face / chest (visor, magnifier, chin, crossed arms, clasp, belly, lap, clipboard): in a
+  // back view these hands are hidden by the head and torso, so the arm is drawn behind the body
+  const FACE_FRONT = { visor: 1, lens: 1, chin: 1, chinTap: 1, crossL: 1, crossT: 1, chest: 1, belly: 1, lap: 1, write: 1, board: 1 };
   const TURN = { front: 0, q: 0.55, side: 1, back: 0, backq: 0.55, backside: 1 };
 
   // ------------------------------------------------------------------ buffers
@@ -96,6 +99,29 @@
   let FACE = null;
   const toPx = (c, x, y) => { const m = c.getTransform(); return [m.a * x + m.c * y + m.e, m.b * x + m.d * y + m.f]; };
   const scaleOf = c => { const m = c.getTransform(); return Math.sqrt(Math.abs(m.a * m.d - m.b * m.c)) || 1; };
+  // QC (Guardian body audit, only while __faceLog is on): the character's own pixels before compositing -> tight box in
+  // canvas px + the share of each wardrobe colour family (hue classes) + vermilion (never allowed on them)
+  function bodyStats(B, ox, oy) {
+    const w = B.c.width, h = B.c.height, d = B.ctx.getImageData(0, 0, w, h).data;
+    let x0 = w, y0 = h, x1 = -1, y1 = -1, n = 0; const cl = { yellow: 0, purple: 0, mustard: 0, green: 0, blue: 0, brown: 0, white: 0, vermilion: 0 };
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4; if (d[i + 3] < 110) continue;
+      n++; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+      const r = d[i] / 255, g = d[i + 1] / 255, b = d[i + 2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), c = mx - mn;
+      if (mx > 0.82 && c < 0.12) { cl.white++; continue; }
+      if (c < 0.12 || mx < 0.18) continue;
+      let hu = mx === r ? ((g - b) / c) % 6 : mx === g ? (b - r) / c + 2 : (r - g) / c + 4; hu = (hu * 60 + 360) % 360; const sat = c / mx;
+      if (hu >= 2 && hu < 16 && sat > 0.62 && mx > 0.75) cl.vermilion++;
+      else if (hu >= 40 && hu < 58 && sat > 0.5 && mx > 0.6) cl.yellow++;
+      else if (hu >= 30 && hu < 48 && sat > 0.45) cl.mustard++;
+      else if (hu >= 20 && hu < 34 && sat > 0.35 && mx < 0.7) cl.brown++;
+      else if (hu >= 120 && hu < 170 && sat > 0.3) cl.green++;
+      else if (hu >= 205 && hu < 235 && sat > 0.3) cl.blue++;
+      else if (hu >= 240 && hu < 290 && sat > 0.25) cl.purple++;
+    }
+    for (const k in cl) cl[k] = n ? +(cl[k] / n).toFixed(4) : 0;
+    return { box: n ? [ox + x0, oy + y0, ox + x1 + 1, oy + y1 + 1] : null, px: n, cl };
+  }
   function eyeMask(M, list, pad) {
     const c = M.ctx;
     for (const [m, x, y, rx, ry, yl, tl, yb] of list) {   // only the OPEN part of the eye (lids keep their skin light)
@@ -559,13 +585,15 @@
         case 'chest': return [tcx + sg * 0.018 * cosT + dir * s * wT * 1.05, K.lerp(Ttop, Tbot, 0.3)];
         case 'belly': return [tcx + sg * wB * 0.55 * cosT + dir * s * wB * 0.95, K.lerp(Ttop, Tbot, 0.78)];
         // scratching the back / side of the head: the hand stays off the face (never over an eye) in every view
-        case 'nape': return [hcx - faceDir * hw * 1.05 * Math.max(0.45, fs) + (fs < 0.3 ? sg * hw * 0.95 : 0), hcy - hh * 0.12];
+        // (Guardian 2026-10-16: in 3/4 the fist sat on the brow / near eye, B23: it now goes to the back edge, temple height)
+        case 'nape': return fs < 0.3 ? [hcx + sg * hw * 1.1, hcy - hh * 0.62] : [hcx - faceDir * hw * 1.0, hcy - hh * 0.4];
         case 'cheek': return [hcx + sg * hw * 1.25 * cosT + dir * s * hw * 0.6, hcy + hh * 0.45];
         case 'board': { const b = boardAt(); return [b[0] - dir * 0.03 * (1 - s) + dir * s * -0.02, b[1] + 0.05]; }
         case 'write': { const b = boardAt(); return [b[0] + dir * 0.012 + Math.sin(t * 11) * 0.006, b[1] - 0.005 + Math.cos(t * 7) * 0.005]; }
         case 'lens': return [hcx + faceDir * (fs * hw * 1.05 + (1 - fs) * 0.0) + (fs < 0.3 ? -dir * hw * 0.2 : 0), hcy + S.face.eyeY + 0.075];
         // a flat hand shading the eyes (looking far ahead): above the brows, toward the face side, never over an eye
-        case 'visor': return [hcx + faceDir * fs * hw * 0.55 + (fs < 0.3 ? sg * hw * 0.25 : 0), hcy + S.face.eyeY - 0.034];
+        // (Guardian 2026-10-16: at brow height the fist hid both brows, A09: it now sits at the hat brim / hairline)
+        case 'visor': return [hcx + faceDir * fs * hw * 0.7 + (fs < 0.3 ? sg * hw * 0.25 : 0), hcy - hh * 0.74];
         case 'backhand': return [tcx - dir * s * (wB + 0.02) + (1 - s) * sg * wB * 0.6, Tbot - 0.03];
         case 'knee': return kneeAt(sg);
       }
@@ -592,7 +620,7 @@
       const j = ik(A0.S0, T, L1, L2, pole);
       const pts = softLimb(j, 0.35);
       const e = pts[pts.length - 1], q = pts[pts.length - 3], dl = Math.hypot(e[0] - q[0], e[1] - q[1]) || 1;
-      return { j, pts, hand: hk, dv: [(e[0] - q[0]) / dl, (e[1] - q[1]) / dl], sg };
+      return { j, pts, hand: hk, dv: [(e[0] - q[0]) / dl, (e[1] - q[1]) / dl], sg, at: (b && bk > 0.5 ? b.at : a.at) || null };
     };
     const lead = armFor(dir, P.lead, PB && PB.lead), trail = armFor(-dir, P.trail, PB && PB.trail);
     const drawArm = (c, Aa) => {
@@ -689,7 +717,12 @@
       layers: {
         back(c) {
           c.translate(0, bobY);
-          upper(c, () => { if (!back) headDraw(c, 'back'); if (s > 0.05) drawArm(c, back ? trail : lead); });
+          upper(c, () => {
+            if (!back) headDraw(c, 'back'); if (s > 0.05) drawArm(c, back ? trail : lead);
+            // back views: a hand in front of the face / chest is hidden behind the head and torso (Guardian 2026-10-16:
+            // the visor fist was drawn on the back of Eli's head, A14; Mila's crossed arm lay across her back, A16)
+            if (back) for (const Aa of (s > 0.05 ? [lead] : [trail, lead])) if (FACE_FRONT[Aa.at]) { drawArm(c, Aa); if ((P.prop || (PB && bk > 0.5 && PB.prop)) === 'magnifier' && Aa === trail) drawLens(c, trail.pts[trail.pts.length - 1]); }
+          });
           if ((legsOn || sitLegs) && s > 0.05) drawLeg(c, back ? -dir : dir);
         },
         body(c) {
@@ -717,10 +750,10 @@
             if (prop === 'clipboard' && !back) drawBoard(c);
             if (s <= 0.05) {
               const crossed = (o.pose === 'crossed' && bk < 0.5) || (PB && o.blend.pose === 'crossed' && bk >= 0.5);
-              for (const Aa of (crossed ? [lead, trail] : [trail, lead])) drawArm(c, Aa);
-            } else drawArm(c, back ? lead : trail);
+              for (const Aa of (crossed ? [lead, trail] : [trail, lead])) if (!(back && FACE_FRONT[Aa.at])) drawArm(c, Aa);
+            } else if (!(back && FACE_FRONT[lead.at])) drawArm(c, back ? lead : trail);
             if (prop === 'clipboard' && !back) drawPencil(c, lead.pts[lead.pts.length - 1]);
-            if (prop === 'magnifier') drawLens(c, trail.pts[trail.pts.length - 1]);
+            if (prop === 'magnifier' && !(back && s <= 0.05)) drawLens(c, trail.pts[trail.pts.length - 1]);
             if (S.front && !back) S.front(c, B);
           });
         },
@@ -774,11 +807,12 @@
     }
     rimLight(OUT, light, u, lwS, MK);
     if (o.fog) { OUT.ctx.globalCompositeOperation = 'source-atop'; OUT.ctx.fillStyle = K.rgba(o.fog[0], o.fog[1]); OUT.ctx.fillRect(0, 0, W, Hh); OUT.ctx.globalCompositeOperation = 'source-over'; }
+    if (rec) rec.body = bodyStats(OUT, sx0, sy0);
     if (o.shadow && !o.seated) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(o.shadowColor || '#3c2a52', o.shadow); K.ellipse(ctx, x, y, u * (S.shadowW || 0.16), u * 0.022); ctx.fill(); ctx.restore(); }
     ctx.drawImage(OUT.c, sx0, sy0);
     if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } if (rec.lens) { rec.lens[0] += sx0; rec.lens[1] += sy0; } rec.alpha = ctx.globalAlpha; LOG.push(rec); }
     const so = o.seated ? S.legLen : 0, hi = R.info.head, hx = x + hi[0] * u, hy = y + (hi[1] + so) * u, hr = hi[2] * u;
-    if (rec) rec.head = [hx, hy, hr];
+    if (rec) { rec.head = [hx, hy, hr]; rec.foot = [x, y]; rec.seated = !!o.seated; }
     const ex = (o.extras || C.EXPR[o.expr]?.extras || []);
     for (const e of ex) K.char.extra(ctx, hx, hy - hr * 0.2, hr * (S.extraK || 1.0), e, o.t || 0, { ink: '#24161a' });
     const map = p => [x + p[0] * u, y + (p[1] + so) * u];

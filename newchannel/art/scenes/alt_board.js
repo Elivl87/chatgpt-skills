@@ -190,13 +190,18 @@
     if (o.bubble !== false && C._lastCrew && C._lastCrew.driver) bubble(ctx, C._lastCrew.driver.head, '¡¿Quién fue?!');
   }
   // a paper speech balloon (screen space), tail toward the speaker's mouth
-  function bubble(ctx, head, text, a = 1) {
+  // o.side -1: the balloon goes up-LEFT of the speaker (when someone stands to their right)
+  function bubble(ctx, head, text, a = 1, o = {}) {
     const [hx, hy, hr] = head, k = Math.max(0.6, Math.min(1.4, hr / 150)) * (0.6 + 0.4 * K.ease.outBack(K.clamp(a)));
     const fs = Math.round(58 * k); ctx.save(); ctx.globalAlpha = K.clamp(a * 1.5); ctx.font = `700 ${fs}px "Space Grotesk"`; const tw = ctx.measureText(text).width;
-    const bw = tw + 70 * k, bh = fs * 1.75, bx = Math.min(K.W - bw - 40, hx + hr * 0.9), by = Math.max(40, hy - hr * 2.1 - bh);
+    const bw = tw + 70 * k, bh = fs * 1.75, by = Math.max(40, hy - hr * 2.1 - bh);
+    const bx = o.side === -1 ? Math.max(40, hx - hr * 0.9 - bw) : Math.min(K.W - bw - 40, hx + hr * 0.9);
     ctx.fillStyle = K.rgba('#2a1830', 0.25); K.rrect(ctx, bx + 6, by + 8, bw, bh, bh / 2); ctx.fill();
     ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = '#2a1a1e'; ctx.lineWidth = 4 * k; ctx.lineJoin = 'round';
-    ctx.beginPath(); const tx = bx + bw * 0.22, ty = by + bh; ctx.moveTo(tx - 22 * k, ty - 4); ctx.lineTo(hx + hr * 0.7, hy + hr * 0.28); ctx.lineTo(tx + 22 * k, ty - 4); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // the tail stops just OUTSIDE the speaker's head (beside the hat cuff, on the balloon's side): it never crosses the
+    // beanie, the eyes or the face (Guardian 2026-10-16: a long tail drawn to the mouth cut across Eli's whole head)
+    const tx = bx + bw * (o.side === -1 ? 0.78 : 0.22), ty = by + bh, side = tx >= hx ? 1 : -1, tipX = hx + side * hr * 1.12, tipY = Math.max(ty + 12 * k, hy - hr * 0.15);
+    ctx.beginPath(); ctx.moveTo(tx - 22 * k, ty - 4); ctx.lineTo(tipX, tipY); ctx.lineTo(tx + 22 * k, ty - 4); ctx.closePath(); ctx.fill(); ctx.stroke();
     K.rrect(ctx, bx, by, bw, bh, bh / 2); ctx.fill(); ctx.stroke();
     ctx.fillStyle = '#fbf3e4'; ctx.fillRect(tx - 18 * k, ty - 6 * k, 36 * k, 9 * k);
     ctx.fillStyle = '#2a1a1e'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, bx + bw / 2, by + bh / 2 + 2);

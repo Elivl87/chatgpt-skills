@@ -27,7 +27,7 @@ Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.4 dBTP, LRA 2.0 
 | cuts_per_min | 23.6 |
 | motion_share | 1.0 |
 | still_2s_runs | 0 |
-| brightness_mean | 0.616 |
+| brightness_mean | 0.617 |
 | saturation_mean | 0.386 |
 | wpm_overall | 139 |
 | wpm_while_speaking | 187 |

@@ -1,0 +1,1264 @@
+{
+ "block": "E1",
+ "samples": 21,
+ "fail": 19,
+ "warn": 0,
+ "frames": [
+  {
+   "t": 10.25,
+   "shot": "G04_bridge",
+   "why": "start",
+   "png": "s_000.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "curious",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      471,
+      11,
+      564,
+      415
+     ],
+     "cl": {
+      "yellow": 0.0023,
+      "purple": 0.1559,
+      "mustard": 0.3547,
+      "green": 0.0709,
+      "blue": 0,
+      "brown": 0.0363,
+      "white": 0.0238,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "curious",
+     "pose": "visor",
+     "view": "q",
+     "box": [
+      313,
+      42,
+      417,
+      415
+     ],
+     "cl": {
+      "yellow": 0.0601,
+      "purple": 0.001,
+      "mustard": 0.175,
+      "green": 0,
+      "blue": 0.0742,
+      "brown": 0.197,
+      "white": 0.1269,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 11.384999999999991,
+   "shot": "G04_bridge",
+   "why": "mid",
+   "png": "s_001.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "curious",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      471,
+      6,
+      565,
+      418
+     ],
+     "cl": {
+      "yellow": 0.0024,
+      "purple": 0.1558,
+      "mustard": 0.3558,
+      "green": 0.0707,
+      "blue": 0,
+      "brown": 0.0342,
+      "white": 0.024,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "determined",
+     "pose": "point",
+     "view": "q",
+     "box": [
+      173,
+      53,
+      395,
+      418
+     ],
+     "cl": {
+      "yellow": 0.0745,
+      "purple": 0,
+      "mustard": 0.1501,
+      "green": 0,
+      "blue": 0.0712,
+      "brown": 0.2208,
+      "white": 0.0753,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 12.620000000000005,
+   "shot": "G04_bridge",
+   "why": "end",
+   "png": "s_002.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "curious",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      470,
+      6,
+      565,
+      420
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1552,
+      "mustard": 0.3531,
+      "green": 0.0688,
+      "blue": 0,
+      "brown": 0.0376,
+      "white": 0.0238,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "determined",
+     "pose": "point",
+     "view": "q",
+     "box": [
+      167,
+      50,
+      391,
+      420
+     ],
+     "cl": {
+      "yellow": 0.0743,
+      "purple": 0.0005,
+      "mustard": 0.151,
+      "green": 0,
+      "blue": 0.0725,
+      "brown": 0.2245,
+      "white": 0.0686,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 24.935000000000002,
+   "shot": "G09_faces",
+   "why": "start",
+   "png": "s_003.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "laugh",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      466,
+      7,
+      570,
+      413
+     ],
+     "cl": {
+      "yellow": 0.0024,
+      "purple": 0.155,
+      "mustard": 0.3762,
+      "green": 0.0691,
+      "blue": 0,
+      "brown": 0.0347,
+      "white": 0,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "sheepish",
+     "pose": "shrug",
+     "view": "q",
+     "box": [
+      265,
+      39,
+      449,
+      413
+     ],
+     "cl": {
+      "yellow": 0.0721,
+      "purple": 0.0011,
+      "mustard": 0.1712,
+      "green": 0,
+      "blue": 0.0739,
+      "brown": 0.2028,
+      "white": 0.1035,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 25.314999999999998,
+   "shot": "G09_faces",
+   "why": "mid",
+   "png": "s_004.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "laugh",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      467,
+      4,
+      575,
+      416
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1523,
+      "mustard": 0.3768,
+      "green": 0.0683,
+      "blue": 0,
+      "brown": 0.0327,
+      "white": 0,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "sheepish",
+     "pose": "shrug",
+     "view": "q",
+     "box": [
+      264,
+      37,
+      450,
+      416
+     ],
+     "cl": {
+      "yellow": 0.0723,
+      "purple": 0.0005,
+      "mustard": 0.1709,
+      "green": 0,
+      "blue": 0.0736,
+      "brown": 0.2041,
+      "white": 0.1035,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 25.795000000000016,
+   "shot": "G09_faces",
+   "why": "end",
+   "png": "s_005.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "laugh",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      468,
+      0,
+      574,
+      419
+     ],
+     "cl": {
+      "yellow": 0.0022,
+      "purple": 0.1553,
+      "mustard": 0.3771,
+      "green": 0.0706,
+      "blue": 0,
+      "brown": 0.0364,
+      "white": 0,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "sheepish",
+     "pose": "shrug",
+     "view": "q",
+     "box": [
+      263,
+      34,
+      452,
+      419
+     ],
+     "cl": {
+      "yellow": 0.0719,
+      "purple": 0.0003,
+      "mustard": 0.1703,
+      "green": 0,
+      "blue": 0.0746,
+      "brown": 0.2046,
+      "white": 0.1044,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 26.194999999999993,
+   "shot": "G10_flag",
+   "why": "start",
+   "png": "s_006.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      470,
+      7,
+      563,
+      414
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1571,
+      "mustard": 0.3659,
+      "green": 0.0681,
+      "blue": 0,
+      "brown": 0.0341,
+      "white": 0.0141,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "determined",
+     "pose": "stand",
+     "view": "q",
+     "box": [
+      299,
+      52,
+      392,
+      414
+     ],
+     "cl": {
+      "yellow": 0.0796,
+      "purple": 0.0003,
+      "mustard": 0.1832,
+      "green": 0,
+      "blue": 0.0793,
+      "brown": 0.1927,
+      "white": 0.0903,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 27.39500000000004,
+   "shot": "G10_flag",
+   "why": "cue:pop",
+   "png": "s_007.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "curious",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      465,
+      10,
+      559,
+      418
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1546,
+      "mustard": 0.352,
+      "green": 0.0698,
+      "blue": 0,
+      "brown": 0.0405,
+      "white": 0.0238,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "happy",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      289,
+      38,
+      421,
+      418
+     ],
+     "cl": {
+      "yellow": 0.066,
+      "purple": 0.001,
+      "mustard": 0.1634,
+      "green": 0,
+      "blue": 0.075,
+      "brown": 0.2174,
+      "white": 0.0939,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 28.944999999999993,
+   "shot": "G10_flag",
+   "why": "end",
+   "png": "s_008.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "curious",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      466,
+      4,
+      562,
+      424
+     ],
+     "cl": {
+      "yellow": 0.0023,
+      "purple": 0.1562,
+      "mustard": 0.356,
+      "green": 0.0706,
+      "blue": 0,
+      "brown": 0.0363,
+      "white": 0.0238,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "happy",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      286,
+      35,
+      421,
+      424
+     ],
+     "cl": {
+      "yellow": 0.0665,
+      "purple": 0.0009,
+      "mustard": 0.1665,
+      "green": 0,
+      "blue": 0.0715,
+      "brown": 0.1982,
+      "white": 0.105,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 35.285000000000025,
+   "shot": "G13_dale",
+   "why": "line:eli:Dale",
+   "png": "s_009.png",
+   "problems": [
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "text:\u00a1DALE, DALE! over the head zone"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      469,
+      7,
+      571,
+      414
+     ],
+     "cl": {
+      "yellow": 0.0023,
+      "purple": 0.1554,
+      "mustard": 0.361,
+      "green": 0.0698,
+      "blue": 0,
+      "brown": 0.0355,
+      "white": 0.0138,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "laugh",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      285,
+      36,
+      414,
+      414
+     ],
+     "cl": {
+      "yellow": 0.0567,
+      "purple": 0.0009,
+      "mustard": 0.1617,
+      "green": 0,
+      "blue": 0.074,
+      "brown": 0.2167,
+      "white": 0.0934,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 35.69500000000005,
+   "shot": "G13_dale",
+   "why": "line:eli:dale",
+   "png": "s_010.png",
+   "problems": [
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "text:\u00a1DALE, DALE! over the head zone"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      470,
+      6,
+      573,
+      417
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1538,
+      "mustard": 0.3642,
+      "green": 0.0686,
+      "blue": 0,
+      "brown": 0.0333,
+      "white": 0.0137,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "laugh",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      287,
+      36,
+      419,
+      418
+     ],
+     "cl": {
+      "yellow": 0.0566,
+      "purple": 0.0008,
+      "mustard": 0.1621,
+      "green": 0,
+      "blue": 0.0737,
+      "brown": 0.2178,
+      "white": 0.0923,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 36.20500000000004,
+   "shot": "G13_dale",
+   "why": "end",
+   "png": "s_011.png",
+   "problems": [
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "text:\u00a1DALE, DALE! over the head zone"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      471,
+      4,
+      572,
+      421
+     ],
+     "cl": {
+      "yellow": 0.0022,
+      "purple": 0.1554,
+      "mustard": 0.3632,
+      "green": 0.0697,
+      "blue": 0,
+      "brown": 0.0379,
+      "white": 0.0141,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "laugh",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      281,
+      32,
+      414,
+      421
+     ],
+     "cl": {
+      "yellow": 0.0554,
+      "purple": 0.0003,
+      "mustard": 0.1594,
+      "green": 0,
+      "blue": 0.0775,
+      "brown": 0.2193,
+      "white": 0.0925,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 39.72100000000006,
+   "shot": "G15_nooo",
+   "why": "line:eli:Nooo",
+   "png": "s_012.png",
+   "problems": [
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "surprised",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      468,
+      2,
+      561,
+      412
+     ],
+     "cl": {
+      "yellow": 0.002,
+      "purple": 0.1548,
+      "mustard": 0.3565,
+      "green": 0.0708,
+      "blue": 0,
+      "brown": 0.037,
+      "white": 0.0317,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "worried",
+     "pose": "surprise",
+     "view": "q",
+     "box": [
+      279,
+      41,
+      455,
+      412
+     ],
+     "cl": {
+      "yellow": 0.0704,
+      "purple": 0.0008,
+      "mustard": 0.1717,
+      "green": 0,
+      "blue": 0.0773,
+      "brown": 0.2024,
+      "white": 0.1066,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 40.03000000000003,
+   "shot": "G15_nooo",
+   "why": "mid",
+   "png": "s_013.png",
+   "problems": [
+    [
+     "FAIL",
+     "cut-head",
+     "Mila",
+     "head zone [470, -2, 564, 131] crosses the frame edge"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "surprised",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      470,
+      -2,
+      564,
+      415
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1543,
+      "mustard": 0.3547,
+      "green": 0.0719,
+      "blue": 0,
+      "brown": 0.0336,
+      "white": 0.0312,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "worried",
+     "pose": "surprise",
+     "view": "q",
+     "box": [
+      277,
+      36,
+      457,
+      415
+     ],
+     "cl": {
+      "yellow": 0.0703,
+      "purple": 0.0009,
+      "mustard": 0.1694,
+      "green": 0,
+      "blue": 0.0765,
+      "brown": 0.2013,
+      "white": 0.1061,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 40.421400000000006,
+   "shot": "G15_nooo",
+   "why": "end",
+   "png": "s_014.png",
+   "problems": [
+    [
+     "FAIL",
+     "cut-head",
+     "Mila",
+     "head zone [472, -8, 572, 128] crosses the frame edge"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ],
+    [
+     "FAIL",
+     "overlay-head",
+     "Eli",
+     "box over the head zone"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "surprised",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      472,
+      -8,
+      572,
+      418
+     ],
+     "cl": {
+      "yellow": 0.0023,
+      "purple": 0.1554,
+      "mustard": 0.3931,
+      "green": 0.0697,
+      "blue": 0,
+      "brown": 0.0376,
+      "white": 0,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "worried",
+     "pose": "surprise",
+     "view": "q",
+     "box": [
+      276,
+      32,
+      459,
+      419
+     ],
+     "cl": {
+      "yellow": 0.0703,
+      "purple": 0.0005,
+      "mustard": 0.1723,
+      "green": 0,
+      "blue": 0.0777,
+      "brown": 0.2036,
+      "white": 0.1064,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 42.954999999999984,
+   "shot": "G17_wave",
+   "why": "cue:crowd_wave",
+   "png": "s_015.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      427,
+      98,
+      507,
+      420
+     ],
+     "cl": {
+      "yellow": 0.0019,
+      "purple": 0.1544,
+      "mustard": 0.3632,
+      "green": 0.0728,
+      "blue": 0,
+      "brown": 0.0429,
+      "white": 0.0129,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "happy",
+     "pose": "stand",
+     "view": "q",
+     "box": [
+      296,
+      124,
+      370,
+      420
+     ],
+     "cl": {
+      "yellow": 0.0801,
+      "purple": 0.0005,
+      "mustard": 0.182,
+      "green": 0,
+      "blue": 0.0766,
+      "brown": 0.1966,
+      "white": 0.079,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 5
+  },
+  {
+   "t": 43.477499999999964,
+   "shot": "G17_wave",
+   "why": "mid",
+   "png": "s_016.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      427,
+      98,
+      506,
+      418
+     ],
+     "cl": {
+      "yellow": 0.002,
+      "purple": 0.1562,
+      "mustard": 0.3609,
+      "green": 0.0692,
+      "blue": 0,
+      "brown": 0.0423,
+      "white": 0.0129,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "happy",
+     "pose": "stand",
+     "view": "q",
+     "box": [
+      297,
+      125,
+      371,
+      418
+     ],
+     "cl": {
+      "yellow": 0.08,
+      "purple": 0.0004,
+      "mustard": 0.1796,
+      "green": 0,
+      "blue": 0.0786,
+      "brown": 0.1981,
+      "white": 0.0743,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 5
+  },
+  {
+   "t": 44.06999999999999,
+   "shot": "G17_wave",
+   "why": "end",
+   "png": "s_017.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      426,
+      98,
+      503,
+      416
+     ],
+     "cl": {
+      "yellow": 0.0023,
+      "purple": 0.1561,
+      "mustard": 0.3605,
+      "green": 0.0692,
+      "blue": 0,
+      "brown": 0.0461,
+      "white": 0.0129,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "surprised",
+     "pose": "stand",
+     "view": "q",
+     "box": [
+      296,
+      119,
+      372,
+      416
+     ],
+     "cl": {
+      "yellow": 0.0742,
+      "purple": 0,
+      "mustard": 0.1737,
+      "green": 0,
+      "blue": 0.078,
+      "brown": 0.1994,
+      "white": 0.0943,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 5
+  },
+  {
+   "t": 44.46999999999997,
+   "shot": "G18_mila",
+   "why": "start",
+   "png": "s_018.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      454,
+      0,
+      548,
+      412
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1576,
+      "mustard": 0.3645,
+      "green": 0.0717,
+      "blue": 0,
+      "brown": 0.0341,
+      "white": 0.0161,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "surprised",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      203,
+      27,
+      335,
+      412
+     ],
+     "cl": {
+      "yellow": 0.0611,
+      "purple": 0.0005,
+      "mustard": 0.1614,
+      "green": 0,
+      "blue": 0.0716,
+      "brown": 0.2033,
+      "white": 0.117,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 44.897500000000036,
+   "shot": "G18_mila",
+   "why": "mid",
+   "png": "s_019.png",
+   "problems": [
+    [
+     "FAIL",
+     "cut-head",
+     "Mila",
+     "head zone [455, -2, 550, 129] crosses the frame edge"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      455,
+      -2,
+      550,
+      414
+     ],
+     "cl": {
+      "yellow": 0.0021,
+      "purple": 0.1563,
+      "mustard": 0.3639,
+      "green": 0.0715,
+      "blue": 0,
+      "brown": 0.0338,
+      "white": 0.0163,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "surprised",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      200,
+      26,
+      334,
+      415
+     ],
+     "cl": {
+      "yellow": 0.061,
+      "purple": 0.0004,
+      "mustard": 0.1635,
+      "green": 0,
+      "blue": 0.07,
+      "brown": 0.2019,
+      "white": 0.1179,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 45.42500000000007,
+   "shot": "G18_mila",
+   "why": "end",
+   "png": "s_020.png",
+   "problems": [
+    [
+     "FAIL",
+     "cut-head",
+     "Mila",
+     "head zone [455, -4, 556, 128] crosses the frame edge"
+    ]
+   ],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      455,
+      -4,
+      556,
+      418
+     ],
+     "cl": {
+      "yellow": 0.002,
+      "purple": 0.1559,
+      "mustard": 0.3599,
+      "green": 0.0712,
+      "blue": 0,
+      "brown": 0.037,
+      "white": 0.0163,
+      "vermilion": 0
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "surprised",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      196,
+      22,
+      333,
+      418
+     ],
+     "cl": {
+      "yellow": 0.0601,
+      "purple": 0.0008,
+      "mustard": 0.1642,
+      "green": 0,
+      "blue": 0.0706,
+      "brown": 0.2043,
+      "white": 0.1192,
+      "vermilion": 0
+     }
+    }
+   ],
+   "extras": 0
+  }
+ ]
+}

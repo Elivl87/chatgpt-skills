@@ -92,7 +92,8 @@
       const on = jam && jam.on, u = s * 7.2, Lt = Object.assign({}, K.cast.LIGHT.golden, { ang: -2.45, rim: P.rim, shade: '#3a3358' });
       ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(P.shadow, 0.35); ctx.translate(x, y); ctx.transform(1, 0, -2.55 / VIEW.cosE * 0.25, 0.3, 0, 0); K.ellipse(ctx, -s * 0.8, 0, s * 0.9, s * 0.5); ctx.fill(); ctx.restore();
       if (p.who === 'mila1') K.cast.draw(ctx, 'mila1', x, y, u, { view: 'q', dir: on && jam.x < x ? -1 : 1, pose: 'clipboard', t, expr: on ? 'curious' : 'thinking', look: on ? [0.8, -0.1] : [0.2, 0.6], light: Lt, shadow: 0.3 });
-      else { const toR = jam && jam.x > x; K.cast.draw(ctx, 'eli1', x, y, u, { view: 'q', dir: on ? (toR ? 1 : -1) : 1, pose: on ? 'point' : (u * Math.hypot(ctx.getTransform().a, ctx.getTransform().b) * 0.035 < 7 ? 'chin' : 'detective'), t, expr: on ? 'surprised' : 'curious', look: [0.7, 0.2], light: Lt, shadow: 0.3 }); }
+      else { const toR = jam && jam.x > x; const rE = K.cast.draw(ctx, 'eli1', x, y, u, { view: 'q', dir: on ? (toR ? 1 : -1) : 1, pose: on ? 'point' : (u * Math.hypot(ctx.getTransform().a, ctx.getTransform().b) * 0.035 < 7 ? 'chin' : 'detective'), t, expr: on ? 'surprised' : 'curious', look: [0.7, 0.2], light: Lt, shadow: 0.3 });
+        if (opt.heroAfter) opt.heroAfter(ctx, 'eli1', rE, u, t); }   // continuity props on Eli (e.g. the ep001 badge card)
     } else if (p.k === 'person') {
       // acting follows the sim: once a car is stopped (jam), the pointer points at it, the shrugger shrugs,
       // the note-taker looks up surprised. Before that: calm, chatting, writing.
