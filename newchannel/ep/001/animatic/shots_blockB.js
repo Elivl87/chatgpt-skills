@@ -62,7 +62,7 @@
           A.field(c, t, { simT: ts, frame: { z: 1.35, x: 860, y: 560 },
             chars: (cx) => {
               K.cast.draw(cx, 'mila1', 1180, G - 8, 560, { view: 'q', dir: -1, pose: 'clipboard', expr: pt ? 'smug' : 'neutral', t, look: [-0.8, 0.1], light: LF, shadow: 0.3, blink: blink(5, t) });
-              K.cast.draw(cx, 'eli1', 760, G, 600, { view: 'q', dir: -1, pose: pt ? 'point' : 'pump', expr: pt ? 'smug' : 'happy', t, look: [-0.9, 0], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, blink: blink(3, t) });
+              K.cast.draw(cx, 'eli1', 760, G, 600, { view: 'q', dir: -1, ...A.pz(t, el('Fue', 1, '06') - 0.1, 'pump', 'point'), expr: pt ? 'smug' : 'happy', t, look: [-0.9, 0], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, blink: blink(3, t) });
             } });
         } });
 

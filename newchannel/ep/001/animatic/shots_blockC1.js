@@ -137,7 +137,7 @@
         draw(c, t, lt) {
           const ts = sStop10 + 2 + (t - tLos) * 0.5;
           WZ(c, () => A.line(c, t, { simT: ts, camS: platoon(ts, 2, 7), pxm: 13, carK: 2.2 }));
-          K.cast.draw(c, 'mila1', 1560, 1150, 760, { view: 'q', dir: -1, pose: t > tInest ? 'point' : 'clipboard', expr: 'happy', t, look: [-0.9, -0.3], light: N, shadow: 0 });
+          K.cast.draw(c, 'mila1', 1560, 1150, 760, { view: 'q', dir: -1, ...A.pz(t, tInest, 'clipboard', 'point'), expr: 'happy', t, look: [-0.9, -0.3], light: N, shadow: 0 });
           P.plate(c, 900, 240, 'INESTABILIDAD DE CADENA', 58, A.ramp(t, tInest - 0.05, 0.3));
         },
         cues: A => [{ t: tInest, kind: 'plate' }] });

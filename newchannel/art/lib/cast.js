@@ -111,7 +111,7 @@
   // morphological opening of the alpha mask) outside the head and hand zones = stray strokes, cords and stubs poking out
   function bodyStats(B, ox, oy, X) {
     const w = B.c.width, h = B.c.height, d = B.ctx.getImageData(0, 0, w, h).data;
-    let x0 = w, y0 = h, x1 = -1, y1 = -1, n = 0; const cl = { yellow: 0, purple: 0, mustard: 0, green: 0, blue: 0, brown: 0, white: 0, vermilion: 0 };
+    let x0 = w, y0 = h, x1 = -1, y1 = -1, n = 0; const cl = { yellow: 0, purple: 0, mustard: 0, green: 0, blue: 0, brown: 0, white: 0, vermilion: 0, pale: 0 };
     const PAL = root.__clothesPal ? Object.entries(root.__clothesPal).map(([k, v]) => [k, parseInt(v.slice(1, 3), 16), parseInt(v.slice(3, 5), 16), parseInt(v.slice(5, 7), 16)]) : null;
     const pal = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palRaw = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palY = PAL ? Object.fromEntries(PAL.map(q => [q[0], [1e9, -1e9]])) : null;
     const M = new Uint8Array(w * h), LB = PAL ? new Int8Array(w * h).fill(-1) : null;
@@ -121,6 +121,7 @@
       if (PAL && d[i + 3] > 250) for (let qi = 0; qi < PAL.length; qi++) { const q = PAL[qi], dr = d[i] - q[1], dg = d[i + 1] - q[2], db = d[i + 2] - q[3]; if (dr * dr + dg * dg + db * db < 60) { LB[y * w + x] = qi; palRaw[q[0]]++; break; } }
       n++; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
       const r = d[i] / 255, g = d[i + 1] / 255, b = d[i + 2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), c = mx - mn;
+      if (c < 0.16 && mx > 0.45) cl.pale = (cl.pale || 0) + 1;   // light neutral (the tee under night / dusk grading)
       if (mx > 0.82 && c < 0.12) { cl.white++; continue; }
       if (c < 0.12 || mx < 0.18) continue;
       let hu = mx === r ? ((g - b) / c) % 6 : mx === g ? (b - r) / c + 2 : (r - g) / c + 4; hu = (hu * 60 + 360) % 360; const sat = c / mx;
@@ -155,6 +156,7 @@
           if (xx < bx0) bx0 = xx; if (xx > bx1) bx1 = xx; if (yy < by0) by0 = yy; if (yy > by1) by1 = yy;
           for (const k of [j - 1, j + 1, j - w, j + w]) if (k >= 0 && k < w * h && M[k] && !E[k] && !seen[k] && Math.abs((k % w) - xx) <= 1) { seen[k] = 1; st.push(k); } }
         const len = Math.max(bx1 - bx0, by1 - by0) + 1;
+        if (bx0 <= 1 || by0 <= 1 || bx1 >= w - 2 || by1 >= h - 2) continue;   // slivers made by the frame-edge crop, not strokes
         if (outside > 0 && len >= X.ink * 3.5 && outside >= X.ink * X.ink * 2.5) { thin += outside; worst = Math.max(worst, len); comps.push([ox + bx0, oy + by0, ox + bx1 + 1, oy + by1 + 1, outside]); } }
       out.thin = { px: thin, worst: +(worst / X.ink).toFixed(1), comps: comps.slice(0, 6), r };
     }

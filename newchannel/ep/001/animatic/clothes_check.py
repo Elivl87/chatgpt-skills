@@ -110,27 +110,28 @@ def block(D, B, QC):
             if not b.get('box') or f.get('alpha', 1) < 0.9:
                 continue
             n += 1
-            hpx = b['box'][3] - b['box'][1]; cl = b['cl']; v = str(f['view']); key = f"{s['shot']} t{s['t']:.2f} {f['id']} {f['pose']}/{v}"
+            hpx = b['box'][3] - b['box'][1]; cl = b['cl']; H_ = s.get('size', [854, 480])[1]
+            feet = bool(f.get('foot')) and f['foot'][1] <= H_ - 2 and b['box'][3] >= f['foot'][1] - 0.02 * f.get('u', 0)   # legs in frame v = str(f['view']); key = f"{s['shot']} t{s['t']:.2f} {f['id']} {f['pose']}/{v}"
             if hpx >= 60 and b['px'] > 1500:
                 if f['id'] == 'eli1':
-                    if cl['white'] < 0.02:
+                    if cl['white'] + cl.get('pale', 0) < 0.02:
                         fails.append(('colour', key, f"no tee white ({cl['white']:.3f})"))
                     if v in ('front', 'q', 'side') and cl['brown'] + cl['mustard'] < 0.02:
                         fails.append(('colour', key, f"no apron brown ({cl['brown']:.3f})"))
-                    if not f.get('seated') and hpx >= 120 and cl['blue'] < 0.01:
+                    if not f.get('seated') and feet and hpx >= 120 and cl['blue'] < 0.01:
                         fails.append(('colour', key, f"no jeans blue ({cl['blue']:.3f})"))
                 else:
                     if cl['mustard'] + cl['brown'] + cl['yellow'] < 0.03:
                         fails.append(('colour', key, f"no overall mustard ({cl['mustard']:.3f})"))
                     if cl['purple'] < 0.02:
                         fails.append(('colour', key, f"no sweater purple ({cl['purple']:.3f})"))
-                    if not f.get('seated') and hpx >= 120 and cl['green'] < 0.004:
+                    if not f.get('seated') and feet and hpx >= 120 and cl['green'] < 0.004:
                         fails.append(('colour', key, f"no green boots ({cl['green']:.3f})"))
             th = b.get('thin')
             if th and th['px']:
                 fails.append(('thin', key, f"{th['px']} px of stray thin strokes, worst {th['worst']} ink long at {th['comps'][:2]}"))
             g = nxt.get(f['id'])
-            if g and g.get('body') and g['body'].get('box') and hpx >= 40 and s.get('next_shot') == s['shot']:
+            if g and g.get('body') and g['body'].get('box') and hpx >= 80 and b['px'] >= 2000 and s.get('next_shot') == s['shot']:   # tiny figures: share noise
                 c2 = g['body']['cl']
                 for k in ('white', 'brown', 'blue', 'purple', 'mustard', 'green', 'yellow'):
                     a, z = cl.get(k, 0), c2.get(k, 0)

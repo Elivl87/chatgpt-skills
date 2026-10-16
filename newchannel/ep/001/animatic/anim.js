@@ -82,6 +82,10 @@
   A.ramp = (t, a, d = 0.2) => K.ease.sine(K.clamp((t - a) / d));            // 0 -> 1 from a over d seconds
   A.pulse = (t, a, d = 0.2, hold = 0.5, out = 0.2) => A.ramp(t, a, d) * (1 - A.ramp(t, a + d + hold, out));
   A.after = (t, a) => t >= a;
+  // pose switches without pops (clothes / acting QC 2026-10-16): instead of «pose: t > T ? 'b' : 'a'» (one-frame jump of
+  // arms, sleeves and straps) the pose blends a -> b over d seconds centred on T (or on a value crossing a threshold)
+  A.pz = (t, T, a, b, d = 0.2) => { const k = K.clamp((t - (T - d / 2)) / d); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
+  A.pzv = (v, th, a, b, w = 0.16) => { const k = K.clamp((v - (th - w / 2)) / w); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
 
   // ------------------------------------------------------------------ overlays (screen space, design units)
   A.label = function (ctx, text, a = 1, o = {}) { if (a > 0.01) K.light.speedLabel(ctx, text, Object.assign({ alpha: a }, o)); };

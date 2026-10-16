@@ -167,11 +167,13 @@
     const gap = hr * 1.2 + (m.kind === 'thought' ? 110 : m.kind === 'shout' ? 110 : 64);   // room for a visible tail / thought dots
     for (const sd of [pref, -pref]) for (const dy of [-0.9, -0.4, -1.5, 0.2, -2.2]) cands.push([hx + sd * (gap + m.w / 2), hy + dy * hr - m.h * 0.35, sd]);
     cands.push([hx, hy - hr * 2 - m.h / 2 - 20, pref]);
+    // fallback grid over the upper two thirds (only wins when every spot beside the head is taken: crowded frames)
+    for (let gy = 0; gy < 3; gy++) for (let gx = 0; gx < 7; gx++) cands.push([M + m.w / 2 + (W - 2 * M - m.w) * gx / 6, M + m.h / 2 + gy * (H * 0.62 - m.h) / 2, 0]);
     let best = null, bs = Infinity;
     for (const [cx0, cy0, sd] of cands) {
       const cx = Math.max(M + m.w / 2, Math.min(W - M - m.w / 2, cx0)), cy = Math.max(M + m.h / 2, Math.min(bottom - m.h / 2, cy0));
       const R = [cx - m.w / 2 - 10, cy - m.h / 2 - 10, cx + m.w / 2 + 10, cy + m.h / 2 + 14];
-      let s = Math.hypot(cx - cx0, cy - cy0) * 2 + Math.hypot(cx - hx, cy - hy) * 0.15 + (sd !== pref ? 140 : 0);
+      let s = Math.hypot(cx - cx0, cy - cy0) * 2 + Math.hypot(cx - hx, cy - hy) * (sd === 0 ? 0.6 : 0.15) + (sd === 0 ? 900 : sd !== pref ? 140 : 0);
       for (const a of avoid) if (R[0] < a[2] && a[0] < R[2] && R[1] < a[3] && a[1] < R[3]) s += 5000;
       if (R[0] < chip[2] && chip[0] < R[2] && R[1] < chip[3] && chip[1] < R[3]) s += 3000;
       if (s < bs) { bs = s; best = [cx, cy]; }

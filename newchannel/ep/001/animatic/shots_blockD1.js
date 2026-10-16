@@ -109,7 +109,7 @@
         draw(c, t, lt) { const sp = A.talk('eli', t);
           A.field(c, t, { run: S7(), simT: PRE(t), frame: { z: 1.6, x: 960, y: 560 }, chars: cx => {
             K.cast.draw(cx, 'mila1', 1290, G - 6, 640, { view: 'q', dir: -1, pose: 'crossed', expr: t > tMi + 0.3 ? 'smug' : 'neutral', t, look: [-0.9, 0], light: LF, shadow: 0.3 });
-            const u = 660, r = K.cast.draw(cx, 'eli1', 860, G, u, { view: 'q', dir: 1, pose: t > tMi ? 'pump' : 'clasp', expr: t > tMi - 0.05 ? 'happy' : 'curious', t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: t > tMi + 0.1 ? ['sparkle'] : [] });
+            const u = 660, r = K.cast.draw(cx, 'eli1', 860, G, u, { view: 'q', dir: 1, ...A.pz(t, tMi, 'clasp', 'pump'), expr: t > tMi - 0.05 ? 'happy' : 'curious', t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: t > tMi + 0.1 ? ['sparkle'] : [] });
             eliBadge(cx, r, u, t); } }); },
         cues: A => [{ t: tMi, kind: 'ding' }] });
 
@@ -155,9 +155,9 @@
         draw(c, t, lt) { const step = A.ramp(t, tComo + 0.1, 0.35) * (1 - A.ramp(t, pull, 0.12));
           A.field(c, t, { run: S7(), simT: CTRL(t), frame: { z: 1.5, x: 960, y: 580 }, chars: cx => {
             const ex = 900 - step * 160 + 0, u = 620;
-            const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: -1, pose: t < pull + 0.3 ? 'open' : t < pull + 0.9 ? 'open' : 'stand', expr: t < pull ? 'determined' : 'surprised', t, lean: step * 0.12 - (t > pull ? 0.06 * Math.exp(-(t - pull) * 4) : 0), light: LF, shadow: 0.3 });
+            const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: -1, ...A.pz(t, pull + 0.9, 'open', 'stand'), expr: t < pull ? 'determined' : 'surprised', t, lean: step * 0.12 - (t > pull ? 0.06 * Math.exp(-(t - pull) * 4) : 0), light: LF, shadow: 0.3 });
             eliBadge(cx, rE, u, t);
-            const rM = K.cast.draw(cx, 'mila1', 1260, G - 6, 600, { view: 'q', dir: -1, pose: t > pull - 0.1 ? 'point' : 'clipboard', expr: 'neutral', t, look: [-0.2, 0.3], light: LF, shadow: 0.3 });
+            const rM = K.cast.draw(cx, 'mila1', 1260, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, pull - 0.1, 'clipboard', 'point'), expr: 'neutral', t, look: [-0.2, 0.3], light: LF, shadow: 0.3 });
             if (t > pull - 0.1) { cx.strokeStyle = K.cast.INK; cx.lineWidth = 9; cx.beginPath(); cx.moveTo(rE.head[0] + 30, rE.head[1] + u * 0.22); cx.lineTo(rM.hands.lead[0], rM.hands.lead[1]); cx.stroke(); cx.strokeStyle = '#3b2a20'; cx.lineWidth = 5; cx.stroke(); } } }); },
         cues: A => [{ t: pull, kind: 'whoosh_up' }] });
 
@@ -166,8 +166,8 @@
         draw(c, t, lt) { A.ring(c, t, ringOpts(MELT(t))); } });
       const gaugeShot = (id, start, text, sub, keyT, bg, gp = [1090, 230]) => shots.push({ id, start, bg, focus: [960, 520], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S7(), simT: MELT(t), frame: { z: 1.5, x: 960, y: 580 }, chars: cx => {
-          K.cast.draw(cx, 'mila1', 1300, G - 6 - (t > keyT ? 14 * Math.abs(Math.sin(t * 7)) : 0), 600, { view: 'q', dir: -1, pose: t > keyT ? 'clasp' : 'clipboard', expr: t > keyT ? 'happy' : 'curious', t, light: LF, shadow: 0.3 });
-          const u = 620, r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, pose: t > fixT ? 'point' : 'crossed', expr: droop(t) > 0.3 ? 'sheepish' : 'neutral', t, look: droop(t) > 0.3 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t, !(t > fixT)); } });
+          K.cast.draw(cx, 'mila1', 1300, G - 6 - (t > keyT ? 14 * Math.abs(Math.sin(t * 7)) : 0), 600, { view: 'q', dir: -1, ...A.pz(t, keyT, 'clipboard', 'clasp'), expr: t > keyT ? 'happy' : 'curious', t, light: LF, shadow: 0.3 });
+          const u = 620, r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, ...A.pz(t, fixT, 'crossed', 'point'), expr: droop(t) > 0.3 ? 'sheepish' : 'neutral', t, look: droop(t) > 0.3 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t, !(t > fixT)); } });
           P.gauge(c, gp[0], gp[1], text, sub, A.ramp(t, keyT - 0.1, 0.25)); },   // Guardian: was (960, 260), touching Eli's beanie
         cues: A => [{ t: keyT, kind: 'gauge' }] });
       gaugeShot('E15_80', tLos1 - 0.1, '−80 %', 'cambios de velocidad', tOchenta, 'field_g1');

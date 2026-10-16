@@ -71,7 +71,7 @@
       shots.push({ id: 'H03_store', start: tCorras - 0.2, bg: 'close', focus: [930, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G22(t), off = A.ramp(t, tCorras + 0.25, 0.25), lean = A.ramp(t, tCorras + 0.6, 0.3) * (1 - A.ramp(t, tStore, 0.2));
           inCar(c, t, ts, { z: 1.62, wx: 600, wy: 615, sx: 940, sy: 540 },
-            { pose: off > 0.5 ? 'point' : 'clasp', view: 'q', dir: off > 0.5 ? -1 : 1, expr: 'determined', look: off > 0.5 ? [-0.8, 0.5] : [0.3, 0.6], lean: lean * 0.12, blink: eliBlink(t) },
+            { ...A.pzv(off, 0.5, 'clasp', 'point'), view: 'q', dir: off > 0.5 ? -1 : 1, expr: 'determined', look: off > 0.5 ? [-0.8, 0.5] : [0.3, 0.6], lean: lean * 0.12, blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, expr: 'neutral', look: [0.9, 0], blink: milaBlink(t) }, { badge: 1 - off }); },
         cues: A => [{ t: tStore, kind: 'clonc' }] });
       const tPop = tStore + 0.55, tKnee = tPop + 0.95;
@@ -83,7 +83,7 @@
         draw(c, t, lt) { const ts = G22(t), give = A.pulse(t, tKnee + 0.6, 0.2, 0.6, 0.2);
           inCar(c, t, ts, { z: 1.5, wx: 620, wy: 625, sx: 950, sy: 545 },
             { pose: 'drive', view: 'q', dir: 1, expr: t < tKnee + 1.0 ? 'surprised' : 'sheepish', look: [0.2, 0.3], blink: eliBlink(t) },
-            { pose: give > 0.3 ? 'palm' : 'lap', view: 'q', dir: 1, expr: 'smug', look: [0.9, -0.05], blink: milaBlink(t) },
+            { ...A.pzv(give, 0.3, 'lap', 'palm'), view: 'q', dir: 1, expr: 'smug', look: [0.9, -0.05], blink: milaBlink(t) },
             { badge: A.ramp(t, tKnee + 0.9, 0.2) }); },
         cues: A => [{ t: tVel, kind: 'plate' }] });
       // fingers drum on the wheel, a deep breath, the fingers calm down
@@ -217,7 +217,7 @@
       shots.push({ id: 'K03_who', start: tQ2 - 0.45, bg: 'busstop_bench', focus: [600, 360], push: 0.04, pushDir: 1, post: { grain: 0.12, vignette: 0.35, vignetteColor: '#3a2030', bloom: 0.18 },
         draw(c, t, lt) { const sp = A.talk('eli', t); let rr = null, shrug = t > tQ2E + 0.25;
           A.busStop(c, t, { chars: (cx, GY, SEAT) => { rr = duo(cx, t, GY, SEAT, { pose: 'fist', expr: 'furious', look: [0.8, -0.1], talk: sp.talk, viseme: sp.viseme, extras: ['anger'] },
-            shrug ? { view: 'front', pose: 'shrug', expr: 'happy', look: [0, 0] } : { pose: 'crossed', expr: 'neutral', look: [0.6, -0.4] }, { eFeet: SEAT }); }, buses: buses(t) });
+            Object.assign({ view: 0.55 * (1 - A.ramp(t, tQ2E + 0.13, 0.24)), expr: shrug ? 'happy' : 'neutral', look: shrug ? [0, 0] : [0.6, -0.4] }, A.pz(t, tQ2E + 0.25, 'crossed', 'shrug', 0.24)), { eFeet: SEAT }); }, buses: buses(t) });
           if (rr && rr.rE) A.speaker('eli', rr.rE.head); },
         cues: A => [{ t: tQ2, kind: 'pop' }, { t: tQ2E + 0.3, kind: 'shrug_wave', n: 3, d: 0.1 }] });
       // the end-card zone: the pair sits on the left, the right 55 % stays clear (YouTube end-screen elements go there)

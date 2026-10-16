@@ -37,7 +37,7 @@
         if (c.skip && c.skip(f)) continue;
         const up = c.wave ? c.wave(f.x) : 0, pe = K.car.persona(f.seed, 3);
         K.char.person(ctx, f.x, y + 90 - up * R * 0.9, R, { t, seed: f.seed, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, shirt: K.car.COLORS[f.seed % 10],
-          pose: up > 0.4 ? 'cheer' : 'sit', expr: up > 0.4 ? 'laugh' : (f.seed % 3 ? 'content' : 'curious'), light: { ang: -0.8, rim: '#ffe0a0', shade: '#3c2a52' } });
+          ...A.pzv(up, 0.4, 'sit', 'cheer'), expr: up > 0.4 ? 'laugh' : (f.seed % 3 ? 'content' : 'curious'), light: { ang: -0.8, rim: '#ffe0a0', shade: '#3c2a52' } });
       }
       if (c.row === row && c.chars) c.chars(ctx, y + 90, R);
     }

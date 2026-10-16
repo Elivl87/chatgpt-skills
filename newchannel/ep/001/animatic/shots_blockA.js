@@ -148,7 +148,7 @@
           const ts = HOLD(t), R = A.s1(), xE = R.at(ts).x[ELI];
           const sCam = xE - 3.6, aim = A.aim(sCam, 1.2, 2.5, 1050, xE + 40, 1.85, 1.0, [1080, 430]);
           A.hw(c, t, { simT: ts, sCam, lCam: 1.2, H: 2.5, pitch: aim.pitch, yaw: aim.yaw, f: 1050,
-            crew: tt => ({ eli: { view: 'backq', dir: 1, seated: false, pose: t < tAlguien + 0.25 ? 'fist' : 'point', expr: 'furious', blink: 0, extras: [] },
+            crew: tt => ({ eli: { view: 'backq', dir: 1, seated: false, ...A.pz(t, tAlguien + 0.25, 'fist', 'point'), expr: 'furious', blink: 0, extras: [] },
               mila: { pose: 'lap', view: 'back' } }) });
         } });
 

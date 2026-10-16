@@ -64,7 +64,7 @@
       // Eli and Mila on the footbridge: Eli squints down, starts pointing at the halos
       shots.push({ id: 'G04_bridge', start: tCon - 0.1, bg: 'bridge', focus: [900, 420], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const p = t > tInt;
-          pair(c, t, { pose: p ? 'point' : 'visor', expr: p ? 'determined' : 'curious', look: [-0.3, 0.7], dir: p ? -1 : 1 }, { pose: 'crossed', expr: 'curious', look: [-0.7, 0.2] }); } });
+          pair(c, t, { ...A.pz(t, tInt, 'visor', 'point'), expr: p ? 'determined' : 'curious', look: [-0.3, 0.7], dir: p ? -1 : 1 }, { pose: 'crossed', expr: 'curious', look: [-0.7, 0.2] }); } });
       shots.push({ id: 'G05_chip', start: tProg - 0.1, bg: 'i24_close', focus: [960, 540], push: 0.03, pushDir: -1,
         over: (c, t) => { rec(c); P.pill(c, 960, 210, '▲ acelerar', 44, A.ramp(t, tAcel, 0.2) * (1 - A.ramp(t, tFrenar - 0.15, 0.15)), { align: 'center', bg: K.rgba('#23746C', 0.92) });
           P.pill(c, 960, 210, '▼ frenar', 44, A.ramp(t, tFrenar, 0.2), { align: 'center', bg: K.rgba('#b8452f', 0.92) }); },
@@ -108,7 +108,7 @@
 
       // ================================================================ BEAT 21 · the wave remembers
       shots.push({ id: 'G10_flag', start: tPero - 0.1, bg: 'bridge_flag', focus: [820, 400], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { const out = t > tEliN; pair(c, t, { pose: out ? 'cheer' : 'stand', expr: out ? 'happy' : 'determined', look: [0.4, 0.3], extras: out && t < tEliN + 0.6 ? ['sparkle'] : [] },
+        draw(c, t, lt) { const out = t > tEliN; pair(c, t, { ...A.pz(t, tEliN, 'stand', 'cheer'), expr: out ? 'happy' : 'determined', look: [0.4, 0.3], extras: out && t < tEliN + 0.6 ? ['sparkle'] : [] },
           { pose: 'crossed', expr: out ? 'curious' : 'happy', look: [-0.9, -0.1] }, { after: (cx, rE, rM) => { if (out && rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 0.1 }); if (out && rM) P.shrug(cx, rM.head[0], rM.head[1] - rM.head[2] * 1.6, 40, A.pulse(t, tEliN + 0.4, 0.2, 0.8, 0.2)); } }); },
         cues: A => [{ t: tEliN, kind: 'pop' }] });
       const strip = (c, t, ts, o = {}) => { const g = A.i24(c, t, { simT: ts, sC: A.waveS(ts) + (o.dx || 0), sc: o.sc || 4.2, sinE: 0.5, oy: o.oy || 830, zk: 2.6, halo: 1, off: o.off || 0 });
@@ -123,7 +123,7 @@
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           pair(c, t, { pose: 'cheer', expr: 'laugh', look: [0.2, 0.5], talk: sp.talk, viseme: sp.viseme, lean: 0.04 * Math.sin(t * 14) }, { pose: 'crossed', expr: 'happy', look: [-0.9, -0.1] },
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 0.2, wave: 0.5, f: 14 }); head = rE.head; } } });
-          if (head) A.speaker('eli', head, { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
+          if (head) A.speaker('eli', head); },   // the text box avoids both heads itself
         cues: A => [{ t: tDale, kind: 'pop' }] });
       shots.push({ id: 'G14_off', start: tPasan2 - 0.08, bg: 'line_off', label: 'ACELERADO ×9', focus: [960, 540], push: 0.025, pushDir: -1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G14(t), { off: 1, dx: -20, kpx: 70, zoom: 'escala ×2,7' }); },
@@ -132,7 +132,7 @@
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           pair(c, t, { pose: 'surprise', expr: 'worried', look: [0.1, 0.6], talk: sp.talk, viseme: sp.viseme, extras: ['sweat'] }, { pose: 'crossed', expr: 'surprised', look: [-0.9, 0] },
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 3.05, wave: 0.04 }); head = rE.head; } }, u: 740 });   // Guardian: u 820 -> 740 (Mila's ponytail touched the top edge)
-          if (head) A.speaker('eli', head, { side: -1 }); },   // Guardian: balloon to the left (it covered Mila's head)
+          if (head) A.speaker('eli', head); },   // the text box avoids both heads itself
         cues: A => [{ t: tNooo, kind: 'minor' }] });
       shots.push({ id: 'G16_act2', start: tPasan3 - 0.08, bg: 'line_act2', label: 'ACELERADO ×14', focus: [960, 520], push: 0.03, pushDir: 1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G16(t), { sc: 4.8, dx: 30, kpx: 70, zoom: 'escala ×2,7' }); },
@@ -143,10 +143,10 @@
         draw(c, t, lt) {
           const up = k => A.pulse(t, tUp + k * 0.12, 0.14, 0.25, 0.25);
           const people = [[180, 1, 'cap'], [400, 2, 'bun'], [1450, 3, 'short'], [1660, 4, 'cap'], [1850, 5, 'long']];
-          pair(c, t, { pose: up(0) > 0.4 ? 'cheer' : 'stand', expr: t > tUp + 0.55 ? 'surprised' : 'happy', look: t > tUp + 0.55 ? [0.6, -0.1] : [0, 0.3], lift: up(0) * 0.05 },
+          pair(c, t, { ...A.pzv(up(0), 0.4, 'stand', 'cheer'), expr: t > tUp + 0.55 ? 'surprised' : 'happy', look: t > tUp + 0.55 ? [0.6, -0.1] : [0, 0.3], lift: up(0) * 0.05 },
             { pose: 'crossed', expr: 'happy', look: [-0.9, -0.1] },
             { u: 640, ex: 760, mx: 1060, extras: cx => people.forEach(([x, seed, hs], k) => { const kk = x < 760 ? 1 + k * 0 : 2 + k; const u2 = up(x < 760 ? -1 : k); const pe = K.car.persona(seed * 7, 3);
-              K.char.person(cx, x, GY - 90 - u2 * 40, 54, { t, seed: seed * 7, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, shirt: K.car.COLORS[seed % 10], pose: u2 > 0.4 ? 'cheer' : 'stand', expr: u2 > 0.4 ? 'laugh' : 'content', light: { ang: -0.6, rim: '#ffd99a', shade: '#3c2a52' } }); void kk; }),
+              K.char.person(cx, x, GY - 90 - u2 * 40, 54, { t, seed: seed * 7, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, shirt: K.car.COLORS[seed % 10], ...A.pzv(u2, 0.4, 'stand', 'cheer'), expr: u2 > 0.4 ? 'laugh' : 'content', light: { ang: -0.6, rim: '#ffd99a', shade: '#3c2a52' } }); void kk; }),
               after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 230, t, up(0) > 0.4 || t > tUp ? { ang: 0.1, wave: 0.3 } : { ang: 3.05, wave: 0.04 }); } }); },
         cues: A => [{ t: tUp - 0.1, kind: 'crowd_wave', t1: tUp + 1.3 }] });
       shots.push({ id: 'G18_mila', start: tCada - 0.1, bg: 'bridge_mila', focus: [1100, 500], push: 0.035, pushDir: 1,   // Guardian: focus y 380 -> 500, u 880 -> 760 (Mila's head cut by the top edge)

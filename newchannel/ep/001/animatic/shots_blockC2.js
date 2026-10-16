@@ -55,8 +55,8 @@
       const lateUp = tVueltaE + 0.15;
       const heroes = (c, t, y, R, o = {}) => {
         const mUp = waveAt(t)(860), eUp = t > lateUp ? A.pulse(t, lateUp, 0.12, 0.8, 0.35) : 0;
-        K.cast.draw(c, 'mila1', 860, y + 8, 260, { view: 'front', pose: mUp > 0.4 ? 'cheer' : 'lap', seated: mUp <= 0.4, expr: mUp > 0.4 ? 'laugh' : 'happy', t, light: LF });
-        const rE = K.cast.draw(c, 'eli1', 1000, y + 8 - eUp * 60, 260, { view: 'front', pose: eUp > 0.3 ? 'cheer' : 'lap', seated: eUp <= 0.3, expr: eUp > 0.3 ? (t > lateUp + 0.5 ? 'sheepish' : 'happy') : (o.popcorn ? 'content' : 'happy'), look: eUp > 0.3 && t > lateUp + 0.45 ? [Math.sin(t * 4) * 0.8, 0] : [0, 0.3], t, light: LF });
+        K.cast.draw(c, 'mila1', 860, y + 8, 260, { view: 'front', ...A.pzv(mUp, 0.4, 'lap', 'cheer'), seated: mUp <= 0.4, expr: mUp > 0.4 ? 'laugh' : 'happy', t, light: LF });
+        const rE = K.cast.draw(c, 'eli1', 1000, y + 8 - eUp * 60, 260, { view: 'front', ...A.pzv(eUp, 0.3, 'lap', 'cheer'), seated: eUp <= 0.3, expr: eUp > 0.3 ? (t > lateUp + 0.5 ? 'sheepish' : 'happy') : (o.popcorn ? 'content' : 'happy'), look: eUp > 0.3 && t > lateUp + 0.45 ? [Math.sin(t * 4) * 0.8, 0] : [0, 0.3], t, light: LF });
         // the popcorn bucket stays with Eli in every stadium shot (Guardian: it vanished when he stood up and in D06):
         // on his lap when seated, raised in his hand when he jumps up late
         if (eUp <= 0.3) popcorn(c, 1031, y - 17); else popcorn(c, rE.hands.trail[0] + 6, rE.hands.trail[1] - 20, 0.85);
@@ -76,8 +76,8 @@
         cues: A => [{ t: lateUp, kind: 'eh' }] });
       shots.push({ id: 'D06_plate', start: tUn - 0.1, bg: 'stadium_wide', focus: [960, 520], push: 0.022, pushDir: -1,
         draw(c, t, lt) { const w2 = x => Math.exp(-Math.pow((x - K.lerp(-300, 2300, ((t - tUn) % 3.2) / 3.2)) / 160, 2));
-          A.stadium(c, t, { wave: w2, row: 2, skip: f => f.row === 2 && f.x > 800 && f.x < 1070, chars: (cx, y) => { K.cast.draw(cx, 'mila1', 860, y + 8, 260, { view: 'front', pose: w2(860) > 0.4 ? 'cheer' : 'lap', seated: w2(860) <= 0.4, expr: 'laugh', t, light: LF });
-            const rE = K.cast.draw(cx, 'eli1', 1000, y + 8, 260, { view: 'front', pose: w2(1000) > 0.4 ? 'cheer' : 'lap', seated: w2(1000) <= 0.4, expr: w2(1000) > 0.4 ? 'laugh' : 'happy', t, light: LF });
+          A.stadium(c, t, { wave: w2, row: 2, skip: f => f.row === 2 && f.x > 800 && f.x < 1070, chars: (cx, y) => { K.cast.draw(cx, 'mila1', 860, y + 8, 260, { view: 'front', ...A.pzv(w2(860), 0.4, 'lap', 'cheer'), seated: w2(860) <= 0.4, expr: 'laugh', t, light: LF });
+            const rE = K.cast.draw(cx, 'eli1', 1000, y + 8, 260, { view: 'front', ...A.pzv(w2(1000), 0.4, 'lap', 'cheer'), seated: w2(1000) <= 0.4, expr: w2(1000) > 0.4 ? 'laugh' : 'happy', t, light: LF });
             if (w2(1000) <= 0.4) popcorn(cx, 1031, y - 17); else popcorn(cx, rE.hands.trail[0] + 6, rE.hands.trail[1] - 20, 0.85); } });
           P.plate(c, 960, 240, 'UN EMBOTELLAMIENTO ES UNA OLA', 54, A.ramp(t, tEs2 - 0.1, 0.3)); },
         cues: A => [{ t: tEs2 - 0.1, kind: 'plate' }] });
@@ -209,10 +209,10 @@
           K.sky.stars(c, { seed: 41, n: 260, y1: 700, t }); K.light.glow(c, 1500, 980, 600, '#ff4a36', 0.15, 'screen');
           c.fillStyle = '#0a0f22'; c.beginPath(); c.moveTo(0, 900); c.quadraticCurveTo(960, 820, 1920, 930); c.lineTo(1920, 1080); c.lineTo(0, 1080); c.fill();
           const sp = A.talk('eli', t), fu = finger(t);
-          K.cast.draw(c, 'eli1', 760, 960, 700, { view: 'q', dir: 1, pose: t > sandT + 0.35 ? 'belly' : 'sit', blend: { pose: 'sitPoint', k: fu }, seated: true, legs: true, sitGround: true, t, light: NL,
+          K.cast.draw(c, 'eli1', 760, 960, 700, { view: 'q', dir: 1, ...(fu > 0.001 ? { pose: t > sandT + 0.35 ? 'belly' : 'sit', blend: { pose: 'sitPoint', k: fu } } : A.pz(t, sandT + 0.35, 'sit', 'belly')), seated: true, legs: true, sitGround: true, t, light: NL,
             expr: t < tNi - 0.3 ? 'grumpy' : t < sandT + 0.3 ? 'sad' in K.cast.EXPR ? 'sad' : 'worried' : 'happy', talk: sp.talk, viseme: sp.viseme, look: t > sandT ? [0.6, 0.1] : [0.9, 0] });
           const give = A.ramp(t, sandT, 0.35);
-          const rm = K.cast.draw(c, 'mila1', 1180, 960, 700, { view: 'q', dir: -1, pose: give > 0.1 ? 'palm' : 'sit', seated: true, legs: true, sitGround: true, t, light: NL, expr: 'happy', look: [-0.8, 0] });
+          const rm = K.cast.draw(c, 'mila1', 1180, 960, 700, { view: 'q', dir: -1, ...A.pzv(give, 0.1, 'sit', 'palm'), seated: true, legs: true, sitGround: true, t, light: NL, expr: 'happy', look: [-0.8, 0] });
           if (give > 0.05) { const hx = K.lerp(rm.hands.lead[0], 980, give), hy = K.lerp(rm.hands.lead[1], 760, give);   // half a sandwich
             c.save(); c.translate(hx, hy); c.rotate(-0.2); c.fillStyle = '#e8c48a'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 4; c.beginPath(); c.moveTo(-40, 20); c.lineTo(40, 20); c.lineTo(-40, -40); c.closePath(); c.fill(); c.stroke();
             c.fillStyle = '#7fb06a'; c.fillRect(-38, 6, 70, 8); c.restore(); }

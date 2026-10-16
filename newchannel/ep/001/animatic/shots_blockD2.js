@@ -44,7 +44,7 @@
       const knob = t => A.ramp(t, tRapido - 0.15, 0.35) * (1 - A.ramp(t, tVientoE + 0.2, 0.3));
       shots.push({ id: 'F01_laptop', start: T0 - 0.05, bg: 'field_laptop', focus: [960, 560], push: 0.03, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S8(), simT: K8u(t), frame: { z: 1.4, x: 960, y: 580 }, chars: cx => {
-          K.cast.draw(cx, 'eli1', 1250, G, 620, { view: 'q', dir: -1, pose: t > tUn - 0.2 ? 'point' : 'crossed', expr: 'smug', t, look: [0.2, -0.9], light: LF, shadow: 0.3, extras: [] });
+          K.cast.draw(cx, 'eli1', 1250, G, 620, { view: 'q', dir: -1, ...A.pz(t, tUn - 0.2, 'crossed', 'point'), expr: 'smug', t, look: [0.2, -0.9], light: LF, shadow: 0.3, extras: [] });
           laptop(cx, 800, 860, 1.25, knob(t), t); } }); },
         cues: A => [{ t: T0 + 0.2, kind: 'whistle', t1: tRapido - 0.2 }, { t: tRapido - 0.15, kind: 'click' }] });
       shots.push({ id: 'F01_knob', start: tRapido - 0.35, bg: 'laptop_close', focus: [960, 520], push: 0.035, pushDir: 1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0.1 },
@@ -75,7 +75,7 @@
             K.cast.draw(cx, 'eli1', 820, G, 620, { view: 'q', dir: 1, pose: 'clasp', expr: 'sheepish', t, look: [0.3, -0.8], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme });
             laptop(cx, 1320, 880, 0.9, knob(t), t);
             // eyes pass: Mila was half out of frame (x 1560 -> screen 1830) and blank; now inside, skeptical at Eli, then smug at the knob
-            K.cast.draw(cx, 'mila1', 1470, G - 6, 600, { view: 'q', dir: -1, pose: t > tVientoE ? 'point' : 'crossed', expr: t > tVientoE ? 'smug' : 'annoyed', t, look: t > tVientoE ? [0.5, 0.5] : [0.8, -0.05], light: LF, shadow: 0.3 }); } });
+            K.cast.draw(cx, 'mila1', 1470, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, tVientoE, 'crossed', 'point'), expr: t > tVientoE ? 'smug' : 'annoyed', t, look: t > tVientoE ? [0.5, 0.5] : [0.8, -0.05], light: LF, shadow: 0.3 }); } });
           // the leaf
           const u = K.clamp((t - tFue2) / 2.2), lx = K.lerp(-60, 1980, u), ly = 400 + Math.sin(u * 9) * 40;
           c.save(); c.translate(lx, ly); c.rotate(Math.sin(u * 12) * 0.8); c.fillStyle = '#c99633'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.ellipse(0, 0, 26, 12, 0, 0, K.TAU); c.fill(); c.stroke(); c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke(); c.restore(); },
@@ -112,8 +112,8 @@
       // Guardian: Eli's sulk turn (back to camera) used 'surprised' (surprise ticks over a sulking back): grumpy throughout
       shots.push({ id: 'F12_friend', start: tEse - 0.2, bg: 'close9c', focus: [900, 520], push: 0.03, pushDir: -1,
         draw(c, t, lt) { const sp = A.talk('mila', t), grab = A.ramp(t, tAmigoE + 0.1, 0.2) * (1 - A.ramp(t, tAmigoE + 0.7, 0.2)), crossed = t > tAmigoE + 0.9, back = t > tAmigoE + 1.4;
-          inCar(c, t, { z: 1.75, wx: 560, wy: 610, sx: 900, sy: 560 }, { pose: grab > 0.3 ? 'drive' : 'drive', expr: 'happy', look: grab > 0.3 ? [-0.6, 0.3] : [0.9, 0], talk: sp.talk, viseme: sp.viseme },
-            { pose: crossed ? 'crossed' : grab > 0.3 ? 'drive' : 'lap', view: back ? 'backq' : 'q', dir: back ? -1 : 1, expr: crossed ? 'grumpy' : 'worried', look: [0.9, 0] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1)); } });
+          inCar(c, t, { z: 1.75, wx: 560, wy: 610, sx: 900, sy: 560 }, { pose: 'drive', expr: 'happy', look: grab > 0.3 ? [-0.6, 0.3] : [0.9, 0], talk: sp.talk, viseme: sp.viseme },
+            { ...(t > tAmigoE + 0.8 ? A.pz(t, tAmigoE + 0.9, 'lap', 'crossed') : A.pzv(grab, 0.3, 'lap', 'drive')), view: back ? 'backq' : 'q', dir: back ? -1 : 1, expr: crossed ? 'grumpy' : 'worried', look: [0.9, 0] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1)); } });
       const g9 = (id, start, text, sub, keyT) => shots.push({ id, start, bg: 'ring9_' + id, label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1,
         over: (c, t) => { rec(c, true); src(c); P.badge(c, 960, 240, text, 84, A.ramp(t, keyT - 0.1, 0.25), sub); },
         draw(c, t, lt) { A._rr = S9(); const ts = M9(t), S = S9().at(ts), p = A.clampView(A.ringPt(AV, S), 1.5); c.save(); c.translate(960, 600); c.scale(1.5, 1.5); c.translate(-p[0], -p[1]); A.ring(c, t, ring9(ts)); c.restore(); A._rr = S8(); },
@@ -154,8 +154,8 @@
       shots.push({ id: 'F19_late', start: tPor2 - 0.1, bg: 'field_late', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { const sp = A.talk('eli', t), lit = t > w('llegar', 1, '19');
           A.field(c, t, { run: S9(), simT: M9(t), frame: { z: 1.6, x: 960, y: 570 }, chars: cx => {
-            K.cast.draw(cx, 'mila1', 1240, G - 6, 620, { view: 'q', dir: -1, pose: t > tTodoE ? 'palm' : 'crossed', expr: 'happy', t, look: [-0.9, 0], light: LF, shadow: 0.3 });
-            K.cast.draw(cx, 'eli1', 840, G, 640, { view: 'front', pose: t > tYo - 0.1 ? 'pointSelf' : lit ? 'surprise' : 'think', expr: lit ? 'happy' : 'thinking', t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: lit ? ['sparkle'] : [] }); } }); },
+            K.cast.draw(cx, 'mila1', 1240, G - 6, 620, { view: 'q', dir: -1, ...A.pz(t, tTodoE, 'crossed', 'palm'), expr: 'happy', t, look: [-0.9, 0], light: LF, shadow: 0.3 });
+            K.cast.draw(cx, 'eli1', 840, G, 640, { view: 'front', ...(t > tYo - 0.2 ? A.pz(t, tYo - 0.1, 'surprise', 'pointSelf') : A.pz(t, w('llegar', 1, '19'), 'think', 'surprise')), expr: lit ? 'happy' : 'thinking', t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: lit ? ['sparkle'] : [] }); } }); },
         cues: A => [{ t: w('llegar', 1, '19'), kind: 'ding' }] });
       shots.push({ id: 'F21_japan', start: tEnJ - 0.1, bg: 'two_jp', label: 'ACELERADO ×2', focus: [960, 540], push: 0.022, pushDir: -1, over: (c) => src(c, SRC3),
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); } });
