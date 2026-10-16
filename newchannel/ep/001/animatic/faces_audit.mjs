@@ -52,7 +52,7 @@ await page.evaluate(() => {
   const rr = K.rrect; K.rrect = function (ctx, x, y, w, h, ...r) { rec(ctx, x, y, x + w, y + h, 'box'); return rr.call(this, ctx, x, y, w, h, ...r); };
   const wrap = (obj, name) => { const f = obj && obj[name]; if (typeof f !== 'function' || f.__ov) return; const g = function (...a) { depth++; try { return f.apply(this, a); } finally { depth--; } }; g.__ov = 1; obj[name] = g; };
   wrap(K.anim, 'label'); wrap(K.light, 'speedLabel'); wrap(K.cast, 'bubble');
-  for (const n of ['pill', 'clock', 'source', 'badge', 'dial', 'callout', 'plate', 'num', 'gloveBadge', 'card']) wrap(K.props, n);
+  for (const n of ['pill', 'clock', 'source', 'badge', 'dial', 'callout', 'plate', 'num', 'card']) wrap(K.props, n);
   const cur = K.anim.current; if (cur) for (const s of cur.shots) wrap(s, 'over');
 });
 

@@ -195,7 +195,7 @@
     const [hx, hy, hr] = head, k = Math.max(0.6, Math.min(1.4, hr / 150)) * (0.6 + 0.4 * K.ease.outBack(K.clamp(a)));
     const fs = Math.round(58 * k); ctx.save(); ctx.globalAlpha = K.clamp(a * 1.5); ctx.font = `700 ${fs}px "Space Grotesk"`; const tw = ctx.measureText(text).width;
     const bw = tw + 70 * k, bh = fs * 1.75, by = Math.max(40, hy - hr * 2.1 - bh);
-    const bx = o.side === -1 ? Math.max(40, hx - hr * 0.9 - bw) : Math.min(K.W - bw - 40, hx + hr * 0.9);
+    const bx = o.side === -1 ? Math.max(40, hx - hr * 1.3 - bw) : Math.min(K.W - bw - 40, hx + hr * 0.9);
     ctx.fillStyle = K.rgba('#2a1830', 0.25); K.rrect(ctx, bx + 6, by + 8, bw, bh, bh / 2); ctx.fill();
     ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = '#2a1a1e'; ctx.lineWidth = 4 * k; ctx.lineJoin = 'round';
     // the tail stops just OUTSIDE the speaker's head (beside the hat cuff, on the balloon's side): it never crosses the

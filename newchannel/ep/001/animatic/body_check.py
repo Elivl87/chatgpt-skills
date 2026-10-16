@@ -32,9 +32,8 @@ def check_sample(s, W, H):
         b = f['body']['box']; hx, hy, hr = f['head']; name = NAME[f['id']]; hpx = b[3] - b[1]
         if f.get('alpha', 1) < 0.9:
             continue
-        # head zone: top of the silhouette (beanie / ponytail tip) -> chin, around the head only (an arm raised beside
-        # the head is body, not head)
-        headz = [max(b[0], hx - hr * 1.5), b[1], min(b[2], hx + hr * 1.5), min(b[3], hy + hr * 1.05)]
+        # head zone: beanie / ponytail tip -> chin, head width (+ ponytail); arms or a flag raised above the head are body
+        headz = [max(b[0], hx - hr * 0.95), max(b[1], hy - hr * 1.6), min(b[2], hx + hr * 0.95), min(b[3], hy + hr * 1.05)]
         bodyz = [b[0], headz[3], b[2], b[3]]
         for o in ovs:
             # a balloon is drawn from the speaker's head: its own tail/pill may touch the speaker's hat edge only if
