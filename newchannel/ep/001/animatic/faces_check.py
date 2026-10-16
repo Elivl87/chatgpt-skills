@@ -85,7 +85,7 @@ def main():
     tag = sys.argv[sys.argv.index('--tag') + 1] if '--tag' in sys.argv else ''
     sheet = sys.argv[sys.argv.index('--sheet') + 1] if '--sheet' in sys.argv else None
     J = json.load(open(os.path.join(d, 'faces.json')))
-    rows, tiles = [], []
+    rows, tiles, warns = [], [], []
     counts = {'pass': 0, 'fail': 0, 'closed': 0, 'covered': 0, 'fading': 0, 'tiny': 0, 'offframe': 0}
     for s in J['samples']:
         im = Image.open(os.path.join(d, s['png'])).convert('RGB'); W, H = im.size; L = lum(im).load()
@@ -98,15 +98,18 @@ def main():
                     rows.append({'t': round(s['t'], 2), 'shot': s['shot'], 'why_sample': s['why'], 'id': f['id'], 'expr': f['expr'], 'view': f['view'], 'eye': k, 'problem': why,
                                  'eye_px': round(e['ry'], 1)})
             hd = f.get('head') or [0, 0, 0]
+            # framing: a face (head >= 12 px) whose head box crosses the frame edge is cut off
+            if hd[2] >= 12 and (hd[0] - hd[2] * 0.8 < 0 or hd[0] + hd[2] * 0.8 > W or hd[1] - hd[2] < -hd[2] * 0.3) and -hd[2] < hd[0] < W + hd[2]:
+                warns.append({'t': round(s['t'], 2), 'shot': s['shot'], 'id': f['id'], 'head': [round(x) for x in hd]})
             audited = [r for r in res if r[0] in ('pass', 'fail')]
             if hd[2] >= 4 and (audited or any(r[0] == 'closed' for r in res)) and 0 <= hd[0] < W and 0 <= hd[1] < H:
                 tiles.append({'img': im, 'head': hd, 'eyes': f['eyes'], 's': s, 'f': f, 'fail': any(r[0] == 'fail' for r in res),
                               'closed': all(r[0] == 'closed' for r in res if r[0] != 'tiny'), 'why': '; '.join(r[1] for r in res if r[1])})
     os.makedirs(qc, exist_ok=True)
     out = {'block': block, 'tag': tag, 'samples': len(J['samples']), 'faces': sum(len(s['faces']) for s in J['samples']), 'eyes': counts,
-           'failures': len(rows), 'fail_list': rows}
+           'failures': len(rows), 'fail_list': rows, 'framing_warnings': warns}
     json.dump(out, open(os.path.join(qc, f'faces_{block}{("_" + tag) if tag else ""}.json'), 'w'), indent=1, ensure_ascii=False)
-    print(f'block {block} {tag}: {len(J["samples"])} frames, eyes {counts}, FAILURES {len(rows)}')
+    print(f'block {block} {tag}: {len(J["samples"])} frames, eyes {counts}, FAILURES {len(rows)}, framing warnings {len(warns)} {sorted(set(w["shot"] for w in warns))}')
     if sheet:
         make_sheet(tiles, sheet, block, tag, len(rows))
 

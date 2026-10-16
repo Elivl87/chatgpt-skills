@@ -124,7 +124,10 @@
         draw(c, t, lt) { const ts = G23(t), S = R().at(ts), xE = S.x[ELI];
           const sCam = xE + 0.6, aim = A.aim(sCam, 2.25, 1.55, 1050, xE - 45, 1.85, 0, [1120, 600], true);
           A.hw(c, t, { simT: ts, sCam, lCam: 2.25, H: 1.55, pitch: aim.pitch, yaw: aim.yaw, f: 1050, reverse: true, hide: i => i === ELI, carExpr: () => 'content' });
-          K.cast.draw(c, 'eli1', 360, 1280, 900, { view: 'backq', dir: -1, seated: true, pose: 'drive', t, light: FRONTLIT, headTurn: 0.25 * A.ramp(t, tLeadV + 2.0, 0.4) }); },
+          // eyes pass: was a back-3/4 (only the back of the beanie read); now Eli turned round in his seat, 3/4 toward the
+          // camera and looking down the road behind: curious, then the incredulous double take (no brake light at all)
+          K.cast.draw(c, 'eli1', 300, 1400, 1500, { view: 'q', dir: 1, seated: true, pose: 'drive', t, light: FRONTLIT, look: [0.9, -0.05], blink: 0,
+            expr: t < tLeadV + 2.0 ? 'curious' : 'surprised', tilt: -0.06 * A.ramp(t, tLeadV + 2.0, 0.25) }); },
         cues: A => [{ t: tLeadV + 2.6, kind: 'chirp' }] });
       shots.push({ id: 'I06_who', start: tQuien - 0.45, bg: 'close_tight', focus: [980, 470], push: 0.035, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t), sp = A.talk('eli', t, { gain: 0.6 });

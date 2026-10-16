@@ -108,7 +108,7 @@
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           A.field(c, t, { simT: A.map(0, T0, 1)(t), frame: { z: 2.5, x: 1000, y: 680 }, front: false, carExpr: () => (A.blink(7, t) ? 'neutral' : 'focused'),
-            chars: (cx) => K.cast.draw(cx, 'eli1', 600, 1010, 520, { view: 'backq', dir: 1, pose: 'crossed', t, light: LF }) });
+            chars: (cx) => K.cast.draw(cx, 'eli1', 730, 1010, 520, { view: 'backq', dir: 1, pose: 'crossed', t, light: LF }) });   // eyes pass: was a sliver at the left edge (x 600 -> screen -40)
         } });
 
       // B08 · «manejar con cuidado, a unos treinta kilómetros por hora»: the dial

@@ -73,7 +73,8 @@
           A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.45, x: 960, y: 580 }, chars: cx => {
             K.cast.draw(cx, 'eli1', 820, G, 620, { view: 'q', dir: 1, pose: 'clasp', expr: 'sheepish', t, look: [0.3, -0.8], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme });
             laptop(cx, 1320, 880, 0.9, knob(t), t);
-            K.cast.draw(cx, 'mila1', 1560, G - 6, 600, { view: 'q', dir: -1, pose: t > tVientoE ? 'point' : 'crossed', expr: 'neutral', t, look: [0.2, 0.4], light: LF, shadow: 0.3 }); } });
+            // eyes pass: Mila was half out of frame (x 1560 -> screen 1830) and blank; now inside, skeptical at Eli, then smug at the knob
+            K.cast.draw(cx, 'mila1', 1470, G - 6, 600, { view: 'q', dir: -1, pose: t > tVientoE ? 'point' : 'crossed', expr: t > tVientoE ? 'smug' : 'annoyed', t, look: t > tVientoE ? [0.5, 0.5] : [0.8, -0.05], light: LF, shadow: 0.3 }); } });
           // the leaf
           const u = K.clamp((t - tFue2) / 2.2), lx = K.lerp(-60, 1980, u), ly = 400 + Math.sin(u * 9) * 40;
           c.save(); c.translate(lx, ly); c.rotate(Math.sin(u * 12) * 0.8); c.fillStyle = '#c99633'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.ellipse(0, 0, 26, 12, 0, 0, K.TAU); c.fill(); c.stroke(); c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke(); c.restore(); },
@@ -99,7 +100,7 @@
       shots.push({ id: 'F10_wheel', start: tSolo - 0.1, bg: 'close9', focus: [920, 540], push: 0.03, pushDir: 1,
         draw(c, t, lt) { inCar(c, t, { z: 1.55, wx: 600, wy: 640, sx: 940, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon, 0.3))); } });
       shots.push({ id: 'F10_sticker', start: tCon - 0.1, bg: 'close9s', focus: [960, 540], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { inCar(c, t, { z: 2.6, wx: 760, wy: 700, sx: 960, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon + 0.3, 0.3))); } });
+        draw(c, t, lt) { inCar(c, t, { z: 2.6, wx: 690, wy: 700, sx: 960, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon + 0.3, 0.3))); } });
       shots.push({ id: 'F11_gap', start: tHay - 0.25, bg: 'close9b', focus: [980, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
           inCar(c, t, { z: 1.6, wx: 620, wy: 630, sx: 960, sy: 560 }, { pose: 'drive', expr: 'neutral', look: [0.9, 0] },

@@ -133,6 +133,7 @@ drop, anger mark, steam puffs, sparkles, ticks) are seasoning: at most one or tw
 9. Extras: emotions read in 3/4 and profile too (profile nose, one eye, one brow, edge mouth).
 10. Light JPG (≤ 400 KB) for the Producer of everything he will see.
 11. Run the **Detail QC checklist** (§6) on every delivery.
+12. Run the **automated eye check** (§6b) on every delivery: 0 pupil failures.
 
 ## 6 · Detail QC checklist (run on EVERY delivery that shows Eli or Mila)
 
@@ -141,10 +142,10 @@ at phone size** (the delivery's small JPG, and a 168×94 tile for thumbnails). C
 `art/render/render.mjs --scene detail_lab --still 1 --query "part=faces|hands|clothes|rim&W=2400&H=1350"`.
 A delivery with one unchecked box is not finished. History of what went wrong: `DETAIL_AUDIT.md`.
 
-**Eyes, per emotion**
+**Eyes, per emotion** (rules in §6b; the automated eye check of §6b is mandatory)
 - [ ] No grey / shaded slab on any eye white, in any light (eyes are masked from shade, rim and grain).
 - [ ] Pupils fully inside the white, never cut by the outline or parked on the edge; a small catchlight up-left inside
-      the pupil (never so big that only a dark crescent is left).
+      the pupil (<= 0.32x the pupil radius: never so big that only a dark crescent is left).
 - [ ] **Surprise:** whites fully open (no lid), eyes 1.24×, pupils centred or a touch up, pupils agree, brows high
       and arched, mouth «o». **Awe:** the same plus bigger pupils looking up with a second small sparkle, tall «o».
 - [ ] Lidded emotions (neutral Mila, smug, annoyed, determined, happy's lower lid): the lid is the face; no ring of
@@ -183,6 +184,35 @@ A delivery with one unchecked box is not finished. History of what went wrong: `
       ink and fill, no AA ghost rings.
 - [ ] Ink weight consistent between the two characters and with the props in the same shot.
 
+## 6b · Eye rules + the automated eye check (Producer, 2026-10-16: «el punto de los ojos no está funcionando»)
+
+The pupil is the most important pixel of the face. These rules live in `cast.js` (`drawEye`, constants `K.cast.EYE`)
+and hold at **every** size (from a ~6 px eye to a close-up), view, light and render quality (draft / review / final):
+
+| Rule | Value (`K.cast.EYE`) |
+|---|---|
+| Pupil = a clear dark dot inside the white, in every emotion; it grows with the emotion's eye scale | radius >= **0.36x** the eye's height radius (`pupilMin`) |
+| Minimum on-screen pupil (survives draft scale, AA, grain, bloom) | >= **1.7 px** radius (`pupilPx`), capped at 0.55x the eye |
+| Catchlight: one small white disc up-left, fully inside the pupil | <= **0.32x** the pupil radius (`catchMax`; default 0.28) — no line-width floor, never `K.circle` (it clamps r >= 0.01 units = a pupil-sized disc in head units) |
+| Small eyes (eye radius < **9 px**, `smallPx`) | pupil + ONE catchlight: no awe second sparkle, no iris ring, one lash |
+| Micro eyes (< **4.5 px**, `microPx`) | a plain dark dot, pupil >= 0.5x the eye, no catchlight |
+| Lids never cover the pupil | pupil centre >= 0.85x its radius below the upper lid line / above the lower lid; lid capped at **0.58** (`lidMax`) except blink / shut |
+| Declared lid-cover emotions (sly) | `smug` / `sly`, `annoyed`, `grumpy` (`E.lidCover`): pupil centred in the slit, >= 0.6x its radius inside |
+| Declared closed eyes | `laugh` (^ ^ arcs), `blink`, a shut lid (>= 0.75) |
+| Brows carry the emotion | brows + lid shape first (see §4); the pupil only says *where* they look |
+
+**Automated eye check (MANDATORY on every delivery with Eli / Mila on screen):**
+`TMPD=<scratch> ep/001/animatic/faces_audit.sh A B …` (or `node faces_audit.mjs --page <page> --scene <scene>` for any
+scene) renders the key acting frames of each shot (start / middle / end, every word Eli or Mila says, every sound cue),
+with the kit's face log on (`window.__faceLog`: each eye in canvas px), then `faces_check.py` checks the **final pixels**
+(after light, grade, bloom, grain): eye white present, a dark pupil blob covering >= 55 % of a 0.8x-pupil disc (35 % for
+the declared sly emotions; 40 % behind the magnifier glass), pupil >= 0.33x the eye, catchlight <= 0.36x the pupil.
+Declared closed eyes, the ponytail-flop gag, fades and crowd-scale eyes (< 3 px radius) are reported apart. It writes
+`qc/faces_<X>.json` and the face contact sheet `qc/faces_block<X>_small.jpg` (red border = failure). **A delivery with one
+pupil failure is not finished.** Then look at the sheet yourself: the expression matches the script beat, the mouth
+syncs, the eyes look at something, faces are not cut by the frame, overlays or balloons, and not lost in the grade.
+Lab: `art/scenes/eye_lab.js` (`?scene=eye_lab&part=sizes|lights`, also at `&out=854x480`).
+
 ## 7 · Never
 
 - Never change their silhouettes (capsule heads, heights, beanie, ponytail), their signature colours or their wardrobe
@@ -191,3 +221,5 @@ A delivery with one unchecked box is not finished. History of what went wrong: `
   shapes, faces, outfits and colours are our own.
 - Never give them round heads (that is the extras' shape) or a mascot companion.
 - Never portray a real person; never use vermilion on them; never leave a story beat with a blank face.
+- Never ship eyes without a visible pupil (unless the emotion is a declared closed-eye one); never draw an eye detail
+  with `K.circle` in head units.
