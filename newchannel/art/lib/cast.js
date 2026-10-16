@@ -91,6 +91,11 @@
   C.lightLayer = lightLayer; C.rimLight = rimLight;
   // eyes drawn in the current layer register themselves here (with the canvas transform), to be masked from the light
   let EYES = null;
+  // QC hook (faces audit): when root.__faceLog is an array, every C.draw on the visible canvas logs each eye in canvas
+  // px ({ id, expr, view, eyes: [{ cx, cy, rx, ry, px, py, pr, cr, closed, lid }] }); nothing is logged otherwise
+  let FACE = null;
+  const toPx = (c, x, y) => { const m = c.getTransform(); return [m.a * x + m.c * y + m.e, m.b * x + m.d * y + m.f]; };
+  const scaleOf = c => { const m = c.getTransform(); return Math.sqrt(Math.abs(m.a * m.d - m.b * m.c)) || 1; };
   function eyeMask(M, list, pad) {
     const c = M.ctx;
     for (const [m, x, y, rx, ry, yl, tl, yb] of list) {   // only the OPEN part of the eye (lids keep their skin light)
@@ -201,25 +206,32 @@
     neutral:   { lid: 0.12, mouth: 'smile' },
     happy:     { lid: 0.0, low: 0.24, mouth: 'grin', head: -0.06, noBias: 1, look: [0, -0.3], grin: 1.3, eye: 1.04, browUp: 0.45, sq: 1.02, body: 'open' },
     laugh:     { happyEyes: 1, mouth: 'laugh', head: -0.13, noBias: 1, lift: -0.006, blush: 0.3, browUp: 0.6, sq: 1.04, body: 'belly' },
-    surprised: { lid: 0.0, low: 0, eye: 1.24, pupil: 0.82, catch: 0.36, agree: 1, lookK: 0.55, look: [0, -0.18], mouth: 'o', noBias: 1, lift: -0.008, browUp: 1.1, sq: 1.05, body: 'surprise', extras: ['ticks'] },
+    surprised: { lid: 0.0, low: 0, eye: 1.24, pupil: 0.82, catch: 0.3, agree: 1, lookK: 0.55, look: [0, -0.18], mouth: 'o', noBias: 1, lift: -0.008, browUp: 1.1, sq: 1.05, body: 'surprise', extras: ['ticks'] },
     curious:   { lid: 0.0, eye: 1.12, mouth: 'smallo', look: [0.5, -0.35], noBias: 0.8, browOne: 1, browUp: 0.3, head: 0.1, lean: 0.05, body: 'chin' },
     awe:       { lid: 0.0, low: 0, eye: 1.26, pupil: 1.12, agree: 1, lookK: 0.55, mouth: 'awe', look: [0, -0.5], noBias: 1, sparkle: 1, browUp: 0.9, head: -0.08, sq: 1.03, body: 'clasp', extras: ['sparkle'] },
-    smug:      { lid: 0.42, low: 0.2, mouth: 'smirk', look: [0.85, 0], tilt: 0.1, noBias: 0.85, browOne: 1.1, head: 0.07, body: 'crossed' },
+    smug:      { lid: 0.42, low: 0.2, lidCover: 1, mouth: 'smirk', look: [0.85, 0], tilt: 0.1, noBias: 0.85, browOne: 1.1, head: 0.07, body: 'crossed' },
     thinking:  { lid: 0.28, mouth: 'think', look: [0.6, -0.8], head: 0.08, noBias: 0.4, browOne: 0.8, body: 'think' },
     worried:   { lid: 0.18, tilt: -0.65, mouth: 'wobble', pupil: 0.8, noBias: 0.7, sweat: 1, sq: 0.98, body: 'clasp' },
     sheepish:  { lid: 0.14, tilt: -0.45, mouth: 'sheep', look: [-0.8, 0.4], noBias: 0.8, blush: 0.5, sweat: 1, head: -0.08, body: 'scratch' },
-    annoyed:   { lid: 0.46, tilt: 0.4, mouth: 'flat', look: [0.5, 0.05], noBias: 0.5, body: 'crossed' },
-    grumpy:    { lid: 0.44, tilt: 0.6, mouth: 'frown', noBias: 0.6, body: 'crossed' },
+    annoyed:   { lid: 0.46, tilt: 0.4, lidCover: 1, mouth: 'flat', look: [0.5, 0.05], noBias: 0.5, body: 'crossed' },
+    grumpy:    { lid: 0.44, tilt: 0.6, lidCover: 1, mouth: 'frown', noBias: 0.6, body: 'crossed' },
     furious:   { lid: 0.28, tilt: 1.0, eye: 1.06, pupil: 0.7, mouth: 'yell', noBias: 1, head: 0.05, sq: 0.97, lean: 0.06, extras: ['anger'], body: 'fist' },
     determined: { lid: 0.34, tilt: 0.55, mouth: 'set', look: [0.6, 0], noBias: 0.6, sq: 0.99, body: 'pump' },
     talk:      { lid: 0.12, mouth: 'talk' },
   };
   C.EXPR.sly = C.EXPR.smug;
+  // eye rules (see drawEye): minimum pupil radius vs the eye, minimum on-screen pupil radius, catchlight sizes, the
+  // eye radius (px) below which the eye is simplified (small) or reduced to a dot (micro)
+  C.EYE = { pupilMin: 0.36, pupilPx: 1.7, catch: 0.28, catchMax: 0.32, smallPx: 9, microPx: 4.5 };
   C.EXPRESSIONS = ['neutral', 'laugh', 'surprised', 'furious', 'worried', 'smug'];
   C.EMOTIONS = ['neutral', 'happy', 'laugh', 'surprised', 'curious', 'awe', 'smug', 'thinking', 'worried', 'sheepish', 'annoyed', 'furious', 'determined'];
   C.EMOTIONS_ES = { neutral: 'neutral', happy: 'feliz', laugh: 'risa', surprised: 'sorpresa', curious: 'curiosa/o', awe: 'asombro', smug: 'pícara/o', thinking: 'pensando', worried: 'preocupada/o', sheepish: 'apenada/o', annoyed: 'molesta/o', furious: 'furia (grita)', determined: 'decidida/o' };
 
   // ------------------------------------------------------------------ the face (head-local units, origin = head centre)
+  // a true-radius disc in head-local units. NOT K.circle: K.circle clamps the radius to >= 0.01, which is px-safe
+  // but in head units (eye radius ~0.035) turned every catchlight (0.003-0.005) into a 0.01 disc as big as the pupil
+  // itself: the root cause of the "white disc + dark crescent" eyes (Producer, 2026-10-16)
+  function disc(c, x, y, r) { c.beginPath(); c.arc(x, y, Math.max(1e-6, r), 0, K.TAU); }
   function eyeShape(c, x, y, rx, ry) { c.beginPath(); c.ellipse(x, y, Math.max(1e-4, rx), Math.max(1e-4, ry), 0, 0, K.TAU); }
   function lidOf(H) {
     const F = H.F, E = H.E; let lid = K.clamp((E.lid ?? 0.1) + (F.lidBias || 0) * (1 - (E.noBias || 0)));
@@ -236,7 +248,9 @@
       const sclera = F.sclera || '#fbf7ee';
       if (E.happyEyes && H.blink < 0.5) { // closed, smiling arcs (^ ^)
         c.strokeStyle = INK; c.lineWidth = lw * 2.2; c.lineCap = 'round';
-        c.beginPath(); c.moveTo(ex - rx * 0.95, ey + ry * 0.25); c.quadraticCurveTo(ex, ey - ry * 0.85, ex + rx * 0.95, ey + ry * 0.25); c.stroke(); return;
+        c.beginPath(); c.moveTo(ex - rx * 0.95, ey + ry * 0.25); c.quadraticCurveTo(ex, ey - ry * 0.85, ex + rx * 0.95, ey + ry * 0.25); c.stroke();
+        if (FACE) { const sc = scaleOf(c), q = toPx(c, ex, ey); FACE.eyes.push({ cx: q[0], cy: q[1], rx: rx * sc, ry: ry * sc, closed: 'happy', far: !!far }); }
+        return;
       }
       // the open part of the eye: between the upper lid line and the lower lid curve. Lids are the face itself (nothing
       // is painted there), so no white can bleed round a lid and no ring is left over the skin
@@ -248,22 +262,49 @@
       eyeShape(c, ex, ey, rx, ry); c.fillStyle = sclera; c.fill();
       // pupil: wide emotions (surprise, awe) open the whites fully, the pupils agree (no goofy drift) and sit centred or
       // a touch up; in every emotion the pupil (and iris) stays fully inside the white with a margin (never cut by the
-      // eye outline, never pushed to the edge)
-      const pr = rr * (F.pupil || 0.36) * (E.pupil || 1) * (far ? 0.92 : 1), pin = kind === 'iris' ? pr * (F.irisK || 1.9) : pr;
+      // eye outline, never pushed to the edge).
+      // EYE RULES (2026-10-16, Producer: «el punto de los ojos no está funcionando»), true at every size:
+      //  1 the pupil is a clear dark dot: radius >= C.EYE.pupilMin (0.36) x the eye's height radius in every emotion
+      //    and eye scale (it grows with E.eye), and >= C.EYE.pupilPx (1.7 px) on screen (capped at 0.55 x the eye) so
+      //    it survives draft scale, antialiasing, grain and bloom;
+      //  2 the catchlight is <= C.EYE.catchMax (0.32) x the pupil radius, fully inside it, never with a line-width
+      //    floor (that floor made it 0.5-0.75 x the pupil: a white disc with a dark crescent = "closed / sleepy" eyes);
+      //  3 small eyes (eye radius < 9 px) are simplified: pupil + ONE catchlight (no awe sparkle, no iris ring, one
+      //    lash); micro eyes (< 4.5 px) are a plain dark dot (no catchlight);
+      //  4 the pupil sits inside the open part of the eye: at least half its radius below the upper lid line and above
+      //    the lower lid. Lids cover it only in a blink, a shut lid (>= 0.75) or the declared lid-cover emotions
+      //    (E.lidCover: smug / sly, annoyed, grumpy), and even then it stays centred in the slit.
+      const sc = scaleOf(c), RY = ry * sc, small = RY < C.EYE.smallPx, micro = RY < C.EYE.microPx, googly = kind === 'googly';
+      let pr = rr * (F.pupil || 0.36) * (E.pupil || 1) * (googly ? Math.sqrt(E.eye || 1) : 1) * (far ? 0.94 : 1);
+      if (googly) { pr = Math.max(pr, ry * C.EYE.pupilMin, Math.min(C.EYE.pupilPx / sc, ry * 0.55)); if (micro) pr = Math.max(pr, ry * 0.5); }
+      const pin = kind === 'iris' ? pr * (F.irisK || 1.9) : pr;
       const agree = E.agree || 0, lk = E.lookK ?? 1;
       let ox = (look[0] * 0.42 * lk + (F.goofy || 0) * (1 - agree) * side * 0.12) * rx + H.faceDir * H.fs * rx * 0.25 * (1 - agree * 0.5);
       let oy = (look[1] * 0.42 * lk + 0.05 * (1 - agree) + K.clamp(lid - 0.25) * 0.55) * ry;
-      { const mx = Math.max(1e-4, rx - pin - lw * 1.4), my = Math.max(1e-4, ry - pin - lw * 1.4), d = Math.hypot(ox / mx, oy / my); if (d > 1) { ox /= d; oy /= d; } }
+      const mx = Math.max(1e-4, rx - pin - lw * 1.4), my = Math.max(1e-4, ry - pin - lw * 1.4);
+      { const d = Math.hypot(ox / mx, oy / my); if (d > 1) { ox /= d; oy /= d; } }
+      if ((hasL || hasB) && lid < 0.75) {   // rule 4: keep the dot in the opening (lid line y = yl + m (x - ex))
+        const keep = E.lidCover ? 0.3 : 0.85;
+        const top = hasL ? yl - ey + m * ox + pin * keep : -Infinity;
+        const bot = hasB ? yb - ey - 0.15 * ry * (1 - Math.min(1, (ox / (1.6 * rx)) ** 2)) - pin * keep : Infinity;
+        oy = top <= bot ? Math.min(Math.max(oy, top), bot) : ((hasL ? yl - ey + m * ox : -ry) + (hasB ? yb - ey - 0.15 * ry : ry)) / 2;
+        const ylim = my * Math.sqrt(Math.max(0, 1 - (ox / mx) ** 2)); oy = Math.max(-ylim, Math.min(ylim, oy));
+      }
       const px = ex + ox, py = ey + oy;
       eyeShape(c, ex, ey, rx, ry); c.clip();
       if (kind === 'iris') { const ir = pin; c.fillStyle = F.iris || '#5a3a24'; K.circle(c, px, py, ir); c.fill();
-        c.strokeStyle = K.rgba(INK, 0.6); c.lineWidth = lw * 0.6; c.stroke(); }
-      c.fillStyle = F.pupilColor || INK; K.circle(c, px, py, pr); c.fill();
-      // catchlight: a small white disc up-left INSIDE the pupil (it must never eat the pupil: a big disc leaves a dark
-      // crescent that reads as a closing lid); awe adds a second, smaller sparkle
-      const ck = E.sparkle ? 0.4 : (E.catch ?? F.catch ?? (kind === 'iris' ? 0.5 : 0.3));
-      if (ck && lid < 0.75) { c.fillStyle = '#ffffff'; const cr = Math.max(pr * ck, lw * 0.9); K.circle(c, px - pr * 0.34, py - pr * 0.36, cr); c.fill(); if (E.sparkle) { K.circle(c, px + pr * 0.4, py + pr * 0.36, cr * 0.42); c.fill(); } }
+        if (!small) { c.strokeStyle = K.rgba(INK, 0.6); c.lineWidth = lw * 0.6; c.stroke(); } }
+      c.fillStyle = F.pupilColor || INK; disc(c, px, py, pr); c.fill();
+      // catchlight (rule 2): a small white disc up-left INSIDE the pupil; awe adds a second, smaller sparkle (not small)
+      const ck0 = E.sparkle ? C.EYE.catchMax : (E.catch ?? F.catch ?? (kind === 'iris' ? 0.5 : C.EYE.catch));
+      const ck = googly ? Math.min(C.EYE.catchMax, ck0) : ck0;
+      let cr0 = googly && (micro || pr * ck * sc < 0.7) ? 0 : pr * ck;
+      if (cr0 && lid < 0.75) { c.fillStyle = '#ffffff'; disc(c, px - pr * 0.36, py - pr * 0.36, cr0); c.fill(); if (E.sparkle && !small) { disc(c, px + pr * 0.42, py + pr * 0.4, cr0 * 0.45); c.fill(); } }
+      else cr0 = 0;
       c.restore();
+      if (FACE) { const sc = scaleOf(c), q = toPx(c, ex, ey), pp = toPx(c, px, py);
+        FACE.eyes.push({ cx: q[0], cy: q[1], rx: rx * sc, ry: ry * sc, px: pp[0], py: pp[1], pr: pr * sc, cr: cr0 * sc,
+          closed: H.blink > 0.5 ? 'blink' : lid >= 0.75 ? 'lid' : (E.lidCover ? 'sly' : ''), lid, far: !!far }); }
       // lid lines (inside the eye shape only) and the eye outline only where the eye is open
       c.save(); eyeShape(c, ex, ey, rx * 1.02, ry * 1.02); c.clip(); c.strokeStyle = INK; c.lineCap = 'butt';
       if (hasL) { c.lineWidth = lw * 1.3; c.beginPath(); c.moveTo(ex - rx * 1.5, yl - m * rx * 1.5); c.lineTo(ex + rx * 1.5, yl + m * rx * 1.5); c.stroke(); }
@@ -276,7 +317,7 @@
         const out = side; c.strokeStyle = INK; c.lineWidth = lw * 0.9; c.lineCap = 'round';
         // the lashes grow from where the lid line (or the top of the open eye) meets the outer outline
         const ox2 = ex + out * rx * 0.86, oy2 = lid > 0.05 ? Math.max(yl + m * rx * out * 0.86, ey - ry * 0.5) : ey - ry * 0.5;
-        for (let i = 0; i < (far ? 1 : 2); i++) { c.beginPath(); c.moveTo(ox2 - out * rx * 0.1 * i, oy2 - ry * 0.05 * i); c.quadraticCurveTo(ox2 + out * rx * 0.25, oy2 - ry * (0.15 + 0.12 * i), ox2 + out * rx * (0.42 - 0.08 * i), oy2 - ry * (0.38 + 0.22 * i)); c.stroke(); }
+        for (let i = 0; i < (far || ry * scaleOf(c) < C.EYE.smallPx ? 1 : 2); i++) { c.beginPath(); c.moveTo(ox2 - out * rx * 0.1 * i, oy2 - ry * 0.05 * i); c.quadraticCurveTo(ox2 + out * rx * 0.25, oy2 - ry * (0.15 + 0.12 * i), ox2 + out * rx * (0.42 - 0.08 * i), oy2 - ry * (0.38 + 0.22 * i)); c.stroke(); }
       }
     } else { // 'dot': ink oval with a catchlight; lids are skin over it; happy = arcs
       const happy = E.happyEyes || (E.mouth === 'grin' && F.dotHappy !== false);
@@ -712,11 +753,15 @@
     const W = sx1 - sx0, Hh = sy1 - sy0, lox = x - sx0, loy = y - sy0;
     const light = Object.assign({}, C.LIGHT.board, o.light || {});
     const OUT = buf('out', W, Hh), MK = buf('eyemask', W, Hh), lwS = S.lw || 0.0075;
+    const LOG = root.__faceLog && ctx.canvas && ctx.canvas.isConnected ? root.__faceLog : null;
+    const rec = LOG ? { id, expr: o.expr || 'neutral', view, blink: o.blink || 0, eyes: [] } : null;
     for (const name of ['back', 'body', 'front']) {
       const Lb = buf('L', W, Hh), c = Lb.ctx;
+      FACE = rec;
       EYES = [];
       c.setTransform(u, 0, 0, u, lox, loy); if (o.seated) c.translate(0, S.legLen);
       R.layers[name](c);
+      FACE = null;
       c.setTransform(1, 0, 0, 1, 0, 0);
       if (EYES.length) eyeMask(MK, EYES, -lwS * 0.2);
       EYES = null;
@@ -727,6 +772,7 @@
     if (o.fog) { OUT.ctx.globalCompositeOperation = 'source-atop'; OUT.ctx.fillStyle = K.rgba(o.fog[0], o.fog[1]); OUT.ctx.fillRect(0, 0, W, Hh); OUT.ctx.globalCompositeOperation = 'source-over'; }
     if (o.shadow && !o.seated) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(o.shadowColor || '#3c2a52', o.shadow); K.ellipse(ctx, x, y, u * (S.shadowW || 0.16), u * 0.022); ctx.fill(); ctx.restore(); }
     ctx.drawImage(OUT.c, sx0, sy0);
+    if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } rec.alpha = ctx.globalAlpha; LOG.push(rec); }
     const so = o.seated ? S.legLen : 0, hi = R.info.head, hx = x + hi[0] * u, hy = y + (hi[1] + so) * u, hr = hi[2] * u;
     const ex = (o.extras || C.EXPR[o.expr]?.extras || []);
     for (const e of ex) K.char.extra(ctx, hx, hy - hr * 0.2, hr * (S.extraK || 1.0), e, o.t || 0, { ink: '#24161a' });
