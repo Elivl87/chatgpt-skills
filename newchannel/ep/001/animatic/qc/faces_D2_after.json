@@ -1,0 +1,17 @@
+{
+ "block": "D2",
+ "tag": "after",
+ "samples": 101,
+ "faces": 184,
+ "eyes": {
+  "pass": 214,
+  "fail": 0,
+  "closed": 0,
+  "covered": 0,
+  "fading": 0,
+  "tiny": 143,
+  "offframe": 3
+ },
+ "failures": 0,
+ "fail_list": []
+}

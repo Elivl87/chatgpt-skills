@@ -222,7 +222,7 @@
   C.EXPR.sly = C.EXPR.smug;
   // eye rules (see drawEye): minimum pupil radius vs the eye, minimum on-screen pupil radius, catchlight sizes, the
   // eye radius (px) below which the eye is simplified (small) or reduced to a dot (micro)
-  C.EYE = { pupilMin: 0.36, pupilPx: 1.7, catch: 0.28, catchMax: 0.32, smallPx: 9, microPx: 4.5 };
+  C.EYE = { lidMax: 0.58, pupilMin: 0.36, pupilPx: 1.7, catch: 0.28, catchMax: 0.32, smallPx: 9, microPx: 4.5 };
   C.EXPRESSIONS = ['neutral', 'laugh', 'surprised', 'furious', 'worried', 'smug'];
   C.EMOTIONS = ['neutral', 'happy', 'laugh', 'surprised', 'curious', 'awe', 'smug', 'thinking', 'worried', 'sheepish', 'annoyed', 'furious', 'determined'];
   C.EMOTIONS_ES = { neutral: 'neutral', happy: 'feliz', laugh: 'risa', surprised: 'sorpresa', curious: 'curiosa/o', awe: 'asombro', smug: 'pícara/o', thinking: 'pensando', worried: 'preocupada/o', sheepish: 'apenada/o', annoyed: 'molesta/o', furious: 'furia (grita)', determined: 'decidida/o' };
@@ -241,6 +241,7 @@
     const F = H.F, E = H.E, lw = H.lw;
     const pk = H.fs > 0.88 ? (F.profEye || 1.12) : 1, k = (E.eye || 1) * pk, rx = rr * k * (1 - 0.32 * H.fs * (far ? 1.4 : 0.6)) * (H.fs > 0.88 ? 1.25 : 1), ry = rr * k;
     let lid = lidOf(H);
+    if (lid < 0.75) lid = Math.min(lid, C.EYE.lidMax);   // rule 4: a heavy lid never closes the eye down to a hairline slit
     const low = E.low || 0, m = -side * (E.tilt || 0);
     const look = H.look;
     const kind = F.eyes;
@@ -284,7 +285,7 @@
       const mx = Math.max(1e-4, rx - pin - lw * 1.4), my = Math.max(1e-4, ry - pin - lw * 1.4);
       { const d = Math.hypot(ox / mx, oy / my); if (d > 1) { ox /= d; oy /= d; } }
       if ((hasL || hasB) && lid < 0.75) {   // rule 4: keep the dot in the opening (lid line y = yl + m (x - ex))
-        const keep = E.lidCover ? 0.3 : 0.85;
+        const keep = E.lidCover ? 0.6 : 0.85;
         const top = hasL ? yl - ey + m * ox + pin * keep : -Infinity;
         const bot = hasB ? yb - ey - 0.15 * ry * (1 - Math.min(1, (ox / (1.6 * rx)) ** 2)) - pin * keep : Infinity;
         oy = top <= bot ? Math.min(Math.max(oy, top), bot) : ((hasL ? yl - ey + m * ox : -ry) + (hasB ? yb - ey - 0.15 * ry : ry)) / 2;
@@ -304,7 +305,7 @@
       c.restore();
       if (FACE) { const sc = scaleOf(c), q = toPx(c, ex, ey), pp = toPx(c, px, py);
         FACE.eyes.push({ cx: q[0], cy: q[1], rx: rx * sc, ry: ry * sc, px: pp[0], py: pp[1], pr: pr * sc, cr: cr0 * sc,
-          closed: H.blink > 0.5 ? 'blink' : lid >= 0.75 ? 'lid' : (E.lidCover ? 'sly' : ''), lid, far: !!far }); }
+          closed: H.blink > 0.5 ? 'blink' : lid >= 0.75 ? 'lid' : (E.lidCover ? 'sly' : ''), lid, low, far: !!far }); }
       // lid lines (inside the eye shape only) and the eye outline only where the eye is open
       c.save(); eyeShape(c, ex, ey, rx * 1.02, ry * 1.02); c.clip(); c.strokeStyle = INK; c.lineCap = 'butt';
       if (hasL) { c.lineWidth = lw * 1.3; c.beginPath(); c.moveTo(ex - rx * 1.5, yl - m * rx * 1.5); c.lineTo(ex + rx * 1.5, yl + m * rx * 1.5); c.stroke(); }
@@ -677,8 +678,11 @@
       c.strokeStyle = '#e8b33a'; c.lineWidth = 0.012; c.stroke(); };
     const drawLens = (c, Hd) => { const lx = Hd[0] + faceDir * 0.004, ly = Hd[1] - 0.07, r = 0.04;
       c.strokeStyle = INK; c.lineWidth = 0.012 + lw * 2; c.lineCap = 'round'; c.beginPath(); c.moveTo(Hd[0], Hd[1] + 0.02); c.lineTo(lx, ly + r); c.stroke(); c.strokeStyle = '#6a3e22'; c.lineWidth = 0.012; c.stroke();
-      c.fillStyle = 'rgba(200,232,255,0.28)'; K.circle(c, lx, ly, r); c.fill(); c.strokeStyle = INK; c.lineWidth = 0.011 + lw * 2; c.stroke(); c.strokeStyle = '#d9a63a'; c.lineWidth = 0.011; c.stroke();
-      c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = lw * 1.4; c.beginPath(); c.arc(lx, ly, r * 0.65, -2.6, -1.7); c.stroke(); };
+      // clear glass (light tint): the eye behind it must stay a readable dark dot (eyes QC 2026-10-16)
+      c.fillStyle = 'rgba(200,232,255,0.14)'; K.circle(c, lx, ly, r); c.fill();
+      if (FACE) { const q = toPx(c, lx, ly); FACE.lens = [q[0], q[1], r * scaleOf(c)]; }
+      c.strokeStyle = INK; c.lineWidth = 0.011 + lw * 2; c.stroke(); c.strokeStyle = '#d9a63a'; c.lineWidth = 0.011; c.stroke();
+      c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = lw * 1.4; c.beginPath(); c.arc(lx, ly, r * 0.86, -2.6, -1.9); c.stroke(); };
     const upper = (c, fn) => { if (!lean) return fn(); c.save(); c.translate(0, hipY); c.rotate(lean * dir); c.translate(0, -hipY); fn(); c.restore(); };
     return {
       lead, trail, H, B,
@@ -754,7 +758,7 @@
     const light = Object.assign({}, C.LIGHT.board, o.light || {});
     const OUT = buf('out', W, Hh), MK = buf('eyemask', W, Hh), lwS = S.lw || 0.0075;
     const LOG = root.__faceLog && ctx.canvas && ctx.canvas.isConnected ? root.__faceLog : null;
-    const rec = LOG ? { id, expr: o.expr || 'neutral', view, blink: o.blink || 0, eyes: [] } : null;
+    const rec = LOG ? { id, expr: o.expr || 'neutral', view, blink: o.blink || 0, talk: o.talk || 0, look: o.look || null, headTurn: o.headTurn || 0, hairFlop: o.hairFlop || 0, pose: o.pose || 'stand', u, eyes: [] } : null;
     for (const name of ['back', 'body', 'front']) {
       const Lb = buf('L', W, Hh), c = Lb.ctx;
       FACE = rec;
@@ -772,8 +776,9 @@
     if (o.fog) { OUT.ctx.globalCompositeOperation = 'source-atop'; OUT.ctx.fillStyle = K.rgba(o.fog[0], o.fog[1]); OUT.ctx.fillRect(0, 0, W, Hh); OUT.ctx.globalCompositeOperation = 'source-over'; }
     if (o.shadow && !o.seated) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(o.shadowColor || '#3c2a52', o.shadow); K.ellipse(ctx, x, y, u * (S.shadowW || 0.16), u * 0.022); ctx.fill(); ctx.restore(); }
     ctx.drawImage(OUT.c, sx0, sy0);
-    if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } rec.alpha = ctx.globalAlpha; LOG.push(rec); }
+    if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } if (rec.lens) { rec.lens[0] += sx0; rec.lens[1] += sy0; } rec.alpha = ctx.globalAlpha; LOG.push(rec); }
     const so = o.seated ? S.legLen : 0, hi = R.info.head, hx = x + hi[0] * u, hy = y + (hi[1] + so) * u, hr = hi[2] * u;
+    if (rec) rec.head = [hx, hy, hr];
     const ex = (o.extras || C.EXPR[o.expr]?.extras || []);
     for (const e of ex) K.char.extra(ctx, hx, hy - hr * 0.2, hr * (S.extraK || 1.0), e, o.t || 0, { ink: '#24161a' });
     const map = p => [x + p[0] * u, y + (p[1] + so) * u];

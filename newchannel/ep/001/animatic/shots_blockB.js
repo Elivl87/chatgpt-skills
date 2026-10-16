@@ -235,7 +235,7 @@
       // B21 · «a unos veinte kilómetros por hora»: Mila walks backwards with the jam, Eli forwards with a car
       const wk0 = tA8 - 0.05;
       shots.push({ id: 'B21_walk', start: wk0, bg: 'ring', focus: [960, 540], push: 0.022, pushDir: -1,
-        over: (c, t) => { recPill(c, false); P.badge(c, K.W - 330, 220, '≈20 km/h ←', 54, A.ramp(t, tVeinte, 0.25)); P.source(c, SRC, 1); },
+        over: (c, t) => { recPill(c, false); P.badge(c, 960, 800, '≈20 km/h ←', 54, A.ramp(t, tVeinte, 0.25)); P.source(c, SRC, 1); },
         draw(c, t, lt) {
           const ts = C5(t), R = A.s2(), S = R.at(ts), S0 = R.at(C5(wk0)), j0 = A.jamSmooth(C5(wk0), 3);
           let car = 0, best = 9; for (let i = 0; i < R.N; i++) { const d = Math.abs(Math.atan2(Math.sin(A.ringAng(i, S0) - j0 - 0.25), Math.cos(A.ringAng(i, S0) - j0 - 0.25))); if (d < best) { best = d; car = i; } }
