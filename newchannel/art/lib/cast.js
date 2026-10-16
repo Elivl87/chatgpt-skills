@@ -261,7 +261,7 @@
     detective: { lead: A(null, null, 'hide', [1, 0.2], [-1, 0.2], { at: 'backhand' }), trail: A(null, null, 'fist', [1, -0.7], [-0.4, -1], { at: 'lens' }), prop: 'magnifier', lean: 0.05 },
     sitPoint: { lead: A([0.8, 0.5], [0.92, 0.42], 'point', [0, -1], [0, -1]), trail: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }) },
     sit:     { lead: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }), trail: A(null, null, 'mitt', [1, 0.3], [-1, 0.3], { at: 'knee' }) },
-    lapPoint: { lead: A(null, null, 'mitt', [1, -1], [-0.3, -1], { at: 'lap' }), trail: A([-0.6, 0.35], [-0.85, 0.3], 'point', [0, -1], [0, -1]) },
+    lapPoint: { lead: A(null, null, 'mitt', [1, -1], [-0.3, -1], { at: 'lap' }), trail: A([0.55, 0.45], [-0.85, 0.3], 'point', [0, -1], [0, -1]) },   // clothes QC: front view points out-up (it crossed the face)
   };
 
   // ------------------------------------------------------------------ expressions
@@ -653,18 +653,21 @@
       return { T, pole, S0 };
     };
     const armFor = (sg, a, b) => {
-      const A0 = target(sg, a); let T = A0.T, pole = A0.pole, hk = a.hand;
-      if (b && bk > 0) { const B0 = target(sg, b); T = [K.lerp(T[0], B0.T[0], bk), K.lerp(T[1], B0.T[1], bk)]; pole = [K.lerp(pole[0], B0.pole[0], bk), K.lerp(pole[1], B0.pole[1], bk)]; if (bk > 0.5) hk = b.hand; }
-      const j = ik(A0.S0, T, L1, L2, pole);
+      const A0 = target(sg, a); let hk = a.hand, j = ik(A0.S0, A0.T, L1, L2, A0.pole);
+      // clothes QC 2026-10-16: a pose blend solves BOTH poses and blends the joints. Blending the elbow pole instead let it
+      // cross zero mid-blend and the elbow flipped to the other side in one frame (a sleeve / arm pop)
+      if (b && bk > 0) { const B0 = target(sg, b), jb = ik(B0.S0, B0.T, L1, L2, B0.pole), L = (p, q) => [K.lerp(p[0], q[0], bk), K.lerp(p[1], q[1], bk)];
+        j = [j[0], L(j[1], jb[1]), L(j[2], jb[2])]; if (bk > 0.5) hk = b.hand; }
+      const ff = K.lerp(FACE_FRONT[a.at] ? 1 : 0, b ? (FACE_FRONT[b.at] ? 1 : 0) : (FACE_FRONT[a.at] ? 1 : 0), b ? bk : 0);
       const pts = softLimb(j, 0.35);
       const e = pts[pts.length - 1], q = pts[pts.length - 3], dl = Math.hypot(e[0] - q[0], e[1] - q[1]) || 1;
       // clothes QC 2026-10-16: a hand tucked behind the back is a relaxed hand, never a bare stump (front detective)
       if (hk === 'hide' && ((b && bk > 0.5 ? b.at : a.at) === 'backhand')) hk = 'relax';
-      return { j, pts, hand: hk, dv: [(e[0] - q[0]) / dl, (e[1] - q[1]) / dl], sg, at: (b && bk > 0.5 ? b.at : a.at) || null };
+      return { j, pts, hand: hk, ff, dv: [(e[0] - q[0]) / dl, (e[1] - q[1]) / dl], sg, at: (b && bk > 0.5 ? b.at : a.at) || null };
     };
     const lead = armFor(dir, P.lead, PB && PB.lead), trail = armFor(-dir, P.trail, PB && PB.trail);
     // frac < 1: only the upper part of the arm (shoulder -> elbow), e.g. a hand in front of the chest seen from the back
-    const drawArm = (c, Aa, frac = 1) => {
+    const drawArm = (c, Aa, frac = 1, handA = 0) => {
       const pts = frac < 1 ? partial(Aa.pts, frac) : Aa.pts, ar = S.arm;
       noodle(c, pts, ar.w, ar.skinPart ? S.skin : ar.sleeve, lw);
       if (ar.skinPart) { // a short sleeve: one tube from the round shoulder, slightly flared, cut square at the hem
@@ -687,7 +690,10 @@
       if (ar.stripe) { c.lineCap = 'round'; path(c, partial(pts, 0.86)); c.strokeStyle = ar.stripe; c.lineWidth = ar.w * 0.22; c.stroke(); }
       if (ar.flare) { const p = partial(pts, 0.92), qq = p[p.length - 1]; c.fillStyle = ar.cuff || ar.sleeve; c.strokeStyle = INK; c.lineWidth = lw * 2; K.ellipse(c, qq[0], qq[1], ar.w * 0.85, ar.w * 0.85, 0); c.stroke(); c.fill(); }
       else if (!ar.skinPart && ar.cuff) { const p = partial(pts, 0.92, 0.86); c.lineCap = 'butt'; path(c, p); c.strokeStyle = INK; c.lineWidth = ar.w + 2 * lw; c.stroke(); c.strokeStyle = ar.cuff; c.lineWidth = ar.w; c.stroke(); }
-      if (frac < 1) return;
+      if (frac < 1) {   // upper arm only (back views): the hand fades as the forearm goes in front of the body
+        if (handA > 0.02) { const e = pts[pts.length - 1], q = pts[Math.max(0, pts.length - 3)], dl = Math.hypot(e[0] - q[0], e[1] - q[1]) || 1, ga = c.globalAlpha;
+          c.globalAlpha = ga * handA; hand(c, e, [(e[0] - q[0]) / dl, (e[1] - q[1]) / dl], Aa.hand === 'hide' ? 'relax' : Aa.hand, ar.hand, S.handColor || S.skin, lw, 1); c.globalAlpha = ga; }
+        return; }
       if (o.prop && o.prop.hand === (Aa === lead ? 'lead' : 'trail') && o.prop.under) o.prop.under(c, pts[pts.length - 1], Aa.dv, S, H);
       hand(c, pts[pts.length - 1], Aa.dv, Aa.hand, ar.hand, S.handColor || S.skin, lw, Aa.sg * (s > 0.3 ? dir * Aa.sg : 1) > 0 ? 1 : -1);
       if (ar.watch && Aa === trail) { const p = partial(pts, 0.88), qq = p[p.length - 1]; c.fillStyle = ar.watch; c.strokeStyle = INK; c.lineWidth = lw * 1.4; K.circle(c, qq[0], qq[1], ar.w * 0.45); c.fill(); c.stroke(); }
@@ -698,7 +704,9 @@
       let ankle, knee = null;
       if (sitLegs) { knee = kneeAt(sg); ankle = o.sitGround ? [knee[0] + dir * s * shin * 0.42 + (1 - s) * sg * 0.006, hipY - b.h * 0.42] : [knee[0] + dir * s * 0.03, knee[1] + shin]; }
       else if (walkK > 0) { const lp = wph + (sg === dir ? 0 : Math.PI), st = 0.11 * walkK; ankle = [hp[0] + (S.legSplay || 0) * sg * cosT + dir * Math.max(0.15, s) * Math.sin(lp) * st, -(b.h * 0.5) - Math.max(0, Math.cos(lp)) * 0.05 * walkK];
-        if (s >= 0.2) { const j = ik(hp, ankle, (S.legLen - b.h * 0.5) / 2 + 0.003, (S.legLen - b.h * 0.5) / 2 + 0.003, [dir + 1e-4, 0]); knee = j[1]; } }
+        // the knee eases in with the walk weight (it used to snap from a straight leg to the IK knee at the first frame)
+        if (s >= 0.2) { const j = ik(hp, ankle, (S.legLen - b.h * 0.5) / 2 + 0.003, (S.legLen - b.h * 0.5) / 2 + 0.003, [dir + 1e-4, 0]), wk = K.clamp(walkK * 2.5);
+          knee = [K.lerp((hp[0] + ankle[0]) / 2, j[1][0], wk), K.lerp((hp[1] + ankle[1]) / 2, j[1][1], wk)]; } }
       else ankle = [hp[0] + (S.legSplay || 0) * sg * cosT, -(b.h * 0.5)];
       const fx = ankle[0], ay = ankle[1] + b.h * 0.5;   // ay: boot base offset from the ground (0 when standing)
       noodle(c, knee ? softLimb([hp, knee, ankle], 0.2) : [hp, ankle], S.legW, S.legColor, lw);
@@ -771,7 +779,7 @@
             if (!back && s <= 0.05) for (const Aa of [trail, lead]) if (Aa.at === 'backhand') drawArm(c, Aa);
             // back views: a hand in front of the face / chest is hidden behind the head and torso (Guardian 2026-10-16:
             // the visor fist was drawn on the back of Eli's head, A14; Mila's crossed arm lay across her back, A16)
-            if (back) for (const Aa of (s > 0.05 ? [lead] : [trail, lead])) if (FACE_FRONT[Aa.at]) { drawArm(c, Aa); if ((P.prop || (PB && bk > 0.5 && PB.prop)) === 'magnifier' && Aa === trail) drawLens(c, trail.pts[trail.pts.length - 1]); }
+            if (back) for (const Aa of (s > 0.05 ? [lead] : [trail, lead])) if (Aa.ff > 0) { drawArm(c, Aa); if ((P.prop || (PB && bk > 0.5 && PB.prop)) === 'magnifier' && Aa === trail) drawLens(c, trail.pts[trail.pts.length - 1]); }
           });
           if ((legsOn || sitLegs) && s > 0.05) drawLeg(c, back ? -dir : dir);
         },
@@ -793,7 +801,8 @@
               if (S.outfitBackTop) S.outfitBackTop(c, B);   // parts that hang past the torso (apron bow + ties)
               // back views: a hand in front of the face / chest is hidden, but the UPPER arm still shows along the back
               // (clothes QC 2026-10-16: crossed arms / visor from behind read as an armless torso)
-              for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (FACE_FRONT[Aa.at]) drawArm(c, Aa, 0.5);
+              // (a blend into / out of such a pose shortens the drawn arm continuously: no pop at k = 0.5)
+              for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (Aa.ff > 0) { const f = K.ease.sine(Aa.ff); drawArm(c, Aa, Math.min(0.999, 1 - 0.5 * f), 1 - f); }
             } else {
               if (S.outfit) { c.save(); torsoPath(c); c.clip(); S.outfit(c, B); c.restore(); }
               if (S.collar) S.collar(c, B);            // the neckline first: straps and apron cords go over it
@@ -815,8 +824,8 @@
             c.globalAlpha = ga;
             if (s <= 0.05) {
               const crossed = (o.pose === 'crossed' && bk < 0.5) || (PB && o.blend.pose === 'crossed' && bk >= 0.5);
-              for (const Aa of (crossed ? [lead, trail] : [trail, lead])) if (!(back && FACE_FRONT[Aa.at]) && !(!back && Aa.at === 'backhand')) drawArm(c, Aa);
-            } else if (!(back && FACE_FRONT[lead.at])) drawArm(c, back ? lead : trail);
+              for (const Aa of (crossed ? [lead, trail] : [trail, lead])) if (!(back && Aa.ff > 0) && !(!back && Aa.at === 'backhand')) drawArm(c, Aa);
+            } else if (!(back && lead.ff > 0)) drawArm(c, back ? lead : trail);
             c.globalAlpha = ga * propA;
             if (prop === 'clipboard' && !back) drawPencil(c, lead.pts[lead.pts.length - 1]);
             if (prop === 'magnifier' && !(back && s <= 0.05)) drawLens(c, trail.pts[trail.pts.length - 1]);

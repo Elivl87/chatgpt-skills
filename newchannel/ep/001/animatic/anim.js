@@ -151,6 +151,12 @@
   };
   A.drawLines = function (ctx, t, def, S) {
     if (A._noSay) return;
+    if (A._demo) {   // style sheet: ?tbdemo=kind:who:text|kind:who:text (boxes at rest, anchored to the heads in this frame)
+      const H = A._heads || {}, av = Object.values(H).map(x => [x.head[0] - x.head[2] * 1.2, x.head[1] - x.head[2] * 1.8, x.head[0] + x.head[2] * 1.2, x.head[1] + x.head[2] * 1.25]);
+      for (const [kind, who, text, side] of A._demo) { const h = H[who];
+        K.tbox.draw(ctx, { text, kind, head: h ? h.head : null, light: S.tbLight || def.tbLight || (h && h.light) || 'golden', age: 1.2, avoid: av, side: side ? Number(side) : undefined }); }
+      return;
+    }
     const H = A._heads || {}, avoid = [];
     for (const k in H) { const h = H[k].head; avoid.push([h[0] - h[2] * 1.2, h[1] - h[2] * 1.8, h[0] + h[2] * 1.2, h[1] + h[2] * 1.25]); }
     if (S.label) avoid.push([20, 10, 640, 120]);                 // the shot's label pill (top left)
@@ -183,6 +189,7 @@
     K.scene('ep001_' + name, {
       async setup(ctx, opts) {
         await A.load();
+        A._demo = opts.tbdemo ? opts.tbdemo.split('|').map(x => x.split(':')) : null;
         A._bySpk = {}; for (const w of A.words) (A._bySpk[w.speaker] = A._bySpk[w.speaker] || []).push(w);
         A.installBadge();
         A.installHeads();

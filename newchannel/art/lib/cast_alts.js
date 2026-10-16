@@ -25,6 +25,9 @@
     S.handColor = S.handColor || S.skin;
     return S;
   }
+  // a true-radius disc in body units (K.circle clamps r >= 0.01, which in body units made every button / jewel highlight a
+  // pale disc as big as the button itself: clothes QC 2026-10-16, same root cause as the 2026-10-16 eye catchlights)
+  const disc = (c, x, y, r) => { c.beginPath(); c.arc(x, y, Math.max(1e-6, r), 0, K.TAU); };
   const clipHead = (c, H) => { c.save(); h.headPath(c, Object.assign({}, H.S || {}, { kind: H.headKind, hw: H.hw, hh: H.hh, neck: H.neck || 0 })); c.clip(); };
   const backX = (H, k) => (H.fs > 0.05 ? -H.faceDir * H.hw * k * H.fs : 0);
   const outlineHead = (c, H, S) => { h.headPath(c, S.head); c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.stroke(); };
@@ -86,8 +89,8 @@
       c.strokeStyle = MUSTARD; c.lineWidth = sw; c.beginPath(); c.moveTo(sx, top + 0.01); c.lineTo(ex, B.Ttop - 0.02); c.stroke(); }
     c.restore();
     for (const sg of [-1, 1]) { if (!(s < 0.9 || sg === -d)) continue; const sx = bx + sg * bw * 0.66;
-      c.fillStyle = BRASS; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; K.circle(c, sx, top + 0.012, 0.0082); c.fill(); c.stroke();
-      c.fillStyle = '#fff3c0'; K.circle(c, sx - 0.0025, top + 0.0095, 0.0022); c.fill(); }
+      c.fillStyle = BRASS; c.strokeStyle = INK; c.lineWidth = B.lw * 1.4; disc(c, sx, top + 0.012, 0.0082); c.fill(); c.stroke();
+      c.fillStyle = '#fff3c0'; disc(c, sx - 0.0025, top + 0.0095, 0.0022); c.fill(); }
   }
   function apron(c, B) {
     const s = B.s, d = B.dir, bx = B.tcx + d * s * B.wT * 0.45, bw = 0.064 * (1 - 0.5 * s), top = B.Ttop + 0.055;
@@ -152,8 +155,8 @@
         c.strokeStyle = INK; c.lineWidth = H.lw * 1.2; c.beginPath(); c.moveTo(ex, ey); c.lineTo(dx, dy - 0.004); c.stroke();
         c.fillStyle = color; c.lineWidth = H.lw * 1.3;
         c.beginPath(); c.moveTo(dx, dy - 0.009); c.quadraticCurveTo(dx + 0.009, dy + 0.003, dx, dy + 0.011); c.quadraticCurveTo(dx - 0.009, dy + 0.003, dx, dy - 0.009); c.closePath(); c.stroke(); c.fill();
-        c.fillStyle = '#fff6d0'; K.circle(c, dx - 0.002, dy - 0.001, 0.0022); c.fill();
-        c.fillStyle = color; c.strokeStyle = INK; c.lineWidth = H.lw * 1.2; K.circle(c, ex, ey, 0.0055); c.stroke(); c.fill();
+        c.fillStyle = '#fff6d0'; disc(c, dx - 0.002, dy - 0.001, 0.0022); c.fill();
+        c.fillStyle = color; c.strokeStyle = INK; c.lineWidth = H.lw * 1.2; disc(c, ex, ey, 0.0055); c.stroke(); c.fill();
       }
     };
   }
@@ -244,7 +247,7 @@
     c.strokeStyle = INK; c.lineWidth = B.lw * 2; c.fillStyle = '#4a3326';
     for (const sg of [-1, 1]) { c.beginPath(); c.ellipse(bx + sg * 0.017, by - 0.003, 0.017, 0.0105, sg * 0.3, 0, K.TAU); c.stroke(); }
     for (const sg of [-1, 1]) { c.beginPath(); c.ellipse(bx + sg * 0.017, by - 0.003, 0.017, 0.0105, sg * 0.3, 0, K.TAU); c.fill(); }
-    c.lineWidth = B.lw * 1.4; K.circle(c, bx, by - 0.002, 0.0075); c.fill(); c.stroke();
+    c.lineWidth = B.lw * 1.4; disc(c, bx, by - 0.002, 0.0075); c.fill(); c.stroke();
     if (B.seated) c.restore();
   };
   ELI1.backUnder = function (c, B) { // back 3/4: the far edge of the apron skirt peeks past the body (it used to vanish)

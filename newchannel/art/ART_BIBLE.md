@@ -130,11 +130,50 @@ facing the light only, computed once on the whole silhouette (never on internal 
   teeth, closed = a curl), the extras get a nose bump. When a beat must land, turn the body toward the camera.
 - **Acting comes from the simulation** (brake onsets, stop, gap, speed), poses cross-fade, big moves get anticipation.
 
-## 3c · Speech balloon
+## 3c · Text boxes (the characters are silent) — v2, 2026-10-16
 
-A paper balloon (`#fbf3e4`, ink outline 4 px at 1080p, a soft violet drop shadow, Space Grotesk 700), tail to the
-speaker's mouth, pops in with a small overshoot and fades. Only for short shouted lines (≤ 3 words, e.g.
-«¡¿Quién fue?!»); dialogue is otherwise voice + subtitles. Never over the bottom 12 % of the frame.
+Producer (2026-10-16): «no quiero que tengan voces los personajes (solo en cuadro de texto que estén más acorde al
+arte)». Eli and Mila never speak aloud: every line they have is a **text box** drawn as part of the illustrated world
+(`art/lib/textbox.js`, `K.tbox`; lab `art/scenes/textbox_lab.js`; style sheet `art/textboxes/textbox_sheet_small.jpg`).
+The old generic comic pill (Space Grotesk on a flat cream capsule) is retired.
+
+**Look**
+- **Paper, cut by hand:** warm paper (`#f8eedb` golden, `#e7e2d8` cooler and dimmer at night, `#f6f2ea` at noon), a
+  wobbly edge seeded by the text (never boils frame to frame), paper tooth + horizontal fibres in soft-light, a warm
+  glow from the light side, an inner thickness shade on the shadow side.
+- **Ink brush outline:** a variable-width ring (≈ 0.09 × the letter size; 0.12 for shouts) that breathes along the edge
+  with 3 dry-brush breaks; a thin rim of scene light just inside the lit top edge (not at noon).
+- **Tail = the same brush stroke:** a curved flick tapering to a point, aimed at the speaker's head and **stopping
+  outside the head zone** (±1.15 r wide, 1.75 r up, 1.2 r down, + 8 px): it never crosses the beanie, ponytail, eyes or
+  mouth. No tail if the box already touches that zone.
+- **Shadow:** the box silhouette blurred 6 px, offset away from the light, in the scene's shadow colour (golden
+  `#3a2050` α .32, night `#03040c` α .5, noon `#4a5068` α .24 straight down, dusk `#2a1838`).
+- **Lettering:** **Shantell Sans** (SIL OFL 1.1, `brand/fonts/ShantellSans/`, static instances made with fontTools):
+  *Speech* (wght 600, informal 60, bounce 35), *Shout* (800 / 100 / 90), *Soft* (450 / 45 / 20). A hand-lettered comic
+  face fits the painted world better than the brand's techy faces (Martian Mono / Space Grotesk stay for the wordmark,
+  labels and data). Ink colour, centred, wrapped at 620 px (shout 820 px).
+
+**Variants (`kind`)**
+| kind | when | size @1080p | edge | motion |
+|---|---|---|---|---|
+| `speech` | normal lines | 50 px | hand-cut rounded card | pop-in 0.2 s: scale 0.7 → 1 with a small overshoot + a 2° settle; out: fade + 0.92 in 0.16 s |
+| `shout` | «¡¿QUIÉN FUE?!», «¡NOOO!», «¡DALE, DALE!», «¡¿QUE YO QUÉ?!» | 70 px, CAPITALS, words slightly rotated | jagged but painterly: broad brushy swells rising to soft points (no razor spikes) | same pop + a small shake (±3 px, decays over 0.5 s to a light tremble) |
+| `whisper` | asides («¿…quién fue?», «…Fue el viento.») | 40 px, Soft | dotted ink, paper 90 % opaque | slow fade-in 0.28 s, no overshoot |
+| `thought` | thoughts / imagined lines | 44 px, Soft | lobed cloud; three small inked dots toward the thinker instead of a tail | gentle float (±3 px) |
+
+**Rules**
+- **Reading time:** a box stays up for `max(slot, 0.4 s + 0.06 s × characters)` (`K.tbox.readTime`), from 0.06 s before
+  the slot starts; the slot is the line's span in `audio/timings_es.json` (the voice agent removes the character audio
+  but keeps the slots).
+- **Placement** (`K.tbox.place`): beside the speaker's head on the open side (toward the frame centre), inside a 48 px
+  margin, never in the bottom 12 % (progress-bar band) or the duration-chip corner (top-right 300 × 100), never over any
+  head zone (both characters) or the shot's label pill; a shot may add `sayAvoid` rects (important action) or a
+  per-line `say` override. Off-screen speaker: the box sits upper-left with no tail.
+- **Readable on a phone:** ≥ 40 px letters at 1080p (≥ 3.7 % of the frame height), ink on paper contrast > 12:1.
+- **Automatic in the animatic:** `A.drawLines` (ep/001/animatic/anim.js) draws every Eli / Mila line from the word
+  timings; style per line in `A.LINES`; the kit reports where each head was drawn (or a shot pins it with `A.speaker`).
+- Sound-effect callouts («pío», «¡pop!», «tap») are not character lines and keep their own style; illustrated thought
+  clouds holding drawings use the same paper + brush panel (`K.tbox.panel`).
 
 ## 4 · The mascot (dropped, 2026-10-15)
 

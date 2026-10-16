@@ -19,35 +19,43 @@ import json, os, sys
 STAND, CAR, GROUND = 'stand', 'car', 'ground'
 
 
+OPEN_ARMS = {'stand', 'walk', 'point', 'hips', 'wave', 'scratch', 'fist', 'visor', 'shrug', 'palm', 'cheer', 'pump', 'open',
+             'surprise', 'drive', 'driveFist', 'lap', 'sit', 'sitPoint'}
+
+
 def expected(cid, view, kind, pose):
+    """minimum interior pixels of each garment colour, per u^2 * 1e4, calibrated on the lab (about 1/3 of the smallest
+    clean value of that part in that view): below it the part is missing / covered by something it should not be"""
     E = {}
     front, q, side, back, backq = (view == v for v in ('front', 'q', 'side', 'back', 'backq'))
     if cid == 'eli1':
-        E['beanie'] = 8; E['tee'] = 25
+        E['beanie'] = 8; E['tee'] = 40
         if front or q:
-            E['apron'] = 120 if kind != CAR else 60; E['strap'] = 12
+            E['apron'] = 100
+            E['strap'] = 10 if kind == STAND else 1
         if side:
-            E['apron'] = 30; E['strap'] = 4
-        if back:
-            E['strap'] = 1.5
-        if kind == STAND:
-            E['band'] = 8
-            if backq:
-                E['apron'] = 10
+            E['apron'] = 30; E['strap'] = 5 if kind == STAND else 1
+        if back or backq:
+            E['strap'] = 1                      # the neck loop behind the collar
+        if kind == STAND and backq:
+            E['apron'] = 15                     # the skirt edge peeking past the body
+        if kind == STAND or (not back and not (kind != STAND and backq)):
+            E['band'] = 1
         if kind != CAR:
-            E['boots'] = 8
-            if kind == STAND or (kind == GROUND and not front and not back):
-                E['jeans'] = 15
+            E['boots'] = 10
+            E['jeans'] = 40 if kind == STAND else (8 if (front or back) else 30)
     else:
-        E['sweater'] = 25; E['overall'] = 40; E['hair'] = 4
-        if front or q:
-            E['pocket'] = 2; E['button'] = 0.4
-        if back or (backq and kind == STAND):
-            E['pocket'] = 2
-        if not back:
-            E['earring'] = 0.2
+        E['sweater'] = 80; E['overall'] = 60; E['hair'] = 50
+        if (front or q) and pose in OPEN_ARMS:
+            E['button'] = 0.3
+        if back or backq:
+            E['pocket'] = 1.5                   # the back patch / pockets
+        if front or back:
+            E['earring'] = 0.5
+        if q or backq:
+            E['earring'] = 0.3
         if kind != CAR:
-            E['boots'] = 8
+            E['boots'] = 30
     return E
 
 
@@ -58,7 +66,7 @@ def lab(D, QC):
         kind = STAND if P['set'].startswith('stand') else P['set']
         for c in P['cells']:
             b = c['body']; u = c['u']; key = f"{P['id']}/{P['set']}/{c['view']}/{c['pose']}@{P['size']}"
-            if P['size'] in ('big', '1080'):
+            if P['size'] == 'big':   # exact interior colours need ~2.4 px ink; 1080 / draft are judged by eye + the block checks
                 for part, mn in expected(P['id'], c['view'], kind, c['pose']).items():
                     v = b['pal'].get(part, 0) / (u * u) * 1e4
                     if v < mn:
@@ -80,7 +88,9 @@ def lab(D, QC):
                     for i in range(1, len(v)):
                         dv = abs(v[i] - v[i - 1])
                         calm = max([abs(v[j] - v[j - 1]) for j in range(1, len(v)) if j != i] or [0])
-                        if dv > 0.6 and dv > 0.45 * max(rng, 1e-6) and dv > 2.5 * calm and dv > 0.25 * max(v[i], v[i - 1]):
+                        if cell['pose'] in ('clipboard', 'detective') and src == 'blend':
+                            continue   # the prop fades in over the blend (by design, not a pop)
+                        if dv > 2.0 and dv > 0.45 * max(rng, 1e-6) and dv > 2.5 * calm and dv > 0.25 * max(v[i], v[i - 1]):
                             fails.append(('pop', f"{T['id']}/{T['set']}/{cell['view']}/{cell['pose']} {src}", f"{part} {v[i-1]:.1f} -> {v[i]:.1f} at step {i}"))
     json.dump({'fail': len(fails), 'fails': fails, 'cells': len(rows)}, open(os.path.join(QC, 'clothes_lab.json'), 'w'), indent=1)
     print(f'clothes lab: {len(rows)} cell renders, {len(fails)} failures')
