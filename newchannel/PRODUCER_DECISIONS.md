@@ -36,3 +36,4 @@
 | 2026-10-16 | **Sound direction: "Cine suave"** — constant warm music bed (like the reference), real ambience (wind, birds, distant engines), few subtle effects that never distract from the narration | picked "Cine suave" |
 | 2026-10-16 | **Eli's skin a bit lighter** | "Haría a Eli algo más claro." |
 | 2026-10-16 | Producer asks to **clone his own voice** for the narrator. Allowed as the one exception to "never clone a real voice": it is the Producer's own voice, with his explicit consent (voice reference only from a recording he supplies) | "Como podemos clonar mi voz?" |
+| 2026-10-16 | Producer supplied his own voice reference (`voice/producer/producer_reference.m4a`, 24.7 s) for cloning the narrator voice; use only for this channel's narrator | uploaded in chat |
