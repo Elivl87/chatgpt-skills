@@ -33,3 +33,4 @@
 | 2026-10-16 | **The sounds are disliked** → redesign the sound direction | "Los sonidos no me gustan" |
 | 2026-10-16 | **Eli and Mila have NO voices**: their lines appear only as text boxes designed to match the art | "no quiero que tengan voces los personajes (solo en cuadro de texto que estén más acorde al arte)" |
 | 2026-10-16 | **Narrator voice: Chatterbox**, tuned for more naturalness (replaces Kokoro) | "La voz con chatterbox, con más naturalidad." |
+| 2026-10-16 | **Sound direction: "Cine suave"** — constant warm music bed (like the reference), real ambience (wind, birds, distant engines), few subtle effects that never distract from the narration | picked "Cine suave" |
