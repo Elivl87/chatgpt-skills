@@ -832,7 +832,7 @@
             if (back) for (const Aa of (s > 0.05 ? [lead] : [lead, trail])) if (Aa.ff > 0) { const f = K.ease.sine(Aa.ff); drawArm(c, Aa, Math.min(0.999, 1 - 0.5 * f), 1 - f); }
             c.globalAlpha = ga * propA;
             if (prop === 'clipboard' && !back) drawPencil(c, lead.pts[lead.pts.length - 1]);
-            if (prop === 'magnifier' && !(back && s <= 0.05)) drawLens(c, trail.pts[trail.pts.length - 1]);
+            if (prop === 'magnifier' && !back) drawLens(c, trail.pts[trail.pts.length - 1]);   // clothes QC: from behind (also 3/4) the lens is in front of the face, hidden by the head
             c.globalAlpha = ga;
             if (S.front && !back) S.front(c, B);
           });

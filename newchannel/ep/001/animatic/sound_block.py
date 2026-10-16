@@ -50,6 +50,21 @@ voice = np.zeros((n, 2), np.float32)
 seg = nar[a:b]
 voice[: len(seg)] = seg
 
+# silent characters (Producer 2026-10-16): Eli and Mila have no voices; their lines are text boxes. Whatever the narration
+# track still holds in their slots (the voice agent keeps the slots) is muted here, with 20 ms fades.
+if os.environ.get('KEEP_CHAR_VOICES') != '1':
+    _tm = json.load(open(os.path.join(HERE, '..', 'audio', 'timings_es.json')))
+    _spans = {}
+    for _w in _tm:
+        if _w['speaker'] in ('eli', 'mila'):
+            _s = _spans.setdefault(_w['line'], [_w['start'], _w['end']]); _s[0] = min(_s[0], _w['start']); _s[1] = max(_s[1], _w['end'])
+    for _a, _b in _spans.values():
+        _a, _b = _a - t0 - 0.06, _b - t0 + 0.12
+        if _b < 0 or _a > DUR:
+            continue
+        g = 1 - np.clip(np.minimum((t - _a) / 0.02, (_b - t) / 0.02), 0, 1)
+        voice *= g[:, None].astype(np.float32)
+
 music, sfx = S.Bus(n), S.Bus(n)
 
 

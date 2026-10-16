@@ -20,7 +20,7 @@ STAND, CAR, GROUND = 'stand', 'car', 'ground'
 
 
 SMALL = {'button', 'earring'}
-OPEN_ARMS = {'stand', 'walk', 'point', 'hips', 'wave', 'scratch', 'fist', 'visor', 'shrug', 'palm', 'cheer', 'pump', 'open',
+OPEN_ARMS = {'stand', 'walk', 'point', 'hips', 'wave', 'scratch', 'fist', 'visor', 'shrug', 'palm', 'cheer', 'open',
              'surprise', 'drive', 'driveFist', 'lap', 'sit', 'sitPoint'}
 
 
