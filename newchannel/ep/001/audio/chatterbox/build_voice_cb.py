@@ -26,7 +26,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 AUD = HERE.parent
-NC = AUD.parents[1]
+NC = AUD.parents[2]
 sys.path[:0] = [str(NC / "voice" / "chatterbox_natural")]
 import cbn  # noqa: E402  (puts ep/001/audio and engine on the path, loads build_voice)
 import numpy as np  # noqa: E402

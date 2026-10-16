@@ -1,0 +1,167 @@
+{
+ "summary": {
+  "name": "latam_clone3",
+  "args": {
+   "name": "latam_clone3",
+   "ref": "/tmp/claude-0/cbnat/work/ref/ref_full.wav",
+   "model": "latam",
+   "s3gen": "v3",
+   "mode": "chunk",
+   "ex": 0.45,
+   "cfg": 0.4,
+   "temp": 0.75,
+   "speed": 1.0,
+   "speed_jitter": 0.0,
+   "pause_jitter": 0.0,
+   "ex_jitter": 0.0,
+   "tries": 3,
+   "only": 3
+  },
+  "model_info": {
+   "model": "latam",
+   "s3gen": "v3",
+   "s3gen_v3_missing": 2,
+   "s3gen_v3_unexpected": 0,
+   "load_s": 24.3
+  },
+  "dur_s": 30.14,
+  "words": 58,
+  "word_errors": 0,
+  "wer": 0.0,
+  "retries": 1,
+  "chunks": 3,
+  "wpm_in_speech": 121.9,
+  "synth_s": 470.9,
+  "similarity_to_ref": 0.933
+ },
+ "chunks": [
+  {
+   "seed": 1000,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "Una carretera despejada. Allá adelante un conductor toca el freno, una sola vez, apenas un poquito.",
+   "dur": 8.46,
+   "raw_dur": 8.92,
+   "dropped": 0.0,
+   "synth_s": 100.6,
+   "rtf": 11.9,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1000,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Una carretera despejada. Allá adelante un conductor toca el freno, una sola vez, apenas un poquito.",
+     "dur": 8.46,
+     "raw_dur": 8.92,
+     "dropped": 0.0,
+     "synth_s": 100.6,
+     "rtf": 11.9,
+     "too_long": false
+    }
+   ],
+   "text": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+   "tts": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+   "beat": "01",
+   "start": 0.0,
+   "dur_out": 8.46,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.45,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 1037,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte, más fuerte, hasta que alguien se queda quieto, Ellie.",
+   "dur": 9.4,
+   "raw_dur": 9.88,
+   "dropped": 0.0,
+   "synth_s": 138.9,
+   "rtf": 14.78,
+   "too_long": false,
+   "tries": 1,
+   "takes": [
+    {
+     "seed": 1037,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte, más fuerte, hasta que alguien se queda quieto, Ellie.",
+     "dur": 9.4,
+     "raw_dur": 9.88,
+     "dropped": 0.0,
+     "synth_s": 138.9,
+     "rtf": 14.78,
+     "too_long": false
+    }
+   ],
+   "text": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+   "tts": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+   "beat": "02",
+   "start": 9.26,
+   "dur_out": 9.4,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.45,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  },
+  {
+   "seed": 8993,
+   "wer": 0.0,
+   "errors": [],
+   "heard": "Ellie está seguro, alguien allá adelante tiene la culpa, pero allá no hay nada, ni choque, ni conos, ni semáforo.",
+   "dur": 10.68,
+   "raw_dur": 11.16,
+   "dropped": 0.0,
+   "synth_s": 129.0,
+   "rtf": 12.08,
+   "too_long": false,
+   "tries": 2,
+   "takes": [
+    {
+     "seed": 1074,
+     "wer": 0.05,
+     "errors": [
+      "adelante->delante"
+     ],
+     "heard": "Eli está seguro, alguien allá delante tiene la culpa, pero allá no hay nada, ni choque, ni conos, ni semáforo.",
+     "dur": 8.76,
+     "raw_dur": 9.32,
+     "dropped": 0.0,
+     "synth_s": 102.4,
+     "rtf": 11.69,
+     "too_long": false
+    },
+    {
+     "seed": 8993,
+     "wer": 0.0,
+     "errors": [],
+     "heard": "Ellie está seguro, alguien allá adelante tiene la culpa, pero allá no hay nada, ni choque, ni conos, ni semáforo.",
+     "dur": 10.68,
+     "raw_dur": 11.16,
+     "dropped": 0.0,
+     "synth_s": 129.0,
+     "rtf": 12.08,
+     "too_long": false
+    }
+   ],
+   "text": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+   "tts": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+   "beat": "03",
+   "start": 19.46,
+   "dur_out": 10.68,
+   "speed": 1.0,
+   "kw": {
+    "exaggeration": 0.45,
+    "cfg_weight": 0.4,
+    "temperature": 0.75
+   }
+  }
+ ]
+}

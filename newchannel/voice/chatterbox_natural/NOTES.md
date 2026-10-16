@@ -9,9 +9,9 @@ beats 1-4 del gancho + beat 9 ("Vamos más despacio… Para el auto número diez
 
 ## Para escuchar
 
-- **`clone_vs_best.mp3`** (1:58, 1,4 MB): **1 pitido = A, la voz clonada del Productor** · **2 pitidos = B, la
-  mejor versión sin clonar** (Chatterbox con la voz sintética del canal como referencia).
-- `samples_narrador.mp3`: las 3 variantes de la fase 1 (1, 2 y 3 pitidos). Ver la tabla de abajo.
+- **`clone_vs_best.mp3`** (2:02, 1,5 MB): **1 pitido = A, la voz clonada del Productor** · **2 pitidos = B, la
+  mejor versión sin clonar**, la variante (c): Chatterbox con la voz sintética del canal como referencia + ayudas de prosodia.
+- **`samples_narrador.mp3`** (2:40, 1,9 MB): las 3 variantes de la fase 1 · 1 pitido = (a) · 2 = (b) · 3 = (c).
 
 ## Qué se instaló (y qué se logró cargar)
 
@@ -39,7 +39,19 @@ la toma dura demasiado (balbuceo), se repite con otra semilla, hasta 6 veces, y 
 | **A · clon del Productor** | `voice/producer/producer_reference_clean.flac` (19,6 s) | V3, exag. 0,45 · cfg 0,4 · temp. 0,75, por trozos | **0 %** (0/125) | **0** | 132 ppm (su ritmo natural al leer: ~126) | **0,949** | 61,8 s |
 | (a) voz del canal | 12 s de la narradora de Kokoro (`ep/001/audio/segments/b07_13_narrator.flac`): voz sintética nuestra | V3, 0,5 · 0,4 · 0,75, por trozos | 1,6 % (2/125) | 10 | 161 ppm | 0,966 | 51,5 s |
 | (b) voz de fábrica | `conds.pt` (la voz por defecto del modelo) | V3, 0,5 · 0,4 · 0,75, por trozos | 0 % | 8 | **183 ppm** (atropellada) | — | 46,0 s |
-| (c) prosodia | (pendiente) | | | | | | |
+| **(c) prosodia** (= B de `clone_vs_best`) | la misma de (a) | V3, exag. 0,5 ± 0,05 por oración · cfg 0,4 · temp. 0,75; **una llamada por oración** (las de < 5 palabras van con su vecina), pausa según la puntuación (. 0,42 s · ? 0,55 · ! 0,45 · … 0,6 · : 0,38, ± 15 %), velocidad 0,97 ± 3 % por oración | **0 %** | 6 | 165 ppm | 0,962 | 55,1 s |
+
+Contexto de oraciones vecinas: Chatterbox **no lo admite** (no recibe texto de contexto, solo el texto a decir y la
+referencia). Las ayudas de (c) son: oraciones sueltas (menos alucinación, retoma más barata), pausas por puntuación,
+variación leve de velocidad y de exageración.
+
+**LatAm (paquete es-MX/LatAm + `s3gen_v3`) con el clon**, beats 1-3: carga bien (T3 exacto; al decodificador v3 le
+faltan 2 claves no usadas en inferencia), WER 0 % con 1 retoma, 122 ppm, **similitud 0,933** (V3: 0,943, sin retomas).
+Dijo una vez "allá delante". Con la voz del Productor rinde algo menos que V3, así que **se usa V3**.
+
+**Mi elección para la narración completa (fase 2): A, el clon del Productor**, por trozos (sin ayudas de prosodia):
+es la única con 0 retomas, el ritmo es el suyo, y fue el pedido del Productor. Si prefiere B, se cambia `CB_VOICE`.
+Al oído no puedo juzgar: todo esto son medidas.
 
 Errores que quedan en (a), los dos tras 6 tomas: "se **queda** quieto" → Whisper oye "se quiera / se quede";
 "hasta **volverlo** una línea" → "volverle". Son vocales finales flojas, no palabras inventadas.
