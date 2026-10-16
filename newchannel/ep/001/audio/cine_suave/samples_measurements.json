@@ -1,0 +1,148 @@
+{
+ "sample_hook.mp3": {
+  "range_s": [
+   0,
+   42.035
+  ],
+  "I": -14.1,
+  "TP": -1.7,
+  "LRA": 9.2,
+  "ceiling": -1.5,
+  "mix": {
+   "voice_I": -18.0,
+   "sfx": [
+    -14.0,
+    -14.0,
+    -14.0,
+    -19.0,
+    -14.0,
+    -19.0,
+    -19.0,
+    -6.0,
+    -6.0,
+    -6.0
+   ],
+   "music_rel_LU": -16.9,
+   "amb_rel_LU": -23.7,
+   "voice_ref_rms_db": -21.1,
+   "scenes": [
+    [
+     0.0,
+     37.25,
+     "golden_highway"
+    ],
+    [
+     37.25,
+     42.03,
+     "wordmark"
+    ]
+   ],
+   "cues": [
+    [
+     7.8,
+     "whoosh"
+    ],
+    [
+     13.93,
+     "soft_squeak"
+    ],
+    [
+     16.15,
+     "soft_thud"
+    ],
+    [
+     17.5,
+     "paper_pop"
+    ],
+    [
+     29.09,
+     "whoosh"
+    ],
+    [
+     30.36,
+     "paper_pop"
+    ],
+    [
+     32.64,
+     "paper_pop"
+    ],
+    [
+     38.37,
+     "sting"
+    ],
+    [
+     38.83,
+     "sting"
+    ],
+    [
+     39.27,
+     "sting"
+    ]
+   ],
+   "char_slots_muted": 3
+  }
+ },
+ "sample_night_hill.mp3": {
+  "range_s": [
+   191.23,
+   222.23
+  ],
+  "I": -14.1,
+  "TP": -1.7,
+  "LRA": 2.1,
+  "ceiling": -1.5,
+  "mix": {
+   "voice_I": -17.9,
+   "sfx": [
+    -19.0,
+    -15.0,
+    -19.0,
+    -19.0
+   ],
+   "music_rel_LU": -17.4,
+   "amb_rel_LU": -24.3,
+   "voice_ref_rms_db": -20.9,
+   "scenes": [
+    [
+     0.0,
+     10.06,
+     "ring_field"
+    ],
+    [
+     10.06,
+     20.91,
+     "stadium"
+    ],
+    [
+     20.91,
+     53.62,
+     "dome"
+    ],
+    [
+     53.62,
+     84.0,
+     "night_hill"
+    ]
+   ],
+   "cues": [
+    [
+     2.7,
+     "paper_pop"
+    ],
+    [
+     12.02,
+     "crowd_swell"
+    ],
+    [
+     39.77,
+     "paper_pop"
+    ],
+    [
+     81.85,
+     "paper_pop"
+    ]
+   ],
+   "char_slots_muted": 2
+  }
+ }
+}

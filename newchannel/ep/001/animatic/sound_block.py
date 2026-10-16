@@ -1,8 +1,13 @@
-"""Temporary sound bed for an animatic block (numpy only, engine/sound.py read-only): the real narration cut for the
-block's range + ambience segments + one-shot cues, every time coming from the page's events() (word- and sim-keyed).
-The final mix comes later; this bed only has to make the cut readable. Mastered to -14 LUFS, TP <= -1.5 dBTP.
+"""Sound for an animatic block (numpy only): the real narration cut for the block's range + music + ambience + cues,
+every time coming from the page's events() (word- and sim-keyed) and timings_es.json. Mastered to -14 LUFS,
+TP <= -1.5 dBTP.
 
-    python3 sound_block.py events.json narration_es.wav out.wav
+    python3 sound_block.py [--sound cine_suave|temp] events.json narration_es.wav out.wav
+
+--sound cine_suave (default, Producer 2026-10-16): engine/cine_suave.py. Continuous warm score keyed to the timings
+    (ep/001/audio/music/compose_score.py, FluidSynth + FluidR3_GM, cached in $TTD_SCORE_CACHE), synthesised scene
+    ambience chosen from each shot's background, few soft effects, character lines muted (text boxes only).
+--sound temp: the first temporary bed (cartoon cues; disliked by the Producer, kept for comparison only).
 """
 import json
 import os
@@ -14,8 +19,24 @@ sys.path.insert(0, os.path.join(HERE, "..", "..", "..", "engine"))
 import numpy as np  # noqa: E402
 import sound as S   # noqa: E402
 
-ev = json.load(open(sys.argv[1]))
-nar_path, out = sys.argv[2], sys.argv[3]
+ARGS = sys.argv[1:]
+MODE = "cine_suave"
+if "--sound" in ARGS:
+    i = ARGS.index("--sound")
+    MODE = ARGS[i + 1]
+    del ARGS[i:i + 2]
+ev = json.load(open(ARGS[0]))
+nar_path, out = ARGS[1], ARGS[2]
+if MODE == "cine_suave":
+    import cine_suave as CS  # noqa: E402
+    AUD = os.path.join(HERE, "..", "audio")
+    sys.path.insert(0, os.path.join(AUD, "music"))
+    from compose_score import ensure_score  # noqa: E402
+    rep = CS.build_block(ev, nar_path, out, os.path.join(AUD, "timings_es.json"), os.path.join(AUD, "segments_es.json"),
+                         ensure_score)
+    print(json.dumps(rep))
+    sys.exit(0)
+assert MODE == "temp", f"--sound {MODE}?"
 SR = S.SR
 DUR = ev["duration"]
 n = int(round(DUR * SR))

@@ -363,10 +363,12 @@ def compose(timings_path=TIMINGS):
         elif st == "hush":
             chords = ["Em7", "Cmaj7"]
             bars, beat = bar_grid(t0, t1, BPM["hush"])
-            pad_layer(sc, bars, beat, chords, 0.3, t1)
+            pad_layer(sc, bars, beat, chords, 0.62, t1)
             for k, bt in enumerate(bars):
+                sc.note(3, N(CH[chords[k % 2]][0]), bt, beat * 3.8, 50)
                 if k % 2 == 0:
-                    sc.note(2, "B4" if k % 4 == 0 else "G4", bt + beat, beat * 3, 40)
+                    sc.note(2, "B4" if k % 4 == 0 else "G4", bt + beat, beat * 3, 50)
+                    sc.note(5, "E3" if k % 4 == 0 else "C3", bt, beat * 4, 44)
         elif st == "ask":      # Dsus4 swell under the question, through the wordmark
             sc.note(0, "D3", t0, t1 - t0 + 0.2, 50, jitter=0)
             for p in ("D3", "G3", "A3", "D4"):
@@ -376,9 +378,10 @@ def compose(timings_path=TIMINGS):
             sc.ramp(0, 11, 70, 105, t0, t1)
         elif st == "sting":    # hold the suspension softly under the sting; it resolves on act 1's first G
             for p in ("D3", "G3", "A3"):
-                sc.note(0, p, t0, t1 - t0 + 0.4, 48, jitter=0)
+                sc.note(0, p, t0, t1 - t0 + 0.4, 58, jitter=0)
             for p in ("D3", "G3", "A3", "D4"):
-                sc.note(1, p, t0, t1 - t0 + 0.4, 62, jitter=0)
+                sc.note(1, p, t0, t1 - t0 + 0.4, 72, jitter=0)
+            sc.note(3, "D2", t0, t1 - t0, 46, jitter=0)
             sc.ramp(1, 11, 112, 60, t0, t0 + 1.2)
             sc.ramp(0, 11, 105, 80, t0, t0 + 1.2)
             sc.cc(1, 11, 100, t1 - 0.05)
