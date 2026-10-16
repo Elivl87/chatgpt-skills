@@ -93,8 +93,9 @@
           const ts = G6(t), R = A.s1(), xE = A.camX(ELI, ts, 1.2), xL = R.at(ts).x[ELI + 1];
           const sCam = xE - 6.4, aim = A.aim(sCam, 1.45, 3.1, 1150, xL, 1.85, 0.7, [1000, 360]);
           const bL = R.brake(ELI + 1, ts), bM = R.brake(ELI, ts);
+          let bLs = 0; for (let k = 0; k < 10; k++) bLs += R.brake(ELI + 1, ts - k * 0.05) / 10;   // smoothed: Mila's point blends in (Guardian v3)
           A.hw(c, t, { simT: ts, sCam, lCam: 1.45, H: 3.1, pitch: aim.pitch, yaw: aim.yaw, f: 1150, rays: true,
-            crew: tt => ({ eli: { pose: 'drive', lean: 0.06 * K.clamp(bL * 2) + 0.05 * bM, blink: 0 }, mila: bL > 0.3 ? { pose: 'point', blend: null } : { pose: 'lap' } }) });
+            crew: tt => ({ eli: { pose: 'drive', lean: 0.06 * K.clamp(bL * 2) + 0.05 * bM, blink: 0 }, mila: A.pzv(bLs, 0.3, 'lap', 'point', 0.5) }) });
         },
         cues: A => [{ t: tMas2, kind: 'brake_note', step: 4 }, { t: tMas2 + (sEliOn - sLead) / 2, kind: 'brake_note', step: 5 }] });
 
@@ -102,15 +103,15 @@
         draw(c, t, lt) {
           const ts = G7(t), stopT = tQuietoMid, since = t - stopT;
           const lurch = since > 0 ? 0.12 * Math.exp(-since * 4) * Math.cos(since * 9) : (t > tHard ? 0.05 : 0);
-          const eO = { pose: 'drive', blink: 0, look: [0.9, 0], lean: lurch };
-          if (t < tHard) Object.assign(eO, { expr: 'determined' });
-          else if (t < tHard + 0.55) Object.assign(eO, { expr: 'surprised' });
-          else if (since < 0.12) Object.assign(eO, { expr: 'worried' });
-          else Object.assign(eO, { expr: 'annoyed', look: [0.6, 0.05], extras: since > 0.35 ? ['puff'] : [] });
-          const mO = { pose: 'lap', view: 'q', dir: 1, headTurn: 0.25, look: [0.7, 0], lean: lurch * 1.2, blink: 0, hairFlop: milaFlop(t), drag: 0.5 * (1 - A.ramp(t, tHard, 0.3)) };
-          if (t < tHard) Object.assign(mO, { expr: 'neutral', look: [-0.3, -0.2], headTurn: -0.2, blink: milaBlink(t) });
-          else if (since < 0.05) Object.assign(mO, { expr: 'surprised', pose: 'clasp' });
-          else Object.assign(mO, { expr: 'annoyed', pose: 'lap' });
+          // Guardian v3: the faces / Mila's arms used to snap (lap -> clasp -> lap in one frame each); A.seq blends them
+          const eO = Object.assign({ pose: 'drive', blink: 0, lean: lurch, extras: since > 0.35 ? ['puff'] : [] }, A.seq(t, [
+            [0, { pose: 'drive', expr: 'determined', look: [0.9, 0] }], [tHard, { pose: 'drive', expr: 'surprised', look: [0.9, 0] }],
+            [tHard + 0.55, { pose: 'drive', expr: 'worried', look: [0.9, 0] }], [stopT + 0.12, { pose: 'drive', expr: 'annoyed', look: [0.6, 0.05] }]], 0.16));
+          eO.lean = lurch;
+          const mO = Object.assign({ view: 'q', dir: 1, lean: lurch * 1.2, blink: t < tHard - 0.1 ? milaBlink(t) : 0, hairFlop: milaFlop(t), drag: 0.5 * (1 - A.ramp(t, tHard, 0.3)) }, A.seq(t, [
+            [0, { pose: 'lap', expr: 'neutral', look: [-0.3, -0.2], headTurn: -0.2 }], [tHard, { pose: 'clasp', expr: 'surprised', look: [0.7, 0], headTurn: 0.25 }],
+            [stopT + 0.05, { pose: 'lap', expr: 'annoyed', look: [0.7, 0], headTurn: 0.25 }]], 0.2));
+          mO.lean = lurch * 1.2;
           A.close(c, t, 0, { simT: ts, tStop: sStop, frame: { z: 1.62, wx: 600, wy: 615, sx: 940, sy: 540 },
             crew: (cx, sx, sy, SC, info) => A.crew(cx, sx, sy, SC, info, eO, mO) });
         },
@@ -121,11 +122,10 @@
       shots.push({ id: 'A08_yell', start: tEli2 - 0.06, bg: 'close', focus: [880, 520], push: 0.028, pushDir: -1,
         draw(c, t, lt) {
           const ts = HOLD(t), yell = A.pulse(t, tQuien - 0.03, 0.08, tFueEnd - tQuien + 0.35, 0.3);
-          const eO = { view: 'q', dir: 1, blink: 0, look: [0.8, -0.1] };
-          if (t < tQuien - 0.45) Object.assign(eO, { pose: 'stand', expr: 'annoyed', lean: -0.04 * eliRise(t) });
-          else if (t < tQuien - 0.03) Object.assign(eO, { pose: 'fist', expr: 'grumpy', lean: -0.05 });        // inhale (anticipation)
-          else if (t < tFueEnd + 0.5) Object.assign(eO, { pose: 'fist', expr: 'furious', lean: 0.06, extras: ['anger', 'puff'] });
-          else Object.assign(eO, { pose: 'fist', expr: 'furious', lean: 0.03, extras: ['anger'] });
+          // Guardian v3: stand -> fist used to snap the arm up in one frame; blended (A.seq), anticipation kept
+          const eO = Object.assign({ view: 'q', dir: 1, blink: 0, look: [0.8, -0.1], extras: t < tQuien - 0.03 ? [] : t < tFueEnd + 0.5 ? ['anger', 'puff'] : ['anger'] }, A.seq(t, [
+            [0, { pose: 'stand', expr: 'annoyed', lean: -0.04 * eliRise(t) }], [tQuien - 0.45, { pose: 'fist', expr: 'grumpy', lean: -0.05 }],   // inhale (anticipation)
+            [tQuien - 0.03, { pose: 'fist', expr: 'furious', lean: 0.06 }], [tFueEnd + 0.5, { pose: 'fist', expr: 'furious', lean: 0.03 }]], 0.2));
           const mO = { pose: 'lap', view: 'q', dir: 1, headTurn: 0.2, look: [0.4, -0.1], blink: 0, hairFlop: milaFlop(t), expr: blowK(t) > 0 && blowK(t) < 1 ? 'curious' : t > tFueEnd + 0.6 ? 'neutral' : 'annoyed' };
           let heads = null;
           A.close(c, t, 0, { simT: ts, tStop: sStop, frame: { z: 1.25, wx: 800, wy: 560, sx: 960, sy: 540 },

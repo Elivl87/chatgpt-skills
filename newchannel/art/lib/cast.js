@@ -286,6 +286,26 @@
     talk:      { lid: 0.12, mouth: 'talk' },
   };
   C.EXPR.sly = C.EXPR.smug;
+  // expression blend (Guardian v3, 2026-10-16): o.exprBlend = { expr, k } eases the face from o.expr to another expression
+  // instead of a one-frame snap. Numeric face parameters (lids, brow tilt / raise, eye and pupil scale, gaze, head tilt,
+  // squash) interpolate; shapes and flags (mouth, closed-eye arcs, sweat, lid-cover rule, extras) switch at k = 0.5, which
+  // a 0.12-0.2 s blend hides under the moving lids and brows. A missing numeric field counts as its neutral value.
+  const EX_NUM = { lid: 0.1, low: 0, agree: 0, tilt: 0, eye: 1, pupil: 1, catch: 0.28, lookK: 1, head: 0, lift: 0, browUp: 0, browOne: 0, sq: 1, lean: 0, grin: 1, blush: 0, noBias: 0 };
+  C.exprMix = function (a, bl) {
+    const A0 = C.EXPR[a] || C.EXPR.neutral;
+    if (!bl || !bl.expr || !(bl.k > 0)) return Object.assign({}, A0);
+    const B0 = C.EXPR[bl.expr] || C.EXPR.neutral, k = K.clamp(bl.k);
+    if (k >= 1) return Object.assign({}, B0);
+    const E = Object.assign({}, k < 0.5 ? A0 : B0);
+    for (const f in EX_NUM) {
+      const va = A0[f] ?? EX_NUM[f], vb = B0[f] ?? EX_NUM[f];
+      if (A0[f] === undefined && B0[f] === undefined) continue;
+      E[f] = va + (vb - va) * k;
+    }
+    const la = A0.look || [0, 0], lb = B0.look || [0, 0];
+    if (A0.look || B0.look) E.look = [la[0] + (lb[0] - la[0]) * k, la[1] + (lb[1] - la[1]) * k];
+    return E;
+  };
   // eye rules (see drawEye): minimum pupil radius vs the eye, minimum on-screen pupil radius, catchlight sizes, the
   // eye radius (px) below which the eye is simplified (small) or reduced to a dot (micro)
   C.EYE = { lidMax: 0.58, pupilMin: 0.36, pupilPx: 1.7, catch: 0.28, catchMax: 0.32, smallPx: 9, microPx: 4.5 };
@@ -596,7 +616,7 @@
     const breathe = Math.sin(t * 2.1 + (S.phase || 0)) * 0.0035, lift = K.lerp(P.lift || 0, PB ? PB.lift || 0 : 0, bk);
     const back = !!o.back, walkK = K.lerp(P.walk || 0, PB ? PB.walk || 0 : 0, bk), wph = t * K.TAU * 0.95 + (S.phase || 0);
     const bobY = -Math.abs(Math.cos(wph)) * 0.012 * walkK;
-    const hipY = -S.legLen, shY = -S.shoulder - breathe - lift, legsOn = !o.seated, sitLegs = !!(o.seated && o.legs);
+    const hipY = -S.legLen, shY = -S.shoulder - breathe - lift, legsOn = !o.seated, sitLegs = !!(o.seated && o.legs), crouchD = o.seated ? 0 : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75));
     const Ttop = -S.torso.top - breathe - lift * 0.5, Tbot = -S.torso.bot;
     const wT = K.lerp(S.torso.wTop, S.torso.dTop ?? S.torso.wTop * 0.7, s), wB = K.lerp(S.torso.wBot, S.torso.dBot ?? S.torso.wBot * 0.75, s);
     const tcx = dir * s * (S.torso.lean || 0);
@@ -604,7 +624,7 @@
     const headTurn = o.headTurn || 0;
     const fsRaw = s + headTurn;
     const faceDir = fsRaw >= 0 ? dir : -dir, fs = Math.min(1, Math.abs(fsRaw));
-    const E = Object.assign({}, C.EXPR[o.expr] || C.EXPR.neutral);
+    const E = C.exprMix(o.expr, o.exprBlend);
     const tilt = (o.tilt || 0) + K.lerp(P.tilt || 0, PB ? PB.tilt || 0 : 0, bk) * dir + (E.head || 0) * faceDir;
     const lean = (o.lean || 0) + (E.lean || 0) * (o.seated ? 0.5 : 1) + K.lerp(P.lean || 0, PB ? PB.lean || 0 : 0, bk);
     const hcx = tcx + dir * s * (S.head.lean || 0) * 0.5, hcy = -S.head.cy - breathe * 1.4 - lift;
@@ -714,6 +734,10 @@
         if (s >= 0.2) { const j = ik(hp, ankle, (S.legLen - b.h * 0.5) / 2 + 0.003, (S.legLen - b.h * 0.5) / 2 + 0.003, [dir + 1e-4, 0]), wk = K.clamp(walkK * 2.5);
           knee = [K.lerp((hp[0] + ankle[0]) / 2, j[1][0], wk), K.lerp((hp[1] + ankle[1]) / 2, j[1][1], wk)]; } }
       else ankle = [hp[0] + (S.legSplay || 0) * sg * cosT, -(b.h * 0.5)];
+      // crouch (Guardian v3, 2026-10-16: stand-ups were one-frame jumps): the whole body is drawn o.crouch units lower
+      // (see C.draw), the feet stay on the ground and the knees bend (forward in profile, out + foreshortened in front)
+      if (crouchD > 0 && !sitLegs && walkK <= 0) { ankle = [ankle[0] + dir * s * (o.crouchFwd || 0) * (thigh * 0.95 + 0.03), ankle[1] - crouchD];   // crouchFwd 1 = the feet where a chair-seated pose puts them const L = (S.legLen - b.h * 0.5) / 2 + 0.003, j = ik(hp, ankle, L, L, [sg * (1 - s) + dir * s, 0]);
+        const mx = (hp[0] + ankle[0]) / 2, my = (hp[1] + ankle[1]) / 2, f = 0.35 + 0.65 * s; knee = [mx + (j[1][0] - mx) * f, my + (j[1][1] - my) * f]; }
       const fx = ankle[0], ay = ankle[1] + b.h * 0.5;   // ay: boot base offset from the ground (0 when standing)
       noodle(c, knee ? softLimb([hp, knee, ankle], 0.2) : [hp, ankle], S.legW, S.legColor, lw);
       c.save(); c.translate(0, ay);
@@ -740,7 +764,7 @@
       c.lineTo(tcx - wB + rb, Tbot); c.quadraticCurveTo(tcx - wB, Tbot, tcx - wB, Tbot - rb);
       c.quadraticCurveTo(tcx - (wT + wB) / 2, (Ttop + Tbot) / 2, tcx - wT, Ttop + r); c.quadraticCurveTo(tcx - wT, Ttop, tcx - wT + r, Ttop); c.closePath();
     };
-    const B = { s, dir, t, lw, tcx, Ttop, Tbot, wT, wB, shY, hipY, cosT, torsoPath, hcx, hcy, hw, hh, fs, faceDir, seated: !!o.seated, S, H, drag: o.drag || 0 };
+    const B = { s, dir, t, lw, tcx, Ttop, Tbot, wT, wB, shY, hipY, cosT, torsoPath, hcx, hcy, hw, hh, fs, faceDir, seated: !!o.seated, crouch: crouchD, S, H, drag: o.drag || 0 };
     const headDraw = (c, layer) => {
       c.save(); c.translate(hcx, hcy + hh); c.rotate(tilt); c.scale(1 / Math.sqrt(E.sq || 1), E.sq || 1); c.translate(0, -hh);
       if (layer === 'back') { if (S.hairBack) S.hairBack(c, H, B); c.restore(); return; }
@@ -862,6 +886,7 @@
     const view = o.view || 'front', s = TURN[view] ?? (typeof view === 'number' ? view : 0), dir = o.dir || 1;
     const oo = Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: String(view).startsWith('back') });
     const R = (S.kind === 'biped' ? biped : S.build)(S, oo);
+    const crouchU = o.seated ? 0 : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75));   // body drawn this much lower (feet stay)
     const bw = Math.ceil(u * (S.box ? S.box[0] : 1.8)), bh = Math.ceil(u * (S.box ? S.box[1] : 1.62));
     const ox = bw / 2, oy = Math.ceil(u * (S.box ? S.box[2] : 1.42)) - (o.seated ? Math.round(S.legLen * u) : 0);
     // crop the buffer to the visible part of the target canvas (+ margin)
@@ -879,7 +904,7 @@
       SOLIDC = SB.ctx;
       FACE = rec;
       EYES = [];
-      c.setTransform(u, 0, 0, u, lox, loy); if (o.seated) c.translate(0, S.legLen);
+      c.setTransform(u, 0, 0, u, lox, loy); if (o.seated) c.translate(0, S.legLen); else if (crouchU) c.translate(0, crouchU);
       R.layers[name](c);
       FACE = null;
       c.setTransform(1, 0, 0, 1, 0, 0);
@@ -891,14 +916,14 @@
     }
     rimLight(OUT, light, u, lwS, MK);
     if (o.fog) { OUT.ctx.globalCompositeOperation = 'source-atop'; OUT.ctx.fillStyle = K.rgba(o.fog[0], o.fog[1]); OUT.ctx.fillRect(0, 0, W, Hh); OUT.ctx.globalCompositeOperation = 'source-over'; }
-    if (rec) { const so0 = o.seated ? S.legLen : 0, h0 = R.info.head, mp = p => [x + p[0] * u - sx0, y + (p[1] + so0) * u - sy0];
+    if (rec) { const so0 = o.seated ? S.legLen : crouchU, h0 = R.info.head, mp = p => [x + p[0] * u - sx0, y + (p[1] + so0) * u - sy0];
       rec.body = bodyStats(OUT, sx0, sy0, { head: [...mp(h0), h0[2] * u], hands: [mp(R.info.hands.lead), mp(R.info.hands.trail)], ink: lwS * u, hand: (S.arm.hand || 0.027) * 1.45 * u }); }
     if (o.shadow && !o.seated) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(o.shadowColor || '#3c2a52', o.shadow); K.ellipse(ctx, x, y, u * (S.shadowW || 0.16), u * 0.022); ctx.fill(); ctx.restore(); }
     ctx.drawImage(OUT.c, sx0, sy0);
     if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } if (rec.lens) { rec.lens[0] += sx0; rec.lens[1] += sy0; } rec.alpha = ctx.globalAlpha; LOG.push(rec); }
-    const so = o.seated ? S.legLen : 0, hi = R.info.head, hx = x + hi[0] * u, hy = y + (hi[1] + so) * u, hr = hi[2] * u;
+    const so = o.seated ? S.legLen : crouchU, hi = R.info.head, hx = x + hi[0] * u, hy = y + (hi[1] + so) * u, hr = hi[2] * u;
     if (rec) { rec.head = [hx, hy, hr]; rec.foot = [x, y]; rec.seated = !!o.seated; }
-    const ex = (o.extras || C.EXPR[o.expr]?.extras || []);
+    const ex = (o.extras || C.exprMix(o.expr, o.exprBlend).extras || []);
     for (const e of ex) K.char.extra(ctx, hx, hy - hr * 0.2, hr * (S.extraK || 1.0), e, o.t || 0, { ink: '#24161a' });
     const map = p => [x + p[0] * u, y + (p[1] + so) * u];
     return { head: [hx, hy, hr], hands: { lead: map(R.info.hands.lead), trail: map(R.info.hands.trail) }, top: y + (R.info.top + so) * u };
@@ -906,8 +931,8 @@
 
   // where the hands/head WOULD be for a pose (no drawing): props like the steering wheel stay put while the hands act
   C.probe = function (id, x, y, u, o = {}) {
-    if (C.ALIAS[id]) id = C.ALIAS[id]; const S = C.SPECS[id], view = o.view || 'front', s = TURN[view] ?? 0, dir = o.dir || 1;
-    const R = biped(S, Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: String(view).startsWith('back') })), so = o.seated ? S.legLen : 0;
+    if (C.ALIAS[id]) id = C.ALIAS[id]; const S = C.SPECS[id], view = o.view || 'front', s = TURN[view] ?? (typeof view === 'number' ? view : 0), dir = o.dir || 1;
+    const R = biped(S, Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: String(view).startsWith('back') })), so = o.seated ? S.legLen : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75));
     const map = p => [x + p[0] * u, y + (p[1] + so) * u];
     return { hands: { lead: map(R.info.hands.lead), trail: map(R.info.hands.trail) }, head: map(R.info.head) };
   };

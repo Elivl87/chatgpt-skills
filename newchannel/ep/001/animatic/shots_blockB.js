@@ -90,14 +90,16 @@
         draw(c, t, lt) {
           const ts = A.map(0, T0, 1)(t);
           let eO;
-          if (t < hit) { const k = K.clamp((t - g0) / (g1 - g0)), j = Math.min(turns.length - 1, Math.floor(k * turns.length));
-            eO = { view: turns[j][0], dir: turns[j][1], pose: 'point', expr: k < 0.5 ? 'determined' : 'curious', look: [0.9, 0], blink: 0 }; }
-          else if (t < hit + 0.45) eO = { view: 'front', pose: 'pointSelf', expr: 'surprised', blink: 0, tilt: 0.04 };
-          else if (t < hit + 0.85) eO = { view: 'q', dir: 1, pose: 'scratch', expr: 'sheepish', blink: 0 };
-          else eO = { view: 'q', dir: 1, pose: 'crossed', expr: 'annoyed', look: [0.6, 0.1], blink: blink(3, t) };
+          // the spin is a staged turn through 7 held key views (each ~0.4 s, pointing at the next car); after it the pose
+          // changes used to snap in one frame (point -> pointSelf -> scratch -> crossed): blended now (Guardian v3)
+          if (t < g1) { const k = K.clamp((t - g0) / (g1 - g0)), j = Math.min(turns.length - 1, Math.floor(k * turns.length));
+            eO = { view: turns[j][0], dir: turns[j][1], pose: 'point', ...A.ez(t, (g0 + g1) / 2, 'determined', 'curious'), look: [0.9, 0], blink: 0 }; }
+          else eO = Object.assign({ dir: 1, blink: t > hit + 0.95 ? blink(3, t) : 0 }, A.seq(t, [
+            [0, { view: 'q', pose: 'point', expr: 'curious', look: [0.9, 0], tilt: 0 }], [hit, { view: 'front', pose: 'pointSelf', expr: 'surprised', look: [0, 0], tilt: 0.04 }],
+            [hit + 0.45, { view: 'q', pose: 'scratch', expr: 'sheepish', look: [0, 0], tilt: 0 }], [hit + 0.85, { view: 'q', pose: 'crossed', expr: 'annoyed', look: [0.6, 0.1], tilt: 0 }]], 0.14));
           A.field(c, t, { simT: ts, frame: { z: 1.3, x: 960, y: 570 },
             chars: (cx) => {
-              K.cast.draw(cx, 'mila1', 1330, G - 10, 560, { view: 'q', dir: -1, pose: 'clipboard', expr: t > hit ? 'smug' : 'thinking', t, look: t > hit ? [-0.9, 0] : [0.2, 0.6], light: LF, shadow: 0.3, blink: blink(5, t) });
+              K.cast.draw(cx, 'mila1', 1330, G - 10, 560, { view: 'q', dir: -1, pose: 'clipboard', ...A.ez(t, hit + 0.1, 'thinking', 'smug'), t, look: t > hit ? [-0.9, 0] : [0.2, 0.6], light: LF, shadow: 0.3, blink: blink(5, t) });
               K.cast.draw(cx, 'eli1', 900, G + 6, 580, Object.assign({ t, light: LF, shadow: 0.3 }, eO));   // Guardian: was u 640 (Eli as tall as Mila side by side)
             } });
         },

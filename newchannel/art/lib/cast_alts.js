@@ -115,7 +115,7 @@
   // the apron skirt (front: over the jeans; back 3/4: the far edge peeking past the body, drawn before the legs)
   function apronSkirt(c, B, sbx, pocket) {
     const s = B.s, d = B.dir, sway = Math.sin(B.t * 1.9 + 0.7) * 0.006 - B.drag * 0.02 * d;
-    const w0 = 0.085 * (1 - 0.55 * s), w1 = 0.09 * (1 - 0.5 * s), y0 = B.Tbot + 0.012, y1 = B.seated ? B.Tbot + 0.07 : -B.S.legLen * 0.52;
+    const w0 = 0.085 * (1 - 0.55 * s), w1 = 0.09 * (1 - 0.5 * s), y0 = B.Tbot + 0.012, y1 = B.seated ? B.Tbot + 0.07 : -B.S.legLen * 0.52 - (B.crouch || 0) * 0.85;   // crouched: the skirt rides up (never through the floor)
     c.fillStyle = APRON; c.strokeStyle = INK; c.lineWidth = B.lw * 2; c.lineJoin = 'round';
     if (B.seated && B.s > 0.85) return;   // profile seated: the thigh runs forward, the flap reads as a stray tab
     c.beginPath(); c.moveTo(sbx - w0, y0 - (pocket ? 0 : 0.03)); c.lineTo(sbx + w0, y0 - (pocket ? 0 : 0.03)); c.lineTo(sbx + w1 + sway, y1 - 0.01); c.quadraticCurveTo(sbx + w1 + sway, y1, sbx + w1 - 0.01 + sway, y1); c.lineTo(sbx - w1 + 0.01 + sway, y1); c.quadraticCurveTo(sbx - w1 + sway, y1, sbx - w1 + sway, y1 - 0.01); c.closePath(); c.stroke(); c.fill();

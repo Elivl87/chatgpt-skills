@@ -173,8 +173,11 @@
       // C14 · «¡¿Que yo qué?!» — the giant balloon reaches Eli, with a doodle of him; he shoves it away
       shots.push({ id: 'C14_queyoque', start: tQue - 0.75, bg: 'line_eli2', focus: [880, 470], push: 0.035, pushDir: 1,
         draw(c, t, lt) {
-          const ts = sStop10 + 1.2, read = t < tQue - 0.05, shove = A.ramp(t, tQue + 0.1, 0.18);
-          const eO = read ? { pose: 'drive', expr: 'curious', look: [-0.2, -0.6], t } : { pose: 'open', expr: 'furious', look: [-0.2, -0.3], t, lean: 0.06, extras: ['anger'] };
+          // Guardian v3: drive -> open blended (it snapped the arms in one frame); the balloon is shoved away as the box
+          // pops in, so the shout box never lands on it / on the doodle of Eli
+          const ts = sStop10 + 1.2, shove = A.ramp(t, tQue - 0.1, 0.18);
+          const eO = Object.assign({ t, extras: t > tQue - 0.05 ? ['anger'] : [] }, A.seq(t, [[0, { pose: 'drive', expr: 'curious', look: [-0.2, -0.6], lean: 0 }],
+            [tQue - 0.05, { pose: 'open', expr: 'furious', look: [-0.2, -0.3], lean: 0.06 }]], 0.14));
           c.__t = t; let head = null;
           A.line(c, t, { simT: ts, camS: carCam(ELI, ts) + 0.6, pxm: 200,
             eli: (cx, sx, sy, s) => { const r = K.cast.crew2(cx, sx, sy, s, { driver: 'eli1', t, light: N, u: 2.7 * s, driverO: eO }); head = r.driver.head; } });

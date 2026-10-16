@@ -85,6 +85,31 @@
   // pose switches without pops (clothes / acting QC 2026-10-16): instead of «pose: t > T ? 'b' : 'a'» (one-frame jump of
   // arms, sleeves and straps) the pose blends a -> b over d seconds centred on T (or on a value crossing a threshold)
   A.pz = (t, T, a, b, d = 0.2) => { const k = K.clamp((t - (T - d / 2)) / d); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
+  // expression change without a one-frame snap (Guardian v3): the face eases a -> b over d seconds centred on T
+  A.ez = (t, T, a, b, d = 0.14) => { const k = K.clamp((t - (T - d / 2)) / d); return k <= 0 || a === b ? { expr: a } : k >= 1 ? { expr: b } : { expr: a, exprBlend: { expr: b, k: K.ease.sine(k) } }; };
+  // acting sequence (Guardian v3): keys = [[T, { pose, expr, view, look, lean, tilt, ... }], ...] in time order (the first T
+  // is ignored). Instead of an if / else chain that snaps pose, face and limbs in one frame, each boundary blends the
+  // pose (A.pz), the face (A.ez), numeric fields (lean, tilt, headTurn, look) and front / 3/4 / profile views over d s.
+  const TURNV = { front: 0, q: 0.55, side: 1 };
+  A.seq = function (t, keys, d = 0.2) {
+    let i = 0; while (i + 1 < keys.length && t >= keys[i + 1][0]) i++;
+    let a = i, b = i, k = 0;
+    if (i + 1 < keys.length && t > keys[i + 1][0] - d / 2) { b = i + 1; k = (t - (keys[b][0] - d / 2)) / d; }
+    else if (i > 0 && t < keys[i][0] + d / 2) { a = i - 1; k = (t - (keys[i][0] - d / 2)) / d; }
+    const A0 = keys[a][1], B0 = keys[b][1];
+    if (a === b || k <= 0) return Object.assign({}, A0);
+    if (k >= 1) return Object.assign({}, B0);
+    const e = K.ease.sine(K.clamp(k)), o = Object.assign({}, e < 0.5 ? A0 : B0);
+    const pa = A0.pose || 'stand', pb = B0.pose || 'stand';
+    o.pose = pa; o.blend = pa === pb ? null : { pose: pb, k: e };
+    if ((A0.expr || 'neutral') !== (B0.expr || 'neutral')) { o.expr = A0.expr || 'neutral'; o.exprBlend = { expr: B0.expr || 'neutral', k: e }; }
+    for (const f of ['lean', 'tilt', 'headTurn']) if (f in A0 || f in B0) o[f] = K.lerp(A0[f] || 0, B0[f] || 0, e);
+    if (A0.look || B0.look) { const la = A0.look || [0, 0], lb = B0.look || [0, 0]; o.look = [K.lerp(la[0], lb[0], e), K.lerp(la[1], lb[1], e)]; }
+    const va = A0.view || 'front', vb = B0.view || 'front';
+    if (va !== vb && (A0.dir || 1) === (B0.dir || 1) && (TURNV[va] ?? (typeof va === 'number' ? va : null)) !== null && (TURNV[vb] ?? (typeof vb === 'number' ? vb : null)) !== null)
+      o.view = K.lerp(TURNV[va] ?? va, TURNV[vb] ?? vb, e);
+    return o;
+  };
   A.pzv = (v, th, a, b, w = 0.16) => { const k = K.clamp((v - (th - w / 2)) / w); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
 
   // ------------------------------------------------------------------ overlays (screen space, design units)
@@ -102,8 +127,9 @@
       const r = d0.call(this, ctx, id, x, y, u, o);
       const v = String(o.view || 'front');
       if (A._autoBadge && (id === 'eli1' || id === 'eli') && !o.noBadge && !v.startsWith('back') && v !== 'side' && K.props && K.props.badgeCard && r && r.head && r.head[2] > 0) {
-        const pose = (o.blend && o.blend.k > 0.5) ? o.blend.pose : (o.pose || 'stand');
-        K.props.badgeCard(ctx, r.head, u, 0, ctx.globalAlpha, !!HIGH[pose]);
+        // the card slides between its two heights with the pose blend (it used to jump at k = 0.5: Guardian v3)
+        const hA = HIGH[o.pose || 'stand'] ? 1 : 0, hB = o.blend ? (HIGH[o.blend.pose] ? 1 : 0) : hA;
+        K.props.badgeCard(ctx, r.head, u, 0, ctx.globalAlpha, K.lerp(hA, hB, o.blend ? K.clamp(o.blend.k) : 0));
       }
       return r;
     };

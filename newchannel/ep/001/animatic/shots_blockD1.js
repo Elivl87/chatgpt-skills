@@ -9,7 +9,7 @@
   P.badgeCard = function (ctx, head, u, droop = 0, a = 1, high = false) {
     if (a <= 0.01 || !head) return;
     // high: pinned on the upper bib, above crossed arms (Guardian: with the arms crossed the card lay over the forearms)
-    const x = head[0] + u * 0.01, y = head[1] + u * (high ? 0.155 : 0.24), w = u * 0.11, h = u * 0.075;
+    const x = head[0] + u * 0.01, y = head[1] + u * K.lerp(0.24, 0.155, +high)   /* high may be fractional: it follows a pose blend (Guardian v3) */, w = u * 0.11, h = u * 0.075;
     ctx.save(); ctx.globalAlpha = a; ctx.translate(x - w / 2, y); ctx.rotate(droop * 1.1);
     ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = '#2a1a1e'; ctx.lineWidth = Math.max(1.5, u * 0.004); K.rrect(ctx, 0, 0, w, h, h * 0.15); ctx.fill(); ctx.stroke();
     // the same card as in the glovebox gag (block E2): its three lines of text when big enough to read, ink bars below that

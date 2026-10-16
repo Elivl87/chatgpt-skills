@@ -201,8 +201,11 @@
         let x = K.lerp(2300 + k * 600, stopX, K.ease.out(u)); if (leave > 0) x -= Math.pow(Math.max(0, t - leave - k * 0.15), 2) * 900;
         return { x, col: '#e2b04a', seed: k + 3, route: '3', puff: K.clamp((t - arr) / 0.6) * (t < arr + 0.6 ? 1 : 0), door: A.ramp(t, arr + 0.4, 0.2) }; });
       const duo = (c, t, GY, SEAT, eO, mO, o = {}) => {
-        const rM = K.cast.draw(c, 'mila1', o.mx ?? 380, o.mSeat ? SEAT + 10 : GY, o.u ?? 520, Object.assign({ view: 'q', dir: 1, pose: 'crossed', expr: 'neutral', t, light: FRONTLIT, blink: milaBlink(t), seated: !!o.mSeat }, mO));
-        const rE = K.cast.draw(c, 'eli1', o.ex ?? 600, o.eFeet ?? (o.eSeat ? SEAT + 10 : GY), o.u ?? 540, Object.assign({ view: 'q', dir: -1, pose: 'hips', expr: 'annoyed', t, light: FRONTLIT, blink: eliBlink(t), seated: !!o.eSeat }, eO));
+        const rM = K.cast.draw(c, 'mila1', o.mx ?? 380, o.mSeat ? SEAT + 10 : GY, o.u ?? 520, Object.assign({ view: 'q', dir: 1, pose: 'crossed', expr: 'neutral', t, light: FRONTLIT, blink: milaBlink(t), seated: !!o.mSeat, legs: !!o.mSeat }, mO));   // Guardian v3: seated on the open bench WITH legs (they were missing)
+        // o.eRise (0..1, Guardian v3): Eli gets up from the bench continuously (crouch from the seat height, feet on the floor)
+        const eu = o.u ?? 540, er = o.eRise || 0, eL = K.cast.SPECS[K.cast.ALIAS.eli1 || 'eli1'].legLen, hs = (GY - SEAT - 10) / eu;
+        const rE = er > 0.002 && !o.eFeet ? K.cast.draw(c, 'eli1', o.ex ?? 600, GY, eu, Object.assign({ view: 'q', dir: -1, pose: 'hips', expr: 'annoyed', t, light: FRONTLIT, blink: eliBlink(t), seated: false, crouch: (1 - er) * Math.max(0, eL - hs), crouchFwd: 1 - er }, eO))
+          : K.cast.draw(c, 'eli1', o.ex ?? 600, o.eFeet ?? (o.eSeat ? SEAT + 10 : GY), eu, Object.assign({ view: 'q', dir: -1, pose: 'hips', expr: 'annoyed', t, light: FRONTLIT, blink: eliBlink(t), seated: !!o.eSeat, legs: !!o.eSeat }, eO));
         return { rE, rM }; };
       const watch = (c, t, a) => P.thought(c, 760, 230, 170, 130, a, cx => { cx.fillStyle = '#fbf3e4'; cx.strokeStyle = '#2a1a1e'; cx.lineWidth = 6; K.circle(cx, 0, 0, 44); cx.fill(); cx.stroke();
         cx.beginPath(); cx.moveTo(0, 0); cx.lineTo(0, -32); cx.moveTo(0, 0); const an = t * 4; cx.lineTo(Math.cos(an) * 26, Math.sin(an) * 26); cx.stroke(); });
@@ -224,13 +227,16 @@
       const tSit = tQ2E + 1.4, tLeave = tSit + 0.3;
       const cards = c => { c.save(); c.setLineDash([16, 12]); c.strokeStyle = K.rgba('#fbf3e4', 0.35); c.lineWidth = 4; K.rrect(c, 1100, 150, 680, 383, 18); c.stroke(); K.rrect(c, 1100, 580, 680, 383, 18); c.stroke(); c.restore(); };
       const endShot = (id, start, o) => shots.push({ id, start, bg: 'busstop_end_' + id, focus: o.focus || [700, 560], push: 0.02, pushDir: o.dir || 1, post: { grain: 0.12, vignette: 0.35, vignetteColor: '#3a2030', bloom: 0.18 },
-        over: cards, draw(c, t, lt) { const stand = o.stand ? o.stand(t) : false; A.busStop(c, t, { chars: (cx, GY, SEAT) => duo(cx, t, GY, SEAT, o.eO(t), o.mO(t), { eSeat: !stand, mSeat: true, mx: 360, ex: 610 }), buses: o.buses ? o.buses(t) : buses(t, tLeave), bird: o.bird ? (cx, x, y) => o.bird(cx, x, y, t) : null }); },
+        over: cards, draw(c, t, lt) { const rise = o.rise ? o.rise(t) : 0; A.busStop(c, t, { chars: (cx, GY, SEAT) => duo(cx, t, GY, SEAT, o.eO(t), o.mO(t), { eSeat: rise <= 0.002, eRise: rise, mSeat: true, mx: 360, ex: 610 }), buses: o.buses ? o.buses(t) : buses(t, tLeave), bird: o.bird ? (cx, x, y) => o.bird(cx, x, y, t) : null }); },
         cues: o.cues });
       endShot('K04_sit', tSit, { eO: t => ({ pose: 'crossed', expr: 'grumpy', look: [-0.6, 0.1] }), mO: t => ({ pose: 'sit', expr: 'happy', look: [0.7, 0] }), cues: A => [{ t: tLeave + 0.2, kind: 'whoosh_up' }] });
       // a fourth bus goes by without stopping: Eli jumps up waving, it is gone, he sits back down
-      const tBy = tSit + 4.5, inBy = t => t > tBy - 0.2 && t < tBy + 1.9;
-      endShot('K05_late', tSit + 4.0, { focus: [620, 520], dir: -1, stand: inBy,
-        eO: t => (inBy(t) ? { pose: 'wave', view: 'front', expr: 'worried', look: [0.8, 0] } : { pose: 'sit', expr: t > tBy ? 'sheepish' : 'annoyed', look: [0.8, -0.3] }),
+      // Guardian v3: he used to pop from sitting to standing (and back) in one frame; he now gets up and sits back down
+      // over 0.25 s / 0.3 s (crouch), the arm blends into the wave and the face eases
+      const tBy = tSit + 4.5, byRise = t => A.pulse(t, tBy - 0.3, 0.25, 1.95, 0.3);
+      endShot('K05_late', tSit + 4.0, { focus: [620, 520], dir: -1, rise: byRise,
+        eO: t => A.seq(t, [[0, { pose: 'sit', view: 'q', expr: 'annoyed', look: [0.8, -0.3] }], [tBy - 0.15, { pose: 'wave', view: 'front', expr: 'worried', look: [0.8, 0] }],
+          [tBy + 2.05, { pose: 'sit', view: 'q', expr: 'sheepish', look: [0.8, -0.3] }]], 0.25),
         mO: t => ({ pose: 'sit', expr: t > tBy + 0.6 ? 'laugh' : 'neutral', look: [0.8, 0] }),
         buses: t => [{ x: K.lerp(2300, -900, K.clamp((t - tBy) / 1.4)), col: '#e2b04a', seed: 9, route: '3' }],
         cues: A => [{ t: tBy + 0.3, kind: 'whoosh_up' }, { t: tBy + 1.0, kind: 'minor' }] });
