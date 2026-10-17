@@ -26,3 +26,8 @@
   a visual beat every 60–90 s, no section transferable to another game; 8–10 min only if every block earns it.
 - Shorts: 20–25 s, frame 0 = face + icon + conflict; pinned comment + related video to the episode.
 - Critics checked against real stay rate / retention after publishing.
+
+## 2026-10-17 · Music: the Producer's favourite cue confirmed
+- Producer: the viral Renoir-fight track he loves is **"Une vie à t'aimer"** (confirmed). It is the heart of the
+  music map: the climb into grief → letting go, ending in silence before the motto's final appearance.
+  The "Renoir" slot in the music maps is the father's theme ("Renoir"), separate from this cue.
