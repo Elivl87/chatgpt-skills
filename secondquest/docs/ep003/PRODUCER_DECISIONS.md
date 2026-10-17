@@ -124,3 +124,5 @@
 - Locks: "So, why?" stays; final line "How to say 'I miss you'… without ever having to say it." stays; internal thesis
   "Fishing is the excuse. Friendship is the point." is NOT narrated. Bram re-record only H8; credit hard cap 2.5;
   reuse first, no new art.
+- Bram H8 recorded: 1 take, **0.3 credits** (job fd0e91ce), `audio/bram/ep003/B01b_H8.mp3` (5.07 s, −19.6 LUFS vs B01 −19.2).
+  Balance after: 9.25. Cap 2.5 → 2.2 left for this revision.
