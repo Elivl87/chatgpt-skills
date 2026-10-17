@@ -233,8 +233,8 @@ ES: Ese es el número de la torre. Esa es Sophie en el puerto.
 **¶57** EN: To save the family he still had, he was destroying what was left of the son he lost.  
 ES: Para salvar a la familia que todavía tenía, estaba destruyendo lo que quedaba del hijo que perdió.
 
-**¶58** EN: Even the man on the cliff called it a kindness. The game has taken away the one thing grief made easy. A villain.  
-ES: Hasta el hombre del acantilado lo llamó un acto de bondad. El juego te quitó lo único que el duelo hacía fácil. Un villano.
+**¶58** EN: Even the man on the cliff called it a kindness. So the game takes away the one thing that makes grief easy. A villain.  
+ES: Hasta el hombre del acantilado lo llamó un acto de bondad. Así que el juego te quita lo único que hace fácil el duelo. Un villano.
 
 
 ### G · Dos hermanos · paso 8
@@ -254,8 +254,8 @@ ES: Lo que ella pide no es egoísta. Al final de todo, lo dirá así: “Esta vi
 **¶63** EN: And Verso isn't the real son. He's a painted version, carrying the real Verso's memories. The painting itself still holds a piece of the real Verso's soul.  
 ES: Y Verso no es el hijo de verdad. Es una versión pintada que lleva los recuerdos del Verso real. La propia pintura todavía guarda una parte del alma del Verso real.
 
-**¶63b** EN: If a person was painted... does that make their pain hurt less?  
-ES: Si una persona fue pintada... ¿eso hace que su dolor duela menos?
+**¶63b** EN: If a person was painted... is their pain any less real?  
+ES: Si una persona fue pintada... ¿su dolor es menos real?
 
 **¶64** EN: And the Verso travelling with you wants the cycle to end. His answer is even shorter. "I don't want this life."  
 ES: Y el Verso que viaja contigo quiere que el ciclo termine. Su respuesta es todavía más corta. “No quiero esta vida.”
