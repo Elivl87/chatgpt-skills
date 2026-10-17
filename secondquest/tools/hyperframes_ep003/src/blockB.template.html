@@ -187,7 +187,7 @@
           <div id="waterLine" style="opacity: 0"></div>
           <div id="waves"></div>
           <!-- "alone": Quest, full figure, in the light -->
-          <div id="questSolo"><img src="assets/quest_wave.png" alt="" /></div>
+          <div id="questSolo"><img src="assets/quest_cartridge.png" alt="" /></div>   <!-- "a game you play alone": holding his game, not waving -->
           <!-- "Everyone in the boat": the four friends SEATED in the hull, full figures (the hook's two-pass boat and
                in-boat layers at 1.5x), the game boxes landing in their hands on "their own copy" -->
           <div id="boatFrame" class="full">
@@ -502,7 +502,7 @@
       // v3.3.1: the reel is already rolling when it appears (never reads "00,000,000")
       const REEL = T.ten - .05 - (T.one - .05);
       reelDigits.slice().reverse().forEach((d, i) => tl.fromTo(d.strip, { y: -172 * 7 }, { y: -172 * d.stops, duration: REEL - i * .05, ease: "power2.out" }, T.one - .05 + i * .05));
-      tl.fromTo("#nums", { scale: 1 }, { scale: 1.05, duration: T.because - T.ten, ease: "sine.inOut", transformOrigin: "50% 55%", immediateRender: false }, T.ten);   // slow push on the 10,000,000+ hold
+      tl.fromTo("#nums", { scale: 1 }, { scale: 1.08, duration: T.because - T.ten, ease: "sine.inOut", transformOrigin: "50% 55%", immediateRender: false }, T.ten);   // a visible push on the 10,000,000+ hold
       tl.set("#plus", { opacity: 0 }, 0);
       tl.fromTo("#plus", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: .55, ease: "elastic.out(1.2, .4)", immediateRender: false }, T.ten + .2);
       tl.fromTo("#big", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: .08 }, { scale: 1, duration: .6, ease: "elastic.out(1, .35)" }], immediateRender: false }, T.ten);
@@ -527,9 +527,11 @@
       tl.to("#pool", { x: 0, opacity: 1, duration: .9, ease: "power2.out" }, T.because + .05);
       dusts.forEach((d, i) => tl.fromTo(d, { y: 0, x: 0 }, { y: -40 - (i % 4) * 12, x: (i % 2 ? 10 : -10), duration: 6, ease: "none" }, T.because));
       tl.fromTo("#questSolo", { scale: .94, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: "back.out(2)" }, T.because - .02);
-      // "alone": the light narrows on him, the camera leans in
-      cam("#pushStage", T.alone - .1, 1.3, focus(640, 370, 1.26), "power2.out");
-      tl.fromTo("#spot .cone", { scaleX: 1 }, { scaleX: .7, duration: 1.2, ease: "sine.inOut", transformOrigin: "50% 0%" }, T.alone + .1);
+      // a visible push on Quest from "Because" to "alone" (about 10 %), then "alone": the light narrows by half
+      cam("#pushStage", T.because, T.alone - T.because, focus(640, 372, 1.23), "sine.inOut");
+      cam("#pushStage", T.alone, T.everyone - T.alone - .1, focus(640, 366, 1.28), "power2.out");
+      tl.fromTo("#spot .cone", { scaleX: 1 }, { scaleX: .5, duration: .6, ease: "power2.inOut", transformOrigin: "50% 0%" }, T.alone);
+      tl.fromTo("#pool", { scaleX: 1 }, { scaleX: .55, duration: .6, ease: "power2.inOut", transformOrigin: "50% 50%", immediateRender: false }, T.alone);
       // "Everyone": the stage lights come up on the four of them seated in the boat (a camera kick on the change)
       tl.set("#boatFrame", { opacity: 0 }, 0);
       tl.set("#boatFrame", { opacity: 1 }, T.everyone - .05);

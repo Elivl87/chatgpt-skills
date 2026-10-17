@@ -1,6 +1,22 @@
 {
-  "room_night.png": ["public/art/core/backgrounds/living_room_night_gaming.png", 1080],
-  "quest_phone.png": ["public/art/core/quest/phone_overwhelmed.png", 1000],
-  "quest_wave.png": ["docs/art_orders/quest/library_v2/results/01_wave_happy.png", null],
-  "pixie_wave.png": ["docs/art_orders/pixie/library/results/01_wave_happy.png", 1024]
+ "room_night.png": [
+  "public/art/core/backgrounds/living_room_night_gaming.png",
+  1080
+ ],
+ "quest_phone.png": [
+  "public/art/core/quest/phone_overwhelmed.png",
+  1000
+ ],
+ "quest_wave.png": [
+  "docs/art_orders/quest/library_v2/results/01_wave_happy.png",
+  null
+ ],
+ "pixie_wave.png": [
+  "docs/art_orders/pixie/library/results/01_wave_happy.png",
+  1024
+ ],
+ "quest_cartridge.png": [
+  "docs/art_orders/quest/library_v2/results/08_holding_cartridge.png",
+  null
+ ]
 }

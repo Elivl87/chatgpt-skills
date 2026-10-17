@@ -236,7 +236,7 @@
             <div id="fish5Host"></div>
             <div id="wow" class="abs" style="left: 772px; top: 240px; width: 90px; height: 80px; opacity: 0"><svg width="90" height="80" viewBox="0 0 90 80" style="position: absolute; left: 0; top: 0; overflow: visible"><path d="M8 40 L24 30 M10 58 L26 52" stroke="#16161f" stroke-width="7" stroke-linecap="round"/><path d="M8 40 L24 30 M10 58 L26 52" stroke="#fff4dc" stroke-width="3.5" stroke-linecap="round"/></svg><div class="big" id="wowMark" style="position: absolute; left: 34px; top: 4px; font-size: 62px; -webkit-text-stroke: 4px var(--ink); text-shadow: 3px 4px 0 var(--ink); transform-origin: 50% 100%">!</div></div>
             <div id="fxSplash"></div>
-            <div id="title3"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3" data-hf-motion-blur='{"samplesPerFrame": 8}'>FISH<span id="strike"></span></span></div>
+            <div id="title3"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3">FISH<span id="strike"></span></span></div>
             <div class="mk" id="tut">Tutorial</div>
           </div>
           <div id="flies" class="full"></div>
@@ -623,6 +623,7 @@
       tl.set("#pixie", { x: -66 }, S5); tl.set("#quest", { x: -96 }, S5); tl.set(["#lantern", "#poolBoat", "#poolWater"], { x: -70 }, S5);
       tl.set(["#lantern", "#poolBoat", "#poolWater"], { x: 0 }, 0);
       [GA, GB].forEach((f, i) => f.blinks(tl, Q.boat + 1, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
+      window.__timelines = window.__timelines || {};   // (the frame critic's seek harness has no registry)
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->

@@ -714,6 +714,7 @@
       // in the boat at the punch-in framing, "HOW TO FISH" already up, the unimpressed fish at the edge. "A boat / A rod /
       // A lot of fish" are camera moves on that shot (no empty-lake build-up).
       cam(0, 0, focus(700, 425, 1.5, 0, 10));
+      cam(0, 3.1, focus(705, 420, 1.58, 0, 10), "sine.inOut");                         // a very slow push until "A boat."
       tl.set("#rod", { y: 0, rotation: -26, transformOrigin: "50% 100%", opacity: 1 }, 0);
       tl.set("#linePath", { strokeDasharray: 1600, strokeDashoffset: 1600 }, 0);
       MATES.forEach((m) => tl.set(`${m} .pop`, { y: 0 }, 0));
@@ -825,7 +826,7 @@
       cam(25.95, 0, focus(640, 420, 1.2, 0, -30));
       cam(25.95, 4.6, focus(640, 430, 1.0, 0, -90), "power1.inOut");
       fleet.forEach((f, i) => { const dist = Math.hypot(f.x - 640, (f.y - 470) * 3) / 900;
-        tl.fromTo(f.inn, { y: 40 * f.sc + 10, scale: .4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .5, ease: "power2.out", transformOrigin: "50% 100%" }, 25.95 + .15 + dist * 1.5);
+        tl.fromTo(f.inn, { y: 40 * f.sc + 10, scale: .4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .5, ease: "power2.out", transformOrigin: "50% 100%" }, 25.95 + dist * 1.5);   // the first boats pop on "millions"
         tl.fromTo(f.bob, { y: -3 * f.sc * 2, rotation: -1.5 }, { y: 3 * f.sc * 2, rotation: 1.5, duration: 1.2 + R() * .9, ease: "sine.inOut", yoyo: true, repeat: 5, transformOrigin: "50% 90%" }, 25.95 + R() * .5); });
       tl.set(fleet.map((f) => f.inn), { opacity: 0 }, 0);
       // "To do everything else." - card slams, chaos in the boats

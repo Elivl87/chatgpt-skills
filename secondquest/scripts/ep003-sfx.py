@@ -97,6 +97,12 @@ def synth(name):
             out[i:i + 512] = ss.lfilter(b, a_, n[i:i + 512])
         env = np.minimum(1, t / .02) * np.exp(-t * (6 if base == 'zip' else 10))
         return (out * env / (np.abs(out).max() + 1e-9)).astype(np.float32)
+    if base == 'roomtone':                                               # a quiet room: soft low noise, no gaps (v3.3.1)
+        L = int(8 * SR); n = rng.standard_normal(L)
+        b, a_ = ss.butter(2, [60 / (SR / 2), 700 / (SR / 2)], 'band'); x = ss.lfilter(b, a_, n)
+        x = x / np.sqrt(np.mean(x ** 2)) * .1                            # -20 dBFS RMS before the bed gain
+        f = int(.5 * SR); x[:f] = x[:f] * np.linspace(0, 1, f) + x[-f:] * np.linspace(1, 0, f); x = x[:-f]   # seamless loop
+        return x.astype(np.float32)
     if base == 'swell':                                                  # water rising: low noise swell + the water loop
         x = load('water')[:int(1.4 * SR)]
         L = len(x); t = env_t(L)
@@ -261,7 +267,7 @@ def cues():
     a(HK(10.2), 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|falling|stones;dark=4500', -22, -.15, why='SLAP: body layer')
     a(T('h06.w1') + .16, 'pk:pop;not_match=Mouth|bubble|3pops', -20, -.15, why='first "Bought." sticker punches in')
     a(T('h06.w2') + .16, 'pk:pop;not_match=Mouth|bubble|3pops;pitch=2.5', -19, .15, why='second "Bought." (pitched between the first and the third)')
-    a(T('h06.w3') + .16, 'coins1', -18, why='third "Bought." (biggest kick): everyone paid')
+    a(T('h06.w3') + .16, 'coins1', -15, why='third "Bought." (biggest kick, the loudest of the three): everyone paid')
     a(T('h07.w12'), 'drain', -24, why='"not": the dots vanish, Leo greys out')
     a(T('h08.w4'), 'pk:pop;not_match=Mouth|Pop_|pop\\d|3pops', -24, P(850), why='H8: Leo\'s "I\'ll get it later." bubble pops up out of his empty place')
     a(HK(28.12), 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|Punch|falling|stones;dark=4500', -18, why='"To do everything else." card slams')
@@ -557,8 +563,7 @@ def cues():
                 a(at, 'drip', -30 - 2 * k, .15)
     for k, x in (('l36.w18', 470), ('l36.w19', 690), ('l36.w20', 930)):   # three stickers slap on
         a(T(k) + .02, 'squish', -18, P(x - 200)); a(T(k) + .04, 'paper2', -28, P(x - 200))
-    for i in range(4):                                                # four friend discs pop
-        a(T('l36.w24') + i * .17 + .1, 'pop', -26, -.2 + i * .13)
+    # (v3.3.1: the four friend discs under the tag are gone, and their pops with them)
     a(T('l37.w1'), 'hud_off', -30)                                    # the discs leave
     gb = T('l37.w10')
     a(gb, 'tin', -17, .4); a(gb + .02, 'whoosh', -26, .45)            # "garbage": the lid flips off
@@ -708,7 +713,10 @@ def ambience():
 
 def rooms():
     """Other room tones: the doorway yard (wind), the 1 AM living room (TV hum)."""
-    return [('wind', T('l19.w13'), T('l19.w26'), -40), ('tvhum', T('l41') - .03, T('l42.w1') - .1, -42)]
+    # v3.3.1: a gapless room tone under the crickets (the cricket loop has ~0.1 s holes) and into block C's opening
+    return [('roomtone', T('h05.w1') - .12 - .3, T('h08.w1') - .1 + .3, -18), ('roomtone', B0['B'] - .3, T('b03.w11') + .1, -18),
+            ('roomtone', B0['C'] - .3, T('l13') + .3, -18),
+            ('wind', T('l19.w13'), T('l19.w26'), -40), ('tvhum', T('l41') - .03, T('l42.w1') - .1, -42)]
 
 
 # ---------------------------------------------------------------- mix

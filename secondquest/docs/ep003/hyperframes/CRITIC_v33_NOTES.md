@@ -34,3 +34,51 @@ Episode time unless marked. Narration v3.3 is unchanged (approved by the Produce
 - Sound floor (master, 0.25 s RMS, 0–61.7 s): nothing below −40 dBFS except the first 0.25 s (−40.4) and the "So, why?" rest (39.0–40.5 s, −42 to −54: the very low water bed).
 - `pacing_qc`: all PASS (19.9 cuts/min, average shot 2.98 s, longest 17.7 s, motion 0.85, 161 wpm).
 - Master −14.1 LUFS / −1.3 dBTP; 720p review −14.2 LUFS / −1.0 dBTP, 29.2 MB. Blackdetect finds only the designed F→G fade (292.7–294.0 s); luma around 272.233 s is steady (69→74).
+
+## v3.3.1 · block C pass + D–G lint sweeps (coordinator order, after the A–B pass)
+
+**Retention FIX (light), folded in (`CRITIC_RETENTION_v331_hook.md`):**
+- **53.5–58.3:**
+  - The push on the 10,000,000+ hold is now 8 %.
+  - From "Because" to "alone" there is a continuous push of about 10 % on Quest.
+  - On "alone" the light cone narrows to half, and its floor pool with it.
+  - Under "a game you play alone", Quest holds his game (library pose `08_holding_cartridge`) instead of waving.
+- **Beds:**
+  - The crickets loop has ~0.1 s holes, so a gapless synthesised room tone now lies under every room bed (the hook chat, block B's room and stage until "Everyone", and block C's opening up to l13).
+  - In the mix, 0–66 s, no 0.1 s window falls below −45 dBFS except the first 0.1 s and the "So, why?" rest. That covers the old dropouts at 25.37, 54.69 and 65.19–65.58.
+- **Cheap extras:**
+  - a very slow push from frame 0 to "A boat";
+  - the fleet starts popping on "millions";
+  - Leo's bubble greys out on "harder" (27.96);
+  - the third "Bought." is now the loudest of the three (−15 dB).
+
+**Block C (in scope), every error fixed. The 0.25 s `--lint` sweep of the whole block is 0 errors / 177 samples; 1/30 s ±0.5 s around every cut and title is 0 / 509.**
+- **Motion blur on readable text:** removed from the calendar pages (≈72 s), the scrolling "3 weeks later" chat (≈77–82 s), the clock + NOT IT stamp (≈87 s) and the $7.99 tag (≈105 s).
+- **Declared as designed** (stacked or layered by intent):
+  - the flip calendar's opaque stacked pages;
+  - the 3-weeks phone (rows scroll under the header, two Leo rows);
+  - the handwritten "Want to play?" (script letters touch);
+  - the $7.99 tag that stamps out "asking".
+
+**D–G 0.25 s `--lint` sweeps. All four are now at 0 errors (D 230, E 304, F 219, G 138 samples).**
+- D, E and G registered their timeline without creating the registry first, which the critic's seek harness needs. Fixed by a one-line init. The Hyperframes renderer was unaffected, so D needs no re-render.
+- **Motion blur removed from readable text:**
+  - E: the "Alibi props" list and the SOLD stamps;
+  - F: the FRIEND·SLOP sign and its stickers, and the June→August calendar with "#1";
+  - G: "FISH" in the closing title.
+- **F ≈247.7–253 s, portrait discs removed:** the four friend discs under the FRIENDSLOP sign were removed (a CHAR_BADGE error, the pattern the Producer rejected) together with their four pops in `ep003-sfx.py`.
+- **F 272.233 s:** the clip gap fixed earlier in this pass.
+- **Declared as designed:**
+  - D: the "$7.99 PAID" stamp on the message, the "JOB: silence" badge, the "ALIBIS" header type, NEWEST, and the chat phones (UI rows, repeated stickers).
+  - E: the game HUD's own digits and slot numbers, the GOAL tag with the ALIBI stamp, the Steam quote ("fish" twice), the polaroid table with "2031 · years later", and the years-later phone; the mini list worn by the fish is marked ignore (a 17 px prop).
+  - F: the stacked yearbook pages, the wall of identical chats, and the chat UI avatars.
+- **Re-rendered:** C, E, F, G (and A, B for the retention items). D unchanged.
+
+**Needs real redesign: proposed, not changed**
+
+| Time | Block | Issue | Proposal |
+|---|---|---|---|
+| ≈247.7–253 s (F 8.5–13.75) | F | "…built for playing with friends" now has no friends on screen (the discs were removed) | Bring the four friends in full figure on "playing" (the cheer poses already used around the trash can), instead of on "we" |
+| 109–115 s, 158–163 s (D) · 234–239 s (E) · 289–292 s (F) | D, E, F | The chat phones still use three older skins; only C's opening matches the hook's chat now | Move every EP003 phone onto `src/components/chat.html` (the hook's ChatPhone), with the same names, colours and stickers |
+| ≈109–115 s (D 4.25–9.75) | D | The "$7.99 PAID" stamp sits on the quoted message, so "It's eight dollars. Just get it." is partly covered (declared, but it hurts legibility) | Stamp the empty lower half of the phone, or scale the message up first |
+| ≈176–181 s (E 13–18) | E | The fish wearing the mini "Alibi props" list swims across the roulette and HUD numbers | Route the fish under the boat line, away from the HUD |

@@ -762,7 +762,7 @@
           <div id="ov" class="full">
             <div id="dim" class="full"></div>
             <!-- E1/E2 the list -->
-            <div id="list" data-hf-motion-blur='{"samplesPerFrame": 10}'><div id="listIn">
+            <div id="list" data-critic-allow-overlap="1">   <!-- v3.3.1: no motion blur on the handwritten list; shrunk onto the fish it is a prop --><div id="listIn">
               <div class="paper">
                 <svg class="grain" viewBox="0 0 589 372" preserveAspectRatio="none"><filter id="pg"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .3  0 0 0 0 .15  0 0 0 .55 0"/></filter><rect width="589" height="372" filter="url(#pg)"/></svg>
                 <div class="pin" style="left: 22px; top: 14px"></div><div class="pin" style="left: 546px; top: 18px"></div>
@@ -771,11 +771,11 @@
               <svg id="listUnder" viewBox="0 0 300 20"><path d="M2 12 C 70 4, 170 16, 296 7" fill="none" stroke="#b8321e" stroke-width="5" stroke-linecap="round"/></svg>
             </div></div>
             <!-- E3 shop board (our design, our prices) -->
-            <div id="board"><img src="assets/shop_board_front.png" alt="" style="position: absolute; left: 0; top: 0; width: 620px; height: 500px" /></div>
+            <div id="board" data-critic-allow-duplicate="1"><img src="assets/shop_board_front.png" alt="" style="position: absolute; left: 0; top: 0; width: 620px; height: 500px" /></div>
             <div id="wheelOv" class="wheel" style="left: 905px; top: 255px; width: 270px; height: 270px"></div>
             <div id="wallet"><img id="wHappy" src="assets/wallet_happy.png" alt="" /><img id="wWorried" src="assets/wallet_worried.png" alt="" /><img id="wFaint" src="assets/wallet_fainted.png" alt="" /></div>
             <!-- E3 the Steam quote, verbatim -->
-            <div id="quote">
+            <div id="quote" data-critic-allow-duplicate="1" data-critic-allow-overlap="1">   <!-- the Steam quote: "fish" twice in the text; the small "(no real money)." line slides in under it -->
               <div class="mk" id="qLabel">The developers' own description · Steam store page</div>
               <div id="qMark" class="big">&ldquo;</div>
               <div class="qline" style="top: 184px"><span class="qw big" id="q1">cartoon</span><span class="qw big red" id="q2">violence</span></div>
@@ -785,7 +785,7 @@
               <div id="qSmall"><span id="q9">(no real money).</span></div>
             </div>
             <!-- E4 the goal tag + the stamp -->
-            <div id="gTag"><div class="string"></div><div class="card"><div class="hole"></div><div class="l1">GOAL:</div><div class="l2 hand">catch fish</div><div id="gStrike"></div></div></div>
+            <div id="gTag" data-critic-allow-overlap="1">   <!-- the ALIBI stamp lands over GOAL by design --><div class="string"></div><div class="card"><div class="hole"></div><div class="l1">GOAL:</div><div class="l2 hand">catch fish</div><div id="gStrike"></div></div></div>
             <div id="alibi" class="stamp" style="left: 668px; top: 84px; font-size: 82px; padding: 4px 22px 0">ALIBI</div>
             <div id="failure" class="stamp" style="left: 330px; top: 60px; font-size: 140px">FAILURE.</div>
             <!-- E6 marks -->
@@ -821,20 +821,20 @@
             <img src="assets/slap_revive.png" alt="" style="position: absolute; left: -32px; top: -16px; width: 1344px; height: 752px" /></div></div>
 
           <!-- ================= INSERT: years later (E9) ================= -->
-          <div id="tbl" class="full"><div id="tblCam">
+          <div id="tbl" class="full" data-critic-allow-overlap="1"><div id="tblCam">   <!-- polaroids overlap on the table; "2031 / years later" lands over them; the phone slides over them -->
             <div id="tblWall"></div><div id="tblTop"></div><div id="tblLight"></div>
             <div id="pols"></div>
             <div id="tblDim"></div>
             <div id="years"><div id="yReel" class="big"></div></div>
             <div class="mk" id="yLater">years later</div>
           </div></div>
-          <div id="phoneSh" class="full"><div id="phoneWrap"></div></div>
+          <div id="phoneSh" class="full" data-critic-allow-overlap="1"><div id="phoneWrap"></div></div>
 
         </div></div></div></div></div>
       </div>
 
       <!-- ================= THE HUD (game world only: E3, E6, E7) ================= -->
-      <div id="hudL" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="3"></div>
+      <div id="hudL" data-critic-allow-overlap="1" data-critic-allow-duplicate="1" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="3"></div>
       <div id="flashL" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="4"><div id="flash" class="full" style="opacity: 0"></div></div>
     </div>
 
@@ -872,7 +872,7 @@
       const hat = mk("div", "abs", buddy, "left: 22px; top: -30px; width: 96px; height: 62px", `<div class="paper" style="border-radius: 4px"></div>` +
         `<div class="hand" style="position:absolute; left:8px; top:2px; font-size:17px; color:#3a2414; line-height:1">Alibi props:</div>` +
         `<div style="position:absolute; left:10px; top:22px; width:74px; height:3px; background:rgba(58,36,20,.45); box-shadow: 0 11px 0 rgba(58,36,20,.45), 0 22px 0 rgba(58,36,20,.45)"></div>`);
-      hat.id = "hat";
+      hat.id = "hat"; hat.setAttribute("data-critic-ignore", "1");   // the mini list worn as a hat: a prop at 17 px, not text to read
 
       // splash rigs (the hook's), with an optional freeze window (drops hold mid-air)
       function makeSplash(host, x, y, s) { const g = mk("div", "abs", host, `left:${x}px; top:${y}px; width:0; height:0`); const rings = [], drops = [];
@@ -1156,7 +1156,7 @@
       tl.fromTo(crate, { opacity: 1, y: 70 }, { y: 0, duration: .4, ease: "back.out(2)", ...IR }, {{l29.w12-0.15}});
       tl.to(crate, { y: 4, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 1 }, {{l29.w12+0.3}});
       const sold = mk("div", "fish", $("#fishFront"), "left: 0; top: 0; width: 110px; height: 68px", `<img src="assets/fish_side.png" alt="" style="transform: scaleX(-1)" />`);
-      sold.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+      sold.setAttribute("data-critic-allow-duplicate", "1");   // v3.3.1: no motion blur on the SOLD stamp text
       tl.set(sold, { opacity: 0, x: 520, y: 470 }, 0);
       tl.set(sold, { opacity: 1 }, {{l29.w13}});
       tl.to(sold, { x: 170, duration: .6, ease: "none" }, {{l29.w13}});
@@ -1565,6 +1565,8 @@
       MAX.talk(tl, {{l33.w22-0.25}}, {{l33.w22+0.95}}); LEO.talk(tl, {{l33.w22-0.2}}, {{l33.w22+1.1}});
       LEO.talk(tl, {{l34.w4+0.1}}, {{l34.w4+0.8}});
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
+      document.querySelectorAll("#phoneWrap .ch-av, #phoneWrap .ch-gav").forEach((e) => e.setAttribute("data-critic-ignore", "1"));   // chat UI pictures
+      window.__timelines = window.__timelines || {};   // (the frame critic's seek harness has no registry)
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->

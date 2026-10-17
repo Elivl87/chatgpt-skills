@@ -264,7 +264,7 @@
           <div id="stEdge"></div>
           <div id="spotF"><div class="cone"></div></div>
           <div id="poolF"></div>
-          <div id="tagF" data-hf-motion-blur='{"samplesPerFrame": 8}'>
+          <div id="tagF" data-critic-allow-overlap="1">   <!-- v3.3.1: no motion blur on the sign's words; CHEAP/CHAOTIC/CO-OP are stickers slapped onto it by design -->
             <div class="string"></div>
             <div id="flipper">
               <div class="tface" id="tBack"><div class="hole"></div>
@@ -310,7 +310,7 @@
             <svg id="ptHour" viewBox="0 0 60 70"><path d="M8 4 H52 M8 66 H52 M12 4 C 12 26, 30 30, 30 35 C 30 40, 12 44, 12 66 M48 4 C 48 26, 30 30, 30 35 C 30 40, 48 44, 48 66" fill="#fffaf0" stroke="#16161f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
               <path id="sandTop" d="M17 14 H43 C 40 24, 32 29, 30 33 C 28 29, 20 24, 17 14 Z" fill="#ffc83d"/><path id="sandBot" d="M30 50 C 22 54, 18 58, 16 62 H44 C 42 58, 38 54, 30 50 Z" fill="#ffc83d"/></svg>
           </div>
-          <div id="calRig" data-hf-motion-blur='{"samplesPerFrame": 6}'>
+          <div id="calRig" data-critic-allow-overlap="1" data-critic-allow-duplicate="1">   <!-- v3.3.1: no motion blur on the pages; torn-off pages stack by design -->
             <img src="assets/calendar.png" alt="" />
             <div id="calPages"></div>
             <div id="hit1"><svg viewBox="-65 -65 130 130"><polygon id="hitStar" points="" fill="#e5484d" stroke="#16161f" stroke-width="6" stroke-linejoin="round"/></svg><div class="t">#1</div></div>
@@ -408,7 +408,7 @@
       <div id="shotBook" class="full clip shot" data-start="{{l42.w1-0.12}}" data-duration="{{l42.end+0.2-l42.w1+0.12}}" data-track-index="4">
         <div class="cam" id="camBook"><div class="push" id="pushBook"><div class="kick" id="kickBook">
           <div id="desk"></div>
-          <div id="bookRig">
+          <div id="bookRig" data-critic-allow-overlap="1" data-critic-allow-duplicate="1">   <!-- opaque pages stacked under the open one -->
             <!-- page 3: the line bounces up into a fishing line; two stick friends in a boat -->
             <div class="page" id="pg3"><div class="tex"></div><div class="spine"></div>
               <svg class="dw" viewBox="0 0 1140 640">
@@ -464,7 +464,7 @@
         <div class="cam" id="camGrid"><div class="kick" id="kickGrid">
           <div id="gridBg"></div>
           <div class="push" id="pushGrid">
-            <div id="gridRig"><div id="minis"></div><div id="heroPhone"></div><div id="heroBadge">1</div></div>
+            <div id="gridRig" data-critic-allow-overlap="1" data-critic-allow-duplicate="1">   <!-- the wall of identical chats under the counter, by design --><div id="minis"></div><div id="heroPhone"></div><div id="heroBadge">1</div></div>
           </div>
         </div></div>
         <div id="pings"></div>
@@ -718,7 +718,9 @@
         return { g, x, len }; });
       const dropEls = drips.map((d) => mk("div", "dripdrop", $("#wSlop"), `left:${d.x * 220 / 220 - 6}px; top:${92 + d.len + 6}px`));
       // the four "with friends" avatar discs under the tag
-      const avDiscs = ["Q", "P", "A", "B"].map((k, i) => { const e = mk("div", "avd", $("#avRow"), `left:${118 + i * 96}px; top:${474}px; background:${MEM[k].color}`); e.innerHTML = avHTML(k); return e; });
+      // v3.3.1: the four portrait discs under the tag are gone (CHAR_BADGE, a Producer-rejected pattern); the friends
+      // appear full figure around the can on "we" as before
+      const avDiscs = [];
       const friendStars = [[96, 260], [190, 238], [306, 256]].map(([x, y]) => star4($("#flipper"), x, y - 236 + 60, 34, "#ffe08a"));
       // the friends who squeeze around the can (Max + Leo behind it, Pixie + Quest in front at its sides)
       const FR = {
@@ -1215,6 +1217,8 @@
       window.__timelines = window.__timelines || {};
       MAX.talk(tl, T.few + .05, T.few + 1.0); LEO.talk(tl, T.few + .1, T.few + 1.1);   // they laugh (lip-flap)
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
+      // chat UI pictures (notification group icon, phone avatars) are interface, not a character acting
+      document.querySelectorAll("#bnGav .avd, #shotGrid .ch-av, #shotGrid .avd").forEach((e) => e.setAttribute("data-critic-ignore", "1"));
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->

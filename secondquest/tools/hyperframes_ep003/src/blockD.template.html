@@ -1067,6 +1067,11 @@
         Gull(host, { w: 52, flip: true }).fly(tl, 0, T.l22 - .1, [[60, 200], [600, 186], [1100, 176], [1390, 166]], { flaps: [[.2, 1.0], [T.l22 - 1.6, T.l22 - .9]] });
         Gull(host, { w: 40 }).fly(tl, T.l24, T.l24 + 6, [[1380, 140], [980, 120], [560, 112], [-100, 96]], { flaps: [[T.l24, T.l24 + .9], [T.l24 + 3.6, T.l24 + 4.2]] }); }
       FRS.forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
+      // v3.3.1 critic sweep: deliberate overlaps declared - chat phones (UI rows under the header, the repeated "Bought."
+      // stickers), the $7.99 PAID stamp on the message it pays, the "JOB: silence" badge and "ALIBIS" header type, NEWEST
+      document.querySelectorAll(".phone").forEach((e) => { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); });
+      ["#stamp799", "#badge", "#hdr", "#newest", "#bphone", "#slot4"].forEach((q) => { const e = document.querySelector(q); if (e) { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); } });
+      window.__timelines = window.__timelines || {};   // (the frame critic's seek harness has no registry)
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->
