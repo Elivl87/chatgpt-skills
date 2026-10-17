@@ -175,7 +175,10 @@ def main():
         print(f'  rendered {f0 / fps:.2f}-{f1 / fps:.2f} s in {time.time() - t1:.0f} s')
     lst = HERE / f'renders/concat_{proj.name}.txt'
     lst.write_text(''.join(f"file '{p}'\n" for _, _, p in plan))
-    out = ROOT / f'docs/ep003/hyperframes/EP003_block{b}{Q["suffix"]}.mp4'
+    # rounds render outside git (renders/ is ignored): no half-done video in the working tree; copy the verified
+    # deliverable into docs/ once per round (Producer, 2026-10-17: resources)
+    out = HERE / f'renders/blocks/EP003_block{b}{Q["suffix"]}.mp4'
+    out.parent.mkdir(parents=True, exist_ok=True)
     sh(FF, '-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', str(lst), '-i', str(proj / 'assets' / ('narration_hook.wav' if b == 'A' else 'narration.wav')),
        '-map', '0:v', '-map', '1:a', '-fps_mode', 'passthrough', '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', '-pix_fmt', 'yuv420p',
        '-c:a', 'aac', '-b:a', '192k', str(out))      # decode + one encode: a stream-copy concat drops frames at the joins
@@ -185,7 +188,7 @@ def main():
     for old in cache.glob('*.mp4'):
         if old.name not in keep and not old.name.endswith('.part.mp4'):
             old.unlink()
-    print(f'-> {out.relative_to(ROOT)} ({frames_of(out)} frames) in {time.time() - t:.0f} s total')
+    print(f'-> {out.relative_to(HERE)} ({frames_of(out)} frames) in {time.time() - t:.0f} s total')
 
 
 if __name__ == '__main__':

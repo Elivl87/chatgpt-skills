@@ -133,3 +133,15 @@
     for the approved master.
   - **One session per episode:** start each episode (or a long fix phase) in a fresh session from a handoff doc
     (`docs/<ep>/HANDOFF_*.md`); long sessions cost more per turn and fill the disk.
+- **Token budget (Producer, 2026-10-17: "va un 30 % del plan semanal y no han pasado 24 h"):** the main session is
+  the expensive part (every turn re-reads its whole context), not the renders.
+  - **One short session per task** ("fix these boxes", "publish package", "render the master"), started from a handoff
+    of ≤ 1 page; end it when the task is delivered. Never run a whole episode in one session.
+  - **Director does small edits itself** (≤ ~30 lines, known file). **At most one builder agent at a time**, Sonnet, only
+    for a large self-contained chunk, with a precise brief (file, lines, windows, done-when) so it does not re-read the repo.
+  - **Critics only on the final round** of a deliverable, on the changed windows only; never per iteration.
+  - **No polling:** one background waiter that notifies at the end; no status checks while a render runs. Long render
+    chains go in one queued script (flock), started once.
+  - **Renders stay out of git until verified:** `scene_cache.py` writes blocks to `tools/hyperframes_ep003/renders/blocks/`
+    (ignored); only the verified deliverable is copied/committed, once per round. Delivered masters go to Releases.
+  - Read big files with targeted greps/line ranges, not whole; contact sheets of frames instead of many single frames.

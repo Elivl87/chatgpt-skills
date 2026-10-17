@@ -22,7 +22,8 @@ for b in ORDER:
     t0, t1 = span(b)
     if b == 'A':
         t1 = span('B')[0]                                   # the hook ends where block B starts
-    parts.append((D / f'EP003_block{b}.mp4', round(t1 - t0, 3)))
+    blk = HERE / f'renders/blocks/EP003_block{b}.mp4'              # scene_cache.py output (this round), else the versioned one
+    parts.append((blk if blk.exists() else D / f'EP003_block{b}.mp4', round(t1 - t0, 3)))
     total += t1 - t0
 inputs, flt = [], []
 for i, (p, dur) in enumerate(parts):
