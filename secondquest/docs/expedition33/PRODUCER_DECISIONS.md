@@ -31,3 +31,10 @@
 - Producer: the viral Renoir-fight track he loves is **"Une vie à t'aimer"** (confirmed). It is the heart of the
   music map: the climb into grief → letting go, ending in silence before the motto's final appearance.
   The "Renoir" slot in the music maps is the father's theme ("Renoir"), separate from this cue.
+
+## 2026-10-17 · v2.3 (Producer: "Sí, haz la v2.3 con esos ajustes")
+- Base: Producer's v2.2 (EN master candidate + ES review). Adjustments: ¶02 no time-of-day claim; ¶16 no Gustave
+  name (keeps the ¶18 reveal); ¶48b "fighting beside you"; ¶58 + "taken away… a villain" (Producer v2 line); "Canvas"
+  → "painting"; ¶63b "If a person was painted… does that make their pain hurt less?"; ¶79 + "He understood the answer
+  before we understood the question."; ¶88 "said one last goodbye"; ¶90 + "And what did you think you were saving?".
+  1,378 words ≈ 9:19 at 148 wpm (+ ~9.5 s planned silences).
