@@ -27,7 +27,7 @@ const fps = +fpsArg;
   await new Promise((r) => setTimeout(r, 1200));
   await page.evaluate(async () => { await Promise.all(Array.from(document.images).map((im) => im.decode().catch(() => {}))); });
   const dur = await page.evaluate(() => +document.querySelector('[data-composition-id]').getAttribute('data-duration'));
-  const n = Math.ceil(dur * fps - 1e-6);
+  const n = Math.ceil(dur * fps - 1e-3);
   await page.evaluate(() => {
     const P = ['opacity', 'visibility', 'display', 'transform', 'transform-origin', 'filter', 'backdrop-filter', 'clip-path',
       'mask-image', 'color', 'background-color', 'background-image', 'background-position', 'background-size', 'border-color',
@@ -41,7 +41,7 @@ const fps = +fpsArg;
     const h32 = (s, h = 0x811c9dc5) => { for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h; };
     window.__fp = () => {
       let h = 0x811c9dc5, h2 = 0x12345678;
-      const add = (s) => { h = h32(s, h); h2 = h32(s, h2 ^ 0x9e3779b9); };
+      const dbg = []; const add = (s) => { h = h32(s, h); h2 = h32(s, h2 ^ 0x9e3779b9); if (window.__fpDbg) dbg.push(s); };
       const srcs = new Set();
       for (const el of all) {
         if (!el.isConnected) continue;
@@ -50,7 +50,7 @@ const fps = +fpsArg;
         const r = el.getBoundingClientRect();
         let s = el.tagName + '|' + r.left.toFixed(2) + ',' + r.top.toFixed(2) + ',' + r.width.toFixed(2) + ',' + r.height.toFixed(2);
         for (const p of P) s += '|' + cs.getPropertyValue(p);
-        for (const nd of el.childNodes) if (nd.nodeType === 3) s += '|' + nd.textContent;
+        for (const nd of el.childNodes) if (nd.nodeType === 3 && nd.textContent.trim()) s += '|' + nd.textContent.replace(/\s+/g, ' ');   // whitespace-only nodes do not render
         if (el.tagName === 'IMG') { s += '|' + el.currentSrc; srcs.add(el.getAttribute('src')); }
         if (cs.backgroundImage.startsWith('url(')) srcs.add(cs.backgroundImage);
         for (const a of ['d', 'points', 'x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'transform', 'href', 'opacity', 'offset', 'stop-color'])
@@ -66,6 +66,7 @@ const fps = +fpsArg;
         for (const p of ['content', ...P]) s += '|' + cs.getPropertyValue(p); add(s); }
       const clips = Array.from(document.querySelectorAll('#root > .clip, [data-composition-id] > .clip'))
         .filter((c) => getComputedStyle(c).visibility !== 'hidden' && getComputedStyle(c).display !== 'none').map((c) => c.id || '?');
+      if (window.__fpDbg) window.__fpDbgOut = dbg;
       return { fp: h.toString(16).padStart(8, '0') + h2.toString(16).padStart(8, '0'), clips, srcs: Array.from(srcs) };
     };
   });

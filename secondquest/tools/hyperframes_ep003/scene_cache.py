@@ -18,7 +18,7 @@
    (draft: EP003_block<X>_480p.mp4, not versioned).
 The finish pass is static per frame and the composition is seek-safe, so a scene rendered alone equals the same frames
 of a whole-block render (proof: docs/ep003/hyperframes/SCENE_CACHE.md)."""
-import hashlib, json, os, re, shutil, subprocess, sys, time
+import hashlib, json, math, os, re, shutil, subprocess, sys, time
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -84,7 +84,7 @@ def scene_html(proj, t0, t1, dur):
     def shift(m):
         tag = m.group(0)
         if 'data-composition-id' in tag:
-            return tag.replace(m.group(1), f'data-start="0" data-duration="{round(t1 - t0, 4)}"')
+            return tag.replace(m.group(1), f'data-start="0" data-duration="{math.floor((t1 - t0) * 1e6) / 1e6}"')   # a hair under the last frame end
         s, d = float(m.group(2)), float(m.group(3))
         a, b = max(s, t0) - t0, min(s + d, t1) - t0
         if b <= a:
@@ -94,7 +94,7 @@ def scene_html(proj, t0, t1, dur):
     m = list(re.finditer(r'window\.__timelines\["main"\] = (\w+);', src))[-1]
     v = m.group(1)
     src = src[:m.start()] + (f'const __scene = gsap.timeline({{ paused: true }});   // scene_cache.py: this window only\n'
-                             f'      __scene.add({v}.tweenFromTo({t0}, {t1}, {{ duration: {round(t1 - t0, 6)}, ease: "none", immediateRender: false }}), 0);\n'
+                             f'      __scene.add({v}.tweenFromTo({t0!r}, {t1!r}, {{ duration: {t1 - t0!r}, ease: "none", immediateRender: false }}), 0);\n'
                              f'      window.__timelines["main"] = __scene;') + src[m.end():]
     return src
 
@@ -102,7 +102,7 @@ def scene_html(proj, t0, t1, dur):
 def render_scene(proj, f0, f1, fps, dur, dst):
     t0, t1 = f0 / fps, min(f1 / fps, dur)
     name = f'scene_{f0}_{f1}.html'
-    (proj / name).write_text(scene_html(proj, round(t0, 6), round(t1, 6), dur))
+    (proj / name).write_text(scene_html(proj, t0, t1, dur))
     raw = HERE / f'renders/raw_{proj.name}_{f0}.mp4'
     try:
         sh('hyperframes', 'render', '-c', name, '--fps', str(fps), '--quality', Q['hf'], '--crf', str(Q['crf']), '--workers', '4',
