@@ -304,7 +304,7 @@ def cues():
     a(T('l22.w3') + .06, 'stamp', -18, -.4, why='"solves": $7.99 PAID stamps the chat')
     a(T('l22.w10') + .07, 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|falling|stones;dark=4500', -18, -.4, why='"meet.": the green SOLVED check stamps on')
     a(T('l22.w11'), 'question', -24, .4, why='"what to do": the "?" pops over the empty boat')
-    a(T('l24.w39') - .45, 'pk:foley-water;not_match=slime|toilet|mud|Fizz|Drink;dark=4500', -22, -.35, why='the fish surfaces by the boat')
+    a(T('l24.w34') - .25, 'pk:foley-water;not_match=slime|toilet|mud|Fizz|Drink;dark=4500', -22, -.35, why='"fish": the fish surfaces by the bobber')
     a(T('l24.w44') + .02, 'place', -20, .2, why='"job.": the name badge clips onto the bubble')
     a(T('l25.w7') + .03, 'stamp', -16, why='"alibi": the ALIBIS header slaps onto the board')
     a(T('l25.w16') + .3, 'coins1', -22, .1, why='"poker night": the chip stack topples')
