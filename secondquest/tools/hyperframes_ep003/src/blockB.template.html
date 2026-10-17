@@ -75,6 +75,14 @@
       .av .disc svg { position: absolute; inset: 0; width: 100%; height: 100%; }
       .av .nm { position: absolute; left: -90px; top: -158px; width: 180px; text-align: center; }
       .av .nm span { display: inline-block; font: 800 22px/1 "Inter", sans-serif; color: #fff; padding: 7px 14px 6px; border-radius: 10px; border: 3px solid var(--ink); box-shadow: 3px 4px 0 var(--ink); letter-spacing: .02em; }
+      #questSolo { position: absolute; left: 495px; top: 176px; width: 289px; height: 430px; transform-origin: 50% 100%; }
+      #questSolo img { width: 100%; height: 100%; filter: brightness(.96) drop-shadow(0 0 14px rgba(255, 236, 190, .25)); }
+      #crewBoat { position: absolute; left: 56px; top: 450px; width: 620px; height: 145px; transform: scale(1.5); transform-origin: 0 0; }
+      #crewBoat .cbimg { position: absolute; left: 0; top: 9px; width: 620px; height: 136px; }
+      #crewClipB { position: absolute; left: -80px; top: -300px; width: 780px; height: 405px; overflow: hidden; }
+      .mate { position: absolute; bottom: -95px; width: 200px; height: 290px; }
+      .mate .pop, .mate .lean, .mate .breathe, .mate .sway { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+      .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center; filter: brightness(.95) drop-shadow(2px -1px 0 rgba(255, 230, 190, .6)); }
       #boatRig { position: absolute; left: 90px; top: 404px; width: 1100px; height: 242px; }
       #boatRig .bimg { position: absolute; left: 0; top: 0; width: 1100px; height: 242px; }
       #avs { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
@@ -82,13 +90,13 @@
       #boatFront img { width: 100%; height: 100%; }
       #waterLine { position: absolute; left: -120px; top: 600px; width: 1520px; height: 200px; background: linear-gradient(180deg, rgba(70, 80, 140, .0) 0%, rgba(50, 60, 120, .55) 30%, rgba(26, 28, 60, .9) 100%); }
       .wv { position: absolute; height: 3px; border-radius: 2px; background: rgba(200, 210, 255, .35); }
-      .gbox { position: absolute; left: -54px; top: -144px; width: 108px; height: 144px; transform-origin: 50% 100%; }
+      .gbox { position: absolute; left: -43px; top: -115px; width: 86px; height: 115px; transform-origin: 50% 100%; }
       .gbox .face { position: absolute; inset: 0; border-radius: 10px; border: 4px solid var(--ink); overflow: hidden; box-shadow: 6px 7px 0 var(--ink);
         background: linear-gradient(180deg, #2b2760 0%, #5a3f86 34%, #e0767e 55%, #ffb27a 61%, #3c3470 62%, #2a2552 100%); }
       .gbox .spine { position: absolute; left: 0; top: 0; width: 10px; height: 100%; background: rgba(22, 22, 31, .35); }
-      .gbox .ttl { position: absolute; left: 10px; right: 0; top: 8px; text-align: center; font-family: "Anton", sans-serif; font-size: 27px; line-height: 1; color: var(--gold);
+      .gbox .ttl { position: absolute; left: 10px; right: 0; top: 6px; text-align: center; font-family: "Anton", sans-serif; font-size: 24px; line-height: 1; color: var(--gold);
         -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; letter-spacing: .04em; }
-      .gbox .fsh { position: absolute; left: 20px; top: 70px; width: 78px; height: 58px; }
+      .gbox .fsh { position: absolute; left: 14px; top: 56px; width: 64px; height: 48px; }
       .gbox .boatico { position: absolute; left: 24px; top: 74px; width: 70px; height: 4px; }
       .gbox .pz { position: absolute; right: -10px; top: 34px; width: 50px; height: 50px; border-radius: 50%; background: #fff4dc; border: 3px solid var(--ink);
         display: flex; align-items: center; justify-content: center; font: 800 13px "Inter", sans-serif; color: var(--ink); transform: rotate(14deg); }
@@ -110,7 +118,7 @@
       .dstrip { display: block; }
       .dstrip span, .dsep { display: block; height: 172px; line-height: 172px; }
       #plus { display: block; font-size: 168px; line-height: 172px; }
-      #src { position: absolute; left: 0; top: 534px; width: 1280px; text-align: center; font: 600 22px "Inter", sans-serif; color: rgba(255, 244, 220, .9); letter-spacing: .04em; }
+      #src { position: absolute; left: 0; top: 530px; width: 1280px; text-align: center; font: 600 26px "Inter", sans-serif; color: rgba(255, 244, 220, .9); letter-spacing: .04em; }
       #burstWrap { position: absolute; left: 640px; top: 420px; width: 0; height: 0; }
       .spark { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: #ffe08a; box-shadow: 0 0 10px #ffc83d; }
 
@@ -178,12 +186,22 @@
           <div id="pool"></div>
           <div id="waterLine" style="opacity: 0"></div>
           <div id="waves"></div>
-          <div id="boatRig"><img class="bimg" src="assets/rowboat_side_back.png" alt="" /></div>
-          <div id="avs"></div>
-          <div id="boatFront"><img src="assets/rowboat_side_front.png" alt="" /></div>
-          <div id="boxes" data-critic-allow-duplicate="1"></div>
-          <div id="pops"></div>
-          <div id="flyRig" data-critic-allow-duplicate="1" data-critic-allow-overlap="1"></div>   <!-- one box: its own labels fold together in the 3D flip -->
+          <!-- "alone": Quest, full figure, in the light -->
+          <div id="questSolo"><img src="assets/quest_wave.png" alt="" /></div>
+          <!-- "Everyone in the boat": the four friends SEATED in the hull, full figures (the hook's two-pass boat and
+               in-boat layers at 1.5x), the game boxes landing in their hands on "their own copy" -->
+          <div id="boatFrame" class="full">
+            <div id="crewBoat">
+              <img class="cbimg" src="assets/rowboat_side_back.png" alt="" />
+              <div id="crewClipB">
+                <div class="mate" id="bPixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_wave.png" alt="" /></div></div></div></div></div>
+                <div class="mate" id="bQuest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_wave.png" alt="" /></div></div></div></div></div>
+              </div>
+              <img class="cbimg" src="assets/rowboat_side_front.png" alt="" />
+            </div>
+            <div id="boxes" data-critic-allow-duplicate="1"></div>
+            <div id="pops"></div>
+          </div>
         </div></div></div>
         <div id="whipIn" class="full" style="background: #0e0d1c; opacity: 0"></div>
       </div>
@@ -360,6 +378,7 @@
       const R = rng(808);
       const $ = (s) => document.querySelector(s);
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+<!--SRC friends.js-->
 
       // word times (block-relative, resolved by build.py from timings.json). Script v3.3 (2026-10-17): b01 = the price
       // (old l08), b02 = the sales numbers (old l04, moved from the hook), b03 = "Because... their own copy." (old l09 s1-s2);
@@ -371,29 +390,15 @@
         because: {{b03.w1}}, game: {{b03.w7}}, alone: {{b03.w10}}, everyone: {{b03.w11}}, boat: {{b03.w14}}, copy: {{b03.w18}}, copyEnd: {{b03.w18.end}},
       };
       const DUR = {{DUR}};
-      const FLY = Math.max(T.copyEnd + .05, T.copy + .62);                 // the last box (landed) flies into block C's phone
 
       /* ---------------- B1 rigs ---------------- */
       const invBurst = Array.from({ length: 12 }, (_, i) => { const w = mk("b", "", $("#invBurst"), `position:absolute; left:0; top:0; width:0; height:0; transform: rotate(${i * 30}deg)`); return mk("i", "", w); });
 
-      /* ---------------- B2 rigs: avatars, boxes ---------------- */
-      const MEM = {
-        Q: { name: "Quest", color: "#d6392f", img: ["assets/quest_wave.png", 688, 1024, 318, 170, 300] },
-        P: { name: "Pixie", color: "#167880", img: ["assets/pixie_wave.png", 680, 1024, 320, 168, 280] },
-        A: { name: "Max", color: "#7860be", img: ["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210] },   // our 3D friends (2026-10-13)
-        B: { name: "Leo", color: "#d69628", img: ["assets/leo_front_laugh.png", 221, 760, 110.5, 118, 210], img2: ["assets/leo_front_sideeye.png", 221, 760, 110.5, 118, 210] },
-      };
-      const SLOT = { P: 296, Q: 525, A: 755, B: 984 };
-      const AV_Y = 330, AV_SEAT = 384;                                     // floating, then seated in the boat
-      const avs = {};
-      Object.entries(MEM).forEach(([k, m]) => {
-        const a = mk("div", "av", $("#avs")); const inn = mk("div", "in", a); const bob = mk("div", "bob", inn);
-        const d = mk("div", "disc", bob); d.style.background = m.color;
-        d.innerHTML = m.img ? ChatPhone.avImg(...m.img) : ChatPhone.avSil(m.color);
-        const nm = mk("div", "nm", bob); nm.innerHTML = `<span style="background:${m.color}">${m.name}</span>`;
-        avs[k] = { a, inn, bob, d, nm };
-      });
-      const BOXY = 600;                                                    // box bottom: held up against the hull
+      /* ---------------- B2 rigs: the seated crew (v3.3.1: no portrait badges), boxes ---------------- */
+      // box slots = each friend's chest, in frame px (boat-local x of the hook's crew x 1.5 + 56): Pixie, Quest, Max, Leo
+      const SLOT = { P: 416, Q: 588, A: 708, B: 848 };
+      const BFR = BoatFriends($("#crewClipB"), { ids: ["bMax", "bLeo"], exprs: ["laugh", "neutral", "shock"] });
+      const BOXY = 548;                                                    // box bottom: on the near rim, in front of their chests
       const boxes = {};
       ["P", "Q", "A", "B"].forEach((k) => {
         const g = mk("div", "gbox", $("#boxes"));
@@ -403,9 +408,6 @@
         const p = mk("div", "pop", $("#pops")); p.style.left = SLOT[k] + "px"; p.style.top = (BOXY - 70) + "px";
         boxes[k].pop = Array.from({ length: 8 }, (_, i) => { const e = mk("i", "", p); e.style.transform = `rotate(${i * 45 + 22}deg)`; return e; });
       });
-      // the flying box (the match cut): a copy of Leo's box that leaves the boat and becomes the phone
-      const fly = mk("div", "gbox", $("#flyRig")); fly.innerHTML = boxes.B.innerHTML; fly.style.transformOrigin = "50% 50%"; fly.style.top = "-72px";
-      
       const dusts = Array.from({ length: 16 }, () => mk("div", "dust", $("#dusts"), `left:${520 + R() * 240}px; top:${60 + R() * 480}px; opacity:${.3 + R() * .5}`));
       const waves = Array.from({ length: 9 }, (_, i) => mk("div", "wv", $("#waves"), `left:${-60 + i * 160 + R() * 60}px; top:${630 + (i % 3) * 22}px; width:${70 + R() * 70}px`));
 
@@ -464,7 +466,7 @@
       tl.to("#flipper", { rotationY: 90, scale: 1.14, x: -30, y: 60, duration: .2, ease: "power2.in" }, T.its + .04);
       tl.set("#tagCard", { opacity: 0 }, T.its + .24);
       tl.set("#env", { opacity: 1 }, T.its + .24);
-      tl.fromTo("#flipper", { rotationY: -90 }, { rotationY: 0, scale: 1.32, x: -50, y: 130, rotation: -3, duration: .42, ease: "back.out(1.7)", immediateRender: false }, T.its + .24);
+      tl.fromTo("#flipper", { rotationY: -90 }, { rotationY: 0, scale: 1.32, x: 40, y: 130, rotation: -3, duration: .42, ease: "back.out(1.7)", immediateRender: false }, T.its + .24);
       tl.to("#flipper", { y: 138, rotation: 0, duration: 1.6, ease: "sine.inOut" }, T.invitation + .25);
       tl.fromTo("#envShine", { x: -300, opacity: 1 }, { x: 300, duration: .45, ease: "power2.inOut" }, T.invitation - .05);
       tl.set("#envShine", { opacity: 0 }, T.invitation + .4);
@@ -497,8 +499,10 @@
       tl.to("#hoped", { scale: .92, x: -330, y: -70, opacity: .6, rotation: -4, duration: .6, ease: "power3.inOut" }, T.one - .5);
       tl.set("#big", { opacity: 0 }, 0);
       tl.fromTo("#big", { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2)", immediateRender: false }, T.one - .05);
-      const REEL = T.ten - .05 - (T.one + .2);
-      reelDigits.slice().reverse().forEach((d, i) => tl.fromTo(d.strip, { y: 0 }, { y: -172 * d.stops, duration: REEL - i * .05, ease: "power3.inOut" }, T.one + .2 + i * .05));
+      // v3.3.1: the reel is already rolling when it appears (never reads "00,000,000")
+      const REEL = T.ten - .05 - (T.one - .05);
+      reelDigits.slice().reverse().forEach((d, i) => tl.fromTo(d.strip, { y: -172 * 7 }, { y: -172 * d.stops, duration: REEL - i * .05, ease: "power2.out" }, T.one - .05 + i * .05));
+      tl.fromTo("#nums", { scale: 1 }, { scale: 1.05, duration: T.because - T.ten, ease: "sine.inOut", transformOrigin: "50% 55%", immediateRender: false }, T.ten);   // slow push on the 10,000,000+ hold
       tl.set("#plus", { opacity: 0 }, 0);
       tl.fromTo("#plus", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: .55, ease: "elastic.out(1.2, .4)", immediateRender: false }, T.ten + .2);
       tl.fromTo("#big", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: .08 }, { scale: 1, duration: .6, ease: "elastic.out(1, .35)" }], immediateRender: false }, T.ten);
@@ -514,68 +518,46 @@
       tl.to("#room", { filter: "blur(14px)", duration: .2, ease: "power2.in" }, T.because);
 
       // ================= B2 (because - message): alone, everyone, the boat, their own copy =================
-      cam("#pushStage", 0, 0, focus(640, 330, 1.18));
+      cam("#pushStage", 0, 0, focus(640, 380, 1.12));
       tl.fromTo("#kickStage", { x: 1500 }, { x: 0, duration: .32, ease: "power3.out" }, T.because - .02);
       tl.fromTo("#whipIn", { opacity: .9 }, { opacity: 0, duration: .25 }, T.because);
-      // a searchlight looks for someone ("not really a game you play...")
-      tl.set("#spot", { rotation: -34 }, 0); tl.set("#pool", { x: -420, opacity: .5 }, 0);
-      tl.to("#spot", { keyframes: [{ rotation: 26, duration: 1.1, ease: "sine.inOut" }, { rotation: -14, duration: .8, ease: "sine.inOut" }, { rotation: 0, duration: .45, ease: "back.out(2)" }] }, T.because + .1);
-      tl.to("#pool", { keyframes: [{ x: 330, duration: 1.1, ease: "sine.inOut" }, { x: -170, duration: .8, ease: "sine.inOut" }, { x: 0, opacity: 1, duration: .45, ease: "back.out(2)" }] }, T.because + .1);
+      // v3.3.1: Quest is in the light from "Because" (no empty stage); the light settles on him
+      tl.set("#spot", { rotation: -12 }, 0); tl.set("#pool", { x: -120, opacity: .8 }, 0);
+      tl.to("#spot", { rotation: 0, duration: .9, ease: "power2.out" }, T.because + .05);
+      tl.to("#pool", { x: 0, opacity: 1, duration: .9, ease: "power2.out" }, T.because + .05);
       dusts.forEach((d, i) => tl.fromTo(d, { y: 0, x: 0 }, { y: -40 - (i % 4) * 12, x: (i % 2 ? 10 : -10), duration: 6, ease: "none" }, T.because));
-      // "alone": one avatar, centred and spotlit
-      Object.entries(avs).forEach(([k, v]) => tl.set(v.a, { x: SLOT[k], y: AV_Y }, 0));
-      tl.set(avs.Q.a, { x: 640, y: 300 }, 0);
-      tl.set(avs.Q.inn, { scale: 0 }, 0);
-      tl.to(avs.Q.inn, { scale: 1.3, duration: .55, ease: "back.out(2.4)" }, T.alone - .06);
-      tl.fromTo(avs.Q.nm, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .3, ease: "back.out(2)", immediateRender: false }, T.alone + .25);
-      tl.set(avs.Q.nm, { opacity: 0 }, 0);
-      cam("#pushStage", T.alone - .1, 1.3, focus(640, 330, 1.26), "power2.out");
+      tl.fromTo("#questSolo", { scale: .94, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: "back.out(2)" }, T.because - .02);
+      // "alone": the light narrows on him, the camera leans in
+      cam("#pushStage", T.alone - .1, 1.3, focus(640, 370, 1.26), "power2.out");
       tl.fromTo("#spot .cone", { scaleX: 1 }, { scaleX: .7, duration: 1.2, ease: "sine.inOut", transformOrigin: "50% 0%" }, T.alone + .1);
-      // "Everyone": the lights come up, the others slide in, staggered
-      tl.to("#stageWash", { opacity: 1, duration: .4 }, T.everyone - .05);
-      tl.to(["#spot", "#pool"], { opacity: 0, duration: .35 }, T.everyone);
-      tl.to(avs.Q.a, { x: SLOT.Q, y: AV_Y, duration: .45, ease: "power3.inOut" }, T.everyone - .1);
-      tl.to(avs.Q.inn, { scale: 1, duration: .45, ease: "power3.inOut" }, T.everyone - .1);
-      [["P", -1, 0], ["A", 1, .12], ["B", 1, .24]].forEach(([k, dir, d]) => {
-        tl.set(avs[k].inn, { x: dir * 900 }, 0);
-        tl.to(avs[k].inn, { x: 0, duration: .5, ease: "back.out(1.5)" }, T.everyone + d);
-        tl.fromTo(avs[k].inn, { rotation: dir * -18 }, { rotation: 0, duration: .8, ease: "elastic.out(1, .45)", immediateRender: false }, T.everyone + d + .1);
-      });
-      cam("#pushStage", T.everyone - .1, .7, focus(640, 400, 1.0), "power3.inOut");
-      // "in the boat": the boat rises under them, they drop into their seats
-      tl.set(["#boatRig", "#boatFront"], { y: 420 }, 0);
-      tl.set("#waterLine", { opacity: 0 }, 0);
-      tl.to(["#boatRig", "#boatFront"], { y: 0, duration: .5, ease: "back.out(1.3)" }, T.boat - .25);
-      tl.to("#waterLine", { opacity: 1, duration: .4 }, T.boat - .2);
-      ["P", "Q", "A", "B"].forEach((k, i) => tl.to(avs[k].a, { keyframes: [{ y: AV_SEAT + 10, duration: .2, ease: "power2.in" }, { y: AV_SEAT, duration: .4, ease: "elastic.out(1, .4)" }] }, T.boat + .12 + i * .05));
-      tl.fromTo(["#boatRig", "#boatFront"], { rotation: -1.2 }, { rotation: 1.2, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, transformOrigin: "50% 80%", immediateRender: false }, T.boat + .3);
-      ["P", "Q", "A", "B"].forEach((k, i) => tl.fromTo(avs[k].bob, { y: 0 }, { y: -6, duration: .65 + i * .07, ease: "sine.inOut", yoyo: true, repeat: 5, immediateRender: false }, T.boat + .7));
-      waves.forEach((w, i) => tl.fromTo(w, { x: 0 }, { x: 40 + (i % 3) * 14, duration: 5, ease: "none" }, T.boat));
-      // "their own copy": four game boxes rain down, one each (pop x4)
+      // "Everyone": the stage lights come up on the four of them seated in the boat (a camera kick on the change)
+      tl.set("#boatFrame", { opacity: 0 }, 0);
+      tl.set("#boatFrame", { opacity: 1 }, T.everyone - .05);
+      tl.set("#questSolo", { opacity: 0 }, T.everyone - .05);
+      tl.set(["#spot", "#pool"], { opacity: 0 }, T.everyone - .05);
+      tl.set("#stageWash", { opacity: 1 }, T.everyone - .05);
+      tl.set("#waterLine", { opacity: 1 }, T.everyone - .05);
+      cam("#pushStage", T.everyone - .05, 0, focus(640, 420, 1.06));
+      kickCam("#kickStage", T.everyone - .04, 1.035, -.8);
+      BFR.max.face(tl, "laugh", 0); BFR.leo.face(tl, "laugh", 0);
+      tl.fromTo("#crewBoat", { y: 0 }, { y: 5, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, T.everyone);
+      tl.fromTo("#boxes", { y: 0 }, { y: 5, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, T.everyone);
+      ["#bPixie", "#bQuest", "#bMax", "#bLeo"].forEach((m, i) => tl.fromTo(`${m} .breathe`, { scaleY: 1 }, { scaleY: 1.02, duration: .8 + i * .1, ease: "sine.inOut", yoyo: true, repeat: 5, transformOrigin: "50% 100%", immediateRender: false }, T.everyone));
+      waves.forEach((w, i) => tl.fromTo(w, { x: 0 }, { x: 40 + (i % 3) * 14, duration: 5, ease: "none" }, T.everyone));
+      cam("#pushStage", T.everyone, T.copy - T.everyone, focus(640, 430, 1.1), "sine.inOut");
+      // "their own copy": four game boxes drop into their hands, one each
       ["P", "Q", "A", "B"].forEach((k, i) => {
         const at = T.copy - .18 + i * .13;
         tl.set(boxes[k], { x: SLOT[k], y: BOXY - 700, rotation: (i % 2 ? 22 : -22), opacity: 0 }, 0);
         tl.set(boxes[k], { opacity: 1 }, at);
-        tl.to(boxes[k], { y: BOXY, rotation: (i % 2 ? 4 : -4), duration: .3, ease: "power2.in" }, at);
-        tl.to(boxes[k], { keyframes: [{ scaleY: .78, scaleX: 1.18, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }] }, at + .3);
+        tl.to(boxes[k], { y: BOXY + (k === "B" ? 22 : 0), rotation: (i % 2 ? 4 : -4), duration: .3, ease: "power2.in" }, at);   // Leo sits lower: his box stays under his chin
+        tl.to(boxes[k], { keyframes: [{ scaleY: .82, scaleX: 1.14, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }] }, at + .3);
         boxes[k].pop.forEach((p) => tl.fromTo(p, { opacity: 0, y: 0, scaleY: .4 }, { keyframes: [{ opacity: 1, y: -26, scaleY: 1, duration: .1, ease: "power2.out" }, { opacity: 0, y: -46, duration: .22 }], immediateRender: false }, at + .3));
         tl.set(boxes[k].pop, { opacity: 0 }, 0);
-        tl.fromTo(avs[k].d, { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], immediateRender: false }, at + .32);
       });
       kickCam("#kickStage", T.copy + .26, 1.03, .8);
-      // after "copy.": the others dim, the last box leaves the boat, spins to the centre and flips into block C's phone
-      // (the old match cut into the chat, now into "Now compare that...")
-      ["P", "Q", "A"].forEach((k) => tl.to([avs[k].a, boxes[k]], { opacity: .35, duration: .4, ease: "sine.inOut" }, FLY - .1));
-      ["P", "Q", "A", "B"].forEach((k) => tl.to(avs[k].nm, { opacity: 0, duration: .2, ease: "power2.in" }, T.copy - .3));   // the name tags go before the boxes rain through them
-      tl.to(["P", "Q", "A"].map((k) => boxes[k]), { opacity: 0, duration: .25, ease: "power2.in" }, FLY + .15);
-      tl.set(fly, { x: SLOT.B, y: BOXY - 72, opacity: 0, transformPerspective: 1400 }, 0);
-      tl.set(fly, { opacity: 1 }, FLY);
-      tl.set(boxes.B, { opacity: 0 }, FLY);
-      cam("#pushStage", FLY, DUR - FLY, focus(640, 360, 1.0), "power2.inOut");
-      tl.to(fly, { x: 640, y: 360, scale: 3.1, rotation: 0, duration: DUR - FLY - .26, ease: "power3.inOut" }, FLY);
-      tl.fromTo(fly, { rotationY: 0 }, { rotationY: -25, duration: .3, ease: "sine.inOut", immediateRender: false }, FLY + .15);
-      tl.to(fly, { rotationY: 90, scale: 4.25, duration: .26, ease: "power2.in" }, DUR - .26);
-      tl.to(["#avs", "#boxes", "#boatRig", "#boatFront", "#waterLine", "#waves"], { opacity: 0, duration: .3 }, DUR - .4);
+      // then hold on the four of them with their copies (slow push) - a clean cut into block C's phone
+      cam("#pushStage", T.copy + .4, DUR - T.copy - .4, focus(640, 420, 1.16), "sine.inOut");
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};

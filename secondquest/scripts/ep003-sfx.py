@@ -41,7 +41,7 @@ S = {'whoosh': SFX / 'whoosh.wav', 'pop': SFX / 'pop.wav', 'notify': SFX / 'noti
      'paper2': K_ / 'scratch_005.ogg', 'click': K_ / 'click_001.ogg', 'knock': K_ / 'impactGeneric_light_000.ogg',
      'wood': K_ / 'impactWood_light_002.ogg', 'wood_m': K_ / 'impactWood_medium_001.ogg', 'punch': K_ / 'impactPunch_heavy_002.ogg',
      'page': K_ / 'bookFlip1.ogg', 'page2': K_ / 'bookFlip2.ogg', 'door_open': K_ / 'doorOpen_1.ogg', 'door_slam': K_ / 'doorClose_2.ogg',
-     'coins': K_ / 'handleCoins2.ogg', 'creak': K_ / 'creak2.ogg', 'cloth': K_ / 'cloth2.ogg', 'latch': K_ / 'metalClick.ogg',
+     'coins': K_ / 'handleCoins2.ogg', 'coins1': SFX / 'cc0/owlish_202/Money_37.ogg', 'creak': K_ / 'creak2.ogg', 'cloth': K_ / 'cloth2.ogg', 'latch': K_ / 'metalClick.ogg',
      'switch': K_ / 'switch_002.ogg', 'drop': K_ / 'drop_002.ogg', 'powerup': K_ / 'powerUp3.ogg', 'forcefield': K_ / 'forceField_002.ogg',
      'tvhum': K_ / 'computerNoise_000.ogg',
      # HF pass (2026-10-12): more CC0 Kenney (impact / interface / sci-fi / digital / rpg / ui packs)
@@ -206,7 +206,7 @@ def pick(name, t):
     kw = {}
     for o in opts:
         k, v = o.split('=', 1)
-        kw[k] = float(v) if k.endswith('_dur') or k in ('dark', 'bright') else v
+        kw[k] = float(v) if k.endswith('_dur') or k in ('dark', 'bright', 'pitch') else v
     f = _PK.file(cat, t=t, **kw)
     PK_FILES[(round(t, 4), name)] = f
     x, sr = soundfile.read(str(f), dtype='float32', always_2d=True)
@@ -253,18 +253,18 @@ def cues():
     # index.template.html: reused shots on v2 seconds (HK), the chat / H8 on h-tokens. Rebuilt to the rubric's budget
     # (DESIGN_RUBRIC §7: <= 12 onsets/min, <= 3 in 2 s, >= 35 % rest): 8 onsets in the hook, one per beat that needs a
     # sound, picked from the catalog with scripts/sfx_pick.py (no file twice, varied render); the beds carry the rest.
-    a(HK(2.06) + .08, 'wood', -20, why='"HOW TO FISH." title lands')
-    a(HK(10.62), 'pk:impact-heavy;not_match=rock|breaking|deep|slam|hit37|impact\\.wav', -14, .25, why='SLAP: the hit (flash + shake)')
-    a(HK(10.62), 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|falling|stones;dark=4500', -22, .25, why='SLAP: body layer')
+    # v3.3.1 (retention critic): the title is up from frame 0 (no landing cue); the cue goes to the fish leap on "A lot of
+    # fish"; the slap sits on the cut to art 02; Bought #2 gets its pop (pitched between #1 and #3); the fleet explosion
+    # layer and the wordmark cues inside the "So, why?" rest are gone (that rest keeps only a very low water bed).
+    a(HK(5.6) - .05, 'pk:foley-water;not_match=slime|toilet|mud|Fizz|Drink;dark=4500', -22, P(170), why='"A lot of fish.": the first fish leaps out')
+    a(HK(10.2), 'pk:impact-heavy;not_match=rock|breaking|deep|slam|hit37|impact\\.wav', -14, -.15, why='SLAP: cut to art 02 (flash + shake)')
+    a(HK(10.2), 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|falling|stones;dark=4500', -22, -.15, why='SLAP: body layer')
     a(T('h06.w1') + .16, 'pk:pop;not_match=Mouth|bubble|3pops', -20, -.15, why='first "Bought." sticker punches in')
-    a(T('h06.w3') + .16, 'pk:coins-money;not_match=chip;dark=5000', -18, why='third "Bought." (biggest kick): everyone paid')
+    a(T('h06.w2') + .16, 'pk:pop;not_match=Mouth|bubble|3pops;pitch=2.5', -19, .15, why='second "Bought." (pitched between the first and the third)')
+    a(T('h06.w3') + .16, 'coins1', -18, why='third "Bought." (biggest kick): everyone paid')
     a(T('h07.w12'), 'drain', -24, why='"not": the dots vanish, Leo greys out')
-    a(T('h08.w8'), 'pk:pop;not_match=Mouth|Pop_|pop\\d|3pops', -24, P(830), why='H8: Leo\'s "I\'ll get it later." bubble settles over the empty seat')
+    a(T('h08.w4'), 'pk:pop;not_match=Mouth|Pop_|pop\\d|3pops', -24, P(850), why='H8: Leo\'s "I\'ll get it later." bubble pops up out of his empty place')
     a(HK(28.12), 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|Punch|falling|stones;dark=4500', -18, why='"To do everything else." card slams')
-    a(HK(28.12) + .02, 'pk:explosion-boom;not_match=shot|bang|fw_|cannon|thunder|retro', -28, why='chaos in the fleet boats under the card')
-    w = T('h10.w2')
-    a(w + .55, 'pk:foley-water;not_match=slime|toilet|mud|Fizz|Drink', -20, why='wordmark: the bobber dip as the logo is reeled up')
-    a(w + .56, 'pk:foley-wood', -30, why='wordmark: the logo settles (small shake)')
 
     # ================================================================== B · the invitation (blockB.template.html, v3.3)
     a(T('b01.w4.end') + .1, 'creak', -26, .2, why='the $7.99 tag swings in on its string')
@@ -687,15 +687,19 @@ def cues():
 
 def night():
     """Crickets (looped): Quest's room at night (B1); the "almost nothing" gag (E3); the blue-hour lake + 1 AM; G."""
-    return [(T('h05.w1') - .12, T('h08.w1') - .1, -42),                       # A: the chat (the night room)
-            (B0['B'], T('b03.w1'), -42), (T('l29.w5'), T('l29.w6') - .1, -32),
+    # v3.3.1: A/B room beds at about -35 dBFS RMS in the mix (-32 after the -14 LUFS master): no dead air before 62 s;
+    # each crosses its cut by 0.3 s (L-cut / J-cut) so the room tone carries the edit
+    return [(T('h05.w1') - .12 - .3, T('h08.w1') - .1 + .3, -15, .3),       # A: the chat (the night room)
+            (B0['B'] - .3, T('b03.w11') + .1, -15, .3),                              # B: Quest's room, the numbers, the stage until "Everyone"
+            (T('l29.w5'), T('l29.w6') - .1, -32),
             (T('l39.w6'), T('l41') - .1, -36), (B0['G'], T('l52.end') + 2.5, -37)]
 
 
 def ambience():
     """A low water bed under the lake scenes (looped CC0), by block."""
-    return [(0, T('h05.w1') - .12, -34), (T('h08.w1') - .1, B0['B'], -36),     # A: the lake (not the chat)
-            (T('b03.w14') - .2, B0['C'], -38),                                    # B2: the boat on the stage
+    return [(0, T('h05.w1') - .12 + .3, -6, .3), (T('h08.w1') - .1 - .3, T('h10.end') + .15, -6, .3),   # A: the lake (not the chat)
+            (T('h10.end') + .1, B0['B'] + .3, -26, .3),                           # the "So, why?" rest: only a very low water bed
+            (T('b03.w11') - .2, B0['C'] + .3, -8, .3),                                # B2: the boat on the stage (from "Everyone")
             (B0['D'], T('l25') - .2, -34), (T('l26.w9') - .05, T('l26.w10') + .6, -36),   # D: lake; the breath
             (B0['E'], T('l29.w23'), -35), (T('l30') - .04, T('l35') - .06, -36),  # E: the lake world
             (T('l39') - .02, T('l41') - .03, -34), (T('l43.w9'), B0['G'], -44),   # F: dusk/blue hour; the black lake
@@ -763,10 +767,10 @@ def main():
             fx[0, i:i + len(seg)] += seg * gl
             fx[1, i:i + len(seg)] += seg * gr
             per_cue.append((t, name, float(np.abs(seg).max() * max(gl, gr))))
-    for t0, t1, db in ambience():
-        bed(fx, 'water', t0, t1, db, n, .6)
-    for t0, t1, db in night():
-        bed(fx, 'crickets', t0, t1, db, n, 1.2 if t1 - t0 > 3 else .25)
+    for t0, t1, db, *fd in ambience():
+        bed(fx, 'water', t0, t1, db, n, fd[0] if fd else .6)
+    for t0, t1, db, *fd in night():
+        bed(fx, 'crickets', t0, t1, db, n, fd[0] if fd else (1.2 if t1 - t0 > 3 else .25))
     for name, t0, t1, db in rooms():
         bed(fx, name, t0, t1, db, n, .5)
     tm = json.loads((ROOT / 'episodes/ep003/timings.json').read_text())['cues']

@@ -44,6 +44,7 @@
       #crewClip { position: absolute; left: -80px; top: -300px; width: 780px; height: 405px; overflow: hidden; }   /* seated lower, inside the hull */
       .mate { position: absolute; bottom: -95px; width: 200px; height: 290px; }
       .mate .pop, .mate .lean, .mate .breathe, .mate .sway { position: absolute; inset: 0; }
+      .mate .think { filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .9)) drop-shadow(0 0 10px rgba(255, 170, 110, .25)) brightness(.97) saturate(1.05); }
       .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
         filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .9)) drop-shadow(0 0 10px rgba(255, 170, 110, .25)) brightness(.97) saturate(1.05); }
       .sil svg { position: absolute; left: 0; bottom: 0; width: 200px; height: 290px; overflow: visible; transform: scale(1.08); transform-origin: 50% 100%;
@@ -65,7 +66,7 @@
       .reed { position: absolute; bottom: -20px; width: 10px; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #2b2340, #120f1e); transform-origin: 50% 100%; }
       .fleetboat { position: absolute; }
       .fleetboat .fb-in, .fleetboat .fb-bob { position: absolute; inset: 0; }
-      .fleetboat img { position: absolute; left: 0; bottom: 0; width: 100%; filter: brightness(.82) saturate(.9); }
+      .fleetboat img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; filter: brightness(.82) saturate(.9); }
       .head { position: absolute; border-radius: 50% 50% 40% 40%; background: #3d3856; box-shadow: 2px -1px 0 rgba(255, 196, 128, .8); }
       .boom { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fff7d0 0%, #ffcc5a 35%, #ff7b3a 60%, rgba(255, 90, 40, 0) 72%); }
       /* ---------- typography (channel style) ---------- */
@@ -91,15 +92,15 @@
       #wmBar { position: absolute; left: 440px; top: 166px; width: 400px; height: 9px; background: var(--gold); border-radius: 4px; box-shadow: 0 3px 0 var(--ink); transform-origin: 50% 50%; }
       #warm { background: radial-gradient(ellipse 80% 70% at 72% 40%, rgba(255, 180, 110, .55) 0%, rgba(255, 140, 90, .15) 50%, rgba(0,0,0,0) 80%); mix-blend-mode: screen; }
       /* ---------- H8: Leo's "I'll get it later." bubble over his empty seat (in the boat layer) ---------- */
-      #laterBub { position: absolute; left: 665px; top: 226px; width: 330px; height: 140px; opacity: 0; transform-origin: 58% 100%; }
-      #laterBub .lb { position: absolute; left: 0; top: 0; display: flex; align-items: flex-end; gap: 10px; }
-      #laterBub .ch-av { width: 50px; height: 50px; }
-      #laterBub .ch-bub { max-width: none; border: 3px solid var(--ink); box-shadow: 4px 5px 0 var(--ink), 0 0 18px rgba(255, 170, 110, .35); background: #fff8ee; border-radius: 22px; }
+      #laterBub { position: absolute; left: 852px; top: 362px; width: 280px; height: 104px; opacity: 0; transform-origin: 6px 138px; }   /* tail tip on Leo's place at the stern rim (world 858, 500) */
+      #laterBub .ch-bub { position: absolute; left: 0; top: 0; max-width: none; border: 3px solid var(--ink); box-shadow: 4px 5px 0 var(--ink), 0 0 18px rgba(255, 170, 110, .35); background: #fff8ee; border-radius: 22px; }
       #laterBub .ch-bub::after { display: none; }
-      #laterBub .ch-name { font-size: 17px; }
+      #laterBub .ch-name { font-size: 22px; color: #7a4f00; }
       #laterBub .ch-txt { font-size: 28px; line-height: 36px; white-space: nowrap; }
-      #laterTail { position: absolute; left: 120px; top: 100%; margin-top: -2px; width: 26px; height: 34px; }
+      #laterTail { position: absolute; left: 2px; top: 100%; margin-top: -2px; width: 26px; height: 34px; }
       #laterTail svg { width: 100%; height: 100%; overflow: visible; }
+      #slapArt { position: absolute; left: -10px; top: -6px; width: 1300px; height: 727px; }
+      #slapPush { transform-origin: 34% 30%; }
       /* ---------- H5-H7: the group chat (block B's phone, narration clock) ---------- */
       .shot { overflow: hidden; }
       .cam, .push, .kick { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
@@ -160,19 +161,18 @@
               <div id="boatBob"><div id="boatRock">
                 <img class="boatimg" src="assets/rowboat_side_back.png" alt="" />   <!-- props v2: far side + interior behind the crew -->
                 <div id="crewClip">
-                  <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /></div></div></div></div></div>
-                  <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /></div></div></div></div></div>
+                  <div class="mate" id="pixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_laugh.png" alt="" /><img class="think" src="assets/pixie_think.png" alt="" style="opacity: 0" /></div></div></div></div></div>
+                  <div class="mate" id="quest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_laugh.png" alt="" /><img class="think" src="assets/quest_think.png" alt="" style="opacity: 0" /></div></div></div></div></div>
                   <div id="ko" class="abs" style="left: 547px; top: 182px; width: 120px; height: 60px"></div>
                 </div>
-                <svg id="line" viewBox="-100 -350 840 520"><path id="linePath" d="M 417 -229 C 380 -150, 230 -175, 175 -95 C 170 -40, 260 -30, 380 -36 C 520 -44, 640 -60, 640 -20 C 640 20, 470 30, 330 24 C 200 18, 150 30, 170 50 C 200 80, 420 60, 560 70 C 650 76, 700 110, 690 160" fill="none" stroke="#f6efe0" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <svg id="line" viewBox="-100 -350 840 520"><path id="linePath" d="M 417 -229 C 560 -300, 770 -240, 830 -60 C 845 -5, 838 60, 822 120" fill="none" stroke="#f6efe0" stroke-width="2.2" stroke-linecap="round"/></svg>
                 <div id="rod"><img src="assets/rod.png" alt="" /></div>
                 <img class="boatimg" src="assets/rowboat_side_front.png" alt="" />  <!-- the near hull in front of them -->
               </div></div>
             </div>
             <div id="fishFront"></div>
-            <div id="laterBub"><div class="lb"><div class="ch-av" id="laterAv" style="background: #d69628"></div>
-              <div class="ch-bub"><div class="ch-name" style="color: #b87a12">Leo</div><div class="ch-txt">I'll get it later.</div>
-                <div id="laterTail"><svg viewBox="0 0 26 34"><path d="M 2 0 L 24 0 L 8 32 Z" fill="#fff8ee" stroke="#16161f" stroke-width="3" stroke-linejoin="round"/><path d="M 3.5 1.2 L 22.5 1.2" stroke="#fff8ee" stroke-width="4"/></svg></div></div></div></div>
+            <div id="laterBub"><div class="ch-bub"><div class="ch-name">Leo</div><div class="ch-txt">I'll get it later.</div>
+              <div id="laterTail"><svg viewBox="0 0 26 34"><path d="M 2 0 L 24 0 L 3 32 Z" fill="#fff8ee" stroke="#16161f" stroke-width="3" stroke-linejoin="round"/><path d="M 3.5 1.2 L 22.5 1.2" stroke="#fff8ee" stroke-width="4"/></svg></div></div></div>
           </div></div>
           <div id="L-fore" class="L"><div class="F" id="reeds"></div></div>
         </div></div>
@@ -181,16 +181,13 @@
       </div>
 
       <!-- ================= TITLE (l01) ================= -->
-      <div id="titleClip" class="full clip" data-start="1.3" data-duration="5.4" data-track-index="2">
+      <div id="titleClip" class="full clip" data-start="0" data-duration="6.7" data-track-index="2">
         <div id="title"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3">FISH</span></div>
       </div>
 
-      <!-- ================= SLAP burst (l03) ================= -->
-      <div id="slapClip" class="full clip" data-start="10.5" data-duration="1.62" data-track-index="2">
-        <div id="slapBurst">
-          <svg viewBox="0 0 260 200"><polygon points="130,0 152,52 210,14 190,74 260,80 200,112 246,166 176,140 160,200 128,150 92,196 86,140 18,170 58,116 0,92 64,70 34,18 104,50" fill="#ffc83d" stroke="#16161f" stroke-width="6" stroke-linejoin="round"/></svg>
-          <div class="t">SLAP!</div>
-        </div>
+      <!-- ================= SLAP (h03 "slapping each other in the face"): approved art 02 slap revive, push-in ================= -->
+      <div id="shotSlap" class="full clip shot" data-start="10.2" data-duration="1.98" data-track-index="3">
+        <div id="slapPush" class="full"><img id="slapArt" src="assets/slap_revive.png" alt="" /></div>
       </div>
 
       <!-- ================= PRICE (h04, "It costs about eight dollars."): the $7.99 tag over the lake ================= -->
@@ -293,11 +290,15 @@
         for (let r = 0; r < rows; r++) { const k = r / (rows - 1); const y = 346 + Math.pow(k, 1.55) * 345; const sc = 0.045 + Math.pow(k, 1.5) * 0.25; const n = 16 - Math.round(k * 10);
           for (let i = 0; i < n; i++) { let x = -170 + (i + 0.5) * (1620 / n) + (R() - 0.5) * (1620 / n) * 0.5;
             if (Math.abs(x - 640) < 420 && y > 420) continue;
-            const use34 = R() < 0.3; const w = (use34 ? 880 : 912) * sc, h = (use34 ? 371 : 213) * sc;
+            // v3.3.1 (hull rule): every fleet boat is the two-pass side boat (far half, crew, near half), the crew's
+            // heads sit INSIDE the hull with the near rim covering their shoulders; no 3/4 boats, nothing above the water line
+            R(); const w = 912 * sc, h = w * 319 / 1452;
             const b = mk("div", "fleetboat", host, `left:${x - w / 2}px; top:${y - h}px; width:${w}px; height:${h}px`);
             const inn = mk("div", "fb-in", b), bob = mk("div", "fb-bob", inn);
-            const nh = 1 + Math.floor(R() * 3); for (let j = 0; j < nh; j++) { const hs = 62 * sc; mk("div", "head", bob, `left:${w * (0.28 + j * 0.17 + R() * 0.04)}px; top:${-hs * 0.45}px; width:${hs}px; height:${hs * 1.1}px`); }
-            const im = mk("img", "", bob); im.src = `assets/${use34 ? "rowboat_34" : "rowboat_side"}.png`; if (R() < 0.5) im.style.transform = "scaleX(-1)";
+            const flip = R() < 0.5 ? "transform: scaleX(-1)" : "";
+            const back = mk("img", "", bob, flip); back.src = "assets/rowboat_side_back.png";
+            const nh = 1 + Math.floor(R() * 3); for (let j = 0; j < nh; j++) { const hs = 62 * sc; mk("div", "head", bob, `left:${w * (0.30 + j * 0.15 + R() * 0.03)}px; top:${h * 0.30 - hs * 0.8}px; width:${hs}px; height:${hs * 1.1}px`); }
+            const front = mk("img", "", bob, flip); front.src = "assets/rowboat_side_front.png";
             fleet.push({ b, inn, bob, x, y, w, h, sc, k }); } } })();
       // chaos props in some fleet boats (l05 "to do everything else")
       const chaos = []; (function () { const picks = fleet.filter((f) => f.k > 0.25).sort((a, b) => a.x - b.x); const step = Math.max(1, Math.floor(picks.length / 7));
@@ -351,27 +352,26 @@
         tl.fromTo(`${m} .sway`, { rotation: -1.4 }, { rotation: 1.4, duration: 2.3 + i * .21, ease: "sine.inOut", yoyo: true, repeat: 15, transformOrigin: "50% 100%" }, 0);
       });
 
-      // ---------------- SHOT A (0 - 12.1): the lake
-      cam(0, 0, focus(640, 330, 1.16, 0, 40));
-      cam(0, 3.2, focus(640, 400, 1.08));
-      tl.set("#boatEnter", { x: -1100 }, 0);
-      tl.set("#rod", { y: -620, rotation: -34, transformOrigin: "50% 100%", opacity: 1 }, 0);
+      // ---------------- SHOT A (0 - 10.2): v3.3.1 (retention critic #1): frame 0 delivers the thumbnail - the four friends
+      // in the boat at the punch-in framing, "HOW TO FISH" already up, the unimpressed fish at the edge. "A boat / A rod /
+      // A lot of fish" are camera moves on that shot (no empty-lake build-up).
+      cam(0, 0, focus(700, 425, 1.5, 0, 10));
+      tl.set("#rod", { y: 0, rotation: -26, transformOrigin: "50% 100%", opacity: 1 }, 0);
       tl.set("#linePath", { strokeDasharray: 1600, strokeDashoffset: 1600 }, 0);
-      MATES.forEach((m) => tl.set(`${m} .pop`, { y: 260 }, 0));
-      tl.set(buddy, { x: 940, y: 640, rotation: 0, opacity: 0 }, 0);
+      MATES.forEach((m) => tl.set(`${m} .pop`, { y: 0 }, 0));
+      tl.set(buddy, { x: 990, y: 500, rotation: -8, scale: .9, opacity: 1 }, 0);    // peeking at the bow side, looking at them
       tl.set(buddyLid, { opacity: 0 }, 0); tl.set(faceLookup, { opacity: 0 }, 0);
-      // title words on "How" "to" "Fish."
-      [["#tw1", 1.44], ["#tw2", 1.86], ["#tw3", 2.06]].forEach(([s, t]) => tl.fromTo(s, { y: -160, scale: 1.5, opacity: 0, rotation: -6 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: .55, ease: "back.out(2.6)" }, t - .08));
+      tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .14, ease: "steps(1)" }, { opacity: 0, duration: .18, ease: "steps(1)" }] }, 2.3);
+      tl.to(buddy, { y: 640, duration: .35, ease: "power2.in" }, 5.3);                 // ducks before its leap
+      // title: up from frame 0; it shrinks to the sky on "A boat."
+      tl.set(["#tw1", "#tw2", "#tw3"], { y: 0, scale: 1, opacity: 1, rotation: 0 }, 0);
+      tl.fromTo("#title", { scale: 1 }, { keyframes: [{ scale: 1.04, duration: .12 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], immediateRender: false }, 2.06);   // "Fish." punch
       tl.to("#title", { y: -118, scale: .42, duration: .55, ease: "power3.inOut" }, 3.0);
       tl.to("#title", { opacity: 0, duration: .3 }, 6.4);
-      // "A boat." - slides in with spring settle + wake
-      tl.to("#boatEnter", { x: 0, duration: 1.15, ease: "back.out(1.25)" }, 3.2);
-      tl.fromTo("#boatEnter", { rotation: 0 }, { keyframes: [{ rotation: -3.5, duration: .35 }, { rotation: 2.2, duration: .4 }, { rotation: 0, duration: .9, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 90%" }, 3.6);
-      cam(3.3, 1.6, focus(640, 470, 1.12, 0, 20));
-      // "A rod." - drops in, wobbles on a spring
-      tl.to("#rod", { y: 0, duration: .42, ease: "power3.in" }, 4.48);
-      tl.fromTo("#rod", { rotation: -34 }, { rotation: -26, duration: 1.1, ease: "elastic.out(1.2, .25)", immediateRender: false }, 4.9);
-      tl.fromTo("#boatBob", { scaleY: 1 }, { keyframes: [{ scaleY: .97, duration: .08 }, { scaleY: 1, duration: .5, ease: "elastic.out(1, .3)" }], transformOrigin: "50% 100%", immediateRender: false }, 4.9);
+      // "A boat." - a pull-back that shows the whole boat on the lake
+      cam(3.1, 1.0, focus(640, 440, 1.1, 0, 10), "power2.inOut");
+      // "A rod." - tilt up the rod to its tip
+      cam(4.55, .8, focus(800, 330, 1.3), "power2.inOut");
       // "A lot of fish." - leaps with motion blur + splashes
       const splashes = [];
       function doSplash(host, x, y, s, at, seed) { const sp = makeSplash(host, x, y, s); const r = rng(seed);
@@ -399,9 +399,7 @@
       doSplash($("#fishFront"), 985, 660, 1.3, 7.08, 31);
       cam(5.55, .9, focus(760, 470, 1.18, 0, 10), "power2.inOut");
       // "And almost nobody..." - the crew pops into the boat (overshoot), then the camera pulls back
-      [["#quest", 6.81], ["#pixie", 6.98], ["#silA", 7.12], ["#silB", 7.24]].forEach(([m, t]) => tl.to(`${m} .pop`, { y: 0, duration: .55, ease: "back.out(1.15)" }, t));
       MAX.face(tl, "sideeye", 0); LEO.face(tl, "laugh", 0);
-      tl.fromTo("#boatBob", { y: 0 }, { keyframes: [{ y: 9, duration: .12 }, { y: 0, duration: .9, ease: "elastic.out(1, .35)" }], immediateRender: false }, 6.95);
       cam(6.85, .9, focus(640, 420, 1.3), "power2.out");
       cam(7.88, 1.9, focus(640, 400, 1.0, 0, -10), "power2.inOut");
       tl.to("#linePath", { strokeDashoffset: 0, duration: 1.5, ease: "power1.inOut" }, 7.95);
@@ -410,28 +408,13 @@
       tl.fromTo(buddy, { y: 680 }, { y: 618, duration: .6, ease: "back.out(2)", immediateRender: false }, 8.3);
       tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .14, ease: "steps(1)" }, { opacity: 0, duration: .18, ease: "steps(1)" }] }, 9.2);
       tl.to(buddy, { y: 680, duration: .3, ease: "power2.in" }, 9.75);
-      // "slapping each other in the face" - whip to the pair, swing, SLAP, shake, KO stars
-      cam(10.06, .3, focus(800, 375, 1.85), "expo.inOut");
-      MAX.face(tl, "laugh", 10.2); LEO.face(tl, "neutral", 10.2);                         // anticipation: Max winds up, Leo unaware
-      tl.to("#silA .lean", { rotation: -10, x: -8, duration: .25, ease: "power2.out", transformOrigin: "50% 100%" }, 10.24);
-      tl.to("#silA .lean", { rotation: 16, x: 26, duration: .12, ease: "power4.in", transformOrigin: "50% 100%" }, 10.5);
-      LEO.face(tl, "shock", 10.62);                                                          // hit
-      LEO.face(tl, "sweat", 11.55);                                                          // reaction: dazed (KO stars)
-      LEO.face(tl, "laugh", 12.1);
-      tl.to("#silB .lean", { rotation: 14, x: 12, transformOrigin: "50% 100%", duration: .08 }, 10.62);
-      tl.to("#silB .lean", { rotation: 0, x: 0, duration: .9, ease: "elastic.out(1, .3)" }, 10.72);
-      tl.to("#silA .lean", { rotation: 0, x: 0, duration: .6, ease: "power2.inOut" }, 11.0);
-      tl.fromTo("#slapBurst", { scale: 0, rotation: -30 }, { scale: 1, rotation: 0, duration: .5, ease: "elastic.out(1.1, .45)" }, 10.62);
-      tl.to("#slapBurst", { scale: 1.08, duration: .9, ease: "sine.inOut" }, 11.12);
-      tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .55, duration: .03 }, { opacity: 0, duration: .14 }] }, 10.62);
+      // "slapping each other in the face" - v3.3.1: cut to the approved art 02 (slap revive) on "slapping", slow push-in
+      // onto the hand on the cheek, the flash + shake on the cut (the slap SFX sits on it); the boat world runs on underneath
+      tl.fromTo("#slapPush", { scale: 1.0 }, { scale: 1.09, duration: 1.98, ease: "power1.out" }, 10.2);
+      tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .55, duration: .03 }, { opacity: 0, duration: .14 }] }, 10.2);
       const SH = [[14, -9], [-12, 8], [9, 6], [-7, -5], [5, 3], [-3, -2], [0, 0]];
-      tl.to("#shake", { keyframes: SH.map(([x, y]) => ({ x, y, duration: .045 })) }, 10.62);
+      tl.fromTo("#slapPush", { x: 0, y: 0 }, { keyframes: SH.map(([x, y]) => ({ x, y, duration: .045 })), immediateRender: false }, 10.22);
       tl.set("#ko", { opacity: 0 }, 0);
-      tl.to("#ko", { opacity: 1, duration: .1 }, 10.8);
-      tl.set("#ko", { opacity: 0 }, 12.1);
-      koStars.forEach((s, i) => tl.fromTo(s, { rotation: 0, y: 0 }, { rotation: 360, y: -8, duration: 1.2, ease: "none", repeat: 0 }, 10.8 + i * .06));
-      tl.to("#ko", { rotation: 360, duration: 1.3, ease: "none", transformOrigin: "50% 50%" }, 10.8);
-      cam(10.8, 1.3, focus(790, 380, 1.95), "sine.out");
 
       // (v3.3: the fish-money and scope inserts are gone with "Gambling the fish money. Fishing with a sniper rifle.";
       //  the warp holds the slap shot 1:1 after "face." and jumps to the price cut just before "It costs")
@@ -451,27 +434,30 @@
       // anything in the game. And yet," - back on the boat: Quest, Pixie and Max seated, Leo's seat EMPTY; Leo's
       // "I'll get it later." bubble drifts down out of the chat and hangs over the empty seat.
       const A8 = (n) => {{A8}} + (n - {{N8}});                                       // narration time -> authored time
-      const H8 = { cut: {{N8}}, getting: {{h08.w1}}, adults: {{h08.w4}}, same: {{h08.w7}}, boat: {{h08.w8}}, harder: {{h08.w10}},
+      const H8 = { cut: {{N8}}, getting: {{h08.w1}}, adults: {{h08.w4}}, same: {{h08.w7}}, boat: {{h08.w8}}, yet: {{h08.w17.end}}, harder: {{h08.w10}},
                    anything: {{h08.w12}}, game: {{h08.w15}}, gameEnd: {{h08.w15.end}}, and: {{h08.w16}}, yet: {{h08.w17}}, mil: {{h09.w1}} };
       tl.set("#breath", { filter: "none" }, A8(H8.cut));
       tl.set("#numsDim", { opacity: 0 }, A8(H8.cut));
       tl.set(buddy, { opacity: 0 }, A8(H8.cut));
-      tl.set("#silB", { opacity: 0 }, A8(H8.cut));                                  // Leo never came: his seat is empty
-      tl.set("#silB", { opacity: 1 }, 25.95);                                        // ...and yet: the four of them in the fleet
-      MAX.face(tl, "neutral", A8(H8.cut));
-      MAX.face(tl, "sideeye", A8(H8.boat + .25));                                    // Max glances at the empty seat
-      MAX.face(tl, "neutral", A8(H8.gameEnd + .1));
-      cam(A8(H8.cut), 0, focus(760, 425, 1.4, 0, 10));                              // a medium on the crew, the empty seat right of centre
-      cam(A8(H8.cut), H8.mil - H8.cut, focus(835, 410, 1.5, 0, 10), "sine.inOut"); // slow push toward the empty seat
-      // the bubble: drifts down from above the frame (it comes from the chat), sways, settles over the seat on "boat"
-      tl.set("#laterBub", { x: 40, y: -420, rotation: 7, opacity: 1 }, A8(H8.cut));
-      tl.to("#laterBub", { keyframes: [{ x: -26, y: -150, rotation: -4, duration: (H8.boat - H8.getting) * .55, ease: "sine.inOut" },
-                                       { x: 0, y: 0, rotation: 2, duration: (H8.boat - H8.getting) * .45, ease: "power2.out" }] }, A8(H8.getting));
-      tl.fromTo("#laterBub", { y: 0, rotation: 2 }, { y: -7, rotation: -1.5, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 2, immediateRender: false }, A8(H8.boat + .1));
-      tl.fromTo("#laterTail", { scaleY: 0 }, { scaleY: 1, duration: .25, ease: "back.out(2)", transformOrigin: "50% 0%", immediateRender: false }, A8(H8.boat - .05));
-      tl.set("#laterTail", { scaleY: 0 }, 0);
-      // "And yet,": the bubble lets go and floats up out of the frame; the seat stays empty a beat
-      tl.to("#laterBub", { y: -420, rotation: -6, opacity: 0, duration: H8.mil - H8.and + .1, ease: "power2.in" }, A8(H8.and));
+      tl.set("#silB", { opacity: 0 }, A8(H8.cut));                                  // Leo never came: his place at the stern is empty
+      tl.set("#silB", { opacity: 1 }, 31.2);                                         // ...and yet: he arrives on "Together." (below)
+      // his rod is left propped on the stern rim where he would sit (the standing rod no longer hides the place)
+      tl.set("#rod", { x: -41, y: -13, rotation: 75 }, A8(H8.cut));
+      tl.set("#rod", { x: 0, y: 0, rotation: -26 }, 25.95);
+      tl.set("#linePath", { opacity: 0 }, A8(H8.cut)); tl.set("#linePath", { opacity: 1 }, 25.95);
+      // the others glance at the empty place: Quest and Pixie thinking (looking stern-wards), Max a dry side-eye at it
+      const LAUGH = ["#quest .sway img:not(.think)", "#pixie .sway img:not(.think)"], THINK = ["#quest .think", "#pixie .think"];
+      tl.set(THINK, { opacity: 1 }, A8(H8.cut)); tl.set(LAUGH, { opacity: 0 }, A8(H8.cut));
+      tl.set(THINK, { opacity: 0 }, 31.2); tl.set(LAUGH, { opacity: 1 }, 31.2);      // they light up when Leo arrives
+      MAX.face(tl, "sideeye", A8(H8.cut));
+      cam(A8(H8.cut), 0, focus(735, 430, 1.35, 0, 10));                              // the three and the empty place, right of centre
+      cam(A8(H8.same), H8.and + .3 - H8.same, focus(830, 455, 1.75), "sine.inOut"); // "same boat": slow push onto the empty place
+      // the bubble rises out of the empty place (tail tip planted on the rim), sways, then greys out like Leo's avatar did
+      tl.set("#laterBub", { opacity: 1, scale: 0, rotation: -6 }, A8(H8.adults));
+      tl.to("#laterBub", { scale: 1, rotation: 0, duration: .5, ease: "back.out(1.8)" }, A8(H8.adults));
+      tl.fromTo("#laterBub", { rotation: 0 }, { rotation: 2, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, A8(H8.boat));
+      tl.fromTo("#laterBub .ch-bub", { filter: "grayscale(0) brightness(1)" }, { filter: "grayscale(1) brightness(.82)", duration: .6, ease: "power2.out", immediateRender: false }, A8(H8.harder));
+      tl.to("#laterBub", { opacity: 0, scale: .85, duration: H8.yet - H8.and, ease: "power2.in" }, A8(H8.and));   // gone before the cut
 
       // ---------------- FLEET (25.95 - 31.2): "Millions of people bought a fishing game."
       tl.set("#breath", { filter: "none" }, 25.95);
@@ -481,7 +467,7 @@
       cam(25.95, 0, focus(640, 420, 1.2, 0, -30));
       cam(25.95, 4.6, focus(640, 430, 1.0, 0, -90), "power1.inOut");
       fleet.forEach((f, i) => { const dist = Math.hypot(f.x - 640, (f.y - 470) * 3) / 900;
-        tl.fromTo(f.inn, { y: 40 * f.sc + 10, scale: .4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .55, ease: "back.out(2.4)", transformOrigin: "50% 100%" }, 25.95 + .15 + dist * 1.5);
+        tl.fromTo(f.inn, { y: 40 * f.sc + 10, scale: .4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .5, ease: "power2.out", transformOrigin: "50% 100%" }, 25.95 + .15 + dist * 1.5);
         tl.fromTo(f.bob, { y: -3 * f.sc * 2, rotation: -1.5 }, { y: 3 * f.sc * 2, rotation: 1.5, duration: 1.2 + R() * .9, ease: "sine.inOut", yoyo: true, repeat: 5, transformOrigin: "50% 90%" }, 25.95 + R() * .5); });
       tl.set(fleet.map((f) => f.inn), { opacity: 0 }, 0);
       // "To do everything else." - card slams, chaos in the boats
@@ -500,6 +486,7 @@
       tl.to("#pixie .lean", { rotation: 5, x: 10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.25);
       tl.to("#quest .lean", { rotation: -3, x: -6, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.3);
       MAX.face(tl, "laugh", 31.3); LEO.face(tl, "laugh", 31.3);
+      tl.fromTo("#silB .pop", { y: 150 }, { y: 0, duration: .45, ease: "back.out(1.4)", immediateRender: false }, 31.2);   // Leo drops into his seat on "Together."
       tl.to("#silA .lean", { rotation: -5, x: -10, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.35);
       tl.to("#silB .lean", { rotation: -6, x: -14, duration: 1.0, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, 31.4);
       tl.to("#linePath", { opacity: .5, duration: .5 }, 31.2);
@@ -509,7 +496,7 @@
       // reels it up into place on "why", one bobber bounce, then the line goes slack and leaves. No sparkle.
       const WHY = {{l07.w2}};
       cam(WHY - .8, .85, focus(640, 300, 1.08, 0, 20), "power3.inOut");
-      const BAR = 166 + 4, LOW = 730;                                   // the logo waits LOW px under its place
+      const BAR = 166 + 4, LOW = 230;                                   // the logo waits LOW px under its place
       const C = { wy: LOW, hy: -20, sag: 0 };
       const drawCatch = () => {
         gsap.set("#wmGroup", { y: C.wy });
@@ -519,7 +506,8 @@
         gsap.set("#hookG", { y: hy });
       };
       tl.set(C, { wy: LOW, hy: -20, sag: 0, onUpdate: drawCatch }, WHY - .4);
-      tl.to(C, { hy: LOW + BAR, duration: .38, ease: "power2.in", onUpdate: drawCatch }, WHY - .4);          // the line drops
+      tl.set("#wmGroup", { opacity: 0 }, WHY - .4); tl.to("#wmGroup", { opacity: 1, duration: .12 }, WHY - .02);
+      tl.to(C, { hy: BAR + 40, duration: .38, ease: "power2.in", onUpdate: drawCatch }, WHY - .4);          // the line drops
       tl.to(C, { wy: 0, hy: BAR, duration: .55, ease: "power3.out", onUpdate: drawCatch }, WHY - .02);      // reeled up
       tl.to(C, { keyframes: [{ wy: 26, hy: BAR + 26, duration: .16, ease: "power2.out" },                   // bobber dip
                              { wy: -6, hy: BAR - 6, duration: .2, ease: "sine.inOut" },
@@ -562,7 +550,6 @@
         A: { name: "Max", color: "#7860be", img: ["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210] },
         B: { name: "Leo", color: "#d69628", img: ["assets/leo_front_sideeye.png", 221, 760, 110.5, 118, 210] },
       };
-      $("#laterAv").innerHTML = ChatPhone.avImg(...MEM.B.img);              // the same Leo as in the chat
       const chat = ChatPhone($("#phoneFlip"), {
         title: "The boat", sub: "Quest, Pixie, Max, Leo", clock: "11:42", me: "Q",
         members: Object.fromEntries(Object.entries(MEM).map(([k, m]) => [k, { name: m.name, color: m.color, avatar: ChatPhone.avImg(...m.img) }])),
@@ -579,6 +566,9 @@
       const dB = chat.typing("B");
       const mB = chat.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 });
       const dB2 = chat.typing("B");
+      const NAMEC = { Quest: "#a8241c", Pixie: "#0b5a60", Max: "#5a3fa6", Leo: "#7a4f00" };    // AA on the cream screen
+      document.querySelectorAll("#phoneFlip .ch-name, #phoneFlip .ch-typer").forEach((e) => { const k = e.textContent.split(" ")[0]; if (NAMEC[k]) e.style.color = NAMEC[k]; });
+      document.querySelectorAll("#phoneFlip .ch-input").forEach((e) => { e.style.color = "rgba(22, 22, 31, .62)"; e.setAttribute("data-critic-ignore", "1"); });
       const prings = [0, 1, 2].map(() => mk("div", "pring", $("#prings"), "left:340px; top:120px; width:600px; height:600px; opacity:0"));
       // the chat camera breathes on its own phase; the breathing clock stops dead during FREEZE
       const env2 = { t: C2.start };
@@ -609,7 +599,7 @@
       chat.show(tl2, sA, C2.b3 - .02, .26);
       chat.read(tl2, sQ, C2.b3 + .3);
       [[sP, C2.b1, 1.04, 2], [sQ, C2.b2, 1.07, -3], [sA, C2.b3, 1.1, 4]].forEach(([st, t, k, rot], i) => {
-        tl2.fromTo(st.bub, { scale: 2.3, opacity: 0 }, { scale: 1, opacity: 1, rotation: st.rot, duration: .22, ease: "power4.in", immediateRender: false }, t - .04);
+        tl2.fromTo(st.bub, { scale: 1.9 }, { scale: 1, rotation: st.rot, duration: .2, ease: "power4.in", immediateRender: false }, t - .04);   // opaque punch-in
         tl2.fromTo(st.bub, { scale: 1 }, { keyframes: [{ scale: .9, duration: .05 }, { scale: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], immediateRender: false }, t + .18);
         kick2(t + .18, k, rot);
         const r = prings[i];
@@ -620,7 +610,7 @@
       cam2(C2.b1 - .3, C2.b3 - C2.b1 + .3, focus2(640, 430, 1.22), "sine.inOut");
       // H7: "I'll get it later." - dead still - "He will not get it later." (dots come back... and vanish on "not")
       cam2(C2.friend, C2.l[0] - C2.friend, focus2(640, 462, 1.32), "power2.inOut");
-      chat.dots(tl2, dB, C2.who, C2.l[0] - .02);
+      chat.dots(tl2, dB, C2.who, C2.l[0] - .3);                            // the typing row leaves before his message lands
       chat.typeWords(tl2, mB, C2.l);                                         // I'll | get | it | later.
       chat.dots(tl2, dB2, C2.he, C2.not2);
       cam2(C2.not2, .9, focus2(700, 452, 1.24), "power2.inOut");
@@ -642,7 +632,7 @@
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       // the chat's round profile pictures are phone UI, not a character acting (the same people act full-figure in the
       // boat): marked for the frame critic's CHAR_BADGE rule
-      document.querySelectorAll("#shotChat .ch-av, #laterBub .ch-av").forEach((e) => e.setAttribute("data-critic-ignore", "1"));
+      document.querySelectorAll("#shotChat .ch-av").forEach((e) => e.setAttribute("data-critic-ignore", "1"));
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
     </script>
