@@ -1231,7 +1231,7 @@
       tl.set(["#qLabel", "#qMark", "#q1", "#q2", "#q3", "#q4", "#q5", "#q6", "#q7", "#q8", "#qEnd", "#q9"], { opacity: 0 }, 0);
       tl.set("#qLabel", { x: -380 }, 0);
       tl.fromTo("#qLabel", { opacity: 0, scale: .4, rotation: -6 }, { opacity: 1, scale: 1, rotation: -1, duration: .4, ease: "back.out(2.6)", ...IR }, {{l29.w26}});
-      tl.fromTo("#qMark", { opacity: 0, scale: 2.4, y: -40 }, { opacity: 1, scale: 1, y: 0, duration: .3, ease: "back.out(2)", ...IR }, {{l29.w30}});
+      tl.fromTo("#qMark", { opacity: 0, scale: 2.4, y: -40 }, { opacity: 1, scale: 1, y: 0, duration: .3, ease: "back.out(2)", ...IR }, {{l29.w28-0.04}});   // v3.3.3: the quote mark lands on "Steam"
       [["#q1", {{l29.w33}}], ["#q2", {{l29.w34}}], ["#q3", {{l29.w35}}], ["#q4", {{l29.w36}}], ["#q5", {{l29.w37}}], ["#q6", {{l29.w38}}], ["#q7", {{l29.w39}}], ["#q8", {{l29.w40}}]].forEach(([s, t], i) =>
         tl.fromTo(s, { opacity: 0, y: 50, scale: 1.45, rotation: i % 2 ? 4 : -4 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: .32, ease: "back.out(2.4)", ...IR }, t - .04));
       tl.fromTo("#q2", { x: 0, rotation: 0 }, { keyframes: Array.from({ length: 30 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (5 + (i % 3)), rotation: (i % 2 ? -1 : 1) * 2.2, duration: .05 })), ...IR }, {{l29.w34+0.3}});   // "violence" shakes

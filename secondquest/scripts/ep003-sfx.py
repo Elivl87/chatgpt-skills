@@ -336,11 +336,11 @@ def cues():
     a(T('l36.w11') + .16, 'stamp', -18, why='the tag flips: FRIENDSLOP')
     a(T('l36.w24') - .02, 'pop', -26, -.2, why='"playing": the four friends pop up in a row')
     a(T('l37.w10'), 'tin', -17, .4, why='"garbage": the lid flips off the can')
-    a(T('l37.w15'), 'squish', -20, .4, why='"friends": the squeeze around the can')
-    a(T('l38.w1') - .36, 'whip', -16, -.2, why='whip out to summer')
     a(T('l38.w4'), 'drain', -20, why='"short.": the PLAYTIME bar drains red')
     a(T('l38.w12') + .2, 'stamp', -16, .25, why='"hit.": #1 stamps the calendar')
-    a(T('l40.w16') - .1, 'notify', -18, .1, why='"Tuesday": the group-chat banner')
+    a(T('l40.w12') - .1, 'notify', -18, .1, why='"same boat": the group-chat banner drops in (Max: on?)')
+    a(T('l41.w16'), 'tick', -26, -.1, why='"never": the clock starts racing round to morning')
+    a(T('l42.w23') + .12, 'drain', -22, why='"not done well.": the chart line crashes off the bottom (oof.)')
     a(T('l42.w34') - .04, 'squish', -18, .2, why='"silly": the doodle slap in the yearbook')
     a(T('l43.w8') + .02, 'notify', -22, why='"group": every screen pings at once')
 
@@ -363,7 +363,8 @@ def night():
     return [(T('h05.w1') - .12 - .3, T('h08.w1') - .1 + .3, -15, .3),       # A: the chat (the night room)
             (B0['B'] - .3, T('b03.w11') + .1, -15, .3),                              # B: Quest's room, the numbers, the stage until "Everyone"
             (T('l29.w5'), T('l29.w6') - .1, -32),
-            (T('l39.w6'), T('l41') - .1, -36), (B0['G'], T('l52.end') + 2.5, -37)]
+            # v3.3.3 (retention critic: the bed vanished after 66 s): C-G beds at the hook's level, continuous across joins
+            (T('l39.w6'), T('l41') + .3, -20, .3), (B0['G'] - .3, T('l52.end') + 2.5, -19, .5)]
 
 
 def ambience():
@@ -371,17 +372,24 @@ def ambience():
     return [(0, T('h05.w1') - .12 + .3, -6, .3), (T('h08.w1') - .1 - .3, T('h10.end') + .15, -6, .3),   # A: the lake (not the chat)
             (T('h10.end') + .1, B0['B'] + .3, -26, .3),                           # the "So, why?" rest: only a very low water bed
             (T('b03.w11') - .2, B0['C'] + .3, -8, .3),                                # B2: the boat on the stage (from "Everyone")
-            (B0['D'], T('l25') - .2, -34), (T('l26.w9') - .05, T('l26.w10') + .6, -36),   # D: lake; the breath
-            (B0['E'], T('l29.w23'), -35), (T('l30') - .04, T('l35') - .06, -36),  # E: the lake world
-            (T('l39') - .02, T('l41') - .03, -34), (T('l43.w9'), B0['G'], -44),   # F: dusk/blue hour; the black lake
-            (B0['G'], T('l52.end') + 2.5, -33)]                                   # G: the night lake
+            # v3.3.3: C-G at the hook's level (gaps about -35 dBFS after the master), each crossing its cut by 0.3 s
+            (B0['D'] - .3, T('l25') - .2 + .3, -8, .3),                             # D: the lake, the split, the polaroid, the calm boat
+            (T('l26.w9') - .05 - .3, B0['E'] + .3, -10, .3),                        # D: the breath; the lake in the chat
+            (B0['E'] - .3, T('l35') + .3, -8, .3),                                  # E: the props list, the game world, the failure run, the slap
+            (T('l38.w1') - .36 - .3, T('l41') + .3, -8, .3),                        # F: summer, the sunset, the blue-hour boat
+            (T('l43.w9') - .3, B0['G'] + .3, -12, .3),                              # F: the black lake (the rest before G, at bed level)
+            (B0['G'] - .3, T('l52.end') + 2.5, -8, .5)]                             # G: the night lake
 
 
 def rooms():
     """Other room tones: the doorway yard (wind), the 1 AM living room (TV hum)."""
     # v3.3.1: a gapless room tone under the crickets (the cricket loop has ~0.1 s holes) and into block C's opening
     return [('roomtone', T('h05.w1') - .12 - .3, T('h08.w1') - .1 + .3, -18), ('roomtone', B0['B'] - .3, T('b03.w11') + .1, -18),
-            ('roomtone', B0['C'] - .3, T('l13') + .3, -18),
+            ('roomtone', B0['C'] - .3, B0['D'] + .3, -18),                         # C: phones, calendar, map, clock, the door (v3.3.3: all of C)
+            ('roomtone', T('l25') - .2 - .3, T('l26.w9') - .05 + .3, -18),        # D: the evidence board
+            ('roomtone', T('l35') - .3, B0['F'] + .3, -18),                         # E: years later, the polaroid table
+            ('roomtone', B0['F'] - .3, T('l38.w1') - .36 + .3, -18),               # F: the FRIENDSLOP stage
+            ('roomtone', T('l41') - .3, T('l43.w9') + .3, -18),                     # F: 1 AM, the yearbook, the wall of phones
             ('wind', T('l19.w13'), T('l19.w26'), -40), ('tvhum', T('l41') - .03, T('l42.w1') - .1, -42)]
 
 

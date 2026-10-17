@@ -386,7 +386,7 @@
       </div>
 
       <!-- ================= D4: water-level angle, oar in the foreground (l24 "Or") ================= -->
-      <div id="oarClip" class="full clip" data-start="{{l24.w25-0.05}}" data-duration="{{l24.w33-l24.w25}}" data-track-index="2" style="z-index: 3; pointer-events: none">
+      <div id="oarClip" class="full clip" data-start="{{l24.w25-0.05}}" data-duration="{{l24.w31-l24.w25}}" data-track-index="2" style="z-index: 3; pointer-events: none">
         <div id="nearWater"></div>
         <svg id="oar" viewBox="0 0 1280 720"><g id="oarG">
           <path d="M -120 820 L 760 520" stroke="#16161f" stroke-width="40" stroke-linecap="round"/>
@@ -875,6 +875,7 @@
       tl.set("#ph3fish", { filter: "blur(0px)" }, D3);
       tl.set(ph3fish.f.wide, { opacity: 0 }, D3);
       tl.fromTo("#d3cam", { scale: 1.02, x: 0, y: 0 }, { scale: 1.1, x: -40, y: -20, duration: T.most - T.caught - .4, ease: "sine.inOut", immediateRender: false }, T.caught + .4);
+      tl.to("#d3cam", { scale: 1.2, x: 10, y: -16, duration: T.they - .3 - T.most, ease: "sine.inOut" }, T.most);   // v3.3.3: push on the polaroid from "Most"
       tl.to("#ph3bg", { filter: "blur(0px)", duration: .55, ease: "power2.inOut" }, T.most - .05);
       tl.to("#ph3fish", { filter: "blur(4px)", duration: .55, ease: "power2.inOut" }, T.most - .05);
       tl.set(ph3fish.f.wide, { opacity: 1 }, T.most + .4);
@@ -917,26 +918,25 @@
       tl.fromTo(["#hr1", "#hr2"], { scaleX: 1 }, { scaleX: 1.12, skewX: 6, duration: .35, yoyo: true, repeat: 4, ease: "sine.inOut" }, POV0);
       // LOW: water-level angle, oar in the foreground, parallax
       cam(T.or - .05, 0, focus(600, 505, 1.75, 0, 0));
-      cam(T.or - .05, T.theFish - T.or, focus(650, 512, 1.82), "none");
-      tl.fromTo("#oarG", { x: -80, y: 10 }, { x: 70, y: 0, duration: T.theFish - T.or, ease: "none" }, T.or - .05);
+      cam(T.or - .05, T.fine - T.or, focus(650, 512, 1.82), "none");
+      tl.fromTo("#oarG", { x: -80, y: 10 }, { x: 70, y: 0, duration: T.fine - T.or, ease: "none" }, T.or - .05);
       tl.fromTo("#nearWater", { y: 0 }, { y: -8, duration: .9, yoyo: true, repeat: 5, ease: "sine.inOut" }, T.or - .05);
       tl.fromTo("#oarDrop", { attr: { cy: 560 }, opacity: 0 }, { attr: { cy: 700 }, opacity: 1, duration: .45, ease: "power2.in" }, T.dont + .3);
       tl.to("#oarDrop", { opacity: 0, duration: .05 }, T.dont + .75);
-      tl.fromTo("#oarDrop", { attr: { cy: 560 }, opacity: 0 }, { attr: { cy: 700 }, opacity: 1, duration: .45, ease: "power2.in", immediateRender: false }, T.fine - .1);
-      tl.to("#oarDrop", { opacity: 0, duration: .05 }, T.fine + .35);
       tl.to("#c2P .lean", { rotation: -3, duration: 1.2, ease: "sine.inOut", transformOrigin: "50% 100%" }, T.dont);
       // REASON: by the bobber; it dips twice; the fish surfaces; the tag "a reason" swings onto it
-      const RS = T.theFish - .05;
+      const RS = T.fine - .05;                                          // v3.3.3: the cut to the bobber comes ~1 s earlier (was "The fish")
       cam(RS, 0, focus(300, 505, 1.75));
       cam(RS, T.and - RS, focus(306, 500, 1.82), "sine.inOut");
-      [T.fish, T.afternoon].forEach((t) => { tl.to("#bob2", { keyframes: [{ y: 12, duration: .08 }, { y: -3, duration: .25, ease: "sine.out" }, { y: 0, duration: .3 }] }, t);
+      [RS + .5, T.theFish].forEach((t) => { tl.to("#bob2", { keyframes: [{ y: 12, duration: .08 }, { y: -3, duration: .25, ease: "sine.out" }, { y: 0, duration: .3 }] }, t);
         b2rings.forEach((r, i) => tl.fromTo(r, { scale: .3, opacity: .9 }, { scale: 1.8 + i * .4, opacity: 0, duration: .9, ease: "power2.out", immediateRender: false }, t + i * .1)); });
-      tl.set(surfTop, { opacity: 1 }, RS); tl.set(surfBot, { opacity: 0 }, RS); tl.to(surfBot, { opacity: .5, duration: .3 }, T.reason - .35);
-      tl.fromTo(sfA.e, { y: 0 }, { y: -186, duration: .55, ease: "back.out(1.4)" }, T.reason - .45);
-      tl.fromTo(sfB.e, { y: 0 }, { y: -186, duration: .55, ease: "back.out(1.4)" }, T.reason - .45);
-      sfRings.forEach((r, i) => tl.fromTo(r, { scale: .3, opacity: .95 }, { scale: 1.4 + i * .45, opacity: 0, duration: 1.2, ease: "power2.out" }, T.reason - .3 + i * .15));
-      tl.fromTo([sfA.e, sfB.e], { rotation: -8 }, { rotation: 2, duration: .9, ease: "elastic.out(1, .4)", immediateRender: false }, T.reason - .2);
-      tl.fromTo([sfA.e, sfB.e], { y: -186 }, { y: -180, duration: .9, yoyo: true, repeat: 4, ease: "sine.inOut", immediateRender: false }, T.reason + .3);
+      tl.set(surfTop, { opacity: 1 }, RS); tl.set(surfBot, { opacity: 0 }, RS); tl.to(surfBot, { opacity: .5, duration: .3 }, T.fish - .15);
+      // the fish surfaces on "fish" (v3.3.3: was on "reason"); the tag still lands on "reason"
+      tl.fromTo(sfA.e, { y: 0 }, { y: -186, duration: .55, ease: "back.out(1.4)" }, T.fish - .25);
+      tl.fromTo(sfB.e, { y: 0 }, { y: -186, duration: .55, ease: "back.out(1.4)" }, T.fish - .25);
+      sfRings.forEach((r, i) => tl.fromTo(r, { scale: .3, opacity: .95 }, { scale: 1.4 + i * .45, opacity: 0, duration: 1.2, ease: "power2.out" }, T.fish - .1 + i * .15));
+      tl.fromTo([sfA.e, sfB.e], { rotation: -8 }, { rotation: 2, duration: .9, ease: "elastic.out(1, .4)", immediateRender: false }, T.fish);
+      tl.fromTo([sfA.e, sfB.e], { y: -186 }, { y: -180, duration: .9, yoyo: true, repeat: 2, ease: "sine.inOut", immediateRender: false }, T.fish + .5);
       tl.set(sfA.f.lookup, { opacity: 1 }, T.reason - .25);        // looks up at the tag coming down
       tl.set(sfA.f.lookup, { opacity: 0 }, T.reason + .5);
       blink(sfA.f.blink, T.reason + 1.1, .18);
@@ -1020,7 +1020,11 @@
       tl.set("#pokerHost", { filter: "url(#hblur)" }, WG + .08);
       tl.fromTo("#garageHost", { x: 1500 }, { x: 0, duration: .3, ease: "power2.out" }, WG + .12);
       tl.set("#garageHost", { filter: "url(#hblur)" }, WG + .05); tl.set("#garageHost", { filter: "none" }, WG + .4);
-      tl.fromTo("#garageHost .scene", { scale: 1.0 }, { scale: 1.045, duration: T.nobody3 - T.car, ease: "none" }, WG + .1);
+      // v3.3.3 (retention critic): a slow push, then in on the clock while the afternoon races; back out before the polaroid match
+      tl.set("#garageHost .scene", { transformOrigin: "0px 0px" }, 0);
+      tl.fromTo("#garageHost .scene", { scale: 1.0, x: 0, y: 0 }, { scale: 1.04, x: -25.6, y: -14.4, duration: T.afternoon2 - .25 - WG - .1, ease: "none" }, WG + .1);
+      tl.to("#garageHost .scene", { scale: 1.5, x: -648, y: 0, duration: (T.garage + .2 - T.afternoon2 + .25) * .8, ease: "power2.inOut" }, T.afternoon2 - .25);
+      tl.to("#garageHost .scene", { scale: 1.045, x: -28.8, y: -16.2, duration: .45, ease: "power2.inOut" }, T.nobody3 - .55);
       // "afternoon": time-lapse: the clock spins, the sun patch sweeps the floor, the light goes gold then dusk
       const TL0 = T.afternoon2 - .25, TL1 = T.garage + .2;
       GAR.forEach((g) => {
