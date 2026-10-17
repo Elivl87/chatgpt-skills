@@ -1,0 +1,8 @@
+57.50 cc0/kenney_impact/impactSoft_heavy_002.ogg -12 0   B "alone.": camera kick + light flicker
+93.24 cc0/kenney_impact/impactWood_light_001.ogg -9 0.15   C door knock 1 ("problem")
+93.45 cc0/kenney_impact/impactWood_light_003.ogg -10 0.15   C door knock 2
+93.66 cc0/kenney_impact/impactWood_light_004.ogg -8 0.15   C door knock 3
+164.15 cc0/rubberduck_water/splash_09.ogg 0 0.5   E fish leaps out on "alibi,"
+164.83 cc0/rubberduck_water/splash_04.ogg -9 0.5   E fish dives back
+198.27 cc0/rubberduck_water/bubble_01.ogg -13 0.3   E fish peeks up on "is"
+198.97 cc0/rubberduck_100sfx/plop_01.ogg -2 0.3   E fish sweats on "mostly" (+ camera pulse)

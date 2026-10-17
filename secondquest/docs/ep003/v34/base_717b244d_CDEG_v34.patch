@@ -1,0 +1,528 @@
+diff --git a/secondquest/tools/hyperframes_ep003/src/blockC.template.html b/secondquest/tools/hyperframes_ep003/src/blockC.template.html
+index 0ce88dd7..4949795b 100644
+--- a/secondquest/tools/hyperframes_ep003/src/blockC.template.html
++++ b/secondquest/tools/hyperframes_ep003/src/blockC.template.html
+@@ -44,6 +44,7 @@
+       .phone .dim { position: absolute; inset: -3px; border-radius: 42px; background: rgba(6, 6, 12, .72); pointer-events: none; }
+       .msg { position: absolute; left: 12px; right: 12px; top: 0; }
+       .msg.me { text-align: right; }
++      .msg.me .nm { padding-left: 0; padding-right: 8px; }
+       .msg .nm { font: 800 16px/20px "Inter", sans-serif; height: 22px; padding-left: 6px; white-space: nowrap; }
+       .bub { position: relative; display: inline-block; text-align: left; font: 600 26px/32px "Inter", sans-serif; padding: 11px 18px; border-radius: 22px; background: #fff; color: var(--ink);
+         white-space: nowrap; box-shadow: 0 2px 0 rgba(0,0,0,.10); }
+@@ -121,7 +122,7 @@
+       .mbox .send svg { position: absolute; left: 15px; top: 14px; width: 40px; height: 42px; }
+       #sentBub { position: absolute; right: 250px; top: 160px; font: 600 34px/40px "Inter"; padding: 16px 26px; border-radius: 28px; border-bottom-right-radius: 8px; background: var(--red); color: #fff; white-space: nowrap; box-shadow: 0 8px 0 rgba(0,0,0,.3); }
+       #sentTick { position: absolute; right: 252px; top: 240px; font: 800 16px "Inter"; color: #a7a2b5; letter-spacing: .08em; }
+-      #tag799 { position: absolute; left: 330px; top: 424px; width: 250px; height: 112px; }
++      #tag799 { position: absolute; left: 488px; top: 458px; width: 250px; height: 112px; }
+       #tag799 .card { position: absolute; inset: 0; background: var(--gold); border: 5px solid var(--ink); border-radius: 20px; box-shadow: 7px 8px 0 var(--ink); display: flex; align-items: center; justify-content: center; }
+       #tag799 .price { font: 400 76px/1 "Anton"; color: var(--ink); margin-top: 4px; margin-left: 34px; }
+       #tag799 .hole { position: absolute; left: 18px; top: 42px; width: 22px; height: 22px; border-radius: 50%; background: #2a2236; border: 4px solid var(--ink); }
+@@ -259,13 +260,8 @@
+       <div id="fishShot" class="full clip shot" data-start="{{l17.w23-0.1}}" data-duration="{{l17.w27-0.14-l17.w23+0.1}}" data-track-index="2">
+         <img class="img" src="assets/living_night.png" alt="" style="left: -40px; top: -22px; width: 1360px; height: 765px; filter: blur(18px) brightness(.28) saturate(.5)" />
+         <div class="br full"><div class="cam" id="fishCam">
+-          <div class="abs" style="left: 760px; top: 70px; width: 380px; height: 640px; border-radius: 46px; background: #2a2b30; border: 3px solid #0d0d10; filter: blur(7px)">
+-            <div class="abs" style="left: 14px; top: 14px; right: 14px; bottom: 14px; border-radius: 36px; background: #8d8b88"></div>
+-            <div class="abs" style="left: 40px; top: 150px; width: 210px; height: 70px; border-radius: 20px; background: #b5b3b0"></div>
+-            <div class="abs" style="left: 130px; top: 260px; width: 210px; height: 70px; border-radius: 20px; background: #6e6c6a"></div>
+-            <div class="abs" style="left: 40px; top: 370px; width: 230px; height: 70px; border-radius: 20px; background: #b5b3b0"></div>
+-          </div>
+           <div class="abs" style="left: 640px; top: 380px; width: 620px; height: 6px; background: #9a9a9a; filter: blur(1.5px); opacity: .8"></div>
++          <div id="fishPhoneHost" class="full"></div>
+           <div id="fishC" class="abs" style="left: 120px; top: 380px; width: 540px; height: 400px" data-hf-motion-blur='{"samplesPerFrame": 8}'>
+             <img src="assets/fish_34.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%" />
+             <img id="fishLid" src="assets/fish_34_blink.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0" />
+@@ -307,7 +303,7 @@
+           <div class="mk" id="mkAsk" style="left: 292px; top: 440px; font-size: 26px">asking</div>
+           <div id="sentBub">It's eight dollars. Just get it.</div>
+           <div id="sentTick">DELIVERED ✓✓</div>
+-          <div id="tag799" data-hf-motion-blur='{"samplesPerFrame": 8}'><div class="card"><div class="hole"></div><div class="price">$7.99</div></div></div>
++          <div id="tag799"><div class="card"><div class="hole"></div><div class="price">$7.99</div></div></div>
+         </div></div></div>
+       </div>
+ 
+@@ -421,7 +417,7 @@
+         mk("div", "notch", hdr);
+         const avs = o.avatars || "QPAB";
+         [...avs].forEach((k, i) => mk("div", "av", hdr, `left:${14 + i * 18}px; top:${hh - 40}px; background:${WHO[k][0]}`, k));
+-        const tx = 22 + avs.length * 18;
++        const tx = 28 + avs.length * 18;
+         mk("div", "ttl", hdr, `left:${tx}px; top:${hh - 46}px; line-height: 22px`, o.title || "THE GROUP");
+         const sub = mk("div", "sub", hdr, `left:${tx}px; top:${hh - 23}px`, o.sub || "4 members");
+         const list = mk("div", "list", scr, `top:${hh}px`);
+@@ -436,15 +432,16 @@
+         const lines = text.split("\n").length;
+         let h;
+         const el = mk("div", "msg " + (mine ? "me" : "in"), ph.col);
+-        if (!mine && !opts.kind) mk("div", "nm", el, `color:${WHO[who][0]}`, WHO[who][1].charAt(0) + WHO[who][1].slice(1).toLowerCase());
++        const named = !opts.noName && ((!mine && (!opts.kind || opts.kind === "sticker")) || (mine && ph.nameMine && opts.kind !== "dots"));
++        if (named) mk("div", "nm", el, `color:${WHO[who][0]}`, WHO[who][1].charAt(0) + WHO[who][1].slice(1).toLowerCase());
+         let bub;
+-        if (opts.kind === "sticker") { bub = mk("div", "stk", el, `transform: rotate(${opts.rot || -4}deg); margin: 6px 8px`, text); h = 64; }
++        if (opts.kind === "sticker") { bub = mk("div", "stk", el, `transform: rotate(${opts.rot || -4}deg); margin: 6px 8px`, text); h = 64 + (named ? 22 : 0); }
+         else if (opts.kind === "fish") { bub = mk("div", "fishstk", el, `transform: rotate(${opts.rot || 6}deg); margin: 4px 8px`, '<img src="assets/fish_side.png" alt="">'); h = 82; }
+         else if (opts.kind === "dots") { bub = mk("div", "dots", el, "", "<b></b><b></b><b></b>"); h = 44; }
+-        else { bub = mk("div", "bub", el, mine && opts.color ? `background:${opts.color}` : "", text.replace(/\n/g, "<br>")); h = lines * 32 + 22 + (mine ? 0 : 22); }
++        else { bub = mk("div", "bub", el, mine && opts.color ? `background:${opts.color}` : "", text.replace(/\n/g, "<br>")); h = lines * 32 + 22 + (named ? 22 : 0); }
+         if (mine && bub.className === "bub" && !opts.color) bub.style.background = WHO[who][0];
+         let react = null;
+-        if (opts.react) { react = mk("div", "react", bub, mine ? "left:-18px; bottom:-22px" : "right:-18px; bottom:-22px", `<svg viewBox="0 0 30 30">${opts.react === "heart" ? HEART : THUMB}</svg>`); h += 16; }
++        if (opts.react) { react = mk("div", "react", bub, mine ? "left:-18px; bottom:-22px" : "right:-18px; bottom:-22px", `<svg viewBox="0 0 30 30">${opts.react === "heart" ? HEART : THUMB}</svg>`); h += 30; }
+         let chip = null;
+         if (opts.chip) { chip = mk("div", "wkchip", el, mine ? `right: 6px; top: ${h + 4}px` : `left: 6px; top: ${h + 4}px`, "<i></i>3 WKS"); h += 40; }
+         const m = { el, bub, react, chip, y: ph.cy, h, mine };
+@@ -464,13 +461,14 @@
+ 
+       /* ================================================================== C1 (l12): lively chat | silent window */
+       const c1 = phone($("#c1Phone"), { x: 450, y: 34, w: 380, h: 652, title: "THE BOAT", sub: "4 members · online" });
+-      c1.dim.style.opacity = 0;
++      c1.dim.style.opacity = 0; c1.nameMine = true;      // Quest's own messages carry a "Quest" label (so his "Bought." does not read as a second Pixie)
+       addMsg(c1, "B", "who's in for\nthe lake?", false); addMsg(c1, "P", "ME!!", false);
+       const C1M = [
+         addMsg(c1, "A", "It's eight dollars.\nJust get it.", false),
+         addMsg(c1, "P", "Bought.", false, { kind: "sticker", rot: -5 }),
+         addMsg(c1, "Q", "Bought.", true, { kind: "sticker", rot: 4 }),
+-        addMsg(c1, "Q", "boat. tonight.", true),
++        addMsg(c1, "Q", "boat. tonight.", true, { noName: true }),      // same sender right after his sticker: one name label, like a real chat
++       
+         addMsg(c1, "P", "", false, { kind: "fish", rot: -8 }),
+         addMsg(c1, "B", "bringing chips!!", false),
+         addMsg(c1, "A", "Bought.", false, { kind: "sticker", rot: -3 }),
+@@ -484,22 +482,25 @@
+         for (let i = 0; i < 40; i++) conf.push({ e: mk("div", "confetti", host, `left:${R() * 900 - 60}px; top:${-500 + R() * 1150}px; background:${cols[i % 5]}`), r: R() }); })();
+       conf.forEach((c) => { tl.fromTo(c.e, { y: 0, rotation: c.r * 360 }, { y: 520 + c.r * 200, rotation: c.r * 360 + 540, duration: 4.3, ease: "none" }, 0);
+         tl.fromTo(c.e, { x: -14 }, { x: 14, duration: .5 + c.r * .4, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0); });
+-      const FLOAT = [["Bought.", 30, 170, -14], ["fish", 500, 110, 10], ["Bought.", 40, 500, 9], ["★", 540, 560, 0]];
++      // every floater sits fully inside the frame, in the free margins left (0-144) and right (524-636) of the phone, never behind it
++      const FLOAT = [["Bought.", 22, 170, -9], ["fish", 520, 110, 8], ["Bought.", 22, 500, 7], ["★", 560, 560, 0]];
+       const floaters = FLOAT.map(([k, x, y, r], i) => { const host = $("#floaters");
+         const e = mk("div", "floatStk", host, `left:${x}px; top:${y}px`);
+         if (k === "fish") mk("div", "fishstk", e, "", '<img src="assets/fish_side.png" alt="">');
+         else if (k === "★") e.innerHTML = '<svg width="70" height="70" viewBox="-20 -20 40 40"><path d="M0 -18 L5 -6 L18 -5 L8 3 L11 16 L0 9 L-11 16 L-8 3 L-18 -5 L-5 -6 Z" fill="#ffc83d" stroke="#16161f" stroke-width="2.2" stroke-linejoin="round"/></svg>';
+-        else mk("div", "stk", e, "font-size: 30px", k);
+-        e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
++        else mk("div", "stk", e, "font-size: 19px; padding: 8px 11px; border-radius: 12px", k);
++        if (k !== "Bought.") e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');        // readable text lands sharp
+         return { e, r, i }; });
+       floaters.forEach(({ e, r, i }) => { const t = T.now + .1 + i * .36;
+-        tl.fromTo(e, { x: 290 - FLOAT[i][1], y: 330 - FLOAT[i][2], scale: 0, rotation: r - 60, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: r, duration: .5, ease: "back.out(1.6)" }, t);
++        // position lands without overshoot (a back-ease on x slid the left stickers past the frame edge); only scale/rotation overshoot
++        tl.fromTo(e, { x: 290 - FLOAT[i][1], y: 330 - FLOAT[i][2], opacity: 1 }, { x: 0, y: 0, duration: .5, ease: "power3.out" }, t);
++        tl.fromTo(e, { scale: 0, rotation: r - 60 }, { scale: 1, rotation: r, duration: .5, ease: "back.out(1.6)" }, t);
+         tl.to(e, { y: -40 - i * 8, rotation: r + (i % 2 ? 8 : -8), duration: 2.6, ease: "sine.inOut" }, t + .5); });
+       // the split: wipe on "compare", the silent right side wins on "adults"
+       breathe("#c1L .br", 0, CUT.c2, 0);
+       breathe("#c1R .br", 0, CUT.c2, 1);
+       tl.set("#c1Phone", { x: 0 }, 0);
+-      tl.to("#c1Phone", { x: -320, duration: .5, ease: "power3.inOut" }, T.compare - .04);   // phone to the left-half centre
++      tl.to("#c1Phone", { x: -306, duration: .5, ease: "power3.inOut" }, T.compare - .04);   // phone to the left-half centre
+       tl.to("#c1Phone", { scale: 1.04, duration: .12, yoyo: true, repeat: 1, transformOrigin: "50% 50%" }, T.now + .32);
+       tl.set("#c1R", { clipPath: "inset(0px 0px 0px 1280px)" }, 0);
+       tl.to("#c1R", { clipPath: "inset(0px 0px 0px 640px)", duration: .5, ease: "power3.inOut" }, T.compare - .04);
+@@ -515,13 +516,13 @@
+ 
+       /* ================================================================== C2 (l13-l16): four phones */
+       const PX = [74, 364, 654, 944], PW = 262, PH = 540, PY = 62;
+-      const OWN = "QPAB";
++      const OWN = "QPAB", owners = [];
+       const LINES = [["Q", "We should\nhang out.", T.l13], ["P", "Yes!\nDefinitely.", T.l14], ["A", "I'm free in\nthree weeks.", T.l15], ["B", "Three weeks\nworks.", T.l16]];
+       const phones = OWN.split("").map((o, i) => {
+         mk("div", "pglow", $("#c2glows"), `left:${PX[i] + PW / 2 - 260}px; top:${PY + PH / 2 - 380}px; background: radial-gradient(ellipse 50% 50% at 50% 50%, ${WHO[o][0]}aa 0%, ${WHO[o][0]}33 40%, rgba(0,0,0,0) 70%)`).id = "glow" + o;
+         const ph = phone($("#c2phones"), { x: PX[i], y: PY, w: PW, h: PH, hh: 74, title: "THE GROUP", avatars: "QPAB" });
+         ph.hdr.querySelector(".ttl").style.fontSize = "16px"; ph.sub.style.fontSize = "12px";
+-        mk("div", "owner", $("#c2phones"), `left:${PX[i] + PW / 2 - 60}px; top:${PY + PH + 16}px`, `<i style="background:${WHO[o][0]}">${o}</i>${WHO[o][1]}`);
++        owners[i] = mk("div", "owner", $("#c2phones"), `left:${PX[i] + PW / 2 - 60}px; top:${PY + PH + 16}px`, `<i style="background:${WHO[o][0]}">${o}</i>${WHO[o][1]}`);
+         addDivider(ph, "MARCH"); addMsg(ph, "P", "happy bday!!", o === "P"); const last = addMsg(ph, "Q", "thx!!", o === "Q");
+         gsap.set(ph.col, { y: scrollTo(ph, last) });
+         ph.lines = LINES.map(([who, txt], k) => addMsg(ph, who, txt, who === o, { react: k === 1 ? "heart" : k === 3 ? "thumb" : null, chip: k === 2 }));
+@@ -531,7 +532,11 @@
+         const i = OWN.indexOf(who);
+         phones.forEach((ph, j) => showMsg(ph, ph.lines[k], t + (j === i ? 0 : .12 + Math.abs(j - i) * .05)));
+         tl.to(phones[i].dim, { opacity: 0, duration: .12 }, t - .06);
+-        tl.fromTo(phones[i].p, { scale: 1 }, { keyframes: [{ scale: 1.045, duration: .1 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 60%", immediateRender: false }, t - .06);
++        // carousel: the speaker pops forward, its neighbours (and their owner labels) slide 18 px out of the way
++        const prev = k > 0 ? OWN.indexOf(LINES[k - 1][0]) : -1, dxOf = (j, a) => (a < 0 || j === a ? 0 : j < a ? -18 : 18);
++        phones.forEach((ph, j) => { const lb = owners[j];
++          tl.fromTo(ph.p, { scale: j === prev ? 1.1 : 1, x: dxOf(j, prev) }, { scale: j === i ? 1.1 : 1, x: dxOf(j, i), duration: .5, ease: j === i ? "back.out(2.2)" : "power2.out", transformOrigin: "50% 50%", immediateRender: false }, t - .06);
++          tl.fromTo(lb, { y: j === prev ? 16 : 0, x: dxOf(j, prev) }, { y: j === i ? 16 : 0, x: dxOf(j, i), duration: .5, ease: "power2.out", immediateRender: false }, t - .06); });
+         tl.to("#glow" + who, { opacity: 1, duration: .2 }, t - .06);
+         phones.forEach((ph, j) => { if (j !== i) tl.to(ph.dim, { opacity: .5, duration: .2 }, t + .1); });
+         if (k > 0) tl.to("#glow" + LINES[k - 1][0], { opacity: .25, duration: .3 }, t);
+@@ -555,18 +560,18 @@
+       // air puffs out of the deflating heart (only on the framed phone A)
+       (function () { const m1 = phones[2].lines[1]; for (let k = 0; k < 3; k++) { const pf = mk("div", "puff", m1.react, `left:${30 + k * 6}px; top:${10 + k * 8}px`);
+         tl.fromTo(pf, { x: 0, opacity: 0 }, { keyframes: [{ opacity: 1, x: 12, duration: .1 }, { x: 40 + k * 8, y: -6 + k * 6, opacity: 0, duration: .45 }] }, T.three15 + .15 + k * .06); } })();
+-      // framings (never the same twice in a row)
++      // framings (never the same twice in a row). Producer fix: the old 1.5-2x zooms sliced the side phones' bubbles at the frame
++      // edges, so the camera now stays wide (all four phones whole, <= 1.0x before the 1.012-1.036 breathing) and the carousel is
++      // done by the phones themselves: the speaker pops forward (1.12x), the others slide 18 px out of its way and dim, with a small
++      // tilt that flips every beat.
+       cam("#c2cam", CUT.c2, 0, F(640, 360, 1.0));
+-      cam("#c2cam", T.l13 + .15, .7, F(356, 470, 1.55), "power3.inOut");
+-      cam("#c2cam", T.l14 - .1, 0, F(497, 426, 1.95));
+-      tl.set("#c2 .tilt", { rotation: -3, transformOrigin: "50% 50%" }, T.l14 - .1);
+-      cam("#c2cam", T.l14, T.l15 - T.l14 - .2, F(497, 430, 2.05), "sine.inOut");
+-      cam("#c2cam", T.l15 - .1, 0, F(783, 402, 1.72));
+-      tl.set("#c2 .tilt", { rotation: 2.5 }, T.l15 - .1);
+-      cam("#c2cam", T.l15, T.l16 - T.l15 - .2, F(783, 396, 1.8), "sine.inOut");
++      cam("#c2cam", T.l13 + .1, T.l14 - T.l13 - .2, F(646, 358, 1.0), "sine.inOut");
++      tl.set("#c2 .tilt", { rotation: -1.6, transformOrigin: "50% 50%" }, T.l14 - .1);
++      cam("#c2cam", T.l14 - .1, T.l15 - T.l14, F(634, 362, 1.0), "sine.inOut");
++      tl.set("#c2 .tilt", { rotation: 1.6, transformOrigin: "50% 50%" }, T.l15 - .1);
++      cam("#c2cam", T.l15 - .1, T.l16 - T.l15, F(646, 358, 1.0), "sine.inOut");
+       tl.set("#c2 .tilt", { rotation: 0 }, T.l16 - .1);
+-      cam("#c2cam", T.l16 - .1, 0, F(640, 356, 1.0));
+-      cam("#c2cam", T.l16, CUT.cal - T.l16, F(820, 380, 1.12), "sine.inOut");
++      cam("#c2cam", T.l16 - .1, CUT.cal - T.l16 + .1, F(640, 360, 1.0), "sine.inOut");
+ 
+       /* ================================================================== C3a: calendar speed-ramp */
+       const DAYS = ["SAT", "SUN", "MON", "TUE", "WED", "THU", "FRI"];
+@@ -627,7 +632,7 @@
+ 
+       /* ================================================================== C3d: the plan dies in the chat; whip-scroll back */
+       const dp = phone($("#diePhoneHost"), { x: 432, y: 52, w: 416, h: 624, hh: 80, title: "THE GROUP", sub: "4 members" });
+-      dp.dim.style.opacity = 0; dp.hdr.querySelector(".ttl").style.fontSize = "22px";
++      dp.dim.style.opacity = 0; dp.hdr.querySelector(".ttl").style.fontSize = "22px"; dp.cy = 30;   // 30 px of air under the header for the first (dusty) bubble
+       dp.sub.innerHTML = '<span id="subA">4 members</span><span id="subB" style="position:absolute; left:0; top:0; opacity:0">last active 3 weeks ago</span>';
+       const DM = [
+         addMsg(dp, "Q", "We should\nhang out.", true),
+@@ -646,7 +651,7 @@
+       (function () { for (let i = 0; i < 46; i++) { const s = 2 + R() * 4; mk("div", "dust", dustHost, `left:${R() * 100}%; top:${R() * 100}%; width:${s}px; height:${s}px; opacity:${.35 + R() * .5}`); }
+         mk("div", "abs", dustHost, "inset:0; border-radius:22px; background: linear-gradient(160deg, rgba(150,140,128,.38), rgba(110,104,98,.2))");
+         dustHost.insertAdjacentHTML("beforeend", '<svg class="abs" style="left:-6px; top:-8px; width:70px; height:60px; overflow:visible" viewBox="0 0 70 60"><g fill="none" stroke="rgba(235,230,220,.85)" stroke-width="1.6"><path d="M2 2 L60 6 M2 2 L44 40 M2 2 L8 56"/><path d="M14 4 C 16 12, 10 14, 4 14"/><path d="M28 5 C 30 18, 18 24, 6 26"/><path d="M44 6 C 44 26, 26 36, 7 40"/></g></svg>'); })();
+-      const puffs = []; (function () { for (let i = 0; i < 14; i++) { const s = 6 + R() * 10; puffs.push(mk("div", "dust", dp.p, `left:${190 + R() * 200}px; top:${100 + R() * 70}px; width:${s}px; height:${s}px; background:#cfc6b8; opacity:0`)); } })();
++      const puffs = []; (function () { for (let i = 0; i < 14; i++) { const s = 6 + R() * 10; puffs.push(mk("div", "dust", dp.p, `left:${190 + R() * 200}px; top:${150 + R() * 60}px; width:${s}px; height:${s}px; background:#cfc6b8; opacity:0`)); } })();
+       const bottomY = scrollTo(dp, DM2[3]);
+       gsap.set(dp.col, { y: bottomY });
+       breathe("#dieShot .br", CUT.die, CUT.fish, 0);
+@@ -674,21 +679,33 @@
+       tl.set("#dieTilt", { rotation: -3, transformOrigin: "50% 50%" }, CUT.scr);
+       tl.set("#ecgPath", { opacity: 0 }, CUT.scr);
+       breathe("#dieShot .br", CUT.scr, CUT.map, 1, true);
+-      cam("#dieCam", CUT.scr, 0, F(630, 300, 1.3));
++      cam("#dieCam", CUT.scr, 0, F(640, 372, 1.06));          // the whole phone in frame (it used to start at 1.3x with the last bubbles sliced by the bottom edge)
+       dp.col.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 10}');
+       tl.to(dp.col, { y: 22, duration: T.back - T.scroll + .02, ease: "power3.in" }, T.scroll);
+       tl.to(dp.col, { y: 0, duration: .5, ease: "elastic.out(1, .5)" }, T.back + .02);
+-      cam("#dieCam", T.back, CUT.map - T.back, F(722, 200, 2.05), "power2.out");
++      tl.to("#dieTilt", { rotation: 0, duration: .6, ease: "power3.out" }, T.back);        // straightens as it lands, so the bottom crop line is level
++      cam("#dieCam", T.back, .6, F(722, 235, 2.0), "power3.out");        // lands on the whole phone width: header + dusty bubble + the next bubble, nothing sliced
+       puffs.forEach((p, i) => { const a = R() * Math.PI * 2;
+-        tl.fromTo(p, { opacity: .9, x: 0, y: 0, scale: .6 }, { opacity: 0, x: Math.cos(a) * 70, y: -30 - R() * 60, scale: 1.8, duration: 1.1, ease: "power2.out" }, T.back + .04 + i * .01); });
++        tl.fromTo(p, { opacity: .9, x: 0, y: 0, scale: .6 }, { opacity: 0, x: Math.cos(a) * 70, y: -6 - R() * 26, scale: 1.8, duration: 1.1, ease: "power2.out" }, T.back + .04 + i * .01); });
+       tl.fromTo(dustHost.querySelectorAll(".dust"), { y: 0 }, { y: () => -2 + R() * 4, x: () => -2 + R() * 4, duration: .9, ease: "sine.inOut", stagger: .01 }, T.back + .1);
+ 
+-      /* ----- the fish cutaway: it sees the dead chat and slow-blinks */
++      /* ----- the fish cutaway: it sees the dead chat and slow-blinks. Its phone is the same group chat, readable (no blur),
++         greyed out like the dead thread; static rows only (nothing here moves but the camera) */
++      (function () {
++        const fp = phone($("#fishPhoneHost"), { x: 730, y: 56, w: 380, h: 612, hh: 80, title: "THE GROUP", sub: "last active 3 weeks ago" });
++        fp.dim.style.opacity = 0; fp.hdr.querySelector(".ttl").style.fontSize = "22px"; fp.p.style.filter = "grayscale(1) brightness(.68)";
++        fp.cy = 26; addDivider(fp, "3 WEEKS LATER");
++        addMsg(fp, "Q", "still on for\nsaturday?", true); addMsg(fp, "A", "sorry, kid's sick :(", false); addMsg(fp, "B", "car's making\na new noise", false); const last = addMsg(fp, "P", "next month?", false);
++        gsap.set(fp.col, { y: scrollTo(fp, last) });
++      })();
++      /* ----- the fish itself */
+       breathe("#fishShot .br", CUT.fish, CUT.scr, 2);
+       cam("#fishCam", CUT.fish, 0, F(640, 360, 1.0));
+       cam("#fishCam", CUT.fish, CUT.scr - CUT.fish, F(560, 420, 1.08), "sine.inOut");
+       tl.fromTo("#fishC", { y: 230, rotation: -6 }, { y: 0, rotation: 0, duration: .38, ease: "back.out(1.6)" }, CUT.fish);
+       blinkLid("#fishLid", T.nobody + .12, .55);
++      tl.set("#dieShot .br", { visibility: "hidden" }, CUT.fish);          // the cutaway covers it; hiding it avoids two copies of the chat in the DOM
++      tl.set("#dieShot .br", { visibility: "visible" }, CUT.scr);
+ 
+       /* ================================================================== C4: not distance */
+       (function () { const m = $("#map"); const r = rng(77);
+@@ -754,12 +771,15 @@
+         const has = Math.round(ty.a) + Math.round(ty.b) > 0; $("#mph").style.opacity = has ? 0 : 1; $("#send").style.background = has ? "#ffc83d" : "#d8d3ca"; };
+       drawTy();
+       tl.set(ty, { a: 0, b: 0, onComplete: drawTy }, CUT.box);
+-      // hard cut to an extreme close-up of the cursor: no breath, no drift, only the blink
+-      cam("#boxCam", CUT.box, 0, F(298, 392, 2.7));
++      // hard cut onto the whole message bar, send button included (the old 2.7x cursor close-up ran the bar off the right edge):
++      // 808 px of bar at 1.38-1.44x = 1115-1163 px of the 1280 frame; the bar pops in and the camera creeps in on it, only the blink
++      cam("#boxCam", CUT.box, 0, F(640, 392, 1.38));
++      tl.fromTo("#mbox", { scale: .9, y: 22 }, { scale: 1, y: 0, duration: .32, ease: "back.out(2.2)", transformOrigin: "50% 50%", immediateRender: false }, CUT.box);
++      cam("#boxCam", CUT.box + .2, T.proposing - CUT.box - .2, F(640, 392, 1.44), "sine.inOut");
+       tl.to(ty, { a: T1.length, duration: T.admitting - .25 - T.proposing, ease: "none", onUpdate: drawTy }, T.proposing);
+       cam("#boxCam", T.proposing, .9, F(640, 385, 1.2), "power2.inOut");
+       tl.to(ty, { a: 0, duration: T.l18e + .1 - T.admitting, ease: "none", onUpdate: drawTy }, T.admitting);       // backspaced letter by letter
+-      cam("#boxCam", T.admitting, CUT.door - T.admitting, F(400, 380, 1.65), "sine.inOut");
++      cam("#boxCam", T.admitting, CUT.door - T.admitting, F(640, 380, 1.45), "sine.inOut");      // whole bar stays in frame (it was 1.65x on x=400: the send button ran off the right edge)
+       // cursor blink (solid while typing)
+       (function () { const on = (a, b) => { for (let t = a; t < b - .01; t += .5) { tl.set("#cur", { opacity: 1 }, t); tl.set("#cur", { opacity: 0 }, Math.min(b, t + .27)); } tl.set("#cur", { opacity: 1 }, b); };
+         on(CUT.box, T.proposing); on(T.l18e + .1, CUT.door); on(CUT.box2, T.removes); })();
+@@ -823,13 +843,20 @@
+       breathe("#door .br", CUT.door, CUT.box2, 1);
+       // push in through all of it, ending on the knob (the match cut to the cursor)
+       cam("#doorCam", CUT.door, 0, F(640, 372, 1.0));
+-      cam("#doorCam", CUT.door, T.door - CUT.door, F(640, 380, 1.1), "sine.inOut");
++      cam("#doorCam", CUT.door, T.problem - CUT.door, F(640, 376, 1.045), "sine.inOut");           // slow creep on the closed door ...
++      cam("#doorCam", T.problem, .28, F(640, 382, 1.1), "power3.out");                              // ... a punch-in on "problem" (the knocks) ...
++      cam("#doorCam", T.problem + .28, T.door - T.problem - .28, F(640, 380, 1.125), "sine.inOut"); // ... and a creep until the door opens
+       cam("#doorCam", T.door, T.want - T.door, F(652, 344, 1.26), "sine.inOut");
+       cam("#doorCam", T.want, T.nobody2 - T.want, F(664, 350, 1.4), "sine.inOut");
+       cam("#doorCam", T.nobody2 + .1, CUT.box2 - T.nobody2 - .1, F(763, 369, 1.85), "power1.inOut");
+       // the closed door: a sliver of light underneath; a kid's feet arrive in it; knock knock
+       tl.fromTo("#underLight", { opacity: .85 }, { opacity: 1, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 5 }, CUT.door);
+       tl.fromTo(["#footA", "#footB"], { opacity: 0, x: -40 }, { opacity: .95, x: 0, duration: .35, ease: "power2.out", stagger: .12 }, T.akid);
++      // "problem": three knocks on the closed door (leaf jolt + frame jolt) and the light under it stutters with each one
++      [0, .21, .42].forEach((d, i) => {
++        tl.fromTo("#leaf", { scale: 1 }, { keyframes: [{ scale: 1.014 - i * .002, duration: .035 }, { scale: 1.004, duration: .05 }, { scale: 1, duration: .09 }], immediateRender: false }, T.problem + d);   // scale, not x: a sideways jolt would show the yard through a gap
++        tl.fromTo("#doorShk", { x: 0, y: 0 }, { keyframes: [{ x: 2.5, y: 4, duration: .04 }, { x: -2, y: -2.5, duration: .05 }, { x: 0, y: 0, duration: .08 }], immediateRender: false }, T.problem + d);
++        tl.fromTo(["#underLight", "#underFan"], { opacity: 1 }, { keyframes: [{ opacity: .15, duration: .04 }, { opacity: 1, duration: .05 }, { opacity: .45, duration: .05 }, { opacity: 1, duration: .12 }], immediateRender: false }, T.problem + d); });
+       [T.shows, T.up].forEach((t) => tl.fromTo("#leaf", { x: 0 }, { keyframes: [{ x: 3, duration: .04 }, { x: -2, duration: .04 }, { x: 0, duration: .06 }], immediateRender: false }, t));
+       tl.set(motes.map((m) => m.e), { opacity: 0 }, 0);
+       // "door": it swings open (rotateY), the light pours in with the angle, the feet are gone - nobody there
+@@ -872,6 +899,7 @@
+       tl.to("#roomDark", { opacity: .52, duration: 2, ease: "sine.inOut" }, T.nobody2 + .4);
+ 
+       tl.set({}, {}, DUR);
++      window.__timelines = window.__timelines || {};
+       window.__timelines["main"] = tl;
+     </script>
+     <!--INCLUDE motion-blur.html-->
+diff --git a/secondquest/tools/hyperframes_ep003/src/blockD.template.html b/secondquest/tools/hyperframes_ep003/src/blockD.template.html
+index f1dca738..7f9d60bf 100644
+--- a/secondquest/tools/hyperframes_ep003/src/blockD.template.html
++++ b/secondquest/tools/hyperframes_ep003/src/blockD.template.html
+@@ -180,9 +180,9 @@
+       #slot4 { position: absolute; width: 258px; height: 232px; border: 4px dashed rgba(60, 30, 10, .65); border-radius: 6px; background: rgba(60, 30, 10, .12); }
+       #slot4 .q { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 140px; color: #a31d1d; }
+       #strings { position: absolute; left: 0; top: 0; width: 1280px; height: 900px; overflow: visible; }
+-      #bphone { position: absolute; left: 550px; top: 480px; width: 180px; height: 320px; border-radius: 26px; background: #1c1e24; border: 3px solid var(--ink); box-shadow: 0 14px 20px rgba(20,8,0,.55); }
+-      #bphone .screen { left: 7px; top: 7px; width: 160px; height: 300px; border-radius: 19px; }
+-      #newest { position: absolute; left: 676px; top: 560px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
++      #bphone { position: absolute; left: 520px; top: 438px; width: 240px; height: 404px; border-radius: 26px; background: #1c1e24; border: 3px solid var(--ink); box-shadow: 0 14px 20px rgba(20,8,0,.55); }
++      #bphone .screen { left: 7px; top: 7px; width: 220px; height: 384px; border-radius: 22px; }
++      #newest { position: absolute; left: 782px; top: 600px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
+       .pingring { position: absolute; border: 4px solid var(--gold); border-radius: 50%; }
+ 
+       /* ---------- alibi scenes ---------- */
+@@ -301,13 +301,13 @@
+       <!-- ================= D2: split screen (l22) ================= -->
+       <div id="d2Clip" class="full clip" data-start="{{l22-0.05}}" data-duration="{{l23-l22}}" data-track-index="2" style="z-index: 3">
+         <div id="leftPane">
+-          <div class="phone" id="miniPhone" style="left: 175px; top: 128px; width: 290px; height: 540px">
++          <div class="phone" id="miniPhone" style="left: 55px; top: 128px; width: 290px; height: 540px">
+             <div class="screen" style="left: 10px; top: 10px; width: 264px; height: 514px; border-radius: 32px" id="miniScreen"></div>
+           </div>
+-          <div class="stamp" id="stamp799" style="left: 214px; top: 196px; width: 270px; height: 136px; font-size: 70px; line-height: 84px; padding-top: 6px; transform: rotate(-13deg)">$7.99<div style="font: 800 20px Inter; letter-spacing: .4em; line-height: 24px">PAID</div></div>
+-          <div id="okStamp" class="abs" style="left: 410px; top: 420px; width: 180px; height: 180px">
+-            <svg viewBox="0 0 190 190" style="width: 100%; height: 100%; overflow: visible; mix-blend-mode: multiply">
+-              <circle cx="95" cy="95" r="84" fill="rgba(46, 160, 90, .12)" stroke="#2c9a55" stroke-width="9"/>
++          <div class="stamp" id="stamp799" style="left: 366px; top: 215px; width: 270px; height: 136px; padding-top: 6px; transform: rotate(-13deg); mix-blend-mode: normal; background: #faf4e8; color: #cf2f2a; border-color: #cf2f2a; opacity: 1; box-sizing: border-box"><div style="font-size: 70px; line-height: 84px">$7.99</div><div style="font: 800 20px Inter; letter-spacing: .4em; line-height: 24px">PAID</div></div>
++          <div id="okStamp" class="abs" style="left: 430px; top: 440px; width: 180px; height: 180px">
++            <svg viewBox="0 0 190 190" style="width: 100%; height: 100%; overflow: visible">
++              <circle cx="95" cy="95" r="84" fill="#e8f5ea" stroke="#2c9a55" stroke-width="9"/>
+               <circle cx="95" cy="95" r="70" fill="none" stroke="#2c9a55" stroke-width="3"/>
+               <path d="M52 98 L 82 128 L 140 62" fill="none" stroke="#2c9a55" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+               <text x="95" y="170" text-anchor="middle" font-family="Inter" font-weight="800" font-size="17" letter-spacing="4" fill="#2c9a55">SOLVED</text></svg></div>
+@@ -504,8 +504,8 @@
+       function chat(scr, k, opts) {          // k = px scale, builds a static thread; returns refs
+         const w = scr.offsetWidth || opts.w; const head = mk("div", "chead", scr, `height:${58 * k}px`);
+         "QPAB".split("").forEach((who, i) => { const a = mk("div", "av", head, `left:${(12 + i * 18) * k}px; top:${14 * k}px; width:${30 * k}px; height:${30 * k}px; background:${NAMES[who][0]}; font-size:${14 * k}px`); a.textContent = who; });
+-        const t = mk("div", "ctitle", head, `left:${96 * k}px; top:${11 * k}px; font-size:${18 * k}px`); t.textContent = opts.title || "THE BOAT";
+-        const s = mk("div", "csub", head, `left:${96 * k}px; top:${34 * k}px; font-size:${11 * k}px`); s.textContent = "4 members";
++        const t = mk("div", "ctitle", head, `left:${96 * k}px; top:${8 * k}px; font-size:${18 * k}px`); t.textContent = opts.title || "THE BOAT";
++        const s = mk("div", "csub", head, `left:${96 * k}px; top:${36 * k}px; font-size:${11 * k}px`); s.textContent = "4 members";
+         const out = {};
+         let y = 74 * k;
+         (opts.msgs || []).forEach((m) => {
+@@ -556,15 +556,16 @@
+       // the phone that gets pinned in the 4th slot
+       const bphone = mk("div", "", $("#board"), ""); bphone.id = "bphone";
+       const bscr = mk("div", "screen", bphone, "");
+-      const bchat = chat(bscr, .6, { w: 160, msgs: [
++      const BK = .8, BX = 520, BY = 438, BW = 240;
++      const bchat = chat(bscr, BK, { w: 220, msgs: [
+         { kind: "msg", who: "A", text: "It's eight dollars. Just get it.", h: 66 },
+         { kind: "sticker", who: "P", r: -4, h: 44 }, { kind: "sticker", who: "Q", r: 3, h: 44 },
+         { kind: "gap", id: "img", h: 150 },
+         { kind: "msg", who: "P", text: "tonight?", id: "tonight", h: 50 } ] });
+-      const ticks = mk("div", "", bscr, `position:absolute; right:12px; top:${bchat.img.y + 82}px; font: 800 9px Inter; color:#2a8fd6`); ticks.textContent = "✓✓ 7:12 pm";
+-      const bpin = mk("div", "pin", bphone, "left: 75px; top: -10px");
++      const ticks = mk("div", "", bscr, `position:absolute; right:14px; top:${bchat.img.y + 108}px; font: 800 12px Inter; color:#2a8fd6`); ticks.textContent = "✓✓ 7:12 pm";
++      const bpin = mk("div", "pin", bphone, "left: 105px; top: -10px");
+       const newest = mk("div", "", $("#board"), ""); newest.id = "newest"; newest.textContent = "NEWEST";
+-      const pings = [0, 1, 2].map(() => mk("div", "pingring", $("#board"), "left: 700px; top: 500px; width: 60px; height: 60px; opacity: 0"));
++      const pings = [0, 1, 2].map(() => mk("div", "pingring", $("#board"), "left: 730px; top: 458px; width: 60px; height: 60px; opacity: 0"));
+ 
+       /* ---------------- alibi scenes: built twice (full frame + the polaroid's live miniature) */
+       function buildGolf(host) {
+@@ -811,9 +812,12 @@
+       cam(D2 + .1, T.there - D2 - .1, focus(660, 470, 1.05), "sine.inOut");
+       tl.fromTo("#leftPane", { x: -660 }, { x: 0, duration: .38, ease: "power3.out" }, D2);
+       tl.fromTo("#divider", { x: -660 }, { x: 0, duration: .38, ease: "power3.out" }, D2);
++      // the pane slides in from the left but the phone rides the opposite way (net 0): it is never held half out of frame
++      tl.fromTo("#miniPhone", { x: 660 }, { x: 0, duration: .38, ease: "power3.out" }, D2);
++      tl.fromTo("#miniPhone", { opacity: 0 }, { opacity: 1, duration: .08, ease: "none" }, D2);
+       tl.fromTo("#miniPhone", { y: 40, rotation: -3 }, { y: 0, rotation: -1.5, duration: .7, ease: "back.out(1.6)" }, D2 + .1);
+       ["sP", "sQ", "sA"].forEach((k, i) => tl.fromTo(mini[k], { scale: 1 }, { keyframes: [{ scale: 1.18, duration: .08 }, { scale: 1, duration: .35, ease: "back.out(3)" }], immediateRender: false }, T.because + .45 + i * .14));
+-      tl.fromTo("#stamp799", { scale: 2.6, opacity: 0, rotation: -30 }, { scale: 1, opacity: .92, rotation: -13, duration: .16, ease: "power4.in" }, T.solves - .1);
++      tl.fromTo("#stamp799", { scale: 2.6, opacity: 0, rotation: -30 }, { scale: .88, opacity: .92, rotation: -13, duration: .16, ease: "power4.in" }, T.solves - .1);
+       shake("#leftPane", T.solves + .06, .6);
+       tl.fromTo(["#b1", "#b2"], { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: .45, ease: "back.out(2.5)", stagger: .12 }, T.second - .05);
+       tl.fromTo("#b2", { scale: 1 }, { scale: 1.14, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, T.second + .55);
+@@ -1030,10 +1034,10 @@
+       tl.to("#slot4 .q", { y: 400, rotation: 70, opacity: 0, duration: .5, ease: "power2.in" }, T.l26 + .29);
+       shake("#boardShake", T.l26 + .3, 1);
+       tl.fromTo(bpin, { scale: 0 }, { scale: 1, duration: .2, ease: "back.out(3)" }, T.l26 + .4);
+-      bcam(T.l26 + .3, T.newest - T.l26 - .3, 640, 620, 1.55, "power2.out");
++      bcam(T.l26 + .3, T.newest - T.l26 - .3, 640, 560, 2.1, "power2.out");   // close on the thread: the text reads
+       tl.fromTo("#newest", { opacity: 0, scale: 2.6, rotation: -40 }, { opacity: 1, scale: 1, rotation: -14, duration: .16, ease: "power4.in" }, T.newest - .12);
+       shake("#boardShake", T.newest + .04, .8);
+-      const PH = 2.0, PHX = 640, PHY = 640;
++      const PH = 1.7, PHX = 640, PHY = 640;
+       bcam(T.newest + .3, T.it - T.newest - .35, PHX, PHY, PH, "sine.inOut");
+       // "It": back to the lake for a breath: the four in the boat (callback) ...
+       tl.set([...C2, "#bubble", "#badge", "#lineSvg", "#rod", "#bob2", "#bob2rings"], { opacity: 0 }, T.it - .05);
+@@ -1043,7 +1047,7 @@
+       cam(T.it - .05, 1.2, focus(580, 440, 1.3), "sine.out");
+       tl.fromTo(C4.map((m) => m.querySelector(".pop")), { y: 30 }, { y: 0, duration: .3, stagger: .04, ease: "back.out(2)" }, T.it - .05);
+       // ... "fits": the whole lake shrinks into the chat's photo bubble (scale match onto the phone screen)
+-      const ix = (550 + 7 + 14 * .6), iy = (480 + 7 + bchat.img.y), iw = 160 - 28 * .6;      // the gap in the thread (board px)
++      const ix = (BX + 7 + 14 * BK), iy = (BY + 7 + bchat.img.y), iw = 220 - 28 * BK;      // the gap in the thread (board px)
+       const fx = (ix - PHX) * PH + W / 2, fy = (iy - PHY) * PH + H / 2, k = (iw * PH) / W;
+       tl.to("#world", { x: fx, y: fy, scale: k, clipPath: `inset(0px 0px 0px 0px round ${16 / k}px)`, duration: .55, ease: "power3.inOut" }, T.fits - .02);
+       tl.to("#worldRing", { opacity: 1, duration: .3 }, T.fits + .2);
+@@ -1067,6 +1071,7 @@
+         Gull(host, { w: 52, flip: true }).fly(tl, 0, T.l22 - .1, [[60, 200], [600, 186], [1100, 176], [1390, 166]], { flaps: [[.2, 1.0], [T.l22 - 1.6, T.l22 - .9]] });
+         Gull(host, { w: 40 }).fly(tl, T.l24, T.l24 + 6, [[1380, 140], [980, 120], [560, 112], [-100, 96]], { flaps: [[T.l24, T.l24 + .9], [T.l24 + 3.6, T.l24 + 4.2]] }); }
+       FRS.forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
++      window.__timelines = window.__timelines || {};
+       window.__timelines["main"] = tl;
+     </script>
+     <!--INCLUDE motion-blur.html-->
+diff --git a/secondquest/tools/hyperframes_ep003/src/blockE.template.html b/secondquest/tools/hyperframes_ep003/src/blockE.template.html
+index 25f2f5a6..1f1b4bc6 100644
+--- a/secondquest/tools/hyperframes_ep003/src/blockE.template.html
++++ b/secondquest/tools/hyperframes_ep003/src/blockE.template.html
+@@ -1086,6 +1086,14 @@
+       // the world answers each prop: the boat bumps, the rod springs, the goal (the fish) peeks up
+       tl.fromTo("#boatEnter", { y: 0 }, { keyframes: [{ y: 7, duration: .08 }, { y: 0, duration: .7, ease: "elastic.out(1, .3)" }], ...IR }, {{l27.w11+0.1}});
+       tl.fromTo("#rod", { rotation: -26 }, { keyframes: [{ rotation: -38, duration: .1 }, { rotation: -26, duration: .9, ease: "elastic.out(1.3, .25)" }], ...IR }, {{l27.w13+0.1}});
++      // E1 beat (v34): on "alibi," the companion fish leaps out of the lake beside the boat, wide-eyed, and dives back (splash in, splash out)
++      { const J = {{l27.w5}};
++        splash($("#fishFront"), 1060, 650, 1.1, J - .04, 71);
++        tl.set(buddy, { x: 975, y: 610, opacity: 1, rotation: 0 }, J - .02);
++        face("wide", J);
++        tl.fromTo(buddy, { y: 610, rotation: 0 }, { keyframes: [{ y: 400, rotation: -18, duration: .38, ease: "power2.out" }, { y: 640, rotation: 8, duration: .34, ease: "power2.in" }, { rotation: 0, duration: .01 }], ...IR }, J);
++        splash($("#fishFront"), 1060, 660, 1.3, J + .68, 72);
++        tl.set(buddy, { opacity: 0 }, J + .74); face(null, J + .74); }
+       tl.set(buddy, { x: 730, y: 720, opacity: 1 }, {{l27.w15-0.2}});
+       tl.to(buddy, { y: 575, duration: .35, ease: "back.out(2)" }, {{l27.w15}});
+       face("lookup", {{l27.w15}});
+@@ -1281,6 +1289,18 @@
+         tl.set("#rod", { x: 0, y: 0, rotation: -26, opacity: 1 }, {{l32-0.06}});
+         MAX.face(tl, "shock", GRAB + .08); LEO.face(tl, "shock", GRAB + .02); }
+ 
++      // E2 beat (v34): the companion fish peeks up under the boat on "is", sweats on "mostly" (a punchy camera pulse), winces on the "FAILURE." slam and ducks
++      { const P = {{l31.w7}}, M = {{l31.w8}}, F = {{l31.w9}};
++        splash($("#fishFront"), 885, 690, .8, P - .04, 83);
++        tl.set(buddy, { x: 800, y: 760, opacity: 1, rotation: 0, scaleX: 1 }, P - .02);
++        face("lookup", P);
++        tl.fromTo(buddy, { y: 760 }, { y: 590, duration: .38, ease: "back.out(1.7)", ...IR }, P);
++        face("sweat", M);
++        tl.fromTo("#view", { scale: 1 }, { keyframes: [{ scale: 1.045, duration: .09, ease: "power2.out" }, { scale: 1, duration: .5, ease: "power2.out" }], ...IR }, M);
++        face("wince", F - .1);
++        tl.fromTo(buddy, { y: 590 }, { y: 780, duration: .26, ease: "power2.in", ...IR }, F + .3);
++        tl.set(buddy, { opacity: 0 }, F + .58); face(null, F + .58); }
++
+       /* ================= E6 l32 the failure run (HUD on, FAIL xN) ================= */
+       hud.money(tl, {{l32-0.5}}, 3480, .01);
+       hud.on(tl, {{l32-0.06}});
+@@ -1521,7 +1541,7 @@
+       tl.set(P0, { filter: "saturate(1.35) brightness(1.08) grayscale(0)" }, 0);
+       tl.to(P0, { scale: .96, duration: .5, ease: "power2.out" }, {{l35.w7}});
+       // "They retell the night it all went wrong.": it slides away; four fail frames slam onto the table
+-      tl.to(P0, { x: -400, y: -150, scale: .62, rotation: -14, duration: .5, ease: "power3.inOut" }, {{l35.w8+0.1}});
++      tl.to(P0, { x: -400, y: -180, scale: .62, rotation: -14, duration: .5, ease: "power3.inOut" }, {{l35.w8+0.1}});
+       tl.fromTo("#tblCam", { scale: 1.02 }, { scale: 1.06, duration: {{l35.w16-l35.w8}}, ease: "none", ...IR }, {{l35.w8}});
+       const FT = [{{l35.w11}}, {{l35.w12}}, {{l35.w13}}, {{l35.w14}}];
+       const FR = [-7, 5, 4, -4];
+@@ -1532,6 +1552,9 @@
+       tl.fromTo("#tblLight", { opacity: 1 }, { keyframes: [{ opacity: .3, duration: .05 }, { opacity: 1, duration: .05 }, { opacity: .5, duration: .05 }, { opacity: 1, duration: .1 }], ...IR }, {{l35.w15}});
+       // "Usually years later,": the year wheel 2026 -> 2031
+       tl.to("#tblDim", { opacity: .78, duration: .4 }, {{l35.w16}});
++      // v34: the four fail frames fan out to the table corners so the year wheel rolls over empty table, never over polaroid text
++      [[-310, 285], [340, -72], [-155, 77], [310, 28]].forEach(([dx, dy], i) =>
++        tl.fromTo(FAILS[i], { x: 0, y: 0, scale: 1 }, { x: dx, y: dy, scale: .66, duration: .45, ease: "power3.inOut", ...IR }, {{l35.w16-0.05}}));
+       tl.set("#years", { autoAlpha: 1 }, {{l35.w17-0.15}});
+       tl.fromTo("#years", { scale: .5, y: 40 }, { scale: 1, y: 0, duration: .35, ease: "back.out(2)", ...IR }, {{l35.w17-0.15}});
+       const YR = { v: 2026 };
+@@ -1540,8 +1563,8 @@
+       tl.fromTo("#yLater", { scale: .3, rotation: -12 }, { scale: 1, rotation: -3, duration: .35, ease: "back.out(2.6)", ...IR }, {{l35.w18}});
+       tl.fromTo("#years", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], ...IR }, {{l35.w17+1.05}});
+       // "in the same group chat,": the phone, big; the year moves aside
+-      tl.to("#years", { x: -330, y: 60, scale: .62, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
+-      tl.to("#yLater", { x: -330, y: 2, scale: .9, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
++      tl.to("#years", { x: -330, y: 70, scale: .5, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
++      tl.to("#yLater", { x: -330, y: 8, scale: .8, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
+       tl.to("#tblDim", { opacity: .86, duration: .4 }, {{l35.w23-0.2}});
+       show("#phoneSh", {{l35.w23-0.15}});
+       tl.fromTo("#phoneWrap", { y: 720, rotation: 6 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.3)", ...IR }, {{l35.w23-0.15}});
+@@ -1565,6 +1588,7 @@
+       MAX.talk(tl, {{l33.w22-0.25}}, {{l33.w22+0.95}}); LEO.talk(tl, {{l33.w22-0.2}}, {{l33.w22+1.1}});
+       LEO.talk(tl, {{l34.w4+0.1}}, {{l34.w4+0.8}});
+       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
++      window.__timelines = window.__timelines || {};
+       window.__timelines["main"] = tl;
+     </script>
+     <!--INCLUDE motion-blur.html-->
+diff --git a/secondquest/tools/hyperframes_ep003/src/blockG.template.html b/secondquest/tools/hyperframes_ep003/src/blockG.template.html
+index 58675092..eadf2d34 100644
+--- a/secondquest/tools/hyperframes_ep003/src/blockG.template.html
++++ b/secondquest/tools/hyperframes_ep003/src/blockG.template.html
+@@ -120,9 +120,14 @@
+       #caret { display: inline-block; width: 4px; height: 52px; background: var(--ink); margin-left: 3px; border-radius: 2px; }
+       #sendBtn { position: absolute; right: 14px; top: 14px; width: 72px; height: 72px; border-radius: 50%; background: #d6392f; border: 3px solid var(--ink); }
+       #sendBtn svg { position: absolute; left: 17px; top: 16px; width: 34px; height: 34px; }
+-      #sent { position: absolute; right: 210px; top: 340px; padding: 16px 28px; background: #d6392f; color: #fff; font: 800 34px "Inter"; border-radius: 30px 30px 8px 30px; border: 3px solid var(--ink);
++      #thread { position: absolute; left: 210px; top: 162px; width: 860px; height: 284px; background: #f6f1e7; border: 4px solid var(--ink); border-radius: 40px 40px 30px 30px;
++        box-shadow: 6px 8px 0 var(--ink), 0 0 60px rgba(255, 210, 150, .25); opacity: 0; transform-origin: 50% 100%; }
++      .who { position: absolute; font: 800 24px "Inter", sans-serif; letter-spacing: .02em; opacity: 0; white-space: nowrap; }
++      #whoQ { right: 246px; top: 306px; color: #d6392f; transform-origin: 100% 100%; }
++      #whoP { left: 322px; top: 316px; color: #167880; transform-origin: 0% 100%; }
++      #sent { position: absolute; right: 246px; top: 340px; padding: 16px 28px; background: #d6392f; color: #fff; font: 800 34px "Inter"; border-radius: 30px 30px 8px 30px; border: 3px solid var(--ink);
+         box-shadow: 4px 5px 0 var(--ink); white-space: nowrap; transform-origin: 100% 100%; opacity: 0; }
+-      #reply { position: absolute; left: 210px; top: 330px; height: 80px; transform-origin: 0% 100%; opacity: 0; }
++      #reply { position: absolute; left: 246px; top: 342px; height: 80px; transform-origin: 0% 100%; opacity: 0; }
+       #reply .av { position: absolute; left: 0; top: 14px; width: 54px; height: 54px; border-radius: 50%; background: #167880; border: 3px solid var(--ink); color: #fff; font: 800 26px "Inter"; display: flex; align-items: center; justify-content: center; }
+       #reply .stk { position: absolute; left: 70px; top: 4px; padding: 12px 26px; background: var(--gold); border: 3px solid var(--ink); border-radius: 16px; font: 800 38px "Inter"; color: var(--ink);
+         box-shadow: 0 0 0 5px #fffaf0, 5px 7px 0 5px var(--ink); white-space: nowrap; transform: rotate(-4deg); }
+@@ -255,6 +260,8 @@
+           <div class="row" style="top: 84px">CAUGHT: <b style="color: #ff6a5e">NEVER.</b></div>
+         </div>
+         <div id="chat" class="full">
++          <div id="thread"></div>
++          <div class="who" id="whoQ">Quest</div><div class="who" id="whoP">Pixie</div>
+           <div id="sent">boat tonight?</div>
+           <div id="reply"><div class="av">P</div><div class="stk">Bought.</div></div>
+           <div id="chatBox">
+@@ -542,7 +549,14 @@
+       tl.to("#sendBtn", { keyframes: [{ scale: .82, duration: .08 }, { scale: 1.08, duration: .12 }, { scale: 1, duration: .2 }] }, SENT - .1);
+       tl.fromTo("#sent", { opacity: 0, scale: .4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: .4, ease: "back.out(1.8)", immediateRender: false }, SENT);
+       const BOUGHT = SENT + .5;
+-      tl.to("#sent", { y: -98, duration: .35, ease: "power2.out" }, BOUGHT);
++      // v34: the two bubbles live in a real mini-chat panel stacked on the input bar, each with its sender label; Quest's bubble rises to make room for Pixie's reply
++      tl.fromTo("#thread", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(1.8)", immediateRender: false }, SENT - .04);
++      tl.fromTo("#whoQ", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .25, ease: "power2.out", immediateRender: false }, SENT + .12);
++      // the crew sits behind the opaque thread panel: it dims while the panel is up (no bubble on their heads) and comes back with the crane-out
++      tl.fromTo("#boatRig", { opacity: 1 }, { opacity: .25, duration: .25, ease: "power2.out", immediateRender: false }, SENT - .06);
++      tl.fromTo("#boatRig", { opacity: .25 }, { opacity: 1, duration: .8, ease: "sine.inOut", immediateRender: false }, SENT + 1.0);
++      tl.to(["#sent", "#whoQ"], { y: -110, duration: .35, ease: "power2.out" }, BOUGHT);
++      tl.fromTo("#whoP", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .25, ease: "power2.out", immediateRender: false }, BOUGHT + .2);
+       tl.fromTo("#reply", { opacity: 0, scale: .3 }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2.6)", immediateRender: false }, BOUGHT);
+       // the box dissolves into the slow crane-out (the only big camera move in G): the two of them, small, under the stars
+       const CR = SENT + 1.0;
+@@ -623,6 +637,7 @@
+       tl.set("#pixie", { x: -66 }, S5); tl.set("#quest", { x: -96 }, S5); tl.set(["#lantern", "#poolBoat", "#poolWater"], { x: -70 }, S5);
+       tl.set(["#lantern", "#poolBoat", "#poolWater"], { x: 0 }, 0);
+       [GA, GB].forEach((f, i) => f.blinks(tl, Q.boat + 1, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
++      window.__timelines = window.__timelines || {};
+       window.__timelines["main"] = tl;
+     </script>
+     <!--INCLUDE motion-blur.html-->
