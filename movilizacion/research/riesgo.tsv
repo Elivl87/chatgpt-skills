@@ -1,0 +1,28 @@
+categoria	repo	url	lenguaje	estrellas	ultima_actividad	licencia	que_hace	como_ayuda	prioridad	nota
+Riesgo	pyscripter/XLRisk	https://github.com/pyscripter/XLRisk	VBA (complemento Excel)	147	2025-03-19 (commit)	MIT	Monte Carlo gratuito en Excel (Win/Mac), Latin Hypercube, correlación Iman-Conover, gráficos	Monte Carlo dentro del Excel con fórmulas vivas: P10/P50/P90 de A vs B	Alta	Requiere Excel de escritorio
+Riesgo	SALib/SALib	https://github.com/SALib/SALib	Python	~1.0k	2026-09-19 (PyPI 1.6.0)	MIT	Sensibilidad global (Sobol, Morris, FAST, Delta, PAWN)	Variable que domina A vs B; alimenta tornado	Alta	
+Riesgo	scottshambaugh/monaco	https://github.com/scottshambaugh/monaco	Python	157	2026-06-19 (PyPI)	MIT	Monte Carlo industrial con sensibilidades y gráficos	Motor Python para costo y plazo; percentiles	Alta	
+Riesgo	paulgovan/PRA	https://github.com/paulgovan/PRA	R	4	2026-09-21 (commit)	MIT	Project Risk Analysis: Monte Carlo, contingencia, sensibilidad, Bayes	Referencia metodológica QCRA/QSRA	Media	
+Riesgo	johan162/mcprojsim	https://github.com/johan162/mcprojsim	Python	1	2026-05-05 (commit)	MIT	Monte Carlo de cronogramas con dependencias y riesgos	Duración del traslado y probabilidad de cumplir el spud	Media	
+Riesgo	danafitkowski/cpp-cpm-engine	https://github.com/danafitkowski/cpp-cpm-engine	JavaScript/Python	3	2026-10-11 (commit)	MIT	CPM con Monte Carlo P50/P80 sobre cronogramas P6	Riesgo de cronograma si hay P6	Baja	
+Riesgo	Netflix-Skunkworks/riskquant	https://github.com/Netflix-Skunkworks/riskquant	Python	653	2025-03-11 (commit)	Apache-2.0	Pérdida esperada y curvas de excedencia desde CSV (lognormal/PERT)	Registro de riesgos de B en dinero	Alta	
+Riesgo	Derive-Risk/pyfair	https://github.com/Derive-Risk/pyfair	Python	113	2026-05-22 (commit)	MIT	Monte Carlo FAIR (frecuencia × severidad)	Cuantificar cada evento de riesgo de B	Media	Antes Hive-Systems/pyfair
+Riesgo	tadamcz/betapert	https://github.com/tadamcz/betapert	Python	1	2024-01-05 (commit)	no visible	Distribución Beta-PERT compatible con scipy	Estimaciones de 3 puntos	Media	
+Riesgo	leliel12/pert	https://github.com/leliel12/pert	Python	3	2019-11 (PyPI)	BSD-3-Clause	Técnica PERT clásica	Referencia simple	Baja	
+Riesgo	eggzec/mcerp	https://github.com/eggzec/mcerp	Python	86	2026-08-19 (PyPI)	BSD-3-Clause	Monte Carlo con variables inciertas tipo hoja de cálculo (LHS)	Fórmulas de A y B con incertidumbre	Media	Antes tisimst/mcerp
+Riesgo	peterhurford/squigglepy	https://github.com/peterhurford/squigglepy	Python	84	2026-06-08 (PyPI)	MIT	Estimación probabilística estilo Squiggle	Prototipo evento de demora × standby	Media	Antes rethinkpriorities/squigglepy
+Riesgo	quantified-uncertainty/squiggle	https://github.com/quantified-uncertainty/squiggle	TypeScript	221	2026-09-13 (commit)	MIT	Lenguaje de estimación probabilística con playground web	Demo interactiva a gerencia	Baja	
+Riesgo	lmfit/uncertainties	https://github.com/lmfit/uncertainties	Python	680	2025-04-21 (PyPI)	BSD	Propagación lineal de incertidumbres	Contraste con Monte Carlo	Baja	
+Riesgo	jonathf/chaospy	https://github.com/jonathf/chaospy	Python	480	2025-08-29 (PyPI)	MIT	Caos polinomial y muestreo avanzado	Probablemente excesivo	Baja	
+Riesgo	openturns/openturns	https://github.com/openturns/openturns	C++/Python	352	2026-06-19 (PyPI)	LGPL-3.0+	Tratamiento industrial de incertidumbres, cópulas, confiabilidad	Correlaciones formales	Baja	
+Riesgo	pymc-devs/pymc	https://github.com/pymc-devs/pymc	Python	~9.8k	2026-09-08 (PyPI)	Apache-2.0	Modelado bayesiano	Probabilidad de demora con históricos + juicio experto	Media	
+Riesgo	arviz-devs/arviz	https://github.com/arviz-devs/arviz	Python	~1.9k	2026-08-11 (PyPI)	Apache-2.0	Visualización bayesiana	Anexo técnico	Baja	
+Riesgo	pgmpy/pgmpy	https://github.com/pgmpy/pgmpy	Python	~3.4k	2026-04-30 (PyPI)	MIT	Redes bayesianas	Cadena clima → permisos → demora → standby	Media	
+Riesgo	JustinTervala/ProjectPredict	https://github.com/JustinTervala/ProjectPredict	Python	2	2018-05 (PyPI)	MIT	Cronograma con redes bayesianas y PERT	Solo referencia	Baja	Sin mantenimiento
+Riesgo	MatthewReid854/reliability	https://github.com/MatthewReid854/reliability	Python	434	2025-03-07 (PyPI)	LGPL-3.0	Ajuste Weibull/lognormal de fallas	Distribuciones de tiempos históricos de traslado	Media	
+Riesgo	CamDavidsonPilon/lifelines	https://github.com/CamDavidsonPilon/lifelines	Python	~2.6k	2026-03-05 (PyPI)	MIT	Análisis de supervivencia	P(terminar antes de X días)	Baja	
+Riesgo	bertcarnell/tornado	https://github.com/bertcarnell/tornado	R	9	2024-08-03 (commit)	GPL-3.0	Gráficos de tornado	Referencia de diseño	Baja	
+Riesgo	plotly/plotly.py	https://github.com/plotly/plotly.py	Python	~18.8k	2026-09-15 (PyPI)	MIT	Gráficos interactivos exportables	Tornado, spider, curva S, matriz	Media	
+Riesgo	matplotlib/matplotlib	https://github.com/matplotlib/matplotlib	Python	~23.4k	2026-09-11 (PyPI)	Matplotlib (PSF)	Gráficos estáticos	Matriz 5×5, histograma P10/P50/P90, tornado en PNG	Alta	
+Riesgo	datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction	https://github.com/datadrivenconstruction/DDC_Skills_for_AI_Agents_in_Construction	Varios	347	2025-08-22 (commit)	MIT (datos CC BY-NC)	221 skills de IA para construcción: costos, cronograma, riesgo	Ejemplos de contingencia P50/P80/P90	Baja	
+Riesgo	rodmonic/Campagna	https://github.com/rodmonic/Campagna	C#/Excel-DNA	0	2024-04-09 (commit)	MIT	Monte Carlo para Excel (triangular, Bernoulli, Iman-Conover)	Alternativa menor a XLRisk	Baja	

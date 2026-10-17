@@ -1,0 +1,310 @@
+{
+ "componentes": {
+  "PS1": [
+   59690,
+   26208,
+   3243
+  ],
+  "PS6": [
+   29845,
+   26208,
+   3243
+  ],
+  "LS1": [
+   82239,
+   26208,
+   3243
+  ],
+  "LS6": [
+   82239,
+   26208,
+   3243
+  ],
+  "EC1": [
+   56136,
+   26208,
+   3243
+  ],
+  "EC6": [
+   33292,
+   26208,
+   3243
+  ],
+  "WO": [
+   98663,
+   811
+  ]
+ },
+ "fijos": [
+  [
+   1,
+   133751.22216216216,
+   181054.0183783784
+  ],
+  [
+   2,
+   95139.18918918919,
+   135790.5137837838
+  ],
+  [
+   3,
+   69757.61135135136,
+   90527.0091891892
+  ],
+  [
+   4,
+   56465.28810810811,
+   45263.5045945946
+  ],
+  [
+   5,
+   40952.53810810811,
+   0
+  ]
+ ],
+ "reales": {
+  "2024": {
+   "PS": 1034726.0563513497,
+   "EC": 895327.656756755,
+   "LS": -1074449.2802702682
+  },
+  "2025": {
+   "PS": 185171.78432432516,
+   "EC": 176838.66351351514,
+   "LS": -1192685.6305405395
+  }
+ },
+ "top": [
+  [
+   "Rango real de los 20 pozos fuera de la locación",
+   "0,1–5 km",
+   "−0,18 M a −0,43 M",
+   "SierraCol"
+  ],
+  [
+   "Horas de taladro por movilización (Excel vs Petro Star)",
+   "12/18/24/28 h",
+   "−0,17 M",
+   "SierraCol"
+  ],
+  [
+   "¿Petro Star normal cobra aparte sus equipos adicionales?",
+   "No",
+   "−0,16 M",
+   "Petro Star"
+  ],
+  [
+   "Cobro en un mes de campaña parada",
+   "No se cobra",
+   "−0,16 M a −0,23 M por mes",
+   "Contrato"
+  ],
+  [
+   "Demora no atribuible al transportador (cotización 1255, condición 7)",
+   "Sin demora",
+   "−2.813 por hora",
+   "Petro Star"
+  ],
+  [
+   "Tiempo perdido en perforación (NPT) (baja la frecuencia)",
+   "0 %",
+   "−0,24 M con 20 %",
+   "SierraCol"
+  ],
+  [
+   "Lump Sum: valores del Excel vs cotización 1255",
+   "Excel",
+   "+0,44 M",
+   "SCM"
+  ],
+  [
+   "Riesgos no cuantificados: coordinación taladro–transportador, HSE y daños, disponibilidad, plazo y salida, pago en COP",
+   "Sin valorar",
+   "No cuantificado",
+   "Contratos / HSE"
+  ]
+ ],
+ "lectura": "Sesgo sistemático: casi todos los supuestos empujan hacia el tercerizado; las excepciones son los precios del Lump Sum (+0,44 M) y el cargo fijo de Petro Star con 5 movilizaciones (+0,08 M). Con la frecuencia y la mezcla de 2025 y las horas que cotizó Petro Star, el ahorro desaparece (Petro Star −0,02 M; Ecotransur −0,01 M). Antes de cambiar el contrato: confirmar la frecuencia mensual esperada, el rango real de los pozos y la exposición a la tasa de cambio (TRM ±10 % mueve ±0,3 M).",
+ "frec": [
+  [
+   4,
+   -135092.51921921968,
+   -740040.8381381389,
+   5451.871321318671,
+   -309812.5192192192,
+   -914760.8381381393,
+   -169268.1286786818
+  ],
+  [
+   4.5,
+   -2580.4416516521014,
+   -607528.7605705713,
+   247985.61051050853,
+   -177300.44165165164,
+   -782248.7605705718,
+   73265.61051050806
+  ],
+  [
+   5,
+   132152.06267267233,
+   -472796.25624624686,
+   490519.3496996984,
+   -42567.93732732721,
+   -647516.2562462473,
+   315799.3496996979
+  ],
+  [
+   5.5,
+   279484.05415915884,
+   -404125.2930030036,
+   405025.86456456315,
+   104764.05415915884,
+   -578845.293003004,
+   230305.86456456315
+  ],
+  [
+   6,
+   521560.55267267255,
+   -210864.81138138194,
+   584485.568618618,
+   346840.552672673,
+   -385584.8113813824,
+   409765.5686186175
+  ],
+  [
+   6.5,
+   541571.4963213219,
+   -239669.8846246251,
+   521411.53348348243,
+   366851.49632132193,
+   -414389.88462462556,
+   346691.53348348243
+  ],
+  [
+   7,
+   695332.3463213216,
+   -153696.0570570575,
+   660216.6524024019,
+   520612.34632132156,
+   -328416.057057058,
+   485496.65240240144
+  ],
+  [
+   8,
+   696138.7634834838,
+   -223453.66840840876,
+   633612.8875375371,
+   521418.7634834843,
+   -398173.6684084092,
+   458892.8875375362
+  ]
+ ],
+ "quiebres": [
+  [
+   5,
+   "Petro Star normal",
+   132152.06267267233,
+   3775.7732192192093,
+   0.0062929553653653485,
+   2.5932508373758307,
+   1.3421811476083543,
+   3.781824137839753,
+   0.7467586546456636,
+   46.976340166292395
+  ],
+  [
+   5,
+   "Ecotransur",
+   490519.3496996984,
+   14014.838562848525,
+   0.02335806427141421,
+   9.625575936022338,
+   4.9818807999596055,
+   14.037298240032577,
+   2.0224788161001683,
+   174.36582799858618
+  ],
+  [
+   6,
+   "Petro Star normal",
+   521560.55267267255,
+   14901.730076362073,
+   0.02483621679393679,
+   10.234704722776149,
+   5.2971457802165185,
+   14.92561105404855,
+   2.9472098183953213,
+   185.40010230757812
+  ],
+  [
+   6,
+   "Ecotransur",
+   584485.568618618,
+   16699.587674817656,
+   0.027832646124696093,
+   11.46949702940773,
+   5.936233573532269,
+   16.72634983455294,
+   2.409914474466945,
+   207.7681750736294
+  ]
+ ],
+ "reales2": {
+  "2024": {
+   "excel": {
+    "PS": 1045536.867162168,
+    "LS": -1063638.4694594583,
+    "EC": 906138.4675675696
+   },
+   "reales_sin_equipos": {
+    "PS": 1225935.2671621684,
+    "LS": -883240.069459457,
+    "EC": 1086536.867567569
+   },
+   "reales_con_equipos": {
+    "PS": 1136023.273918924,
+    "LS": -973152.0627026977,
+    "EC": 996624.8743243264
+   },
+   "movs_exceden": 10,
+   "horas_excedidas": 66.25,
+   "equipos_usd": 89911.99324324324,
+   "taladro_usd": 96460.0
+  },
+  "2025": {
+   "excel": {
+    "PS": 160847.4600000009,
+    "LS": -1217009.9548648614,
+    "EC": 152514.3391891881
+   },
+   "reales_sin_equipos": {
+    "PS": 56743.460000001825,
+    "LS": -1321113.9548648614,
+    "EC": 48410.339189188555
+   },
+   "reales_con_equipos": {
+    "PS": -70829.78324324172,
+    "LS": -1448687.198108104,
+    "EC": -79162.90405405313
+   },
+   "movs_exceden": 15,
+   "horas_excedidas": 94.0,
+   "equipos_usd": 127573.24324324324,
+   "taladro_usd": 136864.0
+  }
+ },
+ "kpi": {
+  "pct": "0,6–2,8 %",
+  "rango": "Ahorro de la campaña de 35 pozos (~21 M USD): 0,13 M–0,58 M, es decir 4–17 k USD por pozo (pozo de 550–650 k)",
+  "h5": "1,3 h",
+  "h6": "5",
+  "ls": "Pierde con 5 y con 6 movs/mes (−0,47 M y −0,21 M). Con los precios de la cotización 1255 quedaría en −0,03 M y +0,23 M: Compras debe aclararlos."
+ },
+ "concl": [
+  "El tercerizado solo ahorra si se sostienen 5 a 6 movilizaciones todos los meses y cada movilización cumple el tiempo cotizado: +0,13 M a +0,52 M con Petro Star tarifa normal y +0,49 M a +0,58 M con Ecotransur, en una campaña de unos 21 M (menos del 3 %).",
+  "El margen es delgado: con 5 movs/mes, Petro Star lo pierde con 1,3 h de más por movilización o con un mes bloqueado; Ecotransur con 5,0 h o 2,0 meses bloqueados.",
+  "La campaña real 2025 habría costado más con el tercerizado (Petro Star −71 k, Ecotransur −79 k); la de 2024, con 9 de 11 meses en 6 o más, habría ahorrado +1,14 M y +1,00 M.",
+  "El Lump Sum de Petro Star pierde en todos los escenarios con los precios del Excel.",
+  "El Work Order tiene tarifa tope y absorbe demoras, bloqueos y meses lentos; el tercerizado traslada ese riesgo a SierraCol."
+ ]
+}
