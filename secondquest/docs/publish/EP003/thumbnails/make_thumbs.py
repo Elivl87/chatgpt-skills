@@ -78,10 +78,10 @@ def compose(variant):
     paste(c, bb, bx, by)
     # crew behind the near hull
     crew = Image.new('RGBA', (W, H), (0, 0, 0, 0))              # crew layer, clipped inside the hull (nobody below the keel)
-    q = img(QUEST['laugh' if variant == 'A' else 'shock'])
+    q = img(QUEST['shock' if variant == 'B' else 'laugh'])
     qh = 1280
     qs = scaled(q, height=qh)
-    qx, qy = (-91, 58) if variant == 'A' else (-120, 58)
+    qx, qy = (-120, 58) if variant == 'B' else (-91, 58)
     paste(crew, qs, qx, qy)
     p = scaled(img(PIXIE), height=900)
     px, py = 540, 262                                          # her own seat, clear of Quest's arm (Producer, 2026-10-17)
@@ -94,8 +94,14 @@ def compose(variant):
     fish = img(P3 / 'fish2_34_deadpan.png').transpose(Image.FLIP_LEFT_RIGHT)
     fs = scaled(fish, width=270)
     paste(c, fs, 1005, 500, shadow=6)
+    if variant == 'C':                                       # a gull carries Max off into the distance (Producer idea, 2026-10-17)
+        gull = scaled(img(P3 / 'seagull_34.png'), width=190)
+        mx = scaled(img(P3 / 'max_front_shock.png'), height=165).rotate(-14, resample=Image.BICUBIC, expand=True)
+        gx, gy = 430, 34                                     # high in the sky between Quest and the title, far away
+        paste(c, mx, gx + 66, gy + 74, shadow=4)             # dangling under the gull (its feet hold his collar)
+        paste(c, gull, gx, gy, shadow=4)
     # words
-    if variant == 'A':
+    if variant in 'AC':
         outlined(c, 'NOT', (1245, 14), 136, (255, 255, 255), anchor='ra')
         outlined(c, 'FISHING', (1255, 124), 172, YELLOW, stroke=16, anchor='ra')
     else:
@@ -105,7 +111,7 @@ def compose(variant):
 
 def main():
     outs = []
-    for v in 'AB':
+    for v in 'ABC':
         im = compose(v)
         p = HERE / f'EP003_thumb_{v}.png'
         im.save(p, optimize=True)
