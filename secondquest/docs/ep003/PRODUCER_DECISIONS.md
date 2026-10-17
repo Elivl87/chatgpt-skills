@@ -138,3 +138,6 @@
   only IMPROVE it (no redesigns, no re-timing of what works). The v3.3.3/v3.3.4 work (328.4 s cut, FIX_LIST_v334)
   does not replace it unless the Producer says so; reuse only the fixes that apply to his cut.
 - He also said this session's work is "muy mal hecho" and to stop; finish in a new session.
+- Producer, same day: "En caso tal meterle más dinamismo, y dopamina." The improvements on his base cut aim at
+  MORE DYNAMISM AND DOPAMINE (rhythm spikes, punchier beats, callbacks, companion reactions; no shot holding > ~4 s
+  without a change; `docs/ep003/hyperframes/DOPAMINE_PLAN.md` as the model), always keeping what already works.
