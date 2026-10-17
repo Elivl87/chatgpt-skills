@@ -118,7 +118,7 @@ def render_scene(proj, f0, f1, fps, dur, dst):
 
 
 def frames_of(p):
-    out = subprocess.run(['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v', '-show_entries', 'stream=nb_read_frames',
+    out = subprocess.run(['/usr/bin/ffprobe' if Path('/usr/bin/ffprobe').exists() else 'ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v', '-show_entries', 'stream=nb_read_frames',
                           '-of', 'csv=p=0', str(p)], capture_output=True, text=True).stdout.strip()
     return int(out or 0)
 
