@@ -24,3 +24,13 @@ Episode time unless marked. Narration v3.3 is unchanged (approved by the Produce
 ### Also fixed while sweeping
 - Block C threw a runtime error in the frame critic's seek harness (`window.__timelines` was never initialised; the Hyperframes renderer itself was unaffected), so the automated critic had never sampled C's frames. With that fixed, the 0–66 s sweeps of C pass. The designed repeats (four phones of the same chat, the "Bought." stickers) are declared, and the floating text stickers no longer carry motion blur.
 - **Known, not fixed (out of this revision's scope):** with the runtime error gone, a 0.5 s sweep of the rest of block C (from 66 s on) shows errors that existed before: motion blur on the calendar speed-ramp and on the 3-weeks phones (ghost text), and rows overlapping in those phones. These are listed for a block C pass.
+
+### v3.3.1 gates (builder; the independent critic still has to re-run)
+- `hyperframes lint`: 0 errors on hook, blockB and blockC.
+- `frame_critic.py --lint`:
+  - 0.25 s sweep: hook 0 errors / 397 samples, blockB 0 / 85, blockC 0–4.3 s 0 / 18.
+  - 1/30 s ±0.5 s around every cut, title and bubble in 0–66 s: hook 0 errors / 591 samples (after the bubble fix: 0 / 40 at 26.3–27.6), blockB 0 / 270, blockC opening 0 / 121.
+- `sfx_audit` (A–B, episode budget, mixed from the review): 12 onsets / 61.8 s (12/min), rest 88 %, −14.6 LUFS, −1.1 dBTP. 0 errors; 3 warnings: two cues flagged HARSH (Money_37, BookFlip2) and one SOUNDALIKE pair (stamp at 52.8 / thump at 60.6).
+- Sound floor (master, 0.25 s RMS, 0–61.7 s): nothing below −40 dBFS except the first 0.25 s (−40.4) and the "So, why?" rest (39.0–40.5 s, −42 to −54: the very low water bed).
+- `pacing_qc`: all PASS (19.9 cuts/min, average shot 2.98 s, longest 17.7 s, motion 0.85, 161 wpm).
+- Master −14.1 LUFS / −1.3 dBTP; 720p review −14.2 LUFS / −1.0 dBTP, 29.2 MB. Blackdetect finds only the designed F→G fade (292.7–294.0 s); luma around 272.233 s is steady (69→74).
