@@ -35,4 +35,4 @@ Measure per video at 48 h: average watch time, % watched to the end, shares, sav
 ## Caption rule (Producer, 2026-10-17)
 - Every TikTok caption starts with "Why…" (channel identity), as a curiosity question; never mention YouTube in the
   caption or comments (YouTube link only in the bio). Pinned comment = a question that invites stories.
-- TikTok #1 (Zelda "Veterans know"): "Why does every Zelda veteran smile at three golden triangles? 🧚"
+- TikTok #1 (Zelda "Veterans know"), Producer pick: "Why can't you ever play Ocarina of Time for the first time again?"
