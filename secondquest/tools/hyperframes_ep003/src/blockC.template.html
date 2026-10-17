@@ -427,6 +427,7 @@
 
       /* ------------------------------------------------------------------ the chat (our own design) */
       const WHO = { Q: ["#d6392f", "QUEST"], P: ["#167880", "PIXIE"], A: ["#7860be", "MAX"], B: ["#d69628", "LEO"] };
+      const INI = { Q: "Q", P: "P", A: "M", B: "L" };     // v3.3.1: avatar initials are the friends' (A/B are only internal keys)
       const HEART = '<path d="M15 27 C 4 19, 0 12, 4 7 C 7 3, 12 4, 15 8 C 18 4, 23 3, 26 7 C 30 12, 26 19, 15 27 Z" fill="#e5484d" stroke="#16161f" stroke-width="2.6" stroke-linejoin="round"/>';
       const THUMB = '<g stroke="#16161f" stroke-width="2.4" stroke-linejoin="round"><rect x="2" y="13" width="7" height="15" rx="2" fill="#ffc83d"/><path d="M10 14 L15 4 C 16 1, 21 2, 20 6 L19 12 H26 C 29 12, 30 15, 29 17 L27 26 C 26.5 28, 25 29, 23 29 H10 Z" fill="#ffc83d"/></g>';
       function phone(host, o) {
@@ -436,7 +437,7 @@
         const hdr = mk("div", "hdr", scr, `height:${hh}px`);
         mk("div", "notch", hdr);
         const avs = o.avatars || "QPAB";
-        [...avs].forEach((k, i) => mk("div", "av", hdr, `left:${14 + i * 18}px; top:${hh - 40}px; background:${WHO[k][0]}`, k));
+        [...avs].forEach((k, i) => mk("div", "av", hdr, `left:${14 + i * 18}px; top:${hh - 40}px; background:${WHO[k][0]}`, INI[k]));
         const tx = 22 + avs.length * 18;
         mk("div", "ttl", hdr, `left:${tx}px; top:${hh - 46}px; line-height: 22px`, o.title || "THE GROUP");
         const sub = mk("div", "sub", hdr, `left:${tx}px; top:${hh - 23}px`, o.sub || "4 members");
@@ -481,16 +482,18 @@
       /* ================================================================== C1 (l12): lively chat | silent window */
       const c1 = phone($("#c1Phone"), { x: 450, y: 34, w: 380, h: 652, title: "The boat", sub: "Quest, Pixie, Max, Leo" });
       c1.dim.style.opacity = 0;
-      addMsg(c1, "B", "who's in for\nthe lake?", false); addMsg(c1, "P", "ME!!", false);
+      // v3.3.1: a LATER evening of the same group (not the hook's purchase chat again): Max organises, the three who
+      // bought are in, Leo still has not bought it
+      addDivider(c1, "FRIDAY"); addMsg(c1, "A", "who's in for\nthe lake?", false);
       const C1M = [
-        addMsg(c1, "A", "It's eight dollars.\nJust get it.", false),
-        addMsg(c1, "P", "Bought.", false, { kind: "sticker", rot: -5 }),
-        addMsg(c1, "Q", "Bought.", true, { kind: "sticker", rot: 4 }),
+        addMsg(c1, "A", "9 pm. same boat.", false),
+        addMsg(c1, "P", "IN!", false, { kind: "sticker", rot: -5 }),
+        addMsg(c1, "Q", "IN!", true, { kind: "sticker", rot: 4 }),
         addMsg(c1, "Q", "boat. tonight.", true),
         addMsg(c1, "P", "", false, { kind: "fish", rot: -8 }),
-        addMsg(c1, "B", "bringing chips!!", false),
-        addMsg(c1, "A", "Bought.", false, { kind: "sticker", rot: -3 }),
-        addMsg(c1, "P", "omw", false),
+        addMsg(c1, "P", "bringing chips!!", false),
+        addMsg(c1, "B", "next time!", false),
+        addMsg(c1, "A", "omw", false),
       ];
       { const NAMEC = { Quest: "#a8241c", Pixie: "#0b5a60", Max: "#5a3fa6", Leo: "#7a4f00" };     // the hook chat's AA name colours
         c1.col.querySelectorAll(".nm").forEach((e) => { if (NAMEC[e.textContent]) e.style.color = NAMEC[e.textContent]; }); }
@@ -502,7 +505,7 @@
         for (let i = 0; i < 40; i++) conf.push({ e: mk("div", "confetti", host, `left:${R() * 900 - 60}px; top:${-500 + R() * 1150}px; background:${cols[i % 5]}`), r: R() }); })();
       conf.forEach((c) => { tl.fromTo(c.e, { y: 0, rotation: c.r * 360 }, { y: 520 + c.r * 200, rotation: c.r * 360 + 540, duration: 4.3, ease: "none" }, 0);
         tl.fromTo(c.e, { x: -14 }, { x: 14, duration: .5 + c.r * .4, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0); });
-      const FLOAT = [["Bought.", 30, 170, -14], ["fish", 500, 110, 10], ["Bought.", 40, 500, 9], ["★", 540, 560, 0]];
+      const FLOAT = [["IN!", 30, 170, -14], ["fish", 500, 110, 10], ["IN!", 40, 500, 9], ["★", 540, 560, 0]];
       const floaters = FLOAT.map(([k, x, y, r], i) => { const host = $("#floaters");
         const e = mk("div", "floatStk", host, `left:${x}px; top:${y}px`);
         if (k === "fish") mk("div", "fishstk", e, "", '<img src="assets/fish_side.png" alt="">');
@@ -539,7 +542,7 @@
         mk("div", "pglow", $("#c2glows"), `left:${PX[i] + PW / 2 - 260}px; top:${PY + PH / 2 - 380}px; background: radial-gradient(ellipse 50% 50% at 50% 50%, ${WHO[o][0]}aa 0%, ${WHO[o][0]}33 40%, rgba(0,0,0,0) 70%)`).id = "glow" + o;
         const ph = phone($("#c2phones"), { x: PX[i], y: PY, w: PW, h: PH, hh: 74, title: "THE GROUP", avatars: "QPAB" });
         ph.hdr.querySelector(".ttl").style.fontSize = "16px"; ph.sub.style.fontSize = "12px";
-        mk("div", "owner", $("#c2phones"), `left:${PX[i] + PW / 2 - 60}px; top:${PY + PH + 16}px`, `<i style="background:${WHO[o][0]}">${o}</i>${WHO[o][1]}`);
+        mk("div", "owner", $("#c2phones"), `left:${PX[i] + PW / 2 - 60}px; top:${PY + PH + 16}px`, `<i style="background:${WHO[o][0]}">${INI[o]}</i>${WHO[o][1]}`);
         addDivider(ph, "MARCH"); addMsg(ph, "P", "happy bday!!", o === "P"); const last = addMsg(ph, "Q", "thx!!", o === "Q");
         gsap.set(ph.col, { y: scrollTo(ph, last) });
         ph.lines = LINES.map(([who, txt], k) => addMsg(ph, who, txt, who === o, { react: k === 1 ? "heart" : k === 3 ? "thumb" : null, chip: k === 2 }));

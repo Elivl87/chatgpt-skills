@@ -82,3 +82,25 @@ Episode time unless marked. Narration v3.3 is unchanged (approved by the Produce
 | 109–115 s, 158–163 s (D) · 234–239 s (E) · 289–292 s (F) | D, E, F | The chat phones still use three older skins; only C's opening matches the hook's chat now | Move every EP003 phone onto `src/components/chat.html` (the hook's ChatPhone), with the same names, colours and stickers |
 | ≈109–115 s (D 4.25–9.75) | D | The "$7.99 PAID" stamp sits on the quoted message, so "It's eight dollars. Just get it." is partly covered (declared, but it hurts legibility) | Stamp the empty lower half of the phone, or scale the message up first |
 | ≈176–181 s (E 13–18) | E | The fish wearing the mini "Alibi props" list swims across the roulette and HUD numbers | Route the fish under the boat line, away from the HUD |
+
+## v3.3.1 · design critic FAIL on A–B (`CRITIC_v331_AB.md`), folded into the same render
+
+| # | Finding | Change |
+|---|---|---|
+| 1 | Hook `hyperframes check` stopped with "Target closed" | It runs to the end here, including `--at-transitions` (≈25–30 min, alone on the CPU), so it no longer stops. Real findings fixed: the chat chrome now passes WCAG AA (sub-title, system chips, timestamps and "typing…" darkened), and the phone carries `data-layout-allow-overlap` for the designed rows that scroll under the header and input. Results are in the report. |
+| 2 | 45.05–45.30 `#envShine` slides past the envelope (white streak) | The sheen now lives inside a clip the shape of the envelope (`#envShineClip`, overflow hidden, 14 px radius), so it never leaves the paper. |
+| 3 | 7.5–9.3 and 36.6–40.7: Leo's rod shaft crosses his eye | The standing rod (and the start of its line) is shifted 25 px toward the bow. On "Together." Leo leans −1°/+6 px instead of −6°/−14 px, so he no longer leans into the shaft. |
+| 4 | Block C opening: A/B initials; the hook's chat repeated; Leo the organiser | The avatar initials are M/L (header and the labels under the four phones). C's opening is now a later evening of the same group: "FRIDAY", Max "who's in for the lake?", "9 pm. same boat.", "IN!" stickers (the floating stickers too), Quest "boat. tonight.", Pixie brings the chips, Leo "next time!", Max "omw". Narration is unchanged. |
+| 5 | 60.53–60.90: boxes fall across the faces | No fall. Each box pops up out of the hull into its owner's hands. |
+| 6 | Free extras | Leo's beanie is left on the rim at his place in H8. It is a crop of his own 3D render as a layer; the art is unchanged. Quest and Pixie lean toward the empty place. The boxes sit in the hull, between the crew and the near half. The harsh cues are swapped for darker takes: Money_02 at 19.73, Stationery_18 at 43.28, and a cardboard "place" for the boxes, which also clears the sound-alike thump. sfx_audit is 0/0. |
+
+### Final gates for this round (builder; both critics still to re-run on the review cut)
+- **`hyperframes check hook --json --at-transitions`:** runs to the end with ok: true. lint 0 errors / 9 warnings; runtime 0 / 4; layout 0 / 80; motion 0 / 0; contrast 0 / 0.
+  - The chat list carries `data-layout-ignore`: its rows scroll under the header and input, and grow or collapse by design (the critic accepted this in `CRITIC_v33_AB.md`).
+- **`frame_critic --lint`:**
+  - 0.25 s, all 0 errors: hook 164 samples, B 84, C 177, D 230, E 304, F 219, G 138.
+  - 1/30 s ±0.5 s around every cut and title, 0 errors: hook 591, B 270, C opening 121, whole C 509.
+- **`sfx_audit` (A–B, from the review audio):** 12 onsets / 61.8 s, rest 91 %, −14.6 LUFS, −1.1 dBTP, 0 errors, 0 warnings.
+- **Sound floor (review, 0.1 s RMS, 0–66 s):** nothing below −40 dBFS except the first 0.1 s and the "So, why?" rest (−45 to −55, the very low water bed).
+- **`pacing_qc`:** all PASS (20.1 cuts/min, average shot 2.96 s, longest 17.7 s).
+- **Loudness:** master −14.2 LUFS / −1.3 dBTP. The 720p review is −14.2 LUFS / −1.4 dBTP (a safety limiter on the AAC encode), 29.2 MB, 328.4 s. Blackdetect finds only the designed F→G fade.

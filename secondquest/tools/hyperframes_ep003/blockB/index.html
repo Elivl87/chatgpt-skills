@@ -49,7 +49,8 @@
       #flap svg { position: absolute; left: 0; top: 0; width: 360px; height: 156px; overflow: visible; }
       #seal { position: absolute; left: 146px; top: 100px; width: 68px; height: 68px; }
       #seal svg { width: 100%; height: 100%; overflow: visible; }
-      #envShine { z-index: 6; left: 0; top: 0; width: 360px; height: 230px; border-radius: 14px; pointer-events: none;
+      #envShineClip { z-index: 6; left: 0; top: 0; width: 360px; height: 230px; border-radius: 14px; overflow: hidden; pointer-events: none; }
+      #envShine { position: absolute; left: 0; top: 0; width: 360px; height: 230px; border-radius: 14px; pointer-events: none;
         background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 45%, rgba(255,255,255,0) 60%); mix-blend-mode: screen; }
       .burst { position: absolute; width: 0; height: 0; }
       .burst i { position: absolute; left: -5px; top: -250px; width: 10px; height: 40px; border-radius: 5px; background: var(--gold); border: 2px solid var(--ink); }
@@ -160,7 +161,7 @@
                 <div id="flap"><svg viewBox="0 0 360 156"><path d="M 4 4 L 356 4 L 356 62 L 198 144 Q 180 154 162 144 L 4 62 Z" fill="#eedcb2" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/></svg>
                   <div id="seal"><svg viewBox="-34 -34 68 68"><path d="M0 -31 C 9 -33, 14 -26, 22 -24 C 31 -20, 30 -10, 32 -2 C 33 8, 27 13, 24 21 C 19 30, 9 30, 1 32 C -9 33, -14 27, -22 24 C -31 19, -31 9, -32 1 C -33 -9, -27 -14, -23 -22 C -18 -30, -9 -29, 0 -31 Z" fill="#c8323f" stroke="#16161f" stroke-width="4"/>
                     <circle r="20" fill="#a62331"/><path d="M -12 0 C -6 -9, 6 -9, 11 0 C 6 9, -6 9, -12 0 Z M 11 0 L 17 -6 L 17 6 Z" fill="#e8606b"/><circle cx="-5" cy="-1" r="2" fill="#a62331"/></svg></div></div>
-                <div id="envShine"></div>
+                <div id="envShineClip"><div id="envShine"></div></div>   <!-- v3.3.1: the sheen stays on the paper -->
               </div>
             </div>
           </div>
@@ -197,10 +198,13 @@
                 <div class="mate" id="bPixie" style="left: 220px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/pixie_wave.png" alt="" /></div></div></div></div></div>
                 <div class="mate" id="bQuest" style="left: 335px"><div class="pop"><div class="lean"><div class="breathe"><div class="sway"><img src="assets/quest_wave.png" alt="" /></div></div></div></div></div>
               </div>
+              <!-- the boxes sit IN the hull: between the crew and the near half; frame-px coords via the inverse 1.5x -->
+              <div id="boxFrame" style="position: absolute; left: -37.333px; top: -300px; width: 1920px; height: 1080px; transform: scale(.66667); transform-origin: 0 0">
+                <div id="boxes" data-critic-allow-duplicate="1"></div>
+                <div id="pops"></div>
+              </div>
               <img class="cbimg" src="assets/rowboat_side_front.png" alt="" />
             </div>
-            <div id="boxes" data-critic-allow-duplicate="1"></div>
-            <div id="pops"></div>
           </div>
         </div></div></div>
         <div id="whipIn" class="full" style="background: #0e0d1c; opacity: 0"></div>
@@ -527,7 +531,7 @@
       // box slots = each friend's chest, in frame px (boat-local x of the hook's crew x 1.5 + 56): Pixie, Quest, Max, Leo
       const SLOT = { P: 416, Q: 588, A: 708, B: 848 };
       const BFR = BoatFriends($("#crewClipB"), { ids: ["bMax", "bLeo"], exprs: ["laugh", "neutral", "shock"] });
-      const BOXY = 548;                                                    // box bottom: on the near rim, in front of their chests
+      const BOXY = 572;                                                    // box bottom: on the near rim, in front of their chests
       const boxes = {};
       ["P", "Q", "A", "B"].forEach((k) => {
         const g = mk("div", "gbox", $("#boxes"));
@@ -672,16 +676,17 @@
       kickCam("#kickStage", T.everyone - .04, 1.035, -.8);
       BFR.max.face(tl, "laugh", 0); BFR.leo.face(tl, "laugh", 0);
       tl.fromTo("#crewBoat", { y: 0 }, { y: 5, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, T.everyone);
-      tl.fromTo("#boxes", { y: 0 }, { y: 5, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, T.everyone);
       ["#bPixie", "#bQuest", "#bMax", "#bLeo"].forEach((m, i) => tl.fromTo(`${m} .breathe`, { scaleY: 1 }, { scaleY: 1.02, duration: .8 + i * .1, ease: "sine.inOut", yoyo: true, repeat: 5, transformOrigin: "50% 100%", immediateRender: false }, T.everyone));
       waves.forEach((w, i) => tl.fromTo(w, { x: 0 }, { x: 40 + (i % 3) * 14, duration: 5, ease: "none" }, T.everyone));
       cam("#pushStage", T.everyone, T.copy - T.everyone, focus(640, 430, 1.1), "sine.inOut");
       // "their own copy": four game boxes drop into their hands, one each
       ["P", "Q", "A", "B"].forEach((k, i) => {
         const at = T.copy - .18 + i * .13;
-        tl.set(boxes[k], { x: SLOT[k], y: BOXY - 700, rotation: (i % 2 ? 22 : -22), opacity: 0 }, 0);
+        // v3.3.1: no fall across the faces - each box pops up out of the hull into its owner's hands
+        const by = BOXY + (k === "B" ? 18 : 0);
+        tl.set(boxes[k], { x: SLOT[k], y: by + 70, rotation: (i % 2 ? 12 : -12), opacity: 0 }, 0);
         tl.set(boxes[k], { opacity: 1 }, at);
-        tl.to(boxes[k], { y: BOXY + (k === "B" ? 22 : 0), rotation: (i % 2 ? 4 : -4), duration: .3, ease: "power2.in" }, at);   // Leo sits lower: his box stays under his chin
+        tl.to(boxes[k], { y: by, rotation: (i % 2 ? 4 : -4), duration: .3, ease: "back.out(2)" }, at);   // Leo sits lower: his box stays under his chin
         tl.to(boxes[k], { keyframes: [{ scaleY: .82, scaleX: 1.14, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }] }, at + .3);
         boxes[k].pop.forEach((p) => tl.fromTo(p, { opacity: 0, y: 0, scaleY: .4 }, { keyframes: [{ opacity: 1, y: -26, scaleY: 1, duration: .1, ease: "power2.out" }, { opacity: 0, y: -46, duration: .22 }], immediateRender: false }, at + .3));
         tl.set(boxes[k].pop, { opacity: 0 }, 0);

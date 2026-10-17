@@ -41,7 +41,7 @@ S = {'whoosh': SFX / 'whoosh.wav', 'pop': SFX / 'pop.wav', 'notify': SFX / 'noti
      'paper2': K_ / 'scratch_005.ogg', 'click': K_ / 'click_001.ogg', 'knock': K_ / 'impactGeneric_light_000.ogg',
      'wood': K_ / 'impactWood_light_002.ogg', 'wood_m': K_ / 'impactWood_medium_001.ogg', 'punch': K_ / 'impactPunch_heavy_002.ogg',
      'page': K_ / 'bookFlip1.ogg', 'page2': K_ / 'bookFlip2.ogg', 'door_open': K_ / 'doorOpen_1.ogg', 'door_slam': K_ / 'doorClose_2.ogg',
-     'coins': K_ / 'handleCoins2.ogg', 'coins1': SFX / 'cc0/owlish_202/Money_37.ogg', 'creak': K_ / 'creak2.ogg', 'cloth': K_ / 'cloth2.ogg', 'latch': K_ / 'metalClick.ogg',
+     'coins': K_ / 'handleCoins2.ogg', 'coins1': SFX / 'cc0/owlish_202/Money_02.ogg', 'strike1': SFX / 'cc0/owlish_202/Stationery_Stationery_18.ogg', 'creak': K_ / 'creak2.ogg', 'cloth': K_ / 'cloth2.ogg', 'latch': K_ / 'metalClick.ogg',
      'switch': K_ / 'switch_002.ogg', 'drop': K_ / 'drop_002.ogg', 'powerup': K_ / 'powerUp3.ogg', 'forcefield': K_ / 'forceField_002.ogg',
      'tvhum': K_ / 'computerNoise_000.ogg',
      # HF pass (2026-10-12): more CC0 Kenney (impact / interface / sci-fi / digital / rpg / ui packs)
@@ -275,9 +275,9 @@ def cues():
     # ================================================================== B · the invitation (blockB.template.html, v3.3)
     a(T('b01.w4.end') + .1, 'creak', -26, .2, why='the $7.99 tag swings in on its string')
     a(T('b01.w4.end') + .12, 'pk:foley-wood', -24, .2, why='the tag swings in: body')
-    a(T('b01.w8'), 'pk:foley-paper;dark=4500', -18, .2, why='"not": the red strike through $7.99')
+    a(T('b01.w8'), 'strike1', -18, .2, why='"not": the red strike through $7.99')
     a(T('b02.w19'), 'stamp', -16, why='"ten million": the reel lands, 10,000,000+')
-    a(T('b03.w18') + .12, 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|Punch|falling|stones;dark=4500', -20, why='"their own copy": the game boxes land in the boat')
+    a(T('b03.w18') - .05, 'place', -17, why='"their own copy": the game boxes pop up into their hands (cardboard)')
 
     # ================================================================== C · the adult way (blockC.template.html)
     now, cmp_, adl = T('l12.w1'), T('l12.w2'), T('l12.w8')
