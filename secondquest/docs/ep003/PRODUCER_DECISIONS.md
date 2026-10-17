@@ -146,3 +146,7 @@
   cuts/min, avg shot 3.02 s, pacing all PASS)"), the cut delivered on Thu 10-15 as "preliminar corregido (5:32, voz de
   Bram)". Next session: restore the EP003 sources (tools/hyperframes_ep003, episodes/ep003 timings, audio) from 717b244d
   (`git fetch --unshallow` or fetch that commit) and improve from there. It predates script v3.3 (new hook + H8).
+- Producer approved "el gancho nuevo" on his base. Done the same day, no re-render: `docs/ep003/hyperframes/EP003_v34_splice_review.mp4`
+  (720p, 328.4 s, −14.2 LUFS, 27.8 MB) = current hook A + block B (v3.3, design-critic clean), cut at 61.76 s into
+  blocks C–G of commit 717b244d (his base, 1280×720 sources, from its 65.36 s) with its own mix; audio joined in the pause
+  before l12 "Now compare that…" (30 ms crossfade). No line repeats (v3.3 moved l09–l11 into the hook and B).
