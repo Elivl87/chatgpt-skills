@@ -664,6 +664,10 @@
       cam("#pushStage", T.because, T.alone - T.because, focus(640, 372, 1.23), "sine.inOut");
       cam("#pushStage", T.alone, T.everyone - T.alone - .1, focus(640, 366, 1.28), "power2.out");
       tl.fromTo("#spot .cone", { scaleX: 1 }, { scaleX: .5, duration: .6, ease: "power2.inOut", transformOrigin: "50% 0%" }, T.alone);
+      // 2026-10-17 (Producer: más dinamismo): a beat on "game" and a hit on "alone" - camera kicks, the light flickers once
+      kickCam("#kickStage", T.game + .02, 1.025, .45);
+      kickCam("#kickStage", T.alone + .02, 1.05, .6);
+      tl.fromTo("#spot .cone", { opacity: 1 }, { keyframes: [{ opacity: .45, duration: .05 }, { opacity: 1, duration: .07 }, { opacity: .6, duration: .05 }, { opacity: 1, duration: .25 }], immediateRender: false }, T.alone - .06);
       tl.fromTo("#pool", { scaleX: 1 }, { scaleX: .55, duration: .6, ease: "power2.inOut", transformOrigin: "50% 50%", immediateRender: false }, T.alone);
       // "Everyone": the stage lights come up on the four of them seated in the boat (a camera kick on the change)
       tl.set("#boatFrame", { opacity: 0 }, 0);
