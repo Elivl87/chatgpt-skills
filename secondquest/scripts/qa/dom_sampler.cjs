@@ -96,7 +96,8 @@ const exe = process.env.HYPERFRAMES_BROWSER_PATH;
           role: roleOf(el), badge: isMedia || isBg ? badge(el) : false,
           mbCopy: !!el.closest('[data-hf-motion-blur-group]') && !el.closest('[data-hf-motion-blur]'),
           mb: flag(el, 'data-hf-motion-blur'), allowOverlap: flag(el, 'data-layout-allow-overlap') || flag(el, 'data-critic-allow-overlap'),
-          ignore: flag(el, 'data-layout-ignore') || flag(el, 'data-critic-ignore'), allowDup: flag(el, 'data-critic-allow-duplicate') });
+          ignore: flag(el, 'data-layout-ignore') || flag(el, 'data-critic-ignore'), allowDup: flag(el, 'data-critic-allow-duplicate'),
+          xf: !!(cs.transform && cs.transform !== 'none' && cs.transform !== 'matrix(1, 0, 0, 1, 0, 0)') });   // its own GSAP transform (scale/move): words of one caption can then collide
       });
       // shots: every visible full-frame clip that holds a plate (an image covering >= 50 % of the frame), with its own
       // effective opacity and whether a character is visible inside it (CROSSFADE_CHARACTERS in frame_critic.py)

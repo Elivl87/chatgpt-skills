@@ -310,7 +310,7 @@
       <div id="d2Clip" class="full clip" data-start="{{l22-0.05}}" data-duration="{{l23-l22}}" data-track-index="2" style="z-index: 3">
         <div id="leftPane">
           <div id="miniPhone" class="dphone" style="left: 175px; top: 92px; width: 290px; height: 590px"></div>   <!-- the hook's ChatPhone, scaled (redesign 2026-10-17) -->
-          <div class="stamp" id="stamp799" style="left: 274px; top: 420px; width: 192px; height: 98px; font-size: 50px; line-height: 60px; padding-top: 4px; border-width: 5px; transform: rotate(-13deg)">$7.99<div style="font: 800 15px Inter; letter-spacing: .4em; line-height: 18px">PAID</div></div>   <!-- redesign 2026-10-17: lands on the "Bought." stickers, never on Max's message -->
+          <div class="stamp" id="stamp799" style="left: 352px; top: 446px; width: 128px; height: 66px; font-size: 34px; line-height: 40px; padding-top: 3px; border-width: 4px; transform: rotate(-13deg)">$7.99<div style="font: 800 11px Inter; letter-spacing: .4em; line-height: 13px">PAID</div></div>   <!-- v3.3.3 (D-2): small, on the empty phone background right of Max's "Bought." -->
           <div id="okStamp" class="abs" style="left: 410px; top: 420px; width: 180px; height: 180px">
             <svg viewBox="0 0 190 190" style="width: 100%; height: 100%; overflow: visible; mix-blend-mode: multiply">
               <circle cx="95" cy="95" r="84" fill="rgba(46, 160, 90, .12)" stroke="#2c9a55" stroke-width="9"/>
@@ -805,8 +805,8 @@
       [["#tw1", T.why], ["#tw2", T.fishing]].forEach(([s, t], i) => {
         // v3.3.2 (design critic): no see-through ghost while it slams in: hidden, then fully opaque from its first frame
         tl.set(s, { opacity: 0 }, 0); tl.set(s, { opacity: 1 }, t - .1);
-        tl.fromTo(s, { scale: 1.9, y: -24, rotation: i ? 5 : -5 }, { scale: 1, y: 0, rotation: 0, duration: .16, ease: "power4.in", immediateRender: false }, t - .1);
-        tl.to(s, { keyframes: [{ scaleY: .82, scaleX: 1.12, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%" }, t + .06);
+        tl.fromTo(s, { scale: 1.3, y: -18, rotation: i ? 4 : -4 }, { scale: 1, y: 0, rotation: 0, duration: .14, ease: "power4.in", immediateRender: false, transformOrigin: i ? "0% 60%" : "100% 60%" }, t - .1);   // each grows away from the other word   // v3.3.3 (D-1): from 1.3x at most, into its own slot
+        tl.to(s, { keyframes: [{ scaleY: .82, scaleX: 1.12, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }], transformOrigin: i ? "0% 100%" : "100% 100%" }, t + .06);
         shake("#shake", t + .06, i ? 1 : .7); });
       tl.to("#title", { y: -70, scale: .62, duration: .45, ease: "power3.inOut" }, T.of - .2);
       tl.fromTo("#slot", { scale: 0, rotation: -8 }, { scale: 1, rotation: 0, duration: .4, ease: "back.out(2.2)" }, T.of - .1);
@@ -951,7 +951,7 @@
       tl.set("#bubble", { x: 0, y: 0, rotation: 0, scale: 0, opacity: 1, left: 585, top: 232 }, JB);
       tl.to("#bubble", { scale: .9, duration: .45, ease: "back.out(2.4)" }, T.silence2 - .1);
       tl.fromTo("#bubble .dot", { opacity: 1 }, { opacity: .35, duration: .25, yoyo: true, repeat: 5, stagger: .08, ease: "sine.inOut", immediateRender: false }, T.silence2 + .3);
-      tl.set("#badge", { left: 760, top: 290, opacity: 1, transformOrigin: "50% 0%" }, JB);
+      tl.set("#badge", { left: 650, top: 296, opacity: 1, transformOrigin: "50% 0%" }, JB);   // v3.3.3 (D-3): clipped onto the "..." bubble's lower edge, not the sky
       tl.fromTo("#badge", { y: -380, rotation: -30 }, { y: 0, rotation: 0, duration: .26, ease: "power3.in" }, T.job - .24);
       tl.to("#badge", { keyframes: [{ rotation: 12, duration: .1 }, { rotation: 0, duration: 1.0, ease: "elastic.out(1.3, .25)" }] }, T.job + .02);
       tl.fromTo("#bubble", { scale: .9 }, { keyframes: [{ scaleY: .8, scaleX: .95, duration: .06 }, { scaleY: .9, scaleX: .9, duration: .4, ease: "elastic.out(1, .3)" }], immediateRender: false }, T.job + .02);
@@ -1054,7 +1054,8 @@
       bcam(T.sit - .5, T.l26 - T.sit + .4, 640, 540, 1.12, "sine.inOut");
 
       /* ================= D6 l26: the phone, NEWEST, the boat fits into the chat ================= */
-      tl.fromTo("#bphone", { opacity: 0, scale: 2.3, y: -420, rotation: 16 }, { opacity: 1, scale: 1, y: 0, rotation: -1, duration: .34, ease: "power3.in" }, T.l26 - .05);
+      tl.set("#bphone", { opacity: 1 }, T.l26 - .05);                       // v3.3.3 (D-4): enters opaque, up from below the string
+      tl.fromTo("#bphone", { scale: 1.08, y: 520, rotation: 8 }, { scale: 1, y: 0, rotation: -1, duration: .34, ease: "power3.out", immediateRender: false }, T.l26 - .05);
       tl.to("#slot4 .q", { y: 400, rotation: 70, opacity: 0, duration: .5, ease: "power2.in" }, T.l26 + .29);
       shake("#boardShake", T.l26 + .3, 1);
       tl.fromTo(bpin, { scale: 0 }, { scale: 1, duration: .2, ease: "back.out(3)" }, T.l26 + .4);

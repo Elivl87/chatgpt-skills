@@ -134,8 +134,10 @@ def critique(data, args):
             for b in primaries[i + 1:]:
                 if norm(a['text']) == norm(b['text']) or a['allowOverlap'] or b['allowOverlap']:
                     continue
-                if a['path'].startswith(b['path']) or b['path'].startswith(a['path']) or block_of(a) == block_of(b):
+                if a['path'].startswith(b['path']) or b['path'].startswith(a['path']):
                     continue
+                if block_of(a) == block_of(b) and not (a.get('xf') or b.get('xf')):
+                    continue                            # words of one caption sit side by side, unless one is being moved / scaled on its own (2026-10-17)
                 ov = inter(a['box'], b['box'])
                 if ov > 0.10 * min(area(a['box']), area(b['box'])):
                     add('TEXT_OVERLAP', t, f'"{a["text"][:25]}" overlaps "{b["text"][:25]}"', [a['box'], b['box']],

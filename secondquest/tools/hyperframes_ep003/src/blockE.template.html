@@ -82,6 +82,7 @@
           linear-gradient(170deg, #f8ecd0 0%, #f1dfba 55%, #e6cc9c 100%);
         box-shadow: inset 0 0 0 2px rgba(120, 80, 40, .25), inset 0 0 38px rgba(150, 100, 50, .35), 8px 10px 0 rgba(22, 22, 31, .55), 0 18px 34px rgba(0, 0, 0, .35); }
       .paper svg.grain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .5; mix-blend-mode: multiply; border-radius: inherit; }
+      .paper .lstr { position: absolute; top: -560px; width: 4px; height: 586px; background: linear-gradient(180deg, rgba(243, 231, 207, 0) 0%, #f3e7cf 40%, #e6d6b6 100%); box-shadow: 1px 0 0 rgba(22, 22, 31, .35); }
       .paper .pin { position: absolute; width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ff8a7a, #c8323a 60%, #7a1a22); box-shadow: 2px 3px 0 rgba(22,22,31,.5); }
       #listTitle { position: absolute; left: 44px; top: 18px; font-size: 62px; color: #3a2414; line-height: 1; }
       #listUnder { position: absolute; left: 40px; top: 80px; width: 300px; height: 20px; overflow: visible; }
@@ -769,6 +770,7 @@
             <div id="list" data-critic-allow-overlap="1">   <!-- v3.3.1: no motion blur on the handwritten list; shrunk onto the fish it is a prop --><div id="listIn">
               <div class="paper">
                 <svg class="grain" viewBox="0 0 589 372" preserveAspectRatio="none"><filter id="pg"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .3  0 0 0 0 .15  0 0 0 .55 0"/></filter><rect width="589" height="372" filter="url(#pg)"/></svg>
+                <div class="lstr" style="left: 31px"></div><div class="lstr" style="left: 555px"></div>   <!-- v3.3.3 (E-1): hung on two strings from above, like the FRIENDSLOP sign, not pinned to the sky -->
                 <div class="pin" style="left: 22px; top: 14px"></div><div class="pin" style="left: 546px; top: 18px"></div>
               </div>
               <div id="listTitle" class="hand">Alibi props:</div>
@@ -1111,6 +1113,7 @@
       tl.to("#listIn", { scaleY: .86, scaleX: 1.07, duration: .32, ease: "back.out(2)", transformOrigin: "50% 100%" }, {{l28.w2}});
       tl.fromTo("#listIn", { rotation: 2 }, { rotation: 3.4, duration: .09, yoyo: true, repeat: Math.round(({{l28.w9-0.3}} - {{l28.w2+0.4}}) / .09), ease: "sine.inOut", ...IR }, {{l28.w2+0.4}});   // trembling hold
       tl.to("#listIn", { scaleY: .74, scaleX: 1.12, rotation: -4, duration: .22, ease: "power2.in" }, {{l28.w9-0.24}});                // the wind-up
+      tl.set("#list .lstr", { opacity: 1 }, 0); tl.set("#list .lstr", { opacity: 0 }, {{l28.w9-0.04}});                                  // the strings snap as it is thrown
       cam({{l28.w2}}, {{l28.w9-l28.w2-0.1}}, focus(440, 455, 1.26), "sine.inOut");
       // YEET on "immediately.": an expo arc over the boat into the water on the right, with motion blur
       const C2 = focus(860, 505, 1.25);
@@ -1190,7 +1193,7 @@
       tl.set(buddy, { opacity: 1, y: 900 }, {{l29.w21+0.16}});
       tl.to(buddy, { y: 538, duration: .32, ease: "back.out(1.8)" }, {{l29.w21+0.18}});
       tl.set("#wheelOv", { autoAlpha: 1 }, {{l29.w17-0.15}});
-      tl.fromTo("#wheelOv", { y: -520, rotation: -20 }, { y: 0, rotation: 0, duration: .45, ease: "back.out(1.4)", ...IR }, {{l29.w17-0.15}});
+      tl.fromTo("#wheelOv", { x: 560, rotation: 60 }, { x: 0, rotation: 0, duration: .45, ease: "back.out(1.4)", ...IR }, {{l29.w17-0.15}});   // v3.3.3: rolls in from the right, under the money HUD
       spin(tl, wheelOv, {{l29.w17-0.1}}, {{l29.w19+0.05-l29.w17}}, 3, -1);    // bet green, lands next to it
       tl.set("#wallet", { autoAlpha: 1 }, {{l29.w17}});
       tl.set("#wHappy", { opacity: 1 }, {{l29.w17}});
@@ -1324,6 +1327,9 @@
       tl.set("#grade", { filter: "saturate(1) contrast(1)" }, FZ[1]);
       tl.set("#freeze", { autoAlpha: 0 }, FZ[1]);
       hud.combo(tl, FZ[0] + .05, "FAIL ×1", "+SPLASH");
+      // v3.3.3 (E-2): through the weapon close-up the card sits top-left over the empty lake, off Max's face
+      tl.set(hud.card, { x: -(1280 - 100 - 290 - 36) }, {{l32.w6-0.12}});
+      tl.set(hud.card, { x: 0 }, {{l32.w12}});
       hud.health(tl, FZ[0], 2.5, .3);
       // whip -> (2) "Someone finds a weapon that was clearly not designed for fish."
       whip({{l32.w6-0.12}}, 1, (t) => { tl.set("#quest", { opacity: 1 }, t); cam(t, 0, focus(585, 432, 1.75)); tl.set("#pxLaugh", { opacity: 0 }, t); tl.set("#pxAwe", { opacity: 1 }, t); });
@@ -1373,13 +1379,12 @@
       const strip = (i) => -i * SPACING;
       tl.set("#ptStrip", { x: strip(0) }, {{l32.w22-0.04}});
       [[{{l32.w23}}, 1], [{{l32.w24}}, 2], [{{l32.w25}}, 3]].forEach(([t, i]) => {
-        tl.to("#ptStrip", { x: strip(i), duration: .16, ease: "expo.inOut" }, t - .08);
-        tl.fromTo("#ptStrip", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(14px)", duration: .08 }, { filter: "blur(0px)", duration: .08 }], ...IR }, t - .08);
+        tl.set("#ptStrip", { x: strip(i) }, t - .04);                    // v3.3.3 (E-5): a hard cut to the next finger (no blur snap) and a jolt
+        tl.fromTo("#ptCam", { x: 0 }, { keyframes: [{ x: 14, duration: .04 }, { x: -9, duration: .05 }, { x: 4, duration: .05 }, { x: 0, duration: .06 }], ...IR }, t - .04);
         tl.fromTo(ptFigs[i], { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .06 }, { scale: 1, duration: .3, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 100%", ...IR }, t + .08); });
-      tl.fromTo("#ptCam", { rotation: 0, scale: 1 }, { keyframes: [{ rotation: 200, scale: .62, duration: .3, ease: "power2.in" }, { rotation: 360, scale: 1, duration: .26, ease: "power3.out" }], ...IR }, {{l32.w26-0.06}});
-      tl.to("#ptStrip", { x: strip(4), duration: .5, ease: "power2.inOut" }, {{l32.w26}});
-      tl.fromTo("#ptStrip", { filter: "blur(0px)" }, { keyframes: [{ filter: "blur(10px)", duration: .25 }, { filter: "blur(0px)", duration: .25 }], ...IR }, {{l32.w26}});
-      tl.set("#ptCam", { rotation: 0 }, {{l32.w26+0.6}});
+      // "admit": a hard cut round to the fish (v3.3.3, E-5: was a blurred spin), a shake instead of the tumble
+      tl.set("#ptStrip", { x: strip(4) }, {{l32.w26}});
+      tl.fromTo("#ptCam", { x: 0, rotation: 0 }, { keyframes: [{ x: -16, rotation: -2, duration: .05 }, { x: 12, rotation: 1.5, duration: .06 }, { x: -6, rotation: -.6, duration: .06 }, { x: 0, rotation: 0, duration: .1 }], ...IR }, {{l32.w26}});
       ptFigs.slice(0, 4).forEach((f, i) => tl.fromTo(f.querySelector(".q"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .2, ease: "back.out(3)", ...IR }, {{l32.w22+0.1}} + i * .3));
       tl.fromTo("#ptLid", { opacity: 0 }, { keyframes: [{ opacity: 1, duration: .2, ease: "steps(1)" }, { opacity: 0, duration: .14, ease: "steps(1)" }], ...IR }, {{l32.w28+0.4}});
       tl.set("#ptLid", { opacity: 0 }, 0);
@@ -1414,7 +1419,7 @@
       tl.set("#rewind", { autoAlpha: 1 }, {{l32.w36-0.12}});
       tl.fromTo("#rewind", { opacity: 1 }, { opacity: 0, duration: .1, yoyo: true, repeat: 3, ease: "steps(1)", ...IR }, {{l32.w36-0.12}});
       tl.set("#rewind", { autoAlpha: 0 }, {{l32.w36+0.4}});
-      const G5 = focus(1030, 600, 1.55);
+      const G5 = focus(950, 560, 1.55);                                 // v3.3.3 (E-3): the crew framed lower and right, clear of the hearts HUD
       cam({{l32.w36-0.12}}, .38, G5, "expo.inOut");
       tl.set("#eye", { opacity: 1 }, {{l32.w36}});
       tl.fromTo("#eyeOpen", { scaleY: .04 }, { scaleY: 1, duration: .45, ease: "back.out(1.6)", transformOrigin: "50% 50%", ...IR }, {{l32.w36+0.12}});
@@ -1559,8 +1564,9 @@
       tl.fromTo("#yLater", { scale: .3, rotation: -12 }, { scale: 1, rotation: -3, duration: .35, ease: "back.out(2.6)", ...IR }, {{l35.w18}});
       tl.fromTo("#years", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], ...IR }, {{l35.w17+1.05}});
       // "in the same group chat,": the phone, big; the year moves aside
-      tl.to("#years", { x: -330, y: 60, scale: .62, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
-      tl.to("#yLater", { x: -330, y: 2, scale: .9, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
+      // v3.3.3 (E-4): the year moves onto the empty table right of the phone, off the "$0" polaroid
+      tl.to("#years", { x: 512, y: 40, scale: .55, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
+      tl.to("#yLater", { x: 512, y: -30, scale: .8, duration: .45, ease: "power3.inOut" }, {{l35.w23-0.2}});
       tl.to("#tblDim", { opacity: .86, duration: .4 }, {{l35.w23-0.2}});
       show("#phoneSh", {{l35.w23-0.15}});
       tl.fromTo("#phoneWrap", { y: 720, rotation: 6 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.3)", ...IR }, {{l35.w23-0.15}});

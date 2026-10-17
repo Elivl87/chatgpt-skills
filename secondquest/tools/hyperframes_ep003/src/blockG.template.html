@@ -126,7 +126,7 @@
       #sent { position: absolute; right: 210px; top: 340px; padding: 16px 28px; background: #d6392f; color: #fff; font: 800 34px "Inter"; border-radius: 30px 30px 8px 30px; border: 3px solid var(--ink);
         box-shadow: 4px 5px 0 var(--ink); white-space: nowrap; transform-origin: 100% 100%; opacity: 0; }
       #reply { position: absolute; left: 210px; top: 330px; height: 80px; transform-origin: 0% 100%; opacity: 0; }
-      #reply .av { position: absolute; left: 0; top: 14px; width: 54px; height: 54px; border-radius: 50%; background: #167880; border: 3px solid var(--ink); color: #fff; font: 800 26px "Inter"; display: flex; align-items: center; justify-content: center; }
+      #reply .av { position: absolute; left: 0; top: 14px; width: 54px; height: 54px; border-radius: 50%; background: #167880; border: 3px solid var(--ink); overflow: hidden; }   /* v3.3.3 (G-3): Pixie's portrait, as in the hook's chat */
       #reply .stk { position: absolute; left: 70px; top: 4px; padding: 12px 26px; background: var(--gold); border: 3px solid var(--ink); border-radius: 16px; font: 800 38px "Inter"; color: var(--ink);
         box-shadow: 0 0 0 5px #fffaf0, 5px 7px 0 5px var(--ink); white-space: nowrap; transform: rotate(-4deg); }
       #dim { background: radial-gradient(ellipse at 50% 55%, rgba(8, 10, 26, .45) 0%, rgba(8, 10, 26, .78) 100%); }
@@ -265,7 +265,7 @@
         </div>
         <div id="chat" class="full">
           <div id="sent">boat tonight?</div>
-          <div id="reply"><div class="av">P</div><div class="stk">Bought.</div></div>
+          <div id="reply"><div class="av" data-critic-ignore="1"><img src="assets/pixie_wave.png" alt="" style="position: absolute; width: 242.86%; left: -64.29%; top: -10%" /></div><div class="stk">Bought.</div></div>
           <div id="chatBox">
             <div class="txt"><span id="ph">Message...</span><span id="typed"></span><span id="caret"></span></div>
             <div id="sendBtn"><svg viewBox="0 0 34 34"><path d="M4 17 L30 5 L22 30 L17 19 Z" fill="#fff" stroke="#16161f" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
@@ -510,8 +510,10 @@
       tl.to("#boatRig", { filter: "blur(0px)", duration: .5, ease: "sine.inOut" }, Q.thing);
       tl.to(fish2.rig, { filter: "blur(3px)", duration: .5, ease: "sine.inOut" }, Q.thing);
       tl.set(fish2.faces.lookup, { opacity: 0 }, Q.loud - .3);                  // eyes drop, back to deadpan
-      tl.to(fish2.copies, { y: 260, rotation: -8, duration: 1.3, ease: "power1.in" }, Q.loud);
-      tl.to(fish2.wl, { opacity: 0, scale: 1.4, duration: .8 }, Q.loud + .5);
+      // v3.3.3 (G-2): it dives (as in E) with a ripple, instead of sinking see-through
+      tl.to(fish2.copies, { keyframes: [{ y: -44, rotation: -28, duration: .2, ease: "power2.out" }, { y: 70, rotation: -120, duration: .24, ease: "power2.in" }, { y: 260, duration: .2 }] }, Q.loud);
+      tl.to(fish2.wl, { opacity: 0, scale: 1.4, duration: .5 }, Q.loud + .44);
+      { const spD = makeSplash($("#splashHost"), FX2, FY2, .55); doSplash(spD, Q.loud + .42, 23); }
       (function () { const b = mk("div", "bub", $("#splashHost"), `left:${FX2 - 8}px; top:${FY2 - 8}px; opacity:0`);
         tl.fromTo(b, { opacity: 0, y: 8, scale: .4 }, { opacity: 1, y: -16, scale: 1, duration: .45, ease: "sine.out" }, Q.loud + .85);
         tl.to(b, { scale: 1.8, opacity: 0, duration: .14 }, Q.loud + 1.32); })();
@@ -548,7 +550,8 @@
       cam(S4, 0, focus(640, 478, 2.0));
       breathe(S4, S5, 3);
       tl.set("#chat", { opacity: 1 }, Q.l49);
-      tl.fromTo("#chatBox", { scaleX: .5, scaleY: .62, opacity: 0, y: -305 }, { keyframes: [{ opacity: 1, duration: .08 }, { scaleX: 1, scaleY: 1, y: 0, duration: .55, ease: "back.out(1.3)" }] }, Q.l49 - .02);
+      tl.to("#title3", { opacity: 0, y: -30, duration: .2, ease: "power2.in" }, Q.l49 - .3);    // v3.3.3 (G-5): the title is gone before the field arrives
+      tl.fromTo("#chatBox", { scaleX: .5, scaleY: .62, opacity: 0, y: 305 }, { keyframes: [{ opacity: 1, duration: .08 }, { scaleX: 1, scaleY: 1, y: 0, duration: .55, ease: "back.out(1.3)" }] }, Q.l49 - .02);
       tl.fromTo("#sendBtn", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: .35, ease: "back.out(2.5)", immediateRender: false }, Q.i + .02);
       tl.to("#sendBtn", { scale: 0, duration: .2, ease: "power2.in" }, Q.ever + .45);
       tl.to("#sendBtn", { scale: 1, duration: .3, ease: "back.out(2.5)" }, Q.having);
@@ -609,7 +612,7 @@
       tl.fromTo("#wowMark", { scaleY: .4, rotation: 0 }, { keyframes: [{ scaleY: 1.25, rotation: 10, duration: .12 }, { scaleY: 1, rotation: 6, duration: .3, ease: "elastic.out(1, .35)" }] }, Q.quest + .04);
       const DIVE = Q.quest + .32 + .5, SPL = DIVE + .5;                            // pop, hold ~0.5 s, then the dive
       tl.to("#wow", { opacity: 0, duration: .15 }, DIVE + .05);
-      tl.to(fish5.copies, { keyframes: [{ y: -80, rotation: -40, duration: .25, ease: "power2.out" }, { y: 60, rotation: -150, duration: .27, ease: "power2.in" }, { y: 260, duration: .25 }] }, DIVE);
+      tl.to(fish5.copies, { keyframes: [{ y: -40, rotation: -40, duration: .2, ease: "power2.out" }, { y: 60, rotation: -150, duration: .27, ease: "power2.in" }, { y: 260, duration: .25 }] }, DIVE);   // v3.3.3 (G-4): a low dive under the wordmark, not through its Q
       tl.to(fish5.wl, { opacity: 0, duration: .3 }, SPL);
       const sp5 = makeSplash($("#fxSplash"), FX5, FY5 - 4, 1.1); doSplash(sp5, SPL - .02, 51);
       tl.set("#glint", { x: FX5, y: FY5 - 10, opacity: 0 }, 0);
