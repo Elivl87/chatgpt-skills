@@ -31,3 +31,8 @@
 - The first line states a **conflict**, never a neutral fact.
 - Keep 20–25 s.
 - The critics' PASS is checked against real stay rates every time a Short is published; a gap means the rubric changes.
+
+## EP001 long, traffic sources since publishing (Producer screenshot, 2026-10-17)
+Browse features (Home) 91.0 %, YouTube search 7.1 %, channel pages 1.0 %, direct 0.3 %, suggested 0.3 %, other 0.3 %.
+EP001 lived on Home; EP002 at 48 h was the opposite (search 57 %, browse 43 % of 7 views) and has had only 119
+impressions, so Home has not tested it yet. Needed: EP002 long "Reach" screenshots (traffic sources, impressions per day).
