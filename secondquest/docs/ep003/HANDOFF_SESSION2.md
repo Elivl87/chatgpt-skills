@@ -4,6 +4,15 @@ Producer: Eli. Reply in Spanish. Read `secondquest/CLAUDE.md` first (all rules; 
 resources and rounds). Branch `claude/secondquest-pilot-hook-4yw8xj`. Credits: **9.25** (report in every update).
 The Producer decides what runs next: after this handoff, do ONLY what is listed under "Do now", report, and wait.
 
+## UPDATE 2026-10-17 (end of session 2): read this first
+The Producer's uploaded cut is now the base: `docs/ep003/EP003_BASE_PRODUCER.mp4` (see PRODUCER_DECISIONS.md,
+"The base is the Producer's cut, improve only"). Start by identifying which version produced it and restore it; then
+only improve it. Session 2 built a scene render cache (`tools/hyperframes_ep003/scene_cache.py`, SCENE_CACHE.md), the
+HUD_OVER_CHARACTER gate and G seek-safety fixes (pushed); its D/E fix edits were stopped unfinished and not pushed.
+Env note: `public/art` is not in git: restore it from the `archive-art-2026-10-10` Release; EP003 3D is re-rendered
+with `python3 tools/props3d/render.py ep003_props ep003_gameworld fish2 friends friends_talk friends_sitflat friends_boat`
+(one job per call, ~20 min); then `npm ci` at secondquest/ and in tools/hyperframes_ep003, `pip install opencv-python-headless imageio-ffmpeg`.
+
 ## Where EP003 is
 - Script LOCKED v3.3 (new hook approved; Bram audio approved, 0.3 credits for line H8). `docs/ep003/EP003_SCRIPT_v33_EN.md` / `_ES419.md`.
 - Hyperframes project: `tools/hyperframes_ep003/` (blocks hook/A, B, C, D, E, F, G; `render_block.sh`, `join_episode.py`,

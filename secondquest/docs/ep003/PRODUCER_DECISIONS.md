@@ -128,3 +128,13 @@
   Balance after: 9.25. Cap 2.5 → 2.2 left for this revision.
 - Hook v3.3 audio splice APPROVED by ear (Producer, 2026-10-17: "El audio suena bien, sigue con el video").
   STT match 96.3 % (hook 96.9 %). No further Bram spend for this revision.
+
+## 2026-10-17 · The base is the Producer's cut, improve only
+- Producer: "Quiero que partas del que te di. Y en caso tal, solo MEJORARLO." The video he uploaded is the BASE of
+  EP003: `docs/ep003/EP003_BASE_PRODUCER.mp4` (854×480, 332.0 s, audio 330.7 s, encoded by our pipeline's ffmpeg 7.0;
+  file name `EP003_full_hyperframes_review.mp4`). It is NOT any review cut in git (all of those are 1280×720, 328.4 s);
+  e.g. at 0:30 it shows "TO DO EVERYTHING ELSE", which the 328.4 s cut shows at ~0:34.8.
+- Next session: first identify which sources/commit (or delivery) produced it, restore that state, and from there
+  only IMPROVE it (no redesigns, no re-timing of what works). The v3.3.3/v3.3.4 work (328.4 s cut, FIX_LIST_v334)
+  does not replace it unless the Producer says so; reuse only the fixes that apply to his cut.
+- He also said this session's work is "muy mal hecho" and to stop; finish in a new session.
