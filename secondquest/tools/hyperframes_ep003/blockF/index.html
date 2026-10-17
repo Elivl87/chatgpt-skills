@@ -169,7 +169,7 @@
       #banner .l1 { display: flex; justify-content: space-between; font: 800 26px/1.1 "Inter", sans-serif; color: var(--ink); }
       #banner .l1 .tm { font: 800 19px/1.2 "Inter", sans-serif; color: rgba(22, 22, 31, .55); }
       #banner .l2 { font: 600 30px/1.3 "Inter", sans-serif; color: var(--ink); margin-top: 4px; }
-      #banner .l2 b { font-weight: 800; color: var(--leo); }
+      #banner .l2 b { font-weight: 800; color: #5a3fa6; }   /* v3.3.3: Max organises (as in the hook); AA purple */
 
       /* ---------------- F6: the living room at 1 AM ---------------- */
       #room { position: absolute; left: -40px; top: -22px; width: 1360px; height: 765px; }
@@ -384,7 +384,7 @@
             <div id="warmL" class="full" style="opacity: .35"></div>
           </div>
         </div></div>
-        <div id="banner"><div class="gav" id="bnGav"></div><div class="tx"><div class="l1"><span>The boat</span><span class="tm">Tue 9:00 PM</span></div><div class="l2"><b>Leo:</b> on?</div></div></div>
+        <div id="banner"><div class="gav" id="bnGav"></div><div class="tx"><div class="l1"><span>The boat</span><span class="tm">Tue 9:00 PM</span></div><div class="l2"><b>Max:</b> on?</div></div></div>
       </div>
 
       <!-- ================= F6 (l41): the living room, 1 AM, "last round" ================= -->
@@ -869,7 +869,7 @@
         we: 9.44, genre: 10.3, word: 11.5, garbage: 12.2, then: 13.46, invited: 13.82, friends2: 14.42, it: 14.96,
         some: 15.61, short: 16.32, maybe: 17.11, thisy: 17.93, summer: 18.6, hit: 18.8, l38end: 19.09,
         but: 19.48, too: 21.18, that: 22.17, never: 22.52, l39end: 23.8,
-        some5: 24.3, few: 25.86, boat: 27.02, tuesday: 27.68, plan: 29.04, fish1: 29.74, plan2: 30.7, always: 31.4, fish2: 32.26, l40end: 32.64,
+        some5: 24.3, few: 25.86, sameB: 26.78, boat: 27.02, tuesday: 27.68, plan: 29.04, fish1: 29.74, plan2: 30.7, always: 31.4, fish2: 32.26, l40end: 32.64,
         and6: 32.98, one: 34.24, morning: 34.74, says: 35.46, last: 36.52, round1: 36.61, It: 37.46, never6: 37.88, last2: 38.76, round2: 39.02,
         and7: 39.75, two: 39.96, founded: 40.68, studio: 41.16, met: 42.6, high: 42.9, school: 43.1,
         their: 43.9, first: 43.99, had: 45.14, not7: 45.38, well: 45.92,
@@ -1193,23 +1193,30 @@
           if (dur <= 0) tl.set(sel, v, at); else tl.to(sel, Object.assign(v, { duration: dur, ease: ease || "sine.inOut" }), at); }); }
       const wenv = { t: 0, glow: 1, k: 0 };
       tl.to(wenv, { t: DUR, duration: DUR, ease: "none", onUpdate: () => water.draw(wenv.t, wenv.k) }, 0);
-      tl.to(wenv, { k: 1, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too + .2);
-      tl.to(wenv, { glow: 0, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too);
+      // v3.3.3 (retention critic: 258.8-267 was 8 s of drift): night falls by "Some games", the camera punches in on
+      // "end too", moves again on "never what they were for", and the banner arrives on "same boat"
+      const NIGHT = T.some5 - T.too;
+      tl.to(wenv, { k: 1, duration: NIGHT, ease: "sine.inOut" }, T.too + .1);
+      tl.to(wenv, { glow: 0, duration: NIGHT, ease: "sine.inOut" }, T.too);
       lcam(0, 0, focus(900, 330, 1.12));
-      lcam(T.but, T.some5 - T.but + 1.2, focus(700, 420, 1.0), "sine.inOut");      // a slow pull-back
+      lcam(T.but, T.too - T.but - .1, focus(840, 360, 1.08), "sine.inOut");       // a short drift toward the boat
+      lcam(T.too - .06, .42, focus(780, 425, 1.32), "power3.out");                // "end too": punch in on the crew
+      kickCam("#kickLake", T.too - .02, 1.02, -.4);
+      lcam(T.never - .1, T.some5 - T.never + .1, focus(640, 395, 1.06), "power2.inOut");   // "never what they were for": out and across
+      lcam(T.some5, T.boat - .2 - T.some5, focus(740, 420, 1.1), "sine.inOut");   // "Some games...": settle on the boat at night
       // a seagull glides home into the low sun (the dusk wide's idle event), small and far
       Gull($("#L-water .F"), { w: 38, flip: true }).fly(tl, T.but + .3, T.tuesday - .4, [[200, 170], [620, 150], [960, 132], [1180, 120]], { flaps: [[T.but + .3, T.but + 1.1]] });
       tl.set("#sun", { y: -83 }, 0);                                   // matches F3's sun on screen (the match cut)
       tl.to("#sun", { y: -40, duration: T.too - T.but, ease: "sine.in" }, T.but);
-      tl.to("#sun", { y: 40, duration: 4.2, ease: "sine.in" }, T.too);
-      tl.to(["#sunglow", "#rays"], { opacity: 0, duration: 3.6, ease: "sine.inOut" }, T.too + .2);
+      tl.to("#sun", { y: 40, duration: NIGHT, ease: "sine.in" }, T.too);
+      tl.to(["#sunglow", "#rays"], { opacity: 0, duration: NIGHT - .3, ease: "sine.inOut" }, T.too + .2);
       tl.fromTo("#rays", { rotation: 0 }, { rotation: 10, duration: 16, ease: "none", immediateRender: false }, T.but);
       // the grade to blue hour (sky, stars, a cool multiply over the whole world, the warm wash leaves)
       tl.set(["#blueSky", "#stars", "#gradeBlue"], { opacity: 0 }, 0);
-      tl.to("#blueSky", { opacity: 1, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too + .2);
-      tl.to("#gradeBlue", { opacity: .5, duration: T.tuesday - T.too, ease: "sine.inOut" }, T.too + .2);
-      tl.to("#stars", { opacity: 1, duration: 5, ease: "sine.in" }, T.never);
-      tl.to("#warmL", { opacity: 0, duration: 3, ease: "sine.inOut" }, T.too + .2);
+      tl.to("#blueSky", { opacity: 1, duration: NIGHT - .2, ease: "sine.inOut" }, T.too + .2);
+      tl.to("#gradeBlue", { opacity: .5, duration: NIGHT - .2, ease: "sine.inOut" }, T.too + .2);
+      tl.to("#stars", { opacity: 1, duration: T.some5 - T.never, ease: "sine.in" }, T.never);
+      tl.to("#warmL", { opacity: 0, duration: NIGHT - .4, ease: "sine.inOut" }, T.too + .2);
       ["#c1", "#c2", "#c3", "#c4"].forEach((c, i) => tl.fromTo(c, { x: 0 }, { x: 40 + i * 14, duration: DUR, ease: "none", immediateRender: false }, T.but));
       reeds.forEach((e, i) => tl.fromTo(e, { rotation: -2 - (i % 3) }, { rotation: 3 + (i % 2), duration: 1.6 + (i % 5) * .23, ease: "sine.inOut", yoyo: true, repeat: 9, immediateRender: false }, T.but));
       tl.fromTo("#boatBob", { y: -3 }, { y: 4, duration: 1.45, ease: "sine.inOut", yoyo: true, repeat: 11, immediateRender: false }, T.but);
@@ -1242,11 +1249,11 @@
       ft("#boatBob", { scaleY: 1 }, { keyframes: [{ scaleY: .965, duration: .08 }, { scaleY: 1, duration: .55, ease: "elastic.out(1, .3)" }], transformOrigin: "50% 100%" }, T.boat);
       kickCam("#kickLake", T.boat + .02, 1.02, .5);
       lcam(T.boat - .2, 1.1, focus(780, 430, 1.16), "power2.inOut");
-      // "Tuesday": the group-chat banner drops in
+      // "same boat": the group-chat banner drops in (v3.3.3: was on "Tuesday", 0.9 s later)
       tl.set("#banner", { y: -190, opacity: 1 }, 0);
-      tl.to("#banner", { y: 0, duration: .5, ease: "back.out(1.7)" }, T.tuesday - .12);
-      ft("#banner", { rotation: -2 }, { rotation: 0, duration: .8, ease: "elastic.out(1.1, .4)" }, T.tuesday + .3);
-      punch("#bnGav", T.tuesday + .35, 1.18);
+      tl.to("#banner", { y: 0, duration: .5, ease: "back.out(1.7)" }, T.sameB - .12);
+      ft("#banner", { rotation: -2 }, { rotation: 0, duration: .8, ease: "elastic.out(1.1, .4)" }, T.sameB + .3);
+      punch("#bnGav", T.tuesday + .05, 1.18);
       // "plan": the camera finds the rod; "☐ FISH" pins to it while Leo, behind, is already juggling dynamite
       const PLANCAM = focus(915, 405, 1.2);
       lcam(T.plan - .2, .6, PLANCAM, "power3.inOut");
@@ -1435,6 +1442,9 @@
       pingRings.forEach((r, i) => { tl.set(r, { opacity: 0 }, 0); ft(r, { scale: .05, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .03 }, { scale: 1 + i * .45, opacity: 0, duration: .55, ease: "power2.out" }] }, GP + i * .07); });
       flash(GP, .2);
       // "chat.": hard cut to the black lake (no camera, no breathing: stillness)
+      // v3.3.3 (retention critic: at most 0.7 s of black): after 0.55 s of stillness the night lake comes up to G's level
+      tl.set("#shotBlack", { filter: "brightness(1)" }, 0);
+      tl.to("#shotBlack", { filter: "brightness(3.2)", duration: .55, ease: "sine.inOut" }, T.chat + .55);
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};

@@ -84,10 +84,13 @@
         color: var(--ink); font: 800 22px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
       .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 5px 6px 0 var(--ink); letter-spacing: .01em; line-height: 1; white-space: nowrap; }
       /* G1: the question as a reflection in the water */
-      #refl { position: absolute; left: 90px; top: 462px; width: 1100px; height: 210px; transform: scaleY(-.8); transform-origin: 50% 50%; opacity: .62;
+      #refl { position: absolute; left: 90px; top: 462px; width: 1100px; height: 210px; transform: scaleY(-.8); transform-origin: 50% 50%; opacity: .5;
         filter: url(#wob) brightness(.78) saturate(.85);
         -webkit-mask-image: linear-gradient(0deg, rgba(0,0,0,.15) 0%, #000 45%, #000 80%, rgba(0,0,0,.5) 100%); mask-image: linear-gradient(0deg, rgba(0,0,0,.15) 0%, #000 45%, #000 80%, rgba(0,0,0,.5) 100%); }
-      #refl .ln { display: flex; justify-content: center; gap: .26em; }
+      #refl .ln, #qUp .ln { display: flex; justify-content: center; gap: .26em; }
+      #qUp { position: absolute; left: 90px; top: 92px; width: 1100px; height: 214px; }
+      #qUp .uw { display: block; opacity: 0; }
+      #qUp .big { -webkit-text-stroke: 4px var(--ink); text-shadow: 3px 4px 0 var(--ink); }
       #refl .rw { display: block; opacity: 0; }
       #refl .big { -webkit-text-stroke: 4px var(--ink); text-shadow: 3px 4px 0 var(--ink); }
       #dropFall { position: absolute; left: 0; top: 0; width: 6px; height: 16px; border-radius: 50% 50% 50% 50% / 70% 70% 30% 30%; background: linear-gradient(180deg, rgba(230,240,255,.2), #f2f8ff); box-shadow: 0 0 6px rgba(220,235,255,.9); opacity: 0; }
@@ -196,7 +199,13 @@
               <div id="plateHost"></div>   <!-- the lake plate, night grade (derived from new art v1) + its water -->
             </div></div>
             <div id="L-boat" class="L"><div class="F" id="boatF">
-              <div id="refl">
+              <!-- v3.3.3 (retention critic): the question stands upright above the waterline; #refl below is its mirrored reflection -->
+              <div id="qUp" data-critic-allow-duplicate="1" data-layout-ignore="1">
+                <div class="ln big" style="font-size: 44px; color: #ffe39a"><span class="uw">SO...</span><span class="uw">WHY</span><span class="uw">DID</span><span class="uw">MILLIONS</span><span class="uw">OF</span><span class="uw">PEOPLE</span></div>
+                <div class="ln big" style="font-size: 60px; margin-top: 8px"><span class="uw">BUY</span><span class="uw">A</span><span class="uw">FISHING</span><span class="uw">GAME</span></div>
+                <div class="ln big" style="font-size: 80px; margin-top: 8px"><span class="uw">AND</span><span class="uw">NOT</span><span class="uw">FISH?</span></div>
+              </div>
+              <div id="refl" data-critic-allow-duplicate="1" data-layout-ignore="1">
                 <div class="ln big" style="font-size: 44px; color: #ffe39a"><span class="rw">SO...</span><span class="rw">WHY</span><span class="rw">DID</span><span class="rw">MILLIONS</span><span class="rw">OF</span><span class="rw">PEOPLE</span></div>
                 <div class="ln big" style="font-size: 60px; margin-top: 8px"><span class="rw">BUY</span><span class="rw">A</span><span class="rw">FISHING</span><span class="rw">GAME</span></div>
                 <div class="ln big" style="font-size: 80px; margin-top: 8px"><span class="rw">AND</span><span class="rw">NOT</span><span class="rw">FISH?</span></div>
@@ -650,6 +659,9 @@
       const RW = $$("#refl .rw");
       [Q.so, Q.why, Q.did, Q.mil, Q.of, Q.ppl, Q.buy, Q.a, Q.fishing, Q.game, Q.and, Q.not, Q.fishQ].forEach((t, i) =>
         tl.fromTo(RW[i], { opacity: 0, y: 10, scaleX: 1.25 }, { opacity: 1, y: 0, scaleX: 1, duration: .5, ease: "power2.out" }, t - .04));
+      const UW = $$("#qUp .uw");                                       // the upright question, word for word with its reflection
+      [Q.so, Q.why, Q.did, Q.mil, Q.of, Q.ppl, Q.buy, Q.a, Q.fishing, Q.game, Q.and, Q.not, Q.fishQ].forEach((t, i) =>
+        tl.fromTo(UW[i], { opacity: 0, y: -10, scaleX: 1.25 }, { opacity: 1, y: 0, scaleX: 1, duration: .5, ease: "power2.out" }, t - .04));
       // on "fish?" one drop falls; the ripple breaks the text
       const HIT = Q.fishQ + .3, HX = 760, HY = 548;
       tl.set("#dropFall", { x: HX - 3, y: -30, opacity: 1 }, Q.fishQ - .12);
@@ -670,6 +682,7 @@
           tl.to(d, { opacity: 0, duration: .15 }, at + .55); }); }
       doSplash(sp0, HIT, 5);
       tl.set("#refl", { opacity: 0 }, S2);
+      tl.to("#qUp", { opacity: 0, y: -16, duration: .35, ease: "power2.in" }, S2 - .4);
 
       // ================= G2 l45-46: the fish surfaces, hopes, is ignored, sinks
       placeBoat(S2, 430, 522, 1.0);
