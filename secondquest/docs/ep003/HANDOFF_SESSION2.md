@@ -6,7 +6,7 @@ The Producer decides what runs next: after this handoff, do ONLY what is listed 
 
 ## UPDATE 2026-10-17 (end of session 2): read this first
 The Producer's uploaded cut is now the base: `docs/ep003/EP003_BASE_PRODUCER.mp4` (see PRODUCER_DECISIONS.md,
-"The base is the Producer's cut, improve only"). Start by identifying which version produced it and restore it; then
+"The base is the Producer's cut, improve only"). It is commit 717b244d's review cut (Wed 10-14, 332.0 s): restore the EP003 sources from that commit; then
 only improve it. Session 2 built a scene render cache (`tools/hyperframes_ep003/scene_cache.py`, SCENE_CACHE.md), the
 HUD_OVER_CHARACTER gate and G seek-safety fixes (pushed); its D/E fix edits were stopped unfinished and not pushed.
 Env note: `public/art` is not in git: restore it from the `archive-art-2026-10-10` Release; EP003 3D is re-rendered

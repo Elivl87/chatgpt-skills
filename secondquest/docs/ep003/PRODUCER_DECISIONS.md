@@ -141,3 +141,8 @@
 - Producer, same day: "En caso tal meterle más dinamismo, y dopamina." The improvements on his base cut aim at
   MORE DYNAMISM AND DOPAMINE (rhythm spikes, punchier beats, callbacks, companion reactions; no shot holding > ~4 s
   without a change; `docs/ep003/hyperframes/DOPAMINE_PLAN.md` as the model), always keeping what already works.
+- SOURCE FOUND: the base cut is byte-identical (sha256 41c1c778…) to `docs/ep003/hyperframes/EP003_full_hyperframes_review.mp4`
+  of commit **717b244d** (Wed 2026-10-14 05:01, "EP003 HF fix pass: full review re-joined (332.0 s, −14.1 LUFS, 19.7
+  cuts/min, avg shot 3.02 s, pacing all PASS)"), the cut delivered on Thu 10-15 as "preliminar corregido (5:32, voz de
+  Bram)". Next session: restore the EP003 sources (tools/hyperframes_ep003, episodes/ep003 timings, audio) from 717b244d
+  (`git fetch --unshallow` or fetch that commit) and improve from there. It predates script v3.3 (new hook + H8).
