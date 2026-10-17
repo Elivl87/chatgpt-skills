@@ -615,8 +615,7 @@
       // startAt, and the motion-blur sub-frame seeks can revert a startAt mid-tween (seen: SLAP!/REVIVED vanishing)
       { const ft = tl.fromTo.bind(tl);
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
-      const env = { t: 0 };
-      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => frame(env.t) }, 0);
+      const env = { t: 0 };   // frame(t) is added LAST (end of script): it reads #wmMove's y of the same frame, seek-safe
 
       // camera: per-layer parallax (x/y/s scale with depth f) + a tilt ty that moves every layer alike
       const LAYERS = [["#L-sky", .08], ["#L-hills", .25], ["#L-water", .55], ["#L-boat", 1]];
@@ -753,9 +752,9 @@
       tl.to("#title3", { opacity: 0, scale: .96, duration: .16, ease: "power2.in" }, Q.l49 - .3);    // v3.3.3 (G-5): the title is gone before the field arrives
       tl.fromTo("#chatBox", { scaleX: .5, scaleY: .62, opacity: 0, y: 305 }, { keyframes: [{ opacity: 1, duration: .08 }, { scaleX: 1, scaleY: 1, y: 0, duration: .55, ease: "back.out(1.3)" }] }, Q.l49 - .02);
       tl.fromTo("#sendBtn", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: .35, ease: "back.out(2.5)", immediateRender: false }, Q.i + .02);
-      tl.to("#sendBtn", { scale: 0, duration: .2, ease: "power2.in" }, Q.ever + .45);
-      tl.to("#sendBtn", { scale: 1, duration: .3, ease: "back.out(2.5)" }, Q.having);
-      tl.to("#sendBtn", { keyframes: [{ scale: .82, duration: .08 }, { scale: 1.08, duration: .12 }, { scale: 1, duration: .2 }] }, SENT - .1);
+      tl.fromTo("#sendBtn", { scale: 1 }, { scale: 0, duration: .2, ease: "power2.in", immediateRender: false }, Q.ever + .45);   // explicit starts: seek-safe (a cold
+      tl.fromTo("#sendBtn", { scale: 0 }, { scale: 1, duration: .3, ease: "back.out(2.5)", immediateRender: false }, Q.having);  // seek dropped the button, 2026-10-17)
+      tl.fromTo("#sendBtn", { scale: 1 }, { keyframes: [{ scale: .82, duration: .08 }, { scale: 1.08, duration: .12 }, { scale: 1, duration: .2 }], immediateRender: false }, SENT - .1);
       tl.fromTo("#sent", { opacity: 0, scale: .4, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: .4, ease: "back.out(1.8)", immediateRender: false }, SENT);
       const BOUGHT = SENT + .5;
       tl.to("#sent", { y: -98, duration: .35, ease: "power2.out" }, BOUGHT);
@@ -840,6 +839,7 @@
       tl.set(["#lantern", "#poolBoat", "#poolWater"], { x: 0 }, 0);
       [GA, GB].forEach((f, i) => f.blinks(tl, Q.boat + 1, 34.5, 11 + i * 7));   // idle blinks on the friends
       window.__timelines = window.__timelines || {};   // (the frame critic's seek harness has no registry)
+      tl.to(env, { t: DUR, duration: DUR, ease: "none", onUpdate: () => frame(env.t) }, 0);   // last child at 0: runs after every tween of the frame
       window.__timelines["main"] = tl;
     </script>
     <!--
