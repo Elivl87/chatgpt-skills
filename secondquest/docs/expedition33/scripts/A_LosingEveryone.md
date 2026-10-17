@@ -14,7 +14,7 @@ Factual basis: `../RESEARCH.md` (ids in brackets in the notes at the end).
 - **F. Payoff:** the motto that meant "die so the next ones can try" ends up meaning "let go so the living can live",
   over a family standing together at a grave.
 - **G. Risk:** a plot recap; "sad games are good" generalities; over-explaining the ending.
-- **H. Recognition anchors:** the number on the Monolith, petals, Gustave and Sophie at the harbour, the Act 1 death,
+- **H. Recognition anchors:** the number on the Monolith, petals, Gustave and Sophie at the harbor, the Act 1 death,
   "the new guy", the painting reveal, the Maelle-vs-Verso argument.
 - **I. Humour:** "Not a great line for the recruitment poster"; the Expedition 60 journal ("Bare naked muscles will save
   the world"); "Most families argue about where to spend the holidays. This one argued inside a painting."
@@ -22,7 +22,7 @@ Factual basis: `../RESEARCH.md` (ids in brackets in the notes at the end).
   told quietly.
 
 ## Spoiler policy (Producer, 2026-10-17: FULL SPOILER)
-- The **hook is spoiler-free** (premise only: the number, the petals, the harbour goodbye) and works for non-players.
+- The **hook is spoiler-free** (premise only: the number, the petals, the harbor goodbye) and works for non-players.
 - **Right after "So, why?" + wordmark + 1.5 s of silence:** a spoken warning (line W) and an on-screen card
   **"FULL SPOILERS · INCLUDING THE ENDING"** held 2.5 s.
 - Spoilers from block C on (the Act 1 death, the painting reveal, the Dessendres, both endings).
@@ -32,7 +32,7 @@ Factual basis: `../RESEARCH.md` (ids in brackets in the notes at the end).
 ## Motto arc ("For those who come after")
 | | Where | How | Meaning there |
 |---|---|---|---|
-| 1st | Block B, "So they gave it a better one." | **Bram speaks it** + on-screen: the words hand-lettered in white paint along a boat's hull as it leaves the harbour (English) | The expeditions' in-world creed: *we will probably die, but we leave the road clearer for the next expedition.* Sacrifice. |
+| 1st | Block B, "So they gave it a better one." | **Bram speaks it** + on-screen: the words hand-lettered in white paint along a boat's hull as it leaves the harbor (English) | The expeditions' in-world creed: *we will probably die, but we leave the road clearer for the next expedition.* Sacrifice. |
 | 2nd | Block C, Gustave's last moment | **Visual only**: the same painted words on the hull, now half washed by spray; no narration over it | It still means sacrifice, but now it is one person's last gift to one girl. |
 | Final | Payoff, the very last line before the CTA | **Bram speaks it**, alone, after a 1 s rest; on screen the words are painted, slowly, under the family standing at the grave, white on dark | **Letting go.** The parents stop living inside their dead son's painting so their living daughter can live. "Those who come after" are no longer the next expedition; they are the living. |
 
@@ -55,18 +55,32 @@ pattern, 3 is the alternative.
 - **Icon:** behind him, across a dark sea, **our own black stone tower with a huge "33" in rough white brushstrokes**
   (the premise, not the game's art). One **red petal** drifting off his open palm, in the foreground.
 - **Text (2–3 words), upper right on the dusk sky:** **ONE LAST MINUTE** · variants **SHE'S 33** / **NOT AGAIN**.
-- No Gustave, Sophie, Paintress or logo. No painting or family. The video opens on that harbour.
+- No Gustave, Sophie, Paintress or logo. No painting or family. The video opens on that harbor.
 
 ## Runtime and length
-- Narration: **1,295 words**, **6,952 characters** (with spaces, narration only; measured on the narration lines).
-- At Bram's ~155 wpm, including pauses: **≈ 8:21**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
-  1 s rest before the final motto → **≈ 8:26**. The block times below are estimates at 155 wpm.
+- Narration: **1,302 words**, **6,984 characters** (with spaces, narration only; measured on the narration lines, 2026-10-17).
+- At Bram's ~155 wpm, including pauses: **≈ 8:24**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
+  1 s rest before the final motto → **≈ 8:29** (inside the 8–10 min target; at EP002's 148 wpm it would be ≈ 8:53). The block times below are estimates at 155 wpm.
+
+**Block timing (estimate at 155 wpm, incl. the 1.5 s wordmark hold, the 2.5 s spoiler card and the 1 s pre-motto rest):**
+
+| Block | Words | Start | End |
+|---|---|---|---|
+| A · Hook | 90 | 0:00 | 0:36 |
+| W · Warning | 29 | 0:36 | 0:50 |
+| B · The city | 207 | 0:50 | 2:10 |
+| C · The first lesson | 161 | 2:10 | 3:12 |
+| D · What the world is | 213 | 3:12 | 4:34 |
+| E · Four ways to grieve | 211 | 4:34 | 5:56 |
+| F · The brush | 131 | 5:56 | 6:47 |
+| G · Why it lands | 176 | 6:47 | 7:55 |
+| H · Payoff + CTA | 84 | 7:55 | 8:28 |
 
 ## Master script (EN) · narration
 Lines starting with `>` are visual notes (not read). Block headers are not read.
 
-### A · Hook (0:00–0:30) · spoiler-free
-> VISUAL: dusk harbour, our own city of iron lamps. Across the sea, the black tower; a giant painted "33" appears stroke by stroke. Quest, in his expedition coat, beside a woman seen from behind.
+### A · Hook · spoiler-free
+> VISUAL: dusk harbor, our own city of iron lamps. Across the sea, the black tower; a giant painted "33" appears stroke by stroke. Quest, in his expedition coat, beside a woman seen from behind.
 
 Once a year, a giant woman paints a number on a stone tower.
 
@@ -74,7 +88,7 @@ Tomorrow, she paints thirty-three.
 
 And everyone who is thirty-three or older... turns to petals and drifts away.
 
-A man walks the woman he loves down to the harbour. She is thirty-three. He gets one last minute.
+A man walks the woman he loves down to the harbor. She is thirty-three. He gets one last minute.
 
 That is how this video game begins. Not with a tutorial. With a goodbye.
 
@@ -86,11 +100,11 @@ So, why?
 
 > VISUAL: the SecondQuest wordmark lands with its gold bar; the companion (see COMPANION.md) joins it. 1.5 s of silence. Then the card FULL SPOILERS · INCLUDING THE ENDING.
 
-### W · Warning (0:32–0:40)
+### W · Warning
 
 One warning. The answer is in the ending, so we're going to talk about all of it. If you haven't finished it... this is your stop. We'll wait. Probably.
 
-### B · The city (0:40–2:05)
+### B · The city
 > VISUAL: Lumière street, morning. Cafés, lamps, long coats, and no grey hair anywhere: a bench with nobody on it. A chalkboard: last year "34", crossed out.
 
 Start with the city. It's called Lumière. It looks like Paris around nineteen hundred. Iron lamps. Cafés. Long coats.
@@ -105,7 +119,7 @@ They're called expeditions. Expedition 33 is the latest. Every single one before
 
 Which is not a great line for the recruitment poster.
 
-> VISUAL: the boat leaves the harbour; along the hull, hand-lettered in white paint: FOR THOSE WHO COME AFTER (English, on screen).
+> VISUAL: the boat leaves the harbor; along the hull, hand-lettered in white paint: FOR THOSE WHO COME AFTER (English, on screen).
 
 So they gave it a better one. They say it as they leave.
 
@@ -121,12 +135,12 @@ They did not save the world.
 
 But they left a note. And somebody read it.
 
-### C · The first lesson (2:05–3:20) · spoilers start
+### C · The first lesson · spoilers start
 > VISUAL: a cliff at night; Quest's coat torn; a younger girl behind him (our own design, not Maelle's). Cut before any blow: the empty cliff, the coat on the ground. Then the hull lettering again, half washed by spray (no narration over it).
 
 Then the game does something games almost never do.
 
-The man from the harbour, the one you've been playing since minute one... dies at the end of the first act. Protecting a sixteen-year-old girl named Maelle.
+The man from the harbor, the one you've been playing since minute one... dies at the end of the first act. Protecting a sixteen-year-old girl named Maelle.
 
 Most games treat death as a mistake. You die. You load. You try again.
 
@@ -138,9 +152,9 @@ Because that's the first thing loss teaches you. The world doesn't pause. It doe
 
 You just get up the next morning... with fewer people in the boat.
 
-And somewhere back across the sea, the woman from the harbour is already gone. He spent his last minute with her. You spent your first.
+And somewhere back across the sea, the woman from the harbor is already gone. He spent his last minute with her. You spent your first.
 
-### D · What the world is (3:20–5:05)
+### D · What the world is
 > VISUAL: the camera pulls back from Lumière... and back... until the city is a canvas on an easel in a dim Paris studio, around 1900. A child's-height paint stool. A covered mirror.
 
 And then, deep in the story, the game tells you what this world actually is.
@@ -165,7 +179,7 @@ His father, Renoir, went in after her. To bring her home. And the only way to br
 
 > VISUAL: a giant hand with a rag wipes a corner of the canvas; inside, a street turns to petals. Another giant hand, with a brush, paints it back, one stroke slower each time.
 
-So that's the Gommage. The number on the tower. The petals. The harbour.
+So that's the Gommage. The number on the tower. The petals. The harbor.
 
 It was never a monster. It was a father, erasing his son's last painting, one year at a time.
 
@@ -175,7 +189,7 @@ A whole world, with its cafés and its journals and its jokes about muscles... c
 
 Most families argue about where to spend the holidays. This one argued inside a painting.
 
-### E · Four ways to grieve (5:05–6:30)
+### E · Four ways to grieve
 > VISUAL: four empty chairs in the studio, each lit in turn: a shawl on one, a rag on another, a small ribbon, a man's coat. Quest walks past them.
 
 And here's where it stops being a twist... and starts being about you.
@@ -192,13 +206,13 @@ And the son... the painted version of him, the one who walks beside you, is the 
 
 There's even an older sister, Clea. She takes her father's side. And to help him, she makes the creatures that roam the painting.
 
-Which means most of the monsters you've fought for thirty hours... was a daughter trying to help her dad.
+Which means most of the monsters you've fought for thirty hours... were made by a daughter trying to help her dad.
 
 Holding on. Tearing down. Staying. Ending it. Taking a side.
 
 Nobody in that family is the villain. They're just at different hours of the same night.
 
-### F · The brush (6:30–7:45)
+### F · The brush
 > VISUAL: the brush, held out to the camera (to the viewer). Two doors in the studio: one opens onto a sunlit Lumière rebuilt; the other onto a plain grey morning in Paris.
 
 And then the game hands you the brush.
@@ -217,8 +231,8 @@ Which is honest. Because nobody makes that choice for you in real life either.
 
 Everyone who has ever lost someone has stood in that studio. Keep the room exactly the way they left it. Or open the window.
 
-### G · Why it lands (7:45–8:35)
-> VISUAL: the harbour again, empty, morning. A single lit window in the city.
+### G · Why it lands
+> VISUAL: the harbor again, empty, morning. A single lit window in the city.
 
 That's why it hits the way it does. It isn't sad for the sake of it.
 
@@ -232,7 +246,7 @@ One critic wrote about it through the loss of his own brother. And he was not th
 
 And all of it was made by a team of about thirty people. Which is a very small number of people... to make that many strangers cry in the same place.
 
-### H · Payoff + CTA (8:35–9:07)
+### H · Payoff + CTA
 > VISUAL: the Paris studio, morning. The canvas covered with a cloth. Outside the window, three figures (seen from behind, our own designs) stand together at a small grave. The motto is painted slowly beneath them, white on dark: FOR THOSE WHO COME AFTER. The companion settles beside the words.
 
 So... why do millions of people love a game about losing everyone?
@@ -241,9 +255,9 @@ Because everyone already has.
 
 The game just let us see it from inside the painting.
 
-At the start, a man got one last minute at a harbour.
+At the start, a man got one last minute at a harbor.
 
-At the end, a family stands at a grave. Together. Still here.
+At the end, a family lets the painting go... and stands at a grave. Together. Still here.
 
 For those who come after.
 
@@ -259,25 +273,37 @@ The narration is written to work **without** any of these. Each one is optional 
 | # | Moment (narration anchor) | Faithful element | Why here |
 |---|---|---|---|
 | 1 | Hook, "Tomorrow, she paints thirty-three." | The Monolith and the number at full fidelity (shape, scale over the sea, brush lettering); petals rendered faithfully | The game's most recognisable image; it sells recognition in the first 5 s |
-| 2 | B, "For those who come after." (1st) | Optional official cue "Lumière" (low, 10–15 s) under the departure | The city's theme as it says goodbye; plants the motto with the game's own emotion |
+| 2 | B, "For those who come after." (1st) | Music: see Music map, cue 2 ("Lumière – The Departure") | The city's theme as it says goodbye; plants the motto with the game's own emotion |
 | 3 | D, "She is the Paintress." | A faithful **silhouette** of the Paintress over the Monolith (no face detail) | The reveal needs the image players remember |
-| 4 | **G → H, "Une vie à t'aimer" (the Renoir Monolith fight theme)**. **IN:** soft, under the voice, on "That's why it hits the way it does." **SWELL:** in the rest after "…cry in the same place." **CARRY** under H at −18 dB, vocals ducked under each line. **OUT:** resolve to silence on "Together. Still here." + 1 s. Then the motto is **dry**. Length ≈ 1:25 | Official track | It is the father's fight: the music of a man trying to end his family's grief. It climbs with the argument into letting go, and its silence makes room for the motto |
+| 4 | Climb into the payoff (see **Music map**, cues 3–4) | Official tracks "Renoir" + "Une vie à t'aimer" | The father's grief scored under the letting-go argument; silence before the final motto |
 | 5 | H, final "For those who come after." | Faithful hull lettering / expedition flag style for the painted words (English) | The callback image must read as theirs; the words carry the whole essay |
+
+## Music map (max 4 cues · voice always wins · silence is a tool) — optional, see RESEARCH §7b
+Levels: music −18 dB under the voice, ducked further under each line; swells only in rests. Every cue can be removed and
+the narration still works.
+| # | Cue (official OST, Lorien Testard) | IN (narration anchor) | OUT | Why |
+|---|---|---|---|---|
+| 1 | **"Lumière"** | Hook, first line: "Once a year, a giant woman paints a number…" | **Hard stop on "So, why?"**; the wordmark gets its 1.5 s of silence | The city's theme sells the world in the first seconds; the cut to silence makes "So, why?" land |
+| 2 | **"Lumière – The Departure"** | B: "So they gave it a better one. They say it as they leave." | Fade under "And the game means it." (≈ 20 s) | It is the in-game music of exactly this moment, the expedition's departure (RESEARCH 7b.23); it plants the motto |
+| — | *silence* | C, the cliff and the coat ("Then the game does something…" to "…You spent your first.") | — | The death gets no score: the absence is the point |
+| 3 | **"Renoir"** (the father's theme; **or the Producer's Renoir-fight track if it is a different cue**) | D: "His father, Renoir, went in after her." | Out before "Most families argue about where to spend the holidays." so the joke lands dry (≈ 45 s) | The father's music under the father's choice: the climb into grief starts here |
+| — | *silence* | E and F (the four Dessendres, the choice) | — | The choice is voice-only; the viewer chooses without being told how to feel |
+| 4 | **"Une vie à t'aimer"** (Renoir Monolith fight; quieter vocal-led passage) | G: "That's why it hits the way it does." | Swell in the rest after "…cry in the same place."; **resolve to silence on "Together. Still here." + 1 s**. The final motto is **dry** | "A life of loving you": the father's fight turned into the letting-go payoff. Its silence is the room the motto lands in |
 
 ## Visual beats (one every 60–90 s)
 0:00 the number painted · 0:40 the city with no old people · 1:20 the hull lettering (motto 1) · 1:45 the journal
 "muscles" gag · 2:05 the cliff / empty coat · 3:20 the pull-back: the world is a canvas · 4:20 hands erasing vs painting
-back · 5:05 four chairs · 6:30 the brush and two doors · 7:45 the empty harbour · 8:35 the grave + motto (final).
+back · 5:05 four chairs · 6:30 the brush and two doors · 7:45 the empty harbor · 8:35 the grave + motto (final).
 
 ## How-to-be-specific test (could this block move to another game unchanged?)
-B: no (the number, Lumière, expeditions, journal) · C: no (the harbour man dies in Act 1, the new guy) · D: no
+B: no (the number, Lumière, expeditions, journal) · C: no (the harbor man dies in Act 1, the new guy) · D: no
 (Dessendres, the Gommage as a father's erasing) · E: no (four Dessendres) · F: no (the two named endings) · G: mostly
-specific (harbour callback, team size); its one general line ("stories about death…") is anchored by the harbour image.
-H: no (the harbour → grave, the motto).
+specific (harbor callback, team size); its one general line ("stories about death…") is anchored by the harbor image.
+H: no (the harbor → grave, the motto).
 
 ## Factual notes for lock (ids from RESEARCH.md)
 - The number, the Monolith, the Gommage, dropping by one, at that age or older [3.2]. Tomorrow 33 [3.3]. Petals [3.4,
-  secondary]. Harbour and goodbye [3.5]. Sophie is 33 (the PlayStation page; Save the Cat): **recheck in the prologue**.
+  secondary]. Harbor and goodbye [3.5]. Sophie is 33 (the PlayStation page; Save the Cat): **recheck in the prologue**.
 - "Game of the Year at every major awards show" [2.5–2.10]. **Never list the Indie Game Awards** [2.11]. "More than eight
   million people bought it" [2.3].
 - "Every single one before it has failed" [3.6]. "Paris around 1900" (Belle Époque) [3.1]. "Soon, nobody older than

@@ -186,17 +186,30 @@ Lienzo*) and "Curator" (likely *el Curador*): **UNVERIFIED**, so the ES review s
 | # | Finding | Status | Source |
 |---|---|---|---|
 | 7b.15 | Title: **"Une vie à t'aimer"** (literally "A life of loving you"). It plays during **the fight against Renoir at the top of / inside the Monolith** | VERIFIED (secondary, 2 independent sources) | retrogems.fr ("accompagne le combat contre Renoir au sommet du Monolithe"); Steam discussions ("the second boss battle with Renoir in the monolith") |
-| 7b.16 | **Which fight / act:** the **second** Renoir fight (the first is in Old Lumière). The Monolith climb ends with the Paintress, "the final boss of the second act", so it is the **Act 2 finale** | VERIFIED (secondary, inferred from 2 facts) | gamepressure.com bosses list; Wikipedia plot ("defeats Renoir and the Paintress inside the Monolith"). The music of the final fight against "the real Renoir" (Act 3) is **UNVERIFIED**; don't assume it is the same track |
+| 7b.16 | **Which fight / act: CONFLICTING SOURCES.** (a) retrogems + Steam: the **second** Renoir fight, inside / at the top of the **Monolith** (the first is in Old Lumière, and fans say it has no vocals). The Monolith climb ends with the Paintress, "the final boss of the second act" (gamepressure), so it is the **Act 2 finale**. (b) A soundtrack review lists it in the album's **"Stone Wave Cliffs"** section, after "Loin d'Elle", as "this eleven minute bossfighting setpiece" (album sequencing, not necessarily game placement). **The Producer can settle it from his own play; recheck in-game before the music map is locked** | (a) VERIFIED (secondary) / (b) VERIFIED as a quote, meaning unclear | retrogems.fr; Steam 592896433808534299; gamepressure.com; zanobardreviews.com (16 Jan 2026) |
 | 7b.17 | **Composer:** Lorien Testard **and Alice Duport-Percier**, with **Victor Borba** on vocals; a duet between Duport-Percier and Borba | VERIFIED (secondary) | retrogems.fr; Wikipedia "Music of…" (Borba guest vocals; "described as the hardest to write") |
 | 7b.18 | "Most viral": fans rank it among the best boss themes, and part of it is used in the trailer's battle transition. **No stream or TikTok figure found.** On Testard's SoundCloud it shows ~390K plays vs ~527K for "Lumière" (undated) | Popularity VERIFIED (qualitative) / "most viral" UNVERIFIED | retrogems.fr; Steam discussions; soundcloud.com/lorientestard |
 | 7b.19 | Title echo: "Une vie à t'aimer" mirrors the name of Verso's ending, **"A Life to Love"**, and "Une vie à peindre" mirrors Maelle's ending, **"A Life to Paint"** | Titles VERIFIED; the intent behind the echo UNVERIFIED | Wikipedia "Music of…"; playnews.gg (ending names) |
 | 7b.20 | Distribution and Content ID for this track: part of the OST album (same release, same rule as 7b.11). **No known claims or blocks** on videos using it were found | UNVERIFIED (no data) | as 7b.11–7b.12 |
 | 7b.21 | A trailer song reportedly titled **"For Those Who Come After" (feat. Victor Borba)**, which the poster says is built from parts of OST tracks | UNVERIFIED (one fan post) | Steam discussion 592895445665153185. **Check on the official channels before any use: it would be the perfect cue for the motto's final appearance** |
+| 7b.22 | **"Lumière"** (Testard; vocals Duport-Percier): the city's theme, "a lighter, more upbeat new theme to represent the titular island city" for the first part of the game. Exact in-game placement (title, city, prologue) not confirmed | VERIFIED (secondary) / placement UNVERIFIED | zanobardreviews.com; Wikipedia "Music of…" |
+| 7b.23 | **"Lumière – The Departure"** (Testard & Duport-Percier): plays in the **departure cutscene at the end of the prologue**, after the Gommage takes Sophie and the others, under Emma's (Gustave's sister, a Lumière councillor) farewell speech. Brass and strings play the Lumière theme "in a regretful manner" | VERIFIED (secondary, 2 sources) | retrogems.fr/?p=34979; zanobardreviews.com |
+| 7b.24 | **"Renoir"** (Testard): Renoir's own theme, which "mournfully introduces itself on pensive piano notes and regretful vocals". Placement in the game UNVERIFIED | VERIFIED (title, mood) / placement UNVERIFIED | zanobardreviews.com; tracklists (Disc 1 Side A track 4 on vinyl) |
+| 7b.25 | **"Une vie à peindre"** ("A life to paint"): an eleven-minute boss-fight cue "where everything comes together" (likely a late fight, possibly the final Renoir fight; **UNVERIFIED**). The ending tracks include "Clair Obscur", "Une vie à rêver" and "Maelle" | Mood VERIFIED (secondary) / placement UNVERIFIED | zanobardreviews.com |
+| 7b.26 | **Content ID / OST policy for all four cues** ("Lumière", "Lumière – The Departure", "Renoir", "Une vie à t'aimer"): same as 7b.11–7b.13. They are OST album tracks, so a claim can only come through the publisher's content owner. **No known claims or blocks found** for any of them; **no licence route found**. Recommendation: written permission from Sandfall/Kepler + private upload and Checks before publishing | as 7b.11–7b.14 | — |
 
-**Plan for the cue (all packages):** "Une vie à t'aimer" enters at the climb into the payoff, where the father's choice
-(erase the painting to bring his family home) becomes the viewer's choice. It is under the narration (−18 dB under the
-voice, vocals ducked under Bram's lines), swells in the narration's rests and resolves into silence 1 s before the
-motto's final line, so the motto lands dry. Exact in/out points are marked in each package ("Faithful moments").
+**Identification note for the Producer:** the "Renoir fight track" and "Une vie à t'aimer" are, per the sources, the
+**same track** (the Monolith fight). So the palette used in the packages is: **"Lumière"** (the world), **"Lumière –
+The Departure"** (the motto's first appearance, its actual in-game context), **"Renoir"** (the father's theme, for the
+climb into grief; the in-game "Renoir fight track" slot if the Producer means another fight) and **"Une vie à t'aimer"**
+(the payoff). At most 4 cues, voice always wins, silence before the motto. If the Producer's Renoir track is a different
+cue (e.g. the final fight), it replaces "Renoir" in the climb slot with the same in/out points.
+
+**Plan for the cues (all packages):** each package has a **Music map** (max 4 cues). "Une vie à t'aimer" carries the
+climb into the payoff, where the father's choice (erase the painting to bring his family home) becomes the viewer's
+choice. It sits under the narration (−18 dB under the voice, vocals ducked under Bram's lines), swells only in the
+narration's rests and resolves into silence 1 s before the motto's final line, so the motto lands dry. As a boss-fight
+cue with metal vocals (Borba), use its quieter, vocal-led passages (Duport-Percier); the editor picks the passage.
 
 **What this means (for the Producer's decision; the coordinator is doing the risk check)**
 - **Music:** the realistic outcomes of using official cues are a Content ID claim (ads go to the rights holder, which

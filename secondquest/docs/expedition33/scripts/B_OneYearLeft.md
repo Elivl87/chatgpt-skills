@@ -32,11 +32,11 @@ Factual basis: `../RESEARCH.md` (ids in the notes at the end).
 |---|---|---|---|
 | 1st | Block B2, the departure | **Bram speaks it**; on screen hand-lettered on the departing boat's hull (English) | The creed of people with one year left: *our deadline can still buy the next expedition a better road.* Sacrifice for strangers. |
 | 2nd | Block C, the cliff | **Bram speaks it** as Gustave's last words to Maelle; on screen no text (her face, our design, and the sea) | It narrows from "the next expedition" to *this girl, in front of me*. Still sacrifice. |
-| Final | Payoff, last line before the CTA | **Bram speaks it**, alone, after "It's permission."; on screen: a boat leaving the harbour in morning light, the words on the hull, Maelle (our design, from behind) not on it but walking back up into the city | **Permission to live on.** The dead don't ask the living to follow them; they ask them to keep going. "Those who come after" are the survivors, and the line releases them. |
+| Final | Payoff, last line before the CTA | **Bram speaks it**, alone, after "It's permission."; on screen: a boat leaving the harbor in morning light, the words on the hull, Maelle (our design, from behind) not on it but walking back up into the city | **Permission to live on.** The dead don't ask the living to follow them; they ask them to keep going. "Those who come after" are the survivors, and the line releases them. |
 
 **Why it completes the argument:** the essay starts with a deadline and asks what it is for. The answer moves from
 "spend your time for the next ones" to "the next ones must be allowed to stop grieving and live". It is grief,
-legacy and letting go in one line, and it lands on the survivor walking *away* from the harbour, not toward it.
+legacy and letting go in one line, and it lands on the survivor walking *away* from the harbor, not toward it.
 
 ## Titles (game name first + "Why (millions)…" + contradiction)
 1. **Expedition 33: Why Millions Spent 30 Hours on a Game About Having One Year Left** (77, long; cut on Home after
@@ -53,9 +53,24 @@ legacy and letting go in one line, and it lands on the survivor walking *away* f
 - No characters of the game, no painting or family. The video opens on that tower.
 
 ## Runtime and length
-- Narration: **WORDS words**, **CHARS characters** (with spaces, narration only).
-- At Bram's ~155 wpm, including pauses: **≈ RUNTIME**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
-  1 s rest before the final motto → **≈ TOTAL**.
+- Narration: **1,273 words**, **6,801 characters** (with spaces, narration only; measured on the narration lines, 2026-10-17).
+- At Bram's ~155 wpm, including pauses: **≈ 8:13**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
+  1 s rest before the final motto → **≈ 8:18** (inside the 8–10 min target; at EP002's 148 wpm it would be ≈ 8:41).
+
+**Block timing (estimate at 155 wpm, incl. the 1.5 s wordmark hold, the 2.5 s spoiler card and the 1 s pre-motto rest):**
+
+| Block | Words | Start | End |
+|---|---|---|---|
+| A · Hook | 69 | 0:00 | 0:28 |
+| W · Warning | 23 | 0:28 | 0:39 |
+| B1 · The arithmetic | 166 | 0:39 | 1:43 |
+| B2 · What do you do with a year? | 186 | 1:43 | 2:55 |
+| B3 · The road behind you | 109 | 2:55 | 3:38 |
+| C · The cliff | 135 | 3:38 | 4:30 |
+| D · Who's holding the clock | 145 | 4:30 | 5:26 |
+| E · Maelle's year | 254 | 5:26 | 7:04 |
+| F · Why it lands | 90 | 7:04 | 7:39 |
+| G · Payoff + CTA | 96 | 7:39 | 8:17 |
 
 ## Master script (EN) · narration
 Lines starting with `>` are visual notes (not read). Block headers are not read.
@@ -90,7 +105,7 @@ Once a year, a giant figure called the Paintress paints a number on a stone towe
 
 And every year, the number goes down by one.
 
-Which sounds simple, until you do the maths. Because while the number goes down, you go up.
+Which sounds simple, until you do the math. Because while the number goes down, you go up.
 
 If you're twenty, you don't have thirteen years left. You have about seven.
 
@@ -103,7 +118,7 @@ Which makes it a city of extremely punctual people.
 And a city with no old people at all. No grandparents telling the same story twice. No one to ask what it was like before. In Lumière, the oldest person you know is always the next to go.
 
 ### B2 · What do you do with a year?
-> VISUAL: the harbour; volunteers in long coats board a boat. On the hull, hand-lettered in white: FOR THOSE WHO COME AFTER.
+> VISUAL: the harbor; volunteers in long coats board a boat. On the hull, hand-lettered in white: FOR THOSE WHO COME AFTER.
 
 So, what do you do with your last year?
 
@@ -121,7 +136,7 @@ One of them is Gustave. He's an engineer. He has one year left. He could spend i
 
 Instead, he gets on the boat. Which is a very Belle Époque way to spend a final year. Dramatic. Well dressed. Doomed.
 
-The game even opens on his clock. Before he leaves, he walks a woman he once loved down to the harbour. Her name is Sophie. She's thirty-three. He gets one last minute with her.
+The game even opens on his clock. Before he leaves, he walks a woman he once loved down to the harbor. Her name is Sophie. She's thirty-three. He gets one last minute with her.
 
 Then the petals. Then the boat.
 
@@ -189,7 +204,7 @@ Maelle is the youngest Dessendre, Alicia, reborn inside the painting with no mem
 
 And the stranger who took Gustave's place? He's the painted version of the dead son. Verso. Held together by the last little piece of the real one.
 
-He was on the very first expedition, sixty-seven years ago, and he never got older. He has watched expedition after expedition arrive... and not one of them go home. He has outlived everyone he ever walked with.
+He was on the very first expedition, decades ago, and he never got older. He has watched expedition after expedition arrive... and not one of them go home. He has outlived everyone he ever walked with.
 
 In a world where everyone is terrified of their number, he is the one person who wants his to come.
 
@@ -219,7 +234,7 @@ Nobody paints our number on a tower. Which is probably the kindest thing the uni
 But most of us have stood on that cliff from the other side. Somebody ran out of time... and we were the ones still standing there. Holding their bag.
 
 ### G · Payoff + CTA
-> VISUAL: the harbour, morning. A boat pulls away; FOR THOSE WHO COME AFTER on its hull. The girl from the cliff (from behind) is not on it: she turns and walks back up the street into the city, toward the lit cafés. The companion goes with her.
+> VISUAL: the harbor, morning. A boat pulls away; FOR THOSE WHO COME AFTER on its hull. The girl from the cliff (from behind) is not on it: she turns and walks back up the street into the city, toward the lit cafés. The companion goes with her.
 
 So... why did millions spend thirty hours on a game about running out of time?
 
@@ -246,10 +261,20 @@ Narration works **without** any of these (RESEARCH §7b).
 | # | Moment | Faithful element | Why here |
 |---|---|---|---|
 | 1 | Hook, "This year, it says thirty-three." | The Monolith and the brush-painted number at full fidelity | First-5-seconds recognition |
-| 2 | B2, "For those who come after." (1st) | Optional official cue "Lumière", 10–15 s, low, under the departure | The city's farewell in the game's own voice |
+| 2 | B2, "For those who come after." (1st) | Music: see Music map, cue 2 ("Lumière – The Departure") | The city's farewell in the game's own voice |
 | 3 | C, "His last words to her are the motto." | Faithful cliff/sea palette and expedition coat (characters evoked, not replicated). **No music**: silence carries it | The most remembered scene; silence keeps it ours |
-| 4 | **E → G, "Une vie à t'aimer" (Renoir Monolith fight theme).** **IN:** under the voice on "So at the very end, she holds the brush." **SWELL:** in the rest after "The only question is who." **CARRY** under F and G at −18 dB, vocals ducked under each line. **OUT:** resolve to silence on "It's permission." + 1 s. The motto lands **dry**. ≈ 2:00 | Official track | The father's fight is the clock's fight. The cue climbs with the choice (hold on / let go) and goes silent so permission can land |
+| 4 | Climb into the payoff (see **Music map**, cues 3–4) | Official tracks "Renoir" + "Une vie à t'aimer" | The father's grief scored under the letting-go argument; silence before the final motto |
 | 5 | G, final "For those who come after." | Faithful hull lettering (English) | The callback must read as the game's own words |
+
+## Music map (max 4 cues · voice always wins · silence is a tool) — optional, see RESEARCH §7b
+Levels: music −18 dB under the voice, ducked under each line; swells only in rests. Every cue can be removed.
+| # | Cue (official OST, Lorien Testard) | IN (narration anchor) | OUT | Why |
+|---|---|---|---|---|
+| 1 | **"Lumière"** | Hook, first line: "Imagine knowing exactly how much time you have left." | **Hard stop on "So, why?"** (wordmark + 1.5 s silence) | The city whose clock we are describing |
+| 2 | **"Lumière – The Departure"** | B2: "They say it as the boats leave." | Fade under "One of them is Gustave." (≈ 15 s) | The in-game departure music (RESEARCH 7b.23) under the motto's first appearance |
+| — | *silence* | C, the cliff: from "On the first night across the sea…" to "…still has a Tuesday." | — | His last words get no music; the motto's 2nd appearance is dry too |
+| 3 | **"Renoir"** (the father's theme; **or the Producer's Renoir-fight track if different**) | D: "His father went in after her, to bring her home." | Out on "Borrowed... from someone else's mourning." (≈ 40 s) | The clock revealed as a father's grief |
+| 4 | **"Une vie à t'aimer"** (Renoir Monolith fight; quieter vocal-led passage) | E: "So at the very end, she holds the brush." | Swell after "The only question is who."; dip under F; **resolve to silence on "It's permission." + 1 s**. The final motto is **dry** | Maelle's choice is the father's fight inherited: hold on or let go. The silence turns the motto into permission |
 
 ## Visual beats (one every 60–90 s)
 Hook: the number · B1: the napkin arithmetic · B2: the departure hull (motto 1) · B3: the journal ("muscles") · C:
@@ -277,4 +302,4 @@ paints our number") only works after the tower · G: no.
 - Dessendres, Verso painted it, the fire, Aline = Paintress, Renoir erasing, Paintress stalling [3.13–3.16]; Maelle =
   Alicia, scarred in the real world [3.14, 3.17]. Endings and Maelle's health [3.19]; no right answer [3.20].
 - "Thirty hours" = Sandfall's 30+ hours of main story [1.17].
-- Verso on the first expedition, immortal ("Everyone who went received immortality from the Paintress"), 67 years [3.1, Wikipedia plot]; held by the last fragment of the real Verso's soul, wants to release it [3.18]. **Recheck that the painted Verso is the one from the first expedition.**
+- Verso on the first expedition, immortal ("Everyone who went received immortality from the Paintress"); narration says "decades ago" (the first expedition's date is not verified) [3.1, Wikipedia plot]; held by the last fragment of the real Verso's soul, wants to release it [3.18]. **Recheck that the painted Verso is the one from the first expedition.**
