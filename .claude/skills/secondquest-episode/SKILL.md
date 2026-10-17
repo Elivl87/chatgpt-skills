@@ -39,6 +39,15 @@ Work in `secondquest/`, episode folder names `ep00N` / `EP00N`. Commit and push 
   using the game's footage, screenshots, logo or assets). Output `docs/<ep>/GAME_VISUAL_REFERENCE.md` with a
   translation table (each item → how we redraw it in our style, where it goes in the episode, what we must not copy)
   and a needs list (props for `tools/props3d`, HUD drawn in code). The animatic uses it so the game world reads true.
+- **Audience resonance dossier (RULE, Producer 2026-10-17; model `docs/expedition33/PRODUCER_RESEARCH_DOSSIER.txt`):**
+  a fact sheet is not enough. Next to the verified facts, research from reviews, interviews and community threads
+  (marked as qualitative patterns, not polls) and write `docs/<ep>/RESONANCE.md`: what people loved most and why; each
+  main character as a person and what they can carry in the episode; the scenes that hit hardest, INCLUDING moments of
+  life and humour (not only tragedy); quotes with community identity (each with a source); what divided the audience;
+  what made people cry; the deepest thematic structure (the opposition the story is built on); and the script
+  implications (which reveals are retention assets to protect, what not to flatten, where contrast is needed). The
+  writer builds the script from RESONANCE.md and checks facts against the fact sheet. Quality question: "Would someone
+  who deeply loved this game feel that we understood why it mattered?"
 - Choose using the lessons in the latest `docs/publish/EP00*/ANALYTICS_*.md` (Home traffic, CTR, 30 s retention).
   Record the choice and the runners-up in `docs/<ep>/PRODUCER_DECISIONS.md` (as "Claude decision, autonomous mode").
 
