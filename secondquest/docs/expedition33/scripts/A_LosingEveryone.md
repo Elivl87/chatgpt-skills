@@ -58,8 +58,9 @@ pattern, 3 is the alternative.
 - No Gustave, Sophie, Paintress or logo. No painting or family. The video opens on that harbour.
 
 ## Runtime and length
-- Narration: **1,402 words**, **7,640 characters** (with spaces; narration only). Measured with `wc` on the narration lines.
-- At Bram's ~155 wpm, including pauses: **≈ 9:03**, plus the 1.5 s wordmark hold and the 2.5 s spoiler card → **≈ 9:07**.
+- Narration: **1,295 words**, **6,952 characters** (with spaces, narration only; measured on the narration lines).
+- At Bram's ~155 wpm, including pauses: **≈ 8:21**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
+  1 s rest before the final motto → **≈ 8:26**. The block times below are estimates at 155 wpm.
 
 ## Master script (EN) · narration
 Lines starting with `>` are visual notes (not read). Block headers are not read.
@@ -251,6 +252,17 @@ For those who come after.
 So which ending did you choose? And what game deserves a "why?" next? Tell me in the comments.
 
 Maybe that's our next quest.
+
+## Faithful moments (Producer, 2026-10-17): where official music or faithful art matters most
+The narration is written to work **without** any of these. Each one is optional and depends on the risk check
+(RESEARCH §7b).
+| # | Moment (narration anchor) | Faithful element | Why here |
+|---|---|---|---|
+| 1 | Hook, "Tomorrow, she paints thirty-three." | The Monolith and the number at full fidelity (shape, scale over the sea, brush lettering); petals rendered faithfully | The game's most recognisable image; it sells recognition in the first 5 s |
+| 2 | B, "For those who come after." (1st) | Optional official cue "Lumière" (low, 10–15 s) under the departure | The city's theme as it says goodbye; plants the motto with the game's own emotion |
+| 3 | D, "She is the Paintress." | A faithful **silhouette** of the Paintress over the Monolith (no face detail) | The reveal needs the image players remember |
+| 4 | **G → H, "Une vie à t'aimer" (the Renoir Monolith fight theme)**. **IN:** soft, under the voice, on "That's why it hits the way it does." **SWELL:** in the rest after "…cry in the same place." **CARRY** under H at −18 dB, vocals ducked under each line. **OUT:** resolve to silence on "Together. Still here." + 1 s. Then the motto is **dry**. Length ≈ 1:25 | Official track | It is the father's fight: the music of a man trying to end his family's grief. It climbs with the argument into letting go, and its silence makes room for the motto |
+| 5 | H, final "For those who come after." | Faithful hull lettering / expedition flag style for the painted words (English) | The callback image must read as theirs; the words carry the whole essay |
 
 ## Visual beats (one every 60–90 s)
 0:00 the number painted · 0:40 the city with no old people · 1:20 the hull lettering (motto 1) · 1:45 the journal

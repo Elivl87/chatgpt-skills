@@ -74,7 +74,8 @@ awards show"; never "every award".
 | 3.5 | Prologue: **Gustave** walks **Sophie** (his ex) to the **harbour** for a last moment before she is erased | VERIFIED (secondary) | GamePro.de; Wikipedia ("ex-lover Sophie"); Vikidia FR |
 | 3.6 | Every year Lumière sends an **expedition** of volunteers to kill the Paintress. **None has succeeded** | VERIFIED | Giant Bomb / Save the Cat / PlayStation ("romper el ciclo") |
 | 3.7 | Gustave has about **a year to live**. Maelle (16) is the youngest. "Her comrades are all 32" | VERIFIED (secondary) | Wikipedia; Save the Cat. Note: the expedition is named after the Monolith's number, not the members' age (Steam thread) |
-| 3.8 | Motto **"For those who come after"**. The official lore trailer uses "laid the trail for those who come after" | VERIFIED wording family / UNVERIFIED exact in-game line | Save the Cat; Aftermath; expedition33.com lore trailer. **Recheck the exact line in-game before lock** |
+| 3.8 | Motto **"For those who come after"**. Official lore trailer (expedition33.com, 17 Apr 2025): "None have ever returned, but they have laid the trail for those who come after." Aftermath gives the long form "We lay the trail for those who come after". **Context in the game:** (a) the expedition sails with it as its motto; (b) **Gustave's last words to Maelle** just before the final blow at the end of Act 1 are "For those who come after" (Save the Cat beat sheet). Fans use it as a call-and-response (Steam) | Short form VERIFIED (secondary, 3+ sources); official long form VERIFIED (lore trailer); **(b) VERIFIED (secondary, 1 source): recheck in-game** | Save the Cat; Aftermath; expedition33.com/post/lore-trailer; Steam discussion 592896225883264219 |
+| 3.8b | **Official Spanish rendering of the motto** | **UNVERIFIED.** Not found in any Spanish source; the ES-LA text arrived in a later update. The ES review copies use our proposal **"Por quienes vienen después"** (alternative: "Por los que vendrán"). **Before lock: play the prologue in ES-419 (Steam/PS5, language Español-Latinoamérica) and copy the exact line.** On screen the motto stays in English (Producer) | — |
 | 3.9 | **Journals of earlier expeditions** can be found along the way, some tragic and some absurd (e.g. Expedition 60) | VERIFIED (secondary) | Aftermath "clair-obscur-journals"; Gfinity on Expedition 60; criticalhits (journal locations) |
 | 3.10 | "When one falls, we continue" as a motto | UNVERIFIED | Not found in sources. **Not used** |
 | 3.11 | Lumière celebrates a "festival" on Gommage day | UNVERIFIED | **Not used** |
@@ -179,6 +180,23 @@ Lienzo*) and "Curator" (likely *el Curador*): **UNVERIFIED**, so the ES review s
 | 7b.12 | Whether Kepler/Sandfall have actually enrolled the OST in Content ID, and any **known claims or blocks** on fan videos using it | UNVERIFIED (nothing found either way) | Searches returned no reports |
 | 7b.13 | **No licensing route for the OST was found** (no sync-licensing page, no creator-safe music pack). The only official releases are retail/streaming, which grant **no** right to reuse in a video | VERIFIED (absence) | Searches; label and publisher sites |
 | 7b.14 | YouTube "Checks" runs a copyright scan at upload, before a visibility choice; a private upload lets you see claims before publishing. A clean check does not prevent later manual claims | VERIFIED (secondary) | XDA, Plagiarism Today, OTTVerse |
+
+**The Producer's track: the Renoir fight theme**
+
+| # | Finding | Status | Source |
+|---|---|---|---|
+| 7b.15 | Title: **"Une vie à t'aimer"** (literally "A life of loving you"). It plays during **the fight against Renoir at the top of / inside the Monolith** | VERIFIED (secondary, 2 independent sources) | retrogems.fr ("accompagne le combat contre Renoir au sommet du Monolithe"); Steam discussions ("the second boss battle with Renoir in the monolith") |
+| 7b.16 | **Which fight / act:** the **second** Renoir fight (the first is in Old Lumière). The Monolith climb ends with the Paintress, "the final boss of the second act", so it is the **Act 2 finale** | VERIFIED (secondary, inferred from 2 facts) | gamepressure.com bosses list; Wikipedia plot ("defeats Renoir and the Paintress inside the Monolith"). The music of the final fight against "the real Renoir" (Act 3) is **UNVERIFIED**; don't assume it is the same track |
+| 7b.17 | **Composer:** Lorien Testard **and Alice Duport-Percier**, with **Victor Borba** on vocals; a duet between Duport-Percier and Borba | VERIFIED (secondary) | retrogems.fr; Wikipedia "Music of…" (Borba guest vocals; "described as the hardest to write") |
+| 7b.18 | "Most viral": fans rank it among the best boss themes, and part of it is used in the trailer's battle transition. **No stream or TikTok figure found.** On Testard's SoundCloud it shows ~390K plays vs ~527K for "Lumière" (undated) | Popularity VERIFIED (qualitative) / "most viral" UNVERIFIED | retrogems.fr; Steam discussions; soundcloud.com/lorientestard |
+| 7b.19 | Title echo: "Une vie à t'aimer" mirrors the name of Verso's ending, **"A Life to Love"**, and "Une vie à peindre" mirrors Maelle's ending, **"A Life to Paint"** | Titles VERIFIED; the intent behind the echo UNVERIFIED | Wikipedia "Music of…"; playnews.gg (ending names) |
+| 7b.20 | Distribution and Content ID for this track: part of the OST album (same release, same rule as 7b.11). **No known claims or blocks** on videos using it were found | UNVERIFIED (no data) | as 7b.11–7b.12 |
+| 7b.21 | A trailer song reportedly titled **"For Those Who Come After" (feat. Victor Borba)**, which the poster says is built from parts of OST tracks | UNVERIFIED (one fan post) | Steam discussion 592895445665153185. **Check on the official channels before any use: it would be the perfect cue for the motto's final appearance** |
+
+**Plan for the cue (all packages):** "Une vie à t'aimer" enters at the climb into the payoff, where the father's choice
+(erase the painting to bring his family home) becomes the viewer's choice. It is under the narration (−18 dB under the
+voice, vocals ducked under Bram's lines), swells in the narration's rests and resolves into silence 1 s before the
+motto's final line, so the motto lands dry. Exact in/out points are marked in each package ("Faithful moments").
 
 **What this means (for the Producer's decision; the coordinator is doing the risk check)**
 - **Music:** the realistic outcomes of using official cues are a Content ID claim (ads go to the rights holder, which
