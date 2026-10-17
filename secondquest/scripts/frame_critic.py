@@ -11,6 +11,8 @@ visible text / image at each sample time and flags the defects the Producer keep
   TEXT_OVER_HUD        text overlapping the game HUD (#hud, .hud, [data-hud], [data-role=hud])                    error
   CHAR_BADGE           a character shown only inside a round clipped badge / portrait disc                        error
   TEXT_OVER_CHARACTER  text over a character's box (check the face by eye; boxes include transparent margins)     warning
+  HUD_OVER_CHARACTER   HUD / card / stamp / badge / chip / label (or any non-caption text) over a character's HEAD  error
+                       (head = top band of the art's own alpha box, not the element box; no overlap waiver applies)
   SAFE_ZONE            text outside the platform safe area (Shorts: right rail + bottom UI; 16:9: title safe)     warning
                        (error for captions)
   TINY_TEXT            rendered glyph size below the legibility floor for the frame size                          warning
@@ -50,7 +52,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SAMPLER = ROOT / 'scripts/qa/dom_sampler.cjs'
 CHAR_RE = re.compile(r'(pixie|quest|navi|hero|kid|child|char|mate|person|people|face|villain|princess|\bpx\d)', re.I)
 SEV = {'GHOST_TEXT': 'error', 'MOTION_BLUR_ON_TEXT': 'error', 'TEXT_OVERLAP': 'error', 'TEXT_OVER_HUD': 'error',
-       'CHAR_BADGE': 'error', 'RUNTIME': 'error', 'TEXT_OVER_CHARACTER': 'warning', 'SAFE_ZONE': 'warning',
+       'CHAR_BADGE': 'error', 'RUNTIME': 'error', 'HUD_OVER_CHARACTER': 'error', 'TEXT_OVER_CHARACTER': 'warning', 'SAFE_ZONE': 'warning',
        'TINY_TEXT': 'warning', 'CHAR_SMALL': 'warning', 'CLUTTER': 'warning', 'CROSSFADE_CHARACTERS': 'error'}
 
 
@@ -76,6 +78,52 @@ def is_char(e, W=None, H=None):
     return bool(CHAR_RE.search(e['src'] or '') or CHAR_RE.search(e['sel']))
 
 
+HEAD_CHAR_RE = re.compile(r'(max_|leo_|boat_(max|leo)|fish)', re.I)     # EP003 cast beyond CHAR_RE (head check only)
+OVERLAY_RE = re.compile(r'(stamp|badge|card|chip|pill|tag|banner|label|sticker|heart|hud|fail|\bmk\d)', re.I)
+HEAD_BAND = 0.30                                    # the head: top 30 % of the art's alpha box
+_HEADS = {}
+
+
+def head_box(e, html_dir):
+    """screen box of a character's head: the top band of the image's own alpha box (cached per file), mapped onto the
+    element box; x is the union of the band and its mirror (a flipped cut-out). None when the art can't be read."""
+    src = (e.get('src') or '').split('?')[0]
+    if e['tag'] != 'img' or not src or src.startswith('data:'):
+        return None
+    p = (html_dir / src).resolve()
+    if p not in _HEADS:
+        try:
+            from PIL import Image
+            import numpy as np
+            a = np.asarray(Image.open(p).convert('RGBA'))[..., 3] > 40
+            ys, xs = np.nonzero(a)
+            if not len(ys):
+                _HEADS[p] = None
+            else:
+                y0, y1 = ys.min(), ys.max() + 1
+                yb = y0 + max(1, round(HEAD_BAND * (y1 - y0)))
+                cols = np.nonzero(a[y0:yb].any(axis=0))[0]
+                h, w = a.shape
+                x0, x1 = cols.min() / w, (cols.max() + 1) / w
+                _HEADS[p] = (min(x0, 1 - x1), y0 / h, max(x1, 1 - x0), yb / h)
+        except Exception:
+            _HEADS[p] = None
+    n = _HEADS[p]
+    if not n:
+        return None
+    b = e['box']
+    bw, bh = b[2] - b[0], b[3] - b[1]
+    return [b[0] + n[0] * bw, b[1] + n[1] * bh, b[0] + n[2] * bw, b[1] + n[3] * bh]
+
+
+def is_overlay(e):
+    if e['role'] == 'hud':
+        return True
+    if e['role'] == 'caption':
+        return False
+    return bool(e['text']) or bool(OVERLAY_RE.search(e['path']))
+
+
 def block_of(e):
     """Text blocks: a caption's words (spans in one parent) count as one block."""
     p = e['path'].split(' > ')
@@ -94,6 +142,7 @@ def safe_rect(w, h, preset):
 
 def critique(data, args):
     W, H = data['width'], data['height']
+    html_dir = Path(data['html']).parent
     safe, preset = safe_rect(W, H, args.safe)
     min_font = args.min_font or (0.022 * H if H > W else 0.03 * H)
     char_min = args.char_min * H
@@ -110,6 +159,21 @@ def critique(data, args):
         texts = [e for e in els if e['text'] and norm(e['text'])]
         hud = [e for e in els if e['role'] == 'hud' and not e['text']]
         chars = [e for e in els if is_char(e, W, H)]
+        # HUD / cards / stamps over a character's head (2026-10-17: the gate's blind spot in EP003 D/E): no waiver
+        heads = [(c, head_box(c, html_dir)) for c in els if (is_char(c, W, H) or (not c['text'] and HEAD_CHAR_RE.search(c['src'] or '')))
+                 and c['op'] > 0.3 and area(c['box']) < 0.5 * W * H]
+        for c, hb in heads:
+            if not hb or area(hb) < 1:
+                continue
+            for o in els:
+                if o is c or o['op'] < 0.3 or not is_overlay(o) or is_char(o, W, H) or area(o['box']) > 0.5 * W * H:
+                    continue
+                if o['path'].startswith(c['path']) or c['path'].startswith(o['path']) or HEAD_CHAR_RE.search(o['src'] or ''):
+                    continue
+                ov = inter(o['box'], hb)
+                if ov > 0.12 * area(hb) or ov > 0.5 * area(o['box']):
+                    add('HUD_OVER_CHARACTER', t, f'{o["sel"]} "{o["text"][:25]}" over the head of {c["src"][-40:] or c["sel"]}',
+                        [o['box'], hb], o['path'] + '|' + (c['src'] or c['sel']))
         # ghost / duplicated text
         by = defaultdict(list)
         for e in texts:

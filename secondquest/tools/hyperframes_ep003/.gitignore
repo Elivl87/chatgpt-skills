@@ -15,3 +15,5 @@ block*/snapshots/
 block*/renders/
 block*/.hyperframes/
 block*/node_modules/
+block*/scene_*.html
+hook/scene_*.html
