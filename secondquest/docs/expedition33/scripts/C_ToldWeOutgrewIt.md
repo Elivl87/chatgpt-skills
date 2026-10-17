@@ -28,7 +28,7 @@ Factual basis: `../RESEARCH.md` (ids in the notes at the end).
 - After "So, why?" + wordmark + 1.5 s: spoken warning (W) + card **"FULL SPOILERS · INCLUDING THE ENDING"** (2.5 s).
 - Spoilers from block D (the painting reveal, the Dessendres, the endings).
 - **Title and thumbnail spoiler-free.**
-- **Description, line 2:** "⚠️ Full spoilers for Clair Obscur: Expedition 33, including the ending, from 0:35."
+- **Description, line 2:** "⚠️ Full spoilers for Clair Obscur: Expedition 33, including the ending, from 0:50."
 
 ## Motto arc ("For those who come after")
 | | Where | How | Meaning there |
@@ -56,9 +56,9 @@ the next ones" (letting go + legacy + life continuing beyond the one who was los
 - No characters or art from the game, no painting. The video opens on that menu.
 
 ## Runtime and length
-- Narration: **1,259 words**, **6,642 characters** (with spaces, narration only; measured on the narration lines, 2026-10-17).
-- At Bram's ~155 wpm, including pauses: **≈ 8:07**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
-  1 s rest before the final motto → **≈ 8:12** (inside the 8–10 min target; at EP002's 148 wpm it would be ≈ 8:35).
+- Narration: **1,256 words**, **6,625 characters** (with spaces, narration only; measured on the narration lines, 2026-10-17).
+- At Bram's ~155 wpm, including pauses: **≈ 8:06**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
+  1 s rest before the final motto → **≈ 8:11** (inside the 8–10 min target; at EP002's 148 wpm it would be ≈ 8:34).
 
 **Block timing (estimate at 155 wpm, incl. the 1.5 s wordmark hold, the 2.5 s spoiler card and the 1 s pre-motto rest):**
 
@@ -67,12 +67,12 @@ the next ones" (letting go + legacy + life continuing beyond the one who was los
 | A · Hook | 95 | 0:00 | 0:38 |
 | W · Warning | 26 | 0:38 | 0:50 |
 | B · The boy who couldn't read | 205 | 0:50 | 2:10 |
-| C · The trail | 149 | 2:10 | 3:07 |
-| D · The menu that needs your hands | 156 | 3:07 | 4:08 |
-| E · What the world really is | 238 | 4:08 | 5:40 |
-| F · Living inside a painting | 152 | 5:40 | 6:39 |
-| G · What you do instead | 135 | 6:39 | 7:31 |
-| H · Payoff + CTA | 103 | 7:31 | 8:12 |
+| C · The trail | 146 | 2:10 | 3:06 |
+| D · The menu that needs your hands | 156 | 3:06 | 4:07 |
+| E · What the world really is | 238 | 4:07 | 5:39 |
+| F · Living inside a painting | 152 | 5:39 | 6:38 |
+| G · What you do instead | 135 | 6:38 | 7:30 |
+| H · Payoff + CTA | 103 | 7:30 | 8:11 |
 
 ## Master script (EN) · narration
 Lines starting with `>` are visual notes (not read). Block headers are not read.
@@ -134,7 +134,7 @@ We probably won't make it. But we can leave the trail a little clearer for the n
 
 Which is a funny thing for this team to build. Because they were walking a trail too.
 
-Final Fantasy. The games Broche grew up on. The ones that, for a decade, the big studios had been quietly leaving behind for action combat.
+Final Fantasy. The games Broche grew up on. A series whose own makers had spent a decade steering it toward action combat.
 
 Every one of those games was a note on the road. This one picked them up.
 
@@ -269,7 +269,7 @@ tied to Maelle's choice · G: no (Broche/FF VIII, the pitches) · H: no.
 - Yoshida's advice: **paraphrase only** ("one piece of advice… don't call it turn-based") [1.15]. "One of the most
   respected executives in PlayStation history": Shuhei Yoshida, former head of PlayStation studios; the descriptor is
   ours. **Recheck that the KitGuru/AUTOMATON report says he advised them (not just Kepler).**
-- "For about ten years, the industry treated…": framed as the stigma of the 2010s reported by KitGuru [1.15] and the
+- "A series whose own makers had spent a decade steering it toward action combat": FF XV (2016) and FF XVI (2023) are action-combat entries (common knowledge; recheck wording). "For about ten years, the industry treated…": framed as the stigma of the 2010s reported by KitGuru [1.15] and the
   FF series' shift to action combat (FF XVI). **Soft claim: keep "treated like", never "abandoned"**.
 - FF VIII first; couldn't read; the first real boss at the top of a tower; "I will die on that hill" (Giant Bomb) [1.13].
 - Ubisoft, Reddit 2020 lockdown, voice actors for a demo [1.4, 1.7]; Svedberg-Yen from Australia, never did voice work,

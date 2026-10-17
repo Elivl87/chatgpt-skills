@@ -25,7 +25,7 @@ Factual basis: `../RESEARCH.md` (ids in the notes at the end).
 - After "So, why?" + wordmark + 1.5 s: spoken warning (W) + card **"FULL SPOILERS · INCLUDING THE ENDING"** (2.5 s).
 - Spoilers from block C (the landing, Gustave's death, the reveal, the ending choice).
 - **Title and thumbnail spoiler-free:** nothing about Gustave dying, the painting or the endings.
-- **Description, line 2:** "⚠️ Full spoilers for Clair Obscur: Expedition 33, including the ending, from 0:35."
+- **Description, line 2:** "⚠️ Full spoilers for Clair Obscur: Expedition 33, including the ending, from 0:40."
 
 ## Motto arc ("For those who come after")
 | | Where | How | Meaning there |

@@ -27,7 +27,7 @@ Factual basis: `../RESEARCH.md` (ids in brackets in the notes at the end).
   **"FULL SPOILERS · INCLUDING THE ENDING"** held 2.5 s.
 - Spoilers from block C on (the Act 1 death, the painting reveal, the Dessendres, both endings).
 - **Title and thumbnail are spoiler-free:** no painting/canvas reveal, no Gustave death, no family, no ending.
-- **Description, line 2:** "⚠️ Full spoilers for Clair Obscur: Expedition 33, including both endings, from 0:35."
+- **Description, line 2:** "⚠️ Full spoilers for Clair Obscur: Expedition 33, including both endings, from 0:50."
 
 ## Motto arc ("For those who come after")
 | | Where | How | Meaning there |
@@ -58,23 +58,23 @@ pattern, 3 is the alternative.
 - No Gustave, Sophie, Paintress or logo. No painting or family. The video opens on that harbor.
 
 ## Runtime and length
-- Narration: **1,302 words**, **6,984 characters** (with spaces, narration only; measured on the narration lines, 2026-10-17).
-- At Bram's ~155 wpm, including pauses: **≈ 8:24**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
-  1 s rest before the final motto → **≈ 8:29** (inside the 8–10 min target; at EP002's 148 wpm it would be ≈ 8:53). The block times below are estimates at 155 wpm.
+- Narration: **1,300 words**, **6,977 characters** (with spaces, narration only; measured on the narration lines, 2026-10-17).
+- At Bram's ~155 wpm, including pauses: **≈ 8:23**, plus the 1.5 s wordmark hold, the 2.5 s spoiler card and the
+  1 s rest before the final motto → **≈ 8:28** (inside the 8–10 min target; at EP002's 148 wpm it would be ≈ 8:52). The block times below are estimates at 155 wpm.
 
 **Block timing (estimate at 155 wpm, incl. the 1.5 s wordmark hold, the 2.5 s spoiler card and the 1 s pre-motto rest):**
 
 | Block | Words | Start | End |
 |---|---|---|---|
-| A · Hook | 90 | 0:00 | 0:36 |
-| W · Warning | 29 | 0:36 | 0:50 |
-| B · The city | 207 | 0:50 | 2:10 |
-| C · The first lesson | 161 | 2:10 | 3:12 |
-| D · What the world is | 213 | 3:12 | 4:34 |
-| E · Four ways to grieve | 211 | 4:34 | 5:56 |
-| F · The brush | 131 | 5:56 | 6:47 |
-| G · Why it lands | 176 | 6:47 | 7:55 |
-| H · Payoff + CTA | 84 | 7:55 | 8:28 |
+| A · Hook | 88 | 0:00 | 0:35 |
+| W · Warning | 29 | 0:35 | 0:49 |
+| B · The city | 207 | 0:49 | 2:09 |
+| C · The first lesson | 161 | 2:09 | 3:11 |
+| D · What the world is | 213 | 3:11 | 4:34 |
+| E · Four ways to grieve | 211 | 4:34 | 5:55 |
+| F · The brush | 131 | 5:55 | 6:46 |
+| G · Why it lands | 176 | 6:46 | 7:54 |
+| H · Payoff + CTA | 84 | 7:54 | 8:28 |
 
 ## Master script (EN) · narration
 Lines starting with `>` are visual notes (not read). Block headers are not read.
@@ -90,7 +90,7 @@ And everyone who is thirty-three or older... turns to petals and drifts away.
 
 A man walks the woman he loves down to the harbor. She is thirty-three. He gets one last minute.
 
-That is how this video game begins. Not with a tutorial. With a goodbye.
+That's how this game begins. Not with a tutorial. With a goodbye.
 
 It won Game of the Year at every major awards show. More than eight million people bought it.
 
