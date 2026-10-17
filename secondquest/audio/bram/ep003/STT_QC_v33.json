@@ -1,0 +1,18 @@
+{
+ "ratio": 0.9632,
+ "ref_words": 150,
+ "diffs": [
+  {
+   "op": "replace",
+   "ref": "bought bought bought",
+   "heard": "bot bot bot"
+  },
+  {
+   "op": "replace",
+   "ref": "two hundred thousand",
+   "heard": "200 000"
+  }
+ ],
+ "heard": "There is a game called how to fish. A boat, a rod, a lot of fish, and almost nobody seems to be fishing. They are slapping each other in the face. It costs about eight dollars. A message in a group chat. It's eight dollars. Just get it. Bot. Bot. Bot. And one friend who says, I'll get it later. He will not get it later. Getting a few adults into the same boat is harder than anything in the game. And yet, millions of people bought a fishing game to do everything else, together. So why? Start with the price. Eight dollars is not really a price. It's an invitation. Its makers hoped it might sell 200 ,000 copies. By early October, one analytics firm estimated more than 10 million. Because this is not really a game you play alone. Everyone in the boat buys their own copy.",
+ "hook_ratio": 0.9691
+}
