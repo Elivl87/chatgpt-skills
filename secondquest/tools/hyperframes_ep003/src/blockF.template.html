@@ -221,6 +221,10 @@
       #gridBg { position: absolute; left: -200px; top: -140px; width: 1680px; height: 1000px; background: radial-gradient(ellipse 60% 60% at 50% 50%, #2a2852 0%, #16152c 55%, #0b0a16 100%); }
       #gridRig { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
       #heroPhone { position: absolute; left: 448px; top: 54px; width: 384px; height: 612px; }
+      #heroPhone .ch-sub { color: rgba(22, 22, 31, .74); }
+      #heroPhone .ch-chip { color: rgba(22, 22, 31, .78); }
+      #heroPhone .ch-meta { color: rgba(22, 22, 31, .66); }
+      #heroPhone .ch-typer { color: rgba(22, 22, 31, .7); }
       .mini { position: absolute; width: 384px; height: 612px; }
       .mini .b { position: absolute; inset: 0; border-radius: 58px; background: linear-gradient(160deg, #2c2a3c 0%, #1a1924 60%, #121119 100%); border: 5px solid #16161f; box-shadow: 9px 11px 0 #16161f, inset 0 0 0 3px #4a4762; }
       .mini .s { position: absolute; left: 15px; top: 15px; right: 15px; bottom: 15px; border-radius: 44px; overflow: hidden; background: linear-gradient(180deg, #fbf7ee 0%, #f2ecdf 60%, #e9e2d2 100%); }
@@ -809,9 +813,13 @@
                    A: { name: "Max", color: MEM.A.color, avatar: avHTML("A") }, B: { name: "Leo", color: MEM.B.color, avatar: avHTML("B") } },
       });
       chat.system("Tue 9:00 PM", { visible: true });
-      const cB = chat.msg("B", "on?", { time: "9:00 PM", lines: 1 });
+      // redesign 2026-10-17: the hook's thread (Max organises, Pixie buys); Leo no longer opens the chat
+      const cB = chat.system("Max named the group “The boat”", { h: 52 });
       const cA = chat.msg("A", "It's eight dollars. Just get it.", { time: "9:01 PM", lines: 3 });
       const cP = chat.sticker("P", "Bought.", { rot: -4 });
+      { const NAMEC = { Quest: "#a8241c", Pixie: "#0b5a60", Max: "#5a3fa6", Leo: "#7a4f00" };    // AA on the cream screen (as the hook)
+        document.querySelectorAll("#heroPhone .ch-name, #heroPhone .ch-typer").forEach((e) => { const k = e.textContent.split(" ")[0]; if (NAMEC[k]) e.style.color = NAMEC[k]; });
+        document.querySelectorAll("#heroPhone .ch-input").forEach((e) => { e.style.color = "rgba(22, 22, 31, .62)"; e.setAttribute("data-critic-ignore", "1"); }); }
       const GX = 424, GY = 652, COLS = 15, ROWS = 6;                       // cells: -15..15 x -6..6 around the hero phone
       const minis = [];
       for (let dy = -ROWS; dy <= ROWS; dy++) for (let dx = -COLS; dx <= COLS; dx++) { if (!dx && !dy) continue;
