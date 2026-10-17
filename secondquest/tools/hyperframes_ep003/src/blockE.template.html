@@ -195,7 +195,11 @@
       #phoneWrap { position: absolute; left: 640px; top: 54px; width: 384px; height: 612px; }
       .seen { font: 800 14px/1 "Inter", sans-serif; color: #b07a00; text-align: right; margin: 6px 0 0 0; letter-spacing: .04em; }
       .sysrow .ch-pad { justify-content: center; }
-      .sys { margin: 0 auto; padding: 6px 14px; border-radius: 14px; background: rgba(22,22,31,.08); font: 600 16px/1.2 "Inter", sans-serif; color: rgba(22,22,31,.6); }
+      .sys { margin: 0 auto; padding: 7px 12px; border-radius: 12px; background: rgba(22,22,31,.07); font: 800 13px/1 "Inter", sans-serif; letter-spacing: .03em; color: rgba(22,22,31,.78); }   /* the hook's chip */
+      #phoneWrap .ch-sub { color: rgba(22, 22, 31, .74); }
+      #phoneWrap .ch-meta { color: rgba(22, 22, 31, .66); }
+      #phoneWrap .ch-typer { color: rgba(22, 22, 31, .7); }
+      .seen { color: #7a4f00; }
 
       #words { position: absolute; left: 0; top: 540px; width: 1280px; display: flex; justify-content: center; gap: 20px; }
       #words .w { display: block; font-size: 96px; color: var(--cream); }
@@ -964,13 +968,22 @@
       drawYear(2026);
 
       /* ---------- the chat (block B's ChatPhone, read-only reuse) ---------- */
-      const chat = ChatPhone($("#phoneWrap"), { title: "The boat", sub: "5 members", clock: "9:14", me: "Q",
+      // redesign 2026-10-17: the hook's chat skin (same avatars, AA name colours, chrome) and the hook's thread scrolled up above
+      // the new day: Max "It's eight dollars. Just get it." ... Leo "I'll get it later." (2026), then 2031
+      const chat = ChatPhone($("#phoneWrap"), { title: "The boat", sub: "Quest, Pixie, Max, Leo, Sam", clock: "9:14", me: "Q",
         members: { Q: { name: "Quest", color: "#d6392f", avatar: ChatPhone.avImg("assets/quest_wave.png", 688, 1024, 318, 170, 300) },
-                   P: { name: "Pixie", color: "#1f8fa0", avatar: ChatPhone.avImg("assets/pixie_wave.png", 680, 1024, 312, 176, 250) },
+                   P: { name: "Pixie", color: "#167880", avatar: ChatPhone.avImg("assets/pixie_wave.png", 680, 1024, 320, 168, 280) },
                    A: { name: "Max", color: "#7860be", avatar: ChatPhone.avImg(...["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210]) },
-                   B: { name: "Leo", color: "#d69628", avatar: ChatPhone.avImg(...["assets/leo_front_laugh.png", 221, 760, 110.5, 118, 210]) },
+                   B: { name: "Leo", color: "#d69628", avatar: ChatPhone.avImg(...["assets/leo_front_sideeye.png", 221, 760, 110.5, 118, 210]) },
                    S: { name: "Sam", color: "#2e9e5b", avatar: ChatPhone.avSil("#2e9e5b") } } });
       function sysRow(text) { const r = mk("div", "ch-row sysrow", chat.list); const pad = mk("div", "ch-pad", r); const b = mk("div", "sys", pad, "", text); return { el: r, bub: b, h: 46 }; }
+      const statRow = (r) => { r.el.style.maxHeight = r.h + "px"; r.el.style.opacity = 1; return r; };
+      statRow(sysRow("Aug 2026"));
+      statRow(chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 }));
+      statRow(chat.sticker("P", "Bought.", { rot: -4 }));
+      statRow(chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM" }));
+      statRow(chat.sticker("A", "Bought.", { rot: -3 }));
+      statRow(chat.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 }));
       const cDate = sysRow("Today · 2031");
       const cJoin = sysRow("Sam joined the group");
       const cSlap = chat.msg("Q", "THE SLAP", { time: "9:14 PM", h: 118 });
@@ -1170,6 +1183,12 @@
       tl.to(crate, { y: 120, opacity: 0, duration: .35, ease: "power2.in" }, {{l29.w16-0.2}});
       // "You gamble the money.": one green pocket, the ball lands next to it; the money rolls to 0; the Wallet faints
       face(null, {{l29.w16}});
+      // redesign 2026-10-17: the fish with the alibi list ducks under while the roulette and the money roll (clear of both),
+      // and pops back up once the wheel has dropped out, for "You fight bosses."
+      tl.to(buddy, { y: 900, duration: .32, ease: "power2.in" }, {{l29.w16-0.18}});
+      tl.set(buddy, { opacity: 0 }, {{l29.w16+0.16}});
+      tl.set(buddy, { opacity: 1, y: 900 }, {{l29.w21+0.16}});
+      tl.to(buddy, { y: 538, duration: .32, ease: "back.out(1.8)" }, {{l29.w21+0.18}});
       tl.set("#wheelOv", { autoAlpha: 1 }, {{l29.w17-0.15}});
       tl.fromTo("#wheelOv", { y: -520, rotation: -20 }, { y: 0, rotation: 0, duration: .45, ease: "back.out(1.4)", ...IR }, {{l29.w17-0.15}});
       spin(tl, wheelOv, {{l29.w17-0.1}}, {{l29.w19+0.05-l29.w17}}, 3, -1);    // bet green, lands next to it
@@ -1566,6 +1585,9 @@
       LEO.talk(tl, {{l34.w4+0.1}}, {{l34.w4+0.8}});
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, {{DUR}}, 11 + i * 7));   // idle blinks on the friends
       document.querySelectorAll("#phoneWrap .ch-av, #phoneWrap .ch-gav").forEach((e) => e.setAttribute("data-critic-ignore", "1"));   // chat UI pictures
+      const NAMEC = { Quest: "#a8241c", Pixie: "#0b5a60", Max: "#5a3fa6", Leo: "#7a4f00", Sam: "#1d6b3c" };    // AA on the cream screen (as the hook)
+      document.querySelectorAll("#phoneWrap .ch-name, #phoneWrap .ch-typer").forEach((e) => { const k = e.textContent.split(" ")[0]; if (NAMEC[k]) e.style.color = NAMEC[k]; });
+      document.querySelectorAll("#phoneWrap .ch-input").forEach((e) => { e.style.color = "rgba(22, 22, 31, .62)"; e.setAttribute("data-critic-ignore", "1"); });
       window.__timelines = window.__timelines || {};   // (the frame critic's seek harness has no registry)
       window.__timelines["main"] = tl;
     </script>
