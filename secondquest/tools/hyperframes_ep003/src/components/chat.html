@@ -119,7 +119,7 @@
           r.bub = b; r.h = opt.h || 60 + 34 * (opt.lines || 3); return r; },
         sticker(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
           const s = el("div", "ch-stk", r.pad);
-          if (who !== o.me) el("div", "ch-name", s, m.name || who).style.color = m.color;
+          if (who !== o.me || opt.name) el("div", "ch-name", s, m.name || who).style.color = m.color;   // opt.name: label your own message too (2026-10-17: two "Bought." under "Pixie" read as Pixie twice)
           r.bub = el("div", "ch-sticker", s, `<span class="chk">${CHECK}</span><span>${text}</span>`);
           r.bub.style.transform = `rotate(${opt.rot != null ? opt.rot : (who === o.me ? 4 : -4)}deg)`;
           r.rot = opt.rot != null ? opt.rot : (who === o.me ? 4 : -4);
