@@ -154,7 +154,7 @@
       #bubble svg { width: 100%; height: 100%; overflow: visible; }
       #badge { position: absolute; width: 170px; height: 112px; }
       #badge .bd { position: absolute; left: 0; top: 18px; width: 170px; height: 94px; border: 3px solid var(--ink); border-radius: 10px; background: #fff; overflow: hidden; box-shadow: 4px 5px 0 rgba(22,22,31,.55); }
-      #badge .bh { position: absolute; left: 0; top: 0; width: 100%; height: 32px; background: var(--red); color: #fff; font: 800 19px "Inter"; letter-spacing: .12em; text-align: center; line-height: 32px; border-bottom: 3px solid var(--ink); }
+      #badge .bh { position: absolute; left: 0; top: 0; width: 100%; height: 32px; background: var(--red); color: #fff; font: 800 22px "Inter"; letter-spacing: .1em; text-align: center; line-height: 32px; border-bottom: 3px solid var(--ink); }
       #badge .bn { position: absolute; left: 0; top: 30px; width: 100%; text-align: center; font-size: 46px; color: var(--ink); }
       #badge .clip { position: absolute; left: 63px; top: 0; width: 44px; height: 30px; border-radius: 6px; border: 3px solid var(--ink); background: linear-gradient(180deg, #e9edf2, #9aa3ae); }
 
@@ -190,7 +190,7 @@
       .dphone .ch-input { color: rgba(22, 22, 31, .62); }
       .dphone .ch-row.fixed { opacity: 1; position: relative; }
       .dphone .ch-photo { position: absolute; border-radius: 18px; background: #cfc6b4; border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 14px rgba(22, 22, 31, .25); }
-      #newest { position: absolute; left: 676px; top: 560px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
+      #newest { position: absolute; left: 706px; top: 596px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
       .pingring { position: absolute; border: 4px solid var(--gold); border-radius: 50%; }
 
       /* ---------- alibi scenes ---------- */
@@ -310,7 +310,7 @@
       <div id="d2Clip" class="full clip" data-start="3.4" data-duration="6.77" data-track-index="2" style="z-index: 3">
         <div id="leftPane">
           <div id="miniPhone" class="dphone" style="left: 175px; top: 92px; width: 290px; height: 590px"></div>   <!-- the hook's ChatPhone, scaled (redesign 2026-10-17) -->
-          <div class="stamp" id="stamp799" style="left: 352px; top: 446px; width: 128px; height: 66px; font-size: 34px; line-height: 40px; padding-top: 3px; border-width: 4px; transform: rotate(-13deg)">$7.99<div style="font: 800 11px Inter; letter-spacing: .4em; line-height: 13px">PAID</div></div>   <!-- v3.3.3 (D-2): small, on the empty phone background right of Max's "Bought." -->
+          <div class="stamp" id="stamp799" style="left: 26px; top: 420px; background: #fff3ea; mix-blend-mode: normal; opacity: 1; width: 128px; height: 66px; font-size: 34px; line-height: 40px; padding-top: 3px; border-width: 4px; transform: rotate(-13deg)"><div style="font-size: 34px; line-height: 40px">$7.99</div><div style="font: 800 11px Inter; letter-spacing: .4em; line-height: 14px; font-size: 13px">PAID</div></div>   <!-- v3.3.4 (fix 2): on the empty background left of the phone (the phone has no free area as big as the stamp), clear of every message and of the SOLVED disc -->
           <div id="okStamp" class="abs" style="left: 410px; top: 420px; width: 180px; height: 180px">
             <svg viewBox="0 0 190 190" style="width: 100%; height: 100%; overflow: visible; mix-blend-mode: multiply">
               <circle cx="95" cy="95" r="84" fill="rgba(46, 160, 90, .12)" stroke="#2c9a55" stroke-width="9"/>
@@ -1195,7 +1195,7 @@
       tl.fromTo("#divider", { x: -660 }, { x: 0, duration: .38, ease: "power3.out" }, D2);
       tl.fromTo("#miniPhone", { y: 40, rotation: -3 }, { y: 0, rotation: -1.5, duration: .7, ease: "back.out(1.6)" }, D2 + .1);
       ["sP", "sQ", "sA"].forEach((k, i) => tl.fromTo(mini[k], { scale: 1 }, { keyframes: [{ scale: 1.18, duration: .08 }, { scale: 1, duration: .35, ease: "back.out(3)" }], immediateRender: false }, T.because + .45 + i * .14));
-      tl.fromTo("#stamp799", { scale: 2.6, opacity: 0, rotation: -30 }, { scale: 1, opacity: .92, rotation: -13, duration: .16, ease: "power4.in" }, T.solves - .1);
+      tl.fromTo("#stamp799", { scale: 2.6, opacity: 0, rotation: -30 }, { scale: 1, opacity: 1, rotation: -13, duration: .16, ease: "power4.in" }, T.solves - .1);
       shake("#leftPane", T.solves + .06, .6);
       tl.fromTo(["#b1", "#b2"], { scale: 0, rotation: -40 }, { scale: 1, rotation: 0, duration: .45, ease: "back.out(2.5)", stagger: .12 }, T.second - .05);
       tl.fromTo("#b2", { scale: 1 }, { scale: 1.14, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, T.second + .55);
@@ -1265,7 +1265,7 @@
       tl.set("#bubble", { opacity: 1, scale: 0, transformOrigin: "40% 100%" }, M2);
       tl.to("#bubble", { scale: .8, duration: .4, ease: "back.out(2.6)" }, T.fill - .3);
       tl.fromTo("#bubble .dot", { y: 0 }, { y: -6, duration: .18, yoyo: true, repeat: 3, stagger: .08, ease: "sine.inOut" }, T.fill);
-      tl.to("#bubble", { keyframes: [{ scaleY: .55, scaleX: 1.08, y: 18, rotation: 6, duration: .35, ease: "power2.in" }, { scaleY: .2, scaleX: .5, y: 50, rotation: 14, opacity: .7, duration: .3, ease: "power2.in" }, { scale: 0, opacity: 0, duration: .15 }] }, T.silence);
+      tl.to("#bubble", { keyframes: [{ scaleY: .62, scaleX: 1.06, duration: .3, ease: "power2.in" }, { scaleY: .3, scaleX: .55, opacity: .8, duration: .28, ease: "power2.in" }, { scale: 0, opacity: 0, duration: .14 }] }, T.silence);   // v3.3.4: pops/shrinks in place (no drop across Quest's face)
       // "You both look at the water.": the camera tilts down with their gaze
       cam(T.you - .05, POV0 - T.you + .05, focus(600, 560, 2.1), "sine.inOut");
       // POV: the fish rises and looks UP at them; deadpan blink
@@ -1299,9 +1299,9 @@
       tl.set(sfA.f.lookup, { opacity: 0 }, T.reason + .5);
       blink(sfA.f.blink, T.reason + 1.1, .18);
       tl.set(tag, { opacity: 1, transformOrigin: "75px 0px" }, RS);
-      tl.fromTo(tag, { y: 0 - 400, rotation: 0 }, { y: 462, duration: .32, ease: "power3.in" }, T.reason - .1);
+      tl.fromTo(tag, { y: 0 - 400, rotation: 0 }, { y: 345, duration: .32, ease: "power3.in" }, T.reason - .1);
       tl.fromTo(tag, { rotation: 0 }, { keyframes: [{ rotation: 26, duration: .14, ease: "power2.out" }, { rotation: 0, duration: 1.6, ease: "elastic.out(1.2, .2)" }], immediateRender: false }, T.reason + .22);
-      tl.fromTo(tag, { y: 462 }, { y: 468, duration: .9, yoyo: true, repeat: 4, ease: "sine.inOut", immediateRender: false }, T.reason + .7);
+      tl.fromTo(tag, { y: 345 }, { y: 351, duration: .9, yoyo: true, repeat: 4, ease: "sine.inOut", immediateRender: false }, T.reason + .7);
       // JOB "and the silence a job.": the empty bubble again; a name badge clips onto it
       const JB = T.and - .05;
       cam(JB, 0, focus(552, 432, 1.38));
@@ -1309,7 +1309,7 @@
       tl.set("#bubble", { x: 0, y: 0, rotation: 0, scale: 0, opacity: 1, left: 585, top: 232 }, JB);
       tl.to("#bubble", { scale: .9, duration: .45, ease: "back.out(2.4)" }, T.silence2 - .1);
       tl.fromTo("#bubble .dot", { opacity: 1 }, { opacity: .35, duration: .25, yoyo: true, repeat: 5, stagger: .08, ease: "sine.inOut", immediateRender: false }, T.silence2 + .3);
-      tl.set("#badge", { left: 650, top: 296, opacity: 1, transformOrigin: "50% 0%" }, JB);   // v3.3.3 (D-3): clipped onto the "..." bubble's lower edge, not the sky
+      tl.set("#badge", { left: 752, top: 236, opacity: 1, transformOrigin: "50% 0%" }, JB);   // v3.3.4 (fix 1): hangs from the "..." bubble's RIGHT side over the sky; Quest's face stays clear
       tl.fromTo("#badge", { y: -380, rotation: -30 }, { y: 0, rotation: 0, duration: .26, ease: "power3.in" }, T.job - .24);
       tl.to("#badge", { keyframes: [{ rotation: 12, duration: .1 }, { rotation: 0, duration: 1.0, ease: "elastic.out(1.3, .25)" }] }, T.job + .02);
       tl.fromTo("#bubble", { scale: .9 }, { keyframes: [{ scaleY: .8, scaleX: .95, duration: .06 }, { scaleY: .9, scaleX: .9, duration: .4, ease: "elastic.out(1, .3)" }], immediateRender: false }, T.job + .02);
@@ -1318,11 +1318,8 @@
 
       /* ================= D5 l25: whip to the evidence board ================= */
       const D5 = T.l25 - .2;
-      tl.to("#world", { x: -1400, duration: .32, ease: "power2.in" }, D5);
-      tl.set("#world", { filter: "url(#hblur)" }, D5 + .08);
-      tl.fromTo("#boardWhip", { x: 1400 }, { x: 0, duration: .34, ease: "power2.out" }, D5 + .2);
-      tl.set("#boardWhip", { filter: "url(#hblur)" }, D5 + .2);
-      tl.set("#boardWhip", { filter: "none" }, D5 + .48);
+      // v3.3.4: hard cut to the board with a short push-in (was a blurred whip: blur budget 1-3, the 144/145 alibi whips stay)
+      tl.fromTo("#boardWhip", { x: 0, scale: 1.08 }, { x: 0, scale: 1, duration: .34, ease: "power3.out", immediateRender: false }, D5);
       tl.set("#world", { opacity: 0, filter: "none", x: 0 }, D5 + .36);
       bcam(D5, 0, 560, 330, 1.12);
       bcam(D5 + .3, T.alibi - D5 - .3, 600, 320, 1.08, "sine.out");
@@ -1418,7 +1415,8 @@
       shake("#boardShake", T.l26 + .3, 1);
       tl.fromTo(bpin, { scale: 0 }, { scale: 1, duration: .2, ease: "back.out(3)" }, T.l26 + .4);
       bcam(T.l26 + .3, T.newest - T.l26 - .3, 640, 620, 1.55, "power2.out");
-      tl.fromTo("#newest", { opacity: 0, scale: 2.6, rotation: -40 }, { opacity: 1, scale: 1, rotation: -14, duration: .16, ease: "power4.in" }, T.newest - .12);
+      tl.fromTo("#newest", { opacity: 1, scale: 1.7, rotation: -30 }, { opacity: 1, scale: 1, rotation: -14, duration: .16, ease: "power4.in", immediateRender: false }, T.newest - .12);   // v3.3.4: opaque from its first frame (no 40 % ghost)
+      tl.set("#newest", { opacity: 1 }, T.newest - .12);
       shake("#boardShake", T.newest + .04, .8);
       const PH = 2.0, PHX = 640, PHY = 640;
       bcam(T.newest + .3, T.it - T.newest - .35, PHX, PHY, PH, "sine.inOut");
@@ -1455,10 +1453,10 @@
         Gull(host, { w: 40 }).fly(tl, T.l24, T.l24 + 6, [[1380, 140], [980, 120], [560, 112], [-100, 96]], { flaps: [[T.l24, T.l24 + .9], [T.l24 + 3.6, T.l24 + 4.2]] }); }
       FRS.forEach((f, i) => f.blinks(tl, 0, 57.3, 11 + i * 7));   // idle blinks on the friends
       // v3.3.1 critic sweep: deliberate overlaps declared - chat phones (UI rows under the header, the repeated "Bought."
-      // stickers), the $7.99 PAID stamp on the message it pays, the "JOB: silence" badge and "ALIBIS" header type, NEWEST
+      // stickers), "ALIBIS" header type, NEWEST (v3.3.4: the $7.99 PAID stamp and the JOB badge no longer carry a waiver)
       document.querySelectorAll(".dphone .ch-av, .dphone .ch-input").forEach((e) => e.setAttribute("data-critic-ignore", "1"));   // chat UI avatars (as the hook)
       document.querySelectorAll(".phone, .dphone").forEach((e) => { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); });
-      ["#stamp799", "#badge", "#hdr", "#newest", "#bphone", "#slot4"].forEach((q) => { const e = document.querySelector(q); if (e) { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); } });
+      ["#hdr", "#newest", "#bphone", "#slot4"].forEach((q) => { const e = document.querySelector(q); if (e) { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); } });
       window.__timelines = window.__timelines || {};   // (the frame critic's seek harness has no registry)
       window.__timelines["main"] = tl;
     </script>

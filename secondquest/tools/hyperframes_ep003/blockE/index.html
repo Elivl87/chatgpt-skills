@@ -170,7 +170,7 @@
       .pf { position: absolute; top: 210px; width: 280px; height: 400px; }
       .pf img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center; filter: drop-shadow(4px -1px 0 rgba(255, 196, 128, .9)); }
       .pf svg { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(4px -1px 0 rgba(255, 196, 128, .95)); }
-      .pf .q { position: absolute; left: 50%; top: -24px; width: 60px; margin-left: -30px; text-align: center; font: 400 64px/1 "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; opacity: 0; }
+      .pf .q { position: absolute; left: 50%; top: -67px; width: 60px; margin-left: -30px; text-align: center; font: 400 64px/1 "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; opacity: 0; }
 
       /* ---------- E9: table, polaroids, years, phone ---------- */
       #tbl { background: #1b1220; opacity: 0; }
@@ -1131,9 +1131,9 @@
       const PF = [["img", "assets/quest_laugh.png"], ["img", "assets/pixie_laugh.png"], ["max", "assets/max_point_34_neutral.png"], ["leo", "assets/leo_point_34_neutral.png"], ["fish", ""]];
       const SPACING = 420;
       const ptFigs = PF.map(([k, v], i) => { const f = mk("div", "pf", $("#ptStrip"), `left:${640 - 140 + i * SPACING}px`);
-        if (k === "img") mk("img", "", f).src = v; else if (k === "svg") f.innerHTML = v;
+        if (k === "img") { const im = mk("img", "", f); im.src = v; im.setAttribute("data-role", "character"); } else if (k === "svg") f.innerHTML = v;
         else if (k === "max" || k === "leo") { const hh = 395 * (k === "max" ? 1.081 : .95) * 1.016;     // Quest = 395 px here; Max 1.08x, Leo 0.95x
-          f.style.top = (610 - hh) + "px"; f.style.height = hh + "px"; f.style.width = "320px"; mk("img", "", f).src = v; }
+          f.style.top = (610 - hh) + "px"; f.style.height = hh + "px"; f.style.width = "320px"; const im = mk("img", "", f); im.src = v; im.setAttribute("data-role", "character"); }
         else { f.style.top = "330px"; f.style.height = "270px"; const fi = mk("img", "", f); fi.src = "assets/fish_34.png"; fi.style.objectFit = "contain"; const lid = mk("img", "lid", f); lid.src = "assets/fish_34_blink.png"; lid.id = "ptLid"; }
         mk("div", "q", f, "", "?"); return f; });
 
@@ -1413,7 +1413,7 @@
       tl.to("#bossSh", { x: 1500, duration: 1.4, ease: "power2.in" }, 18.3);
       tl.set("#bossSh", { opacity: 0 }, 18.88);
       tl.fromTo("#bossImg", { filter: "blur(2.5px) brightness(1)" }, { filter: "blur(2.5px) brightness(1.9)", duration: .08, yoyo: true, repeat: 5, ease: "steps(1)", ...IR }, 17.7);   // the eyes flare
-      cam(17.65, .5, focus(640, 560, 1.12), "power2.out");
+      cam(17.65, .5, focus(640, 532, 1.12), "power2.out");   // v3.3.4: boat ~30 px lower so the boss bar never touches the heads (was focus y 560)
       tl.to("#tilt", { rotation: -3.2, scale: 1.09, duration: .35, ease: "power2.out", transformOrigin: "50% 60%" }, 17.7);
       tl.to("#tilt", { rotation: 0, scale: 1, duration: 1.0, ease: "sine.inOut" }, 18.6);
       tl.to("#shake", { keyframes: Array.from({ length: 22 }, (_, i) => ({ x: (i % 2 ? 1 : -1) * (6 - i * .25), y: (i % 3 - 1) * (4 - i * .15), duration: .05 })) }, 17.7);
@@ -1575,6 +1575,9 @@
       hud.health(tl, 44.08, 1.5, .3);
       hud.jolt(tl, 44.02, .8);
       // "and nobody will ever admit who it was.": whip loop of pointing fingers, the camera spins round to "was."
+      // v3.3.4 (fix 3): the FAIL x3 card steps aside while the suspects pan under it (no HUD over Pixie's/Max's/Leo's heads); back on "admit"
+      tl.fromTo(hud.card, { opacity: 1 }, { opacity: 0, duration: .1, ease: "power1.in", immediateRender: false }, 45.02);
+      tl.fromTo(hud.card, { opacity: 0, scale: .6 }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2.4)", immediateRender: false }, 46.38);
       whip(45.06, 1, (t) => { hide("#casino", t); show("#pt", t); });
       const strip = (i) => -i * SPACING;
       tl.set("#ptStrip", { x: strip(0) }, 45.14);
@@ -1619,8 +1622,11 @@
       tl.set("#rewind", { autoAlpha: 1 }, 49.52);
       tl.fromTo("#rewind", { opacity: 1 }, { opacity: 0, duration: .1, yoyo: true, repeat: 3, ease: "steps(1)", ...IR }, 49.52);
       tl.set("#rewind", { autoAlpha: 0 }, 50.04);
-      const G5 = focus(950, 560, 1.55);                                 // v3.3.3 (E-3): the crew framed lower and right, clear of the hearts HUD
+      const G5 = focus(830, 500, 1.35);                                 // v3.3.4 (fix 4): the whole crew framed lower and to the right (Pixie fully in, heads below the hearts pill), the eye still big at the bottom right
       cam(49.52, .38, G5, "expo.inOut");
+      // v3.3.4 (fix 4): the combo card lifts 22 px while the zoom starts, so its last line never touches Leo's head on the way in
+      tl.fromTo(hud.card, { y: 0 }, { y: -22, duration: .1, ease: "power2.out", ...IR }, 49.44);
+      tl.fromTo(hud.card, { y: -22 }, { y: 0, duration: .3, ease: "power2.inOut", ...IR }, 49.94);
       tl.set("#eye", { opacity: 1 }, 49.64);
       tl.fromTo("#eyeOpen", { scaleY: .04 }, { scaleY: 1, duration: .45, ease: "back.out(1.6)", transformOrigin: "50% 50%", ...IR }, 49.76);
       tl.set("#eyeOpen", { scaleY: .04, transformOrigin: "50% 50%" }, 0);
@@ -1757,16 +1763,15 @@
       // "Usually years later,": the year wheel 2026 -> 2031
       tl.to("#tblDim", { opacity: .78, duration: .4 }, 69.08);
       tl.set("#years", { autoAlpha: 1 }, 69.51);
-      tl.fromTo("#years", { scale: .5, y: 40 }, { scale: 1, y: 0, duration: .35, ease: "back.out(2)", ...IR }, 69.51);
+      // v3.3.4 (fix 5): the wheel rolls where it holds (the empty table right of where the phone lands), never over the "$0" polaroid
+      tl.fromTo("#years", { scale: .2, x: 470, y: 40 }, { scale: .44, x: 470, y: 40, duration: .35, ease: "back.out(2)", ...IR }, 69.51);
       const YR = { v: 2026 };
       tl.fromTo(YR, { v: 2026 }, { v: 2031, duration: 1.05, ease: "power2.inOut", onUpdate: () => drawYear(YR.v), ...IR }, 69.66);
       tl.set("#yLater", { autoAlpha: 1 }, 69.94);
-      tl.fromTo("#yLater", { scale: .3, rotation: -12 }, { scale: 1, rotation: -3, duration: .35, ease: "back.out(2.6)", ...IR }, 69.94);
-      tl.fromTo("#years", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], ...IR }, 70.71);
+      tl.fromTo("#yLater", { scale: .2, rotation: -12, x: 404, y: -40 }, { scale: .66, rotation: -3, x: 404, y: -40, duration: .35, ease: "back.out(2.6)", ...IR }, 69.94);
+      tl.fromTo("#years", { scale: .44 }, { keyframes: [{ scale: .475, duration: .07 }, { scale: .44, duration: .45, ease: "elastic.out(1, .4)" }], ...IR }, 70.71);
       // "in the same group chat,": the phone, big; the year moves aside
       // v3.3.3 (E-4): the year moves onto the empty table right of the phone, off the "$0" polaroid
-      tl.to("#years", { x: 498, y: 40, scale: .44, duration: .45, ease: "power3.inOut" }, 71.16);
-      tl.to("#yLater", { x: 432, y: -40, scale: .66, duration: .45, ease: "power3.inOut" }, 71.16);
       tl.to("#tblDim", { opacity: .86, duration: .4 }, 71.16);
       show("#phoneSh", 71.21);
       tl.fromTo("#phoneWrap", { y: 720, rotation: 6 }, { y: 0, rotation: 0, duration: .5, ease: "back.out(1.3)", ...IR }, 71.21);

@@ -85,10 +85,21 @@ const exe = process.env.HYPERFRAMES_BROWSER_PATH;
             u = u ? { left: Math.min(u.left, b.left), top: Math.min(u.top, b.top), right: Math.max(u.right, b.right), bottom: Math.max(u.bottom, b.bottom) } : { left: b.left, top: b.top, right: b.right, bottom: b.bottom }; });
           if (u) r = { left: u.left, top: u.top, right: u.right, bottom: u.bottom, width: u.right - u.left, height: u.bottom - u.top };
         }
+        // v3.3.4: (text only) clip the box by overflow:hidden/clip ancestors (a digit reel's strip, a masked reveal): hidden glyphs are not on screen
+        const rawH = r.height;
+        if (txt) { let L = r.left, T = r.top, R = r.right, B = r.bottom;
+          for (let p = el.parentElement; p && p.nodeType === 1 && p !== document.body && p !== document.documentElement; p = p.parentElement) {
+            const ps = getComputedStyle(p); const ox = ps.overflowX, oy = ps.overflowY;
+            if (ox === 'visible' && oy === 'visible') continue;
+            const pr = p.getBoundingClientRect(); if (pr.width < 1 || pr.height < 1) continue;
+            if (ox !== 'visible') { L = Math.max(L, pr.left); R = Math.min(R, pr.right); }
+            if (oy !== 'visible') { T = Math.max(T, pr.top); B = Math.min(B, pr.bottom); } }
+          if (R - L < 1 || B - T < 1) return;
+          r = { left: L, top: T, right: R, bottom: B, width: R - L, height: B - T }; }
         if (r.width < 1 || r.height < 1) return;
         if (r.right <= 0 || r.bottom <= 0 || r.left >= W || r.top >= H) return;
         const cs = getComputedStyle(el);
-        const scale = el.offsetHeight ? r.height / el.offsetHeight : 1;
+        const scale = el.offsetHeight ? rawH / el.offsetHeight : 1;
         out.push({ sel: sel(el), path: path(el), tag: el.tagName.toLowerCase(), text: txt.slice(0, 120), op: +op.toFixed(3),
           box: [r.left, r.top, r.right, r.bottom].map((v) => +v.toFixed(1)),
           fontPx: txt ? +(parseFloat(cs.fontSize) * scale).toFixed(1) : 0,

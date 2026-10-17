@@ -1281,7 +1281,7 @@
       // "fish.": the empty box wobbles (nobody ticks it)
       ft("#chkCard", { rotation: 0 }, { keyframes: [{ rotation: 7, duration: .1 }, { rotation: -5, duration: .12 }, { rotation: 0, duration: .5, ease: "elastic.out(1, .35)" }] }, T.fish1 + .05);
       // ...the camera creeps in on the box while it is still unticked
-      lcam(T.plan + .5, T.always - T.plan - .55, focus(985, 418, 1.42), "sine.inOut");
+      lcam(T.plan + .5, T.always - T.plan - .55, focus(930, 418, 1.42), "sine.inOut");   // v3.3.4: the creep ends ~80 px further right (was focus x 985): Pixie is never cut by the left edge
       // "always": HARD CUT to the identical frame. Still unchecked; the fish rests its chin on the rod and yawns
       lcam(T.always - .02, 0, PLANCAM);
       tl.set("#chkCard", { rotation: 0 }, T.always - .02);
@@ -1291,7 +1291,7 @@
       ft("#fishRod", { scaleY: 1 }, { keyframes: [{ scaleY: 1.06, duration: .45, ease: "sine.inOut" }, { scaleY: 1, duration: .5, ease: "sine.inOut" }], transformOrigin: "20% 85%" }, T.always + .12);
       tl.set("#frBlink", { opacity: 1 }, T.fish2 + .25); tl.set("#frBlink", { opacity: 0 }, T.fish2 + .65);
       tl.fromTo("#fishRipple", { scale: .8, opacity: .7 }, { scale: 1.25, opacity: 0, duration: 1.4, repeat: 1, ease: "sine.out", immediateRender: false }, T.always);
-      lcam(T.always + .3, T.l40end - T.always, focus(1010, 400, 1.45), "sine.inOut");
+      lcam(T.always + .3, T.l40end - T.always, focus(930, 400, 1.45), "sine.inOut");   // v3.3.4: ends ~115 px further right (was focus x 1010): Pixie stays inside the frame to the cut at 272.2
 
       // ================= F6 (l41): the living room at 1 AM; the clock wheel; "last round." =================
       cam("#pushRoom", 0, 0, focus(600, 380, 1.08));

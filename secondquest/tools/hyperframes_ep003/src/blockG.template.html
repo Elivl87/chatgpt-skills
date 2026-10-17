@@ -539,7 +539,9 @@
       tl.set("#tw3", { opacity: 0 }, FLAND - .06);                                  // gone the instant it meets the water (no ghost)
       const sp3 = makeSplash($("#fxSplash"), LX, LY, 1.0); doSplash(sp3, FLAND - .03, 33);
       // the card becomes the chat text box
-      tl.to(["#tw1", "#tw2", "#tut"], { scale: .6, opacity: 0, duration: .22, ease: "power2.in" }, Q.l49 - .02);
+      tl.to(["#tw1", "#tw2"], { scale: .6, opacity: 0, duration: .22, ease: "power2.in" }, Q.l49 - .02);
+      // v3.3.4 (fix 6): the TUTORIAL chip leaves WITH the title (it is a sibling of #title3, so the title fade at l49-.3 never reached it) and stays at 0
+      tl.fromTo("#tut", { opacity: 1, scale: 1 }, { opacity: 0, scale: .6, duration: .16, ease: "power2.in", immediateRender: false }, Q.l49 - .3);
 
       // ================= G4 l49-50: the chat box; "I miss you" typed, deleted, "boat tonight?" sent, "Bought."
       tl.fromTo(["#layers", "#fx"], { filter: "blur(0px)" }, { filter: "blur(9px)", duration: .4, ease: "sine.in", immediateRender: false }, Q.l49 - .1);
@@ -550,6 +552,9 @@
       breathe(S4, S5, 3);
       tl.set("#chat", { opacity: 1 }, Q.l49);
       tl.to("#title3", { opacity: 0, scale: .96, duration: .16, ease: "power2.in" }, Q.l49 - .3);    // v3.3.3 (G-5): the title is gone before the field arrives
+      // v3.3.4: the placeholder appears once the cut to the close-up has happened, so the rising field never carries text over the old shot's heads
+      tl.set("#ph", { opacity: 0 }, 0);
+      tl.fromTo("#ph", { opacity: 0 }, { opacity: 1, duration: .1, ease: "none", immediateRender: false }, S4 + .02);
       tl.fromTo("#chatBox", { scaleX: .5, scaleY: .62, opacity: 0, y: 305 }, { keyframes: [{ opacity: 1, duration: .08 }, { scaleX: 1, scaleY: 1, y: 0, duration: .55, ease: "back.out(1.3)" }] }, Q.l49 - .02);
       tl.fromTo("#sendBtn", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: .35, ease: "back.out(2.5)", immediateRender: false }, Q.i + .02);
       tl.fromTo("#sendBtn", { scale: 1 }, { scale: 0, duration: .2, ease: "power2.in", immediateRender: false }, Q.ever + .45);   // explicit starts: seek-safe (a cold

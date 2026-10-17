@@ -340,7 +340,7 @@ def cues():
     a(T('l38.w4'), 'drain', -20, why='"short.": the PLAYTIME bar drains red')
     a(T('l38.w12') + .2, 'place', -18, .25, why='"hit.": #1 lands on the calendar (a paper thump)')
     a(T('l40.w12') - .1, 'notify', -18, .1, why='"same boat": the group-chat banner drops in (Max: on?)')
-    a(T('l41.w16'), 'roll:0.9', -26, -.1, why='"never": the clock starts racing round to morning')
+    a(T('l41.w16'), 'roll:0.9', -21, -.1, why='"never": the clock starts racing round to morning (v3.3.4: +5 dB, was -26: the retention critic could not hear it)')
     a(T('l42.w23') + .12, 'drain', -22, why='"not done well.": the chart line crashes off the bottom (oof.)')
     a(T('l42.w34') - .04, 'squish', -18, .2, why='"silly": the doodle slap in the yearbook')
     a(T('l43.w8') + .02, 'notify', -22, why='"group": every screen pings at once')
@@ -430,6 +430,11 @@ def bus_limit(fx, ceil):
 def main():
     narr, sr = soundfile.read(str(ROOT / 'public/episodes/ep003/audio/narration.wav'), dtype='float32')
     assert sr == SR
+    # v3.3.4: the mix runs to the video's end (l52.end + 2.5 s = 328.4 s): the narration is padded with silence and the
+    # G night beds (water + crickets) keep going, so the end-card splash rings out instead of the audio stopping at 327.06 s
+    n_end = int(round((T('l52.end') + 2.5) * SR))
+    if n_end > len(narr):
+        narr = np.concatenate([narr, np.zeros(n_end - len(narr), np.float32)])
     n = len(narr)
     fx = np.zeros((2, n), np.float32)
     rng = np.random.default_rng(2026)
