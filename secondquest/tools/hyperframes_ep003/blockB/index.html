@@ -679,7 +679,7 @@
         const at = T.copy - .18 + i * .13;
         tl.set(boxes[k], { x: SLOT[k], y: BOXY - 700, rotation: (i % 2 ? 22 : -22), opacity: 0 }, 0);
         tl.set(boxes[k], { opacity: 1 }, at);
-        tl.to(boxes[k], { y: BOXY, rotation: (i % 2 ? 4 : -4), duration: .3, ease: "power2.in" }, at);
+        tl.to(boxes[k], { y: BOXY + (k === "B" ? 22 : 0), rotation: (i % 2 ? 4 : -4), duration: .3, ease: "power2.in" }, at);   // Leo sits lower: his box stays under his chin
         tl.to(boxes[k], { keyframes: [{ scaleY: .82, scaleX: 1.14, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }] }, at + .3);
         boxes[k].pop.forEach((p) => tl.fromTo(p, { opacity: 0, y: 0, scaleY: .4 }, { keyframes: [{ opacity: 1, y: -26, scaleY: 1, duration: .1, ease: "power2.out" }, { opacity: 0, y: -46, duration: .22 }], immediateRender: false }, at + .3));
         tl.set(boxes[k].pop, { opacity: 0 }, 0);
