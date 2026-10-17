@@ -1,0 +1,5 @@
+{
+  "room_night.png": ["public/art/core/backgrounds/living_room_night_gaming.png", 1080],
+  "quest_wave.png": ["docs/art_orders/quest/library_v2/results/01_wave_happy.png", null],
+  "pixie_wave.png": ["docs/art_orders/pixie/library/results/01_wave_happy.png", 1024]
+}
