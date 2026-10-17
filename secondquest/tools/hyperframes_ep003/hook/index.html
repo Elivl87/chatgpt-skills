@@ -359,7 +359,7 @@
           r.bub = b; r.h = opt.h || 60 + 34 * (opt.lines || 3); return r; },
         sticker(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
           const s = el("div", "ch-stk", r.pad);
-          if (who !== o.me) el("div", "ch-name", s, m.name || who).style.color = m.color;
+          if (who !== o.me || opt.name) el("div", "ch-name", s, m.name || who).style.color = m.color;   // opt.name: label your own message too (2026-10-17: two "Bought." under "Pixie" read as Pixie twice)
           r.bub = el("div", "ch-sticker", s, `<span class="chk">${CHECK}</span><span>${text}</span>`);
           r.bub.style.transform = `rotate(${opt.rot != null ? opt.rot : (who === o.me ? 4 : -4)}deg)`;
           r.rot = opt.rot != null ? opt.rot : (who === o.me ? 4 : -4);
@@ -928,7 +928,7 @@
       const mA = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 });
       const dP = chat.typing("P");
       const sP = chat.sticker("P", "Bought.", { rot: -4 });
-      const sQ = chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM" });
+      const sQ = chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM", name: true });
       const dA2 = chat.typing("A");
       const sA = chat.sticker("A", "Bought.", { rot: -3 });
       const dB = chat.typing("B");
@@ -944,7 +944,8 @@
         const bt = t < f0 ? t : t < f1 ? f0 : t - (f1 - f0);
         gsap.set("#camChat", { scale: 1.025 + .012 * Math.sin((bt + 4.0) * 2 * Math.PI / 5.5), x: 8 * Math.sin((bt + 6.8) * 2 * Math.PI / 7.5), y: 4 * Math.sin((bt + 2.4) * 2 * Math.PI / 6.5), transformOrigin: "50% 50%" }); };
       tl2.fromTo(env2, { t: C2.start }, { t: C2.end, duration: C2.end - C2.start, ease: "none", onUpdate: breathe2, immediateRender: false }, C2.start);
-      const focus2 = (px, py, s, ox, oy) => ({ x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), scale: s });
+      const focus2 = (px, py, s, ox, oy) => { s = Math.min(s, 1.12); py = 360;   // the whole phone (612 px) stays in frame: no cut bubbles (2026-10-17)
+        return { x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), scale: s }; };
       const cam2 = (at, dur, f, ease) => dur <= 0 ? tl2.set("#pushChat", f, at) : tl2.to("#pushChat", Object.assign({}, f, { duration: dur, ease: ease || "sine.inOut" }), at);
       const kick2 = (at, sc, rot) => tl2.fromTo("#kickChat", { scale: 1, rotation: 0 }, { keyframes: [{ scale: sc, rotation: rot, duration: .06, ease: "power3.out" }, { scale: 1, rotation: 0, duration: .55, ease: "elastic.out(1.1, .38)" }], transformOrigin: "50% 50%", immediateRender: false }, at);
       // H5: the phone flips in on "message"; "group chat" punches the header; Max types "It's eight dollars. Just get it."
