@@ -31,3 +31,8 @@ second, no rights risk. Caption: "Millions of people play a game about… doing 
 4. EP003 How to Fish Shorts (2–3, new frame-0 rule) the week EP003 publishes — the account's main push
 5. Then 3–5 / week: EP003 cut-downs + Expedition 33 trailer Short when that episode exists
 Measure per video at 48 h: average watch time, % watched to the end, shares, saves; keep what works.
+
+## Caption rule (Producer, 2026-10-17)
+- Every TikTok caption starts with "Why…" (channel identity), as a curiosity question; never mention YouTube in the
+  caption or comments (YouTube link only in the bio). Pinned comment = a question that invites stories.
+- TikTok #1 (Zelda "Veterans know"), Producer pick: "Why can't you ever play Ocarina of Time for the first time again?"
