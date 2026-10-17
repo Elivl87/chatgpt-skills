@@ -104,3 +104,24 @@ Episode time unless marked. Narration v3.3 is unchanged (approved by the Produce
 - **Sound floor (review, 0.1 s RMS, 0–66 s):** nothing below −40 dBFS except the first 0.1 s and the "So, why?" rest (−45 to −55, the very low water bed).
 - **`pacing_qc`:** all PASS (20.1 cuts/min, average shot 2.96 s, longest 17.7 s).
 - **Loudness:** master −14.2 LUFS / −1.3 dBTP. The 720p review is −14.2 LUFS / −1.4 dBTP (a safety limiter on the AAC encode), 29.2 MB, 328.4 s. Blackdetect finds only the designed F→G fade.
+
+## v3.3.2 · the redesign list (D, E, F only; A, B, C untouched)
+
+| # | Time | Block | Change |
+|---|---|---|---|
+| 1 | ≈247.5–253 s (F 8.24–13.8) | F | On "playing" the sign lifts and the four friends pop up as full figures in a row on the back of the stage floor. The row is Pixie, Max, Leo, Quest, in the order they will stand around the can. They use the same art as the can scene: `pixie_wave`, `max_cheer_34_laugh`, `leo_cheer_34_laugh`, `quest_wave`, at 0.6 scale, with their feet on the floor. They lean toward the can on "garbage". On "invited" they hop from the row into place around the can; before, they slid in from off screen. One quiet `pop` on "playing" replaces the stale `hud_off` "discs leave" cue, so the onset count is unchanged and the mix differs only at 247.46–248.91 s. |
+| 2 | 109–115 s, 158–163 s (D) | D | Both D phones are now the hook's `ChatPhone` (`<!--SRC chat.html-->`), with the hook's portrait avatars (not A/B letters), AA name colours and chrome. D2 shows the hook's thread line by line: Max "It's eight dollars. Just get it.", Pixie / Quest / Max "Bought.", Leo "I'll get it later.". In the D6 board phone, the lake shrinks into a photo bubble Quest posted at 7:12 PM. That phone has fixed row heights, so the bubble's position is computed rather than measured. Pixie asks "tonight?" on "chat.". |
+| 2 | 234–239 s (E) | E | Same skin (AA names and chrome, the hook's avatar crops, and the hook's chip style for system rows). The hook's thread sits scrolled up above "Today · 2031": Max's message, three "Bought.", Leo's "I'll get it later.". Sub-title: "Quest, Pixie, Max, Leo, Sam". `#phoneSh` is allow-duplicate (the repeated "Bought." is by design). |
+| 2 | 289–292 s (F) | F | Leo no longer opens the hero chat ("on?" is gone). The chip "Max named the group "The boat"" replaces it, followed by Max's message and Pixie's "Bought.", as in the hook. AA names and chrome are applied on `#heroPhone`. The grid minis have no faces and are unchanged. |
+| 3 | ≈109–115 s (D 3.5–9.75) | D | `#stamp799` is smaller (192×98) and lands on the "Bought." stickers (Quest's sticker and the end of Max's), never on Max's message. |
+| 4 | ≈176–181 s (E 15.8–17.9) | E | The fish wearing the "Alibi props" list ducks under the water on "gamble", while the roulette drops in and the money rolls. It pops back up after the wheel has left, for "fight bosses". It is never on screen with the wheel or the money floats. |
+
+**Gates (builder):**
+- `hyperframes lint`: D, E, F each 0 errors.
+- `frame_critic --lint` at 0.25 s, 0 errors: D 230 samples, E 304, F 219. E first flagged GHOST_TEXT on the scrolled-up hook thread, fixed with allow-duplicate.
+- `frame_critic --lint` at 1/30 s, 0 errors:
+  - D 3.0–10.5 s (225 samples)
+  - F 8.0–15.5 s (225)
+  - E 15.5–18.5 s (90)
+- SFX: one cue swapped for one (no change in density); the mix diff is confined to 247.46–248.91 s.
+- Re-rendered D, E, F only.
