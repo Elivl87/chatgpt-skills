@@ -36,3 +36,9 @@
 Browse features (Home) 91.0 %, YouTube search 7.1 %, channel pages 1.0 %, direct 0.3 %, suggested 0.3 %, other 0.3 %.
 EP001 lived on Home; EP002 at 48 h was the opposite (search 57 %, browse 43 % of 7 views) and has had only 119
 impressions, so Home has not tested it yet. Needed: EP002 long "Reach" screenshots (traffic sources, impressions per day).
+
+## EP002 long, traffic sources since publishing (Producer screenshot, 2026-10-17; ~12 views)
+YouTube search 58.3 %, browse (Home) 25.0 %, channel pages 8.3 %, suggested 8.3 %, direct 0 %.
+Home gave it at most a handful of test impressions and did not continue. Actions proposed: thumbnail v3 (big-face
+B1) + Test & Compare of the three v3 words; title B ("You'll never play Ocarina of Time for the first time again"),
+which also matches the Short #2 theme; EP001 end screen → EP002; pinned comment with the link on both EP002 Shorts.
