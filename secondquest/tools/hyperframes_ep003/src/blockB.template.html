@@ -99,7 +99,7 @@
       /* ---------------- B1b (b02): the numbers over the room out of focus (moved from the hook, script v3.3) ---------------- */
       #numsDim { background: radial-gradient(ellipse at 50% 45%, rgba(22, 22, 31, .25) 0%, rgba(22, 22, 31, .72) 100%); }
       .mk { position: absolute; background: var(--gold); border: 3px solid var(--ink); border-radius: 10px; box-shadow: 4px 5px 0 var(--ink);
-        color: var(--ink); font: 800 22px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
+        color: var(--ink); font: 800 24px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
       #hoped { position: absolute; left: 410px; top: 118px; width: 460px; height: 200px; }
       #hoped .mk { left: 0; top: 0; }
       #hoped .num { position: absolute; left: 0; top: 54px; font-size: 104px; color: #fff4dc; }
@@ -142,11 +142,11 @@
           <div class="burst" id="invBurst" style="left: 720px; top: 250px"></div>
           <div id="tag">
             <div class="string"></div>
-            <div id="flipper" data-hf-motion-blur='{"samplesPerFrame": 8}'>
+            <div id="flipper">
               <div id="tagCard"><div class="hole"></div><div class="price">$7.99</div><div id="strike"></div></div>
               <div id="env">
                 <div id="envBack"></div>
-                <div id="inv"><div class="t1">TONIGHT</div><div class="t2">YOU'RE INVITED</div><div class="bar"></div><div class="seats"><i></i><i></i><i></i><i></i></div></div>
+                <div id="inv" data-critic-allow-overlap="1"><div class="t1">TONIGHT</div><div class="t2">YOU'RE INVITED</div><div class="bar"></div><div class="seats"><i></i><i></i><i></i><i></i></div></div>
                 <svg id="pocket" viewBox="0 0 360 230"><path d="M 4 66 L 180 150 L 356 66 L 356 216 Q 356 226 346 226 L 14 226 Q 4 226 4 216 Z" fill="#f4e7c8" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/>
                   <path d="M 4 216 L 150 132 M 356 216 L 210 132" fill="none" stroke="rgba(22,22,31,.25)" stroke-width="3"/></svg>
                 <div id="flap"><svg viewBox="0 0 360 156"><path d="M 4 4 L 356 4 L 356 62 L 198 144 Q 180 154 162 144 L 4 62 Z" fill="#eedcb2" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/></svg>
@@ -160,8 +160,8 @@
         <!-- B1b (b02): "Its makers hoped... two hundred thousand... more than ten million." over the room, out of focus -->
         <div id="numsDim" class="full" style="opacity: 0"></div>
         <div id="nums" class="full">
-          <div id="hoped"><div class="mk" id="mkHoped">They hoped</div><div class="num big" id="hopedNum">0</div><div id="strike2"></div></div>
-          <div id="big"><div id="reel" class="big"></div><span id="plus" class="big">+</span></div>
+          <div id="hoped" data-critic-allow-overlap="1"><div class="mk" id="mkHoped">They hoped</div><div class="num big" id="hopedNum">0</div><div id="strike2"></div></div>
+          <div id="big" data-critic-allow-overlap="1"><div id="reel" class="big"></div><span id="plus" class="big">+</span></div>
           <div id="src">estimate · Alinea Analytics · early October</div>
           <div id="burstWrap"></div>
         </div>
@@ -181,9 +181,9 @@
           <div id="boatRig"><img class="bimg" src="assets/rowboat_side_back.png" alt="" /></div>
           <div id="avs"></div>
           <div id="boatFront"><img src="assets/rowboat_side_front.png" alt="" /></div>
-          <div id="boxes"></div>
+          <div id="boxes" data-critic-allow-duplicate="1"></div>
           <div id="pops"></div>
-          <div id="flyRig"></div>
+          <div id="flyRig" data-critic-allow-duplicate="1" data-critic-allow-overlap="1"></div>   <!-- one box: its own labels fold together in the 3D flip -->
         </div></div></div>
         <div id="whipIn" class="full" style="background: #0e0d1c; opacity: 0"></div>
       </div>
@@ -398,14 +398,14 @@
       ["P", "Q", "A", "B"].forEach((k) => {
         const g = mk("div", "gbox", $("#boxes"));
         g.innerHTML = `<div class="face"><div class="spine"></div><div class="ttl">FISH</div><img class="fsh" src="assets/fish_side.png" alt="" /></div><div class="pz">$7.99</div>`;
-        g.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+        
         boxes[k] = g;
         const p = mk("div", "pop", $("#pops")); p.style.left = SLOT[k] + "px"; p.style.top = (BOXY - 70) + "px";
         boxes[k].pop = Array.from({ length: 8 }, (_, i) => { const e = mk("i", "", p); e.style.transform = `rotate(${i * 45 + 22}deg)`; return e; });
       });
       // the flying box (the match cut): a copy of Leo's box that leaves the boat and becomes the phone
       const fly = mk("div", "gbox", $("#flyRig")); fly.innerHTML = boxes.B.innerHTML; fly.style.transformOrigin = "50% 50%"; fly.style.top = "-72px";
-      fly.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+      
       const dusts = Array.from({ length: 16 }, () => mk("div", "dust", $("#dusts"), `left:${520 + R() * 240}px; top:${60 + R() * 480}px; opacity:${.3 + R() * .5}`));
       const waves = Array.from({ length: 9 }, (_, i) => mk("div", "wv", $("#waves"), `left:${-60 + i * 160 + R() * 60}px; top:${630 + (i % 3) * 22}px; width:${70 + R() * 70}px`));
 
@@ -494,7 +494,7 @@
       tl.fromTo(hoped, { v: 0 }, { v: 200000, duration: 1.1, ease: "power3.out", immediateRender: false, onUpdate: () => { $("#hopedNum").textContent = Math.round(hoped.v / 1000) * 1000 >= 1000 ? Math.round(hoped.v).toLocaleString("en-US") : "0"; } }, T.two - .05);
       tl.set("#strike2", { scaleX: 0 }, 0);
       tl.to("#strike2", { scaleX: 1, duration: .35, ease: "power3.out" }, T.by + .12);
-      tl.to("#hoped", { scale: .62, x: -300, y: -60, opacity: .55, rotation: -4, duration: .6, ease: "power3.inOut" }, T.one - .5);
+      tl.to("#hoped", { scale: .92, x: -330, y: -70, opacity: .6, rotation: -4, duration: .6, ease: "power3.inOut" }, T.one - .5);
       tl.set("#big", { opacity: 0 }, 0);
       tl.fromTo("#big", { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2)", immediateRender: false }, T.one - .05);
       const REEL = T.ten - .05 - (T.one + .2);
@@ -566,6 +566,8 @@
       // after "copy.": the others dim, the last box leaves the boat, spins to the centre and flips into block C's phone
       // (the old match cut into the chat, now into "Now compare that...")
       ["P", "Q", "A"].forEach((k) => tl.to([avs[k].a, boxes[k]], { opacity: .35, duration: .4, ease: "sine.inOut" }, FLY - .1));
+      ["P", "Q", "A", "B"].forEach((k) => tl.to(avs[k].nm, { opacity: 0, duration: .2, ease: "power2.in" }, T.copy - .3));   // the name tags go before the boxes rain through them
+      tl.to(["P", "Q", "A"].map((k) => boxes[k]), { opacity: 0, duration: .25, ease: "power2.in" }, FLY + .15);
       tl.set(fly, { x: SLOT.B, y: BOXY - 72, opacity: 0, transformPerspective: 1400 }, 0);
       tl.set(fly, { opacity: 1 }, FLY);
       tl.set(boxes.B, { opacity: 0 }, FLY);

@@ -173,5 +173,107 @@
    "duration_s": 32.6,
    "stt_match": 1.0
   }
- ]
+ ],
+ "v33_splice": {
+  "script": "episodes/ep003/script.json (LOCKED v3.3, SCRIPT_CHANGE_PROPOSAL_02_HOOK.md)",
+  "builder": "scripts/ep003-bram-v33-splice.py",
+  "new_take": {
+   "file": "B01b_H8.mp3",
+   "line": "h08",
+   "text": "Getting a few adults into the same boat is harder than anything in the game. And yet,",
+   "higgsfield_job_id": "fd0e91ce",
+   "credits": 0.3,
+   "gain_db": -1.47
+  },
+  "pieces": [
+   {
+    "lines": [
+     "h01",
+     "h02",
+     "h03"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 0.0,
+    "at": 0.0,
+    "end": 11.21
+   },
+   {
+    "lines": [
+     "h04"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 15.05,
+    "at": 11.21,
+    "end": 12.68
+   },
+   {
+    "lines": [
+     "h05"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 49.86,
+    "at": 12.93,
+    "end": 17.12
+   },
+   {
+    "lines": [
+     "h06",
+     "h07"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 56.4,
+    "at": 17.12,
+    "end": 25.38
+   },
+   {
+    "lines": [
+     "h08"
+    ],
+    "source": "B01b_H8.mp3",
+    "src_in": 0.0,
+    "at": 25.88,
+    "end": 30.68
+   },
+   {
+    "lines": [
+     "h09",
+     "h10"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 25.92,
+    "at": 30.72,
+    "end": 40.76
+   },
+   {
+    "lines": [
+     "b01"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 35.96,
+    "at": 40.76,
+    "end": 45.6
+   },
+   {
+    "lines": [
+     "b02"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 16.52,
+    "at": 45.6,
+    "end": 54.7
+   },
+   {
+    "lines": [
+     "b03"
+    ],
+    "source": "narration_bram.wav (v3.2)",
+    "src_in": 40.8,
+    "at": 54.9,
+    "end": 61.3
+   }
+  ],
+  "stt_match_hook_plus_B": 0.9632,
+  "stt_match_hook": 0.9691,
+  "approved": "Producer, 2026-10-17 (\"El audio suena bien\")"
+ }
 }
