@@ -112,3 +112,10 @@
 - **Never fake an action the art can't do (Producer, 2026-10-14):** no gliding/bobbing a static pose to fake walking
   or running; move the camera or cut between real poses instead.
 - **Review by timestamp:** when the Producer flags an interval, fix only that interval and prove the rest is unchanged.
+- **Agent models (Producer, 2026-10-17: spread the load without losing quality):** judgment stays on the strongest
+  model, execution goes down a tier. Director (main session) and both critics (`frame-critic`,
+  `shorts-retention-critic`): Opus (or Fable when the session runs on it); they are the quality gate and never move
+  down. Builders: Opus for a new design (storyboard, key frames, first build); Sonnet for executing a written fix list,
+  renders, masters, deliveries. Haiku for mechanical work with a checkable result: running gates, frame extraction,
+  contact sheets, file moves, reading analytics screenshots into tables. A cheaper agent's output always passes the
+  same gates and critics; if a tier fails twice on a task, that task moves up a tier.
