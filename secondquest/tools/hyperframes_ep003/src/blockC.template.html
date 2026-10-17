@@ -191,8 +191,8 @@
       <div id="c1" class="full clip shot" data-start="{{T0}}" data-duration="{{l13-0.03}}" data-track-index="1">
         <div id="c1L" class="full"><div class="br full"><div class="shk full"><div class="cam" id="c1Lcam">
           <div id="confetti" class="full"></div>
-          <div id="floaters" class="full"></div>
-          <div id="c1Phone" class="full"></div>
+          <div id="floaters" class="full" data-critic-allow-duplicate="1" data-critic-allow-overlap="1"></div>   <!-- "Bought." stickers spilling out of the chat: repeats by design -->
+          <div id="c1Phone" class="full" data-critic-allow-duplicate="1" data-critic-allow-overlap="1"></div>   <!-- chat UI: rows scroll under the header -->
         </div></div></div></div>
         <div id="c1R" class="full"><div class="br full"><div class="cam" id="c1Rcam">
           <img class="img" src="assets/city_apartments.png" alt="" style="left: 0; top: 0; width: 1280px; height: 720px" />
@@ -206,7 +206,7 @@
       <div id="c2" class="full clip shot" data-start="{{l13-0.03}}" data-duration="{{l17-l13+0.03}}" data-track-index="1">
         <div class="br full"><div class="shk full"><div class="tilt full"><div class="cam" id="c2cam">
           <div id="c2glows" class="full"></div>
-          <div id="c2phones" class="full"></div>
+          <div id="c2phones" class="full" data-critic-allow-duplicate="1" data-critic-allow-overlap="1"></div>   <!-- four phones of the same group chat: same header/lines by design -->
         </div></div></div></div>
       </div>
 
@@ -508,7 +508,7 @@
         if (k === "fish") mk("div", "fishstk", e, "", '<img src="assets/fish_side.png" alt="">');
         else if (k === "★") e.innerHTML = '<svg width="70" height="70" viewBox="-20 -20 40 40"><path d="M0 -18 L5 -6 L18 -5 L8 3 L11 16 L0 9 L-11 16 L-8 3 L-18 -5 L-5 -6 Z" fill="#ffc83d" stroke="#16161f" stroke-width="2.2" stroke-linejoin="round"/></svg>';
         else mk("div", "stk", e, "font-size: 30px", k);
-        e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');
+        if (k === "fish" || k === "★") e.setAttribute("data-hf-motion-blur", '{"samplesPerFrame": 8}');   // never on readable text
         return { e, r, i }; });
       floaters.forEach(({ e, r, i }) => { const t = T.now + .1 + i * .36;
         tl.fromTo(e, { x: 290 - FLOAT[i][1], y: 330 - FLOAT[i][2], scale: 0, rotation: r - 60, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: r, duration: .5, ease: "back.out(1.6)" }, t);
@@ -890,6 +890,7 @@
       tl.to("#roomDark", { opacity: .52, duration: 2, ease: "sine.inOut" }, T.nobody2 + .4);
 
       tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
     </script>
     <!--INCLUDE motion-blur.html-->
