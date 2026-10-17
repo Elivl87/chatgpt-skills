@@ -180,8 +180,16 @@
       #slot4 { position: absolute; width: 258px; height: 232px; border: 4px dashed rgba(60, 30, 10, .65); border-radius: 6px; background: rgba(60, 30, 10, .12); }
       #slot4 .q { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 140px; color: #a31d1d; }
       #strings { position: absolute; left: 0; top: 0; width: 1280px; height: 900px; overflow: visible; }
-      #bphone { position: absolute; left: 550px; top: 480px; width: 180px; height: 320px; border-radius: 26px; background: #1c1e24; border: 3px solid var(--ink); box-shadow: 0 14px 20px rgba(20,8,0,.55); }
-      #bphone .screen { left: 7px; top: 7px; width: 160px; height: 300px; border-radius: 19px; }
+      #bphone { position: absolute; left: 550px; top: 462px; width: 180px; height: 356px; filter: drop-shadow(0 14px 14px rgba(20, 8, 0, .5)); }
+      /* the hook's chat skin (ChatPhone) on D's phones: AA chrome as in the hook (#phoneFlip) */
+      .dphone { position: absolute; }
+      .dphone .ch-phone { transform-origin: 0 0; }
+      .dphone .ch-sub { color: rgba(22, 22, 31, .74); }
+      .dphone .ch-chip { color: rgba(22, 22, 31, .78); }
+      .dphone .ch-meta { color: rgba(22, 22, 31, .66); }
+      .dphone .ch-input { color: rgba(22, 22, 31, .62); }
+      .dphone .ch-row.fixed { opacity: 1; position: relative; }
+      .dphone .ch-photo { position: absolute; border-radius: 18px; background: #16161f; border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 14px rgba(22, 22, 31, .25); }
       #newest { position: absolute; left: 676px; top: 560px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
       .pingring { position: absolute; border: 4px solid var(--gold); border-radius: 50%; }
 
@@ -301,9 +309,7 @@
       <!-- ================= D2: split screen (l22) ================= -->
       <div id="d2Clip" class="full clip" data-start="{{l22-0.05}}" data-duration="{{l23-l22}}" data-track-index="2" style="z-index: 3">
         <div id="leftPane">
-          <div class="phone" id="miniPhone" style="left: 175px; top: 128px; width: 290px; height: 540px">
-            <div class="screen" style="left: 10px; top: 10px; width: 264px; height: 514px; border-radius: 32px" id="miniScreen"></div>
-          </div>
+          <div id="miniPhone" class="dphone" style="left: 175px; top: 92px; width: 290px; height: 590px"></div>   <!-- the hook's ChatPhone, scaled (redesign 2026-10-17) -->
           <div class="stamp" id="stamp799" style="left: 214px; top: 196px; width: 270px; height: 136px; font-size: 70px; line-height: 84px; padding-top: 6px; transform: rotate(-13deg)">$7.99<div style="font: 800 20px Inter; letter-spacing: .4em; line-height: 24px">PAID</div></div>
           <div id="okStamp" class="abs" style="left: 410px; top: 420px; width: 180px; height: 180px">
             <svg viewBox="0 0 190 190" style="width: 100%; height: 100%; overflow: visible; mix-blend-mode: multiply">
@@ -401,6 +407,7 @@
       </div>
     </div>
 
+<!--SRC chat.html-->
     <script>
       /* ------------------------------------------------------------------ setup (deterministic) */
       const W = 1280, H = 720;
@@ -501,26 +508,31 @@
 
       /* ---------------- D2 mini chat (callback to block B's thread) */
       const NAMES = { Q: ["#d6392f", "Quest"], P: ["#167880", "Pixie"], A: ["#7860be", "Max"], B: ["#d69628", "Leo"] };
-      function chat(scr, k, opts) {          // k = px scale, builds a static thread; returns refs
-        const w = scr.offsetWidth || opts.w; const head = mk("div", "chead", scr, `height:${58 * k}px`);
-        "QPAB".split("").forEach((who, i) => { const a = mk("div", "av", head, `left:${(12 + i * 18) * k}px; top:${14 * k}px; width:${30 * k}px; height:${30 * k}px; background:${NAMES[who][0]}; font-size:${14 * k}px`); a.textContent = who; });
-        const t = mk("div", "ctitle", head, `left:${96 * k}px; top:${11 * k}px; font-size:${18 * k}px`); t.textContent = opts.title || "THE BOAT";
-        const s = mk("div", "csub", head, `left:${96 * k}px; top:${34 * k}px; font-size:${11 * k}px`); s.textContent = "4 members";
-        const out = {};
-        let y = 74 * k;
-        (opts.msgs || []).forEach((m) => {
-          if (m.kind === "msg") { const nm = mk("div", "who", scr, `left:${14 * k}px; top:${y}px; font-size:${11 * k}px; color:${NAMES[m.who][0]}`); nm.textContent = NAMES[m.who][1]; y += 15 * k;
-            const b = mk("div", "msg", scr, `left:${(m.who === "Q" ? 0 : 12) * k}px; top:${y}px; max-width:${190 * k}px; padding:${8 * k}px ${12 * k}px; font-size:${15 * k}px; line-height:${19 * k}px; border-radius:${16 * k}px` + (m.who === "Q" ? `; left:auto; right:${12 * k}px; background:#d6392f; color:#fff` : ""));
-            b.textContent = m.text; out[m.id || "m" + y] = b; if (m.id) out[m.id + "_n"] = nm; y += (m.h || 50) * k; }
-          else if (m.kind === "sticker") { const st = mk("div", "stk", scr, `top:${y}px; ${m.who === "Q" ? "right" : "left"}:${(m.x || 14) * k}px; background:${NAMES[m.who][0]}; font-size:${19 * k}px; padding:${4 * k}px ${12 * k}px; transform: rotate(${m.r || 0}deg); border-width:${3.5 * k}px; border-radius:${12 * k}px`);
-            st.textContent = "Bought."; out[m.id || "s" + y] = st; y += (m.h || 46) * k; }
-          else if (m.kind === "gap") { out[m.id] = { y }; y += m.h * k; }
-        });
-        return out; }
-      const mini = chat($("#miniScreen"), 1.3, { w: 264, msgs: [
-        { kind: "msg", who: "A", text: "It's eight dollars. Just get it.", h: 70 },
-        { kind: "sticker", who: "P", r: -4, id: "sP" }, { kind: "sticker", who: "Q", r: 3, id: "sQ" }, { kind: "sticker", who: "A", r: -2, x: 40, id: "sA" },
-        { kind: "msg", who: "B", text: "I'll get it later.", h: 60, id: "later" } ] });
+      // redesign 2026-10-17: D's phones use the hook's chat (ChatPhone): portrait avatars, AA name colours, the same lines
+      // by the same people (Max "It's eight dollars. Just get it.", Pixie / Quest / Max "Bought.", Leo "I'll get it later.")
+      const MEM = {
+        Q: { name: "Quest", color: "#d6392f", img: ["assets/quest_wave.png", 688, 1024, 318, 170, 300] },
+        P: { name: "Pixie", color: "#167880", img: ["assets/pixie_wave.png", 680, 1024, 320, 168, 280] },
+        A: { name: "Max", color: "#7860be", img: ["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210] },
+        B: { name: "Leo", color: "#d69628", img: ["assets/leo_front_sideeye.png", 221, 760, 110.5, 118, 210] },
+      };
+      const NAMEC = { Quest: "#a8241c", Pixie: "#0b5a60", Max: "#5a3fa6", Leo: "#7a4f00" };    // AA on the cream screen (as the hook)
+      function dPhone(host, w, h, scale, clock) {            // a static ChatPhone, scaled into host
+        const c = ChatPhone(host, { title: "The boat", sub: "Quest, Pixie, Max, Leo", clock, me: "Q", w, h,
+          members: Object.fromEntries(Object.entries(MEM).map(([k, m]) => [k, { name: m.name, color: m.color, avatar: ChatPhone.avImg(...m.img) }])) });
+        c.el.style.transform = `scale(${scale})`; return c; }
+      const stat = (r, hh) => { r.el.style.maxHeight = (hh || r.h) + "px"; if (hh) r.el.style.height = hh + "px"; r.el.style.opacity = 1; return r; };
+      const aaNames = (root) => root.querySelectorAll(".ch-name, .ch-typer").forEach((e) => { const k = e.textContent.split(" ")[0]; if (NAMEC[k]) e.style.color = NAMEC[k]; });
+      const MS = 290 / 384;                                  // D2: 290 x 590 on screen
+      const miniC = dPhone($("#miniPhone"), 384, 590 / MS, MS, "11:44");
+      const mini = {};
+      stat(miniC.system("Today 11:41 PM"));
+      mini.mA = stat(miniC.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 }));
+      mini.sP = stat(miniC.sticker("P", "Bought.", { rot: -4 })).bub;
+      mini.sQ = stat(miniC.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM" })).bub;
+      mini.sA = stat(miniC.sticker("A", "Bought.", { rot: -3 })).bub;
+      mini.later = stat(miniC.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 })).bub;
+      aaNames($("#miniPhone"));
 
       /* ---------------- D3 hand-drawn circles round the four faces (photo coords) */
       const FACES = (function () { const ph = $("#photo3").getBoundingClientRect(); const k = ph.width / 600;
@@ -554,14 +566,24 @@
         const sh = svgEl("path", { d: `M ${x0} ${y0} Q ${mx} ${my} ${x1} ${y1}`, stroke: "rgba(20,8,0,.35)", "stroke-width": 4, fill: "none", transform: "translate(3 6)" }, $("#strings"));
         const s = svgEl("path", { d: `M ${x0} ${y0} Q ${mx} ${my} ${x1} ${y1}`, stroke: "#c8262c", "stroke-width": 3.5, fill: "none", "stroke-linecap": "round" }, $("#strings")); return [s, sh]; });
       // the phone that gets pinned in the 4th slot
-      const bphone = mk("div", "", $("#board"), ""); bphone.id = "bphone";
-      const bscr = mk("div", "screen", bphone, "");
-      const bchat = chat(bscr, .6, { w: 160, msgs: [
-        { kind: "msg", who: "A", text: "It's eight dollars. Just get it.", h: 66 },
-        { kind: "sticker", who: "P", r: -4, h: 44 }, { kind: "sticker", who: "Q", r: 3, h: 44 },
-        { kind: "gap", id: "img", h: 150 },
-        { kind: "msg", who: "P", text: "tonight?", id: "tonight", h: 50 } ] });
-      const ticks = mk("div", "", bscr, `position:absolute; right:12px; top:${bchat.img.y + 82}px; font: 800 9px Inter; color:#2a8fd6`); ticks.textContent = "✓✓ 7:12 pm";
+      const bphone = mk("div", "dphone", $("#board"), ""); bphone.id = "bphone";
+      // D6: 180 x 356 on the board. Rows have fixed heights so the photo bubble's place is arithmetic (no measuring):
+      // the list is bottom-anchored; bottom-up: "tonight?" (TH), the photo row (GH), then Pixie's "Bought.", Max's message
+      const BS = 180 / 384, BH = 356 / BS, TH = 112, GH = 176, PW = 236, PHH = PW * 9 / 16;
+      const bC = dPhone(bphone, 384, BH, BS, "7:12");
+      const bchat = {};
+      stat(bC.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 }));
+      stat(bC.sticker("P", "Bought.", { rot: -4 }));
+      const gRow = { el: mk("div", "ch-row out fixed", bC.list, "") }; stat(gRow, GH);
+      const photoX = (384 - 30 - 24) - 4 - PW, photoY = 8;                                    // in the row (row = screen - list padding 2 x 12; right padding 4)
+      mk("div", "ch-photo", gRow.el, `left:${photoX}px; top:${photoY}px; width:${PW}px; height:${PHH}px`);
+      const ticks = mk("div", "ch-meta", gRow.el, `position:absolute; right:${12 + 4}px; top:${photoY + PHH + 10}px`); ticks.innerHTML = '7:12 PM<span class="ch-tick" style="color:#d99a00">✓✓</span>';
+      const tR = bC.msg("P", "tonight?", { time: "7:13 PM", lines: 1 }); stat(tR, TH);
+      bchat.tonight = tR.bub; bchat.tonight_n = tR.bub.querySelector(".ch-name");
+      aaNames(bphone);
+      // the photo's top-left in the phone (unscaled px): screen inset 15; the list bottom = BH - 30 - 66 - 6 (padding)
+      const gTop = 15 + (BH - 30 - 66 - 6) - TH - GH;
+      bchat.img = { x: 15 + 12 + photoX, y: gTop + photoY, w: PW };
       const bpin = mk("div", "pin", bphone, "left: 75px; top: -10px");
       const newest = mk("div", "", $("#board"), ""); newest.id = "newest"; newest.textContent = "NEWEST";
       const pings = [0, 1, 2].map(() => mk("div", "pingring", $("#board"), "left: 700px; top: 500px; width: 60px; height: 60px; opacity: 0"));
@@ -1043,7 +1065,7 @@
       cam(T.it - .05, 1.2, focus(580, 440, 1.3), "sine.out");
       tl.fromTo(C4.map((m) => m.querySelector(".pop")), { y: 30 }, { y: 0, duration: .3, stagger: .04, ease: "back.out(2)" }, T.it - .05);
       // ... "fits": the whole lake shrinks into the chat's photo bubble (scale match onto the phone screen)
-      const ix = (550 + 7 + 14 * .6), iy = (480 + 7 + bchat.img.y), iw = 160 - 28 * .6;      // the gap in the thread (board px)
+      const ix = 550 + BS * bchat.img.x, iy = 462 + BS * bchat.img.y, iw = BS * bchat.img.w;      // the photo bubble in the thread (board px)
       const fx = (ix - PHX) * PH + W / 2, fy = (iy - PHY) * PH + H / 2, k = (iw * PH) / W;
       tl.to("#world", { x: fx, y: fy, scale: k, clipPath: `inset(0px 0px 0px 0px round ${16 / k}px)`, duration: .55, ease: "power3.inOut" }, T.fits - .02);
       tl.to("#worldRing", { opacity: 1, duration: .3 }, T.fits + .2);

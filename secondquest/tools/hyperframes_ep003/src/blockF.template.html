@@ -733,6 +733,10 @@
         Object.assign(FR[k].el.style, { left: (cx - ww / 2) + "px", top: (586 - hh) + "px", width: ww + "px", height: hh + "px" });
         FR[k].el.innerHTML = `<img src="assets/${who}_cheer_34_laugh.png" alt="" />`; });
       FR.P.el.innerHTML = '<img src="assets/pixie_wave.png" alt="" />'; FR.Q.el.innerHTML = '<img src="assets/quest_wave.png" alt="" />';
+      // the row on "playing": bottom-centre of each figure -> (cx, LINE_BASE) at LINE_S (smaller = further back on the floor)
+      const LINE_S = .6, LINE_BASE = 574, LINE_X = { P: 286, A: 430, B: 574, Q: 716 };
+      const LINEUP = {}; Object.keys(FR).forEach((k) => { const e = FR[k].el, l = parseFloat(e.style.left), t = parseFloat(e.style.top), w = parseFloat(e.style.width), h = parseFloat(e.style.height);
+        LINEUP[k] = { x: LINE_X[k] - (l + w / 2), y: LINE_BASE - (t + h) }; });
 
       /* ---------------- F3 rigs ---------------- */
       const MONTHS = ["JUNE", "JULY", "AUGUST"];
@@ -890,6 +894,16 @@
       // "built for playing with friends": the camera eases back, four friend discs pop under the tag
       cam("#pushStage", T.built - .1, 1.3, focus(560, 370, 1.02), "power2.inOut");
       avDiscs.forEach((a, i) => { tl.set(a, { scale: 0 }, 0); ft(a, { scale: 0, y: 30 }, { scale: 1, y: 0, duration: .4, ease: "back.out(2.6)" }, T.playing + i * .17); });
+      // redesign 2026-10-17: on "playing" the sign lifts and the four friends pop up full figure in a row on the back of the
+      // stage floor (P, Max, Leo, Q = the order they will squeeze around the can on "invited"); no portrait discs
+      tl.to("#tagF", { y: -112, duration: .38, ease: "back.out(1.6)" }, T.playing - .12);
+      [["P", 0], ["A", .12], ["B", .24], ["Q", .36]].forEach(([k, d]) => { const f = FR[k], L = LINEUP[k];
+        tl.set(f.el, { x: L.x, y: L.y + 40, scale: LINE_S, scaleY: LINE_S * .7, opacity: 0, transformOrigin: "50% 100%" }, 0);
+        tl.set(f.el, { opacity: 1 }, T.playing + d);
+        tl.to(f.el, { y: L.y, scaleY: LINE_S, duration: .34, ease: "back.out(2.4)" }, T.playing + d);
+        // they turn to watch the can on "garbage" (a small lean toward it)
+        tl.to(f.el, { rotation: 4, duration: .3, ease: "power2.out" }, T.garbage - .1 + d * .3);
+      });
 
       // ================= F2 (l37): garbage -> the lid flips off, the fish rises, the four squeeze in, the hat =================
       cam("#pushStage", T.genre - .3, T.garbage - T.genre + .1, focus(905, 405, 1.24), "sine.inOut");
@@ -910,9 +924,10 @@
       // "invited": the tag leaves, the four slide in and squeeze around the can (the hook's crammed boat)
       tl.to("#tagF", { y: -640, duration: .45, ease: "power3.in" }, T.invited - .3);
       cam("#pushStage", T.invited - .15, .7, focus(905, 410, .95), "power3.inOut");
-      [["A", 0], ["B", .06], ["P", .1], ["Q", .16]].forEach(([k, d]) => { const f = FR[k];
-        tl.set(f.el, { x: f.dir * 1500, opacity: 0 }, 0); tl.set(f.el, { opacity: 1 }, T.invited - .05);
-        tl.to(f.el, { x: 0, duration: .5, ease: "back.out(1.4)" }, T.invited + d);
+      // they hop from the row into place around the can
+      [["A", 0], ["B", .06], ["P", .1], ["Q", .16]].forEach(([k, d]) => { const f = FR[k], L = LINEUP[k];
+        tl.to(f.el, { x: 0, scale: 1, duration: .5, ease: "back.out(1.4)" }, T.invited + d);
+        tl.to(f.el, { keyframes: [{ y: Math.min(L.y, 0) - 70, duration: .22, ease: "power2.out" }, { y: 0, duration: .28, ease: "power2.in" }] }, T.invited + d);
         ft(f.el, { rotation: f.dir * 14 }, { rotation: 0, duration: .8, ease: "elastic.out(1, .45)", transformOrigin: "50% 100%" }, T.invited + d + .1); });
       // "friends": squeeze! everyone shoves in, the can wobbles, the fish's eyes go wide
       [["A", 22], ["B", -22], ["P", 30], ["Q", -30]].forEach(([k, dx]) => tl.to(FR[k].el, { keyframes: [{ x: dx, scaleX: .93, duration: .12, ease: "power2.out" }, { x: dx * .6, scaleX: 1, duration: .6, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 100%" }, T.friends2 + .05));
