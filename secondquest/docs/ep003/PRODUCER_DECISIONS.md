@@ -117,3 +117,10 @@
   outside the hull). QC miss. Fix: all four inside the hull (in-boat layers), plus a sweep of every boat shot; free
   polish (lip-flap, livelier G wide shot) in the same pass. QC rule added: boat shots are checked every 0.5 s for
   anyone outside the hull.
+
+## 2026-10-17 · SCRIPT CHANGE PROPOSAL 02 (hook) APPROVED
+- Producer order "Hook Revision Approval — APPROVED WITH LOCKS" + "Vale, sigamos con el cambio": proposal
+  `SCRIPT_CHANGE_PROPOSAL_02_HOOK.md` approved → script B LOCKED v3.3 (hook H1–H10, block B reorder; l12→end unchanged).
+- Locks: "So, why?" stays; final line "How to say 'I miss you'… without ever having to say it." stays; internal thesis
+  "Fishing is the excuse. Friendship is the point." is NOT narrated. Bram re-record only H8; credit hard cap 2.5;
+  reuse first, no new art.
