@@ -12,12 +12,14 @@ HEAD at review time 928b5ad (adds only `CRITIC_FINAL_retention.md`).
   `CRITIC_v33_NOTES.md` ("v3.3.3 · retention critic FIX … and design critic C–G").
 
 ```
-VERDICT: FIX   (not PASS: 2 claimed fixes did not land, 1 fix regressed onto a face, 1 new HUD-over-faces, all in D–E)
+VERDICT: FIX   (not PASS: 2 claimed fixes did not land, 1 regressed onto a face, 1 new HUD-over-faces,
+                1 automated error in G)
 1 Hierarchy ........ PASS  - one focal point per beat; CLUTTER warnings are the chat phones (designed)
 2 Overlaps ......... FIX   - 138.3-139.0 JOB badge covers Quest's face (D-3 regression); 110.1-115.8 $7.99 PAID
                              still on Max's "Bought." + 11:43 (D-2 not fixed); 208.45-209.25 FAIL x3 panel covers
                              Pixie's, Max's and Leo's heads in the line-up (new); 213.0-215.3 hearts pill on Quest's
-                             head (E-3 not fixed); 233.0-234.5 "2026->2031" rolls over the "$0" polaroid (E-4 half)
+                             head (E-3 not fixed); 233.0-234.5 "2026->2031" rolls over the "$0" polaroid (E-4 half);
+                             311.40-311.70 orphan TUTORIAL chip (check G text_occluded error)
 3 Safe/legibility .. PASS  - warnings only (phone chrome, PAID 20 px, "How to meet" 13 px on the shrunken phone)
 4 Characters ....... FIX   - everyone inside the hull in every boat shot; but half out of frame: Pixie 213.0-215.3
                              (eye shot) and 270.0-272.2 (F push); 127.6-127.85 the "..." bubble drops across Quest's face
@@ -28,7 +30,8 @@ VERDICT: FIX   (not PASS: 2 claimed fixes did not land, 1 fix regressed onto a f
                      crossfade no repeat (G fish dives); unmotivated light no repeat; letter avatars no repeat (G);
                      text/HUD over faces REPEATS (138.3, 208.45, 213.0); person half out of frame REPEATS (213, 270)
 Automated: lint 0 err (7 blocks); frame_critic 0.25 s 0 err (all 7 blocks, 1,286 samples); 1/30 s 18 windows D-G
-           0 err (726 samples); sfx_audit 0 err / 3 warn; check: __CHECK_SUMMARY__
+           0 err (726 samples); sfx_audit 0 err / 3 warn; check G 1 err (text_occluded #tut, local 17.61 = 311.51);
+           check D, E, F stopped at the 20-min cap (no result, "Target closed")
 Top fix: unhook the JOB badge from Quest's face and move the FAIL x3 card + hearts pill off the crew (D/E), then
          put the $7.99 PAID mark where the notes say it is (empty phone background).
 ```
@@ -79,6 +82,7 @@ frames for each finding below.
 | N-3 | 213.0–215.3 | (= E-3) hearts pill on Quest's head; Pixie half out of frame. | Frame the crew lower/right (full Pixie, heads below the pill) or drop the hearts for the eye close-up. | yes |
 | N-4 | 270.0–272.2 | End of the F out/across move: Pixie cut by the left edge through her face (playbook: "a person half out of frame"). | End the move ~60 px further right, or let her exit fully. | no (FIX) |
 | N-5 | 159.70–159.73 | NEWEST lands as a large 40 % ghost over the phone's rows for 2 frames, then settles on Max's 11:42 timestamp and past the phone edge (161.5 full size). | Enter opaque from the scale it lands at; nudge it 30 px right/down off the timestamp. | no (minor) |
+| N-7 | 311.40–311.70 | (gate: `hyperframes check` G error `text_occluded #tut`.) After HOW TO FISH has exited, the yellow TUTORIAL chip stays alone in the sky for ~0.3 s (311.52 full size), then the dim veil for the Message… field covers it. An orphan pasted box, and an automated error. The source exits `#tut` with the title at `Q.l49 − .02` (index.html l.743), so a later tween is bringing it back or holding it. | Make `#tut` leave with HOW TO (opacity 0 by 311.40) and stay at 0. | yes (automated error) |
 | N-6 | 181.1–182.3 | The boss "???" bar touches the tops of Pixie's and Quest's heads during the bounce. | Bar 20 px higher or boat 20 px lower. | no (minor) |
 
 Minor, noted (no action required): 116.0 caption change "aug. · the lake" → "the lake · that summer" (kept);
@@ -125,7 +129,7 @@ that matter, the F "every screen pings" (292.3) could ride the bed.
 | `frame_critic --step 0.25 --lint` | 0 errors on all 7 blocks: hook 164 samples (14 warn), B 84 (9), C 177 (89), D 230 (65), E 304 (49), F 219 (46), G 138 (17). Warnings reviewed: CLUTTER = chat phones; TEXT_OVER_CHARACTER hits are bounding-box only (F "2" is the clock reel strip, G hits are on the blurred backdrop) |
 | `frame_critic --step 1/30` around changed titles D–G | 0 errors in 18 windows (726 samples): D local 0–1.2, 3.8–5.0, 6.6–8.0, 31.9–33.2, 51.8–52.6, 53.3–54.3; E 1.5–3.0, 19.9–21.0, 38.8–40.4, 44.9–46.2, 69.4–71.6; F 26.3–27.6, 36.3–37.6, 45.6–46.8; G 0–1.5, 4.2–5.4, 17.0–18.4, 23.7–24.7 |
 | `sfx_audit` whole mix | 0 errors, 3 warnings (above) |
-| `hyperframes check --at-transitions` (D, E, F, G only) | __CHECK_TABLE__ |
+| `hyperframes check --json --at-transitions` (D, E, F, G only) | **D, E, F: stopped at the 20-minute cap** (11:14–11:34, 11:34–11:54, 11:54–12:14; each JSON reports only `check_runtime_failure: Target closed` from the kill, layout/contrast never sampled). Not a pass and not a fail: no result. **G (5 min): 1 error**, `text_occluded #tut` at local 17.61 (= 311.51): see N-7. 72 layout warnings (container_overflow / escaped_container on the crew, fish and reflection rigs: known rig structure), contrast 7/7 pass, runtime 0 err (5 GL/console warnings). |
 
 **Gate blind spots (why 0 errors coexist with the findings):** D-2 and D-3 are silenced by declared overlaps
 (`#stamp799`, `#badge` carry `data-critic-allow-overlap` since v3.3.1, when the stamp was meant to be on the
@@ -151,13 +155,14 @@ second.
 3. **208.45–209.25** (E local 45.2–46.0): FAIL ×3 card off the suspects' heads during the line-up.
 4. **213.0–215.3** (E local 49.7–52.0): hearts pill off Quest's head; Pixie fully in frame (or fully out).
 5. **233.0–234.5** (E local 69.7–71.2): run the 2026→2031 roll where it holds (right of the phone) or above the polaroids, not on "$0".
-6. FIX, not blocking: 127.6–127.85 bubble across Quest's face; 270.0–272.2 Pixie cut by the frame edge; 139.0 whip → cut (blur budget); 159.70 NEWEST ghost entrance and timestamp overlap; 181.1–182.3 boss bar on heads.
+6. **311.40–311.70** (G local 17.5–17.8): the TUTORIAL chip leaves with HOW TO (clears the `hyperframes check` G error).
+7. FIX, not blocking: 127.6–127.85 bubble across Quest's face; 270.0–272.2 Pixie cut by the frame edge; 139.0 whip → cut (blur budget); 159.70 NEWEST ghost entrance and timestamp overlap; 181.1–182.3 boss bar on heads.
 
-PASS once 1–5 are fixed and re-verified at 1/30 s; 6 can ride along.
+PASS once 1–6 are fixed and re-verified at 1/30 s (and `hyperframes check` G re-run); 7 can ride along. `hyperframes check` on D, E, F could not complete in 20 min on this machine: re-run them on a faster runner or accept frame_critic + eyes as the layout gate for those blocks.
 
 ## Evidence
 Scratch (not committed), `/tmp/claude-0/-home-user-chatgpt-skills/0e21dcc3-ac09-565e-92e0-ea987a4a43f9/scratchpad/critic_final/`:
-`sh/s_01..55.jpg` (2 fps sheets, sheet n starts at 6(n−1) s), `ev/f_<t>.jpg` full-size frames (110.5, 113.0, 127.75,
+`sh/s_01..55.jpg` (2 fps sheets, sheet n starts at 6(n−1) s), `ev/f_<t>.jpg` full-size frames (110.5, 113.0, 127.75, 311.52,
 137.3, 138.5, 161.5, 181.5, 202.8, 208.6, 213.1, 213.6, 234.1, 263.4, 270.55, 272.0, 305.33, 325.6), `ev/w_<t>_n.jpg`
 window sheets (106.2, 112.9, 127.2, 137.7, 138.9, 157.8, 159.3, 180.6, 207.3, 208.2, 212.7, 232.8, 253.8, 258.6,
 267.6, 304.3, 310.9), `fc025_<block>/critic.md`, `fc30/<B>_<t0>/critic.md`, `check_<B>.json`, `lint_<block>.json`,
