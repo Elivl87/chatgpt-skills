@@ -564,13 +564,13 @@ def cues():
     for k, x in (('l36.w18', 470), ('l36.w19', 690), ('l36.w20', 930)):   # three stickers slap on
         a(T(k) + .02, 'squish', -18, P(x - 200)); a(T(k) + .04, 'paper2', -28, P(x - 200))
     # (v3.3.1: the four friend discs under the tag are gone, and their pops with them)
-    a(T('l37.w1'), 'hud_off', -30)                                    # the discs leave
+    a(T('l36.w24') - .02, 'pop', -26, -.2)                            # "playing": the four pop up full figure in a row (redesign 2026-10-17)
     gb = T('l37.w10')
     a(gb, 'tin', -17, .4); a(gb + .02, 'whoosh', -26, .45)            # "garbage": the lid flips off
     a(gb + .98, 'tin', -20, .55); a(gb + 1.08, 'tin', -28, .55)       # ...lands, bounces
     a(gb + .35, 'slime', -28, .4)                                     # the fish rises out of the can
     a(T('l37.w13') - .3, 'whoosh', -28)                               # the tag leaves
-    for k, d in (('A', 0), ('B', .06), ('P', .1), ('Q', .16)):        # the four slide in
+    for k, d in (('A', 0), ('B', .06), ('P', .1), ('Q', .16)):        # the four hop from the row to the can
         a(T('l37.w13') + d, 'whoosh', -28, {'A': -.4, 'B': .4, 'P': -.5, 'Q': .5}[k])
     a(T('l37.w15'), 'squish', -20, .4); a(T('l37.w15') + .02, 'cloth', -20, .4); a(T('l37.w15') + .1, 'tin', -30, .4)   # squeeze!
     a(T('l37.w17') + .09, 'tin', -22, .4); a(T('l37.w17') + .1, 'pop', -30, .4)   # the lid lands on the fish like a hat

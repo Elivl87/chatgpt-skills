@@ -189,7 +189,7 @@
       .dphone .ch-meta { color: rgba(22, 22, 31, .66); }
       .dphone .ch-input { color: rgba(22, 22, 31, .62); }
       .dphone .ch-row.fixed { opacity: 1; position: relative; }
-      .dphone .ch-photo { position: absolute; border-radius: 18px; background: #16161f; border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 14px rgba(22, 22, 31, .25); }
+      .dphone .ch-photo { position: absolute; border-radius: 18px; background: #cfc6b4; border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 14px rgba(22, 22, 31, .25); }
       #newest { position: absolute; left: 676px; top: 560px; padding: 4px 12px 3px; font: 400 30px "Anton"; letter-spacing: .06em; color: var(--ink); background: var(--gold); border: 3px solid var(--ink); border-radius: 8px; box-shadow: 3px 4px 0 var(--ink); }
       .pingring { position: absolute; border: 4px solid var(--gold); border-radius: 50%; }
 
@@ -310,7 +310,7 @@
       <div id="d2Clip" class="full clip" data-start="3.4" data-duration="6.77" data-track-index="2" style="z-index: 3">
         <div id="leftPane">
           <div id="miniPhone" class="dphone" style="left: 175px; top: 92px; width: 290px; height: 590px"></div>   <!-- the hook's ChatPhone, scaled (redesign 2026-10-17) -->
-          <div class="stamp" id="stamp799" style="left: 214px; top: 196px; width: 270px; height: 136px; font-size: 70px; line-height: 84px; padding-top: 6px; transform: rotate(-13deg)">$7.99<div style="font: 800 20px Inter; letter-spacing: .4em; line-height: 24px">PAID</div></div>
+          <div class="stamp" id="stamp799" style="left: 296px; top: 420px; width: 192px; height: 98px; font-size: 50px; line-height: 60px; padding-top: 4px; border-width: 5px; transform: rotate(-13deg)">$7.99<div style="font: 800 15px Inter; letter-spacing: .4em; line-height: 18px">PAID</div></div>   <!-- redesign 2026-10-17: lands on the "Bought." stickers, never on Max's message -->
           <div id="okStamp" class="abs" style="left: 410px; top: 420px; width: 180px; height: 180px">
             <svg viewBox="0 0 190 190" style="width: 100%; height: 100%; overflow: visible; mix-blend-mode: multiply">
               <circle cx="95" cy="95" r="84" fill="rgba(46, 160, 90, .12)" stroke="#2c9a55" stroke-width="9"/>
@@ -937,7 +937,7 @@
       mk("div", "ch-photo", gRow.el, `left:${photoX}px; top:${photoY}px; width:${PW}px; height:${PHH}px`);
       const ticks = mk("div", "ch-meta", gRow.el, `position:absolute; right:${12 + 4}px; top:${photoY + PHH + 10}px`); ticks.innerHTML = '7:12 PM<span class="ch-tick" style="color:#d99a00">✓✓</span>';
       const tR = bC.msg("P", "tonight?", { time: "7:13 PM", lines: 1 }); stat(tR, TH);
-      bchat.tonight = tR.bub; bchat.tonight_n = tR.bub.querySelector(".ch-name");
+      bchat.tonight = tR.bub; bchat.tonight_n = tR.el.querySelector(".ch-av");          // Pixie's avatar shows with her message
       aaNames(bphone);
       // the photo's top-left in the phone (unscaled px): screen inset 15; the list bottom = BH - 30 - 66 - 6 (padding)
       const gTop = 15 + (BH - 30 - 66 - 6) - TH - GH;
@@ -1449,7 +1449,8 @@
       FRS.forEach((f, i) => f.blinks(tl, 0, 57.3, 11 + i * 7));   // idle blinks on the friends
       // v3.3.1 critic sweep: deliberate overlaps declared - chat phones (UI rows under the header, the repeated "Bought."
       // stickers), the $7.99 PAID stamp on the message it pays, the "JOB: silence" badge and "ALIBIS" header type, NEWEST
-      document.querySelectorAll(".phone").forEach((e) => { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); });
+      document.querySelectorAll(".dphone .ch-av, .dphone .ch-input").forEach((e) => e.setAttribute("data-critic-ignore", "1"));   // chat UI avatars (as the hook)
+      document.querySelectorAll(".phone, .dphone").forEach((e) => { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); });
       ["#stamp799", "#badge", "#hdr", "#newest", "#bphone", "#slot4"].forEach((q) => { const e = document.querySelector(q); if (e) { e.setAttribute("data-critic-allow-overlap", "1"); e.setAttribute("data-critic-allow-duplicate", "1"); } });
       window.__timelines = window.__timelines || {};   // (the frame critic's seek harness has no registry)
       window.__timelines["main"] = tl;
