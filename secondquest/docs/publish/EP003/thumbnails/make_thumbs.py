@@ -68,9 +68,9 @@ def compose(variant):
     c = background()
     waterline = 330 + 0
     boat_back, boat_front = img(P3 / 'rowboat_side_back.png'), img(P3 / 'rowboat_side_front.png')
-    bw = 1020
+    bw = 1230                                                  # longer hull: Pixie has her own seat inside it
     bb, bf = scaled(boat_back, width=bw), scaled(boat_front, width=bw)
-    bx, by = -170, 498
+    bx, by = -175, 476
     # shadow/reflection of the boat on the water
     refl = ImageChops.offset(bb.transpose(Image.FLIP_TOP_BOTTOM), 0, 0)
     refl.putalpha(refl.split()[3].point(lambda v: int(v * .22)))
@@ -83,8 +83,8 @@ def compose(variant):
     qs = scaled(q, height=qh)
     qx, qy = (-91, 58) if variant == 'A' else (-120, 58)
     paste(crew, qs, qx, qy)
-    p = scaled(img(PIXIE), height=850)
-    px, py = 470, 322
+    p = scaled(img(PIXIE), height=900)
+    px, py = 540, 262                                          # her own seat, clear of Quest's arm (Producer, 2026-10-17)
     paste(crew, p, px, py)
     clip = by + int(bb.height * 0.66)
     crew.paste((0, 0, 0, 0), (0, clip, W, H))
@@ -92,8 +92,8 @@ def compose(variant):
     paste(c, bf, bx, by)
     # hull highlight line stays as drawn; the fish: our v2 deadpan, flipped to face the camera/Quest
     fish = img(P3 / 'fish2_34_deadpan.png').transpose(Image.FLIP_LEFT_RIGHT)
-    fs = scaled(fish, width=320)
-    paste(c, fs, 925, 455, shadow=6)
+    fs = scaled(fish, width=270)
+    paste(c, fs, 1005, 500, shadow=6)
     # words
     if variant == 'A':
         outlined(c, 'NOT', (1245, 14), 136, (255, 255, 255), anchor='ra')
