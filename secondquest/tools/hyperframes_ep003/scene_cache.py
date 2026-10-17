@@ -4,6 +4,8 @@
   python3 scene_cache.py G                 # review quality (1280x720, 30 fps): the critics' pass
   QUALITY=draft python3 scene_cache.py G   # draft: 854x480, 15 fps, for iteration rounds
   python3 scene_cache.py G --dry           # only report which scenes would re-render
+  python3 scene_cache.py C --seed old.mp4  # fill the cache from an existing finished render of THIS state (no render),
+                                           # so the next run after an edit renders only the scenes that changed
 
 1. stage + build the block (as render_block.sh);
 2. fingerprint every frame (scene_fp.cjs: the real runtime seeks each frame time and hashes everything that decides its
@@ -151,6 +153,16 @@ def main():
     for f0, f1, p in plan:
         print(f'  {f0 / fps:7.2f}-{f1 / fps:7.2f} s  {"RENDER" if not p.exists() else "cached"}  {p.name}')
     if dry:
+        return
+    if '--seed' in sys.argv:                                # cut the scenes out of a finished render of this same state
+        seed = sys.argv[sys.argv.index('--seed') + 1]
+        for f0, f1, p in todo:
+            sh(FF, '-y', '-v', 'error', '-i', seed, '-vf', f'select=between(n\\,{f0}\\,{f1 - 1}),setpts=N/{fps}/TB', '-fps_mode', 'cfr', '-r', str(fps), '-frames:v', str(f1 - f0), '-an',
+               '-c:v', 'libx264', '-crf', '12', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', str(p))
+            got = frames_of(p)
+            if got != f1 - f0:
+                p.unlink(); raise SystemExit(f'seed {f0}-{f1}: {got} frames, expected {f1 - f0}')
+        print(f'seeded {len(todo)} scenes from {seed}')
         return
     for f0, f1, p in todo:
         t1 = time.time()
