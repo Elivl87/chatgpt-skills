@@ -191,7 +191,7 @@ And the son... the painted version of him, the one who walks beside you, is the 
 
 There's even an older sister, Clea. She takes her father's side. And to help him, she makes the creatures that roam the painting.
 
-Which means every monster you've fought for thirty hours... was a daughter trying to help her dad.
+Which means most of the monsters you've fought for thirty hours... was a daughter trying to help her dad.
 
 Holding on. Tearing down. Staying. Ending it. Taking a side.
 

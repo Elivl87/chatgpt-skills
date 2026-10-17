@@ -154,6 +154,46 @@ Lienzo*) and "Curator" (likely *el Curador*): **UNVERIFIED**, so the ES review s
 | Grief / death subject | Low | Not graphic. Advertiser-friendly: no gore; the Gommage is shown as petals |
 | Made for kids | Block M9 | "Not made for kids" |
 
+## 7b. Faithful art and official music (Producer, 2026-10-17: "quiero que sea especial y recordarlo para siempre"; monetization not a concern for this episode)
+
+**Official creator, video and streaming policy (Sandfall Interactive / Kepler Interactive)**
+
+| # | Finding | Status | Source |
+|---|---|---|---|
+| 7b.1 | **No public content-creator, video or streaming policy found** from Sandfall or Kepler. Kepler's site lists only a privacy policy and a cookie policy. No terms page for fan content was found on expedition33.com | VERIFIED (absence, as of 2026-10-17) | kepler-interactive.com (fetched); searches on expedition33.com |
+| 7b.2 | A third-party overlay maker says it worked with Sandfall/Kepler and mentions an "Expedition 33 Creator Program" for streamers; its terms were not visible (page rate-limited) | UNVERIFIED | getrektlabs.com/blogs/news/clair-obscur-expedition-33-free-stream-overlays |
+| 7b.3 | At the anniversary, the studio publicly thanked people who "played, created art, shared, streamed" the game. A thank-you, **not a licence** | VERIFIED (secondary) | Push Square, Apr 2026 |
+| 7b.4 | Sandfall's lawyers acted against a comic titled *Académie Clair-Obscur* (Mar 2026), so the studio enforces its name/IP when it sees commercial confusion | VERIFIED (secondary) | ixbt.games (see §7) |
+| 7b.5 | A streamer mode (music toggle) in the game | UNVERIFIED (none found) | — |
+
+**Soundtrack**
+
+| # | Finding | Status | Source |
+|---|---|---|---|
+| 7b.6 | Composer **Lorien Testard** (principal). Lead vocalist and vocal co-composer **Alice Duport-Percier**. Guests Victor Borba and Axelle Verner; Ben Starr sings on "Until Next Life" | VERIFIED (secondary) | Wikipedia "Music of Clair Obscur: Expedition 33" |
+| 7b.7 | OST released digitally **24 Apr 2025** (154 tracks). *Nos vies en Lumière* bonus album (24 Jul 2025). *Verso's Drafts* EP (12 Dec 2025). On Spotify, Apple Music, YouTube Music and Steam | VERIFIED (secondary) | Wikipedia; RPG Site (17289, 19178) |
+| 7b.8 | **Laced Records** is the label for the physical vinyl/CD (box sets shipped Feb 2026) and is listed as the label on Wikipedia. The **digital distributor** is not confirmed | VERIFIED (physical) / UNVERIFIED (digital) | Wikipedia; materia.store; spindizzyrecords |
+| 7b.9 | 617M+ streams by 24 Apr 2026; No. 1 on Billboard Classical and Classical Crossover for six weeks; concert tour "A Painted Symphony" | VERIFIED (secondary) | Wikipedia "Music of…" |
+| 7b.10 | Key cues: "Lumière", "Alicia" (main menu theme), "Gustave", "Une vie à t'aimer", "Une vie à peindre", "Paintress", "We Lost" | VERIFIED (secondary) | Wikipedia "Music of…". **Which track plays at each ending is UNVERIFIED.** "Une vie à peindre" ↔ Maelle's ending ("A Life to Paint") and "Une vie à t'aimer" ↔ Verso's ending ("A Life to Love") match by title only; recheck before use |
+| 7b.11 | **YouTube Content ID rule:** "Original Video Game Soundtracks are only valid references when owned by the video game's publisher… only valid when delivered under the video game publisher's content owner." So any Content ID claim on this OST would come through the publisher's (Kepler's/Sandfall's) content owner, not a random label. Gameplay footage by others is not eligible as a reference | VERIFIED | YouTube Help 2605065 |
+| 7b.12 | Whether Kepler/Sandfall have actually enrolled the OST in Content ID, and any **known claims or blocks** on fan videos using it | UNVERIFIED (nothing found either way) | Searches returned no reports |
+| 7b.13 | **No licensing route for the OST was found** (no sync-licensing page, no creator-safe music pack). The only official releases are retail/streaming, which grant **no** right to reuse in a video | VERIFIED (absence) | Searches; label and publisher sites |
+| 7b.14 | YouTube "Checks" runs a copyright scan at upload, before a visibility choice; a private upload lets you see claims before publishing. A clean check does not prevent later manual claims | VERIFIED (secondary) | XDA, Plagiarism Today, OTTVerse |
+
+**What this means (for the Producer's decision; the coordinator is doing the risk check)**
+- **Music:** the realistic outcomes of using official cues are a Content ID claim (ads go to the rights holder, which
+  doesn't matter here), a **mute or territorial block** if the owner chose "block", or rarely a manual takedown
+  (strike). Short excerpts under commentary are the common fan-video practice, but **fair use is not guaranteed**.
+  Safest faithful route: **write to Sandfall/Kepler for written permission** (a personal, non-monetized tribute is a
+  sympathetic ask), then upload **private first** and read Checks before going public.
+- **Art:** "faithful" art of the characters (Gustave, Maelle, Verso, the Paintress) is the high-risk category in
+  `MONETIZATION_SAFETY_STANDARD.md` §3–4 (it concerns the whole channel, not only this video's monetization: "visuals
+  matching third-party content may contribute to monetization suspension on all your related accounts"). Middle
+  route: faithful **places, palette, objects and silhouettes** (the Monolith, Lumière's lamps, petals, the expedition
+  coat, the hull motto) at full fidelity, with characters evoked rather than replicated.
+- **Every script works with no official cue and no faithful art**: each package marks its 3–5 "faithful moments"
+  separately from the narration.
+
 ## 8. Sources (opened or returned on 2026-10-17)
 
 - RPG Site, 8M copies (Apr 2026): https://www.rpgsite.net/news/20224-clair-obscur-expedition-33-sales-numbers-april-2026-8-million-copies-sold
@@ -183,4 +223,10 @@ Lienzo*) and "Curator" (likely *el Curador*): **UNVERIFIED**, so the ES review s
 - Know Your Meme: https://knowyourmeme.com/memes/clair-obscur-expedition-33
 - ixbt, comic letter: https://ixbt.games/en/news/2026/03/07/381309-razrabotciki-clair-obscur-expedition-33-podverglis-kritike-posle-pretenzii-k-avtoru-komiksa-iakoby-nazivaiushhemusia-na-uspexe-igry.amp.html
 - gamewave.fr, next project: https://gamewave.fr/clair-obscur-expedition-33/sandfall-interactive-clair-obscur-expedition-33-compte-prendre-des-decisions-drastiques-pour-son-prochain-projet/
+- Wikipedia, Music of Clair Obscur: https://en.wikipedia.org/wiki/Music_of_Clair_Obscur:_Expedition_33
+- YouTube Help, Content ID eligibility: https://support.google.com/youtube/answer/2605065
+- RPG Site, OST on streaming: https://www.rpgsite.net/news/17289-clair-obscur-expedition-33-original-soundtrack-spotify-apple-music-youtube-itunes-digital
+- Kepler Interactive site: https://www.kepler-interactive.com/
+- YouTube Checks: https://www.xda-developers.com/youtube-testing-copyright-checks-during-upload/ ; https://www.plagiarismtoday.com/2021/03/17/youtube-testing-copyright-checks-before-publishing/
+- Push Square, anniversary: https://www.pushsquare.com/news/2026/04/expedition-33-gets-free-ps5-content-update-as-it-turns-one-year-old-and-surpasses-8-million-sales
 - Free update: https://en.generacionxbox.com/new-free-content-announced-for-clair-obscur-expedition-33/ ; ES-LA localisation: https://rpgamer.com/2025/10/clair-obscur-expedition-33-free-update-in-development/
