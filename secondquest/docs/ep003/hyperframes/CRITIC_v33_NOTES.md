@@ -139,3 +139,54 @@ Episode time unless marked. Narration v3.3 is unchanged (approved by the Produce
 | 7 | 104.53–105.97: the ASKING chip stayed under $7.99 | The chip pops out (scale 0.5, opacity 0) the frame the tag lands. |
 | 8 | Header titles crowd the avatar stack | The title and sub-title sit 7 px further right on every C phone. The optional C1 enlargement was not done (the phone is already 652/720 px tall). |
 | 9 | D 106–110: the old "THE BOAT" phone with Q P A B, and the "WHY" ghost | The D phones are the hook's ChatPhone (see the redesign above). WHY and FISHING? are hidden until their slam, then fully opaque from the first frame (scale 1.9 to 1 in 0.16 s, no opacity fade). |
+
+## v3.3.3 · retention critic FIX (`CRITIC_RETENTION_v333_full.md`) and design critic C–G (`CRITIC_v333_C-G.md`), one render
+
+**Sound bed C–G (required).**
+- C–G now run the hook's beds, continuous across every join (each segment crosses its cut by 0.3 s):
+  - room tone under C, the D evidence board, E's polaroid table, the F stage and F 1 AM / yearbook / phones;
+  - water under the lakes and the game world;
+  - crickets under the F blue hour and G.
+- The F black lake (292.6–294) keeps its rest at bed level (water at −12).
+- Gate on the mix with the master's +3 dB:
+  - narration gaps 60–328 s sit at −34.9 to −38.0 dBFS median (minimum −43.7);
+  - no gap frame is below −45 dBFS;
+  - no digital silence anywhere (the 0.7 s holes at 105.3, 162.6 and 238.6 are gone).
+
+**False ending 258.8–267 (F 19.5–27.8).**
+- "end too": the camera punches in on the crew (1.32×), with a small kick.
+- "never what they were for": it moves out and across. The lantern still clicks on.
+- Night now falls by "Some games" (sun, glow, warm wash, blue sky and stars on a 3.5 s ramp instead of 6.9 s).
+- The banner arrives on "same boat" (was "Tuesday") and reads "Max: on?" in AA purple (F-1: Max organises, Leo is the late one).
+- Sound on the two silent gags: a quiet roll as the clock starts racing on "never" (277.1), and drain on the chart crash, "oof." (285.3).
+- F stays within budget: the "friends" squeeze and the summer whip were dropped.
+
+**Recommended items (retention).**
+- D 119.5: the camera pushes on the polaroid from "Most".
+- D: the cut from the oar to the bobber comes about 1 s earlier (on "fine"), and the fish surfaces on "fish" (134.25). The "a reason" tag still lands on "reason", and its water cue moved too.
+- D 145.3–151.3: in the garage time-lapse the camera pushes in on the clock, then back out before the polaroid match.
+- E 183.7: the quote mark lands on "Steam".
+- G 292.6–296 / G-1: the question stands upright and sharp in the sky. The mirrored copy is its dimmer reflection, and the drop breaks only the reflection.
+- F: after 0.55 s of stillness the black lake comes up to night level, so there is at most 0.55 s of black.
+
+**Design critic C–G.**
+
+| # | Fix |
+|---|---|
+| D-1 | WHY / FISHING? slam from 1.3× at most and grow away from each other. `frame_critic` now checks words of one caption against each other when either has its own transform: `dom_sampler.cjs` reports `xf`, and `frame_critic.py` uses it. Proof: the old 2.6× slam is flagged at 0.37–0.47 s; the new one gives 0 errors. |
+| D-2 | `$7.99 PAID` is a small mark (128×66) on the empty phone background right of Max's "Bought." |
+| D-3 | The JOB badge clips onto the "…" bubble's lower edge. |
+| D-4 | The board phone enters opaque, up from below the string. |
+| E-1 | The "Alibi props" list hangs on two strings from above, like the FRIENDSLOP sign. The strings snap as it is thrown. |
+| E-2 | During the weapon close-up the FAIL ×1 card sits top-left over the empty lake. |
+| E-3 | The eye shot frames the crew lower and right (focus 950, 560), clear of the hearts. |
+| E-4 | "2031 / YEARS LATER" sits on the empty table right of the phone. |
+| E-5 | The pointing line-up and its tumble are hard cuts with a jolt and a shake; no blurred snaps. |
+| E (minor) | The roulette rolls in from the right, under the money HUD. |
+| G-2 | The fish dives with a splash and ripple instead of sinking see-through. |
+| G-3 | Pixie's reply uses her portrait avatar (the hook crop). |
+| G-4 | The fish makes a low dive under the wordmark. |
+| G-5 | The HOW TO FISH title fades out in place before the "Message…" field rises from the bottom. |
+| Sound | The E whip is a cloth swish. Stamps stay only on LATER, NOT IT, $7.99, ALIBIS and FAILURE (5); the rest are soft thumps or clacks (B's ten-million reel, FISHING?, D's PAID, FRIENDSLOP, #1). The car clunk is a soft heavy impact with a little tin, and the door slam is heavy wood. sfx_audit shows 0 HARSH warnings. |
+
+Not done: the minor "a reason" tag vs the fish's eye. At 136.5 the tag hangs left of the fish's eye in the new timing.
