@@ -44,9 +44,9 @@ Escena base de las variantes: Quest y Pixie en nuestro bote de remos 3D (dos pas
 
 | Variante | Quest | Texto | Archivo |
 |---|---|---|---|
-| **A, se publica con esta** | ríe a carcajadas | **NOT FISHING** | `thumbnails/EP003_thumb_A.png` |
-| B | grita de incredulidad | WHY?! | `thumbnails/EP003_thumb_B.png` |
-| 3 (**pendiente**) | por decidir | JUST GET IT | no hecha: el estándar pide 3 variantes; hay que decidir si se compone (gratis) |
+| **C, se publica con esta (elegida por el Productor, 2026-10-17)** | ríe a carcajadas; a lo lejos una gaviota se lleva a Max | **NOT FISHING** | `thumbnails/EP003_thumb_C.png` |
+| A (Test & Compare) | ríe a carcajadas | NOT FISHING | `thumbnails/EP003_thumb_A.png` |
+| B (Test & Compare) | grita de incredulidad | WHY?! | `thumbnails/EP003_thumb_B.png` |
 
 Cómo está hecha (todo arte existente, solo colocado y escalado, sin editar):
 - Fondo: `docs/art_orders/ep003/new_art_v1/derived/lake_dusk.png` (recorte con zoom 1.18, más un degradado oscuro suave a la izquierda para que resalte la sudadera roja).
@@ -195,8 +195,8 @@ Cómo están hechos:
 
 ## 8. Checklist de publicación (PUBLISHING_STANDARD §7)
 
-- [ ] Subido como **Privado**. *Pendiente: no hay máster. Archivo esperado: `EP003_master_1080p.mp4`.*
-- [ ] Miniatura más fuerte puesta (**A "NOT FISHING"**, lista en `thumbnails/EP003_thumb_A.png`); las tres variantes para Test & Compare listas. *A y B hechas; falta decidir la tercera (JUST GET IT).*
+- [ ] Subido como **Privado**. Máster listo: `EP003_master_1080p.mp4` (1920×1080, 5:28.4, −14.1 LUFS) en el Release borrador `deliver-ep003-master-1080p-v34` (se borra a los 7 días: descargarlo antes).
+- [ ] Miniatura puesta: **C** (`thumbnails/EP003_thumb_C.png`); A y B listas para Test & Compare.
 - [ ] Título A (curiosidad, aprobado) puesto; título B (búsqueda) listo para Test & Compare. *Textos definidos arriba; se pegan al subir.*
 - [ ] Descripción con gancho, capítulos, CTA, pie y 3 hashtags. *Lista arriba; antes de subir, revisar las cifras (ver "Pendiente").*
 - [ ] Subtítulos en inglés y en español subidos. *Archivos listos; se suben con el vídeo.*
@@ -208,13 +208,13 @@ Cómo están hechos:
 
 ## 9. Pendiente antes de subir (abierto)
 
-1. **Máster `EP003_master_1080p.mp4`**: no existe todavía. Render final solo con aprobación del Productor. Comprobar que dura 5:28.4 y que los capítulos y subtítulos caen en las frases indicadas (los tiempos de este paquete son los del mapa de empalme; si el render final cambia algún corte, hay que regenerar subtítulos y capítulos a partir de los `timings.json`).
+1. **Máster**: hecho (5:28.4, mismo mapa de empalme que los subtítulos y capítulos). Pantalla final: el plano final (5:18–5:28) es el logo con CONTINUE? / NEXT QUEST / JOIN THE PARTY, pensado para colocar encima los elementos de YouTube (suscribirse sobre JOIN THE PARTY, vídeo sobre NEXT QUEST).
 2. **Recheck de hechos antes de publicar** (`docs/ep003/research/04_lock_factcheck.json`):
    - "More than ten million" = Alinea Analytics del 1-oct (10.1 M). Su actualización de octubre sale a principios de noviembre y puede superarla; "by early October" sigue siendo cierto, pero mirar la cifra nueva.
    - El precio (7.99 USD) puede bajar por rebajas; "about eight dollars" aguanta.
    - "Everyone in the boat buys their own copy": quedó marcado RISK (sin Friend Pass / Remote Play Together confirmado a ojo). La decisión del Productor del 2026-10-11 pide comprobarlo en la página de Steam; confirmar y anotar el resultado antes de publicar.
    - "Someone gets launched across the island" se quedó como exageración cómica (decisión del Productor, dibujo propio, sin metraje).
-3. **Tercera miniatura** (JUST GET IT) y revisión del Productor de A y B.
+3. Miniaturas: C elegida; A y B para Test & Compare.
 4. **Pantalla final**: comprobar el plano final del máster (hay 2.5 s de cola tras la última palabra) y fijar los tiempos.
 5. **Doblaje ES de Bram** (opcional): aprobación del Productor; si se hace, re-temporizar el .srt ES con los tiempos del doblaje.
 6. **Subtítulos**: el texto EN sale del `timings.json`; si Bram re-graba alguna línea o cambia un corte, regenerar.
