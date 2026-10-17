@@ -119,3 +119,17 @@
   renders, masters, deliveries. Haiku for mechanical work with a checkable result: running gates, frame extraction,
   contact sheets, file moves, reading analytics screenshots into tables. A cheaper agent's output always passes the
   same gates and critics; if a tier fails twice on a task, that task moves up a tier.
+- **Resources and rounds (Producer, 2026-10-17: "optimizar recursos, renderizar más rápido"):**
+  - **Git:** never commit intermediate audio/video (mix.wav, sfx.wav, block MP4s). Commit media only once per round,
+    when the render is verified (each 60 MB wav commit cost ~120 MB of disk). Sources and docs are committed freely.
+  - **Builder pre-critic:** before handing to the critics, the builder runs the critics' own gates (lint,
+    frame_critic 0.25 s + 1/30 s around every changed cut/title, sfx_audit, hyperframes check on changed blocks only)
+    and looks at full-size frames of every changed window. The critic reviews the changed windows plus a spot check.
+  - **No overlap waivers on stamps, labels, badges or HUD** that sit on text or faces: `data-critic-allow-overlap` /
+    `data-layout-ignore` only for genuinely designed overlaps listed in the storyboard; the critic re-checks each one.
+  - **Never render and run a heavy check at the same time** (4 CPUs). `hyperframes check` capped at 20 min per block;
+    renders first, checks after.
+  - **Draft first:** iteration rounds render at draft quality; 720p only for the critics' final pass, 1080p/1440p only
+    for the approved master.
+  - **One session per episode:** start each episode (or a long fix phase) in a fresh session from a handoff doc
+    (`docs/<ep>/HANDOFF_*.md`); long sessions cost more per turn and fill the disk.
