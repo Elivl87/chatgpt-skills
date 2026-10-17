@@ -95,11 +95,17 @@ def compose(variant):
     fs = scaled(fish, width=270)
     paste(c, fs, 1005, 500, shadow=6)
     if variant == 'C':                                       # a gull carries Max off into the distance (Producer idea, 2026-10-17)
-        gull = scaled(img(P3 / 'seagull_34.png'), width=190)
-        mx = scaled(img(P3 / 'max_front_shock.png'), height=165).rotate(-14, resample=Image.BICUBIC, expand=True)
-        gx, gy = 430, 34                                     # high in the sky between Quest and the title, far away
-        paste(c, mx, gx + 66, gy + 74, shadow=4)             # dangling under the gull (its feet hold his collar)
-        paste(c, gull, gx, gy, shadow=4)
+        # far away: small, near the horizon over the far shore, with atmospheric haze (sky-tinted, softer, lighter)
+        gull = scaled(img(P3 / 'seagull_34.png'), width=118)
+        mx = scaled(img(P3 / 'max_front_shock.png'), height=103).rotate(-14, resample=Image.BICUBIC, expand=True)
+        lay = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+        gx, gy = 520, 118
+        paste(lay, mx, gx + 41, gy + 46)                     # head tucked under the gull's body: carried by the collar
+        paste(lay, gull, gx, gy)
+        a = lay.split()[3]
+        rgb = Image.blend(lay.convert('RGB'), Image.new('RGB', (W, H), (236, 150, 120)), .38)   # haze toward the dusk sky
+        lay = Image.merge('RGBA', (*rgb.split(), a)).filter(ImageFilter.GaussianBlur(.6))
+        c.alpha_composite(lay)
     # words
     if variant in 'AC':
         outlined(c, 'NOT', (1245, 14), 136, (255, 255, 255), anchor='ra')
