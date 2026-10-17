@@ -158,7 +158,7 @@ Because it turns out we never outgrew menus. We outgrew sitting still. A lot of 
 And here was one that met us where we are now.
 
 ### E · What the world really is · spoilers start
-> VISUAL: the camera pulls back from Lumière until it is a canvas on an easel in a Paris studio around 1900. Toys of a grown son on a shelf: a small wooden boat, a sketchbook.
+> VISUAL: the camera pulls back from Lumière until it is a canvas on an easel in a Paris studio around 1900. Toys of a grown son on a shelf: a small wooden boat, a sketchbook open on a drawing of the companion (no narration).
 
 But mechanics don't make millions of people cry. The story does. And the story is about the same thing, in a way nobody expected.
 
@@ -215,7 +215,7 @@ And now it's happening to other people too. Publishers are reportedly getting a 
 And somewhere, someone is playing Expedition 33 as their first one of these. Maybe not understanding all of it yet. The way a kid once played a game he couldn't read.
 
 ### H · Payoff + CTA
-> VISUAL: the Paris studio, morning. The big painting is covered with a cloth. Next to it, an empty easel with a fresh, blank canvas and a brush laid across it. The motto is painted along the easel's foot, white: FOR THOSE WHO COME AFTER. The companion sits on the brush.
+> VISUAL: the Paris studio, morning. The big painting is covered with a cloth. Next to it, an empty easel with a fresh, blank canvas and a brush laid across it. The motto is painted along the easel's foot, white: FOR THOSE WHO COME AFTER. The companion sits by the covered painting with eyes closed and opens them when the new canvas appears; it leaves frame before the motto (COMPANION.md).
 
 So... why did millions love the kind of game we were told we'd outgrown?
 

@@ -62,6 +62,15 @@ vie à t'aimer"* subiendo hasta la tumba antes del silencio del lema. Los dos me
 "el único que quiere que le llegue su número") pueden ser **el Short tráiler** de A sin tocar su guion. La traducción
 ES-419 completa de A está en `scripts/A_LosingEveryone_ES_review.md` (solo revisión; el doblaje se hace del EN bloqueado).
 
+## Compañero: **Esquie** (tu propuesta, la recomiendo)
+Según las fuentes, a Esquie lo *imaginó* el verdadero Verso dentro de su pintura. Después del giro, Esquie es "lo que
+hizo quien se fue", el testigo perfecto para soltar. En el gancho no destripa nada: es solo un gigante amable. En el
+"So, why?" se deja caer sobre el wordmark y su cuerpo redondo se vuelve la **"o"**. En el cierre hace un solo gesto
+silencioso *antes* del lema (en A, saluda desde dentro del lienzo mientras cae la tela) y nunca aparece encima de la
+frase, para que no sea fan service. La versión fiel y nuestra versión redibujada están descritas en `COMPANION.md`. El
+único argumento en contra es la propiedad intelectual: Sandfall protege mucho a Esquie (advirtió sobre peluches
+falsificados). Si la revisión de riesgo dice que no, la gota de pintura (100 % nuestra) está lista.
+
 ## Pendiente antes de bloquear (sin verificar)
 - La línea exacta del lema en el juego y su **versión oficial en español** (no la encontré; propongo "Por quienes vienen
   después").

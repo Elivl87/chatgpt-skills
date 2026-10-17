@@ -177,7 +177,7 @@ And then the game does the hardest, most ordinary thing it can. It keeps going. 
 Because that's what a deadline looks like from the other side. Someone runs out of time. And everyone else... still has a Tuesday.
 
 ### D · Who's holding the clock
-> VISUAL: the camera pulls back from Lumière until it is a canvas on an easel in a Paris studio around 1900. A giant rag wipes one corner; a giant brush paints it back, more slowly each time.
+> VISUAL: the camera pulls back from Lumière until it is a canvas on an easel in a Paris studio around 1900. A giant rag wipes one corner; a giant brush paints it back, more slowly each time. Pinned by the easel, a child's sketch of the companion (no narration).
 
 And then the game tells you what the clock really is.
 
@@ -234,7 +234,7 @@ Nobody paints our number on a tower. Which is probably the kindest thing the uni
 But most of us have stood on that cliff from the other side. Somebody ran out of time... and we were the ones still standing there. Holding their bag.
 
 ### G · Payoff + CTA
-> VISUAL: the harbor, morning. A boat pulls away; FOR THOSE WHO COME AFTER on its hull. The girl from the cliff (from behind) is not on it: she turns and walks back up the street into the city, toward the lit cafés. The companion goes with her.
+> VISUAL: the harbor, morning. A boat pulls away; FOR THOSE WHO COME AFTER on its hull. The girl from the cliff (from behind) is not on it: she turns and walks back up the street into the city, toward the lit cafés. The companion stays on the harbor and lets her go (COMPANION.md, final beat).
 
 So... why did millions spend thirty hours on a game about running out of time?
 

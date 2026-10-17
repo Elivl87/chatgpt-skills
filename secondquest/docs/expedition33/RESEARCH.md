@@ -95,6 +95,17 @@ awards show"; never "every award".
 | 3.20 | Neither ending is presented by the developers as the "right" one | VERIFIED (secondary) | playnews.gg guide |
 | 3.21 | Fans still argue over which ending is right | Observation, not a statistic | Steam discussions, Substack. Narration says "people still argue", with no numbers |
 
+**3c · Esquie (companion candidate)**
+
+| # | Fact | Status | Source |
+|---|---|---|---|
+| 3.22 | Esquie: a huge, gentle creature, the party's companion and **world-map mount**, met early; recovers stones that power his abilities (underwater diving is an Act 3 upgrade at relationship level 6); Lumière thinks of him as a children's-tale myth; **Verso is an old friend of his** | VERIFIED (secondary) | finalboss.io; playnews.gg; fan wiki (via search) |
+| 3.23 | **The real Verso created the canvas and "used it as a place to play, paint, and imagine fictional entities like Esquie, the Gestrals, and others"** | VERIFIED (secondary) | destructoid.com/clair-obscur-expedition-33-ending-explained |
+| 3.24 | In Verso's ending "the painted beings are lost" with the canvas; Esquie's individual fate in each ending | Ending VERIFIED (secondary) / **Esquie's fate UNVERIFIED** | Destructoid |
+| 3.25 | Design: built as a gentle, comforting presence (Chien-Po from *Mulan*; a Baymax-like gentleness in the voice) | VERIFIED (secondary) | millenium.org (29 Jan 2026) |
+| 3.26 | Sandfall warned players about **counterfeit Esquie plushes** and promised an official version: the character is a fan icon and actively protected | VERIFIED (secondary) | millenium.org (23 May 2025) |
+| 3.27 | Voice: Maxence Cazorla (cast list); one article names Richie Campbell | Conflicting, recheck | Wikipedia; millenium.org |
+
 **Official Spanish names** (PlayStation es-MX page, VERIFIED): *la Pintora* (the Paintress), *el monolito*, *Gommage*
 (not translated), *Lumière*, *la expedición* / *Expedición 33* (in the title the game keeps "Clair Obscur: Expedition 33").
 Latin American Spanish text was added in a later free update (rpgamer, onemoregame, Oct 2025). Proper names stay as is:
@@ -260,4 +271,7 @@ cue with metal vocals (Borba), use its quieter, vocal-led passages (Duport-Perci
 - Kepler Interactive site: https://www.kepler-interactive.com/
 - YouTube Checks: https://www.xda-developers.com/youtube-testing-copyright-checks-during-upload/ ; https://www.plagiarismtoday.com/2021/03/17/youtube-testing-copyright-checks-before-publishing/
 - Push Square, anniversary: https://www.pushsquare.com/news/2026/04/expedition-33-gets-free-ps5-content-update-as-it-turns-one-year-old-and-surpasses-8-million-sales
+- Destructoid, ending explained (Esquie created by the real Verso): https://www.destructoid.com/clair-obscur-expedition-33-ending-explained/
+- millenium.org, Esquie design (29 Jan 2026): https://www.millenium.org/news/429227.html ; counterfeit plush warning (23 May 2025): https://www.millenium.org/news/424570.html
+- finalboss.io, Esquie: https://finalboss.io/clair-obscur-expedition-33-who-is-esquie-abilities-and-unlocks
 - Free update: https://en.generacionxbox.com/new-free-content-announced-for-clair-obscur-expedition-33/ ; ES-LA localisation: https://rpgamer.com/2025/10/clair-obscur-expedition-33-free-update-in-development/

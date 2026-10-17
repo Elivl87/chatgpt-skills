@@ -73,6 +73,13 @@ A and B tie on points. A wins on the four things that decide this episode:
 **B's two best beats** (the arithmetic and "the one person who wants his number to come") could serve as the
 **trailer Short** for A without changing A's script.
 
+## Companion
+**Esquie** (the Producer's suggestion) is recommended in `COMPANION.md`. The real Verso imagined him (verified,
+secondary), so after the reveal he is "what the lost person made", the right witness for letting go. He becomes the
+wordmark's "o" at "So, why?" and makes one quiet gesture before the final motto, never on it. The only argument against is
+IP: Sandfall actively protects Esquie (its warning about counterfeit plushes). The paint drop, which is 100 % ours, is the
+ready fallback.
+
 ## Unverified items to clear before lock (from RESEARCH.md)
 1. The motto's exact in-game wording, and Gustave's last words being the motto (secondary, Save the Cat).
 2. **The official ES-419 rendering of the motto** (not found; we propose "Por quienes vienen después").

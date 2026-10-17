@@ -155,7 +155,7 @@ You just get up the next morning... with fewer people in the boat.
 And somewhere back across the sea, the woman from the harbor is already gone. He spent his last minute with her. You spent your first.
 
 ### D · What the world is
-> VISUAL: the camera pulls back from Lumière... and back... until the city is a canvas on an easel in a dim Paris studio, around 1900. A child's-height paint stool. A covered mirror.
+> VISUAL: the camera pulls back from Lumière... and back... until the city is a canvas on an easel in a dim Paris studio, around 1900. A child's-height paint stool. A covered mirror. Pinned by the easel, a child's sketch of a big round gentle creature: the companion (COMPANION.md); no narration about it.
 
 And then, deep in the story, the game tells you what this world actually is.
 
@@ -247,7 +247,7 @@ One critic wrote about it through the loss of his own brother. And he was not th
 And all of it was made by a team of about thirty people. Which is a very small number of people... to make that many strangers cry in the same place.
 
 ### H · Payoff + CTA
-> VISUAL: the Paris studio, morning. The canvas covered with a cloth. Outside the window, three figures (seen from behind, our own designs) stand together at a small grave. The motto is painted slowly beneath them, white on dark: FOR THOSE WHO COME AFTER. The companion settles beside the words.
+> VISUAL: the Paris studio, morning. The canvas covered with a cloth. Outside the window, three figures (seen from behind, our own designs) stand together at a small grave. Before the cloth falls, the companion waves from inside the canvas and is covered (COMPANION.md, final beat); it is out of frame before the motto. The motto is painted slowly beneath the family, white on dark: FOR THOSE WHO COME AFTER.
 
 So... why do millions of people love a game about losing everyone?
 
