@@ -75,21 +75,6 @@
       #title { position: absolute; left: 0; top: 150px; width: 1280px; height: 130px; display: flex; justify-content: center; gap: 26px; }
       #title .w { display: block; font-size: 118px; }
       /* ---------- inserts ---------- */
-      #shotTable { overflow: hidden; background: #1b1220; }
-      #tblCam { position: absolute; inset: 0; }
-      #tblWall { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 38% 30%, #5b3a3a 0%, #2a1a26 55%, #120c16 100%); }
-      #tblTop { position: absolute; left: -200px; top: 380px; width: 1680px; height: 420px;
-        background: repeating-linear-gradient(90deg, rgba(0,0,0,.0) 0 90px, rgba(0,0,0,.12) 90px 93px), linear-gradient(180deg, #8a5532 0%, #6b3f24 50%, #4a2a17 100%); }
-      #tblLight { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; mix-blend-mode: screen;
-        background: radial-gradient(ellipse 34% 40% at 30% 52%, rgba(255, 196, 110, .55) 0%, rgba(255, 150, 80, .18) 45%, rgba(0,0,0,0) 75%); }
-      #shotScope { overflow: hidden; }
-      #scopeRig { position: absolute; left: -1280px; top: -720px; width: 3840px; height: 2160px; }
-      #scopeMask { position: absolute; inset: 0; background: radial-gradient(circle 262px at 50% 50%, rgba(0,0,0,0) 0 96%, #050508 100%); }
-      #scopeRing { position: absolute; left: 1658px; top: 818px; width: 524px; height: 524px; border-radius: 50%;
-        box-shadow: inset 0 0 0 6px #0b0b10, inset 0 0 60px 26px rgba(0,0,0,.75), inset 0 0 0 9px rgba(120, 140, 160, .35); }
-      #scopeTint { position: absolute; left: 1658px; top: 818px; width: 524px; height: 524px; border-radius: 50%; 
-        background: radial-gradient(circle, rgba(150, 230, 210, .10) 0%, rgba(60, 120, 130, .35) 100%); }
-      .xh { position: absolute; background: #0b0b10; }
       #numsDim { background: radial-gradient(ellipse at 50% 45%, rgba(22, 22, 31, .25) 0%, rgba(22, 22, 31, .72) 100%); }
       #tag { position: absolute; left: 190px; top: -40px; width: 340px; height: 420px; }
       #tag .string { position: absolute; left: 168px; top: 0; width: 4px; height: 250px; background: linear-gradient(180deg, rgba(255,255,255,0), #f3e7cf 30%); }
@@ -97,19 +82,6 @@
         box-shadow: 7px 8px 0 var(--ink); display: flex; align-items: center; justify-content: center; }
       #tag .hole { position: absolute; left: 136px; top: 9px; width: 22px; height: 22px; border-radius: 50%; background: #2a2236; border: 4px solid var(--ink); }
       #tag .price { font-family: "Anton", sans-serif; font-size: 92px; color: var(--ink); line-height: 1; margin-top: 40px; }
-      #hoped { position: absolute; left: 700px; top: 120px; width: 460px; height: 200px; }
-      #hoped .mk { left: 0; top: 0; }
-      #hoped .num { position: absolute; left: 0; top: 54px; font-size: 104px; color: #fff4dc; }
-      #strike { position: absolute; left: -12px; top: 108px; width: 440px; height: 14px; background: #e5484d; border: 3px solid var(--ink); border-radius: 6px; transform-origin: 0 50%; }
-      #big { position: absolute; left: 0; top: 330px; width: 1280px; height: 190px; display: flex; justify-content: center; }
-      #reel { display: flex; align-items: flex-start; font-size: 168px; height: 172px; }
-      .dcol { display: block; height: 172px; overflow: hidden; }
-      .dstrip { display: block; }
-      .dstrip span, .dsep { display: block; height: 172px; line-height: 172px; }
-      #plus { display: block; font-size: 168px; line-height: 172px; }
-      #src { position: absolute; left: 0; top: 534px; width: 1280px; text-align: center; font: 600 17px "Inter", sans-serif; color: rgba(255, 244, 220, .85); letter-spacing: .04em; }
-      #burstWrap { position: absolute; left: 640px; top: 420px; width: 0; height: 0; }
-      .spark { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: #ffe08a; box-shadow: 0 0 10px #ffc83d; }
       #slapBurst { position: absolute; left: 770px; top: 120px; width: 260px; height: 200px; }
       #slapBurst svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
       #slapBurst .t { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "Anton", sans-serif; font-size: 70px; color: #e5484d; -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; transform: rotate(-8deg); }
@@ -118,14 +90,37 @@
       #wm img { width: 100%; height: 100%; filter: drop-shadow(0 5px 0 #16161f) drop-shadow(0 0 22px rgba(22, 22, 31, .45)); }
       #wmBar { position: absolute; left: 440px; top: 166px; width: 400px; height: 9px; background: var(--gold); border-radius: 4px; box-shadow: 0 3px 0 var(--ink); transform-origin: 50% 50%; }
       #warm { background: radial-gradient(ellipse 80% 70% at 72% 40%, rgba(255, 180, 110, .55) 0%, rgba(255, 140, 90, .15) 50%, rgba(0,0,0,0) 80%); mix-blend-mode: screen; }
+      /* ---------- H8: Leo's "I'll get it later." bubble over his empty seat (in the boat layer) ---------- */
+      #laterBub { position: absolute; left: 665px; top: 226px; width: 330px; height: 140px; opacity: 0; transform-origin: 58% 100%; }
+      #laterBub .lb { position: absolute; left: 0; top: 0; display: flex; align-items: flex-end; gap: 10px; }
+      #laterBub .ch-av { width: 50px; height: 50px; }
+      #laterBub .ch-bub { max-width: none; border: 3px solid var(--ink); box-shadow: 4px 5px 0 var(--ink), 0 0 18px rgba(255, 170, 110, .35); background: #fff8ee; border-radius: 22px; }
+      #laterBub .ch-bub::after { display: none; }
+      #laterBub .ch-name { font-size: 17px; }
+      #laterBub .ch-txt { font-size: 28px; line-height: 36px; white-space: nowrap; }
+      #laterTail { position: absolute; left: 120px; top: 100%; margin-top: -2px; width: 26px; height: 34px; }
+      #laterTail svg { width: 100%; height: 100%; overflow: visible; }
+      /* ---------- H5-H7: the group chat (block B's phone, narration clock) ---------- */
+      .shot { overflow: hidden; }
+      .cam, .push, .kick { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      #chatBg { position: absolute; left: -60px; top: -40px; width: 1400px; height: 800px; filter: blur(9px) brightness(.5) saturate(.9); }
+      #chatBg img { width: 100%; height: 100%; }
+      #chatTint { background: radial-gradient(ellipse 50% 70% at 50% 50%, rgba(80, 110, 170, .28) 0%, rgba(14, 12, 26, .35) 60%, rgba(8, 6, 16, .7) 100%); }
+      #phoneHalo { position: absolute; left: 340px; top: 20px; width: 600px; height: 680px; border-radius: 50%; mix-blend-mode: screen;
+        background: radial-gradient(ellipse, rgba(255, 236, 200, .22) 0%, rgba(255, 210, 160, .06) 50%, rgba(0,0,0,0) 70%); }
+      #phoneRig { position: absolute; left: 448px; top: 54px; width: 384px; height: 612px; perspective: 1600px; }
+      #phoneFlip { position: absolute; inset: 0; }
+      .pring { position: absolute; border: 4px solid rgba(255, 216, 110, .9); border-radius: 50%; }
+      #fishPeek { position: absolute; left: 930px; top: 720px; width: 230px; height: 170px; }
+      #fishPeek img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain; transform: scaleX(-1); }   /* mirrored: it looks at the phone */
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0.0" data-duration="36.01" data-fps="30" data-width="1280" data-height="720">
-      <audio id="vo" src="assets/narration_hook.wav" data-start="0.0" data-duration="36.01" data-track-index="9" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0.0" data-duration="40.76" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration_hook.wav" data-start="0.0" data-duration="40.76" data-track-index="9" data-volume="1"></audio>
 
       <!-- ================= THE WORLD (persistent lake, camera via per-layer parallax) ================= -->
-      <div id="world" class="full clip" data-start="0.0" data-duration="36.01" data-track-index="0">
+      <div id="world" class="full clip" data-start="0.0" data-duration="40.76" data-track-index="0">
         <div id="breath" class="full"><div id="shake" class="full">
           <div id="L-sky" class="L"><div class="F">
             <div class="sky"></div>
@@ -175,6 +170,9 @@
               </div></div>
             </div>
             <div id="fishFront"></div>
+            <div id="laterBub"><div class="lb"><div class="ch-av" id="laterAv" style="background: #d69628"></div>
+              <div class="ch-bub"><div class="ch-name" style="color: #b87a12">Leo</div><div class="ch-txt">I'll get it later.</div>
+                <div id="laterTail"><svg viewBox="0 0 26 34"><path d="M 2 0 L 24 0 L 8 32 Z" fill="#fff8ee" stroke="#16161f" stroke-width="3" stroke-linejoin="round"/><path d="M 3.5 1.2 L 22.5 1.2" stroke="#fff8ee" stroke-width="4"/></svg></div></div></div></div>
           </div></div>
           <div id="L-fore" class="L"><div class="F" id="reeds"></div></div>
         </div></div>
@@ -183,63 +181,30 @@
       </div>
 
       <!-- ================= TITLE (l01) ================= -->
-      <div id="titleClip" class="full clip" data-start="1.396" data-duration="5.151" data-track-index="2">
+      <div id="titleClip" class="full clip" data-start="1.394" data-duration="5.089" data-track-index="2">
         <div id="title"><span class="w big" id="tw1">HOW</span><span class="w big" id="tw2">TO</span><span class="w big" id="tw3">FISH</span></div>
       </div>
 
       <!-- ================= SLAP burst (l03) ================= -->
-      <div id="slapClip" class="full clip" data-start="9.712" data-duration="1.628" data-track-index="2">
+      <div id="slapClip" class="full clip" data-start="9.696" data-duration="1.644" data-track-index="2">
         <div id="slapBurst" data-hf-motion-blur='{"samplesPerFrame": 10}'>
           <svg viewBox="0 0 260 200"><polygon points="130,0 152,52 210,14 190,74 260,80 200,112 246,166 176,140 160,200 128,150 92,196 86,140 18,170 58,116 0,92 64,70 34,18 104,50" fill="#ffc83d" stroke="#16161f" stroke-width="6" stroke-linejoin="round"/></svg>
           <div class="t">SLAP!</div>
         </div>
       </div>
 
-      <!-- ================= INSERT: the fish money (l03) ================= -->
-      <div id="shotTable" class="full clip" data-start="11.32" data-duration="1.56" data-track-index="3">
-        <div id="tblCam">
-          <div id="tblWall"></div>
-          <div id="tblTop"></div>
-          <div id="lantern" class="abs" style="left: 250px; top: 205px; width: 120px; height: 221px"><img src="assets/lantern.png" alt="" style="width: 100%; height: 100%" /></div>
-          <div id="tblLight" class="abs"></div>
-          <div id="tblFish" class="fish" style="left: 520px; top: 330px; width: 380px; height: 223px"><img src="assets/fish_side.png" alt="" /><img class="lid" id="tblLid" src="assets/fish_side_blink.png" alt="" /></div>
-          <div id="tblChips" class="abs" style="left: 840px; top: 380px; width: 280px; height: 201px"><img src="assets/chips.png" alt="" style="width: 100%; height: 100%" /></div>
-          <div class="mk" id="mkMoney" style="left: 486px; top: 610px">The fish money</div>
-        </div>
-      </div>
-
-      <!-- ================= INSERT: the scope (l03) ================= -->
-      <div id="shotScope" class="full clip" data-start="12.88" data-duration="2.41" data-track-index="3">
-        <div id="scopeRig">
-          <div id="scopeTint"></div>
-          <div id="scopeMask"></div>
-          <div id="scopeRing"></div>
-          <div class="xh" style="left: 1660px; top: 1078px; width: 210px; height: 3px"></div>
-          <div class="xh" style="left: 1970px; top: 1078px; width: 210px; height: 3px"></div>
-          <div class="xh" style="left: 1918px; top: 820px; width: 3px; height: 210px"></div>
-          <div class="xh" style="left: 1918px; top: 1130px; width: 3px; height: 210px"></div>
-          <div class="xh" style="left: 1870px; top: 1079px; width: 100px; height: 1px"></div>
-          <div class="xh" style="left: 1919px; top: 1030px; width: 1px; height: 100px"></div>
-          <div id="dot" class="abs" style="left: 1915px; top: 1075px; width: 9px; height: 9px; border-radius: 50%; background: #ff4040; box-shadow: 0 0 8px #ff4040"></div>
-        </div>
-      </div>
-
-      <!-- ================= NUMBERS (l04) ================= -->
-      <div id="shotNums" class="full clip" data-start="15.29" data-duration="10.845" data-track-index="2">
+      <!-- ================= PRICE (h04, "It costs about eight dollars."): the $7.99 tag over the lake ================= -->
+      <div id="shotNums" class="full clip" data-start="11.401" data-duration="1.639" data-track-index="2">
         <div id="tag" data-hf-motion-blur='{"samplesPerFrame": 10}'><div class="string"></div><div class="card"><div class="hole"></div><div class="price">$7.99</div></div></div>
-        <div id="hoped"><div class="mk" id="mkHoped">They hoped</div><div class="num big" id="hopedNum">0</div><div id="strike"></div></div>
-        <div id="big"><div id="reel" class="big"></div><span id="plus" class="big">+</span></div>
-        <div id="src">estimate · Alinea Analytics · early October</div>
-        <div id="burstWrap"></div>
       </div>
 
       <!-- ================= l05 card ================= -->
-      <div id="elseClip" class="full clip" data-start="29.056" data-duration="2.639" data-track-index="2">
+      <div id="elseClip" class="full clip" data-start="33.876" data-duration="2.622" data-track-index="2">
         <div class="mk" id="mkElse" style="left: 452px; top: 64px; font-size: 30px" data-hf-motion-blur='{"samplesPerFrame": 10}'>To do everything else</div>
       </div>
 
       <!-- ================= WORDMARK (l07 "why") ================= -->
-      <div id="wmClip" class="full clip" data-start="33.118" data-duration="2.892" data-track-index="4">
+      <div id="wmClip" class="full clip" data-start="37.854" data-duration="2.906" data-track-index="4">
         <div id="wmGroup" class="full">
           <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /></div>
           <div id="wmBar"></div>
@@ -252,9 +217,180 @@
         </svg>
       </div>
 
+      <!-- ================= H5-H7: the group chat (block B's phone; narration clock, timeline window.__tl2) ================= -->
+      <div id="shotChat" class="full clip shot" data-ntime="1" data-start="13.04" data-duration="12.76" data-track-index="5">
+        <div class="cam" id="camChat"><div class="push" id="pushChat"><div class="kick" id="kickChat">
+          <div id="chatBg"><img src="assets/room_night.png" alt="" /></div>
+          <div id="chatTint" class="full"></div>
+          <div id="phoneHalo"></div>
+          <div id="prings"></div>
+          <div id="phoneRig"><div id="phoneFlip"></div></div>
+          <div id="fishPeek"><img src="assets/fish_34.png" alt="" /><img id="fishLook" src="assets/fish_34_lookup.png" alt="" /><img id="fishBlink" src="assets/fish_34_blink.png" alt="" /></div>
+        </div></div></div>
+      </div>
+
       <div id="flash" class="full" style="opacity: 0"></div>
       <!-- grain + vignette come from the approved finish pass (finish_post.py), applied after the render -->
     </div>
+
+<!--
+  ChatPhone: the EP003 group-chat phone (our own UI, no brand), reused in blocks B, C, E, F, G.
+  build.py only inlines INCLUDE markers from <project>/compositions/components, so a block template pastes this file
+  verbatim between "BEGIN chat.html" / "END chat.html" (block B does). Everything is seek-safe: rows are built once at
+  setup in chronological order and only shown/hidden by the GSAP timeline; the list is bottom-anchored (flex-end), so
+  "scrolling" is layout, never a measured offset (no font-load race).
+
+  Legibility spec (QUALITY_AUDIT #11): phone >= 82 % of frame height (default 384 x 612 = 85 %), Inter 600 26 px
+  bubbles, 34 px line height, bubble max width 70 %, 8 px tails, sender names in their colour, ticks + timestamps,
+  "Bought." die-cut stickers (4 px white border + shadow, +-4 deg).
+
+  API
+    const chat = ChatPhone(host, {
+      title: "The boat", sub: "4 members", clock: "11:42", me: "Q",
+      members: { Q: { name: "Quest", color: "#d6392f", avatar: ChatPhone.avImg("assets/quest_wave.png", 688, 1024, 318, 170, 300) },
+                 A: { name: "Max", color: "#7860be", avatar: ChatPhone.avSil("#7860be") }, ... },
+      w: 384, h: 612 });                        // chat.el (position it), chat.screen, chat.list
+    const r1 = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM" });   // r1.words = word spans
+    const r2 = chat.sticker("P", "Bought.", { rot: -4 });
+    const d1 = chat.typing("B");                 // a "..." row
+    const s0 = chat.system("Today 11:41 PM", { visible: true });   // a centred chip (date / group event); visible = shown from the start
+    chat.show(tl, r2, at)                        // pop a row in (list grows, older rows slide up)
+    chat.typeWords(tl, r1, [t1, t2, ...])        // shows the row at t1 and each word on its time (one time per word)
+    chat.dots(tl, d1, tIn, tOut)                 // typing dots bounce from tIn, the row collapses at tOut
+    chat.hide(tl, row, at)                       // collapse a row
+    chat.read(tl, row, at)                       // ticks turn "read" (gold)
+  Rows must be created in the order they appear (DOM order = chat order). Outgoing rows (who === me) sit on the right.
+-->
+<style>
+  .ch-phone { position: absolute; width: 384px; height: 612px; }
+  .ch-body { position: absolute; inset: 0; border-radius: 58px; background: linear-gradient(160deg, #2c2a3c 0%, #1a1924 60%, #121119 100%);
+    border: 5px solid #16161f; box-shadow: 9px 11px 0 #16161f, inset 0 0 0 3px #4a4762, inset 0 0 0 7px #16161f; }
+  .ch-btn { position: absolute; width: 7px; border-radius: 3px; background: #16161f; }
+  .ch-screen { position: absolute; left: 15px; top: 15px; right: 15px; bottom: 15px; border-radius: 44px; overflow: hidden;
+    background: radial-gradient(ellipse 120% 70% at 50% 0%, #fbf7ee 0%, #f2ecdf 60%, #e9e2d2 100%); }
+  .ch-island { position: absolute; left: 50%; top: 11px; width: 92px; height: 26px; margin-left: -46px; border-radius: 14px; background: #121119; z-index: 5; }
+  .ch-status { position: absolute; left: 0; top: 0; right: 0; height: 44px; padding: 13px 30px 0; display: flex; justify-content: space-between;
+    font: 800 15px "Inter", sans-serif; color: #16161f; letter-spacing: .02em; z-index: 4; }
+  .ch-status .bat { display: inline-block; width: 26px; height: 13px; border: 2px solid #16161f; border-radius: 4px; position: relative; top: 1px; padding: 1px; }
+  .ch-status .bat i { display: block; width: 40%; height: 100%; background: #e5484d; border-radius: 1px; }
+  .ch-head { position: absolute; left: 0; top: 44px; right: 0; height: 74px; display: flex; align-items: center; gap: 10px; padding: 0 16px;
+    background: rgba(255, 255, 255, .62); border-bottom: 2px solid rgba(22, 22, 31, .12); z-index: 3; }
+  .ch-back { width: 14px; height: 14px; border-left: 3px solid #16161f; border-bottom: 3px solid #16161f; transform: rotate(45deg); margin: 0 4px 0 6px; }
+  .ch-gav { position: relative; width: 52px; height: 52px; flex: none; }
+  .ch-gav .ch-av { position: absolute; width: 30px; height: 30px; border-width: 2px; }
+  .ch-title { font: 800 22px/1.05 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sub { font: 600 14px/1.2 "Inter", sans-serif; color: rgba(22, 22, 31, .55); margin-top: 3px; }
+  .ch-list { position: absolute; left: 0; right: 0; top: 118px; bottom: 66px; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 12px 6px; overflow: hidden; }
+  .ch-input { position: absolute; left: 12px; right: 12px; bottom: 14px; height: 44px; border-radius: 22px; background: #fff; border: 2px solid rgba(22, 22, 31, .14);
+    display: flex; align-items: center; padding: 0 16px; font: 600 16px "Inter", sans-serif; color: rgba(22, 22, 31, .38); }
+  .ch-input .send { margin-left: auto; width: 30px; height: 30px; border-radius: 50%; background: #ffc83d; border: 2px solid #16161f; }
+  /* rows: hidden = max-height 0 (takes no space); shown by the timeline */
+  .ch-row { display: flex; align-items: flex-end; gap: 8px; max-height: 0; opacity: 0; overflow: hidden; padding: 0 4px; flex: none; }
+  .ch-row.out { justify-content: flex-end; }
+  .ch-pad { padding: 7px 0 7px; display: flex; align-items: flex-end; gap: 8px; width: 100%; }
+  .ch-row.out .ch-pad { justify-content: flex-end; }
+  .ch-av { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; flex: none; position: relative; border: 3px solid #16161f; background: #ddd; }
+  .ch-av img { position: absolute; display: block; }
+  .ch-av svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .ch-bub { position: relative; max-width: 70%; background: #fff; border-radius: 22px 22px 22px 6px; padding: 9px 15px 8px;
+    box-shadow: 0 2px 0 rgba(22, 22, 31, .10), 0 3px 10px rgba(22, 22, 31, .08); transform-origin: 0% 100%; }
+  .ch-bub::after { content: ""; position: absolute; left: -8px; bottom: 0; width: 8px; height: 12px; background: #fff;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%); }                 /* the 8 px tail */
+  .ch-row.out .ch-bub { background: #ffd65e; border-radius: 22px 22px 6px 22px; transform-origin: 100% 100%; }
+  .ch-row.out .ch-bub::after { left: auto; right: -8px; background: #ffd65e; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+  .ch-name { font: 800 15px/1.2 "Inter", sans-serif; margin-bottom: 2px; letter-spacing: .01em; }
+  .ch-txt { font: 600 26px/34px "Inter", sans-serif; color: #16161f; letter-spacing: -.005em; }
+  .ch-w { display: inline-block; white-space: pre; }
+  .ch-meta { font: 600 12px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .45); text-align: right; margin-top: 3px; white-space: nowrap; }
+  .ch-tick { display: inline-block; margin-left: 4px; color: rgba(22, 22, 31, .4); font-weight: 800; letter-spacing: -.25em; }
+  /* "Bought." sticker: die-cut, 4 px white border, shadow, rotated +-4 deg */
+  .ch-stk { position: relative; display: flex; flex-direction: column; align-items: flex-start; }
+  .ch-row.out .ch-stk { align-items: flex-end; }
+  .ch-stk .ch-name { margin: 0 0 4px 6px; }
+  .ch-sticker { display: flex; align-items: center; gap: 10px; padding: 9px 20px 9px 12px; border-radius: 20px; background: #ffc83d;
+    border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 0 rgba(22, 22, 31, .22), 0 10px 18px rgba(22, 22, 31, .28);
+    font: 800 30px/1 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sticker .chk { width: 30px; height: 30px; border-radius: 50%; background: #16161f; display: flex; align-items: center; justify-content: center; flex: none; }
+  .ch-sticker .chk svg { width: 18px; height: 18px; }
+  .ch-sys { justify-content: center; }
+  .ch-sys .ch-pad { justify-content: center; }
+  .ch-chip { font: 800 13px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .55); background: rgba(22, 22, 31, .07); padding: 7px 12px; border-radius: 12px; letter-spacing: .03em; text-align: center; }
+  .ch-dots { display: flex; gap: 6px; padding: 15px 18px 14px; }
+  .ch-dots i { display: block; width: 12px; height: 12px; border-radius: 50%; background: rgba(22, 22, 31, .35); }
+  .ch-tb { display: inline-block; max-width: none; }
+  .ch-typer { font: 600 16px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .5); margin: 0 0 6px 2px; white-space: nowrap; }
+</style>
+<script>
+  window.ChatPhone = (function () {
+    const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; };
+    const CHECK = '<svg viewBox="0 0 20 20"><path d="M4 10.5 L8.5 15 L16.5 5.5" fill="none" stroke="#ffc83d" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    function ChatPhone(host, o) {
+      o = Object.assign({ title: "The boat", sub: "4 members", clock: "11:42", me: "Q", w: 384, h: 612, members: {} }, o);
+      const root = el("div", "ch-phone", host); root.style.width = o.w + "px"; root.style.height = o.h + "px";
+      el("div", "ch-body", root);
+      [[-4, 150, 60], [-4, 222, 60], [o.w - 3, 170, 86]].forEach(([x, y, hh]) => { const b = el("div", "ch-btn", root); Object.assign(b.style, { left: x + "px", top: y + "px", height: hh + "px" }); });
+      const screen = el("div", "ch-screen", root);
+      el("div", "ch-island", screen);
+      el("div", "ch-status", screen, `<span>${o.clock}</span><span><span class="bat"><i></i></span></span>`);
+      const head = el("div", "ch-head", screen);
+      el("div", "ch-back", head);
+      const gav = el("div", "ch-gav", head);
+      Object.keys(o.members).slice(0, 4).forEach((k, i) => { const a = avatar(k, gav); a.style.left = (i % 2) * 22 + "px"; a.style.top = Math.floor(i / 2) * 22 + "px"; });
+      const tt = el("div", "", head); el("div", "ch-title", tt, o.title); el("div", "ch-sub", tt, o.sub);
+      const list = el("div", "ch-list", screen);
+      el("div", "ch-input", screen, `Message<span class="send"></span>`);
+      function avatar(who, parent) { const m = o.members[who] || {}; const a = el("div", "ch-av", parent, m.avatar || ""); a.style.background = m.color || "#ccc"; return a; }
+      function row(who) { const r = el("div", "ch-row" + (who === o.me ? " out" : ""), list); const pad = el("div", "ch-pad", r); if (who !== o.me) avatar(who, pad); return { el: r, pad, who }; }
+      const api = {
+        el: root, screen, list, head,
+        msg(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const b = el("div", "ch-bub", r.pad);
+          if (who !== o.me) el("div", "ch-name", b, m.name || who).style.color = m.color;
+          const tx = el("div", "ch-txt", b);
+          r.words = text.split(" ").map((w, i, a) => el("span", "ch-w", tx, (w + (i < a.length - 1 ? " " : "")).replace(/&/g, "&amp;").replace(/</g, "&lt;")));
+          const meta = el("div", "ch-meta", b, opt.time || "11:42 PM");
+          r.tick = who === o.me ? el("span", "ch-tick", meta, "✓✓") : null;
+          r.bub = b; r.h = opt.h || 60 + 34 * (opt.lines || 3); return r; },
+        sticker(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const s = el("div", "ch-stk", r.pad);
+          if (who !== o.me) el("div", "ch-name", s, m.name || who).style.color = m.color;
+          r.bub = el("div", "ch-sticker", s, `<span class="chk">${CHECK}</span><span>${text}</span>`);
+          r.bub.style.transform = `rotate(${opt.rot != null ? opt.rot : (who === o.me ? 4 : -4)}deg)`;
+          r.rot = opt.rot != null ? opt.rot : (who === o.me ? 4 : -4);
+          if (who === o.me) { const meta = el("div", "ch-meta", s, (opt.time || "11:43 PM")); meta.style.marginTop = "8px"; r.tick = el("span", "ch-tick", meta, "✓✓"); }
+          r.h = opt.h || 112; return r; },
+        system(text, opt) { opt = opt || {}; const r = { el: el("div", "ch-row ch-sys", list) }; const pad = el("div", "ch-pad", r.el);
+          r.bub = el("div", "ch-chip", pad, text); r.h = opt.h || 44; if (opt.visible) { r.el.style.maxHeight = r.h + "px"; r.el.style.opacity = 1; } return r; },
+        typing(who) { const r = row(who); const m = o.members[who] || {};
+          const c = el("div", "", r.pad); el("div", "ch-typer", c, `${m.name || who} is typing…`);
+          const b = el("div", "ch-bub ch-tb", c); r.dots = Array.from(el("div", "ch-dots", b, "<i></i><i></i><i></i>").children);
+          r.bub = b; r.h = 96; return r; },
+        show(tl, r, at, d) { d = d == null ? .32 : d;
+          tl.fromTo(r.el, { maxHeight: 0, opacity: 0 }, { maxHeight: r.h, opacity: 1, duration: d, ease: "power2.out", immediateRender: false }, at);
+          tl.fromTo(r.bub, { scale: .55, y: 14 }, { scale: 1, y: 0, rotation: r.rot || 0, duration: d + .18, ease: "back.out(2.2)", immediateRender: false }, at);
+          return r; },
+        typeWords(tl, r, times) { tl.set(r.words, { opacity: 0 }, 0); api.show(tl, r, times[0] - .04);
+          r.words.forEach((w, i) => tl.fromTo(w, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .14, ease: "power2.out", immediateRender: false }, times[Math.min(i, times.length - 1)]));
+          return r; },
+        dots(tl, r, tIn, tOut) { api.show(tl, r, tIn, .26);
+          const n = Math.max(1, Math.floor((tOut - tIn) / .42));
+          r.dots.forEach((d, i) => tl.fromTo(d, { y: 0, backgroundColor: "rgba(22, 22, 31, .35)" }, { y: -7, backgroundColor: "rgba(22, 22, 31, .8)", duration: .21, ease: "sine.inOut", yoyo: true, repeat: 2 * n - 1, immediateRender: false }, tIn + .08 + i * .12));
+          api.hide(tl, r, tOut); return r; },
+        hide(tl, r, at, d) { tl.to(r.el, { maxHeight: 0, opacity: 0, duration: d || .16, ease: "power2.in" }, at); return r; },
+        read(tl, r, at) { if (r.tick) { tl.set(r.tick, { color: "rgba(22, 22, 31, .4)" }, 0); tl.set(r.tick, { color: "#d99a00" }, at); } return r; },
+      };
+      return api;
+    }
+    // avatar from a cut-out: a square crop (cx, cy, size in source px) of an image (srcW x srcH) fills the circle
+    ChatPhone.avImg = (src, srcW, srcH, cx, cy, size, d) => { d = d || 100; const k = d / size;
+      return `<img src="${src}" alt="" style="width:${(srcW * k / d * 100).toFixed(2)}%; left:${(-(cx - size / 2) * k / d * 100).toFixed(2)}%; top:${(-(cy - size / 2) * k / d * 100).toFixed(2)}%" />`; };
+    // a silhouette avatar (the faceless friends of the hook), in their colour
+    ChatPhone.avSil = (color, dark) => `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${color}"/>` +
+      `<circle cx="50" cy="40" r="19" fill="${dark || "rgba(22,22,31,.38)"}"/><path d="M14 104 C 16 72, 32 62, 50 62 C 68 62, 84 72, 86 104 Z" fill="${dark || "rgba(22,22,31,.38)"}"/></svg>`;
+    return ChatPhone;
+  })();
+</script>
 
     <script>
       /* ------------------------------------------------------------------ setup (deterministic) */
@@ -527,14 +663,8 @@
           const e = mk("div", "fish", f.bob, `left:${f.w / 2 - sz[0] / 2}px; top:${-sz[1] * 0.6}px; width:${sz[0]}px; height:${sz[1]}px`); const im = mk("img", "", e); im.src = `assets/${kind}.png`;
           const boom = kind === "dynamite" ? mk("div", "boom", f.bob, `left:${f.w / 2 - 110 * f.sc / .3}px; top:${-200 * f.sc / .3}px; width:${220 * f.sc / .3}px; height:${220 * f.sc / .3}px`) : null;
           chaos.push({ e, kind, f, boom, sz, i }); } })();
-      // number reel 10,000,000
-      const reelDigits = []; (function () { const host = $("#reel"); const value = "10,000,000";
-        for (const ch of value) { if (ch === ",") { const s = mk("span", "dsep", host); s.textContent = ","; continue; }
-          const col = mk("span", "dcol", host); const strip = mk("span", "dstrip", col); const stops = 20 + Number(ch);
-          for (let i = 0; i <= stops; i++) { const d = mk("span", "", strip); d.textContent = String(i % 10); } reelDigits.push({ strip, stops }); } })();
       // spark bursts
       function makeSparks(host, n, seed) { const r = rng(seed); return Array.from({ length: n }, () => ({ e: mk("div", "spark", host), a: r() * Math.PI * 2, d: 120 + r() * 260, s: 0.6 + r() * 1.2 })); }
-      const numSparks = makeSparks($("#burstWrap"), 26, 77);
       // 4-point sparkle svg
       function star4(host, x, y, size, color) { const e = mk("div", "star4", host, `left:${x - size / 2}px; top:${y - size / 2}px; width:${size}px; height:${size}px`);
         e.innerHTML = `<svg viewBox="-20 -20 40 40"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="${color}"/></svg>`; return e; }
@@ -660,53 +790,45 @@
       tl.to("#ko", { rotation: 360, duration: 1.3, ease: "none", transformOrigin: "50% 50%" }, 10.8);
       cam(10.8, 1.3, focus(790, 380, 1.95), "sine.out");
 
-      // ---------------- INSERT: the fish money (12.1 - 14.06)
-      tl.fromTo("#tblCam", { scale: 1.12, x: 30 }, { scale: 1.02, x: 0, duration: 1.96, ease: "power2.out" }, 12.1);
-      tl.fromTo("#lantern", { rotation: -5 }, { rotation: 4, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "50% 0%" }, 12.1);
-      tl.fromTo("#tblLight", { opacity: .8 }, { opacity: 1, duration: .25, ease: "sine.inOut", yoyo: true, repeat: 7 }, 12.1);
-      tl.fromTo("#tblFish", { x: -700, rotation: -8 }, { x: 0, rotation: 0, duration: .5, ease: "back.out(1.6)" }, 12.4);
-      tl.fromTo("#tblChips", { y: -560, rotation: 20 }, { y: 0, rotation: 0, duration: .55, ease: "bounce.out" }, 12.7);
-      tl.fromTo("#mkMoney", { y: 80, scale: .6, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .4, ease: "back.out(2.5)" }, 12.82);
-      tl.set("#tblLid", { opacity: 0 }, 12.1);
-      tl.to("#tblLid", { keyframes: [{ opacity: 1, duration: .12, ease: "steps(1)" }, { opacity: 0, duration: .16, ease: "steps(1)" }] }, 13.45);
+      // (v3.3: the fish-money and scope inserts are gone with "Gambling the fish money. Fishing with a sniper rifle.";
+      //  the warp holds the slap shot 1:1 after "face." and jumps to the price cut just before "It costs")
 
-      // ---------------- INSERT: the scope (14.06 - 15.82): the world seen through a scope, locks on the fish
-      const SCOPEFISH = { x: 1000, y: 560 };
-      tl.set(buddy, { x: SCOPEFISH.x - 85, y: SCOPEFISH.y - 62, rotation: 0, scale: 1, opacity: 1 }, 14.06);
-      MATES.forEach((m) => tl.set(m, { opacity: 0 }, 14.06));
-      tl.set(["#boatEnter", "#ripples"], { opacity: 0 }, 14.06);
-      cam(14.06, 0, focus(SCOPEFISH.x, SCOPEFISH.y, 2.4, -140, 70));
-      cam(14.06, 1.7, focus(SCOPEFISH.x, SCOPEFISH.y, 2.6), "power2.out");
-      tl.fromTo("#scopeRig", { x: -260, y: 90 }, { keyframes: [{ x: 120, y: -40, duration: .4, ease: "sine.inOut" }, { x: -40, y: 30, duration: .3, ease: "sine.inOut" }, { x: 0, y: 0, duration: .32, ease: "back.out(2)" }] }, 14.06);
-      tl.fromTo("#dot", { scale: 1 }, { scale: 2.2, duration: .12, yoyo: true, repeat: 3, ease: "sine.inOut" }, 14.84);
-      tl.to(buddyLid, { keyframes: [{ opacity: 1, duration: .14, ease: "steps(1)" }, { opacity: 0, duration: .2, ease: "steps(1)" }] }, 15.15);
-
-      // ---------------- NUMBERS (15.82 - 25.95): the lake out of focus behind the cards
+      // ---------------- PRICE (15.82 - 17.30): "It costs about eight dollars." - the $7.99 tag swings in over the lake out of focus
       tl.set(buddy, { opacity: 0 }, 15.82);
-      MATES.forEach((m) => tl.set(m, { opacity: 1 }, 15.82));
-      tl.set(["#boatEnter", "#ripples"], { opacity: 1 }, 15.82);
       tl.set("#breath", { filter: "blur(7px) saturate(1.1)" }, 15.82);
       tl.set("#numsDim", { opacity: 1 }, 15.82);
       cam(15.82, 0, focus(600, 380, 1.06));
-      cam(15.82, 10.1, focus(680, 400, 1.12), "none");
+      cam(15.82, 1.48, focus(620, 385, 1.075), "none");
+      tl.set("#tag", { x: 280 }, 0);                                                 // centred: the tag is the shot (no numbers here any more)
       tl.fromTo("#tag", { y: -460, rotation: -70 }, { y: 0, duration: .5, ease: "power2.in" }, 16.0);
       tl.to("#tag", { rotation: 0, duration: 2.2, ease: "elastic.out(1.15, .22)", transformOrigin: "170px 0px" }, 16.25);
-      tl.fromTo("#mkHoped", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: .5, ease: "back.out(2.8)", transformOrigin: "0% 50%" }, 17.8);
-      const hoped = { v: 0 };
-      tl.set("#hopedNum", { opacity: 0 }, 15.82);
-      tl.fromTo("#hopedNum", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .3, ease: "power2.out" }, 19.25);
-      tl.to(hoped, { v: 200000, duration: 1.1, ease: "power3.out", onUpdate: () => { $("#hopedNum").textContent = Math.round(hoped.v / 1000) * 1000 >= 1000 ? Math.round(hoped.v).toLocaleString("en-US") : "0"; } }, 19.3);
-      tl.fromTo("#strike", { scaleX: 0 }, { scaleX: 1, duration: .35, ease: "power3.out" }, 21.5);
-      tl.to("#hoped", { scale: .62, x: 150, y: -60, opacity: .55, rotation: 4, duration: .6, ease: "power3.inOut" }, 22.0);
-      tl.to("#tag", { scale: .7, x: -80, y: -40, opacity: .7, duration: .6, ease: "power3.inOut" }, 22.0);
-      tl.fromTo("#big", { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2)" }, 22.45);
-      reelDigits.slice().reverse().forEach((d, i) => tl.fromTo(d.strip, { y: 0 }, { y: -172 * d.stops, duration: 2.0 - i * .06, ease: "power3.inOut" }, 22.7 + i * .06));
-      tl.fromTo("#plus", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: .55, ease: "elastic.out(1.2, .4)" }, 25.0);
-      tl.fromTo("#big", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: .08 }, { scale: 1, duration: .6, ease: "elastic.out(1, .35)" }], immediateRender: false }, 24.8);
-      tl.fromTo("#src", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5 }, 23.4);
-      numSparks.forEach((s) => { tl.fromTo(s.e, { x: 0, y: 0, scale: s.s, opacity: 1 }, { x: Math.cos(s.a) * s.d * 1.6, y: Math.sin(s.a) * s.d * .7, opacity: 0, duration: .9, ease: "power3.out" }, 24.8); });
-      tl.set(numSparks.map((s) => s.e), { opacity: 0 }, 15.82);
-      tl.to("#shake", { keyframes: [[6, -4], [-5, 3], [3, 2], [0, 0]].map(([x, y]) => ({ x, y, duration: .05 })) }, 24.8);
+      tl.fromTo("#tag .card", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: .08 }, { scale: 1, duration: .5, ease: "elastic.out(1, .35)" }], immediateRender: false }, 16.62);   // "dollars": a gold punch
+
+      // ---------------- H8 (A8 - 25.95, 1:1 with the narration): "Getting a few adults into the same boat is harder than
+      // anything in the game. And yet," - back on the boat: Quest, Pixie and Max seated, Leo's seat EMPTY; Leo's
+      // "I'll get it later." bubble drifts down out of the chat and hangs over the empty seat.
+      const A8 = (n) => 20.94 + (n - 25.8);                                       // narration time -> authored time
+      const H8 = { cut: 25.8, getting: 25.9, adults: 26.54, same: 27.22, boat: 27.52, harder: 27.96,
+                   anything: 28.74, game: 29.5, gameEnd: 29.76, and: 30.19, yet: 30.34, mil: 30.81 };
+      tl.set("#breath", { filter: "none" }, A8(H8.cut));
+      tl.set("#numsDim", { opacity: 0 }, A8(H8.cut));
+      tl.set(buddy, { opacity: 0 }, A8(H8.cut));
+      tl.set("#silB", { opacity: 0 }, A8(H8.cut));                                  // Leo never came: his seat is empty
+      tl.set("#silB", { opacity: 1 }, 25.95);                                        // ...and yet: the four of them in the fleet
+      MAX.face(tl, "neutral", A8(H8.cut));
+      MAX.face(tl, "sideeye", A8(H8.boat + .25));                                    // Max glances at the empty seat
+      MAX.face(tl, "neutral", A8(H8.gameEnd + .1));
+      cam(A8(H8.cut), 0, focus(760, 425, 1.4, 0, 10));                              // a medium on the crew, the empty seat right of centre
+      cam(A8(H8.cut), H8.mil - H8.cut, focus(835, 410, 1.5, 0, 10), "sine.inOut"); // slow push toward the empty seat
+      // the bubble: drifts down from above the frame (it comes from the chat), sways, settles over the seat on "boat"
+      tl.set("#laterBub", { x: 40, y: -420, rotation: 7, opacity: 1 }, A8(H8.cut));
+      tl.to("#laterBub", { keyframes: [{ x: -26, y: -150, rotation: -4, duration: (H8.boat - H8.getting) * .55, ease: "sine.inOut" },
+                                       { x: 0, y: 0, rotation: 2, duration: (H8.boat - H8.getting) * .45, ease: "power2.out" }] }, A8(H8.getting));
+      tl.fromTo("#laterBub", { y: 0, rotation: 2 }, { y: -7, rotation: -1.5, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 2, immediateRender: false }, A8(H8.boat + .1));
+      tl.fromTo("#laterTail", { scaleY: 0 }, { scaleY: 1, duration: .25, ease: "back.out(2)", transformOrigin: "50% 0%", immediateRender: false }, A8(H8.boat - .05));
+      tl.set("#laterTail", { scaleY: 0 }, 0);
+      // "And yet,": the bubble lets go and floats up out of the frame; the seat stays empty a beat
+      tl.to("#laterBub", { y: -420, rotation: -6, opacity: 0, duration: H8.mil - H8.and + .1, ease: "power2.in" }, A8(H8.and));
 
       // ---------------- FLEET (25.95 - 31.2): "Millions of people bought a fishing game."
       tl.set("#breath", { filter: "none" }, 25.95);
@@ -775,15 +897,110 @@
       tl.fromTo("#breath", { y: -4 }, { y: 4, duration: 6.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(DUR / 6.5), immediateRender: false }, 0);
 
       tl.set({}, {}, DUR);
+
+      /* ------------------------------------------------------------------ H5-H7: the group chat, on the NARRATION clock
+         (h-tokens are narration seconds; window.__tl2 is added to the master timeline unwarped by build.py).
+         Block B's B3-B5 chat, re-keyed to the hook's lines: "A message in a group chat. 'It's eight dollars. Just get
+         it.'" / "Bought. Bought. Bought." / "And one friend who says 'I'll get it later.' He will not get it later." */
+      const tl2 = gsap.timeline({ paused: true }); window.__tl2 = tl2;
+      { const ft = tl2.fromTo.bind(tl2);
+        tl2.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
+      const C2 = {
+        start: 13.04, end: 25.8, message: 13.26, group: 13.98, chatEnd: 14.52,
+        q: [15.09, 15.28, 15.42, 16.18, 16.32, 16.6], qEnd: 16.88,
+        b1: 17.39, b2: 18.53, b2end: 18.91, b3: 19.57, b3end: 19.72,
+        friend: 20.54, who: 21.2, l: [22.16, 22.3, 22.4, 22.54], laterEnd: 22.78,
+        he: 23.53, not2: 23.92, get2: 24.3, later2: 24.93,
+      };
+      const FREEZE = [C2.laterEnd, C2.he];                                  // dead still after "later." (block B's B5 beat)
+      const MEM = {
+        Q: { name: "Quest", color: "#d6392f", img: ["assets/quest_wave.png", 688, 1024, 318, 170, 300] },
+        P: { name: "Pixie", color: "#167880", img: ["assets/pixie_wave.png", 680, 1024, 320, 168, 280] },
+        A: { name: "Max", color: "#7860be", img: ["assets/max_front_neutral.png", 177, 760, 88.5, 108, 210] },
+        B: { name: "Leo", color: "#d69628", img: ["assets/leo_front_sideeye.png", 221, 760, 110.5, 118, 210] },
+      };
+      $("#laterAv").innerHTML = ChatPhone.avImg(...MEM.B.img);              // the same Leo as in the chat
+      const chat = ChatPhone($("#phoneFlip"), {
+        title: "The boat", sub: "Quest, Pixie, Max, Leo", clock: "11:42", me: "Q",
+        members: Object.fromEntries(Object.entries(MEM).map(([k, m]) => [k, { name: m.name, color: m.color, avatar: ChatPhone.avImg(...m.img) }])),
+      });
+      chat.system("Today 11:41 PM", { visible: true });
+      chat.system("Max named the group “The boat”", { visible: true, h: 52 });
+      const dA = chat.typing("A");
+      const mA = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 });
+      const dP = chat.typing("P");
+      const sP = chat.sticker("P", "Bought.", { rot: -4 });
+      const sQ = chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM" });
+      const dA2 = chat.typing("A");
+      const sA = chat.sticker("A", "Bought.", { rot: -3 });
+      const dB = chat.typing("B");
+      const mB = chat.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 });
+      const dB2 = chat.typing("B");
+      const prings = [0, 1, 2].map(() => mk("div", "pring", $("#prings"), "left:340px; top:120px; width:600px; height:600px; opacity:0"));
+      // the chat camera breathes on its own phase; the breathing clock stops dead during FREEZE
+      const env2 = { t: C2.start };
+      const breathe2 = () => { const t = env2.t - C2.start; const f0 = FREEZE[0] - C2.start, f1 = FREEZE[1] - C2.start;
+        const bt = t < f0 ? t : t < f1 ? f0 : t - (f1 - f0);
+        gsap.set("#camChat", { scale: 1.025 + .012 * Math.sin((bt + 4.0) * 2 * Math.PI / 5.5), x: 8 * Math.sin((bt + 6.8) * 2 * Math.PI / 7.5), y: 4 * Math.sin((bt + 2.4) * 2 * Math.PI / 6.5), transformOrigin: "50% 50%" }); };
+      tl2.fromTo(env2, { t: C2.start }, { t: C2.end, duration: C2.end - C2.start, ease: "none", onUpdate: breathe2, immediateRender: false }, C2.start);
+      const focus2 = (px, py, s, ox, oy) => ({ x: (W / 2 - px) * s + (ox || 0), y: (H / 2 - py) * s + (oy || 0), scale: s });
+      const cam2 = (at, dur, f, ease) => dur <= 0 ? tl2.set("#pushChat", f, at) : tl2.to("#pushChat", Object.assign({}, f, { duration: dur, ease: ease || "sine.inOut" }), at);
+      const kick2 = (at, sc, rot) => tl2.fromTo("#kickChat", { scale: 1, rotation: 0 }, { keyframes: [{ scale: sc, rotation: rot, duration: .06, ease: "power3.out" }, { scale: 1, rotation: 0, duration: .55, ease: "elastic.out(1.1, .38)" }], transformOrigin: "50% 50%", immediateRender: false }, at);
+      // H5: the phone flips in on "message"; "group chat" punches the header; Max types "It's eight dollars. Just get it."
+      cam2(0, 0, focus2(640, 360, 1.0));
+      tl2.set("#phoneRig", { transformPerspective: 1600 }, 0);
+      tl2.set("#phoneFlip", { rotationY: -90, scale: 1.04 }, 0);
+      tl2.to("#phoneFlip", { rotationY: 0, scale: 1, duration: .42, ease: "back.out(1.4)" }, C2.start + .02);
+      tl2.fromTo("#phoneHalo", { opacity: .6 }, { opacity: 1, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 5, immediateRender: false }, C2.start);
+      tl2.fromTo(chat.head, { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .1 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 50%", immediateRender: false }, C2.group);
+      chat.dots(tl2, dA, C2.chatEnd - .1, C2.q[0] - .06);
+      cam2(C2.chatEnd - .2, 1.1, focus2(640, 452, 1.3), "power2.inOut");
+      chat.typeWords(tl2, mA, C2.q);                                         // It's | eight | dollars. | Just | get | it.
+      tl2.fromTo(mA.bub, { scale: 1 }, { keyframes: [{ scale: 1.05, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], immediateRender: false }, C2.q[5] + .02);
+      cam2(C2.qEnd + .1, .9, focus2(640, 420, 1.17), "power2.inOut");
+      // H6: Bought. Bought. Bought. - scale punch + camera kick, bigger each time
+      chat.dots(tl2, dP, C2.qEnd + .2, C2.b1 - .02);
+      chat.show(tl2, sP, C2.b1 - .02, .26);
+      chat.show(tl2, sQ, C2.b2 - .02, .26);
+      chat.dots(tl2, dA2, C2.b2end + .08, C2.b3 - .02);
+      chat.show(tl2, sA, C2.b3 - .02, .26);
+      chat.read(tl2, sQ, C2.b3 + .3);
+      [[sP, C2.b1, 1.04, 2], [sQ, C2.b2, 1.07, -3], [sA, C2.b3, 1.1, 4]].forEach(([st, t, k, rot], i) => {
+        tl2.fromTo(st.bub, { scale: 2.3, opacity: 0 }, { scale: 1, opacity: 1, rotation: st.rot, duration: .22, ease: "power4.in", immediateRender: false }, t - .04);
+        tl2.fromTo(st.bub, { scale: 1 }, { keyframes: [{ scale: .9, duration: .05 }, { scale: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], immediateRender: false }, t + .18);
+        kick2(t + .18, k, rot);
+        const r = prings[i];
+        tl2.fromTo(r, { scale: .05, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .02 }, { scale: (520 + i * 160) / 600, opacity: 0, duration: .5, ease: "power2.out" }], immediateRender: false }, t + .18);
+        tl2.set(r, { opacity: 0 }, 0);
+        tl2.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .1 + i * .05, duration: .03 }, { opacity: 0, duration: .14 }], immediateRender: false }, t + .18);
+      });
+      cam2(C2.b1 - .3, C2.b3 - C2.b1 + .3, focus2(640, 430, 1.22), "sine.inOut");
+      // H7: "I'll get it later." - dead still - "He will not get it later." (dots come back... and vanish on "not")
+      cam2(C2.friend, C2.l[0] - C2.friend, focus2(640, 462, 1.32), "power2.inOut");
+      chat.dots(tl2, dB, C2.who, C2.l[0] - .02);
+      chat.typeWords(tl2, mB, C2.l);                                         // I'll | get | it | later.
+      chat.dots(tl2, dB2, C2.he, C2.not2);
+      cam2(C2.not2, .9, focus2(700, 452, 1.24), "power2.inOut");
+      tl2.set("#fishPeek", { y: 30, rotation: -6, opacity: 0 }, 0);
+      tl2.set("#fishPeek", { y: 0, opacity: 1 }, C2.not2 + .1);
+      tl2.to("#fishPeek", { y: -132, rotation: -2, duration: .55, ease: "back.out(1.8)" }, C2.not2 + .12);
+      tl2.set(["#fishBlink", "#fishLook"], { opacity: 0 }, 0);
+      tl2.set("#fishLook", { opacity: 1 }, C2.not2 + .12);                 // peeks up at the chat...
+      tl2.set("#fishLook", { opacity: 0 }, C2.get2 + .1);                  // ...then deadpan at the camera
+      tl2.set("#fishBlink", { opacity: 1 }, C2.later2);                    // one slow blink on "later."
+      tl2.set("#fishBlink", { opacity: 0 }, C2.later2 + .5);
+      tl2.fromTo([mB.el, dB2.el].map((r) => r.querySelector(".ch-av")), { filter: "grayscale(0) brightness(1)" }, { filter: "grayscale(1) brightness(.85)", duration: .5, ease: "power2.out", immediateRender: false }, C2.not2);
+      tl2.set({}, {}, 40.76);
       MAX.talk(tl, 31.36, 32.2); LEO.talk(tl, 31.3, 32.3);                 // "Together.": they laugh (lip-flap)
       // seagulls (our 3D gull): two distant ones cross the opening lake at different depths, flapping then gliding
       { const host = $("#L-water .F");
         Gull(host, { w: 46 }).fly(tl, 0, 7.4, [[1360, 150], [900, 128], [420, 118], [-90, 96]], { flaps: [[0, 1.1], [3.4, 4.3]] });
         Gull(host, { w: 30, flip: true }).fly(tl, .6, 6.8, [[180, 190], [560, 176], [1010, 170], [1380, 150]], { flaps: [[.6, 1.5], [4.2, 4.9]] }); }
       [MAX, LEO].forEach((f, i) => f.blinks(tl, 0, 36.03, 11 + i * 7));   // idle blinks on the friends
-      const WARP = [[0.0, 0.0], [0.3, 0.34], [0.44, 0.54], [0.6, 0.68], [0.78, 0.84], [0.98, 1.02], [1.44, 1.56], [1.86, 1.9], [2.06, 2.14], [2.38, 2.5], [3.18, 3.12], [3.4, 3.22], [3.76, 3.5], [4.64, 4.24], [4.69, 4.29], [5.1, 4.62], [5.68, 5.18], [5.74, 5.28], [5.88, 5.6], [6.0, 5.82], [6.24, 6.14], [6.806, 6.64], [6.98, 6.78], [7.88, 7.1], [8.46, 7.64], [8.8, 7.98], [8.96, 8.18], [9.08, 8.32], [9.36, 8.68], [9.93, 9.0], [10.1, 9.19], [10.24, 9.36], [10.58, 9.82], [10.88, 10.14], [11.0, 10.24], [11.22, 10.42], [11.32, 10.54], [11.64, 10.86], [12.16, 11.38], [12.4, 11.58], [12.62, 11.92], [12.82, 12.14], [13.16, 12.46], [14.06, 12.88], [14.2, 13.1], [14.4, 13.52], [14.54, 13.78], [14.84, 14.18], [15.28, 14.66], [15.82, 15.29], [15.98, 15.4], [16.3, 15.94], [16.64, 16.26], [17.54, 16.82], [17.8, 17.12], [18.2, 17.44], [18.58, 17.76], [18.78, 17.89], [19.06, 18.1], [19.38, 18.42], [19.92, 18.78], [20.36, 19.13], [20.74, 19.5], [21.36, 20.58], [21.52, 20.76], [21.84, 21.1], [22.34, 21.64], [22.52, 22.0], [22.76, 22.2], [23.32, 22.62], [23.66, 22.98], [24.14, 23.42], [24.52, 23.72], [24.78, 23.98], [25.04, 24.44], [25.4, 25.36], [25.95, 26.18], [26.18, 26.4], [26.6, 26.94], [26.92, 27.34], [27.22, 27.76], [27.4, 28.26], [27.64, 28.68], [28.08, 29.14], [29.0, 29.7], [29.18, 29.98], [29.76, 30.6], [30.34, 31.26], [31.23, 31.77], [31.76, 32.14], [32.945, 32.98], [33.8, 33.24], [34.36, 34.1], [36.03, 36.01], [36.03, 35.6]];
+      const WARP = [[0.0, 0.0], [0.3, 0.34], [0.44, 0.54], [0.6, 0.68], [0.78, 0.82], [0.98, 1.06], [1.44, 1.54], [1.86, 1.9], [2.06, 2.12], [2.38, 2.5], [3.18, 3.1], [3.4, 3.2], [3.76, 3.5], [4.64, 4.15], [4.66, 4.26], [5.1, 4.62], [5.68, 5.17], [5.74, 5.28], [5.88, 5.6], [6.0, 5.78], [6.24, 6.16], [6.81, 6.56], [6.98, 6.78], [7.88, 7.08], [8.46, 7.6], [8.8, 7.98], [8.96, 8.16], [9.08, 8.3], [9.36, 8.68], [9.93, 8.9], [10.1, 9.19], [10.24, 9.36], [10.58, 9.8], [10.88, 10.1], [11.0, 10.24], [11.22, 10.42], [11.32, 10.54], [11.64, 10.86], [12.18, 11.4], [15.82, 11.401], [15.98, 11.56], [16.3, 12.1], [16.64, 12.32], [17.0, 12.62], [17.3, 13.04], [20.94, 25.8], [25.95, 30.81], [26.18, 31.2], [26.6, 31.76], [26.92, 32.14], [27.22, 32.56], [27.4, 33.06], [27.64, 33.5], [28.08, 33.96], [29.0, 34.47], [29.18, 34.79], [29.76, 35.42], [30.34, 36.08], [31.23, 36.57], [31.76, 36.96], [33.24, 37.78], [33.8, 38.04], [34.36, 38.9], [36.03, 40.76]];
       const master = gsap.timeline({ paused: true });                  // authored time -> narration time
       for (let i = 0; i + 1 < WARP.length; i++) master.add(tl.tweenFromTo(WARP[i][0], WARP[i + 1][0], { duration: WARP[i + 1][1] - WARP[i][1], ease: "none", immediateRender: false }), WARP[i][1]);
+      if (window.__tl2) { window.__tl2.paused(false); master.add(window.__tl2, 0); }   // the chat: narration time
       window.__timelines["main"] = master;
     </script>
     <!--

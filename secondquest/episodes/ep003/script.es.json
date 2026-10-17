@@ -1,51 +1,59 @@
 {
   "episode": "ep003",
   "locale": "es",
-  "notes": "ES-419 dub of the LOCKED v3 master (B_HowToFish.md). Same ids as script.json (en), 1:1. Neutral LatAm, tú form, curly quotes as EP002. Total chars ES/EN = 1.050 Lines over 1.20x: see docs/ep003/EP003_SCRIPT_ES419.md. LOCKED (Producer approved as is, 2026-10-12: "Apruebo el español del EP003 tal cual").",
+  "notes": "ES-419 dub of the LOCKED v3.3 master (B_HowToFish.md). Same ids as script.json (en), 1:1. Neutral LatAm, tú form, curly quotes as EP002. v3.3 hook (Producer, 2026-10-17): h01-h10 + b01-b03 cut from the approved v3.2 ES lines, h08 = the approved ES of the new line. v3.2 ES LOCKED (Producer approved as is, 2026-10-12: “Apruebo el español del EP003 tal cual”).",
   "lines": [
     {
-      "id": "l01",
+      "id": "h01",
       "text": "Hay un juego que se llama How to Fish. Un bote. Una caña. Muchos peces."
     },
     {
-      "id": "l02",
+      "id": "h02",
       "text": "Y casi nadie parece estar pescando."
     },
     {
-      "id": "l03",
-      "text": "Se dan cachetadas. Apuestan el dinero de la pesca. Pescan con un rifle de francotirador."
+      "id": "h03",
+      "text": "Se dan cachetadas."
     },
     {
-      "id": "l04",
-      "text": "Cuesta unos ocho dólares. Sus creadores esperaban vender unas doscientas mil copias. A principios de octubre, una firma de análisis estimaba más de diez millones."
+      "id": "h04",
+      "text": "Cuesta unos ocho dólares."
     },
     {
-      "id": "l05",
-      "text": "Millones de jugadores compraron un juego de pesca. Para hacer todo lo demás."
+      "id": "h05",
+      "text": "Un mensaje en el chat del grupo. “Son ocho dólares. Cómpralo y ya.”"
     },
     {
-      "id": "l06",
-      "text": "Juntos."
+      "id": "h06",
+      "text": "Comprado. Comprado. Comprado."
     },
     {
-      "id": "l07",
+      "id": "h07",
+      "text": "Y ese amigo que dice: “Después lo compro”. No lo va a comprar después."
+    },
+    {
+      "id": "h08",
+      "text": "Juntar a unos cuantos adultos en el mismo bote es más difícil que cualquier cosa del juego. Y aun así,"
+    },
+    {
+      "id": "h09",
+      "text": "millones de jugadores compraron un juego de pesca. Para hacer todo lo demás. Juntos."
+    },
+    {
+      "id": "h10",
       "text": "Entonces, ¿por qué?"
     },
     {
-      "id": "l08",
+      "id": "b01",
       "text": "Empecemos por el precio. Ocho dólares no es realmente un precio. Es una invitación."
     },
     {
-      "id": "l09",
-      "text": "Porque este no es un juego para jugar solo. Cada uno en el bote compra su propia copia. Así que casi siempre empieza igual. Un mensaje en el chat del grupo. “Son ocho dólares. Cómpralo y ya.”"
+      "id": "b02",
+      "text": "Sus creadores esperaban vender unas doscientas mil copias. A principios de octubre, una firma de análisis estimaba más de diez millones."
     },
     {
-      "id": "l10",
-      "text": "Y luego, uno por uno: Comprado. Comprado. Comprado."
-    },
-    {
-      "id": "l11",
-      "text": "Y ese amigo que dice: “Después lo compro”. No lo va a comprar después."
+      "id": "b03",
+      "text": "Porque este no es un juego para jugar solo. Cada uno en el bote compra su propia copia."
     },
     {
       "id": "l12",

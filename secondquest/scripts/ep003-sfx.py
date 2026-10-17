@@ -24,7 +24,7 @@ from pathlib import Path
 import numpy as np, soundfile, scipy.signal as ss
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE / 'animatic'))
+sys.path.insert(0, str(HERE / 'animatic')); sys.path.insert(0, str(HERE))
 os.environ.setdefault('EPISODE', 'ep003')
 from lib import ROOT, T  # noqa
 
@@ -63,31 +63,8 @@ from blocks import span  # noqa  (read only: the blocks' time spans on the curre
 B0 = {b: span(b)[0] for b in 'ABCDEFG'}
 
 
-def _hook_warp():
-    """build.py's piecewise-linear warp from the hook's authoring narration (v2) onto the current one."""
-    def table(cues):
-        t = {}
-        for k, c in cues.items():
-            t[k] = c['start']; t[k + '.end'] = c['end']
-            for i, w in enumerate(c['words']):
-                t[f'{k}.w{i + 1}'] = w['start']; t[f'{k}.w{i + 1}.end'] = w['end']
-        t['DUR'] = round(cues['l07']['end'] + 1.5, 3)
-        return t
-    ep = ROOT / 'episodes/ep003'
-    A = table(json.loads((ep / 'timings_v2.json').read_text())['cues'])
-    N = table(json.loads((ep / 'timings.json').read_text())['cues'])
-    lines = [f'l0{i}' for i in range(1, 9)]
-    keys = sorted((k for k in A if k in N and k.split('.')[0] in lines and k != 'DUR'), key=lambda k: A[k])
-    anc = [(0.0, 0.0)]
-    for k in keys:
-        a, n = A[k], N[k]
-        if a > anc[-1][0] + .02 and n > anc[-1][1] + .02 and a <= A['DUR']:
-            anc.append((a, n))
-    anc.append((A['DUR'], N['DUR']))
-    return anc
-
-
-_ANC = _hook_warp()
+from blocks import hook_anchors  # noqa  (the hook's warp, exactly as build.py uses it)
+_ANC = hook_anchors()[0]
 
 
 def HK(t):
@@ -215,6 +192,26 @@ def synth(name):
 
 
 _CACHE = {}
+_PK = None
+PK_FILES = {}
+
+
+def pick(name, t):
+    """'pk:<category>': a catalog sound via scripts/sfx_pick.py (never the same file twice, varied render), mono."""
+    global _PK
+    if _PK is None:
+        from sfx_pick import Picker
+        _PK = Picker(seed='ep003-v33')
+    cat, *opts = name[3:].split(';')                    # 'pk:pop;dark=1800;not_match=Mouth|bubble;max_dur=.6'
+    kw = {}
+    for o in opts:
+        k, v = o.split('=', 1)
+        kw[k] = float(v) if k.endswith('_dur') or k in ('dark', 'bright') else v
+    f = _PK.file(cat, t=t, **kw)
+    PK_FILES[(round(t, 4), name)] = f
+    x, sr = soundfile.read(str(f), dtype='float32', always_2d=True)
+    x = x.mean(1)
+    return ss.resample_poly(x, SR, sr).astype(np.float32) if sr != SR else x
 
 
 def load(name):
@@ -231,12 +228,16 @@ def load(name):
 
 
 # ---------------------------------------------------------------- the cue list
+WHY = {}
+
+
 def cues():
     """(time s, sound, gain dB, pan -1..1). Gains are relative to full scale before SFX_GAIN and the voice-ducking."""
     c = []
 
-    def a(t, name, db, pan=0.):
+    def a(t, name, db, pan=0., why=''):
         c.append((float(t), name, float(db), float(pan)))
+        WHY[(round(float(t), 4), name)] = why
 
     def train(t0, t1, n, name, db, pan=0., ease=None, fade=0.):
         """n cues between t0 and t1; ease 'in' = accelerating (power2.in), 'out' = decelerating, 'ramp' = slow-fast-slow."""
@@ -248,111 +249,29 @@ def cues():
                 u = 1 - (1 - u) ** .5
             a(t0 + (t1 - t0) * u, name, db - fade * u, pan)
 
-    # ================================================================== A · the hook (index.template.html; HK = v2 seconds)
-    for t in (1.44, 1.86, 2.06):                                    # "How" "to" "Fish." drop in with a bounce
-        a(HK(t) + .08, 'wood', -22)
-    a(HK(3.0), 'whoosh', -28)                                       # the title shrinks up
-    a(HK(.3), 'gull', -32, .5); a(HK(3.6), 'gull', -36, -.4)          # distant gulls over the opening lake (our synth)
-    a(HK(3.2) - .05, 'whoosh', -20, -.45); a(HK(3.65), 'splash_s', -26, -.1)    # "A boat." slides in, settles in its wake
-    a(HK(4.88), 'wood_m', -16); a(HK(4.92), 'creak', -26)           # "A rod." drops, springs
-    LEAPS = [(40, 170, 0.00, -6), (1180, 1060, 0.12, -6), (120, 260, 0.22, 0), (1010, 1150, 0.36, 0)]
-    for x0, x1, d, back in LEAPS:                                   # "A lot of fish." leaps: out-splash, in-splash
-        t0 = HK(5.6 + d)
-        a(t0 - .05, 'splash_s', -22 + back, P(x0)); a(t0 + .9, 'splash', -21 + back, P(x1))
-    a(HK(5.78), 'splash_s', -24, P(940))                            # the companion leaps... freezes... drops
-    a(HK(7.08), 'splash_b', -18, P(985))
-    for x, t in ((640, 6.81), (560, 6.98), (720, 7.12), (800, 7.24)):   # the crew pops into the boat
-        a(HK(t) + .12, 'pop', -20, P(x))
-    a(HK(6.95), 'wood', -22)                                        # the boat dips under them
-    a(HK(7.95), 'zip_slack', -30)                                   # the line casts out
-    a(HK(8.3), 'bubble', -26, P(1010))                              # the companion peeks, unimpressed
-    a(HK(10.06), 'whip', -16, .2)                                   # whip to the pair
-    a(HK(10.24), 'cloth', -22, .25)                                 # the wind-up
-    a(HK(10.5), 'whip', -16, .25)                                   # the swing
-    a(HK(10.62), 'punch', -14, .25); a(HK(10.62), 'impact', -20, .25)   # SLAP (flash + shake)
-    a(HK(10.8), 'sparkle', -26, .25)                                # KO stars
-    # insert: the fish money (table, lantern)
-    a(HK(12.38), 'whoosh', -22, -.4); a(HK(12.6), 'slime', -18, -.1)    # the fish slides onto the table
-    for dt in (.2, .4, .5):                                          # the chips bounce down
-        a(HK(12.7) + dt, 'chip', -22 + (dt > .3) * -5, .2)
-    a(HK(12.9), 'coins', -20, .2); a(HK(12.82), 'pop', -24, .1)     # money marker
-    # insert: the scope
-    a(HK(14.06), 'whoosh', -24, -.3); a(HK(14.84), 'beep', -30); a(HK(15.08), 'beep', -28); a(HK(15.06), 'latch', -20)
-    # numbers: the lake out of focus
-    a(HK(16.48), 'wood', -24, -.2); a(HK(16.55), 'creak', -28, -.2)  # the $7.99 tag swings in on its string
-    a(HK(17.8), 'pop', -22)                                          # "hoped" marker
-    train(HK(19.3), HK(20.35), 9, 'tick', -26, ease='out')            # 0 -> 200,000 counts up
-    a(HK(21.5), 'paper', -18)                                        # the red strike
-    a(HK(22.0), 'whoosh', -28); a(HK(22.45), 'pop', -22)              # set aside, the big number pops
-    train(HK(22.7), HK(24.7), 16, 'tick', -24, ease='out')            # the reel rolls to 10,000,000
-    a(HK(24.8), 'stamp', -16); a(HK(24.8), 'impact', -22); a(HK(24.85), 'sparkle', -24); a(HK(25.0), 'pop', -24)
-    # fleet: "Millions of people bought a fishing game."
-    for i, (x, dt) in enumerate(((640, .15), (420, .5), (860, .6), (240, 1.0), (1040, 1.1), (120, 1.45), (1180, 1.55))):
-        a(HK(25.95) + dt + .1, 'pop', -24 - (i > 2) * 3, P(x))
-    a(HK(28.12), 'stamp', -16)                                       # "To do everything else." card slams
-    for i in range(7):                                               # chaos in the boats, left to right
-        t, x, kind = HK(28.3 + i * .2), 140 + i * 165, ('dynamite', 'chips', 'fish')[i % 3]
-        if kind == 'dynamite':
-            a(t, 'whoosh', -30, P(x)); a(t + .5, 'boom', -24, P(x))
-        elif kind == 'chips':
-            a(t, 'pop', -24, P(x)); a(t + 1.25, 'paper2', -30, P(x))
-        else:
-            a(t, 'splash_s', -28, P(x)); a(t + .65, 'splash_s', -28, P(x))
-    a(HK(31.25), 'cloth', -28); a(HK(31.3), 'creak', -30)             # "Together." they lean in, the boat creaks
-    # wordmark option 1 "The catch" (Producer, 2026-10-12): the line drops, reel clicks, bobber plop, slack, leaves
-    w = T('l07.w2')
-    a(w - .38, 'zip', -20)
-    for i in range(9):
-        a(w + .03 + .065 * i, 'click', -24 + i * .4)
-    a(w + .2, 'splash_s', -28, P(900))                              # the companion bobs up, looks at the catch
-    a(w + .55, 'bubble', -20); a(w + .56, 'wood', -30)              # the bobber dip (logo lands, small shake)
-    a(w + 1.15, 'zip_slack', -28); a(w + 1.3, 'whoosh', -32)        # slack, the line leaves
+    # ================================================================== A · the hook (script v3.3, 2026-10-17)
+    # index.template.html: reused shots on v2 seconds (HK), the chat / H8 on h-tokens. Rebuilt to the rubric's budget
+    # (DESIGN_RUBRIC §7: <= 12 onsets/min, <= 3 in 2 s, >= 35 % rest): 8 onsets in the hook, one per beat that needs a
+    # sound, picked from the catalog with scripts/sfx_pick.py (no file twice, varied render); the beds carry the rest.
+    a(HK(2.06) + .08, 'wood', -20, why='"HOW TO FISH." title lands')
+    a(HK(10.62), 'pk:impact-heavy;not_match=rock|breaking|deep|slam|hit37|impact\\.wav', -14, .25, why='SLAP: the hit (flash + shake)')
+    a(HK(10.62), 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|falling|stones;dark=4500', -22, .25, why='SLAP: body layer')
+    a(T('h06.w1') + .16, 'pk:pop;not_match=Mouth|bubble|3pops', -20, -.15, why='first "Bought." sticker punches in')
+    a(T('h06.w3') + .16, 'pk:coins-money;not_match=chip;dark=5000', -18, why='third "Bought." (biggest kick): everyone paid')
+    a(T('h07.w12'), 'drain', -24, why='"not": the dots vanish, Leo greys out')
+    a(T('h08.w8'), 'pk:pop;not_match=Mouth|Pop_|pop\\d|3pops', -24, P(830), why='H8: Leo\'s "I\'ll get it later." bubble settles over the empty seat')
+    a(HK(28.12), 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|Punch|falling|stones;dark=4500', -18, why='"To do everything else." card slams')
+    a(HK(28.12) + .02, 'pk:explosion-boom;not_match=shot|bang|fw_|cannon|thunder|retro', -28, why='chaos in the fleet boats under the card')
+    w = T('h10.w2')
+    a(w + .55, 'pk:foley-water;not_match=slime|toilet|mud|Fizz|Drink', -20, why='wordmark: the bobber dip as the logo is reeled up')
+    a(w + .56, 'pk:foley-wood', -30, why='wordmark: the logo settles (small shake)')
 
-    # ================================================================== B · the invitation (blockB.template.html)
-    price, its, inv = T('l08.w4.end'), T('l08.w12'), T('l08.w14')
-    a(price + .1, 'wood', -22, .2); a(price + .14, 'creak', -28, .2)     # the $7.99 tag swings in on its string
-    a(T('l08.w6'), 'coins', -22, .2)                                  # "Eight dollars": a little gold punch
-    a(T('l08.w8'), 'paper', -18, .2); a(T('l08.w8') + .02, 'knock', -24)   # "not": the red strike + camera kick
-    a(T('l08.w11'), 'cloth', -28, -.2)                                # Quest leans in
-    a(its, 'pluck', -18, .2)                                          # "It's": the string snaps
-    a(its + .04, 'page', -20); a(its + .62, 'place', -22)             # the tag flips into an envelope, lands
-    a(inv - .05, 'sparkle', -28)                                      # the shine
-    a(inv, 'pop', -18); a(inv + .3, 'page2', -22); a(inv + .62, 'paper2', -24); a(inv + .78, 'select', -24)  # seal, flap, card, burst
-    bec = T('l09.w1')
-    a(bec - .04, 'whip', -16, -.3)                                    # whip out on "Because" / the stage whips in
-    a(T('l09.w10') - .02, 'pop', -18); a(T('l09.w10') + .25, 'select', -26)   # "alone": one avatar, spotlit
-    ev = T('l09.w11')
-    a(ev - .05, 'switch', -18)                                        # "Everyone": the lights come up
-    for x, d in ((296, 0), (755, .12), (984, .24)):                   # the others slide in
-        a(ev + d, 'whoosh', -26, P(x))
-    bt = T('l09.w14')
-    a(bt - .2, 'splash', -22); a(bt - .1, 'wood_m', -24)               # the boat rises under them
-    for i, x in enumerate((296, 525, 755, 984)):                       # they drop into their seats
-        a(bt + .32 + i * .05, 'wood', -28, P(x))
-    cp = T('l09.w18')
-    for i, x in enumerate((296, 525, 755, 984)):                       # four game boxes rain down, one each
-        a(cp - .18 + i * .13 + .3, 'thud', -22, P(x)); a(cp - .18 + i * .13 + .32, 'pop', -28, P(x))
-    a(T('l09.w24') + .1, 'knock', -28, P(984)); a(T('l09.w24') + .26, 'knock', -30, P(984))   # the last box rattles
-    way, msg = T('l09.w25'), T('l09.w27')
-    a(way, 'whoosh', -22, .3); a(msg - .26, 'whip', -20)              # it spins to the centre and flips into the phone
-    a(msg, 'select', -22)                                             # the phone lands
-    a(T('l09.w30'), 'pop', -26)                                       # "group chat" header punch
-    train(T('l09.w31.end') - .05, T('l09.w33') - .15, 3, 'tick', -30)  # typing dots
-    for t in (T('l09.w33') - .08, T('l09.w34'), T('l09.w34') + .24, T('l09.w35'), T('l09.w36'), T('l09.w37')):
-        a(t, 'key', -24)                                              # "It's eight dollars. Just get it." types in
-    a(T('l09.w37') + .02, 'notify', -18)                              # sent: the bubble punches
-    train(T('l10.w3'), T('l10.w6') - .15, 3, 'tick', -30)             # typing dots
-    for i, k in enumerate(('l10.w6', 'l10.w7', 'l10.w8')):            # Bought. Bought. Bought. - bigger each time
-        a(T(k) + .16, 'stamp', -20 + 3 * i, (-.15, .15, 0)[i]); a(T(k) + .18, 'notify', -20 + i)
-    a(T('l10.w8') + .3, 'tick', -28)                                  # read receipt
-    train(T('l11.w4'), T('l11.w6') - .15, 3, 'tick', -30)             # typing dots
-    for k in ('l11.w6', 'l11.w7', 'l11.w8', 'l11.w9'):                # "I'll get it later." types in
-        a(T(k), 'key', -26)
-    a(T('l11.w9') + .2, 'notify', -24)
-    # the FREEZE: nothing moves, nothing sounds
-    train(T('l11.w10'), T('l11.w12') - .15, 3, 'tick', -32)           # "He": the dots come back...
-    a(T('l11.w12'), 'drain', -26)                                     # ...vanish on "not"; Leo greys out
-    a(T('l11.w12') + .12, 'bubble', -26, P(1045))                     # the fish peeks in at the frame edge
+    # ================================================================== B · the invitation (blockB.template.html, v3.3)
+    a(T('b01.w4.end') + .1, 'creak', -26, .2, why='the $7.99 tag swings in on its string')
+    a(T('b01.w4.end') + .12, 'pk:foley-wood', -24, .2, why='the tag swings in: body')
+    a(T('b01.w8'), 'pk:foley-paper;dark=4500', -18, .2, why='"not": the red strike through $7.99')
+    a(T('b02.w19'), 'stamp', -16, why='"ten million": the reel lands, 10,000,000+')
+    a(T('b03.w18') + .12, 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|Punch|falling|stones;dark=4500', -20, why='"their own copy": the game boxes land in the boat')
 
     # ================================================================== C · the adult way (blockC.template.html)
     now, cmp_, adl = T('l12.w1'), T('l12.w2'), T('l12.w8')
@@ -768,14 +687,15 @@ def cues():
 
 def night():
     """Crickets (looped): Quest's room at night (B1); the "almost nothing" gag (E3); the blue-hour lake + 1 AM; G."""
-    return [(B0['B'], T('l09.w1'), -42), (T('l29.w5'), T('l29.w6') - .1, -32),
+    return [(T('h05.w1') - .12, T('h08.w1') - .1, -42),                       # A: the chat (the night room)
+            (B0['B'], T('b03.w1'), -42), (T('l29.w5'), T('l29.w6') - .1, -32),
             (T('l39.w6'), T('l41') - .1, -36), (B0['G'], T('l52.end') + 2.5, -37)]
 
 
 def ambience():
     """A low water bed under the lake scenes (looped CC0), by block."""
-    return [(0, HK(12.1), -34), (HK(14.06), T('l07.end') + 1.4, -38),            # A (not the table insert)
-            (T('l09.w14') - .2, T('l09.w27'), -38),                               # B2: the boat on the stage
+    return [(0, T('h05.w1') - .12, -34), (T('h08.w1') - .1, B0['B'], -36),     # A: the lake (not the chat)
+            (T('b03.w14') - .2, B0['C'], -38),                                    # B2: the boat on the stage
             (B0['D'], T('l25') - .2, -34), (T('l26.w9') - .05, T('l26.w10') + .6, -36),   # D: lake; the breath
             (B0['E'], T('l29.w23'), -35), (T('l30') - .04, T('l35') - .06, -36),  # E: the lake world
             (T('l39') - .02, T('l41') - .03, -34), (T('l43.w9'), B0['G'], -44),   # F: dusk/blue hour; the black lake
@@ -829,9 +749,9 @@ def main():
     seen, per_cue = {}, []
     cl = sorted(cues())
     for t, name, db, pan in cl:
-        x = load(name)
+        x = pick(name, t) if name.startswith('pk:') else load(name)
         seen[name] = seen.get(name, 0) + 1
-        if seen[name] > 1:                                               # repeats never machine-gun: +-3 semitones, +-2 dB
+        if seen[name] > 1 and not name.startswith('pk:'):                                               # repeats never machine-gun: +-3 semitones, +-2 dB
             r = 2 ** (rng.uniform(-3, 3) / 12)
             x = np.interp(np.arange(0, len(x) - 1, r), np.arange(len(x)), x).astype(np.float32)
             db += rng.uniform(-2, 2)
@@ -869,6 +789,15 @@ def main():
         mix *= .98 / peak
     soundfile.write(str(out / 'mix.wav'), mix.T, SR, subtype='PCM_16')
     report(narr, fx, mix, cl, per_cue, duck)
+    ab = []
+    for t, name, db, pan in cl:
+        if t < B0['C']:
+            f = PK_FILES.get((round(t, 4), name)) or S.get(name)
+            spec = str(Path(f).resolve().relative_to(ROOT)) if f else name
+            ab.append({'t': round(t, 3), 'rel_db': db, 'spec': spec, 'why': WHY.get((round(t, 4), name), '')})
+    (ROOT / 'build').mkdir(exist_ok=True)
+    (ROOT / 'build/ep003_sfx_cues_AB.json').write_text(json.dumps(ab, indent=1))
+    print('A-B cue list for sfx_audit: build/ep003_sfx_cues_AB.json (%d cues, A+B end %.2f s)' % (len(ab), B0['C']))
 
 
 def report(narr, fx, mix, cl, per_cue, duck):

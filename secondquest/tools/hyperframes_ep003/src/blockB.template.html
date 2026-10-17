@@ -96,7 +96,25 @@
       .pop i { position: absolute; left: -3px; top: -34px; width: 6px; height: 18px; border-radius: 3px; background: #fff3c4; transform-origin: 50% 34px; }
       #flyRig { position: absolute; left: 0; top: 0; width: 0; height: 0; perspective: 1400px; }
 
-      /* ---------------- B3-B5: the chat ---------------- */
+      /* ---------------- B1b (b02): the numbers over the room out of focus (moved from the hook, script v3.3) ---------------- */
+      #numsDim { background: radial-gradient(ellipse at 50% 45%, rgba(22, 22, 31, .25) 0%, rgba(22, 22, 31, .72) 100%); }
+      .mk { position: absolute; background: var(--gold); border: 3px solid var(--ink); border-radius: 10px; box-shadow: 4px 5px 0 var(--ink);
+        color: var(--ink); font: 800 22px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
+      #hoped { position: absolute; left: 410px; top: 118px; width: 460px; height: 200px; }
+      #hoped .mk { left: 0; top: 0; }
+      #hoped .num { position: absolute; left: 0; top: 54px; font-size: 104px; color: #fff4dc; }
+      #strike2 { position: absolute; left: -12px; top: 108px; width: 440px; height: 14px; background: var(--red); border: 3px solid var(--ink); border-radius: 6px; transform-origin: 0 50%; }
+      #big { position: absolute; left: 0; top: 330px; width: 1280px; height: 190px; display: flex; justify-content: center; }
+      #reel { display: flex; align-items: flex-start; font-size: 168px; height: 172px; }
+      .dcol { display: block; height: 172px; overflow: hidden; }
+      .dstrip { display: block; }
+      .dstrip span, .dsep { display: block; height: 172px; line-height: 172px; }
+      #plus { display: block; font-size: 168px; line-height: 172px; }
+      #src { position: absolute; left: 0; top: 534px; width: 1280px; text-align: center; font: 600 22px "Inter", sans-serif; color: rgba(255, 244, 220, .9); letter-spacing: .04em; }
+      #burstWrap { position: absolute; left: 640px; top: 420px; width: 0; height: 0; }
+      .spark { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: #ffe08a; box-shadow: 0 0 10px #ffc83d; }
+
+      /* ---------------- (the chat moved to the hook, script v3.3) ---------------- */
       #chatBg { position: absolute; left: -60px; top: -40px; width: 1400px; height: 800px; filter: blur(9px) brightness(.5) saturate(.9); }
       #chatBg img { width: 100%; height: 100%; }
       #chatTint { background: radial-gradient(ellipse 50% 70% at 50% 50%, rgba(80, 110, 170, .28) 0%, rgba(14, 12, 26, .35) 60%, rgba(8, 6, 16, .7) 100%); }
@@ -115,7 +133,7 @@
       <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="{{DUR}}" data-track-index="9" data-volume="1"></audio>
 
       <!-- ================= B1 (l08): night living room, the price tag, the invitation ================= -->
-      <div id="shotRoom" class="full clip shot" data-start="0" data-duration="{{l09.w1+0.24}}" data-track-index="0">
+      <div id="shotRoom" class="full clip shot" data-start="0" data-duration="{{b03.w1+0.24}}" data-track-index="0">
         <div class="cam" id="camRoom"><div class="push" id="pushRoom"><div class="kick" id="kickRoom">
           <img id="room" src="assets/room_night.png" alt="" />
           <div id="roomDim" class="full"></div>
@@ -139,10 +157,18 @@
             </div>
           </div>
         </div></div></div>
+        <!-- B1b (b02): "Its makers hoped... two hundred thousand... more than ten million." over the room, out of focus -->
+        <div id="numsDim" class="full" style="opacity: 0"></div>
+        <div id="nums" class="full">
+          <div id="hoped"><div class="mk" id="mkHoped">They hoped</div><div class="num big" id="hopedNum">0</div><div id="strike2"></div></div>
+          <div id="big"><div id="reel" class="big"></div><span id="plus" class="big">+</span></div>
+          <div id="src">estimate · Alinea Analytics · early October</div>
+          <div id="burstWrap"></div>
+        </div>
       </div>
 
-      <!-- ================= B2 (l09a): the stage - alone, everyone, the boat, their own copy ================= -->
-      <div id="shotStage" class="full clip shot" data-start="{{l09.w1-0.02}}" data-duration="{{l09.w27-l09.w1+0.12}}" data-track-index="1">
+      <!-- ================= B2 (b03): the stage - alone, everyone, the boat, their own copy ================= -->
+      <div id="shotStage" class="full clip shot" data-start="{{b03.w1-0.02}}" data-duration="{{DUR-b03.w1+0.02}}" data-track-index="1">
         <div class="cam" id="camStage"><div class="push" id="pushStage"><div class="kick" id="kickStage">
           <div id="stageBg"></div>
           <div id="stageWash" style="opacity: 0"></div>
@@ -160,18 +186,6 @@
           <div id="flyRig"></div>
         </div></div></div>
         <div id="whipIn" class="full" style="background: #0e0d1c; opacity: 0"></div>
-      </div>
-
-      <!-- ================= B3-B5 (l09b-l11): the group chat ================= -->
-      <div id="shotChat" class="full clip shot" data-start="{{l09.w27}}" data-duration="{{DUR-l09.w27}}" data-track-index="2">
-        <div class="cam" id="camChat"><div class="push" id="pushChat"><div class="kick" id="kickChat">
-          <div id="chatBg"><img src="assets/room_night.png" alt="" /></div>
-          <div id="chatTint" class="full"></div>
-          <div id="phoneHalo"></div>
-          <div id="rings"></div>
-          <div id="phoneRig"><div id="phoneFlip"></div></div>
-          <div id="fishPeek"><img src="assets/fish_34.png" alt="" /><img id="fishLook" src="assets/fish_34_lookup.png" alt="" /><img id="fishBlink" src="assets/fish_34_blink.png" alt="" /></div>
-        </div></div></div>
       </div>
 
       <div id="flash" class="full" style="opacity: 0"></div>
@@ -347,19 +361,17 @@
       const $ = (s) => document.querySelector(s);
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
 
-      // word times (block-relative, resolved by build.py from timings.json). The l08 alignment runs one word early
-      // between "with" and "dollars" (whisper merged "Eight dollars"), so "price" is the end of w4 and "eight" is w6.
+      // word times (block-relative, resolved by build.py from timings.json). Script v3.3 (2026-10-17): b01 = the price
+      // (old l08), b02 = the sales numbers (old l04, moved from the hook), b03 = "Because... their own copy." (old l09 s1-s2);
+      // the group chat (old l09 s4 - l11) moved to the hook. Block C starts on l12 as before.
       const T = {
-        price: {{l08.w4.end}}, eight: {{l08.w6}}, not: {{l08.w8}}, price2: {{l08.w11}}, its: {{l08.w12}}, invitation: {{l08.w14}},
-        because: {{l09.w1}}, game: {{l09.w7}}, alone: {{l09.w10}}, everyone: {{l09.w11}}, boat: {{l09.w14}}, copy: {{l09.w18}},
-        so: {{l09.w19}}, same: {{l09.w24}}, way: {{l09.w25}}, message: {{l09.w27}}, group: {{l09.w30}}, chatEnd: {{l09.w31.end}},
-        q1: {{l09.w33-0.08}}, q2: {{l09.w34}}, q3: {{l09.w34+0.24}}, q4: {{l09.w35}}, q5: {{l09.w36}}, q6: {{l09.w37}}, qEnd: {{l09.w37.end}},
-        then: {{l10.w1}}, one: {{l10.w3}}, b1: {{l10.w6}}, b2: {{l10.w7}}, b2end: {{l10.w7.end}}, b3: {{l10.w8}}, b3end: {{l10.w8.end}},
-        friend: {{l11.w1}}, who: {{l11.w4}}, says: {{l11.w5}}, l1: {{l11.w6}}, l2: {{l11.w7}}, l3: {{l11.w8}}, l4: {{l11.w9}}, laterEnd: {{l11.w9.end}},
-        he: {{l11.w10}}, not2: {{l11.w12}}, get2: {{l11.w13}}, later2: {{l11.w15}},
+        price: {{b01.w4.end}}, eight: {{b01.w5}}, not: {{b01.w8}}, price2: {{b01.w11}}, its: {{b01.w12}}, invitation: {{b01.w14}},
+        makers: {{b02.w1}}, hoped: {{b02.w3}}, two: {{b02.w7}}, by: {{b02.w11}}, october: {{b02.w13}}, one: {{b02.w14}}, analytics: {{b02.w15}},
+        ten: {{b02.w19}}, million: {{b02.w20}},
+        because: {{b03.w1}}, game: {{b03.w7}}, alone: {{b03.w10}}, everyone: {{b03.w11}}, boat: {{b03.w14}}, copy: {{b03.w18}}, copyEnd: {{b03.w18.end}},
       };
       const DUR = {{DUR}};
-      const FREEZE = [T.laterEnd, T.he];                                   // B5: dead still 0.6 s after "later."
+      const FLY = Math.max(T.copyEnd + .05, T.copy + .62);                 // the last box (landed) flies into block C's phone
 
       /* ---------------- B1 rigs ---------------- */
       const invBurst = Array.from({ length: 12 }, (_, i) => { const w = mk("b", "", $("#invBurst"), `position:absolute; left:0; top:0; width:0; height:0; transform: rotate(${i * 30}deg)`); return mk("i", "", w); });
@@ -397,29 +409,13 @@
       const dusts = Array.from({ length: 16 }, () => mk("div", "dust", $("#dusts"), `left:${520 + R() * 240}px; top:${60 + R() * 480}px; opacity:${.3 + R() * .5}`));
       const waves = Array.from({ length: 9 }, (_, i) => mk("div", "wv", $("#waves"), `left:${-60 + i * 160 + R() * 60}px; top:${630 + (i % 3) * 22}px; width:${70 + R() * 70}px`));
 
-      /* ---------------- B3-B5 rigs: the chat phone (component) ---------------- */
-      const chat = ChatPhone($("#phoneFlip"), {
-        title: "The boat", sub: "Quest, Pixie, Max, Leo", clock: "11:42", me: "Q",
-        members: {
-          Q: { name: "Quest", color: MEM.Q.color, avatar: ChatPhone.avImg(...MEM.Q.img) },
-          P: { name: "Pixie", color: MEM.P.color, avatar: ChatPhone.avImg(...MEM.P.img) },
-          A: { name: "Max", color: MEM.A.color, avatar: ChatPhone.avImg(...MEM.A.img) },
-          B: { name: "Leo", color: MEM.B.color, avatar: ChatPhone.avImg(...MEM.B.img2) },   // side-eye: "I'll get it later"
-        },
-      });
-      chat.system("Today 11:41 PM", { visible: true });
-      chat.system("Max named the group “The boat”", { visible: true, h: 52 });
-      const dA = chat.typing("A");
-      const mA = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 });
-      const dP = chat.typing("P");
-      const sP = chat.sticker("P", "Bought.", { rot: -4 });
-      const sQ = chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM" });
-      const dA2 = chat.typing("A");
-      const sA = chat.sticker("A", "Bought.", { rot: -3 });
-      const dB = chat.typing("B");
-      const mB = chat.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 });
-      const dB2 = chat.typing("B");
-      const rings = [0, 1, 2].map(() => mk("div", "ring", $("#rings"), "left:340px; top:120px; width:600px; height:600px; opacity:0"));
+      /* ---------------- B1b rigs: the number reel 10,000,000 and the spark burst (the hook's, moved here) ---------------- */
+      const reelDigits = []; (function () { const host = $("#reel"); const value = "10,000,000";
+        for (const ch of value) { if (ch === ",") { const sp = mk("span", "dsep", host); sp.textContent = ","; continue; }
+          const col = mk("span", "dcol", host); const strip = mk("span", "dstrip", col); const stops = 20 + Number(ch);
+          for (let i = 0; i <= stops; i++) { const d = mk("span", "", strip); d.textContent = String(i % 10); } reelDigits.push({ strip, stops }); } })();
+      const SR2 = rng(77);
+      const numSparks = Array.from({ length: 26 }, () => ({ e: mk("div", "spark", $("#burstWrap")), a: SR2() * Math.PI * 2, d: 120 + SR2() * 260, s: 0.6 + SR2() * 1.2 }));
 
       /* ------------------------------------------------------------------ the timeline */
       const tl = gsap.timeline({ paused: true });
@@ -428,11 +424,10 @@
       { const ft = tl.fromTo.bind(tl);
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
 
-      // the camera breathes (2-3 % push, drift <= 1.5 %), each shot on its own phase; the breathing clock stops dead
-      // during FREEZE (B5's 0.6 s of stillness), so nothing in the frame moves there
-      const CAMS = [["#camRoom", 0], ["#camStage", 2.1], ["#camChat", 4.0]];
+      // the camera breathes (2-3 % push, drift <= 1.5 %), each shot on its own phase
+      const CAMS = [["#camRoom", 0], ["#camStage", 2.1]];
       const env = { p: 0 };
-      const breathe = () => { const t = env.p * DUR; const bt = t < FREEZE[0] ? t : t < FREEZE[1] ? FREEZE[0] : t - (FREEZE[1] - FREEZE[0]);
+      const breathe = () => { const bt = env.p * DUR;
         CAMS.forEach(([sel, ph]) => gsap.set(sel, { scale: 1.025 + .012 * Math.sin((bt + ph) * 2 * Math.PI / 5.5), x: 8 * Math.sin((bt + ph * 1.7) * 2 * Math.PI / 7.5), y: 4 * Math.sin((bt + ph * .6) * 2 * Math.PI / 6.5), transformOrigin: "50% 50%" })); };
       tl.fromTo(env, { p: 0 }, { p: 1, duration: DUR, ease: "none", onUpdate: breathe, immediateRender: true }, 0);
       // camera move on a shot's .push: put frame point (px, py) at the centre with zoom s
@@ -486,6 +481,34 @@
       invBurst.forEach((b, i) => tl.fromTo(b, { opacity: 0, y: 0 }, { keyframes: [{ opacity: 1, y: -24, duration: .14, ease: "power2.out" }, { opacity: 0, y: -56, duration: .34 }], immediateRender: false }, T.invitation + .78 + (i % 2) * .03));
       tl.set(invBurst, { opacity: 0 }, 0);
       cam("#pushRoom", T.invitation + .2, 1.4, focus(720, 335, 1.12), "power2.inOut");
+      // ================= B1b (b02): the same room racks out of focus; the numbers land over it =================
+      cam("#pushRoom", T.invitation + 1.6, T.because - T.invitation - 1.8, focus(700, 345, 1.16), "none");   // the slow push continues (no snap)
+      tl.to("#kickRoom", { filter: "blur(7px) saturate(1.1)", duration: .45, ease: "power2.inOut" }, T.makers - .3);
+      tl.set("#kickRoom", { filter: "blur(0px) saturate(1)" }, 0);
+      tl.to("#numsDim", { opacity: 1, duration: .45, ease: "power2.inOut" }, T.makers - .3);
+      tl.to("#tag", { opacity: 0, scale: .8, y: -40, duration: .4, ease: "power2.in" }, T.makers - .35);   // the invitation steps aside: no text behind the numbers
+      tl.fromTo("#mkHoped", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: .5, ease: "back.out(2.8)", transformOrigin: "0% 50%" }, T.hoped - .05);
+      const hoped = { v: 0 };
+      tl.set("#hopedNum", { opacity: 0 }, 0);
+      tl.fromTo("#hopedNum", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .3, ease: "power2.out", immediateRender: false }, T.two - .1);
+      tl.fromTo(hoped, { v: 0 }, { v: 200000, duration: 1.1, ease: "power3.out", immediateRender: false, onUpdate: () => { $("#hopedNum").textContent = Math.round(hoped.v / 1000) * 1000 >= 1000 ? Math.round(hoped.v).toLocaleString("en-US") : "0"; } }, T.two - .05);
+      tl.set("#strike2", { scaleX: 0 }, 0);
+      tl.to("#strike2", { scaleX: 1, duration: .35, ease: "power3.out" }, T.by + .12);
+      tl.to("#hoped", { scale: .62, x: -300, y: -60, opacity: .55, rotation: -4, duration: .6, ease: "power3.inOut" }, T.one - .5);
+      tl.set("#big", { opacity: 0 }, 0);
+      tl.fromTo("#big", { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2)", immediateRender: false }, T.one - .05);
+      const REEL = T.ten - .05 - (T.one + .2);
+      reelDigits.slice().reverse().forEach((d, i) => tl.fromTo(d.strip, { y: 0 }, { y: -172 * d.stops, duration: REEL - i * .05, ease: "power3.inOut" }, T.one + .2 + i * .05));
+      tl.set("#plus", { opacity: 0 }, 0);
+      tl.fromTo("#plus", { scale: 0, rotation: -90, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: .55, ease: "elastic.out(1.2, .4)", immediateRender: false }, T.ten + .2);
+      tl.fromTo("#big", { scale: 1 }, { keyframes: [{ scale: 1.1, duration: .08 }, { scale: 1, duration: .6, ease: "elastic.out(1, .35)" }], immediateRender: false }, T.ten);
+      tl.set("#src", { opacity: 0 }, 0);
+      tl.fromTo("#src", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5, immediateRender: false }, T.analytics + .6);
+      tl.set(numSparks.map((sp) => sp.e), { opacity: 0 }, 0);
+      numSparks.forEach((sp) => tl.fromTo(sp.e, { x: 0, y: 0, scale: sp.s, opacity: 1 }, { x: Math.cos(sp.a) * sp.d * 1.6, y: Math.sin(sp.a) * sp.d * .7, opacity: 0, duration: .9, ease: "power3.out", immediateRender: false }, T.ten));
+      kickCam("#kickRoom", T.ten + .01, 1.02, .6);
+      tl.set("#nums", { opacity: 1 }, 0);
+      tl.to("#nums", { opacity: 0, duration: .18, ease: "power2.in" }, T.because - .2);
       // whip out on "Because"
       tl.to("#pushRoom", { x: "-=1500", duration: .24, ease: "power3.in" }, T.because - .02);
       tl.to("#room", { filter: "blur(14px)", duration: .2, ease: "power2.in" }, T.because);
@@ -540,72 +563,17 @@
         tl.fromTo(avs[k].d, { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .07 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], immediateRender: false }, at + .32);
       });
       kickCam("#kickStage", T.copy + .26, 1.03, .8);
-      kickCam("#kickStage", T.copy + .65, 1.04, -1.2);
-      // "So it usually begins the same way": the others dim, the camera leans in on the last box
-      cam("#pushStage", T.copy + .9, T.way - T.copy - .9, focus(740, 455, 1.07), "sine.inOut");
-      ["P", "Q", "A"].forEach((k) => tl.to([avs[k].a, boxes[k]], { opacity: .35, duration: .6, ease: "sine.inOut" }, T.same - .1));
-      tl.fromTo(boxes.B, { rotation: 4 }, { keyframes: [{ rotation: -6, duration: .08 }, { rotation: 6, duration: .08 }, { rotation: -3, duration: .08 }, { rotation: 4, duration: .1 }], immediateRender: false }, T.same + .1);
-      // "A message": the last box leaves the boat, spins to the centre and flips into the phone (match cut)
+      // after "copy.": the others dim, the last box leaves the boat, spins to the centre and flips into block C's phone
+      // (the old match cut into the chat, now into "Now compare that...")
+      ["P", "Q", "A"].forEach((k) => tl.to([avs[k].a, boxes[k]], { opacity: .35, duration: .4, ease: "sine.inOut" }, FLY - .1));
       tl.set(fly, { x: SLOT.B, y: BOXY - 72, opacity: 0, transformPerspective: 1400 }, 0);
-      tl.set(fly, { opacity: 1 }, T.way);
-      tl.set(boxes.B, { opacity: 0 }, T.way);
-      cam("#pushStage", T.way, T.message - T.way, focus(640, 360, 1.0), "power2.inOut");
-      tl.to(fly, { x: 640, y: 360, scale: 3.1, rotation: 0, duration: T.message - T.way - .26, ease: "power3.inOut" }, T.way);
-      tl.fromTo(fly, { rotationY: 0 }, { rotationY: -25, duration: .4, ease: "sine.inOut", immediateRender: false }, T.way + .2);
-      tl.to(fly, { rotationY: 90, scale: 4.25, duration: .26, ease: "power2.in" }, T.message - .26);
-      tl.to(["#avs", "#boxes", "#boatRig", "#boatFront", "#waterLine", "#waves"], { opacity: 0, duration: .3 }, T.message - .4);
-
-      // ================= B3 (message - l10): the chat; "It's eight dollars. Just get it." types in =================
-      cam("#pushChat", T.message, 0, focus(640, 360, 1.0));
-      tl.set("#phoneRig", { transformPerspective: 1600 }, 0);
-      tl.fromTo("#phoneFlip", { rotationY: -90, scale: 1.04 }, { rotationY: 0, scale: 1, duration: .42, ease: "back.out(1.4)" }, T.message);
-      tl.fromTo("#chatBg", { opacity: 0 }, { opacity: 1, duration: .35 }, T.message);
-      tl.fromTo("#phoneHalo", { opacity: .6 }, { opacity: 1, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 5 }, T.message);
-      // "group chat": the header title punches
-      tl.fromTo(chat.head, { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .1 }, { scale: 1, duration: .5, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 50%", immediateRender: false }, T.group);
-      chat.dots(tl, dA, T.chatEnd - .1, T.q1 - .02);
-      cam("#pushChat", T.chatEnd - .2, 1.1, focus(640, 452, 1.3), "power2.inOut");
-      chat.typeWords(tl, mA, [T.q1, T.q1, T.q2, T.q3, T.q4, T.q5, T.q6]);   // It's | eight | dollars. | Just | get | it.
-      tl.fromTo(mA.bub, { scale: 1 }, { keyframes: [{ scale: 1.05, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], immediateRender: false }, T.q6 + .02);
-      cam("#pushChat", T.qEnd + .1, 1.0, focus(640, 420, 1.17), "power2.inOut");
-
-      // ================= B4 (l10): Bought. Bought. Bought. - scale punch + camera kick, bigger each time =================
-      chat.dots(tl, dP, T.one, T.b1 - .02);
-      chat.show(tl, sP, T.b1 - .02, .26);
-      chat.show(tl, sQ, T.b2 - .02, .26);
-      chat.dots(tl, dA2, T.b2end + .08, T.b3 - .02);
-      chat.show(tl, sA, T.b3 - .02, .26);
-      chat.read(tl, sQ, T.b3 + .3);
-      [[sP, T.b1, 1.04, 2], [sQ, T.b2, 1.07, -3], [sA, T.b3, 1.1, 4]].forEach(([s, t, k, rot], i) => {
-        tl.fromTo(s.bub, { scale: 2.3, opacity: 0 }, { scale: 1, opacity: 1, rotation: s.rot, duration: .22, ease: "power4.in", immediateRender: false }, t - .04);
-        tl.fromTo(s.bub, { scale: 1 }, { keyframes: [{ scale: .9, duration: .05 }, { scale: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], immediateRender: false }, t + .18);
-        kickCam("#kickChat", t + .18, k, rot);
-        const r = rings[i];
-        tl.fromTo(r, { scale: .05, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .02 }, { scale: (520 + i * 160) / 600, opacity: 0, duration: .5, ease: "power2.out" }], immediateRender: false }, t + .18);
-        tl.set(r, { opacity: 0 }, 0);
-        tl.fromTo("#flash", { opacity: 0 }, { keyframes: [{ opacity: .1 + i * .05, duration: .03 }, { opacity: 0, duration: .14 }], immediateRender: false }, t + .18);
-      });
-      cam("#pushChat", T.b1 - .3, T.b3 - T.b1 + .3, focus(640, 430, 1.22), "sine.inOut");
-
-      // ================= B5 (l11): "I'll get it later." - dead still - "He will not get it later." =================
-      cam("#pushChat", T.friend, T.l1 - T.friend, focus(640, 462, 1.32), "power2.inOut");
-      chat.dots(tl, dB, T.who, T.l1 - .02);
-      chat.typeWords(tl, mB, [T.l1, T.l2, T.l3, T.l4]);                 // I'll | get | it | later.
-      // FREEZE: laterEnd .. he - nothing moves (the breathing clock holds too)
-      // "He": the typing dots come back... and vanish on "not"
-      chat.dots(tl, dB2, T.he, T.not2);
-      // the companion fish peeks in at the frame's edge and slow-blinks on "later."
-      cam("#pushChat", T.not2, .9, focus(700, 452, 1.24), "power2.inOut");
-      tl.set("#fishPeek", { y: 30, rotation: -6, opacity: 0 }, 0);          // fully hidden until it peeks
-      tl.set("#fishPeek", { y: 0, opacity: 1 }, T.not2 + .1);
-      tl.to("#fishPeek", { y: -132, rotation: -2, duration: .55, ease: "back.out(1.8)" }, T.not2 + .12);
-      tl.set(["#fishBlink", "#fishLook"], { opacity: 0 }, 0);
-      tl.set("#fishLook", { opacity: 1 }, T.not2 + .12);                  // peeks up at the chat...
-      tl.set("#fishLook", { opacity: 0 }, T.get2 + .1);                   // ...then deadpan at the camera
-      tl.set("#fishBlink", { opacity: 1 }, T.later2);                     // one slow blink on "later."
-      tl.set("#fishBlink", { opacity: 0 }, T.later2 + .5);
-      // Leo's avatar greys out on "not"
-      tl.fromTo([mB.el, dB2.el].map((r) => r.querySelector(".ch-av")), { filter: "grayscale(0) brightness(1)" }, { filter: "grayscale(1) brightness(.85)", duration: .5, ease: "power2.out", immediateRender: false }, T.not2);
+      tl.set(fly, { opacity: 1 }, FLY);
+      tl.set(boxes.B, { opacity: 0 }, FLY);
+      cam("#pushStage", FLY, DUR - FLY, focus(640, 360, 1.0), "power2.inOut");
+      tl.to(fly, { x: 640, y: 360, scale: 3.1, rotation: 0, duration: DUR - FLY - .26, ease: "power3.inOut" }, FLY);
+      tl.fromTo(fly, { rotationY: 0 }, { rotationY: -25, duration: .3, ease: "sine.inOut", immediateRender: false }, FLY + .15);
+      tl.to(fly, { rotationY: 90, scale: 4.25, duration: .26, ease: "power2.in" }, DUR - .26);
+      tl.to(["#avs", "#boxes", "#boatRig", "#boatFront", "#waterLine", "#waves"], { opacity: 0, duration: .3 }, DUR - .4);
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};

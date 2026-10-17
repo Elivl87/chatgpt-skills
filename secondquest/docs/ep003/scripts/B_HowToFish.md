@@ -1,6 +1,6 @@
 # EP003 · Alternative B · How to Fish — "Nobody Is Fishing"
 
-Status: **LOCKED v3.2 (Producer, 2026-10-11; proposal 01 items 1+2; hook ends on "So, why?" as EP001/EP002)** — chosen for EP003. Used verbatim; any change only via a SCRIPT CHANGE PROPOSAL. Factual lock rechecks below run before recording. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
+Status: **LOCKED v3.3 (Producer, 2026-10-17: SCRIPT CHANGE PROPOSAL 02, hook / first block, "APPROVED WITH LOCKS"; see `docs/ep003/SCRIPT_CHANGE_PROPOSAL_02_HOOK.md` and `PRODUCER_DECISIONS.md`)**. Hook H1–H10 reordered from the v3.2 lines + one new line (H8, Bram re-record); block B reordered (price → sales → "Because…"); everything from "Now compare that…" to the end is v3.2 unchanged. Line ids in `episodes/ep003/script.json`: h01–h10 (hook), b01–b03 (block B), l12–l52 (v3.2 ids kept). v3.2 (LOCKED 2026-10-11, proposal 01 items 1+2) is in git history (commit 3fc4b66). Used verbatim; any change only via a SCRIPT CHANGE PROPOSAL. Factual lock rechecks below run before recording. (Origin: v2 + final editor pass) — after the verified review (`docs/ep003/research/03_script_review_verified.json`) and the
 Producer's note (more EP001-style humor). v1 kept as `B_HowToFish_v1.md`.
 
 ## Creative spine
@@ -28,23 +28,27 @@ There is a game called How to Fish. A boat. A rod. A lot of fish.
 
 And almost nobody seems to be fishing.
 
-They are slapping each other in the face. Gambling the fish money. Fishing with a sniper rifle.
+They are slapping each other in the face.
 
-It costs about eight dollars. Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million.
+It costs about eight dollars.
 
-Millions of people bought a fishing game. To do everything else.
+A message in a group chat. "It's eight dollars. Just get it."
 
-Together.
+Bought. Bought. Bought.
+
+And one friend who says "I'll get it later." He will not get it later.
+
+Getting a few adults into the same boat is harder than anything in the game. And yet,
+
+millions of people bought a fishing game. To do everything else. Together.
 
 So, why?
 
 Start with the price. Eight dollars is not really a price. It's an invitation.
 
-Because this is not really a game you play alone. Everyone in the boat buys their own copy. So it usually begins the same way. A message in a group chat. "It's eight dollars. Just get it."
+Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million.
 
-And then, one by one: Bought. Bought. Bought.
-
-And one friend who says "I'll get it later." He will not get it later.
+Because this is not really a game you play alone. Everyone in the boat buys their own copy.
 
 Now compare that with the other way adults try to see their friends.
 

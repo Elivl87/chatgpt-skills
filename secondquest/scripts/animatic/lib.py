@@ -104,7 +104,7 @@ lin = lambda a, b, k: a + (b - a) * k
 def T(expr):
     if isinstance(expr, (int, float)):
         return float(expr)
-    m = re.fullmatch(r'\s*(l\d+)(?:\.w(\d+))?(?:\.(end))?\s*(?:([+-])\s*(\d*\.?\d+))?\s*', expr)
+    m = re.fullmatch(r'\s*([lhb]\d+)(?:\.w(\d+))?(?:\.(end))?\s*(?:([+-])\s*(\d*\.?\d+))?\s*', expr)
     if not m:
         raise ValueError(expr)
     cue = CUES[m[1]]

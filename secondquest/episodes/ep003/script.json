@@ -1,62 +1,85 @@
 {
   "episode": "ep003",
   "locale": "en",
-  "notes": "docs/ep003/scripts/B_HowToFish.md, section 'Master script (EN)' (LOCKED v3, 2026-10-11), verbatim. One line per blank-line-separated paragraph; the four-line dialogue is four lines.",
+  "notes": "LOCKED v3.3 (Producer, 2026-10-17: SCRIPT_CHANGE_PROPOSAL_02_HOOK.md approved). docs/ep003/scripts/B_HowToFish.md, section 'Master script (EN)', verbatim, one line per paragraph. Ids: h01-h10 = the hook (H1-H10 of the proposal), b01-b03 = block B up to the reorder, l12-l52 = unchanged v3.2 lines with their v3.2 ids (blocks C-G, their word tokens and SFX cues untouched). Each h/b line names its v3.2 source in \"from\". v3.2 is kept in git history (commit 3fc4b66).",
   "lines": [
     {
-      "id": "l01",
+      "id": "h01",
       "text": "There is a game called How to Fish. A boat. A rod. A lot of fish.",
-      "pauseAfter": 0.3
+      "pauseAfter": 0.3,
+      "from": "l01"
     },
     {
-      "id": "l02",
+      "id": "h02",
       "text": "And almost nobody seems to be fishing.",
-      "pauseAfter": 0.3
+      "pauseAfter": 0.3,
+      "from": "l02"
     },
     {
-      "id": "l03",
-      "text": "They are slapping each other in the face. Gambling the fish money. Fishing with a sniper rifle.",
-      "pauseAfter": 0.3
+      "id": "h03",
+      "text": "They are slapping each other in the face.",
+      "pauseAfter": 0.3,
+      "from": "l03 s1"
     },
     {
-      "id": "l04",
-      "text": "It costs about eight dollars. Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million.",
-      "pauseAfter": 0.3
+      "id": "h04",
+      "text": "It costs about eight dollars.",
+      "pauseAfter": 0.3,
+      "from": "l04 s1"
     },
     {
-      "id": "l05",
-      "text": "Millions of people bought a fishing game. To do everything else.",
-      "pauseAfter": 0.3
+      "id": "h05",
+      "text": "A message in a group chat. \"It's eight dollars. Just get it.\"",
+      "pauseAfter": 0.3,
+      "from": "l09 s4-s6"
     },
     {
-      "id": "l06",
-      "text": "Together.",
-      "pauseAfter": 0.3
+      "id": "h06",
+      "text": "Bought. Bought. Bought.",
+      "pauseAfter": 0.3,
+      "from": "l10 minus \"And then, one by one:\""
     },
     {
-      "id": "l07",
-      "text": "So, why?",
-      "pauseAfter": 0.3
-    },
-    {
-      "id": "l08",
-      "text": "Start with the price. Eight dollars is not really a price. It's an invitation.",
-      "pauseAfter": 0.3
-    },
-    {
-      "id": "l09",
-      "text": "Because this is not really a game you play alone. Everyone in the boat buys their own copy. So it usually begins the same way. A message in a group chat. \"It's eight dollars. Just get it.\"",
-      "pauseAfter": 0.3
-    },
-    {
-      "id": "l10",
-      "text": "And then, one by one: Bought. Bought. Bought.",
-      "pauseAfter": 0.3
-    },
-    {
-      "id": "l11",
+      "id": "h07",
       "text": "And one friend who says \"I'll get it later.\" He will not get it later.",
-      "pauseAfter": 0.3
+      "pauseAfter": 0.3,
+      "from": "l11"
+    },
+    {
+      "id": "h08",
+      "text": "Getting a few adults into the same boat is harder than anything in the game. And yet,",
+      "pauseAfter": 0.3,
+      "from": "NEW (Bram B01b_H8)"
+    },
+    {
+      "id": "h09",
+      "text": "millions of people bought a fishing game. To do everything else. Together.",
+      "pauseAfter": 0.3,
+      "from": "l05 + l06"
+    },
+    {
+      "id": "h10",
+      "text": "So, why?",
+      "pauseAfter": 0.3,
+      "from": "l07"
+    },
+    {
+      "id": "b01",
+      "text": "Start with the price. Eight dollars is not really a price. It's an invitation.",
+      "pauseAfter": 0.3,
+      "from": "l08"
+    },
+    {
+      "id": "b02",
+      "text": "Its makers hoped it might sell two hundred thousand copies. By early October, one analytics firm estimated more than ten million.",
+      "pauseAfter": 0.3,
+      "from": "l04 s2-s3"
+    },
+    {
+      "id": "b03",
+      "text": "Because this is not really a game you play alone. Everyone in the boat buys their own copy.",
+      "pauseAfter": 0.3,
+      "from": "l09 s1-s2"
     },
     {
       "id": "l12",
