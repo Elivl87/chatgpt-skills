@@ -38,3 +38,10 @@
   → "painting"; ¶63b "If a person was painted… does that make their pain hurt less?"; ¶79 + "He understood the answer
   before we understood the question."; ¶88 "said one last goodbye"; ¶90 + "And what did you think you were saving?".
   1,378 words ≈ 9:19 at 148 wpm (+ ~9.5 s planned silences).
+
+## 2026-10-17 · SCRIPT LOCKED
+- Producer: "Confirmo el guión para Expedition 33." → `scripts/A_v2_3_EN.txt` is the LOCKED EN script (v2.3, with the
+  R6 fixes ¶58, ¶63b). Used verbatim; changes only via SCRIPT CHANGE PROPOSAL. ES-419 review copy
+  `scripts/A_v2_3_ES_review.md`; the dub script is finalised after the official in-game ES terms are copied.
+- Next (paused while EP003 has priority): Bram EN quote (~24 credits at ~3.3/1,000 chars; balance 9.25), rights
+  permission request to Sandfall/Kepler, Resonance → shot plan, thumbnail (Quest version).
