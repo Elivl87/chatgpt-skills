@@ -550,7 +550,7 @@
       cam(S4, 0, focus(640, 478, 2.0));
       breathe(S4, S5, 3);
       tl.set("#chat", { opacity: 1 }, Q.l49);
-      tl.to("#title3", { opacity: 0, y: -30, duration: .2, ease: "power2.in" }, Q.l49 - .3);    // v3.3.3 (G-5): the title is gone before the field arrives
+      tl.to("#title3", { opacity: 0, scale: .96, duration: .16, ease: "power2.in" }, Q.l49 - .3);    // v3.3.3 (G-5): the title is gone before the field arrives
       tl.fromTo("#chatBox", { scaleX: .5, scaleY: .62, opacity: 0, y: 305 }, { keyframes: [{ opacity: 1, duration: .08 }, { scaleX: 1, scaleY: 1, y: 0, duration: .55, ease: "back.out(1.3)" }] }, Q.l49 - .02);
       tl.fromTo("#sendBtn", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: .35, ease: "back.out(2.5)", immediateRender: false }, Q.i + .02);
       tl.to("#sendBtn", { scale: 0, duration: .2, ease: "power2.in" }, Q.ever + .45);
