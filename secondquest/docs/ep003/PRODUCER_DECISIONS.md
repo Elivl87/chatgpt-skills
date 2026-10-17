@@ -126,3 +126,5 @@
   reuse first, no new art.
 - Bram H8 recorded: 1 take, **0.3 credits** (job fd0e91ce), `audio/bram/ep003/B01b_H8.mp3` (5.07 s, −19.6 LUFS vs B01 −19.2).
   Balance after: 9.25. Cap 2.5 → 2.2 left for this revision.
+- Hook v3.3 audio splice APPROVED by ear (Producer, 2026-10-17: "El audio suena bien, sigue con el video").
+  STT match 96.3 % (hook 96.9 %). No further Bram spend for this revision.
