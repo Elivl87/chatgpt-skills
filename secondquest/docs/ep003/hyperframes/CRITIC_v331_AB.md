@@ -21,6 +21,11 @@ Top fix: clip the envelope sheen to the envelope (45.05-45.30) and make `hyperfr
 Evidence: scratchpad critic_v331/ (ev/*.jpg, ws_*.jpg window sheets, sheet_00..08.jpg, hook30|b30|c30|hook025|b025/critic.md, check_blockB.json)
 ```
 
+**State reviewed.** By-eye review = the committed review MP4 (4fc6c26). The source gates ran on the working tree,
+which already carried uncommitted builder edits made after v3.3.1 (hook: a slow push 0-3.1 s and the fleet pop-in
+timing; blockB: Quest holding the cartridge in the spotlight and stronger pushes 52.5-58.4). None of them touch the
+findings below (envelope sheen, rod, boxes, block C), but those new edits are not reviewed by eye here.
+
 ## Verification of the builder's claimed fixes (v3.3 fix list)
 
 | # | Previous finding | Claimed | Verified by the critic |
