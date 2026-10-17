@@ -131,7 +131,7 @@
       #boxShot { background: radial-gradient(ellipse 70% 70% at 50% 48%, #1f1f2a 0%, #121219 75%, #0b0b10 100%); }
       .mbox { position: absolute; left: 240px; top: 300px; width: 800px; height: 112px; border-radius: 56px; background: #fff; border: 4px solid var(--ink); box-shadow: 0 16px 0 rgba(0,0,0,.35); }
       .mbox .field { position: absolute; left: 52px; top: 0; height: 104px; display: flex; align-items: center; font: 600 36px/104px "Inter", sans-serif; color: var(--ink); white-space: pre; }
-      .mbox .ph { position: absolute; left: 60px; top: 0; height: 104px; font: 600 36px/104px "Inter", sans-serif; color: #b3ada4; white-space: nowrap; }
+      .mbox .ph { position: absolute; left: 60px; top: 0; height: 104px; font: 600 36px/104px "Inter", sans-serif; color: #99948c; white-space: nowrap; }
       .mbox .cur { display: inline-block; width: 5px; height: 50px; margin-left: 2px; background: var(--ink); border-radius: 2px; }
       .mbox .send { position: absolute; right: 14px; top: 13px; width: 78px; height: 78px; border-radius: 50%; background: #d8d3ca; border: 4px solid var(--ink); }
       .mbox .send svg { position: absolute; left: 15px; top: 14px; width: 40px; height: 42px; }
@@ -215,7 +215,7 @@
         <div class="br full"><div class="shk full"><div class="cam" id="calCam">
           <div class="abs" style="left: 360px; top: 646px; width: 560px; height: 40px; border-radius: 50%; background: radial-gradient(ellipse, rgba(0,0,0,.55), rgba(0,0,0,0) 70%)"></div>
           <img class="img" id="calImg" src="assets/calendar.png" alt="" style="left: 391px; top: 84px; width: 498px; height: 560px" />
-          <div id="calPages" style="left: 438px; top: 290px; width: 398px; height: 296px"></div>
+          <div id="calPages" data-layout-ignore="1" style="left: 438px; top: 290px; width: 398px; height: 296px"></div>
           <div class="mk" id="mkLater" style="left: 470px; top: 600px; font-size: 30px">3 weeks later</div>
         </div></div></div>
       </div>
@@ -307,8 +307,8 @@
       <!-- ===== C4 "not even time" ===== -->
       <div id="clockShot" class="full clip shot" data-start="{{l18.w14-0.1}}" data-duration="{{l18.w19-l18.w14+0.1}}" data-track-index="1">
         <div class="br full"><div class="shk full" id="clkShk"><div class="cam" id="clkCam">
-          <svg id="clock" class="abs" style="left: 395px; top: 70px; width: 490px; height: 600px; overflow: visible" viewBox="-245 -320 490 600"></svg>
-          <div class="stamp" id="stampClk" style="left: 470px; top: 300px">NOT IT</div>
+          <svg id="clock" data-layout-ignore="1" class="abs" style="left: 395px; top: 70px; width: 490px; height: 600px; overflow: visible" viewBox="-245 -320 490 600"></svg>
+          <div class="stamp" id="stampClk" style="left: 470px; top: 300px; background: #fff3ea">NOT IT</div>   <!-- opaque fill: the clock hands never show through the letters -->
         </div></div></div>
       </div>
 
@@ -372,8 +372,8 @@
         <div id="doorVig" class="full"></div>
         <!-- new art v1 (04_kid_door, never edited): through the open door, the kid who came to play -->
         <div id="kidShot" class="full" style="opacity: 0; overflow: hidden"><div id="kidCam" class="full">
-          <img id="kidImg" src="assets/kid_door.png" alt="" style="position: absolute; left: -32px; top: 0px; width: 1344px; height: 752px" />
-          <div id="want" data-critic-allow-overlap="1">   <!-- handwritten script: letters touch by design --><span class="ln" id="wl1"></span><span class="ln" id="wl2"></span></div>
+          <img id="kidImg" data-role="character" src="assets/kid_door.png" alt="" style="position: absolute; left: -32px; top: 0px; width: 1344px; height: 752px" />
+          <div id="want" data-critic-allow-overlap="1" data-layout-ignore="1">   <!-- handwritten script: letters touch by design --><span class="ln" id="wl1"></span><span class="ln" id="wl2"></span></div>
         </div></div>
       </div>
 
@@ -438,7 +438,7 @@
         mk("div", "notch", hdr);
         const avs = o.avatars || "QPAB";
         [...avs].forEach((k, i) => mk("div", "av", hdr, `left:${14 + i * 18}px; top:${hh - 40}px; background:${WHO[k][0]}`, INI[k]));
-        const tx = 22 + avs.length * 18;
+        const tx = 29 + avs.length * 18;                      // v3.3.2: 7 px clear of the avatar stack
         mk("div", "ttl", hdr, `left:${tx}px; top:${hh - 46}px; line-height: 22px`, o.title || "THE GROUP");
         const sub = mk("div", "sub", hdr, `left:${tx}px; top:${hh - 23}px`, o.sub || "4 members");
         const list = mk("div", "list", scr, `top:${hh}px`);
@@ -543,7 +543,7 @@
         const ph = phone($("#c2phones"), { x: PX[i], y: PY, w: PW, h: PH, hh: 74, title: "THE GROUP", avatars: "QPAB" });
         ph.hdr.querySelector(".ttl").style.fontSize = "16px"; ph.sub.style.fontSize = "12px";
         mk("div", "owner", $("#c2phones"), `left:${PX[i] + PW / 2 - 60}px; top:${PY + PH + 16}px`, `<i style="background:${WHO[o][0]}">${INI[o]}</i>${WHO[o][1]}`);
-        addDivider(ph, "MARCH"); addMsg(ph, "P", "happy bday!!", o === "P"); const last = addMsg(ph, "Q", "thx!!", o === "Q");
+        addDivider(ph, "OCTOBER"); addMsg(ph, "P", "happy bday!!", o === "P"); const last = addMsg(ph, "Q", "thx!!", o === "Q");
         gsap.set(ph.col, { y: scrollTo(ph, last) });
         ph.lines = LINES.map(([who, txt], k) => addMsg(ph, who, txt, who === o, { react: k === 1 ? "heart" : k === 3 ? "thumb" : null, chip: k === 2 }));
         return ph; });
@@ -740,8 +740,8 @@
       tl.to("#pinB", { x: 675 - 960, y: 365 - 300, duration: .28, ease: "power3.in" }, T.distance);
       tl.to(["#route", "#mkMin"], { opacity: 0, duration: .2 }, T.distance + .05);
       tl.fromTo(["#pinA", "#pinB"], { scaleX: 1 }, { keyframes: [{ scaleX: .8, scaleY: 1.15, duration: .06 }, { scaleX: 1, scaleY: 1, duration: .4, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%", immediateRender: false }, T.distance + .28);
-      tl.fromTo("#stampMap", { scale: 2.6, rotation: -2, opacity: 0 }, { scale: 1, rotation: -12, opacity: 1, duration: .14, ease: "power4.in" }, T.distance + .5);
-      shake("#mapShk", T.distance + .64, 1.0);
+      // v3.3.2 (design critic): the map's NOT IT stamp is gone (it landed late, see-through); the pins snapping shut is the beat
+      tl.set("#stampMap", { opacity: 0 }, 0);
 
       /* ================================================================== C4: not even time */
       (function () { const c = $("#clock");
@@ -797,7 +797,7 @@
       tl.fromTo("#sentBub", { opacity: 0, y: 150, scale: .6 }, { opacity: 1, y: 0, scale: 1, duration: .4, ease: "back.out(1.7)", transformOrigin: "100% 100%" }, T.removes + .66);
       tl.to("#sentTick", { opacity: 1, duration: .2 }, T.removes + .95);
       tl.fromTo("#tag799", { opacity: 0, scale: 2.8, rotation: 4, y: -40 }, { opacity: 1, scale: 1, rotation: -8, y: 0, duration: .14, ease: "power4.in" }, T.asking2 - .1);
-      tl.to("#mkAsk", { scaleY: .82, filter: "grayscale(1) brightness(.6)", duration: .08 }, T.asking2 + .04);
+      tl.to("#mkAsk", { scale: .5, opacity: 0, duration: .08, ease: "power2.in" }, T.asking2 + .04);   // the ASKING chip is gone the moment $7.99 lands
       shake("#boxShk", T.asking2 + .04, .9);
 
       /* ================================================================== C5 (l19): the doorway */
@@ -873,7 +873,9 @@
       // the kid at the door (new art): the door swings, the camera pushes through the light and lands outside on the kid;
       // a 2-3 % breathing push on him; on "lost" the memory drains (desaturate, soften); back inside for the slam on "Nobody"
       tl.set("#kidShot", { opacity: 0 }, 0);
-      tl.fromTo("#kidShot", { opacity: 0 }, { opacity: 1, duration: .32, ease: "power1.out" }, T.door + .28);
+      tl.set("#kidShot", { opacity: 1 }, T.door + .28);                   // v3.3.2: a hard cut on a white bloom, no see-through fade
+      tl.set("#flash", { opacity: 0 }, 0);
+      tl.fromTo("#flash", { opacity: .85 }, { opacity: 0, duration: .3, ease: "power2.out", immediateRender: false }, T.door + .28);
       tl.fromTo("#kidCam", { scale: 1.14, x: -30, y: 10 }, { scale: 1.0, x: 0, y: 0, duration: .9, ease: "power2.out", transformOrigin: "47% 8%" }, T.door + .28);
       tl.to("#kidCam", { scale: 1.028, x: -10, y: 0, duration: T.nobody2 - T.door - 1.4, ease: "sine.inOut", transformOrigin: "47% 8%" }, T.door + 1.18);
       tl.fromTo("#kidImg", { filter: "grayscale(0) brightness(1) blur(0px)" }, { filter: "grayscale(.85) brightness(.72) blur(1.2px)", duration: 1.5, ease: "sine.inOut" }, T.lost + .1);

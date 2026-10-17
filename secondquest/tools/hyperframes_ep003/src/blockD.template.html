@@ -803,7 +803,9 @@
       b1rings.forEach((r, i) => tl.fromTo(r, { scale: .15, opacity: .95 }, { scale: 1.8 + i * .7, opacity: 0, duration: 1.2 + i * .35, ease: "power2.out" }, .24 + i * .16));
       // the title: anticipation squash, slam, settle
       [["#tw1", T.why], ["#tw2", T.fishing]].forEach(([s, t], i) => {
-        tl.fromTo(s, { scale: 2.6, opacity: 0, y: -30, rotation: i ? 5 : -5 }, { scale: 1, opacity: 1, y: 0, rotation: 0, duration: .2, ease: "power4.in" }, t - .14);
+        // v3.3.2 (design critic): no see-through ghost while it slams in: hidden, then fully opaque from its first frame
+        tl.set(s, { opacity: 0 }, 0); tl.set(s, { opacity: 1 }, t - .1);
+        tl.fromTo(s, { scale: 1.9, y: -24, rotation: i ? 5 : -5 }, { scale: 1, y: 0, rotation: 0, duration: .16, ease: "power4.in", immediateRender: false }, t - .1);
         tl.to(s, { keyframes: [{ scaleY: .82, scaleX: 1.12, duration: .06 }, { scaleY: 1, scaleX: 1, duration: .45, ease: "elastic.out(1.2, .35)" }], transformOrigin: "50% 100%" }, t + .06);
         shake("#shake", t + .06, i ? 1 : .7); });
       tl.to("#title", { y: -70, scale: .62, duration: .45, ease: "power3.inOut" }, T.of - .2);

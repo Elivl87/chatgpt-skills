@@ -279,414 +279,80 @@ def cues():
     a(T('b02.w19'), 'stamp', -16, why='"ten million": the reel lands, 10,000,000+')
     a(T('b03.w18') - .05, 'place', -17, why='"their own copy": the game boxes pop up into their hands (cardboard)')
 
-    # ================================================================== C · the adult way (blockC.template.html)
-    now, cmp_, adl = T('l12.w1'), T('l12.w2'), T('l12.w8')
-    a(now - .05, 'notify', -22)                                       # the lively chat keeps going
-    a(now + .3, 'whoosh', -28, -.3); a(now + .32, 'pop', -22, -.1)    # a message flies in, the phone punches
-    for i, x in enumerate((30, 500, 40, 540)):                        # stickers spill out of the phone
-        a(now + .1 + i * .36 + .3, 'pop', -28, P(x + 200))
-    a(cmp_ - .04, 'whoosh', -22, .2)                                  # "compare": the split wipes in
-    a(cmp_ + .5, 'notify', -26, -.3); a(cmp_ + .82, 'pop', -26, -.2)   # the lively side keeps pinging
-    a(adl - .3, 'notify', -28, -.3)
-    a(adl - .05, 'whoosh', -24, .3)                                   # "adults": the silent side wins
-    a(T('l12.w13') + .05, 'switch', -20, .3)                          # ...and the window goes dark
-    for k, x in (('l13', 205), ('l14', 495), ('l15', 785), ('l16', 1075)):   # four phones, one line each
-        a(T(k) - .06, 'notify', -18, P(x))
-    a(T('l14.w2') + .1, 'pop', -22, .1)                               # "Definitely": the heart bounces
-    a(T('l15.w4'), 'deflate', -22, .15)                               # "three weeks": the heart deflates
-    a(T('l15.w5') + .3, 'wood', -24); a(T('l15.w5') + .4, 'wood', -30)  # the "3 WKS" chip drops
-    a(T('l16.w3') + .05, 'pop', -26, .4); a(T('l16.w3') + .2, 'creak', -32, .4)   # a lone half-hearted thumb
-    # calendar speed-ramp: 21 pages, slow - blur - slow
-    t0, D = T('l17.w2') - .05, T('l17.w4') - T('l17.w2') + .05
-    g = lambda u: u + .85 * np.sin(2 * np.pi * u) / (2 * np.pi)  # noqa
-    for k in range(21):
-        u = k / 21
-        a(t0 + D * g(u), 'page' if k % 2 == 0 else 'page2', -24 - 6 * np.sin(np.pi * u))
-    a(T('l17.w4'), 'stamp', -20); a(T('l17.w4') + .15, 'paper', -24)  # "later": the sticker, the circled day
-    # thermometer
-    sick = T('l17.w8')
-    a(T('l17.w6') - .1, 'whoosh', -28)                                # the KID card slides up
-    a(sick - .05, 'rise:0.7', -28)                                    # the mercury shoots up
-    for i in range(3):                                                # fever: the thermometer beeps
-        a(sick + .62 + i * .12, 'beep', -30)
-    # the car's new noise
-    a(T('l17.w10') - .05, 'whoosh', -28)                              # the CAR card drops
-    a(T('l17.w9') - .1, 'rumble', -34)                                # idling
+    # ================================================================== C-G · rebuilt to the rubric's budget (2026-10-17)
+    # Design critic (CRITIC_v332_0-110.md): C had 108 onsets in 44 s and none of its cues had a "why". Every block now keeps
+    # DESIGN_RUBRIC §7: <= 12 onsets/min, <= 3 onsets in 2 s, >= 35 % rest, one cue per story beat, each with its reason;
+    # the water / night / room beds carry everything else. (Two layers starting together count as one onset.)
+
+    # ---------------------------------------------------------------- C · the adult way (44.2 s -> 8 onsets)
+    a(T('l12.w1') - .05, 'notify', -22, why='C opens on the lively chat: it keeps pinging')
+    a(T('l17.w4'), 'stamp', -20, why='"later": the LATER sticker slaps onto the calendar after the page run')
     nz = T('l17.w15')
-    a(nz, 'clunk', -18); a(nz + .02, 'tin', -24); a(nz + .35, 'clunk', -21); a(nz + .1, 'poof', -22)
-    # the plan dies in the chat
-    train(T('l17.w18'), T('l17.w20') - .6, 4, 'tick', -32)            # typing dots ... and they vanish
-    a(T('l17.w20') - .55, 'hud_off', -30)
+    a(nz, 'clunk', -18, why='"a new noise": the car clunks')
     qt, dies = T('l17.w19') - .1, T('l17.w20')
-    dur = dies + .7 - T('l17.w19')
-    for x, k in ((110, 1), (260, 1), (380, .8), (560, .6), (960, .22)):   # the ECG: beats fading out
-        a(qt + dur * (x + 20) / 1320, 'beep_lo', -24 + 20 * np.log10(k), P(x))
-    a(qt + dur * (1000 + 20) / 1320, 'flatline:1.4', -32, .2)
-    a(T('l17.w23') - .1, 'bubble', -26, -.2)                          # the fish cutaway pops up
-    a(T('l17.w27'), 'scroll', -22); a(T('l17.w27') + .05, 'whoosh', -26)   # whip-scroll back...
-    a(T('l17.w28') + .02, 'knock', -24); a(T('l17.w28') + .06, 'poof', -24)  # ...to the dusty first message
-    # not distance
-    a(T('l18') + .3, 'knock', -22, P(330)); a(T('l18.w3') + .3, 'knock', -22, P(960))   # two pins drop
-    a(T('l18.w3') + .2, 'paper2', -28)                                # the route draws
-    a(T('l18.w3') + .9, 'pop', -28); a(T('l18.w5') - .05, 'wood', -22)  # "60 min" marker; HARD slams
-    dst = T('l18.w13')
-    a(dst, 'whoosh', -26); a(dst + .3, 'knock', -20)                  # the pins snap together
-    a(dst + .62, 'stamp', -14)                                        # stamped out
-    # not even time
-    a(T('l18.w14') - .1, 'whip', -16, .3)                             # whip pan in
-    it2, tm = T('l18.w14'), T('l18.w17') + .14
-    train(it2, tm, 18, 'tick', -26, ease='in')                        # the hands spin faster and faster
-    for i in range(12):                                               # the alarm-clock rattle
-        a(T('l18.w16') + i * .07, 'tin', -32)
-    a(tm + .12, 'stamp', -14)
-    # "asking": the cursor
-    pr, adm, l18e = T('l18.w20'), T('l18.w24'), T('l18.end')
-    train(pr, adm - .25, 14, 'key', -28)                              # "want to hang o" typed...
-    train(adm, l18e + .1, 14, 'tick', -28)                            # ...backspaced letter by letter
-    # the doorway
-    ak = T('l19.w6')
-    a(ak, 'step', -26); a(ak + .12, 'step2', -28)                     # a kid's feet arrive under the door
-    a(T('l19.w9'), 'door_knock', -16); a(T('l19.w10'), 'door_knock', -18)   # knock, knock
-    dr = T('l19.w13')
-    a(dr - .1, 'door_open', -16); a(dr + .1, 'chime', -30)            # the door swings open, the light pours in
-    a(dr + .26, 'whoosh', -30, .1)                                    # the push through the doorway onto the kid (new art 04)
-    a(T('l19.w16') - .04, 'paper2', -28)                              # "Want to play?" writes itself
-    a(T('l19.w23'), 'whoosh', -24, .3)                                # "lost": the letters scatter like leaves
-    nb = T('l19.w26')
-    a(nb - .06, 'door_slam', -14); a(nb + .02, 'wood_m', -20)         # "Nobody": the door slams, the light cuts
-    # "Eight dollars removes the asking."
-    rm, ask2 = T('l20.w3'), T('l20.w5')
-    train(rm, rm + .5, 10, 'key', -30)                                # it types itself
-    a(rm + .6, 'click', -18); a(rm + .66, 'whoosh', -26); a(rm + .7, 'confirm', -24); a(rm + .95, 'tick', -28)
-    a(ask2 + .04, 'stamp', -14); a(ask2 + .04, 'punch', -22)          # $7.99 stamps out "asking"
+    a(qt + (dies + .7 - T('l17.w19')) * 1020 / 1320, 'flatline:1.4', -30, .2, why='"the plan dies": the ECG goes flat')
+    a(T('l18.w17') + .26, 'stamp', -14, why='"not even time": NOT IT stamps the clock')
+    a(T('l19.w13') - .1, 'door_open', -16, why='the door swings open, light pours in on the kid')
+    a(T('l19.w26') - .06, 'door_slam', -14, why='"Nobody": the door slams, the light cuts')
+    a(T('l20.w5') + .04, 'stamp', -14, why='$7.99 stamps out "asking"')
+    a(T('l20.w5') + .04, 'punch', -22, why='$7.99 stamp: body layer')
 
-    # ================================================================== D · why fishing (blockD.template.html)
-    d0 = B0['D']
-    a(d0 + .22, 'bubble', -18); a(d0 + .24, 'splash_s', -26)          # the bobber drops
-    a(T('l21.w2') + .05, 'stamp', -18); a(T('l21.w3') + .05, 'stamp', -14)   # WHY / FISHING? slam
-    of = T('l21.w4')
-    a(of - .2, 'whoosh', -28); a(of - .05, 'pop', -22)                # the title shrinks, the slot machine pops
-    train(of, T('l21.w12') - .1, 14, 'tick', -28, ease='out')         # the reels spin
-    for k, pn in (('l21.w10', -.25), ('l21.w11', 0), ('l21.w12', .25)):   # ...and stop, one by one
-        a(T(k), 'clunk', -20, pn)
-    a(T('l21.w12') + .05, 'jackpot', -24); a(T('l21.w12') + .1, 'coins', -20)   # on the fish
-    l22 = T('l22')
-    a(l22 - .42, 'whoosh', -24)                                       # the slot leaves
-    a(l22 - .4, 'whoosh', -26, .45); a(l22 + .45, 'splash_s', -28, .3)   # the boat sails in
-    a(l22 - .05, 'whoosh', -26, -.45)                                 # the chat panel slides in
-    for i in range(3):
-        a(T('l22.w1') + .45 + i * .14, 'pop', -28, -.4)                # Bought. Bought. Bought. (mini)
-    a(T('l22.w3') + .06, 'stamp', -18, -.4)                           # $7.99 stamp
-    a(T('l22.w5'), 'pop', -24, .4); a(T('l22.w5') + .12, 'pop', -26, .45)   # two empty seats
-    a(T('l22.w8'), 'paper2', -28, -.4)                                # "how to meet" marker
-    a(T('l22.w10') + .07, 'stamp', -14, -.4)                          # OK stamp on "meet"
-    a(T('l22.w11'), 'paper2', -28, .4); a(T('l22.w11'), 'question', -24, .4)   # "what to do": the "?"
-    a(T('l22.w16'), 'whoosh', -20)                                    # "there.": zoom through to the photo
-    # the polaroid
-    l23 = T('l23')
-    a(l23 + .3, 'place', -20)
-    a(T('l23.w5') - .2, 'page', -22)                                  # it flips
-    a(T('l23.w11') + .4, 'squish', -30, .2)                           # rack focus: the fish, offended
-    for k in ('l23.w16', 'l23.w17', 'l23.w19', 'l23.w20'):            # the faces get circled
-        a(T(k) - (.08 if k == 'l23.w19' else 0), 'paper2', -28)
-    # calm cuts on the lake
-    a(T('l24.w14') - .3, 'pop', -26)                                  # an empty speech bubble pops...
-    a(T('l24.w16'), 'deflate', -26)                                   # ...and deflates
-    pov0 = T('l24.w22') - .15
-    a(pov0 + .05, 'bubble', -24); a(pov0 + .4, 'bubble', -30)          # POV: the fish rises and looks up
-    a(T('l24.w27') + .75, 'drip', -26, -.2); a(T('l24.w31') + .35, 'drip', -28, -.2)   # drops off the oar
-    for k in ('l24.w34', 'l24.w37'):                                  # the bobber dips twice
-        a(T(k), 'bubble', -22, -.35)
-    rs = T('l24.w39')
-    a(rs - .45, 'splash_s', -22, -.35)                                # the fish surfaces
-    a(rs + .22, 'wood', -22, -.35); a(rs + .25, 'creak', -28, -.35)   # "a reason" tag lands on it, swings
-    a(T('l24.w42') - .1, 'pop', -24)                                  # the empty bubble again...
-    a(T('l24.w44') + .02, 'latch', -18, .2)                           # ...a name badge clips onto it: "job."
-    # the evidence board
-    d5 = T('l25') - .2
-    a(d5, 'whip', -14, -.2)
-    a(T('l25.w7') + .03, 'stamp', -16); a(T('l25.w7') + .12, 'click', -24)   # ALIBI header slaps on, pinned
-    a(T('l25.w11') - .25, 'whoosh', -26, -.4)                         # the golf polaroid grows into the frame
-    a(T('l25.w11'), 'roll:1.05', -26); a(T('l25.w11') + 1.05, 'wood', -32, .05)   # the ball rolls to the lip... stops
-    a(T('l25.w14') - .1, 'whip', -16)                                 # whip to poker
-    nt = T('l25.w16')
-    for j in range(6):                                                # the chip stack topples
-        a(nt + .38 + j * .05, 'chip', -24 - j, .1 + j * .04)
-    a(nt + .3, 'coins', -20)
-    a(T('l25.w17') - .1, 'whip', -16)                                 # whip to the garage
-    tl0, tl1 = T('l25.w23') - .25, T('l25.w26') + .2
-    train(tl0, tl1, 22, 'tick', -30, ease=None)                       # the time-lapse clock
-    a(T('l25.w27') - .05, 'whoosh', -26); a(T('l25.w27') + .45, 'place', -24)   # back into its polaroid
-    for k, x in (('l25.w36', 320), ('l25.w38', 640), ('l25.w41', 960)):   # three red X's
-        a(T(k) + .04, 'stamp', -18, P(x))
-    a(T('l25.w42') + .25, 'pop', -24)                                 # the empty 4th pin
-    for t in (T('l25.w43'), T('l25.w45') - .3, T('l25.w45') + .1):    # red strings link them
-        a(t, 'zip_slack', -30)
-    a(T('l25.w48'), 'question', -26)                                  # "excuse": the "?" wobbles
-    l26 = T('l26')
-    a(l26 + .29, 'wood_m', -14); a(l26 + .32, 'paper', -28); a(l26 + .4, 'click', -24)   # the phone slams onto the board
-    a(T('l26.w7') + .04, 'stamp', -16)                                # NEWEST
-    a(T('l26.w9') - .05, 'whoosh', -28)                               # back to the lake for a breath
-    for i in range(4):
-        a(T('l26.w9') + i * .04 + .1, 'pop', -30)
-    a(T('l26.w10'), 'whoosh', -22)                                    # "fits": the lake shrinks into the chat
-    a(T('l26.w10') + .6, 'tick', -28)
-    a(T('l26.w14'), 'notify', -16)                                    # "chat.": ping
+    # ---------------------------------------------------------------- D · why fishing (57.3 s -> 11 onsets)
+    a(T('l21.w3') + .05, 'stamp', -14, why='"FISHING?" slams onto the lake')
+    a(T('l21.w12') + .05, 'jackpot', -24, why='the slot reels stop on the fish')
+    a(T('l21.w12') + .05, 'coins1', -20, why='the jackpot: coin layer')
+    a(T('l22.w3') + .06, 'stamp', -18, -.4, why='"solves": $7.99 PAID stamps the chat')
+    a(T('l22.w10') + .07, 'pk:impact-soft;not_match=bite|error|scratch|hit\\d|Generic|falling|stones;dark=4500', -18, -.4, why='"meet.": the green SOLVED check stamps on')
+    a(T('l22.w11'), 'question', -24, .4, why='"what to do": the "?" pops over the empty boat')
+    a(T('l24.w39') - .45, 'pk:foley-water;not_match=slime|toilet|mud|Fizz|Drink;dark=4500', -22, -.35, why='the fish surfaces by the boat')
+    a(T('l24.w44') + .02, 'place', -20, .2, why='"job.": the name badge clips onto the bubble')
+    a(T('l25.w7') + .03, 'stamp', -16, why='"alibi": the ALIBIS header slaps onto the board')
+    a(T('l25.w16') + .3, 'coins1', -22, .1, why='"poker night": the chip stack topples')
+    a(T('l26') + .29, 'wood_m', -14, why='the phone slams onto the board in the empty slot')
+    a(T('l26.w14'), 'notify', -16, why='"chat.": the pinned phone pings')
 
-    # ================================================================== E · the alibi falls apart (blockE.template.html)
-    e0 = B0['E']
-    pr = T('l27.w9')
-    a(pr - .05, 'whoosh', -26, -.3); a(pr + .4, 'place', -20, -.3); a(pr + .5, 'paper2', -30, -.3)   # the props list drops in
-    for k in ('l27.w11', 'l27.w13', 'l27.w15'):                       # three ticks, each answered by the world
-        a(T(k), 'click', -16, -.3)
-    a(T('l27.w11') + .1, 'wood', -24); a(T('l27.w13') + .1, 'pluck', -24, .2); a(T('l27.w15'), 'bubble', -26, P(730))
-    a(T('l28.w2') + .4, 'tension', -32, -.3)                          # anticipation: the trembling hold
+    # ---------------------------------------------------------------- E · the alibi falls apart (76 s -> 15 onsets)
     yt = T('l28.w9')
-    a(yt, 'whip', -16, .2); a(yt + .1, 'whoosh', -22, .4)             # YEET
-    a(yt + .56, 'splash', -21, .45)
-    a(yt + .85, 'bubble', -24, .45)                                   # the fish surfaces wearing it
-    # the game world (HUD on)
-    a(T('l29') - .02, 'hud_on', -26)
-    a(T('l29.w5'), 'drop', -24, -.3)                                  # "almost nothing.": one seashell (a feeble plop)
-    b6 = T('l29.w6') - .1
-    a(b6 + .2, 'plank', -18); a(b6 + .4, 'plank', -28)                # the shop board drops (bounce)
-    a(T('l29.w9') - .1, 'stamp', -22); a(T('l29.w9'), 'clunk', -18, -.15)   # SOLD, the pistol slams into its slot
-    a(T('l29.w10'), 'whoosh', -28, -.4)                               # the seashell gets kicked out
-    a(T('l29.w10') - .06, 'stamp', -22); a(T('l29.w10') + .04, 'clunk', -18, -.3)   # the shotgun
-    a(T('l29.w11'), 'clunk', -16); a(T('l29.w11'), 'impact', -22)     # dynamite (shake)
-    a(T('l29.w12') - .35, 'whoosh', -26)                              # the board leaves
-    a(T('l29.w12') - .1, 'wood', -24, P(225))                         # the SELL crate pops up
-    a(T('l29.w13'), 'whoosh', -28, -.1); a(T('l29.w13') + .6, 'slime', -18, P(225))   # a fish into the crate
-    a(T('l29.w15'), 'money', -20); a(T('l29.w15') + .05, 'coins', -24)  # +$1,250
-    a(T('l29.w17') - .15, 'whoosh', -26)                              # the roulette drops in
-    sp0 = T('l29.w17') - .1
-    a(sp0, 'roulette:%.2f' % (T('l29.w19') + .05 - T('l29.w17') + .3), -22)
-    a(T('l29.w17'), 'pop', -26, .35)                                  # the Wallet
-    a(T('l29.w19') + .05, 'drain', -18); a(T('l29.w19') + .3, 'leather', -18, .35)   # money to 0, the Wallet faints
-    w21 = T('l29.w21')
-    a(w21 - .2, 'rumble', -16); a(T('l29.w22'), 'lowboom', -18)        # a boss shadow passes under the boat
-    a(T('l29.w22'), 'forcefield', -28); a(T('l29.w22') + .4, 'splash_s', -28, .4)
-    a(T('l29.w23') - .05, 'hud_off', -28)
-    # the developers' own description, verbatim
-    a(T('l29.w26'), 'pop', -24); a(T('l29.w30'), 'wood', -24)
-    for i in range(33, 41):                                           # "cartoon violence towards fish and gambling..."
-        a(T(f'l29.w{i}') - .02, 'key', -24, (-.15, .15)[i % 2])
-    a(T('l29.w34') + .3, 'impact', -28)                               # "violence" shakes
-    a(T('l29.w40') + .2, 'pop', -26)
-    a(T('l29.w43') + .28, 'knock', -20, .15)                          # "(no real money)." drops in small and late
-    # the goal
-    a(T('l30.w1') + .45, 'wood', -22, .4); a(T('l30.w1') + .5, 'creak', -28, .4)   # the GOAL tag swings in
-    a(T('l30.w5'), 'drip', -28, .4)                                   # the fish sweats
-    a(T('l30.w12'), 'paper', -18, .4)                                 # "point.": GOAL struck
-    a(T('l30.w17'), 'stamp', -14)                                     # ALIBI
-    a(T('l30.end') + .2, 'splash_s', -24, .55)                        # the fish swims off
-    a(T('l31.w9'), 'stamp', -12); a(T('l31.w9'), 'impact', -20); a(T('l31.w9') + .05, 'error', -26)   # FAILURE
-    # the failure run (HUD on, FAIL xN)
-    a(T('l32') - .06, 'hud_on', -26)
-    a(T('l32.w2'), 'whoosh', -24, .3)                                 # someone falls...
-    a(T('l32.w5') - .06, 'splash_b', -14, .4)                         # ...in the water
-    fz0, fz1 = T('l32.w5') + .1, T('l32.w6') - .2
-    a(fz0, 'click', -20); a(fz0 + .05, 'error', -22)                  # freeze frame, FAIL x1
-    a(fz1, 'splash_s', -28, .4); a(fz1 + .2, 'bubble', -26, .4)       # unfreeze, he sinks
-    a(T('l32.w6') - .12, 'whip', -16, .3)
-    a(T('l32.w7'), 'chime', -24, -.1)                                 # a weapon, in holy light
-    a(T('l32.w9'), 'wood', -22, -.1)
-    a(T('l32.w9'), 'fuse:%.2f' % (T('l32.w16') - T('l32.w9')), -30, -.1)   # the fuse sizzles
-    a(T('l32.w12') - .02, 'whip', -20); a(T('l32.w12'), 'impact', -18)   # crash zoom on "clearly"
-    a(T('l32.w16') + .05, 'error', -22, .3)                           # deadpan fish, FAIL x2
-    a(T('l32.w17') - .12, 'whip', -16, .3)                            # whip to the casino
-    a(T('l32.w18'), 'coins', -16, -.2); a(T('l32.w18') + .1, 'pop', -24)   # all in
-    a(T('l32.w17') - .08, 'roulette:%.2f' % (T('l32.w20') + .04 - T('l32.w17') + .3), -20, .1)
-    a(T('l32.w20'), 'drain', -18); a(T('l32.w20') + .06, 'error', -22)  # -$3,480, FAIL x3
-    a(T('l32.w22') - .12, 'whip', -16, .3)                            # the pointing loop
-    for i, k in enumerate(('l32.w23', 'l32.w24', 'l32.w25')):
-        a(T(k) - .08, 'whip', -22 - i, .2)
-    for i in range(4):
-        a(T('l32.w22') + .1 + i * .3, 'pop', -30, (-.3, .3)[i % 2])
-    a(T('l32.w26') - .06, 'whoosh', -20)                              # the camera spins round to "was."
-    a(T('l32.w29') - .12, 'whip', -16, .3)
-    l31 = T('l32.w31')
-    a(l31, 'launch', -20, .3); a(l31, 'splash', -20, .5)              # launched across the island
-    a(l31 - .02, 'boom', -20, -.5)                                    # new art 03: the blast on the island
-    a(T('l32.w35'), 'whoosh', -24, .4)                                # the fast push into Quest at the apex
-    a(T('l32.w36') - .12, 'rewind:0.45', -24)                         # rewind to the water...
-    a(T('l32.w36') + .12, 'creak', -16, .45); a(T('l32.w36') + .2, 'rumble', -24, .45)   # ...a giant eye opens
-    a(T('l32.w38'), 'squish', -30, .45)                               # the iris looks
-    a(T('l32.w42'), 'boop', -16, .4); a(T('l32.w42') + .02, 'squish', -24, .45)   # "poked.": boop
-    a(T('l32.w42') + .12, 'error', -24)                               # FAIL x4
-    a(T('l32.end') + .04, 'whip', -20, -.4); a(T('l32.end') + .26, 'splash_s', -28, -.55)   # the distant splash
-    # the gull steals the rod on "instead of fishing..."
-    a(T('l31.w2'), 'gull', -24, .45); a(T('l31.w6') + .05, 'flap', -20, -.1); a(T('l31.w6') + .1, 'whoosh', -26, -.3)
-    a(T('l31.w6') + .35, 'gull', -28, -.5)
-    # the slap revive
-    a(T('l33.w6') - .1, 'thud', -18); a(T('l33.w6') + .12, 'wood', -26)   # he goes down; the boat bumps
-    a(T('l33.w6') + .05, 'lowdown', -28); a(T('l33.w6') + .12, 'sparkle', -28)   # the last heart empties, KO stars
-    a(T('l33.w10'), 'select', -26)                                    # [E] Pick up
-    a(T('l33.w15'), 'cloth', -22)                                     # picked up, wobbly
-    a(T('l33.w17') + .05, 'cloth', -24, .15); a(T('l33.w17') + .1, 'select', -28)   # [E] Slap; the hand winds back
+    a(yt, 'whip', -16, .2, why='"immediately": the fish yeets the props list')
+    a(yt + .56, 'splash', -21, .45, why='the list lands in the lake')
+    a(T('l29.w11'), 'impact', -18, why='"dynamite" slams into its slot (shake)')
+    a(T('l29.w15'), 'money', -20, why='"sell your catch": +$1,250')
+    a(T('l29.w17') - .1, 'roulette:%.2f' % (T('l29.w19') + .05 - T('l29.w17') + .3), -22, why='"gamble": the roulette spins')
+    a(T('l29.w19') + .05, 'drain', -18, why='"the money": it rolls to $0, the wallet faints')
+    a(T('l29.w22'), 'lowboom', -18, why='"bosses": a boss shadow passes under the boat')
+    a(T('l31.w9'), 'stamp', -12, why='FAILURE stamps the screen')
+    a(T('l31.w9'), 'impact', -20, why='FAILURE: body layer')
+    a(T('l32.w5') - .06, 'splash_b', -14, .4, why='someone falls in the water (FAIL x1)')
+    a(T('l32.w31') - .02, 'boom', -20, -.5, why='launched across the island: the blast')
+    a(T('l32.w42'), 'boop', -16, .4, why='"poked.": the giant eye gets booped')
     hit = T('l33.w19') + .02
-    a(hit - .1, 'whip', -12, .1)
-    a(hit, 'punch', -13, .1); a(hit, 'impact', -19, .1)               # SLAP: flash, hitstop, shake
-    a(hit + .1, 'squish', -20, .1)
-    a(hit + .25, 'powerup', -24)                                      # the heart refills
-    a(T('l33.w21'), 'done', -20, -.2)                                 # REVIVED!
-    # how friendships handle feelings
-    a(T('l34.w4') + .1, 'squish', -22, .1)                            # the handprint
-    a(T('l34.w10') - .04, 'pop', -24)                                 # only the keyword lands on screen ("feelings.")
-    # years later, the same group chat
-    a(T('l35') + .35, 'place', -20, -.1)                              # the "perfect" polaroid drops
-    a(T('l35.w7'), 'drain', -30)                                      # ...greyed out
-    a(T('l35.w8') + .1, 'whoosh', -26, -.4)                           # it slides away
-    for k, x in (('l35.w11', 450), ('l35.w12', 790), ('l35.w13', 500), ('l35.w14', 820)):   # four fail frames slam
-        a(T(k) + .02, 'place', -18, P(x)); a(T(k) + .02, 'wood', -28, P(x))
-    a(T('l35.w15'), 'switch', -24)                                    # the lamp flickers
-    train(T('l35.w17'), T('l35.w17') + 1.0, 6, 'tick', -24, ease='out')   # 2026 -> 2031
-    a(T('l35.w18'), 'pop', -24); a(T('l35.w17') + 1.05, 'pop', -26)
-    a(T('l35.w23') - .15, 'whoosh', -26)                              # the phone slides up
-    a(T('l35.w23') + .15, 'tick', -28); a(T('l35.w24'), 'notify', -24)   # date, "joined"
-    a(T('l35.w26'), 'notify', -18)                                    # "context,": the lone message
-    train(T('l35.w29'), T('l35.w32') - .15, 4, 'tick', -32)           # the new member types...
-    a(T('l35.w32') + .05, 'notify', -22)                              # "what?"
-    a(T('l35.w34'), 'tick', -26)                                      # seen
+    a(hit, 'punch', -13, .1, why='THE SLAP: flash, hitstop, shake')
+    a(hit, 'impact', -19, .1, why='the slap: body layer')
+    a(T('l33.w21'), 'done', -20, -.2, why='REVIVED!')
+    a(T('l35.w26'), 'notify', -18, why='"context,": THE SLAP posts to the group, years later')
+    a(T('l35.w32') + .05, 'notify', -24, why='"confusion": the new member answers "???"')
 
-    # ================================================================== F · friendslop and the Tuesday night (blockF.template.html)
-    a(T('l36.w2') + .2, 'wood', -22, -.15); a(T('l36.w2') + .24, 'creak', -28, -.15)   # the blank tag drops in, swings
-    a(T('l36.w10'), 'clunk', -16); a(T('l36.w10') + .05, 'tin', -26)   # a spotlight clunks on over the trash can
-    slop = T('l36.w11')
-    a(slop - .14, 'page', -20); a(slop + .16, 'stamp', -18)           # the tag flips: FRIENDSLOP
-    a(T('l36.w12') + .12, 'sparkle', -22, -.1)                        # "Half a joke": FRIEND goes gold
-    a(T('l36.w15'), 'deflate:0.5', -26, .1)                           # "half an insult": SLOP sags...
-    for i in range(4):                                                # ...and drips
-        for k in range(2):
-            at = T('l36.w17') + .2 + i * .31 + k * 1.25 + .55
-            if at < T('l38.w1') - .3:
-                a(at, 'drip', -30 - 2 * k, .15)
-    for k, x in (('l36.w18', 470), ('l36.w19', 690), ('l36.w20', 930)):   # three stickers slap on
-        a(T(k) + .02, 'squish', -18, P(x - 200)); a(T(k) + .04, 'paper2', -28, P(x - 200))
-    # (v3.3.1: the four friend discs under the tag are gone, and their pops with them)
-    a(T('l36.w24') - .02, 'pop', -26, -.2)                            # "playing": the four pop up full figure in a row (redesign 2026-10-17)
-    gb = T('l37.w10')
-    a(gb, 'tin', -17, .4); a(gb + .02, 'whoosh', -26, .45)            # "garbage": the lid flips off
-    a(gb + .98, 'tin', -20, .55); a(gb + 1.08, 'tin', -28, .55)       # ...lands, bounces
-    a(gb + .35, 'slime', -28, .4)                                     # the fish rises out of the can
-    a(T('l37.w13') - .3, 'whoosh', -28)                               # the tag leaves
-    for k, d in (('A', 0), ('B', .06), ('P', .1), ('Q', .16)):        # the four hop from the row to the can
-        a(T('l37.w13') + d, 'whoosh', -28, {'A': -.4, 'B': .4, 'P': -.5, 'Q': .5}[k])
-    a(T('l37.w15'), 'squish', -20, .4); a(T('l37.w15') + .02, 'cloth', -20, .4); a(T('l37.w15') + .1, 'tin', -30, .4)   # squeeze!
-    a(T('l37.w17') + .09, 'tin', -22, .4); a(T('l37.w17') + .1, 'pop', -30, .4)   # the lid lands on the fish like a hat
-    so = T('l38.w1')
-    a(so - .36, 'whip', -16, -.2)                                     # whip out to summer
-    a(so + .1, 'pop', -24)                                            # PLAYTIME bar
-    a(so + .3, 'rise:%.2f' % (T('l38.w4') - so - .35), -32)           # it fills
-    sh = T('l38.w4')
-    a(sh, 'drain', -20); a(sh + .02, 'creak', -30)                    # "short.": it drains red, the hourglass flips
-    a(sh + .4, 'buzzer', -26)                                         # time's up (shake + flash)
-    a(T('l38.w5') - .2, 'whoosh', -22, -.45)                          # the bar flies off
-    a(T('l38.w5') + .25, 'plank', -18, .25); a(T('l38.w5') + .5, 'plank', -30, .25)   # the calendar drops (bounce)
-    a(T('l38.w9') - .1, 'chime', -28, .25)                            # the sun rises
-    for i in range(3):                                                # "summer": three pages tear off
-        a(T('l38.w11') - .04 + i * .09, 'paper' if i % 2 == 0 else 'paper2', -22, .25 + (-.2, .1, .3)[i])
-    a(T('l38.w12') + .2, 'stamp', -16, .25)                           # "hit.": #1
-    a(T('l39.w8'), 'switch', -20, -.3)
-    a(T('l39.w1') + .5, 'gull', -36, -.3)                             # a far gull glides home into the sun
-    a(T('l21') + .3, 'gull', -34, -.4); a(T('l24') + .4, 'gull', -36, .5)   # D: gulls over the lake wides                                # the lantern clicks on (rest beat)
-    a(T('l40.w8') + .1, 'cloth', -28)                                 # the crew squeezes together
-    a(T('l40.w13'), 'wood', -24); a(T('l40.w13') + .05, 'splash_s', -30)   # the boat dips
-    a(T('l40.w16') - .1, 'notify', -18, .1)                           # "Tuesday": the group-chat banner
-    pl = T('l40.w19')
-    a(pl + .26, 'wood', -22, .4); a(pl + .3, 'creak', -28, .4)        # "☐ FISH" pins to the rod
-    for t in np.arange(pl - .1, T('l40.end') + .5, .26):              # Leo juggles dynamite behind (catches)
-        a(t, 'wood', -36, -.25)
-    a(T('l40.w22') + .05, 'creak', -28, .4)                           # "fish.": the empty box wobbles
-    a(T('l40.w26') + .12, 'bubble', -26, .4)                          # hard cut: the fish yawns on the rod
-    # the living room at 1 AM: the clock wheel
-    for i, t in enumerate((T('l41.w6'), T('l41.w14') + .05, T('l41.w16') + .38, T('l41.w19'))):
-        a(t - .02, 'clunk', -20 + i, -.1); a(t, 'tick', -24)
-        for j in range(2 + i):                                        # snacks multiply
-            a(t + .1 + j * .07, 'pop', -30, (-.4, .4, -.2, .2, 0, .3)[j])
-    a(T('l41.w13') - .17, 'pop', -24, -.2)                            # "last round." marker
-    a(T('l41.w16'), 'paper', -18, -.2)                                # "never": LAST struck
-    # the founders in three page-turns
-    bk = T('l42.w1') - .12
-    a(bk, 'page', -21)
-    a(T('l42.w3') + .1, 'place', -22, -.3); a(T('l42.w3') + .3, 'place', -24, .3)   # two photos
-    a(T('l42.w6') + .1, 'squish', -20); a(T('l42.w6') + .12, 'paper2', -28)   # FOUNDERS sticker
-    a(T('l42.w12') - .05, 'paper2', -28); a(T('l42.w12') + .6, 'pop', -28)    # the doodle heart
-    a(T('l42.w14'), 'paper', -28)                                     # "high school" circled
-    a(T('l42.w16') - .32, 'page2', -18)                               # page turn 1
-    a(T('l42.w17') + .25, 'paper2', -30)                              # the chart line draws up...
-    a(T('l42.w21'), 'fall:%.2f' % (T('l42.w23') - T('l42.w21') + .1), -26)   # ...and crashes off the bottom
-    a(T('l42.w23') + .12, 'thud', -20); a(T('l42.w23') + .15, 'pop', -26)     # oops
-    a(T('l42.w24') - .3, 'page', -18)                                 # page turn 2
-    a(T('l42.w24') + .1, 'pluck', -22); a(T('l42.w24') + .8, 'latch', -24)   # the line bounces back, the hook
-    a(T('l42.w28') - .1, 'paper2', -30)                               # the boat doodle draws on
-    a(T('l42.w34') - .04, 'squish', -18, .2); a(T('l42.w34') - .06, 'whip', -26, .2)   # "silly": B slaps A
-    a(T('l42.w35'), 'sparkle', -26)                                   # little hearts
-    # one phone -> millions of phones
-    g0 = T('l42.end') + .18
-    a(g0 + .14, 'stamp', -20); a(g0 + .16, 'notify', -22)             # "Bought."
-    a(T('l43.w2'), 'whoosh', -22)                                     # the exponential zoom out
-    rng = np.random.default_rng(43)
-    for k in range(14):                                               # each ring of phones pops in
-        u = (k / 13) ** .5
-        a(T('l43.w2') + (T('l43.w5') + .25 - T('l43.w2')) * u, 'pop', -30 - 2 * u, float(rng.uniform(-.55, .55)))
-    train(T('l43.w4'), T('l43.w7') - .1, 14, 'tick', -26, ease='out')  # the reel to 10,000,000+
-    a(T('l43.w7'), 'stamp', -18); a(T('l43.w7') + .05, 'sparkle', -26)
-    gp = T('l43.w8') + .02
-    for i, pn in enumerate((-.55, -.3, -.1, .1, .3, .55)):            # "group": every screen pings at once
-        a(gp + i * .012, 'notify', -24, pn)
-    a(gp, 'confirm', -24)
-    # "chat.": hard cut to the black lake - stillness
+    # ---------------------------------------------------------------- F · friendslop and the Tuesday night (54.7 s -> 10 onsets)
+    a(T('l36.w11') + .16, 'stamp', -18, why='the tag flips: FRIENDSLOP')
+    a(T('l36.w24') - .02, 'pop', -26, -.2, why='"playing": the four friends pop up in a row')
+    a(T('l37.w10'), 'tin', -17, .4, why='"garbage": the lid flips off the can')
+    a(T('l37.w15'), 'squish', -20, .4, why='"friends": the squeeze around the can')
+    a(T('l38.w1') - .36, 'whip', -16, -.2, why='whip out to summer')
+    a(T('l38.w4'), 'drain', -20, why='"short.": the PLAYTIME bar drains red')
+    a(T('l38.w12') + .2, 'stamp', -16, .25, why='"hit.": #1 stamps the calendar')
+    a(T('l40.w16') - .1, 'notify', -18, .1, why='"Tuesday": the group-chat banner')
+    a(T('l42.w34') - .04, 'squish', -18, .2, why='"silly": the doodle slap in the yearbook')
+    a(T('l43.w8') + .02, 'notify', -22, why='"group": every screen pings at once')
 
-    # ================================================================== G · payoff + end (blockG.template.html)
-    hit = T('l44.w13') + .3                                           # one drop falls on "fish?"; the ripple breaks the text
-    a(hit, 'drip', -18, P(760)); a(hit + .02, 'splash_s', -30, P(760))
-    nb = T('l45.w2')
-    a(nb, 'splash_s', -22, P(930)); a(nb + .1, 'bubble', -28, P(930))  # the fish surfaces, hopes
-    a(T('l45.w6'), 'pop', -26, .1)                                    # the Fish-o-dex card
-    a(T('l45.w9') + .5, 'splash_s', -26, P(930))                      # a hopeful little hop
-    a(T('l46.w9') - .55, 'hud_off', -32, .1)
-    a(T('l46.w9') - .1, 'pop', -24, P(330))                           # "fishing tuesday?" from the boat
-    a(T('l46.w11') + 1.32, 'bubble', -22, P(930))                     # it sinks; one bubble
-    for k in ('l47.w1', 'l47.w2', 'l47.w3'):                          # the hook's title, small and slow
-        a(T(k) + .15, 'wood', -28)
-    a(T('l47.w7') + .1, 'pop', -22)                                   # TUTORIAL?
-    a(T('l47.w9'), 'cloth', -30)                                      # the shrug
-    a(T('l47.w11') + .3, 'sparkle', -30, -.1)                         # a shooting star
-    f48 = T('l48.w4')
-    a(f48 - .04, 'paper', -18); a(f48 + .18, 'creak', -28)            # FISH struck, comes loose...
-    a(f48 + .87, 'splash', -18, P(880))                               # ...and drops into the lake
-    l49 = T('l49')
-    a(l49 - .02, 'hud_on', -28)                                       # the chat box
-    a(T('l50.w4'), 'key', -24)                                        # "I"
-    for k in range(5):
-        a(T('l50.w5') - .06 + k * .045, 'key', -26)                   # "miss"
-    for k in range(4):
-        a(T('l50.w6') + k * .05, 'key', -26)                          # " you"
-    for k in range(10):                                               # hesitation... backspace
-        a(T('l50.w8') + k * .05 - k * k * .0015, 'tick', -26)
-    for k in range(13):                                               # "boat tonight?"
-        a(T('l50.w9') - .05 + k * .05, 'key', -28)
+    # ---------------------------------------------------------------- G · payoff + end (33.2 s -> 6 onsets)
+    a(T('l44.w13') + .3, 'drip', -18, P(760), why='"fish?": one drop falls and the ripple breaks the text')
+    a(T('l48.w4') + .87, 'splash', -18, P(880), why='the struck FISH drops into the lake')
     snt = T('l50.w12')
-    a(snt - .1, 'click', -18); a(snt, 'whoosh', -26); a(snt + .02, 'confirm', -24)   # sent
-    a(snt + .5, 'notify', -16)                                        # "Bought."
-    # the CTA: ghosts in the empty seats; the wordmark rises from the lake
-    for d in (-.02, .16):
-        a(T('l51.w8') + d + .1, 'poof', -28, -.45)
-    a(T('l51.w8') + .05, 'wood', -28, -.45)
-    # wordmark option 2 "Rising from the lake": the water swells, drips fall, the fish surfaces with a small bubble
+    a(snt + .5, 'notify', -16, why='the answer: "Bought."')
     w = T('l51.w14')
-    a(w - .05, 'swell', -18); a(w + .05, 'splash_s', -26)
-    for i, dt in enumerate((.75, .95, 1.2, 1.5, 1.85)):
-        a(w + dt, 'drip', -28 - 2 * (i % 2), (-.2, .2, -.1, .15, 0)[i])
-    a(w + .95, 'wood', -30); a(w + .95, 'bubble', -22); a(w + 1.0, 'splash_s', -30)   # the bar settles; the fish surfaces
-    tell = T('l51.w16')
-    a(tell, 'whoosh', -28, -.3); a(tell + .18, 'select', -24, -.4); a(tell + .32, 'select', -24, .45)   # CONTINUE? menu
-    a(T('l51.w20'), 'click', -24, .45)                                # the cursor on JOIN
+    a(w - .05, 'swell', -18, why='the wordmark rises from the lake')
     q = T('l52.w5')
-    a(q + .04, 'pop', -22); a(q + .82, 'whoosh', -28)                 # "quest.": WOW, then the dive
-    spl = q + .82 + .5
-    a(spl, 'splash', -18); a(spl + .05, 'sparkle', -26, -.2); a(spl + .55, 'done', -20, -.4)   # the splash lights NEXT QUEST
+    a(q + 1.32, 'splash', -18, why='the dive into the lake')
     return c
 
 
@@ -809,6 +475,18 @@ def main():
             ab.append({'t': round(t, 3), 'rel_db': db, 'spec': spec, 'why': WHY.get((round(t, 4), name), '')})
     (ROOT / 'build').mkdir(exist_ok=True)
     (ROOT / 'build/ep003_sfx_cues_AB.json').write_text(json.dumps(ab, indent=1))
+    for k, (b0, b1) in {'C': (B0['C'], B0['D']), 'D': (B0['D'], B0['E']), 'E': (B0['E'], B0['F']), 'F': (B0['F'], B0['G']), 'G': (B0['G'], len(narr) / SR)}.items():
+        bl = []
+        for t, name, db, pan in cl:
+            if b0 <= t < b1:
+                f = PK_FILES.get((round(t, 4), name)) or S.get(name)
+                spec = str(Path(f).resolve().relative_to(ROOT)) if f else name
+                bl.append({'t': round(t - b0, 3), 'rel_db': db, 'spec': spec, 'why': WHY.get((round(t, 4), name), '')})
+        (ROOT / f'build/ep003_sfx_cues_{k}.json').write_text(json.dumps(bl, indent=1))
+        print('%s cue list: build/ep003_sfx_cues_%s.json (%d cues, %.2f s)' % (k, k, len(bl), b1 - b0))
+    allc = [{'t': round(t, 3), 'rel_db': db, 'spec': str(Path(PK_FILES.get((round(t, 4), name)) or S.get(name)).resolve().relative_to(ROOT)) if (PK_FILES.get((round(t, 4), name)) or S.get(name)) else name,
+             'why': WHY.get((round(t, 4), name), '')} for t, name, db, pan in cl]
+    (ROOT / 'build/ep003_sfx_cues_all.json').write_text(json.dumps(allc, indent=1))
     print('A-B cue list for sfx_audit: build/ep003_sfx_cues_AB.json (%d cues, A+B end %.2f s)' % (len(ab), B0['C']))
 
 

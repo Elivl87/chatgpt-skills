@@ -125,3 +125,17 @@ Episode time unless marked. Narration v3.3 is unchanged (approved by the Produce
   - E 15.5–18.5 s (90)
 - SFX: one cue swapped for one (no change in density); the mix diff is confined to 247.46–248.91 s.
 - Re-rendered D, E, F only.
+
+## v3.3.2 · design critic FAIL on block C (`CRITIC_v332_0-110.md`), folded into the same pass
+
+| # | Finding | Change |
+|---|---|---|
+| 1 | Sound: C had 108 onsets in 44 s with no reasons; D–G were over budget too | `ep003-sfx.py`: the C–G cue lists are rebuilt to DESIGN_RUBRIC §7, one cue per story beat, each with its `why`. The beds carry the rest. Counts per block:<br>• C: 8 onsets (61.76 notify, 71.98 LATER stamp, 75.92 car clunk, 78.21 flatline, 86.54 clock NOT IT, 95.26 door open, 100.62 door slam, 104.56 $7.99 stamp + body). The 68.88 deflate was dropped, because 9 onsets in 44.2 s is 12.2/min.<br>• D: 11. • E: 15. • F: 10. • G: 5.<br>All page runs, ticks, rattles, typing clicks, confetti pops and whoosh trains are gone. Darker takes replace the harsh ones in D (Money_02, a soft impact, a wood place, a dark water foley), and E's dynamite has no metal latch. Per-block cue lists are exported to `build/ep003_sfx_cues_{C..G}.json`, and the whole episode to `build/ep003_sfx_cues_all.json`. |
+| 2 | 95.67–95.80: see-through fade into the kid shot | A hard cut on a short white bloom (`#flash` from 0.85 to 0 in 0.3 s). `#kidImg` carries `data-role="character"`. |
+| 3 | "MARCH" divider on the four phones | Now "OCTOBER". |
+| 4 | 86.53–87.87: the NOT IT stamp was 8 % fill | `#stampClk` has an opaque cream fill (#fff3ea); the hands never show through. |
+| 5 | 85.50–85.67: the map NOT IT landed late | Dropped, with its shake. The pins snapping shut is the beat. |
+| 6 | "Message" placeholder contrast | #b3ada4 changed to #99948c. |
+| 7 | 104.53–105.97: the ASKING chip stayed under $7.99 | The chip pops out (scale 0.5, opacity 0) the frame the tag lands. |
+| 8 | Header titles crowd the avatar stack | The title and sub-title sit 7 px further right on every C phone. The optional C1 enlargement was not done (the phone is already 652/720 px tall). |
+| 9 | D 106–110: the old "THE BOAT" phone with Q P A B, and the "WHY" ghost | The D phones are the hook's ChatPhone (see the redesign above). WHY and FISHING? are hidden until their slam, then fully opaque from the first frame (scale 1.9 to 1 in 0.16 s, no opacity fade). |
