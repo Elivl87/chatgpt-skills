@@ -30,6 +30,11 @@ attention. Both must pass.
      mid-sentence, then 3 s of empty landscape → 72 % swiped, the curve fell from 100 % to ~62 % between 1.5 and 5 s.
      So: frame 0 shows a face with emotion and a complete readable statement; no plate without a character or clear
      focal subject in 0–3 s. Any of these is a FIX.
+   - **Calibration (EP002 Short #2, `docs/publish/CHANNEL_STATS_2026-10-15.md`):** both critics passed it and only 16.5 %
+     stayed. Frame 0 was a small split "select" card with neutral faces, then a wide shot, an empty pedestal at 2–3 s and
+     the Triforce only at 3 s; the first line was a neutral statement. So frame 0 must have ALL of: a close-up face with
+     a strong emotion, the game's recognisable icon, and a conflict in words (question or contradiction), readable at
+     feed size (~270 px wide). Missing one = FIX. A select screen, a wide establishing shot or a neutral first line = FIX.
    - **0–2 s hook:** the promise/question lands by 2 s (words + picture together). Would someone who doesn't know the
      episode understand what this is about?
    - **Open loop:** is there a question the viewer needs answered? When is it closed?
