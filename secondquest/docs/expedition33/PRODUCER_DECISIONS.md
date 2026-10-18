@@ -64,3 +64,7 @@
   free backup/placeholder: Kokoro am_fenrir chain (A); Kokoro af_heart for female character quotes (Sophie, Lune,
   Maelle) and as a female backup. To test later in the animatic. He does not rule out a female voice in the future
   (Quest & Pixie).
+
+## 2026-10-18 · Paused for a credit recharge
+- Producer chose to make Dave the Diver first; Expedition 33 waits until there are credits for its painted world and
+  Bram. State: script v3.1 awaiting lock, research, ES terms, visual reference, shot plan (v2.3-based, to redo on v3.1).
