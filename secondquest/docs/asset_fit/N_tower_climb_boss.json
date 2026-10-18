@@ -1,0 +1,34 @@
+{
+ "need": "tower climb stairs boss battle fantasy",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "genre.fantasy.bg_castle_rescue",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Interactive-looking fantasy castle rescue setting: tower/balcony/window, dramatic depth, distant mountains, warm magical light. No characters; clear placement zone for Quest knight and princess.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_fantasy_doors",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Dim hall with three large doorways glowing different colours (red crime-city neon, blue war smoke, golden adventure ruins). Doors open, no people. Floor space centre-bottom for Quest (back view).",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.fantasy.bg_dragon_crag",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Stormy fantasy crag with depth and clear placement zone for dragon/Quest; no characters.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.war.bg_battlefield_city",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Clearly readable fictional war/action-game environment: damaged urban street, smoke, distant armored silhouettes, sandbags/barricades, dramatic sky. No characters, no gore, no readable logos/text.",
+   "avoid_hits": []
+  }
+ ]
+}

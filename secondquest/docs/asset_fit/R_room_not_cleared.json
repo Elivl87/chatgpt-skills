@@ -1,0 +1,58 @@
+{
+ "need": "bedroom empty room memories boxes sad",
+ "avoid": [
+  "party",
+  "bright"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.home_living_night",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.quest_bedroom_morning",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Canonical Quest bedroom, morning. Clean geometry, readable bed/nightstand/window, no characters. Leave clean lower/front space for Quest and alarm prop.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_day",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.living_room_night_gaming",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Quest canonical living room at night, gaming setup, no character.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_bank_office",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Old-fashioned bank loan office: heavy desk front-centre, tall paper stacks, filing cabinets, framed rules on wall (no readable text). Warm, slightly oppressive light. Desk surface empty for props.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_farm_aerial",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "High aerial of a patchwork farm: fields, barn, silos, paths, a lake. Organised and satisfying. Room for small tractor props.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_tractor_cab",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Inside a tractor cab looking out through the windshield at a sunset field; steering wheel lower-centre, seat area left EMPTY for a seated Quest pose.",
+   "avoid_hits": []
+  }
+ ]
+}

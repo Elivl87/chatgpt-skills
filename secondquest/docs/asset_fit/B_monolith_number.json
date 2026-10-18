@@ -1,0 +1,58 @@
+{
+ "need": "giant tower monolith sea horizon number painted sky",
+ "avoid": [
+  "castle",
+  "skyscraper"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.storm_low_horizon",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Dramatic storm sky with very low horizon; no characters.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.sunset_sky",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Canonical warm sunset sky base, opaque; exact registration master for sunset parallax set.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_huge_wide",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Very wide enormous field reveal, tiny scale cues at horizon; no need for extreme zoom.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_plowed",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Mid-shot farm field, rows receding to a distant treeline and barn, soil freshly plowed, bright morning. Horizon at ~40 %. Rows lead the eye centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_real_farm",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "A rough, realistic-leaning (still cartoon) farm: muddy track, worn wooden gate with a BLANK sign board, tired fences, overcast sky.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.war.bg_battlefield_city",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Clearly readable fictional war/action-game environment: damaged urban street, smoke, distant armored silhouettes, sandbags/barricades, dramatic sky. No characters, no gore, no readable logos/text.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_tractor_cab",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Inside a tractor cab looking out through the windshield at a sunset field; steering wheel lower-centre, seat area left EMPTY for a seated Quest pose.",
+   "avoid_hits": []
+  }
+ ]
+}

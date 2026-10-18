@@ -1,0 +1,8 @@
+{
+ "need": "piano opera house theater stage chandelier",
+ "avoid": [
+  "modern concert",
+  "rock band"
+ ],
+ "candidates": []
+}

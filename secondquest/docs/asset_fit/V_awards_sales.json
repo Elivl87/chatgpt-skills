@@ -1,0 +1,13 @@
+{
+ "need": "trophy award gold cup stack",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "core.prop.paper_stack",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Office paper stack, transparent.",
+   "avoid_hits": []
+  }
+ ]
+}

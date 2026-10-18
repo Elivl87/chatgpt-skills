@@ -1,0 +1,20 @@
+{
+ "need": "rock stone pebble small",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "genre.farming.machine.header_3m",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Small 3 m harvester header, side view.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.machine.tractor_small",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Tiny cheap old green tractor, side view facing left.",
+   "avoid_hits": []
+  }
+ ]
+}

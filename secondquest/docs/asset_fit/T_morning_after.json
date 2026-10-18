@@ -1,0 +1,67 @@
+{
+ "need": "sunrise morning window light hope",
+ "avoid": [
+  "night",
+  "storm"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.home_living_day",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_apartments_evening",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_bank_office",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Old-fashioned bank loan office: heavy desk front-centre, tall paper stacks, filing cabinets, framed rules on wall (no readable text). Warm, slightly oppressive light. Desk surface empty for props.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_golden",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "SAME framing, tall golden wheat ready to harvest, late-afternoon light.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_plowed",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Mid-shot farm field, rows receding to a distant treeline and barn, soil freshly plowed, bright morning. Horizon at ~40 %. Rows lead the eye centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_workshop",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Farm workshop/shed: workbench, tools on pegboard, oil stains, warm work light, open space centre for a broken tractor prop.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_traffic",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Busy city street in a jam: car rows, taillights, billboards WITHOUT readable text, late-afternoon haze. Seen from driver height.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_night",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+   "avoid_hits": [
+    "night"
+   ]
+  }
+ ]
+}

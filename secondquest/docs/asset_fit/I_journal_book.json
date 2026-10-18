@@ -1,0 +1,34 @@
+{
+ "need": "journal notebook book handwriting pen open page",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "core.prop.toolbox",
+   "score": 1.5,
+   "kind": "object",
+   "brief": "Red toolbox, open.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.machine.broken_tractor",
+   "score": 1.5,
+   "kind": "object",
+   "brief": "Green tractor with open hood, smoke puff, a wheel off.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.prop.calendar_friday",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Wall calendar page with a smiley face (NO printed word).",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.prop.manual_book",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Gigantic tractor user manual with sticky notes, closed.",
+   "avoid_hits": []
+  }
+ ]
+}

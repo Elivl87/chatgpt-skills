@@ -1,0 +1,27 @@
+{
+ "need": "two doors choice split path",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "ep001.bg_crossroads",
+   "score": 2.5,
+   "kind": "background",
+   "brief": "Farm path splitting in two at golden hour: left path back toward a distant city, right path toward a big farm. A BLANK wooden two-arrow signpost stands in the middle.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_fantasy_doors",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Dim hall with three large doorways glowing different colours (red crime-city neon, blue war smoke, golden adventure ruins). Doors open, no people. Floor space centre-bottom for Quest (back view).",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_farm_aerial",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "High aerial of a patchwork farm: fields, barn, silos, paths, a lake. Organised and satisfying. Room for small tractor props.",
+   "avoid_hits": []
+  }
+ ]
+}

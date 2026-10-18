@@ -1,0 +1,8 @@
+{
+ "need": "ship boat sailing sea expedition departure flag",
+ "avoid": [
+  "pirate",
+  "modern"
+ ],
+ "candidates": []
+}

@@ -1,0 +1,25 @@
+{
+ "need": "harbor dock port boats evening couple farewell",
+ "avoid": [
+  "modern",
+  "container",
+  "car",
+  "phone"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.city_apartments_evening",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_station_fertilizer",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Farm fertilizer/transport station framed for fertilizer Quest pose and trailer.",
+   "avoid_hits": []
+  }
+ ]
+}

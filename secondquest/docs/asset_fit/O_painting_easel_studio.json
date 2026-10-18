@@ -1,0 +1,13 @@
+{
+ "need": "painting canvas easel brush studio painter frame",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "genre.farming.machine.tractor_topdown",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Green tractor seen straight from above, driving up the frame.",
+   "avoid_hits": []
+  }
+ ]
+}

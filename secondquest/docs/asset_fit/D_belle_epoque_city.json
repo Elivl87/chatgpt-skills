@@ -1,0 +1,69 @@
+{
+ "need": "old european city street lamps cafe paris night",
+ "avoid": [
+  "modern",
+  "neon",
+  "car",
+  "skyscraper"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.city_apartments_evening",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.war.bg_battlefield_city",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Clearly readable fictional war/action-game environment: damaged urban street, smoke, distant armored silhouettes, sandbags/barricades, dramatic sky. No characters, no gore, no readable logos/text.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_crossroads",
+   "score": 1.5,
+   "kind": "background",
+   "brief": "Farm path splitting in two at golden hour: left path back toward a distant city, right path toward a big farm. A BLANK wooden two-arrow signpost stands in the middle.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_night",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.living_room_night_gaming",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Quest canonical living room at night, gaming setup, no character.",
+   "avoid_hits": []
+  },
+  {
+   "key": "ep001.bg_bank_office",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Old-fashioned bank loan office: heavy desk front-centre, tall paper stacks, filing cabinets, framed rules on wall (no readable text). Warm, slightly oppressive light. Desk surface empty for props.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_traffic",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Busy city street in a jam: car rows, taillights, billboards WITHOUT readable text, late-afternoon haze. Seen from driver height.",
+   "avoid_hits": [
+    "car"
+   ]
+  },
+  {
+   "key": "core.bg.quest_bedroom_morning",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Canonical Quest bedroom, morning. Clean geometry, readable bed/nightstand/window, no characters. Leave clean lower/front space for Quest and alarm prop.",
+   "avoid_hits": []
+  }
+ ]
+}

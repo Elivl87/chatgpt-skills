@@ -1,0 +1,23 @@
+{
+ "need": "fantasy beach shore strange landscape meadow colorful",
+ "avoid": [
+  "tropical resort",
+  "city"
+ ],
+ "candidates": [
+  {
+   "key": "genre.fantasy.bg_castle_rescue",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Interactive-looking fantasy castle rescue setting: tower/balcony/window, dramatic depth, distant mountains, warm magical light. No characters; clear placement zone for Quest knight and princess.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.fantasy.bg_dragon_crag",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Stormy fantasy crag with depth and clear placement zone for dragon/Quest; no characters.",
+   "avoid_hits": []
+  }
+ ]
+}

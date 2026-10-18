@@ -1,0 +1,20 @@
+{
+ "need": "family mother father son daughter portrait",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "genre.farming.quest.feeding",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Quest_v1 farming outfit feeding animals; same scale/canvas family as other chores.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.quest.fertilizer",
+   "score": 1.0,
+   "kind": "character",
+   "brief": "Quest_v1 farming outfit handling fertilizer/wheelbarrow; same scale/canvas family as other chores.",
+   "avoid_hits": []
+  }
+ ]
+}

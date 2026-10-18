@@ -1,0 +1,41 @@
+{
+ "need": "petals flowers red falling wind dissolve",
+ "avoid": [],
+ "candidates": [
+  {
+   "key": "core.prop.router",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Home wi-fi router, one red blinking light.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.prop.toolbox",
+   "score": 1.0,
+   "kind": "object",
+   "brief": "Red toolbox, open.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.layer.fence_foreground",
+   "score": 0.5,
+   "kind": "object",
+   "brief": "Transparent foreground fence strip registered to sunset set and sitting_back Quest.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.prop.window_lit",
+   "score": 0.5,
+   "kind": "object",
+   "brief": "Single lit apartment-window overlay used to build many-window montage.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.layer.sunset_farm_midground",
+   "score": 0.5,
+   "kind": "object",
+   "brief": "Transparent farm midground strip registered exactly over sunset_sky.",
+   "avoid_hits": []
+  }
+ ]
+}

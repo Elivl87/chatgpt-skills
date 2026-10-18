@@ -1,0 +1,66 @@
+{
+ "need": "living room night gaming sofa tv quest controller",
+ "avoid": [
+  "morning"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.living_room_night_gaming",
+   "score": 5.0,
+   "kind": "background",
+   "brief": "Quest canonical living room at night, gaming setup, no character.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_day",
+   "score": 4.0,
+   "kind": "background",
+   "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_night",
+   "score": 3.0,
+   "kind": "background",
+   "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.fantasy.bg_castle_rescue",
+   "score": 1.5,
+   "kind": "background",
+   "brief": "Interactive-looking fantasy castle rescue setting: tower/balcony/window, dramatic depth, distant mountains, warm magical light. No characters; clear placement zone for Quest knight and princess.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.city_apartments_evening",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.quest_bedroom_morning",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Canonical Quest bedroom, morning. Clean geometry, readable bed/nightstand/window, no characters. Leave clean lower/front space for Quest and alarm prop.",
+   "avoid_hits": [
+    "morning"
+   ]
+  },
+  {
+   "key": "ep001.bg_fantasy_doors",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Dim hall with three large doorways glowing different colours (red crime-city neon, blue war smoke, golden adventure ruins). Doors open, no people. Floor space centre-bottom for Quest (back view).",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.fantasy.bg_dragon_crag",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Stormy fantasy crag with depth and clear placement zone for dragon/Quest; no characters.",
+   "avoid_hits": []
+  }
+ ]
+}
