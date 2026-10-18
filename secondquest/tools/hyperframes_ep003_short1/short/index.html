@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=540, height=960" />
+    <meta name="viewport" content="width=720, height=1280" />
     <title>EP003 Short 1 The friend who never buys it</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
@@ -14,9 +14,9 @@
       @font-face { font-family: "Caveat"; src: url("assets/fonts/Caveat-700-latin.woff2") format("woff2"); font-weight: 700; }
       :root { --gold: #ffd23f; --ink: #16121f; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 540px; height: 960px; overflow: hidden; background: #16121f; }
-      #root { position: relative; width: 540px; height: 960px; overflow: hidden; font-family: "Inter", sans-serif; }
-      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(0.5); transform-origin: 0 0; overflow: hidden; }
+      html, body { width: 720px; height: 1280px; overflow: hidden; background: #16121f; }
+      #root { position: relative; width: 720px; height: 1280px; overflow: hidden; font-family: "Inter", sans-serif; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(0.6666666666666666); transform-origin: 0 0; overflow: hidden; }
       .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
       .abs { position: absolute; }
       .shot { overflow: hidden; background: #16121f; }
@@ -27,18 +27,15 @@
       .flipx img { transform: scaleX(-1); }
       .shade { background: linear-gradient(180deg, rgba(10,8,20,.55) 0%, rgba(10,8,20,.15) 40%, rgba(10,8,20,0) 60%, rgba(10,8,20,.35) 100%); }
       /* frame 0 / loop seam: the hook text and the notification banner */
-      .hook { position: absolute; left: 0; width: 1080px; top: 350px; text-align: center; font-family: "Anton", sans-serif; color: var(--gold);
-        font-size: 178px; line-height: .98; letter-spacing: 1px; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill;
+      .hook { position: absolute; left: 0; width: 1080px; top: 398px; text-align: center; font-family: "Anton", sans-serif; color: var(--gold);
+        font-size: 156px; line-height: 1.08; letter-spacing: 1px; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill;
         text-shadow: 0 10px 0 var(--ink), 0 18px 30px rgba(0,0,0,.5); }
-      .hook .ln { display: block; }
-      .hook .w { color: #fff; }
-      .ban { position: absolute; left: 60px; top: 120px; width: 960px; height: 170px; border-radius: 44px; background: rgba(246,243,236,.97);
+      .ban { position: absolute; left: 60px; top: 200px; width: 960px; height: 170px; border-radius: 44px; background: rgba(246,243,236,.97);
         box-shadow: 0 14px 40px rgba(0,0,0,.45); }
-      .ban .ic { position: absolute; left: 28px; top: 30px; width: 110px; height: 110px; border-radius: 26px; background: #3aa35b; }
-      .ban .ic svg { position: absolute; left: 20px; top: 22px; width: 70px; height: 66px; }
-      .ban .t { position: absolute; left: 162px; top: 30px; font: 800 36px "Inter", sans-serif; color: #16161f; }
-      .ban .n { position: absolute; right: 36px; top: 34px; font: 600 28px "Inter", sans-serif; color: rgba(22,22,31,.62); }
-      .ban .m { position: absolute; left: 162px; top: 84px; font: 600 42px "Inter", sans-serif; color: #16161f; white-space: nowrap; }
+      .ban .ic { position: absolute; left: 26px; top: 37px; width: 96px; height: 96px; border-radius: 26px; background: #3aa35b; }
+      .ban .ic svg { position: absolute; left: 16px; top: 18px; width: 64px; height: 60px; }
+      .ban .t { position: absolute; left: 140px; top: 26px; font: 800 42px "Inter", sans-serif; color: #16161f; }
+            .ban .m { position: absolute; left: 140px; top: 86px; font: 600 45px "Inter", sans-serif; color: #16161f; white-space: nowrap; }
       .ban .m span { display: inline-block; border-radius: 8px; padding: 0 2px; margin: 0 -2px; }
       /* the chat */
       #phoneRig { position: absolute; left: 60px; top: 120px; width: 360px; height: 560px; transform: scale(2.4); transform-origin: 0 0; }
@@ -66,7 +63,7 @@
       #cardT .ln span { display: inline-block; }
       #cardT .a { font-size: 150px; color: #fff; }
       #cardT .b { font-size: 250px; color: var(--gold); }
-      #scrawl { position: absolute; left: 0; width: 1080px; top: 805px; text-align: center; font: 700 86px "Caveat", cursive; color: #fff;
+      #scrawl { position: absolute; left: 0; width: 1080px; top: 755px; text-align: center; font: 700 86px "Caveat", cursive; color: #fff;
         -webkit-text-stroke: 8px var(--ink); paint-order: stroke fill; transform: rotate(-3deg); }
       #wm { position: absolute; left: 160px; top: 1070px; width: 760px; height: 190px; }
       #wm img { position: absolute; left: 0; top: 0; width: 760px; height: 131px; filter: drop-shadow(0 7px 0 #16161f); }
@@ -76,7 +73,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="20.4" data-fps="30" data-width="540" data-height="960">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20.4" data-fps="30" data-width="720" data-height="1280">
       <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="20.4" data-track-index="30" data-volume="1"></audio>
       <div id="stage">
       <div id="shake" class="full">
@@ -421,12 +418,12 @@
         host.innerHTML = `
           <img class="full" src="assets/lake_soft.jpg" alt="" />
           <div class="full shade"></div>
-          <div class="stack" id="leo${sfx}" data-role="character" style="left: 115px; top: 880px; width: 850px; height: 2924px"><img class="on" src="assets/leo_sideeye.png" alt="" /><img src="assets/leo_sideeye_blink.png" alt="" /></div>
+          <div class="stack" id="leo${sfx}" data-role="character" style="left: 115px; top: 920px; width: 850px; height: 2924px"><img class="on" src="assets/leo_sideeye.png" alt="" /><img src="assets/leo_sideeye_blink.png" alt="" /></div>
           <img class="abs" src="assets/rowboat_front.png" alt="" style="left: -1150px; top: 1460px; width: 3000px" />
           <div class="stack flipx" id="fish${sfx}" data-role="character" style="left: 620px; top: 1500px; width: 310px; height: 230px; transform: rotate(-3deg)">
             <img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_lookup.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
-          <div class="hook" id="hook${sfx}"><span class="ln">EVERY GROUP</span><span class="ln">HAS <span class="w">THIS</span></span><span class="ln">FRIEND</span></div>
-          <div class="ban" id="ban${sfx}"><div class="ic">${BUBBLE}</div><div class="t">Max · The boat</div><div class="n">now</div>
+          <div class="hook" id="hook${sfx}">EVERY GROUP<br>HAS THIS<br>FRIEND</div>
+          <div class="ban" id="ban${sfx}"><div class="ic">${BUBBLE}</div><div class="t">Max · The boat</div>
             <div class="m">${BAN_WORDS.map((w) => `<span>${w}</span>`).join(" ")}</div></div>`;
       }
       frame0($("#brF0"), "0"); frame0($("#brLoop"), "L");
@@ -434,13 +431,13 @@
       // opening: the banner is the caption (each word lights up as Bram says it), the camera breathes in
       tl.fromTo("#brF0", { scale: 1.0, x: 0, y: 0 }, { scale: 1.025, x: -6, y: 4, duration: 2.62, ease: "sine.inOut" }, 0);
       const BW = [0.7, 0.89, 1.03, 1.79, 1.93, 2.21];
-      document.querySelectorAll("#ban0 .m span").forEach((s, i) => {
-        tl.set(s, { backgroundColor: "rgba(255,210,63,0)" }, 0);
-        tl.fromTo(s, { backgroundColor: "rgba(255,210,63,0)" }, { backgroundColor: "rgba(255,210,63,.95)", duration: .08, immediateRender: false }, BW[i] - .03);
-        if (i < 5) tl.to(s, { backgroundColor: "rgba(255,210,63,.32)", duration: .2 }, BW[i + 1] - .03);
-      });
+      // karaoke on the banner, computed per frame (seek-safe; nothing lit at 0 or at DUR, so the loop is seamless)
+      const BANS = Array.from(document.querySelectorAll("#ban0 .m span"));
+      function drawBan(t) { let cur = -1; BW.forEach((a, i) => { if (t >= a - .03) cur = i; });
+        BANS.forEach((sp, i) => { const k = i === cur ? Math.min(1, (t - BW[i] + .03) / .08) : 0;
+          sp.style.backgroundColor = `rgba(255,210,63,${i < cur ? .32 : i === cur ? .95 * k : 0})`; }); }
       tl.fromTo("#ban0", { scale: 1 }, { keyframes: [{ scale: 1.03, duration: .08 }, { scale: 1, duration: .4, ease: "elastic.out(1, .45)" }], transformOrigin: "50% 50%", immediateRender: false }, 1.76);
-      tl.fromTo("#hook0 .w", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .08 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 60%", immediateRender: false }, 1.76);
+      tl.fromTo("#hook0", { scale: 1 }, { keyframes: [{ scale: 1.035, duration: .08 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 50%", immediateRender: false }, 1.76);   // the whole block pulses on "Just"
       // the fish looks up at the banner on "dollars." and back at Leo on "it."; Leo blinks before "Just"
       swap("#fish0", 1, 1.03); swap("#fish0", 0, 2.21);
       blink("#leo0", 0, 1, 1.51, .13);
@@ -467,7 +464,7 @@
       const C0 = 2.62;
       tl.set(mA.el, { maxHeight: mA.h, opacity: 1 }, C0);                     // Max's message is already there (it was the banner)
       tl.set("#phoneRig", { transformPerspective: 1600 }, 0);
-      tl.fromTo("#phoneRig", { rotationY: -70, scale: 2.4 * 1.04 }, { rotationY: 0, scale: 2.4, duration: .36, ease: "back.out(1.4)", immediateRender: false }, C0);
+      tl.fromTo("#phoneRig", { y: 140, opacity: 0 }, { y: 0, opacity: 1, duration: .3, ease: "back.out(1.6)", immediateRender: false }, C0);   // the phone pops up into frame
       tl.fromTo("#brChat", { scale: 1, x: 0, y: 0 }, { scale: 1.03, x: 5, y: -6, duration: 8.85 - C0, ease: "sine.inOut", immediateRender: false }, C0);
       chat.dots(tl, dP, C0 + .12, 3.08);
       chat.show(tl, sP, 3.08, .26);
@@ -476,7 +473,7 @@
       chat.show(tl, sA, 5.26, .26);
       chat.read(tl, sQ, 5.58);
       const kick = (at, sc, rot) => tl.fromTo("#kickChat", { scale: 1, rotation: 0 }, { keyframes: [{ scale: sc, rotation: rot, duration: .06, ease: "power3.out" }, { scale: 1, rotation: 0, duration: .55, ease: "elastic.out(1.1, .38)" }], transformOrigin: "50% 55%", immediateRender: false }, at);
-      [[sP, 3.1, 1.03, 1.5], [sQ, 4.24, 1.05, -2], [sA, 5.28, 1.075, 2.5]].forEach(([st, t, k, rot], i) => {
+      [[sP, 3.1, 1.03, 0], [sQ, 4.24, 1.05, 0], [sA, 5.28, 1.075, 0]].forEach(([st, t, k, rot], i) => {
         tl.fromTo(st.bub, { scale: 1.9 }, { scale: 1, rotation: st.rot, duration: .2, ease: "power4.in", immediateRender: false }, t - .04);
         kick(t + .16, k, rot);
         flash(t + .16, .06 + i * .04, .14);
@@ -513,7 +510,7 @@
       tl.fromTo("#wm", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .35, ease: "power2.out" }, T6 + .95);
       tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .3, ease: "power2.out" }, T6 + 1.05);
       // the fish drops onto the gold bar (anticipation from above, squash on contact, settle) and stays there deadpan
-      tl.fromTo("#fishC", { y: -1150, opacity: 1 }, { y: 0, duration: .3, ease: "power2.in" }, T6 + 1.0);
+      tl.fromTo("#fishC", { y: -70, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .05 }, { y: 0, duration: .25, ease: "power2.in" }] }, T6 + 1.0);   // hops in from just above the Q (never across the text)
       tl.fromTo("#fishC", { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .72, scaleX: 1.18, duration: .06 }, { scaleY: 1.06, scaleX: .96, duration: .12 }, { scaleY: 1, scaleX: 1, duration: .2, ease: "power2.out" }], transformOrigin: "50% 100%", immediateRender: false }, T6 + 1.3);
       tl.fromTo("#wm img", { y: 0 }, { keyframes: [{ y: 7, duration: .06 }, { y: 0, duration: .4, ease: "elastic.out(1, .4)" }], immediateRender: false }, T6 + 1.3);   // the wordmark dips under the landing
       blink("#fishC", 0, 1, T6 + 2.4, .45);
@@ -522,12 +519,12 @@
 
       /* ---------------- 7 · loop seam: settles exactly into frame 0 at DUR */
       const T7 = DUR - 1.0;
-      tl.fromTo("#brLoop", { scale: 1.035, x: 6, y: -4 }, { scale: 1.0, x: 0, y: 0, duration: 1.0, ease: "power2.out", immediateRender: false }, T7);
-      tl.fromTo("#banL", { y: -320 }, { y: 0, duration: .32, ease: "back.out(1.3)", immediateRender: false }, T7 + .12);
-      tl.set("#banL", { y: -320 }, 0);
-      const HL = document.querySelectorAll("#hookL .ln");
-      HL.forEach((l, i) => { tl.set(l, { opacity: 0 }, 0);
-        tl.fromTo(l, { opacity: 0, scale: 1.45 }, { opacity: 1, scale: 1, duration: .12, ease: "power3.in", immediateRender: false, transformOrigin: "50% 50%" }, T7 + .5 + i * .1); });
+      tl.fromTo("#brLoop", { scale: 1.035, x: 6, y: -4 }, { scale: 1.0, x: 0, y: 0, duration: .85, ease: "power2.out", immediateRender: false }, T7);
+      tl.fromTo("#banL", { y: -420 }, { y: 0, duration: .32, ease: "back.out(1.3)", immediateRender: false }, T7 + .12);
+      tl.set("#banL", { y: -420 }, 0);
+      // the hook text grows in as one block (never a line on its own, never over the banner) and is at rest before the last frame
+      tl.set("#hookL", { opacity: 0 }, 0);
+      tl.fromTo("#hookL", { opacity: 0, scale: .82 }, { keyframes: [{ opacity: 1, scale: 1.04, duration: .14, ease: "power3.out" }, { scale: 1, duration: .22, ease: "power2.out" }], transformOrigin: "50% 50%", immediateRender: false }, T7 + .42);
       swap("#fishL", 1, T7 + .15); swap("#fishL", 0, T7 + .6);           // the fish looks up at the buzz, then back: at rest = frame 0
 
       /* ---------------- captions (only "He will not get it later." and h08) */
@@ -545,11 +542,11 @@
       }
       // idle life: the in-boat crew and the close-ups breathe a little (never a fake walk)
       const IDLE = ["#leo0", "#leoS", "#bfMax", "#bfLeo", "#pixie", "#quest"].map((s, i) => [$(s), 1.6 + .21 * i, i * 1.3]);
-      IDLE.push([$("#leoL"), 1.6, -DUR * 1.6]);                             // at DUR the loop's Leo is exactly frame 0's Leo at 0
+      IDLE.push([$("#leoL"), 1.6, -(DUR - 1 / 30) * 1.6]);                  // on the last frame the loop's Leo is exactly frame 0's Leo
       function drawIdle(t) { for (const [e, f, ph] of IDLE) { const k = Math.sin(t * f + ph); e.style.transformOrigin = "50% 100%";
         e.style.transform = `scale(${1 - .003 * k}, ${1 + .008 * k})`; } }
       const env = { t: 0 };
-      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { drawCaps(env.t); drawIdle(env.t); } }, 0);
+      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { drawCaps(env.t); drawIdle(env.t); drawBan(env.t); } }, 0);
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};

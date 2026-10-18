@@ -87,19 +87,14 @@ S = ROOT / 'public/shared/sfx'
 
 
 def cues():
-    """Restraint (DESIGN_RUBRIC §7): 11 onsets + one lake bed in 20.4 s; same interaction = same family, never the same
+    """Restraint (DESIGN_RUBRIC §7, sfx_audit budget 18/min): 6 onsets + one outdoor bed in 20.4 s, each on a story beat; same interaction = same family, never the same
     file. (time, file, dB relative to the voice, length s or None, why)."""
     T = seg.table()
     return [
         (0.03, S / 'cc0/kenney_interface/confirmation_003.ogg', -8, None, 'frame 0: the notification banner (Max: "It\'s eight dollars. Just get it.")'),
-        (2.60, S / 'cc0/artisticdude_swishes/swish_3.ogg', -12, None, 'cut: the phone swings in'),
         (T['h06.w1'] + .14, S / 'cc0/tokyogeisha_58/Pop_01.ogg', -9, None, '"Bought." 1: Pixie\'s sticker slaps on'),
         (T['h06.w2'] + .14, S / 'cc0/rubberduck_water/bubble_02.ogg', -8, None, '"Bought." 2: Quest\'s sticker, bigger kick'),
         (T['h06.w3'] + .14, S / 'cc0/kenney_interface/drop_004.ogg', -7, None, '"Bought." 3: Max\'s sticker, biggest kick'),
-        (T['h07.w9.end'] + .05, S / 'cc0/artisticdude_swishes/swish_7.ogg', -13, None, 'Leo\'s "I\'ll get it later." is sent'),
-        (T['h07.w15'], S / 'own/tap_marimba/tap_marimba_03.ogg', -15, None, '"later.": the fish\'s one slow blink (dry tick)'),
-        (T['h08'] - .25, S / 'cc0/qubodup_waves/wave_02_cc0_18363_jasinski_alkaibeach.ogg', -14, None, 'cut to the wide: water laps the boat'),
-        (seg.VOICE_END + .3, S / 'cc0/artisticdude_swishes/swish_10.ogg', -11, None, 'the end card slides in'),
         (seg.VOICE_END + 1.55, S / 'cc0/artisticdude_rpg/slime6.ogg', -9, None, 'the fish flops onto the wordmark\'s gold bar'),
         (seg.DUR - 1.0, S / 'buzzer.wav', -13, .35, 'loop seam: the phone buzzes, the banner drops again'),
     ]
