@@ -5,9 +5,13 @@ Branch `claude/secondquest-pilot-hook-4yw8xj`. Sources: hook = `tools/hyperframe
 `base_717b244d_CDEG_v34.patch`; only the hook changes here, so only block A re-renders, then `assemble_master.sh`).
 
 1. **0:28 (H7, "I'll get it later.")**: Leo is not visible (only his yellow beanie shows in the boat) and the speech
-   bubble's tail points at the empty bow; Max is half hidden behind Quest. Fix: Leo seated and visible in his own seat
-   (side-eye face), bubble tail pointing at him; Max not covered by Quest. Check the whole hook for anyone hidden or a
-   bubble that does not point at its speaker.
+   bubble's tail points at the empty bow; Max is half hidden behind Quest. The Producer does not understand the box:
+   it is a chat card ("Leo" label + message) floating in the lake scene like a speech bubble, pointing at nobody.
+   Producer's reading: Leo is the friend who has not bought it yet and appears later. **Recommended fix: make it a phone
+   notification banner** ("The boat · Leo: I'll get it later.", dropping from the top like F's "Max: on?" banner): it
+   is a text message, Leo is not in the boat yet, so nobody needs to be pointed at. Alternative if the Producer prefers:
+   Leo visible in the boat with a plain comic speech bubble (no "Leo" header) whose tail points at him.
+   Either way Max must not be covered by Quest; check the whole hook for anyone hidden or a bubble without a speaker.
 2. **Group chat (0:13–0:26)**: every message has the sender's avatar except Quest's own "Bought." (right side).
    Give Quest's own messages his avatar too (ChatPhone `sticker(..., { name: true })` → also an avatar; e.g. an
    `opt.avatar` that appends `avatar(who, pad)` after the bubble on `.out` rows), consistent with the others.
