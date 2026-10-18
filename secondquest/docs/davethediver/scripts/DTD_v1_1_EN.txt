@@ -1,0 +1,83 @@
+SECONDQUEST — Dave the Diver
+EN DRAFT v1.1 — NOT LOCKED (2026-10-18; v1.0 + independent review fixes)
+Title A (curiosity): Dave the Diver: Two Jobs, No Salary... and It's Relaxing?
+Title B (search): Dave the Diver: Why We Clock In After Clocking Out
+Thesis: Dave's work is everything ours isn't: it ends, you can see it, and someone is glad you came.
+
+[A · HOOK]
+¶01 You finish work. You get home. You sit down.
+¶02 And you start a second job.
+¶03 By day, you dive into a hole in the ocean and spear fish until your oxygen runs out. By night, you serve them as sushi until closing time.
+¶04 Nobody pays you. Nobody makes you.
+¶05 Dave the Diver has sold more than ten million copies, according to the studio.
+¶06 Ten million people... clocking in. After clocking out.
+¶07 And in 2023, Steam players voted it their award for "Sit Back and Relax."
+¶08 So, why?
+
+[B · THE TRICK]
+¶09 Meet Dave. He doesn't look like a hero. Round. Easygoing. A wetsuit that has seen things. Even the developers say his body isn't typical for a diver.
+¶10 Dave is on vacation. Then his old friend Cobra calls, with the promise of sushi.
+¶11 So Dave ends his vacation. Immediately. Because Dave really likes sushi.
+¶12 There's just one detail. The restaurant has no fish. Dave is the fish supply.
+¶13 One player called it "the shortest supply chain in the world." It's one guy. Holding a harpoon.
+¶14 And it gets worse. Cobra keeps signing contracts for him. An archaeologist. A weapons nerd. A reporter. Without asking.
+¶15 You probably have a Cobra. The friend who already told everyone you'd help them move. The boss who said yes for you, in a meeting you weren't in.
+¶16 Dave could leave. He doesn't. Hold on to that.
+
+[C · THE EASY ANSWER]
+¶17 The easy answer is that it's cozy. Pixel art. Gentle music. A little sushi bar by the sea.
+¶18 But it isn't only cozy. The deep has sharks. A hermit crab that lives in a dump truck. A squid the size of a bus. And your oxygen is also your health. Get bitten, and the tank drops.
+¶19 Danger below. Rice above. Which is also a fair description of most Mondays.
+¶20 And cozy alone doesn't explain it. Plenty of games let you relax. Some even let you quit the office. Dave hands you a better shift.
+¶20b So why does a shift feel better than a nap?
+
+[D · THE DAY: IT ENDS]
+¶21 Start with the day.
+¶22 Every day, Dave drops into the Blue Hole. And every dive, it's different. New layout. New fish. New trouble.
+¶23 And every dive has an ending you can see. A gauge. When the oxygen runs out, they pull you up, and you keep one thing. One.
+¶24 Now think about your own workday. When did it last end? Not "end of day." Actually end. The email at ten at night says no.
+¶25 Dave's work has a clock you can see. Yours mostly has a phone.
+¶26 And when Dave gets better, you can see that too. His air tank goes from ninety bar to four hundred and eighty. His cargo box, from nine kilos to a hundred and eighty-five. His suit, from forty meters deep to eight hundred.
+¶27 He doesn't get a promotion. He gets a bigger tank.
+¶28 Out here, getting better at your job mostly means... more job.
+
+[E · THE NIGHT: YOU CAN SEE IT]
+¶29 Then the sun goes down, and the second half begins. Bancho Sushi.
+¶30 Bancho is the chef. A man so serious about fish that, according to the game, he lost a job at a five-star hotel over a food critic and a whole roasted shark head.
+¶31 Bancho's new recipes come with anime cutscenes. Knives flash. A petal falls. Somewhere, a catfish looks terrified.
+¶32 And Dave runs the floor. Tea. Wasabi. Plates. Faster, faster. Until closing. And then the game gives you a score for the night. Even your phone has an app for it, Cooksta, where the followers are people you actually fed.
+¶33 Here's the part that matters. The fish you speared at noon... is on a plate at eight. And somebody eats it.
+¶34 Most of us make things nobody ever sees. A report goes into a folder. The folder goes into another folder.
+¶35 The director split the day in two so you could focus on each half. And so you'd feel like you were "preparing dinner for customers."
+¶36 Not a task. A dinner. For someone.
+
+[F · THE PEOPLE: SOMEONE IS GLAD YOU CAME]
+¶37 And the customers aren't the only ones waiting.
+¶38 Duff, the weapons guy, who loves his anime idols louder than any adult is supposed to love anything.
+¶39 Otto, the farmer in the straw hat, who has been away from home a long time, and wants to fix his life before he calls.
+¶40 And deep under the Blue Hole, a whole village of Sea People, who need Dave too.
+¶41 Every one of them needs Dave to do the one thing they can't.
+¶42 Being needed by four thousand people is called a job. Being needed by five is called a family. Or, apparently, a sushi bar.
+¶43 And yes, some players say the game never stops handing you chores. A fish farm. A rice paddy. Seahorse racing. Fair. Dave never says no either.
+¶44 Which brings us back to Cobra. Dave could leave. He never does. Because somewhere along the way, the contracts became friends.
+
+[G · THE ANSWER]
+¶45 So... why do millions of people come home from work to work two jobs?
+¶46 Because it was never about working more. It's about work that finally fits in a day.
+¶47 It ends. You can see it. And someone is glad you came.
+¶48 The idea came from a real restaurant on Jeju Island, in South Korea. In the director's words, "the owner caught fish in the morning, and cooked them for dinner."
+¶49 One person. One day. A job you can hold in your hands.
+¶50 Then you put the controller down. Tomorrow, the real job is still there. Still no oxygen gauge. Still no score at closing time.
+¶51 But tonight, for an hour, you got to clock out like Dave. Done by closing time. Somebody glad you came.
+¶52 Maybe that's what we're really playing. Not a second job. The first one... the way it was supposed to feel.
+
+[H · CTA]
+¶53 So what would your second shift be? And what game deserves a "why?" next? Tell me in the comments.
+¶54 Maybe that's our next quest.
+
+[FACT NOTES — recheck at lock]
+¶05 10 M (Mintrocket, Sep 2026) VERIFIED · ¶07 Steam Awards 2023 VERIFIED · ¶09 dev interview (tech4gamers, unnamed) †
+¶13 Steam review, verbatim fragment · ¶18 Giant Squid / Truck Hermit Crab bosses (WIKI; "bus" is a joke) · ¶23 keep one
+item (secondary) · ¶26 all numbers WIKI (800 m = cold-resistant suit) · ¶30 shark head WIKI (quit vs fired conflict →
+neutral wording) · ¶32 Today's Score 1–5 + Cooksta (WIKI) · ¶35 Game Developer interview † word-for-word check · ¶39 Otto
+WIKI (late twist kept out) · ¶48 Jeju quote (PC Gamer) word-for-word check before lock.
