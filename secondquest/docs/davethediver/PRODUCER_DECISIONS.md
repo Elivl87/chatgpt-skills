@@ -8,3 +8,12 @@
   who comes to it, the exact boat) so the world can be rebuilt faithfully "like How to Fish". Then the script, with the
   channel's essence (viewer-centred, VOICE.md §8) and every important game reference and mechanic.
 - Balance: 9.25 credits. Free first; Higgsfield only for the few items nothing else can make, quoted first.
+
+## 2026-10-18 · Script LOCKED + titles + companion + visual reference
+- Producer: "Apruebo guión." → `scripts/DTD_v1_1_EN.txt` LOCKED (used verbatim; changes only via SCRIPT CHANGE PROPOSAL).
+  ES-419 review `scripts/DTD_v1_1_ES_review.md`; official in-game ES terms to copy before the dub.
+- Titles (Producer, binding for every episode): "Los títulos siempre deben empezar con Why, pero partidario de que
+  aparezca el nombre del juego también."
+- Boat and suit: "Busca en la web el bote, el traje, y hazlo tú." → studied from official images, written in words in
+  GAME_VISUAL_REFERENCE.md §0 (images not kept).
+- Companion: the air bubble (oxygen), with a cameo of the EP003 fish.

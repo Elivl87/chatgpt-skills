@@ -10,6 +10,8 @@
   report at each milestone; the Producer can stop or redirect at any time. Placeholder voice: free Kokoro, the voice
   closest to Bram. Where an older rule below asks approval for free work, it now means "report it".
 - **Packaging and publishing** (thumbnails, titles, descriptions, tags, hook, subtitles, publishing checklist): follow `docs/PUBLISHING_STANDARD.md` and `docs/THUMBNAIL_RULES.md`. They are binding.
+- **Titles start with "Why" (Producer, 2026-10-18, overrides older title patterns):** every episode title begins with
+  "Why" and includes the game name.
 - **Any image showing Quest:** follow `docs/QUEST_V1_PROMPT_SPEC.md` (identity block, references, QC). Report every defect; never present a failing image as acceptable.
 - **Any image showing Pixie** (Quest's friend, recurring character): follow `docs/characters/PIXIE_V1_PROMPT_SPEC.md`.
 - **Costumes keep identity (Producer rule):** when Quest or Pixie change outfit, only the clothes change. Face, hair, eyes, skin, ears and body stay the same; they are themselves in a costume, never turned into the game character (e.g. no elf ears).

@@ -21,6 +21,48 @@ text; a recollection or best guess to check eyes-on (§8) · **[OURS]** our desi
 
 ---
 
+## 0. Eyes-on, from official images (Producer: "Busca en la web el bote, el traje, y hazlo tú", 2026-10-18)
+Studied (not saved, not used in the video) from the official Steam store screenshots
+(https://store.steampowered.com/app/1868140/) and the fan wiki's official character art. These override the
+UNVERIFIED items below for the boat, Dave's suit, Cobra, Bancho and the sushi bar.
+
+**Dave (dive suit):** very round body on thin legs; full-body **navy-blue** wetsuit with an integrated **hood**; a
+**yellow mask pushed up on the hood**; **dark beard and moustache**, brown eyes; **black gloves**; **black belt** with grey
+weight/buckle blocks; **yellow tank** on black harness straps (regulator hose over the shoulder); **yellow fins**.
+Big easy grin. Off duty: light grey short-sleeve shirt over a pink tee, dark trousers, a khaki bucket/straw hat.
+→ Quest's dive costume must differ on purpose (colour + silhouette) while keeping Quest's identity (CLAUDE.md costume rule):
+proposal: teal/grey suit, no hood, orange mask on the face, our own tank colour.
+
+**Cobra's boat ("Nodens 68" on the hull):** a mid-size dive/cabin boat seen side-on. Upper hull and cabin **pale aqua /
+white**; lower hull **dark maroon-red**, the name in teal letters with the number in gold near the bow; **wheelhouse with
+wide windows** at the front; a **big teal-and-chrome searchlight drum** on the cabin roof inside a railing, plus a whip
+antenna; the aft open deck under a **yellow canvas canopy** on a dark-teal frame; **scuba tanks (grey and yellow)** standing
+on deck; the **yellow equipment box** (opens gear/boat-skin menus); **tan rope coils** hanging over the side; a stern rail
+where Dave sits before diving; Cobra stands on deck. Skins only repaint it (default "Basic"; blue unlocks early).
+→ Our props3d boat is a NEW model (the EP003 rowboat does not fit): same family (cabin + canopy + searchlight), our
+proportions, our name on the hull (never "Nodens 68"), our colours.
+
+**Cobra:** white swept-back hair, dark sunglasses, white goatee; open **red/orange Hawaiian shirt** (banana print) over a
+grey tee, gold chain. **Bancho:** dark skin, bald with a **blue hachimaki headband**, small round dark glasses, black beard,
+light-blue kimono/robe (white chef top with a red sash in cooking scenes). **Otto:** straw hat, red scarf, scar.
+**Yoshie:** hair bun, red glasses, dark suit. (We evoke them; we do not redraw them 1:1.)
+
+**Bancho Sushi, exterior (night):** a floating restaurant on a pontoon ringed with **black tyres**, at the foot of
+**limestone karst cliffs with jungle** (Ha Long Bay-like); red Japanese roof, a big **pink neon sign** and **"SUSHI" letters**
+on the roof, two gold fish ornaments, red paper lanterns; small boats moored beside it. Daytime bay: turquoise water, the
+same karst towers, palms.
+**Bancho Sushi, interior (service):** side view of a **long wooden counter** with ~13 stools; customers in a row, each with
+a **grey order bubble** showing the dish and short reactions under them ("This looks good!"); hanging **globe lamps**;
+**pink neon "OPEN"** sign, a neon **"EAT DRINK LOVE"**, an **orange neon kanji sign** (Bancho Sushi); a shelf of sake
+bottles; speakers with pink neon trim; menu boards; pink drapes and a **cherry-blossom tree** at the top right; an
+**aquarium tank** at the right end; the kitchen behind the counter. Daytime view: wooden beams, a big window onto a fish tank.
+**Restaurant HUD (bar):** gold counter top-left ("6,000"); Cooksta handle + follower bar ("#bancho_sushi", 0/500) next to
+it; quest list under it; **date + weather top-right** ("Tue 10.25" + sun) above a **round day/evening clock dial**; a
+**vertical wasabi gauge** with a leaf icon at the right edge; bottom bar: Phone (left), Menu, Research, Staff,
+Ingredients, Interior.
+**Dive look:** blocky low-poly 3D reefs (stepped stone shelves, sand tops, coral fans, kelp), pixel-art Dave as a tiny
+yellow-tanked figure, light shafts; deeper = teal → navy with marine snow. (Dive HUD is not in the store shots: keep §HUD.)
+
 ## 1. Facts check
 
 | Fact | Value | Sources | Status |
