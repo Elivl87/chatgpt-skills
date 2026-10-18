@@ -109,6 +109,10 @@ ES/EN ≈ 1.05 (EP003), at most ~1.15. Same rhythm (EP002 ES avg 7.8 words/sente
 - [ ] "you" carries it; "I" only in the CTA; no exclamation marks outside quoted dialogue.
 - [ ] Each block opens on a question or a turn; a visual beat every 60–90 s.
 - [ ] The answer is about people, not mechanics; the ending calls back a hook image.
+- [ ] **Viewer essence (Producer, 2026-10-18, EP004 lesson):** the essay is about the viewer's life through the game,
+      not a retelling of the game. Every block has at least one real-life "you" bridge (not the in-game "you"); plot
+      summary never runs more than ~60 s without one; real-life "you" ≈ EP001/EP002 density. Measured and reported to
+      the Producer BEFORE he locks a script (a warning, not a rewrite).
 - [ ] No word from §3; humour is understatement, never at the player's expense.
 - [ ] Every figure sourced, estimates labelled and attributed, quotes verbatim with "word for word".
 - [ ] CTA shape intact; companion beats planned; ~900–1,050 words.

@@ -145,6 +145,10 @@
   - **Renders stay out of git until verified:** `scene_cache.py` writes blocks to `tools/hyperframes_ep003/renders/blocks/`
     (ignored); only the verified deliverable is copied/committed, once per round. Delivered masters go to Releases.
   - Read big files with targeted greps/line ranges, not whole; contact sheets of frames instead of many single frames.
+- **The essay is about the viewer, not the game (Producer, 2026-10-18: "perderíamos la esencia y la identidad"):**
+  SecondQuest explains a game through the viewer's own life (EP001/EP002). Before any script is locked, Claude measures
+  the viewer essence (VOICE.md §8: a real-life "you" bridge in every block, no long plot retelling) and WARNS the
+  Producer if it falls short; a story-retelling script is never presented as ready.
 - **Every text has a source (Producer, 2026-10-18, a repeated error in every episode and Short):** speech bubbles only
   from a visible speaker with the tail on them (no name header); chat messages only inside a phone or as a notification
   banner from the top; never a chat card floating in a scene. Rubric §4b; the critic checks every bubble/message for it.
