@@ -39,7 +39,7 @@
  "longest_shot": 5.17,
  "longest_id": "F19_late",
  "avg_shot": 2.61,
- "size_mb": 9.86,
+ "size_mb": 9.87,
  "contact_kb": 341
 }
 ```
