@@ -21,10 +21,11 @@ SEGMENTS = [
     (14.95, 17.05, 0.56),    # h05 tail '"It's eight dollars. Just get it."'      (pauses 14.45-15.09 / 16.85-17.39)
     (17.25, 19.95, 2.96),    # h06 "Bought. Bought. Bought."                       (pauses 16.85-17.39 / 19.78-20.60)
     (20.45, 25.40, 5.91),    # h07 "And one friend who says ... He will not get it later."   (19.78-20.60 / 25.19-25.92)
-    (25.80, 29.85, 11.40),   # h08 minus "And yet,": "Getting a few adults ... than anything in the game."  (25.19-25.92 / 29.64-30.20)
+    (25.80, 29.85, 12.05),   # h08 minus "And yet,": "Getting a few adults ... than anything in the game."  (25.19-25.92 / 29.64-30.20)
 ]
-DUR = 20.4
 VOICE_END = round(SEGMENTS[-1][2] + SEGMENTS[-1][1] - SEGMENTS[-1][0], 3)
+CARD = 2.6              # VEND+0.3 -> the end card (critic v1: <= ~2.5 s, never static and silent), then the 1.0 s loop seam
+DUR = round(VOICE_END + .3 + CARD + 1.0, 3)
 LINES = ['h05', 'h06', 'h07', 'h08']
 
 

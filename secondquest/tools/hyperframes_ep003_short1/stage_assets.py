@@ -87,16 +87,16 @@ S = ROOT / 'public/shared/sfx'
 
 
 def cues():
-    """Restraint (DESIGN_RUBRIC §7, sfx_audit budget 18/min): 6 onsets + one outdoor bed in 20.4 s, each on a story beat; same interaction = same family, never the same
-    file. (time, file, dB relative to the voice, length s or None, why)."""
+    """Restraint (DESIGN_RUBRIC §7, sfx_audit budget 18/min): 5 onsets + one outdoor bed in 20.4 s, each on a story beat; same interaction = same family, never the same
+    file. (time, file, dB relative to the voice, length s or None, why). The loop seam has no cue of its own: the banner lands
+    on the last frame and the replay's opening ping is its sound (critic v1: one notification sound per banner)."""
     T = seg.table()
     return [
         (0.03, S / 'cc0/kenney_interface/confirmation_003.ogg', -8, None, 'frame 0: the notification banner (Max: "It\'s eight dollars. Just get it.")'),
         (T['h06.w1'] + .14, S / 'cc0/tokyogeisha_58/Pop_01.ogg', -9, None, '"Bought." 1: Pixie\'s sticker slaps on'),
         (T['h06.w2'] + .14, S / 'cc0/rubberduck_water/bubble_02.ogg', -8, None, '"Bought." 2: Quest\'s sticker, bigger kick'),
         (T['h06.w3'] + .14, S / 'cc0/kenney_interface/drop_004.ogg', -7, None, '"Bought." 3: Max\'s sticker, biggest kick'),
-        (seg.VOICE_END + 1.55, S / 'cc0/artisticdude_rpg/slime6.ogg', -9, None, 'the fish flops onto the wordmark\'s gold bar'),
-        (seg.DUR - 1.0, S / 'buzzer.wav', -13, .35, 'loop seam: the phone buzzes, the banner drops again'),
+        (seg.VOICE_END + 1.3, S / 'cc0/artisticdude_rpg/slime6.ogg', -9, None, 'the fish flops onto the wordmark\'s gold bar'),
     ]
 
 
@@ -126,10 +126,7 @@ def stage_audio():
     bf, brel = BED
     bed = load(bf); bed = np.tile(bed, int(np.ceil(len(voice) / len(bed))))[:len(voice)]
     env = np.zeros(len(voice), np.float32)
-    def ramp(t0, t1, v0, v1):
-        a, b = round(t0 * SR), round(t1 * SR); env[a:b] = np.linspace(v0, v1, b - a)
-    ramp(0, .02, 1, 1); env[:round((seg.VOICE_END + .3) * SR)] = 1
-    ramp(seg.VOICE_END + .3, seg.VOICE_END + 1.0, 1, 0); ramp(seg.DUR - 1.0, seg.DUR, 0, 1)
+    env[:] = 1                                                          # critic v1: never a silent card; same level at DUR and 0 (seam)
     sfx += bed * env * 10 ** ((v_db + brel - active_rms_db(bed)) / 20)
     plan.append({'t': 0.0, 'rel_db': brel, 'spec': str(bf.relative_to(ROOT)), 'why': 'outdoor air bed under the lake shots, back for the loop seam', 'bed': True})
     (OUT / 'sfx_plan.json').write_text(json.dumps(plan, indent=1))

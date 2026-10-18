@@ -36,7 +36,7 @@ def chunks():
             out.append(cur); cur = []
         cur.append(wd)
     out.append(cur)
-    CUTS = [T['h08'] - .25, T['VEND'] + .3]
+    CUTS = [T['h08'] - .25, T['h08.w9'] - .05, T['VEND'] + .3]
     res = []
     for i, c in enumerate(out):
         nxt = out[i + 1][0][2] - .06 if i + 1 < len(out) else seg.VOICE_END + .3
