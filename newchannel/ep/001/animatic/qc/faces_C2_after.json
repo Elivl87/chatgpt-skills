@@ -1,16 +1,16 @@
 {
  "block": "C2",
  "tag": "after",
- "samples": 48,
- "faces": 87,
+ "samples": 46,
+ "faces": 85,
  "eyes": {
-  "pass": 99,
+  "pass": 95,
   "fail": 0,
-  "closed": 8,
+  "closed": 10,
   "covered": 0,
   "fading": 0,
   "tiny": 13,
-  "offframe": 6
+  "offframe": 4
  },
  "failures": 0,
  "fail_list": [],

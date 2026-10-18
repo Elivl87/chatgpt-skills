@@ -1,11 +1,11 @@
 {
- "duration": 42.035,
+ "duration": 46.21,
  "shots": 21,
  "cuts": 20,
- "cuts_per_min": 28.5,
- "longest_shot": 3.73,
+ "cuts_per_min": 26.0,
+ "longest_shot": 5.34,
  "longest_id": "A17_backtoback",
- "avg_shot": 2.0,
- "size_mb": 5.43,
- "contact_kb": 324
+ "avg_shot": 2.2,
+ "size_mb": 5.97,
+ "contact_kb": 358
 }

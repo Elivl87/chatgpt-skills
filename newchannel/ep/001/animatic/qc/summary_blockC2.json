@@ -1,11 +1,11 @@
 {
- "duration": 84.005,
+ "duration": 91.16999999999999,
  "shots": 31,
  "cuts": 30,
- "cuts_per_min": 21.4,
- "longest_shot": 4.67,
+ "cuts_per_min": 19.7,
+ "longest_shot": 5.18,
  "longest_id": "D21_halfhour",
- "avg_shot": 2.71,
- "size_mb": 11.52,
- "contact_kb": 381
+ "avg_shot": 2.94,
+ "size_mb": 12.36,
+ "contact_kb": 376
 }

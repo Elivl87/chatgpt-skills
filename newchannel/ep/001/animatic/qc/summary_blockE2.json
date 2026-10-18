@@ -1,11 +1,11 @@
 {
- "duration": 70.46999999999997,
+ "duration": 73.67500000000001,
  "shots": 30,
  "cuts": 29,
- "cuts_per_min": 24.7,
- "longest_shot": 4.0,
- "longest_id": "K04_sit",
- "avg_shot": 2.35,
- "size_mb": 9.19,
- "contact_kb": 373
+ "cuts_per_min": 23.6,
+ "longest_shot": 4.66,
+ "longest_id": "H02_gap",
+ "avg_shot": 2.46,
+ "size_mb": 9.55,
+ "contact_kb": 394
 }

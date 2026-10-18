@@ -92,8 +92,15 @@
           let eO;
           // the spin is a staged turn through 7 held key views (each ~0.4 s, pointing at the next car); after it the pose
           // changes used to snap in one frame (point -> pointSelf -> scratch -> crossed): blended now (Guardian v3)
-          if (t < g1) { const k = K.clamp((t - g0) / (g1 - g0)), j = Math.min(turns.length - 1, Math.floor(k * turns.length));
-            eO = { view: turns[j][0], dir: turns[j][1], pose: 'point', ...A.ez(t, (g0 + g1) / 2, 'determined', 'curious'), look: [0.9, 0], blink: 0 }; }
+          // Guardian v3: each key view is held (pointing at the next car) and the body TURNS to the next one over the last
+          // 0.12 s (numeric view; front <-> back swaps only at the profile), instead of 7 one-frame snaps of body and clothes
+          if (t < g1) { const k = K.clamp((t - g0) / (g1 - g0)) * turns.length, j = Math.min(turns.length - 1, Math.floor(k)), seg = (g1 - g0) / turns.length;
+            const KS = [[0.55, 0, -1], [1, 0, -1], [0.55, 1, -1], [0, 1, -1], [0.55, 1, 1], [1, 0, 1], [0.55, 0, 1]];
+            const e = j + 1 < KS.length ? K.ease.sine(K.clamp((k - j - 1) * seg / 0.12 + 1)) : 0, A0 = KS[j], B0 = KS[Math.min(j + 1, KS.length - 1)];
+            let sv, bk, dv;
+            if (A0[1] === B0[1]) { sv = K.lerp(A0[0], B0[0], e); bk = A0[1]; dv = A0[0] === 0 ? B0[2] : A0[2]; }
+            else if (e < 0.5) { sv = K.lerp(A0[0], 1, e * 2); bk = A0[1]; dv = A0[2]; } else { sv = K.lerp(1, B0[0], e * 2 - 1); bk = B0[1]; dv = B0[2]; }
+            eO = { view: sv, backView: !!bk, dir: dv, pose: 'point', ...A.ez(t, (g0 + g1) / 2, 'determined', 'curious'), look: [0.9, 0], blink: 0 }; }
           else eO = Object.assign({ dir: 1, blink: t > hit + 0.95 ? blink(3, t) : 0 }, A.seq(t, [
             [0, { view: 'q', pose: 'point', expr: 'curious', look: [0.9, 0], tilt: 0 }], [hit, { view: 'front', pose: 'pointSelf', expr: 'surprised', look: [0, 0], tilt: 0.04 }],
             [hit + 0.45, { view: 'q', pose: 'scratch', expr: 'sheepish', look: [0, 0], tilt: 0 }], [hit + 0.85, { view: 'q', pose: 'crossed', expr: 'annoyed', look: [0.6, 0.1], tilt: 0 }]], 0.14));

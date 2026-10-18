@@ -1,44 +1,44 @@
 # QC · blockE2
 
-File: `blockE2_draft.mp4` · 70.47 s · 30/1 fps · 9.19 MB · 1.0 Mb/s
+File: `blockE2_draft.mp4` · 73.67 s · 30/1 fps · 9.55 MB · 1.0 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 854x480 |
-| file size <= 30 MB (chat delivery) | **PASS** | 9.19 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 9.55 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
-| loudness -14 LUFS (+-1) | **PASS** | -14.2 LUFS |
+| loudness -14 LUFS (+-1) | **PASS** | -14.0 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -1.4 dBTP |
 | no black frames | **PASS** | none |
 | no undeclared freezes >= 0.5 s | **PASS** | none |
 | no undeclared silence >= 0.5 s | **PASS** | none |
 
-Loudness (ffmpeg ebur128 on the final mp4): I -14.2 LUFS, TP -1.4 dBTP, LRA 11.8 LU.
+Loudness (ffmpeg ebur128 on the final mp4): I -14.0 LUFS, TP -1.4 dBTP, LRA 12.0 LU.
 
 ## Pacing (secondquest style_bible.py + pacing_qc.py)
 
 | metric | value |
 |---|---|
-| duration_s | 70.5 |
-| shots | 27 |
-| avg_shot_s | 2.61 |
-| longest_shot_s | 14.5 |
-| cuts_per_min | 22.1 |
-| motion_share | 0.9 |
+| duration_s | 73.7 |
+| shots | 28 |
+| avg_shot_s | 2.63 |
+| longest_shot_s | 13.0 |
+| cuts_per_min | 22.0 |
+| motion_share | 0.912 |
 | still_2s_runs | 0 |
-| brightness_mean | 0.612 |
+| brightness_mean | 0.608 |
 | saturation_mean | 0.343 |
-| wpm_overall | 101 |
-| wpm_while_speaking | 210 |
+| wpm_overall | 97 |
+| wpm_while_speaking | 189 |
 
 ```
-PASS  cuts_per_min           22.1   target >= 12.0
-PASS  avg_shot_s             2.61   target <= 5.0
-PASS  longest_shot_s         14.5   target <= 25.0
-PASS  motion_share            0.9   target >= 0.5
+PASS  cuts_per_min           22.0   target >= 12.0
+PASS  avg_shot_s             2.63   target <= 5.0
+PASS  longest_shot_s         13.0   target <= 25.0
+PASS  motion_share          0.912   target >= 0.5
 PASS  still_2s_per_min        0.0   target <= 6.0
-FLAG  wpm_overall             101   target between (135, 165)
+FLAG  wpm_overall              97   target between (135, 165)
 
 1 flag(s): see docs/style/STYLE_BIBLE.md for what to change
 ```

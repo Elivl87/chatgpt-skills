@@ -1,11 +1,11 @@
 {
- "duration": 48.29000000000002,
+ "duration": 54.464999999999975,
  "shots": 20,
  "cuts": 19,
- "cuts_per_min": 23.6,
- "longest_shot": 4.36,
+ "cuts_per_min": 20.9,
+ "longest_shot": 5.46,
  "longest_id": "G02_card",
- "avg_shot": 2.42,
- "size_mb": 5.26,
- "contact_kb": 321
+ "avg_shot": 2.73,
+ "size_mb": 5.99,
+ "contact_kb": 357
 }

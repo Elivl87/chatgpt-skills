@@ -1,6 +1,12 @@
 {
  "block": "E1",
- "checked": 42,
- "fail": 0,
- "fails": []
+ "checked": 44,
+ "fail": 1,
+ "fails": [
+  [
+   "pop",
+   "G17_wave t50.09 eli1 stand/q",
+   "white share 0.056 -> 0.087 in 1/30 s"
+  ]
+ ]
 }

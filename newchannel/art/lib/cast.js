@@ -291,6 +291,13 @@
   // squash) interpolate; shapes and flags (mouth, closed-eye arcs, sweat, lid-cover rule, extras) switch at k = 0.5, which
   // a 0.12-0.2 s blend hides under the moving lids and brows. A missing numeric field counts as its neutral value.
   const EX_NUM = { lid: 0.1, low: 0, agree: 0, tilt: 0, eye: 1, pupil: 1, catch: 0.28, lookK: 1, head: 0, lift: 0, browUp: 0, browOne: 0, sq: 1, lean: 0, grin: 1, blush: 0, noBias: 0 };
+  // the expression name the face reads as (logged for the eye audit): the lid-cover one while its rule is active
+  C.exprName = function (a, bl) {
+    if (!bl || !bl.expr || !(bl.k > 0)) return a || 'neutral';
+    const A0 = C.EXPR[a] || C.EXPR.neutral, B0 = C.EXPR[bl.expr] || C.EXPR.neutral, k = bl.k;
+    if (B0.lidCover && k >= 0.25) return bl.expr; if (A0.lidCover && k < 0.75) return a || 'neutral';
+    return k >= 0.5 ? bl.expr : (a || 'neutral');
+  };
   C.exprMix = function (a, bl) {
     const A0 = C.EXPR[a] || C.EXPR.neutral;
     if (!bl || !bl.expr || !(bl.k > 0)) return Object.assign({}, A0);
@@ -302,6 +309,9 @@
       if (A0[f] === undefined && B0[f] === undefined) continue;
       E[f] = va + (vb - va) * k;
     }
+    // lid-cover (sly) rule: as soon as the lids are a quarter of the way into a heavy-lid emotion the pupil sits centred in
+    // the slit (kit rule for annoyed / grumpy / smug), and keeps that until the lids have mostly left one
+    E.lidCover = (B0.lidCover && k >= 0.25) || (A0.lidCover && k < 0.75) ? 1 : 0;
     const la = A0.look || [0, 0], lb = B0.look || [0, 0];
     if (A0.look || B0.look) E.look = [la[0] + (lb[0] - la[0]) * k, la[1] + (lb[1] - la[1]) * k];
     return E;
@@ -884,7 +894,7 @@
       return { head: [hh[0], hh[1], r.head[2] / k], hands: { lead: back(r.hands.lead), trail: back(r.hands.trail) }, top: back([0, r.top])[1] };
     }
     const view = o.view || 'front', s = TURN[view] ?? (typeof view === 'number' ? view : 0), dir = o.dir || 1;
-    const oo = Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: String(view).startsWith('back') });
+    const oo = Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: o.backView ?? String(view).startsWith('back') });   // backView: a numeric view seen from behind (continuous turns)
     const R = (S.kind === 'biped' ? biped : S.build)(S, oo);
     const crouchU = o.seated ? 0 : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75));   // body drawn this much lower (feet stay)
     const bw = Math.ceil(u * (S.box ? S.box[0] : 1.8)), bh = Math.ceil(u * (S.box ? S.box[1] : 1.62));
@@ -898,7 +908,7 @@
     const light = Object.assign({}, C.LIGHT.board, o.light || {});
     const OUT = buf('out', W, Hh), MK = buf('eyemask', W, Hh), lwS = S.lw || 0.0075;
     const LOG = root.__faceLog && ctx.canvas && ctx.canvas.isConnected ? root.__faceLog : null;
-    const rec = LOG ? { id, expr: o.expr || 'neutral', view, blink: o.blink || 0, talk: o.talk || 0, look: o.look || null, headTurn: o.headTurn || 0, hairFlop: o.hairFlop || 0, pose: o.pose || 'stand', u, eyes: [] } : null;
+    const rec = LOG ? { id, expr: C.exprName(o.expr, o.exprBlend), view, blink: o.blink || 0, talk: o.talk || 0, look: o.look || null, headTurn: o.headTurn || 0, hairFlop: o.hairFlop || 0, pose: o.pose || 'stand', u, eyes: [] } : null;
     for (const name of (o.dbgLayers || ['back', 'body', 'front'])) {
       const Lb = buf('L', W, Hh), c = Lb.ctx, SB = buf('solid', W, Hh);
       SOLIDC = SB.ctx;
@@ -932,7 +942,7 @@
   // where the hands/head WOULD be for a pose (no drawing): props like the steering wheel stay put while the hands act
   C.probe = function (id, x, y, u, o = {}) {
     if (C.ALIAS[id]) id = C.ALIAS[id]; const S = C.SPECS[id], view = o.view || 'front', s = TURN[view] ?? (typeof view === 'number' ? view : 0), dir = o.dir || 1;
-    const R = biped(S, Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: String(view).startsWith('back') })), so = o.seated ? S.legLen : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75));
+    const R = biped(S, Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: o.backView ?? String(view).startsWith('back') })), so = o.seated ? S.legLen : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75));
     const map = p => [x + p[0] * u, y + (p[1] + so) * u];
     return { hands: { lead: map(R.info.hands.lead), trail: map(R.info.hands.trail) }, head: map(R.info.head) };
   };

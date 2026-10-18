@@ -1,10 +1,10 @@
 {
  "block": "D2",
  "tag": "after",
- "samples": 92,
- "faces": 166,
+ "samples": 89,
+ "faces": 160,
  "eyes": {
-  "pass": 191,
+  "pass": 181,
   "fail": 0,
   "closed": 0,
   "covered": 0,

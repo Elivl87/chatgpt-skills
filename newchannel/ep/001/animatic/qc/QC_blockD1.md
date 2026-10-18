@@ -1,44 +1,44 @@
 # QC · blockD1
 
-File: `blockD1_draft.mp4` · 63.37 s · 30/1 fps · 7.95 MB · 1.0 Mb/s
+File: `blockD1_draft.mp4` · 67.43 s · 30/1 fps · 8.27 MB · 1.0 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 854x480 |
-| file size <= 30 MB (chat delivery) | **PASS** | 7.95 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 8.27 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.0 LUFS |
-| true peak <= -1.0 dBTP | **PASS** | -1.2 dBTP |
+| true peak <= -1.0 dBTP | **PASS** | -1.4 dBTP |
 | no black frames | **PASS** | none |
 | no undeclared freezes >= 0.5 s | **PASS** | none |
 | no undeclared silence >= 0.5 s | **PASS** | none |
 
-Loudness (ffmpeg ebur128 on the final mp4): I -14.0 LUFS, TP -1.2 dBTP, LRA 1.8 LU.
+Loudness (ffmpeg ebur128 on the final mp4): I -14.0 LUFS, TP -1.4 dBTP, LRA 2.1 LU.
 
 ## Pacing (secondquest style_bible.py + pacing_qc.py)
 
 | metric | value |
 |---|---|
-| duration_s | 63.3 |
-| shots | 22 |
-| avg_shot_s | 2.88 |
-| longest_shot_s | 9.0 |
-| cuts_per_min | 19.9 |
-| motion_share | 0.921 |
+| duration_s | 67.5 |
+| shots | 23 |
+| avg_shot_s | 2.93 |
+| longest_shot_s | 7.5 |
+| cuts_per_min | 19.6 |
+| motion_share | 0.911 |
 | still_2s_runs | 1 |
 | brightness_mean | 0.654 |
-| saturation_mean | 0.345 |
-| wpm_overall | 153 |
-| wpm_while_speaking | 193 |
+| saturation_mean | 0.344 |
+| wpm_overall | 143 |
+| wpm_while_speaking | 187 |
 
 ```
-PASS  cuts_per_min           19.9   target >= 12.0
-PASS  avg_shot_s             2.88   target <= 5.0
-PASS  longest_shot_s          9.0   target <= 25.0
-PASS  motion_share          0.921   target >= 0.5
+PASS  cuts_per_min           19.6   target >= 12.0
+PASS  avg_shot_s             2.93   target <= 5.0
+PASS  longest_shot_s          7.5   target <= 25.0
+PASS  motion_share          0.911   target >= 0.5
 PASS  still_2s_per_min        0.9   target <= 6.0
-PASS  wpm_overall             153   target between (135, 165)
+PASS  wpm_overall             143   target between (135, 165)
 
 all within the style bible
 ```

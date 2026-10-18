@@ -1,18 +1,41 @@
 {
  "block": "A",
  "tag": "after",
- "samples": 58,
- "faces": 112,
+ "samples": 60,
+ "faces": 115,
  "eyes": {
-  "pass": 118,
-  "fail": 0,
-  "closed": 0,
-  "covered": 4,
+  "pass": 111,
+  "fail": 2,
+  "closed": 2,
+  "covered": 5,
   "fading": 4,
   "tiny": 0,
   "offframe": 0
  },
- "failures": 0,
- "fail_list": [],
+ "failures": 2,
+ "fail_list": [
+  {
+   "t": 16.68,
+   "shot": "A07_brake",
+   "why_sample": "cue:stop_thunk",
+   "id": "mila1",
+   "expr": "surprised",
+   "view": "q",
+   "eye": 0,
+   "problem": "pupil not dark/visible (48% dark, need 55%)",
+   "eye_px": 15.3
+  },
+  {
+   "t": 16.68,
+   "shot": "A07_brake",
+   "why_sample": "cue:stop_thunk",
+   "id": "mila1",
+   "expr": "surprised",
+   "view": "q",
+   "eye": 1,
+   "problem": "pupil not dark/visible (54% dark, need 55%)",
+   "eye_px": 15.3
+  }
+ ],
  "framing_warnings": []
 }

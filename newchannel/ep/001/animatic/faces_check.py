@@ -47,6 +47,7 @@ def check_eye(L, W, H, e, sly, f=None):
     white_frac = sum(1 for v in vals if v >= 0.75 * wref) / len(vals)
     probs = []
     open_k = max(0.2, 1 - e.get('lid', 0) - e.get('low', 0))
+    if ry < 4.5: open_k *= 0.6   # micro eyes (kit K.cast.EYE.microPx): the pupil is >= 0.5x the eye, so it fills most of the 0.8x interior (Guardian v3)
     if (wref < 120 or white_frac < 0.2 * open_k) and f.get('hairFlop', 0) > 0.3:
         return 'covered', 'hair gag'          # the declared ponytail-flop gag hides an eye on purpose
     if wref < 120 or white_frac < 0.2 * open_k:

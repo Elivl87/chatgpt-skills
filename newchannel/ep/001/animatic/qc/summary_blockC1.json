@@ -1,11 +1,11 @@
 {
- "duration": 43.20000000000002,
+ "duration": 46.075,
  "shots": 15,
  "cuts": 14,
- "cuts_per_min": 19.4,
- "longest_shot": 4.56,
+ "cuts_per_min": 18.2,
+ "longest_shot": 5.06,
  "longest_id": "C11_stable",
- "avg_shot": 2.88,
- "size_mb": 3.58,
- "contact_kb": 291
+ "avg_shot": 3.07,
+ "size_mb": 3.82,
+ "contact_kb": 313
 }

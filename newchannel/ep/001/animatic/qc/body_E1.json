@@ -1,11 +1,11 @@
 {
  "block": "E1",
- "samples": 21,
+ "samples": 22,
  "fail": 0,
  "warn": 0,
  "frames": [
   {
-   "t": 10.25,
+   "t": 11.92999999999995,
    "shot": "G04_bridge",
    "why": "start",
    "png": "s_000.png",
@@ -18,50 +18,50 @@
      "view": "q",
      "box": [
       471,
-      11,
+      9,
       564,
       415
      ],
      "cl": {
-      "yellow": 0.0018,
-      "purple": 0.156,
-      "mustard": 0.3685,
-      "green": 0.0709,
+      "yellow": 0.0015,
+      "purple": 0.1568,
+      "mustard": 0.3692,
+      "green": 0.0705,
       "blue": 0,
-      "brown": 0.0371,
-      "white": 0.0238,
+      "brown": 0.0368,
+      "white": 0.0236,
       "vermilion": 0,
-      "pale": 0.0338
+      "pale": 0.0332
      }
     },
     {
      "id": "eli1",
      "expr": "curious",
      "pose": "visor",
-     "view": "q",
+     "view": 0.55,
      "box": [
       313,
-      42,
+      43,
       417,
       415
      ],
      "cl": {
-      "yellow": 0.0598,
+      "yellow": 0.0601,
       "purple": 0.001,
-      "mustard": 0.1983,
+      "mustard": 0.1971,
       "green": 0,
-      "blue": 0.0666,
-      "brown": 0.1798,
-      "white": 0.1268,
+      "blue": 0.0635,
+      "brown": 0.182,
+      "white": 0.1273,
       "vermilion": 0,
-      "pale": 0.1794
+      "pale": 0.1795
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 11.384999999999991,
+   "t": 12.959999999999923,
    "shot": "G04_bridge",
    "why": "mid",
    "png": "s_001.png",
@@ -74,50 +74,50 @@
      "view": "q",
      "box": [
       471,
-      6,
+      8,
       565,
       418
      ],
      "cl": {
-      "yellow": 0.0016,
-      "purple": 0.1558,
-      "mustard": 0.3698,
+      "yellow": 0.0014,
+      "purple": 0.1547,
+      "mustard": 0.3687,
       "green": 0.0707,
       "blue": 0,
-      "brown": 0.0349,
-      "white": 0.024,
+      "brown": 0.0355,
+      "white": 0.0238,
       "vermilion": 0,
-      "pale": 0.0331
+      "pale": 0.0336
      }
     },
     {
      "id": "eli1",
-     "expr": "determined",
+     "expr": "curious",
      "pose": "visor",
-     "view": "q",
+     "view": 0.22370515369221658,
      "box": [
-      176,
-      53,
-      394,
+      300,
+      43,
+      428,
       418
      ],
      "cl": {
-      "yellow": 0.0749,
-      "purple": 0,
-      "mustard": 0.1752,
+      "yellow": 0.0691,
+      "purple": 0.0009,
+      "mustard": 0.2115,
       "green": 0,
-      "blue": 0.0673,
-      "brown": 0.2041,
-      "white": 0.0717,
+      "blue": 0.0522,
+      "brown": 0.1795,
+      "white": 0.0989,
       "vermilion": 0,
-      "pale": 0.122
+      "pale": 0.148
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 12.620000000000005,
+   "t": 14.089999999999975,
    "shot": "G04_bridge",
    "why": "end",
    "png": "s_002.png",
@@ -130,17 +130,17 @@
      "view": "q",
      "box": [
       470,
-      6,
-      565,
+      5,
+      566,
       420
      ],
      "cl": {
-      "yellow": 0.0015,
-      "purple": 0.1552,
-      "mustard": 0.3669,
-      "green": 0.0688,
+      "yellow": 0.0014,
+      "purple": 0.1558,
+      "mustard": 0.3701,
+      "green": 0.0725,
       "blue": 0,
-      "brown": 0.0388,
+      "brown": 0.0363,
       "white": 0.0238,
       "vermilion": 0,
       "pale": 0.0336
@@ -150,30 +150,30 @@
      "id": "eli1",
      "expr": "determined",
      "pose": "point",
-     "view": "q",
+     "view": 0.55,
      "box": [
-      167,
-      50,
+      168,
+      48,
       390,
-      420
+      421
      ],
      "cl": {
-      "yellow": 0.0739,
-      "purple": 0.0006,
-      "mustard": 0.1737,
+      "yellow": 0.0727,
+      "purple": 0.0003,
+      "mustard": 0.1776,
       "green": 0,
-      "blue": 0.0666,
-      "brown": 0.2072,
-      "white": 0.0684,
+      "blue": 0.0613,
+      "brown": 0.2299,
+      "white": 0.0544,
       "vermilion": 0,
-      "pale": 0.1191
+      "pale": 0.1021
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 24.935000000000002,
+   "t": 27.944999999999993,
    "shot": "G09_faces",
    "why": "start",
    "png": "s_003.png",
@@ -187,19 +187,19 @@
      "box": [
       466,
       7,
-      570,
+      568,
       413
      ],
      "cl": {
-      "yellow": 0.0017,
-      "purple": 0.1551,
-      "mustard": 0.3905,
-      "green": 0.0691,
+      "yellow": 0.0018,
+      "purple": 0.1555,
+      "mustard": 0.3912,
+      "green": 0.0692,
       "blue": 0,
-      "brown": 0.0351,
+      "brown": 0.0345,
       "white": 0,
       "vermilion": 0,
-      "pale": 0.0051
+      "pale": 0.0054
      }
     },
     {
@@ -209,27 +209,27 @@
      "view": "q",
      "box": [
       265,
-      39,
+      41,
       449,
       413
      ],
      "cl": {
-      "yellow": 0.0716,
-      "purple": 0.0012,
-      "mustard": 0.1936,
+      "yellow": 0.0719,
+      "purple": 0.0011,
+      "mustard": 0.1898,
       "green": 0,
-      "blue": 0.0668,
-      "brown": 0.1869,
-      "white": 0.1026,
+      "blue": 0.0698,
+      "brown": 0.188,
+      "white": 0.1014,
       "vermilion": 0,
-      "pale": 0.1378
+      "pale": 0.1361
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 25.314999999999998,
+   "t": 28.324999999999932,
    "shot": "G09_faces",
    "why": "mid",
    "png": "s_004.png",
@@ -242,20 +242,20 @@
      "view": "q",
      "box": [
       467,
-      4,
+      6,
       575,
       416
      ],
      "cl": {
       "yellow": 0.0014,
-      "purple": 0.1523,
-      "mustard": 0.3916,
-      "green": 0.0683,
+      "purple": 0.1524,
+      "mustard": 0.391,
+      "green": 0.0687,
       "blue": 0,
-      "brown": 0.036,
+      "brown": 0.0348,
       "white": 0,
       "vermilion": 0,
-      "pale": 0.0051
+      "pale": 0.005
      }
     },
     {
@@ -265,27 +265,27 @@
      "view": "q",
      "box": [
       264,
-      37,
+      40,
       450,
       416
      ],
      "cl": {
       "yellow": 0.0719,
-      "purple": 0.0004,
-      "mustard": 0.1935,
+      "purple": 0.0003,
+      "mustard": 0.193,
       "green": 0,
-      "blue": 0.0666,
-      "brown": 0.1855,
-      "white": 0.1029,
+      "blue": 0.0686,
+      "brown": 0.1842,
+      "white": 0.1026,
       "vermilion": 0,
-      "pale": 0.1365
+      "pale": 0.1354
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 25.795000000000016,
+   "t": 28.80499999999995,
    "shot": "G09_faces",
    "why": "end",
    "png": "s_005.png",
@@ -298,20 +298,20 @@
      "view": "q",
      "box": [
       468,
-      0,
-      574,
+      3,
+      577,
       419
      ],
      "cl": {
-      "yellow": 0.0014,
-      "purple": 0.1553,
-      "mustard": 0.3901,
-      "green": 0.0706,
+      "yellow": 0.0015,
+      "purple": 0.1537,
+      "mustard": 0.3883,
+      "green": 0.071,
       "blue": 0,
-      "brown": 0.0382,
+      "brown": 0.0386,
       "white": 0,
       "vermilion": 0,
-      "pale": 0.0053
+      "pale": 0.0055
      }
     },
     {
@@ -321,27 +321,27 @@
      "view": "q",
      "box": [
       263,
-      34,
+      36,
       452,
       419
      ],
      "cl": {
-      "yellow": 0.0714,
-      "purple": 0.0004,
-      "mustard": 0.1917,
+      "yellow": 0.0716,
+      "purple": 0.0005,
+      "mustard": 0.1926,
       "green": 0,
-      "blue": 0.0677,
-      "brown": 0.1906,
-      "white": 0.1038,
+      "blue": 0.0671,
+      "brown": 0.1885,
+      "white": 0.104,
       "vermilion": 0,
-      "pale": 0.1356
+      "pale": 0.1374
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 26.194999999999993,
+   "t": 29.204999999999927,
    "shot": "G10_flag",
    "why": "start",
    "png": "s_006.png",
@@ -354,20 +354,20 @@
      "view": "q",
      "box": [
       470,
-      7,
-      563,
+      9,
+      565,
       414
      ],
      "cl": {
-      "yellow": 0.0014,
-      "purple": 0.1571,
-      "mustard": 0.3812,
-      "green": 0.0681,
+      "yellow": 0.0016,
+      "purple": 0.1556,
+      "mustard": 0.3789,
+      "green": 0.0684,
       "blue": 0,
-      "brown": 0.0334,
-      "white": 0.0141,
+      "brown": 0.0358,
+      "white": 0.0142,
       "vermilion": 0,
-      "pale": 0.0226
+      "pale": 0.022
      }
     },
     {
@@ -376,28 +376,28 @@
      "pose": "stand",
      "view": "q",
      "box": [
-      300,
-      52,
+      301,
+      50,
       392,
       414
      ],
      "cl": {
-      "yellow": 0.0793,
-      "purple": 0.0003,
-      "mustard": 0.2089,
+      "yellow": 0.0784,
+      "purple": 0.0005,
+      "mustard": 0.2133,
       "green": 0,
-      "blue": 0.0728,
-      "brown": 0.172,
-      "white": 0.0898,
+      "blue": 0.0706,
+      "brown": 0.1745,
+      "white": 0.0842,
       "vermilion": 0,
-      "pale": 0.1148
+      "pale": 0.1113
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 27.39500000000004,
+   "t": 30.69999999999999,
    "shot": "G10_flag",
    "why": "cue:pop",
    "png": "s_007.png",
@@ -410,17 +410,17 @@
      "view": "q",
      "box": [
       465,
-      10,
-      559,
+      8,
+      558,
       418
      ],
      "cl": {
-      "yellow": 0.0015,
-      "purple": 0.1546,
-      "mustard": 0.3658,
+      "yellow": 0.0012,
+      "purple": 0.1552,
+      "mustard": 0.3661,
       "green": 0.0698,
       "blue": 0,
-      "brown": 0.0413,
+      "brown": 0.0393,
       "white": 0.0238,
       "vermilion": 0,
       "pale": 0.0337
@@ -433,30 +433,86 @@
      "view": "q",
      "box": [
       289,
-      38,
+      39,
       421,
       418
      ],
      "cl": {
-      "yellow": 0.0656,
-      "purple": 0.001,
-      "mustard": 0.184,
+      "yellow": 0.0655,
+      "purple": 0.0003,
+      "mustard": 0.1821,
       "green": 0,
-      "blue": 0.0686,
-      "brown": 0.2033,
-      "white": 0.0937,
+      "blue": 0.0712,
+      "brown": 0.1847,
+      "white": 0.1033,
       "vermilion": 0,
-      "pale": 0.1436
+      "pale": 0.1553
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 28.944999999999993,
+   "t": 31.072499999999934,
+   "shot": "G10_flag",
+   "why": "mid",
+   "png": "s_008.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "curious",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      465,
+      9,
+      559,
+      419
+     ],
+     "cl": {
+      "yellow": 0.0016,
+      "purple": 0.1542,
+      "mustard": 0.3665,
+      "green": 0.0689,
+      "blue": 0,
+      "brown": 0.0374,
+      "white": 0.0235,
+      "vermilion": 0,
+      "pale": 0.0334
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "happy",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      288,
+      39,
+      421,
+      420
+     ],
+     "cl": {
+      "yellow": 0.0655,
+      "purple": 0.0011,
+      "mustard": 0.1824,
+      "green": 0,
+      "blue": 0.0679,
+      "brown": 0.1864,
+      "white": 0.1033,
+      "vermilion": 0,
+      "pale": 0.1556
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 33.039999999999964,
    "shot": "G10_flag",
    "why": "end",
-   "png": "s_008.png",
+   "png": "s_009.png",
    "problems": [],
    "chars": [
     {
@@ -468,18 +524,18 @@
       466,
       4,
       562,
-      424
+      425
      ],
      "cl": {
-      "yellow": 0.0017,
-      "purple": 0.1563,
-      "mustard": 0.3698,
-      "green": 0.0706,
+      "yellow": 0.0013,
+      "purple": 0.1556,
+      "mustard": 0.3691,
+      "green": 0.0673,
       "blue": 0,
-      "brown": 0.0378,
-      "white": 0.0238,
+      "brown": 0.0374,
+      "white": 0.0239,
       "vermilion": 0,
-      "pale": 0.0339
+      "pale": 0.0342
      }
     },
     {
@@ -488,31 +544,31 @@
      "pose": "cheer",
      "view": "q",
      "box": [
-      286,
-      35,
-      421,
-      424
+      287,
+      36,
+      422,
+      425
      ],
      "cl": {
-      "yellow": 0.066,
-      "purple": 0.001,
-      "mustard": 0.1858,
+      "yellow": 0.0649,
+      "purple": 0.0005,
+      "mustard": 0.1856,
       "green": 0,
-      "blue": 0.0648,
-      "brown": 0.1868,
-      "white": 0.1052,
+      "blue": 0.0667,
+      "brown": 0.1861,
+      "white": 0.1055,
       "vermilion": 0,
-      "pale": 0.1552
+      "pale": 0.1555
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 35.285000000000025,
+   "t": 40.12299999999999,
    "shot": "G13_dale",
    "why": "line:eli:Dale",
-   "png": "s_009.png",
+   "png": "s_010.png",
    "problems": [],
    "chars": [
     {
@@ -522,18 +578,74 @@
      "view": "q",
      "box": [
       469,
-      7,
-      571,
+      9,
+      562,
       414
      ],
      "cl": {
-      "yellow": 0.0017,
-      "purple": 0.1554,
-      "mustard": 0.3761,
-      "green": 0.0699,
+      "yellow": 0.002,
+      "purple": 0.1553,
+      "mustard": 0.3793,
+      "green": 0.0709,
       "blue": 0,
-      "brown": 0.0365,
-      "white": 0.0138,
+      "brown": 0.0345,
+      "white": 0.0144,
+      "vermilion": 0,
+      "pale": 0.0222
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "laugh",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      297,
+      38,
+      430,
+      414
+     ],
+     "cl": {
+      "yellow": 0.0564,
+      "purple": 0.0011,
+      "mustard": 0.1828,
+      "green": 0,
+      "blue": 0.0658,
+      "brown": 0.2082,
+      "white": 0.095,
+      "vermilion": 0,
+      "pale": 0.141
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 40.53899999999999,
+   "shot": "G13_dale",
+   "why": "line:eli:dale",
+   "png": "s_011.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      470,
+      7,
+      566,
+      417
+     ],
+     "cl": {
+      "yellow": 0.0014,
+      "purple": 0.1545,
+      "mustard": 0.3803,
+      "green": 0.0692,
+      "blue": 0,
+      "brown": 0.0356,
+      "white": 0.0137,
       "vermilion": 0,
       "pale": 0.0223
      }
@@ -544,87 +656,31 @@
      "pose": "cheer",
      "view": "q",
      "box": [
-      285,
-      36,
-      414,
-      414
-     ],
-     "cl": {
-      "yellow": 0.0563,
-      "purple": 0.0008,
-      "mustard": 0.1841,
-      "green": 0,
-      "blue": 0.0671,
-      "brown": 0.2033,
-      "white": 0.0932,
-      "vermilion": 0,
-      "pale": 0.1411
-     }
-    }
-   ],
-   "extras": 0
-  },
-  {
-   "t": 35.69500000000005,
-   "shot": "G13_dale",
-   "why": "line:eli:dale",
-   "png": "s_010.png",
-   "problems": [],
-   "chars": [
-    {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "crossed",
-     "view": "q",
-     "box": [
-      470,
-      6,
-      573,
-      417
-     ],
-     "cl": {
-      "yellow": 0.0014,
-      "purple": 0.1538,
-      "mustard": 0.379,
-      "green": 0.0686,
-      "blue": 0,
-      "brown": 0.035,
-      "white": 0.0137,
-      "vermilion": 0,
-      "pale": 0.022
-     }
-    },
-    {
-     "id": "eli1",
-     "expr": "laugh",
-     "pose": "cheer",
-     "view": "q",
-     "box": [
-      287,
-      36,
-      419,
+      296,
+      35,
+      431,
       418
      ],
      "cl": {
-      "yellow": 0.0562,
-      "purple": 0.0008,
-      "mustard": 0.184,
+      "yellow": 0.0565,
+      "purple": 0.0009,
+      "mustard": 0.1845,
       "green": 0,
-      "blue": 0.0666,
-      "brown": 0.2049,
-      "white": 0.0921,
+      "blue": 0.0659,
+      "brown": 0.2044,
+      "white": 0.0945,
       "vermilion": 0,
-      "pale": 0.1423
+      "pale": 0.1418
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 36.20500000000004,
+   "t": 41.05500000000001,
    "shot": "G13_dale",
    "why": "end",
-   "png": "s_011.png",
+   "png": "s_012.png",
    "problems": [],
    "chars": [
     {
@@ -634,20 +690,20 @@
      "view": "q",
      "box": [
       471,
-      4,
-      572,
+      3,
+      575,
       421
      ],
      "cl": {
-      "yellow": 0.0016,
-      "purple": 0.1554,
-      "mustard": 0.3762,
-      "green": 0.0697,
+      "yellow": 0.0017,
+      "purple": 0.1543,
+      "mustard": 0.3764,
+      "green": 0.0695,
       "blue": 0,
-      "brown": 0.0383,
-      "white": 0.0141,
+      "brown": 0.0366,
+      "white": 0.0138,
       "vermilion": 0,
-      "pale": 0.0226
+      "pale": 0.0224
      }
     },
     {
@@ -656,86 +712,30 @@
      "pose": "cheer",
      "view": "q",
      "box": [
-      281,
-      32,
-      414,
+      293,
+      31,
+      429,
       421
      ],
      "cl": {
-      "yellow": 0.055,
-      "purple": 0.0002,
-      "mustard": 0.183,
+      "yellow": 0.0559,
+      "purple": 0.0004,
+      "mustard": 0.185,
       "green": 0,
-      "blue": 0.0715,
-      "brown": 0.2054,
-      "white": 0.0922,
+      "blue": 0.0663,
+      "brown": 0.2076,
+      "white": 0.0947,
       "vermilion": 0,
-      "pale": 0.1401
+      "pale": 0.1425
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 39.72100000000006,
+   "t": 45.18520000000001,
    "shot": "G15_nooo",
    "why": "line:eli:Nooo",
-   "png": "s_012.png",
-   "problems": [],
-   "chars": [
-    {
-     "id": "mila1",
-     "expr": "surprised",
-     "pose": "crossed",
-     "view": "q",
-     "box": [
-      473,
-      42,
-      557,
-      412
-     ],
-     "cl": {
-      "yellow": 0.0019,
-      "purple": 0.1568,
-      "mustard": 0.3651,
-      "green": 0.0699,
-      "blue": 0,
-      "brown": 0.0379,
-      "white": 0.0312,
-      "vermilion": 0,
-      "pale": 0.0423
-     }
-    },
-    {
-     "id": "eli1",
-     "expr": "worried",
-     "pose": "surprise",
-     "view": "q",
-     "box": [
-      285,
-      77,
-      444,
-      412
-     ],
-     "cl": {
-      "yellow": 0.0695,
-      "purple": 0.0015,
-      "mustard": 0.1954,
-      "green": 0,
-      "blue": 0.0708,
-      "brown": 0.188,
-      "white": 0.1036,
-      "vermilion": 0,
-      "pale": 0.1411
-     }
-    }
-   ],
-   "extras": 0
-  },
-  {
-   "t": 40.03000000000003,
-   "shot": "G15_nooo",
-   "why": "mid",
    "png": "s_013.png",
    "problems": [],
    "chars": [
@@ -745,21 +745,21 @@
      "pose": "crossed",
      "view": "q",
      "box": [
-      475,
-      38,
-      560,
-      415
+      473,
+      39,
+      557,
+      412
      ],
      "cl": {
-      "yellow": 0.0016,
-      "purple": 0.1554,
-      "mustard": 0.3621,
-      "green": 0.0707,
+      "yellow": 0.0018,
+      "purple": 0.1572,
+      "mustard": 0.3674,
+      "green": 0.0694,
       "blue": 0,
-      "brown": 0.037,
-      "white": 0.0315,
+      "brown": 0.0378,
+      "white": 0.0313,
       "vermilion": 0,
-      "pale": 0.0424
+      "pale": 0.0417
      }
     },
     {
@@ -768,30 +768,30 @@
      "pose": "surprise",
      "view": "q",
      "box": [
-      284,
-      73,
-      446,
-      415
+      285,
+      78,
+      444,
+      412
      ],
      "cl": {
-      "yellow": 0.0719,
-      "purple": 0.0003,
-      "mustard": 0.1902,
+      "yellow": 0.0717,
+      "purple": 0.0017,
+      "mustard": 0.1932,
       "green": 0,
-      "blue": 0.0699,
-      "brown": 0.186,
-      "white": 0.1046,
+      "blue": 0.0672,
+      "brown": 0.1886,
+      "white": 0.1041,
       "vermilion": 0,
-      "pale": 0.1416
+      "pale": 0.1422
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 40.421400000000006,
+   "t": 45.50199999999995,
    "shot": "G15_nooo",
-   "why": "end",
+   "why": "mid",
    "png": "s_014.png",
    "problems": [],
    "chars": [
@@ -801,21 +801,77 @@
      "pose": "crossed",
      "view": "q",
      "box": [
+      475,
+      37,
+      560,
+      415
+     ],
+     "cl": {
+      "yellow": 0.0015,
+      "purple": 0.1566,
+      "mustard": 0.3676,
+      "green": 0.0708,
+      "blue": 0,
+      "brown": 0.0361,
+      "white": 0.0312,
+      "vermilion": 0,
+      "pale": 0.042
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "worried",
+     "pose": "surprise",
+     "view": "q",
+     "box": [
+      284,
+      76,
+      446,
+      415
+     ],
+     "cl": {
+      "yellow": 0.0736,
+      "purple": 0.0006,
+      "mustard": 0.1905,
+      "green": 0,
+      "blue": 0.0659,
+      "brown": 0.1863,
+      "white": 0.1046,
+      "vermilion": 0,
+      "pale": 0.1404
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 45.903279999999995,
+   "shot": "G15_nooo",
+   "why": "end",
+   "png": "s_015.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "surprised",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
       477,
-      33,
-      568,
+      35,
+      564,
       418
      ],
      "cl": {
-      "yellow": 0.0019,
-      "purple": 0.1538,
-      "mustard": 0.4065,
-      "green": 0.0705,
+      "yellow": 0.0018,
+      "purple": 0.154,
+      "mustard": 0.3676,
+      "green": 0.071,
       "blue": 0,
-      "brown": 0.0428,
-      "white": 0,
+      "brown": 0.0388,
+      "white": 0.0308,
       "vermilion": 0,
-      "pale": 0.0055
+      "pale": 0.0418
      }
     },
     {
@@ -825,85 +881,29 @@
      "view": "q",
      "box": [
       282,
-      70,
+      73,
       447,
       418
      ],
      "cl": {
-      "yellow": 0.0684,
-      "purple": 0.0002,
-      "mustard": 0.194,
+      "yellow": 0.0712,
+      "purple": 0.0003,
+      "mustard": 0.1893,
       "green": 0,
-      "blue": 0.0717,
-      "brown": 0.1935,
-      "white": 0.1047,
+      "blue": 0.0677,
+      "brown": 0.1952,
+      "white": 0.1039,
       "vermilion": 0,
-      "pale": 0.1421
+      "pale": 0.1409
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 42.954999999999984,
+   "t": 48.759999999999934,
    "shot": "G17_wave",
    "why": "cue:crowd_wave",
-   "png": "s_015.png",
-   "problems": [],
-   "chars": [
-    {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "crossed",
-     "view": "q",
-     "box": [
-      427,
-      98,
-      507,
-      420
-     ],
-     "cl": {
-      "yellow": 0.0016,
-      "purple": 0.1545,
-      "mustard": 0.3776,
-      "green": 0.0728,
-      "blue": 0,
-      "brown": 0.0409,
-      "white": 0.0129,
-      "vermilion": 0,
-      "pale": 0.0243
-     }
-    },
-    {
-     "id": "eli1",
-     "expr": "happy",
-     "pose": "stand",
-     "view": "q",
-     "box": [
-      296,
-      124,
-      370,
-      420
-     ],
-     "cl": {
-      "yellow": 0.0797,
-      "purple": 0.0005,
-      "mustard": 0.2024,
-      "green": 0,
-      "blue": 0.0707,
-      "brown": 0.1861,
-      "white": 0.0791,
-      "vermilion": 0,
-      "pale": 0.1068
-     }
-    }
-   ],
-   "extras": 5
-  },
-  {
-   "t": 43.477499999999964,
-   "shot": "G17_wave",
-   "why": "mid",
    "png": "s_016.png",
    "problems": [],
    "chars": [
@@ -915,19 +915,19 @@
      "box": [
       427,
       98,
-      506,
-      418
+      505,
+      420
      ],
      "cl": {
-      "yellow": 0.0015,
-      "purple": 0.1563,
-      "mustard": 0.3743,
-      "green": 0.0693,
+      "yellow": 0.002,
+      "purple": 0.154,
+      "mustard": 0.3774,
+      "green": 0.0712,
       "blue": 0,
-      "brown": 0.043,
+      "brown": 0.0406,
       "white": 0.0129,
       "vermilion": 0,
-      "pale": 0.0234
+      "pale": 0.0247
      }
     },
     {
@@ -936,30 +936,30 @@
      "pose": "stand",
      "view": "q",
      "box": [
-      297,
-      125,
-      371,
-      418
+      293,
+      127,
+      369,
+      420
      ],
      "cl": {
-      "yellow": 0.0797,
-      "purple": 0.0004,
-      "mustard": 0.2018,
+      "yellow": 0.0796,
+      "purple": 0.0006,
+      "mustard": 0.2005,
       "green": 0,
-      "blue": 0.0734,
-      "brown": 0.1808,
-      "white": 0.0741,
+      "blue": 0.0686,
+      "brown": 0.1789,
+      "white": 0.0928,
       "vermilion": 0,
-      "pale": 0.1025
+      "pale": 0.1189
      }
     }
    ],
    "extras": 5
   },
   {
-   "t": 44.06999999999999,
+   "t": 49.39249999999993,
    "shot": "G17_wave",
-   "why": "end",
+   "why": "mid",
    "png": "s_017.png",
    "problems": [],
    "chars": [
@@ -970,20 +970,20 @@
      "view": "q",
      "box": [
       426,
-      98,
-      503,
-      416
+      100,
+      508,
+      418
      ],
      "cl": {
-      "yellow": 0.0019,
-      "purple": 0.1561,
-      "mustard": 0.3753,
-      "green": 0.0692,
+      "yellow": 0.0017,
+      "purple": 0.1558,
+      "mustard": 0.3706,
+      "green": 0.0684,
       "blue": 0,
-      "brown": 0.0452,
-      "white": 0.0129,
+      "brown": 0.047,
+      "white": 0.0131,
       "vermilion": 0,
-      "pale": 0.0218
+      "pale": 0.0223
      }
     },
     {
@@ -992,30 +992,30 @@
      "pose": "stand",
      "view": "q",
      "box": [
-      296,
+      295,
       119,
-      372,
-      416
+      371,
+      418
      ],
      "cl": {
-      "yellow": 0.0738,
-      "purple": 0,
-      "mustard": 0.193,
+      "yellow": 0.0727,
+      "purple": 0.0013,
+      "mustard": 0.1967,
       "green": 0,
-      "blue": 0.071,
-      "brown": 0.1877,
-      "white": 0.0939,
+      "blue": 0.0685,
+      "brown": 0.184,
+      "white": 0.0996,
       "vermilion": 0,
-      "pale": 0.125
+      "pale": 0.1297
      }
     }
    ],
    "extras": 5
   },
   {
-   "t": 44.46999999999997,
-   "shot": "G18_mila",
-   "why": "start",
+   "t": 50.09499999999997,
+   "shot": "G17_wave",
+   "why": "end",
    "png": "s_018.png",
    "problems": [],
    "chars": [
@@ -1025,53 +1025,53 @@
      "pose": "crossed",
      "view": "q",
      "box": [
-      459,
-      35,
-      545,
-      412
+      426,
+      100,
+      501,
+      416
      ],
      "cl": {
-      "yellow": 0.0015,
-      "purple": 0.1579,
-      "mustard": 0.3765,
-      "green": 0.0702,
+      "yellow": 0.0019,
+      "purple": 0.1549,
+      "mustard": 0.3742,
+      "green": 0.0688,
       "blue": 0,
-      "brown": 0.036,
-      "white": 0.0159,
+      "brown": 0.0444,
+      "white": 0.0126,
       "vermilion": 0,
-      "pale": 0.0258
+      "pale": 0.0224
      }
     },
     {
      "id": "eli1",
      "expr": "surprised",
-     "pose": "cheer",
+     "pose": "stand",
      "view": "q",
      "box": [
-      208,
-      60,
-      329,
-      412
+      298,
+      117,
+      371,
+      416
      ],
      "cl": {
-      "yellow": 0.0622,
-      "purple": 0.0005,
-      "mustard": 0.1813,
+      "yellow": 0.0697,
+      "purple": 0.0003,
+      "mustard": 0.2017,
       "green": 0,
-      "blue": 0.0653,
-      "brown": 0.1859,
-      "white": 0.118,
+      "blue": 0.0705,
+      "brown": 0.24,
+      "white": 0.0561,
       "vermilion": 0,
-      "pale": 0.1706
+      "pale": 0.0839
      }
     }
    ],
-   "extras": 0
+   "extras": 5
   },
   {
-   "t": 44.897500000000036,
+   "t": 50.49499999999995,
    "shot": "G18_mila",
-   "why": "mid",
+   "why": "start",
    "png": "s_019.png",
    "problems": [],
    "chars": [
@@ -1082,20 +1082,20 @@
      "view": "q",
      "box": [
       459,
-      33,
-      547,
-      414
+      34,
+      545,
+      412
      ],
      "cl": {
-      "yellow": 0.0018,
-      "purple": 0.1586,
-      "mustard": 0.3776,
-      "green": 0.0722,
+      "yellow": 0.0017,
+      "purple": 0.157,
+      "mustard": 0.3757,
+      "green": 0.07,
       "blue": 0,
-      "brown": 0.033,
-      "white": 0.0162,
+      "brown": 0.036,
+      "white": 0.0159,
       "vermilion": 0,
-      "pale": 0.025
+      "pale": 0.0255
      }
     },
     {
@@ -1104,30 +1104,30 @@
      "pose": "cheer",
      "view": "q",
      "box": [
-      204,
-      58,
-      327,
-      414
+      208,
+      57,
+      328,
+      412
      ],
      "cl": {
-      "yellow": 0.0612,
+      "yellow": 0.0604,
       "purple": 0.0004,
-      "mustard": 0.1811,
+      "mustard": 0.1827,
       "green": 0,
-      "blue": 0.0637,
-      "brown": 0.1886,
-      "white": 0.1188,
+      "blue": 0.0671,
+      "brown": 0.1865,
+      "white": 0.1183,
       "vermilion": 0,
-      "pale": 0.169
+      "pale": 0.1705
      }
     }
    ],
    "extras": 0
   },
   {
-   "t": 45.42500000000007,
+   "t": 50.92249999999996,
    "shot": "G18_mila",
-   "why": "end",
+   "why": "mid",
    "png": "s_020.png",
    "problems": [],
    "chars": [
@@ -1137,21 +1137,77 @@
      "pose": "crossed",
      "view": "q",
      "box": [
-      460,
+      459,
       31,
-      552,
-      417
+      547,
+      414
      ],
      "cl": {
       "yellow": 0.0016,
-      "purple": 0.1564,
-      "mustard": 0.3719,
-      "green": 0.07,
+      "purple": 0.1588,
+      "mustard": 0.3789,
+      "green": 0.0716,
       "blue": 0,
-      "brown": 0.0392,
-      "white": 0.0162,
+      "brown": 0.0341,
+      "white": 0.016,
       "vermilion": 0,
-      "pale": 0.025
+      "pale": 0.0249
+     }
+    },
+    {
+     "id": "eli1",
+     "expr": "surprised",
+     "pose": "cheer",
+     "view": "q",
+     "box": [
+      204,
+      57,
+      327,
+      414
+     ],
+     "cl": {
+      "yellow": 0.0589,
+      "purple": 0.0003,
+      "mustard": 0.1839,
+      "green": 0,
+      "blue": 0.0667,
+      "brown": 0.1853,
+      "white": 0.1182,
+      "vermilion": 0,
+      "pale": 0.1705
+     }
+    }
+   ],
+   "extras": 0
+  },
+  {
+   "t": 51.44999999999999,
+   "shot": "G18_mila",
+   "why": "end",
+   "png": "s_021.png",
+   "problems": [],
+   "chars": [
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "crossed",
+     "view": "q",
+     "box": [
+      460,
+      28,
+      551,
+      417
+     ],
+     "cl": {
+      "yellow": 0.0017,
+      "purple": 0.1581,
+      "mustard": 0.3889,
+      "green": 0.0695,
+      "blue": 0,
+      "brown": 0.0416,
+      "white": 0.0044,
+      "vermilion": 0,
+      "pale": 0.0112
      }
     },
     {
@@ -1166,15 +1222,15 @@
       417
      ],
      "cl": {
-      "yellow": 0.0614,
-      "purple": 0.0004,
-      "mustard": 0.1826,
+      "yellow": 0.0602,
+      "purple": 0.0003,
+      "mustard": 0.1813,
       "green": 0,
-      "blue": 0.0641,
-      "brown": 0.1867,
-      "white": 0.1189,
+      "blue": 0.0653,
+      "brown": 0.1875,
+      "white": 0.1185,
       "vermilion": 0,
-      "pale": 0.1692
+      "pale": 0.169
      }
     }
    ],

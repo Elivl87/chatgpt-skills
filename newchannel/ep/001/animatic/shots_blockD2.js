@@ -68,7 +68,7 @@
           K.cast.draw(cx, 'eli1', 1420, G, 580, { view: 'front', pose: 'fist', expr: 'sheepish', t, look: [-0.6, 0], light: LF, shadow: 0.3 }); } }); },
         cues: A => [{ t: tFueE + 0.3, kind: 'silence_hit' }] });
       shots.push({ id: 'F05_eli', start: tEliM - 0.2, bg: 'field_mila', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
-        draw(c, t, lt) { const sp = A.talk('mila', t); A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.8, x: 980, y: 560 }, chars: cx =>
+        draw(c, t, lt) { const sp = A.talk('mila', t); A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.75, x: 980, y: 505 }, chars: cx =>   /* Guardian v3: ponytail was cut by the top edge */
           K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'q', dir: 1, pose: 'crossed', expr: 'annoyed', t, look: [-0.3, 0.1], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme }) }); } });
       // F06 · «…Fue el viento.» — whistling, a leaf crosses very slowly; Mila turns the knob back down with one finger
       shots.push({ id: 'F06_wind', start: tFue2 - 0.35, bg: 'field_leaf', focus: [960, 520], push: 0.025, pushDir: -1, over: c => rec(c, false),

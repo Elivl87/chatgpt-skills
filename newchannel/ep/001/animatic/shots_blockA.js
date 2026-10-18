@@ -206,6 +206,10 @@
           const mila = snap ? { view: 'front', seated: true, pose: 'crossed', ...A.ez(t, tEliM - 0.25, 'curious', 'awe'), look: [0.15, -0.15], lean: 0.08, light: FRONTLIT, talk: sp.talk, viseme: sp.viseme,
             tilt: 0.06 * Math.exp(-(t - tAtrasN) * 6), blink: milaBlink(t) }
             : { view: 'back', seated: true, pose: 'lap', headTurn: -1.2 * turnHead, light: BACK };
+          // Guardian v3: the whip turn goes through the profile over 0.14 s (it was back -> front in one frame)
+          const wt = K.clamp((t - (tAtrasN - 0.14)) / 0.14);
+          if (wt > 0 && wt < 1) { const e = K.ease.sine(wt);
+            Object.assign(mila, { view: e < 0.5 ? e * 2 : 2 - e * 2, backView: e < 0.5, dir: 1, headTurn: 0, pose: 'lap', blend: { pose: 'crossed', k: e }, expr: 'curious', look: [0.15, -0.15], light: e < 0.5 ? BACK : FRONTLIT }); }
           A.hw(c, t, { simT: ts, sCam, lCam: 1.85, H: 1.65, pitch: aim.pitch, yaw: aim.yaw, f: 1150,
             crew: tt => ({ eli: { view: 'back', seated: false, pose: 'visor', light: BACK }, mila }) });
         },
