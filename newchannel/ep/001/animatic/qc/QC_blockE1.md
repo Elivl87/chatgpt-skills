@@ -1,12 +1,12 @@
 # QC · blockE1
 
-File: `blockE1_draft.mp4` · 54.47 s · 30/1 fps · 5.99 MB · 0.9 Mb/s
+File: `blockE1_draft.mp4` · 54.47 s · 30/1 fps · 6.01 MB · 0.9 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 854x480 |
-| file size <= 30 MB (chat delivery) | **PASS** | 5.99 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 6.01 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.0 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -1.5 dBTP |

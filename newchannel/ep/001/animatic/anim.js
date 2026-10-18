@@ -115,7 +115,7 @@
       o.view = K.lerp(TURNV[va] ?? va, TURNV[vb] ?? vb, e);
     return o;
   };
-  A.pzv = (v, th, a, b, w = 0.16) => { const k = K.clamp((v - (th - w / 2)) / w); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
+  A.pzv = (v, th, a, b, w = 1.0) =>   /* Guardian v3 (2): default = the pose follows the whole 0..1 travel of v (th 0.5); a narrow band on a fast ramp is a one-frame snap */ { const k = K.clamp((v - (th - w / 2)) / w); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
 
   // ------------------------------------------------------------------ overlays (screen space, design units)
   A.label = function (ctx, text, a = 1, o = {}) { if (a > 0.01) K.light.speedLabel(ctx, text, Object.assign({ alpha: a }, o)); };

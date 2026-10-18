@@ -60,7 +60,7 @@
       // F04 · silence: everybody turns to look at him (the drivers in the band, the observers, Mila)
       shots.push({ id: 'F04_stare', start: tFueE + 0.3, bg: 'field_stare', focus: [960, 540], push: 0.02, pushDir: 1, over: c => rec(c, false),
         // Guardian v3: the carried-over shout sat top-left and its tail ran across Mila's face (read as her line): two short lines above Eli
-        say: { b17_33_eli: { maxW: 300, at: [1560, 190] } },
+        say: { b17_33_eli: { maxW: 380, at: [1560, 150] } },   // Guardian v3 (2): one line, higher — the 2-line box touched Eli's head zone on the first frames
         draw(c, t, lt) { A.field(c, t, { run: S8(), simT: K8b(tFueE + 0.3), frame: { z: 1.25, x: 960, y: 600 }, carExpr: () => 'annoyed', chars: cx => {
           K.char.person(cx, 520, G - 20, 62, { t, seed: 4, skin: '#e3a983', hair: '#2b1d1a', hairStyle: 'bun', shirt: '#d8e04a', pose: 'stand', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
           K.char.person(cx, 660, G - 20, 62, { t, seed: 5, skin: '#9a6447', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'clipboard', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });

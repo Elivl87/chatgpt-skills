@@ -26,7 +26,7 @@ const exe = process.env.CHROME_PATH || '/opt/pw-browsers/chromium_headless_shell
 const browser = await chromium.launch({ executablePath: fs.existsSync(exe) ? exe : undefined, args: ['--force-color-profile=srgb', '--disable-gpu', '--disable-lcd-text'] });
 const DIR = args.dir; fs.mkdirSync(DIR, { recursive: true });
 const OUT = args.out || '854x480';
-const BLOCKS = ['A', 'B', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2'];
+const BLOCKS = args.blocks ? String(args.blocks).split(',') : ['A', 'B', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2'];   // --blocks D2,E1 to re-check a few
 const report = []; let fails = 0;
 function segHit([x0, y0, x1, y1], a) { let t0 = 0, t1 = 1; const dx = x1 - x0, dy = y1 - y0;
   for (const [p, q] of [[-dx, x0 - a[0]], [dx, a[2] - x0], [-dy, y0 - a[1]], [dy, a[3] - y0]]) {

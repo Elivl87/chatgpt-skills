@@ -64,8 +64,8 @@
       const upK = v => K.ease.sine(K.clamp((v - 0.12) / 0.5));
       const heroes = (c, t, y, R, o = {}) => {
         const mUp = waveAt(t)(860), eUp = t > lateUp - 0.04 ? A.pulse(t, lateUp - 0.04, 0.24, 0.76, 0.4) : 0;
-        rise(c, 'mila1', 860, y + 8, 260, upK(mUp), 0, { view: 'front', ...A.pzv(mUp, 0.4, 'lap', 'cheer'), ...A.ez(mUp, 0.4, 'happy', 'laugh', 0.12), t, light: LF });
-        const rE = rise(c, 'eli1', 1000, y + 8, 260, eUp, 60, { view: 'front', ...A.pzv(eUp, 0.3, 'lap', 'cheer'), expr: eUp > 0.3 ? (t > lateUp + 0.5 ? 'sheepish' : 'happy') : (o.popcorn ? 'content' : 'happy'), look: eUp > 0.3 && t > lateUp + 0.45 ? [Math.sin(t * 4) * 0.8, 0] : [0, 0.3], t, light: LF });
+        rise(c, 'mila1', 860, y + 8, 260, upK(mUp), 0, { view: 'front', ...A.pzv(mUp, 0.5, 'lap', 'cheer', 1.0), ...A.ez(mUp, 0.4, 'happy', 'laugh', 0.6), t, light: LF });
+        const rE = rise(c, 'eli1', 1000, y + 8, 260, eUp, 60, { view: 'front', ...A.pzv(eUp, 0.5, 'lap', 'cheer', 1.0), ...A.ezs(t, [[0, o.popcorn ? 'content' : 'happy'], [lateUp + 0.08, 'happy'], [lateUp + 0.5, 'sheepish']]),   /* Guardian v3 (2): the pose follows the value over its whole travel (a 0.16 band on a 0.25 s ramp was a 1-frame snap) */ look: eUp > 0.3 && t > lateUp + 0.45 ? [Math.sin(t * 4) * 0.8, 0] : [0, 0.3], t, light: LF });
         // the popcorn bucket stays with Eli in every stadium shot (Guardian: it vanished when he stood up and in D06):
         // on his lap when seated, carried up into his raised hand as he jumps up late (no one-frame jump)
         popBucket(c, y, rE, K.ease.sine(K.clamp((eUp - 0.1) / 0.6)));
@@ -87,8 +87,8 @@
         cues: A => [{ t: lateUp, kind: 'eh' }] });
       shots.push({ id: 'D06_plate', start: tUn - 0.1, bg: 'stadium_wide', focus: [960, 520], push: 0.022, pushDir: -1,
         draw(c, t, lt) { const w2 = x => Math.exp(-Math.pow((x - K.lerp(-300, 2300, ((t - tUn) % 3.2) / 3.2)) / 160, 2));
-          A.stadium(c, t, { wave: w2, row: 2, skip: f => f.row === 2 && f.x > 800 && f.x < 1070, chars: (cx, y) => { rise(cx, 'mila1', 860, y + 8, 260, upK(w2(860)), 0, { view: 'front', ...A.pzv(w2(860), 0.4, 'lap', 'cheer'), expr: 'laugh', t, light: LF });
-            const rE = rise(cx, 'eli1', 1000, y + 8, 260, upK(w2(1000)), 0, { view: 'front', ...A.pzv(w2(1000), 0.4, 'lap', 'cheer'), ...A.ez(w2(1000), 0.4, 'happy', 'laugh', 0.12), t, light: LF });
+          A.stadium(c, t, { wave: w2, row: 2, skip: f => f.row === 2 && f.x > 800 && f.x < 1070, chars: (cx, y) => { rise(cx, 'mila1', 860, y + 8, 260, upK(w2(860)), 0, { view: 'front', ...A.pzv(w2(860), 0.5, 'lap', 'cheer', 1.0), expr: 'laugh', t, light: LF });
+            const rE = rise(cx, 'eli1', 1000, y + 8, 260, upK(w2(1000)), 0, { view: 'front', ...A.pzv(w2(1000), 0.5, 'lap', 'cheer', 1.0), ...A.ez(w2(1000), 0.4, 'happy', 'laugh', 0.6), t, light: LF });
             popBucket(cx, y, rE, K.ease.sine(K.clamp((w2(1000) - 0.3) / 0.2))); } });
           P.plate(c, 960, 240, 'UN EMBOTELLAMIENTO ES UNA OLA', 54, A.ramp(t, tEs2 - 0.1, 0.3)); },
         cues: A => [{ t: tEs2 - 0.1, kind: 'plate' }] });
@@ -224,7 +224,7 @@
           K.cast.draw(c, 'eli1', 760, 960, 700, { view: 'q', dir: 1, ...(fu > 0.001 ? { pose: t > sandT + 0.35 ? 'belly' : 'sit', blend: { pose: 'sitPoint', k: fu } } : A.pz(t, sandT + 0.35, 'sit', 'belly')), seated: true, legs: true, sitGround: true, t, light: NL,
             ...A.ezs(t, [[0, 'grumpy'], [tNi - 0.3, 'worried'], [sandT + 0.3, 'happy']]), talk: sp.talk, viseme: sp.viseme, look: t > sandT ? [0.6, 0.1] : [0.9, 0] });
           const give = A.ramp(t, sandT, 0.35);
-          const rm = K.cast.draw(c, 'mila1', 1180, 960, 700, { view: 'q', dir: -1, ...A.pzv(give, 0.1, 'sit', 'palm'), seated: true, legs: true, sitGround: true, t, light: NL, expr: 'happy', look: [-0.8, 0] });
+          const rm = K.cast.draw(c, 'mila1', 1180, 960, 700, { view: 'q', dir: -1, ...A.pzv(give, 0.5, 'sit', 'palm', 1.0), seated: true, legs: true, sitGround: true, t, light: NL, expr: 'happy', look: [-0.8, 0] });
           if (give > 0.05) { const hx = K.lerp(rm.hands.lead[0], 980, give), hy = K.lerp(rm.hands.lead[1], 760, give);   // half a sandwich
             c.save(); c.translate(hx, hy); c.rotate(-0.2); c.fillStyle = '#e8c48a'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 4; c.beginPath(); c.moveTo(-40, 20); c.lineTo(40, 20); c.lineTo(-40, -40); c.closePath(); c.fill(); c.stroke();
             c.fillStyle = '#7fb06a'; c.fillRect(-38, 6, 70, 8); c.restore(); }

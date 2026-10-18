@@ -640,14 +640,14 @@
      ],
      "cl": {
       "yellow": 0.0016,
-      "purple": 0.2671,
-      "mustard": 0.3278,
+      "purple": 0.2666,
+      "mustard": 0.3275,
       "green": 0,
       "blue": 0,
-      "brown": 0.0539,
+      "brown": 0.0544,
       "white": 0.0218,
       "vermilion": 0,
-      "pale": 0.0375
+      "pale": 0.0374
      }
     },
     {
@@ -933,7 +933,7 @@
     {
      "id": "eli1",
      "expr": "sheepish",
-     "pose": "cheer",
+     "pose": "lap",
      "view": "front",
      "box": [
       333,
@@ -1022,47 +1022,47 @@
     {
      "id": "mila1",
      "expr": "laugh",
-     "pose": "cheer",
+     "pose": "lap",
      "view": "front",
      "box": [
-      355,
-      280,
-      416,
+      356,
+      282,
+      415,
       418
      ],
      "cl": {
       "yellow": 0.0003,
-      "purple": 0.1773,
-      "mustard": 0.385,
-      "green": 0.0607,
+      "purple": 0.1674,
+      "mustard": 0.3932,
+      "green": 0.0619,
       "blue": 0,
       "brown": 0.0629,
       "white": 0,
       "vermilion": 0,
-      "pale": 0.0401
+      "pale": 0.0365
      }
     },
     {
      "id": "eli1",
      "expr": "laugh",
-     "pose": "cheer",
+     "pose": "lap",
      "view": "front",
      "box": [
-      419,
+      420,
       297,
-      482,
+      480,
       418
      ],
      "cl": {
-      "yellow": 0.0643,
+      "yellow": 0.0659,
       "purple": 0,
-      "mustard": 0.203,
+      "mustard": 0.2063,
       "green": 0,
-      "blue": 0.0465,
-      "brown": 0.2204,
-      "white": 0.0601,
+      "blue": 0.0477,
+      "brown": 0.2205,
+      "white": 0.0562,
       "vermilion": 0,
-      "pale": 0.1321
+      "pale": 0.1285
      }
     }
    ],
@@ -1140,18 +1140,18 @@
       366,
       338,
       397,
-      423
+      422
      ],
      "cl": {
       "yellow": 0.0005,
-      "purple": 0.2519,
-      "mustard": 0.3358,
+      "purple": 0.248,
+      "mustard": 0.3359,
       "green": 0,
       "blue": 0,
-      "brown": 0.0904,
+      "brown": 0.0901,
       "white": 0,
       "vermilion": 0,
-      "pale": 0.028
+      "pale": 0.0255
      }
     },
     {

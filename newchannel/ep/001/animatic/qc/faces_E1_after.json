@@ -4,9 +4,9 @@
  "samples": 22,
  "faces": 44,
  "eyes": {
-  "pass": 70,
+  "pass": 72,
   "fail": 0,
-  "closed": 18,
+  "closed": 16,
   "covered": 0,
   "fading": 0,
   "tiny": 0,

@@ -41,7 +41,7 @@
  "longest_shot": 5.18,
  "longest_id": "D21_halfhour",
  "avg_shot": 2.94,
- "size_mb": 12.36,
+ "size_mb": 12.31,
  "contact_kb": 376
 }
 ```

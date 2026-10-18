@@ -71,7 +71,7 @@
       shots.push({ id: 'H03_store', start: tCorras - 0.2, bg: 'close', focus: [930, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G22(t), off = A.ramp(t, tCorras + 0.25, 0.25), lean = A.ramp(t, tCorras + 0.6, 0.3) * (1 - A.ramp(t, tStore, 0.2));
           inCar(c, t, ts, { z: 1.62, wx: 600, wy: 615, sx: 940, sy: 540 },
-            { ...A.pzv(off, 0.5, 'clasp', 'point'), view: 'q', dir: off > 0.5 ? -1 : 1, expr: 'determined', look: off > 0.5 ? [-0.8, 0.5] : [0.3, 0.6], lean: lean * 0.12, blink: eliBlink(t) },
+            { ...A.pzv(off, 0.5, 'clasp', 'point', 1.0), view: 0.55 * Math.abs(1 - 2 * K.ease.sine(off)), dir: off < 0.5 ? 1 : -1, expr: 'determined', look: [K.lerp(0.3, -0.8, off), K.lerp(0.6, 0.5, off)],   /* Guardian v3 (2): turns through the front view, pose and eyes follow the ramp (was a one-frame mirror flip) */ lean: lean * 0.12, blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, expr: 'neutral', look: [0.9, 0], blink: milaBlink(t) }, { badge: 1 - off }); },
         cues: A => [{ t: tStore, kind: 'clonc' }] });
       const tPop = tStore + 0.55, tKnee = tPop + 0.95;
@@ -83,7 +83,7 @@
         draw(c, t, lt) { const ts = G22(t), give = A.pulse(t, tKnee + 0.6, 0.2, 0.6, 0.2);
           inCar(c, t, ts, { z: 1.5, wx: 620, wy: 625, sx: 950, sy: 545 },
             { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tKnee + 1.0, 'surprised', 'sheepish'), look: [0.2, 0.3], blink: eliBlink(t) },
-            { ...A.pzv(give, 0.3, 'lap', 'palm'), view: 'q', dir: 1, expr: 'smug', look: [0.9, -0.05], blink: milaBlink(t) },
+            { ...A.pzv(give, 0.5, 'lap', 'palm', 1.0), view: 'q', dir: 1, expr: 'smug', look: [0.9, -0.05], blink: milaBlink(t) },
             { badge: A.ramp(t, tKnee + 0.9, 0.2) }); },
         cues: A => [{ t: tVel, kind: 'plate' }] });
       // fingers drum on the wheel, a deep breath, the fingers calm down

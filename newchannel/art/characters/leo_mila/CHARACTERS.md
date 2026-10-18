@@ -299,6 +299,10 @@ Rules (kit `art/lib/cast.js` + `ep/001/animatic/anim.js`):
   `cond ? A.pz(..) : A.pz(..)`. Use `A.pz` / `A.pzv` (pose), `A.ez` / `A.ezs` (face: `o.exprBlend = { expr, k }`
   interpolates lids, brows, eye / pupil scale, gaze, head tilt; mouth and flags switch at k = 0.5) and `A.seq(t, keys, d)`
   (pose + face + lean / tilt / headTurn / look + front-3/4-profile view, all blended at each boundary).
+- **Value-driven blends follow the whole travel of the value** (Guardian v3, 2026-10-18): `A.pzv(v, 0.5, a, b, 1.0)` (now
+  the default band) and `A.ez(v, 0.4, a, b, 0.6)`. A 0.16 band on a value that ramps 0..1 in 0.14-0.35 s is a one-frame
+  snap (E1 G17, C2 D05/D06/D16, E2 H03/I04 all had it). Turns never flip `dir` inside a blend: go through the front view
+  (`view: 0.55 * Math.abs(1 - 2 * K.ease.sine(k))`, `dir: k < 0.5 ? 1 : -1`).
 - **Stand-ups / sit-downs are continuous**: `o.crouch` (units) draws the body lower with the feet on the ground and the
   knees bent (forward in profile, out in front); `o.crouchFwd` puts the feet where a chair-seated pose has them. Stadium
   (C2) and bench (E2 K05) use it; never flip `seated` in one frame.

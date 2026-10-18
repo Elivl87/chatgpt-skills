@@ -463,7 +463,7 @@
      "id": "eli1",
      "expr": "determined",
      "pose": "clasp",
-     "view": "q",
+     "view": 0.55,
      "box": [
       408,
       165,
@@ -519,7 +519,7 @@
      "id": "eli1",
      "expr": "determined",
      "pose": "point",
-     "view": "q",
+     "view": 0.55,
      "box": [
       254,
       167,
@@ -575,7 +575,7 @@
      "id": "eli1",
      "expr": "determined",
      "pose": "point",
-     "view": "q",
+     "view": 0.55,
      "box": [
       243,
       164,
@@ -653,24 +653,24 @@
     {
      "id": "mila1",
      "expr": "smug",
-     "pose": "palm",
+     "pose": "lap",
      "view": "q",
      "box": [
       241,
       135,
-      415,
-      436
+      374,
+      429
      ],
      "cl": {
       "yellow": 0.0006,
-      "purple": 0.2223,
-      "mustard": 0.3691,
+      "purple": 0.1994,
+      "mustard": 0.3604,
       "green": 0,
       "blue": 0,
-      "brown": 0.0469,
-      "white": 0.0029,
+      "brown": 0.046,
+      "white": 0.0032,
       "vermilion": 0,
-      "pale": 0.0064
+      "pale": 0.0078
      }
     }
    ],
