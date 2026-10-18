@@ -37,7 +37,7 @@ expression and size like `fish2_side_*`.
 ## Where it appears (plan; no line is stolen, it moves in pauses or at the frame edge)
 | Beat | What it does |
 |---|---|
-| Hook, frame 0 | rises out of Quest's beer/soda glass on the sofa: a bubble from the real-life evening |
+| Hook, frame 0 | rises out of Quest's glass of soda on the sofa: a bubble from the real-life evening |
 | Hook, "So, why?" | **floats up and becomes the "o" of the wordmark**; star twinkles inside; 1.5 s silence |
 | The dive | beside Quest's regulator, shrinking; sweats on "one more dive"; one gulp of a refill on surfacing |
 | Cobra's contracts | gets stuck to a contract and signs it by accident (a wet ring) |
