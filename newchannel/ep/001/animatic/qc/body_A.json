@@ -1021,7 +1021,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "worried",
+     "expr": "annoyed",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -1044,7 +1044,7 @@
     },
     {
      "id": "mila1",
-     "expr": "surprised",
+     "expr": "annoyed",
      "pose": "clasp",
      "view": "q",
      "box": [
@@ -1189,7 +1189,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "grumpy",
+     "expr": "furious",
      "pose": "fist",
      "view": "q",
      "box": [

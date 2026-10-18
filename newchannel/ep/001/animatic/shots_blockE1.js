@@ -148,7 +148,7 @@
             { pose: 'crossed', expr: 'happy', look: [-0.9, -0.1] },
             { u: 640, ex: 760, mx: 1060, extras: cx => people.forEach(([x, seed, hs], k) => { const kk = x < 760 ? 1 + k * 0 : 2 + k; const u2 = up(x < 760 ? -1 : k); const pe = K.car.persona(seed * 7, 3);
               K.char.person(cx, x, GY - 90 - u2 * 40, 54, { t, seed: seed * 7, skin: pe.skin, hair: pe.hair, hairStyle: pe.hairStyle, capColor: pe.capColor, shirt: K.car.COLORS[seed % 10], ...A.pzv(u2, 0.4, 'stand', 'cheer'), expr: u2 > 0.4 ? 'laugh' : 'content', light: { ang: -0.6, rim: '#ffd99a', shade: '#3c2a52' } }); void kk; }),
-              after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 230, t, { ang: K.lerp(3.05 - K.TAU, 0.1, A.ramp(t, tUp, 0.16)), wave: K.lerp(0.04, 0.3, A.ramp(t, tUp, 0.16)) });   /* Guardian v3: swings up with the arm (it flipped in one frame) */ } }); },
+              after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 230, t, { ang: K.lerp(3.05 - K.TAU, 0.1, K.ease.sine(K.clamp(up(0) / 0.5))), wave: K.lerp(0.04, 0.3, K.clamp(up(0) / 0.5)) });   /* Guardian v3: swings up AND back down with the arm, through the left (it flipped in one frame; then stayed level, poking at Mila) */ } }); },
         cues: A => [{ t: tUp - 0.1, kind: 'crowd_wave', t1: tUp + 1.3 }] });
       shots.push({ id: 'G18_mila', start: tCada - 0.1, bg: 'bridge_mila', focus: [1100, 500], push: 0.035, pushDir: 1,   // Guardian: focus y 380 -> 500, u 880 -> 760 (Mila's head cut by the top edge)
         draw(c, t, lt) { pair(c, t, { pose: 'cheer', expr: 'surprised', look: [0.7, -0.2] }, { pose: 'crossed', expr: 'happy', look: [-1, 0.05], headTurn: -0.2 }, { ex: 600, mx: 1150, u: 760 }); } });

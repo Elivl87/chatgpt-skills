@@ -1189,7 +1189,7 @@
    "chars": [
     {
      "id": "mila1",
-     "expr": "thinking",
+     "expr": "smug",
      "pose": "clipboard",
      "view": "q",
      "box": [
@@ -3095,7 +3095,7 @@
    "chars": [
     {
      "id": "mila1",
-     "expr": "curious",
+     "expr": "awe",
      "pose": "sit",
      "view": "q",
      "box": [

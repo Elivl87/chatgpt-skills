@@ -24,15 +24,15 @@ kit, un bloque nuevo en el animatic, dos `<script>` en `index.html`); el render 
 
 | | A · actual | B · plano |
 |---|---|---|
-| segundos de render por cuadro (854x480, 1 worker Chromium, `nice -n 10`, CPU compartida con el Guardián) | **__A_MS__ ms/cuadro** (901 cuadros en __A_S__ s) | **13 ms/cuadro** (901 cuadros en 12,0 s) |
-| factor | 1× | **≈ __FACTOR__× más rápido** |
+| segundos de render por cuadro (854x480, 1 worker Chromium, `nice -n 10`, CPU compartida con el Guardián) | **200 ms/cuadro** (901 cuadros en 180,0 s) | **13 ms/cuadro** (901 cuadros en 12,0 s) |
+| factor | 1× | **≈ 15× más rápido** |
 | planos en los 30 s | 14 (A01-A13_bird; promedio 2,1 s) | 3 (F01_tap 7,9 s · F02_wave 9,3 s · F03_quien 12,8 s) |
 | líneas de lista de planos (solo el pasaje) | 199 líneas de `shots_blockA.js` (hasta el gag del pájaro) + apoyos compartidos `anim_hw.js` (cámara perspectiva, close-up), `props.js` | 144 líneas de `shots_blockA_flat.js` |
 | código de kit que lo sostiene | ~6 700 líneas (`art/lib/*.js`, escenas, sims) | 396 líneas nuevas (`flat.js`) sobre el mismo `anim.js`, `sim`, timings |
 | auditoría de ojos (faces_check) en los cuadros clave | 2 fallos / 113 ojos en todo el bloque (los 2 están en el pasaje, QC del Guardián en curso) | **0 fallos / 36 ojos auditados** (32 «tiny»: en los planos anchos las caras miden < 3 px de ojo y no se auditan) |
 | auditoría de cuerpo (body_check: solapes, cabezas cortadas, colores, flotando) | 0 fallos / 0 avisos (36 cuadros del pasaje) | **0 fallos / 0 avisos** (17 cuadros) |
 | auditoría de ropa (clothes_check: colores, trazos sueltos, pops en 1/30 s) | 0 fallos (pasaje) | **0 fallos** (34 dibujos) |
-| tamaño del mp4 de 30 s solo (crf 18) | __A_MB__ MB | 0,97 MB |
+| tamaño del mp4 de 30 s solo (crf 18) | 31,3 MB | 0,97 MB |
 
 Notas sobre las auditorías en B: el log de ojos/cuerpo lo emite `K.flat.cast` con el mismo formato que `K.cast.draw`
 (`__faceLog`: ojos en px, caja del personaje, familias de color de la ropa), así que `faces_check.py`, `body_check.py`
@@ -72,8 +72,25 @@ cuello de botella real). El coste es la identidad visual y la decisión de arte 
 ## Prueba de que lo existente no cambió
 
 `ep001_A` renderizado con el `index.html` nuevo (con `flat.js` + `shots_blockA_flat.js`) y con una copia sin esas dos
-líneas: md5 idénticos cuadro a cuadro (__IDENT__). `art/scenes/index.html` (los style frames a-e) no carga `flat.js`.
+líneas: md5 idénticos cuadro a cuadro (4 cuadros de prueba a 1,0 / 7,1 / 18,5 / 28,9 s, `ImageChops.difference` vacío y md5 iguales; además `highway_golden` (style frame a) renderiza sin error con el kit nuevo cargado). `art/scenes/index.html` (los style frames a-e) no carga `flat.js`.
 
 ## Mi opinión como Dirección de Arte
 
-__OPINION__
+**B no es el estilo de este canal, pero el experimento enseña tres cosas que sí quiero robar para A.**
+
+1. **Lo que B hace mejor es dirección, no dibujo.** La barra de texto arriba y los planos sostenidos hacen que el gancho se
+   entienda sin esfuerzo; A corta 14 veces en 30 s y en el ancho la ola de frenos se pierde entre cortes. Propongo para A:
+   una **barra de frase clave** opcional (en el papel del canal, no en blanco plano) en los beats explicativos, y
+   **menos cortes** en el beat 2 (la ola en UN plano con la cámara quieta, como F02). Esto no toca el arte aprobado.
+2. **La burbuja de pensamiento con iconos** (ni choque / ni conos / ni semáforo) es más graciosa y más legible que las tres
+   tarjetas que vuelan en A12. Hay que llevarla a A con el panel de papel que ya existe (`K.tbox.panel`).
+3. **El ahorro real está en el tiempo de agente (planos + QC), no en la CPU.** Un rig de recorte (solo cara + brazos)
+   pasó las tres auditorías a la primera (tras un bug mío de párpado); el rig cinematográfico necesitó tres pases del
+   Guardián. Si el Productor quiere publicar más seguido, la palanca es simplificar el *acting* (menos poses, blends
+   más largos, menos vistas) manteniendo luz, grano y profundidad, no cambiar de estilo.
+
+**Por qué no B como estilo:** (a) el Productor eligió «este tipo de arte» (luz cinematográfica) el 10-14 y lo cerró el 10-15;
+B tira exactamente eso; (b) B se parece al competidor y a cien canales más: el canal perdería lo único que lo distingue a
+primera vista en el feed (y roza «contenido plantillado»); (c) a los 30 s el mundo plano ya se agotó visualmente; en
+7 minutos cansa. **Recomendación: quedarnos en A, adoptar 1-3 de B.** Si el Productor prefiere B, el modo `style=flat`
+queda listo como opción (0,97 MB / 13 ms por cuadro) y se puede extender al bloque B en un día.

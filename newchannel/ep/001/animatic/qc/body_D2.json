@@ -1,7 +1,7 @@
 {
  "block": "D2",
  "samples": 89,
- "fail": 1,
+ "fail": 0,
  "warn": 34,
  "frames": [
   {
@@ -650,21 +650,21 @@
      "pose": "crossed",
      "view": "q",
      "box": [
-      361,
-      7,
-      510,
+      363,
+      58,
+      508,
       488
      ],
      "cl": {
-      "yellow": 0.0013,
-      "purple": 0.188,
-      "mustard": 0.4345,
+      "yellow": 0.0015,
+      "purple": 0.1988,
+      "mustard": 0.4152,
       "green": 0,
       "blue": 0,
-      "brown": 0.0326,
-      "white": 0.0064,
+      "brown": 0.0344,
+      "white": 0.0066,
       "vermilion": 0,
-      "pale": 0.0111
+      "pale": 0.012
      }
     }
    ],
@@ -683,21 +683,21 @@
      "pose": "crossed",
      "view": "q",
      "box": [
-      365,
-      4,
-      511,
+      367,
+      55,
+      508,
       488
      ],
      "cl": {
-      "yellow": 0.0012,
-      "purple": 0.1892,
-      "mustard": 0.431,
+      "yellow": 0.0017,
+      "purple": 0.1999,
+      "mustard": 0.4106,
       "green": 0,
       "blue": 0,
-      "brown": 0.0314,
-      "white": 0.0062,
+      "brown": 0.0325,
+      "white": 0.0066,
       "vermilion": 0,
-      "pale": 0.0105
+      "pale": 0.0117
      }
     }
    ],
@@ -708,14 +708,7 @@
    "shot": "F05_eli",
    "why": "end",
    "png": "s_017.png",
-   "problems": [
-    [
-     "FAIL",
-     "cut-head",
-     "Mila",
-     "head zone [367, -1, 511, 193] crosses the frame edge"
-    ]
-   ],
+   "problems": [],
    "chars": [
     {
      "id": "mila1",
@@ -723,21 +716,21 @@
      "pose": "crossed",
      "view": "q",
      "box": [
-      367,
-      -1,
-      511,
+      369,
+      51,
+      509,
       488
      ],
      "cl": {
       "yellow": 0.0015,
-      "purple": 0.1914,
-      "mustard": 0.4291,
+      "purple": 0.2023,
+      "mustard": 0.4091,
       "green": 0,
       "blue": 0,
-      "brown": 0.029,
-      "white": 0.0062,
+      "brown": 0.0305,
+      "white": 0.0066,
       "vermilion": 0,
-      "pale": 0.0101
+      "pale": 0.0117
      }
     }
    ],
@@ -2915,7 +2908,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -2971,7 +2964,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3027,7 +3020,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3083,7 +3076,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3139,7 +3132,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3195,7 +3188,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3251,7 +3244,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3307,7 +3300,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3587,7 +3580,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3643,7 +3636,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3699,7 +3692,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -3755,7 +3748,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -4203,7 +4196,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -4259,7 +4252,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -4315,7 +4308,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -4371,7 +4364,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -4427,7 +4420,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [
@@ -4483,7 +4476,7 @@
    "chars": [
     {
      "id": "eli1",
-     "expr": "annoyed",
+     "expr": "determined",
      "pose": "drive",
      "view": "q",
      "box": [

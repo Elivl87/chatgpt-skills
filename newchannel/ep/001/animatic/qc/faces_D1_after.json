@@ -4,27 +4,15 @@
  "samples": 48,
  "faces": 88,
  "eyes": {
-  "pass": 110,
-  "fail": 1,
+  "pass": 111,
+  "fail": 0,
   "closed": 0,
   "covered": 0,
   "fading": 0,
   "tiny": 57,
   "offframe": 8
  },
- "failures": 1,
- "fail_list": [
-  {
-   "t": 37.66,
-   "shot": "E11_promedio",
-   "why_sample": "mid",
-   "id": "mila1",
-   "expr": "curious",
-   "view": "q",
-   "eye": 0,
-   "problem": "no clear white (white 219, 17%)",
-   "eye_px": 3.8
-  }
- ],
+ "failures": 0,
+ "fail_list": [],
  "framing_warnings": []
 }
