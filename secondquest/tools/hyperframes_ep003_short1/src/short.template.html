@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width={{RW}}, height={{RH}}" />
+    <title>EP003 Short 1 The friend who never buys it</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      /* 1080 x 1920. Shorts UI: nothing that matters below y 1520 or right of x 930. Storyboard:
+         docs/publish/EP003/short1/STORYBOARD_v1.md. The last frame IS frame 0 (seamless loop). */
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Caveat"; src: url("assets/fonts/Caveat-700-latin.woff2") format("woff2"); font-weight: 700; }
+      :root { --gold: #ffd23f; --ink: #16121f; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: {{RW}}px; height: {{RH}}px; overflow: hidden; background: #16121f; }
+      #root { position: relative; width: {{RW}}px; height: {{RH}}px; overflow: hidden; font-family: "Inter", sans-serif; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale({{RK}}); transform-origin: 0 0; overflow: hidden; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .abs { position: absolute; }
+      .shot { overflow: hidden; background: #16121f; }
+      .breath { position: absolute; inset: 0; transform-origin: 50% 45%; }
+      .stack { position: absolute; }
+      .stack img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; opacity: 0; }
+      .stack img.on { opacity: 1; }
+      .flipx img { transform: scaleX(-1); }
+      .shade { background: linear-gradient(180deg, rgba(10,8,20,.55) 0%, rgba(10,8,20,.15) 40%, rgba(10,8,20,0) 60%, rgba(10,8,20,.35) 100%); }
+      /* frame 0 / loop seam: the hook text and the notification banner */
+      .hook { position: absolute; left: 0; width: 1080px; top: 350px; text-align: center; font-family: "Anton", sans-serif; color: var(--gold);
+        font-size: 178px; line-height: .98; letter-spacing: 1px; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill;
+        text-shadow: 0 10px 0 var(--ink), 0 18px 30px rgba(0,0,0,.5); }
+      .hook .ln { display: block; }
+      .hook .w { color: #fff; }
+      .ban { position: absolute; left: 60px; top: 120px; width: 960px; height: 170px; border-radius: 44px; background: rgba(246,243,236,.97);
+        box-shadow: 0 14px 40px rgba(0,0,0,.45); }
+      .ban .ic { position: absolute; left: 28px; top: 30px; width: 110px; height: 110px; border-radius: 26px; background: #3aa35b; }
+      .ban .ic svg { position: absolute; left: 20px; top: 22px; width: 70px; height: 66px; }
+      .ban .t { position: absolute; left: 162px; top: 30px; font: 800 36px "Inter", sans-serif; color: #16161f; }
+      .ban .n { position: absolute; right: 36px; top: 34px; font: 600 28px "Inter", sans-serif; color: rgba(22,22,31,.62); }
+      .ban .m { position: absolute; left: 162px; top: 84px; font: 600 42px "Inter", sans-serif; color: #16161f; white-space: nowrap; }
+      .ban .m span { display: inline-block; border-radius: 8px; padding: 0 2px; margin: 0 -2px; }
+      /* the chat */
+      #phoneRig { position: absolute; left: 60px; top: 120px; width: 360px; height: 560px; transform: scale(2.4); transform-origin: 0 0; }
+      #phoneHalo { position: absolute; left: 40px; top: 300px; width: 1000px; height: 1000px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,214,140,.35) 0%, rgba(255,190,120,.12) 40%, rgba(255,190,120,0) 70%); }
+      /* the wide: the two-pass rowboat with the crew (EP003 hook geometry, css px of a 620-wide boat) */
+      #boatRig { position: absolute; left: 28px; top: 1130px; width: 620px; height: 145px; transform: scale(1.65); transform-origin: 0 0; }
+      .boatimg { position: absolute; left: 0; top: 9px; width: 620px; height: 136px; }
+      #crewClip { position: absolute; left: -80px; top: -300px; width: 780px; height: 405px; overflow: hidden; }
+      .mate { position: absolute; bottom: -95px; width: 200px; height: 290px; }
+      .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
+        filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .9)) drop-shadow(0 0 10px rgba(255, 170, 110, .25)) brightness(.97) saturate(1.05); }
+      .bf img { position: absolute; top: 0; height: 100%; opacity: 0; }
+      .bf img.on { opacity: 1; }
+      #rod { position: absolute; left: 548px; top: -262px; width: 27px; height: 330px; }
+      /* captions: word by word, gold on the current word; only where the words are not already on screen */
+      .cap { position: absolute; left: 90px; width: 840px; text-align: center; font: 800 76px/1.14 "Inter", sans-serif; color: #fff; word-spacing: .1em;
+        -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; text-shadow: 0 7px 0 var(--ink); visibility: hidden; transform-origin: 50% 50%; }
+      .cap span { display: inline-block; }
+      /* end card */
+      #cardT { position: absolute; left: 0; width: 1080px; top: 330px; text-align: center; font-family: "Anton", sans-serif; line-height: .98;
+        -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; text-shadow: 0 10px 0 var(--ink); }
+      #cardT .ln { display: block; overflow: hidden; padding: 4px 20px 16px; margin-bottom: -20px; }
+      #cardT .ln span { display: inline-block; }
+      #cardT .a { font-size: 150px; color: #fff; }
+      #cardT .b { font-size: 250px; color: var(--gold); }
+      #scrawl { position: absolute; left: 0; width: 1080px; top: 805px; text-align: center; font: 700 86px "Caveat", cursive; color: #fff;
+        -webkit-text-stroke: 8px var(--ink); paint-order: stroke fill; transform: rotate(-3deg); }
+      #wm { position: absolute; left: 160px; top: 1070px; width: 760px; height: 190px; }
+      #wm img { position: absolute; left: 0; top: 0; width: 760px; height: 131px; filter: drop-shadow(0 7px 0 #16161f); }
+      #wmBar { position: absolute; left: 130px; top: 156px; width: 500px; height: 14px; background: var(--gold); border-radius: 7px; box-shadow: 0 5px 0 var(--ink); transform-origin: 50% 50%; }
+      #fullEp { position: absolute; left: 0; width: 1080px; top: 1345px; text-align: center; font: 800 44px "Inter", sans-serif; color: #fff;
+        letter-spacing: .08em; -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-fps="30" data-width="{{RW}}" data-height="{{RH}}">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="{{DUR}}" data-track-index="30" data-volume="1"></audio>
+      <div id="stage">
+      <div id="shake" class="full">
+
+      <!-- ===== 1 · FRAME 0 · h05 "It's eight dollars. Just get it." read off the notification banner ===== -->
+      <div id="shF0" class="full shot clip" data-start="0" data-duration="{{S1-0.34}}" data-track-index="1"><div class="breath" id="brF0"></div></div>
+
+      <!-- ===== 2-3 · THE CHAT · h06 "Bought." x3, h07 "And one friend who says "I'll get it later."" ===== -->
+      <div id="shChat" class="full shot clip" data-start="{{S1-0.34}}" data-duration="{{h07.w10-0.14-S1+0.34}}" data-track-index="2">
+        <img class="full" src="assets/lake_soft.jpg" alt="" />
+        <div class="full" style="background: rgba(12,10,24,.6)"></div>
+        <div id="phoneHalo"></div>
+        <div class="breath" id="brChat"><div id="kickChat" class="full"><div id="phoneRig"></div></div></div>
+      </div>
+
+      <!-- ===== 4 · LEO SWEATS · "He will not get it later." + the fish's deadpan and one slow blink ===== -->
+      <div id="shSweat" class="full shot clip" data-start="{{h07.w10-0.14}}" data-duration="{{h08-0.25-h07.w10+0.14}}" data-track-index="3">
+        <div class="breath" id="brSweat">
+          <img class="full" src="assets/lake_soft.jpg" alt="" style="transform: scale(1.12); transform-origin: 40% 40%" />
+          <div class="full shade"></div>
+          <div class="stack" id="leoS" data-role="character" style="left: -10px; top: 640px; width: 1100px; height: 3784px"><img class="on" src="assets/leo_sweat.png" alt="" /><img src="assets/leo_sweat_blink.png" alt="" /></div>
+          <img class="abs" src="assets/rowboat_front.png" alt="" style="left: -1700px; top: 1590px; width: 3800px" />
+          <div class="stack flipx" id="fishS" data-role="character" style="left: 690px; top: 1468px; width: 330px; height: 244px; transform: rotate(-3deg)">
+            <img class="on" src="assets/fish_lookup.png" alt="" /><img src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+        </div>
+      </div>
+
+      <!-- ===== 5 · THE WIDE · h08 "Getting a few adults into the same boat is harder than anything in the game." ===== -->
+      <div id="shWide" class="full shot clip" data-start="{{h08-0.25}}" data-duration="{{VEND+0.3-h08+0.25}}" data-track-index="4">
+        <div class="breath" id="brWide"><div id="wideCam" class="full" style="transform-origin: 0 0">
+          <img class="abs" src="assets/lake_vw.jpg" alt="" style="left: -540px; top: 0; width: 2160px; height: 1920px" />
+          <div id="boatRig">
+            <img class="abs" src="assets/rowboat_front.png" alt="" style="left: 0; top: 128px; width: 620px; height: 136px; opacity: .28; transform: scaleY(-1); filter: blur(2px) brightness(.8)" />
+            <img class="boatimg" src="assets/rowboat_back_tall.png" alt="" style="top: -83.2px; height: 228.4px" />
+            <div id="crewClip">
+              <div class="bf" id="bfMax" style="left: 0; top: 0; width: 780px; height: 405px"></div>
+              <div class="bf" id="bfLeo" style="left: 0; top: 0; width: 780px; height: 405px"></div>
+              <div class="mate" id="pixie" style="left: 220px"><img src="assets/pixie_laugh.png" alt="pixie" /></div>
+              <div class="mate" id="quest" style="left: 335px"><img src="assets/quest_laugh.png" alt="quest" /></div>
+            </div>
+            <div id="rod"><img src="assets/rod.png" alt="" style="width: 100%; height: 100%" /></div>
+            <img class="boatimg" src="assets/rowboat_front_tall.png" alt="" style="top: -83.2px; height: 228.4px" />
+            <div class="stack flipx" id="fishW" style="left: 586px; top: -40px; width: 84px; height: 62px"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- ===== 6 · END CARD · TAG YOUR LEO, the wordmark, the fish lands on its gold bar ===== -->
+      <div id="shCard" class="full shot clip" data-start="{{VEND+0.3}}" data-duration="{{DUR-1.0-VEND-0.3}}" data-track-index="5">
+        <img class="full" src="assets/lake_soft.jpg" alt="" />
+        <div class="full" style="background: rgba(12,10,24,.62)"></div>
+        <div id="cardT"><span class="ln"><span class="a" id="cA">TAG YOUR</span></span><span class="ln"><span class="b" id="cB">LEO</span></span></div>
+        <div id="scrawl">(he'll watch it later)</div>
+        <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
+        <div class="stack" id="fishC" style="left: 470px; top: 1010px; width: 170px; height: 126px"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+        <div id="fullEp">FULL EPISODE ↓</div>
+      </div>
+
+      <!-- ===== 7 · LOOP SEAM · back to frame 0: the banner drops again, the hook text slams in; last frame = frame 0 ===== -->
+      <div id="shLoop" class="full shot clip" data-start="{{DUR-1.0}}" data-duration="1.0" data-track-index="6"><div class="breath" id="brLoop"></div></div>
+
+      <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="{{DUR}}" data-track-index="20"></div>
+      <div id="flash" class="full clip" data-start="0" data-duration="{{DUR}}" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
+      </div>
+      </div>
+    </div>
+
+    <!--INCLUDE chat.html-->
+    <script>
+      const ART = /*ART*/;
+      const CAPS = /*CAPTIONS*/;
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+      const tl = gsap.timeline({ paused: true });
+      <!--INCLUDE fromto_fix.js-->
+      const DUR = {{DUR}};
+      const flash = (at, a, d) => tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
+      const swap = (stack, i, at) => { const ims = $(stack).querySelectorAll("img"); ims.forEach((im, k) => tl.set(im, { opacity: k === i ? 1 : 0 }, at)); };
+      const blink = (stack, base, bl, at, d) => { swap(stack, bl, at); swap(stack, base, at + (d || .12)); };
+
+      /* ---------------- frame 0 (built twice: the opening and the loop seam, identical at rest) */
+      const BUBBLE = '<svg viewBox="0 0 70 66"><path d="M35 4 C16 4 4 15 4 29 C4 38 9 45 17 50 L13 62 L28 54 C30 54 33 55 35 55 C54 55 66 43 66 29 C66 15 54 4 35 4 Z" fill="#fff"/></svg>';
+      const BAN_WORDS = ["It's", "eight", "dollars.", "Just", "get", "it."];
+      function frame0(host, sfx) {
+        host.innerHTML = `
+          <img class="full" src="assets/lake_soft.jpg" alt="" />
+          <div class="full shade"></div>
+          <div class="stack" id="leo${sfx}" data-role="character" style="left: 115px; top: 880px; width: 850px; height: 2924px"><img class="on" src="assets/leo_sideeye.png" alt="" /><img src="assets/leo_sideeye_blink.png" alt="" /></div>
+          <img class="abs" src="assets/rowboat_front.png" alt="" style="left: -1150px; top: 1460px; width: 3000px" />
+          <div class="stack flipx" id="fish${sfx}" data-role="character" style="left: 620px; top: 1500px; width: 310px; height: 230px; transform: rotate(-3deg)">
+            <img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_lookup.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+          <div class="hook" id="hook${sfx}"><span class="ln">EVERY GROUP</span><span class="ln">HAS <span class="w">THIS</span></span><span class="ln">FRIEND</span></div>
+          <div class="ban" id="ban${sfx}"><div class="ic">${BUBBLE}</div><div class="t">Max · The boat</div><div class="n">now</div>
+            <div class="m">${BAN_WORDS.map((w) => `<span>${w}</span>`).join(" ")}</div></div>`;
+      }
+      frame0($("#brF0"), "0"); frame0($("#brLoop"), "L");
+
+      // opening: the banner is the caption (each word lights up as Bram says it), the camera breathes in
+      tl.fromTo("#brF0", { scale: 1.0, x: 0, y: 0 }, { scale: 1.025, x: -6, y: 4, duration: {{S1-0.34}}, ease: "sine.inOut" }, 0);
+      const BW = [{{h05.w1}}, {{h05.w2}}, {{h05.w3}}, {{h05.w4}}, {{h05.w5}}, {{h05.w6}}];
+      document.querySelectorAll("#ban0 .m span").forEach((s, i) => {
+        tl.set(s, { backgroundColor: "rgba(255,210,63,0)" }, 0);
+        tl.fromTo(s, { backgroundColor: "rgba(255,210,63,0)" }, { backgroundColor: "rgba(255,210,63,.95)", duration: .08, immediateRender: false }, BW[i] - .03);
+        if (i < 5) tl.to(s, { backgroundColor: "rgba(255,210,63,.32)", duration: .2 }, BW[i + 1] - .03);
+      });
+      tl.fromTo("#ban0", { scale: 1 }, { keyframes: [{ scale: 1.03, duration: .08 }, { scale: 1, duration: .4, ease: "elastic.out(1, .45)" }], transformOrigin: "50% 50%", immediateRender: false }, {{h05.w4-0.03}});
+      tl.fromTo("#hook0 .w", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .08 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 60%", immediateRender: false }, {{h05.w4-0.03}});
+      // the fish looks up at the banner on "dollars." and back at Leo on "it."; Leo blinks before "Just"
+      swap("#fish0", 1, {{h05.w3}}); swap("#fish0", 0, {{h05.w6}});
+      blink("#leo0", 0, 1, {{h05.w3.end+0.08}}, .13);
+
+      /* ---------------- the chat (EP003 ChatPhone: our own UI) */
+      const MEM = {
+        Q: { name: "Quest", color: "#a8241c", img: ["assets/quest_wave.png", ...ART.sizes["quest_wave.png"], 318, 170, 300] },
+        P: { name: "Pixie", color: "#0b5a60", img: ["assets/pixie_wave.png", ...ART.sizes["pixie_wave.png"], 320, 168, 280] },
+        A: { name: "Max", color: "#5a3fa6", img: ["assets/max_av.png", ...ART.sizes["max_av.png"], ART.sizes["max_av.png"][0] / 2, 108, 210] },
+        B: { name: "Leo", color: "#7a4f00", img: ["assets/leo_av.png", ...ART.sizes["leo_av.png"], ART.sizes["leo_av.png"][0] / 2, 118, 210] },
+      };
+      const chat = ChatPhone($("#phoneRig"), { title: "The boat", sub: "Quest, Pixie, Max, Leo", clock: "11:42", me: "Q", w: 360, h: 560,
+        members: Object.fromEntries(Object.entries(MEM).map(([k, m]) => [k, { name: m.name, color: m.color, avatar: ChatPhone.avImg(...m.img) }])) });
+      chat.system("Today 11:41 PM", { visible: true });
+      const mA = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 });
+      const dP = chat.typing("P"), sP = chat.sticker("P", "Bought.", { rot: -4 });
+      const sQ = chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM", name: true });
+      const dA = chat.typing("A"), sA = chat.sticker("A", "Bought.", { rot: -3 });
+      const dB = chat.typing("B"), mB = chat.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 });
+      document.querySelectorAll("#phoneRig .ch-name, #phoneRig .ch-typer").forEach((e) => { const m = Object.values(MEM).find((x) => e.textContent.startsWith(x.name)); if (m) e.style.color = m.color; });
+      document.querySelectorAll("#phoneRig .ch-input").forEach((e) => { e.style.color = "rgba(22, 22, 31, .62)"; });
+      document.querySelectorAll("#phoneRig .ch-av").forEach((e) => e.setAttribute("data-critic-ignore", "1"));   // phone UI avatars, not acting characters
+      document.querySelectorAll("#phoneRig .ch-list").forEach((e) => e.setAttribute("data-layout-ignore", "1")); // rows slide under the header by design
+      const C0 = {{S1-0.34}};
+      tl.set(mA.el, { maxHeight: mA.h, opacity: 1 }, C0);                     // Max's message is already there (it was the banner)
+      tl.set("#phoneRig", { transformPerspective: 1600 }, 0);
+      tl.fromTo("#phoneRig", { rotationY: -70, scale: 2.4 * 1.04 }, { rotationY: 0, scale: 2.4, duration: .36, ease: "back.out(1.4)", immediateRender: false }, C0);
+      tl.fromTo("#brChat", { scale: 1, x: 0, y: 0 }, { scale: 1.03, x: 5, y: -6, duration: {{h07.w10-0.14}} - C0, ease: "sine.inOut", immediateRender: false }, C0);
+      chat.dots(tl, dP, C0 + .12, {{h06.w1-0.02}});
+      chat.show(tl, sP, {{h06.w1-0.02}}, .26);
+      chat.show(tl, sQ, {{h06.w2-0.02}}, .26);
+      chat.dots(tl, dA, {{h06.w2.end+0.12}}, {{h06.w3-0.02}});
+      chat.show(tl, sA, {{h06.w3-0.02}}, .26);
+      chat.read(tl, sQ, {{h06.w3+0.3}});
+      const kick = (at, sc, rot) => tl.fromTo("#kickChat", { scale: 1, rotation: 0 }, { keyframes: [{ scale: sc, rotation: rot, duration: .06, ease: "power3.out" }, { scale: 1, rotation: 0, duration: .55, ease: "elastic.out(1.1, .38)" }], transformOrigin: "50% 55%", immediateRender: false }, at);
+      [[sP, {{h06.w1}}, 1.03, 1.5], [sQ, {{h06.w2}}, 1.05, -2], [sA, {{h06.w3}}, 1.075, 2.5]].forEach(([st, t, k, rot], i) => {
+        tl.fromTo(st.bub, { scale: 1.9 }, { scale: 1, rotation: st.rot, duration: .2, ease: "power4.in", immediateRender: false }, t - .04);
+        kick(t + .16, k, rot);
+        flash(t + .16, .06 + i * .04, .14);
+      });
+      // "And one friend who says": Leo is typing... (a long time); "I'll get it later." types word by word (the chat is the caption)
+      chat.dots(tl, dB, {{h07.w2}}, {{h07.w6-0.3}});
+      chat.typeWords(tl, mB, [{{h07.w6}}, {{h07.w7}}, {{h07.w8}}, {{h07.w9}}]);
+      tl.fromTo(mB.bub, { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], immediateRender: false }, {{h07.w9.end}});
+
+      /* ---------------- 4 · Leo sweats; the fish turns to camera on "not", one slow blink on "later." */
+      const T4 = {{h07.w10-0.14}};
+      tl.fromTo("#brSweat", { scale: 1.0, x: 0, y: 0 }, { scale: 1.045, x: 4, y: -10, duration: {{h08-0.25}} - T4, ease: "sine.inOut", immediateRender: false }, T4);
+      swap("#fishS", 1, {{h07.w12}});
+      tl.fromTo("#fishS", { rotation: -3 }, { keyframes: [{ rotation: 2, duration: .1 }, { rotation: -3, duration: .3, ease: "back.out(2)" }], immediateRender: false }, {{h07.w12}});
+      swap("#fishS", 2, {{h07.w15}}); swap("#fishS", 1, {{h07.w15+0.55}});
+      blink("#leoS", 0, 1, {{h07.w11}}, .12);
+
+      /* ---------------- 5 · the wide: pull back from Leo to the whole boat ("the same boat") */
+      const BF_K = 620 / 1452, BF_TOP = 9 - 216 * 620 / 1452, BF_H = 535 * 620 / 1452;
+      [["#bfMax", "max"], ["#bfLeo", "leo"]].forEach(([sel, who]) => {
+        ["sideeye", "sideeye_blink"].forEach((e, i) => { const im = mk("img", i ? "" : "on", $(sel), `left: ${80 + 150 * BF_K}px; top: ${300 + BF_TOP}px; width: ${620 * 1453 / 1452}px; height: ${BF_H}px`);
+          im.src = `assets/boat_${who}_${e}.png`; im.alt = ""; }); });
+      const T5 = {{h08-0.25}};
+      const LEO_X = 28 + 1.65 * 527, LEO_Y = 1130 + 1.65 * -70, Z = 1.7;
+      tl.fromTo("#wideCam", { scale: Z, x: 540 - Z * LEO_X, y: 900 - Z * LEO_Y }, { scale: 1, x: 0, y: 0, duration: {{h08.w8}} - T5, ease: "power2.inOut", immediateRender: false }, T5);
+      tl.fromTo("#brWide", { scale: 1.0 }, { scale: 1.025, x: -6, y: 4, duration: {{VEND+0.3}} - T5, ease: "sine.inOut", immediateRender: false }, T5);
+      blink("#bfMax", 0, 1, {{h08.w10}}, .12); blink("#bfLeo", 0, 1, {{h08.w14}}, .12); blink("#fishW", 0, 1, {{h08.w5}}, .14);
+
+      /* ---------------- 6 · end card */
+      const T6 = {{VEND+0.3}};
+      tl.fromTo("#cA", { yPercent: 110 }, { yPercent: 0, duration: .3, ease: "power3.out" }, T6 + .08);
+      tl.fromTo("#cB", { yPercent: 110 }, { yPercent: 0, duration: .34, ease: "back.out(1.6)" }, T6 + .26);
+      tl.fromTo("#scrawl", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, rotation: -3, duration: .3, ease: "back.out(2)" }, T6 + .75);
+      tl.fromTo("#wm", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .35, ease: "power2.out" }, T6 + .95);
+      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .3, ease: "power2.out" }, T6 + 1.05);
+      // the fish drops onto the gold bar (anticipation from above, squash on contact, settle) and stays there deadpan
+      tl.fromTo("#fishC", { y: -1150, opacity: 1 }, { y: 0, duration: .3, ease: "power2.in" }, T6 + 1.0);
+      tl.fromTo("#fishC", { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .72, scaleX: 1.18, duration: .06 }, { scaleY: 1.06, scaleX: .96, duration: .12 }, { scaleY: 1, scaleX: 1, duration: .2, ease: "power2.out" }], transformOrigin: "50% 100%", immediateRender: false }, T6 + 1.3);
+      tl.fromTo("#wmBar", { scaleY: 1 }, { keyframes: [{ scaleY: .5, duration: .06 }, { scaleY: 1, duration: .3, ease: "elastic.out(1, .4)" }], immediateRender: false }, T6 + 1.3);
+      blink("#fishC", 0, 1, T6 + 2.4, .45);
+      tl.fromTo("#fullEp", { opacity: 0 }, { opacity: 1, duration: .25 }, T6 + 1.6);
+      tl.fromTo("#fullEp", { y: 0 }, { y: 10, duration: .35, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, T6 + 1.9);
+
+      /* ---------------- 7 · loop seam: settles exactly into frame 0 at DUR */
+      const T7 = DUR - 1.0;
+      tl.fromTo("#brLoop", { scale: 1.035, x: 6, y: -4 }, { scale: 1.0, x: 0, y: 0, duration: 1.0, ease: "power2.out", immediateRender: false }, T7);
+      tl.fromTo("#banL", { y: -320 }, { y: 0, duration: .32, ease: "back.out(1.3)", immediateRender: false }, T7 + .12);
+      tl.set("#banL", { y: -320 }, 0);
+      const HL = document.querySelectorAll("#hookL .ln");
+      HL.forEach((l, i) => { tl.set(l, { opacity: 0 }, 0);
+        tl.fromTo(l, { opacity: 0, scale: 1.45 }, { opacity: 1, scale: 1, duration: .12, ease: "power3.in", immediateRender: false, transformOrigin: "50% 50%" }, T7 + .5 + i * .1); });
+      swap("#fishL", 1, T7 + .15); swap("#fishL", 0, T7 + .6);           // the fish looks up at the buzz, then back: at rest = frame 0
+
+      /* ---------------- captions (only "He will not get it later." and h08) */
+      const CAPEL = CAPS.map((c) => { const d = mk("div", "cap", $("#caps"), `top: ${c.top}px`);
+        const spans = c.w.map(([w], i) => { if (i) d.appendChild(document.createTextNode(" ")); const s = mk("span", "", d); s.textContent = w; return s; });
+        return { d, spans, c, on: false }; });
+      function drawCaps(t) {
+        CAPEL.forEach((E) => { const c = E.c, on = t >= c.a && t < c.e;
+          if (on !== E.on) { E.d.style.visibility = on ? "visible" : "hidden"; E.on = on; }
+          if (!on) return;
+          const k = Math.min(1, (t - c.a) / .14), e = 1 - Math.pow(1 - k, 3);
+          E.d.style.transform = `translateY(${10 * (1 - e)}px) scale(${.94 + .06 * e})`;
+          let cur = -1; c.w.forEach(([w, a], i) => { if (t >= a - .03) cur = i; });
+          E.spans.forEach((sp, i) => { sp.style.color = i === cur ? "#ffd23f" : "#ffffff"; }); });
+      }
+      // idle life: the in-boat crew and the close-ups breathe a little (never a fake walk)
+      const IDLE = ["#leo0", "#leoS", "#bfMax", "#bfLeo", "#pixie", "#quest"].map((s, i) => [$(s), 1.6 + .21 * i, i * 1.3]);
+      IDLE.push([$("#leoL"), 1.6, -DUR * 1.6]);                             // at DUR the loop's Leo is exactly frame 0's Leo at 0
+      function drawIdle(t) { for (const [e, f, ph] of IDLE) { const k = Math.sin(t * f + ph); e.style.transformOrigin = "50% 100%";
+        e.style.transform = `scale(${1 - .003 * k}, ${1 + .008 * k})`; } }
+      const env = { t: 0 };
+      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { drawCaps(env.t); drawIdle(env.t); } }, 0);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
