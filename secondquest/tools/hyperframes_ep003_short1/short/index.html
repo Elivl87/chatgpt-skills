@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=720, height=1280" />
+    <meta name="viewport" content="width=1080, height=1920" />
     <title>EP003 Short 1 The friend who never buys it</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
@@ -14,9 +14,9 @@
       @font-face { font-family: "Caveat"; src: url("assets/fonts/Caveat-700-latin.woff2") format("woff2"); font-weight: 700; }
       :root { --gold: #ffd23f; --ink: #16121f; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 720px; height: 1280px; overflow: hidden; background: #16121f; }
-      #root { position: relative; width: 720px; height: 1280px; overflow: hidden; font-family: "Inter", sans-serif; }
-      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(0.6666666666666666); transform-origin: 0 0; overflow: hidden; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #16121f; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(1.0); transform-origin: 0 0; overflow: hidden; }
       .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
       .abs { position: absolute; }
       .shot { overflow: hidden; background: #16121f; }
@@ -72,7 +72,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="20.0" data-fps="30" data-width="720" data-height="1280">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20.0" data-fps="30" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="20.0" data-track-index="30" data-volume="1"></audio>
       <div id="stage">
       <div id="shake" class="full">
@@ -115,7 +115,7 @@
             </div>
             <div id="rod"><img src="assets/rod.png" alt="" style="width: 100%; height: 100%" /></div>
             <img class="boatimg" src="assets/rowboat_front_tall.png" alt="" style="top: -83.2px; height: 228.4px" />
-            <div class="stack flipx" id="fishW" style="left: 612px; top: -2px; width: 32px; height: 24px"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+            <div class="stack flipx" id="fishW" style="left: 557px; top: 15px; width: 32px; height: 24px; transform: rotate(-12deg); transform-origin: 50% 100%"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
           </div>
         </div></div>
       </div>
@@ -491,7 +491,7 @@
       // "And one friend who says": Leo is typing... (a long time); "I'll get it later." types word by word (the chat is the caption)
       chat.dots(tl, dB, 6.16, 7.32);
       kick(6.4, 1.025, 0);                                             // "friend": a small push onto Leo's typing row
-      tl.fromTo(dB.bub, { scale: 1 }, { keyframes: [{ scale: 1.18, duration: .08 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], transformOrigin: "0% 100%", immediateRender: false }, 6.66);
+      tl.fromTo(dB.bub, { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .08 }, { scale: 1, duration: .4, ease: "elastic.out(1, .4)" }], transformOrigin: "0% 0%", immediateRender: false }, 6.66);
       chat.typeWords(tl, mB, [7.62, 7.76, 7.86, 8.0]);
       tl.fromTo(mB.bub, { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], immediateRender: false }, 8.24);
 
@@ -522,7 +522,7 @@
 
       /* ---------------- 6 · end card */
       const T6 = 16.4;
-      tl.fromTo("#cA", { opacity: 0 }, { opacity: 1, duration: .16, ease: "power2.out" }, T6 + .05);
+      tl.fromTo("#cA", { opacity: 0 }, { opacity: 1, duration: .1, ease: "power2.out" }, T6);   // text on the cut (critic v2)
       tl.fromTo("#cB", { opacity: 0 }, { opacity: 1, duration: .16, ease: "power2.out" }, T6 + .18);
       tl.fromTo("#cC", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .2, ease: "back.out(2)", transformOrigin: "50% 50%" }, T6 + .32);   // LATER pops in (grows, never over the line above)
       tl.fromTo("#wm", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .3, ease: "power2.out" }, T6 + .55);

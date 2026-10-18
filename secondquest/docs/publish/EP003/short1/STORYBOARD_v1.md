@@ -30,3 +30,15 @@ seated in the boat in beat 5.
 
 Open question for the Producer (design copy, not script): beat 6 "TAG YOUR LEO / (he'll watch it later)". Alternative:
 "TAG THE FRIEND WHO'LL GET IT LATER".
+
+## As built: v2 (2026-10-18, after critic round 1; both critics' fixes applied)
+
+20.0 s. Frame 0 / seam: Leo's **sweat** face (stronger emotion), two-line banner at 60 px (readable at feed size),
+hook text 140 px. Beat 4 ("He will not get it later."): Leo's side-eye + a 1 s hold. Beat 5 (h08, placed at 12.05 s):
+all four framed with a slow push on "Getting a few adults" → pull back to the wide by "boat" → hard cut to a punch-in
+on Leo's sweat face + the fish on "is harder than anything in the game.". End card 2.6 s: **TAG THE FRIEND / WHO'LL GET
+IT / LATER** (the name Leo is never spoken), the fish lands on the wordmark's "Q"; the outdoor bed runs through card
+and seam. Seam: the banner lands on the last frames; the replay's opening ping is its only sound (no buzz). Captions sit
+in the sky strip (y 250–300), clear of faces. SFX: 5 onsets (15/min). Critics: CRITIC_v1_*, CRITIC_v2_* (retention v2
+PASS; design v2 FIX → fish on the gunwale + typing pulse fixed and verified on frames, gates PASS).
+Not applied (Producer's call): the retention critic's line reorder (h08 before h07, so the laugh lands last).
