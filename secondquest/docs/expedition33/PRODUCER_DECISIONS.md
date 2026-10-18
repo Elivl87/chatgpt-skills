@@ -45,3 +45,12 @@
   `scripts/A_v2_3_ES_review.md`; the dub script is finalised after the official in-game ES terms are copied.
 - Next (paused while EP003 has priority): Bram EN quote (~24 credits at ~3.3/1,000 chars; balance 9.25), rights
   permission request to Sandfall/Kepler, Resonance → shot plan, thumbnail (Quest version).
+
+## 2026-10-18 · Script rebuild (viewer essence)
+- Producer: "Tienes razón el guión habla del juego, y debería tener la esencia de SecondQuest, que hable más del
+  espectador... Yo haría reconstrucción total del guión." v2.3 lock is suspended pending the rebuild.
+- Claude: full rebuild `scripts/A_v3_1_EN.txt` (v3.0 + independent review fixes; verdict FIX → applied) + ES review
+  `scripts/A_v3_1_ES_review.md`. Thesis: a safe rehearsal for grief (age 33 as the viewer mirror; "Now it's a button";
+  Gustave's third way: passing it on). Awaiting the Producer's approval to LOCK. New rule: viewer-essence check before
+  any lock (CLAUDE.md, VOICE.md §8).
+- No rights request (Producer, 2026-10-18).
