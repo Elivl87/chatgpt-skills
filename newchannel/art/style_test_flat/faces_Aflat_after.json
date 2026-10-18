@@ -1,0 +1,18 @@
+{
+ "block": "Aflat",
+ "tag": "after",
+ "samples": 17,
+ "faces": 34,
+ "eyes": {
+  "pass": 36,
+  "fail": 0,
+  "closed": 0,
+  "covered": 0,
+  "fading": 0,
+  "tiny": 32,
+  "offframe": 0
+ },
+ "failures": 0,
+ "fail_list": [],
+ "framing_warnings": []
+}
