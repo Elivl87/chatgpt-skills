@@ -54,3 +54,7 @@
   Gustave's third way: passing it on). Awaiting the Producer's approval to LOCK. New rule: viewer-essence check before
   any lock (CLAUDE.md, VOICE.md §8).
 - No rights request (Producer, 2026-10-18).
+
+## 2026-10-18 · Placeholder voice
+- Producer: "De momento elijo A, como backup gratis de Bram" → Kokoro am_fenrir @0.94 + EQ toward Bram + 1 st (the
+  EP003 chain). Female Kokoro samples sent on request (`voice_test/r3_mujer_*.mp3`), for his ear only.
