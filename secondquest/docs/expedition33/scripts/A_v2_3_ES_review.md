@@ -12,24 +12,17 @@ ES-419 se hace desde el guion EN bloqueado y pasa la revisión de naturalidad.
 - Se elimina el dato fijo de “30 horas”, se equilibra la formulación Maelle/Verso y se corrige el “último minuto” del hook por una despedida sin duración inventada.
 - Se recorta exposición que no empuja la tesis (origen de Esquie en el bloque de Aline) y se mantiene el resto de callbacks emocionales.
 
-## Nombres oficiales
-- **Verificados** (ficha de PlayStation es-MX): **la Pintora**, **el monolito**, **Expedición 33**, **Lumière**. El
-  título del juego se mantiene: *Clair Obscur: Expedition 33*.
-- Los nombres propios no se traducen: Gustave, Sophie, Emma, Lune, Sciel, Monoco, Esquie, Maelle, Verso, Renoir, Aline,
-  Alicia, Dessendre.
-- "Canvas" y "Curator" se evitan, igual que en el EN.
-
-## Términos oficiales SIN VERIFICAR. Copiarlos del juego en Español (Latinoamérica) antes de bloquear
-| Término | Aquí usamos | Riesgo | Nota |
-|---|---|---|---|
-| **"Tomorrow comes"** (¶14, ¶83 y título del bloque J) | “El mañana llega” | **EL MÁS ALTO** | Es el título del bloque y una frase que se repite. Alternativas: “Mañana llegará” o “El mañana siempre llega”. No se encontró ninguna fuente. |
-| Lema "For those who come after" (¶27, ¶89) | “Por los que vendrán después” | Alto | Solo aparece en cobertura ES-ES y R5 no encontró una cita literal en la web. El ES-419 podría decir “Por quienes vendrán después”. Si cambia, cambia en ¶27, ¶32 y ¶89 a la vez. **En pantalla el lema queda en inglés.** |
-| Últimas palabras de Gustave (¶32) | “…¿no?” | Medio | Podría ser “¿verdad?”. |
-| Juramento (¶21, ¶35) | “Cuando uno cae, seguimos.” / “No *si*. *Cuando*.” | Medio | El juego podría decir “continuamos”, que además calzaría con ¶36. |
-| "Gommage" | el Gommage (masculino) | Medio | No sabemos si el juego lo trata como masculino o femenino. |
-| Línea de Renoir (¶54) | “Por el bien de los vivos, debemos separarnos de los muertos.” | Medio | Traducción nuestra. |
-| Esquie (“el Arte... de la Siesta”, la roca, “Discutible”), Sophie, Maelle, Verso | traducciones nuestras | Medio | Todas marcadas con “textualmente” o entre comillas. Hay que copiarlas del juego. |
-| "quest" (¶91) | quest | — | Es el cierre de marca del canal (como EP003 l52). Se queda. |
+## Términos oficiales (aplicados 2026-10-18; detalle y fuentes en `../OFFICIAL_ES_TERMS.md`)
+- **Oficiales** (PlayStation Store es-MX): **la Pintora**, **el monolito** (el "tower" del EN se dice *monolito* en ES:
+  ¶02, ¶42, ¶55 y el capítulo 3:56), **Expedición 33**, **Gommage**, **Lumière**, **los Gestrals**, **Nevrons**. El
+  título del juego no se traduce. Los nombres propios no se traducen.
+- **Confianza media** (comunidad hispana): juramento **“Cuando uno cae, seguimos.”** (el juego muestra "Seguimos" tras
+  cada combate); lema **“Por aquellos que vendrán después.”** (¶27, ¶32, ¶89 y capítulo final, cambiados juntos).
+  En pantalla el lema sigue **en inglés**.
+- **Traducción nuestra, sin fuente** (pendiente de captura del juego en Español Latinoamérica): “El mañana llega”
+  (¶14, ¶83, bloque J), “…¿verdad?” (¶32, antes “¿no?”), Renoir ¶54, Esquie (“el Arte... de la Siesta”, la roca,
+  “Discutible”), Sophie ¶13, el anciano ¶33, Maelle ¶62, Verso ¶64, y el género de *el Gommage*.
+- "quest" (¶91) se queda: es el cierre de marca del canal.
 
 ## Empaque
 - Título EN (recomendado): *Expedition 33: Why Millions Love a Game About Losing Everyone*
@@ -38,8 +31,8 @@ ES-419 se hace desde el guion EN bloqueado y pasa la revisión de naturalidad.
 - Miniatura (solo la versión de Quest): ONE LAST GOODBYE → **UNA ÚLTIMA DESPEDIDA**. Se reemplaza “ONE LAST MINUTE” porque la escena no establece literalmente un minuto exacto.
 - Descripción, línea 2 (timestamp provisional; recalcular tras la lectura final): “⚠️ Spoilers completos de Clair Obscur: Expedition 33, incluidos los dos finales.”
 - Capítulos (sin spoilers; **tiempos de v2.1, NO usar todavía**; volver a medirlos con la lectura real de v2.2): 0:00 Una
-  última despedida · 0:40 Lumière · 1:25 El diario · 2:32 El acantilado · 3:56 La torre · 4:40 Quién pinta · 5:59 Dos
-  argumentos · 6:48 La elección · 7:48 El mañana llega · 8:41 Por los que vendrán después.
+  última despedida · 0:40 Lumière · 1:25 El diario · 2:32 El acantilado · 3:56 El monolito · 4:40 Quién pinta · 5:59 Dos
+  argumentos · 6:48 La elección · 7:48 El mañana llega · 8:41 Por aquellos que vendrán después.
 
 ## Narración (EN → ES-419)
 Palabras de narración recalculadas en v2.2: EN ~1354 · ES ~1402. El
@@ -53,7 +46,7 @@ son las del EN.
 ES: Este hombre tiene una última despedida con la mujer que ama.
 
 **¶02** EN: Because a giant woman is about to paint thirty-three on that tower.  
-ES: Porque una mujer gigante está a punto de pintar el treinta y tres en esa torre.
+ES: Porque una mujer gigante está a punto de pintar el treinta y tres en ese monolito.
 
 **¶03** EN: And everyone thirty-three or older... turns to petals.  
 ES: Y todos los que tienen treinta y tres o más... se convierten en pétalos.
@@ -135,7 +128,7 @@ ES: De noche, Gustave escribe en su diario. Los monstruos. La belleza de todo. E
 ES: Y siempre lo firma igual.
 
 **¶27** EN: "For those who come after."  
-ES: “Por los que vendrán después.”
+ES: “Por aquellos que vendrán después.”
 
 **¶28** EN: That's what it means at the start. Not "we'll win." Something quieter. I don't need to live forever for my life to matter.  
 ES: Eso es lo que significa al principio. No “vamos a ganar.” Algo más modesto. No necesito vivir para siempre para que mi vida importe.
@@ -150,7 +143,7 @@ ES: Y un anciano de pelo blanco no deja de interponerse en su camino.
 ES: Al final del primer acto, los alcanza en un acantilado. Gustave se pone delante de Maelle, la chica que él y su hermana Emma acogieron... y ya no se levanta.
 
 **¶32** EN: His last words are to her. And they're a question. "For those who come after, right?"  
-ES: Sus últimas palabras son para ella. Y son una pregunta. “Por los que vendrán después, ¿no?”
+ES: Sus últimas palabras son para ella. Y son una pregunta. “Por aquellos que vendrán después, ¿verdad?”
 
 **¶33** EN: And the old man says something that makes no sense yet. "You won't yet understand. But this is a kindness, not a cruelty."  
 ES: Y el anciano dice algo que todavía no tiene sentido. “Aún no lo entenderás. Pero esto es un acto de bondad, no de crueldad.”
@@ -183,7 +176,7 @@ ES: Y todavía hay vida. En el campamento, Verso confiesa que estudió piano. Ma
 ### E · La misión funciona · pasos 4 → 6 (el giro)
 
 **¶42** EN: So you push on. Up the tower. The old man is guarding the Paintress. You beat him. You beat her.  
-ES: Así que sigues adelante. Subes la torre. El anciano protege a la Pintora. Lo vences. La vences.
+ES: Así que sigues adelante. Subes al monolito. El anciano protege a la Pintora. Lo vences. La vences.
 
 **¶43** EN: The mission Gustave died for... worked.  
 ES: La misión por la que Gustave murió... funcionó.
@@ -228,7 +221,7 @@ ES: Vuelve a esa pelea ahora. No peleabas contra un monstruo. Peleabas contra un
 ES: Y el padre de verdad, Renoir, entró para llevarla a casa. En sus palabras: “Por el bien de los vivos, debemos separarnos de los muertos.” Así que borra. Y cada año, ella lo frena un poco menos.
 
 **¶55** EN: That's the number on the tower. That's Sophie at the harbor.  
-ES: Ese es el número de la torre. Esa es Sophie en el puerto.
+ES: Ese es el número del monolito. Esa es Sophie en el puerto.
 
 **¶57** EN: To save the family he still had, he was destroying what was left of the son he lost.  
 ES: Para salvar a la familia que todavía tenía, estaba destruyendo lo que quedaba del hijo que perdió.
@@ -336,7 +329,7 @@ ES: Porque nunca se trató de perderlos. Se trata de la mañana siguiente.
 ES: Un hombre se despidió por última vez en un puerto. Sus últimas palabras fueron una pregunta, dirigida a una chica que tenía que seguir sin él.
 
 **¶89** EN: For those who come after.  
-ES: Por los que vendrán después.
+ES: Por aquellos que vendrán después.
 > Antes: 2.5 s de silencio total. **Bram: entonación descendente, final; es una afirmación (la respuesta a ¶32).** Después: 1.5 s en seco.
 
 **¶90** EN: So which ending did you choose? And what did you think you were saving? What game deserves a "why?" next? Tell me in the comments.  
