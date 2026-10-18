@@ -58,3 +58,9 @@
 ## 2026-10-18 · Placeholder voice
 - Producer: "De momento elijo A, como backup gratis de Bram" → Kokoro am_fenrir @0.94 + EQ toward Bram + 1 st (the
   EP003 chain). Female Kokoro samples sent on request (`voice_test/r3_mujer_*.mp3`), for his ear only.
+
+## 2026-10-18 · Voice roles
+- Producer: "Bram, Fenrir de backup, y Heart de backup o para colocar las voces de mujeres." → Narrator: Bram (paid);
+  free backup/placeholder: Kokoro am_fenrir chain (A); Kokoro af_heart for female character quotes (Sophie, Lune,
+  Maelle) and as a female backup. To test later in the animatic. He does not rule out a female voice in the future
+  (Quest & Pixie).

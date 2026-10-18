@@ -18,6 +18,8 @@
 - **Final renders:** never render one without the Producer's explicit approval.
 - **Voice approval (Producer, 2026-10-12):** any new narration voice (placeholder or Bram) is sent as A/B samples first;
   no video is rendered with it until the Producer approves it.
+- **Voice roles (Producer, 2026-10-18):** narrator = Bram; free backup/placeholder = Kokoro am_fenrir (EP003 chain:
+  0.94, EQ toward Bram, +1 st); Kokoro af_heart = female character quotes and female backup (to test in the animatic).
 - **Sounds are always free (Producer rule, 2026-10-03):** engine synths, CC0 libraries (licence file next to them, listed in `public/shared/sfx/SOURCES.md`) or our own recordings.
   - Never spend credits or money on sounds.
   - **No repetitive sounds (Producer, 2026-10-14):** pick from the full catalog (`public/shared/sfx/CATALOG.json`)
