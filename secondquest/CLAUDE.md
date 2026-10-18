@@ -145,3 +145,6 @@
   - **Renders stay out of git until verified:** `scene_cache.py` writes blocks to `tools/hyperframes_ep003/renders/blocks/`
     (ignored); only the verified deliverable is copied/committed, once per round. Delivered masters go to Releases.
   - Read big files with targeted greps/line ranges, not whole; contact sheets of frames instead of many single frames.
+- **Every text has a source (Producer, 2026-10-18, a repeated error in every episode and Short):** speech bubbles only
+  from a visible speaker with the tail on them (no name header); chat messages only inside a phone or as a notification
+  banner from the top; never a chat card floating in a scene. Rubric §4b; the critic checks every bubble/message for it.

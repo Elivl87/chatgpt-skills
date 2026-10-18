@@ -41,6 +41,16 @@ script that checks it; everything else is checked by eye on full-size frames (ne
   object; consistent scale across shots; lit like the scene (CLAUDE.md "Every element sits right").
 - Costume changes keep identity (CLAUDE.md). Expression matches the line being said.
 
+## 4b. Every text has a source (Producer, 2026-10-18: "se ha repetido en todos los episodios y shorts")
+Before any text appears, answer "who says/writes this, and where?". Exactly one of:
+- **Speech bubble** (comic): only from a character VISIBLE in the shot, tail ending on that character's mouth/head, no
+  name header, no timestamp. Speaker not in the shot → it is not a speech bubble.
+- **Chat message** (name header, timestamp, rounded card, ticks): only INSIDE a phone, or as a phone NOTIFICATION
+  banner that drops from the top edge ("The boat · Leo: …"). Never a chat card floating in a scene like a speech bubble.
+- **Narration label / title / stamp**: the narrator's voice; never styled like a message or a bubble.
+Fail examples: EP003 0:28 "Leo / I'll get it later." chat card over the lake with its tail on the empty bow while Leo
+is not in the boat; loose "Bought." chips with no phone (EP003 G, fixed in v3.4).
+
 ## 5. Art choice fits the beat
 - For every beat the storyboard names the art and **why it is the best available for this exact moment** (era, time
   of day, mood, who is speaking, what the line says). "It was in the library" is not a reason.
