@@ -1230,7 +1230,7 @@ const fish2 = () => {
   const bel = new THREE.Shape(); bel.moveTo(4, 0); bel.quadraticCurveTo(-2, -7, -9, -6); bel.lineTo(-6, 0);
   const b = new THREE.Mesh(ext(bel, 1), finMat); b.position.set(-4, -15, -.5); b.userData.part = 1443; ids.push(b); g.add(b);
   const ex: FishExpr = {};
-  const eyes: { lid: THREE.Mesh; pup: THREE.Mesh; glint: THREE.Mesh; base: THREE.Vector3 }[] = [];
+  const eyes: { lid: THREE.Mesh; pup: THREE.Mesh; glint: THREE.Mesh; base: THREE.Vector3; c: THREE.Vector3 }[] = [];
   for (const sz of [-1, 1]) {
     // side fin (pectoral), behind the gill
     const pec = new THREE.Shape(); pec.moveTo(0, 0); pec.quadraticCurveTo(-5, 6, -12, 4); pec.quadraticCurveTo(-8, 0, -11, -3); pec.quadraticCurveTo(-5, -3, 0, 0);
@@ -1239,11 +1239,11 @@ const fish2 = () => {
     const gill = new THREE.Mesh(new THREE.TorusGeometry(9, .55, 8, 24, Math.PI * .55), toon('#2a6576'));
     gill.position.set(10, -1, sz * 9.6); gill.rotation.set(0, sz > 0 ? 0 : Math.PI, Math.PI * .72); gill.scale.set(1, 1, .3); gill.userData.part = 1445; ids.push(gill); g.add(gill);
     const eye = new THREE.Mesh(new THREE.SphereGeometry(5.6, 24, 16), toon('#fbf8f0')); eye.position.set(15, 5.5, sz * 8.8); eye.userData.part = 1446; ids.push(eye); g.add(eye);
-    const pup = new THREE.Mesh(new THREE.SphereGeometry(2.5, 16, 12), toon('#121216')); pup.userData.part = 1447; ids.push(pup); g.add(pup);
-    const glint = new THREE.Mesh(new THREE.SphereGeometry(.8, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffffff })); glint.userData.part = 1448; ids.push(glint); g.add(glint);
+    const pup = new THREE.Mesh(new THREE.SphereGeometry(5.68, 24, 8, 0, Math.PI * 2, 0, Math.asin(2.5 / 5.6)), toon('#121216')); pup.userData.part = 1447; ids.push(pup); g.add(pup);
+    const glint = new THREE.Mesh(new THREE.SphereGeometry(5.76, 12, 4, 0, Math.PI * 2, 0, Math.asin(.8 / 5.6)), new THREE.MeshBasicMaterial({ color: 0xffffff })); glint.userData.part = 1448; ids.push(glint); g.add(glint);
     const lid = new THREE.Mesh(new THREE.SphereGeometry(6.0, 24, 12, 0, Math.PI * 2, 0, Math.PI * .42), toon('#3f8d9e'));
     lid.position.copy(eye.position); lid.rotation.set(0, 0, -.25); lid.userData.part = 1449; ids.push(lid); g.add(lid);
-    eyes.push({ lid, pup, glint, base: new THREE.Vector3(17.8, 4.4, sz * 12.6) });
+    eyes.push({ lid, pup, glint, base: new THREE.Vector3(17.8, 4.4, sz * 12.6), c: eye.position.clone() });
   }
   // lips
   const lipMat = toon('#c9707a');
@@ -1257,9 +1257,11 @@ const fish2 = () => {
       E.lid.geometry.dispose();
       E.lid.geometry = new THREE.SphereGeometry(6.0, 24, 12, 0, Math.PI * 2, 0, Math.PI * Math.max(.02, Math.min(1, lidK)));
       E.lid.visible = lidK > .03;
-      E.pup.position.set(E.base.x, E.base.y + lu * 1.8, E.base.z);
-      E.pup.position.x += ls * 1.2;
-      E.glint.position.set(E.pup.position.x + .6, E.pup.position.y + 1.1, E.pup.position.z + Math.sign(E.base.z) * 1.9);
+      // pupil and glint as caps concentric with the eyeball (r 5.6), under the lid (r 6.0): they never poke through it
+      const at_ = V(E.base.x + ls * 1.2, E.base.y + lu * 1.8, E.base.z), dir = at_.clone().sub(E.c).normalize();
+      E.pup.position.copy(E.c); E.pup.quaternion.setFromUnitVectors(V(0, 1, 0), dir);
+      const dirG = at_.clone().add(V(.6, 1.1, Math.sign(E.base.z) * 1.9)).sub(E.c).normalize();
+      E.glint.position.copy(E.c); E.glint.quaternion.setFromUnitVectors(V(0, 1, 0), dirG);
       E.pup.visible = E.glint.visible = lidK < .6;                      // past half-closed the lid covers the pupil
     }
     const m = e.mouth ?? 'pout';
@@ -2584,11 +2586,15 @@ const worm = (S: WormSpec) => {
       // goofy: the two pupils never quite agree (one a bit up and out, the other a bit down)
       const gx = (E.sd > 0 ? .16 : -.04) * gf, gy = (E.sd > 0 ? .1 : -.08) * gf;
       const dir = E.n.clone().add(V(0, .1, 0)).normalize().add(V(ls * .75 + gx, lu * .7 + gy, 0)).normalize();
-      E.pup.position.copy(c).addScaledVector(dir, er * .985);
-      E.pup.quaternion.setFromUnitVectors(V(0, 0, 1), dir);
-      E.pup.scale.set(pr, pr, pr * .45);
-      E.glint.position.copy(E.pup.position).add(V(pr * .38, pr * .4, 0)).addScaledVector(dir, pr * .4);
-      E.glint.scale.setScalar(pr / 1.7);
+      // pupil and glint are caps concentric with the eyeball, just above its surface and under the lids (lid er*1.07):
+      // they never stick out through a half-closed lid (Producer, 2026-10-18)
+      E.pup.geometry.dispose(); E.pup.geometry = new THREE.SphereGeometry(er * 1.012, 24, 8, 0, TAU, 0, Math.asin(Math.min(.9, pr / er)));
+      E.pup.position.copy(c); E.pup.scale.setScalar(1);
+      E.pup.quaternion.setFromUnitVectors(V(0, 1, 0), dir);
+      const rg = .2 * pr / 1.7, dirG = dir.clone().multiplyScalar(er).add(V(pr * .38, pr * .4, 0)).normalize();
+      E.glint.geometry.dispose(); E.glint.geometry = new THREE.SphereGeometry(er * 1.024, 12, 4, 0, TAU, 0, Math.asin(Math.min(.9, rg / er)));
+      E.glint.position.copy(c); E.glint.scale.setScalar(1);
+      E.glint.quaternion.setFromUnitVectors(V(0, 1, 0), dirG);
       const lid = f.lid ?? 0, low = f.low ?? 0;
       E.lid.visible = lid > .02; E.low.visible = low > .02;
       E.lid.geometry.dispose(); E.lid.geometry = new THREE.SphereGeometry(er * 1.07, 28, 14, 0, TAU, 0, Math.PI * Math.min(1, Math.max(.02, lid)));
@@ -2671,14 +2677,14 @@ const FACE_MAX: Record<string, FriendFace> = {
   neutral: { lid: .42, look: [0, 0], mouth: 'smile' },
   laugh: { lid: .14, look: [.3, 0], mouth: 'open', nod: -.14, goofy: 1.4 },
   shock: { lid: 0, eye: 1.22, pupil: .5, look: [.05, 0], mouth: 'o', goofy: .4, nod: -.05 },
-  sideeye: { lid: .5, low: .12, look: [-.1, -1.1], mouth: 'flat', goofy: .3 },
+  sideeye: { lid: .5, low: .12, look: [-.75, -1.0], mouth: 'flat', goofy: .3 },
   sweat: { lid: .3, tilt: -.25, look: [-.2, .55], mouth: 'wobble', sweat: true },
 };
 const FACE_LEO: Record<string, FriendFace> = {
   neutral: { lid: .1, look: [.08, 0], mouth: 'grin', goofy: 1.2 },
   laugh: { lid: .12, look: [.35, 0], mouth: 'open', nod: -.16, goofy: 1.6 },
   shock: { lid: 0, eye: 1.22, pupil: .5, look: [.05, 0], mouth: 'o', goofy: .4, nod: -.05 },
-  sideeye: { lid: .5, low: .1, look: [-.1, 1.1], mouth: 'flat', goofy: .3 },
+  sideeye: { lid: .5, low: .1, look: [-.75, 1.0], mouth: 'flat', goofy: .3 },
   sweat: { lid: .22, tilt: -.25, look: [-.2, -.55], mouth: 'wobble', sweat: true },
 };
 /** Max: the tall, lanky, calm one (~1.08x Quest). Tall bald capsule, tan skin, purple long sleeves, mustard-ochre bib
