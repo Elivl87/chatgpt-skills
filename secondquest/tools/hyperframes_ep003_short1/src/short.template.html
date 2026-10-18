@@ -45,12 +45,13 @@
       #phoneHalo { position: absolute; left: 40px; top: 300px; width: 1000px; height: 1000px; border-radius: 50%;
         background: radial-gradient(circle, rgba(255,214,140,.35) 0%, rgba(255,190,120,.12) 40%, rgba(255,190,120,0) 70%); }
       /* the wide: the two-pass rowboat with the crew (EP003 hook geometry, css px of a 620-wide boat) */
-      #boatRig { position: absolute; left: 28px; top: 1130px; width: 620px; height: 145px; transform: scale(1.65); transform-origin: 0 0; }
+      #boatRig { position: absolute; left: 40px; top: 1050px; width: 620px; height: 145px; transform: scale(1.45); transform-origin: 0 0; }
       .boatimg { position: absolute; left: 0; top: 9px; width: 620px; height: 136px; }
       #crewClip { position: absolute; left: -80px; top: -300px; width: 780px; height: 405px; overflow: hidden; }
       .mate { position: absolute; bottom: -95px; width: 200px; height: 290px; }
       .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
         filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .9)) drop-shadow(0 0 10px rgba(255, 170, 110, .25)) brightness(.97) saturate(1.05); }
+      .bf { position: absolute; }
       .bf img { position: absolute; top: 0; height: 100%; opacity: 0; }
       .bf img.on { opacity: 1; }
       #rod { position: absolute; left: 548px; top: -262px; width: 27px; height: 330px; }
@@ -97,8 +98,8 @@
           <img class="full" src="assets/lake_soft.jpg" alt="" style="transform: scale(1.12); transform-origin: 40% 40%" />
           <div class="full shade"></div>
           <div class="stack" id="leoS" data-role="character" style="left: -10px; top: 640px; width: 1100px; height: 3784px"><img class="on" src="assets/leo_sweat.png" alt="" /><img src="assets/leo_sweat_blink.png" alt="" /></div>
-          <img class="abs" src="assets/rowboat_front.png" alt="" style="left: -1700px; top: 1590px; width: 3800px" />
-          <div class="stack flipx" id="fishS" data-role="character" style="left: 690px; top: 1468px; width: 330px; height: 244px; transform: rotate(-3deg)">
+          <img class="abs" src="assets/rowboat_front.png" alt="" style="left: -1700px; top: 1380px; width: 3800px" />
+          <div class="stack flipx" id="fishS" data-role="character" style="left: 690px; top: 1470px; width: 330px; height: 244px; transform: rotate(-3deg)">
             <img class="on" src="assets/fish_lookup.png" alt="" /><img src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
         </div>
       </div>
@@ -130,7 +131,7 @@
         <div id="cardT"><span class="ln"><span class="a" id="cA">TAG YOUR</span></span><span class="ln"><span class="b" id="cB">LEO</span></span></div>
         <div id="scrawl">(he'll watch it later)</div>
         <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
-        <div class="stack" id="fishC" style="left: 470px; top: 1010px; width: 170px; height: 126px"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+        <div class="stack" id="fishC" style="left: 572px; top: 976px; width: 160px; height: 118px"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
         <div id="fullEp">FULL EPISODE ↓</div>
       </div>
 
@@ -242,7 +243,7 @@
         ["sideeye", "sideeye_blink"].forEach((e, i) => { const im = mk("img", i ? "" : "on", $(sel), `left: ${80 + 150 * BF_K}px; top: ${300 + BF_TOP}px; width: ${620 * 1453 / 1452}px; height: ${BF_H}px`);
           im.src = `assets/boat_${who}_${e}.png`; im.alt = ""; }); });
       const T5 = {{h08-0.25}};
-      const LEO_X = 28 + 1.65 * 527, LEO_Y = 1130 + 1.65 * -70, Z = 1.7;
+      const LEO_X = 40 + 1.45 * 527, LEO_Y = 1050 + 1.45 * -70, Z = 1.8;
       tl.fromTo("#wideCam", { scale: Z, x: 540 - Z * LEO_X, y: 900 - Z * LEO_Y }, { scale: 1, x: 0, y: 0, duration: {{h08.w8}} - T5, ease: "power2.inOut", immediateRender: false }, T5);
       tl.fromTo("#brWide", { scale: 1.0 }, { scale: 1.025, x: -6, y: 4, duration: {{VEND+0.3}} - T5, ease: "sine.inOut", immediateRender: false }, T5);
       blink("#bfMax", 0, 1, {{h08.w10}}, .12); blink("#bfLeo", 0, 1, {{h08.w14}}, .12); blink("#fishW", 0, 1, {{h08.w5}}, .14);
@@ -257,7 +258,7 @@
       // the fish drops onto the gold bar (anticipation from above, squash on contact, settle) and stays there deadpan
       tl.fromTo("#fishC", { y: -1150, opacity: 1 }, { y: 0, duration: .3, ease: "power2.in" }, T6 + 1.0);
       tl.fromTo("#fishC", { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .72, scaleX: 1.18, duration: .06 }, { scaleY: 1.06, scaleX: .96, duration: .12 }, { scaleY: 1, scaleX: 1, duration: .2, ease: "power2.out" }], transformOrigin: "50% 100%", immediateRender: false }, T6 + 1.3);
-      tl.fromTo("#wmBar", { scaleY: 1 }, { keyframes: [{ scaleY: .5, duration: .06 }, { scaleY: 1, duration: .3, ease: "elastic.out(1, .4)" }], immediateRender: false }, T6 + 1.3);
+      tl.fromTo("#wm img", { y: 0 }, { keyframes: [{ y: 7, duration: .06 }, { y: 0, duration: .4, ease: "elastic.out(1, .4)" }], immediateRender: false }, T6 + 1.3);   // the wordmark dips under the landing
       blink("#fishC", 0, 1, T6 + 2.4, .45);
       tl.fromTo("#fullEp", { opacity: 0 }, { opacity: 1, duration: .25 }, T6 + 1.6);
       tl.fromTo("#fullEp", { y: 0 }, { y: 10, duration: .35, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, T6 + 1.9);

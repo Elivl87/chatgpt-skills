@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=540, height=960" />
+    <title>EP003 Short 1 The friend who never buys it</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      /* 1080 x 1920. Shorts UI: nothing that matters below y 1520 or right of x 930. Storyboard:
+         docs/publish/EP003/short1/STORYBOARD_v1.md. The last frame IS frame 0 (seamless loop). */
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Caveat"; src: url("assets/fonts/Caveat-700-latin.woff2") format("woff2"); font-weight: 700; }
+      :root { --gold: #ffd23f; --ink: #16121f; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 540px; height: 960px; overflow: hidden; background: #16121f; }
+      #root { position: relative; width: 540px; height: 960px; overflow: hidden; font-family: "Inter", sans-serif; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(0.5); transform-origin: 0 0; overflow: hidden; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .abs { position: absolute; }
+      .shot { overflow: hidden; background: #16121f; }
+      .breath { position: absolute; inset: 0; transform-origin: 50% 45%; }
+      .stack { position: absolute; }
+      .stack img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; opacity: 0; }
+      .stack img.on { opacity: 1; }
+      .flipx img { transform: scaleX(-1); }
+      .shade { background: linear-gradient(180deg, rgba(10,8,20,.55) 0%, rgba(10,8,20,.15) 40%, rgba(10,8,20,0) 60%, rgba(10,8,20,.35) 100%); }
+      /* frame 0 / loop seam: the hook text and the notification banner */
+      .hook { position: absolute; left: 0; width: 1080px; top: 350px; text-align: center; font-family: "Anton", sans-serif; color: var(--gold);
+        font-size: 178px; line-height: .98; letter-spacing: 1px; -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill;
+        text-shadow: 0 10px 0 var(--ink), 0 18px 30px rgba(0,0,0,.5); }
+      .hook .ln { display: block; }
+      .hook .w { color: #fff; }
+      .ban { position: absolute; left: 60px; top: 120px; width: 960px; height: 170px; border-radius: 44px; background: rgba(246,243,236,.97);
+        box-shadow: 0 14px 40px rgba(0,0,0,.45); }
+      .ban .ic { position: absolute; left: 28px; top: 30px; width: 110px; height: 110px; border-radius: 26px; background: #3aa35b; }
+      .ban .ic svg { position: absolute; left: 20px; top: 22px; width: 70px; height: 66px; }
+      .ban .t { position: absolute; left: 162px; top: 30px; font: 800 36px "Inter", sans-serif; color: #16161f; }
+      .ban .n { position: absolute; right: 36px; top: 34px; font: 600 28px "Inter", sans-serif; color: rgba(22,22,31,.62); }
+      .ban .m { position: absolute; left: 162px; top: 84px; font: 600 42px "Inter", sans-serif; color: #16161f; white-space: nowrap; }
+      .ban .m span { display: inline-block; border-radius: 8px; padding: 0 2px; margin: 0 -2px; }
+      /* the chat */
+      #phoneRig { position: absolute; left: 60px; top: 120px; width: 360px; height: 560px; transform: scale(2.4); transform-origin: 0 0; }
+      #phoneHalo { position: absolute; left: 40px; top: 300px; width: 1000px; height: 1000px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,214,140,.35) 0%, rgba(255,190,120,.12) 40%, rgba(255,190,120,0) 70%); }
+      /* the wide: the two-pass rowboat with the crew (EP003 hook geometry, css px of a 620-wide boat) */
+      #boatRig { position: absolute; left: 40px; top: 1050px; width: 620px; height: 145px; transform: scale(1.45); transform-origin: 0 0; }
+      .boatimg { position: absolute; left: 0; top: 9px; width: 620px; height: 136px; }
+      #crewClip { position: absolute; left: -80px; top: -300px; width: 780px; height: 405px; overflow: hidden; }
+      .mate { position: absolute; bottom: -95px; width: 200px; height: 290px; }
+      .mate img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center;
+        filter: drop-shadow(3px -1px 0 rgba(255, 196, 128, .9)) drop-shadow(0 0 10px rgba(255, 170, 110, .25)) brightness(.97) saturate(1.05); }
+      .bf { position: absolute; }
+      .bf img { position: absolute; top: 0; height: 100%; opacity: 0; }
+      .bf img.on { opacity: 1; }
+      #rod { position: absolute; left: 548px; top: -262px; width: 27px; height: 330px; }
+      /* captions: word by word, gold on the current word; only where the words are not already on screen */
+      .cap { position: absolute; left: 90px; width: 840px; text-align: center; font: 800 76px/1.14 "Inter", sans-serif; color: #fff; word-spacing: .1em;
+        -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; text-shadow: 0 7px 0 var(--ink); visibility: hidden; transform-origin: 50% 50%; }
+      .cap span { display: inline-block; }
+      /* end card */
+      #cardT { position: absolute; left: 0; width: 1080px; top: 330px; text-align: center; font-family: "Anton", sans-serif; line-height: .98;
+        -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; text-shadow: 0 10px 0 var(--ink); }
+      #cardT .ln { display: block; overflow: hidden; padding: 4px 20px 16px; margin-bottom: -20px; }
+      #cardT .ln span { display: inline-block; }
+      #cardT .a { font-size: 150px; color: #fff; }
+      #cardT .b { font-size: 250px; color: var(--gold); }
+      #scrawl { position: absolute; left: 0; width: 1080px; top: 805px; text-align: center; font: 700 86px "Caveat", cursive; color: #fff;
+        -webkit-text-stroke: 8px var(--ink); paint-order: stroke fill; transform: rotate(-3deg); }
+      #wm { position: absolute; left: 160px; top: 1070px; width: 760px; height: 190px; }
+      #wm img { position: absolute; left: 0; top: 0; width: 760px; height: 131px; filter: drop-shadow(0 7px 0 #16161f); }
+      #wmBar { position: absolute; left: 130px; top: 156px; width: 500px; height: 14px; background: var(--gold); border-radius: 7px; box-shadow: 0 5px 0 var(--ink); transform-origin: 50% 50%; }
+      #fullEp { position: absolute; left: 0; width: 1080px; top: 1345px; text-align: center; font: 800 44px "Inter", sans-serif; color: #fff;
+        letter-spacing: .08em; -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="20.4" data-fps="30" data-width="540" data-height="960">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="20.4" data-track-index="30" data-volume="1"></audio>
+      <div id="stage">
+      <div id="shake" class="full">
+
+      <!-- ===== 1 · FRAME 0 · h05 "It's eight dollars. Just get it." read off the notification banner ===== -->
+      <div id="shF0" class="full shot clip" data-start="0" data-duration="2.62" data-track-index="1"><div class="breath" id="brF0"></div></div>
+
+      <!-- ===== 2-3 · THE CHAT · h06 "Bought." x3, h07 "And one friend who says "I'll get it later."" ===== -->
+      <div id="shChat" class="full shot clip" data-start="2.62" data-duration="6.23" data-track-index="2">
+        <img class="full" src="assets/lake_soft.jpg" alt="" />
+        <div class="full" style="background: rgba(12,10,24,.6)"></div>
+        <div id="phoneHalo"></div>
+        <div class="breath" id="brChat"><div id="kickChat" class="full"><div id="phoneRig"></div></div></div>
+      </div>
+
+      <!-- ===== 4 · LEO SWEATS · "He will not get it later." + the fish's deadpan and one slow blink ===== -->
+      <div id="shSweat" class="full shot clip" data-start="8.85" data-duration="2.4" data-track-index="3">
+        <div class="breath" id="brSweat">
+          <img class="full" src="assets/lake_soft.jpg" alt="" style="transform: scale(1.12); transform-origin: 40% 40%" />
+          <div class="full shade"></div>
+          <div class="stack" id="leoS" data-role="character" style="left: -10px; top: 640px; width: 1100px; height: 3784px"><img class="on" src="assets/leo_sweat.png" alt="" /><img src="assets/leo_sweat_blink.png" alt="" /></div>
+          <img class="abs" src="assets/rowboat_front.png" alt="" style="left: -1700px; top: 1380px; width: 3800px" />
+          <div class="stack flipx" id="fishS" data-role="character" style="left: 690px; top: 1470px; width: 330px; height: 244px; transform: rotate(-3deg)">
+            <img class="on" src="assets/fish_lookup.png" alt="" /><img src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+        </div>
+      </div>
+
+      <!-- ===== 5 · THE WIDE · h08 "Getting a few adults into the same boat is harder than anything in the game." ===== -->
+      <div id="shWide" class="full shot clip" data-start="11.25" data-duration="4.5" data-track-index="4">
+        <div class="breath" id="brWide"><div id="wideCam" class="full" style="transform-origin: 0 0">
+          <img class="abs" src="assets/lake_vw.jpg" alt="" style="left: -540px; top: 0; width: 2160px; height: 1920px" />
+          <div id="boatRig">
+            <img class="abs" src="assets/rowboat_front.png" alt="" style="left: 0; top: 128px; width: 620px; height: 136px; opacity: .28; transform: scaleY(-1); filter: blur(2px) brightness(.8)" />
+            <img class="boatimg" src="assets/rowboat_back_tall.png" alt="" style="top: -83.2px; height: 228.4px" />
+            <div id="crewClip">
+              <div class="bf" id="bfMax" style="left: 0; top: 0; width: 780px; height: 405px"></div>
+              <div class="bf" id="bfLeo" style="left: 0; top: 0; width: 780px; height: 405px"></div>
+              <div class="mate" id="pixie" style="left: 220px"><img src="assets/pixie_laugh.png" alt="pixie" /></div>
+              <div class="mate" id="quest" style="left: 335px"><img src="assets/quest_laugh.png" alt="quest" /></div>
+            </div>
+            <div id="rod"><img src="assets/rod.png" alt="" style="width: 100%; height: 100%" /></div>
+            <img class="boatimg" src="assets/rowboat_front_tall.png" alt="" style="top: -83.2px; height: 228.4px" />
+            <div class="stack flipx" id="fishW" style="left: 586px; top: -40px; width: 84px; height: 62px"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- ===== 6 · END CARD · TAG YOUR LEO, the wordmark, the fish lands on its gold bar ===== -->
+      <div id="shCard" class="full shot clip" data-start="15.75" data-duration="3.65" data-track-index="5">
+        <img class="full" src="assets/lake_soft.jpg" alt="" />
+        <div class="full" style="background: rgba(12,10,24,.62)"></div>
+        <div id="cardT"><span class="ln"><span class="a" id="cA">TAG YOUR</span></span><span class="ln"><span class="b" id="cB">LEO</span></span></div>
+        <div id="scrawl">(he'll watch it later)</div>
+        <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
+        <div class="stack" id="fishC" style="left: 572px; top: 976px; width: 160px; height: 118px"><img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+        <div id="fullEp">FULL EPISODE ↓</div>
+      </div>
+
+      <!-- ===== 7 · LOOP SEAM · back to frame 0: the banner drops again, the hook text slams in; last frame = frame 0 ===== -->
+      <div id="shLoop" class="full shot clip" data-start="19.4" data-duration="1.0" data-track-index="6"><div class="breath" id="brLoop"></div></div>
+
+      <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="20.4" data-track-index="20"></div>
+      <div id="flash" class="full clip" data-start="0" data-duration="20.4" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
+      </div>
+      </div>
+    </div>
+
+    <!--
+  ChatPhone: the EP003 group-chat phone (our own UI, no brand), reused in blocks B, C, E, F, G.
+  build.py only inlines INCLUDE markers from <project>/compositions/components, so a block template pastes this file
+  verbatim between "BEGIN chat.html" / "END chat.html" (block B does). Everything is seek-safe: rows are built once at
+  setup in chronological order and only shown/hidden by the GSAP timeline; the list is bottom-anchored (flex-end), so
+  "scrolling" is layout, never a measured offset (no font-load race).
+
+  Legibility spec (QUALITY_AUDIT #11): phone >= 82 % of frame height (default 384 x 612 = 85 %), Inter 600 26 px
+  bubbles, 34 px line height, bubble max width 70 %, 8 px tails, sender names in their colour, ticks + timestamps,
+  "Bought." die-cut stickers (4 px white border + shadow, +-4 deg).
+
+  API
+    const chat = ChatPhone(host, {
+      title: "The boat", sub: "4 members", clock: "11:42", me: "Q",
+      members: { Q: { name: "Quest", color: "#d6392f", avatar: ChatPhone.avImg("assets/quest_wave.png", 688, 1024, 318, 170, 300) },
+                 A: { name: "Max", color: "#7860be", avatar: ChatPhone.avSil("#7860be") }, ... },
+      w: 384, h: 612 });                        // chat.el (position it), chat.screen, chat.list
+    const r1 = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM" });   // r1.words = word spans
+    const r2 = chat.sticker("P", "Bought.", { rot: -4 });
+    const d1 = chat.typing("B");                 // a "..." row
+    const s0 = chat.system("Today 11:41 PM", { visible: true });   // a centred chip (date / group event); visible = shown from the start
+    chat.show(tl, r2, at)                        // pop a row in (list grows, older rows slide up)
+    chat.typeWords(tl, r1, [t1, t2, ...])        // shows the row at t1 and each word on its time (one time per word)
+    chat.dots(tl, d1, tIn, tOut)                 // typing dots bounce from tIn, the row collapses at tOut
+    chat.hide(tl, row, at)                       // collapse a row
+    chat.read(tl, row, at)                       // ticks turn "read" (gold)
+  Rows must be created in the order they appear (DOM order = chat order). Outgoing rows (who === me) sit on the right.
+-->
+<style>
+  .ch-phone { position: absolute; width: 384px; height: 612px; }
+  .ch-body { position: absolute; inset: 0; border-radius: 58px; background: linear-gradient(160deg, #2c2a3c 0%, #1a1924 60%, #121119 100%);
+    border: 5px solid #16161f; box-shadow: 9px 11px 0 #16161f, inset 0 0 0 3px #4a4762, inset 0 0 0 7px #16161f; }
+  .ch-btn { position: absolute; width: 7px; border-radius: 3px; background: #16161f; }
+  .ch-screen { position: absolute; left: 15px; top: 15px; right: 15px; bottom: 15px; border-radius: 44px; overflow: hidden;
+    background: radial-gradient(ellipse 120% 70% at 50% 0%, #fbf7ee 0%, #f2ecdf 60%, #e9e2d2 100%); }
+  .ch-island { position: absolute; left: 50%; top: 11px; width: 92px; height: 26px; margin-left: -46px; border-radius: 14px; background: #121119; z-index: 5; }
+  .ch-status { position: absolute; left: 0; top: 0; right: 0; height: 44px; padding: 13px 30px 0; display: flex; justify-content: space-between;
+    font: 800 15px "Inter", sans-serif; color: #16161f; letter-spacing: .02em; z-index: 4; }
+  .ch-status .bat { display: inline-block; width: 26px; height: 13px; border: 2px solid #16161f; border-radius: 4px; position: relative; top: 1px; padding: 1px; }
+  .ch-status .bat i { display: block; width: 40%; height: 100%; background: #e5484d; border-radius: 1px; }
+  .ch-head { position: absolute; left: 0; top: 44px; right: 0; height: 74px; display: flex; align-items: center; gap: 10px; padding: 0 16px;
+    background: rgba(255, 255, 255, .62); border-bottom: 2px solid rgba(22, 22, 31, .12); z-index: 3; }
+  .ch-back { width: 14px; height: 14px; border-left: 3px solid #16161f; border-bottom: 3px solid #16161f; transform: rotate(45deg); margin: 0 4px 0 6px; }
+  .ch-gav { position: relative; width: 52px; height: 52px; flex: none; }
+  .ch-gav .ch-av { position: absolute; width: 30px; height: 30px; border-width: 2px; }
+  .ch-title { font: 800 22px/1.05 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sub { font: 600 14px/1.2 "Inter", sans-serif; color: rgba(22, 22, 31, .55); margin-top: 3px; }
+  .ch-list { position: absolute; left: 0; right: 0; top: 118px; bottom: 66px; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 12px 6px; overflow: hidden; }
+  .ch-input { position: absolute; left: 12px; right: 12px; bottom: 14px; height: 44px; border-radius: 22px; background: #fff; border: 2px solid rgba(22, 22, 31, .14);
+    display: flex; align-items: center; padding: 0 16px; font: 600 16px "Inter", sans-serif; color: rgba(22, 22, 31, .38); }
+  .ch-input .send { margin-left: auto; width: 30px; height: 30px; border-radius: 50%; background: #ffc83d; border: 2px solid #16161f; }
+  /* rows: hidden = max-height 0 (takes no space); shown by the timeline */
+  .ch-row { display: flex; align-items: flex-end; gap: 8px; max-height: 0; opacity: 0; overflow: hidden; padding: 0 4px; flex: none; }
+  .ch-row.out { justify-content: flex-end; }
+  .ch-pad { padding: 7px 0 7px; display: flex; align-items: flex-end; gap: 8px; width: 100%; }
+  .ch-row.out .ch-pad { justify-content: flex-end; }
+  .ch-av { width: 38px; height: 38px; border-radius: 50%; overflow: hidden; flex: none; position: relative; border: 3px solid #16161f; background: #ddd; }
+  .ch-av img { position: absolute; display: block; }
+  .ch-av svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+  .ch-bub { position: relative; max-width: 70%; background: #fff; border-radius: 22px 22px 22px 6px; padding: 9px 15px 8px;
+    box-shadow: 0 2px 0 rgba(22, 22, 31, .10), 0 3px 10px rgba(22, 22, 31, .08); transform-origin: 0% 100%; }
+  .ch-bub::after { content: ""; position: absolute; left: -8px; bottom: 0; width: 8px; height: 12px; background: #fff;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%); }                 /* the 8 px tail */
+  .ch-row.out .ch-bub { background: #ffd65e; border-radius: 22px 22px 6px 22px; transform-origin: 100% 100%; }
+  .ch-row.out .ch-bub::after { left: auto; right: -8px; background: #ffd65e; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+  .ch-name { font: 800 15px/1.2 "Inter", sans-serif; margin-bottom: 2px; letter-spacing: .01em; }
+  .ch-txt { font: 600 26px/34px "Inter", sans-serif; color: #16161f; letter-spacing: -.005em; }
+  .ch-w { display: inline-block; white-space: pre; }
+  .ch-meta { font: 600 12px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .45); text-align: right; margin-top: 3px; white-space: nowrap; }
+  .ch-tick { display: inline-block; margin-left: 4px; color: rgba(22, 22, 31, .4); font-weight: 800; letter-spacing: -.25em; }
+  /* "Bought." sticker: die-cut, 4 px white border, shadow, rotated +-4 deg */
+  .ch-stk { position: relative; display: flex; flex-direction: column; align-items: flex-start; }
+  .ch-row.out .ch-stk { align-items: flex-end; }
+  .ch-stk .ch-name { margin: 0 0 4px 6px; }
+  .ch-sticker { display: flex; align-items: center; gap: 10px; padding: 9px 20px 9px 12px; border-radius: 20px; background: #ffc83d;
+    border: 4px solid #fff; box-shadow: 0 0 0 2px rgba(22, 22, 31, .18), 0 6px 0 rgba(22, 22, 31, .22), 0 10px 18px rgba(22, 22, 31, .28);
+    font: 800 30px/1 "Inter", sans-serif; color: #16161f; letter-spacing: -.01em; }
+  .ch-sticker .chk { width: 30px; height: 30px; border-radius: 50%; background: #16161f; display: flex; align-items: center; justify-content: center; flex: none; }
+  .ch-sticker .chk svg { width: 18px; height: 18px; }
+  .ch-sys { justify-content: center; }
+  .ch-sys .ch-pad { justify-content: center; }
+  .ch-chip { font: 800 13px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .55); background: rgba(22, 22, 31, .07); padding: 7px 12px; border-radius: 12px; letter-spacing: .03em; text-align: center; }
+  .ch-dots { display: flex; gap: 6px; padding: 15px 18px 14px; }
+  .ch-dots i { display: block; width: 12px; height: 12px; border-radius: 50%; background: rgba(22, 22, 31, .35); }
+  .ch-tb { display: inline-block; max-width: none; }
+  .ch-typer { font: 600 16px/1 "Inter", sans-serif; color: rgba(22, 22, 31, .5); margin: 0 0 6px 2px; white-space: nowrap; }
+</style>
+<script>
+  window.ChatPhone = (function () {
+    const el = (tag, cls, parent, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (parent) parent.appendChild(e); return e; };
+    const CHECK = '<svg viewBox="0 0 20 20"><path d="M4 10.5 L8.5 15 L16.5 5.5" fill="none" stroke="#ffc83d" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    function ChatPhone(host, o) {
+      o = Object.assign({ title: "The boat", sub: "4 members", clock: "11:42", me: "Q", w: 384, h: 612, members: {} }, o);
+      const root = el("div", "ch-phone", host); root.style.width = o.w + "px"; root.style.height = o.h + "px";
+      el("div", "ch-body", root);
+      [[-4, 150, 60], [-4, 222, 60], [o.w - 3, 170, 86]].forEach(([x, y, hh]) => { const b = el("div", "ch-btn", root); Object.assign(b.style, { left: x + "px", top: y + "px", height: hh + "px" }); });
+      const screen = el("div", "ch-screen", root);
+      el("div", "ch-island", screen);
+      el("div", "ch-status", screen, `<span>${o.clock}</span><span><span class="bat"><i></i></span></span>`);
+      const head = el("div", "ch-head", screen);
+      el("div", "ch-back", head);
+      const gav = el("div", "ch-gav", head);
+      Object.keys(o.members).slice(0, 4).forEach((k, i) => { const a = avatar(k, gav); a.style.left = (i % 2) * 22 + "px"; a.style.top = Math.floor(i / 2) * 22 + "px"; });
+      const tt = el("div", "", head); el("div", "ch-title", tt, o.title); el("div", "ch-sub", tt, o.sub);
+      const list = el("div", "ch-list", screen);
+      el("div", "ch-input", screen, `Message<span class="send"></span>`);
+      function avatar(who, parent) { const m = o.members[who] || {}; const a = el("div", "ch-av", parent, m.avatar || ""); a.style.background = m.color || "#ccc"; return a; }
+      function row(who) { const r = el("div", "ch-row" + (who === o.me ? " out" : ""), list); const pad = el("div", "ch-pad", r); if (who !== o.me) avatar(who, pad); return { el: r, pad, who }; }
+      const api = {
+        el: root, screen, list, head,
+        msg(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const b = el("div", "ch-bub", r.pad);
+          if (who !== o.me) el("div", "ch-name", b, m.name || who).style.color = m.color;
+          const tx = el("div", "ch-txt", b);
+          r.words = text.split(" ").map((w, i, a) => el("span", "ch-w", tx, (w + (i < a.length - 1 ? " " : "")).replace(/&/g, "&amp;").replace(/</g, "&lt;")));
+          const meta = el("div", "ch-meta", b, opt.time || "11:42 PM");
+          r.tick = who === o.me ? el("span", "ch-tick", meta, "✓✓") : null;
+          r.bub = b; r.h = opt.h || 60 + 34 * (opt.lines || 3); return r; },
+        sticker(who, text, opt) { opt = opt || {}; const r = row(who); const m = o.members[who] || {};
+          const s = el("div", "ch-stk", r.pad);
+          if (who !== o.me || opt.name) el("div", "ch-name", s, m.name || who).style.color = m.color;   // opt.name: label your own message too (2026-10-17: two "Bought." under "Pixie" read as Pixie twice)
+          r.bub = el("div", "ch-sticker", s, `<span class="chk">${CHECK}</span><span>${text}</span>`);
+          r.bub.style.transform = `rotate(${opt.rot != null ? opt.rot : (who === o.me ? 4 : -4)}deg)`;
+          r.rot = opt.rot != null ? opt.rot : (who === o.me ? 4 : -4);
+          if (who === o.me) { const meta = el("div", "ch-meta", s, (opt.time || "11:43 PM")); meta.style.marginTop = "8px"; r.tick = el("span", "ch-tick", meta, "✓✓"); }
+          r.h = opt.h || 112; return r; },
+        system(text, opt) { opt = opt || {}; const r = { el: el("div", "ch-row ch-sys", list) }; const pad = el("div", "ch-pad", r.el);
+          r.bub = el("div", "ch-chip", pad, text); r.h = opt.h || 44; if (opt.visible) { r.el.style.maxHeight = r.h + "px"; r.el.style.opacity = 1; } return r; },
+        typing(who) { const r = row(who); const m = o.members[who] || {};
+          const c = el("div", "", r.pad); el("div", "ch-typer", c, `${m.name || who} is typing…`);
+          const b = el("div", "ch-bub ch-tb", c); r.dots = Array.from(el("div", "ch-dots", b, "<i></i><i></i><i></i>").children);
+          r.bub = b; r.h = 96; return r; },
+        show(tl, r, at, d) { d = d == null ? .32 : d;
+          tl.fromTo(r.el, { maxHeight: 0, opacity: 0 }, { maxHeight: r.h, opacity: 1, duration: d, ease: "power2.out", immediateRender: false }, at);
+          tl.fromTo(r.bub, { scale: .55, y: 14 }, { scale: 1, y: 0, rotation: r.rot || 0, duration: d + .18, ease: "back.out(2.2)", immediateRender: false }, at);
+          return r; },
+        typeWords(tl, r, times) { tl.set(r.words, { opacity: 0 }, 0); api.show(tl, r, times[0] - .04);
+          r.words.forEach((w, i) => tl.fromTo(w, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .14, ease: "power2.out", immediateRender: false }, times[Math.min(i, times.length - 1)]));
+          return r; },
+        dots(tl, r, tIn, tOut) { api.show(tl, r, tIn, .26);
+          const n = Math.max(1, Math.floor((tOut - tIn) / .42));
+          r.dots.forEach((d, i) => tl.fromTo(d, { y: 0, backgroundColor: "rgba(22, 22, 31, .35)" }, { y: -7, backgroundColor: "rgba(22, 22, 31, .8)", duration: .21, ease: "sine.inOut", yoyo: true, repeat: 2 * n - 1, immediateRender: false }, tIn + .08 + i * .12));
+          api.hide(tl, r, tOut); return r; },
+        hide(tl, r, at, d) { tl.to(r.el, { maxHeight: 0, opacity: 0, duration: d || .16, ease: "power2.in" }, at); return r; },
+        read(tl, r, at) { if (r.tick) { tl.set(r.tick, { color: "rgba(22, 22, 31, .4)" }, 0); tl.set(r.tick, { color: "#d99a00" }, at); } return r; },
+      };
+      return api;
+    }
+    // avatar from a cut-out: a square crop (cx, cy, size in source px) of an image (srcW x srcH) fills the circle
+    ChatPhone.avImg = (src, srcW, srcH, cx, cy, size, d) => { d = d || 100; const k = d / size;
+      return `<img src="${src}" alt="" style="width:${(srcW * k / d * 100).toFixed(2)}%; left:${(-(cx - size / 2) * k / d * 100).toFixed(2)}%; top:${(-(cy - size / 2) * k / d * 100).toFixed(2)}%" />`; };
+    // a silhouette avatar (the faceless friends of the hook), in their colour
+    ChatPhone.avSil = (color, dark) => `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${color}"/>` +
+      `<circle cx="50" cy="40" r="19" fill="${dark || "rgba(22,22,31,.38)"}"/><path d="M14 104 C 16 72, 32 62, 50 62 C 68 62, 84 72, 86 104 Z" fill="${dark || "rgba(22,22,31,.38)"}"/></svg>`;
+    return ChatPhone;
+  })();
+</script>
+
+    <script>
+      const ART = {
+ "sizes": {
+  "leo_sideeye.png": [
+   425,
+   1462
+  ],
+  "leo_sideeye_blink.png": [
+   425,
+   1462
+  ],
+  "leo_sweat.png": [
+   425,
+   1462
+  ],
+  "leo_sweat_blink.png": [
+   425,
+   1462
+  ],
+  "fish_deadpan.png": [
+   489,
+   362
+  ],
+  "fish_lookup.png": [
+   489,
+   362
+  ],
+  "fish_blink.png": [
+   489,
+   362
+  ],
+  "fish_wide.png": [
+   492,
+   362
+  ],
+  "rowboat_front.png": [
+   1452,
+   319
+  ],
+  "rowboat_back_tall.png": [
+   1453,
+   535
+  ],
+  "rowboat_front_tall.png": [
+   1453,
+   535
+  ],
+  "boat_max_sideeye.png": [
+   1453,
+   535
+  ],
+  "boat_max_sideeye_blink.png": [
+   1453,
+   535
+  ],
+  "boat_leo_sideeye.png": [
+   1453,
+   535
+  ],
+  "boat_leo_sideeye_blink.png": [
+   1453,
+   535
+  ],
+  "rod.png": [
+   165,
+   1631
+  ],
+  "quest_laugh.png": [
+   605,
+   900
+  ],
+  "pixie_laugh.png": [
+   598,
+   900
+  ],
+  "quest_wave.png": [
+   688,
+   1024
+  ],
+  "pixie_wave.png": [
+   680,
+   1024
+  ],
+  "max_av.png": [
+   177,
+   760
+  ],
+  "leo_av.png": [
+   221,
+   760
+  ],
+  "wordmark.png": [
+   2605,
+   448
+  ]
+ }
+};
+      const CAPS = [{"a": 8.93, "e": 9.69, "top": 300, "w": [["He", 8.99, 9.16], ["will", 9.16, 9.38], ["not", 9.38, 9.76]]}, {"a": 9.7, "e": 11.249, "top": 300, "w": [["get", 9.76, 10.22], ["it", 10.22, 10.37], ["later.", 10.39, 10.74]]}, {"a": 11.44, "e": 12.07, "top": 250, "w": [["Getting", 11.5, 11.76], ["a", 11.76, 11.92], ["few", 11.92, 12.14]]}, {"a": 12.08, "e": 12.75, "top": 250, "w": [["adults", 12.14, 12.48], ["into", 12.48, 12.66], ["the", 12.66, 12.82]]}, {"a": 12.76, "e": 13.49, "top": 250, "w": [["same", 12.82, 13.12], ["boat", 13.12, 13.36], ["is", 13.36, 13.56]]}, {"a": 13.5, "e": 14.59, "top": 250, "w": [["harder", 13.56, 13.84], ["than", 13.84, 14.14], ["anything", 14.34, 14.66]]}, {"a": 14.6, "e": 15.74, "top": 250, "w": [["in", 14.66, 14.98], ["the", 14.98, 15.1], ["game.", 15.1, 15.36]]}];
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+      const tl = gsap.timeline({ paused: true });
+            // every fromTo also carries its from-only properties in the "to" vars (same value): GSAP keeps from-only props in
+      // startAt, and the motion-blur sub-frame seeks can revert a startAt mid-tween (seen: SLAP!/REVIVED vanishing)
+      { const ft = tl.fromTo.bind(tl);
+        tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
+
+      const DUR = 20.4;
+      const flash = (at, a, d) => tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
+      const swap = (stack, i, at) => { const ims = $(stack).querySelectorAll("img"); ims.forEach((im, k) => tl.set(im, { opacity: k === i ? 1 : 0 }, at)); };
+      const blink = (stack, base, bl, at, d) => { swap(stack, bl, at); swap(stack, base, at + (d || .12)); };
+
+      /* ---------------- frame 0 (built twice: the opening and the loop seam, identical at rest) */
+      const BUBBLE = '<svg viewBox="0 0 70 66"><path d="M35 4 C16 4 4 15 4 29 C4 38 9 45 17 50 L13 62 L28 54 C30 54 33 55 35 55 C54 55 66 43 66 29 C66 15 54 4 35 4 Z" fill="#fff"/></svg>';
+      const BAN_WORDS = ["It's", "eight", "dollars.", "Just", "get", "it."];
+      function frame0(host, sfx) {
+        host.innerHTML = `
+          <img class="full" src="assets/lake_soft.jpg" alt="" />
+          <div class="full shade"></div>
+          <div class="stack" id="leo${sfx}" data-role="character" style="left: 115px; top: 880px; width: 850px; height: 2924px"><img class="on" src="assets/leo_sideeye.png" alt="" /><img src="assets/leo_sideeye_blink.png" alt="" /></div>
+          <img class="abs" src="assets/rowboat_front.png" alt="" style="left: -1150px; top: 1460px; width: 3000px" />
+          <div class="stack flipx" id="fish${sfx}" data-role="character" style="left: 620px; top: 1500px; width: 310px; height: 230px; transform: rotate(-3deg)">
+            <img class="on" src="assets/fish_deadpan.png" alt="" /><img src="assets/fish_lookup.png" alt="" /><img src="assets/fish_blink.png" alt="" /></div>
+          <div class="hook" id="hook${sfx}"><span class="ln">EVERY GROUP</span><span class="ln">HAS <span class="w">THIS</span></span><span class="ln">FRIEND</span></div>
+          <div class="ban" id="ban${sfx}"><div class="ic">${BUBBLE}</div><div class="t">Max · The boat</div><div class="n">now</div>
+            <div class="m">${BAN_WORDS.map((w) => `<span>${w}</span>`).join(" ")}</div></div>`;
+      }
+      frame0($("#brF0"), "0"); frame0($("#brLoop"), "L");
+
+      // opening: the banner is the caption (each word lights up as Bram says it), the camera breathes in
+      tl.fromTo("#brF0", { scale: 1.0, x: 0, y: 0 }, { scale: 1.025, x: -6, y: 4, duration: 2.62, ease: "sine.inOut" }, 0);
+      const BW = [0.7, 0.89, 1.03, 1.79, 1.93, 2.21];
+      document.querySelectorAll("#ban0 .m span").forEach((s, i) => {
+        tl.set(s, { backgroundColor: "rgba(255,210,63,0)" }, 0);
+        tl.fromTo(s, { backgroundColor: "rgba(255,210,63,0)" }, { backgroundColor: "rgba(255,210,63,.95)", duration: .08, immediateRender: false }, BW[i] - .03);
+        if (i < 5) tl.to(s, { backgroundColor: "rgba(255,210,63,.32)", duration: .2 }, BW[i + 1] - .03);
+      });
+      tl.fromTo("#ban0", { scale: 1 }, { keyframes: [{ scale: 1.03, duration: .08 }, { scale: 1, duration: .4, ease: "elastic.out(1, .45)" }], transformOrigin: "50% 50%", immediateRender: false }, 1.76);
+      tl.fromTo("#hook0 .w", { scale: 1 }, { keyframes: [{ scale: 1.08, duration: .08 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], transformOrigin: "50% 60%", immediateRender: false }, 1.76);
+      // the fish looks up at the banner on "dollars." and back at Leo on "it."; Leo blinks before "Just"
+      swap("#fish0", 1, 1.03); swap("#fish0", 0, 2.21);
+      blink("#leo0", 0, 1, 1.51, .13);
+
+      /* ---------------- the chat (EP003 ChatPhone: our own UI) */
+      const MEM = {
+        Q: { name: "Quest", color: "#a8241c", img: ["assets/quest_wave.png", ...ART.sizes["quest_wave.png"], 318, 170, 300] },
+        P: { name: "Pixie", color: "#0b5a60", img: ["assets/pixie_wave.png", ...ART.sizes["pixie_wave.png"], 320, 168, 280] },
+        A: { name: "Max", color: "#5a3fa6", img: ["assets/max_av.png", ...ART.sizes["max_av.png"], ART.sizes["max_av.png"][0] / 2, 108, 210] },
+        B: { name: "Leo", color: "#7a4f00", img: ["assets/leo_av.png", ...ART.sizes["leo_av.png"], ART.sizes["leo_av.png"][0] / 2, 118, 210] },
+      };
+      const chat = ChatPhone($("#phoneRig"), { title: "The boat", sub: "Quest, Pixie, Max, Leo", clock: "11:42", me: "Q", w: 360, h: 560,
+        members: Object.fromEntries(Object.entries(MEM).map(([k, m]) => [k, { name: m.name, color: m.color, avatar: ChatPhone.avImg(...m.img) }])) });
+      chat.system("Today 11:41 PM", { visible: true });
+      const mA = chat.msg("A", "It's eight dollars. Just get it.", { time: "11:42 PM", lines: 3 });
+      const dP = chat.typing("P"), sP = chat.sticker("P", "Bought.", { rot: -4 });
+      const sQ = chat.sticker("Q", "Bought.", { rot: 4, time: "11:43 PM", name: true });
+      const dA = chat.typing("A"), sA = chat.sticker("A", "Bought.", { rot: -3 });
+      const dB = chat.typing("B"), mB = chat.msg("B", "I'll get it later.", { time: "11:44 PM", lines: 2 });
+      document.querySelectorAll("#phoneRig .ch-name, #phoneRig .ch-typer").forEach((e) => { const m = Object.values(MEM).find((x) => e.textContent.startsWith(x.name)); if (m) e.style.color = m.color; });
+      document.querySelectorAll("#phoneRig .ch-input").forEach((e) => { e.style.color = "rgba(22, 22, 31, .62)"; });
+      document.querySelectorAll("#phoneRig .ch-av").forEach((e) => e.setAttribute("data-critic-ignore", "1"));   // phone UI avatars, not acting characters
+      document.querySelectorAll("#phoneRig .ch-list").forEach((e) => e.setAttribute("data-layout-ignore", "1")); // rows slide under the header by design
+      const C0 = 2.62;
+      tl.set(mA.el, { maxHeight: mA.h, opacity: 1 }, C0);                     // Max's message is already there (it was the banner)
+      tl.set("#phoneRig", { transformPerspective: 1600 }, 0);
+      tl.fromTo("#phoneRig", { rotationY: -70, scale: 2.4 * 1.04 }, { rotationY: 0, scale: 2.4, duration: .36, ease: "back.out(1.4)", immediateRender: false }, C0);
+      tl.fromTo("#brChat", { scale: 1, x: 0, y: 0 }, { scale: 1.03, x: 5, y: -6, duration: 8.85 - C0, ease: "sine.inOut", immediateRender: false }, C0);
+      chat.dots(tl, dP, C0 + .12, 3.08);
+      chat.show(tl, sP, 3.08, .26);
+      chat.show(tl, sQ, 4.22, .26);
+      chat.dots(tl, dA, 4.74, 5.26);
+      chat.show(tl, sA, 5.26, .26);
+      chat.read(tl, sQ, 5.58);
+      const kick = (at, sc, rot) => tl.fromTo("#kickChat", { scale: 1, rotation: 0 }, { keyframes: [{ scale: sc, rotation: rot, duration: .06, ease: "power3.out" }, { scale: 1, rotation: 0, duration: .55, ease: "elastic.out(1.1, .38)" }], transformOrigin: "50% 55%", immediateRender: false }, at);
+      [[sP, 3.1, 1.03, 1.5], [sQ, 4.24, 1.05, -2], [sA, 5.28, 1.075, 2.5]].forEach(([st, t, k, rot], i) => {
+        tl.fromTo(st.bub, { scale: 1.9 }, { scale: 1, rotation: st.rot, duration: .2, ease: "power4.in", immediateRender: false }, t - .04);
+        kick(t + .16, k, rot);
+        flash(t + .16, .06 + i * .04, .14);
+      });
+      // "And one friend who says": Leo is typing... (a long time); "I'll get it later." types word by word (the chat is the caption)
+      chat.dots(tl, dB, 6.16, 7.32);
+      chat.typeWords(tl, mB, [7.62, 7.76, 7.86, 8.0]);
+      tl.fromTo(mB.bub, { scale: 1 }, { keyframes: [{ scale: 1.06, duration: .07 }, { scale: 1, duration: .45, ease: "elastic.out(1, .4)" }], immediateRender: false }, 8.24);
+
+      /* ---------------- 4 · Leo sweats; the fish turns to camera on "not", one slow blink on "later." */
+      const T4 = 8.85;
+      tl.fromTo("#brSweat", { scale: 1.0, x: 0, y: 0 }, { scale: 1.045, x: 4, y: -10, duration: 11.25 - T4, ease: "sine.inOut", immediateRender: false }, T4);
+      swap("#fishS", 1, 9.38);
+      tl.fromTo("#fishS", { rotation: -3 }, { keyframes: [{ rotation: 2, duration: .1 }, { rotation: -3, duration: .3, ease: "back.out(2)" }], immediateRender: false }, 9.38);
+      swap("#fishS", 2, 10.39); swap("#fishS", 1, 10.94);
+      blink("#leoS", 0, 1, 9.16, .12);
+
+      /* ---------------- 5 · the wide: pull back from Leo to the whole boat ("the same boat") */
+      const BF_K = 620 / 1452, BF_TOP = 9 - 216 * 620 / 1452, BF_H = 535 * 620 / 1452;
+      [["#bfMax", "max"], ["#bfLeo", "leo"]].forEach(([sel, who]) => {
+        ["sideeye", "sideeye_blink"].forEach((e, i) => { const im = mk("img", i ? "" : "on", $(sel), `left: ${80 + 150 * BF_K}px; top: ${300 + BF_TOP}px; width: ${620 * 1453 / 1452}px; height: ${BF_H}px`);
+          im.src = `assets/boat_${who}_${e}.png`; im.alt = ""; }); });
+      const T5 = 11.25;
+      const LEO_X = 40 + 1.45 * 527, LEO_Y = 1050 + 1.45 * -70, Z = 1.8;
+      tl.fromTo("#wideCam", { scale: Z, x: 540 - Z * LEO_X, y: 900 - Z * LEO_Y }, { scale: 1, x: 0, y: 0, duration: 13.12 - T5, ease: "power2.inOut", immediateRender: false }, T5);
+      tl.fromTo("#brWide", { scale: 1.0 }, { scale: 1.025, x: -6, y: 4, duration: 15.75 - T5, ease: "sine.inOut", immediateRender: false }, T5);
+      blink("#bfMax", 0, 1, 13.56, .12); blink("#bfLeo", 0, 1, 14.98, .12); blink("#fishW", 0, 1, 12.48, .14);
+
+      /* ---------------- 6 · end card */
+      const T6 = 15.75;
+      tl.fromTo("#cA", { yPercent: 110 }, { yPercent: 0, duration: .3, ease: "power3.out" }, T6 + .08);
+      tl.fromTo("#cB", { yPercent: 110 }, { yPercent: 0, duration: .34, ease: "back.out(1.6)" }, T6 + .26);
+      tl.fromTo("#scrawl", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, rotation: -3, duration: .3, ease: "back.out(2)" }, T6 + .75);
+      tl.fromTo("#wm", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .35, ease: "power2.out" }, T6 + .95);
+      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .3, ease: "power2.out" }, T6 + 1.05);
+      // the fish drops onto the gold bar (anticipation from above, squash on contact, settle) and stays there deadpan
+      tl.fromTo("#fishC", { y: -1150, opacity: 1 }, { y: 0, duration: .3, ease: "power2.in" }, T6 + 1.0);
+      tl.fromTo("#fishC", { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .72, scaleX: 1.18, duration: .06 }, { scaleY: 1.06, scaleX: .96, duration: .12 }, { scaleY: 1, scaleX: 1, duration: .2, ease: "power2.out" }], transformOrigin: "50% 100%", immediateRender: false }, T6 + 1.3);
+      tl.fromTo("#wm img", { y: 0 }, { keyframes: [{ y: 7, duration: .06 }, { y: 0, duration: .4, ease: "elastic.out(1, .4)" }], immediateRender: false }, T6 + 1.3);   // the wordmark dips under the landing
+      blink("#fishC", 0, 1, T6 + 2.4, .45);
+      tl.fromTo("#fullEp", { opacity: 0 }, { opacity: 1, duration: .25 }, T6 + 1.6);
+      tl.fromTo("#fullEp", { y: 0 }, { y: 10, duration: .35, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, T6 + 1.9);
+
+      /* ---------------- 7 · loop seam: settles exactly into frame 0 at DUR */
+      const T7 = DUR - 1.0;
+      tl.fromTo("#brLoop", { scale: 1.035, x: 6, y: -4 }, { scale: 1.0, x: 0, y: 0, duration: 1.0, ease: "power2.out", immediateRender: false }, T7);
+      tl.fromTo("#banL", { y: -320 }, { y: 0, duration: .32, ease: "back.out(1.3)", immediateRender: false }, T7 + .12);
+      tl.set("#banL", { y: -320 }, 0);
+      const HL = document.querySelectorAll("#hookL .ln");
+      HL.forEach((l, i) => { tl.set(l, { opacity: 0 }, 0);
+        tl.fromTo(l, { opacity: 0, scale: 1.45 }, { opacity: 1, scale: 1, duration: .12, ease: "power3.in", immediateRender: false, transformOrigin: "50% 50%" }, T7 + .5 + i * .1); });
+      swap("#fishL", 1, T7 + .15); swap("#fishL", 0, T7 + .6);           // the fish looks up at the buzz, then back: at rest = frame 0
+
+      /* ---------------- captions (only "He will not get it later." and h08) */
+      const CAPEL = CAPS.map((c) => { const d = mk("div", "cap", $("#caps"), `top: ${c.top}px`);
+        const spans = c.w.map(([w], i) => { if (i) d.appendChild(document.createTextNode(" ")); const s = mk("span", "", d); s.textContent = w; return s; });
+        return { d, spans, c, on: false }; });
+      function drawCaps(t) {
+        CAPEL.forEach((E) => { const c = E.c, on = t >= c.a && t < c.e;
+          if (on !== E.on) { E.d.style.visibility = on ? "visible" : "hidden"; E.on = on; }
+          if (!on) return;
+          const k = Math.min(1, (t - c.a) / .14), e = 1 - Math.pow(1 - k, 3);
+          E.d.style.transform = `translateY(${10 * (1 - e)}px) scale(${.94 + .06 * e})`;
+          let cur = -1; c.w.forEach(([w, a], i) => { if (t >= a - .03) cur = i; });
+          E.spans.forEach((sp, i) => { sp.style.color = i === cur ? "#ffd23f" : "#ffffff"; }); });
+      }
+      // idle life: the in-boat crew and the close-ups breathe a little (never a fake walk)
+      const IDLE = ["#leo0", "#leoS", "#bfMax", "#bfLeo", "#pixie", "#quest"].map((s, i) => [$(s), 1.6 + .21 * i, i * 1.3]);
+      IDLE.push([$("#leoL"), 1.6, -DUR * 1.6]);                             // at DUR the loop's Leo is exactly frame 0's Leo at 0
+      function drawIdle(t) { for (const [e, f, ph] of IDLE) { const k = Math.sin(t * f + ph); e.style.transformOrigin = "50% 100%";
+        e.style.transform = `scale(${1 - .003 * k}, ${1 + .008 * k})`; } }
+      const env = { t: 0 };
+      tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => { drawCaps(env.t); drawIdle(env.t); } }, 0);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
