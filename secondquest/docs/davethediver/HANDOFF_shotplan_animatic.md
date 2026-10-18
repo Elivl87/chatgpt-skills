@@ -5,7 +5,7 @@ every report (9.25 credits, live-checked 2026-10-18). Branch `claude/secondquest
 
 ## Locked / decided
 - Script LOCKED: `scripts/DTD_v1_1_EN.txt` (986 words ≈ 6:40). ES review: `scripts/DTD_v1_1_ES_review.md`.
-- Title: must start with "Why" + game name (Producer picks from the options in the last report).
+- Title (chosen): "Why Dave the Diver Feels Better Than Your Real Job".
 - Companion: air bubble = oxygen left (props3d sphere + EP003 fish eye rig, expression set + size); hook "So, why?" →
   becomes the "o"; end → pops into the gold bar. Cameo: EP003 fish (in the bar's aquarium tank).
 - Voices: placeholder = Kokoro fenrir chain (`scripts/ep003-placeholder-narration.py` settings); female quotes = af_heart.

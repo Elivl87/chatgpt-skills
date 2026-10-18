@@ -17,3 +17,4 @@
 - Boat and suit: "Busca en la web el bote, el traje, y hazlo tú." → studied from official images, written in words in
   GAME_VISUAL_REFERENCE.md §0 (images not kept).
 - Companion: the air bubble (oxygen), with a cameo of the EP003 fish.
+- Title chosen (Producer, 2026-10-18: "Elijo la A"): **Why Dave the Diver Feels Better Than Your Real Job**.
