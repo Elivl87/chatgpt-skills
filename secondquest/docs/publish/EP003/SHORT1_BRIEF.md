@@ -13,16 +13,21 @@ Rules that bind this Short:
   inside the boat; companion fish has a beat. Sounds from the CC0 catalog, varied.
 - Related video = EP003 long. Upload as Short with the episode linked.
 
+## Producer tips (2026-10-18, binding for every Short)
+1. **Frame 0 has a big hook text or a direct question on screen**, readable before any narration.
+2. **Seamless loop**: the last line/shot leads back into the first one, so the Short replays without a seam.
+
 ## Concepts (Producer picks one)
 
 | | Concept | Frame 0 | Arc (narration from the episode) |
 |---|---|---|---|
-| **1 (recommended)** | **The slap revive** | Pixie mid-slap on Quest's face, boat + rod behind, text "HOW YOU REVIVE A FRIEND IN A FISHING GAME" | "a fishing game… almost nobody seems to be fishing" → "slapping each other in the face" (the slap the Producer liked) → FAIL ×3 / revive → "It's eight dollars. Just get it." → payoff "nobody in that boat came for the fish" → end card |
-| 2 | The friend who never buys it | Leo side-eye close-up holding his phone, chat behind, text "THE FRIEND WHO 'GETS IT LATER'" | group chat "It's eight dollars. Just get it." → Bought ×3 → "I'll get it later." → "He will not get it later." → payoff → end card (tag-a-friend CTA) |
+| 1 | **The slap revive** | Pixie mid-slap on Quest's face, boat + rod behind, text "HOW YOU REVIVE A FRIEND IN A FISHING GAME" | "a fishing game… almost nobody seems to be fishing" → "slapping each other in the face" (the slap the Producer liked) → FAIL ×3 / revive → "It's eight dollars. Just get it." → payoff "nobody in that boat came for the fish" → end card |
+| **2 (recommended after the loop tip)** | **The friend who never buys it** | Leo side-eye close-up with his phone, text **"EVERY GROUP HAS THIS FRIEND"** | "It's eight dollars. Just get it." → Bought. Bought. Bought. → "I'll get it later." → "He will not get it later." → a new ping: "It's eight dollars. Just get it." = **the loop** (the ask never ends; the Short restarts on its own first line). Tag-a-friend CTA in the end card |
 | 3 | A fishing game where nobody fishes | Quest laughing in the boat, fish deadpan, text "NOBODY IS FISHING" | fleet of boats → gambling the fish money → dynamite → "Millions of people bought a fishing game… to do everything else" → end card |
 
-Why 1: it opens on the most physical, readable gag (the Producer's favourite scene), the conflict is in the first
-frame, and it pays off on the episode's thesis. 2 is the most shareable (tag a friend) and makes a strong Short #2.
+Why 2 now: it has a **natural seamless loop** (the last beat, a new "Just get it." ping, is the first line), the frame-0
+text is a recognisable conflict, and it is the most shareable (tag the friend). Loop for 1 if chosen: end on Pixie's
+hand rising for the next slap, which cuts into frame 0 (the slap). 1 stays a strong Short #2.
 
 ## Steps for the session
 1. Cut the narration lines for the chosen concept from the master's mix (timings: `docs/publish/EP003/EP003_subtitles_en.srt` map).

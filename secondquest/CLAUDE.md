@@ -148,3 +148,6 @@
 - **Every text has a source (Producer, 2026-10-18, a repeated error in every episode and Short):** speech bubbles only
   from a visible speaker with the tail on them (no name header); chat messages only inside a phone or as a notification
   banner from the top; never a chat card floating in a scene. Rubric §4b; the critic checks every bubble/message for it.
+- **Shorts: text at frame 0 + seamless loop (Producer, 2026-10-18):** (1) from second 0 a big on-screen hook text or
+  direct question (e.g. "What kind of Zelda player are you?") stops the scroll before the narration starts; (2) the
+  Short loops: its last line/shot leads naturally back into its first, so it plays again without a seam.
