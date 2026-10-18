@@ -34,3 +34,13 @@ Every file's sha256 is in `docs/art_archive/MANIFEST_2026-10-10.txt` (column 1 =
 
 At the end of every episode, its new art goes into a new `archive-art-<date>` release (only what is not in an
 earlier archive), and its manifest into `docs/art_archive/`.
+
+## Archive 2026-10-18 (`archive-art-ep003-2026-10-18`)
+
+| File | What | Contents |
+|---|---|---|
+| `SecondQuest_EP003_art_2026-10-18.tar` | EP003 3D cut-outs (our renderer, `tools/props3d`) | `public/art/ep003/` (308 files: rowboat layers, fish v2 + expressions, Max/Leo poses and boat layers, game-world props), 55.5 MB |
+
+Restore in a new session (seconds, no re-render): download asset 652367306
+(`gh api -H "Accept: application/octet-stream" repos/Elivl87/chatgpt-skills/releases/assets/652367306 > ep003_art.tar`)
+and `tar -xf ep003_art.tar` from `secondquest/`. Together with `archive-art-2026-10-10` this restores all of `public/art`.
