@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 type V3 = [number, number, number];
 interface FishExpr { lid?: number; look?: [number, number]; mouth?: 'pout' | 'o' | 'flat'; sweat?: boolean }
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; max?: FriendShot; leo?: FriendShot; boat?: 'back' | 'front'; hide?: number[]; near?: number; far?: number }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; max?: FriendShot; leo?: FriendShot; cobra?: FriendShot; bubble?: string; boat?: 'back' | 'front'; hide?: number[]; near?: number; far?: number }
 type Poly = { outer: [number, number][]; holes: [number, number][][] };
 interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
@@ -2291,11 +2291,38 @@ interface WormSpec {
   armR: number; shX: number; shY: number; upperL: number; foreL: number; handR: number;
   legR: number; hipX: number; thighL: number; shinL: number; footL: number;
   skin: string; lidSkin: string; shirt: string; pants: string; boot: string; sole: string;
-  outfit: 'overalls' | 'apron'; hat?: 'beanie'; faces: Record<string, FriendFace>;
+  outfit: 'overalls' | 'apron' | 'hawaiian'; hat?: 'beanie'; faces: Record<string, FriendFace>;
 }
-const WORM_POSES = ['stand', 'sit', 'sitflat', 'point', 'cheer', 'phone'] as const;
+const WORM_POSES = ['stand', 'sit', 'sitflat', 'point', 'cheer', 'phone', 'armsCrossed', 'barsit'] as const;
 // seated knees-up (a rowboat thwart is ~22 cm above the floorboards): thighs rise ~39 deg, shins near vertical
 const SIT_HIP = -2.25, SIT_KNEE = 2.12;
+// bar stool (DTD): thighs a little above level, shins plumb, the feet on the stool's foot ring
+const BAR_HIP = -1.85, BAR_KNEE = 1.95;
+
+/** Hawaiian print: red cloth with cream hibiscus (yellow hearts) and golden leaves, tileable (drawn wrapped). */
+let _hawaiian: THREE.CanvasTexture | null = null;
+const hawaiianTex = () => {
+  if (_hawaiian) return _hawaiian;
+  const N = 512, cv = document.createElement('canvas'); cv.width = cv.height = N;
+  const c = cv.getContext('2d')!;
+  c.fillStyle = '#c8312f'; c.fillRect(0, 0, N, N);
+  const leaf = (x: number, y: number, a: number, L: number) => {
+    c.save(); c.translate(x, y); c.rotate(a); c.fillStyle = '#e9b82e';
+    c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(L * .5, -L * .32, L, 0); c.quadraticCurveTo(L * .5, L * .32, 0, 0); c.fill(); c.restore();
+  };
+  const flower = (x: number, y: number, r: number, a: number) => {
+    c.save(); c.translate(x, y); c.rotate(a); c.fillStyle = '#f7ecc4';
+    for (let i = 0; i < 5; i++) { c.rotate(TAU / 5); c.beginPath(); c.ellipse(r * .62, 0, r * .62, r * .42, 0, 0, TAU); c.fill(); }
+    c.fillStyle = '#f2c230'; c.beginPath(); c.arc(0, 0, r * .26, 0, TAU); c.fill(); c.restore();
+  };
+  const spots: [number, number, number, number][] = [[110, 120, 62, .3], [370, 90, 48, 1.2], [250, 270, 66, 2.1], [60, 400, 46, .8], [430, 360, 60, 2.8], [250, 470, 40, .2]];
+  for (const ox of [-N, 0, N]) for (const oy of [-N, 0, N]) {
+    for (const [x, y, r, a] of spots) { leaf(x + ox, y + oy, a + 2.4, r * 1.5); leaf(x + ox, y + oy, a + 3.9, r * 1.35); }
+    for (const [x, y, r, a] of spots) flower(x + ox, y + oy, r, a);
+  }
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+  return (_hawaiian = t);
+};
 
 const worm = (S: WormSpec) => {
   const root = new THREE.Group();
@@ -2304,7 +2331,7 @@ const worm = (S: WormSpec) => {
   const add = (parent: THREE.Object3D, m: THREE.Mesh) => (parent.add(m), m);
   const M = {
     skin: toon(S.skin), lid: toon(S.lidSkin), white: toon('#fbf8f0'), pupil: toon('#121216'), mouth: toon('#3a1820'), teeth: toon('#fffaf0'),
-    tongue: toon('#d9707a'), sweat: toon('#b9e4ff'), shirt: flat(S.shirt), pants: flat(S.pants), boot: flat(S.boot), sole: flat(S.sole),
+    tongue: toon('#d9707a'), sweat: toon('#b9e4ff'), shirt: flat(S.outfit === 'hawaiian' ? '#c8312f' : S.shirt), pants: flat(S.pants), boot: flat(S.boot), sole: flat(S.sole),
   };
   // ---- torso profile: keys [y, half width, half depth] relative to the hip pivot, smooth (Catmull-Rom) and tabulated by y
   const curve = new THREE.CatmullRomCurve3(S.torso.map(([y, a, b]) => V(a, y, b)), false, 'centripetal');
@@ -2324,7 +2351,7 @@ const worm = (S: WormSpec) => {
   };
   const range = (a: number, b: number, n: number) => Array.from({ length: n + 1 }, (_, i) => a + (b - a) * i / n);
   const shell = (p0: number, p1: number, y0: number, y1: number, off: number | ((phi: number, y: number) => number), mat: THREE.Material, part: number, np = 28, ny = 24) => {
-    const geo = grid(range(y0, y1, ny), range(p0, p1, np), (y, phi) => ({ p: torsoPt(phi, y, typeof off === 'number' ? off : off(phi, y)) }));
+    const geo = grid(range(y0, y1, ny), range(p0, p1, np), (y, phi) => ({ p: torsoPt(phi, y, typeof off === 'number' ? off : off(phi, y)), uv: [phi / TAU * 3, y / 32] }));
     orient(geo, (p) => V(p.x, 0, p.z));
     return mesh(geo, mat, part);
   };
@@ -2357,7 +2384,10 @@ const worm = (S: WormSpec) => {
   const pelvis = new THREE.Group(); pelvis.position.y = S.hipY; root.add(pelvis);
   const chest = new THREE.Group(); pelvis.add(chest);
   // ---- torso: shirt on top, pants (or overall trousers) below the waist
-  chest.add(shell(0, TAU, S.waist - 3, yTop, 0, M.shirt, id(11)));
+  if (S.outfit === 'hawaiian') {                                          // loose printed shirt, untucked, flaring at the hem
+    const print = new THREE.MeshToonMaterial({ map: hawaiianTex(), gradientMap: ramp });
+    chest.add(shell(0, TAU, S.waist - 9, yTop, (_p, y) => .7 + 1.1 * (1 - sstep(S.waist - 9, S.waist + 8, y)), print, id(11)));
+  } else chest.add(shell(0, TAU, S.waist - 3, yTop, 0, M.shirt, id(11)));
   chest.add(shell(0, TAU, yBot, S.waist + .6, (_p, y) => .35 * sstep(yBot, yBot + 3, y), M.pants, id(12)));
   // ---- head: one long capsule (head + neck), a little wider at the top, bent and leaning forward
   const L = S.headL, R = S.headR;
@@ -2469,8 +2499,8 @@ const worm = (S: WormSpec) => {
     const apart = id(sd > 0 ? 17 : 18);
     const sleeveMat = S.outfit === 'overalls' ? M.shirt : M.skin;
     sh.add(limb(S.upperL, S.armR * 1.04, S.armR * .92, sleeveMat, apart));
-    if (S.outfit === 'apron') {                                             // the tee's short sleeve
-      sh.add(limb(S.upperL * .42, S.armR * 1.4, S.armR * 1.24, M.shirt, id(sd > 0 ? 19 : 20)));
+    if (S.outfit !== 'overalls') {                                          // the tee's short sleeve
+      sh.add(limb(S.upperL * (S.outfit === 'hawaiian' ? .5 : .42), S.armR * (S.outfit === 'hawaiian' ? 1.55 : 1.4), S.armR * (S.outfit === 'hawaiian' ? 1.42 : 1.24), M.shirt, id(sd > 0 ? 19 : 20)));
     }
     const el = new THREE.Group(); el.position.y = -S.upperL; sh.add(el);
     el.add(limb(S.foreL, S.armR * .92, S.armR * .82, sleeveMat, apart));
@@ -2489,22 +2519,34 @@ const worm = (S: WormSpec) => {
   phoneG.add(box(7.4, 14.6, 1.0, [0, 0, 0], toon('#26272d'), id(25), .35));
   phoneG.add(at(mesh(new THREE.PlaneGeometry(6.4, 13.2), new THREE.MeshBasicMaterial({ color: new THREE.Color('#8fd3ff') }), id(26)), 0, 0, .52));
   arms[1].wr.add(phoneG);
+  // chopsticks (bar-stool pose, in the right hand): two tapered sticks, thick end at the wrist, tips pointing along the forearm
+  const chopG = new THREE.Group();
+  for (const sx of [-1, 1]) {
+    const st = mesh(new THREE.CylinderGeometry(.5, .26, 25, 8), toon('#c9954e'), id(49));
+    st.position.set(sx * .55, -7.5, 0); st.rotation.z = sx * .035; chopG.add(st);
+    const band = mesh(new THREE.CylinderGeometry(.52, .5, 4, 8), toon('#7a2a22'), id(49)); band.position.set(sx * .55, 3.2, 0); chopG.add(band);   // lacquered grip end
+  }
+  arms[1].wr.add(chopG);
   // ---- legs and boots
   const legs = [1, -1].map((sd) => {
     const hip = new THREE.Group(); hip.position.set(sd * S.hipX, 0, 0); pelvis.add(hip);
     const lp = id(sd > 0 ? 27 : 28);
-    hip.add(limb(S.thighL, S.legR, S.legR * .9, M.pants, lp));
+    const bare = S.outfit === 'hawaiian';                                   // shorts: bare thighs and shins
+    hip.add(limb(S.thighL, S.legR, S.legR * .9, bare ? M.skin : M.pants, lp));
+    if (bare) hip.add(limb(S.thighL * .6, S.legR * 1.2, S.legR * 1.14, M.pants, id(50)));   // the short leg of the shorts
     const kn = new THREE.Group(); kn.position.y = -S.thighL; hip.add(kn);
-    kn.add(limb(S.shinL, S.legR * .9, S.legR * .8, M.pants, lp));
+    kn.add(limb(S.shinL, S.legR * .9, S.legR * .8, bare ? M.skin : M.pants, lp));
     const bp = id(sd > 0 ? 29 : 30), r = S.legR;
     const tall = S.outfit === 'overalls';                                   // rubber boots up the shin; work boots to the ankle
-    const shaftTop = tall ? S.shinL * .55 : S.shinL * .2;
-    const shaft = limb(shaftTop, r * (tall ? 1.12 : 1.02), r * (tall ? 1.02 : .98), M.boot, bp);
+    const shaftTop = bare ? .6 : tall ? S.shinL * .55 : S.shinL * .2;
+    const shaft = limb(shaftTop, r * (tall ? 1.12 : 1.02), r * (tall ? 1.02 : .98), bare ? M.skin : M.boot, bp);
     shaft.position.y = -S.shinL + shaftTop; kn.add(shaft);
     if (tall) kn.add(at(limb(1.6, r * 1.2, r * 1.2, M.boot, id(31)), 0, -S.shinL + shaftTop + .4, 0));   // rolled lip
     const fy = -S.shinL - r * .75, FL = S.footL;
-    const foot = box(r * 2.15, r * 1.25, FL, [0, fy + r * .55, FL / 2 - r * 1.1], M.boot, bp, r * .55); kn.add(foot);
-    const toe = ellip(r * 1.08, [1, .62, 1.05], [0, fy + r * .55, FL - r * 1.6], M.boot, bp); kn.add(toe);
+    const fm = bare ? M.skin : M.boot;                                       // sandals: bare feet on a tan sole with a strap
+    const foot = box(r * 2.15, r * 1.25, FL, [0, fy + r * .55, FL / 2 - r * 1.1], fm, bp, r * .55); kn.add(foot);
+    const toe = ellip(r * 1.08, [1, .62, 1.05], [0, fy + r * .55, FL - r * 1.6], fm, bp); kn.add(toe);
+    if (bare) kn.add(box(r * 2.3, r * .5, 3.2, [0, fy + r * 1.2, FL * .42 - r * 1.1], M.boot, id(51), r * .2));
     kn.add(box(r * 2.3, r * .42, FL + .8, [0, fy - r * .1, FL / 2 - r * 1.1 + .2], M.sole, id(32), r * .18));
     return { sd, hip, kn };
   });
@@ -2528,7 +2570,7 @@ const worm = (S: WormSpec) => {
     }
     // back waistband of the overalls
     chest.add(shell(Math.PI - 1.4, Math.PI + 1.4, S.waist - .2, S.waist + 4, .5, M.pants, id(14), 16, 4));
-  } else {
+  } else if (S.outfit === 'apron') {
     // work apron: bib, waist tie, neck strap and a skirt that hangs (or lies on the thighs when seated), with a pocket
     chest.add(shell(-.66, .66, S.waist - 1, S.bibTop, .55, apronMat, id(14), 16, 16));
     chest.add(shell(0, TAU, S.waist - 1.2, S.waist + 1.2, (phi) => .75 + .25 * Math.cos(phi), flat('#4a2e1c'), id(35), 32, 3));
@@ -2540,6 +2582,33 @@ const worm = (S: WormSpec) => {
     const l0 = torsoPt(.58, S.bibTop - .8, .9), r0 = torsoPt(-.58, S.bibTop - .8, .9);
     chest.add(tube([l0, torsoPt(.62, yTop - 3, 1.2), ...pts.reverse().slice(1, -1), torsoPt(-.62, yTop - 3, 1.2), r0], .65, flat('#4a2e1c'), id(36), 80, 8));
     for (const p of [l0, r0]) chest.add(at(ellip(.9, [1, 1, .6], [0, 0, 0], toon('#c9c3b2'), id(34), 12), p.x, p.y, p.z));
+  } else {
+    // Hawaiian shirt: open V collar (bare chest) with two lapels, and dark sunglasses sitting on the eyes
+    const vTop = yTop - 1, vBot = yTop - 11;
+    const vw = (y: number) => .5 * sstep(vBot, vTop, y) ** .8;
+    chest.add(mesh(orient(grid(range(vBot, vTop, 12), range(-1, 1, 10), (y, s) => ({ p: torsoPt(s * vw(y), y, 1.0) })), (p) => V(p.x, 0, p.z)), M.skin, id(47)));
+    for (const sd of [1, -1]) {
+      const ys = range(vBot, vTop + 1.2, 8), pts = ys.map((y) => torsoPt(sd * (vw(y) + .06), y, 1.5));
+      chest.add(sweep(pts, pts.map((q, i) => V(sd * .5, .1, 1).add(V(0, 0, 0)).normalize()), 3.4, .7, M.shirt, id(48), 24));
+    }
+    const shades = new THREE.Group(); head.add(shades);
+    const glass = toon('#0d0d12'), frame = toon('#2b2b34'), R = S.eyeR;
+    const lensAt = (sd: number) => {
+      const x = sd * (S.eyeX + .9), c = face(x, S.eyeY, R * .72), n = faceN(x, S.eyeY);
+      const q = new THREE.Quaternion().setFromUnitVectors(V(0, 0, 1), n);
+      const rim = ellip(R * 1.22, [1.04, .96, .52], [c.x, c.y, c.z], frame, id(43), 28); rim.quaternion.copy(q); rim.translateZ(-.3);
+      const lens = ellip(R * 1.15, [1.04, .92, .5], [c.x, c.y, c.z], glass, id(42), 28); lens.quaternion.copy(q); lens.translateZ(.05);
+      const gl = ellip(R * .26, [1.9, .55, .2], [0, 0, 0], new THREE.MeshBasicMaterial({ color: 0xffffff }), id(44), 12);
+      gl.quaternion.copy(q); gl.position.copy(c).addScaledVector(V(1, 0, 0).applyQuaternion(q), -R * .42).addScaledVector(V(0, 1, 0).applyQuaternion(q), R * .42).addScaledVector(n, R * 1.15 * .5 * .93);
+      gl.rotateZ(.6);
+      shades.add(rim, lens, gl);
+      // temple arm: along the side of the head
+      const ph0 = (sd * (S.eyeX + 5.2)) / Math.max(1, hr(S.eyeY)), pts: THREE.Vector3[] = [];
+      for (const t of range(0, 1, 6)) pts.push(headPt(sd * (Math.abs(ph0) + t * (1.55 - Math.abs(ph0))), S.eyeY + 1 - t * .6, .9));
+      shades.add(tube(pts, .42, frame, id(46), 24, 6));
+    };
+    lensAt(1); lensAt(-1);
+    shades.add(tube([face(-S.eyeX * .5, S.eyeY + .6, R * 1.1), face(0, S.eyeY + 1.0, R * 1.4), face(S.eyeX * .5, S.eyeY + .6, R * 1.1)], .55, frame, id(45), 12, 6));   // bridge
   }
   const setSkirt = (sit: boolean, lap = false) => {
     if (S.outfit !== 'apron') return;
@@ -2610,6 +2679,7 @@ const worm = (S: WormSpec) => {
     setMouth(f.mouth ?? 'smile', f.talk);
     sweat.visible = !!f.sweat;
     head.rotation.x = S.lean + poseNod + (f.nod ?? 0);
+    if (S.outfit === 'hawaiian') head.rotation.y = ls * .2;                  // behind shades the eyes can't show it: turn the head
   };
   /** e = a face name, a name with modifiers ('neutral+blink', 'laugh+m1': m0 closed, m1 mid, m2 open mouth), or a FriendFace. */
   root.userData.setExpr = (e: string | FriendFace = 'neutral') => {
@@ -2630,7 +2700,7 @@ const worm = (S: WormSpec) => {
     pelvis.rotation.set(0, 0, 0); chest.rotation.set(0, 0, 0); head.rotation.set(0, 0, 0); head.rotation.y = 0;
     for (const A of arms) { A.sh.rotation.set(0, 0, A.sd * .07); A.el.rotation.set(-.14, 0, 0); A.wr.rotation.set(0, 0, 0); A.index.visible = false; A.fing.visible = true; A.fing.scale.set(.56, .78, .9); }
     for (const G of legs) { G.hip.rotation.set(0, 0, G.sd * .02); G.kn.rotation.set(0, 0, 0); }
-    phoneG.visible = false; poseLook = [0, 0]; poseNod = 0;
+    phoneG.visible = chopG.visible = false; poseLook = [0, 0]; poseNod = 0;
   };
   const aim = (g: THREE.Object3D, x: number, y: number, z: number) => g.quaternion.setFromUnitVectors(V(0, -1, 0), V(x, y, z).normalize());
   root.userData.setPose = (name = 'stand') => {
@@ -2655,17 +2725,35 @@ const worm = (S: WormSpec) => {
       for (const A of arms) { A.sh.rotation.set(-.15, 0, A.sd * 2.6); A.el.rotation.set(-.45, 0, 0); A.wr.rotation.set(0, 0, 0); }
       chest.rotation.x = -.06; poseNod = -.22; poseLook = [.35, 0];
       for (const G of legs) G.hip.rotation.set(0, 0, G.sd * .08);
+    } else if (name === 'armsCrossed') {                                    // forearms crossed over the chest, hands tucked under the upper arms
+      for (const A of arms) {
+        const front = A.sd > 0, yE = S.shY - S.upperL * .66;
+        const ze = prof(yE)[1] + S.armR * (front ? 3.2 : 1.1) + 1.2;                       // elbow in front of the chest; the near arm rides on top
+        const shp = V(A.sd * S.shX, S.shY, 0), el = V(A.sd * S.shX * .96, yE, ze);
+        const up = el.clone().sub(shp).normalize(); aim(A.sh, up.x, up.y, up.z);
+        const wrist = V(-A.sd * S.shX * .72, yE + (front ? 1.5 : 0), ze + (front ? .8 : -.2)), e2 = shp.clone().addScaledVector(up, S.upperL);
+        const fd = wrist.sub(e2).normalize().applyQuaternion(A.sh.quaternion.clone().invert());
+        A.el.quaternion.setFromUnitVectors(V(0, -1, 0), fd); A.wr.rotation.set(-.1, 0, A.sd * .25);
+      }
+      chest.rotation.x = -.05; poseNod = -.03;
+    } else if (name === 'barsit') {                                         // on a bar stool, chopsticks in the right hand
+      for (const G of legs) { G.hip.rotation.set(BAR_HIP, 0, G.sd * .08); G.kn.rotation.set(BAR_KNEE, 0, 0); }
+      chest.rotation.x = .1;
+      aim(AR.sh, .02, -.6, .8); AR.el.rotation.set(-1.25, -.15, 0); AR.wr.rotation.set(-.15, 0, 0);
+      aim(AL.sh, -.04, -.75, .6); AL.el.rotation.set(-.9, 0, 0); AL.wr.rotation.set(-.2, 0, 0);
+      chopG.visible = true; chopG.position.set(0, -S.handR * .7, S.handR * .6); chopG.rotation.set(-.45, 0, 0);
+      poseNod = .06;
     } else if (name === 'phone') {
       AR.sh.rotation.set(-.32, 0, -.12); AR.el.rotation.set(-1.45, .25, 0); AR.wr.rotation.set(-.15, 0, -.2);
       AL.sh.rotation.set(-.25, 0, .1); AL.el.rotation.set(-1.25, -.35, 0); AL.wr.rotation.set(0, 0, .3);
       phoneG.visible = true; phoneG.position.set(S.handR * .45, -S.handR * 1.25, S.handR * .6); phoneG.rotation.set(-1.45, .0, Math.PI / 2 + .1);
       chest.rotation.x = .1; poseNod = .38; poseLook = [-.9, .05];
     }
-    setSkirt(name === 'sit', name === 'sitflat'); setPocket(name === 'sit', name === 'sitflat');
+    setSkirt(name === 'sit' || name === 'barsit', name === 'sitflat'); setPocket(name === 'sit' || name === 'barsit', name === 'sitflat');
     applyExpr();
     // standing poses: soles on y = 0; seated: the seat (bottom of the thighs) on y = 0
     root.position.y = 0; root.updateMatrixWorld(true);
-    if (name === 'sit' || name === 'sitflat') root.position.y = -S.hipY + S.legR * 1.0;
+    if (name === 'sit' || name === 'sitflat' || name === 'barsit') root.position.y = -S.hipY + S.legR * 1.0;
     else { let mn = Infinity; for (const G of legs) mn = Math.min(mn, new THREE.Box3().setFromObject(G.kn).min.y); root.position.y = -mn; }
   };
   root.userData.poses = WORM_POSES;
@@ -2713,6 +2801,157 @@ const friendLeo = () => {
   return g;
 };
 
+/** A bar stool (cm, y up): round wooden seat (top at y = 60.5, where a seated friend's thighs rest), a dark apron under it,
+ * four splayed chrome legs with rubber feet and a chrome foot ring at y = 27. */
+const BAR_SEAT = 60.5, BAR_RING = 27;
+const barStool = () => {
+  const g = new THREE.Group();
+  const H = BAR_SEAT - .5, wood = toon('#a06a3a'), dark = toon('#5a3a24'), chrome = toon('#cfd6dc'), rubber = toon('#26262a');
+  const seat = lathe([[0, H - 4], [17, H - 4], [19, H - 3.2], [19.8, H - 1.8], [19.8, H - .8], [18.6, H + .2], [12, H + .6], [0, H + .7]], 48, wood, 3300);
+  seat.geometry.rotateY(Math.PI); g.add(seat);
+  g.add(lathe([[0, H - 6.5], [14, H - 6.5], [14.6, H - 4.4], [0, H - 4.4]], 36, dark, 3301));
+  const top = (a: number) => V(Math.sin(a) * 13, H - 6.5, Math.cos(a) * 13), foot = (a: number) => V(Math.sin(a) * 34, 1.2, Math.cos(a) * 34);
+  const legR = (y: number) => 13 + (34 - 13) * (H - 6.5 - y) / (H - 7.7);                // leg radius at height y
+  for (let i = 0; i < 4; i++) {
+    const a = Math.PI / 4 + i * Math.PI / 2;
+    g.add(tube([top(a), foot(a)], 1.5, chrome, 3302, 2, 10));
+    g.add(at(lathe([[0, 0], [2.1, 0], [2.3, .7], [1.9, 1.8], [0, 1.8]], 12, rubber, 3303), foot(a).x, 0, foot(a).z));
+  }
+  const ring = mesh(new THREE.TorusGeometry(legR(BAR_RING), 1.15, 10, 64), chrome, 3304); ring.rotation.x = Math.PI / 2; ring.position.y = BAR_RING; g.add(ring);
+  return g;
+};
+
+/** "Puff", the oxygen-bubble companion (cm, front = +z, radius 30): a glassy toon sphere (pale cyan fill, stepped light rim band
+ * from a view-space fresnel, two white specular highlights) with fish2's eye rig (flat bulging eyes, pupil/glint caps under a
+ * heavy lid) and a small mouth decal. setExpr(name): neutral, happy, worried, panic, offended, sleepy. */
+interface BubbleFace { lid?: number; tilt?: number; look?: [number, number]; eye?: number; pupil?: number; mouth: 'smile' | 'open' | 'wobble' | 'scream' | 'frown' | 'yawn'; sweat?: boolean }
+const BUBBLE_FACES: Record<string, BubbleFace> = {
+  neutral: { lid: .4, look: [0, 0], mouth: 'smile' },
+  happy: { lid: .08, look: [.2, 0], eye: 1.04, mouth: 'open' },
+  worried: { lid: .16, tilt: .38, look: [.35, 0], pupil: .9, mouth: 'wobble', sweat: true },
+  panic: { lid: 0, eye: 1.2, pupil: .42, look: [0, 0], mouth: 'scream', sweat: true },
+  offended: { lid: .56, tilt: -.3, look: [0, .6], mouth: 'frown' },
+  sleepy: { lid: .66, look: [-.5, 0], mouth: 'yawn' },
+};
+const bubbleGlass = () => new THREE.ShaderMaterial({
+  uniforms: { base: { value: new THREE.Color('#c4eff5') }, deep: { value: new THREE.Color('#9ddbe8') }, rim: { value: new THREE.Color('#f0fdff') }, edge: { value: new THREE.Color('#79cfe2') } },
+  vertexShader: 'varying vec3 vN; varying vec3 vP; void main() { vN = normalize(normalMatrix * normal); vec4 mv = modelViewMatrix * vec4(position, 1.0); vP = mv.xyz; gl_Position = projectionMatrix * mv; }',
+  fragmentShader: `uniform vec3 base; uniform vec3 deep; uniform vec3 rim; uniform vec3 edge; varying vec3 vN; varying vec3 vP;
+    void main() {
+      vec3 n = normalize(vN); float f = 1.0 - abs(dot(n, normalize(-vP)));
+      vec3 c = base;
+      c = mix(c, deep, step(.32, dot(n, normalize(vec3(.55, -.7, .35)))));          // one soft shade, lower right
+      c = mix(c, rim, step(.66, f));                                               // the light fresnel band
+      c = mix(c, edge, step(.93, f));                                              // and a thin saturated edge
+      gl_FragColor = vec4(c, 1.0);
+      #include <colorspace_fragment>
+    }`,
+});
+const airBubble = () => {
+  const g = new THREE.Group(), R = 30;
+  const body = mesh(new THREE.SphereGeometry(R, 64, 40), bubbleGlass(), 3400); g.add(body);
+  const white = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const onSurf = (dir: THREE.Vector3, rr: number, o = 0) => dir.clone().normalize().multiplyScalar(rr + o);
+  const spec = (dir: V3, sx: number, sy: number, rot: number, part: number) => {
+    const d = V(...dir).normalize(), m = mesh(new THREE.SphereGeometry(1, 20, 12), white, part);
+    m.scale.set(sx, sy, .25); m.position.copy(onSurf(d, R, -.05)); m.quaternion.setFromUnitVectors(V(0, 0, 1), d); m.rotateZ(rot); g.add(m);
+  };
+  spec([-.52, .6, .6], 6.2, 2.6, .85, 3401);                                       // big highlight, upper left
+  spec([-.82, .26, .5], 1.8, 1.8, 0, 3402);                                        // and a small round one beneath it
+  // ---- eyes (fish2's rig: white ball, pupil cap, glint cap, lid cap bigger than all three), squashed onto the surface
+  const lidMat = toon('#8fd4e2'), ER = 6.6;
+  const eyes = [-1, 1].map((sd) => {
+    const eg = new THREE.Group(), d = V(sd * .31, .14, .94).normalize();
+    eg.position.copy(onSurf(d, R, -.5)); eg.quaternion.setFromUnitVectors(V(0, 0, 1), d); eg.scale.set(1, 1.12, .5); g.add(eg);
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(ER, 32, 20), toon('#fbf8f0')); ball.userData.part = 3403; ids.push(ball); eg.add(ball);
+    const pup = new THREE.Mesh(new THREE.BufferGeometry(), toon('#121216')); pup.userData.part = 3404; ids.push(pup); eg.add(pup);
+    const glint = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: 0xffffff })); glint.userData.part = 3405; ids.push(glint); eg.add(glint);
+    const lid = new THREE.Mesh(new THREE.BufferGeometry(), lidMat); lid.userData.part = 3406; ids.push(lid); eg.add(lid);
+    return { sd, eg, ball, pup, glint, lid };
+  });
+  // ---- mouth decals on the sphere (rebuilt per expression) and the sweat drop
+  const dark = toon('#3a1820'), pink = toon('#e0707c');
+  const line = mesh(new THREE.BufferGeometry(), dark, 3407), fill = mesh(new THREE.BufferGeometry(), dark, 3408), tongue = mesh(new THREE.BufferGeometry(), pink, 3409);
+  g.add(line, fill, tongue);
+  const surf = (x: number, y: number, off: number) => V(x, y, Math.sqrt(Math.max(1, R * R - x * x - y * y))).normalize().multiplyScalar(R + off);
+  const MY = -9;
+  const lens = (w: number, top: (u: number) => number, bot: (u: number) => number, off: number, u0 = -1, u1 = 1) =>
+    orient(grid(range(u0, u1, 28), range(0, 1, 6), (u, v) => ({ p: surf(u * w / 2, MY + bot(u) + v * (top(u) - bot(u)), off) })), (p) => p);
+  const range = (a: number, b: number, n: number) => Array.from({ length: n + 1 }, (_, i) => a + (b - a) * i / n);
+  const setLine = (w: number, f: (u: number) => number, r = .62) => {
+    line.geometry.dispose(); line.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(range(-1, 1, 16).map((u) => surf(u * w / 2, MY + f(u), .2))), 48, r, 8, false); line.visible = true;
+  };
+  const setFill = (w: number, top: (u: number) => number, bot: (u: number) => number, tg = false) => {
+    fill.geometry.dispose(); fill.geometry = lens(w, top, bot, .3); fill.visible = true;
+    tongue.visible = tg;
+    if (tg) { tongue.geometry.dispose(); tongue.geometry = lens(w, (u) => bot(u) + (top(u) - bot(u)) * .42 * Math.sqrt(Math.max(0, 1 - (u / .6) ** 2)), (u) => bot(u) + .1, .55, -.6, .6); }
+  };
+  const sweat = mesh(new THREE.LatheGeometry(range(0, 1, 10).map((t) => new THREE.Vector2(Math.max(1e-3, 2.6 * Math.sin(Math.PI * t) ** 1.3 * (t < .5 ? 1 : 1 - (t - .5) * .55)), 7.4 * t)), 16), toon('#a8defa'), 3410);
+  sweat.position.copy(onSurf(V(.66, .6, .46), R, .2)); sweat.rotation.z = -.55; g.add(sweat);
+  g.userData.setExpr = (e: string | BubbleFace = 'neutral') => {
+    const f = typeof e === 'string' ? BUBBLE_FACES[e] : e, lidK = f.lid ?? .4, [lu, ls] = f.look ?? [0, 0], er = ER * (f.eye ?? 1), pr = ER * .42 * (f.pupil ?? 1);
+    for (const E of eyes) {
+      E.ball.scale.setScalar(er / ER);
+      const dir = V(ls * .22, lu * .22, 1).normalize().applyQuaternion(E.eg.quaternion.clone().invert());   // world-facing, in the tilted eye's frame                 // looks at (ls: +right, lu: +up)
+      E.pup.geometry.dispose(); E.pup.geometry = new THREE.SphereGeometry(er * 1.012, 24, 8, 0, TAU, 0, Math.asin(Math.min(.9, pr / er)));
+      E.pup.quaternion.setFromUnitVectors(V(0, 1, 0), dir);
+      const dg = dir.clone().multiplyScalar(er).add(V(pr * .42, pr * .48, 0)).normalize();
+      E.glint.geometry.dispose(); E.glint.geometry = new THREE.SphereGeometry(er * 1.024, 12, 4, 0, TAU, 0, Math.asin(Math.min(.9, pr * .3 / er)));
+      E.glint.quaternion.setFromUnitVectors(V(0, 1, 0), dg);
+      E.lid.visible = lidK > .03;
+      E.lid.geometry.dispose(); E.lid.geometry = new THREE.SphereGeometry(er * 1.07, 28, 14, 0, TAU, 0, Math.PI * Math.max(.02, Math.min(1, lidK)));
+      E.lid.rotation.set(0, 0, E.sd * (f.tilt ?? 0));                                        // tilt > 0: the inner ends up (worried)
+      E.pup.visible = E.glint.visible = lidK < .97;
+    }
+    line.visible = fill.visible = tongue.visible = false;
+    const m = f.mouth;
+    if (m === 'smile') setLine(11, (u) => 1.6 * u * u);
+    else if (m === 'wobble') setLine(11, (u) => 1.1 * Math.sin(u * Math.PI * 2.5) - .4 * u * u);
+    else if (m === 'frown') setLine(10, (u) => 1.8 - 2.6 * u * u, .6);
+    else if (m === 'open') setFill(14, (u) => 2 * u * u + 1.2, (u) => 2 * u * u + 1.2 - 8 * Math.pow(Math.max(0, 1 - u * u), .75), true);
+    else if (m === 'scream') setFill(8.5, (u) => 5.2 * Math.sqrt(Math.max(0, 1 - u * u)) - 1, (u) => -5.2 * Math.sqrt(Math.max(0, 1 - u * u)) - 1, false);
+    else setFill(5, (u) => 3.6 * Math.sqrt(Math.max(0, 1 - u * u)) - .5, (u) => -3.6 * Math.sqrt(Math.max(0, 1 - u * u)) - .5, false);   // yawn: a small sleepy o
+    sweat.visible = !!f.sweat;
+  };
+  g.userData.setExpr('neutral');
+  return g;
+};
+
+/** The pop frame for the bubble gag (cm, facing +z): the sphere has just burst, a thin ring of film and 8 teardrop droplets
+ * flung out around it, the big ones with a white highlight. */
+const bubblePop = () => {
+  const g = new THREE.Group(), glass = bubbleGlass(), white = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const ring = mesh(new THREE.TorusGeometry(27, 2.1, 12, 72), glass, 3440); g.add(ring);
+  const drop = (len: number, wid: number) => {
+    const pts: [number, number][] = [];
+    for (let i = 0; i <= 14; i++) { const t = i / 14; pts.push([Math.max(1e-3, wid * Math.sin(Math.PI * t) ** 1.1 * (t < .45 ? 1 : 1 - (t - .45) * .8)), len * t]); }
+    return pts;
+  };
+  const sizes: [number, number, number][] = [[46, 20, 11], [58, 14, 7.5], [47, 17, 9.5], [60, 12, 6.5], [45, 21, 11.5], [57, 15, 8], [48, 16, 9], [62, 11, 6]];   // distance, length, width
+  sizes.forEach(([dist, len, wid], i) => {
+    const a = Math.PI / 8 + i * Math.PI / 4;
+    const d = lathe(drop(len, wid), 18, glass, 3441 + i);                         // tip (t = 1) at +y: points back to the centre
+    d.position.set(Math.cos(a) * dist, Math.sin(a) * dist, 0);
+    d.quaternion.setFromUnitVectors(V(0, 1, 0), V(-Math.cos(a), -Math.sin(a), 0));
+    d.geometry.translate(0, -len * .5, 0); g.add(d);
+    if (wid > 7) { const h = mesh(new THREE.SphereGeometry(1, 12, 8), white, 3450); h.scale.set(wid * .22, wid * .38, .25); h.position.set(Math.cos(a) * (dist + len * .1) - wid * .34, Math.sin(a) * (dist + len * .1) + wid * .3, wid * .72); h.rotation.z = .6; g.add(h); }
+  });
+  for (const [x, y, r] of [[8, 12, 3.4], [-12, 4, 2.6], [3, -14, 3], [14, -4, 2.2]]) g.add(at(mesh(new THREE.SphereGeometry(r, 16, 12), glass, 3460), x, y, 4));
+  return g;
+};
+
+/** "Cobra" (Dave the Diver episode): Leo's body, face, skin and yellow beanie unchanged, only the clothes differ: red short-sleeved
+ * Hawaiian shirt with a cream flower print and an open collar, dark sunglasses, khaki shorts and sandals. */
+const friendCobra = () => worm({
+  base: 3200, hipY: 74, waist: 7, bibTop: 36,
+  torso: [[-7.5, 0, 0], [-7, 7.5, 7], [-4, 15.6, 11.4], [0, 17.2, 12.2], [8, 17.6, 12.6], [20, 17.6, 12.6], [32, 17.0, 12], [41, 16.8, 11.3], [45.5, 15.4, 10.2], [48.5, 12.4, 9.4], [50, 9.4, 9], [50.3, 9.2, 8.9]],
+  headL: 40, headR: 10.6, neckR: 8.4, zs: .95, bend: 3.4, lean: .15, eyeR: 3.9, eyeY: 25.5, eyeX: 3.75, noseR: 1.8, mouthY: 15.5, mouthW: 9.5,
+  armR: 4.2, shX: 16.4, shY: 43.5, upperL: 25, foreL: 23, handR: 5.4,
+  legR: 7, hipX: 8.2, thighL: 33, shinL: 33, footL: 27,
+  skin: '#7a4d32', lidSkin: '#69402a', shirt: '#c8312f', pants: '#cdb78a', boot: '#7a4a2a', sole: '#b98a52',
+  outfit: 'hawaiian', hat: 'beanie', faces: FACE_LEO,
+});
+
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
 const props: Record<string, THREE.Object3D> = {};
@@ -2738,7 +2977,7 @@ if (P.props.includes('headphones')) scene.add((props.headphones = headphones()))
 if (P.props.includes('gamebox')) scene.add((props.gamebox = gamebox()));
 const EP003: Record<string, () => THREE.Object3D> = { rowboat, fishingRod, fish, fish2, trashcan, dynamite, chips, golfFlag, lantern,
   sniperGold, roulette, shopBoard, dynamiteLit, blastPuff, bossShadow, lighthouse, toyPistol, toySmg, toyShotgun, slotMachine, fpHands,
-  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo };
+  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo, friendCobra, barStool, airBubble, bubblePop };
 for (const [k, f] of Object.entries(EP003)) if (P.props.includes(k)) scene.add((props[k] = f()));
 
 if (P.light === 'neutral') {
@@ -2783,7 +3022,8 @@ function draw() {
     }
     if (props.horse && shot.pose != null) setGallop(shot.pose);
     if (props.fish2) props.fish2.userData.setExpr(shot.fish ?? {});
-    for (const [k, s] of [['friendMax', shot.max], ['friendLeo', shot.leo]] as const) if (props[k]) { props[k].userData.setPose(s?.pose ?? 'stand'); props[k].userData.setExpr(s?.expr ?? 'neutral');
+    if (props.airBubble) props.airBubble.userData.setExpr(shot.bubble ?? 'neutral');
+    for (const [k, s] of [['friendMax', shot.max], ['friendLeo', shot.leo], ['friendCobra', shot.cobra]] as const) if (props[k]) { props[k].userData.setPose(s?.pose ?? 'stand'); props[k].userData.setExpr(s?.expr ?? 'neutral');
       const [ax, ay, az, yaw] = s?.at ?? [0, 0, 0, 0]; props[k].position.x = ax; props[k].position.y += ay; props[k].position.z = az; props[k].rotation.y = yaw; }
     // rowboat layers for characters seated inside: 'back' = far side + interior, 'front' = near hull side, rail and oar
     if (props.rowboat) props.rowboat.traverse((o: THREE.Object3D) => { if (o.userData.half) o.visible = !shot.boat || o.userData.half === shot.boat; });

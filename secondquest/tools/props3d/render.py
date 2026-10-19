@@ -417,6 +417,7 @@ def job_back_sword():
 
 
 OUT3 = ROOT / 'public/art/ep003/props3d'
+OUT4 = ROOT / 'public/art/davethediver/props3d'
 
 
 # EP003 props v2 (2026-10-12): name -> (prop, target, camera, fov, canvas w, h, line). Larger canvases than v1 so the
@@ -646,18 +647,19 @@ def job_fish2():
 
 # EP003 friends Max and Leo (2026-10-13): our own "worm people" (docs/ep003/characters/FRIENDS_MAX_LEO.md).
 FRIENDS = {'max': ('friendMax', 180), 'leo': ('friendLeo', 158)}        # prop, approx. standing height (cm)
+FRIENDS_DTD = {'cobra': ('friendCobra', 158)}                          # Dave the Diver: Leo in a Hawaiian shirt and shades
 FRIEND_EXPRS = ['neutral', 'laugh', 'shock', 'sideeye', 'sweat']
 FRIEND_VIEWS = {'34': (30, 6), 'front': (0, 4), 'side': (90, 4), 'back': (180, 6)}
 
 
 def friend_span(who, pose):
     """Height in cm covered by the canvas (h px) for this pose: px per cm = h / span."""
-    return FRIENDS[who][1] * {'sit': 1.06, 'sitflat': 1.06, 'cheer': 1.38}.get(pose, 1.12)
+    return {**FRIENDS, **FRIENDS_DTD}[who][1] * {'sit': 1.06, 'sitflat': 1.06, 'cheer': 1.38}.get(pose, 1.12)
 
 
 def friend_render(who, view='34', expr='neutral', pose='stand', w=None, h=1500, line=4.4):
     """One friend, one view/expression/pose, transparent RGBA at w x h (the figure fills ~88 % of the height)."""
-    prop, tall = FRIENDS[who]
+    prop, tall = {**FRIENDS, **FRIENDS_DTD}[who]
     yaw, elev = FRIEND_VIEWS[view]
     if pose == 'sitflat':
         elev += 12                                                      # legs out: see the lap from a little above
@@ -947,7 +949,88 @@ def job_friends_extras_sheet():
     cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 88])
     print(out.relative_to(ROOT))
 
-JOBS = {'friends': job_friends, 'friends_sheet': job_friends_sheet, 'friends_talk': job_friends_talk, 'friends_sitflat': job_friends_sitflat, 'friends_boat': job_friends_boat, 'friends_extras_sheet': job_friends_extras_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+
+# ---------------------------------------------------------------- Dave the Diver cast (2026-10-19): Cobra (Leo, Hawaiian
+# shirt + shades), Max on a bar stool with chopsticks, and the oxygen bubble "Puff" (all our own 3D, toon + ink).
+DTD_COBRA = [(f'leo_cobra_{v}_{e}', v, e, 'stand') for v in ('front', '34') for e in ('neutral', 'laugh', 'sideeye')] + [
+    ('leo_cobra_34_armsCrossed_neutral', '34', 'neutral', 'armsCrossed'), ('leo_cobra_34_phone_laugh', '34', 'laugh', 'phone'),
+    ('leo_cobra_34_point_neutral', '34', 'neutral', 'point'), ('leo_cobra_34_cheer_laugh', '34', 'laugh', 'cheer')]
+DTD_BAR = [('max_bar_34_neutral', '34', 'neutral'), ('max_bar_34_sideeye', '34', 'sideeye'), ('max_bar_34_laugh', '34', 'laugh'), ('max_bar_front_neutral', 'front', 'neutral')]
+DTD_BUBBLE = ['neutral', 'happy', 'worried', 'panic', 'offended', 'sleepy']
+BAR_SEAT = 60.5                                                         # seat top of the barStool prop (cm)
+
+
+def bar_render(view='34', expr='neutral', w=1100, h=1500, line=4.4, stool_only=False):
+    """Max (barsit pose, chopsticks in the right hand) on the bar stool, or the stool alone."""
+    yaw, elev = FRIEND_VIEWS[view]
+    span, ty, fov = (82, 31, 26) if stool_only else (205, 88, 26)
+    d = span / 2 / np.tan(np.radians(fov / 2))
+    tgt = [0, ty, 8]
+    shot = {'camera': orbit(yaw, elev + (6 if stool_only else 0), d, tgt), 'target': tgt, 'fov': fov, 'cart': None, 'near': d * .3, 'far': d * 3}
+    if not stool_only:
+        shot['max'] = {'expr': expr, 'pose': 'barsit', 'at': [0, BAR_SEAT, -7, 0]}
+    props = ['barStool'] if stool_only else ['friendMax', 'barStool']
+    return render({'props': props, 'shots': [shot], 'light': 'neutral'}, w, h, line=line, despeckle=34)[0]
+
+
+def bubble_render(expr='neutral', yaw=0, h=1000, pop=False, line=4.0):
+    span = 175 if pop else 68
+    d = span / 2 / np.tan(np.radians(13))
+    shot = {'camera': orbit(yaw, 0, d, [0, 0, 0]), 'target': [0, 0, 0], 'fov': 26, 'cart': None, 'bubble': expr}
+    return render({'props': ['bubblePop' if pop else 'airBubble'], 'shots': [shot], 'light': 'neutral'}, h, h, line=line)[0]
+
+
+def dtd_files():
+    """Every cut-out of the Dave the Diver cast, in sheet order (file stems)."""
+    return [n for n, *_ in DTD_COBRA] + [n for n, *_ in DTD_BAR] + ['bar_stool_34'] + [f'bubble_{e}' for e in DTD_BUBBLE] + ['bubble_34_neutral', 'bubble_small_worried', 'bubble_pop']
+
+
+def job_dtd_cast():
+    """Dave the Diver cast cut-outs in public/art/davethediver/props3d/ (run sequentially; DTD_ONLY=name,name limits the run):
+    leo_cobra_*, max_bar_*, bar_stool_34, bubble_<expr>, bubble_34_neutral, bubble_small_worried, bubble_pop."""
+    import os, time
+    OUT4.mkdir(parents=True, exist_ok=True)
+    only = [n for n in os.environ.get('DTD_ONLY', '').split(',') if n]
+    want = lambda n: not only or n in only
+    t0 = time.time()
+    save = lambda n, img, pad=10: (cv2.imwrite(str(OUT4 / f'{n}.png'), crop_alpha(img, pad=pad)), print(f'{n}.png', flush=True))
+    for n, v, e, p in DTD_COBRA:
+        if want(n): save(n, friend_render('cobra', v, e, p))
+    for n, v, e in DTD_BAR:
+        if want(n): save(n, bar_render(v, e))
+    if want('bar_stool_34'): save('bar_stool_34', bar_render('34', stool_only=True, w=1000, h=1000))
+    for e in DTD_BUBBLE:
+        if want(f'bubble_{e}'): save(f'bubble_{e}', bubble_render(e))
+    if want('bubble_34_neutral'): save('bubble_34_neutral', bubble_render('neutral', 32))
+    if want('bubble_small_worried'): save('bubble_small_worried', bubble_render('worried', 32, h=500, line=3.0))
+    if want('bubble_pop'): save('bubble_pop', bubble_render(pop=True))
+    print(f'{len(only) or len(dtd_files())} cut-outs in {time.time() - t0:.0f} s')
+
+
+def job_dtd_cast_sheet():
+    """Contact sheet docs/davethediver/props3d_cast_v1.jpg: every Dave the Diver cast cut-out, labelled, on light grey, 2400 px wide."""
+    BG, COLS, CW, CH = (226, 226, 224), 6, 400, 520
+    names = dtd_files()
+    rows = []
+    for i in range(0, len(names), COLS):
+        tiles = []
+        for n in names[i:i + COLS]:
+            im = cv2.imread(str(OUT4 / f'{n}.png'), cv2.IMREAD_UNCHANGED)
+            t = np.full((CH, CW, 3), BG, np.uint8)
+            k = min((CW - 24) / im.shape[1], (CH - 56) / im.shape[0]); im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)
+            a = im[..., 3:] / 255.0; y, x = CH - 40 - im.shape[0], (CW - im.shape[1]) // 2
+            t[y:y + im.shape[0], x:x + im.shape[1]] = (im[..., :3] * a + t[y:y + im.shape[0], x:x + im.shape[1]] * (1 - a)).astype(np.uint8)
+            cv2.putText(t, n, (10, CH - 14), cv2.FONT_HERSHEY_SIMPLEX, .5, (50, 50, 50), 1, cv2.LINE_AA)
+            tiles.append(t)
+        while len(tiles) < COLS: tiles.append(np.full((CH, CW, 3), BG, np.uint8))
+        rows.append(np.hstack(tiles))
+    out = ROOT / 'docs/davethediver/props3d_cast_v1.jpg'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 90])
+    print(out.relative_to(ROOT))
+
+
+JOBS = {'dtd_cast': job_dtd_cast, 'dtd_cast_sheet': job_dtd_cast_sheet, 'friends': job_friends, 'friends_sheet': job_friends_sheet, 'friends_talk': job_friends_talk, 'friends_sitflat': job_friends_sitflat, 'friends_boat': job_friends_boat, 'friends_extras_sheet': job_friends_extras_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
