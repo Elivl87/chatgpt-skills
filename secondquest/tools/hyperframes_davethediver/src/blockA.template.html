@@ -739,7 +739,7 @@
         tl.set(wm, { opacity: 0 }, 0);
         tl.fromTo(wm, { opacity: 0, scale: .96 }, { opacity: 1, scale: 1, duration: .3, ease: "power2.out" }, t0 + .1);
         // dolphin (does not travel: it hovers under the "o" and blows the ring)
-        const dX = oX + 10, dY = 548, dW = 300;
+        const dX = oX + 10, dY = 500, dW = 260;
         const dol = pic(rEnd.sh, "d_ring", dX, dY, dW, { f: "brightness(1.02)" });
         const dolB = pic(rEnd.sh, "d_blink", dX, dY, dW, { f: "brightness(1.02)" }); tl.set(dolB, { opacity: 0 }, 0);
         tl.fromTo(dol, { y: 0, rotation: -1 }, { y: -6, rotation: 1, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0);
