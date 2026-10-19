@@ -212,7 +212,7 @@ Gentle giants: humpback whale and calf, whale shark (GYAO! pet), manta, beluga.
 
 | Element | What exists (text) | Position / look | Status |
 |---|---|---|---|
-| **Oxygen = HP** | O₂ in **Bar** (Lv1 90 → Lv11 530 Bar); damage drains it; a "countdown on screen" | Recalled: a gauge top-left with a number | Mechanic [V]; look [UNVERIFIED] |
+| **Oxygen = HP** | O₂ in **Bar** (Lv1 90 → Lv11 530 Bar); damage drains it; a "countdown on screen" | **Bottom-left round dial** (navy disc, blue ring that empties, "O₂" + big number); beside it "Normal Depth" + cargo icon and weight ("9.2/9.0kg", red when over) | [V] Producer screenshot 2026-10-19 |
 | **Depth meter** | Turns **red** past the suit's limit, O₂ drains faster | "**bottom left**" (one guide) | [1S] |
 | **Weight** | Cargo box **kg**: viable vs max weight (9/13 kg at Lv1); overweight slows Dave | Readout look unknown | Mechanic [W]; look [UNVERIFIED] |
 | **Weapons** | Harpoon gun (∞, struggle QTE), melee slot (Dive Knife), gun slot (rifles, net guns, ammo), consumables (O₂ capsule, scooter, drone uses) | Slot strip position unknown | [W] / [UNVERIFIED] |
@@ -257,7 +257,7 @@ No script yet, so "Where" is a suggested beat. P1 = needed for the cut, P2 = add
 | # | Game reference | Our redraw (style, method) | Where (suggested) | Prio | Must NOT copy |
 |---|---|---|---|---|---|
 | 1 | Dave in wetsuit | **Quest in a diver costume**: our own suit colours (teal `#2BB3C0` + cream trim [OURS]), mask pushed up on the forehead, small tank, fins | everywhere | P1 | Dave's face, beard, body, pixel sprite; no fat jokes |
-| 2 | O₂ = HP gauge | **Round O₂ dial** top-left, number in "BAR", drains on hits, flashes red low | dive beats | P1 | Their gauge art, font, exact layout |
+| 2 | O₂ = HP gauge | **Round O₂ dial bottom-left** (verified 2026-10-19), number in "BAR", drains on hits, flashes red low | dive beats | P1 | Their gauge art, font, exact layout |
 | 3 | Depth meter turning red | Depth counter "38 m" bottom-left that goes red past a limit line | descent | P1 | — (generic) |
 | 4 | Cargo weight kg | Small crate icon "7.2 / 9 kg" that wobbles when full | haul beat | P2 | Their icon |
 | 5 | Harpoon + struggle | Our **toy harpoon gun** (props3d) + a code "mash!" ring around the fish | catch beat | P1 | Their gun model |

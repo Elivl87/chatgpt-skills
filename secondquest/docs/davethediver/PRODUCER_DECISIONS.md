@@ -21,3 +21,11 @@
 - Cast (2026-10-18/19): Quest = Dave in Dave's own outfits (dive suit + restaurant clothes), pixel in the game world;
   Pixie = Bancho-style chef (epic pixel cutscenes); Leo = Cobra; Max = bar regular; EP003 fish cameo. Pose list: POSE_LIST.md.
 - Pixie wears round glasses as part of her chef costume (Producer, 2026-10-19: "apruebo lo de los lentes a Pixie"), for the glasses-flash gag; face unchanged.
+
+## 2026-10-19 · Companion → pink dolphin; oxygen as the game's HUD
+- Producer: "Delfín rosa, lo del oxígeno hacerlo como aparece en el juego" → the companion is a pink dolphin (our own
+  design in props3d; the game's iconic Ch. 2 pink-dolphin quest and heart bubbles). Puff the bubble is retired as a
+  companion (kept only as small bubble FX). Oxygen is shown only in the HUD.
+- HUD layout from the Producer's gameplay screenshot (described in words, image not kept): bottom-left round O₂ dial
+  with number, "Normal Depth" + cargo weight (red when over); bottom-right three slanted equipment slots; harpoon
+  struggle arc meter beside Dave. Our own drawing in that layout.
