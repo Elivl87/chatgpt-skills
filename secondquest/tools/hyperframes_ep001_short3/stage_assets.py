@@ -114,11 +114,11 @@ def cues():
         (T['l04.w1'] + .2, S / 'cc0/kenney_impact/impactPunch_heavy_000.ogg', -6, None, 0.0, 'the huge tractor slams down in the dealership lot'),
         (T['l11.w7'] - .1, S / 'cc0/rubberduck_100sfx2/sfx100v2_thunder_01.ogg', -8, 2.2, 0.0, '"enemy...": lightning over the golden field'),
         (T['l05.w2.end'] + .02, S / 'cc0/kenney/scratch_005.ogg', -2, None, 0.0, '"and then..." record scratch, freeze frame'),
-        (seg.DUR - 1.0, S / 'alarm.wav', -10, 1.0, 1.1, 'loop seam: the alarm rings to the last frame (a later part of the take) -> "wake up"'),
+        (seg.DUR - 1.0, S / 'alarm.wav', -7, 1.0, 1.1, 'loop seam: the alarm rings to the last frame (a later part of the take) -> "wake up"'),
     ]
 
 
-BED = (S / 'cc0/thimras_park/park_ambience_wind.ogg', -22)   # critic v1: the card is never silent
+BED = (S / 'cc0/thimras_park/park_ambience_wind.ogg', -20)   # critic v1: the card is never silent
 
 
 def stage_audio():

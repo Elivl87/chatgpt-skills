@@ -197,8 +197,7 @@
       swap("#walDeal", 1, {{l04.w3}});
       snap("#cDeal", {{l04.w3}}, view(1.6, 260, 1420));                     // snap onto the wallet's face on "expensive"
       swap("#walDeal", 2, {{l04.end+0.05}});
-      tl.to("#cDeal", Object.assign(view(1.04, 560, 1000), { duration: .35, ease: "power2.inOut" }), {{l04.end+0.05}});   // ...and back out: it's out cold
-      tl.to("#cDeal", Object.assign(view(1.06, 580, 1040), { duration: {{l11-0.28}} - {{l04.end+0.4}}, ease: "sine.inOut" }), {{l04.end+0.4}});
+      tl.to("#cDeal", Object.assign(view(1.68, 260, 1440), { duration: {{l11-0.28}} - {{l04.end+0.05}}, ease: "sine.inOut" }), {{l04.end+0.05}});   // stay on it: out cold (critic v1/v2: the faint reads at phone size)
 
       /* ---- 6 epic: the sky turns on "greatest", lightning on "enemy" */
       const T6 = {{l11-0.28}};
