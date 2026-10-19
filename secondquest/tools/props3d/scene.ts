@@ -2979,14 +2979,14 @@ if (P.props.includes('gamebox')) scene.add((props.gamebox = gamebox()));
  * hot-pink back, pale belly and jaw (vertex colours, toon ramp), deeper magenta fins, Puff's eye rig (white ball + pupil cap + glint cap +
  * lid caps, here also a lower lid and a closed-lid line), mouth line along the rostrum, blowhole on top and a real lower jaw that drops.
  * The body is a tube around a bent 3D spine (pose = the spine's bend), rebuilt by setPose(name): swimSide, swim34, leap, ring, tangled
- * (loose net draped over it), peek (near-frontal face, tail curved away). setExpr(name): neutral, happy, worried, laugh, sleepy, wink, blink. */
+ * (loose net draped over it), peek (the straight body, framed by the camera as a 3/4-front head close-up). setExpr(name): neutral, happy, worried, laugh, sleepy, wink, blink. */
 interface DolphinFace { lid?: number; lidB?: number; tilt?: number; look?: [number, number]; eye?: number; pupil?: number; mouth: 'smile' | 'grin' | 'flat' | 'wobble' | 'none'; brow?: number; wink?: boolean; jaw?: number }
 const DOLPHIN_FACES: Record<string, DolphinFace> = {
   neutral: { lid: .1, look: [0, .3], mouth: 'smile' },
   happy: { lid: .03, lidB: .24, look: [.1, .3], mouth: 'grin' },
   worried: { lid: .22, tilt: .5, look: [-.1, .5], pupil: .92, brow: .5, mouth: 'wobble' },
   laugh: { lid: .38, lidB: .5, look: [0, 0], mouth: 'none', jaw: .55 },
-  sleepy: { lid: .62, look: [-.4, .1], mouth: 'none', jaw: .16 },
+  sleepy: { lid: .62, look: [-.4, .1], mouth: 'none', jaw: .09 },
   wink: { lid: .03, lidB: .22, look: [.1, .3], mouth: 'grin', wink: true },
   blink: { lid: 1, mouth: 'smile' },
 };
@@ -2997,9 +2997,9 @@ const DOLPHIN_POSES: Record<string, (s: number) => number> = {   // heading of t
   leap: (s) => .1 + 1.3 * Math.pow(s, 1.1),
   ring: (s) => .62 * Math.exp(-s * 2.6) + .1 * s * Math.sin(s * 5),
   tangled: (s) => .08 + .5 * s * Math.sin(s * 3.2),
-  peek: (s) => .1 + .2 * s,
+  peek: (s) => .06 + .12 * s * Math.sin(s * 4),   // the same straight body as the side views: the head close-up comes from the camera
 };
-const DOLPHIN_YAW: Record<string, (s: number) => number> = { peek: (s) => -.6 * dsstep(.06, .5, s) - .15 * s };   // sideways bend: the tail curls away behind the body
+const DOLPHIN_YAW: Record<string, (s: number) => number> = {};   // sideways bend per pose (none in use)
 const ropeMat = () => toon('#9aa3ad');
 /** a sagging square of rope net in the xy plane (w x h cm), knots at the crossings; noInk: ropes stay out of the outline passes */
 const netPatch = (cols: number, rows: number, w: number, h: number, sag: number, r = .55, part = 3550, noInk = false) => {
@@ -3012,15 +3012,29 @@ const netPatch = (cols: number, rows: number, w: number, h: number, sag: number,
   for (let i = 0; i <= cols; i++) for (let j = 0; j <= rows; j++) add(new THREE.SphereGeometry(r * 1.7, 10, 8), part + 1).position.copy(P(i / cols, j / rows));
   return g;
 };
+/** the loose fishing net FX (v2 rope style): thin grey ropes, colour only (no ink), knots jittered, every span sagging under its own
+ * weight, a few broken spans and loose ends hanging off the bottom; ~76 x 64 cm in the xy plane */
 const dolphinNet = () => {
-  const g = new THREE.Group(), n = netPatch(7, 6, 70, 56, 12, .6);
-  n.rotation.z = Math.PI / 4; g.add(n);
-  const loop = mesh(new THREE.TorusGeometry(40, .8, 8, 64), ropeMat(), 3552); loop.scale.set(1, .82, 1); g.add(loop);
+  const g = new THREE.Group(), m = ropeMat(), C = 8, R = 7, W = 72, H = 58;
+  const hash = (a: number, b: number) => { const x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return x - Math.floor(x); };
+  const rope = (pts: THREE.Vector3[], r = .38) => { const t = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), pts.length * 4, r, 6, false), m, 3550); t.userData.noInk = true; g.add(t); };
+  const K = (i: number, j: number) => { const u = i / C, v = j / R;   // knot: the net hangs from its top edge and spreads, droops and ripples below
+    return V((u - .5) * W * (1 + .18 * v) + 3.2 * (hash(i, j) - .5) + 2 * Math.sin(v * 4 + u * 3), (.5 - v) * H - 7 * v * v * Math.sin(Math.PI * u) - 6 * (1 - v) * Math.pow(Math.abs(u - .5) * 2, 2) + 3 * (hash(j, i) - .5), 6 * Math.sin(u * 5 + v * 3) + 4 * Math.sin(Math.PI * u) * Math.sin(Math.PI * v)); };
+  const span = (a: THREE.Vector3, b: THREE.Vector3, droop: number) => rope(Array.from({ length: 7 }, (_, k) => { const t = k / 6; return a.clone().lerp(b, t).add(V(0, -droop * 4 * t * (1 - t), .6 * Math.sin(t * Math.PI))); }));
+  const cut = (i: number, j: number, d: number) => hash(i * 3 + d, j * 5 + 1) < .1 || (j === R && (i === 0 || i === C)) || (j >= R - 1 && hash(i, j + d) < .25);
+  for (let i = 0; i <= C; i++) for (let j = 0; j <= R; j++) {
+    if (i < C && j > 0 && !cut(i, j, 0)) span(K(i, j), K(i + 1, j), .3 + 1.1 * hash(i, j + 9));
+    if (j < R && !cut(i, j, 1)) span(K(i, j), K(i, j + 1), .4 + 1.2 * hash(i + 4, j));
+  }
+  for (let i = 1; i < C; i++) for (let j = 1; j <= R; j++) if (hash(i + 2, j + 7) < .55) { const k = mesh(new THREE.SphereGeometry(.62, 8, 6), m, 3551); k.userData.noInk = true; k.position.copy(K(i, j)); g.add(k); }
+  for (const i of [1, 3, 4, 6, 7]) { const a = K(i, R), L = 6 + 10 * hash(i, 3), sw = 3 * (hash(i, 5) - .5);   // loose ends
+    rope([a, a.clone().add(V(sw * .3, -L * .35, .5)), a.clone().add(V(sw, -L * .7, 1)), a.clone().add(V(sw * 1.6, -L, .6))], .32); }
+  rope(Array.from({ length: C + 1 }, (_, i) => K(i, 0).add(V(0, .4, 0))), .5);   // the head rope along the top
   return g;
 };
 const dolphin = () => {
   const root = new THREE.Group(), LEN = 100, sstep = dsstep;
-  const COL = { ink: '#8a2455', mouth: '#5c1236', tongue: '#ff93ac' };
+  const COL = { ink: '#8a2455', mouth: '#5a1e3c', tongue: '#ee7aa8' };
   const PAL: Record<string, { skin: string; back: string; belly: string; rose: string; pec: string; cheek: string; fade: boolean }> = {
     pink: { skin: '#e85fc8', back: '#c83aa8', belly: '#f6d6ee', rose: '#c83aa8', pec: '#d447b4', cheek: '#f27fd8', fade: true },
     grey: { skin: '#9aa7ba', back: '#8c9aae', belly: '#f4f6fa', rose: '#76849a', pec: '#8795a9', cheek: '#aab5c6', fade: false },
@@ -3095,21 +3109,28 @@ const dolphin = () => {
     for (let i = 0; i < an.count; i++) nrm.setXYZ(i, an.getX(i), an.getY(i), an.getZ(i));
     bg.setAttribute('normal', an);
     g.add(mesh(bg, skinMat, 3500));
-    const jg = new THREE.BufferGeometry(); jg.setAttribute('position', bg.getAttribute('position')); jg.setAttribute('color', bg.getAttribute('color')); jg.setAttribute('normal', an); jg.setIndex(jidx);
-    const Fh = frame(SJ), dh = dims(SJ), hinge = Fh.p.clone().addScaledVector(Fh.U, dh.c - dh.h * .9);
-    const pivot = new THREE.Group(); pivot.position.copy(hinge); const jaw = mesh(jg, skinMat, 3500); jaw.position.copy(hinge).negate(); pivot.add(jaw); g.add(pivot);
-    // ---- the mouth inside (only seen while the jaw is open): far wall, palate, tongue floor, and a throat disc closing the tube
+    // the lower jaw has its own copy of the vertices: it bends open about the mouth corner (full angle at the tip, none at the corner),
+    // so the gape narrows smoothly to the corner and never tears away from the head
+    const jPos = new THREE.Float32BufferAttribute(pos.slice(), 3), jNrm = new THREE.Float32BufferAttribute(Array.from(an.array as Float32Array), 3);
+    const jg = new THREE.BufferGeometry(); jg.setAttribute('position', jPos); jg.setAttribute('color', bg.getAttribute('color')); jg.setAttribute('normal', jNrm); jg.setIndex(jidx);
+    const Fh = frame(SJ), dh = dims(SJ), hinge = Fh.p.clone().addScaledVector(Fh.U, dh.c + dh.h * Math.cos(PHI1 * Math.PI / 180));
+    const jawW = (s: number) => sstep(SJ, SJ * .3, s);
+    const jaw = mesh(jg, skinMat, 3500); g.add(jaw);
+    // ---- the mouth inside (only seen while the jaw is open): one smooth dark-rose cavity from lip to lip (palate, far wall, floor),
+    // closing at the mouth corners on both sides, and a soft tongue lying in the lower jaw (no teeth)
     const ribbon = (rows: THREE.Vector3[][]) => {
       const P: number[] = [], I: number[] = [], nc = rows[0].length;
       for (const r of rows) for (const q of r) P.push(q.x, q.y, q.z);
       for (let i = 0; i < rows.length - 1; i++) for (let j = 0; j < nc - 1; j++) { const a = i * nc + j, b = a + nc; I.push(a, b, a + 1, b, b + 1, a + 1); }
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); geo.setIndex(I); geo.computeVertexNormals(); return geo;
     };
-    const farWall = mesh(new THREE.BufferGeometry(), mouthMat, 3532), roof = mesh(new THREE.BufferGeometry(), mouthMat, 3532), tongue = mesh(new THREE.BufferGeometry(), tongueMat, 3533);
-    g.add(farWall, roof, tongue);
-    { const Ft = frame(SJ + .004), dt = dims(SJ + .004), P: number[] = [], I: number[] = [], c0 = Ft.p.clone().addScaledVector(Ft.U, dt.c); P.push(c0.x, c0.y, c0.z);
-      for (let j = 0; j <= 40; j++) { const ph = TAU * j / 40, q = c0.clone().addScaledVector(Ft.U, .93 * dt.h * Math.cos(ph)).addScaledVector(Ft.S, .93 * dt.w * Math.sin(ph)); P.push(q.x, q.y, q.z); if (j) I.push(0, j, j + 1); }
-      const dg = new THREE.BufferGeometry(); dg.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); dg.setIndex(I); g.add(mesh(dg, mouthMat, 3534)); }
+    const cavity = mesh(new THREE.BufferGeometry(), mouthMat, 3532);
+    const tongue = mesh(new THREE.SphereGeometry(1, 32, 16), tongueMat, 3533);
+    g.add(cavity);
+    { const sT = SJ * .5, Fq = frame(sT), dq = dims(sT), lipY = dq.h * Math.cos(PHI1 * Math.PI / 180);   // the tongue rests in the lower jaw, under the lip line
+      const c = Fq.p.clone().addScaledVector(Fq.U, dq.c + lipY - dq.h * .3);
+      tongue.userData.at = c; tongue.userData.q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(Fq.T, Fq.U, Fq.S)); tongue.userData.w = jawW(sT);
+      tongue.scale.set(SJ * LEN * .3, dq.h * .14, dq.w * .44); tongue.userData.noInk = true; g.add(tongue); }   // colour only: a soft blob, no ink ring
     // ---- fins
     const fin = (shape: THREE.Shape, depth: number, bev: number, part: number, mat: THREE.Material = finMat) => {
       const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 4, curveSegments: 24 }); geo.translate(0, 0, -depth / 2);
@@ -3127,11 +3148,10 @@ const dolphin = () => {
     basis(flukes, Ft.p, Ft.S, Ft.T.clone().negate(), Ft.U.clone().negate()); flukes.rotateY(.9); g.add(flukes);
     const pS = new THREE.Shape();                                                      // pectoral fin: a broad tapered paddle
     pS.moveTo(-1, 4.4); pS.quadraticCurveTo(7, 6.6, 14.5, -2.6); pS.quadraticCurveTo(7.5, -3, -1, -5); pS.closePath();
-    const peekK = pose === 'peek' ? .72 : 1;
     const pecs = [-1, 1].map((sd) => {
-      const S = surf(.27, 122, sd, -1.2), X = S.n.clone().multiplyScalar(pose === 'peek' ? .1 : .3).addScaledVector(S.fwd, pose === 'peek' ? -.85 : -.7).addScaledVector(S.up, -.55).normalize();
+      const S = surf(.27, 122, sd, -1.2), X = S.n.clone().multiplyScalar(.3).addScaledVector(S.fwd, -.7).addScaledVector(S.up, -.55).normalize();
       const Z = X.clone().cross(S.fwd).normalize(), Y = Z.clone().cross(X), m = fin(pS, 1.6, .55, 3503, pecMat);
-      basis(m, S.p, X, Y, Z); m.scale.setScalar(peekK); g.add(m); return m;
+      basis(m, S.p, X, Y, Z); g.add(m); return m;
     });
     // ---- blowhole
     const bh = mesh(new THREE.SphereGeometry(1, 16, 10), inkMat, 3510), Sb = surf(.27, 0, 1, -.3);
@@ -3169,6 +3189,7 @@ const dolphin = () => {
       }
       const m = f.mouth, s0 = .02, s1 = .17;
       for (const L of lines) {
+        if (poseName === 'peek' && L.sd === -1) { setGeo(L.line, null); continue; }   // the far mouth line would sit on the beak's outline
         const lineAt = (ph: (u: number) => number) => new THREE.TubeGeometry(new THREE.CatmullRomCurve3(Array.from({ length: 20 }, (_, i) => { const u = i / 19; return surf(s0 + (s1 - s0) * u, ph(u), L.sd, .3).p; })), 40, .42, 6, false);
         if (m === 'smile') setGeo(L.line, lineAt((u) => 111 - 15 * sstep(.4, 1, u)));
         else if (m === 'grin') setGeo(L.line, lineAt((u) => 111 - 30 * sstep(.35, 1, u)));
@@ -3177,16 +3198,28 @@ const dolphin = () => {
         else setGeo(L.line, null);
       }
       // the jaw drops about its hinge, and the inside of the mouth is filled in
-      const open = f.jaw ?? 0, q = new THREE.Quaternion().setFromAxisAngle(Fh.S, -open);
-      pivot.quaternion.copy(q);
-      const rot = (p: THREE.Vector3) => p.clone().sub(hinge).applyQuaternion(q).add(hinge);
-      const rows = Array.from({ length: 22 }, (_, i) => SJ * Math.pow(i / 21, 1.2));
-      const Ap = rows.map((s) => surf(s, PHI1, 1, -.3).p), An = rows.map((s) => surf(s, PHI1, -1, -.3).p);
-      farWall.visible = roof.visible = tongue.visible = open > .02;
+      const open = f.jaw ?? 0, qa = (s: number) => new THREE.Quaternion().setFromAxisAngle(Fh.S, -open * jawW(s));
+      const rotS = (p: THREE.Vector3, s: number) => p.clone().sub(hinge).applyQuaternion(qa(s)).add(hinge);
+      for (let i = 0; i <= NS && sRow(i) <= SJ + 1e-6; i++) {
+        const s = sRow(i), qi = qa(s);
+        for (let j = 0; j <= NR; j++) {
+          const k = i * (NR + 1) + j, p = rotS(V(pos[3 * k], pos[3 * k + 1], pos[3 * k + 2]), s), nn = V(an.getX(k), an.getY(k), an.getZ(k)).applyQuaternion(qi);
+          jPos.setXYZ(k, p.x, p.y, p.z); jNrm.setXYZ(k, nn.x, nn.y, nn.z);
+        }
+      }
+      jPos.needsUpdate = jNrm.needsUpdate = true; jg.computeBoundingSphere();
+      { const tw = tongue.userData.w as number, qt = new THREE.Quaternion().setFromAxisAngle(Fh.S, -open * tw);
+        tongue.position.copy((tongue.userData.at as THREE.Vector3).clone().sub(hinge).applyQuaternion(qt).add(hinge)); tongue.quaternion.copy(qt).multiply(tongue.userData.q); }
+      const rows = Array.from({ length: 24 }, (_, i) => SJ * Math.pow(i / 23, 1.15));
+      cavity.visible = tongue.visible = open > .02;
       if (open > .02) {
-        setGeo(farWall, ribbon(rows.map((_, i) => [An[i], rot(An[i])])));
-        setGeo(roof, ribbon(rows.map((_, i) => [Ap[i], An[i]])));
-        setGeo(tongue, ribbon(rows.map((_, i) => { const a = rot(Ap[i]), b = rot(An[i]); return [a.clone().lerp(b, .22), a.clone().lerp(b, .78)]; }).map((r, i) => r.map((p) => p.clone().addScaledVector(Fh.U, .9 + 1.4 * Math.sin(Math.PI * Math.min(1, i / 21)))))));
+        setGeo(cavity, ribbon(rows.map((sr) => {
+          const q = qa(sr), rot = (p: THREE.Vector3) => rotS(p, sr);
+          const Fr = frame(sr), dr = dims(sr), Ap = surf(sr, PHI1, 1, -.25).p, An = surf(sr, PHI1, -1, -.25).p, Bp = rot(Ap), Bn = rot(An), Ur = Fr.U.clone().applyQuaternion(q);
+          const mid = (x: THREE.Vector3, y: THREE.Vector3) => x.clone().lerp(y, .5);
+          const ctrl = [Bp, mid(Bp, Bn).addScaledVector(Ur, -dr.h * .32), Bn, mid(Bn, An).addScaledVector(Fr.S, dr.w * .18), An, mid(An, Ap).addScaledVector(Fr.U, dr.h * .3), Ap];
+          return new THREE.CatmullRomCurve3(ctrl, false, 'centripetal').getPoints(36);
+        })));
       }
     };
     // ---- tangled: a loose grey net, thin ropes with gaps, draped over the whole body from rostrum to tail, and a loose trailing end
@@ -3210,7 +3243,11 @@ const dolphin = () => {
       for (const [t, ph] of [[.62, 2.5], [.72, 2.9], [.82, 2.2], [.9, 3.3]] as const) { const a = at(t, ph); rope([a, a.clone().add(V(-1, -7, 2)), a.clone().add(V(-4, -16, 3)), a.clone().add(V(-3, -26, 1))], .28); }
       const Fe = frame(.97), tail = netPatch(3, 3, 32, 22, 4, .3, 3550, true); tail.position.copy(Fe.p).add(V(0, -13, 5)); tail.rotation.z = .15; g.add(tail);
     }
-    if (pose === 'peek') g.position.copy(frame(.15).p).negate();
+    if (pose === 'peek') {   // the head close-up: only the near eye (the far one would poke out of the melon's outline), no pectoral stubs at the frame edge
+      g.position.copy(frame(.15).p).negate();
+      for (const E of eyes) if (E.sd === -1) E.eg.visible = false;
+      for (const m of pecs) m.visible = false;
+    }
     mine = ids.slice(n0);
     applyFace(face);
   };

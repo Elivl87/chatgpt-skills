@@ -1031,9 +1031,9 @@ def job_dtd_cast_sheet():
 
 
 # ---------------------------------------------------------------- the pink dolphin companion
-DOLPHIN_VIEWS = {   # pose: (camera yaw, elevation, framing span in cm, target)
+DOLPHIN_VIEWS = {   # pose: (camera yaw, elevation, framing span in cm, target[, fov]); peek = a 3/4-front head close-up (40 deg off the nose axis, the body cropped by the frame)
     'swimSide': (0, 2, 126, (0, 0, 0)), 'swim34': (38, 8, 128, (0, 0, 0)), 'leap': (0, 0, 122, (0, 0, 0)),
-    'ring': (0, 0, 122, (0, 0, 0)), 'tangled': (0, 0, 126, (0, 0, 0)), 'peek': (58, 4, 50, (0, 0, 0)),
+    'ring': (0, 0, 122, (0, 0, 0)), 'tangled': (0, 0, 150, (-4, -6, 0)), 'peek': (54, 18, 52, (5, -2, 0), 34),
 }
 DOLPHIN_COMBOS = ([('swimSide', e) for e in ('neutral', 'happy', 'worried', 'sleepy', 'laugh', 'blink')] + [('swim34', e) for e in ('neutral', 'happy', 'worried', 'blink')]
                   + [('leap', 'happy'), ('ring', 'happy'), ('ring', 'wink'), ('tangled', 'worried')] + [('peek', e) for e in ('neutral', 'happy', 'laugh', 'sleepy', 'wink', 'blink')])
@@ -1041,9 +1041,10 @@ DOLPHIN_COMBOS = ([('swimSide', e) for e in ('neutral', 'happy', 'worried', 'sle
 
 def dolphin_render(pose='swimSide', expr='neutral', size=1100, line=4.2, grey=False):
     """The pink dolphin companion (transparent, no water): pose = swimSide|swim34|leap|ring|tangled|peek, expr = neutral|happy|worried|laugh|sleepy|wink|blink."""
-    yaw, elev, span, tgt = DOLPHIN_VIEWS[pose]
-    d = span / 2 / np.tan(np.radians(13))
-    shot = {'camera': orbit(yaw, elev, d, list(tgt)), 'target': list(tgt), 'fov': 26, 'cart': None, 'dolphin': {'pose': pose, 'expr': expr, 'grey': grey}, 'near': d * .3, 'far': d * 3}
+    yaw, elev, span, tgt, *rest = DOLPHIN_VIEWS[pose]
+    fov = rest[0] if rest else 26
+    d = span / 2 / np.tan(np.radians(fov / 2))
+    shot = {'camera': orbit(yaw, elev, d, list(tgt)), 'target': list(tgt), 'fov': fov, 'cart': None, 'dolphin': {'pose': pose, 'expr': expr, 'grey': grey}, 'near': d * .3, 'far': d * 3}
     return render({'props': ['dolphin'], 'shots': [shot], 'light': 'neutral'}, size, size, line=line)[0]
 
 
@@ -1129,7 +1130,7 @@ def job_dtd_dolphin():
 
 
 def job_dtd_dolphin_sheet():
-    """Contact sheet docs/davethediver/dolphin_v2.jpg: every dolphin_* cut-out, labelled, 2400 px wide, row heights fit their tallest cut-out."""
+    """Contact sheet docs/davethediver/dolphin_v3.jpg (v1/v2 kept): every dolphin_* cut-out, labelled, 2400 px wide, row heights fit their tallest cut-out."""
     BG, COLS, CW, CHMAX = (226, 226, 224), 6, 400, 440
     names = dolphin_files()
     rows = []
@@ -1148,7 +1149,7 @@ def job_dtd_dolphin_sheet():
             tiles.append(t)
         while len(tiles) < COLS: tiles.append(np.full((CH, CW, 3), BG, np.uint8))
         rows.append(np.hstack(tiles))
-    out = ROOT / 'docs/davethediver/dolphin_v2.jpg'
+    out = ROOT / 'docs/davethediver/dolphin_v3.jpg'
     out.parent.mkdir(parents=True, exist_ok=True)
     cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 90])
     print(out.relative_to(ROOT))
