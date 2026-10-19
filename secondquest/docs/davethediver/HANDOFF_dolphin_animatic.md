@@ -1,7 +1,7 @@
 # Dave the Diver · Handoff → next session: dolphin build + Hyperframes animatic (2026-10-19)
 
 **Read first:** `secondquest/CLAUDE.md`, `docs/davethediver/PRODUCER_DECISIONS.md` (2026-10-19 entry), this page. Reply in
-Spanish; balance **3.75 credits** in every report. Branch `claude/secondquest-pilot-hook-4yw8xj`. Producer token rules:
+Spanish; balance **1.75 credits** in every report. Branch `claude/secondquest-pilot-hook-4yw8xj`. Producer token rules:
 director does small edits, max one Sonnet builder at a time, critics only on the final round, one background waiter, 480p drafts.
 
 ## Done (2026-10-19)
@@ -28,7 +28,7 @@ director does small edits, max one Sonnet builder at a time, critics only on the
 ## Next steps (in order)
 1. **Pink dolphin in props3d** (one Sonnet builder; spec in SHOT_PLAN.md "Dolphin build spec"; fish2 eye/lid rig;
    expressions + poses incl. bubble-ring and leap) → sheet `docs/davethediver/dolphin_v1.jpg` → report.
-2. **Art quote pending Producer approval — MAXIMUM FIDELITY (Producer):** bar interior + bay exterior plates at 2k min (4k: get live price first); detailed prompts from GAME_VISUAL_REFERENCE §0 + style refs, shown to the Producer with the exact quote.
+2. **Plates DONE** (2.0 cr, balance 1.75): `public/art/davethediver/plates/` bar_interior_night + bay_exterior_dusk; QC `docs/art_orders/davethediver/plates/QC.md`. Restore by re-downloading the job URLs if the container is new (job ids in QC.md).
    optional Quest dive poses +0.5 each. Do not generate before an explicit "sí".
 3. **Animatic**: copy `tools/hyperframes_ep003` → `tools/hyperframes_davethediver`, keyed to timings.json words; block A
    first at 480p via `scene_cache.py`; framing_qc + pacing_qc; send only block A. Placeholder plates where NEW_ART is pending.
