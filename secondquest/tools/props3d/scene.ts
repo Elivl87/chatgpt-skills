@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 type V3 = [number, number, number];
 interface FishExpr { lid?: number; look?: [number, number]; mouth?: 'pout' | 'o' | 'flat'; sweat?: boolean }
-interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; max?: FriendShot; leo?: FriendShot; cobra?: FriendShot; bubble?: string; boat?: 'back' | 'front'; hide?: number[]; near?: number; far?: number }
+interface Shot { camera: V3; target: V3; fov?: number; cart?: { y: number; x?: number; z?: number; tilt?: number } | null; pose?: number; fish?: FishExpr; max?: FriendShot; leo?: FriendShot; cobra?: FriendShot; bubble?: string; dolphin?: { pose?: string; expr?: string; grey?: boolean }; boat?: 'back' | 'front'; hide?: number[]; near?: number; far?: number }
 type Poly = { outer: [number, number][]; holes: [number, number][][] };
 interface Params { shield?: Record<string, Poly[]>; variant?: 'classic' | 'faithful'; width: number; height: number; shots: Shot[]; props: string[]; cartTexture?: string; cartOutline?: [number, number][]; light?: 'room_night' | 'neutral' }
 declare global { interface Window { PARAMS: Params } }
@@ -2975,9 +2975,215 @@ if (P.props.includes('phone')) scene.add((props.phone = phone()));
 if (P.props.includes('mug')) scene.add((props.mug = mug()));
 if (P.props.includes('headphones')) scene.add((props.headphones = headphones()));
 if (P.props.includes('gamebox')) scene.add((props.gamebox = gamebox()));
+/** The pink dolphin companion (cm, nose = +x, up = +y, camera side = +z, ~100 long): bubblegum bottlenose, lighter belly (vertex colours,
+ * toon ramp), darker rose fins, chunky body with an oversized head and a soft round rostrum, Puff's eye rig (white ball + pupil cap +
+ * glint cap + lid caps, here also a lower lid), mouth line along the rostrum, blowhole on top. The body is a tube around a bent spine
+ * (the pose = the spine's bend), rebuilt by setPose(name): swimSide, swim34, leap, ring, tangled (net wrapped round fin and tail), peek.
+ * setExpr(name): neutral, happy, worried, laugh, sleepy, wink, blink. */
+interface DolphinFace { lid?: number; lidB?: number; tilt?: number; look?: [number, number]; eye?: number; pupil?: number; mouth: 'smile' | 'grin' | 'flat' | 'wobble' | 'laugh' | 'yawn'; brow?: number; wink?: boolean }
+const DOLPHIN_FACES: Record<string, DolphinFace> = {
+  neutral: { lid: .1, look: [0, .3], mouth: 'smile' },
+  happy: { lid: .03, lidB: .24, look: [.1, .3], mouth: 'grin' },
+  worried: { lid: .22, tilt: .5, look: [-.1, .5], pupil: .92, brow: .5, mouth: 'wobble' },
+  laugh: { lid: .38, lidB: .5, look: [0, 0], mouth: 'laugh' },
+  sleepy: { lid: .62, look: [-.4, .1], mouth: 'yawn' },
+  wink: { lid: .03, lidB: .22, look: [.1, .3], mouth: 'grin', wink: true },
+  blink: { lid: 1, mouth: 'smile' },
+};
+const DOLPHIN_POSES: Record<string, (s: number) => number> = {   // heading of the spine (nose direction, rad) at s = 0 (nose) .. 1 (tail)
+  swimSide: (s) => .08 + .3 * s * Math.sin(s * 5),
+  swim34: (s) => .04 + .26 * s * Math.sin(s * 4.2 + .5),
+  leap: (s) => .1 + 1.3 * Math.pow(s, 1.1),
+  ring: (s) => .62 * Math.exp(-s * 2.6) + .1 * s * Math.sin(s * 5),
+  tangled: (s) => .08 + .5 * s * Math.sin(s * 3.2),
+  peek: (s) => .12 + .25 * s,
+};
+const ropeMat = () => toon('#aab2bc');
+/** a sagging square of rope net in the xy plane (w x h cm), knots at the crossings */
+const netPatch = (cols: number, rows: number, w: number, h: number, sag: number, r = .55, part = 3550) => {
+  const g = new THREE.Group(), m = ropeMat();
+  const P = (u: number, v: number) => V((u - .5) * w, (.5 - v) * h, sag * Math.sin(Math.PI * u) * Math.sin(Math.PI * v));
+  const line = (f: (t: number) => THREE.Vector3) => { const pts = Array.from({ length: 13 }, (_, i) => f(i / 12)); g.add(mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 24, r, 6, false), m, part)); };
+  for (let i = 0; i <= cols; i++) line((t) => P(i / cols, t));
+  for (let j = 0; j <= rows; j++) line((t) => P(t, j / rows));
+  for (let i = 0; i <= cols; i++) for (let j = 0; j <= rows; j++) { const k = mesh(new THREE.SphereGeometry(r * 1.9, 10, 8), m, part + 1); k.position.copy(P(i / cols, j / rows)); g.add(k); }
+  return g;
+};
+const dolphinNet = () => {
+  const g = new THREE.Group(), n = netPatch(7, 6, 70, 56, 12, .7);
+  n.rotation.z = Math.PI / 4; g.add(n);
+  const m = ropeMat(), loop = mesh(new THREE.TorusGeometry(40, .9, 8, 64), m, 3552); loop.scale.set(1, .82, 1); loop.position.z = 0; g.add(loop);
+  return g;
+};
+const dolphin = () => {
+  const root = new THREE.Group(), LEN = 100;
+  const COL = { ink: '#8a2455', mouth: '#6e1a3f', tongue: '#ff93ac' };
+  const PAL: Record<string, { skin: string; back: string; belly: string; rose: string; pec: string; cheek: string; fade: boolean }> = {
+    pink: { skin: '#e85fc8', back: '#c83aa8', belly: '#f6d6ee', rose: '#c83aa8', pec: '#d447b4', cheek: '#f27fd8', fade: true },
+    grey: { skin: '#9aa7ba', back: '#8c9aae', belly: '#f4f6fa', rose: '#76849a', pec: '#8795a9', cheek: '#aab5c6', fade: false },
+  };
+  let variant = 'pink';
+  const sstep = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const prof = (pts: [number, number][]) => {
+    const S = new THREE.CatmullRomCurve3(pts.map(([x, y]) => V(x, y, 0)), false, 'centripetal').getPoints(400);
+    return (s: number) => { let lo = 0, hi = S.length - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (S[m].x <= s) lo = m; else hi = m; } const a = S[lo], b = S[hi]; return b.x === a.x ? a.y : a.y + (b.y - a.y) * (s - a.x) / (b.x - a.x); };
+  };
+  const RH = prof([[0, 2.4], [.05, 2.8], [.12, 3.8], [.17, 5.2], [.22, 7.6], [.28, 10], [.36, 11.8], [.48, 11.6], [.58, 9.8], [.68, 7.6], [.78, 5.3], [.88, 3.8], [.95, 3.1], [1, 2.8]]);
+  const RW = prof([[0, 2.3], [.05, 2.7], [.12, 3.7], [.17, 5], [.22, 6.8], [.28, 8.6], [.36, 9.8], [.48, 9.4], [.58, 8], [.68, 5.9], [.78, 4], [.88, 2.7], [1, 2]]);
+  const CY = prof([[0, -5.3], [.08, -5.5], [.14, -5], [.2, -3.2], [.28, -.8], [.34, 0], [1, 0]]);
+  const dims = (s: number) => { const cap = (s < .035 ? Math.sqrt(1 - (1 - s / .035) ** 2) : 1) * (s > .975 ? Math.sqrt(Math.max(0, 1 - ((s - .975) / .025) ** 2)) : 1); return { h: RH(s) * cap, w: RW(s) * cap, c: CY(s) }; };
+  const skinMat = new THREE.MeshToonMaterial({ vertexColors: true, gradientMap: ramp });
+  const white = toon('#2c1822'), dark = toon('#0c0810'), inkMat = toon(COL.ink);
+  let finMat: THREE.Material, skinFlat: THREE.Material;
+  const mouthMat = new THREE.MeshToonMaterial({ color: new THREE.Color(COL.mouth), gradientMap: ramp, side: THREE.DoubleSide }), tongueMat = new THREE.MeshToonMaterial({ color: new THREE.Color(COL.tongue), gradientMap: ramp, side: THREE.DoubleSide });
+  let cur: THREE.Group | null = null, mine: THREE.Mesh[] = [], applyFace: (f: DolphinFace) => void = () => {}, face: DolphinFace = DOLPHIN_FACES.neutral, poseName = '';
+
+  const build = (pose: string) => {
+    if (cur) { root.remove(cur); cur.traverse((o) => { const m = o as THREE.Mesh; if (m.geometry) m.geometry.dispose(); }); for (const m of mine) { const i = ids.indexOf(m); if (i >= 0) ids.splice(i, 1); } }
+    poseName = pose;
+    const C = PAL[variant]; finMat = toon(C.rose); skinFlat = toon(C.skin); const pecMat = toon(C.pec);
+    const n0 = ids.length, g = new THREE.Group(); cur = g; root.add(g);
+    const aBase = DOLPHIN_POSES[pose] ?? DOLPHIN_POSES.swimSide, aOf = (t: number) => aBase(t) + .17 * Math.exp(-((t / .12) ** 2));   // + the slightly upturned rostrum
+    // ---- spine
+    const M = 400, SP: { x: number; y: number; a: number }[] = [];
+    let sx = 0, sy = 0;
+    for (let i = 0; i <= M; i++) { const a = aOf(i / M); SP.push({ x: sx, y: sy, a }); sx -= Math.cos(a) * LEN / M; sy -= Math.sin(a) * LEN / M; }
+    const mx = SP.reduce((t, p) => t + p.x, 0) / SP.length, my = SP.reduce((t, p) => t + p.y, 0) / SP.length;
+    for (const p of SP) { p.x -= mx; p.y -= my; }
+    const frame = (s: number) => {
+      const f = Math.max(0, Math.min(M - 1e-6, s * M)), i = Math.floor(f), t = f - i, A = SP[i], B = SP[i + 1], a = A.a + (B.a - A.a) * t;
+      return { x: A.x + (B.x - A.x) * t, y: A.y + (B.y - A.y) * t, a, fx: Math.cos(a), fy: Math.sin(a), ux: -Math.sin(a), uy: Math.cos(a) };
+    };
+    /** point on the skin: s along the spine, ph = angle from the back (deg), sd = side (+1 camera side) */
+    const surf = (s: number, ph: number, sd = 1, off = 0) => {
+      const F = frame(s), d = dims(s), c = Math.cos(ph * Math.PI / 180), sn = Math.sin(ph * Math.PI / 180);
+      const n = V(F.ux * c / Math.max(d.h, 1e-3), F.uy * c / Math.max(d.h, 1e-3), sd * sn / Math.max(d.w, 1e-3)).normalize();
+      const p = V(F.x + F.ux * (d.c + d.h * c), F.y + F.uy * (d.c + d.h * c), sd * d.w * sn).addScaledVector(n, off);
+      return { p, n, F, fwd: V(F.fx, F.fy, 0), up: V(F.ux, F.uy, 0) };
+    };
+    // ---- body
+    const NS = 150, NR = 160, pos: number[] = [], col: number[] = [], idx: number[] = [], cSkin = new THREE.Color(C.skin), cBelly = new THREE.Color(C.belly), cBack = new THREE.Color(C.back), cBlush = new THREE.Color(C.cheek);
+    for (let i = 0; i <= NS; i++) {
+      const s = (1 - Math.cos(Math.PI * i / NS)) / 2, F = frame(s), d = dims(s);
+      for (let j = 0; j <= NR; j++) {
+        const ph = TAU * j / NR, c = Math.cos(ph), sn = Math.sin(ph);
+        pos.push(F.x + F.ux * (d.c + d.h * c), F.y + F.uy * (d.c + d.h * c), d.w * sn);
+        const blush = sstep(.24, .29, s) * (1 - sstep(.33, .4, s)) * sstep(.1, .2, c) * (1 - sstep(.75, .9, c)) * .55;
+        const thr = -.2 - (C.fade ? 1.2 * sstep(.7, .93, s) : 0), k = sstep(thr - .05, thr + .05, c), o = cBelly.clone().lerp(cSkin, k).lerp(cBlush, blush).lerp(cBack, sstep(.5, .85, c) * sstep(.12, .3, s) * (1 - sstep(.9, 1, s)) * .95);
+        col.push(o.r, o.g, o.b);
+      }
+    }
+    for (let i = 0; i < NS; i++) for (let j = 0; j < NR; j++) { const a = i * (NR + 1) + j, b = a + NR + 1, c = a + 1, d = b + 1; idx.push(a, b, c, b, d, c); }
+    const bg = new THREE.BufferGeometry();
+    bg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); bg.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); bg.setIndex(idx);
+    bg.computeVertexNormals();
+    const nrm = bg.getAttribute('normal') as THREE.BufferAttribute;
+    for (let i = 0; i <= NS; i++) { const a = i * (NR + 1), b = a + NR, v = V(nrm.getX(a) + nrm.getX(b), nrm.getY(a) + nrm.getY(b), nrm.getZ(a) + nrm.getZ(b)).normalize(); nrm.setXYZ(a, v.x, v.y, v.z); nrm.setXYZ(b, v.x, v.y, v.z); }
+    g.add(mesh(bg, skinMat, 3500));
+    // ---- fins
+    const fin = (shape: THREE.Shape, depth: number, bev: number, part: number, mat: THREE.Material = finMat) => {
+      const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 4, curveSegments: 24 }); geo.translate(0, 0, -depth / 2);
+      return mesh(geo, mat, part);
+    };
+    const basis = (m: THREE.Object3D, o: THREE.Vector3, X: THREE.Vector3, Y: THREE.Vector3, Z: THREE.Vector3) => { m.position.copy(o); m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(X, Y, Z)); };
+    const dS = new THREE.Shape();                                                      // dorsal fin: x forward, y up, swept back
+    dS.moveTo(8, -2); dS.quadraticCurveTo(4, 10, -9, 16.5); dS.quadraticCurveTo(-4, 7, -9, -2); dS.closePath();
+    const dorsal = fin(dS, 2.2, .9, 3501), Sd = surf(.5, 0, 1, -2.2);
+    basis(dorsal, Sd.p, Sd.fwd, Sd.up, V(0, 0, 1)); g.add(dorsal);
+    const fS = new THREE.Shape();                                                      // flukes: x across, y away from the body
+    fS.moveTo(0, -2); fS.quadraticCurveTo(-9, 1, -23, 11); fS.quadraticCurveTo(-24.5, 12.4, -21.4, 11.4); fS.quadraticCurveTo(-10, 6, 0, 4.2);
+    fS.quadraticCurveTo(10, 6, 21.4, 11.4); fS.quadraticCurveTo(24.5, 12.4, 23, 11); fS.quadraticCurveTo(9, 1, 0, -2);
+    const flukes = fin(fS, 1.8, .8, 3502), Ft = frame(.972);
+    basis(flukes, V(Ft.x, Ft.y, 0), V(0, 0, 1), V(-Ft.fx, -Ft.fy, 0), V(-Ft.ux, -Ft.uy, 0)); flukes.rotateY(1.05); g.add(flukes);
+    const pS = new THREE.Shape();                                                      // pectoral fin: x along the fin, y across
+    pS.moveTo(-1, 2.6); pS.quadraticCurveTo(7, 4.6, 17, -3); pS.quadraticCurveTo(9, -1.2, 1, -3.6); pS.closePath();
+    const pecs = [-1, 1].map((sd) => {
+      const S = surf(.31, 122, sd, -1.2), X = S.n.clone().multiplyScalar(.35).addScaledVector(S.fwd, -.72).addScaledVector(S.up, -.35).normalize();
+      const Z = X.clone().cross(S.fwd).normalize(), Y = Z.clone().cross(X), m = fin(pS, 1.8, .6, 3503, pecMat);
+      basis(m, S.p, X, Y, Z); g.add(m); return { m, X, Y, Z, o: S.p.clone() };
+    });
+    // ---- blowhole, cheeks
+    const bh = mesh(new THREE.SphereGeometry(1, 16, 10), inkMat, 3510), Sb = surf(.285, 0, 1, -.3);
+    bh.scale.set(1.9, .45, 1.1); basis(bh, Sb.p, Sb.fwd, Sb.n, V(0, 0, 1)); g.add(bh);
+    // ---- eyes
+    const ER = 2.4, eyes = [-1, 1].map((sd) => {
+      const S = surf(.262, 80, sd, -.4), Z = S.n.clone().addScaledVector(S.fwd, .25).normalize(), X = S.up.clone().cross(Z).normalize(), Y = Z.clone().cross(X);
+      const eg = new THREE.Group(); basis(eg, S.p, X, Y, Z); eg.scale.set(1, 1.1, .55); g.add(eg);
+      const ball = mesh(new THREE.SphereGeometry(ER, 32, 20), white, 3503 + 20), pup = mesh(new THREE.BufferGeometry(), dark, 3524), glint = mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: 0xffffff }), 3525);
+      const lid = mesh(new THREE.BufferGeometry(), skinFlat, 3526), lidB = mesh(new THREE.BufferGeometry(), skinFlat, 3527), brow = mesh(new THREE.SphereGeometry(1, 14, 8), inkMat, 3528);
+      brow.scale.set(2.6, .55, .8); eg.add(ball, pup, glint, lid, lidB, brow);
+      return { sd, eg, ball, pup, glint, lid, lidB, brow };
+    });
+    // ---- mouth (rebuilt per expression): a line, or a lens-shaped opening, on each side of the rostrum
+    const sides = [-1, 1].map((sd) => ({ sd, line: mesh(new THREE.BufferGeometry(), mouthMat, 3530), open: mesh(new THREE.BufferGeometry(), mouthMat, 3531), tongue: mesh(new THREE.BufferGeometry(), tongueMat, 3532) }));
+    for (const S of sides) g.add(S.line, S.open, S.tongue);
+    const lens = (sd: number, s0: number, s1: number, up: (u: number) => number, gap: (u: number) => number, f0: number, f1: number, off: number) => {
+      const NU = 28, NV = 4, P: number[] = [], I: number[] = [];
+      for (let i = 0; i <= NU; i++) { const u = i / NU, s = s0 + (s1 - s0) * u, a = up(u), b = gap(u); for (let j = 0; j <= NV; j++) { const p = surf(s, a + b * (f0 + (f1 - f0) * j / NV), sd, off).p; P.push(p.x, p.y, p.z); } }
+      for (let i = 0; i < NU; i++) for (let j = 0; j < NV; j++) { const a = i * (NV + 1) + j, b = a + NV + 1; I.push(a, b, a + 1, b, b + 1, a + 1); }
+      const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); geo.setIndex(I); geo.computeVertexNormals(); return geo;
+    };
+    const setGeo = (m: THREE.Mesh, geo: THREE.BufferGeometry | null) => { m.geometry.dispose(); m.geometry = geo ?? new THREE.BufferGeometry(); m.visible = !!geo; };
+    applyFace = (f: DolphinFace) => {
+      for (const E of eyes) {
+        const sd = E.sd, wink = !!f.wink && sd === 1, lidK = wink ? 1 : (f.lid ?? .1), lidBK = wink ? 0 : (f.lidB ?? 0), er = ER * (f.eye ?? 1), pr = er * .62 * (f.pupil ?? 1);
+        const [lu, lf] = f.look ?? [0, .3], dir = V(sd * lf * .3, lu * .3, 1).normalize();
+        E.ball.scale.setScalar(er / ER);
+        E.pup.geometry.dispose(); E.pup.geometry = new THREE.SphereGeometry(er * 1.012, 24, 8, 0, TAU, 0, Math.asin(Math.min(.9, pr / er)));
+        E.pup.quaternion.setFromUnitVectors(V(0, 1, 0), dir);
+        const dg = dir.clone().multiplyScalar(er).add(V(pr * .42, pr * .48, 0)).normalize();
+        E.glint.geometry.dispose(); E.glint.geometry = new THREE.SphereGeometry(er * 1.024, 12, 4, 0, TAU, 0, Math.asin(Math.min(.9, pr * .3 / er)));
+        E.glint.quaternion.setFromUnitVectors(V(0, 1, 0), dg);
+        E.lid.visible = lidK > .03; E.lid.geometry.dispose(); E.lid.geometry = new THREE.SphereGeometry(er * 1.07, 28, 14, 0, TAU, 0, Math.PI * Math.max(.02, Math.min(1, lidK)));
+        E.lid.rotation.set(0, 0, sd * (f.tilt ?? 0));
+        E.lidB.visible = lidBK > .03; E.lidB.geometry.dispose(); const bk = Math.max(.02, Math.min(1, lidBK)); E.lidB.geometry = new THREE.SphereGeometry(er * 1.085, 28, 14, 0, TAU, Math.PI * (1 - bk), Math.PI * bk);
+        E.pup.visible = E.glint.visible = lidK < .97;
+        E.brow.visible = f.brow != null; E.brow.position.set(0, er * 1.45, -er * .1); E.brow.rotation.set(0, 0, sd * (f.brow ?? 0));
+      }
+      const m = f.mouth, s0 = .02, s1 = .225;
+      for (const S of sides) {
+        const sd = S.sd;
+        const lineAt = (ph: (u: number) => number, a = s0, b = s1) => {
+          const pts = Array.from({ length: 20 }, (_, i) => { const u = i / 19; return surf(a + (b - a) * u, ph(u), sd, .3).p; });
+          return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, .42, 6, false);
+        };
+        setGeo(S.line, null); setGeo(S.open, null); setGeo(S.tongue, null);
+        if (m === 'smile') setGeo(S.line, lineAt((u) => 111 - 15 * sstep(.4, 1, u)));
+        else if (m === 'grin') setGeo(S.line, lineAt((u) => 111 - 30 * sstep(.35, 1, u)));
+        else if (m === 'flat') setGeo(S.line, lineAt((u) => 111 + 3 * u));
+        else if (m === 'wobble') setGeo(S.line, lineAt((u) => 107 + 6 * Math.sin(u * Math.PI * 3.2) * u + 3 * u));
+        else if (m === 'laugh') {
+          const up = (u: number) => 111 - 22 * sstep(.4, 1, u), gap = (u: number) => 80 * Math.pow(Math.sin(Math.PI * Math.pow(u, .75)), .8);
+          setGeo(S.open, lens(sd, s0 + .01, s1 + .03, up, gap, 0, 1, .3)); setGeo(S.tongue, lens(sd, s0 + .07, s1 - .02, up, (u) => gap(u) * .8, .38, .96, .55));
+        } else {   // yawn: a small sleepy o on the rostrum
+          const up = () => 105, gap = (u: number) => 24 * Math.pow(Math.sin(Math.PI * u), .7);
+          setGeo(S.open, lens(sd, .035, .15, up, gap, 0, 1, .3));
+        }
+      }
+    };
+    // ---- tangled: a rope net spiralled round the tail, over the flukes and over the near pectoral fin
+    if (pose === 'tangled') {   // a loose grey net, square mesh, draped over the whole body from rostrum to tail
+      const m = ropeMat(), at = (t: number, ph: number) => {
+        const F = frame(t), d = dims(t), r = 1 + .55 * Math.sin(t * 37 + ph * 3) + .6 * Math.max(0, Math.cos(ph)) * Math.sin(t * 9);
+        return V(F.x + F.ux * (d.c + (d.h + r) * Math.cos(ph)), F.y + F.uy * (d.c + (d.h + r) * Math.cos(ph)), (d.w + r) * Math.sin(ph));
+      };
+      for (let k = 0; k < 12; k++) { const ph = k * TAU / 12 + .1; g.add(mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(Array.from({ length: 56 }, (_, i) => at(.05 + .92 * i / 55, ph))), 110, .62, 5, false), m, 3560)); }
+      for (let i = 0; i < 21; i++) { const t = .06 + i * .045; g.add(mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(Array.from({ length: 40 }, (_, q) => at(t, q * TAU / 40)), true), 80, .62, 5, true), m, 3561)); }
+      const Fe = frame(.97), tail = netPatch(4, 3, 30, 20, 4, .6); tail.position.set(Fe.x + 2, Fe.y - 13, 4); tail.rotation.z = .15; g.add(tail);
+    }
+    mine = ids.slice(n0);
+    applyFace(face);
+  };
+  root.userData.setVariant = (v: string = 'pink') => { if (v !== variant) { variant = v; build(poseName || 'swimSide'); } };
+  root.userData.setPose = (p: string = 'swimSide') => { if (p !== poseName) build(p); applyFace(face); };
+  root.userData.setExpr = (e: string | DolphinFace = 'neutral') => { face = typeof e === 'string' ? (DOLPHIN_FACES[e] ?? DOLPHIN_FACES.neutral) : e; applyFace(face); };
+  build('swimSide');
+  return root;
+};
+
 const EP003: Record<string, () => THREE.Object3D> = { rowboat, fishingRod, fish, fish2, trashcan, dynamite, chips, golfFlag, lantern,
   sniperGold, roulette, shopBoard, dynamiteLit, blastPuff, bossShadow, lighthouse, toyPistol, toySmg, toyShotgun, slotMachine, fpHands,
-  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo, friendCobra, barStool, airBubble, bubblePop };
+  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo, friendCobra, barStool, airBubble, bubblePop, dolphin, dolphinNet };
 for (const [k, f] of Object.entries(EP003)) if (P.props.includes(k)) scene.add((props[k] = f()));
 
 if (P.light === 'neutral') {
@@ -3023,6 +3229,7 @@ function draw() {
     if (props.horse && shot.pose != null) setGallop(shot.pose);
     if (props.fish2) props.fish2.userData.setExpr(shot.fish ?? {});
     if (props.airBubble) props.airBubble.userData.setExpr(shot.bubble ?? 'neutral');
+    if (props.dolphin) { props.dolphin.userData.setVariant(shot.dolphin?.grey ? 'grey' : 'pink'); props.dolphin.userData.setPose(shot.dolphin?.pose ?? 'swimSide'); props.dolphin.userData.setExpr(shot.dolphin?.expr ?? 'neutral'); }
     for (const [k, s] of [['friendMax', shot.max], ['friendLeo', shot.leo], ['friendCobra', shot.cobra]] as const) if (props[k]) { props[k].userData.setPose(s?.pose ?? 'stand'); props[k].userData.setExpr(s?.expr ?? 'neutral');
       const [ax, ay, az, yaw] = s?.at ?? [0, 0, 0, 0]; props[k].position.x = ax; props[k].position.y += ay; props[k].position.z = az; props[k].rotation.y = yaw; }
     // rowboat layers for characters seated inside: 'back' = far side + interior, 'front' = near hull side, rail and oar

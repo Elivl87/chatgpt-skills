@@ -1030,7 +1030,128 @@ def job_dtd_cast_sheet():
     print(out.relative_to(ROOT))
 
 
-JOBS = {'dtd_cast': job_dtd_cast, 'dtd_cast_sheet': job_dtd_cast_sheet, 'friends': job_friends, 'friends_sheet': job_friends_sheet, 'friends_talk': job_friends_talk, 'friends_sitflat': job_friends_sitflat, 'friends_boat': job_friends_boat, 'friends_extras_sheet': job_friends_extras_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+# ---------------------------------------------------------------- the pink dolphin companion
+DOLPHIN_VIEWS = {   # pose: (camera yaw, elevation, framing span in cm, target)
+    'swimSide': (0, 2, 126, (0, 0, 0)), 'swim34': (38, 8, 128, (0, 0, 0)), 'leap': (0, 0, 122, (0, 0, 0)),
+    'ring': (0, 0, 122, (0, 0, 0)), 'tangled': (0, 0, 126, (0, 0, 0)), 'peek': (66, 8, 74, (16, -2, 0)),
+}
+DOLPHIN_COMBOS = ([('swimSide', e) for e in ('neutral', 'happy', 'worried', 'sleepy', 'laugh', 'blink')] + [('swim34', e) for e in ('neutral', 'happy', 'worried', 'blink')]
+                  + [('leap', 'happy'), ('ring', 'happy'), ('ring', 'wink'), ('tangled', 'worried')] + [('peek', e) for e in ('neutral', 'happy', 'laugh', 'sleepy', 'wink', 'blink')])
+
+
+def dolphin_render(pose='swimSide', expr='neutral', size=1100, line=4.2, grey=False):
+    """The pink dolphin companion (transparent, no water): pose = swimSide|swim34|leap|ring|tangled|peek, expr = neutral|happy|worried|laugh|sleepy|wink|blink."""
+    yaw, elev, span, tgt = DOLPHIN_VIEWS[pose]
+    d = span / 2 / np.tan(np.radians(13))
+    shot = {'camera': orbit(yaw, elev, d, list(tgt)), 'target': list(tgt), 'fov': 26, 'cart': None, 'dolphin': {'pose': pose, 'expr': expr, 'grey': grey}, 'near': d * .3, 'far': d * 3}
+    return render({'props': ['dolphin'], 'shots': [shot], 'light': 'neutral'}, size, size, line=line)[0]
+
+
+class _Canvas:
+    """float BGRA layer compositing at S x supersampling"""
+    def __init__(self, size, S=2):
+        self.S, self.N = S, size * S; self.size = size
+        self.out = np.zeros((self.N, self.N, 4), np.float32)
+
+    def layer(self, mask, bgr, alpha):
+        a = (mask.astype(np.float32) / 255.0) * alpha
+        a0 = self.out[..., 3:] / 255.0; a = a[..., None]; na = a + a0 * (1 - a)
+        col = (np.array(bgr, np.float32) * a + self.out[..., :3] * a0 * (1 - a)) / np.maximum(na, 1e-6)
+        self.out[..., :3] = col; self.out[..., 3:] = na * 255
+
+    def heart_bubble(self, cx, cy, w, tilt=0.0):
+        """a glassy, pink-tinted heart-shaped bubble w px wide: translucent body, deeper lower-right shade, rim line, white glints"""
+        S, N = self.S, self.N
+        t = np.linspace(0, 2 * np.pi, 360); x = 16 * np.sin(t) ** 3; y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
+        c, s_ = np.cos(tilt), np.sin(tilt); xr, yr = x * c - y * s_, x * s_ + y * c; k = w / 32.0 * S
+        pts = np.stack([cx * S + xr * k, cy * S - yr * k - 1.5 * k], 1).astype(np.int32)
+        m = np.zeros((N, N), np.uint8); cv2.fillPoly(m, [pts], 255); m = cv2.GaussianBlur(m, (0, 0), .7)
+        rw = max(2, int(w * S * .035)); rim = cv2.subtract(m, cv2.erode(m, np.ones((3, 3), np.uint8), iterations=rw))
+        sh = np.zeros_like(m); cv2.fillPoly(sh, [(pts - np.array([w * S * .13, w * S * .13])).astype(np.int32)], 255)
+        self.layer(m, (214, 150, 255), .42)
+        self.layer(cv2.bitwise_and(m, 255 - sh), (186, 104, 245), .38)
+        self.layer(rim, (160, 70, 225), .95)
+        gm = np.zeros((N, N), np.uint8); cv2.ellipse(gm, (int((cx - w * .2) * S), int((cy - w * .22) * S)), (int(w * .09 * S), int(w * .05 * S)), -35, 0, 360, 255, -1, cv2.LINE_AA)
+        self.layer(gm, (255, 255, 255), .95)
+        gd = np.zeros((N, N), np.uint8); cv2.circle(gd, (int((cx - w * .07) * S), int((cy - w * .3) * S)), max(2, int(w * .022 * S)), 255, -1, cv2.LINE_AA)
+        self.layer(gd, (255, 255, 255), .9)
+
+    def result(self):
+        o = cv2.resize(self.out, (self.size, self.size), interpolation=cv2.INTER_AREA)
+        return crop_alpha(np.clip(o, 0, 255).astype(np.uint8), 8)
+
+
+def dolphin_fx_heart_bubble(size=700):
+    """One big heart-shaped soap bubble (the dolphin's signature FX)."""
+    c = _Canvas(size); c.heart_bubble(size / 2, size / 2, size * .86); return c.result()
+
+
+def dolphin_fx_heart_ring(size=1000):
+    """A ring of small heart-shaped bubbles (translucent pink, glints), loosely circling an empty centre."""
+    c = _Canvas(size); n = 11
+    for i in range(n):
+        a = 2 * np.pi * i / n - np.pi / 2
+        w = 118 + 26 * np.sin(i * 2.3)
+        c.heart_bubble(size / 2 + 395 * np.cos(a) * (1 + .03 * np.sin(i * 3)), size / 2 + 335 * np.sin(a), w, tilt=.28 * np.sin(i * 1.7))
+    return c.result()
+
+
+def dolphin_fx_net(size=1000):
+    d = 118 / 2 / np.tan(np.radians(13))
+    shot = {'camera': orbit(0, 0, d, [0, 0, 0]), 'target': [0, 0, 0], 'fov': 26, 'cart': None, 'near': d * .3, 'far': d * 3}
+    return render({'props': ['dolphinNet'], 'shots': [shot], 'light': 'neutral'}, size, size, line=4.0)[0]
+
+
+def dolphin_files():
+    return [f'dolphin_{p}_{e}' for p, e in DOLPHIN_COMBOS] + ['dolphin_grey_swimSide_neutral', 'dolphin_fx_heart_ring', 'dolphin_fx_heart_bubble', 'dolphin_fx_net']
+
+
+def job_dtd_dolphin():
+    """The pink dolphin companion cut-outs in public/art/davethediver/props3d/ (dolphin_<pose>_<expr>.png, ~1000 px long side, transparent,
+    + dolphin_fx_heart_ring.png and dolphin_fx_net.png). DTD_ONLY=name,name limits the run."""
+    import os, time
+    OUT4.mkdir(parents=True, exist_ok=True)
+    only = [n for n in os.environ.get('DTD_ONLY', '').split(',') if n]
+    want = lambda n: not only or n in only
+    t0 = time.time()
+
+    def save(n, img, pad=10):
+        im = crop_alpha(img, pad=pad); k = 1000 / max(im.shape[:2])
+        if abs(k - 1) > .02: im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA if k < 1 else cv2.INTER_CUBIC)
+        cv2.imwrite(str(OUT4 / f'{n}.png'), im); print(f'{n}.png', flush=True)
+    for p, e in DOLPHIN_COMBOS:
+        if want(f'dolphin_{p}_{e}'): save(f'dolphin_{p}_{e}', dolphin_render(p, e))
+    if want('dolphin_grey_swimSide_neutral'): save('dolphin_grey_swimSide_neutral', dolphin_render('swimSide', 'neutral', grey=True))
+    if want('dolphin_fx_heart_ring'): save('dolphin_fx_heart_ring', dolphin_fx_heart_ring())
+    if want('dolphin_fx_heart_bubble'): save('dolphin_fx_heart_bubble', dolphin_fx_heart_bubble())
+    if want('dolphin_fx_net'): save('dolphin_fx_net', dolphin_fx_net())
+    print(f'{len(only) or len(dolphin_files())} cut-outs in {time.time() - t0:.0f} s')
+
+
+def job_dtd_dolphin_sheet():
+    """Contact sheet docs/davethediver/dolphin_v1.jpg: every dolphin_* cut-out, labelled, on light water-blue-grey, 2400 px wide."""
+    BG, COLS, CW, CH = (226, 226, 224), 6, 400, 440
+    names = dolphin_files()
+    rows = []
+    for i in range(0, len(names), COLS):
+        tiles = []
+        for n in names[i:i + COLS]:
+            im = cv2.imread(str(OUT4 / f'{n}.png'), cv2.IMREAD_UNCHANGED)
+            t = np.full((CH, CW, 3), BG, np.uint8)
+            k = min((CW - 24) / im.shape[1], (CH - 56) / im.shape[0]); im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)
+            a = im[..., 3:] / 255.0; y, x = CH - 40 - im.shape[0], (CW - im.shape[1]) // 2
+            t[y:y + im.shape[0], x:x + im.shape[1]] = (im[..., :3] * a + t[y:y + im.shape[0], x:x + im.shape[1]] * (1 - a)).astype(np.uint8)
+            cv2.putText(t, n.replace('dolphin_', ''), (10, CH - 14), cv2.FONT_HERSHEY_SIMPLEX, .5, (50, 50, 50), 1, cv2.LINE_AA)
+            tiles.append(t)
+        while len(tiles) < COLS: tiles.append(np.full((CH, CW, 3), BG, np.uint8))
+        rows.append(np.hstack(tiles))
+    out = ROOT / 'docs/davethediver/dolphin_v1.jpg'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 90])
+    print(out.relative_to(ROOT))
+
+
+JOBS = {'dtd_dolphin': job_dtd_dolphin, 'dtd_dolphin_sheet': job_dtd_dolphin_sheet, 'dtd_cast': job_dtd_cast, 'dtd_cast_sheet': job_dtd_cast_sheet, 'friends': job_friends, 'friends_sheet': job_friends_sheet, 'friends_talk': job_friends_talk, 'friends_sitflat': job_friends_sitflat, 'friends_boat': job_friends_boat, 'friends_extras_sheet': job_friends_extras_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
