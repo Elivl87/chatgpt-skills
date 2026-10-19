@@ -10,7 +10,7 @@ RES=${RES:-1080} python3 build.py
 V=${VERSION:-1}
 OUTDIR=../../docs/publish/EP003/short1
 mkdir -p renders "$OUTDIR"
-if [ "${RES:-1080}" = "1080" ]; then NAME=EP003_short1_v$V; else NAME=EP003_short1_v${V}_preview${RES}; fi
+if [ "${RES:-1080}" = "1080" ]; then NAME=EP003_short1_v$V${PLATFORM:+_$PLATFORM}; else NAME=EP003_short1_v${V}_preview${RES}; fi
 RAW=renders/raw_$NAME.mp4
 (cd short && time hyperframes render --fps 30 --quality looks --crf 16 --workers 2 --output "../$RAW" "$@")
 F="renders/$NAME.mp4"
