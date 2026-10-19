@@ -1,0 +1,8 @@
+{
+  "room_night.png": ["public/art/core/backgrounds/living_room_night_gaming.png", 1080],
+  "quest_wave.png": ["docs/art_orders/quest/library_v2/results/01_wave_happy.png", null],
+  "pixie_wave.png": ["docs/art_orders/pixie/library/results/01_wave_happy.png", 1024],
+  "quest_think.png": ["docs/art_orders/quest/library_v2/results/03_thinking_chin.png", 900],
+  "pixie_think.png": ["docs/art_orders/pixie/library/results/05_thinking_chin.png", 900],
+  "slap_revive.png": ["docs/art_orders/ep003/new_art_v1/02_slap_revive.png", null]
+}
