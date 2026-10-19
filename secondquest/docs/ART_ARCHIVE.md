@@ -44,3 +44,11 @@ earlier archive), and its manifest into `docs/art_archive/`.
 Restore in a new session (seconds, no re-render): download asset 652367306
 (`gh api -H "Accept: application/octet-stream" repos/Elivl87/chatgpt-skills/releases/assets/652367306 > ep003_art.tar`)
 and `tar -xf ep003_art.tar` from `secondquest/`. Together with `archive-art-2026-10-10` this restores all of `public/art`.
+
+## Archive 2026-10-19 (`archive-art-dtd-2026-10-19`)
+
+| File | What | Contents |
+|---|---|---|
+| `SecondQuest_DTD_art_2026-10-19.tar` | Dave the Diver art so far | `public/art/davethediver/` (61 files, 21.6 MB): plates (bar_interior_night, bay_exterior_dusk, Higgsfield 2.0 cr), pixel sprites, props3d cast (Leo-Cobra, Max, stool, bubbles) + pink dolphin v3 (24 cut-outs). sha256 8c907da4…dabb2; per-file list `docs/art_archive/MANIFEST_DTD_2026-10-19.txt` |
+
+Restore: download the asset of release `archive-art-dtd-2026-10-19` and `tar -xf` it from `secondquest/` (done by `scripts/dtd_restore.sh`).
