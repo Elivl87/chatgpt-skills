@@ -6,7 +6,7 @@ S=${1:-/tmp/dtd}; mkdir -p "$S/kokoro"
 for a in 628750961 652367306; do gh api -H "Accept: application/octet-stream" repos/Elivl87/chatgpt-skills/releases/assets/$a > "$S/$a.tar" & done
 curl -sSL -o "$S/kokoro/kokoro-v1.0.int8.onnx" https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx &
 curl -sSL -o "$S/kokoro/voices-v1.0.bin" https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin &
-pip install -q kokoro-onnx soundfile imageio-ffmpeg scipy librosa faster-whisper >/dev/null 2>&1 &
+pip install -q opencv-python-headless numpy kokoro-onnx soundfile imageio-ffmpeg scipy librosa faster-whisper >/dev/null 2>&1 &
 (command -v rubberband >/dev/null || (apt-get update -q && apt-get install -y -q rubberband-cli) >/dev/null 2>&1) &
 wait
 for a in 628750961 652367306; do tar -xf "$S/$a.tar"; rm "$S/$a.tar"; done
