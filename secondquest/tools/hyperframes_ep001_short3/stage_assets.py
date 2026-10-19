@@ -45,7 +45,7 @@ ART = {   # staged name: (source, max height or None)
 # vertical 1080x1920 plates: (source, x0 in the plate scaled to 1920 high, blur px)
 PLATES = {
     'f0_bg.jpg': (G + 'backgrounds/field_huge_wide.png', 1180, 4),
-    'bedroom.jpg': (A + 'core/backgrounds/quest_bedroom_morning.png', 1900, 9),
+    'bedroom.jpg': (A + 'core/backgrounds/quest_bedroom_morning.png', None, 10),   # the wall above the room's own bed (one bed in shot)
     'office.jpg': (A + 'core/backgrounds/office_openplan.png', 1150, 6),
     'dealership.jpg': (G + 'backgrounds/dealership.png', 1500, 1),
     'golden.jpg': (G + 'backgrounds/field_golden.png', 1160, 0),
@@ -60,8 +60,12 @@ def stage_art():
             im = im.resize((round(im.width * mh / im.height), mh), Image.LANCZOS)
         im.save(OUT / name); info['sizes'][name] = list(im.size)
     for name, (src, x0, blur) in PLATES.items():
-        im = Image.open(ROOT / src).convert('RGB'); k = 1920 / im.height
-        im = im.resize((round(im.width * k), 1920), Image.LANCZOS).crop((x0, 0, x0 + 1080, 1920))
+        im = Image.open(ROOT / src).convert('RGB')
+        if x0 is None:                                                  # bedroom: the upper-right wall, no bed in it
+            im = im.crop((2000, 0, 2540, 960)).resize((1080, 1920), Image.LANCZOS)
+        else:
+            k = 1920 / im.height
+            im = im.resize((round(im.width * k), 1920), Image.LANCZOS).crop((x0, 0, x0 + 1080, 1920))
         if blur:
             im = im.filter(ImageFilter.GaussianBlur(blur))
         im.save(OUT / name, quality=92)
@@ -109,12 +113,12 @@ def cues():
         (T['l01.w8'] - .02, S / 'alarm.wav', -9, .5, 0.0, '"wake up": the alarm clock rattles on the headboard'),
         (T['l04.w1'] + .2, S / 'cc0/kenney_impact/impactPunch_heavy_000.ogg', -6, None, 0.0, 'the huge tractor slams down in the dealership lot'),
         (T['l11.w7'] - .1, S / 'cc0/rubberduck_100sfx2/sfx100v2_thunder_01.ogg', -8, 2.2, 0.0, '"enemy...": lightning over the golden field'),
-        (T['l05.w2.end'] + .02, S / 'cc0/kenney/scratch_005.ogg', -8, None, 0.0, '"and then..." record scratch, freeze frame'),
-        (seg.DUR - .55, S / 'alarm.wav', -10, .5, 1.1, 'loop seam: the alarm again (a later part of the take) -> "wake up"'),
+        (T['l05.w2.end'] + .02, S / 'cc0/kenney/scratch_005.ogg', -2, None, 0.0, '"and then..." record scratch, freeze frame'),
+        (seg.DUR - 1.0, S / 'alarm.wav', -7, 1.0, 1.1, 'loop seam: the alarm rings to the last frame (a later part of the take) -> "wake up"'),
     ]
 
 
-BED = (S / 'cc0/thimras_park/park_ambience_wind.ogg', -27)
+BED = (S / 'cc0/thimras_park/park_ambience_wind.ogg', -20)   # critic v1: the card is never silent
 
 
 def stage_audio():

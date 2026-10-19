@@ -32,19 +32,21 @@ def chunks():
     the rest in the top strip."""
     ws = seg.words()
     out, cur = [], []
+    CUTS = [T['l01.w8'] - .05, T['l02'] - .05, T['l03'] - .05, T['l04'] - .05, T['l11'] - .28, T['l12'] - .26, T['l05'] - .12,
+            T['l06'] - .05, T['VEND'] + .25]
     for wd in ws:
-        if cur and (len(cur) >= 3 or cur[-1][1][-1] in '.?!,' or cur[-1][1].endswith('...') or wd[2] - cur[-1][3] > .45):
+        cut = any(cur and cur[0][2] < c <= wd[2] + .01 for c in CUTS)     # a cut always starts a new caption (critic v1)
+        if cur and (cut or len(cur) >= 3 or cur[-1][1][-1] in '.?!,' or cur[-1][1].endswith('...') or wd[2] - cur[-1][3] > .45):
             out.append(cur); cur = []
         cur.append(wd)
     out.append(cur)
-    CUTS = [T['l01.w8'] - .05, T['l02'] - .05, T['l03'] - .05, T['l04'] - .05, T['l11'] - .28, T['l12'] - .26, T['l05'] - .12,
-            T['l06'] - .05, T['VEND'] + .25]
     res = []
     for i, c in enumerate(out):
         nxt = out[i + 1][0][2] - .06 if i + 1 < len(out) else seg.VOICE_END + .25
         end = min(nxt - .01, c[-1][3] + .6)
         end = min([end] + [x - .001 for x in CUTS if x > c[0][2] + .01])
-        res.append({'a': round(max(0, c[0][2] - .06), 3), 'e': round(end, 3), 'top': 1390 if c[0][2] < CUTS[0] else 250,
+        st = max([0, c[0][2] - .06] + [x for x in CUTS if x <= c[0][2] + .01])   # never before its shot's first frame
+        res.append({'a': round(st, 3), 'e': round(end, 3), 'top': 1390 if c[0][2] < CUTS[0] else 250,
                     'w': [[w, round(a, 3), round(b, 3)] for _, w, a, b in c]})
     return res
 
