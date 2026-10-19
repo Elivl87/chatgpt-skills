@@ -1,0 +1,12 @@
+node_modules/
+renders/
+.cache/
+.bin/
+*.mp4
+short/assets/
+short/snapshots/
+short/renders/
+short/.hyperframes/
+short/node_modules/
+__pycache__/
+renders_log.txt
