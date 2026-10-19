@@ -3258,9 +3258,323 @@ const dolphin = () => {
   return root;
 };
 
+// ---------------------------------------------------------------- Dave the Diver: our dive boat "SECOND WIND" (2026-10-19)
+/** Our own mid-size dive/cabin boat (cm, bow +x, camera side +z, ~10.5 m): the game's boat FAMILY redrawn as our design
+ * (docs/davethediver/GAME_VISUAL_REFERENCE.md: cabin + canopy + searchlight; our name, proportions and colours).
+ * Hull in painted bands (dark maroon bottom, white boot stripe, pale aqua topsides) with a teal rubrail and white cap,
+ * "SECOND WIND 02" on the near bow (canvas decal on the hull, same part id so it gets no box outline), wheelhouse forward
+ * with wide tinted windows and frames, roof rail + big teal-and-chrome searchlight drum + whip antenna, yellow canvas canopy
+ * with a scalloped valance on a dark-teal pipe frame over the aft deck, three tanks in a rack, the yellow gear box, tan rope
+ * coils and blue fenders over the near side, a stern rail with a gate, swim platform and dive ladder, a diver-down flag.
+ * Every mesh is tagged userData.half = 'front' (near hull side, near rails, fenders, coils, decal) or 'back' (the rest), so
+ * shot.boat = 'back' | 'front' renders the two layers that sandwich a person standing on the aft deck (render.py dtd_boat).
+ * Aft deck: y = 178, open stern area x -470 .. -318 (where the diver stands), canopy x -318 .. -64. */
+const diveBoat = () => {
+  const g = new THREE.Group();
+  const XS = -480, XB = 520, LEN = XB - XS, DECK = 178, RAKE = 70;
+  const TEAL = '#1b6c76', CHROME = '#c3cfd4', WHITE = '#f3f8f5';
+  let part = 4000;
+  const half = <T extends THREE.Object3D>(o: T, h: 'front' | 'back' = 'back') => { o.traverse((c) => { c.userData.half = h; }); return o; };
+  const add = <T extends THREE.Object3D>(o: T, h: 'front' | 'back' = 'back') => (g.add(half(o, h)), o);
+  const halfW = (u: number) => u < .35 ? 182 - 18 * ((.35 - u) / .35) ** 2 : 182 * Math.pow(Math.max(0, 1 - ((u - .35) / .65) ** 2), .58);
+  const sheer = (u: number) => 200 + 100 * Math.pow(sstep(.3, 1, u), 1.5);
+  const keelY = (u: number) => u < .45 ? 18 : 18 + 210 * ((u - .45) / .55) ** 2.1;
+  const NE = 2.7;
+  const sec = (u: number, s: number): [number, number, number] => {      // s: 0 sheer .. 1 keel -> [z (+z side), y, depth fraction]
+    const th = s * Math.PI / 2, zf = Math.pow(Math.max(0, Math.cos(th)), 2 / NE), yf = Math.pow(Math.sin(th), 2 / NE);
+    const top = sheer(u), bot = keelY(u);
+    return [halfW(u) * (1 - .12 * yf) * zf, top - (top - bot) * yf, yf];
+  };
+  const xOf = (u: number, yf: number) => XS + u * LEN + RAKE * sstep(.66, 1, u) * (1 - yf) ** 1.3;
+  const ysOf = (u: number, y: number) => {                                  // s where the section reaches height y
+    if (y >= sheer(u)) return 0; if (y <= keelY(u)) return 1;
+    let lo = 0, hi = 1; for (let i = 0; i < 40; i++) { const m = (lo + hi) / 2; if (sec(u, m)[1] > y) lo = m; else hi = m; }
+    return (lo + hi) / 2;
+  };
+  const hp = (u: number, s: number, side: number, off = 0) => {            // hull point, offset along the section normal
+    const e = 1e-3, a = sec(u, Math.max(0, s - e)), b = sec(u, Math.min(1, s + e)), c = sec(u, s);
+    const tz = b[0] - a[0], ty = b[1] - a[1], l = Math.hypot(tz, ty) || 1;
+    return V(xOf(u, c[2]), c[1] + off * (tz / l), side * (c[0] + off * (-ty / l)));
+  };
+  const NU = 140, us = Array.from({ length: NU + 1 }, (_, i) => i / NU);
+  // ---- hull bands: maroon bottom, white boot stripe, pale aqua topsides (separate parts: an ink line at every paint edge)
+  const BOOT = 112, BANDS: [number, number, string, number][] = [[BOOT + 13, 1e4, '#c6ebe3', .9], [BOOT, BOOT + 13, '#fbfaf1', .95], [-1e4, BOOT, '#7a1f2e', .8]];
+  const PART_TOP = part;
+  BANDS.forEach(([y0, y1, hex, lo]) => {
+    for (const side of [1, -1]) {
+      const R = 16, rows = Array.from({ length: R + 1 }, (_, j) => j / R);
+      const geo = grid(us, rows, (u, j) => {
+        const sa = ysOf(u, y1), sb = ysOf(u, y0), s = sa + (sb - sa) * j;
+        const p = hp(u, s, side); return { p, c: lo + (1 - lo) * sstep(-20, 320, p.y) };
+      });
+      orient(geo, () => V(0, -.2, side));
+      add(mesh(geo, vtoon(hex), part + (side > 0 ? 0 : 1)), side > 0 ? 'front' : 'back');
+    }
+    part += 2;
+  });
+  // transom: the same three bands, flat at the stern
+  const transom = (sa: number, sb: number, hex: string, p: number) => {
+    const pts: THREE.Vector2[] = [];
+    for (let j = 0; j <= 20; j++) { const c = sec(0, sa + (sb - sa) * j / 20); pts.push(new THREE.Vector2(c[0], c[1])); }
+    for (let j = 20; j >= 0; j--) { const c = sec(0, sa + (sb - sa) * j / 20); pts.push(new THREE.Vector2(-c[0], c[1])); }
+    const tg = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: 4, bevelEnabled: false, curveSegments: 4 });
+    tg.rotateY(-Math.PI / 2); tg.translate(XS + 1, 0, 0);
+    add(mesh(tg, toon(hex), p));
+  };
+  const sW = ysOf(0, BOOT), sS = ysOf(0, BOOT + 13);
+  transom(0, sS, '#b9e3da', part); transom(sS, sW, '#fbfaf1', part + 1); transom(sW, 1, '#7a1f2e', part + 2); part += 3;
+  // ---- name decal on the near bow: teal "SECOND WIND" + gold "02" (our boat, never the game's)
+  {
+    const c = document.createElement('canvas'); c.width = 2400; c.height = 360;
+    const x = c.getContext('2d')!; x.textBaseline = 'middle'; x.lineJoin = 'round';
+    x.font = '800 250px Inter, "DejaVu Sans", sans-serif';
+    const a = 'SECOND WIND', b = '02', gap = 90, wa = x.measureText(a).width, wb = x.measureText(b).width;
+    const k = Math.min(1, 2300 / (wa + gap + wb)); x.setTransform(k, 0, 0, 1, (2400 - k * (wa + gap + wb)) / 2, 0);
+    for (const [txt, x0, fill] of [[a, 0, '#169aa3'], [b, wa + gap, '#f2b82a']] as [string, number, string][]) {
+      x.lineWidth = 34; x.strokeStyle = '#0f2f36'; x.strokeText(txt, x0, 186);
+      x.fillStyle = fill; x.fillText(txt, x0, 186);
+    }
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+    const XA = -70, XZ = 330, Y0 = 131, Y1 = 191, ua = (XA - XS) / LEN, ub = (XZ - XS) / LEN;
+    const geo = grid(Array.from({ length: 61 }, (_, i) => ua + (ub - ua) * i / 60), [0, .25, .5, .75, 1], (u, v) => {
+      const y = Y0 + (Y1 - Y0) * v, p = hp(u, ysOf(u, y), 1, 1.2); return { p, uv: [(p.x - XA) / (XZ - XA), v] };
+    });
+    orient(geo, () => V(0, 0, 1));
+    const m = mesh(geo, new THREE.MeshToonMaterial({ map: tex, gradientMap: ramp, transparent: true, depthWrite: false }), PART_TOP);
+    m.renderOrder = 2; add(m, 'front');
+  }
+  // ---- rubrail (teal) and cap rail (white) along the sheer; stem band at the bow
+  for (const side of [1, -1]) {
+    const h: 'front' | 'back' = side > 0 ? 'front' : 'back';
+    const rub = Array.from({ length: 60 }, (_, i) => { const u = i / 59 * .995; return hp(u, ysOf(u, sheer(u) - 9), side, 3); });
+    add(tube(rub, 5.5, toon(TEAL), part + (side > 0 ? 0 : 1), 160, 10), h);
+    add(at(mesh(new THREE.SphereGeometry(5.5, 12, 10), toon(TEAL), part + (side > 0 ? 0 : 1)), rub[0].x, rub[0].y, rub[0].z), h);
+    const cap = Array.from({ length: 60 }, (_, i) => { const u = i / 59 * .995; return hp(u, 0, side, -3).add(V(0, 2.5, 0)); });
+    add(tube(cap, 4.6, toon(WHITE), part + 2 + (side > 0 ? 0 : 1), 160, 10), h);
+    add(at(mesh(new THREE.SphereGeometry(4.6, 12, 10), toon(WHITE), part + 2 + (side > 0 ? 0 : 1)), cap[0].x, cap[0].y, cap[0].z), h);
+  }
+  part += 4;
+  // ---- inner bulwark skin (white), deck (teak), raised foredeck
+  const inBot = (u: number) => DECK + (sheer(u) - 20 - DECK) * sstep(.64, .76, u);
+  for (const side of [1, -1]) {
+    const geo = grid(us.map((u) => u * .99), Array.from({ length: 9 }, (_, j) => j / 8), (u, j) => {
+      const sb = ysOf(u, inBot(u)), s = sb * j; return { p: hp(u, s, side, -6), c: .82 + .18 * (1 - j) };
+    });
+    orient(geo, () => V(0, .2, -side));
+    add(mesh(geo, vtoon(WHITE), part + (side > 0 ? 0 : 1)), side > 0 ? 'front' : 'back');
+  }
+  part += 2;
+  {
+    const ds = new THREE.Shape(), N2 = 50;
+    const zd = (u: number) => sec(u, ysOf(u, DECK))[0] - 7;
+    for (let i = 0; i <= N2; i++) { const u = i / N2 * .78; const p = V(xOf(u, 0), 0, zd(u)); i ? ds.lineTo(p.x, p.z) : ds.moveTo(p.x, p.z); }
+    for (let i = N2; i >= 0; i--) { const u = i / N2 * .78; ds.lineTo(xOf(u, 0), -zd(u)); }
+    const dg = new THREE.ExtrudeGeometry(ds, { depth: 4, bevelEnabled: false });
+    uvScale(dg, 1 / 160, 1 / 22); dg.rotateX(-Math.PI / 2); dg.translate(0, DECK - 4, 0);
+    add(mesh(dg, woodMat('#c99a66'), part++));
+    const fu = Array.from({ length: 41 }, (_, i) => .68 + i / 40 * .318), fv = Array.from({ length: 13 }, (_, j) => -1 + j / 6);
+    const fg = grid(fu, fv, (u, v) => { const zz = sec(u, ysOf(u, inBot(u)))[0] - 6; const cc = sec(u, ysOf(u, inBot(u))); return { p: V(xOf(u, cc[2]) - 2, inBot(u) + 7 * (1 - v * v), v * zz), c: .9 + .1 * (1 - v * v) }; });
+    orient(fg, () => V(0, 1, 0));
+    add(mesh(fg, vtoon(WHITE), part++));
+  }
+  // ---- swim platform and dive ladder at the transom
+  add(box(64, 10, 270, [XS - 30, 112, 0], woodMat('#b9895a'), part++, 3));
+  add(box(10, 22, 250, [XS - 4, 102, 0], toon(TEAL), part++, 3));
+  for (const z of [-26, 26]) add(tube([V(XS - 54, 108, z), V(XS - 60, 150, z), V(XS - 50, 175, z), V(XS - 30, 182, z)], 2.6, toon(CHROME), part, 24, 8));
+  for (const z of [-26, 26]) add(tube([V(XS - 54, 108, z), V(XS - 56, 60, z), V(XS - 56, 10, z)], 2.6, toon(CHROME), part, 16, 8));
+  part++;
+  for (const y of [80, 50, 20]) add(cyl(1.9, 52, [XS - 56, y, 0], [Math.PI / 2, 0, 0], toon(CHROME), part));
+  part++;
+  // ---- stern rail (chrome, a gate in the middle of the transom) and bow rail
+  const rail = (pts: THREE.Vector3[], r: number, p: number, h: 'front' | 'back') => {
+    add(tube(pts, r, toon(CHROME), p, Math.max(16, pts.length * 6), 8), h);
+    for (const q of [pts[0], pts[pts.length - 1]]) add(at(mesh(new THREE.SphereGeometry(r * 1.15, 10, 8), toon(CHROME), p), q.x, q.y, q.z), h);
+  };
+  const post = (a: THREE.Vector3, b: THREE.Vector3, r: number, mat: THREE.Material, p: number, h: 'front' | 'back') => add(tube([a, b], r, mat, p, 2, 8), h);
+  for (const side of [1, -1]) {
+    const h: 'front' | 'back' = side > 0 ? 'front' : 'back', p = part + (side > 0 ? 0 : 1);
+    const edge = (u: number, dy: number) => hp(u, 0, side, -3).add(V(0, dy, 0));
+    for (const dy of [86, 48]) {
+      const pts = [edge(.15, dy), edge(.07, dy), edge(.02, dy), V(XS + 8, sheer(0) + dy, side * 120), V(XS + 6, sheer(0) + dy, side * 62)];
+      rail(pts, dy > 60 ? 3.2 : 2.4, p, h);
+    }
+    for (const u of [.15, .085, .02]) { const q = edge(u, 0); post(q, q.clone().add(V(0, 86, 0)), 2.6, toon(CHROME), p, h); }
+    post(V(XS + 6, sheer(0), side * 62), V(XS + 6, sheer(0) + 86, side * 62), 2.6, toon(CHROME), p, h);
+    // bow pulpit
+    const bow = Array.from({ length: 9 }, (_, i) => { const u = .77 + i / 8 * .225; return hp(u, 0, side, -4).add(V(0, 44, 0)); });
+    bow.push(V(xOf(1, 0) + 6, sheer(1) + 44, 0));
+    rail(bow, 3, p + 2, h);
+    for (const u of [.77, .86, .94]) { const q = hp(u, 0, side, -4); post(q, q.clone().add(V(0, 44, 0)), 2.4, toon(CHROME), p + 2, h); }
+  }
+  part += 4;
+  // ---- wheelhouse (forward): white cabin, raked windshield, wide tinted windows with teal frames, roof with a teal fascia
+  const CX0 = -62, CX1 = 258, CZ = 126, ROOF = 404;
+  const rake = (y: number) => CX1 + 6 - (y - 300) * (52 / (ROOF - 300));
+  {
+    const cab = rpoly([[CX0, DECK - 12, 2], [CX1 - 70, DECK - 12, 8], [CX1 - 4, 236, 8], [CX1 + 6, 300, 10], [rake(ROOF), ROOF, 10], [CX0, ROOF, 6]]);
+    add(sideExt(cab, 2 * CZ, 7, toon(WHITE), part++));
+    const band = rpoly([[CX0 - 1, 196, 1], [CX1 + 2, 196, 1], [CX1 + 4, 214, 1], [CX0 - 1, 214, 1]]);
+    for (const side of [1, -1]) add(sideExt(band, 3, .8, toon(TEAL), part, side * (CZ + 1)), side > 0 ? 'front' : 'back');
+    part++;
+    const roof = at(slab(roundedRect(338, 2 * CZ + 26, 26), ROOF, 15, 4, toon(WHITE), part++), (CX0 - 18 + rake(ROOF) + 20) / 2, 0, 0); add(roof);
+    const fas = at(slab(roundedRect(342, 2 * CZ + 30, 28), ROOF - 6, 9, 2, toon(TEAL), part++), (CX0 - 18 + rake(ROOF) + 20) / 2, 0, 0); add(fas);
+    // side windows: frame + glass (gradient) + a glint on the same part as the glass
+    const Y0 = 286, Y1 = 380;
+    const panes: [number, number][][] = [[[-36, Y0], [62, Y0], [62, Y1], [-36, Y1]], [[74, Y0], [162, Y0], [162, Y1], [74, Y1]],
+      [[174, Y0], [rake(Y0) - 16, Y0], [rake(Y1) - 16, Y1], [174, Y1]]];
+    for (const side of [1, -1]) {
+      const h = 'back' as const;
+      const fr = rpoly([[-46, Y0 - 10], [rake(Y0 - 10) - 6, Y0 - 10], [rake(Y1 + 10) - 6, Y1 + 10], [-46, Y1 + 10]], 8);
+      add(sideExt(fr, 3, .8, toon(TEAL), part, side * (CZ + 1.2)), h);
+      panes.forEach((pp, i) => {
+        const gl = sideExt(rpoly(pp, 6), 3, .8, toon('#ffffff'), part + 1 + i, side * (CZ + 2.6));
+        ygrad(gl.geometry, Y0, Y1, '#21495a', '#5d9fb3'); gl.material = vtoon(); add(gl, h);
+        const [x0] = pp[0], x1 = pp[1][0];
+        const gs = rpoly([[x0 + 10, Y0 + 30], [x0 + 34, Y1 - 6], [x0 + 52, Y1 - 6], [x0 + 28, Y0 + 30]], 2);
+        if (x1 - x0 > 60) { const gm = mesh(new THREE.ShapeGeometry(gs), toon('#bfe6ef'), part + 1 + i); gm.position.z = side * (CZ + 4.25); if (side > 0) add(gm, h); }
+      });
+    }
+    part += 4;
+    // windshield: three panes on the raked front face
+    const d = V(rake(ROOF) - rake(300), ROOF - 300, 0).normalize(), n = V(d.y, -d.x, 0);
+    const basis = new THREE.Matrix4().makeBasis(V(0, 0, -1), d, n), o = V(rake(300), 300, 0);
+    const flen = Math.hypot(rake(ROOF) - rake(300), ROOF - 300);
+    const fr = rpoly([[-CZ + 8, 4], [CZ - 8, 4], [CZ - 14, flen - 8], [-CZ + 14, flen - 8]], 8);
+    const put = (m: THREE.Mesh, lift: number) => { m.geometry.applyMatrix4(basis); m.geometry.translate(o.x + n.x * lift, o.y + n.y * lift, 0); return m; };
+    add(put(sideExt(fr, 2.4, .6, toon(TEAL), part++), 8.2));
+    [-84, 0, 84].forEach((zc, i) => {
+      const w = 36, gl = sideExt(rpoly([[zc - w, 12], [zc + w, 12], [zc + w - 3, flen - 16], [zc - w + 3, flen - 16]], 6), 2, .5, toon('#fff'), part + i);
+      put(gl, 9.8); ygrad(gl.geometry, 300, ROOF, '#21495a', '#68aabd'); gl.material = vtoon(); add(gl);
+    });
+    part += 3;
+    // life ring on the near cabin side, aft of the windows
+    const lr = new THREE.Group();
+    for (let i = 0; i < 8; i++) { const t = mesh(new THREE.TorusGeometry(24, 7, 10, 10, TAU / 8), toon(i % 2 ? '#f4f1e6' : '#e0462f'), part + (i % 2)); t.rotation.z = i * TAU / 8; lr.add(t); }
+    lr.position.set(CX0 + 2, 248, CZ + 8); lr.rotation.set(0, 0, .2);
+    add(lr, 'back'); part += 2;
+  }
+  // ---- roof: rail all round, big teal-and-chrome searchlight drum, whip antenna
+  {
+    const RY = ROOF + 15, rx0 = CX0 - 6, rx1 = rake(ROOF) - 2, rz = CZ + 4, RH = 32;
+    const loop = [V(rx0, RY + RH, rz), V(rx1 - 20, RY + RH, rz), V(rx1, RY + RH, rz - 20), V(rx1, RY + RH, -rz + 20), V(rx1 - 20, RY + RH, -rz), V(rx0, RY + RH, -rz)];
+    add(tube(new THREE.CatmullRomCurve3(loop, false, 'catmullrom', .1), 2.6, toon(CHROME), part, 120, 8));
+    for (const [x, z] of [[rx0, rz], [rx0, -rz], [80, rz], [80, -rz], [rx1 - 8, rz - 8], [rx1 - 8, -rz + 8], [rx1, 0], [rx0, 0]] as [number, number][])
+      add(tube([V(x, RY, z), V(x, RY + RH, z)], 2.2, toon(CHROME), part, 2, 8));
+    add(tube([V(rx0, RY + RH, rz), V(rx0, RY + RH, -rz)], 2.6, toon(CHROME), part, 4, 8));
+    part++;
+    // searchlight (built at its place, then scaled up about its base)
+    const SX = 128, SY = RY + 58, n0 = g.children.length;
+    add(cyl(17, 8, [SX, RY + 4, 0], [0, 0, 0], toon(TEAL), part++));
+    add(cyl(7, 24, [SX, RY + 18, 0], [0, 0, 0], toon(CHROME), part++));
+    const yoke = new THREE.Shape(); yoke.moveTo(-8, 0); yoke.lineTo(8, 0); yoke.lineTo(8, 34); yoke.quadraticCurveTo(0, 42, -8, 34); yoke.closePath();
+    for (const z of [-41, 41]) add(sideExt(yoke, 6, 1.5, toon(CHROME), part, z)).position.set(SX, RY + 24, 0);
+    add(box(16, 6, 88, [SX, RY + 27, 0], toon(CHROME), part, 2)); part++;
+    const drum = mesh(xlathe(sharp([[0, -40], [24, -40], [33, -32], [36, -18], [36, 22], [33, 24]], [1]), 48), toon('#1ea3ab'), part++);
+    drum.position.set(SX, SY, 0); add(drum);
+    const bez = mesh(xlathe(sharp([[33, 22], [40, 24], [40, 32], [34, 34], [31, 33]]), 48), toon(CHROME), part++); bez.position.set(SX, SY, 0); add(bez);
+    const lens = mesh(xlathe([[31, 32], [22, 34.5], [0, 35.5]], 48), toon('#fff3c4'), part); lens.position.set(SX, SY, 0); add(lens);
+    const glint = mesh(new THREE.CircleGeometry(7, 20), toon('#ffffff'), part); glint.rotation.y = Math.PI / 2; glint.position.set(SX + 35.8, SY + 12, 10); add(glint); part++;
+    for (const z of [-38, 38]) add(cyl(6, 6, [SX, SY, z], [Math.PI / 2, 0, 0], toon(CHROME), part)); part++;
+    add(tube([V(SX - 40, SY + 18, 0), V(SX - 30, SY + 32, 0), V(SX + 10, SY + 34, 0)], 3, toon(CHROME), part++, 16, 8));
+    { const KS = 1.35, sg = new THREE.Group(); g.children.slice(n0).forEach((c) => sg.add(c)); sg.scale.setScalar(KS); sg.position.set(SX * (1 - KS), RY * (1 - KS), 0); g.add(sg); }
+    // whip antenna (aft, far side) + a short VHF stub
+    add(cyl(6, 14, [CX0 + 8, RY + 7, -CZ + 14], [0, 0, 0], toon('#33363b'), part++));
+    add(tube([V(CX0 + 8, RY + 12, -CZ + 14), V(CX0 + 6, RY + 60, -CZ + 14), V(CX0 - 1, RY + 115, -CZ + 14), V(CX0 - 10, RY + 152, -CZ + 14)], 2.2, toon(WHITE), part, 40, 6));
+    add(at(mesh(new THREE.SphereGeometry(3.6, 10, 8), toon(WHITE), part), CX0 - 10, RY + 152, -CZ + 14)); part++;
+    add(tube([V(CX0 + 40, RY, -CZ + 30), V(CX0 + 38, RY + 90, -CZ + 30)], 2.6, toon('#2b2e33'), part++, 4, 6));
+  }
+  // ---- yellow canvas canopy on a dark-teal pipe frame (aft deck)
+  {
+    const AX0 = -318, AX1 = CX0 - 2, AZ = 158, AY = 398;
+    const topY = (x: number, z: number) => AY - 8 * ((AX1 - x) / (AX1 - AX0)) + 14 * (1 - (z / AZ) ** 2) - 3 * Math.abs(Math.sin(Math.PI * (x - AX0) / ((AX1 - AX0) / 2)));
+    const xs = Array.from({ length: 41 }, (_, i) => AX0 + (AX1 - AX0) * i / 40), zs = Array.from({ length: 25 }, (_, j) => -AZ + 2 * AZ * j / 24);
+    const cg = grid(xs, zs, (x, z) => ({ p: V(x, topY(x, z), z), c: .86 + .14 * (1 - (z / AZ) ** 2) }));
+    orient(cg, () => V(0, 1, 0));
+    const canvasMat = () => new THREE.MeshToonMaterial({ color: new THREE.Color('#f6c431'), gradientMap: ramp, vertexColors: true, side: THREE.DoubleSide });
+    add(mesh(cg, canvasMat(), part++));
+    // scalloped valance: sides and aft edge
+    const VH = 22, sc = (t: number) => VH + 5 * Math.cos(t);
+    for (const side of [1, -1]) {
+      const vg = grid(xs, [0, .5, 1], (x, v) => ({ p: V(x, topY(x, side * AZ) - v * sc((x - AX0) / 9), side * (AZ + 1.5)), c: 1 - .12 * v }));
+      orient(vg, () => V(0, 0, side));
+      add(mesh(vg, canvasMat(), part + (side > 0 ? 0 : 1)), 'back');
+    }
+    const za = Array.from({ length: 31 }, (_, j) => -AZ + 2 * AZ * j / 30);
+    const ag = grid(za, [0, .5, 1], (z, v) => ({ p: V(AX0 - 1.5, topY(AX0, z) - v * sc((z + AZ) / 9), z), c: 1 - .12 * v }));
+    orient(ag, () => V(-1, 0, 0));
+    add(mesh(ag, canvasMat(), part + 2)); part += 3;
+    // binding stripe along the valance top (teal)
+    for (const side of [1, -1]) add(tube(xs.filter((_, i) => i % 4 === 0).map((x) => V(x, topY(x, side * AZ) - 1, side * (AZ + 2))), 2.2, toon(TEAL), part, 40, 6));
+    add(tube(za.filter((_, i) => i % 3 === 0).map((z) => V(AX0 - 2, topY(AX0, z) - 1, z)), 2.2, toon(TEAL), part, 40, 6)); part++;
+    // pipe frame: aft and mid posts, the aft bow under the edge, a brace down to the deck
+    const pipe = toon('#1d5560');
+    for (const x of [AX0 + 10, -195]) for (const side of [1, -1]) {
+      const z = side * (AZ - 10), top = topY(x, z) - (x < -300 ? VH - 2 : 2), base = sheer(Math.max(0, (x - XS) / LEN)) + 3;
+      add(tube([V(x, base, z), V(x, top, z)], 4, pipe, part + (side > 0 ? 0 : 1), 2, 10), side > 0 && x < -300 ? 'front' : 'back');
+      add(cyl(7, 5, [x, base + 2, z], [0, 0, 0], pipe, part + (side > 0 ? 0 : 1)), side > 0 && x < -300 ? 'front' : 'back');
+    }
+    add(tube(Array.from({ length: 13 }, (_, j) => { const z = -AZ + 10 + (2 * AZ - 20) * j / 12; return V(AX0 + 10, topY(AX0 + 10, z) - 3, z); }), 3.6, pipe, part + 2, 40, 8));
+    part += 3;
+    // diver-down flag on a short staff above the far aft post
+    const fx = AX0 + 10, fz = -(AZ - 10), fy = topY(fx, fz);
+    add(tube([V(fx, fy - 4, fz), V(fx, fy + 92, fz)], 2, toon(CHROME), part++, 2, 6));
+    add(at(mesh(new THREE.SphereGeometry(3, 10, 8), toon('#f2b82a'), part++), fx, fy + 94, fz));
+    const flag = rpoly([[fx, fy + 52], [fx + 52, fy + 52], [fx + 52, fy + 88], [fx, fy + 88]], 2);
+    add(sideExt(flag, 1.6, 0, toon('#d8343a'), part, fz));
+    const stripe = rpoly([[fx, fy + 80], [fx + 8, fy + 88], [fx + 52, fy + 60], [fx + 44, fy + 52]], .5);
+    add(sideExt(stripe, 1.2, 0, toon('#ffffff'), part, fz + 1.2)); part++;
+  }
+  // ---- deck gear: three tanks in a rack (far side), the yellow gear box
+  {
+    const tz = -118;
+    ['#9aa4ac', '#f2c12e', '#8d98a1'].forEach((hex, i) => {
+      const tx = -112 - i * 30;
+      const t = lathe(sharp([[0, 0], [11, 0], [12, 3], [12, 56], [10, 66], [4.5, 71], [0, 71]], [3]), 32, toon(hex), part + i);
+      t.position.set(tx, DECK, tz); add(t);
+      add(cyl(3, 9, [tx, DECK + 75, tz], [0, 0, 0], toon(CHROME), part + 3));
+      add(cyl(4.5, 3, [tx + 5, DECK + 77, tz], [0, 0, Math.PI / 2], toon('#2a2c31'), part + 4));
+      add(cyl(12.4, 7, [tx, DECK + 38, tz], [0, 0, 0], toon('#2a2c31'), part + 5));
+    });
+    add(box(96, 8, 6, [-142, DECK + 38, tz - 14], toon(TEAL), part + 6, 2));
+    add(box(6, 46, 6, [-96, DECK + 23, tz - 14], toon(TEAL), part + 6, 2));
+    add(box(6, 46, 6, [-188, DECK + 23, tz - 14], toon(TEAL), part + 6, 2));
+    part += 7;
+    // the yellow gear box
+    const bx = -262, bz = -70;
+    add(box(92, 64, 58, [bx, DECK + 32, bz], toon('#f7c51e'), part++, 5));
+    add(box(96, 10, 62, [bx, DECK + 67, bz], toon('#e2a514'), part++, 4));
+    add(box(14, 12, 4, [bx, DECK + 56, bz + 30], toon('#2a2c31'), part++, 1.5));
+    for (const x of [bx - 34, bx + 34]) add(box(8, 30, 4, [x, DECK + 38, bz + 30], toon('#d39a12'), part, 1.5)); part++;
+  }
+  // ---- over the near side: blue fenders, tan rope coils (front layer)
+  {
+    const tan = '#c9a46b';
+    for (const fxp of [-405, -150]) {
+      const u = (fxp - XS) / LEN, top = hp(u, 0, 1, 2), z = sec(u, ysOf(u, 150))[0] + 14;
+      const f = mesh(new THREE.CapsuleGeometry(13, 34, 6, 16), toon('#2f6db0'), part); f.position.set(fxp, 150, z); add(f, 'front');
+      add(cyl(6, 4, [fxp, 150 + 31, z], [0, 0, 0], toon('#1f4f86'), part + 1), 'front');
+      add(cyl(6, 4, [fxp, 150 - 31, z], [0, 0, 0], toon('#1f4f86'), part + 1), 'front');
+      add(tube([top.clone().add(V(0, 4, 0)), V(fxp, top.y - 4, z - 4), V(fxp, 150 + 33, z)], 1.4, toon(tan), part + 2, 12, 6), 'front');
+    }
+    part += 3;
+    const coil = (cx: number, p: number) => {
+      const u = (cx - XS) / LEN, top = hp(u, 0, 1, 0), z = top.z + 9, cy = top.y - 26;
+      for (let k = 0; k < 4; k++) {
+        const tg = new THREE.TorusGeometry(21 - k * 1.2, 3.2, 10, 48); ropeCol(tg, 48, 10, 10, .78);
+        const t = mesh(tg, vtoon(tan), p); t.position.set(cx + (k - 1.5) * 2.2, cy - k * 1.6, z + k * 1.6); t.rotation.set(.12, .05 * k, .1 * k); add(t, 'front');
+      }
+      add(tube([V(cx - 16, cy + 14, z + 6), V(cx - 18, top.y + 6, top.z), V(cx - 26, top.y + 4, top.z - 6)], 3, toon(tan), p, 12, 8), 'front');
+      add(tube([V(cx + 8, cy - 18, z + 6), V(cx + 12, cy - 40, z + 7), V(cx + 7, cy - 56, z + 6)], 3, toon(tan), p, 12, 8), 'front');
+    };
+    coil(-262, part++); coil(352, part++);
+  }
+  g.scale.set(.93, 1.08, 1);
+  return g;
+};
+
 const EP003: Record<string, () => THREE.Object3D> = { rowboat, fishingRod, fish, fish2, trashcan, dynamite, chips, golfFlag, lantern,
   sniperGold, roulette, shopBoard, dynamiteLit, blastPuff, bossShadow, lighthouse, toyPistol, toySmg, toyShotgun, slotMachine, fpHands,
-  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo, friendCobra, barStool, airBubble, bubblePop, dolphin, dolphinNet };
+  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo, friendCobra, barStool, airBubble, bubblePop, dolphin, dolphinNet, diveBoat };
 for (const [k, f] of Object.entries(EP003)) if (P.props.includes(k)) scene.add((props[k] = f()));
 
 if (P.light === 'neutral') {
@@ -3311,6 +3625,7 @@ function draw() {
       const [ax, ay, az, yaw] = s?.at ?? [0, 0, 0, 0]; props[k].position.x = ax; props[k].position.y += ay; props[k].position.z = az; props[k].rotation.y = yaw; }
     // rowboat layers for characters seated inside: 'back' = far side + interior, 'front' = near hull side, rail and oar
     if (props.rowboat) props.rowboat.traverse((o: THREE.Object3D) => { if (o.userData.half) o.visible = !shot.boat || o.userData.half === shot.boat; });
+    if (props.diveBoat) props.diveBoat.traverse((o: THREE.Object3D) => { if ((o as THREE.Mesh).isMesh) o.visible = !shot.boat || (o.userData.half ?? 'back') === shot.boat; });
     ids.forEach((m) => { if (!saved.has(m)) saved.set(m, m.material); });   // meshes rebuilt per shot (friends' mouths, apron)
     if (shot.hide) ids.forEach((m) => { if (shot.hide!.includes(m.userData.part)) m.visible = false; });   // debug: hide parts
     const x = W * i;

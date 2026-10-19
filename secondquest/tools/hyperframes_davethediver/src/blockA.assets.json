@@ -114,5 +114,17 @@
  "fish_sb.png": [
   "public/art/ep003/props3d/fish2_side_blink.png",
   300
+ ],
+ "boat_back.png": [
+  "public/art/davethediver/props3d/diveboat_side_back.png",
+  null
+ ],
+ "boat_front.png": [
+  "public/art/davethediver/props3d/diveboat_side_front.png",
+  null
+ ],
+ "boat_side.png": [
+  "public/art/davethediver/props3d/diveboat_side.png",
+  null
  ]
 }

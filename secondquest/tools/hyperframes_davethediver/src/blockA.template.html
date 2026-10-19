@@ -157,11 +157,10 @@
       function splash(host, x, y, s, t) { const g = mk("div", "abs", host, `left:${x}px;top:${y}px;width:0;height:0`); const rs = [], ds = [];
         for (let i = 0; i < 2; i++) rs.push(mk("div", "ring", g, `left:${-70 * s}px;top:${-14 * s}px;width:${140 * s}px;height:${28 * s}px;opacity:0`));
         for (let i = 0; i < 10; i++) ds.push(mk("div", "drop", g, "left:-4px;top:-4px;opacity:0"));
-        rs.forEach((r, i) => tl.fromTo(r, { scale: .2, opacity: 1 }, { scale: 1.5 + i * .4, opacity: 0, duration: .55, ease: "power2.out" }, t + i * .09));
+        rs.forEach((r, i) => tl.to(r, { keyframes: [{ scale: .2, opacity: 1, duration: .001 }, { scale: 1.5 + i * .4, opacity: 0, duration: .55, ease: "power2.out" }] }, t + i * .09));
         ds.forEach((d, i) => { const dx = (i - 4.5) * 17 * s, up = (60 + (i % 3) * 34) * s;
-          tl.fromTo(d, { x: 0, opacity: 1 }, { x: dx, opacity: 1, duration: .62, ease: "none" }, t);
-          tl.fromTo(d, { y: 0 }, { keyframes: [{ y: -up, duration: .26, ease: "power2.out" }, { y: 30 * s, duration: .36, ease: "power2.in" }] }, t);
-          tl.to(d, { opacity: 0, duration: .1 }, t + .55); });
+          tl.to(d, { keyframes: [{ x: 0, y: 0, opacity: 1, duration: .001 }, { x: dx * .42, y: -up, duration: .26, ease: "power2.out" }, { x: dx * .9, y: 30 * s, duration: .29, ease: "power2.in" },
+            { x: dx, y: 30 * s, opacity: 0, duration: .07, ease: "none" }] }, t); });
         return g; }
       const SVGNS = "http://www.w3.org/2000/svg";
 
@@ -189,25 +188,10 @@
 
       /* ---------- scene builders ---------- */
       // dawn / sunrise sea with the cabin dive boat; Quest on the stern deck (kind "dive" or "fish")
-      function boatSVG() {
-        return `<svg viewBox="0 0 1000 380" width="1000" height="380" style="overflow:visible">
-          <g stroke="#16161f" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
-            <path d="M490 88 L490 18" fill="none"/><ellipse cx="490" cy="16" rx="26" ry="9" fill="#d8dde8"/>
-            <path d="M494 30 L548 40 L494 50 Z" fill="#ffc83d" stroke-width="4"/>
-            <rect x="330" y="100" width="330" height="138" rx="10" fill="#f3e9d2"/>
-            <rect x="314" y="80" width="362" height="28" rx="8" fill="#c4543a"/>
-            <rect x="352" y="128" width="64" height="52" rx="6" fill="#8fd9ee"/><rect x="432" y="128" width="64" height="52" rx="6" fill="#8fd9ee"/><rect x="512" y="128" width="64" height="52" rx="6" fill="#8fd9ee"/>
-            <rect x="596" y="130" width="42" height="108" rx="5" fill="#b8793e"/>
-            <path d="M330 206 L660 206" fill="none" stroke-width="4"/>
-            <circle cx="366" cy="214" r="15" fill="#ff7a3c"/><circle cx="366" cy="214" r="6" fill="#f3e9d2" stroke-width="3"/>
-            <rect x="728" y="164" width="22" height="74" rx="8" fill="#ffd34a"/><rect x="756" y="170" width="22" height="68" rx="8" fill="#ffcb2e"/>
-            <path d="M906 236 L906 168 M944 236 L944 168 M900 168 L950 168" fill="none"/>
-            <path d="M40 236 L960 236 L912 318 Q500 342 132 318 Q72 300 40 236 Z" fill="#2d4c80"/>
-            <path d="M40 236 L960 236 L950 256 L52 256 Z" fill="#f2efe6"/>
-            <path d="M80 306 Q500 328 918 308 L910 320 Q500 344 134 320 Z" fill="#d5473f" stroke-width="4"/>
-            <path d="M958 244 L986 244 L986 332 M958 270 L986 270 M958 296 L986 296 M958 322 L986 322" fill="none" stroke-width="4"/>
-          </g></svg>`;
-      }
+      // our 3D dive boat "SECOND WIND" (tools/props3d/render.py dtd_boat, free procedural 3D): two layers that stack pixel for pixel,
+      // back (deck, cabin, canopy, gear) < Quest < front (near hull side, rails, fenders, coils). PNG px: deck line at the centreline,
+      // the waterline on the near side, Quest's spot on the open aft deck (x 164..388; canopy posts from 400), 1.7 m = 285 px.
+      const BOAT = { w: 1757, h: 1005, deck: 704, wl: 951, qx: 250, m17: 285 };
       function buildSea(host, o) {
         const g = mk("div", "full", host);
         const sunrise = o.mode === "sunrise", HZ = 452;
@@ -227,21 +211,33 @@
           o.glit.push(mk("div", "abs", g, `left:${700 - w / 2 + (R() - .5) * 30}px;top:${y}px;width:${w}px;height:3px;border-radius:2px;background:rgba(255,238,190,${.7 - i * .018});`)); }
         o.waves = []; for (let i = 0; i < 9; i++) { const y = HZ + 30 + i * i * 3.6 + i * 14; const w = 120 + i * 40; const x = R() * 1280;
           o.waves.push(mk("div", "abs", g, `left:${x}px;top:${y}px;width:${w}px;height:${2 + i * .4}px;border-radius:3px;background:rgba(255,255,255,${.12 + i * .02})`)); }
-        // boat group
-        const L = o.boatLeft == null ? 140 : o.boatLeft, TOP = 250;
-        o.foam = []; for (let i = 0; i < 2; i++) o.foam.push(mk("div", "abs", g, `left:${L + 60 + i * 100}px;top:${TOP + 296}px;width:${840 - i * 200}px;height:26px;border-radius:50%;background:rgba(255,255,255,.35);filter:blur(2px)`));
-        o.boat = mk("div", "abs", g, `left:${L}px;top:${TOP}px;width:1000px;height:380px`);
-        o.boat.innerHTML = boatSVG();
-        // reflection of the hull
-        const deckY = TOP + 238;
-        const sx = L + 842, kind = o.quest;
-        if (kind === "dive") o.q = spr(o.boat, "dive", 842, 240, 300, { px: true, f: sunrise ? "" : "brightness(.88) saturate(.95) drop-shadow(3px -1px 0 rgba(255,190,130,.75))" });
-        else if (kind === "fish") o.q = spr(o.boat, "bigfish", 842, 240, 300, { px: true, f: "drop-shadow(3px -1px 0 rgba(255,214,150,.8))" });
-        o.deckX = sx; o.deckY = deckY; o.L = L; o.TOP = TOP;
+        // the boat: hull sunk in the sea (water band + reflection over its bottom), graded to the scene light
+        const BW = o.boatW || 980, k = BW / BOAT.w, BH = BOAT.h * k, L = o.boatLeft == null ? 150 : o.boatLeft, TOP = o.boatTop == null ? 70 : o.boatTop;
+        const deckY = TOP + BOAT.deck * k, wlY = TOP + BOAT.wl * k, qx = L + BOAT.qx * k, qh = Math.round(190 * BW / 980);   // Quest ~1.9 m: reads, no giant/tiny mismatch
+        const grade = sunrise ? "brightness(1.02) saturate(1.06) sepia(.1) drop-shadow(2px -2px 0 rgba(255,226,170,.55))"
+          : "brightness(.84) saturate(.9) sepia(.22) hue-rotate(-14deg) drop-shadow(-2px -2px 0 rgba(255,190,140,.6))";
+        o.boat = mk("div", "abs", g, `left:${L}px;top:${TOP}px;width:${BW}px;height:${BH}px;transform-origin:50% ${BOAT.wl * k}px;filter:${grade}`);
+        const layer = (f) => { const im = mk("img", "abs", o.boat, `left:0;top:0;width:${BW}px;height:${BH}px`); im.src = "assets/" + f; im.alt = ""; return im; };
+        layer("boat_back.png");
+        const kind = o.quest;
+        if (kind === "dive") o.q = spr(o.boat, "dive", BOAT.qx * k, BOAT.deck * k, qh, { px: true, f: sunrise ? "" : "drop-shadow(-2px -1px 0 rgba(255,190,130,.7))" });
+        else if (kind === "fish") o.q = spr(o.boat, "bigfish", BOAT.qx * k, BOAT.deck * k, qh, { px: true, f: "drop-shadow(2px -1px 0 rgba(255,214,150,.75))" });
+        layer("boat_front.png");
+        // water over the bottom of the hull: the same sea gradient, continued, with a foam lip; a soft mirrored reflection below
+        const seaBg = (y) => `background:${sea};background-size:1680px 420px;background-position:${-(L - 60) - 200}px ${HZ - y}px;background-repeat:no-repeat`;
+        o.water = mk("div", "abs", g, `left:${L - 60}px;top:${wlY - 8}px;width:${BW + 120}px;height:${TOP + BH + 6 - (wlY - 8)}px;opacity:.92;${seaBg(wlY - 8)};-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)`);
+        o.refl = mk("div", "abs", g, `left:${L}px;top:${wlY + 2}px;width:${BW}px;height:${BH}px;overflow:hidden;opacity:${sunrise ? .2 : .15};filter:blur(2.5px) ${grade.split(" drop")[0]};-webkit-mask-image:linear-gradient(180deg,#000,transparent 24%);mask-image:linear-gradient(180deg,#000,transparent 24%)`);
+        const rim = mk("img", "abs", o.refl, `left:0;top:${-(BOAT.wl - 40) * k}px;width:${BW}px;height:${BH}px;transform:scaleY(-1);transform-origin:50% ${(BOAT.wl - 20) * k}px`); rim.src = "assets/boat_side.png"; rim.alt = "";
+        o.lip = mk("div", "abs", g, `left:${L - 10}px;top:${wlY - 10}px;width:${BW + 20}px;height:7px;border-radius:50%;background:rgba(255,248,236,${sunrise ? .7 : .55});filter:blur(1.2px)`);
+        o.foam = []; for (let i = 0; i < 2; i++) o.foam.push(mk("div", "abs", g, `left:${L + 40 + i * 120}px;top:${wlY + 4 + i * 10}px;width:${BW - 80 - i * 240}px;height:${8 - i * 2}px;border-radius:50%;background:rgba(255,255,255,.32);filter:blur(1.5px)`));
+        o.deckX = qx; o.deckY = deckY; o.wlY = wlY; o.qh = qh; o.L = L; o.TOP = TOP; o.BW = BW;
         o.g = g; return o;
       }
       function seaAmbient(o, t0, t1, ph) {
-        tl.fromTo(o.boat, { y: -4 * ph, rotation: -.8 * ph }, { y: 4 * ph, rotation: .8 * ph, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.5) }, t0);
+        // bob +-2 px and roll +-0.6 deg about the waterline; the reflection follows the bob
+        tl.fromTo(o.boat, { y: -2 * ph, rotation: -.6 * ph }, { y: 2 * ph, rotation: .6 * ph, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.5) }, t0);
+        tl.fromTo(o.refl, { y: 2 * ph }, { y: -2 * ph, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.5) }, t0);
+        tl.fromTo(o.lip, { scaleX: .995, opacity: .8 }, { scaleX: 1.005, opacity: 1, duration: .75, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / .75) }, t0);
         o.waves.forEach((w, i) => tl.fromTo(w, { x: -20 }, { x: 20, duration: 1.4 + i * .17, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.2) }, t0));
         o.glit.forEach((w, i) => tl.fromTo(w, { opacity: .35 }, { opacity: 1, duration: .5 + (i % 5) * .13, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / .5) }, t0));
         [o.c0, o.c1, o.c2, o.c3].forEach((c, i) => tl.fromTo(c, { x: 0 }, { x: 30 + i * 10, duration: t1 - t0, ease: "none" }, t0));
@@ -404,9 +400,10 @@
         seaAmbient(A06.sea, t0, T.A07, 1);
         const sea = A06.sea, q = sea.q;
         // hop off the stern: backflip into the water behind it
-        tl.fromTo(q, { x: 0, y: 0, rotation: 0, opacity: 1 }, { keyframes: [{ x: 70, y: -70, rotation: -150, duration: .2, ease: "power2.out" }, { x: 130, y: 170, rotation: -330, duration: .24, ease: "power2.in" }], transformOrigin: "50% 60%" }, tD);
+        tl.fromTo(q, { x: 0, y: 0, rotation: 0, opacity: 1 }, { keyframes: [{ x: -70, y: -80, rotation: 150, duration: .2, ease: "power2.out" }, { x: -150, y: sea.wlY - sea.deckY + .55 * sea.qh, rotation: 330, duration: .24, ease: "power2.in" }], transformOrigin: "50% 60%" }, tD);
+        tl.set(q, { zIndex: 3 }, tD + .14);
         tl.set(q, { opacity: 0 }, tD + .44);
-        splash(rA06.sh, sea.L + 985, sea.TOP + 306, 1.9, tD + .44);
+        splash(rA06.sh, sea.deckX - 150, sea.wlY + 6, 1.9, tD + .44);
         tl.fromTo(sea.foam[0], { opacity: .35 }, { opacity: .8, duration: .3, yoyo: true, repeat: 3 }, t0);
       }
 
@@ -578,7 +575,7 @@
       /* ================================================================== A13 sunrise at the boat: the catch, the dolphin surfaces */
       const rA13 = rig("sA13"); let A13 = {};
       {
-        A13.sea = buildSea(rA13.sh, { mode: "sunrise", quest: "fish", seed: 31, boatLeft: 210 });
+        A13.sea = buildSea(rA13.sh, { mode: "sunrise", quest: "fish", seed: 31, boatLeft: 218, boatW: 930, boatTop: 96 });
         const t0 = T.A13, t1 = T.A14, sea = A13.sea;
         seaAmbient(sea, t0, t1, -1);
         tl.fromTo(rA13.cam, { scale: 1.1, x: 36, y: -14 }, { scale: 1.03, x: 0, y: 0, duration: t1 - t0, ease: "sine.inOut" }, t0);
@@ -597,7 +594,7 @@
         tl.set(dol2, { opacity: 0 }, tL2 + .56);
         splash(rA13.sh, 150, 560, .9, tL2 + .52);
         // the catch: a little sparkle on Dave's fish
-        const sp = html(rA13.sh, "abs", `left:${sea.L + sea.deckX - 130}px;top:${sea.TOP + 70}px;width:40px;height:40px`, `<svg viewBox="-20 -20 40 40" width="40" height="40"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="#fff6c8"/></svg>`);
+        const sp = html(rA13.sh, "abs", `left:${sea.deckX + .1 * sea.qh - 20}px;top:${sea.deckY - .62 * sea.qh - 20}px;width:40px;height:40px`, `<svg viewBox="-20 -20 40 40" width="40" height="40"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="#fff6c8"/></svg>`);
         tl.fromTo(sp, { scale: 0, rotation: 0 }, { scale: 1, rotation: 90, duration: .3, ease: "back.out(2)", yoyo: true, repeat: 1 }, T.A13 + .5);
       }
 

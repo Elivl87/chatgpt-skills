@@ -1155,7 +1155,38 @@ def job_dtd_dolphin_sheet():
     print(out.relative_to(ROOT))
 
 
-JOBS = {'dtd_dolphin': job_dtd_dolphin, 'dtd_dolphin_sheet': job_dtd_dolphin_sheet, 'dtd_cast': job_dtd_cast, 'dtd_cast_sheet': job_dtd_cast_sheet, 'friends': job_friends, 'friends_sheet': job_friends_sheet, 'friends_talk': job_friends_talk, 'friends_sitflat': job_friends_sitflat, 'friends_boat': job_friends_boat, 'friends_extras_sheet': job_friends_extras_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
+# ---------------------------------------------------------------- Dave the Diver: our dive boat "SECOND WIND" (2026-10-19)
+# name -> (target, yaw, elevation, distance, fov, canvas w, h, line). Bow to the right (+x), the camera on +z.
+DTD_BOAT = {
+    'diveboat_side': ([28, 380, 0], 0, 10, 2250, 22, 2000, 1400, 5.0),
+    'diveboat_34': ([40, 330, 0], 36, 15, 2300, 22, 2000, 1400, 5.0),
+}
+
+
+def boat_render(name, **shot):
+    tgt, yaw, elev, d, fov, w, h, line = DTD_BOAT[name]
+    shot = {'camera': orbit(yaw, elev, d, tgt), 'target': tgt, 'fov': fov, 'cart': None, 'near': d * .3, 'far': d * 3, **shot}
+    for _ in range(3):
+        img = render({'props': ['diveBoat'], 'shots': [shot], 'light': 'neutral'}, w, h, line=line, despeckle=14)[0]
+        if img[..., 3].any() and not img[[0, -1]][:, [0, -1], 3].all():
+            return img
+    raise RuntimeError(f'{name} rendered empty')
+
+
+def job_dtd_boat():
+    """Our dive boat cut-outs in public/art/davethediver/props3d/: diveboat_side.png (pure side, bow right), the two layers for
+    a person standing on the aft deck, same camera and crop box so they stack pixel for pixel: diveboat_side_back.png (deck,
+    far side, cabin, canopy, gear: under the person) and diveboat_side_front.png (near hull side, rails, fenders, coils: over
+    the person); diveboat_34.png (3/4 view, bow right-front). Prints the deck line and the aft-deck x range in px."""
+    OUT4.mkdir(parents=True, exist_ok=True)
+    img = boat_render('diveboat_side')
+    y0, y1, x0, x1 = alpha_box(img)
+    for suffix, layer in (('', img), ('_back', boat_render('diveboat_side', boat='back')), ('_front', boat_render('diveboat_side', boat='front'))):
+        cv2.imwrite(str(OUT4 / f'diveboat_side{suffix}.png'), layer[y0:y1, x0:x1]); print(f'diveboat_side{suffix}.png', layer[y0:y1, x0:x1].shape, flush=True)
+    cv2.imwrite(str(OUT4 / 'diveboat_34.png'), crop_alpha(boat_render('diveboat_34'), pad=10)); print('diveboat_34.png')
+
+
+JOBS = {'dtd_boat': job_dtd_boat, 'dtd_dolphin': job_dtd_dolphin, 'dtd_dolphin_sheet': job_dtd_dolphin_sheet, 'dtd_cast': job_dtd_cast, 'dtd_cast_sheet': job_dtd_cast_sheet, 'friends': job_friends, 'friends_sheet': job_friends_sheet, 'friends_talk': job_friends_talk, 'friends_sitflat': job_friends_sitflat, 'friends_boat': job_friends_boat, 'friends_extras_sheet': job_friends_extras_sheet, 'ep003_gameworld': job_ep003_gameworld, 'ep003_gameworld_sheet': job_ep003_gameworld_sheet, 'fish2': job_fish2, 'ep003_props': job_ep003_props, 'ep003_props_sheet': job_ep003_props_sheet, 'switch2_hd': job_switch2_hd, 'desk_items': job_desk_items, 'back_sword': job_back_sword, 'sword_check': job_sword_check, 'shield': job_shield, 'switch2': job_switch2, 'pad_profile': job_pad_profile, 'horse': job_horse, 'horse_rear': job_horse_rear, 'hud_items': job_hud_items, 'castle': job_castle, 'n64_34': job_n64_34, 'crt': job_crt, 'cart_spin': job_cart_spin, 'ocarina_ref': job_ocarina_ref, 'ocarina_spin': lambda: relic_spin('ocarina', [0, 10, 0], 640, 'ocarina_spin', sweep=50, elev=8),
         'sword_spin': lambda: relic_spin('sword', [0, 122, 0], 1150, 'sword_spin', elev=10),
         'triforce': job_triforce, 'n64_insert_hd': lambda: job_n64_insert(size=(2304, 1296), name='n64_insert_hd'), 'n64_pad': job_n64_pad, 'n64_room': job_n64_room, 'n64_insert': job_n64_insert, 'n64_turntable': job_n64_turntable}
 
