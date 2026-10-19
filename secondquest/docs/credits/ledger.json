@@ -750,6 +750,34 @@
     "7b0f69cc-34b0-4eb3-a8b0-f047121ff610"
    ],
    "balanceAfter": 28.25
+  },
+  {
+   "id": "Q043",
+   "episode": "DTD",
+   "item": "Character poses package: Quest in Dave's outfits x7 (dive x5, bar x2), Pixie chef x4 — 11 images at 1k",
+   "model": "gpt_image_2_5",
+   "quoted": 5.5,
+   "status": "spent",
+   "quotedAt": "2026-10-19T00:54:09+00:00",
+   "prompt": "<<<755771c5-9283-4473-a037-a4a983c75238>>> The SAME cartoon character as in the reference images (Quest_v1): young man, dark brown curly hair, light freckles, same face and proportions. Same face, hair and human ears as Quest_v1; only the outfit changes.\nCostume: a navy-blue full-body scuba wetsuit with an integrated hood pulled up, his dark brown curly fringe clearly showing at the front edge of the hood; a yellow diving mask pushed up on his forehead over the hood; black diving gloves; a black weight belt with grey rectangular weights; a yellow scuba tank on his back held by black harness straps, a black regulator hose over his shoulder; bright yellow diving fins on his feet.\nPose: full body, three-quarter view, standing, big cheerful grin, one hand giving a thumbs-up, ready to dive.\nSame 2D cartoon style: bold ink outlines, flat cel shading. Transparent background. No logos, no text.\n",
+   "approvedAt": "2026-10-19T00:54:15+00:00",
+   "approval": "1. Con la de la fiesta. 2. Si. Es decir completo",
+   "spentAt": "2026-10-19T00:55:31+00:00",
+   "actual": 5.5,
+   "jobs": [
+    "62fd9af5-b4cc-4b57-855a-e22b750ef951",
+    "144befcf-6d97-425d-866a-88b109f3b6db",
+    "1c20318b-b7ea-4332-8bbd-678da37971ef",
+    "30f8ee70-5b2f-477a-8c6a-589cafe38b02",
+    "fe3bd426-c94d-4594-985b-9881f47622fe",
+    "1992850f-7370-4077-80b3-d2f8a2dee757",
+    "e4a9ce5a-1435-4bfa-a9f3-02e817363737",
+    "47305355-9860-45ca-a9d0-aa1d8c72cbd6",
+    "66c9316d-09a3-4148-bc4e-47492a806983",
+    "224f7855-bb5a-485b-ab8c-a3d389adbac7",
+    "af862ae7-bd90-4597-8c48-5d9180c38ecb"
+   ],
+   "balanceAfter": 3.75
   }
  ]
 }
