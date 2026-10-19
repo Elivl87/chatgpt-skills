@@ -113,8 +113,8 @@ def cues():
         (T['l01.w8'] - .02, S / 'alarm.wav', -9, .5, 0.0, '"wake up": the alarm clock rattles on the headboard'),
         (T['l04.w1'] + .2, S / 'cc0/kenney_impact/impactPunch_heavy_000.ogg', -6, None, 0.0, 'the huge tractor slams down in the dealership lot'),
         (T['l11.w7'] - .1, S / 'cc0/rubberduck_100sfx2/sfx100v2_thunder_01.ogg', -8, 2.2, 0.0, '"enemy...": lightning over the golden field'),
-        (T['l05.w2.end'] + .02, S / 'cc0/kenney/scratch_005.ogg', -2, None, 0.0, '"and then..." record scratch, freeze frame'),
-        (seg.DUR - 1.0, S / 'alarm.wav', -7, 1.0, 1.1, 'loop seam: the alarm rings to the last frame (a later part of the take) -> "wake up"'),
+        (T['l05.w2.end'] + .02, S / 'cc0/kenney/scratch_005.ogg', -4, None, 0.0, '"and then..." record scratch, freeze frame'),
+        (seg.DUR - 1.0, S / 'alarm.wav', -7, .82, 1.1, 'loop seam: the alarm rings to the last frame (a later part of the take) -> "wake up"'),
     ]
 
 
@@ -145,6 +145,8 @@ def stage_audio():
     plan.append({'t': 0.0, 'rel_db': brel, 'spec': str(bf.relative_to(ROOT)), 'why': 'outdoor air bed, also under the seam', 'bed': True})
     (OUT / 'sfx_plan.json').write_text(json.dumps(plan, indent=1))
     mix = voice + sfx
+    n_end = round(int(seg.DUR * 30 - 3) / 30 * SR)                      # end on the last video frame, 20 ms fade: a clean loop restart
+    mix = mix[:n_end]; f = round(.02 * SR); mix[-f:] *= np.linspace(1, 0, f)
     mix *= .9 / max(1e-6, float(np.abs(mix).max()))
     raw = OUT / '_mix_raw.wav'; write_wav(raw, mix)
 
