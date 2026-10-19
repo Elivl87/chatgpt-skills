@@ -36,3 +36,8 @@
 - Dolphin fidelity (Producer, 2026-10-19: "Que sea super fiel al del juego"): the pink dolphin follows the game's pink
   dolphin as closely as possible (real bottlenose proportions, bubblegum pink with paler belly, heart bubbles), still
   built by us in props3d, never the game's sprite/art.
+- Block A animatic v1 review (Producer, 2026-10-19: "el barco es terrible, ni se parece… en la pecera no debe estar el
+  delfín, debe estar el pez del EP003"): (1) the code-made boat is rejected: the dive boat is a NEW props3d model in the
+  game boat's family (GAME_VISUAL_REFERENCE §boat), with back/front layers so Quest stands on the deck; (2) Pixie, as the
+  bar's chef (Bancho's role), is always in the background behind the counter in bar shots; (3) the bar aquarium holds
+  the EP003 fish (cameo), never the dolphin; the dolphin stays in open water (sea, bay outside the bar).

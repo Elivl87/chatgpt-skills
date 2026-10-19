@@ -123,9 +123,9 @@
         q_game: [1254, 1254, 178, 11, 1112, 1237, "q_game.png"], q_head: [1792, 2240, 0, 17, 1778, 2240, "q_head.png"],
         q_worry: [1744, 2336, 0, 17, 1730, 2336, "q_worry.png"],
         swimA: [238, 152, 1, 1, 236, 149, "swimA.png"], swimB: [239, 152, 1, 1, 237, 150, "swimB.png"], aim: [238, 152, 2, 1, 236, 151, "aim.png"],
-        dive: [84, 152, 4, 0, 80, 151, "dive.png"], bigfish: [101, 152, 6, 0, 100, 152, "bigfish.png"], tray: [102, 152, 1, 0, 102, 149, "tray.png"],
+        dive: [84, 152, 4, 0, 80, 151, "dive.png"], bigfish: [101, 152, 6, 0, 100, 152, "bigfish.png"], tray: [102, 152, 1, 0, 102, 149, "tray.png"], pixie: [93, 152, 10, 0, 81, 152, "pixie.png"],
       };
-      const PIC = { d_tangled: [1000, 613], d_net: [1000, 873], d_happy: [1000, 403], d_blink: [1000, 403], d_neutral: [1000, 403], d_peek: [967, 1000], d_leap: [1000, 882], d_ring: [1011, 412], d_heart: [1000, 854] };
+      const PIC = { d_tangled: [1000, 613], d_net: [1000, 873], d_happy: [1000, 403], d_blink: [1000, 403], d_neutral: [1000, 403], d_peek: [967, 1000], d_leap: [1000, 882], d_ring: [1011, 412], d_heart: [1000, 854], fish_s: [616, 378], fish_sb: [616, 378] };
       // sprite whose VISIBLE bbox is h px tall, bbox bottom-centre at (cx, by)
       function spr(host, key, cx, by, h, o) {
         o = o || {}; const [W0, H0, x0, y0, x1, y1, file] = SP[key]; const k = h / (y1 - y0); const w = (x1 - x0) * k;
@@ -510,10 +510,18 @@
       const rA10 = rig("sA10"); let A10 = {};
       {
         plate(rA10.sh, "bar.png");
-        // dolphin peeks from the aquarium (inside the glass)
-        const tank = mk("div", "abs", rA10.sh, "left:1070px;top:258px;width:212px;height:146px;overflow:hidden");
-        const dp = pic(tank, "d_peek", 1218 - 1070, 330 - 258, 74, { f: "saturate(1.05) brightness(.95)" });
-        tl.fromTo(dp, { y: 10, rotation: -6 }, { y: -4, rotation: 4, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 5 }, T.A10);
+        // the EP003 fish (cameo, Producer 2026-10-19) lives in the aquarium: swims along the glass, one blink
+        const tank = mk("div", "abs", rA10.sh, "left:1104px;top:258px;width:176px;height:146px;overflow:hidden");
+        const fsh = mk("div", "abs", tank, "left:0;top:0;width:176px;height:146px;filter:saturate(1.05) brightness(.92) drop-shadow(0 0 6px rgba(80,170,255,.5))");
+        const fA = pic(fsh, "fish_s", 60, 62, 78, { flip: true }), fB = pic(fsh, "fish_sb", 60, 62, 78, { flip: true }); tl.set(fB, { opacity: 0 }, 0);
+        tl.fromTo(fsh, { x: -10 }, { x: 70, duration: T.A11 - T.A10, ease: "sine.inOut" }, T.A10);
+        tl.fromTo(fsh, { y: 4, rotation: -3 }, { y: -4, rotation: 3, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 7 }, T.A10);
+        tl.set(fB, { opacity: 1 }, {{p03.w23}}); tl.set(fB, { opacity: 0 }, {{p03.w23+0.15}});
+        // Pixie as the bar's chef (Bancho's role) behind the prep counter: the counter hides her from the waist down
+        const back = mk("div", "abs", rA10.sh, "left:0;top:0;width:1280px;height:371px;overflow:hidden");
+        const PX = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.45))";
+        const pxA = spr(back, "pixie", 606, 440, 176, { px: true, f: PX }), pxB = spr(back, "pixie", 606, 440, 176, { px: true, flip: true, f: PX });
+        tl.set(pxB, { opacity: 0 }, 0); tl.set(pxA, { opacity: 0 }, {{p03.w25}}); tl.set(pxB, { opacity: 1 }, {{p03.w25}});
                 const TQ = "brightness(.95) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.55))";
         const base = 548, hq = 200;
         const p = [T.A10, {{p03.w22}}, {{p03.w25}}, {{p03.w27}}, T.A11];

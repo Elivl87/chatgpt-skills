@@ -102,5 +102,17 @@
  "d_heart.png": [
   "public/art/davethediver/props3d/dolphin_fx_heart_ring.png",
   500
+ ],
+ "pixie.png": [
+  "public/art/davethediver/pixel/p09_pixie_present.png",
+  null
+ ],
+ "fish_s.png": [
+  "public/art/ep003/props3d/fish2_side_deadpan.png",
+  300
+ ],
+ "fish_sb.png": [
+  "public/art/ep003/props3d/fish2_side_blink.png",
+  300
  ]
 }
