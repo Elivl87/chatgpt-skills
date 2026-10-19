@@ -58,9 +58,9 @@
       <!-- 2 · "wake up..." · his bed, the alarm clock rattling on the pillow -->
       <div id="shBed" class="full shot clip" data-start="{{l01.w8-0.05}}" data-duration="{{l02-0.05-l01.w8+0.05}}" data-track-index="2"><div class="cam" id="cBed">
         <img class="full" src="assets/bedroom.jpg" alt="" />
-        <img class="abs" id="bed" src="assets/q_bed.png" alt="quest" data-role="character" style="left: 23px; top: 1005px; width: 1700px; height: 1129px" />
-        <div class="shadow" style="left: 110px; top: 1180px; width: 190px; height: 32px"></div>
-        <img class="abs" id="clock" src="assets/alarm.png" alt="" style="left: 100px; top: 985px; width: 210px; height: 210px; transform-origin: 50% 100%" />
+        <img class="abs" id="bed" src="assets/q_bed.png" alt="quest" data-role="character" style="left: 23px; top: 1085px; width: 1700px; height: 1129px" />
+        <div class="shadow" style="left: 110px; top: 1260px; width: 190px; height: 32px"></div>
+        <img class="abs" id="clock" src="assets/alarm.png" alt="" style="left: 100px; top: 1065px; width: 210px; height: 210px; transform-origin: 50% 100%" />
       </div></div>
 
       <!-- 3 · "go to work..." · the office, deadpan typing -->
@@ -172,7 +172,7 @@
       const T2 = T1;
       tl.set("#cBed", view(1, 540, 960), T2);
       tl.fromTo("#clock", { rotation: 0 }, { keyframes: Array.from({ length: 12 }, (_, i) => ({ rotation: i % 2 ? -7 : 7, duration: .04 })).concat([{ rotation: 0, duration: .05 }]), immediateRender: false }, T2);
-      snap("#cBed", {{l01.w9}}, view(1.45, 400, 1120));
+      snap("#cBed", {{l01.w9}}, view(1.45, 400, 1200));
 
       /* ---- 3 office: deadpan; snap zoom on "work..." */
       const T3 = {{l02-0.05}};
@@ -210,7 +210,7 @@
       const T7 = {{l12-0.26}};
       const QX = 541, QY = 1120;
       tl.fromTo("#cField", view(4, QX, QY), Object.assign(view(4.2, QX, QY), { duration: {{l12.w3}} - T7, ease: "sine.inOut", immediateRender: false }), T7);
-      tl.to("#cField", Object.assign(view(1.2, QX, QY), { duration: {{l12.end}} - {{l12.w3}}, ease: "power2.inOut" }), {{l12.w3}});   // ends a bit tight: he stays visible at feed size
+      tl.to("#cField", Object.assign(view(1.2, QX, 900), { duration: {{l12.end}} - {{l12.w3}}, ease: "power2.inOut" }), {{l12.w3}});   // ends a bit tight: he stays visible at feed size
 
       /* ---- 8a "and then...": close on him, hopeful; the freeze on the scratch */
       const T8 = {{l05-0.12}};

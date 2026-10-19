@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=720, height=1280" />
+    <meta name="viewport" content="width=1080, height=1920" />
     <title>EP001 Short 3 The work loop</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
@@ -14,9 +14,9 @@
       @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
       :root { --gold: #ffd23f; --ink: #16121f; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 720px; height: 1280px; overflow: hidden; background: #16121f; }
-      #root { position: relative; width: 720px; height: 1280px; overflow: hidden; font-family: "Inter", sans-serif; }
-      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(0.6666666666666666); transform-origin: 0 0; overflow: hidden; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #16121f; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; }
+      #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform: scale(1.0); transform-origin: 0 0; overflow: hidden; }
       .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
       .abs { position: absolute; display: block; }
       .shot { overflow: hidden; background: #16121f; }
@@ -48,7 +48,7 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="21.45" data-fps="30" data-width="720" data-height="1280">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21.45" data-fps="30" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="21.45" data-track-index="30" data-volume="1"></audio>
       <div id="stage"><div id="shake" class="full">
 
@@ -58,9 +58,9 @@
       <!-- 2 · "wake up..." · his bed, the alarm clock rattling on the pillow -->
       <div id="shBed" class="full shot clip" data-start="2.82" data-duration="0.918" data-track-index="2"><div class="cam" id="cBed">
         <img class="full" src="assets/bedroom.jpg" alt="" />
-        <img class="abs" id="bed" src="assets/q_bed.png" alt="quest" data-role="character" style="left: 23px; top: 1005px; width: 1700px; height: 1129px" />
-        <div class="shadow" style="left: 110px; top: 1180px; width: 190px; height: 32px"></div>
-        <img class="abs" id="clock" src="assets/alarm.png" alt="" style="left: 100px; top: 985px; width: 210px; height: 210px; transform-origin: 50% 100%" />
+        <img class="abs" id="bed" src="assets/q_bed.png" alt="quest" data-role="character" style="left: 23px; top: 1085px; width: 1700px; height: 1129px" />
+        <div class="shadow" style="left: 110px; top: 1260px; width: 190px; height: 32px"></div>
+        <img class="abs" id="clock" src="assets/alarm.png" alt="" style="left: 100px; top: 1065px; width: 210px; height: 210px; transform-origin: 50% 100%" />
       </div></div>
 
       <!-- 3 · "go to work..." · the office, deadpan typing -->
@@ -125,7 +125,7 @@
         <div id="cardT"><div class="w" id="cA">YOU ALREADY<br>HAVE A JOB.</div><div class="w" id="cB" style="top: 290px">WHY GET A</div><div class="g" id="cC">SECOND ONE?</div></div>
         <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
         <div class="stack" id="walC" style="left: 615px; top: 896px; width: 220px; height: 220px; transform-origin: 50% 100%"><img class="on" src="assets/wallet_happy.png" alt="" /></div>
-        <div id="fullEp">FULL EPISODE ↓</div>
+        <div id="fullEp">FULL EPISODE ON YOUTUBE</div>
       </div>
 
       <!-- 10 · LOOP SEAM · the alarm rings, frame 0 recomposes; last frame = frame 0 -->
@@ -231,7 +231,7 @@
       const T2 = T1;
       tl.set("#cBed", view(1, 540, 960), T2);
       tl.fromTo("#clock", { rotation: 0 }, { keyframes: Array.from({ length: 12 }, (_, i) => ({ rotation: i % 2 ? -7 : 7, duration: .04 })).concat([{ rotation: 0, duration: .05 }]), immediateRender: false }, T2);
-      snap("#cBed", 3.09, view(1.45, 400, 1120));
+      snap("#cBed", 3.09, view(1.45, 400, 1200));
 
       /* ---- 3 office: deadpan; snap zoom on "work..." */
       const T3 = 3.738;
@@ -256,8 +256,7 @@
       swap("#walDeal", 1, 6.97);
       snap("#cDeal", 6.97, view(1.6, 260, 1420));                     // snap onto the wallet's face on "expensive"
       swap("#walDeal", 2, 8.14);
-      tl.to("#cDeal", Object.assign(view(1.04, 560, 1000), { duration: .35, ease: "power2.inOut" }), 8.14);   // ...and back out: it's out cold
-      tl.to("#cDeal", Object.assign(view(1.06, 580, 1040), { duration: 8.697 - 8.49, ease: "sine.inOut" }), 8.49);
+      tl.to("#cDeal", Object.assign(view(1.68, 260, 1440), { duration: 8.697 - 8.14, ease: "sine.inOut" }), 8.14);   // stay on it: out cold (critic v1/v2: the faint reads at phone size)
 
       /* ---- 6 epic: the sky turns on "greatest", lightning on "enemy" */
       const T6 = 8.697;
@@ -270,7 +269,7 @@
       const T7 = 11.601;
       const QX = 541, QY = 1120;
       tl.fromTo("#cField", view(4, QX, QY), Object.assign(view(4.2, QX, QY), { duration: 12.11 - T7, ease: "sine.inOut", immediateRender: false }), T7);
-      tl.to("#cField", Object.assign(view(1.2, QX, QY), { duration: 14.63 - 12.11, ease: "power2.inOut" }), 12.11);   // ends a bit tight: he stays visible at feed size
+      tl.to("#cField", Object.assign(view(1.2, QX, 900), { duration: 14.63 - 12.11, ease: "power2.inOut" }), 12.11);   // ends a bit tight: he stays visible at feed size
 
       /* ---- 8a "and then...": close on him, hopeful; the freeze on the scratch */
       const T8 = 15.253;
