@@ -22,11 +22,11 @@ WHISPER = json.loads((HERE / 'ep001_words_whisper.json').read_text())
 SEGMENTS = [
     (0.20, 8.20, 0.45),      # l01-l04 "Farming Simulator is a game where you wake up... equipment..."  (0.00-0.42 / 7.93-8.50)
     (22.90, 29.30, 8.75),    # l11-l12 "Most of the time, your greatest enemy... than you expected."    (22.40-23.16 / 28.70-30.06)
-    (8.30, 11.30, 15.90),    # l05-l06 "and then... go back to work."                                    (7.93-8.50 / 10.71-11.95)
+    (8.30, 11.30, 15.20),    # l05-l06 "and then... go back to work."                                    (7.93-8.50 / 10.71-11.95)
 ]
 LINES = ['l01', 'l02', 'l03', 'l04', 'l11', 'l12', 'l05', 'l06']
 VOICE_END = round(SEGMENTS[-1][2] + SEGMENTS[-1][1] - SEGMENTS[-1][0], 3)
-CARD = 2.5
+CARD = 2.0
 DUR = round(VOICE_END + .25 + CARD + 1.0, 3)
 
 

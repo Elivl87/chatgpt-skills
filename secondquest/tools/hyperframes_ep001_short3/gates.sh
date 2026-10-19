@@ -11,7 +11,7 @@ fail=0
 echo "== hyperframes lint"; (cd $P && hyperframes lint 2>&1 | grep "error(s)" | tail -1) | tee "$O/lint.txt"; grep -q "0 error" "$O/lint.txt" || fail=1
 echo "== frame_critic 0.25 s sweep"; python3 scripts/frame_critic.py $P --step 0.25 --lint --out "$O/sweep" | sed -n 3p || fail=1
 # frame 0, every cut and the loop seam: 1/30 s
-for w in 0:0.6 2.6:3.1 3.5:4.0 4.8:5.2 5.9:6.6 8.5:9.0 11.4:11.9 15.8:16.2 17.1:17.6 18.9:19.6 21.5:22.65; do
+for w in 0:0.6 2.6:3.1 3.5:4.0 4.8:5.2 5.9:7.3 8.5:9.0 10.5:11.0 11.4:11.9 14.9:15.6 16.5:17.0 18.3:19.0 20.3:21.45; do
   a=${w%%:*}; b=${w##*:}
   echo "== frame_critic 1/30 s $a-$b"; python3 scripts/frame_critic.py $P --step 0.0333 --t0 $a --t1 $b --no-shots --out "$O/w_$a" | sed -n 3p || fail=1
 done

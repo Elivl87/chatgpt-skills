@@ -34,7 +34,7 @@
       .cap { position: absolute; left: 90px; width: 840px; text-align: center; font: 800 76px/1.14 "Inter", sans-serif; color: #fff; word-spacing: .1em;
         -webkit-text-stroke: 14px var(--ink); paint-order: stroke fill; text-shadow: 0 7px 0 var(--ink); visibility: hidden; transform-origin: 50% 50%; }
       .cap span { display: inline-block; }
-      #cardT { position: absolute; left: 0; width: 1080px; top: 270px; text-align: center; font-family: "Anton", sans-serif; line-height: 1.04;
+      #cardT { position: absolute; left: 0; width: 1080px; top: 240px; text-align: center; font-family: "Anton", sans-serif; line-height: 1.04;
         -webkit-text-stroke: 10px var(--ink); paint-order: stroke fill; text-shadow: 0 10px 0 var(--ink); }
       #cardT div { position: absolute; left: 0; width: 1080px; }
       #cardT .w { top: 0; color: #fff; font-size: 104px; }
@@ -42,14 +42,14 @@
       #wm { position: absolute; left: 160px; top: 1100px; width: 760px; height: 190px; }
       #wm img { position: absolute; left: 0; top: 0; width: 760px; height: 131px; filter: drop-shadow(0 7px 0 #16161f); }
       #wmBar { position: absolute; left: 130px; top: 156px; width: 500px; height: 14px; background: var(--gold); border-radius: 7px; box-shadow: 0 5px 0 var(--ink); transform-origin: 50% 50%; }
-      #fullEp { position: absolute; left: 0; width: 1080px; top: 1345px; text-align: center; font: 800 44px "Inter", sans-serif; color: #fff;
+      #fullEp { position: absolute; left: 0; width: 1080px; top: 1330px; text-align: center; font: 800 64px "Inter", sans-serif; color: #fff;
         letter-spacing: .08em; -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill; }
       #bolt { position: absolute; left: 0; top: 0; width: 1080px; height: 900px; opacity: 0; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="22.65" data-fps="30" data-width="720" data-height="1280">
-      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="22.65" data-track-index="30" data-volume="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21.45" data-fps="30" data-width="720" data-height="1280">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="21.45" data-track-index="30" data-volume="1"></audio>
       <div id="stage"><div id="shake" class="full">
 
       <!-- 1 · FRAME 0 · "Farming Simulator is a game where you…" -->
@@ -58,9 +58,9 @@
       <!-- 2 · "wake up..." · his bed, the alarm clock rattling on the pillow -->
       <div id="shBed" class="full shot clip" data-start="2.82" data-duration="0.918" data-track-index="2"><div class="cam" id="cBed">
         <img class="full" src="assets/bedroom.jpg" alt="" />
-        <img class="abs" id="bed" src="assets/q_bed.png" alt="quest" data-role="character" style="left: 155px; top: 905px; width: 1300px; height: 863px" />
-        <div class="shadow" style="left: 205px; top: 1034px; width: 170px; height: 30px"></div>
-        <img class="abs" id="clock" src="assets/alarm.png" alt="" style="left: 200px; top: 872px; width: 180px; height: 180px; transform-origin: 50% 100%" />
+        <img class="abs" id="bed" src="assets/q_bed.png" alt="quest" data-role="character" style="left: 23px; top: 1005px; width: 1700px; height: 1129px" />
+        <div class="shadow" style="left: 110px; top: 1180px; width: 190px; height: 32px"></div>
+        <img class="abs" id="clock" src="assets/alarm.png" alt="" style="left: 100px; top: 985px; width: 210px; height: 210px; transform-origin: 50% 100%" />
       </div></div>
 
       <!-- 3 · "go to work..." · the office, deadpan typing -->
@@ -82,8 +82,8 @@
       <!-- 5 · "buy extremely expensive equipment..." · the tractor slams down; the wallet: shock, then out cold -->
       <div id="shDeal" class="full shot clip" data-start="6.068" data-duration="2.629" data-track-index="5"><div class="cam" id="cDeal">
         <img class="full" src="assets/dealership.jpg" alt="" />
-        <div class="shadow" id="trSh" style="left: 290px; top: 1290px; width: 740px; height: 70px"></div>
-        <img class="abs" id="trHuge" src="assets/tractor_huge.png" alt="" style="left: 280px; top: 760px; width: 760px; height: 570px; transform-origin: 50% 100%" />
+        <div class="shadow" id="trSh" style="left: 470px; top: 985px; width: 520px; height: 50px"></div>
+        <img class="abs" id="trHuge" src="assets/tractor_huge.png" alt="" style="left: 460px; top: 620px; width: 520px; height: 390px; transform-origin: 50% 100%" />
         <div class="shadow" style="left: 50px; top: 1660px; width: 300px; height: 44px"></div>
         <div class="stack" id="walDeal" data-role="character" style="left: 30px; top: 1340px; width: 340px; height: 340px; transform-origin: 50% 100%">
           <img class="on" src="assets/wallet_happy.png" alt="wallet" /><img src="assets/wallet_shock.png" alt="wallet" /><img src="assets/wallet_fainted.png" alt="wallet" /></div>
@@ -93,19 +93,19 @@
       <div id="shEpic" class="full shot clip" data-start="8.697" data-duration="2.904" data-track-index="6"><div class="cam" id="cEpic">
         <img class="full" src="assets/golden.jpg" alt="" />
         <div class="full" id="storm" style="background: linear-gradient(180deg, rgba(20,16,40,.85) 0%, rgba(30,24,50,.55) 40%, rgba(20,16,30,.25) 100%); opacity: 0"></div>
-        <svg id="bolt" viewBox="0 0 1080 900"><path d="M760 0 L700 260 L780 250 L660 560 L740 540 L600 900" fill="none" stroke="#fffbe6" stroke-width="16" stroke-linejoin="round"/></svg>
+        <svg id="bolt" viewBox="0 0 1080 900"><path d="M985 0 L915 250 L990 262 L830 470 L890 462 L700 668" fill="none" stroke="#fffbe6" stroke-width="16" stroke-linejoin="round"/></svg>
         <img class="abs" id="hero" src="assets/q_heroic.png" alt="quest" data-role="character" style="left: 90px; top: 640px; width: 903px; height: 1209px" />
       </div></div>
 
       <!-- 7 · "...is a field that's slightly larger than you expected." · the pull-out; then the awkward silence -->
-      <div id="shField" class="full shot clip" data-start="11.601" data-duration="4.352" data-track-index="7"><div class="cam" id="cField">
+      <div id="shField" class="full shot clip" data-start="11.601" data-duration="3.652" data-track-index="7"><div class="cam" id="cField">
         <img class="abs" src="assets/field_big.jpg" alt="" style="left: -1180px; top: 0; width: 3440px; height: 1920px" />
         <div class="shadow" style="left: 488px; top: 1150px; width: 110px; height: 14px"></div>
         <img class="abs" id="qtSmall" src="assets/quest_on_tractor.png" alt="quest" data-role="character" style="left: 486px; top: 1078px; width: 110px; height: 82px" />
       </div></div>
 
       <!-- 8a · "and then..." · close on Quest on his tractor; freeze frame on the scratch -->
-      <div id="shThen" class="full shot clip" data-start="15.953" data-duration="1.388" data-track-index="8"><div class="cam" id="cThen">
+      <div id="shThen" class="full shot clip" data-start="15.253" data-duration="1.388" data-track-index="8"><div class="cam" id="cThen">
         <img class="abs" src="assets/field_big.jpg" alt="" style="left: -2400px; top: -1400px; width: 6880px; height: 3840px; filter: blur(5px)" />
         <div class="shadow" style="left: 0px; top: 1540px; width: 1080px; height: 90px"></div>
         <img class="abs" id="qtBig" src="assets/quest_on_tractor.png" alt="quest" data-role="character" style="left: -520px; top: 830px; width: 1500px; height: 1117px" />
@@ -113,26 +113,26 @@
       </div></div>
 
       <!-- 8b · "go back to work." · hard cut back to the desk; snap zoom on his face -->
-      <div id="shWork" class="full shot clip" data-start="17.341" data-duration="1.809" data-track-index="9"><div class="cam" id="cWork">
+      <div id="shWork" class="full shot clip" data-start="16.641" data-duration="1.809" data-track-index="9"><div class="cam" id="cWork">
         <img class="full" src="assets/office.jpg" alt="" />
         <img class="abs" id="desk2" src="assets/q_desk.png" alt="quest" data-role="character" style="left: -40px; top: 860px; width: 1150px; height: 920px" />
       </div></div>
 
       <!-- 9 · END CARD · YOU ALREADY HAVE A JOB. WHY GET A SECOND ONE? + SecondQuest; the wallet, recovered, on the wordmark -->
-      <div id="shCard" class="full shot clip" data-start="19.15" data-duration="2.5" data-track-index="10">
+      <div id="shCard" class="full shot clip" data-start="18.45" data-duration="2.0" data-track-index="10">
         <img class="full" src="assets/f0_bg.jpg" alt="" />
         <div class="full" style="background: rgba(12,10,24,.62)"></div>
         <div id="cardT"><div class="w" id="cA">YOU ALREADY<br>HAVE A JOB.</div><div class="w" id="cB" style="top: 290px">WHY GET A</div><div class="g" id="cC">SECOND ONE?</div></div>
         <div id="wm"><img src="assets/wordmark.png" alt="SecondQuest" /><div id="wmBar"></div></div>
-        <div class="stack" id="walC" style="left: 640px; top: 966px; width: 150px; height: 150px; transform-origin: 50% 100%"><img class="on" src="assets/wallet_happy.png" alt="" /></div>
+        <div class="stack" id="walC" style="left: 615px; top: 896px; width: 220px; height: 220px; transform-origin: 50% 100%"><img class="on" src="assets/wallet_happy.png" alt="" /></div>
         <div id="fullEp">FULL EPISODE ↓</div>
       </div>
 
       <!-- 10 · LOOP SEAM · the alarm rings, frame 0 recomposes; last frame = frame 0 -->
-      <div id="shLoop" class="full shot clip" data-start="21.65" data-duration="1.0" data-track-index="11"><div class="cam" id="cLoop"></div></div>
+      <div id="shLoop" class="full shot clip" data-start="20.45" data-duration="1.0" data-track-index="11"><div class="cam" id="cLoop"></div></div>
 
-      <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="22.65" data-track-index="20"></div>
-      <div id="flash" class="full clip" data-start="0" data-duration="22.65" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
+      <div id="caps" class="full clip" data-role="caption" data-start="0" data-duration="21.45" data-track-index="20"></div>
+      <div id="flash" class="full clip" data-start="0" data-duration="21.45" data-track-index="21" style="background: #fffaf0; opacity: 0"></div>
       </div></div>
     </div>
 
@@ -193,7 +193,7 @@
   ]
  }
 };
-      const CAPS = [{"a": 0.49, "e": 1.98, "top": 1390, "w": [["Farming", 0.55, 0.97], ["Simulator", 0.97, 1.55], ["is", 1.55, 2.05]]}, {"a": 1.99, "e": 2.66, "top": 1390, "w": [["a", 2.05, 2.21], ["game", 2.21, 2.45], ["where", 2.45, 2.73]]}, {"a": 2.67, "e": 2.819, "top": 1390, "w": [["you", 2.73, 2.87], ["wake", 2.87, 3.09], ["up...", 3.09, 3.488]]}, {"a": 3.728, "e": 4.942, "top": 250, "w": [["go", 3.788, 4.03], ["to", 4.03, 4.23], ["work...", 4.23, 4.55]]}, {"a": 4.952, "e": 6.048, "top": 250, "w": [["make", 5.012, 5.27], ["money...", 5.27, 5.71]]}, {"a": 6.058, "e": 7.58, "top": 250, "w": [["buy", 6.118, 6.31], ["extremely", 6.31, 6.97], ["expensive", 6.97, 7.65]]}, {"a": 7.59, "e": 8.69, "top": 250, "w": [["equipment...", 7.65, 8.09]]}, {"a": 8.917, "e": 9.42, "top": 250, "w": [["Most", 8.977, 9.19], ["of", 9.19, 9.39], ["the", 9.39, 9.49]]}, {"a": 9.43, "e": 10.1, "top": 250, "w": [["time,", 9.49, 9.91]]}, {"a": 10.11, "e": 11.6, "top": 250, "w": [["your", 10.17, 10.29], ["greatest", 10.29, 10.71], ["enemy...", 10.71, 11.15]]}, {"a": 11.801, "e": 12.38, "top": 250, "w": [["is", 11.861, 11.97], ["a", 11.97, 12.11], ["field", 12.11, 12.45]]}, {"a": 12.39, "e": 13.56, "top": 250, "w": [["that's", 12.45, 12.89], ["slightly", 12.89, 13.13], ["larger", 13.13, 13.63]]}, {"a": 13.57, "e": 15.23, "top": 250, "w": [["than", 13.63, 13.99], ["you", 13.99, 14.13], ["expected.", 14.13, 14.63]]}, {"a": 16.013, "e": 17.24, "top": 250, "w": [["and", 16.073, 16.26], ["then...", 16.26, 16.64]]}, {"a": 17.331, "e": 18.03, "top": 250, "w": [["go", 17.391, 17.62], ["back", 17.62, 17.88], ["to", 17.88, 18.1]]}, {"a": 18.04, "e": 19.02, "top": 250, "w": [["work.", 18.1, 18.42]]}];
+      const CAPS = [{"a": 0.49, "e": 1.98, "top": 1390, "w": [["Farming", 0.55, 0.97], ["Simulator", 0.97, 1.55], ["is", 1.55, 2.05]]}, {"a": 1.99, "e": 2.66, "top": 1390, "w": [["a", 2.05, 2.21], ["game", 2.21, 2.45], ["where", 2.45, 2.73]]}, {"a": 2.67, "e": 2.8, "top": 1390, "w": [["you", 2.73, 2.87]]}, {"a": 2.82, "e": 3.718, "top": 250, "w": [["wake", 2.87, 3.09], ["up...", 3.09, 3.488]]}, {"a": 3.738, "e": 4.942, "top": 250, "w": [["go", 3.788, 4.03], ["to", 4.03, 4.23], ["work...", 4.23, 4.55]]}, {"a": 4.962, "e": 6.048, "top": 250, "w": [["make", 5.012, 5.27], ["money...", 5.27, 5.71]]}, {"a": 6.068, "e": 7.58, "top": 250, "w": [["buy", 6.118, 6.31], ["extremely", 6.31, 6.97], ["expensive", 6.97, 7.65]]}, {"a": 7.59, "e": 8.69, "top": 250, "w": [["equipment...", 7.65, 8.09]]}, {"a": 8.917, "e": 9.42, "top": 250, "w": [["Most", 8.977, 9.19], ["of", 9.19, 9.39], ["the", 9.39, 9.49]]}, {"a": 9.43, "e": 10.1, "top": 250, "w": [["time,", 9.49, 9.91]]}, {"a": 10.11, "e": 11.6, "top": 250, "w": [["your", 10.17, 10.29], ["greatest", 10.29, 10.71], ["enemy...", 10.71, 11.15]]}, {"a": 11.801, "e": 12.38, "top": 250, "w": [["is", 11.861, 11.97], ["a", 11.97, 12.11], ["field", 12.11, 12.45]]}, {"a": 12.39, "e": 13.56, "top": 250, "w": [["that's", 12.45, 12.89], ["slightly", 12.89, 13.13], ["larger", 13.13, 13.63]]}, {"a": 13.57, "e": 15.23, "top": 250, "w": [["than", 13.63, 13.99], ["you", 13.99, 14.13], ["expected.", 14.13, 14.63]]}, {"a": 15.313, "e": 16.54, "top": 250, "w": [["and", 15.373, 15.56], ["then...", 15.56, 15.94]]}, {"a": 16.641, "e": 17.33, "top": 250, "w": [["go", 16.691, 16.92], ["back", 16.92, 17.18], ["to", 17.18, 17.4]]}, {"a": 17.34, "e": 18.32, "top": 250, "w": [["work.", 17.4, 17.72]]}];
       const $ = (s) => document.querySelector(s);
       const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
       const tl = gsap.timeline({ paused: true });
@@ -202,7 +202,7 @@
       { const ft = tl.fromTo.bind(tl);
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
 
-      const DUR = 22.65;
+      const DUR = 21.45;
       const flash = (at, a, d) => tl.fromTo("#flash", { opacity: a }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
       const shake = (at, amp) => tl.fromTo("#shake", { x: 0, y: 0 }, { keyframes: [[amp, -amp * .6], [-amp * .7, amp * .5], [amp * .4, -amp * .3], [0, 0]].map(([x, y]) => ({ x, y, duration: .045 })), immediateRender: false }, at);
       const swap = (stack, i, at) => { $(stack).querySelectorAll("img").forEach((im, k) => tl.set(im, { opacity: k === i ? 1 : 0 }, at)); };
@@ -231,7 +231,7 @@
       const T2 = T1;
       tl.set("#cBed", view(1, 540, 960), T2);
       tl.fromTo("#clock", { rotation: 0 }, { keyframes: Array.from({ length: 12 }, (_, i) => ({ rotation: i % 2 ? -7 : 7, duration: .04 })).concat([{ rotation: 0, duration: .05 }]), immediateRender: false }, T2);
-      snap("#cBed", 3.09, view(1.5, 450, 1010));
+      snap("#cBed", 3.09, view(1.45, 400, 1120));
 
       /* ---- 3 office: deadpan; snap zoom on "work..." */
       const T3 = 3.738;
@@ -261,7 +261,7 @@
 
       /* ---- 6 epic: the sky turns on "greatest", lightning on "enemy" */
       const T6 = 8.697;
-      breathe("#cEpic", T6, 11.601, view(1, 540, 1000), view(1.08, 540, 960));
+      breathe("#cEpic", T6, 10.71, view(1, 540, 1000), view(1.12, 600, 820));   // the slow heroic push... hard stop on the lightning
       tl.fromTo("#storm", { opacity: 0 }, { opacity: 1, duration: .6, ease: "power2.inOut", immediateRender: false }, 10.29);
       tl.fromTo("#bolt", { opacity: 0 }, { keyframes: [{ opacity: 1, duration: .03 }, { opacity: .2, duration: .06 }, { opacity: 1, duration: .03 }, { opacity: 0, duration: .25 }], immediateRender: false }, 10.71);
       flash(10.71, .55, .3);
@@ -270,37 +270,37 @@
       const T7 = 11.601;
       const QX = 541, QY = 1120;
       tl.fromTo("#cField", view(4, QX, QY), Object.assign(view(4.2, QX, QY), { duration: 12.11 - T7, ease: "sine.inOut", immediateRender: false }), T7);
-      tl.to("#cField", Object.assign(view(1, 540, 960), { duration: 14.63 - 12.11, ease: "power2.inOut" }), 12.11);
+      tl.to("#cField", Object.assign(view(1.2, QX, QY), { duration: 14.63 - 12.11, ease: "power2.inOut" }), 12.11);   // ends a bit tight: he stays visible at feed size
 
       /* ---- 8a "and then...": close on him, hopeful; the freeze on the scratch */
-      const T8 = 15.953;
-      breathe("#cThen", T8, 16.66, view(1, 540, 1100), view(1.05, 560, 1080));
+      const T8 = 15.253;
+      breathe("#cThen", T8, 15.96, view(1, 540, 1100), view(1.05, 560, 1080));
       tl.set("#cThen", { filter: "saturate(1) contrast(1)" }, 0);
-      tl.set("#cThen", { filter: "saturate(.25) contrast(1.15)" }, 16.66);
+      tl.set("#cThen", { filter: "saturate(.25) contrast(1.15)" }, 15.96);
 
       /* ---- 8b "go back to work.": hard cut; snap zoom on his dead face on "work." */
-      const T9 = 17.341;
+      const T9 = 16.641;
       tl.set("#cWork", view(1.12, 430, 1150), T9);
-      snap("#cWork", 18.1, view(2.1, 380, 980));
+      snap("#cWork", 17.4, view(2.1, 380, 980));
 
       /* ---- 9 card */
-      const TC = 19.15;
+      const TC = 18.45;
       tl.fromTo("#cA", { opacity: 0 }, { opacity: 1, duration: .1 }, TC);
-      tl.fromTo("#cB", { opacity: 0 }, { opacity: 1, duration: .12 }, TC + .35);   // the question lands a beat later
-      tl.fromTo("#cC", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .2, ease: "back.out(2)", transformOrigin: "50% 50%" }, TC + .55);
-      tl.fromTo("#wm", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .3, ease: "power2.out" }, TC + .85);
-      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .3, ease: "power2.out" }, TC + .92);
-      tl.fromTo("#walC", { y: -70, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .05 }, { y: 0, duration: .22, ease: "power2.in" }] }, TC + 1.1);
-      tl.fromTo("#walC", { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .78, scaleX: 1.15, duration: .06 }, { scaleY: 1.05, scaleX: .97, duration: .12 }, { scaleY: 1, scaleX: 1, duration: .2 }], immediateRender: false }, TC + 1.32);
-      tl.fromTo("#fullEp", { opacity: 0 }, { opacity: 1, duration: .25 }, TC + 1.4);
-      tl.fromTo("#fullEp", { y: 0 }, { y: 10, duration: .3, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, TC + 1.7);
+      tl.fromTo("#cB", { opacity: 0 }, { opacity: 1, duration: .12 }, TC + .25);   // the question lands a beat later
+      tl.fromTo("#cC", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .2, ease: "back.out(2)", transformOrigin: "50% 50%" }, TC + .42);
+      tl.fromTo("#wm", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .25, ease: "power2.out" }, TC + .62);
+      tl.fromTo("#wmBar", { scaleX: 0 }, { scaleX: 1, duration: .25, ease: "power2.out" }, TC + .68);
+      tl.fromTo("#walC", { y: -70, opacity: 0 }, { keyframes: [{ opacity: 1, duration: .05 }, { y: 0, duration: .2, ease: "power2.in" }] }, TC + .8);
+      tl.fromTo("#walC", { scaleY: 1, scaleX: 1 }, { keyframes: [{ scaleY: .78, scaleX: 1.15, duration: .06 }, { scaleY: 1.05, scaleX: .97, duration: .12 }, { scaleY: 1, scaleX: 1, duration: .2 }], immediateRender: false }, TC + 1.0);
+      tl.fromTo("#fullEp", { opacity: 0 }, { opacity: 1, duration: .2 }, TC + 1.05);
+      tl.fromTo("#fullEp", { y: 0 }, { y: 10, duration: .25, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, TC + 1.3);
 
       /* ---- 10 loop seam: the alarm shakes the frame, the hook grows in; at rest = frame 0 before the last frame */
       const TL = DUR - 1.0;
       tl.fromTo("#cLoop", view(1.04, 540, 960), Object.assign(view(1, 540, 960), { duration: .85, ease: "power2.out", immediateRender: false }), TL);
       tl.set("#hookL", { opacity: 0 }, 0);
       tl.fromTo("#hookL", { opacity: 0, scale: .82 }, { keyframes: [{ opacity: 1, scale: 1.04, duration: .14, ease: "power3.out" }, { scale: 1, duration: .22, ease: "power2.out" }], transformOrigin: "50% 50%", immediateRender: false }, TL + .2);
-      shake(DUR - .55, 6);
+      shake(DUR - .95, 6);                                                   // the alarm goes off (rings to the last frame)
 
       /* ---- captions */
       const CAPEL = CAPS.map((c) => { const d = mk("div", "cap", $("#caps"), `top: ${c.top}px`);
