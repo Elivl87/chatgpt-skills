@@ -26,7 +26,7 @@ outfit/pose in code, rendered + pixel pass. Rates: 0.5 per image at 1k. Balance 
 | 5 | Quest | Dave's dive suit, surfacing with a big fish in both arms, proud and out of breath (you can see it · ¶23, ¶33) | new art | 0.5 |
 | 6 | Pixie | Chef: side profile slicing a fish, knife streaks, sake bottle (cutscene · ¶31) | new art | 0.5 |
 | 7 | Pixie | Chef: low-angle hero shot raising a finished nigiri, light streaks (cutscene · ¶31) | new art | 0.5 |
-| 8 | Pixie | Chef: intense close-up mid-cut, glasses flashing white (cutscene gag · ¶31) *needs OK: round glasses as costume* | new art | 0.5 |
+| 8 | Pixie | Chef: intense close-up mid-cut, glasses flashing white (cutscene gag · ¶31) (round glasses as costume: approved by the Producer, 2026-10-19) | new art | 0.5 |
 | 9 | Pixie | Chef, full body behind the counter, presenting a plate (service · ¶32, ¶36) | new art | 0.5 |
 | 10 | Quest | Dave's restaurant outfit, running with a tray of sushi and tea (night floor · ¶32) | new art | 0.5 |
 | 10b | Quest | Dave's restaurant outfit, laughing at the bar with Leo and Max, beer mug up (the party · ¶42, ¶44) *optional* | new art | 0.5 |
