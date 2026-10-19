@@ -18,3 +18,5 @@
   GAME_VISUAL_REFERENCE.md §0 (images not kept).
 - Companion: the air bubble (oxygen), with a cameo of the EP003 fish.
 - Title chosen (Producer, 2026-10-18: "Elijo la A"): **Why Dave the Diver Feels Better Than Your Real Job**.
+- Cast (2026-10-18/19): Quest = Dave in Dave's own outfits (dive suit + restaurant clothes), pixel in the game world;
+  Pixie = Bancho-style chef (epic pixel cutscenes); Leo = Cobra; Max = bar regular; EP003 fish cameo. Pose list: POSE_LIST.md.

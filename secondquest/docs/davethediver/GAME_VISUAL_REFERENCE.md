@@ -30,8 +30,8 @@ UNVERIFIED items below for the boat, Dave's suit, Cobra, Bancho and the sushi ba
 **yellow mask pushed up on the hood**; **dark beard and moustache**, brown eyes; **black gloves**; **black belt** with grey
 weight/buckle blocks; **yellow tank** on black harness straps (regulator hose over the shoulder); **yellow fins**.
 Big easy grin. Off duty: light grey short-sleeve shirt over a pink tee, dark trousers, a khaki bucket/straw hat.
-→ Quest's dive costume must differ on purpose (colour + silhouette) while keeping Quest's identity (CLAUDE.md costume rule):
-proposal: teal/grey suit, no hood, orange mask on the face, our own tank colour.
+→ Producer, 2026-10-19: Quest wears **Dave's outfits** (dive suit and off-duty restaurant clothes), keeping his face and
+his curly fringe visible (costume rule). Painted fresh by us, never traced from the game's sprite.
 
 **Cobra's boat ("Nodens 68" on the hull):** a mid-size dive/cabin boat seen side-on. Upper hull and cabin **pale aqua /
 white**; lower hull **dark maroon-red**, the name in teal letters with the number in gold near the bow; **wheelhouse with
