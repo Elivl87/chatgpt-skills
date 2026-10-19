@@ -63,7 +63,7 @@ def ink(color, normal, ident, scale, despeckle=0):
     """Outline = silhouette + part boundaries + creases (normal changes), thickness scaled to output size.
     despeckle > 0 drops isolated edge specks smaller than that many pixels (sub-pixel slivers between layered parts
     that would otherwise become ink dots after dilation)."""
-    alpha = color[..., 3]
+    alpha = normal[..., 3] if normal.shape[-1] == 4 else color[..., 3]   # silhouette from the normal pass: noInk ropes are not outlined
     sil = alpha > 8
     edges = np.zeros(sil.shape, np.uint8)
     edges |= cv2.Canny(sil.astype(np.uint8) * 255, 50, 150)
@@ -1033,7 +1033,7 @@ def job_dtd_cast_sheet():
 # ---------------------------------------------------------------- the pink dolphin companion
 DOLPHIN_VIEWS = {   # pose: (camera yaw, elevation, framing span in cm, target)
     'swimSide': (0, 2, 126, (0, 0, 0)), 'swim34': (38, 8, 128, (0, 0, 0)), 'leap': (0, 0, 122, (0, 0, 0)),
-    'ring': (0, 0, 122, (0, 0, 0)), 'tangled': (0, 0, 126, (0, 0, 0)), 'peek': (66, 8, 74, (16, -2, 0)),
+    'ring': (0, 0, 122, (0, 0, 0)), 'tangled': (0, 0, 126, (0, 0, 0)), 'peek': (58, 4, 50, (0, 0, 0)),
 }
 DOLPHIN_COMBOS = ([('swimSide', e) for e in ('neutral', 'happy', 'worried', 'sleepy', 'laugh', 'blink')] + [('swim34', e) for e in ('neutral', 'happy', 'worried', 'blink')]
                   + [('leap', 'happy'), ('ring', 'happy'), ('ring', 'wink'), ('tangled', 'worried')] + [('peek', e) for e in ('neutral', 'happy', 'laugh', 'sleepy', 'wink', 'blink')])
@@ -1129,23 +1129,26 @@ def job_dtd_dolphin():
 
 
 def job_dtd_dolphin_sheet():
-    """Contact sheet docs/davethediver/dolphin_v1.jpg: every dolphin_* cut-out, labelled, on light water-blue-grey, 2400 px wide."""
-    BG, COLS, CW, CH = (226, 226, 224), 6, 400, 440
+    """Contact sheet docs/davethediver/dolphin_v2.jpg: every dolphin_* cut-out, labelled, 2400 px wide, row heights fit their tallest cut-out."""
+    BG, COLS, CW, CHMAX = (226, 226, 224), 6, 400, 440
     names = dolphin_files()
     rows = []
     for i in range(0, len(names), COLS):
-        tiles = []
+        ims = []
         for n in names[i:i + COLS]:
             im = cv2.imread(str(OUT4 / f'{n}.png'), cv2.IMREAD_UNCHANGED)
+            k = min((CW - 24) / im.shape[1], (CHMAX - 56) / im.shape[0]); ims.append((n, cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)))
+        CH = max(im.shape[0] for _, im in ims) + 56
+        tiles = []
+        for n, im in ims:
             t = np.full((CH, CW, 3), BG, np.uint8)
-            k = min((CW - 24) / im.shape[1], (CH - 56) / im.shape[0]); im = cv2.resize(im, None, fx=k, fy=k, interpolation=cv2.INTER_AREA)
             a = im[..., 3:] / 255.0; y, x = CH - 40 - im.shape[0], (CW - im.shape[1]) // 2
             t[y:y + im.shape[0], x:x + im.shape[1]] = (im[..., :3] * a + t[y:y + im.shape[0], x:x + im.shape[1]] * (1 - a)).astype(np.uint8)
             cv2.putText(t, n.replace('dolphin_', ''), (10, CH - 14), cv2.FONT_HERSHEY_SIMPLEX, .5, (50, 50, 50), 1, cv2.LINE_AA)
             tiles.append(t)
         while len(tiles) < COLS: tiles.append(np.full((CH, CW, 3), BG, np.uint8))
         rows.append(np.hstack(tiles))
-    out = ROOT / 'docs/davethediver/dolphin_v1.jpg'
+    out = ROOT / 'docs/davethediver/dolphin_v2.jpg'
     out.parent.mkdir(parents=True, exist_ok=True)
     cv2.imwrite(str(out), np.vstack(rows), [cv2.IMWRITE_JPEG_QUALITY, 90])
     print(out.relative_to(ROOT))
