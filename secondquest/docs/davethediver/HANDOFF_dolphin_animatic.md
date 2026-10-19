@@ -28,7 +28,7 @@ director does small edits, max one Sonnet builder at a time, critics only on the
 ## Next steps (in order)
 1. **Pink dolphin in props3d** (one Sonnet builder; spec in SHOT_PLAN.md "Dolphin build spec"; fish2 eye/lid rig;
    expressions + poses incl. bubble-ring and leap) → sheet `docs/davethediver/dolphin_v1.jpg` → report.
-2. **Art quote pending Producer approval:** bar interior + bay exterior (karst cliffs) plates, 2k = 2.0 cr (rec.) or 1k = 1.0;
+2. **Art quote pending Producer approval — MAXIMUM FIDELITY (Producer):** bar interior + bay exterior plates at 2k min (4k: get live price first); detailed prompts from GAME_VISUAL_REFERENCE §0 + style refs, shown to the Producer with the exact quote.
    optional Quest dive poses +0.5 each. Do not generate before an explicit "sí".
 3. **Animatic**: copy `tools/hyperframes_ep003` → `tools/hyperframes_davethediver`, keyed to timings.json words; block A
    first at 480p via `scene_cache.py`; framing_qc + pacing_qc; send only block A. Placeholder plates where NEW_ART is pending.

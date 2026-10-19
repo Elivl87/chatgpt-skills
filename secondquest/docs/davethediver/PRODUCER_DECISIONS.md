@@ -29,3 +29,7 @@
 - HUD layout from the Producer's gameplay screenshot (described in words, image not kept): bottom-left round O₂ dial
   with number, "Normal Depth" + cargo weight (red when over); bottom-right three slanted equipment slots; harpoon
   struggle arc meter beside Dave. Our own drawing in that layout.
+- Backgrounds (Producer, 2026-10-19: "los fondos DEBEN ser de fidelidad máxima"): the bar interior and bay exterior
+  plates must be maximum fidelity, both to the game's places (GAME_VISUAL_REFERENCE §0 details, our style, never their
+  art) and in resolution (2k minimum; 4k if the live quote fits the balance). Prompt + references reviewed before spend;
+  still needs the Producer's explicit "sí" on the exact quote.
