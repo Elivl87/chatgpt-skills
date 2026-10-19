@@ -33,3 +33,6 @@
   plates must be maximum fidelity, both to the game's places (GAME_VISUAL_REFERENCE §0 details, our style, never their
   art) and in resolution (2k minimum; 4k if the live quote fits the balance). Prompt + references reviewed before spend;
   still needs the Producer's explicit "sí" on the exact quote.
+- Dolphin fidelity (Producer, 2026-10-19: "Que sea super fiel al del juego"): the pink dolphin follows the game's pink
+  dolphin as closely as possible (real bottlenose proportions, bubblegum pink with paler belly, heart bubbles), still
+  built by us in props3d, never the game's sprite/art.
