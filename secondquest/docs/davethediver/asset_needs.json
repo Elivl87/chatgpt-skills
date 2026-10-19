@@ -1,0 +1,23 @@
+{
+  "notes": "Dave the Diver episode asset needs per scene family. Game world (dive, boat, bar) is OUR 3D / pixel poses / procedural code, so the finder is only asked about the REAL-LIFE beats (sofa, office, phone, late-night email, evening commute) and the two bar/bay plates. 'avoid' lists what would break the scene.",
+  "needs": [
+    { "id": "A_sofa_after_work", "sequences": ["p01", "p02", "p50 sofa"], "need": "living room sofa evening tired adult couch", "kind": "background",
+      "avoid": ["morning", "day", "kids"], "notes": "Hook frame 0 and the p50/p52 close: Quest home after work, soda glass for Puff to rise from; lamp-lit evening." },
+    { "id": "B_sofa_phone_gaming", "sequences": ["p01", "p06", "p50"], "need": "sofa phone controller gaming night living room", "kind": "background",
+      "avoid": ["morning", "office"], "notes": "Quest on the sofa with a controller or phone; p50 'put the controller down'." },
+    { "id": "C_office_late", "sequences": ["p15", "p24"], "need": "office desk laptop computer night work late", "kind": "background",
+      "avoid": ["beach", "farm"], "notes": "p24 workday that never ends; p15 the boss meeting Quest was not in (empty chair / meeting room)." },
+    { "id": "D_phone_email_night", "sequences": ["p24", "p25"], "need": "phone email notification night bed", "kind": "object",
+      "avoid": ["market"], "notes": "p24 'the email at ten at night': phone notification banner on a real-life plate. Our own generic mail UI, no brand." },
+    { "id": "E_meeting_room", "sequences": ["p15"], "need": "meeting room conference table office people", "kind": "background",
+      "avoid": ["bank"], "notes": "p15 'a meeting you weren't in': empty chair at a meeting table." },
+    { "id": "F_commute_home", "sequences": ["p01"], "need": "city street evening commute home door keys", "kind": "background",
+      "avoid": ["storm"], "notes": "p01 'You get home': optional door/apartment evening." },
+    { "id": "G_bay_exterior", "sequences": ["p29", "p17"], "need": "bay sea cliffs karst island tropical dusk restaurant floating", "kind": "background",
+      "avoid": ["storm", "city"], "notes": "Bay with limestone karst cliffs, dusk; floating bar under them. Expected MISSING." },
+    { "id": "H_bar_interior", "sequences": ["p29", "p32", "p42"], "need": "sushi bar counter stools interior night japanese neon lamps", "kind": "background",
+      "avoid": ["fast food"], "notes": "Long wooden counter, globe lamps, neon, aquarium at the right end. Expected MISSING." },
+    { "id": "I_open_ocean_boat", "sequences": ["p10", "p22"], "need": "sea ocean sunrise boat horizon morning", "kind": "background",
+      "avoid": ["storm", "winter"], "notes": "Surface plate for the boat before the dive; probably our props3d boat + procedural water instead." }
+  ]
+}

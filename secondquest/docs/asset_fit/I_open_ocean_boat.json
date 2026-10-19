@@ -1,0 +1,37 @@
+{
+ "need": "sea ocean sunrise boat horizon morning",
+ "avoid": [
+  "storm",
+  "winter"
+ ],
+ "candidates": [
+  {
+   "key": "genre.farming.bg_field_plowed",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Mid-shot farm field, rows receding to a distant treeline and barn, soil freshly plowed, bright morning. Horizon at ~40 %. Rows lead the eye centre.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.quest_bedroom_morning",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Canonical Quest bedroom, morning. Clean geometry, readable bed/nightstand/window, no characters. Leave clean lower/front space for Quest and alarm prop.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_field_huge_wide",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Very wide enormous field reveal, tiny scale cues at horizon; no need for extreme zoom.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_tractor_cab",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Inside a tractor cab looking out through the windshield at a sunset field; steering wheel lower-centre, seat area left EMPTY for a seated Quest pose.",
+   "avoid_hits": []
+  }
+ ]
+}

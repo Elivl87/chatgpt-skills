@@ -1,0 +1,16 @@
+{
+ "need": "bay sea cliffs karst island tropical dusk restaurant floating",
+ "avoid": [
+  "storm",
+  "city"
+ ],
+ "candidates": [
+  {
+   "key": "genre.farming.bg_tractor_cab",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "Inside a tractor cab looking out through the windshield at a sunset field; steering wheel lower-centre, seat area left EMPTY for a seated Quest pose.",
+   "avoid_hits": []
+  }
+ ]
+}

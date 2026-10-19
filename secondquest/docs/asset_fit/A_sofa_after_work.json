@@ -1,0 +1,56 @@
+{
+ "need": "living room sofa evening tired adult couch",
+ "avoid": [
+  "morning",
+  "day",
+  "kids"
+ ],
+ "candidates": [
+  {
+   "key": "core.bg.living_room_night_gaming",
+   "score": 2.0,
+   "kind": "background",
+   "brief": "Quest canonical living room at night, gaming setup, no character.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_day",
+   "score": 1.5,
+   "kind": "background",
+   "brief": "Quest's small apartment living room by day: sofa, rug, plants, window light. Lived-in but tidy enough to read. Floor space left-centre.",
+   "avoid_hits": [
+    "day"
+   ]
+  },
+  {
+   "key": "core.bg.city_apartments_evening",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "Apartment facades at dusk with clean window grid; no malformed vehicles/people.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_farm_aerial",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "High aerial of a patchwork farm: fields, barn, silos, paths, a lake. Organised and satisfying. Room for small tractor props.",
+   "avoid_hits": []
+  },
+  {
+   "key": "genre.farming.bg_real_farm",
+   "score": 1.0,
+   "kind": "background",
+   "brief": "A rough, realistic-leaning (still cartoon) farm: muddy track, worn wooden gate with a BLANK sign board, tired fences, overcast sky.",
+   "avoid_hits": []
+  },
+  {
+   "key": "core.bg.home_living_night",
+   "score": 0.5,
+   "kind": "background",
+   "brief": "SAME framing as home_living_day, at night: lamp light, blue window, a desk corner with a router on the right shelf area left EMPTY (router is a prop).",
+   "avoid_hits": [
+    "day"
+   ]
+  }
+ ]
+}
