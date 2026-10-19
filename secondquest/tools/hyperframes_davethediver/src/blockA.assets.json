@@ -1,0 +1,106 @@
+{
+ "office.png": [
+  "public/art/core/backgrounds/office_openplan.png",
+  1080
+ ],
+ "city.png": [
+  "public/art/core/backgrounds/city_apartments_evening.png",
+  1080
+ ],
+ "lr.png": [
+  "public/art/core/backgrounds/living_room_night_gaming.png",
+  1080
+ ],
+ "bar.png": [
+  "public/art/davethediver/plates/bar_interior_night.png",
+  1080
+ ],
+ "q_desk.png": [
+  "public/art/core/quest/desk_typing.png",
+  1000
+ ],
+ "q_walk.png": [
+  "public/art/core/quest/walking_back.png",
+  1000
+ ],
+ "q_slump.png": [
+  "public/art/core/quest/exhausted_slumped.png",
+  null
+ ],
+ "q_sit.png": [
+  "public/art/core/quest/sitting_back.png",
+  800
+ ],
+ "q_game.png": [
+  "public/art/core/quest/gaming_excited.png",
+  null
+ ],
+ "q_head.png": [
+  "public/art/core/quest/head_in_hands.png",
+  1000
+ ],
+ "q_worry.png": [
+  "public/art/core/quest/worried_seated.png",
+  1000
+ ],
+ "swimA.png": [
+  "public/art/davethediver/pixel/p01_quest_swim_A.png",
+  null
+ ],
+ "swimB.png": [
+  "public/art/davethediver/pixel/p02_quest_swim_B.png",
+  null
+ ],
+ "aim.png": [
+  "public/art/davethediver/pixel/p03_quest_aim.png",
+  null
+ ],
+ "dive.png": [
+  "public/art/davethediver/pixel/p04_quest_dive_ready.png",
+  null
+ ],
+ "bigfish.png": [
+  "public/art/davethediver/pixel/p05_quest_big_fish.png",
+  null
+ ],
+ "tray.png": [
+  "public/art/davethediver/pixel/p10_quest_tray_run.png",
+  null
+ ],
+ "d_tangled.png": [
+  "public/art/davethediver/props3d/dolphin_tangled_worried.png",
+  600
+ ],
+ "d_net.png": [
+  "public/art/davethediver/props3d/dolphin_fx_net.png",
+  700
+ ],
+ "d_happy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_happy.png",
+  500
+ ],
+ "d_blink.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_blink.png",
+  500
+ ],
+ "d_neutral.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_neutral.png",
+  500
+ ],
+ "d_peek.png": [
+  "public/art/davethediver/props3d/dolphin_peek_happy.png",
+  400
+ ],
+ "d_leap.png": [
+  "public/art/davethediver/props3d/dolphin_leap_happy.png",
+  600
+ ],
+ "d_ring.png": [
+  "public/art/davethediver/props3d/dolphin_ring_happy.png",
+  500
+ ],
+ "d_heart.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_ring.png",
+  500
+ ]
+}
