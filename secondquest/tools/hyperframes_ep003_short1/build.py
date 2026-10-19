@@ -62,6 +62,8 @@ src = src.replace('{{RW}}', str(RES)).replace('{{RH}}', str(RES * 16 // 9)).repl
 out = re.sub(r'<!--INCLUDE ([\w.-]+)-->', include, src)
 out = re.sub(r'\{\{([^}]+)\}\}', resolve, out)
 out = out.replace('/*CAPTIONS*/', json.dumps(chunks()))
+if os.environ.get('PLATFORM') == 'tiktok':                         # TikTok has no related-video link: name the place instead of an arrow (Producer, 2026-10-19: pointing to YouTube is fine)
+    out = out.replace('>FULL EPISODE ↓<', '>FULL EPISODE ON YOUTUBE<')
 out = out.replace('/*ART*/', (HERE / 'short/assets/art_info.json').read_text())
 (HERE / 'short/index.html').write_text(out)
 print('wrote short/index.html', len(out), 'bytes; RES', RES, '; DUR', T['DUR'], '; voice end', T['VEND'])
