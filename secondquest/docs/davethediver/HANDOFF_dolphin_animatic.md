@@ -17,13 +17,9 @@ director does small edits, max one Sonnet builder at a time, critics only on the
 - `SHOT_PLAN.md` (186 shots, built on a 2.45 w/s estimate: retime to timings.json, the real read is ~17 % faster) +
   `DOPAMINE_PLAN.md` + `asset_needs.json` + `docs/asset_fit/*`. Block F is the weakest (silhouettes for Duff/Otto/Sea People).
 
-## Restore in a new container
-1. `public/art`: `docs/ART_ARCHIVE.md` assets 628750961 + 652367306 (gh api … > x.tar; tar -xf from `secondquest/`).
-2. Pixel sprites: `for f in docs/art_orders/davethediver/results/*.png` → `tools/pixel/pixelate.py f public/art/davethediver/pixel/<name> --h 150` (p06–p08: `--h 330`).
-3. props3d: `npm install --no-save` (three, esbuild) then `render.py dtd_cast`.
-4. Kokoro: kokoro-onnx release `model-files-v1.0` (kokoro-v1.0.int8.onnx + voices-v1.0.bin); `pip install kokoro-onnx soundfile
-   imageio-ffmpeg scipy librosa faster-whisper`; `apt-get install rubberband-cli`; then
-   `python3 scripts/ep003-placeholder-narration.py <kokoro dir> davethediver`.
+## Restore in a new container (one command, ~10 min, run in background with one waiter)
+`cd secondquest && bash scripts/dtd_restore.sh <scratchpad dir>` → public/art (archives), pixel sprites, plates (Higgsfield
+URLs), props3d cast, Kokoro + narration.wav (timings.json is already in git). Do not re-run anything it already did.
 
 ## Next steps (in order)
 1. **Pink dolphin in props3d** (one Sonnet builder; spec in SHOT_PLAN.md "Dolphin build spec"; fish2 eye/lid rig;
