@@ -4,7 +4,9 @@
 Voice = the Producer's choice of 2026-10-11 (docs/ep003/PRODUCER_DECISIONS.md, sample 3): Kokoro am_fenrir at 0.94,
 long-term EQ matched toward Bram's EP002 narration, then +1 semitone (rubberband R3, time unchanged so timings hold).
 
-  python3 scripts/ep003-placeholder-narration.py <kokoro dir with kokoro-v1.0.int8.onnx + voices-v1.0.bin>
+  python3 scripts/ep003-placeholder-narration.py <kokoro dir with kokoro-v1.0.int8.onnx + voices-v1.0.bin> [episode]
+
+[episode] (default ep003) = the folder under episodes/; its script.json may set "hookEnd" (the "So, why?" line id).
 
 Out: public/episodes/ep003/audio/narration.wav (48 kHz mono 16-bit, PLACEHOLDER), episodes/ep003/timings.json
 (cue start/end from the assembly, word times from faster-whisper mapped onto the script's own words).
@@ -15,14 +17,15 @@ import numpy as np, soundfile, scipy.signal as ss
 from kokoro_onnx import Kokoro
 
 ROOT = Path(__file__).resolve().parents[1]
-EP = ROOT / 'episodes/ep003'
-OUT = ROOT / 'public/episodes/ep003/audio/narration.wav'
+EPN = sys.argv[2] if len(sys.argv) > 2 else 'ep003'
+EP = ROOT / 'episodes' / EPN
+OUT = ROOT / 'public/episodes' / EPN / 'audio/narration.wav'
 SR = 24000
 VOICE, SPEED, PITCH = 'am_fenrir', 0.94, 1
 LEAD = 0.3
 
 
-HOOK_END = 'l07'          # the hook's "Why?": the wordmark lands on it, then 1.5 s of silence (Producer rule)
+HOOK_END = json.loads((EP / 'script.json').read_text()).get('hookEnd', 'l07')   # the hook's "Why?": the wordmark lands on it, then 1.5 s of silence (Producer rule)
 
 
 def pause_after(text, nxt, lid=None):

@@ -1,0 +1,283 @@
+{
+  "episode": "davethediver",
+  "locale": "en",
+  "hookEnd": "p08",
+  "notes": "LOCKED v1.1 (Producer, 2026-10-18). docs/davethediver/scripts/DTD_v1_1_EN.txt verbatim, one line per paragraph; id = p + paragraph number. Placeholder voice: Kokoro am_fenrir chain (no female character quote in v1.1, so no af_heart line).",
+  "lines": [
+    {
+      "id": "p01",
+      "block": "A",
+      "text": "You finish work. You get home. You sit down."
+    },
+    {
+      "id": "p02",
+      "block": "A",
+      "text": "And you start a second job."
+    },
+    {
+      "id": "p03",
+      "block": "A",
+      "text": "By day, you dive into a hole in the ocean and spear fish until your oxygen runs out. By night, you serve them as sushi until closing time."
+    },
+    {
+      "id": "p04",
+      "block": "A",
+      "text": "Nobody pays you. Nobody makes you."
+    },
+    {
+      "id": "p05",
+      "block": "A",
+      "text": "Dave the Diver has sold more than ten million copies, according to the studio."
+    },
+    {
+      "id": "p06",
+      "block": "A",
+      "text": "Ten million people... clocking in. After clocking out."
+    },
+    {
+      "id": "p07",
+      "block": "A",
+      "text": "And in 2023, Steam players voted it their award for \"Sit Back and Relax.\""
+    },
+    {
+      "id": "p08",
+      "block": "A",
+      "text": "So, why?"
+    },
+    {
+      "id": "p09",
+      "block": "B",
+      "text": "Meet Dave. He doesn't look like a hero. Round. Easygoing. A wetsuit that has seen things. Even the developers say his body isn't typical for a diver."
+    },
+    {
+      "id": "p10",
+      "block": "B",
+      "text": "Dave is on vacation. Then his old friend Cobra calls, with the promise of sushi."
+    },
+    {
+      "id": "p11",
+      "block": "B",
+      "text": "So Dave ends his vacation. Immediately. Because Dave really likes sushi."
+    },
+    {
+      "id": "p12",
+      "block": "B",
+      "text": "There's just one detail. The restaurant has no fish. Dave is the fish supply."
+    },
+    {
+      "id": "p13",
+      "block": "B",
+      "text": "One player called it \"the shortest supply chain in the world.\" It's one guy. Holding a harpoon."
+    },
+    {
+      "id": "p14",
+      "block": "B",
+      "text": "And it gets worse. Cobra keeps signing contracts for him. An archaeologist. A weapons nerd. A reporter. Without asking."
+    },
+    {
+      "id": "p15",
+      "block": "B",
+      "text": "You probably have a Cobra. The friend who already told everyone you'd help them move. The boss who said yes for you, in a meeting you weren't in."
+    },
+    {
+      "id": "p16",
+      "block": "B",
+      "text": "Dave could leave. He doesn't. Hold on to that."
+    },
+    {
+      "id": "p17",
+      "block": "C",
+      "text": "The easy answer is that it's cozy. Pixel art. Gentle music. A little sushi bar by the sea."
+    },
+    {
+      "id": "p18",
+      "block": "C",
+      "text": "But it isn't only cozy. The deep has sharks. A hermit crab that lives in a dump truck. A squid the size of a bus. And your oxygen is also your health. Get bitten, and the tank drops."
+    },
+    {
+      "id": "p19",
+      "block": "C",
+      "text": "Danger below. Rice above. Which is also a fair description of most Mondays."
+    },
+    {
+      "id": "p20",
+      "block": "C",
+      "text": "And cozy alone doesn't explain it. Plenty of games let you relax. Some even let you quit the office. Dave hands you a better shift."
+    },
+    {
+      "id": "p20b",
+      "block": "C",
+      "text": "So why does a shift feel better than a nap?"
+    },
+    {
+      "id": "p21",
+      "block": "D",
+      "text": "Start with the day."
+    },
+    {
+      "id": "p22",
+      "block": "D",
+      "text": "Every day, Dave drops into the Blue Hole. And every dive, it's different. New layout. New fish. New trouble."
+    },
+    {
+      "id": "p23",
+      "block": "D",
+      "text": "And every dive has an ending you can see. A gauge. When the oxygen runs out, they pull you up, and you keep one thing. One."
+    },
+    {
+      "id": "p24",
+      "block": "D",
+      "text": "Now think about your own workday. When did it last end? Not \"end of day.\" Actually end. The email at ten at night says no."
+    },
+    {
+      "id": "p25",
+      "block": "D",
+      "text": "Dave's work has a clock you can see. Yours mostly has a phone."
+    },
+    {
+      "id": "p26",
+      "block": "D",
+      "text": "And when Dave gets better, you can see that too. His air tank goes from ninety bar to four hundred and eighty. His cargo box, from nine kilos to a hundred and eighty-five. His suit, from forty meters deep to eight hundred."
+    },
+    {
+      "id": "p27",
+      "block": "D",
+      "text": "He doesn't get a promotion. He gets a bigger tank."
+    },
+    {
+      "id": "p28",
+      "block": "D",
+      "text": "Out here, getting better at your job mostly means... more job."
+    },
+    {
+      "id": "p29",
+      "block": "E",
+      "text": "Then the sun goes down, and the second half begins. Bancho Sushi."
+    },
+    {
+      "id": "p30",
+      "block": "E",
+      "text": "Bancho is the chef. A man so serious about fish that, according to the game, he lost a job at a five-star hotel over a food critic and a whole roasted shark head."
+    },
+    {
+      "id": "p31",
+      "block": "E",
+      "text": "Bancho's new recipes come with anime cutscenes. Knives flash. A petal falls. Somewhere, a catfish looks terrified."
+    },
+    {
+      "id": "p32",
+      "block": "E",
+      "text": "And Dave runs the floor. Tea. Wasabi. Plates. Faster, faster. Until closing. And then the game gives you a score for the night. Even your phone has an app for it, Cooksta, where the followers are people you actually fed."
+    },
+    {
+      "id": "p33",
+      "block": "E",
+      "text": "Here's the part that matters. The fish you speared at noon... is on a plate at eight. And somebody eats it."
+    },
+    {
+      "id": "p34",
+      "block": "E",
+      "text": "Most of us make things nobody ever sees. A report goes into a folder. The folder goes into another folder."
+    },
+    {
+      "id": "p35",
+      "block": "E",
+      "text": "The director split the day in two so you could focus on each half. And so you'd feel like you were \"preparing dinner for customers.\""
+    },
+    {
+      "id": "p36",
+      "block": "E",
+      "text": "Not a task. A dinner. For someone."
+    },
+    {
+      "id": "p37",
+      "block": "F",
+      "text": "And the customers aren't the only ones waiting."
+    },
+    {
+      "id": "p38",
+      "block": "F",
+      "text": "Duff, the weapons guy, who loves his anime idols louder than any adult is supposed to love anything."
+    },
+    {
+      "id": "p39",
+      "block": "F",
+      "text": "Otto, the farmer in the straw hat, who has been away from home a long time, and wants to fix his life before he calls."
+    },
+    {
+      "id": "p40",
+      "block": "F",
+      "text": "And deep under the Blue Hole, a whole village of Sea People, who need Dave too."
+    },
+    {
+      "id": "p41",
+      "block": "F",
+      "text": "Every one of them needs Dave to do the one thing they can't."
+    },
+    {
+      "id": "p42",
+      "block": "F",
+      "text": "Being needed by four thousand people is called a job. Being needed by five is called a family. Or, apparently, a sushi bar."
+    },
+    {
+      "id": "p43",
+      "block": "F",
+      "text": "And yes, some players say the game never stops handing you chores. A fish farm. A rice paddy. Seahorse racing. Fair. Dave never says no either."
+    },
+    {
+      "id": "p44",
+      "block": "F",
+      "text": "Which brings us back to Cobra. Dave could leave. He never does. Because somewhere along the way, the contracts became friends."
+    },
+    {
+      "id": "p45",
+      "block": "G",
+      "text": "So... why do millions of people come home from work to work two jobs?"
+    },
+    {
+      "id": "p46",
+      "block": "G",
+      "text": "Because it was never about working more. It's about work that finally fits in a day."
+    },
+    {
+      "id": "p47",
+      "block": "G",
+      "text": "It ends. You can see it. And someone is glad you came."
+    },
+    {
+      "id": "p48",
+      "block": "G",
+      "text": "The idea came from a real restaurant on Jeju Island, in South Korea. In the director's words, \"the owner caught fish in the morning, and cooked them for dinner.\""
+    },
+    {
+      "id": "p49",
+      "block": "G",
+      "text": "One person. One day. A job you can hold in your hands."
+    },
+    {
+      "id": "p50",
+      "block": "G",
+      "text": "Then you put the controller down. Tomorrow, the real job is still there. Still no oxygen gauge. Still no score at closing time."
+    },
+    {
+      "id": "p51",
+      "block": "G",
+      "text": "But tonight, for an hour, you got to clock out like Dave. Done by closing time. Somebody glad you came."
+    },
+    {
+      "id": "p52",
+      "block": "G",
+      "text": "Maybe that's what we're really playing. Not a second job. The first one... the way it was supposed to feel."
+    },
+    {
+      "id": "p53",
+      "block": "H",
+      "text": "So what would your second shift be? And what game deserves a \"why?\" next? Tell me in the comments."
+    },
+    {
+      "id": "p54",
+      "block": "H",
+      "text": "Maybe that's our next quest."
+    }
+  ]
+}
