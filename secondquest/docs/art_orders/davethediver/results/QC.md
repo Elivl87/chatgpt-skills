@@ -4,7 +4,7 @@ Checked against QUEST_V1_PROMPT_SPEC §3 / PIXIE_V1_PROMPT_SPEC (costume rule: o
 |---|---|
 | p04 dive ready | PASS: Quest's face, curly fringe at the hood, Dave's suit (navy + hood, yellow mask/tank/fins, black belt + grey weights). |
 | p01 swim A | PASS. |
-| p02 swim B | **DEFECT**: suit has a light-blue piping stripe not in A/p04, and the legs are almost the same as A (weak swim cycle). Use A + camera move, or a free leg-swap rig; regenerating costs 0.5 (needs approval). |
+| p02 swim B | **ACCEPTED by the Producer (2026-10-19: "El p02 no le veo mal")**; noted: suit has a light-blue piping stripe not in A/p04, and the legs are almost the same as A (weak swim cycle). Use A + camera move, or a free leg-swap rig; regenerating costs 0.5 (needs approval). |
 | p03 aim | PASS (orange-grey spear gun, our design). |
 | p05 big fish | PASS. |
 | p06 Pixie slice profile | PASS (headband, robe, red sash, round dark glasses, sake bottle, dark smoky void). |

@@ -12,6 +12,13 @@ every report (9.25 credits, live-checked 2026-10-18). Branch `claude/secondquest
 - Research: `RESEARCH.md` (facts + NUMBERS), `RESONANCE.md`, `GAME_VISUAL_REFERENCE.md` (§0 = eyes-on boat, suit, bar,
   HUD from official images; P1/P2/P3 needs list), `COMPANION.md`.
 
+## Art done (2026-10-19)
+- 11 character poses, Q043, 5.5 credits → **balance 3.75**. Painted: `docs/art_orders/davethediver/results/` (+ QC.md,
+  jobs.json); pixel versions: `public/art/davethediver/pixel/` (not in git: archive at episode end). Sheets:
+  `docs/davethediver/poses_painted_v1.jpg`, `poses_pixel_v1.jpg`. Pixel pass: `tools/pixel/pixelate.py` (150 px sprites,
+  330 px cutscenes). Cast: Quest = Dave (Dave's outfits), Pixie = chef with round glasses, Leo = Cobra (to build in
+  props3d: red Hawaiian shirt, sunglasses, his beanie; arms-crossed pose), Max = bar regular, fish cameo. POSE_LIST.md.
+
 ## Next steps (in order)
 1. Restore `public/art` (docs/ART_ARCHIVE.md: assets 628750961 + 652367306) + Kokoro files (kokoro-onnx release
    model-files-v1.0) + `pip install kokoro-onnx soundfile imageio-ffmpeg scipy librosa`.
