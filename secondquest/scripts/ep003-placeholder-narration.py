@@ -90,7 +90,7 @@ def main():
 
     from faster_whisper import WhisperModel
     m = WhisperModel('small.en', compute_type='int8')
-    segs, _ = m.transcribe(str(OUT), language='en', word_timestamps=True, beam_size=5)
+    segs, _ = m.transcribe(ss.resample_poly(y, 1, 3).astype(np.float32), language='en'   # 16 kHz array: no PyAV decode, word_timestamps=True, beam_size=5)
     ww = [w for s_ in segs for w in s_.words]
     for cid, c in cues.items():
         inside = [w for w in ww if c['start'] - .15 <= (w.start + w.end) / 2 <= c['end'] + .15]
