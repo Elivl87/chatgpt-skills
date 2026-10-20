@@ -5,7 +5,7 @@ Art: only existing EP001 / core / farming-genre art (public/art), COPIED as down
 source file is modified. One composite: Quest's seated tractor pose placed on the small tractor's seat
 (quest_on_tractor.png).
 
-Audio: EP001's recorded narration cut to seg.SEGMENTS (cuts inside measured pauses, 30 ms fades), each placed at its
+Audio: Bram's EP001 narration (audio/full/narration.wav, the published voice) cut to seg.SEGMENTS (cuts inside measured pauses, 30 ms fades), each placed at its
 Short time, + a restrained free SFX layer (CATALOG.json premium tier, CC0/own, no file used twice), music off, master
 -14 LUFS / <= -1 dBTP.
 
@@ -113,8 +113,8 @@ def cues():
         (T['l01.w8'] - .02, S / 'alarm.wav', -9, .5, 0.0, '"wake up": the alarm clock rattles on the headboard'),
         (T['l04.w1'] + .2, S / 'cc0/kenney_impact/impactPunch_heavy_000.ogg', -6, None, 0.0, 'the huge tractor slams down in the dealership lot'),
         (T['l11.w7'] - .1, S / 'cc0/rubberduck_100sfx2/sfx100v2_thunder_01.ogg', -8, 2.2, 0.0, '"enemy...": lightning over the golden field'),
-        (T['l05.w2.end'] + .02, S / 'cc0/kenney/scratch_005.ogg', -4, None, 0.0, '"and then..." record scratch, freeze frame'),
-        (seg.DUR - 1.0, S / 'alarm.wav', -7, .82, 1.1, 'loop seam: the alarm rings to the last frame (a later part of the take) -> "wake up"'),
+        (T['l05.w2.end'] + .16, S / 'cc0/kenney/scratch_005.ogg', -4, None, 0.0, '"and then..." record scratch, freeze frame'),
+        (seg.DUR - 1.0, S / 'alarm.wav', -5, .82, 1.1, 'loop seam: the alarm rings to the last frame (a later part of the take) -> "wake up"'),
     ]
 
 
@@ -122,7 +122,7 @@ BED = (S / 'cc0/thimras_park/park_ambience_wind.ogg', -20)   # critic v1: the ca
 
 
 def stage_audio():
-    narr = load(ROOT / 'public/episodes/ep001_farming/audio/narration.wav')
+    narr = load(ROOT / 'public/episodes/ep001_farming/audio/full/narration.wav')
     voice = np.zeros(round(seg.DUR * SR), np.float32)
     for a, b, at in seg.SEGMENTS:
         x = narr[round(a * SR):round(b * SR)].copy()

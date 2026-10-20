@@ -1,10 +1,10 @@
 """EP001 Short #3 ("The work loop", Farming Simulator): the line selection and the episode-time -> Short-time map,
 shared by stage_assets.py and build.py.
 
-EP001's recorded narration (public/episodes/ep001_farming/audio/narration.wav; line times in episodes/ep001/timings.json
-"cues") is cut into SEGMENTS of whole lines, each PLACED at its own Short time. Every cut sits inside a measured pause
+Bram's EP001 narration, the voice the episode was published with (public/episodes/ep001_farming/audio/full/narration.wav,
+ElevenLabs Bram; line times in episodes/ep001full/timings.json "cues"; v1 wrongly used the Kokoro placeholder track) is cut into SEGMENTS of whole lines, each PLACED at its own Short time. Every cut sits inside a measured pause
 (< -32 dB under the peak for >= 60 ms). EP001 has no word times, so words come from faster-whisper small.en
-(ep001_words_whisper.json), clamped inside each line's cue and anchored on the cue start.
+(ep001_bram_words_whisper.json), clamped inside each line's cue and anchored on the cue start.
 
 Order (Producer 2026-10-19: "el orden decídelo tú, dale coherencia"): the work week (l01-l04) -> the farm's real enemy
 (l11-l12) -> "and then... go back to work." (l05-l06) as the button, so the last line leads into the first ("wake up").
@@ -15,14 +15,14 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-CUES = json.loads((ROOT / 'episodes/ep001/timings.json').read_text())['cues']
-WHISPER = json.loads((HERE / 'ep001_words_whisper.json').read_text())
+CUES = json.loads((ROOT / 'episodes/ep001full/timings.json').read_text())['cues']
+WHISPER = json.loads((HERE / 'ep001_bram_words_whisper.json').read_text())
 
 # (episode start, episode end, Short time of the segment start) - boundaries inside measured pauses
 SEGMENTS = [
-    (0.20, 8.20, 0.45),      # l01-l04 "Farming Simulator is a game where you wake up... equipment..."  (0.00-0.42 / 7.93-8.50)
-    (22.90, 29.30, 8.75),    # l11-l12 "Most of the time, your greatest enemy... than you expected."    (22.40-23.16 / 28.70-30.06)
-    (8.30, 11.30, 15.20),    # l05-l06 "and then... go back to work."                                    (7.93-8.50 / 10.71-11.95)
+    (0.12, 7.88, 0.33),      # l01-l04 "Farming Simulator is a game where you wake up... equipment..."  (0.00-0.34 / 7.73-8.08)
+    (20.25, 25.85, 8.40),    # l11-l12 "Most of the time, your greatest enemy... than you expected."    (20.07-20.49 / 25.60-26.09)
+    (7.90, 10.55, 14.55),    # l05-l06 "and then... go back to work."                                    (7.73-8.08 / 10.40-10.75)
 ]
 LINES = ['l01', 'l02', 'l03', 'l04', 'l11', 'l12', 'l05', 'l06']
 VOICE_END = round(SEGMENTS[-1][2] + SEGMENTS[-1][1] - SEGMENTS[-1][0], 3)
@@ -35,6 +35,11 @@ def ep_to_short(t_ep):
         if a <= t_ep <= b:
             return at + t_ep - a
     return None
+
+
+# whisper misplaces two line-initial words in Bram's take; fixed from the measured energy (20 ms RMS): "enemy..." ends 22.78,
+# silence 22.80-23.10, "is" starts 23.12; "and then..." ends 8.70, silence 8.72-9.44, "go" starts 9.46
+WORD_FIX = {('l12', 0): 23.12, ('l06', 0): 9.46}
 
 
 def _ep_words():
@@ -50,7 +55,7 @@ def _ep_words():
                 wi += 1
             a, b = (WHISPER[wi][1], WHISPER[wi][2]) if wi < len(WHISPER) else (c['end'], c['end'])
             wi += 1
-            a = c['start'] if i == 0 else min(max(a, c['start']), c['end'])
+            a = WORD_FIX.get((k, i), c['start'] if i == 0 else min(max(a, c['start']), c['end']))
             b = min(max(b, a + .08), c['end'])
             if res and a < res[-1][2]:
                 a = res[-1][2]

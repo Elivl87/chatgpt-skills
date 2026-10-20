@@ -1,7 +1,7 @@
 # EP001 Short #3 "The work loop" (Farming Simulator): paquete de subida
 
-Archivos: `EP001_short3_v2.mp4` (YouTube, "FULL EPISODE ↓") y `EP001_short3_v2_tiktok.mp4` ("FULL EPISODE ON YOUTUBE");
-1080x1920, 21.3 s, −14.3 LUFS (copias de 28.7 MB, misma imagen y audio que el máster de 30.6 MB).
+Archivos (v3, voz de Bram): `EP001_short3_v3.mp4` (YouTube, "FULL EPISODE ↓") y `EP001_short3_v3_tiktok.mp4` ("FULL EPISODE ON YOUTUBE");
+1080x1920, 20.45 s, −14.1 LUFS, 29.8 MB (máster). Las v2 llevaban por error la voz provisional Kokoro: retiradas.
 
 ## Título (YouTube Shorts, puro gancho)
 - **A (recomendado):** A game about going to work?   (= el texto del fotograma 0)
