@@ -539,6 +539,15 @@
         const maxAt = (file, H0) => { const h = MH * H0 / 1246, w = MH * 580 / 1246; const im = mk("img", "", rA10.sh, `position:absolute;left:${SX - .56 * w}px;top:${SY - .975 * h}px;width:${w}px;height:${h}px;filter:${MF}`); im.src = "assets/" + file; im.alt = ""; return im; };
         shadow(rA10.sh, SX, SY, 70, 12, .7);
         const mN = maxAt("max_n.png", 1246), mL = maxAt("max_l.png", 1259); tl.set(mL, { opacity: 0 }, 0);
+        // more customers (Producer 2026-10-20): worm people seated straight on the plate's stools (seat top y 447); the two far
+        // ones are re-dyed with a hue shift so the bar is full without visible clones of Max/Leo
+        const cust = (file, W0, H0, cx, h, seatK, o) => { o = o || {}; const w = h * W0 / H0;
+          const im = mk("img", "", rA10.sh, `position:absolute;left:${cx - w / 2}px;top:${447 - seatK * h}px;width:${w}px;height:${h}px;filter:${o.f || MF};${o.flip ? "transform:scaleX(-1);" : ""}`);
+          im.src = "assets/" + file; im.alt = ""; return im; };
+        const lN = cust("c_leo_n.png", 565, 1056, 936, 118, .84), lL = cust("c_leo_l.png", 565, 1067, 936, 119, .84); tl.set(lL, { opacity: 0 }, 0);
+        tl.set(lN, { opacity: 0 }, 11.42); tl.set(lL, { opacity: 1 }, 11.42);
+        cust("c_leo_side.png", 625, 1038, 528, 116, .84, { flip: true, f: "hue-rotate(150deg) brightness(.82) saturate(1.1)" });
+        cust("c_max_side.png", 589, 962, 1090, 112, .86, { f: "hue-rotate(260deg) brightness(.8) saturate(1.1)" });
         // he laughs when Quest brings the sushi
         tl.set(mN, { opacity: 0 }, 12.18); tl.set(mL, { opacity: 1 }, 12.18);
         tl.fromTo(mL, { y: 0 }, { y: -4, duration: .12, ease: "power2.out", yoyo: true, repeat: 3 }, 12.18);

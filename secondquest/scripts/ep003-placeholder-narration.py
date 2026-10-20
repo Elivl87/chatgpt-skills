@@ -21,7 +21,12 @@ EPN = sys.argv[2] if len(sys.argv) > 2 else 'ep003'
 EP = ROOT / 'episodes' / EPN
 OUT = ROOT / 'public/episodes' / EPN / 'audio/narration.wav'
 SR = 24000
+import os
 VOICE, SPEED, PITCH = 'am_fenrir', 0.94, 1
+# other placeholder voices (Producer, 2026-10-20: "ponle voz de heart"): KOKORO_VOICE=af_heart KOKORO_SPEED=.. KOKORO_PITCH=0
+# KOKORO_EQ=0 (the EQ toward Bram and the +1 st are for the male placeholder only); loudness still matches Bram's tracks
+VOICE = os.environ.get('KOKORO_VOICE', VOICE); SPEED = float(os.environ.get('KOKORO_SPEED', SPEED)); PITCH = float(os.environ.get('KOKORO_PITCH', PITCH))
+EQ = os.environ.get('KOKORO_EQ', '1') != '0'
 LEAD = 0.3
 
 
@@ -77,10 +82,14 @@ def main():
     ref = np.frombuffer(subprocess.run([ff, '-v', 'error', '-ss', '29.26', '-t', '19.6', '-i',
                         str(ROOT / 'public/episodes/ep002/audio/narration.wav'), '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'],
                         capture_output=True, check=True).stdout, np.float32)
-    x = eq_to(x, ref)
+    if EQ:
+        x = eq_to(x, ref)
     with tempfile.TemporaryDirectory() as td:
         soundfile.write(f'{td}/a.wav', x, SR)
-        subprocess.run(['rubberband', '-q', '--fine', '-p', str(PITCH), f'{td}/a.wav', f'{td}/b.wav'], check=True)
+        if PITCH:
+            subprocess.run(['rubberband', '-q', '--fine', '-p', str(PITCH), f'{td}/a.wav', f'{td}/b.wav'], check=True)
+        else:
+            __import__('shutil').copy(f'{td}/a.wav', f'{td}/b.wav')
         y, _ = soundfile.read(f'{td}/b.wav', dtype='float32')
     y = ss.resample_poly(y, 2, 1).astype(np.float32)                         # 48 kHz like Bram's tracks
     r = np.sqrt(np.mean(ref[np.abs(ref) > .01] ** 2)); s = np.sqrt(np.mean(y[np.abs(y) > .01] ** 2))
@@ -106,7 +115,7 @@ def main():
         c['words'] = words
         c['heard'] = ' '.join(w.word.strip() for w in inside)
     tm = {'source': 'audio/narration.wav',
-          'generatedBy': f'PLACEHOLDER kokoro:{VOICE}@{SPEED} + EQ->Bram + pitch +{PITCH} st (scripts/ep003-placeholder-narration.py)',
+          'generatedBy': f'PLACEHOLDER kokoro:{VOICE}@{SPEED}' + (' + EQ->Bram' if EQ else '') + f' + pitch +{PITCH} st'+ '  (scripts/ep003-placeholder-narration.py)',
           'alignment': 'cue start/end from assembly; faster-whisper small.en word timestamps mapped onto script words',
           'duration': round(len(y) / 48000, 2), 'cues': cues}
     (EP / 'timings.json').write_text(json.dumps(tm, indent=2, ensure_ascii=False))

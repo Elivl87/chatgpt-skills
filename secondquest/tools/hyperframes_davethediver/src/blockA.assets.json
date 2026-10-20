@@ -142,5 +142,21 @@
  "max_l.png": [
   "public/art/davethediver/props3d/max_bar_34_laugh.png",
   600
+ ],
+ "c_leo_n.png": [
+  "public/art/ep003/props3d/leo_sit_34_neutral.png",
+  400
+ ],
+ "c_leo_l.png": [
+  "public/art/ep003/props3d/leo_sit_34_laugh.png",
+  400
+ ],
+ "c_leo_side.png": [
+  "public/art/ep003/props3d/leo_sit_side_laugh.png",
+  400
+ ],
+ "c_max_side.png": [
+  "public/art/ep003/props3d/max_sit_side_neutral.png",
+  400
  ]
 }
