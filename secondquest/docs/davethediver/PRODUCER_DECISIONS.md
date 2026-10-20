@@ -53,3 +53,7 @@
 - Placeholder narration voice for the DTD animatic (Producer, 2026-10-20: "ponle voz de heart"): Kokoro af_heart @0.96,
   no EQ toward Bram, no pitch shift; timings.json follows it. The am_fenrir take is kept locally as
   public/episodes/davethediver/audio/narration_fenrir.wav (A/B sent for confirmation).
+- Placeholder voice FINAL for DTD (Producer, 2026-10-20: "Usa a Fenrir natural", after A/B of 4 samples): Kokoro am_fenrir,
+  full-precision model (kokoro-v1.0.onnx), sentence-by-sentence with 0.32 s breaths, speed 0.92, no EQ, no pitch
+  shift (~148 wpm in the hook). Supersedes the af_heart line above. Command: KOKORO_VOICE=am_fenrir KOKORO_SPEED=0.92
+  KOKORO_PITCH=0 KOKORO_EQ=0 KOKORO_MODEL=kokoro-v1.0.onnx KOKORO_SPLIT=1 scripts/ep003-placeholder-narration.py <kokoro> davethediver.
