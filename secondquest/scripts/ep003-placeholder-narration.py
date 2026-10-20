@@ -27,6 +27,10 @@ VOICE, SPEED, PITCH = 'am_fenrir', 0.94, 1
 # KOKORO_EQ=0 (the EQ toward Bram and the +1 st are for the male placeholder only); loudness still matches Bram's tracks
 VOICE = os.environ.get('KOKORO_VOICE', VOICE); SPEED = float(os.environ.get('KOKORO_SPEED', SPEED)); PITCH = float(os.environ.get('KOKORO_PITCH', PITCH))
 EQ = os.environ.get('KOKORO_EQ', '1') != '0'
+# KOKORO_MODEL=kokoro-v1.0.onnx (full precision: cleaner timbre than int8); KOKORO_SPLIT=1 speaks each sentence on its own
+# with a 0.32 s breath between them (Kokoro barely pauses inside a line, which sounds rushed). Producer chose, 2026-10-20,
+# "Fenrir natural": am_fenrir, full model, split, 0.92, no EQ, no pitch shift.
+MODEL = os.environ.get('KOKORO_MODEL', 'kokoro-v1.0.int8.onnx'); SPLIT = os.environ.get('KOKORO_SPLIT', '0') == '1'
 LEAD = 0.3
 
 
@@ -62,15 +66,21 @@ def eq_to(a, ref):
 def main():
     kd = Path(sys.argv[1])
     lines = json.loads((EP / 'script.json').read_text())['lines']
-    k = Kokoro(str(kd / 'kokoro-v1.0.int8.onnx'), str(kd / 'voices-v1.0.bin'))
+    k = Kokoro(str(kd / MODEL), str(kd / 'voices-v1.0.bin'))
     parts, cues, t = [np.zeros(int(LEAD * SR), np.float32)], {}, LEAD
     for i, ln in enumerate(lines):
-        a, sr = k.create(ln['text'], voice=VOICE, speed=SPEED, lang='en-us')
-        a = np.asarray(a, np.float32)
-        if sr != SR:
-            a = ss.resample_poly(a, SR, sr).astype(np.float32)
-        loud = np.where(np.abs(a) > 0.01)[0]
-        a = a[max(0, loud[0] - int(.03 * SR)): loud[-1] + int(.05 * SR)]
+        segs = [x for x in re.split(r'(?<=[.!?])\s+', ln['text']) if x] if SPLIT else [ln['text']]
+        sp = []
+        for j, st in enumerate(segs):
+            b, sr = k.create(st, voice=VOICE, speed=SPEED, lang='en-us')
+            b = np.asarray(b, np.float32)
+            if sr != SR:
+                b = ss.resample_poly(b, SR, sr).astype(np.float32)
+            loud = np.where(np.abs(b) > 0.01)[0]
+            sp.append(b[max(0, loud[0] - int(.03 * SR)): loud[-1] + int(.05 * SR)])
+            if j < len(segs) - 1:
+                sp.append(np.zeros(int(.32 * SR), np.float32))
+        a = np.concatenate(sp)
         nxt = lines[i + 1]['text'] if i + 1 < len(lines) else None
         gap = pause_after(ln['text'], nxt, ln['id'])
         cues[ln['id']] = {'start': round(t, 3), 'end': round(t + len(a) / SR, 3), 'text': ln['text']}
@@ -115,7 +125,7 @@ def main():
         c['words'] = words
         c['heard'] = ' '.join(w.word.strip() for w in inside)
     tm = {'source': 'audio/narration.wav',
-          'generatedBy': f'PLACEHOLDER kokoro:{VOICE}@{SPEED}' + (' + EQ->Bram' if EQ else '') + f' + pitch +{PITCH} st'+ '  (scripts/ep003-placeholder-narration.py)',
+          'generatedBy': f'PLACEHOLDER kokoro:{VOICE}@{SPEED} {MODEL}' + (' sentence-split' if SPLIT else '') + (' + EQ->Bram' if EQ else '') + f' + pitch +{PITCH} st'+ '  (scripts/ep003-placeholder-narration.py)',
           'alignment': 'cue start/end from assembly; faster-whisper small.en word timestamps mapped onto script words',
           'duration': round(len(y) / 48000, 2), 'cues': cues}
     (EP / 'timings.json').write_text(json.dumps(tm, indent=2, ensure_ascii=False))
