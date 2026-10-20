@@ -50,3 +50,6 @@
   normal grey dolphin (props3d grey variant), ours stays pink.
 - Bar shots have customers (Producer, 2026-10-20: "¿no debería estar el cliente?"): Max, the bar regular, sits at the
   counter on his stool (the plate stool under him is covered by a layer of the clean gap) and reacts when Quest serves.
+- Placeholder narration voice for the DTD animatic (Producer, 2026-10-20: "ponle voz de heart"): Kokoro af_heart @0.96,
+  no EQ toward Bram, no pitch shift; timings.json follows it. The am_fenrir take is kept locally as
+  public/episodes/davethediver/audio/narration_fenrir.wav (A/B sent for confirmation).
