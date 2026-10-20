@@ -41,3 +41,10 @@
   game boat's family (GAME_VISUAL_REFERENCE §boat), with back/front layers so Quest stands on the deck; (2) Pixie, as the
   bar's chef (Bancho's role), is always in the background behind the counter in bar shots; (3) the bar aquarium holds
   the EP003 fish (cameo), never the dolphin; the dolphin stays in open water (sea, bay outside the bar).
+- Block A v3 review (Producer, 2026-10-20): (1) the blue-suit swim pose is a palette swap of the suit colour only;
+  gloves, fin pockets, mask and regulator keep the reference's colours ("ten cuidado de los detalles"); (2) Quest no
+  longer sits on the sofa in real-life living-room shots: he sits cross-legged on the rug in front of the TV
+  (library_v2 07_floor_gaming); (3) the TV shows a Dave the Diver title screen drawn by us; the game's OFFICIAL cover is
+  used only if the Producer supplies the image (third-party art rule: Claude never downloads it; risk: copyrighted key
+  art on screen for ~2 s, normally fine as commentary but logged here); (4) in A13 the second leaping dolphin is a
+  normal grey dolphin (props3d grey variant), ours stays pink.

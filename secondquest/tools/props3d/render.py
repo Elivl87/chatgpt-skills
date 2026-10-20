@@ -1104,7 +1104,7 @@ def dolphin_fx_net(size=1000):
 
 
 def dolphin_files():
-    return [f'dolphin_{p}_{e}' for p, e in DOLPHIN_COMBOS] + ['dolphin_grey_swimSide_neutral', 'dolphin_fx_heart_ring', 'dolphin_fx_heart_bubble', 'dolphin_fx_net']
+    return [f'dolphin_{p}_{e}' for p, e in DOLPHIN_COMBOS] + ['dolphin_grey_swimSide_neutral', 'dolphin_grey_leap_happy', 'dolphin_fx_heart_ring', 'dolphin_fx_heart_bubble', 'dolphin_fx_net']
 
 
 def job_dtd_dolphin():
@@ -1123,6 +1123,7 @@ def job_dtd_dolphin():
     for p, e in DOLPHIN_COMBOS:
         if want(f'dolphin_{p}_{e}'): save(f'dolphin_{p}_{e}', dolphin_render(p, e))
     if want('dolphin_grey_swimSide_neutral'): save('dolphin_grey_swimSide_neutral', dolphin_render('swimSide', 'neutral', grey=True))
+    if want('dolphin_grey_leap_happy'): save('dolphin_grey_leap_happy', dolphin_render('leap', 'happy', grey=True))   # a wild grey dolphin beside ours (A13)
     if want('dolphin_fx_heart_ring'): save('dolphin_fx_heart_ring', dolphin_fx_heart_ring())
     if want('dolphin_fx_heart_bubble'): save('dolphin_fx_heart_bubble', dolphin_fx_heart_bubble())
     if want('dolphin_fx_net'): save('dolphin_fx_net', dolphin_fx_net())

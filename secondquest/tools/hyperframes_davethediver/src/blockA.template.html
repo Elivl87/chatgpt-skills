@@ -121,11 +121,11 @@
         q_desk: [3200, 2560, 0, 0, 3188, 2560, "q_desk.png"], q_walk: [1520, 2688, 0, 19, 1492, 2688, "q_walk.png"],
         q_slump: [1254, 1254, 359, 52, 1112, 1222, "q_slump.png"], q_sit: [2048, 1360, 0, 19, 2024, 1360, "q_sit.png"],
         q_game: [1254, 1254, 178, 11, 1112, 1237, "q_game.png"], q_head: [1792, 2240, 0, 17, 1778, 2240, "q_head.png"],
-        q_worry: [1744, 2336, 0, 17, 1730, 2336, "q_worry.png"],
+        q_worry: [1744, 2336, 0, 17, 1730, 2336, "q_worry.png"], q_floor: [688, 1024, 34, 25, 655, 992, "q_floor.png"],
         swimA: [238, 152, 1, 1, 236, 149, "swimA.png"], swimB: [239, 152, 1, 1, 237, 150, "swimB.png"], aim: [238, 152, 2, 1, 236, 151, "aim.png"],
         dive: [84, 152, 4, 0, 80, 151, "dive.png"], bigfish: [101, 152, 6, 0, 100, 152, "bigfish.png"], tray: [102, 152, 1, 0, 102, 149, "tray.png"], pixie: [93, 152, 10, 0, 81, 152, "pixie.png"],
       };
-      const PIC = { d_tangled: [1000, 613], d_net: [1000, 873], d_happy: [1000, 403], d_blink: [1000, 403], d_neutral: [1000, 403], d_peek: [967, 1000], d_leap: [1000, 882], d_ring: [1011, 412], d_heart: [1000, 854], fish_s: [616, 378], fish_sb: [616, 378] };
+      const PIC = { d_tangled: [1000, 613], d_net: [1000, 873], d_happy: [1000, 403], d_blink: [1000, 403], d_neutral: [1000, 403], d_peek: [967, 1000], d_leap: [1000, 882], d_ring: [1011, 412], d_heart: [1000, 854], d_leap_grey: [1000, 882], fish_s: [616, 378], fish_sb: [616, 378] };
       // sprite whose VISIBLE bbox is h px tall, bbox bottom-centre at (cx, by)
       function spr(host, key, cx, by, h, o) {
         o = o || {}; const [W0, H0, x0, y0, x1, y1, file] = SP[key]; const k = h / (y1 - y0); const w = (x1 - x0) * k;
@@ -158,9 +158,10 @@
         for (let i = 0; i < 2; i++) rs.push(mk("div", "ring", g, `left:${-70 * s}px;top:${-14 * s}px;width:${140 * s}px;height:${28 * s}px;opacity:0`));
         for (let i = 0; i < 10; i++) ds.push(mk("div", "drop", g, "left:-4px;top:-4px;opacity:0"));
         rs.forEach((r, i) => tl.to(r, { keyframes: [{ scale: .2, opacity: 1, duration: .001 }, { scale: 1.5 + i * .4, opacity: 0, duration: .55, ease: "power2.out" }] }, t + i * .09));
-        ds.forEach((d, i) => { const dx = (i - 4.5) * 17 * s, up = (60 + (i % 3) * 34) * s;
-          tl.to(d, { keyframes: [{ x: 0, y: 0, opacity: 1, duration: .001 }, { x: dx * .42, y: -up, duration: .26, ease: "power2.out" }, { x: dx * .9, y: 30 * s, duration: .29, ease: "power2.in" },
-            { x: dx, y: 30 * s, opacity: 0, duration: .07, ease: "none" }] }, t); });
+        const R = rng(Math.round(x * 7 + y * 13 + t * 100));   // seeded: every splash scatters its own way, no dotted rows
+        ds.forEach((d, i) => { const dx = (i - 4.5) * (11 + R() * 14) * s, up = (45 + R() * 95) * s, land = (4 + R() * 30) * s, sc = .6 + R() * .8, t1 = .2 + R() * .12, t2 = .22 + R() * .14;
+          tl.to(d, { keyframes: [{ x: 0, y: 0, scale: sc, opacity: 1, duration: .001 }, { x: dx * .42, y: -up, duration: t1, ease: "power2.out" }, { x: dx * .9, y: land, opacity: .7, duration: t2, ease: "power2.in" },
+            { x: dx, y: land, opacity: 0, duration: .06, ease: "none" }] }, t + R() * .05); });
         return g; }
       const SVGNS = "http://www.w3.org/2000/svg";
 
@@ -322,22 +323,31 @@
 
       /* ================================================================== A03 living room: sit down (drops onto the sofa) */
       const SOFA = { cx: 440, by: 514, h: 300 };
+      // Quest sits cross-legged on the rug in front of the TV (Producer 2026-10-20: the sofa poses did not look natural)
+      const FLOOR = { cx: 730, by: 612, h: 262 };
+      const floorQ = (host, f) => { shadow(host, FLOOR.cx, FLOOR.by - 8, 330, 44, .85); return spr(host, "q_floor", FLOOR.cx, FLOOR.by, FLOOR.h, { f: f || LRF }); };
+      // the TV shows a Dave the Diver title screen in OUR drawing (the game's official art only if the Producer supplies it)
+      const TVS = [[1076, 62], [1214, 44], [1206, 300], [1074, 242]];
+      const tvTitle = (host, t0) => {
+        const clip = TVS.map(([x, y]) => `${x}px ${y}px`).join(",");
+        const sc = mk("div", "abs", host, `left:0;top:0;width:1280px;height:720px;clip-path:polygon(${clip});overflow:hidden`);
+        mk("div", "abs", sc, "left:1070px;top:40px;width:150px;height:265px;background:linear-gradient(180deg,#7fd8ff 0%,#2fa6e0 30%,#0b5f9e 62%,#062f5c 100%)");
+        mk("div", "abs", sc, "left:1070px;top:108px;width:150px;height:3px;background:rgba(255,255,255,.55)");
+        const sw = spr(sc, "swimB", 1150, 252, 34, { px: true }); tl.fromTo(sw, { x: -20 }, { x: 20, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: 6 }, t0);
+        html(sc, "abs", "left:1078px;top:120px;width:126px;text-align:center;font-family:Anton,sans-serif;font-size:27px;line-height:.95;color:#ffd23f;-webkit-text-stroke:1.5px #06243f;transform:skewY(-6deg)", "DAVE<br>THE DIVER");
+        const ps = html(sc, "abs", "left:1078px;top:205px;width:126px;text-align:center;font-family:Inter,sans-serif;font-weight:800;font-size:9px;letter-spacing:1px;color:#fff;transform:skewY(-6deg)", "PRESS START");
+        tl.fromTo(ps, { opacity: 1 }, { opacity: .15, duration: .4, yoyo: true, repeat: 10, ease: "steps(1)" }, t0);
+        mk("div", "abs", sc, "left:1070px;top:40px;width:150px;height:265px;background:repeating-linear-gradient(180deg,rgba(0,0,0,.08) 0 1px,rgba(0,0,0,0) 1px 3px)");
+        return sc; };
       const rA03 = rig("sA03"); const LRF = "brightness(.82) saturate(.95) drop-shadow(3px -1px 0 rgba(120,175,255,.55))";
-      const A03_C0 = focus(470, 400, 1.3), A03_C1 = focus(560, 390, 1.42);
+      const A03_C0 = focus(690, 440, 1.3), A03_C1 = focus(750, 430, 1.42);
       {
         plate(rA03.sh, "lr.png");
-        const sd = shadow(rA03.sh, SOFA.cx, SOFA.by - 4, 250, 34, .9); tl.set(sd, { opacity: 0 }, 0);
-        const dent = mk("div", "abs", rA03.sh, "left:380px;top:430px;width:190px;height:70px;border-radius:50%;background:radial-gradient(ellipse,rgba(40,24,10,.6),rgba(40,24,10,0) 70%);opacity:0");
-        const q = spr(rA03.sh, "q_head", SOFA.cx, SOFA.by, SOFA.h, { f: LRF }); tl.set(q, { opacity: 0 }, 0);
+        tvTitle(rA03.sh, T.A03);
+        const q = floorQ(rA03.sh);
         const tD = {{p01.w8-0.05}};
-        tl.set(q, { opacity: 1, y: -230, x: -80, rotation: 10 }, tD - .001);
-        tl.fromTo(q, { y: -230, x: -80, rotation: 10 }, { y: 0, x: 0, rotation: 0, duration: .2, ease: "power2.in" }, tD);
-        tl.to(q, { scaleY: .9, scaleX: 1.05, duration: .06, ease: "power2.out", transformOrigin: "50% 100%" }, tD + .2);
-        tl.to(q, { scaleY: 1, scaleX: 1, duration: .22, ease: "elastic.out(1,.5)" }, tD + .26);
-        tl.set(sd, { opacity: 1 }, tD + .2); tl.set(dent, { opacity: 1 }, tD + .2);
-        // dust ring
-        const ring = mk("div", "ring", rA03.sh, "left:410px;top:544px;width:120px;height:26px;opacity:0;border-color:rgba(255,230,190,.7)");
-        tl.fromTo(ring, { scale: .3, opacity: .9 }, { scale: 1.6, opacity: 0, duration: .5, ease: "power2.out" }, tD + .2);
+        // he is already settling onto the rug as we cut in: one soft settle, no faked fall
+        tl.fromTo(q, { scaleY: 1.05, scaleX: .97, transformOrigin: "50% 100%" }, { scaleY: 1, scaleX: 1, duration: .35, ease: "elastic.out(1,.6)" }, tD);
         camTo(rA03, T.A03, T.A04, A03_C0, A03_C1, "sine.inOut");
         breathe(rA03, T.A03, T.A04, 1);
         // the TV flickers (continuity into the next shot)
@@ -352,9 +362,9 @@
         plate(rA04.sh, "lr.png");
         const tv = mk("div", "abs", rA04.sh, "left:1074px;top:50px;width:140px;height:250px;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(140,200,255,.45),rgba(140,200,255,0) 70%)");
         tl.fromTo(tv, { opacity: .6 }, { opacity: 1, duration: .25, yoyo: true, repeat: 6, ease: "sine.inOut" }, T.A04);
-        shadow(rA04.sh, 800, 618, 250, 34, .85);
-        const q = spr(rA04.sh, "q_game", 800, 624, 350, { f: LRF });
-        tl.fromTo(q, { scale: .7, opacity: 0 }, { scale: 1, opacity: 1, duration: .22, ease: "back.out(2)" }, T.A04);
+        tvTitle(rA04.sh, T.A04);
+        const q = floorQ(rA04.sh);
+        tl.fromTo(q, { y: 0 }, { y: -5, duration: .12, ease: "power2.out", yoyo: true, repeat: 1 }, {{p02.w5}});   // a little hop of excitement on "second"
         camTo(rA04, T.A04, T.A05, A03_C1, A04_C1, "sine.inOut");
       }
 
@@ -364,8 +374,7 @@
       let A05 = {};
       {
         plate(rA05.sh, "lr.png");
-        shadow(rA05.sh, 800, 618, 250, 34, .85);
-        spr(rA05.sh, "q_game", 800, 624, 350, { f: LRF });
+        floorQ(rA05.sh); tvTitle(rA05.sh, T.A05);
         const tvg = mk("div", "abs", rA05.sh, "left:1074px;top:50px;width:140px;height:250px;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(140,200,255,.6),rgba(140,200,255,0) 70%)");
         const tPush = T.A05 + .62, tPortal = tPush + .02, tFull = tPortal + .62;
         const c0 = A04_C1, c1 = focus(1143, 175, 2.6);
@@ -559,15 +568,13 @@
 
       /* ================================================================== A11 / A12 living room: nobody (pull back, then drift to the empty doorway) */
       const rA11 = rig("sA11"), rA12 = rig("sA12");
-      const A11_C0 = focus(500, 360, 1.9), A11_C1 = focus(560, 380, 1.18), A12_C1 = focus(370, 340, 1.85);
+      const A11_C0 = focus(730, 470, 1.9), A11_C1 = focus(640, 390, 1.18), A12_C1 = focus(318, 340, 2.0);
       {
         [rA11, rA12].forEach((r, i) => {
           plate(r.sh, "lr.png", "brightness(.9)");
           const tv = mk("div", "abs", r.sh, "left:1074px;top:50px;width:140px;height:250px;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(140,200,255,.4),rgba(140,200,255,0) 70%)");
           tl.fromTo(tv, { opacity: .6 }, { opacity: 1, duration: .35, yoyo: true, repeat: 6, ease: "sine.inOut" }, i ? T.A12 : T.A11);
-          mk("div", "abs", r.sh, "left:380px;top:430px;width:190px;height:70px;border-radius:50%;background:radial-gradient(ellipse,rgba(40,24,10,.6),rgba(40,24,10,0) 70%)");
-          shadow(r.sh, SOFA.cx, SOFA.by - 4, 250, 34, .9);
-          spr(r.sh, "q_worry", SOFA.cx, SOFA.by, SOFA.h, { f: LRF });
+          tvTitle(r.sh, i ? T.A12 : T.A11); floorQ(r.sh);
         });
         camTo(rA11, T.A11, T.A12, A11_C0, A11_C1, "power2.out");
         camTo(rA12, T.A12, T.A13, A11_C1, A12_C1, "sine.inOut");
@@ -588,8 +595,8 @@
         tl.set(dol, { opacity: 0 }, tL + .66);
         splash(rA13.sh, 190, 560, 1.2, tL + .62);
         splash(rA13.sh, 140, 560, .8, tL - .02);
-        // a second, smaller hop beside the boat
-        const dol2 = pic(rA13.sh, "d_leap", 120, 560, 120, { f: "brightness(1.02)" }); tl.set(dol2, { opacity: 0 }, 0);
+        // a second hop beside the boat: a wild grey dolphin keeps ours company (Producer 2026-10-20)
+        const dol2 = pic(rA13.sh, "d_leap_grey", 120, 560, 140, { f: "brightness(1.04)" }); tl.set(dol2, { opacity: 0 }, 0);
         const tL2 = {{p05.w5-0.2}};
         tl.set(dol2, { opacity: 1 }, tL2);
         tl.fromTo(dol2, { y: 50, rotation: -14 }, { keyframes: [{ y: -90, x: 14, rotation: 4, duration: .28, ease: "power2.out" }, { y: 60, x: 40, rotation: 26, duration: .26, ease: "power2.in" }] }, tL2);
@@ -685,14 +692,14 @@
 
       /* ================================================================== A17..A19 living room: the award (2023), "Sit Back and Relax", the deflate */
       const rA17 = rig("sA17"), rA18 = rig("sA18"), rA19 = rig("sA19");
-      const A17_C0 = focus(470, 360, 1.26), A17_C1 = focus(560, 350, 1.4), A18_C1 = focus(600, 340, 1.5), A19_C1 = focus(720, 410, 1.28);
+      const A17_C0 = focus(690, 420, 1.26), A17_C1 = focus(730, 410, 1.4), A18_C1 = focus(750, 410, 1.5), A19_C1 = focus(740, 450, 1.32);
       {
         [rA17, rA18, rA19].forEach((r, i) => {
           plate(r.sh, "lr.png", i === 2 ? "brightness(.78) saturate(.85)" : "");
           const tv = mk("div", "abs", r.sh, "left:1074px;top:50px;width:140px;height:250px;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(140,200,255,.4),rgba(140,200,255,0) 70%)");
           tl.fromTo(tv, { opacity: .6 }, { opacity: 1, duration: .35, yoyo: true, repeat: 8, ease: "sine.inOut" }, [T.A17, T.A18, T.A19][i]);
-          if (i < 2) { mk("div", "abs", r.sh, "left:380px;top:430px;width:190px;height:70px;border-radius:50%;background:radial-gradient(ellipse,rgba(40,24,10,.6),rgba(40,24,10,0) 70%)");
-            shadow(r.sh, SOFA.cx, SOFA.by - 4, 250, 34, .9); spr(r.sh, "q_worry", SOFA.cx, SOFA.by, SOFA.h, { f: LRF }); }
+          tvTitle(r.sh, [T.A17, T.A18, T.A19][i]);
+          if (i < 2) floorQ(r.sh);
         });
         camTo(rA17, T.A17, T.A18, A17_C0, A17_C1, "sine.inOut"); camTo(rA18, T.A18, T.A19, A17_C1, A18_C1, "sine.inOut"); camTo(rA19, T.A19, T.A20, A18_C1, A19_C1, "sine.inOut");
         breathe(rA17, T.A17, T.A18, 1);
@@ -718,10 +725,8 @@
         words.forEach(([w, tw], wi) => { const wd = mk("div", "big", q2, "font-size:80px;display:flex;opacity:1"); (wi === 0 ? "“Sit" : wi === 3 ? "Relax.”" : w).split("").forEach((c, i) => html(wd, "", `display:block;transform-origin:50% 100%;transform:rotate(${-14 - i * 3.6 - wi * 3}deg) translateY(${4 + i * 1.4}px)`, c)); });
         tl.fromTo(q2, { opacity: 1 }, { opacity: 0, duration: .5, ease: "power1.in", immediateRender: false }, T.A19 + .2);
         // A19: Quest deflates (the slumped pose, settling on the rug), the room hushes
-        shadow(rA19.sh, 760, 622, 260, 34, .8);
-        const qs = spr(rA19.sh, "q_slump", 760, 628, 380, { f: "brightness(.74) saturate(.85) drop-shadow(3px -1px 0 rgba(120,175,255,.4))" });
-        tl.fromTo(qs, { scaleY: 1.04, scaleX: .97 }, { scaleY: .94, scaleX: 1.03, duration: .6, ease: "power2.out" }, T.A19);
-        tl.fromTo(qs, { y: 0 }, { y: 6, duration: .6, ease: "sine.inOut", immediateRender: false }, T.A19);
+        const qs = floorQ(rA19.sh, "brightness(.74) saturate(.85) drop-shadow(3px -1px 0 rgba(120,175,255,.4))");
+        tl.fromTo(qs, { scaleY: 1, scaleX: 1, transformOrigin: "50% 100%" }, { scaleY: .96, scaleX: 1.02, duration: .7, ease: "sine.out" }, T.A19);   // one slow exhale
         const hush = mk("div", "full", rA19.sh, "background:radial-gradient(ellipse at 50% 50%,rgba(4,6,16,0) 25%,rgba(4,6,16,.6) 100%);opacity:0");
         tl.fromTo(hush, { opacity: 0 }, { opacity: 1, duration: T.A20 - T.A19, ease: "power1.in" }, T.A19);
       }

@@ -126,5 +126,13 @@
  "boat_side.png": [
   "public/art/davethediver/props3d/diveboat_side.png",
   null
+ ],
+ "q_floor.png": [
+  "docs/art_orders/quest/library_v2/results/07_floor_gaming.png",
+  null
+ ],
+ "d_leap_grey.png": [
+  "public/art/davethediver/props3d/dolphin_grey_leap_happy.png",
+  600
  ]
 }
