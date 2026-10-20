@@ -48,3 +48,5 @@
   used only if the Producer supplies the image (third-party art rule: Claude never downloads it; risk: copyrighted key
   art on screen for ~2 s, normally fine as commentary but logged here); (4) in A13 the second leaping dolphin is a
   normal grey dolphin (props3d grey variant), ours stays pink.
+- Bar shots have customers (Producer, 2026-10-20: "¿no debería estar el cliente?"): Max, the bar regular, sits at the
+  counter on his stool (the plate stool under him is covered by a layer of the clean gap) and reacts when Quest serves.

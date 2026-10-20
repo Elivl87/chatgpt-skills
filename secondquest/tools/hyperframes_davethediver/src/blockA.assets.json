@@ -134,5 +134,13 @@
  "d_leap_grey.png": [
   "public/art/davethediver/props3d/dolphin_grey_leap_happy.png",
   600
+ ],
+ "max_n.png": [
+  "public/art/davethediver/props3d/max_bar_34_neutral.png",
+  600
+ ],
+ "max_l.png": [
+  "public/art/davethediver/props3d/max_bar_34_laugh.png",
+  600
  ]
 }

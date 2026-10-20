@@ -530,6 +530,18 @@
         const pxA = spr(back, "pixie", 600, 494, 192, { px: true, f: PX }), pxB = spr(back, "pixie", 600, 494, 192, { px: true, flip: true, f: PX });
         tl.set(pxB, { opacity: 0 }, 0); tl.set(pxA, { opacity: 0 }, {{p03.w25}}); tl.set(pxB, { opacity: 1 }, {{p03.w25}});
         mk("div", "abs", back, "left:540px;top:384px;width:120px;height:14px;background:linear-gradient(180deg,rgba(30,12,4,0),rgba(30,12,4,.55))");
+        // the customer (Producer 2026-10-20): Max, the bar regular, on HIS stool in place of the plate's stool at x 775 — that stool
+        // (plate x 747..799) is covered by 4 slices of the clean gap at x 806..820 (a layer, the plate is untouched)
+        const SX = 773, SY = 513, MH = 170;
+        for (let k = 0; k < 4; k++) { const sl = mk("div", "abs", rA10.sh, `left:${745 + k * 14}px;top:434px;width:14px;height:86px;overflow:hidden`);
+          const pim = mk("img", "", sl, `position:absolute;left:-806px;top:-434px;width:1280px;height:720px`); pim.src = "assets/bar.png"; pim.alt = ""; }
+        const MF = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.4))";
+        const maxAt = (file, H0) => { const h = MH * H0 / 1246, w = MH * 580 / 1246; const im = mk("img", "", rA10.sh, `position:absolute;left:${SX - .56 * w}px;top:${SY - .975 * h}px;width:${w}px;height:${h}px;filter:${MF}`); im.src = "assets/" + file; im.alt = ""; return im; };
+        shadow(rA10.sh, SX, SY, 70, 12, .7);
+        const mN = maxAt("max_n.png", 1246), mL = maxAt("max_l.png", 1259); tl.set(mL, { opacity: 0 }, 0);
+        // he laughs when Quest brings the sushi
+        tl.set(mN, { opacity: 0 }, {{p03.w25}}); tl.set(mL, { opacity: 1 }, {{p03.w25}});
+        tl.fromTo(mL, { y: 0 }, { y: -4, duration: .12, ease: "power2.out", yoyo: true, repeat: 3 }, {{p03.w25}});
                 const TQ = "brightness(.95) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.55))";
         const base = 548, hq = 200;
         const p = [T.A10, {{p03.w22}}, {{p03.w25}}, {{p03.w27}}, T.A11];
