@@ -22,7 +22,7 @@ WHISPER = json.loads((HERE / 'ep001_bram_words_whisper.json').read_text())
 SEGMENTS = [
     (0.12, 7.88, 0.33),      # l01-l04 "Farming Simulator is a game where you wake up... equipment..."  (0.00-0.34 / 7.73-8.08)
     (20.25, 25.85, 8.40),    # l11-l12 "Most of the time, your greatest enemy... than you expected."    (20.07-20.49 / 25.60-26.09)
-    (7.90, 10.55, 14.80),    # l05-l06 "and then... go back to work."                                    (7.73-8.08 / 10.40-10.75)
+    (7.90, 10.55, 14.55),    # l05-l06 "and then... go back to work."                                    (7.73-8.08 / 10.40-10.75)
 ]
 LINES = ['l01', 'l02', 'l03', 'l04', 'l11', 'l12', 'l05', 'l06']
 VOICE_END = round(SEGMENTS[-1][2] + SEGMENTS[-1][1] - SEGMENTS[-1][0], 3)
