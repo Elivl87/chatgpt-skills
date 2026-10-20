@@ -514,15 +514,17 @@
         tl.fromTo(fsh, { x: -10 }, { x: 70, duration: T.A11 - T.A10, ease: "sine.inOut" }, T.A10);
         tl.fromTo(fsh, { y: 4, rotation: -3 }, { y: -4, rotation: 3, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 7 }, T.A10);
         tl.set(fB, { opacity: 1 }, 11.74); tl.set(fB, { opacity: 0 }, 11.89);
-        // Pixie as the bar's chef (Bancho's role) behind the prep counter: the counter hides her from the waist down
-        const back = mk("div", "abs", rA10.sh, "left:0;top:0;width:1280px;height:371px;overflow:hidden");
+        // Pixie as the bar's chef (Bancho's role) INSIDE the counter: she stands between the prep counter (behind her) and
+        // the customers' counter, whose top edge (plate y 397) hides her from the waist down; a soft shade where it cuts
+        const back = mk("div", "abs", rA10.sh, "left:0;top:0;width:1280px;height:398px;overflow:hidden");
         const PX = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.45))";
-        const pxA = spr(back, "pixie", 606, 440, 176, { px: true, f: PX }), pxB = spr(back, "pixie", 606, 440, 176, { px: true, flip: true, f: PX });
+        const pxA = spr(back, "pixie", 600, 494, 192, { px: true, f: PX }), pxB = spr(back, "pixie", 600, 494, 192, { px: true, flip: true, f: PX });
         tl.set(pxB, { opacity: 0 }, 0); tl.set(pxA, { opacity: 0 }, 12.18); tl.set(pxB, { opacity: 1 }, 12.18);
+        mk("div", "abs", back, "left:540px;top:384px;width:120px;height:14px;background:linear-gradient(180deg,rgba(30,12,4,0),rgba(30,12,4,.55))");
                 const TQ = "brightness(.95) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.55))";
         const base = 548, hq = 200;
         const p = [T.A10, 11.42, 12.18, 13.08, T.A11];
-        const qs = [[330, 0, 1.12, 640, 380], [560, 1, 1.55, 560, 440], [900, 0, 1.5, 880, 430], [1010, 1, 1.28, 880, 400]];
+        const qs = [[330, 0, 1.12, 640, 380], [400, 1, 1.55, 560, 440], [900, 0, 1.5, 880, 430], [1010, 1, 1.28, 880, 400]];
         qs.forEach(([x, flip, s, fx, fy], i) => {
           const q = spr(rA10.sh, "tray", x, base, hq, { px: true, flip: !!flip, f: TQ });
           const sd = shadow(rA10.sh, x, base + 4, 120, 18, .8);
@@ -767,8 +769,24 @@
         // A21: the gold bar slides in under the wordmark; then a still hold with one blink
         const bar = mk("div", "abs", rEnd.sh, `left:${W / 2 - 360}px;top:${WT + WMH + 24}px;width:720px;height:11px;border-radius:6px;background:var(--gold);box-shadow:0 4px 0 #05101f;transform-origin:0 50%`);
         tl.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: .38, ease: "power3.out" }, tWhy + .12);
-        tl.set(dolB, { opacity: 1 }, tWhy + .75); tl.set(dol, { opacity: 0 }, tWhy + .75);
-        tl.set(dolB, { opacity: 0 }, tWhy + .9); tl.set(dol, { opacity: 1 }, tWhy + .9);
+        // A21 (Producer 2026-10-20): the dolphin leaps IN FRONT of the wordmark, falls BEHIND it and swims off into the deep.
+        // Two copies of the leap pose share every transform: the front one (above the wordmark) shows on the way up, the
+        // back one (inserted under the wordmark) from the apex on.
+        const L0 = tWhy + .28, LA = L0 + .42, LF = LA + .36, LD = LF + .62;
+        const lf = pic(rEnd.sh, "d_leap", dX, dY - 10, 230, { f: "brightness(1.02) saturate(1.05)" });
+        const lb = pic(rEnd.sh, "d_leap", dX, dY - 10, 230, { f: "brightness(1.02) saturate(1.05)" }); rEnd.sh.insertBefore(lb, wm);
+        tl.set([lf, lb], { opacity: 0 }, 0);
+        tl.set([dol, dolB], { opacity: 0 }, L0); tl.set(lf, { opacity: 1 }, L0);
+        tl.fromTo([lf, lb], { x: 0, rotation: -18 }, { x: 190, rotation: 0, duration: LA - L0, ease: "none" }, L0);
+        tl.fromTo([lf, lb], { y: 0 }, { y: -330, duration: LA - L0, ease: "power2.out" }, L0);
+        tl.set(lf, { opacity: 0 }, LA); tl.set(lb, { opacity: 1 }, LA);
+        tl.to([lf, lb], { x: 360, rotation: 70, duration: LF - LA, ease: "none" }, LA);
+        tl.to([lf, lb], { y: -40, duration: LF - LA, ease: "power2.in" }, LA);
+        // into the deep: smaller, darker, softer, gone
+        tl.to(lb, { x: 330, y: 150, scale: .32, rotation: 95, opacity: 0, filter: "brightness(.45) saturate(.6) blur(2px)", duration: LD - LF, ease: "power2.in" }, LF);
+        // a few bubbles where it passes behind the bar
+        for (let i = 0; i < 7; i++) { const b = mk("div", "bub", rEnd.sh, `left:${oX + 330 + i * 9}px;top:${470 + (i % 3) * 14}px;width:${6 + (i % 3) * 4}px;height:${6 + (i % 3) * 4}px;opacity:0`);
+          tl.fromTo(b, { y: 0, opacity: .8 }, { y: -(70 + i * 12), opacity: 0, duration: .8, ease: "power1.out", immediateRender: false }, LF - .05 + i * .03); }
         tl.fromTo(rEnd.cam, { scale: 1.06 }, { scale: 1, duration: tWhy - t0, ease: "sine.out" }, t0);
         AE = { oX, oY, tWhy };
       }

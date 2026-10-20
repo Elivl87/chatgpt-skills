@@ -27,6 +27,7 @@ def main():
     a block's own extra art goes in src/block<X>.assets.json ({"name.png": ["repo/path.png", max_h or null]})."""
     import sys
     global OUT
+    subprocess.run(['python3', str(HERE / 'derive_art.py')], check=True)   # derived copies of the art (only if missing)
     b = sys.argv[sys.argv.index('--block') + 1] if '--block' in sys.argv else 'A'
     sys.path.insert(0, str(HERE))
     from blocks import span, pdir
