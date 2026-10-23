@@ -4,7 +4,17 @@ become on-screen text boxes, so each character line keeps its timing slot as sil
 the Kokoro track (segments_es.json `dur`), plus its original `after` air. The box reading time is preserved.
 
     TQDM_DISABLE=1 OMP_NUM_THREADS=2 nice -n 10 /tmp/claude-0/cbnat/venv/bin/python -I \
-        ep/001/audio/chatterbox/build_voice_cb.py [render|assemble|align|qc|all] [episode|short|both]
+        ep/001/audio/chatterbox/build_voice_cb.py [render|assemble|align|qc|all] [episode|short|both] \
+        [--direction] [--voice-characters]
+
+--direction (2026-10-23, after the Producer rejected the flat narration): per-sentence emotional direction from
+    voice/expressive/direction.py: every sentence is one call with its own exaggeration / cfg / temperature, pace,
+    pauses and gain, chosen from the script's tone notes and punctuation (profiles: calm, curious, warm, building,
+    surprised, urgent, deadpan, question, intimate). Replaces the single VOICE setting + jitter.
+--voice-characters (Producer, 2026-10-23: silent text boxes "aren't understood"): the narrator also reads Eli's and
+    Mila's lines, storyteller-style, same voice, light change of delivery (Eli louder / impatient, Mila calmer /
+    softer; profiles `eli`, `eli_hurt`, `mila`), with a short breath before and after; the line keeps its slot (it may
+    grow) and is exported voiced with its speaker, so the text boxes still align.
 
 Voice settings: VOICE below (reference, model, exaggeration / cfg / temperature, mode). Text: the locked script via
 build_voice.plan() (same segments, same pauses, same `[pause x]` gag pauses, same `after`), word for word. Kokoro's
@@ -40,7 +50,13 @@ es = bv.es
 SR = cbn.SR
 CACHE = Path(os.environ.get("CB_CACHE", "/tmp/claude-0/cbnat/cache"))
 TMP = Path(os.environ.get("CB_TMP", "/tmp/claude-0/cbnat/ep001"))
-TRIES = int(os.environ.get("CB_TRIES", "6"))
+FLAGS = {a for a in sys.argv[1:] if a.startswith("--")}
+sys.argv = [a for a in sys.argv if not a.startswith("--")]
+DIRECTION = "--direction" in FLAGS
+VOICE_CHARS = "--voice-characters" in FLAGS
+TRIES = int(os.environ.get("CB_TRIES", "10" if DIRECTION else "6"))
+sys.path.insert(0, str(NC / "voice" / "expressive"))
+import direction as D  # noqa: E402
 
 VOICE = json.loads(os.environ["CB_VOICE"]) if os.environ.get("CB_VOICE") else {
     "ref": "builtin", "model": "v3", "s3gen": "base", "mode": "sentence",
@@ -71,7 +87,9 @@ def pieces_of(text, mode):
             continue
         sents = cbn.split_sentences(part)
         groups = []
-        if mode == "sentence":
+        if mode == "directed":
+            groups = D.split_directed(part)
+        elif mode == "sentence":
             for s in sents:
                 if groups and (cbn.n_words(s) < 5 or cbn.n_words(groups[-1]) < 5) and len(groups[-1]) + len(s) < 160:
                     groups[-1] = f"{groups[-1]} {s}"
@@ -117,25 +135,37 @@ def render(kind):
     plan = bv.plan(kind)
     out = []
     for s in plan:
-        if s["speaker"] != "narrator":
+        is_char = s["speaker"] != "narrator"
+        if is_char and not VOICE_CHARS:
             out.append({"name": s["name"], "beat": s["beat"], "speaker": s["speaker"], "text": s["text"],
                         "voiced": False, "slot": round(kok[s["name"]]["dur"], 4), "after": s["after"]})
             continue
-        tts = s["opt"].get("tts", s["text"])          # script spelling + [pause x]; no Kokoro respellings
-        pcs = pieces_of(tts, VOICE["mode"])
+        if is_char:
+            pcs = [[s["text"], None]]                  # a character line is always one call, never split
+        else:
+            tts = s["opt"].get("tts", s["text"])          # script spelling + [pause x]; no Kokoro respellings
+            pcs = pieces_of(tts, "directed" if DIRECTION else VOICE["mode"])
         files, plog = [], []
         for pi, (txt, gap) in enumerate(pcs):
-            ex = VOICE["exaggeration"] + (rng.uniform(-VOICE["ex_jitter"], VOICE["ex_jitter"]) if VOICE["ex_jitter"] else 0)
-            sp = VOICE["speed"] * (1 + (rng.uniform(-VOICE["speed_jitter"], VOICE["speed_jitter"]) if VOICE["speed_jitter"] else 0))
-            pj = rng.uniform(-VOICE["pause_jitter"], VOICE["pause_jitter"]) if VOICE["pause_jitter"] else 0.0
-            kw = dict(exaggeration=round(ex, 3), cfg_weight=VOICE["cfg_weight"], temperature=VOICE["temperature"])
-            key = _hash(txt, kw, ref_id(), VOICE["model"], VOICE["s3gen"], 6)   # key ignores the retry budget (CB_TRIES)
+            if DIRECTION or is_char:
+                d = D.direct(txt, s["beat"], s["speaker"])
+                kw = dict(exaggeration=d["ex"], cfg_weight=d["cfg"], temperature=d["temp"])
+                sp, pj = d["speed"], 0.0
+                pre = d["before"] + d["breath"]
+                pscale, gain_p, breath, prof, tts_txt = d["pscale"], d["gain"], d["breath"], d["profile"], d["tts"]
+            else:
+                ex = VOICE["exaggeration"] + (rng.uniform(-VOICE["ex_jitter"], VOICE["ex_jitter"]) if VOICE["ex_jitter"] else 0)
+                sp = VOICE["speed"] * (1 + (rng.uniform(-VOICE["speed_jitter"], VOICE["speed_jitter"]) if VOICE["speed_jitter"] else 0))
+                pj = rng.uniform(-VOICE["pause_jitter"], VOICE["pause_jitter"]) if VOICE["pause_jitter"] else 0.0
+                kw = dict(exaggeration=round(ex, 3), cfg_weight=VOICE["cfg_weight"], temperature=VOICE["temperature"])
+                pre, pscale, gain_p, breath, prof, tts_txt = 0.0, 1.0, 0.0, 0.0, "flat", txt
+            key = _hash(txt, tts_txt, kw, ref_id(), VOICE["model"], VOICE["s3gen"], 6)   # key ignores the retry budget (CB_TRIES)
             f = CACHE / f"{s['name']}_{pi:02d}_{key}.wav"
             jf = f.with_suffix(".json")
             if not f.exists():
-                print(f"[{s['name']} {pi + 1}/{len(pcs)}] {txt}", flush=True)
+                print(f"[{s['name']} {pi + 1}/{len(pcs)}] {prof} {kw} | {txt}", flush=True)
                 seed = int(key[:6], 16)
-                r = cbn.synth(model(), txt, kw, seed, tries=TRIES)
+                r = cbn.synth(model(), txt, kw, seed, tries=TRIES, tts=tts_txt)
                 if r["wer"] > 0:                          # last resort: a respelling, if the piece has one
                     alt = txt
                     for a, b in FALLBACK_RESPELL.items():
@@ -147,13 +177,15 @@ def render(kind):
                 sf.write(f, r["audio"], SR, subtype="FLOAT")
                 jf.write_text(json.dumps({k: v for k, v in r.items() if k != "audio"}, ensure_ascii=False))
             meta = json.loads(jf.read_text())
-            gap_after = gap if gap is not None else (cbn.pause_after(txt) * (1 + pj) if pi < len(pcs) - 1 else 0.0)
-            files.append({"file": str(f), "speed": round(sp, 4), "gap": round(gap_after, 3)})
+            gap_after = gap if gap is not None else (cbn.pause_after(txt) * pscale * (1 + pj) if pi < len(pcs) - 1 else breath)
+            files.append({"file": str(f), "speed": round(sp, 4), "gap": round(gap_after, 3),
+                          "pre": round(pre if (pi > 0 or is_char or DIRECTION) else 0.0, 3), "gain_db": gain_p})
             plog.append({"text": txt, "tts": meta["tts"], "wer": meta["wer"], "errors": meta["errors"],
                          "heard": meta["heard"], "tries": meta["tries"], "seed": meta["seed"], "kw": kw,
-                         "speed": round(sp, 4), "rtf": meta["rtf"]})
-        out.append({"name": s["name"], "beat": s["beat"], "speaker": "narrator", "text": s["text"], "voiced": True,
-                    "after": s["after"], "pieces": files, "log": plog, "gain_db": s["opt"].get("gain_db", 0.0)})
+                         "profile": prof, "speed": round(sp, 4), "rtf": meta["rtf"]})
+        out.append({"name": s["name"], "beat": s["beat"], "speaker": s["speaker"], "text": s["text"], "voiced": True,
+                    "after": s["after"], "pieces": files, "log": plog,
+                    "gain_db": 0.0 if is_char else s["opt"].get("gain_db", 0.0)})
     (TMP / f"render_{kind}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
     return out
 
@@ -168,11 +200,19 @@ def assemble(kind):
             segs = []
             for p in s["pieces"]:
                 a, _ = sf.read(p["file"], dtype="float32")
-                segs.append(cbn.tempo(a, p["speed"]))
+                if p.get("pre"):
+                    segs.append(np.zeros(int(round(p["pre"] * SR)), np.float32))
+                a = cbn.tempo(a, p["speed"])
+                if p.get("gain_db") or len(s["pieces"]) > 1:      # directed: every piece levelled, then its own gain
+                    a = cbn.level(a, bv.SEG_LUFS + p.get("gain_db", 0.0))
+                segs.append(a)
                 if p["gap"]:
                     segs.append(np.zeros(int(round(p["gap"] * SR)), np.float32))
             a = np.concatenate(segs)
-            g = bv.SEG_LUFS - bv.lufs(a) + s.get("gain_db", 0.0)
+            if len(s["pieces"]) > 1 or s["pieces"][0].get("gain_db"):
+                g = s.get("gain_db", 0.0)                        # pieces already carry their level + direction gain
+            else:
+                g = bv.SEG_LUFS - bv.lufs(a) + s.get("gain_db", 0.0)
             a = a * 10 ** (g / 20)
             dur = len(a) / SR
         else:
@@ -194,7 +234,7 @@ def assemble(kind):
     wav = HERE / ("narration_es.wav" if kind == "episode" else "short_es.wav")
     m = bv.finish(x, wav)
     (HERE / ("segments_es.json" if kind == "episode" else "segments_short_es.json")).write_text(json.dumps(
-        {"engine": "chatterbox", "voice": VOICE | {"ref": ref_id()}, "target_lufs": bv.TARGET_LUFS,
+        {"engine": "chatterbox", "voice": VOICE | {"ref": ref_id(), "direction": DIRECTION, "voice_characters": VOICE_CHARS}, "target_lufs": bv.TARGET_LUFS,
          "tp_ceiling": bv.CEIL_TP, "post_gain_db": m["gain_db"], "segments": man}, ensure_ascii=False, indent=1))
     d = HERE / ("segments" if kind == "episode" else "segments_short")
     d.mkdir(exist_ok=True)
@@ -239,7 +279,7 @@ def align(kind):
                 st = min(max(w["start"] + t0, s["start"]), s["start"] + s["dur"])
                 en = min(max(w["end"] + t0, st + 0.02), s["start"] + s["dur"] + 0.05)
                 tim_v.append({"word": w["word"], "start": round(st, 3), "end": round(en, 3), "beat": beat,
-                              "speaker": "narrator", "voiced": True, "text": w["text"], "conf": w["conf"],
+                              "speaker": s["speaker"], "voiced": True, "text": w["text"], "conf": w["conf"],
                               "line": s["name"]})
             hc = hyp
             for pat, sub in bv.NAME_FIX:
@@ -272,6 +312,10 @@ def align(kind):
                 timings += tim_c[s["name"]]
     nar = [w for w in timings if w["voiced"]]
     ev.refine_onsets(nar, wav)
+    for w in timings:                       # voiced character lines keep a slot too (box timing = the spoken line)
+        if w["voiced"] and w["speaker"] != "narrator":
+            ln = next(s for s in segs if s["name"] == w["line"])
+            w["slot"] = [round(ln["start"], 3), round(ln["start"] + ln["dur"], 3)]
     for k in range(1, len(timings)):
         if timings[k]["start"] <= timings[k - 1]["start"] or timings[k]["start"] < timings[k - 1]["end"] - 0.25:
             timings[k]["start"] = round(max(timings[k - 1]["end"], timings[k - 1]["start"] + 0.02), 3)
