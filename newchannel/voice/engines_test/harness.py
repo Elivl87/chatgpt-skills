@@ -38,6 +38,12 @@ BEATS_FULL = ("01", "02", "03", "04", "09")
 B13_TAIL = ("Ese conductor ya llegó a su casa.", "Seguro ya está cenando.",
             "Por eso no ves ninguna razón: la razón ya se fue a cenar.")
 
+# Producer feedback on qwen3tts.mp3 (2026-10-23): "habla muy lento, ¿no puede ser con más ánimo?" -> every instruct
+# now also asks for a brisk, energetic delivery (~150 wpm). ET_PACE=0 disables the cue (how (a)-(d) were rendered).
+PACE_EN = " Speak fast, with energy and enthusiasm, like an excited friend telling a story (about 150 words per minute)."
+PACE_ES = " Habla rápido, con energía y entusiasmo, como un amigo emocionado contando algo (unas 150 palabras por minuto)."
+PACE = os.environ.get("ET_PACE", "1") != "0"
+
 # delivery profile (direction.py) -> natural-language instruct, following NARRADOR.md
 INSTRUCT = {
     "calm": "Calm and unhurried, clear and warm, like explaining something to a friend at the table.",
@@ -67,6 +73,9 @@ INSTRUCT_ES = {
     "eli_hurt": "Citando a un amigo dolido y avergonzado: más suave, más lento, un poco quejoso.",
     "mila": "Citando a una amiga serena: calma, suave, dulce y lenta.",
 }
+if PACE:
+    INSTRUCT = {k: v + PACE_EN for k, v in INSTRUCT.items()}
+    INSTRUCT_ES = {k: v + PACE_ES for k, v in INSTRUCT_ES.items()}
 
 
 # The passage, frozen from bv.plan("episode") on the locked script (commit 87f28f1; identical to what
@@ -254,13 +263,51 @@ def beeps(n, sr=44100, f=880.0, d=0.12, gap=0.13):
     return np.concatenate(out + [np.zeros(int(0.6 * sr))]).astype(np.float32)
 
 
-def build_mp3(out_mp3, specs, kbps=64):
-    """specs: [(wav_path, n_beeps), ...] -> one MP3, each variant at -16 LUFS, N beeps before variant N."""
+def speech_seconds(x, sr):
+    h = int(0.05 * sr)
+    rms = np.array([np.sqrt((x[i:i + h] ** 2).mean()) for i in range(0, len(x) - h + 1, h)])
+    db = 20 * np.log10(rms + 1e-9)
+    return float((db > db.max() - 35).sum() * 0.05)
+
+
+def postprocess(wav_in, wav_out, words, target_wpm=145.0, max_pause=0.45, max_factor=1.6):
+    """Bring a take to the channel's pace so engines compare at the same rhythm (coordinator, 2026-10-23):
+    ffmpeg rubberband tempo (pitch 1.0, transients crisp) up to `target_wpm` measured in speech, then silenceremove
+    caps every pause at `max_pause` s. Returns dict(wpm_before, wpm_after, factor, dur_before, dur_after)."""
     import subprocess
+    x, sr = sf.read(wav_in, dtype="float32")
+    if x.ndim > 1:
+        x = x.mean(1)
+    sp = speech_seconds(x, sr)
+    wpm0 = words / sp * 60
+    f = float(np.clip(target_wpm / wpm0, 1.0, max_factor))
+    af = []
+    if f > 1.005:
+        af.append(f"rubberband=tempo={f:.4f}:pitch=1.0:transients=crisp")
+    af.append(f"silenceremove=stop_periods=-1:stop_duration={max_pause}:stop_threshold=-38dB:stop_silence={max_pause}")
+    subprocess.run([cbn.FF, "-v", "error", "-y", "-i", str(wav_in), "-af", ",".join(af), "-ar", str(sr), "-c:a",
+                    "pcm_s16le", str(wav_out)], check=True)
+    y, _ = sf.read(wav_out, dtype="float32")
+    sp1 = speech_seconds(y, sr)
+    return {"wpm_before": round(wpm0, 1), "wpm_after": round(words / sp1 * 60, 1), "factor": round(f, 3),
+            "dur_before": round(len(x) / sr, 1), "dur_after": round(len(y) / sr, 1)}
+
+
+def build_mp3(out_mp3, specs, kbps=48, post=True, words=162, target_wpm=145.0):
+    """specs: [(wav_path, n_beeps), ...] -> one MP3, each variant at -16 LUFS, N beeps before variant N.
+    post=True runs postprocess() (tempo to target_wpm + pause cap) on every variant first; returns its numbers."""
+    import subprocess
+    import tempfile
     import librosa
     sr = 44100
     parts = [np.zeros(int(0.3 * sr), np.float32)]
+    report = {}
     for path, n in specs:
+        if post:
+            tmp = Path(tempfile.mkdtemp()) / "post.wav"
+            report[Path(path).name] = postprocess(path, tmp, words, target_wpm)
+            print(Path(path).name, report[Path(path).name], flush=True)
+            path = tmp
         x, s = sf.read(path, dtype="float32")
         if x.ndim > 1:
             x = x.mean(1)
@@ -274,6 +321,7 @@ def build_mp3(out_mp3, specs, kbps=64):
     subprocess.run([cbn.FF, "-v", "error", "-y", "-f", "f32le", "-ar", str(sr), "-ac", "1", "-i", "-", "-c:a",
                     "libmp3lame", "-b:a", f"{kbps}k", "-threads", "2", str(out_mp3)], input=y.tobytes(), check=True)
     print(out_mp3, round(len(y) / sr, 1), "s", round(Path(out_mp3).stat().st_size / 1e6, 2), "MB")
+    return report
 
 
 if __name__ == "__main__":

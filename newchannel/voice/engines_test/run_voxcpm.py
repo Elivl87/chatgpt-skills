@@ -2,7 +2,7 @@
 llama.cpp-omni `voxcpm2-cli` on CPU.
 
     python -I run_voxcpm.py VARIANT [--tries 6]
-VARIANT: a_m / a_f = designed voice: "(description + style)" prefix in the text, per-sentence style cue
+VARIANT: x = cross test (style cue + -r the most energetic Qwen VoiceDesign take, a synthetic voice) · a_m / a_f = designed voice: "(description + style)" prefix in the text, per-sentence style cue
          b = controllable clone of the Producer's reference ("(style)" + text, -r reference.wav)
          b0 = plain clone (no style cue) · u = ultimate clone (prompt wav + transcript) with style cue.
 """
@@ -24,10 +24,11 @@ W = Path(os.environ.get("VOX_W", "/tmp/claude-0/engines/voxcpm2"))
 BASE = W / "VoxCPM2-BaseLM-Q8_0.gguf"
 ACOU = W / "VoxCPM2-Acoustic-F16.gguf"
 REF = "/tmp/claude-0/engines/ref/producer_16k.wav"
+XREF = os.environ.get("VOX_REF", "/tmp/claude-0/engines/ref/qwen_cm_15s.wav")   # cross test: a synthetic channel voice as reference
 DESIGN_M = ("Narrador latinoamericano de unos 35 años, voz masculina cálida de registro medio-bajo, con sonrisa, "
-            "conversacional, acento neutro de Latinoamérica")
+            "conversacional, ritmo ágil y enérgico, acento neutro de Latinoamérica")
 DESIGN_F = ("Narradora latinoamericana de unos 35 años, voz femenina cálida de registro medio-bajo, con sonrisa, "
-            "conversacional, acento neutro de Latinoamérica")
+            "conversacional, ritmo ágil y enérgico, acento neutro de Latinoamérica")
 # short style cues for the parenthesis (VoxCPM2 style guidance), one per direction profile
 STYLE = {
     "calm": "tranquilo, pausado, cálido", "curious": "curioso, conversacional, con una sonrisa",
@@ -39,21 +40,26 @@ STYLE = {
 }
 
 
+PACE = ", habla rápido y con energía" if H.PACE else ""
+
+
 def make_fn(variant, prompt_text, threads):
     def fn(text, profile, seed):
         if variant == "a_m":
-            t = f"({DESIGN_M}, {STYLE[profile]}){text}"
+            t = f"({DESIGN_M}, {STYLE[profile]}{PACE}){text}"
         elif variant == "a_f":
-            t = f"({DESIGN_F}, {STYLE[profile]}){text}"
+            t = f"({DESIGN_F}, {STYLE[profile]}{PACE}){text}"
         elif variant == "b0":
             t = text
         else:
-            t = f"({STYLE[profile]}){text}"
+            t = f"({STYLE[profile]}{PACE}){text}"
         with tempfile.TemporaryDirectory() as d:
             out = Path(d) / "o.wav"
             cmd = [CLI, "--cpu", "-t", t, "-o", str(out), "--seed", str(seed)]
             if variant.startswith("b"):
                 cmd += ["-r", REF]
+            elif variant == "x":                      # cross test: Qwen VoiceDesign take as the reference voice
+                cmd += ["-r", XREF]
             elif variant == "u":
                 cmd += ["--prompt-wav", REF, "--prompt-text", prompt_text, "-r", REF]
             cmd += [str(BASE), str(ACOU)]

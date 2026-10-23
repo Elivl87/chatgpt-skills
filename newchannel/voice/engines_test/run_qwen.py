@@ -20,9 +20,17 @@ import soundfile as sf  # noqa: E402
 import harness as H  # noqa: E402
 
 DESIGN_M = ("Narrador latinoamericano de unos 35 años, voz masculina cálida de registro medio-bajo, con sonrisa, "
-            "conversacional, acento neutro de Latinoamérica, habla como un amigo curioso.")
+            "conversacional, ritmo ágil y enérgico, acento neutro de Latinoamérica, habla como un amigo curioso y emocionado.")
 DESIGN_F = ("Narradora latinoamericana de unos 35 años, voz femenina cálida de registro medio-bajo, con sonrisa, "
-            "conversacional, acento neutro de Latinoamérica, habla como una amiga curiosa.")
+            "conversacional, ritmo ágil y enérgico, acento neutro de Latinoamérica, habla como una amiga curiosa y emocionada.")
+
+
+# Producer (2026-10-23): "habla desganado, sin ánimos, lento y aburrido; la voz DEBE mantener audiencia" -> energetic designs
+DESIGN2_M = ("Locutor joven latinoamericano, voz masculina, muy enérgico y entusiasta, ritmo rápido, sonríe al hablar, "
+             "entonación muy variada, estilo YouTuber que explica cosas con emoción.")
+DESIGN2_F = ("Locutora joven latinoamericana, voz femenina, muy enérgica y entusiasta, ritmo rápido, sonríe al hablar, "
+             "entonación muy variada, estilo YouTuber que explica cosas con emoción.")
+ENTHUSIASM = " ¡Con entusiasmo, rápido!"
 
 
 def tts(port, body):
@@ -45,7 +53,10 @@ def make_fn(variant, port, speaker, temperature=None, lang_instruct="en"):
             body["speaker"] = speaker          # d / e: the server was started with --load-voice (the clone)
         if variant in ("b", "e"):
             body["instruct"] = inst[profile]
-        if variant.startswith("c"):
+        if variant.startswith("c2"):
+            body["voice_design"] = "true"
+            body["instruct"] = (DESIGN2_M if variant == "c2_m" else DESIGN2_F) + " " + H.INSTRUCT_ES[profile] + ENTHUSIASM
+        elif variant.startswith("c"):
             body["voice_design"] = "true"
             body["instruct"] = (DESIGN_M if variant == "c_m" else DESIGN_F) + " " + H.INSTRUCT_ES[profile]
         return tts(port, body)
