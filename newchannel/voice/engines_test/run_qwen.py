@@ -30,6 +30,8 @@ DESIGN2_M = ("Locutor joven latinoamericano, voz masculina, muy enérgico y entu
              "entonación muy variada, estilo YouTuber que explica cosas con emoción.")
 DESIGN2_F = ("Locutora joven latinoamericana, voz femenina, muy enérgica y entusiasta, ritmo rápido, sonríe al hablar, "
              "entonación muy variada, estilo YouTuber que explica cosas con emoción.")
+DESIGN2_G = ("Locutor latinoamericano de unos 40 años, voz masculina GRAVE y profunda, muy enérgico y entusiasta, ritmo "
+             "rápido, sonríe al hablar, entonación muy variada, estilo YouTuber que explica cosas con emoción.")
 ENTHUSIASM = " ¡Con entusiasmo, rápido!"
 
 
@@ -55,7 +57,8 @@ def make_fn(variant, port, speaker, temperature=None, lang_instruct="en"):
             body["instruct"] = inst[profile]
         if variant.startswith("c2"):
             body["voice_design"] = "true"
-            body["instruct"] = (DESIGN2_M if variant == "c2_m" else DESIGN2_F) + " " + H.INSTRUCT_ES[profile] + ENTHUSIASM
+            d2 = {"c2_m": DESIGN2_M, "c2_f": DESIGN2_F, "c2_g": DESIGN2_G}[variant]
+            body["instruct"] = d2 + " " + H.INSTRUCT_ES[profile] + ENTHUSIASM
         elif variant.startswith("c"):
             body["voice_design"] = "true"
             body["instruct"] = (DESIGN_M if variant == "c_m" else DESIGN_F) + " " + H.INSTRUCT_ES[profile]

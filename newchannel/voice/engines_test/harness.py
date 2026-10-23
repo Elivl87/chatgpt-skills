@@ -270,7 +270,7 @@ def speech_seconds(x, sr):
     return float((db > db.max() - 35).sum() * 0.05)
 
 
-def postprocess(wav_in, wav_out, words, target_wpm=145.0, max_pause=0.45, max_factor=1.6):
+def postprocess(wav_in, wav_out, words, target_wpm=150.0, max_pause=0.45, max_factor=1.6):
     """Bring a take to the channel's pace so engines compare at the same rhythm (coordinator, 2026-10-23):
     ffmpeg rubberband tempo (pitch 1.0, transients crisp) up to `target_wpm` measured in speech, then silenceremove
     caps every pause at `max_pause` s. Returns dict(wpm_before, wpm_after, factor, dur_before, dur_after)."""
@@ -293,7 +293,7 @@ def postprocess(wav_in, wav_out, words, target_wpm=145.0, max_pause=0.45, max_fa
             "dur_before": round(len(x) / sr, 1), "dur_after": round(len(y) / sr, 1)}
 
 
-def build_mp3(out_mp3, specs, kbps=48, post=True, words=162, target_wpm=145.0):
+def build_mp3(out_mp3, specs, kbps=48, post=True, words=162, target_wpm=150.0):
     """specs: [(wav_path, n_beeps), ...] -> one MP3, each variant at -16 LUFS, N beeps before variant N.
     post=True runs postprocess() (tempo to target_wpm + pause cap) on every variant first; returns its numbers."""
     import subprocess
