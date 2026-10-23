@@ -1,0 +1,17 @@
+{
+ "takes": [
+  [
+   "vox_ref_ryan",
+   1
+  ]
+ ],
+ "post": {
+  "vox_ref_ryan.wav": {
+   "wpm_before": 160.8,
+   "wpm_after": 161.1,
+   "factor": 1.0,
+   "dur_before": 93.0,
+   "dur_after": 84.3
+  }
+ }
+}
