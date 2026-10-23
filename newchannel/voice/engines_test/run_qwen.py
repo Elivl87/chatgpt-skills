@@ -41,8 +41,8 @@ def make_fn(variant, port, speaker, temperature=None, lang_instruct="en"):
         body = {"text": text, "language": "Spanish", "seed": int(seed)}
         if temperature is not None:
             body["temperature"] = temperature
-        if variant in ("a", "b", "e"):
-            body["speaker"] = speaker
+        if variant in ("a", "b"):
+            body["speaker"] = speaker          # d / e: the server was started with --load-voice (the clone)
         if variant in ("b", "e"):
             body["instruct"] = inst[profile]
         if variant.startswith("c"):
