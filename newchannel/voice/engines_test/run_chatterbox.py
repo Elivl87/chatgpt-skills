@@ -30,14 +30,18 @@ def main():
     ap.add_argument("--tries", type=int, default=6)
     ap.add_argument("--cfg", type=float, default=0.3)
     ap.add_argument("--temp", type=float, default=0.8)
+    ap.add_argument("--band", default="0.7-0.9", help="exaggeration band lo-hi, profiles mapped linearly into it")
     a = ap.parse_args()
+    lo, hi = (float(v) for v in a.band.split("-"))
+    ex = {k: round(lo + (v - 0.7) / 0.2 * (hi - lo), 3) for k, v in EX.items()}
+    print("exaggeration by profile:", ex)
     m = cbn.load("v3", "base")
     cbn.set_ref(m, a.ref, 0.8)
 
     def fn(text, profile, seed):
         torch.manual_seed(seed)
         np.random.seed(seed % (2 ** 31))
-        w = m.generate(text, language_id="es", exaggeration=EX[profile], cfg_weight=a.cfg, temperature=a.temp)
+        w = m.generate(text, language_id="es", exaggeration=ex[profile], cfg_weight=a.cfg, temperature=a.temp)
         return w.squeeze(0).numpy(), cbn.SR
 
     s = H.render(a.name, fn, tries=a.tries)

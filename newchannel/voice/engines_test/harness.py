@@ -102,6 +102,9 @@ def passage():
             for b, spk, n, t, tts, af in PASSAGE]
 
 
+CHUNK = os.environ.get("ET_CHUNK", "sentence")   # "line" = one call per script line (engines that reload per call)
+
+
 def pieces():
     """-> list of dict(line, beat, speaker, text, tts, profile, before, after, gain, last_in_line, line_after)."""
     plan = passage()
@@ -109,6 +112,14 @@ def pieces():
     for li, s in enumerate(plan):
         spk = s["speaker"]
         groups = D.split_directed(s["opt"].get("tts", s["text"])) if spk == "narrator" else [s["text"]]
+        if CHUNK == "line" and len(groups) > 1:
+            d0 = D.direct(groups[0], s["beat"], spk)
+            out.append({"line": s["name"], "beat": s["beat"], "speaker": spk, "text": s["text"],
+                        "tts": " ".join(D.direct(g, s["beat"], spk)["tts"] for g in groups), "profile": d0["profile"],
+                        "before": 0.0 if li == 0 else round(d0["before"] + d0["breath"], 2), "after": round(d0["breath"], 2),
+                        "gain": d0["gain"], "speed": d0["speed"], "last_in_line": True, "line_after": s["after"],
+                        "idx": (li, 0)})
+            continue
         for gi, g in enumerate(groups):
             d = D.direct(g, s["beat"], spk)
             pre = 0.0 if (li == 0 and gi == 0) else d["before"] + d["breath"]

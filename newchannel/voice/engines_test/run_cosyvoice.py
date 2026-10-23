@@ -26,6 +26,8 @@ torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", "3")))
 PRODUCER_WAV = "/tmp/claude-0/engines/ref/producer_16k.wav"
 # The Producer's reference transcript (what he reads in producer_reference_clean.flac); set by --prompt-text if different.
 PRODUCER_TEXT = os.environ.get("PRODUCER_TEXT", "")
+RYAN_REF = os.environ.get("RYAN_REF", "/tmp/claude-0/engines/ref/ryan_ref_16k.wav")   # cross test: Qwen Ryan take (synthetic)
+RYAN_TEXT = os.environ.get("RYAN_TEXT", "")
 KOKORO_REF = str(HERE.parent.parent / "ep" / "001" / "audio" / "segments" / "b07_13_narrator.flac")
 
 
@@ -41,13 +43,14 @@ def main():
     cv = AutoModel(model_dir=str(MODEL))
     sr = cv.sample_rate
     inst = H.INSTRUCT_ES if a.instruct_lang == "es" else H.INSTRUCT
-    ref = PRODUCER_WAV if a.variant.startswith("a") else KOKORO_REF
+    ref = PRODUCER_WAV if a.variant.startswith("a") else (RYAN_REF if a.variant.startswith("x") else KOKORO_REF)
+    ptext = RYAN_TEXT if a.variant.startswith("x") else a.prompt_text
 
     def fn(text, profile, seed):
         torch.manual_seed(seed)
         np.random.seed(seed % (2 ** 31))
-        if a.variant == "a0":
-            gen = cv.inference_zero_shot(text, "You are a helpful assistant.<|endofprompt|>" + a.prompt_text, ref,
+        if a.variant in ("a0", "x0"):
+            gen = cv.inference_zero_shot(text, "You are a helpful assistant.<|endofprompt|>" + ptext, ref,
                                          stream=False, text_frontend=False)
         else:
             gen = cv.inference_instruct2(text, f"You are a helpful assistant. {inst[profile]}<|endofprompt|>", ref,

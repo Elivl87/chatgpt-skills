@@ -44,13 +44,15 @@ def tts(port, body):
     return x, sr
 
 
-def make_fn(variant, port, speaker, temperature=None, lang_instruct="en"):
+def make_fn(variant, port, speaker, temperature=None, lang_instruct="en", rate=None):
     inst = H.INSTRUCT_ES if lang_instruct == "es" else H.INSTRUCT
 
     def fn(text, profile, seed):
         body = {"text": text, "language": "Spanish", "seed": int(seed)}
         if temperature is not None:
             body["temperature"] = temperature
+        if rate is not None:
+            body["rate"] = rate
         if variant in ("a", "b"):
             body["speaker"] = speaker          # d / e: the server was started with --load-voice (the clone)
         if variant in ("b", "e"):
@@ -75,9 +77,12 @@ def main():
     ap.add_argument("--temperature", type=float)
     ap.add_argument("--instruct-lang", default="en")
     ap.add_argument("--name")
+    ap.add_argument("--seed0", type=int, default=5000)
+    ap.add_argument("--rate", type=float, help="engine-side tempo (pitch-preserving `rate` field of the C server)")
     a = ap.parse_args()
     name = a.name or f"qwen_{a.variant}"
-    H.render(name, make_fn(a.variant, a.port, a.speaker, a.temperature, a.instruct_lang), tries=a.tries)
+    H.render(name, make_fn(a.variant, a.port, a.speaker, a.temperature, a.instruct_lang, a.rate), tries=a.tries,
+             seed0=a.seed0)
 
 
 if __name__ == "__main__":
