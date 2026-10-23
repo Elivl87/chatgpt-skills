@@ -76,6 +76,23 @@ INSTRUCT_ES = {
 if PACE:
     INSTRUCT = {k: v + PACE_EN for k, v in INSTRUCT.items()}
     INSTRUCT_ES = {k: v + PACE_ES for k, v in INSTRUCT_ES.items()}
+# Producer (2026-10-23, on qwen_a 0:55-1:15): what he likes is Ryan's EXCLAMATIVE, projected register ("Entonces, ¿por
+# qué…? ¡Vamos más despacio!"), with the energy of the characters' lines; the calm narration "sounds like another voice".
+# ET_REGISTER=exclaim -> every narrator sentence is directed in that register (never calm); the quotes keep their nuance.
+REGISTER = os.environ.get("ET_REGISTER", "")
+EXCLAIM_EN = ("Exclamative and projected, excited, like telling a friend a surprise, with the energy of a character's "
+              "line; never calm, never flat. Fast (about 150 words per minute), smiling, lively intonation.")
+EXCLAIM_ES = ("Exclamativo y proyectado, emocionado, como contando una sorpresa a un amigo, con la energía de una línea de "
+              "personaje; nunca calmado, nunca plano. Rápido (unas 150 palabras por minuto), sonriendo, entonación viva.")
+NUANCE_EN = {"question": " Make the question a real, intrigued one.", "deadpan": " The joke lands on the pause, still energetic.",
+             "surprised": " Real surprise.", "urgent": " Urgent, tension at its peak.", "eli": " Quoting an impatient friend: louder, exasperated.",
+             "eli_hurt": " Quoting a hurt, sheepish friend.", "mila": " Quoting a calmer friend, but still lively."}
+NUANCE_ES = {"question": " La pregunta es real e intrigada.", "deadpan": " El chiste cae en la pausa, con energía.",
+             "surprised": " Sorpresa real.", "urgent": " Urgente, la tensión al máximo.", "eli": " Citando a un amigo impaciente: más fuerte, exasperado.",
+             "eli_hurt": " Citando a un amigo dolido y avergonzado.", "mila": " Citando a una amiga más serena, pero con vida."}
+if REGISTER == "exclaim":
+    INSTRUCT = {k: EXCLAIM_EN + NUANCE_EN.get(k, "") for k in INSTRUCT}
+    INSTRUCT_ES = {k: EXCLAIM_ES + NUANCE_ES.get(k, "") for k in INSTRUCT_ES}
 
 
 # The passage, frozen from bv.plan("episode") on the locked script (commit 87f28f1; identical to what
