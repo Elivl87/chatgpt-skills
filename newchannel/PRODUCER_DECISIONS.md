@@ -37,3 +37,5 @@
 | 2026-10-16 | **Eli's skin a bit lighter** | "Haría a Eli algo más claro." |
 | 2026-10-16 | Producer asks to **clone his own voice** for the narrator. Allowed as the one exception to "never clone a real voice": it is the Producer's own voice, with his explicit consent (voice reference only from a recording he supplies) | "Como podemos clonar mi voz?" |
 | 2026-10-16 | Producer supplied his own voice reference (`voice/producer/producer_reference.m4a`, 24.7 s) for cloning the narrator voice; use only for this channel's narrator | uploaded in chat |
+| 2026-10-23 | **Animatic v3 approved in full (animation, art, text boxes, Cine suave) — style A stays** | "Me gustó toda la animación" |
+| 2026-10-23 | **Narrator voice REJECTED**: robotic, no empathy, no emotion, "won't keep anyone watching". Needs an expressive, emotional narration | "menos la voz. Muy robótica sin empatía sin emoción, no mantendrá a nadie viendo" |
