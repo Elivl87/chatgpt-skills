@@ -59,3 +59,6 @@
   KOKORO_PITCH=0 KOKORO_EQ=0 KOKORO_MODEL=kokoro-v1.0.onnx KOKORO_SPLIT=1 scripts/ep003-placeholder-narration.py <kokoro> davethediver.
 - Script v1.2 (Producer, 2026-10-23, "Aprobado"): hook ¶01-¶02 replaced by SCRIPT CHANGE PROPOSAL option A (the EP001
   echo "You finish work... sit down" removed). `scripts/DTD_v1_2_EN.txt` is the LOCKED text from now on.
+- Bar staging (Producer, 2026-10-23): plates/food never sit on top of a character (geta on the counter between customers,
+  drawn behind them; Quest's tray placed in the gaps between seated customers); Quest's tray-run sprite is larger in the bar
+  (240 px design units).

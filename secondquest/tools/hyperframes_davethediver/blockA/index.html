@@ -325,6 +325,9 @@
           const pim = mk("img", "", sl, `position:absolute;left:-806px;top:-434px;width:1280px;height:720px`); pim.src = "assets/bar.png"; pim.alt = ""; }
         const MF = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.4))";
         const maxAt = (file, H0) => { const h = MH * H0 / 1246, w = MH * 580 / 1246; const im = mk("img", "", host, `position:absolute;left:${SX - .56 * w}px;top:${SY - .975 * h}px;width:${w}px;height:${h}px;filter:${MF}`); im.src = "assets/" + file; im.alt = ""; return im; };
+        // plates never cover a character (Producer 2026-10-23): the geta sits on the counter in the gap between Max and Leo
+        // (x 818..894) and is drawn before every customer
+        if (o.geta) geta(host, 856, 417, 76);
         shadow(host, SX, SY, 70, 12, .7);
         const mN = maxAt("max_n.png", 1246), mL = maxAt("max_l.png", 1259); tl.set(mL, { opacity: 0 }, 0);
         // more customers (Producer 2026-10-20): worm people seated straight on the plate's stools (seat top y 447); the two far
@@ -339,7 +342,6 @@
         // Max laughs (A10: when Quest brings the sushi)
         if (o.maxLaugh != null) { tl.set(mN, { opacity: 0 }, o.maxLaugh); tl.set(mL, { opacity: 1 }, o.maxLaugh);
           tl.fromTo(mL, { y: 0 }, { y: -4, duration: .12, ease: "power2.out", yoyo: true, repeat: o.maxBounce == null ? 3 : o.maxBounce }, o.maxLaugh); }
-        if (o.geta) geta(host, SX, 417, 84);
         return r;
       }
       // a small wooden geta board with 3 nigiri (our own drawing); (cx, by) = bottom-centre of the feet, w = board width in plate px
@@ -414,8 +416,9 @@
         buildBar(rA03b.sh, { t0, t1, geta: true, maxLaugh: 6.22, maxBounce: 3, leoLaugh: 6.22 });
         const TQ = "brightness(.95) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.55))";
         // two real positions (cut, never a glide): he steps in on "also", and is beside Max by "the"
-        [[460, 5.66, 5.82], [706, 5.82, t1]].forEach(([x, a, b]) => {
-          const q = spr(rA03b.sh, "tray", x, 548, 200, { px: true, f: TQ }); const sd = shadow(rA03b.sh, x, 552, 120, 18, .8);
+        // 2nd position: faces Max, the tray lands in the gap between Pixie and Max (x 663..729), Max stays fully visible
+        [[460, 5.66, 5.82, 0], [648, 5.82, t1, 1]].forEach(([x, a, b, fl]) => {
+          const q = spr(rA03b.sh, "tray", x, 548, 240, { px: true, flip: !!fl, f: TQ }); const sd = shadow(rA03b.sh, x, 552, 144, 20, .8);
           tl.set([q, sd], { opacity: 0 }, 0); tl.set([q, sd], { opacity: 1 }, a); tl.set([q, sd], { opacity: 0 }, b - .001);
         });
         camTo(rA03b, t0, t1, A03B_C0, A03B_C1, "sine.inOut");
@@ -603,12 +606,12 @@
       {
         buildBar(rA10.sh, { t0: T.A10, t1: T.A11, blink: 15.92, pixieFlip: 16.28, leoLaugh: 15.68, maxLaugh: 16.28, maxBounce: 3 });
                 const TQ = "brightness(.95) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.55))";
-        const base = 548, hq = 200;
+        const base = 548, hq = 240;   // bigger against the painted plate; the tray never covers a customer
         const p = [T.A10, 15.68, 16.28, 17.22, T.A11];
-        const qs = [[330, 0, 1.12, 640, 380], [400, 1, 1.55, 560, 440], [900, 0, 1.5, 880, 430], [1010, 1, 1.28, 880, 400]];
+        const qs = [[330, 0, 1.12, 640, 380], [400, 1, 1.55, 560, 440], [900, 0, 1.5, 880, 430], [975, 1, 1.28, 880, 400]];
         qs.forEach(([x, flip, s, fx, fy], i) => {
           const q = spr(rA10.sh, "tray", x, base, hq, { px: true, flip: !!flip, f: TQ });
-          const sd = shadow(rA10.sh, x, base + 4, 120, 18, .8);
+          const sd = shadow(rA10.sh, x, base + 4, 144, 20, .8);
           tl.set([q, sd], { opacity: 0 }, 0); tl.set([q, sd], { opacity: 1 }, p[i]); tl.set([q, sd], { opacity: 0 }, p[i + 1] - .001);
           const a = focus(fx, fy, s), b = focus(fx + (i % 2 ? -16 : 16), fy, s + .05);
           tl.fromTo(rA10.cam, { x: a.x, y: a.y, scale: a.s }, { x: b.x, y: b.y, scale: b.s, duration: p[i + 1] - p[i], ease: "sine.inOut" }, p[i]);
