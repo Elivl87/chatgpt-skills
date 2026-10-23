@@ -33,11 +33,11 @@ Tangled in a net in the Blue Hole shallows (A07) -> freed by Dave as his oxygen 
 
 | Shot | Trigger | Dur s | Background | Characters / pose | Camera | HUD | Dolphin | On-screen text (source) | SFX |
 |---|---|---|---|---|---|---|---|---|---|
-| A01 | p01@"finish" | 1.3 | OFF core.bg.office_openplan (fit 2.5) | Quest real-life lib pose (shuts laptop) | static, snap zoom-out on "finish" | - | - | - | laptop clap |
-| A02 | p01+"home" | 1.3 | CITY core.bg.city_apartments_evening (fit 2.0) | Quest lib pose, keys in door | drift R (exit R) | - | - | - | door+keys |
-| A03 | p01+"sit" | 1.4 | LR core.bg.living_room_night_gaming (fit 5.0, top pick) | Quest lib sofa pose, soda glass on table | enters from L, slow push | - | - | - | sofa sigh |
-| A04 | p02@"second" | 1.4 | LR (same plate) | Quest lib pose picks up controller | push toward TV | - | - | - | controller click, TV hum |
-| A05 | p02+"job" | 1.4 | TV screen -> dive boat dawn (match cut on glow) | none (TV glow wipes to boat) | continues push THROUGH the screen | - | - | - | power-on chime, whoosh |
+| A01 | p01@0 → "you speared" | ~2.6 | H bar interior, close on Max at the counter | Max (bar regular) with chopsticks, a plate of nigiri in front of him; delight swap on "eating" | slow push on Max | bar HUD off | - | - | chopsticks clack, bar murmur |
+| A02 | p01+"speared" | ~1.6 | UW (A08 kit) | Quest pixel p03 aim, harpoon line hits the fish on "speared" | smash cut, push to the fish | HUD ON | - | - | harpoon thunk |
+| A03 | p02@"You caught it" → "waiter" | ~2.4 | sea surface (A13 kit) then H bar | "caught it": Quest p05 big fish on deck; "waiter": cut to Quest p10 tray run arriving at Max | cut on "You're" | depth 0 m / bar HUD | - | - | splash, tray clink |
+| A04 | p02+"Welcome" | ~1.2 | LR (Quest on the rug, TV title screen) | Quest floor gaming pose | push toward TV | - | - | - | controller click |
+| A05 | p02+"second job" → p03@"dive" | ~1.4 | TV screen -> dive boat dawn (match cut on glow) | none | continues push THROUGH the screen | - | - | - | power-on chime, whoosh |
 | A06 | p03@"dive" | 2.4 | BOAT props3d cabin boat (NEW code) + procedural dawn sea | Quest pixel p04 dive ready on stern | low angle, push; follows him off the stern | depth panel only (0 m) | - | - | splash |
 | A07 | p03+"hole" | 2.6 | UW procedural: gradient, god rays, caustics, kelp | Quest pixel p01/p02 swim cycle (A/B alternated) | descending drift, parallax | HUD ON: O2 dial bottom-left (number in bar), Normal Depth panel + weight, 3 slots bottom-right | far background: pink dolphin TANGLED in a net, worried, tail flicks (setup) | - | bubbles, low drone |
 | A08 | p03+"spear" | 2.6 | UW | Quest pixel p03 aim, harpoon gun; fish | push to the fish; harpoon = thin black line from gun | harpoon slot highlighted, struggle arc meter (orange->yellow) beside Dave, "!" over fish | - | - | harpoon thunk, "!" ping, reel |
