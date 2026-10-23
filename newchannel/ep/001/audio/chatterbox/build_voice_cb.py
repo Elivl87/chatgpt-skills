@@ -179,7 +179,8 @@ def render(kind):
             meta = json.loads(jf.read_text())
             gap_after = gap if gap is not None else (cbn.pause_after(txt) * pscale * (1 + pj) if pi < len(pcs) - 1 else breath)
             files.append({"file": str(f), "speed": round(sp, 4), "gap": round(gap_after, 3),
-                          "pre": round(pre if (pi > 0 or is_char or DIRECTION) else 0.0, 3), "gain_db": gain_p})
+                          "pre": round(pre if (pi > 0 or is_char or DIRECTION) else 0.0, 3), "gain_db": gain_p,
+                          "directed": bool(DIRECTION or is_char)})
             plog.append({"text": txt, "tts": meta["tts"], "wer": meta["wer"], "errors": meta["errors"],
                          "heard": meta["heard"], "tries": meta["tries"], "seed": meta["seed"], "kw": kw,
                          "profile": prof, "speed": round(sp, 4), "rtf": meta["rtf"]})
@@ -203,13 +204,13 @@ def assemble(kind):
                 if p.get("pre"):
                     segs.append(np.zeros(int(round(p["pre"] * SR)), np.float32))
                 a = cbn.tempo(a, p["speed"])
-                if p.get("gain_db") or len(s["pieces"]) > 1:      # directed: every piece levelled, then its own gain
+                if p.get("directed"):                 # directed: every piece levelled, then its own profile gain
                     a = cbn.level(a, bv.SEG_LUFS + p.get("gain_db", 0.0))
                 segs.append(a)
                 if p["gap"]:
                     segs.append(np.zeros(int(round(p["gap"] * SR)), np.float32))
             a = np.concatenate(segs)
-            if len(s["pieces"]) > 1 or s["pieces"][0].get("gain_db"):
+            if s["pieces"][0].get("directed"):
                 g = s.get("gain_db", 0.0)                        # pieces already carry their level + direction gain
             else:
                 g = bv.SEG_LUFS - bv.lufs(a) + s.get("gain_db", 0.0)
