@@ -1,0 +1,28 @@
+{
+ "takes": [
+  [
+   "cb_ref_ryan",
+   1
+  ],
+  [
+   "cb_builtin_energetic",
+   2
+  ]
+ ],
+ "post": {
+  "cb_ref_ryan.wav": {
+   "wpm_before": 142.6,
+   "wpm_after": 149.9,
+   "factor": 1.052,
+   "dur_before": 110.6,
+   "dur_after": 96.4
+  },
+  "cb_builtin_energetic.wav": {
+   "wpm_before": 207.9,
+   "wpm_after": 206.8,
+   "factor": 1.0,
+   "dur_before": 78.8,
+   "dur_after": 69.2
+  }
+ }
+}
