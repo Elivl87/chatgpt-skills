@@ -2,5324 +2,5364 @@
   "source": "audio/narration.wav",
   "generatedBy": "PLACEHOLDER kokoro:am_fenrir@0.92 kokoro-v1.0.onnx sentence-split + pitch +0.0 st  (scripts/ep003-placeholder-narration.py)",
   "alignment": "cue start/end from assembly; faster-whisper small.en word timestamps mapped onto script words",
-  "duration": 356.38,
+  "duration": 359.5,
   "cues": {
     "p01": {
       "start": 0.3,
-      "end": 3.615,
-      "text": "You finish work. You get home. You sit down.",
+      "end": 4.066,
+      "text": "Somewhere tonight, someone is eating a fish you speared this afternoon.",
       "words": [
         {
-          "w": "You",
+          "w": "Somewhere",
           "start": 0.3,
-          "end": 0.44
+          "end": 0.66
         },
         {
-          "w": "finish",
-          "start": 0.44,
-          "end": 0.7
-        },
-        {
-          "w": "work.",
-          "start": 0.7,
+          "w": "tonight,",
+          "start": 0.66,
           "end": 1.06
         },
         {
-          "w": "You",
-          "start": 1.5,
-          "end": 1.7
+          "w": "someone",
+          "start": 1.3,
+          "end": 1.52
         },
         {
-          "w": "get",
-          "start": 1.7,
-          "end": 1.86
+          "w": "is",
+          "start": 1.52,
+          "end": 1.72
         },
         {
-          "w": "home.",
-          "start": 1.86,
-          "end": 2.18
-        },
-        {
-          "w": "You",
-          "start": 2.7,
-          "end": 2.84
-        },
-        {
-          "w": "sit",
-          "start": 2.84,
-          "end": 3.08
-        },
-        {
-          "w": "down.",
-          "start": 3.08,
-          "end": 3.44
-        }
-      ],
-      "heard": "You finish work, you get home, you sit down,"
-    },
-    "p02": {
-      "start": 4.065,
-      "end": 5.518,
-      "text": "And you start a second job.",
-      "words": [
-        {
-          "w": "And",
-          "start": 4.07,
-          "end": 4.18
-        },
-        {
-          "w": "you",
-          "start": 4.18,
-          "end": 4.3
-        },
-        {
-          "w": "start",
-          "start": 4.3,
-          "end": 4.52
+          "w": "eating",
+          "start": 1.72,
+          "end": 1.98
         },
         {
           "w": "a",
+          "start": 1.98,
+          "end": 2.22
+        },
+        {
+          "w": "fish",
+          "start": 2.22,
+          "end": 2.48
+        },
+        {
+          "w": "you",
+          "start": 2.48,
+          "end": 2.76
+        },
+        {
+          "w": "speared",
+          "start": 2.76,
+          "end": 3.1
+        },
+        {
+          "w": "this",
+          "start": 3.1,
+          "end": 3.32
+        },
+        {
+          "w": "afternoon.",
+          "start": 3.32,
+          "end": 3.8
+        }
+      ],
+      "heard": "Somewhere tonight, someone is eating a fish you speared this afternoon."
+    },
+    "p02": {
+      "start": 4.516,
+      "end": 8.636,
+      "text": "You caught it. You're also the waiter. Welcome to your second job.",
+      "words": [
+        {
+          "w": "You",
           "start": 4.52,
           "end": 4.66
         },
         {
-          "w": "second",
+          "w": "caught",
           "start": 4.66,
-          "end": 4.88
+          "end": 4.92
+        },
+        {
+          "w": "it.",
+          "start": 4.92,
+          "end": 5.24
+        },
+        {
+          "w": "You're",
+          "start": 5.66,
+          "end": 5.82
+        },
+        {
+          "w": "also",
+          "start": 5.82,
+          "end": 6.08
+        },
+        {
+          "w": "the",
+          "start": 6.08,
+          "end": 6.22
+        },
+        {
+          "w": "waiter.",
+          "start": 6.22,
+          "end": 6.44
+        },
+        {
+          "w": "Welcome",
+          "start": 7.1,
+          "end": 7.34
+        },
+        {
+          "w": "to",
+          "start": 7.34,
+          "end": 7.62
+        },
+        {
+          "w": "your",
+          "start": 7.62,
+          "end": 7.72
+        },
+        {
+          "w": "second",
+          "start": 7.72,
+          "end": 7.98
         },
         {
           "w": "job.",
-          "start": 4.88,
-          "end": 5.32
+          "start": 7.98,
+          "end": 8.44
         }
       ],
-      "heard": "and you start a second job."
+      "heard": "You caught it. You're also the waiter. Welcome to your second job."
     },
     "p03": {
-      "start": 5.968,
-      "end": 15.096,
+      "start": 9.086,
+      "end": 18.214,
       "text": "By day, you dive into a hole in the ocean and spear fish until your oxygen runs out. By night, you serve them as sushi until closing time.",
       "words": [
         {
           "w": "By",
-          "start": 6.0,
-          "end": 6.14
+          "start": 9.1,
+          "end": 9.28
         },
         {
           "w": "day,",
-          "start": 6.14,
-          "end": 6.4
+          "start": 9.28,
+          "end": 9.52
         },
         {
           "w": "you",
-          "start": 6.7,
-          "end": 6.76
+          "start": 9.72,
+          "end": 9.88
         },
         {
           "w": "dive",
-          "start": 6.76,
-          "end": 7.06
+          "start": 9.88,
+          "end": 10.16
         },
         {
           "w": "into",
-          "start": 7.06,
-          "end": 7.38
+          "start": 10.16,
+          "end": 10.48
         },
         {
           "w": "a",
-          "start": 7.38,
-          "end": 7.56
+          "start": 10.48,
+          "end": 10.68
         },
         {
           "w": "hole",
-          "start": 7.56,
-          "end": 7.84
+          "start": 10.68,
+          "end": 10.94
         },
         {
           "w": "in",
-          "start": 7.84,
-          "end": 8.12
+          "start": 10.94,
+          "end": 11.22
         },
         {
           "w": "the",
-          "start": 8.12,
-          "end": 8.22
+          "start": 11.22,
+          "end": 11.34
         },
         {
           "w": "ocean",
-          "start": 8.22,
-          "end": 8.6
+          "start": 11.34,
+          "end": 11.68
         },
         {
           "w": "and",
-          "start": 8.6,
-          "end": 8.82
+          "start": 11.68,
+          "end": 11.94
         },
         {
           "w": "spear",
-          "start": 8.82,
-          "end": 9.12
+          "start": 11.94,
+          "end": 12.22
         },
         {
           "w": "fish",
-          "start": 9.12,
-          "end": 9.54
+          "start": 12.22,
+          "end": 12.64
         },
         {
           "w": "until",
-          "start": 9.54,
-          "end": 10.04
+          "start": 12.64,
+          "end": 13.16
         },
         {
           "w": "your",
-          "start": 10.04,
-          "end": 10.24
+          "start": 13.16,
+          "end": 13.38
         },
         {
           "w": "oxygen",
-          "start": 10.24,
-          "end": 10.7
+          "start": 13.38,
+          "end": 13.82
         },
         {
           "w": "runs",
-          "start": 10.7,
-          "end": 11.12
+          "start": 13.82,
+          "end": 14.22
         },
         {
           "w": "out.",
-          "start": 11.12,
-          "end": 11.52
+          "start": 14.22,
+          "end": 14.62
         },
         {
           "w": "By",
-          "start": 11.96,
-          "end": 12.08
+          "start": 15.08,
+          "end": 15.2
         },
         {
           "w": "night,",
-          "start": 12.08,
-          "end": 12.3
+          "start": 15.2,
+          "end": 15.42
         },
         {
           "w": "you",
-          "start": 12.46,
-          "end": 12.56
+          "start": 15.56,
+          "end": 15.68
         },
         {
           "w": "serve",
-          "start": 12.56,
-          "end": 12.8
+          "start": 15.68,
+          "end": 15.92
         },
         {
           "w": "them",
-          "start": 12.8,
-          "end": 13.0
+          "start": 15.92,
+          "end": 16.1
         },
         {
           "w": "as",
-          "start": 13.0,
-          "end": 13.18
+          "start": 16.1,
+          "end": 16.28
         },
         {
           "w": "sushi",
-          "start": 13.18,
-          "end": 13.62
+          "start": 16.28,
+          "end": 16.74
         },
         {
           "w": "until",
-          "start": 13.62,
-          "end": 14.12
+          "start": 16.74,
+          "end": 17.22
         },
         {
           "w": "closing",
-          "start": 14.12,
-          "end": 14.54
+          "start": 17.22,
+          "end": 17.64
         },
         {
           "w": "time.",
-          "start": 14.54,
-          "end": 14.96
+          "start": 17.64,
+          "end": 18.06
         }
       ],
       "heard": "By day, you dive into a hole in the ocean and spear fish until your oxygen runs out. By night, you serve them as sushi until closing time."
     },
     "p04": {
-      "start": 15.546,
-      "end": 18.104,
+      "start": 18.664,
+      "end": 21.222,
       "text": "Nobody pays you. Nobody makes you.",
       "words": [
         {
           "w": "Nobody",
-          "start": 15.66,
-          "end": 15.9
+          "start": 18.76,
+          "end": 19.02
         },
         {
           "w": "pays",
-          "start": 15.9,
-          "end": 16.22
+          "start": 19.02,
+          "end": 19.34
         },
         {
           "w": "you.",
-          "start": 16.22,
-          "end": 16.58
+          "start": 19.34,
+          "end": 19.68
         },
         {
           "w": "Nobody",
-          "start": 17.08,
-          "end": 17.34
+          "start": 20.22,
+          "end": 20.48
         },
         {
           "w": "makes",
-          "start": 17.34,
-          "end": 17.64
+          "start": 20.48,
+          "end": 20.76
         },
         {
           "w": "you.",
-          "start": 17.64,
-          "end": 18.02
+          "start": 20.76,
+          "end": 21.12
         }
       ],
       "heard": "Nobody pays you. Nobody makes you."
     },
     "p05": {
-      "start": 18.554,
-      "end": 23.614,
+      "start": 21.672,
+      "end": 26.732,
       "text": "Dave the Diver has sold more than ten million copies, according to the studio.",
       "words": [
         {
           "w": "Dave",
-          "start": 18.68,
-          "end": 18.84
+          "start": 21.76,
+          "end": 21.98
         },
         {
           "w": "the",
-          "start": 18.84,
-          "end": 19.08
+          "start": 21.98,
+          "end": 22.2
         },
         {
           "w": "Diver",
-          "start": 19.08,
-          "end": 19.4
+          "start": 22.2,
+          "end": 22.52
         },
         {
           "w": "has",
-          "start": 19.4,
-          "end": 19.68
+          "start": 22.52,
+          "end": 22.8
         },
         {
           "w": "sold",
-          "start": 19.68,
-          "end": 20.0
+          "start": 22.8,
+          "end": 23.12
         },
         {
           "w": "more",
-          "start": 20.0,
-          "end": 20.3
+          "start": 23.12,
+          "end": 23.42
         },
         {
           "w": "than",
-          "start": 20.3,
-          "end": 20.58
+          "start": 23.42,
+          "end": 23.7
         },
         {
           "w": "ten",
-          "start": 20.58,
-          "end": 20.94
+          "start": 23.7,
+          "end": 24.06
         },
         {
           "w": "million",
-          "start": 20.94,
-          "end": 21.3
+          "start": 24.06,
+          "end": 24.38
         },
         {
           "w": "copies,",
-          "start": 21.3,
-          "end": 21.94
+          "start": 24.38,
+          "end": 25.02
         },
         {
           "w": "according",
-          "start": 22.48,
-          "end": 22.6
+          "start": 25.48,
+          "end": 25.72
         },
         {
           "w": "to",
-          "start": 22.6,
-          "end": 22.9
+          "start": 25.72,
+          "end": 26.02
         },
         {
           "w": "the",
-          "start": 22.9,
-          "end": 23.02
+          "start": 26.02,
+          "end": 26.14
         },
         {
           "w": "studio.",
-          "start": 23.02,
-          "end": 23.38
+          "start": 26.14,
+          "end": 26.5
         }
       ],
       "heard": "Dave the Diver has sold more than 10 million copies, according to the studio."
     },
     "p06": {
-      "start": 24.064,
-      "end": 27.851,
+      "start": 27.182,
+      "end": 30.969,
       "text": "Ten million people... clocking in. After clocking out.",
       "words": [
         {
           "w": "Ten",
-          "start": 24.12,
-          "end": 24.26
+          "start": 27.2,
+          "end": 27.38
         },
         {
           "w": "million",
-          "start": 24.26,
-          "end": 24.46
+          "start": 27.38,
+          "end": 27.58
         },
         {
           "w": "people...",
-          "start": 24.46,
-          "end": 25.0
+          "start": 27.58,
+          "end": 28.1
         },
         {
           "w": "clocking",
-          "start": 25.52,
-          "end": 25.9
+          "start": 28.1,
+          "end": 28.28
         },
         {
           "w": "in.",
-          "start": 25.9,
-          "end": 26.28
+          "start": 28.64,
+          "end": 29.06
         },
         {
           "w": "After",
-          "start": 26.72,
-          "end": 26.96
+          "start": 29.06,
+          "end": 29.32
         },
         {
           "w": "clocking",
-          "start": 26.96,
-          "end": 27.34
+          "start": 29.9,
+          "end": 30.08
         },
         {
           "w": "out.",
-          "start": 27.34,
-          "end": 27.7
+          "start": 30.08,
+          "end": 30.46
         }
       ],
-      "heard": "10 million people, clocking in, after clocking out."
+      "heard": "10 million people. 12. Clocking in. After clocking out."
     },
     "p07": {
-      "start": 28.301,
-      "end": 33.943,
+      "start": 31.419,
+      "end": 37.061,
       "text": "And in 2023, Steam players voted it their award for \"Sit Back and Relax.\"",
       "words": [
         {
           "w": "And",
-          "start": 28.46,
-          "end": 28.6
+          "start": 31.48,
+          "end": 31.6
         },
         {
           "w": "in",
-          "start": 28.46,
-          "end": 28.6
+          "start": 31.6,
+          "end": 31.74
         },
         {
           "w": "2023,",
-          "start": 28.6,
-          "end": 30.04
+          "start": 31.74,
+          "end": 33.1
         },
         {
           "w": "Steam",
-          "start": 30.4,
-          "end": 30.54
+          "start": 33.54,
+          "end": 33.66
         },
         {
           "w": "players",
-          "start": 30.54,
-          "end": 30.94
+          "start": 33.66,
+          "end": 34.06
         },
         {
           "w": "voted",
-          "start": 30.94,
-          "end": 31.34
+          "start": 34.06,
+          "end": 34.44
         },
         {
           "w": "it",
-          "start": 31.34,
-          "end": 31.56
+          "start": 34.44,
+          "end": 34.68
         },
         {
           "w": "their",
-          "start": 31.56,
-          "end": 31.72
+          "start": 34.68,
+          "end": 34.84
         },
         {
           "w": "award",
-          "start": 31.72,
-          "end": 32.1
+          "start": 34.84,
+          "end": 35.22
         },
         {
           "w": "for",
-          "start": 32.1,
-          "end": 32.38
+          "start": 35.22,
+          "end": 35.5
         },
         {
           "w": "\"Sit",
-          "start": 32.38,
-          "end": 32.68
+          "start": 35.5,
+          "end": 35.78
         },
         {
           "w": "Back",
-          "start": 32.68,
-          "end": 32.98
+          "start": 35.78,
+          "end": 36.1
         },
         {
           "w": "and",
-          "start": 32.98,
-          "end": 33.26
+          "start": 36.1,
+          "end": 36.38
         },
         {
           "w": "Relax.\"",
-          "start": 33.26,
-          "end": 33.62
+          "start": 36.38,
+          "end": 36.74
         }
       ],
-      "heard": "in 2023, Steam players voted at their award for Sit Back and Relax."
+      "heard": "And in 2023, Steam players voted at their award for sit back and relax."
     },
     "p08": {
-      "start": 34.743,
-      "end": 35.512,
+      "start": 37.861,
+      "end": 38.63,
       "text": "So, why?",
       "words": [
         {
           "w": "So,",
-          "start": 34.88,
-          "end": 34.94
+          "start": 37.86,
+          "end": 38.08
         },
         {
           "w": "why?",
-          "start": 34.94,
-          "end": 35.32
+          "start": 38.08,
+          "end": 38.44
         }
       ],
       "heard": "So why?"
     },
     "p09": {
-      "start": 37.012,
-      "end": 47.432,
+      "start": 40.13,
+      "end": 50.55,
       "text": "Meet Dave. He doesn't look like a hero. Round. Easygoing. A wetsuit that has seen things. Even the developers say his body isn't typical for a diver.",
       "words": [
         {
           "w": "Meet",
-          "start": 37.01,
-          "end": 37.28
+          "start": 40.13,
+          "end": 40.4
         },
         {
           "w": "Dave.",
-          "start": 37.28,
-          "end": 37.6
+          "start": 40.4,
+          "end": 40.7
         },
         {
           "w": "He",
-          "start": 38.02,
-          "end": 38.3
+          "start": 41.12,
+          "end": 41.42
         },
         {
           "w": "doesn't",
-          "start": 38.3,
-          "end": 38.58
+          "start": 41.42,
+          "end": 41.7
         },
         {
           "w": "look",
-          "start": 38.58,
-          "end": 38.72
+          "start": 41.7,
+          "end": 41.84
         },
         {
           "w": "like",
-          "start": 38.72,
-          "end": 38.9
+          "start": 41.84,
+          "end": 42.04
         },
         {
           "w": "a",
-          "start": 38.9,
-          "end": 39.08
+          "start": 42.04,
+          "end": 42.2
         },
         {
           "w": "hero.",
-          "start": 39.08,
-          "end": 39.38
-        },
-        {
-          "w": "Round.",
-          "start": 40.3,
-          "end": 40.35
-        },
-        {
-          "w": "Easygoing.",
-          "start": 40.94,
-          "end": 41.1
-        },
-        {
-          "w": "A",
-          "start": 41.1,
-          "end": 41.22
-        },
-        {
-          "w": "wetsuit",
-          "start": 41.22,
-          "end": 41.38
-        },
-        {
-          "w": "that",
-          "start": 41.98,
-          "end": 42.1
-        },
-        {
-          "w": "has",
-          "start": 42.1,
+          "start": 42.2,
           "end": 42.48
         },
         {
+          "w": "Round.",
+          "start": 44.06,
+          "end": 44.22
+        },
+        {
+          "w": "Easygoing.",
+          "start": 44.22,
+          "end": 44.54
+        },
+        {
+          "w": "A",
+          "start": 45.08,
+          "end": 45.22
+        },
+        {
+          "w": "wetsuit",
+          "start": 45.22,
+          "end": 45.6
+        },
+        {
+          "w": "that",
+          "start": 45.6,
+          "end": 45.74
+        },
+        {
+          "w": "has",
+          "start": 45.74,
+          "end": 45.86
+        },
+        {
           "w": "seen",
-          "start": 42.62,
-          "end": 42.76
+          "start": 45.86,
+          "end": 46.08
         },
         {
           "w": "things.",
-          "start": 42.76,
-          "end": 42.98
+          "start": 46.08,
+          "end": 46.42
         },
         {
           "w": "Even",
-          "start": 42.98,
-          "end": 43.34
+          "start": 47.0,
+          "end": 47.24
         },
         {
           "w": "the",
-          "start": 43.88,
-          "end": 44.12
+          "start": 47.24,
+          "end": 47.4
         },
         {
           "w": "developers",
-          "start": 44.12,
-          "end": 44.3
+          "start": 47.4,
+          "end": 47.82
         },
         {
           "w": "say",
-          "start": 44.3,
-          "end": 44.72
+          "start": 47.82,
+          "end": 48.22
         },
         {
           "w": "his",
-          "start": 44.72,
-          "end": 45.1
+          "start": 48.22,
+          "end": 48.44
         },
         {
           "w": "body",
-          "start": 45.1,
-          "end": 45.32
+          "start": 48.44,
+          "end": 48.82
         },
         {
           "w": "isn't",
-          "start": 45.32,
-          "end": 45.7
+          "start": 48.82,
+          "end": 49.3
         },
         {
           "w": "typical",
-          "start": 45.7,
-          "end": 46.2
+          "start": 49.3,
+          "end": 49.6
         },
         {
           "w": "for",
-          "start": 46.2,
-          "end": 46.48
+          "start": 49.6,
+          "end": 49.9
         },
         {
           "w": "a",
-          "start": 46.48,
-          "end": 46.78
+          "start": 49.9,
+          "end": 50.08
         },
         {
           "w": "diver.",
-          "start": 46.78,
-          "end": 46.96
+          "start": 50.08,
+          "end": 50.3
         }
       ],
-      "heard": "Meet Dave. He doesn't look like a hero. Round. He's a -going. A wetsuit that has seen things. Even the developers say his body isn't typical for a diver."
+      "heard": "Meet Dave. He doesn't look like a hero. Easy going. A wetsuit that has seen things. Even the developers say his body isn't typical for a diver."
     },
     "p10": {
-      "start": 47.882,
-      "end": 52.884,
+      "start": 51.0,
+      "end": 56.002,
       "text": "Dave is on vacation. Then his old friend Cobra calls, with the promise of sushi.",
       "words": [
         {
           "w": "Dave",
-          "start": 47.88,
-          "end": 48.1
+          "start": 51.0,
+          "end": 51.22
         },
         {
           "w": "is",
-          "start": 48.1,
-          "end": 48.24
+          "start": 51.22,
+          "end": 51.36
         },
         {
           "w": "on",
-          "start": 48.24,
-          "end": 48.36
+          "start": 51.36,
+          "end": 51.48
         },
         {
           "w": "vacation.",
-          "start": 48.36,
-          "end": 48.78
+          "start": 51.48,
+          "end": 51.88
         },
         {
           "w": "Then",
-          "start": 49.48,
-          "end": 49.64
+          "start": 52.6,
+          "end": 52.76
         },
         {
           "w": "his",
-          "start": 49.64,
-          "end": 49.78
+          "start": 52.76,
+          "end": 52.9
         },
         {
           "w": "old",
-          "start": 49.78,
-          "end": 50.1
+          "start": 52.9,
+          "end": 53.2
         },
         {
           "w": "friend",
-          "start": 50.1,
-          "end": 50.4
+          "start": 53.2,
+          "end": 53.54
         },
         {
           "w": "Cobra",
-          "start": 50.4,
-          "end": 50.74
+          "start": 53.54,
+          "end": 53.86
         },
         {
           "w": "calls,",
-          "start": 50.74,
-          "end": 51.14
+          "start": 53.86,
+          "end": 54.26
         },
         {
           "w": "with",
-          "start": 51.14,
-          "end": 51.52
+          "start": 54.26,
+          "end": 54.64
         },
         {
           "w": "the",
-          "start": 51.52,
-          "end": 51.66
+          "start": 54.64,
+          "end": 54.78
         },
         {
           "w": "promise",
-          "start": 51.66,
-          "end": 52.04
+          "start": 54.78,
+          "end": 55.12
         },
         {
           "w": "of",
-          "start": 52.04,
-          "end": 52.28
+          "start": 55.12,
+          "end": 55.4
         },
         {
           "w": "sushi.",
-          "start": 52.28,
-          "end": 52.56
+          "start": 55.4,
+          "end": 55.68
         }
       ],
       "heard": "Dave is on vacation. Then his old friend Cobra calls with the promise of sushi."
     },
     "p11": {
-      "start": 53.334,
-      "end": 58.155,
+      "start": 56.452,
+      "end": 61.273,
       "text": "So Dave ends his vacation. Immediately. Because Dave really likes sushi.",
       "words": [
         {
           "w": "So",
-          "start": 53.33,
-          "end": 53.5
+          "start": 56.45,
+          "end": 56.6
         },
         {
           "w": "Dave",
-          "start": 53.5,
-          "end": 53.72
+          "start": 56.45,
+          "end": 56.6
         },
         {
           "w": "ends",
-          "start": 53.72,
-          "end": 54.02
+          "start": 56.6,
+          "end": 56.82
         },
         {
           "w": "his",
-          "start": 54.02,
-          "end": 54.18
+          "start": 56.82,
+          "end": 57.16
         },
         {
           "w": "vacation.",
-          "start": 54.18,
-          "end": 54.76
+          "start": 57.16,
+          "end": 57.3
         },
         {
           "w": "Immediately.",
-          "start": 54.76,
-          "end": 55.74
+          "start": 57.3,
+          "end": 57.9
         },
         {
           "w": "Because",
-          "start": 56.36,
-          "end": 56.72
+          "start": 59.58,
+          "end": 59.82
         },
         {
           "w": "Dave",
-          "start": 56.72,
-          "end": 56.96
+          "start": 59.82,
+          "end": 60.1
         },
         {
           "w": "really",
-          "start": 56.96,
-          "end": 57.24
+          "start": 60.1,
+          "end": 60.36
         },
         {
           "w": "likes",
-          "start": 57.24,
-          "end": 57.54
+          "start": 60.36,
+          "end": 60.68
         },
         {
           "w": "sushi.",
-          "start": 57.54,
-          "end": 57.9
+          "start": 60.68,
+          "end": 61.02
         }
       ],
-      "heard": "So Dave ends his vacation. Immediately. Because Dave really likes sushi."
+      "heard": "So Dave ends his vacation. Because Dave really likes sushi."
     },
     "p12": {
-      "start": 58.605,
-      "end": 63.426,
+      "start": 61.723,
+      "end": 66.544,
       "text": "There's just one detail. The restaurant has no fish. Dave is the fish supply.",
       "words": [
         {
           "w": "There's",
-          "start": 58.62,
-          "end": 58.84
+          "start": 61.78,
+          "end": 61.96
         },
         {
           "w": "just",
-          "start": 58.84,
-          "end": 59.02
+          "start": 61.96,
+          "end": 62.14
         },
         {
           "w": "one",
-          "start": 59.02,
-          "end": 59.28
+          "start": 62.14,
+          "end": 62.4
         },
         {
           "w": "detail.",
-          "start": 59.28,
-          "end": 59.74
+          "start": 62.4,
+          "end": 62.86
         },
         {
           "w": "The",
-          "start": 60.3,
-          "end": 60.42
+          "start": 63.44,
+          "end": 63.54
         },
         {
           "w": "restaurant",
-          "start": 60.42,
-          "end": 60.76
+          "start": 63.54,
+          "end": 63.88
         },
         {
           "w": "has",
-          "start": 60.76,
-          "end": 61.02
+          "start": 63.88,
+          "end": 64.14
         },
         {
           "w": "no",
-          "start": 61.02,
-          "end": 61.26
+          "start": 64.14,
+          "end": 64.4
         },
         {
           "w": "fish.",
-          "start": 61.26,
-          "end": 61.6
+          "start": 64.4,
+          "end": 64.72
         },
         {
           "w": "Dave",
-          "start": 62.12,
-          "end": 62.32
+          "start": 65.24,
+          "end": 65.44
         },
         {
           "w": "is",
-          "start": 62.32,
-          "end": 62.48
+          "start": 65.44,
+          "end": 65.6
         },
         {
           "w": "the",
-          "start": 62.48,
-          "end": 62.6
+          "start": 65.6,
+          "end": 65.72
         },
         {
           "w": "fish",
-          "start": 62.6,
-          "end": 62.8
+          "start": 65.72,
+          "end": 65.92
         },
         {
           "w": "supply.",
-          "start": 62.8,
-          "end": 63.2
+          "start": 65.92,
+          "end": 66.32
         }
       ],
       "heard": "There's just one detail. The restaurant has no fish. Dave is the fish supply."
     },
     "p13": {
-      "start": 63.876,
-      "end": 69.864,
+      "start": 66.994,
+      "end": 72.982,
       "text": "One player called it \"the shortest supply chain in the world.\" It's one guy. Holding a harpoon.",
       "words": [
         {
           "w": "One",
-          "start": 63.88,
-          "end": 64.12
+          "start": 67.0,
+          "end": 67.24
         },
         {
           "w": "player",
-          "start": 64.12,
-          "end": 64.4
+          "start": 67.24,
+          "end": 67.5
         },
         {
           "w": "called",
-          "start": 64.4,
-          "end": 64.74
+          "start": 67.5,
+          "end": 67.86
         },
         {
           "w": "it",
-          "start": 64.74,
-          "end": 64.92
+          "start": 67.86,
+          "end": 68.08
         },
         {
           "w": "\"the",
-          "start": 64.92,
-          "end": 65.16
+          "start": 68.08,
+          "end": 68.24
         },
         {
           "w": "shortest",
-          "start": 65.16,
-          "end": 65.52
+          "start": 68.24,
+          "end": 68.64
         },
         {
           "w": "supply",
-          "start": 65.52,
-          "end": 66.02
+          "start": 68.64,
+          "end": 69.14
         },
         {
           "w": "chain",
-          "start": 66.02,
-          "end": 66.42
+          "start": 69.14,
+          "end": 69.56
         },
         {
           "w": "in",
-          "start": 66.42,
-          "end": 66.62
+          "start": 69.56,
+          "end": 69.74
         },
         {
           "w": "the",
-          "start": 66.62,
-          "end": 66.74
+          "start": 69.74,
+          "end": 69.86
         },
         {
           "w": "world.\"",
-          "start": 66.74,
-          "end": 67.04
+          "start": 69.86,
+          "end": 70.14
         },
         {
           "w": "It's",
-          "start": 67.48,
-          "end": 67.64
+          "start": 70.6,
+          "end": 70.76
         },
         {
           "w": "one",
-          "start": 67.64,
-          "end": 67.84
+          "start": 70.76,
+          "end": 70.96
         },
         {
           "w": "guy.",
-          "start": 67.84,
-          "end": 68.22
+          "start": 70.96,
+          "end": 71.34
         },
         {
           "w": "Holding",
-          "start": 68.74,
-          "end": 69.04
+          "start": 71.9,
+          "end": 72.16
         },
         {
           "w": "a",
-          "start": 69.04,
-          "end": 69.18
+          "start": 72.16,
+          "end": 72.3
         },
         {
           "w": "harpoon.",
-          "start": 69.18,
-          "end": 69.62
+          "start": 72.3,
+          "end": 72.74
         }
       ],
       "heard": "One player called it the shortest supply chain in the world. It's one guy. Holding a harpoon."
     },
     "p14": {
-      "start": 70.314,
-      "end": 78.963,
+      "start": 73.432,
+      "end": 82.081,
       "text": "And it gets worse. Cobra keeps signing contracts for him. An archaeologist. A weapons nerd. A reporter. Without asking.",
       "words": [
         {
           "w": "And",
-          "start": 70.32,
-          "end": 70.44
+          "start": 73.44,
+          "end": 73.56
         },
         {
           "w": "it",
-          "start": 70.44,
-          "end": 70.56
+          "start": 73.56,
+          "end": 73.66
         },
         {
           "w": "gets",
-          "start": 70.56,
-          "end": 70.76
+          "start": 73.66,
+          "end": 73.9
         },
         {
           "w": "worse.",
-          "start": 70.76,
-          "end": 71.08
-        },
-        {
-          "w": "Cobra",
-          "start": 71.96,
-          "end": 72.01
-        },
-        {
-          "w": "keeps",
-          "start": 71.96,
-          "end": 72.24
-        },
-        {
-          "w": "signing",
-          "start": 72.24,
-          "end": 72.58
-        },
-        {
-          "w": "contracts",
-          "start": 72.58,
-          "end": 73.1
-        },
-        {
-          "w": "for",
-          "start": 73.1,
-          "end": 73.4
-        },
-        {
-          "w": "him.",
-          "start": 73.4,
-          "end": 73.64
-        },
-        {
-          "w": "An",
-          "start": 74.1,
+          "start": 73.9,
           "end": 74.22
         },
         {
-          "w": "archaeologist.",
-          "start": 74.22,
-          "end": 75.02
+          "w": "Cobra",
+          "start": 75.08,
+          "end": 75.13
         },
         {
-          "w": "A",
-          "start": 75.58,
+          "w": "keeps",
+          "start": 75.08,
+          "end": 75.34
+        },
+        {
+          "w": "signing",
+          "start": 75.34,
           "end": 75.7
         },
         {
-          "w": "weapons",
+          "w": "contracts",
           "start": 75.7,
-          "end": 76.04
+          "end": 76.22
         },
         {
-          "w": "nerd.",
-          "start": 76.04,
-          "end": 76.38
+          "w": "for",
+          "start": 76.22,
+          "end": 76.52
+        },
+        {
+          "w": "him.",
+          "start": 76.52,
+          "end": 76.78
+        },
+        {
+          "w": "An",
+          "start": 77.22,
+          "end": 77.32
+        },
+        {
+          "w": "archaeologist.",
+          "start": 77.32,
+          "end": 78.16
         },
         {
           "w": "A",
-          "start": 76.88,
-          "end": 77.02
+          "start": 78.68,
+          "end": 78.82
+        },
+        {
+          "w": "weapons",
+          "start": 78.82,
+          "end": 79.16
+        },
+        {
+          "w": "nerd.",
+          "start": 79.16,
+          "end": 79.5
+        },
+        {
+          "w": "A",
+          "start": 80.0,
+          "end": 80.12
         },
         {
           "w": "reporter.",
-          "start": 77.02,
-          "end": 77.4
+          "start": 80.12,
+          "end": 80.52
         },
         {
           "w": "Without",
-          "start": 78.06,
-          "end": 78.3
+          "start": 81.18,
+          "end": 81.42
         },
         {
           "w": "asking.",
-          "start": 78.3,
-          "end": 78.76
+          "start": 81.42,
+          "end": 81.86
         }
       ],
       "heard": "And it gets worse. Cobra keeps signing contracts for him. An archaeologist. A weapons nerd. A reporter. Without asking."
     },
     "p15": {
-      "start": 79.413,
-      "end": 87.723,
+      "start": 82.531,
+      "end": 90.841,
       "text": "You probably have a Cobra. The friend who already told everyone you'd help them move. The boss who said yes for you, in a meeting you weren't in.",
       "words": [
         {
           "w": "You",
-          "start": 79.41,
-          "end": 79.54
+          "start": 82.53,
+          "end": 82.66
         },
         {
           "w": "probably",
-          "start": 79.54,
-          "end": 79.84
+          "start": 82.66,
+          "end": 82.94
         },
         {
           "w": "have",
-          "start": 79.84,
-          "end": 80.16
+          "start": 82.94,
+          "end": 83.28
         },
         {
           "w": "a",
-          "start": 80.16,
-          "end": 80.28
-        },
-        {
-          "w": "Cobra.",
-          "start": 80.28,
-          "end": 80.7
-        },
-        {
-          "w": "The",
-          "start": 81.18,
-          "end": 81.3
-        },
-        {
-          "w": "friend",
-          "start": 81.3,
-          "end": 81.58
-        },
-        {
-          "w": "who",
-          "start": 81.58,
-          "end": 81.84
-        },
-        {
-          "w": "already",
-          "start": 81.84,
-          "end": 82.16
-        },
-        {
-          "w": "told",
-          "start": 82.16,
-          "end": 82.52
-        },
-        {
-          "w": "everyone",
-          "start": 82.52,
-          "end": 83.14
-        },
-        {
-          "w": "you'd",
-          "start": 83.14,
+          "start": 83.28,
           "end": 83.4
         },
         {
-          "w": "help",
+          "w": "Cobra.",
           "start": 83.4,
-          "end": 83.6
-        },
-        {
-          "w": "them",
-          "start": 83.6,
-          "end": 83.84
-        },
-        {
-          "w": "move.",
-          "start": 83.84,
-          "end": 84.18
+          "end": 83.82
         },
         {
           "w": "The",
-          "start": 84.18,
-          "end": 84.8
+          "start": 83.82,
+          "end": 84.4
         },
         {
-          "w": "boss",
-          "start": 84.8,
-          "end": 85.06
+          "w": "friend",
+          "start": 84.4,
+          "end": 84.68
         },
         {
           "w": "who",
-          "start": 85.06,
+          "start": 84.68,
+          "end": 84.96
+        },
+        {
+          "w": "already",
+          "start": 84.96,
           "end": 85.28
         },
         {
-          "w": "said",
+          "w": "told",
           "start": 85.28,
-          "end": 85.48
+          "end": 85.62
         },
         {
-          "w": "yes",
-          "start": 85.48,
-          "end": 85.74
+          "w": "everyone",
+          "start": 85.62,
+          "end": 86.26
         },
         {
-          "w": "for",
-          "start": 85.74,
-          "end": 85.94
+          "w": "you'd",
+          "start": 86.26,
+          "end": 86.54
         },
         {
-          "w": "you,",
-          "start": 85.94,
-          "end": 86.2
+          "w": "help",
+          "start": 86.54,
+          "end": 86.72
         },
         {
-          "w": "in",
-          "start": 86.2,
-          "end": 86.48
+          "w": "them",
+          "start": 86.72,
+          "end": 86.96
         },
         {
-          "w": "a",
-          "start": 86.48,
-          "end": 86.62
-        },
-        {
-          "w": "meeting",
-          "start": 86.62,
-          "end": 86.88
-        },
-        {
-          "w": "you",
-          "start": 86.88,
-          "end": 87.12
-        },
-        {
-          "w": "weren't",
-          "start": 87.12,
+          "w": "move.",
+          "start": 86.96,
           "end": 87.3
         },
         {
+          "w": "The",
+          "start": 87.92,
+          "end": 87.97
+        },
+        {
+          "w": "boss",
+          "start": 87.94,
+          "end": 88.18
+        },
+        {
+          "w": "who",
+          "start": 88.18,
+          "end": 88.42
+        },
+        {
+          "w": "said",
+          "start": 88.42,
+          "end": 88.6
+        },
+        {
+          "w": "yes",
+          "start": 88.6,
+          "end": 88.84
+        },
+        {
+          "w": "for",
+          "start": 88.84,
+          "end": 89.06
+        },
+        {
+          "w": "you,",
+          "start": 89.06,
+          "end": 89.3
+        },
+        {
+          "w": "in",
+          "start": 89.3,
+          "end": 89.6
+        },
+        {
+          "w": "a",
+          "start": 89.6,
+          "end": 89.72
+        },
+        {
+          "w": "meeting",
+          "start": 89.72,
+          "end": 89.98
+        },
+        {
+          "w": "you",
+          "start": 89.98,
+          "end": 90.24
+        },
+        {
+          "w": "weren't",
+          "start": 90.24,
+          "end": 90.42
+        },
+        {
           "w": "in.",
-          "start": 87.3,
-          "end": 87.72
+          "start": 90.42,
+          "end": 90.8
         }
       ],
       "heard": "You probably have a cobra. The friend who already told everyone you'd help them move. The boss who said yes for you in a meeting you weren't in."
     },
     "p16": {
-      "start": 88.173,
-      "end": 91.619,
+      "start": 91.291,
+      "end": 94.736,
       "text": "Dave could leave. He doesn't. Hold on to that.",
       "words": [
         {
           "w": "Dave",
-          "start": 88.24,
-          "end": 88.38
+          "start": 91.38,
+          "end": 91.5
         },
         {
           "w": "could",
-          "start": 88.38,
-          "end": 88.6
+          "start": 91.5,
+          "end": 91.72
         },
         {
           "w": "leave.",
-          "start": 88.6,
-          "end": 88.92
+          "start": 91.72,
+          "end": 92.04
         },
         {
           "w": "He",
-          "start": 89.42,
-          "end": 89.6
+          "start": 92.54,
+          "end": 92.72
         },
         {
           "w": "doesn't.",
-          "start": 89.6,
-          "end": 90.16
+          "start": 92.72,
+          "end": 93.24
         },
         {
           "w": "Hold",
-          "start": 90.48,
-          "end": 90.78
+          "start": 93.62,
+          "end": 93.9
         },
         {
           "w": "on",
-          "start": 90.78,
-          "end": 91.02
+          "start": 93.9,
+          "end": 94.12
         },
         {
           "w": "to",
-          "start": 91.02,
-          "end": 91.2
+          "start": 94.12,
+          "end": 94.3
         },
         {
           "w": "that.",
-          "start": 91.2,
-          "end": 91.46
+          "start": 94.3,
+          "end": 94.56
         }
       ],
       "heard": "Dave could leave. He doesn't. Hold on to that."
     },
     "p17": {
-      "start": 92.069,
-      "end": 98.464,
+      "start": 95.186,
+      "end": 101.581,
       "text": "The easy answer is that it's cozy. Pixel art. Gentle music. A little sushi bar by the sea.",
       "words": [
         {
           "w": "The",
-          "start": 92.07,
-          "end": 92.2
+          "start": 95.19,
+          "end": 95.32
         },
         {
           "w": "easy",
-          "start": 92.2,
-          "end": 92.44
+          "start": 95.32,
+          "end": 95.54
         },
         {
           "w": "answer",
-          "start": 92.44,
-          "end": 92.8
+          "start": 95.54,
+          "end": 95.86
         },
         {
           "w": "is",
-          "start": 92.8,
-          "end": 93.04
+          "start": 95.86,
+          "end": 96.16
         },
         {
           "w": "that",
-          "start": 93.04,
-          "end": 93.16
+          "start": 96.16,
+          "end": 96.28
         },
         {
           "w": "it's",
-          "start": 93.16,
-          "end": 93.38
+          "start": 96.28,
+          "end": 96.5
         },
         {
           "w": "cozy.",
-          "start": 93.38,
-          "end": 93.68
+          "start": 96.5,
+          "end": 96.8
         },
         {
           "w": "Pixel",
-          "start": 94.32,
-          "end": 94.54
+          "start": 97.46,
+          "end": 97.66
         },
         {
           "w": "art.",
-          "start": 94.54,
-          "end": 94.94
+          "start": 97.66,
+          "end": 98.06
         },
         {
           "w": "Gentle",
-          "start": 95.56,
-          "end": 95.74
+          "start": 98.68,
+          "end": 98.86
         },
         {
           "w": "music.",
-          "start": 95.74,
-          "end": 96.2
+          "start": 98.86,
+          "end": 99.32
         },
         {
           "w": "A",
-          "start": 96.76,
-          "end": 96.86
+          "start": 99.88,
+          "end": 99.98
         },
         {
           "w": "little",
-          "start": 96.86,
-          "end": 97.02
+          "start": 99.98,
+          "end": 100.12
         },
         {
           "w": "sushi",
-          "start": 97.02,
-          "end": 97.34
+          "start": 100.12,
+          "end": 100.46
         },
         {
           "w": "bar",
-          "start": 97.34,
-          "end": 97.64
+          "start": 100.46,
+          "end": 100.76
         },
         {
           "w": "by",
-          "start": 97.64,
-          "end": 97.88
+          "start": 100.76,
+          "end": 101.0
         },
         {
           "w": "the",
-          "start": 97.88,
-          "end": 98.02
+          "start": 101.0,
+          "end": 101.14
         },
         {
           "w": "sea.",
-          "start": 98.02,
-          "end": 98.3
+          "start": 101.14,
+          "end": 101.42
         }
       ],
       "heard": "The easy answer is that it's cozy. Pixel art. Gentle music. A little sushi bar by the sea."
     },
     "p18": {
-      "start": 98.914,
-      "end": 110.138,
+      "start": 102.031,
+      "end": 113.256,
       "text": "But it isn't only cozy. The deep has sharks. A hermit crab that lives in a dump truck. A squid the size of a bus. And your oxygen is also your health. Get bitten, and the tank drops.",
       "words": [
         {
           "w": "But",
-          "start": 98.91,
-          "end": 99.02
+          "start": 102.03,
+          "end": 102.14
         },
         {
           "w": "it",
-          "start": 99.02,
-          "end": 99.1
+          "start": 102.14,
+          "end": 102.22
         },
         {
           "w": "isn't",
-          "start": 99.1,
-          "end": 99.32
+          "start": 102.22,
+          "end": 102.44
         },
         {
           "w": "only",
-          "start": 99.32,
-          "end": 99.62
+          "start": 102.44,
+          "end": 102.74
         },
         {
           "w": "cozy.",
-          "start": 99.62,
-          "end": 99.96
+          "start": 102.74,
+          "end": 103.08
         },
         {
           "w": "The",
-          "start": 100.56,
-          "end": 100.7
+          "start": 103.68,
+          "end": 103.82
         },
         {
           "w": "deep",
-          "start": 100.7,
-          "end": 100.88
+          "start": 103.82,
+          "end": 104.0
         },
         {
           "w": "has",
-          "start": 100.88,
-          "end": 101.1
+          "start": 104.0,
+          "end": 104.2
         },
         {
           "w": "sharks.",
-          "start": 101.1,
-          "end": 101.44
+          "start": 104.2,
+          "end": 104.56
         },
         {
           "w": "A",
-          "start": 102.02,
-          "end": 102.12
+          "start": 105.14,
+          "end": 105.24
         },
         {
           "w": "hermit",
-          "start": 102.12,
-          "end": 102.42
+          "start": 105.24,
+          "end": 105.56
         },
         {
           "w": "crab",
-          "start": 102.42,
-          "end": 102.7
+          "start": 105.56,
+          "end": 105.84
         },
         {
           "w": "that",
-          "start": 102.7,
-          "end": 102.92
+          "start": 105.84,
+          "end": 106.04
         },
         {
           "w": "lives",
-          "start": 102.92,
-          "end": 103.12
+          "start": 106.04,
+          "end": 106.24
         },
         {
           "w": "in",
-          "start": 103.12,
-          "end": 103.3
+          "start": 106.24,
+          "end": 106.42
         },
         {
           "w": "a",
-          "start": 103.3,
-          "end": 103.46
+          "start": 106.42,
+          "end": 106.58
         },
         {
           "w": "dump",
-          "start": 103.46,
-          "end": 103.56
+          "start": 106.58,
+          "end": 106.68
         },
         {
           "w": "truck.",
-          "start": 103.56,
-          "end": 103.94
+          "start": 106.68,
+          "end": 107.06
         },
         {
           "w": "A",
-          "start": 104.4,
-          "end": 104.52
+          "start": 107.54,
+          "end": 107.64
         },
         {
           "w": "squid",
-          "start": 104.52,
-          "end": 104.74
+          "start": 107.64,
+          "end": 107.86
         },
         {
           "w": "the",
-          "start": 104.74,
-          "end": 104.9
+          "start": 107.86,
+          "end": 108.0
         },
         {
           "w": "size",
-          "start": 104.9,
-          "end": 105.12
+          "start": 108.0,
+          "end": 108.24
         },
         {
           "w": "of",
-          "start": 105.12,
-          "end": 105.26
+          "start": 108.24,
+          "end": 108.38
         },
         {
           "w": "a",
-          "start": 105.26,
-          "end": 105.36
+          "start": 108.38,
+          "end": 108.48
         },
         {
           "w": "bus.",
-          "start": 105.36,
-          "end": 105.6
+          "start": 108.48,
+          "end": 108.72
         },
         {
           "w": "And",
-          "start": 106.12,
-          "end": 106.22
+          "start": 109.24,
+          "end": 109.36
         },
         {
           "w": "your",
-          "start": 106.22,
-          "end": 106.34
+          "start": 109.36,
+          "end": 109.44
         },
         {
           "w": "oxygen",
-          "start": 106.34,
-          "end": 106.86
+          "start": 109.44,
+          "end": 109.94
         },
         {
           "w": "is",
-          "start": 106.86,
-          "end": 107.18
+          "start": 109.94,
+          "end": 110.3
         },
         {
           "w": "also",
-          "start": 107.18,
-          "end": 107.5
+          "start": 110.3,
+          "end": 110.62
         },
         {
           "w": "your",
-          "start": 107.5,
-          "end": 107.74
+          "start": 110.62,
+          "end": 110.84
         },
         {
           "w": "health.",
-          "start": 107.74,
-          "end": 108.08
+          "start": 110.84,
+          "end": 111.2
         },
         {
           "w": "Get",
-          "start": 108.56,
-          "end": 108.7
+          "start": 111.68,
+          "end": 111.82
         },
         {
           "w": "bitten,",
-          "start": 108.7,
-          "end": 108.98
+          "start": 111.82,
+          "end": 112.08
         },
         {
           "w": "and",
-          "start": 108.98,
-          "end": 109.16
+          "start": 112.08,
+          "end": 112.28
         },
         {
           "w": "the",
-          "start": 109.16,
-          "end": 109.28
+          "start": 112.28,
+          "end": 112.4
         },
         {
           "w": "tank",
-          "start": 109.28,
-          "end": 109.5
+          "start": 112.4,
+          "end": 112.62
         },
         {
           "w": "drops.",
-          "start": 109.5,
-          "end": 109.9
+          "start": 112.62,
+          "end": 113.0
         }
       ],
       "heard": "But it isn't only cozy. The deep has sharks. A hermit crab that lives in a dump truck. A squid the size of a bus. And your oxygen is also your health. Get bitten and the tank drops."
     },
     "p19": {
-      "start": 110.588,
-      "end": 115.811,
+      "start": 113.706,
+      "end": 118.928,
       "text": "Danger below. Rice above. Which is also a fair description of most Mondays.",
       "words": [
         {
           "w": "Danger",
-          "start": 110.59,
-          "end": 110.84
+          "start": 113.71,
+          "end": 113.94
         },
         {
           "w": "below.",
-          "start": 110.84,
-          "end": 111.36
+          "start": 113.94,
+          "end": 114.5
         },
         {
           "w": "Rice",
-          "start": 111.94,
-          "end": 112.04
+          "start": 115.08,
+          "end": 115.13
         },
         {
           "w": "above.",
-          "start": 112.04,
-          "end": 112.4
+          "start": 115.12,
+          "end": 115.52
         },
         {
           "w": "Which",
-          "start": 113.02,
-          "end": 113.1
+          "start": 116.14,
+          "end": 116.22
         },
         {
           "w": "is",
-          "start": 113.1,
-          "end": 113.26
+          "start": 116.22,
+          "end": 116.38
         },
         {
           "w": "also",
-          "start": 113.26,
-          "end": 113.62
+          "start": 116.38,
+          "end": 116.74
         },
         {
           "w": "a",
-          "start": 113.62,
-          "end": 113.82
+          "start": 116.74,
+          "end": 116.96
         },
         {
           "w": "fair",
-          "start": 113.82,
-          "end": 114.06
+          "start": 116.96,
+          "end": 117.18
         },
         {
           "w": "description",
-          "start": 114.06,
-          "end": 114.56
+          "start": 117.18,
+          "end": 117.66
         },
         {
           "w": "of",
-          "start": 114.56,
-          "end": 114.84
+          "start": 117.66,
+          "end": 117.96
         },
         {
           "w": "most",
-          "start": 114.84,
-          "end": 115.12
+          "start": 117.96,
+          "end": 118.24
         },
         {
           "w": "Mondays.",
-          "start": 115.12,
-          "end": 115.52
+          "start": 118.24,
+          "end": 118.64
         }
       ],
       "heard": "Danger below. Rice above. Which is also a fair description of most Mondays."
     },
     "p20": {
-      "start": 116.261,
-      "end": 124.021,
+      "start": 119.378,
+      "end": 127.139,
       "text": "And cozy alone doesn't explain it. Plenty of games let you relax. Some even let you quit the office. Dave hands you a better shift.",
       "words": [
         {
           "w": "And",
-          "start": 116.28,
-          "end": 116.42
+          "start": 119.4,
+          "end": 119.54
         },
         {
           "w": "cozy",
-          "start": 116.42,
-          "end": 116.7
+          "start": 119.54,
+          "end": 119.82
         },
         {
           "w": "alone",
-          "start": 116.7,
-          "end": 117.02
+          "start": 119.82,
+          "end": 120.14
         },
         {
           "w": "doesn't",
-          "start": 117.02,
-          "end": 117.4
+          "start": 120.14,
+          "end": 120.5
         },
         {
           "w": "explain",
-          "start": 117.4,
-          "end": 117.82
+          "start": 120.5,
+          "end": 120.92
         },
         {
           "w": "it.",
-          "start": 117.82,
-          "end": 118.08
+          "start": 120.92,
+          "end": 121.2
         },
         {
           "w": "Plenty",
-          "start": 118.54,
-          "end": 118.68
+          "start": 121.66,
+          "end": 121.8
         },
         {
           "w": "of",
-          "start": 118.68,
-          "end": 118.88
+          "start": 121.8,
+          "end": 122.0
         },
         {
           "w": "games",
-          "start": 118.88,
-          "end": 119.1
+          "start": 122.0,
+          "end": 122.22
         },
         {
           "w": "let",
-          "start": 119.1,
-          "end": 119.32
+          "start": 122.22,
+          "end": 122.44
         },
         {
           "w": "you",
-          "start": 119.32,
-          "end": 119.5
+          "start": 122.44,
+          "end": 122.6
         },
         {
           "w": "relax.",
-          "start": 119.5,
-          "end": 119.88
+          "start": 122.6,
+          "end": 123.0
         },
         {
           "w": "Some",
-          "start": 120.56,
-          "end": 120.68
+          "start": 123.68,
+          "end": 123.8
         },
         {
           "w": "even",
-          "start": 120.68,
-          "end": 120.98
+          "start": 123.8,
+          "end": 124.1
         },
         {
           "w": "let",
-          "start": 120.98,
-          "end": 121.16
+          "start": 124.1,
+          "end": 124.28
         },
         {
           "w": "you",
-          "start": 121.16,
-          "end": 121.34
+          "start": 124.28,
+          "end": 124.44
         },
         {
           "w": "quit",
-          "start": 121.34,
-          "end": 121.5
+          "start": 124.44,
+          "end": 124.62
         },
         {
           "w": "the",
-          "start": 121.5,
-          "end": 121.64
+          "start": 124.62,
+          "end": 124.76
         },
         {
           "w": "office.",
-          "start": 121.64,
-          "end": 122.04
+          "start": 124.76,
+          "end": 125.14
         },
         {
           "w": "Dave",
-          "start": 122.66,
-          "end": 122.76
+          "start": 125.84,
+          "end": 125.89
         },
         {
           "w": "hands",
-          "start": 122.76,
-          "end": 123.04
+          "start": 125.88,
+          "end": 126.16
         },
         {
           "w": "you",
-          "start": 123.04,
-          "end": 123.2
+          "start": 126.16,
+          "end": 126.32
         },
         {
           "w": "a",
-          "start": 123.2,
-          "end": 123.3
+          "start": 126.32,
+          "end": 126.42
         },
         {
           "w": "better",
-          "start": 123.3,
-          "end": 123.46
+          "start": 126.42,
+          "end": 126.58
         },
         {
           "w": "shift.",
-          "start": 123.46,
-          "end": 123.8
+          "start": 126.58,
+          "end": 126.92
         }
       ],
       "heard": "And cozy alone doesn't explain it. Plenty of games let you relax. Some even let you quit the office. Dave hands you a better shift."
     },
     "p20b": {
-      "start": 124.471,
-      "end": 126.656,
+      "start": 127.589,
+      "end": 129.774,
       "text": "So why does a shift feel better than a nap?",
       "words": [
         {
           "w": "So",
-          "start": 124.47,
-          "end": 124.64
+          "start": 127.59,
+          "end": 127.76
         },
         {
           "w": "why",
-          "start": 124.64,
-          "end": 124.84
+          "start": 127.76,
+          "end": 127.96
         },
         {
           "w": "does",
-          "start": 124.84,
-          "end": 125.0
+          "start": 127.96,
+          "end": 128.12
         },
         {
           "w": "a",
-          "start": 125.0,
-          "end": 125.18
+          "start": 128.12,
+          "end": 128.3
         },
         {
           "w": "shift",
-          "start": 125.18,
-          "end": 125.38
+          "start": 128.3,
+          "end": 128.5
         },
         {
           "w": "feel",
-          "start": 125.38,
-          "end": 125.64
+          "start": 128.5,
+          "end": 128.76
         },
         {
           "w": "better",
-          "start": 125.64,
-          "end": 125.92
+          "start": 128.76,
+          "end": 129.04
         },
         {
           "w": "than",
-          "start": 125.92,
-          "end": 126.12
+          "start": 129.04,
+          "end": 129.24
         },
         {
           "w": "a",
-          "start": 126.12,
-          "end": 126.44
+          "start": 129.24,
+          "end": 129.38
         },
         {
           "w": "nap?",
-          "start": 126.44,
-          "end": 126.49
+          "start": 129.38,
+          "end": 129.58
         }
       ],
       "heard": "So why does a shift feel better than a nap?"
     },
     "p21": {
-      "start": 127.456,
-      "end": 128.437,
+      "start": 130.574,
+      "end": 131.555,
       "text": "Start with the day.",
       "words": [
         {
           "w": "Start",
-          "start": 127.46,
-          "end": 127.72
+          "start": 130.57,
+          "end": 130.84
         },
         {
           "w": "with",
-          "start": 127.72,
-          "end": 127.86
+          "start": 130.84,
+          "end": 130.98
         },
         {
           "w": "the",
-          "start": 127.86,
-          "end": 128.02
+          "start": 130.98,
+          "end": 131.12
         },
         {
           "w": "day.",
-          "start": 128.02,
-          "end": 128.24
+          "start": 131.12,
+          "end": 131.36
         }
       ],
       "heard": "Start with the day."
     },
     "p22": {
-      "start": 128.887,
-      "end": 136.323,
+      "start": 132.005,
+      "end": 139.44,
       "text": "Every day, Dave drops into the Blue Hole. And every dive, it's different. New layout. New fish. New trouble.",
       "words": [
         {
           "w": "Every",
-          "start": 128.9,
-          "end": 129.16
+          "start": 132.06,
+          "end": 132.28
         },
         {
           "w": "day,",
-          "start": 129.16,
-          "end": 129.44
+          "start": 132.28,
+          "end": 132.56
         },
         {
           "w": "Dave",
-          "start": 129.44,
-          "end": 129.78
+          "start": 132.56,
+          "end": 132.9
         },
         {
           "w": "drops",
-          "start": 129.78,
-          "end": 130.12
+          "start": 132.9,
+          "end": 133.24
         },
         {
           "w": "into",
-          "start": 130.12,
-          "end": 130.36
+          "start": 133.24,
+          "end": 133.48
         },
         {
           "w": "the",
-          "start": 130.36,
-          "end": 130.5
+          "start": 133.48,
+          "end": 133.62
         },
         {
           "w": "Blue",
-          "start": 130.5,
-          "end": 130.7
+          "start": 133.62,
+          "end": 133.82
         },
         {
           "w": "Hole.",
-          "start": 130.7,
-          "end": 131.0
+          "start": 133.82,
+          "end": 134.12
         },
         {
           "w": "And",
-          "start": 131.5,
-          "end": 131.6
+          "start": 134.62,
+          "end": 134.7
         },
         {
           "w": "every",
-          "start": 131.6,
-          "end": 131.88
+          "start": 134.7,
+          "end": 135.0
         },
         {
           "w": "dive,",
-          "start": 131.88,
-          "end": 132.14
+          "start": 135.0,
+          "end": 135.26
         },
         {
           "w": "it's",
-          "start": 132.14,
-          "end": 132.42
+          "start": 135.26,
+          "end": 135.54
         },
         {
           "w": "different.",
-          "start": 132.42,
-          "end": 132.78
+          "start": 135.54,
+          "end": 135.9
         },
         {
           "w": "New",
-          "start": 133.38,
-          "end": 133.5
+          "start": 136.48,
+          "end": 136.62
         },
         {
           "w": "layout.",
-          "start": 133.5,
-          "end": 133.84
+          "start": 136.62,
+          "end": 136.96
         },
         {
           "w": "New",
-          "start": 134.42,
-          "end": 134.64
+          "start": 137.54,
+          "end": 137.76
         },
         {
           "w": "fish.",
-          "start": 134.64,
-          "end": 134.98
+          "start": 137.76,
+          "end": 138.1
         },
         {
           "w": "New",
-          "start": 135.54,
-          "end": 135.72
+          "start": 138.66,
+          "end": 138.84
         },
         {
           "w": "trouble.",
-          "start": 135.72,
-          "end": 136.06
+          "start": 138.84,
+          "end": 139.2
         }
       ],
       "heard": "Every day Dave drops into the blue hole. In every dive it's different. New layout. New fish. New trouble."
     },
     "p23": {
-      "start": 136.773,
-      "end": 144.833,
+      "start": 139.89,
+      "end": 147.951,
       "text": "And every dive has an ending you can see. A gauge. When the oxygen runs out, they pull you up, and you keep one thing. One.",
       "words": [
         {
           "w": "And",
-          "start": 136.77,
-          "end": 136.9
+          "start": 139.89,
+          "end": 140.02
         },
         {
           "w": "every",
-          "start": 136.9,
-          "end": 137.18
+          "start": 140.02,
+          "end": 140.3
         },
         {
           "w": "dive",
-          "start": 137.18,
-          "end": 137.44
+          "start": 140.3,
+          "end": 140.56
         },
         {
           "w": "has",
-          "start": 137.44,
-          "end": 137.66
+          "start": 140.56,
+          "end": 140.78
         },
         {
           "w": "an",
-          "start": 137.66,
-          "end": 137.8
+          "start": 140.78,
+          "end": 140.92
         },
         {
           "w": "ending",
-          "start": 137.8,
-          "end": 138.06
+          "start": 140.92,
+          "end": 141.18
         },
         {
           "w": "you",
-          "start": 138.06,
-          "end": 138.26
+          "start": 141.18,
+          "end": 141.38
         },
         {
           "w": "can",
-          "start": 138.26,
-          "end": 138.42
+          "start": 141.38,
+          "end": 141.54
         },
         {
           "w": "see.",
-          "start": 138.42,
-          "end": 138.76
+          "start": 141.54,
+          "end": 141.88
         },
         {
           "w": "A",
-          "start": 138.76,
-          "end": 139.3
+          "start": 141.88,
+          "end": 142.42
         },
         {
           "w": "gauge.",
-          "start": 139.3,
-          "end": 139.66
+          "start": 142.42,
+          "end": 142.78
         },
         {
           "w": "When",
-          "start": 140.3,
-          "end": 140.36
+          "start": 143.42,
+          "end": 143.48
         },
         {
           "w": "the",
-          "start": 140.36,
-          "end": 140.5
+          "start": 143.48,
+          "end": 143.62
         },
         {
           "w": "oxygen",
-          "start": 140.5,
-          "end": 140.98
+          "start": 143.62,
+          "end": 144.1
         },
         {
           "w": "runs",
-          "start": 140.98,
-          "end": 141.32
+          "start": 144.1,
+          "end": 144.44
         },
         {
           "w": "out,",
-          "start": 141.32,
-          "end": 141.68
+          "start": 144.44,
+          "end": 144.8
         },
         {
           "w": "they",
-          "start": 141.68,
-          "end": 141.92
+          "start": 144.8,
+          "end": 145.04
         },
         {
           "w": "pull",
-          "start": 141.92,
-          "end": 142.14
+          "start": 145.04,
+          "end": 145.26
         },
         {
           "w": "you",
-          "start": 142.14,
-          "end": 142.32
+          "start": 145.26,
+          "end": 145.44
         },
         {
           "w": "up,",
-          "start": 142.32,
-          "end": 142.58
+          "start": 145.44,
+          "end": 145.7
         },
         {
           "w": "and",
-          "start": 142.58,
-          "end": 142.82
+          "start": 145.7,
+          "end": 145.94
         },
         {
           "w": "you",
-          "start": 142.82,
-          "end": 142.96
+          "start": 145.94,
+          "end": 146.08
         },
         {
           "w": "keep",
-          "start": 142.96,
-          "end": 143.18
+          "start": 146.08,
+          "end": 146.3
         },
         {
           "w": "one",
-          "start": 143.18,
-          "end": 143.46
+          "start": 146.3,
+          "end": 146.58
         },
         {
           "w": "thing.",
-          "start": 143.46,
-          "end": 143.88
+          "start": 146.58,
+          "end": 147.02
         },
         {
           "w": "One.",
-          "start": 144.5,
-          "end": 144.56
+          "start": 147.62,
+          "end": 147.68
         }
       ],
       "heard": "And every dive has an ending you can see. A gauge. When the oxygen runs out they pull you up and you keep one thing. One."
     },
     "p24": {
-      "start": 145.283,
-      "end": 152.797,
+      "start": 148.401,
+      "end": 155.915,
       "text": "Now think about your own workday. When did it last end? Not \"end of day.\" Actually end. The email at ten at night says no.",
       "words": [
         {
           "w": "Now",
-          "start": 145.28,
-          "end": 145.46
+          "start": 148.4,
+          "end": 148.58
         },
         {
           "w": "think",
-          "start": 145.46,
-          "end": 145.68
+          "start": 148.58,
+          "end": 148.8
         },
         {
           "w": "about",
-          "start": 145.68,
-          "end": 145.86
+          "start": 148.8,
+          "end": 148.98
         },
         {
           "w": "your",
-          "start": 145.86,
-          "end": 146.0
+          "start": 148.98,
+          "end": 149.12
         },
         {
           "w": "own",
-          "start": 146.0,
-          "end": 146.24
+          "start": 149.12,
+          "end": 149.36
         },
         {
           "w": "workday.",
-          "start": 146.24,
-          "end": 146.48
+          "start": 149.36,
+          "end": 149.58
         },
         {
           "w": "When",
-          "start": 146.48,
-          "end": 146.76
+          "start": 149.58,
+          "end": 149.88
         },
         {
           "w": "did",
-          "start": 147.3,
-          "end": 147.38
+          "start": 150.42,
+          "end": 150.48
         },
         {
           "w": "it",
-          "start": 147.38,
-          "end": 147.48
+          "start": 150.48,
+          "end": 150.6
         },
         {
           "w": "last",
-          "start": 147.48,
-          "end": 147.6
+          "start": 150.6,
+          "end": 150.72
         },
         {
           "w": "end?",
-          "start": 147.6,
-          "end": 147.84
+          "start": 150.72,
+          "end": 150.96
         },
         {
           "w": "Not",
-          "start": 147.84,
-          "end": 148.18
+          "start": 150.96,
+          "end": 151.3
         },
         {
           "w": "\"end",
-          "start": 148.7,
-          "end": 148.94
+          "start": 151.86,
+          "end": 152.06
         },
         {
           "w": "of",
-          "start": 148.94,
-          "end": 149.2
+          "start": 152.06,
+          "end": 152.3
         },
         {
           "w": "day.\"",
-          "start": 149.2,
-          "end": 149.34
+          "start": 152.3,
+          "end": 152.46
         },
         {
           "w": "Actually",
-          "start": 149.34,
-          "end": 149.6
+          "start": 152.46,
+          "end": 152.72
         },
         {
           "w": "end.",
-          "start": 149.6,
-          "end": 150.06
+          "start": 152.94,
+          "end": 153.24
         },
         {
           "w": "The",
-          "start": 150.06,
-          "end": 150.56
+          "start": 153.24,
+          "end": 153.68
         },
         {
           "w": "email",
-          "start": 151.0,
-          "end": 151.12
+          "start": 154.1,
+          "end": 154.24
         },
         {
           "w": "at",
-          "start": 151.12,
-          "end": 151.42
+          "start": 154.24,
+          "end": 154.54
         },
         {
           "w": "ten",
-          "start": 151.42,
-          "end": 151.64
+          "start": 154.54,
+          "end": 154.76
         },
         {
           "w": "at",
-          "start": 151.64,
-          "end": 151.82
+          "start": 154.76,
+          "end": 154.94
         },
         {
           "w": "night",
-          "start": 151.82,
-          "end": 151.94
+          "start": 154.94,
+          "end": 155.04
         },
         {
           "w": "says",
-          "start": 151.94,
-          "end": 152.08
+          "start": 155.04,
+          "end": 155.2
         },
         {
           "w": "no.",
-          "start": 152.08,
-          "end": 152.32
+          "start": 155.2,
+          "end": 155.44
         }
       ],
-      "heard": "Now think about your own work day. When did it last end? Not end of day actually end. The email at 10 at night says no."
+      "heard": "Now think about your own work day. When did it last end? Not end of day, actually end. The email at 10 at night says no."
     },
     "p25": {
-      "start": 153.247,
-      "end": 156.904,
+      "start": 156.365,
+      "end": 160.022,
       "text": "Dave's work has a clock you can see. Yours mostly has a phone.",
       "words": [
         {
           "w": "Dave's",
-          "start": 153.44,
-          "end": 153.56
+          "start": 156.56,
+          "end": 156.68
         },
         {
           "w": "work",
-          "start": 153.56,
-          "end": 153.78
+          "start": 156.68,
+          "end": 156.88
         },
         {
           "w": "has",
-          "start": 153.78,
-          "end": 153.98
+          "start": 156.88,
+          "end": 157.1
         },
         {
           "w": "a",
-          "start": 153.98,
-          "end": 154.14
+          "start": 157.1,
+          "end": 157.28
         },
         {
           "w": "clock",
-          "start": 154.14,
-          "end": 154.34
+          "start": 157.28,
+          "end": 157.44
         },
         {
           "w": "you",
-          "start": 154.34,
-          "end": 154.54
+          "start": 157.44,
+          "end": 157.66
         },
         {
           "w": "can",
-          "start": 154.54,
-          "end": 154.7
+          "start": 157.66,
+          "end": 157.82
         },
         {
           "w": "see.",
-          "start": 154.7,
-          "end": 155.04
+          "start": 157.82,
+          "end": 158.14
         },
         {
           "w": "Yours",
-          "start": 155.56,
-          "end": 155.84
+          "start": 158.68,
+          "end": 158.96
         },
         {
           "w": "mostly",
-          "start": 155.84,
-          "end": 155.98
+          "start": 158.96,
+          "end": 159.1
         },
         {
           "w": "has",
-          "start": 155.98,
-          "end": 156.32
+          "start": 159.1,
+          "end": 159.44
         },
         {
           "w": "a",
-          "start": 156.32,
-          "end": 156.46
+          "start": 159.44,
+          "end": 159.58
         },
         {
           "w": "phone.",
-          "start": 156.46,
-          "end": 156.74
+          "start": 159.58,
+          "end": 159.86
         }
       ],
       "heard": "Dave's work has a clock you can see. Yours mostly has a phone."
     },
     "p26": {
-      "start": 157.354,
-      "end": 170.801,
+      "start": 160.472,
+      "end": 173.919,
       "text": "And when Dave gets better, you can see that too. His air tank goes from ninety bar to four hundred and eighty. His cargo box, from nine kilos to a hundred and eighty-five. His suit, from forty meters deep to eight hundred.",
       "words": [
         {
           "w": "And",
-          "start": 157.35,
-          "end": 157.48
+          "start": 160.47,
+          "end": 160.58
         },
         {
           "w": "when",
-          "start": 157.35,
-          "end": 157.48
+          "start": 160.47,
+          "end": 160.58
         },
         {
           "w": "Dave",
-          "start": 157.48,
-          "end": 157.62
+          "start": 160.58,
+          "end": 160.74
         },
         {
           "w": "gets",
-          "start": 157.62,
-          "end": 157.82
+          "start": 160.74,
+          "end": 160.94
         },
         {
           "w": "better,",
-          "start": 157.82,
-          "end": 158.06
+          "start": 160.94,
+          "end": 161.18
         },
         {
           "w": "you",
-          "start": 158.06,
-          "end": 158.44
+          "start": 161.18,
+          "end": 161.56
         },
         {
           "w": "can",
-          "start": 158.44,
-          "end": 158.76
+          "start": 161.56,
+          "end": 161.88
         },
         {
           "w": "see",
-          "start": 158.44,
-          "end": 158.76
+          "start": 161.56,
+          "end": 161.88
         },
         {
           "w": "that",
-          "start": 158.76,
-          "end": 158.92
+          "start": 161.88,
+          "end": 162.04
         },
         {
           "w": "too.",
-          "start": 158.92,
-          "end": 159.16
+          "start": 162.04,
+          "end": 162.28
         },
         {
           "w": "His",
-          "start": 159.16,
-          "end": 159.36
+          "start": 162.28,
+          "end": 162.48
         },
         {
           "w": "air",
-          "start": 159.36,
-          "end": 159.68
+          "start": 162.48,
+          "end": 162.8
         },
         {
           "w": "tank",
-          "start": 160.18,
-          "end": 160.32
+          "start": 163.28,
+          "end": 163.44
         },
         {
           "w": "goes",
-          "start": 160.18,
-          "end": 160.32
+          "start": 163.28,
+          "end": 163.44
         },
         {
           "w": "from",
-          "start": 160.32,
-          "end": 160.54
+          "start": 163.44,
+          "end": 163.66
         },
         {
           "w": "ninety",
-          "start": 160.54,
-          "end": 160.8
+          "start": 163.66,
+          "end": 163.92
         },
         {
           "w": "bar",
-          "start": 160.8,
-          "end": 161.1
+          "start": 163.92,
+          "end": 164.22
         },
         {
           "w": "to",
-          "start": 161.1,
-          "end": 161.4
+          "start": 164.22,
+          "end": 164.52
         },
         {
           "w": "four",
-          "start": 161.4,
-          "end": 161.76
+          "start": 164.52,
+          "end": 164.88
         },
         {
           "w": "hundred",
-          "start": 161.4,
-          "end": 161.76
+          "start": 164.52,
+          "end": 164.88
         },
         {
           "w": "and",
-          "start": 161.76,
-          "end": 162.06
+          "start": 164.88,
+          "end": 165.16
         },
         {
           "w": "eighty.",
-          "start": 162.06,
-          "end": 162.34
+          "start": 165.16,
+          "end": 165.44
         },
         {
           "w": "His",
-          "start": 162.34,
-          "end": 163.06
+          "start": 165.44,
+          "end": 166.18
         },
         {
           "w": "cargo",
-          "start": 163.88,
-          "end": 164.12
+          "start": 166.98,
+          "end": 167.24
         },
         {
           "w": "box,",
-          "start": 164.12,
-          "end": 164.44
+          "start": 167.24,
+          "end": 167.56
         },
         {
           "w": "from",
-          "start": 164.12,
-          "end": 164.44
+          "start": 167.24,
+          "end": 167.56
         },
         {
           "w": "nine",
-          "start": 164.44,
-          "end": 164.84
+          "start": 167.56,
+          "end": 167.96
         },
         {
           "w": "kilos",
-          "start": 164.84,
-          "end": 165.14
-        },
-        {
-          "w": "to",
-          "start": 165.14,
-          "end": 165.48
-        },
-        {
-          "w": "a",
-          "start": 165.48,
-          "end": 166.02
-        },
-        {
-          "w": "hundred",
-          "start": 166.02,
-          "end": 166.2
-        },
-        {
-          "w": "and",
-          "start": 166.02,
-          "end": 166.2
-        },
-        {
-          "w": "eighty-five.",
-          "start": 166.2,
-          "end": 167.08
-        },
-        {
-          "w": "His",
-          "start": 167.94,
+          "start": 167.96,
           "end": 168.24
         },
         {
-          "w": "suit,",
+          "w": "to",
           "start": 168.24,
           "end": 168.56
         },
         {
-          "w": "from",
+          "w": "a",
           "start": 168.56,
-          "end": 168.84
+          "end": 169.12
+        },
+        {
+          "w": "hundred",
+          "start": 169.12,
+          "end": 169.32
+        },
+        {
+          "w": "and",
+          "start": 169.12,
+          "end": 169.32
+        },
+        {
+          "w": "eighty-five.",
+          "start": 169.32,
+          "end": 170.2
+        },
+        {
+          "w": "His",
+          "start": 171.06,
+          "end": 171.36
+        },
+        {
+          "w": "suit,",
+          "start": 171.36,
+          "end": 171.68
+        },
+        {
+          "w": "from",
+          "start": 171.68,
+          "end": 171.96
         },
         {
           "w": "forty",
-          "start": 168.84,
-          "end": 169.22
+          "start": 171.96,
+          "end": 172.34
         },
         {
           "w": "meters",
-          "start": 168.84,
-          "end": 169.22
+          "start": 171.96,
+          "end": 172.34
         },
         {
           "w": "deep",
-          "start": 169.22,
-          "end": 169.5
+          "start": 172.34,
+          "end": 172.62
         },
         {
           "w": "to",
-          "start": 169.5,
-          "end": 169.86
+          "start": 172.62,
+          "end": 173.0
         },
         {
           "w": "eight",
-          "start": 169.86,
-          "end": 170.1
+          "start": 173.0,
+          "end": 173.22
         },
         {
           "w": "hundred.",
-          "start": 170.1,
-          "end": 170.38
+          "start": 173.22,
+          "end": 173.48
         }
       ],
-      "heard": "And when Dave gets better you can see that too. His air tank goes from 90 bar to 480. His cargo box from 9 kilos to 185. His suit from 40 meters deep to 800."
+      "heard": "And when Dave gets better you can see that too. His air tank goes from 90 bar to 480. His cargo box from nine kilos to 185. His suit from 40 meters deep to 800."
     },
     "p27": {
-      "start": 171.251,
-      "end": 174.178,
+      "start": 174.369,
+      "end": 177.296,
       "text": "He doesn't get a promotion. He gets a bigger tank.",
       "words": [
         {
           "w": "He",
-          "start": 171.25,
-          "end": 171.36
+          "start": 174.37,
+          "end": 174.48
         },
         {
           "w": "doesn't",
-          "start": 171.36,
-          "end": 171.66
+          "start": 174.48,
+          "end": 174.78
         },
         {
           "w": "get",
-          "start": 171.66,
-          "end": 171.78
+          "start": 174.78,
+          "end": 174.9
         },
         {
           "w": "a",
-          "start": 171.78,
-          "end": 171.88
+          "start": 174.9,
+          "end": 175.0
         },
         {
           "w": "promotion.",
-          "start": 171.88,
-          "end": 172.24
+          "start": 175.0,
+          "end": 175.34
         },
         {
           "w": "He",
-          "start": 172.96,
-          "end": 173.04
+          "start": 176.08,
+          "end": 176.16
         },
         {
           "w": "gets",
-          "start": 173.04,
-          "end": 173.24
+          "start": 176.16,
+          "end": 176.36
         },
         {
           "w": "a",
-          "start": 173.24,
-          "end": 173.42
+          "start": 176.36,
+          "end": 176.54
         },
         {
           "w": "bigger",
-          "start": 173.42,
-          "end": 173.6
+          "start": 176.54,
+          "end": 176.72
         },
         {
           "w": "tank.",
-          "start": 173.6,
-          "end": 174.02
+          "start": 176.72,
+          "end": 177.14
         }
       ],
       "heard": "He doesn't get a promotion. He gets a bigger tank."
     },
     "p28": {
-      "start": 174.628,
-      "end": 178.648,
+      "start": 177.746,
+      "end": 181.766,
       "text": "Out here, getting better at your job mostly means... more job.",
       "words": [
         {
           "w": "Out",
-          "start": 174.72,
-          "end": 174.82
+          "start": 177.82,
+          "end": 177.92
         },
         {
           "w": "here,",
-          "start": 174.82,
-          "end": 175.12
+          "start": 177.92,
+          "end": 178.22
         },
         {
           "w": "getting",
-          "start": 175.12,
-          "end": 175.38
+          "start": 178.22,
+          "end": 178.5
         },
         {
           "w": "better",
-          "start": 175.38,
-          "end": 175.72
+          "start": 178.5,
+          "end": 178.82
         },
         {
           "w": "at",
-          "start": 175.72,
-          "end": 175.9
+          "start": 178.82,
+          "end": 179.02
         },
         {
           "w": "your",
-          "start": 175.9,
-          "end": 176.02
+          "start": 179.02,
+          "end": 179.14
         },
         {
           "w": "job",
-          "start": 176.02,
-          "end": 176.34
+          "start": 179.14,
+          "end": 179.46
         },
         {
           "w": "mostly",
-          "start": 176.34,
-          "end": 176.68
+          "start": 179.46,
+          "end": 179.78
         },
         {
           "w": "means...",
-          "start": 176.68,
-          "end": 177.3
+          "start": 179.78,
+          "end": 180.42
         },
         {
           "w": "more",
-          "start": 177.86,
-          "end": 178.02
+          "start": 181.0,
+          "end": 181.14
         },
         {
           "w": "job.",
-          "start": 178.02,
-          "end": 178.4
+          "start": 181.14,
+          "end": 181.52
         }
       ],
       "heard": "Out here getting better at your job mostly means. More job."
     },
     "p29": {
-      "start": 179.098,
-      "end": 183.266,
+      "start": 182.216,
+      "end": 186.384,
       "text": "Then the sun goes down, and the second half begins. Bancho Sushi.",
       "words": [
         {
           "w": "Then",
-          "start": 179.12,
-          "end": 179.26
+          "start": 182.22,
+          "end": 182.38
         },
         {
           "w": "the",
-          "start": 179.26,
-          "end": 179.4
+          "start": 182.38,
+          "end": 182.52
         },
         {
           "w": "sun",
-          "start": 179.4,
-          "end": 179.58
+          "start": 182.52,
+          "end": 182.7
         },
         {
           "w": "goes",
-          "start": 179.58,
-          "end": 179.84
+          "start": 182.7,
+          "end": 182.96
         },
         {
           "w": "down,",
-          "start": 179.84,
-          "end": 180.28
+          "start": 182.96,
+          "end": 183.4
         },
         {
           "w": "and",
-          "start": 180.28,
-          "end": 180.58
+          "start": 183.4,
+          "end": 183.7
         },
         {
           "w": "the",
-          "start": 180.58,
-          "end": 180.72
+          "start": 183.7,
+          "end": 183.84
         },
         {
           "w": "second",
-          "start": 180.72,
-          "end": 180.96
+          "start": 183.84,
+          "end": 184.08
         },
         {
           "w": "half",
-          "start": 180.96,
-          "end": 181.22
+          "start": 184.08,
+          "end": 184.34
         },
         {
           "w": "begins.",
-          "start": 181.22,
-          "end": 181.74
+          "start": 184.34,
+          "end": 184.86
         },
         {
           "w": "Bancho",
-          "start": 182.44,
-          "end": 182.62
+          "start": 185.56,
+          "end": 185.74
         },
         {
           "w": "Sushi.",
-          "start": 182.62,
-          "end": 183.04
+          "start": 185.74,
+          "end": 186.16
         }
       ],
       "heard": "Then the sun goes down and the second half begins. Banjo sushi."
     },
     "p30": {
-      "start": 183.716,
-      "end": 194.805,
+      "start": 186.834,
+      "end": 197.923,
       "text": "Bancho is the chef. A man so serious about fish that, according to the game, he lost a job at a five-star hotel over a food critic and a whole roasted shark head.",
       "words": [
         {
           "w": "Bancho",
-          "start": 183.72,
-          "end": 184.1
+          "start": 186.83,
+          "end": 187.22
         },
         {
           "w": "is",
-          "start": 184.1,
-          "end": 184.24
+          "start": 187.22,
+          "end": 187.34
         },
         {
           "w": "the",
-          "start": 184.24,
-          "end": 184.4
-        },
-        {
-          "w": "chef.",
-          "start": 184.4,
-          "end": 184.66
-        },
-        {
-          "w": "A",
-          "start": 185.2,
-          "end": 185.28
-        },
-        {
-          "w": "man",
-          "start": 185.28,
-          "end": 185.5
-        },
-        {
-          "w": "so",
-          "start": 185.5,
-          "end": 185.9
-        },
-        {
-          "w": "serious",
-          "start": 185.9,
-          "end": 186.46
-        },
-        {
-          "w": "about",
-          "start": 186.46,
-          "end": 186.84
-        },
-        {
-          "w": "fish",
-          "start": 186.84,
-          "end": 187.2
-        },
-        {
-          "w": "that,",
-          "start": 187.2,
+          "start": 187.34,
           "end": 187.52
         },
         {
-          "w": "according",
+          "w": "chef.",
           "start": 187.52,
-          "end": 187.92
+          "end": 187.78
         },
         {
-          "w": "to",
-          "start": 187.92,
-          "end": 188.26
-        },
-        {
-          "w": "the",
-          "start": 188.26,
+          "w": "A",
+          "start": 188.32,
           "end": 188.4
         },
         {
-          "w": "game,",
+          "w": "man",
           "start": 188.4,
-          "end": 188.7
+          "end": 188.62
+        },
+        {
+          "w": "so",
+          "start": 188.62,
+          "end": 189.02
+        },
+        {
+          "w": "serious",
+          "start": 189.02,
+          "end": 189.58
+        },
+        {
+          "w": "about",
+          "start": 189.58,
+          "end": 189.94
+        },
+        {
+          "w": "fish",
+          "start": 189.94,
+          "end": 190.32
+        },
+        {
+          "w": "that,",
+          "start": 190.32,
+          "end": 190.64
+        },
+        {
+          "w": "according",
+          "start": 190.64,
+          "end": 191.04
+        },
+        {
+          "w": "to",
+          "start": 191.04,
+          "end": 191.38
+        },
+        {
+          "w": "the",
+          "start": 191.38,
+          "end": 191.52
+        },
+        {
+          "w": "game,",
+          "start": 191.52,
+          "end": 191.82
         },
         {
           "w": "he",
-          "start": 188.7,
-          "end": 188.98
+          "start": 191.82,
+          "end": 192.1
         },
         {
           "w": "lost",
-          "start": 188.98,
-          "end": 189.26
+          "start": 192.1,
+          "end": 192.38
         },
         {
           "w": "a",
-          "start": 189.26,
-          "end": 189.52
+          "start": 192.38,
+          "end": 192.64
         },
         {
           "w": "job",
-          "start": 189.52,
-          "end": 189.92
+          "start": 192.64,
+          "end": 193.02
         },
         {
           "w": "at",
-          "start": 189.92,
-          "end": 190.2
+          "start": 193.02,
+          "end": 193.3
         },
         {
           "w": "a",
-          "start": 190.2,
-          "end": 190.36
+          "start": 193.3,
+          "end": 193.48
         },
         {
           "w": "five-star",
-          "start": 190.36,
-          "end": 190.62
+          "start": 193.48,
+          "end": 193.74
         },
         {
           "w": "hotel",
-          "start": 190.62,
-          "end": 190.94
+          "start": 193.74,
+          "end": 194.06
         },
         {
           "w": "over",
-          "start": 190.94,
-          "end": 191.5
+          "start": 194.06,
+          "end": 194.62
         },
         {
           "w": "a",
-          "start": 191.5,
-          "end": 191.86
+          "start": 194.62,
+          "end": 194.98
         },
         {
           "w": "food",
-          "start": 191.86,
-          "end": 192.06
+          "start": 194.98,
+          "end": 195.18
         },
         {
           "w": "critic",
-          "start": 192.06,
-          "end": 192.3
+          "start": 195.18,
+          "end": 195.42
         },
         {
           "w": "and",
-          "start": 192.3,
-          "end": 192.66
+          "start": 195.42,
+          "end": 195.78
         },
         {
           "w": "a",
-          "start": 192.66,
-          "end": 192.92
+          "start": 195.78,
+          "end": 196.04
         },
         {
           "w": "whole",
-          "start": 192.92,
-          "end": 193.04
+          "start": 196.04,
+          "end": 196.16
         },
         {
           "w": "roasted",
-          "start": 193.04,
-          "end": 193.4
+          "start": 196.16,
+          "end": 196.52
         },
         {
           "w": "shark",
-          "start": 193.4,
-          "end": 193.96
+          "start": 196.52,
+          "end": 197.08
         },
         {
           "w": "head.",
-          "start": 193.96,
-          "end": 194.32
+          "start": 197.08,
+          "end": 197.46
         }
       ],
       "heard": "Banjo is the chef. A man so serious about fish that according to the game he lost a job at a five star hotel over a food critic and a whole roasted shark head."
     },
     "p31": {
-      "start": 195.255,
-      "end": 202.892,
+      "start": 198.373,
+      "end": 206.01,
       "text": "Bancho's new recipes come with anime cutscenes. Knives flash. A petal falls. Somewhere, a catfish looks terrified.",
       "words": [
         {
           "w": "Bancho's",
-          "start": 195.25,
-          "end": 195.76
+          "start": 198.37,
+          "end": 198.88
         },
         {
           "w": "new",
-          "start": 195.76,
-          "end": 195.92
+          "start": 198.88,
+          "end": 199.04
         },
         {
           "w": "recipes",
-          "start": 195.92,
-          "end": 196.36
+          "start": 199.04,
+          "end": 199.48
         },
         {
           "w": "come",
-          "start": 196.36,
-          "end": 196.7
+          "start": 199.48,
+          "end": 199.82
         },
         {
           "w": "with",
-          "start": 196.7,
-          "end": 196.86
+          "start": 199.82,
+          "end": 199.98
         },
         {
           "w": "anime",
-          "start": 196.86,
-          "end": 197.28
-        },
-        {
-          "w": "cutscenes.",
-          "start": 197.28,
-          "end": 198.04
-        },
-        {
-          "w": "Knives",
-          "start": 198.64,
-          "end": 198.8
-        },
-        {
-          "w": "flash.",
-          "start": 198.8,
-          "end": 199.16
-        },
-        {
-          "w": "A",
-          "start": 199.72,
-          "end": 199.8
-        },
-        {
-          "w": "petal",
-          "start": 199.8,
-          "end": 200.12
-        },
-        {
-          "w": "falls.",
-          "start": 200.12,
+          "start": 199.98,
           "end": 200.4
         },
         {
+          "w": "cutscenes.",
+          "start": 200.4,
+          "end": 201.16
+        },
+        {
+          "w": "Knives",
+          "start": 201.76,
+          "end": 201.92
+        },
+        {
+          "w": "flash.",
+          "start": 201.92,
+          "end": 202.28
+        },
+        {
+          "w": "A",
+          "start": 202.84,
+          "end": 202.92
+        },
+        {
+          "w": "petal",
+          "start": 202.92,
+          "end": 203.24
+        },
+        {
+          "w": "falls.",
+          "start": 203.24,
+          "end": 203.54
+        },
+        {
           "w": "Somewhere,",
-          "start": 201.08,
-          "end": 201.36
+          "start": 204.2,
+          "end": 204.48
         },
         {
           "w": "a",
-          "start": 201.36,
-          "end": 201.52
+          "start": 204.48,
+          "end": 204.64
         },
         {
           "w": "catfish",
-          "start": 201.52,
-          "end": 201.86
+          "start": 204.64,
+          "end": 204.98
         },
         {
           "w": "looks",
-          "start": 201.86,
-          "end": 202.08
+          "start": 204.98,
+          "end": 205.2
         },
         {
           "w": "terrified.",
-          "start": 202.08,
-          "end": 202.66
+          "start": 205.2,
+          "end": 205.76
         }
       ],
       "heard": "Banjo's new recipes come with anime cutscenes. Knives flash. A petal falls. Somewhere a catfish looks terrified."
     },
     "p32": {
-      "start": 203.342,
-      "end": 218.378,
+      "start": 206.46,
+      "end": 221.496,
       "text": "And Dave runs the floor. Tea. Wasabi. Plates. Faster, faster. Until closing. And then the game gives you a score for the night. Even your phone has an app for it, Cooksta, where the followers are people you actually fed.",
       "words": [
         {
           "w": "And",
-          "start": 203.34,
-          "end": 203.48
+          "start": 206.46,
+          "end": 206.6
         },
         {
           "w": "Dave",
-          "start": 203.48,
-          "end": 203.64
+          "start": 206.46,
+          "end": 206.6
         },
         {
           "w": "runs",
-          "start": 203.64,
-          "end": 203.9
+          "start": 206.6,
+          "end": 206.76
         },
         {
           "w": "the",
-          "start": 203.9,
-          "end": 204.14
+          "start": 206.76,
+          "end": 207.02
         },
         {
           "w": "floor.",
-          "start": 204.14,
-          "end": 204.4
+          "start": 207.02,
+          "end": 207.26
         },
         {
           "w": "Tea.",
-          "start": 205.22,
-          "end": 205.27
+          "start": 207.26,
+          "end": 207.52
         },
         {
           "w": "Wasabi.",
-          "start": 205.96,
-          "end": 206.36
+          "start": 209.08,
+          "end": 209.46
         },
         {
           "w": "Plates.",
-          "start": 206.98,
-          "end": 207.24
+          "start": 210.06,
+          "end": 210.36
         },
         {
           "w": "Faster,",
-          "start": 207.84,
-          "end": 208.06
+          "start": 210.96,
+          "end": 211.18
         },
         {
           "w": "faster.",
-          "start": 208.06,
-          "end": 208.38
+          "start": 211.28,
+          "end": 211.62
         },
         {
           "w": "Until",
-          "start": 209.14,
-          "end": 209.44
+          "start": 212.26,
+          "end": 212.56
         },
         {
           "w": "closing.",
-          "start": 209.44,
-          "end": 209.9
+          "start": 212.56,
+          "end": 213.06
         },
         {
           "w": "And",
-          "start": 210.52,
-          "end": 210.62
+          "start": 213.64,
+          "end": 213.74
         },
         {
           "w": "then",
-          "start": 210.62,
-          "end": 210.72
+          "start": 213.74,
+          "end": 213.84
         },
         {
           "w": "the",
-          "start": 210.72,
-          "end": 210.84
+          "start": 213.84,
+          "end": 213.96
         },
         {
           "w": "game",
-          "start": 210.84,
-          "end": 211.06
+          "start": 213.96,
+          "end": 214.18
         },
         {
           "w": "gives",
-          "start": 211.06,
-          "end": 211.32
+          "start": 214.18,
+          "end": 214.44
         },
         {
           "w": "you",
-          "start": 211.32,
-          "end": 211.5
+          "start": 214.44,
+          "end": 214.62
         },
         {
           "w": "a",
-          "start": 211.5,
-          "end": 211.66
-        },
-        {
-          "w": "score",
-          "start": 211.66,
-          "end": 211.88
-        },
-        {
-          "w": "for",
-          "start": 211.88,
-          "end": 212.1
-        },
-        {
-          "w": "the",
-          "start": 212.1,
-          "end": 212.24
-        },
-        {
-          "w": "night.",
-          "start": 212.24,
-          "end": 212.5
-        },
-        {
-          "w": "Even",
-          "start": 213.04,
-          "end": 213.3
-        },
-        {
-          "w": "your",
-          "start": 213.3,
-          "end": 213.52
-        },
-        {
-          "w": "phone",
-          "start": 213.52,
-          "end": 213.88
-        },
-        {
-          "w": "has",
-          "start": 213.88,
-          "end": 214.14
-        },
-        {
-          "w": "an",
-          "start": 214.14,
-          "end": 214.3
-        },
-        {
-          "w": "app",
-          "start": 214.3,
-          "end": 214.54
-        },
-        {
-          "w": "for",
-          "start": 214.54,
+          "start": 214.62,
           "end": 214.76
         },
         {
-          "w": "it,",
+          "w": "score",
           "start": 214.76,
-          "end": 214.94
+          "end": 215.0
         },
         {
-          "w": "Cooksta,",
-          "start": 214.94,
-          "end": 215.44
-        },
-        {
-          "w": "where",
-          "start": 215.44,
-          "end": 215.86
+          "w": "for",
+          "start": 215.0,
+          "end": 215.22
         },
         {
           "w": "the",
-          "start": 215.86,
-          "end": 216.02
+          "start": 215.22,
+          "end": 215.36
+        },
+        {
+          "w": "night.",
+          "start": 215.36,
+          "end": 215.6
+        },
+        {
+          "w": "Even",
+          "start": 216.14,
+          "end": 216.42
+        },
+        {
+          "w": "your",
+          "start": 216.42,
+          "end": 216.64
+        },
+        {
+          "w": "phone",
+          "start": 216.64,
+          "end": 217.0
+        },
+        {
+          "w": "has",
+          "start": 217.0,
+          "end": 217.26
+        },
+        {
+          "w": "an",
+          "start": 217.26,
+          "end": 217.42
+        },
+        {
+          "w": "app",
+          "start": 217.42,
+          "end": 217.66
+        },
+        {
+          "w": "for",
+          "start": 217.66,
+          "end": 217.88
+        },
+        {
+          "w": "it,",
+          "start": 217.88,
+          "end": 218.06
+        },
+        {
+          "w": "Cooksta,",
+          "start": 218.2,
+          "end": 218.52
+        },
+        {
+          "w": "where",
+          "start": 218.8,
+          "end": 218.98
+        },
+        {
+          "w": "the",
+          "start": 218.98,
+          "end": 219.14
         },
         {
           "w": "followers",
-          "start": 216.02,
-          "end": 216.44
+          "start": 219.14,
+          "end": 219.54
         },
         {
           "w": "are",
-          "start": 216.44,
-          "end": 216.8
+          "start": 219.54,
+          "end": 219.92
         },
         {
           "w": "people",
-          "start": 216.8,
-          "end": 217.08
+          "start": 219.92,
+          "end": 220.2
         },
         {
           "w": "you",
-          "start": 217.08,
-          "end": 217.36
+          "start": 220.2,
+          "end": 220.48
         },
         {
           "w": "actually",
-          "start": 217.36,
-          "end": 217.86
+          "start": 220.48,
+          "end": 220.98
         },
         {
           "w": "fed.",
-          "start": 217.86,
-          "end": 218.2
+          "start": 220.98,
+          "end": 221.3
         }
       ],
-      "heard": "And Dave runs the floor. Tea. Wesabi. Plates. Faster faster. Until closing. And then the game gives you a score for the night. Even your phone has an app for it cooksta where the followers are people you actually fed."
+      "heard": "And Dave runs the floor. Wasabi. Plates. Faster, faster. Until closing. And then the game gives you a score for the night. Even your phone has an app for it, Cooksta, where the followers are people you actually fed."
     },
     "p33": {
-      "start": 218.828,
-      "end": 224.93,
+      "start": 221.946,
+      "end": 228.048,
       "text": "Here's the part that matters. The fish you speared at noon... is on a plate at eight. And somebody eats it.",
       "words": [
         {
           "w": "Here's",
-          "start": 218.86,
-          "end": 219.1
+          "start": 221.95,
+          "end": 222.22
         },
         {
           "w": "the",
-          "start": 219.1,
-          "end": 219.22
+          "start": 222.22,
+          "end": 222.34
         },
         {
           "w": "part",
-          "start": 219.22,
-          "end": 219.4
+          "start": 222.34,
+          "end": 222.52
         },
         {
           "w": "that",
-          "start": 219.4,
-          "end": 219.58
+          "start": 222.52,
+          "end": 222.7
         },
         {
           "w": "matters.",
-          "start": 219.58,
-          "end": 219.9
+          "start": 222.7,
+          "end": 223.0
         },
         {
           "w": "The",
-          "start": 220.48,
-          "end": 220.66
+          "start": 223.56,
+          "end": 223.78
         },
         {
           "w": "fish",
-          "start": 220.66,
-          "end": 220.84
+          "start": 223.78,
+          "end": 223.96
         },
         {
           "w": "you",
-          "start": 220.84,
-          "end": 221.02
+          "start": 223.96,
+          "end": 224.14
         },
         {
           "w": "speared",
-          "start": 221.02,
-          "end": 221.32
+          "start": 224.14,
+          "end": 224.38
         },
         {
           "w": "at",
-          "start": 221.32,
-          "end": 221.44
-        },
-        {
-          "w": "noon...",
-          "start": 221.44,
-          "end": 221.7
-        },
-        {
-          "w": "is",
-          "start": 221.7,
-          "end": 222.36
-        },
-        {
-          "w": "on",
-          "start": 222.36,
-          "end": 222.5
-        },
-        {
-          "w": "a",
-          "start": 222.5,
-          "end": 222.62
-        },
-        {
-          "w": "plate",
-          "start": 222.62,
-          "end": 222.8
-        },
-        {
-          "w": "at",
-          "start": 222.8,
-          "end": 222.98
-        },
-        {
-          "w": "eight.",
-          "start": 222.98,
-          "end": 223.3
-        },
-        {
-          "w": "And",
-          "start": 223.82,
-          "end": 223.92
-        },
-        {
-          "w": "somebody",
-          "start": 223.92,
-          "end": 224.24
-        },
-        {
-          "w": "eats",
-          "start": 224.24,
+          "start": 224.38,
           "end": 224.56
         },
         {
-          "w": "it.",
+          "w": "noon...",
           "start": 224.56,
-          "end": 224.86
+          "end": 224.8
+        },
+        {
+          "w": "is",
+          "start": 224.8,
+          "end": 225.48
+        },
+        {
+          "w": "on",
+          "start": 225.48,
+          "end": 225.64
+        },
+        {
+          "w": "a",
+          "start": 225.64,
+          "end": 225.74
+        },
+        {
+          "w": "plate",
+          "start": 225.74,
+          "end": 225.92
+        },
+        {
+          "w": "at",
+          "start": 225.92,
+          "end": 226.1
+        },
+        {
+          "w": "eight.",
+          "start": 226.1,
+          "end": 226.36
+        },
+        {
+          "w": "And",
+          "start": 226.68,
+          "end": 226.98
+        },
+        {
+          "w": "somebody",
+          "start": 226.98,
+          "end": 227.36
+        },
+        {
+          "w": "eats",
+          "start": 227.36,
+          "end": 227.68
+        },
+        {
+          "w": "it.",
+          "start": 227.68,
+          "end": 228.04
         }
       ],
-      "heard": "Here's the part that matters. The fish you speared at noon. Is on a plate at eight. And somebody eats it."
+      "heard": "Here's the part that matters. The fish you spared at noon is on a plate at eight and somebody eats it."
     },
     "p34": {
-      "start": 225.38,
-      "end": 231.874,
+      "start": 228.498,
+      "end": 234.992,
       "text": "Most of us make things nobody ever sees. A report goes into a folder. The folder goes into another folder.",
       "words": [
         {
           "w": "Most",
-          "start": 225.42,
-          "end": 225.6
-        },
-        {
-          "w": "of",
-          "start": 225.6,
-          "end": 225.76
-        },
-        {
-          "w": "us",
-          "start": 225.76,
-          "end": 225.9
-        },
-        {
-          "w": "make",
-          "start": 225.9,
-          "end": 226.06
-        },
-        {
-          "w": "things",
-          "start": 226.06,
-          "end": 226.4
-        },
-        {
-          "w": "nobody",
-          "start": 226.4,
-          "end": 226.8
-        },
-        {
-          "w": "ever",
-          "start": 226.8,
-          "end": 227.16
-        },
-        {
-          "w": "sees.",
-          "start": 227.16,
-          "end": 227.5
-        },
-        {
-          "w": "A",
-          "start": 228.1,
-          "end": 228.18
-        },
-        {
-          "w": "report",
-          "start": 228.18,
-          "end": 228.48
-        },
-        {
-          "w": "goes",
-          "start": 228.48,
+          "start": 228.58,
           "end": 228.72
         },
         {
-          "w": "into",
+          "w": "of",
           "start": 228.72,
-          "end": 228.96
+          "end": 228.88
         },
         {
-          "w": "a",
-          "start": 228.96,
-          "end": 229.14
+          "w": "us",
+          "start": 228.88,
+          "end": 229.0
         },
         {
-          "w": "folder.",
-          "start": 229.14,
-          "end": 229.4
+          "w": "make",
+          "start": 229.0,
+          "end": 229.18
         },
         {
-          "w": "The",
-          "start": 229.88,
-          "end": 230.08
+          "w": "things",
+          "start": 229.18,
+          "end": 229.52
         },
         {
-          "w": "folder",
-          "start": 230.08,
-          "end": 230.4
+          "w": "nobody",
+          "start": 229.52,
+          "end": 229.92
+        },
+        {
+          "w": "ever",
+          "start": 229.92,
+          "end": 230.28
+        },
+        {
+          "w": "sees.",
+          "start": 230.28,
+          "end": 230.6
+        },
+        {
+          "w": "A",
+          "start": 231.14,
+          "end": 231.3
+        },
+        {
+          "w": "report",
+          "start": 231.3,
+          "end": 231.6
         },
         {
           "w": "goes",
-          "start": 230.4,
-          "end": 230.66
+          "start": 231.6,
+          "end": 231.84
         },
         {
           "w": "into",
-          "start": 230.66,
-          "end": 230.94
+          "start": 231.84,
+          "end": 232.08
         },
         {
-          "w": "another",
-          "start": 230.94,
-          "end": 231.24
+          "w": "a",
+          "start": 232.08,
+          "end": 232.24
         },
         {
           "w": "folder.",
-          "start": 231.24,
-          "end": 231.7
+          "start": 232.24,
+          "end": 232.5
+        },
+        {
+          "w": "The",
+          "start": 233.02,
+          "end": 233.18
+        },
+        {
+          "w": "folder",
+          "start": 233.18,
+          "end": 233.52
+        },
+        {
+          "w": "goes",
+          "start": 233.52,
+          "end": 233.78
+        },
+        {
+          "w": "into",
+          "start": 233.78,
+          "end": 234.04
+        },
+        {
+          "w": "another",
+          "start": 234.04,
+          "end": 234.36
+        },
+        {
+          "w": "folder.",
+          "start": 234.36,
+          "end": 234.82
         }
       ],
       "heard": "Most of us make things nobody ever sees. A report goes into a folder. The folder goes into another folder."
     },
     "p35": {
-      "start": 232.324,
-      "end": 239.745,
+      "start": 235.442,
+      "end": 242.863,
       "text": "The director split the day in two so you could focus on each half. And so you'd feel like you were \"preparing dinner for customers.\"",
       "words": [
         {
           "w": "The",
-          "start": 232.32,
-          "end": 232.44
-        },
-        {
-          "w": "director",
-          "start": 232.44,
-          "end": 232.78
-        },
-        {
-          "w": "split",
-          "start": 232.78,
-          "end": 233.2
-        },
-        {
-          "w": "the",
-          "start": 233.2,
-          "end": 233.42
-        },
-        {
-          "w": "day",
-          "start": 233.42,
-          "end": 233.6
-        },
-        {
-          "w": "in",
-          "start": 233.6,
-          "end": 233.76
-        },
-        {
-          "w": "two",
-          "start": 233.76,
-          "end": 234.06
-        },
-        {
-          "w": "so",
-          "start": 234.06,
-          "end": 234.38
-        },
-        {
-          "w": "you",
-          "start": 234.38,
-          "end": 234.52
-        },
-        {
-          "w": "could",
-          "start": 234.52,
-          "end": 234.68
-        },
-        {
-          "w": "focus",
-          "start": 234.68,
-          "end": 235.06
-        },
-        {
-          "w": "on",
-          "start": 235.06,
-          "end": 235.34
-        },
-        {
-          "w": "each",
-          "start": 235.34,
+          "start": 235.44,
           "end": 235.56
         },
         {
-          "w": "half.",
+          "w": "director",
           "start": 235.56,
           "end": 235.88
         },
         {
-          "w": "And",
-          "start": 236.36,
-          "end": 236.5
+          "w": "split",
+          "start": 235.88,
+          "end": 236.32
+        },
+        {
+          "w": "the",
+          "start": 236.32,
+          "end": 236.52
+        },
+        {
+          "w": "day",
+          "start": 236.52,
+          "end": 236.7
+        },
+        {
+          "w": "in",
+          "start": 236.7,
+          "end": 236.88
+        },
+        {
+          "w": "two",
+          "start": 236.88,
+          "end": 237.18
         },
         {
           "w": "so",
-          "start": 236.5,
-          "end": 236.64
-        },
-        {
-          "w": "you'd",
-          "start": 236.64,
-          "end": 236.9
-        },
-        {
-          "w": "feel",
-          "start": 236.9,
-          "end": 237.1
-        },
-        {
-          "w": "like",
-          "start": 237.1,
-          "end": 237.36
+          "start": 237.18,
+          "end": 237.48
         },
         {
           "w": "you",
-          "start": 237.36,
-          "end": 237.6
+          "start": 237.48,
+          "end": 237.62
+        },
+        {
+          "w": "could",
+          "start": 237.62,
+          "end": 237.8
+        },
+        {
+          "w": "focus",
+          "start": 237.8,
+          "end": 238.18
+        },
+        {
+          "w": "on",
+          "start": 238.18,
+          "end": 238.46
+        },
+        {
+          "w": "each",
+          "start": 238.46,
+          "end": 238.66
+        },
+        {
+          "w": "half.",
+          "start": 238.66,
+          "end": 239.0
+        },
+        {
+          "w": "And",
+          "start": 239.48,
+          "end": 239.62
+        },
+        {
+          "w": "so",
+          "start": 239.62,
+          "end": 239.76
+        },
+        {
+          "w": "you'd",
+          "start": 239.76,
+          "end": 240.0
+        },
+        {
+          "w": "feel",
+          "start": 240.0,
+          "end": 240.22
+        },
+        {
+          "w": "like",
+          "start": 240.22,
+          "end": 240.48
+        },
+        {
+          "w": "you",
+          "start": 240.48,
+          "end": 240.72
         },
         {
           "w": "were",
-          "start": 237.6,
-          "end": 237.84
+          "start": 240.72,
+          "end": 240.94
         },
         {
           "w": "\"preparing",
-          "start": 237.84,
-          "end": 238.36
+          "start": 240.94,
+          "end": 241.48
         },
         {
           "w": "dinner",
-          "start": 238.36,
-          "end": 238.68
+          "start": 241.48,
+          "end": 241.8
         },
         {
           "w": "for",
-          "start": 238.68,
-          "end": 238.96
+          "start": 241.8,
+          "end": 242.08
         },
         {
           "w": "customers.\"",
-          "start": 238.96,
-          "end": 239.5
+          "start": 242.08,
+          "end": 242.66
         }
       ],
       "heard": "The director split the day in two so you could focus on each half. And so you'd feel like you were preparing dinner for customers."
     },
     "p36": {
-      "start": 240.195,
-      "end": 243.146,
+      "start": 243.313,
+      "end": 246.263,
       "text": "Not a task. A dinner. For someone.",
       "words": [
         {
           "w": "Not",
-          "start": 240.19,
-          "end": 240.42
+          "start": 243.31,
+          "end": 243.54
         },
         {
           "w": "a",
-          "start": 240.42,
-          "end": 240.62
+          "start": 243.54,
+          "end": 243.74
         },
         {
           "w": "task.",
-          "start": 240.62,
-          "end": 240.96
+          "start": 243.74,
+          "end": 244.06
         },
         {
           "w": "A",
-          "start": 241.42,
-          "end": 241.54
+          "start": 244.56,
+          "end": 244.66
         },
         {
           "w": "dinner.",
-          "start": 241.54,
-          "end": 241.8
+          "start": 244.66,
+          "end": 244.9
         },
         {
           "w": "For",
-          "start": 242.32,
-          "end": 242.52
+          "start": 245.48,
+          "end": 245.64
         },
         {
           "w": "someone.",
-          "start": 242.52,
-          "end": 242.94
+          "start": 245.64,
+          "end": 246.04
         }
       ],
       "heard": "Not a task. A dinner. For someone."
     },
     "p37": {
-      "start": 243.596,
-      "end": 246.01,
+      "start": 246.714,
+      "end": 249.128,
       "text": "And the customers aren't the only ones waiting.",
       "words": [
         {
           "w": "And",
-          "start": 243.6,
-          "end": 243.72
+          "start": 246.71,
+          "end": 246.84
         },
         {
           "w": "the",
-          "start": 243.72,
-          "end": 243.82
+          "start": 246.84,
+          "end": 246.94
         },
         {
           "w": "customers",
-          "start": 243.82,
-          "end": 244.26
+          "start": 246.94,
+          "end": 247.38
         },
         {
           "w": "aren't",
-          "start": 244.26,
-          "end": 244.72
+          "start": 247.38,
+          "end": 247.82
         },
         {
           "w": "the",
-          "start": 244.72,
-          "end": 244.84
+          "start": 247.82,
+          "end": 247.96
         },
         {
           "w": "only",
-          "start": 244.84,
-          "end": 245.16
+          "start": 247.96,
+          "end": 248.28
         },
         {
           "w": "ones",
-          "start": 245.16,
-          "end": 245.46
+          "start": 248.28,
+          "end": 248.58
         },
         {
           "w": "waiting.",
-          "start": 245.46,
-          "end": 245.8
+          "start": 248.58,
+          "end": 248.96
         }
       ],
       "heard": "And the customers aren't the only ones waiting."
     },
     "p38": {
-      "start": 246.46,
-      "end": 253.328,
+      "start": 249.578,
+      "end": 256.446,
       "text": "Duff, the weapons guy, who loves his anime idols louder than any adult is supposed to love anything.",
       "words": [
         {
           "w": "Duff,",
-          "start": 246.46,
-          "end": 246.72
+          "start": 249.86,
+          "end": 249.91
         },
         {
           "w": "the",
-          "start": 246.96,
-          "end": 247.1
+          "start": 250.08,
+          "end": 250.22
         },
         {
           "w": "weapons",
-          "start": 247.1,
-          "end": 247.5
+          "start": 250.22,
+          "end": 250.6
         },
         {
           "w": "guy,",
-          "start": 247.5,
-          "end": 247.96
+          "start": 250.6,
+          "end": 251.06
         },
         {
           "w": "who",
-          "start": 248.34,
-          "end": 248.5
+          "start": 251.06,
+          "end": 251.6
         },
         {
           "w": "loves",
-          "start": 248.5,
-          "end": 248.82
+          "start": 251.6,
+          "end": 251.96
         },
         {
           "w": "his",
-          "start": 248.82,
-          "end": 249.08
+          "start": 251.96,
+          "end": 252.2
         },
         {
           "w": "anime",
-          "start": 249.08,
-          "end": 249.6
+          "start": 252.2,
+          "end": 252.7
         },
         {
           "w": "idols",
-          "start": 249.6,
-          "end": 250.1
+          "start": 252.7,
+          "end": 253.2
         },
         {
           "w": "louder",
-          "start": 250.1,
-          "end": 250.44
+          "start": 253.2,
+          "end": 253.56
         },
         {
           "w": "than",
-          "start": 250.44,
-          "end": 250.8
+          "start": 253.56,
+          "end": 253.92
         },
         {
           "w": "any",
-          "start": 250.8,
-          "end": 251.12
+          "start": 253.92,
+          "end": 254.24
         },
         {
           "w": "adult",
-          "start": 251.12,
-          "end": 251.5
+          "start": 254.24,
+          "end": 254.66
         },
         {
           "w": "is",
-          "start": 251.5,
-          "end": 251.76
+          "start": 254.66,
+          "end": 254.9
         },
         {
           "w": "supposed",
-          "start": 251.76,
-          "end": 252.1
+          "start": 254.9,
+          "end": 255.22
         },
         {
           "w": "to",
-          "start": 252.1,
-          "end": 252.38
+          "start": 255.22,
+          "end": 255.5
         },
         {
           "w": "love",
-          "start": 252.38,
-          "end": 252.6
+          "start": 255.5,
+          "end": 255.72
         },
         {
           "w": "anything.",
-          "start": 252.6,
-          "end": 253.26
+          "start": 255.72,
+          "end": 256.34
         }
       ],
-      "heard": "Duff, the weapons guy, who loves his anime idols louder than any adult is supposed to love anything."
+      "heard": "Duff, the weapons guy who loves his anime idols louder than any adult is supposed to love anything."
     },
     "p39": {
-      "start": 253.778,
-      "end": 260.798,
+      "start": 256.896,
+      "end": 263.916,
       "text": "Otto, the farmer in the straw hat, who has been away from home a long time, and wants to fix his life before he calls.",
       "words": [
         {
           "w": "Otto,",
-          "start": 254.04,
-          "end": 254.09
+          "start": 257.22,
+          "end": 257.27
         },
         {
           "w": "the",
-          "start": 254.38,
-          "end": 254.5
+          "start": 257.5,
+          "end": 257.6
         },
         {
           "w": "farmer",
-          "start": 254.5,
-          "end": 254.78
+          "start": 257.6,
+          "end": 257.9
         },
         {
           "w": "in",
-          "start": 254.78,
-          "end": 255.1
+          "start": 257.9,
+          "end": 258.22
         },
         {
           "w": "the",
-          "start": 255.1,
-          "end": 255.24
+          "start": 258.22,
+          "end": 258.34
         },
         {
           "w": "straw",
-          "start": 255.24,
-          "end": 255.56
+          "start": 258.34,
+          "end": 258.68
         },
         {
           "w": "hat,",
-          "start": 255.56,
-          "end": 255.9
+          "start": 258.68,
+          "end": 259.02
         },
         {
           "w": "who",
-          "start": 255.9,
-          "end": 256.14
+          "start": 259.02,
+          "end": 259.26
         },
         {
           "w": "has",
-          "start": 256.14,
-          "end": 256.34
+          "start": 259.26,
+          "end": 259.46
         },
         {
           "w": "been",
-          "start": 256.34,
-          "end": 256.5
+          "start": 259.46,
+          "end": 259.62
         },
         {
           "w": "away",
-          "start": 256.5,
-          "end": 256.78
+          "start": 259.62,
+          "end": 259.9
         },
         {
           "w": "from",
-          "start": 256.78,
-          "end": 257.04
+          "start": 259.9,
+          "end": 260.14
         },
         {
           "w": "home",
-          "start": 257.04,
-          "end": 257.34
+          "start": 260.14,
+          "end": 260.46
         },
         {
           "w": "a",
-          "start": 257.34,
-          "end": 257.54
+          "start": 260.46,
+          "end": 260.66
         },
         {
           "w": "long",
-          "start": 257.54,
-          "end": 257.76
+          "start": 260.66,
+          "end": 260.88
         },
         {
           "w": "time,",
-          "start": 257.76,
-          "end": 258.2
+          "start": 260.88,
+          "end": 261.34
         },
         {
           "w": "and",
-          "start": 258.2,
-          "end": 258.58
+          "start": 261.34,
+          "end": 261.68
         },
         {
           "w": "wants",
-          "start": 258.58,
-          "end": 258.76
+          "start": 261.68,
+          "end": 261.88
         },
         {
           "w": "to",
-          "start": 258.76,
-          "end": 259.0
+          "start": 261.88,
+          "end": 262.12
         },
         {
           "w": "fix",
-          "start": 259.0,
-          "end": 259.16
+          "start": 262.12,
+          "end": 262.28
         },
         {
           "w": "his",
-          "start": 259.16,
-          "end": 259.4
+          "start": 262.28,
+          "end": 262.52
         },
         {
           "w": "life",
-          "start": 259.4,
-          "end": 259.64
+          "start": 262.52,
+          "end": 262.78
         },
         {
           "w": "before",
-          "start": 259.64,
-          "end": 259.96
+          "start": 262.78,
+          "end": 263.08
         },
         {
           "w": "he",
-          "start": 259.96,
-          "end": 260.18
+          "start": 263.08,
+          "end": 263.3
         },
         {
           "w": "calls.",
-          "start": 260.18,
-          "end": 260.52
+          "start": 263.3,
+          "end": 263.66
         }
       ],
       "heard": "Otto, the farmer in the straw hat who has been away from home a long time and wants to fix his life before he calls."
     },
     "p40": {
-      "start": 261.248,
-      "end": 265.763,
+      "start": 264.366,
+      "end": 268.881,
       "text": "And deep under the Blue Hole, a whole village of Sea People, who need Dave too.",
       "words": [
         {
           "w": "And",
-          "start": 261.25,
-          "end": 261.44
+          "start": 264.37,
+          "end": 264.56
         },
         {
           "w": "deep",
-          "start": 261.44,
-          "end": 261.64
+          "start": 264.56,
+          "end": 264.76
         },
         {
           "w": "under",
-          "start": 261.64,
-          "end": 261.9
+          "start": 264.76,
+          "end": 265.02
         },
         {
           "w": "the",
-          "start": 261.9,
-          "end": 262.08
+          "start": 265.02,
+          "end": 265.2
         },
         {
           "w": "Blue",
-          "start": 262.08,
-          "end": 262.28
+          "start": 265.2,
+          "end": 265.4
         },
         {
           "w": "Hole,",
-          "start": 262.28,
-          "end": 262.62
+          "start": 265.4,
+          "end": 265.74
         },
         {
           "w": "a",
-          "start": 262.86,
-          "end": 262.94
+          "start": 266.0,
+          "end": 266.06
         },
         {
           "w": "whole",
-          "start": 262.94,
-          "end": 263.24
+          "start": 266.06,
+          "end": 266.36
         },
         {
           "w": "village",
-          "start": 263.24,
-          "end": 263.58
+          "start": 266.36,
+          "end": 266.72
         },
         {
           "w": "of",
-          "start": 263.58,
-          "end": 263.82
+          "start": 266.72,
+          "end": 266.94
         },
         {
           "w": "Sea",
-          "start": 263.82,
-          "end": 264.04
+          "start": 266.94,
+          "end": 267.16
         },
         {
           "w": "People,",
-          "start": 264.04,
-          "end": 264.38
+          "start": 267.16,
+          "end": 267.5
         },
         {
           "w": "who",
-          "start": 264.38,
-          "end": 264.68
+          "start": 267.5,
+          "end": 267.8
         },
         {
           "w": "need",
-          "start": 264.68,
-          "end": 264.94
+          "start": 267.8,
+          "end": 268.08
         },
         {
           "w": "Dave",
-          "start": 264.94,
-          "end": 265.18
+          "start": 268.08,
+          "end": 268.3
         },
         {
           "w": "too.",
-          "start": 265.18,
-          "end": 265.58
+          "start": 268.3,
+          "end": 268.7
         }
       ],
       "heard": "And deep under the blue hole, a whole village of sea people who need Dave too."
     },
     "p41": {
-      "start": 266.213,
-      "end": 269.501,
+      "start": 269.331,
+      "end": 272.619,
       "text": "Every one of them needs Dave to do the one thing they can't.",
       "words": [
         {
           "w": "Every",
-          "start": 266.26,
-          "end": 266.48
+          "start": 269.36,
+          "end": 269.6
         },
         {
           "w": "one",
-          "start": 266.48,
-          "end": 266.66
+          "start": 269.6,
+          "end": 269.8
         },
         {
           "w": "of",
-          "start": 266.66,
-          "end": 266.76
+          "start": 269.8,
+          "end": 269.88
         },
         {
           "w": "them",
-          "start": 266.76,
-          "end": 266.94
+          "start": 269.88,
+          "end": 270.06
         },
         {
           "w": "needs",
-          "start": 266.94,
-          "end": 267.26
+          "start": 270.06,
+          "end": 270.38
         },
         {
           "w": "Dave",
-          "start": 267.26,
-          "end": 267.68
+          "start": 270.38,
+          "end": 270.82
         },
         {
           "w": "to",
-          "start": 267.68,
-          "end": 267.96
+          "start": 270.82,
+          "end": 271.06
         },
         {
           "w": "do",
-          "start": 267.96,
-          "end": 268.1
+          "start": 271.06,
+          "end": 271.22
         },
         {
           "w": "the",
-          "start": 268.1,
-          "end": 268.28
+          "start": 271.22,
+          "end": 271.38
         },
         {
           "w": "one",
-          "start": 268.28,
-          "end": 268.48
+          "start": 271.38,
+          "end": 271.62
         },
         {
           "w": "thing",
-          "start": 268.48,
-          "end": 268.72
+          "start": 271.62,
+          "end": 271.84
         },
         {
           "w": "they",
-          "start": 268.72,
-          "end": 268.96
+          "start": 271.84,
+          "end": 272.08
         },
         {
           "w": "can't.",
-          "start": 268.96,
-          "end": 269.5
+          "start": 272.08,
+          "end": 272.62
         }
       ],
       "heard": "Every one of them needs Dave to do the one thing they can't."
     },
     "p42": {
-      "start": 269.951,
-      "end": 277.607,
+      "start": 273.069,
+      "end": 280.725,
       "text": "Being needed by four thousand people is called a job. Being needed by five is called a family. Or, apparently, a sushi bar.",
       "words": [
         {
           "w": "Being",
-          "start": 269.98,
-          "end": 270.16
+          "start": 273.1,
+          "end": 273.28
         },
         {
           "w": "needed",
-          "start": 270.16,
-          "end": 270.5
+          "start": 273.28,
+          "end": 273.62
         },
         {
           "w": "by",
-          "start": 270.5,
-          "end": 270.72
+          "start": 273.62,
+          "end": 273.84
         },
         {
           "w": "four",
-          "start": 270.72,
-          "end": 271.06
+          "start": 273.84,
+          "end": 274.22
         },
         {
           "w": "thousand",
-          "start": 271.06,
-          "end": 271.38
+          "start": 274.22,
+          "end": 274.62
         },
         {
           "w": "people",
-          "start": 271.38,
-          "end": 271.84
+          "start": 274.62,
+          "end": 274.98
         },
         {
           "w": "is",
-          "start": 271.84,
-          "end": 272.18
+          "start": 274.98,
+          "end": 275.3
         },
         {
           "w": "called",
-          "start": 272.18,
-          "end": 272.44
+          "start": 275.3,
+          "end": 275.56
         },
         {
           "w": "a",
-          "start": 272.44,
-          "end": 272.64
+          "start": 275.56,
+          "end": 275.76
         },
         {
           "w": "job.",
-          "start": 272.64,
-          "end": 273.0
+          "start": 275.76,
+          "end": 276.12
         },
         {
           "w": "Being",
-          "start": 273.0,
-          "end": 273.66
+          "start": 276.66,
+          "end": 276.8
         },
         {
           "w": "needed",
-          "start": 273.66,
-          "end": 273.96
-        },
-        {
-          "w": "by",
-          "start": 273.96,
-          "end": 274.18
-        },
-        {
-          "w": "five",
-          "start": 274.18,
-          "end": 274.56
-        },
-        {
-          "w": "is",
-          "start": 274.56,
-          "end": 274.78
-        },
-        {
-          "w": "called",
-          "start": 274.78,
-          "end": 275.04
-        },
-        {
-          "w": "a",
-          "start": 275.04,
-          "end": 275.2
-        },
-        {
-          "w": "family.",
-          "start": 275.2,
-          "end": 275.58
-        },
-        {
-          "w": "Or,",
-          "start": 276.1,
-          "end": 276.22
-        },
-        {
-          "w": "apparently,",
-          "start": 276.22,
-          "end": 276.62
-        },
-        {
-          "w": "a",
-          "start": 276.62,
-          "end": 276.84
-        },
-        {
-          "w": "sushi",
-          "start": 276.84,
+          "start": 276.8,
           "end": 277.08
         },
         {
-          "w": "bar.",
+          "w": "by",
           "start": 277.08,
-          "end": 277.48
+          "end": 277.32
+        },
+        {
+          "w": "five",
+          "start": 277.32,
+          "end": 277.62
+        },
+        {
+          "w": "is",
+          "start": 277.62,
+          "end": 277.9
+        },
+        {
+          "w": "called",
+          "start": 277.9,
+          "end": 278.18
+        },
+        {
+          "w": "a",
+          "start": 278.18,
+          "end": 278.32
+        },
+        {
+          "w": "family.",
+          "start": 278.32,
+          "end": 278.66
+        },
+        {
+          "w": "Or,",
+          "start": 279.06,
+          "end": 279.34
+        },
+        {
+          "w": "apparently,",
+          "start": 279.34,
+          "end": 279.78
+        },
+        {
+          "w": "a",
+          "start": 279.78,
+          "end": 279.98
+        },
+        {
+          "w": "sushi",
+          "start": 279.98,
+          "end": 280.18
+        },
+        {
+          "w": "bar.",
+          "start": 280.18,
+          "end": 280.56
         }
       ],
-      "heard": "Being needed by four thousand people is called a job. Being needed by five is called a family. Or apparently a sushi bar."
+      "heard": "Being needed by 4 ,000 people is called a job. Being needed by five is called a family or apparently a sushi bar."
     },
     "p43": {
-      "start": 278.057,
-      "end": 288.28,
+      "start": 281.175,
+      "end": 291.398,
       "text": "And yes, some players say the game never stops handing you chores. A fish farm. A rice paddy. Seahorse racing. Fair. Dave never says no either.",
       "words": [
         {
           "w": "And",
-          "start": 278.1,
-          "end": 278.22
+          "start": 281.18,
+          "end": 281.32
         },
         {
           "w": "yes,",
-          "start": 278.22,
-          "end": 278.46
+          "start": 281.32,
+          "end": 281.58
         },
         {
           "w": "some",
-          "start": 278.74,
-          "end": 278.88
+          "start": 281.86,
+          "end": 282.0
         },
         {
           "w": "players",
-          "start": 278.88,
-          "end": 279.22
+          "start": 282.0,
+          "end": 282.34
         },
         {
           "w": "say",
-          "start": 279.22,
-          "end": 279.52
+          "start": 282.34,
+          "end": 282.64
         },
         {
           "w": "the",
-          "start": 279.52,
-          "end": 279.68
+          "start": 282.64,
+          "end": 282.8
         },
         {
           "w": "game",
-          "start": 279.68,
-          "end": 279.88
+          "start": 282.8,
+          "end": 283.0
         },
         {
           "w": "never",
-          "start": 279.88,
-          "end": 280.18
+          "start": 283.0,
+          "end": 283.3
         },
         {
           "w": "stops",
-          "start": 280.18,
-          "end": 280.58
+          "start": 283.3,
+          "end": 283.7
         },
         {
           "w": "handing",
-          "start": 280.58,
-          "end": 280.92
+          "start": 283.7,
+          "end": 284.04
         },
         {
           "w": "you",
-          "start": 280.92,
-          "end": 281.2
+          "start": 284.04,
+          "end": 284.32
         },
         {
           "w": "chores.",
-          "start": 281.2,
-          "end": 281.5
+          "start": 284.32,
+          "end": 284.62
         },
         {
           "w": "A",
-          "start": 282.18,
-          "end": 282.23
+          "start": 285.24,
+          "end": 285.32
         },
         {
           "w": "fish",
-          "start": 282.2,
-          "end": 282.42
+          "start": 285.32,
+          "end": 285.52
         },
         {
           "w": "farm.",
-          "start": 282.42,
-          "end": 282.82
+          "start": 285.52,
+          "end": 285.92
         },
         {
           "w": "A",
-          "start": 283.32,
-          "end": 283.44
+          "start": 286.44,
+          "end": 286.56
         },
         {
           "w": "rice",
-          "start": 283.44,
-          "end": 283.68
+          "start": 286.56,
+          "end": 286.8
         },
         {
           "w": "paddy.",
-          "start": 283.68,
-          "end": 284.02
+          "start": 286.8,
+          "end": 287.18
         },
         {
           "w": "Seahorse",
-          "start": 284.6,
-          "end": 284.96
+          "start": 287.74,
+          "end": 288.06
         },
         {
           "w": "racing.",
-          "start": 284.96,
-          "end": 285.46
+          "start": 288.06,
+          "end": 288.6
         },
         {
           "w": "Fair.",
-          "start": 286.0,
-          "end": 286.28
+          "start": 289.1,
+          "end": 289.4
         },
         {
           "w": "Dave",
-          "start": 286.88,
-          "end": 287.04
+          "start": 290.02,
+          "end": 290.16
         },
         {
           "w": "never",
-          "start": 287.04,
-          "end": 287.28
+          "start": 290.16,
+          "end": 290.4
         },
         {
           "w": "says",
-          "start": 287.28,
-          "end": 287.52
+          "start": 290.4,
+          "end": 290.62
         },
         {
           "w": "no",
-          "start": 287.52,
-          "end": 287.78
+          "start": 290.62,
+          "end": 290.9
         },
         {
           "w": "either.",
-          "start": 287.78,
-          "end": 288.12
+          "start": 290.9,
+          "end": 291.24
         }
       ],
-      "heard": "And yes, some players say the game never stops handing you chores. A fish farm. A rice paddy. Seahorse racing. Fair. Dave never says no either."
+      "heard": "And yes, some players say the game never stops handing you chores. A fish farm, a rice paddy, seahorse racing, fair. Dave never says no either."
     },
     "p44": {
-      "start": 288.73,
-      "end": 296.544,
+      "start": 291.848,
+      "end": 299.662,
       "text": "Which brings us back to Cobra. Dave could leave. He never does. Because somewhere along the way, the contracts became friends.",
       "words": [
         {
           "w": "Which",
-          "start": 288.8,
-          "end": 288.88
+          "start": 291.9,
+          "end": 292.04
         },
         {
           "w": "brings",
-          "start": 288.88,
-          "end": 289.14
+          "start": 292.04,
+          "end": 292.24
         },
         {
           "w": "us",
-          "start": 289.14,
-          "end": 289.34
+          "start": 292.24,
+          "end": 292.46
         },
         {
           "w": "back",
-          "start": 289.34,
-          "end": 289.56
+          "start": 292.46,
+          "end": 292.7
         },
         {
           "w": "to",
-          "start": 289.56,
-          "end": 289.8
+          "start": 292.7,
+          "end": 292.96
         },
         {
           "w": "Cobra.",
-          "start": 289.8,
-          "end": 290.04
+          "start": 292.96,
+          "end": 293.16
         },
         {
           "w": "Dave",
-          "start": 290.7,
-          "end": 290.92
+          "start": 293.84,
+          "end": 294.04
         },
         {
           "w": "could",
-          "start": 290.92,
-          "end": 291.14
+          "start": 294.04,
+          "end": 294.26
         },
         {
           "w": "leave.",
-          "start": 291.14,
-          "end": 291.46
+          "start": 294.26,
+          "end": 294.56
         },
         {
           "w": "He",
-          "start": 291.98,
-          "end": 292.14
+          "start": 295.06,
+          "end": 295.26
         },
         {
           "w": "never",
-          "start": 292.14,
-          "end": 292.38
+          "start": 295.26,
+          "end": 295.5
         },
         {
           "w": "does.",
-          "start": 292.38,
-          "end": 292.74
+          "start": 295.5,
+          "end": 295.88
         },
         {
           "w": "Because",
-          "start": 293.28,
-          "end": 293.52
+          "start": 295.88,
+          "end": 296.62
         },
         {
           "w": "somewhere",
-          "start": 293.52,
-          "end": 293.96
+          "start": 296.62,
+          "end": 297.08
         },
         {
           "w": "along",
-          "start": 293.96,
-          "end": 294.3
+          "start": 297.08,
+          "end": 297.42
         },
         {
           "w": "the",
-          "start": 294.3,
-          "end": 294.46
+          "start": 297.42,
+          "end": 297.58
         },
         {
           "w": "way,",
-          "start": 294.46,
-          "end": 294.7
+          "start": 297.58,
+          "end": 297.84
         },
         {
           "w": "the",
-          "start": 294.7,
-          "end": 294.98
+          "start": 297.84,
+          "end": 298.08
         },
         {
           "w": "contracts",
-          "start": 294.98,
-          "end": 295.42
+          "start": 298.08,
+          "end": 298.54
         },
         {
           "w": "became",
-          "start": 295.42,
-          "end": 295.84
+          "start": 298.54,
+          "end": 298.94
         },
         {
           "w": "friends.",
-          "start": 295.84,
-          "end": 296.22
+          "start": 298.94,
+          "end": 299.36
         }
       ],
-      "heard": "Which brings us back to Cobra. Dave could leave. He never does. Because somewhere along the way the contracts became friends."
+      "heard": "Which brings us back to Cobra. Dave could leave. He never does because somewhere along the way the contracts became friends."
     },
     "p45": {
-      "start": 296.994,
-      "end": 301.653,
+      "start": 300.112,
+      "end": 304.771,
       "text": "So... why do millions of people come home from work to work two jobs?",
       "words": [
         {
           "w": "So...",
-          "start": 297.08,
-          "end": 297.3
+          "start": 300.28,
+          "end": 300.42
         },
         {
           "w": "why",
-          "start": 298.0,
-          "end": 298.18
+          "start": 300.42,
+          "end": 301.3
         },
         {
           "w": "do",
-          "start": 298.18,
-          "end": 298.44
+          "start": 301.3,
+          "end": 301.54
         },
         {
           "w": "millions",
-          "start": 298.44,
-          "end": 298.7
+          "start": 301.54,
+          "end": 301.84
         },
         {
           "w": "of",
-          "start": 298.7,
-          "end": 298.96
+          "start": 301.84,
+          "end": 302.08
         },
         {
           "w": "people",
-          "start": 298.96,
-          "end": 299.22
+          "start": 302.08,
+          "end": 302.34
         },
         {
           "w": "come",
-          "start": 299.22,
-          "end": 299.5
+          "start": 302.34,
+          "end": 302.62
         },
         {
           "w": "home",
-          "start": 299.5,
-          "end": 299.78
+          "start": 302.62,
+          "end": 302.9
         },
         {
           "w": "from",
-          "start": 299.78,
-          "end": 300.02
+          "start": 302.9,
+          "end": 303.14
         },
         {
           "w": "work",
-          "start": 300.02,
-          "end": 300.26
+          "start": 303.14,
+          "end": 303.38
         },
         {
           "w": "to",
-          "start": 300.26,
-          "end": 300.46
+          "start": 303.38,
+          "end": 303.58
         },
         {
           "w": "work",
-          "start": 300.46,
-          "end": 300.68
+          "start": 303.58,
+          "end": 303.8
         },
         {
           "w": "two",
-          "start": 300.68,
-          "end": 300.96
+          "start": 303.8,
+          "end": 304.06
         },
         {
           "w": "jobs?",
-          "start": 300.96,
-          "end": 301.36
+          "start": 304.06,
+          "end": 304.5
         }
       ],
-      "heard": "So, why do millions of people come home from work to work two jobs?"
+      "heard": "So why do millions of people come home from work to work two jobs?"
     },
     "p46": {
-      "start": 302.453,
-      "end": 307.196,
+      "start": 305.571,
+      "end": 310.314,
       "text": "Because it was never about working more. It's about work that finally fits in a day.",
       "words": [
         {
           "w": "Because",
-          "start": 302.45,
-          "end": 302.64
+          "start": 305.57,
+          "end": 305.82
         },
         {
           "w": "it",
-          "start": 302.64,
-          "end": 302.84
+          "start": 305.82,
+          "end": 305.98
         },
         {
           "w": "was",
-          "start": 302.84,
-          "end": 302.98
+          "start": 305.98,
+          "end": 306.12
         },
         {
           "w": "never",
-          "start": 302.98,
-          "end": 303.36
+          "start": 306.12,
+          "end": 306.46
         },
         {
           "w": "about",
-          "start": 303.36,
-          "end": 303.66
+          "start": 306.46,
+          "end": 306.78
         },
         {
           "w": "working",
-          "start": 303.66,
-          "end": 304.04
+          "start": 306.78,
+          "end": 307.14
         },
         {
           "w": "more.",
-          "start": 304.04,
-          "end": 304.4
+          "start": 307.14,
+          "end": 307.52
         },
         {
           "w": "It's",
-          "start": 304.98,
-          "end": 305.06
+          "start": 307.52,
+          "end": 308.16
         },
         {
           "w": "about",
-          "start": 305.06,
-          "end": 305.26
+          "start": 308.16,
+          "end": 308.36
         },
         {
           "w": "work",
-          "start": 305.26,
-          "end": 305.52
+          "start": 308.36,
+          "end": 308.62
         },
         {
           "w": "that",
-          "start": 305.52,
-          "end": 305.74
+          "start": 308.62,
+          "end": 308.86
         },
         {
           "w": "finally",
-          "start": 305.74,
-          "end": 306.2
+          "start": 308.86,
+          "end": 309.32
         },
         {
           "w": "fits",
-          "start": 306.2,
-          "end": 306.54
+          "start": 309.32,
+          "end": 309.66
         },
         {
           "w": "in",
-          "start": 306.54,
-          "end": 306.72
+          "start": 309.66,
+          "end": 309.84
         },
         {
           "w": "a",
-          "start": 306.72,
-          "end": 306.84
+          "start": 309.84,
+          "end": 309.96
         },
         {
           "w": "day.",
-          "start": 306.84,
-          "end": 307.06
+          "start": 309.96,
+          "end": 310.2
         }
       ],
       "heard": "Because it was never about working more. It's about work that finally fits in a day."
     },
     "p47": {
-      "start": 307.646,
-      "end": 311.379,
+      "start": 310.764,
+      "end": 314.497,
       "text": "It ends. You can see it. And someone is glad you came.",
       "words": [
         {
           "w": "It",
-          "start": 307.66,
-          "end": 307.78
+          "start": 310.82,
+          "end": 310.9
         },
         {
           "w": "ends.",
-          "start": 307.78,
-          "end": 308.2
+          "start": 310.9,
+          "end": 311.32
         },
         {
           "w": "You",
-          "start": 308.7,
-          "end": 308.84
+          "start": 311.76,
+          "end": 311.96
         },
         {
           "w": "can",
-          "start": 308.84,
-          "end": 309.0
+          "start": 311.96,
+          "end": 312.14
         },
         {
           "w": "see",
-          "start": 309.0,
-          "end": 309.26
+          "start": 312.14,
+          "end": 312.36
         },
         {
           "w": "it.",
-          "start": 309.26,
-          "end": 309.5
+          "start": 312.36,
+          "end": 312.64
         },
         {
           "w": "And",
-          "start": 309.92,
-          "end": 310.04
+          "start": 313.04,
+          "end": 313.16
         },
         {
           "w": "someone",
-          "start": 310.04,
-          "end": 310.3
+          "start": 313.16,
+          "end": 313.42
         },
         {
           "w": "is",
-          "start": 310.3,
-          "end": 310.48
+          "start": 313.42,
+          "end": 313.6
         },
         {
           "w": "glad",
-          "start": 310.48,
-          "end": 310.72
+          "start": 313.6,
+          "end": 313.84
         },
         {
           "w": "you",
-          "start": 310.72,
-          "end": 310.94
+          "start": 313.84,
+          "end": 314.04
         },
         {
           "w": "came.",
-          "start": 310.94,
-          "end": 311.2
+          "start": 314.04,
+          "end": 314.32
         }
       ],
-      "heard": "It ends. You can see it. And someone is glad you came."
+      "heard": "It ends, you can see it. And someone is glad you came."
     },
     "p48": {
-      "start": 311.829,
-      "end": 321.21,
+      "start": 314.947,
+      "end": 324.328,
       "text": "The idea came from a real restaurant on Jeju Island, in South Korea. In the director's words, \"the owner caught fish in the morning, and cooked them for dinner.\"",
       "words": [
         {
           "w": "The",
-          "start": 311.83,
-          "end": 311.98
+          "start": 314.96,
+          "end": 315.08
         },
         {
           "w": "idea",
-          "start": 311.98,
-          "end": 312.36
+          "start": 315.08,
+          "end": 315.48
         },
         {
           "w": "came",
-          "start": 312.36,
-          "end": 312.74
+          "start": 315.48,
+          "end": 315.84
         },
         {
           "w": "from",
-          "start": 312.74,
-          "end": 312.96
+          "start": 315.84,
+          "end": 316.08
         },
         {
           "w": "a",
-          "start": 312.96,
-          "end": 313.1
+          "start": 316.08,
+          "end": 316.22
         },
         {
           "w": "real",
-          "start": 313.1,
-          "end": 313.42
+          "start": 316.22,
+          "end": 316.54
         },
         {
           "w": "restaurant",
-          "start": 313.42,
-          "end": 313.86
+          "start": 316.54,
+          "end": 317.0
         },
         {
           "w": "on",
-          "start": 313.86,
-          "end": 314.16
+          "start": 317.0,
+          "end": 317.3
         },
         {
           "w": "Jeju",
-          "start": 314.16,
-          "end": 314.62
+          "start": 317.3,
+          "end": 317.74
         },
         {
           "w": "Island,",
-          "start": 314.62,
-          "end": 314.96
+          "start": 317.74,
+          "end": 318.08
         },
         {
           "w": "in",
-          "start": 314.96,
-          "end": 315.42
+          "start": 318.08,
+          "end": 318.54
         },
         {
           "w": "South",
-          "start": 315.42,
-          "end": 315.72
-        },
-        {
-          "w": "Korea.",
-          "start": 315.72,
-          "end": 316.16
-        },
-        {
-          "w": "In",
-          "start": 316.72,
-          "end": 316.82
-        },
-        {
-          "w": "the",
-          "start": 316.82,
-          "end": 316.96
-        },
-        {
-          "w": "director's",
-          "start": 316.96,
-          "end": 317.52
-        },
-        {
-          "w": "words,",
-          "start": 317.52,
-          "end": 317.82
-        },
-        {
-          "w": "\"the",
-          "start": 318.14,
-          "end": 318.2
-        },
-        {
-          "w": "owner",
-          "start": 318.2,
-          "end": 318.48
-        },
-        {
-          "w": "caught",
-          "start": 318.48,
+          "start": 318.54,
           "end": 318.82
         },
         {
-          "w": "fish",
+          "w": "Korea.",
           "start": 318.82,
-          "end": 319.18
+          "end": 319.26
         },
         {
-          "w": "in",
-          "start": 319.18,
-          "end": 319.36
+          "w": "In",
+          "start": 319.82,
+          "end": 319.94
         },
         {
           "w": "the",
-          "start": 319.36,
-          "end": 319.48
+          "start": 319.94,
+          "end": 320.08
+        },
+        {
+          "w": "director's",
+          "start": 320.08,
+          "end": 320.64
+        },
+        {
+          "w": "words,",
+          "start": 320.64,
+          "end": 320.94
+        },
+        {
+          "w": "\"the",
+          "start": 321.3,
+          "end": 321.35
+        },
+        {
+          "w": "owner",
+          "start": 321.32,
+          "end": 321.62
+        },
+        {
+          "w": "caught",
+          "start": 321.62,
+          "end": 321.94
+        },
+        {
+          "w": "fish",
+          "start": 321.94,
+          "end": 322.28
+        },
+        {
+          "w": "in",
+          "start": 322.28,
+          "end": 322.48
+        },
+        {
+          "w": "the",
+          "start": 322.48,
+          "end": 322.6
         },
         {
           "w": "morning,",
-          "start": 319.48,
-          "end": 319.76
+          "start": 322.6,
+          "end": 322.86
         },
         {
           "w": "and",
-          "start": 319.76,
-          "end": 320.06
+          "start": 322.86,
+          "end": 323.18
         },
         {
           "w": "cooked",
-          "start": 320.06,
-          "end": 320.26
+          "start": 323.18,
+          "end": 323.38
         },
         {
           "w": "them",
-          "start": 320.26,
-          "end": 320.5
+          "start": 323.38,
+          "end": 323.62
         },
         {
           "w": "for",
-          "start": 320.5,
-          "end": 320.72
+          "start": 323.62,
+          "end": 323.84
         },
         {
           "w": "dinner.\"",
-          "start": 320.72,
-          "end": 321.04
+          "start": 323.84,
+          "end": 324.18
         }
       ],
       "heard": "The idea came from a real restaurant on Jeju Island in South Korea. In the director's words, the owner caught fish in the morning and cooked them for dinner."
     },
     "p49": {
-      "start": 321.66,
-      "end": 325.52,
+      "start": 324.778,
+      "end": 328.638,
       "text": "One person. One day. A job you can hold in your hands.",
       "words": [
         {
           "w": "One",
-          "start": 321.66,
-          "end": 321.88
-        },
-        {
-          "w": "person.",
-          "start": 321.88,
-          "end": 322.3
-        },
-        {
-          "w": "One",
-          "start": 322.84,
-          "end": 323.02
-        },
-        {
-          "w": "day.",
-          "start": 323.02,
-          "end": 323.32
-        },
-        {
-          "w": "A",
-          "start": 323.84,
-          "end": 323.96
-        },
-        {
-          "w": "job",
-          "start": 323.96,
-          "end": 324.22
-        },
-        {
-          "w": "you",
-          "start": 324.22,
-          "end": 324.38
-        },
-        {
-          "w": "can",
-          "start": 324.38,
-          "end": 324.5
-        },
-        {
-          "w": "hold",
-          "start": 324.5,
-          "end": 324.72
-        },
-        {
-          "w": "in",
-          "start": 324.72,
-          "end": 324.86
-        },
-        {
-          "w": "your",
-          "start": 324.86,
+          "start": 324.8,
           "end": 324.98
         },
         {
-          "w": "hands.",
+          "w": "person.",
           "start": 324.98,
-          "end": 325.34
+          "end": 325.4
+        },
+        {
+          "w": "One",
+          "start": 325.98,
+          "end": 326.12
+        },
+        {
+          "w": "day.",
+          "start": 326.12,
+          "end": 326.44
+        },
+        {
+          "w": "A",
+          "start": 326.96,
+          "end": 327.08
+        },
+        {
+          "w": "job",
+          "start": 327.08,
+          "end": 327.34
+        },
+        {
+          "w": "you",
+          "start": 327.34,
+          "end": 327.5
+        },
+        {
+          "w": "can",
+          "start": 327.5,
+          "end": 327.62
+        },
+        {
+          "w": "hold",
+          "start": 327.62,
+          "end": 327.84
+        },
+        {
+          "w": "in",
+          "start": 327.84,
+          "end": 327.98
+        },
+        {
+          "w": "your",
+          "start": 327.98,
+          "end": 328.1
+        },
+        {
+          "w": "hands.",
+          "start": 328.1,
+          "end": 328.46
         }
       ],
-      "heard": "One person. One day. A job you can hold in your hands."
+      "heard": "One person, one day, a job you can hold in your hands."
     },
     "p50": {
-      "start": 325.97,
-      "end": 333.808,
+      "start": 329.088,
+      "end": 336.926,
       "text": "Then you put the controller down. Tomorrow, the real job is still there. Still no oxygen gauge. Still no score at closing time.",
       "words": [
         {
           "w": "Then",
-          "start": 325.98,
-          "end": 326.1
+          "start": 329.1,
+          "end": 329.22
         },
         {
           "w": "you",
-          "start": 326.1,
-          "end": 326.22
+          "start": 329.22,
+          "end": 329.34
         },
         {
           "w": "put",
-          "start": 326.22,
-          "end": 326.36
+          "start": 329.34,
+          "end": 329.48
         },
         {
           "w": "the",
-          "start": 326.36,
-          "end": 326.5
+          "start": 329.48,
+          "end": 329.62
         },
         {
           "w": "controller",
-          "start": 326.5,
-          "end": 326.9
+          "start": 329.62,
+          "end": 330.04
         },
         {
           "w": "down.",
-          "start": 326.9,
-          "end": 327.3
+          "start": 330.04,
+          "end": 330.44
         },
         {
           "w": "Tomorrow,",
-          "start": 327.3,
-          "end": 328.16
+          "start": 331.02,
+          "end": 331.36
         },
         {
           "w": "the",
-          "start": 328.16,
-          "end": 328.52
+          "start": 331.58,
+          "end": 331.64
         },
         {
           "w": "real",
-          "start": 328.52,
-          "end": 328.78
+          "start": 331.64,
+          "end": 331.88
         },
         {
           "w": "job",
-          "start": 328.78,
-          "end": 329.06
+          "start": 331.88,
+          "end": 332.18
         },
         {
           "w": "is",
-          "start": 329.06,
-          "end": 329.24
+          "start": 332.18,
+          "end": 332.36
         },
         {
           "w": "still",
-          "start": 329.24,
-          "end": 329.46
+          "start": 332.36,
+          "end": 332.58
         },
         {
           "w": "there.",
-          "start": 329.46,
-          "end": 329.86
+          "start": 332.58,
+          "end": 332.92
         },
         {
           "w": "Still",
-          "start": 330.4,
-          "end": 330.45
+          "start": 333.4,
+          "end": 333.56
         },
         {
           "w": "no",
-          "start": 330.44,
-          "end": 330.68
+          "start": 333.56,
+          "end": 333.8
         },
         {
           "w": "oxygen",
-          "start": 330.68,
-          "end": 331.14
+          "start": 333.8,
+          "end": 334.22
         },
         {
           "w": "gauge.",
-          "start": 331.14,
-          "end": 331.48
+          "start": 334.22,
+          "end": 334.6
         },
         {
           "w": "Still",
-          "start": 332.24,
-          "end": 332.29
+          "start": 335.26,
+          "end": 335.4
         },
         {
           "w": "no",
-          "start": 332.28,
-          "end": 332.48
+          "start": 335.4,
+          "end": 335.62
         },
         {
           "w": "score",
-          "start": 332.48,
-          "end": 332.76
+          "start": 335.62,
+          "end": 335.9
         },
         {
           "w": "at",
-          "start": 332.76,
-          "end": 332.9
+          "start": 335.9,
+          "end": 336.02
         },
         {
           "w": "closing",
-          "start": 332.9,
-          "end": 333.22
+          "start": 336.02,
+          "end": 336.3
         },
         {
           "w": "time.",
-          "start": 333.22,
-          "end": 333.64
+          "start": 336.3,
+          "end": 336.76
         }
       ],
-      "heard": "Then you put the controller down. Tomorrow the real job is still there. Still no oxygen gauge. Still no score at closing time."
+      "heard": "Then you put the controller down. Tomorrow, the real job is still there. Still no oxygen gauge. Still no score at closing time."
     },
     "p51": {
-      "start": 334.258,
-      "end": 340.667,
+      "start": 337.376,
+      "end": 343.785,
       "text": "But tonight, for an hour, you got to clock out like Dave. Done by closing time. Somebody glad you came.",
       "words": [
         {
           "w": "But",
-          "start": 334.26,
-          "end": 334.38
+          "start": 337.38,
+          "end": 337.48
         },
         {
           "w": "tonight,",
-          "start": 334.38,
-          "end": 334.66
+          "start": 337.48,
+          "end": 337.8
         },
         {
           "w": "for",
-          "start": 334.66,
-          "end": 334.96
+          "start": 337.8,
+          "end": 338.08
         },
         {
           "w": "an",
-          "start": 334.96,
-          "end": 335.1
+          "start": 338.08,
+          "end": 338.2
         },
         {
           "w": "hour,",
-          "start": 335.1,
-          "end": 335.42
+          "start": 338.2,
+          "end": 338.54
         },
         {
           "w": "you",
-          "start": 335.42,
-          "end": 335.74
-        },
-        {
-          "w": "got",
-          "start": 335.74,
-          "end": 335.9
-        },
-        {
-          "w": "to",
-          "start": 335.9,
-          "end": 336.06
-        },
-        {
-          "w": "clock",
-          "start": 336.06,
-          "end": 336.3
-        },
-        {
-          "w": "out",
-          "start": 336.3,
-          "end": 336.54
-        },
-        {
-          "w": "like",
-          "start": 336.54,
-          "end": 336.78
-        },
-        {
-          "w": "Dave.",
-          "start": 336.78,
-          "end": 337.14
-        },
-        {
-          "w": "Done",
-          "start": 337.74,
-          "end": 337.88
-        },
-        {
-          "w": "by",
-          "start": 337.88,
-          "end": 338.1
-        },
-        {
-          "w": "closing",
-          "start": 338.1,
-          "end": 338.44
-        },
-        {
-          "w": "time.",
-          "start": 338.44,
+          "start": 338.76,
           "end": 338.88
         },
         {
+          "w": "got",
+          "start": 338.88,
+          "end": 339.02
+        },
+        {
+          "w": "to",
+          "start": 339.02,
+          "end": 339.18
+        },
+        {
+          "w": "clock",
+          "start": 339.18,
+          "end": 339.42
+        },
+        {
+          "w": "out",
+          "start": 339.42,
+          "end": 339.66
+        },
+        {
+          "w": "like",
+          "start": 339.66,
+          "end": 339.9
+        },
+        {
+          "w": "Dave.",
+          "start": 339.9,
+          "end": 340.26
+        },
+        {
+          "w": "Done",
+          "start": 340.9,
+          "end": 341.0
+        },
+        {
+          "w": "by",
+          "start": 341.0,
+          "end": 341.22
+        },
+        {
+          "w": "closing",
+          "start": 341.22,
+          "end": 341.54
+        },
+        {
+          "w": "time.",
+          "start": 341.54,
+          "end": 341.98
+        },
+        {
           "w": "Somebody",
-          "start": 339.38,
-          "end": 339.7
+          "start": 342.54,
+          "end": 342.84
         },
         {
           "w": "glad",
-          "start": 339.7,
-          "end": 340.02
+          "start": 342.84,
+          "end": 343.14
         },
         {
           "w": "you",
-          "start": 340.02,
-          "end": 340.2
+          "start": 343.14,
+          "end": 343.32
         },
         {
           "w": "came.",
-          "start": 340.2,
-          "end": 340.48
+          "start": 343.32,
+          "end": 343.6
         }
       ],
-      "heard": "But tonight for an hour you got to clock out like Dave. Done by closing time. Somebody glad you came."
+      "heard": "But tonight for an hour, you got to clock out like Dave. Done by closing time. Somebody glad you came."
     },
     "p52": {
-      "start": 341.117,
-      "end": 347.218,
+      "start": 344.235,
+      "end": 350.336,
       "text": "Maybe that's what we're really playing. Not a second job. The first one... the way it was supposed to feel.",
       "words": [
         {
           "w": "Maybe",
-          "start": 341.14,
-          "end": 341.34
+          "start": 344.26,
+          "end": 344.46
         },
         {
           "w": "that's",
-          "start": 341.34,
-          "end": 341.66
+          "start": 344.46,
+          "end": 344.78
         },
         {
           "w": "what",
-          "start": 341.66,
-          "end": 341.8
+          "start": 344.78,
+          "end": 344.92
         },
         {
           "w": "we're",
-          "start": 341.8,
-          "end": 341.94
+          "start": 344.92,
+          "end": 345.04
         },
         {
           "w": "really",
-          "start": 341.94,
-          "end": 342.14
+          "start": 345.04,
+          "end": 345.26
         },
         {
           "w": "playing.",
-          "start": 342.14,
-          "end": 342.48
+          "start": 345.26,
+          "end": 345.6
         },
         {
           "w": "Not",
-          "start": 343.04,
-          "end": 343.22
+          "start": 346.16,
+          "end": 346.34
         },
         {
           "w": "a",
-          "start": 343.22,
-          "end": 343.36
+          "start": 346.34,
+          "end": 346.48
         },
         {
           "w": "second",
-          "start": 343.36,
-          "end": 343.6
+          "start": 346.48,
+          "end": 346.7
         },
         {
           "w": "job.",
-          "start": 343.6,
-          "end": 343.98
+          "start": 346.7,
+          "end": 347.1
         },
         {
           "w": "The",
-          "start": 344.5,
-          "end": 344.66
+          "start": 347.62,
+          "end": 347.76
         },
         {
           "w": "first",
-          "start": 344.66,
-          "end": 344.9
+          "start": 347.76,
+          "end": 348.02
         },
         {
           "w": "one...",
-          "start": 344.9,
-          "end": 345.2
+          "start": 348.02,
+          "end": 348.32
         },
         {
           "w": "the",
-          "start": 345.68,
-          "end": 345.86
+          "start": 348.8,
+          "end": 348.94
         },
         {
           "w": "way",
-          "start": 345.86,
-          "end": 346.0
+          "start": 348.94,
+          "end": 349.12
         },
         {
           "w": "it",
-          "start": 346.0,
-          "end": 346.12
+          "start": 349.12,
+          "end": 349.22
         },
         {
           "w": "was",
-          "start": 346.12,
-          "end": 346.24
+          "start": 349.22,
+          "end": 349.34
         },
         {
           "w": "supposed",
-          "start": 346.24,
-          "end": 346.5
+          "start": 349.34,
+          "end": 349.62
         },
         {
           "w": "to",
-          "start": 346.5,
-          "end": 346.74
+          "start": 349.62,
+          "end": 349.84
         },
         {
           "w": "feel.",
-          "start": 346.74,
-          "end": 347.0
+          "start": 349.84,
+          "end": 350.12
         }
       ],
-      "heard": "Maybe that's what we're really playing. Not a second job. The first one. The way it was supposed to feel."
+      "heard": "Maybe that's what we're really playing. Not a second job. The first one, the way it was supposed to feel."
     },
     "p53": {
-      "start": 347.668,
-      "end": 353.403,
+      "start": 350.786,
+      "end": 356.52,
       "text": "So what would your second shift be? And what game deserves a \"why?\" next? Tell me in the comments.",
       "words": [
         {
           "w": "So",
-          "start": 347.67,
-          "end": 347.86
+          "start": 350.79,
+          "end": 350.96
         },
         {
           "w": "what",
-          "start": 347.86,
-          "end": 348.02
+          "start": 350.96,
+          "end": 351.14
         },
         {
           "w": "would",
-          "start": 348.02,
-          "end": 348.14
+          "start": 351.14,
+          "end": 351.24
         },
         {
           "w": "your",
-          "start": 348.14,
-          "end": 348.26
+          "start": 351.24,
+          "end": 351.38
         },
         {
           "w": "second",
-          "start": 348.26,
-          "end": 348.54
+          "start": 351.38,
+          "end": 351.66
         },
         {
           "w": "shift",
-          "start": 348.54,
-          "end": 348.84
+          "start": 351.66,
+          "end": 351.94
         },
         {
           "w": "be?",
-          "start": 348.84,
-          "end": 349.2
+          "start": 351.94,
+          "end": 352.32
         },
         {
           "w": "And",
-          "start": 349.68,
-          "end": 349.86
+          "start": 352.84,
+          "end": 352.96
         },
         {
           "w": "what",
-          "start": 349.86,
-          "end": 350.0
+          "start": 352.96,
+          "end": 353.12
         },
         {
           "w": "game",
-          "start": 350.0,
-          "end": 350.22
+          "start": 353.12,
+          "end": 353.34
         },
         {
           "w": "deserves",
-          "start": 350.22,
-          "end": 350.62
+          "start": 353.34,
+          "end": 353.74
         },
         {
           "w": "a",
-          "start": 350.62,
-          "end": 350.86
+          "start": 353.74,
+          "end": 353.96
         },
         {
           "w": "\"why?\"",
-          "start": 350.86,
-          "end": 351.2
+          "start": 353.96,
+          "end": 354.32
         },
         {
           "w": "next?",
-          "start": 351.46,
-          "end": 351.7
+          "start": 354.32,
+          "end": 354.78
         },
         {
           "w": "Tell",
-          "start": 352.22,
-          "end": 352.44
+          "start": 355.42,
+          "end": 355.56
         },
         {
           "w": "me",
-          "start": 352.44,
-          "end": 352.58
+          "start": 355.56,
+          "end": 355.7
         },
         {
           "w": "in",
-          "start": 352.58,
-          "end": 352.66
+          "start": 355.7,
+          "end": 355.78
         },
         {
           "w": "the",
-          "start": 352.66,
-          "end": 352.76
+          "start": 355.78,
+          "end": 355.88
         },
         {
           "w": "comments.",
-          "start": 352.76,
-          "end": 353.1
+          "start": 355.88,
+          "end": 356.22
         }
       ],
-      "heard": "So what would your second shift be? And what game deserves a why, next? Tell me in the comments."
+      "heard": "So what would your second shift be? And what game deserves a why next? Tell me in the comments."
     },
     "p54": {
-      "start": 353.853,
-      "end": 355.329,
+      "start": 356.97,
+      "end": 358.446,
       "text": "Maybe that's our next quest.",
       "words": [
         {
           "w": "Maybe",
-          "start": 353.9,
-          "end": 354.1
+          "start": 357.04,
+          "end": 357.22
         },
         {
           "w": "that's",
-          "start": 354.1,
-          "end": 354.44
+          "start": 357.22,
+          "end": 357.56
         },
         {
           "w": "our",
-          "start": 354.44,
-          "end": 354.54
+          "start": 357.56,
+          "end": 357.66
         },
         {
           "w": "next",
-          "start": 354.54,
-          "end": 354.78
+          "start": 357.66,
+          "end": 357.9
         },
         {
           "w": "quest.",
-          "start": 354.78,
-          "end": 355.06
+          "start": 357.9,
+          "end": 358.2
         }
       ],
       "heard": "Maybe that's our next quest."
