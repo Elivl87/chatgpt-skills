@@ -39,3 +39,4 @@
 | 2026-10-16 | Producer supplied his own voice reference (`voice/producer/producer_reference.m4a`, 24.7 s) for cloning the narrator voice; use only for this channel's narrator | uploaded in chat |
 | 2026-10-23 | **Animatic v3 approved in full (animation, art, text boxes, Cine suave) — style A stays** | "Me gustó toda la animación" |
 | 2026-10-23 | **Narrator voice REJECTED**: robotic, no empathy, no emotion, "won't keep anyone watching". Needs an expressive, emotional narration | "menos la voz. Muy robótica sin empatía sin emoción, no mantendrá a nadie viendo" |
+| 2026-10-23 | Character lines as silent text boxes between narration are **not understood** ("cuando los personajes 'hablan' no se entiende"). Fix direction: the narrator reads the character lines in storyteller mode (same voice, light character delivery) while the text box stays on screen; narration pauses around them | "Cuando los personajes 'hablan' entre el narrador no se entiende." |
