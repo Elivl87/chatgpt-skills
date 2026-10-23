@@ -1,0 +1,17 @@
+{
+ "takes": [
+  [
+   "cosy_ref_ryan",
+   1
+  ]
+ ],
+ "post": {
+  "cosy_ref_ryan.wav": {
+   "wpm_before": 154.2,
+   "wpm_after": 156.8,
+   "factor": 1.0,
+   "dur_before": 101.4,
+   "dur_after": 91.5
+  }
+ }
+}

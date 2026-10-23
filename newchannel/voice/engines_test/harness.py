@@ -330,10 +330,12 @@ def build_mp3(out_mp3, specs, kbps=48, post=True, words=162, target_wpm=150.0):
     sr = 44100
     parts = [np.zeros(int(0.3 * sr), np.float32)]
     report = {}
-    for path, n in specs:
+    for spec in specs:
+        path, n = spec[0], spec[1]
+        w = spec[2] if len(spec) > 2 else words        # words actually spoken in this file (cut takes)
         if post:
             tmp = Path(tempfile.mkdtemp()) / "post.wav"
-            report[Path(path).name] = postprocess(path, tmp, words, target_wpm)
+            report[Path(path).name] = postprocess(path, tmp, w, target_wpm)
             print(Path(path).name, report[Path(path).name], flush=True)
             path = tmp
         x, s = sf.read(path, dtype="float32")

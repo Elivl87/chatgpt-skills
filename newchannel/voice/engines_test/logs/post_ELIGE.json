@@ -1,0 +1,39 @@
+{
+ "takes": [
+  [
+   "qwen_ryan_x1_cut",
+   1
+  ],
+  [
+   "vox_ref_ryan_cut",
+   2
+  ],
+  [
+   "cosy_ref_ryan_cut",
+   3
+  ]
+ ],
+ "post": {
+  "qwen_ryan_x1_cut.wav": {
+   "wpm_before": 105.5,
+   "wpm_after": 148.5,
+   "factor": 1.422,
+   "dur_before": 108.5,
+   "dur_after": 73.0
+  },
+  "vox_ref_ryan_cut.wav": {
+   "wpm_before": 157.0,
+   "wpm_after": 157.8,
+   "factor": 1.0,
+   "dur_before": 80.3,
+   "dur_after": 73.1
+  },
+  "cosy_ref_ryan_cut.wav": {
+   "wpm_before": 154.2,
+   "wpm_after": 156.6,
+   "factor": 1.0,
+   "dur_before": 85.2,
+   "dur_after": 77.2
+  }
+ }
+}

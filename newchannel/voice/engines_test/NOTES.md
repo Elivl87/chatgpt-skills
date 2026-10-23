@@ -6,28 +6,32 @@ Qwen3-TTS en registro exclamativo, a ≈150 palabras por minuto**, y de ese mism
 
 ## Para el Productor
 
-**`ELIGE.mp3`** (≤ 4 min, 48 kbps): el mismo pasaje del episodio 1 (gancho + «vamos más despacio» + remate de la cena),
-tres voces, todas con la misma velocidad (≈150 palabras por minuto):
+**`ELIGE.mp3`** (3:51, 48 kbps): el mismo pasaje del episodio 1 (gancho + «vamos más despacio… alto total»; el remate de
+la cena se dejó fuera para caber en 4 minutos, está entero en los MP3 por motor), tres voces, todas con la misma
+velocidad (≈150 palabras por minuto):
 
 - **1 pitido = Qwen3-TTS**, la voz «Ryan» que te gustó, dirigida frase por frase en el registro de «Entonces, ¿por qué
   hay embotellamientos…? ¡Vamos más despacio!»: exclamativo, proyectado, emocionado, nunca calmado.
 - **2 pitidos = VoxCPM2** escuchando a esa misma voz Ryan como referencia (no clona a ninguna persona: es una voz sintética).
 - **3 pitidos = CosyVoice 3**, igual: la voz Ryan como referencia + instrucción de energía por frase.
 
-Mi lectura honesta (son medidas, no oído): **la voz 1 (Qwen3-TTS Ryan) es la más viva** —el tono se mueve más que en
-cualquier otra toma del día (21 semitonos de recorrido, frente a 16 del tramo que te gustó)— y dice el texto sin un solo
-error. Las voces 2 y 3 copian el timbre de Ryan pero cada motor le pone su propio carácter; están aquí para que elijas
-con el oído si alguna suena **más natural** que la original manteniendo la energía. Hay que acelerarlas todas: ningún
-motor habla rápido de fábrica (Qwen 100-108 ppm, VoxCPM2 y CosyVoice ver tabla); la aceleración es limpia (no cambia el
-tono, Whisper entiende lo mismo antes y después).
+Mi lectura honesta (son medidas, no oído): **la voz 1 (Qwen3-TTS Ryan) dice el texto sin un solo error y mueve el tono
+más que el tramo que te gustó** (21 semitonos de recorrido frente a 16). **La voz 2 (VoxCPM2) es, por medidas, la más
+viva de todo el día** (25 semitonos, la melodía más variada) y además **ya habla rápido de fábrica** (161 ppm, sin
+acelerar), con el timbre de Ryan al 92 %; su único fallo medible es un «conos» que Whisper oyó como «conoz». **La voz 3
+(CosyVoice 3) es la más floja**: se parece a Ryan (94 %) pero más aguda y plana, y se come o inventa 8 palabras («Hala,
+Adelante», «Unconductor», «auto total») que 38 repeticiones no arreglaron. Solo la voz 1 está acelerada (×1,42, sin cambiar
+el tono: Whisper entiende lo mismo antes y después); las voces 2 y 3 van a su velocidad natural.
 
 Las demás pistas por motor (`qwen3tts.mp3`, `voxcpm2.mp3`, `cosyvoice3.mp3`, `chatterbox.mp3`) son para comparar
 variantes dentro de cada motor; el orden de pitidos está en la tabla de abajo.
 
-**Recomendación para la voz del canal:** Qwen3-TTS con la voz Ryan, receta de abajo. Es gratis, Apache-2.0 (la voz Ryan
-es parte del modelo, no una persona), corre en nuestra CPU (≈4 s de cálculo por segundo de voz; la narración completa de
-un episodio de 7 min cuesta ~1 h), tiene control de emoción por texto y no depende de ningún servicio. Si al oído la 2 o
-la 3 te suenan más humanas, la receta se cambia sin perder la voz: las tres parten de Ryan.
+**Recomendación para la voz del canal:** **Qwen3-TTS con la voz Ryan** (pista 1), receta de abajo: gratis, Apache-2.0
+(la voz Ryan es parte del modelo, no una persona), corre en nuestra CPU (≈4 s de cálculo por segundo de voz; la
+narración de un episodio de 7 min cuesta ~1 h), control de emoción por texto, cero errores de texto, y no depende de
+ningún servicio. **Si al oído la pista 2 te suena más humana, VoxCPM2 es la alternativa seria**: misma voz Ryan, más
+melodía y velocidad natural; su pega es práctica (hoy recarga 3,4 GB por frase: un episodio costaría varias horas hasta
+montar un servidor residente). CosyVoice 3 queda descartado para narración en español por los errores de texto.
 
 ## Receta reproducible de la voz elegida (pista 1)
 
@@ -68,24 +72,21 @@ Objetivo de registro (tramo 0:55-1:15 de `qwen_a`, lo que gustó): rango 16,1 st
 | `cb_builtin_energetic` | Chatterbox V3 voz interna, exag. 0,7-0,9, cfg 0,3 | 0,6 % | 10 | 208 | 14,5 / 21,8 | 0,717 | 149 | 19,8 | 5,5 | 7,4 | LatAm |
 | `cb_ref_ryan` | Chatterbox V3 con referencia Ryan (0:55-1:15), exag. 0,6-0,8 (control) | 0 % | 11 | 143 | 11,7 / 16,6 | **0,942 (Ryan)** | 150 | 11,2 | 2,8 | 7,5 | LatAm |
 | `vox_ref_ryan` | VoxCPM2 Q8 GGUF con referencia Ryan + guía de estilo (ELIGE 2) | 0,6 % (1: «conos»→«conoz», oído de Whisper) | 8 | 161 | 20 / 36 (incluye recargar el GGUF en cada llamada) | 0,924 (Ryan) | 156 | **25.4** | 5.6 | 8.2 | seseo (0.9 dB) |
-| `cosy_ref_ryan` | Fun-CosyVoice3-0.5B con referencia Ryan + instrucción (ELIGE 3) | COSY_WER | COSY_RET | COSY_PPM | COSY_RTF | COSY_SIM | COSY_F0 | COSY_RANGE | COSY_MEL | COSY_ENE | COSY_SESEO |
+| `cosy_ref_ryan` | Fun-CosyVoice3-0.5B con referencia Ryan + instrucción (ELIGE 3) | **4,9 % (8)**: «Hala, Adelante», «Unconductor», «cho», «embotelamiento», «auto total», «Que ni un perdón» | 38 | 154 | 13 / 33 | 0,941 (Ryan) | 189 | 13.6 | 3.4 | 7.5 | LatAm (-3.1 dB) |
 | `cosy_ref_ryan0` | CosyVoice3 zero-shot (sin instrucción) | COSY0_WER | COSY0_RET | COSY0_PPM | COSY0_RTF | COSY0_SIM | COSY0_F0 | COSY0_RANGE | COSY0_MEL | COSY0_ENE | COSY0_SESEO |
 | Control anterior | Chatterbox V3 clon del Productor dirigido (`expressive/`, `A_clone_directed`) | 0 % | 23 | 138 | ~12 | 0,954 (Productor) | — | — | — | — | — |
 
 Aceleración aplicada en los MP3 (`logs/post_*.json`): `qwen_a` ×1,49 (101→150 ppm), `qwen_ryan_r1` ×1,39 (108→154),
 `qwen_ryan_x1` ×1,44 (105→149), `cb_ref_ryan` ×1,05 (143→150), `cb_builtin_energetic` ×1,0 (ya iba a 208; no se frena).
-`vox_ref_ryan` ×1,0 (161 ppm de fábrica; solo pausas). POST_COSY
+`vox_ref_ryan` ×1,0 (161 ppm de fábrica; solo pausas). `cosy_ref_ryan` ×1,0 (154 ppm de fábrica; solo pausas).
 
-**Ranking por energía percibible (medidas: rango tonal × melodía, con WER ≤ 1 %):** 1) `qwen_ryan_r1` (24,0 × 6,4) ·
-2) `qwen_ryan_x1` (21,4 × 5,0; el elegido para ELIGE porque además clava el registro exclamativo pedido y tiene WER 0) ·
-3) `cb_builtin_energetic` (19,8 × 5,5; pero habla a 208 ppm y suena a otra voz) · 4) `qwen_c_m` (18,6 × 5,3) ·
-**0) `vox_ref_ryan` (25,4 × 5,6: por medidas es la más viva de todas, y ya va rápida sin acelerar)** RANK_COSY · último `cb_ref_ryan` (11,2 × 2,8: copia el timbre de Ryan al 0,94 pero lo aplana).
+**Ranking por energía percibible (medidas: rango tonal × melodía; WER como freno):** 1) `vox_ref_ryan` (25,4 × 5,6; la más melódica del día, va rápida sin acelerar, 1 error de oído) · 2) `qwen_ryan_r1` (24,0 × 6,4; 1 error) · 3) **`qwen_ryan_x1` (21,4 × 5,0; WER 0 y el registro exclamativo pedido: la elegida como pista 1)** · 4) `cb_builtin_energetic` (19,8 × 5,5; 208 ppm y suena a otra voz) · 5) `qwen_c_m` (18,6 × 5,3) · 6) `qwen_a` (15,8 × 4,8) · 7) `cosy_ref_ryan` (13,6 × 3,4 y 8 errores de pronunciación tras 38 retomas) · último `cb_ref_ryan` (11,2 × 2,8: copia el timbre de Ryan al 0,94 pero lo aplana).
 
 ## Pistas por motor
 
 - `qwen3tts.mp3` (4:36): 1 pitido = Ryan sin instrucción (`qwen_a`) · 2 = Ryan + energía (`qwen_ryan_r1`) · 3 = Ryan registro exclamativo (`qwen_ryan_x1`).
 - `voxcpm2.mp3`: 1 pitido = referencia Ryan + guía de estilo (`vox_ref_ryan`). Habla a 161 ppm de fábrica: no se aceleró, solo se recortaron las pausas (93→84 s).
-- `cosyvoice3.mp3`: 1 pitido = referencia Ryan + instrucción (`cosy_ref_ryan`) · 2 = zero-shot sin instrucción (`cosy_ref_ryan0`). COSY_MP3_NOTE
+- `cosyvoice3.mp3`: 1 pitido = referencia Ryan + instrucción (`cosy_ref_ryan`) · 2 = zero-shot sin instrucción (`cosy_ref_ryan0`). Habla a 154 ppm de fábrica: sin acelerar, solo pausas recortadas (101→92 s).
 - `chatterbox.mp3` (2:51): 1 pitido = referencia Ryan (`cb_ref_ryan`) · 2 = voz interna enérgica (`cb_builtin_energetic`).
 - Las dos voces diseñadas de Qwen (`qwen_c_m`, `qwen_c_f`) quedaron en la primera versión de `qwen3tts.mp3` (commit `bec87ab`); se oyen con `git show bec87ab:newchannel/voice/engines_test/qwen3tts.mp3`.
 
@@ -127,7 +128,13 @@ líneas enteras del guion (13 llamadas) con la referencia Ryan. Resultado: la to
 
 **Fun-CosyVoice3-0.5B** · Apache-2.0 (tarjeta y `LICENSE`; «for academic purposes only» es el aviso de la demo, no la
 licencia). PyTorch CPU en un venv que reutiliza el torch de Chatterbox (`.pth`) con transformers 4.51.3; pesos 5,4 GB
-(sin `llm.rl.pt` ni los ONNX batch/TensorRT). COSY_TECH
+(sin `llm.rl.pt` ni los ONNX batch/TensorRT). Carga 22 s; RTF 8-13 con 3 hilos (sin recargar: el modelo vive en el proceso); **7,5 GB de RAM** (se mató por
+OOM la primera vez, mientras VoxCPM2 corría). Con la referencia Ryan de 20 s **balbuceaba** tras cada frase (añadía
+sílabas inventadas); con una referencia de 9,5 s («Entonces, ¿por qué…? Vamos más despacio.») se estabiliza. Aun así
+la toma con instrucción (`inference_instruct2`, instrucción en inglés + registro exclamativo) es la **peor en texto de
+la prueba**: 8 palabras mal dichas que 38 retomas no arreglaron («Hala, Adelante», «Unconductor», «auto total»…), tono
+más agudo que Ryan (f0 189 Hz frente a 150) y menos melodía (13,6 st). Habla rápida de fábrica (154 ppm). La variante
+zero-shot con transcripción (`cosy_ref_ryan0`) se renderizó después: ver su fila.
 
 **Orpheus-TTS es/it** (`canopylabs/3b-es_it-ft-research_release`, Apache-2.0): pedido como extra; la tarjeta está
 **gated** (acceso con cuenta HF, aunque automático) y no tenemos token → no se pudo descargar. Queda anotado.

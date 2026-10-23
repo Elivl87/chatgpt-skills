@@ -16,6 +16,8 @@ sys.path.insert(0, str(HERE))
 import harness as H  # noqa: E402
 
 O = H.OUT
+ELIGE_CUT = "b09_19_narrator"   # last script line kept in ELIGE.mp3 (None = full passage)
+ELIGE_WORDS = 135               # words up to and including that line (162 - the 27 of beat 13)
 MP3 = {
     # Qwen3-TTS, Ryan preset (the timbre the Producer chose): 1 = preset as is · 2 = + energetic instruct per sentence
     # · 3 = + exclamative register seed A · 4 = seed B · 5 = designed voice (c♂) for reference (NOTES)
@@ -45,6 +47,27 @@ def ryan_best():
     return best
 
 
+LINE_AFTER = {n: af for _, _, n, _, _, af in H.PASSAGE}
+
+
+def cut_after(name, last_line):
+    """Trim a rendered take right after `last_line` (script line name), using its json piece durations; -> wav path."""
+    import soundfile as sf
+    d = json.load(open(O / f"{name}.json"))["pieces"]
+    t = 0.0
+    for i, p in enumerate(d):
+        t += p["before"] + p["dur_out"] + p["after"]
+        last = (i + 1 == len(d)) or d[i + 1]["line"] != p["line"]
+        if p["line"] == last_line and last:
+            break
+        if last:
+            t += LINE_AFTER[p["line"]]
+    x, sr = sf.read(O / f"{name}.wav", dtype="float32")
+    out = O / f"{name}_cut.wav"
+    sf.write(out, x[:int((t + 0.3) * sr)], sr, subtype="PCM_16")
+    return out
+
+
 def build(name):
     specs = []
     for n, beeps in MP3[name]:
@@ -56,11 +79,15 @@ def build(name):
         if not w.exists():
             print("missing", w, "-> skipped")
             continue
+        if name == "ELIGE" and ELIGE_CUT:
+            w = cut_after(n, ELIGE_CUT)        # ELIGE must stay <= 4 min: hook + beat 9, the dinner joke is left out
+            specs.append((str(w), beeps, ELIGE_WORDS))
+            continue
         specs.append((str(w), beeps))
     out = HERE / f"{name}.mp3"
     rep = H.build_mp3(out, specs, kbps=48, post=True)
     (HERE / "logs").mkdir(exist_ok=True)
-    json.dump({"takes": [(Path(p).stem, b) for p, b in specs], "post": rep}, open(HERE / "logs" / f"post_{name}.json", "w"),
+    json.dump({"takes": [(Path(sp[0]).stem, sp[1]) for sp in specs], "post": rep}, open(HERE / "logs" / f"post_{name}.json", "w"),
               ensure_ascii=False, indent=1)
     return rep
 
