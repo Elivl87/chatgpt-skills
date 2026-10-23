@@ -1,0 +1,270 @@
+{
+ "rows": [
+  {
+   "name": "rechazada (ep001, exag. 0,45 fija)",
+   "dur_s": 84.04,
+   "f0_median_hz": 121.4,
+   "pitch_range_st": 10.3,
+   "pitch_std_st": 3.18,
+   "melody_std_st": 2.42,
+   "energy_std_db": 7.55,
+   "energy_range_db": 23.46,
+   "pauses_n": 16,
+   "pause_mean_s": 0.35,
+   "pause_std_s": 0.11,
+   "speech_s": 76.9,
+   "wpm_in_speech": 158.4,
+   "similarity": 0.947,
+   "wer": 0.0,
+   "retries": 4,
+   "pieces": 8,
+   "wpm": 158.4,
+   "dur": 84.04
+  },
+  {
+   "name": "A_clone_directed",
+   "dur_s": 96.55,
+   "f0_median_hz": 115.2,
+   "pitch_range_st": 11.1,
+   "pitch_std_st": 3.82,
+   "melody_std_st": 2.98,
+   "energy_std_db": 8.59,
+   "energy_range_db": 27.34,
+   "pauses_n": 39,
+   "pause_mean_s": 0.78,
+   "pause_std_s": 0.83,
+   "speech_s": 64.15,
+   "wpm_in_speech": 151.5,
+   "similarity": 0.954,
+   "wer": 0.0,
+   "retries": 23,
+   "pieces": 26,
+   "wpm": 137.9,
+   "dur": 96.55
+  },
+  {
+   "name": "A2_clone_expressive_ref",
+   "dur_s": 95.6,
+   "f0_median_hz": 113.9,
+   "pitch_range_st": 12.4,
+   "pitch_std_st": 4.64,
+   "melody_std_st": 3.11,
+   "energy_std_db": 8.25,
+   "energy_range_db": 26.11,
+   "pauses_n": 42,
+   "pause_mean_s": 0.76,
+   "pause_std_s": 0.81,
+   "speech_s": 61.85,
+   "wpm_in_speech": 157.2,
+   "similarity": 0.941,
+   "wer": 0.0,
+   "retries": 16,
+   "pieces": 26,
+   "wpm": 139.8,
+   "dur": 95.6
+  },
+  {
+   "name": "B_builtin_directed",
+   "dur_s": 78.96,
+   "f0_median_hz": 155.6,
+   "pitch_range_st": 21.0,
+   "pitch_std_st": 7.04,
+   "melody_std_st": 5.37,
+   "energy_std_db": 7.38,
+   "energy_range_db": 23.86,
+   "pauses_n": 32,
+   "pause_mean_s": 0.91,
+   "pause_std_s": 0.88,
+   "speech_s": 47.45,
+   "wpm_in_speech": 204.8,
+   "similarity": 0.718,
+   "wer": 0.0,
+   "retries": 19,
+   "pieces": 26,
+   "wpm": 183.7,
+   "dur": 78.96
+  }
+ ],
+ "profiles": {
+  "A_clone_directed:calm": {
+   "n": 3,
+   "tries": 4,
+   "wer0": 3
+  },
+  "A_clone_directed:curious": {
+   "n": 2,
+   "tries": 3,
+   "wer0": 2
+  },
+  "A_clone_directed:deadpan": {
+   "n": 5,
+   "tries": 5,
+   "wer0": 5
+  },
+  "A_clone_directed:intimate": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "A_clone_directed:building": {
+   "n": 3,
+   "tries": 5,
+   "wer0": 3
+  },
+  "A_clone_directed:urgent": {
+   "n": 2,
+   "tries": 10,
+   "wer0": 2
+  },
+  "A_clone_directed:eli": {
+   "n": 2,
+   "tries": 3,
+   "wer0": 2
+  },
+  "A_clone_directed:warm": {
+   "n": 3,
+   "tries": 5,
+   "wer0": 3
+  },
+  "A_clone_directed:surprised": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "A_clone_directed:mila": {
+   "n": 1,
+   "tries": 9,
+   "wer0": 1
+  },
+  "A_clone_directed:eli_hurt": {
+   "n": 2,
+   "tries": 2,
+   "wer0": 2
+  },
+  "A_clone_directed:question": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "A2_clone_expressive_ref:calm": {
+   "n": 3,
+   "tries": 3,
+   "wer0": 3
+  },
+  "A2_clone_expressive_ref:curious": {
+   "n": 2,
+   "tries": 2,
+   "wer0": 2
+  },
+  "A2_clone_expressive_ref:deadpan": {
+   "n": 5,
+   "tries": 6,
+   "wer0": 5
+  },
+  "A2_clone_expressive_ref:intimate": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "A2_clone_expressive_ref:building": {
+   "n": 3,
+   "tries": 5,
+   "wer0": 3
+  },
+  "A2_clone_expressive_ref:urgent": {
+   "n": 2,
+   "tries": 4,
+   "wer0": 2
+  },
+  "A2_clone_expressive_ref:eli": {
+   "n": 2,
+   "tries": 2,
+   "wer0": 2
+  },
+  "A2_clone_expressive_ref:warm": {
+   "n": 3,
+   "tries": 3,
+   "wer0": 3
+  },
+  "A2_clone_expressive_ref:surprised": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "A2_clone_expressive_ref:mila": {
+   "n": 1,
+   "tries": 5,
+   "wer0": 1
+  },
+  "A2_clone_expressive_ref:eli_hurt": {
+   "n": 2,
+   "tries": 2,
+   "wer0": 2
+  },
+  "A2_clone_expressive_ref:question": {
+   "n": 1,
+   "tries": 8,
+   "wer0": 1
+  },
+  "B_builtin_directed:calm": {
+   "n": 3,
+   "tries": 4,
+   "wer0": 3
+  },
+  "B_builtin_directed:curious": {
+   "n": 2,
+   "tries": 3,
+   "wer0": 2
+  },
+  "B_builtin_directed:deadpan": {
+   "n": 5,
+   "tries": 7,
+   "wer0": 5
+  },
+  "B_builtin_directed:intimate": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "B_builtin_directed:building": {
+   "n": 3,
+   "tries": 5,
+   "wer0": 3
+  },
+  "B_builtin_directed:urgent": {
+   "n": 2,
+   "tries": 10,
+   "wer0": 2
+  },
+  "B_builtin_directed:eli": {
+   "n": 2,
+   "tries": 3,
+   "wer0": 2
+  },
+  "B_builtin_directed:warm": {
+   "n": 3,
+   "tries": 3,
+   "wer0": 3
+  },
+  "B_builtin_directed:surprised": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "B_builtin_directed:mila": {
+   "n": 1,
+   "tries": 1,
+   "wer0": 1
+  },
+  "B_builtin_directed:eli_hurt": {
+   "n": 2,
+   "tries": 5,
+   "wer0": 2
+  },
+  "B_builtin_directed:question": {
+   "n": 1,
+   "tries": 2,
+   "wer0": 1
+  }
+ }
+}

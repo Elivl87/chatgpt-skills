@@ -1,0 +1,132 @@
+[
+ {
+  "name": "b01_00_narrator",
+  "beat": "01",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+  "start": 0.0,
+  "dur": 10.072,
+  "after": 0.5
+ },
+ {
+  "name": "b02_01_narrator",
+  "beat": "02",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+  "start": 10.572,
+  "dur": 8.924,
+  "after": 0.45
+ },
+ {
+  "name": "b03_02_eli",
+  "beat": "03",
+  "speaker": "eli",
+  "voiced": true,
+  "text": "¡¿Quién fue?!",
+  "start": 19.945,
+  "dur": 1.847,
+  "after": 0.4
+ },
+ {
+  "name": "b03_03_narrator",
+  "beat": "03",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.",
+  "start": 22.192,
+  "dur": 10.414,
+  "after": 2.0
+ },
+ {
+  "name": "b04_05_narrator",
+  "beat": "04",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Mila, su amiga, mira atrás.",
+  "start": 34.606,
+  "dur": 2.56,
+  "after": 0.35
+ },
+ {
+  "name": "b04_06_mila",
+  "beat": "04",
+  "speaker": "mila",
+  "voiced": true,
+  "text": "Eli… va para atrás.",
+  "start": 37.515,
+  "dur": 2.95,
+  "after": 0.35
+ },
+ {
+  "name": "b04_07_eli",
+  "beat": "04",
+  "speaker": "eli",
+  "voiced": true,
+  "text": "¿Qué?",
+  "start": 40.815,
+  "dur": 1.378,
+  "after": 0.45
+ },
+ {
+  "name": "b04_08_narrator",
+  "beat": "04",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+  "start": 42.643,
+  "dur": 4.682,
+  "after": 5.0
+ },
+ {
+  "name": "b09_17_narrator",
+  "beat": "09",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Vamos más despacio. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía.",
+  "start": 52.326,
+  "dur": 20.687,
+  "after": 0.35
+ },
+ {
+  "name": "b09_18_eli",
+  "beat": "09",
+  "speaker": "eli",
+  "voiced": true,
+  "text": "No… no… ¡no!",
+  "start": 73.363,
+  "dur": 2.178,
+  "after": 0.35
+ },
+ {
+  "name": "b09_19_narrator",
+  "beat": "09",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Para el auto número diez: alto total.",
+  "start": 75.891,
+  "dur": 3.241,
+  "after": 0.65
+ },
+ {
+  "name": "b13_26_narrator",
+  "beat": "13",
+  "speaker": "narrator",
+  "voiced": true,
+  "text": "Ese conductor ya llegó a su casa. Seguro ya está cenando. Por eso no ves ninguna razón: la razón ya se fue a cenar.",
+  "start": 79.781,
+  "dur": 11.653,
+  "after": 1.2
+ },
+ {
+  "name": "b13_27_eli",
+  "beat": "13",
+  "speaker": "eli",
+  "voiced": true,
+  "text": "¿Ni un perdón?",
+  "start": 92.635,
+  "dur": 1.962,
+  "after": 1.0
+ }
+]

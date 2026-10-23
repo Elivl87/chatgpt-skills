@@ -8,6 +8,11 @@ Sources: the script's own notes per beat (emotion / rhythm / gag structure: prep
 punctuation (? ! … :), sentence length, and the Producer's rule for the character lines read by the narrator
 (2026-10-23): Eli = louder, impatient; Mila = calmer, softer; no cartoon voices; a short breath before and after.
 
+Persona: `voice/NARRADOR.md` (the curious friend who already knows the ending): hook = high energy + real surprise +
+the question asked for real; explanation = calm, clear, 140-150 wpm, numbers slower with a 0.6-1 s pause before them;
+twists = surprise again; ending = warm and low. Jokes deadpan (the pause does the work). Characters quoted by the
+narrator with a minimal attitude change. The profiles below are that curve, sentence by sentence.
+
 Chatterbox notes: exaggeration ↑ = more emotion (and a faster, more variable delivery; above ~0.8 it hallucinates more
 → more retries); cfg_weight ↓ = freer, faster pacing (Resemble: lower cfg to ~0.3 when exaggeration is high);
 temperature ↑ = more variety between takes.
@@ -118,6 +123,10 @@ def split_directed(line):
     return out
 
 
+NUMBER_RE = re.compile(r"\b(dos mil|mil|cien|ciento|doscient\w+|trescient\w+|veinti\w+|treinta|cuarenta|cincuenta|sesenta|"
+                       r"ochenta|noventa|diez|quince|veinte|catorce|por ciento|kilómetros|metros|minutos|media hora)\b", re.I)
+
+
 def _entry(v):
     return (v, None) if isinstance(v, str) else (v[0], v[1])
 
@@ -155,6 +164,9 @@ def direct(text, beat="", speaker="narrator"):
         prof = auto_profile(t, beat, speaker)
     p = dict(PROFILES[prof])
     p.setdefault("breath", 0.0)
+    if speaker == "narrator" and NUMBER_RE.search(t):         # NARRADOR.md: numbers slower, with a pause before
+        p["before"] = max(p["before"], 0.6)
+        p["speed"] = min(p["speed"], 0.95)
     return {"profile": prof, "tts": tts or t, **p}
 
 
