@@ -57,3 +57,5 @@
   full-precision model (kokoro-v1.0.onnx), sentence-by-sentence with 0.32 s breaths, speed 0.92, no EQ, no pitch
   shift (~148 wpm in the hook). Supersedes the af_heart line above. Command: KOKORO_VOICE=am_fenrir KOKORO_SPEED=0.92
   KOKORO_PITCH=0 KOKORO_EQ=0 KOKORO_MODEL=kokoro-v1.0.onnx KOKORO_SPLIT=1 scripts/ep003-placeholder-narration.py <kokoro> davethediver.
+- Script v1.2 (Producer, 2026-10-23, "Aprobado"): hook ¶01-¶02 replaced by SCRIPT CHANGE PROPOSAL option A (the EP001
+  echo "You finish work... sit down" removed). `scripts/DTD_v1_2_EN.txt` is the LOCKED text from now on.

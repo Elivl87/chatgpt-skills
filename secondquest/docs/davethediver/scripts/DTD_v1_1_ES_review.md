@@ -10,11 +10,11 @@ Títulos: A “Dave the Diver: dos trabajos, sin sueldo... ¿y es relajante?” 
 
 ### A · HOOK
 
-**¶01** EN: You finish work. You get home. You sit down.  
-ES: Terminas de trabajar. Llegas a casa. Te sientas.
+**¶01** (v1.2) EN: Somewhere tonight, someone is eating a fish you speared this afternoon.  
+ES: En algún lugar, esta noche, alguien se está comiendo un pez que arponeaste esta tarde.
 
-**¶02** EN: And you start a second job.  
-ES: Y empiezas un segundo trabajo.
+**¶02** (v1.2) EN: You caught it. You're also the waiter. Welcome to your second job.  
+ES: Tú lo pescaste. Y también eres el mesero. Bienvenido a tu segundo trabajo.
 
 **¶03** EN: By day, you dive into a hole in the ocean and spear fish until your oxygen runs out. By night, you serve them as sushi until closing time.  
 ES: De día, te sumerges en un agujero en el océano y arponeas peces hasta que se te acaba el oxígeno. De noche, los sirves como sushi hasta la hora de cerrar.

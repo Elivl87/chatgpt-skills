@@ -1,6 +1,6 @@
 # SCRIPT CHANGE PROPOSAL · Dave the Diver · hook ¶01–¶02 (v1.1 → v1.2)
 
-Status: **PROPOSED, not approved.** `DTD_v1_1_EN.txt` stays authoritative until the Producer picks an option.
+Status: **APPROVED — Option A** (Producer, 2026-10-23: "Aprobado. continua"). Locked text: `DTD_v1_2_EN.txt`.
 Requested by the Producer (2026-10-23: "SI") after the EP001 comparison.
 
 ## Why

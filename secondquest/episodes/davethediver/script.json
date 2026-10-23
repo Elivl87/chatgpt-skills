@@ -2,17 +2,17 @@
   "episode": "davethediver",
   "locale": "en",
   "hookEnd": "p08",
-  "notes": "LOCKED v1.1 (Producer, 2026-10-18). docs/davethediver/scripts/DTD_v1_1_EN.txt verbatim, one line per paragraph; id = p + paragraph number. Placeholder voice: Kokoro am_fenrir chain (no female character quote in v1.1, so no af_heart line).",
+  "notes": "LOCKED v1.1 (Producer, 2026-10-18). docs/davethediver/scripts/DTD_v1_1_EN.txt verbatim, one line per paragraph; id = p + paragraph number. Placeholder voice: Kokoro am_fenrir chain (no female character quote in v1.1, so no af_heart line). | v1.2 (Producer 2026-10-23, SCRIPT CHANGE PROPOSAL option A): hook ¶01-¶02 replaced (EP001 echo).",
   "lines": [
     {
       "id": "p01",
       "block": "A",
-      "text": "You finish work. You get home. You sit down."
+      "text": "Somewhere tonight, someone is eating a fish you speared this afternoon."
     },
     {
       "id": "p02",
       "block": "A",
-      "text": "And you start a second job."
+      "text": "You caught it. You're also the waiter. Welcome to your second job."
     },
     {
       "id": "p03",
