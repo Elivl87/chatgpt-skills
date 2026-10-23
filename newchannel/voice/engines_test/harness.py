@@ -240,8 +240,9 @@ def seseo(x, log=None):
     med = float(np.median(ss))
     rel = {t: round(v - med, 1) for t, v in zs}
     vals = list(rel.values())
-    return {"words_db": rel, "mean_db": round(float(np.mean(vals)), 1),
-            "verdict": "seseo (LatAm)" if np.mean(vals) > -4 else "distinción (España)"}
+    med = float(np.median(vals))      # median: a sentence-final "vez" is always weak, whatever the accent
+    return {"words_db": rel, "mean_db": round(float(np.mean(vals)), 1), "median_db": round(med, 1),
+            "verdict": "seseo (LatAm)" if med > -6 else "distinción (España)"}
 
 
 def beeps(n, sr=44100, f=880.0, d=0.12, gap=0.13):
