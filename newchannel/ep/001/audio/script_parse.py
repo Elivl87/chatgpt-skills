@@ -5,13 +5,18 @@ from pathlib import Path
 SCRIPT = Path(__file__).resolve().parents[1] / "SCRIPT_ES419.md"
 
 
+BOX_ONLY = "[solo cuadro]"   # v4: a character line that stays a text box only (no voice): voiced False
+
+
 def _clean(s: str) -> str:
     s = re.sub(r"\s*(\[\d+\])+\s*$", "", s.strip())      # source refs [3][2]
+    s = s.replace(BOX_ONLY, "")                           # the box-only marker is not read
     return s.strip()
 
 
 def parse_episode(path=SCRIPT):
-    """-> list of dict(beat, speaker, text). Beat ids '01'..'24', 'end'. Pause markers -> speaker 'pause'."""
+    """-> list of dict(beat, speaker, text[, voiced]). Beat ids '01'..'24', 'end'. Pause markers -> speaker 'pause'.
+    Character lines marked `[solo cuadro]` (v4) carry voiced False: text box only, never synthesised."""
     lines = path.read_text(encoding="utf-8").splitlines()
     segs, beat = [], None
     for ln in lines:
@@ -31,7 +36,8 @@ def parse_episode(path=SCRIPT):
             continue
         m = re.match(r"^\*\*(ELI|MILA):\*\*\s*(.+)$", body)
         if m:
-            segs.append({"beat": beat, "speaker": m.group(1).lower(), "text": _clean(m.group(2))})
+            segs.append({"beat": beat, "speaker": m.group(1).lower(), "text": _clean(m.group(2)),
+                         "voiced": BOX_ONLY not in m.group(2)})
         elif re.match(r"^\*\(.*\)\*$", body):
             segs.append({"beat": beat, "speaker": "pause", "text": body.strip("*()")})
         else:

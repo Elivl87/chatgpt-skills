@@ -1,6 +1,6 @@
 /* Ep 001 · BLOCK C1 · Act 2, beats 9-10: the circle stretched into a line (S3, overcast noon) and chain instability
    (S4 graph). Times from words (A.at) or S3/S4 events (A.ev). Sim speed: ×1 (no label) on the close-ups of the first
-   two cars («vamos más despacio»), ×3 on the cascade so that car 10 stops on «alto» (PRODUCTION_NOTES asked ×2; ×2
+   two cars («vamos por partes», script v4 P14), ×3 on the cascade so that car 10 stops on «alto» (PRODUCTION_NOTES asked ×2; ×2
    cannot put the 3rd car on «tercero» and the stop on «alto»; the label always says the true factor). */
 (function (root) {
   const K = root.K, E = K.ep1, A = K.anim, P = K.props;
@@ -8,14 +8,14 @@
 
   A.block('C1', {
     t0: null, t1: null,
-    async setup() { this.t0 = A.at('Vamos', 1, { beat: '09' }); this.t1 = A.at('No', 1, { beat: '11' }); },
+    async setup() { this.t0 = A.at('Vamos', 1, { beat: '09' }); this.t1 = A.at('El', 1, { beat: '11' }); },   // v4 (P1): beat 11 opens «El embotellamiento no es…» (was «No»)
     post: { grain: 0.12, vignette: 0.32, vignetteColor: '#3a3a4a', bloom: 0.12 },
     shots(A) {
       const def = this, T0 = def.t0, w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
       const tEstir = w('Estiremos', 1, '09'), tRecta = w('recta', 1, '09', { edge: 'end' }), tEl = w('El', 2, '09'), tToca = w('toca', 1, '09');
       const tSegundo = w('El', 4, '09'), tNota = w('nota', 1, '09'), tInstante = w('instante', 1, '09'), tTarde = w('tarde', 1, '09'), tEn = w('En', 1, '09');
       const tAsi = w('así', 1, '09'), tFrenar = w('frenar', 1, '09'), tEl3 = w('El', 5, '09'), tTercero = w('tercero', 1, '09');
-      const noT = [1, 2, 3].map(n => A.at('no', n, { beat: '09', speaker: 'eli' })), tPara = w('Para', 1, '09'), tAlto = w('alto', 1, '09'), tTotal = w('total', 1, '09', { edge: 'end' });
+      const noT = [1, 2, 3].map(n => A.at('no', n, { beat: '09', speaker: 'eli' })), tEliN = w('Eli', 1, '09', { speaker: 'narrator' }), tPara = w('Para', 1, '09'), tAlto = w('alto', 1, '09'), tTotal = w('total', 1, '09', { edge: 'end' });
       const tLos = w('Los', 1, '10'), tInest = w('inestabilidad', 1, '10'), tLa = w('La', 1, '10'), tCadena2 = w('cadena', 2, '10'), tAutos = w('autos', 1, '10', { edge: 'end' });
       const tSi1 = w('Si', 1, '10'), tSi2 = w('Si', 2, '10'), tComo = w('como', 1, '10'), tChisme = w('chisme', 1, '10'), tCuentaE = w('cuenta', 1, '10', { edge: 'end' });
       const tQue = A.at('Que', 1, { beat: '10', speaker: 'eli' }), tQueE = A.at('qué', 1, { beat: '10', speaker: 'eli', edge: 'end' });
@@ -38,7 +38,7 @@
       const WZ = (c, f) => { c.save(); c.translate(960, 900); c.scale(1.6, 1.6); c.translate(-960, -900); f(); c.restore(); };   // wide line shots: frame the road, not the sky
       const shots = [];
 
-      // C01 · «Vamos más despacio.» Mila, at the edge of the field, slows the class down
+      // C01 · «Vamos por partes.» (v4) Mila, at the edge of the field, slows the class down
       shots.push({ id: 'C01_slow', start: T0, bg: 'field_mila', focus: [960, 520], push: 0.03,
         draw(c, t, lt) {
           A.field(c, t, { simT: A.ev('S2', 'clock_3min') + 40 + (t - T0) * 0.4, frame: { z: 1.6, x: 920, y: 552 },
@@ -105,8 +105,8 @@
         },
         cues: A => [3, 4, 5, 6, 7].map(n => ({ t: tTercero + (on(n) - on(3)) / 3, kind: 'line_brake', step: n })) });
 
-      // C07 · Eli: «No… no… ¡no!» — the bars come at him, each one higher
-      shots.push({ id: 'C07_no', start: noT[0] - 0.22, bg: 'line_eli', label: 'ACELERADO ×3', focus: [900, 520], push: 0.035, pushDir: 1,
+      // C07 · «Eli va en el diez:» (v4 P7, the narrator names him) + Eli: «No… no… ¡no!» — the bars come at him, each one higher
+      shots.push({ id: 'C07_no', start: tEliN - 0.1, bg: 'line_eli', label: 'ACELERADO ×3', focus: [900, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) {
           const ts = L3(t), sp = A.talk('eli', t), k = noT.filter(x => t > x - 0.02).length;
           const eO = { pose: 'drive', ...A.ez(t, noT[2] - 0.02, 'worried', 'surprised'), look: [0.9, -0.3], t, talk: sp.talk, viseme: sp.viseme, lean: 0.02 * k };
@@ -188,7 +188,7 @@
       return shots;
     },
     ambience(A) {
-      const t0 = A.at('Vamos', 1, { beat: '09' }), t1 = A.at('No', 1, { beat: '11' });
+      const t0 = A.at('Vamos', 1, { beat: '09' }), t1 = A.at('El', 1, { beat: '11' });
       return [{ kind: 'wind', t0, t1 }, { kind: 'music_light', t0, t1 }, { kind: 'ring_hum', t0: A.at('El', 1, { beat: '09' }), t1: A.at('alto', 1, { beat: '09' }) + 0.5 }];
     },
   });

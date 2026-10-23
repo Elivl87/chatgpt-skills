@@ -19,9 +19,11 @@
 
   // ------------------------------------------------------------------ word timings
   const norm = w => w.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^\w]+/g, '');
-  A.load = async function () {
+  A.load = async function (src) {
     if (A.words) return;
-    A.words = await (await fetch('../audio/timings_es.json')).json();
+    // ?timings=<path> loads another word file (dry runs of a re-timed script, e.g. ../audio/timings_es_v4_provisional.json);
+    // the real timeline always comes from ../audio/timings_es.json
+    A.words = await (await fetch(src || '../audio/timings_es.json')).json();
     A.words.forEach((w, i) => { w.i = i; w.key = norm(w.word); });
   };
   A.word = function (word, n = 1, o = {}) {
@@ -227,7 +229,7 @@
     let shots = null, cues = null, buf = null;
     K.scene('ep001_' + name, {
       async setup(ctx, opts) {
-        await A.load();
+        await A.load(opts && opts.timings);
         A._demo = opts.tbdemo ? opts.tbdemo.split('|').map(x => x.split(':')) : null;
         A._bySpk = {}; for (const w of A.words) (A._bySpk[w.speaker] = A._bySpk[w.speaker] || []).push(w);
         A.installBadge();

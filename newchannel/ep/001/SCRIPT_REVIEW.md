@@ -232,3 +232,28 @@ Avisos para los pasos siguientes (no bloquean la aprobación):
 - **Duración real:** medir con la voz real; si pasa de 8:00 con la pantalla final, se recorta aire de las pausas.
 - **Ritmo:** pasar `pacing_qc.py` sobre el animatic contra las listas **Ritmo** de cada beat.
 - `SCRIPT_EN.md` sigue desactualizado (secundario por decisión del 2026-10-14).
+
+---
+
+## 5 · Auditoría frente al narrador y al animatic (2026-10-23) → v4
+
+Fuente: `SCRIPT_AUDIT_NARRADOR.md` (Script Editor, solo lectura sobre v3). Pregunta del Productor: ¿el guion es el correcto
+para lo que debe decir el narrador (`voice/NARRADOR.md`) y para la animación ya hecha? Veredicto: sí; 13 cambios mínimos +
+un arreglo del animatic. Claude, como director (regla del Productor 2026-10-15), aprobó y aplicó **P1-P14** y los **recortes
+de nivel A** (no el nivel B) el 2026-10-23 → **v4 = `SCRIPT_ES419.md`**, bloqueado; v3 queda en `SCRIPT_ES419_v3.md`.
+
+| Criterio (auditoría) | v3 | **v4** | Por qué |
+|---|---|---|---|
+| Narración vs la biblia del narrador | 8 | **9** | Las dos frases difíciles de decir (beats 13 y 20) reordenadas o partidas (P2, P4); "a la que… a la que" (P5) y "Eli deja" (P6) resueltos; "Vamos por partes" (P14). Las cuatro frases de datos siguen siendo datos: se salvan con la pausa previa a cada número (dirección, no texto). |
+| Líneas de personaje citadas por el narrador | 7 | **9** | Regla general escrita (P10): el narrador las dice todas, actitud sin voz; 3 líneas solo en cuadro (P8); la única cita sin dueño tiene marco, "Eli va en el diez:" (P7); "¡¿Quién f…?" con corte de audio (P9). Queda por confirmar en la prueba de voz "¡Hay un hueco!" (marco opcional ya escrito). |
+| Guion vs animación | 9 | **10** | M1 (el gafete) arreglado en `animatic/shots_blockE2.js` y hecho explícito en el guion; M2 con "Vamos por partes."; M3 con el marco de P7; M8 (reloj 0:33) sincronizado en TEXTOS EN PANTALLA. Anclas re-apuntadas y probadas en seco (`animatic/qc/ANCHORS_v4.md`). |
+| Duración | 6 | **7** | Nivel A sobre la toma actual re-cronometrada: ≈ −4 s de texto (≈ 8:27 con pantalla final; la auditoría estimó más porque contó las palabras movidas como quitadas) y ≈ 8:08 con el +4 % de tempo del ensamblaje. Sigue por encima de 8:00: el nivel B (≈ 7-11 s) queda en reserva si la voz nueva no baja sola. La cifra real la da la narración expresiva nueva. |
+| TTS / decibilidad | 8 | **9** | "Eli sí deja", "¡¿Quién f…?" cortado en montaje, "Nooo" fuera de la voz; "repitió" se deja (una palabra, sin cambiar más de lo necesario). |
+
+Lo que v4 **no** toca (decisión del director): el silencio de 5 s del beat 23, el beat 24, los cuatro nombres regionales
+del beat 13, "y tampoco esperaban hacerlo" (beat 20), ningún dato ni número (cada frase tocada se cotejó con `FACTS.md`),
+el Short (92 palabras, ≈ 39 s, dentro de 35-40 s). El +4 % de tempo es un ajuste de ensamblaje, no del guion. Las
+puntuaciones de la sección 3 (claridad 9, humor 9, datos 10…) siguen vigentes: v4 no cambia tesis, gags ni cifras.
+
+**Veredicto v4: APROBADO Y BLOQUEADO (Claude, 2026-10-23).** Se usa palabra por palabra para la voz nueva, los cuadros de
+texto y el animatic; cualquier cambio posterior va como propuesta formal.

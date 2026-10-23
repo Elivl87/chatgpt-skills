@@ -7,7 +7,7 @@
 
   A.block('C2', {
     t0: null, t1: null,
-    async setup() { this.t0 = A.at('No', 1, { beat: '11' }); this.t1 = A.at('Entonces', 1, { beat: '14' }); },
+    async setup() { this.t0 = A.at('El', 1, { beat: '11' }); this.t1 = A.at('Entonces', 1, { beat: '14' }); },   // v4 (P1): «El embotellamiento no es…» (was «No»)
     post: { grain: 0.13, vignette: 0.4, vignetteColor: '#2a1a2a', bloom: 0.18 },
     shots(A) {
       const def = this, T0 = def.t0, w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
@@ -17,10 +17,12 @@
       const tPero = w('Pero', 1, '12'), tEl = w('El', 1, '12'), tEstadio = w('estadio', 1, '12'), tCon1 = w('con', 1, '12'), tTresc = w('trescientos', 1, '12'), tMetrosE = w('metros', 1, '12', { edge: 'end' });
       const tCon2 = w('Con', 2, '12'), tVeinti5 = w('veinticinco', 1, '12'), tCon3 = w('Con', 3, '12'), tVeinti8 = w('veintiocho', 1, '12'), tEmbot = w('embotellamiento', 1, '12'), tTres = w('Tres', 1, '12');
       const tQuien = A.at('Quién', 1, { beat: '12', speaker: 'eli' }), tF = A.at('f', 1, { beat: '12', speaker: 'eli', edge: 'end' }), tLo = w('Lo', 1, '12'), tTramo = w('tramo', 1, '12');
-      const tLos12 = w('los', 2, '12'), tDens = w('densidad', 1, '12'), tPor1 = w('Por', 1, '12'), tPor2 = w('Por', 2, '12'), tCrecenE = w('crecen', 1, '12', { edge: 'end' });
+      const tDens = w('densidad', 1, '12'), tLos12 = tDens - 0.3 /* v4 (P13): «los ingenieros le dicen» is gone; the meter shot opens just before «densidad» */, tPor1 = w('Por', 1, '12'), tPor2 = w('Por', 2, '12'), tCrecenE = w('crecen', 1, '12', { edge: 'end' });
       const tAhora = w('Ahora', 1, '13'), tAhi = w('Ahí', 1, '13'), tDiez = w('diez', 1, '13'), tA13 = w('a', 2, '13'), tO = w('O', 2, '13');
-      const tEmb13 = w('embotellamiento', 1, '13'), tTrancon = w('trancón', 1, '13'), tTaco = w('taco', 1, '13'), tTrafico = w('tráfico', 1, '13'), tEn13 = w('en', 2, '13');
-      const tPudo = w('pudo', 1, '13'), tMedia = w('media', 1, '13'), tEse = w('Ese', 2, '13'), tCasa = w('casa', 1, '13'), tSeguro = w('Seguro', 1, '13'), tPor13 = w('Por', 2, '13');
+      const tEmb13 = w('embotellamiento', 1, '13'), tTrancon = w('trancón', 1, '13'), tTaco = w('taco', 1, '13'), tTrafico = w('tráfico', 1, '13');
+      const tPudo = w('pudo', 1, '13'), tEn13 = tPudo - 0.1 /* v4 (P2): «en el que» now comes before the regional names; the half-hour shot waits for «pudo» so the name cards finish */;
+      const tMedia = w('media', 1, '13'), tEse = w('Ese', 1, '13') /* v4 (P2): «ese embotellamiento» is gone, «Ese conductor» is the first «Ese» */, tCasa = w('casa', 1, '13'), tCasaE = w('casa', 1, '13', { edge: 'end' });
+      const tSeguro = tCasa - 0.1 /* v4 (P3): «Seguro ya está cenando» is cut; the window opens on «casa» */, tFork = tCasaE + 0.2, tNinguna = w('ninguna', 1, '13'), tPor13 = w('Por', 2, '13');
       const tRazon2 = w('razón', 2, '13'), tCenarE = w('cenar', 1, '13', { edge: 'end' }), tNi = A.at('Ni', 1, { beat: '13', speaker: 'eli' }), tPerdonE = A.at('perdón', 1, { beat: '13', speaker: 'eli', edge: 'end' });
       // ---- sim events
       const sEnter = A.ev('S2', 'marked_enters_jam'), M2 = A.map(sEnter, tEntran, 3);
@@ -203,11 +205,13 @@
       shots.push({ id: 'D21_halfhour', start: tEn13 - 0.1, bg: 'night_wide2', label: 'ACELERADO ×120', focus: [1000, 560], push: 0.022, pushDir: -1, post: nightPost, over: (c, t) => clock6(c, N6(t)),
         draw(c, t, lt) { A.night(c, t, { simT: N6(t), label: (cx, roadPt, b0, b1) => { const p = roadPt(1 - (0 - b0) / (b1 - b0)); P.ring(cx, p[0], p[1], 50, 30, A.ramp(t, tMedia - 0.4, 0.5), { w: 4 }); if (t > tMedia) P.pill(cx, p[0], p[1] - 70, 'hace 0:33', 30, A.ramp(t, tMedia, 0.2), { align: 'center' }); }, chars: (cx, hy) => hillChars(cx, t, hy) }); } });
       shots.push({ id: 'D22_farm', start: tEse - 0.1, bg: 'night_farm', focus: [1210, 700], push: 0.04, pushDir: 1, post: nightPost,
-        draw(c, t, lt) { const z = K.lerp(1.4, 3.6, K.ease.inOut(K.clamp((t - tEse) / (tSeguro - tEse)))); c.save(); c.translate(960, 560); c.scale(z, z); c.translate(-1210, -740); A.night(c, t, { simT: N6(t) }); c.restore(); } });
-      shots.push({ id: 'D23_dinner', start: tSeguro - 0.1, bg: 'window', focus: [960, 540], push: 0.03, pushDir: 1, post: nightPost,
-        draw(c, t, lt) { A.window(c, t, { fork: A.pulse(t, tSeguro + 0.4, 0.3, 0.4, 0.3) }); },
-        cues: A => [{ t: tSeguro + 0.4, kind: 'cutlery' }] });
-      shots.push({ id: 'D24_finger', start: tPor13 - 0.1, bg: 'night_eli', focus: [600, 700], push: 0.03, pushDir: -1, post: nightPost,
+        draw(c, t, lt) { const z = K.lerp(1.4, 3.6, K.ease.inOut(K.clamp((t - tEse) / (tCasa - 0.1 - tEse)))); c.save(); c.translate(960, 560); c.scale(z, z); c.translate(-1210, -740); A.night(c, t, { simT: N6(t) }); c.restore(); } });
+      // v4 (P3): without «Seguro ya está cenando» the window shot would last 0.15 s between «casa» and «Por eso»: it now opens on
+      // «casa» (the farm zoom lands there), the fork lifts after the word, and Eli's finger comes on «ninguna razón»
+      shots.push({ id: 'D23_dinner', start: tSeguro, bg: 'window', focus: [960, 540], push: 0.03, pushDir: 1, post: nightPost,
+        draw(c, t, lt) { A.window(c, t, { fork: A.pulse(t, tFork, 0.3, 0.4, 0.3) }); },
+        cues: A => [{ t: tFork, kind: 'cutlery' }] });
+      shots.push({ id: 'D24_finger', start: tNinguna - 0.1, bg: 'night_eli', focus: [600, 700], push: 0.03, pushDir: -1, post: nightPost,
         draw(c, t, lt) { c.save(); c.translate(960, 600); c.scale(1.9, 1.9); c.translate(-460, -720); A.night(c, t, { simT: N6(t), chars: (cx, hy) => hillChars(cx, t, hy) }); c.restore(); } });
       shots.push({ id: 'D25_bite', start: tRazon2 - 0.2, bg: 'window2', focus: [880, 560], push: 0.035, pushDir: 1, zBase: 1.12, post: nightPost,
         draw(c, t, lt) { A.window(c, t, { fork: A.ramp(t, tRazon2 + 0.15, 0.35) }); },
@@ -235,7 +239,7 @@
     },
     ambience(A) {
       const w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
-      const t0 = A.at('No', 1, { beat: '11' }), t1 = A.at('Entonces', 1, { beat: '14' });
+      const t0 = A.at('El', 1, { beat: '11' }), t1 = A.at('Entonces', 1, { beat: '14' });
       return [{ kind: 'music_light', t0, t1: w('Ahora', 1, '13') - 0.2 }, { kind: 'wind_grass', t0, t1: w('Es', 2, '11') - 0.1 },
         { kind: 'crowd', t0: w('Es', 2, '11') - 0.1, t1: w('Pero', 1, '12') - 0.1 }, { kind: 'dome_room', t0: w('Pero', 1, '12') - 0.1, t1: w('Ahora', 1, '13') - 0.2 },
         { kind: 'crickets', t0: w('Ahora', 1, '13') - 0.2, t1 }, { kind: 'night_pad', t0: w('Ahora', 1, '13') - 0.2, t1 }];

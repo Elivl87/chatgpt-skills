@@ -66,7 +66,9 @@
           P.pill(c, 1380, 300, '✓ seguro', 34, A.ramp(t, tSeguro, 0.2), { bg: K.rgba('#23746C', 0.92) }); P.pill(c, 1380, 370, '✗ enorme', 34, A.ramp(t, tEnorme, 0.2), { bg: K.rgba('#b8452f', 0.92) }); },
         cues: A => [{ t: tAsi + 0.1, kind: 'plate' }, { t: tEspacio + 0.1, kind: 'spring' }] });
       // the glovebox gag: Eli takes off the badge and stores it (clac) -> the glovebox pops open, the badge jumps out
-      // (boing) -> hold -> Mila's knee shuts it without looking; she hands the badge back... no: she keeps it, eyes on the road
+      // (boing) -> hold -> Mila's knee shuts it without looking. Continuity M1 (script audit 2026-10-23, script v4 beat 22):
+      // the badge STAYS in the glovebox; from H03_back to the end Eli wears no badge (the image must not say «cierra el
+      // hueco» while the voice says «deja un espacio»). Before this fix it came back on his chest at tKnee + 0.9.
       const tStore = tCerrarloE - 0.1;
       shots.push({ id: 'H03_store', start: tCorras - 0.2, bg: 'close', focus: [930, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G22(t), off = A.ramp(t, tCorras + 0.25, 0.25), lean = A.ramp(t, tCorras + 0.6, 0.3) * (1 - A.ramp(t, tStore, 0.2));
@@ -84,19 +86,19 @@
           inCar(c, t, ts, { z: 1.5, wx: 620, wy: 625, sx: 950, sy: 545 },
             { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tKnee + 1.0, 'surprised', 'sheepish'), look: [0.2, 0.3], blink: eliBlink(t) },
             { ...A.pzv(give, 0.5, 'lap', 'palm', 1.0), view: 'q', dir: 1, expr: 'smug', look: [0.9, -0.05], blink: milaBlink(t) },
-            { badge: A.ramp(t, tKnee + 0.9, 0.2) }); },
+            { badge: 0 }); },   // M1: no badge on Eli after the glovebox
         cues: A => [{ t: tVel, kind: 'plate' }] });
       // fingers drum on the wheel, a deep breath, the fingers calm down
       shots.push({ id: 'H04_breathe', start: tTrafE - 0.1, bg: 'close3', focus: [880, 480], push: 0.035, pushDir: 1,
         draw(c, t, lt) { const ts = G22(t), calm = A.ramp(t, tGustaria + 0.2, 0.5), drum = 1 - calm;
           inCar(c, t, ts, { z: 2.0, wx: 650, wy: 560, sx: 940, sy: 560 },
             { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tGustaria + 0.45, 'worried', 'happy'), look: [0.9, 0], tilt: drum * 0.04 * Math.sin(t * 30), lean: drum * 0.02 * Math.sin(t * 22), extras: calm > 0.3 && calm < 0.9 ? ['puff'] : [], blink: eliBlink(t) },
-            { pose: 'lap', view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], blink: milaBlink(t) }, { badge: 1 });
+            { pose: 'lap', view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], blink: milaBlink(t) }, { badge: 0 });   // M1
           if (drum > 0.05) for (let k = 0; k < 3; k++) P.callout(c, 1300 + k * 50, 760 - (k % 2) * 30, 'tap', 30, drum * (Math.sin(t * 25 + k * 2) > 0 ? 1 : 0.3)); },   // Guardian: the «tap» marks moved down to the wheel (they floated beside Eli's face)
         cues: A => [{ t: tTrafE, kind: 'tick_tock', t1: tGustaria + 0.2 }, { t: tGustaria + 0.25, kind: 'blow' }] });
       shots.push({ id: 'H05_calm', start: tLlegas - 0.15, bg: 'close4', focus: [930, 540], push: 0.03, pushDir: -1,
         draw(c, t, lt) { inCar(c, t, G22(t), { z: 1.4, wx: 700, wy: 610, sx: 950, sy: 540 },
-          { pose: 'drive', view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.05], blink: eliBlink(t) }, { pose: 'lap', view: 'q', dir: -1, expr: 'happy', look: [-0.8, 0], headTurn: -0.2, blink: milaBlink(t) }, { badge: 1 }); } });
+          { pose: 'drive', view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.05], blink: eliBlink(t) }, { pose: 'lap', view: 'q', dir: -1, expr: 'happy', look: [-0.8, 0], headTurn: -0.2, blink: milaBlink(t) }, { badge: 0 }); } });   // M1
       shots.push({ id: 'H05_same', start: tMisma - 0.2, bg: 'hw_crane', focus: [960, 470], push: 0.025, pushDir: -1,
         over: (c, t) => { P.badge(c, 520, 860, '= distancia', 58, A.ramp(t, tMisma, 0.3)); P.badge(c, 960, 860, '= tiempo', 58, A.ramp(t, tMismo22, 0.3)); P.badge(c, 1400, 860, '− frenazos', 58, A.ramp(t, tMenos, 0.3)); },
         draw(c, t, lt) { const ts = G22(t), S = R().at(ts), xE = A.camX(ELI, ts, 2), sCam = xE - 22, aim = A.aim(sCam, -1.2, 11, 2100, xE + 12, 1.85, 0, [980, 400]);
@@ -120,7 +122,7 @@
         draw(c, t, lt) { const ts = G23(t);
           inCar(c, t, ts, { z: 1.45, wx: 700, wy: 615, sx: 940, sy: 540 },
             { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tLeadV + 0.2, 'determined', 'happy'), look: [0.9, 0], blink: eliBlink(t) },
-            { pose: 'lap', view: 'q', dir: 1, expr: 'curious', look: [0.9, -0.05], blink: milaBlink(t) }, { badge: 1 }); },
+            { pose: 'lap', view: 'q', dir: 1, expr: 'curious', look: [0.9, -0.05], blink: milaBlink(t) }, { badge: 0 }); },   // M1
         cues: A => [{ t: tLeadV, kind: 'brake_note', step: 6 }] });
       // over Eli's shoulder, looking back: the golden road, flowing, not one brake light
       shots.push({ id: 'I05_back', start: tLeadV + 1.6, bg: 'hw_rev', label: 'ACELERADO ×3', focus: [960, 560], push: 0.03, pushDir: 1,
@@ -131,19 +133,19 @@
           // camera and looking down the road behind: curious, then the incredulous double take (no brake light at all)
           const rE = K.cast.draw(c, 'eli1', 300, 1400, 1500, { view: 'q', dir: 1, seated: true, pose: 'drive', t, light: FRONTLIT, look: [0.9, -0.05], blink: 0,
             ...A.ez(t, tLeadV + 2.0, 'curious', 'surprised'), tilt: -0.06 * A.ramp(t, tLeadV + 2.0, 0.25) });
-          { const [hx, hy, hr] = rE.head; P.gloveBadge(c, hx + hr * 0.15, hy + hr * 1.75, hr / 260); } },   // Guardian: the badge stays on his chest (continuity with H04-J03)
+          void rE; },   // M1 (2026-10-23): no badge on his chest any more; it stayed in the glovebox (H03_pop)
         cues: A => [{ t: tLeadV + 2.6, kind: 'chirp' }] });
       shots.push({ id: 'I06_who', start: tQuien - 0.45, bg: 'close_tight', focus: [980, 470], push: 0.035, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t), sp = A.talk('eli', t, { gain: 0.6 });
           inCar(c, t, ts, { z: 1.9, wx: 650, wy: 500, sx: 980, sy: 560 },
             { pose: 'drive', view: 'q', dir: -1, expr: 'curious', look: [-0.9, -0.1], headTurn: 0.3, talk: sp.talk, viseme: sp.viseme, blink: 0 },
-            { pose: 'lap', view: 'q', dir: 1, expr: 'happy', look: [-0.6, -0.1], blink: milaBlink(t) }, { badge: 1 });
+            { pose: 'lap', view: 'q', dir: 1, expr: 'happy', look: [-0.6, -0.1], blink: milaBlink(t) }, { badge: 0 });   // M1
           /* the whisper «¿…Quién fue?» is a text box now (A.drawLines) */ } });
       shots.push({ id: 'I07_you', start: tFuiste - 0.25, bg: 'close_mila', focus: [880, 500], push: 0.035, pushDir: -1,
         draw(c, t, lt) { const ts = G23(t), sp = A.talk('mila', t), laugh = t > tTuE + 0.2; let heads = null;
           heads = inCar(c, t, ts, { z: 1.7, wx: 600, wy: 560, sx: 900, sy: 560 },
             { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tTuE + 0.2, 'sheepish', 'laugh'), look: [-0.5, 0], blink: eliBlink(t) },
-            { pose: 'lap', blend: { pose: 'point', k: 0.62 }, view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], talk: sp.talk, viseme: sp.viseme, blink: 0 }, { badge: 1 });   // Guardian: a lower, shorter point at his badge (the full point covered Eli's nose and mouth)
+            { pose: 'lap', blend: { pose: 'point', k: 0.62 }, view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], talk: sp.talk, viseme: sp.viseme, blink: 0 }, { badge: 0 });   // Guardian: a lower, shorter point at HIM (the full point covered Eli's nose and mouth); M1: no badge to point at
           if (heads && heads.milaHead) A.speaker('mila', heads.milaHead); },
         cues: A => [{ t: tTuE + 0.25, kind: 'mm' }] });
       shots.push({ id: 'I08_bird', start: tTuE + 0.1, bg: 'bird', focus: [960, 520], push: 0.035, pushDir: 1,
@@ -170,7 +172,7 @@
         draw(c, t, lt) { const ts = G23(t);
           inCar(c, t, ts, { z: 1.3, wx: 760, wy: 600, sx: 960, sy: 540 },
             { pose: 'drive', view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.05], blink: eliBlink(t) },
-            { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tPaciente, 'neutral', 'happy'), look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 1 }); } });
+            { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tPaciente, 'neutral', 'happy'), look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 0 }); } });   // M1
       // the wordmark, the payoff: Eli catches the dot ON TIME and places it on the i himself; fist bump
       const tWM = tEsto - 0.15, WM = { drop: 0.55, c1: 1.0, c2: tPuntosE - tWM, place: tPuntosE - tWM + 0.75, land: tPuntosE - tWM + 1.25, tagline: tPuntosE - tWM + 1.9 };
       const tBump = tWM + WM.land + 0.65;
