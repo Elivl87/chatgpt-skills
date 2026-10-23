@@ -67,24 +67,24 @@ Objetivo de registro (tramo 0:55-1:15 de `qwen_a`, lo que gustó): rango 16,1 st
 | `qwen_c_f` | Qwen VoiceDesign, voz diseñada ♀ | 0 % | 14 | 150 | 4,8 / 9,2 | 0,626 | 210 | 16,2 | 4,5 | 7,1 | LatAm |
 | `cb_builtin_energetic` | Chatterbox V3 voz interna, exag. 0,7-0,9, cfg 0,3 | 0,6 % | 10 | 208 | 14,5 / 21,8 | 0,717 | 149 | 19,8 | 5,5 | 7,4 | LatAm |
 | `cb_ref_ryan` | Chatterbox V3 con referencia Ryan (0:55-1:15), exag. 0,6-0,8 (control) | 0 % | 11 | 143 | 11,7 / 16,6 | **0,942 (Ryan)** | 150 | 11,2 | 2,8 | 7,5 | LatAm |
-| `vox_ref_ryan` | VoxCPM2 Q8 GGUF con referencia Ryan + guía de estilo (ELIGE 2) | VOX_WER | VOX_RET | VOX_PPM | VOX_RTF | VOX_SIM | VOX_F0 | VOX_RANGE | VOX_MEL | VOX_ENE | VOX_SESEO |
+| `vox_ref_ryan` | VoxCPM2 Q8 GGUF con referencia Ryan + guía de estilo (ELIGE 2) | 0,6 % (1: «conos»→«conoz», oído de Whisper) | 8 | 161 | 20 / 36 (incluye recargar el GGUF en cada llamada) | 0,924 (Ryan) | 156 | **25.4** | 5.6 | 8.2 | seseo (0.9 dB) |
 | `cosy_ref_ryan` | Fun-CosyVoice3-0.5B con referencia Ryan + instrucción (ELIGE 3) | COSY_WER | COSY_RET | COSY_PPM | COSY_RTF | COSY_SIM | COSY_F0 | COSY_RANGE | COSY_MEL | COSY_ENE | COSY_SESEO |
 | `cosy_ref_ryan0` | CosyVoice3 zero-shot (sin instrucción) | COSY0_WER | COSY0_RET | COSY0_PPM | COSY0_RTF | COSY0_SIM | COSY0_F0 | COSY0_RANGE | COSY0_MEL | COSY0_ENE | COSY0_SESEO |
 | Control anterior | Chatterbox V3 clon del Productor dirigido (`expressive/`, `A_clone_directed`) | 0 % | 23 | 138 | ~12 | 0,954 (Productor) | — | — | — | — | — |
 
 Aceleración aplicada en los MP3 (`logs/post_*.json`): `qwen_a` ×1,49 (101→150 ppm), `qwen_ryan_r1` ×1,39 (108→154),
 `qwen_ryan_x1` ×1,44 (105→149), `cb_ref_ryan` ×1,05 (143→150), `cb_builtin_energetic` ×1,0 (ya iba a 208; no se frena).
-POST_VOX_COSY
+`vox_ref_ryan` ×1,0 (161 ppm de fábrica; solo pausas). POST_COSY
 
 **Ranking por energía percibible (medidas: rango tonal × melodía, con WER ≤ 1 %):** 1) `qwen_ryan_r1` (24,0 × 6,4) ·
 2) `qwen_ryan_x1` (21,4 × 5,0; el elegido para ELIGE porque además clava el registro exclamativo pedido y tiene WER 0) ·
 3) `cb_builtin_energetic` (19,8 × 5,5; pero habla a 208 ppm y suena a otra voz) · 4) `qwen_c_m` (18,6 × 5,3) ·
-RANK_VOX_COSY · último `cb_ref_ryan` (11,2 × 2,8: copia el timbre de Ryan al 0,94 pero lo aplana).
+**0) `vox_ref_ryan` (25,4 × 5,6: por medidas es la más viva de todas, y ya va rápida sin acelerar)** RANK_COSY · último `cb_ref_ryan` (11,2 × 2,8: copia el timbre de Ryan al 0,94 pero lo aplana).
 
 ## Pistas por motor
 
 - `qwen3tts.mp3` (4:36): 1 pitido = Ryan sin instrucción (`qwen_a`) · 2 = Ryan + energía (`qwen_ryan_r1`) · 3 = Ryan registro exclamativo (`qwen_ryan_x1`).
-- `voxcpm2.mp3`: 1 pitido = referencia Ryan + guía de estilo (`vox_ref_ryan`). VOX_MP3_NOTE
+- `voxcpm2.mp3`: 1 pitido = referencia Ryan + guía de estilo (`vox_ref_ryan`). Habla a 161 ppm de fábrica: no se aceleró, solo se recortaron las pausas (93→84 s).
 - `cosyvoice3.mp3`: 1 pitido = referencia Ryan + instrucción (`cosy_ref_ryan`) · 2 = zero-shot sin instrucción (`cosy_ref_ryan0`). COSY_MP3_NOTE
 - `chatterbox.mp3` (2:51): 1 pitido = referencia Ryan (`cb_ref_ryan`) · 2 = voz interna enérgica (`cb_builtin_energetic`).
 - Las dos voces diseñadas de Qwen (`qwen_c_m`, `qwen_c_f`) quedaron en la primera versión de `qwen3tts.mp3` (commit `bec87ab`); se oyen con `git show bec87ab:newchannel/voice/engines_test/qwen3tts.mp3`.
@@ -123,7 +123,7 @@ enérgica pero atropellada; con la referencia Ryan (exag. 0,6-0,8) copia el timb
 `--threads`). Habla **rápido de fábrica** (prueba: 14 palabras en 3,9 s = 215 ppm) y su diseño de voz por descripción
 funciona en español, pero **cada llamada recarga 3,4 GB de GGUF** (no hay servidor): con la RAM justa cada frase costaba
 1-2 min de carga, así que la voz diseñada ♂ se **abortó a los 20 min** (regla del plan) y la toma de ELIGE se hizo por
-líneas enteras del guion (13 llamadas) con la referencia Ryan. VOX_TECH
+líneas enteras del guion (13 llamadas) con la referencia Ryan. Resultado: la toma de ELIGE 2 tardó 46 min (RTF 20 contando las 13 recargas; la síntesis pura ronda RTF 12 con 2 hilos), WER 0,6 %, **25,4 st de rango tonal (la toma más melódica del día)**, 161 ppm sin acelerar, similitud 0,92 con Ryan: conserva el timbre con más vida. Para producción haría falta un servidor residente (VoxCPM.cpp o el paquete Python oficial) para no recargar el modelo por frase.
 
 **Fun-CosyVoice3-0.5B** · Apache-2.0 (tarjeta y `LICENSE`; «for academic purposes only» es el aviso de la demo, no la
 licencia). PyTorch CPU en un venv que reutiliza el torch de Chatterbox (`.pth`) con transformers 4.51.3; pesos 5,4 GB
