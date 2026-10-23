@@ -1,0 +1,39 @@
+{
+ "takes": [
+  [
+   "qwen_a",
+   1
+  ],
+  [
+   "qwen_ryan_r1",
+   2
+  ],
+  [
+   "qwen_ryan_x1",
+   3
+  ]
+ ],
+ "post": {
+  "qwen_a.wav": {
+   "wpm_before": 100.6,
+   "wpm_after": 149.8,
+   "factor": 1.492,
+   "dur_before": 135.4,
+   "dur_after": 87.4
+  },
+  "qwen_ryan_r1.wav": {
+   "wpm_before": 108.1,
+   "wpm_after": 154.0,
+   "factor": 1.388,
+   "dur_before": 136.3,
+   "dur_after": 94.2
+  },
+  "qwen_ryan_x1.wav": {
+   "wpm_before": 104.5,
+   "wpm_after": 149.2,
+   "factor": 1.436,
+   "dur_before": 129.6,
+   "dur_after": 86.6
+  }
+ }
+}

@@ -19,12 +19,13 @@ O = H.OUT
 MP3 = {
     # Qwen3-TTS, Ryan preset (the timbre the Producer chose): 1 = preset as is · 2 = + energetic instruct per sentence
     # · 3 = + exclamative register seed A · 4 = seed B · 5 = designed voice (c♂) for reference (NOTES)
-    "qwen3tts": [("qwen_a", 1), ("qwen_ryan_r1", 2), ("qwen_ryan_x1", 3), ("qwen_ryan_x2", 4)],
+    "qwen3tts": [("qwen_a", 1), ("qwen_ryan_r1", 2), ("qwen_ryan_x1", 3)],
     "voxcpm2": [("vox_ref_ryan", 1)],
     "cosyvoice3": [("cosy_ref_ryan", 1), ("cosy_ref_ryan0", 2)],
     "chatterbox": [("cb_ref_ryan", 1), ("cb_builtin_energetic", 2)],
-    # ELIGE: Ryan-timbre variants, every one the full passage from the hook, same pace
-    "ELIGE": [("qwen_a", 1), ("RYAN_BEST", 2), ("cb_ref_ryan", 3), ("vox_ref_ryan", 4), ("cosy_ref_ryan", 5)],
+    # ELIGE (Producer, 2026-10-23: "Qwen3-TTS, VoxCPM2 y CosyVoice 3. Quiero escuchar a estos"): three tracks only,
+    # Ryan timbre, full passage from the hook, same pace. Chatterbox stays in NOTES.md as the control.
+    "ELIGE": [("qwen_ryan_x1", 1), ("vox_ref_ryan", 2), ("cosy_ref_ryan", 3)],
 }
 
 
