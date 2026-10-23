@@ -1,8 +1,4 @@
 {
- "office.png": [
-  "public/art/core/backgrounds/office_openplan.png",
-  1080
- ],
  "city.png": [
   "public/art/core/backgrounds/city_apartments_evening.png",
   1080
@@ -15,14 +11,6 @@
   "public/art/davethediver/plates/bar_interior_night.png",
   1080
  ],
- "q_desk.png": [
-  "public/art/core/quest/desk_typing.png",
-  1000
- ],
- "q_walk.png": [
-  "public/art/core/quest/walking_back.png",
-  1000
- ],
  "q_slump.png": [
   "public/art/core/quest/exhausted_slumped.png",
   null
@@ -34,10 +22,6 @@
  "q_game.png": [
   "public/art/core/quest/gaming_excited.png",
   null
- ],
- "q_head.png": [
-  "public/art/core/quest/head_in_hands.png",
-  1000
  ],
  "q_worry.png": [
   "public/art/core/quest/worried_seated.png",

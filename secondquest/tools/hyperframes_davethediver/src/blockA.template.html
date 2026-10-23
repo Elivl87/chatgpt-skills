@@ -72,11 +72,12 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="{{DUR}}" data-fps="30" data-width="1280" data-height="720">
       <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="{{DUR}}" data-track-index="9" data-volume="1"></audio>
 
-      <div id="sA01" class="full clip shot" data-start="0" data-duration="{{p01.w5}}" data-track-index="1"></div>
-      <div id="sA02" class="full clip shot" data-start="{{p01.w5}}" data-duration="{{p01.w8-p01.w5}}" data-track-index="2"></div>
-      <div id="sA03" class="full clip shot" data-start="{{p01.w8}}" data-duration="{{p02.w3-p01.w8}}" data-track-index="1"></div>
-      <div id="sA04" class="full clip shot" data-start="{{p02.w3}}" data-duration="{{p02.w6-p02.w3}}" data-track-index="2"></div>
-      <div id="sA05" class="full clip shot" data-start="{{p02.w6}}" data-duration="{{p03.w4-p02.w6}}" data-track-index="1"></div>
+      <div id="sA01" class="full clip shot" data-start="0" data-duration="{{p01.w9}}" data-track-index="2"></div>
+      <div id="sA02" class="full clip shot" data-start="{{p01.w9}}" data-duration="{{p02.w1-p01.w9}}" data-track-index="1"></div>
+      <div id="sA03" class="full clip shot" data-start="{{p02.w1}}" data-duration="{{p02.w4-p02.w1}}" data-track-index="2"></div>
+      <div id="sA03b" class="full clip shot" data-start="{{p02.w4}}" data-duration="{{p02.w8-p02.w4}}" data-track-index="1"></div>
+      <div id="sA04" class="full clip shot" data-start="{{p02.w8}}" data-duration="{{p02.w11-p02.w8}}" data-track-index="2"></div>
+      <div id="sA05" class="full clip shot" data-start="{{p02.w11}}" data-duration="{{p03.w4-p02.w11}}" data-track-index="1"></div>
       <div id="sA06" class="full clip shot" data-start="{{p03.w4}}" data-duration="{{p03.w7-p03.w4}}" data-track-index="2"></div>
       <div id="sA07" class="full clip shot" data-start="{{p03.w7}}" data-duration="{{p03.w12-p03.w7}}" data-track-index="1"></div>
       <div id="sA08" class="full clip shot" data-start="{{p03.w12}}" data-duration="{{p03.w16-p03.w12}}" data-track-index="2"></div>
@@ -95,6 +96,8 @@
 
       <!-- HUD overlays (game world only) -->
       <div id="hud1" class="full clip hud" data-start="{{p03.w4}}" data-duration="{{p03.w19-p03.w4}}" data-track-index="5"></div>
+      <div id="hud3" class="full clip hud" data-start="{{p01.w9}}" data-duration="{{p02.w1-p01.w9}}" data-track-index="5"></div>
+      <div id="hud4" class="full clip hud" data-start="{{p02.w1}}" data-duration="{{p02.w4-p02.w1}}" data-track-index="5"></div>
       <div id="hud2" class="full clip hud" data-start="{{p05.w1}}" data-duration="{{p05.w6-p05.w1}}" data-track-index="5"></div>
       <div id="flash" class="full" style="opacity: 0; background: #fff4dc; pointer-events: none"></div>
       <!-- grain + vignette come from the finish pass, applied after the render -->
@@ -111,16 +114,15 @@
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
 
       /* ---------- word-keyed shot boundaries (block-relative seconds; every cut is a narration word) ---------- */
-      const T = { A01: 0, A02: {{p01.w5}}, A03: {{p01.w8}}, A04: {{p02.w3}}, A05: {{p02.w6}}, A06: {{p03.w4}}, A07: {{p03.w7}}, A08: {{p03.w12}}, A09: {{p03.w16}},
+      const T = { A01: 0, A02: {{p01.w9}}, A03: {{p02.w1}}, A03b: {{p02.w4}}, A04: {{p02.w8}}, A05: {{p02.w11}}, A06: {{p03.w4}}, A07: {{p03.w7}}, A08: {{p03.w12}}, A09: {{p03.w16}},
         A10: {{p03.w19}}, A11: {{p04.w1}}, A12: {{p04.w4}}, A13: {{p05.w1}}, A14: {{p05.w6}}, A15: {{p06.w1}}, A16: {{p06.w4}}, A17: {{p07.w3}}, A18: {{p07.w11}},
         A19: {{p07.w14}}, A20: {{p07.end}}, END: DUR };
 
       /* ---------- helpers ---------- */
       // staged art: [natural w, natural h, bbox x0, y0, x1, y1, file]
       const SP = {
-        q_desk: [3200, 2560, 0, 0, 3188, 2560, "q_desk.png"], q_walk: [1520, 2688, 0, 19, 1492, 2688, "q_walk.png"],
         q_slump: [1254, 1254, 359, 52, 1112, 1222, "q_slump.png"], q_sit: [2048, 1360, 0, 19, 2024, 1360, "q_sit.png"],
-        q_game: [1254, 1254, 178, 11, 1112, 1237, "q_game.png"], q_head: [1792, 2240, 0, 17, 1778, 2240, "q_head.png"],
+        q_game: [1254, 1254, 178, 11, 1112, 1237, "q_game.png"],
         q_worry: [1744, 2336, 0, 17, 1730, 2336, "q_worry.png"], q_floor: [688, 1024, 34, 25, 655, 992, "q_floor.png"],
         swimA: [238, 152, 1, 1, 236, 149, "swimA.png"], swimB: [239, 152, 1, 1, 237, 150, "swimB.png"], aim: [238, 152, 2, 1, 236, 151, "aim.png"],
         dive: [84, 152, 4, 0, 80, 151, "dive.png"], bigfish: [101, 152, 6, 0, 100, 152, "bigfish.png"], tray: [102, 152, 1, 0, 102, 149, "tray.png"], pixie: [93, 152, 10, 0, 81, 152, "pixie.png"],
@@ -195,16 +197,16 @@
       const BOAT = { w: 1757, h: 1005, deck: 704, wl: 951, qx: 250, m17: 285 };
       function buildSea(host, o) {
         const g = mk("div", "full", host);
-        const sunrise = o.mode === "sunrise", HZ = 452;
-        const sky = sunrise ? "linear-gradient(180deg,#4b78c4 0%,#8fb0e0 26%,#ffbd8c 58%,#ffd88e 82%,#fff0b8 100%)" : "linear-gradient(180deg,#1b1d4c 0%,#463a78 24%,#b0587f 46%,#f08a6c 64%,#ffc487 80%,#ffe3b0 100%)";
+        const sunrise = o.mode === "sunrise", day = o.mode === "day", HZ = 452;
+        const sky = day ? "linear-gradient(180deg,#2c78d0 0%,#5fa9ea 36%,#a9d8f7 74%,#dff2fd 100%)" : sunrise ? "linear-gradient(180deg,#4b78c4 0%,#8fb0e0 26%,#ffbd8c 58%,#ffd88e 82%,#fff0b8 100%)" : "linear-gradient(180deg,#1b1d4c 0%,#463a78 24%,#b0587f 46%,#f08a6c 64%,#ffc487 80%,#ffe3b0 100%)";
         mk("div", "abs", g, `left:-200px;top:-150px;width:1680px;height:${HZ + 150}px;background:${sky}`);
-        const sunY = sunrise ? 340 : 440, sunR = sunrise ? 78 : 64;
-        o.sunGlow = mk("div", "abs", g, `left:${700 - 520}px;top:${sunY - 520}px;width:1040px;height:1040px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,226,160,.8) 0%,rgba(255,180,120,.32) 30%,rgba(255,150,110,0) 62%)`);
+        const sunY = day ? 130 : sunrise ? 340 : 440, sunR = day ? 40 : sunrise ? 78 : 64;
+        o.sunGlow = mk("div", "abs", g, `left:${700 - 520}px;top:${sunY - 520}px;width:1040px;height:1040px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(circle,${day ? "rgba(255,255,235,.85)" : "rgba(255,226,160,.8)"} 0%,rgba(255,180,120,.32) 30%,rgba(255,150,110,0) 62%)`);
         o.sun = mk("div", "abs", g, `left:${700 - sunR}px;top:${sunY - sunR}px;width:${sunR * 2}px;height:${sunR * 2}px;border-radius:50%;background:radial-gradient(circle at 45% 40%,#fffbe8 0%,#ffeeb0 60%,#ffd27a 100%);box-shadow:0 0 50px 16px rgba(255,214,140,.8)`);
         [[60, 90, 300, .85], [470, 150, 220, .7], [820, 70, 330, .8], [1090, 170, 240, .6]].forEach(([x, y, w, op], i) => o["c" + i] = mk("div", "abs", g,
-          `left:${x}px;top:${y}px;width:${w}px;height:44px;border-radius:40px;opacity:${op};background:linear-gradient(180deg,rgba(255,224,206,.1),rgba(255,176,160,.6));filter:blur(2px)`));
-        html(g, "abs", `left:-60px;top:${HZ - 40}px;width:420px;height:46px`, `<svg viewBox="0 0 420 46" width="420" height="46"><path d="M0 46 L0 30 Q60 6 130 24 Q190 10 250 28 Q330 18 420 40 L420 46 Z" fill="${sunrise ? "#6f7fae" : "#3d3466"}"/></svg>`);
-        const sea = sunrise ? "linear-gradient(180deg,#ffd89a 0%,#8fc8d8 22%,#3d95bf 58%,#1b6590 100%)" : "linear-gradient(180deg,#f0907a 0%,#a2587e 18%,#4a3f86 48%,#1c2a5e 100%)";
+          `left:${x}px;top:${y}px;width:${w}px;height:44px;border-radius:40px;opacity:${op};background:${day ? "linear-gradient(180deg,rgba(255,255,255,.55),rgba(236,246,255,.85))" : "linear-gradient(180deg,rgba(255,224,206,.1),rgba(255,176,160,.6))"};filter:blur(2px)`));
+        html(g, "abs", `left:-60px;top:${HZ - 40}px;width:420px;height:46px`, `<svg viewBox="0 0 420 46" width="420" height="46"><path d="M0 46 L0 30 Q60 6 130 24 Q190 10 250 28 Q330 18 420 40 L420 46 Z" fill="${day ? "#5d86b8" : sunrise ? "#6f7fae" : "#3d3466"}"/></svg>`);
+        const sea = day ? "linear-gradient(180deg,#bfeaf2 0%,#5cc0d8 22%,#1f97c4 58%,#0d6a9c 100%)" : sunrise ? "linear-gradient(180deg,#ffd89a 0%,#8fc8d8 22%,#3d95bf 58%,#1b6590 100%)" : "linear-gradient(180deg,#f0907a 0%,#a2587e 18%,#4a3f86 48%,#1c2a5e 100%)";
         mk("div", "abs", g, `left:-200px;top:${HZ}px;width:1680px;height:420px;background:${sea}`);
         // sun glitter column + wave lines (seeded)
         const R = rng(o.seed || 11); o.glit = [];
@@ -215,21 +217,21 @@
         // the boat: hull sunk in the sea (water band + reflection over its bottom), graded to the scene light
         const BW = o.boatW || 980, k = BW / BOAT.w, BH = BOAT.h * k, L = o.boatLeft == null ? 150 : o.boatLeft, TOP = o.boatTop == null ? 70 : o.boatTop;
         const deckY = TOP + BOAT.deck * k, wlY = TOP + BOAT.wl * k, qx = L + BOAT.qx * k, qh = Math.round(190 * BW / 980);   // Quest ~1.9 m: reads, no giant/tiny mismatch
-        const grade = sunrise ? "brightness(1.02) saturate(1.06) sepia(.1) drop-shadow(2px -2px 0 rgba(255,226,170,.55))"
+        const grade = day ? "brightness(1.1) saturate(1.12) drop-shadow(2px -2px 0 rgba(255,255,255,.5))" : sunrise ? "brightness(1.02) saturate(1.06) sepia(.1) drop-shadow(2px -2px 0 rgba(255,226,170,.55))"
           : "brightness(.84) saturate(.9) sepia(.22) hue-rotate(-14deg) drop-shadow(-2px -2px 0 rgba(255,190,140,.6))";
         o.boat = mk("div", "abs", g, `left:${L}px;top:${TOP}px;width:${BW}px;height:${BH}px;transform-origin:50% ${BOAT.wl * k}px;filter:${grade}`);
         const layer = (f) => { const im = mk("img", "abs", o.boat, `left:0;top:0;width:${BW}px;height:${BH}px`); im.src = "assets/" + f; im.alt = ""; return im; };
         layer("boat_back.png");
         const kind = o.quest;
         if (kind === "dive") o.q = spr(o.boat, "dive", BOAT.qx * k, BOAT.deck * k, qh, { px: true, f: sunrise ? "" : "drop-shadow(-2px -1px 0 rgba(255,190,130,.7))" });
-        else if (kind === "fish") o.q = spr(o.boat, "bigfish", BOAT.qx * k, BOAT.deck * k, qh, { px: true, f: "drop-shadow(2px -1px 0 rgba(255,214,150,.75))" });
+        else if (kind === "fish") o.q = spr(o.boat, "bigfish", BOAT.qx * k, BOAT.deck * k, qh, { px: true, f: day ? "drop-shadow(2px -1px 0 rgba(255,255,255,.6))" : "drop-shadow(2px -1px 0 rgba(255,214,150,.75))" });
         layer("boat_front.png");
         // water over the bottom of the hull: the same sea gradient, continued, with a foam lip; a soft mirrored reflection below
         const seaBg = (y) => `background:${sea};background-size:1680px 420px;background-position:${-(L - 60) - 200}px ${HZ - y}px;background-repeat:no-repeat`;
         o.water = mk("div", "abs", g, `left:${L - 60}px;top:${wlY - 8}px;width:${BW + 120}px;height:${TOP + BH + 6 - (wlY - 8)}px;opacity:.92;${seaBg(wlY - 8)};-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)`);
         o.refl = mk("div", "abs", g, `left:${L}px;top:${wlY + 2}px;width:${BW}px;height:${BH}px;overflow:hidden;opacity:${sunrise ? .2 : .15};filter:blur(2.5px) ${grade.split(" drop")[0]};-webkit-mask-image:linear-gradient(180deg,#000,transparent 24%);mask-image:linear-gradient(180deg,#000,transparent 24%)`);
         const rim = mk("img", "abs", o.refl, `left:0;top:${-(BOAT.wl - 40) * k}px;width:${BW}px;height:${BH}px;transform:scaleY(-1);transform-origin:50% ${(BOAT.wl - 20) * k}px`); rim.src = "assets/boat_side.png"; rim.alt = "";
-        o.lip = mk("div", "abs", g, `left:${L - 10}px;top:${wlY - 10}px;width:${BW + 20}px;height:7px;border-radius:50%;background:rgba(255,248,236,${sunrise ? .7 : .55});filter:blur(1.2px)`);
+        o.lip = mk("div", "abs", g, `left:${L - 10}px;top:${wlY - 10}px;width:${BW + 20}px;height:7px;border-radius:50%;background:rgba(255,255,255,${day ? .85 : sunrise ? .7 : .55});filter:blur(1.2px)`);
         o.foam = []; for (let i = 0; i < 2; i++) o.foam.push(mk("div", "abs", g, `left:${L + 40 + i * 120}px;top:${wlY + 4 + i * 10}px;width:${BW - 80 - i * 240}px;height:${8 - i * 2}px;border-radius:50%;background:rgba(255,255,255,.32);filter:blur(1.5px)`));
         o.deckX = qx; o.deckY = deckY; o.wlY = wlY; o.qh = qh; o.L = L; o.TOP = TOP; o.BW = BW;
         o.g = g; return o;
@@ -297,31 +299,130 @@
         <path d="M70 40 Q86 60 70 82" fill="none" stroke-width="4"/><path d="M118 34 Q136 60 118 90" fill="none" stroke-width="4" opacity=".6"/></g>
         <circle cx="38" cy="54" r="9" fill="#fff" stroke="#16161f" stroke-width="3"/><circle cx="36" cy="54" r="4.2" fill="#16161f"/></svg>`;
 
-      /* ================================================================== A01 office: finish work (snap zoom-out) */
-      const rA01 = rig("sA01"); {
-        plate(rA01.sh, "office.png", "brightness(.9) saturate(1.02)");
-        shadow(rA01.sh, 700, 690, 560, 46, .8);
-        const q = spr(rA01.sh, "q_desk", 700, 700, 440, { f: "brightness(.96) drop-shadow(3px -1px 0 rgba(255,214,150,.7))" });
-        const dim = mk("div", "full", rA01.sh, "background:radial-gradient(ellipse at 50% 55%,rgba(10,14,34,.0) 0%,rgba(10,14,34,.55) 100%);opacity:0");
-        const t = T.A02;
-        camSet(rA01, 0, focus(700, 330, 2.05));
-        tl.fromTo(rA01.cam, { x: focus(700, 330, 2.05).x, y: focus(700, 330, 2.05).y, scale: 2.05 }, { x: focus(690, 380, 1.12).x, y: focus(690, 380, 1.12).y, scale: 1.12, duration: .26, ease: "back.out(1.5)" }, {{p01.w2-0.04}});
-        tl.to(rA01.cam, { x: focus(690, 380, 1.18).x, y: focus(690, 380, 1.18).y, scale: 1.18, duration: t - {{p01.w2+0.22}}, ease: "sine.inOut" }, {{p01.w2+0.22}});
-        tl.to(dim, { opacity: 1, duration: .35, ease: "power2.out" }, {{p01.w2}});
-        tl.fromTo(q, { y: 0 }, { y: 6, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+      /* ---------- the bar (A01, A03b, A10): plate + aquarium fish + Pixie chef + Max on his stool + customers; o = beat times (null = off) ---------- */
+      function buildBar(host, o) {
+        const r = {};
+        plate(host, "bar.png");
+        // the EP003 fish (cameo, Producer 2026-10-19) lives in the aquarium: swims along the glass, one blink
+        const tank = mk("div", "abs", host, "left:1104px;top:258px;width:176px;height:146px;overflow:hidden");
+        const fsh = mk("div", "abs", tank, "left:0;top:0;width:176px;height:146px;filter:saturate(1.05) brightness(.92) drop-shadow(0 0 6px rgba(80,170,255,.5))");
+        const fA = pic(fsh, "fish_s", 60, 62, 78, { flip: true }), fB = pic(fsh, "fish_sb", 60, 62, 78, { flip: true }); tl.set(fB, { opacity: 0 }, 0);
+        tl.fromTo(fsh, { x: -10 }, { x: 70, duration: o.t1 - o.t0, ease: "sine.inOut" }, o.t0);
+        tl.fromTo(fsh, { y: 4, rotation: -3 }, { y: -4, rotation: 3, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 7 }, o.t0);
+        if (o.blink != null) { tl.set(fB, { opacity: 1 }, o.blink); tl.set(fB, { opacity: 0 }, o.blink + .15); }
+        // Pixie as the bar's chef (Bancho's role) INSIDE the counter: she stands between the prep counter (behind her) and
+        // the customers' counter, whose top edge (plate y 397) hides her from the waist down; a soft shade where it cuts
+        const back = mk("div", "abs", host, "left:0;top:0;width:1280px;height:398px;overflow:hidden");
+        const PX = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.45))";
+        const pxA = spr(back, "pixie", 600, 494, 192, { px: true, f: PX }), pxB = spr(back, "pixie", 600, 494, 192, { px: true, flip: true, f: PX });
+        tl.set(pxB, { opacity: 0 }, 0);
+        if (o.pixieFlip != null) { tl.set(pxA, { opacity: 0 }, o.pixieFlip); tl.set(pxB, { opacity: 1 }, o.pixieFlip); }
+        mk("div", "abs", back, "left:540px;top:384px;width:120px;height:14px;background:linear-gradient(180deg,rgba(30,12,4,0),rgba(30,12,4,.55))");
+        // the customer (Producer 2026-10-20): Max, the bar regular, on HIS stool in place of the plate's stool at x 775 — that stool
+        // (plate x 747..799) is covered by 4 slices of the clean gap at x 806..820 (a layer, the plate is untouched)
+        const SX = 773, SY = 513, MH = 170;
+        for (let k = 0; k < 4; k++) { const sl = mk("div", "abs", host, `left:${745 + k * 14}px;top:434px;width:14px;height:86px;overflow:hidden`);
+          const pim = mk("img", "", sl, `position:absolute;left:-806px;top:-434px;width:1280px;height:720px`); pim.src = "assets/bar.png"; pim.alt = ""; }
+        const MF = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.4))";
+        const maxAt = (file, H0) => { const h = MH * H0 / 1246, w = MH * 580 / 1246; const im = mk("img", "", host, `position:absolute;left:${SX - .56 * w}px;top:${SY - .975 * h}px;width:${w}px;height:${h}px;filter:${MF}`); im.src = "assets/" + file; im.alt = ""; return im; };
+        shadow(host, SX, SY, 70, 12, .7);
+        const mN = maxAt("max_n.png", 1246), mL = maxAt("max_l.png", 1259); tl.set(mL, { opacity: 0 }, 0);
+        // more customers (Producer 2026-10-20): worm people seated straight on the plate's stools (seat top y 447); the two far
+        // ones are re-dyed with a hue shift so the bar is full without visible clones of Max/Leo
+        const cust = (file, W0, H0, cx, h, seatK, oo) => { oo = oo || {}; const w = h * W0 / H0;
+          const im = mk("img", "", host, `position:absolute;left:${cx - w / 2}px;top:${447 - seatK * h}px;width:${w}px;height:${h}px;filter:${oo.f || MF};${oo.flip ? "transform:scaleX(-1);" : ""}`);
+          im.src = "assets/" + file; im.alt = ""; return im; };
+        const lN = cust("c_leo_n.png", 565, 1056, 936, 118, .84), lL = cust("c_leo_l.png", 565, 1067, 936, 119, .84); tl.set(lL, { opacity: 0 }, 0);
+        if (o.leoLaugh != null) { tl.set(lN, { opacity: 0 }, o.leoLaugh); tl.set(lL, { opacity: 1 }, o.leoLaugh); }
+        cust("c_leo_side.png", 625, 1038, 528, 116, .84, { flip: true, f: "hue-rotate(150deg) brightness(.82) saturate(1.1)" });
+        cust("c_max_side.png", 589, 962, 1090, 112, .86, { f: "hue-rotate(260deg) brightness(.8) saturate(1.1)" });
+        // Max laughs (A10: when Quest brings the sushi)
+        if (o.maxLaugh != null) { tl.set(mN, { opacity: 0 }, o.maxLaugh); tl.set(mL, { opacity: 1 }, o.maxLaugh);
+          tl.fromTo(mL, { y: 0 }, { y: -4, duration: .12, ease: "power2.out", yoyo: true, repeat: o.maxBounce == null ? 3 : o.maxBounce }, o.maxLaugh); }
+        if (o.geta) geta(host, SX, 417, 84);
+        return r;
+      }
+      // a small wooden geta board with 3 nigiri (our own drawing); (cx, by) = bottom-centre of the feet, w = board width in plate px
+      function geta(host, cx, by, w) {
+        const h = w * 50 / 120;
+        mk("div", "shadow", host, `left:${cx - w * .46}px;top:${by - 3}px;width:${w * .92}px;height:7px;opacity:.7`);
+        const e = html(host, "abs", `left:${cx - w / 2}px;top:${by - h}px;width:${w}px;height:${h}px;filter:brightness(.92) saturate(1.05) drop-shadow(0 0 4px rgba(255,170,90,.35))`,
+          `<svg viewBox="0 0 120 50" width="${w}" height="${h}" style="overflow:visible"><g stroke="#16161f" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="20" y="40" width="14" height="8" rx="1.5" fill="#8a5a30"/><rect x="86" y="40" width="14" height="8" rx="1.5" fill="#8a5a30"/>
+          <path d="M4 32 L116 32 L116 41 L4 41 Z" fill="#b07a45"/><path d="M12 24 L108 24 L116 32 L4 32 Z" fill="#dcab6c"/>
+          ${[[32, "#ff8a5c", "#ffb08a"], [60, "#d93a4a", "#ff6a74"], [88, "#fff1d4", "#ffd9a0"]].map(([x, c, c2]) => `<rect x="${x - 13}" y="13" width="26" height="14" rx="6" fill="#fffaf0"/>
+          <path d="M${x - 15} 17 Q${x - 15} 5 ${x} 5 Q${x + 15} 5 ${x + 15} 17 Q${x + 15} 21 ${x + 11} 20 L${x - 11} 20 Q${x - 15} 21 ${x - 15} 17 Z" fill="${c}"/><path d="M${x - 8} 9 Q${x} 7 ${x + 8} 9" fill="none" stroke="${c2}" stroke-width="2"/>`).join("")}
+          </g></svg>`);
+        return e;
       }
 
-      /* ================================================================== A02 city: get home (camera drifts right) */
-      const rA02 = rig("sA02"); {
-        plate(rA02.sh, "city.png", "brightness(.88) saturate(1.05)");
-        camTo(rA02, T.A02, T.A03, focus(500, 440, 1.3), focus(760, 440, 1.36), "sine.inOut");
-        // Quest is screen-locked (camera follows him): the world slides past
-        mk("div", "full", rA02.host, "background:linear-gradient(180deg,rgba(20,18,60,.0) 55%,rgba(20,18,60,.35) 100%)");
-        shadow(rA02.host, 560, 680, 220, 26, .7);
-        const q = spr(rA02.host, "q_walk", 560, 676, 340, { f: "brightness(.78) saturate(.95) drop-shadow(2px -1px 0 rgba(255,184,120,.7))" });
+      /* ================================================================== A01 bar at night: CLOSE on Max at the counter, the geta of nigiri in front of him ("Somewhere tonight, someone is eating a fish...") */
+      const rA01 = rig("sA01");
+      const A01_C0 = focus(773, 418, 2.25), A01_C1 = focus(773, 414, 2.45);
+      {
+        const b = buildBar(rA01.sh, { t0: T.A01, t1: T.A02, geta: true, maxLaugh: {{p01.w5}}, maxBounce: 1 });
+        camTo(rA01, T.A01, T.A02, A01_C0, A01_C1, "sine.inOut");
+        breathe(rA01, T.A01, T.A02, 1);
       }
 
-      /* ================================================================== A03 living room: sit down (drops onto the sofa) */
+      /* ================================================================== A02 smash cut underwater: the harpoon spears the fish on "speared" */
+      const rA02 = rig("sA02");
+      {
+        const o = buildUnder(rA02.sh, { seed: 47, bubbles: 14 }); const t0 = T.A02, t1 = T.A03;
+        underAmbient(o, t0, t1); underPan(o, t0, t1, -40, 0);
+        const k = 2, qx = 450, qy = 470, qh = 150 * k;
+        const q = spr(rA02.sh, "aim", qx, qy, qh, { px: true });
+        const bw = (236 - 2) * k, mx = qx + bw / 2 - 4, my = qy - qh + (43 - 1) * k;
+        const fish = mk("div", "abs", rA02.sh, `left:${880 - 120}px;top:${my - 60 - 20}px;width:240px;height:120px;transform-origin:50% 50%`); fish.innerHTML = fishSVG("#8fb7d8", "#e6b84a");
+        tl.fromTo(fish, { x: 10 }, { x: 0, duration: .2, ease: "power2.out" }, t0);
+        tl.fromTo(fish, { rotation: -6 }, { rotation: 6, duration: .09, yoyo: true, repeat: 14, ease: "sine.inOut", immediateRender: false }, t0 + .2);
+        const fx = 880 - 120 + 40, fy = my - 20;
+        const line = html(rA02.sh, "abs", "left:0;top:0;width:1280px;height:720px", `<svg viewBox="0 0 1280 720" width="1280" height="720" style="overflow:visible"><path class="hl" d="M ${mx} ${my} L ${fx} ${fy}" stroke="#05060c" stroke-width="3.2" fill="none" stroke-linecap="round"/><path class="hp" d="M ${fx - 16} ${fy - 8} L ${fx + 8} ${fy} L ${fx - 16} ${fy + 8} Z" fill="#05060c"/></svg>`);
+        const len = Math.hypot(fx - mx, fy - my), hl = line.querySelector(".hl"), hp = line.querySelector(".hp");
+        tl.set(hl, { strokeDasharray: len, strokeDashoffset: len }, 0); tl.set(hp, { opacity: 0 }, 0);
+        tl.to(hl, { strokeDashoffset: 0, duration: .1, ease: "none" }, t0 + .02);
+        tl.set(hp, { opacity: 1 }, t0 + .11);          // the hit, well inside w9 + .25
+        tl.fromTo(line, { y: 0 }, { y: 3, duration: .07, yoyo: true, repeat: 15, ease: "sine.inOut", immediateRender: false }, t0 + .16);
+        const bang = html(rA02.sh, "abs", `left:${fx + 30}px;top:${my - 95}px;width:90px;height:100px;transform-origin:50% 100%`, `<svg viewBox="0 0 90 100" width="90" height="100" style="overflow:visible"><path d="M45 4 L56 28 L84 20 L70 44 L88 66 L60 62 L50 92 L38 64 L8 70 L24 44 L6 22 L34 28 Z" fill="#e5484d" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/></svg><div style="position:absolute;left:0;top:18px;width:90px;text-align:center;font:400 56px Anton;color:#fff;-webkit-text-stroke:3px #16161f;paint-order:stroke fill">!</div>`);
+        tl.set(bang, { opacity: 0 }, 0);
+        tl.fromTo(bang, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .2, ease: "back.out(3)" }, {{p01.w9+0.14}});
+        tl.to(bang, { opacity: 0, duration: .1 }, T.A03 - .12);
+        tl.fromTo(q, { x: 0 }, { x: -8, duration: .08, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, t0 + .08);
+        camTo(rA02, t0, t1, focus(650, 405, 1.06), focus(700, 410, 1.26), "power2.out");
+        breathe(rA02, t0, t1, -1);
+      }
+
+      /* ================================================================== A03a "You caught it.": the dive boat in bright afternoon light, Quest holds the catch */
+      const rA03 = rig("sA03"); const LRF = "brightness(.82) saturate(.95) drop-shadow(3px -1px 0 rgba(120,175,255,.55))";
+      {
+        const sea = buildSea(rA03.sh, { mode: "day", quest: "fish", seed: 23, boatLeft: 120, boatW: 1000, boatTop: 60 });
+        const t0 = T.A03, t1 = T.A03b;
+        seaAmbient(sea, t0, t1, 1);
+        camTo(rA03, t0, t1, focus(sea.deckX + 160, sea.deckY - 90, 1.4), focus(sea.deckX + 150, sea.deckY - 100, 1.52), "sine.inOut");
+        breathe(rA03, t0, t1, 1);
+        const sp = html(rA03.sh, "abs", `left:${sea.deckX + .1 * sea.qh - 20}px;top:${sea.deckY - .62 * sea.qh - 20}px;width:40px;height:40px`, `<svg viewBox="-20 -20 40 40" width="40" height="40"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="#fff6c8"/></svg>`);
+        tl.set(sp, { opacity: 0 }, 0);
+        tl.fromTo(sp, { scale: 0, rotation: 0, opacity: 1 }, { scale: 1.3, rotation: 90, opacity: 1, duration: .3, ease: "back.out(2)", yoyo: true, repeat: 1 }, {{p02.w2}});
+        tl.set(sp, { opacity: 0 }, {{p02.w2+0.65}});
+      }
+
+      /* ================================================================== A03b "You're also the waiter.": the bar again (wider), Quest arrives with the tray, Max laughs on "waiter" */
+      const rA03b = rig("sA03b");
+      const A03B_C0 = focus(700, 395, 1.5), A03B_C1 = focus(715, 393, 1.62);
+      {
+        const t0 = T.A03b, t1 = T.A04;
+        buildBar(rA03b.sh, { t0, t1, geta: true, maxLaugh: {{p02.w7}}, maxBounce: 3, leoLaugh: {{p02.w7}} });
+        const TQ = "brightness(.95) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.55))";
+        // two real positions (cut, never a glide): he steps in on "also", and is beside Max by "the"
+        [[460, {{p02.w4}}, {{p02.w5}}], [706, {{p02.w5}}, t1]].forEach(([x, a, b]) => {
+          const q = spr(rA03b.sh, "tray", x, 548, 200, { px: true, f: TQ }); const sd = shadow(rA03b.sh, x, 552, 120, 18, .8);
+          tl.set([q, sd], { opacity: 0 }, 0); tl.set([q, sd], { opacity: 1 }, a); tl.set([q, sd], { opacity: 0 }, b - .001);
+        });
+        camTo(rA03b, t0, t1, A03B_C0, A03B_C1, "sine.inOut");
+        breathe(rA03b, t0, t1, -1);
+      }
+
+      /* ---------- living room helpers ---------- */
       const SOFA = { cx: 440, by: 514, h: 300 };
       // Quest sits cross-legged on the rug in front of the TV (Producer 2026-10-20: the sofa poses did not look natural)
       const FLOOR = { cx: 730, by: 612, h: 262 };
@@ -339,34 +440,19 @@
         tl.fromTo(ps, { opacity: 1 }, { opacity: .15, duration: .4, yoyo: true, repeat: 10, ease: "steps(1)" }, t0);
         mk("div", "abs", sc, "left:1070px;top:40px;width:150px;height:265px;background:repeating-linear-gradient(180deg,rgba(0,0,0,.08) 0 1px,rgba(0,0,0,0) 1px 3px)");
         return sc; };
-      const rA03 = rig("sA03"); const LRF = "brightness(.82) saturate(.95) drop-shadow(3px -1px 0 rgba(120,175,255,.55))";
-      const A03_C0 = focus(690, 440, 1.3), A03_C1 = focus(750, 430, 1.42);
-      {
-        plate(rA03.sh, "lr.png");
-        tvTitle(rA03.sh, T.A03);
-        const q = floorQ(rA03.sh);
-        const tD = {{p01.w8-0.05}};
-        // he is already settling onto the rug as we cut in: one soft settle, no faked fall
-        tl.fromTo(q, { scaleY: 1.05, scaleX: .97, transformOrigin: "50% 100%" }, { scaleY: 1, scaleX: 1, duration: .35, ease: "elastic.out(1,.6)" }, tD);
-        camTo(rA03, T.A03, T.A04, A03_C0, A03_C1, "sine.inOut");
-        breathe(rA03, T.A03, T.A04, 1);
-        // the TV flickers (continuity into the next shot)
-        const tv = mk("div", "abs", rA03.sh, "left:1074px;top:50px;width:140px;height:250px;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(140,200,255,.35),rgba(140,200,255,0) 70%)");
-        tl.fromTo(tv, { opacity: .5 }, { opacity: 1, duration: .3, yoyo: true, repeat: 8, ease: "sine.inOut" }, T.A03);
-      }
-
-      /* ================================================================== A04 "second" job: the controller (camera continues toward the TV) */
+      /* ================================================================== A04 "Welcome to your": the living room, Quest on the rug, the TV title screen; push toward the TV */
       const rA04 = rig("sA04");
-      const A04_C1 = focus(940, 300, 1.8);
+      const A04_C1 = focus(760, 420, 1.42);   // Quest stays whole on "Welcome to your"; the push to the TV starts in A05 on "second"
       {
         plate(rA04.sh, "lr.png");
         const tv = mk("div", "abs", rA04.sh, "left:1074px;top:50px;width:140px;height:250px;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(140,200,255,.45),rgba(140,200,255,0) 70%)");
         tl.fromTo(tv, { opacity: .6 }, { opacity: 1, duration: .25, yoyo: true, repeat: 6, ease: "sine.inOut" }, T.A04);
         tvTitle(rA04.sh, T.A04);
         const q = floorQ(rA04.sh);
-        tl.fromTo(q, { y: 0 }, { y: -5, duration: .12, ease: "power2.out", yoyo: true, repeat: 1 }, {{p02.w5}});   // a little hop of excitement on "second"
-        camTo(rA04, T.A04, T.A05, A03_C1, A04_C1, "sine.inOut");
+        tl.fromTo(q, { y: 0 }, { y: -5, duration: .12, ease: "power2.out", yoyo: true, repeat: 1 }, {{p02.w10}});
+        camTo(rA04, T.A04, T.A05, focus(720, 440, 1.3), A04_C1, "sine.out");
       }
+
 
       /* ================================================================== A05 push THROUGH the TV: the screen swallows the room, the dawn boat is behind it */
       const rA05 = rig("sA05");
@@ -515,42 +601,7 @@
       /* ================================================================== A10 bar: the night shift (cuts between positions, whip in) */
       const rA10 = rig("sA10"); let A10 = {};
       {
-        plate(rA10.sh, "bar.png");
-        // the EP003 fish (cameo, Producer 2026-10-19) lives in the aquarium: swims along the glass, one blink
-        const tank = mk("div", "abs", rA10.sh, "left:1104px;top:258px;width:176px;height:146px;overflow:hidden");
-        const fsh = mk("div", "abs", tank, "left:0;top:0;width:176px;height:146px;filter:saturate(1.05) brightness(.92) drop-shadow(0 0 6px rgba(80,170,255,.5))");
-        const fA = pic(fsh, "fish_s", 60, 62, 78, { flip: true }), fB = pic(fsh, "fish_sb", 60, 62, 78, { flip: true }); tl.set(fB, { opacity: 0 }, 0);
-        tl.fromTo(fsh, { x: -10 }, { x: 70, duration: T.A11 - T.A10, ease: "sine.inOut" }, T.A10);
-        tl.fromTo(fsh, { y: 4, rotation: -3 }, { y: -4, rotation: 3, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 7 }, T.A10);
-        tl.set(fB, { opacity: 1 }, {{p03.w23}}); tl.set(fB, { opacity: 0 }, {{p03.w23+0.15}});
-        // Pixie as the bar's chef (Bancho's role) INSIDE the counter: she stands between the prep counter (behind her) and
-        // the customers' counter, whose top edge (plate y 397) hides her from the waist down; a soft shade where it cuts
-        const back = mk("div", "abs", rA10.sh, "left:0;top:0;width:1280px;height:398px;overflow:hidden");
-        const PX = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.45))";
-        const pxA = spr(back, "pixie", 600, 494, 192, { px: true, f: PX }), pxB = spr(back, "pixie", 600, 494, 192, { px: true, flip: true, f: PX });
-        tl.set(pxB, { opacity: 0 }, 0); tl.set(pxA, { opacity: 0 }, {{p03.w25}}); tl.set(pxB, { opacity: 1 }, {{p03.w25}});
-        mk("div", "abs", back, "left:540px;top:384px;width:120px;height:14px;background:linear-gradient(180deg,rgba(30,12,4,0),rgba(30,12,4,.55))");
-        // the customer (Producer 2026-10-20): Max, the bar regular, on HIS stool in place of the plate's stool at x 775 — that stool
-        // (plate x 747..799) is covered by 4 slices of the clean gap at x 806..820 (a layer, the plate is untouched)
-        const SX = 773, SY = 513, MH = 170;
-        for (let k = 0; k < 4; k++) { const sl = mk("div", "abs", rA10.sh, `left:${745 + k * 14}px;top:434px;width:14px;height:86px;overflow:hidden`);
-          const pim = mk("img", "", sl, `position:absolute;left:-806px;top:-434px;width:1280px;height:720px`); pim.src = "assets/bar.png"; pim.alt = ""; }
-        const MF = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.4))";
-        const maxAt = (file, H0) => { const h = MH * H0 / 1246, w = MH * 580 / 1246; const im = mk("img", "", rA10.sh, `position:absolute;left:${SX - .56 * w}px;top:${SY - .975 * h}px;width:${w}px;height:${h}px;filter:${MF}`); im.src = "assets/" + file; im.alt = ""; return im; };
-        shadow(rA10.sh, SX, SY, 70, 12, .7);
-        const mN = maxAt("max_n.png", 1246), mL = maxAt("max_l.png", 1259); tl.set(mL, { opacity: 0 }, 0);
-        // more customers (Producer 2026-10-20): worm people seated straight on the plate's stools (seat top y 447); the two far
-        // ones are re-dyed with a hue shift so the bar is full without visible clones of Max/Leo
-        const cust = (file, W0, H0, cx, h, seatK, o) => { o = o || {}; const w = h * W0 / H0;
-          const im = mk("img", "", rA10.sh, `position:absolute;left:${cx - w / 2}px;top:${447 - seatK * h}px;width:${w}px;height:${h}px;filter:${o.f || MF};${o.flip ? "transform:scaleX(-1);" : ""}`);
-          im.src = "assets/" + file; im.alt = ""; return im; };
-        const lN = cust("c_leo_n.png", 565, 1056, 936, 118, .84), lL = cust("c_leo_l.png", 565, 1067, 936, 119, .84); tl.set(lL, { opacity: 0 }, 0);
-        tl.set(lN, { opacity: 0 }, {{p03.w22}}); tl.set(lL, { opacity: 1 }, {{p03.w22}});
-        cust("c_leo_side.png", 625, 1038, 528, 116, .84, { flip: true, f: "hue-rotate(150deg) brightness(.82) saturate(1.1)" });
-        cust("c_max_side.png", 589, 962, 1090, 112, .86, { f: "hue-rotate(260deg) brightness(.8) saturate(1.1)" });
-        // he laughs when Quest brings the sushi
-        tl.set(mN, { opacity: 0 }, {{p03.w25}}); tl.set(mL, { opacity: 1 }, {{p03.w25}});
-        tl.fromTo(mL, { y: 0 }, { y: -4, duration: .12, ease: "power2.out", yoyo: true, repeat: 3 }, {{p03.w25}});
+        buildBar(rA10.sh, { t0: T.A10, t1: T.A11, blink: {{p03.w23}}, pixieFlip: {{p03.w25}}, leoLaugh: {{p03.w22}}, maxLaugh: {{p03.w25}}, maxBounce: 3 });
                 const TQ = "brightness(.95) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.55))";
         const base = 548, hq = 200;
         const p = [T.A10, {{p03.w22}}, {{p03.w25}}, {{p03.w27}}, T.A11];
@@ -839,6 +890,13 @@
         for (let i = 0; i < 6; i++) { tl.set(H1.arc, { attr: { stroke: i % 2 ? "#3fa9ff" : "#ff3b3b" } }, tR + i * .1); tl.set(H1.num, { color: i % 2 ? "#fff" : "#ff6a6a" }, tR + i * .1); }
         tl.set(H1.arc, { attr: { stroke: "#ff3b3b" } }, tR + .6); tl.set(H1.num, { color: "#ff6a6a" }, tR + .6);
         tl.fromTo(H1.o2, { scale: 1 }, { scale: 1.12, duration: .1, yoyo: true, repeat: 7, ease: "sine.inOut", transformOrigin: "50% 50%", immediateRender: false }, tR);
+        // A02 (smash cut, game world): full HUD, 17 m, harpoon slot lit
+        const H3 = buildHud($("#hud3"), true), H4 = buildHud($("#hud4"), false);
+        tl.set(H3.depthV, { textContent: "17 m" }, 0); tl.set(H4.depthV, { textContent: "0 m" }, 0);
+        tl.fromTo(H3.harp, { scale: 1 }, { scale: 1.07, duration: .1, yoyo: true, repeat: 5, ease: "sine.inOut", immediateRender: false }, T.A02 + .02);
+        tl.fromTo(H3.harpB, { scale: 1 }, { scale: 1.25, duration: .1, yoyo: true, repeat: 5, ease: "sine.inOut", immediateRender: false }, T.A02 + .02);
+        // A03a: depth 0 m, on the surface
+        tl.fromTo(H4.depth, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: .2, ease: "power2.out" }, T.A03);
         // A13: depth 0 m, surfaced
         tl.set(H2.depthV, { textContent: "0 m" }, 0);
         tl.fromTo(H2.depth, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: .25, ease: "power2.out" }, T.A13);
