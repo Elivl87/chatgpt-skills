@@ -36,6 +36,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 AUD = HERE.parent
 NC = AUD.parents[2]
+PARTIAL = bool(os.environ.get("QWEN_PARTIAL"))     # pipeline smoke test with silent placeholders -> smoke/, never the deliverables
+OUT = HERE / "smoke" if PARTIAL else HERE
 os.environ.setdefault("OMP_NUM_THREADS", "1")
 sys.path[:0] = [str(HERE), str(NC / "voice" / "chatterbox_natural"), str(NC / "voice" / "expressive"),
                 str(NC / "voice" / "engines_test")]
@@ -300,6 +302,35 @@ def render(takes=TAKES, only=None):
 
 
 # ------------------------------------------------------------------------------------------------ assembly
+PACE_LO, PACE_HI, PACE_MAX_UP, PACE_MAX_DOWN = 140.0, 165.0, 1.3, 0.85
+
+
+def rubberband(a, f):
+    p = subprocess.run([cbn.FF, "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-af",
+                        f"rubberband=tempo={f:.4f}:pitch=1.0:transients=crisp", "-f", "f32le", "-"],
+                       input=a.astype(np.float32).tobytes(), capture_output=True, check=True)
+    return np.frombuffer(p.stdout, np.float32).copy()
+
+
+def pace_fix(a, text):
+    """Coordinator's delivery condition (2026-10-24): 135-170 wpm per beat. Each kept take (>= 3 words) is brought into
+    [PACE_LO, PACE_HI] wpm (words / take length) with a pitch-preserving tempo change: up to x1.3 faster, down to x0.85
+    slower. The engine's native `rate` is the same kind of time-stretch, so this equals asking for another rate without
+    re-synthesising. Returns (audio, factor, wpm_before, wpm_after)."""
+    nw = cbn.n_words(text)
+    w0 = nw / (len(a) / SR) * 60
+    if nw < 3:
+        return a, 1.0, round(w0, 1), round(w0, 1)
+    f = 1.0
+    if w0 < PACE_LO:
+        f = min(PACE_MAX_UP, PACE_LO / w0)
+    elif w0 > PACE_HI:
+        f = max(PACE_MAX_DOWN, PACE_HI / w0)
+    if abs(f - 1.0) > 0.005:
+        a = rubberband(a, f)
+    return a, round(f, 3), round(w0, 1), round(nw / (len(a) / SR) * 60, 1)
+
+
 def finish(x, out: Path):
     """HPF 70 Hz + 2.5:1 compression (as the Chatterbox/Kokoro stems), 48 kHz, −16 LUFS, TP ≤ −2 dBTP."""
     ch = "highpass=f=70:poles=2,acompressor=threshold=-24dB:ratio=2.5:attack=8:release=120:knee=4"
@@ -321,6 +352,7 @@ def finish(x, out: Path):
 
 
 def assemble():
+    OUT.mkdir(exist_ok=True)
     rs = rows()
     parts = [np.zeros(int(round(LEAD * SR)), np.float32)]
     t = LEAD
@@ -333,9 +365,17 @@ def assemble():
             if r["beat"] == "end" and end_t0 is None:
                 end_t0 = t
         if r["voiced"]:
-            a, _ = sf.read(TMP / "takes" / f"row{r['idx']:03d}.wav", dtype="float32")
-            meta = json.loads((TMP / "takes" / f"row{r['idx']:03d}.json").read_text())
-            a = cbn.level(a, SEG_LUFS + GAIN[r["speaker"]])
+            tf = TMP / "takes" / f"row{r['idx']:03d}.wav"
+            if not tf.exists() and os.environ.get("QWEN_PARTIAL"):      # pipeline test before the render is complete
+                a, meta = np.zeros(SR, np.float32), {"stretch": 1.0, "wer": 1.0, "errors": [], "heard": "", "tries": 0,
+                                                     "correct": 0, "seed": 0, "energy": 0.0, "rtf": 0.0}
+            else:
+                a, _ = sf.read(tf, dtype="float32")
+                meta = json.loads(tf.with_suffix(".json").read_text())
+            pf = (1.0, None, None)
+            if np.abs(a).max() > 0:
+                a, *pf = pace_fix(a, r["tts"])
+                a = cbn.level(a, SEG_LUFS + GAIN[r["speaker"]])
             pre = r["pre"]
             parts.append(np.zeros(int(round(pre * SR)), np.float32))
             t += pre
@@ -344,7 +384,8 @@ def assemble():
             parts.append(a.astype(np.float32))
             t += len(a) / SR
             cur["pieces"].append({"text": r["text"], "tts": r["tts"], "instruct": r["instruct"], "tag": r["tag"],
-                                  "rate": r["eng_rate"], "stretch": meta.get("stretch", 1.0), "wer": meta["wer"],
+                                  "rate": r["eng_rate"], "stretch": round(meta.get("stretch", 1.0) * pf[0], 3),
+                                  "pace_fix": pf[0], "wpm_take": pf[1], "wpm_final": pf[2], "wer": meta["wer"],
                                   "errors": meta["errors"], "heard": meta["heard"], "tries": meta["tries"],
                                   "correct_takes": meta["correct"], "seed": meta["seed"], "energy": meta["energy"],
                                   "measure": meta.get("measure", {}), "wpm": meta.get("wpm_native"), "rtf": meta["rtf"],
@@ -368,9 +409,9 @@ def assemble():
         n_end = int(round((end_t0 + END_SCREEN) * SR))
         if n_end > len(x):
             x = np.concatenate([x, np.zeros(n_end - len(x), np.float32)])
-    wav = HERE / "narration_es.wav"
+    wav = OUT / "narration_es.wav"
     m = finish(x, wav)
-    (HERE / "segments_es.json").write_text(json.dumps(
+    (OUT / "segments_es.json").write_text(json.dumps(
         {"engine": "qwen3tts", "script": "SCRIPT_ES419.md v4 (locked 2026-10-23)",
          "voice": {"model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice bf16", "speaker": "ryan", "language": "Spanish",
                    "engine": "gabriele-mastrapasqua/qwen3-tts ef339be (C, MIT), server -j 3", "sampling": SAMPLING,
@@ -379,7 +420,7 @@ def assemble():
                    "pick": "highest energy score among WER-0 takes", "voice_characters": True},
          "target_lufs": TARGET_LUFS, "tp_ceiling": CEIL_TP, "post_gain_db": m["gain_db"], "loudness": m,
          "segments": man}, ensure_ascii=False, indent=1))
-    d = HERE / "segments"
+    d = OUT / "segments"
     d.mkdir(exist_ok=True)
     for f in d.glob("*.flac"):
         f.unlink()
@@ -395,8 +436,8 @@ def assemble():
 def align():
     """Whisper word timestamps per beat aligned to the script text (engine/voice.py align), same output schema as
     the Chatterbox/Kokoro builds: word, start, end, beat, speaker, voiced, text, conf, line [, slot]."""
-    wav = HERE / "narration_es.wav"
-    man = json.loads((HERE / "segments_es.json").read_text())
+    wav = OUT / "narration_es.wav"
+    man = json.loads((OUT / "segments_es.json").read_text())
     segs = man["segments"]
     x = es.load_audio(wav, sr=16000, channels=1)[:, 0]
     groups = {}
@@ -466,17 +507,17 @@ def align():
         if timings[k]["start"] <= timings[k - 1]["start"] or timings[k]["start"] < timings[k - 1]["end"] - 0.25:
             timings[k]["start"] = round(max(timings[k - 1]["end"], timings[k - 1]["start"] + 0.02), 3)
         timings[k]["end"] = round(max(timings[k]["end"], timings[k]["start"] + 0.02), 3)
-    (HERE / "timings_es.json").write_text("[\n" + ",\n".join(json.dumps(w, ensure_ascii=False) for w in timings) + "\n]\n")
-    (HERE / "asr_es.json").write_text(json.dumps(report, ensure_ascii=False, indent=1))
+    (OUT / "timings_es.json").write_text("[\n" + ",\n".join(json.dumps(w, ensure_ascii=False) for w in timings) + "\n]\n")
+    (OUT / "asr_es.json").write_text(json.dumps(report, ensure_ascii=False, indent=1))
     return report
 
 
 # ------------------------------------------------------------------------------------------------ QC
 def qc():
-    wav = HERE / "narration_es.wav"
-    man = json.loads((HERE / "segments_es.json").read_text())
-    asr = json.loads((HERE / "asr_es.json").read_text())
-    tim = json.loads((HERE / "timings_es.json").read_text())
+    wav = OUT / "narration_es.wav"
+    man = json.loads((OUT / "segments_es.json").read_text())
+    asr = json.loads((OUT / "asr_es.json").read_text())
+    tim = json.loads((OUT / "timings_es.json").read_text())
     m = es.measure_file(wav)
     info = sf.info(str(wav))
     x, s = sf.read(wav, dtype="float32")
@@ -517,9 +558,16 @@ def qc():
            "render_wall_s": (json.loads((TMP / "render_wall.json").read_text())["wall_s"] if (TMP / "render_wall.json").exists() else None),
            "reference": ref, "whole": {k: whole.get(k) for k in ("f0_median_hz", "pitch_range_st", "pitch_std_st", "melody_std_st", "energy_std_db", "pauses_n", "pause_mean_s")},
            "words": len(tim), "beats": rep_beats, "track_wer": {k: v["wer"] for k, v in asr.items()}}
-    (HERE / "qc_es.json").write_text(json.dumps(res, ensure_ascii=False, indent=1))
+    # delivery gate (coordinator, 2026-10-24): WER 0 in every sentence, 7:00-8:00 total, 135-170 wpm in every beat
+    gate = {"wer_zero_all": res["word_errors"] == 0 and not res["pieces_wer_gt0"],
+            "duration_7_8_min": 420.0 <= res["duration_s"] <= 480.0,
+            "beats_135_170": {k: b["wpm"] for k, b in rep_beats.items() if b["wpm"] and not (135 <= b["wpm"] <= 170)}}
+    gate["pass"] = bool(gate["wer_zero_all"] and gate["duration_7_8_min"] and not gate["beats_135_170"])
+    res["gate"] = gate
+    print("GATE", json.dumps(gate, ensure_ascii=False), flush=True)
+    (OUT / "qc_es.json").write_text(json.dumps(res, ensure_ascii=False, indent=1))
     print(json.dumps({k: v for k, v in res.items() if k not in ("beats", "reference", "whole")}, ensure_ascii=False))
-    mp3 = HERE / "preview_narracion_es.mp3"
+    mp3 = OUT / "preview_narracion_es.mp3"
     subprocess.run([cbn.FF, "-v", "error", "-y", "-i", str(wav), "-ar", "44100", "-ac", "1", "-c:a", "libmp3lame",
                     "-b:a", "48k", "-threads", "2", str(mp3)], check=True)
     print(mp3, round(mp3.stat().st_size / 1e6, 2), "MB")
@@ -532,8 +580,8 @@ def fmt_t(t):
 
 def qc_md():
     """VOICE_QC_qwen.md (Spanish, for the director/Producer) from qc_es.json + segments_es.json + the takes' logs."""
-    q = json.loads((HERE / "qc_es.json").read_text())
-    man = json.loads((HERE / "segments_es.json").read_text())
+    q = json.loads((OUT / "qc_es.json").read_text())
+    man = json.loads((OUT / "segments_es.json").read_text())
     takes_meta = [json.loads(f.read_text()) for f in sorted((TMP / "takes").glob("row*.json"))]
     ref = q["reference"]
     render_s = q.get("render_wall_s")
@@ -545,7 +593,7 @@ def qc_md():
              "«¿Qué?», «¡Dale, dale!» y «¡Nooo!» son solo cuadro (hueco de silencio).")
     L.append("")
     L.append("**Para escuchar:** `qwen/preview_narracion_es.mp3` (" + fmt_t(q["duration_s"]) + ", 48 kbps, "
-             + f"{(HERE / 'preview_narracion_es.mp3').stat().st_size / 1e6:.1f} MB).")
+             + f"{(OUT / 'preview_narracion_es.mp3').stat().st_size / 1e6:.1f} MB).")
     L.append("")
     L.append("## Resumen")
     L.append("")
@@ -561,7 +609,11 @@ def qc_md():
     L.append(f"| Tomas generadas / retomas | {q['takes_total']} tomas para {q['pieces']} oraciones · **{q['retries']} retomas** (tomas extra por WER o por energía) | ≥ 2-3 correctas por oración |")
     L.append(f"| Aceleración extra (rubberband ≤ 1,15×) | {len(q['stretched'])} oraciones | solo si < 140 ppm |")
     L.append(f"| Tiempo de render | CPU de síntesis {q['render_cpu_s'] / 3600:.2f} h" + (f" · pared {render_s / 3600:.2f} h" if render_s else "") + " (3 hilos, RTF ≈ {:.1f}) | ~1-1,5 h previstas |".format(
-        q["render_cpu_s"] / max(1, sum(t["dur"] for t in takes_meta))))
+        q["render_cpu_s"] / max(1, sum(t.get("dur", 0) for tm in takes_meta for t in tm["takes"]))))
+    L.append("")
+    g = q.get("gate", {})
+    L.append("**Condición de entrega** (WER 0 en las 127 oraciones · 7:00-8:00 · 135-170 ppm por beat): "
+             + ("**PASA**" if g.get("pass") else "**NO PASA**") + f" — WER 0: {g.get('wer_zero_all')} · duración: {g.get('duration_7_8_min')} · beats fuera de 135-170 ppm: {g.get('beats_135_170') or 'ninguno'}.")
     L.append("")
     L.append("## Energía frente a la referencia que gustó")
     L.append("")
@@ -597,7 +649,7 @@ def qc_md():
     L.append("- Selección de toma: entre las correctas, la de mayor puntuación de energía = rango tonal / " + str(ref["pitch_range_st"])
              + " + variación RMS / " + str(ref["energy_std_db"]) + ", ponderada por ritmo (peso completo desde 140 ppm, 30 % a ≤ 100 ppm): una toma arrastrada mide mucho rango pero es justo lo que el Productor rechazó.")
     L.append("- Servidor: `qwen_tts -d cv17 -j 3 --max-request-seconds 900 --serve 8091` (bf16, sin int8), motor C recompilado en esta máquina (AVX-512 VNNI, sin AMX/BF16: RTF ≈ 9-12 frente a 4-7 en la máquina de la prueba de motores).")
-    (HERE / "VOICE_QC_qwen.md").write_text("\n".join(L) + "\n")
+    (OUT / "VOICE_QC_qwen.md").write_text("\n".join(L) + "\n")
     print("VOICE_QC_qwen.md written")
 
 

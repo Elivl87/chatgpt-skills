@@ -1,4 +1,5 @@
 narration_es.wav
 *.wav
 segments/
+smoke/
 __pycache__/
