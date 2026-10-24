@@ -1,3 +1,6 @@
 
 # full-episode masters (>100 MB) go out as Releases, not git
 secondquest/docs/ep003/hyperframes/EP003_full_hyperframes.mp4
+
+# ep001 review renders (720p, > 100 MB in all): never in git
+newchannel/ep/001/animatic/*_review.mp4

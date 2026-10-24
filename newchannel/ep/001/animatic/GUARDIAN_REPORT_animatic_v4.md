@@ -2,7 +2,7 @@
 
 **Veredicto: PASS** (2026-10-24). Cero defectos abiertos de la punta del cabello a la punta del pie en los 8 bloques
 (`block{A,B,C1,C2,D1,D2,E1,E2}_review.mp4`, 514,3 s = la pista `audio/narration_es.wav`) y en el piloto unido
-`ep001_piloto_v4_720p.mp4` (fuera de git, en el scratchpad de la sesión).
+`ep001_piloto_v4_720p.mp4` (fuera de git, en el scratchpad de la sesión: 514,33 s, 15 430 fotogramas, 101 MB, −14,0 LUFS / TP −2,0 dBTP; versión 854x480 de 27,0 MB).
 
 Nota de procedimiento: en esta sesión no existía la herramienta Agent para lanzar al subagente `guardian-eli-mila`; el pase
 se ejecutó siguiendo al pie de la letra `.claude/agents/guardian-eli-mila.md` (los mismos chequeos automáticos, los mismos
@@ -48,7 +48,7 @@ independiente, el subagente puede repetir el pase sobre los mismos mp4 con los c
   (A14, C01, E2 K05), el giro escalonado de B06 (7 vistas, cada giro en 0,12 s por el perfil: diseño v3) y el salto al
   levantarse con las palomitas en C2 D05_late (continuo, 4 fotogramas, arco por fuera de la cara: diseño v3).
 
-## Defectos encontrados en este pase y arreglados (3) + 1 error propio corregido
+## Defectos encontrados en este pase y arreglados (3) + 2 errores propios corregidos
 
 Tiempos en segundos del bloque. Evidencia: `qc/guardian_v4_evidence_small.jpg` (antes / después).
 
@@ -57,6 +57,7 @@ Tiempos en segundos del bloque. Evidencia: `qc/guardian_v4_evidence_small.jpg` (
 | 1 | B · B21_walk 50,6-51,4 (fin del plano) | Mila | cara (encuadre) | con la voz nueva el plano dura más y Mila, caminando con el embotellamiento, llega a la esquina superior derecha **bajo la rama desenfocada** del primer plano: cara tapada por las hojas (0 % pupila, sin blanco) | opción `noBranch` en `art/scenes/ring_field.js` (`E.drawRing`), usada en B21_walk: el plano va sin rama; Mila entera y de cara a cámara hasta el corte |
 | 2 | C1 · C08_hat 24,7-27,9 | Mila | cabeza (borde) | a 720p la zona de la cabeza cruzaba el borde izquierdo (x −8) en todo el plano del sombrero: Mila a `toX(auto) − 430` | `− 375` (+55 unidades): cabeza entera con margen, sin tocar el auto de Eli |
 | 3 | D1 · E18_one 69,4 (último fotograma del bloque) | Mila | cabeza (borde inferior) + color | entre los observadores de la vista ×1,9 que sigue al auto computadora, Mila quedaba cortada por el borde inferior al final del bloque (solo coleta; «no sweater purple») | el plano no dibuja al dúo entre los observadores (`hero: () => true`): a esa escala eran 60 px y no aportan; el extra del trípode sigue |
+| — | unión del piloto (`build_episode.py`) | — | sincronía | los mp4 de bloque se muxeaban con `-shortest` y perdían 1-4 fotogramas finales (cebado AAC): al encadenar los 8 bloques la imagen se iba retrasando hasta 0,3 s en E2 respecto a la mezcla continua | el piloto se une con el vídeo exacto de cada bloque (`<build>/<B>/video.mp4`, 15 430 fotogramas = Σ round(dur·30)) y sin `-shortest`; los 8 mp4 de bloque re-muxeados |
 | — | D2 F17_late, E1 G14_off / G16_act2 | — | lista de planos | al re-apuntar las anclas metí comentarios `//` en medio de la línea y se comieron `bg`, `label`, `focus`, `push`, `zBase`, `over` de los 3 planos (primer render de D2 y E1 sin tira superior ni sello ACELERADO) | comentarios `/* */`; los dos bloques se re-renderizaron y pasaron el QC completo |
 
 Revisado a ojo y sin defecto: las 8 hojas de caras (`qc/faces_block<X>_small.jpg`: emoción correcta por beat, pupilas,

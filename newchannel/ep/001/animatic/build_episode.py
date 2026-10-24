@@ -51,6 +51,7 @@ def main():
     ap.add_argument("--narration", default=str(AUD / "narration_es.wav"))
     ap.add_argument("--small-out", default=None, help="854x480 version (only made when the main file is > --max-mb)")
     ap.add_argument("--max-mb", type=float, default=30.0)
+    ap.add_argument("--reuse-wav", action="store_true", help="keep <build>/episode.wav from a previous run (video-only changes)")
     ap.add_argument("--sheet", default=None, help="6-frame contact sheet (jpg <= 400 KB) of Eli & Mila moments")
     ap.add_argument("--sheet-shots", default="A08_yell,B16_shrugs,C14_queyoque,F19_late,G13_dale,I07_you")
     a = ap.parse_args()
@@ -60,18 +61,32 @@ def main():
     print(f"episode: {ep['duration']:.2f} s, {len(ep['shots'])} shots, {len(ep['cues'])} cues, {len(ep['ambience'])} ambience spans")
     # ---- one mix for the whole episode
     wav = build / "episode.wav"
-    rep = CS.build_block(ep, a.narration, str(wav), str(AUD / "timings_es.json"), str(AUD / "segments_es.json"), ensure_score,
-                         target=-14.0, ceiling=-1.5)
-    rep.pop("mix", None)
-    print(json.dumps({k: v for k, v in rep.items() if k not in ("scenes", "cues")}))
+    if a.reuse_wav and wav.exists():
+        rep = json.load(open(build / "episode_report.json")) if (build / "episode_report.json").exists() else {}
+        rep = {k: v for k, v in rep.items() if k in ("voice_I", "music_rel_LU", "amb_rel_LU", "char_slots_muted", "I", "TP", "LRA", "gain_db")}
+        print(f"reusing {wav}")
+    else:
+        rep = CS.build_block(ep, a.narration, str(wav), str(AUD / "timings_es.json"), str(AUD / "segments_es.json"), ensure_score,
+                             target=-14.0, ceiling=-1.5)
+        rep.pop("mix", None)
+        print(json.dumps({k: v for k, v in rep.items() if k not in ("scenes", "cues")}))
     # ---- video: lossless concat of the block mp4s
     lst = build / "concat.txt"
-    lst.write_text("".join(f"file '{HERE / f'block{b}_{a.quality}.mp4'}'\n" for b in BLOCKS))
+    # the frame-exact video of each block (<build>/<B>/video.mp4, every rendered frame) when it is there; a block mp4 muxed
+    # with -shortest (before 2026-10-24) lost 1-4 end frames to the AAC priming and the join drifted up to 0.3 s by E2
+    def vid(b):
+        v = build / b / "video.mp4"
+        return v if v.exists() else HERE / f"block{b}_{a.quality}.mp4"
+    for b in BLOCKS:
+        n = int(subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v", "-count_frames", "-show_entries", "stream=nb_read_frames", "-of", "csv=p=0", str(vid(b))], capture_output=True, text=True).stdout.strip() or 0)
+        want = round(next(e for e in evs if e["block"] == b)["duration"] * 30)
+        assert n == want, f"block {b}: {n} frames in {vid(b)}, timeline wants {want}"
+    lst.write_text("".join(f"file '{vid(b)}'\n" for b in BLOCKS))
     video = build / "episode_video.mp4"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst), "-an", "-c:v", "copy", str(video)], check=True)
     part = out.with_suffix(".part.mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-i", str(wav), "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-ar", "48000",
-                    "-movflags", "+faststart", "-shortest", str(part)], check=True)
+                    "-movflags", "+faststart", str(part)], check=True)
     os.replace(part, out)
     m = S.measure_file(out)
     dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(out)], capture_output=True, text=True).stdout.strip())
@@ -82,7 +97,7 @@ def main():
         small = Path(a.small_out)
         for crf in (27, 29, 31, 33):
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-i", str(wav), "-vf", "scale=854:480", "-c:v", "libx264", "-preset", "slow",
-                            "-crf", str(crf), "-pix_fmt", "yuv420p", "-profile:v", "high", "-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-movflags", "+faststart", "-shortest", str(part)], check=True)
+                            "-crf", str(crf), "-pix_fmt", "yuv420p", "-profile:v", "high", "-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-movflags", "+faststart", str(part)], check=True)
             os.replace(part, small)
             ss = small.stat().st_size / 1e6
             print(f"{small}: crf {crf} -> {ss:.2f} MB")
