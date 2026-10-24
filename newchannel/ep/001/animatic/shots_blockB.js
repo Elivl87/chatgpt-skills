@@ -249,7 +249,7 @@
           const ts = C5(t), R = A.s2(), S = R.at(ts), S0 = R.at(C5(wk0)), j0 = A.jamSmooth(C5(wk0), 3);
           let car = 0, best = 9; for (let i = 0; i < R.N; i++) { const d = Math.abs(Math.atan2(Math.sin(A.ringAng(i, S0) - j0 - 0.25), Math.cos(A.ringAng(i, S0) - j0 - 0.25))); if (d < best) { best = d; car = i; } }
           const aM = A.jamSmooth(ts, 3), aE = A.ringAng(car, S);
-          A.ring(c, t, { simT: ts, carExpr: (i, st) => (st ? 'annoyed' : 'content'),
+          A.ring(c, t, { simT: ts, noBranch: true, carExpr: (i, st) => (st ? 'annoyed' : 'content'),   // Guardian v4 (Qwen timings): the longer shot walks Mila under the foreground branch; no branch here
             over: (cx) => {
               const pm = A.angPt(aM, 7.5), pe = A.angPt(aE, 7.5), u = 17.5 * 7.2 * 1.6;
               K.cast.draw(cx, 'mila1', pm[0], pm[1], u, { view: 'q', dir: Math.cos(aM) > 0 ? -1 : 1, pose: 'walk', expr: 'happy', t: -t, light: LF, shadow: 0.3 });

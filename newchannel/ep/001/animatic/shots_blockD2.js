@@ -145,7 +145,7 @@
       shots.push({ id: 'F16_spring', start: tAmort - 0.3, bg: 'two_mila', label: 'ACELERADO ×2', focus: [960, 820], push: 0.03, pushDir: 1, zBase: 1.12,
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); },
         cues: A => [{ t: tAmort, kind: 'spring' }] });
-      shots.push({ id: 'F17_late', start: tEl - 0.1, bg: 'two_top', label: 'ACELERADO ×2', focus: [960, 270], push: 0.03, pushDir: 1, zBase: 1.1,
+      shots.push({ id: 'F17_late', start: w('llegue', 1, '19') - 0.1 /* Qwen voice (2026-10-24): the top strip opens on «llegue a los demás» (F16_spring was 6.9 s with the slower sentence; tEl left it 2.0 s) */, bg: 'two_top', label: 'ACELERADO ×2', focus: [960, 270], push: 0.03, pushDir: 1, zBase: 1.1,
         draw(c, t, lt) { strips(c, t, EL(t)); },
         cues: A => [{ t: tEmbot, kind: 'stop_thunk' }] });
       shots.push({ id: 'F17_pass', start: tCuando - 0.1, bg: 'two_bottom', label: 'ACELERADO ×2', focus: [960, 810], push: 0.03, pushDir: -1, zBase: 1.1,

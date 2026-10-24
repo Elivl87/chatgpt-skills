@@ -193,7 +193,7 @@
     // foreground framing: a branch hanging in from the top right, a bush + reeds in the bottom left (out of focus)
     B.fg = B.fg || { branch: K.terrain.branchSprite({ w: 640, h: 380, dir: -1, color: '#4a5e40', dark: '#2a3530', rim: '#ffe0a0', seed: 21, blur: 3.5, leaves: 100 }),
       reeds: K.terrain.reedSprite({ w: 520, h: 300, color: '#5a6a3a', dark: '#2e3a2a', rim: '#ffe0a0', seed: 23, n: 50, heads: true, blur: 3 }) };
-    K.terrain.drawSway(ctx, B.fg.branch, K.W + 30, -30, t, { amp: 0.02, ox: 640, oy: 0, ph: 1.2 });
+    if (!opt.noBranch) K.terrain.drawSway(ctx, B.fg.branch, K.W + 30, -30, t, { amp: 0.02, ox: 640, oy: 0, ph: 1.2 });   // opt.noBranch: a shot whose character walks under the top-right corner (Guardian v4: B21 Mila's face under the leaves)
     K.terrain.drawWind(ctx, B.fg.reeds, 200, K.H + 30, t, { amp: 0.06, ph: 0.3 });
     K.light.grade(ctx, P.grade, 0.2, 'soft-light');
     return { run, S };

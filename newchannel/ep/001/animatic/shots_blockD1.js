@@ -177,7 +177,7 @@
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.12, 1.12); c.translate(-960, -560); A.ring(c, t, ringOpts(MELT(t))); c.restore(); } });
       gaugeShot('E17_40', tLos3 - 0.1, 'hasta −40 %', 'gasolina', tCuarenta, 'field_g2', [935, 140]);   // Guardian: the wide badge touched Mila's ponytail and Eli's beanie
       shots.push({ id: 'E18_one', start: tTodo - 0.1, bg: 'ring_one', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: (c, t) => { rec(c, true); P.badge(c, K.W - 260, 230, '1 / 21', 90, A.ramp(t, tSolo - 0.1, 0.25)); src(c); },
-        draw(c, t, lt) { const ts = MELT(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts)); c.restore(); },
+        draw(c, t, lt) { const ts = MELT(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); },   // Guardian v4: no Eli / Mila among the observers here (at ×1.9 Mila's head sat on the bottom edge at the block's end)
         cues: A => [{ t: tSolo, kind: 'ding' }] });
       return shots;
     },

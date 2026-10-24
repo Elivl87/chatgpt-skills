@@ -123,7 +123,7 @@
           let head = null; c.__t = t; A._outer = c.getTransform();
           const g = A.line(c, t, { simT: ts, camS: carCam(ELI, ts) + 2.6, pxm: 150,
             eli: (cx, sx, sy, s, S, b) => { const r = K.cast.crew2(cx, sx, sy, s, { driver: 'eli1', t, light: N, u: 2.7 * s, driverO: eO }); head = A.toOuter(cx, r.driver.head[0], r.driver.head[1]); head[2] *= r.driver.head[2]; },
-            chars: (cx, toX, S) => K.cast.draw(cx, 'mila1', toX(S.x[ELI]) - 430, 1070, 640, { view: 'q', dir: 1, pose: 'clipboard', ...A.ez(t, stopAt + 0.3, 'thinking', 'smug'), t, look: [0.9, -0.2], light: N, shadow: 0.25 }) });
+            chars: (cx, toX, S) => K.cast.draw(cx, 'mila1', toX(S.x[ELI]) - 375, 1070, 640,   /* Guardian v4: was -430 (her head crossed the left edge at 720p) */ { view: 'q', dir: 1, pose: 'clipboard', ...A.ez(t, stopAt + 0.3, 'thinking', 'smug'), t, look: [0.9, -0.2], light: N, shadow: 0.25 }) });
           if (head) {   // the bar of car 10 (its true peak) drops onto the beanie at the stop
             const h = A.peakSoFar(ELI, ts) * 140, drop = since < 0 ? 0 : K.ease.outBack(K.clamp(since / 0.35));
             const top = head[1] - head[2] * 1.55, yb = K.lerp(top - 320, top, drop);

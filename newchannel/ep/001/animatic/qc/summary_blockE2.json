@@ -1,11 +1,11 @@
 {
- "duration": 73.67500000000001,
+ "duration": 72.36500000000007,
  "shots": 30,
  "cuts": 29,
- "cuts_per_min": 23.6,
- "longest_shot": 4.66,
+ "cuts_per_min": 24.0,
+ "longest_shot": 4.4,
  "longest_id": "H02_gap",
- "avg_shot": 2.46,
- "size_mb": 9.55,
- "contact_kb": 394
+ "avg_shot": 2.41,
+ "size_mb": 15.87,
+ "contact_kb": 387
 }

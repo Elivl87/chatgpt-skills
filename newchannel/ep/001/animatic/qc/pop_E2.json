@@ -1,0 +1,426 @@
+{
+ "block": "E2",
+ "frames": 2167,
+ "events": [
+  {
+   "kind": "step",
+   "frame": 316,
+   "t": 10.533,
+   "shot": "H03_back",
+   "cells": 1,
+   "peak": 55.0,
+   "bbox": [
+    552,
+    456,
+    576,
+    480
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 391,
+   "t": 13.033,
+   "shot": "H04_breathe",
+   "cells": 1,
+   "peak": 97.6,
+   "bbox": [
+    408,
+    288,
+    432,
+    312
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 472,
+   "t": 15.733,
+   "shot": "H05_calm",
+   "cells": 1,
+   "peak": 60.1,
+   "bbox": [
+    384,
+    216,
+    408,
+    240
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 473,
+   "t": 15.767,
+   "shot": "H05_calm",
+   "cells": 1,
+   "peak": 56.1,
+   "bbox": [
+    504,
+    432,
+    528,
+    456
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 814,
+   "t": 27.133,
+   "shot": "I04_ease",
+   "cells": 1,
+   "peak": 71.7,
+   "bbox": [
+    264,
+    216,
+    288,
+    240
+   ]
+  },
+  {
+   "kind": "flash",
+   "frame": 942,
+   "t": 31.4,
+   "shot": "I06_who",
+   "cells": 1,
+   "peak": 63.6,
+   "bbox": [
+    336,
+    456,
+    360,
+    480
+   ]
+  },
+  {
+   "kind": "flash",
+   "frame": 976,
+   "t": 32.533,
+   "shot": "I06_who",
+   "cells": 1,
+   "peak": 88.2,
+   "bbox": [
+    624,
+    456,
+    648,
+    480
+   ]
+  },
+  {
+   "kind": "flash",
+   "frame": 978,
+   "t": 32.6,
+   "shot": "I06_who",
+   "cells": 1,
+   "peak": 72.9,
+   "bbox": [
+    504,
+    456,
+    528,
+    480
+   ]
+  },
+  {
+   "kind": "flash",
+   "frame": 1001,
+   "t": 33.367,
+   "shot": "I07_you",
+   "cells": 1,
+   "peak": 39.0,
+   "bbox": [
+    816,
+    408,
+    840,
+    432
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1002,
+   "t": 33.4,
+   "shot": "I07_you",
+   "cells": 2,
+   "peak": 70.2,
+   "bbox": [
+    432,
+    264,
+    456,
+    312
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1005,
+   "t": 33.5,
+   "shot": "I07_you",
+   "cells": 1,
+   "peak": 70.9,
+   "bbox": [
+    432,
+    288,
+    456,
+    312
+   ]
+  },
+  {
+   "kind": "flash",
+   "frame": 1005,
+   "t": 33.5,
+   "shot": "I07_you",
+   "cells": 1,
+   "peak": 70.9,
+   "bbox": [
+    600,
+    408,
+    624,
+    432
+   ]
+  },
+  {
+   "kind": "flash",
+   "frame": 1011,
+   "t": 33.7,
+   "shot": "I07_you",
+   "cells": 1,
+   "peak": 57.6,
+   "bbox": [
+    816,
+    408,
+    840,
+    432
+   ]
+  },
+  {
+   "kind": "flash",
+   "frame": 1016,
+   "t": 33.867,
+   "shot": "I07_you",
+   "cells": 1,
+   "peak": 35.5,
+   "bbox": [
+    816,
+    408,
+    840,
+    432
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1330,
+   "t": 44.333,
+   "shot": "J03_calm",
+   "cells": 1,
+   "peak": 67.5,
+   "bbox": [
+    456,
+    432,
+    480,
+    456
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1371,
+   "t": 45.7,
+   "shot": "J03_calm",
+   "cells": 1,
+   "peak": 66.8,
+   "bbox": [
+    456,
+    432,
+    480,
+    456
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1546,
+   "t": 51.533,
+   "shot": "J06_bump",
+   "cells": 2,
+   "peak": 11.0,
+   "bbox": [
+    456,
+    264,
+    528,
+    288
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1607,
+   "t": 53.567,
+   "shot": "K01_wait",
+   "cells": 1,
+   "peak": 27.0,
+   "bbox": [
+    168,
+    144,
+    192,
+    168
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1610,
+   "t": 53.667,
+   "shot": "K01_wait",
+   "cells": 1,
+   "peak": 25.6,
+   "bbox": [
+    168,
+    144,
+    192,
+    168
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1640,
+   "t": 54.667,
+   "shot": "K01_wait",
+   "cells": 1,
+   "peak": 29.0,
+   "bbox": [
+    240,
+    168,
+    264,
+    192
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1662,
+   "t": 55.4,
+   "shot": "K02_three",
+   "cells": 2,
+   "peak": 78.4,
+   "bbox": [
+    288,
+    456,
+    336,
+    480
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1707,
+   "t": 56.9,
+   "shot": "K03_who",
+   "cells": 1,
+   "peak": 31.7,
+   "bbox": [
+    168,
+    144,
+    192,
+    168
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1710,
+   "t": 57.0,
+   "shot": "K03_who",
+   "cells": 1,
+   "peak": 9.0,
+   "bbox": [
+    144,
+    144,
+    168,
+    168
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1718,
+   "t": 57.267,
+   "shot": "K03_who",
+   "cells": 1,
+   "peak": 25.0,
+   "bbox": [
+    456,
+    144,
+    480,
+    168
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1847,
+   "t": 61.567,
+   "shot": "K04_sit",
+   "cells": 2,
+   "peak": 15.3,
+   "bbox": [
+    240,
+    216,
+    288,
+    240
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1910,
+   "t": 63.667,
+   "shot": "K05_late",
+   "cells": 1,
+   "peak": 62.6,
+   "bbox": [
+    264,
+    168,
+    288,
+    192
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1914,
+   "t": 63.8,
+   "shot": "K05_late",
+   "cells": 1,
+   "peak": 62.6,
+   "bbox": [
+    264,
+    168,
+    288,
+    192
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1994,
+   "t": 66.467,
+   "shot": "K05_late",
+   "cells": 3,
+   "peak": 17.8,
+   "bbox": [
+    240,
+    192,
+    288,
+    240
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1997,
+   "t": 66.567,
+   "shot": "K05_late",
+   "cells": 3,
+   "peak": 17.2,
+   "bbox": [
+    240,
+    192,
+    288,
+    240
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 2117,
+   "t": 70.567,
+   "shot": "K06_bird",
+   "cells": 1,
+   "peak": 19.0,
+   "bbox": [
+    264,
+    216,
+    288,
+    240
+   ]
+  }
+ ]
+}

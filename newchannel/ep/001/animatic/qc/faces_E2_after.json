@@ -1,15 +1,15 @@
 {
  "block": "E2",
  "tag": "after",
- "samples": 99,
- "faces": 194,
+ "samples": 96,
+ "faces": 188,
  "eyes": {
-  "pass": 241,
+  "pass": 238,
   "fail": 0,
-  "closed": 34,
+  "closed": 30,
   "covered": 0,
   "fading": 4,
-  "tiny": 1,
+  "tiny": 0,
   "offframe": 0
  },
  "failures": 0,

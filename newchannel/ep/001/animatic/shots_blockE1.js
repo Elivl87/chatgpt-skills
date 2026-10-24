@@ -126,7 +126,7 @@
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 0.2, wave: 0.5, f: 14 }); head = rE.head; } } });
           if (head) A.speaker('eli', head); },   // the text box avoids both heads itself
         cues: A => [{ t: tDale, kind: 'pop' }] });
-      shots.push({ id: 'G14_off', start: tPasan2 - 0.08, bg: 'line_off', label: 'ACELERADO ×9', focus: [960, 540], push: 0.025, pushDir: -1, over: c => src(c),
+      shots.push({ id: 'G14_off', start: Math.max(tPasan2 - 0.08, tDale + 1.3) /* Qwen voice (2026-10-24): the silent-line hole is 0.3 s (was ~1 s); the shot holds until the «¡Dale, dale!» box has been read (1.12 s + fade) */, bg: 'line_off', label: 'ACELERADO ×9', focus: [960, 540], push: 0.025, pushDir: -1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G14(t), { off: 1, dx: -20, kpx: 70, zoom: 'escala ×2,7' }); },
         cues: A => [{ t: tApagado, kind: 'murmur' }, { t: tCrece - 0.6, kind: 'whisper_grow', n: 5, d: 0.15 }] });
       shots.push({ id: 'G15_nooo', start: tNooo - 0.2, bg: 'bridge_nooo', focus: [780, 500], push: 0.04, pushDir: 1,   // Guardian: focus y 380 -> 500 (Mila's ponytail cut by the top edge)
@@ -135,7 +135,7 @@
             { after: (cx, rE) => { if (rE) { P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 3.05, wave: 0.04 }); head = rE.head; } }, u: 740 });   // Guardian: u 820 -> 740 (Mila's ponytail touched the top edge)
           if (head) A.speaker('eli', head); },   // the text box avoids both heads itself
         cues: A => [{ t: tNooo, kind: 'minor' }] });
-      shots.push({ id: 'G16_act2', start: tPasan3 - 0.08, bg: 'line_act2', label: 'ACELERADO ×14', focus: [960, 520], push: 0.03, pushDir: 1, over: c => src(c),
+      shots.push({ id: 'G16_act2', start: Math.max(tPasan3 - 0.08, tNooo + 0.95) /* Qwen voice (2026-10-24): same for «¡Nooo!» (0.76 s read + fade) */, bg: 'line_act2', label: 'ACELERADO ×14', focus: [960, 520], push: 0.03, pushDir: 1, over: c => src(c),
         draw(c, t, lt) { strip(c, t, G16(t), { sc: 4.8, dx: 30, kpx: 70, zoom: 'escala ×2,7' }); },
         cues: A => [{ t: tPasan3 + 0.3, kind: 'murmur' }] });
       // Eli does the wave ON TIME on the last «se achica», the people on the bridge follow him; he is surprised at himself

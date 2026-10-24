@@ -1,18 +1,30 @@
 {
  "block": "D2",
  "tag": "after",
- "samples": 89,
- "faces": 160,
+ "samples": 92,
+ "faces": 166,
  "eyes": {
-  "pass": 181,
-  "fail": 0,
+  "pass": 232,
+  "fail": 1,
   "closed": 0,
   "covered": 0,
   "fading": 0,
-  "tiny": 133,
+  "tiny": 91,
   "offframe": 0
  },
- "failures": 0,
- "fail_list": [],
+ "failures": 1,
+ "fail_list": [
+  {
+   "t": 6.02,
+   "shot": "F02_back",
+   "why_sample": "end",
+   "id": "mila1",
+   "expr": "thinking",
+   "view": "q",
+   "eye": 1,
+   "problem": "pupil not dark/visible (50% dark, need 55%)",
+   "eye_px": 3.0
+  }
+ ],
  "framing_warnings": []
 }

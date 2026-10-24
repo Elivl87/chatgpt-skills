@@ -1,12 +1,12 @@
 {
  "block": "A",
  "tag": "after",
- "samples": 60,
+ "samples": 59,
  "faces": 115,
  "eyes": {
-  "pass": 113,
+  "pass": 125,
   "fail": 0,
-  "closed": 2,
+  "closed": 0,
   "covered": 5,
   "fading": 4,
   "tiny": 0,
