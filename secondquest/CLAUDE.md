@@ -139,6 +139,9 @@
     (`docs/<ep>/HANDOFF_*.md`); long sessions cost more per turn and fill the disk.
 - **Token budget (Producer, 2026-10-17: "va un 30 % del plan semanal y no han pasado 24 h"):** the main session is
   the expensive part (every turn re-reads its whole context), not the renders.
+  - **Weekly cap (Producer, 2026-10-24): Claude usage must stay under 60 % of the weekly plan.** Claude cannot read the
+    meter: one short session per block, Sonnet builders, critics only on the full animatic, and at every block report
+    ask the Producer for the current % (stop and hand off if it is near the cap).
   - **One short session per task** ("fix these boxes", "publish package", "render the master"), started from a handoff
     of ≤ 1 page; end it when the task is delivered. Never run a whole episode in one session.
   - **Director does small edits itself** (≤ ~30 lines, known file). **At most one builder agent at a time**, Sonnet, only

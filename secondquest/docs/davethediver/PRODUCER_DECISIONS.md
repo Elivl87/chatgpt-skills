@@ -62,3 +62,6 @@
 - Bar staging (Producer, 2026-10-23): plates/food never sit on top of a character (geta on the counter between customers,
   drawn behind them; Quest's tray placed in the gaps between seated customers); Quest's tray-run sprite is larger in the bar
   (240 px design units).
+- Plan to publish (Producer, 2026-10-24): "Continúa, sin Bram, lo montas al final" — build blocks B-H on the placeholder
+  (Fenrir natural); Bram EN (~16.7 credits, balance 1.75) is recorded and assembled at the end. Claude usage under 60 % of
+  the weekly plan (CLAUDE.md token budget).

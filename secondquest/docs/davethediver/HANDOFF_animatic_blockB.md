@@ -8,6 +8,9 @@ review" on). Everything else by grep/line range. The script is LOCKED: `docs/dav
 Branch `claude/secondquest-pilot-hook-4yw8xj` (another session also pushes EP001 work there: `git pull` before push,
 merge, never rebase). Director does small edits; max one builder at a time (Sonnet; Opus for a new 3D model); critics
 only on the final round; one background waiter, no polling; 480p drafts; send ONLY block B's clip.
+**Budget (Producer, 2026-10-24):** Claude usage < 60 % of the weekly plan — you can't see the meter, so keep this session
+short (one block), ask the Producer for the current % in your report, and stop with a block C handoff when done. No Bram
+until the end (placeholder voice only).
 
 ## 1. Restore (background, ~8 min, one waiter)
 `cd secondquest && bash scripts/dtd_restore.sh <scratchpad>/dtd > <scratchpad>/restore.log 2>&1` → "restore done".
