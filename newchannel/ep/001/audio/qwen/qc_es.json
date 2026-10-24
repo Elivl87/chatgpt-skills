@@ -1,0 +1,696 @@
+{
+ "duration_s": 514.28,
+ "loudness": {
+  "I": -16.0,
+  "TP": -2.1,
+  "LRA": 3.1
+ },
+ "words_voiced": 1074,
+ "speech_s": 373.8,
+ "wpm_in_speech": 172.4,
+ "wpm_in_lines": 156.1,
+ "word_errors": 0,
+ "pieces": 127,
+ "retries": 386,
+ "takes_total": 513,
+ "pieces_wer_gt0": [],
+ "stretched": [
+  [
+   "Una carretera despejada.",
+   1.495
+  ],
+  [
+   "Apenas un poquito.",
+   1.495
+  ],
+  [
+   "Detrás, cada auto frena un poco más fuerte que el anterior.",
+   1.164
+  ],
+  [
+   "Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+   1.038
+  ],
+  [
+   "Eli está seguro: alguien allá adelante tiene la culpa.",
+   1.061
+  ],
+  [
+   "Ni choque, ni conos, ni semáforo.",
+   1.157
+  ],
+  [
+   "Mila, su amiga, mira atrás.",
+   1.004
+  ],
+  [
+   "Eli… va para atrás.",
+   1.055
+  ],
+  [
+   "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+   1.201
+  ],
+  [
+   "Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
+   1.184
+  ],
+  [
+   "Al principio, todo bien.",
+   1.228
+  ],
+  [
+   "Luego aparecieron titubeos: un hueco por aquí, un apretón por allá.",
+   1.324
+  ],
+  [
+   "A los tres minutos, más o menos, cinco autos estaban completamente parados.",
+   1.134
+  ],
+  [
+   "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte por hora.",
+   1.132
+  ],
+  [
+   "Estiremos el círculo hasta volverlo una línea recta.",
+   1.388
+  ],
+  [
+   "El primer conductor toca el freno.",
+   1.325
+  ],
+  [
+   "El segundo lo nota un instante tarde.",
+   1.007
+  ],
+  [
+   "El tercero, más tarde y más fuerte todavía.",
+   1.107
+  ],
+  [
+   "Eli va en el diez:",
+   1.174
+  ],
+  [
+   "No… no… ¡no!",
+   1.122
+  ],
+  [
+   "Para el auto número diez: alto total.",
+   1.296
+  ],
+  [
+   "El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante.",
+   1.177
+  ],
+  [
+   "Los autos se van; el embotellamiento se queda.",
+   1.061
+  ],
+  [
+   "Un embotellamiento no es un lugar.",
+   1.041
+  ],
+  [
+   "El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros.",
+   1.023
+  ],
+  [
+   "Con veinticinco autos, el tráfico fluyó.",
+   1.495
+  ],
+  [
+   "Con veintiocho o más: embotellamiento.",
+   1.217
+  ],
+  [
+   "Tres autos de más.",
+   1.402
+  ],
+  [
+   "Por encima, crecen.",
+   1.157
+  ],
+  [
+   "Entonces, ¿cómo se detiene una ola?",
+   1.158
+  ],
+  [
+   "¿Llenar la autopista de autos robot?",
+   1.166
+  ],
+  [
+   "A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico.",
+   1.054
+  ],
+  [
+   "Si se abre un hueco, ciérrenlo.",
+   1.138
+  ],
+  [
+   "¡Mi lema!",
+   1.15
+  ],
+  [
+   "Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante.",
+   1.194
+  ],
+  [
+   "Los cambios de velocidad bajaron cerca de un ochenta por ciento.",
+   1.435
+  ],
+  [
+   "Los frenazos fuertes casi desaparecieron.",
+   1.429
+  ],
+  [
+   "En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina.",
+   1.113
+  ],
+  [
+   "Todo eso, con un solo auto de veintiuno.",
+   1.3
+  ],
+  [
+   "Después, programaron la computadora un poquito más rápido que el promedio.",
+   1.087
+  ],
+  [
+   "¡¿Quién fue?!",
+   1.05
+  ],
+  [
+   "Eli.",
+   1.15
+  ],
+  [
+   "Ser paciente no es ir lento.",
+   1.104
+  ],
+  [
+   "Solo un conductor entrenado, con un único número: la velocidad promedio.",
+   1.305
+  ],
+  [
+   "¡Hay un hueco! ¡Un hueco enorme!",
+   1.094
+  ],
+  [
+   "Los cambios de velocidad bajaron casi a la mitad.",
+   1.331
+  ],
+  [
+   "La gasolina, más o menos una quinta parte.",
+   1.315
+  ],
+  [
+   "Una sola persona paciente.",
+   1.255
+  ],
+  [
+   "Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás.",
+   1.278
+  ],
+  [
+   "Por una vez, llegar tarde es la jugada.",
+   1.034
+  ],
+  [
+   "En Japón esto tiene nombre: manejo que absorbe embotellamientos.",
+   1.199
+  ],
+  [
+   "Ojo: no es magia.",
+   1.495
+  ],
+  [
+   "Si la vía está simplemente repleta, ningún conductor puede absorber eso.",
+   1.336
+  ],
+  [
+   "¿Funciona en una autopista de verdad?",
+   1.21
+  ],
+  [
+   "En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee.",
+   1.111
+  ],
+  [
+   "Un equipo metió cien autos al tráfico de hora pico con un control de crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar.",
+   1.27
+  ],
+  [
+   "¿El resultado? Es complicado.",
+   1.495
+  ],
+  [
+   "Cien autos son una gota en una autopista.",
+   1.367
+  ],
+  [
+   "Pero hay un momento que Eli no deja de repetir.",
+   1.131
+  ],
+  [
+   "Pasan más autos inteligentes, y se achica otra vez.",
+   1.281
+  ],
+  [
+   "Cada auto que la cruza la hace crecer o encoger.",
+   1.078
+  ],
+  [
+   "Así que deja un espacio: uno seguro, no uno enorme.",
+   1.281
+  ],
+  [
+   "Maneja a la velocidad real del tráfico, no a la que te gustaría.",
+   1.432
+  ],
+  [
+   "Mismo camino. Mismo toque de freno, allá adelante.",
+   1.028
+  ],
+  [
+   "En algún lugar detrás de ellos, un embotellamiento que nunca pasó.",
+   1.252
+  ],
+  [
+   "Un solo conductor paciente puede absorberla.",
+   1.086
+  ],
+  [
+   "Esto es Diez Mil Puntos.",
+   1.036
+  ]
+ ],
+ "render_cpu_s": 20385.6,
+ "render_wall_s": null,
+ "reference": {
+  "pitch_range_st": 15.62,
+  "melody_std_st": 3.68,
+  "energy_std_db": 8.5,
+  "source": "/tmp/claude-0/engines/out/qwen_a.wav 55.0-75.0s"
+ },
+ "whole": {
+  "f0_median_hz": 139.4,
+  "pitch_range_st": 13.6,
+  "pitch_std_st": 4.27,
+  "melody_std_st": 3.93,
+  "energy_std_db": 6.67,
+  "pauses_n": 243,
+  "pause_mean_s": 0.47
+ },
+ "words": 1078,
+ "beats": {
+  "01": {
+   "start": 0.25,
+   "dur": 8.03,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 4,
+   "retries": 11,
+   "pieces_wer_gt0": [],
+   "wpm": 147.4,
+   "pitch_range_st": 9.48,
+   "melody_std_st": 2.28,
+   "energy_std_db": 7.53,
+   "f0_median_hz": 152.9
+  },
+  "02": {
+   "start": 8.28,
+   "dur": 9.48,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 2,
+   "retries": 6,
+   "pieces_wer_gt0": [],
+   "wpm": 150.0,
+   "pitch_range_st": 12.35,
+   "melody_std_st": 3.62,
+   "energy_std_db": 6.87,
+   "f0_median_hz": 143.5
+  },
+  "03": {
+   "start": 18.02,
+   "dur": 11.73,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 4,
+   "retries": 10,
+   "pieces_wer_gt0": [],
+   "wpm": 158.1,
+   "pitch_range_st": 15.88,
+   "melody_std_st": 4.23,
+   "energy_std_db": 5.64,
+   "f0_median_hz": 163.9
+  },
+  "04": {
+   "start": 29.75,
+   "dur": 13.8,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 3,
+   "retries": 13,
+   "pieces_wer_gt0": [],
+   "wpm": 149.8,
+   "pitch_range_st": 10.83,
+   "melody_std_st": 2.31,
+   "energy_std_db": 6.28,
+   "f0_median_hz": 140.3
+  },
+  "06": {
+   "start": 43.54,
+   "dur": 24.62,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 5,
+   "retries": 17,
+   "pieces_wer_gt0": [],
+   "wpm": 163.4,
+   "pitch_range_st": 14.6,
+   "melody_std_st": 4.74,
+   "energy_std_db": 7.32,
+   "f0_median_hz": 165.8
+  },
+  "07": {
+   "start": 68.16,
+   "dur": 17.83,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 5,
+   "retries": 19,
+   "pieces_wer_gt0": [],
+   "wpm": 154.8,
+   "pitch_range_st": 16.05,
+   "melody_std_st": 4.94,
+   "energy_std_db": 8.29,
+   "f0_median_hz": 181.9
+  },
+  "08": {
+   "start": 85.99,
+   "dur": 12.4,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 2,
+   "retries": 3,
+   "pieces_wer_gt0": [],
+   "wpm": 156.7,
+   "pitch_range_st": 10.96,
+   "melody_std_st": 2.0,
+   "energy_std_db": 7.07,
+   "f0_median_hz": 132.4
+  },
+  "09": {
+   "start": 98.39,
+   "dur": 27.97,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 9,
+   "retries": 25,
+   "pieces_wer_gt0": [],
+   "wpm": 154.1,
+   "pitch_range_st": 11.4,
+   "melody_std_st": 2.87,
+   "energy_std_db": 7.09,
+   "f0_median_hz": 152.9
+  },
+  "10": {
+   "start": 126.36,
+   "dur": 20.73,
+   "wer": 0.06,
+   "errors": [
+    "-que",
+    "-yo",
+    "-que"
+   ],
+   "pieces": 5,
+   "retries": 16,
+   "pieces_wer_gt0": [],
+   "wpm": 168.0,
+   "pitch_range_st": 15.2,
+   "melody_std_st": 5.17,
+   "energy_std_db": 6.59,
+   "f0_median_hz": 121.4
+  },
+  "11": {
+   "start": 147.09,
+   "dur": 24.92,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 5,
+   "retries": 20,
+   "pieces_wer_gt0": [],
+   "wpm": 155.7,
+   "pitch_range_st": 13.1,
+   "melody_std_st": 2.95,
+   "energy_std_db": 7.46,
+   "f0_median_hz": 132.4
+  },
+  "12": {
+   "start": 172.01,
+   "dur": 33.86,
+   "wer": 0.0423,
+   "errors": [
+    "-o",
+    "embotellamiento->embotillamiento",
+    "+fue"
+   ],
+   "pieces": 9,
+   "retries": 23,
+   "pieces_wer_gt0": [],
+   "wpm": 155.9,
+   "pitch_range_st": 11.12,
+   "melody_std_st": 3.44,
+   "energy_std_db": 7.92,
+   "f0_median_hz": 130.1
+  },
+  "13": {
+   "start": 205.87,
+   "dur": 31.05,
+   "wer": 0.0135,
+   "errors": [
+    "una->un"
+   ],
+   "pieces": 6,
+   "retries": 11,
+   "pieces_wer_gt0": [],
+   "wpm": 167.3,
+   "pitch_range_st": 12.1,
+   "melody_std_st": 3.33,
+   "energy_std_db": 7.81,
+   "f0_median_hz": 141.9
+  },
+  "14": {
+   "start": 236.92,
+   "dur": 29.01,
+   "wer": 0.0156,
+   "errors": [
+    "manejen->manegen"
+   ],
+   "pieces": 7,
+   "retries": 21,
+   "pieces_wer_gt0": [],
+   "wpm": 151.2,
+   "pitch_range_st": 11.9,
+   "melody_std_st": 2.79,
+   "energy_std_db": 7.16,
+   "f0_median_hz": 127.5
+  },
+  "15": {
+   "start": 265.93,
+   "dur": 22.02,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 4,
+   "retries": 9,
+   "pieces_wer_gt0": [],
+   "wpm": 158.9,
+   "pitch_range_st": 11.0,
+   "melody_std_st": 3.07,
+   "energy_std_db": 6.56,
+   "f0_median_hz": 128.2
+  },
+  "16": {
+   "start": 287.94,
+   "dur": 20.29,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 5,
+   "retries": 11,
+   "pieces_wer_gt0": [],
+   "wpm": 150.0,
+   "pitch_range_st": 10.8,
+   "melody_std_st": 2.93,
+   "energy_std_db": 5.98,
+   "f0_median_hz": 139.4
+  },
+  "17": {
+   "start": 308.23,
+   "dur": 17.49,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 7,
+   "retries": 25,
+   "pieces_wer_gt0": [],
+   "wpm": 147.3,
+   "pitch_range_st": 14.8,
+   "melody_std_st": 4.23,
+   "energy_std_db": 6.21,
+   "f0_median_hz": 134.7
+  },
+  "18": {
+   "start": 325.73,
+   "dur": 27.29,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 8,
+   "retries": 24,
+   "pieces_wer_gt0": [],
+   "wpm": 151.6,
+   "pitch_range_st": 12.19,
+   "melody_std_st": 3.24,
+   "energy_std_db": 6.12,
+   "f0_median_hz": 143.9
+  },
+  "19": {
+   "start": 353.02,
+   "dur": 36.05,
+   "wer": 0.0476,
+   "errors": [
+    "el->ehhh",
+    "auto->el",
+    "paciente->autopaciente",
+    "ojo->oh"
+   ],
+   "pieces": 9,
+   "retries": 30,
+   "pieces_wer_gt0": [],
+   "wpm": 155.7,
+   "pitch_range_st": 13.86,
+   "melody_std_st": 4.61,
+   "energy_std_db": 6.69,
+   "f0_median_hz": 155.6
+  },
+  "20": {
+   "start": 389.06,
+   "dur": 29.61,
+   "wer": 0.0159,
+   "errors": [
+    "gota->cota"
+   ],
+   "pieces": 6,
+   "retries": 20,
+   "pieces_wer_gt0": [],
+   "wpm": 144.3,
+   "pitch_range_st": 10.3,
+   "melody_std_st": 2.38,
+   "energy_std_db": 6.44,
+   "f0_median_hz": 127.9
+  },
+  "21": {
+   "start": 418.67,
+   "dur": 23.26,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 6,
+   "retries": 17,
+   "pieces_wer_gt0": [],
+   "wpm": 155.4,
+   "pitch_range_st": 12.07,
+   "melody_std_st": 3.45,
+   "energy_std_db": 7.0,
+   "f0_median_hz": 135.5
+  },
+  "22": {
+   "start": 441.93,
+   "dur": 19.61,
+   "wer": 0.0204,
+   "errors": [
+    "-o"
+   ],
+   "pieces": 5,
+   "retries": 17,
+   "pieces_wer_gt0": [],
+   "wpm": 169.9,
+   "pitch_range_st": 11.17,
+   "melody_std_st": 3.08,
+   "energy_std_db": 6.75,
+   "f0_median_hz": 134.7
+  },
+  "23": {
+   "start": 461.53,
+   "dur": 15.58,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 4,
+   "retries": 15,
+   "pieces_wer_gt0": [],
+   "wpm": 151.9,
+   "pitch_range_st": 11.9,
+   "melody_std_st": 3.32,
+   "energy_std_db": 6.33,
+   "f0_median_hz": 157.4
+  },
+  "24": {
+   "start": 477.12,
+   "dur": 17.16,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 5,
+   "retries": 17,
+   "pieces_wer_gt0": [],
+   "wpm": 154.5,
+   "pitch_range_st": 14.38,
+   "melody_std_st": 4.0,
+   "energy_std_db": 6.18,
+   "f0_median_hz": 136.3
+  },
+  "end": {
+   "start": 494.28,
+   "dur": 5.39,
+   "wer": 0.0,
+   "errors": [],
+   "pieces": 2,
+   "retries": 6,
+   "pieces_wer_gt0": [],
+   "wpm": 168.8,
+   "pitch_range_st": 20.91,
+   "melody_std_st": 7.01,
+   "energy_std_db": 6.17,
+   "f0_median_hz": 138.6
+  }
+ },
+ "track_wer": {
+  "01": 0.0,
+  "02": 0.0,
+  "03": 0.0,
+  "04": 0.0,
+  "06": 0.0,
+  "07": 0.0,
+  "08": 0.0,
+  "09": 0.0,
+  "10": 0.06,
+  "11": 0.0,
+  "12": 0.0423,
+  "13": 0.0135,
+  "14": 0.0156,
+  "15": 0.0,
+  "16": 0.0,
+  "17": 0.0,
+  "18": 0.0,
+  "19": 0.0476,
+  "20": 0.0159,
+  "21": 0.0,
+  "22": 0.0204,
+  "23": 0.0,
+  "24": 0.0,
+  "end": 0.0
+ },
+ "gate": {
+  "wer_zero_all": true,
+  "duration_7_8_min": false,
+  "beats_135_170": {},
+  "pass": false
+ }
+}

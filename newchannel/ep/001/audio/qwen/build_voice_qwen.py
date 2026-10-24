@@ -302,7 +302,12 @@ def render(takes=TAKES, only=None):
 
 
 # ------------------------------------------------------------------------------------------------ assembly
-PACE_LO, PACE_HI, PACE_MAX_UP, PACE_MAX_DOWN = 140.0, 165.0, 1.3, 0.85
+# Pace window per kept take (words / take length) and the scale applied to the sentence pauses (< 1 s: the gag
+# pauses, the 5 s silence, the wordmark and the end-screen gaps are never scaled). Defaults = the Producer's pace
+# (150 wpm, "el ritmo estaba mejor"); QWEN_PACE=lo-hi and QWEN_PAUSE_SCALE override them (see VOICE_QC_qwen.md).
+_pace = os.environ.get("QWEN_PACE", "150-165").split("-")
+PACE_LO, PACE_HI, PACE_MAX_UP, PACE_MAX_DOWN = float(_pace[0]), float(_pace[1]), 1.3, 0.85
+PAUSE_SCALE = float(os.environ.get("QWEN_PAUSE_SCALE", "0.85"))
 
 
 def rubberband(a, f):
@@ -376,7 +381,7 @@ def assemble():
             if np.abs(a).max() > 0:
                 a, *pf = pace_fix(a, r["tts"])
                 a = cbn.level(a, SEG_LUFS + GAIN[r["speaker"]])
-            pre = r["pre"]
+            pre = round(r["pre"] * PAUSE_SCALE, 3)
             parts.append(np.zeros(int(round(pre * SR)), np.float32))
             t += pre
             if cur["start"] is None:
@@ -397,13 +402,14 @@ def assemble():
             parts.append(np.zeros(int(round(r["slot"] * SR)), np.float32))
             t += r["slot"]
             cur["slot_note"] = f"[solo cuadro]: silent slot {r['slot']} s, no voice"
-        parts.append(np.zeros(int(round(r["after"] * SR)), np.float32))
+        after = round(r["after"] * PAUSE_SCALE, 3) if r["after"] < 1.0 else r["after"]
+        parts.append(np.zeros(int(round(after * SR)), np.float32))
         if r["last"]:
             cur["dur"] = round(t - cur["start"], 4)
             cur["start"] = round(cur["start"], 4)
-            cur["after"] = r["after"]
+            cur["after"] = after
             man.append(cur)
-        t += r["after"]
+        t += after
     x = np.concatenate(parts)
     if end_t0 is not None:
         n_end = int(round((end_t0 + END_SCREEN) * SR))
@@ -417,7 +423,8 @@ def assemble():
                    "engine": "gabriele-mastrapasqua/qwen3-tts ef339be (C, MIT), server -j 3", "sampling": SAMPLING,
                    "register": "exclaim (Producer 2026-10-23)", "direction": "direction_v4.py / DIRECCION_NARRADOR_v4.md",
                    "instruct_lang": DV.LANG, "rate_scale": DV.RATE_SCALE, "takes_per_sentence": TAKES,
-                   "pick": "highest energy score among WER-0 takes", "voice_characters": True},
+                   "pick": "highest energy score among WER-0 takes", "voice_characters": True,
+                   "pace_window_wpm": [PACE_LO, PACE_HI], "pause_scale": PAUSE_SCALE},
          "target_lufs": TARGET_LUFS, "tp_ceiling": CEIL_TP, "post_gain_db": m["gain_db"], "loudness": m,
          "segments": man}, ensure_ascii=False, indent=1))
     d = OUT / "segments"
@@ -607,13 +614,37 @@ def qc_md():
     L.append(f"| WER por oración (Whisper small, normalizador de producción) | **{q['word_errors']} errores en {q['pieces']} oraciones** | 0 |")
     L.append(f"| WER de la pista completa por beat (re-escucha del montaje) | " + ", ".join(f"{k}: {v:.1%}" for k, v in q["track_wer"].items() if v) + (" (todo 0)" if not any(q["track_wer"].values()) else "") + " | informativo |")
     L.append(f"| Tomas generadas / retomas | {q['takes_total']} tomas para {q['pieces']} oraciones · **{q['retries']} retomas** (tomas extra por WER o por energía) | ≥ 2-3 correctas por oración |")
-    L.append(f"| Aceleración extra (rubberband ≤ 1,15×) | {len(q['stretched'])} oraciones | solo si < 140 ppm |")
+    nfix = len([p for sg in man["segments"] if sg["voiced"] for p in sg["pieces"] if p.get("pace_fix", 1.0) != 1.0])
+    up = [p["pace_fix"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"] if p.get("pace_fix", 1.0) > 1.0]
+    dn = [p["pace_fix"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"] if p.get("pace_fix", 1.0) < 1.0]
+    v = man["voice"]
+    L.append(f"| Ajuste de ritmo en montaje (tempo con tono intacto) | {nfix} oraciones llevadas a {v['pace_window_wpm'][0]:.0f}-{v['pace_window_wpm'][1]:.0f} ppm: "
+             f"{len(up)} aceleradas (máx. ×{max(up) if up else 1:.2f}), {len(dn)} frenadas (mín. ×{min(dn) if dn else 1:.2f}); pausas entre oraciones ×{v['pause_scale']} | ritmo 145-155 (Productor) · 135-170 por beat (coordinador) |")
     L.append(f"| Tiempo de render | CPU de síntesis {q['render_cpu_s'] / 3600:.2f} h" + (f" · pared {render_s / 3600:.2f} h" if render_s else "") + " (3 hilos, RTF ≈ {:.1f}) | ~1-1,5 h previstas |".format(
         q["render_cpu_s"] / max(1, sum(t.get("dur", 0) for tm in takes_meta for t in tm["takes"]))))
     L.append("")
     g = q.get("gate", {})
     L.append("**Condición de entrega** (WER 0 en las 127 oraciones · 7:00-8:00 · 135-170 ppm por beat): "
              + ("**PASA**" if g.get("pass") else "**NO PASA**") + f" — WER 0: {g.get('wer_zero_all')} · duración: {g.get('duration_7_8_min')} · beats fuera de 135-170 ppm: {g.get('beats_135_170') or 'ninguno'}.")
+    L.append("")
+    L.append("## Duración: por qué no cabe en 8:00 a este ritmo")
+    L.append("")
+    sp = sum(p["dur"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"])
+    pre = sum(p["pre"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"])
+    small = sum(min(sg["after"], 0.999) for sg in man["segments"] if sg["after"] < 1.0) + sum(
+        p["after"] * man["voice"]["pause_scale"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"][:-1] if p["after"] < 1.0)
+    big = sum(sg["after"] for sg in man["segments"] if sg["after"] >= 1.0) + sum(
+        p["after"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"][:-1] if p["after"] >= 1.0)
+    end_start = next(sg["start"] for sg in man["segments"] if sg["beat"] == "end")
+    L.append(f"- Voz (las 127 oraciones, con sus pausas internas): **{sp:.0f} s** → {q['words_voiced'] / sp * 60:.0f} ppm medidos sobre la voz.")
+    L.append(f"- Respiraciones antes de las citas y de las cifras: {pre:.0f} s · pausas entre oraciones (< 1 s, ya ×{man['voice']['pause_scale']}): {small:.0f} s · "
+             f"pausas del guion (gags, sello 5 s, silencio de 5 s del beat 23, 3 s antes de la pantalla final): {big:.0f} s · pantalla final: 20 s.")
+    L.append(f"- Fin del beat 24 en {fmt_t(end_start)}; total {fmt_t(q['duration_s'])}. El propio guion v4 estimaba ≈ 8:08-8:27 con pausas "
+             f"(SCRIPT_ES419.md, cabecera). Para terminar en 8:00 haría falta la voz a ≈ {q['words_voiced'] / (sp - (q['duration_s'] - 480)) * 60:.0f} ppm "
+             f"con estas pausas, o recortar las pausas entre oraciones a ~0,25 s (×0,6) y subir la voz a ≈ 165 ppm: "
+             "las dos cosas chocan con el ritmo que aprobó el Productor (≈150 ppm, «el ritmo estaba mejor») y con la biblia (el chiste vive en la pausa).")
+    L.append("- Mando: `QWEN_PACE=lo-hi` (ventana de ppm por oración) y `QWEN_PAUSE_SCALE=x` en `build_voice_qwen.py assemble` re-montan sin volver a sintetizar (≈ 1 min). "
+             "Decisión pendiente del director/Productor: 8:34 a 150-165 ppm (esta pista) o 8:00 a ~170 ppm.")
     L.append("")
     L.append("## Energía frente a la referencia que gustó")
     L.append("")
@@ -648,6 +679,11 @@ def qc_md():
         L.append("- Aceleradas en montaje (rubberband, tono intacto): " + "; ".join(f"«{a}» ×{b}" for a, b in q["stretched"]))
     L.append("- Selección de toma: entre las correctas, la de mayor puntuación de energía = rango tonal / " + str(ref["pitch_range_st"])
              + " + variación RMS / " + str(ref["energy_std_db"]) + ", ponderada por ritmo (peso completo desde 140 ppm, 30 % a ≤ 100 ppm): una toma arrastrada mide mucho rango pero es justo lo que el Productor rechazó.")
+    L.append("- Re-escucha de la pista completa (Whisper sobre cada beat del montaje, informativo): las diferencias son del ASR en citas gritadas y muy cortas "
+             "(«¡¿Que yo qué?!» 0,6 s no se transcribe), en «embotellamiento» y en el arranque de «El auto paciente…» (oye «ehhh»); cada oración por separado dio WER 0.")
+    L.append(f"- Tomas correctas por oración: {sum(1 for t in takes_meta if t['correct'] >= 3)} oraciones con ≥ 3, {sum(1 for t in takes_meta if t['correct'] == 2)} con 2, "
+             f"{sum(1 for t in takes_meta if t['correct'] < 2)} con 1 (se agotaron las 8 llamadas por alucinaciones; la toma conservada tiene WER 0). "
+             "Regla aplicada: 3 tomas correctas en oraciones de ≤ 12 palabras, 2 en las largas salvo que ambas midieran menos energía que la referencia (entonces una 3.ª).")
     L.append("- Servidor: `qwen_tts -d cv17 -j 3 --max-request-seconds 900 --serve 8091` (bf16, sin int8), motor C recompilado en esta máquina (AVX-512 VNNI, sin AMX/BF16: RTF ≈ 9-12 frente a 4-7 en la máquina de la prueba de motores).")
     (OUT / "VOICE_QC_qwen.md").write_text("\n".join(L) + "\n")
     print("VOICE_QC_qwen.md written")
