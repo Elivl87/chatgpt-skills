@@ -1,0 +1,4 @@
+narration_es.wav
+*.wav
+segments/
+__pycache__/
