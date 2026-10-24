@@ -5,5 +5,6 @@ ln -sf "$(python3 -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe(
 ln -sf ../ffprobe_shim.py "$HF_DIR/.bin/ffprobe"
 export PATH="$HF_DIR/.bin:$HF_DIR/node_modules/.bin:$PATH"
 export HYPERFRAMES_FFMPEG_PATH="$HF_DIR/.bin/ffmpeg" HYPERFRAMES_FFPROBE_PATH="$HF_DIR/.bin/ffprobe"
-export HYPERFRAMES_BROWSER_PATH="${PLAYWRIGHT_BROWSERS_PATH:-/opt/pw-browsers}/chromium_headless_shell-1194/chrome-linux/headless_shell"
+_hs=$(ls -d "${PLAYWRIGHT_BROWSERS_PATH:-/opt/pw-browsers}"/chromium_headless_shell-*/chrome-*/*headless*shell 2>/dev/null | grep -v "\.so" | tail -1)
+export HYPERFRAMES_BROWSER_PATH="$_hs"   # whichever headless shell is installed (1194, 1243, ...)
 export HYPERFRAMES_SKIP_SKILLS=1 HYPERFRAMES_NO_TELEMETRY=1 DO_NOT_TRACK=1
