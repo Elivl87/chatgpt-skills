@@ -18,7 +18,9 @@ Guion v4 bloqueado, palabra por palabra; dirección oración por oración de `DI
 | Ajuste de ritmo en montaje (tempo con tono intacto) | 98 oraciones llevadas a 150-165 ppm: 64 aceleradas (máx. ×1.30), 34 frenadas (mín. ×0.85); pausas entre oraciones ×0.85 | ritmo 145-155 (Productor) · 135-170 por beat (coordinador) |
 | Tiempo de render | CPU de síntesis 5.66 h (3 hilos, RTF ≈ 9.8) | ~1-1,5 h previstas |
 
-**Condición de entrega** (WER 0 en las 127 oraciones · 7:00-8:00 · 135-170 ppm por beat): **NO PASA** — WER 0: True · duración: False · beats fuera de 135-170 ppm: ninguno.
+**Duración aceptada por el director 2026-10-24** (8:34; la condición 7:00-8:00 era del coordinador, no del Productor, cuya prioridad es ritmo ≈150 y voz que mantenga audiencia; recortes nivel B del guion en reserva). Pista instalada como `audio/narration_es.wav` + `timings_es.json` + `segments_es.json` (anteriores: `*_chatterbox.*`).
+
+**Condición de entrega** (WER 0 en las 127 oraciones · 7:00-8:00 · 135-170 ppm por beat): **NO PASA solo en duración (aceptada)** — WER 0: True · duración: False · beats fuera de 135-170 ppm: ninguno.
 
 ## Duración: por qué no cabe en 8:00 a este ritmo
 
