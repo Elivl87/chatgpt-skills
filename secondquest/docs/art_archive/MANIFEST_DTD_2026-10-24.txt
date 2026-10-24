@@ -1,0 +1,6 @@
+E  d2500e6f179a10702f2cc4d0022d1858b9b099820c2c8dbc0cb9d30d0e51f149  public/art/davethediver/pixel/derived/p01_quest_swim_A_blue.png
+E  e427b9a8c47f8cd062e1d14de955c2ba5d4c14bdd02e80bb423b4b2fd11013bc  public/art/davethediver/props3d/diveboat_34.png
+E  fcc98cf27af41b8d91c68c5beb3810a952af58fb4f171b2a5bf7ea7fdce3a91f  public/art/davethediver/props3d/diveboat_side.png
+E  9761e458dd4b03d4d5bc6d792550e5950eade3f4591e7dc27792a1774ebd4507  public/art/davethediver/props3d/diveboat_side_back.png
+E  694465cd62d729570ba97a07a9e39e535a09079bf28e9d2541e71ee2c075988e  public/art/davethediver/props3d/diveboat_side_front.png
+E  670552ed4f89b03f10514b191797ab49da559d394a0f1d8f72407bcb31646d23  public/art/davethediver/props3d/dolphin_grey_leap_happy.png

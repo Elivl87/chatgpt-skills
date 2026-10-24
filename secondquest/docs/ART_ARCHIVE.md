@@ -52,3 +52,13 @@ and `tar -xf ep003_art.tar` from `secondquest/`. Together with `archive-art-2026
 | `SecondQuest_DTD_art_2026-10-19.tar` | Dave the Diver art so far | `public/art/davethediver/` (61 files, 21.6 MB): plates (bar_interior_night, bay_exterior_dusk, Higgsfield 2.0 cr), pixel sprites, props3d cast (Leo-Cobra, Max, stool, bubbles) + pink dolphin v3 (24 cut-outs). sha256 8c907da4…dabb2; per-file list `docs/art_archive/MANIFEST_DTD_2026-10-19.txt` |
 
 Restore: download the asset of release `archive-art-dtd-2026-10-19` and `tar -xf` it from `secondquest/` (done by `scripts/dtd_restore.sh`).
+
+## Archive 2026-10-24 (`archive-art-dtd-2026-10-24`)
+
+| File | What | Contents |
+|---|---|---|
+| `SecondQuest_DTD_art_2026-10-24.tar` | Dave the Diver art made while building block A (only what is not in the 10-19 archive) | 6 files, 1.8 MB: `props3d/diveboat_{side,side_back,side_front,34}.png` (our dive boat SECOND WIND 02, `render.py dtd_boat`), `props3d/dolphin_grey_leap_happy.png` (`render.py dtd_dolphin`), `pixel/derived/p01_quest_swim_A_blue.png` (`tools/hyperframes_davethediver/derive_art.py`) |
+
+Manifest: `docs/art_archive/MANIFEST_DTD_2026-10-24.txt` (column 1 = `E`). Restore: download the asset of release
+`archive-art-dtd-2026-10-24` and `tar -xf` it from `secondquest/` (done by `scripts/dtd_restore.sh`). All six can also
+be re-rendered for free with the commands above.

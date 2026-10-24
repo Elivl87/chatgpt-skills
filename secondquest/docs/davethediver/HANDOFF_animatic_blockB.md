@@ -13,11 +13,8 @@ only on the final round; one background waiter, no polling; 480p drafts; send ON
 `cd secondquest && bash scripts/dtd_restore.sh <scratchpad>/dtd > <scratchpad>/restore.log 2>&1` → "restore done".
 It pulls the art archives, installs deps and regenerates `narration.wav` with the APPROVED voice "Fenrir natural"
 (Kokoro am_fenrir, full model, sentence breaths, 0.92, no EQ/pitch). If `episodes/davethediver/timings.json` moves by a
-few ms, commit it. **Art made in the last session is not in the archives yet** (`git status` won't show it; it lives in
-`public/art`, gitignored): re-render it free before building — `python3 tools/props3d/render.py dtd_boat` (dive boat
-SECOND WIND 02, ~1.5 min), `DTD_ONLY=dolphin_grey_leap_happy python3 tools/props3d/render.py dtd_dolphin`, and
-`python3 tools/hyperframes_davethediver/derive_art.py` (blue-suit swim pose). Then archive all new DTD art as an
-`archive-*` Release (`docs/ART_ARCHIVE.md`) so it is never lost again.
+few ms, commit it. The art made while building block A (dive boat SECOND WIND 02, grey dolphin leap, blue-suit swim pose) is in
+`archive-art-dtd-2026-10-24` (asset 672866345) and the restore pulls it; nothing to re-render.
 
 ## 2. Project
 `tools/hyperframes_davethediver/` — every block is authored on the current narration with word tokens relative to the
