@@ -6,7 +6,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 EP = 'davethediver'
-FIRST = {'A': 'p01', 'B': 'p09'}                           # extend as blocks are built (SHOT_PLAN block tables)
+FIRST = {'A': 'p01', 'B': 'p09', 'C': 'p17', 'D': 'p21', 'E': 'p29', 'F': 'p37', 'G': 'p45', 'H': 'p53'}   # SHOT_PLAN block tables
 ORDER = list(FIRST)
 HOOK_LAST = 'p08'                                          # "So, why?": the wordmark line (+ its 1.5 s of silence)
 
