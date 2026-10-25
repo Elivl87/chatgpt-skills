@@ -1,0 +1,122 @@
+{
+ "fish_s.png": [
+  "public/art/ep003/props3d/fish2_side_deadpan.png",
+  300
+ ],
+ "fish_sb.png": [
+  "public/art/ep003/props3d/fish2_side_blink.png",
+  300
+ ],
+ "pixie.png": [
+  "public/art/davethediver/pixel/p09_pixie_present.png",
+  null
+ ],
+ "max_n.png": [
+  "public/art/davethediver/props3d/max_bar_34_neutral.png",
+  600
+ ],
+ "max_l.png": [
+  "public/art/davethediver/props3d/max_bar_34_laugh.png",
+  600
+ ],
+ "c_leo_n.png": [
+  "public/art/ep003/props3d/leo_sit_34_neutral.png",
+  400
+ ],
+ "c_leo_l.png": [
+  "public/art/ep003/props3d/leo_sit_34_laugh.png",
+  400
+ ],
+ "c_leo_side.png": [
+  "public/art/ep003/props3d/leo_sit_side_laugh.png",
+  400
+ ],
+ "c_max_side.png": [
+  "public/art/ep003/props3d/max_sit_side_neutral.png",
+  400
+ ],
+ "tray.png": [
+  "public/art/davethediver/pixel/p10_quest_tray_run.png",
+  null
+ ],
+ "boat_back.png": [
+  "public/art/davethediver/props3d/diveboat_side_back.png",
+  null
+ ],
+ "boat_front.png": [
+  "public/art/davethediver/props3d/diveboat_side_front.png",
+  null
+ ],
+ "boat_side.png": [
+  "public/art/davethediver/props3d/diveboat_side.png",
+  null
+ ],
+ "bar.png": [
+  "public/art/davethediver/plates/bar_interior_night.png",
+  1080
+ ],
+ "bay.png": [
+  "public/art/davethediver/plates/bay_exterior_dusk.png",
+  1080
+ ],
+ "office.png": [
+  "public/art/core/backgrounds/office_openplan.png",
+  1080
+ ],
+ "swimA.png": [
+  "public/art/davethediver/pixel/derived/p01_quest_swim_A_blue.png",
+  null
+ ],
+ "swimB.png": [
+  "public/art/davethediver/pixel/p02_quest_swim_B.png",
+  null
+ ],
+ "bigfish.png": [
+  "public/art/davethediver/pixel/p05_quest_big_fish.png",
+  null
+ ],
+ "p06.png": [
+  "public/art/davethediver/pixel/p06_pixie_slice_profile.png",
+  null
+ ],
+ "p07.png": [
+  "public/art/davethediver/pixel/p07_pixie_hero_nigiri.png",
+  null
+ ],
+ "p08.png": [
+  "public/art/davethediver/pixel/p08_pixie_glasses_flash.png",
+  null
+ ],
+ "q_phone.png": [
+  "public/art/core/quest/phone_overwhelmed.png",
+  1000
+ ],
+ "q_type.png": [
+  "public/art/core/quest/desk_typing.png",
+  900
+ ],
+ "f_wide.png": [
+  "public/art/ep003/props3d/fish2_34_wide.png",
+  400
+ ],
+ "f_wince.png": [
+  "public/art/ep003/props3d/fish2_34_wince.png",
+  400
+ ],
+ "f_sweat.png": [
+  "public/art/ep003/props3d/fish2_34_sweat.png",
+  400
+ ],
+ "d_peek.png": [
+  "public/art/davethediver/props3d/dolphin_peek_happy.png",
+  500
+ ],
+ "hbub.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_bubble.png",
+  500
+ ],
+ "hring.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_ring.png",
+  500
+ ]
+}
