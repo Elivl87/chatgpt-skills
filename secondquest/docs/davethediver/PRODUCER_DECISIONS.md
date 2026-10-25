@@ -67,3 +67,5 @@
   the weekly plan (CLAUDE.md token budget).
 - Agent split (Producer, 2026-10-25: "Trabaja todo con sonnet, y solo tu revisas con Opus 5.5"): every build/fix/render
   task runs on Sonnet builders; the Opus director session only reviews (frames, sheets, reports) and makes no builds.
+- Dolphin readability (Producer, 2026-10-25, on the head-peek: "No se entiende cuando sale así como frontal"): the
+  dolphin is always shown in clear side profile, whole body inside the frame (swimSide/leap art); no frontal/cut head peeks.
