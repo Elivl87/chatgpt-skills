@@ -375,6 +375,22 @@ const W = 1280, H = 720, DUR = {{DUR}};
         return H;
       }
       // dolphin peeking out of the bay water (head only, clipped at the waterline, ripples); frame = dolphin_peek (never in the bar)
+
+      // clear SIDE-PROFILE dolphin in the water (replaces the head peek): swims in at the surface, one small arc leap with splashes, swims on;
+      // returns the snout position after landing so hearts / rings / bubbles come out of its snout
+      function dolphinSwim(host, cx, cy, w, t0, t1, o) {
+        o = o || {}; const key = o.key || "d_happy", up = o.up == null ? 85 : o.up, du = o.du || .85, at = t0 + (o.at == null ? .15 : o.at), R = o.reach || 120, T1 = at + du, wy = cy + 28;
+        const d = pic(host, key, cx, cy, w, { f: "brightness(.97)" });
+        tl.set(d, { x: -R - 60, y: 16, rotation: 0 }, 0);
+        if (at - t0 > .02) tl.to(d, { x: -R, y: 16, rotation: -4, duration: at - t0, ease: "sine.out" }, t0);
+        tl.to(d, { x: R, duration: du, ease: "none" }, at);
+        tl.to(d, { keyframes: [{ y: 16 - up, duration: du / 2, ease: "power2.out" }, { y: 16, duration: du / 2, ease: "power2.in" }] }, at);
+        tl.to(d, { keyframes: [{ rotation: -26, duration: du * .2 }, { rotation: 0, duration: du * .3 }, { rotation: 28, duration: du * .5, ease: "power1.in" }] }, at);
+        if (t1 - T1 > .02) { tl.to(d, { x: R + 40, y: 22, rotation: 2, duration: t1 - T1, ease: "sine.out" }, T1); }
+        splash(host, cx - R + w * .25, wy, w / 260, at); splash(host, cx + R + w * .3, wy, w / 220, T1);
+        [0, 1].forEach((i) => { const rg = mk("div", "ring", host, `left:${cx + R + w * .3 - w * .4}px;top:${wy - 8}px;width:${w * .8}px;height:${w * .16}px;opacity:0;border-width:2px`); tl.fromTo(rg, { scale: .5, opacity: .9 }, { scale: 1.6 + i * .3, opacity: 0, duration: .9, ease: "power2.out", immediateRender: false }, T1 + .1 + i * .35); });
+        return { d, sx: cx + R + 40 + w * .46, sy: cy + 14, tL: T1 };
+      }
       function peek(host, cx, topY, w, t0, t1, f) {
         const [W0, H0] = PIC.d_peek, h = w * H0 / W0, vis = h * .66;
         const wrap = mk("div", "abs", host, `left:${cx - w / 2}px;top:${topY}px;width:${w}px;height:${vis}px;overflow:hidden;opacity:0;${f ? "filter:" + f : ""}`);
@@ -455,7 +471,7 @@ const W = 1280, H = 720, DUR = {{DUR}};
 
       /* ============================== BLOCK F: art tables + our own drawings ============================== */
       Object.assign(SP, { p10b: [102, 152, 19, 1, 91, 152, "p10b.png"], l_front: [233, 800, 5, 5, 228, 796, "l_front.png"], dive: [84, 152, 4, 0, 80, 151, "dive.png"] });
-      Object.assign(PIC, { d_peekL: [837, 1000], d_neutral: [1000, 403], d_happy: [1000, 403], max_n: [580, 1246] });
+      Object.assign(PIC, { d_laugh: [1000, 403], d_peekL: [837, 1000], d_neutral: [1000, 403], d_happy: [1000, 403], max_n: [580, 1246] });
       const SILB = "#0c0a18";
       const SILD = {
         p: '<path d="M22 200 L26 96 Q28 66 50 62 Q72 66 74 96 L78 200 Z"/><circle cx="50" cy="38" r="19"/>',
@@ -495,7 +511,7 @@ const W = 1280, H = 720, DUR = {{DUR}};
         [397, 415, 441, 477, 507, 552, 589, 634, 667, 683, 718, 736].forEach((x) => mk("div", "abs", r.sh, `left:${x * 1.333 - 40}px;top:347px;width:80px;height:80px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,170,80,.85),rgba(255,120,40,0) 70%)`));
         const res = {};
         if (o.queue) res.queue = queueSil(r.sh);
-        if (o.dolphin) res.d = peekK(r.sh, o.dolphin.key || "d_peek", o.dolphin.cx, o.dolphin.topY || 522, o.dolphin.w, t0 + (o.dolphin.at == null ? .08 : o.dolphin.at), t1, "brightness(.95)");
+        if (o.dolphin) res.d = dolphinSwim(r.sh, o.dolphin.cx, 600, o.dolphin.w, t0, t1, { key: o.dolphin.key, at: o.dolphin.at, up: o.dolphin.up });
         if (o.party) { [["255,80,200", 760, 430], ["80,220,255", 900, 430], ["255,230,80", 640, 430]].forEach(([c, x, y], i) => { const g = mk("div", "abs", r.sh, `left:${x - 90}px;top:${y - 70}px;width:180px;height:140px;border-radius:50%;mix-blend-mode:screen;opacity:0;background:radial-gradient(circle,rgba(${c},.75),rgba(${c},0) 70%)`);
           tl.fromTo(g, { opacity: 0 }, { opacity: 1, duration: .16 + i * .03, yoyo: true, repeat: 12, ease: "none", immediateRender: false }, t0 + i * .07); }); }
         shotCam(r, t0, t1, ca, cb, o.ph || 1); return res;
@@ -523,11 +539,11 @@ const W = 1280, H = 720, DUR = {{DUR}};
 
 
       /* ================================================================== F01-F02 the queue at the bar door; the dolphin taps the water, waiting */
-      const rF01 = rig("sF01"), rF02 = rig("sF02"); const F1E = focus(660, 440, 2.3);
+      const rF01 = rig("sF01"), rF02 = rig("sF02"); const F1E = focus(660, 480, 1.9);
       { const t0 = T.F01, t1 = T.F02; const o = bayShot(rF01, t0, t1, focus(640, 430, 2.0), F1E, { queue: true });
         o.queue.forEach((q, i) => tl.fromTo(q, { scaleY: 1 }, { scaleY: .985, duration: .5 + i * .07, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0 + i * .1)); }
-      { const t0 = T.F02, t1 = T.F03; bayShot(rF02, t0, t1, F1E, focus(790, 500, 1.5), { queue: true, dolphin: { cx: 700, w: 250, topY: 478, at: .05 }, ph: -1 });
-        [.7, 1.05].forEach((d) => splash(rF02.sh, 700 + 55, 500, .6, t0 + d)); }
+      { const t0 = T.F02, t1 = T.F03; bayShot(rF02, t0, t1, F1E, focus(790, 500, 1.5), { queue: true, dolphin: { cx: 700, w: 170, at: .15, up: 45 }, ph: -1 });
+ }
 
       /* ================================================================== F03 Duff at the door (snap), F05 shouting */
       const rF03 = rig("sF03"), rF05 = rig("sF05");
@@ -698,8 +714,8 @@ const W = 1280, H = 720, DUR = {{DUR}};
         shadow(rF18.sh, 400, 552, 150, 18, .8); const q = spr(rF18.sh, "p10b", 400, 548, 230, { px: true, f: TQ });
         tl.fromTo(q, { y: 0 }, { y: -12, duration: .22, ease: "power2.out", yoyo: true, repeat: 4 }, t0 + .15);
         const cr = mk("div", "abs", rF18.sh, "left:0;top:0;width:1280px;height:720px"); conf(cr, t0 + .1, 36); shotCam(rF18, t0, t1, focus(660, 450, 1.3), focus(650, 450, 1.42), 1); flash(t0, .4); }
-      { const t0 = T.F18b, t1 = T.F19; bayShot(rF18b, t0, t1, focus(740, 500, 1.4), focus(730, 500, 1.5), { dolphin: { key: "d_peekL", cx: 700, w: 230, topY: 462, at: .02 }, party: true, ph: -1 });
-        [.25, .55].forEach((d) => splash(rF18b.sh, 770, 510, .7, t0 + d)); shake(rF18b.sh, t0 + .25, 5, .3); }
+      { const t0 = T.F18b, t1 = T.F19; const bb = bayShot(rF18b, t0, t1, focus(740, 500, 1.4), focus(730, 500, 1.5), { dolphin: { key: "d_laugh", cx: 700, w: 190, at: .05 }, party: true, ph: -1 }); bubbleTrail(rF18b.sh, bb.d.sx, bb.d.sy - 10, bb.d.tL + .05, 8, 90, 30); shake(rF18b.sh, bb.d.tL, 5, .3); }
+
 
       /* ================================================================== F19 chores: sticky notes slap on Quest (bar) */
       const rF19 = rig("sF19");

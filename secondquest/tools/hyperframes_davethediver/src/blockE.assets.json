@@ -118,5 +118,13 @@
  "hring.png": [
   "public/art/davethediver/props3d/dolphin_fx_heart_ring.png",
   500
+ ],
+ "d_happy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_happy.png",
+  500
+ ],
+ "d_laugh.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_laugh.png",
+  500
  ]
 }

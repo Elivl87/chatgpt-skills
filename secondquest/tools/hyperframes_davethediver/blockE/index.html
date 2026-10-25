@@ -380,6 +380,22 @@ const W = 1280, H = 720, DUR = 64.498;
         return H;
       }
       // dolphin peeking out of the bay water (head only, clipped at the waterline, ripples); frame = dolphin_peek (never in the bar)
+
+      // clear SIDE-PROFILE dolphin in the water (replaces the head peek): swims in at the surface, one small arc leap with splashes, swims on;
+      // returns the snout position after landing so hearts / rings / bubbles come out of its snout
+      function dolphinSwim(host, cx, cy, w, t0, t1, o) {
+        o = o || {}; const key = o.key || "d_happy", up = o.up == null ? 85 : o.up, du = o.du || .85, at = t0 + (o.at == null ? .15 : o.at), R = o.reach || 120, T1 = at + du, wy = cy + 28;
+        const d = pic(host, key, cx, cy, w, { f: "brightness(.97)" });
+        tl.set(d, { x: -R - 60, y: 16, rotation: 0 }, 0);
+        if (at - t0 > .02) tl.to(d, { x: -R, y: 16, rotation: -4, duration: at - t0, ease: "sine.out" }, t0);
+        tl.to(d, { x: R, duration: du, ease: "none" }, at);
+        tl.to(d, { keyframes: [{ y: 16 - up, duration: du / 2, ease: "power2.out" }, { y: 16, duration: du / 2, ease: "power2.in" }] }, at);
+        tl.to(d, { keyframes: [{ rotation: -26, duration: du * .2 }, { rotation: 0, duration: du * .3 }, { rotation: 28, duration: du * .5, ease: "power1.in" }] }, at);
+        if (t1 - T1 > .02) { tl.to(d, { x: R + 40, y: 22, rotation: 2, duration: t1 - T1, ease: "sine.out" }, T1); }
+        splash(host, cx - R + w * .25, wy, w / 260, at); splash(host, cx + R + w * .3, wy, w / 220, T1);
+        [0, 1].forEach((i) => { const rg = mk("div", "ring", host, `left:${cx + R + w * .3 - w * .4}px;top:${wy - 8}px;width:${w * .8}px;height:${w * .16}px;opacity:0;border-width:2px`); tl.fromTo(rg, { scale: .5, opacity: .9 }, { scale: 1.6 + i * .3, opacity: 0, duration: .9, ease: "power2.out", immediateRender: false }, T1 + .1 + i * .35); });
+        return { d, sx: cx + R + 40 + w * .46, sy: cy + 14, tL: T1 };
+      }
       function peek(host, cx, topY, w, t0, t1, f) {
         const [W0, H0] = PIC.d_peek, h = w * H0 / W0, vis = h * .66;
         const wrap = mk("div", "abs", host, `left:${cx - w / 2}px;top:${topY}px;width:${w}px;height:${vis}px;overflow:hidden;opacity:0;${f ? "filter:" + f : ""}`);
@@ -399,9 +415,9 @@ const W = 1280, H = 720, DUR = 64.498;
       const stickerPop = (host, svg, label, cx, cy, w, t, tOut) => { const h = w * 1.02; const e = html(host, "sticker", `left:${cx - w / 2}px;top:${cy - h / 2}px;width:${w}px;height:${h}px;opacity:0;transform-origin:50% 50%`, `<div class="abs" style="left:${w * .12}px;top:${h * .06}px;width:${w * .76}px;height:${h * .66}px">${svg}</div><div class="lb">${label}</div>`);
         tl.fromTo(e, { scale: 0, opacity: 1, rotation: -10 }, { scale: 1, opacity: 1, rotation: -3, duration: .22, ease: "back.out(2.4)" }, t); if (tOut) tl.set(e, { opacity: 0 }, tOut); return e; };
       const dimmer = (host, a) => mk("div", "full", host, `background:rgba(6,4,20,${a});pointer-events:none`);
-      const bayNight = (r, t0, t1, ca, cb, dx, w) => { plate(r.sh, "bay.png"); mk("div", "full", r.sh, "background:rgba(18,10,70,.45);pointer-events:none");
+      const bayNight = (r, t0, t1, ca, cb, dx, w, o) => { plate(r.sh, "bay.png"); mk("div", "full", r.sh, "background:rgba(18,10,70,.45);pointer-events:none");
         [397, 415, 441, 477, 507, 552, 589, 634, 667, 683, 718, 736].forEach((x) => mk("div", "abs", r.sh, `left:${x * 1.333 - 40}px;top:347px;width:80px;height:80px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,170,80,.85),rgba(255,120,40,0) 70%)`));
-        const d = peek(r.sh, dx, 522, w, t0 + .08, t1, "brightness(.95)"); shotCam(r, t0, t1, ca, cb, -1); return d; };
+        const d = dolphinSwim(r.sh, dx, 600, 170, t0, t1, o || {}); shotCam(r, t0, t1, ca, cb, -1); return d; };
       const shotCam = (r, t0, t1, a, b, ph, ease) => { camTo(r, t0, t1, a, b, ease || "sine.inOut"); breathe(r, t0, t1, ph || 1); };
       const FISHSIL = '<svg viewBox="0 0 240 120" width="700" height="350"><g fill="#0c1530" stroke="#0c1530" stroke-width="5" stroke-linejoin="round"><path d="M196 60 L236 24 L228 60 L236 96 Z"/><path d="M60 30 Q120 -4 176 40 L196 60 L176 80 Q120 124 60 90 Q16 76 8 60 Q16 44 60 30 Z"/><path d="M100 18 L124 0 L140 26 Z"/><path d="M110 98 L128 116 L140 94 Z"/></g></svg>';
       const flashEl = $("#flash");
@@ -413,7 +429,7 @@ const W = 1280, H = 720, DUR = 64.498;
         const t0 = T.E01, t1 = T.E02; plate(rE01.sh, "bay.png");
         const tint = mk("div", "full", rE01.sh, "background:rgba(18,10,70,0);pointer-events:none"); tl.to(tint, { backgroundColor: "rgba(18,10,70,.42)", duration: t1 - t0 + 1, ease: "sine.in" }, t0);
         const R = rng(5); for (let i = 0; i < 16; i++) { const s = mk("div", "abs", rE01.sh, `left:${R() * 1280}px;top:${R() * 200}px;width:3px;height:3px;border-radius:50%;background:#fff;opacity:0`); tl.fromTo(s, { opacity: 0 }, { opacity: .5 + R() * .5, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0 + .4 + R() * .7); }
-        peek(rE01.sh, 520, 515, 170, t0 + .35, t1, "brightness(.85) saturate(.95)");
+        dolphinSwim(rE01.sh, 520, 600, 170, t0, t1, { at: .35 });
         shotCam(rE01, t0, t1, focus(860, 380, 1.0), focus(880, 372, 1.1));
       }
       /* ================================================================== E02 push toward the bar; the lanterns tick on */
@@ -626,8 +642,8 @@ const W = 1280, H = 720, DUR = 64.498;
         tl.fromTo(b.mN, { y: 0 }, { y: -3, duration: .1, yoyo: true, repeat: 5, ease: "sine.inOut", immediateRender: false }, t0 + .05);
         shotCam(rE24, t0, t1, focus(790, 455, 1.55), focus(790, 455, 1.95), -1); }
       const rE24b = rig("sE24b");
-      { const t0 = T.E24b, t1 = T.E25; bayNight(rE24b, t0, t1, focus(760, 520, 1.6), focus(760, 520, 1.7), 690, 230);
-        const hb = pic(rE24b.sh, "hbub", 700, 500, 120); tl.set(hb, { opacity: 0 }, 0); tl.fromTo(hb, { opacity: 1, scale: .3, y: 40 }, { opacity: 1, scale: 1, y: -50, duration: .5, ease: "sine.out" }, t0 + .15); tl.to(hb, { opacity: 0, scale: 1.6, duration: .1 }, t1 - .12); }
+      { const t0 = T.E24b, t1 = T.E25; rE24b._d = bayNight(rE24b, t0, t1, focus(760, 520, 1.6), focus(760, 520, 1.7), 690, 230, { at: .0, du: .45, up: 60, reach: 90 });
+        const dd = rE24b._d; const hb = pic(rE24b.sh, "hbub", dd.sx + 10, dd.sy - 70, 130); tl.set(hb, { opacity: 0 }, 0); tl.fromTo(hb, { opacity: 1, scale: .3, y: 30 }, { opacity: 1, scale: 1, y: -40, duration: .5, ease: "sine.out", immediateRender: false }, dd.tL + .03); tl.to(hb, { opacity: 0, scale: 1.6, duration: .1 }, t1 - .12); }
       /* ================================================================== E25-E28 OFF: Quest lib typing -> laptop screen -> folder in a folder in a folder -> a dot */
       const rE25 = rig("sE25");
       { const t0 = T.E25, t1 = T.E26; plate(rE25.sh, "office.png", "blur(3px) brightness(.5) saturate(.85)"); mk("div", "full", rE25.sh, "background:rgba(8,8,24,.25)");
@@ -715,9 +731,9 @@ const W = 1280, H = 720, DUR = 64.498;
         const wl = mk("div", "full", rE34.sh, "mix-blend-mode:screen;opacity:0;background:radial-gradient(ellipse at 62% 55%,rgba(255,190,100,.5),rgba(255,150,60,.12) 60%,rgba(255,140,50,0) 80%);pointer-events:none"); tl.to(wl, { opacity: 1, duration: .7, ease: "sine.inOut" }, t0 + .1);
         shotCam(rE34, t0, th, focus(780, 455, 1.45), focus(780, 455, 1.62)); camTo(rE34, th, t1, focus(780, 455, 1.62), focus(780, 455, 1.62), "none"); breathe(rE34, t0, t1, 1); }
       const rE34b = rig("sE34b");
-      { const t0 = T.E34b, t1 = DUR; bayNight(rE34b, t0, t1, focus(760, 520, 1.5), focus(760, 520, 1.58), 690, 230);
+      { const t0 = T.E34b, t1 = DUR; const dd = bayNight(rE34b, t0, t1, focus(760, 520, 1.5), focus(760, 520, 1.58), 690, 230, { at: .0, du: .45, up: 60, reach: 90 });
         mk("div", "full", rE34b.sh, "mix-blend-mode:screen;background:radial-gradient(ellipse at 55% 55%,rgba(255,190,100,.28),rgba(255,150,60,0) 70%);pointer-events:none");
-        const hr = pic(rE34b.sh, "hring", 700, 470, 300); tl.set(hr, { opacity: 0 }, 0); tl.fromTo(hr, { opacity: 1, scale: .2 }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(1.6)" }, t0 + .1); tl.to(hr, { scale: 1.3, opacity: 0, duration: .2, ease: "power2.out" }, t0 + .6); }
+        const hr = pic(rE34b.sh, "hring", dd.sx + 20, dd.sy - 60, 190); tl.set(hr, { opacity: 0 }, 0); tl.fromTo(hr, { opacity: 1, scale: .2 }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(1.6)", immediateRender: false }, dd.tL + .03); tl.to(hr, { scale: 1.3, opacity: 0, duration: .2, ease: "power2.out" }, Math.min(dd.tL + .38, DUR - .12)); }
 
       tl.set({}, {}, DUR);
       window.__timelines = window.__timelines || {};
