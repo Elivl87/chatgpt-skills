@@ -1,0 +1,98 @@
+{
+ "boat_back.png": [
+  "public/art/davethediver/props3d/diveboat_side_back.png",
+  null
+ ],
+ "boat_front.png": [
+  "public/art/davethediver/props3d/diveboat_side_front.png",
+  null
+ ],
+ "boat_side.png": [
+  "public/art/davethediver/props3d/diveboat_side.png",
+  null
+ ],
+ "swimA.png": [
+  "public/art/davethediver/pixel/derived/p01_quest_swim_A_blue.png",
+  null
+ ],
+ "swimB.png": [
+  "public/art/davethediver/pixel/p02_quest_swim_B.png",
+  null
+ ],
+ "aim.png": [
+  "public/art/davethediver/pixel/p03_quest_aim.png",
+  null
+ ],
+ "dive.png": [
+  "public/art/davethediver/pixel/p04_quest_dive_ready.png",
+  null
+ ],
+ "bigfish.png": [
+  "public/art/davethediver/pixel/p05_quest_big_fish.png",
+  null
+ ],
+ "d_happy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_happy.png",
+  500
+ ],
+ "d_blink.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_blink.png",
+  500
+ ],
+ "d_leap.png": [
+  "public/art/davethediver/props3d/dolphin_leap_happy.png",
+  600
+ ],
+ "d_sleepy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_sleepy.png",
+  500
+ ],
+ "d_worried.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_worried.png",
+  500
+ ],
+ "d_neutral.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_neutral.png",
+  500
+ ],
+ "office.png": [
+  "public/art/core/backgrounds/office_openplan.png",
+  1080
+ ],
+ "q_desk.png": [
+  "public/art/core/quest/desk_typing.png",
+  900
+ ],
+ "q_plan.png": [
+  "public/art/core/quest/planning_tablet.png",
+  1000
+ ],
+ "q_phone.png": [
+  "public/art/core/quest/phone_overwhelmed.png",
+  900
+ ],
+ "q_bed.png": [
+  "public/art/core/quest/bed_awake.png",
+  900
+ ],
+ "q_surp.png": [
+  "docs/art_orders/quest/library_v2/results/04_surprised_shocked.png",
+  900
+ ],
+ "lrn.png": [
+  "public/art/core/backgrounds/home_living_night.png",
+  null
+ ],
+ "paper.png": [
+  "public/art/core/objects/paper_stack.png",
+  600
+ ],
+ "d_laugh.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_laugh.png",
+  600
+ ],
+ "d_grey.png": [
+  "public/art/davethediver/props3d/dolphin_grey_swimSide_neutral.png",
+  600
+ ]
+}

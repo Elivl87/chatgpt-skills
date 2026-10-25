@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>Dave the Diver animatic - block D</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/Anton-Regular.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-800.woff2") format("woff2"); font-weight: 800; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/Inter-600.woff2") format("woff2"); font-weight: 600; }
+      :root { --gold: #ffc83d; --ink: #16161f; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1280px; height: 720px; overflow: hidden; background: #16161f; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Inter", sans-serif; }
+      .abs { position: absolute; }
+      .full { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      .shot { overflow: hidden; background: #0b0d18; }
+      .plate { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+      .spw { position: absolute; transform-origin: 50% 100%; }
+      .spw .fl { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+      .spw img { position: absolute; display: block; max-width: none; }
+      .px img { image-rendering: pixelated; }
+      .pic { position: absolute; }
+      .pic img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+      .shadow { position: absolute; border-radius: 50%; background: radial-gradient(ellipse, rgba(8, 6, 14, .6) 0%, rgba(8, 6, 14, .28) 55%, rgba(8, 6, 14, 0) 72%); }
+      .ring { position: absolute; border: 3px solid rgba(255, 245, 235, .9); border-radius: 50%; }
+      .drop { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: #eaf7ff; box-shadow: 0 0 4px rgba(255,255,255,.6); }
+      .bub { position: absolute; border-radius: 50%; border: 2px solid rgba(225, 250, 255, .75); background: radial-gradient(circle at 32% 30%, rgba(255,255,255,.55), rgba(190, 240, 255, .08) 60%); }
+      .mk { position: absolute; background: var(--gold); border: 3px solid var(--ink); border-radius: 10px; box-shadow: 4px 5px 0 var(--ink);
+        color: var(--ink); font: 800 22px "Inter", sans-serif; letter-spacing: .09em; text-transform: uppercase; padding: 7px 16px 6px; white-space: nowrap; }
+      .big { font-family: "Anton", sans-serif; color: var(--gold); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 5px 6px 0 var(--ink); line-height: 1; white-space: nowrap; }
+
+      /* ---------- HUD (our own drawing; the game world only) ---------- */
+      .hud { pointer-events: none; }
+      .hud .depth { position: absolute; left: 64px; top: 44px; height: 54px; padding: 0 22px; border-radius: 14px; background: rgba(8, 22, 48, .82); border: 3px solid #2d5f9c;
+        display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 0 rgba(0,0,0,.35); }
+      .hud .depth .lb { font: 800 14px "Inter"; letter-spacing: .12em; color: #8ec5ff; }
+      .hud .depth .v { font: 400 34px "Anton"; color: #fff; letter-spacing: .02em; }
+      .hud .o2 { position: absolute; left: 64px; top: 560px; width: 120px; height: 120px; }
+      .hud .o2 svg { position: absolute; left: 0; top: 0; width: 120px; height: 120px; overflow: visible; }
+      .hud .o2 .num { position: absolute; left: 0; top: 36px; width: 120px; text-align: center; font: 400 44px "Anton"; color: #fff; line-height: 1; }
+      .hud .o2 .lab { position: absolute; left: 0; top: 24px; width: 120px; text-align: center; font: 800 13px "Inter"; letter-spacing: .1em; color: #9fd0ff; }
+      .hud .panel { position: absolute; left: 196px; top: 590px; width: 236px; height: 78px; border-radius: 14px; background: rgba(8, 22, 48, .82); border: 3px solid #2d5f9c; padding: 9px 16px; }
+      .hud .panel .t { font: 800 18px "Inter"; color: #fff; letter-spacing: .02em; }
+      .hud .panel .w { display: flex; align-items: center; gap: 10px; margin-top: 7px; font: 800 20px "Inter"; color: #fff; }
+      .hud .slots { position: absolute; left: 800px; top: 560px; width: 416px; height: 112px; }
+      .hud .slot { position: absolute; top: 34px; width: 126px; height: 76px; transform: skewX(-12deg); border-radius: 10px; background: rgba(8, 22, 48, .86); border: 3px solid #3a68a8; }
+      .hud .slot .ic { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform: skewX(12deg); }
+      .hud .slot.hi { border-color: #ffb12e; background: rgba(60, 38, 8, .88); box-shadow: 0 0 0 3px rgba(255, 200, 61, .35), 0 0 22px rgba(255, 170, 40, .7); }
+      .hud .slot .cnt { position: absolute; right: 8px; bottom: 3px; font: 800 17px "Inter"; color: #fff; transform: skewX(12deg); }
+      .hud .slot .lv { position: absolute; left: 10px; bottom: 3px; font: 800 17px "Inter"; color: #ffd45a; transform: skewX(12deg); }
+      .hud .btn { position: absolute; top: 0; width: 28px; height: 28px; border-radius: 50%; background: #1a2d52; border: 3px solid #8ec5ff; }
+      .hud .btn svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+      .hud .btn.hi { border-color: #ffd45a; background: #5a3a08; }
+
+      /* ---------- bar ticket strip + clock ---------- */
+      .ticket { position: absolute; top: 0; width: 74px; height: 92px; background: #f7eed8; border: 3px solid var(--ink); border-radius: 6px 6px 10px 10px; box-shadow: 3px 4px 0 rgba(22,22,31,.7); transform-origin: 50% 0%; }
+      .ticket .band { position: absolute; left: 0; top: 0; width: 100%; height: 14px; }
+      .ticket svg { position: absolute; left: 9px; top: 20px; width: 50px; height: 34px; }
+      .ticket .tm { position: absolute; left: 8px; bottom: 9px; width: 50px; height: 7px; border-radius: 4px; background: rgba(22,22,31,.18); overflow: hidden; }
+      .ticket .tm i { position: absolute; left: 0; top: 0; height: 100%; width: 100%; background: #36b36a; transform-origin: 0 50%; }
+      #clock { position: absolute; left: 1050px; top: 40px; width: 166px; height: 54px; border-radius: 12px; background: rgba(10, 12, 28, .85); border: 3px solid #5a4aa0; display: flex; align-items: center; justify-content: center; gap: 10px; }
+      #clock .tx { font: 400 32px "Anton"; color: #ffd98a; letter-spacing: .04em; }
+
+      #wm { position: absolute; }
+      #wm .pc { position: absolute; top: 0; overflow: hidden; height: 100%; }
+      #wm img { position: absolute; top: 0; height: 100%; max-width: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="51.642" data-fps="30" data-width="1280" data-height="720">
+      <audio id="vo" src="assets/narration.wav" data-start="0" data-duration="51.642" data-track-index="9" data-volume="1"></audio>
+
+      <div id="sD01" class="full clip shot" data-start="0" data-duration="1.516" data-track-index="1"></div>
+      <div id="sD02" class="full clip shot" data-start="1.516" data-duration="1.58" data-track-index="2"></div>
+      <div id="sD03" class="full clip shot" data-start="3.096" data-duration="1.64" data-track-index="1"></div>
+      <div id="sD04" class="full clip shot" data-start="4.736" data-duration="2.28" data-track-index="2"></div>
+      <div id="sD05" class="full clip shot" data-start="7.016" data-duration="2.35" data-track-index="1"></div>
+      <div id="sD06" class="full clip shot" data-start="9.366" data-duration="1.99" data-track-index="2"></div>
+      <div id="sD07" class="full clip shot" data-start="11.356" data-duration="1.52" data-track-index="1"></div>
+      <div id="sD08" class="full clip shot" data-start="12.876" data-duration="1.4" data-track-index="2"></div>
+      <div id="sD09" class="full clip shot" data-start="14.276" data-duration="1.5" data-track-index="1"></div>
+      <div id="sD10" class="full clip shot" data-start="15.776" data-duration="2.1" data-track-index="2"></div>
+      <div id="sD11" class="full clip shot" data-start="17.876" data-duration="1.18" data-track-index="1"></div>
+      <div id="sD12" class="full clip shot" data-start="19.056" data-duration="1.38" data-track-index="2"></div>
+      <div id="sD13" class="full clip shot" data-start="20.436" data-duration="2.28" data-track-index="1"></div>
+      <div id="sD14" class="full clip shot" data-start="22.716" data-duration="3.32" data-track-index="2"></div>
+      <div id="sD15" class="full clip shot" data-start="26.036" data-duration="2.12" data-track-index="1"></div>
+      <div id="sD16" class="full clip shot" data-start="28.156" data-duration="1.79" data-track-index="2"></div>
+      <div id="sD17" class="full clip shot" data-start="29.946" data-duration="4.97" data-track-index="1"></div>
+      <div id="sD18" class="full clip shot" data-start="34.916" data-duration="3.16" data-track-index="2"></div>
+      <div id="sD19" class="full clip shot" data-start="38.076" data-duration="2.18" data-track-index="1"></div>
+      <div id="sD20" class="full clip shot" data-start="40.256" data-duration="1.18" data-track-index="2"></div>
+      <div id="sD21" class="full clip shot" data-start="41.436" data-duration="1.04" data-track-index="1"></div>
+      <div id="sD22" class="full clip shot" data-start="42.476" data-duration="1.37" data-track-index="2"></div>
+      <div id="sD23" class="full clip shot" data-start="43.846" data-duration="1.71" data-track-index="1"></div>
+      <div id="sD24" class="full clip shot" data-start="45.556" data-duration="1.74" data-track-index="2"></div>
+      <div id="sD25" class="full clip shot" data-start="47.296" data-duration="3.18" data-track-index="1"></div>
+      <div id="sD26" class="full clip shot" data-start="50.476" data-duration="1.166" data-track-index="2"></div>
+      <div id="hudD04" class="full clip hud" data-start="4.736" data-duration="2.28" data-track-index="5"></div>
+      <div id="hudD05" class="full clip hud" data-start="7.016" data-duration="2.35" data-track-index="5"></div>
+      <div id="hudD06" class="full clip hud" data-start="9.366" data-duration="1.99" data-track-index="5"></div>
+      <div id="hudD07" class="full clip hud" data-start="11.356" data-duration="1.52" data-track-index="5"></div>
+      <div id="hudD08" class="full clip hud" data-start="12.876" data-duration="1.4" data-track-index="5"></div>
+      <div id="hudD09" class="full clip hud" data-start="14.276" data-duration="1.5" data-track-index="5"></div>
+      <div id="hudD15" class="full clip hud" data-start="26.036" data-duration="2.12" data-track-index="5"></div>
+      <div id="hudD17" class="full clip hud" data-start="29.946" data-duration="4.97" data-track-index="5"></div>
+      <div id="hudD18" class="full clip hud" data-start="34.916" data-duration="3.16" data-track-index="5"></div>
+      <div id="hudD19" class="full clip hud" data-start="38.076" data-duration="2.18" data-track-index="5"></div>
+      <div id="hudD20" class="full clip hud" data-start="40.256" data-duration="1.18" data-track-index="5"></div>
+      <div id="hudD21" class="full clip hud" data-start="41.436" data-duration="1.04" data-track-index="5"></div>
+      <div id="hudD22" class="full clip hud" data-start="42.476" data-duration="1.37" data-track-index="5"></div>
+    </div>
+
+    <script>
+      const W = 1280, H = 720, DUR = 51.642;
+      function rng(seed) { return function () { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+      const $ = (s) => document.querySelector(s);
+      const mk = (tag, cls, parent, style) => { const e = document.createElement(tag); if (cls) e.className = cls; if (style) e.setAttribute("style", style); parent.appendChild(e); return e; };
+      const html = (parent, cls, style, inner) => { const e = mk("div", cls, parent, style); e.innerHTML = inner; return e; };
+      const tl = gsap.timeline({ paused: true });
+      { const ft = tl.fromTo.bind(tl);
+        tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
+
+      const T = {D01: 0, D02: 1.516, D03: 3.096, D04: 4.736, D05: 7.016, D06: 9.366, D07: 11.356, D08: 12.876, D09: 14.276, D10: 15.776, D11: 17.876, D12: 19.056, D13: 20.436, D14: 22.716, D15: 26.036, D16: 28.156, D17: 29.946, D18: 34.916, D19: 38.076, D20: 40.256, D21: 41.436, D22: 42.476, D23: 43.846, D24: 45.556, D25: 47.296, D26: 50.476, DEND: 51.642, END: 51.642};
+
+      /* ---------- helpers ---------- */
+      // staged art: [natural w, natural h, bbox x0, y0, x1, y1, file]
+      const SP = {
+        q_slump: [1254, 1254, 359, 52, 1112, 1222, "q_slump.png"], q_sit: [2048, 1360, 0, 19, 2024, 1360, "q_sit.png"],
+        q_game: [1254, 1254, 178, 11, 1112, 1237, "q_game.png"],
+        q_worry: [1744, 2336, 0, 17, 1730, 2336, "q_worry.png"], q_floor: [688, 1024, 34, 25, 655, 992, "q_floor.png"],
+        swimA: [238, 152, 1, 1, 236, 149, "swimA.png"], swimB: [239, 152, 1, 1, 237, 150, "swimB.png"], aim: [238, 152, 2, 1, 236, 151, "aim.png"],
+        dive: [84, 152, 4, 0, 80, 151, "dive.png"], bigfish: [101, 152, 6, 0, 100, 152, "bigfish.png"], tray: [102, 152, 1, 0, 102, 149, "tray.png"], pixie: [93, 152, 10, 0, 81, 152, "pixie.png"],
+      };
+      const PIC = { d_tangled: [1000, 613], d_net: [1000, 873], d_happy: [1000, 403], d_blink: [1000, 403], d_neutral: [1000, 403], d_peek: [967, 1000], d_leap: [1000, 882], d_ring: [1011, 412], d_heart: [1000, 854], d_leap_grey: [1000, 882], fish_s: [616, 378], fish_sb: [616, 378] };
+      // sprite whose VISIBLE bbox is h px tall, bbox bottom-centre at (cx, by)
+      function spr(host, key, cx, by, h, o) {
+        o = o || {}; const [W0, H0, x0, y0, x1, y1, file] = SP[key]; const k = h / (y1 - y0); const w = (x1 - x0) * k;
+        const el = mk("div", "spw" + (o.px ? " px" : ""), host, `left:${cx - w / 2}px;top:${by - h}px;width:${w}px;height:${h}px;${o.f ? "filter:" + o.f + ";" : ""}`);
+        const fl = mk("div", "fl", el, o.flip ? "transform:scaleX(-1)" : "");
+        const im = mk("img", "", fl, `left:${-x0 * k}px;top:${-y0 * k}px;width:${W0 * k}px;height:${H0 * k}px`); im.src = "assets/" + file; im.alt = "";
+        return el;
+      }
+      // picture centred on (cx, cy), width w
+      function pic(host, key, cx, cy, w, o) {
+        o = o || {}; const [W0, H0] = PIC[key]; const h = w * H0 / W0;
+        const el = mk("div", "pic", host, `left:${cx - w / 2}px;top:${cy - h / 2}px;width:${w}px;height:${h}px;${o.f ? "filter:" + o.f + ";" : ""}`);
+        const im = mk("img", "", el, o.flip ? "transform:scaleX(-1)" : ""); im.src = "assets/" + key + ".png"; im.alt = ""; el._h = h; return el;
+      }
+      const shadow = (host, cx, cy, w, h, op) => mk("div", "shadow", host, `left:${cx - w / 2}px;top:${cy - h / 2}px;width:${w}px;height:${h}px;opacity:${op == null ? 1 : op}`);
+      const plate = (host, file, f) => { const im = mk("img", "plate", host, f ? "filter:" + f : ""); im.src = "assets/" + file; im.alt = ""; return im; };
+      // camera rig: cam (moves) > br (breathing) > sh (shake) > content
+      function rig(id) { const host = $("#" + id); const cam = mk("div", "full", host); const br = mk("div", "full", cam); const sh = mk("div", "full", br); return { host, cam, br, sh }; }
+      // focus: camera that puts plate point (px,py) at the frame centre at zoom s; clamped so the plate edge never shows
+      const focus = (px, py, s, ox, oy) => { let x = (W / 2 - px) * s + (ox || 0), y = (H / 2 - py) * s + (oy || 0); const mx = W / 2 * (s - 1) - 14, my = H / 2 * (s - 1) - 8;
+        return { x: Math.max(-mx, Math.min(mx, x)), y: Math.max(-my, Math.min(my, y)), s }; };
+      const camTo = (r, t0, t1, a, b, ease) => tl.fromTo(r.cam, { x: a.x, y: a.y, scale: a.s }, { x: b.x, y: b.y, scale: b.s, duration: Math.max(.001, t1 - t0), ease: ease || "sine.inOut" }, t0);
+      const camSet = (r, t, a) => tl.set(r.cam, { x: a.x, y: a.y, scale: a.s }, t);
+      // the documentary breath: own phase per shot, push 2.2 %, drift <= 0.5 %
+      const breathe = (r, t0, t1, ph) => tl.fromTo(r.br, { scale: 1, x: -6 * ph, y: 3 * ph }, { scale: 1.022, x: 6 * ph, y: -3 * ph, duration: t1 - t0, ease: "sine.inOut" }, t0);
+      // decaying shake on a wrapper
+      function shake(el, t, amp, dur) { const n = 7, ks = []; for (let i = 0; i < n; i++) { const a = amp * (1 - i / n) * (i % 2 ? -1 : 1); ks.push({ x: a, y: -a * .6, duration: dur / (n + 1), ease: "none" }); }
+        ks.push({ x: 0, y: 0, duration: dur / (n + 1), ease: "none" }); tl.to(el, { keyframes: ks }, t); }
+      function splash(host, x, y, s, t) { const g = mk("div", "abs", host, `left:${x}px;top:${y}px;width:0;height:0`); const rs = [], ds = [];
+        for (let i = 0; i < 2; i++) rs.push(mk("div", "ring", g, `left:${-70 * s}px;top:${-14 * s}px;width:${140 * s}px;height:${28 * s}px;opacity:0`));
+        for (let i = 0; i < 10; i++) ds.push(mk("div", "drop", g, "left:-4px;top:-4px;opacity:0"));
+        rs.forEach((r, i) => tl.to(r, { keyframes: [{ scale: .2, opacity: 1, duration: .001 }, { scale: 1.5 + i * .4, opacity: 0, duration: .55, ease: "power2.out" }] }, t + i * .09));
+        const R = rng(Math.round(x * 7 + y * 13 + t * 100));   // seeded: every splash scatters its own way, no dotted rows
+        ds.forEach((d, i) => { const dx = (i - 4.5) * (11 + R() * 14) * s, up = (45 + R() * 95) * s, land = (4 + R() * 30) * s, sc = .6 + R() * .8, t1 = .2 + R() * .12, t2 = .22 + R() * .14;
+          tl.to(d, { keyframes: [{ x: 0, y: 0, scale: sc, opacity: 1, duration: .001 }, { x: dx * .42, y: -up, duration: t1, ease: "power2.out" }, { x: dx * .9, y: land, opacity: .7, duration: t2, ease: "power2.in" },
+            { x: dx, y: land, opacity: 0, duration: .06, ease: "none" }] }, t + R() * .05); });
+        return g; }
+      const SVGNS = "http://www.w3.org/2000/svg";
+
+      /* ---------- HUD builders (our own drawing) ---------- */
+      const SLOT_IC = {
+        knife: '<svg viewBox="0 0 120 70"><path d="M24 50 L78 26 Q88 22 98 24 Q90 32 80 38 L36 58 Z" fill="#cfe3ff" stroke="#0b1530" stroke-width="3" stroke-linejoin="round"/><rect x="14" y="48" width="28" height="12" rx="4" transform="rotate(-24 28 54)" fill="#6a4a2a" stroke="#0b1530" stroke-width="3"/></svg>',
+        gun: '<svg viewBox="0 0 120 70"><path d="M18 30 L84 30 L84 22 L102 22 L102 40 L74 40 L66 58 L50 58 L54 40 L18 40 Z" fill="#9db4d6" stroke="#0b1530" stroke-width="3" stroke-linejoin="round"/><rect x="18" y="30" width="30" height="10" fill="#e8742c" stroke="#0b1530" stroke-width="3"/></svg>',
+        harp: '<svg viewBox="0 0 120 70"><path d="M16 46 L88 30 L88 24 L108 34 L88 44 L88 38 L20 54 Z" fill="#ffd45a" stroke="#0b1530" stroke-width="3" stroke-linejoin="round"/><path d="M26 44 L26 58" stroke="#0b1530" stroke-width="4"/></svg>' };
+      const BTN = ['<svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="5" fill="none" stroke="#8ec5ff" stroke-width="3"/></svg>', '<svg viewBox="0 0 28 28"><path d="M8 8 L20 20 M20 8 L8 20" stroke="#8ec5ff" stroke-width="3" stroke-linecap="round"/></svg>', '<svg viewBox="0 0 28 28"><path d="M14 7 L21 20 L7 20 Z" fill="none" stroke="#8ec5ff" stroke-width="3" stroke-linejoin="round"/></svg>'];
+      function buildHud(host, full) {
+        const o = {};
+        o.depth = html(host, "depth", "", '<span class="lb">DEPTH</span><span class="v">0 m</span>'); o.depthV = o.depth.querySelector(".v");
+        if (!full) return o;
+        o.o2 = html(host, "o2", "", `<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="#0a1830" stroke="#05101f" stroke-width="4"/><circle cx="60" cy="60" r="44" fill="none" stroke="#17335f" stroke-width="13"/>
+          <circle class="arc" cx="60" cy="60" r="44" fill="none" stroke="#3fa9ff" stroke-width="13" stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg><div class="lab">O2</div><div class="num">40</div>`);
+        o.arc = o.o2.querySelector(".arc"); o.num = o.o2.querySelector(".num");
+        o.panel = html(host, "panel", "", `<div class="t">Normal Depth</div><div class="w"><svg width="30" height="26" viewBox="0 0 30 26"><path d="M3 8 L15 2 L27 8 L27 22 L15 25 L3 22 Z" fill="#c98f4a" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M3 8 L15 14 L27 8 M15 14 L15 25" fill="none" stroke="#fff" stroke-width="2"/></svg><span>9.2/9.0kg</span></div>`);
+        o.slots = mk("div", "slots", host);
+        [["knife", 0, ""], ["gun", 1, "x8"], ["harp", 2, "Lv.1"]].forEach(([k, i, txt]) => { const x = 8 + i * 138;
+          const b = html(o.slots, "btn" + (k === "harp" ? " hi" : ""), `left:${x + 48}px`, BTN[i]);
+          const s = html(o.slots, "slot" + (k === "harp" ? " hi" : ""), `left:${x}px`, `<div class="ic">${SLOT_IC[k]}</div>` + (k === "gun" ? `<div class="cnt">${txt}</div>` : k === "harp" ? `<div class="lv">${txt}</div>` : ""));
+          o[k] = s; o[k + "B"] = b; });
+        return o;
+      }
+
+      /* ---------- scene builders ---------- */
+      // dawn / sunrise sea with the cabin dive boat; Quest on the stern deck (kind "dive" or "fish")
+      // our 3D dive boat "SECOND WIND" (tools/props3d/render.py dtd_boat, free procedural 3D): two layers that stack pixel for pixel,
+      // back (deck, cabin, canopy, gear) < Quest < front (near hull side, rails, fenders, coils). PNG px: deck line at the centreline,
+      // the waterline on the near side, Quest's spot on the open aft deck (x 164..388; canopy posts from 400), 1.7 m = 285 px.
+      const BOAT = { w: 1757, h: 1005, deck: 704, wl: 951, qx: 250, m17: 285 };
+      function buildSea(host, o) {
+        const g = mk("div", "full", host);
+        const sunrise = o.mode === "sunrise", day = o.mode === "day", HZ = 452;
+        const sky = day ? "linear-gradient(180deg,#2c78d0 0%,#5fa9ea 36%,#a9d8f7 74%,#dff2fd 100%)" : sunrise ? "linear-gradient(180deg,#4b78c4 0%,#8fb0e0 26%,#ffbd8c 58%,#ffd88e 82%,#fff0b8 100%)" : "linear-gradient(180deg,#1b1d4c 0%,#463a78 24%,#b0587f 46%,#f08a6c 64%,#ffc487 80%,#ffe3b0 100%)";
+        mk("div", "abs", g, `left:-200px;top:-150px;width:1680px;height:${HZ + 150}px;background:${sky}`);
+        const sunY = day ? 130 : sunrise ? 340 : 440, sunR = day ? 40 : sunrise ? 78 : 64;
+        o.sunGlow = mk("div", "abs", g, `left:${700 - 520}px;top:${sunY - 520}px;width:1040px;height:1040px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(circle,${day ? "rgba(255,255,235,.85)" : "rgba(255,226,160,.8)"} 0%,rgba(255,180,120,.32) 30%,rgba(255,150,110,0) 62%)`);
+        o.sun = mk("div", "abs", g, `left:${700 - sunR}px;top:${sunY - sunR}px;width:${sunR * 2}px;height:${sunR * 2}px;border-radius:50%;background:radial-gradient(circle at 45% 40%,#fffbe8 0%,#ffeeb0 60%,#ffd27a 100%);box-shadow:0 0 50px 16px rgba(255,214,140,.8)`);
+        [[60, 90, 300, .85], [470, 150, 220, .7], [820, 70, 330, .8], [1090, 170, 240, .6]].forEach(([x, y, w, op], i) => o["c" + i] = mk("div", "abs", g,
+          `left:${x}px;top:${y}px;width:${w}px;height:44px;border-radius:40px;opacity:${op};background:${day ? "linear-gradient(180deg,rgba(255,255,255,.55),rgba(236,246,255,.85))" : "linear-gradient(180deg,rgba(255,224,206,.1),rgba(255,176,160,.6))"};filter:blur(2px)`));
+        html(g, "abs", `left:-60px;top:${HZ - 40}px;width:420px;height:46px`, `<svg viewBox="0 0 420 46" width="420" height="46"><path d="M0 46 L0 30 Q60 6 130 24 Q190 10 250 28 Q330 18 420 40 L420 46 Z" fill="${day ? "#5d86b8" : sunrise ? "#6f7fae" : "#3d3466"}"/></svg>`);
+        const sea = day ? "linear-gradient(180deg,#bfeaf2 0%,#5cc0d8 22%,#1f97c4 58%,#0d6a9c 100%)" : sunrise ? "linear-gradient(180deg,#ffd89a 0%,#8fc8d8 22%,#3d95bf 58%,#1b6590 100%)" : "linear-gradient(180deg,#f0907a 0%,#a2587e 18%,#4a3f86 48%,#1c2a5e 100%)";
+        mk("div", "abs", g, `left:-200px;top:${HZ}px;width:1680px;height:420px;background:${sea}`);
+        // sun glitter column + wave lines (seeded)
+        const R = rng(o.seed || 11); o.glit = [];
+        for (let i = 0; i < 26; i++) { const y = HZ + 8 + i * 9 + R() * 4, w = 160 - i * 3.2 + R() * 40;
+          o.glit.push(mk("div", "abs", g, `left:${700 - w / 2 + (R() - .5) * 30}px;top:${y}px;width:${w}px;height:3px;border-radius:2px;background:rgba(255,238,190,${.7 - i * .018});`)); }
+        o.waves = []; for (let i = 0; i < 9; i++) { const y = HZ + 30 + i * i * 3.6 + i * 14; const w = 120 + i * 40; const x = R() * 1280;
+          o.waves.push(mk("div", "abs", g, `left:${x}px;top:${y}px;width:${w}px;height:${2 + i * .4}px;border-radius:3px;background:rgba(255,255,255,${.12 + i * .02})`)); }
+        // the boat: hull sunk in the sea (water band + reflection over its bottom), graded to the scene light
+        const BW = o.boatW || 980, k = BW / BOAT.w, BH = BOAT.h * k, L = o.boatLeft == null ? 150 : o.boatLeft, TOP = o.boatTop == null ? 70 : o.boatTop;
+        const deckY = TOP + BOAT.deck * k, wlY = TOP + BOAT.wl * k, qx = L + BOAT.qx * k, qh = Math.round(190 * BW / 980);   // Quest ~1.9 m: reads, no giant/tiny mismatch
+        const grade = day ? "brightness(1.1) saturate(1.12) drop-shadow(2px -2px 0 rgba(255,255,255,.5))" : sunrise ? "brightness(1.02) saturate(1.06) sepia(.1) drop-shadow(2px -2px 0 rgba(255,226,170,.55))"
+          : "brightness(.84) saturate(.9) sepia(.22) hue-rotate(-14deg) drop-shadow(-2px -2px 0 rgba(255,190,140,.6))";
+        o.boat = mk("div", "abs", g, `left:${L}px;top:${TOP}px;width:${BW}px;height:${BH}px;transform-origin:50% ${BOAT.wl * k}px;filter:${grade}`);
+        const layer = (f) => { const im = mk("img", "abs", o.boat, `left:0;top:0;width:${BW}px;height:${BH}px`); im.src = "assets/" + f; im.alt = ""; return im; };
+        layer("boat_back.png");
+        const kind = o.quest; if (o.mid) o.mid(o.boat, k, o);
+        if (kind === "dive") o.q = spr(o.boat, "dive", BOAT.qx * k, BOAT.deck * k, qh, { px: true, f: sunrise ? "" : "drop-shadow(-2px -1px 0 rgba(255,190,130,.7))" });
+        else if (kind === "fish") o.q = spr(o.boat, "bigfish", BOAT.qx * k, BOAT.deck * k, qh, { px: true, f: day ? "drop-shadow(2px -1px 0 rgba(255,255,255,.6))" : "drop-shadow(2px -1px 0 rgba(255,214,150,.75))" });
+        if (o.mid2) o.mid2(o.boat, k, o); layer("boat_front.png");
+        // water over the bottom of the hull: the same sea gradient, continued, with a foam lip; a soft mirrored reflection below
+        const seaBg = (y) => `background:${sea};background-size:1680px 420px;background-position:${-(L - 60) - 200}px ${HZ - y}px;background-repeat:no-repeat`;
+        o.water = mk("div", "abs", g, `left:${L - 60}px;top:${wlY - 8}px;width:${BW + 120}px;height:${TOP + BH + 6 - (wlY - 8)}px;opacity:.92;${seaBg(wlY - 8)};-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)`);
+        o.refl = mk("div", "abs", g, `left:${L}px;top:${wlY + 2}px;width:${BW}px;height:${BH}px;overflow:hidden;opacity:${sunrise ? .2 : .15};filter:blur(2.5px) ${grade.split(" drop")[0]};-webkit-mask-image:linear-gradient(180deg,#000,transparent 24%);mask-image:linear-gradient(180deg,#000,transparent 24%)`);
+        const rim = mk("img", "abs", o.refl, `left:0;top:${-(BOAT.wl - 40) * k}px;width:${BW}px;height:${BH}px;transform:scaleY(-1);transform-origin:50% ${(BOAT.wl - 20) * k}px`); rim.src = "assets/boat_side.png"; rim.alt = "";
+        o.lip = mk("div", "abs", g, `left:${L - 10}px;top:${wlY - 10}px;width:${BW + 20}px;height:7px;border-radius:50%;background:rgba(255,255,255,${day ? .85 : sunrise ? .7 : .55});filter:blur(1.2px)`);
+        o.foam = []; for (let i = 0; i < 2; i++) o.foam.push(mk("div", "abs", g, `left:${L + 40 + i * 120}px;top:${wlY + 4 + i * 10}px;width:${BW - 80 - i * 240}px;height:${8 - i * 2}px;border-radius:50%;background:rgba(255,255,255,.32);filter:blur(1.5px)`));
+        o.deckX = qx; o.deckY = deckY; o.wlY = wlY; o.qh = qh; o.L = L; o.TOP = TOP; o.BW = BW;
+        o.g = g; return o;
+      }
+      function seaAmbient(o, t0, t1, ph) {
+        // bob +-2 px and roll +-0.6 deg about the waterline; the reflection follows the bob
+        tl.fromTo(o.boat, { y: -2 * ph, rotation: -.6 * ph }, { y: 2 * ph, rotation: .6 * ph, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.5) }, t0);
+        tl.fromTo(o.refl, { y: 2 * ph }, { y: -2 * ph, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.5) }, t0);
+        tl.fromTo(o.lip, { scaleX: .995, opacity: .8 }, { scaleX: 1.005, opacity: 1, duration: .75, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / .75) }, t0);
+        o.waves.forEach((w, i) => tl.fromTo(w, { x: -20 }, { x: 20, duration: 1.4 + i * .17, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / 1.2) }, t0));
+        o.glit.forEach((w, i) => tl.fromTo(w, { opacity: .35 }, { opacity: 1, duration: .5 + (i % 5) * .13, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / .5) }, t0));
+        [o.c0, o.c1, o.c2, o.c3].forEach((c, i) => tl.fromTo(c, { x: 0 }, { x: 30 + i * 10, duration: t1 - t0, ease: "none" }, t0));
+        tl.fromTo(o.sunGlow, { scale: 1 }, { scale: 1.08, duration: t1 - t0, ease: "sine.inOut" }, t0);
+      }
+
+      // underwater: gradient, god rays, caustics, kelp, bubbles; layers pan with parallax
+      function buildUnder(host, o) {
+        const R = rng(o.seed), g = mk("div", "full", host); const dark = o.dark || 0;
+        const top = dark ? "#0f5a78" : "#2cb4c8", c2 = dark ? "#093a62" : "#16849f", c3 = dark ? "#06254a" : "#0d5282", c4 = dark ? "#041633" : "#082b57", c5 = dark ? "#020b1e" : "#051532";
+        mk("div", "abs", g, `left:-300px;top:-200px;width:1880px;height:1120px;background:linear-gradient(180deg,${top} 0%,${c2} 20%,${c3} 50%,${c4} 78%,${c5} 100%)`);
+        const rays = mk("div", "abs", g, `left:0;top:0;width:1280px;height:720px;opacity:${dark ? .12 : .26};mix-blend-mode:screen`); o.rays = [];
+        for (let i = 0; i < 7; i++) { const w = 70 + R() * 120; o.rays.push(mk("div", "abs", rays, `left:${60 + i * 190 + R() * 60}px;top:-120px;width:${w}px;height:1000px;transform-origin:50% 0%;transform:rotate(${14 + R() * 4}deg);background:linear-gradient(180deg,rgba(200,255,255,.7),rgba(200,255,255,0) 85%)`)); }
+        o.caus = mk("div", "abs", g, `left:-200px;top:-40px;width:1680px;height:420px;opacity:${dark ? .06 : .13};mix-blend-mode:screen;background-image:repeating-radial-gradient(ellipse at 30% 40%,rgba(190,255,255,.9) 0 5px,transparent 5px 24px),repeating-radial-gradient(ellipse at 72% 62%,rgba(190,255,255,.9) 0 4px,transparent 4px 20px);-webkit-mask-image:linear-gradient(180deg,#000,transparent);mask-image:linear-gradient(180deg,#000,transparent)`);
+        o.layers = [];
+        const lay = (f, extra) => { const e = mk("div", "full", g, extra || ""); o.layers.push([e, f]); return e; };
+        const far = lay(.18), mid = lay(.5), near = lay(1.15);
+        // far: rocks + school silhouettes
+        const farCol = dark ? "#0a3358" : "#2a7fa3";
+        for (let i = 0; i < 7; i++) { const x = -80 + i * 230 + R() * 60, h = 90 + R() * 120;
+          html(far, "abs", `left:${x}px;top:${720 - h}px;width:210px;height:${h}px;opacity:.75`, `<svg viewBox="0 0 210 ${h}" width="210" height="${h}"><path d="M0 ${h} L30 ${h * .45} Q70 0 120 ${h * .3} L190 ${h * .6} L210 ${h} Z" fill="${farCol}"/></svg>`); }
+        // mid: kelp forest
+        o.kelp = [];
+        const kelp = (host2, n, hMin, hMax, col, wMax, blur) => { for (let i = 0; i < n; i++) { const x = -60 + (1400 / n) * i + R() * 40, h = hMin + R() * (hMax - hMin), w = 40 + R() * wMax;
+          const e = html(host2, "abs", `left:${x}px;top:${760 - h}px;width:${w}px;height:${h}px;transform-origin:50% 100%;${blur ? "filter:blur(" + blur + "px)" : ""}`,
+            `<svg viewBox="0 0 60 ${h}" width="${w}" height="${h}" preserveAspectRatio="none"><path d="M30 ${h} C 6 ${h * .6}, 52 ${h * .42}, 26 0 C 62 ${h * .4}, 14 ${h * .62}, 36 ${h} Z" fill="${col}"/></svg>`); o.kelp.push(e); } };
+        kelp(mid, 12, 200, 380, dark ? "#06402f" : "#0f6a5c", 30, 0);
+        kelp(near, 6, 260, 440, dark ? "#021a18" : "#04302e", 50, 1.6);
+        // particles + bubbles
+        o.bubs = []; const nb = o.bubbles || 14;
+        for (let i = 0; i < nb; i++) { const s = 6 + R() * 20, x = R() * 1280, y0 = 720 + R() * 300;
+          const b = mk("div", "bub", g, `left:${x}px;top:${y0}px;width:${s}px;height:${s}px;opacity:${.5 + R() * .4}`); o.bubs.push({ b, dur: 2.6 + R() * 2.2, sway: 8 + R() * 18, y0 }); }
+        o.parts = []; for (let i = 0; i < 24; i++) o.parts.push(mk("div", "abs", g, `left:${R() * 1280}px;top:${R() * 720}px;width:3px;height:3px;border-radius:50%;background:rgba(210,255,255,.5)`));
+        o.g = g; return o;
+      }
+      function underAmbient(o, t0, t1) {
+        const d = t1 - t0;
+        o.rays.forEach((r, i) => tl.fromTo(r, { rotation: 14 + (i % 3) }, { rotation: 18 + (i % 3), duration: 2.2 + i * .2, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / 2) }, t0));
+        tl.fromTo(o.caus, { x: -30, y: 0 }, { x: 30, y: 14, duration: d, ease: "none" }, t0);
+        o.kelp.forEach((k, i) => tl.fromTo(k, { rotation: -4 - (i % 3) }, { rotation: 4 + (i % 2), duration: 1.3 + (i % 5) * .22, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / 1.2) }, t0));
+        o.bubs.forEach((b, i) => { tl.fromTo(b.b, { y: 0 }, { y: -(b.y0 + 60), duration: b.dur, ease: "none", repeat: Math.ceil(d / b.dur) }, t0 - i * .17);
+          tl.fromTo(b.b, { x: -b.sway }, { x: b.sway, duration: .9 + (i % 4) * .2, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / .9) }, t0); });
+        o.parts.forEach((p, i) => tl.fromTo(p, { y: 0, opacity: .2 }, { y: -40 - (i % 5) * 14, opacity: .8, duration: 1.2 + (i % 4) * .3, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(d / 1.2) }, t0));
+      }
+      const underPan = (o, t0, t1, dx, dy, ease) => o.layers.forEach(([e, f]) => tl.fromTo(e, { x: 0, y: 0 }, { x: dx * f, y: (dy || 0) * f, duration: t1 - t0, ease: ease || "none" }, t0));
+      // 2-frame swim cycle: real pose swap (A/B) ~ 5 fps
+      function swimCycle(host, cx, by, h, t0, t1, f, flip) {
+        const a = spr(host, "swimA", cx, by, h, { px: true, f, flip }), b = spr(host, "swimB", cx, by, h, { px: true, f, flip });
+        tl.set(b, { opacity: 0 }, 0);
+        for (let t = t0, i = 0; t < t1; t += .2, i++) { tl.set(a, { opacity: i % 2 ? 0 : 1 }, t); tl.set(b, { opacity: i % 2 ? 1 : 0 }, t); }
+        return [a, b];
+      }
+      const fishSVG = (c1, c2) => `<svg viewBox="0 0 240 120" width="240" height="120" style="overflow:visible"><g stroke="#16161f" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M196 60 L236 24 L228 60 L236 96 Z" fill="${c2}"/><path d="M60 30 Q120 -4 176 40 L196 60 L176 80 Q120 124 60 90 Q16 76 8 60 Q16 44 60 30 Z" fill="${c1}"/>
+        <path d="M100 18 L124 0 L140 26" fill="${c2}"/><path d="M110 98 L128 116 L140 94" fill="${c2}"/>
+        <path d="M70 40 Q86 60 70 82" fill="none" stroke-width="4"/><path d="M118 34 Q136 60 118 90" fill="none" stroke-width="4" opacity=".6"/></g>
+        <circle cx="38" cy="54" r="9" fill="#fff" stroke="#16161f" stroke-width="3"/><circle cx="36" cy="54" r="4.2" fill="#16161f"/></svg>`;
+      /* ---------- block B: art tables (staged sizes) ---------- */
+      Object.assign(SP, {
+        q_desk: [1125, 900, 0, 0, 1118, 900, "q_desk.png"], q_plan: [664, 1000, 0, 10, 646, 975, "q_plan.png"],
+        l_point: [404, 800, 5, 1, 400, 795, "l_point.png"], l_side: [233, 800, 5, 5, 228, 796, "l_side.png"], l_front: [233, 800, 5, 5, 228, 796, "l_front.png"],
+        l_arms: [268, 800, 5, 5, 263, 796, "l_arms.png"], l_phone: [316, 800, 5, 5, 311, 795, "l_phone.png"],
+      });
+      Object.assign(PIC, { d_sleepy: [1000, 402], d_worried: [1000, 403] });
+      const SPARK = '<svg viewBox="-20 -20 40 40" width="100%" height="100%"><path d="M0 -20 C 2 -4, 4 -2, 20 0 C 4 2, 2 4, 0 20 C -2 4, -4 2, -20 0 C -4 -2, -2 -4, 0 -20 Z" fill="#fff6c8"/></svg>';
+      const bob = (el, t0, t1, amp, per, ph) => tl.fromTo(el, { y: -amp * ph }, { y: amp * ph, duration: per, ease: "sine.inOut", yoyo: true, repeat: Math.ceil((t1 - t0) / per) }, t0);
+      // a dolphin leap from the water (same arc as A13): hidden until t, splash on exit and entry
+      function leap(host, key, cx, cy, w, t, o) {
+        o = o || {}; const d = pic(host, key, cx, cy, w, { f: o.f }); tl.set(d, { opacity: 0 }, 0); const up = o.up || 150, du = o.dur || .8;
+        tl.set(d, { opacity: 1 }, t);
+        tl.fromTo(d, { y: 70, x: -10, rotation: -18 }, { keyframes: [{ y: -up, x: 22, rotation: 6, duration: du * .5, ease: "power2.out" }, { y: 80, x: 56, rotation: 30, duration: du * .5, ease: "power2.in" }] }, t);
+        tl.set(d, { opacity: 0 }, t + du + .02);
+        splash(host, cx, cy, w / 160, t - .02); splash(host, cx + 40, cy, w / 150, t + du);
+        return d;
+      }
+      // speech bubble (tail to the speaker) and thought bubble (trail of dots to the thinker)
+      function speech(host, x, y, w, h, text, tx, ty, t0, fs) {
+        const g = mk("div", "abs", host, `left:0;top:0;width:1280px;height:720px;transform-origin:${tx}px ${ty}px;opacity:0`);
+        const cy = y + h / 2; let pts;
+        if (ty > y + h) { const bx = Math.max(x + 40, Math.min(x + w - 40, tx)); pts = `${bx - 20},${y + h - 2} ${bx + 20},${y + h - 2} ${tx},${ty}`; }
+        else if (tx > x + w) pts = `${x + w - 2},${cy - 16} ${x + w - 2},${cy + 16} ${tx},${ty}`;
+        else pts = `${x + 2},${cy - 16} ${x + 2},${cy + 16} ${tx},${ty}`;
+        html(g, "abs", "left:0;top:0;width:1280px;height:720px", `<svg viewBox="0 0 1280 720" width="1280" height="720"><polygon points="${pts}" fill="#fff" stroke="#16161f" stroke-width="5" stroke-linejoin="round"/></svg>`);
+        html(g, "abs", `left:${x}px;top:${y}px;width:${w}px;height:${h}px;background:#fff;border:5px solid #16161f;border-radius:26px;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 18px;font:800 ${fs || 30}px/1.12 Inter,sans-serif;color:#16161f`, text);
+        // cover the tail's seam with a white patch
+        tl.fromTo(g, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .24, ease: "back.out(2.4)" }, t0);
+        return g;
+      }
+      function thought(host, cx, cy, w, h, tail, t0, inner) {
+        const g = mk("div", "abs", host, `left:0;top:0;width:1280px;height:720px;opacity:0;transform-origin:${tail[0]}px ${tail[1]}px`);
+        [[.22, 12], [.55, 20], [.85, 30]].forEach(([f, r]) => { const x = tail[0] + (cx - tail[0]) * f * .78, y = tail[1] + (cy + h * .35 - tail[1]) * f * .78; mk("div", "abs", g, `left:${x - r / 2}px;top:${y - r / 2}px;width:${r}px;height:${r}px;border-radius:50%;background:#fff;border:4px solid #16161f`); });
+        const c = mk("div", "abs", g, `left:${cx - w / 2}px;top:${cy - h / 2}px;width:${w}px;height:${h}px;background:#fff;border:5px solid #16161f;border-radius:50%`);
+        const ic = html(c, "abs", `left:${w * .1}px;top:${h * .12}px;width:${w * .8 - 10}px;height:${h * .76 - 10}px`, inner);
+        tl.fromTo(g, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .26, ease: "back.out(2.2)" }, t0);
+        return g;
+      }
+      // dock (dusk): boat moored on the left, planks in front; Quest/Cobra stand on the planks (feet at y ~ 668)
+      const STAMP = (host, txt, x, y, w, fs, t0, rot) => { const e = html(host, "big", `position:absolute;left:${x}px;top:${y}px;width:${w}px;text-align:center;font-size:${fs}px;opacity:0;transform-origin:50% 50%`, txt);
+        tl.fromTo(e, { scale: 1.7, opacity: 0, rotation: (rot || -4) - 3 }, { scale: 1, opacity: 1, rotation: rot || -4, duration: .14, ease: "power4.in" }, t0);
+        tl.fromTo(e, { y: 0 }, { y: 7, duration: .06, yoyo: true, repeat: 1, immediateRender: false }, t0 + .14); return e; };
+      const SHARK = '<svg viewBox="0 0 900 300" width="900" height="300"><g stroke="#050b16" stroke-width="5" stroke-linejoin="round"><path d="M10 40 L120 128 Q320 70 560 92 Q760 104 890 156 Q760 200 560 214 Q330 226 130 176 L10 262 Q50 150 10 40 Z" fill="#0b1a2c"/><path d="M380 96 L470 4 L520 96 Z" fill="#0b1a2c"/><path d="M130 176 Q330 226 560 214 Q760 200 890 156 Q700 176 560 180 Q320 190 130 176 Z" fill="#1d3550" stroke="none"/><path d="M300 190 L260 262 L350 200 Z" fill="#0b1a2c"/></g><circle cx="760" cy="136" r="9" fill="#d8e8f0"/><circle cx="762" cy="136" r="4" fill="#050b16"/><path d="M640 120 q10 22 0 44 M670 118 q10 24 0 48 M700 118 q10 24 0 48" stroke="#050b16" stroke-width="4" fill="none"/></svg>';
+      /* ---------- block D: art tables + props (our own drawings) ---------- */
+      Object.assign(SP, {
+        q_phone: [630, 900, 16, 8, 602, 890, "q_phone.png"], paper: [500, 600, 60, 180, 458, 542, "paper.png"],
+      });
+      Object.assign(PIC, { d_laugh: [1000, 403] });
+      const bubbleTrail = (host, x, y, t0, n, up, spread) => { const R = rng(Math.round(x * 3 + t0 * 50)); for (let i = 0; i < n; i++) { const s = 8 + R() * 16;
+        const b = mk("div", "bub", host, `left:${x + (R() - .5) * (spread || 30)}px;top:${y}px;width:${s}px;height:${s}px;opacity:0`);
+        tl.fromTo(b, { y: 0, opacity: 0 }, { keyframes: [{ opacity: .9, duration: .05 }, { y: -(up || 160) - R() * 80, opacity: .9, duration: .6 + R() * .3, ease: "power1.out" }, { opacity: 0, duration: .15 }] }, t0 + i * .07); } };
+      function roll(el, t0, t1, a, b, fmt) { const n = Math.max(2, Math.round((t1 - t0) / .05)); const f = fmt || ((v) => String(Math.round(v)));
+        for (let i = 0; i <= n; i++) tl.set(el, { textContent: f(a + (b - a) * (i / n)) }, t0 + (t1 - t0) * i / n); }
+      const hudNum = (h, txt) => { h.num.textContent = txt; };
+      const hudDepth = (h, txt) => { h.depthV.textContent = txt; };
+      const hudW = (h, txt, red) => { const s = h.panel.querySelector(".w span"); s.textContent = txt; if (red) s.style.color = "#ff5a5a"; return s; };
+      const arcTo = (h, t0, t1, a, b, ease) => tl.fromTo(h.arc, { attr: { "stroke-dashoffset": 276.5 * (1 - a) } }, { attr: { "stroke-dashoffset": 276.5 * (1 - b) }, duration: t1 - t0, ease: ease || "none" }, t0);
+      const flashRed = (h, t0, n) => { for (let i = 0; i < n; i++) { const on = i % 2 === 0; tl.set(h.arc, { attr: { stroke: on ? "#ff3b3b" : "#3fa9ff" } }, t0 + i * .1); tl.set(h.num, { color: on ? "#ff6a6a" : "#fff" }, t0 + i * .1); }
+        tl.fromTo(h.o2, { scale: 1 }, { scale: 1.14, duration: .1, yoyo: true, repeat: n - 1, ease: "sine.inOut", transformOrigin: "50% 50%", immediateRender: false }, t0); };
+
+      function uw(r, t0, t1, seed, dark, pan) { const o = buildUnder(r.sh, { seed, dark, bubbles: 14 }); underAmbient(o, t0, t1); underPan(o, t0, t1, pan == null ? -30 : pan, 0); return o; }
+      // the yellow tank (our drawing); cx, cy = centre, h = height, rot = degrees
+      const TANK = '<svg viewBox="0 0 100 260" width="100%" height="100%"><g stroke="#16161f" stroke-width="6" stroke-linejoin="round"><rect x="38" y="2" width="24" height="26" rx="6" fill="#9aa3b2"/><rect x="62" y="8" width="22" height="9" rx="4" fill="#9aa3b2"/><path d="M14 70 Q14 26 50 26 Q86 26 86 70 L86 232 Q86 256 50 256 Q14 256 14 232 Z" fill="#ffcf2a"/></g><path d="M28 70 Q28 44 40 40 L40 240 Q28 236 28 220 Z" fill="#fff3a6" opacity=".7"/><rect x="14" y="108" width="72" height="14" fill="#16161f" opacity=".85"/><rect x="14" y="170" width="72" height="14" fill="#16161f" opacity=".85"/></svg>';
+      const tankEl = (host, cx, cy, h, rot) => { const w = h * .38; return html(host, "abs", `left:${cx - w / 2}px;top:${cy - h / 2}px;width:${w}px;height:${h}px;transform:rotate(${rot || 0}deg)`, TANK); };
+      // a diver: optional big tank behind him (factor of his own tank), 2-frame swim cycle, wrapper to rotate/move as one
+      function diver(host, cx, by, h, t0, t1, o) {
+        o = o || {}; const wr = mk("div", "abs", host, `left:0;top:0;width:1280px;height:720px;transform-origin:${cx}px ${by - h / 2}px`); const w = h * 238 / 152;
+        let tk = null; if (o.tank) { tk = tankEl(wr, cx - w / 2 + .46 * w, by - h + .36 * h, h * .4 * o.tank, -28); tk._s0 = o.tank; }
+        const q = swimCycle(wr, cx, by, h, t0, t1, o.f || "brightness(.9) saturate(.95)", false); return { wr, q, tk, w };
+      }
+      const COR = (c) => `<svg viewBox="0 0 120 150" width="100%" height="100%"><g stroke="#16161f" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" fill="${c}"><path d="M60 148 L60 90 M60 100 Q30 90 28 50 Q28 34 40 36 Q46 60 60 80 M60 90 Q92 80 94 40 Q94 26 82 28 Q76 52 60 74 M60 74 L60 16" fill="none" stroke-width="16" stroke="${c}"/><path d="M60 148 L60 90 M60 100 Q30 90 28 50 M60 90 Q92 80 94 40 M60 74 L60 16" fill="none" stroke-width="4"/></g></svg>`;
+      const ROCK = '<svg viewBox="0 0 420 300" width="100%" height="100%"><path d="M0 300 L0 120 Q40 20 130 40 Q200 0 280 60 Q380 40 420 150 L420 300 Z" fill="#0b2a44" stroke="#04101e" stroke-width="5"/><path d="M130 300 Q130 200 210 190 Q290 200 290 300 Z" fill="#06182e"/></svg>';
+      const CRATE = '<svg viewBox="0 0 220 200" width="100%" height="100%"><g stroke="#16161f" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="14" width="204" height="176" rx="8" fill="#b9814a"/><path d="M8 62 H212 M8 112 H212 M8 150 H212" fill="none" stroke-width="4"/><path d="M8 14 L212 190 M212 14 L8 190" fill="none" stroke="#7a5230" stroke-width="12"/><path d="M8 14 L212 190 M212 14 L8 190" fill="none" stroke-width="3"/><rect x="92" y="2" width="36" height="30" rx="6" fill="#d9a35f"/></g></svg>';
+      // analog wall clock: face + two hands (rotation about the centre); d = diameter
+      function clockEl(host, cx, cy, d) {
+        const g = mk("div", "abs", host, `left:${cx - d / 2}px;top:${cy - d / 2}px;width:${d}px;height:${d}px`); const c = {};
+        mk("div", "abs", g, `left:0;top:0;width:${d}px;height:${d}px;border-radius:50%;background:#f7f1e2;border:${Math.max(5, d * .04)}px solid #16161f;box-shadow:0 ${d * .03}px 0 rgba(0,0,0,.35)`);
+        for (let i = 0; i < 12; i++) mk("div", "abs", g, `left:${d / 2 - d * .01}px;top:${d * .06}px;width:${d * .02}px;height:${i % 3 ? d * .06 : d * .1}px;background:#16161f;transform-origin:50% ${d * .44}px;transform:rotate(${i * 30}deg)`);
+        c.hour = mk("div", "abs", g, `left:${d / 2 - d * .02}px;top:${d * .24}px;width:${d * .04}px;height:${d * .27}px;border-radius:${d * .02}px;background:#16161f;transform-origin:50% ${d * .26}px`);
+        c.min = mk("div", "abs", g, `left:${d / 2 - d * .013}px;top:${d * .1}px;width:${d * .026}px;height:${d * .41}px;border-radius:${d * .02}px;background:#16161f;transform-origin:50% ${d * .4}px`);
+        mk("div", "abs", g, `left:${d / 2 - d * .03}px;top:${d / 2 - d * .03}px;width:${d * .06}px;height:${d * .06}px;border-radius:50%;background:#d8323c;border:3px solid #16161f`);
+        c.g = g; return c;
+      }
+      // a phone in OUR generic UI: app grid with unread badges; badges = [[col,row,text]...]
+      function phoneEl(host, cx, cy, h, badges) {
+        const w = h * .5, g = mk("div", "abs", host, `left:${cx - w / 2}px;top:${cy - h / 2}px;width:${w}px;height:${h}px`);
+        mk("div", "abs", g, `left:0;top:0;width:${w}px;height:${h}px;border-radius:${w * .13}px;background:#101018;border:${w * .03}px solid #2a2a38;box-shadow:0 14px 40px rgba(0,0,0,.55)`);
+        const sc = mk("div", "abs", g, `left:${w * .045}px;top:${w * .045}px;width:${w * .91}px;height:${h - w * .09}px;border-radius:${w * .1}px;background:linear-gradient(180deg,#3b5fa8,#7b4fa0 55%,#d8706a);overflow:hidden`);
+        html(sc, "abs", `left:0;top:${h * .05}px;width:100%;text-align:center;font:800 ${w * .12}px Inter`, '<span style="color:#fff">22:04</span>');
+        const cols = [["#2fa8ff", "#ff8a3d", "#2fcf6a"], ["#ffd23f", "#e0488a", "#7a5cff"], ["#25c2b0", "#ff5a4a", "#4a6cff"], ["#9a9aa8", "#ffa53d", "#2faa5a"]];
+        const gw = w * .91, cell = gw / 3, ic = cell * .62;
+        cols.forEach((row, r) => row.forEach((c, i) => { const x = i * cell + (cell - ic) / 2, y = h * .17 + r * (cell * 1.08);
+          mk("div", "abs", sc, `left:${x}px;top:${y}px;width:${ic}px;height:${ic}px;border-radius:${ic * .24}px;background:${c};box-shadow:0 3px 0 rgba(0,0,0,.25)`); }));
+        (badges || []).forEach(([i, r, txt]) => { const x = i * cell + (cell - ic) / 2 + ic - ic * .24, y = h * .17 + r * (cell * 1.08) - ic * .22, bw = ic * (txt.length > 2 ? .78 : .56);
+          const b = html(sc, "abs", `left:${x - (bw - ic * .5) / 2}px;top:${y}px;width:${bw}px;height:${ic * .5}px;border-radius:${ic * .25}px;background:#ff2f3f;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font:800 ${ic * .3}px Inter;color:#fff;opacity:0`, txt); g["b" + i + r] = b; (g._b = g._b || []).push(b); });
+        return g;
+      }
+      const BALLOON = '<svg viewBox="0 0 300 380" width="100%" height="100%"><g stroke="#16161f" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"><path d="M150 12 Q282 12 282 150 Q282 250 190 286 L162 300 L186 322 L114 322 L138 300 Q18 250 18 150 Q18 12 150 12 Z" fill="#e5484d"/><path d="M60 92 Q70 44 120 36" fill="none" stroke="#ffb0b0" stroke-width="12"/><path d="M150 322 Q130 350 160 366 Q190 378 168 380" fill="none" stroke="#e8e8f0" stroke-width="4"/></g></svg>';
+
+      /* ---------- shots ---------- */
+      const boatSea = (host, mode, seed) => buildSea(host, { mode, quest: "dive", seed, boatLeft: 60, boatW: 1100, boatTop: 70 });
+      const ptUnder = (r, t0, t1, a, b) => camTo(r, t0, t1, a, b, "sine.inOut");
+
+      /* D01 "Start with the day.": the boat at sunrise, Quest on the deck, the sun rises, the pink dolphin leaps across the frame */
+      const rD01 = rig("sD01");
+      { const t0 = T.D01, t1 = T.D02; const sea = boatSea(rD01.sh, "sunrise", 41); seaAmbient(sea, t0, t1, 1);
+        tl.fromTo(sea.sun, { y: 120 }, { y: 0, duration: t1 - t0, ease: "sine.out" }, t0); tl.fromTo(sea.sunGlow, { y: 120, opacity: .4 }, { y: 0, opacity: 1, duration: t1 - t0, ease: "sine.out" }, t0);
+        camTo(rD01, t0, t1, focus(560, 470, 1.12), focus(470, 470, 1.3), "sine.inOut"); breathe(rD01, t0, t1, 1);
+        tl.to(sea.q, { keyframes: [{ y: -10, scaleY: 1.03, duration: .16, ease: "power2.out" }, { y: 0, scaleY: 1, duration: .2, ease: "power2.in" }] }, 0.596);
+        leap(rD01.sh, "d_leap", 780, 676, 240, t0 + .35, { up: 190, dur: .85 }); }
+
+      /* D02 "Every day, Dave drops into": Quest hops off the stern, splash; the dolphin follows; camera follows him down */
+      const rD02 = rig("sD02");
+      { const t0 = T.D02, t1 = T.D03, tj = 2.376 - .22; const sea = boatSea(rD02.sh, "sunrise", 41); seaAmbient(sea, t0, t1, -1);
+        camTo(rD02, t0, tj, focus(420, 470, 1.3), focus(380, 470, 1.3), "sine.inOut"); camTo(rD02, tj, t1, focus(380, 470, 1.3), focus(300, 500, 1.3), "sine.inOut"); breathe(rD02, t0, t1, -1);
+        const q = sea.q, k = sea.BW / BOAT.w;
+        tl.to(q, { keyframes: [{ scaleY: .9, y: 6, duration: .1, ease: "power2.out" }, { scaleY: 1.04, y: -52, x: -26, rotation: -8, duration: .26, ease: "power2.out" }, { scaleY: 1, y: 40, x: -52, rotation: -20, duration: .26, ease: "power2.in" }, { y: sea.wlY - sea.deckY + 70, x: -60, rotation: -26, duration: .22, ease: "power1.in" }] }, tj);
+        tl.set(q, { opacity: 0 }, tj + .86);
+        const sx = sea.L + sea.deckX * 0 + (BOAT.qx * k - 60), sy = sea.wlY; splash(rD02.sh, sx, sy, .9, tj + .6);
+        bubbleTrail(rD02.sh, sx, sy + 20, tj + .72, 7, 70, 50);
+        const d = pic(rD02.sh, "d_happy", 640, 668, 200, {}); tl.fromTo(d, { x: 0, y: 6 }, { x: -380, y: -2, duration: t1 - t0, ease: "sine.inOut" }, t0 + .2); tl.fromTo(d, { rotation: -3 }, { rotation: 3, duration: .45, yoyo: true, repeat: 5, ease: "sine.inOut" }, t0); }
+
+      /* D03 "the Blue Hole": top-down, the camera dives INTO the hole; the dolphin circles the rim */
+      const rD03 = rig("sD03");
+      { const t0 = T.D03, t1 = T.D04, g = mk("div", "full", rD03.sh);
+        mk("div", "abs", g, "left:-1200px;top:-700px;width:3680px;height:2120px;background:radial-gradient(ellipse at 50% 50%,#58e6d6 0%,#2fc4c6 30%,#1a9fb8 60%,#126f9a 100%)");
+        const R = rng(7); for (let i = 0; i < 18; i++) { const a = R() * 6.283, rr = 330 + R() * 700; mk("div", "abs", g, `left:${640 + Math.cos(a) * rr * 1.4 - 60}px;top:${360 + Math.sin(a) * rr * .8 - 30}px;width:${90 + R() * 130}px;height:${40 + R() * 60}px;border-radius:50%;background:rgba(240,255,230,${.18 + R() * .2});filter:blur(6px)`); }
+        mk("div", "abs", g, "left:340px;top:150px;width:600px;height:420px;border-radius:50%;background:radial-gradient(ellipse,#042a4c 0%,#042a4c 38%,#12a8c0 52%,#58e6d6 62%,rgba(88,230,214,0) 72%)");
+        mk("div", "abs", g, "left:430px;top:200px;width:420px;height:320px;border-radius:50%;background:radial-gradient(ellipse,#000 0%,#01101e 45%,#04264a 80%,rgba(4,38,74,0) 100%)");
+        const d = pic(g, "d_happy", 640, 360, 190, {}); const ks = [], N = 14; for (let i = 0; i <= N; i++) { const a = (200 + 380 * i / N) * Math.PI / 180, nx = 640 + Math.cos(a) * 330, ny = 360 + Math.sin(a) * 175, tg = Math.atan2(Math.cos(a) * 175, -Math.sin(a) * 330) * 180 / Math.PI;
+          ks.push({ x: nx - 640, y: ny - 360, rotation: tg * .5, duration: (t1 - t0 - .25) / N, ease: "none" }); }
+        tl.set(d, { x: ks[0].x, y: ks[0].y }, t0); tl.to(d, { keyframes: ks }, t0 + .02);
+        camTo(rD03, t0, t1, { x: 0, y: 0, s: 1 }, { x: 0, y: 0, s: 8 }, "power3.in"); breathe(rD03, t0, t1 - .2, 1);
+        const dk = mk("div", "full", rD03.host, "background:#01101e;opacity:0;pointer-events:none"); tl.fromTo(dk, { opacity: 0 }, { opacity: 1, duration: .3, ease: "power2.in" }, t1 - .3); }
+
+      /* D04 "different. New layout.": three procedural layouts, three right-to-left wipes, Quest keeps his place; HUD: O2 dial */
+      const rD04 = rig("sD04");
+      { const t0 = T.D04, t1 = T.D05, dd = (t1 - t0) / 3, tw = [t0 + dd, t0 + 2 * dd]; const P = [];
+        for (let i = 0; i < 3; i++) { const p = mk("div", "full", rD04.sh); P.push(p); const o = buildUnder(p, { seed: 31 + i, dark: i === 1 ? 1 : 0, bubbles: 12 });
+          underAmbient(o, t0, t1); underPan(o, t0, t1, -40, 0);
+          if (i === 1) { html(o.layers[1][0], "abs", "left:-60px;top:260px;width:520px;height:480px", ROCK); html(o.layers[1][0], "abs", "left:880px;top:300px;width:460px;height:440px;transform:scaleX(-1)", ROCK); }
+          if (i === 2) [[120, "#ff6a7a"], [330, "#ffb03a"], [760, "#c66aff"], [980, "#ff6a7a"], [1130, "#ffb03a"]].forEach(([x, c], j) => html(o.layers[2][0], "abs", `left:${x}px;top:${520 - (j % 2) * 40}px;width:${150 + (j % 3) * 30}px;height:${190 + (j % 3) * 30}px`, COR(c))); }
+        P.forEach((p, i) => { if (i > 0) { tl.set(p, { clipPath: "inset(0% 0% 0% 100%)" }, t0); tl.fromTo(p, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: .26, ease: "power3.inOut" }, tw[i - 1]); } });
+        const q = swimCycle(rD04.sh, 470, 470, 290, t0, t1, "brightness(.95) saturate(1)"); tl.fromTo(q, { y: -6 }, { y: 6, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 2 }, t0);
+        const d = pic(rD04.sh, "d_happy", 850, 330, 250, {}); tl.fromTo(d, { y: -8, rotation: -3 }, { y: 8, rotation: 3, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
+        camTo(rD04, t0, t1, focus(640, 380, 1.04), focus(620, 380, 1.12), "sine.inOut"); breathe(rD04, t0, t1, 1); }
+
+      /* D05 "New fish. New trouble.": fish silhouettes cross, a shark in the haze, "!" pops over Quest */
+      const rD05 = rig("sD05");
+      { const t0 = T.D05, t1 = T.D06, tt = 8.136; const o = uw(rD05, t0, t1, 35, 0, -30);
+        [[150, .5, 1100, "#16627f", "#1f8aa6"], [250, .38, 1300, "#1a5a8c", "#2a78b0"], [450, .6, 1200, "#12506e", "#1c7894"], [330, .3, 1500, "#1a6a60", "#2a9080"]].forEach(([y, s, w, c1, c2], i) => {
+          const f = html(rD05.sh, "abs", `left:1300px;top:${y}px;width:240px;height:120px;transform-origin:0 0;opacity:.85`, fishSVG(c1, c2));
+          tl.fromTo(f, { x: 0, y: 0, scale: s }, { x: -(1300 + 300 * s + 60), y: (i % 2 ? 20 : -20), duration: 2.6 - i * .15, ease: "none" }, t0 + .15 + i * .22); });
+        const sh = html(rD05.sh, "abs", "left:0;top:90px;width:900px;height:300px;transform-origin:0 0;opacity:.0", SHARK); tl.set(sh, { scale: .55 }, 0); tl.fromTo(sh, { x: 1300, opacity: .0 }, { x: -520, opacity: .75, duration: t1 - tt + .2, ease: "none" }, tt - .1);
+        const q = swimCycle(rD05.sh, 450, 480, 280, t0, t1, "brightness(.92)"); tl.fromTo(q, { y: -6 }, { y: 6, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 2 }, t0);
+        STAMP(rD05.sh, "!", 520, 90, 130, 150, tt + .05, 6);
+        camTo(rD05, t0, t1, focus(640, 380, 1.05), focus(600, 390, 1.15), "sine.inOut"); breathe(rD05, t0, t1, -1); }
+
+      /* D06 "an ending you can see": Quest swims, the dolphin swims ahead and glances back; O2 dial full */
+      const rD06 = rig("sD06");
+      { const t0 = T.D06, t1 = T.D07; uw(rD06, t0, t1, 36, 0, -34);
+        const q = swimCycle(rD06.sh, 470, 480, 290, t0, t1, "brightness(.95)"); tl.fromTo(q, { y: -6 }, { y: 6, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 2 }, t0);
+        const da = pic(rD06.sh, "d_happy", 860, 320, 260, {}), db = pic(rD06.sh, "d_blink", 860, 320, 260, {}); tl.set(db, { opacity: 0 }, 0);
+        tl.fromTo([da, db], { y: -10, rotation: -4 }, { y: 10, rotation: 3, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0); tl.set(da, { opacity: 0 }, t0 + 1.1); tl.set(db, { opacity: 1 }, t0 + 1.1); tl.set(da, { opacity: 1 }, t0 + 1.3); tl.set(db, { opacity: 0 }, t0 + 1.3);
+        camTo(rD06, t0, t1, focus(660, 380, 1.04), focus(620, 380, 1.12), "sine.inOut"); breathe(rD06, t0, t1, 1); bubbleTrail(rD06.sh, 330, 440, t0 + .2, 8, 120, 40); }
+
+      /* D07 "A gauge.": cut-in, the O2 dial fills the frame, tick tick */
+      const rD07 = rig("sD07");
+      { const t0 = T.D07, t1 = T.D08; const o = uw(rD07, t0, t1, 37, 0, -20); mk("div", "full", rD07.sh, "background:rgba(3,14,30,.55)");
+        camTo(rD07, t0, t1, focus(640, 380, 1.1), focus(640, 380, 1.3), "sine.inOut"); breathe(rD07, t0, t1, 1); }
+
+      /* D08 "When the oxygen runs out,": vignette closes, the ring empties and flashes red, 0 */
+      const rD08 = rig("sD08");
+      { const t0 = T.D08, t1 = T.D09; uw(rD08, t0, t1, 38, 1, -20);
+        const q = swimCycle(rD08.sh, 560, 470, 300, t0, t1, "brightness(.8) saturate(.9)"); tl.fromTo(q, { y: -4, x: -4 }, { y: 6, x: 4, duration: .22, ease: "sine.inOut", yoyo: true, repeat: 5 }, t0);
+        const d = pic(rD08.sh, "d_worried", 930, 300, 250, { f: "brightness(.85)" }); tl.fromTo(d, { y: -8 }, { y: 8, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 2 }, t0);
+        const vg = mk("div", "abs", rD08.host, "left:-1280px;top:-720px;width:3840px;height:2160px;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 0,rgba(0,0,0,0) 14%,rgba(0,0,0,.92) 30%,#000 44%)");
+        tl.fromTo(vg, { scale: 3.2 }, { scale: .95, duration: t1 - t0, ease: "power2.in" }, t0);
+        camTo(rD08, t0, t1, focus(640, 380, 1.04), focus(600, 380, 1.1), "sine.inOut"); breathe(rD08, t0, t1, -1); }
+
+      /* D09 "they pull you up,": Quest hoisted up on a rope, bubbles, the dolphin goes up beside him; HUD fades out */
+      const rD09 = rig("sD09");
+      { const t0 = T.D09, t1 = T.D10; const o = buildUnder(rD09.sh, { seed: 39, dark: 0, bubbles: 22 }); underAmbient(o, t0, t1);
+        o.layers.forEach(([e, f]) => tl.fromTo(e, { y: -240 * f }, { y: 120 * f, duration: t1 - t0, ease: "power2.in" }, t0));
+        const grp = mk("div", "full", rD09.sh);
+        const rope = mk("div", "abs", grp, "left:636px;top:-700px;width:8px;height:1000px;background:repeating-linear-gradient(180deg,#d9c08a 0 8px,#8a6a3a 8px 14px);border:2px solid #16161f;border-radius:4px");
+        const q = spr(grp, "dive", 640, 560, 330, { px: true, f: "brightness(.95)" }); const hook = mk("div", "abs", grp, "left:620px;top:238px;width:40px;height:26px;border:5px solid #16161f;border-bottom:none;border-radius:20px 20px 0 0;background:#c9ccd8;opacity:0");
+        tl.fromTo(grp, { y: 260 }, { y: -150, duration: t1 - t0, ease: "power2.in" }, t0); tl.fromTo(q, { rotation: -3 }, { rotation: 3, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
+        const d = pic(rD09.sh, "d_happy", 930, 400, 240, {}); tl.fromTo(d, { y: 100, rotation: -34 }, { y: -230, rotation: -34, duration: t1 - t0, ease: "power2.in" }, t0);
+        camTo(rD09, t0, t1, focus(640, 400, 1.06), focus(640, 360, 1.14), "sine.inOut"); breathe(rD09, t0, t1, 1);
+        bubbleTrail(grp, 600, 560, t0 + .1, 10, 160, 80); }
+
+      /* D10 "one thing. One.": the in-game dive log card; every row fades except ONE, which turns pink */
+      const rD10 = rig("sD10");
+      { const t0 = T.D10, t1 = T.D11, tOne = 17.076; const g = rD10.sh;
+        mk("div", "abs", g, "left:-100px;top:-100px;width:1480px;height:920px;background:radial-gradient(ellipse at 50% 45%,#16507a 0%,#0a2a4c 60%,#04122a 100%)");
+        const card = mk("div", "abs", g, "left:290px;top:90px;width:700px;height:540px;border-radius:22px;background:rgba(7,22,48,.92);border:4px solid #3a68a8;box-shadow:0 0 0 4px rgba(142,197,255,.2),0 20px 50px rgba(0,0,0,.5)");
+        html(card, "abs", "left:0;top:22px;width:700px;text-align:center;font:400 52px Anton;letter-spacing:.08em;color:#ffd45a", "DIVE LOG"); mk("div", "abs", card, "left:40px;top:92px;width:620px;height:4px;background:#3a68a8");
+        const rows = [["FISH CAUGHT", "x 14"], ["GOLD", "1,240 G"], ["DEEPEST POINT", "38 m"], ["SALVAGE", "x 3"], ["OXYGEN USED", "100 %"], ["RARE FIND", "x 1"]]; const els = [];
+        rows.forEach(([a, b], i) => { const last = i === rows.length - 1; const r = html(card, "abs", `left:40px;top:${116 + i * 66}px;width:620px;height:54px;display:flex;justify-content:space-between;align-items:center;padding:0 22px;border-radius:10px;background:${last ? "rgba(255,90,170,.12)" : "rgba(58,104,168,.18)"};font:800 28px Inter;letter-spacing:.06em;color:#dfeeff;opacity:0`, `<span>${a}</span><span>${b}</span>`);
+          els.push(r); tl.fromTo(r, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: .2, ease: "power2.out" }, t0 + .05 + i * .06);
+          if (!last) tl.to(r, { opacity: 0, x: 40, duration: .3, ease: "power2.in" }, t0 + .5 + i * .09); });
+        const one = els[5]; tl.to(one, { color: "#ff5aaa", duration: .2, ease: "none" }, t0 + .9); tl.to(one, { backgroundColor: "rgba(255,90,170,.3)", borderColor: "#ff5aaa", duration: .2 }, t0 + .9); one.style.border = "3px solid rgba(255,90,170,0)";
+        tl.to(one, { y: -150, scale: 1.1, duration: .5, ease: "power3.inOut" }, t0 + 1.0); tl.fromTo(one, { boxShadow: "0 0 0 rgba(255,90,170,0)" }, { boxShadow: "0 0 34px rgba(255,90,170,.9)", duration: .25, yoyo: true, repeat: 3 }, tOne - .1);
+        camTo(rD10, t0, t1, focus(640, 360, 1.0), focus(640, 340, 1.05), "none"); breathe(rD10, t0, t1, 1); }
+
+      /* office shots */
+      const officeBg = (host, f) => plate(host, "office.png", f || "brightness(.95) saturate(1.05)");
+      /* D11 "Now think about your own workday.": Quest at the laptop, slow push */
+      const rD11 = rig("sD11");
+      { const t0 = T.D11, t1 = T.D12; officeBg(rD11.sh); shadow(rD11.sh, 640, 712, 560, 40, .6);
+        const q = spr(rD11.sh, "q_desk", 640, 716, 500, { f: "drop-shadow(0 0 6px rgba(255,200,140,.3))" }); tl.fromTo(q, { y: 0 }, { y: -3, duration: .3, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
+        camTo(rD11, t0, t1, focus(640, 460, 1.0), focus(620, 480, 1.14), "sine.inOut"); breathe(rD11, t0, t1, 1); }
+
+      /* D12 "When did it last end?": snap zoom to the wall clock, the hands spin */
+      const rD12 = rig("sD12");
+      { const t0 = T.D12, t1 = T.D13; mk("div", "abs", rD12.sh, "left:-1280px;top:-720px;width:3840px;height:2160px;background:#d9cdb8");
+        mk("div", "abs", rD12.sh, "left:0;top:0;width:1280px;height:720px;background:radial-gradient(ellipse at 50% 45%,rgba(255,245,220,.5),rgba(80,60,40,.3))");
+        const c = clockEl(rD12.sh, 640, 360, 430);
+        tl.fromTo(c.min, { rotation: 0 }, { rotation: 1080, duration: t1 - t0 - .1, ease: "power2.in" }, t0 + .1); tl.fromTo(c.hour, { rotation: 120 }, { rotation: 210, duration: t1 - t0 - .1, ease: "power2.in" }, t0 + .1);
+        camTo(rD12, t0, t0 + .18, { x: 0, y: 0, s: .72 }, { x: 0, y: 0, s: 1 }, "power4.out"); camTo(rD12, t0 + .18, t1, { x: 0, y: 0, s: 1 }, { x: 0, y: 0, s: 1.1 }, "sine.inOut"); breathe(rD12, t0, t1, -1); }
+
+      /* D13 "Not end of day. Actually end.": 17:00 passes, the light turns to night, Quest is still there; narrator stamp */
+      const rD13 = rig("sD13");
+      { const t0 = T.D13, t1 = T.D14; officeBg(rD13.sh); const c = clockEl(rD13.sh, 1010, 170, 190);
+        shadow(rD13.sh, 440, 712, 560, 40, .6); const q = spr(rD13.sh, "q_desk", 440, 716, 480, { f: "drop-shadow(0 0 6px rgba(255,200,140,.3))" }); tl.fromTo(q, { y: 0 }, { y: -3, duration: .3, ease: "sine.inOut", yoyo: true, repeat: 6 }, t0);
+        const nt = mk("div", "full", rD13.sh, "background:linear-gradient(180deg,#0a1030,#1a1040);opacity:0;mix-blend-mode:multiply"); tl.fromTo(nt, { opacity: 0 }, { opacity: .72, duration: t1 - t0 - .3, ease: "sine.inOut" }, t0 + .3);
+        tl.fromTo(c.min, { rotation: 300 }, { rotation: 300 + 360 * 4, duration: t1 - t0 - .2, ease: "sine.inOut" }, t0 + .1); tl.fromTo(c.hour, { rotation: 140 }, { rotation: 140 + 120, duration: t1 - t0 - .2, ease: "sine.inOut" }, t0 + .1);
+        const ring = mk("div", "ring", rD13.sh, "left:935px;top:95px;width:150px;height:150px;opacity:0"); tl.fromTo(ring, { scale: .6, opacity: 1 }, { scale: 2.2, opacity: 0, duration: .5, ease: "power2.out" }, t0 + .75); tl.fromTo(c.g, { rotation: -6 }, { rotation: 6, duration: .06, yoyo: true, repeat: 7, immediateRender: false }, t0 + .75);
+        STAMP(rD13.sh, "END OF DAY", 560, 310, 640, 100, 21.316, -3); STAMP(rD13.sh, "is not THE END", 560, 420, 640, 76, 21.936, 2);
+        camTo(rD13, t0, t1, focus(660, 400, 1.0), focus(680, 400, 1.1), "sine.inOut"); breathe(rD13, t0, t1, 1); }
+
+      /* D14 "The email at ten at night says no.": the living room at night, Quest on his phone, the mail banner drops */
+      const rD14 = rig("sD14");
+      { const t0 = T.D14, t1 = T.D15, tb = 23.576; plate(rD14.sh, "lrn.png", "brightness(.9) saturate(1.05)");
+        shadow(rD14.sh, 780, 650, 300, 34, .85); const q = spr(rD14.sh, "q_phone", 780, 650, 440, { f: "drop-shadow(0 0 8px rgba(120,160,255,.4))" }); tl.fromTo(q, { rotation: -.8 }, { rotation: .8, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0);
+        const gl = mk("div", "abs", rD14.sh, "left:790px;top:300px;width:200px;height:200px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(circle,rgba(150,190,255,.55),rgba(150,190,255,0) 70%)"); tl.fromTo(gl, { opacity: .5 }, { opacity: 1, duration: .5, yoyo: true, repeat: 5, ease: "sine.inOut" }, t0);
+        camTo(rD14, t0, t1, focus(700, 440, 1.0), focus(760, 400, 1.32), "sine.inOut"); breathe(rD14, t0, t1, -1);
+        const ban = html(rD14.host, "abs", "left:300px;top:24px;width:680px;height:100px;border-radius:24px;background:rgba(248,248,252,.96);box-shadow:0 8px 24px rgba(0,0,0,.45);display:flex;align-items:center;gap:18px;padding:0 24px", '<div style="width:56px;height:56px;border-radius:14px;background:#2f8cff;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 40 30" width="34" height="26"><rect x="2" y="2" width="36" height="26" rx="4" fill="#fff"/><path d="M4 6 L20 18 L36 6" fill="none" stroke="#2f8cff" stroke-width="3"/></svg></div><div style="flex:1;font:800 22px/1.2 Inter;color:#16161f"><div style="font:600 15px Inter;color:#6a6a78;letter-spacing:.08em">MAIL</div>Quick thing for tomorrow?</div><div style="font:800 20px Inter;color:#6a6a78">22:04</div>');
+        tl.fromTo(ban, { y: -170 }, { y: 0, duration: .32, ease: "back.out(1.8)" }, tb); tl.fromTo(ban, { x: 0 }, { x: 5, duration: .05, yoyo: true, repeat: 5, immediateRender: false, ease: "none" }, tb + .34); }
+
+      /* D15 "a clock you can see": Quest beside the O2 dial, the number counts down, the dolphin tail-taps the gauge */
+      const rD15 = rig("sD15");
+      { const t0 = T.D15, t1 = T.D16, tt = t0 + 1.1; uw(rD15, t0, t1, 45, 0, -24);
+        const q = swimCycle(rD15.sh, 520, 460, 270, t0, t1, "brightness(.95)"); tl.fromTo(q, { y: -5 }, { y: 5, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 2 }, t0);
+        const d = pic(rD15.sh, "d_happy", 230, 522, 210, {}); tl.fromTo(d, { y: 0, rotation: 0 }, { y: 0, rotation: -16, duration: .22, ease: "sine.inOut", yoyo: true, repeat: 9 }, t0);
+        camTo(rD15, t0, t1, focus(640, 380, 1.04), focus(600, 380, 1.1), "sine.inOut"); breathe(rD15, t0, t1, 1); }
+
+      /* D16 "phone": a real phone fills the frame, badges pile up with each buzz, shake, hard cut out */
+      const rD16 = rig("sD16");
+      { const t0 = T.D16, t1 = T.D17; mk("div", "abs", rD16.sh, "left:-100px;top:-100px;width:1480px;height:920px;background:radial-gradient(ellipse at 50% 45%,#3a3050,#14101e)");
+        const ph = phoneEl(rD16.sh, 640, 372, 660, [[0, 0, "99+"], [1, 0, "12"], [2, 1, "99+"], [0, 2, "47"], [1, 1, "8"], [2, 3, "99+"]]);
+        tl.fromTo(ph, { rotation: -3, scale: .94 }, { rotation: 3, scale: 1.04, duration: t1 - t0, ease: "sine.inOut" }, t0);
+        const n = ph._b.length, bt = (t1 - t0) / 6; ph._b.forEach((b, i) => { const at = t0 + .1 + i * (t1 - t0 - .35) / n; tl.fromTo(b, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .14, ease: "back.out(3)" }, at); shake(ph, at, 14, .22); });
+        breathe(rD16, t0, t1, 1); }
+
+      /* D17 "when Dave gets better ... His air tank goes from ninety bar to four hundred and eighty": the yellow tank grows, the O2 number rolls 90 -> 480, the ring thickens; the dolphin cheers */
+      const rD17 = rig("sD17");
+      { const t0 = T.D17, t1 = T.D18, tg0 = 31.956, tg1 = 33.996, tr0 = 33.996, tr1 = 34.916 + .15; uw(rD17, t0, t1, 47, 0, -26);
+        const dv = diver(rD17.sh, 560, 480, 270, t0, t1, { tank: 1 }); tl.fromTo(dv.q, { y: -5 }, { y: 5, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0);
+        tl.fromTo(dv.tk, { scale: 1 }, { scale: 3.3, duration: tg1 - tg0 + .4, ease: "power2.inOut" }, tg0); tl.fromTo(dv.wr, { y: 0, rotation: 0 }, { y: 22, rotation: 5, duration: tg1 - tg0 + .4, ease: "power2.inOut", transformOrigin: "560px 345px" }, tg0);
+        const d = pic(rD17.sh, "d_happy", 960, 300, 250, {}); tl.fromTo(d, { y: 0, rotation: -3 }, { y: -26, rotation: 8, duration: .32, ease: "sine.inOut", yoyo: true, repeat: 15 }, t0);
+        [0, 1, 2].forEach((i) => { const s = html(rD17.sh, "abs", `left:${900 + i * 70}px;top:${170 + (i % 2) * 30}px;width:34px;height:34px;opacity:0`, SPARK); tl.fromTo(s, { scale: 0, rotation: 0, opacity: 1 }, { scale: 1.2, rotation: 90, opacity: 1, duration: .28, ease: "back.out(2)", yoyo: true, repeat: 1 }, tr0 + .05 + i * .1); tl.set(s, { opacity: 0 }, tr0 + .8 + i * .1); });
+        camTo(rD17, t0, t1, focus(640, 380, 1.04), focus(600, 380, 1.18), "sine.inOut"); breathe(rD17, t0, t1, -1); }
+
+      /* D18 "His cargo box": Quest slowed and squished under the load, the weight panel flashes RED overweight; the dolphin strains to push him */
+      const rD18 = rig("sD18");
+      { const t0 = T.D18, t1 = T.D19, tw = 36.456; uw(rD18, t0, t1, 48, 0, -10);
+        const dv = diver(rD18.sh, 570, 490, 270, t0, t1, { tank: 3.3 }); tl.set(dv.wr, { y: 22, rotation: 5, transformOrigin: "570px 355px" }, 0);
+        tl.fromTo(dv.q, { y: -3, scaleY: .9, scaleX: 1.05, transformOrigin: "50% 100%" }, { y: 3, scaleY: .86, scaleX: 1.08, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 5 }, t0);
+        const d = pic(rD18.sh, "d_worried", 250, 300, 240, {}); tl.fromTo(d, { x: 0, rotation: 6 }, { x: 40, rotation: -2, duration: .3, ease: "sine.inOut", yoyo: true, repeat: 9 }, t0);
+        camTo(rD18, t0, t1, focus(600, 400, 1.1), focus(590, 410, 1.26), "sine.inOut"); breathe(rD18, t0, t1, 1); }
+
+      /* D19 "a hundred and eighty-five": Quest straightens under a big strapped box, pull back; the weight rolls up in white; the dolphin claps with its tail */
+      const rD19 = rig("sD19");
+      { const t0 = T.D19, t1 = T.D20; uw(rD19, t0, t1, 49, 0, -10);
+        const cr = html(rD19.sh, "abs", "left:410px;top:230px;width:260px;height:236px;transform-origin:50% 100%", CRATE); tl.fromTo(cr, { scale: .8 }, { scale: 1.12, duration: .8, ease: "back.out(1.6)" }, t0 + .2);
+        shadow(rD19.sh, 640, 560, 300, 30, .5); const q = spr(rD19.sh, "dive", 640, 556, 330, { px: true, f: "brightness(.95)" }); tl.fromTo(q, { rotation: -6, scaleY: .88 }, { rotation: 0, scaleY: 1, duration: .5, ease: "back.out(2)", transformOrigin: "50% 100%" }, t0 + .1);
+        tl.fromTo([q, cr], { y: -2 }, { y: 4, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, t0);
+        const d = pic(rD19.sh, "d_happy", 1000, 270, 240, {}); tl.fromTo(d, { rotation: -6 }, { rotation: 14, duration: .16, ease: "sine.inOut", yoyo: true, repeat: 9 }, t0);
+        camTo(rD19, t0, t1, focus(640, 380, 1.3), focus(640, 380, 1.04), "sine.inOut"); breathe(rD19, t0, t1, -1); }
+
+      /* D20 "His suit, from": tilt down, Quest descends; the depth ticks to 40 m */
+      const rD20 = rig("sD20");
+      { const t0 = T.D20, t1 = T.D21; const o = buildUnder(rD20.sh, { seed: 50, dark: 0, bubbles: 18 }); underAmbient(o, t0, t1);
+        o.layers.forEach(([e, f]) => tl.fromTo(e, { y: 0 }, { y: -260 * f, duration: t1 - t0, ease: "sine.inOut" }, t0));
+        const dv = diver(rD20.sh, 640, 470, 250, t0, t1, { tank: 3.3 * 250 / 270 }); tl.set(dv.wr, { rotation: 62, transformOrigin: "640px 345px" }, 0); tl.fromTo(dv.wr, { rotation: 62, y: -10 }, { rotation: 70, y: 12, duration: t1 - t0, ease: "sine.inOut", transformOrigin: "640px 345px" }, t0);
+        const d = pic(rD20.sh, "d_happy", 1000, 160, 200, {}); tl.fromTo(d, { y: 0, rotation: -3 }, { y: -10, rotation: 5, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
+        camTo(rD20, t0, t1, focus(640, 360, 1.12), focus(640, 400, 1.04), "sine.inOut"); breathe(rD20, t0, t1, 1); bubbleTrail(rD20.sh, 560, 300, t0 + .1, 9, 140, 60); }
+
+      /* D21 "forty meters deep to eight hundred": Quest falls with the light fading, depth 40 -> 800; the dolphin stays at the light's edge and waves */
+      const rD21 = rig("sD21");
+      { const t0 = T.D21, t1 = T.D22; const o = buildUnder(rD21.sh, { seed: 51, dark: 0, bubbles: 14 }); underAmbient(o, t0, t1);
+        o.layers.forEach(([e, f]) => tl.fromTo(e, { y: 0 }, { y: -400 * f, duration: t1 - t0, ease: "none" }, t0));
+        const dv = diver(rD21.sh, 690, 400, 160, t0, t1, { tank: 3.3 * 160 / 270 }); tl.set(dv.wr, { rotation: 66, transformOrigin: "690px 320px" }, 0); tl.fromTo(dv.wr, { y: -30 }, { y: 70, duration: t1 - t0, ease: "sine.inOut" }, t0);
+        const dk = mk("div", "full", rD21.host, "background:linear-gradient(180deg,rgba(2,8,24,.1),rgba(1,3,12,.95));opacity:0;pointer-events:none"); tl.fromTo(dk, { opacity: 0 }, { opacity: 1, duration: t1 - t0, ease: "sine.in" }, t0);
+        const d = pic(rD21.host, "d_happy", 230, 200, 230, {}); tl.fromTo(d, { y: 0, rotation: -4 }, { y: -60, rotation: 8, duration: t1 - t0, ease: "sine.inOut" }, t0); tl.fromTo(d, { opacity: 1 }, { opacity: 0, duration: .5, ease: "power1.in" }, t1 - .7);
+        camTo(rD21, t0, t1, focus(640, 360, 1.04), focus(660, 400, 1.1), "sine.inOut"); breathe(rD21, t0, t1, -1); }
+
+      /* D22 "eight hundred": black, Quest's lamp only; a sonar ping lights two huge lantern-fish eyes (hit), blink, gone; far above the pink glow of the dolphin */
+      const rD22 = rig("sD22");
+      { const t0 = T.D22, t1 = T.D23, tp = t0 + .4; const o = buildUnder(rD22.sh, { seed: 52, dark: 1, bubbles: 8 }); underAmbient(o, t0, t1);
+        mk("div", "abs", rD22.sh, "left:-300px;top:-200px;width:1880px;height:1120px;background:rgba(0,2,8,.93)");
+        const gl = mk("div", "abs", rD22.sh, "left:560px;top:-90px;width:520px;height:300px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(255,90,180,.5),rgba(255,90,180,0) 70%)"); tl.fromTo(gl, { opacity: .6 }, { opacity: 1, duration: .5, yoyo: true, repeat: 3, ease: "sine.inOut" }, t0);
+        const d = pic(rD22.sh, "d_happy", 820, 70, 150, { f: "brightness(.6)" }); tl.fromTo(d, { rotation: -4 }, { rotation: 8, duration: .3, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0);
+        const cone = mk("div", "abs", rD22.sh, "left:520px;top:290px;width:520px;height:250px;mix-blend-mode:screen;clip-path:polygon(0 48%,100% 0,100% 100%);background:linear-gradient(90deg,rgba(255,236,170,.75),rgba(255,236,170,0))"); tl.fromTo(cone, { opacity: .8 }, { opacity: 1, duration: .25, yoyo: true, repeat: 5, ease: "sine.inOut" }, t0);
+        const dv = diver(rD22.sh, 470, 440, 150, t0, t1, { tank: 3.3 * 150 / 270, f: "brightness(.85)" }); tl.fromTo(dv.wr, { y: -4, rotation: 0 }, { y: 6, rotation: 4, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 2, transformOrigin: "470px 365px" }, t0);
+        const lamp = mk("div", "abs", rD22.sh, "left:520px;top:340px;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,#fff8d0,rgba(255,240,170,0) 70%)");
+        const ping = mk("div", "ring", rD22.sh, "left:430px;top:340px;width:80px;height:80px;opacity:0;border-color:rgba(160,255,240,.9)"); tl.fromTo(ping, { scale: .2, opacity: 1 }, { scale: 11, opacity: 0, duration: .8, ease: "power1.out" }, tp);
+        const eyes = mk("div", "abs", rD22.sh, "left:760px;top:250px;width:380px;height:170px;opacity:0");
+        [0, 1].forEach((i) => html(eyes, "abs", `left:${i * 200}px;top:20px;width:150px;height:120px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#f2ffd0 0,#c8f070 55%,#6aa030 100%);box-shadow:0 0 40px 14px rgba(210,255,120,.7)`, '<div style="position:absolute;left:62px;top:12px;width:26px;height:96px;border-radius:50%;background:#02060c"></div>'));
+        tl.set(eyes, { opacity: 1 }, tp + .28); tl.fromTo(eyes, { scaleY: 1 }, { scaleY: .08, duration: .07, yoyo: true, repeat: 1, ease: "none", immediateRender: false, transformOrigin: "50% 50%" }, tp + .55); tl.set(eyes, { opacity: 0 }, tp + .72);
+        camTo(rD22, t0, t0 + .7, focus(640, 360, 1.0), focus(640, 360, 1.0), "none"); camTo(rD22, t0 + .7, t1, focus(640, 360, 1.0), focus(600, 380, 1.12), "sine.inOut"); breathe(rD22, t0, t1, 1); }
+
+      /* D23 "He doesn't get a promotion.": Quest with a "PROMOTION" balloon (a prop) that pops */
+      const rD23 = rig("sD23");
+      { const t0 = T.D23, t1 = T.D24, tpop = 44.816 - .05; uw(rD23, t0, t1, 53, 0, -14);
+        const q = spr(rD23.sh, "dive", 520, 620, 340, { px: true, f: "brightness(.98)" }); tl.fromTo(q, { y: -4 }, { y: 4, duration: .7, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
+        const bx = 520 + 340 * 76 / 151 * .28 + 12, by0 = 620 - 340 * .72;
+        const bl = mk("div", "abs", rD23.sh, `left:${bx - 130}px;top:${by0 - 345}px;width:260px;height:330px;transform-origin:50% 100%`);
+        const bn = html(bl, "abs", "left:0;top:0;width:260px;height:330px", BALLOON); html(bl, "abs", "left:0;top:112px;width:260px;text-align:center;font:400 38px Anton;letter-spacing:.04em;color:#fff;-webkit-text-stroke:2px #16161f;paint-order:stroke fill;transform:rotate(-8deg)", "PROMOTION");
+        tl.fromTo(bl, { rotation: -4 }, { rotation: 4, duration: .55, ease: "sine.inOut", yoyo: true, repeat: 4, immediateRender: false }, t0); tl.fromTo(bl, { y: 0 }, { y: -10, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
+        tl.to(bl, { scale: 1.2, duration: .08, ease: "power2.out" }, tpop - .08); tl.set(bl, { opacity: 0 }, tpop);
+        const R = rng(23); for (let i = 0; i < 9; i++) { const a = i / 9 * 6.283, sp = html(rD23.sh, "abs", `left:${bx}px;top:${by0 - 235}px;width:26px;height:26px;opacity:0;transform-origin:50% 50%`, '<svg viewBox="0 0 26 26" width="100%" height="100%"><path d="M13 0 L26 22 L0 22 Z" fill="#e5484d" stroke="#16161f" stroke-width="2.5" stroke-linejoin="round"/></svg>');
+          tl.fromTo(sp, { x: 0, y: 0, opacity: 1, rotation: 0, scale: 1 }, { x: Math.cos(a) * (110 + R() * 80), y: Math.sin(a) * (90 + R() * 60) + 40, rotation: R() * 420 - 200, opacity: 0, duration: .55, ease: "power2.out" }, tpop); }
+        const pr = mk("div", "ring", rD23.sh, `left:${bx - 70}px;top:${by0 - 300}px;width:140px;height:140px;opacity:0`); tl.fromTo(pr, { scale: .3, opacity: 1 }, { scale: 2.2, opacity: 0, duration: .35, ease: "power2.out" }, tpop);
+        shake(rD23.sh, tpop, 8, .25);
+        camTo(rD23, t0, t1, focus(560, 380, 1.0), focus(560, 380, 1.0), "sine.inOut"); breathe(rD23, t0, t1, 1); }
+
+      /* D24 "He gets a bigger tank.": a giant tank dwarfs Quest, pull back; the dolphin laughs, bubbles from its blowhole */
+      const rD24 = rig("sD24");
+      { const t0 = T.D24, t1 = T.D25; uw(rD24, t0, t1, 54, 0, -14);
+        const tk = tankEl(rD24.sh, 880, 400, 640, 6); tl.fromTo(tk, { scale: .4, y: 120, transformOrigin: "50% 100%" }, { scale: 1, y: 0, duration: .45, ease: "back.out(1.5)" }, t0);
+        const dv = diver(rD24.sh, 360, 520, 250, t0, t1, { f: "brightness(.95)" }); tl.fromTo(dv.q, { y: -4 }, { y: 4, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 2 }, t0);
+        const d = pic(rD24.sh, "d_laugh", 250, 170, 230, {}); tl.fromTo(d, { y: -6, rotation: -5 }, { y: 6, rotation: 6, duration: .2, ease: "sine.inOut", yoyo: true, repeat: 7 }, t0 + .5);
+        bubbleTrail(rD24.sh, 262, 118, t0 + .5, 8, 90, 30);
+        camTo(rD24, t0, t1, focus(620, 360, 1.18), focus(640, 360, 1.0), "sine.inOut"); breathe(rD24, t0, t1, -1); }
+
+      /* D25 "Out here, getting better at your job mostly means...": Quest at his desk, a paper stack beside him, push */
+      const rD25 = rig("sD25");
+      { const t0 = T.D25, t1 = T.D26; officeBg(rD25.sh); shadow(rD25.sh, 470, 712, 540, 40, .6);
+        const q = spr(rD25.sh, "q_desk", 470, 716, 470, { f: "drop-shadow(0 0 6px rgba(255,200,140,.3))" }); tl.fromTo(q, { y: 0 }, { y: -3, duration: .3, ease: "sine.inOut", yoyo: true, repeat: 9 }, t0);
+        shadow(rD25.sh, 900, 706, 220, 24, .6); const p = spr(rD25.sh, "paper", 900, 704, 250, {}); tl.fromTo(p, { scaleY: .85, y: 40, opacity: 0 }, { scaleY: 1, y: 0, opacity: 1, duration: .4, ease: "back.out(1.6)", transformOrigin: "50% 100%" }, t0 + .3);
+        camTo(rD25, t0, t1, focus(660, 440, 1.0), focus(680, 450, 1.12), "sine.inOut"); breathe(rD25, t0, t1, 1); }
+
+      /* D26 "more job.": the stack towers over Quest (kinetic "more JOB", JOB grows), creaking */
+      const rD26 = rig("sD26");
+      { const t0 = T.D26, t1 = T.DEND; officeBg(rD26.sh); shadow(rD26.sh, 470, 712, 540, 40, .6);
+        spr(rD26.sh, "q_desk", 470, 716, 470, { f: "drop-shadow(0 0 6px rgba(255,200,140,.3))" });
+        const tw = mk("div", "abs", rD26.sh, "left:0;top:0;width:1280px;height:720px;transform-origin:900px 704px"); shadow(tw, 900, 706, 240, 24, .6);
+        for (let i = 0; i < 9; i++) { const e = spr(tw, "paper", 900 + (i % 2 ? 6 : -5), 704 - i * 190, 250, {}); tl.fromTo(e, { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: .22, ease: "back.out(1.4)" }, t0 + .06 + i * .07); }
+        tl.fromTo(tw, { rotation: -.6 }, { rotation: .8, duration: .4, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, t0 + .5);
+        const mo = html(rD26.host, "big", "position:absolute;left:60px;top:20px;font-size:80px;opacity:0;transform-origin:0 100%", "more"); tl.fromTo(mo, { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: .16, ease: "back.out(2)" }, t0 + .05);
+        const jb = html(rD26.host, "big", "position:absolute;left:60px;top:92px;font-size:110px;opacity:0;transform-origin:0 0", "JOB"); tl.fromTo(jb, { scale: .7, opacity: 0 }, { scale: 1.45, opacity: 1, duration: t1 - t0 - .08, ease: "power2.out" }, t0 + .15);
+        camTo(rD26, t0, t1, focus(660, 450, 1.0), focus(660, 420, 1.08), "sine.inOut"); breathe(rD26, t0, t1, -1); }
+
+      /* ---------- HUD overlays (game world only): all underwater shots; the dial, the depth/weight panel, the three slots ---------- */
+      const HUD = {};
+      ["D04", "D05", "D06", "D07", "D08", "D09", "D15", "D17", "D18", "D19", "D20", "D21", "D22"].forEach((k) => { HUD[k] = buildHud($("#hud" + k), true); });
+      const hs = (k, num, dep, w, red) => { const h = HUD[k]; hudNum(h, num); hudDepth(h, dep); hudW(h, w, red); return h; };
+      { // D04..D06: full dial 90, depth 18 m, weight white
+        ["D04", "D05", "D06"].forEach((k) => hs(k, "90", k === "D04" ? "6 m" : "18 m", "6.1/9.0kg"));
+        hs("D07", "90", "18 m", "6.1/9.0kg"); const h7 = HUD.D07; [h7.depth, h7.panel, h7.slots].forEach((e) => { e.style.opacity = 0; });
+        tl.set(h7.o2, { x: 516, y: -260, scale: 2.4, transformOrigin: "50% 50%" }, 0); tl.fromTo(h7.o2, { scale: 2.4 }, { scale: 3.2, duration: T.D08 - T.D07, ease: "sine.inOut" }, T.D07);
+        roll(h7.num, T.D07 + .2, T.D08 - .1, 90, 86); arcTo(h7, T.D07, T.D08, 1, .94);
+        const h8 = hs("D08", "86", "22 m", "6.4/9.0kg"); arcTo(h8, T.D08, T.D09 - .15, .94, 0, "power1.in"); roll(h8.num, T.D08, T.D09 - .15, 86, 0); flashRed(h8, T.D08 + .55, 9);
+        const h9 = hs("D09", "0", "22 m", "6.4/9.0kg"); arcTo(h9, T.D09, T.D09 + .01, 0, 0); h9.arc.setAttribute("stroke", "#ff3b3b"); h9.num.style.color = "#ff6a6a"; tl.fromTo($("#hudD09"), { opacity: 1 }, { opacity: 0, duration: T.D10 - T.D09 - .15, ease: "power1.in" }, T.D09 + .1);
+        const h15 = hs("D15", "88", "26 m", "6.4/9.0kg"); roll(h15.num, T.D15, T.D16, 88, 71); arcTo(h15, T.D15, T.D16, .98, .8);
+        [.22, .66, 1.1, 1.54].forEach((dt) => tl.fromTo(h15.o2, { scale: 1 }, { scale: 1.16, duration: .1, yoyo: true, repeat: 1, ease: "power2.out", transformOrigin: "50% 50%", immediateRender: false }, T.D15 + dt));
+        const h17 = hs("D17", "90", "30 m", "6.4/9.0kg"); roll(h17.num, 33.996, 34.916 + .15, 90, 480); tl.fromTo([h17.arc, h17.o2.querySelector("circle:nth-of-type(2)")], { attr: { "stroke-width": 13 } }, { attr: { "stroke-width": 21 }, duration: 1.0, ease: "power2.inOut" }, 33.996);
+        const mk18 = (k, w0) => { const h = hs(k, "480", "30 m", w0); h.arc.setAttribute("stroke-width", "21"); h.o2.querySelector("circle:nth-of-type(2)").setAttribute("stroke-width", "21"); return h; };
+        const h18 = mk18("D18", "7.8/9.0kg"); { const s = h18.panel.querySelector(".w span"), tw = 36.456; tl.set(s, { textContent: "9.2/9.0kg" }, tw);
+          for (let i = 0; i < 10; i++) { const on = i % 2 === 0; tl.set(s, { color: on ? "#ff5a5a" : "#ffd0d0" }, tw + i * .12); tl.set(h18.panel, { borderColor: on ? "#ff3b3b" : "#2d5f9c", backgroundColor: on ? "rgba(70,10,14,.88)" : "rgba(8,22,48,.82)" }, tw + i * .12); }
+          tl.fromTo(h18.panel, { scale: 1 }, { scale: 1.12, duration: .12, yoyo: true, repeat: 9, ease: "sine.inOut", transformOrigin: "0% 50%", immediateRender: false }, tw); }
+        const h19 = mk18("D19", "9.2/185kg"); { const s = h19.panel.querySelector(".w span"); roll(s, T.D19 + .15, T.D20 - .35, 9, 185, (v) => (v < 10 ? "9.2" : v.toFixed(0)) + "/185kg"); }
+        const h20 = mk18("D20", "9.2/185kg"); roll(h20.depthV, T.D20 + .1, T.D21 - .1, 30, 40, (v) => Math.round(v) + " m");
+        const h21 = mk18("D21", "9.2/185kg"); roll(h21.depthV, T.D21, T.D22 - .1, 40, 800, (v) => Math.round(v) + " m"); { const t = h21.panel.querySelector(".t"); tl.set(t, { color: "#ff6a6a" }, T.D21 + .15); }
+        const h22 = mk18("D22", "9.2/185kg"); hudDepth(h22, "800 m"); h22.panel.querySelector(".t").style.color = "#ff6a6a"; }
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
