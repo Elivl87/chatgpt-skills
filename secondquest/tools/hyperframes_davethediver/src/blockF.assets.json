@@ -1,0 +1,110 @@
+{
+ "bar.png": [
+  "public/art/davethediver/plates/bar_interior_night.png",
+  1080
+ ],
+ "bay.png": [
+  "public/art/davethediver/plates/bay_exterior_dusk.png",
+  1080
+ ],
+ "city.png": [
+  "public/art/core/backgrounds/city_apartments_evening.png",
+  1080
+ ],
+ "boat_back.png": [
+  "public/art/davethediver/props3d/diveboat_side_back.png",
+  null
+ ],
+ "boat_front.png": [
+  "public/art/davethediver/props3d/diveboat_side_front.png",
+  null
+ ],
+ "boat_side.png": [
+  "public/art/davethediver/props3d/diveboat_side.png",
+  null
+ ],
+ "dive.png": [
+  "public/art/davethediver/pixel/p04_quest_dive_ready.png",
+  null
+ ],
+ "swimA.png": [
+  "public/art/davethediver/pixel/derived/p01_quest_swim_A_blue.png",
+  null
+ ],
+ "swimB.png": [
+  "public/art/davethediver/pixel/p02_quest_swim_B.png",
+  null
+ ],
+ "tray.png": [
+  "public/art/davethediver/pixel/p10_quest_tray_run.png",
+  null
+ ],
+ "pixie.png": [
+  "public/art/davethediver/pixel/p09_pixie_present.png",
+  null
+ ],
+ "max_n.png": [
+  "public/art/davethediver/props3d/max_bar_34_neutral.png",
+  600
+ ],
+ "max_l.png": [
+  "public/art/davethediver/props3d/max_bar_34_laugh.png",
+  600
+ ],
+ "c_leo_n.png": [
+  "public/art/ep003/props3d/leo_sit_34_neutral.png",
+  400
+ ],
+ "c_leo_l.png": [
+  "public/art/ep003/props3d/leo_sit_34_laugh.png",
+  400
+ ],
+ "c_leo_side.png": [
+  "public/art/ep003/props3d/leo_sit_side_laugh.png",
+  400
+ ],
+ "c_max_side.png": [
+  "public/art/ep003/props3d/max_sit_side_neutral.png",
+  400
+ ],
+ "fish_s.png": [
+  "public/art/ep003/props3d/fish2_side_deadpan.png",
+  300
+ ],
+ "fish_sb.png": [
+  "public/art/ep003/props3d/fish2_side_blink.png",
+  300
+ ],
+ "d_peek.png": [
+  "public/art/davethediver/props3d/dolphin_peek_happy.png",
+  500
+ ],
+ "d_happy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_happy.png",
+  500
+ ],
+ "d_neutral.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_neutral.png",
+  500
+ ],
+ "hbub.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_bubble.png",
+  500
+ ],
+ "hring.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_ring.png",
+  500
+ ],
+ "l_front.png": [
+  "public/art/davethediver/props3d/leo_cobra_front_neutral.png",
+  800
+ ],
+ "d_peekL.png": [
+  "public/art/davethediver/props3d/dolphin_peek_laugh.png",
+  500
+ ],
+ "p10b.png": [
+  "public/art/davethediver/pixel/p10b_quest_party.png",
+  null
+ ]
+}

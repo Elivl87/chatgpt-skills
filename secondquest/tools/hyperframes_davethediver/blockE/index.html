@@ -662,10 +662,9 @@ const W = 1280, H = 720, DUR = 64.498;
       { const t0 = T.E28, t1 = T.E29; mk("div", "full", rE28.sh, "background:radial-gradient(ellipse at 50% 50%,#2a2f4a,#14172b)");
         const fo = html(rE28.sh, "abs", "left:340px;top:150px;width:600px;height:420px;transform-origin:50% 50%", `<svg viewBox="0 0 220 170" width="600" height="464"><g stroke="${INK}" stroke-width="5" stroke-linejoin="round"><path d="M10 40 L10 150 L210 150 L210 56 L100 56 L84 30 L26 30 Z" fill="#e5a93a"/><path d="M10 64 L210 64 L210 150 L10 150 Z" fill="#ffc94d"/></g></svg>`);
         const lb = html(rE28.sh, "abs", "left:290px;top:560px;width:700px;text-align:center;font:800 40px Inter;color:#fff;text-shadow:3px 3px 0 #16161f", "another folder");
-        tl.to(fo, { scale: .02, duration: .9, ease: "power3.in" }, t0 + .15); tl.to(lb, { scale: .05, opacity: 0, duration: .8, ease: "power3.in" }, t0 + .15);
-        const dot = mk("div", "abs", rE28.sh, "left:620px;top:340px;width:40px;height:40px;border-radius:50%;background:#ffc94d;border:4px solid #16161f;opacity:0"); tl.set(dot, { opacity: 1 }, t0 + 1.0);
-        const dl = html(rE28.sh, "abs", "left:290px;top:392px;width:700px;text-align:center;font:800 34px Inter;color:#fff;text-shadow:3px 3px 0 #16161f;opacity:0", "another folder"); tl.fromTo(dl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .2 }, t0 + 1.05);
-        shake(rE28.sh, t0 + 1.02, 8, .25); const rg = mk("div", "ring", rE28.sh, "left:600px;top:320px;width:80px;height:80px;opacity:0"); tl.fromTo(rg, { scale: .4, opacity: 1 }, { scale: 2.4, opacity: 0, duration: .4, ease: "power2.out" }, t0 + 1.02);
+        tl.to(fo, { scale: .62, y: -30, duration: .9, ease: "power3.in" }, t0 + .15); tl.to(lb, { y: -70, duration: .9, ease: "power3.in" }, t0 + .15);
+        tl.fromTo(fo, { rotation: 0 }, { rotation: -2, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, t0 + 1.1);
+        shake(rE28.sh, t0 + 1.02, 8, .25); const rg = mk("div", "ring", rE28.sh, "left:560px;top:250px;width:160px;height:160px;opacity:0"); tl.fromTo(rg, { scale: .6, opacity: 1 }, { scale: 2.4, opacity: 0, duration: .4, ease: "power2.out" }, t0 + 1.02);
         shotCam(rE28, t0, t1, focus(640, 360, 1.0), focus(640, 360, 1.04)); }
       /* ================================================================== E29/E30 the director split the day in two: the day bar, sun and moon, left lit / right dim swapping */
       const rE29 = rig("sE29"), rE30 = rig("sE30");
