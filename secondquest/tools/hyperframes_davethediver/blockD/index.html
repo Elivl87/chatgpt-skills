@@ -434,12 +434,12 @@
         mk("div", "abs", g, "left:-1200px;top:-700px;width:3680px;height:2120px;background:radial-gradient(ellipse at 50% 50%,#58e6d6 0%,#2fc4c6 30%,#1a9fb8 60%,#126f9a 100%)");
         const R = rng(7); for (let i = 0; i < 18; i++) { const a = R() * 6.283, rr = 330 + R() * 700; mk("div", "abs", g, `left:${640 + Math.cos(a) * rr * 1.4 - 60}px;top:${360 + Math.sin(a) * rr * .8 - 30}px;width:${90 + R() * 130}px;height:${40 + R() * 60}px;border-radius:50%;background:rgba(240,255,230,${.18 + R() * .2});filter:blur(6px)`); }
         mk("div", "abs", g, "left:340px;top:150px;width:600px;height:420px;border-radius:50%;background:radial-gradient(ellipse,#042a4c 0%,#042a4c 38%,#12a8c0 52%,#58e6d6 62%,rgba(88,230,214,0) 72%)");
-        mk("div", "abs", g, "left:430px;top:200px;width:420px;height:320px;border-radius:50%;background:radial-gradient(ellipse,#000 0%,#01101e 45%,#04264a 80%,rgba(4,38,74,0) 100%)");
+        mk("div", "abs", g, "left:430px;top:200px;width:420px;height:320px;border-radius:50%;background:radial-gradient(ellipse,#031a36 0%,#04264a 55%,#06406e 85%,rgba(4,38,74,0) 100%)");
         const d = pic(g, "d_happy", 640, 360, 190, {}); const ks = [], N = 14; for (let i = 0; i <= N; i++) { const a = (200 + 380 * i / N) * Math.PI / 180, nx = 640 + Math.cos(a) * 330, ny = 360 + Math.sin(a) * 175, tg = Math.atan2(Math.cos(a) * 175, -Math.sin(a) * 330) * 180 / Math.PI;
           ks.push({ x: nx - 640, y: ny - 360, rotation: tg * .5, duration: (t1 - t0 - .25) / N, ease: "none" }); }
         tl.set(d, { x: ks[0].x, y: ks[0].y }, t0); tl.to(d, { keyframes: ks }, t0 + .02);
         camTo(rD03, t0, t1, { x: 0, y: 0, s: 1 }, { x: 0, y: 0, s: 8 }, "power3.in"); breathe(rD03, t0, t1 - .2, 1);
-        const dk = mk("div", "full", rD03.host, "background:#01101e;opacity:0;pointer-events:none"); tl.fromTo(dk, { opacity: 0 }, { opacity: 1, duration: .3, ease: "power2.in" }, t1 - .3); }
+        const dk = mk("div", "full", rD03.host, "background:linear-gradient(180deg,#0b4f80,#07305c 55%,#041c40);opacity:0;pointer-events:none"); tl.fromTo(dk, { opacity: 0 }, { opacity: 1, duration: .3, ease: "power2.in" }, t1 - .3); bubbleTrail(rD03.host, 420, 700, t1 - .5, 9, 260, 520); }
 
       /* D04 "different. New layout.": three procedural layouts, three right-to-left wipes, Quest keeps his place; HUD: O2 dial */
       const rD04 = rig("sD04");
@@ -482,7 +482,7 @@
       { const t0 = T.D08, t1 = T.D09; uw(rD08, t0, t1, 38, 1, -20);
         const q = swimCycle(rD08.sh, 560, 470, 300, t0, t1, "brightness(.8) saturate(.9)"); tl.fromTo(q, { y: -4, x: -4 }, { y: 6, x: 4, duration: .22, ease: "sine.inOut", yoyo: true, repeat: 5 }, t0);
         const d = pic(rD08.sh, "d_worried", 930, 300, 250, { f: "brightness(.85)" }); tl.fromTo(d, { y: -8 }, { y: 8, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 2 }, t0);
-        const vg = mk("div", "abs", rD08.host, "left:-1280px;top:-720px;width:3840px;height:2160px;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 0,rgba(0,0,0,0) 14%,rgba(0,0,0,.92) 30%,#000 44%)");
+        const vg = mk("div", "abs", rD08.host, "left:-1280px;top:-720px;width:3840px;height:2160px;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 0,rgba(0,0,0,0) 14%,rgba(3,12,34,.92) 30%,#041a3c 44%)");
         tl.fromTo(vg, { scale: 3.2 }, { scale: .95, duration: t1 - t0, ease: "power2.in" }, t0);
         camTo(rD08, t0, t1, focus(640, 380, 1.04), focus(600, 380, 1.1), "sine.inOut"); breathe(rD08, t0, t1, -1); }
 
@@ -493,7 +493,7 @@
         const grp = mk("div", "full", rD09.sh);
         const rope = mk("div", "abs", grp, "left:636px;top:-700px;width:8px;height:1000px;background:repeating-linear-gradient(180deg,#d9c08a 0 8px,#8a6a3a 8px 14px);border:2px solid #16161f;border-radius:4px");
         const q = spr(grp, "dive", 640, 560, 330, { px: true, f: "brightness(.95)" }); const hook = mk("div", "abs", grp, "left:620px;top:238px;width:40px;height:26px;border:5px solid #16161f;border-bottom:none;border-radius:20px 20px 0 0;background:#c9ccd8;opacity:0");
-        tl.fromTo(grp, { y: 260 }, { y: -150, duration: t1 - t0, ease: "power2.in" }, t0); tl.fromTo(q, { rotation: -3 }, { rotation: 3, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
+        tl.fromTo(grp, { y: 40 }, { y: -150, duration: t1 - t0, ease: "power2.in" }, t0); tl.fromTo(q, { rotation: -3 }, { rotation: 3, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 3 }, t0);
         const d = pic(rD09.sh, "d_happy", 930, 400, 240, {}); tl.fromTo(d, { y: 100, rotation: -34 }, { y: -230, rotation: -34, duration: t1 - t0, ease: "power2.in" }, t0);
         camTo(rD09, t0, t1, focus(640, 400, 1.06), focus(640, 360, 1.14), "sine.inOut"); breathe(rD09, t0, t1, 1);
         bubbleTrail(grp, 600, 560, t0 + .1, 10, 160, 80); }
@@ -608,7 +608,7 @@
       /* D22 "eight hundred": black, Quest's lamp only; a sonar ping lights two huge lantern-fish eyes (hit), blink, gone; far above the pink glow of the dolphin */
       const rD22 = rig("sD22");
       { const t0 = T.D22, t1 = T.D23, tp = t0 + .4; const o = buildUnder(rD22.sh, { seed: 52, dark: 1, bubbles: 8 }); underAmbient(o, t0, t1);
-        mk("div", "abs", rD22.sh, "left:-300px;top:-200px;width:1880px;height:1120px;background:rgba(0,2,8,.93)");
+        mk("div", "abs", rD22.sh, "left:-300px;top:-200px;width:1880px;height:1120px;background:rgba(3,14,38,.9)");
         const gl = mk("div", "abs", rD22.sh, "left:560px;top:-90px;width:520px;height:300px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(255,90,180,.5),rgba(255,90,180,0) 70%)"); tl.fromTo(gl, { opacity: .6 }, { opacity: 1, duration: .5, yoyo: true, repeat: 3, ease: "sine.inOut" }, t0);
         const d = pic(rD22.sh, "d_happy", 820, 70, 150, { f: "brightness(.6)" }); tl.fromTo(d, { rotation: -4 }, { rotation: 8, duration: .3, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0);
         const cone = mk("div", "abs", rD22.sh, "left:520px;top:290px;width:520px;height:250px;mix-blend-mode:screen;clip-path:polygon(0 48%,100% 0,100% 100%);background:linear-gradient(90deg,rgba(255,236,170,.75),rgba(255,236,170,0))"); tl.fromTo(cone, { opacity: .8 }, { opacity: 1, duration: .25, yoyo: true, repeat: 5, ease: "sine.inOut" }, t0);
@@ -658,8 +658,8 @@
         const tw = mk("div", "abs", rD26.sh, "left:0;top:0;width:1280px;height:720px;transform-origin:900px 704px"); shadow(tw, 900, 706, 240, 24, .6);
         for (let i = 0; i < 9; i++) { const e = spr(tw, "paper", 900 + (i % 2 ? 6 : -5), 704 - i * 190, 250, {}); tl.fromTo(e, { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: .22, ease: "back.out(1.4)" }, t0 + .06 + i * .07); }
         tl.fromTo(tw, { rotation: -.6 }, { rotation: .8, duration: .4, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, t0 + .5);
-        const mo = html(rD26.host, "big", "position:absolute;left:60px;top:20px;font-size:80px;opacity:0;transform-origin:0 100%", "more"); tl.fromTo(mo, { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: .16, ease: "back.out(2)" }, t0 + .05);
-        const jb = html(rD26.host, "big", "position:absolute;left:60px;top:92px;font-size:110px;opacity:0;transform-origin:0 0", "JOB"); tl.fromTo(jb, { scale: .7, opacity: 0 }, { scale: 1.45, opacity: 1, duration: t1 - t0 - .08, ease: "power2.out" }, t0 + .15);
+        const mo = html(rD26.host, "big", "position:absolute;left:60px;top:56px;font-size:76px;opacity:0;transform-origin:0 100%", "more"); tl.fromTo(mo, { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: .16, ease: "back.out(2)" }, t0 + .05);
+        const jb = html(rD26.host, "big", "position:absolute;left:60px;top:126px;font-size:104px;opacity:0;transform-origin:0 0", "JOB"); tl.fromTo(jb, { scale: .7, opacity: 0 }, { scale: 1.3, opacity: 1, duration: t1 - t0 - .08, ease: "power2.out" }, t0 + .15);
         camTo(rD26, t0, t1, focus(660, 450, 1.0), focus(660, 420, 1.08), "sine.inOut"); breathe(rD26, t0, t1, -1); }
 
       /* ---------- HUD overlays (game world only): all underwater shots; the dial, the depth/weight panel, the three slots ---------- */
