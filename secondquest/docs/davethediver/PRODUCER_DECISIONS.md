@@ -65,3 +65,5 @@
 - Plan to publish (Producer, 2026-10-24): "Continúa, sin Bram, lo montas al final" — build blocks B-H on the placeholder
   (Fenrir natural); Bram EN (~16.7 credits, balance 1.75) is recorded and assembled at the end. Claude usage under 60 % of
   the weekly plan (CLAUDE.md token budget).
+- Agent split (Producer, 2026-10-25: "Trabaja todo con sonnet, y solo tu revisas con Opus 5.5"): every build/fix/render
+  task runs on Sonnet builders; the Opus director session only reviews (frames, sheets, reports) and makes no builds.
