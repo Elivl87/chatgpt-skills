@@ -1,0 +1,122 @@
+{
+ "fish_s.png": [
+  "public/art/ep003/props3d/fish2_side_deadpan.png",
+  300
+ ],
+ "fish_sb.png": [
+  "public/art/ep003/props3d/fish2_side_blink.png",
+  300
+ ],
+ "pixie.png": [
+  "public/art/davethediver/pixel/p09_pixie_present.png",
+  null
+ ],
+ "max_n.png": [
+  "public/art/davethediver/props3d/max_bar_34_neutral.png",
+  600
+ ],
+ "max_l.png": [
+  "public/art/davethediver/props3d/max_bar_34_laugh.png",
+  600
+ ],
+ "c_leo_n.png": [
+  "public/art/ep003/props3d/leo_sit_34_neutral.png",
+  400
+ ],
+ "c_leo_l.png": [
+  "public/art/ep003/props3d/leo_sit_34_laugh.png",
+  400
+ ],
+ "c_leo_side.png": [
+  "public/art/ep003/props3d/leo_sit_side_laugh.png",
+  400
+ ],
+ "c_max_side.png": [
+  "public/art/ep003/props3d/max_sit_side_neutral.png",
+  400
+ ],
+ "q_floor.png": [
+  "docs/art_orders/quest/library_v2/results/07_floor_gaming.png",
+  null
+ ],
+ "tray.png": [
+  "public/art/davethediver/pixel/p10_quest_tray_run.png",
+  null
+ ],
+ "boat_back.png": [
+  "public/art/davethediver/props3d/diveboat_side_back.png",
+  null
+ ],
+ "boat_front.png": [
+  "public/art/davethediver/props3d/diveboat_side_front.png",
+  null
+ ],
+ "boat_side.png": [
+  "public/art/davethediver/props3d/diveboat_side.png",
+  null
+ ],
+ "d_leap_grey.png": [
+  "public/art/davethediver/props3d/dolphin_grey_leap_happy.png",
+  600
+ ],
+ "bar.png": [
+  "public/art/davethediver/plates/bar_interior_night.png",
+  1080
+ ],
+ "bay.png": [
+  "public/art/davethediver/plates/bay_exterior_dusk.png",
+  1080
+ ],
+ "office.png": [
+  "public/art/core/backgrounds/office_openplan.png",
+  1080
+ ],
+ "lr.png": [
+  "public/art/core/backgrounds/living_room_night_gaming.png",
+  1080
+ ],
+ "q_slump.png": [
+  "public/art/core/quest/exhausted_slumped.png",
+  null
+ ],
+ "q_walk.png": [
+  "public/art/core/quest/walking_back.png",
+  1000
+ ],
+ "swimA.png": [
+  "public/art/davethediver/pixel/derived/p01_quest_swim_A_blue.png",
+  null
+ ],
+ "swimB.png": [
+  "public/art/davethediver/pixel/p02_quest_swim_B.png",
+  null
+ ],
+ "aim.png": [
+  "public/art/davethediver/pixel/p03_quest_aim.png",
+  null
+ ],
+ "dive.png": [
+  "public/art/davethediver/pixel/p04_quest_dive_ready.png",
+  null
+ ],
+ "d_leap.png": [
+  "public/art/davethediver/props3d/dolphin_leap_happy.png",
+  600
+ ],
+ "d_happy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_happy.png",
+  500
+ ],
+ "d_blink.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_blink.png",
+  500
+ ],
+ "d_worried.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_worried.png",
+  500
+ ],
+ "d_sleepy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_sleepy.png",
+  500
+ ]
+}

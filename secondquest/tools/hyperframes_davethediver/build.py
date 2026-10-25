@@ -8,7 +8,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
 from blocks import span, pdir, table, cues  # noqa
-TOK = re.compile(r'p\d\d(?:\.w\d+)?(?:\.end)?|DUR')
+TOK = re.compile(r'p\d\d[a-z]?(?:\.w\d+)?(?:\.end)?|DUR')
 
 
 def resolve(m):
