@@ -335,14 +335,14 @@
         const g = mk("div", "abs", host, `left:0;top:0;width:1280px;height:720px;opacity:0;transform-origin:${tail[0]}px ${tail[1]}px`);
         [[.22, 12], [.55, 20], [.85, 30]].forEach(([f, r]) => { const x = tail[0] + (cx - tail[0]) * f * .78, y = tail[1] + (cy + h * .35 - tail[1]) * f * .78; mk("div", "abs", g, `left:${x - r / 2}px;top:${y - r / 2}px;width:${r}px;height:${r}px;border-radius:50%;background:#fff;border:4px solid #16161f`); });
         const c = mk("div", "abs", g, `left:${cx - w / 2}px;top:${cy - h / 2}px;width:${w}px;height:${h}px;background:#fff;border:5px solid #16161f;border-radius:50%`);
-        const ic = html(c, "abs", `left:${w * .22}px;top:${h * .2}px;width:${w * .56 - 10}px;height:${h * .6 - 10}px`, inner);
+        const ic = html(c, "abs", `left:${w * .1}px;top:${h * .12}px;width:${w * .8 - 10}px;height:${h * .76 - 10}px`, inner);
         tl.fromTo(g, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .26, ease: "back.out(2.2)" }, t0);
         return g;
       }
       // dock (dusk): boat moored on the left, planks in front; Quest/Cobra stand on the planks (feet at y ~ 668)
       function buildDock(host, seed) {
         const sea = buildSea(host, { mode: "dawn", quest: null, seed, boatLeft: -140, boatW: 980, boatTop: 70 });
-        const d = mk("div", "abs", host, "left:-60px;top:622px;width:1400px;height:140px;filter:brightness(.82) saturate(.95) sepia(.12)");
+        const d = mk("div", "abs", host, "left:-60px;top:622px;width:1190px;height:140px;overflow:hidden;filter:brightness(.82) saturate(.95) sepia(.12)");
         mk("div", "abs", d, "left:0;top:0;width:1400px;height:140px;background:linear-gradient(180deg,#9a7550 0%,#7b5a3b 52%,#4a3322 52.5%,#3a281b 100%)");
         mk("div", "abs", d, "left:0;top:0;width:1400px;height:72px;background:repeating-linear-gradient(90deg,rgba(30,16,6,.35) 0 3px,rgba(0,0,0,0) 3px 150px)");
         mk("div", "abs", d, "left:0;top:0;width:1400px;height:6px;background:rgba(255,214,160,.55)");
@@ -393,21 +393,28 @@
         V.sea = sea; V.q = sea.q;
         const qw = 95.6, qh = sea.qh;
         V.gl = html(sea.q, "abs", `left:${qw * .5 - qw * .19}px;top:${qh * .122}px;width:${qw * .38}px;height:${qh * .05}px;border-radius:6px 6px 14px 14px;background:linear-gradient(180deg,#2a2a34,#0a0a10);box-shadow:0 1px 0 #16161f;opacity:${lounge ? 1 : 0}`, "");
+        if (!lounge) tl.set([V.chair, V.arm], { opacity: 0 }, 0);
         if (lounge) { tl.set(sea.q, { rotation: -15, x: 4, y: 20 }, 0); } else { tl.set(V.par, { scaleX: .12, scaleY: 1.04 }, 0); }
         return V;
+      }
+
+      // the aquarium holds no fish: the tank is dim and a hand-lettered sign hangs on its glass (no patches)
+      function emptyTank(host) {
+        mk("div", "abs", host, "left:1068px;top:258px;width:212px;height:148px;background:rgba(4,12,34,.58)");
+        html(host, "abs", "left:1112px;top:292px;width:132px;height:52px;transform-origin:50% 0%;transform:rotate(-4deg)", '<svg viewBox="0 0 132 52" width="132" height="52"><path d="M30 0 L38 10 M102 0 L94 10" stroke="#16161f" stroke-width="3" fill="none"/><rect x="4" y="10" width="124" height="40" rx="5" fill="#d9b878" stroke="#16161f" stroke-width="4"/><text x="66" y="38" text-anchor="middle" font-family="Anton" font-size="26" fill="#8a1f1f" letter-spacing="1.5">SOLD OUT</text></svg>');
       }
 
       const GOLD_LABEL = (host, txt, x, y, t0, o) => { o = o || {}; const e = html(host, "mk", `left:${x}px;top:${y}px;opacity:0;transform-origin:50% 100%;${o.st || ""}`, txt); tl.fromTo(e, { scale: .3, opacity: 1 }, { scale: 1, opacity: 1, duration: .22, ease: "back.out(2.6)" }, t0); return e; };
 
       /* ================================================================== B01 sunrise deck: "Meet Dave." low angle, DAVE label, the dolphin leaps at the bow */
-      const rB01 = rig("sB01"); const B01_C0 = focus(560, 450, 1.12), B01_C1 = focus(540, 440, 1.2);
+      const rB01 = rig("sB01"); const B01_C0 = focus(440, 445, 1.5), B01_C1 = focus(410, 435, 1.68);
       {
         const sea = buildSea(rB01.sh, { mode: "sunrise", quest: "dive", seed: 11 }); const t0 = T.B01, t1 = T.B02;
         seaAmbient(sea, t0, t1, 1); camTo(rB01, t0, t1, B01_C0, B01_C1, "sine.inOut"); breathe(rB01, t0, t1, 1);
-        leap(rB01.sh, "d_leap", 1030, 640, 190, 0.1, { up: 120, dur: .85 });
-        const lab = GOLD_LABEL(rB01.sh, "DAVE", sea.deckX - 52, sea.deckY - sea.qh - 78, 0.32);
-        const ar = html(rB01.sh, "abs", `left:${sea.deckX - 14}px;top:${sea.deckY - sea.qh - 34}px;width:28px;height:30px;opacity:0`, '<svg viewBox="0 0 7 8" width="100%" height="100%" shape-rendering="crispEdges"><path d="M2 0H5V4H7V5H6V6H5V7H4V8H3V7H2V6H1V5H0V4H2Z" fill="#16161f"/><path d="M3 1H4V5H5V5H4V6H3V5H2V5H3Z" fill="#ffc83d"/></svg>');
-        tl.fromTo(ar, { opacity: 1, y: -8 }, { opacity: 1, y: 0, duration: .3, ease: "bounce.out" }, 0.42);
+        leap(rB01.sh, "d_leap", 600, 662, 190, 0.1, { up: 120, dur: .85 });
+        const lab = GOLD_LABEL(rB01.sh, "DAVE", sea.deckX + 78, sea.deckY - sea.qh + 6, 0.32);
+        const ar = html(rB01.sh, "abs", `left:${sea.deckX + 40}px;top:${sea.deckY - sea.qh + 10}px;width:28px;height:30px;opacity:0;transform:rotate(90deg)`, '<svg viewBox="0 0 7 8" width="100%" height="100%" shape-rendering="crispEdges"><path d="M2 0H5V4H7V5H6V6H5V7H4V8H3V7H2V6H1V5H0V4H2Z" fill="#16161f"/><path d="M3 1H4V5H5V5H4V6H3V5H2V5H3Z" fill="#ffc83d"/></svg>');
+        tl.fromTo(ar, { opacity: 1, x: 10 }, { opacity: 1, x: 0, duration: .3, ease: "bounce.out" }, 0.42);
       }
 
       /* ================================================================== B02 "doesn't look like a hero": the hero pose, then the sag; snap push on the face */
@@ -415,8 +422,8 @@
       {
         const sea = buildSea(rB02.sh, { mode: "sunrise", quest: "dive", seed: 11 }); const t0 = T.B02, t1 = T.B03; const q = sea.q;
         seaAmbient(sea, t0, t1, 1);
-        camTo(rB02, t0, 2.07, B01_C1, focus(420, 440, 1.3), "sine.inOut");
-        camTo(rB02, 2.07, 2.57, focus(420, 440, 1.3), B02_C1, "power3.out");
+        camTo(rB02, t0, 2.07, B01_C1, focus(380, 440, 1.8), "sine.inOut");
+        camTo(rB02, 2.07, 2.57, focus(380, 440, 1.8), B02_C1, "power3.out");
         camTo(rB02, 2.57, t1, B02_C1, focus(289, 335, 2.05), "sine.inOut");
         breathe(rB02, t0, t1, -1);
         // hero: chest out and up on "like a", hold; sag on "hero."
@@ -440,7 +447,7 @@
         tl.to(el, { strokeDashoffset: 0, duration: tm - t0 - .1, ease: "power1.inOut" }, t0 + .02);
         // cut: side shrug, dolphin winks beside the stern
         const sea2 = buildSea(rB03b.sh, { mode: "sunrise", quest: "dive", seed: 11 }); seaAmbient(sea2, tm, t1, -1);
-        camTo(rB03b, tm, t1, focus(330, 440, 1.3), focus(320, 440, 1.4), "sine.inOut"); breathe(rB03b, tm, t1, -1);
+        camTo(rB03b, tm, t1, focus(330, 440, 1.6), focus(320, 440, 1.72), "sine.inOut"); breathe(rB03b, tm, t1, -1);
         const q2 = sea2.q; tl.set(q2, { scaleX: -1 }, 0);
         tl.to(q2, { keyframes: [{ y: -10, duration: .12, ease: "power2.out" }, { y: 0, duration: .12, ease: "power2.in" }, { y: -10, duration: .12, ease: "power2.out" }, { y: 0, duration: .12, ease: "power2.in" }] }, tm + .12);
         const dol = pic(rB03b.sh, "d_blink", 70, 600, 240, { f: "brightness(1.03)" });
@@ -457,7 +464,7 @@
         const sea = buildSea(rB04.sh, { mode: "sunrise", quest: "dive", seed: 11 }); seaAmbient(sea, t0, t1, 1);
         camTo(rB04, t0, t1, focus(289, 400, 2.9), B04_C1, "sine.inOut"); breathe(rB04, t0, t1, 1);
         const t2 = T.B06, sea5 = buildSea(rB05.sh, { mode: "sunrise", quest: "dive", seed: 11 }); seaAmbient(sea5, t1, t2, -1);
-        camTo(rB05, t1, t1 + 1.1, B04_C1, focus(420, 440, 1.2), "power2.out"); camTo(rB05, t1 + 1.1, t2, focus(420, 440, 1.2), focus(440, 440, 1.26), "sine.inOut"); breathe(rB05, t1, t2, -1);
+        camTo(rB05, t1, t1 + 1.1, B04_C1, focus(400, 440, 1.5), "power2.out"); camTo(rB05, t1 + 1.1, t2, focus(400, 440, 1.5), focus(420, 440, 1.58), "sine.inOut"); breathe(rB05, t1, t2, -1);
         const lb = html(rB05.host, "mk", "left:210px;top:586px;opacity:0;white-space:normal;width:860px;text-align:center;font-size:24px;line-height:1.25;transform-origin:50% 100%", "Body not typical for a diver<br><span style=\"font-size:17px;letter-spacing:.14em;opacity:.8\">SAY THE DEVELOPERS</span>");
         tl.fromTo(lb, { scale: 1.6, opacity: 0, rotation: -3 }, { scale: 1, opacity: 1, rotation: -1.5, duration: .12, ease: "power4.in" }, 7.16);
         tl.fromTo(lb, { y: 0 }, { y: 6, duration: .06, yoyo: true, repeat: 1, immediateRender: false }, 7.28);
@@ -505,7 +512,7 @@
         // glasses slide up, ears perk: Quest sits up a bit
         tl.to(V.gl, { y: -6, opacity: 0, duration: .15 }, t0 + .3);
         tl.to(V.q, { rotation: -6, y: 8, scaleY: 1.04, duration: .22, ease: "back.out(3)" }, t0 + .34);
-        thought(rB08.sh, 440, 280, 130, 104, [340, 330], t0 + .55, NIGIRI);
+        thought(rB08.sh, 450, 268, 230, 180, [340, 330], t0 + .55, NIGIRI);
         const sp = html(rB08.sh, "abs", "left:400px;top:224px;width:30px;height:30px;opacity:0", SPARK); tl.fromTo(sp, { scale: 0, rotation: 0, opacity: 1 }, { scale: 1.2, rotation: 90, opacity: 1, duration: .3, ease: "back.out(2)", yoyo: true, repeat: 1 }, t0 + .9); tl.set(sp, { opacity: 0 }, t0 + 1.6);
       }
 
@@ -522,7 +529,7 @@
         tl.to(V.par, { scaleX: .12, scaleY: 1.04, duration: .14, ease: "power4.in" }, tS);
         tl.fromTo(V.par, { rotation: 0 }, { rotation: -4, duration: .1, yoyo: true, repeat: 1, immediateRender: false }, tS + .14);
         tl.to(V.q, { rotation: 0, y: 0, scaleY: 1, duration: .28, ease: "back.out(2.6)" }, tS + .08);
-        tl.to(V.chair, { x: -6, duration: .1 }, tS + .1);
+        tl.to([V.chair, V.arm], { opacity: 0, duration: .25 }, tS + .12);
         const d0 = pic(rB09.sh, "d_sleepy", 760, 676, 250, {}); d0.firstChild.style.transform = "scaleY(-1)"; tl.set(d0, { opacity: 0 }, tS + .1);
         tl.set(d0, { opacity: 1 }, 0); bob(d0, t0, tS + .1, 4, 1.1, 1);
         leap(rB09.sh, "d_happy", 780, 676, 240, tS + .1, { up: 70, dur: .6 });
@@ -542,14 +549,14 @@
         eyes.forEach((e, i) => tl.fromTo(e, { scale: 0, opacity: 1, rotation: 0 }, { scale: 1.1, opacity: 1, rotation: 90, duration: .3, ease: "back.out(2)", yoyo: true, repeat: 3 }, t0 + 1.0 + i * .06));
         const dr = html(V.q, "abs", `left:${95.6 * .5 + 5}px;top:${V.sea.qh * .185}px;width:9px;height:14px;opacity:0`, '<svg viewBox="0 0 9 14" width="100%" height="100%"><path d="M4.5 0 Q9 8 4.5 13 Q0 8 4.5 0Z" fill="#bfe9ff" stroke="#16161f" stroke-width="1.4"/></svg>');
         tl.fromTo(dr, { opacity: 1, y: 0 }, { opacity: 0, y: 24, duration: .5, ease: "power1.in", repeat: 2, immediateRender: false }, t0 + 1.0);
-        thought(rB10.sh, 420, 262, 120, 96, [330, 316], t0 + 1.0, NIGIRI);
+        thought(rB10.sh, 440, 250, 220, 170, [330, 316], t0 + 1.0, NIGIRI);
       }
 
       /* ================================================================== B11 the bar with no fish: empty bar, empty aquarium; push to the tank */
       const rB11 = rig("sB11");
       {
         const t0 = T.B11, t1 = T.B12; plate(rB11.sh, "bar.png");
-        [[1230, 303, 34], [1168, 294, 28], [1208, 347, 28]].forEach(([x, y, r]) => mk("div", "abs", rB11.sh, `left:${x - r}px;top:${y - r}px;width:${r * 2}px;height:${r * 2}px;border-radius:50%;background:radial-gradient(circle,rgba(20,98,198,.96) 0%,rgba(20,98,198,.85) 45%,rgba(20,98,198,0) 100%)`));
+        emptyTank(rB11.sh);
         camTo(rB11, t0, t1, focus(640, 400, 1.08), focus(1170, 340, 1.75), "sine.inOut"); breathe(rB11, t0, t1, 1);
       }
 
@@ -557,7 +564,7 @@
       const rB12 = rig("sB12");
       {
         const t0 = T.B12, t1 = T.B13; plate(rB12.sh, "bar.png");
-        [[1230, 303, 34], [1168, 294, 28], [1208, 347, 28]].forEach(([x, y, r]) => mk("div", "abs", rB12.sh, `left:${x - r}px;top:${y - r}px;width:${r * 2}px;height:${r * 2}px;border-radius:50%;background:radial-gradient(circle,rgba(20,98,198,.96) 0%,rgba(20,98,198,.85) 45%,rgba(20,98,198,0) 100%)`));
+        emptyTank(rB12.sh);
         const BF = "brightness(.92) saturate(1.05) drop-shadow(0 0 6px rgba(255,170,90,.4))";
         shadow(rB12.sh, 470, 548, 190, 22, .8); const lc = spr(rB12.sh, "l_point", 440, 548, 420, { f: BF });
         shadow(rB12.sh, 790, 548, 120, 18, .8); const qd = spr(rB12.sh, "dive", 800, 548, 300, { px: true, f: BF, flip: true });
@@ -734,13 +741,13 @@
       }
 
       /* ================================================================== B26 dock at dusk: Quest at the mooring rope, the dolphin worried; B27 hold on to that */
-      const rB26 = rig("sB26"), rB27 = rig("sB27"); const B26_C1 = focus(900, 470, 1.38);
+      const rB26 = rig("sB26"), rB27 = rig("sB27"); const B26_C1 = focus(940, 470, 1.38);
       {
-        const rope = (host, slack) => html(host, "abs", "left:0;top:0;width:1280px;height:720px", `<svg viewBox="0 0 1280 720" width="1280" height="720" style="overflow:visible"><path d="M 780 520 Q 850 ${slack ? 640 : 590} 1010 ${slack ? 650 : 646}" fill="none" stroke="#16161f" stroke-width="8" stroke-linecap="round"/><path d="M 780 520 Q 850 ${slack ? 640 : 590} 1010 ${slack ? 650 : 646}" fill="none" stroke="#c9a06a" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 5"/></svg>`);
+        const rope = (host, slack) => { const d = `${slack ? "M 770 560 C 820 650, 880 640, 920 650 S 990 660 1010 648" : "M 770 560 C 820 610, 860 560, 900 572 S 980 640, 1010 646"}`; return html(host, "abs", "left:0;top:0;width:1280px;height:720px", `<svg viewBox="0 0 1280 720" width="1280" height="720" style="overflow:visible"><path d="${d}" fill="none" stroke="#16161f" stroke-width="20" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#e2c58a" stroke-width="13" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#8a5a2a" stroke-width="13" stroke-linecap="butt" stroke-dasharray="9 17"/><path d="${d}" fill="none" stroke="#fff2cf" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 20" transform="translate(0,-3)"/></svg>`); };
         const post = (host) => html(host, "abs", "left:988px;top:604px;width:44px;height:62px", '<svg viewBox="0 0 44 62" width="44" height="62"><path d="M6 62 V28 Q6 18 14 16 L8 6 H36 L30 16 Q38 18 38 28 V62 Z" fill="#3a281b" stroke="#16161f" stroke-width="4"/></svg>');
         const scene = (r, a, b, ph) => { const sea = buildDock(r.sh, 17); seaAmbient(sea, a, b, ph); post(r.sh);
           shadow(r.sh, 880, 674, 150, 18, .8); const q = spr(r.sh, "dive", 880, 668, 300, { px: true, f: "brightness(.85) saturate(.95) drop-shadow(-2px -1px 0 rgba(255,190,130,.7))" });
-          const d = pic(r.sh, "d_worried", 1120, 558, 220, { f: "brightness(.86) saturate(.95)" }); bob(d, a, b, 4, 1.2, ph);
+          const d = pic(r.sh, "d_worried", 1130, 588, 150, { f: "brightness(.86) saturate(.95)" }); bob(d, a, b, 4, 1.2, ph);
           return { sea, q, d }; };
         const a0 = T.B26, a1 = T.B27, a2 = T.END;
         const s1 = scene(rB26, a0, a1, 1); const rp1 = rope(rB26.sh, false);
@@ -749,9 +756,9 @@
         const s2 = scene(rB27, a1, a2, -1);
         const taut = rope(rB27.sh, false), slack = rope(rB27.sh, true); tl.set(slack, { opacity: 0 }, 0);
         tl.set(taut, { opacity: 0 }, 53.82); tl.set(slack, { opacity: 1 }, 53.82);
-        camTo(rB27, a1, a2, B26_C1, focus(890, 480, 1.55), "sine.inOut"); breathe(rB27, a1, a2, -1);
+        camTo(rB27, a1, a2, B26_C1, focus(920, 480, 1.55), "sine.inOut"); breathe(rB27, a1, a2, -1);
         tl.fromTo(s2.q, { y: 0 }, { y: -4, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 4 }, a1);
-        const st = html(rB27.host, "big", "position:absolute;left:0;top:96px;width:1280px;text-align:center;font-size:92px;opacity:0;transform-origin:50% 50%", "HOLD ON TO THAT");
+        const st = html(rB27.host, "big", "position:absolute;left:590px;top:64px;width:580px;text-align:center;font-size:74px;opacity:0;transform-origin:50% 50%", "HOLD ON TO THAT");
         tl.fromTo(st, { scale: 1.7, opacity: 0, rotation: -6 }, { scale: 1, opacity: 1, rotation: -3, duration: .14, ease: "power4.in" }, 53.54);
         tl.fromTo(st, { y: 0 }, { y: 8, duration: .06, yoyo: true, repeat: 1, immediateRender: false }, 53.68);
       }
