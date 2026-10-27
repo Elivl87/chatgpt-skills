@@ -1,0 +1,26 @@
+{
+ "d_happy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_happy.png",
+  500
+ ],
+ "d_leap.png": [
+  "public/art/davethediver/props3d/dolphin_leap_happy.png",
+  600
+ ],
+ "d_ring.png": [
+  "public/art/davethediver/props3d/dolphin_ring_happy.png",
+  500
+ ],
+ "swimA.png": [
+  "public/art/davethediver/pixel/derived/p01_quest_swim_A_blue.png",
+  null
+ ],
+ "swimB.png": [
+  "public/art/davethediver/pixel/p02_quest_swim_B.png",
+  null
+ ],
+ "dive.png": [
+  "public/art/davethediver/pixel/p04_quest_dive_ready.png",
+  null
+ ]
+}
