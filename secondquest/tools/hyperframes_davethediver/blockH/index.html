@@ -611,7 +611,7 @@ const W = 1280, H = 720, DUR = 10.21;
         tl.fromTo(halo, { opacity: .5, scale: .95 }, { opacity: 1, scale: 1.1, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0);
         const holder = mk("div", "abs", rH02.sh, "left:0;top:0;width:1280px;height:720px;transform-style:preserve-3d"); tl.set(holder, { transformPerspective: 900 }, 0);
         const pad = html(holder, "abs", "left:350px;top:260px;width:580px;height:380px;filter:drop-shadow(0 0 14px rgba(255,200,90,.7))", '<svg viewBox="0 0 580 380" width="580" height="380" style="overflow:visible"><path d="M120 60 Q180 30 290 40 Q400 30 460 60 Q560 100 566 230 Q570 330 520 350 Q470 370 440 310 L400 250 L180 250 L140 310 Q110 370 60 350 Q10 330 14 230 Q20 100 120 60 Z" fill="#14122e" stroke="#ffd98a" stroke-width="8" stroke-linejoin="round"/><circle cx="150" cy="150" r="44" fill="#0a0820" stroke="#ffd98a" stroke-width="6"/><path d="M118 150 L182 150 M150 118 L150 182" stroke="#ffd98a" stroke-width="12" stroke-linecap="round"/><circle cx="450" cy="120" r="20" fill="#ffc83d" stroke="#16161f" stroke-width="5"/><circle cx="500" cy="170" r="20" fill="#e5484d" stroke="#16161f" stroke-width="5"/><circle cx="400" cy="170" r="20" fill="#3fa9ff" stroke="#16161f" stroke-width="5"/><circle cx="450" cy="220" r="20" fill="#36b36a" stroke="#16161f" stroke-width="5"/></svg>');
-        tl.fromTo(holder, { scale: .2, rotationY: -70, opacity: 0 }, { scale: 1, rotationY: 0, opacity: 1, duration: .45, ease: "back.out(1.6)" }, t0 + .1);
+        tl.fromTo(holder, { scale: .5, rotationY: -50, opacity: 1 }, { scale: 1, rotationY: 0, opacity: 1, duration: .45, ease: "back.out(1.6)" }, t0);
         tl.fromTo(holder, { rotationY: -14, y: 0 }, { rotationY: 14, y: -10, duration: 1.3, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, t0 + .6);
         const q = html(rH02.sh, "abs big", "left:520px;top:20px;font-size:260px;opacity:0;transform-origin:50% 60%", "?");
         tl.fromTo(q, { scale: 0, opacity: 1, rotation: -25 }, { scale: 1, opacity: 1, rotation: -6, duration: .3, ease: "back.out(2.6)" }, 2.604); tl.set(q, { opacity: 0 }, 0);
@@ -661,10 +661,10 @@ const W = 1280, H = 720, DUR = 10.21;
         const oX = w.oX, oY = w.oY;
         // the hoop: opens to an angle (3D) while the dolphin passes through it; a copy of its near half is drawn OVER the dolphin
         const front = mk("div", "abs", rH04.sh, `left:${oX - 45}px;top:${oY - 48}px;width:90px;height:96px;border-radius:50%;border:21px solid #fff;z-index:9;filter:drop-shadow(0 5px 0 #05101f);clip-path:inset(0 0 0 50%);opacity:0`);
-        const tOpen = tO - .32, tClose = tO + .3;
+        const tOpen = tO - .2, tClose = tO + .14;
         tl.set(front, { transformPerspective: 700 }, 0);
-        tl.to(w.ring, { rotationY: 70, duration: .26, ease: "power2.inOut" }, tOpen); tl.to(w.ring, { rotationY: 0, duration: .26, ease: "power2.inOut" }, tClose);
-        tl.set(front, { opacity: 1 }, tOpen); tl.to(front, { rotationY: 70, duration: .26, ease: "power2.inOut" }, tOpen); tl.to(front, { rotationY: 0, duration: .26, ease: "power2.inOut" }, tClose); tl.set(front, { opacity: 0 }, tClose + .27);
+        tl.to(w.ring, { rotationY: 58, duration: .14, ease: "power2.inOut" }, tOpen); tl.to(w.ring, { rotationY: 0, duration: .14, ease: "power2.inOut" }, tClose);
+        tl.set(front, { opacity: 1 }, tOpen); tl.to(front, { rotationY: 58, duration: .14, ease: "power2.inOut" }, tOpen); tl.to(front, { rotationY: 0, duration: .14, ease: "power2.inOut" }, tClose); tl.set(front, { opacity: 0 }, tClose + .15);
         tl.set(w.ring, { rotationY: 0, transformPerspective: 700 }, 0);
         tl.to(w.star, { opacity: 0, duration: .15 }, tOpen); tl.to(w.star, { opacity: 1, duration: .2 }, tClose + .1);
         // the dolphin: quadratic arc from the water (left) over the o to the bar (right), nose follows the tangent
@@ -695,10 +695,10 @@ const W = 1280, H = 720, DUR = 10.21;
           X.renderer.render(X.scene, X.cam); }
         const env = { t: 0 }; tl.fromTo(env, { t: 0 }, { t: DUR, duration: DUR, ease: "none", onUpdate: () => draw(env.t) }, 0);
         // NEXT QUEST lights up letter by letter on "quest"
-        const nq = html(rH04.sh, "abs big", "left:0;top:548px;width:1280px;text-align:center;font-size:92px;letter-spacing:.06em;z-index:10", ""); const lts = [];
+        const nq = html(rH04.sh, "abs big", "left:0;top:505px;width:1280px;text-align:center;font-size:130px;letter-spacing:.06em;z-index:10", ""); const lts = [];
         "NEXT QUEST".split("").forEach((c) => { const s = mk("span", "", nq, "display:inline-block;opacity:0;white-space:pre"); s.textContent = c; lts.push(s); });
         lts.forEach((s, i) => { if (s.textContent === " ") return; tl.fromTo(s, { opacity: 0, scale: 1.5, y: 10 }, { keyframes: [{ opacity: 1, scale: 1.1, y: 0, duration: .08 }, { opacity: .5, scale: 1, duration: .06 }, { opacity: 1, duration: .08 }] }, tL + .05 + i * .045); });
-        const nqg = mk("div", "abs", rH04.sh, "left:260px;top:520px;width:760px;height:150px;border-radius:50%;mix-blend-mode:screen;opacity:0;z-index:9;background:radial-gradient(ellipse,rgba(255,200,90,.5),rgba(255,200,90,0) 70%)");
+        const nqg = mk("div", "abs", rH04.sh, "left:260px;top:490px;width:760px;height:170px;border-radius:50%;mix-blend-mode:screen;opacity:0;z-index:9;background:radial-gradient(ellipse,rgba(255,200,90,.5),rgba(255,200,90,0) 70%)");
         tl.fromTo(nqg, { opacity: 0 }, { opacity: 1, duration: .5 }, tL + .1); tl.fromTo(nqg, { scale: 1 }, { scale: 1.06, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, tL + .6);
         tl.fromTo(nq, { y: 0 }, { y: -4, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, tL + .7);
         // surfacing wipe: the waterline sweeps up over the phone, revealing the night sea

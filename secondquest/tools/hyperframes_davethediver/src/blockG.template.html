@@ -726,9 +726,6 @@ const W = 1280, H = 720, DUR = {{DUR}};
       {
         const t0 = T.G09, t1 = T.G10a;
         buildBar(rG09.sh, { t0, t1, blink: t0 + 1.0, maxLaugh: {{p47.w10}}, geta: true, pixieFlip: t0 + 1.1 });
-        const hb = pic(rG09.sh, "hbub", 700, 690, 90, {}); tl.set(hb, { opacity: 0 }, 0);
-        tl.fromTo(hb, { opacity: 0, y: 0, scale: .6 }, { keyframes: [{ opacity: 1, scale: 1, duration: .12 }, { y: -250, duration: .8, ease: "sine.out" }, { opacity: 0, scale: 1.5, duration: .12 }] }, {{p47.w9}});
-        sparks(rG09.sh, 700, 440, {{p47.w9}} + .92, 8, 55, "#ffb0c8");
         shotCam(rG09, t0, t1, focus(700, 430, 1.1), focus(775, 440, 1.75), 1);
       }
       /* ================================================================== G10a "The idea came from...": bay at dawn, the pink dolphin leaps in the morning light */
@@ -811,7 +808,7 @@ const W = 1280, H = 720, DUR = {{DUR}};
         const sun = mk("div", "abs", rG15.sh, "left:-40px;top:-40px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 45% 40%,#fffbe8,#ffe9a8 60%,#ffcf70);box-shadow:0 0 44px 14px rgba(255,214,140,.85)");
         const so = { k: 0 }; tl.to(so, { k: 1, duration: t1 - t0, ease: "power3.inOut", onUpdate: () => { const a = Math.PI * so.k; sun.style.left = (140 + 500 - Math.cos(a) * 500 - 40) + "px"; sun.style.top = (120 + 350 - Math.sin(a) * 250 * 1.0 - 40 - 0) + "px"; } }, t0);
         for (let i = 0; i < 4; i++) { const c = mk("div", "abs", rG15.sh, `left:${100 + i * 330}px;top:${120 + (i % 2) * 50}px;width:${180 + i * 20}px;height:36px;border-radius:30px;background:rgba(255,255,255,.55);filter:blur(2px)`); tl.fromTo(c, { x: -40 }, { x: 160, duration: t1 - t0, ease: "none" }, t0); }
-        const b = fisherBoat(rG15.sh, 640, 600, 220, "#ffe3b0"); tl.fromTo(b.g, { y: -3 }, { y: 3, duration: .8, yoyo: true, repeat: 3, ease: "sine.inOut" }, t0);
+        const b = fisherBoat(rG15.sh, 640, 640, 420, "#ffe3b0"); tl.fromTo(b.g, { y: -3 }, { y: 3, duration: .8, yoyo: true, repeat: 3, ease: "sine.inOut" }, t0);
         const g = mk("div", "full", rG15.sh, "background:radial-gradient(ellipse at 50% 100%,rgba(0,0,0,0),rgba(0,0,0,.35));pointer-events:none");
         camTo(rG15, t0, t1, focus(640, 400, 1.12), focus(640, 380, 1.0), "none");
       }
@@ -868,9 +865,9 @@ const W = 1280, H = 720, DUR = {{DUR}};
       /* G20 "no score at closing time": the office goes dark, an empty score slate tries to appear and fades: no score */
       {
         const t0 = T.G20, t1 = T.G21;
-        plate(rG20.sh, "office.png", "brightness(.9)");
+        plate(rG20.sh, "office.png", "brightness(1.0) saturate(1.05)");
         const slump = spr(rG20.sh, "q_slump", 420, 700, 420, { f: "brightness(.9)" }); shadow(rG20.sh, 420, 698, 280, 26, .6);
-        const dk = mk("div", "full", rG20.sh, "background:rgba(6,6,16,.72);opacity:0;pointer-events:none"); tl.fromTo(dk, { opacity: 0 }, { opacity: 1, duration: t1 - t0 - .3, ease: "power1.in" }, t0 + .2);
+        const dk = mk("div", "full", rG20.sh, "background:rgba(18,20,50,.34);opacity:0;pointer-events:none"); tl.fromTo(dk, { opacity: 0 }, { opacity: 1, duration: t1 - t0 - .3, ease: "power1.in" }, t0 + .2);
         const card = html(rG20.sh, "abs", "left:760px;top:170px;width:340px;height:260px;border:6px dashed rgba(255,214,140,.8);border-radius:16px;opacity:0;transform-origin:50% 50%;display:flex;align-items:center;justify-content:center", '<svg viewBox="0 0 120 80" width="170" height="113"><path d="M20 60 L100 20" stroke="rgba(255,214,140,.8)" stroke-width="6" stroke-linecap="round"/></svg>');
         tl.fromTo(card, { opacity: 0, scale: .8 }, { keyframes: [{ opacity: .9, scale: 1, duration: .3, ease: "back.out(1.6)" }, { opacity: .9, duration: .5 }, { opacity: 0, scale: .92, duration: .5 }] }, t0 + .5);
         shotCam(rG20, t0, t1, focus(560, 420, 1.2), focus(500, 440, 1.0), 1);
@@ -900,15 +897,15 @@ const W = 1280, H = 720, DUR = {{DUR}};
         tl.fromTo(sign, { opacity: 0, rotationX: 90 }, { opacity: 1, rotationX: 0, duration: .3, ease: "back.out(2)" }, t0 + .35);
         const dm = mk("div", "full", rG23.sh, "background:rgba(6,4,24,.5);opacity:0;pointer-events:none"); tl.fromTo(dm, { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power1.in" }, t0 + .5);
         const yw = pic(rG23.sh, "fish_sb", 1190, 330, 78, { flip: true }); tl.set(yw, { opacity: 0 }, 0); tl.set(yw, { opacity: 1 }, t0 + .75); tl.fromTo(yw, { scaleX: 1, scaleY: 1 }, { scaleX: 1.16, scaleY: .88, duration: .4, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, t0 + .8);
-        shotCam(rG23, t0, t1, focus(660, 380, 1.0), focus(900, 330, 1.45), 1);
+        shotCam(rG23, t0, t1, focus(640, 370, 1.05), focus(790, 400, 1.75), 1);
       }
       /* G24 "glad you came": Max waves goodbye, "Thanks, Quest!" (bubble tail to Max) */
       {
         const t0 = T.G24, t1 = T.G25;
         buildBar(rG24.sh, { t0, t1, blink: t0 + 1.0, maxLaugh: t0 + .2, maxBounce: 7, geta: true, noFish: false });
         const dm = mk("div", "full", rG24.sh, "background:rgba(6,4,24,.35);pointer-events:none");
-        speech($("#sG24"), 400, 130, 440, 110, "Thanks, Quest!", 668, 318, t0 + .3, 40);
-        shotCam(rG24, t0, t1, focus(720, 420, 1.25), focus(775, 430, 1.6), -1);
+        speech($("#sG24"), 400, 130, 440, 110, "Thanks, Quest!", 672, 322, t0 + .3, 40);
+        shotCam(rG24, t0, t1, focus(740, 420, 1.6), focus(775, 420, 1.9), -1);
       }
       /* ================================================================== G25 "Maybe that's what we're really playing": pull back; G26 "Not a second job": the label struck; G27 TV off -> the bay at night: smiles at the moon, winks */
       const rG25 = rig("sG25"), rG26 = rig("sG26"), rG27 = rig("sG27");
@@ -918,11 +915,14 @@ const W = 1280, H = 720, DUR = {{DUR}};
         camTo(rG25, t0, t1, focus(800, 420, 1.5), focus(640, 380, 1.0), "sine.inOut"); breathe(rG25, t0, t1, 1);
       }
       {
-        const t0 = T.G26, t1 = T.G27; const s = lrShot(rG26, t0, t1, focus(640, 400, 1.08), focus(720, 430, 1.3), -1);
-        const sj = html(rG26.sh, "mk", "left:340px;top:130px;font-size:44px;padding:12px 30px 10px;opacity:0;transform-origin:50% 50%", "second job"); const st = mk("div", "abs", sj, "left:-8px;top:21px;width:112%;height:12px;background:#e5484d;border:3px solid #16161f;border-radius:4px;transform-origin:0 50%");
-        tl.fromTo(sj, { opacity: 0, scale: 1.4, rotation: -4 }, { opacity: 1, scale: 1, rotation: -2, duration: .16, ease: "power4.in" }, t0 + .15);
+        const t0 = T.G26, t1 = T.G27; const s = lrShot(rG26, t0, t1, focus(640, 380, 1.05), focus(700, 380, 1.14), -1);
+        const paper = html(rG26.sh, "abs", "left:300px;top:96px;width:420px;height:130px;background:#fbf3dc;border:4px solid #16161f;box-shadow:6px 8px 0 rgba(0,0,0,.35);transform:rotate(-2deg);transform-origin:50% 50%", '<div style="position:absolute;left:170px;top:-14px;width:80px;height:26px;background:rgba(255,210,120,.8);border:2px solid rgba(22,22,31,.4)"></div>');
+        const sj = html(paper, "abs", "left:20px;top:26px;width:380px;text-align:center;font:400 62px/1 Anton;letter-spacing:.06em;color:#c8322e;border:5px solid #c8322e;border-radius:10px;padding:6px 0 2px;opacity:0;transform-origin:50% 50%", "SECOND JOB");
+        const st = mk("div", "abs", sj, "left:-10px;top:30px;width:105%;height:12px;background:#16161f;border-radius:4px;transform-origin:0 50%");
+        tl.fromTo(paper, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: .25, ease: "back.out(1.6)" }, t0 + .05);
+        tl.fromTo(sj, { opacity: 0, scale: 1.9, rotation: -8 }, { opacity: 1, scale: 1, rotation: -3, duration: .14, ease: "power4.in" }, t0 + .4); tl.fromTo(paper, { y: 0 }, { y: 5, duration: .06, yoyo: true, repeat: 1, immediateRender: false }, t0 + .54); sparks(paper, 210, 70, t0 + .54, 6, 50, "#ffd0c0");
         tl.fromTo(st, { scaleX: 0 }, { scaleX: 1, duration: .16, ease: "power4.out" }, {{p52.w10}}); tl.set(st, { scaleX: 0 }, 0);
-        tl.to(sj, { y: 30, rotation: 6, opacity: .0, duration: .4, ease: "power2.in" }, t1 - .45);
+        tl.to(paper, { y: 30, rotation: 6, opacity: 0, duration: .4, ease: "power2.in" }, t1 - .45);
       }
       {
         const t0 = T.G27, t1 = DUR, tOff = t0 + .5, tW = {{p52.w19}};
