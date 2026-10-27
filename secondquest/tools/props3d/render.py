@@ -17,7 +17,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
+CHROME = next(iter(sorted(Path('/opt/pw-browsers').glob('chromium-*/chrome-linux*/chrome'))[::-1]), '/opt/pw-browsers/chromium-1194/chrome-linux/chrome')   # whichever Chromium is installed
 OUT = ROOT / 'public/art/ep002/props3d'
 INK = (34, 24, 22)          # warm near-black, like the plates' line art
 SS = 2                      # supersampling: render at 2x, downscale for clean edges
@@ -647,14 +647,14 @@ def job_fish2():
 
 # EP003 friends Max and Leo (2026-10-13): our own "worm people" (docs/ep003/characters/FRIENDS_MAX_LEO.md).
 FRIENDS = {'max': ('friendMax', 180), 'leo': ('friendLeo', 158)}        # prop, approx. standing height (cm)
-FRIENDS_DTD = {'cobra': ('friendCobra', 158)}                          # Dave the Diver: Leo in a Hawaiian shirt and shades
+FRIENDS_DTD = {'cobra': ('friendCobra', 158), 'duff': ('friendDuff', 166), 'otto': ('friendOtto', 176), 'seaTeal': ('friendSeaTeal', 108), 'seaCoral': ('friendSeaCoral', 108), 'seaLilac': ('friendSeaLilac', 108)}                          # Dave the Diver: Leo in a Hawaiian shirt and shades
 FRIEND_EXPRS = ['neutral', 'laugh', 'shock', 'sideeye', 'sweat']
 FRIEND_VIEWS = {'34': (30, 6), 'front': (0, 4), 'side': (90, 4), 'back': (180, 6)}
 
 
 def friend_span(who, pose):
     """Height in cm covered by the canvas (h px) for this pose: px per cm = h / span."""
-    return {**FRIENDS, **FRIENDS_DTD}[who][1] * {'sit': 1.06, 'sitflat': 1.06, 'cheer': 1.38}.get(pose, 1.12)
+    return {**FRIENDS, **FRIENDS_DTD}[who][1] * {'sit': 1.06, 'sitflat': 1.06, 'cheer': 1.38, 'glowsticks': 1.42, 'wave': 1.3}.get(pose, 1.12)
 
 
 def friend_render(who, view='34', expr='neutral', pose='stand', w=None, h=1500, line=4.4):
@@ -663,9 +663,9 @@ def friend_render(who, view='34', expr='neutral', pose='stand', w=None, h=1500, 
     yaw, elev = FRIEND_VIEWS[view]
     if pose == 'sitflat':
         elev += 12                                                      # legs out: see the lap from a little above
-    w = w or (1700 if pose == 'point' else 1500 if pose == 'sitflat' else 1150 if pose in ('cheer', 'phone') else 1000)   # room for reaching arms / legs
+    w = w or (1700 if pose == 'point' else 1500 if pose == 'sitflat' else 1150 if pose in ('cheer', 'phone', 'glowsticks', 'wave') else 1000)   # room for reaching arms / legs
     sit = pose in ('sit', 'sitflat')
-    ty = tall * (.16 if sit else .62 if pose == 'cheer' else .5)       # seated: the seat is y = 0
+    ty = tall * (.16 if sit else .62 if pose in ('cheer', 'glowsticks') else .5)       # seated: the seat is y = 0
     span = friend_span(who, pose)
     fov = 26
     d = span / 2 / np.tan(np.radians(fov / 2))
@@ -955,6 +955,9 @@ def job_friends_extras_sheet():
 DTD_COBRA = [(f'leo_cobra_{v}_{e}', v, e, 'stand') for v in ('front', '34') for e in ('neutral', 'laugh', 'sideeye')] + [
     ('leo_cobra_34_armsCrossed_neutral', '34', 'neutral', 'armsCrossed'), ('leo_cobra_34_phone_laugh', '34', 'laugh', 'phone'),
     ('leo_cobra_34_point_neutral', '34', 'neutral', 'point'), ('leo_cobra_34_cheer_laugh', '34', 'laugh', 'cheer')]
+DTD_DUFF = [('duff_34_neutral', '34', 'neutral', 'stand'), ('duff_34_shout', '34', 'shout', 'cheer'), ('duff_34_glowsticks', '34', 'laugh', 'glowsticks'), ('duff_34_laugh', '34', 'laugh', 'stand')]
+DTD_OTTO = [('otto_34_neutral', '34', 'neutral', 'stand'), ('otto_34_wave', '34', 'wave', 'wave'), ('otto_34_laugh', '34', 'laugh', 'stand'), ('otto_34_phone', '34', 'phone', 'phone')]
+DTD_SEAFOLK = [(f'seapeople_{c}_{p}', f'sea{c.capitalize()}', 'neutral' if p.endswith('neutral') else 'cheer', 'stand' if p.endswith('neutral') else 'cheer') for c in ('teal', 'coral', 'lilac') for p in ('stand_neutral', 'stand_cheer')]
 DTD_BAR = [('max_bar_34_neutral', '34', 'neutral'), ('max_bar_34_sideeye', '34', 'sideeye'), ('max_bar_34_laugh', '34', 'laugh'), ('max_bar_front_neutral', 'front', 'neutral')]
 DTD_BUBBLE = ['neutral', 'happy', 'worried', 'panic', 'offended', 'sleepy']
 BAR_SEAT = 60.5                                                         # seat top of the barStool prop (cm)
@@ -982,7 +985,7 @@ def bubble_render(expr='neutral', yaw=0, h=1000, pop=False, line=4.0):
 
 def dtd_files():
     """Every cut-out of the Dave the Diver cast, in sheet order (file stems)."""
-    return [n for n, *_ in DTD_COBRA] + [n for n, *_ in DTD_BAR] + ['bar_stool_34'] + [f'bubble_{e}' for e in DTD_BUBBLE] + ['bubble_34_neutral', 'bubble_small_worried', 'bubble_pop']
+    return [n for n, *_ in DTD_COBRA] + [n for n, *_ in DTD_DUFF + DTD_OTTO + DTD_SEAFOLK] + [n for n, *_ in DTD_BAR] + ['bar_stool_34'] + [f'bubble_{e}' for e in DTD_BUBBLE] + ['bubble_34_neutral', 'bubble_small_worried', 'bubble_pop']
 
 
 def job_dtd_cast():
@@ -996,6 +999,11 @@ def job_dtd_cast():
     save = lambda n, img, pad=10: (cv2.imwrite(str(OUT4 / f'{n}.png'), crop_alpha(img, pad=pad)), print(f'{n}.png', flush=True))
     for n, v, e, p in DTD_COBRA:
         if want(n): save(n, friend_render('cobra', v, e, p))
+    for lst, who in ((DTD_DUFF, 'duff'), (DTD_OTTO, 'otto')):
+        for n, v, e, p in lst:
+            if want(n): save(n, friend_render(who, v, e, p))
+    for n, who, e, p in DTD_SEAFOLK:
+        if want(n): save(n, friend_render(who, '34', e, p))
     for n, v, e in DTD_BAR:
         if want(n): save(n, bar_render(v, e))
     if want('bar_stool_34'): save('bar_stool_34', bar_render('34', stool_only=True, w=1000, h=1000))

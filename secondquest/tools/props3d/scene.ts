@@ -2291,9 +2291,10 @@ interface WormSpec {
   armR: number; shX: number; shY: number; upperL: number; foreL: number; handR: number;
   legR: number; hipX: number; thighL: number; shinL: number; footL: number;
   skin: string; lidSkin: string; shirt: string; pants: string; boot: string; sole: string;
-  outfit: 'overalls' | 'apron' | 'hawaiian'; hat?: 'beanie'; faces: Record<string, FriendFace>;
+  outfit: 'overalls' | 'apron' | 'hawaiian' | 'tee' | 'fish'; hat?: 'beanie' | 'straw'; faces: Record<string, FriendFace>;
+  hair?: string; glasses?: boolean; rolled?: boolean; fin?: string; finDark?: string; print?: string; stick?: [string, string];
 }
-const WORM_POSES = ['stand', 'sit', 'sitflat', 'point', 'cheer', 'phone', 'armsCrossed', 'barsit'] as const;
+const WORM_POSES = ['stand', 'sit', 'sitflat', 'point', 'cheer', 'phone', 'armsCrossed', 'barsit', 'wave', 'glowsticks'] as const;
 // seated knees-up (a rowboat thwart is ~22 cm above the floorboards): thighs rise ~39 deg, shins near vertical
 const SIT_HIP = -2.25, SIT_KNEE = 2.12;
 // bar stool (DTD): thighs a little above level, shins plumb, the feet on the stool's foot ring
@@ -2324,11 +2325,39 @@ const hawaiianTex = () => {
   return (_hawaiian = t);
 };
 
+/** Duff's oversized idol tee: pink cloth, one big gold star with a heart and sparkles on the chest (our own plain print, no logos).
+ * One texture wraps the whole torso once, the chest print centred on the front (u = .5). */
+let _tee: THREE.CanvasTexture | null = null;
+const teeTex = (base: string) => {
+  if (_tee) return _tee;
+  const W = 1024, H = 512, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const c = cv.getContext('2d')!;
+  c.fillStyle = base; c.fillRect(0, 0, W, H);
+  const star = (x: number, y: number, R: number, rot: number, fill: string, line?: string) => {
+    c.beginPath(); for (let i = 0; i < 10; i++) { const a = rot + i * Math.PI / 5 - Math.PI / 2, r = i % 2 ? R * .46 : R; c.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r); } c.closePath();
+    c.fillStyle = fill; c.fill(); if (line) { c.lineWidth = 7; c.lineJoin = 'round'; c.strokeStyle = line; c.stroke(); }
+  };
+  const heart = (x: number, y: number, r: number, fill: string) => {
+    c.fillStyle = fill; c.beginPath(); c.moveTo(x, y + r * .9); c.bezierCurveTo(x - r * 1.6, y - r * .2, x - r * .7, y - r * 1.3, x, y - r * .45);
+    c.bezierCurveTo(x + r * .7, y - r * 1.3, x + r * 1.6, y - r * .2, x, y + r * .9); c.fill();
+  };
+  const cx = W * .5, cy = H * .5;
+  c.fillStyle = '#ffffff'; c.beginPath(); c.arc(cx, cy, 168, 0, TAU); c.fill();                    // white disc behind the star
+  c.lineWidth = 9; c.strokeStyle = '#d6407f'; c.beginPath(); c.arc(cx, cy, 168, 0, TAU); c.stroke();
+  star(cx, cy + 6, 150, 0, '#ffcf2e', '#e0902a');
+  heart(cx, cy + 18, 46, '#ff4f9a');
+  star(cx - 205, cy - 80, 34, .3, '#ffffff'); star(cx + 210, cy - 40, 28, -.2, '#ffffff'); star(cx + 150, cy + 120, 22, .5, '#fff2a8');
+  star(cx - 170, cy + 110, 24, .1, '#fff2a8');
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+  return (_tee = t);
+};
+
 const worm = (S: WormSpec) => {
   const root = new THREE.Group();
   const id = (k: number) => S.base + k;
   const flat = (hex: string) => toon(hex);                                // smooth: facet stair-steps read cheap next to the 2D cast
   const add = (parent: THREE.Object3D, m: THREE.Mesh) => (parent.add(m), m);
+  const loose = S.outfit === 'hawaiian' || S.outfit === 'tee' || S.outfit === 'fish', shorts = S.outfit === 'hawaiian' || S.outfit === 'tee', barefoot = S.outfit === 'hawaiian' || S.outfit === 'fish';
   const M = {
     skin: toon(S.skin), lid: toon(S.lidSkin), white: toon('#fbf8f0'), pupil: toon('#121216'), mouth: toon('#3a1820'), teeth: toon('#fffaf0'),
     tongue: toon('#d9707a'), sweat: toon('#b9e4ff'), shirt: flat(S.outfit === 'hawaiian' ? '#c8312f' : S.shirt), pants: flat(S.pants), boot: flat(S.boot), sole: flat(S.sole),
@@ -2350,8 +2379,8 @@ const worm = (S: WormSpec) => {
     return V(Math.sin(phi) * ax, y, Math.cos(phi) * az).addScaledVector(n, off);
   };
   const range = (a: number, b: number, n: number) => Array.from({ length: n + 1 }, (_, i) => a + (b - a) * i / n);
-  const shell = (p0: number, p1: number, y0: number, y1: number, off: number | ((phi: number, y: number) => number), mat: THREE.Material, part: number, np = 28, ny = 24) => {
-    const geo = grid(range(y0, y1, ny), range(p0, p1, np), (y, phi) => ({ p: torsoPt(phi, y, typeof off === 'number' ? off : off(phi, y)), uv: [phi / TAU * 3, y / 32] }));
+  const shell = (p0: number, p1: number, y0: number, y1: number, off: number | ((phi: number, y: number) => number), mat: THREE.Material, part: number, np = 28, ny = 24, uvf?: (phi: number, y: number) => [number, number]) => {
+    const geo = grid(range(y0, y1, ny), range(p0, p1, np), (y, phi) => ({ p: torsoPt(phi, y, typeof off === 'number' ? off : off(phi, y)), uv: uvf ? uvf(phi, y) : [phi / TAU * 3, y / 32] }));
     orient(geo, (p) => V(p.x, 0, p.z));
     return mesh(geo, mat, part);
   };
@@ -2384,9 +2413,11 @@ const worm = (S: WormSpec) => {
   const pelvis = new THREE.Group(); pelvis.position.y = S.hipY; root.add(pelvis);
   const chest = new THREE.Group(); pelvis.add(chest);
   // ---- torso: shirt on top, pants (or overall trousers) below the waist
-  if (S.outfit === 'hawaiian') {                                          // loose printed shirt, untucked, flaring at the hem
-    const print = new THREE.MeshToonMaterial({ map: hawaiianTex(), gradientMap: ramp });
-    chest.add(shell(0, TAU, S.waist - 9, yTop, (_p, y) => .7 + 1.1 * (1 - sstep(S.waist - 9, S.waist + 8, y)), print, id(11)));
+  if (loose) {                                                            // loose printed shirt / tunic, untucked, flaring at the hem
+    const tee = S.outfit === 'tee', fish = S.outfit === 'fish';
+    const print = tee ? new THREE.MeshToonMaterial({ map: teeTex(S.shirt), gradientMap: ramp }) : fish ? M.shirt : new THREE.MeshToonMaterial({ map: hawaiianTex(), gradientMap: ramp });
+    const y0 = S.waist - 9, uvf = tee ? (phi: number, y: number): [number, number] => [phi / TAU + .5, .14 + .86 * (y - y0) / (yTop - y0) * .92] : undefined;
+    chest.add(shell(0, TAU, y0, yTop, (_p, y) => (tee ? 1.2 : .7) + (tee ? 1.6 : 1.1) * (1 - sstep(S.waist - 9, S.waist + 8, y)), print, id(11), 28, 24, uvf));
   } else chest.add(shell(0, TAU, S.waist - 3, yTop, 0, M.shirt, id(11)));
   chest.add(shell(0, TAU, yBot, S.waist + .6, (_p, y) => .35 * sstep(yBot, yBot + 3, y), M.pants, id(12)));
   // ---- head: one long capsule (head + neck), a little wider at the top, bent and leaning forward
@@ -2420,6 +2451,59 @@ const worm = (S: WormSpec) => {
     const cuff = grid(range(0, TAU, 40), rows, (phi, [y, o]) => ({ p: headPt(phi, y, o), c: ribs(phi) * .94 }));
     orient(cuff, (p) => V(p.x, 0, p.z - bendZ(p.y)));
     add(head, mesh(cuff, knit, id(40)));
+  }
+  if (S.hat === 'straw') {                                               // wide straw hat: dome crown, drooping brim, red band
+    const yb = S.eyeY + S.eyeR * 2.0, ch = L + 3.2 - yb, straw = vtoon('#e6c46c'), band = toon('#b5432b');
+    const hg = new THREE.Group(); hg.position.set(0, yb, bendZ(yb) + 1.2); hg.rotation.x = -.1; head.add(hg);
+    const weave = (phi: number) => (Math.floor(phi / TAU * 36 + .5) % 2 ? .92 : 1);
+    const lat = (pts: [number, number][], part: number, mat: THREE.Material) => {
+      const pp = pts.map(([r, y]) => new THREE.Vector2(Math.max(r, 1e-3), y)), g = new THREE.LatheGeometry(pp, 44);
+      const col: number[] = []; for (let i = 0; i < g.attributes.position.count; i++) col.push(.96 + .04 * ((i % 2)), .96 + .04 * ((i % 2)), .96);
+      g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); return mesh(g, mat, part);
+    };
+    hg.add(lat([[0, .2], [R * 1.4, .1], [R * 1.95, -.7], [R * 2.55, -2.4], [R * 2.62, -1.4], [R * 2.5, -.2], [R * 1.5, 1.1], [R * 1.14, 1.5]], id(52), straw));
+    hg.add(lat([[R * 1.12, .6], [R * 1.14, ch * .3], [R * 1.04, ch * .62], [R * .78, ch * .86], [R * .4, ch * .97], [0, ch]], id(53), straw));
+    hg.add(lat([[R * 1.15, 1.2], [R * 1.17, 2.6], [R * 1.145, 3.6], [R * 1.13, 1.2]], id(54), band));
+    void weave;
+  }
+  if (S.hair === 'messy') {                                              // blond messy hair: a cap with a ragged fringe + spiky tufts
+    const hairMat = toon('#f3cf55'), hairD = toon('#e2b531');
+    const yTopH = L;
+    const hl = (phi: number) => { const a = Math.abs(((phi + Math.PI) % TAU) - Math.PI); const side = sstep(1.1, 2.0, a); return S.eyeY + S.eyeR * (1.55 - 2.6 * side) + 2.4 * Math.abs(Math.sin(phi * 4.5 + .6)) * (1 - side); };
+    const cap = grid(range(0, 1, 12), range(0, TAU, 56), (t, phi) => { const y0 = hl(phi), y = y0 + t * (yTopH - y0); return { p: headPt(phi, y, .9 + 1.2 * sstep(S.eyeY, L, y) + .6 * Math.sin(phi * 5) * t) }; });
+    orient(cap, (p) => V(p.x, p.y > L - R ? p.y - (L - R) : 0, p.z - bendZ(p.y)));
+    add(head, mesh(cap, hairMat, id(55)));
+    const tuft = (phi: number, y: number, len: number, w: number, tx: number, ty: number, tz: number, mat = hairMat) => {
+      const base = headPt(phi, y, .6), dir = V(Math.sin(phi), (y > L - R ? .9 : .25), Math.cos(phi) * .8).add(V(tx, ty, tz)).normalize();
+      const m = mesh(new THREE.CapsuleGeometry(w * .62, len * .55, 4, 10), mat, id(56)); m.quaternion.setFromUnitVectors(V(0, 1, 0), dir);
+      m.position.copy(base).addScaledVector(dir, len * .38); head.add(m);
+    };
+    const T: [number, number, number, number, number, number, number][] = [[0, L - 2, 11, 3.6, .15, .5, .6], [.7, L - 3.5, 10, 3.4, .5, .4, .2], [-.7, L - 3.5, 10.5, 3.4, -.5, .4, .2], [1.5, L - 6, 9, 3.2, .7, .2, -.2], [-1.5, L - 6, 9, 3.2, -.7, .2, -.2],
+      [2.6, L - 5, 10, 3.4, .4, .5, -.6], [-2.6, L - 5, 10, 3.4, -.4, .5, -.6], [3.14, L - 3, 9, 3.2, 0, .6, -.7], [.35, L - 5.2, 8, 3, 0, .2, 1.0], [-.4, L - 5, 9, 3.2, -.2, .2, 1.0]];
+    for (const [phi, y, len, w, tx, ty, tz] of T) tuft(phi, y, len, w, tx, ty, tz);
+    for (const [phi, y] of [[.32, hl(.32) + 1.5], [-.55, hl(-.55) + 1.4], [.95, hl(.95) + 1]] as const) tuft(phi, y, 6, 2.4, phi * .6, -.6, .9, hairD);   // bangs over the forehead
+  }
+  if (S.fin) {                                                           // fish-folk: fan fin ears, a crest on the head, a tail
+    const fm = toon(S.fin), fd = toon(S.finDark ?? S.fin);
+    const fan = (Ln: number, Hh: number, th: number, part: number, mat: THREE.Material) => {
+      const sh = new THREE.Shape();
+      sh.moveTo(0, -Hh * .16); sh.bezierCurveTo(Ln * .3, -Hh * .46, Ln * .7, -Hh * .72, Ln * .98, -Hh * .64); sh.quadraticCurveTo(Ln * .8, -Hh * .3, Ln * 1.0, -Hh * .04);
+      sh.quadraticCurveTo(Ln * .82, Hh * .26, Ln * .98, Hh * .62); sh.quadraticCurveTo(Ln * .55, Hh * .5, 0, Hh * .18); sh.closePath();
+      const g = new THREE.ExtrudeGeometry(sh, { depth: th, bevelEnabled: true, bevelThickness: .35, bevelSize: .35, bevelSegments: 2, curveSegments: 10 });
+      g.translate(0, 0, -th / 2); return mesh(g, mat, part);
+    };
+    for (const sd of [1, -1]) {
+      const g = new THREE.Group(), p = headPt(sd * Math.PI / 2, S.eyeY - S.eyeR * .5, -1);
+      g.position.copy(p); g.scale.x = sd; g.rotation.set(0, sd * .5, sd * .38); head.add(g);
+      g.add(fan(S.fin ? S.headR * 1.55 : 12, S.headR * 1.45, 1.1, id(57), fm));
+      const sp = S.headR * 1.55;
+      for (const [a, b] of [[.98, -.64], [1.0, -.04], [.98, .62]] as const) g.add(tube([V(sp * .1, 0, .8), V(sp * a * .6, S.headR * 1.45 * b * .5, .9), V(sp * a * .95, S.headR * 1.45 * b * .96, .9)], .38, fd, id(58), 10, 5));
+    }
+    const crest = new THREE.Shape(); crest.moveTo(0, -3); crest.lineTo(0, 1); crest.lineTo(3, 8); crest.lineTo(6, 3.5); crest.lineTo(10, 9.5); crest.lineTo(13, 3.5); crest.lineTo(17, 8); crest.lineTo(19, 0); crest.lineTo(19, -3); crest.closePath();
+    const cg = new THREE.ExtrudeGeometry(crest, { depth: 1.2, bevelEnabled: true, bevelThickness: .35, bevelSize: .35, bevelSegments: 2 }); cg.translate(0, 0, -.6);
+    const cm = mesh(cg, fm, id(59)); cm.rotation.y = Math.PI / 2; cm.position.set(0, L - R * 1.05 + R * .98, bendZ(L) + R * .52 * S.zs); head.add(cm);
+    const tailG = new THREE.Group(); tailG.position.set(0, 2, -S.torso[3][2] * .7); tailG.rotation.set(.35, Math.PI / 2, 0); pelvis.add(tailG);
+    tailG.add(fan(S.headR * 2.3, S.headR * 2.0, 1.2, id(60), fm));
   }
   // collar ring where the capsule leaves the shirt
   const [cx, cz] = prof(yTop);
@@ -2497,14 +2581,16 @@ const worm = (S: WormSpec) => {
   const arms = [1, -1].map((sd) => {
     const sh = new THREE.Group(); sh.position.set(sd * S.shX, S.shY, 0); chest.add(sh);
     const apart = id(sd > 0 ? 17 : 18);
-    const sleeveMat = S.outfit === 'overalls' ? M.shirt : M.skin;
+    const sleeveMat = S.outfit === 'overalls' ? M.shirt : M.skin, foreMat = S.rolled ? M.skin : sleeveMat;
     sh.add(limb(S.upperL, S.armR * 1.04, S.armR * .92, sleeveMat, apart));
-    if (S.outfit !== 'overalls') {                                          // the tee's short sleeve
-      sh.add(limb(S.upperL * (S.outfit === 'hawaiian' ? .5 : .42), S.armR * (S.outfit === 'hawaiian' ? 1.55 : 1.4), S.armR * (S.outfit === 'hawaiian' ? 1.42 : 1.24), M.shirt, id(sd > 0 ? 19 : 20)));
+    if (S.outfit !== 'overalls' && S.outfit !== 'fish') {                   // the tee's short sleeve
+      const wide = S.outfit === 'hawaiian' || S.outfit === 'tee';
+      sh.add(limb(S.upperL * (S.outfit === 'hawaiian' ? .5 : S.outfit === 'tee' ? .56 : .42), S.armR * (wide ? 1.55 : 1.4), S.armR * (wide ? 1.42 : 1.24), M.shirt, id(sd > 0 ? 19 : 20)));
     }
     const el = new THREE.Group(); el.position.y = -S.upperL; sh.add(el);
-    el.add(limb(S.foreL, S.armR * .92, S.armR * .82, sleeveMat, apart));
-    if (S.outfit === 'overalls') el.add(at(limb(2.2, S.armR * 1.0, S.armR * 1.0, M.shirt, id(21)), 0, -S.foreL + 2.6, 0));   // cuff
+    el.add(limb(S.foreL, S.armR * .92, S.armR * .82, foreMat, apart));
+    if (S.rolled) el.add(at(limb(4.6, S.armR * 1.3, S.armR * 1.22, M.shirt, id(61)), 0, 3.2, 0));          // rolled sleeve: a thick cuff just below the elbow
+    if (S.outfit === 'overalls' && !S.rolled) el.add(at(limb(2.2, S.armR * 1.0, S.armR * 1.0, M.shirt, id(21)), 0, -S.foreL + 2.6, 0));   // cuff
     const wr = new THREE.Group(); wr.position.y = -S.foreL; el.add(wr);
     const hp_ = id(sd > 0 ? 22 : 23), H = S.handR;
     wr.add(ellip(H, [.62, 1, .95], [0, -H * .75, 0], M.skin, hp_));
@@ -2512,7 +2598,15 @@ const worm = (S: WormSpec) => {
     const thumb = ellip(H * .42, [.85, 1.25, .85], [-sd * .28 * H, -H * .6, H * .78], M.skin, id(24));
     thumb.rotation.x = .55; wr.add(thumb);
     const index = limb(H * 1.25, H * .27, H * .24, M.skin, hp_, 10); index.position.set(-sd * .05 * H, -H * 1.55, .25 * H); wr.add(index);
-    return { sd, sh, el, wr, fing, index };
+    const stick = new THREE.Group(); stick.visible = false; wr.add(stick);
+    if (S.stick) {                                                          // glow stick: bright core, fist wrapped around its lower part
+      const col = S.stick[sd > 0 ? 0 : 1];
+      const core = mesh(new THREE.CylinderGeometry(2.0, 2.0, 32, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(col) }), id(sd > 0 ? 62 : 63));
+      core.position.set(0, -H * .75 - 14, 0); stick.add(core);
+      const cap = mesh(new THREE.SphereGeometry(2.0, 12, 8), new THREE.MeshBasicMaterial({ color: new THREE.Color(col) }), id(sd > 0 ? 62 : 63)); cap.position.set(0, -H * .75 - 30, 0); stick.add(cap);
+      const hi = mesh(new THREE.BoxGeometry(.5, 24, .5), new THREE.MeshBasicMaterial({ color: 0xffffff }), id(64)); hi.position.set(-.8, -H * .75 - 15, 1.1); stick.add(hi);
+    }
+    return { sd, sh, el, wr, fing, index, stick };
   });
   // phone (hold-phone pose, in the right hand)
   const phoneG = new THREE.Group();
@@ -2531,22 +2625,24 @@ const worm = (S: WormSpec) => {
   const legs = [1, -1].map((sd) => {
     const hip = new THREE.Group(); hip.position.set(sd * S.hipX, 0, 0); pelvis.add(hip);
     const lp = id(sd > 0 ? 27 : 28);
-    const bare = S.outfit === 'hawaiian';                                   // shorts: bare thighs and shins
+    const bare = loose;                                                      // shorts / tunic: bare thighs and shins
     hip.add(limb(S.thighL, S.legR, S.legR * .9, bare ? M.skin : M.pants, lp));
-    if (bare) hip.add(limb(S.thighL * .6, S.legR * 1.2, S.legR * 1.14, M.pants, id(50)));   // the short leg of the shorts
+    if (shorts) hip.add(limb(S.thighL * (S.outfit === 'tee' ? .78 : .6), S.legR * 1.2, S.legR * 1.14, M.pants, id(50)));   // the short leg of the shorts
+    if (S.outfit === 'tee') hip.add(box(S.legR * .55, S.thighL * .3, S.legR * 1.1, [sd * S.legR * 1.2, -S.thighL * .38, 0], M.pants, id(65), .5));   // cargo pocket
     const kn = new THREE.Group(); kn.position.y = -S.thighL; hip.add(kn);
     kn.add(limb(S.shinL, S.legR * .9, S.legR * .8, bare ? M.skin : M.pants, lp));
     const bp = id(sd > 0 ? 29 : 30), r = S.legR;
     const tall = S.outfit === 'overalls';                                   // rubber boots up the shin; work boots to the ankle
-    const shaftTop = bare ? .6 : tall ? S.shinL * .55 : S.shinL * .2;
-    const shaft = limb(shaftTop, r * (tall ? 1.12 : 1.02), r * (tall ? 1.02 : .98), bare ? M.skin : M.boot, bp);
+    const sock = S.outfit === 'tee';
+    const shaftTop = sock ? 7 : bare ? .6 : tall ? S.shinL * .55 : S.shinL * .2;
+    const shaft = limb(shaftTop, r * (tall ? 1.12 : 1.02), r * (tall ? 1.02 : .98), sock ? M.white : bare ? M.skin : M.boot, bp);
     shaft.position.y = -S.shinL + shaftTop; kn.add(shaft);
     if (tall) kn.add(at(limb(1.6, r * 1.2, r * 1.2, M.boot, id(31)), 0, -S.shinL + shaftTop + .4, 0));   // rolled lip
     const fy = -S.shinL - r * .75, FL = S.footL;
-    const fm = bare ? M.skin : M.boot;                                       // sandals: bare feet on a tan sole with a strap
+    const fm = barefoot ? M.skin : M.boot;                                       // sandals: bare feet on a tan sole with a strap
     const foot = box(r * 2.15, r * 1.25, FL, [0, fy + r * .55, FL / 2 - r * 1.1], fm, bp, r * .55); kn.add(foot);
     const toe = ellip(r * 1.08, [1, .62, 1.05], [0, fy + r * .55, FL - r * 1.6], fm, bp); kn.add(toe);
-    if (bare) kn.add(box(r * 2.3, r * .5, 3.2, [0, fy + r * 1.2, FL * .42 - r * 1.1], M.boot, id(51), r * .2));
+    if (barefoot && S.outfit === 'hawaiian') kn.add(box(r * 2.3, r * .5, 3.2, [0, fy + r * 1.2, FL * .42 - r * 1.1], M.boot, id(51), r * .2));
     kn.add(box(r * 2.3, r * .42, FL + .8, [0, fy - r * .1, FL / 2 - r * 1.1 + .2], M.sole, id(32), r * .18));
     return { sd, hip, kn };
   });
@@ -2582,7 +2678,7 @@ const worm = (S: WormSpec) => {
     const l0 = torsoPt(.58, S.bibTop - .8, .9), r0 = torsoPt(-.58, S.bibTop - .8, .9);
     chest.add(tube([l0, torsoPt(.62, yTop - 3, 1.2), ...pts.reverse().slice(1, -1), torsoPt(-.62, yTop - 3, 1.2), r0], .65, flat('#4a2e1c'), id(36), 80, 8));
     for (const p of [l0, r0]) chest.add(at(ellip(.9, [1, 1, .6], [0, 0, 0], toon('#c9c3b2'), id(34), 12), p.x, p.y, p.z));
-  } else {
+  } else if (S.outfit === 'hawaiian') {
     // Hawaiian shirt: open V collar (bare chest) with two lapels, and dark sunglasses sitting on the eyes
     const vTop = yTop - 1, vBot = yTop - 11;
     const vw = (y: number) => .5 * sstep(vBot, vTop, y) ** .8;
@@ -2609,6 +2705,20 @@ const worm = (S: WormSpec) => {
     };
     lensAt(1); lensAt(-1);
     shades.add(tube([face(-S.eyeX * .5, S.eyeY + .6, R * 1.1), face(0, S.eyeY + 1.0, R * 1.4), face(S.eyeX * .5, S.eyeY + .6, R * 1.1)], .55, frame, id(45), 12, 6));   // bridge
+  }
+  if (S.glasses) {                                                        // round wire glasses, the eyes visible through
+    const gl = new THREE.Group(); head.add(gl);
+    const frame = toon('#2a2733'), R = S.eyeR;
+    for (const sd of [1, -1]) {
+      const x = sd * S.eyeX, c = face(x, S.eyeY, R * .8), n = faceN(x, S.eyeY), q = new THREE.Quaternion().setFromUnitVectors(V(0, 0, 1), n);
+      const ring = mesh(new THREE.TorusGeometry(R * 1.18, .45, 10, 40), frame, id(66)); ring.position.copy(c); ring.quaternion.copy(q); ring.translateZ(R * .12); gl.add(ring);
+      const sh = mesh(new THREE.SphereGeometry(R * .22, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff }), id(67)); sh.scale.set(2, .5, .3);
+      sh.position.copy(c); sh.quaternion.copy(q); sh.translateX(-R * .55); sh.translateY(R * .75); sh.translateZ(R * 1.0); sh.rotateZ(.5); gl.add(sh);
+      const ph0 = (sd * (S.eyeX + R * 1.3)) / Math.max(1, hr(S.eyeY)), pts: THREE.Vector3[] = [];
+      for (const t of range(0, 1, 6)) pts.push(headPt(sd * (Math.abs(ph0) + t * (1.55 - Math.abs(ph0))), S.eyeY + 1 - t * .6, .9));
+      gl.add(tube(pts, .4, frame, id(68), 24, 6));
+    }
+    gl.add(tube([face(-S.eyeX * .38, S.eyeY + .6, R * 1.0), face(0, S.eyeY + 1.0, R * 1.25), face(S.eyeX * .38, S.eyeY + .6, R * 1.0)], .5, frame, id(69), 12, 6));
   }
   const setSkirt = (sit: boolean, lap = false) => {
     if (S.outfit !== 'apron') return;
@@ -2700,7 +2810,7 @@ const worm = (S: WormSpec) => {
     pelvis.rotation.set(0, 0, 0); chest.rotation.set(0, 0, 0); head.rotation.set(0, 0, 0); head.rotation.y = 0;
     for (const A of arms) { A.sh.rotation.set(0, 0, A.sd * .07); A.el.rotation.set(-.14, 0, 0); A.wr.rotation.set(0, 0, 0); A.index.visible = false; A.fing.visible = true; A.fing.scale.set(.56, .78, .9); }
     for (const G of legs) { G.hip.rotation.set(0, 0, G.sd * .02); G.kn.rotation.set(0, 0, 0); }
-    phoneG.visible = chopG.visible = false; poseLook = [0, 0]; poseNod = 0;
+    phoneG.visible = chopG.visible = false; for (const A of arms) A.stick.visible = false; poseLook = [0, 0]; poseNod = 0;
   };
   const aim = (g: THREE.Object3D, x: number, y: number, z: number) => g.quaternion.setFromUnitVectors(V(0, -1, 0), V(x, y, z).normalize());
   root.userData.setPose = (name = 'stand') => {
@@ -2743,6 +2853,13 @@ const worm = (S: WormSpec) => {
       aim(AL.sh, -.04, -.75, .6); AL.el.rotation.set(-.9, 0, 0); AL.wr.rotation.set(-.2, 0, 0);
       chopG.visible = true; chopG.position.set(0, -S.handR * .7, S.handR * .6); chopG.rotation.set(-.45, 0, 0);
       poseNod = .06;
+    } else if (name === 'wave') {                                           // one hand up and open, the other arm relaxed
+      AL.sh.rotation.set(-.1, 0, AL.sd * 2.55); AL.el.rotation.set(-.55, 0, 0); AL.wr.rotation.set(0, 0, AL.sd * .45);
+      AR.sh.rotation.set(.04, 0, AR.sd * .12); chest.rotation.z = -.04; chest.rotation.x = -.03; poseNod = -.1; poseLook = [.1, .25];
+    } else if (name === 'glowsticks') {                                     // both arms up and out, a glow stick in each fist
+      for (const A of arms) { A.sh.rotation.set(-.1, 0, A.sd * 2.35); A.el.rotation.set(-.8, 0, 0); A.wr.rotation.set(0, 0, A.sd * .25); A.stick.visible = true; }
+      chest.rotation.x = -.08; poseNod = -.2; poseLook = [.3, 0];
+      for (const G of legs) G.hip.rotation.set(0, 0, G.sd * .1);
     } else if (name === 'phone') {
       AR.sh.rotation.set(-.32, 0, -.12); AR.el.rotation.set(-1.45, .25, 0); AR.wr.rotation.set(-.15, 0, -.2);
       AL.sh.rotation.set(-.25, 0, .1); AL.el.rotation.set(-1.25, -.35, 0); AL.wr.rotation.set(0, 0, .3);
@@ -2951,6 +3068,63 @@ const friendCobra = () => worm({
   skin: '#7a4d32', lidSkin: '#69402a', shirt: '#c8312f', pants: '#cdb78a', boot: '#7a4a2a', sole: '#b98a52',
   outfit: 'hawaiian', hat: 'beanie', faces: FACE_LEO,
 });
+
+const FACE_DUFF: Record<string, FriendFace> = {
+  neutral: { lid: .22, look: [.1, 0], mouth: 'smile', goofy: .8 },
+  laugh: { lid: .14, look: [.3, 0], mouth: 'open', nod: -.14, goofy: 1.5 },
+  shout: { lid: 0, eye: 1.14, pupil: .85, look: [.15, 0], mouth: 'open', nod: -.24, goofy: .5, talk: 1 },
+  shock: { lid: 0, eye: 1.2, pupil: .5, look: [.05, 0], mouth: 'o', goofy: .4, nod: -.05 },
+  sweat: { lid: .22, tilt: -.25, look: [-.2, -.55], mouth: 'wobble', sweat: true },
+};
+const FACE_OTTO: Record<string, FriendFace> = {
+  neutral: { lid: .3, look: [0, 0], mouth: 'smile', goofy: .5 },
+  wave: { lid: .2, look: [.1, 0], mouth: 'open', goofy: .5, talk: .55 },
+  laugh: { lid: .12, look: [.3, 0], mouth: 'open', nod: -.14, goofy: 1.2 },
+  phone: { lid: .26, look: [.2, 0], mouth: 'smile', goofy: .4 },
+  shock: { lid: 0, eye: 1.2, pupil: .5, look: [.05, 0], mouth: 'o', goofy: .4, nod: -.05 },
+};
+const FACE_SEA: Record<string, FriendFace> = {
+  neutral: { lid: .06, look: [.05, 0], mouth: 'smile', goofy: .3 },
+  cheer: { lid: .03, eye: 1.05, look: [.25, 0], mouth: 'open', nod: -.12, goofy: .4 },
+};
+const scaleTorso = (t: [number, number, number][], w: number, d: number) => t.map(([y, a, b]) => [y, a * w, b * d] as [number, number, number]);
+const LEO_TORSO: [number, number, number][] = [[-7.5, 0, 0], [-7, 7.5, 7], [-4, 15.6, 11.4], [0, 17.2, 12.2], [8, 17.6, 12.6], [20, 17.6, 12.6], [32, 17.0, 12], [41, 16.8, 11.3], [45.5, 15.4, 10.2], [48.5, 12.4, 9.4], [50, 9.4, 9], [50.3, 9.2, 8.9]];
+/** "Duff" (Dave the Diver episode): a young otaku weapons nerd, our own design. Slim Leo-rig body (~1.0x Quest), pale skin, messy blond hair,
+ * round glasses, an oversized pink tee with a gold-star idol print, olive cargo shorts, white sneakers. Poses: stand, cheer (shout), glowsticks. */
+const friendDuff = () => worm({
+  base: 3600, hipY: 76, waist: 7, bibTop: 36,
+  torso: scaleTorso(LEO_TORSO, .84, .88),
+  headL: 41, headR: 10.2, neckR: 7.6, zs: .95, bend: 3.4, lean: .15, eyeR: 3.7, eyeY: 25.5, eyeX: 4.7, noseR: 1.5, mouthY: 15.2, mouthW: 8.6,
+  armR: 3.6, shX: 14.2, shY: 44, upperL: 25, foreL: 23, handR: 5,
+  legR: 6.2, hipX: 7.6, thighL: 34, shinL: 34, footL: 26,
+  skin: '#f1c8a2', lidSkin: '#deb08a', shirt: '#f59cc2', pants: '#8c8b58', boot: '#f2f2f6', sole: '#d8454a',
+  outfit: 'tee', hair: 'messy', glasses: true, stick: ['#ff4fb8', '#3fe6ff'], faces: FACE_DUFF,
+});
+/** "Otto" (Dave the Diver episode): a kind middle-aged farmer, our own design. Stocky body (~1.08x Quest), weathered tan skin, wide straw hat with a red band,
+ * white shirt with rolled sleeves, green bib overalls, brown boots. Poses: stand, wave, phone. */
+const friendOtto = () => worm({
+  base: 3700, hipY: 82, waist: 8, bibTop: 38,
+  torso: scaleTorso(LEO_TORSO, 1.1, 1.1).map(([y, a, b]) => [y + (y > 0 ? 3 : 0), a, b] as [number, number, number]),
+  headL: 43, headR: 10.4, neckR: 8.2, zs: .95, bend: 3.4, lean: .15, eyeR: 3.7, eyeY: 27, eyeX: 3.8, noseR: 2.1, mouthY: 17, mouthW: 9,
+  armR: 4.3, shX: 17, shY: 46.5, upperL: 26, foreL: 24, handR: 5.5,
+  legR: 7.3, hipX: 8.8, thighL: 36, shinL: 37, footL: 28,
+  skin: '#d99d6a', lidSkin: '#c78a58', shirt: '#f4f0e4', pants: '#3f7d4a', boot: '#6b4a2e', sole: '#2a1c12',
+  outfit: 'overalls', hat: 'straw', rolled: true, faces: FACE_OTTO,
+});
+/** Sea People (our own fish-folk): one small round rig (~0.62x Quest) with a belly, huge eyes, fan-fin ears, a head crest and a tail; palette swaps
+ * teal / coral / lilac (skin, fins, tunic). Poses: stand, cheer. */
+const seaFolk = (skin: string, lid: string, fin: string, finDark: string, tunic: string) => worm({
+  base: 3800, hipY: 36, waist: 6, bibTop: 26,
+  torso: [[-6, 0, 0], [-5.5, 6, 5.5], [-2, 13, 12], [4, 17, 16], [14, 18.5, 17.5], [26, 17.5, 16.5], [34, 14.5, 13.5], [38.5, 10.5, 10], [40.5, 7.5, 7.5], [40.8, 7.4, 7.4]],
+  headL: 30, headR: 12.4, neckR: 9.5, zs: .98, bend: 2.5, lean: .12, eyeR: 6.4, eyeY: 21, eyeX: 5.2, noseR: .3, mouthY: 10.5, mouthW: 9,
+  armR: 3.3, shX: 15, shY: 31, upperL: 13, foreL: 12, handR: 4.4,
+  legR: 4.6, hipX: 6.2, thighL: 14, shinL: 14, footL: 16,
+  skin, lidSkin: lid, shirt: tunic, pants: lid, boot: skin, sole: lid,
+  outfit: 'fish', fin, finDark, faces: FACE_SEA,
+});
+const friendSeaTeal = () => seaFolk('#52bdb4', '#3fa49c', '#8fe3d6', '#2a8a86', '#f6e6b8');
+const friendSeaCoral = () => seaFolk('#f28a70', '#d9705a', '#ffc09a', '#d4604a', '#7fd0d0');
+const friendSeaLilac = () => seaFolk('#b9a0e6', '#a086d2', '#dccbf8', '#7e62c0', '#ffe08a');
 
 // ---------------------------------------------------------------- scene, lights, passes
 const scene = new THREE.Scene();
@@ -3574,7 +3748,7 @@ const diveBoat = () => {
 
 const EP003: Record<string, () => THREE.Object3D> = { rowboat, fishingRod, fish, fish2, trashcan, dynamite, chips, golfFlag, lantern,
   sniperGold, roulette, shopBoard, dynamiteLit, blastPuff, bossShadow, lighthouse, toyPistol, toySmg, toyShotgun, slotMachine, fpHands,
-  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo, friendCobra, barStool, airBubble, bubblePop, dolphin, dolphinNet, diveBoat };
+  kettleGrill, seagull, hotdogLure, outboard, outboardOnBoat, friendMax, friendLeo, friendCobra, friendDuff, friendOtto, friendSeaTeal, friendSeaCoral, friendSeaLilac, barStool, airBubble, bubblePop, dolphin, dolphinNet, diveBoat };
 for (const [k, f] of Object.entries(EP003)) if (P.props.includes(k)) scene.add((props[k] = f()));
 
 if (P.light === 'neutral') {
@@ -3621,7 +3795,7 @@ function draw() {
     if (props.fish2) props.fish2.userData.setExpr(shot.fish ?? {});
     if (props.airBubble) props.airBubble.userData.setExpr(shot.bubble ?? 'neutral');
     if (props.dolphin) { props.dolphin.userData.setVariant(shot.dolphin?.grey ? 'grey' : 'pink'); props.dolphin.userData.setPose(shot.dolphin?.pose ?? 'swimSide'); props.dolphin.userData.setExpr(shot.dolphin?.expr ?? 'neutral'); }
-    for (const [k, s] of [['friendMax', shot.max], ['friendLeo', shot.leo], ['friendCobra', shot.cobra]] as const) if (props[k]) { props[k].userData.setPose(s?.pose ?? 'stand'); props[k].userData.setExpr(s?.expr ?? 'neutral');
+    for (const [k, s] of [['friendMax', shot.max], ['friendLeo', shot.leo], ['friendCobra', shot.cobra], ['friendDuff', shot.duff], ['friendOtto', shot.otto], ['friendSeaTeal', shot.seaTeal], ['friendSeaCoral', shot.seaCoral], ['friendSeaLilac', shot.seaLilac]] as const) if (props[k]) { props[k].userData.setPose(s?.pose ?? 'stand'); props[k].userData.setExpr(s?.expr ?? 'neutral');
       const [ax, ay, az, yaw] = s?.at ?? [0, 0, 0, 0]; props[k].position.x = ax; props[k].position.y += ay; props[k].position.z = az; props[k].rotation.y = yaw; }
     // rowboat layers for characters seated inside: 'back' = far side + interior, 'front' = near hull side, rail and oar
     if (props.rowboat) props.rowboat.traverse((o: THREE.Object3D) => { if (o.userData.half) o.visible = !shot.boat || o.userData.half === shot.boat; });

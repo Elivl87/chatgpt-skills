@@ -110,5 +110,53 @@
  "d_laugh.png": [
   "public/art/davethediver/props3d/dolphin_swimSide_laugh.png",
   500
+ ],
+ "duff_n.png": [
+  "public/art/davethediver/props3d/duff_34_neutral.png",
+  800
+ ],
+ "duff_s.png": [
+  "public/art/davethediver/props3d/duff_34_shout.png",
+  800
+ ],
+ "duff_g.png": [
+  "public/art/davethediver/props3d/duff_34_glowsticks.png",
+  800
+ ],
+ "otto_n.png": [
+  "public/art/davethediver/props3d/otto_34_neutral.png",
+  800
+ ],
+ "otto_w.png": [
+  "public/art/davethediver/props3d/otto_34_wave.png",
+  800
+ ],
+ "otto_p.png": [
+  "public/art/davethediver/props3d/otto_34_phone.png",
+  800
+ ],
+ "sea_teal_n.png": [
+  "public/art/davethediver/props3d/seapeople_teal_stand_neutral.png",
+  700
+ ],
+ "sea_teal_c.png": [
+  "public/art/davethediver/props3d/seapeople_teal_stand_cheer.png",
+  700
+ ],
+ "sea_coral_n.png": [
+  "public/art/davethediver/props3d/seapeople_coral_stand_neutral.png",
+  700
+ ],
+ "sea_coral_c.png": [
+  "public/art/davethediver/props3d/seapeople_coral_stand_cheer.png",
+  700
+ ],
+ "sea_lilac_n.png": [
+  "public/art/davethediver/props3d/seapeople_lilac_stand_neutral.png",
+  700
+ ],
+ "sea_lilac_c.png": [
+  "public/art/davethediver/props3d/seapeople_lilac_stand_cheer.png",
+  700
  ]
 }

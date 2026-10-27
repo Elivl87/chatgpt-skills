@@ -730,11 +730,12 @@
           tl.fromTo(tq, { y: 0 }, { y: -8, duration: .18, ease: "power2.out", yoyo: true, repeat: Math.ceil((b - a) / .18) }, a);
           for (let i = 0; i < 5; i++) { const s = html(bz, "abs", `left:${640 + i * 14}px;top:${420 + (i % 2) * 8}px;width:12px;height:12px;opacity:0`, SPARK); tl.fromTo(s, { scale: 0, opacity: 1 }, { scale: 1, opacity: 1, duration: .16, yoyo: true, repeat: Math.ceil((b - a) / .32) }, a + i * .11); }
           const div = mk("div", "abs", r.sh, "left:636px;top:0;width:8px;height:720px;background:linear-gradient(90deg,#16161f,#ffc83d 50%,#16161f)");
-          return { L, R, div };
+          return { L, R, div, bz };
         };
         const A = mkLR(rC18, T.C18, T.C19), B = mkLR(rC19, T.C19, T.END);
         camTo(rC18, T.C18, T.C19, focus(640, 360, 1.06), focus(640, 360, 1.06), "none"); breathe(rC18, T.C18, T.C19, 1);
         tl.fromTo(B.R, { clipPath: "inset(0px 0px 0px 644px)" }, { clipPath: "inset(0px 0px 0px 0px)", duration: .5, ease: "power3.inOut", immediateRender: false }, T.C19 + .05);
+        tl.fromTo(B.bz, { x: 0 }, { x: -124, duration: .5, ease: "power3.inOut", immediateRender: false }, T.C19 + .05);   // the bar slides back to x = 0 as it wipes in: no black strip (the 124 px offset) at the left edge
         tl.fromTo(B.div, { x: 0 }, { x: -640, duration: .5, ease: "power3.inOut", immediateRender: false }, T.C19 + .05); tl.set(B.div, { opacity: 0 }, T.C19 + .56);
         tl.fromTo(B.L, { opacity: 1 }, { opacity: 0, duration: .01, immediateRender: false }, T.C19 + .56);
         camTo(rC19, T.C19, T.C19 + .55, focus(640, 360, 1.06), focus(640, 360, 1.06), "none"); camTo(rC19, T.C19 + .55, T.END, focus(640, 360, 1.06), focus(700, 420, 1.3), "sine.inOut"); breathe(rC19, T.C19, T.END, -1);

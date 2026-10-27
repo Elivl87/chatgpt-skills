@@ -487,8 +487,25 @@ const W = 1280, H = 720, DUR = 53.398;
         sea: '<circle cx="41" cy="36" r="3.8" fill="#bff8ff"/><circle cx="59" cy="36" r="3.8" fill="#bff8ff"/>',
       };
       SILX.duffUp = SILX.duff + '<g stroke-linecap="round" stroke-width="9"><line x1="-10" y1="34" x2="-18" y2="-6" stroke="#ff4fd8"/><line x1="110" y1="34" x2="118" y2="-6" stroke="#4fe8ff"/></g>';
+      // our own 3D characters (props3d): kind -> [asset, width/height, height in cm, standing-neutral height in cm of that character]
+      const CH3 = {
+        duff: ["duff_n", 358 / 1427, 176.9, 176.9], duffShout: ["duff_s", 554 / 1172, 179.0, 176.9], duffUp: ["duff_g", 681 / 1203, 189.0, 176.9],
+        otto: ["otto_n", 456 / 1421, 186.7, 186.7], ottoWave: ["otto_w", 492 / 1246, 190.1, 186.7], ottoPhone: ["otto_p", 535 / 1376, 180.8, 186.7],
+        sea: ["sea_teal_c", 668 / 1140, 113.3, 115.4], seaTealN: ["sea_teal_n", 697 / 1431, 115.4, 115.4], seaTealC: ["sea_teal_c", 668 / 1140, 113.3, 115.4],
+        seaCoralN: ["sea_coral_n", 697 / 1431, 115.4, 115.4], seaCoralC: ["sea_coral_c", 668 / 1140, 113.3, 115.4],
+        seaLilacN: ["sea_lilac_n", 697 / 1431, 115.4, 115.4], seaLilacC: ["sea_lilac_c", 668 / 1140, 113.3, 115.4],
+      };
+      // h = on-screen height of the character standing neutral; poses scale by their real height (same px per cm), feet at by, centred on cx; the 3D figures face right (flip = face left)
       function sil(host, kind, cx, by, h, o) {
-        o = o || {}; const w = h * .5;
+        o = o || {};
+        const c3 = CH3[kind];
+        if (c3) {
+          const hh = h * c3[2] / c3[3], ww = hh * c3[1];
+          const e = mk("div", "abs", host, `left:${cx - ww / 2}px;top:${by - hh}px;width:${ww}px;height:${hh}px;transform-origin:50% 100%;filter:${o.f || "none"}`);
+          const im = mk("img", "", e, `position:absolute;left:0;top:0;width:100%;height:100%;${o.flip ? "transform:scaleX(-1)" : ""}`); im.src = "assets/" + c3[0] + ".png"; im.alt = "";
+          return e;
+        }
+        const w = h * .5;
         const e = mk("div", "abs", host, `left:${cx - w / 2}px;top:${by - h}px;width:${w}px;height:${h}px;transform-origin:50% 100%;filter:${o.f || "drop-shadow(0 0 5px rgba(255,170,90,.75))"}`);
         e.innerHTML = `<svg viewBox="0 0 100 200" width="${w}" height="${h}" style="overflow:visible"><g transform="${o.flip ? "translate(100 0) scale(-1 1)" : ""}"><g fill="${o.col || SILB}">${SILD[kind]}</g>${SILX[kind] || ""}</g></svg>`;
         return e;
@@ -548,12 +565,12 @@ const W = 1280, H = 720, DUR = 53.398;
       /* ================================================================== F03 Duff at the door (snap), F05 shouting */
       const rF03 = rig("sF03"), rF05 = rig("sF05");
       { const t0 = T.F03, t1 = T.F04; plate(rF03.sh, "bar.png", "brightness(.9)");
-        shadow(rF03.sh, 640, 700, 330, 30, .8); const dfa = sil(rF03.sh, "duff", 640, 700, 560, { f: "drop-shadow(0 0 7px rgba(255,170,90,.9))" }); tl.fromTo(dfa, { x: 160, opacity: 0 }, { x: 0, opacity: 1, duration: .2, ease: "power3.out" }, t0 + .02);
+        shadow(rF03.sh, 640, 632, 330, 30, .8); const dfa = sil(rF03.sh, "duff", 640, 632, 505, { flip: true, f: "drop-shadow(0 0 7px rgba(255,170,90,.9))" }); tl.fromTo(dfa, { x: 160, opacity: 0 }, { x: 0, opacity: 1, duration: .2, ease: "power3.out" }, t0 + .02);
         camTo(rF03, t0, t0 + .14, focus(640, 360, 1.0), focus(640, 380, 1.28), "power4.out"); camTo(rF03, t0 + .14, t1, focus(640, 380, 1.28), focus(640, 390, 1.4), "sine.inOut"); breathe(rF03, t0, t1, 1); flash(t0 + .02, .5); }
       { const t0 = T.F05, t1 = T.F05b; plate(rF05.sh, "bar.png", "brightness(.9)"); const R = rng(5);
-        shadow(rF05.sh, 430, 700, 310, 28, .8); const dfb = sil(rF05.sh, "duff", 430, 700, 520, { f: "drop-shadow(0 0 7px rgba(255,170,90,.9))" });
+        shadow(rF05.sh, 430, 636, 310, 28, .8); const dfb = sil(rF05.sh, "duffShout", 430, 636, 470, { f: "drop-shadow(0 0 7px rgba(255,170,90,.9))" });
         tl.fromTo(dfb, { scaleY: 1, scaleX: 1 }, { scaleY: 1.04, scaleX: .98, duration: .12, yoyo: true, repeat: 7, ease: "sine.inOut", immediateRender: false }, t0 + .1);
-        speech(rF05.sh, 520, 70, 380, 150, "IDOL!!", 470, 215, t0 + .08, 70);
+        speech(rF05.sh, 520, 100, 380, 150, "IDOL!!", 470, 215, t0 + .08, 70);
         shotCam(rF05, t0, t1, focus(560, 380, 1.15), focus(520, 380, 1.3), -1); shake(rF05.sh, t0 + .08, 10, .5); shake(rF05.sh, t0 + .7, 6, .5); }
       /* F04 poster, F05b Duff with the glow sticks */
       const rF04 = rig("sF04"), rF05b = rig("sF05b");
@@ -565,7 +582,7 @@ const W = 1280, H = 720, DUR = 53.398;
         fans(pg, t0, t1, 760); shotCam(rF04, t0, t1, focus(640, 380, 1.12), focus(640, 340, 1.34)); }
       { const t0 = T.F05b, t1 = T.F06; stageBg(rF05b.sh, t0, t1); const g = mk("div", "abs", rF05b.sh, "left:0;top:0;width:1280px;height:720px");
         html(g, "abs", "left:330px;top:170px;width:240px;height:336px;transform:rotate(-6deg);filter:drop-shadow(0 0 10px rgba(255,255,255,.35))", POSTER);
-        shadow(g, 860, 690, 300, 26, .8); const du = sil(g, "duffUp", 860, 690, 480, { f: "drop-shadow(0 0 8px rgba(255,120,230,.9))" });
+        shadow(g, 860, 690, 300, 26, .8); const du = sil(g, "duffUp", 860, 690, 480, { flip: true, f: "drop-shadow(0 0 8px rgba(255,120,230,.9))" });
         tl.fromTo(du, { y: 0, rotation: -3 }, { y: -18, rotation: 3, duration: .3, ease: "sine.inOut", yoyo: true, repeat: 10 }, t0);
         shotCam(rF05b, t0, t1, focus(640, 380, 1.05), focus(660, 370, 1.16), 1); }
 
@@ -576,7 +593,7 @@ const W = 1280, H = 720, DUR = 53.398;
         shadow(rF06.sh, 840, 456, 70, 9, .7); const ot = sil(rF06.sh, "otto", 840, 455, 150, { f: "drop-shadow(0 0 4px rgba(255,170,90,.9))" }); tl.fromTo(ot, { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: .5, ease: "power2.out" }, t0 + .05);
         shotCam(rF06, t0, t1, focus(850, 410, 2.2), focus(850, 400, 2.75), 1); }
       { const t0 = T.F07, t1 = T.F08; mk("div", "full", rF07.sh, "background:radial-gradient(ellipse at 50% 45%,#34508a 0%,#1b2a55 60%,#0f1736 100%)");
-        const sh2 = mk("div", "abs", rF07.sh, "left:0;top:0;width:1280px;height:720px"); shadow(sh2, 330, 700, 300, 26, .7); sil(sh2, "otto", 330, 700, 520, { f: "drop-shadow(0 0 8px rgba(255,200,120,.8))" });
+        const sh2 = mk("div", "abs", rF07.sh, "left:0;top:0;width:1280px;height:720px"); shadow(sh2, 330, 680, 300, 26, .7); sil(sh2, "otto", 330, 680, 500, { f: "drop-shadow(0 0 8px rgba(255,200,120,.8))" });
         const R = rng(41), mons = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
         for (let i = 0; i < 14; i++) { const w = 150 + R() * 60, h = w * 1.12, y = 60 + R() * 440, d0 = i * (t1 - t0 - .5) / 14 * .9;
           const pgE = html(sh2, "abs", `left:0;top:${y}px;width:${w}px;height:${h}px;background:#fffdf6;border:5px solid #16161f;border-radius:8px;box-shadow:5px 7px 0 rgba(0,0,0,.35);opacity:0`,
@@ -585,7 +602,7 @@ const W = 1280, H = 720, DUR = 53.398;
         shotCam(rF07, t0, t1, focus(640, 360, 1.0), focus(560, 360, 1.12), -1); camSet; }
       const phoneScene = (r, t0, t1, ca, cb, o) => {
         mk("div", "full", r.sh, "background:radial-gradient(ellipse at 62% 50%,#2a3c6a 0%,#161f40 65%,#0d1230 100%)");
-        const g = mk("div", "abs", r.sh, "left:0;top:0;width:1280px;height:720px"); shadow(g, 400, 700, 300, 26, .7); sil(g, "otto", 400, 700, 540, { f: "drop-shadow(0 0 9px rgba(120,220,255,.55))" });
+        const g = mk("div", "abs", r.sh, "left:0;top:0;width:1280px;height:720px"); shadow(g, 400, 680, 300, 26, .7); sil(g, "ottoPhone", 400, 680, 520, { f: "drop-shadow(0 0 9px rgba(120,220,255,.55))" });
         const ph = mk("div", "abs", g, "left:690px;top:50px;width:340px;height:660px;transform-origin:50% 50%;transform:scale(.8)");
         mk("div", "abs", ph, "left:0;top:0;width:340px;height:660px;border-radius:48px;background:#15151d;border:6px solid #3b3b4a;box-shadow:0 14px 0 rgba(0,0,0,.35),0 0 60px rgba(120,220,255,.25)");
         const sc = mk("div", "abs", ph, "left:14px;top:14px;width:312px;height:632px;border-radius:36px;overflow:hidden;background:linear-gradient(180deg,#fff4e6,#ffe0c2)");
@@ -625,10 +642,13 @@ const W = 1280, H = 720, DUR = 53.398;
           const hs = html(vil, "abs", `left:${x}px;top:${600 - h}px;width:${w}px;height:${h}px;filter:drop-shadow(0 0 16px rgba(255,200,110,.45))`, `<svg viewBox="0 0 200 220" width="100%" height="100%"><path d="M8 216 Q8 56 100 36 Q192 56 192 216 Z" fill="#17406e" stroke="#0a1f3a" stroke-width="6"/><path d="M60 216 L60 150 Q100 116 140 150 L140 216 Z" fill="#ffd27a"/><circle cx="52" cy="104" r="14" fill="#ffd27a"/><circle cx="148" cy="104" r="14" fill="#ffd27a"/><path d="M30 76 Q100 20 170 76" fill="none" stroke="#3f8fd0" stroke-width="5" opacity=".6"/></svg>`);
           const gw = mk("div", "abs", vil, `left:${x - 20}px;top:${600 - h * .4}px;width:${w + 40}px;height:${h * .5}px;mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(255,190,100,.5),rgba(255,160,60,0) 70%)`); }
         mk("div", "abs", vil, "left:-200px;top:596px;width:1800px;height:160px;background:linear-gradient(180deg,#0d3a52,#06202f)");
-        const crowd = [];
-        for (let i = 0; i < 13; i++) { const x = 40 + i * 118 + (R() - .5) * 40, row = i % 2, h = 250 + R() * 60 - row * 30, by = 700 - row * 26;
-          const c = sil(vil, "sea", x, by, h, { f: SEAF + (row ? " brightness(.85)" : "") }); crowd.push(c); }
-        const cheer = (tt) => crowd.forEach((c, i) => tl.fromTo(c, { y: 0, scaleY: 1 }, { keyframes: [{ y: 0, scaleY: .92, duration: .08 }, { y: -50, scaleY: 1.06, duration: .16, ease: "power2.out" }, { y: 0, scaleY: 1, duration: .16, ease: "power2.in" }, { y: -26, duration: .12, ease: "power2.out" }, { y: 0, duration: .12, ease: "power2.in" }] }, tt + (i % 5) * .04));
+        const crowd = [], pal = ["Teal", "Coral", "Lilac"];
+        for (let i = 0; i < 12; i++) { const x = 70 + i * 106 + (R() - .5) * 36, row = i % 2, h = 215 + R() * 50 - row * 38, by = 702 - row * 30, k = pal[(i * 2 + row + (i > 5 ? 1 : 0)) % 3];
+          const c = mk("div", "abs", vil, "left:0;top:0;width:1280px;height:720px;pointer-events:none"); const fl = i % 3 === 1;
+          const neu = sil(c, "sea" + k + "N", x, by, h, { flip: fl, f: SEAF + (row ? " brightness(.8)" : "") }), chr = sil(c, "sea" + k + "C", x, by, h, { flip: fl, f: SEAF + (row ? " brightness(.8)" : "") });
+          tl.set(chr, { opacity: 0 }, 0); c._neu = neu; c._chr = chr; crowd.push(c); }
+        const cheer = (tt) => crowd.forEach((c, i) => { const t1_ = tt + (i % 5) * .04; tl.set(c._neu, { opacity: 0 }, t1_); tl.set(c._chr, { opacity: 1 }, t1_);
+          tl.fromTo(c, { y: 0, scaleY: 1 }, { keyframes: [{ y: 0, scaleY: .94, duration: .08 }, { y: -50, scaleY: 1.04, duration: .16, ease: "power2.out" }, { y: 0, scaleY: 1, duration: .16, ease: "power2.in" }, { y: -26, duration: .12, ease: "power2.out" }, { y: 0, duration: .12, ease: "power2.in" }] }, t1_); });
         return { o, vil, crowd, cheer };
       }
       { const t0 = T.F11, t1 = T.F12, tcheer = 20.276; const v = village(rF11, t0, t1, 0, -50, tcheer);
@@ -645,7 +665,7 @@ const W = 1280, H = 720, DUR = 53.398;
       /* ================================================================== F13 four tiles light up, F14 each opens into a one-second gag */
       const rF13 = rig("sF13");
       { const t0 = T.F13, t1 = T.F14a; mk("div", "full", rF13.sh, "background:radial-gradient(ellipse at 50% 45%,#1d2a52,#0c1230 75%)");
-        const kinds = [["duff", "#7a3fd0", "Duff", ""], ["otto", "#3f9a5a", "Otto", ""], ["sea", "#2a8ab8", "Sea People", SEAF], ["p", "#d0793f", "Customers", ""]];
+        const kinds = [["duff", "#7a3fd0", "Duff", ""], ["otto", "#3f9a5a", "Otto", ""], ["seaCoralC", "#2a8ab8", "Sea People", SEAF], ["p", "#d0793f", "Customers", ""]];
         kinds.forEach(([k, col, nm, f], i) => { const x = 107 + i * 272, tile = mk("div", "abs", rF13.sh, `left:${x}px;top:190px;width:250px;height:330px;border-radius:22px;background:${col};border:6px solid #16161f;box-shadow:7px 9px 0 rgba(0,0,0,.5);overflow:hidden;transform-origin:50% 50%`);
           mk("div", "abs", tile, "left:0;top:0;width:250px;height:330px;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.45),rgba(255,255,255,0) 70%)"); sil(tile, k, 125, 316, 240, { f: f || "none" });
           html(tile, "abs", "left:0;top:0;width:250px;text-align:center;font:400 36px/1 Anton;color:#fff;-webkit-text-stroke:3px #16161f;paint-order:stroke fill;margin-top:12px", nm);
@@ -653,16 +673,14 @@ const W = 1280, H = 720, DUR = 53.398;
           tl.to(veil, { opacity: 0, duration: .1 }, tt); tl.fromTo(tile, { scale: 1 }, { scale: 1.08, duration: .12, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, tt); });
         shotCam(rF13, t0, t1, focus(640, 360, 1.0), focus(640, 360, 1.06), 1); }
       const rF14a = rig("sF14a"), rF14b = rig("sF14b"), rF14c = rig("sF14c"), rF14d = rig("sF14d");
-      { const t0 = T.F14a, t1 = T.F14b; stageBg(rF14a.sh, t0, t1); shadow(rF14a.sh, 640, 700, 320, 28, .8);
-        const du = sil(rF14a.sh, "duffUp", 640, 700, 540, { f: "drop-shadow(0 0 8px rgba(255,120,230,.9))" }); tl.fromTo(du, { y: 0, rotation: -3 }, { y: -20, rotation: 3, duration: .22, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0); shotCam(rF14a, t0, t1, focus(640, 380, 1.0), focus(640, 380, 1.12), 1); }
+      { const t0 = T.F14a, t1 = T.F14b; stageBg(rF14a.sh, t0, t1); shadow(rF14a.sh, 640, 670, 320, 28, .8);
+        const du = sil(rF14a.sh, "duffUp", 640, 670, 500, { f: "drop-shadow(0 0 8px rgba(255,120,230,.9))" }); tl.fromTo(du, { y: 0, rotation: -3 }, { y: -20, rotation: 3, duration: .22, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0); shotCam(rF14a, t0, t1, focus(640, 380, 1.0), focus(640, 380, 1.12), 1); }
       { const t0 = T.F14b, t1 = T.F14c; mk("div", "full", rF14b.sh, "background:linear-gradient(180deg,#ff9a6a 0%,#ffcf8a 52%,#7fae5a 52.5%,#4e8a3c 100%)");
         mk("div", "abs", rF14b.sh, "left:-100px;top:330px;width:1500px;height:120px;border-radius:50%;background:#6aa048;opacity:.8");
-        shadow(rF14b.sh, 640, 700, 320, 28, .6); sil(rF14b.sh, "ottoWave", 600, 700, 540, { f: "drop-shadow(0 0 4px rgba(255,255,255,.5))" });
-        const bare = mk("div", "abs", rF14b.sh, `left:${600 - 135}px;top:${700 - 540}px;width:270px;height:540px;pointer-events:none`); // bare head patch over the hat: the hat leaves his head into his hand
-        const hatW = html(rF14b.sh, "abs", "left:680px;top:185px;width:150px;height:116px;transform-origin:10% 90%", '<svg viewBox="0 0 100 80" width="100%" height="100%"><g stroke="#16161f" stroke-width="4"><ellipse cx="50" cy="56" rx="47" ry="14" fill="#d9b45a"/><path d="M26 56 Q28 12 50 12 Q72 12 74 56 Z" fill="#e8c872"/><rect x="27" y="40" width="46" height="9" fill="#b4492c"/></g></svg>');
-        tl.fromTo(hatW, { rotation: -28 }, { rotation: 28, duration: .18, ease: "sine.inOut", yoyo: true, repeat: 5 }, t0); shotCam(rF14b, t0, t1, focus(640, 380, 1.0), focus(640, 380, 1.12), -1); }
+        shadow(rF14b.sh, 640, 665, 320, 28, .6); const ow = sil(rF14b.sh, "ottoWave", 600, 665, 500, { f: "drop-shadow(0 0 4px rgba(255,255,255,.5))" });
+        tl.fromTo(ow, { rotation: -2 }, { rotation: 2, duration: .18, ease: "sine.inOut", yoyo: true, repeat: 5, immediateRender: false }, t0); shotCam(rF14b, t0, t1, focus(640, 380, 1.0), focus(640, 380, 1.12), -1); }
       { const t0 = T.F14c, t1 = T.F14d; const o = buildUnder(rF14c.sh, { seed: 71, dark: 0, bubbles: 16 }); underAmbient(o, t0, t1); underPan(o, t0, t1, -30, 0);
-        const c = sil(rF14c.sh, "sea", 640, 700, 520, { f: SEAF + " brightness(.7)" }); tl.fromTo(c, { y: 0, scaleY: 1 }, { y: -8, scaleY: 1.02, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut" }, t0);
+        const c = sil(rF14c.sh, "seaLilacC", 640, 700, 520, { f: SEAF + " brightness(.7)" }); tl.fromTo(c, { y: 0, scaleY: 1 }, { y: -8, scaleY: 1.02, duration: .3, yoyo: true, repeat: 3, ease: "sine.inOut" }, t0);
         bubbleTrail(rF14c.sh, 640, 360, t0 + .05, 9, 150, 60); const hb = pic(rF14c.sh, "hbub", 840, 300, 220); tl.set(hb, { opacity: 0 }, 0); tl.fromTo(hb, { opacity: 1, scale: .3 }, { scale: 1, duration: .25, ease: "back.out(1.8)" }, t0 + .25);
         shotCam(rF14c, t0, t1, focus(640, 380, 1.0), focus(640, 380, 1.12), 1); }
       { const t0 = T.F14d, t1 = T.F15; buildBar(rF14d.sh, { t0, t1, maxLaugh: t0 + .05, maxBounce: 2, leoLaugh: t0 + .1 });
