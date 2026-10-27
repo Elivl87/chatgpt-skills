@@ -75,15 +75,15 @@
       <div id="sA01" class="full clip shot" data-start="0" data-duration="2.76" data-track-index="2"></div>
       <div id="sA02" class="full clip shot" data-start="2.76" data-duration="1.76" data-track-index="1"></div>
       <div id="sA03" class="full clip shot" data-start="4.52" data-duration="1.14" data-track-index="2"></div>
-      <div id="sA03b" class="full clip shot" data-start="5.66" data-duration="1.44" data-track-index="1"></div>
-      <div id="sA04" class="full clip shot" data-start="7.1" data-duration="0.62" data-track-index="2"></div>
+      <div id="sA03b" class="full clip shot" data-start="5.66" data-duration="1.46" data-track-index="1"></div>
+      <div id="sA04" class="full clip shot" data-start="7.12" data-duration="0.6" data-track-index="2"></div>
       <div id="sA05" class="full clip shot" data-start="7.72" data-duration="2.16" data-track-index="1"></div>
       <div id="sA06" class="full clip shot" data-start="9.88" data-duration="0.8" data-track-index="2"></div>
       <div id="sA07" class="full clip shot" data-start="10.68" data-duration="1.26" data-track-index="1"></div>
       <div id="sA08" class="full clip shot" data-start="11.94" data-duration="1.44" data-track-index="2"></div>
       <div id="sA09" class="full clip shot" data-start="13.38" data-duration="1.7" data-track-index="1"></div>
-      <div id="sA10" class="full clip shot" data-start="15.08" data-duration="3.68" data-track-index="2"></div>
-      <div id="sA11" class="full clip shot" data-start="18.76" data-duration="1.46" data-track-index="1"></div>
+      <div id="sA10" class="full clip shot" data-start="15.08" data-duration="3.66" data-track-index="2"></div>
+      <div id="sA11" class="full clip shot" data-start="18.74" data-duration="1.48" data-track-index="1"></div>
       <div id="sA12" class="full clip shot" data-start="20.22" data-duration="1.54" data-track-index="2"></div>
       <div id="sA13" class="full clip shot" data-start="21.76" data-duration="1.36" data-track-index="1"></div>
       <div id="sA14" class="full clip shot" data-start="23.12" data-duration="4.08" data-track-index="2"></div>
@@ -114,8 +114,8 @@
         tl.fromTo = (t, f, to, at) => { const T = Object.assign({}, to); if (!T.keyframes) for (const k in f) if (!(k in T)) T[k] = f[k]; return ft(t, f, T, at); }; }
 
       /* ---------- word-keyed shot boundaries (block-relative seconds; every cut is a narration word) ---------- */
-      const T = { A01: 0, A02: 2.76, A03: 4.52, A03b: 5.66, A04: 7.1, A05: 7.72, A06: 9.88, A07: 10.68, A08: 11.94, A09: 13.38,
-        A10: 15.08, A11: 18.76, A12: 20.22, A13: 21.76, A14: 23.12, A15: 27.2, A16: 28.1, A17: 31.74, A18: 35.5,
+      const T = { A01: 0, A02: 2.76, A03: 4.52, A03b: 5.66, A04: 7.12, A05: 7.72, A06: 9.88, A07: 10.68, A08: 11.94, A09: 13.38,
+        A10: 15.08, A11: 18.74, A12: 20.22, A13: 21.76, A14: 23.12, A15: 27.2, A16: 28.1, A17: 31.74, A18: 35.5,
         A19: 36.38, A20: 37.061, END: DUR };
 
       /* ---------- helpers ---------- */
@@ -752,7 +752,7 @@
         const stamp = (txt, x, y, col, rot) => { const s = html(card, "", `left:${x}px;top:${y}px;width:118px;height:68px;border:5px solid ${col};border-radius:12px;display:flex;align-items:center;justify-content:center;font:400 46px Anton;letter-spacing:.06em;color:${col};transform:rotate(${rot}deg);opacity:0;position:absolute;box-shadow:inset 0 0 0 3px ${col}`, txt); return s; };
         const sIn = stamp("IN", 22, 118, "#1c6fd1", -6), sOut = stamp("OUT", 292, 118, "#d6342f", 5);
         sOut.style.left = "290px"; sOut.style.width = "112px";
-        const tIn = 28.59, tOut = 30.03;
+        const tIn = 28.57, tOut = 30.03;
         // card snaps in on "clocking"
         tl.fromTo(card, { scale: 1.5, rotation: -9, opacity: 0, y: -60 }, { scale: 1, rotation: -1.5, opacity: 1, y: 0, duration: .2, ease: "back.out(1.4)" }, T.A16);
         const thump = (el, t, rot) => { tl.fromTo(el, { scale: 2.6, opacity: 0 }, { scale: 1, opacity: 1, duration: .1, ease: "power3.in" }, t);
