@@ -49,7 +49,9 @@ def main():
     cues = json.load(open(ROOT / 'episodes/davethediver/timings.json'))['cues']
     t0, t1 = span(b)
     end = round(t1 - t0, 3)
-    subprocess.run([str(FFMPEG), '-y', '-v', 'error', '-ss', str(t0), '-i', str(ROOT / 'public/episodes/davethediver/audio/narration.wav'),
+    audio = ROOT / 'public/episodes/davethediver/audio'
+    src = audio / 'mix.wav' if (audio / 'mix.wav').exists() else audio / 'narration.wav'   # mix.wav = narration + SFX + beds (dtd_sfx.py)
+    subprocess.run([str(FFMPEG), '-y', '-v', 'error', '-ss', str(t0), '-i', str(src),
                     '-t', str(end), '-c:a', 'pcm_s16le',
                     str(OUT / 'narration.wav')], check=True)
     vendor = OUT / 'vendor'
