@@ -62,3 +62,34 @@ Restore: download the asset of release `archive-art-dtd-2026-10-19` and `tar -xf
 Manifest: `docs/art_archive/MANIFEST_DTD_2026-10-24.txt` (column 1 = `E`). Restore: download the asset of release
 `archive-art-dtd-2026-10-24` and `tar -xf` it from `secondquest/` (done by `scripts/dtd_restore.sh`). All six can also
 be re-rendered for free with the commands above.
+
+## Organized backup 2026-10-27 (`archive-backup-arte-2026-10-27`)
+
+Complete, organized copy of all SecondQuest art for the Producer to download (draft release, 10 zips). It holds the
+362 Higgsfield originals (319 images + 43 TTS audios, full resolution, with prompt/model/job id) that exist nowhere
+else, plus everything in `public/art`, `docs/art_orders`, the EP001/EP002 thumbnails and the 4 archive releases above
+(EP001-era art that is not in the container included). Identical files (same sha256) are stored once; `INDICE.csv`
+lists all origins. 1435 unique files, 2.47 GB.
+
+| Zip | Contents | Files |
+|---|---|---|
+| `00_Indice.zip` | `INDICE.csv` (archivo, categoria, personaje, episodio, fecha, modelo, prompt, id_higgsfield, origen, ruta_original) + `LEEME.txt` | 2 |
+| `01_Quest.zip` | `<EPISODIO>/` + `Trajes/` | 122 |
+| `02_Pixie.zip` | `<EPISODIO>/` + `Trajes/` | 52 |
+| `03_Otros_personajes.zip` | one folder per character (Max, Leo_Cobra, Duff, Otto, Sea_People, Dolphin, Puff_Burbuja, Wallet, Fear, Grind, Progress, Villano...) | 316 |
+| `04_Objetos.zip` | props, icons, props3d, cut-outs without characters | 483 |
+| `05_Fondos.zip` | backgrounds/plates by episode | 150 |
+| `06_Escenas.zip` | characters in an environment, thumbnails | 52 |
+| `07_Video.zip` | none (Higgsfield history had no videos) | 1 note |
+| `08_Audio.zip` | Higgsfield TTS narrations by episode | 43 |
+| `09_Revisar.zip` | ambiguous: EP001 working files, metadata, scripts (never executed) | 217 |
+
+File names: `<EPISODIO>_<YYYY-MM-DD>_<slug>_<id8>.<ext>`; `_recorte` = repo-derived cut-out next to its Higgsfield original.
+Episodes: BASE, EP001, EP002, EP003, DTD, GENEROS, SIN_EP. Find a file by prompt: filter the `prompt` column of `INDICE.csv`.
+
+Verification: the `archive-art-2026-10-10` tars were checked against `docs/art_archive/MANIFEST_2026-10-10.txt` with
+`sha256sum -c` per set: A 435/435 OK, B 80/80 OK, C 229/229 OK, 0 FAILED. Nested zips of sets B and C were extracted
+into separate directories and classified as EP001.
+
+Gaps: the Higgsfield 3D generation listing failed (service error), so any 3D jobs are not in the backup; the last 19
+images (2026-10-01 page) have abbreviated prompts in `INDICE.csv` (files are full resolution).
