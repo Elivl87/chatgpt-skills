@@ -1,0 +1,174 @@
+{
+ "city.png": [
+  "public/art/core/backgrounds/city_apartments_evening.png",
+  1080
+ ],
+ "lr.png": [
+  "public/art/core/backgrounds/living_room_night_gaming.png",
+  1080
+ ],
+ "bar.png": [
+  "public/art/davethediver/plates/bar_interior_night.png",
+  1080
+ ],
+ "q_slump.png": [
+  "public/art/core/quest/exhausted_slumped.png",
+  null
+ ],
+ "q_worry.png": [
+  "public/art/core/quest/worried_seated.png",
+  1000
+ ],
+ "swimA.png": [
+  "public/art/davethediver/pixel/derived/p01_quest_swim_A_blue.png",
+  null
+ ],
+ "swimB.png": [
+  "public/art/davethediver/pixel/p02_quest_swim_B.png",
+  null
+ ],
+ "dive.png": [
+  "public/art/davethediver/pixel/p04_quest_dive_ready.png",
+  null
+ ],
+ "tray.png": [
+  "public/art/davethediver/pixel/p10_quest_tray_run.png",
+  null
+ ],
+ "d_happy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_happy.png",
+  500
+ ],
+ "d_blink.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_blink.png",
+  500
+ ],
+ "d_neutral.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_neutral.png",
+  500
+ ],
+ "d_leap.png": [
+  "public/art/davethediver/props3d/dolphin_leap_happy.png",
+  600
+ ],
+ "d_ring.png": [
+  "public/art/davethediver/props3d/dolphin_ring_happy.png",
+  500
+ ],
+ "d_heart.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_ring.png",
+  500
+ ],
+ "pixie.png": [
+  "public/art/davethediver/pixel/p09_pixie_present.png",
+  null
+ ],
+ "fish_s.png": [
+  "public/art/ep003/props3d/fish2_side_deadpan.png",
+  300
+ ],
+ "fish_sb.png": [
+  "public/art/ep003/props3d/fish2_side_blink.png",
+  300
+ ],
+ "boat_back.png": [
+  "public/art/davethediver/props3d/diveboat_side_back.png",
+  null
+ ],
+ "boat_front.png": [
+  "public/art/davethediver/props3d/diveboat_side_front.png",
+  null
+ ],
+ "boat_side.png": [
+  "public/art/davethediver/props3d/diveboat_side.png",
+  null
+ ],
+ "q_floor.png": [
+  "docs/art_orders/quest/library_v2/results/07_floor_gaming.png",
+  null
+ ],
+ "max_n.png": [
+  "public/art/davethediver/props3d/max_bar_34_neutral.png",
+  600
+ ],
+ "max_l.png": [
+  "public/art/davethediver/props3d/max_bar_34_laugh.png",
+  600
+ ],
+ "c_leo_n.png": [
+  "public/art/ep003/props3d/leo_sit_34_neutral.png",
+  400
+ ],
+ "c_leo_l.png": [
+  "public/art/ep003/props3d/leo_sit_34_laugh.png",
+  400
+ ],
+ "c_leo_side.png": [
+  "public/art/ep003/props3d/leo_sit_side_laugh.png",
+  400
+ ],
+ "c_max_side.png": [
+  "public/art/ep003/props3d/max_sit_side_neutral.png",
+  400
+ ],
+ "office.png": [
+  "public/art/core/backgrounds/office_openplan.png",
+  1080
+ ],
+ "q_desk.png": [
+  "public/art/core/quest/desk_typing.png",
+  900
+ ],
+ "bay.png": [
+  "public/art/davethediver/plates/bay_exterior_dusk.png",
+  1080
+ ],
+ "q_walk.png": [
+  "public/art/core/quest/walking_back.png",
+  1000
+ ],
+ "q_bed.png": [
+  "public/art/core/quest/bed_awake.png",
+  900
+ ],
+ "q_surp.png": [
+  "docs/art_orders/quest/library_v2/results/04_surprised_shocked.png",
+  900
+ ],
+ "d_laugh.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_laugh.png",
+  500
+ ],
+ "hbub.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_bubble.png",
+  500
+ ],
+ "hring.png": [
+  "public/art/davethediver/props3d/dolphin_fx_heart_ring.png",
+  500
+ ],
+ "bedroom.png": [
+  "public/art/core/backgrounds/quest_bedroom_morning.png",
+  1080
+ ],
+ "alarm.png": [
+  "public/art/core/objects/alarm_clock.png",
+  500
+ ],
+ "hands.png": [
+  "public/art/ep003/props3d/fp_hands_pov.png",
+  null
+ ],
+ "d_sleepy.png": [
+  "public/art/davethediver/props3d/dolphin_swimSide_sleepy.png",
+  500
+ ],
+ "d_wink.png": [
+  "public/art/davethediver/props3d/dolphin_ring_wink.png",
+  500
+ ],
+ "lrday.png": [
+  "public/art/core/backgrounds/home_living_day.png",
+  1080
+ ]
+}

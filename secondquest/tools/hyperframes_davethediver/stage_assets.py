@@ -55,6 +55,7 @@ def main():
     vendor = OUT / 'vendor'
     vendor.mkdir(exist_ok=True)
     shutil.copy2(HERE / 'node_modules/gsap/dist/gsap.min.js', vendor / 'gsap.min.js')
+    shutil.copy2(ROOT / 'tools/hyperframes_ep002_short2/vendor/three.min.js', vendor / 'three.min.js')   # free Three.js (blocks G/H 3D moments)
     # every word time as a table the compositions key their moves off (W('l07.w2') = start of "why"), so a new
     # narration (Bram, v3) re-times the whole video without touching a single hand-typed second
     table = {}
