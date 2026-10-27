@@ -36,5 +36,8 @@ out = re.sub(r'<!--INCLUDE ([\w.-]+)-->', lambda m: (COMP / m.group(1)).read_tex
 out = re.sub(r'<!--SRC ([\w.-]+)-->', lambda m: (HERE / 'src/components' / m.group(1)).read_text(), out)
 out = re.sub(r'\{\{([^}]+)\}\}', resolve, out)
 assert 'window.__timelines["main"] = tl;' in out
+# gate (critic v1): any text between </style> and </head> renders as visible body text (the G/H CSS band)
+_hd = out[out.index('</style>'):out.index('</head>')]
+assert not re.sub(r'</style>|<script[^>]*></script>|<(?:link|meta)[^>]*>|\s+', '', _hd), 'stray content between </style> and </head>: ' + _hd[:120]
 OUTF.write_text(out)
 print('wrote', OUTF.relative_to(HERE), len(out), 'bytes; DUR', A['DUR'])

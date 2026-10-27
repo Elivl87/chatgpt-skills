@@ -740,7 +740,7 @@
         camTo(rC19, T.C19, T.C19 + .55, focus(640, 360, 1.06), focus(640, 360, 1.06), "none"); camTo(rC19, T.C19 + .55, T.END, focus(640, 360, 1.06), focus(700, 420, 1.3), "sine.inOut"); breathe(rC19, T.C19, T.END, -1);
         const qm = html(rC19.sh, "big", "position:absolute;left:760px;top:70px;width:200px;text-align:center;font-size:150px;opacity:0;transform-origin:50% 100%", "?");
         tl.fromTo(qm, { scale: 0, opacity: 1, rotation: -12 }, { scale: 1, opacity: 1, rotation: 6, duration: .26, ease: "back.out(3)" }, 34.104);
-        const dp = pic(rC19.sh, "d_happy", 1500, 640, 170, {}); tl.fromTo(dp, { x: 0 }, { x: -430, duration: .7, ease: "power2.out" }, T.C19 + .7); tl.fromTo(dp, { y: 6 }, { y: -4, duration: .6, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, T.C19 + 1.4);
+        // (Producer rule: the dolphin is never in the bar; the bar shot carries no dolphin)
       }
 
       /* ---------- HUD overlays (game world only): C06 O2 full, C07 depth, C09 O2 big heartbeat, C10 the bite ---------- */

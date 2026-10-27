@@ -646,12 +646,12 @@ const W = 1280, H = 720, DUR = {{DUR}};
       const rF13 = rig("sF13");
       { const t0 = T.F13, t1 = T.F14a; mk("div", "full", rF13.sh, "background:radial-gradient(ellipse at 50% 45%,#1d2a52,#0c1230 75%)");
         const kinds = [["duff", "#7a3fd0", "Duff", ""], ["otto", "#3f9a5a", "Otto", ""], ["sea", "#2a8ab8", "Sea People", SEAF], ["p", "#d0793f", "Customers", ""]];
-        kinds.forEach(([k, col, nm, f], i) => { const x = 70 + i * 296, tile = mk("div", "abs", rF13.sh, `left:${x}px;top:190px;width:250px;height:330px;border-radius:22px;background:${col};border:6px solid #16161f;box-shadow:7px 9px 0 rgba(0,0,0,.5);overflow:hidden;transform-origin:50% 50%`);
+        kinds.forEach(([k, col, nm, f], i) => { const x = 107 + i * 272, tile = mk("div", "abs", rF13.sh, `left:${x}px;top:190px;width:250px;height:330px;border-radius:22px;background:${col};border:6px solid #16161f;box-shadow:7px 9px 0 rgba(0,0,0,.5);overflow:hidden;transform-origin:50% 50%`);
           mk("div", "abs", tile, "left:0;top:0;width:250px;height:330px;background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.45),rgba(255,255,255,0) 70%)"); sil(tile, k, 125, 316, 240, { f: f || "none" });
           html(tile, "abs", "left:0;top:0;width:250px;text-align:center;font:400 36px/1 Anton;color:#fff;-webkit-text-stroke:3px #16161f;paint-order:stroke fill;margin-top:12px", nm);
           const veil = mk("div", "abs", tile, "left:0;top:0;width:250px;height:330px;background:rgba(8,10,30,.72)"); const tt = t0 + .05 + i * .2;
           tl.to(veil, { opacity: 0, duration: .1 }, tt); tl.fromTo(tile, { scale: 1 }, { scale: 1.08, duration: .12, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, tt); });
-        shotCam(rF13, t0, t1, focus(640, 360, 1.0), focus(640, 360, 1.1), 1); }
+        shotCam(rF13, t0, t1, focus(640, 360, 1.0), focus(640, 360, 1.06), 1); }
       const rF14a = rig("sF14a"), rF14b = rig("sF14b"), rF14c = rig("sF14c"), rF14d = rig("sF14d");
       { const t0 = T.F14a, t1 = T.F14b; stageBg(rF14a.sh, t0, t1); shadow(rF14a.sh, 640, 700, 320, 28, .8);
         const du = sil(rF14a.sh, "duffUp", 640, 700, 540, { f: "drop-shadow(0 0 8px rgba(255,120,230,.9))" }); tl.fromTo(du, { y: 0, rotation: -3 }, { y: -20, rotation: 3, duration: .22, ease: "sine.inOut", yoyo: true, repeat: 4 }, t0); shotCam(rF14a, t0, t1, focus(640, 380, 1.0), focus(640, 380, 1.12), 1); }
@@ -677,9 +677,9 @@ const W = 1280, H = 720, DUR = {{DUR}};
       function avatarGrid(host, t0, fill) {
         const g = mk("div", "full", host, "background:radial-gradient(ellipse at 50% 50%,#1d2a52,#0a1030 80%)"); const R = rng(90), cols = 24, rows = 13, cw = 1280 / cols, rh = 720 / rows, els = [];
         for (let r2 = 0; r2 < rows; r2++) for (let c = 0; c < cols; c++) { const col = AVC[Math.floor(R() * AVC.length)];
-          const e = html(g, "abs", `left:${c * cw + 3}px;top:${r2 * rh + 3}px;width:${cw - 6}px;height:${rh - 6}px;border-radius:50%;background:${col};border:3px solid #16161f;overflow:hidden;opacity:${fill ? 0 : 1}`,
+          const e = html(g, "abs", `left:${c * cw + 3}px;top:${r2 * rh + 3}px;width:${cw - 6}px;height:${rh - 6}px;border-radius:50%;background:${col};border:3px solid #16161f;overflow:hidden;opacity:${fill && r2 * cols + c >= 156 ? 0 : 1}`,
             `<div style="position:absolute;left:30%;top:18%;width:40%;height:34%;border-radius:50%;background:#16161f;opacity:.85"></div><div style="position:absolute;left:14%;top:58%;width:72%;height:60%;border-radius:50% 50% 0 0;background:#16161f;opacity:.85"></div>`); els.push(e); }
-        if (fill) els.forEach((e, i) => tl.fromTo(e, { opacity: 0, scale: .2 }, { opacity: 1, scale: 1, duration: .16, ease: "back.out(2)" }, t0 + .1 + (i / els.length) * (fill - .1)));
+        if (fill) els.forEach((e, i) => { if (i >= 156) tl.fromTo(e, { opacity: 0, scale: .2 }, { opacity: 1, scale: 1, duration: .16, ease: "back.out(2)" }, t0 + ((i - 156) / (els.length - 156)) * fill); });   // the first rows are there on the cut: no empty frame
         return g;
       }
       const rF15 = rig("sF15"), rF16 = rig("sF16"), rF17 = rig("sF17");

@@ -404,6 +404,65 @@
         html(host, "abs", "left:1112px;top:292px;width:132px;height:52px;transform-origin:50% 0%;transform:rotate(-4deg)", '<svg viewBox="0 0 132 52" width="132" height="52"><path d="M30 0 L38 10 M102 0 L94 10" stroke="#16161f" stroke-width="3" fill="none"/><rect x="4" y="10" width="124" height="40" rx="5" fill="#d9b878" stroke="#16161f" stroke-width="4"/><text x="66" y="38" text-anchor="middle" font-family="Anton" font-size="26" fill="#8a1f1f" letter-spacing="1.5">SOLD OUT</text></svg>');
       }
 
+      /* ---------- the bar (A01, A03b, A10): plate + aquarium fish + Pixie chef + Max on his stool + customers; o = beat times (null = off) ---------- */
+      function buildBar(host, o) {
+        const r = {};
+        plate(host, "bar.png");
+        // the EP003 fish (cameo, Producer 2026-10-19) lives in the aquarium: swims along the glass, one blink
+        const tank = mk("div", "abs", host, "left:1104px;top:258px;width:176px;height:146px;overflow:hidden");
+        const fsh = mk("div", "abs", tank, "left:0;top:0;width:176px;height:146px;filter:saturate(1.05) brightness(.92) drop-shadow(0 0 6px rgba(80,170,255,.5))");
+        const fA = pic(fsh, "fish_s", 60, 62, 78, { flip: true }), fB = pic(fsh, "fish_sb", 60, 62, 78, { flip: true }); tl.set(fB, { opacity: 0 }, 0);
+        tl.fromTo(fsh, { x: -10 }, { x: 70, duration: o.t1 - o.t0, ease: "sine.inOut" }, o.t0);
+        tl.fromTo(fsh, { y: 4, rotation: -3 }, { y: -4, rotation: 3, duration: .8, ease: "sine.inOut", yoyo: true, repeat: 7 }, o.t0);
+        if (o.blink != null) { tl.set(fB, { opacity: 1 }, o.blink); tl.set(fB, { opacity: 0 }, o.blink + .15); }
+        // Pixie as the bar's chef (Bancho's role) INSIDE the counter: she stands between the prep counter (behind her) and
+        // the customers' counter, whose top edge (plate y 397) hides her from the waist down; a soft shade where it cuts
+        const back = mk("div", "abs", host, "left:0;top:0;width:1280px;height:398px;overflow:hidden");
+        const PX = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.45))";
+        const pxA = spr(back, "pixie", 600, 494, 192, { px: true, f: PX }), pxB = spr(back, "pixie", 600, 494, 192, { px: true, flip: true, f: PX });
+        tl.set(pxB, { opacity: 0 }, 0);
+        if (o.pixieFlip != null) { tl.set(pxA, { opacity: 0 }, o.pixieFlip); tl.set(pxB, { opacity: 1 }, o.pixieFlip); }
+        mk("div", "abs", back, "left:540px;top:384px;width:120px;height:14px;background:linear-gradient(180deg,rgba(30,12,4,0),rgba(30,12,4,.55))");
+        // the customer (Producer 2026-10-20): Max, the bar regular, on HIS stool in place of the plate's stool at x 775 — that stool
+        // (plate x 747..799) is covered by 4 slices of the clean gap at x 806..820 (a layer, the plate is untouched)
+        const SX = 773, SY = 513, MH = 170;
+        for (let k = 0; k < 4; k++) { const sl = mk("div", "abs", host, `left:${745 + k * 14}px;top:434px;width:14px;height:86px;overflow:hidden`);
+          const pim = mk("img", "", sl, `position:absolute;left:-806px;top:-434px;width:1280px;height:720px`); pim.src = "assets/bar.png"; pim.alt = ""; }
+        const MF = "brightness(.9) saturate(1.05) drop-shadow(0 0 5px rgba(255,170,90,.4))";
+        const maxAt = (file, H0) => { const h = MH * H0 / 1246, w = MH * 580 / 1246; const im = mk("img", "", host, `position:absolute;left:${SX - .56 * w}px;top:${SY - .975 * h}px;width:${w}px;height:${h}px;filter:${MF}`); im.src = "assets/" + file; im.alt = ""; return im; };
+        // plates never cover a character (Producer 2026-10-23): the geta sits on the counter in the gap between Max and Leo
+        // (x 818..894) and is drawn before every customer
+        if (o.geta) geta(host, 856, 417, 76);
+        shadow(host, SX, SY, 70, 12, .7);
+        const mN = maxAt("max_n.png", 1246), mL = maxAt("max_l.png", 1259); tl.set(mL, { opacity: 0 }, 0);
+        // more customers (Producer 2026-10-20): worm people seated straight on the plate's stools (seat top y 447); the two far
+        // ones are re-dyed with a hue shift so the bar is full without visible clones of Max/Leo
+        const cust = (file, W0, H0, cx, h, seatK, oo) => { oo = oo || {}; const w = h * W0 / H0;
+          const im = mk("img", "", host, `position:absolute;left:${cx - w / 2}px;top:${447 - seatK * h}px;width:${w}px;height:${h}px;filter:${oo.f || MF};${oo.flip ? "transform:scaleX(-1);" : ""}`);
+          im.src = "assets/" + file; im.alt = ""; return im; };
+        const lN = cust("c_leo_n.png", 565, 1056, 936, 118, .84), lL = cust("c_leo_l.png", 565, 1067, 936, 119, .84); tl.set(lL, { opacity: 0 }, 0);
+        if (o.leoLaugh != null) { tl.set(lN, { opacity: 0 }, o.leoLaugh); tl.set(lL, { opacity: 1 }, o.leoLaugh); }
+        cust("c_leo_side.png", 625, 1038, 528, 116, .84, { flip: true, f: "hue-rotate(150deg) brightness(.82) saturate(1.1)" });
+        cust("c_max_side.png", 589, 962, 1090, 112, .86, { f: "hue-rotate(260deg) brightness(.8) saturate(1.1)" });
+        // Max laughs (A10: when Quest brings the sushi)
+        if (o.maxLaugh != null) { tl.set(mN, { opacity: 0 }, o.maxLaugh); tl.set(mL, { opacity: 1 }, o.maxLaugh);
+          tl.fromTo(mL, { y: 0 }, { y: -4, duration: .12, ease: "power2.out", yoyo: true, repeat: o.maxBounce == null ? 3 : o.maxBounce }, o.maxLaugh); }
+        return r;
+      }
+      // a small wooden geta board with 3 nigiri (our own drawing); (cx, by) = bottom-centre of the feet, w = board width in plate px
+      function geta(host, cx, by, w) {
+        const h = w * 50 / 120;
+        mk("div", "shadow", host, `left:${cx - w * .46}px;top:${by - 3}px;width:${w * .92}px;height:7px;opacity:.7`);
+        const e = html(host, "abs", `left:${cx - w / 2}px;top:${by - h}px;width:${w}px;height:${h}px;filter:brightness(.92) saturate(1.05) drop-shadow(0 0 4px rgba(255,170,90,.35))`,
+          `<svg viewBox="0 0 120 50" width="${w}" height="${h}" style="overflow:visible"><g stroke="#16161f" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="20" y="40" width="14" height="8" rx="1.5" fill="#8a5a30"/><rect x="86" y="40" width="14" height="8" rx="1.5" fill="#8a5a30"/>
+          <path d="M4 32 L116 32 L116 41 L4 41 Z" fill="#b07a45"/><path d="M12 24 L108 24 L116 32 L4 32 Z" fill="#dcab6c"/>
+          ${[[32, "#ff8a5c", "#ffb08a"], [60, "#d93a4a", "#ff6a74"], [88, "#fff1d4", "#ffd9a0"]].map(([x, c, c2]) => `<rect x="${x - 13}" y="13" width="26" height="14" rx="6" fill="#fffaf0"/>
+          <path d="M${x - 15} 17 Q${x - 15} 5 ${x} 5 Q${x + 15} 5 ${x + 15} 17 Q${x + 15} 21 ${x + 11} 20 L${x - 11} 20 Q${x - 15} 21 ${x - 15} 17 Z" fill="${c}"/><path d="M${x - 8} 9 Q${x} 7 ${x + 8} 9" fill="none" stroke="${c2}" stroke-width="2"/>`).join("")}
+          </g></svg>`);
+        return e;
+      }
+
       const GOLD_LABEL = (host, txt, x, y, t0, o) => { o = o || {}; const e = html(host, "mk", `left:${x}px;top:${y}px;opacity:0;transform-origin:50% 100%;${o.st || ""}`, txt); tl.fromTo(e, { scale: .3, opacity: 1 }, { scale: 1, opacity: 1, duration: .22, ease: "back.out(2.6)" }, t0); return e; };
 
       /* ================================================================== B01 sunrise deck: "Meet Dave." low angle, DAVE label, the dolphin leaps at the bow */
@@ -465,7 +524,7 @@
         camTo(rB04, t0, t1, focus(289, 400, 2.9), B04_C1, "sine.inOut"); breathe(rB04, t0, t1, 1);
         const t2 = T.B06, sea5 = buildSea(rB05.sh, { mode: "sunrise", quest: "dive", seed: 11 }); seaAmbient(sea5, t1, t2, -1);
         camTo(rB05, t1, t1 + 1.1, B04_C1, focus(400, 440, 1.5), "power2.out"); camTo(rB05, t1 + 1.1, t2, focus(400, 440, 1.5), focus(420, 440, 1.58), "sine.inOut"); breathe(rB05, t1, t2, -1);
-        const lb = html(rB05.host, "mk", "left:210px;top:586px;opacity:0;white-space:normal;width:860px;text-align:center;font-size:24px;line-height:1.25;transform-origin:50% 100%", "Body not typical for a diver<br><span style=\"font-size:17px;letter-spacing:.14em;opacity:.8\">SAY THE DEVELOPERS</span>");
+        const lb = html(rB05.host, "mk", "left:130px;top:540px;opacity:0;white-space:normal;width:1020px;text-align:center;font-size:36px;line-height:1.2;transform-origin:50% 100%", "Body not typical for a diver<br><span style=\"font-size:25px;letter-spacing:.14em;opacity:.85\">SAY THE DEVELOPERS</span>");
         tl.fromTo(lb, { scale: 1.6, opacity: 0, rotation: -3 }, { scale: 1, opacity: 1, rotation: -1.5, duration: .12, ease: "power4.in" }, 7.16);
         tl.fromTo(lb, { y: 0 }, { y: 6, duration: .06, yoyo: true, repeat: 1, immediateRender: false }, 7.28);
       }
@@ -521,10 +580,10 @@
       {
         const t0 = T.B09, t1 = T.B10, tS = 16.79; const V = buildVac(rB09.sh, { state: "lounge" });
         seaAmbient(V.sea, t0, t1, 1);
-        camTo(rB09, t0, t0 + .15, B08_C1, B08_C1, "none");
-        camTo(rB09, t0 + .15, t0 + 1.0, B08_C1, focus(470, 450, 1.25), "power3.inOut");
-        tl.fromTo(rB09.cam, { filter: "blur(0px)" }, { filter: "blur(7px)", duration: .18, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, t0 + .22);
-        breathe(rB09, t0, t1, 1);
+        // one continuous pull-out from the thought-bubble close-up (B08 end framing + B08 breath end state): no cut-back, no blur whip
+        const B08_END = focus(300, 335, 2.28);
+        camTo(rB09, t0, t0 + 1.3, B08_END, focus(470, 450, 1.25), "sine.inOut");
+        tl.fromTo(rB09.br, { scale: 1.022, x: -6, y: 3 }, { scale: 1, x: 0, y: 0, duration: 1.3, ease: "sine.inOut" }, t0);
         tl.set(V.gl, { opacity: 0 }, 0);
         tl.to(V.par, { scaleX: .12, scaleY: 1.04, duration: .14, ease: "power4.in" }, tS);
         tl.fromTo(V.par, { rotation: 0 }, { rotation: -4, duration: .1, yoyo: true, repeat: 1, immediateRender: false }, tS + .14);
@@ -542,7 +601,7 @@
         const t0 = T.B10, t1 = T.B11; const V = buildVac(rB10.sh, { state: "stand" });
         seaAmbient(V.sea, t0, t1, -1);
         camTo(rB10, t0, t0 + .7, focus(470, 450, 1.25), focus(470, 450, 1.28), "sine.inOut"); camTo(rB10, t0 + .7, t1, focus(470, 450, 1.28), focus(300, 335, 1.95), "sine.inOut"); breathe(rB10, t0, t1, 1);
-        const d = pic(rB10.sh, "d_worried", 760, 676, 250, {}); bob(d, t0, t1, 4, .9, 1);
+        const d = pic(rB10.sh, "d_worried", 760, 628, 250, {}); bob(d, t0, t1, 4, .9, 1);   // whole body above y 690 (never cut by the frame bottom)
         tl.to(d, { keyframes: [{ rotation: -16, y: -26, duration: .14, ease: "power2.out" }, { rotation: 6, y: 4, duration: .12, ease: "power2.in" }, { rotation: 0, y: 0, duration: .2 }] }, t0 + .45);
         splash(rB10.sh, 700, 672, 1.1, t0 + .56);
         const eyes = [-9, 9].map((dx) => html(V.q, "abs", `left:${95.6 * .5 + dx - 9}px;top:${V.sea.qh * .105}px;width:18px;height:18px;opacity:0`, SPARK));
@@ -555,9 +614,12 @@
       /* ================================================================== B11 the bar with no fish: empty bar, empty aquarium; push to the tank */
       const rB11 = rig("sB11");
       {
-        const t0 = T.B11, t1 = T.B12; plate(rB11.sh, "bar.png");
-        emptyTank(rB11.sh);
-        camTo(rB11, t0, t1, focus(640, 400, 1.08), focus(1170, 340, 1.75), "sine.inOut"); breathe(rB11, t0, t1, 1);
+        const t0 = T.B11, t1 = T.B12;
+        // bar staging (Producer rule): Pixie chef behind the counter, Max on his stool, customers, the EP003 fish in the aquarium;
+        // the SOLD OUT placard hangs ABOVE the tank so the fish stays visible
+        buildBar(rB11.sh, { t0, t1, maxLaugh: null });
+        html(rB11.sh, "abs", "left:1090px;top:176px;width:150px;height:62px;transform-origin:50% 0%;transform:rotate(-3deg)", '<svg viewBox="0 0 132 52" width="150" height="59"><path d="M30 0 L38 10 M102 0 L94 10" stroke="#16161f" stroke-width="3" fill="none"/><rect x="4" y="10" width="124" height="40" rx="5" fill="#d9b878" stroke="#16161f" stroke-width="4"/><text x="66" y="38" text-anchor="middle" font-family="Anton" font-size="26" fill="#8a1f1f" letter-spacing="1.5">SOLD OUT</text></svg>');
+        camTo(rB11, t0, t1, focus(640, 400, 1.08), focus(960, 360, 1.5), "sine.inOut"); breathe(rB11, t0, t1, 1);
       }
 
       /* ================================================================== B12 Cobra points at Quest: two-shot in the bar */
@@ -603,9 +665,9 @@
         tl.to(gO, { x: 190, duration: .35, ease: "power3.in" }, tc + .1); tl.to(gP, { x: -190, duration: .35, ease: "power3.in" }, tc + .1);
         tl.fromTo(rB14.sh, { x: 0 }, { x: 6, duration: .05, yoyo: true, repeat: 5, immediateRender: false }, tc + .4);
         // the quote (narrator quote, attribution "a player")
-        const qt = html(rB14.sh, "big", "position:absolute;left:90px;top:455px;width:1100px;text-align:center;font-size:58px;line-height:1.08;white-space:normal;opacity:0;transform-origin:50% 50%", "&ldquo;The shortest supply chain<br>in the world.&rdquo;");
-        const at = html(rB14.sh, "mk", "left:520px;top:628px;opacity:0", "A player");
-        tl.fromTo(qt, { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: .25, ease: "power3.out" }, 28.0); tl.fromTo(at, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .25 }, 29.78);
+        const qt = html(rB14.sh, "big", "position:absolute;left:90px;top:375px;width:1100px;text-align:center;font-size:58px;line-height:1.08;white-space:normal;opacity:0;transform-origin:50% 50%", "&ldquo;The shortest supply chain<br>in the world.&rdquo;");
+        const at = html(rB14.sh, "mk", "left:530px;top:535px;opacity:0", "&mdash; a player");
+        tl.fromTo(qt, { scale: 1.25, opacity: 0 }, { scale: 1, opacity: 1, duration: .25, ease: "power3.out" }, 28.0); tl.fromTo(at, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .25 }, 28.35);
         camTo(rB14, t0, t1, focus(640, 330, 1.06), focus(640, 320, 1.16), "sine.inOut"); breathe(rB14, t0, t1, -1);
       }
 

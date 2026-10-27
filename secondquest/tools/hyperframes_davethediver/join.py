@@ -12,7 +12,11 @@ import imageio_ffmpeg
 HERE = Path(__file__).resolve().parent
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 q = sys.argv[sys.argv.index('--quality') + 1] if '--quality' in sys.argv else '480p'
-blocks = [HERE / f'renders/blocks/DTD_block{b}_{q}.mp4' for b in 'ABCDEFGH']
+# --quality review: the scene_cache review renders (renders/blocks/DTD_block<X>.mp4, 1280x720) -> DTD_animatic_full_720p.mp4
+suf = '' if q == 'review' else f'_{q}'
+if q == 'review':
+    q = '720p'
+blocks = [HERE / f'renders/blocks/DTD_block{b}{suf}.mp4' for b in 'ABCDEFGH']
 for b in blocks:
     assert b.exists(), b
 out = HERE / f'renders/DTD_animatic_full_{q}.mp4'

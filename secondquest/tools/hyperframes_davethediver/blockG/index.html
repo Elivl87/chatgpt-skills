@@ -81,9 +81,9 @@
       .neon { font-family: "Anton", sans-serif; letter-spacing: .08em; white-space: nowrap; }
       .win { position: absolute; border: 4px solid #3c4a6a; border-radius: 12px; background: #e9eef8; overflow: hidden; box-shadow: 0 8px 0 rgba(0,0,0,.3); }
       .win .tb { position: absolute; left: 0; top: 0; width: 100%; height: 56px; background: #3c4a6a; color: #fff; font: 800 28px/56px "Inter"; padding-left: 70px; }
-    </style>
       #qt { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; pointer-events: none; z-index: 50; }
       #wipe { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; pointer-events: none; z-index: 60; }
+    </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="50.674" data-fps="30" data-width="1280" data-height="720">
@@ -904,7 +904,7 @@ const W = 1280, H = 720, DUR = 50.674;
         const t0 = T.G24, t1 = T.G25;
         buildBar(rG24.sh, { t0, t1, blink: t0 + 1.0, maxLaugh: t0 + .2, maxBounce: 7, geta: true, noFish: false });
         const dm = mk("div", "full", rG24.sh, "background:rgba(6,4,24,.35);pointer-events:none");
-        speech($("#sG24"), 400, 130, 440, 110, "Thanks, Quest!", 672, 322, t0 + .3, 40);
+        speech($("#sG24"), 330, 44, 440, 100, "Thanks, Quest!", 668, 224, t0 + .3, 40);   // bubble above Max, tail ends at the top edge of his head (never on his face)
         shotCam(rG24, t0, t1, focus(740, 420, 1.6), focus(775, 420, 1.9), -1);
       }
       /* ================================================================== G25 "Maybe that's what we're really playing": pull back; G26 "Not a second job": the label struck; G27 TV off -> the bay at night: smiles at the moon, winks */
@@ -937,7 +937,9 @@ const W = 1280, H = 720, DUR = 50.674;
         tl.set(dA, { opacity: 0 }, tW); tl.set(dW, { opacity: 1 }, tW); tl.set(dW, { opacity: 0 }, tW + .42); tl.set(dA, { opacity: 1 }, tW + .42);
         sparks(rG27.sh, 700, 540, tW, 7, 60, "#fff0b0");
         bubbleTrail(rG27.sh, 700, 590, t0 + 1.2, 4, 120, 20);
-        const cam = camTo(rG27, t0, t1, focus(640, 420, 1.0), focus(700, 420, 1.12), "sine.inOut"); breathe(rG27, t0, t1, 1);
+        // continuous with G26 (same living room): start on G26's end framing + breath state, then ease out to the bay framing: no snap back to the wide shot
+        camTo(rG27, t0, t1, focus(700, 380, 1.14), focus(700, 420, 1.12), "sine.inOut");
+        tl.fromTo(rG27.br, { scale: 1.022, x: -6, y: 3 }, { scale: 1.01, x: 6, y: -3, duration: t1 - t0, ease: "sine.inOut" }, t0);
         // the TV-off click first: the living room collapses to a white line, then a dot, then the room is gone
         const lr = mk("div", "full", rG27.cam, "z-index:5"); plate(lr, "lr.png"); const sc = tvScreen(lr, t0, tOff); floorQ(lr);
         const line = mk("div", "abs", lr, "left:1074px;top:170px;width:140px;height:5px;background:#fff;box-shadow:0 0 14px 6px rgba(255,255,255,.9);opacity:0;transform-origin:50% 50%");

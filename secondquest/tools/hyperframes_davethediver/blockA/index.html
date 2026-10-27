@@ -360,7 +360,7 @@
 
       /* ================================================================== A01 bar at night: CLOSE on Max at the counter, the geta of nigiri in front of him ("Somewhere tonight, someone is eating a fish...") */
       const rA01 = rig("sA01");
-      const A01_C0 = focus(773, 418, 2.25), A01_C1 = focus(773, 414, 2.45);
+      const A01_C0 = focus(738, 418, 2.15), A01_C1 = focus(752, 412, 2.4);   // left customer whole in frame, slow push
       {
         const b = buildBar(rA01.sh, { t0: T.A01, t1: T.A02, geta: true, maxLaugh: 1.72, maxBounce: 1 });
         camTo(rA01, T.A01, T.A02, A01_C0, A01_C1, "sine.inOut");
@@ -589,7 +589,8 @@
         // happy loop around Dave
         const ph = { a: 0 }; const cxL = 640, cyL = 380, rx = 330, ry = 150;
         const place = () => { const a = ph.a; const x = cxL + Math.cos(a) * rx - 0, y = cyL + Math.sin(a) * ry; const dx = -Math.sin(a) * rx, dy = Math.cos(a) * ry;
-          let rot = Math.atan2(dy, dx) * 180 / Math.PI; gsap.set(dolH, { x: x - dolX, y: y - dolY, rotation: rot }); };
+          const sg = dx >= 0 ? 1 : -1; let rot = sg * Math.atan2(dy, Math.abs(dx)) * 180 / Math.PI; rot = Math.max(-16, Math.min(16, rot));   // side profile always: flip to face the way it swims, tilt <= 16 deg (never nose-up)
+          gsap.set(dolH, { x: x - dolX, y: y - dolY, rotation: rot, scaleX: sg }); };
         tl.fromTo(ph, { a: Math.PI * 1.0 }, { a: Math.PI * 3.0, duration: .8, ease: "sine.inOut", onUpdate: place, immediateRender: false }, tS + .02);
         // O2 drains, goes red
         A09.t0 = t0; A09.rig = rA09; A09.tS = tS;
@@ -643,7 +644,7 @@
 
       /* ================================================================== A11 / A12 living room: nobody (pull back, then drift to the empty doorway) */
       const rA11 = rig("sA11"), rA12 = rig("sA12");
-      const A11_C0 = focus(730, 470, 1.9), A11_C1 = focus(640, 390, 1.18), A12_C1 = focus(318, 340, 2.0);
+      const A11_C0 = focus(730, 470, 1.9), A11_C1 = focus(640, 390, 1.18), A12_C1 = focus(600, 420, 1.4);   // slow push, Quest stays whole at the right
       {
         [rA11, rA12].forEach((r, i) => {
           plate(r.sh, "lr.png", "brightness(.9)");
