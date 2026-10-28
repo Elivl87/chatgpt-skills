@@ -137,6 +137,7 @@ drop, anger mark, steam puffs, sparkles, ticks) are seasoning: at most one or tw
 12. Run the **automated eye check** (§6b) on every delivery: 0 pupil failures.
 13. Run the **Guardian body audit** (§6c) on every delivery: 0 body failures, every warning looked at.
 14. Run the **clothing audit** (§6d) on every delivery and after any kit change: 0 clothing failures.
+15. Run the **face-crossing check** (§6e, `face_cross_check.py`) on every finished block: every run looked at, no prop over a face.
 
 ## 6 · Detail QC checklist (run on EVERY delivery that shows Eli or Mila)
 
@@ -310,6 +311,14 @@ Rules (kit `art/lib/cast.js` + `ep/001/animatic/anim.js`):
 - Props that depend on a pose follow its blend weight (Eli's badge height, the popcorn bucket from lap to hand).
 - Turns away from camera go through profile (numeric view) before the back view, never q -> back 3/4 mirrored.
 - Text boxes: the tail never crosses another head or box (`K.tbox.place` penalty; `textbox_check.mjs` fails it).
+- **Props never cross a face (Guardian independent v4 pass, 2026-10-24).** `python3 ep/001/animatic/face_cross_check.py
+  block<X>_review.mp4 <audit dir>/body_<X> X <qc dir>` decodes EVERY frame, interpolates the kit's head discs between the
+  audited key frames inside each shot and measures the share of colours a head cannot have (teal / green, red /
+  vermilion, saturated blue) inside the disc: > 5 % = a run on the sheet `facecross_<X>_small.jpg`, read by eye (a teal
+  car door behind a chin in a wide shot is fine; a flag, bucket, pole or cloth over an eye or a mouth is a defect; the
+  E1 G17 flag swept Mila's face for 2 frames at 46.70 s and the key-frame audits + pop check did not see it). Rule for
+  shot lists: a prop with a pole or cloth (flag, magnifier, bucket, sandwich, clipboard) is held in the hand **away** from
+  the other character and its whole arc (up AND down) is rendered frame by frame before the shot is accepted.
 
 ## 7 · Never
 

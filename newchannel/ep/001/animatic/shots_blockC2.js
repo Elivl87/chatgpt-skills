@@ -73,7 +73,7 @@
         popBucket(c, y, rE, K.ease.sine(K.clamp((eUp - 0.1) / 0.6)));
       };
       const popBucket = (c, y, rE, k) => { const lx = 1031, ly = y - 17 - rE.lap;
-        if (k <= 0) popcorn(c, lx, ly); else popcorn(c, K.lerp(lx, rE.hands.trail[0] + 6, k) + Math.sin(Math.PI * k) * 70, K.lerp(ly, rE.hands.trail[1] - 20, k), K.lerp(1, 0.85, k)); };   // arcs out beside the head (Guardian v3: it crossed his face on the way up)
+        if (k <= 0) popcorn(c, lx, ly); else popcorn(c, K.lerp(lx, rE.hands.trail[0] + 26, k) + Math.sin(Math.PI * k) * 100, K.lerp(ly, rE.hands.trail[1] - 20, k), K.lerp(1, 0.85, k)); };   // arcs out beside the head (Guardian v3: it crossed his face on the way up; Guardian v4 independent pass: in the wide D06_plate the arc still clipped his eye for a frame at 21.90 s and the bucket rested against his cheek: arc 70 -> 100, rest 6 -> 26 px further out, face_cross_check.py clean)
       const popcorn = (c, x, y, k = 1) => { c.save(); c.translate(x, y); c.scale(k, k);
         c.fillStyle = '#c94a5a'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.moveTo(-21, -23); c.lineTo(21, -23); c.lineTo(15, 23); c.lineTo(-15, 23); c.closePath(); c.fill(); c.stroke();
         c.fillStyle = '#fff4dc'; for (let j = 0; j < 6; j++) { K.circle(c, -17 + j * 7, -27 - (j % 2) * 6, 7); c.fill(); } c.restore(); };
