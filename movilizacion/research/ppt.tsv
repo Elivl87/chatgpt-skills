@@ -1,0 +1,25 @@
+categoria	repo	url	lenguaje	estrellas	ultima_actividad	licencia	que_hace	como_ayuda	prioridad	nota
+PowerPoint	scanny/python-pptx	https://github.com/scanny/python-pptx	Python	~3.6k	2024-08-07 (commit)	MIT	Crea y edita .pptx: layouts, placeholders, tablas, gráficos nativos	Motor del deck con gráficos editables sobre plantilla corporativa	Alta	
+PowerPoint	gitbrent/PptxGenJS	https://github.com/gitbrent/PptxGenJS	JavaScript/TypeScript	~6.3k	2025-06-26 (commit)	MIT	PowerPoint con JS/Node, gráficos nativos, masters	Alternativa Node con API de gráficos más rica	Media	
+PowerPoint	singerla/pptx-automizer	https://github.com/singerla/pptx-automizer	TypeScript	~249	2026-09-28	MIT	Rellena y combina plantillas .pptx existentes	Cambiar solo datos en plantilla corporativa con gráficos ya diseñados	Media	
+PowerPoint	MartinPacker/md2pptx	https://github.com/MartinPacker/md2pptx	Python	~514	2026-08-31	MIT	Markdown a PowerPoint con python-pptx	Borrador rápido del deck sobre la plantilla	Media	
+PowerPoint	m3dev/pptx-template	https://github.com/m3dev/pptx-template	Python	~119	2025-12-26	Apache-2.0	pptx desde plantilla + datos JSON/CSV	Regenerar el deck si cambian los supuestos	Media	
+PowerPoint	kwlo/python-pptx-templater	https://github.com/kwlo/python-pptx-templater	Python	~45	2019-10-27	MIT	pptx desde plantilla + JSON con Jinja	Referencia; abandonado	Baja	
+PowerPoint	natter1/python_pptx_interface	https://github.com/natter1/python_pptx_interface	Python	~45	2025-04-10	MIT	Utilidades de formato sobre python-pptx	Formato de tablas de costos	Baja	
+PowerPoint	likaku/Mck-ppt-design-skill	https://github.com/likaku/Mck-ppt-design-skill	Python	~299	2026-05-10	Apache-2.0	Sistema de diseño estilo consultora (~70 layouts)	Resumen ejecutivo, comparativas, titulares de acción	Alta	
+PowerPoint	anthropics/skills	https://github.com/anthropics/skills	Markdown/Python	~180k	2026-10-09	Mixta (pptx/xlsx source-available)	Skills oficiales de Claude (pptx, xlsx)	Cómo Claude crea y valida pptx/xlsx	Alta	Ya disponibles en esta sesión
+PowerPoint	anthropics/financial-services	https://github.com/anthropics/financial-services	Markdown/YAML/Python	~39.4k	2026-09-21	Apache-2.0	pptx-author, xlsx-author, ppt-template-creator, audit-xls	Buenas prácticas de modelo y deck	Alta	
+PowerPoint	GongRzhe/Office-PowerPoint-MCP-Server	https://github.com/GongRzhe/Office-PowerPoint-MCP-Server	Python	~1.9k	archivado 2026-03-03	MIT	Servidor MCP sobre python-pptx	Fragmentos de código; archivado	Baja	
+PowerPoint	Philistino/ThinkcellBuilder	https://github.com/Philistino/ThinkcellBuilder	Python	~12	no verificado	MIT	Archivos .ppttc para think-cell	Solo con licencia think-cell	Baja	
+PowerPoint	duarteocarmo/think-cell	https://github.com/duarteocarmo/think-cell	Python	~26	2021-09-29	MIT	Automatiza gráficos think-cell	Desactualizado	Baja	
+PowerPoint	jgm/pandoc	https://github.com/jgm/pandoc	Haskell	~46.7k	2026-10-11	GPL-2.0+	Conversor universal, Markdown a pptx	Anexos; sin gráficos nativos	Baja	
+PowerPoint	marp-team/marp-cli	https://github.com/marp-team/marp-cli	TypeScript	~3.9k	2026-09-08	MIT	Markdown a PDF/HTML/PPTX (pptx no editable)	Prototipo visual	Baja	
+PowerPoint	slidevjs/slidev	https://github.com/slidevjs/slidev	TypeScript/Vue	~49k	2026-10-02	MIT	Slides en Markdown + Vue	Poco útil para pptx editable	Baja	
+PowerPoint	LibreOffice/core	https://github.com/LibreOffice/core	C++	~4.5k	2026-10-11	GPL/LGPL/MPL	soffice headless: pptx/xlsx a PDF, recálculo	QA: render del deck y recálculo del Excel	Alta	
+PowerPoint	unoconv/unoserver	https://github.com/unoconv/unoserver	Python	~939	2026-06-10	MIT	LibreOffice como servidor de conversión	Conversiones más estables en iteraciones	Media	
+PowerPoint	gotenberg/gotenberg	https://github.com/gotenberg/gotenberg	Go	~13.3k	2026-10-05	MIT	API Docker de conversión a PDF	No necesario aquí	Baja	
+PowerPoint	Belval/pdf2image	https://github.com/Belval/pdf2image	Python	~2.0k	2024-01-07	MIT	PDF a imágenes	QA visual por diapositiva	Alta	
+PowerPoint	microsoft/markitdown	https://github.com/microsoft/markitdown	Python	~189.6k	2026-10-04	MIT	Office a Markdown	Verificar que cifras del deck = Excel	Media	
+PowerPoint	ssine/pptx2md	https://github.com/ssine/pptx2md	Python	~1.3k	2024-12-03	Apache-2.0	pptx a Markdown	Leer plantilla corporativa existente	Baja	
+PowerPoint	gramener/gramex	https://github.com/gramener/gramex	Python/JS	~143	archivado 2026-01-08	MIT	Analítica con pptgen histórico	Solo referencia	Baja	
+PowerPoint	fsciuti/awesome-speaker	https://github.com/fsciuti/awesome-speaker	Markdown	~194	no verificado	CC-BY-4.0	Recursos para oradores	Buenas prácticas de presentación	Baja	
