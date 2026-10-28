@@ -21,6 +21,7 @@ history: `alternatives/` (the 5 designs the Producer chose from).
 | Hair / hat | yellow ribbed beanie with a folded cuff (bobs; squashes when hit) | high ponytail with a mustard tie (swings, trails in the wind), side fringe |
 | Clothes | white tee (rib crew collar, short sleeves cut square at the hem), brown canvas apron (bib, flat neck straps over the collar, waist tie with a bow at the back, skirt with a patch pocket that sways), blue jeans, black work boots | purple long sleeves with darker cuffs and a rib crew collar, mustard bib overalls (straps over the collar with brass buttons, flap chest pocket; at the back the straps meet the bib under a stitched patch), green rubber boots with a rolled lip |
 | Accessories | none | small gold **drop earrings** (stud on the head edge + a drop hanging outside the silhouette; they swing) |
+| Relationship | **Mila's partner** (they are a couple; Producer, 2026-10-28) | **Eli's partner** |
 | Signature colour | **yellow** | **purple** |
 
 They stand out from the extras by silhouette (capsule heads vs round heads; tall-thin vs short-wide) and by colour

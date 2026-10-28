@@ -207,7 +207,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Sonido:** tres rayones de pluma rítmicos; grillos (el silencio de "no hay nada"); "pío".
 
 ### Beat 4 · La pregunta (0:26)
-> Mila, su amiga, mira atrás.
+> Mila, su pareja, mira atrás.
 >
 > **MILA:** Eli… va para atrás.
 >
@@ -597,7 +597,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 
 Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito. Detrás, cada auto
 frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli. Eli está
-seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo. Mila, su amiga,
+seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo. Mila, su pareja,
 mira atrás. Entonces, ¿por qué hay embotellamientos sin razón aparente?
 
 Mila arrastra a Eli a un experimento de verdad. En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en
