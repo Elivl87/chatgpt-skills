@@ -17,6 +17,10 @@
 - **El guion lo aprueban Claude y sus agentes** (Productor, 2026-10-15): revisión independiente de claridad (que explique)
   y de humor (siempre); al aprobarlo queda bloqueado y se usa palabra por palabra.
 - **Todo gratis:** 0 créditos, 0 dinero, solo licencias permisivas (registradas en `LICENSES.md`). Nada NC/AGPL.
+  **Excepción (Productor, 2026-10-28): la voz del narrador** es ElevenLabs (plan Creator, voz «David C – Viral
+  Storytelling»). Ningún crédito se gasta sin aprobación previa del Productor; reglas de ahorro en `voice/ELEVENLABS_CREDITOS.md`.
+- **Mila es pareja de Eli** (no su amiga).
+- **Los episodios no anuncian el siguiente** (Productor, 2026-10-28): terminan en la escena del título, sin "la próxima vez".
 - Sin propiedad intelectual ajena, sin voces clonadas, sin contenido plantillado (política de YouTube de
   "contenido no auténtico"): cada vídeo con tesis, simulación y visuales propios.
 - Mejoras gratis que suban la calidad: se aplican sin preguntar y se informan.
