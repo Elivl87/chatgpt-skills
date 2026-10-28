@@ -37,7 +37,7 @@ HERE = Path(__file__).resolve().parent
 AUD = HERE.parent
 NC = AUD.parents[2]
 PARTIAL = bool(os.environ.get("QWEN_PARTIAL"))     # pipeline smoke test with silent placeholders -> smoke/, never the deliverables
-OUT = HERE / "smoke" if PARTIAL else HERE
+OUT = HERE / "smoke" if PARTIAL else HERE          # v5 (QWEN_DIRECTION=direction_v5) writes to qwen/v5/, never over v4
 os.environ.setdefault("OMP_NUM_THREADS", "1")
 sys.path[:0] = [str(HERE), str(NC / "voice" / "chatterbox_natural"), str(NC / "voice" / "expressive"),
                 str(NC / "voice" / "engines_test")]
@@ -45,7 +45,13 @@ import cbn  # noqa: E402  trim / check (Whisper) / level / FF; puts ep/001/audio
 import numpy as np  # noqa: E402
 import soundfile as sf  # noqa: E402
 
-import direction_v4 as DV  # noqa: E402
+import importlib  # noqa: E402
+
+# Direction sheet: v4 (default, the approved render) or v5 (Bram-study rules, BRAM_ESTILO_ESTUDIO.md): QWEN_DIRECTION=direction_v5.
+# v5 renders go to their own take cache (QWEN_TMP default /tmp/claude-0/qwen_ep001_v5) so the v4 takes are never touched.
+DV = importlib.import_module(os.environ.get("QWEN_DIRECTION", "direction_v4"))  # noqa: E402
+if DV.__name__.endswith("v5") and not PARTIAL:
+    OUT = HERE / "v5"
 import harness as H  # noqa: E402  to24 (resample), speech_seconds
 import measure as M  # noqa: E402
 
@@ -55,7 +61,7 @@ es = bv.es
 SR = cbn.SR
 SR_OUT = 48000
 PORT = int(os.environ.get("QWEN_PORT", "8091"))
-TMP = Path(os.environ.get("QWEN_TMP", "/tmp/claude-0/qwen_ep001"))
+TMP = Path(os.environ.get("QWEN_TMP", "/tmp/claude-0/qwen_ep001" + ("_v5" if DV.__name__.endswith("v5") else "")))
 TAKES = 3
 MAX_TRIES = 8
 TARGET_LUFS, CEIL_TP = -16.0, -2.0          # stem; the final mix handles −14
@@ -307,7 +313,7 @@ def render(takes=TAKES, only=None):
 # (150 wpm, "el ritmo estaba mejor"); QWEN_PACE=lo-hi and QWEN_PAUSE_SCALE override them (see VOICE_QC_qwen.md).
 _pace = os.environ.get("QWEN_PACE", "150-165").split("-")
 PACE_LO, PACE_HI, PACE_MAX_UP, PACE_MAX_DOWN = float(_pace[0]), float(_pace[1]), 1.3, 0.85
-PAUSE_SCALE = float(os.environ.get("QWEN_PAUSE_SCALE", "0.85"))
+PAUSE_SCALE = float(os.environ.get("QWEN_PAUSE_SCALE", str(getattr(DV, "PAUSE_SCALE", 0.85))))
 
 
 def rubberband(a, f):
@@ -317,7 +323,7 @@ def rubberband(a, f):
     return np.frombuffer(p.stdout, np.float32).copy()
 
 
-def pace_fix(a, text):
+def pace_fix(a, text, window=None):
     """Coordinator's delivery condition (2026-10-24): 135-170 wpm per beat. Each kept take (>= 3 words) is brought into
     [PACE_LO, PACE_HI] wpm (words / take length) with a pitch-preserving tempo change: up to x1.3 faster, down to x0.85
     slower. The engine's native `rate` is the same kind of time-stretch, so this equals asking for another rate without
@@ -326,11 +332,12 @@ def pace_fix(a, text):
     w0 = nw / (len(a) / SR) * 60
     if nw < 3:
         return a, 1.0, round(w0, 1), round(w0, 1)
+    lo, hi = window or (PACE_LO, PACE_HI)      # v5: per-row window (DV.pace_window), v4: one window for all rows
     f = 1.0
-    if w0 < PACE_LO:
-        f = min(PACE_MAX_UP, PACE_LO / w0)
-    elif w0 > PACE_HI:
-        f = max(PACE_MAX_DOWN, PACE_HI / w0)
+    if w0 < lo:
+        f = min(PACE_MAX_UP, lo / w0)
+    elif w0 > hi:
+        f = max(PACE_MAX_DOWN, hi / w0)
     if abs(f - 1.0) > 0.005:
         a = rubberband(a, f)
     return a, round(f, 3), round(w0, 1), round(nw / (len(a) / SR) * 60, 1)
@@ -379,7 +386,8 @@ def assemble():
                 meta = json.loads(tf.with_suffix(".json").read_text())
             pf = (1.0, None, None)
             if np.abs(a).max() > 0:
-                a, *pf = pace_fix(a, r["tts"])
+                win = DV.pace_window(r) if hasattr(DV, "pace_window") and "QWEN_PACE" not in os.environ else None
+                a, *pf = pace_fix(a, r["tts"], win)
                 a = cbn.level(a, SEG_LUFS + GAIN[r["speaker"]])
             pre = round(r["pre"] * PAUSE_SCALE, 3)
             parts.append(np.zeros(int(round(pre * SR)), np.float32))
@@ -421,7 +429,7 @@ def assemble():
         {"engine": "qwen3tts", "script": "SCRIPT_ES419.md v4 (locked 2026-10-23)",
          "voice": {"model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice bf16", "speaker": "ryan", "language": "Spanish",
                    "engine": "gabriele-mastrapasqua/qwen3-tts ef339be (C, MIT), server -j 3", "sampling": SAMPLING,
-                   "register": "exclaim (Producer 2026-10-23)", "direction": "direction_v4.py / DIRECCION_NARRADOR_v4.md",
+                   "register": "exclaim (Producer 2026-10-23)", "direction": f"{DV.__name__}.py / DIRECCION_NARRADOR_{DV.__name__[-2:]}.md",
                    "instruct_lang": DV.LANG, "rate_scale": DV.RATE_SCALE, "takes_per_sentence": TAKES,
                    "pick": "highest energy score among WER-0 takes", "voice_characters": True,
                    "pace_window_wpm": [PACE_LO, PACE_HI], "pause_scale": PAUSE_SCALE},
