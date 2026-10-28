@@ -83,3 +83,62 @@ entera), D2 F16 / F17 (las dos tiras con rótulos ELI MANEJA / MILA MANEJA y el 
 - Clases nuevas en `art/characters/leo_mila/GUARDIAN_LOG.md` (2026-10-24): cara bajo un elemento de primer plano
   desenfocado; encuadres que pasaban por un píxel a 480p; personajes diminutos entre observadores en el borde del
   último fotograma de un bloque; comentarios de línea en las listas de planos.
+
+## Pase independiente del Guardián (2026-10-24, subagente `guardian-eli-mila`; cierre 2026-10-28)
+
+**Veredicto del pase independiente: PASS** — después de arreglar 2 defectos que el pase del compositor no vio (los dos de la
+misma clase: utilería cruzando una cara entre dos fotogramas clave). Antes de los arreglos el veredicto era **BLOCK**.
+
+### Qué se inspeccionó
+
+- Los 8 `block<X>_review.mp4` (1280x720, 514,3 s): fotogramas a **2 fps** (1029) en hojas de contacto, y **cada fotograma (30 fps)**
+  alrededor de las **21 líneas** de cuadro de texto (aparición − 0,3 s … desaparición + 0,3 s, con los tiempos v4) y de los
+  **6 momentos clave** (A08_yell 17,5 s · B16_shrugs 84,3 · C14_queyoque 145,7 · F19_late 372,4 · G13_dale 429,4 · I07_you 475,4,
+  ± 1,2 s); recortes de cabeza a pies vistos a ojo (al tamaño de entrega y de teléfono) de todo lo dudoso.
+- Automáticos re-ejecutados a 720p: `body_audit.sh` (ojos + cuerpo + ropa), `pop_check.py` (cada fotograma, eventos con eventos v4
+  regenerados), `textbox_check.mjs` (21 líneas) y el **chequeo nuevo `face_cross_check.py`** (ver abajo).
+- Continuidad de utilería guion → pantalla: el gafete «SI SE ABRE UN HUECO, CIÉRRALO» está en el pecho de Eli de «¡Mi lema!» (D1
+  27,1 s) a H03_pop y **se queda en la guantera desde H03_back** (pecho limpio en H03_back … K06, E2 10,5-72,4 s, incluido «Fuiste
+  tú.» 33,2 s); «Vamos por partes.» (C1 C01, 0-1,5 s: Mila, contenta, con el gesto de la palma, sin sello) concuerda con los sellos ACELERADO ×3 de C06-C08 (visto en C08_hat), sin la contradicción «más despacio» (M2); la lupa, la bandera, el
+  balde de palomitas y el sándwich siguen su arco.
+
+### Defectos encontrados y arreglados
+
+| # | Bloque / plano / t (bloque · episodio) | Personaje | Parte | Defecto | Arreglo |
+|---|---|---|---|---|---|
+| 1 | E1 · G17_wave 46,67-46,77 s · 435,8 s | Mila (y Eli) | cara | al bajar el brazo tras la ola, la bandera de Eli (en la mano del lado de Mila) seguía vertical media rampa y luego giraba 180° en 3 fotogramas: **la tela y el asta pasaban por el ojo y la boca de Mila** (46,70-46,73 s); al subir, la tela cruzaba el gorro de Eli (46,27 s) | `shots_blockE1.js`: bandera en la mano lejana (`hands.trail`), inclinada lejos de Mila, gira por el lado libre con k² a lo largo de toda la rampa; asta 230 → 205; los 2 extras de la izquierda 50 px más lejos |
+| 2 | C2 · D06_plate 21,87-21,93 s y 22,23 s · 169,0 / 169,3 s | Eli | cara | en el plano ancho, el balde de palomitas subía del regazo a la mano del otro lado de la cabeza: **tapaba el ojo** (21,90 s) y, al bajar, **la mejilla y la boca** (22,23 s) (el arco v3 solo funcionaba en el primer plano D05_late) | `shots_blockC2.js`: el balde va a la mano levantada del lado del regazo; nunca cruza la cabeza en D05_late ni en D06_plate |
+
+Los dos bloques se re-renderizaron a 720p (`build_block.sh … review`) y se re-auditaron completos; el piloto se volvió a unir
+(`build_episode.py --reuse-wav`, misma mezcla): `ep001_piloto_v4_720p.mp4` 514,33 s, 101,06 MB, −14,0 LUFS / TP −2,0 dBTP;
+`ep001_piloto_v4_480p.mp4` 27,0 MB; `ep001_piloto_v4_small.jpg` 218 KB (scratchpad, fuera de git). Los dos arreglos comprobados en el
+piloto unido (435,79 / 435,82 s y 169,02 / 169,35 s). Evidencia antes / después: `qc/guardian_v4_independent_evidence_small.jpg`.
+
+### Resultado automático final (720p, después de los arreglos)
+
+| Bloque | fallos pupila | fallos cuerpo | fallos ropa | cruces de cara (`face_cross_check`) | pop (eventos, todos vistos) | cuadros de texto |
+|---|---|---|---|---|---|---|
+| A | 0 | 0 | 0 | 1 (A19_bonk 40,4 s: gag del punto del logotipo sobre el gorro, ojos libres — declarado) | 13 | 3/3 |
+| B | 0 (1 ojo de 3,6 px, B08 21,2 s, visto: pupila presente) | 0 | 0 | 0 | 22 | 2/2 |
+| C1 | 0 | 0 | 0 | 0 | 19 | 2/2 |
+| C2 | 0 | 0 | 0 | 0 (antes 2) | 70 | 2/2 |
+| D1 | 0 | 0 | 0 | 0 | 4 | 1/1 |
+| D2 | 0 (1 ojo de 3,0 px, F02 6,0 s, visto) | 0 (37 avisos: pegatina PROMEDIO junto a las piernas, sin cara) | 0 | 0 | 67 | 6/6 |
+| E1 | 0 | 0 | 0 | 0 (antes 2) | 7 | 2/2 |
+| E2 | 0 | 0 | 0 | 0 | 30 | 3/3 |
+
+Los eventos del pop check son parpadeos, visemas, aparición de cuadros, extras que ríen, luciérnagas, postes a ×4, tapacubos y
+los giros / saltos ya aprobados en v3 (B06, C2 D05_late); ninguno es una prenda, un miembro o una cara que salte.
+
+### Chequeo nuevo (obligatorio desde este pase)
+
+`face_cross_check.py` (CHARACTERS.md §5.15 y §6e): decodifica cada fotograma, interpola los discos de cabeza del registro del
+kit entre fotogramas clave y mide el color que una cabeza no puede tener (teal, rojo / bermellón, azul saturado) por encima de
+la línea base del plano: los dos defectos de este pase salían en él (y no en los chequeos de fotogramas clave ni en el pop check,
+que los leía como «parpadeo»). Jsons: `qc/facecross_<X>.json`.
+
+### Notas honestas
+
+- La primera pasada de recortes densos usó por error el `qc/textbox_check.json` de v3 (voz Chatterbox); se regeneró a 720p con la
+  voz v4 (21 líneas, 0 fallos, json actualizado) y las ventanas se volvieron a extraer: lo inspeccionado corresponde a v4.
+- El balde de palomitas toca el borde superior en C2 D05_late 19,6-20,3 s (utilería, como en v3); Eli entero.
