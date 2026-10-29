@@ -7,9 +7,9 @@
     setup(ctx, o) { this.o = o; this.light = o.light || 'neutral'; },
     draw(ctx, t) {
       const o = this.o, Ln = Object.assign({}, C.LIGHT.golden, { rim: '#fff4dc', rimA: 0.35 });
-      if (o.pair != null) {
+      if (o.pair != null || o.e != null) {   // ?e=3bA&m=2: any couple
         // u 850 (Guardian 2026-10-29: at 900 the tip of Mila's ponytail left the frame at the top)
-        const P = C.OUTFITS.pairs[+o.pair], e = C.OUTFITS.variant('eli', P.eli), m = C.OUTFITS.variant('mila', P.mila), mode = this.light;
+        const P = o.e != null ? { eli: o.e, mila: o.m || 1 } : C.OUTFITS.pairs[+o.pair], e = C.OUTFITS.variant('eli', P.eli), m = C.OUTFITS.variant('mila', P.mila), mode = this.light;
         let L = Ln;
         if (mode === 'golden') { const g = ctx.createLinearGradient(0, 0, 0, K.H); g.addColorStop(0, '#5d6aa3'); g.addColorStop(0.45, '#b48aa8'); g.addColorStop(0.75, '#f0a77f'); g.addColorStop(1, '#ffe2a8'); ctx.fillStyle = g; ctx.fillRect(0, 0, K.W, K.H);
           K.light.glow(ctx, 1500, 700, 700, '#ffd88f', 0.5, 'screen'); ctx.fillStyle = '#6d7a3e'; ctx.fillRect(0, 950, K.W, 130);   /* the feet stand INSIDE the ground plane, not on its top edge */ L = C.LIGHT.golden; }

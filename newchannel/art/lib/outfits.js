@@ -124,6 +124,15 @@
         collar: crew('#dcd5c6'),
         outfitTop: (c, B) => { const P = [-1, 1].map(sg => panel(c, B, sg, PL, { inner: 0.34, flare: 0.1, pattern: plaid(PL, PLD, '#fff0b0') })); openCollar(c, B, P, '#d9a92c'); },
         outfitBack: plaid(PL, PLD, '#fff0b0'), outfitBackTop: (c, B) => backNeck(c, B, '#d9a92c') }); } },
+    // 3b · the Producer's pick (2026-10-29: «la franela de Eli, pero no amarilla, quizás vinotinto»): a warm wine plaid (well
+    // apart from Mila's purple and her wine lips #8e3346), open over the tee, cargo pants. A/B/C = how much yellow survives.
+    ...Object.fromEntries([['A', 'franela vinotinto + playera blanca', '#f1ede2', '#dcd5c6', null], ['B', 'franela vinotinto + playera amarilla', '#f2c230', '#cf9d1f', null],
+      ['C', 'franela vinotinto + playera blanca + acento amarillo (puños y cuello)', '#f1ede2', '#dcd5c6', '#e8b830']].map(([k, name, tee, teeCol, acc]) => ['3b' + k, { name, cost: 'variante de 3 (mismas capas, otra paleta)',
+      spec: () => { const PL = '#7a1f2b', PLD = '#4a1018', TH = '#c96a6e'; return Object.assign({}, NO, { torso: { color: tee }, legColor: '#6f6a48', legStripe: '#55513a', boot: Object.assign({}, BOOT, { color: '#5a3a26' }),
+        arm: { skinPart: false, sleeve: PL, cuff: acc || '#5e1622', plaid: [PLD, TH] },
+        collar: crew(teeCol),
+        outfitTop: (c, B) => { const P = [-1, 1].map(sg => panel(c, B, sg, PL, { inner: 0.34, flare: 0.1, pattern: plaid(PL, PLD, TH) })); openCollar(c, B, P, acc || '#62182a'); },
+        outfitBack: plaid(PL, PLD, TH), outfitBackTop: (c, B) => backNeck(c, B, acc || '#62182a') }); } }])),
     4: { name: 'chaqueta universitaria + jeans', cost: 'nuevo: puños y bajo de punto a rayas, parche «E», broches; mangas amarillas por parámetro',
       spec: () => { const NAVY = '#2f3a66'; return Object.assign({}, NO, { torso: { color: NAVY }, legColor: JEANS, boot: BOOT,
         arm: { skinPart: false, sleeve: Y, cuff: NAVY, stripe: Y },
