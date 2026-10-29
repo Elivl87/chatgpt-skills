@@ -42,6 +42,12 @@ They stand out from the extras by silhouette (capsule heads vs round heads; tall
 Ink line `#2a1a1e` (weight 0.0066 units). Brand vermilion `#E8553A` is **never** on them: it belongs to the wordmark
 dot / brand accent only (in the wordmark gag Mila handles the dot, but it stays a separate flat disc).
 
+## 1b · Armario (Productor, 2026-10-29)
+Vestuario por contexto del episodio; amarillo de Eli y morado de Mila siempre presentes; dentro de un episodio no se cambia de ropa salvo que sea el chiste.
+- **Taller / construcción:** el traje original (Eli playera + delantal; Mila suéter + overol mostaza), preferido sobre el overol de mecánico.
+- **Resto del armario** (`art/lib/outfits.js`, `C.OUTFITS`, Guardián PASS b0dbf85): Eli 2-6, Mila 2-6; parejas Taller, Fin de semana, Otoño, Lluvia.
+- Traje de casa y gorro de Eli: pendientes de decisión.
+
 ## 2 · Proportions (units; ground = 0)
 
 | | Eli | Mila |
