@@ -33,3 +33,4 @@ Regla del Productor (2026-10-28): **ninguna generación sin su aprobación previ
 | Fecha | Qué | Créditos |
 |---|---|---|
 | 2026-10-28 | Gancho EP001 ×3 voces (Eric, Martin Alvarez, Fernando Martinez), antes de la regla | 1.374 |
+| 2026-10-29 | Gancho EP001 v5 con David C (aprobado por el Productor) | 592 |
