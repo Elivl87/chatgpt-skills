@@ -22,7 +22,7 @@
         return;
       }
       ctx.fillStyle = '#ece3d3'; ctx.fillRect(0, 0, K.W, K.H);
-      let id = C.OUTFITS.variant(o.who || 'eli', +(o.n || 1)); const u = 820, b = { expr: o.expr || 'happy', t: 0.6, light: Ln, shadow: 0.3, blink: 0 };
+      let id = C.OUTFITS.variant(o.who || 'eli', /^\d+$/.test(String(o.n || 1)) ? +(o.n || 1) : o.n); /* n=3bA etc. (Guardian 2026-10-29) */ const u = 820, b = { expr: o.expr || 'happy', t: 0.6, light: Ln, shadow: 0.3, blink: 0 };
       // QC (Guardian 2026-10-29, collar_face_check.py): &headover=1 draws the head over the clothes; the difference with the
       // normal render is every garment pixel lying on the head (collars, hoods, turtlenecks vs the mouth)
       if (+o.headover) { const hid = id + 'HO'; if (!C.SPECS[hid]) C.define(hid, Object.assign({}, C.SPECS[id], { headOver: true })); id = hid; }

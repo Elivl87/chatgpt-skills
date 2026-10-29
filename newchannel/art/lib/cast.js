@@ -845,7 +845,11 @@
           if (SOLIDC && legsOn && s < 0.9) {                 // the leg slot under the hem is solid for the shade test
             const m = c.getTransform(); SOLIDC.setTransform(m); SOLIDC.fillStyle = '#000';
             const gx = S.hipW * cosT, y0 = Tbot - 0.03, y1 = S.solidTo != null ? S.solidTo(S) : Tbot + 0.012;
-            SOLIDC.fillRect(tcx - gx, y0, gx * 2, Math.max(0, y1 - y0)); SOLIDC.setTransform(1, 0, 0, 1, 0, 0);
+            SOLIDC.fillRect(tcx - gx, y0, gx * 2, Math.max(0, y1 - y0));
+            // Guardian 2026-10-29 (traje_casa): the far leg lives in the back layer, so the hem over it saw "empty" below and got a
+            // rectangular shade slab (tee hem at night, jeans top at golden; also eli1's apron hem in 3/4). The band just under the
+            // hem is solid across the whole torso bottom, deeper than the largest shade offset (shadeMax 0.028)
+            SOLIDC.fillRect(tcx - wB, y0, wB * 2, Tbot + 0.03 - y0); SOLIDC.setTransform(1, 0, 0, 1, 0, 0);
           }
           if (legsOn) { if (s <= 0.05) { drawLeg(c, -1); drawLeg(c, 1); } else drawLeg(c, back ? dir : -dir); }
           upper(c, () => {

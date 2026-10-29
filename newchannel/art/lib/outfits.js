@@ -23,7 +23,9 @@
       fillStroke(c, B, () => { c.beginPath(); c.moveTo(xo, yt); c.lineTo(xi0 + sg * lap * 0.5, yt); if (lap) c.lineTo(xi0, yt + lap); c.lineTo(xi1, yb); c.lineTo(xo, yb); c.closePath(); }, col);
       if (o.pattern) { c.save(); c.beginPath(); c.moveTo(xo, yt); c.lineTo(xi0, yt); c.lineTo(xi1, yb); c.lineTo(xo, yb); c.closePath(); c.clip(); o.pattern(c, B); c.restore(); }
     });
-    if (o.lapel && !far && s < 0.85) fillStroke(c, B, () => { c.beginPath(); c.moveTo(xi0 + sg * lap * 0.5, yt); c.lineTo(xi0, yt + lap); c.lineTo(xi0 + sg * 0.03 * (1 - 0.5 * s), yt + lap * 0.55); c.lineTo(xi0 + sg * 0.035 * (1 - 0.5 * s), yt); c.closePath(); }, K.shade(col, -0.12), 1.4);
+    // Guardian 2026-10-29 (traje_casa): the lapel is clipped to the torso like the panel (its tips poked 0.01 + ink above the
+    // torso top onto Mila's chin / neck in front, 3/4, seated and arms up)
+    if (o.lapel && !far && s < 0.85) clipT(c, B, () => fillStroke(c, B, () => { c.beginPath(); c.moveTo(xi0 + sg * lap * 0.5, yt); c.lineTo(xi0, yt + lap); c.lineTo(xi0 + sg * 0.03 * (1 - 0.5 * s), yt + lap * 0.55); c.lineTo(xi0 + sg * 0.035 * (1 - 0.5 * s), yt); c.closePath(); }, K.shade(col, -0.12), 1.4));
     return { xi0, xi1, yt, yb };
   }
   // Guardian 2026-10-29: in 3/4 / profile the FAR half of the chest is the one on the facing side (sg === dir: the
@@ -103,7 +105,7 @@
     line(c, B, [[B.tcx - 0.3, B.Tbot - 0.028], [B.tcx + 0.3, B.Tbot - 0.028]], 0.6, 1.2); });
   const zip = (c, B, y0, y1, k = 0.42) => { const x = cxOf(B, k); line(c, B, [[x, y0], [x, y1]], 0.6, 1.2); c.fillStyle = '#c9ccd4'; c.strokeStyle = INK; c.lineWidth = B.lw; K.rrect(c, x - 0.004, y0, 0.008, 0.014, 0.002); c.fill(); c.stroke(); };
   const all = (...fns) => (c, B) => { for (const f of fns) if (f) f(c, B); };
-  const NO = { collar: null, outfit: null, outfitTop: null, outfitBack: null, outfitBackTop: null, backUnder: null, lap: null, legStripe: null, sock: null, flare: 0 };
+  const NO = { collar: null, outfit: null, outfitTop: null, outfitBack: null, outfitBackTop: null, backUnder: null, lap: null, legStripe: null, sock: null, flare: 0, solidTo: null };   // solidTo: eli1's knee-deep solid leg slot belongs to the apron skirt (on trousers it left a shade step mid-leg; Guardian 2026-10-29)
 
   // ================================================================ ELI (signature yellow; head option 2, short curls, on the sheets)
   const Y = '#f2c230', YD = '#cf9d1f', JEANS = '#3f5f96', BOOT = { h: 0.077, w: 0.042, foot: 0.062, toe: 0.05, back: 0.014, sole: 0.016, color: '#2b2729', soleColor: '#151214', laces: true };

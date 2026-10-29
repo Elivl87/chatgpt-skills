@@ -340,6 +340,14 @@ Rules (kit `art/lib/cast.js` + `ep/001/animatic/anim.js`):
   furious (arms-up = laugh), normally and with `&headover=1`; the difference is every garment pixel lying on the head.
   The nearest one to the mouth (lips / interior / tongue) must be >= 6 px at u = 820 (outfit 1 = kit reference, not
   gated). Eli's lips sit only ~0.012 over the torso top: collars, hoods and open-shirt collars never rise above it.
+  Variants by id: `collar_face_check.py <scratch> eli n=3bA,3bB,3bC` (outfit 1 is always added as the reference). The
+  mouth is a lip-coloured pixel with face skin left / right / above / below it in the normal render (wine clothes such
+  as the #7a1f2b flannel pass the lip-colour test); a cell where the reference finds the mouth and the outfit does not =
+  FAIL (mouth hidden). Lapels and collar points are clipped to the torso (no tip above the torso top onto the chin).
+- **Shade under the hem (Guardian, 2026-10-29, `cast.js`):** the band just under the hem (to Tbot + 0.03, the whole
+  torso-bottom width) is solid for the shade test: the far leg lives in the back layer and used to cut a rectangular
+  shade slab into the hem over it (Eli 3b tee at night, jeans top at golden; Mila 1 overalls and Eli 1 apron in 3/4).
+  Trouser outfits do not inherit eli1's knee-deep `solidTo` (apron skirt): it left a shade step mid-leg.
   Garment rules (outfits.js) for any new outfit: (1) in 3/4 / profile the **far** half of the chest is the narrow strip
   on the facing side (`sg === dir`); pockets, lapels and patches live on the wide near half (`farSide`), a patch keeps its
   side of the body (screen-left = the character's right) in every view; (2) collars stay inside the torso width

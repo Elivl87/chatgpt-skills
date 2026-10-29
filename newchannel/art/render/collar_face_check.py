@@ -29,7 +29,9 @@ def render(q, png):
     return png
 
 
-jobs = [(w, n, e) for w in whos for n in range(1, 7) for e in EXPRS]
+# outfits: default 1..6; "n=3bA,3bB" checks those ids (plus outfit 1 as the reference) (Guardian 2026-10-29, traje_casa)
+ns = next(([1] + [int(x) if x.isdigit() else x for x in a[2:].split(",") if x != "1"] for a in sys.argv[2:] if a.startswith("n=")), list(range(1, 7)))
+jobs = [(w, n, e) for w in whos for n in ns for e in EXPRS]
 def run(j):
     w, n, e = j; base = f"who={w}&n={n}&expr={e}"
     return render(base, f"{out}/{w}{n}_{e}.png"), render(base + "&headover=1", f"{out}/{w}{n}_{e}_ho.png")
@@ -41,6 +43,16 @@ for (w, n, e), (pa, pb) in files.items():
     a = np.asarray(Image.open(pa).convert("RGB")).astype(int); b = np.asarray(Image.open(pb).convert("RGB")).astype(int)
     diff = np.abs(a - b).max(axis=2) > 24
     R, G, B = b[..., 0], b[..., 1], b[..., 2]; mouth = (R > G + 30) & (B > G + 5)
+    # Guardian 2026-10-29 (traje_casa): wine clothes (#7a1f2b plaid) pass the lip-colour test too; keep only candidates with face
+    # skin on both sides of the row (within 45 px) and above and below them (within 30 px), i.e. inside the face
+    Ra, Ga, Ba = a[..., 0], a[..., 1], a[..., 2]   # skin context from the NORMAL render (in the headover one a sleeve top sits inside the skin)
+    skin = (np.abs(Ra - 217) < 40) & (np.abs(Ga - 166) < 40) & (np.abs(Ba - 108) < 45) & (Ra > Ga) & (Ga > Ba)
+    cs = np.concatenate([np.zeros((skin.shape[0], 1), int), np.cumsum(skin, axis=1)], axis=1); W = skin.shape[1]; xs_ = np.arange(W)
+    left = cs[:, xs_] - cs[:, np.maximum(0, xs_ - 45)] > 0; right = cs[:, np.minimum(W, xs_ + 46)] - cs[:, xs_ + 1] > 0
+    cv = np.concatenate([np.zeros((1, W), int), np.cumsum(skin, axis=0)], axis=0); ys_ = np.arange(skin.shape[0])
+    up = cv[ys_, :] - cv[np.maximum(0, ys_ - 30), :] > 0
+    down = cv[np.minimum(skin.shape[0], ys_ + 31), :] - cv[ys_ + 1, :] > 0
+    mouth &= left & right & up & down
     for cell, (x0, x1) in CELLS.items():
         m = mouth[:760, x0:x1]; ys, xs = np.nonzero(m)
         if len(ys) < 15: res.setdefault(f"{w}{n}", {})[f"{e}/{cell}"] = "no mouth"; continue
@@ -56,10 +68,11 @@ for (w, n, e) in files:
     if n == 1: continue
     for cell in CELLS:
         g, r = res[f"{w}{n}"].get(f"{e}/{cell}"), res[f"{w}1"].get(f"{e}/{cell}")
+        if g == "no mouth" and isinstance(r, int): bad += 1; res[f"{w}{n}"][f"{e}/{cell}"] = "FAIL no mouth (hidden?)"; continue
         if isinstance(g, int) and g < GAP and not (isinstance(r, int) and r < GAP and g >= r): bad += 1; res[f"{w}{n}"][f"{e}/{cell}"] = f"FAIL {g}"
         elif isinstance(g, int) and g < GAP: res[f"{w}{n}"][f"{e}/{cell}"] = f"ref {g}"   # as the kit reference (outfit 1)
 for k, v in res.items():
-    gaps = [int(str(g).split()[-1]) for g in v.values() if g != "no mouth"]
+    gaps = [int(str(g).split()[-1]) for g in v.values() if str(g).split()[-1].lstrip("-").isdigit()]
     worst = min(gaps) if gaps else None
     fails = [f"{c}:{g}" for c, g in v.items() if str(g).startswith("FAIL") or (k.endswith("1") and isinstance(g, int) and g < GAP)]
     print(f"{k}: min gap {worst}px  {'PASS' if not fails else 'FAIL ' + ' '.join(fails)}{'  (reference)' if k.endswith('1') else ''}")
