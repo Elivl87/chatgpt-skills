@@ -1,12 +1,12 @@
 # QC · blockE2
 
-File: `blockE2_review.mp4` · 73.33 s · 30/1 fps · 16.75 MB · 1.8 Mb/s
+File: `blockE2_review.mp4` · 73.33 s · 30/1 fps · 16.80 MB · 1.8 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 1280x720 |
-| file size <= 30 MB (chat delivery) | **PASS** | 16.75 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 16.80 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.1 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -1.2 dBTP |
@@ -27,8 +27,8 @@ Loudness (ffmpeg ebur128 on the final mp4): I -14.1 LUFS, TP -1.2 dBTP, LRA 12.6
 | cuts_per_min | 20.5 |
 | motion_share | 0.768 |
 | still_2s_runs | 3 |
-| brightness_mean | 0.553 |
-| saturation_mean | 0.377 |
+| brightness_mean | 0.552 |
+| saturation_mean | 0.378 |
 | wpm_overall | 89 |
 | wpm_while_speaking | 196 |
 

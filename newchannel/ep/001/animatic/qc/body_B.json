@@ -12,51 +12,51 @@
    "problems": [],
    "chars": [
     {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "walk",
-     "view": "q",
-     "box": [
-      382,
-      278,
-      462,
-      678
-     ],
-     "cl": {
-      "yellow": 0.001,
-      "purple": 0.1652,
-      "mustard": 0.1083,
-      "green": 0.0684,
-      "blue": 0.2161,
-      "brown": 0.0325,
-      "white": 0.05,
-      "vermilion": 0,
-      "pale": 0.0677,
-      "red": 0.0007
-     }
-    },
-    {
      "id": "eli1",
      "expr": "annoyed",
      "pose": "surprise",
      "view": "q",
      "box": [
-      134,
+      175,
       334,
-      303,
+      342,
       682
      ],
      "cl": {
-      "yellow": 0.0663,
+      "yellow": 0.068,
       "purple": 0,
-      "mustard": 0.1319,
+      "mustard": 0.132,
       "green": 0,
       "blue": 0,
-      "brown": 0.0602,
-      "white": 0.0097,
+      "brown": 0.0607,
+      "white": 0.0099,
       "vermilion": 0,
-      "pale": 0.0133,
-      "red": 0.3217
+      "pale": 0.0135,
+      "red": 0.3178
+     }
+    },
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "walk",
+     "view": "q",
+     "box": [
+      321,
+      278,
+      473,
+      678
+     ],
+     "cl": {
+      "yellow": 0.0007,
+      "purple": 0.1687,
+      "mustard": 0.0901,
+      "green": 0.0635,
+      "blue": 0.2493,
+      "brown": 0.032,
+      "white": 0.0502,
+      "vermilion": 0,
+      "pale": 0.0734,
+      "red": 0.0007
      }
     }
    ],
@@ -70,51 +70,51 @@
    "problems": [],
    "chars": [
     {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "walk",
-     "view": "q",
-     "box": [
-      503,
-      285,
-      593,
-      687
-     ],
-     "cl": {
-      "yellow": 0.0007,
-      "purple": 0.1794,
-      "mustard": 0.1035,
-      "green": 0.0868,
-      "blue": 0.1871,
-      "brown": 0.0312,
-      "white": 0.0462,
-      "vermilion": 0,
-      "pale": 0.0616,
-      "red": 0.0006
-     }
-    },
-    {
      "id": "eli1",
      "expr": "annoyed",
      "pose": "surprise",
      "view": "q",
      "box": [
-      260,
+      301,
       337,
-      431,
+      470,
       688
      ],
      "cl": {
-      "yellow": 0.0659,
+      "yellow": 0.0676,
       "purple": 0,
-      "mustard": 0.1311,
+      "mustard": 0.1309,
       "green": 0,
       "blue": 0,
-      "brown": 0.0605,
-      "white": 0.0096,
+      "brown": 0.06,
+      "white": 0.0101,
       "vermilion": 0,
-      "pale": 0.0132,
-      "red": 0.3207
+      "pale": 0.0137,
+      "red": 0.3162
+     }
+    },
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "walk",
+     "view": "q",
+     "box": [
+      449,
+      285,
+      602,
+      687
+     ],
+     "cl": {
+      "yellow": 0.0006,
+      "purple": 0.1812,
+      "mustard": 0.0834,
+      "green": 0.0794,
+      "blue": 0.2309,
+      "brown": 0.0317,
+      "white": 0.0461,
+      "vermilion": 0,
+      "pale": 0.0678,
+      "red": 0.0006
      }
     }
    ],
@@ -128,51 +128,51 @@
    "problems": [],
    "chars": [
     {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "walk",
-     "view": "q",
-     "box": [
-      652,
-      279,
-      733,
-      689
-     ],
-     "cl": {
-      "yellow": 0.0008,
-      "purple": 0.2062,
-      "mustard": 0.1061,
-      "green": 0.0534,
-      "blue": 0.21,
-      "brown": 0.0308,
-      "white": 0.0494,
-      "vermilion": 0,
-      "pale": 0.0647,
-      "red": 0.0005
-     }
-    },
-    {
      "id": "eli1",
      "expr": "annoyed",
      "pose": "surprise",
      "view": "q",
      "box": [
-      398,
+      441,
       336,
-      572,
+      612,
       693
      ],
      "cl": {
-      "yellow": 0.0659,
+      "yellow": 0.0675,
       "purple": 0,
-      "mustard": 0.1317,
+      "mustard": 0.1312,
       "green": 0,
       "blue": 0,
-      "brown": 0.0589,
-      "white": 0.0097,
+      "brown": 0.0599,
+      "white": 0.0099,
       "vermilion": 0,
-      "pale": 0.0129,
-      "red": 0.3195
+      "pale": 0.0135,
+      "red": 0.3161
+     }
+    },
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "walk",
+     "view": "q",
+     "box": [
+      591,
+      279,
+      746,
+      689
+     ],
+     "cl": {
+      "yellow": 0.0007,
+      "purple": 0.204,
+      "mustard": 0.0881,
+      "green": 0.0496,
+      "blue": 0.2417,
+      "brown": 0.0303,
+      "white": 0.0486,
+      "vermilion": 0,
+      "pale": 0.0699,
+      "red": 0.0007
      }
     }
    ],
@@ -186,30 +186,6 @@
    "problems": [],
    "chars": [
     {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "walk",
-     "view": "q",
-     "box": [
-      736,
-      64,
-      929,
-      706
-     ],
-     "cl": {
-      "yellow": 0.0007,
-      "purple": 0.1853,
-      "mustard": 0.0939,
-      "green": 0.0812,
-      "blue": 0.2274,
-      "brown": 0.0227,
-      "white": 0.0415,
-      "vermilion": 0,
-      "pale": 0.052,
-      "red": 0.0004
-     }
-    },
-    {
      "id": "eli1",
      "expr": "annoyed",
      "pose": "surprise",
@@ -217,20 +193,44 @@
      "box": [
       369,
       147,
-      641,
+      638,
       707
      ],
      "cl": {
-      "yellow": 0.0664,
+      "yellow": 0.0682,
       "purple": 0,
-      "mustard": 0.1318,
+      "mustard": 0.1312,
       "green": 0,
       "blue": 0,
-      "brown": 0.0535,
-      "white": 0.0103,
+      "brown": 0.054,
+      "white": 0.0105,
       "vermilion": 0,
-      "pale": 0.0123,
-      "red": 0.3203
+      "pale": 0.0126,
+      "red": 0.3168
+     }
+    },
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "walk",
+     "view": "q",
+     "box": [
+      605,
+      64,
+      859,
+      706
+     ],
+     "cl": {
+      "yellow": 0.0005,
+      "purple": 0.1848,
+      "mustard": 0.0848,
+      "green": 0.0809,
+      "blue": 0.2318,
+      "brown": 0.0249,
+      "white": 0.0447,
+      "vermilion": 0,
+      "pale": 0.0559,
+      "red": 0.0005
      }
     }
    ],
@@ -244,30 +244,6 @@
    "problems": [],
    "chars": [
     {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "walk",
-     "view": "q",
-     "box": [
-      766,
-      56,
-      898,
-      705
-     ],
-     "cl": {
-      "yellow": 0.0008,
-      "purple": 0.1696,
-      "mustard": 0.11,
-      "green": 0.067,
-      "blue": 0.2083,
-      "brown": 0.025,
-      "white": 0.0531,
-      "vermilion": 0,
-      "pale": 0.062,
-      "red": 0.0006
-     }
-    },
-    {
      "id": "eli1",
      "expr": "annoyed",
      "pose": "surprise",
@@ -275,20 +251,44 @@
      "box": [
       366,
       146,
-      641,
+      638,
       711
      ],
      "cl": {
-      "yellow": 0.0666,
+      "yellow": 0.0684,
       "purple": 0,
-      "mustard": 0.1316,
+      "mustard": 0.131,
       "green": 0,
       "blue": 0,
-      "brown": 0.0522,
-      "white": 0.0103,
+      "brown": 0.0528,
+      "white": 0.0106,
       "vermilion": 0,
-      "pale": 0.0122,
-      "red": 0.321
+      "pale": 0.0126,
+      "red": 0.3174
+     }
+    },
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "walk",
+     "view": "q",
+     "box": [
+      604,
+      56,
+      850,
+      705
+     ],
+     "cl": {
+      "yellow": 0.0006,
+      "purple": 0.1718,
+      "mustard": 0.0904,
+      "green": 0.0621,
+      "blue": 0.2475,
+      "brown": 0.0264,
+      "white": 0.0519,
+      "vermilion": 0,
+      "pale": 0.0632,
+      "red": 0.0006
      }
     }
    ],
@@ -302,30 +302,6 @@
    "problems": [],
    "chars": [
     {
-     "id": "mila1",
-     "expr": "happy",
-     "pose": "walk",
-     "view": "q",
-     "box": [
-      761,
-      53,
-      905,
-      708
-     ],
-     "cl": {
-      "yellow": 0.0007,
-      "purple": 0.1949,
-      "mustard": 0.0998,
-      "green": 0.0766,
-      "blue": 0.2123,
-      "brown": 0.0226,
-      "white": 0.0477,
-      "vermilion": 0,
-      "pale": 0.057,
-      "red": 0.0005
-     }
-    },
-    {
      "id": "eli1",
      "expr": "annoyed",
      "pose": "surprise",
@@ -333,20 +309,44 @@
      "box": [
       363,
       145,
-      642,
+      639,
       715
      ],
      "cl": {
-      "yellow": 0.0663,
+      "yellow": 0.0681,
       "purple": 0,
-      "mustard": 0.1311,
+      "mustard": 0.1304,
       "green": 0,
       "blue": 0,
-      "brown": 0.0523,
-      "white": 0.0104,
+      "brown": 0.0529,
+      "white": 0.0107,
       "vermilion": 0,
-      "pale": 0.0129,
-      "red": 0.3206
+      "pale": 0.0132,
+      "red": 0.3166
+     }
+    },
+    {
+     "id": "mila1",
+     "expr": "happy",
+     "pose": "walk",
+     "view": "q",
+     "box": [
+      604,
+      53,
+      853,
+      708
+     ],
+     "cl": {
+      "yellow": 0.0006,
+      "purple": 0.1946,
+      "mustard": 0.084,
+      "green": 0.0722,
+      "blue": 0.2307,
+      "brown": 0.0255,
+      "white": 0.0483,
+      "vermilion": 0,
+      "pale": 0.0593,
+      "red": 0.0005
      }
     }
    ],
@@ -3331,14 +3331,14 @@
      ],
      "cl": {
       "yellow": 0.001,
-      "purple": 0.0941,
+      "purple": 0.101,
       "mustard": 0.1159,
-      "green": 0.0923,
-      "blue": 0.2231,
+      "green": 0.0967,
+      "blue": 0.2206,
       "brown": 0.0238,
-      "white": 0.0483,
+      "white": 0.0482,
       "vermilion": 0,
-      "pale": 0.056,
+      "pale": 0.0556,
       "red": 0
      }
     }
@@ -3365,14 +3365,14 @@
      ],
      "cl": {
       "yellow": 0.001,
-      "purple": 0.0932,
+      "purple": 0.0991,
       "mustard": 0.1093,
-      "green": 0.0918,
-      "blue": 0.2259,
+      "green": 0.0965,
+      "blue": 0.2232,
       "brown": 0.0279,
-      "white": 0.0572,
+      "white": 0.0576,
       "vermilion": 0,
-      "pale": 0.0672,
+      "pale": 0.0674,
       "red": 0.0005
      }
     }
@@ -3399,14 +3399,14 @@
      ],
      "cl": {
       "yellow": 0.001,
-      "purple": 0.0937,
+      "purple": 0.1017,
       "mustard": 0.1081,
-      "green": 0.0913,
-      "blue": 0.2223,
+      "green": 0.0954,
+      "blue": 0.2194,
       "brown": 0.027,
-      "white": 0.0581,
+      "white": 0.0579,
       "vermilion": 0,
-      "pale": 0.0672,
+      "pale": 0.0669,
       "red": 0.0005
      }
     }

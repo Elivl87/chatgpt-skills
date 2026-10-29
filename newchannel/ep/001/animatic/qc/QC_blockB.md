@@ -1,12 +1,12 @@
 # QC · blockB
 
-File: `blockB_review.mp4` · 55.87 s · 30/1 fps · 13.30 MB · 1.9 Mb/s
+File: `blockB_review.mp4` · 55.87 s · 30/1 fps · 13.23 MB · 1.9 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 1280x720 |
-| file size <= 30 MB (chat delivery) | **PASS** | 13.30 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 13.23 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.0 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -2.3 dBTP |

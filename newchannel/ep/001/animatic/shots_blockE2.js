@@ -227,10 +227,9 @@
         c.translate(960 + 0.005 * K.W * Math.sin(lt * 0.23), 470 + 0.004 * K.H * Math.sin(lt * 0.19 + 1.1)); c.scale(z, z); c.translate(-960, -470); };
       const holdDraw = (c, t) => { const k = fgK(t); wmOpt.fg = k > 0 ? { s: K.lerp(1, FG.s, k), dy: FG.dy * k } : null;
         c.save(); holdCam(c, t); E.drawWordmark(c, t - tWM, 0, wmOpt); c.restore(); wmOpt.fg = null; };
-      // screen space: faint dashed guides where the YouTube end-screen elements go (animatic only), then the fade to black
-      const holdOver = (c, t) => { const g = A.ramp(t, tTag + 3.6, 0.6) * (1 - A.ramp(t, T1 - 1.6, 0.5));
-        if (g > 0.01) { c.save(); c.globalAlpha = g; c.setLineDash([16, 12]); c.strokeStyle = K.rgba('#fbf3e4', 0.32); c.lineWidth = 4;
-          K.rrect(c, 300, 600, 600, 338, 18); c.stroke(); K.rrect(c, 1020, 600, 600, 338, 18); c.stroke(); c.restore(); }
+      // screen space: the fade to black (no end-card guides: the clear lower half is enough)
+      // Producer 2026-10-29: the dashed end-card guide boxes were animatic-only: removed (the lower half stays clear for the cards)
+      const holdOver = (c, t) => {
         const f = K.clamp((t - (T1 - 1.0)) / 1.0); if (f > 0) { c.fillStyle = K.rgba('#000000', 0.9 * K.ease.sine(f)); c.fillRect(0, 0, K.W, K.H); } };   // to 90 % (QC: no pure-black frames at the end)
       const WMPOST = { grain: 0.13, vignette: 0.5, vignetteColor: '#1a0f26', bloom: 0.3 };
       shots.push({ id: 'J06_bump', start: tJ6, bg: 'wm', breath: false, post: WMPOST,

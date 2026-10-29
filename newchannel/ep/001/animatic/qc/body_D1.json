@@ -1376,21 +1376,21 @@
      "pose": "clipboard",
      "view": "q",
      "box": [
-      827,
+      806,
       107,
-      1031,
+      1009,
       728
      ],
      "cl": {
       "yellow": 0.0042,
-      "purple": 0.2176,
-      "mustard": 0.1185,
+      "purple": 0.2179,
+      "mustard": 0.1184,
       "green": 0.0041,
-      "blue": 0.2503,
-      "brown": 0.0262,
+      "blue": 0.2501,
+      "brown": 0.0264,
       "white": 0.0429,
       "vermilion": 0,
-      "pale": 0.0609,
+      "pale": 0.0611,
       "red": 0.0017
      }
     }
@@ -1434,21 +1434,21 @@
      "pose": "clipboard",
      "view": "q",
      "box": [
-      824,
+      803,
       114,
-      1024,
+      1003,
       728
      ],
      "cl": {
       "yellow": 0.0043,
       "purple": 0.2172,
-      "mustard": 0.116,
+      "mustard": 0.1177,
       "green": 0.0072,
-      "blue": 0.246,
-      "brown": 0.0301,
-      "white": 0.0421,
+      "blue": 0.2462,
+      "brown": 0.0303,
+      "white": 0.0419,
       "vermilion": 0,
-      "pale": 0.0588,
+      "pale": 0.059,
       "red": 0.0016
      }
     }
@@ -1488,26 +1488,26 @@
     },
     {
      "id": "mila1",
-     "expr": "neutral",
-     "pose": "point",
+     "expr": "determined",
+     "pose": "stand",
      "view": "q",
      "box": [
-      651,
-      110,
-      1010,
+      622,
+      112,
+      917,
       728
      ],
      "cl": {
-      "yellow": 0.0009,
-      "purple": 0.1947,
-      "mustard": 0.1198,
-      "green": 0.0129,
-      "blue": 0.277,
-      "brown": 0.0297,
-      "white": 0.0416,
+      "yellow": 0.0008,
+      "purple": 0.1962,
+      "mustard": 0.1159,
+      "green": 0.013,
+      "blue": 0.271,
+      "brown": 0.0239,
+      "white": 0.0426,
       "vermilion": 0,
-      "pale": 0.0522,
-      "red": 0.0016
+      "pale": 0.0555,
+      "red": 0.0011
      }
     }
    ],
@@ -1546,26 +1546,26 @@
     },
     {
      "id": "mila1",
-     "expr": "neutral",
-     "pose": "point",
+     "expr": "determined",
+     "pose": "stand",
      "view": "q",
      "box": [
-      653,
-      114,
-      1020,
+      624,
+      116,
+      917,
       728
      ],
      "cl": {
       "yellow": 0.0008,
-      "purple": 0.1913,
-      "mustard": 0.1172,
-      "green": 0.0155,
-      "blue": 0.2793,
-      "brown": 0.0298,
-      "white": 0.0406,
+      "purple": 0.1943,
+      "mustard": 0.1139,
+      "green": 0.0157,
+      "blue": 0.2743,
+      "brown": 0.0246,
+      "white": 0.0415,
       "vermilion": 0,
-      "pale": 0.0505,
-      "red": 0.0015
+      "pale": 0.054,
+      "red": 0.0011
      }
     }
    ],

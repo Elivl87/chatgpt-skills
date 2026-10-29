@@ -252,18 +252,8 @@
               K.cast.draw(c, 'mila1', x - Wd * 0.21, top + 0.34 * s, 2.7 * s, { view: 'backq', dir: 1, seated: true, pose: 'crossed', t, light: FRONTLIT });
               eliR = K.cast.draw(c, 'eli1', x + Wd * 0.21, top + 0.34 * s, 2.7 * s, { view: 'front', seated: false, pose: 'detective', expr: 'curious', look: [0, -0.1], t, light: FRONTLIT, talk: sp.talk, viseme: sp.viseme, blink: 0 });
             } });
-          if (eliR) {   // the magnifier enlarges his eye
-            const u = 2.7 * p.s, hd = eliR.hands.trail, lx = hd[0] + 0.004 * u, ly = hd[1] - 0.07 * u, r = 0.04 * u * 0.9;
-            c.save(); K.circle(c, lx, ly, r); c.clip();
-            c.fillStyle = K.cast.ELI_SKIN; c.fillRect(lx - r, ly - r, 2 * r, 2 * r);
-            c.fillStyle = '#fbf7ee'; K.ellipse(c, lx, ly + r * 0.05, r * 0.78, r * 0.7); c.fill(); c.strokeStyle = '#2a1a1e'; c.lineWidth = r * 0.08; c.stroke();
-            c.fillStyle = '#1e1216'; K.circle(c, lx + r * 0.05, ly + r * 0.08, r * 0.4); c.fill();   // eye check: the enlarged pupil reads dark through the glass
-            c.fillStyle = '#ffffff'; K.circle(c, lx - r * 0.08, ly - r * 0.06, r * 0.1); c.fill();
-            c.strokeStyle = '#1a100e'; c.lineWidth = r * 0.14; c.lineCap = 'round'; c.beginPath(); c.moveTo(lx - r * 0.6, ly - r * 0.82); c.quadraticCurveTo(lx, ly - r * 1.0, lx + r * 0.6, ly - r * 0.78); c.stroke();
-            c.restore();
-            c.fillStyle = 'rgba(200,232,255,0.1)'; K.circle(c, lx, ly, r); c.fill();
-            c.strokeStyle = 'rgba(255,255,255,0.85)'; c.lineWidth = r * 0.07; c.beginPath(); c.arc(lx, ly, r * 0.7, -2.6, -1.7); c.stroke();
-          }
+          // Producer 2026-10-29: the overlay eye here sat beside the kit lens (a doubled, blurred-looking eye); the kit lens now
+          // draws the magnified eye itself, crisp, in every view
         },
         cues: A => [{ t: tQue - 0.1, kind: 'plink' }] });
 

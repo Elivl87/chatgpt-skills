@@ -168,8 +168,11 @@
             const ex = 900 - step * 160 + 0, u = 620;
             const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: -1, ...A.seq(t, [[0, { pose: 'stand' }], [tPican + 0.05, { pose: 'open' }], [pull + 0.6, { pose: 'stand' }]], 0.25), ...A.ez(t, pull, 'determined', 'surprised'), t, lean: step * 0.12 - (t > pull ? 0.06 * Math.exp(-(t - pull) * 4) : 0), light: LF, shadow: 0.3 });
             eliBadge(cx, rE, u, t);
-            const rM = K.cast.draw(cx, 'mila1', 1260, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, pull - 0.1, 'clipboard', 'point'), expr: 'neutral', t, look: [-0.2, 0.3], light: LF, shadow: 0.3 });
-            if (t > pull - 0.1) { cx.strokeStyle = K.cast.INK; cx.lineWidth = 9; cx.beginPath(); cx.moveTo(rE.head[0] + 30, rE.head[1] + u * 0.22); cx.lineTo(rM.hands.lead[0], rM.hands.lead[1]); cx.stroke(); cx.strokeStyle = '#3b2a20'; cx.lineWidth = 5; cx.stroke(); } } }); },
+            // Producer 2026-10-29: no connector line from her hand to his chest: Mila steps in and holds him back by the shoulder,
+            // her hand really on his back shoulder (it used to be a dark stick from her hand to his chest)
+            const gk = A.ramp(t, pull - 0.04, 0.14), mx = 1240 - 70 * gk;   // the grab lands with his snap back (his step reverses over pull .. pull + 0.12)
+            K.cast.draw(cx, 'mila1', mx, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, pull - 0.45, 'clipboard', 'stand'), expr: 'neutral', exprBlend: { expr: 'determined', k: A.ramp(t, pull - 0.35, 0.25) }, t, lean: 0.08 * gk, look: [-0.2, 0.3], light: LF, shadow: 0.3,
+              reach: { lead: { p: [rE.head[0] + rE.head[2] * 0.95, rE.head[1] + rE.head[2] * 1.45], k: gk, hand: 'mitt' } } }); } }); },
         cues: A => [{ t: pull, kind: 'whoosh_up' }] });
 
       // ================================================================ BEAT 16 · the wave melts

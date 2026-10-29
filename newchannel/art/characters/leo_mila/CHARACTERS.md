@@ -210,6 +210,13 @@ A delivery with one unchecked box is not finished. History of what went wrong: `
       ink and fill, no AA ghost rings.
 - [ ] Ink weight consistent between the two characters and with the props in the same shot.
 
+**Contact between characters** (Producer 2026-10-29, pilot v5 on the phone: «sale algo muy largo rojo»)
+- [ ] **No drawn connector lines between characters** (no strap, cloth band, rope, stick or line from one character's hand
+      to another's body). Contact = hands that really touch: `K.cast.draw(..., { reach: { lead | trail: { p, k, hand } } })`
+      puts a hand on a point (2-bone IK, clamped to the arm's reach); the characters stand close enough for it.
+- [ ] Look at every frame of a grab / pull / hold at phone size: the hand closes on a hand, wrist, forearm or shoulder.
+- [ ] Props that magnify (the lens) show ONE crisp drawn eye inside the glass, never a tinted / doubled eye behind it.
+
 ## 6b · Eye rules + the automated eye check (Producer, 2026-10-16: «el punto de los ojos no está funcionando»)
 
 The pupil is the most important pixel of the face. These rules live in `cast.js` (`drawEye`, constants `K.cast.EYE`)

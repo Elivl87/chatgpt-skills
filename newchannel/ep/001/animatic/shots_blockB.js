@@ -40,19 +40,17 @@
       const tLit = w('Literalmente', 1, '06'), tDragEnd = tYa - 0.28;
       const drag = (c, t, close) => {
           const ts = A.map(0, T0, 1)(t), u = 520, k = K.clamp((t - T0) / (tDragEnd - T0));
-          const mx = 620 + 620 * k, ex = mx - 300, ex0 = 320;
+          const mx = 620 + 620 * k, ex = mx - 240, ex0 = 320;
           A.field(c, t, { simT: ts, frame: close ? { z: 1.6, x: ex + 120, y: G - 310 } : { z: 1.0, x: 960, y: 540 },
             chars: (cx) => {
               // furrows
               cx.strokeStyle = K.rgba('#5a4030', 0.75); cx.lineCap = 'round'; for (const dy of [-6, 10]) { cx.lineWidth = 9; cx.beginPath(); cx.moveTo(ex0 - 20, G + dy); cx.lineTo(ex + 10, G + dy); cx.stroke(); }
               cx.fillStyle = K.rgba('#6a4c38', 0.8); for (let j = 0; j < 14; j++) { const x = ex0 + (ex - ex0) * (j / 14) + Math.sin(j * 7) * 8; K.circle(cx, x, G - 8 + Math.cos(j * 3) * 6, 3 + (j % 3)); cx.fill(); }
-              const rM = K.cast.draw(cx, 'mila1', mx, G, u, { view: 'q', dir: 1, pose: 'walk', expr: 'happy', t: t * 0.9, look: [0.9, 0], light: LF, shadow: 0.3, blink: blink(5, t) });
-              const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: 1, pose: 'surprise', expr: 'annoyed', t, lean: -0.16, look: [0.7, 0.1], light: LF, shadow: 0.3, blink: blink(3, t), extras: ['puff'] });
-              // director 2026-10-29 (canonical look, no apron): Mila hauls him by the flannel collar, the cloth stretched cartoon-long
-              // from the back of his collar to her trailing fist (wine flannel #7a1f2b, its darker check line along the middle)
-              const hr = rE.head[2], sx = rE.head[0] + hr * 0.42, sy = rE.head[1] + hr * 1.08, hx = rM.hands.trail[0], hy = rM.hands.trail[1];
-              cx.lineCap = 'round'; cx.strokeStyle = K.cast.INK; cx.lineWidth = u * 0.034; cx.beginPath(); cx.moveTo(sx, sy); cx.lineTo(hx, hy); cx.stroke();
-              cx.strokeStyle = '#7a1f2b'; cx.lineWidth = u * 0.022; cx.stroke(); cx.strokeStyle = '#5e1622'; cx.lineWidth = u * 0.005; cx.stroke();
+              // Producer 2026-10-29: she pulls him BY THE HAND (hands touching, short distance, she leans into the walk, he skids
+              // on his heels). No connector line / stretched cloth between them, ever.
+              const grip = [(ex + mx) / 2 - 4, G - u * 0.55];
+              K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: 1, pose: 'surprise', expr: 'annoyed', t, lean: -0.16, look: [0.7, 0.1], light: LF, shadow: 0.3, blink: blink(3, t), extras: ['puff'], reach: { lead: { p: grip, hand: 'relax' } } });
+              K.cast.draw(cx, 'mila1', mx, G, u, { view: 'q', dir: 1, pose: 'walk', expr: 'happy', t: t * 0.9, lean: 0.12, headTurn: -0.35, look: [-0.6, 0], light: LF, shadow: 0.3, blink: blink(5, t), reach: { trail: { p: [grip[0] - 10, grip[1] - 2], hand: 'mitt' } }   /* her fist closes over his wrist */ });
             } });
       };
       shots.push({ id: 'B01_drag', start: T0, bg: 'field', focus: [960, 600], push: 0.025,

@@ -13,7 +13,7 @@
   [
    "file size <= 30 MB (chat delivery)",
    "PASS",
-   "9.97 MB"
+   "10.32 MB"
   ],
   [
    "audio AAC 48 kHz",
@@ -27,8 +27,8 @@
   ],
   [
    "true peak <= -1.0 dBTP",
-   "FAIL",
-   "1.1 dBTP"
+   "PASS",
+   "-1.9 dBTP"
   ],
   [
    "no black frames",
@@ -48,7 +48,7 @@
  ],
  "loudness": {
   "I": -14.0,
-  "TP": 1.1,
+  "TP": -1.9,
   "LRA": 7.2
  },
  "detect": {
@@ -65,49 +65,49 @@
   "median_shot_s": 2.17,
   "longest_shot_s": 3.83,
   "cuts_per_min": 28.0,
-  "motion_share": 0.844,
+  "motion_share": 0.837,
   "still_2s_runs": 0,
   "brightness_mean": 0.612,
   "saturation_mean": 0.363,
   "palette": [
    [
-    "#d0a480",
+    "#d0a580",
     0.173
    ],
    [
-    "#695750",
-    0.141
+    "#6a584f",
+    0.135
    ],
    [
     "#b38e5d",
     0.116
    ],
    [
-    "#8e7a4c",
-    0.115
+    "#8f7a4c",
+    0.114
    ],
    [
-    "#af8885",
-    0.1
+    "#b08886",
+    0.099
    ],
    [
     "#e5c69d",
-    0.094
+    0.093
    ],
    [
     "#866576",
     0.088
    ],
    [
-    "#413044",
+    "#4c5063",
     0.081
    ],
    [
-    "#4a5266",
-    0.07
+    "#402f43",
+    0.077
    ],
    [
-    "#74362d",
+    "#73362d",
     0.024
    ]
   ],
@@ -120,5 +120,5 @@
   "wpm_while_speaking": 186
  },
  "duration": 47.1,
- "size": 9966695
+ "size": 10321324
 }

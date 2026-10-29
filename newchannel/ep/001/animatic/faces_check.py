@@ -53,6 +53,9 @@ def check_eye(L, W, H, e, sly, f=None):
     if wref < 120 or white_frac < 0.2 * open_k:
         probs.append(f'no clear white (white {wref}, {white_frac:.0%})')
     px, py, pr = e['px'], e['py'], e['pr']
+    lz0, lp = f.get('lens'), f.get('lensPupil')
+    if lz0 and lp and (cx - lz0[0]) ** 2 + (cy - lz0[1]) ** 2 < lz0[2] ** 2:
+        px, py, pr = lp                     # 2026-10-29: the magnifier shows ONE drawn magnified eye: judge its pupil
     if pr < 0.33 * ry - 0.05:
         probs.append(f'pupil {pr / ry:.2f}x eye (< 0.33)')
     if e.get('cr', 0) > 0.36 * pr + 1e-6:

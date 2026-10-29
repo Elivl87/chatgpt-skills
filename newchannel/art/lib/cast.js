@@ -673,7 +673,7 @@
     function boardAt() { return [tcx + dir * s * (wT + 0.035), K.lerp(Ttop, Tbot, 0.42)]; }
     const thigh = S.legLen * 0.5, shin = S.legLen * 0.5;
     function kneeAt(sg) { const hx = sg * S.hipW * cosT; return o.sitGround ? [hx + dir * s * thigh * 0.62 + (1 - s) * sg * 0.035, hipY - thigh * 0.78 * s - (1 - s) * (o.back ? 0.07 : thigh * 0.62)]   /* art review 2026-10: knees up in front / 3/4 too (they were barely above the hip, the boots sat in the lap); back views unchanged */ : [hx + dir * s * thigh * 0.95 + (1 - s) * sg * 0.015, hipY - 0.01 + (1 - s) * 0.03]; }
-    const target = (sg, a) => {
+    const target = (sg, a, nm) => {
       const S0 = sh(sg);
       let T;
       if (a.at) T = anchor(a.at, sg);
@@ -682,15 +682,17 @@
       if (a.shake) T = [T[0] + Math.sin(t * 22) * 0.012, T[1] + Math.cos(t * 22) * 0.01];
       if (a.wave) T = [T[0] + Math.sin(t * 8) * 0.04 * sg, T[1]];
       if (a.swing) T = [T[0] + dir * Math.max(0.25, s) * LA * 0.32 * Math.sin(wph) * a.swing, T[1] - Math.abs(Math.sin(wph)) * 0.01];
+      const RQ = nm && o.reachL && o.reachL[nm]; if (RQ) T = [K.lerp(T[0], RQ.p[0], K.clamp(RQ.k)), K.lerp(T[1], RQ.p[1], K.clamp(RQ.k))];
       const pole = [K.lerp(a.pf[0] * sg, a.ps[0] * dir, s), K.lerp(-a.pf[1], -a.ps[1], s)];
       return { T, pole, S0 };
     };
-    const armFor = (sg, a, b) => {
-      const A0 = target(sg, a); let hk = a.hand, j = ik(A0.S0, A0.T, L1, L2, A0.pole);
+    const armFor = (sg, a, b, nm) => {
+      const A0 = target(sg, a, nm); let hk = a.hand, j = ik(A0.S0, A0.T, L1, L2, A0.pole);
       // clothes QC 2026-10-16: a pose blend solves BOTH poses and blends the joints. Blending the elbow pole instead let it
       // cross zero mid-blend and the elbow flipped to the other side in one frame (a sleeve / arm pop)
-      if (b && bk > 0) { const B0 = target(sg, b), jb = ik(B0.S0, B0.T, L1, L2, B0.pole), L = (p, q) => [K.lerp(p[0], q[0], bk), K.lerp(p[1], q[1], bk)];
+      if (b && bk > 0) { const B0 = target(sg, b, nm), jb = ik(B0.S0, B0.T, L1, L2, B0.pole), L = (p, q) => [K.lerp(p[0], q[0], bk), K.lerp(p[1], q[1], bk)];
         j = [j[0], L(j[1], jb[1]), L(j[2], jb[2])]; if (bk > 0.5) hk = b.hand; }
+      if (nm && o.reachL && o.reachL[nm] && o.reachL[nm].hand && o.reachL[nm].k > 0.5) hk = o.reachL[nm].hand;
       const ff = K.lerp(FACE_FRONT[a.at] ? 1 : 0, b ? (FACE_FRONT[b.at] ? 1 : 0) : (FACE_FRONT[a.at] ? 1 : 0), b ? bk : 0);
       const pts = softLimb(j, 0.35);
       const e = pts[pts.length - 1], q = pts[pts.length - 3], dl = Math.hypot(e[0] - q[0], e[1] - q[1]) || 1;
@@ -698,7 +700,7 @@
       if (hk === 'hide' && ((b && bk > 0.5 ? b.at : a.at) === 'backhand')) hk = 'relax';
       return { j, pts, hand: hk, ff, dv: [(e[0] - q[0]) / dl, (e[1] - q[1]) / dl], sg, at: (b && bk > 0.5 ? b.at : a.at) || null };
     };
-    const lead = armFor(dir, P.lead, PB && PB.lead), trail = armFor(-dir, P.trail, PB && PB.trail);
+    const lead = armFor(dir, P.lead, PB && PB.lead, 'lead'), trail = armFor(-dir, P.trail, PB && PB.trail, 'trail');
     // frac < 1: only the upper part of the arm (shoulder -> elbow), e.g. a hand in front of the chest seen from the back
     const drawArm = (c, Aa, frac = 1, handA = 0) => {
       let pts = frac < 1 ? partial(Aa.pts, frac) : Aa.pts; const ar = S.arm;
@@ -817,12 +819,20 @@
     };
     const drawPencil = (c, Hd) => { c.strokeStyle = INK; c.lineWidth = 0.012 + lw * 2; c.lineCap = 'round'; c.beginPath(); c.moveTo(Hd[0], Hd[1]); c.lineTo(Hd[0] + 0.012 * dir, Hd[1] - 0.04); c.stroke();
       c.strokeStyle = '#e8b33a'; c.lineWidth = 0.012; c.stroke(); };
-    const drawLens = (c, Hd) => { const lx = Hd[0] + faceDir * 0.004, ly = Hd[1] - 0.07, r = 0.04;
+    const drawLens = (c, Hd) => { const lx = Hd[0] + faceDir * (0.004 - 0.01 * s), ly = Hd[1] - 0.07, r = 0.04 + 0.007 * s;   // profile: the glass sits over the whole real eye (no white crescent peeking out)
       c.strokeStyle = INK; c.lineWidth = 0.012 + lw * 2; c.lineCap = 'round'; c.beginPath(); c.moveTo(Hd[0], Hd[1] + 0.02); c.lineTo(lx, ly + r); c.stroke(); c.strokeStyle = '#6a3e22'; c.lineWidth = 0.012; c.stroke();
-      // clear glass (light tint): the eye behind it must stay a readable dark dot (eyes QC 2026-10-16)
-      c.fillStyle = 'rgba(200,232,255,0.14)'; K.circle(c, lx, ly, r); c.fill();
-      if (FACE) { const q = toPx(c, lx, ly); FACE.lens = [q[0], q[1], r * scaleOf(c)]; }
-      c.strokeStyle = INK; c.lineWidth = 0.011 + lw * 2; c.stroke(); c.strokeStyle = '#d9a63a'; c.lineWidth = 0.011; c.stroke();
+      // Producer 2026-10-29 («se ve borroso su ojo»): no see-through tint over the real eye (it read as a blurred / doubled eye).
+      // The glass shows ONE magnified eye drawn crisp and big: skin, white, dark pupil looking where he looks, catchlight, lid line
+      const lk = o.look || [faceDir, 0], pxo = K.clamp(lk[0] * 0.22 + faceDir * s * 0.12, -0.3, 0.3) * r, pyo = K.clamp(-lk[1] * 0.18, -0.2, 0.2) * r;
+      c.save(); K.circle(c, lx, ly, r); c.clip();
+      c.fillStyle = S.skin; c.fillRect(lx - r, ly - r, 2 * r, 2 * r);
+      c.fillStyle = '#fbf7ee'; K.ellipse(c, lx, ly + r * 0.06, r * 0.84, r * 0.74); c.fill(); c.strokeStyle = INK; c.lineWidth = r * 0.09; c.stroke();
+      c.fillStyle = '#1e1216'; K.circle(c, lx + pxo, ly + r * 0.08 + pyo, r * 0.4); c.fill();
+      c.fillStyle = '#ffffff'; K.circle(c, lx + pxo - r * 0.13, ly - r * 0.05 + pyo, r * 0.12); c.fill();
+      c.strokeStyle = INK; c.lineWidth = r * 0.13; c.lineCap = 'round'; c.beginPath(); c.moveTo(lx - r * 0.62, ly - r * 0.66); c.quadraticCurveTo(lx, ly - r * 0.9, lx + r * 0.62, ly - r * 0.64); c.stroke();
+      c.restore();
+      if (FACE) { const q = toPx(c, lx, ly), pq = toPx(c, lx + pxo, ly + r * 0.08 + pyo), k2 = scaleOf(c); FACE.lens = [q[0], q[1], r * k2]; FACE.lensPupil = [pq[0], pq[1], r * 0.4 * k2]; }
+      K.circle(c, lx, ly, r); c.strokeStyle = INK; c.lineWidth = 0.011 + lw * 2; c.stroke(); c.strokeStyle = '#d9a63a'; c.lineWidth = 0.011; c.stroke();   // the rim (re-issue the circle path)
       c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = lw * 1.4; c.beginPath(); c.arc(lx, ly, r * 0.86, -2.6, -1.9); c.stroke(); };
     const upper = (c, fn) => { if (!lean) return fn(); c.save(); c.translate(0, hipY); c.rotate(lean * dir); c.translate(0, -hipY); fn(); c.restore(); };
     return {
@@ -910,7 +920,8 @@
     if (Math.abs(k - 1) > 1e-3 || Math.abs(m.b) > 1e-6 || Math.abs(m.e) > 1e-6 || Math.abs(m.f) > 1e-6 || m.a < 0) {
       const p = m.transformPoint(new DOMPoint(x, y));
       ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
-      const r = C.draw(ctx, id, p.x, p.y, u * k, Object.assign({}, o, { shadowScale: k }));
+      const rch = o.reach ? Object.fromEntries(Object.entries(o.reach).map(([nm, q]) => { const z = m.transformPoint(new DOMPoint(q.p[0], q.p[1])); return [nm, Object.assign({}, q, { p: [z.x, z.y] })]; })) : undefined;
+      const r = C.draw(ctx, id, p.x, p.y, u * k, Object.assign({}, o, { shadowScale: k }, rch ? { reach: rch } : {}));
       ctx.restore();
       const inv = m.inverse(), back = q => { const z = inv.transformPoint(new DOMPoint(q[0], q[1])); return [z.x, z.y]; };
       const hh = back(r.head);
@@ -918,6 +929,11 @@
     }
     const view = o.view || 'front', s = TURN[view] ?? (typeof view === 'number' ? view : 0), dir = o.dir || 1;
     const oo = Object.assign({ s, dir, pose: 'stand', expr: 'neutral' }, o, { s, dir, back: o.backView ?? String(view).startsWith('back') });   // backView: a numeric view seen from behind (continuous turns)
+    // o.reach = { lead | trail: { p: [x, y] (same space as x, y), k: 0..1 blend from the pose, hand } }: that hand goes to the
+    // point (2-bone IK, clamped to the arm's reach). Contact between characters = hands that really touch (Producer 2026-10-29:
+    // never a drawn connector line / stick between two characters)
+    if (o.reach) { const so0 = o.seated ? S.legLen : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75)); oo.reachL = {};
+      for (const [nm, q] of Object.entries(o.reach)) if (q && q.p) oo.reachL[nm] = { p: [(q.p[0] - x) / u, (q.p[1] - y) / u - so0], k: q.k ?? 1, hand: q.hand }; }
     const R = (S.kind === 'biped' ? biped : S.build)(S, oo);
     const crouchU = o.seated ? 0 : Math.max(0, Math.min(o.crouch || 0, S.legLen * 0.75));   // body drawn this much lower (feet stay)
     const bw = Math.ceil(u * (S.box ? S.box[0] : 1.8)), bh = Math.ceil(u * (S.box ? S.box[1] : 1.62));
@@ -953,7 +969,7 @@
       rec.body = bodyStats(OUT, sx0, sy0, { head: [...mp(h0), h0[2] * u], hands: [mp(R.info.hands.lead), mp(R.info.hands.trail)], ink: lwS * u, hand: (S.arm.hand || 0.027) * 1.45 * u }); }
     if (o.shadow && !o.seated) { ctx.save(); ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = K.rgba(o.shadowColor || '#3c2a52', o.shadow); K.ellipse(ctx, x, y, u * (S.shadowW || 0.16), u * 0.022); ctx.fill(); ctx.restore(); }
     ctx.drawImage(OUT.c, sx0, sy0);
-    if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } if (rec.lens) { rec.lens[0] += sx0; rec.lens[1] += sy0; } rec.alpha = ctx.globalAlpha; LOG.push(rec); }
+    if (rec) { for (const e of rec.eyes) { e.cx += sx0; e.cy += sy0; if (e.px != null) { e.px += sx0; e.py += sy0; } } if (rec.lens) { rec.lens[0] += sx0; rec.lens[1] += sy0; } if (rec.lensPupil) { rec.lensPupil[0] += sx0; rec.lensPupil[1] += sy0; } rec.alpha = ctx.globalAlpha; LOG.push(rec); }
     const so = o.seated ? S.legLen : crouchU, hi = R.info.head, hx = x + hi[0] * u, hy = y + (hi[1] + so) * u, hr = hi[2] * u;
     if (rec) { rec.head = [hx, hy, hr]; rec.foot = [x, y]; rec.seated = !!o.seated; }
     const ex = (o.extras || C.exprMix(o.expr, o.exprBlend).extras || []);
