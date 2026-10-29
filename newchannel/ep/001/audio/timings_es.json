@@ -1063,18 +1063,5 @@
 {"word": "es", "start": 489.575, "end": 489.78, "beat": "24", "speaker": "narrator", "voiced": true, "text": "es", "conf": 1, "line": "b24_56_narrator"},
 {"word": "Diez", "start": 489.775, "end": 490.02, "beat": "24", "speaker": "narrator", "voiced": true, "text": "Diez", "conf": 1, "line": "b24_56_narrator"},
 {"word": "Mil", "start": 490.015, "end": 490.3, "beat": "24", "speaker": "narrator", "voiced": true, "text": "Mil", "conf": 0, "line": "b24_56_narrator"},
-{"word": "Puntos", "start": 490.295, "end": 490.76, "beat": "24", "speaker": "narrator", "voiced": true, "text": "Puntos.", "conf": 1, "line": "b24_56_narrator"},
-{"word": "La", "start": 494.305, "end": 494.405, "beat": "end", "speaker": "narrator", "voiced": true, "text": "La", "conf": 1, "line": "bend_57_narrator"},
-{"word": "próxima", "start": 494.4, "end": 494.725, "beat": "end", "speaker": "narrator", "voiced": true, "text": "próxima", "conf": 1, "line": "bend_57_narrator"},
-{"word": "vez", "start": 494.72, "end": 495.185, "beat": "end", "speaker": "narrator", "voiced": true, "text": "vez:", "conf": 1, "line": "bend_57_narrator"},
-{"word": "por", "start": 495.87, "end": 495.985, "beat": "end", "speaker": "narrator", "voiced": true, "text": "¿por", "conf": 1, "line": "bend_57_narrator"},
-{"word": "qué", "start": 495.98, "end": 496.145, "beat": "end", "speaker": "narrator", "voiced": true, "text": "qué", "conf": 1, "line": "bend_57_narrator"},
-{"word": "los", "start": 496.14, "end": 496.305, "beat": "end", "speaker": "narrator", "voiced": true, "text": "los", "conf": 1, "line": "bend_57_narrator"},
-{"word": "buses", "start": 496.3, "end": 496.705, "beat": "end", "speaker": "narrator", "voiced": true, "text": "buses", "conf": 1, "line": "bend_57_narrator"},
-{"word": "llegan", "start": 496.7, "end": 497.425, "beat": "end", "speaker": "narrator", "voiced": true, "text": "llegan", "conf": 1, "line": "bend_57_narrator"},
-{"word": "de", "start": 497.42, "end": 497.545, "beat": "end", "speaker": "narrator", "voiced": true, "text": "de", "conf": 1, "line": "bend_57_narrator"},
-{"word": "a", "start": 497.54, "end": 497.865, "beat": "end", "speaker": "narrator", "voiced": true, "text": "a", "conf": 1, "line": "bend_57_narrator"},
-{"word": "tres", "start": 497.865, "end": 497.885, "beat": "end", "speaker": "narrator", "voiced": true, "text": "tres?", "conf": 1, "line": "bend_57_narrator"},
-{"word": "Quién", "start": 499.085, "end": 499.245, "beat": "end", "speaker": "eli", "voiced": true, "text": "¡¿Quién", "conf": 1, "line": "bend_58_eli", "slot": [499.048, 499.668]},
-{"word": "fue", "start": 499.24, "end": 499.385, "beat": "end", "speaker": "eli", "voiced": true, "text": "fue?!", "conf": 1, "line": "bend_58_eli", "slot": [499.048, 499.668]}
+{"word": "Puntos", "start": 490.295, "end": 490.76, "beat": "24", "speaker": "narrator", "voiced": true, "text": "Puntos.", "conf": 1, "line": "b24_56_narrator"}
 ]

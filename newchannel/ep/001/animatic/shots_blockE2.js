@@ -2,18 +2,21 @@
    framing, same light (S11: the same tap as S1, Eli now keeps a safe gap; true sim). Cards DEJA UN ESPACIO SEGURO /
    MANEJA AL PROMEDIO, the glovebox gag, the same tap, the cascade dies at Eli, nobody brakes behind him, 5 s of
    silence, «¿…Quién fue?» / «Fuiste tú.», the bird raises a wing; crane up, the wordmark where Eli now CATCHES the dot
-   and places it himself, fist bump; end screen: our bus stop, three buses at once, «¡¿Quién fue?!», Mila shrugs.
+   and places it himself, fist bump; end screen (script v5, Producer 2026-10-28: no next-episode tag): the same sunset
+   title scene HOLDS 20 s after the tagline: the foreground (letters, the pair, tagline) eases up and smaller to leave the
+   lower half clear for the YouTube end-screen elements, idle acting only, the theme resolves, 1 s fade to black.
    Before the sim's own start (sim < 0) the cars cruise in the run's steady state (x0 + v t), which is exact: the run
    starts in equilibrium. Times from words or S11 events. */
 (function (root) {
   const K = root.K, E = K.ep1, A = K.anim, P = K.props;
   const ELI = 20, TAP = 26;
+  const TAG = 1.9, END_HOLD = TAG + 20;   // the tagline lands TAG s after the end of «Puntos» (WM.tagline below); the title scene then holds 20 s
 
   A.block('E2', {
     t0: null, t1: null,
     async setup() {
       this.t0 = A.at('O', 1, { beat: '22' });
-      this.t1 = A.at('La', 1, { beat: 'end' }) + 20;          // the end screen lasts 20 s (script)
+      this.t1 = A.at('Puntos', 1, { beat: '24', edge: 'end' }) + END_HOLD;   // tagline (+1.9 s after «Puntos») + 20 s (script v5)
       const run = A.run('S11');
       if (!run._pre) { const at = run.atSim.bind(run), br = run.brakeSim.bind(run);
         run.atSim = ts => { if (ts >= 0) return at(ts); const S = at(0); return Object.assign({}, S, { x: S.x.map((x, i) => x + S.v[i] * ts), a: S.a.map(() => 0), tSim: ts }); };
@@ -31,7 +34,6 @@
       const tMismo1 = w('Mismo', 1, '23'), tMismo2 = w('Mismo', 2, '23'), tFreno = w('freno', 1, '23'), tSolo = w('Solo', 1, '23'), tEliN = w('Eli', 1, '23', { speaker: 'narrator' }), tEspE = w('espacio', 1, '23', { edge: 'end' });
       const tQuien = el('Quién', 1, '23'), tFueE = el('fue', 1, '23', { edge: 'end' }), tFuiste = mi('Fuiste', 1, '23'), tTuE = mi('tú', 1, '23', { edge: 'end' });
       const tDetras = w('detrás', 1, '24'), tEmb2 = w('embotellamiento', 2, '24'), tEs2 = w('Es', 2, '24'), tSolo24 = w('solo', 1, '24'), tPaciente = w('paciente', 1, '24'), tEsto = w('Esto', 1, '24'), tPuntosE = w('Puntos', 1, '24', { edge: 'end' });
-      const tLa = w('La', 1, 'end'), tBuses = w('buses', 1, 'end'), tTres = w('tres', 1, 'end'), tQ2 = el('Quién', 1, 'end'), tQ2E = el('fue', 1, 'end', { edge: 'end' });
       // ---- sim (S11)
       const ev = (type, f) => A.ev('S11', type, f);
       const sTap = ev('tap_start'), sLead = ev('leader_brake_onset'), sGap = ev('eli_gap_min');
@@ -174,16 +176,28 @@
             { pose: 'drive', view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.05], blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tPaciente, 'neutral', 'happy'), look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 0 }); } });   // M1
       // the wordmark, the payoff: Eli catches the dot ON TIME and places it on the i himself; fist bump
-      const tWM = tEsto - 0.15, WM = { drop: 0.55, c1: 1.0, c2: tPuntosE - tWM, place: tPuntosE - tWM + 0.75, land: tPuntosE - tWM + 1.25, tagline: tPuntosE - tWM + 1.9 };
+      const tWM = tEsto - 0.15, WM = { drop: 0.55, c1: 1.0, c2: tPuntosE - tWM, place: tPuntosE - tWM + 0.75, land: tPuntosE - tWM + 1.25, tagline: tPuntosE - tWM + TAG };
+      const tTag = tWM + WM.tagline, T1 = def.t1;
+      // end-screen hold (tl = t - tWM): H = tagline start. Idle acting only: they look at each other, Eli bobs on his heels,
+      // both glance down at the valley, Mila folds her arms, both turn a smile to camera; Mila's ponytail in the breeze.
+      const H = WM.tagline, bob = tl => { const k = K.clamp((tl - (H + 4.6)) / 1.3); return k > 0 && k < 1 ? 0.035 * Math.abs(Math.sin(k * Math.PI * 2)) : 0; };
+      const breeze = tl => K.ease.sine(K.clamp((tl - H) / 2)) * (0.32 + 0.22 * Math.sin(tl * 1.15) + 0.08 * Math.sin(tl * 2.9));
       const tBump = tWM + WM.land + 0.65;
       const wmOpt = { wm: WM, catch: true,
         // Guardian v3: blended sequences (the catch, the place and the fist bump used to snap arms and faces in one frame)
         eli: (o, tl, W) => Object.assign(o, A.seq(tl, [[0, { pose: 'stand', blend: null, expr: 'neutral', look: o.look }],
           [W.c1 - 0.1, { pose: 'stand', blend: null, expr: 'determined', look: [-0.5, -0.8] }], [W.c2 - 0.08, { pose: 'palm', blend: null, expr: 'surprised', look: [-0.4, -0.6] }],
           [W.c2 + 0.25, { pose: 'palm', blend: null, expr: 'awe', look: [-0.3, -0.5] }], [W.place, { pose: 'point', blend: null, expr: 'happy', look: [-0.8, -0.3] }],
-          [W.land + 0.3, { pose: 'pump', blend: null, expr: 'laugh', look: [-0.8, 0] }]], 0.16)),
+          [W.land + 0.3, { pose: 'pump', blend: null, expr: 'laugh', look: [-0.8, 0] }],
+          [H + 1.2, { pose: 'stand', blend: null, expr: 'happy', look: [-0.8, -0.1] }], [H + 7.5, { pose: 'stand', blend: null, expr: 'happy', look: [0.3, 0.4] }],
+          [H + 10.5, { pose: 'hips', blend: null, expr: 'happy', look: [-0.8, -0.1] }], [H + 15.5, { pose: 'hips', blend: null, expr: 'happy', look: [-0.15, 0] }]], tl < H + 0.8 ? 0.16 : 0.4),   /* idle blends slower than the catch */
+          tl > H ? { crouch: bob(tl), blink: eliBlink(tl + tWM) } : {}),
         mila: (o, tl, W) => { if (tl > W.c2) Object.assign(o, A.ez(tl, W.c2 + 0.07, 'curious', 'awe'), { look: [0.8, -0.4] });
-          if (tl > W.land) Object.assign(o, A.seq(tl, [[0, { pose: 'palm', blend: null, expr: 'awe', look: [0.8, -0.4] }], [W.land + 0.3, { pose: 'pump', blend: null, expr: 'laugh', look: [0.8, 0] }]], 0.2)); } };
+          if (tl > W.land) Object.assign(o, A.seq(tl, [[0, { pose: 'palm', blend: null, expr: 'awe', look: [0.8, -0.4] }], [W.land + 0.3, { pose: 'pump', blend: null, expr: 'laugh', look: [0.8, 0] }],
+            [H + 1.4, { pose: 'stand', blend: null, expr: 'happy', look: [0.8, -0.05] }], [H + 7.8, { pose: 'stand', blend: null, expr: 'happy', look: [0.3, 0.4] }],
+            [H + 10.8, { pose: 'crossed', blend: null, expr: 'smug', look: [0.8, -0.05] }], [H + 15.7, { pose: 'crossed', blend: null, expr: 'happy', look: [0.15, 0] }]], tl < H + 0.8 ? 0.2 : 0.4));
+          if (tl > H) Object.assign(o, { drag: breeze(tl), blink: milaBlink(tl + tWM) }); },
+        fg: null };
       shots.push({ id: 'J04_wm', start: tWM, bg: 'wm', xf: 0.3, focus: [960, 520], push: 0.02, pushDir: 1, breath: true,
         post: { grain: 0.13, vignette: 0.5, vignetteColor: '#1a0f26', bloom: 0.3 },
         draw(c, t, lt) { E.drawWordmark(c, t - tWM, 0, wmOpt); },
@@ -192,68 +206,39 @@
         post: { grain: 0.13, vignette: 0.5, vignetteColor: '#1a0f26', bloom: 0.3 },
         draw(c, t, lt) { c.save(); const z = 2.2 + 0.06 * K.ease.sine(K.clamp(lt / 1.2)); c.translate(960, 540); c.scale(z, z); c.translate(-930, -350); E.drawWordmark(c, t - tWM, 0, wmOpt); c.restore(); },
         cues: A => [{ t: tWM + WM.c2, kind: 'pop' }, { t: tWM + WM.land, kind: 'tin' }] });
-      shots.push({ id: 'J06_bump', start: tWM + WM.land + 0.4, bg: 'wm', focus: [960, 470], push: 0.018, pushDir: -1, zBase: 1.08,
-        post: { grain: 0.13, vignette: 0.5, vignetteColor: '#1a0f26', bloom: 0.3 },
-        draw(c, t, lt) { E.drawWordmark(c, t - tWM, 0, wmOpt); K.char.extra(c, 900, 300, 60, 'ticks', t, { ink: '#fbe9cf' }); },
+      // the end-screen hold (script v5): one continuous camera from the fist bump to the end (no visible cut between the
+      // K shots; they only mark the acting beats for QC and the sound bed). Drift <= 1.5 %: a 1.2 % push in + ~0.5 % sway.
+      const tJ6 = tWM + WM.land + 0.4, FG = { s: 0.82, dy: -170 }, fgK = t => K.ease.inOut(K.clamp((t - (tTag + 1.0)) / 2.5));
+      const holdCam = (c, t) => { const lt = t - tJ6, u = K.ease.sine(K.clamp(lt / (T1 - tJ6))), z = 1.06 + 0.012 * u;
+        c.translate(960 + 0.005 * K.W * Math.sin(lt * 0.23), 470 + 0.004 * K.H * Math.sin(lt * 0.19 + 1.1)); c.scale(z, z); c.translate(-960, -470); };
+      const holdDraw = (c, t) => { const k = fgK(t); wmOpt.fg = k > 0 ? { s: K.lerp(1, FG.s, k), dy: FG.dy * k } : null;
+        c.save(); holdCam(c, t); E.drawWordmark(c, t - tWM, 0, wmOpt); c.restore(); wmOpt.fg = null; };
+      // screen space: faint dashed guides where the YouTube end-screen elements go (animatic only), then the fade to black
+      const holdOver = (c, t) => { const g = A.ramp(t, tTag + 3.6, 0.6) * (1 - A.ramp(t, T1 - 1.6, 0.5));
+        if (g > 0.01) { c.save(); c.globalAlpha = g; c.setLineDash([16, 12]); c.strokeStyle = K.rgba('#fbf3e4', 0.32); c.lineWidth = 4;
+          K.rrect(c, 300, 600, 600, 338, 18); c.stroke(); K.rrect(c, 1020, 600, 600, 338, 18); c.stroke(); c.restore(); }
+        const f = K.clamp((t - (T1 - 1.0)) / 1.0); if (f > 0) { c.fillStyle = K.rgba('#000000', K.ease.sine(f)); c.fillRect(0, 0, K.W, K.H); } };
+      const WMPOST = { grain: 0.13, vignette: 0.5, vignetteColor: '#1a0f26', bloom: 0.3 };
+      shots.push({ id: 'J06_bump', start: tJ6, bg: 'wm', breath: false, post: WMPOST,
+        draw(c, t, lt) { holdDraw(c, t); c.save(); holdCam(c, t); K.char.extra(c, 900, 300, 60, 'ticks', t, { ink: '#fbe9cf' }); c.restore(); },
         cues: A => [{ t: tBump, kind: 'bonk_small' }] });
 
-      // ================================================================ END SCREEN · three buses
-      const ARR = tTres - 0.55, buses = (t, leave = -1) => [0, 1, 2].map(k => { const stopX = 230 + k * 580, arr = ARR + k * 0.18, u = K.clamp((t - (arr - 0.9)) / 0.9);
-        let x = K.lerp(2300 + k * 600, stopX, K.ease.out(u)); if (leave > 0) x -= Math.pow(Math.max(0, t - leave - k * 0.15), 2) * 900;
-        return { x, col: '#e2b04a', seed: k + 3, route: '3', puff: K.clamp((t - arr) / 0.6) * (t < arr + 0.6 ? 1 : 0), door: A.ramp(t, arr + 0.4, 0.2) }; });
-      const duo = (c, t, GY, SEAT, eO, mO, o = {}) => {
-        const rM = K.cast.draw(c, 'mila1', o.mx ?? 380, o.mSeat ? SEAT + 10 : GY, o.u ?? 520, Object.assign({ view: 'q', dir: 1, pose: 'crossed', expr: 'neutral', t, light: FRONTLIT, blink: milaBlink(t), seated: !!o.mSeat, legs: !!o.mSeat }, mO));   // Guardian v3: seated on the open bench WITH legs (they were missing)
-        // o.eRise (0..1, Guardian v3): Eli gets up from the bench continuously (crouch from the seat height, feet on the floor)
-        const eu = o.u ?? 540, er = o.eRise || 0, eL = K.cast.SPECS[K.cast.ALIAS.eli1 || 'eli1'].legLen, hs = (GY - SEAT - 10) / eu;
-        const rE = er > 0.002 && !o.eFeet ? K.cast.draw(c, 'eli1', o.ex ?? 600, GY, eu, Object.assign({ view: 'q', dir: -1, pose: 'hips', expr: 'annoyed', t, light: FRONTLIT, blink: eliBlink(t), seated: false, crouch: (1 - er) * Math.max(0, eL - hs), crouchFwd: 1 - er }, eO))
-          : K.cast.draw(c, 'eli1', o.ex ?? 600, o.eFeet ?? (o.eSeat ? SEAT + 10 : GY), eu, Object.assign({ view: 'q', dir: -1, pose: 'hips', expr: 'annoyed', t, light: FRONTLIT, blink: eliBlink(t), seated: !!o.eSeat, legs: !!o.eSeat }, eO));
-        return { rE, rM }; };
-      const watch = (c, t, a) => P.thought(c, 760, 230, 170, 130, a, cx => { cx.fillStyle = '#fbf3e4'; cx.strokeStyle = '#2a1a1e'; cx.lineWidth = 6; K.circle(cx, 0, 0, 44); cx.fill(); cx.stroke();
-        cx.beginPath(); cx.moveTo(0, 0); cx.lineTo(0, -32); cx.moveTo(0, 0); const an = t * 4; cx.lineTo(Math.cos(an) * 26, Math.sin(an) * 26); cx.stroke(); });
-      shots.push({ id: 'K01_wait', start: tLa - 0.15, bg: 'busstop', xf: 0.25, focus: [700, 500], push: 0.03, pushDir: 1, post: { grain: 0.12, vignette: 0.35, vignetteColor: '#3a2030', bloom: 0.18 },
-        draw(c, t, lt) { A.busStop(c, t, { chars: (cx, GY, SEAT) => duo(cx, t, GY, SEAT, { pose: 'hips', expr: 'annoyed', look: [0.9, 0], lean: 0.02 * Math.sin(t * 8) }, { pose: 'lap', expr: 'neutral', look: [0.9, 0] }), buses: buses(t) });
-          watch(c, t, A.pulse(t, tLa + 0.4, 0.2, 1.4, 0.2)); },
-        cues: A => [{ t: tLa + 0.5, kind: 'tick_tock', t1: tBuses }] });
-      shots.push({ id: 'K02_three', start: ARR - 0.5, bg: 'busstop_buses', focus: [960, 600], push: 0.025, pushDir: -1, post: { grain: 0.12, vignette: 0.35, vignetteColor: '#3a2030', bloom: 0.18 },
-        draw(c, t, lt) { A.busStop(c, t, { chars: (cx, GY, SEAT) => duo(cx, t, GY, SEAT, { pose: 'surprise', expr: 'surprised', look: [0.9, 0] }, { pose: 'crossed', expr: 'curious', look: [0.9, 0] }), buses: buses(t) });
-          P.badge(c, 1560, 180, '3', 90, A.ramp(t, tTres, 0.25), 'de a tres'); },
-        cues: A => [0, 1, 2].map(k => ({ t: ARR + k * 0.18, kind: 'blow' })).concat([{ t: ARR + 0.5, kind: 'ding' }]) });
-      shots.push({ id: 'K03_who', start: tQ2 - 0.45, bg: 'busstop_bench', focus: [600, 360], push: 0.04, pushDir: 1, post: { grain: 0.12, vignette: 0.35, vignetteColor: '#3a2030', bloom: 0.18 },
-        draw(c, t, lt) { const sp = A.talk('eli', t); let rr = null, shrug = t > tQ2E + 0.25;
-          A.busStop(c, t, { chars: (cx, GY, SEAT) => { rr = duo(cx, t, GY, SEAT, { pose: 'fist', expr: 'furious', look: [0.8, -0.1], talk: sp.talk, viseme: sp.viseme, extras: ['anger'] },
-            Object.assign({ view: 0.55 * (1 - A.ramp(t, tQ2E + 0.13, 0.24)), ...A.ez(t, tQ2E + 0.25, 'neutral', 'happy'), look: shrug ? [0, 0] : [0.6, -0.4] }, A.pz(t, tQ2E + 0.25, 'crossed', 'shrug', 0.24)), { eFeet: SEAT }); }, buses: buses(t) });
-          if (rr && rr.rE) A.speaker('eli', rr.rE.head); },
-        cues: A => [{ t: tQ2, kind: 'pop' }, { t: tQ2E + 0.3, kind: 'shrug_wave', n: 3, d: 0.1 }] });
-      // the end-card zone: the pair sits on the left, the right 55 % stays clear (YouTube end-screen elements go there)
-      const tSit = tQ2E + 1.4, tLeave = tSit + 0.3;
-      const cards = c => { c.save(); c.setLineDash([16, 12]); c.strokeStyle = K.rgba('#fbf3e4', 0.35); c.lineWidth = 4; K.rrect(c, 1100, 150, 680, 383, 18); c.stroke(); K.rrect(c, 1100, 580, 680, 383, 18); c.stroke(); c.restore(); };
-      const endShot = (id, start, o) => shots.push({ id, start, bg: 'busstop_end_' + id, focus: o.focus || [700, 560], push: 0.02, pushDir: o.dir || 1, post: { grain: 0.12, vignette: 0.35, vignetteColor: '#3a2030', bloom: 0.18 },
-        over: cards, draw(c, t, lt) { const rise = o.rise ? o.rise(t) : 0; A.busStop(c, t, { chars: (cx, GY, SEAT) => duo(cx, t, GY, SEAT, o.eO(t), o.mO(t), { eSeat: rise <= 0.002, eRise: rise, mSeat: true, mx: 360, ex: 610 }), buses: o.buses ? o.buses(t) : buses(t, tLeave), bird: o.bird ? (cx, x, y) => o.bird(cx, x, y, t) : null }); },
-        cues: o.cues });
-      endShot('K04_sit', tSit, { eO: t => ({ pose: 'crossed', expr: 'grumpy', look: [-0.6, 0.1] }), mO: t => ({ pose: 'sit', expr: 'happy', look: [0.7, 0] }), cues: A => [{ t: tLeave + 0.2, kind: 'whoosh_up' }] });
-      // a fourth bus goes by without stopping: Eli jumps up waving, it is gone, he sits back down
-      // Guardian v3: he used to pop from sitting to standing (and back) in one frame; he now gets up and sits back down
-      // over 0.25 s / 0.3 s (crouch), the arm blends into the wave and the face eases
-      const tBy = tSit + 4.5, byRise = t => A.pulse(t, tBy - 0.3, 0.25, 1.95, 0.3);
-      endShot('K05_late', tSit + 4.0, { focus: [620, 520], dir: -1, rise: byRise,
-        eO: t => A.seq(t, [[0, { pose: 'sit', view: 'q', expr: 'annoyed', look: [0.8, -0.3] }], [tBy - 0.15, { pose: 'wave', view: 'front', expr: 'worried', look: [0.8, 0] }],
-          [tBy + 2.05, { pose: 'sit', view: 'q', expr: 'sheepish', look: [0.8, -0.3] }]], 0.25),
-        mO: t => ({ pose: 'sit', ...A.ez(t, tBy + 0.6, 'neutral', 'laugh'), look: [0.8, 0] }),
-        buses: t => [{ x: K.lerp(2300, -900, K.clamp((t - tBy) / 1.4)), col: '#e2b04a', seed: 9, route: '3' }],
-        cues: A => [{ t: tBy + 0.3, kind: 'whoosh_up' }, { t: tBy + 1.0, kind: 'minor' }] });
-      endShot('K06_bird', tSit + 8.0, { focus: [760, 480], eO: t => ({ pose: 'sit', expr: 'happy', look: [0.4, -0.8] }), mO: t => ({ pose: 'sit', expr: 'happy', look: [0.5, -0.8] }),
-        bird: (cx, x, y, t) => { const land = K.clamp((t - (tSit + 8.4)) / 0.6); P.bird(cx, K.lerp(x + 400, x, K.ease.out(land)), K.lerp(y - 300, y, K.ease.out(land)), 30, { t, expr: 'calm', look: [-0.6, 0.4], dir: -1, rim: '#ffd88f', wing: A.pulse(t, tSit + 9.4, 0.2, 0.6, 0.2) }); },
-        cues: A => [{ t: tSit + 8.4, kind: 'flutter' }, { t: tSit + 9.5, kind: 'chirp' }] });
-      endShot('K07_hold', tSit + 11.8, { focus: [700, 540], dir: -1, eO: t => ({ pose: 'belly', expr: 'laugh', look: [-0.5, 0] }), mO: t => ({ pose: 'sit', expr: 'happy', look: [-0.5, 0] }),
-        bird: (cx, x, y, t) => P.bird(cx, x, y, 30, { t, expr: 'calm', look: [-0.6, 0.4], dir: -1, rim: '#ffd88f' }) });
+      // ================================================================ END SCREEN · the title scene holds (no tag)
+      const hold = (id, start, o = {}) => shots.push(Object.assign({ id, start, bg: 'wm_hold', breath: false, post: WMPOST, draw(c, t, lt) { holdDraw(c, t); }, over: holdOver }, o));
+      hold('K01_hold', tTag + 0.8);       // the tagline is in; the foreground starts to ease up (cards zone opens below)
+      hold('K02_look', tTag + 4.4);       // they look at each other; Eli bobs on his heels
+      hold('K03_valley', tTag + 7.3);     // both glance down at the valley road
+      hold('K04_breeze', tTag + 10.3);    // Mila folds her arms (smug), Eli hands on hips; the ponytail in the breeze
+      hold('K05_smile', tTag + 15.3);     // a smile to camera
+      hold('K06_fade', T1 - 1.0, { fade: true });   // fade to black (declared: the audits do not sample faces inside it)
       return shots;
     },
     ambience(A) {
       const w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
-      const t0 = A.at('O', 1, { beat: '22' }), t1 = A.at('La', 1, { beat: 'end' }) + 20, tEspE = w('espacio', 1, '23', { edge: 'end' }), tQ = A.at('Quién', 1, { beat: '23', speaker: 'eli' });
-      const tWM = w('Esto', 1, '24') - 0.15, tLa = w('La', 1, 'end');
+      const t0 = A.at('O', 1, { beat: '22' }), t1 = A.at('Puntos', 1, { beat: '24', edge: 'end' }) + END_HOLD, tEspE = w('espacio', 1, '23', { edge: 'end' }), tQ = A.at('Quién', 1, { beat: '23', speaker: 'eli' });
+      const tWM = w('Esto', 1, '24') - 0.15;
       return [{ kind: 'wind', t0, t1: tWM }, { kind: 'road', t0, t1: tEspE + 0.3 }, { kind: 'music_light', t0, t1: tEspE }, { kind: 'road', t0: tQ + 1.5, t1: tWM },
-        { kind: 'mila_theme', t0: w('detrás', 1, '24'), t1: tWM }, { kind: 'dusk_pad', t0: tWM, t1: tLa }, { kind: 'music_light', t0: tLa, t1 }, { kind: 'field_birds', t0: tLa, t1 }];
+        { kind: 'mila_theme', t0: w('detrás', 1, '24'), t1: tWM }, { kind: 'dusk_pad', t0: tWM, t1 }];   // v5: the title scene to the end (the score resolves on G)
     },
   });
 

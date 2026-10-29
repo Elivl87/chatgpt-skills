@@ -1,18 +1,18 @@
 {
- "duration_s": 514.28,
+ "duration_s": 513.18,
  "loudness": {
   "I": -16.0,
   "TP": -2.1,
-  "LRA": 3.1
+  "LRA": 3.0
  },
- "words_voiced": 1074,
- "speech_s": 373.8,
- "wpm_in_speech": 172.4,
- "wpm_in_lines": 156.1,
+ "words_voiced": 1061,
+ "speech_s": 369.9,
+ "wpm_in_speech": 172.1,
+ "wpm_in_lines": 155.9,
  "word_errors": 0,
- "pieces": 127,
- "retries": 386,
- "takes_total": 513,
+ "pieces": 125,
+ "retries": 380,
+ "takes_total": 505,
  "pieces_wer_gt0": [],
  "stretched": [
   [
@@ -295,13 +295,13 @@
  "whole": {
   "f0_median_hz": 139.4,
   "pitch_range_st": 13.6,
-  "pitch_std_st": 4.27,
-  "melody_std_st": 3.93,
+  "pitch_std_st": 4.24,
+  "melody_std_st": 3.87,
   "energy_std_db": 6.67,
-  "pauses_n": 243,
-  "pause_mean_s": 0.47
+  "pauses_n": 240,
+  "pause_mean_s": 0.46
  },
- "words": 1078,
+ "words": 1065,
  "beats": {
   "01": {
    "start": 0.25,
@@ -645,20 +645,6 @@
    "melody_std_st": 4.0,
    "energy_std_db": 6.18,
    "f0_median_hz": 136.3
-  },
-  "end": {
-   "start": 494.28,
-   "dur": 5.39,
-   "wer": 0.0,
-   "errors": [],
-   "pieces": 2,
-   "retries": 6,
-   "pieces_wer_gt0": [],
-   "wpm": 168.8,
-   "pitch_range_st": 20.91,
-   "melody_std_st": 7.01,
-   "energy_std_db": 6.17,
-   "f0_median_hz": 138.6
   }
  },
  "track_wer": {
@@ -684,8 +670,7 @@
   "21": 0.0,
   "22": 0.0204,
   "23": 0.0,
-  "24": 0.0,
-  "end": 0.0
+  "24": 0.0
  },
  "gate": {
   "wer_zero_all": true,

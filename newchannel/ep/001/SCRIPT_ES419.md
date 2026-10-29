@@ -1,13 +1,16 @@
-**ESTADO: APROBADO Y BLOQUEADO v4 por Claude (2026-10-23)** — se usa palabra por palabra; cambios solo con propuesta formal.
-v3 (2026-10-15) queda en `SCRIPT_ES419_v3.md`; v4 aplica la PROPUESTA DE CAMBIO de `SCRIPT_AUDIT_NARRADOR.md` (P1-P14, recortes de
-nivel A) aprobada por Claude como director el 2026-10-23. Ningún dato ni número cambia.
+**ESTADO: APROBADO Y BLOQUEADO v5 por Claude (2026-10-28)** — se usa palabra por palabra; cambios solo con propuesta formal.
+v5 = v4 (2026-10-23, archivado en `SCRIPT_ES419_v4.md`) + tres cambios formales aprobados por Claude como director el
+2026-10-28: (1) decisión del Productor: el episodio **termina en la escena del título**, sin etiqueta ni anuncio del
+siguiente; (2) «Mila, su amiga» → **«Mila, su pareja»**; (3) el punch-up de humor hablado de `HUMOR_PUNCHUP.md` (#1-#16 y
+recortes C1-C5, C7; C6 en versión corta). Tabla abajo. Ningún dato ni número cambia.
 
-# Ep 001 (PILOTO) · GUION MAESTRO (ES-419) · "¿Por qué hay embotellamientos sin razón aparente?" · v4 · 2026-10-23
+# Ep 001 (PILOTO) · GUION MAESTRO (ES-419) · "¿Por qué hay embotellamientos sin razón aparente?" · v5 · 2026-10-28
 
 **Este es el guion maestro del episodio.** Escrito en español latinoamericano desde cero (no es una adaptación).
 `SCRIPT_EN.md` queda como secundario y desactualizado. Versiones anteriores: `SCRIPT_ES419_v1.md` (v1),
-`SCRIPT_ES419_v2_prereview.md` (v2, antes de la revisión) y `SCRIPT_ES419_v3.md` (v3, bloqueado el 2026-10-15; auditoría
-frente a la biblia del narrador y al animatic: `SCRIPT_AUDIT_NARRADOR.md`). Revisión independiente (claridad + humor) con puntuaciones,
+`SCRIPT_ES419_v2_prereview.md` (v2, antes de la revisión), `SCRIPT_ES419_v3.md` (v3, bloqueado el 2026-10-15; auditoría
+frente a la biblia del narrador y al animatic: `SCRIPT_AUDIT_NARRADOR.md`) y `SCRIPT_ES419_v4.md` (v4, bloqueado el
+2026-10-23; es el texto de la narración Qwen en caché). Revisión independiente (claridad + humor) con puntuaciones,
 cambios y veredicto: `SCRIPT_REVIEW.md`. Regla del Productor (2026-10-15): el guion lo aprueban Claude y sus agentes;
 todo guion **explica con claridad** y **siempre tiene humor**.
 
@@ -18,14 +21,54 @@ todo guion **explica con claridad** y **siempre tiene humor**.
   nublado, título al atardecer; el estadio y las gradas son variantes nuestras sin logos). Toda simulación es real (IDM,
   semilla fija). Toda simulación acelerada lleva el sello **ACELERADO ×N**.
 - Datos: cada número sale de `FACTS.md` (n.º de dato entre corchetes). v3 no agrega cifras nuevas; los cambios de
-  redacción están en `FACTS.md` #34 y #37-#42.
+  redacción están en `FACTS.md` #34 y #37-#42; los de v5, en #43-#44.
 
-**Duración (v4):** narración 1019 palabras (1008 + 11 de la etiqueta de buses) + 55 palabras de personaje que el narrador
-cita (4 más quedan solo en cuadro) = 1074 palabras habladas → **7:28 a 144 ppm · 7:10 a 150 ppm** de voz pura. Con las pausas
-de gag, el sello, los 5 s del beat 23 y la pantalla final de 20 s, la estimación sobre la toma actual re-cronometrada
-(`audio/timings_es_v4_provisional.json`, palabras nuevas a 0,42 s) es **≈ 8:27** (v3 medía 8:31) y **≈ 8:08 con el +4 % de
-tempo** del ensamblaje (auditoría §4). Sigue por encima de la meta de 8:00: el nivel B queda en reserva hasta medir la voz
-nueva, que es la que da la cifra real. Gancho: quiebre en 0:01, pregunta en ~0:31, sello 0:34-0:38 con 1 s de silencio.
+**Duración (v5):** narración **1050 palabras** (v4: 1019 = 1008 + 11 de la etiqueta de buses, que se quita; +42 netas del
+punch-up) + **53** palabras de personaje que el narrador cita (v4: 55, menos el «¡¿Quién fue?!» de la etiqueta; 4 más
+quedan solo en cuadro) = **1103 palabras habladas** → **7:40 a 144 ppm · 7:21 a 150 ppm** de voz pura. Medido sobre la toma
+Qwen (v4 sin la etiqueta, `audio/qwen/VOICE_QC_qwen.md`): **8:33** con el cierre de 20 s sobre la escena del título. El
+punch-up suma ≈ 17 s de voz, pero seis apartes (#2, #4, #6, #10, #12, #13) caen en pausas de gag que hoy son silencio:
+estimación v5 **≈ 8:40-8:45** al ritmo de esa toma. La cifra real la da la voz de David (ElevenLabs). Gancho: quiebre en
+0:01, pregunta en ~0:33 (#1 y #2), sello 0:36-0:40 con 1 s de silencio.
+
+## CAMBIOS v4 → v5 (2026-10-28, aprobados por Claude como director)
+
+Todo lo demás es idéntico a v4, palabra por palabra. Ningún dato ni número cambia: cada frase tocada se cotejó con
+`FACTS.md` (#2, #9-#11, #20, #24, #27-#29, #34; registro en #43-#44). Se conservan intactos: el silencio de 5 s del beat
+23, los cuatro nombres regionales del beat 13, «y tampoco esperaban hacerlo» (beat 20) y el Short.
+
+| # | Beat | Antes (v4) | Después (v5) | Por qué |
+|---|---|---|---|---|
+| F1 | final | Pantalla final con etiqueta: «La próxima vez: ¿por qué los buses llegan de a tres?» + ELI «¡¿Quién fue?!», parada con tres buses | **Se quita.** El episodio termina en la escena del título, sostenida ≈ 20 s tras el lema (pantalla final de YouTube en la zona libre), solo actuación de reposo, la música se resuelve, fundido a negro | Productor 2026-10-28: «sin mencionar que se hablará en el siguiente episodio para que no sea una camisa de fuerza». Regla del canal en `newchannel/CLAUDE.md`. |
+| F2 | 4 | Mila, su amiga, mira atrás. | Mila, su **pareja**, mira atrás. | Productor 2026-10-28 (biblia de personajes). |
+| #1 | 3 | …tiene la culpa. Pero allá no hay nada. | …tiene la culpa. **Eli siempre está seguro.** Pero allá no hay nada. | Remate seco; arranca la serie «siempre». |
+| #2 | 3 | *(pausa)* | *(pausa)* **No, Eli. El pajarito tampoco.** | Aparte del narrador en la pausa del pajarito. |
+| #3 | 6 | …un experimento de verdad. | …de verdad. **Literalmente.** | Nombra el arrastre que ya se ve. |
+| #4 | 7 | *(pausa)* tras «¡¿Quién fue?!» | *(pausa)* **Respuesta corta: todos. La larga: este video.** | Guiño; siembra la tesis (glosa de #9/#10). |
+| #5 | 9 | Eli va en el diez: | **Adivina quién** va en el diez: | Aparte al público; la cita sigue con dueño (P7). |
+| #6 | 11 | …la vuelta entera. Un embotellamiento no es un lugar. | …la vuelta entera. **Eli llega tarde. Como siempre.** Un embotellamiento… | Siembra hablada del gag «tarde». |
+| #7 | 15 | …como un resorte. | …como un resorte. **A Eli le pican las manos.** | Después del ajá; prepara «¡Hay un hueco!». |
+| #8 | 16 | …con un solo auto de veintiuno. | …de veintiuno. **Pobre lema de Eli.** | Callback del gafete. |
+| #9 | 18 | ELI: ¡Hay un hueco! ¡Un hueco enorme! | ELI: ¡Hay un hueco! **¡Cabe una casa!** | Exageración; cambia el cuadro de texto. |
+| #10 | 19 | tras «¡Yo llego tarde a todo!» | **Mila lo sabe.** | Callback de #6; la pareja. |
+| #11 | 19 | …ningún conductor puede absorber eso. | …absorber eso. **Ni siquiera Mila.** | Refuerza el matiz de #28 sin cambiarlo. |
+| #12 | 20 | …crucero inteligente (C6) ¿El resultado? | …crucero inteligente, que acelera y frena solo. **A Eli no le alcanzaron los dedos. Ni prestados.** ¿El resultado? | Voz al gag de los dedos; rompe el hueco de 100 s. |
+| #13 | 21 | tras «…la hace crecer o encoger.» | **Mira quién hizo la ola a tiempo.** | Pago hablado de «llega tarde» (doble sentido de «ola»). |
+| #14 | 22 | …parte de la ola. | …parte de la ola. **Sí, tú. No el de adelante.** | Callback de «¡Fue el de adelante!». |
+| #15 | 17 | …más rápido que el promedio. La ola volvió. | …que el promedio. **En nuestra versión, alguien la sube silbando.** La ola volvió. | Quien solo escucha sabe que Eli subió la perilla; «en nuestra versión» marca la recreación (#34). |
+| #16 | 24 | …puede absorberla. Esto es Diez Mil Puntos. | …puede absorberla. **Hasta Eli.** Esto es Diez Mil Puntos. | Última sonrisa hablada, ahora que no hay etiqueta. |
+| C1 | 11 | Los autos se van; el embotellamiento se queda. | (se quita) | Repite la frase anterior. |
+| C2 | 13 | Ahora llévalo a una autopista en hora pico. Ahí, una sola ola… | Ahora, en una autopista en hora pico, una sola ola… | −2 palabras. |
+| C3 | 18 | Esta es la parte favorita de Mila. En otra prueba… | La parte favorita de Mila: en otra prueba… | −2 palabras. |
+| C4 | 19 | Los de atrás ni sienten la ola. | (se quita) | Redundante y más fuerte que la fuente. |
+| C5 | 21 | Una ola viaja hacia atrás por la autopista. | Una ola viaja hacia atrás. | −3 palabras. |
+| C6′ | 20 | …crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar. | …crucero inteligente, **que acelera y frena solo.** | Director: se conserva la explicación, corta (no el C6 tal cual); por eso #3, #5 y #12 van completos. |
+| C7 | 9, 10 | hasta volverlo una línea recta · La cadena es simplemente la fila de autos | hasta volverlo una recta · La cadena es la fila de autos | −2 palabras. |
+
+Palabras: narración 1019 → 1008 (F1) → **1050** (+70 de punch-up, −28 de recortes); personajes con voz 55 → **53** (F1). La
+narración Qwen de la vista previa todavía es v4 sin la etiqueta (dice «su amiga» y no tiene el punch-up): la reemplaza el
+render de David cuando el Productor apruebe el gasto. Anclas del animatic que habrá que re-cronometrar entonces:
+`animatic/qc/ANCHORS_v4.md` + nota de v5 en el informe de entrega.
 
 ## CAMBIOS v3 → v4 (2026-10-23, aprobados por Claude como director; auditoría `SCRIPT_AUDIT_NARRADOR.md` §6)
 
@@ -69,13 +112,12 @@ Palabras: narración 1030 → **1019** (−11); personajes con voz 59 → **55**
 | **Acto 3** | Se prende el letrero "SI SE ABRE UN HUECO, CIÉRRALO" como gafete ("¡Mi lema!"). Sube a escondidas la perilla, la ola vuelve, grita "¡¿Quién fue?!"… y todos lo miran. "…Fue el viento." | "Eli." Baja la perilla. **Toma el volante**: "Ese hueco es mi amigo." Le baja la mano del volante con suavidad. |
 | **Acto 4** | Descubre que llegar tarde al embotellamiento es la jugada: "¡Yo llego tarde a todo!" Le echa porras a los autos inteligentes y, por primera vez, **hace la ola a tiempo**. | Lo mira a él más que a la autopista. |
 | **Final** | Mismo camino, mismo toque: **Eli deja el espacio**. Nada detrás. **"¿…Quién fue?"** Atrapa el punto de la "i" **a tiempo**. | **"Fuiste tú."** (esta vez es un elogio). |
-| **Etiqueta** | En una parada llegan tres buses juntos: **"¡¿Quién fue?!"** | Mira a cámara y se encoge de hombros, sonriendo. |
 
 ### Gags que se repiten (cada uno con preparación, escalada y pago)
 
 | Gag | Apariciones | Pago |
 |---|---|---|
-| **"¡¿Quién fue?!"** | 0:16 culpa al de adelante → 1:12 culpa a todos (la pista se encoge de hombros) → 2:59 se corta a media frase ("¡¿Quién f…?") al verse entre los tres autos de más → 4:52 lo grita después de subir él la perilla, y todos lo miran → 7:21 lo susurra | **"Fuiste tú."** (el culpable de que la ola muriera) + etiqueta de buses (7:40) |
+| **"¡¿Quién fue?!"** | 0:16 culpa al de adelante → 1:12 culpa a todos (la pista se encoge de hombros) → 2:59 se corta a media frase ("¡¿Quién f…?") al verse entre los tres autos de más → 4:52 lo grita después de subir él la perilla, y todos lo miran → 7:21 lo susurra | **"Fuiste tú."** (el culpable de que la ola muriera) |
 | **Eli llega tarde** | 2:31 se levanta solo, tarde, en la ola del estadio → 5:42 "¡Yo llego tarde a todo!" | 6:41 hace la ola a tiempo · 7:31 atrapa el punto a tiempo |
 | **El dedo acusador** | 0:57 sigue el círculo con el dedo y termina señalándose la espalda → 3:38 lo baja ante el culpable que cena | 7:22 ahora es Mila quien lo señala: "Fuiste tú." |
 | **El gafete** | 4:03 "¡Mi lema!" → 4:34 se dobla dos veces | 6:56 a la guantera (y la guantera lo escupe) |
@@ -96,7 +138,7 @@ La regla de la /s/ de Eli (Kokoro) deja de aplicar. Cuadro de texto según ART_B
 | 4 | **ELI** | ¿Qué? | **Solo cuadro (sin voz).** El gag es la lupa; el narrador respira y entra con "Entonces…". |
 | 6 | **ELI** | ¡Ya entendí! ¡Fue el de adelante! | Cita, muy seguro, rápido. |
 | 7 | **ELI** | ¡¿Quién fue?! | Cita, igual que el beat 3 (eco de campo en la mezcla). Cuadro `shout`. |
-| 9 | **ELI** | No… no… ¡no! | Cita con marco: el narrador dice antes "Eli va en el diez:" (respiración después de "diez:"); sube de tono con cada "no". |
+| 9 | **ELI** | No… no… ¡no! | Cita con marco: el narrador dice antes "Adivina quién va en el diez:" (respiración después de "diez:"); sube de tono con cada "no". |
 | 10 | **ELI** | ¡¿Que yo qué?! | Cita, ofendidísimo. Cuadro `shout`. |
 | 12 | **ELI** | ¡¿Quién f…? | Cita con corte de audio: se sintetiza "¡¿Quién fue?!" y el montaje corta en la /f/ (cue `record_scratch`); el cuadro dice "¡¿Quién f…?". |
 | 13 | **ELI** | ¿Ni un perdón? | Cita, dolido, lento. |
@@ -104,13 +146,12 @@ La regla de la /s/ de Eli (Kokoro) deja de aplicar. Cuadro de texto según ART_B
 | 17 | **ELI** | ¡¿Quién fue?! | Cita, automático, a todo pulmón. Cuadro `shout`. |
 | 17 | **MILA** | Eli. | Cita, plano. (Tres citas seguidas con el silencio y la hojita entre medias: se mantiene.) |
 | 17 | **ELI** | …Fue el viento. | Cita, lenta (vel. 0,9), silbido antes y después. Cuadro `whisper`. |
-| 18 | **ELI** | ¡Hay un hueco! ¡Un hueco enorme! | Cita, pánico, rápida. Si en la prueba de voz se confunde: marco opcional "Eli, de copiloto:". |
+| 18 | **ELI** | ¡Hay un hueco! ¡Cabe una casa! | Cita, pánico, rápida. Si en la prueba de voz se confunde: marco opcional "Eli, de copiloto:". |
 | 18 | **MILA** | Ese hueco es mi amigo. | Cita, serena. |
 | 19 | **ELI** | ¡Yo llego tarde a todo! | Cita, orgullo repentino. |
 | 21 | **ELI** | ¡Dale, dale! · ¡Nooo! | **Solo cuadro (sin voz).** Porra de estadio: la bandera y el cuadro la cuentan; la narración no se interrumpe. |
 | 23 | **ELI** | ¿…Quién fue? | Cita, bajito, casi para sí (tras los 5 s de silencio). Cuadro `whisper`. |
 | 23 | **MILA** | Fuiste tú. | Cita, sonriendo. |
-| Etiqueta | **ELI** | ¡¿Quién fue?! | Cita, igual que el beat 3. Cuadro `shout`. |
 
 ---
 
@@ -133,13 +174,77 @@ La regla de la /s/ de Eli (Kokoro) deja de aplicar. Cuadro de texto según ART_B
   `[solo cuadro]` ("¿Qué?", "¡Dale, dale!", "¡Nooo!") no se sintetizan (`voiced: false`).
 - **"¡¿Quién f…?" (beat 12, P9):** se sintetiza "¡¿Quién fue?!" y el audio se corta en la /f/ al ensamblar (cue
   `record_scratch` de D13); el cuadro de texto sigue diciendo "¡¿Quién f…?".
-- **"Eli va en el diez:" (beat 9, P7):** respiración después de los dos puntos; luego la cita sube de tono en cada "no".
+- **"Adivina quién va en el diez:" (beat 9, P7 → v5 #5):** respiración después de los dos puntos; luego la cita sube de tono en cada "no".
 - **"Eli sí deja el espacio" (beat 23, P6):** el "sí" separa "Eli" de "deja" (el alineador oía "él y deja") y subraya el pago.
 - Números con pausa previa de 0,6-1 s (biblia): "dos mil ocho", "veintidós", "doscientos treinta", "treinta", "tres
   minutos", "cinco", "veinte", "trescientos catorce", "veinticinco", "veintiocho", "ochenta", "cuarenta", "cien".
 - Dirección por tramo (curva de energía): `SCRIPT_AUDIT_NARRADOR.md` §5. El "mira" de la biblia va en la entonación de
   "Lo que a Mila le encanta:" (beat 8) y "Pero hay un momento…" (beat 21), no en palabras nuevas.
-- Tempo: el +4 % (144 → 150 ppm) es un ajuste de ensamblaje (`speed`), no del texto.
+- Tempo: el +4 % (144 → 150 ppm) es un ajuste de ensamblaje (`speed`), no del texto (toma Qwen; con David, ritmo base 144 ppm).
+
+### Dirección del narrador · David (ElevenLabs eleven_v4, v5; de `HUMOR_PUNCHUP.md` §3 y §5)
+
+Regla de la biblia: el chiste va seco; la gracia está en la pausa. **Una etiqueta por remate, nunca dos.** Las etiquetas no
+se pronuncian: en QC, escuchar que ninguna se lea en voz alta. Se genera **un bloque por beat** con su etiqueta inicial;
+dentro del bloque, solo las etiquetas de remate de esta tabla. `[excited]`, `[whispers]`, `[deadpan]`, `[laughs softly]` y
+`[sarcastic]` son las de referencia; `[curious]`, `[amazed]`, `[warm]`, `[mischievously]` son descriptivas: si en la
+prueba eleven_v4 no las respeta o las lee, se cambian por la de referencia indicada entre paréntesis.
+
+**Remates (interpretación):**
+
+| Remate | Dirección |
+|---|---|
+| #1 «Eli siempre está seguro.» | 0,3 s antes · `[deadpan]` · sin bajar el ritmo del gancho. |
+| #2 «No, Eli. El pajarito tampoco.» | Entra 0,4 s después del «pío» · `[deadpan]`, casi en confidencia · 0,4 s después. |
+| #3 «Literalmente.» | 0,4 s antes · `[deadpan]` · una sola palabra, sin sonrisa. |
+| #4 «Respuesta corta: todos. La larga: este video.» | `[deadpan]` en «todos» · 0,3 s · «La larga…» con `[laughs softly]` muy leve, cómplice. |
+| #5 «Adivina quién va en el diez:» | Sonrisa en la voz, sin etiqueta · 0,4 s antes de la cita. |
+| #6 «Eli llega tarde. Como siempre.» | 0,3 s entre las dos frases · `[deadpan]` · 0,6 s después y la tesis vuelve a tono claro. |
+| #7 «A Eli le pican las manos.» | 0,4 s antes (separa el ajá del chiste) · `[deadpan]`. |
+| #8 «Pobre lema de Eli.» | 0,5 s antes · compasión fingida, cálida · sin etiqueta o `[sarcastic]` muy suave (nunca burlón). |
+| #9 «¡Hay un hueco! ¡Cabe una casa!» | Cita de Eli · `[excited]`, rápido, sube en «casa» · respiración y Mila serena. |
+| #10 «Mila lo sabe.» | 0,4 s después de la cita · `[deadpan]` · 0,5 s después. |
+| #11 «Ni siquiera Mila.» | 0,3 s antes · `[deadpan]`, bajito; no rompe el tono serio del matiz. |
+| #12 «A Eli no le alcanzaron los dedos. Ni prestados.» | `[laughs softly]` justo antes de «Ni prestados» · 0,4 s después · «¿El resultado?» con intriga. |
+| #13 «Mira quién hizo la ola a tiempo.» | `[excited]` contenido, orgullo de amigo · 0,6 s después (deja ver la ola del puente). |
+| #14 «Sí, tú. No el de adelante.» | 0,4 s antes · tono del final (cálido, bajo) · `[laughs softly]` en «No el de adelante». |
+| #15 «En nuestra versión, alguien la sube silbando.» | `[whispers]` cómplice, como quien chismea al espectador · 0,5 s después antes de «La ola volvió». |
+| #16 «Hasta Eli.» | 0,5 s antes · `[laughs softly]`, orgullo cálido · 0,6 s antes del nombre del canal. |
+| «En una pista vacía.» | 0,5 s antes · `[deadpan]`. |
+| «…como un chisme que crece…» | Sonrisa en la voz; `[laughs softly]` mínimo en «lo cuenta». |
+| «Tres autos de más.» | 0,6 s antes · `[deadpan]` · corte seco al «¡¿Quién f…?». |
+| «la razón ya se fue a cenar.» | 0,8 s antes de «la razón» · `[deadpan]` · 1 s de aire después (ahí va la risa). |
+| «…Fue el viento.» / «¿…Quién fue?» | `[whispers]` · silencio antes y después, como marca el guion. |
+| «Ese hueco es mi amigo.» / «Fuiste tú.» | Serena, sin etiqueta; en «Fuiste tú» sonrisa en la voz. |
+
+**Curva emocional por beat (ritmo base 144 ppm):**
+
+| Beat | Emoción | Etiqueta inicial | Ritmo |
+|---|---|---|---|
+| 1 Un toque | intriga que arranca | `[curious]` (`[whispers]` suave) | medio, frases cortas con aire entre «Una sola vez.» y «Apenas un poquito.» |
+| 2 Se rompe | tensión que sube | `[excited]` | acelera en «Más fuerte. Más fuerte…»; frena en seco en «Eli.» |
+| 3 ¿Quién fue? | burla cariñosa | `[deadpan]` | rápido; deja la pausa del pajarito para #2 |
+| 4 La pregunta | asombro → intriga | `[amazed]` (`[whispers]`) | lento; la pregunta del título de verdad, subiendo al final; 1 s de silencio |
+| 5 Wordmark | — | sin narración | — |
+| 6 El círculo | curiosidad juguetona | `[curious]` | medio; pausa 0,6 s antes de cada número; «Problema:» con picardía |
+| 7 Titubeos | asombro seco | `[deadpan]` | se frena en «En una pista vacía.»; #4 cómplice |
+| 8 Para atrás | asombro, el primer ajá | `[amazed]` (`[excited]` bajo) | lento y claro; «bicicleta» con sonrisa |
+| 9 Estirar | explicación nítida, juego | sin etiqueta (claro) | 140 ppm, escalera: cada «más fuerte» un poco más alto; #5 sonriendo |
+| 10 Cadena | claridad → chisme | sin etiqueta → `[laughs softly]` en el chisme | medio; el término técnico despacio |
+| 11 Una ola | asombro tranquilo | `[warm]` (sin etiqueta) | medio; #6 seco; la tesis lenta, con 0,6 s antes |
+| 12 Tres autos | intriga → remate | `[curious]` | medio; «Tres autos de más.» seco; densidad clara y lenta |
+| 13 Media hora | asombro nocturno → el mejor chiste | `[whispers]` suave al inicio | lento, casi confidencia; 0,8 s antes de «la razón»; 1 s de aire después |
+| 14 Cierra el hueco | intriga, preguntas de verdad | `[curious]` | medio-rápido en las tres preguntas; la instrucción, citada con energía |
+| 15 El auto distinto | ajá central, claridad | sin etiqueta (claro) | el más lento del episodio (≈ 138 ppm); #7 seco después |
+| 16 Se derrite | triunfo | `[excited]` contenido | cifras con pausa previa; #8 con compasión fingida |
+| 17 Ansioso | complicidad pícara | `[mischievously]` (`[whispers]`) | #15 susurrado; silencio de 1 s en la mirada colectiva; «Ser paciente…» claro y lento |
+| 18 Persona paciente | ternura | `[warm]` (sin etiqueta) | sereno; «Una sola persona paciente.» lento, con orgullo |
+| 19 Amortiguador | claridad → burla cariñosa | sin etiqueta → `[deadpan]` | medio; «llegar tarde es la jugada» con sonrisa; #10 y #11 secos; «Ojo: no es magia» serio |
+| 20 Cien autos | intriga honesta | `[curious]` | medio; #12 con risa suave; «Es complicado.» seco; el matiz final serio |
+| 21 La ola recuerda | emoción de partido | `[excited]` | sube y baja con la ola; #13 con orgullo de amigo |
+| 22 Sé el espacio | ternura, consejo de amigo | `[warm]` (sin etiqueta) | bajo y calmado, 140 ppm; #14 cálido, nunca regaño |
+| 23 El mismo toque | suspenso → susurro final | `[whispers]` | muy lento; luego 5 s de silencio; las citas bajitas |
+| 24 Despedida | triunfo cálido | `[warm]` → `[laughs softly]` en #16 | lento; tesis final con aire; el nombre del canal con sonrisa |
 
 ## TEXTOS EN PANTALLA
 
@@ -192,9 +297,11 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 ### Beat 3 · ¿Quién fue? (0:16)
 > **ELI:** ¡¿Quién fue?!
 >
-> Eli está seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.
+> Eli está seguro: alguien allá adelante tiene la culpa. Eli siempre está seguro. Pero allá no hay nada. Ni choque, ni conos, ni semáforo.
 >
 > *(pausa)*
+>
+> No, Eli. El pajarito tampoco.
 
 - **Visual:** Eli **de pie en el asiento** (auto detenido), puño arriba, globo "¡¿QUIÉN FUE?!". Luego mano de visera,
   buscando. En "ni choque, ni conos, ni semáforo", tres viñetas de tinta flotan sobre la carretera vacía (dos autitos
@@ -241,7 +348,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 ## ACTO 1 · ES REAL (escena: anillo en el campo, tarde, vista alta)
 
 ### Beat 6 · El círculo de verdad (0:39)
-> Mila arrastra a Eli a un experimento de verdad.
+> Mila arrastra a Eli a un experimento de verdad. Literalmente.
 >
 > **ELI:** ¡Ya entendí! ¡Fue el de adelante!
 >
@@ -265,6 +372,8 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 > **ELI:** ¡¿Quién fue?!
 >
 > *(pausa)*
+>
+> Respuesta corta: todos. La larga: este video.
 
 - **Visual:** `S2` con sello **ACELERADO ×10**; reloj en la esquina 0:00 → 3:00. Los huecos se abren y cierran (marcados
   con un resorte de tinta y un "apretón" de tinta); aparece el grupo de **5** autos parados (sello "5").
@@ -293,7 +402,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 ## ACTO 2 · EL TITUBEO QUE CRECE
 
 ### Beat 9 · Estirar el círculo (1:33)
-> Vamos por partes. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía. Eli va en el diez: [9]
+> Vamos por partes. Estiremos el círculo hasta volverlo una recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía. Adivina quién va en el diez: [9]
 >
 > **ELI:** No… no… ¡no!
 >
@@ -303,16 +412,16 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
   velocidad real. Sobre cada auto, una barra de freno que crece auto por auto; números 1 → 10 pintados a mano. En "un
   instante tarde", un relojito de arena de tinta sobre el auto 2 y una regla que muestra el hueco que **se achica** en ese
   instante.
-- **Eli:** es el **auto 10** (la narración lo dice: "Eli va en el diez:"). Ve venir las barras, cada una más alta (preparación): un "no" por barra, cada vez más
+- **Eli:** es el **auto 10** (la narración lo dice: "Adivina quién va en el diez:"). Ve venir las barras, cada una más alta (preparación): un "no" por barra, cada vez más
   agudo; frena hasta parar con la barra más alta (golpe), que le queda encima como un sombrero (pausa); la mira de reojo
   (reacción).
 - **Mila:** de pie al lado del camino con su tabla, va marcando cada barra con el lápiz.
 - **Ritmo:** 1:33 el anillo se estira · 1:37 auto 1 frena · 1:40 relojito + regla · 1:44 barra 3 · 1:47 barras 4-9 en
-  cascada · 1:50 "Eli va en el diez:" + "no… no… ¡no!" · 1:53 alto en el 10.
+  cascada · 1:50 "Adivina quién va en el diez:" + "no… no… ¡no!" · 1:53 alto en el 10.
 - **Sonido:** tics de freno que bajan de tono como una escalera; golpe en el auto 10.
 
 ### Beat 10 · Inestabilidad de cadena (1:55)
-> Los ingenieros le llaman inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta. [10]
+> Los ingenieros le llaman inestabilidad de cadena. La cadena es la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta. [10]
 >
 > **ELI:** ¡¿Que yo qué?!
 
@@ -327,7 +436,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Sonido:** cuchicheos que crecen hasta un murmullo de multitud.
 
 ### Beat 11 · Una ola, no un lugar (2:16)
-> El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Los autos se van; el embotellamiento se queda. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. Un embotellamiento no es un lugar. Es una ola. [11]
+> El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. Eli llega tarde. Como siempre. Un embotellamiento no es un lugar. Es una ola. [11]
 
 - **Visual:** primero, la fila: un auto marcado (con un globito de su color) entra por detrás del grupo, cruza despacio y
   sale por delante; el grupo se queda y retrocede. Luego, **gradas de un estadio** dibujado por nosotros (sin logos), luz
@@ -360,7 +469,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Sonido:** tres "plop" al caer los autos; la música pasa de mayor a menor en "por encima, crecen".
 
 ### Beat 13 · Hace media hora (3:09)
-> Ahora llévalo a una autopista en hora pico. Ahí, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte por hora. O sea que el embotellamiento en el que estás ahora mismo, llámalo trancón, taco o tráfico, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Por eso no ves ninguna razón: la razón ya se fue a cenar. [15][16][17]
+> Ahora, en una autopista en hora pico, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte por hora. O sea que el embotellamiento en el que estás ahora mismo, llámalo trancón, taco o tráfico, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Por eso no ves ninguna razón: la razón ya se fue a cenar. [15][16][17]
 >
 > **ELI:** ¿Ni un perdón?
 
@@ -398,7 +507,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Sonido:** dos "pop" de burbuja; un "¡ding!" de aprobación cuando Eli se pone el gafete.
 
 ### Beat 15 · El auto distinto (4:07)
-> Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte. [20]
+> Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte. A Eli le pican las manos. [20]
 
 - **Visual:** un auto genérico con un halo teal suave. Indicador **PROMEDIO** sobre él (aguja quieta mientras las agujas de
   los demás saltan). En "contando frenadas y arrancones", una línea de velocidad que sube y baja y una línea recta en
@@ -413,7 +522,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
   del resorte.
 
 ### Beat 16 · La ola se derrite (4:29)
-> La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno. [21][22]
+> La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno. Pobre lema de Eli. [21][22]
 
 - **Visual:** `S7` con el control activado, **ACELERADO ×4**: el grupo rojo adelgaza y se disuelve; las luces de freno se
   apagan alrededor del anillo como velas. Medidores: **−80 %**, frenazos **≈ 0**, **hasta −40 %**. Sello **1 / 21**.
@@ -425,7 +534,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Sonido:** los tics se apagan uno por uno; queda el viento y el tono suave.
 
 ### Beat 17 · Demasiado ansioso (4:47)
-> Después, programaron la computadora un poquito más rápido que el promedio. La ola volvió. [24]
+> Después, programaron la computadora un poquito más rápido que el promedio. En nuestra versión, alguien la sube silbando. La ola volvió. [24]
 >
 > **ELI:** ¡¿Quién fue?!
 >
@@ -450,9 +559,9 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
   hojita; "clic" de regreso.
 
 ### Beat 18 · Una persona paciente (5:01)
-> Esta es la parte favorita de Mila. En otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio. [25]
+> La parte favorita de Mila: en otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio. [25]
 >
-> **ELI:** ¡Hay un hueco! ¡Un hueco enorme!
+> **ELI:** ¡Hay un hueco! ¡Cabe una casa!
 >
 > **MILA:** Ese hueco es mi amigo.
 >
@@ -462,7 +571,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
   Tarjetita: **"Mila hace de conductora"** (nuestra doble, no la persona real del experimento). Un cartelito con un solo
   número pegado en el tablero: PROMEDIO. Medidores **≈ −50 %**, **−22 %**. La ola se reduce, sin desaparecer del todo.
 - **Gag:** Mila maneja tranquila, una mano en el volante, y deja que el hueco crezca. Eli, de copiloto, se retuerce
-  (preparación): "¡Hay un hueco! ¡Un hueco enorme!" Mila, serena: "Ese hueco es mi amigo." (golpe). A Eli se le van las
+  (preparación): "¡Hay un hueco! ¡Cabe una casa!" Mila, serena: "Ese hueco es mi amigo." (golpe). A Eli se le van las
   manos solas hacia el volante; Mila, sin apartar la vista, se las baja con suavidad (pausa). Él se cruza de brazos. Luego
   mira atrás: los autos detrás ya no frenan tanto. Descruza los brazos (reacción).
 - **Ritmo:** 5:01 halo que salta al auto teal · 5:05 tarjetita · 5:08 cartel PROMEDIO · 5:10 hueco que crece · 5:11
@@ -470,11 +579,11 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Sonido:** música cálida que entra aquí por primera vez con melodía (el tema de Mila: tres notas de flauta).
 
 ### Beat 19 · Un amortiguador (5:24)
-> ¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada. [27]
+> ¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Por una vez, llegar tarde es la jugada. [27]
 >
 > **ELI:** ¡Yo llego tarde a todo!
 >
-> En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso. [27][28]
+> Mila lo sabe. En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso. Ni siquiera Mila. [27][28]
 
 - **Visual:** vuelve la fila recta de lado (mediodía nublado). Dos líneas de tiempo una sobre otra: **arriba** Eli maneja
   (se pega, frena hasta parar, todos detrás frenan); **abajo** Mila maneja (llega cuando el grupo ya se deshace, pasa sin
@@ -496,7 +605,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 ## ACTO 4 · LA AUTOPISTA DE VERDAD (escena: carretera dorada, toma alta y ancha)
 
 ### Beat 20 · Cien autos (5:59)
-> ¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee. Un equipo metió cien autos al tráfico de hora pico con un control de crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo. [29][30]
+> ¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee. Un equipo metió cien autos al tráfico de hora pico con un control de crucero inteligente, que acelera y frena solo. A Eli no le alcanzaron los dedos. Ni prestados. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo. [29][30]
 
 - **Visual:** autopista de cuatro carriles al amanecer dorado (variante de la escena a, toma de grúa alta; sin letreros ni
   escudos de ruta), muy cargada. `S10`. Cartelito **"cerca de Nashville · nov. 2022"**; contador **100**; los autos
@@ -510,7 +619,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Sonido:** rumor grande de autopista; pájaros de la mañana; "plip" de la gota.
 
 ### Beat 21 · La ola recuerda (6:25)
-> Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás por la autopista. Pasan dos autos inteligentes, y se achica. [31]
+> Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás. Pasan dos autos inteligentes, y se achica. [31]
 >
 > **ELI:** ¡Dale, dale! [solo cuadro]
 >
@@ -518,7 +627,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 >
 > **ELI:** ¡Nooo! [solo cuadro]
 >
-> Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.
+> Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger. Mira quién hizo la ola a tiempo.
 
 - **Visual:** la ola dibujada como un bulto rojo sobre la línea de velocidad, viajando hacia atrás. Pasan 2 halos → el
   bulto baja; pasan 4 autos con el halo apagado (gris) → sube; pasan varios halos → baja.
@@ -535,7 +644,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 ## ACTO 5 · TÚ (escena: carretera dorada, mismo lugar del gancho)
 
 ### Beat 22 · Sé el espacio (6:47)
-> O sea que tú también eres parte de la ola. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos. [32]
+> O sea que tú también eres parte de la ola. Sí, tú. No el de adelante. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos. [32]
 
 - **Visual:** la **carretera dorada** del beat 1, mismo encuadre, misma luz. Tarjetas **DEJA UN ESPACIO SEGURO** ·
   **MANEJA AL PROMEDIO**. El hueco delante del auto de Eli se dibuja con el resorte de tinta.
@@ -571,7 +680,7 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
   **silencio**: solo viento y un pájaro ("pío").
 
 ### Beat 24 · Despedida (7:24)
-> En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. Esto es Diez Mil Puntos.
+> En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. Hasta Eli. Esto es Diez Mil Puntos.
 
 - **Visual:** grúa que se eleva sobre la carretera dorada; los autos detrás fluyen. Fundido a la escena **título al
   atardecer**: se compone **Diez Mil Puntos**, otra vez sin el punto de la "i" de "Mil". Mila lanza el punto de un
@@ -580,16 +689,21 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 - **Ritmo:** 7:24 grúa · 7:28 fundido · 7:31 Eli atrapa el punto · 7:34 "tin" · 7:35 choque de puños.
 - **Sonido:** sello del canal, "tin".
 
-### Pantalla final con etiqueta (7:37, 20 s)
-> La próxima vez: ¿por qué los buses llegan de a tres?
->
-> **ELI:** ¡¿Quién fue?!
+### Cierre · escena del título con la pantalla final de YouTube (7:37, 20 s)
+*(sin narración: el episodio termina aquí; no se anuncia ni se muestra ningún tema futuro, decisión del Productor 2026-10-28)*
 
-- **Visual:** los primeros 4 s, antes de que aparezcan los elementos de la pantalla final: Eli y Mila en una parada de bus
-  (dibujada por nosotros, sin marcas), Eli mira el reloj, impaciente. Llegan **tres buses juntos**, en fila (golpe). Eli,
-  de pie en la banca: "¡¿Quién fue?!" Mila mira a cámara y se encoge de hombros, sonriendo. Luego quedan sentados a un
-  lado, fuera de la zona de tarjetas, con la música del tema.
-- **Sonido:** tres frenos neumáticos de bus en fila ("pshh, pshh, pshh"), timbre de puertas; tema del canal.
+- **Visual:** la escena **título al atardecer** del beat 24 sigue en pantalla, sin corte: el mismo fondo (cielo morado,
+  colinas, árboles en silueta, la autopista del valle con sus lucecitas), el wordmark **Diez Mil Puntos** con el punto de
+  la "i" ya puesto y el lema *Pequeños sistemas, explicados con puntos.* **≈ 20 s después del lema.** En los primeros
+  segundos la composición (letras, Eli y Mila, lema) sube y se achica despacio, con suavidad, para dejar libre la mitad
+  de abajo del cuadro: ahí van los elementos de la pantalla final de YouTube (dos videos + suscribirse), que no tapan a
+  nadie. Cámara casi quieta (deriva ≤ 1,5 %).
+- **Actuación (solo de reposo, ningún beat nuevo de historia):** Eli y Mila de pie sobre las letras: se miran y se
+  sonríen; la coleta de Mila se mece con la brisa; Eli se balancea sobre los talones, contento; un parpadeo, una mirada
+  al valle. Nadie habla, ningún cuadro de texto.
+- **Fin:** el tema del canal se resuelve en un acorde largo de sol (arpa + glockenspiel con el motivo), y el último
+  segundo funde a negro.
+- **Sonido:** brisa tibia del atardecer; el acorde final que se apaga; nada más.
 
 ---
 
@@ -597,63 +711,62 @@ wordmark es el **disco bermellón** de marca `#E8553A`, plano, sin cara.
 
 Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito. Detrás, cada auto
 frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli. Eli está
-seguro: alguien allá adelante tiene la culpa. Pero allá no hay nada. Ni choque, ni conos, ni semáforo. Mila, su pareja,
-mira atrás. Entonces, ¿por qué hay embotellamientos sin razón aparente?
+seguro: alguien allá adelante tiene la culpa. Eli siempre está seguro. Pero allá no hay nada. Ni choque, ni conos, ni
+semáforo. No, Eli. El pajarito tampoco. Mila, su pareja, mira atrás. Entonces, ¿por qué hay embotellamientos sin razón
+aparente?
 
-Mila arrastra a Eli a un experimento de verdad. En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en
-una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante. Los
-conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora. Al principio, todo bien.
-Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos
-estaban completamente parados. En una pista vacía. Lo que a Mila le encanta: los autos siempre avanzan, y el
-embotellamiento se desliza hacia atrás, a unos veinte por hora. Más o menos lo que va una bicicleta.
+Mila arrastra a Eli a un experimento de verdad. Literalmente. En dos mil ocho, un equipo de físicos en Japón puso
+veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien
+adelante. Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora. Al principio,
+todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco
+autos estaban completamente parados. En una pista vacía. Respuesta corta: todos. La larga: este video. Lo que a Mila le
+encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte por hora. Más o menos lo
+que va una bicicleta.
 
-Vamos por partes. Estiremos el círculo hasta volverlo una línea recta. El primer conductor toca el freno. El segundo
-lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más
-tarde y más fuerte todavía. Eli va en el diez: Para el auto número diez: alto total. Los ingenieros le llaman
-inestabilidad de cadena. La cadena es simplemente la fila de autos. Si es estable, un titubeo se va apagando mientras
-viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien
-lo cuenta. El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por
-delante. Los autos se van; el embotellamiento se queda. Es como la ola en un estadio: nadie se cambia de asiento, pero
-la ola le da la vuelta entera. Un embotellamiento no es un lugar. Es una ola. Pero no todos los círculos se atascan.
-El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos
-catorce metros. Con veinticinco autos, el tráfico fluyó. Con veintiocho o más: embotellamiento. Tres autos de más. Lo
-que importa es cuántos autos hay en cada tramo de pista: la densidad. Por debajo de cierta densidad, los titubeos se
-apagan. Por encima, crecen. Ahora llévalo a una autopista en hora pico. Ahí, una sola ola puede viajar hacia atrás más
-de diez kilómetros, a quince o veinte por hora. O sea que el embotellamiento en el que estás ahora mismo, llámalo
-trancón, taco o tráfico, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Por eso no
-ves ninguna razón: la razón ya se fue a cenar.
+Vamos por partes. Estiremos el círculo hasta volverlo una recta. El primer conductor toca el freno. El segundo lo nota
+un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y
+más fuerte todavía. Adivina quién va en el diez: Para el auto número diez: alto total. Los ingenieros le llaman
+inestabilidad de cadena. La cadena es la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia
+atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta. El
+embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Es
+como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. Eli llega tarde. Como
+siempre. Un embotellamiento no es un lugar. Es una ola. Pero no todos los círculos se atascan. El mismo equipo repitió
+el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros. Con veinticinco
+autos, el tráfico fluyó. Con veintiocho o más: embotellamiento. Tres autos de más. Lo que importa es cuántos autos hay
+en cada tramo de pista: la densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen. Ahora,
+en una autopista en hora pico, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte por hora.
+O sea que el embotellamiento en el que estás ahora mismo, llámalo trancón, taco o tráfico, pudo empezar con un frenazo
+de hace media hora. Ese conductor ya llegó a su casa. Por eso no ves ninguna razón: la razón ya se fue a cenar.
 
-Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot?
-Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les
-dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco,
-ciérrenlo. Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no
-perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando
-frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte. La ola se derritió. Los cambios
-de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita,
-los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno. Después,
-programaron la computadora un poquito más rápido que el promedio. La ola volvió. Ser paciente no es ir lento. Es ir al
-promedio. Esta es la parte favorita de Mila. En otra prueba no hubo computadora. Solo un conductor entrenado, con un
-único número: la velocidad promedio. Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una
-quinta parte. Una sola persona paciente. ¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el
-frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está
-despejando, así que nunca tiene que detenerse. Los de atrás ni sienten la ola. Por una vez, llegar tarde es la jugada.
-En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta,
-ningún conductor puede absorber eso.
+Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos
+años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les dieron una
+instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo.
+Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al
+de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y
+arrancones. El espacio de adelante se estira y se encoge, como un resorte. A Eli le pican las manos. La ola se derritió.
+Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista
+chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno.
+Pobre lema de Eli. Después, programaron la computadora un poquito más rápido que el promedio. En nuestra versión,
+alguien la sube silbando. La ola volvió. Ser paciente no es ir lento. Es ir al promedio. La parte favorita de Mila: en
+otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio. Los cambios de
+velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente. ¿Por qué
+funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto
+paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Por una vez,
+llegar tarde es la jugada. Mila lo sabe. En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es
+magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso. Ni siquiera Mila.
 
 ¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee. Un equipo
-metió cien autos al tráfico de hora pico con un control de crucero inteligente: un programa que decide cuándo acelerar
-y cuándo frenar. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y
-tampoco esperaban hacerlo. Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás por la autopista.
-Pasan dos autos inteligentes, y se achica. Pasan cuatro con el sistema apagado, y crece. Pasan más autos inteligentes,
-y se achica otra vez. Cada auto que la cruza la hace crecer o encoger.
+metió cien autos al tráfico de hora pico con un control de crucero inteligente, que acelera y frena solo. A Eli no le
+alcanzaron los dedos. Ni prestados. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron
+todas las olas, y tampoco esperaban hacerlo. Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás.
+Pasan dos autos inteligentes, y se achica. Pasan cuatro con el sistema apagado, y crece. Pasan más autos inteligentes, y
+se achica otra vez. Cada auto que la cruza la hace crecer o encoger. Mira quién hizo la ola a tiempo.
 
-O sea que tú también eres parte de la ola. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo.
-Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo
-tiempo, menos frenazos. Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli sí deja el espacio.
-En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un
-solo conductor paciente puede absorberla. Esto es Diez Mil Puntos.
-
-*(Pantalla final)* La próxima vez: ¿por qué los buses llegan de a tres?
+O sea que tú también eres parte de la ola. Sí, tú. No el de adelante. Así que deja un espacio: uno seguro, no uno
+enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la
+misma distancia, el mismo tiempo, menos frenazos. Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez,
+Eli sí deja el espacio. En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un
+lugar. Es una ola. Un solo conductor paciente puede absorberla. Hasta Eli. Esto es Diez Mil Puntos.
 
 ---
 

@@ -176,7 +176,7 @@
     b09_18_eli: {}, b10_21_eli: { kind: 'shout' }, b12_24_eli: { kind: 'shout' }, b13_27_eli: {}, b14_29_eli: {},
     b17_33_eli: { kind: 'shout' }, b17_35_mila: {}, b17_36_eli: { kind: 'whisper', side: -1 }, b18_39_eli: { side: -1 }, b18_40_mila: {},
     b19_43_eli: {}, b21_47_eli: { kind: 'shout' }, b21_49_eli: { kind: 'shout' }, b23_54_eli: { kind: 'whisper' },
-    b23_55_mila: {}, bend_58_eli: { kind: 'shout' },
+    b23_55_mila: {},   // v5: no end-screen tag (bend_58_eli removed)
   };
   A.lineList = function () {
     if (A._lineList) return A._lineList;

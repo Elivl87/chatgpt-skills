@@ -248,14 +248,5 @@
   "unmatched": [
    "Mil"
   ]
- },
- "end": {
-  "heard": "¿La próxima vez? ¿Por qué los buses llegan de A3? ¿Quién fue?",
-  "wer_raw": 0.0,
-  "wer": 0.0,
-  "errors": [],
-  "ref_words": 13,
-  "aligned": "13/13",
-  "unmatched": []
  }
 }

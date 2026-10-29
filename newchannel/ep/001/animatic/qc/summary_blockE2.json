@@ -1,11 +1,11 @@
 {
- "duration": 72.36500000000007,
- "shots": 30,
- "cuts": 29,
- "cuts_per_min": 24.0,
- "longest_shot": 4.4,
- "longest_id": "H02_gap",
- "avg_shot": 2.41,
- "size_mb": 15.87,
- "contact_kb": 387
+ "duration": 70.71999999999997,
+ "shots": 29,
+ "cuts": 28,
+ "cuts_per_min": 23.8,
+ "longest_shot": 5.0,
+ "longest_id": "K04_breeze",
+ "avg_shot": 2.44,
+ "size_mb": 15.92,
+ "contact_kb": 364
 }

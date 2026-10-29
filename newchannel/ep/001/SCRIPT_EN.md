@@ -5,7 +5,7 @@
 # Ep 001 (PILOT) · SCRIPT (EN) · "Why do traffic jams appear out of nowhere?" · draft v1 · 2026-10-13
 
 Channel: **Ten Thousand Dots** (name appears only in beat 4 and beat 22). Tagline: *Tiny systems, explained with dots.*
-Facts: every number is in `FACTS.md` (claim # in brackets). Video 2 = buses (`ep/002`), teased at the end.
+Facts: every number is in `FACTS.md` (claim # in brackets). Video 2 = buses (`ep/002`); not teased in this episode (Producer 2026-10-28: episodes do not announce the next one).
 
 **Narration word count: 945 words → 6 min 18 s at 150 wpm**; with the wordmark sting and ~0.5-1 s of air per beat ≈ **6:50**.
 Hook (beats 1-3): 66 words ≈ 27 s of voice → wordmark lands at ~0:28.
@@ -268,15 +268,14 @@ Hook (beats 1-3): 66 words ≈ 27 s of voice → wordmark lands at ~0:28.
 - **Sound:** steady lap pulse; the ghost jam = a muted cascade that fades before it hits.
 
 ### Beat 22 · Callback and sign-off (6:22)
-> One tap of the brakes made this jam. One patient driver can unmake it. This is Ten Thousand Dots. Tiny systems, explained with dots. Next time: same loop, but buses.
+> One tap of the brakes made this jam. One patient driver can unmake it. This is Ten Thousand Dots. Tiny systems, explained with dots.
 
 - **Visual:** exact replay of the hook's tap at 12 o'clock. The brake wave rolls back, reaches the mascot's gap, and dies
   there; every car behind the mascot stays ink (no teal). The mascot didn't even notice: it's humming along. Pull back;
-  the ring unrolls into the type line; the mascot rolls in and lands as the full stop of **Ten Thousand Dots.** On "buses",
-  the cars on the ring morph into six capsule buses for one beat (tease for ep/002), then end screen.
+  the ring unrolls into the type line; the mascot rolls in and lands as the full stop of **Ten Thousand Dots.**, which
+  holds as the end screen (no next-episode tease: Producer 2026-10-28).
 - **Mascot:** arc complete: the gap-hater is now the gap. A satisfied blink.
-- **Sound:** the tap "tok", a single soft brake tick, then silence where the cascade used to be; channel sting; a two-note
-  bus door chime as the last sound.
+- **Sound:** the tap "tok", a single soft brake tick, then silence where the cascade used to be; channel sting.
 
 *(Callbacks: "one tap" (beat 1) and the gap the mascot hated (beat 1) → beat 22. The tease can be cut if ep/002 slips.)*
 
@@ -334,8 +333,7 @@ remembers how everyone drove through it.
 Which means you're in the wave too. Every time. So leave a gap: a safe one, not a giant one. Don't race to close it.
 Drive at the speed traffic is actually moving, not the speed you wish it was. You won't get there later. Same distance,
 same time, less braking. And somewhere behind you, a jam that never happens. One tap of the brakes made this jam. One
-patient driver can unmake it. This is Ten Thousand Dots. Tiny systems, explained with dots. Next time: same loop, but
-buses.
+patient driver can unmake it. This is Ten Thousand Dots. Tiny systems, explained with dots.
 
 ---
 

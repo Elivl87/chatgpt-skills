@@ -9,6 +9,8 @@ Server (C engine gabriele-mastrapasqua/qwen3-tts, MIT; recipe in voice/engines_t
 Build (Chatterbox venv has faster-whisper / librosa / pyloudnorm / resemblyzer):
     TQDM_DISABLE=1 OMP_NUM_THREADS=1 nice -n 10 /tmp/claude-0/cbnat/venv/bin/python -I \
         ep/001/audio/qwen/build_voice_qwen.py [render|assemble|align|qc|all] [--takes 3] [--rows a-b]
+    v4.2 track (no end-screen tag, 2026-10-28), from the cached v4 takes, no synthesis:
+        ... build_voice_qwen.py assemble --drop-beats end --script ep/001/SCRIPT_ES419_v4.md  (then align, qc, same flags)
 
 Per row: one /v1/tts call per take with speaker ryan, language Spanish, temperature 0.9 / top_k 50 / top_p 1.0 /
 rep_penalty 1.05, the row's instruction and its native `rate` (pitch-preserving tempo inside the engine). Seeds
@@ -68,6 +70,7 @@ TARGET_LUFS, CEIL_TP = -16.0, -2.0          # stem; the final mix handles −14
 SEG_LUFS = -20.0
 GAIN = {"narrator": 0.0, "eli": 2.5, "mila": -2.0}
 LEAD, END_SCREEN = 0.25, 20.0
+END_HOLD = 21.9      # no end-screen beat (v4.2): silence after the last line = tagline (+1.9 s) + 20 s title-scene hold
 REF_WINDOW = ("/tmp/claude-0/engines/out/qwen_a.wav", 55.0, 75.0)       # what the Producer liked
 REF_FALLBACK = {"pitch_range_st": 16.1, "melody_std_st": 4.5, "energy_std_db": 8.9}   # NOTES.md, same window
 SAMPLING = {"temperature": 0.9, "top_k": 50, "top_p": 1.0, "rep_penalty": 1.05}
@@ -75,9 +78,35 @@ MIN_WPM, MAX_STRETCH = 140.0, 1.15
 
 
 # ------------------------------------------------------------------------------------------------ rows / segments
+# --drop-beats end (v4.2, Producer 2026-10-28: the episode ends on the title scene, no "next time" tag): leave those beats
+# out of the direction rows AND of the parsed script, so `assemble` re-mounts the cached takes without them (no synthesis;
+# every kept row keeps its take file, row<orig idx>.wav). --script <path>: parse the script the take cache was rendered
+# from (EP001 Qwen takes = SCRIPT_ES419_v4.md; the v4.2 text differs only in the dropped tag and «su amiga → su pareja»,
+# which needs a new take: the ElevenLabs re-voice carries it).
+DROP_BEATS: set = set()
+SCRIPT_SRC = None
+
+
+def _filters():
+    import script_parse
+    for i, r in enumerate(DV.ROWS):
+        r.setdefault("_i", i)
+    if DROP_BEATS:
+        DV.ROWS[:] = [r for r in DV.ROWS if r["beat"] not in DROP_BEATS]
+    if not getattr(script_parse, "_qwen_filtered", False):
+        orig = script_parse.parse_episode
+
+        def parse_episode(path=None):
+            segs = orig(Path(path or SCRIPT_SRC or script_parse.SCRIPT))
+            return [s for s in segs if s["beat"] not in DROP_BEATS]
+        script_parse.parse_episode = parse_episode
+        script_parse._qwen_filtered = True
+
+
 def rows():
     """Direction rows + script segment names (b{beat}_{i:02d}_{speaker}, i = script_parse index: the animatic's `line`)."""
     import script_parse
+    _filters()
     DV.verify()
     segs = script_parse.parse_episode()
     out, k = [], 0
@@ -92,7 +121,7 @@ def rows():
                 acc.append(DV.ROWS[k + n]["text"])
                 n += 1
         for j in range(n):
-            r = dict(DV.ROWS[k + j], idx=k + j, seg=i, name=name, first=(j == 0), last=(j == n - 1),
+            r = dict(DV.ROWS[k + j], idx=DV.ROWS[k + j]["_i"], seg=i, name=name, first=(j == 0), last=(j == n - 1),
                      seg_text=s["text"])
             r["instruct"] = DV.instruct(r)
             r["eng_rate"] = DV.eng_rate(r)
@@ -419,6 +448,9 @@ def assemble():
             man.append(cur)
         t += after
     x = np.concatenate(parts)
+    if end_t0 is None and man:                       # v4.2: the title scene holds after the last line
+        last = man[-1]
+        end_t0 = last["start"] + last["dur"] + END_HOLD - END_SCREEN
     if end_t0 is not None:
         n_end = int(round((end_t0 + END_SCREEN) * SR))
         if n_end > len(x):
@@ -426,7 +458,8 @@ def assemble():
     wav = OUT / "narration_es.wav"
     m = finish(x, wav)
     (OUT / "segments_es.json").write_text(json.dumps(
-        {"engine": "qwen3tts", "script": "SCRIPT_ES419.md v4 (locked 2026-10-23)",
+        {"engine": "qwen3tts", "script": "SCRIPT_ES419.md v4 (locked 2026-10-23)" if not DROP_BEATS else
+         f"SCRIPT_ES419.md v4.2 (2026-10-28): takes of {Path(SCRIPT_SRC).name if SCRIPT_SRC else 'SCRIPT_ES419.md'}, beats left out: {', '.join(sorted(DROP_BEATS))}",
          "voice": {"model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice bf16", "speaker": "ryan", "language": "Spanish",
                    "engine": "gabriele-mastrapasqua/qwen3-tts ef339be (C, MIT), server -j 3", "sampling": SAMPLING,
                    "register": "exclaim (Producer 2026-10-23)", "direction": f"{DV.__name__}.py / DIRECCION_NARRADOR_{DV.__name__[-2:]}.md",
@@ -614,7 +647,7 @@ def qc_md():
     L.append("")
     L.append("| | Qwen3-TTS Ryan (esta pista) | Objetivo |")
     L.append("|---|---|---|")
-    L.append(f"| Duración total (con pantalla final de 20 s) | **{fmt_t(q['duration_s'])}** ({q['duration_s']} s) | 7:30-8:00 |")
+    L.append(f"| Duración total (con el cierre: escena del título 20 s) | **{fmt_t(q['duration_s'])}** ({q['duration_s']} s) | 7:30-8:00 |")
     L.append(f"| Palabras locutadas | {q['words_voiced']} | 1074 (guion) |")
     L.append(f"| Ritmo (palabras / segundos con voz) | **{q['wpm_in_speech']} ppm** · dentro de las oraciones {q['wpm_in_lines']} ppm | 145-155 ppm |")
     lo = q["loudness"]
@@ -632,7 +665,7 @@ def qc_md():
         q["render_cpu_s"] / max(1, sum(t.get("dur", 0) for tm in takes_meta for t in tm["takes"]))))
     L.append("")
     g = q.get("gate", {})
-    L.append("**Condición de entrega** (WER 0 en las 127 oraciones · 7:00-8:00 · 135-170 ppm por beat): "
+    L.append("**Condición de entrega** (WER 0 en todas las oraciones · 7:00-8:00 · 135-170 ppm por beat): "
              + ("**PASA**" if g.get("pass") else "**NO PASA**") + f" — WER 0: {g.get('wer_zero_all')} · duración: {g.get('duration_7_8_min')} · beats fuera de 135-170 ppm: {g.get('beats_135_170') or 'ninguno'}.")
     L.append("")
     L.append("## Duración: por qué no cabe en 8:00 a este ritmo")
@@ -643,7 +676,8 @@ def qc_md():
         p["after"] * man["voice"]["pause_scale"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"][:-1] if p["after"] < 1.0)
     big = sum(sg["after"] for sg in man["segments"] if sg["after"] >= 1.0) + sum(
         p["after"] for sg in man["segments"] if sg["voiced"] for p in sg["pieces"][:-1] if p["after"] >= 1.0)
-    end_start = next(sg["start"] for sg in man["segments"] if sg["beat"] == "end")
+    end_start = next((sg["start"] for sg in man["segments"] if sg["beat"] == "end"),
+                     man["segments"][-1]["start"] + man["segments"][-1]["dur"])
     L.append(f"- Voz (las 127 oraciones, con sus pausas internas): **{sp:.0f} s** → {q['words_voiced'] / sp * 60:.0f} ppm medidos sobre la voz.")
     L.append(f"- Respiraciones antes de las citas y de las cifras: {pre:.0f} s · pausas entre oraciones (< 1 s, ya ×{man['voice']['pause_scale']}): {small:.0f} s · "
              f"pausas del guion (gags, sello 5 s, silencio de 5 s del beat 23, 3 s antes de la pantalla final): {big:.0f} s · pantalla final: 20 s.")
@@ -705,6 +739,13 @@ def main():
     if "--rows" in flags:
         a, b = flags[flags.index("--rows") + 1].split("-")
         only = (int(a), int(b))
+    global SCRIPT_SRC
+    if "--drop-beats" in flags:
+        DROP_BEATS.update(x for x in flags[flags.index("--drop-beats") + 1].split(",") if x)
+        args = [x for x in args if x != flags[flags.index("--drop-beats") + 1]]
+    if "--script" in flags:
+        SCRIPT_SRC = str((Path.cwd() / flags[flags.index("--script") + 1]).resolve())
+        args = [x for x in args if x != flags[flags.index("--script") + 1]]
     stage = args[0] if args else "all"
     if stage in ("render", "all"):
         render(takes, only)

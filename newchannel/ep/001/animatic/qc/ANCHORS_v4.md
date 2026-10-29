@@ -88,3 +88,26 @@ pantalla**. Comprobación visual pendiente en el próximo render de E2 (con la v
    tarea:" (mover B07 de `Los` a `Una`), beat 15 "contando frenadas y arrancones" (E12), beat 20 "un programa que decide…"
    (G05). Decisión del director, no automática.
 4. Borrar `timings_es_v4_provisional.json` cuando exista el real.
+
+## v5 (2026-10-28): anclas a re-apuntar cuando exista la voz de David
+
+El guion v5 (punch-up de humor + final sin etiqueta) **no** está en la narración Qwen de la vista previa (v4 sin la
+etiqueta, 1065 palabras cronometradas). Cuando lleguen los tiempos de David, estas anclas dejan de existir y el bloque
+no arranca hasta re-apuntarlas (palabra → propuesta):
+
+| Bloque | Ancla actual | Qué pasa en v5 | Propuesta |
+|---|---|---|---|
+| C1 `C07_no` | `Eli`#1 beat 09 (narrador) | «Eli va en el diez:» → «Adivina quién va en el diez:» (#5) | `Adivina`#1 beat 09 − 0,1 s |
+| C2 (beat 11) | `Los`#2, `van`#1, `queda`#1 beat 11 | se quita «Los autos se van; el embotellamiento se queda.» (C1) | el plano de esa frase sale o se ancla a `delante`(fin) + `Es`#2 |
+| C2 `D17_hill` | `Ahí`#1 beat 13 | «Ahora llévalo… Ahí, una sola ola» → «Ahora, en una autopista…, una sola ola» (C2) | `sola`#1 beat 13 |
+| D2 `F08_fav` | `Esta`#1 beat 18 | «Esta es la parte favorita» → «La parte favorita de Mila:» (C3) | `parte`#1 beat 18 |
+| D2 (beat 19) | `Los`#2 beat 19 | se quita «Los de atrás ni sienten la ola.» (C4) | `Por`#1 beat 19 («Por una vez») |
+| E1 (beat 20) | `programa`, `acelerar`, `frenar` beat 20 | «: un programa que decide cuándo acelerar y cuándo frenar» → «, que acelera y frena solo» (C6′) | `acelera` / `frena` beat 20 |
+| todos | ids de línea `b<beat>_<i>_<quién>` (`A.LINES`) | #2 y #4 son segmentos nuevos del narrador: los índices de `script_parse` corren desde el beat 3 | regenerar `A.LINES` con los ids nuevos |
+
+Planos que reciben frase nueva (re-cronometrar dentro del plano, sin arte nuevo; la mayoría cae en pausas de gag):
+#1 A `A10_point` · #2 A `A12_nothing` (pausa del pajarito) · #3 B `B01_drag` · #4 B `B15_yell` (pausa de hombros) · #5 C1
+`C06_cascade`/`C07_no` · #6 C2 `D05_late` (Eli de pie solo en la grada) · #7 D1 `E13_pull` · #8 D1 `E18_one` · #9 D2 `F11_gap`
+(cuadro «¡Hay un hueco! ¡Cabe una casa!») · #10 D2 `F19_late` (palmadita) · #11 D2 `F23_dome40` · #12 E1 `G04_bridge` (dedos) ·
+#13 E1 `G19_profile` (ola del puente) · #14 E2 `H01_same` · #15 D2 `F01_knob` (la perilla) · #16 E2 `J03_calm` (antes del wordmark).
+El cierre de E2 (escena del título 20 s) ya está anclado a `Puntos` (fin) + 1,9 s + 20 s y no cambia.

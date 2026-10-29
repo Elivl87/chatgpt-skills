@@ -64,10 +64,12 @@ const samples = await page.evaluate(() => {
   const add = (t, why) => { if (t >= t0 && t < t1 - 0.02) out.push({ t: t - t0, why }); };
   // never sample inside a dissolve (two shots blended at partial alpha): faces there are transitional by design
   const inXf = te => shots.some(s => s.xf && te >= s.start && te < s.start + s.xf + 0.03);
+  // nor inside a declared fade to black (shot.fade, e.g. E2 K06_fade, 2026-10-28): the whole picture darkens by design
+  const inFade = te => shots.some(s => s.fade && te >= s.start && te < s.end);
   for (const s of shots) { const d = s.end - s.start; add(s.start + Math.max(Math.min(0.25, d * 0.2), (s.xf || 0) + 0.06), 'start'); add((s.start + s.end) / 2, 'mid'); add(s.end - Math.min(0.15, d * 0.12), 'end'); }
   for (const w of A.words) if ((w.speaker === 'eli' || w.speaker === 'mila') && w.start >= t0 && w.start < t1) add(w.start + Math.min(0.12, (w.end - w.start) / 2), 'line:' + w.speaker + ':' + w.word);
   for (const c of cues) add(c.t + 0.12, 'cue:' + c.kind);
-  for (let k = out.length - 1; k >= 0; k--) if (inXf(out[k].t + t0)) out.splice(k, 1);
+  for (let k = out.length - 1; k >= 0; k--) if (inXf(out[k].t + t0) || inFade(out[k].t + t0)) out.splice(k, 1);
   out.sort((a, b) => a.t - b.t);
   const ded = []; for (const s of out) { const p = ded[ded.length - 1]; if (p && s.t - p.t < 0.22) { if (s.why.startsWith('line') && !p.why.startsWith('line')) p.why = s.why; continue; } ded.push(s); }
   for (const s of ded) { const te = s.t + t0; const sh = shots.find(x => te >= x.start && te < x.end) || shots[shots.length - 1]; s.shot = sh.id; }

@@ -18,7 +18,8 @@ Sections (beat ids from the script; the score follows the acts):
     act 3  beats 14-19    curious again, warmer (piano/guitar) from beat 18 "una persona paciente"
     act 4  beats 20-21    "Ruta dorada" again, fuller (cello line)
     act 5  beats 22-23    "Ruta dorada", softer
-    lift   beat 24 + end card   the small lift: strings open up, glock + celesta motif, final cadence on G
+    lift   beat 24 + end card   the small lift: strings open up, glock + celesta motif, final cadence on G (v5: the
+           end card is the title scene held after beat 24; the closing section starts 2.5 s after «Puntos»)
 
 Voice band: no sustained part above ~1 kHz except the sparse glock/celesta motif; the render is high-passed at 40 Hz and
 carved -2.5 dB at 2-3.5 kHz here (the mixer carves a further -3 dB while the narrator speaks and ducks the bed).
@@ -46,7 +47,9 @@ SR = S.SR
 CACHE = os.environ.get("TTD_SCORE_CACHE", "/tmp/claude-0/cine_suave_cache")
 TIMINGS = HERE.parent / "timings_es.json"
 WM_LAND = 0.32 + 2.02   # wordmark: the dot lands 2.34 s after «aparente» ends (mirrors shots_blockA.js tWM + WM.land)
-END_CARD = 20.0         # end card length after the last beat's first word (script: "Pantalla final ... 20 s")
+END_CARD = 20.0         # end card length after the last beat's first word (script v4: "Pantalla final ... 20 s")
+END_HOLD = 21.9         # script v5 (no end-card beat): the title scene holds from the last word to tagline (+1.9 s) + 20 s
+END_RESOLVE = 2.5       # v5: the closing section (bars, then the long G) starts this long after the last word
 
 # ------------------------------------------------------------------------------------------------ notes / chords
 
@@ -187,13 +190,14 @@ def sections(timings_path):
 
     t_ent = word_time(W, "Entonces", "04") - 0.3
     t_wm = last["04"] + 0.32
-    end = first[order[-1]] + END_CARD
+    has_card = order[-1] == "end"            # v4 had an end-card beat; v5 ends on the title scene (animatic E2 t1)
+    end = first[order[-1]] + END_CARD if has_card else last[order[-1]] + END_HOLD
     marks = [("hook", 0.0, "01"), ("hush", beat_or_next("03"), "03"), ("ask", t_ent, "04"), ("sting", t_wm, "05")]
     for b in order:
         if not b.isdigit() or int(b) < 6:
             continue
         marks.append(("beat", lead(b), b))
-    marks.append(("end", lead(order[-1]), order[-1]))
+    marks.append(("end", lead(order[-1]), order[-1]) if has_card else ("end", last[order[-1]] + END_RESOLVE, "end"))
     marks.sort(key=lambda m: m[1])
     out = []
     for i, (kind, t0, b) in enumerate(marks):

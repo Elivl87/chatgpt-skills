@@ -1,6 +1,6 @@
 {
  "engine": "qwen3tts",
- "script": "SCRIPT_ES419.md v4 (locked 2026-10-23)",
+ "script": "SCRIPT_ES419.md v4.2 (2026-10-28): takes of SCRIPT_ES419_v4.md, beats left out: end",
  "voice": {
   "model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice bf16",
   "speaker": "ryan",
@@ -31,7 +31,7 @@
  "loudness": {
   "I": -16.0,
   "TP": -2.1,
-  "LRA": 3.1,
+  "LRA": 3.0,
   "gain_db": 10.9
  },
  "segments": [
@@ -4703,96 +4703,6 @@
     }
    ],
    "dur": 14.1639
-  },
-  {
-   "name": "bend_57_narrator",
-   "beat": "end",
-   "speaker": "narrator",
-   "voiced": true,
-   "text": "La próxima vez: ¿por qué los buses llegan de a tres?",
-   "start": 494.2827,
-   "after": 0.51,
-   "gain_db": 0.0,
-   "pieces": [
-    {
-     "text": "La próxima vez: ¿por qué los buses llegan de a tres?",
-     "tts": "La próxima vez: ¿por qué los buses llegan de a tres?",
-     "instruct": "Exclamative and projected, excited, like telling a friend a surprise, with the energy of a character's line; never calm, never flat. Smiling, lively intonation, neutral Latin American Spanish accent. Teaser for the next episode: playful intrigue, the question truly asked.",
-     "tag": "teaser",
-     "rate": 1.5,
-     "stretch": 0.875,
-     "pace_fix": 0.875,
-     "wpm_take": 188.5,
-     "wpm_final": 165.0,
-     "wer": 0.0,
-     "errors": [],
-     "heard": "La próxima vez. ¿Por qué los buses llegan de A3?",
-     "tries": 3,
-     "correct_takes": 3,
-     "seed": 33254,
-     "energy": 2.011,
-     "measure": {
-      "pitch_range_st": 13.74,
-      "pitch_std_st": 4.49,
-      "melody_std_st": 3.44,
-      "energy_std_db": 9.62,
-      "f0_median_hz": 133.1,
-      "speech_s": 3.45
-     },
-     "wpm": 191.3,
-     "rtf": 7.45,
-     "pre": 0.0,
-     "after": 0.6,
-     "start": 494.2827,
-     "dur": 4.0002
-    }
-   ],
-   "dur": 4.0002
-  },
-  {
-   "name": "bend_58_eli",
-   "beat": "end",
-   "speaker": "eli",
-   "voiced": true,
-   "text": "¡¿Quién fue?!",
-   "start": 499.0478,
-   "after": 0.0,
-   "gain_db": 2.5,
-   "pieces": [
-    {
-     "text": "¡¿Quién fue?!",
-     "tts": "¡¿Quién fue?!",
-     "instruct": "Exclamative and projected, excited, like telling a friend a surprise, with the energy of a character's line; never calm, never flat. Smiling, lively intonation, neutral Latin American Spanish accent. Quoting an impatient, indignant friend: louder, exasperated, incredulous; the narrator's own voice, no cartoon.",
-     "tag": "eli_indignado",
-     "rate": 1.55,
-     "stretch": 1.0,
-     "pace_fix": 1.0,
-     "wpm_take": 193.5,
-     "wpm_final": 193.5,
-     "wer": 0.0,
-     "errors": [],
-     "heard": "¿Quién fue?",
-     "tries": 5,
-     "correct_takes": 3,
-     "seed": 49189,
-     "energy": 1.404,
-     "measure": {
-      "pitch_range_st": 5.55,
-      "pitch_std_st": 1.96,
-      "melody_std_st": null,
-      "energy_std_db": 8.91,
-      "f0_median_hz": 322.2,
-      "speech_s": 0.6
-     },
-     "wpm": 200.0,
-     "rtf": 13.71,
-     "pre": 0.255,
-     "after": 0.0,
-     "start": 499.0478,
-     "dur": 0.62
-    }
-   ],
-   "dur": 0.62
   }
  ]
 }

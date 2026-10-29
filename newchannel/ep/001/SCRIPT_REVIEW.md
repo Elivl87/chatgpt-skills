@@ -257,3 +257,32 @@ puntuaciones de la sección 3 (claridad 9, humor 9, datos 10…) siguen vigentes
 
 **Veredicto v4: APROBADO Y BLOQUEADO (Claude, 2026-10-23).** Se usa palabra por palabra para la voz nueva, los cuadros de
 texto y el animatic; cualquier cambio posterior va como propuesta formal.
+
+## 6 · v5: humor hablado 6 → 8,5 (propuesta independiente), aprobado por Claude (2026-10-28)
+
+Fuente: `HUMOR_PUNCHUP.md` (revisor de comedia independiente, sobre v4). Pregunta del Productor: «quiero que le dé risa a
+la gente, que lo disfrute mientras aprende… aprovechemos a nuestro narrador». Diagnóstico: lo visual 9/10, lo que se OYE
+6/10 (el narrador casi nunca reacciona; huecos sin chiste hablado de hasta ≈ 100 s entre 5:42 y 7:21). Claude, como
+director, aprobó y aplicó el 2026-10-28 → **v5 = `SCRIPT_ES419.md`**, bloqueado; v4 queda en `SCRIPT_ES419_v4.md`:
+
+- **Los 16 punch-ups (#1-#16)**: apartes de 1-9 palabras que señalan gags ya animados, callbacks hablados de «siempre» y
+  «tarde», «En nuestra versión, alguien la sube silbando» (quien solo escucha ahora sabe que Eli subió la perilla) y
+  «Hasta Eli» como última sonrisa ahora que no hay etiqueta. 14 de 16 funcionan con los ojos cerrados.
+- **Recortes C1, C2, C3, C4, C5, C7** tal cual. **C6 no** como estaba escrito: se conserva la explicación del control de
+  crucero, corta («…con un control de crucero inteligente, que acelera y frena solo.»), y por eso #3, #5 y #12 van completos.
+- En la misma versión: el final sin etiqueta (decisión del Productor del 2026-10-28: los episodios no anuncian el
+  siguiente; termina en la escena del título sostenida 20 s) y «Mila, su pareja».
+- La dirección de David (eleven_v4, una etiqueta por remate; curva emocional por beat) quedó en el guion, sección
+  «Dirección del narrador · David».
+
+| Criterio | v4 | **v5** | Por qué |
+|---|---|---|---|
+| Humor hablado | 6 | **8,5** | Un chiste hablado cada ≈ 15-30 s; hueco más largo ≈ 36 s (2:59 → 3:35), limpio a propósito porque termina en «la razón ya se fue a cenar». No llega a 9 porque el ajá central (beats 12-16) sigue siendo explicación limpia, y está bien. |
+| Humor visual | 9 | **9** | Sin arte nuevo; se percibe más porque la voz lo señala. Solo cambia el cuadro de #9 («¡Cabe una casa!»). |
+| Claridad | 9 | **9** | Los apartes van después de cada ajá (#7 tras el resorte), nunca dentro. C1/C4 quitan redundancias. |
+| Datos | 10 | **10** | Ningún número, fuente ni matiz cambia; cada frase tocada cotejada con `FACTS.md` (#44). C4 quita una frase que era más fuerte que la fuente. |
+| Duración | 7 | **7** | +42 palabras netas (1008 → 1050), seis apartes caen en pausas que hoy son silencio: ≈ +9-11 s de pista, compensados en parte por la etiqueta que se va (≈ 5 s). Estimación ≈ 8:40-8:45 al ritmo Qwen; la cifra real la da David. |
+
+**Veredicto v5: APROBADO Y BLOQUEADO (Claude, 2026-10-28).** Se usa palabra por palabra para la voz de David (ElevenLabs,
+tras la aprobación del gasto por el Productor), los cuadros de texto y el animatic. La narración Qwen de la vista previa
+sigue en v4 sin la etiqueta (sin punch-up y con «su amiga»): se reemplaza con el render de David.

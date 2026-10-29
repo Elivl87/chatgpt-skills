@@ -1,12 +1,12 @@
 {
  "block": "E2",
  "tag": "after",
- "samples": 96,
- "faces": 188,
+ "samples": 82,
+ "faces": 160,
  "eyes": {
-  "pass": 238,
+  "pass": 196,
   "fail": 0,
-  "closed": 30,
+  "closed": 16,
   "covered": 0,
   "fading": 4,
   "tiny": 0,

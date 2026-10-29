@@ -65,7 +65,7 @@
   }
 
   // animatic hooks (optional): opt.wm overrides the gag timing (E.WM), opt.eli(o, tl, W) / opt.mila(o, tl, W) adjust
-  // the acting options after the defaults are set.
+  // the acting options after the defaults are set, opt.fg moves the foreground (see below).
   E.drawWordmark = function (ctx, tl, frame, opt = {}) {
     if (!Bw) Bw = build(ctx);
     const lay = Bw.lay, x0 = (K.W - lay.width) / 2, y0 = BASE_Y;
@@ -82,6 +82,9 @@
       K.circle(ctx, x, y - 2, 2.2); ctx.fill(); K.light.glow(ctx, x, y - 2, 10, red ? '#ff3a28' : '#fff1c8', 0.35, 'screen'); }
     // sun just under the horizon -> rays fanning up behind the letters
     K.light.rays(ctx, 960, Bw.HZ + 20, { n: 14, spread: 2.6, angle: -Math.PI / 2, len: 1200, width: 0.045, alpha: 0.09, color: '#ffd9a0', t: tl, seed: 12 });
+    // opt.fg = { s, dy } (animatic end screen, 2026-10-28): the letters, the pair, the dot and the tagline scale by s about
+    // the baseline centre and rise by dy (design px); the sky, hills, trees and valley road stay put
+    if (opt.fg) { ctx.save(); ctx.translate(K.W / 2, BASE_Y + opt.fg.dy); ctx.scale(opt.fg.s, opt.fg.s); ctx.translate(-K.W / 2, -BASE_Y); }
     const per = k => { const u = K.ease.outBack(K.clamp((tl - 0.05 - k * 0.035) / 0.5)); return { dy: (1 - u) * 60, a: K.clamp((tl - 0.05 - k * 0.035) / 0.3) }; };
     K.type.drawBaked(ctx, lay, Bw.baked, x0, y0, { perGlyph: per });
     // plain tittle of "Diez"
@@ -136,6 +139,7 @@
       ctx.fillText('Pequeños sistemas, explicados con puntos.', K.W / 2 + 2, y0 + 96 + (1 - ta) * 12 + 3);
       ctx.fillStyle = '#fbe9cf'; ctx.fillText('Pequeños sistemas, explicados con puntos.', K.W / 2, y0 + 96 + (1 - ta) * 12); ctx.restore();
     }
+    if (opt.fg) ctx.restore();
     ctx.restore();
     K.particles.motes(ctx, tl, { n: 40, seed: 91, color: '#ffe6b0', alpha: 0.5, size: 2.2, vx: 5, vy: -6 });
     K.light.grade(ctx, '#ff9a5a', 0.15, 'soft-light');

@@ -1,39 +1,37 @@
-# EP001 · Narración con Qwen3-TTS «Ryan» · QC · 2026-10-24
+# EP001 · Narración con Qwen3-TTS «Ryan» · QC · 2026-10-28
 
 Guion v4 bloqueado, palabra por palabra; dirección oración por oración de `DIRECCION_NARRADOR_v4.md` (registro exclamativo aprobado por el Productor). Las citas de Eli y Mila las dice el narrador; «¿Qué?», «¡Dale, dale!» y «¡Nooo!» son solo cuadro (hueco de silencio).
 
-**Para escuchar:** `qwen/preview_narracion_es.mp3` (8:34.3, 48 kbps, 3.1 MB).
+**Para escuchar:** `qwen/preview_narracion_es.mp3` (8:33.2, 48 kbps, 3.1 MB).
 
 ## Resumen
 
 | | Qwen3-TTS Ryan (esta pista) | Objetivo |
 |---|---|---|
-| Duración total (con pantalla final de 20 s) | **8:34.3** (514.28 s) | 7:30-8:00 |
-| Palabras locutadas | 1074 | 1074 (guion) |
-| Ritmo (palabras / segundos con voz) | **172.4 ppm** · dentro de las oraciones 156.1 ppm | 145-155 ppm |
-| Sonoridad / pico (stem) | **-16.0 LUFS · TP -2.1 dBTP** · LRA 3.1 | −16 LUFS, TP ≤ −2 (la mezcla final lleva a −14) |
-| WER por oración (Whisper small, normalizador de producción) | **0 errores en 127 oraciones** | 0 |
+| Duración total (con el cierre: escena del título 20 s) | **8:33.2** (513.18 s) | 7:30-8:00 |
+| Palabras locutadas | 1061 | 1074 (guion) |
+| Ritmo (palabras / segundos con voz) | **172.1 ppm** · dentro de las oraciones 155.9 ppm | 145-155 ppm |
+| Sonoridad / pico (stem) | **-16.0 LUFS · TP -2.1 dBTP** · LRA 3.0 | −16 LUFS, TP ≤ −2 (la mezcla final lleva a −14) |
+| WER por oración (Whisper small, normalizador de producción) | **0 errores en 125 oraciones** | 0 |
 | WER de la pista completa por beat (re-escucha del montaje) | 10: 6.0%, 12: 4.2%, 13: 1.4%, 14: 1.6%, 19: 4.8%, 20: 1.6%, 22: 2.0% | informativo |
-| Tomas generadas / retomas | 513 tomas para 127 oraciones · **386 retomas** (tomas extra por WER o por energía) | ≥ 2-3 correctas por oración |
-| Ajuste de ritmo en montaje (tempo con tono intacto) | 98 oraciones llevadas a 150-165 ppm: 64 aceleradas (máx. ×1.30), 34 frenadas (mín. ×0.85); pausas entre oraciones ×0.85 | ritmo 145-155 (Productor) · 135-170 por beat (coordinador) |
+| Tomas generadas / retomas | 505 tomas para 125 oraciones · **380 retomas** (tomas extra por WER o por energía) | ≥ 2-3 correctas por oración |
+| Ajuste de ritmo en montaje (tempo con tono intacto) | 97 oraciones llevadas a 150-165 ppm: 64 aceleradas (máx. ×1.30), 33 frenadas (mín. ×0.85); pausas entre oraciones ×0.85 | ritmo 145-155 (Productor) · 135-170 por beat (coordinador) |
 | Tiempo de render | CPU de síntesis 5.66 h (3 hilos, RTF ≈ 9.8) | ~1-1,5 h previstas |
 
-**Duración aceptada por el director 2026-10-24** (8:34; la condición 7:00-8:00 era del coordinador, no del Productor, cuya prioridad es ritmo ≈150 y voz que mantenga audiencia; recortes nivel B del guion en reserva). Pista instalada como `audio/narration_es.wav` + `timings_es.json` + `segments_es.json` (anteriores: `*_chatterbox.*`).
-
-**Condición de entrega** (WER 0 en las 127 oraciones · 7:00-8:00 · 135-170 ppm por beat): **NO PASA solo en duración (aceptada)** — WER 0: True · duración: False · beats fuera de 135-170 ppm: ninguno.
+**Condición de entrega** (WER 0 en todas las oraciones · 7:00-8:00 · 135-170 ppm por beat): **NO PASA** — WER 0: True · duración: False · beats fuera de 135-170 ppm: ninguno.
 
 ## Duración: por qué no cabe en 8:00 a este ritmo
 
-- Voz (las 127 oraciones, con sus pausas internas): **413 s** → 156 ppm medidos sobre la voz.
-- Respiraciones antes de las citas y de las cifras: 13 s · pausas entre oraciones (< 1 s, ya ×0.85): 44 s · pausas del guion (gags, sello 5 s, silencio de 5 s del beat 23, 3 s antes de la pantalla final): 29 s · pantalla final: 20 s.
-- Fin del beat 24 en 8:14.3; total 8:34.3. El propio guion v4 estimaba ≈ 8:08-8:27 con pausas (SCRIPT_ES419.md, cabecera). Para terminar en 8:00 haría falta la voz a ≈ 170 ppm con estas pausas, o recortar las pausas entre oraciones a ~0,25 s (×0,6) y subir la voz a ≈ 165 ppm: las dos cosas chocan con el ritmo que aprobó el Productor (≈150 ppm, «el ritmo estaba mejor») y con la biblia (el chiste vive en la pausa).
+- Voz (las 127 oraciones, con sus pausas internas): **408 s** → 156 ppm medidos sobre la voz.
+- Respiraciones antes de las citas y de las cifras: 12 s · pausas entre oraciones (< 1 s, ya ×0.85): 43 s · pausas del guion (gags, sello 5 s, silencio de 5 s del beat 23, 3 s antes de la pantalla final): 29 s · pantalla final: 20 s.
+- Fin del beat 24 en 8:11.3; total 8:33.2. El propio guion v4 estimaba ≈ 8:08-8:27 con pausas (SCRIPT_ES419.md, cabecera). Para terminar en 8:00 haría falta la voz a ≈ 170 ppm con estas pausas, o recortar las pausas entre oraciones a ~0,25 s (×0,6) y subir la voz a ≈ 165 ppm: las dos cosas chocan con el ritmo que aprobó el Productor (≈150 ppm, «el ritmo estaba mejor») y con la biblia (el chiste vive en la pausa).
 - Mando: `QWEN_PACE=lo-hi` (ventana de ppm por oración) y `QWEN_PAUSE_SCALE=x` en `build_voice_qwen.py assemble` re-montan sin volver a sintetizar (≈ 1 min). Decisión pendiente del director/Productor: 8:34 a 150-165 ppm (esta pista) o 8:00 a ~170 ppm.
 
 ## Energía frente a la referencia que gustó
 
 Referencia: /tmp/claude-0/engines/out/qwen_a.wav 55.0-75.0s → rango tonal 15.62 st · melodía 3.68 st · energía 8.5 dB. Rango = p95−p5 del f0 en semitonos; melodía = desviación del tono medio por segundo; energía = desviación del nivel RMS (dB).
 
-**Pista completa:** rango **13.6 st** · melodía **3.93 st** · energía **6.67 dB** · f0 mediana 139.4 Hz · 243 pausas (media 0.47 s).
+**Pista completa:** rango **13.6 st** · melodía **3.87 st** · energía **6.67 dB** · f0 mediana 139.4 Hz · 240 pausas (media 0.46 s).
 
 | Beat | Inicio | Tramo | ppm | Rango st | Melodía st | Energía dB | WER | Retomas | Oraciones con WER > 0 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -60,7 +58,6 @@ Referencia: /tmp/claude-0/engines/out/qwen_a.wav 55.0-75.0s → rango tonal 15.6
 | 22 | 7:21.9 | 19.61 s | 169.9 | 11.17 | 3.08 | 6.75 | 0.0204 | 17 | — |
 | 23 | 7:41.5 | 15.58 s | 151.9 | 11.9 | 3.32 | 6.33 | 0.0 | 15 | — |
 | 24 | 7:57.1 | 17.16 s | 154.5 | 14.38 | 4.0 | 6.18 | 0.0 | 17 | — |
-| end | 8:14.3 | 5.39 s | 168.8 | 20.91 | 7.01 | 6.17 | 0.0 | 6 | — |
 
 ## Por oración (toma conservada)
 

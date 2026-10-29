@@ -1,4 +1,4 @@
-# QC · Block E2 (Act 5 + finale + end screen: beats 22-24, end card) · draft 854x480 · 2026-10-15
+# QC · Block E2 (Act 5 + finale + end screen: beats 22-24, title-scene hold) · draft 854x480 · 2026-10-15
 
 **Files:** `blockE2_draft.mp4` (70.47 s = narration 408.69 → 479.15, the end of the episode, 9.2 MB) ·
 `blockE2_contact_small.jpg` · `qc/QC_blockE2.md`, `qc/shots_blockE2.md`. Rebuild: `build_block.sh E2 draft`.
@@ -35,13 +35,18 @@
   - **Wordmark payoff** (new kit option `opt.catch` in `E.drawWordmark`): Mila flicks the dot and Eli **catches it on
     time** at the end of «Puntos». Close-up of the catch (awe), then he places it on the i himself («tin»), fist bump,
     tagline.
-- **End screen (20 s):**
-  - Our own bus stop (shelter, pictogram sign, no brands). Eli impatient, with a thought balloon holding a ticking clock.
-  - **Three buses arrive together** on «tres» (three «pshh»), badge «3 de a tres». Eli on the bench «¡¿QUIÉN FUE?!»
-    (mouth synced). Mila shrugs to camera.
-  - Then they sit on the left while the right 55 % stays clear for the YouTube end-screen elements (dashed placeholders,
-    animatic only). The buses leave; a fourth bus goes by without stopping (Eli jumps up waving, then sits back
-    sheepish). The bird lands on the stop sign and raises a wing. Both laugh.
+- **End screen (20 s) — v5, 2026-10-28 (Producer: no next-episode tag; the bus stop K01-K07 and its helpers are gone):**
+  - The sunset title scene of J04-J06 simply **holds**: same sky, hills, trees and valley road, the wordmark with the
+    dot on the i, the tagline, Eli and Mila on the letters. One continuous camera from J06 to the end (push 1.2 % + sway
+    ~0.5 %); K01-K06 are acting beats on that one camera, with no visible cut.
+  - 1.0-3.5 s after the tagline the foreground (letters, pair, dot, tagline: `wordmark_end.js` `opt.fg`) eases to 82 %
+    and 170 px up, leaving the lower half (y > ~490 of 1080) clear for the YouTube end-screen elements (two faint dashed
+    16:9 guides at 600x338, animatic only). The centred wordmark at full size left only ~380 px below the tagline.
+  - Idle acting only: they look at each other, Eli bobs on his heels, both glance down at the valley, Mila folds her arms
+    (smug) and Eli puts a hand on his hip, a smile to camera; Mila's ponytail in the breeze (`drag`); blinks.
+  - The score (`compose_score.py`, no end-card beat → closing section 2.5 s after «Puntos») plays a few bars and resolves
+    on a long G; the last 1.0 s fades to black (`K06_fade`, declared `fade`: the face audit does not sample inside it).
+  - Timing: E2 `t1` = end of «Puntos» + 1.9 s (tagline) + 20 s. No anchor to the removed 'end' words.
 
 ## Measured
 
