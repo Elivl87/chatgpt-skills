@@ -11,3 +11,5 @@ Pista: `ep/001/audio/narration_es.wav` (487,34 s, −16 LUFS). Revisión complet
    vez de antes de «Pasan». **Corregido**: los 0,60 s de silencio se movieron al hueco real tras «crece» (402,23 s).
    La frase vuelve a ser continua y el cuadro «¡Nooo!» queda en silencio limpio. Tras el arreglo: 0 caídas bruscas.
 3. Retoma beat 4 («Mía» → «Mila») ya aplicada; beat 2 «el anterior» ya no aparece como dudoso.
+
+4. v5c (2026-10-29): «una quinta parte» (≈330 s) lo transcribe Whisper medium como «quinta pata» (sesgo por el refrán). El Productor lo escuchó: dice «parte». Sin retoma.
