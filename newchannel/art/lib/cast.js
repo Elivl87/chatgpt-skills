@@ -111,7 +111,7 @@
   // morphological opening of the alpha mask) outside the head and hand zones = stray strokes, cords and stubs poking out
   function bodyStats(B, ox, oy, X) {
     const w = B.c.width, h = B.c.height, d = B.ctx.getImageData(0, 0, w, h).data;
-    let x0 = w, y0 = h, x1 = -1, y1 = -1, n = 0; const cl = { yellow: 0, purple: 0, mustard: 0, green: 0, blue: 0, brown: 0, white: 0, vermilion: 0, pale: 0 };
+    let x0 = w, y0 = h, x1 = -1, y1 = -1, n = 0; const cl = { yellow: 0, purple: 0, mustard: 0, green: 0, blue: 0, brown: 0, white: 0, vermilion: 0, pale: 0, red: 0 };
     const PAL = root.__clothesPal ? Object.entries(root.__clothesPal).map(([k, v]) => [k, parseInt(v.slice(1, 3), 16), parseInt(v.slice(3, 5), 16), parseInt(v.slice(5, 7), 16)]) : null;
     const pal = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palRaw = PAL ? Object.fromEntries(PAL.map(q => [q[0], 0])) : null, palY = PAL ? Object.fromEntries(PAL.map(q => [q[0], [1e9, -1e9]])) : null;
     const M = new Uint8Array(w * h), LB = PAL ? new Int8Array(w * h).fill(-1) : null;
@@ -132,6 +132,7 @@
       else if (hu >= 120 && hu < 170 && sat > 0.3) cl.green++;
       else if (hu >= 205 && hu < 235 && sat > 0.3) cl.blue++;
       else if (hu >= 240 && hu < 290 && sat > 0.25) cl.purple++;
+      else if ((hu >= 335 || hu < 2) && sat > 0.45 && mx > 0.28) cl.red++;   // canonical look (2026-10-29): wine flannel + red cap
     }
     // a garment pixel counts only inside its own colour (all 4 neighbours the same): anti-aliased ink edges never fake a part
     if (PAL) for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const j = y * w + x, q = LB[j];

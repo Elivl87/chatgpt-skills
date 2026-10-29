@@ -40,14 +40,18 @@
   }
   const scroll = (ctx, layer, shift) => { const off = -(((shift % TW) + TW) % TW); ctx.drawImage(layer.c, off, 0); ctx.drawImage(layer.c, off + TW, 0); };
 
-  // c: { simT, camS (metres at screen centre), pxm (px per metre at the road), z (extra zoom about the road), carOver(ctx, i, x, y, s, S),
+  // c: { simT, camS (metres at screen centre), pxm (px per metre at the road), z (extra zoom about the road), mood ('golden': relit warm), carOver(ctx, i, x, y, s, S),
   //      eli(ctx, sx, sy, s) (draw Eli at the wheel), chars(ctx, toX), drivers(i, b, stopped) -> expr }
   A.line = function (ctx, t, c) {
     if (!L) build();
     const R = c.run || A.s3(), S = R.at(c.simT), pxm = c.pxm || 11, GY = A.LINE.GY, camS = c.camS, ELI_I = c.eliI ?? A.LINE.ELI;
     const toX = s => 960 + (s - camS) * pxm;
     ctx.drawImage(L.sky.c, 0, 0);
-    K.sky.drawClouds(ctx, L.clouds, t, { dx: -camS * 0.6 });
+    if (c.mood === 'golden') { const g = ctx.createLinearGradient(0, 0, 0, 640); g.addColorStop(0, '#6d74a8'); g.addColorStop(0.45, '#c08fa6'); g.addColorStop(0.78, '#f2a97e'); g.addColorStop(1, '#ffdca2');
+      ctx.save(); ctx.globalAlpha = 0.88; ctx.fillStyle = g; ctx.fillRect(0, 0, K.W, 660); ctx.restore(); K.sky.sun(ctx, 1520, 520, 40, { core: '#fff3d0', halo: '#ffd08a', glow: 520, glowAlpha: 0.55, rings: 3, ringStep: 0.9, ringAlpha: 0.06 }); }
+    if (c.mood === 'golden' && !L.cloudsG) L.cloudsG = L.clouds.map(q => Object.assign({}, q, { o: Object.assign({}, q.o, { ang: K.sky.angTo(q.x, q.y, 1520, 520), color: '#a3849f', shade: '#7a6797', lit: '#f2b896', rim: '#ffe6bc', underLit: '#ffcf98' }) }));
+    K.sky.drawClouds(ctx, c.mood === 'golden' ? L.cloudsG : L.clouds, t, { dx: -camS * 0.6 });
+    if (c.mood === 'golden') K.light.haze(ctx, 520, 640, 700, '#ffd9b0', 0.35, 'soft-light');
     const sh = camS * 11;     // parallax in px (independent of the shot's zoom so layers stay painted at their scale)
     // art review 2026-10 (depth pass, overcast recipe): a soft bright patch where the sun hides in the cloud deck, and the
     // horizon as the brightest band of the land (atmospheric perspective)
@@ -80,7 +84,9 @@
     }
     if (c.chars) c.chars(ctx, toX, S);
     K.particles.motes(ctx, t, { n: 26, seed: 41, color: '#ffffff', alpha: 0.35, size: 2.0, vx: 5, vy: -2, y0: 80, y1: 820 });   // art review 2026-10: air
-    K.light.grade(ctx, '#9fb6c8', 0.12, 'soft-light');
+    if (c.mood === 'golden') {   // art review P1-4 (scene side): the same plates relit as late afternoon, to match the rest of the pilot
+      K.sky.wash(ctx, 1520, 520, 1200, '#ffb070', 0.3); K.light.grade(ctx, '#ff9a5a', 0.24, 'soft-light');
+    } else K.light.grade(ctx, '#9fb6c8', 0.12, 'soft-light');
     return { toX, S };
   };
   // the brake bar over a car: height grows with the strongest braking so far (peak deceleration, true from the sim)
@@ -152,10 +158,10 @@
     else { const r = K.rng(o.seed || 3); ctx.strokeStyle = INK; ctx.lineWidth = Math.max(1.5, s * 0.035); ctx.lineCap = 'round';
       for (let row = 0; row < 3; row++) { ctx.beginPath(); let xx = -s * 0.75; const yy = -s * 0.32 + row * s * 0.3; ctx.moveTo(xx, yy);
         while (xx < s * (o.doodle ? 0.05 : 0.72)) { xx += s * 0.06; ctx.lineTo(xx, yy + (r() - 0.5) * s * 0.14); } ctx.stroke(); }
-      if (o.doodle) { // a little Eli: capsule head, yellow beanie, angry brows
+      if (o.doodle) { // a little Eli: capsule head, cap (canonical colour), angry brows
         ctx.save(); ctx.translate(s * 0.48, s * 0.02); const hs = s * 0.32; ctx.fillStyle = K.cast.ELI_SKIN; ctx.lineWidth = Math.max(1.5, s * 0.03);
         K.rrect(ctx, -hs * 0.55, -hs * 0.7, hs * 1.1, hs * 1.5, hs * 0.5); ctx.fill(); ctx.stroke();
-        ctx.fillStyle = '#f2c230'; K.rrect(ctx, -hs * 0.62, -hs * 0.95, hs * 1.24, hs * 0.55, hs * 0.25); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = (K.cast.CANON_COLORS && K.cast.CANON_COLORS.eliHat) || '#f2c230'; K.rrect(ctx, -hs * 0.62, -hs * 0.95, hs * 1.24, hs * 0.55, hs * 0.25); ctx.fill(); ctx.stroke();
         ctx.fillStyle = '#fbf7ee'; for (const sg of [-1, 1]) { K.circle(ctx, sg * hs * 0.22, -hs * 0.1, hs * 0.15); ctx.fill(); ctx.stroke(); }
         ctx.fillStyle = INK; for (const sg of [-1, 1]) { K.circle(ctx, sg * hs * 0.22, -hs * 0.08, hs * 0.06); ctx.fill(); }
         ctx.beginPath(); ctx.moveTo(-hs * 0.4, -hs * 0.36); ctx.lineTo(-hs * 0.08, -hs * 0.26); ctx.moveTo(hs * 0.4, -hs * 0.36); ctx.lineTo(hs * 0.08, -hs * 0.26); ctx.stroke();

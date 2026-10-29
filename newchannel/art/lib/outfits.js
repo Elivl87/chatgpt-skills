@@ -93,6 +93,15 @@
     const xe = d > 0 ? Math.min(xf + len * 0.95, xk + lw2 * 0.6) : Math.max(xf - len * 0.95, xk - lw2 * 0.6);
     const yT = Math.min(kN[1], kF[1], B.hipY) - lw2 - 0.006, yB = Math.max(kN[1], kF[1], B.hipY) + lw2 + (o.drape ?? 0.022), sway = Math.sin(B.t * 1.9 + 0.7) * 0.003;
     const yw = Math.min(y0, yT);   // the waist line also covers the round tops of the thighs at the hip
+    if (Math.min(kN[1], kF[1]) < B.hipY - 0.04) {   // art 2026-10-29: sitting on the GROUND (knees up): a short skirt over the raised thighs, knees and shins (leggings) stay visible
+      const kY = Math.min(kN[1], kF[1]), m = 0.55, xm = K.lerp(xf, xk, m), yTop = K.lerp(y0, kY - lw2, m), yBot = K.lerp(B.hipY + lw2, kY + lw2, m) + 0.012;
+      const skirt = () => { c.beginPath(); c.moveTo(xb, Math.min(y0, B.hipY - 0.03)); c.lineTo(xf, y0); c.quadraticCurveTo(K.lerp(xf, xm, 0.5), yTop - 0.01, xm, yTop);
+        c.quadraticCurveTo(xm + d * 0.016, (yTop + yBot) / 2, xm + d * 0.006 + sway, yBot); c.quadraticCurveTo((xm + xb) / 2, B.hipY + 0.02, xb, B.hipY + 0.012); c.closePath(); };
+      fillStroke(c, B, skirt, col);
+      if (o.pleats) for (const k of [0.4, 0.7]) line(c, B, [[K.lerp(xb, xf, 0.5 + k * 0.5), y0 + 0.02], [K.lerp(xf, xm, k), K.lerp(y0, yBot, k) - 0.006]], 0.22);
+      if (o.belt) { const w0 = B.wB * (1.04 - 0.05 * B.s), cx = B.tcx + d * B.s * B.wB * 0.2; c.fillStyle = o.belt; c.strokeStyle = INK; c.lineWidth = B.lw * 1.3; K.rrect(c, cx - w0 - 0.004, y0 - 0.012, (w0 + 0.004) * 2, 0.02, 0.006); c.fill(); c.stroke(); }
+      return;
+    }
     const path = () => { c.beginPath(); c.moveTo(xb, yw); c.lineTo(xf, yw); c.quadraticCurveTo(xf + d * 0.01, yT, xf + d * 0.03, yT); c.lineTo(xe, yT + 0.002);
       c.quadraticCurveTo(xe + d * 0.012, (yT + yB) / 2, xe + d * 0.006 + sway, yB); c.quadraticCurveTo((xe + xb) / 2, yB + 0.008, xb, B.hipY + 0.012); c.closePath(); };
     fillStroke(c, B, path, col);
@@ -223,7 +232,7 @@
     // build a spec id for (who, n); Eli wears head option 2 (short curls) on the sheets so the headwear stays its own choice
     variant(who, n, head = who === 'eli' ? 2 : 0) {
       const id = `${who}Outfit${n}h${head}`; if (C.SPECS[id]) return id;
-      const base = C.SPECS[who === 'eli' ? 'eli1' : 'mila1'], o = (who === 'eli' ? ELI : MILA)[n].spec(base);
+      const base = C.SPECS[who === 'eli' ? (C.SPECS.eli1_taller ? 'eli1_taller' : 'eli1') : (C.SPECS.mila1_taller ? 'mila1_taller' : 'mila1')], o = (who === 'eli' ? ELI : MILA)[n].spec(base);
       const spec = Object.assign({}, base, o, { torso: Object.assign({}, base.torso, o.torso || {}), arm: Object.assign({}, base.arm, o.arm || {}), boot: o.boot || base.boot });
       if (head && C.ELI_HATS && C.ELI_HATS[head]) { const L = C.ELI_HATS[head].layers(); Object.assign(spec, { hat: L.hat || null, hairBack: L.hairBack || null, hairFront: L.hairFront || null, backHair: L.backHair || null, extraK: L.extraK || base.extraK }); }
       C.define(id, spec); return id;

@@ -1,9 +1,10 @@
-/* Eli + Mila · final model sheet (2026-10-15, Alt 1 "Taller").  ?scene=model_sheet&W=2600&H=1700
+/* Eli + Mila · model sheet. v5 (2026-10-29, design locked): Eli = flannel 3bB + red backwards cap 1a, Mila = outfit 2 (lib/canon.js);
+   the workshop look of 2026-10-15 stays as eli1_taller / mila1_taller.  ?scene=model_sheet&W=2600&H=1700
    Turnaround (front / 3/4 / side / back), height line-up with a round-headed extra, swatches, poses, key expressions,
    talk mouths + blink, and the teal car both ways (Eli driving, Mila driving). */
 (function (root) {
   const K = root.K, C = K.cast;
-  const INK = '#24161a', E_ = 'eli1', M_ = 'mila1', SIG = { eli1: '#c99412', mila1: '#6a4fb3' };
+  const INK = '#24161a', E_ = 'eli1', M_ = 'mila1', SIG = { eli1: '#a8232c', mila1: '#6a4fb3' };
   let BG = null;
   function bg() { if (BG) return BG; BG = K.canvas(K.W, K.H); const c = BG.ctx; K.sky.gradient(c, [[0, '#f7e9d4'], [0.55, '#f2dcc2'], [1, '#e9cbb2']], 0, K.H); K.sky.wash(c, K.W * 0.75, 30, 1300, '#ffd9a0', 0.3);
     K.tex.paint(BG, { amount: 0.3, mottle: { w: 1300, h: 850, sx: 0.003, sy: 0.02, seed: 7, amp: 24 } }); return BG; }
@@ -22,7 +23,7 @@
     draw(ctx, t) {
       ctx.drawImage(bg().c, 0, 0);
       label(ctx, 'Eli + Mila · hoja de modelo final', 24, 56, '700 44px "Space Grotesk"', INK, 'left');
-      label(ctx, 'DIEZ MIL PUNTOS · Alt 1 «Taller» · 2026-10-15 · dibujado 100 % en código (Canvas 2D) · ids: eli1 (alias eli), mila1', K.W - 24, 50, '500 17px "Martian Mono"', 'rgba(60,36,48,0.7)', 'right');
+      label(ctx, 'DIEZ MIL PUNTOS · diseño cerrado 2026-10-29 (traje de casa) · dibujado 100 % en código (Canvas 2D) · ids: eli1, mila1 · taller: eli1_taller, mila1_taller', K.W - 24, 50, '500 17px "Martian Mono"', 'rgba(60,36,48,0.7)', 'right');
       // 1 · turnaround
       panel(ctx, 16, 84, 1720, 600, 'giro · frente / 3/4 / perfil / espalda');
       const gy = 640, u = 470 / 1.12; ground(ctx, 30, 1720, gy);
@@ -36,8 +37,8 @@
         C.draw(ctx, E_, 1930, gy2, u2, { t, light: L(), shadow: 0.25 }); C.draw(ctx, M_, 2140, gy2, u2, { t, light: L(), shadow: 0.25 });
         K.char.person(ctx, 2380, gy2, u2 / 4.1, { t, skin: '#c98a64', hair: '#3a2a22', hairStyle: 'short', shirt: '#8aa0b8', pants: '#4a5266', light: { ang: -0.75, rim: '#fff1d2', shade: '#4a3560' } });
         label(ctx, 'Eli 0,95', 1930, gy2 - 0.95 * u2 - 22, '700 18px "Martian Mono"', SIG.eli1); label(ctx, 'Mila 1,08', 2140, gy2 - 1.08 * u2 - 26, '700 18px "Martian Mono"', SIG.mila1); label(ctx, 'extra 1,00', 2380, gy2 + 30, '600 15px "Martian Mono"', 'rgba(60,36,48,0.6)');
-        const sw = [['#f2c230', 'gorro'], ['#f1ede2', 'playera'], ['#a4713d', 'delantal'], ['#3f5f96', 'jeans'], ['#d9a66c', 'piel Eli'], ['#2b2729', 'botas'],
-          ['#7158b8', 'suéter'], ['#c99633', 'overol'], ['#2f6b45', 'botas'], ['#d9a66c', 'piel Mila'], ['#2e1d22', 'pelo'], ['#f0c24a', 'aretes']];
+        const sw = [['#c62a2f', 'gorra'], ['#7a1f2b', 'franela'], ['#f2c230', 'playera'], ['#6f6a48', 'cargo'], ['#d9a66c', 'piel'], ['#5a3a26', 'botas'],
+          ['#4d6ea6', 'mezclilla'], ['#7158b8', 'falda'], ['#3d2f63', 'leggings'], ['#2f6b45', 'botas'], ['#2e1d22', 'pelo'], ['#f0c24a', 'aretes']];
         sw.forEach(([c, n], k) => { const x = 1810 + (k % 6) * 128, y = 548 + ((k / 6) | 0) * 66; ctx.fillStyle = c; ctx.strokeStyle = 'rgba(40,24,32,0.55)'; ctx.lineWidth = 2; K.circle(ctx, x, y, 15); ctx.fill(); ctx.stroke();
           label(ctx, n, x + 22, y - 2, '600 13px "Martian Mono"', 'rgba(60,36,48,0.85)', 'left'); label(ctx, c, x + 22, y + 14, '500 12px "Martian Mono"', 'rgba(60,36,48,0.6)', 'left'); }); }
       // 3 · poses

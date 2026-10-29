@@ -114,27 +114,28 @@ def block(D, B, QC):
             feet = bool(f.get('foot')) and f['foot'][1] <= H_ - 2 and b['box'][3] >= f['foot'][1] - 0.02 * f.get('u', 0)   # legs in frame
             v = str(f['view']); key = f"{s['shot']} t{s['t']:.2f} {f['id']} {f['pose']}/{v}"
             if hpx >= 60 and b['px'] > 1500:
+                # either look (the one with fewer misses is reported): workshop 2026-10-15 or canonical 2026-10-29 (lib/canon.js)
+                legs = not f.get('seated') and feet and hpx >= 120
                 if f['id'] == 'eli1':
-                    if cl['white'] + cl.get('pale', 0) < 0.02:
-                        fails.append(('colour', key, f"no tee white ({cl['white']:.3f})"))
-                    if v in ('front', 'q', 'side') and cl['brown'] + cl['mustard'] < 0.02:
-                        fails.append(('colour', key, f"no apron brown ({cl['brown']:.3f})"))
-                    if not f.get('seated') and feet and hpx >= 120 and cl['blue'] < 0.01:
-                        fails.append(('colour', key, f"no jeans blue ({cl['blue']:.3f})"))
+                    old = [] if cl['white'] + cl.get('pale', 0) >= 0.02 else [f"no tee white ({cl['white']:.3f})"]
+                    if v in ('front', 'q', 'side') and cl['brown'] + cl['mustard'] < 0.02: old.append(f"no apron brown ({cl['brown']:.3f})")
+                    if legs and cl['blue'] < 0.01: old.append(f"no jeans blue ({cl['blue']:.3f})")
+                    new = [] if cl.get('red', 0) >= 0.04 else [f"no flannel / cap red ({cl.get('red', 0):.3f})"]
+                    if v in ('front', 'q') and cl['yellow'] < 0.004: new.append(f"no tee yellow ({cl['yellow']:.3f})")
                 else:
-                    if cl['mustard'] + cl['brown'] + cl['yellow'] < 0.03:
-                        fails.append(('colour', key, f"no overall mustard ({cl['mustard']:.3f})"))
-                    if cl['purple'] < 0.02:
-                        fails.append(('colour', key, f"no sweater purple ({cl['purple']:.3f})"))
-                    if not f.get('seated') and feet and hpx >= 120 and cl['green'] < 0.004:
-                        fails.append(('colour', key, f"no green boots ({cl['green']:.3f})"))
+                    old = [] if cl['mustard'] + cl['brown'] + cl['yellow'] >= 0.03 else [f"no overall mustard ({cl['mustard']:.3f})"]
+                    if cl['purple'] < 0.02: old.append(f"no sweater purple ({cl['purple']:.3f})")
+                    new = [] if cl['blue'] >= 0.03 else [f"no denim blue ({cl['blue']:.3f})"]
+                    if not v.startswith('back') and not f.get('seated') and cl['purple'] < 0.003: new.append(f"no skirt / stripe purple ({cl['purple']:.3f})")
+                    if legs and cl['green'] < 0.004: old.append(f"no green boots ({cl['green']:.3f})"); new.append(f"no green boots ({cl['green']:.3f})")
+                for m in (old if len(old) < len(new) else new): fails.append(('colour', key, m))
             th = b.get('thin')
             if th and th['px']:
                 fails.append(('thin', key, f"{th['px']} px of stray thin strokes, worst {th['worst']} ink long at {th['comps'][:2]}"))
             g = nxt.get(f['id'])
             if g and g.get('body') and g['body'].get('box') and hpx >= 80 and b['px'] >= 2000 and s.get('next_shot') == s['shot']:   # tiny figures: share noise
                 c2 = g['body']['cl']
-                for k in ('white', 'brown', 'blue', 'purple', 'mustard', 'green', 'yellow'):
+                for k in ('white', 'brown', 'blue', 'purple', 'mustard', 'green', 'yellow', 'red'):
                     a, z = cl.get(k, 0), c2.get(k, 0)
                     if abs(a - z) > 0.03 and abs(a - z) > 0.35 * max(a, z):
                         fails.append(('pop', key, f"{k} share {a:.3f} -> {z:.3f} in 1/30 s"))

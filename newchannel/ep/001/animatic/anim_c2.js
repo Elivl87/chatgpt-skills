@@ -29,8 +29,13 @@
     if (!ST) buildStadium();
     ctx.drawImage(ST.bg.c, 0, 0);
     K.light.rays(ctx, 1500, 60, { n: 8, spread: 1.4, angle: Math.PI / 2 + 0.5, len: 1200, width: 0.05, alpha: 0.07, color: '#fff0c8', t, seed: 41 });
+    // art review P1-7: the floodlights throw two soft shafts over the stands
+    for (const x of [180, 1740]) K.light.rays(ctx, x, 57, { n: 5, spread: 0.9, angle: Math.PI / 2 + (x < 960 ? -0.35 : 0.35), len: 1100, width: 0.06, alpha: 0.06, color: '#fff4d0', t, seed: x });
     for (let row = 0; row < 5; row++) {
       const y = 600 + row * 112, R = 30 + row * 4;
+      // art review P1-7 (depth): each row in front softens the rows behind with a warm haze (atmospheric perspective); never over
+      // the protagonists' row or anything in front of it
+      if (row > 0 && (c.row == null || row <= c.row)) { ctx.fillStyle = K.rgba('#f3d9b8', 0.075); ctx.fillRect(0, 0, K.W, y - 6); }
       // the step (concrete) of this row
       ctx.fillStyle = K.mix('#8a7a8e', '#c9b6a6', row / 5); ctx.fillRect(0, y - 6, K.W, 120); ctx.fillStyle = K.rgba('#2a1830', 0.25); ctx.fillRect(0, y - 6, K.W, 8);
       for (const f of ST.fans) { if (f.row !== row) continue;
@@ -86,7 +91,7 @@
       const X = Math.cos(cr.a) * DR, Z = Math.sin(cr.a) * DR;
       const extra = c.drop ? c.drop(cr.i) : 0;
       K.car.top(ctx, { sc: view.sc, sinE: view.sinE, cosE: view.cosE, ox: view.ox, oy: view.oy - extra }, X, Z, cr.a + Math.PI / 2, { k: c.k || 1.6, color: isE ? TEAL : pe.color, skin: isE ? K.cast.ELI_SKIN : pe.skin, hair: pe.hair,
-        hairStyle: isE ? 'cap' : pe.hairStyle, capColor: isE ? '#f2c230' : pe.capColor, expr: stopped ? 'annoyed' : 'content', brake: R.brake(cr.i, c.simT), lit });
+        hairStyle: isE ? 'cap' : pe.hairStyle, capColor: isE ? ((K.cast.CANON_COLORS && K.cast.CANON_COLORS.eliHat) || '#f2c230') : pe.capColor, expr: stopped ? 'annoyed' : 'content', brake: R.brake(cr.i, c.simT), lit });
       if (c.carOver) { const p = A.domePt(cr.a, view); c.carOver(ctx, cr.i, p[0], p[1] - extra, S); }
     }
     // roof light shafts
@@ -151,6 +156,9 @@
     // wall + window frame
     ctx.fillStyle = '#1c2348'; ctx.fillRect(0, 0, K.W, K.H);
     const wx = 360, wy = 140, ww = 1200, wh = 760;
+    { // art review P1-9: the farmhouse wall around the window — lap boards with a moonlit top edge and a dark gap
+      for (let y = 10; y < K.H; y += 54) { ctx.fillStyle = K.rgba('#0e1330', 0.55); ctx.fillRect(0, y, K.W, 6); ctx.fillStyle = K.rgba('#5a6cb0', 0.14); ctx.fillRect(0, y + 6, K.W, 3); }
+      const r = K.rng(301); for (let k = 0; k < 40; k++) { ctx.fillStyle = K.rgba('#0e1330', 0.35); ctx.fillRect(r() * K.W, 10 + ((r() * 20) | 0) * 54 + 6, 3, 48); } }
     ctx.save(); ctx.beginPath(); ctx.rect(wx, wy, ww, wh); ctx.clip();   // art review 2026-10: the room stays inside the window (table legs used to poke out below the sill)
     const inside = ctx.createLinearGradient(0, wy, 0, wy + wh); inside.addColorStop(0, '#ffcf8a'); inside.addColorStop(1, '#e39a5a'); ctx.fillStyle = inside; ctx.fillRect(wx, wy, ww, wh);
     const tv = 0.6 + 0.4 * Math.abs(Math.sin(t * 7.3) * Math.sin(t * 3.1));
@@ -174,7 +182,11 @@
     ctx.fillStyle = '#e3a983'; ctx.strokeStyle = INK; ctx.lineWidth = 5; K.circle(ctx, hx + 44, hy + 34, 16); ctx.fill(); ctx.stroke();
     // window frame (dark wood) + cross bars, curtain
     ctx.restore();
-    ctx.strokeStyle = '#0f1432'; ctx.lineWidth = 40; ctx.strokeRect(wx, wy, ww, wh); ctx.lineWidth = 22; ctx.beginPath(); ctx.moveTo(wx + ww / 2, wy); ctx.lineTo(wx + ww / 2, wy + wh); ctx.moveTo(wx, wy + wh * 0.24); ctx.lineTo(wx + ww, wy + wh * 0.24); ctx.stroke();
+    // art review P1-9: the warm room light spills out onto the wall around the frame and the sill (light wrap)
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, K.W, K.H); ctx.rect(wx, wy, ww, wh); ctx.clip('evenodd');
+    K.light.glow(ctx, wx + ww / 2, wy + wh / 2, 1000, '#ffcf8a', 0.5, 'screen'); K.light.glow(ctx, wx + ww / 2, wy + wh + 40, 600, '#ffb070', 0.4, 'screen'); ctx.restore();
+    ctx.strokeStyle = '#0f1432'; ctx.lineWidth = 40; ctx.strokeRect(wx, wy, ww, wh);
+    ctx.fillStyle = '#2a2f55'; K.rrect(ctx, wx - 40, wy + wh + 14, ww + 80, 26, 6); ctx.fill(); ctx.fillStyle = K.rgba('#ffcf8a', 0.35); ctx.fillRect(wx - 30, wy + wh + 14, ww + 60, 4); /* the sill, lit from inside */ ctx.lineWidth = 22; ctx.beginPath(); ctx.moveTo(wx + ww / 2, wy); ctx.lineTo(wx + ww / 2, wy + wh); ctx.moveTo(wx, wy + wh * 0.24); ctx.lineTo(wx + ww, wy + wh * 0.24); ctx.stroke();
     ctx.fillStyle = K.rgba('#c94a5a', 0.85); ctx.beginPath(); ctx.moveTo(wx + 20, wy + 20); ctx.quadraticCurveTo(wx + 120, wy + 300, wx + 60, wy + wh - 20); ctx.lineTo(wx + 20, wy + wh - 20); ctx.closePath(); ctx.fill();
     // moonlit wall rim + night glass reflection
     ctx.fillStyle = K.rgba('#cfe0ff', 0.06); ctx.fillRect(wx, wy, ww, wh);

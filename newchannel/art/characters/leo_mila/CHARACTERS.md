@@ -10,6 +10,21 @@ detail pass: `DETAIL_AUDIT.md` (+ `audit_crops_small.jpg`, `detail_before_after_
 §6b + `eyes_before_after_small.jpg` + `ep/001/animatic/qc/QC_eyes.md` · Guardian log: `GUARDIAN_LOG.md` ·
 history: `alternatives/` (the 5 designs the Producer chose from).
 
+## 0 · Canonical look (design LOCKED by the Producer, 2026-10-29)
+
+**Eli** = skin `#d9a66c` + **home outfit 3bB**: wine (`#7a1f2b`) plaid flannel open over a **yellow tee** (`#f2c230`), olive
+cargo pants (`#6f6a48`), brown boots (`#5a3a26`) + **headwear V2 «1a»: red baseball cap worn backwards** (`#c62a2f`, dark
+`#8e1a20`; six panels, top button, snapback strap over the forehead, visor out the back; **no logo**).
+**Mila** = **outfit 2**: denim jacket (`#4d6ea6`) over a white tee with purple stripes, purple pleated skirt (`#7158b8`)
+over deep-purple leggings (`#3d2f63`), green boots (`#2f6b45`); hair, ponytail and earrings unchanged.
+
+**The switch:** `art/lib/canon.js` (`C.CANON = { eli: { outfit: '3bB', hat: '1a' }, mila: { outfit: 2 } }`), loaded after
+`cast_alts.js` + `outfits.js` + `hats_v2.js` in every page (art/scenes, the animatic, the thumbnails). It redefines `eli1`
+/ `mila1`, so every shot list picks the canonical look up without edits. The workshop look stays as **`eli1_taller` /
+`mila1_taller`** (tee + apron + knit beanie / purple sweater + mustard overalls) for workshop / construction episodes
+(§1b); any other combination: `C.OUTFITS.variant()` + `C.ELI_HATS_V2.variant()`. Hand-drawn stand-ins read
+`K.cast.CANON_COLORS`. The tables below (§1) describe the workshop look of 2026-10-15 and remain valid for `*_taller`.
+
 ## 1 · Identity
 
 | | **Eli** | **Mila** |
@@ -46,7 +61,7 @@ dot / brand accent only (in the wordmark gag Mila handles the dot, but it stays 
 Vestuario por contexto del episodio; amarillo de Eli y morado de Mila siempre presentes; dentro de un episodio no se cambia de ropa salvo que sea el chiste.
 - **Taller / construcción:** el traje original (Eli playera + delantal; Mila suéter + overol mostaza), preferido sobre el overol de mecánico.
 - **Resto del armario** (`art/lib/outfits.js`, `C.OUTFITS`, Guardián PASS b0dbf85): Eli 2-6, Mila 2-6; parejas Taller, Fin de semana, Otoño, Lluvia.
-- Traje de casa y gorro de Eli: pendientes de decisión.
+- **Traje de casa (canónico desde 2026-10-29):** Eli 3bB (franela vinotinto + playera amarilla + cargo) + gorra roja al revés 1a; Mila 2 (mezclilla + rayas + falda morada). Ver §0.
 
 ## 2 · Proportions (units; ground = 0)
 

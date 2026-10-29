@@ -1,5 +1,10 @@
 # Diez Mil Puntos · Art Bible v2 (2026-10-14) · characters v4 (2026-10-15)
 
+> **v5 characters (2026-10-29, design locked):** Eli = skin `#d9a66c` (same as Mila) + wine plaid flannel open over a yellow
+> tee + cargo pants + a red baseball cap worn backwards (no logo); Mila = denim jacket over a purple-striped tee + purple
+> skirt over leggings. One switch: `lib/canon.js`; the workshop look stays as `eli1_taller` / `mila1_taller`. Signature
+> colours: Eli = yellow tee + red cap against the wine flannel; Mila = purple. Spec: `characters/leo_mila/CHARACTERS.md` §0.
+
 > **v4 changes (2026-10-15, characters only; the world style is unchanged):** the channel's characters are **Eli + Mila**
 > (Alt 1 «Taller», `characters/leo_mila/CHARACTERS.md`); the dot mascot is **dropped**; vermilion now belongs to the
 > wordmark dot / brand accent; a new §3b sets the **emotion rule** for every character; the paper speech balloon is

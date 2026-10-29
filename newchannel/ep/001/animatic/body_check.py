@@ -47,9 +47,10 @@ def check_sample(s, W, H):
             out.append(('FAIL', 'cut-head', name, f"head zone {[round(v) for v in headz]} crosses the frame edge"))
         cl = f['body']['cl']
         if hpx >= 18 and f['body']['px'] > 150:
-            if f['id'] == 'eli1' and cl['yellow'] < 0.004:
-                out.append(('FAIL', 'colour', name, f"no beanie yellow ({cl['yellow']:.3f})"))
-            if f['id'] == 'mila1' and cl['purple'] < 0.01:
+            # either look: workshop (yellow beanie / purple sweater) or canonical 2026-10-29 (red cap + wine flannel + yellow tee / denim + purple skirt)
+            if f['id'] == 'eli1' and cl['yellow'] < 0.004 and cl.get('red', 0) < 0.02:
+                out.append(('FAIL', 'colour', name, f"no beanie yellow / cap-flannel red ({cl['yellow']:.3f} / {cl.get('red', 0):.3f})"))
+            if f['id'] == 'mila1' and cl['purple'] < 0.01 and cl['blue'] < 0.03:
                 out.append(('FAIL', 'colour', name, f"no sweater purple ({cl['purple']:.3f})"))
         if cl.get('vermilion', 0) > 0.003:
             out.append(('FAIL', 'colour', name, f"vermilion on the character ({cl['vermilion']:.3f})"))

@@ -196,3 +196,45 @@ Clases de defecto nuevas para `GUARDIAN_LOG.md`: (1) encuadre abierto que destap
 cálculo de borde de `frame:` en todas las listas); (2) objetos de un interior que salen por su marco (recortar los interiores);
 (3) estructura de primer plano (marco, travesaño) que cruza una cara; (4) sentados en el suelo: pies por delante y por debajo de la
 cadera, nunca en el regazo.
+
+---
+
+## (e) Diseño cerrado (2026-10-29): interruptor canónico y lo que queda en las listas de planos
+
+**El interruptor** (`art/lib/canon.js`, cargado en `art/scenes/index.html`, `ep/001/animatic/index.html` y
+`ep/001/thumbnails/v3/src/thumbs.html`): `C.CANON = { eli: { outfit: '3bB', hat: '1a' }, mila: { outfit: 2 } }` redefine
+`eli1` / `mila1`, así que todos los bloques usan el diseño nuevo sin editar las listas. El look de taller sigue disponible
+como `eli1_taller` / `mila1_taller`. `C.OUTFITS.variant()` parte del look de taller, así que la opción 1 sigue siendo el
+delantal. Colores para los dibujos hechos a mano: `K.cast.CANON_COLORS`. Hojas: `characters/leo_mila/model_sheet(_small).jpg`
+y `emotion_sheet(_small).jpg` rehechas. `CHARACTERS.md` §0 y `ART_BIBLE` v5 actualizados.
+
+**Ya corregido en el lado del kit/escenas:** el garabato de Eli en C1 (`anim_line.js`, gorro → gorra roja); la cabeza de Eli
+vista desde arriba en el Domo (`anim_c2.js`, gorra amarilla → roja); la falda de Mila sentada en el suelo (`outfits.js`,
+ahora es una falda corta sobre los muslos levantados); los chequeos `body_check.py` / `clothes_check.py` aceptan los dos looks
+(con la clase de color `red` nueva en `cast.js`).
+
+**Para el agente de render / re-temporización (solo listas de planos, no las toqué):**
+
+| Lista / plano | Qué depende del look viejo | Propuesta |
+|---|---|---|
+| `shots_blockB.js` B01_drag (l. 37-51) | Mila arrastra a Eli «por la correa del delantal»: la correa sale del peto del delantal | que lo arrastre del cuello de la franela (o de la manga); el punto de anclaje pasa a ser el cuello |
+| `shots_blockE1.js` G06-G09 manos (l. 86-93) | manga de Eli `#f3ecdd` (playera blanca) y de Mila `#7158b8` (suéter) | Eli `#7a1f2b` (franela, puño `#5e1622`), Mila `#4d6ea6` (mezclilla, puño `#6f8cc0`) |
+| `shots_blockA.js` A09/A10/A13 y `shots_blockE1.js` G05 (pose `visor`) | la mano «a la visera del gorro»; con la gorra al revés no hay visera delante | se lee como mano en la frente haciendo visera: sirve tal cual; revisar en el pase del Guardián |
+| `shots_blockA.js` A19_bonk + `art/scenes/wordmark_end.js` | el punto rebota en «el gorro» | funciona con la gorra (se aplasta con `hatHit`; verificado a 43,7-44,2 s); solo cambian los comentarios. En 44,0 s el punto pasa por delante de la cara de Eli: es el gag ya declarado, pero hay que revisarlo |
+| `shots_blockC1.js` C08_hat (l. 127) | la barra del auto 10 cae «sobre el gorro» | usa la posición de la cabeza: funciona igual |
+| Gafete «SI SE ABRE UN HUECO, CIÉRRALO» (`shots_blockD1.js` `badgeCard`, `eliBadge` en D2/E1) | antes iba sobre la playera blanca / el peto del delantal | **propuesta: queda sobre la playera amarilla**, entre los paneles abiertos de la franela (tarjeta blanca sobre amarillo, se lee bien; verificado en D2 F01 y E1). En 3/4 cae sobre el panel cercano de la franela: también se lee |
+| `shots_blockC2.js` D17-D26 (colina, `sitGround`) | Mila con falda sentada en el suelo | ya corregido en el kit; pasa por el Guardián en el render |
+| `shots_blockE2.js` l. 72 (plano sobre el hombro, «espalda y gorro de Eli») y `anim_e.js` `P.glovebox` (rodilla de Mila `#7158b8`) | el comentario dice gorro; la rodilla morada encaja con la falda | sirve tal cual; si se ve la pierna, usar el color de los leggings `#3d2f63` |
+| D2 F16-F18 (tiras) | planas, autos de 40 px | `A.line` acepta ahora `mood: 'golden'` (cielo de tarde, sol, nubes cálidas): pasar `mood: 'golden'` y `pxm: 30` en `strips()` (P1-4) |
+| C2 D17 / D24 (noche) | la pareja mide ~40 px | encuadre más cerrado (z ×1,6 sobre la pareja). El borde de luz de luna ya llega al máximo que permite el kit (0,75 × la tinta) (P1-5) |
+| Dúo de pie junto al anillo (~12 planos) | mismo encuadre y mismas poses | variar cámara y poses (P1-6) |
+| `shots_blockB.js` B21-B22 | bici a otra escala | bici ×1,6 y Mila por el borde interior (P1-10) |
+
+**P1 en el lado del kit/escenas, hechos en esta ronda:** estadio con haces de los reflectores y neblina por filas detrás de
+la pareja (P1-7, `anim_c2.js` `A.stadium`); granja con pared de tablas, luz que se derrama y alféizar iluminado (P1-9,
+`A.window`); `A.line` con `mood: 'golden'` (lado de escena de P1-4). **Siguen pendientes:** P1-8 (domo), P1-11 (luz de
+freno en las caras) y P1-12 (desenfoque de movimiento).
+**Aviso para el Guardián:** el chequeo «vermilion on the character» salta en el lado iluminado de la gorra roja `#c62a2f`
+cuando le da el borde de luz dorado (unos 20 px; el rojo se va hacia el naranja). La regla de ART_BIBLE es «nada bermellón
+salvo el punto de la marca». Opciones: aceptar la gorra como roja (no es el punto de la marca) y excluirla del chequeo, o
+enfriar el tono 1a un pelo (≈ `#c4243a`). Lo decide el Productor/Guardián; no cambié el color elegido.

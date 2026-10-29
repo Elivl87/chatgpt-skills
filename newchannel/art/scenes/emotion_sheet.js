@@ -31,7 +31,7 @@
       ctx.drawImage(bg().c, 0, 0);
       const emos = C.EMOTIONS, LW = 120, top = 112, cw = (K.W - LW - 20) / emos.length, ch = 178, bandH = 40 + 3 * ch;
       label(ctx, 'Eli + Mila + extras · emociones en frente, 3/4 y perfil', 24, 52, '700 40px "Space Grotesk"', INK, 'left');
-      label(ctx, 'DIEZ MIL PUNTOS · regla del Productor: cada personaje expresa bien cada emoción, en toda vista · 2026-10-15', K.W - 24, 48, '500 16px "Martian Mono"', 'rgba(60,36,48,0.7)', 'right');
+      label(ctx, 'DIEZ MIL PUNTOS · regla del Productor: cada personaje expresa bien cada emoción, en toda vista · diseño 2026-10-29', K.W - 24, 48, '500 16px "Martian Mono"', 'rgba(60,36,48,0.7)', 'right');
       emos.forEach((e, k) => label(ctx, C.EMOTIONS_ES[e].toUpperCase(), LW + cw * (k + 0.5), top - 12, '700 15px "Martian Mono"', 'rgba(60,36,48,0.85)'));
       [['eli1', 'ELI', '#c99412'], ['mila1', 'MILA', '#6a4fb3'], ['extra', 'EXTRA', '#5a6a80']].forEach(([who, name, col], b) => {
         const by = top + b * bandH;
