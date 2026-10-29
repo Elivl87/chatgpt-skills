@@ -329,6 +329,21 @@ Rules (kit `art/lib/cast.js` + `ep/001/animatic/anim.js`):
   a tall headwear sets `extraK` so the surprise ticks / anger mark sit outside it. Any new headwear, or a change to the
   chosen one, passes this check before a sheet or a shot leaves the studio. Option 1 (the current beanie) fails it by
   design of the beanie (its lift is capped at 0.034): known, logged, not to be shipped as «fixed».
+- **No garment reaches the mouth; outfits are checked as garments (Guardian, 2026-10-29).** `python3
+  art/render/collar_face_check.py <scratch> [eli|mila]` renders `outfit_lab` for every outfit x happy / surprised /
+  furious (arms-up = laugh), normally and with `&headover=1`; the difference is every garment pixel lying on the head.
+  The nearest one to the mouth (lips / interior / tongue) must be >= 6 px at u = 820 (outfit 1 = kit reference, not
+  gated). Eli's lips sit only ~0.012 over the torso top: collars, hoods and open-shirt collars never rise above it.
+  Garment rules (outfits.js) for any new outfit: (1) in 3/4 / profile the **far** half of the chest is the narrow strip
+  on the facing side (`sg === dir`); pockets, lapels and patches live on the wide near half (`farSide`), a patch keeps its
+  side of the body (screen-left = the character's right) in every view; (2) collars stay inside the torso width
+  (`inTorso`), no point poking past the silhouette by the chin; (3) a turtleneck wraps the whole head tube (ink just
+  outside it), never a patch on the chin; (4) every collar also exists from behind (`backNeck`; Mila's ponytail is
+  redrawn over it with `backPony`); (5) skirts / coat tails seated in 3/4 and profile lie over the lap (`lap` hook drawn
+  over both thighs, under the arms), never hanging behind the thighs over the seat; (6) side stripes follow the leg
+  through the knee; (7) a pattern on the body is on the sleeves too (`arm.plaid`); (8) a diagonal colour block is
+  mirrored from behind. Lab: the seated crate is as high as that outfit's seated feet (boot height changes it) and the
+  seated feet get a contact shadow; the couple frames keep the top of Mila's ponytail inside the frame.
 
 ## 7 · Never
 

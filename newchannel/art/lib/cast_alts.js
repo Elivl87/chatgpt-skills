@@ -395,6 +395,10 @@
     c.save(); h.headPath(c, MILA1.head); c.clip(); c.fillStyle = MILA1.hair; c.beginPath(); c.moveTo(-H.hw * 1.3, -H.hh * 0.2); c.quadraticCurveTo(0, -H.hh * 0.02, H.hw * 1.3, -H.hh * 0.2); c.lineTo(H.hw * 1.3, -H.hh * 1.3); c.lineTo(-H.hw * 1.3, -H.hh * 1.3); c.closePath(); c.fill();
     c.strokeStyle = K.rgba('#6a4646', 0.85); c.lineWidth = H.lw * 1.2; for (const k of [-0.5, 0.5]) { c.beginPath(); c.moveTo(0, -H.hh + 0.01); c.quadraticCurveTo(k * H.hw * 0.9, -H.hh * 0.5, k * H.hw * 1.0, -H.hh * 0.15); c.stroke(); }
     c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.beginPath(); c.moveTo(-H.hw * 1.3, -H.hh * 0.2); c.quadraticCurveTo(0, -H.hh * 0.02, H.hw * 1.3, -H.hh * 0.2); c.stroke(); c.restore(); outlineHead(c, H, MILA1);
+    MILA1.backPony(c, H);
+  };
+  // the ponytail seen from behind (head-local coords); outfits.js redraws it over a collar band at the back of the neck
+  MILA1.backPony = function (c, H) {
     const sw = Math.sin(H.t * 2.4) * 0.01 - H.drag * 0.03 * H.dir, x = -H.faceDir * H.s * H.hw * 0.2, y0 = -H.hh + 0.01;
     c.fillStyle = MILA1.hair; c.strokeStyle = INK; c.lineWidth = H.lw * 2; c.beginPath(); c.moveTo(x - 0.02, y0 - 0.01); c.quadraticCurveTo(x - 0.034, y0 + 0.12, x - 0.012 + sw, y0 + 0.24); c.quadraticCurveTo(x + sw, y0 + 0.265, x + 0.012 + sw, y0 + 0.24); c.quadraticCurveTo(x + 0.034, y0 + 0.12, x + 0.02, y0 - 0.01); c.closePath(); c.stroke(); c.fill();
     c.strokeStyle = K.rgba('#5a3a3a', 0.8); c.lineWidth = H.lw * 1.1; c.beginPath(); c.moveTo(x, y0 + 0.02); c.quadraticCurveTo(x - 0.008, y0 + 0.12, x + sw * 0.8, y0 + 0.22); c.stroke();

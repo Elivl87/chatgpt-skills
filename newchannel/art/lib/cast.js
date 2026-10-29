@@ -722,6 +722,18 @@
         const e = q[q.length - 1], e0 = q[0], dl = Math.hypot(e[0] - e0[0], e[1] - e0[1]) || 1, nx = -(e[1] - e0[1]) / dl, ny = (e[0] - e0[0]) / dl;
         // the hem line ends exactly on the sleeve's outer ink (butt caps): it used to poke out as two little knobs
         c.lineCap = 'butt'; c.strokeStyle = INK; c.lineWidth = lw * 1.6; c.beginPath(); c.moveTo(e[0] - nx * (sw / 2 + lw * 0.95), e[1] - ny * (sw / 2 + lw * 0.95)); c.lineTo(e[0] + nx * (sw / 2 + lw * 0.95), e[1] + ny * (sw / 2 + lw * 0.95)); c.stroke(); c.lineCap = 'round'; }
+      if (ar.plaid && !ar.skinPart) {   // a checked sleeve (outfits: flannel): bands across + along the tube, inside its ink (Guardian 2026-10-29: plain sleeves on a plaid shirt)
+        const [dk, lt] = ar.plaid, hw2 = ar.w * 0.5 - lw * 0.2; let acc = 0, next = 0.02, tot = 0; for (let i = 1; i < pts.length; i++) tot += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+        c.save(); c.lineCap = 'butt';
+        for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i], L = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1e-6, ux = (b[0] - a[0]) / L, uy = (b[1] - a[1]) / L;
+          while (next <= acc + L && next < tot * 0.9) { const f = (next - acc) / L, x = a[0] + (b[0] - a[0]) * f, y = a[1] + (b[1] - a[1]) * f;
+            c.strokeStyle = K.rgba(dk, 0.42); c.lineWidth = 0.012; c.beginPath(); c.moveTo(x - uy * hw2, y + ux * hw2); c.lineTo(x + uy * hw2, y - ux * hw2); c.stroke(); next += 0.034; }
+          acc += L; }
+        const off = (q, k) => q.map((p, i) => { const a = q[Math.max(0, i - 1)], b = q[Math.min(q.length - 1, i + 1)], dl = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1; return [p[0] - (b[1] - a[1]) / dl * k, p[1] + (b[0] - a[0]) / dl * k]; });
+        const body = partial(pts, 0.97, 0.03);
+        path(c, off(body, 0)); c.strokeStyle = K.rgba(dk, 0.42); c.lineWidth = 0.012; c.stroke();
+        path(c, off(body, ar.w * 0.3)); c.strokeStyle = K.rgba(lt, 0.55); c.lineWidth = 0.003; c.stroke();
+        c.restore(); }
       if (ar.upperColor) { const p = partial(pts, ar.upperTo || 0.5); noodle(c, p, ar.w * 1.02, ar.upperColor, lw); }
       if (ar.stripe) { c.lineCap = 'round'; path(c, partial(pts, 0.86)); c.strokeStyle = ar.stripe; c.lineWidth = ar.w * 0.22; c.stroke(); }
       if (ar.flare) { const p = partial(pts, 0.92), qq = p[p.length - 1]; c.fillStyle = ar.cuff || ar.sleeve; c.strokeStyle = INK; c.lineWidth = lw * 2; K.ellipse(c, qq[0], qq[1], ar.w * 0.85, ar.w * 0.85, 0); c.stroke(); c.fill(); }
@@ -749,11 +761,15 @@
       if (crouchD > 0 && !sitLegs && walkK <= 0) { ankle = [ankle[0] + dir * s * (o.crouchFwd || 0) * (thigh * 0.95 + 0.03), ankle[1] - crouchD];   /* crouchFwd 1 = the feet where a chair-seated pose puts them */ const L = (S.legLen - b.h * 0.5) / 2 + 0.003, j = ik(hp, ankle, L, L, [sg * (1 - s) + dir * s, 0]);
         const mx = (hp[0] + ankle[0]) / 2, my = (hp[1] + ankle[1]) / 2, f = 0.35 + 0.65 * s; knee = [mx + (j[1][0] - mx) * f, my + (j[1][1] - my) * f]; }
       const fx = ankle[0], ay = ankle[1] + b.h * 0.5;   // ay: boot base offset from the ground (0 when standing)
-      noodle(c, knee ? softLimb([hp, knee, ankle], 0.2) : [hp, ankle], S.legW, S.legColor, lw);
+      const legPts = knee ? softLimb([hp, knee, ankle], 0.2) : [hp, ankle];
+      noodle(c, legPts, S.legW, S.legColor, lw);
+      // side seam stripe (outfits): follows the leg through the knee, offset across the leg (Guardian 2026-10-29: it was a
+      // straight hip-to-ankle line drawn inside the boot translate, so seated it left the thigh and crossed the far hand)
+      if (S.legStripe) { const off = S.legW * 0.3 * (sitLegs ? 1 : cosT), k = sitLegs ? (dir || 1) : sg, q = legPts.map((p, i) => { const a = legPts[Math.max(0, i - 1)], b2 = legPts[Math.min(legPts.length - 1, i + 1)], dl = Math.hypot(b2[0] - a[0], b2[1] - a[1]) || 1, nx = (b2[1] - a[1]) / dl, ny = -(b2[0] - a[0]) / dl; return [p[0] + nx * off * k, p[1] + ny * off * k]; });
+        if (!sitLegs) q[0] = [q[0][0], q[0][1] + 0.02]; else q.splice(0, 2); c.strokeStyle = S.legStripe; c.lineWidth = S.legW * 0.18; c.lineCap = 'butt'; path(c, q); c.stroke(); c.lineCap = 'round'; }
       c.save(); c.translate(0, ay);
       if (S.flare) { const fw = S.legW * 0.5, fw2 = S.legW * (0.5 + S.flare); c.fillStyle = S.legColor; c.strokeStyle = INK; c.lineWidth = lw * 2;
         c.beginPath(); c.moveTo(fx - fw, -b.h - 0.07); c.lineTo(fx - fw2, -b.foot * 0.6); c.lineTo(fx + fw2 + dir * s * 0.01, -b.foot * 0.6); c.lineTo(fx + fw, -b.h - 0.07); c.stroke(); c.fill(); }
-      if (S.legStripe) { c.strokeStyle = S.legStripe; c.lineWidth = S.legW * 0.18; c.beginPath(); c.moveTo(hp[0] + sg * S.legW * 0.3 * cosT, hp[1] + 0.02); c.lineTo(fx + sg * S.legW * 0.3 * cosT, ankle[1]); c.stroke(); }
       if (S.sock) { c.fillStyle = S.sock; c.strokeStyle = INK; c.lineWidth = lw * 2; K.rrect(c, fx - S.legW * 0.42, -b.h - 0.045, S.legW * 0.84, 0.05, 0.01); c.stroke(); c.fill(); }
       const bw = b.w, toe = b.toe * s, back = b.back * s;
       const shaft = () => K.rrect(c, fx - bw, -b.h, bw * 2, b.h - b.sole * 0.5, [bw * 0.35, bw * 0.35, 0, 0]);
@@ -774,7 +790,7 @@
       c.lineTo(tcx - wB + rb, Tbot); c.quadraticCurveTo(tcx - wB, Tbot, tcx - wB, Tbot - rb);
       c.quadraticCurveTo(tcx - (wT + wB) / 2, (Ttop + Tbot) / 2, tcx - wT, Ttop + r); c.quadraticCurveTo(tcx - wT, Ttop, tcx - wT + r, Ttop); c.closePath();
     };
-    const B = { s, dir, t, lw, tcx, Ttop, Tbot, wT, wB, shY, hipY, cosT, torsoPath, hcx, hcy, hw, hh, fs, faceDir, seated: !!o.seated, crouch: crouchD, S, H, drag: o.drag || 0 };
+    const B = { s, dir, t, lw, tcx, Ttop, Tbot, wT, wB, shY, hipY, cosT, torsoPath, hcx, hcy, hw, hh, fs, faceDir, seated: !!o.seated, sitLegs, back, kneeAt, tilt, sq: E.sq || 1, crouch: crouchD, S, H, drag: o.drag || 0 };
     const headDraw = (c, layer) => {
       c.save(); c.translate(hcx, hcy + hh); c.rotate(tilt); c.scale(1 / Math.sqrt(E.sq || 1), E.sq || 1); c.translate(0, -hh);
       if (layer === 'back') { if (S.hairBack) S.hairBack(c, H, B); c.restore(); return; }
@@ -847,6 +863,8 @@
             if (S.headOver) headDraw(c, 'front');
           });
           if (sitLegs && s > 0.05) drawLeg(c, back ? dir : -dir);
+          // seated garments that lie over the lap (skirts, coat tails: outfits.js); drawn over both thighs, under the arms
+          if (sitLegs && S.lap && !back) S.lap(c, B);
         },
         front(c) {
           c.translate(0, bobY);
