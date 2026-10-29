@@ -151,34 +151,41 @@
   // head layers { hat, hairBack, hairFront } in head units, defined for every view through H.fs / H.faceDir / H.back, with
   // the beanie's rules: a bob on t, a squash on H.hatHit, and a lift so the brows always sit on skin (never on a brim).
   const ELI_HAIR = '#2e1d22', CAP_Y = '#f2c230', CAP_D = '#cf9d1f', NEWS = '#d9a62a', NEWS_D = '#a8801c';
-  const hatLift = (H, bandBottom, max = 0.06) => (H.browTop != null ? K.clamp(bandBottom + 0.005 - H.browTop, 0, max) : 0);
-  const hatFrame = (c, H, pivotY, lift) => { const bob = Math.sin(H.t * 3.1 + 0.4) * 0.0022 - lift, sq = 1 - H.hatHit * 0.22;
-    c.save(); c.translate(0, pivotY + bob + H.hatHit * 0.008); c.scale(1 + H.hatHit * 0.08, sq); c.translate(0, -pivotY); };
+  // Guardian 2026-10-29: the lift is measured from the LOWEST ink edge of the headwear (brim / lens / band, not the crown
+  // seam) plus its stroke, a clear skin gap and the hit push-down, so the brows never touch a brim in surprise / anger.
+  const hatLift = (H, bottom, max = 0.1) => (H.browTop != null ? K.clamp(bottom + H.lw * 1.5 + 0.008 + H.hatHit * 0.008 - H.browTop, 0, max) : 0);
+  // no re-ink of the head outline over the hair (Guardian 2026-10-29): the hair is clipped to the head, so the outer half
+  // of the kit's outline stays; a full re-stroke cut through the googly eyes in 3/4 / profile and left a step at the brow
+  const hatFrame = (c, H, pivotY, lift, give = 1) => { const bob = Math.sin(H.t * 3.1 + 0.4) * 0.0022 - lift, sq = 1 - H.hatHit * 0.22 * give;
+    c.save(); c.translate(0, pivotY + bob + H.hatHit * 0.008); c.scale(1 + H.hatHit * 0.08 * give, sq); c.translate(0, -pivotY); };
   // short cropped hair (under caps / band): a cap of hair clipped to the head, hairline lower toward the back of the head
   function shortHair(c, H, line = 0.052) {
     const hw = H.hw, hh = H.hh, back = H.back ? 1 : 0;
     if (H.browTop != null && !back) line -= Math.max(0, (-hh + line) - (H.browTop - 0.012));   // the hairline always stops above the brows (surprise lifts them high)
     c.save(); h.headPath(c, C.SPECS.eli1.head); c.clip(); c.fillStyle = ELI_HAIR; c.beginPath();
-    const yAt = x => -hh + line + (back ? 0.05 : 0.035 * K.clamp(-H.faceDir * x / hw) * H.fs) + 0.004 * Math.sin(x * 160);
+    // Guardian 2026-10-29 (brow_clear_check): over the brows' span the hairline (wiggle + ink included) keeps a clear skin gap
+    const bs = !back && H.browTop != null && H._brows ? H._brows : null, bx0 = bs ? Math.min(...bs.map(g => Math.min(g[0], g[4]))) - 0.02 : 0, bx1 = bs ? Math.max(...bs.map(g => Math.max(g[0], g[4]))) + 0.02 : 0;
+    const yRaw = x => -hh + line + (back ? 0.05 : 0.035 * K.clamp(-H.faceDir * x / hw) * H.fs) + 0.004 * Math.sin(x * 160);
+    const yAt = x => (bs && x > bx0 && x < bx1 ? Math.min(yRaw(x), H.browTop - 0.014 - H.lw * 0.8) : yRaw(x));
     c.moveTo(-hw * 1.3, -hh - 0.1); c.lineTo(hw * 1.3, -hh - 0.1); for (let i = 0; i <= 16; i++) { const x = hw * 1.3 - i / 16 * hw * 2.6; c.lineTo(x, yAt(x)); } c.closePath(); c.fill();
     c.strokeStyle = INK; c.lineWidth = H.lw * 1.6; c.beginPath(); for (let i = 0; i <= 16; i++) { const x = -hw * 1.3 + i / 16 * hw * 2.6; i ? c.lineTo(x, yAt(x)) : c.moveTo(x, yAt(x)); } c.stroke();
-    c.restore(); outlineHead(c, H, C.SPECS.eli1);
+    c.restore();
   }
   // 2 · short curls: a low lobed crown of curls (no hat), the volume stays inside his 0.95 height budget
   function curlsBack(c, H) { const b = Math.sin(H.t * 3.0) * 0.0018 - H.hatHit * 0.006, cx = backX(H, 0.18);
     c.save(); c.translate(0, b); c.scale(1 + H.hatHit * 0.06, 1 - H.hatHit * 0.15);
     lobedShape(c, cx, -H.hh * 0.78, H.hw * 1.22, 12, 31, ELI_HAIR, H.lw, 0.3); c.restore(); }
-  function curlsFront(c, H) { const hw = H.hw, hh = H.hh, lift = hatLift(H, -hh + 0.072, 0.06);
+  function curlsFront(c, H) { const hw = H.hw, hh = H.hh, lift = hatLift(H, -hh + 0.064, 0.06);
     c.save(); h.headPath(c, C.SPECS.eli1.head); c.clip(); c.translate(0, -lift);
     c.fillStyle = ELI_HAIR; c.strokeStyle = INK; c.lineWidth = H.lw * 1.6; const off = H.faceDir * H.fs * hw * 0.25;
     c.beginPath(); c.moveTo(-hw * 1.3, -hh - 0.1); c.lineTo(hw * 1.3, -hh - 0.1); c.lineTo(hw * 1.3, -hh + 0.05);
     for (let i = 0; i <= 7; i++) { const x = hw * 1.15 - i / 7 * hw * 2.3 + off * 0.3, y = -hh + 0.05 + (H.back ? 0.04 : 0); c.quadraticCurveTo(x + hw * 0.16, y + 0.022, x, y); }
     c.lineTo(-hw * 1.3, -hh - 0.1); c.closePath(); c.fill(); c.stroke();
     c.strokeStyle = K.rgba('#5a3a3a', 0.8); c.lineWidth = H.lw; for (let i = 0; i < 6; i++) { const x = -hw * 0.8 + i * hw * 0.32 + off, y = -hh + 0.022 + (i % 2) * 0.01; c.beginPath(); c.arc(x, y, 0.009, 0.2, 2.6); c.stroke(); }
-    c.restore(); outlineHead(c, H, C.SPECS.eli1); }
+    c.restore(); }
   // 3 · backwards cap: a smooth six-panel crown, the snap opening over the forehead, the brim out the back
   function capBack(c, H) {
-    const hw = H.hw, hh = H.hh, band = -hh + 0.05, lift = hatLift(H, band);
+    const hw = H.hw, hh = H.hh, band = -hh + 0.05, lift = hatLift(H, band + 0.006);
     shortHairUnder(c, H);
     hatFrame(c, H, band, lift);
     const fs = H.fs, bk = -H.faceDir, crown = () => { c.beginPath(); c.moveTo(-hw * 1.08, band + 0.006); c.bezierCurveTo(-hw * 1.12, -hh - 0.045, hw * 1.12, -hh - 0.045, hw * 1.08, band + 0.006); c.closePath(); };
@@ -188,14 +195,15 @@
     for (const k of [-0.55, 0, 0.55]) { c.beginPath(); c.moveTo(k * hw + off, band); c.quadraticCurveTo(k * hw * 0.8 + off, -hh - 0.01, off * 0.5, -hh - 0.034); c.stroke(); }
     c.fillStyle = '#fff3c4'; c.globalAlpha = 0.45; c.fillRect(-hw * 1.2, band - 0.004, hw * 2.4, 0.004); c.restore();
     if (!H.back && fs < 0.7) { const ox = H.faceDir * fs * hw * 0.35; h.shape(c, () => { c.beginPath(); c.moveTo(ox - 0.026, band + 0.006); c.quadraticCurveTo(ox, band - 0.03, ox + 0.026, band + 0.006); c.closePath(); }, ELI_HAIR, H.lw); }
-    if (H.back) h.shape(c, () => { c.beginPath(); c.ellipse(0, band + 0.01, hw * 0.95, 0.02, 0, 0, K.TAU); }, CAP_D, H.lw);
+    if (H.back) { h.shape(c, () => { c.beginPath(); c.moveTo(-hw * 0.92, band + 0.004); c.ellipse(0, band + 0.004, hw * 0.92, 0.034, 0, Math.PI, 0, true); c.closePath(); }, CAP_D, H.lw);   // the visor points at us: it hangs over the nape
+      c.strokeStyle = K.rgba('#8a6512', 0.8); c.lineWidth = H.lw; c.beginPath(); c.ellipse(0, band + 0.004, hw * 0.8, 0.026, 0, 0.15, Math.PI - 0.15); c.stroke(); }
     c.fillStyle = CAP_D; c.strokeStyle = INK; c.lineWidth = H.lw; c.beginPath(); c.arc(off * 0.5, -hh - 0.036, 0.007, 0, K.TAU); c.fill(); c.stroke();
     c.restore();
   }
   function shortHairUnder(c, H) { shortHair(c, H, 0.058); }
   // 4 · yellow headband (bandana rolled into a band) over short hair, knot + tails at the back of the head
   function bandana(c, H) {
-    const hw = H.hw, hh = H.hh, y0 = -hh + 0.045, bh = 0.03, lift = hatLift(H, y0 + bh, 0.03);
+    const hw = H.hw, hh = H.hh, y0 = -hh + 0.045, bh = 0.03, lift = hatLift(H, y0 + bh);
     hatFrame(c, H, y0 + bh, lift);
     const bandP = () => { c.beginPath(); c.moveTo(-hw * 1.1, y0 + 0.004); c.quadraticCurveTo(0, y0 - 0.008, hw * 1.1, y0 + 0.004); c.lineTo(hw * 1.1, y0 + bh); c.quadraticCurveTo(0, y0 + bh - 0.01, -hw * 1.1, y0 + bh); c.closePath(); };
     const kx = H.back ? 0 : -H.faceDir * hw * 1.02, show = H.back || H.fs > 0.2;
@@ -210,7 +218,7 @@
   }
   // 5 · flat newsboy cap (mustard-yellow): a soft round crown pulled forward, short stiff brim over the face side
   function newsboy(c, H) {
-    const hw = H.hw, hh = H.hh, band = -hh + 0.056, lift = hatLift(H, band + 0.012);
+    const hw = H.hw, hh = H.hh, band = -hh + 0.056, lift = hatLift(H, band + 0.02);
     hatFrame(c, H, band, lift);
     const fs = H.fs, fd = H.faceDir, cx = fd * fs * hw * 0.25;
     const crown = () => { c.beginPath(); c.moveTo(-hw * 1.1, band + 0.004); c.bezierCurveTo(-hw * 1.35 + cx, -hh - 0.02, hw * 1.25 + cx, -hh - 0.05, hw * 1.12 + cx * 1.4, band - 0.004); c.closePath(); };
@@ -224,7 +232,7 @@
   }
   // 6 · bucket hat: a short crown and a soft brim sloping down all round (narrow in front so it never reaches the brows)
   function bucket(c, H) {
-    const hw = H.hw, hh = H.hh, band = -hh + 0.05, lift = hatLift(H, band + 0.014, 0.04);
+    const hw = H.hw, hh = H.hh, band = -hh + 0.05, lift = hatLift(H, band + 0.027);
     hatFrame(c, H, band, lift);
     const brim = () => { c.beginPath(); c.moveTo(-hw * 1.5, band + 0.022); c.quadraticCurveTo(-hw * 1.3, band - 0.006, -hw * 1.0, band - 0.006); c.lineTo(hw * 1.0, band - 0.006); c.quadraticCurveTo(hw * 1.3, band - 0.006, hw * 1.5, band + 0.022); c.quadraticCurveTo(0, band + 0.03, -hw * 1.5, band + 0.022); c.closePath(); };
     const crown = () => { c.beginPath(); c.moveTo(-hw * 0.98, band); c.lineTo(-hw * 0.92, -hh - 0.03); c.quadraticCurveTo(0, -hh - 0.05, hw * 0.92, -hh - 0.03); c.lineTo(hw * 0.98, band); c.closePath(); };
@@ -236,8 +244,8 @@
   }
   // 7 · (Claude's idea, workshop) short curls + yellow-rimmed workshop goggles pushed up on the forehead
   function goggles(c, H) {
-    const hw = H.hw, hh = H.hh, y = -hh + 0.06, lift = hatLift(H, y + 0.018, 0.03);
-    hatFrame(c, H, y, lift);
+    const hw = H.hw, hh = H.hh, y = -hh + 0.06, lift = hatLift(H, y + 0.02);
+    hatFrame(c, H, y, lift, 0.15);   // rigid goggles: they bounce on a hit, they do not squash into slits
     c.strokeStyle = INK; c.lineWidth = H.lw * 3.2; c.beginPath(); c.moveTo(-hw * 1.05, y + 0.002); c.quadraticCurveTo(0, y - 0.01, hw * 1.05, y + 0.002); c.stroke();
     c.strokeStyle = '#3a3436'; c.lineWidth = H.lw * 2.2; c.stroke();
     if (!H.back) { const fs = H.fs, fd = H.faceDir, sep = 0.036 * (1 - 0.45 * fs), cx = fd * fs * hw * 0.55;
@@ -249,14 +257,15 @@
       c.strokeStyle = INK; c.lineWidth = H.lw * 2.4; c.beginPath(); c.moveTo(cx - sep + 0.02, y); c.lineTo(cx + sep - 0.02, y); c.stroke(); }
     c.restore();
   }
+  // extraK (Guardian 2026-10-29): the surprise ticks / anger mark sit outside the headwear (they used to cross the crown)
   C.ELI_HATS = {
     1: { name: 'gorro tejido (actual)', layers: () => ({ hat: C.SPECS.eli1.hat }), cost: 'existe' },
-    2: { name: 'rizos cortos, sin gorro', layers: () => ({ hat: curlsFront, hairBack: curlsBack }), cost: 'nuevo (reutiliza el pelo lobulado de Alt 2)' },
-    3: { name: 'gorra al revés', layers: () => ({ hat: capBack }), cost: 'nuevo' },
-    4: { name: 'banda amarilla + pelo corto', layers: () => ({ hat: (c, H) => { shortHair(c, H); bandana(c, H); }, backHair: (c, H) => shortHair(c, H) }), cost: 'nuevo' },
-    5: { name: 'boina plana (newsboy) mostaza', layers: () => ({ hat: (c, H) => { shortHair(c, H, 0.062); newsboy(c, H); }, backHair: (c, H) => shortHair(c, H, 0.062) }), cost: 'nuevo' },
-    6: { name: 'gorro pescador amarillo', layers: () => ({ hat: (c, H) => { shortHair(c, H, 0.062); bucket(c, H); }, backHair: (c, H) => shortHair(c, H, 0.062) }), cost: 'nuevo' },
-    7: { name: 'rizos + gafas de taller', layers: () => ({ hat: (c, H) => { curlsFront(c, H); goggles(c, H); }, hairBack: curlsBack }), cost: 'nuevo (idea de Claude)' },
+    2: { name: 'rizos cortos, sin gorro', layers: () => ({ extraK: 1.3, hat: curlsFront, hairBack: curlsBack }), cost: 'nuevo (reutiliza el pelo lobulado de Alt 2)' },
+    3: { name: 'gorra al revés', layers: () => ({ extraK: 1.36, hat: capBack }), cost: 'nuevo' },
+    4: { name: 'banda amarilla + pelo corto', layers: () => ({ extraK: 1.18, hat: (c, H) => { shortHair(c, H); bandana(c, H); }, backHair: (c, H) => shortHair(c, H) }), cost: 'nuevo' },
+    5: { name: 'boina plana (newsboy) mostaza', layers: () => ({ extraK: 1.42, hat: (c, H) => { shortHair(c, H, 0.062); newsboy(c, H); }, backHair: (c, H) => shortHair(c, H, 0.062) }), cost: 'nuevo' },
+    6: { name: 'gorro pescador amarillo', layers: () => ({ extraK: 1.52, hat: (c, H) => { shortHair(c, H, 0.062); bucket(c, H); }, backHair: (c, H) => shortHair(c, H, 0.062) }), cost: 'nuevo' },
+    7: { name: 'rizos + gafas de taller', layers: () => ({ extraK: 1.3, hat: (c, H) => { curlsFront(c, H); goggles(c, H); }, hairBack: curlsBack }), cost: 'nuevo (idea de Claude)' },
   };
   // drop earrings: a stud on the head edge and a small gold drop hanging OUTSIDE the silhouette (reads as jewellery)
   function drops(color = GOLD, y = 0.04) {

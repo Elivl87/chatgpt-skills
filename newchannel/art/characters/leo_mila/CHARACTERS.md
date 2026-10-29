@@ -320,6 +320,15 @@ Rules (kit `art/lib/cast.js` + `ep/001/animatic/anim.js`):
   E1 G17 flag swept Mila's face for 2 frames at 46.70 s and the key-frame audits + pop check did not see it). Rule for
   shot lists: a prop with a pole or cloth (flag, magnifier, bucket, sandwich, clipboard) is held in the hand **away** from
   the other character and its whole arc (up AND down) is rendered frame by frame before the shot is accepted.
+- **Brows never touch the headwear (Guardian, 2026-10-29).** `python3 art/render/brow_clear_check.py <scratch> [n...]`
+  renders `eli_hat_lab` for every headwear option x happy / surprised / furious x hat hit 0 / 1 x front / 3/4 / profile /
+  beside Mila, twice with the brows painted red (`&probe=1`, with and without the headwear `&nohat=1`), and fails any
+  case where the headwear or its hair changes the skin 2-5 px around the brows. Headwear rules: the lift is measured from
+  the lowest ink edge (brim / lens / band, + stroke + hit push-down), the hairline under a hat stays clear over the
+  brows' span, nothing re-strokes the head outline over the face (the googly eyes bulge past it in 3/4 and profile), and
+  a tall headwear sets `extraK` so the surprise ticks / anger mark sit outside it. Any new headwear, or a change to the
+  chosen one, passes this check before a sheet or a shot leaves the studio. Option 1 (the current beanie) fails it by
+  design of the beanie (its lift is capped at 0.034): known, logged, not to be shipped as «fixed».
 
 ## 7 · Never
 
