@@ -22,14 +22,14 @@
       } else if (this.mode === 'golden') {
         E.drawCloseup(ctx, 2.0, null, { t0: 1e9, frame: { z: 2.0, wx: 600, wy: 640, sx: 960, sy: 600 },
           crew: (cx, sx, sy, SC, info) => K.cast.crew2(cx, sx, sy, SC, { driver: id, passenger: 'mila1', t: info.tau, light: Object.assign({}, C.LIGHT.golden, { rim: info.rim }), bob: 0, u: 2.7 * SC,
-            driverO: { pose: 'drive', expr: 'happy', look: [0.6, 0], blink: 0 }, passengerO: { pose: 'lap', expr: 'happy', view: 'q', dir: 1, look: [-0.7, 0], blink: 0 } }) });
+            driverO: { pose: 'drive', expr: 'happy', look: [-0.7, -0.1], blink: 0 }, passengerO: { pose: 'lap', expr: 'happy', view: 'q', dir: 1, look: [0.7, 0.05], blink: 0 } }) });
       } else {
         const g = ctx.createLinearGradient(0, 0, 0, K.H); g.addColorStop(0, '#0b1030'); g.addColorStop(0.7, '#2c3366'); g.addColorStop(1, '#463f6e'); ctx.fillStyle = g; ctx.fillRect(0, 0, K.W, K.H);
         const r = K.rng(5); ctx.fillStyle = '#e8ecff'; for (let k = 0; k < 160; k++) { K.circle(ctx, r() * K.W, r() * 700, 0.8 + r() * 1.6); ctx.fill(); }
         K.light.glow(ctx, 1600, 160, 500, '#9fb4ff', 0.35, 'screen');
         ctx.fillStyle = '#0a0f22'; ctx.beginPath(); ctx.moveTo(0, 1000); ctx.quadraticCurveTo(960, 930, K.W, 1000); ctx.lineTo(K.W, K.H); ctx.lineTo(0, K.H); ctx.fill();
-        C.draw(ctx, id, 780, 990, 900, { view: 'q', dir: 1, pose: 'stand', expr: 'happy', t: 0.6, light: C.LIGHT.night, blink: 0, look: [0.6, -0.1] });
-        C.draw(ctx, 'mila1', 1180, 990, 900, { view: 'q', dir: -1, pose: 'stand', expr: 'happy', t: 0.9, light: C.LIGHT.night, blink: 0, look: [-0.6, -0.1] });
+        C.draw(ctx, id, 800, 990, 800, { view: 'q', dir: 1, pose: 'stand', expr: 'happy', t: 0.6, light: C.LIGHT.night, blink: 0, look: [0.6, -0.55] });
+        C.draw(ctx, 'mila1', 1160, 990, 800, { view: 'q', dir: -1, pose: 'stand', expr: 'happy', t: 0.9, light: C.LIGHT.night, blink: 0, look: [-0.6, 0.25] });
         K.light.grade(ctx, '#3a4aa0', 0.25, 'soft-light');
       }
     },
