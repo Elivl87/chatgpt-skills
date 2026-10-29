@@ -101,6 +101,10 @@ def main():
                 if st == 'fail':
                     rows.append({'t': round(s['t'], 2), 'shot': s['shot'], 'why_sample': s['why'], 'id': f['id'], 'expr': f['expr'], 'view': f['view'], 'eye': k, 'problem': why,
                                  'eye_px': round(e['ry'], 1)})
+            # 2026-10-29 (director, «¿un ojo salido?»): in 3/4 and profile no eye may stick out past the head outline
+            if f.get('view') not in ('front', 'back', 'backq') and f.get('eyeOut', 0) > 0.5:
+                rows.append({'t': round(s['t'], 2), 'shot': s['shot'], 'why_sample': s['why'], 'id': f['id'], 'expr': f['expr'], 'view': f['view'], 'eye': -1,
+                             'problem': f"eye {f['eyeOut']:.1f} px outside the head outline", 'eye_px': 0}); counts['fail'] += 1
             hd = f.get('head') or [0, 0, 0]
             # framing: a face (head >= 12 px) whose head box crosses the frame edge is cut off
             if hd[2] >= 12 and (hd[0] - hd[2] * 0.8 < 0 or hd[0] + hd[2] * 0.8 > W or hd[1] - hd[2] < -hd[2] * 0.3) and -hd[2] < hd[0] < W + hd[2]:

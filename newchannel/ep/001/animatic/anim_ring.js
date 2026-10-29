@@ -130,9 +130,11 @@
     const m = Math.floor(Math.max(0, simSec) / 60), s = Math.floor(Math.max(0, simSec) % 60);
     pill(ctx, K.W - 96, 84, `${m}:${String(s).padStart(2, '0')}`, 34, a, { align: 'right' });
   };
-  // source line, small, bottom-left above the bottom 12 %
-  P.source = (ctx, text, a = 1) => { if (a <= 0.01) return; ctx.save(); ctx.globalAlpha = a * 0.9; ctx.font = '500 22px "Space Grotesk"'; ctx.fillStyle = '#fbf3e4';
-    ctx.shadowColor = 'rgba(20,10,30,0.7)'; ctx.shadowBlur = 6; ctx.fillText(text, 96, K.H * 0.88 - 18); ctx.restore(); };
+  // source line (the study citation), bottom-left. Director 2026-10-29: lower and a bit bigger (28 px, 600, baseline at
+  // 0.955 H, 96 px margin, soft shadow); text boxes / cards keep clear of it (A.SOURCE_ZONE, registered while it is drawn)
+  P.source = (ctx, text, a = 1) => { if (a <= 0.01) return; ctx.save(); ctx.globalAlpha = a * 0.9; ctx.font = '600 28px "Space Grotesk"'; ctx.fillStyle = '#fbf3e4';
+    ctx.shadowColor = 'rgba(20,10,30,0.7)'; ctx.shadowBlur = 6; const y = K.H * 0.955; ctx.fillText(text, 96, y); const w = ctx.measureText(text).width; ctx.restore();
+    if (K.anim) K.anim._srcZone = [96 - 12, y - 30, 96 + w + 12, y + 10]; };
   // big paper number with a label (counter "22", badge "5")
   P.badge = function (ctx, x, y, text, size, a, sub = null) {
     if (a <= 0.01) return;

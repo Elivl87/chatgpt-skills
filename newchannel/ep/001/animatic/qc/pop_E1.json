@@ -1,72 +1,16 @@
 {
  "block": "E1",
- "frames": 1464,
+ "frames": 1520,
  "events": [
   {
    "kind": "step",
-   "frame": 297,
-   "t": 9.9,
-   "shot": "G04_bridge",
-   "cells": 1,
-   "peak": 9.4,
-   "bbox": [
-    336,
-    192,
-    360,
-    216
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 301,
-   "t": 10.033,
+   "frame": 284,
+   "t": 9.467,
    "shot": "G04_bridge",
    "cells": 4,
-   "peak": 53.2,
+   "peak": 62.1,
    "bbox": [
-    360,
-    96,
-    408,
-    144
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 304,
-   "t": 10.133,
-   "shot": "G04_bridge",
-   "cells": 5,
-   "peak": 55.6,
-   "bbox": [
-    336,
-    96,
-    408,
-    144
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 331,
-   "t": 11.033,
-   "shot": "G04_bridge",
-   "cells": 1,
-   "peak": 14.2,
-   "bbox": [
-    336,
-    216,
-    360,
-    240
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 565,
-   "t": 18.833,
-   "shot": "G06_result",
-   "cells": 6,
-   "peak": 65.1,
-   "bbox": [
-    456,
+    480,
     48,
     528,
     96
@@ -74,13 +18,13 @@
   },
   {
    "kind": "step",
-   "frame": 568,
-   "t": 18.933,
-   "shot": "G06_result",
-   "cells": 6,
-   "peak": 65.9,
+   "frame": 287,
+   "t": 9.567,
+   "shot": "G04_bridge",
+   "cells": 4,
+   "peak": 61.4,
    "bbox": [
-    456,
+    480,
     48,
     528,
     96
@@ -88,11 +32,39 @@
   },
   {
    "kind": "step",
-   "frame": 793,
-   "t": 26.433,
-   "shot": "G09_faces",
+   "frame": 818,
+   "t": 27.267,
+   "shot": "G10_flag",
+   "cells": 3,
+   "peak": 65.0,
+   "bbox": [
+    504,
+    48,
+    552,
+    96
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 822,
+   "t": 27.4,
+   "shot": "G10_flag",
+   "cells": 3,
+   "peak": 65.5,
+   "bbox": [
+    504,
+    48,
+    552,
+    96
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1036,
+   "t": 34.533,
+   "shot": "G13_dale",
    "cells": 2,
-   "peak": 34.8,
+   "peak": 71.6,
    "bbox": [
     504,
     48,
@@ -102,81 +74,67 @@
   },
   {
    "kind": "step",
-   "frame": 1244,
-   "t": 41.467,
-   "shot": "G17_wave",
-   "cells": 1,
-   "peak": 18.5,
-   "bbox": [
-    456,
-    144,
-    480,
-    168
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1247,
-   "t": 41.567,
-   "shot": "G17_wave",
-   "cells": 1,
-   "peak": 18.9,
-   "bbox": [
-    456,
-    144,
-    480,
-    168
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1291,
-   "t": 43.033,
-   "shot": "G18_mila",
+   "frame": 1039,
+   "t": 34.633,
+   "shot": "G13_dale",
    "cells": 2,
-   "peak": 78.4,
+   "peak": 70.3,
    "bbox": [
-    264,
-    96,
-    288,
-    144
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1294,
-   "t": 43.133,
-   "shot": "G18_mila",
-   "cells": 1,
-   "peak": 75.8,
-   "bbox": [
-    264,
-    120,
-    288,
-    144
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1443,
-   "t": 48.1,
-   "shot": "G20_ontime",
-   "cells": 2,
-   "peak": 47.5,
-   "bbox": [
-    480,
+    504,
     48,
-    528,
+    552,
     72
    ]
   },
   {
    "kind": "step",
-   "frame": 1446,
-   "t": 48.2,
+   "frame": 1363,
+   "t": 45.433,
+   "shot": "G18_mila",
+   "cells": 2,
+   "peak": 68.5,
+   "bbox": [
+    480,
+    72,
+    528,
+    96
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1366,
+   "t": 45.533,
+   "shot": "G18_mila",
+   "cells": 2,
+   "peak": 65.8,
+   "bbox": [
+    480,
+    72,
+    528,
+    96
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1459,
+   "t": 48.633,
    "shot": "G20_ontime",
-   "cells": 5,
-   "peak": 47.9,
+   "cells": 4,
+   "peak": 36.1,
+   "bbox": [
+    480,
+    48,
+    552,
+    96
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1463,
+   "t": 48.767,
+   "shot": "G20_ontime",
+   "cells": 4,
+   "peak": 36.9,
    "bbox": [
     480,
     48,

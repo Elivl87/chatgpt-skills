@@ -52,7 +52,7 @@
       const CTRL = A.map(sOn, tCompu, 4);                      // the computer takes over on «computadora»
       const MELT = A.map(sMelt, tDerr, 4);                     // the wave has melted on «derritió»
       const LF = A.LIGHT_FIELD, G = A.FIELD.GROUND;
-      const rec = (c, acc) => P.pill(c, 96, acc ? 152 : 84, REC, 26, 1), src = c => P.source(c, SRC, 1);
+      const rec = (c, acc) => P.pill(c, 96, 84, REC, 26, 1)   /* 2026-10-29: speed labels removed, the pill keeps the top-left slot */, src = c => P.source(c, SRC, 1);
       const halo = (cx, x, y, a = 1) => { K.light.glow(cx, x, y - 6, 70, '#23746C', 0.55 * a, 'screen'); cx.save(); cx.globalAlpha = a; cx.strokeStyle = '#4fb3a8'; cx.lineWidth = 4; K.ellipse(cx, x, y - 4, 44, 24); cx.stroke(); cx.restore(); };
       // Guardian: the badge card stays pinned on Eli in the ring shots after «¡Mi lema!» (it vanished there, E09-E11)
       const ringOpts = (ts, o = {}) => Object.assign({ run: S7(), simT: ts, heroAfter: (cx, who, r, u, t) => { if (who === 'eli1') eliBadge(cx, r, u, t); }, carExpr: (i, st) => (i === AV ? 'content' : st ? 'annoyed' : 'content'),
@@ -92,11 +92,11 @@
           P.callout(c, 960, 160, '¡pop!', 70, A.pulse(t, tUnos - 0.25, 0.06, 0.2, 0.1)); },
         cues: A => [{ t: tLlenar, kind: 'whoosh_up' }, { t: tUnos - 0.25, kind: 'pop' }] });
       // E04 · the US ring (S7, before the computer: waves)
-      shots.push({ id: 'E04_us', start: tUnos - 0.1, bg: 'ring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.022, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E04_us', start: tUnos - 0.1, bg: 'ring', focus: [960, 540], push: 0.022, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { A.ring(c, t, ringOpts(PRE(t))); } });
-      shots.push({ id: 'E04_close', start: tEquipo - 0.1, bg: 'ring_close', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E04_close', start: tEquipo - 0.1, bg: 'ring_close', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.6, 1.6); c.translate(-1100, -700); A.ring(c, t, ringOpts(PRE(t))); c.restore(); } });
-      shots.push({ id: 'E05_21', start: tCon - 0.1, bg: 'ring2', label: 'ACELERADO ×4', focus: [960, 520], push: 0.024, pushDir: -1, over: (c, t) => { rec(c, true); P.badge(c, K.W - 260, 220, String(Math.max(1, Math.round(21 * A.ramp(t, tVeinti, 0.4)))), 110, A.ramp(t, tVeinti - 0.1, 0.2), 'autos'); src(c); },
+      shots.push({ id: 'E05_21', start: tCon - 0.1, bg: 'ring2', focus: [960, 520], push: 0.024, pushDir: -1, over: (c, t) => { rec(c, true); P.badge(c, K.W - 260, 220, String(Math.max(1, Math.round(21 * A.ramp(t, tVeinti, 0.4)))), 110, A.ramp(t, tVeinti - 0.1, 0.2), 'autos'); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.18, 1.18); c.translate(-960, -600); A.ring(c, t, ringOpts(PRE(t))); c.restore(); } });
       // E06 · the instruction: an observer hands the drivers a card; the waves; «manejen como en hora pico»
       shots.push({ id: 'E06_instr', start: tA - 0.1, bg: 'field_obs', focus: [960, 520], push: 0.03, over: c => rec(c, false),
@@ -104,7 +104,7 @@
           K.char.person(cx, 700, G, 64, { t, seed: 3, skin: '#c98a64', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'point', expr: 'focused', light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
           K.cast.draw(cx, 'mila1', 1240, G - 6, 560, { view: 'q', dir: -1, pose: 'clipboard', expr: 'curious', t, look: [-0.8, 0], light: LF, shadow: 0.3 });
           cx.save(); cx.translate(870, 700); cx.rotate(-0.08); P.plate(cx, 0, 0, '¡NO ARREGLEN NADA!', 34, A.ramp(t, tPara - 0.2, 0.3)); cx.restore(); } }); } });
-      shots.push({ id: 'E06_waves', start: tPara + 0.95, bg: 'ring_jam', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E06_waves', start: tPara + 0.95, bg: 'ring_jam', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = PRE(t), j = A.clampView(A.angPt(A.jamSmooth(ts, 3) || 0), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-j[0], -j[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); } });   // Guardian: Eli + Mila were cut at the frame corner under the source line (the camera follows the jam): left out
       shots.push({ id: 'E06_rush', start: tManejen - 0.1, bg: 'field_track', focus: [960, 600], push: 0.035, pushDir: -1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S7(), simT: PRE(t), frame: { z: 2.5, x: 1000, y: 680 }, front: false, carExpr: () => 'determined' }); } });
@@ -123,18 +123,18 @@
         cues: A => [{ t: tMi, kind: 'ding' }] });
 
       // ================================================================ BEAT 15 · the different car
-      shots.push({ id: 'E09_distinct', start: tPero - 0.1, bg: 'ring_av', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E09_distinct', start: tPero - 0.1, bg: 'ring_av', focus: [960, 540], push: 0.03, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.8); c.save(); c.translate(960, 540); c.scale(1.8, 1.8); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); } });   // Guardian: Eli + Mila were cut at the frame corner (camera on the computer car): left out
       // eyes pass (2026-10-16): in the two tight E10 shots (the computer car is the subject) Eli + Mila stood at the very
       // frame edge, cut off (head over the top / right edge): they are left out of these two shots (hero: () => true)
-      shots.push({ id: 'E10_computer', start: tUna - 0.1, bg: 'ring_av_close', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E10_computer', start: tUna - 0.1, bg: 'ring_av_close', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.6); c.save(); c.translate(960, 540); c.scale(2.6, 2.6); c.translate(-p[0], -p[1]);
           A.ring(c, t, ringOpts(ts, { extra: { hero: () => true }, carOver: (cx, i, x, y) => { if (i === AV) P.pill(cx, x, y - 70, 'COMPUTADORA', 14, A.ramp(t, tCompu - 0.1, 0.2), { align: 'center', bg: K.rgba('#23746C', 0.92) }); } })); c.restore(); } });
-      shots.push({ id: 'E10_nochase', start: tNo - 0.1, bg: 'ring_av2', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E10_nochase', start: tNo - 0.1, bg: 'ring_av2', focus: [960, 540], push: 0.03, pushDir: -1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.1); c.save(); c.translate(960, 540); c.scale(2.1, 2.1); c.translate(-p[0], -p[1]);
           A.ring(c, t, ringOpts(ts, { extra: { hero: () => true, over: (cx, g2s, cars, S2) => { const q = A.ringPt(AV, S2), lead = A.ringPt(AV + 1, S2); P.spring(cx, q, lead, 0.9); } } })); c.restore(); } });
       // E11 · PROMEDIO: the computer's needle stays still while the others jump
-      shots.push({ id: 'E11_promedio', start: tIr - 0.1, bg: 'ring_needles', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E11_promedio', start: tIr - 0.1, bg: 'ring_needles', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.7);
           c.save(); c.translate(960, 540); c.scale(1.7, 1.7); c.translate(-p[0], -p[1]);
           A.ring(c, t, ringOpts(ts, { carOver: (cx, i, x, y, b, S2) => { const v = S2.v[i]; cx.save(); cx.translate(x, y - 48); cx.fillStyle = '#fbf3e4'; cx.strokeStyle = '#2a1a1e'; cx.lineWidth = 2;
@@ -155,7 +155,7 @@
           c.font = '600 34px "Space Grotesk"'; c.fillStyle = K.rgba('#2a1a1e', 0.85); c.fillText('velocidad de un auto normal', x0 + 20, 240); c.fillText('tiempo →', x1 - 170, yb + 48);   /* art review 2026-10: 26 px @ 70 % -> 34 px @ 85 % (phone) */ },
         cues: A => [{ t: tContando + 0.4, kind: 'chime_avg' }] });
       // E13 · the spring in front of the computer car; Eli's fingers itch, he steps in to push... Mila pulls him back
-      shots.push({ id: 'E13_spring', start: tEl - 0.1, bg: 'ring_spring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E13_spring', start: tEl - 0.1, bg: 'ring_spring', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.3); c.save(); c.translate(960, 540); c.scale(2.3, 2.3); c.translate(-p[0], -p[1]);
           A.ring(c, t, ringOpts(ts, { extra: { over: (cx, g2s, cars, S2) => P.spring(cx, A.ringPt(AV, S2), A.ringPt(AV + 1, S2), 1) } })); c.restore(); },
         cues: A => [{ t: tEstira, kind: 'spring' }, { t: w('encoge', 1, '15'), kind: 'spring' }] });
@@ -176,7 +176,7 @@
         cues: A => [{ t: pull, kind: 'whoosh_up' }] });
 
       // ================================================================ BEAT 16 · the wave melts
-      shots.push({ id: 'E14_melt', start: tLa - 0.05, bg: 'ring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.022, pushDir: 1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'E14_melt', start: tLa - 0.05, bg: 'ring', focus: [960, 540], push: 0.022, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { A.ring(c, t, ringOpts(MELT(t))); } });
       // P1-6: the two gauge shots get their own framings: E15 = reverse over-the-shoulder (Mila's back in the foreground, hands on
       // her hips, Eli facing the lens with the badge), E17 = low angle (camera at grass level, flowers out of focus in front)
@@ -189,12 +189,12 @@
           P.gauge(c, gp[0], gp[1], text, sub, A.ramp(t, keyT - 0.1, 0.25)); },   // Guardian: was (960, 260), touching Eli's beanie
         cues: A => [{ t: keyT, kind: 'gauge' }] });
       gaugeShot('E15_80', tLos1 - 0.1, '−80 %', 'cambios de velocidad', tOchenta, 'field_g1', [900, 150], 'ots');
-      shots.push({ id: 'E16_brakes', start: tLos2 - 0.1, bg: 'ring_candles', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: (c, t) => { rec(c, true); P.gauge(c, K.W - 470, 240, 'frenazos ≈ 0', null, A.ramp(t, tCasi, 0.25)); src(c); },
+      shots.push({ id: 'E16_brakes', start: tLos2 - 0.1, bg: 'ring_candles', focus: [960, 540], push: 0.03, pushDir: -1, over: (c, t) => { rec(c, true); P.gauge(c, K.W - 470, 240, 'frenazos ≈ 0', null, A.ramp(t, tCasi, 0.25)); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.3, 1.3); c.translate(-960, -620); A.ring(c, t, ringOpts(MELT(t))); c.restore(); } });
-      shots.push({ id: 'E17_fuel', start: tEn - 0.1, bg: 'ring_fuel', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: (c, t) => { rec(c, true); src(c); },
+      shots.push({ id: 'E17_fuel', start: tEn - 0.1, bg: 'ring_fuel', focus: [960, 540], push: 0.025, pushDir: 1, over: (c, t) => { rec(c, true); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.12, 1.12); c.translate(-960, -560); A.ring(c, t, ringOpts(MELT(t))); c.restore(); } });
       gaugeShot('E17_40', tLos3 - 0.1, 'hasta −40 %', 'gasolina', tCuarenta, 'field_g2', [920, 120], 'low');   // Guardian v5: [800,120] covered the RECREACIÓN ILUSTRADA label. Guardian: the wide badge touched Mila's ponytail and Eli's beanie
-      shots.push({ id: 'E18_one', start: tTodo - 0.1, bg: 'ring_one', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: (c, t) => { rec(c, true); P.badge(c, K.W - 260, 230, '1 / 21', 90, A.ramp(t, tSolo - 0.1, 0.25)); src(c); },
+      shots.push({ id: 'E18_one', start: tTodo - 0.1, bg: 'ring_one', focus: [960, 540], push: 0.03, pushDir: 1, over: (c, t) => { rec(c, true); P.badge(c, K.W - 260, 230, '1 / 21', 90, A.ramp(t, tSolo - 0.1, 0.25)); src(c); },
         draw(c, t, lt) { const ts = MELT(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); },   // Guardian v4: no Eli / Mila among the observers here (at ×1.9 Mila's head sat on the bottom edge at the block's end)
         cues: A => [{ t: tSolo, kind: 'ding' }] });
       // v5 #8 «Pobre lema de Eli.»: back on Eli, who was holding the badge straight with one finger (E17_40); he lets go on

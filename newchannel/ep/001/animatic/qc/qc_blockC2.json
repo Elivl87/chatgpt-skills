@@ -13,7 +13,7 @@
   [
    "file size <= 30 MB (chat delivery)",
    "PASS",
-   "16.49 MB"
+   "16.83 MB"
   ],
   [
    "audio AAC 48 kHz",
@@ -23,12 +23,12 @@
   [
    "loudness -14 LUFS (+-1)",
    "PASS",
-   "-14.1 LUFS"
+   "-14.0 LUFS"
   ],
   [
    "true peak <= -1.0 dBTP",
    "PASS",
-   "-2.4 dBTP"
+   "-2.5 dBTP"
   ],
   [
    "no black frames",
@@ -47,8 +47,8 @@
   ]
  ],
  "loudness": {
-  "I": -14.1,
-  "TP": -2.4,
+  "I": -14.0,
+  "TP": -2.5,
   "LRA": 3.2
  },
  "detect": {
@@ -59,66 +59,66 @@
  "pacing": {
   "name": "blockC2",
   "source": "/home/user/chatgpt-skills/newchannel/ep/001/animatic/blockC2_review.mp4",
-  "duration_s": 76.0,
+  "duration_s": 75.8,
   "shots": 25,
-  "avg_shot_s": 3.04,
-  "median_shot_s": 2.66,
+  "avg_shot_s": 3.03,
+  "median_shot_s": 2.17,
   "longest_shot_s": 12.5,
-  "cuts_per_min": 18.9,
-  "motion_share": 0.785,
+  "cuts_per_min": 19.0,
+  "motion_share": 0.771,
   "still_2s_runs": 3,
-  "brightness_mean": 0.413,
-  "saturation_mean": 0.436,
+  "brightness_mean": 0.42,
+  "saturation_mean": 0.431,
   "palette": [
    [
-    "#627a47",
-    0.172
+    "#5d7947",
+    0.15
    ],
    [
-    "#322f54",
-    0.115
+    "#594b4e",
+    0.132
+   ],
+   [
+    "#342f52",
+    0.121
    ],
    [
     "#0f1535",
-    0.113
+    0.112
    ],
    [
-    "#212247",
+    "#202249",
     0.11
    ],
    [
-    "#534647",
-    0.104
-   ],
-   [
-    "#6e5d64",
-    0.102
-   ],
-   [
-    "#9d8f51",
-    0.093
-   ],
-   [
-    "#9a8586",
-    0.084
+    "#7f6e75",
+    0.1
    ],
    [
     "#070d22",
-    0.08
+    0.081
    ],
    [
-    "#dbc3ab",
-    0.027
+    "#877a48",
+    0.067
+   ],
+   [
+    "#bda69d",
+    0.065
+   ],
+   [
+    "#a89658",
+    0.064
    ]
   ],
-  "loud_db_p90": -12.2,
+  "loud_db_p90": -12.0,
   "pauses_ge_0_5s": 0,
   "pause_mean_s": 0,
   "pause_longest_s": 0,
-  "words": 198,
-  "wpm_overall": 156,
+  "words": 196,
+  "wpm_overall": 155,
   "wpm_while_speaking": 206
  },
- "duration": 76.066667,
- "size": 16489430
+ "duration": 75.87,
+ "size": 16825785
 }

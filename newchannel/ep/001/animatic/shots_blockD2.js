@@ -29,7 +29,7 @@
       const M9 = A.map(ev('S9', 'mila_takes_wheel'), tCompu, 4);
       const EL = A.map(ev('S3B_ELI', 'eli_stop'), tEmbot, 2), MI = A.map(ev('S3B_ELI', 'eli_stop'), tEmbot, 2);
       const LF = A.LIGHT_FIELD, G = A.FIELD.GROUND, N = A.LIGHT_NOON;
-      const rec = (c, acc) => P.pill(c, 96, acc ? 152 : 84, REC, 26, 1), src = (c, s = SRC) => P.source(c, s, 1);
+      const rec = (c, acc) => P.pill(c, 96, 84, REC, 26, 1)   /* 2026-10-29: speed labels removed, the pill keeps the top-left slot */, src = (c, s = SRC) => P.source(c, s, 1);
       const halo = (cx, x, y, a = 1, col = '#23746C') => { K.light.glow(cx, x, y - 6, 70, col, 0.55 * a, 'screen'); cx.save(); cx.globalAlpha = a; cx.strokeStyle = '#4fb3a8'; cx.lineWidth = 4; K.ellipse(cx, x, y - 4, 44, 24); cx.stroke(); cx.restore(); };
       const ring8 = (ts, o = {}) => Object.assign({ run: S8(), simT: ts, carExpr: (i, st) => (st ? 'annoyed' : 'content'), carOver: (cx, i, x, y) => { if (i === AV) halo(cx, x, y); } }, o);
       // the observers' laptop (generic, no brand) with the on-screen knob; k = knob position (0 = average, 1 = a bit faster)
@@ -51,45 +51,31 @@
         cues: A => [] });   // v5 #15: the whistle + click moved to F01_knob, under «alguien la sube silbando»
       // David pace: F01_laptop was 5.4 s; «un poquito más rápido que el promedio» now plays on the ring (the halo car, before
       // the knob), so the laptop close-up keeps the reveal «En nuestra versión, alguien la sube silbando»
-      shots.push({ id: 'F01_ring', start: tUn - 0.1, bg: 'ring_pre', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'F01_ring', start: tUn - 0.1, bg: 'ring_pre', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { const ts = K8u(t), S = S8().at(ts), p = A.clampView(A.ringPt(AV, S), 1.6); c.save(); c.translate(960, 540); c.scale(1.6, 1.6); c.translate(-p[0], -p[1]); A.ring(c, t, ring8(ts)); c.restore(); } });
       shots.push({ id: 'F01_knob', start: tEn17 - 0.1 /* v5 #15: the laptop close-up opens on «En nuestra versión…» (was «rápido» − 0.35) */, bg: 'laptop_close', focus: [960, 520], push: 0.035, pushDir: 1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0.1 },
         draw(c, t, lt) { A.paper(c, t); laptop(c, 960, 640, 2.6, knob(t), t);
           K.cast.draw(c, 'eli1', 1500, 1500, 1100, { view: 'q', dir: -1, ...A.pz(t, tSube - 0.3, 'crossed', 'point'), expr: 'smug', t, look: [0, -0.9], light: K.cast.LIGHT.board }); },
         cues: A => [{ t: tEn17 + 0.3, kind: 'whistle', t1: tSilbandoE + 0.3 }, { t: tSube - 0.15, kind: 'click' }] });
-      shots.push({ id: 'F02_back', start: tLa - 0.1, bg: 'ring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, over: c => { rec(c, true); src(c); },
+      shots.push({ id: 'F02_back', start: tLa - 0.1, bg: 'ring', focus: [960, 540], push: 0.025, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { A.ring(c, t, ring8(K8b(t))); } });
-      shots.push({ id: 'F03_yell', start: tQuien - 0.3, bg: 'field_eli', focus: [900, 480], push: 0.03, pushDir: -1, over: c => rec(c, false),
-        draw(c, t, lt) { let head = null; const yell = A.pulse(t, tQuien - 0.03, 0.08, tFueE - tQuien + 0.25, 0.2);
-          A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.55, x: 900, y: 560 }, chars: cx => { const r = K.cast.draw(cx, 'eli1', 860, G, 640, { view: 'q', dir: -1, pose: 'fist', expr: 'furious', t, light: LF, shadow: 0.3, lean: 0.06, extras: ['anger'] }); head = r.head; } });
-          if (head) A.speaker('eli', [960 + (head[0] - 900) * 1.55, 540 + (head[1] - 560) * 1.55, head[2] * 1.55]); },
-        cues: A => [{ t: tQuien, kind: 'pop' }] });
-      // F04 · silence: everybody turns to look at him (the drivers in the band, the observers, Mila)
-      shots.push({ id: 'F04_stare', start: tFueE + 0.3, bg: 'field_stare', focus: [960, 540], push: 0.02, pushDir: 1, over: c => rec(c, false),
-        // Guardian v3: the carried-over shout sat top-left and its tail ran across Mila's face (read as her line): two short lines above Eli
-        say: { b17_35_eli: { maxW: 380, at: [1560, 150] } },   // Guardian v3 (2): one line, higher — the 2-line box touched Eli's head zone on the first frames
-        draw(c, t, lt) { A.field(c, t, { run: S8(), simT: K8b(tFueE + 0.3), frame: { z: 1.25, x: 960, y: 600 }, carExpr: () => 'annoyed', chars: cx => {
-          K.char.person(cx, 520, G - 20, 62, { t, seed: 4, skin: '#e3a983', hair: '#2b1d1a', hairStyle: 'bun', shirt: '#d8e04a', pose: 'stand', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
-          K.char.person(cx, 660, G - 20, 62, { t, seed: 5, skin: '#9a6447', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'clipboard', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
-          K.cast.draw(cx, 'mila1', 1050, G - 6, 560, { view: 'q', dir: 1, pose: 'hips' /* P1-6: Mila's base poses vary (hands on hips F04-F06) */, expr: 'annoyed', t, look: [0.9, 0], light: LF, shadow: 0.3 });
-          K.cast.draw(cx, 'eli1', 1420, G, 580, { view: 'front', pose: 'fist', expr: 'sheepish', t, look: [-0.6, 0], light: LF, shadow: 0.3 }); } }); },
-        cues: A => [{ t: tFueE + 0.3, kind: 'silence_hit' }] });
-      shots.push({ id: 'F05_eli', start: tEliM - 0.2, bg: 'field_mila', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
-        draw(c, t, lt) { const sp = A.talk('mila', t); A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.75, x: 980, y: 505 }, chars: cx =>   /* Guardian v3: ponytail was cut by the top edge */
-          K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'q', dir: 1, pose: 'hips', expr: 'annoyed', t, look: [-0.3, 0.1], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme }) }); } });
-      // F06 · «…Fue el viento.» — whistling, a leaf crosses very slowly; Mila turns the knob back down with one finger
-      shots.push({ id: 'F06_wind', start: Math.max(tFue2 - 0.35, tEliM + 0.55) /* David: Mila's «¿Eli?» slot is 0.3 s; F05 holds until her box has been read (was 0.53 s) */, bg: 'field_leaf', focus: [960, 520], push: 0.025, pushDir: -1, over: c => rec(c, false),
-        draw(c, t, lt) { const sp = A.talk('eli', t);
-          A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.45, x: 960, y: 580 }, chars: cx => {
-            K.cast.draw(cx, 'eli1', 820, G, 620, { view: 'q', dir: 1, pose: 'clasp', expr: 'sheepish', t, look: [0.3, -0.8], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme });
-            laptop(cx, 1320, 880, 0.9, knob(t), t);
-            // eyes pass: Mila was half out of frame (x 1560 -> screen 1830) and blank; now inside, skeptical at Eli, then smug at the knob
-            K.cast.draw(cx, 'mila1', 1470, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, tVientoE, 'hips', 'point'), ...A.ez(t, tVientoE, 'annoyed', 'smug'), t, look: t > tVientoE ? [0.5, 0.5] : [0.8, -0.05], light: LF, shadow: 0.3 }); } });
+      // director 2026-10-29 (text boxes never cross a cut, each fully visible >= max(1.6, 0.5 + 0.08/char) s): «¡¿Quién fue?!»,
+      // «Eli.» and «…Fue el viento.» overlap as one chain of boxes (9.7 -> 14.4 s), so the exchange is ONE shot (it was four:
+      // F03 yell close, F04 stare, F05 Mila, F06 wind): the stare framing (observers + Mila + Eli) with the laptop and the leaf
+      shots.push({ id: 'F04_stare', start: tQuien - 0.3, bg: 'field_stare', focus: [960, 540], push: 0.02, pushDir: 1, over: c => rec(c, false),
+        say: { b17_35_eli: { maxW: 380, at: [1560, 150] } },
+        draw(c, t, lt) { const spE = A.talk('eli', t), spM = A.talk('mila', t), after = t > tFueE + 0.3;
+          A.field(c, t, { run: S8(), simT: K8b(Math.min(t, tFueE + 0.3)), frame: { z: 1.25, x: 960, y: 600 }, carExpr: () => 'annoyed', chars: cx => {
+            K.char.person(cx, 520, G - 20, 62, { t, seed: 4, skin: '#e3a983', hair: '#2b1d1a', hairStyle: 'bun', shirt: '#d8e04a', pose: 'stand', expr: after ? 'annoyed' : 'surprised', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
+            K.char.person(cx, 660, G - 20, 62, { t, seed: 5, skin: '#9a6447', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'clipboard', expr: after ? 'annoyed' : 'surprised', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
+            laptop(cx, 1250, 905, 0.72, knob(t), t);
+            K.cast.draw(cx, 'mila1', 1030, G - 6, 560, { view: 'q', dir: 1, ...A.pz(t, tVientoE, 'hips', 'point'), ...A.ez(t, tVientoE, 'annoyed', 'smug'), t, look: t > tVientoE ? [0.6, 0.5] : [0.9, 0], light: LF, shadow: 0.3, talk: spM.talk, viseme: spM.viseme });
+            K.cast.draw(cx, 'eli1', 1440, G, 580, { view: 'front', ...A.seq(t, [[0, { pose: 'fist' }], [tFueE + 0.3, { pose: 'clasp' }]], 0.25), ...A.ezs(t, [[0, 'furious'], [tFueE + 0.3, 'sheepish']]), t, look: after ? [0.3, -0.7] : [-0.6, 0], light: LF, shadow: 0.3, lean: after ? 0 : 0.05, extras: after ? [] : ['anger'], talk: spE.talk, viseme: spE.viseme }); } });
           // the leaf
           const u = K.clamp((t - tFue2) / 2.2), lx = K.lerp(-60, 1980, u), ly = 400 + Math.sin(u * 9) * 40;
-          c.save(); c.translate(lx, ly); c.rotate(Math.sin(u * 12) * 0.8); c.fillStyle = '#c99633'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.ellipse(0, 0, 26, 12, 0, 0, K.TAU); c.fill(); c.stroke(); c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke(); c.restore(); },
-        cues: A => [{ t: tFue2 - 0.3, kind: 'whistle', t1: tVientoE + 0.4 }, { t: tFue2, kind: 'fiu' }, { t: tVientoE + 0.2, kind: 'click' }] });
-      shots.push({ id: 'F07_down', start: tSer - 0.1, bg: 'ring_down', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
+          if (u > 0 && u < 1) { c.save(); c.translate(lx, ly); c.rotate(Math.sin(u * 12) * 0.8); c.fillStyle = '#c99633'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.ellipse(0, 0, 26, 12, 0, 0, K.TAU); c.fill(); c.stroke(); c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke(); c.restore(); } },
+        cues: A => [{ t: tQuien, kind: 'pop' }, { t: tFueE + 0.3, kind: 'silence_hit' }, { t: tFue2 - 0.3, kind: 'whistle', t1: tVientoE + 0.4 }, { t: tFue2, kind: 'fiu' }, { t: tVientoE + 0.2, kind: 'click' }] });
+      shots.push({ id: 'F07_down', start: tSer - 0.1, bg: 'ring_down', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.25, 1.25); c.translate(-960, -600); A.ring(c, t, ring8(K8d(t) + 20)); c.restore(); } });
       shots.push({ id: 'F07_plate', start: tEs - 0.1, bg: 'ring_plate', focus: [960, 520], push: 0.022, pushDir: -1, over: c => rec(c, false),
         draw(c, t, lt) { A.ring(c, t, ring8(K8d(t) + 20)); c.fillStyle = K.rgba('#1a1020', 0.3); c.fillRect(0, 0, K.W, K.H); P.plate(c, 960, 520, 'PACIENTE = PROMEDIO', 70, A.ramp(t, tEs, 0.3)); },
@@ -101,7 +87,7 @@
       const ring9 = (ts, o = {}) => Object.assign({ run: S9(), simT: ts, hero: () => ts > ev('S9', 'mila_takes_wheel'), carExpr: (i, st) => (st ? 'annoyed' : 'content'), carOver: (cx, i, x, y) => { if (i === AV && ts > ev('S9', 'mila_takes_wheel')) halo(cx, x, y); } }, o);
       shots.push({ id: 'F08_fav', start: tEsta - 0.1, bg: 'field_mila2', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S9(), simT: M9(t), frame: { z: 1.7, x: 980, y: 560 }, chars: cx => K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'front', pose: 'clasp', expr: 'awe', t, look: [0, -0.3], light: LF, shadow: 0.3 }) }); } });
-      shots.push({ id: 'F09_jump', start: tEn - 0.1, bg: 'ring9', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, over: (c, t) => { rec(c, true); src(c); P.pill(c, K.W - 96, 230, 'Mila hace de conductora', 28, A.ramp(t, tCompu + 0.2, 0.3), { align: 'right', bg: K.rgba('#7158b8', 0.92) }); },
+      shots.push({ id: 'F09_jump', start: tEn - 0.1, bg: 'ring9', focus: [960, 540], push: 0.025, over: (c, t) => { rec(c, true); src(c); P.pill(c, K.W - 96, 230, 'Mila hace de conductora', 28, A.ramp(t, tCompu + 0.2, 0.3), { align: 'right', bg: K.rgba('#7158b8', 0.92) }); },
         draw(c, t, lt) { A._rr = S9(); A.ring(c, t, ring9(M9(t))); A._rr = S8(); },
         cues: A => [{ t: tCompu, kind: 'ding' }] });
       // F10-F12 · in the car, side view: Mila drives (one hand on the wheel), Eli is the passenger
@@ -113,17 +99,14 @@
         draw(c, t, lt) { inCar(c, t, { z: 1.55, wx: 600, wy: 640, sx: 940, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon, 0.3))); } });
       shots.push({ id: 'F10_sticker', start: tCon - 0.1, bg: 'close9s', focus: [960, 540], push: 0.035, pushDir: 1,   // Guardian: z 2.6 -> 2.5, wy 700 -> 664 (Mila's ponytail and Eli's beanie were cut by the top edge)
         draw(c, t, lt) { inCar(c, t, { z: 2.5, wx: 690, wy: 664, sx: 960, sy: 560 }, { pose: 'drive', expr: 'happy', look: [0.9, 0] }, { pose: 'lap', expr: 'curious', look: [0.7, -0.1] }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, A.ramp(t, tCon + 0.3, 0.3))); } });
-      shots.push({ id: 'F11_gap', start: tHay - 0.25, bg: 'close9b', focus: [980, 520], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { const sp = A.talk('eli', t); let head = null;
-          inCar(c, t, { z: 1.6, wx: 620, wy: 630, sx: 960, sy: 560 }, { pose: 'drive', expr: 'neutral', look: [0.9, 0] },
-            { pose: 'point', view: 'q', dir: 1, expr: 'worried', look: [0.9, -0.1], talk: sp.talk, viseme: sp.viseme, extras: ['sweat'], lean: 0.05 }, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1));
-          P.ruler(c, 1500, 1880, 760, Math.max(0, A.closeState('S9', AV, M9(t)).gapL), 1); } });
-      // Guardian: Eli's sulk turn (back to camera) used 'surprised' (surprise ticks over a sulking back): grumpy throughout
-      shots.push({ id: 'F12_friend', start: tEse - 0.2, bg: 'close9c', focus: [900, 520], push: 0.03, pushDir: -1,
-        draw(c, t, lt) { const sp = A.talk('mila', t), grab = A.ramp(t, tAmigoE + 0.1, 0.2) * (1 - A.ramp(t, tAmigoE + 0.7, 0.2)), back = t > tAmigoE + 1.4;
-          inCar(c, t, { z: 1.75, wx: 560, wy: 610, sx: 900, sy: 560 }, { pose: 'drive', expr: 'happy', look: grab > 0.3 ? [-0.6, 0.3] : [0.9, 0], talk: sp.talk, viseme: sp.viseme },
-            { ...A.seq(t, [[0, { pose: 'lap' }], [tAmigoE + 0.2, { pose: 'drive' }], [tAmigoE + 0.85, { pose: 'crossed' }]], 0.2), view: back ? 'backq' : K.lerp(0.55, 1, A.ramp(t, tAmigoE + 1.2, 0.2)), dir: 1, ...A.ez(t, tAmigoE + 0.9, 'worried', 'grumpy'), look: [0.9, 0] }   /* Guardian v3: turns away through profile (was q -> back 3/4 mirrored in one frame) */, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1)); } });
-      const g9 = (id, start, text, sub, keyT) => shots.push({ id, start, bg: 'ring9_' + id, label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1,
+      // director 2026-10-29: «¡Hay un hueco! ¡Cabe una casa!» (2.9 s) and «Ese hueco es mi amigo.» chain as one box run: ONE
+      // in-car shot (was F11 gap + F12 friend): Eli points at the gap (ruler) while he talks, then Mila's line and the wheel gag
+      shots.push({ id: 'F12_friend', start: tHay - 0.25, bg: 'close9c', focus: [900, 520], push: 0.03, pushDir: -1,
+        draw(c, t, lt) { const sp = A.talk('mila', t), spE = A.talk('eli', t), grab = A.ramp(t, tAmigoE + 0.1, 0.2) * (1 - A.ramp(t, tAmigoE + 0.7, 0.2)), back = t > tAmigoE + 1.4, early = t < tEse - 0.2;
+          inCar(c, t, { z: 1.75, wx: 560, wy: 610, sx: 900, sy: 560 }, { pose: 'drive', expr: early ? 'neutral' : 'happy', look: grab > 0.3 ? [-0.6, 0.3] : [0.9, 0], talk: sp.talk, viseme: sp.viseme },
+            { ...A.seq(t, [[0, { pose: 'point' }], [tEse - 0.2, { pose: 'lap' }], [tAmigoE + 0.2, { pose: 'drive' }], [tAmigoE + 0.85, { pose: 'crossed' }]], 0.2), view: back ? 'backq' : K.lerp(0.55, 1, A.ramp(t, tAmigoE + 1.2, 0.2)), dir: 1, ...A.ez(t, tAmigoE + 0.9, 'worried', 'grumpy'), look: [0.9, early ? -0.1 : 0], talk: spE.talk, viseme: spE.viseme, extras: early ? ['sweat'] : [] }   /* Guardian v3: turns away through profile (was q -> back 3/4 mirrored in one frame) */, (cx, sx, sy, SC) => sticker(cx, sx, sy, SC, 1));
+          const ra = 1 - A.ramp(t, tEse - 0.3, 0.25); if (ra > 0.01) { c.save(); c.globalAlpha = ra; P.ruler(c, 1500, 1880, 760, Math.max(0, A.closeState('S9', AV, M9(t)).gapL), 1); c.restore(); } } });
+      const g9 = (id, start, text, sub, keyT) => shots.push({ id, start, bg: 'ring9_' + id, focus: [960, 540], push: 0.025, pushDir: 1,
         over: (c, t) => { rec(c, true); src(c); P.badge(c, 960, 240, text, 84, A.ramp(t, keyT - 0.1, 0.25), sub); },
         draw(c, t, lt) { A._rr = S9(); const ts = M9(t), S = S9().at(ts), p = A.clampView(A.ringPt(AV, S), 1.5); c.save(); c.translate(960, 600); c.scale(1.5, 1.5); c.translate(-p[0], -p[1]); A.ring(c, t, ring9(ts)); c.restore(); A._rr = S8(); },
         cues: A => [{ t: keyT, kind: 'gauge' }] });
@@ -155,17 +138,17 @@
         for (const k of [0, 1]) { const top = f[1] + b.dy + b.z * (k * 540 - f[1]), bot = top + 540 * b.z, y0 = Math.max(top, 0), y1 = Math.min(bot, K.H);
           if (y1 - y0 < 160) continue;
           P.pill(c, K.W - 96, y0 + (y0 < 60 ? 130 : 60), k ? 'MILA MANEJA' : 'ELI MANEJA', 30, 1, { align: 'right', bg: k ? K.rgba('#7158b8', 0.9) : K.rgba('#c99633', 0.9) }); } };
-      shots.push({ id: 'F16_two', start: tPor - 0.1, bg: 'two', over: stripPills, label: 'ACELERADO ×2', focus: [960, 540], push: 0.02, breath: true,
+      shots.push({ id: 'F16_two', start: tPor - 0.1, bg: 'two', over: stripPills, focus: [960, 540], push: 0.02, breath: true,
         draw(c, t, lt) { strips(c, t, EL(t)); } });
-      shots.push({ id: 'F16_spring', start: tAmort - 0.3, bg: 'two_mila', over: stripPills, label: 'ACELERADO ×2', focus: [960, 820], push: 0.03, pushDir: 1, zBase: 1.12,
+      shots.push({ id: 'F16_spring', start: tAmort - 0.3, bg: 'two_mila', over: stripPills, focus: [960, 820], push: 0.03, pushDir: 1, zBase: 1.12,
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); },
         cues: A => [{ t: tAmort, kind: 'spring' }] });
-      shots.push({ id: 'F17_late', start: w('llegue', 1, '19') - 0.1 /* Qwen voice (2026-10-24): the top strip opens on «llegue a los demás» (F16_spring was 6.9 s with the slower sentence; tEl left it 2.0 s) */, bg: 'two_top', over: stripPills, label: 'ACELERADO ×2', focus: [960, 270], push: 0.03, pushDir: 1, zBase: 1.1,
+      shots.push({ id: 'F17_late', start: w('llegue', 1, '19') - 0.1 /* Qwen voice (2026-10-24): the top strip opens on «llegue a los demás» (F16_spring was 6.9 s with the slower sentence; tEl left it 2.0 s) */, bg: 'two_top', over: stripPills, focus: [960, 270], push: 0.03, pushDir: 1, zBase: 1.1,
         draw(c, t, lt) { strips(c, t, EL(t)); },
         cues: A => [{ t: tEmbot, kind: 'stop_thunk' }] });
-      shots.push({ id: 'F17_pass', start: tCuando - 0.1, bg: 'two_bottom', over: stripPills, label: 'ACELERADO ×2', focus: [960, 810], push: 0.03, pushDir: -1, zBase: 1.1,
+      shots.push({ id: 'F17_pass', start: tCuando - 0.1, bg: 'two_bottom', over: stripPills, focus: [960, 810], push: 0.03, pushDir: -1, zBase: 1.1,
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); } });
-      shots.push({ id: 'F18_behind', start: tLos19 - 0.1, bg: 'two_wide', over: stripPills, label: 'ACELERADO ×2', focus: [960, 540], push: 0.02, pushDir: 1,
+      shots.push({ id: 'F18_behind', start: tLos19 - 0.1, bg: 'two_wide', over: stripPills, focus: [960, 540], push: 0.02, pushDir: 1,
         draw(c, t, lt) { strips(c, t, EL(t), { pxm: 10, camS: (S) => S.x[2] + 8 }); } });
       // «llegar tarde es la jugada» → «¡Yo llego tarde a todo!»: thumbs at himself; Mila pats him
       // v5 #10: «Mila lo sabe.» gets its own closer two-shot: the pat lands on «Mila» (F19_late was 6.5 s)
@@ -178,7 +161,7 @@
         cues: A => [{ t: w('llegar', 1, '19'), kind: 'ding' }] });
       shots.push({ id: 'F19_pat', start: tMilaSabe - 0.3, bg: 'field_pat', focus: [1040, 480], push: 0.035, pushDir: 1, over: c => rec(c, false),
         draw(c, t) { lateField(c, t, { z: 2.0, x: 1040, y: 560 }); } });
-      shots.push({ id: 'F21_japan', start: tEnJ - 0.1, bg: 'two_jp', label: 'ACELERADO ×2', focus: [960, 540], push: 0.022, pushDir: -1, over: (c) => src(c, SRC3),
+      shots.push({ id: 'F21_japan', start: tEnJ - 0.1, bg: 'two_jp', focus: [960, 540], push: 0.022, pushDir: -1, over: (c) => src(c, SRC3),
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); } });
       shots.push({ id: 'F21_plate', start: tManejo - 0.1, bg: 'plate_jp', focus: [960, 520], push: 0.025, pushDir: 1, over: (c) => src(c, SRC3),
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); c.fillStyle = K.rgba('#1a1020', 0.35); c.fillRect(0, 0, K.W, K.H); P.plate(c, 960, 540, 'MANEJO QUE ABSORBE EMBOTELLAMIENTOS', 48, A.ramp(t, tManejo, 0.3)); },
@@ -186,14 +169,14 @@
       shots.push({ id: 'F22_ojo', start: tOjo - 0.15, bg: 'field_ojo', focus: [960, 480], push: 0.035, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S9(), simT: M9(t), frame: { z: 1.8, x: 980, y: 560 }, chars: cx => K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'front', pose: 'point', expr: 'determined', t, look: [0, 0], light: LF, shadow: 0.3 }) }); } });
       // «Si la vía está simplemente repleta…»: the overcast toll plaza (more cars arrive than the booths serve), then the overfull dome
-      shots.push({ id: 'F23_toll', start: tSi - 0.1, bg: 'toll', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, post: { grain: 0.12, vignette: 0.32, vignetteColor: '#3a3a4a', bloom: 0.1 },
+      shots.push({ id: 'F23_toll', start: tSi - 0.1, bg: 'toll', focus: [960, 540], push: 0.025, post: { grain: 0.12, vignette: 0.32, vignetteColor: '#3a3a4a', bloom: 0.1 },
         draw(c, t, lt) { E.drawToll(c, 4 + (t - tSi) * 2, 0); },
         cues: A => [{ t: tSi + 0.8, kind: 'horn' }] });
-      shots.push({ id: 'F23_dome40', start: tNingun - 0.1, bg: 'dome40', label: 'ACELERADO ×10', focus: [960, 560], push: 0.025, pushDir: 1, post: { grain: 0.13, vignette: 0.4, vignetteColor: '#1a1020', bloom: 0.22 },
+      shots.push({ id: 'F23_dome40', start: tNingun - 0.1, bg: 'dome40', focus: [960, 560], push: 0.025, pushDir: 1, post: { grain: 0.13, vignette: 0.4, vignetteColor: '#1a1020', bloom: 0.22 },
         over: (c, t) => P.badge(c, K.W - 260, 230, '40', 90, 1, 'autos'),
         draw(c, t, lt) { const R = A.adapter('S5_40'); A.dome(c, t, { run: R, simT: 300 + (t - tNingun) * 10, carOver: (cx, i, x, y) => { if (i === 0) halo(cx, x, y); } }); } });
       // v5 #11 «Ni siquiera Mila.»: push in on the patient car (the halo) stuck in the overfull dome, same sim clock
-      shots.push({ id: 'F23_mila', start: tNiMila - 0.1, bg: 'dome40_close', label: 'ACELERADO ×10', focus: [960, 560], push: 0.035, pushDir: 1, post: { grain: 0.13, vignette: 0.45, vignetteColor: '#1a1020', bloom: 0.22 },
+      shots.push({ id: 'F23_mila', start: tNiMila - 0.1, bg: 'dome40_close', focus: [960, 560], push: 0.035, pushDir: 1, post: { grain: 0.13, vignette: 0.45, vignetteColor: '#1a1020', bloom: 0.22 },
         draw(c, t, lt) { const R = A.adapter('S5_40'), ts = 300 + (t - tNingun) * 10, S = R.at(ts), z = 2.1, p = A.clampView(A.domePt((S.x[0] % R.p.L) / R.p.L * K.TAU, A.domeView()), z);
           c.save(); c.translate(960, 560); c.scale(z, z); c.translate(-p[0], -p[1]);
           A.dome(c, t, { run: R, simT: ts, carOver: (cx, i, x, y) => { if (i === 0) halo(cx, x, y, 0.75 + 0.25 * Math.sin(t * 5)); } }); c.restore(); } });

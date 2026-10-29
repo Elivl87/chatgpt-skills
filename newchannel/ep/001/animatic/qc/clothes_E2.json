@@ -1,6 +1,12 @@
 {
  "block": "E2",
  "checked": 173,
- "fail": 0,
- "fails": []
+ "fail": 1,
+ "fails": [
+  [
+   "pop",
+   "I04_ease t29.60 mila1 lap/q",
+   "white share 0.065 -> 0.033 in 1/30 s"
+  ]
+ ]
 }

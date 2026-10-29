@@ -246,6 +246,12 @@ pupil failure is not finished.** Then look at the sheet yourself: the expression
 syncs, the eyes look at something, faces are not cut by the frame, overlays or balloons, and not lost in the grade.
 Lab: `art/scenes/eye_lab.js` (`?scene=eye_lab&part=sizes|lights`, also at `&out=854x480`).
 
+**3/4 and profile: eyes inside the head** (director 2026-10-29, Producer: «¿a veces Eli tiene un ojo morado? ¿salido?»): in
+3/4 and profile both eyes (Eli and Mila, every expression) stay inside the head outline (`C.face`: `lim = hw − 1.2 lw` when
+the head is turned); only the front view keeps the small googly pop. No dark / purple ring or lid shade around an eye unless
+the expression has a lid. The face audit fails any eye > 0.5 px outside the outline (`eyeOut`, `faces_check.py`).
+Before / after: `characters/leo_mila/eyes_inside_before_after_small.jpg`.
+
 ## 6c · Guardian body audit (head to toe, automated + by eye) — 2026-10-16
 
 `TMPD=<scratch> ep/001/animatic/body_audit.sh A B …` renders the key acting frames ONCE (`faces_audit.mjs`) and runs

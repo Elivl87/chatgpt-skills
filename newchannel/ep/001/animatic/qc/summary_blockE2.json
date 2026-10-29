@@ -1,11 +1,11 @@
 {
  "duration": 73.33499999999998,
- "shots": 31,
- "cuts": 30,
- "cuts_per_min": 24.5,
+ "shots": 30,
+ "cuts": 29,
+ "cuts_per_min": 23.7,
  "longest_shot": 5.0,
  "longest_id": "K04_breeze",
- "avg_shot": 2.37,
- "size_mb": 16.8,
- "contact_kb": 378
+ "avg_shot": 2.45,
+ "size_mb": 17.61,
+ "contact_kb": 381
 }

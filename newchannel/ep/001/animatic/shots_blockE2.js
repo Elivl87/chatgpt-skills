@@ -115,26 +115,26 @@
         cues: A => [{ t: tMisma, kind: 'ding' }, { t: tMismo22, kind: 'ding' }, { t: tMenos, kind: 'ding' }] });
 
       // ================================================================ BEAT 23 · the same tap
-      shots.push({ id: 'I01_same', start: tMismo1 - 0.1, bg: 'hw', label: 'ACELERADO ×3', focus: [960, 520], push: 0.025, pushDir: -1,
+      shots.push({ id: 'I01_same', start: tMismo1 - 0.1, bg: 'hw', focus: [960, 520], push: 0.025, pushDir: -1,
         draw(c, t, lt) { wide(c, t, G23(t)); } });
-      shots.push({ id: 'I02_tele', start: tMismo2 - 0.1, bg: 'hw_tele', label: 'ACELERADO ×3', focus: [960, 560], push: 0.03,
+      shots.push({ id: 'I02_tele', start: tMismo2 - 0.1, bg: 'hw_tele', focus: [960, 560], push: 0.03,
         draw(c, t, lt) { const ts = G23(t), S = R().at(ts), xE = A.camX(ELI, ts), xT = S.x[TAP];
           const sCam = xE + 3, aim = A.aim(sCam, 0.2, 6.5, 4600, xT, 1.85, 0.9, [960, 560]);
           const g = A.hw(c, t, { simT: ts, sCam, lCam: 0.2, H: 6.5, pitch: aim.pitch, yaw: aim.yaw, f: 4600, hide: i => i === ELI, rays: true });
           const p = A.proj(g, xT, 1.85, 0.8); if (p) P.ring(c, p.x, p.y - 4, p.s * 2.1, p.s * 1.5, A.ramp(t, tFreno - 0.1, 0.45), { w: 6, alpha: 0.95 }); },
         cues: A => [{ t: tFreno, kind: 'brake_note', step: 1 }] });
-      shots.push({ id: 'I03_ots', start: tSolo - 0.1, bg: 'hw_ots', label: 'ACELERADO ×3', focus: [960, 600], push: 0.03, pushDir: 1,
+      shots.push({ id: 'I03_ots', start: tSolo - 0.1, bg: 'hw_ots', focus: [960, 600], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t); ots(c, t, ts, { onGround: (cx, G) => spring(cx, G, ts, 1), crew: tt => ({ eli: { pose: 'drive', blink: 0 }, mila: { pose: 'lap' } }) }); },   // Guardian: spring under the crew
         cues: A => [23, 22].map((car, k) => ({ t: tFreno + (A.ev('S11', 'brake_onset', e => e.car === car) - sTap) / 3, kind: 'brake_note', step: k + 2 })) });
       // the cascade reaches the car ahead... Eli eases off, never stops; the spring shrinks and stretches again
-      shots.push({ id: 'I04_ease', start: tLeadV - 0.35, bg: 'close', label: 'ACELERADO ×3', focus: [920, 560], push: 0.03, pushDir: 1,
+      shots.push({ id: 'I04_ease', start: tLeadV - 0.35, bg: 'close', focus: [920, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t);
           inCar(c, t, ts, { z: 1.45, wx: 700, wy: 615, sx: 940, sy: 540 },
             { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tLeadV + 0.2, 'determined', 'happy'), look: [0.9, 0], blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, expr: 'curious', look: [0.9, -0.05], blink: milaBlink(t) }, { badge: 0 }); },   // M1
         cues: A => [{ t: tLeadV, kind: 'brake_note', step: 6 }] });
       // over Eli's shoulder, looking back: the golden road, flowing, not one brake light
-      shots.push({ id: 'I05_back', start: tLeadV + 1.6, bg: 'hw_rev', label: 'ACELERADO ×3', focus: [960, 560], push: 0.03, pushDir: 1,
+      shots.push({ id: 'I05_back', start: tLeadV + 1.6, bg: 'hw_rev', focus: [960, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t), S = R().at(ts), xE = S.x[ELI];
           const sCam = xE + 0.6, aim = A.aim(sCam, 2.25, 1.55, 1050, xE - 45, 1.85, 0, [1120, 600], true);
           A.hw(c, t, { simT: ts, sCam, lCam: 2.25, H: 1.55, pitch: aim.pitch, yaw: aim.yaw, f: 1050, reverse: true, hide: i => i === ELI, carExpr: () => 'content' });
@@ -144,47 +144,44 @@
             ...A.ez(t, tLeadV + 2.0, 'curious', 'surprised'), tilt: -0.06 * A.ramp(t, tLeadV + 2.0, 0.25) });
           void rE; },   // M1 (2026-10-23): no badge on his chest any more; it stayed in the glovebox (H03_pop)
         cues: A => [{ t: tLeadV + 2.6, kind: 'chirp' }] });
-      shots.push({ id: 'I06_who', start: tQuien - 0.45, bg: 'close_tight', focus: [980, 470], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { const ts = G23(t), sp = A.talk('eli', t, { gain: 0.6 });
-          inCar(c, t, ts, { z: 1.9, wx: 650, wy: 500, sx: 980, sy: 560 },
-            { pose: 'drive', view: 'q', dir: -1, expr: 'curious', look: [-0.9, -0.1], headTurn: 0.3, talk: sp.talk, viseme: sp.viseme, blink: 0 },
-            { pose: 'lap', view: 'q', dir: 1, expr: 'happy', look: [-0.6, -0.1], blink: milaBlink(t) }, { badge: 0 });   // M1
-          /* the whisper «¿…Quién fue?» is a text box now (A.drawLines) */ } });
-      shots.push({ id: 'I07_you', start: tFuiste - 0.25, bg: 'close_mila', focus: [880, 500], push: 0.035, pushDir: -1,
-        draw(c, t, lt) { const ts = G23(t), sp = A.talk('mila', t), laugh = t > tTuE + 0.2; let heads = null;
+      // director 2026-10-29 (boxes never cross a cut, fully visible >= 1.6 s): «¿…Quién fue?» and «Fuiste tú.» overlap, so they
+      // share ONE in-car two-shot (was I06 who + I07 you): Eli asks (curious), Mila points at him, he goes sheepish, then laughs
+      shots.push({ id: 'I07_you', start: tQuien - 0.45, bg: 'close_mila', focus: [880, 500], push: 0.035, pushDir: -1,
+        draw(c, t, lt) { const ts = G23(t), sp = A.talk('mila', t), spE = A.talk('eli', t, { gain: 0.6 }); let heads = null;
           heads = inCar(c, t, ts, { z: 1.7, wx: 600, wy: 560, sx: 900, sy: 560 },
-            { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tTuE + 0.2, 'sheepish', 'laugh'), look: [-0.5, 0], blink: eliBlink(t) },
-            { pose: 'lap', blend: { pose: 'point', k: 0.62 }, view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], talk: sp.talk, viseme: sp.viseme, blink: 0 }, { badge: 0 });   // Guardian: a lower, shorter point at HIM (the full point covered Eli's nose and mouth); M1: no badge to point at
-          if (heads && heads.milaHead) A.speaker('mila', heads.milaHead); },
+            { pose: 'drive', view: 'q', dir: 1, ...A.ezs(t, [[0, 'curious'], [tFuiste - 0.1, 'sheepish'], [tTuE + 0.2, 'laugh']]), look: [-0.5, -0.05], blink: t < tFuiste ? 0 : eliBlink(t), talk: spE.talk, viseme: spE.viseme },
+            { pose: 'lap', blend: { pose: 'point', k: 0.62 * K.ease.sine(A.ramp(t, tFuiste - 0.3, 0.3)) }, view: 'q', dir: 1, expr: 'happy', look: [0.9, 0], talk: sp.talk, viseme: sp.viseme, blink: t < tFuiste ? milaBlink(t) : 0 }, { badge: 0 });   // Guardian: a lower, shorter point at HIM (the full point covered Eli's nose and mouth); M1: no badge to point at
+          if (heads && heads.milaHead) A.speaker('mila', heads.milaHead); if (heads && heads.eliHead) A.speaker('eli', heads.eliHead); },
         cues: A => [{ t: tTuE + 0.25, kind: 'mm' }] });
-      shots.push({ id: 'I08_bird', start: tTuE + 0.1, bg: 'bird', focus: [960, 520], push: 0.035, pushDir: 1,
-        draw(c, t, lt) { birdInsert(c, t, A.ramp(t, tTuE + 0.75, 0.2)); P.callout(c, 1260, 330, 'pío', 80, A.pulse(t, tTuE + 0.85, 0.08, 0.5, 0.2)); },
-        cues: A => [{ t: tTuE + 0.75, kind: 'flutter' }, { t: tTuE + 0.85, kind: 'chirp' }] });
+      shots.push({ id: 'I08_bird', start: tTuE + 0.1, minDur: 1.0, bg: 'bird', focus: [960, 520], push: 0.035, pushDir: 1,
+        // 2026-10-29: timed from the shot's own start (the cut moves after Mila's box)
+        draw(c, t, lt) { birdInsert(c, t, A.ramp(lt, 0.3, 0.2)); P.callout(c, 1260, 330, 'pío', 80, A.pulse(lt, 0.4, 0.08, 0.5, 0.2)); },
+        cues: (A, s) => [{ t: s.start + 0.3, kind: 'flutter' }, { t: s.start + 0.4, kind: 'chirp' }] });
 
       // ================================================================ BEAT 24 · goodbye: crane up, then the wordmark
-      shots.push({ id: 'J01_crane', start: tDetras - 0.3, bg: 'hw_crane_up', label: 'ACELERADO ×3', focus: [960, 470], push: 0.02, pushDir: -1,
+      shots.push({ id: 'J01_crane', start: tDetras - 0.3, minDur: 1.2, bg: 'hw_crane_up', focus: [960, 470], push: 0.02, pushDir: -1,
         draw(c, t, lt, S) { const ts = G23(t), xE = A.camX(ELI, ts, 2), up = K.ease.inOut(K.clamp(lt / (S.end - S.start))), H = K.lerp(6, 24, up);
           const sCam = xE - 18 - up * 20, aim = A.aim(sCam, -1.2, H, 1900, xE + 10, 1.85, 0, [960, 700]);
           A.hw(c, t, { simT: ts, sCam, lCam: -1.2, H, pitch: aim.pitch, yaw: aim.yaw, f: 1900, fg: false, crew: tt => ({ eli: { pose: 'drive', expr: 'happy' }, mila: { pose: 'lap' } }) }); } });
       // «un embotellamiento que nunca pasó»: looking back from high up, the road behind them flows
-      shots.push({ id: 'J01_never', start: w('embotellamiento', 1, '24') - 0.15, bg: 'hw_rev_high', label: 'ACELERADO ×3', focus: [960, 560], push: 0.025, pushDir: 1,
+      shots.push({ id: 'J01_never', start: w('embotellamiento', 1, '24') - 0.15, bg: 'hw_rev_high', focus: [960, 560], push: 0.025, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t), S = R().at(ts), xE = S.x[ELI], sCam = xE + 14, aim = A.aim(sCam, 2.6, 9, 1300, xE - 60, 1.85, 0, [960, 640], true);
           A.hw(c, t, { simT: ts, sCam, lCam: 2.6, H: 9, pitch: aim.pitch, yaw: aim.yaw, f: 1300, reverse: true, carExpr: () => 'content' });
           P.callout(c, 1300, 300, '¿embotellamiento?', 44, A.pulse(t, w('nunca', 1, '24'), 0.2, 0.7, 0.3)); } });
-      shots.push({ id: 'J02_plate', start: tEmb2 - 0.2, bg: 'hw_high', label: 'ACELERADO ×3', focus: [960, 500], push: 0.025, pushDir: 1,
+      shots.push({ id: 'J02_plate', start: tEmb2 - 0.2, bg: 'hw_high', focus: [960, 500], push: 0.025, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t), xE = A.camX(ELI, ts, 2), sCam = xE - 60, aim = A.aim(sCam, -1.2, 26, 1700, xE - 30, 1.85, 0, [960, 640]);
           A.hw(c, t, { simT: ts, sCam, lCam: -1.2, H: 26, pitch: aim.pitch, yaw: aim.yaw, f: 1700, fg: true });
           c.fillStyle = K.rgba('#1a1020', 0.25 * A.ramp(t, tEmb2, 0.3)); c.fillRect(0, 0, K.W, K.H);
           P.plate(c, 960, 380, 'UN EMBOTELLAMIENTO NO ES UN LUGAR.', 52, A.ramp(t, tEmb2, 0.3)); P.plate(c, 960, 520, 'ES UNA OLA.', 70, A.ramp(t, tEs2, 0.3)); },
         cues: A => [{ t: tEmb2, kind: 'plate' }, { t: tEs2, kind: 'plate' }] });
-      shots.push({ id: 'J03_calm', start: tSolo24 - 0.2, bg: 'close_wide', label: 'ACELERADO ×3', focus: [930, 540], push: 0.03, pushDir: 1,
+      shots.push({ id: 'J03_calm', start: tSolo24 - 0.2, bg: 'close_wide', focus: [930, 540], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t);
           inCar(c, t, ts, { z: 1.3, wx: 760, wy: 600, sx: 960, sy: 540 },
             { pose: 'drive', view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.05], blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tPaciente, 'neutral', 'happy'), look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 0 }); } });   // M1
       // v5 #16 «Hasta Eli.»: tighter on the pair, Mila's hand on his shoulder, Eli beams (J03_calm was 4.9 s)
       const tHasta = w('Hasta', 1, '24');
-      shots.push({ id: 'J03_eli', start: tHasta - 0.1, bg: 'close_eli', label: 'ACELERADO ×3', focus: [930, 520], push: 0.035, pushDir: 1,
+      shots.push({ id: 'J03_eli', start: tHasta - 0.1, bg: 'close_eli', focus: [930, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) { const ts = G23(t), give = A.ramp(t, tHasta, 0.3);
           inCar(c, t, ts, { z: 1.75, wx: 640, wy: 600, sx: 950, sy: 545 },
             { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tHasta + 0.3, 'happy', 'laugh'), look: [0.9, -0.05], blink: eliBlink(t) },

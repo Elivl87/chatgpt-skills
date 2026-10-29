@@ -19,7 +19,7 @@
   "LRA": 3.1,
   "gain_db": 9.8
  },
- "duration_s": 487.34,
+ "duration_s": 491.86,
  "end_screen_s": 20.0,
  "takes": [
   {
@@ -112,7 +112,7 @@
     "Mila,",
     "embotellamientos"
    ],
-   "dur": 9.57,
+   "dur": 12.242,
    "trim": [
     0.05,
     8.76
@@ -123,6 +123,12 @@
      "kind": "slot",
      "at": 5.095,
      "inserted_s": 0.86,
+     "removed_s": 0.0
+    },
+    {
+     "kind": "slot_widen_2",
+     "at": 5.55,
+     "inserted_s": 2.672,
      "removed_s": 0.0
     }
    ],
@@ -172,7 +178,7 @@
    ],
    "lufs_take": -18.74,
    "gain_db": 0.0,
-   "start": 47.05
+   "start": 49.722
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b07.mp3",
@@ -219,7 +225,7 @@
    ],
    "lufs_take": -19.59,
    "gain_db": 0.85,
-   "start": 71.7
+   "start": 74.372
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b08.mp3",
@@ -245,7 +251,7 @@
    ],
    "lufs_take": -18.04,
    "gain_db": -0.7,
-   "start": 92.15
+   "start": 94.822
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b09.mp3",
@@ -278,7 +284,7 @@
    ],
    "lufs_take": -18.42,
    "gain_db": -0.32,
-   "start": 102.92
+   "start": 105.592
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b10.mp3",
@@ -304,7 +310,7 @@
    ],
    "lufs_take": -18.37,
    "gain_db": -0.37,
-   "start": 127.73
+   "start": 130.402
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b11.mp3",
@@ -346,7 +352,7 @@
    ],
    "lufs_take": -18.94,
    "gain_db": 0.2,
-   "start": 147.07
+   "start": 149.742
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b12.mp3",
@@ -403,7 +409,7 @@
    ],
    "lufs_take": -19.01,
    "gain_db": 0.27,
-   "start": 167.82
+   "start": 170.492
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b13.mp3",
@@ -444,7 +450,7 @@
    ],
    "lufs_take": -18.53,
    "gain_db": -0.21,
-   "start": 197.55
+   "start": 200.222
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b14.mp3",
@@ -484,7 +490,7 @@
    ],
    "lufs_take": -18.15,
    "gain_db": -0.59,
-   "start": 223.12
+   "start": 225.792
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b15.mp3",
@@ -512,7 +518,7 @@
    ],
    "lufs_take": -18.84,
    "gain_db": 0.1,
-   "start": 247.67
+   "start": 250.342
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b16.mp3",
@@ -552,7 +558,7 @@
    ],
    "lufs_take": -18.17,
    "gain_db": -0.57,
-   "start": 270.65
+   "start": 273.322
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b17.mp3",
@@ -606,7 +612,7 @@
    ],
    "lufs_take": -18.78,
    "gain_db": 0.04,
-   "start": 289.76
+   "start": 292.432
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b18.mp3",
@@ -646,7 +652,7 @@
    ],
    "lufs_take": -19.07,
    "gain_db": 0.33,
-   "start": 308.84
+   "start": 311.512
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b19.mp3",
@@ -696,7 +702,7 @@
    ],
    "lufs_take": -18.39,
    "gain_db": -0.35,
-   "start": 331.41
+   "start": 334.082
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b20.mp3",
@@ -748,7 +754,7 @@
    ],
    "lufs_take": -19.19,
    "gain_db": 0.45,
-   "start": 363.6
+   "start": 366.272
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b21.mp3",
@@ -758,7 +764,7 @@
    "heard": "Pero hay un momento que Eli no deja de repetir, una ola viaja hacia atrás, pasan dos autos inteligentes y se achica, pasan cuatro con el sistema apagado y crece, pasan más autos inteligentes y se achica otra vez, cada auto que la cruza la hace crecer o encoger, mira quién hizo la ola a tiempo.",
    "aligned": "56/56",
    "unmatched": [],
-   "dur": 21.58,
+   "dur": 23.426,
    "trim": [
     0.02,
     19.1
@@ -796,11 +802,23 @@
      "at": 11.945,
      "inserted_s": 0.6,
      "removed_s": 0.0
+    },
+    {
+     "kind": "slot_widen_2",
+     "at": 10.857,
+     "inserted_s": 0.783,
+     "removed_s": 0.0
+    },
+    {
+     "kind": "slot_widen_2",
+     "at": 15.735,
+     "inserted_s": 1.063,
+     "removed_s": 0.0
     }
    ],
    "lufs_take": -18.24,
    "gain_db": -0.5,
-   "start": 390.22
+   "start": 392.892
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b22.mp3",
@@ -844,7 +862,7 @@
    ],
    "lufs_take": -19.56,
    "gain_db": 0.82,
-   "start": 412.4
+   "start": 416.918
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b23.mp3",
@@ -879,7 +897,7 @@
    ],
    "lufs_take": -20.94,
    "gain_db": 2.0,
-   "start": 434.28
+   "start": 438.798
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b24.mp3",
@@ -928,7 +946,7 @@
    ],
    "lufs_take": -18.86,
    "gain_db": 0.12,
-   "start": 448.88
+   "start": 453.398
   }
  ],
  "segments": [
@@ -1007,7 +1025,7 @@
    "start": 35.575,
    "dur": 1.725,
    "gain_db": 0.0,
-   "after": 0.312
+   "after": 1.958
   },
   {
    "name": "b04_08_eli",
@@ -1015,11 +1033,11 @@
    "speaker": "eli",
    "voiced": false,
    "text": "¿Qué?",
-   "start": 37.612,
-   "dur": 0.7,
+   "start": 39.258,
+   "dur": 1.6,
    "gain_db": 0.0,
-   "after": 0.313,
-   "slot_note": "[solo cuadro]: silent slot 0.7 s, no voice (= reading time of the box)"
+   "after": 0.439,
+   "slot_note": "[solo cuadro]: silent slot 1.6 s, no voice (= full reading time of the box, 2026-10-29 rule)"
   },
   {
    "name": "b04_09_narrator",
@@ -1027,7 +1045,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Entonces, ¿por qué hay embotellamientos sin razón aparente?",
-   "start": 38.625,
+   "start": 41.297,
    "dur": 3.275,
    "gain_db": 0.0,
    "after": 5.185
@@ -1038,7 +1056,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Mila arrastra a Eli a un experimento de verdad. Literalmente.",
-   "start": 47.085,
+   "start": 49.757,
    "dur": 4.275,
    "gain_db": 0.0,
    "after": 0.38
@@ -1049,7 +1067,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡Ya entendí! ¡Fue el de adelante!",
-   "start": 51.74,
+   "start": 54.412,
    "dur": 1.6,
    "gain_db": 0.0,
    "after": 0.865
@@ -1060,7 +1078,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante. Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
-   "start": 54.205,
+   "start": 56.877,
    "dur": 16.635,
    "gain_db": 0.0,
    "after": 0.895
@@ -1071,7 +1089,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía.",
-   "start": 71.735,
+   "start": 74.407,
    "dur": 13.115,
    "gain_db": 0.0,
    "after": 0.285
@@ -1082,7 +1100,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡¿Quién fue?!",
-   "start": 85.135,
+   "start": 87.807,
    "dur": 0.825,
    "gain_db": 0.0,
    "after": 1.125
@@ -1093,7 +1111,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Respuesta corta: todos. La larga: este video.",
-   "start": 87.085,
+   "start": 89.757,
    "dur": 4.175,
    "gain_db": 0.0,
    "after": 0.925
@@ -1104,7 +1122,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte por hora. Más o menos lo que va una bicicleta.",
-   "start": 92.185,
+   "start": 94.857,
    "dur": 9.945,
    "gain_db": 0.0,
    "after": 0.805
@@ -1115,7 +1133,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Vamos por partes. Estiremos el círculo hasta volverlo una recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía. Adivina quién va en el diez:",
-   "start": 102.935,
+   "start": 105.607,
    "dur": 18.405,
    "gain_db": 0.0,
    "after": 0.61
@@ -1126,7 +1144,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "No… no… ¡no!",
-   "start": 121.95,
+   "start": 124.622,
    "dur": 1.8,
    "gain_db": 0.0,
    "after": 0.655
@@ -1137,7 +1155,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Para el auto número diez: alto total.",
-   "start": 124.405,
+   "start": 127.077,
    "dur": 2.325,
    "gain_db": 0.0,
    "after": 1.03
@@ -1148,7 +1166,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Los ingenieros le llaman inestabilidad de cadena. La cadena es la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta.",
-   "start": 127.76,
+   "start": 130.432,
    "dur": 16.49,
    "gain_db": 0.0,
    "after": 1.07
@@ -1159,7 +1177,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡¿Que yo qué?!",
-   "start": 145.32,
+   "start": 147.992,
    "dur": 0.68,
    "gain_db": 0.0,
    "after": 1.1
@@ -1170,7 +1188,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. Eli llega tarde. Como siempre. Un embotellamiento no es un lugar. Es una ola.",
-   "start": 147.1,
+   "start": 149.772,
    "dur": 19.89,
    "gain_db": 0.0,
    "after": 0.86
@@ -1181,7 +1199,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros. Con veinticinco autos, el tráfico fluyó. Con veintiocho o más: embotellamiento. Tres autos de más.",
-   "start": 167.85,
+   "start": 170.522,
    "dur": 17.18,
    "gain_db": 0.0,
    "after": 0.405
@@ -1192,7 +1210,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡¿Quién f…?",
-   "start": 185.435,
+   "start": 188.107,
    "dur": 0.385,
    "gain_db": 0.0,
    "after": 1.52
@@ -1203,7 +1221,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Lo que importa es cuántos autos hay en cada tramo de pista: la densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
-   "start": 187.34,
+   "start": 190.012,
    "dur": 9.36,
    "gain_db": 0.0,
    "after": 0.875
@@ -1214,7 +1232,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Ahora, en una autopista en hora pico, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte por hora. O sea que el embotellamiento en el que estás ahora mismo, llámalo trancón, taco o tráfico, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Por eso no ves ninguna razón: la razón ya se fue a cenar.",
-   "start": 197.575,
+   "start": 200.247,
    "dur": 22.17,
    "gain_db": 0.0,
    "after": 1.305
@@ -1225,7 +1243,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¿Ni un perdón?",
-   "start": 221.05,
+   "start": 223.722,
    "dur": 0.81,
    "gain_db": 0.0,
    "after": 1.29
@@ -1236,7 +1254,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo.",
-   "start": 223.15,
+   "start": 225.822,
    "dur": 22.45,
    "gain_db": 0.0,
    "after": 0.41
@@ -1247,7 +1265,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡Mi lema!",
-   "start": 246.01,
+   "start": 248.682,
    "dur": 0.54,
    "gain_db": 0.0,
    "after": 1.155
@@ -1258,7 +1276,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte. A Eli le pican las manos.",
-   "start": 247.705,
+   "start": 250.377,
    "dur": 21.905,
    "gain_db": 0.0,
    "after": 1.06
@@ -1269,7 +1287,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno. Pobre lema de Eli.",
-   "start": 270.67,
+   "start": 273.342,
    "dur": 18.09,
    "gain_db": 0.0,
    "after": 1.035
@@ -1280,7 +1298,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Después, programaron la computadora un poquito más rápido que el promedio. En nuestra versión, alguien la sube silbando. La ola volvió.",
-   "start": 289.795,
+   "start": 292.467,
    "dur": 9.515,
    "gain_db": 0.0,
    "after": 0.26
@@ -1291,7 +1309,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡¿Quién fue?!",
-   "start": 299.57,
+   "start": 302.242,
    "dur": 0.52,
    "gain_db": 0.0,
    "after": 1.38
@@ -1302,7 +1320,7 @@
    "speaker": "mila",
    "voiced": true,
    "text": "Eli.",
-   "start": 301.47,
+   "start": 304.142,
    "dur": 0.29,
    "gain_db": 0.0,
    "after": 0.39
@@ -1313,7 +1331,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "…Fue el viento.",
-   "start": 302.15,
+   "start": 304.822,
    "dur": 1.265,
    "gain_db": 0.0,
    "after": 1.12
@@ -1324,7 +1342,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Ser paciente no es ir lento. Es ir al promedio.",
-   "start": 304.535,
+   "start": 307.207,
    "dur": 3.535,
    "gain_db": 0.0,
    "after": 0.805
@@ -1335,7 +1353,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "La parte favorita de Mila: en otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio.",
-   "start": 308.875,
+   "start": 311.547,
    "dur": 8.825,
    "gain_db": 0.0,
    "after": 0.28
@@ -1346,7 +1364,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡Hay un hueco! ¡Cabe una casa!",
-   "start": 317.98,
+   "start": 320.652,
    "dur": 1.685,
    "gain_db": 0.0,
    "after": 0.575
@@ -1357,7 +1375,7 @@
    "speaker": "mila",
    "voiced": true,
    "text": "Ese hueco es mi amigo.",
-   "start": 320.24,
+   "start": 322.912,
    "dur": 1.28,
    "gain_db": 0.0,
    "after": 1.61
@@ -1368,7 +1386,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
-   "start": 323.13,
+   "start": 325.802,
    "dur": 7.4,
    "gain_db": 0.0,
    "after": 0.915
@@ -1379,7 +1397,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Por una vez, llegar tarde es la jugada.",
-   "start": 331.445,
+   "start": 334.117,
    "dur": 16.225,
    "gain_db": 0.0,
    "after": 0.45
@@ -1390,7 +1408,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¡Yo llego tarde a todo!",
-   "start": 348.12,
+   "start": 350.792,
    "dur": 1.3,
    "gain_db": 0.0,
    "after": 0.65
@@ -1401,7 +1419,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Mila lo sabe. En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso. Ni siquiera Mila.",
-   "start": 350.07,
+   "start": 352.742,
    "dur": 12.76,
    "gain_db": 0.0,
    "after": 0.79
@@ -1412,7 +1430,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee. Un equipo metió cien autos al tráfico de hora pico con un control de crucero inteligente, que acelera y frena solo. A Eli no le alcanzaron los dedos. Ni prestados. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo.",
-   "start": 363.62,
+   "start": 366.292,
    "dur": 25.72,
    "gain_db": 0.0,
    "after": 0.91
@@ -1423,10 +1441,10 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás. Pasan dos autos inteligentes, y se achica.",
-   "start": 390.25,
+   "start": 392.922,
    "dur": 7.31,
    "gain_db": 0.0,
-   "after": 0.24
+   "after": 0.34
   },
   {
    "name": "b21_49_eli",
@@ -1434,11 +1452,11 @@
    "speaker": "eli",
    "voiced": false,
    "text": "¡Dale, dale!",
-   "start": 397.8,
-   "dur": 1.12,
+   "start": 400.572,
+   "dur": 1.6,
    "gain_db": 0.0,
-   "after": 0.24,
-   "slot_note": "[solo cuadro]: silent slot 1.12 s, no voice (= reading time of the box)"
+   "after": 0.443,
+   "slot_note": "[solo cuadro]: silent slot 1.6 s, no voice (= full reading time of the box, 2026-10-29 rule)"
   },
   {
    "name": "b21_50_narrator",
@@ -1446,10 +1464,10 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Pasan cuatro con el sistema apagado, y crece.",
-   "start": 399.16,
+   "start": 402.615,
    "dur": 2.68,
    "gain_db": 0.0,
-   "after": 0.245
+   "after": 0.27
   },
   {
    "name": "b21_51_eli",
@@ -1457,11 +1475,11 @@
    "speaker": "eli",
    "voiced": false,
    "text": "¡Nooo!",
-   "start": 402.085,
-   "dur": 0.76,
+   "start": 405.565,
+   "dur": 1.6,
    "gain_db": 0.0,
-   "after": 0.245,
-   "slot_note": "[solo cuadro]: silent slot 0.76 s, no voice (= reading time of the box)"
+   "after": 0.443,
+   "slot_note": "[solo cuadro]: silent slot 1.6 s, no voice (= full reading time of the box, 2026-10-29 rule)"
   },
   {
    "name": "b21_52_narrator",
@@ -1469,7 +1487,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger. Mira quién hizo la ola a tiempo.",
-   "start": 403.09,
+   "start": 407.608,
    "dur": 8.37,
    "gain_db": 0.0,
    "after": 0.975
@@ -1480,7 +1498,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "O sea que tú también eres parte de la ola. Sí, tú. No el de adelante. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
-   "start": 412.435,
+   "start": 416.953,
    "dur": 21.045,
    "gain_db": 0.0,
    "after": 0.83
@@ -1491,7 +1509,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli sí deja el espacio.",
-   "start": 434.31,
+   "start": 438.828,
    "dur": 6.49,
    "gain_db": 0.0,
    "after": 5.24
@@ -1502,7 +1520,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¿…Quién fue?",
-   "start": 446.04,
+   "start": 450.558,
    "dur": 0.46,
    "gain_db": 0.0,
    "after": 0.63
@@ -1513,7 +1531,7 @@
    "speaker": "mila",
    "voiced": true,
    "text": "Fuiste tú.",
-   "start": 447.13,
+   "start": 451.648,
    "dur": 0.55,
    "gain_db": 0.0,
    "after": 1.23
@@ -1524,7 +1542,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. Hasta Eli. Esto es Diez Mil Puntos.",
-   "start": 448.91,
+   "start": 453.428,
    "dur": 14.96,
    "gain_db": 0.0,
    "after": 23.47
@@ -1542,6 +1560,86 @@
     402.165,
     0.6
    ]
+  ]
+ },
+ "slot_widen_2": {
+  "date": "2026-10-29",
+  "why": "director rule: box fully visible >= max(1.6, 0.5 + 0.08/char) s, >= 0.1 s narrator-free each side (widen_box_slots.py)",
+  "inserts": [
+   [
+    38.03,
+    2.672
+   ],
+   [
+    401.077,
+    0.783
+   ],
+   [
+    405.955,
+    1.063
+   ]
+  ],
+  "report": [
+   {
+    "line": "b04_08_eli",
+    "text": "¿Qué?",
+    "need": 1.6,
+    "prev_word": "atrás.",
+    "next_word": "Entonces,",
+    "speech_end": 37.43,
+    "speech_start": 38.62,
+    "gap_before": 1.19,
+    "insert_at": 38.03,
+    "insert_s": 2.672,
+    "level_at_insert_db": -180.0,
+    "floor_db": -180.0,
+    "box_start": 39.258,
+    "box_show0": 39.198,
+    "box_show1": 41.192,
+    "gap_after": 3.862,
+    "margin_before": 1.768,
+    "margin_after": 0.1
+   },
+   {
+    "line": "b21_49_eli",
+    "text": "¡Dale, dale!",
+    "need": 1.6,
+    "prev_word": "achica.",
+    "next_word": "Pasan",
+    "speech_end": 400.412,
+    "speech_start": 401.822,
+    "gap_before": 1.41,
+    "insert_at": 401.077,
+    "insert_s": 0.783,
+    "level_at_insert_db": -180.0,
+    "floor_db": -180.0,
+    "box_start": 400.572,
+    "box_show0": 400.512,
+    "box_show1": 402.505,
+    "gap_after": 2.193,
+    "margin_before": 0.1,
+    "margin_after": 0.1
+   },
+   {
+    "line": "b21_51_eli",
+    "text": "¡Nooo!",
+    "need": 1.6,
+    "prev_word": "crece.",
+    "next_word": "Pasan",
+    "speech_end": 405.405,
+    "speech_start": 406.535,
+    "gap_before": 1.13,
+    "insert_at": 405.955,
+    "insert_s": 1.063,
+    "level_at_insert_db": -180.0,
+    "floor_db": -180.0,
+    "box_start": 405.565,
+    "box_show0": 405.505,
+    "box_show1": 407.498,
+    "gap_after": 2.193,
+    "margin_before": 0.1,
+    "margin_after": 0.1
+   }
   ]
  }
 }

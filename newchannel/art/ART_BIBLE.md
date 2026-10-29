@@ -167,11 +167,15 @@ The old generic comic pill (Space Grotesk on a flat cream capsule) is retired.
 | `thought` | thoughts / imagined lines | 44 px, Soft | lobed cloud; three small inked dots toward the thinker instead of a tail | gentle float (±3 px) |
 
 **Rules**
-- **Reading time:** a box stays up for `max(slot, 0.4 s + 0.06 s × characters)` (`K.tbox.readTime`), from 0.06 s before
-  the slot starts; the slot is the line's span in `audio/timings_es.json` (the voice agent removes the character audio
-  but keeps the slots).
+- **Reading time (director, binding, 2026-10-29):** a box is FULLY visible (after its pop-in, before its pop-out) for at
+  least `need = max(1.6 s, 0.5 s + 0.08 s × characters)` (`K.tbox.readTime`) and through the whole voice slot; it opens
+  0.06 s before the slot (the line's span in `audio/timings_es.json`; character audio is muted, the slots stay). A box
+  **never crosses a cut**: the cut after it moves to just after its pop-out (anim.js, later cuts cascade, >= 0.7 s per
+  shot). Box-only lines (`[solo cuadro]`) get a silent narration gap that holds the whole box + 0.1 s each side
+  (`voice/elevenlabs/widen_box_slots.py`). Checked by `textbox_check.mjs` on every frame (0 failures before delivery).
 - **Placement** (`K.tbox.place`): beside the speaker's head on the open side (toward the frame centre), inside a 48 px
-  margin, never in the bottom 12 % (progress-bar band) or the duration-chip corner (top-right 300 × 100), never over any
+  margin, never in the bottom 12 % (progress-bar band) or the duration-chip corner (top-right 300 × 100), never over the study
+  citation (bottom-left, 28 px at 0.955 H, `P.source`), never over any
   head zone (both characters) or the shot's label pill; a shot may add `sayAvoid` rects (important action) or a
   per-line `say` override. Off-screen speaker: the box sits upper-left with no tail.
 - **Readable on a phone:** ≥ 40 px letters at 1080p (≥ 3.7 % of the frame height), ink on paper contrast > 12:1.

@@ -8,7 +8,7 @@
 
   A.block('C1', {
     t0: null, t1: null,
-    async setup() { this.t0 = A.at('Vamos', 1, { beat: '09' }); this.t1 = A.at('El', 1, { beat: '11' }); },   // v4 (P1): beat 11 opens «El embotellamiento no es…» (was «No»)
+    async setup() { this.t0 = A.at('Vamos', 1, { beat: '09' }); this.t1 = A.at('El', 1, { beat: '11' }) + 0.18; },   // 2026-10-29: + 0.18 s so «¡¿Que yo qué?!» (fully visible 1.6 s) closes before the block cut. v4 (P1): beat 11 opens «El embotellamiento no es…» (was «No»)
     post: { grain: 0.12, vignette: 0.32, vignetteColor: '#3a3a4a', bloom: 0.12 },
     shots(A) {
       const def = this, T0 = def.t0, w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
@@ -64,7 +64,7 @@
         cues: A => [{ t: tEstir, kind: 'stretch', t1: tRecta }] });
 
       // C03 · «El primer conductor toca el freno»: the line, side view, overcast; car 1's bar starts
-      shots.push({ id: 'C03_line', start: tEl - 0.1, bg: 'line', label: 'ACELERADO ×2', focus: [960, 560], push: 0.022,
+      shots.push({ id: 'C03_line', start: tEl - 0.1, bg: 'line', focus: [960, 560], push: 0.022,
         draw(c, t, lt) {
           const ts = L1(t);
           WZ(c, () => A.line(c, t, { simT: ts, camS: carCam(IDX(3), ts) + 2, pxm: 17, carK: 2.0, eli: eliAt({ pose: 'drive', expr: 'happy', t }), carOver: (cx, i, x, y, s) => bars(cx, i, x, y, s, ts, 130) }));
@@ -98,7 +98,7 @@
         } });
 
       // C06 · «El tercero, más tarde y más fuerte todavía»: the cascade, wide (×3)
-      shots.push({ id: 'C06_cascade', start: tEl3 - 0.1, bg: 'line', label: 'ACELERADO ×3', focus: [960, 520], push: 0.022, pushDir: -1,
+      shots.push({ id: 'C06_cascade', start: tEl3 - 0.1, bg: 'line', focus: [960, 520], push: 0.022, pushDir: -1,
         draw(c, t, lt) {
           const ts = L3(t);
           WZ(c, () => A.line(c, t, { simT: ts, camS: waveCam(ts), pxm: 17, carK: 2.0, eli: eliAt({ pose: 'drive', expr: 'worried', look: [0.9, -0.2], t }), carOver: (cx, i, x, y, s) => bars(cx, i, x, y, s, ts, 130) }));
@@ -106,7 +106,7 @@
         cues: A => [3, 4, 5, 6, 7].map(n => ({ t: tTercero + (on(n) - on(3)) / 3, kind: 'line_brake', step: n })) });
 
       // C07 · «Adivina quién va en el diez:» (v5 #5; v4 P7 was «Eli va en el diez:») + Eli: «No… no… ¡no!» — the bars come at him, each one higher
-      shots.push({ id: 'C07_no', start: tEliN - 0.1, bg: 'line_eli', label: 'ACELERADO ×3', focus: [900, 520], push: 0.035, pushDir: 1,
+      shots.push({ id: 'C07_no', start: tEliN - 0.1, bg: 'line_eli', focus: [900, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) {
           const ts = L3(t), sp = A.talk('eli', t), k = noT.filter(x => t > x - 0.02).length;
           const eO = { pose: 'drive', ...A.ez(t, noT[2] - 0.02, 'worried', 'surprised'), look: [0.9, -0.3], t, talk: sp.talk, viseme: sp.viseme, lean: 0.02 * k };
@@ -116,7 +116,7 @@
         cues: A => [8, 9].map(n => ({ t: tTercero + (on(n) - on(3)) / 3, kind: 'line_brake', step: n })) });
 
       // C08 · «Para el auto número diez: alto total.» — the tallest bar lands on him like a hat; Mila ticks her board
-      shots.push({ id: 'C08_hat', start: tPara - 0.12, bg: 'line_eli_stop', label: 'ACELERADO ×3', focus: [960, 520], push: 0.03, pushDir: -1,
+      shots.push({ id: 'C08_hat', start: tPara - 0.12, bg: 'line_eli_stop', focus: [960, 520], push: 0.03, pushDir: -1,
         draw(c, t, lt) {
           const ts = L3(t), since = t - stopAt;
           const eO = { pose: 'drive', ...A.ezs(t, [[0, 'determined'], [stopAt, 'surprised'], [stopAt + 0.5, 'annoyed']], 0.12), look: since > 0.6 ? [0.15, -0.95] : [0.9, -0.1], t, lean: since > 0 ? 0.08 * Math.exp(-since * 5) : 0 };
@@ -150,10 +150,10 @@
         },
         cues: A => [{ t: tCadena2, kind: 'chain', t1: tAutos }] });
       const S4m = (anchor, N4) => A.map(A.s4().p.taps[0].t, anchor, N4);   // S4 records no events: the tap time comes from its spec
-      shots.push({ id: 'C11_stable', start: tSi1 - 0.12, bg: 'graph', label: 'ACELERADO ×6', focus: [960, 420], push: 0.025, pushDir: 1,
+      shots.push({ id: 'C11_stable', start: tSi1 - 0.12, bg: 'graph', focus: [960, 420], push: 0.025, pushDir: 1,
         post: { grain: 0.1, vignette: 0.25, vignetteColor: '#5a4a50', bloom: 0 },
         draw(c, t, lt) { A.graphS4(c, t, S4m(tSi1, 6)(t), { focus: 'ESTABLE' }); } });
-      shots.push({ id: 'C12_unstable', start: tSi2 - 0.12, bg: 'graph_low', label: 'ACELERADO ×8', focus: [960, 700], push: 0.03, pushDir: 1, zBase: 1.08,
+      shots.push({ id: 'C12_unstable', start: tSi2 - 0.12, bg: 'graph_low', focus: [960, 700], push: 0.03, pushDir: 1, zBase: 1.08,
         post: { grain: 0.1, vignette: 0.25, vignetteColor: '#5a4a50', bloom: 0 },
         draw(c, t, lt) { A.graphS4(c, t, S4m(tSi2, 8)(t), { focus: 'INESTABLE' }); } });
       // C13 · «como un chisme que crece cada vez que alguien lo cuenta»: Mila whispers a dot; the balloons grow car to car

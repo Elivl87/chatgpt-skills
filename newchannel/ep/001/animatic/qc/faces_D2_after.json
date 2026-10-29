@@ -1,15 +1,15 @@
 {
  "block": "D2",
  "tag": "after",
- "samples": 95,
- "faces": 171,
+ "samples": 88,
+ "faces": 163,
  "eyes": {
-  "pass": 241,
+  "pass": 224,
   "fail": 0,
   "closed": 0,
   "covered": 0,
   "fading": 0,
-  "tiny": 94,
+  "tiny": 95,
   "offframe": 0
  },
  "failures": 0,

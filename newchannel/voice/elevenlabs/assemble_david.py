@@ -68,7 +68,7 @@ AFTER = {"01": 0.5, "02": 0.45, "03": 0.4, "04": 5.0, "06": 0.6, "07": 0.6, "08"
 BREAKS = {
     "01": [("Una sola vez.", 0.45)],
     "03": [("¡¿Quién fue?!", 0.4), ("ni semáforo.", 2.0)],                 # 2 s: the bird on the wire (pausa)
-    "04": [("va para atrás.", 1.25, "slot")],                                # «¿Qué?» [solo cuadro] 0.7 s
+    "04": [("va para atrás.", 3.86, "slot")],                                 # «¿Qué?» [solo cuadro] 1.6 s: after Mila's box + 1.25 s (A15 wave)
     "06": [("de verdad.", 0.4), ("¡Fue el de adelante!", 0.4), ("alguien adelante.", 0.42)],
     "07": [("completamente parados.", 0.45), ("¡¿Quién fue?!", 1.2), ("Respuesta corta: todos.", 0.3)],
     "08": [("hacia atrás, a unos veinte por hora.", 0.42)],
@@ -86,7 +86,7 @@ BREAKS = {
     "18": [("la velocidad promedio.", 0.35), ("¡Cabe una casa!", 0.3), ("es mi amigo.", 1.5)],
     "19": [("es la jugada.", 0.3), ("tarde a todo!", 0.4), ("Mila lo sabe.", 0.5), ("absorber eso.", 0.3)],
     "20": [("Ni prestados.", 0.4), ("¿El resultado?", 0.45), ("Es complicado.", 0.42)],
-    "21": [("dos autos inteligentes, y se achica.", 1.6, "slot"), ("apagado, y crece.", 1.25, "slot"), ("crecer o encoger.", 0.5)],
+    "21": [("dos autos inteligentes, y se achica.", 2.19, "slot"), ("apagado, y crece.", 2.19, "slot"), ("crecer o encoger.", 0.5)],
     "22": [("parte de la ola.", 0.4), ("No el de adelante.", 0.4), ("corras a cerrarlo.", 0.8)],
     "23": [("deja el espacio.", 5.0), ("Quién fue?", 0.5)],                  # 5 s: the wave dies in Eli's gap
     "24": [("nunca pasó.", 0.5), ("no es un lugar.", 0.5), ("puede absorberla.", 0.5), ("Hasta Eli.", 0.6)],
@@ -97,12 +97,16 @@ NUMBER_PRE = {   # 0.6 s before a sentence with a number (bible); same mechanism
     "14": [("autos robot?", 0.6)], "16": [("se derritió.", 0.6), ("casi desaparecieron.", 0.6)],
     "20": [("de verdad?", 0.6)],
 }
+# 2026-10-29 (director, binding; applied to the delivered stem by widen_box_slots.py, same result as a re-run): the box is
+# FULLY visible for need = max(1.6 s, 0.5 s + 0.08 s per character); the whole box (show0 = slot - 0.06, + 0.2 pop-in, +
+# need, + 1 frame, + 0.16 pop-out) keeps >= 0.1 s narrator-free on each side -> gap >= 2.19 s; «¿Qué?» also waits for Mila's box to
+# close + 1.25 s for A15_back (gap 3.86 s). Slots: 1.6 s each. Older note:
 # [solo cuadro] slot = the box's reading time (art/lib/textbox.js: 0.4 s + 0.06 s per character of the joined line text);
 # the box is open from slot start - 0.06 to max(slot, read) + 0.12 (fade), so the gap around a slot must be >= read +
 # 0.44 s for 0.1 s of narrator-free margin on each side (2026-10-29: the 0.3 s slots of beat 21 put the narrator over
 # «¡Dale, dale!» 0.72 s and «¡Nooo!» 0.38 s). «¿Qué?» 5 chars 0.70 s (gap 1.25 >= 1.14) · «¡Dale, dale!» 12 chars 1.12 s
 # (gap 1.6 >= 1.56) · «¡Nooo!» 6 chars 0.76 s (gap 1.25 >= 1.20)
-SLOT_LEN = {"04": [0.7], "21": [1.12, 0.76]}
+SLOT_LEN = {"04": [1.6], "21": [1.6, 1.6]}
 
 
 # ------------------------------------------------------------------------------------------------ script model

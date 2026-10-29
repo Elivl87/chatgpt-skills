@@ -47,11 +47,11 @@
 
       const shots = [];
       // ================================================================ BEAT 1 · a tap
-      shots.push({ id: 'A01_wide', start: 0, bg: 'hw', label: 'ACELERADO ×3', focus: [960, 520],
+      shots.push({ id: 'A01_wide', start: 0, bg: 'hw', focus: [960, 520],
         draw(c, t, lt) { A.hw(c, t, { simT: A.map(0, 0, 3)(t), camOn: [ELI, -31], H: 8.2, pitch: 0.068, f: 1600, fg: true,
           crew: tt => ({ eli: { pose: 'drive', expr: 'happy', blink: eliBlink(t), tilt: 0.04 * Math.sin(t * 11) }, mila: { pose: 'lap', headTurn: 0.4 } }) }); } });
 
-      shots.push({ id: 'A02_tele', start: tAlla - 0.12, bg: 'hw_tele', label: 'ACELERADO ×3', push: 0.03,
+      shots.push({ id: 'A02_tele', start: tAlla - 0.12, bg: 'hw_tele', push: 0.03,
         draw(c, t, lt) {
           const ts = G1(t), R = A.s1(), xE = A.camX(ELI, ts), xT = R.at(ts).x[TAP];
           const sCam = xE + 3, aim = A.aim(sCam, 0.2, 6.5, 4600, xT, 1.85, 0.9, [960, 560]);
@@ -60,7 +60,7 @@
           if (p) P.ring(c, p.x, p.y - 4, p.s * 2.1, p.s * 1.5, A.ramp(t, tCond, 0.45), { w: 6, alpha: 0.95 * (1 - A.ramp(t, tUna2 - 0.25, 0.3)) });
         } });
 
-      shots.push({ id: 'A03_tapper', start: tUna2 - 0.1, bg: 'hw_rev_tapper', label: 'ACELERADO ×3', focus: [900, 560], push: 0.03,
+      shots.push({ id: 'A03_tapper', start: tUna2 - 0.1, bg: 'hw_rev_tapper', focus: [900, 560], push: 0.03,
         draw(c, t, lt) {
           const ts = G1(t), R = A.s1(), xT = R.at(ts).x[TAP], sCam = xT + 6.5, aim = A.aim(sCam, 2.5, 1.6, 1350, xT, 1.85, 0.9, [880, 600], true);
           const g = A.hw(c, t, { simT: ts, sCam, lCam: 2.5, H: 1.6, pitch: aim.pitch, yaw: aim.yaw, f: 1350, reverse: true,
@@ -79,7 +79,7 @@
         } });
 
       // ================================================================ BEAT 2 · it breaks
-      shots.push({ id: 'A05_crane', start: tDetras - 0.08, bg: 'hw_crane', label: 'ACELERADO ×3', focus: [960, 470], push: 0.025,
+      shots.push({ id: 'A05_crane', start: tDetras - 0.08, bg: 'hw_crane', focus: [960, 470], push: 0.025,
         draw(c, t, lt) {
           const ts = G5(t), R = A.s1(), xE = A.camX(ELI, ts, 2), xT = R.at(ts).x[TAP];
           const sCam = xE - 22, aim = A.aim(sCam, -1.2, 11, 2100, (xE + xT) / 2 + 4, 1.85, 0, [980, 400]);
@@ -88,7 +88,7 @@
         },
         cues: A => [23, 22].map((car, k) => ({ t: tMas1 + (A.ev('S1', 'brake_onset', e => e.car === car) - s23) / 3, kind: 'brake_note', step: k + 2 })) });
 
-      shots.push({ id: 'A06_ots', start: tMas2 - 0.5, bg: 'hw_ots', label: 'ACELERADO ×2', focus: [960, 600], push: 0.03,
+      shots.push({ id: 'A06_ots', start: tMas2 - 0.5, bg: 'hw_ots', focus: [960, 600], push: 0.03,
         draw(c, t, lt) {
           const ts = G6(t), R = A.s1(), xE = A.camX(ELI, ts, 1.2), xL = R.at(ts).x[ELI + 1];
           const sCam = xE - 6.4, aim = A.aim(sCam, 1.45, 3.1, 1150, xL, 1.85, 0.7, [1000, 360]);
@@ -226,7 +226,7 @@
         },
         cues: A => [{ t: tAtrasN, kind: 'whoosh_turn' }] });
 
-      shots.push({ id: 'A15_back', start: tVa - 0.06, bg: 'hw_rev', label: 'ACELERADO ×3', focus: [960, 560], push: 0.03, pushDir: 1,
+      shots.push({ id: 'A15_back', start: tVa - 0.06, bg: 'hw_rev', focus: [960, 560], push: 0.03, pushDir: 1,
         draw(c, t, lt, S) {
           const ts = A.map(stop15, tAtrasM, 3)(t), R = A.s1(), xE = R.at(HOLD(t)).x[ELI];
           const sCam = xE + 0.6, aim = A.aim(sCam, 2.25, 1.55, 1050, xE - 45, 1.85, 0, [1120, 600], true);

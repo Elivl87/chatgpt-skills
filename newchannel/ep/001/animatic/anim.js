@@ -192,7 +192,10 @@
       L.start = Math.min(L.start, w.start); L.end = Math.max(L.end, w.end); L.words.push(w.text);
     }
     A._lineList = Object.values(by).map(L => Object.assign(L, { text: L.words.join(' ') }, A.LINES[L.id] || {}));
-    for (const L of A._lineList) { L.show0 = L.start - 0.06; L.show1 = Math.max(L.end, L.start + K.tbox.readTime(L.text)) + 0.12; }
+    // director 2026-10-29: fully visible (between pop-in and pop-out) for >= K.tbox.readTime, and never shorter than the slot
+    for (const L of A._lineList) { const pin = K.tbox.POP_IN(L.kind || 'speech'); L.need = K.tbox.readTime(L.text); L.show0 = L.start - 0.06;
+      L.full0 = L.show0 + pin; L.full1 = Math.max(L.full0 + L.need, L.end + 0.05) + 1 / 30;   // + 1 frame: the 30 fps sampling never shaves the minimum
+      L.show1 = L.full1 + K.tbox.POP_OUT; }
     return A._lineList;
   };
   A.speaker = function (who, head, o = {}) { const p = A._heads && A._heads[who]; if (head && A._heads) A._heads[who] = Object.assign({ head, light: p && p.light, body: p && p.body, pinned: true }, o); };
@@ -225,7 +228,8 @@
     }
     const H = A._heads || {}, avoid = [];
     for (const k in H) { const h = H[k].head; avoid.push([h[0] - h[2] * 1.2, h[1] - h[2] * 1.8, h[0] + h[2] * 1.2, h[1] + h[2] * 1.25]); }
-    if (S.label) avoid.push([20, 10, 640, 120]);                 // the shot's label pill (top left)
+    if (S.label) avoid.push([20, 10, 640, 120]);                 // the shot's label pill (top left; 2026-10-29: no speed labels left)
+    if (A._srcZone) avoid.push(A._srcZone.slice());              // the study citation (bottom left, drawn by the shot's overlay)
     const soft = Object.values(H).filter(x => x.body).map(x => x.body);   // the characters' bodies: avoided when there is room
     avoid.push(...(S.sayAvoid || []));                           // per shot: important action the boxes must not cover
     for (const L of A.lineList()) {
@@ -264,6 +268,22 @@
         A.installHeads();
         if (def.setup) await def.setup(ctx, opts);
         shots = def.shots(A).map((s, k) => Object.assign({ k }, s));
+        // director 2026-10-29: a text box never crosses a cut. Each box lives in the shot where it opens (a box that opens in
+        // the last 0.2 s of a shot belongs to the next one when that does not cut an earlier box); the cut after it moves to
+        // just after the box's pop-out and the later cuts cascade (each shot keeps >= max(0.7 s, its minDur)).
+        A._cutMoves = [];
+        if (!(opts && opts.nocutfix)) {
+          const MIN = 0.7, lo = new Array(shots.length).fill(-1e9);   // lo[k]: shot k must not end before this (boxes inside it)
+          const move = (j, to, why) => { if (j >= shots.length || shots[j].start >= to) return; A._cutMoves.push({ why, shot: shots[j].id, from: +(shots[j].start - def.t0).toFixed(3), to: +(to - def.t0).toFixed(3) }); shots[j].start = to;
+            for (let i = j + 1; i < shots.length; i++) { const need = shots[i - 1].start + Math.max(MIN, shots[i - 1].minDur || 0); if (shots[i].start < need) { A._cutMoves.push({ why: 'cascade', shot: shots[i].id, from: +(shots[i].start - def.t0).toFixed(3), to: +(need - def.t0).toFixed(3) }); shots[i].start = need; } } };
+          for (const L of A.lineList().filter(q => q.start >= def.t0 && q.start < def.t1).sort((p, q) => p.show0 - q.show0)) {
+            let k = -1; for (let j = 0; j < shots.length; j++) if (shots[j].start <= L.show0) k = j;
+            if (k + 1 < shots.length && shots[k + 1].start - L.show0 < 0.2 && lo[k] <= L.show0 - 0.02 && L.show0 - 0.02 - shots[k].start >= MIN) { A._cutMoves.push({ why: L.id + ' opens at the cut', shot: shots[k + 1].id, from: +(shots[k + 1].start - def.t0).toFixed(3), to: +(L.show0 - 0.02 - def.t0).toFixed(3) }); shots[k + 1].start = L.show0 - 0.02; k++; }
+            lo[k] = Math.max(lo[k], L.show1 + 0.02);
+            if (k + 1 < shots.length) move(k + 1, L.show1 + 0.02, L.id);
+            else if (L.show1 > def.t1) A._cutMoves.push({ why: L.id, shot: 'BLOCK END', over: +(L.show1 - def.t1).toFixed(3) });
+          }
+        }
         for (let k = 0; k < shots.length; k++) shots[k].end = k + 1 < shots.length ? shots[k + 1].start : def.t1;
         for (const s of shots) if (!(s.end > s.start)) throw new Error(`animatic: shot ${s.id} has no duration (${s.start} -> ${s.end})`);
         cues = (def.cues ? def.cues(A) : []).concat(...shots.map(s => (typeof s.cues === 'function' ? s.cues(A, s) : s.cues) || []));
@@ -272,7 +292,7 @@
       draw(ctx, tv, frame) {
         const t = def.t0 + tv;                 // block-local video time -> episode time (narration time)
         A._autoBadge = !!def.eliBadge;
-        A._heads = {};
+        A._heads = {}; A._srcZone = null;
         ctx.fillStyle = '#120c18'; ctx.fillRect(0, 0, K.W, K.H);   // never keep pixels from the previous frame
         let k = shots.findIndex(s => t >= s.start && t < s.end); if (k < 0) k = t < shots[0].start ? 0 : shots.length - 1;
         const S = shots[k], lt = t - S.start, dur = S.end - S.start;
@@ -303,6 +323,7 @@
           shots: shots.map(s => ({ id: s.id, start: +(s.start - def.t0).toFixed(3), end: +(s.end - def.t0).toFixed(3), bg: s.bg || null, label: typeof s.label === 'string' ? s.label : (s.label ? 'dynamic' : null) })),
           cues: cues.map(c => Object.assign({}, c, { t: +(c.t - def.t0).toFixed(3) })).sort((a, b) => a.t - b.t),
           ambience: (def.ambience ? def.ambience(A) : []).map(a => Object.assign({}, a, { t0: +(a.t0 - def.t0).toFixed(3), t1: +(a.t1 - def.t0).toFixed(3) })),
+          cutMoves: A._cutMoves || [], lines: A.lineList().filter(L => L.start >= def.t0 && L.start < def.t1).map(L => ({ id: L.id, text: L.text, start: +(L.start - def.t0).toFixed(3), end: +(L.end - def.t0).toFixed(3), show0: +(L.show0 - def.t0).toFixed(3), show1: +(L.show1 - def.t0).toFixed(3), need: +L.need.toFixed(2) })),
           ...(A._anchors ? { anchors: A._anchors, linesMissing: Object.keys(A.LINES).filter(id => !A.words.some(w => w.line === id)) } : {}) };
       },
       duration: def.t1 - def.t0,

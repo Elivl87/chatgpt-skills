@@ -11,7 +11,7 @@
    Variants (o.kind): 'speech' (default), 'shout' (bigger letters, a jagged but painterly paper edge, a small shake),
    'whisper' (smaller, dotted ink, slightly translucent paper, no overshoot), 'thought' (a lobed cloud, a trail of three
    small ink-ringed dots instead of a tail).
-   Reading time: K.tbox.readTime(text) = 0.4 s + 0.06 s per character; a box stays up for max(slot, read time).
+   Reading time: K.tbox.readTime(text) = max(1.6 s, 0.5 s + 0.08 s per character) FULLY visible, after the pop-in, plus the slot.
    Placement (K.tbox.place): beside the speaker's head on the open side, inside the 48 px safe margin, above the bottom
    12 % (progress-bar band) and the duration-chip corner, never over any head zone in `avoid` (+ the speaker's own).
 
@@ -32,7 +32,11 @@
     night: { paper: '#e7e2d8', glow: '#9fb4ff', glowA: 0.18, shadow: '#03040c', shadowA: 0.5, off: [4, 9], ink: '#1d1420', rim: '#b8c8ff', rimA: 0.45, tint: '#3a4aa0', tintA: 0.1 },
     noon: { paper: '#f6f2ea', glow: '#ffffff', glowA: 0.15, shadow: '#4a5068', shadowA: 0.24, off: [0, 9], ink: INK, rim: '#ffffff', rimA: 0.0 },
   };
-  T.readTime = text => 0.4 + 0.06 * [...String(text)].length;
+  // reading time (director, binding, 2026-10-29: «pasan muy rápido»): the box is FULLY visible (pop-in / pop-out excluded)
+  // for at least max(1.6 s, 0.5 s + 0.08 s per character of the line text)
+  T.readTime = text => Math.max(1.6, 0.5 + 0.08 * [...String(text)].length);
+  T.POP_IN = kind => (kind === 'whisper' ? 0.28 : 0.2);   // the pop-in (draw(): scale settles over 0.2 s, whisper 0.28 s)
+  T.POP_OUT = 0.16;
 
   // ---------------------------------------------------------------- deterministic texture tiles (built once)
   let paperTile = null;
@@ -296,7 +300,7 @@
     // QC hook: the body audit records overlay rects (box only; the tail stops outside the head zone by construction)
     if (root.__ovLog && ctx.canvas.isConnected && ctx.globalAlpha * alpha >= 0.05) {
       const M2 = ctx.getTransform(), P = [[rect[0], rect[1]], [rect[2], rect[3]]].map(([x, y]) => [M2.a * x + M2.c * y + M2.e, M2.b * x + M2.d * y + M2.f]);
-      root.__ovLog.push({ kind: 'textbox:' + String(o.text).slice(0, 20), a: +(ctx.globalAlpha * alpha).toFixed(2), r: [P[0][0], P[0][1], P[1][0], P[1][1]],
+      root.__ovLog.push({ kind: 'textbox:' + String(o.text).slice(0, 20), a: +(ctx.globalAlpha * alpha).toFixed(2), full: ins >= 1 && outK <= 0 && ctx.globalAlpha * alpha >= 0.98, r: [P[0][0], P[0][1], P[1][0], P[1][1]],
         tail: tipS ? [M2.a * cx + M2.c * cy + M2.e, M2.b * cx + M2.d * cy + M2.f, M2.a * tipS[0] + M2.c * tipS[1] + M2.e, M2.b * tipS[0] + M2.d * tipS[1] + M2.f] : null });
     }
     return { rect, full: [cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2], tip: tipS, size: m.fs };

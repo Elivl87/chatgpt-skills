@@ -29,7 +29,7 @@
       const C4 = A.map(sThree, tCinco, 1);                  // real speed: the five stopped cars on «cinco»
       const C5 = A.map(sThree + 20, tLos8, 1);              // the jam sliding back, real speed
       const LF = A.LIGHT_FIELD, G = A.FIELD.GROUND;
-      const recPill = (c, acc) => { P.pill(c, 96, acc ? 152 : 84, REC, 26, 1); };
+      const recPill = (c, acc) => { P.pill(c, 96, 84, REC, 26, 1)   /* 2026-10-29: speed labels removed, the pill keeps the top-left slot */; };
       const blink = (s, t) => A.blink(s, t);
       const shots = [];
 
@@ -134,7 +134,7 @@
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.22, 1.22); c.translate(-880, -560); A.ring(c, t, { simT: A.map(0, T0, 1)(t), carExpr: () => 'content' }); c.restore(); } });
 
       // ================================================================ BEAT 7 (×10, the clock)
-      const acc = (c, t, map) => { A.label(c, 'ACELERADO ×10', 1); recPill(c, true); P.clock(c, map(t)); P.source(c, SRC, 1); };
+      const acc = (c, t, map) => { recPill(c, false);   /* 2026-10-29: no speed labels (director) */ P.clock(c, map(t)); P.source(c, SRC, 1); };
       shots.push({ id: 'B09_fine', start: tAl - 0.12, bg: 'ring', focus: [960, 540], push: 0.022, pushDir: -1,
         over: (c, t) => acc(c, t, C1),
         draw(c, t, lt) { A.ring(c, t, { simT: C1(t), carExpr: () => 'content' }); } });

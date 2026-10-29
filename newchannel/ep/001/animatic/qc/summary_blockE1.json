@@ -1,11 +1,11 @@
 {
- "duration": 48.815,
+ "duration": 50.661,
  "shots": 22,
  "cuts": 21,
- "cuts_per_min": 25.8,
+ "cuts_per_min": 24.9,
  "longest_shot": 4.55,
  "longest_id": "G06_count",
- "avg_shot": 2.22,
- "size_mb": 8.96,
- "contact_kb": 337
+ "avg_shot": 2.31,
+ "size_mb": 10.05,
+ "contact_kb": 358
 }

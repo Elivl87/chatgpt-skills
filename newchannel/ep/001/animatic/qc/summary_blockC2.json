@@ -1,11 +1,11 @@
 {
- "duration": 76.05000000000001,
+ "duration": 75.87,
  "shots": 31,
  "cuts": 30,
  "cuts_per_min": 23.7,
  "longest_shot": 4.94,
  "longest_id": "D20_names",
  "avg_shot": 2.45,
- "size_mb": 16.49,
- "contact_kb": 360
+ "size_mb": 16.83,
+ "contact_kb": 362
 }

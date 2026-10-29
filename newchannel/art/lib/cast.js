@@ -522,17 +522,20 @@
     const eyes = [];
     if (H.fs > 0.88) eyes.push([fx + fdir * F.eyeSep * 0.25, -fdir, false]);
     else { eyes.push([fx - sep, -1, fdir > 0 ? false : H.fs > 0.2]); eyes.push([fx + sep, 1, fdir > 0 ? H.fs > 0.2 : false]); }
-    // the eyes may pop past the head edge only a little, deliberately (googly style), never by half an eye: big-eye
+    // front view: the eyes may pop past the head edge only a little, deliberately (googly style), never by half an eye; 3/4 and
+    // profile: never past the outline (2026-10-29). Big-eye
     // emotions (surprise, awe) and the 3/4 turn pull the eyes back inside (they may touch each other instead)
     { const k = E.eye || 1, prof = H.fs > 0.88, pk = prof ? (F.profEye || 1.12) * 1.25 : 1;
-      const rxOf = far => rr * k * pk * (1 - 0.32 * H.fs * (far ? 1.4 : 0.6)), lim = hw + rr * (prof ? 0.5 : 0.22) * k;
+      const rxOf = far => rr * k * pk * (1 - 0.32 * H.fs * (far ? 1.4 : 0.6)), lim = H.fs > 0.2 ? hw - H.lw * 1.2 : hw + rr * 0.22 * k;   // director 2026-10-29 («¿un ojo salido?»): in 3/4 and profile both eyes stay INSIDE the head outline
       if (eyes.length === 1) { const x = eyes[0][0], d = Math.abs(x - H.cx) + rxOf(eyes[0][2]) - lim; if (d > 0) eyes[0][0] -= Math.sign(x - H.cx || 1) * d; }
       else {
         const exL = (H.cx - eyes[0][0]) + rxOf(eyes[0][2]) - lim, exR = (eyes[1][0] - H.cx) + rxOf(eyes[1][2]) - lim;
         if (exL > 0 && exR > 0) { eyes[0][0] += exL; eyes[1][0] -= exR; }
         else if (exR > 0) { eyes[0][0] -= exR; eyes[1][0] -= exR; if (exL + exR > 0) eyes[0][0] += exL + exR; }
         else if (exL > 0) { eyes[0][0] += exL; eyes[1][0] += exL; if (exR + exL > 0) eyes[1][0] -= exR + exL; }
-      } }
+      }
+      // face audit (2026-10-29): how far any eye sticks out past the head outline, screen px (3/4 and profile must be <= 0)
+      if (FACE && H.fs > 0.2) { const over = Math.max(...eyes.map(e => Math.abs(e[0] - H.cx) + rxOf(e[2]) - hw)); FACE.eyeOut = Math.max(FACE.eyeOut || 0, +(over * scaleOf(c)).toFixed(2)); } }
     H.noseBottom = null;
     if (F.nose) {
       const nx = fx + fdir * H.fs * hw * 0.42, ny = ey + F.noseY, nr = F.nose; H.noseBottom = ny + nr * 0.8;
