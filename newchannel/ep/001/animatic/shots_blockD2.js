@@ -14,17 +14,18 @@
       const def = this, T0 = def.t0, w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
       const el = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat, speaker: 'eli' }, o)), mi = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat, speaker: 'mila' }, o));
       // ---- words
-      const tUn = w('un', 1, '17'), tRapido = w('rápido', 1, '17'), tLa = w('La', 2, '17'), tVolvio = w('volvió', 1, '17'), tQuien = el('Quién', 1, '17'), tFueE = el('fue', 1, '17', { edge: 'end' });
+      const tUn = w('un', 1, '17'), tRapido = w('rápido', 1, '17'), tLa = w('La', 3, '17') /* v5 #15: «…alguien la sube silbando» adds a «la»: «La ola volvió» is the 3rd */, tEn17 = w('En', 1, '17'), tSube = w('sube', 1, '17'), tSilbandoE = w('silbando', 1, '17', { edge: 'end' }), tVolvio = w('volvió', 1, '17'), tQuien = el('Quién', 1, '17'), tFueE = el('fue', 1, '17', { edge: 'end' });
       const tEliM = mi('Eli', 1, '17'), tFue2 = el('Fue', 2, '17'), tVientoE = el('viento', 1, '17', { edge: 'end' }), tSer = w('Ser', 1, '17'), tLento = w('lento', 1, '17'), tEs = w('Es', 2, '17');
-      const tEsta = w('Esta', 1, '18'), tEn = w('En', 1, '18'), tCompu = w('computadora', 1, '18'), tSolo = w('Solo', 1, '18'), tCon = w('con', 1, '18');
-      const tHay = el('Hay', 1, '18'), tEse = mi('Ese', 1, '18'), tAmigoE = mi('amigo', 1, '18', { edge: 'end' }), tLos = w('Los', 1, '18'), tMitad = w('mitad', 1, '18'), tLa18 = w('La', 4, '18'), tQuinta = w('quinta', 1, '18'), tUna = w('Una', 1, '18');
+      const tEsta = w('La', 1, '18') /* v5 (C3): «Esta es la parte favorita» -> «La parte favorita de Mila:» */, tEn = w('En', 1, '18'), tCompu = w('computadora', 1, '18'), tSolo = w('Solo', 1, '18'), tCon = w('con', 1, '18');
+      const tHay = el('Hay', 1, '18'), tEse = mi('Ese', 1, '18'), tAmigoE = mi('amigo', 1, '18', { edge: 'end' }), tLos = w('Los', 1, '18'), tMitad = w('mitad', 1, '18'), tLa18 = w('La', 4, '18'), tQuinta = w('quinta', 1, '18'), tUna = A.at('Una', 2, { beat: '18', speaker: 'narrator' }) /* «Una sola persona paciente» (#1 is «una quinta parte»: before v5 F15_one opened 2 s early, on «una quinta», and hid the −22 % badge) */;
       const tPor = w('Por', 1, '19'), tAmort = w('amortiguador', 1, '19'), tEl = w('El', 2, '19'), tEmbot = w('embotellamiento', 1, '19'), tCuando = w('cuando', 1, '19'), tAsi = w('así', 1, '19');
-      const tLos19 = w('Los', 2, '19'), tPor2 = w('Por', 2, '19'), tYo = el('Yo', 1, '19'), tTodoE = el('todo', 1, '19', { edge: 'end' }), tEnJ = w('En', 1, '19'), tManejo = w('manejo', 1, '19');
+      const tLos19 = w('nunca', 1, '19') /* v5 (C4): «Los de atrás ni sienten la ola» is cut: the wide of both strips opens on «nunca tiene que detenerse» */, tPor2 = w('Por', 2, '19'), tYo = el('Yo', 1, '19'), tTodoE = el('todo', 1, '19', { edge: 'end' }), tEnJ = w('En', 1, '19'), tManejo = w('manejo', 1, '19');
       const tOjo = w('Ojo', 1, '19'), tSi = w('Si', 1, '19'), tNingun = w('ningún', 1, '19');
+      const tMilaSabe = w('Mila', 1, '19') /* v5 #10 «Mila lo sabe.» */, tNiMila = w('Ni', 1, '19') /* v5 #11 «Ni siquiera Mila.» */;
       // ---- sim
       const ev = (id, type) => A.ev(id, type);
       const S8 = () => A.adapter('S8'), S9 = () => A.adapter('S9');
-      const K8u = A.map(ev('S8', 'knob_up'), tRapido, 4), K8b = A.map(ev('S8', 'wave_back'), tVolvio, 4), K8d = A.map(ev('S8', 'knob_down'), tLento, 4);
+      const K8u = A.map(ev('S8', 'knob_up'), tSube, 4), K8b = A.map(ev('S8', 'wave_back'), tVolvio, 4), K8d = A.map(ev('S8', 'knob_down'), tLento, 4);
       const M9 = A.map(ev('S9', 'mila_takes_wheel'), tCompu, 4);
       const EL = A.map(ev('S3B_ELI', 'eli_stop'), tEmbot, 2), MI = A.map(ev('S3B_ELI', 'eli_stop'), tEmbot, 2);
       const LF = A.LIGHT_FIELD, G = A.FIELD.GROUND, N = A.LIGHT_NOON;
@@ -41,15 +42,21 @@
       const shots = [];
 
       // ================================================================ BEAT 17 · too eager
-      const knob = t => A.ramp(t, tRapido - 0.15, 0.35) * (1 - A.ramp(t, tVientoE + 0.2, 0.3));
+      const knob = t => A.ramp(t, tSube - 0.15, 0.35)   /* v5 #15: the knob goes up on «alguien la SUBE silbando» (was «rápido») */
+         * (1 - A.ramp(t, tVientoE + 0.2, 0.3));
       shots.push({ id: 'F01_laptop', start: T0 - 0.05, bg: 'field_laptop', focus: [960, 560], push: 0.03, over: c => rec(c, false),
         draw(c, t, lt) { A.field(c, t, { run: S8(), simT: K8u(t), frame: { z: 1.4, x: 960, y: 580 }, chars: cx => {
-          K.cast.draw(cx, 'eli1', 1250, G, 620, { view: 'q', dir: -1, ...A.pz(t, tUn - 0.2, 'crossed', 'point'), expr: 'smug', t, look: [0.2, -0.9], light: LF, shadow: 0.3, extras: [] });
+          K.cast.draw(cx, 'eli1', 1250, G, 620, { view: 'q', dir: -1, ...A.pz(t, w('computadora', 1, '17') - 0.2, 'crossed', 'point'),   /* David: points on «computadora» (the laptop shot now ends on «un poquito») */ expr: 'smug', t, look: [0.2, -0.9], light: LF, shadow: 0.3, extras: [] });
           laptop(cx, 800, 860, 1.25, knob(t), t); } }); },
-        cues: A => [{ t: T0 + 0.2, kind: 'whistle', t1: tRapido - 0.2 }, { t: tRapido - 0.15, kind: 'click' }] });
-      shots.push({ id: 'F01_knob', start: tRapido - 0.35, bg: 'laptop_close', focus: [960, 520], push: 0.035, pushDir: 1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0.1 },
+        cues: A => [] });   // v5 #15: the whistle + click moved to F01_knob, under «alguien la sube silbando»
+      // David pace: F01_laptop was 5.4 s; «un poquito más rápido que el promedio» now plays on the ring (the halo car, before
+      // the knob), so the laptop close-up keeps the reveal «En nuestra versión, alguien la sube silbando»
+      shots.push({ id: 'F01_ring', start: tUn - 0.1, bg: 'ring_pre', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: c => { rec(c, true); src(c); },
+        draw(c, t, lt) { const ts = K8u(t), S = S8().at(ts), p = A.clampView(A.ringPt(AV, S), 1.6); c.save(); c.translate(960, 540); c.scale(1.6, 1.6); c.translate(-p[0], -p[1]); A.ring(c, t, ring8(ts)); c.restore(); } });
+      shots.push({ id: 'F01_knob', start: tEn17 - 0.1 /* v5 #15: the laptop close-up opens on «En nuestra versión…» (was «rápido» − 0.35) */, bg: 'laptop_close', focus: [960, 520], push: 0.035, pushDir: 1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0.1 },
         draw(c, t, lt) { A.paper(c, t); laptop(c, 960, 640, 2.6, knob(t), t);
-          K.cast.draw(c, 'eli1', 1500, 1500, 1100, { view: 'q', dir: -1, pose: 'point', expr: 'smug', t, look: [0, -0.9], light: K.cast.LIGHT.board }); } });
+          K.cast.draw(c, 'eli1', 1500, 1500, 1100, { view: 'q', dir: -1, ...A.pz(t, tSube - 0.3, 'crossed', 'point'), expr: 'smug', t, look: [0, -0.9], light: K.cast.LIGHT.board }); },
+        cues: A => [{ t: tEn17 + 0.3, kind: 'whistle', t1: tSilbandoE + 0.3 }, { t: tSube - 0.15, kind: 'click' }] });
       shots.push({ id: 'F02_back', start: tLa - 0.1, bg: 'ring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { A.ring(c, t, ring8(K8b(t))); } });
       shots.push({ id: 'F03_yell', start: tQuien - 0.3, bg: 'field_eli', focus: [900, 480], push: 0.03, pushDir: -1, over: c => rec(c, false),
@@ -60,7 +67,7 @@
       // F04 · silence: everybody turns to look at him (the drivers in the band, the observers, Mila)
       shots.push({ id: 'F04_stare', start: tFueE + 0.3, bg: 'field_stare', focus: [960, 540], push: 0.02, pushDir: 1, over: c => rec(c, false),
         // Guardian v3: the carried-over shout sat top-left and its tail ran across Mila's face (read as her line): two short lines above Eli
-        say: { b17_33_eli: { maxW: 380, at: [1560, 150] } },   // Guardian v3 (2): one line, higher — the 2-line box touched Eli's head zone on the first frames
+        say: { b17_35_eli: { maxW: 380, at: [1560, 150] } },   // Guardian v3 (2): one line, higher — the 2-line box touched Eli's head zone on the first frames
         draw(c, t, lt) { A.field(c, t, { run: S8(), simT: K8b(tFueE + 0.3), frame: { z: 1.25, x: 960, y: 600 }, carExpr: () => 'annoyed', chars: cx => {
           K.char.person(cx, 520, G - 20, 62, { t, seed: 4, skin: '#e3a983', hair: '#2b1d1a', hairStyle: 'bun', shirt: '#d8e04a', pose: 'stand', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
           K.char.person(cx, 660, G - 20, 62, { t, seed: 5, skin: '#9a6447', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'clipboard', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
@@ -71,7 +78,7 @@
         draw(c, t, lt) { const sp = A.talk('mila', t); A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.75, x: 980, y: 505 }, chars: cx =>   /* Guardian v3: ponytail was cut by the top edge */
           K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'q', dir: 1, pose: 'crossed', expr: 'annoyed', t, look: [-0.3, 0.1], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme }) }); } });
       // F06 · «…Fue el viento.» — whistling, a leaf crosses very slowly; Mila turns the knob back down with one finger
-      shots.push({ id: 'F06_wind', start: tFue2 - 0.35, bg: 'field_leaf', focus: [960, 520], push: 0.025, pushDir: -1, over: c => rec(c, false),
+      shots.push({ id: 'F06_wind', start: Math.max(tFue2 - 0.35, tEliM + 0.55) /* David: Mila's «¿Eli?» slot is 0.3 s; F05 holds until her box has been read (was 0.53 s) */, bg: 'field_leaf', focus: [960, 520], push: 0.025, pushDir: -1, over: c => rec(c, false),
         draw(c, t, lt) { const sp = A.talk('eli', t);
           A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.45, x: 960, y: 580 }, chars: cx => {
             K.cast.draw(cx, 'eli1', 820, G, 620, { view: 'q', dir: 1, pose: 'clasp', expr: 'sheepish', t, look: [0.3, -0.8], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme });
@@ -159,12 +166,16 @@
       shots.push({ id: 'F18_behind', start: tLos19 - 0.1, bg: 'two_wide', over: stripPills, label: 'ACELERADO ×2', focus: [960, 540], push: 0.02, pushDir: 1,
         draw(c, t, lt) { strips(c, t, EL(t), { pxm: 10, camS: (S) => S.x[2] + 8 }); } });
       // «llegar tarde es la jugada» → «¡Yo llego tarde a todo!»: thumbs at himself; Mila pats him
+      // v5 #10: «Mila lo sabe.» gets its own closer two-shot: the pat lands on «Mila» (F19_late was 6.5 s)
+      const lateField = (c, t, frame) => { const sp = A.talk('eli', t), lit = t > w('llegar', 1, '19');
+          A.field(c, t, { run: S9(), simT: M9(t), frame, chars: cx => {
+            K.cast.draw(cx, 'mila1', 1240, G - 6, 620, { view: 'q', dir: -1, ...A.pz(t, tMilaSabe - 0.2, 'crossed', 'palm'), ...A.ez(t, tMilaSabe + 0.1, 'happy', 'smug')   /* v5 #10: the pat lands on «Mila lo sabe.» (was «todo» end, 0.9 s before the line) */, t, look: [-0.9, 0], light: LF, shadow: 0.3 });
+            K.cast.draw(cx, 'eli1', 840, G, 640, { view: 'front', ...A.seq(t, [[0, { pose: 'think' }], [w('llegar', 1, '19'), { pose: 'surprise' }], [tYo - 0.1, { pose: 'pointSelf' }]], 0.2), ...A.ez(t, w('llegar', 1, '19'), 'thinking', 'happy'), t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: lit ? ['sparkle'] : [] }); } }); };
       shots.push({ id: 'F19_late', start: tPor2 - 0.1, bg: 'field_late', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
-        draw(c, t, lt) { const sp = A.talk('eli', t), lit = t > w('llegar', 1, '19');
-          A.field(c, t, { run: S9(), simT: M9(t), frame: { z: 1.6, x: 960, y: 570 }, chars: cx => {
-            K.cast.draw(cx, 'mila1', 1240, G - 6, 620, { view: 'q', dir: -1, ...A.pz(t, tTodoE, 'crossed', 'palm'), expr: 'happy', t, look: [-0.9, 0], light: LF, shadow: 0.3 });
-            K.cast.draw(cx, 'eli1', 840, G, 640, { view: 'front', ...A.seq(t, [[0, { pose: 'think' }], [w('llegar', 1, '19'), { pose: 'surprise' }], [tYo - 0.1, { pose: 'pointSelf' }]], 0.2), ...A.ez(t, w('llegar', 1, '19'), 'thinking', 'happy'), t, light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme, extras: lit ? ['sparkle'] : [] }); } }); },
+        draw(c, t) { lateField(c, t, { z: 1.6, x: 960, y: 570 }); },
         cues: A => [{ t: w('llegar', 1, '19'), kind: 'ding' }] });
+      shots.push({ id: 'F19_pat', start: tMilaSabe - 0.3, bg: 'field_pat', focus: [1040, 480], push: 0.035, pushDir: 1, over: c => rec(c, false),
+        draw(c, t) { lateField(c, t, { z: 2.0, x: 1040, y: 560 }); } });
       shots.push({ id: 'F21_japan', start: tEnJ - 0.1, bg: 'two_jp', label: 'ACELERADO ×2', focus: [960, 540], push: 0.022, pushDir: -1, over: (c) => src(c, SRC3),
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); } });
       shots.push({ id: 'F21_plate', start: tManejo - 0.1, bg: 'plate_jp', focus: [960, 520], push: 0.025, pushDir: 1, over: (c) => src(c, SRC3),
@@ -179,13 +190,18 @@
       shots.push({ id: 'F23_dome40', start: tNingun - 0.1, bg: 'dome40', label: 'ACELERADO ×10', focus: [960, 560], push: 0.025, pushDir: 1, post: { grain: 0.13, vignette: 0.4, vignetteColor: '#1a1020', bloom: 0.22 },
         over: (c, t) => P.badge(c, K.W - 260, 230, '40', 90, 1, 'autos'),
         draw(c, t, lt) { const R = A.adapter('S5_40'); A.dome(c, t, { run: R, simT: 300 + (t - tNingun) * 10, carOver: (cx, i, x, y) => { if (i === 0) halo(cx, x, y); } }); } });
+      // v5 #11 «Ni siquiera Mila.»: push in on the patient car (the halo) stuck in the overfull dome, same sim clock
+      shots.push({ id: 'F23_mila', start: tNiMila - 0.1, bg: 'dome40_close', label: 'ACELERADO ×10', focus: [960, 560], push: 0.035, pushDir: 1, post: { grain: 0.13, vignette: 0.45, vignetteColor: '#1a1020', bloom: 0.22 },
+        draw(c, t, lt) { const R = A.adapter('S5_40'), ts = 300 + (t - tNingun) * 10, S = R.at(ts), z = 2.1, p = A.clampView(A.domePt((S.x[0] % R.p.L) / R.p.L * K.TAU, A.domeView()), z);
+          c.save(); c.translate(960, 560); c.scale(z, z); c.translate(-p[0], -p[1]);
+          A.dome(c, t, { run: R, simT: ts, carOver: (cx, i, x, y) => { if (i === 0) halo(cx, x, y, 0.75 + 0.25 * Math.sin(t * 5)); } }); c.restore(); } });
       return shots;
     },
     ambience(A) {
       const w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
       const t0 = A.at('Después', 1, { beat: '17' }), t1 = A.at('Funciona', 1, { beat: '20' }), tQ = A.at('fue', 1, { beat: '17', speaker: 'eli', edge: 'end' });
       return [{ kind: 'field_birds', t0, t1: w('Por', 1, '19') }, { kind: 'wind_grass', t0, t1: tQ + 0.25 }, { kind: 'wind_grass', t0: A.at('Eli', 1, { beat: '17', speaker: 'mila' }) - 0.3, t1 },
-        { kind: 'music_light', t0, t1: tQ + 0.2 }, { kind: 'mila_theme', t0: w('Esta', 1, '18'), t1: w('Por', 1, '19') }, { kind: 'music_light', t0: w('Por', 1, '19'), t1 }];
+        { kind: 'music_light', t0, t1: tQ + 0.2 }, { kind: 'mila_theme', t0: w('La', 1, '18'), t1: w('Por', 1, '19') }, { kind: 'music_light', t0: w('Por', 1, '19'), t1 }];
     },
   });
 })(typeof window !== 'undefined' ? window : globalThis);

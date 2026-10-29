@@ -15,7 +15,7 @@
       const tEstir = w('Estiremos', 1, '09'), tRecta = w('recta', 1, '09', { edge: 'end' }), tEl = w('El', 2, '09'), tToca = w('toca', 1, '09');
       const tSegundo = w('El', 4, '09'), tNota = w('nota', 1, '09'), tInstante = w('instante', 1, '09'), tTarde = w('tarde', 1, '09'), tEn = w('En', 1, '09');
       const tAsi = w('así', 1, '09'), tFrenar = w('frenar', 1, '09'), tEl3 = w('El', 5, '09'), tTercero = w('tercero', 1, '09');
-      const noT = [1, 2, 3].map(n => A.at('no', n, { beat: '09', speaker: 'eli' })), tEliN = w('Eli', 1, '09', { speaker: 'narrator' }), tPara = w('Para', 1, '09'), tAlto = w('alto', 1, '09'), tTotal = w('total', 1, '09', { edge: 'end' });
+      const noT = [1, 2, 3].map(n => A.at('no', n, { beat: '09', speaker: 'eli' })), tEliN = w('Adivina', 1, '09')   /* v5 #5: «Adivina quién va en el diez:» (was «Eli va en el diez:») */, tPara = w('Para', 1, '09'), tAlto = w('alto', 1, '09'), tTotal = w('total', 1, '09', { edge: 'end' });
       const tLos = w('Los', 1, '10'), tInest = w('inestabilidad', 1, '10'), tLa = w('La', 1, '10'), tCadena2 = w('cadena', 2, '10'), tAutos = w('autos', 1, '10', { edge: 'end' });
       const tSi1 = w('Si', 1, '10'), tSi2 = w('Si', 2, '10'), tComo = w('como', 1, '10'), tChisme = w('chisme', 1, '10'), tCuentaE = w('cuenta', 1, '10', { edge: 'end' });
       const tQue = A.at('Que', 1, { beat: '10', speaker: 'eli' }), tQueE = A.at('qué', 1, { beat: '10', speaker: 'eli', edge: 'end' });
@@ -105,7 +105,7 @@
         },
         cues: A => [3, 4, 5, 6, 7].map(n => ({ t: tTercero + (on(n) - on(3)) / 3, kind: 'line_brake', step: n })) });
 
-      // C07 · «Eli va en el diez:» (v4 P7, the narrator names him) + Eli: «No… no… ¡no!» — the bars come at him, each one higher
+      // C07 · «Adivina quién va en el diez:» (v5 #5; v4 P7 was «Eli va en el diez:») + Eli: «No… no… ¡no!» — the bars come at him, each one higher
       shots.push({ id: 'C07_no', start: tEliN - 0.1, bg: 'line_eli', label: 'ACELERADO ×3', focus: [900, 520], push: 0.035, pushDir: 1,
         draw(c, t, lt) {
           const ts = L3(t), sp = A.talk('eli', t), k = noT.filter(x => t > x - 0.02).length;

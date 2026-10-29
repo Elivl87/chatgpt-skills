@@ -60,6 +60,13 @@
       shots.push({ id: 'H01_same', start: T0 - 0.05, bg: 'hw', focus: [960, 520], push: 0.025, pushDir: 1,
         draw(c, t, lt) { wide(c, t, G22(t)); P.plate(c, 960, 300, 'TÚ TAMBIÉN', 56, A.pulse(t, w('tú', 1, '22'), 0.25, 1.4, 0.3)); },
         cues: A => [{ t: w('tú', 1, '22'), kind: 'plate' }] });
+      // v5 #14 «Sí, tú. No el de adelante.»: in the car, Eli hears his own excuse from the hook and goes sheepish; Mila turns
+      // to him, smug (H01_same was 6.1 s with the new line)
+      const tSi22 = w('Sí', 1, '22'), tNo22 = w('No', 1, '22'), tAdel22 = w('adelante', 1, '22');
+      shots.push({ id: 'H01_you', start: tSi22 - 0.1, bg: 'close_you', focus: [930, 540], push: 0.03, pushDir: 1,
+        draw(c, t, lt) { inCar(c, t, G22(t), { z: 1.45, wx: 640, wy: 620, sx: 950, sy: 545 },
+            { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tNo22 + 0.1, 'happy', 'sheepish'), look: t > tNo22 + 0.1 ? [0.3, 0.4] : [0.9, -0.05], blink: eliBlink(t) },
+            { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tAdel22, 'neutral', 'smug'), headTurn: 0.25 * A.ramp(t, tAdel22 - 0.2, 0.3), look: [0.9, -0.05], blink: milaBlink(t) }, { badge: 1 }); } });   // the badge is still on (it goes to the glovebox on «cerrarlo»)
       shots.push({ id: 'H02_gap', start: tAsi - 0.1, bg: 'hw_ots', focus: [960, 600], push: 0.03, pushDir: 1,
         // Guardian: the gap spring is drawn on the ground layer (under the cars and the crew): drawn on top it ran through
         // Eli's back and beanie in this over-the-shoulder view
@@ -175,6 +182,13 @@
           inCar(c, t, ts, { z: 1.3, wx: 760, wy: 600, sx: 960, sy: 540 },
             { pose: 'drive', view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.05], blink: eliBlink(t) },
             { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tPaciente, 'neutral', 'happy'), look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 0 }); } });   // M1
+      // v5 #16 «Hasta Eli.»: tighter on the pair, Mila's hand on his shoulder, Eli beams (J03_calm was 4.9 s)
+      const tHasta = w('Hasta', 1, '24');
+      shots.push({ id: 'J03_eli', start: tHasta - 0.1, bg: 'close_eli', label: 'ACELERADO ×3', focus: [930, 520], push: 0.035, pushDir: 1,
+        draw(c, t, lt) { const ts = G23(t), give = A.ramp(t, tHasta, 0.3);
+          inCar(c, t, ts, { z: 1.75, wx: 640, wy: 600, sx: 950, sy: 545 },
+            { pose: 'drive', view: 'q', dir: 1, ...A.ez(t, tHasta + 0.3, 'happy', 'laugh'), look: [0.9, -0.05], blink: eliBlink(t) },
+            { ...A.pzv(give, 0.5, 'lap', 'palm', 1.0), view: 'q', dir: 1, expr: 'happy', look: [0.9, -0.1], blink: milaBlink(t) }, { badge: 0 }); } });   // M1
       // the wordmark, the payoff: Eli catches the dot ON TIME and places it on the i himself; fist bump
       const tWM = tEsto - 0.15, WM = { drop: 0.55, c1: 1.0, c2: tPuntosE - tWM, place: tPuntosE - tWM + 0.75, land: tPuntosE - tWM + 1.25, tagline: tPuntosE - tWM + TAG };
       const tTag = tWM + WM.tagline, T1 = def.t1;

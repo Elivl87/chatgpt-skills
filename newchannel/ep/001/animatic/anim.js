@@ -30,6 +30,9 @@
     const key = norm(word);
     const hits = A.words.filter(w => w.key === key && (!o.beat || w.beat === o.beat) && (!o.speaker || w.speaker === o.speaker));
     if (hits.length < n) throw new Error(`animatic: word «${word}» #${n} ${o.beat ? 'in beat ' + o.beat : ''} not found (${hits.length})`);
+    // ?anchors=1: every lookup is listed in events().anchors with its context (re-pointing QC when the voice changes)
+    if (A._anchors) { const w = hits[n - 1]; A._anchors.push({ word, n, beat: o.beat || null, speaker: o.speaker || null, i: w.i, line: w.line, t: w.start,
+      ctx: A.words.slice(Math.max(0, w.i - 3), w.i + 4).map(x => x.i === w.i ? '[' + x.word + ']' : x.word).join(' ') }); }
     return hits[n - 1];
   };
   A.at = function (word, n = 1, o = {}) {
@@ -171,12 +174,14 @@
   // reports where Eli's / Mila's heads were drawn (screen design units); a shot may also register a head itself
   // (A.speaker) when it draws a character through its own transform. Off-screen speaker: the box sits at a corner with
   // no tail. Style per line (kind, preferred side, position) in A.LINES.
+  // ids = script_parse segment ids of the David C v5 voice (2026-10-29: #2 and #4 are new narrator segments, so every
+  // character line from beat 4 on moved up by one or two; ?anchors=1 lists any id here that the word file does not have)
   A.LINES = {
-    b03_02_eli: { kind: 'shout' }, b04_06_mila: {}, b04_07_eli: {}, b06_11_eli: {}, b07_14_eli: { kind: 'shout' },
-    b09_18_eli: {}, b10_21_eli: { kind: 'shout' }, b12_24_eli: { kind: 'shout' }, b13_27_eli: {}, b14_29_eli: {},
-    b17_33_eli: { kind: 'shout' }, b17_35_mila: {}, b17_36_eli: { kind: 'whisper', side: -1 }, b18_39_eli: { side: -1 }, b18_40_mila: {},
-    b19_43_eli: {}, b21_47_eli: { kind: 'shout' }, b21_49_eli: { kind: 'shout' }, b23_54_eli: { kind: 'whisper' },
-    b23_55_mila: {},   // v5: no end-screen tag (bend_58_eli removed)
+    b03_02_eli: { kind: 'shout' }, b04_07_mila: {}, b04_08_eli: {}, b06_12_eli: {}, b07_15_eli: { kind: 'shout' },
+    b09_20_eli: {}, b10_23_eli: { kind: 'shout' }, b12_26_eli: { kind: 'shout' }, b13_29_eli: {}, b14_31_eli: {},
+    b17_35_eli: { kind: 'shout' }, b17_37_mila: {}, b17_38_eli: { kind: 'whisper', side: -1 }, b18_41_eli: { side: -1 }, b18_42_mila: {},
+    b19_45_eli: {}, b21_49_eli: { kind: 'shout' }, b21_51_eli: { kind: 'shout' }, b23_56_eli: { kind: 'whisper' },
+    b23_57_mila: {},   // v5: no end-screen tag (bend_58_eli removed)
   };
   A.lineList = function () {
     if (A._lineList) return A._lineList;
@@ -251,6 +256,7 @@
     K.scene('ep001_' + name, {
       async setup(ctx, opts) {
         await A.load(opts && opts.timings);
+        A._anchors = opts && opts.anchors ? [] : null;
         A._demo = opts.tbdemo ? opts.tbdemo.split('|').map(x => x.split(':')) : null;
         A._bySpk = {}; for (const w of A.words) (A._bySpk[w.speaker] = A._bySpk[w.speaker] || []).push(w);
         A.installBadge();
@@ -295,7 +301,8 @@
         return { block: name, t0: def.t0, t1: def.t1, duration: def.t1 - def.t0,
           shots: shots.map(s => ({ id: s.id, start: +(s.start - def.t0).toFixed(3), end: +(s.end - def.t0).toFixed(3), bg: s.bg || null, label: typeof s.label === 'string' ? s.label : (s.label ? 'dynamic' : null) })),
           cues: cues.map(c => Object.assign({}, c, { t: +(c.t - def.t0).toFixed(3) })).sort((a, b) => a.t - b.t),
-          ambience: (def.ambience ? def.ambience(A) : []).map(a => Object.assign({}, a, { t0: +(a.t0 - def.t0).toFixed(3), t1: +(a.t1 - def.t0).toFixed(3) })) };
+          ambience: (def.ambience ? def.ambience(A) : []).map(a => Object.assign({}, a, { t0: +(a.t0 - def.t0).toFixed(3), t1: +(a.t1 - def.t0).toFixed(3) })),
+          ...(A._anchors ? { anchors: A._anchors, linesMissing: Object.keys(A.LINES).filter(id => !A.words.some(w => w.line === id)) } : {}) };
       },
       duration: def.t1 - def.t0,
     });

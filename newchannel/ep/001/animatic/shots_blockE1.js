@@ -17,13 +17,15 @@
       const el = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat, speaker: 'eli' }, o));
       // ---- words
       const tNov = w('noviembre', 1, '20'), tNash = w('Nashville', 1, '20'), tEquipo = w('equipo', 1, '20'), tCien = w('cien', 1, '20'), tAutos = w('autos', 1, '20');
-      const tCon = w('con', 1, '20'), tInt = w('inteligente', 1, '20'), tProg = w('programa', 1, '20'), tAcel = w('acelerar', 1, '20'), tFrenar = w('frenar', 1, '20');
+      const tCon = w('con', 1, '20'), tInt = w('inteligente', 1, '20'), tProg = w('que', 1, '20') /* v5 (C6′): «: un programa que decide cuándo acelerar y cuándo frenar» -> «, que acelera y frena solo» */, tAcel = w('acelera', 1, '20'), tFrenar = w('frena', 1, '20');
+      const tA20 = w('A', 1, '20') /* v5 #12 «A Eli no le alcanzaron los dedos. Ni prestados.» */, tDedosE = w('dedos', 1, '20', { edge: 'end' }), tNi20 = w('Ni', 1, '20'), tEl20 = w('El', 1, '20');
       const tResult = w('resultado', 1, '20'), tCompl = w('complicado', 1, '20'), tCien2 = w('Cien', 2, '20'), tGota = w('gota', 1, '20'), tBorr = w('borraron', 1, '20');
       const tTampoco = w('tampoco', 1, '20'), tHacerloE = w('hacerlo', 1, '20', { edge: 'end' });
       const tPero = w('Pero', 1, '21'), tEliN = w('Eli', 1, '21', { speaker: 'narrator' }), tUna = w('Una', 1, '21'), tAtras = w('atrás', 1, '21');
       const tPasan1 = w('Pasan', 1, '21'), tAchica1 = w('achica', 1, '21'), tDale = el('Dale', 1, '21'), tDale2E = el('dale', 2, '21', { edge: 'end' });
       const tPasan2 = w('Pasan', 2, '21'), tCuatro = w('cuatro', 1, '21'), tApagado = w('apagado', 1, '21'), tCrece = w('crece', 1, '21'), tNooo = el('Nooo', 1, '21'), tNoooE = el('Nooo', 1, '21', { edge: 'end' });
       const tPasan3 = w('Pasan', 3, '21'), tAchica2 = w('achica', 2, '21'), tCada = w('Cada', 1, '21'), tCrecer = w('crecer', 1, '21'), tEncoger = w('encoger', 1, '21');
+      const tMira = w('Mira', 1, '21') /* v5 #13 «Mira quién hizo la ola a tiempo.» */, tTiempo = w('tiempo', 1, '21');
       // ---- sim (S10): one base clock for beat 20 (×1, the tap at sim 20 lands near «gota»), then one mapping per
       // stretch of beat 21 so each pass lands on its word (labels say each speed-up)
       const R = () => A.s10(), ev = (type, car) => A.ev('S10', type, e => e.car === car);
@@ -67,8 +69,8 @@
           const fk = K.clamp((t - (tInt - 0.15)) / 0.3);   // Guardian v3: he turns through the front view (was a one-frame mirror flip)
           pair(c, t, { ...A.pz(t, tInt, 'visor', 'point'), ...A.ez(t, tInt, 'curious', 'determined'), look: [-0.3, 0.7], view: 0.55 * Math.abs(1 - 2 * K.ease.sine(fk)), dir: fk < 0.5 ? 1 : -1 }, { pose: 'crossed', expr: 'curious', look: [-0.7, 0.2] }); } });
       shots.push({ id: 'G05_chip', start: tProg - 0.1, bg: 'i24_close', focus: [960, 540], push: 0.03, pushDir: -1,
-        over: (c, t) => { rec(c); P.pill(c, 960, 210, '▲ acelerar', 44, A.ramp(t, tAcel, 0.2) * (1 - A.ramp(t, tFrenar - 0.15, 0.15)), { align: 'center', bg: K.rgba('#23746C', 0.92) });
-          P.pill(c, 960, 210, '▼ frenar', 44, A.ramp(t, tFrenar, 0.2), { align: 'center', bg: K.rgba('#b8452f', 0.92) }); },
+        over: (c, t) => { rec(c); P.pill(c, 960, 210, '▲ acelera', 44, A.ramp(t, tAcel, 0.2) * (1 - A.ramp(t, tFrenar - 0.15, 0.15)), { align: 'center', bg: K.rgba('#23746C', 0.92) });
+          P.pill(c, 960, 210, '▼ frena', 44, A.ramp(t, tFrenar, 0.2), { align: 'center', bg: K.rgba('#b8452f', 0.92) }); },
         draw(c, t, lt) { const ts = G20(t), s = R().at(ts).x[221]; A.i24(c, t, { simT: ts, sC: s + 1, sc: 22, sinE: 0.6, oy: 520, halo: 1, carK: 1.1 });
           // the program: a little chip over the car
           const k = A.ramp(t, tProg, 0.25); if (k > 0.01) { c.save(); c.globalAlpha = k; c.translate(960, 330); c.fillStyle = '#1c2433'; c.strokeStyle = '#4fb3a8'; c.lineWidth = 6; K.rrect(c, -70, -50, 140, 100, 14); c.fill(); c.stroke();
@@ -76,7 +78,10 @@
             c.fillStyle = '#4fb3a8'; c.font = '700 30px "Martian Mono"'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('ACC', 0, 2); c.restore(); } },
         cues: A => [{ t: tAcel, kind: 'click' }, { t: tFrenar, kind: 'click' }] });
       // the counting gag: Eli counts the halos on his fingers, runs out, borrows Mila's hands, runs out again
-      const counts = (t) => { const a = tResult - 0.15, b = tCompl - 0.05, c2 = tCompl + 0.25, d = tCien2 - 0.25;
+      // v5 #12: Eli counts 1-10 under «A Eli no le alcanzaron los dedos.», Mila's hands slide in on «Ni prestados.» and run out
+      // (11-20) just before «¿El resultado?» (it used to run from «resultado» to «Cien» under «Es complicado»)
+      const CA = tA20 - 0.05, CB = tDedosE, CC = tNi20, CD = tEl20 - 0.25;
+      const counts = (t) => { const a = CA, b = CB, c2 = CC, d = CD;
         if (t < a) return 0; if (t < b) return Math.min(10, 1 + Math.floor((t - a) / ((b - a) / 10))); if (t < c2) return 10; return Math.min(20, 10 + 1 + Math.floor((t - c2) / ((d - c2) / 10))); };
       const handsInsert = (c, t, n, milaIn, droop) => {
         A.bridge(c, t, { cars: 0 }); c.fillStyle = K.rgba('#2a1830', 0.25); c.fillRect(0, 0, K.W, K.H);
@@ -87,12 +92,17 @@
         P.hand(c, ex + 170, 740 + dy, 150, eN[1], { dir: 1, skin: skinE, sleeve: '#f3ecdd', rot: 0.12 + rot });
         if (milaIn > 0) { const mx = K.lerp(2300, 1340, slide); P.hand(c, mx - 160, 760 + dy, 140, mN[0], { dir: -1, skin: skinM, sleeve: '#7158b8', rot: -0.1 - rot }); P.hand(c, mx + 160, 760 + dy, 140, mN[1], { dir: 1, skin: skinM, sleeve: '#7158b8', rot: 0.1 + rot }); }
       };
-      shots.push({ id: 'G06_count', start: tResult - 0.3, bg: 'hands', focus: [960, 600], push: 0.03, pushDir: 1,
-        draw(c, t, lt) { const n = counts(t); handsInsert(c, t, n, A.ramp(t, tCompl + 0.0, 0.25), 0);
+      shots.push({ id: 'G06_count', start: tA20 - 0.3, bg: 'hands', focus: [960, 600], push: 0.03, pushDir: 1,
+        draw(c, t, lt) { const n = counts(t); handsInsert(c, t, n, A.ramp(t, tNi20 - 0.25, 0.25), 0);
           if (n > 0) P.num(c, 960, 230, n, 140, 1, n > 10); },
-        cues: A => { const out = [], a = tResult - 0.15, b = tCompl - 0.05, c2 = tCompl + 0.25, d = tCien2 - 0.25;
-          for (let k = 0; k < 10; k++) out.push({ t: a + k * (b - a) / 10, kind: 'tick_pencil' }); out.push({ t: tCompl, kind: 'swish' });
+        cues: A => { const out = [], a = CA, b = CB, c2 = CC, d = CD;
+          for (let k = 0; k < 10; k++) out.push({ t: a + k * (b - a) / 10, kind: 'tick_pencil' }); out.push({ t: tNi20 - 0.25, kind: 'swish' });
           for (let k = 0; k < 10; k++) out.push({ t: c2 + k * (d - c2) / 10, kind: 'tick_pencil' }); return out; } });
+      // v5: «¿El resultado? Es complicado.» now follows the counting gag: on the bridge, Eli stares at his 20 fingers' worth of
+      // halos and gives up thinking; Mila, smug, already knew
+      shots.push({ id: 'G06_result', start: tEl20 - 0.1, bg: 'bridge3', focus: [960, 420], push: 0.03, pushDir: -1,
+        draw(c, t, lt) { pair(c, t, { pose: 'think', ...A.ez(t, tCompl, 'thinking', 'worried'), look: [-0.2, 0.7] }, { pose: 'crossed', ...A.ez(t, tCompl + 0.2, 'curious', 'smug'), look: [-0.8, 0.1] }); },
+        cues: A => [{ t: tCompl, kind: 'swish' }] });
       shots.push({ id: 'G07_drop', start: tCien2 - 0.1, bg: 'i24_drop', focus: [960, 600], push: 0.025, pushDir: -1,
         over: (c, t) => { rec(c); src(c); P.badge(c, K.W - 250, 250, '100', 70, 1, 'autos'); },
         draw(c, t, lt) { const ts = G20(t), g = A.i24(c, t, { simT: ts, sC: R().at(ts).x[214] + 60, sc: 2.6, sinE: 0.62, oy: 690, sky: 280, zk: 2.8, halo: 1, haloAll: 1 });
@@ -167,6 +177,12 @@
           c.font = '600 34px "Space Grotesk"'; c.fillStyle = '#23746C'; c.fillText('● auto inteligente', 120, 1010); c.fillStyle = '#6f6a7c'; c.fillText('● sistema apagado', 540, 1010);   /* art review 2026-10: 28 -> 34 px */
           c.fillStyle = '#2a1a1e'; c.fillText('← hacia atrás', 1560, 1010); },
         cues: A => [{ t: tCrecer - 0.4, kind: 'chain', t1: tCrecer + 1.4 }] });
+      // v5 #13 «Mira quién hizo la ola a tiempo.»: back on the bridge, Eli (flag up, proud) and Mila, smug, looking at him
+      shots.push({ id: 'G20_ontime', start: tMira - 0.1, bg: 'bridge_ontime', focus: [820, 420], push: 0.03, pushDir: 1,
+        draw(c, t, lt) { pair(c, t, { pose: 'cheer', ...A.ez(t, tTiempo - 0.1, 'happy', 'laugh'), look: [0.4, 0.3], lean: 0.03 * Math.sin(t * 6), extras: t > tTiempo - 0.1 && t < tTiempo + 0.6 ? ['sparkle'] : [] },
+          { pose: 'crossed', ...A.ez(t, tMira + 0.4, 'happy', 'smug'), look: [-0.9, -0.1] },
+          { after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.lead[0], rE.hands.lead[1], 300, t, { ang: 0.15, wave: 0.3, f: 8 }); } }); },
+        cues: A => [{ t: tTiempo, kind: 'ding' }] });
       return shots;
     },
     ambience(A) {

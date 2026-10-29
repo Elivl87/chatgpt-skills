@@ -35,12 +35,13 @@
 
       // ================================================================ BEAT 6
       // B01 · Mila drags Eli by the apron strap; his heels plough two furrows
-      shots.push({ id: 'B01_drag', start: T0, bg: 'field', focus: [960, 600], push: 0.025,
-        over: (c) => recPill(c, false),
-        draw(c, t, lt, S) {
-          const ts = A.map(0, T0, 1)(t), u = 520, k = K.clamp(lt / (S.end - S.start));
+      // v5 #3 «…de verdad. Literalmente.»: the drag is one move over both shots (k from the block clock, not per shot); on
+      // «Literalmente» the camera cuts in to follow Eli's heels ploughing the field
+      const tLit = w('Literalmente', 1, '06'), tDragEnd = tYa - 0.28;
+      const drag = (c, t, close) => {
+          const ts = A.map(0, T0, 1)(t), u = 520, k = K.clamp((t - T0) / (tDragEnd - T0));
           const mx = 620 + 620 * k, ex = mx - 300, ex0 = 320;
-          A.field(c, t, { simT: ts, frame: { z: 1.0, x: 960, y: 540 },
+          A.field(c, t, { simT: ts, frame: close ? { z: 1.6, x: ex + 120, y: G - 310 } : { z: 1.0, x: 960, y: 540 },
             chars: (cx) => {
               // furrows
               cx.strokeStyle = K.rgba('#5a4030', 0.75); cx.lineCap = 'round'; for (const dy of [-6, 10]) { cx.lineWidth = 9; cx.beginPath(); cx.moveTo(ex0 - 20, G + dy); cx.lineTo(ex + 10, G + dy); cx.stroke(); }
@@ -51,8 +52,14 @@
               const sx = rE.head[0] + u * 0.03, sy = rE.head[1] + u * 0.2, hx = rM.hands.trail[0], hy = rM.hands.trail[1];
               cx.strokeStyle = K.cast.INK; cx.lineWidth = 9; cx.beginPath(); cx.moveTo(sx, sy); cx.lineTo(hx, hy); cx.stroke(); cx.strokeStyle = '#3b2a20'; cx.lineWidth = 5; cx.stroke();
             } });
-        },
+      };
+      shots.push({ id: 'B01_drag', start: T0, bg: 'field', focus: [960, 600], push: 0.025,
+        over: (c) => recPill(c, false),
+        draw(c, t) { drag(c, t, false); },
         cues: A => [{ t: T0 + 0.1, kind: 'drag', t1: A.at('Ya', 1, { beat: '06', speaker: 'eli' }) - 0.3 }] });
+      shots.push({ id: 'B01_heels', start: tLit - 0.1, bg: 'field_heels', focus: [960, 600], push: 0.03, pushDir: 1,
+        over: (c) => recPill(c, false),
+        draw(c, t) { drag(c, t, true); } });
 
       // B02 · «¡Ya entendí! ¡Fue el de adelante!»
       shots.push({ id: 'B02_gotit', start: tYa - 0.28, bg: 'field_eli', focus: [900, 520], push: 0.03, pushDir: 1,
@@ -202,14 +209,16 @@
           c.restore();
         },
         cues: A => [{ t: sw0, kind: 'shrug_wave', n: swN, d: swD }] });
-      // B17 · Eli shrugs too
-      shots.push({ id: 'B17_eli_shrug', start: tLo - 0.7, bg: 'field_eli2', focus: [940, 500], push: 0.03, pushDir: 1,
+      // B17 · Eli shrugs too — v5 #4: on «La larga: este video.» (the ring of shrugs carries «Respuesta corta: todos.»); he
+      // drops the fist into the shrug, then looks at the camera on «video» (was a 0.65 s insert just before «Lo que…»)
+      const tLarga = w('La', 1, '07'), tVideo = w('video', 1, '07');
+      shots.push({ id: 'B17_eli_shrug', start: tLarga - 0.1, bg: 'field_eli2', focus: [940, 500], push: 0.03, pushDir: 1,
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           A.field(c, t, { simT: C4(t), frame: { z: 1.7, x: 940, y: 560 },
-            chars: (cx) => K.cast.draw(cx, 'eli1', 940, G, 640, { view: 'front', pose: 'shrug', expr: 'sheepish', t, look: [0.3, 0.2], light: LF, shadow: 0.3 }) });
+            chars: (cx) => K.cast.draw(cx, 'eli1', 940, G, 640, { view: 'front', ...A.pz(t, tLarga + 0.15, 'fist', 'shrug', 0.3), ...A.ez(t, tLarga + 0.15, 'grumpy', 'sheepish'), t, look: t > tVideo ? [0, 0] : [0.3, 0.2], light: LF, shadow: 0.3 }) });
         },
-        cues: A => [{ t: tLo - 0.6, kind: 'mm' }] });
+        cues: A => [{ t: tLarga + 0.15, kind: 'mm' }] });
 
       // ================================================================ BEAT 8 · it slides back
       shots.push({ id: 'B18_mila', start: tLo - 0.05, bg: 'field_mila', focus: [960, 520], push: 0.03, pushDir: 1,

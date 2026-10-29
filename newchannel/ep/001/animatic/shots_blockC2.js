@@ -12,13 +12,13 @@
     shots(A) {
       const def = this, T0 = def.t0, w = (word, n, beat, o = {}) => A.at(word, n, Object.assign({ beat }, o));
       // ---- words
-      const tEntran = w('entran', 1, '11'), tSalen = w('salen', 1, '11'), tLos2 = w('Los', 2, '11'), tVan = w('van', 1, '11'), tQueda = w('queda', 1, '11');
+      const tEntran = w('entran', 1, '11'), tSalen = w('salen', 1, '11'), tLos2 = tSalen /* v5 (C1): «Los autos se van; el embotellamiento se queda.» is cut: the wide ring opens on «salen» (the marked car leaves by the front) */, tQueda = w('delante', 1, '11') /* v5: the stopped cars get their rings on «delante» (was «queda») */;
       const tEs1 = w('Es', 2, '11'), tNadie = w('nadie', 1, '11'), tPero11 = w('pero', 1, '11'), tVueltaE = w('entera', 1, '11', { edge: 'end' }), tUn = w('Un', 3, '11'), tEs2 = w('Es', 3, '11'), tOla3 = w('ola', 3, '11');
       const tPero = w('Pero', 1, '12'), tEl = w('El', 1, '12'), tEstadio = w('estadio', 1, '12'), tCon1 = w('con', 1, '12'), tTresc = w('trescientos', 1, '12'), tMetrosE = w('metros', 1, '12', { edge: 'end' });
       const tCon2 = w('Con', 2, '12'), tVeinti5 = w('veinticinco', 1, '12'), tCon3 = w('Con', 3, '12'), tVeinti8 = w('veintiocho', 1, '12'), tEmbot = w('embotellamiento', 1, '12'), tTres = w('Tres', 1, '12');
       const tQuien = A.at('Quién', 1, { beat: '12', speaker: 'eli' }), tF = A.at('f', 1, { beat: '12', speaker: 'eli', edge: 'end' }), tLo = w('Lo', 1, '12'), tTramo = w('tramo', 1, '12');
       const tDens = w('densidad', 1, '12'), tLos12 = tDens - 0.3 /* v4 (P13): «los ingenieros le dicen» is gone; the meter shot opens just before «densidad» */, tPor1 = w('Por', 1, '12'), tPor2 = w('Por', 2, '12'), tCrecenE = w('crecen', 1, '12', { edge: 'end' });
-      const tAhora = w('Ahora', 1, '13'), tAhi = w('Ahí', 1, '13'), tDiez = w('diez', 1, '13'), tA13 = w('a', 2, '13'), tO = w('O', 2, '13');
+      const tAhora = w('Ahora', 1, '13'), tAhi = w('sola', 1, '13') - 0.16 /* v5 (C2): «Ahí, una sola ola» -> «…en hora pico, una sola ola»: the wave opens on «una sola» */, tDiez = w('diez', 1, '13'), tA13 = w('a', 1, '13') /* v5: «llévalo a una» is gone, «a quince» is the 1st «a» */, tO = w('O', 2, '13');
       const tEmb13 = w('embotellamiento', 1, '13'), tTrancon = w('trancón', 1, '13'), tTaco = w('taco', 1, '13'), tTrafico = w('tráfico', 1, '13');
       const tPudo = w('pudo', 1, '13'), tEn13 = tPudo - 0.1 /* v4 (P2): «en el que» now comes before the regional names; the half-hour shot waits for «pudo» so the name cards finish */;
       const tMedia = w('media', 1, '13'), tEse = w('Ese', 1, '13') /* v4 (P2): «ese embotellamiento» is gone, «Ese conductor» is the first «Ese» */, tCasa = w('casa', 1, '13'), tCasaE = w('casa', 1, '13', { edge: 'end' });
@@ -54,7 +54,7 @@
       // ---- the stadium wave; Eli is late (1st time)
       const waveX = t => K.lerp(-300, 2300, (t - tNadie + 0.3) / 3.0);           // the crest crosses the frame in ~3 s
       const waveAt = t => x => Math.exp(-Math.pow((x - waveX(t)) / 160, 2));
-      const lateUp = tVueltaE + 0.15;
+      const lateUp = w('Eli', 1, '11') - 0.35;   // v5 #6: Eli is up (alone) on «Eli llega tarde.» and still up, sheepish, into «Como siempre.» (was «entera» end + 0.15)
       // stand-up in the stands (Guardian v3: it was a one-frame jump of a whole leg length): e 0 -> 1 raises the hips
       // continuously from the seat (y) to standing (+ jump px); in between the character stands crouched (K.cast crouch)
       // with the feet just below the seat line, behind the row in front
@@ -65,7 +65,7 @@
       };
       const upK = v => K.ease.sine(K.clamp((v - 0.12) / 0.5));
       const heroes = (c, t, y, R, o = {}) => {
-        const mUp = waveAt(t)(860), eUp = t > lateUp - 0.04 ? A.pulse(t, lateUp - 0.04, 0.24, 0.76, 0.4) : 0;
+        const mUp = waveAt(t)(860), eUp = t > lateUp - 0.04 ? A.pulse(t, lateUp - 0.04, 0.24, 1.2, 0.4) : 0;
         rise(c, 'mila1', 860, y + 8, 260, upK(mUp), 0, { view: 'front', ...A.pzv(mUp, 0.5, 'lap', 'cheer', 1.0), ...A.ez(mUp, 0.4, 'happy', 'laugh', 0.6), t, light: LF });
         const rE = rise(c, 'eli1', 1000, y + 8, 260, eUp, 60, { view: 'front', ...A.pzv(eUp, 0.5, 'lap', 'cheer', 1.0), ...A.ezs(t, [[0, o.popcorn ? 'content' : 'happy'], [lateUp + 0.08, 'happy'], [lateUp + 0.5, 'sheepish']]),   /* Guardian v3 (2): the pose follows the value over its whole travel (a 0.16 band on a 0.25 s ramp was a 1-frame snap) */ look: eUp > 0.3 && t > lateUp + 0.45 ? [Math.sin(t * 4) * 0.8, 0] : [0, 0.3], t, light: LF });
         // the popcorn bucket stays with Eli in every stadium shot (Guardian: it vanished when he stood up and in D06):
@@ -141,7 +141,7 @@
           c.restore();
           },
         cues: A => [{ t: tQuien, kind: 'pop' }, { t: tF, kind: 'record_scratch' }] });
-      shots.push({ id: 'D13_screen', start: tF + 0.05, bg: 'dome_screen', sayAvoid: [[520, 30, 1400, 520]],   // the big screen is the gag: no text box on it
+      shots.push({ id: 'D13_screen', start: tF /* David C (2026-10-29): «f» ends exactly where the assembler cut the synthesised «fue» (90 ms into the /f/, frication 185.75 -> silence 185.82 s): the picture cuts on that frame (was + 0.05 = 2-3 frames late) */, bg: 'dome_screen', sayAvoid: [[520, 30, 1400, 520]],   // the big screen is the gag: no text box on it
         focus: [960, 500], push: 0.03, pushDir: -1, post: domePost,
         draw(c, t, lt) { A.dome(c, t, { run: R28(), simT: D28(t), eli: 18 });
           // the stadium's big screen: Eli, mouth open, with an arrow pointing at him

@@ -152,6 +152,17 @@
               mila: { pose: 'lap', view: 'back' } }) });
         } });
 
+      // v5 #1 «Eli siempre está seguro.»: back to the tight close-up of A09, arms crossed now, a smug nod on «seguro»; Mila
+      // rolls her eyes on «siempre» (A10_point was 4.5 s with the new line)
+      const tEliS = A.at('Eli', 2, { beat: '03', speaker: 'narrator' }), tSiempre = w('siempre', 1, '03'), tSeguro2 = w('seguro', 2, '03');
+      shots.push({ id: 'A10_sure', start: tEliS - 0.1, bg: 'close_tight2', focus: [980, 470], push: 0.03, pushDir: -1,
+        draw(c, t, lt) {
+          const ts = HOLD(t);
+          const eO = { view: 'q', dir: 1, ...A.pz(t, tEliS + 0.1, 'visor', 'crossed', 0.25), ...A.ez(t, tSeguro2, 'determined', 'smug'), look: [1, -0.1], blink: eliBlink(t), tilt: -0.04 + 0.06 * A.pulse(t, tSeguro2, 0.12, 0.12, 0.18) };
+          const mO = { pose: 'lap', view: 'q', dir: 1, ...A.ez(t, tSiempre, 'neutral', 'annoyed'), look: t > tSiempre ? [0.2, -0.9] : [0.5, 0], blink: t > tSiempre ? 0 : milaBlink(t) };
+          A.close(c, t, 0, { simT: ts, tStop: sStop, frame: { z: 1.95, wx: 650, wy: 470, sx: 1000, sy: 560 },
+            crew: (cx, sx, sy, SC, info) => A.crew(cx, sx, sy, SC, info, eO, mO, { eliStand: 1 }) });
+        } });
       shots.push({ id: 'A11_empty', start: tPero - 0.1, bg: 'hw_high', focus: [960, 500], push: 0.022, pushDir: 1,
         draw(c, t, lt) {
           const ts = HOLD(t), R = A.s1(), xE = R.at(ts).x[ELI];

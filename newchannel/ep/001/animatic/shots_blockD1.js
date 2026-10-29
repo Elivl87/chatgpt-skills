@@ -38,6 +38,8 @@
       const tA = w('A', 2, '14'), tPara = w('para', 1, '14'), tManejen = w('manejen', 1, '14'), tSi = w('Si', 1, '14'), tMi = A.at('Mi', 1, { beat: '14', speaker: 'eli' });
       const tPero = w('Pero', 1, '15'), tUna = w('Una', 1, '15'), tCompu = w('computadora', 1, '15'), tNo = w('no', 1, '15'), tIr = w('Ir', 1, '15'), tO = w('o', 1, '15'), tContando = w('contando', 1, '15');
       const tEl = w('El', 1, '15'), tEstira = w('estira', 1, '15'), tComo = w('como', 1, '15'), tResorteE = w('resorte', 1, '15', { edge: 'end' });
+      const tPican = w('Eli', 1, '15') - 0.17 /* v5 #7 «A Eli le pican las manos.» (on its «A») */, tManosE = w('manos', 1, '15', { edge: 'end' });
+      const tPobre = w('Pobre', 1, '16') /* v5 #8 «Pobre lema de Eli.» */, tLema = w('lema', 1, '16');
       const tLa = w('La', 1, '16'), tDerr = w('derritió', 1, '16'), tLos1 = w('Los', 1, '16'), tOchenta = w('ochenta', 1, '16'), tLos2 = w('Los', 2, '16'), tCasi = w('casi', 1, '16');
       const tEn = w('En', 1, '16'), tLos3 = w('los', 3, '16'), tCuarenta = w('cuarenta', 1, '16'), tTodo = w('Todo', 1, '16'), tSolo = w('solo', 1, '16');
       const sOn = A.ev('S7', 'control_on'), sMelt = A.ev('S7', 'wave_melted');
@@ -150,12 +152,14 @@
         draw(c, t, lt) { const ts = CTRL(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 2.3); c.save(); c.translate(960, 540); c.scale(2.3, 2.3); c.translate(-p[0], -p[1]);
           A.ring(c, t, ringOpts(ts, { extra: { over: (cx, g2s, cars, S2) => P.spring(cx, A.ringPt(AV, S2), A.ringPt(AV + 1, S2), 1) } })); c.restore(); },
         cues: A => [{ t: tEstira, kind: 'spring' }, { t: w('encoge', 1, '15'), kind: 'spring' }] });
-      const pull = tResorteE - 0.15;
+      // v5 #7: Eli stands still through «como un resorte», his hands open and creep forward on «A Eli le pican las manos» and
+      // Mila yanks him back as «manos» ends (the step + yank used to happen on «como un resorte», before the line)
+      const pull = tManosE - 0.15;
       shots.push({ id: 'E13_pull', start: tComo - 0.1, bg: 'field_pull', focus: [960, 520], push: 0.03, pushDir: -1, over: c => rec(c, false),
-        draw(c, t, lt) { const step = A.ramp(t, tComo + 0.1, 0.35) * (1 - A.ramp(t, pull, 0.12));
+        draw(c, t, lt) { const step = A.ramp(t, tPican - 0.05, 0.9) * (1 - A.ramp(t, pull, 0.12));
           A.field(c, t, { run: S7(), simT: CTRL(t), frame: { z: 1.5, x: 960, y: 580 }, chars: cx => {
             const ex = 900 - step * 160 + 0, u = 620;
-            const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: -1, ...A.pz(t, pull + 0.9, 'open', 'stand'), ...A.ez(t, pull, 'determined', 'surprised'), t, lean: step * 0.12 - (t > pull ? 0.06 * Math.exp(-(t - pull) * 4) : 0), light: LF, shadow: 0.3 });
+            const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: -1, ...A.seq(t, [[0, { pose: 'stand' }], [tPican + 0.05, { pose: 'open' }], [pull + 0.6, { pose: 'stand' }]], 0.25), ...A.ez(t, pull, 'determined', 'surprised'), t, lean: step * 0.12 - (t > pull ? 0.06 * Math.exp(-(t - pull) * 4) : 0), light: LF, shadow: 0.3 });
             eliBadge(cx, rE, u, t);
             const rM = K.cast.draw(cx, 'mila1', 1260, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, pull - 0.1, 'clipboard', 'point'), expr: 'neutral', t, look: [-0.2, 0.3], light: LF, shadow: 0.3 });
             if (t > pull - 0.1) { cx.strokeStyle = K.cast.INK; cx.lineWidth = 9; cx.beginPath(); cx.moveTo(rE.head[0] + 30, rE.head[1] + u * 0.22); cx.lineTo(rM.hands.lead[0], rM.hands.lead[1]); cx.stroke(); cx.strokeStyle = '#3b2a20'; cx.lineWidth = 5; cx.stroke(); } } }); },
@@ -179,6 +183,13 @@
       shots.push({ id: 'E18_one', start: tTodo - 0.1, bg: 'ring_one', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: (c, t) => { rec(c, true); P.badge(c, K.W - 260, 230, '1 / 21', 90, A.ramp(t, tSolo - 0.1, 0.25)); src(c); },
         draw(c, t, lt) { const ts = MELT(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); },   // Guardian v4: no Eli / Mila among the observers here (at ×1.9 Mila's head sat on the bottom edge at the block's end)
         cues: A => [{ t: tSolo, kind: 'ding' }] });
+      // v5 #8 «Pobre lema de Eli.»: back on Eli, who was holding the badge straight with one finger (E17_40); he lets go on
+      // «Pobre» and the card flops down on «lema»
+      shots.push({ id: 'E18_lema', start: tPobre - 0.1, bg: 'field_lema', focus: [760, 600], push: 0.035, pushDir: 1, over: c => rec(c, false),
+        draw(c, t, lt) { A.field(c, t, { run: S7(), simT: MELT(t), frame: { z: 1.8, x: 760, y: 640 }, chars: cx => {
+          const u = 620, fl = A.ramp(t, tLema - 0.05, 0.3), r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, ...A.pz(t, tPobre + 0.1, 'point', 'stand', 0.25), ...A.ez(t, tLema + 0.1, 'neutral', 'sheepish'), t, look: t > tPobre + 0.1 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 });
+          P.badgeCard(cx, r.head, u, fl, 1, false); } }); },
+        cues: A => [{ t: tLema, kind: 'flump' }] });
       return shots;
     },
     ambience(A) {
