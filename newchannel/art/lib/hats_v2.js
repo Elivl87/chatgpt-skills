@@ -21,7 +21,7 @@
     h.shape(c, crown, col, H.lw);
     c.save(); crown(); c.clip();
     c.strokeStyle = K.rgba(dark, 0.95); c.lineWidth = H.lw * 1.1;   // panel seams converge on the button
-    for (const k of [-0.75, -0.3, 0.3, 0.75]) { c.beginPath(); c.moveTo(k * hw + off, band + 0.004); c.quadraticCurveTo(k * hw * 0.75 + off, -hh - 0.012, off * 0.5, -hh - 0.038); c.stroke(); }
+    for (const k of [-0.75, -0.3, 0.3, 0.75]) { c.beginPath(); c.moveTo(k * hw + off, band + 0.004); c.quadraticCurveTo(k * hw * 0.75 + off, -hh - 0.008, off * 0.5, -hh - 0.024); c.stroke(); }
     c.fillStyle = K.rgba('#ffffff', 0.18); c.beginPath(); c.ellipse(-H.faceDir * hw * 0.35 - hw * 0.2 * (1 - fs), -hh - 0.016, hw * 0.35, 0.012, -0.3, 0, K.TAU); c.fill();   // soft sheen on the lit side
     c.fillStyle = K.rgba(dark, 0.9); c.fillRect(-hw * 1.3, band - 0.004, hw * 2.6, 0.01);   // the sweatband rim
     c.restore();
@@ -37,7 +37,9 @@
     else if (o.emblem && fs > 0.55) {   // 3/4-profile: the mark peeks on the front panel at the back of the head
       c.font = `800 ${0.028}px "Martian Mono"`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.lineWidth = H.lw; c.strokeStyle = K.rgba(INK, 0.8); const ex = bk * hw * 0.78;
       c.strokeText(o.emblem, ex, band - 0.026); c.fillStyle = o.emblemCol || '#f3ecdd'; c.fillText(o.emblem, ex, band - 0.026); }
-    c.fillStyle = dark; c.strokeStyle = INK; c.lineWidth = H.lw; c.beginPath(); c.arc(off * 0.5, -hh - 0.04, 0.0075, 0, K.TAU); c.fill(); c.stroke();   // top button
+    // top button, sitting ON the crown top (-hh - 0.0235), cloth-coloured (Guardian 2026-10-29: it floated 0.016 above the crown
+    // on a stalk of outline + rim light and read as a «?» swirl at 1080p)
+    c.fillStyle = K.shade(col, -0.06); c.strokeStyle = INK; c.lineWidth = H.lw; c.beginPath(); c.ellipse(off * 0.5, -hh - 0.026, 0.011, 0.006, 0, 0, K.TAU); c.fill(); c.stroke();
     c.restore();
   };
 
@@ -60,9 +62,15 @@
     c.restore();
   }
 
-  // 5 · short curls + a yellow pencil tucked behind the ear (workshop habit); the pencil sits on the side of the head
-  function pencil(c, H) {
-    const hw = H.hw, side = H.back ? 1 : (H.fs < 0.2 ? 1 : -H.faceDir), x0 = side * hw * 1.0, y0 = 0.008;   // on the head edge (the ear side away from the face), leaning out and back
+  // 5 · short curls + a yellow pencil tucked behind Eli's RIGHT ear (workshop habit). The ear never changes: screen-left in the
+  // front-ish views, screen-right from the back. Guardian 2026-10-29: in front view it was drawn over the face edge at eye
+  // height (touching the right eye) and on the other ear than in 3/4 / profile / back. Now: where that ear is at the silhouette
+  // (front) or on the far side (turned to screen-left) the pencil goes BEHIND the head (hairBack layer) and only the eraser
+  // end shows past the hair; where the ear faces us (turned to screen-right, back views) it lies on the side of the head.
+  function pencil(c, H, behind) {
+    const front = !H.back && H.fs < 0.2, near = H.back || (!front && H.faceDir > 0);
+    if (behind === near) return;
+    const hw = H.hw, side = H.back ? 1 : -1, x0 = side * hw * (front ? 0.92 : 1.0), y0 = front ? -0.006 : 0.008;
     const ang = side * 0.42, L = 0.085, w = 0.009, dx = Math.sin(ang) * L, dy = -Math.cos(ang) * L;
     c.save(); c.translate(x0, y0); c.lineCap = 'butt';
     const seg = (a, b, col, ww) => { c.strokeStyle = INK; c.lineWidth = ww + H.lw * 2; c.beginPath(); c.moveTo(dx * a, dy * a); c.lineTo(dx * b, dy * b); c.stroke(); c.strokeStyle = col; c.lineWidth = ww; c.stroke(); };
@@ -91,19 +99,20 @@
 
   const RED = '#c62a2f', RED_D = '#8e1a20', RED_C = '#d8233a', RED_CD = '#9a1328', Y = '#f2c230', YD = '#cf9d1f';
   C.ELI_HATS_V2 = {
-    '1a': { name: 'gorra roja al revés (lisa)', cost: 'nuevo (gorra estructurada de 6 paneles, cierre trasero a la vista)', layers: () => ({ extraK: 1.36, hat: capRev(RED, RED_D) }) },
-    '1b': { name: 'gorra roja al revés con «E» bordada', cost: 'igual que 1a + bordado', layers: () => ({ extraK: 1.36, hat: capRev(RED, RED_D, { emblem: 'E' }) }) },
-    '1c': { name: 'gorra roja más fría y brillante (se separa mejor del vinotinto)', cost: 'igual que 1a', layers: () => ({ extraK: 1.36, hat: capRev(RED_C, RED_CD, { emblem: 'E' }) }) },
-    2: { name: 'gorra amarilla al revés (mejorada)', cost: 'nuevo, misma función que 1', layers: () => ({ extraK: 1.36, hat: capRev(Y, YD, { strap: '#8a6512' }) }) },
-    3: { name: 'rizos + gafas de taller (pulida)', cost: 'existe (ronda 1, pasada por el Guardián)', layers: () => ({ extraK: 1.3, hat: (c, H) => { curlsFront(c, H); goggles(c, H); }, hairBack: curlsBack }) },
-    4: { name: 'gorro tejido holgado, puño alto (cejas siempre libres)', cost: 'nuevo (rediseño del gorro actual)', layers: () => ({ extraK: 1.3, hat: slouch, backHair: (c, H) => shortHair(c, H, 0.06) }) },
-    5: { name: 'rizos + lápiz amarillo detrás de la oreja', cost: 'nuevo (lápiz) + rizos existentes', layers: () => ({ extraK: 1.3, hat: (c, H) => { curlsFront(c, H); pencil(c, H); }, hairBack: curlsBack }) },
+    '1a': { name: 'gorra roja al revés (lisa)', cost: 'nuevo (gorra estructurada de 6 paneles, cierre trasero a la vista)', layers: () => ({ extraK: 1.5, hat: capRev(RED, RED_D) }) },
+    '1b': { name: 'gorra roja al revés con «E» bordada', cost: 'igual que 1a + bordado', layers: () => ({ extraK: 1.5, hat: capRev(RED, RED_D, { emblem: 'E' }) }) },
+    '1c': { name: 'gorra roja más fría y brillante (se separa mejor del vinotinto)', cost: 'igual que 1a', layers: () => ({ extraK: 1.5, hat: capRev(RED_C, RED_CD, { emblem: 'E' }) }) },
+    2: { name: 'gorra amarilla al revés (mejorada)', cost: 'nuevo, misma función que 1', layers: () => ({ extraK: 1.5, hat: capRev(Y, YD, { strap: '#8a6512' }) }) },
+    3: { name: 'rizos + gafas de taller (pulida)', cost: 'existe (ronda 1, pasada por el Guardián)', layers: () => ({ extraK: 1.55, hat: (c, H) => { curlsFront(c, H); goggles(c, H); }, hairBack: curlsBack }) },
+    4: { name: 'gorro tejido holgado, puño alto (cejas siempre libres)', cost: 'nuevo (rediseño del gorro actual)', layers: () => ({ extraK: 1.6, hat: slouch, backHair: (c, H) => shortHair(c, H, 0.06) }) },
+    5: { name: 'rizos + lápiz amarillo detrás de la oreja', cost: 'nuevo (lápiz) + rizos existentes', layers: () => ({ extraK: 1.55, hat: (c, H) => { curlsFront(c, H); pencil(c, H, false); }, hairBack: (c, H, B) => { curlsBack(c, H, B); pencil(c, H, true); } }) },
     6: { name: 'boina plana (ivy) mostaza, espiga', cost: 'nuevo (rediseño de la boina)', layers: () => ({ extraK: 1.42, hat: ivy, backHair: (c, H) => shortHair(c, H, 0.062) }) },
   };
   // a spec with one round-2 headwear on top of an outfit spec id (e.g. C.OUTFITS.variant('eli', '3bB', 0))
-  C.ELI_HATS_V2.variant = function (key, outfitId) {
-    const id = `${outfitId}_hat2_${key}`; if (C.SPECS[id]) return id; const b = C.SPECS[outfitId], L = C.ELI_HATS_V2[key].layers();
-    C.define(id, Object.assign({}, b, { hat: L.hat || null, hairBack: L.hairBack || null, hairFront: L.hairFront || null, backHair: L.backHair || null, extraK: L.extraK || b.extraK }));
+  C.ELI_HATS_V2.variant = function (key, outfitId, probe, nohat) {   // probe / nohat: QC only (brow_clear_check.py --v2)
+    const id = `${outfitId}_hat2_${key}` + (probe ? 'p' : '') + (nohat ? 'x' : ''); if (C.SPECS[id]) return id; const b = C.SPECS[outfitId], L = nohat ? {} : C.ELI_HATS_V2[key].layers();
+    C.define(id, Object.assign({}, b, { hat: L.hat || null, hairBack: L.hairBack || null, hairFront: L.hairFront || null, backHair: L.backHair || null, extraK: L.extraK || b.extraK },
+      probe ? { face: Object.assign({}, b.face, { browColor: '#ff0000' }) } : {}));
     return id;
   };
 })(typeof window !== 'undefined' ? window : globalThis);

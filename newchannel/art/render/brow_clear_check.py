@@ -5,6 +5,7 @@ For each headwear option (eli_hat_lab n=1..7), expression (happy / surprised / f
 (front, 3/4, profile, beside Mila), renders the lab twice with the brows painted pure red (&probe=1): once with the
 headwear and once without (&nohat=1). The ring 2-5 px around the red brows must show the same skin in both renders (ink outlines and rim light, which follow the silhouette, are ignored): any
 pixel the headwear (hat, brim, band, lens, hair) changes inside that ring = the brows touch it (FAIL).
+--v2: round-2 headwear (eli_hat2_lab k=1a,1b,1c,2..6 on outfit 3bB, or --outfit=1), and adds the laugh face.
 Writes OUTDIR/brow_clear.json and prints one line per option. Exit 1 if any option fails (except the listed --ref ones).
 """
 import json, os, subprocess, sys
@@ -14,13 +15,24 @@ from PIL import Image, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 out = sys.argv[1]; os.makedirs(out, exist_ok=True)
-opts = [int(a) for a in sys.argv[2:] if a.isdigit()] or list(range(1, 8))
-EXPRS, HITS, VIEWS = ["happy", "surprised", "furious"], [0, 1], [0, 1, 2, 4]
+V2 = "--v2" in sys.argv
+OUTFIT = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--outfit=")), "3bB")
+ARGS = [a for a in sys.argv[2:] if not a.startswith("--")]
+if V2:
+    SCENE, KEY = "eli_hat2_lab", "k"
+    opts = ARGS or ["1a", "1b", "1c", "2", "3", "4", "5", "6"]
+    EXTRA = f"&outfit={OUTFIT}"
+    EXPRS = ["happy", "surprised", "furious", "laugh"]
+else:
+    SCENE, KEY, EXTRA = "eli_hat_lab", "n", ""
+    opts = [int(a) for a in ARGS if a.isdigit()] or list(range(1, 8))
+    EXPRS = ["happy", "surprised", "furious"]
+HITS, VIEWS = [0, 1], [0, 1, 2, 4]
 
 
 def render(q, png):
     if not os.path.exists(png):
-        subprocess.run(["node", os.path.join(HERE, "render.mjs"), "--scene", "eli_hat_lab", "--still", "1", "--png", png, "--query", q],
+        subprocess.run(["node", os.path.join(HERE, "render.mjs"), "--scene", SCENE, "--still", "1", "--png", png, "--query", q],
                        check=True, stdout=subprocess.DEVNULL)
     return png
 
@@ -30,8 +42,8 @@ for n in opts:
     for e in EXPRS:
         for h in HITS:
             for v in VIEWS:
-                base = f"n={n}&expr={e}&hit={h}&solo={v}&probe=1"
-                jobs.append((n, e, h, v, (base, f"{out}/n{n}_{e}_h{h}_v{v}.png"), (base + "&nohat=1", f"{out}/n{n}_{e}_h{h}_v{v}_x.png")))
+                base = f"{KEY}={n}{EXTRA}&expr={e}&hit={h}&solo={v}&probe=1"
+                jobs.append((n, e, h, v, (base, f"{out}/n{n}{OUTFIT if V2 else ''}_{e}_h{h}_v{v}.png"), (base + "&nohat=1", f"{out}/n{n}{OUTFIT if V2 else ''}_{e}_h{h}_v{v}_x.png")))
 with ThreadPoolExecutor(8) as ex:
     list(ex.map(lambda j: (render(*j[4]), render(*j[5])), jobs))
 

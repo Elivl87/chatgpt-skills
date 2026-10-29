@@ -326,6 +326,12 @@ Rules (kit `art/lib/cast.js` + `ep/001/animatic/anim.js`):
   E1 G17 flag swept Mila's face for 2 frames at 46.70 s and the key-frame audits + pop check did not see it). Rule for
   shot lists: a prop with a pole or cloth (flag, magnifier, bucket, sandwich, clipboard) is held in the hand **away** from
   the other character and its whole arc (up AND down) is rendered frame by frame before the shot is accepted.
+- **Round-2 headwear and expression extras (Guardian, 2026-10-29).** `brow_clear_check.py <scratch> --v2 [keys] [--outfit=1]`
+  runs the same brow test on `eli_hat2_lab` (keys 1a..6, adds the laugh face). `python3 art/render/extras_clear_check.py
+  <scratch> [keys] [--outfit=1]` renders each view alone with and without the extras (`&noextras=1`) for surprised / furious /
+  laugh / happy x hit 0 / 1 x 4 views and fails any surprise tick / anger mark within 6 px of the character (hat, button,
+  curls). Any headwear sets `extraK` until it passes. Accessories that sit at the head edge (pencil) go behind the head where
+  the ear is at the silhouette and never cross an eye; they stay on the same ear in every view.
 - **Brows never touch the headwear (Guardian, 2026-10-29).** `python3 art/render/brow_clear_check.py <scratch> [n...]`
   renders `eli_hat_lab` for every headwear option x happy / surprised / furious x hat hit 0 / 1 x front / 3/4 / profile /
   beside Mila, twice with the brows painted red (`&probe=1`, with and without the headwear `&nohat=1`), and fails any

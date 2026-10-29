@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Eli headwear round 2 sheet (eli_gorro_opciones_v2_small.jpg) from eli_hat2_lab stills in <dir>: h<k>.png (happy),
-s<k>.png (surprised), w<k>.png (workshop outfit), L<k>_<golden|night>.png. Usage: eli_hat2_sheet.py <dir> <out.jpg>"""
+s<k>_v0..4.png (surprised, each view alone: ?solo=0..4), w<k>.png (workshop outfit), L<k>_<golden|night>.png. Usage: eli_hat2_sheet.py <dir> <out.jpg>"""
 import os, sys
 from PIL import Image, ImageDraw, ImageFont
 S, OUT = sys.argv[1], sys.argv[2]
@@ -10,9 +10,15 @@ K = ['1a', '1b', '1c', '2', '3', '4', '5', '6']
 N = {'1a': 'gorra roja al revés, lisa', '1b': 'gorra roja al revés + «E» bordada', '1c': 'roja más fría y brillante + «E»', '2': 'gorra amarilla al revés (mejorada)',
      '3': 'rizos + gafas de taller', '4': 'gorro holgado, puño alto', '5': 'rizos + lápiz detrás de la oreja', '6': 'boina plana (ivy) mostaza'}
 W = 680; cells = []
+SOLO = [(750, 10, 1170, 637)] * 4 + [(640, 10, 1280, 637)]   # 4 x 420 + 640 = 2320 x 627 -> 680 x 184 (same aspect): the side ticks fit (extraK up to 1.6)
 for k in K:
     a = Image.open(f'{S}/h{k}.png').convert('RGB').crop((0, 30, 1920, 1060)).resize((W, 365), Image.LANCZOS)
-    b = Image.open(f'{S}/s{k}.png').convert('RGB').crop((0, 0, 1920, 520)).resize((W, 184), Image.LANCZOS)
+    # surprise strip: each view rendered alone (?solo=) so the ticks never cross a neighbouring view; 40 px over the ticks
+    strip = Image.new('RGB', (sum(x1 - x0 for x0, _, x1, _ in SOLO), SOLO[0][3] - SOLO[0][1])); ox = 0; dd = ImageDraw.Draw(strip)
+    for v, bx in enumerate(SOLO):
+        strip.paste(Image.open(f'{S}/s{k}_v{v}.png').convert('RGB').crop(bx), (ox, 0)); ox += bx[2] - bx[0]
+        if v < 4: dd.line((ox, 0, ox, strip.height), fill='#cbbfae', width=3)
+    b = strip.resize((W, 184), Image.LANCZOS)
     c = Image.new('RGB', (W, 62 + 365 + 184 + 4), '#1c1820'); d = ImageDraw.Draw(c)
     d.text((10, 0), k, font=big, fill='#f2c230'); d.text((96 if len(k) > 1 else 60, 18), N[k], font=mid, fill='#f3ecdd')
     c.paste(a, (0, 62)); c.paste(b, (0, 62 + 365 + 4)); cells.append(c)
