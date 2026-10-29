@@ -35,7 +35,7 @@ They stand out from the extras by silhouette (capsule heads vs round heads; tall
 | tee | `#f1ede2` | overalls | `#c99633` (pocket `#a87a24`) |
 | apron | `#a4713d` (pocket `#7d532a`, ties `#3b2a20`) | boots | `#2f6b45` |
 | jeans | `#3f5f96` | skin | `#d9a66c` |
-| skin | `#905a38` (2026-10-16, «algo más claro»; was `#7a4d32`) | hair | `#2e1d22` |
+| skin | `#d9a66c` = Mila's tan (2026-10-29, «Le pondría el mismo color de Mila»; was `#905a38`, before that `#7a4d32`); blush `#f07a5e` | hair | `#2e1d22` |
 | boots | `#2b2729` (sole `#151214`) | earrings / buttons | `#f0c24a` / `#e7c25a` |
 | brows | `#1a100e` | lips | `#8e3346` |
 

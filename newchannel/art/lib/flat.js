@@ -84,7 +84,7 @@
   // ------------------------------------------------------------------ Eli + Mila, flat cutouts (units; ground = 0, y up = negative)
   const SP = {
     eli1: { hw: 0.082, hh: 0.138, headC: 0.782, sh: 0.649, hip: 0.37, tw: 0.107, arm: 0.30, hand: 0.03, lw: 0.012,
-      skin: '#905a38', tee: '#f1ede2', apron: '#a4713d', apronDark: '#7d532a', jeans: '#3f5f96', boots: '#2b2729', hat: '#f2c230', rib: '#cf9d1f', brow: '#1a100e', mouth: '#3a1a22' },
+      skin: '#d9a66c', tee: '#f1ede2', apron: '#a4713d', apronDark: '#7d532a', jeans: '#3f5f96', boots: '#2b2729', hat: '#f2c230', rib: '#cf9d1f', brow: '#1a100e', mouth: '#3a1a22' },
     mila1: { hw: 0.063, hh: 0.152, headC: 0.918, sh: 0.771, hip: 0.46, tw: 0.087, arm: 0.33, hand: 0.028, lw: 0.012,
       skin: '#d9a66c', top: '#7158b8', cuff: '#5a4596', bib: '#c99633', bibDark: '#a87a24', boots: '#2f6b45', hair: '#2e1d22', tie: '#c99633', ear: '#f0c24a', button: '#e7c25a', brow: '#1a100e', mouth: '#8e3346' },
   };

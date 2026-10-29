@@ -36,7 +36,7 @@
         C.draw(ctx, E_, 1930, gy2, u2, { t, light: L(), shadow: 0.25 }); C.draw(ctx, M_, 2140, gy2, u2, { t, light: L(), shadow: 0.25 });
         K.char.person(ctx, 2380, gy2, u2 / 4.1, { t, skin: '#c98a64', hair: '#3a2a22', hairStyle: 'short', shirt: '#8aa0b8', pants: '#4a5266', light: { ang: -0.75, rim: '#fff1d2', shade: '#4a3560' } });
         label(ctx, 'Eli 0,95', 1930, gy2 - 0.95 * u2 - 22, '700 18px "Martian Mono"', SIG.eli1); label(ctx, 'Mila 1,08', 2140, gy2 - 1.08 * u2 - 26, '700 18px "Martian Mono"', SIG.mila1); label(ctx, 'extra 1,00', 2380, gy2 + 30, '600 15px "Martian Mono"', 'rgba(60,36,48,0.6)');
-        const sw = [['#f2c230', 'gorro'], ['#f1ede2', 'playera'], ['#a4713d', 'delantal'], ['#3f5f96', 'jeans'], ['#905a38', 'piel Eli'], ['#2b2729', 'botas'],
+        const sw = [['#f2c230', 'gorro'], ['#f1ede2', 'playera'], ['#a4713d', 'delantal'], ['#3f5f96', 'jeans'], ['#d9a66c', 'piel Eli'], ['#2b2729', 'botas'],
           ['#7158b8', 'suéter'], ['#c99633', 'overol'], ['#2f6b45', 'botas'], ['#d9a66c', 'piel Mila'], ['#2e1d22', 'pelo'], ['#f0c24a', 'aretes']];
         sw.forEach(([c, n], k) => { const x = 1810 + (k % 6) * 128, y = 548 + ((k / 6) | 0) * 66; ctx.fillStyle = c; ctx.strokeStyle = 'rgba(40,24,32,0.55)'; ctx.lineWidth = 2; K.circle(ctx, x, y, 15); ctx.fill(); ctx.stroke();
           label(ctx, n, x + 22, y - 2, '600 13px "Martian Mono"', 'rgba(60,36,48,0.85)', 'left'); label(ctx, c, x + 22, y + 14, '500 12px "Martian Mono"', 'rgba(60,36,48,0.6)', 'left'); }); }
