@@ -1,0 +1,132 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b01.mp3",
+ "beat": "01",
+ "prompts": [
+  "01"
+ ],
+ "chars_billable": 110,
+ "script_text": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+ "duration_raw_s": 7.04,
+ "duration_s": 6.97,
+ "lead_trim_s": 0.02,
+ "tail_trim_s": 0.05,
+ "words": 16,
+ "wpm_trimmed": 137.7,
+ "wpm_voiced": 160.0,
+ "voiced_s": 6.0,
+ "loudness": {
+  "lufs_i": -19.1,
+  "true_peak_dbtp": -3.1,
+  "lra": 2.2,
+  "peak_dbfs": -3.13
+ },
+ "asr": {
+  "heard": "una carretera despejada. Allá adelante un conductor toca el freno, una sola vez, apenas un poquito.",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 16
+ },
+ "whisper_words": [
+  {
+   "text": "una",
+   "start": 0.0,
+   "end": 0.18,
+   "p": 0.304
+  },
+  {
+   "text": "carretera",
+   "start": 0.18,
+   "end": 0.74,
+   "p": 0.996
+  },
+  {
+   "text": "despejada.",
+   "start": 0.74,
+   "end": 1.68,
+   "p": 0.996
+  },
+  {
+   "text": "Allá",
+   "start": 1.96,
+   "end": 2.64,
+   "p": 0.976
+  },
+  {
+   "text": "adelante",
+   "start": 2.64,
+   "end": 2.64,
+   "p": 0.889
+  },
+  {
+   "text": "un",
+   "start": 2.64,
+   "end": 3.04,
+   "p": 0.584
+  },
+  {
+   "text": "conductor",
+   "start": 3.04,
+   "end": 3.48,
+   "p": 0.995
+  },
+  {
+   "text": "toca",
+   "start": 3.48,
+   "end": 3.84,
+   "p": 0.901
+  },
+  {
+   "text": "el",
+   "start": 3.84,
+   "end": 4.0,
+   "p": 0.984
+  },
+  {
+   "text": "freno,",
+   "start": 4.0,
+   "end": 4.72,
+   "p": 0.991
+  },
+  {
+   "text": "una",
+   "start": 4.72,
+   "end": 4.96,
+   "p": 0.987
+  },
+  {
+   "text": "sola",
+   "start": 4.96,
+   "end": 5.16,
+   "p": 0.927
+  },
+  {
+   "text": "vez,",
+   "start": 5.16,
+   "end": 5.48,
+   "p": 0.998
+  },
+  {
+   "text": "apenas",
+   "start": 5.76,
+   "end": 6.14,
+   "p": 0.991
+  },
+  {
+   "text": "un",
+   "start": 6.14,
+   "end": 6.36,
+   "p": 0.996
+  },
+  {
+   "text": "poquito.",
+   "start": 6.36,
+   "end": 6.6,
+   "p": 0.987
+  }
+ ],
+ "verdict": "PASS",
+ "why": []
+}

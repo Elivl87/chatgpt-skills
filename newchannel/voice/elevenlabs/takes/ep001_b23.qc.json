@@ -1,0 +1,178 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b23.mp3",
+ "beat": "23",
+ "prompts": [
+  "23"
+ ],
+ "chars_billable": 152,
+ "script_text": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli sí deja el espacio. … «¿…Quién fue?» «Fuiste tú.»",
+ "duration_raw_s": 9.28,
+ "duration_s": 9.1,
+ "lead_trim_s": 0.09,
+ "tail_trim_s": 0.09,
+ "words": 21,
+ "wpm_trimmed": 138.5,
+ "wpm_voiced": 178.0,
+ "voiced_s": 7.08,
+ "loudness": {
+  "lufs_i": -20.9,
+  "true_peak_dbtp": -3.0,
+  "lra": 7.4,
+  "peak_dbfs": -2.99
+ },
+ "asr": {
+  "heard": "Mismo camino. Mismo toque de freno. Allá adelante. Solo que esta vez, él y sí deja el espacio. ¿Quién fue? Fuiste tú.",
+  "wer": 0.0952,
+  "errors": [
+   "+el",
+   "eli->y"
+  ],
+  "hard": [
+   "+el",
+   "eli->y"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 21
+ },
+ "whisper_words": [
+  {
+   "text": "Mismo",
+   "start": 0.0,
+   "end": 0.36,
+   "p": 0.603
+  },
+  {
+   "text": "camino.",
+   "start": 0.36,
+   "end": 0.78,
+   "p": 0.988
+  },
+  {
+   "text": "Mismo",
+   "start": 1.32,
+   "end": 1.76,
+   "p": 0.991
+  },
+  {
+   "text": "toque",
+   "start": 1.76,
+   "end": 2.04,
+   "p": 0.977
+  },
+  {
+   "text": "de",
+   "start": 2.04,
+   "end": 2.14,
+   "p": 0.994
+  },
+  {
+   "text": "freno.",
+   "start": 2.14,
+   "end": 2.74,
+   "p": 0.994
+  },
+  {
+   "text": "Allá",
+   "start": 2.78,
+   "end": 3.04,
+   "p": 0.958
+  },
+  {
+   "text": "adelante.",
+   "start": 3.04,
+   "end": 3.26,
+   "p": 0.95
+  },
+  {
+   "text": "Solo",
+   "start": 3.84,
+   "end": 4.14,
+   "p": 0.604
+  },
+  {
+   "text": "que",
+   "start": 4.14,
+   "end": 4.36,
+   "p": 0.987
+  },
+  {
+   "text": "esta",
+   "start": 4.36,
+   "end": 4.58,
+   "p": 0.952
+  },
+  {
+   "text": "vez,",
+   "start": 4.58,
+   "end": 4.92,
+   "p": 0.999
+  },
+  {
+   "text": "él",
+   "start": 5.28,
+   "end": 5.44,
+   "p": 0.662
+  },
+  {
+   "text": "y",
+   "start": 5.44,
+   "end": 5.7,
+   "p": 0.811
+  },
+  {
+   "text": "sí",
+   "start": 5.7,
+   "end": 5.82,
+   "p": 0.719
+  },
+  {
+   "text": "deja",
+   "start": 5.82,
+   "end": 6.1,
+   "p": 0.584
+  },
+  {
+   "text": "el",
+   "start": 6.1,
+   "end": 6.24,
+   "p": 0.991
+  },
+  {
+   "text": "espacio.",
+   "start": 6.24,
+   "end": 6.52,
+   "p": 0.998
+  },
+  {
+   "text": "¿Quién",
+   "start": 7.22,
+   "end": 7.52,
+   "p": 0.93
+  },
+  {
+   "text": "fue?",
+   "start": 7.52,
+   "end": 7.72,
+   "p": 0.957
+  },
+  {
+   "text": "Fuiste",
+   "start": 8.26,
+   "end": 8.66,
+   "p": 0.525
+  },
+  {
+   "text": "tú.",
+   "start": 8.66,
+   "end": 8.9,
+   "p": 0.97
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['+el', 'eli->y']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

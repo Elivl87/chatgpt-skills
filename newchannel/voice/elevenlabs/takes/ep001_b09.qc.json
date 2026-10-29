@@ -1,0 +1,422 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b09.mp3",
+ "beat": "09",
+ "prompts": [
+  "09"
+ ],
+ "chars_billable": 358,
+ "script_text": "Vamos por partes. Estiremos el círculo hasta volverlo una recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía. Adivina quién va en el diez: «No… no… ¡no!» Para el auto número diez: alto total.",
+ "duration_raw_s": 24.08,
+ "duration_s": 24.05,
+ "lead_trim_s": 0.0,
+ "tail_trim_s": 0.03,
+ "words": 62,
+ "wpm_trimmed": 154.7,
+ "wpm_voiced": 169.6,
+ "voiced_s": 21.94,
+ "loudness": {
+  "lufs_i": -18.3,
+  "true_peak_dbtp": -1.8,
+  "lra": 3.2,
+  "peak_dbfs": -1.83
+ },
+ "asr": {
+  "heard": "Vamos por partes, estiremos el círculo hasta volverlo a una recta, el primer conductor toca el freno, el segundo lo nota un instante tarde, en ese instante ya se acercó, así que tiene que frenar un poco más fuerte, el tercero más tarde y más fuerte todavía, adivina ¿Quién va en el 10? No, no, no. Para el auto número 10, alto total.",
+  "wer": 0.0161,
+  "errors": [
+   "+a"
+  ],
+  "hard": [
+   "+a"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 62
+ },
+ "whisper_words": [
+  {
+   "text": "Vamos",
+   "start": 0.0,
+   "end": 0.22,
+   "p": 0.839
+  },
+  {
+   "text": "por",
+   "start": 0.22,
+   "end": 0.44,
+   "p": 0.996
+  },
+  {
+   "text": "partes,",
+   "start": 0.44,
+   "end": 0.8,
+   "p": 0.997
+  },
+  {
+   "text": "estiremos",
+   "start": 1.28,
+   "end": 1.76,
+   "p": 0.994
+  },
+  {
+   "text": "el",
+   "start": 1.76,
+   "end": 1.88,
+   "p": 0.995
+  },
+  {
+   "text": "círculo",
+   "start": 1.88,
+   "end": 2.4,
+   "p": 0.987
+  },
+  {
+   "text": "hasta",
+   "start": 2.4,
+   "end": 2.62,
+   "p": 0.989
+  },
+  {
+   "text": "volverlo",
+   "start": 2.62,
+   "end": 3.16,
+   "p": 0.978
+  },
+  {
+   "text": "a",
+   "start": 3.16,
+   "end": 3.22,
+   "p": 0.537
+  },
+  {
+   "text": "una",
+   "start": 3.22,
+   "end": 3.34,
+   "p": 0.988
+  },
+  {
+   "text": "recta,",
+   "start": 3.34,
+   "end": 3.94,
+   "p": 0.995
+  },
+  {
+   "text": "el",
+   "start": 4.28,
+   "end": 4.36,
+   "p": 0.912
+  },
+  {
+   "text": "primer",
+   "start": 4.36,
+   "end": 4.58,
+   "p": 0.997
+  },
+  {
+   "text": "conductor",
+   "start": 4.58,
+   "end": 5.04,
+   "p": 0.979
+  },
+  {
+   "text": "toca",
+   "start": 5.04,
+   "end": 5.54,
+   "p": 0.925
+  },
+  {
+   "text": "el",
+   "start": 5.54,
+   "end": 5.72,
+   "p": 0.986
+  },
+  {
+   "text": "freno,",
+   "start": 5.72,
+   "end": 6.32,
+   "p": 0.988
+  },
+  {
+   "text": "el",
+   "start": 6.44,
+   "end": 6.54,
+   "p": 0.984
+  },
+  {
+   "text": "segundo",
+   "start": 6.54,
+   "end": 6.96,
+   "p": 0.996
+  },
+  {
+   "text": "lo",
+   "start": 6.96,
+   "end": 7.2,
+   "p": 0.943
+  },
+  {
+   "text": "nota",
+   "start": 7.2,
+   "end": 7.46,
+   "p": 0.992
+  },
+  {
+   "text": "un",
+   "start": 7.46,
+   "end": 7.8,
+   "p": 0.941
+  },
+  {
+   "text": "instante",
+   "start": 7.8,
+   "end": 8.32,
+   "p": 0.997
+  },
+  {
+   "text": "tarde,",
+   "start": 8.32,
+   "end": 8.68,
+   "p": 0.993
+  },
+  {
+   "text": "en",
+   "start": 9.06,
+   "end": 9.16,
+   "p": 0.974
+  },
+  {
+   "text": "ese",
+   "start": 9.16,
+   "end": 9.3,
+   "p": 0.987
+  },
+  {
+   "text": "instante",
+   "start": 9.3,
+   "end": 9.84,
+   "p": 0.995
+  },
+  {
+   "text": "ya",
+   "start": 9.84,
+   "end": 10.12,
+   "p": 0.98
+  },
+  {
+   "text": "se",
+   "start": 10.12,
+   "end": 10.3,
+   "p": 0.996
+  },
+  {
+   "text": "acercó,",
+   "start": 10.3,
+   "end": 10.88,
+   "p": 0.991
+  },
+  {
+   "text": "así",
+   "start": 11.0,
+   "end": 11.16,
+   "p": 0.931
+  },
+  {
+   "text": "que",
+   "start": 11.16,
+   "end": 11.32,
+   "p": 0.988
+  },
+  {
+   "text": "tiene",
+   "start": 11.32,
+   "end": 11.54,
+   "p": 0.983
+  },
+  {
+   "text": "que",
+   "start": 11.54,
+   "end": 11.68,
+   "p": 0.998
+  },
+  {
+   "text": "frenar",
+   "start": 11.68,
+   "end": 12.12,
+   "p": 0.987
+  },
+  {
+   "text": "un",
+   "start": 12.12,
+   "end": 12.32,
+   "p": 0.992
+  },
+  {
+   "text": "poco",
+   "start": 12.32,
+   "end": 12.64,
+   "p": 0.996
+  },
+  {
+   "text": "más",
+   "start": 12.64,
+   "end": 12.9,
+   "p": 0.911
+  },
+  {
+   "text": "fuerte,",
+   "start": 12.9,
+   "end": 13.3,
+   "p": 0.998
+  },
+  {
+   "text": "el",
+   "start": 13.6,
+   "end": 13.72,
+   "p": 0.987
+  },
+  {
+   "text": "tercero",
+   "start": 13.72,
+   "end": 14.26,
+   "p": 0.994
+  },
+  {
+   "text": "más",
+   "start": 14.26,
+   "end": 14.58,
+   "p": 0.84
+  },
+  {
+   "text": "tarde",
+   "start": 14.58,
+   "end": 15.0,
+   "p": 0.993
+  },
+  {
+   "text": "y",
+   "start": 15.0,
+   "end": 15.32,
+   "p": 0.975
+  },
+  {
+   "text": "más",
+   "start": 15.32,
+   "end": 15.62,
+   "p": 0.962
+  },
+  {
+   "text": "fuerte",
+   "start": 15.62,
+   "end": 16.04,
+   "p": 0.997
+  },
+  {
+   "text": "todavía,",
+   "start": 16.04,
+   "end": 16.48,
+   "p": 0.948
+  },
+  {
+   "text": "adivina",
+   "start": 16.92,
+   "end": 17.36,
+   "p": 0.98
+  },
+  {
+   "text": "¿Quién",
+   "start": 17.36,
+   "end": 17.8,
+   "p": 0.642
+  },
+  {
+   "text": "va",
+   "start": 17.8,
+   "end": 17.96,
+   "p": 0.986
+  },
+  {
+   "text": "en",
+   "start": 17.96,
+   "end": 18.08,
+   "p": 0.948
+  },
+  {
+   "text": "el",
+   "start": 18.08,
+   "end": 18.2,
+   "p": 0.977
+  },
+  {
+   "text": "10?",
+   "start": 18.2,
+   "end": 18.42,
+   "p": 0.923
+  },
+  {
+   "text": "No,",
+   "start": 18.94,
+   "end": 19.1,
+   "p": 0.501
+  },
+  {
+   "text": "no,",
+   "start": 19.62,
+   "end": 19.98,
+   "p": 0.903
+  },
+  {
+   "text": "no.",
+   "start": 20.34,
+   "end": 20.74,
+   "p": 0.734
+  },
+  {
+   "text": "Para",
+   "start": 21.24,
+   "end": 21.5,
+   "p": 0.843
+  },
+  {
+   "text": "el",
+   "start": 21.5,
+   "end": 21.64,
+   "p": 0.988
+  },
+  {
+   "text": "auto",
+   "start": 21.64,
+   "end": 21.82,
+   "p": 0.865
+  },
+  {
+   "text": "número",
+   "start": 21.82,
+   "end": 22.02,
+   "p": 0.974
+  },
+  {
+   "text": "10,",
+   "start": 22.02,
+   "end": 22.48,
+   "p": 0.972
+  },
+  {
+   "text": "alto",
+   "start": 22.98,
+   "end": 23.3,
+   "p": 0.603
+  },
+  {
+   "text": "total.",
+   "start": 23.3,
+   "end": 23.7,
+   "p": 0.972
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['+a']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

@@ -1,0 +1,538 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b19.mp3",
+ "beat": "19",
+ "prompts": [
+  "19"
+ ],
+ "chars_billable": 502,
+ "script_text": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Por una vez, llegar tarde es la jugada. «¡Yo llego tarde a todo!» Mila lo sabe. En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso. Ni siquiera Mila.",
+ "duration_raw_s": 31.28,
+ "duration_s": 31.18,
+ "lead_trim_s": 0.05,
+ "tail_trim_s": 0.05,
+ "words": 82,
+ "wpm_trimmed": 157.8,
+ "wpm_voiced": 168.6,
+ "voiced_s": 29.18,
+ "loudness": {
+  "lufs_i": -18.4,
+  "true_peak_dbtp": -1.5,
+  "lra": 2.1,
+  "peak_dbfs": -1.57
+ },
+ "asr": {
+  "heard": "¿Por qué funciona? Porque un espacio libre es un amortiguador. Se come el frenazo antes de que llegue a los demás. El autopaciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Por una vez, llegar tarde es la jugada. ¡Yo llego tarde a todo! Mila lo sabe. En Japón esto tiene nombre. Manejo que absorbe embotellamientos. Ojo, no es magia. Si Si la vía está simplemente repleta, ningún conductor puede absorber eso. Ni siquiera mila.",
+  "wer": 0.012,
+  "errors": [
+   "+si"
+  ],
+  "hard": [
+   "+si"
+  ],
+  "check_by_ear": [
+   "auto paciente->autopaciente"
+  ],
+  "tags_read_aloud": [],
+  "ref_words": 83
+ },
+ "whisper_words": [
+  {
+   "text": "¿Por",
+   "start": 0.0,
+   "end": 0.14,
+   "p": 0.752
+  },
+  {
+   "text": "qué",
+   "start": 0.14,
+   "end": 0.3,
+   "p": 0.93
+  },
+  {
+   "text": "funciona?",
+   "start": 0.3,
+   "end": 0.7,
+   "p": 0.996
+  },
+  {
+   "text": "Porque",
+   "start": 1.26,
+   "end": 1.5,
+   "p": 0.905
+  },
+  {
+   "text": "un",
+   "start": 1.5,
+   "end": 1.64,
+   "p": 0.989
+  },
+  {
+   "text": "espacio",
+   "start": 1.64,
+   "end": 1.94,
+   "p": 0.996
+  },
+  {
+   "text": "libre",
+   "start": 1.94,
+   "end": 2.36,
+   "p": 0.995
+  },
+  {
+   "text": "es",
+   "start": 2.36,
+   "end": 2.66,
+   "p": 0.979
+  },
+  {
+   "text": "un",
+   "start": 2.66,
+   "end": 2.82,
+   "p": 0.972
+  },
+  {
+   "text": "amortiguador.",
+   "start": 2.82,
+   "end": 3.48,
+   "p": 0.995
+  },
+  {
+   "text": "Se",
+   "start": 3.82,
+   "end": 4.04,
+   "p": 0.991
+  },
+  {
+   "text": "come",
+   "start": 4.04,
+   "end": 4.26,
+   "p": 0.97
+  },
+  {
+   "text": "el",
+   "start": 4.26,
+   "end": 4.4,
+   "p": 0.974
+  },
+  {
+   "text": "frenazo",
+   "start": 4.4,
+   "end": 4.88,
+   "p": 0.948
+  },
+  {
+   "text": "antes",
+   "start": 4.88,
+   "end": 5.42,
+   "p": 0.989
+  },
+  {
+   "text": "de",
+   "start": 5.42,
+   "end": 5.6,
+   "p": 0.93
+  },
+  {
+   "text": "que",
+   "start": 5.6,
+   "end": 5.72,
+   "p": 0.988
+  },
+  {
+   "text": "llegue",
+   "start": 5.72,
+   "end": 6.0,
+   "p": 0.989
+  },
+  {
+   "text": "a",
+   "start": 6.0,
+   "end": 6.08,
+   "p": 0.991
+  },
+  {
+   "text": "los",
+   "start": 6.08,
+   "end": 6.22,
+   "p": 0.973
+  },
+  {
+   "text": "demás.",
+   "start": 6.22,
+   "end": 6.46,
+   "p": 0.986
+  },
+  {
+   "text": "El",
+   "start": 6.98,
+   "end": 7.1,
+   "p": 0.955
+  },
+  {
+   "text": "autopaciente",
+   "start": 7.1,
+   "end": 7.78,
+   "p": 0.843
+  },
+  {
+   "text": "llega",
+   "start": 7.78,
+   "end": 8.06,
+   "p": 0.978
+  },
+  {
+   "text": "tarde",
+   "start": 8.06,
+   "end": 8.52,
+   "p": 0.991
+  },
+  {
+   "text": "al",
+   "start": 8.52,
+   "end": 8.68,
+   "p": 0.985
+  },
+  {
+   "text": "embotellamiento,",
+   "start": 8.68,
+   "end": 9.4,
+   "p": 0.981
+  },
+  {
+   "text": "cuando",
+   "start": 9.72,
+   "end": 9.9,
+   "p": 0.98
+  },
+  {
+   "text": "ya",
+   "start": 9.9,
+   "end": 10.18,
+   "p": 0.966
+  },
+  {
+   "text": "se",
+   "start": 10.18,
+   "end": 10.3,
+   "p": 0.998
+  },
+  {
+   "text": "está",
+   "start": 10.3,
+   "end": 10.52,
+   "p": 0.922
+  },
+  {
+   "text": "despejando,",
+   "start": 10.52,
+   "end": 11.16,
+   "p": 0.987
+  },
+  {
+   "text": "así",
+   "start": 11.34,
+   "end": 11.56,
+   "p": 0.969
+  },
+  {
+   "text": "que",
+   "start": 11.56,
+   "end": 11.76,
+   "p": 0.998
+  },
+  {
+   "text": "nunca",
+   "start": 11.76,
+   "end": 12.1,
+   "p": 0.952
+  },
+  {
+   "text": "tiene",
+   "start": 12.1,
+   "end": 12.64,
+   "p": 0.99
+  },
+  {
+   "text": "que",
+   "start": 12.64,
+   "end": 12.8,
+   "p": 0.997
+  },
+  {
+   "text": "detenerse.",
+   "start": 12.8,
+   "end": 13.46,
+   "p": 0.992
+  },
+  {
+   "text": "Por",
+   "start": 13.7,
+   "end": 13.84,
+   "p": 0.955
+  },
+  {
+   "text": "una",
+   "start": 13.84,
+   "end": 14.0,
+   "p": 0.997
+  },
+  {
+   "text": "vez,",
+   "start": 14.0,
+   "end": 14.3,
+   "p": 0.999
+  },
+  {
+   "text": "llegar",
+   "start": 14.58,
+   "end": 14.76,
+   "p": 0.976
+  },
+  {
+   "text": "tarde",
+   "start": 14.76,
+   "end": 15.24,
+   "p": 0.999
+  },
+  {
+   "text": "es",
+   "start": 15.24,
+   "end": 15.66,
+   "p": 0.969
+  },
+  {
+   "text": "la",
+   "start": 15.66,
+   "end": 15.8,
+   "p": 0.994
+  },
+  {
+   "text": "jugada.",
+   "start": 15.8,
+   "end": 16.26,
+   "p": 0.993
+  },
+  {
+   "text": "¡Yo",
+   "start": 16.64,
+   "end": 16.8,
+   "p": 0.775
+  },
+  {
+   "text": "llego",
+   "start": 16.8,
+   "end": 17.04,
+   "p": 0.803
+  },
+  {
+   "text": "tarde",
+   "start": 17.04,
+   "end": 17.48,
+   "p": 0.998
+  },
+  {
+   "text": "a",
+   "start": 17.48,
+   "end": 17.62,
+   "p": 0.991
+  },
+  {
+   "text": "todo!",
+   "start": 17.62,
+   "end": 17.94,
+   "p": 0.919
+  },
+  {
+   "text": "Mila",
+   "start": 18.44,
+   "end": 18.92,
+   "p": 0.79
+  },
+  {
+   "text": "lo",
+   "start": 18.92,
+   "end": 19.06,
+   "p": 0.981
+  },
+  {
+   "text": "sabe.",
+   "start": 19.06,
+   "end": 19.38,
+   "p": 0.999
+  },
+  {
+   "text": "En",
+   "start": 19.9,
+   "end": 20.06,
+   "p": 0.974
+  },
+  {
+   "text": "Japón",
+   "start": 20.06,
+   "end": 20.44,
+   "p": 0.981
+  },
+  {
+   "text": "esto",
+   "start": 20.44,
+   "end": 20.72,
+   "p": 0.608
+  },
+  {
+   "text": "tiene",
+   "start": 20.72,
+   "end": 20.98,
+   "p": 0.981
+  },
+  {
+   "text": "nombre.",
+   "start": 20.98,
+   "end": 21.32,
+   "p": 0.99
+  },
+  {
+   "text": "Manejo",
+   "start": 21.78,
+   "end": 22.22,
+   "p": 0.783
+  },
+  {
+   "text": "que",
+   "start": 22.22,
+   "end": 22.38,
+   "p": 0.988
+  },
+  {
+   "text": "absorbe",
+   "start": 22.38,
+   "end": 22.86,
+   "p": 0.976
+  },
+  {
+   "text": "embotellamientos.",
+   "start": 22.86,
+   "end": 23.62,
+   "p": 0.992
+  },
+  {
+   "text": "Ojo,",
+   "start": 24.04,
+   "end": 24.38,
+   "p": 0.931
+  },
+  {
+   "text": "no",
+   "start": 24.7,
+   "end": 24.88,
+   "p": 0.986
+  },
+  {
+   "text": "es",
+   "start": 24.88,
+   "end": 25.12,
+   "p": 0.996
+  },
+  {
+   "text": "magia.",
+   "start": 25.12,
+   "end": 25.54,
+   "p": 0.975
+  },
+  {
+   "text": "Si",
+   "start": 25.8,
+   "end": 25.9,
+   "p": 0.991
+  },
+  {
+   "text": "Si",
+   "start": 25.9,
+   "end": 25.9,
+   "p": 0.509
+  },
+  {
+   "text": "la",
+   "start": 25.9,
+   "end": 26.02,
+   "p": 0.998
+  },
+  {
+   "text": "vía",
+   "start": 26.02,
+   "end": 26.2,
+   "p": 0.967
+  },
+  {
+   "text": "está",
+   "start": 26.2,
+   "end": 26.36,
+   "p": 0.904
+  },
+  {
+   "text": "simplemente",
+   "start": 26.36,
+   "end": 26.84,
+   "p": 0.971
+  },
+  {
+   "text": "repleta,",
+   "start": 26.84,
+   "end": 27.68,
+   "p": 0.99
+  },
+  {
+   "text": "ningún",
+   "start": 27.96,
+   "end": 28.22,
+   "p": 0.978
+  },
+  {
+   "text": "conductor",
+   "start": 28.22,
+   "end": 28.76,
+   "p": 0.985
+  },
+  {
+   "text": "puede",
+   "start": 28.76,
+   "end": 29.02,
+   "p": 0.861
+  },
+  {
+   "text": "absorber",
+   "start": 29.02,
+   "end": 29.5,
+   "p": 0.982
+  },
+  {
+   "text": "eso.",
+   "start": 29.5,
+   "end": 29.74,
+   "p": 0.978
+  },
+  {
+   "text": "Ni",
+   "start": 30.02,
+   "end": 30.18,
+   "p": 0.964
+  },
+  {
+   "text": "siquiera",
+   "start": 30.18,
+   "end": 30.6,
+   "p": 0.995
+  },
+  {
+   "text": "mila.",
+   "start": 30.6,
+   "end": 31.06,
+   "p": 0.676
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['+si']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

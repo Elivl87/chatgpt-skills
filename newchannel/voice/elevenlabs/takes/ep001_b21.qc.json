@@ -1,0 +1,374 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b21.mp3",
+ "beat": "21",
+ "prompts": [
+  "21"
+ ],
+ "chars_billable": 307,
+ "script_text": "Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás. Pasan dos autos inteligentes, y se achica. Pasan cuatro con el sistema apagado, y crece. Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger. Mira quién hizo la ola a tiempo.",
+ "duration_raw_s": 19.12,
+ "duration_s": 19.08,
+ "lead_trim_s": 0.02,
+ "tail_trim_s": 0.02,
+ "words": 56,
+ "wpm_trimmed": 176.1,
+ "wpm_voiced": 184.2,
+ "voiced_s": 18.24,
+ "loudness": {
+  "lufs_i": -18.2,
+  "true_peak_dbtp": -2.5,
+  "lra": 2.2,
+  "peak_dbfs": -2.54
+ },
+ "asr": {
+  "heard": "Pero hay un momento que Eli no deja de repetir, una ola viaja hacia atrás, pasan dos autos inteligentes y se achica, pasan cuatro con el sistema apagado y crece, pasan más autos inteligentes y se achica otra vez, cada auto que la cruza la hace crecer o encoger, mira quién hizo la ola a tiempo.",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 56
+ },
+ "whisper_words": [
+  {
+   "text": "Pero",
+   "start": 0.0,
+   "end": 0.14,
+   "p": 0.733
+  },
+  {
+   "text": "hay",
+   "start": 0.14,
+   "end": 0.32,
+   "p": 0.936
+  },
+  {
+   "text": "un",
+   "start": 0.32,
+   "end": 0.44,
+   "p": 0.986
+  },
+  {
+   "text": "momento",
+   "start": 0.44,
+   "end": 0.76,
+   "p": 0.996
+  },
+  {
+   "text": "que",
+   "start": 0.76,
+   "end": 1.04,
+   "p": 0.931
+  },
+  {
+   "text": "Eli",
+   "start": 1.04,
+   "end": 1.22,
+   "p": 0.338
+  },
+  {
+   "text": "no",
+   "start": 1.22,
+   "end": 1.56,
+   "p": 0.984
+  },
+  {
+   "text": "deja",
+   "start": 1.56,
+   "end": 1.96,
+   "p": 0.962
+  },
+  {
+   "text": "de",
+   "start": 1.96,
+   "end": 2.08,
+   "p": 0.995
+  },
+  {
+   "text": "repetir,",
+   "start": 2.08,
+   "end": 2.66,
+   "p": 0.997
+  },
+  {
+   "text": "una",
+   "start": 2.94,
+   "end": 3.14,
+   "p": 0.966
+  },
+  {
+   "text": "ola",
+   "start": 3.14,
+   "end": 3.48,
+   "p": 0.972
+  },
+  {
+   "text": "viaja",
+   "start": 3.48,
+   "end": 3.96,
+   "p": 0.969
+  },
+  {
+   "text": "hacia",
+   "start": 3.96,
+   "end": 4.16,
+   "p": 0.985
+  },
+  {
+   "text": "atrás,",
+   "start": 4.16,
+   "end": 4.46,
+   "p": 0.96
+  },
+  {
+   "text": "pasan",
+   "start": 4.86,
+   "end": 5.24,
+   "p": 0.974
+  },
+  {
+   "text": "dos",
+   "start": 5.24,
+   "end": 5.4,
+   "p": 0.873
+  },
+  {
+   "text": "autos",
+   "start": 5.4,
+   "end": 5.82,
+   "p": 0.98
+  },
+  {
+   "text": "inteligentes",
+   "start": 5.82,
+   "end": 6.5,
+   "p": 0.99
+  },
+  {
+   "text": "y",
+   "start": 6.5,
+   "end": 6.88,
+   "p": 0.929
+  },
+  {
+   "text": "se",
+   "start": 6.88,
+   "end": 6.98,
+   "p": 0.978
+  },
+  {
+   "text": "achica,",
+   "start": 6.98,
+   "end": 7.34,
+   "p": 0.971
+  },
+  {
+   "text": "pasan",
+   "start": 7.62,
+   "end": 7.94,
+   "p": 0.988
+  },
+  {
+   "text": "cuatro",
+   "start": 7.94,
+   "end": 8.22,
+   "p": 0.876
+  },
+  {
+   "text": "con",
+   "start": 8.22,
+   "end": 8.52,
+   "p": 0.984
+  },
+  {
+   "text": "el",
+   "start": 8.52,
+   "end": 8.66,
+   "p": 0.994
+  },
+  {
+   "text": "sistema",
+   "start": 8.66,
+   "end": 8.96,
+   "p": 0.997
+  },
+  {
+   "text": "apagado",
+   "start": 8.96,
+   "end": 9.66,
+   "p": 0.976
+  },
+  {
+   "text": "y",
+   "start": 9.66,
+   "end": 9.88,
+   "p": 0.945
+  },
+  {
+   "text": "crece,",
+   "start": 9.88,
+   "end": 10.36,
+   "p": 0.979
+  },
+  {
+   "text": "pasan",
+   "start": 10.58,
+   "end": 10.94,
+   "p": 0.985
+  },
+  {
+   "text": "más",
+   "start": 10.94,
+   "end": 11.2,
+   "p": 0.779
+  },
+  {
+   "text": "autos",
+   "start": 11.2,
+   "end": 11.68,
+   "p": 0.996
+  },
+  {
+   "text": "inteligentes",
+   "start": 11.68,
+   "end": 12.36,
+   "p": 0.995
+  },
+  {
+   "text": "y",
+   "start": 12.36,
+   "end": 12.64,
+   "p": 0.989
+  },
+  {
+   "text": "se",
+   "start": 12.64,
+   "end": 12.76,
+   "p": 0.991
+  },
+  {
+   "text": "achica",
+   "start": 12.76,
+   "end": 13.18,
+   "p": 0.995
+  },
+  {
+   "text": "otra",
+   "start": 13.18,
+   "end": 13.36,
+   "p": 0.996
+  },
+  {
+   "text": "vez,",
+   "start": 13.36,
+   "end": 13.72,
+   "p": 0.998
+  },
+  {
+   "text": "cada",
+   "start": 13.92,
+   "end": 14.14,
+   "p": 0.992
+  },
+  {
+   "text": "auto",
+   "start": 14.14,
+   "end": 14.48,
+   "p": 0.987
+  },
+  {
+   "text": "que",
+   "start": 14.48,
+   "end": 14.64,
+   "p": 0.994
+  },
+  {
+   "text": "la",
+   "start": 14.64,
+   "end": 14.74,
+   "p": 0.994
+  },
+  {
+   "text": "cruza",
+   "start": 14.74,
+   "end": 15.18,
+   "p": 0.992
+  },
+  {
+   "text": "la",
+   "start": 15.18,
+   "end": 15.34,
+   "p": 0.875
+  },
+  {
+   "text": "hace",
+   "start": 15.34,
+   "end": 15.56,
+   "p": 0.992
+  },
+  {
+   "text": "crecer",
+   "start": 15.56,
+   "end": 16.08,
+   "p": 0.994
+  },
+  {
+   "text": "o",
+   "start": 16.08,
+   "end": 16.3,
+   "p": 0.991
+  },
+  {
+   "text": "encoger,",
+   "start": 16.3,
+   "end": 16.76,
+   "p": 0.909
+  },
+  {
+   "text": "mira",
+   "start": 17.04,
+   "end": 17.24,
+   "p": 0.752
+  },
+  {
+   "text": "quién",
+   "start": 17.24,
+   "end": 17.64,
+   "p": 0.446
+  },
+  {
+   "text": "hizo",
+   "start": 17.64,
+   "end": 17.98,
+   "p": 0.998
+  },
+  {
+   "text": "la",
+   "start": 17.98,
+   "end": 18.14,
+   "p": 0.986
+  },
+  {
+   "text": "ola",
+   "start": 18.14,
+   "end": 18.4,
+   "p": 0.991
+  },
+  {
+   "text": "a",
+   "start": 18.4,
+   "end": 18.5,
+   "p": 0.992
+  },
+  {
+   "text": "tiempo.",
+   "start": 18.5,
+   "end": 18.74,
+   "p": 0.998
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "pace 176.1 wpm outside 125-175 (sheet: 138-150)"
+ ]
+}

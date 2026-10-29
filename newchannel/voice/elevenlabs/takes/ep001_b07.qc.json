@@ -1,0 +1,276 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b07.mp3",
+ "beat": "07",
+ "prompts": [
+  "07"
+ ],
+ "chars_billable": 298,
+ "script_text": "Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía. «¡¿Quién fue?!» Respuesta corta: todos. La larga: este video.",
+ "duration_raw_s": 18.72,
+ "duration_s": 18.61,
+ "lead_trim_s": 0.07,
+ "tail_trim_s": 0.04,
+ "words": 40,
+ "wpm_trimmed": 129.0,
+ "wpm_voiced": 152.7,
+ "voiced_s": 15.72,
+ "loudness": {
+  "lufs_i": -19.6,
+  "true_peak_dbtp": -3.6,
+  "lra": 4.7,
+  "peak_dbfs": -3.57
+ },
+ "asr": {
+  "heard": "Al principio, todo bien. Luego aparecieron titubeos. Un hueco por aquí, un apretón por allá. A los tres minutos más o menos, cinco autos estaban completamente parados. ¡En una pista vacía! ¡¿Quién fue?! Respuesta corta. Todos. La larga, este video.",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 40
+ },
+ "whisper_words": [
+  {
+   "text": "Al",
+   "start": 0.0,
+   "end": 0.16,
+   "p": 0.764
+  },
+  {
+   "text": "principio,",
+   "start": 0.16,
+   "end": 0.48,
+   "p": 0.993
+  },
+  {
+   "text": "todo",
+   "start": 1.08,
+   "end": 1.28,
+   "p": 0.973
+  },
+  {
+   "text": "bien.",
+   "start": 1.28,
+   "end": 1.58,
+   "p": 0.989
+  },
+  {
+   "text": "Luego",
+   "start": 2.22,
+   "end": 2.44,
+   "p": 0.973
+  },
+  {
+   "text": "aparecieron",
+   "start": 2.44,
+   "end": 3.02,
+   "p": 0.962
+  },
+  {
+   "text": "titubeos.",
+   "start": 3.02,
+   "end": 3.68,
+   "p": 0.883
+  },
+  {
+   "text": "Un",
+   "start": 4.04,
+   "end": 4.14,
+   "p": 0.973
+  },
+  {
+   "text": "hueco",
+   "start": 4.14,
+   "end": 4.38,
+   "p": 0.984
+  },
+  {
+   "text": "por",
+   "start": 4.38,
+   "end": 4.56,
+   "p": 0.988
+  },
+  {
+   "text": "aquí,",
+   "start": 4.56,
+   "end": 4.82,
+   "p": 0.965
+  },
+  {
+   "text": "un",
+   "start": 5.28,
+   "end": 5.4,
+   "p": 0.546
+  },
+  {
+   "text": "apretón",
+   "start": 5.4,
+   "end": 5.8,
+   "p": 0.985
+  },
+  {
+   "text": "por",
+   "start": 5.8,
+   "end": 5.98,
+   "p": 0.995
+  },
+  {
+   "text": "allá.",
+   "start": 5.98,
+   "end": 6.24,
+   "p": 0.981
+  },
+  {
+   "text": "A",
+   "start": 6.72,
+   "end": 6.86,
+   "p": 0.991
+  },
+  {
+   "text": "los",
+   "start": 6.86,
+   "end": 6.96,
+   "p": 0.996
+  },
+  {
+   "text": "tres",
+   "start": 6.96,
+   "end": 7.12,
+   "p": 0.47
+  },
+  {
+   "text": "minutos",
+   "start": 7.12,
+   "end": 7.44,
+   "p": 0.882
+  },
+  {
+   "text": "más",
+   "start": 7.44,
+   "end": 7.82,
+   "p": 0.609
+  },
+  {
+   "text": "o",
+   "start": 7.82,
+   "end": 7.96,
+   "p": 0.992
+  },
+  {
+   "text": "menos,",
+   "start": 7.96,
+   "end": 8.2,
+   "p": 1.0
+  },
+  {
+   "text": "cinco",
+   "start": 8.56,
+   "end": 8.9,
+   "p": 0.947
+  },
+  {
+   "text": "autos",
+   "start": 8.9,
+   "end": 9.36,
+   "p": 0.984
+  },
+  {
+   "text": "estaban",
+   "start": 9.36,
+   "end": 9.64,
+   "p": 0.99
+  },
+  {
+   "text": "completamente",
+   "start": 9.64,
+   "end": 10.42,
+   "p": 0.996
+  },
+  {
+   "text": "parados.",
+   "start": 10.42,
+   "end": 11.3,
+   "p": 0.992
+  },
+  {
+   "text": "¡En",
+   "start": 11.6,
+   "end": 11.72,
+   "p": 0.703
+  },
+  {
+   "text": "una",
+   "start": 11.72,
+   "end": 11.86,
+   "p": 0.997
+  },
+  {
+   "text": "pista",
+   "start": 11.86,
+   "end": 12.18,
+   "p": 0.99
+  },
+  {
+   "text": "vacía!",
+   "start": 12.18,
+   "end": 12.8,
+   "p": 0.984
+  },
+  {
+   "text": "¡¿Quién",
+   "start": 13.06,
+   "end": 13.4,
+   "p": 0.8
+  },
+  {
+   "text": "fue?!",
+   "start": 13.4,
+   "end": 14.08,
+   "p": 0.854
+  },
+  {
+   "text": "Respuesta",
+   "start": 14.08,
+   "end": 14.56,
+   "p": 0.824
+  },
+  {
+   "text": "corta.",
+   "start": 14.56,
+   "end": 15.08,
+   "p": 0.831
+  },
+  {
+   "text": "Todos.",
+   "start": 15.42,
+   "end": 15.62,
+   "p": 0.938
+  },
+  {
+   "text": "La",
+   "start": 16.78,
+   "end": 16.98,
+   "p": 0.844
+  },
+  {
+   "text": "larga,",
+   "start": 16.98,
+   "end": 17.38,
+   "p": 0.979
+  },
+  {
+   "text": "este",
+   "start": 17.68,
+   "end": 18.06,
+   "p": 0.949
+  },
+  {
+   "text": "video.",
+   "start": 18.06,
+   "end": 18.32,
+   "p": 0.618
+  }
+ ],
+ "verdict": "PASS",
+ "why": []
+}

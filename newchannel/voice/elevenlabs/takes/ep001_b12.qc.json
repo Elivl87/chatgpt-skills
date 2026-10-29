@@ -1,0 +1,470 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b12.mp3",
+ "beat": "12",
+ "prompts": [
+  "12"
+ ],
+ "chars_billable": 472,
+ "script_text": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros. Con veinticinco autos, el tráfico fluyó. Con veintiocho o más: embotellamiento. Tres autos de más. «¡¿Quién fue?!» Lo que importa es cuántos autos hay en cada tramo de pista: la densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
+ "duration_raw_s": 27.28,
+ "duration_s": 27.2,
+ "lead_trim_s": 0.01,
+ "tail_trim_s": 0.07,
+ "words": 72,
+ "wpm_trimmed": 158.8,
+ "wpm_voiced": 169.8,
+ "voiced_s": 25.44,
+ "loudness": {
+  "lufs_i": -18.8,
+  "true_peak_dbtp": -2.3,
+  "lra": 2.4,
+  "peak_dbfs": -2.27
+ },
+ "asr": {
+  "heard": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de Baseball, el domo de Nagoya, con una pista de 314 metros. Con 25 autos, el tráfico fluyó. Con 28 o más, embotellamiento. Tres autos de más. ¿Quién fue? Lo que importa es cuántos autos hay en cada tramo de pista. La densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
+  "wer": 0.0139,
+  "errors": [
+   "beisbol->baseball"
+  ],
+  "hard": [
+   "beisbol->baseball"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 72
+ },
+ "whisper_words": [
+  {
+   "text": "Pero",
+   "start": 0.0,
+   "end": 0.18,
+   "p": 0.669
+  },
+  {
+   "text": "no",
+   "start": 0.18,
+   "end": 0.48,
+   "p": 0.88
+  },
+  {
+   "text": "todos",
+   "start": 0.48,
+   "end": 0.84,
+   "p": 0.989
+  },
+  {
+   "text": "los",
+   "start": 0.84,
+   "end": 1.04,
+   "p": 0.995
+  },
+  {
+   "text": "círculos",
+   "start": 1.04,
+   "end": 1.46,
+   "p": 0.988
+  },
+  {
+   "text": "se",
+   "start": 1.46,
+   "end": 1.64,
+   "p": 0.894
+  },
+  {
+   "text": "atascan.",
+   "start": 1.64,
+   "end": 2.28,
+   "p": 0.98
+  },
+  {
+   "text": "El",
+   "start": 2.36,
+   "end": 2.54,
+   "p": 0.963
+  },
+  {
+   "text": "mismo",
+   "start": 2.54,
+   "end": 2.8,
+   "p": 0.997
+  },
+  {
+   "text": "equipo",
+   "start": 2.8,
+   "end": 3.1,
+   "p": 0.995
+  },
+  {
+   "text": "repitió",
+   "start": 3.1,
+   "end": 3.6,
+   "p": 0.913
+  },
+  {
+   "text": "el",
+   "start": 3.6,
+   "end": 3.68,
+   "p": 0.981
+  },
+  {
+   "text": "experimento",
+   "start": 3.68,
+   "end": 4.32,
+   "p": 0.988
+  },
+  {
+   "text": "en",
+   "start": 4.32,
+   "end": 4.42,
+   "p": 0.993
+  },
+  {
+   "text": "un",
+   "start": 4.42,
+   "end": 4.52,
+   "p": 0.974
+  },
+  {
+   "text": "estadio",
+   "start": 4.52,
+   "end": 4.98,
+   "p": 0.972
+  },
+  {
+   "text": "de",
+   "start": 4.98,
+   "end": 5.08,
+   "p": 0.993
+  },
+  {
+   "text": "Baseball,",
+   "start": 5.08,
+   "end": 5.62,
+   "p": 0.617
+  },
+  {
+   "text": "el",
+   "start": 5.9,
+   "end": 6.0,
+   "p": 0.927
+  },
+  {
+   "text": "domo",
+   "start": 6.0,
+   "end": 6.32,
+   "p": 0.691
+  },
+  {
+   "text": "de",
+   "start": 6.32,
+   "end": 6.4,
+   "p": 0.993
+  },
+  {
+   "text": "Nagoya,",
+   "start": 6.4,
+   "end": 6.84,
+   "p": 0.936
+  },
+  {
+   "text": "con",
+   "start": 7.12,
+   "end": 7.18,
+   "p": 0.99
+  },
+  {
+   "text": "una",
+   "start": 7.18,
+   "end": 7.34,
+   "p": 0.995
+  },
+  {
+   "text": "pista",
+   "start": 7.34,
+   "end": 7.64,
+   "p": 0.997
+  },
+  {
+   "text": "de",
+   "start": 7.64,
+   "end": 7.84,
+   "p": 0.998
+  },
+  {
+   "text": "314",
+   "start": 7.84,
+   "end": 8.76,
+   "p": 0.989
+  },
+  {
+   "text": "metros.",
+   "start": 8.76,
+   "end": 9.34,
+   "p": 0.97
+  },
+  {
+   "text": "Con",
+   "start": 9.78,
+   "end": 9.86,
+   "p": 0.982
+  },
+  {
+   "text": "25",
+   "start": 9.86,
+   "end": 10.24,
+   "p": 0.99
+  },
+  {
+   "text": "autos,",
+   "start": 10.24,
+   "end": 10.98,
+   "p": 0.954
+  },
+  {
+   "text": "el",
+   "start": 11.24,
+   "end": 11.3,
+   "p": 0.995
+  },
+  {
+   "text": "tráfico",
+   "start": 11.3,
+   "end": 11.76,
+   "p": 0.992
+  },
+  {
+   "text": "fluyó.",
+   "start": 11.76,
+   "end": 12.16,
+   "p": 0.913
+  },
+  {
+   "text": "Con",
+   "start": 12.48,
+   "end": 12.6,
+   "p": 0.978
+  },
+  {
+   "text": "28",
+   "start": 12.6,
+   "end": 13.06,
+   "p": 0.991
+  },
+  {
+   "text": "o",
+   "start": 13.06,
+   "end": 13.28,
+   "p": 0.868
+  },
+  {
+   "text": "más,",
+   "start": 13.28,
+   "end": 13.52,
+   "p": 0.975
+  },
+  {
+   "text": "embotellamiento.",
+   "start": 13.92,
+   "end": 14.78,
+   "p": 0.934
+  },
+  {
+   "text": "Tres",
+   "start": 15.3,
+   "end": 15.48,
+   "p": 0.828
+  },
+  {
+   "text": "autos",
+   "start": 15.48,
+   "end": 15.96,
+   "p": 0.982
+  },
+  {
+   "text": "de",
+   "start": 15.96,
+   "end": 16.08,
+   "p": 0.914
+  },
+  {
+   "text": "más.",
+   "start": 16.08,
+   "end": 16.26,
+   "p": 0.979
+  },
+  {
+   "text": "¿Quién",
+   "start": 16.66,
+   "end": 16.96,
+   "p": 0.896
+  },
+  {
+   "text": "fue?",
+   "start": 16.96,
+   "end": 17.26,
+   "p": 0.98
+  },
+  {
+   "text": "Lo",
+   "start": 17.78,
+   "end": 17.9,
+   "p": 0.963
+  },
+  {
+   "text": "que",
+   "start": 17.9,
+   "end": 18.0,
+   "p": 0.996
+  },
+  {
+   "text": "importa",
+   "start": 18.0,
+   "end": 18.3,
+   "p": 0.997
+  },
+  {
+   "text": "es",
+   "start": 18.3,
+   "end": 18.5,
+   "p": 0.985
+  },
+  {
+   "text": "cuántos",
+   "start": 18.5,
+   "end": 19.04,
+   "p": 0.895
+  },
+  {
+   "text": "autos",
+   "start": 19.04,
+   "end": 19.5,
+   "p": 0.995
+  },
+  {
+   "text": "hay",
+   "start": 19.5,
+   "end": 19.68,
+   "p": 0.996
+  },
+  {
+   "text": "en",
+   "start": 19.68,
+   "end": 19.86,
+   "p": 0.997
+  },
+  {
+   "text": "cada",
+   "start": 19.86,
+   "end": 20.12,
+   "p": 0.999
+  },
+  {
+   "text": "tramo",
+   "start": 20.12,
+   "end": 20.54,
+   "p": 0.988
+  },
+  {
+   "text": "de",
+   "start": 20.54,
+   "end": 20.66,
+   "p": 0.997
+  },
+  {
+   "text": "pista.",
+   "start": 20.66,
+   "end": 20.98,
+   "p": 0.986
+  },
+  {
+   "text": "La",
+   "start": 21.42,
+   "end": 21.52,
+   "p": 0.95
+  },
+  {
+   "text": "densidad.",
+   "start": 21.52,
+   "end": 22.14,
+   "p": 0.998
+  },
+  {
+   "text": "Por",
+   "start": 22.46,
+   "end": 22.56,
+   "p": 0.993
+  },
+  {
+   "text": "debajo",
+   "start": 22.56,
+   "end": 22.9,
+   "p": 0.991
+  },
+  {
+   "text": "de",
+   "start": 22.9,
+   "end": 23.1,
+   "p": 0.998
+  },
+  {
+   "text": "cierta",
+   "start": 23.1,
+   "end": 23.48,
+   "p": 0.995
+  },
+  {
+   "text": "densidad,",
+   "start": 23.48,
+   "end": 24.02,
+   "p": 0.997
+  },
+  {
+   "text": "los",
+   "start": 24.32,
+   "end": 24.36,
+   "p": 0.997
+  },
+  {
+   "text": "titubeos",
+   "start": 24.36,
+   "end": 24.94,
+   "p": 0.833
+  },
+  {
+   "text": "se",
+   "start": 24.94,
+   "end": 25.08,
+   "p": 0.986
+  },
+  {
+   "text": "apagan.",
+   "start": 25.08,
+   "end": 25.44,
+   "p": 0.917
+  },
+  {
+   "text": "Por",
+   "start": 25.8,
+   "end": 25.9,
+   "p": 0.993
+  },
+  {
+   "text": "encima,",
+   "start": 25.9,
+   "end": 26.28,
+   "p": 0.995
+  },
+  {
+   "text": "crecen.",
+   "start": 26.64,
+   "end": 27.0,
+   "p": 0.989
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['beisbol->baseball']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

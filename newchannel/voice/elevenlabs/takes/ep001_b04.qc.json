@@ -1,0 +1,149 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b04.mp3",
+ "beat": "04",
+ "prompts": [
+  "04"
+ ],
+ "chars_billable": 129,
+ "script_text": "Mila, su pareja, mira atrás. «Eli… va para atrás.» Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+ "duration_raw_s": 8.8,
+ "duration_s": 8.7,
+ "lead_trim_s": 0.06,
+ "tail_trim_s": 0.04,
+ "words": 17,
+ "wpm_trimmed": 117.2,
+ "wpm_voiced": 144.1,
+ "voiced_s": 7.08,
+ "loudness": {
+  "lufs_i": -17.9,
+  "true_peak_dbtp": -2.6,
+  "lra": 2.5,
+  "peak_dbfs": -2.57
+ },
+ "asr": {
+  "heard": "¡Mira, su pareja! ¡Mira atrás! ¿Eli... va para atrás? Entonces, ¿por qué hay embotellamiento sin razón aparente?",
+  "wer": 0.1176,
+  "errors": [
+   "mila->mira",
+   "embotellamientos->embotellamiento"
+  ],
+  "hard": [
+   "mila->mira"
+  ],
+  "check_by_ear": [
+   "embotellamientos->embotellamiento"
+  ],
+  "tags_read_aloud": [],
+  "ref_words": 17
+ },
+ "whisper_words": [
+  {
+   "text": "¡Mira,",
+   "start": 0.0,
+   "end": 0.46,
+   "p": 0.659
+  },
+  {
+   "text": "su",
+   "start": 0.72,
+   "end": 0.92,
+   "p": 0.974
+  },
+  {
+   "text": "pareja!",
+   "start": 0.92,
+   "end": 1.46,
+   "p": 0.999
+  },
+  {
+   "text": "¡Mira",
+   "start": 1.78,
+   "end": 1.98,
+   "p": 0.976
+  },
+  {
+   "text": "atrás!",
+   "start": 1.98,
+   "end": 2.24,
+   "p": 0.945
+  },
+  {
+   "text": "¿Eli...",
+   "start": 3.2,
+   "end": 3.84,
+   "p": 0.399
+  },
+  {
+   "text": "va",
+   "start": 3.84,
+   "end": 4.08,
+   "p": 0.821
+  },
+  {
+   "text": "para",
+   "start": 4.08,
+   "end": 4.3,
+   "p": 0.98
+  },
+  {
+   "text": "atrás?",
+   "start": 4.3,
+   "end": 4.62,
+   "p": 0.991
+  },
+  {
+   "text": "Entonces,",
+   "start": 5.22,
+   "end": 5.68,
+   "p": 0.889
+  },
+  {
+   "text": "¿por",
+   "start": 6.24,
+   "end": 6.36,
+   "p": 0.9
+  },
+  {
+   "text": "qué",
+   "start": 6.36,
+   "end": 6.52,
+   "p": 0.867
+  },
+  {
+   "text": "hay",
+   "start": 6.52,
+   "end": 6.66,
+   "p": 0.989
+  },
+  {
+   "text": "embotellamiento",
+   "start": 6.66,
+   "end": 7.34,
+   "p": 0.971
+  },
+  {
+   "text": "sin",
+   "start": 7.34,
+   "end": 7.6,
+   "p": 0.976
+  },
+  {
+   "text": "razón",
+   "start": 7.6,
+   "end": 7.92,
+   "p": 0.898
+  },
+  {
+   "text": "aparente?",
+   "start": 7.92,
+   "end": 8.56,
+   "p": 0.989
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['mila->mira']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

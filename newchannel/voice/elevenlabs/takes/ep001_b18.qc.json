@@ -1,0 +1,360 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b18.mp3",
+ "beat": "18",
+ "prompts": [
+  "18"
+ ],
+ "chars_billable": 346,
+ "script_text": "La parte favorita de Mila: en otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio. «¡Hay un hueco! ¡Cabe una casa!» «Ese hueco es mi amigo.» Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
+ "duration_raw_s": 20.8,
+ "duration_s": 20.77,
+ "lead_trim_s": 0.02,
+ "tail_trim_s": 0.01,
+ "words": 54,
+ "wpm_trimmed": 156.0,
+ "wpm_voiced": 169.3,
+ "voiced_s": 19.14,
+ "loudness": {
+  "lufs_i": -19.0,
+  "true_peak_dbtp": -2.3,
+  "lra": 2.1,
+  "peak_dbfs": -2.29
+ },
+ "asr": {
+  "heard": "La parte favorita de Mila, en otra prueba no hubo computadora, solo un conductor entrenado con un único número, la velocidad promedio. ¡Hay un hueco! ¡Cabe una casa! ¡Ese hueco es mi amigo! Los cambios de velocidad bajaron casi a la mitad, la gasolina más o menos una quinta parte, una sola persona paciente.",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 54
+ },
+ "whisper_words": [
+  {
+   "text": "La",
+   "start": 0.0,
+   "end": 0.18,
+   "p": 0.706
+  },
+  {
+   "text": "parte",
+   "start": 0.18,
+   "end": 0.48,
+   "p": 0.993
+  },
+  {
+   "text": "favorita",
+   "start": 0.48,
+   "end": 1.18,
+   "p": 0.993
+  },
+  {
+   "text": "de",
+   "start": 1.18,
+   "end": 1.32,
+   "p": 0.996
+  },
+  {
+   "text": "Mila,",
+   "start": 1.32,
+   "end": 1.74,
+   "p": 0.838
+  },
+  {
+   "text": "en",
+   "start": 2.02,
+   "end": 2.14,
+   "p": 0.965
+  },
+  {
+   "text": "otra",
+   "start": 2.14,
+   "end": 2.3,
+   "p": 0.991
+  },
+  {
+   "text": "prueba",
+   "start": 2.3,
+   "end": 2.62,
+   "p": 0.994
+  },
+  {
+   "text": "no",
+   "start": 2.62,
+   "end": 2.98,
+   "p": 0.931
+  },
+  {
+   "text": "hubo",
+   "start": 2.98,
+   "end": 3.3,
+   "p": 0.996
+  },
+  {
+   "text": "computadora,",
+   "start": 3.3,
+   "end": 3.94,
+   "p": 0.998
+  },
+  {
+   "text": "solo",
+   "start": 4.26,
+   "end": 4.46,
+   "p": 0.767
+  },
+  {
+   "text": "un",
+   "start": 4.46,
+   "end": 4.62,
+   "p": 0.968
+  },
+  {
+   "text": "conductor",
+   "start": 4.62,
+   "end": 5.02,
+   "p": 0.981
+  },
+  {
+   "text": "entrenado",
+   "start": 5.02,
+   "end": 5.72,
+   "p": 0.993
+  },
+  {
+   "text": "con",
+   "start": 5.72,
+   "end": 6.04,
+   "p": 0.638
+  },
+  {
+   "text": "un",
+   "start": 6.04,
+   "end": 6.2,
+   "p": 0.975
+  },
+  {
+   "text": "único",
+   "start": 6.2,
+   "end": 6.74,
+   "p": 0.947
+  },
+  {
+   "text": "número,",
+   "start": 6.74,
+   "end": 7.18,
+   "p": 0.98
+  },
+  {
+   "text": "la",
+   "start": 7.54,
+   "end": 7.64,
+   "p": 0.955
+  },
+  {
+   "text": "velocidad",
+   "start": 7.64,
+   "end": 8.1,
+   "p": 0.992
+  },
+  {
+   "text": "promedio.",
+   "start": 8.1,
+   "end": 8.86,
+   "p": 0.997
+  },
+  {
+   "text": "¡Hay",
+   "start": 9.1,
+   "end": 9.26,
+   "p": 0.673
+  },
+  {
+   "text": "un",
+   "start": 9.26,
+   "end": 9.4,
+   "p": 0.996
+  },
+  {
+   "text": "hueco!",
+   "start": 9.4,
+   "end": 9.74,
+   "p": 0.982
+  },
+  {
+   "text": "¡Cabe",
+   "start": 10.06,
+   "end": 10.26,
+   "p": 0.776
+  },
+  {
+   "text": "una",
+   "start": 10.26,
+   "end": 10.42,
+   "p": 0.972
+  },
+  {
+   "text": "casa!",
+   "start": 10.42,
+   "end": 10.78,
+   "p": 0.995
+  },
+  {
+   "text": "¡Ese",
+   "start": 11.36,
+   "end": 11.66,
+   "p": 0.786
+  },
+  {
+   "text": "hueco",
+   "start": 11.66,
+   "end": 12.06,
+   "p": 0.994
+  },
+  {
+   "text": "es",
+   "start": 12.06,
+   "end": 12.2,
+   "p": 0.989
+  },
+  {
+   "text": "mi",
+   "start": 12.2,
+   "end": 12.34,
+   "p": 0.849
+  },
+  {
+   "text": "amigo!",
+   "start": 12.34,
+   "end": 12.64,
+   "p": 0.997
+  },
+  {
+   "text": "Los",
+   "start": 13.12,
+   "end": 13.28,
+   "p": 0.98
+  },
+  {
+   "text": "cambios",
+   "start": 13.28,
+   "end": 13.62,
+   "p": 0.997
+  },
+  {
+   "text": "de",
+   "start": 13.62,
+   "end": 13.72,
+   "p": 0.996
+  },
+  {
+   "text": "velocidad",
+   "start": 13.72,
+   "end": 14.16,
+   "p": 0.992
+  },
+  {
+   "text": "bajaron",
+   "start": 14.16,
+   "end": 14.64,
+   "p": 0.996
+  },
+  {
+   "text": "casi",
+   "start": 14.64,
+   "end": 14.98,
+   "p": 0.995
+  },
+  {
+   "text": "a",
+   "start": 14.98,
+   "end": 15.2,
+   "p": 0.969
+  },
+  {
+   "text": "la",
+   "start": 15.2,
+   "end": 15.26,
+   "p": 0.998
+  },
+  {
+   "text": "mitad,",
+   "start": 15.26,
+   "end": 15.54,
+   "p": 0.997
+  },
+  {
+   "text": "la",
+   "start": 15.92,
+   "end": 16.06,
+   "p": 0.961
+  },
+  {
+   "text": "gasolina",
+   "start": 16.06,
+   "end": 16.54,
+   "p": 0.998
+  },
+  {
+   "text": "más",
+   "start": 16.54,
+   "end": 16.96,
+   "p": 0.626
+  },
+  {
+   "text": "o",
+   "start": 16.96,
+   "end": 17.12,
+   "p": 0.997
+  },
+  {
+   "text": "menos",
+   "start": 17.12,
+   "end": 17.4,
+   "p": 0.999
+  },
+  {
+   "text": "una",
+   "start": 17.4,
+   "end": 17.7,
+   "p": 0.975
+  },
+  {
+   "text": "quinta",
+   "start": 17.7,
+   "end": 18.08,
+   "p": 0.982
+  },
+  {
+   "text": "parte,",
+   "start": 18.08,
+   "end": 18.38,
+   "p": 0.586
+  },
+  {
+   "text": "una",
+   "start": 18.8,
+   "end": 19.0,
+   "p": 0.995
+  },
+  {
+   "text": "sola",
+   "start": 19.0,
+   "end": 19.38,
+   "p": 0.995
+  },
+  {
+   "text": "persona",
+   "start": 19.38,
+   "end": 19.94,
+   "p": 0.998
+  },
+  {
+   "text": "paciente.",
+   "start": 19.94,
+   "end": 20.54,
+   "p": 0.989
+  }
+ ],
+ "verdict": "PASS",
+ "why": []
+}

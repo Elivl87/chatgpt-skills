@@ -1,0 +1,176 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b02.mp3",
+ "beat": "02",
+ "prompts": [
+  "02"
+ ],
+ "chars_billable": 133,
+ "script_text": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+ "duration_raw_s": 8.4,
+ "duration_s": 8.38,
+ "lead_trim_s": 0.0,
+ "tail_trim_s": 0.02,
+ "words": 22,
+ "wpm_trimmed": 157.5,
+ "wpm_voiced": 174.1,
+ "voiced_s": 7.58,
+ "loudness": {
+  "lufs_i": -18.6,
+  "true_peak_dbtp": -3.1,
+  "lra": 1.3,
+  "peak_dbfs": -3.05
+ },
+ "asr": {
+  "heard": "Detrás, cada auto freno un poco más fuerte que el anterior. Más fuerte, más fuerte, hasta que alguien se queda quieto. Eli.",
+  "wer": 0.0455,
+  "errors": [
+   "frena->freno"
+  ],
+  "hard": [
+   "frena->freno"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 22
+ },
+ "whisper_words": [
+  {
+   "text": "Detrás,",
+   "start": 0.0,
+   "end": 0.56,
+   "p": 0.675
+  },
+  {
+   "text": "cada",
+   "start": 0.78,
+   "end": 0.94,
+   "p": 0.99
+  },
+  {
+   "text": "auto",
+   "start": 0.94,
+   "end": 1.24,
+   "p": 0.936
+  },
+  {
+   "text": "freno",
+   "start": 1.24,
+   "end": 1.58,
+   "p": 0.546
+  },
+  {
+   "text": "un",
+   "start": 1.58,
+   "end": 1.72,
+   "p": 0.981
+  },
+  {
+   "text": "poco",
+   "start": 1.72,
+   "end": 1.98,
+   "p": 0.995
+  },
+  {
+   "text": "más",
+   "start": 1.98,
+   "end": 2.2,
+   "p": 0.915
+  },
+  {
+   "text": "fuerte",
+   "start": 2.2,
+   "end": 2.54,
+   "p": 0.999
+  },
+  {
+   "text": "que",
+   "start": 2.54,
+   "end": 2.68,
+   "p": 0.969
+  },
+  {
+   "text": "el",
+   "start": 2.68,
+   "end": 2.76,
+   "p": 0.822
+  },
+  {
+   "text": "anterior.",
+   "start": 2.76,
+   "end": 3.02,
+   "p": 0.994
+  },
+  {
+   "text": "Más",
+   "start": 3.64,
+   "end": 3.88,
+   "p": 0.942
+  },
+  {
+   "text": "fuerte,",
+   "start": 3.88,
+   "end": 4.18,
+   "p": 0.997
+  },
+  {
+   "text": "más",
+   "start": 4.5,
+   "end": 4.86,
+   "p": 0.904
+  },
+  {
+   "text": "fuerte,",
+   "start": 4.86,
+   "end": 5.4,
+   "p": 0.999
+  },
+  {
+   "text": "hasta",
+   "start": 5.78,
+   "end": 6.02,
+   "p": 0.948
+  },
+  {
+   "text": "que",
+   "start": 6.02,
+   "end": 6.26,
+   "p": 0.993
+  },
+  {
+   "text": "alguien",
+   "start": 6.26,
+   "end": 6.52,
+   "p": 0.996
+  },
+  {
+   "text": "se",
+   "start": 6.52,
+   "end": 6.76,
+   "p": 0.996
+  },
+  {
+   "text": "queda",
+   "start": 6.76,
+   "end": 7.02,
+   "p": 0.796
+  },
+  {
+   "text": "quieto.",
+   "start": 7.02,
+   "end": 7.7,
+   "p": 0.991
+  },
+  {
+   "text": "Eli.",
+   "start": 7.8,
+   "end": 8.1,
+   "p": 0.312
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['frena->freno']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted. b02: «el/la anterior» to confirm by ear."
+}

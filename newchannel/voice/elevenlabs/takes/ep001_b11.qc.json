@@ -1,0 +1,376 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b11.mp3",
+ "beat": "11",
+ "prompts": [
+  "11"
+ ],
+ "chars_billable": 312,
+ "script_text": "El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. Eli llega tarde. Como siempre. Un embotellamiento no es un lugar. Es una ola.",
+ "duration_raw_s": 19.76,
+ "duration_s": 19.58,
+ "lead_trim_s": 0.01,
+ "tail_trim_s": 0.17,
+ "words": 54,
+ "wpm_trimmed": 165.5,
+ "wpm_voiced": 177.6,
+ "voiced_s": 18.24,
+ "loudness": {
+  "lufs_i": -18.9,
+  "true_peak_dbtp": -3.6,
+  "lra": 3.4,
+  "peak_dbfs": -3.63
+ },
+ "asr": {
+  "heard": "El embotellamiento no es un grupo fijo de autos, los autos entran por detrás, avanzan despacito y salen por delante. Es como la ola en un estadio, nadie se cambia de asiento, pero la ola le da la vuelta entera. El y llega tarde, como siempre. Un embotellamiento no es un lugar, es una ola.",
+  "wer": 0.037,
+  "errors": [
+   "+el",
+   "eli->y"
+  ],
+  "hard": [
+   "+el",
+   "eli->y"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 54
+ },
+ "whisper_words": [
+  {
+   "text": "El",
+   "start": 0.0,
+   "end": 0.14,
+   "p": 0.28
+  },
+  {
+   "text": "embotellamiento",
+   "start": 0.14,
+   "end": 0.74,
+   "p": 0.979
+  },
+  {
+   "text": "no",
+   "start": 0.74,
+   "end": 1.14,
+   "p": 0.97
+  },
+  {
+   "text": "es",
+   "start": 1.14,
+   "end": 1.32,
+   "p": 0.991
+  },
+  {
+   "text": "un",
+   "start": 1.32,
+   "end": 1.44,
+   "p": 0.984
+  },
+  {
+   "text": "grupo",
+   "start": 1.44,
+   "end": 1.66,
+   "p": 0.998
+  },
+  {
+   "text": "fijo",
+   "start": 1.66,
+   "end": 2.06,
+   "p": 0.969
+  },
+  {
+   "text": "de",
+   "start": 2.06,
+   "end": 2.2,
+   "p": 0.991
+  },
+  {
+   "text": "autos,",
+   "start": 2.2,
+   "end": 2.78,
+   "p": 0.949
+  },
+  {
+   "text": "los",
+   "start": 3.0,
+   "end": 3.12,
+   "p": 0.959
+  },
+  {
+   "text": "autos",
+   "start": 3.12,
+   "end": 3.52,
+   "p": 0.988
+  },
+  {
+   "text": "entran",
+   "start": 3.52,
+   "end": 3.82,
+   "p": 0.988
+  },
+  {
+   "text": "por",
+   "start": 3.82,
+   "end": 4.0,
+   "p": 0.991
+  },
+  {
+   "text": "detrás,",
+   "start": 4.0,
+   "end": 4.6,
+   "p": 0.988
+  },
+  {
+   "text": "avanzan",
+   "start": 4.82,
+   "end": 5.28,
+   "p": 0.968
+  },
+  {
+   "text": "despacito",
+   "start": 5.28,
+   "end": 6.0,
+   "p": 0.989
+  },
+  {
+   "text": "y",
+   "start": 6.0,
+   "end": 6.32,
+   "p": 0.863
+  },
+  {
+   "text": "salen",
+   "start": 6.32,
+   "end": 6.78,
+   "p": 0.993
+  },
+  {
+   "text": "por",
+   "start": 6.78,
+   "end": 6.94,
+   "p": 0.992
+  },
+  {
+   "text": "delante.",
+   "start": 6.94,
+   "end": 7.46,
+   "p": 0.988
+  },
+  {
+   "text": "Es",
+   "start": 7.74,
+   "end": 7.88,
+   "p": 0.923
+  },
+  {
+   "text": "como",
+   "start": 7.88,
+   "end": 8.08,
+   "p": 0.996
+  },
+  {
+   "text": "la",
+   "start": 8.08,
+   "end": 8.24,
+   "p": 0.967
+  },
+  {
+   "text": "ola",
+   "start": 8.24,
+   "end": 8.46,
+   "p": 0.958
+  },
+  {
+   "text": "en",
+   "start": 8.46,
+   "end": 8.58,
+   "p": 0.983
+  },
+  {
+   "text": "un",
+   "start": 8.58,
+   "end": 8.66,
+   "p": 0.983
+  },
+  {
+   "text": "estadio,",
+   "start": 8.66,
+   "end": 9.24,
+   "p": 0.983
+  },
+  {
+   "text": "nadie",
+   "start": 9.44,
+   "end": 9.78,
+   "p": 0.99
+  },
+  {
+   "text": "se",
+   "start": 9.78,
+   "end": 10.0,
+   "p": 0.992
+  },
+  {
+   "text": "cambia",
+   "start": 10.0,
+   "end": 10.4,
+   "p": 0.996
+  },
+  {
+   "text": "de",
+   "start": 10.4,
+   "end": 10.48,
+   "p": 0.996
+  },
+  {
+   "text": "asiento,",
+   "start": 10.48,
+   "end": 10.92,
+   "p": 0.983
+  },
+  {
+   "text": "pero",
+   "start": 11.2,
+   "end": 11.34,
+   "p": 0.989
+  },
+  {
+   "text": "la",
+   "start": 11.34,
+   "end": 11.52,
+   "p": 0.979
+  },
+  {
+   "text": "ola",
+   "start": 11.52,
+   "end": 11.84,
+   "p": 0.991
+  },
+  {
+   "text": "le",
+   "start": 11.84,
+   "end": 12.02,
+   "p": 0.976
+  },
+  {
+   "text": "da",
+   "start": 12.02,
+   "end": 12.18,
+   "p": 0.991
+  },
+  {
+   "text": "la",
+   "start": 12.18,
+   "end": 12.3,
+   "p": 0.968
+  },
+  {
+   "text": "vuelta",
+   "start": 12.3,
+   "end": 12.78,
+   "p": 0.989
+  },
+  {
+   "text": "entera.",
+   "start": 12.78,
+   "end": 13.36,
+   "p": 0.986
+  },
+  {
+   "text": "El",
+   "start": 13.78,
+   "end": 14.08,
+   "p": 0.316
+  },
+  {
+   "text": "y",
+   "start": 14.08,
+   "end": 14.18,
+   "p": 0.384
+  },
+  {
+   "text": "llega",
+   "start": 14.18,
+   "end": 14.34,
+   "p": 0.92
+  },
+  {
+   "text": "tarde,",
+   "start": 14.34,
+   "end": 14.74,
+   "p": 0.96
+  },
+  {
+   "text": "como",
+   "start": 15.24,
+   "end": 15.42,
+   "p": 0.991
+  },
+  {
+   "text": "siempre.",
+   "start": 15.42,
+   "end": 15.82,
+   "p": 0.997
+  },
+  {
+   "text": "Un",
+   "start": 16.36,
+   "end": 16.48,
+   "p": 0.936
+  },
+  {
+   "text": "embotellamiento",
+   "start": 16.48,
+   "end": 17.28,
+   "p": 0.997
+  },
+  {
+   "text": "no",
+   "start": 17.28,
+   "end": 17.64,
+   "p": 0.989
+  },
+  {
+   "text": "es",
+   "start": 17.64,
+   "end": 17.88,
+   "p": 0.995
+  },
+  {
+   "text": "un",
+   "start": 17.88,
+   "end": 18.02,
+   "p": 0.72
+  },
+  {
+   "text": "lugar,",
+   "start": 18.02,
+   "end": 18.28,
+   "p": 0.999
+  },
+  {
+   "text": "es",
+   "start": 18.74,
+   "end": 18.88,
+   "p": 0.986
+  },
+  {
+   "text": "una",
+   "start": 18.88,
+   "end": 19.08,
+   "p": 0.99
+  },
+  {
+   "text": "ola.",
+   "start": 19.08,
+   "end": 19.4,
+   "p": 0.99
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['+el', 'eli->y']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

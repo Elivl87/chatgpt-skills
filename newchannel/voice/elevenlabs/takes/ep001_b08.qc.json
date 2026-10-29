@@ -1,0 +1,218 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b08.mp3",
+ "beat": "08",
+ "prompts": [
+  "08"
+ ],
+ "chars_billable": 167,
+ "script_text": "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte por hora. Más o menos lo que va una bicicleta.",
+ "duration_raw_s": 10.08,
+ "duration_s": 9.9,
+ "lead_trim_s": 0.01,
+ "tail_trim_s": 0.17,
+ "words": 30,
+ "wpm_trimmed": 181.8,
+ "wpm_voiced": 184.8,
+ "voiced_s": 9.74,
+ "loudness": {
+  "lufs_i": -18.0,
+  "true_peak_dbtp": -1.1,
+  "lra": 2.2,
+  "peak_dbfs": -1.25
+ },
+ "asr": {
+  "heard": "Lo que a Mila le encanta, los autos siempre avanzan y el embotellamiento se desliza hacia atrás a unos 20 por hora, más o menos lo que va una bicicleta.",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 30
+ },
+ "whisper_words": [
+  {
+   "text": "Lo",
+   "start": 0.0,
+   "end": 0.24,
+   "p": 0.768
+  },
+  {
+   "text": "que",
+   "start": 0.24,
+   "end": 0.42,
+   "p": 0.993
+  },
+  {
+   "text": "a",
+   "start": 0.42,
+   "end": 0.5,
+   "p": 0.734
+  },
+  {
+   "text": "Mila",
+   "start": 0.5,
+   "end": 0.88,
+   "p": 0.583
+  },
+  {
+   "text": "le",
+   "start": 0.88,
+   "end": 0.96,
+   "p": 0.949
+  },
+  {
+   "text": "encanta,",
+   "start": 0.96,
+   "end": 1.54,
+   "p": 0.993
+  },
+  {
+   "text": "los",
+   "start": 2.2,
+   "end": 2.34,
+   "p": 0.975
+  },
+  {
+   "text": "autos",
+   "start": 2.34,
+   "end": 2.76,
+   "p": 0.975
+  },
+  {
+   "text": "siempre",
+   "start": 2.76,
+   "end": 3.04,
+   "p": 0.994
+  },
+  {
+   "text": "avanzan",
+   "start": 3.04,
+   "end": 3.8,
+   "p": 0.981
+  },
+  {
+   "text": "y",
+   "start": 3.8,
+   "end": 4.06,
+   "p": 0.706
+  },
+  {
+   "text": "el",
+   "start": 4.06,
+   "end": 4.14,
+   "p": 0.995
+  },
+  {
+   "text": "embotellamiento",
+   "start": 4.14,
+   "end": 4.84,
+   "p": 0.967
+  },
+  {
+   "text": "se",
+   "start": 4.84,
+   "end": 5.1,
+   "p": 0.984
+  },
+  {
+   "text": "desliza",
+   "start": 5.1,
+   "end": 5.62,
+   "p": 0.991
+  },
+  {
+   "text": "hacia",
+   "start": 5.62,
+   "end": 5.8,
+   "p": 0.991
+  },
+  {
+   "text": "atrás",
+   "start": 5.8,
+   "end": 6.16,
+   "p": 0.969
+  },
+  {
+   "text": "a",
+   "start": 6.16,
+   "end": 6.54,
+   "p": 0.682
+  },
+  {
+   "text": "unos",
+   "start": 6.54,
+   "end": 6.72,
+   "p": 0.992
+  },
+  {
+   "text": "20",
+   "start": 6.72,
+   "end": 7.22,
+   "p": 0.922
+  },
+  {
+   "text": "por",
+   "start": 7.22,
+   "end": 7.5,
+   "p": 0.807
+  },
+  {
+   "text": "hora,",
+   "start": 7.5,
+   "end": 7.76,
+   "p": 0.995
+  },
+  {
+   "text": "más",
+   "start": 8.0,
+   "end": 8.14,
+   "p": 0.894
+  },
+  {
+   "text": "o",
+   "start": 8.14,
+   "end": 8.28,
+   "p": 0.996
+  },
+  {
+   "text": "menos",
+   "start": 8.28,
+   "end": 8.5,
+   "p": 1.0
+  },
+  {
+   "text": "lo",
+   "start": 8.5,
+   "end": 8.72,
+   "p": 0.91
+  },
+  {
+   "text": "que",
+   "start": 8.72,
+   "end": 8.86,
+   "p": 0.998
+  },
+  {
+   "text": "va",
+   "start": 8.86,
+   "end": 8.98,
+   "p": 0.986
+  },
+  {
+   "text": "una",
+   "start": 8.98,
+   "end": 9.14,
+   "p": 0.883
+  },
+  {
+   "text": "bicicleta.",
+   "start": 9.14,
+   "end": 9.76,
+   "p": 0.992
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "pace 181.8 wpm outside 125-175 (sheet: 138-150)"
+ ]
+}

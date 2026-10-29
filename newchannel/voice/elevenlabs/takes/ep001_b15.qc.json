@@ -1,0 +1,404 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b15.mp3",
+ "beat": "15",
+ "prompts": [
+  "15"
+ ],
+ "chars_billable": 343,
+ "script_text": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte. A Eli le pican las manos.",
+ "duration_raw_s": 22.4,
+ "duration_s": 22.33,
+ "lead_trim_s": 0.05,
+ "tail_trim_s": 0.02,
+ "words": 60,
+ "wpm_trimmed": 161.2,
+ "wpm_voiced": 180.4,
+ "voiced_s": 19.96,
+ "loudness": {
+  "lufs_i": -18.7,
+  "true_peak_dbtp": -2.2,
+  "lra": 2.9,
+  "peak_dbfs": -2.18
+ },
+ "asr": {
+  "heard": "Pero uno de esos autos era distinto, una computadora controlaba su velocidad, con una idea muy simple, no perseguir al de adelante, ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte, a él le pican las manos.",
+  "wer": 0.0167,
+  "errors": [
+   "eli->el"
+  ],
+  "hard": [
+   "eli->el"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 60
+ },
+ "whisper_words": [
+  {
+   "text": "Pero",
+   "start": 0.0,
+   "end": 0.16,
+   "p": 0.789
+  },
+  {
+   "text": "uno",
+   "start": 0.16,
+   "end": 0.4,
+   "p": 0.927
+  },
+  {
+   "text": "de",
+   "start": 0.4,
+   "end": 0.54,
+   "p": 0.995
+  },
+  {
+   "text": "esos",
+   "start": 0.54,
+   "end": 0.76,
+   "p": 0.944
+  },
+  {
+   "text": "autos",
+   "start": 0.76,
+   "end": 1.42,
+   "p": 0.984
+  },
+  {
+   "text": "era",
+   "start": 1.42,
+   "end": 1.72,
+   "p": 0.933
+  },
+  {
+   "text": "distinto,",
+   "start": 1.72,
+   "end": 2.38,
+   "p": 0.994
+  },
+  {
+   "text": "una",
+   "start": 2.8,
+   "end": 2.94,
+   "p": 0.982
+  },
+  {
+   "text": "computadora",
+   "start": 2.94,
+   "end": 3.6,
+   "p": 1.0
+  },
+  {
+   "text": "controlaba",
+   "start": 3.6,
+   "end": 4.24,
+   "p": 0.961
+  },
+  {
+   "text": "su",
+   "start": 4.24,
+   "end": 4.38,
+   "p": 0.981
+  },
+  {
+   "text": "velocidad,",
+   "start": 4.38,
+   "end": 4.86,
+   "p": 0.996
+  },
+  {
+   "text": "con",
+   "start": 5.3,
+   "end": 5.4,
+   "p": 0.972
+  },
+  {
+   "text": "una",
+   "start": 5.4,
+   "end": 5.56,
+   "p": 0.995
+  },
+  {
+   "text": "idea",
+   "start": 5.56,
+   "end": 5.84,
+   "p": 0.993
+  },
+  {
+   "text": "muy",
+   "start": 5.84,
+   "end": 6.26,
+   "p": 0.987
+  },
+  {
+   "text": "simple,",
+   "start": 6.26,
+   "end": 6.76,
+   "p": 0.996
+  },
+  {
+   "text": "no",
+   "start": 7.2,
+   "end": 7.48,
+   "p": 0.94
+  },
+  {
+   "text": "perseguir",
+   "start": 7.48,
+   "end": 8.12,
+   "p": 0.99
+  },
+  {
+   "text": "al",
+   "start": 8.12,
+   "end": 8.18,
+   "p": 0.919
+  },
+  {
+   "text": "de",
+   "start": 8.18,
+   "end": 8.3,
+   "p": 0.984
+  },
+  {
+   "text": "adelante,",
+   "start": 8.3,
+   "end": 8.7,
+   "p": 0.993
+  },
+  {
+   "text": "ir",
+   "start": 9.2,
+   "end": 9.34,
+   "p": 0.988
+  },
+  {
+   "text": "a",
+   "start": 9.34,
+   "end": 9.42,
+   "p": 0.968
+  },
+  {
+   "text": "la",
+   "start": 9.42,
+   "end": 9.48,
+   "p": 0.986
+  },
+  {
+   "text": "velocidad",
+   "start": 9.48,
+   "end": 9.86,
+   "p": 0.996
+  },
+  {
+   "text": "promedio",
+   "start": 9.86,
+   "end": 10.52,
+   "p": 0.998
+  },
+  {
+   "text": "del",
+   "start": 10.52,
+   "end": 10.66,
+   "p": 0.985
+  },
+  {
+   "text": "tráfico,",
+   "start": 10.66,
+   "end": 11.36,
+   "p": 0.98
+  },
+  {
+   "text": "o",
+   "start": 11.44,
+   "end": 11.52,
+   "p": 0.956
+  },
+  {
+   "text": "sea,",
+   "start": 11.52,
+   "end": 11.78,
+   "p": 0.792
+  },
+  {
+   "text": "a",
+   "start": 12.0,
+   "end": 12.08,
+   "p": 0.971
+  },
+  {
+   "text": "lo",
+   "start": 12.08,
+   "end": 12.16,
+   "p": 0.996
+  },
+  {
+   "text": "que",
+   "start": 12.16,
+   "end": 12.28,
+   "p": 0.997
+  },
+  {
+   "text": "de",
+   "start": 12.28,
+   "end": 12.4,
+   "p": 0.976
+  },
+  {
+   "text": "verdad",
+   "start": 12.4,
+   "end": 12.74,
+   "p": 0.996
+  },
+  {
+   "text": "avanzan",
+   "start": 12.74,
+   "end": 13.28,
+   "p": 0.981
+  },
+  {
+   "text": "todos,",
+   "start": 13.28,
+   "end": 13.64,
+   "p": 0.993
+  },
+  {
+   "text": "contando",
+   "start": 14.02,
+   "end": 14.4,
+   "p": 0.99
+  },
+  {
+   "text": "frenadas",
+   "start": 14.4,
+   "end": 14.96,
+   "p": 0.985
+  },
+  {
+   "text": "y",
+   "start": 14.96,
+   "end": 15.12,
+   "p": 0.993
+  },
+  {
+   "text": "arrancones.",
+   "start": 15.12,
+   "end": 15.82,
+   "p": 0.979
+  },
+  {
+   "text": "El",
+   "start": 16.08,
+   "end": 16.2,
+   "p": 0.983
+  },
+  {
+   "text": "espacio",
+   "start": 16.2,
+   "end": 16.52,
+   "p": 0.999
+  },
+  {
+   "text": "de",
+   "start": 16.52,
+   "end": 16.68,
+   "p": 0.99
+  },
+  {
+   "text": "adelante",
+   "start": 16.68,
+   "end": 17.04,
+   "p": 0.996
+  },
+  {
+   "text": "se",
+   "start": 17.04,
+   "end": 17.32,
+   "p": 0.977
+  },
+  {
+   "text": "estira",
+   "start": 17.32,
+   "end": 17.88,
+   "p": 0.99
+  },
+  {
+   "text": "y",
+   "start": 17.88,
+   "end": 18.02,
+   "p": 0.994
+  },
+  {
+   "text": "se",
+   "start": 18.02,
+   "end": 18.14,
+   "p": 0.994
+  },
+  {
+   "text": "encoge,",
+   "start": 18.14,
+   "end": 18.66,
+   "p": 0.915
+  },
+  {
+   "text": "como",
+   "start": 18.96,
+   "end": 19.1,
+   "p": 0.988
+  },
+  {
+   "text": "un",
+   "start": 19.1,
+   "end": 19.24,
+   "p": 0.995
+  },
+  {
+   "text": "resorte,",
+   "start": 19.24,
+   "end": 19.74,
+   "p": 0.849
+  },
+  {
+   "text": "a",
+   "start": 20.18,
+   "end": 20.4,
+   "p": 0.956
+  },
+  {
+   "text": "él",
+   "start": 20.4,
+   "end": 20.62,
+   "p": 0.781
+  },
+  {
+   "text": "le",
+   "start": 20.62,
+   "end": 20.98,
+   "p": 0.759
+  },
+  {
+   "text": "pican",
+   "start": 20.98,
+   "end": 21.42,
+   "p": 0.959
+  },
+  {
+   "text": "las",
+   "start": 21.42,
+   "end": 21.6,
+   "p": 0.989
+  },
+  {
+   "text": "manos.",
+   "start": 21.6,
+   "end": 21.94,
+   "p": 0.998
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['eli->el']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

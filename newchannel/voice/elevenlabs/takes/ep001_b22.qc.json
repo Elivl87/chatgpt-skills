@@ -1,0 +1,364 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b22.mp3",
+ "beat": "22",
+ "prompts": [
+  "22"
+ ],
+ "chars_billable": 312,
+ "script_text": "O sea que tú también eres parte de la ola. Sí, tú. No el de adelante. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
+ "duration_raw_s": 20.64,
+ "duration_s": 20.63,
+ "lead_trim_s": 0.0,
+ "tail_trim_s": 0.01,
+ "words": 55,
+ "wpm_trimmed": 160.0,
+ "wpm_voiced": 173.5,
+ "voiced_s": 19.02,
+ "loudness": {
+  "lufs_i": -19.5,
+  "true_peak_dbtp": -2.2,
+  "lra": 3.8,
+  "peak_dbfs": -2.25
+ },
+ "asr": {
+  "heard": "Osea que tu tambien eres parte de la ola, si tu, no el de adelante, asi que deja un espacio, uno seguro, no uno enorme, no corras a cerrarlo, maneja la velocidad real del trafico, no a la que te gustaria, no llegas mas tarde, la misma distancia, el mismo tiempo, menos frenazos.",
+  "wer": 0.0182,
+  "errors": [
+   "-a"
+  ],
+  "hard": [
+   "-a"
+  ],
+  "check_by_ear": [
+   "o sea->osea"
+  ],
+  "tags_read_aloud": [],
+  "ref_words": 55
+ },
+ "whisper_words": [
+  {
+   "text": "Osea",
+   "start": 0.0,
+   "end": 0.34,
+   "p": 0.505
+  },
+  {
+   "text": "que",
+   "start": 0.34,
+   "end": 0.58,
+   "p": 0.909
+  },
+  {
+   "text": "tu",
+   "start": 0.58,
+   "end": 0.9,
+   "p": 0.435
+  },
+  {
+   "text": "tambien",
+   "start": 0.9,
+   "end": 1.44,
+   "p": 0.855
+  },
+  {
+   "text": "eres",
+   "start": 1.44,
+   "end": 1.6,
+   "p": 0.981
+  },
+  {
+   "text": "parte",
+   "start": 1.6,
+   "end": 1.92,
+   "p": 0.994
+  },
+  {
+   "text": "de",
+   "start": 1.92,
+   "end": 2.12,
+   "p": 0.989
+  },
+  {
+   "text": "la",
+   "start": 2.12,
+   "end": 2.26,
+   "p": 0.984
+  },
+  {
+   "text": "ola,",
+   "start": 2.26,
+   "end": 2.58,
+   "p": 0.895
+  },
+  {
+   "text": "si",
+   "start": 2.9,
+   "end": 3.08,
+   "p": 0.933
+  },
+  {
+   "text": "tu,",
+   "start": 3.08,
+   "end": 3.68,
+   "p": 0.292
+  },
+  {
+   "text": "no",
+   "start": 4.06,
+   "end": 4.92,
+   "p": 0.395
+  },
+  {
+   "text": "el",
+   "start": 4.92,
+   "end": 5.08,
+   "p": 0.918
+  },
+  {
+   "text": "de",
+   "start": 5.08,
+   "end": 5.16,
+   "p": 0.885
+  },
+  {
+   "text": "adelante,",
+   "start": 5.16,
+   "end": 5.56,
+   "p": 0.946
+  },
+  {
+   "text": "asi",
+   "start": 6.0,
+   "end": 6.24,
+   "p": 0.752
+  },
+  {
+   "text": "que",
+   "start": 6.24,
+   "end": 6.46,
+   "p": 0.99
+  },
+  {
+   "text": "deja",
+   "start": 6.46,
+   "end": 6.86,
+   "p": 0.88
+  },
+  {
+   "text": "un",
+   "start": 6.86,
+   "end": 7.06,
+   "p": 0.971
+  },
+  {
+   "text": "espacio,",
+   "start": 7.06,
+   "end": 7.5,
+   "p": 0.992
+  },
+  {
+   "text": "uno",
+   "start": 7.9,
+   "end": 8.08,
+   "p": 0.972
+  },
+  {
+   "text": "seguro,",
+   "start": 8.08,
+   "end": 8.5,
+   "p": 0.992
+  },
+  {
+   "text": "no",
+   "start": 8.9,
+   "end": 9.02,
+   "p": 0.946
+  },
+  {
+   "text": "uno",
+   "start": 9.02,
+   "end": 9.2,
+   "p": 0.864
+  },
+  {
+   "text": "enorme,",
+   "start": 9.2,
+   "end": 9.58,
+   "p": 0.991
+  },
+  {
+   "text": "no",
+   "start": 10.02,
+   "end": 10.18,
+   "p": 0.983
+  },
+  {
+   "text": "corras",
+   "start": 10.18,
+   "end": 10.74,
+   "p": 0.968
+  },
+  {
+   "text": "a",
+   "start": 10.74,
+   "end": 10.84,
+   "p": 0.975
+  },
+  {
+   "text": "cerrarlo,",
+   "start": 10.84,
+   "end": 11.42,
+   "p": 0.981
+  },
+  {
+   "text": "maneja",
+   "start": 11.66,
+   "end": 12.04,
+   "p": 0.983
+  },
+  {
+   "text": "la",
+   "start": 12.04,
+   "end": 12.16,
+   "p": 0.849
+  },
+  {
+   "text": "velocidad",
+   "start": 12.16,
+   "end": 12.52,
+   "p": 0.824
+  },
+  {
+   "text": "real",
+   "start": 12.52,
+   "end": 13.14,
+   "p": 0.982
+  },
+  {
+   "text": "del",
+   "start": 13.14,
+   "end": 13.34,
+   "p": 0.983
+  },
+  {
+   "text": "trafico,",
+   "start": 13.34,
+   "end": 14.1,
+   "p": 0.823
+  },
+  {
+   "text": "no",
+   "start": 14.22,
+   "end": 14.34,
+   "p": 0.983
+  },
+  {
+   "text": "a",
+   "start": 14.34,
+   "end": 14.44,
+   "p": 0.903
+  },
+  {
+   "text": "la",
+   "start": 14.44,
+   "end": 14.48,
+   "p": 0.98
+  },
+  {
+   "text": "que",
+   "start": 14.48,
+   "end": 14.62,
+   "p": 0.987
+  },
+  {
+   "text": "te",
+   "start": 14.62,
+   "end": 14.74,
+   "p": 0.959
+  },
+  {
+   "text": "gustaria,",
+   "start": 14.74,
+   "end": 15.24,
+   "p": 0.929
+  },
+  {
+   "text": "no",
+   "start": 15.6,
+   "end": 15.7,
+   "p": 0.979
+  },
+  {
+   "text": "llegas",
+   "start": 15.7,
+   "end": 16.02,
+   "p": 0.967
+  },
+  {
+   "text": "mas",
+   "start": 16.02,
+   "end": 16.14,
+   "p": 0.973
+  },
+  {
+   "text": "tarde,",
+   "start": 16.14,
+   "end": 16.48,
+   "p": 0.996
+  },
+  {
+   "text": "la",
+   "start": 16.88,
+   "end": 16.98,
+   "p": 0.983
+  },
+  {
+   "text": "misma",
+   "start": 16.98,
+   "end": 17.2,
+   "p": 0.994
+  },
+  {
+   "text": "distancia,",
+   "start": 17.2,
+   "end": 17.92,
+   "p": 0.989
+  },
+  {
+   "text": "el",
+   "start": 18.2,
+   "end": 18.24,
+   "p": 0.977
+  },
+  {
+   "text": "mismo",
+   "start": 18.24,
+   "end": 18.58,
+   "p": 0.989
+  },
+  {
+   "text": "tiempo,",
+   "start": 18.58,
+   "end": 19.04,
+   "p": 0.989
+  },
+  {
+   "text": "menos",
+   "start": 19.44,
+   "end": 19.76,
+   "p": 0.978
+  },
+  {
+   "text": "frenazos.",
+   "start": 19.76,
+   "end": 20.48,
+   "p": 0.897
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['-a']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

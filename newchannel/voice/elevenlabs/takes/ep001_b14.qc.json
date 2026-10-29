@@ -1,0 +1,420 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b14.mp3",
+ "beat": "14",
+ "prompts": [
+  "14"
+ ],
+ "chars_billable": 391,
+ "script_text": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo. «¡Mi lema!»",
+ "duration_raw_s": 23.6,
+ "duration_s": 23.46,
+ "lead_trim_s": 0.06,
+ "tail_trim_s": 0.08,
+ "words": 64,
+ "wpm_trimmed": 163.7,
+ "wpm_voiced": 179.4,
+ "voiced_s": 21.4,
+ "loudness": {
+  "lufs_i": -18.1,
+  "true_peak_dbtp": -1.3,
+  "lra": 2.1,
+  "peak_dbfs": -1.37
+ },
+ "asr": {
+  "heard": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con 21 autos. A los conductores les dieron una instrucción para que no arreglaran las olas por su cuenta. Manejen como en hora pico. Si se abre un hueco, cierrenlo. ¡Mi lema!",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 64
+ },
+ "whisper_words": [
+  {
+   "text": "Entonces,",
+   "start": 0.0,
+   "end": 0.46,
+   "p": 0.793
+  },
+  {
+   "text": "¿cómo",
+   "start": 1.06,
+   "end": 1.26,
+   "p": 0.787
+  },
+  {
+   "text": "se",
+   "start": 1.26,
+   "end": 1.46,
+   "p": 0.996
+  },
+  {
+   "text": "detiene",
+   "start": 1.46,
+   "end": 1.82,
+   "p": 0.992
+  },
+  {
+   "text": "una",
+   "start": 1.82,
+   "end": 2.02,
+   "p": 0.993
+  },
+  {
+   "text": "ola?",
+   "start": 2.02,
+   "end": 2.38,
+   "p": 0.951
+  },
+  {
+   "text": "¿Hay",
+   "start": 2.78,
+   "end": 2.9,
+   "p": 0.833
+  },
+  {
+   "text": "que",
+   "start": 2.9,
+   "end": 3.0,
+   "p": 0.99
+  },
+  {
+   "text": "cambiar",
+   "start": 3.0,
+   "end": 3.28,
+   "p": 0.985
+  },
+  {
+   "text": "a",
+   "start": 3.28,
+   "end": 3.44,
+   "p": 0.964
+  },
+  {
+   "text": "todos",
+   "start": 3.44,
+   "end": 3.72,
+   "p": 0.974
+  },
+  {
+   "text": "los",
+   "start": 3.72,
+   "end": 3.94,
+   "p": 0.997
+  },
+  {
+   "text": "conductores?",
+   "start": 3.94,
+   "end": 4.54,
+   "p": 0.995
+  },
+  {
+   "text": "¿Llenar",
+   "start": 5.0,
+   "end": 5.28,
+   "p": 0.864
+  },
+  {
+   "text": "la",
+   "start": 5.28,
+   "end": 5.38,
+   "p": 0.995
+  },
+  {
+   "text": "autopista",
+   "start": 5.38,
+   "end": 5.84,
+   "p": 0.969
+  },
+  {
+   "text": "de",
+   "start": 5.84,
+   "end": 6.0,
+   "p": 0.995
+  },
+  {
+   "text": "autos",
+   "start": 6.0,
+   "end": 6.3,
+   "p": 0.927
+  },
+  {
+   "text": "robot?",
+   "start": 6.3,
+   "end": 6.56,
+   "p": 0.835
+  },
+  {
+   "text": "Unos",
+   "start": 7.36,
+   "end": 7.68,
+   "p": 0.917
+  },
+  {
+   "text": "años",
+   "start": 7.68,
+   "end": 7.84,
+   "p": 0.998
+  },
+  {
+   "text": "después,",
+   "start": 7.84,
+   "end": 8.24,
+   "p": 0.981
+  },
+  {
+   "text": "un",
+   "start": 8.58,
+   "end": 8.74,
+   "p": 0.994
+  },
+  {
+   "text": "equipo",
+   "start": 8.74,
+   "end": 9.0,
+   "p": 0.997
+  },
+  {
+   "text": "en",
+   "start": 9.0,
+   "end": 9.16,
+   "p": 0.977
+  },
+  {
+   "text": "Estados",
+   "start": 9.16,
+   "end": 9.38,
+   "p": 0.825
+  },
+  {
+   "text": "Unidos",
+   "start": 9.38,
+   "end": 9.88,
+   "p": 0.998
+  },
+  {
+   "text": "armó",
+   "start": 9.88,
+   "end": 10.46,
+   "p": 0.98
+  },
+  {
+   "text": "otra",
+   "start": 10.46,
+   "end": 10.82,
+   "p": 0.995
+  },
+  {
+   "text": "vez",
+   "start": 10.82,
+   "end": 11.08,
+   "p": 0.997
+  },
+  {
+   "text": "el",
+   "start": 11.08,
+   "end": 11.26,
+   "p": 0.996
+  },
+  {
+   "text": "círculo,",
+   "start": 11.26,
+   "end": 11.78,
+   "p": 0.96
+  },
+  {
+   "text": "con",
+   "start": 12.0,
+   "end": 12.18,
+   "p": 0.992
+  },
+  {
+   "text": "21",
+   "start": 12.18,
+   "end": 12.68,
+   "p": 0.964
+  },
+  {
+   "text": "autos.",
+   "start": 12.68,
+   "end": 12.96,
+   "p": 0.985
+  },
+  {
+   "text": "A",
+   "start": 13.52,
+   "end": 13.62,
+   "p": 0.986
+  },
+  {
+   "text": "los",
+   "start": 13.62,
+   "end": 13.72,
+   "p": 0.999
+  },
+  {
+   "text": "conductores",
+   "start": 13.72,
+   "end": 14.26,
+   "p": 0.998
+  },
+  {
+   "text": "les",
+   "start": 14.26,
+   "end": 14.44,
+   "p": 0.874
+  },
+  {
+   "text": "dieron",
+   "start": 14.44,
+   "end": 14.78,
+   "p": 0.997
+  },
+  {
+   "text": "una",
+   "start": 14.78,
+   "end": 15.08,
+   "p": 0.996
+  },
+  {
+   "text": "instrucción",
+   "start": 15.08,
+   "end": 15.78,
+   "p": 0.996
+  },
+  {
+   "text": "para",
+   "start": 15.78,
+   "end": 16.08,
+   "p": 0.608
+  },
+  {
+   "text": "que",
+   "start": 16.08,
+   "end": 16.26,
+   "p": 0.991
+  },
+  {
+   "text": "no",
+   "start": 16.26,
+   "end": 16.56,
+   "p": 0.987
+  },
+  {
+   "text": "arreglaran",
+   "start": 16.56,
+   "end": 17.14,
+   "p": 0.95
+  },
+  {
+   "text": "las",
+   "start": 17.14,
+   "end": 17.28,
+   "p": 0.986
+  },
+  {
+   "text": "olas",
+   "start": 17.28,
+   "end": 17.58,
+   "p": 0.982
+  },
+  {
+   "text": "por",
+   "start": 17.58,
+   "end": 17.72,
+   "p": 0.987
+  },
+  {
+   "text": "su",
+   "start": 17.72,
+   "end": 17.86,
+   "p": 0.994
+  },
+  {
+   "text": "cuenta.",
+   "start": 17.86,
+   "end": 18.2,
+   "p": 0.996
+  },
+  {
+   "text": "Manejen",
+   "start": 18.58,
+   "end": 19.14,
+   "p": 0.766
+  },
+  {
+   "text": "como",
+   "start": 19.14,
+   "end": 19.42,
+   "p": 0.971
+  },
+  {
+   "text": "en",
+   "start": 19.42,
+   "end": 19.6,
+   "p": 0.848
+  },
+  {
+   "text": "hora",
+   "start": 19.6,
+   "end": 19.74,
+   "p": 0.398
+  },
+  {
+   "text": "pico.",
+   "start": 19.74,
+   "end": 20.16,
+   "p": 0.971
+  },
+  {
+   "text": "Si",
+   "start": 20.48,
+   "end": 20.6,
+   "p": 0.981
+  },
+  {
+   "text": "se",
+   "start": 20.6,
+   "end": 20.74,
+   "p": 0.997
+  },
+  {
+   "text": "abre",
+   "start": 20.74,
+   "end": 20.94,
+   "p": 0.988
+  },
+  {
+   "text": "un",
+   "start": 20.94,
+   "end": 21.06,
+   "p": 0.994
+  },
+  {
+   "text": "hueco,",
+   "start": 21.06,
+   "end": 21.44,
+   "p": 0.987
+  },
+  {
+   "text": "cierrenlo.",
+   "start": 21.7,
+   "end": 22.28,
+   "p": 0.844
+  },
+  {
+   "text": "¡Mi",
+   "start": 22.6,
+   "end": 22.8,
+   "p": 0.715
+  },
+  {
+   "text": "lema!",
+   "start": 22.8,
+   "end": 23.14,
+   "p": 0.846
+  }
+ ],
+ "verdict": "PASS",
+ "why": []
+}

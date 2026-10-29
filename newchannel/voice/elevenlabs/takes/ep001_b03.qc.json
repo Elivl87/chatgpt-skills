@@ -1,0 +1,222 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b03.mp3",
+ "beat": "03",
+ "prompts": [
+  "03"
+ ],
+ "chars_billable": 206,
+ "script_text": "«¡¿Quién fue?!» Eli está seguro: alguien allá adelante tiene la culpa. Eli siempre está seguro. Pero allá no hay nada. Ni choque, ni conos, ni semáforo. … No, Eli. El pajarito tampoco.",
+ "duration_raw_s": 13.92,
+ "duration_s": 13.87,
+ "lead_trim_s": 0.0,
+ "tail_trim_s": 0.05,
+ "words": 31,
+ "wpm_trimmed": 134.1,
+ "wpm_voiced": 169.7,
+ "voiced_s": 10.96,
+ "loudness": {
+  "lufs_i": -18.0,
+  "true_peak_dbtp": -1.9,
+  "lra": 3.0,
+  "peak_dbfs": -1.96
+ },
+ "asr": {
+  "heard": "¿Quién fue? Eli está seguro. Alguien allá adelante tiene la culpa. Eli siempre está seguro. Pero allá no hay nada. Ni choque, ni conos, ni semáforo. No Eli, el pajarito tampoco.",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 31
+ },
+ "whisper_words": [
+  {
+   "text": "¿Quién",
+   "start": 0.0,
+   "end": 0.34,
+   "p": 0.85
+  },
+  {
+   "text": "fue?",
+   "start": 0.34,
+   "end": 0.58,
+   "p": 0.979
+  },
+  {
+   "text": "Eli",
+   "start": 1.26,
+   "end": 1.54,
+   "p": 0.296
+  },
+  {
+   "text": "está",
+   "start": 1.54,
+   "end": 1.88,
+   "p": 0.862
+  },
+  {
+   "text": "seguro.",
+   "start": 1.88,
+   "end": 2.28,
+   "p": 0.996
+  },
+  {
+   "text": "Alguien",
+   "start": 2.84,
+   "end": 3.18,
+   "p": 0.985
+  },
+  {
+   "text": "allá",
+   "start": 3.18,
+   "end": 3.4,
+   "p": 0.906
+  },
+  {
+   "text": "adelante",
+   "start": 3.4,
+   "end": 3.88,
+   "p": 0.681
+  },
+  {
+   "text": "tiene",
+   "start": 3.88,
+   "end": 4.16,
+   "p": 0.98
+  },
+  {
+   "text": "la",
+   "start": 4.16,
+   "end": 4.34,
+   "p": 0.997
+  },
+  {
+   "text": "culpa.",
+   "start": 4.34,
+   "end": 4.66,
+   "p": 0.997
+  },
+  {
+   "text": "Eli",
+   "start": 5.18,
+   "end": 5.48,
+   "p": 0.98
+  },
+  {
+   "text": "siempre",
+   "start": 5.48,
+   "end": 5.96,
+   "p": 0.984
+  },
+  {
+   "text": "está",
+   "start": 5.96,
+   "end": 6.28,
+   "p": 0.981
+  },
+  {
+   "text": "seguro.",
+   "start": 6.28,
+   "end": 6.66,
+   "p": 0.998
+  },
+  {
+   "text": "Pero",
+   "start": 7.3,
+   "end": 7.34,
+   "p": 0.953
+  },
+  {
+   "text": "allá",
+   "start": 7.34,
+   "end": 7.54,
+   "p": 0.973
+  },
+  {
+   "text": "no",
+   "start": 7.54,
+   "end": 7.7,
+   "p": 0.996
+  },
+  {
+   "text": "hay",
+   "start": 7.7,
+   "end": 7.76,
+   "p": 0.9
+  },
+  {
+   "text": "nada.",
+   "start": 7.76,
+   "end": 8.08,
+   "p": 0.997
+  },
+  {
+   "text": "Ni",
+   "start": 8.46,
+   "end": 8.62,
+   "p": 0.958
+  },
+  {
+   "text": "choque,",
+   "start": 8.62,
+   "end": 9.16,
+   "p": 0.977
+  },
+  {
+   "text": "ni",
+   "start": 9.36,
+   "end": 9.5,
+   "p": 0.986
+  },
+  {
+   "text": "conos,",
+   "start": 9.5,
+   "end": 10.1,
+   "p": 0.856
+  },
+  {
+   "text": "ni",
+   "start": 10.24,
+   "end": 10.34,
+   "p": 0.959
+  },
+  {
+   "text": "semáforo.",
+   "start": 10.34,
+   "end": 11.08,
+   "p": 0.975
+  },
+  {
+   "text": "No",
+   "start": 11.48,
+   "end": 11.74,
+   "p": 0.974
+  },
+  {
+   "text": "Eli,",
+   "start": 11.74,
+   "end": 12.08,
+   "p": 0.482
+  },
+  {
+   "text": "el",
+   "start": 12.52,
+   "end": 12.66,
+   "p": 0.93
+  },
+  {
+   "text": "pajarito",
+   "start": 12.66,
+   "end": 13.16,
+   "p": 0.989
+  },
+  {
+   "text": "tampoco.",
+   "start": 13.16,
+   "end": 13.4,
+   "p": 0.947
+  }
+ ],
+ "verdict": "PASS",
+ "why": []
+}

@@ -1,0 +1,330 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b10.mp3",
+ "beat": "10",
+ "prompts": [
+  "10"
+ ],
+ "chars_billable": 303,
+ "script_text": "Los ingenieros le llaman inestabilidad de cadena. La cadena es la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta. «¡¿Que yo qué?!»",
+ "duration_raw_s": 18.0,
+ "duration_s": 17.98,
+ "lead_trim_s": 0.0,
+ "tail_trim_s": 0.02,
+ "words": 49,
+ "wpm_trimmed": 163.5,
+ "wpm_voiced": 167.6,
+ "voiced_s": 17.54,
+ "loudness": {
+  "lufs_i": -18.3,
+  "true_peak_dbtp": -2.5,
+  "lra": 2.0,
+  "peak_dbfs": -2.5
+ },
+ "asr": {
+  "heard": "Los ingenieros le llaman inestabilidad de cadena. La cadena es la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta. ¿Que yo qué?",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 49
+ },
+ "whisper_words": [
+  {
+   "text": "Los",
+   "start": 0.0,
+   "end": 0.14,
+   "p": 0.824
+  },
+  {
+   "text": "ingenieros",
+   "start": 0.14,
+   "end": 0.76,
+   "p": 0.989
+  },
+  {
+   "text": "le",
+   "start": 0.76,
+   "end": 0.86,
+   "p": 0.965
+  },
+  {
+   "text": "llaman",
+   "start": 0.86,
+   "end": 1.22,
+   "p": 0.993
+  },
+  {
+   "text": "inestabilidad",
+   "start": 1.22,
+   "end": 2.3,
+   "p": 0.901
+  },
+  {
+   "text": "de",
+   "start": 2.3,
+   "end": 2.5,
+   "p": 0.995
+  },
+  {
+   "text": "cadena.",
+   "start": 2.5,
+   "end": 3.0,
+   "p": 0.989
+  },
+  {
+   "text": "La",
+   "start": 3.26,
+   "end": 3.42,
+   "p": 0.957
+  },
+  {
+   "text": "cadena",
+   "start": 3.42,
+   "end": 3.86,
+   "p": 0.998
+  },
+  {
+   "text": "es",
+   "start": 3.86,
+   "end": 4.16,
+   "p": 0.94
+  },
+  {
+   "text": "la",
+   "start": 4.16,
+   "end": 4.3,
+   "p": 0.997
+  },
+  {
+   "text": "fila",
+   "start": 4.3,
+   "end": 4.66,
+   "p": 0.966
+  },
+  {
+   "text": "de",
+   "start": 4.66,
+   "end": 4.76,
+   "p": 0.998
+  },
+  {
+   "text": "autos.",
+   "start": 4.76,
+   "end": 5.28,
+   "p": 0.98
+  },
+  {
+   "text": "Si",
+   "start": 5.56,
+   "end": 5.7,
+   "p": 0.991
+  },
+  {
+   "text": "es",
+   "start": 5.7,
+   "end": 5.84,
+   "p": 0.993
+  },
+  {
+   "text": "estable,",
+   "start": 5.84,
+   "end": 6.32,
+   "p": 0.906
+  },
+  {
+   "text": "un",
+   "start": 6.66,
+   "end": 6.74,
+   "p": 0.995
+  },
+  {
+   "text": "titubeo",
+   "start": 6.74,
+   "end": 7.28,
+   "p": 0.969
+  },
+  {
+   "text": "se",
+   "start": 7.28,
+   "end": 7.42,
+   "p": 0.998
+  },
+  {
+   "text": "va",
+   "start": 7.42,
+   "end": 7.6,
+   "p": 0.989
+  },
+  {
+   "text": "apagando",
+   "start": 7.6,
+   "end": 8.18,
+   "p": 0.962
+  },
+  {
+   "text": "mientras",
+   "start": 8.18,
+   "end": 8.4,
+   "p": 0.986
+  },
+  {
+   "text": "viaja",
+   "start": 8.4,
+   "end": 9.04,
+   "p": 0.985
+  },
+  {
+   "text": "hacia",
+   "start": 9.04,
+   "end": 9.22,
+   "p": 0.996
+  },
+  {
+   "text": "atrás.",
+   "start": 9.22,
+   "end": 9.5,
+   "p": 0.988
+  },
+  {
+   "text": "Si",
+   "start": 9.9,
+   "end": 10.1,
+   "p": 0.992
+  },
+  {
+   "text": "es",
+   "start": 10.1,
+   "end": 10.26,
+   "p": 0.997
+  },
+  {
+   "text": "inestable,",
+   "start": 10.26,
+   "end": 10.88,
+   "p": 0.991
+  },
+  {
+   "text": "cada",
+   "start": 11.1,
+   "end": 11.32,
+   "p": 0.998
+  },
+  {
+   "text": "conductor",
+   "start": 11.32,
+   "end": 11.82,
+   "p": 0.991
+  },
+  {
+   "text": "le",
+   "start": 11.82,
+   "end": 12.08,
+   "p": 0.885
+  },
+  {
+   "text": "suma",
+   "start": 12.08,
+   "end": 12.46,
+   "p": 0.998
+  },
+  {
+   "text": "un",
+   "start": 12.46,
+   "end": 12.64,
+   "p": 0.996
+  },
+  {
+   "text": "poquito,",
+   "start": 12.64,
+   "end": 13.0,
+   "p": 0.982
+  },
+  {
+   "text": "como",
+   "start": 13.46,
+   "end": 13.64,
+   "p": 0.974
+  },
+  {
+   "text": "un",
+   "start": 13.64,
+   "end": 13.78,
+   "p": 0.99
+  },
+  {
+   "text": "chisme",
+   "start": 13.78,
+   "end": 14.14,
+   "p": 0.984
+  },
+  {
+   "text": "que",
+   "start": 14.14,
+   "end": 14.3,
+   "p": 0.995
+  },
+  {
+   "text": "crece",
+   "start": 14.3,
+   "end": 14.64,
+   "p": 0.982
+  },
+  {
+   "text": "cada",
+   "start": 14.64,
+   "end": 15.0,
+   "p": 0.986
+  },
+  {
+   "text": "vez",
+   "start": 15.0,
+   "end": 15.28,
+   "p": 0.998
+  },
+  {
+   "text": "que",
+   "start": 15.28,
+   "end": 15.48,
+   "p": 0.997
+  },
+  {
+   "text": "alguien",
+   "start": 15.48,
+   "end": 15.86,
+   "p": 0.992
+  },
+  {
+   "text": "lo",
+   "start": 15.86,
+   "end": 16.1,
+   "p": 0.982
+  },
+  {
+   "text": "cuenta.",
+   "start": 16.1,
+   "end": 16.52,
+   "p": 0.983
+  },
+  {
+   "text": "¿Que",
+   "start": 16.88,
+   "end": 17.0,
+   "p": 0.608
+  },
+  {
+   "text": "yo",
+   "start": 17.0,
+   "end": 17.26,
+   "p": 0.931
+  },
+  {
+   "text": "qué?",
+   "start": 17.26,
+   "end": 17.56,
+   "p": 0.599
+  }
+ ],
+ "verdict": "PASS",
+ "why": []
+}

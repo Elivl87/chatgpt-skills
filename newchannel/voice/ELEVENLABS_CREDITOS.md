@@ -36,3 +36,5 @@ Regla del Productor (2026-10-28): **ninguna generación sin su aprobación previ
 |---|---|---|
 | 2026-10-28 | Gancho EP001 ×3 voces (Eric, Martin Alvarez, Fernando Martinez), antes de la regla | 1.374 |
 | 2026-10-29 | Gancho EP001 v5 con David C (aprobado por el Productor) | 592 |
+| 2026-10-29 | EP001 narración completa con David: 23 beats (6.897) + retoma beat 4 «Mila» (129) | 7.026 |
+| | **Total EP001 hasta hoy** (gancho 592 + pasada + retoma) | **7.618** |

@@ -1,0 +1,248 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b24.mp3",
+ "beat": "24",
+ "prompts": [
+  "24"
+ ],
+ "chars_billable": 224,
+ "script_text": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. Hasta Eli. Esto es Diez Mil Puntos.",
+ "duration_raw_s": 15.04,
+ "duration_s": 15.01,
+ "lead_trim_s": 0.02,
+ "tail_trim_s": 0.01,
+ "words": 33,
+ "wpm_trimmed": 131.9,
+ "wpm_voiced": 155.9,
+ "voiced_s": 12.7,
+ "loudness": {
+  "lufs_i": -18.9,
+  "true_peak_dbtp": -2.1,
+  "lra": 3.9,
+  "peak_dbfs": -2.1
+ },
+ "asr": {
+  "heard": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar, es una ola. Un solo conductor paciente puede absorberla. Jajaja, hasta Eli. Esto es 10 .000 puntos.",
+  "wer": 0.0303,
+  "errors": [
+   "+jajaja"
+  ],
+  "hard": [
+   "+jajaja"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 33
+ },
+ "whisper_words": [
+  {
+   "text": "En",
+   "start": 0.0,
+   "end": 0.16,
+   "p": 0.755
+  },
+  {
+   "text": "algún",
+   "start": 0.16,
+   "end": 0.36,
+   "p": 0.95
+  },
+  {
+   "text": "lugar",
+   "start": 0.36,
+   "end": 0.66,
+   "p": 0.997
+  },
+  {
+   "text": "detrás",
+   "start": 0.66,
+   "end": 1.14,
+   "p": 0.984
+  },
+  {
+   "text": "de",
+   "start": 1.14,
+   "end": 1.26,
+   "p": 0.994
+  },
+  {
+   "text": "ellos,",
+   "start": 1.26,
+   "end": 1.6,
+   "p": 0.996
+  },
+  {
+   "text": "un",
+   "start": 2.02,
+   "end": 2.18,
+   "p": 0.965
+  },
+  {
+   "text": "embotellamiento",
+   "start": 2.18,
+   "end": 2.96,
+   "p": 0.976
+  },
+  {
+   "text": "que",
+   "start": 2.96,
+   "end": 3.2,
+   "p": 0.968
+  },
+  {
+   "text": "nunca",
+   "start": 3.2,
+   "end": 3.48,
+   "p": 0.864
+  },
+  {
+   "text": "pasó.",
+   "start": 3.48,
+   "end": 4.06,
+   "p": 0.98
+  },
+  {
+   "text": "Un",
+   "start": 4.46,
+   "end": 4.62,
+   "p": 0.94
+  },
+  {
+   "text": "embotellamiento",
+   "start": 4.62,
+   "end": 5.4,
+   "p": 0.997
+  },
+  {
+   "text": "no",
+   "start": 5.4,
+   "end": 5.7,
+   "p": 0.983
+  },
+  {
+   "text": "es",
+   "start": 5.7,
+   "end": 5.98,
+   "p": 0.993
+  },
+  {
+   "text": "un",
+   "start": 5.98,
+   "end": 6.06,
+   "p": 0.288
+  },
+  {
+   "text": "lugar,",
+   "start": 6.06,
+   "end": 6.34,
+   "p": 0.999
+  },
+  {
+   "text": "es",
+   "start": 6.82,
+   "end": 7.0,
+   "p": 0.991
+  },
+  {
+   "text": "una",
+   "start": 7.0,
+   "end": 7.2,
+   "p": 0.982
+  },
+  {
+   "text": "ola.",
+   "start": 7.2,
+   "end": 7.56,
+   "p": 0.977
+  },
+  {
+   "text": "Un",
+   "start": 7.92,
+   "end": 8.06,
+   "p": 0.982
+  },
+  {
+   "text": "solo",
+   "start": 8.06,
+   "end": 8.32,
+   "p": 0.915
+  },
+  {
+   "text": "conductor",
+   "start": 8.32,
+   "end": 8.76,
+   "p": 0.988
+  },
+  {
+   "text": "paciente",
+   "start": 8.76,
+   "end": 9.46,
+   "p": 0.991
+  },
+  {
+   "text": "puede",
+   "start": 9.46,
+   "end": 9.74,
+   "p": 0.923
+  },
+  {
+   "text": "absorberla.",
+   "start": 9.74,
+   "end": 10.52,
+   "p": 0.988
+  },
+  {
+   "text": "Jajaja,",
+   "start": 11.0,
+   "end": 11.42,
+   "p": 0.457
+  },
+  {
+   "text": "hasta",
+   "start": 11.46,
+   "end": 11.76,
+   "p": 0.965
+  },
+  {
+   "text": "Eli.",
+   "start": 11.76,
+   "end": 12.1,
+   "p": 0.176
+  },
+  {
+   "text": "Esto",
+   "start": 12.58,
+   "end": 12.94,
+   "p": 0.935
+  },
+  {
+   "text": "es",
+   "start": 12.94,
+   "end": 13.3,
+   "p": 0.996
+  },
+  {
+   "text": "10",
+   "start": 13.3,
+   "end": 13.78,
+   "p": 0.54
+  },
+  {
+   "text": ".000",
+   "start": 13.78,
+   "end": 14.22,
+   "p": 0.713
+  },
+  {
+   "text": "puntos.",
+   "start": 14.22,
+   "end": 14.54,
+   "p": 0.817
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['+jajaja']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted. b24: [laughs softly] rendered as a short laugh (intended)."
+}

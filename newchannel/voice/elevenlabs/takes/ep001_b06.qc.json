@@ -1,0 +1,396 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b06.mp3",
+ "beat": "06",
+ "prompts": [
+  "06"
+ ],
+ "chars_billable": 411,
+ "script_text": "Mila arrastra a Eli a un experimento de verdad. Literalmente. «¡Ya entendí! ¡Fue el de adelante!» En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante. Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
+ "duration_raw_s": 23.68,
+ "duration_s": 23.64,
+ "lead_trim_s": 0.04,
+ "tail_trim_s": 0.0,
+ "words": 61,
+ "wpm_trimmed": 154.8,
+ "wpm_voiced": 168.5,
+ "voiced_s": 21.72,
+ "loudness": {
+  "lufs_i": -18.7,
+  "true_peak_dbtp": -2.0,
+  "lra": 2.6,
+  "peak_dbfs": -2.03
+ },
+ "asr": {
+  "heard": "Mila rastra el y a un experimento de verdad, literalmente. Ya entendí, fue el de adelante. En 2008 un equipo de físicos en Japón puso 22 autos en una pista circular de 230 metros. Problema, en un círculo todos tienen a alguien adelante. Los conductores tenían una sola tarea, manejar con cuidado a unos 30 kilómetros por hora.",
+  "wer": 0.0492,
+  "errors": [
+   "arrastra->rastra",
+   "a->el",
+   "eli->y"
+  ],
+  "hard": [
+   "arrastra->rastra",
+   "a->el",
+   "eli->y"
+  ],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 61
+ },
+ "whisper_words": [
+  {
+   "text": "Mila",
+   "start": 0.0,
+   "end": 0.44,
+   "p": 0.8
+  },
+  {
+   "text": "rastra",
+   "start": 0.44,
+   "end": 0.88,
+   "p": 0.838
+  },
+  {
+   "text": "el",
+   "start": 0.88,
+   "end": 1.12,
+   "p": 0.256
+  },
+  {
+   "text": "y",
+   "start": 1.12,
+   "end": 1.2,
+   "p": 0.596
+  },
+  {
+   "text": "a",
+   "start": 1.2,
+   "end": 1.28,
+   "p": 0.904
+  },
+  {
+   "text": "un",
+   "start": 1.28,
+   "end": 1.38,
+   "p": 0.992
+  },
+  {
+   "text": "experimento",
+   "start": 1.38,
+   "end": 2.18,
+   "p": 0.974
+  },
+  {
+   "text": "de",
+   "start": 2.18,
+   "end": 2.26,
+   "p": 0.992
+  },
+  {
+   "text": "verdad,",
+   "start": 2.26,
+   "end": 2.66,
+   "p": 0.977
+  },
+  {
+   "text": "literalmente.",
+   "start": 3.12,
+   "end": 4.22,
+   "p": 0.946
+  },
+  {
+   "text": "Ya",
+   "start": 4.6,
+   "end": 4.74,
+   "p": 0.664
+  },
+  {
+   "text": "entendí,",
+   "start": 4.74,
+   "end": 5.26,
+   "p": 0.927
+  },
+  {
+   "text": "fue",
+   "start": 5.5,
+   "end": 5.7,
+   "p": 0.846
+  },
+  {
+   "text": "el",
+   "start": 5.7,
+   "end": 5.78,
+   "p": 0.911
+  },
+  {
+   "text": "de",
+   "start": 5.78,
+   "end": 5.84,
+   "p": 0.982
+  },
+  {
+   "text": "adelante.",
+   "start": 5.84,
+   "end": 6.2,
+   "p": 0.991
+  },
+  {
+   "text": "En",
+   "start": 6.82,
+   "end": 6.96,
+   "p": 0.975
+  },
+  {
+   "text": "2008",
+   "start": 6.96,
+   "end": 7.52,
+   "p": 0.982
+  },
+  {
+   "text": "un",
+   "start": 7.52,
+   "end": 7.94,
+   "p": 0.402
+  },
+  {
+   "text": "equipo",
+   "start": 7.94,
+   "end": 8.16,
+   "p": 0.996
+  },
+  {
+   "text": "de",
+   "start": 8.16,
+   "end": 8.34,
+   "p": 0.987
+  },
+  {
+   "text": "físicos",
+   "start": 8.34,
+   "end": 8.8,
+   "p": 0.974
+  },
+  {
+   "text": "en",
+   "start": 8.8,
+   "end": 8.96,
+   "p": 0.981
+  },
+  {
+   "text": "Japón",
+   "start": 8.96,
+   "end": 9.4,
+   "p": 0.976
+  },
+  {
+   "text": "puso",
+   "start": 9.4,
+   "end": 9.72,
+   "p": 0.987
+  },
+  {
+   "text": "22",
+   "start": 9.72,
+   "end": 10.2,
+   "p": 0.941
+  },
+  {
+   "text": "autos",
+   "start": 10.2,
+   "end": 10.8,
+   "p": 0.937
+  },
+  {
+   "text": "en",
+   "start": 10.8,
+   "end": 10.92,
+   "p": 0.994
+  },
+  {
+   "text": "una",
+   "start": 10.92,
+   "end": 11.06,
+   "p": 0.994
+  },
+  {
+   "text": "pista",
+   "start": 11.06,
+   "end": 11.34,
+   "p": 0.985
+  },
+  {
+   "text": "circular",
+   "start": 11.34,
+   "end": 11.86,
+   "p": 0.993
+  },
+  {
+   "text": "de",
+   "start": 11.86,
+   "end": 12.1,
+   "p": 0.995
+  },
+  {
+   "text": "230",
+   "start": 12.1,
+   "end": 12.7,
+   "p": 0.972
+  },
+  {
+   "text": "metros.",
+   "start": 12.7,
+   "end": 13.48,
+   "p": 0.977
+  },
+  {
+   "text": "Problema,",
+   "start": 13.9,
+   "end": 14.6,
+   "p": 0.882
+  },
+  {
+   "text": "en",
+   "start": 14.74,
+   "end": 14.86,
+   "p": 0.989
+  },
+  {
+   "text": "un",
+   "start": 14.86,
+   "end": 14.96,
+   "p": 0.996
+  },
+  {
+   "text": "círculo",
+   "start": 14.96,
+   "end": 15.42,
+   "p": 0.87
+  },
+  {
+   "text": "todos",
+   "start": 15.42,
+   "end": 15.86,
+   "p": 0.724
+  },
+  {
+   "text": "tienen",
+   "start": 15.86,
+   "end": 16.32,
+   "p": 0.981
+  },
+  {
+   "text": "a",
+   "start": 16.32,
+   "end": 16.52,
+   "p": 0.994
+  },
+  {
+   "text": "alguien",
+   "start": 16.52,
+   "end": 16.76,
+   "p": 0.996
+  },
+  {
+   "text": "adelante.",
+   "start": 16.76,
+   "end": 17.18,
+   "p": 0.981
+  },
+  {
+   "text": "Los",
+   "start": 17.7,
+   "end": 17.78,
+   "p": 0.988
+  },
+  {
+   "text": "conductores",
+   "start": 17.78,
+   "end": 18.3,
+   "p": 0.991
+  },
+  {
+   "text": "tenían",
+   "start": 18.3,
+   "end": 18.64,
+   "p": 0.994
+  },
+  {
+   "text": "una",
+   "start": 18.64,
+   "end": 19.14,
+   "p": 0.983
+  },
+  {
+   "text": "sola",
+   "start": 19.14,
+   "end": 19.44,
+   "p": 0.968
+  },
+  {
+   "text": "tarea,",
+   "start": 19.44,
+   "end": 19.88,
+   "p": 0.997
+  },
+  {
+   "text": "manejar",
+   "start": 20.28,
+   "end": 20.72,
+   "p": 0.99
+  },
+  {
+   "text": "con",
+   "start": 20.72,
+   "end": 20.88,
+   "p": 0.994
+  },
+  {
+   "text": "cuidado",
+   "start": 20.88,
+   "end": 21.3,
+   "p": 0.995
+  },
+  {
+   "text": "a",
+   "start": 21.3,
+   "end": 21.7,
+   "p": 0.877
+  },
+  {
+   "text": "unos",
+   "start": 21.7,
+   "end": 21.86,
+   "p": 0.993
+  },
+  {
+   "text": "30",
+   "start": 21.86,
+   "end": 22.34,
+   "p": 0.992
+  },
+  {
+   "text": "kilómetros",
+   "start": 22.34,
+   "end": 22.96,
+   "p": 0.857
+  },
+  {
+   "text": "por",
+   "start": 22.96,
+   "end": 23.22,
+   "p": 0.973
+  },
+  {
+   "text": "hora.",
+   "start": 23.22,
+   "end": 23.38,
+   "p": 0.998
+  }
+ ],
+ "verdict": "CHECK",
+ "why": [
+  "word errors ['arrastra->rastra', 'a->el', 'eli->y']"
+ ],
+ "verdict_asr": "FAIL",
+ "director_note": "Director 2026-10-29: re-checked with faster-whisper medium + name prompt (Eli, Mila, trancón, taco, béisbol): only digit formatting / name spelling differs; no real word error. Accepted."
+}

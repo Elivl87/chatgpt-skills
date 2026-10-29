@@ -1,0 +1,300 @@
+{
+ "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b16.mp3",
+ "beat": "16",
+ "prompts": [
+  "16"
+ ],
+ "chars_billable": 298,
+ "script_text": "La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno. Pobre lema de Eli.",
+ "duration_raw_s": 17.68,
+ "duration_s": 17.66,
+ "lead_trim_s": 0.0,
+ "tail_trim_s": 0.02,
+ "words": 47,
+ "wpm_trimmed": 159.7,
+ "wpm_voiced": 170.9,
+ "voiced_s": 16.5,
+ "loudness": {
+  "lufs_i": -18.1,
+  "true_peak_dbtp": -2.6,
+  "lra": 2.0,
+  "peak_dbfs": -2.65
+ },
+ "asr": {
+  "heard": "La ola se derritió. Los cambios de velocidad bajaron cerca de un 80%. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un 40 % menos de gasolina. Todo eso con un solo auto de 21. Pobre lema de Eli.",
+  "wer": 0.0,
+  "errors": [],
+  "hard": [],
+  "check_by_ear": [],
+  "tags_read_aloud": [],
+  "ref_words": 47
+ },
+ "whisper_words": [
+  {
+   "text": "La",
+   "start": 0.0,
+   "end": 0.22,
+   "p": 0.692
+  },
+  {
+   "text": "ola",
+   "start": 0.22,
+   "end": 0.48,
+   "p": 0.886
+  },
+  {
+   "text": "se",
+   "start": 0.48,
+   "end": 0.62,
+   "p": 0.99
+  },
+  {
+   "text": "derritió.",
+   "start": 0.62,
+   "end": 1.18,
+   "p": 0.972
+  },
+  {
+   "text": "Los",
+   "start": 1.56,
+   "end": 1.74,
+   "p": 0.971
+  },
+  {
+   "text": "cambios",
+   "start": 1.74,
+   "end": 2.08,
+   "p": 0.998
+  },
+  {
+   "text": "de",
+   "start": 2.08,
+   "end": 2.18,
+   "p": 0.995
+  },
+  {
+   "text": "velocidad",
+   "start": 2.18,
+   "end": 2.6,
+   "p": 0.979
+  },
+  {
+   "text": "bajaron",
+   "start": 2.6,
+   "end": 3.04,
+   "p": 0.995
+  },
+  {
+   "text": "cerca",
+   "start": 3.04,
+   "end": 3.32,
+   "p": 0.969
+  },
+  {
+   "text": "de",
+   "start": 3.32,
+   "end": 3.56,
+   "p": 0.991
+  },
+  {
+   "text": "un",
+   "start": 3.56,
+   "end": 3.66,
+   "p": 0.884
+  },
+  {
+   "text": "80%.",
+   "start": 3.66,
+   "end": 4.82,
+   "p": 0.845
+  },
+  {
+   "text": "Los",
+   "start": 4.82,
+   "end": 5.34,
+   "p": 0.985
+  },
+  {
+   "text": "frenazos",
+   "start": 5.34,
+   "end": 5.84,
+   "p": 0.968
+  },
+  {
+   "text": "fuertes",
+   "start": 5.84,
+   "end": 6.34,
+   "p": 0.998
+  },
+  {
+   "text": "casi",
+   "start": 6.34,
+   "end": 6.66,
+   "p": 0.988
+  },
+  {
+   "text": "desaparecieron.",
+   "start": 6.66,
+   "end": 7.7,
+   "p": 0.99
+  },
+  {
+   "text": "En",
+   "start": 7.98,
+   "end": 8.14,
+   "p": 0.992
+  },
+  {
+   "text": "esa",
+   "start": 8.14,
+   "end": 8.3,
+   "p": 0.971
+  },
+  {
+   "text": "pista",
+   "start": 8.3,
+   "end": 8.58,
+   "p": 0.935
+  },
+  {
+   "text": "chiquita,",
+   "start": 8.58,
+   "end": 9.16,
+   "p": 0.986
+  },
+  {
+   "text": "los",
+   "start": 9.34,
+   "end": 9.42,
+   "p": 0.991
+  },
+  {
+   "text": "autos",
+   "start": 9.42,
+   "end": 9.74,
+   "p": 0.985
+  },
+  {
+   "text": "gastaron",
+   "start": 9.74,
+   "end": 10.14,
+   "p": 0.991
+  },
+  {
+   "text": "hasta",
+   "start": 10.14,
+   "end": 10.38,
+   "p": 0.97
+  },
+  {
+   "text": "un",
+   "start": 10.38,
+   "end": 10.56,
+   "p": 0.993
+  },
+  {
+   "text": "40",
+   "start": 10.56,
+   "end": 11.1,
+   "p": 0.988
+  },
+  {
+   "text": "%",
+   "start": 11.1,
+   "end": 11.52,
+   "p": 0.964
+  },
+  {
+   "text": "menos",
+   "start": 11.52,
+   "end": 12.1,
+   "p": 0.998
+  },
+  {
+   "text": "de",
+   "start": 12.1,
+   "end": 12.3,
+   "p": 0.988
+  },
+  {
+   "text": "gasolina.",
+   "start": 12.3,
+   "end": 12.84,
+   "p": 0.995
+  },
+  {
+   "text": "Todo",
+   "start": 13.16,
+   "end": 13.36,
+   "p": 0.95
+  },
+  {
+   "text": "eso",
+   "start": 13.36,
+   "end": 13.7,
+   "p": 0.975
+  },
+  {
+   "text": "con",
+   "start": 13.7,
+   "end": 14.08,
+   "p": 0.889
+  },
+  {
+   "text": "un",
+   "start": 14.08,
+   "end": 14.22,
+   "p": 0.99
+  },
+  {
+   "text": "solo",
+   "start": 14.22,
+   "end": 14.6,
+   "p": 0.885
+  },
+  {
+   "text": "auto",
+   "start": 14.6,
+   "end": 15.0,
+   "p": 0.953
+  },
+  {
+   "text": "de",
+   "start": 15.0,
+   "end": 15.18,
+   "p": 0.99
+  },
+  {
+   "text": "21.",
+   "start": 15.18,
+   "end": 15.48,
+   "p": 0.969
+  },
+  {
+   "text": "Pobre",
+   "start": 16.06,
+   "end": 16.56,
+   "p": 0.935
+  },
+  {
+   "text": "lema",
+   "start": 16.56,
+   "end": 16.9,
+   "p": 0.881
+  },
+  {
+   "text": "de",
+   "start": 16.9,
+   "end": 17.06,
+   "p": 0.987
+  },
+  {
+   "text": "Eli.",
+   "start": 17.06,
+   "end": 17.32,
+   "p": 0.759
+  }
+ ],
+ "verdict": "PASS",
+ "why": []
+}
