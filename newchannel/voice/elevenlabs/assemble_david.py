@@ -68,7 +68,7 @@ AFTER = {"01": 0.5, "02": 0.45, "03": 0.4, "04": 5.0, "06": 0.6, "07": 0.6, "08"
 BREAKS = {
     "01": [("Una sola vez.", 0.45)],
     "03": [("¡¿Quién fue?!", 0.4), ("ni semáforo.", 2.0)],                 # 2 s: the bird on the wire (pausa)
-    "04": [("va para atrás.", 1.25, "slot")],                                # «¿Qué?» [solo cuadro] 0.5 s
+    "04": [("va para atrás.", 1.25, "slot")],                                # «¿Qué?» [solo cuadro] 0.7 s
     "06": [("de verdad.", 0.4), ("¡Fue el de adelante!", 0.4), ("alguien adelante.", 0.42)],
     "07": [("completamente parados.", 0.45), ("¡¿Quién fue?!", 1.2), ("Respuesta corta: todos.", 0.3)],
     "08": [("hacia atrás, a unos veinte por hora.", 0.42)],
@@ -86,7 +86,7 @@ BREAKS = {
     "18": [("la velocidad promedio.", 0.35), ("¡Cabe una casa!", 0.3), ("es mi amigo.", 1.5)],
     "19": [("es la jugada.", 0.3), ("tarde a todo!", 0.4), ("Mila lo sabe.", 0.5), ("absorber eso.", 0.3)],
     "20": [("Ni prestados.", 0.4), ("¿El resultado?", 0.45), ("Es complicado.", 0.42)],
-    "21": [("dos autos inteligentes, y se achica.", 0.6, "slot"), ("apagado, y crece.", 0.6, "slot"), ("crecer o encoger.", 0.5)],
+    "21": [("dos autos inteligentes, y se achica.", 1.6, "slot"), ("apagado, y crece.", 1.25, "slot"), ("crecer o encoger.", 0.5)],
     "22": [("parte de la ola.", 0.4), ("No el de adelante.", 0.4), ("corras a cerrarlo.", 0.8)],
     "23": [("deja el espacio.", 5.0), ("Quién fue?", 0.5)],                  # 5 s: the wave dies in Eli's gap
     "24": [("nunca pasó.", 0.5), ("no es un lugar.", 0.5), ("puede absorberla.", 0.5), ("Hasta Eli.", 0.6)],
@@ -97,7 +97,12 @@ NUMBER_PRE = {   # 0.6 s before a sentence with a number (bible); same mechanism
     "14": [("autos robot?", 0.6)], "16": [("se derritió.", 0.6), ("casi desaparecieron.", 0.6)],
     "20": [("de verdad?", 0.6)],
 }
-SLOT_LEN = {"04": [0.5], "21": [0.3, 0.3]}
+# [solo cuadro] slot = the box's reading time (art/lib/textbox.js: 0.4 s + 0.06 s per character of the joined line text);
+# the box is open from slot start - 0.06 to max(slot, read) + 0.12 (fade), so the gap around a slot must be >= read +
+# 0.44 s for 0.1 s of narrator-free margin on each side (2026-10-29: the 0.3 s slots of beat 21 put the narrator over
+# «¡Dale, dale!» 0.72 s and «¡Nooo!» 0.38 s). «¿Qué?» 5 chars 0.70 s (gap 1.25 >= 1.14) · «¡Dale, dale!» 12 chars 1.12 s
+# (gap 1.6 >= 1.56) · «¡Nooo!» 6 chars 0.76 s (gap 1.25 >= 1.20)
+SLOT_LEN = {"04": [0.7], "21": [1.12, 0.76]}
 
 
 # ------------------------------------------------------------------------------------------------ script model

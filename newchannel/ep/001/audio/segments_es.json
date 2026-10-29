@@ -19,7 +19,7 @@
   "LRA": 3.1,
   "gain_db": 9.8
  },
- "duration_s": 485.82,
+ "duration_s": 487.34,
  "end_screen_s": 20.0,
  "takes": [
   {
@@ -758,7 +758,7 @@
    "heard": "Pero hay un momento que Eli no deja de repetir, una ola viaja hacia atrás, pasan dos autos inteligentes y se achica, pasan cuatro con el sistema apagado y crece, pasan más autos inteligentes y se achica otra vez, cada auto que la cruza la hace crecer o encoger, mira quién hizo la ola a tiempo.",
    "aligned": "56/56",
    "unmatched": [],
-   "dur": 20.06,
+   "dur": 21.58,
    "trim": [
     0.02,
     19.1
@@ -783,6 +783,18 @@
      "kind": "gap",
      "at": 16.945,
      "inserted_s": 0.27,
+     "removed_s": 0.0
+    },
+    {
+     "kind": "slot_widen",
+     "at": 7.68,
+     "inserted_s": 0.92,
+     "removed_s": 0.0
+    },
+    {
+     "kind": "slot_widen",
+     "at": 11.945,
+     "inserted_s": 0.6,
      "removed_s": 0.0
     }
    ],
@@ -832,7 +844,7 @@
    ],
    "lufs_take": -19.56,
    "gain_db": 0.82,
-   "start": 410.88
+   "start": 412.4
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b23.mp3",
@@ -867,7 +879,7 @@
    ],
    "lufs_take": -20.94,
    "gain_db": 2.0,
-   "start": 432.76
+   "start": 434.28
   },
   {
    "take": "/home/user/chatgpt-skills/newchannel/voice/elevenlabs/takes/ep001_b24.mp3",
@@ -916,7 +928,7 @@
    ],
    "lufs_take": -18.86,
    "gain_db": 0.12,
-   "start": 447.36
+   "start": 448.88
   }
  ],
  "segments": [
@@ -995,7 +1007,7 @@
    "start": 35.575,
    "dur": 1.725,
    "gain_db": 0.0,
-   "after": 0.38
+   "after": 0.312
   },
   {
    "name": "b04_08_eli",
@@ -1003,11 +1015,11 @@
    "speaker": "eli",
    "voiced": false,
    "text": "¿Qué?",
-   "start": 37.68,
-   "dur": 0.5,
+   "start": 37.612,
+   "dur": 0.7,
    "gain_db": 0.0,
-   "after": 0.445,
-   "slot_note": "[solo cuadro]: silent slot 0.5 s, no voice"
+   "after": 0.313,
+   "slot_note": "[solo cuadro]: silent slot 0.7 s, no voice (= reading time of the box)"
   },
   {
    "name": "b04_09_narrator",
@@ -1414,7 +1426,7 @@
    "start": 390.25,
    "dur": 7.31,
    "gain_db": 0.0,
-   "after": 0.16
+   "after": 0.24
   },
   {
    "name": "b21_49_eli",
@@ -1422,11 +1434,11 @@
    "speaker": "eli",
    "voiced": false,
    "text": "¡Dale, dale!",
-   "start": 397.72,
-   "dur": 0.3,
+   "start": 397.8,
+   "dur": 1.12,
    "gain_db": 0.0,
-   "after": 0.22,
-   "slot_note": "[solo cuadro]: silent slot 0.3 s, no voice"
+   "after": 0.24,
+   "slot_note": "[solo cuadro]: silent slot 1.12 s, no voice (= reading time of the box)"
   },
   {
    "name": "b21_50_narrator",
@@ -1434,10 +1446,10 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Pasan cuatro con el sistema apagado, y crece.",
-   "start": 398.24,
+   "start": 399.16,
    "dur": 2.68,
    "gain_db": 0.0,
-   "after": 0.145
+   "after": 0.245
   },
   {
    "name": "b21_51_eli",
@@ -1445,11 +1457,11 @@
    "speaker": "eli",
    "voiced": false,
    "text": "¡Nooo!",
-   "start": 401.065,
-   "dur": 0.3,
+   "start": 402.085,
+   "dur": 0.76,
    "gain_db": 0.0,
-   "after": 0.205,
-   "slot_note": "[solo cuadro]: silent slot 0.3 s, no voice"
+   "after": 0.245,
+   "slot_note": "[solo cuadro]: silent slot 0.76 s, no voice (= reading time of the box)"
   },
   {
    "name": "b21_52_narrator",
@@ -1457,7 +1469,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger. Mira quién hizo la ola a tiempo.",
-   "start": 401.57,
+   "start": 403.09,
    "dur": 8.37,
    "gain_db": 0.0,
    "after": 0.975
@@ -1468,7 +1480,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "O sea que tú también eres parte de la ola. Sí, tú. No el de adelante. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
-   "start": 410.915,
+   "start": 412.435,
    "dur": 21.045,
    "gain_db": 0.0,
    "after": 0.83
@@ -1479,7 +1491,7 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli sí deja el espacio.",
-   "start": 432.79,
+   "start": 434.31,
    "dur": 6.49,
    "gain_db": 0.0,
    "after": 5.24
@@ -1490,7 +1502,7 @@
    "speaker": "eli",
    "voiced": true,
    "text": "¿…Quién fue?",
-   "start": 444.52,
+   "start": 446.04,
    "dur": 0.46,
    "gain_db": 0.0,
    "after": 0.63
@@ -1501,7 +1513,7 @@
    "speaker": "mila",
    "voiced": true,
    "text": "Fuiste tú.",
-   "start": 445.61,
+   "start": 447.13,
    "dur": 0.55,
    "gain_db": 0.0,
    "after": 1.23
@@ -1512,10 +1524,24 @@
    "speaker": "narrator",
    "voiced": true,
    "text": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. Hasta Eli. Esto es Diez Mil Puntos.",
-   "start": 447.39,
+   "start": 448.91,
    "dur": 14.96,
    "gain_db": 0.0,
    "after": 23.47
   }
- ]
+ ],
+ "slot_widen": {
+  "date": "2026-10-29",
+  "why": "[solo cuadro] slots = box reading time, narrator-free margin >= 0.1 s (assemble_david.py BREAKS/SLOT_LEN)",
+  "inserts": [
+   [
+    397.9,
+    0.92
+   ],
+   [
+    402.165,
+    0.6
+   ]
+  ]
+ }
 }

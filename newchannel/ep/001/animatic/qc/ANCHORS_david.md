@@ -1,14 +1,15 @@
 # Ep 001 · Anclas del animatic sobre la voz de David C (guion v5) · 2026-10-29
 
 Narración oficial: ElevenLabs David C, `audio/narration_es.wav` (485,8 s con los 20 s de cierre), `audio/timings_es.json`
-(1107 palabras, 54 líneas), `audio/segments_es.json`. Los tiempos Qwen quedan como `*_qwen.json`. **Sin renders finales**: el
+(1107 palabras, 54 líneas), `audio/segments_es.json`. **Actualización §8**: huecos de los cuadros `[solo cuadro]`
+ensanchados; la pista pasa de 485,82 a **487,34 s**. Los tiempos Qwen quedan como `*_qwen.json`. **Sin renders finales**: el
 diseño de Eli (gorro) sigue abierto y otro agente tocará `art/lib/*`; aquí solo cambian las listas de planos, `anim.js`, la
 partitura (MIDI + plan) y este informe.
 
 ## 0 · Resultado
 
 - Los 8 bloques cargan contra `timings_es.json`: **0 errores de ancla, 0 planos sin duración, 0 huecos** (cada `t1` = `t0` del
-  siguiente). Episodio 0 → 484,25 s (= «Puntos» fin + 1,9 s + 20 s), **202 planos, 24,9 cortes/min** (Qwen: 192 planos, 22,5).
+  siguiente). Episodio 0 → **485,77 s** (= «Puntos» fin + 1,9 s + 20 s; era 484,25 antes de §8), **202 planos, 24,8 cortes/min** (Qwen: 192 planos, 22,5).
 - `A.LINES`: 20 ids re-numerados; `linesMissing = []` en los 8 bloques.
 - Las 16 frases nuevas caen sobre su gag visual (tabla §3); 11 planos nuevos sin arte nuevo (encuadres o poses del kit).
 - Beat 12: el corte «¡¿Quién f…?» cae en el /f/ (§4). Partitura re-cronometrada (§5).
@@ -74,22 +75,20 @@ Todas las demás anclas (≈ 380 búsquedas) se compararon por contexto Qwen ↔
 | 10 | «Mila lo sabe.» 350,07 | **F19_pat** nuevo 349,77-351,51 | plano más cerrado; la palmadita entra en «Mila», cara de «ya sé». F19_late bajó de 6,5 a 4,75 s |
 | 11 | «Ni siquiera Mila.» 361,79 | **F23_mila** nuevo 361,69-363,62 | acercamiento al auto paciente (halo) atascado en el domo lleno, mismo reloj de simulación |
 | 12 | «A Eli no le alcanzaron los dedos. Ni prestados.» 376,71 | G06_count 376,41-380,96 + **G06_result** nuevo 380,96-383,56 | el conteo cae bajo la frase (ver §2); «¿El resultado? Es complicado.» en el puente: Eli pensativo → preocupado, Mila con cara de «ya sé» |
-| 13 | «Mira quién hizo la ola a tiempo.» 408,25 | **G20_ontime** nuevo 408,15-410,92 (G19_profile 2,2 s) | vuelta al puente: Eli con el banderín arriba, orgulloso, ríe en «tiempo» (ding); Mila con cara de «ya sé» |
-| 14 | «Sí, tú. No el de adelante.» 413,87 | **H01_you** nuevo 413,77-416,97 (H01_same 2,9 s) | en el auto: Eli oye su propia excusa y se avergüenza en «No»; Mila se gira, con cara de «ya sé», en «adelante». Gafete todavía puesto (va a la guantera en «cerrarlo») |
+| 13 | «Mira quién hizo la ola a tiempo.» 409,77 | **G20_ontime** nuevo 409,68-412,44 (G19_profile 2,2 s) | vuelta al puente: Eli con el banderín arriba, orgulloso, ríe en «tiempo» (ding); Mila con cara de «ya sé» |
+| 14 | «Sí, tú. No el de adelante.» 415,39 | **H01_you** nuevo 415,29-418,49 (H01_same 2,9 s) | en el auto: Eli oye su propia excusa y se avergüenza en «No»; Mila se gira, con cara de «ya sé», en «adelante». Gafete todavía puesto (va a la guantera en «cerrarlo») |
 | 15 | «En nuestra versión, alguien la sube silbando.» 295,27 | **F01_ring** nuevo 291,98-295,18 · F01_knob 295,18-298,17 | primer plano de la laptop en «En nuestra versión»; silbido; Eli sube la perilla en «sube» (click + mapa de sim S8 en «sube») |
-| 16 | «Hasta Eli.» 459,12 | **J03_eli** nuevo 459,02-460,29 (J03_calm 3,6 s) | más cerrado sobre la pareja: la mano de Mila al hombro, Eli sonríe → ríe. Sin gafete (M1) |
+| 16 | «Hasta Eli.» 460,64 | **J03_eli** nuevo 460,54-461,81 (J03_calm 3,6 s) | más cerrado sobre la pareja: la mano de Mila al hombro, Eli sonríe → ríe. Sin gafete (M1) |
 
 **Cuadros `[solo cuadro]`** (sin voz; la pista de David deja 0,3-0,5 s): el cuadro siempre se muestra `máx(hueco, 0,4 s + 0,06 s/carácter)`.
 
-| Línea | Hueco | Cuadro visible | Plano que lo sostiene | Encima del narrador |
+| Línea | Hueco / ranura | Cuadro abierto | Margen sin narrador antes / después | Plano que lo sostiene |
 |---|---|---|---|---|
-| b04_08_eli «¿Qué?» | 0,50 s | 37,68-38,50 | A16_lens 37,56-38,48 | 0 s |
-| b21_49_eli «¡Dale, dale!» | 0,30 s | 397,72-398,96 | G13_dale 397,57-**399,02** (se sostiene hasta leerlo) | 0,72 s sobre «Pasan cuatro con…» |
-| b21_51_eli «¡Nooo!» | 0,31 s | 401,06-401,94 | G15_nooo 400,87-**402,01** | 0,38 s sobre «Pasan más…» |
+| b04_08_eli «¿Qué?» | 1,33 s / 0,70 s | 37,55-38,43 | 0,25 / 0,19 s | A16_lens 37,49-38,48 |
+| b21_49_eli «¡Dale, dale!» | 1,60 s / 1,12 s | 397,74-399,04 | 0,18 / 0,12 s | G13_dale 397,65-399,10 |
+| b21_51_eli «¡Nooo!» | 1,25 s / 0,76 s | 402,02-402,97 | 0,19 / 0,12 s | G15_nooo 401,89-403,04 |
 
-Los dos solapes del beat 21 **no se pueden resolver en la lista de planos**: el narrador entra 0,2 s después del hueco en la
-pista (retoque de audio: abrir 0,8 s / 0,5 s en `assemble_david.py` BREAKS del beat 21). El plano ya se sostiene hasta que el cuadro
-se lee, en vez de cortar con el narrador.
+Ya **no hay solape** con el narrador (antes de §8: 0,72 s sobre «Pasan cuatro…» y 0,38 s sobre «Pasan más…»).
 
 ## 4 · Beat 12 · «¡¿Quién f…?»
 
@@ -101,9 +100,9 @@ mismo fotograma que el corte de audio. D13_quienf 0,69 s · D13_screen 0,75 s.
 
 ## 5 · Partitura
 
-`python3 audio/music/compose_score.py` sobre `timings_es.json` (solo MIDI + plan, sin render): 24 secciones, fin 484,25 s (=
+`python3 audio/music/compose_score.py` sobre `timings_es.json` (solo MIDI + plan, sin render): 24 secciones, fin 485,77 s (=
 `t1` de E2); hook 0-16,12 · hush 16,12-38,33 · ask 38,33-42,22 · sting 42,22 (= A18_wordmark) · … · beat 24 446,49-464,85 ·
-end 464,85-484,25. `score_es.mid` y `score_es_plan.json` actualizados; `ensure_score()` lo vuelve a sintetizar (hash de los
+end 466,37-485,77 (re-corrido después de §8; beat 21 389,44-411,56). `score_es.mid` y `score_es_plan.json` actualizados; `ensure_score()` lo vuelve a sintetizar (hash de los
 tiempos) cuando `build_episode.py` mezcle.
 
 ## 6 · Ritmo por bloque (desde `events()`; sin video, así que sin `motion_share` / `still_2s`)
@@ -116,8 +115,8 @@ tiempos) cuando `build_episode.py` mezcle.
 | C2 | 147,10 → 223,15 | 76,05 | 31 | 23,7 | 2,45 | 4,94 D20_names | 156 |
 | D1 | 223,15 → 289,80 | 66,65 | 25 | 21,6 | 2,67 | 4,66 E12_avg | 154 |
 | D2 | 289,80 → 363,62 | 73,82 | 32 | 25,2 | 2,31 | 4,75 F19_late | 141 |
-| E1 | 363,62 → 410,92 | 47,30 | 22 | 26,6 | 2,15 | 4,55 G06_count | 161 |
-| E2 | 410,92 → 484,25 | 73,33 | 31 | 24,5 | 2,37 | 5,00 K04_breeze (pantalla final) | 89 |
+| E1 | 363,62 → 412,44 | 48,81 | 22 | 25,8 | 2,22 | 4,55 G06_count | 156 |
+| E2 | 412,44 → 485,77 | 73,33 | 31 | 24,5 | 2,37 | 5,00 K04_breeze (pantalla final) | 89 |
 
 Todos ≥ 12 cortes/min. Planos > 4,05 s (todos con cambio interno ≤ 4 s): B06_finger 4,59 (giro en 7 vistas), C07_no 4,52 (tres
 barras), C11_stable 4,34 (gráfica), D06_plate 4,06, D20_names 4,94 (tarjeta por nombre; mayor tramo sin cambio 2,6 s),
@@ -131,5 +130,25 @@ intencional). La respiración de cámara no cambia (cada plano nuevo: push 0,03-
 1. Render de los 8 bloques (después del cambio de gorro): `build_block.sh <B> review` → `qc_block.py` (pacing_qc con video:
    `motion_share`, `still_2s`), `textbox_check.mjs --blocks`, Guardián sobre los 11 planos nuevos (sobre todo F23_mila: el auto con
    halo queda fuera del centro por el `clampView`; J03_eli / H01_you: la mano de Mila y la cara de Eli con el gorro nuevo).
-2. Beat 21: abrir el hueco de «¡Dale, dale!» / «¡Nooo!» en la pista si se quiere el cuadro sin narrador encima (§3).
+2. ~~Beat 21: abrir los huecos~~ hecho (§8).
 3. `sound_block.py` / `build_episode.py` no necesitan cambios (leen `events.json`; el silbido de D2 ahora está en F01_knob).
+
+## 8 · Huecos de los cuadros `[solo cuadro]` ensanchados (2026-10-29, 0 créditos)
+
+`voice/elevenlabs/assemble_david.py`: la ranura de cada cuadro mudo dura ahora su **tiempo de lectura** (`textbox.js`: 0,4 s +
+0,06 s/carácter) y el hueco alrededor ≥ lectura + 0,44 s (el cuadro se abre 0,06 s antes y se cierra 0,12 s después: queda 0,1 s
+de margen sin narrador a cada lado). `SLOT_LEN` 04 0,5 → 0,70 · 21 0,3/0,3 → 1,12/0,76; `BREAKS` 21 0,6/0,6 → 1,60/1,25 (el 1,25
+del beat 4 ya alcanzaba).
+
+Aplicación: el ensamblador necesita faster-whisper, que solo está en `/tmp/claude-0/cbnat/venv`, y ese entorno no se toca. Así que
+el mismo cambio se aplicó a la pista ya construida con un script local (`scratchpad/widen.py` de esta sesión), que hace lo mismo
+que haría el ensamblador al volver a correr: inserta silencio digital en el centro del hueco (+0,92 s en 397,90 y +0,60 s en
+402,165), corre todas las palabras, ranuras, segmentos y tomas posteriores, y re-centra las tres ranuras con su nuevo largo.
+La nivelación y el LUFS (con compuerta) no cambian por el silencio. El resultado es `narration_es.wav` de **487,34 s** (antes
+485,82; el wav no va en git), `timings_es.json`, `segments_es.json` (`duration_s`, `slot_widen`) y la vista previa
+`voice/elevenlabs/narracion_david_ep001.mp3` (64 kbps, 487,4 s). Los respaldos `*_qwen` no se tocaron. La próxima vez que el
+ensamblador corra completo con su entorno, sale el mismo resultado.
+
+Prueba en seco después del cambio (`?anchors=1`, los 8 bloques): 0 errores de ancla, `linesMissing` vacío, 0 planos sin duración,
+0 huecos; episodio 485,77 s, 202 planos, 24,8 cortes/min; solo se movieron E1 (+1,52 s: G14_off 1,85 → 2,79 s, G16_act2 1,48 →
+1,98 s) y todo E2 (+1,52 s, mismas duraciones). Partitura re-corrida (fin 485,77).
