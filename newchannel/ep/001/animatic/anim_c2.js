@@ -151,6 +151,7 @@
     // wall + window frame
     ctx.fillStyle = '#1c2348'; ctx.fillRect(0, 0, K.W, K.H);
     const wx = 360, wy = 140, ww = 1200, wh = 760;
+    ctx.save(); ctx.beginPath(); ctx.rect(wx, wy, ww, wh); ctx.clip();   // art review 2026-10: the room stays inside the window (table legs used to poke out below the sill)
     const inside = ctx.createLinearGradient(0, wy, 0, wy + wh); inside.addColorStop(0, '#ffcf8a'); inside.addColorStop(1, '#e39a5a'); ctx.fillStyle = inside; ctx.fillRect(wx, wy, ww, wh);
     const tv = 0.6 + 0.4 * Math.abs(Math.sin(t * 7.3) * Math.sin(t * 3.1));
     K.light.glow(ctx, wx + ww - 200, wy + 300, 500, '#9fd0ff', 0.35 * tv, 'screen');
@@ -159,16 +160,21 @@
     ctx.fillStyle = '#5a3a2a'; ctx.fillRect(wx + ww - 330, wy + 420, 260, 200); ctx.fillStyle = '#2a2230'; K.rrect(ctx, wx + ww - 310, wy + 240, 220, 170, 18); ctx.fill();
     ctx.fillStyle = K.mix('#7fb0e0', '#e0f0ff', tv); K.rrect(ctx, wx + ww - 295, wy + 255, 190, 140, 12); ctx.fill();
     // table and the driver (a generic round-headed extra) eating, happy
-    const fork = c.fork || 0, R = 120, px = wx + 520, py = wy + 560;
+    // art review 2026-10: the diner sits in the middle of the left pane (the cross bars used to cut through his eyes and face)
+    const fork = c.fork || 0, R = 120, px = wx + 330, py = wy + 560, tx = px - 240;
     K.char.person(ctx, px, py + 160, R, { t, seed: 77, skin: '#e3a983', hair: '#4a2f22', hairStyle: 'short', shirt: '#c7a6c9', pose: 'stand', expr: fork > 0.6 ? 'delighted' : 'content', look: [0.5, 0.2], light: { ang: -0.6, rim: '#ffe0a0', shade: '#7a4a3a' } });
-    ctx.fillStyle = '#8a5a3a'; K.rrect(ctx, wx + 280, py + 40, 560, 34, 8); ctx.fill(); ctx.fillRect(wx + 320, py + 74, 20, 200); ctx.fillRect(wx + 780, py + 74, 20, 200);
+    const hx = K.lerp(px + 100, px + 26, fork), hy = K.lerp(py + 20, py - R * 1.35, fork);
+    { // the fork arm: shoulder -> elbow -> hand (the hand used to float with no arm)
+      const s0 = [px + R * 0.47, py + 160 - R * 0.95 - R * 1.28 + R * 0.28], h0 = [hx + 44, hy + 34], el = [Math.max(s0[0], h0[0]) + 34, (s0[1] + h0[1]) / 2 + 26];
+      for (const [col, w] of [[INK, R * 0.26 + 10], ['#c7a6c9', R * 0.26]]) { ctx.strokeStyle = col; ctx.lineWidth = w; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(...s0); ctx.lineTo(...el); ctx.lineTo(...h0); ctx.stroke(); } }
+    ctx.fillStyle = '#8a5a3a'; K.rrect(ctx, tx, py + 40, 560, 34, 8); ctx.fill(); ctx.fillRect(tx + 40, py + 74, 20, 200); ctx.fillRect(tx + 430, py + 74, 20, 200);
     ctx.fillStyle = '#f6efe2'; K.ellipse(ctx, px + 40, py + 36, 90, 20); ctx.fill(); ctx.fillStyle = '#e2b04a'; K.ellipse(ctx, px + 40, py + 30, 50, 12); ctx.fill();
     // the fork to the mouth
-    const hx = K.lerp(px + 100, px + 26, fork), hy = K.lerp(py + 20, py - R * 1.35, fork);
     ctx.strokeStyle = '#c9ccd4'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(hx + 40, hy + 30); ctx.lineTo(hx, hy); ctx.stroke();
     ctx.fillStyle = '#e3a983'; ctx.strokeStyle = INK; ctx.lineWidth = 5; K.circle(ctx, hx + 44, hy + 34, 16); ctx.fill(); ctx.stroke();
     // window frame (dark wood) + cross bars, curtain
-    ctx.strokeStyle = '#0f1432'; ctx.lineWidth = 40; ctx.strokeRect(wx, wy, ww, wh); ctx.lineWidth = 22; ctx.beginPath(); ctx.moveTo(wx + ww / 2, wy); ctx.lineTo(wx + ww / 2, wy + wh); ctx.moveTo(wx, wy + wh * 0.45); ctx.lineTo(wx + ww, wy + wh * 0.45); ctx.stroke();
+    ctx.restore();
+    ctx.strokeStyle = '#0f1432'; ctx.lineWidth = 40; ctx.strokeRect(wx, wy, ww, wh); ctx.lineWidth = 22; ctx.beginPath(); ctx.moveTo(wx + ww / 2, wy); ctx.lineTo(wx + ww / 2, wy + wh); ctx.moveTo(wx, wy + wh * 0.24); ctx.lineTo(wx + ww, wy + wh * 0.24); ctx.stroke();
     ctx.fillStyle = K.rgba('#c94a5a', 0.85); ctx.beginPath(); ctx.moveTo(wx + 20, wy + 20); ctx.quadraticCurveTo(wx + 120, wy + 300, wx + 60, wy + wh - 20); ctx.lineTo(wx + 20, wy + wh - 20); ctx.closePath(); ctx.fill();
     // moonlit wall rim + night glass reflection
     ctx.fillStyle = K.rgba('#cfe0ff', 0.06); ctx.fillRect(wx, wy, ww, wh);

@@ -49,12 +49,24 @@
     ctx.drawImage(L.sky.c, 0, 0);
     K.sky.drawClouds(ctx, L.clouds, t, { dx: -camS * 0.6 });
     const sh = camS * 11;     // parallax in px (independent of the shot's zoom so layers stay painted at their scale)
-    scroll(ctx, L.far, sh * 0.02); scroll(ctx, L.mid, sh * 0.08);
+    // art review 2026-10 (depth pass, overcast recipe): a soft bright patch where the sun hides in the cloud deck, and the
+    // horizon as the brightest band of the land (atmospheric perspective)
+    K.sky.wash(ctx, 1380, 60, 820, '#fff4dc', 0.22);
+    scroll(ctx, L.far, sh * 0.02);
+    K.light.haze(ctx, 520, 625, 700, '#eef0ee', 0.32);
+    scroll(ctx, L.mid, sh * 0.08);
     // the road scrolls at the cars' scale (horizontal = pxm), but its depth bands barely thicken (a low side camera);
     // the fence / field behind the road sits further away: it scales and scrolls less (parallax)
     const kz = pxm / 11, kn = 1 + (kz - 1) * 0.3;
     ctx.save(); ctx.translate(0, GY); ctx.scale(kn, 1 + (kz - 1) * 0.04); ctx.translate(0, -GY); scroll(ctx, L.near, camS * 11 * 0.5 * kn / kn - 960 / kn + 960); ctx.restore();
     ctx.save(); ctx.translate(0, GY); ctx.scale(kz, 1 + (kz - 1) * 0.06); ctx.translate(0, -GY); scroll(ctx, L.road, camS * 11 - 960 / kz); ctx.restore();
+    // art review 2026-10 (depth pass): slow cloud shadows drifting over the fields and the road (world-anchored: they scroll
+    // with the camera and drift with the wind), drawn under the cars so the characters keep their colours
+    ctx.save(); ctx.globalCompositeOperation = 'multiply';
+    for (let k = 0; k < 4; k++) { const span = 2600, x = ((k * 690 + t * 22 - camS * pxm * 0.6) % span + span) % span - 340, w = 420 + 160 * Math.sin(k * 2.1);
+      const g = ctx.createRadialGradient(x, 800, 20, x, 800, w); g.addColorStop(0, K.rgba('#8e93a6', 0.28)); g.addColorStop(1, K.rgba('#8e93a6', 0));
+      ctx.fillStyle = g; ctx.save(); ctx.translate(x, 800); ctx.scale(1, 0.22); ctx.translate(-x, -800); ctx.fillRect(x - w, 800 - w, 2 * w, 2 * w); ctx.restore(); }
+    ctx.restore();
     // cars (back to front: they overlap little in a side view)
     const lit = { rim: PAL.rim, shade: PAL.shade, dx: 0 };
     for (let i = 0; i < R.N; i++) {
@@ -67,6 +79,7 @@
       if (c.carOver) c.carOver(ctx, i, x, GY, s, S, b);
     }
     if (c.chars) c.chars(ctx, toX, S);
+    K.particles.motes(ctx, t, { n: 26, seed: 41, color: '#ffffff', alpha: 0.35, size: 2.0, vx: 5, vy: -2, y0: 80, y1: 820 });   // art review 2026-10: air
     K.light.grade(ctx, '#9fb6c8', 0.12, 'soft-light');
     return { toX, S };
   };
@@ -157,8 +170,7 @@
   let s4 = null; A.s4 = () => (s4 = s4 || K.ep1sim.get('S4'));
   A.graphS4 = function (ctx, t, ts, o = {}) {
     const r4 = A.s4(), rows = [['ESTABLE', r4.stable, 330], ['INESTABLE', r4.unstable, 760]];
-    ctx.fillStyle = '#efe8da'; ctx.fillRect(0, 0, K.W, K.H);
-    { const g = ctx.createRadialGradient(960, 400, 100, 960, 540, 1100); g.addColorStop(0, K.rgba('#ffffff', 0.4)); g.addColorStop(1, K.rgba('#c9bca4', 0.5)); ctx.fillStyle = g; ctx.fillRect(0, 0, K.W, K.H); }
+    A.paper(ctx, t);   /* art review 2026-10: lit paper (was a flat fill + radial) */
     for (const [name, run, y0] of rows) {
       const hi = o.focus ? (o.focus === name ? 1 : 0.35) : 1;
       ctx.save(); ctx.globalAlpha = hi;
@@ -173,6 +185,6 @@
         ctx.fillStyle = PAPER; ctx.strokeStyle = INK; ctx.lineWidth = 3; K.circle(ctx, x, y, 11); ctx.fill(); ctx.stroke(); }
       ctx.restore();
     }
-    ctx.save(); ctx.font = '600 26px "Space Grotesk"'; ctx.fillStyle = K.rgba(INK, 0.7); ctx.fillText('← hacia atrás', 160, 1000); ctx.fillText('frenazo (km/h que pierde cada auto)', 1340, 1000); ctx.restore();
+    ctx.save(); ctx.font = '600 34px "Space Grotesk"'; ctx.fillStyle = K.rgba(INK, 0.85); ctx.fillText('← hacia atrás', 160, 1000); ctx.textAlign = 'right'; ctx.fillText('frenazo (km/h que pierde cada auto)', 1800, 1000);   /* art review 2026-10: 26 px @ 70 % was illegible on a phone */ ctx.restore();
   };
 })(typeof window !== 'undefined' ? window : globalThis);

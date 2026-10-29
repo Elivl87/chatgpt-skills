@@ -213,7 +213,7 @@
         cues: A => [{ t: tFork, kind: 'cutlery' }] });
       shots.push({ id: 'D24_finger', start: tNinguna - 0.1, bg: 'night_eli', focus: [600, 700], push: 0.03, pushDir: -1, post: nightPost,
         draw(c, t, lt) { c.save(); c.translate(960, 600); c.scale(1.9, 1.9); c.translate(-460, -720); A.night(c, t, { simT: N6(t), chars: (cx, hy) => hillChars(cx, t, hy) }); c.restore(); } });
-      shots.push({ id: 'D25_bite', start: tRazon2 - 0.2, bg: 'window2', focus: [880, 560], push: 0.035, pushDir: 1, zBase: 1.12, post: nightPost,
+      shots.push({ id: 'D25_bite', start: tRazon2 - 0.2, bg: 'window2', focus: [700, 560] /* art review 2026-10: the diner moved to the left pane */, push: 0.035, pushDir: 1, zBase: 1.12, post: nightPost,
         draw(c, t, lt) { A.window(c, t, { fork: A.ramp(t, tRazon2 + 0.15, 0.35) }); },
         cues: A => [{ t: tCenarE - 0.2, kind: 'cutlery' }] });
       // «¿Ni un perdón?» — Eli lowers the finger; Mila hands him half her sandwich; crunch

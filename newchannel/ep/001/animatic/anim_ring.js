@@ -126,7 +126,7 @@
     ctx.fillStyle = K.rgba('#2a1830', 0.3); K.rrect(ctx, -w / 2 + 6, -h / 2 + 8, w, h, h * 0.3); ctx.fill();
     ctx.fillStyle = PAPER; ctx.strokeStyle = INK; ctx.lineWidth = size * 0.06; K.rrect(ctx, -w / 2, -h / 2, w, h, h * 0.3); ctx.fill(); ctx.stroke();
     ctx.fillStyle = INK; ctx.fillText(text, 0, size * 0.05);
-    if (sub) { ctx.font = `700 ${size * 0.3}px "Space Grotesk"`; ctx.fillStyle = PAPER; ctx.strokeStyle = INK; ctx.lineWidth = size * 0.06; ctx.strokeText(sub, 0, h * 0.72); ctx.fillText(sub, 0, h * 0.72); }
+    if (sub) { const fs = Math.max(size * 0.45, 40); ctx.font = `700 ${fs}px "Space Grotesk"`; ctx.fillStyle = PAPER; ctx.strokeStyle = INK; ctx.lineWidth = fs * 0.2; ctx.lineJoin = 'round'; ctx.strokeText(sub, 0, h / 2 + fs * 0.85); ctx.fillText(sub, 0, h / 2 + fs * 0.85); }   /* art review 2026-10: the label under the number was 0.3x (21-25 px @1080p, unreadable on a phone): now >= 40 px (ART_BIBLE text minimum) with a full ink outline */
     ctx.restore();
   };
   // speed dial with a needle that swings to v (km/h), label under it

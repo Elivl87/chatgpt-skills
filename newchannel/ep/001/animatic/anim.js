@@ -120,6 +120,27 @@
   A.pzv = (v, th, a, b, w = 1.0) =>   /* Guardian v3 (2): default = the pose follows the whole 0..1 travel of v (th 0.5); a narrow band on a fast ramp is a one-frame snap */ { const k = K.clamp((v - (th - w / 2)) / w); return k <= 0 ? { pose: a } : k >= 1 ? { pose: b } : { pose: a, blend: { pose: b, k: K.ease.sine(k) } }; };
 
   // ------------------------------------------------------------------ overlays (screen space, design units)
+  // art review 2026-10: the explainer paper (graphs, diagrams, thought panels on paper). It used to be a flat '#efe8da' fill;
+  // now it is lit illustrated paper in the channel's finish: warm light pool from the upper left, a cool shade lower right,
+  // gouache mottle + paper fibres (baked once), and a slow drifting light so the frame is never static (ART_BIBLE §7b).
+  let paperL = null;
+  A.paper = function (ctx, t = 0, o = {}) {
+    if (!paperL) {
+      const pc = K.canvas(K.W, K.H), c = pc.ctx;
+      c.fillStyle = '#efe8da'; c.fillRect(0, 0, K.W, K.H);
+      let g = c.createRadialGradient(560, 260, 80, 560, 260, 1300); g.addColorStop(0, K.rgba('#fff7e6', 0.75)); g.addColorStop(1, K.rgba('#fff7e6', 0)); c.fillStyle = g; c.fillRect(0, 0, K.W, K.H);
+      g = c.createRadialGradient(1700, 1040, 60, 1700, 1040, 1100); g.addColorStop(0, K.rgba('#b9a888', 0.42)); g.addColorStop(1, K.rgba('#b9a888', 0)); c.fillStyle = g; c.fillRect(0, 0, K.W, K.H);
+      K.tex.paint(pc, { amount: 0.32, mottle: { w: 1200, h: 680, sx: 0.003, sy: 0.018, seed: 271, amp: 34 } });
+      const r = K.rng(272); c.lineCap = 'round';
+      for (let k = 0; k < 2600; k++) { const x = r() * K.W, y = r() * K.H, l = 4 + r() * 18, a = (r() - 0.5) * 0.9; c.strokeStyle = K.rgba(r() < 0.5 ? '#fffaf0' : '#a8987c', 0.10 + r() * 0.08); c.lineWidth = 0.8 + r() * 1.2;
+        c.beginPath(); c.moveTo(x, y); c.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); c.stroke(); }
+      paperL = pc;
+    }
+    ctx.drawImage(paperL.c, 0, 0);
+    if (o.still) return;
+    const lx = 620 + Math.sin(t * 0.21) * 120, ly = 300 + Math.sin(t * 0.17 + 1) * 60;   // drifting window light
+    K.light.glow(ctx, lx, ly, 900, '#fff1d0', 0.16 + 0.03 * Math.sin(t * 0.5), 'soft-light');
+  };
   A.label = function (ctx, text, a = 1, o = {}) { if (a > 0.01) K.light.speedLabel(ctx, text, Object.assign({ alpha: a }, o)); };
 
   // ------------------------------------------------------------------ continuity: Eli's badge (Guardian 2026-10-16)

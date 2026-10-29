@@ -216,7 +216,7 @@
         over: (c) => recPill(c, false),
         draw(c, t, lt) {
           A.field(c, t, { simT: C5(t), frame: { z: 1.6, x: 980, y: 640 },
-            chars: (cx) => K.cast.draw(cx, 'mila1', 980, G - 70, 660, { view: 'q', dir: -1, pose: 'sit', seated: true, legs: true, sitGround: true, ...A.ez(t, A.at('encanta', 1, { beat: '08' }), 'curious', 'awe'), t, look: [-0.7, -0.3], light: LF, shadow: 0.3, blink: blink(5, t) }) });
+            chars: (cx) => K.cast.draw(cx, 'mila1', 980, G - 150 /* art review 2026-10: knees-up sitting puts the boots lower; keep them in frame */, 660, { view: 'q', dir: -1, pose: 'sit', seated: true, legs: true, sitGround: true, ...A.ez(t, A.at('encanta', 1, { beat: '08' }), 'curious', 'awe'), t, look: [-0.7, -0.3], light: LF, shadow: 0.3, blink: blink(5, t) }) });
         } });
       // B19 · «los autos siempre avanzan»: teal chevrons along the direction of travel
       const jamCam = (c, t, z) => { const j = A.jamSmooth(C5(t), 3), jp = A.clampView(A.angPt(j), z); c.translate(960, 540); c.scale(z, z); c.translate(-jp[0], -jp[1]); };

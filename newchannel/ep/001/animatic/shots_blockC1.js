@@ -49,7 +49,7 @@
       shots.push({ id: 'C02_stretch', start: tEstir - 0.12, bg: 'paper', focus: [960, 540], push: 0.025, breath: true,
         post: { grain: 0.1, vignette: 0.25, vignetteColor: '#5a4a50', bloom: 0 },
         draw(c, t, lt) {
-          c.fillStyle = '#efe8da'; c.fillRect(0, 0, K.W, K.H);
+          A.paper(c, t);
           const u = K.ease.inOut(K.clamp((t - tEstir - 0.2) / (tRecta - tEstir - 0.5)));
           c.save(); c.strokeStyle = K.rgba('#2a1a1e', 0.25); c.lineWidth = 3; c.setLineDash([12, 14]);
           c.beginPath(); for (let k = 0; k <= 60; k++) { const a = k / 60 * K.TAU, cpx = 960 + Math.cos(a) * 330, cpy = 540 + Math.sin(a) * 330 * 0.62, lx = 260 + k / 60 * 1400; const x = K.lerp(cpx, lx, u), y = K.lerp(cpy, 560, u); k ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); c.restore();

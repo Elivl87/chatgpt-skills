@@ -151,19 +151,20 @@
               after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.trail[0], rE.hands.trail[1], 205, t, { ang: K.lerp(3.05 - K.TAU, -0.45, Math.pow(K.clamp(up(0)), 2)), wave: K.lerp(0.04, 0.12, K.clamp(up(0))) });   /* Guardian v3: swings up AND back down with the arm, through the left (it flipped in one frame; then stayed level, poking at Mila). Guardian v4 independent pass (2026-10-24): the angle used clamp(up / 0.5), so during the first half of the arm ramp the flag stayed vertical while the hand came down to chest height: the flag landed on Mila's face (E1 46.70-46.77 s) and then whipped 180 deg in 3 frames. Now the flag is in Eli's far hand (trail, away from Mila), leans away from her (-0.45, wave 0.12) and turns to hang through the free side along the whole arm ramp, front-loaded (k^2: horizontal-left before the hand reaches the shoulder): the pole and the cloth never cross a face or a beanie */ } }); },
         cues: A => [{ t: tUp - 0.1, kind: 'crowd_wave', t1: tUp + 1.3 }] });
       shots.push({ id: 'G18_mila', start: tCada - 0.1, bg: 'bridge_mila', focus: [1100, 500], push: 0.035, pushDir: 1,   // Guardian: focus y 380 -> 500, u 880 -> 760 (Mila's head cut by the top edge)
-        draw(c, t, lt) { pair(c, t, { pose: 'cheer', expr: 'surprised', look: [0.7, -0.2] }, { pose: 'crossed', expr: 'happy', look: [-1, 0.05], headTurn: -0.2 }, { ex: 600, mx: 1150, u: 760 }); } });
+        draw(c, t, lt) { pair(c, t, { pose: 'fist', expr: 'surprised', look: [0.7, -0.2] }, { pose: 'crossed', expr: 'happy', look: [-1, 0.05], headTurn: -0.2 }, { ex: 600, mx: 1150, u: 760,
+          after: (cx, rE) => { if (rE) P.flag(cx, rE.hands.trail[0], rE.hands.trail[1], 205, t, { ang: 3.05 - K.TAU, wave: 0.04 }); } }); } });   /* art review 2026-10: prop continuity — the flag he holds in G10-G17 vanished in this shot. It stays lowered in the far hand exactly as G17 ends (a raised flag crossed his beanie); the near fist goes up instead of both */
       // «la hace crecer o encoger»: what each car that crosses did to the bump (the true S10 profile, front → back)
       shots.push({ id: 'G19_profile', start: tCrecer - 0.5, bg: 'profile', focus: [960, 540], push: 0.025, pushDir: -1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0.08 },
         over: c => src(c),
         draw(c, t, lt) { const run = R().raw, ro = run.roles, cars = []; for (let i = ro.tap - 1; i >= ro.act2[4] - 12; i--) cars.push(i);
-          c.fillStyle = '#efe8da'; c.fillRect(0, 0, K.W, K.H); c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+          A.paper(c, t); c.textAlign = 'left'; c.textBaseline = 'alphabetic';
           c.font = '700 34px "Martian Mono"'; c.fillStyle = '#2a1a1e'; c.fillText('tamaño del bache que ve cada auto (km/h)', 120, 150);
           const x0 = 1800, dx = (1800 - 120) / cars.length, base = 800, k = 40, rev = K.clamp((t - (tCrecer - 0.4)) / 1.8);
           c.strokeStyle = '#2a1a1e'; c.lineWidth = 4; c.beginPath(); c.moveTo(110, base); c.lineTo(1810, base); c.stroke();
           cars.forEach((i, n) => { if (n / cars.length > rev) return; const amp = Math.max(0, (A.I24.V - run.minV(i, 20)) * 3.6), x = x0 - n * dx, act = ro.active.includes(i), off = ro.inactive.includes(i);
             c.fillStyle = act ? '#4fb3a8' : off ? '#9a96a6' : K.rgba('#e0503a', 0.8); c.fillRect(x - dx * 0.4, base - amp * k, dx * 0.8, amp * k);
             if (act || off) { c.fillStyle = act ? '#23746C' : '#6f6a7c'; K.circle(c, x, base + 30, 12); c.fill(); } });
-          c.font = '600 28px "Space Grotesk"'; c.fillStyle = '#23746C'; c.fillText('● auto inteligente', 120, 1010); c.fillStyle = '#6f6a7c'; c.fillText('● sistema apagado', 460, 1010);
+          c.font = '600 34px "Space Grotesk"'; c.fillStyle = '#23746C'; c.fillText('● auto inteligente', 120, 1010); c.fillStyle = '#6f6a7c'; c.fillText('● sistema apagado', 540, 1010);   /* art review 2026-10: 28 -> 34 px */
           c.fillStyle = '#2a1a1e'; c.fillText('← hacia atrás', 1560, 1010); },
         cues: A => [{ t: tCrecer - 0.4, kind: 'chain', t1: tCrecer + 1.4 }] });
       return shots;

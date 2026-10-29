@@ -671,7 +671,7 @@
     };
     function boardAt() { return [tcx + dir * s * (wT + 0.035), K.lerp(Ttop, Tbot, 0.42)]; }
     const thigh = S.legLen * 0.5, shin = S.legLen * 0.5;
-    function kneeAt(sg) { const hx = sg * S.hipW * cosT; return o.sitGround ? [hx + dir * s * thigh * 0.62 + (1 - s) * sg * 0.035, hipY - thigh * 0.78 * s - (1 - s) * 0.07] : [hx + dir * s * thigh * 0.95 + (1 - s) * sg * 0.015, hipY - 0.01 + (1 - s) * 0.03]; }
+    function kneeAt(sg) { const hx = sg * S.hipW * cosT; return o.sitGround ? [hx + dir * s * thigh * 0.62 + (1 - s) * sg * 0.035, hipY - thigh * 0.78 * s - (1 - s) * (o.back ? 0.07 : thigh * 0.62)]   /* art review 2026-10: knees up in front / 3/4 too (they were barely above the hip, the boots sat in the lap); back views unchanged */ : [hx + dir * s * thigh * 0.95 + (1 - s) * sg * 0.015, hipY - 0.01 + (1 - s) * 0.03]; }
     const target = (sg, a) => {
       const S0 = sh(sg);
       let T;
@@ -738,7 +738,7 @@
     const drawLeg = (c, sg) => {
       const hp = [sg * S.hipW * cosT, hipY], b = S.boot;
       let ankle, knee = null;
-      if (sitLegs) { knee = kneeAt(sg); ankle = o.sitGround ? [knee[0] + dir * s * shin * 0.42 + (1 - s) * sg * 0.006, hipY - b.h * 0.42] : [knee[0] + dir * s * 0.03, knee[1] + shin]; }
+      if (sitLegs) { knee = kneeAt(sg); ankle = o.sitGround ? [knee[0] + dir * s * shin * 0.42 + (1 - s) * sg * 0.006, o.back ? hipY - b.h * 0.42 : K.lerp(hipY + shin * 0.22, hipY - b.h * 0.42, s)]   /* art review 2026-10: facing us the feet are nearer the camera, so they land BELOW the hip line (on the ground in front), never on the lap */ : [knee[0] + dir * s * 0.03, knee[1] + shin]; }
       else if (walkK > 0) { const lp = wph + (sg === dir ? 0 : Math.PI), st = 0.11 * walkK; ankle = [hp[0] + (S.legSplay || 0) * sg * cosT + dir * Math.max(0.15, s) * Math.sin(lp) * st, -(b.h * 0.5) - Math.max(0, Math.cos(lp)) * 0.05 * walkK];
         // the knee eases in with the walk weight (it used to snap from a straight leg to the IK knee at the first frame)
         if (s >= 0.2) { const j = ik(hp, ankle, (S.legLen - b.h * 0.5) / 2 + 0.003, (S.legLen - b.h * 0.5) / 2 + 0.003, [dir + 1e-4, 0]), wk = K.clamp(walkK * 2.5);

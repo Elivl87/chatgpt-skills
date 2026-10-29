@@ -48,7 +48,7 @@
           laptop(cx, 800, 860, 1.25, knob(t), t); } }); },
         cues: A => [{ t: T0 + 0.2, kind: 'whistle', t1: tRapido - 0.2 }, { t: tRapido - 0.15, kind: 'click' }] });
       shots.push({ id: 'F01_knob', start: tRapido - 0.35, bg: 'laptop_close', focus: [960, 520], push: 0.035, pushDir: 1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0.1 },
-        draw(c, t, lt) { c.fillStyle = '#efe8da'; c.fillRect(0, 0, K.W, K.H); laptop(c, 960, 640, 2.6, knob(t), t);
+        draw(c, t, lt) { A.paper(c, t); laptop(c, 960, 640, 2.6, knob(t), t);
           K.cast.draw(c, 'eli1', 1500, 1500, 1100, { view: 'q', dir: -1, pose: 'point', expr: 'smug', t, look: [0, -0.9], light: K.cast.LIGHT.board }); } });
       shots.push({ id: 'F02_back', start: tLa - 0.1, bg: 'ring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { A.ring(c, t, ring8(K8b(t))); } });
@@ -136,21 +136,27 @@
             eli: (cx, sx, sy, s) => K.cast.crew2(cx, sx, sy, s, { driver: who, t, light: N, u: 2.7 * s, driverO: who === 'eli1' ? { pose: 'drive', expr: 'annoyed', exprBlend: { expr: 'determined', k: K.ease.sine(K.clamp((S.v[eliI] - 0.3) / 0.4)) } } : { pose: 'drive', expr: 'happy' } }),
             carOver: (cx, i, x, y, s, S2, b) => { if (k === 1 && i === eliI && o.spring) { const lx = A.LINE.GY; void lx; const xl = (S2.x[i + 1] - S2.x[i]) * pxm; P.spring(cx, [x + 1.7 * s, y - 0.9 * s], [x + xl - 1.7 * s, y - 0.9 * s], o.spring); } } });
           c.restore();
-          P.pill(c, K.W - 96, k * 540 + 60, k ? 'MILA MANEJA' : 'ELI MANEJA', 30, 1, { align: 'right', bg: k ? K.rgba('#7158b8', 0.9) : K.rgba('#c99633', 0.9) });
         }
         c.fillStyle = '#1a1020'; c.fillRect(0, 536, K.W, 8);
       };
-      shots.push({ id: 'F16_two', start: tPor - 0.1, bg: 'two', label: 'ACELERADO ×2', focus: [960, 540], push: 0.02, breath: true,
+      // art review 2026-10: the «ELI MANEJA» / «MILA MANEJA» pills were drawn inside the zoomed shot, so the zBase 1.1 framings
+      // pushed them off the right edge (F16_spring, F17_late, F17_pass) and the top one sat in the duration-chip corner. They are
+      // now screen-space overlays pinned to the visible part of each strip (right side, below the corner).
+      const stripPills = (c, t, lt, Sx) => { const b = A.breath(Sx, Sx.k, lt, Sx.end - Sx.start), f = Sx.focus || [K.W / 2, K.H / 2];
+        for (const k of [0, 1]) { const top = f[1] + b.dy + b.z * (k * 540 - f[1]), bot = top + 540 * b.z, y0 = Math.max(top, 0), y1 = Math.min(bot, K.H);
+          if (y1 - y0 < 160) continue;
+          P.pill(c, K.W - 96, y0 + (y0 < 60 ? 130 : 60), k ? 'MILA MANEJA' : 'ELI MANEJA', 30, 1, { align: 'right', bg: k ? K.rgba('#7158b8', 0.9) : K.rgba('#c99633', 0.9) }); } };
+      shots.push({ id: 'F16_two', start: tPor - 0.1, bg: 'two', over: stripPills, label: 'ACELERADO ×2', focus: [960, 540], push: 0.02, breath: true,
         draw(c, t, lt) { strips(c, t, EL(t)); } });
-      shots.push({ id: 'F16_spring', start: tAmort - 0.3, bg: 'two_mila', label: 'ACELERADO ×2', focus: [960, 820], push: 0.03, pushDir: 1, zBase: 1.12,
+      shots.push({ id: 'F16_spring', start: tAmort - 0.3, bg: 'two_mila', over: stripPills, label: 'ACELERADO ×2', focus: [960, 820], push: 0.03, pushDir: 1, zBase: 1.12,
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); },
         cues: A => [{ t: tAmort, kind: 'spring' }] });
-      shots.push({ id: 'F17_late', start: w('llegue', 1, '19') - 0.1 /* Qwen voice (2026-10-24): the top strip opens on «llegue a los demás» (F16_spring was 6.9 s with the slower sentence; tEl left it 2.0 s) */, bg: 'two_top', label: 'ACELERADO ×2', focus: [960, 270], push: 0.03, pushDir: 1, zBase: 1.1,
+      shots.push({ id: 'F17_late', start: w('llegue', 1, '19') - 0.1 /* Qwen voice (2026-10-24): the top strip opens on «llegue a los demás» (F16_spring was 6.9 s with the slower sentence; tEl left it 2.0 s) */, bg: 'two_top', over: stripPills, label: 'ACELERADO ×2', focus: [960, 270], push: 0.03, pushDir: 1, zBase: 1.1,
         draw(c, t, lt) { strips(c, t, EL(t)); },
         cues: A => [{ t: tEmbot, kind: 'stop_thunk' }] });
-      shots.push({ id: 'F17_pass', start: tCuando - 0.1, bg: 'two_bottom', label: 'ACELERADO ×2', focus: [960, 810], push: 0.03, pushDir: -1, zBase: 1.1,
+      shots.push({ id: 'F17_pass', start: tCuando - 0.1, bg: 'two_bottom', over: stripPills, label: 'ACELERADO ×2', focus: [960, 810], push: 0.03, pushDir: -1, zBase: 1.1,
         draw(c, t, lt) { strips(c, t, EL(t), { spring: 1 }); } });
-      shots.push({ id: 'F18_behind', start: tLos19 - 0.1, bg: 'two_wide', label: 'ACELERADO ×2', focus: [960, 540], push: 0.02, pushDir: 1,
+      shots.push({ id: 'F18_behind', start: tLos19 - 0.1, bg: 'two_wide', over: stripPills, label: 'ACELERADO ×2', focus: [960, 540], push: 0.02, pushDir: 1,
         draw(c, t, lt) { strips(c, t, EL(t), { pxm: 10, camS: (S) => S.x[2] + 8 }); } });
       // «llegar tarde es la jugada» → «¡Yo llego tarde a todo!»: thumbs at himself; Mila pats him
       shots.push({ id: 'F19_late', start: tPor2 - 0.1, bg: 'field_late', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),

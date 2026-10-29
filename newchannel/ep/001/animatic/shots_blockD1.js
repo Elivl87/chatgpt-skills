@@ -74,7 +74,7 @@
         cues: A => [{ t: tLlenar - 0.25, kind: 'pop' }] });
       // E03 · a fleet of robot cars, «$$$$»
       shots.push({ id: 'E03_robots', start: tLlenar - 0.1, bg: 'paper_robots', focus: [960, 540], push: 0.03, pushDir: -1, post: { grain: 0.1, vignette: 0.3, vignetteColor: '#5a4a50', bloom: 0 },
-        draw(c, t, lt) { c.fillStyle = '#efe8da'; c.fillRect(0, 0, K.W, K.H);
+        draw(c, t, lt) { A.paper(c, t);
           P.thought(c, 960, 520, 1300, 640, A.ramp(t, tLlenar, 0.25) * (1 - A.ramp(t, tUnos - 0.25, 0.12)), cx => {
             for (let k = 0; k < 5; k++) { const x = -480 + k * 240, y = 40 + Math.sin(t * 6 + k) * 4; K.car.side(cx, x, y + 60, 46, { color: '#b9c4cc', lit: { rim: '#ffffff', shade: '#4a5068' } });
               cx.strokeStyle = '#2a1a1e'; cx.lineWidth = 4; cx.beginPath(); cx.moveTo(x - 10, y - 30); cx.lineTo(x - 10, y - 70); cx.stroke(); cx.fillStyle = '#4fb3a8'; K.circle(cx, x - 10, y - 74, 9); cx.fill(); cx.stroke();
@@ -134,7 +134,7 @@
           c.restore(); } });
       // E12 · «contando frenadas y arrancones»: one ordinary car's speed (up and down) and the straight average
       shots.push({ id: 'E12_avg', start: tO - 0.1, bg: 'graph_speed', focus: [960, 540], push: 0.05, drift: 0.012, pushDir: 1, post: { grain: 0.1, vignette: 0.25, vignetteColor: '#5a4a50', bloom: 0 },
-        draw(c, t, lt) { c.fillStyle = '#efe8da'; c.fillRect(0, 0, K.W, K.H);
+        draw(c, t, lt) { A.paper(c, t);
           const R = S7(), ts0 = sOn - 60, span = 120, k = K.clamp(0.04 + (t - tO + 0.1) / (tEl - tO - 0.3)), x0 = 200, x1 = 1720, yb = 760, sc = 34;
           c.strokeStyle = K.rgba('#2a1a1e', 0.5); c.lineWidth = 3; c.beginPath(); c.moveTo(x0, yb); c.lineTo(x1, yb); c.moveTo(x0, yb); c.lineTo(x0, 260); c.stroke();
           let avg = 0, n = 0; for (let j = 0; j <= 300; j++) { const ts = ts0 + j / 300 * span, S = R.at(ts); let m = 0; for (let i = 0; i < R.N; i++) m += S.v[i]; avg += m / R.N; n++; } avg /= n;
@@ -143,7 +143,7 @@
           c.fillStyle = '#a8466e'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; K.circle(c, hx, hy, 12); c.fill(); c.stroke();   // the pen
           if (t > tContando + 0.4) { const kk = A.ramp(t, tContando + 0.4, 0.6); c.strokeStyle = '#23746C'; c.lineWidth = 8; c.beginPath(); c.moveTo(x0, yb - avg * sc); c.lineTo(K.lerp(x0, x1, kk), yb - avg * sc); c.stroke();
             P.pill(c, x1 - 140, yb - avg * sc - 46, 'PROMEDIO', 30, kk, { align: 'center', bg: K.rgba('#23746C', 0.92) }); }
-          c.font = '600 26px "Space Grotesk"'; c.fillStyle = K.rgba('#2a1a1e', 0.7); c.fillText('velocidad de un auto normal', x0 + 20, 240); c.fillText('tiempo →', x1 - 140, yb + 44); },
+          c.font = '600 34px "Space Grotesk"'; c.fillStyle = K.rgba('#2a1a1e', 0.85); c.fillText('velocidad de un auto normal', x0 + 20, 240); c.fillText('tiempo →', x1 - 170, yb + 48);   /* art review 2026-10: 26 px @ 70 % -> 34 px @ 85 % (phone) */ },
         cues: A => [{ t: tContando + 0.4, kind: 'chime_avg' }] });
       // E13 · the spring in front of the computer car; Eli's fingers itch, he steps in to push... Mila pulls him back
       shots.push({ id: 'E13_spring', start: tEl - 0.1, bg: 'ring_spring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: c => { rec(c, true); src(c); },

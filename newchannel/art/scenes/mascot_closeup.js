@@ -166,6 +166,9 @@
     const FR = opt.frame || (opt.wide ? { z: 1, wx: headX, wy: headY, sx: headX, sy: headY } : E.CLOSE.frame);   // v4: framed close-ups (bigger characters)
     ctx.translate(FR.sx, FR.sy); ctx.scale(z * FR.z, z * FR.z); ctx.translate(-FR.wx + Math.sin(t * 0.4) * 3, -FR.wy + Math.sin(t * 0.33) * 2);
     ctx.drawImage(L.sky.c, 0, 0);
+    // art review 2026-10: wide framings (z <= 1.3) see past x = 0 / x = W of the sky plate (D2 F15_one showed a dark slab
+    // top-left): mirrored copies continue the vertical gradient seamlessly; pixels already covered are unchanged
+    ctx.save(); ctx.scale(-1, 1); ctx.drawImage(L.sky.c, 0, 0); ctx.drawImage(L.sky.c, -2 * K.W, 0); ctx.restore();
     // sun + glow behind the leader
     const sunX = 1480, sunY = 250;
     K.sky.sun(ctx, sunX, sunY, 48, { core: P.sun, halo: P.halo, glow: 650, glowAlpha: 0.6, rings: 4, ringStep: 0.9, ringAlpha: 0.07 });
