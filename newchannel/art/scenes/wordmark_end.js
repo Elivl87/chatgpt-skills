@@ -46,7 +46,7 @@
     const arc = (a, b, u, h) => ({ x: K.lerp(a.x, b.x, u), y: K.lerp(a.y, b.y, u) - h * 4 * u * (1 - u) });
     let p, sx = 1, sy = 1;
     if (tl < W.c2) { const u = K.inv(W.c1, W.c2, tl); p = arc({ x: hand.x, y: hand.y - R }, bonk, u, 60); const st = Math.sin(u * Math.PI) * 0.12; sx = 1 - st; sy = 1 + st; }
-    else if (tl < W.land) { const u = K.inv(W.c2, W.land, tl), k = Math.exp(-u * 10); p = arc(bonk, { x: tM.x, y: tM.y }, u, 45); sx = 1 + 0.35 * k; sy = 1 - 0.35 * k; }
+    else if (tl < W.land) { const u = K.inv(W.c2, W.land, tl), k = Math.exp(-u * 10); p = arc(bonk, { x: tM.x, y: tM.y }, u, 90); p.x = K.lerp(bonk.x, tM.x, 1 - (1 - u) * (1 - u)); /* guardian v5: out sideways first, up and over, never across Eli eyes */ sx = 1 + 0.35 * k; sy = 1 - 0.35 * k; }
     else { const u = tl - W.land, k = Math.exp(-u * 7) * Math.cos(u * 22); p = { x: tM.x, y: tM.y }; sx = 1 + 0.18 * k; sy = 1 - 0.18 * k; }
     return { x: p.x, y: p.y, R, sx, sy };
   }

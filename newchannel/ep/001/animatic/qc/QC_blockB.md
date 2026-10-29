@@ -1,20 +1,20 @@
 # QC · blockB
 
-File: `blockB_review.mp4` · 55.87 s · 30/1 fps · 12.98 MB · 1.9 Mb/s
+File: `blockB_review.mp4` · 55.87 s · 30/1 fps · 13.30 MB · 1.9 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 1280x720 |
-| file size <= 30 MB (chat delivery) | **PASS** | 12.98 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 13.30 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.0 LUFS |
-| true peak <= -1.0 dBTP | **PASS** | -2.2 dBTP |
+| true peak <= -1.0 dBTP | **PASS** | -2.3 dBTP |
 | no black frames | **PASS** | none |
 | no undeclared freezes >= 0.5 s | **PASS** | none |
 | no undeclared silence >= 0.5 s | **PASS** | none |
 
-Loudness (ffmpeg ebur128 on the final mp4): I -14.0 LUFS, TP -2.2 dBTP, LRA 4.5 LU.
+Loudness (ffmpeg ebur128 on the final mp4): I -14.0 LUFS, TP -2.3 dBTP, LRA 4.5 LU.
 
 ## Pacing (secondquest style_bible.py + pacing_qc.py)
 

@@ -1,12 +1,12 @@
 # QC · blockD1
 
-File: `blockD1_review.mp4` · 66.64 s · 30/1 fps · 13.46 MB · 1.6 Mb/s
+File: `blockD1_review.mp4` · 66.64 s · 30/1 fps · 13.25 MB · 1.6 Mb/s
 
 | Check | Result | Value |
 |---|---|---|
 | codec H.264 / yuv420p | **PASS** | h264 yuv420p |
 | resolution | **PASS** | 1280x720 |
-| file size <= 30 MB (chat delivery) | **PASS** | 13.46 MB |
+| file size <= 30 MB (chat delivery) | **PASS** | 13.25 MB |
 | audio AAC 48 kHz | **PASS** | aac 48000 |
 | loudness -14 LUFS (+-1) | **PASS** | -14.1 LUFS |
 | true peak <= -1.0 dBTP | **PASS** | -2.4 dBTP |

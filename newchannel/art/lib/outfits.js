@@ -94,9 +94,14 @@
     const yT = Math.min(kN[1], kF[1], B.hipY) - lw2 - 0.006, yB = Math.max(kN[1], kF[1], B.hipY) + lw2 + (o.drape ?? 0.022), sway = Math.sin(B.t * 1.9 + 0.7) * 0.003;
     const yw = Math.min(y0, yT);   // the waist line also covers the round tops of the thighs at the hip
     if (Math.min(kN[1], kF[1]) < B.hipY - 0.04) {   // art 2026-10-29: sitting on the GROUND (knees up): a short skirt over the raised thighs, knees and shins (leggings) stay visible
-      const kY = Math.min(kN[1], kF[1]), m = 0.55, xm = K.lerp(xf, xk, m), yTop = K.lerp(y0, kY - lw2, m), yBot = K.lerp(B.hipY + lw2, kY + lw2, m) + 0.012;
-      const skirt = () => { c.beginPath(); c.moveTo(xb, Math.min(y0, B.hipY - 0.03)); c.lineTo(xf, y0); c.quadraticCurveTo(K.lerp(xf, xm, 0.5), yTop - 0.01, xm, yTop);
-        c.quadraticCurveTo(xm + d * 0.016, (yTop + yBot) / 2, xm + d * 0.006 + sway, yBot); c.quadraticCurveTo((xm + xb) / 2, B.hipY + 0.02, xb, B.hipY + 0.012); c.closePath(); };
+      // Guardian v5 (D26): the old polygon lerped waist -> knee in x and y separately and twisted into a bow-tie once the knees rose
+      // above the waist; now the skirt is a band laid along the thigh axis (hip -> knee), top edge from the waist, hem across the thigh
+      const kk = kN[1] < kF[1] ? kN : kF, hx = B.tcx + d * B.wB * 0.35, hy = B.hipY, tl0 = Math.hypot(kk[0] - hx, kk[1] - hy) || 1e-3;
+      const ux = (kk[0] - hx) / tl0, uy = (kk[1] - hy) / tl0, n1 = [-uy, ux], nT = n1[1] < 0 ? n1 : [uy, -ux], w = lw2 + 0.008, L = tl0 * 0.5;
+      const px = hx + ux * L + sway, py = hy + uy * L;
+      const skirt = () => { c.beginPath(); c.moveTo(xb, Math.min(y0, B.hipY - 0.03)); c.lineTo(xf, Math.min(y0, py + nT[1] * w)); c.lineTo(px + nT[0] * w, py + nT[1] * w);
+        c.quadraticCurveTo(px + ux * 0.012, py + uy * 0.012, px - nT[0] * w, py - nT[1] * w); c.quadraticCurveTo((px + xb) / 2, B.hipY + 0.02, xb, B.hipY + 0.012); c.closePath(); };
+      const xm = px, yBot = py - nT[1] * w;
       fillStroke(c, B, skirt, col);
       if (o.pleats) for (const k of [0.4, 0.7]) line(c, B, [[K.lerp(xb, xf, 0.5 + k * 0.5), y0 + 0.02], [K.lerp(xf, xm, k), K.lerp(y0, yBot, k) - 0.006]], 0.22);
       if (o.belt) { const w0 = B.wB * (1.04 - 0.05 * B.s), cx = B.tcx + d * B.s * B.wB * 0.2; c.fillStyle = o.belt; c.strokeStyle = INK; c.lineWidth = B.lw * 1.3; K.rrect(c, cx - w0 - 0.004, y0 - 0.012, (w0 + 0.004) * 2, 0.02, 0.006); c.fill(); c.stroke(); }

@@ -34,7 +34,7 @@
  "longest_shot": 4.59,
  "longest_id": "B06_finger",
  "avg_shot": 2.33,
- "size_mb": 12.98,
+ "size_mb": 13.3,
  "contact_kb": 319
 }
 ```

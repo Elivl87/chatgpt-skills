@@ -41,7 +41,7 @@
  "longest_shot": 4.94,
  "longest_id": "D20_names",
  "avg_shot": 2.45,
- "size_mb": 16.17,
+ "size_mb": 16.49,
  "contact_kb": 360
 }
 ```
