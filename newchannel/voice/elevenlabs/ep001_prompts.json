@@ -1,0 +1,274 @@
+{
+ "episode": "001",
+ "script": "newchannel/ep/001/SCRIPT_ES419.md v5 (LOCKED 2026-10-28)",
+ "direction": "SCRIPT_ES419.md § Dirección del narrador · David (rule 2026-10-29: [whispers] only on beat 23's «¿…Quién fue?»)",
+ "model": "eleven_v4",
+ "voice": "David C – Viral Storytelling",
+ "voice_id": "qRUgOhnxGASxirG4fKjv",
+ "generations_count": 1,
+ "billing": "1 credit per character of `prompt` (tags included; hook v5: 592 chars = 592 credits)",
+ "beats_without_narration": [
+  "05"
+ ],
+ "prompts_n": 23,
+ "chars_billable_total": 6897,
+ "credits_estimate": {
+  "one_pass": 6897,
+  "retakes_15pct": 7932,
+  "retakes_25pct": 8621
+ },
+ "prompts": [
+  {
+   "beat": "01",
+   "prompt": "[curious] Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+   "script_text": "Una carretera despejada. Allá adelante, un conductor toca el freno. Una sola vez. Apenas un poquito.",
+   "chars_billable": 110,
+   "tags": [
+    "curious"
+   ]
+  },
+  {
+   "beat": "02",
+   "prompt": "[excited] Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+   "script_text": "Detrás, cada auto frena un poco más fuerte que el anterior. Más fuerte. Más fuerte… hasta que alguien se queda quieto: Eli.",
+   "chars_billable": 133,
+   "tags": [
+    "excited"
+   ]
+  },
+  {
+   "beat": "03",
+   "prompt": "[indignant] «¡¿Quién fue?!» [deadpan] Eli está seguro: alguien allá adelante tiene la culpa. Eli siempre está seguro. Pero allá no hay nada. Ni choque, ni conos, ni semáforo. … No, Eli. El pajarito tampoco.",
+   "script_text": "«¡¿Quién fue?!» Eli está seguro: alguien allá adelante tiene la culpa. Eli siempre está seguro. Pero allá no hay nada. Ni choque, ni conos, ni semáforo. … No, Eli. El pajarito tampoco.",
+   "chars_billable": 206,
+   "tags": [
+    "indignant",
+    "deadpan"
+   ],
+   "note": "La pausa del pajarito (2 s) la pone el montaje después de «semáforo.»; el «…» es solo respiración."
+  },
+  {
+   "beat": "04",
+   "prompt": "[amazed] Mila, su pareja, mira atrás. «Eli… va para atrás.» [curious] Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+   "script_text": "Mila, su pareja, mira atrás. «Eli… va para atrás.» Entonces, ¿por qué hay embotellamientos sin razón aparente?",
+   "chars_billable": 129,
+   "tags": [
+    "amazed",
+    "curious"
+   ],
+   "note": "«¿Qué?» es [solo cuadro]: no va en el prompt; el montaje deja su hueco (0,5 s). Mila a volumen normal (regla 2026-10-29)."
+  },
+  {
+   "beat": "06",
+   "prompt": "[curious] Mila arrastra a Eli a un experimento de verdad. [deadpan] Literalmente. [excited] «¡Ya entendí! ¡Fue el de adelante!» [curious] En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante. Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
+   "script_text": "Mila arrastra a Eli a un experimento de verdad. Literalmente. «¡Ya entendí! ¡Fue el de adelante!» En dos mil ocho, un equipo de físicos en Japón puso veintidós autos en una pista circular de doscientos treinta metros. Problema: en un círculo, todos tienen a alguien adelante. Los conductores tenían una sola tarea: manejar con cuidado, a unos treinta kilómetros por hora.",
+   "chars_billable": 411,
+   "tags": [
+    "curious",
+    "deadpan",
+    "excited",
+    "curious"
+   ]
+  },
+  {
+   "beat": "07",
+   "prompt": "[deadpan] Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía. [indignant] «¡¿Quién fue?!» [deadpan] Respuesta corta: todos. [laughs softly] La larga: este video.",
+   "script_text": "Al principio, todo bien. Luego aparecieron titubeos: un hueco por aquí, un apretón por allá. A los tres minutos, más o menos, cinco autos estaban completamente parados. En una pista vacía. «¡¿Quién fue?!» Respuesta corta: todos. La larga: este video.",
+   "chars_billable": 298,
+   "tags": [
+    "deadpan",
+    "indignant",
+    "deadpan",
+    "laughs softly"
+   ]
+  },
+  {
+   "beat": "08",
+   "prompt": "[amazed] Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte por hora. Más o menos lo que va una bicicleta.",
+   "script_text": "Lo que a Mila le encanta: los autos siempre avanzan, y el embotellamiento se desliza hacia atrás, a unos veinte por hora. Más o menos lo que va una bicicleta.",
+   "chars_billable": 167,
+   "tags": [
+    "amazed"
+   ]
+  },
+  {
+   "beat": "09",
+   "prompt": "Vamos por partes. Estiremos el círculo hasta volverlo una recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía. Adivina quién va en el diez: [nervous] «No… no… ¡no!» [deadpan] Para el auto número diez: alto total.",
+   "script_text": "Vamos por partes. Estiremos el círculo hasta volverlo una recta. El primer conductor toca el freno. El segundo lo nota un instante tarde. En ese instante ya se acercó, así que tiene que frenar un poco más fuerte. El tercero, más tarde y más fuerte todavía. Adivina quién va en el diez: «No… no… ¡no!» Para el auto número diez: alto total.",
+   "chars_billable": 358,
+   "tags": [
+    "nervous",
+    "deadpan"
+   ],
+   "note": "«Adivina quién va en el diez:» con sonrisa, sin etiqueta."
+  },
+  {
+   "beat": "10",
+   "prompt": "Los ingenieros le llaman inestabilidad de cadena. La cadena es la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien [laughs softly] lo cuenta. [indignant] «¡¿Que yo qué?!»",
+   "script_text": "Los ingenieros le llaman inestabilidad de cadena. La cadena es la fila de autos. Si es estable, un titubeo se va apagando mientras viaja hacia atrás. Si es inestable, cada conductor le suma un poquito, como un chisme que crece cada vez que alguien lo cuenta. «¡¿Que yo qué?!»",
+   "chars_billable": 303,
+   "tags": [
+    "laughs softly",
+    "indignant"
+   ]
+  },
+  {
+   "beat": "11",
+   "prompt": "[warm] El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. [deadpan] Eli llega tarde. Como siempre. [warm] Un embotellamiento no es un lugar. Es una ola.",
+   "script_text": "El embotellamiento no es un grupo fijo de autos: los autos entran por detrás, avanzan despacito y salen por delante. Es como la ola en un estadio: nadie se cambia de asiento, pero la ola le da la vuelta entera. Eli llega tarde. Como siempre. Un embotellamiento no es un lugar. Es una ola.",
+   "chars_billable": 312,
+   "tags": [
+    "warm",
+    "deadpan",
+    "warm"
+   ]
+  },
+  {
+   "beat": "12",
+   "prompt": "[curious] Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros. Con veinticinco autos, el tráfico fluyó. Con veintiocho o más: embotellamiento. [deadpan] Tres autos de más. [indignant] «¡¿Quién fue?!» [curious] Lo que importa es cuántos autos hay en cada tramo de pista: la densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
+   "script_text": "Pero no todos los círculos se atascan. El mismo equipo repitió el experimento en un estadio de béisbol, el Domo de Nagoya, con una pista de trescientos catorce metros. Con veinticinco autos, el tráfico fluyó. Con veintiocho o más: embotellamiento. Tres autos de más. «¡¿Quién fue?!» Lo que importa es cuántos autos hay en cada tramo de pista: la densidad. Por debajo de cierta densidad, los titubeos se apagan. Por encima, crecen.",
+   "chars_billable": 472,
+   "tags": [
+    "curious",
+    "deadpan",
+    "indignant",
+    "curious"
+   ],
+   "note": "Se sintetiza «¡¿Quién fue?!» (P9) y assemble_david.py corta en la /f/ y deja 1,5 s; el guion y los tiempos dicen «¡¿Quién f…?»."
+  },
+  {
+   "beat": "13",
+   "prompt": "[softly] Ahora, en una autopista en hora pico, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte por hora. O sea que el embotellamiento en el que estás ahora mismo, llámalo trancón, taco o tráfico, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Por eso no ves ninguna razón: [deadpan] la razón ya se fue a cenar. [sad] «¿Ni un perdón?»",
+   "script_text": "Ahora, en una autopista en hora pico, una sola ola puede viajar hacia atrás más de diez kilómetros, a quince o veinte por hora. O sea que el embotellamiento en el que estás ahora mismo, llámalo trancón, taco o tráfico, pudo empezar con un frenazo de hace media hora. Ese conductor ya llegó a su casa. Por eso no ves ninguna razón: la razón ya se fue a cenar. «¿Ni un perdón?»",
+   "chars_billable": 400,
+   "tags": [
+    "softly",
+    "deadpan",
+    "sad"
+   ]
+  },
+  {
+   "beat": "14",
+   "prompt": "[curious] Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo. [excited] «¡Mi lema!»",
+   "script_text": "Entonces, ¿cómo se detiene una ola? ¿Hay que cambiar a todos los conductores? ¿Llenar la autopista de autos robot? Unos años después, un equipo en Estados Unidos armó otra vez el círculo, con veintiún autos. A los conductores les dieron una instrucción, para que no arreglaran las olas por su cuenta: manejen como en hora pico. Si se abre un hueco, ciérrenlo. «¡Mi lema!»",
+   "chars_billable": 391,
+   "tags": [
+    "curious",
+    "excited"
+   ]
+  },
+  {
+   "beat": "15",
+   "prompt": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte. [deadpan] A Eli le pican las manos.",
+   "script_text": "Pero uno de esos autos era distinto. Una computadora controlaba su velocidad, con una idea muy simple: no perseguir al de adelante. Ir a la velocidad promedio del tráfico, o sea, a lo que de verdad avanzan todos, contando frenadas y arrancones. El espacio de adelante se estira y se encoge, como un resorte. A Eli le pican las manos.",
+   "chars_billable": 343,
+   "tags": [
+    "deadpan"
+   ]
+  },
+  {
+   "beat": "16",
+   "prompt": "[excited] La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno. [sarcastic] Pobre lema de Eli.",
+   "script_text": "La ola se derritió. Los cambios de velocidad bajaron cerca de un ochenta por ciento. Los frenazos fuertes casi desaparecieron. En esa pista chiquita, los autos gastaron hasta un cuarenta por ciento menos de gasolina. Todo eso, con un solo auto de veintiuno. Pobre lema de Eli.",
+   "chars_billable": 298,
+   "tags": [
+    "excited",
+    "sarcastic"
+   ],
+   "note": "Si [sarcastic] suena burlón, retoma con [softly] (dirección #8: compasión fingida, nunca burlón)."
+  },
+  {
+   "beat": "17",
+   "prompt": "[mischievously] Después, programaron la computadora un poquito más rápido que el promedio. En nuestra versión, alguien la sube silbando. La ola volvió. [indignant] «¡¿Quién fue?!» [softly] «Eli.» [nervous] «…Fue el viento.» [warm] Ser paciente no es ir lento. Es ir al promedio.",
+   "script_text": "Después, programaron la computadora un poquito más rápido que el promedio. En nuestra versión, alguien la sube silbando. La ola volvió. «¡¿Quién fue?!» «Eli.» «…Fue el viento.» Ser paciente no es ir lento. Es ir al promedio.",
+   "chars_billable": 278,
+   "tags": [
+    "mischievously",
+    "indignant",
+    "softly",
+    "nervous",
+    "warm"
+   ],
+   "note": "#15 ya no va susurrado: [mischievously] cubre la frase; [whispers] prohibido aquí."
+  },
+  {
+   "beat": "18",
+   "prompt": "[warm] La parte favorita de Mila: en otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio. [excited] «¡Hay un hueco! ¡Cabe una casa!» [softly] «Ese hueco es mi amigo.» [warm] Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
+   "script_text": "La parte favorita de Mila: en otra prueba no hubo computadora. Solo un conductor entrenado, con un único número: la velocidad promedio. «¡Hay un hueco! ¡Cabe una casa!» «Ese hueco es mi amigo.» Los cambios de velocidad bajaron casi a la mitad. La gasolina, más o menos una quinta parte. Una sola persona paciente.",
+   "chars_billable": 346,
+   "tags": [
+    "warm",
+    "excited",
+    "softly",
+    "warm"
+   ]
+  },
+  {
+   "beat": "19",
+   "prompt": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Por una vez, llegar tarde es la jugada. [excited] «¡Yo llego tarde a todo!» [deadpan] Mila lo sabe. En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso. Ni siquiera Mila.",
+   "script_text": "¿Por qué funciona? Porque un espacio libre es un amortiguador: se come el frenazo antes de que llegue a los demás. El auto paciente llega tarde al embotellamiento, cuando ya se está despejando, así que nunca tiene que detenerse. Por una vez, llegar tarde es la jugada. «¡Yo llego tarde a todo!» Mila lo sabe. En Japón esto tiene nombre: manejo que absorbe embotellamientos. Ojo: no es magia. Si la vía está simplemente repleta, ningún conductor puede absorber eso. Ni siquiera Mila.",
+   "chars_billable": 502,
+   "tags": [
+    "excited",
+    "deadpan"
+   ]
+  },
+  {
+   "beat": "20",
+   "prompt": "[curious] ¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee. Un equipo metió cien autos al tráfico de hora pico con un control de crucero inteligente, que acelera y frena solo. A Eli no le alcanzaron los dedos. [laughs softly] Ni prestados. [curious] ¿El resultado? [deadpan] Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo.",
+   "script_text": "¿Funciona en una autopista de verdad? En noviembre de dos mil veintidós, cerca de Nashville, en Tennessee. Un equipo metió cien autos al tráfico de hora pico con un control de crucero inteligente, que acelera y frena solo. A Eli no le alcanzaron los dedos. Ni prestados. ¿El resultado? Es complicado. Cien autos son una gota en una autopista. No borraron todas las olas, y tampoco esperaban hacerlo.",
+   "chars_billable": 445,
+   "tags": [
+    "curious",
+    "laughs softly",
+    "curious",
+    "deadpan"
+   ],
+   "note": "Si «Nashville»/«Tennessee» salen mal: grafía solo para el motor (Náshvil / Ténesi), con aprobación del director."
+  },
+  {
+   "beat": "21",
+   "prompt": "[excited] Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás. Pasan dos autos inteligentes, y se achica. Pasan cuatro con el sistema apagado, y crece. Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger. Mira quién hizo la ola a tiempo.",
+   "script_text": "Pero hay un momento que Eli no deja de repetir. Una ola viaja hacia atrás. Pasan dos autos inteligentes, y se achica. Pasan cuatro con el sistema apagado, y crece. Pasan más autos inteligentes, y se achica otra vez. Cada auto que la cruza la hace crecer o encoger. Mira quién hizo la ola a tiempo.",
+   "chars_billable": 307,
+   "tags": [
+    "excited"
+   ],
+   "note": "«¡Dale, dale!» y «¡Nooo!» son [solo cuadro]: el montaje deja 0,3 s tras «se achica.» y tras «crece.»."
+  },
+  {
+   "beat": "22",
+   "prompt": "[warm] O sea que tú también eres parte de la ola. Sí, tú. [laughs softly] No el de adelante. [warm] Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
+   "script_text": "O sea que tú también eres parte de la ola. Sí, tú. No el de adelante. Así que deja un espacio: uno seguro, no uno enorme. No corras a cerrarlo. Maneja a la velocidad real del tráfico, no a la que te gustaría. No llegas más tarde: la misma distancia, el mismo tiempo, menos frenazos.",
+   "chars_billable": 312,
+   "tags": [
+    "warm",
+    "laughs softly",
+    "warm"
+   ]
+  },
+  {
+   "beat": "23",
+   "prompt": "[softly] Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli sí deja el espacio. … [whispers] «¿…Quién fue?» [softly] «Fuiste tú.»",
+   "script_text": "Mismo camino. Mismo toque de freno, allá adelante. Solo que esta vez, Eli sí deja el espacio. … «¿…Quién fue?» «Fuiste tú.»",
+   "chars_billable": 152,
+   "tags": [
+    "softly",
+    "whispers",
+    "softly"
+   ],
+   "note": "El silencio de 5 s lo pone el montaje tras «espacio.». ÚNICO [whispers] del episodio: «¿…Quién fue?»."
+  },
+  {
+   "beat": "24",
+   "prompt": "[warm] En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. [laughs softly] Hasta Eli. [warm] Esto es Diez Mil Puntos.",
+   "script_text": "En algún lugar detrás de ellos, un embotellamiento que nunca pasó. Un embotellamiento no es un lugar. Es una ola. Un solo conductor paciente puede absorberla. Hasta Eli. Esto es Diez Mil Puntos.",
+   "chars_billable": 224,
+   "tags": [
+    "warm",
+    "laughs softly",
+    "warm"
+   ]
+  }
+ ]
+}

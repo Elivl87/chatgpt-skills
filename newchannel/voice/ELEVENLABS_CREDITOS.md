@@ -6,6 +6,8 @@ Regla del Productor (2026-10-28): **ninguna generación sin su aprobación previ
 ## Costo medido
 - `eleven_v4`: ≈ 1 crédito por carácter (gancho EP001: 458 caracteres = 458 créditos, 2026-10-28).
 - Narración completa EP001 (guion v4.1, partes locutadas): **6.112 caracteres ≈ 6.100 créditos por pasada** (5 % del plan).
+- Narración completa EP001 **v5** con etiquetas (23 prompts, `elevenlabs/ep001_prompts.json`): **6.897 caracteres ≈ 6.900
+  créditos por pasada**; con retomas 15-25 %: ≈ 7.900-8.600. Orden de ejecución: `elevenlabs/README_PIPELINE.md`.
 
 ## Cómo se ahorra
 1. **Prueba barata primero:** solo el gancho (≈ 460) antes de cualquier episodio completo con una voz nueva o un ajuste grande.

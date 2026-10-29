@@ -64,6 +64,7 @@ Todo lo demás es idéntico a v4, palabra por palabra. Ningún dato ni número c
 | C5 | 21 | Una ola viaja hacia atrás por la autopista. | Una ola viaja hacia atrás. | −3 palabras. |
 | C6′ | 20 | …crucero inteligente: un programa que decide cuándo acelerar y cuándo frenar. | …crucero inteligente, **que acelera y frena solo.** | Director: se conserva la explicación, corta (no el C6 tal cual); por eso #3, #5 y #12 van completos. |
 | C7 | 9, 10 | hasta volverlo una línea recta · La cadena es simplemente la fila de autos | hasta volverlo una recta · La cadena es la fila de autos | −2 palabras. |
+| D1 | 1, 4, 13, 17, 23 + remates | Dirección de David: `[whispers]` en el gancho, la cita de Mila, el inicio del beat 13, #15, «…Fue el viento.» y el beat 23 | **Sin `[whispers]`** salvo el «¿…Quién fue?» final del beat 23; las citas de Mila serenas/maravilladas a volumen normal (`[amazed]` / `[softly]` / sin etiqueta) | Productor 2026-10-29, tras el gancho de David: «¿por qué susurra en la línea de Mila?». **Solo dirección: ninguna palabra cambia.** |
 
 Palabras: narración 1019 → 1008 (F1) → **1050** (+70 de punch-up, −28 de recortes); personajes con voz 55 → **53** (F1). La
 narración Qwen de la vista previa todavía es v4 sin la etiqueta (dice «su amiga» y no tiene el punch-up): la reemplaza el
@@ -186,9 +187,16 @@ La regla de la /s/ de Eli (Kokoro) deja de aplicar. Cuadro de texto según ART_B
 
 Regla de la biblia: el chiste va seco; la gracia está en la pausa. **Una etiqueta por remate, nunca dos.** Las etiquetas no
 se pronuncian: en QC, escuchar que ninguna se lea en voz alta. Se genera **un bloque por beat** con su etiqueta inicial;
-dentro del bloque, solo las etiquetas de remate de esta tabla. `[excited]`, `[whispers]`, `[deadpan]`, `[laughs softly]` y
-`[sarcastic]` son las de referencia; `[curious]`, `[amazed]`, `[warm]`, `[mischievously]` son descriptivas: si en la
-prueba eleven_v4 no las respeta o las lee, se cambian por la de referencia indicada entre paréntesis.
+dentro del bloque, solo las etiquetas de remate de esta tabla. `[excited]`, `[deadpan]`, `[laughs softly]` y
+`[sarcastic]` son las de referencia; `[curious]`, `[amazed]`, `[indignant]` (las tres probadas en el gancho v5),
+`[warm]`, `[mischievously]`, `[softly]`, `[nervous]`, `[sad]` son descriptivas: si en la prueba eleven_v4 no las respeta
+o las lee, se cambian por la de referencia indicada entre paréntesis. Una etiqueta de remate igual a la que ya está activa
+no se repite. Prompts exactos por beat: `voice/elevenlabs/ep001_prompts.json`.
+
+**Regla del susurro (Productor, 2026-10-29, tras escuchar el gancho de David):** **ningún `[whispers]`** en todo el
+episodio **salvo el «¿…Quién fue?» final del beat 23**. Las citas de Mila van serenas o maravilladas **a volumen
+normal** (`[amazed]`, `[softly]` o sin etiqueta), nunca susurradas; esto manda sobre el «bajito» de la tabla de líneas de
+personaje. Los remates «cómplices» y los inicios «íntimos» se dan con el tono, no bajando a susurro.
 
 **Remates (interpretación):**
 
@@ -208,23 +216,26 @@ prueba eleven_v4 no las respeta o las lee, se cambian por la de referencia indic
 | #12 «A Eli no le alcanzaron los dedos. Ni prestados.» | `[laughs softly]` justo antes de «Ni prestados» · 0,4 s después · «¿El resultado?» con intriga. |
 | #13 «Mira quién hizo la ola a tiempo.» | `[excited]` contenido, orgullo de amigo · 0,6 s después (deja ver la ola del puente). |
 | #14 «Sí, tú. No el de adelante.» | 0,4 s antes · tono del final (cálido, bajo) · `[laughs softly]` en «No el de adelante». |
-| #15 «En nuestra versión, alguien la sube silbando.» | `[whispers]` cómplice, como quien chismea al espectador · 0,5 s después antes de «La ola volvió». |
+| #15 «En nuestra versión, alguien la sube silbando.» | Cómplice, como quien chismea al espectador, **a volumen normal** (lo cubre el `[mischievously]` del beat; nunca `[whispers]`) · 0,5 s después antes de «La ola volvió». |
 | #16 «Hasta Eli.» | 0,5 s antes · `[laughs softly]`, orgullo cálido · 0,6 s antes del nombre del canal. |
 | «En una pista vacía.» | 0,5 s antes · `[deadpan]`. |
 | «…como un chisme que crece…» | Sonrisa en la voz; `[laughs softly]` mínimo en «lo cuenta». |
 | «Tres autos de más.» | 0,6 s antes · `[deadpan]` · corte seco al «¡¿Quién f…?». |
 | «la razón ya se fue a cenar.» | 0,8 s antes de «la razón» · `[deadpan]` · 1 s de aire después (ahí va la risa). |
-| «…Fue el viento.» / «¿…Quién fue?» | `[whispers]` · silencio antes y después, como marca el guion. |
-| «Ese hueco es mi amigo.» / «Fuiste tú.» | Serena, sin etiqueta; en «Fuiste tú» sonrisa en la voz. |
+| «…Fue el viento.» | `[nervous]` (excusa lenta, avergonzada; voz normal, sin susurro) · silencio antes y después, como marca el guion. |
+| «¿…Quién fue?» (beat 23) | `[whispers]`: **el único susurro del episodio** · tras los 5 s de silencio. |
+| «Eli… va para atrás.» (beat 4) | Mila maravillada, **volumen normal**: la cubre el `[amazed]` de «Mila, su pareja, mira atrás.»; sin `[whispers]`. |
+| «Eli.» (beat 17) | Mila, plana y serena · `[softly]`, volumen normal. |
+| «Ese hueco es mi amigo.» / «Fuiste tú.» | Serena, volumen normal · `[softly]` (separa la cita de la anterior de Eli); en «Fuiste tú» sonrisa en la voz. |
 
 **Curva emocional por beat (ritmo base 144 ppm):**
 
 | Beat | Emoción | Etiqueta inicial | Ritmo |
 |---|---|---|---|
-| 1 Un toque | intriga que arranca | `[curious]` (`[whispers]` suave) | medio, frases cortas con aire entre «Una sola vez.» y «Apenas un poquito.» |
+| 1 Un toque | intriga que arranca | `[curious]` (sin susurro) | medio, frases cortas con aire entre «Una sola vez.» y «Apenas un poquito.» |
 | 2 Se rompe | tensión que sube | `[excited]` | acelera en «Más fuerte. Más fuerte…»; frena en seco en «Eli.» |
 | 3 ¿Quién fue? | burla cariñosa | `[deadpan]` | rápido; deja la pausa del pajarito para #2 |
-| 4 La pregunta | asombro → intriga | `[amazed]` (`[whispers]`) | lento; la pregunta del título de verdad, subiendo al final; 1 s de silencio |
+| 4 La pregunta | asombro → intriga | `[amazed]` (`[softly]`), Mila a volumen normal → `[curious]` en la pregunta | lento; la pregunta del título de verdad, subiendo al final; 1 s de silencio |
 | 5 Wordmark | — | sin narración | — |
 | 6 El círculo | curiosidad juguetona | `[curious]` | medio; pausa 0,6 s antes de cada número; «Problema:» con picardía |
 | 7 Titubeos | asombro seco | `[deadpan]` | se frena en «En una pista vacía.»; #4 cómplice |
@@ -233,17 +244,17 @@ prueba eleven_v4 no las respeta o las lee, se cambian por la de referencia indic
 | 10 Cadena | claridad → chisme | sin etiqueta → `[laughs softly]` en el chisme | medio; el término técnico despacio |
 | 11 Una ola | asombro tranquilo | `[warm]` (sin etiqueta) | medio; #6 seco; la tesis lenta, con 0,6 s antes |
 | 12 Tres autos | intriga → remate | `[curious]` | medio; «Tres autos de más.» seco; densidad clara y lenta |
-| 13 Media hora | asombro nocturno → el mejor chiste | `[whispers]` suave al inicio | lento, casi confidencia; 0,8 s antes de «la razón»; 1 s de aire después |
+| 13 Media hora | asombro nocturno → el mejor chiste | `[softly]` al inicio (no susurro) | lento, casi confidencia; 0,8 s antes de «la razón»; 1 s de aire después |
 | 14 Cierra el hueco | intriga, preguntas de verdad | `[curious]` | medio-rápido en las tres preguntas; la instrucción, citada con energía |
 | 15 El auto distinto | ajá central, claridad | sin etiqueta (claro) | el más lento del episodio (≈ 138 ppm); #7 seco después |
 | 16 Se derrite | triunfo | `[excited]` contenido | cifras con pausa previa; #8 con compasión fingida |
-| 17 Ansioso | complicidad pícara | `[mischievously]` (`[whispers]`) | #15 susurrado; silencio de 1 s en la mirada colectiva; «Ser paciente…» claro y lento |
+| 17 Ansioso | complicidad pícara | `[mischievously]` (`[sarcastic]`) | #15 cómplice a volumen normal; silencio de 1 s en la mirada colectiva; «Ser paciente…» claro y lento |
 | 18 Persona paciente | ternura | `[warm]` (sin etiqueta) | sereno; «Una sola persona paciente.» lento, con orgullo |
 | 19 Amortiguador | claridad → burla cariñosa | sin etiqueta → `[deadpan]` | medio; «llegar tarde es la jugada» con sonrisa; #10 y #11 secos; «Ojo: no es magia» serio |
 | 20 Cien autos | intriga honesta | `[curious]` | medio; #12 con risa suave; «Es complicado.» seco; el matiz final serio |
 | 21 La ola recuerda | emoción de partido | `[excited]` | sube y baja con la ola; #13 con orgullo de amigo |
 | 22 Sé el espacio | ternura, consejo de amigo | `[warm]` (sin etiqueta) | bajo y calmado, 140 ppm; #14 cálido, nunca regaño |
-| 23 El mismo toque | suspenso → susurro final | `[whispers]` | muy lento; luego 5 s de silencio; las citas bajitas |
+| 23 El mismo toque | suspenso → susurro final | `[softly]` → `[whispers]` solo en «¿…Quién fue?» | muy lento; luego 5 s de silencio; «¿…Quién fue?» susurrado (el único); «Fuiste tú.» `[softly]`, volumen normal |
 | 24 Despedida | triunfo cálido | `[warm]` → `[laughs softly]` en #16 | lento; tesis final con aire; el nombre del canal con sonrisa |
 
 ## TEXTOS EN PANTALLA
