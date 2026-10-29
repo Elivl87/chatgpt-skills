@@ -88,9 +88,9 @@
         const eN = [Math.min(5, n), Math.max(0, Math.min(5, n - 5))], mN = [Math.max(0, Math.min(5, n - 10)), Math.max(0, Math.min(5, n - 15))];
         const slide = K.ease.outBack(K.clamp(milaIn)), dy = droop * 160, rot = droop * 0.5;
         const ex = milaIn > 0 ? K.lerp(780, 560, slide) : 780;
-        P.hand(c, ex - 170, 740 + dy, 150, eN[0], { dir: -1, skin: skinE, sleeve: '#f3ecdd', rot: -0.12 - rot });
-        P.hand(c, ex + 170, 740 + dy, 150, eN[1], { dir: 1, skin: skinE, sleeve: '#f3ecdd', rot: 0.12 + rot });
-        if (milaIn > 0) { const mx = K.lerp(2300, 1340, slide); P.hand(c, mx - 160, 760 + dy, 140, mN[0], { dir: -1, skin: skinM, sleeve: '#7158b8', rot: -0.1 - rot }); P.hand(c, mx + 160, 760 + dy, 140, mN[1], { dir: 1, skin: skinM, sleeve: '#7158b8', rot: 0.1 + rot }); }
+        P.hand(c, ex - 170, 740 + dy, 150, eN[0], { dir: -1, skin: skinE, sleeve: '#7a1f2b', cuff: '#5e1622', rot: -0.12 - rot });
+        P.hand(c, ex + 170, 740 + dy, 150, eN[1], { dir: 1, skin: skinE, sleeve: '#7a1f2b', cuff: '#5e1622', rot: 0.12 + rot });
+        if (milaIn > 0) { const mx = K.lerp(2300, 1340, slide); P.hand(c, mx - 160, 760 + dy, 140, mN[0], { dir: -1, skin: skinM, sleeve: '#4d6ea6', cuff: '#6f8cc0', rot: -0.1 - rot }); P.hand(c, mx + 160, 760 + dy, 140, mN[1], { dir: 1, skin: skinM, sleeve: '#4d6ea6', cuff: '#6f8cc0', rot: 0.1 + rot }); }
       };
       shots.push({ id: 'G06_count', start: tA20 - 0.3, bg: 'hands', focus: [960, 600], push: 0.03, pushDir: 1,
         draw(c, t, lt) { const n = counts(t); handsInsert(c, t, n, A.ramp(t, tNi20 - 0.25, 0.25), 0);

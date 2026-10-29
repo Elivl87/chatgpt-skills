@@ -13,7 +13,7 @@
   [
    "file size <= 30 MB (chat delivery)",
    "PASS",
-   "15.92 MB"
+   "16.75 MB"
   ],
   [
    "audio AAC 48 kHz",
@@ -23,22 +23,17 @@
   [
    "loudness -14 LUFS (+-1)",
    "PASS",
-   "-14.0 LUFS"
+   "-14.1 LUFS"
   ],
   [
    "true peak <= -1.0 dBTP",
-   "FAIL",
-   "-0.9 dBTP"
+   "PASS",
+   "-1.2 dBTP"
   ],
   [
    "no black frames",
-   "FAIL",
-   [
-    [
-     70.5333,
-     70.7
-    ]
-   ]
+   "PASS",
+   "none"
   ],
   [
    "no undeclared freezes >= 0.5 s",
@@ -52,21 +47,78 @@
   ]
  ],
  "loudness": {
-  "I": -14.0,
-  "TP": -0.9,
-  "LRA": 12.1
+  "I": -14.1,
+  "TP": -1.2,
+  "LRA": 12.6
  },
  "detect": {
-  "black": [
-   [
-    70.5333,
-    70.7
-   ]
-  ],
+  "black": [],
   "freeze": [],
   "silence": []
  },
- "pacing": null,
- "duration": 70.733333,
- "size": 15920810
+ "pacing": {
+  "name": "blockE2",
+  "source": "/home/user/chatgpt-skills/newchannel/ep/001/animatic/blockE2_review.mp4",
+  "duration_s": 73.3,
+  "shots": 26,
+  "avg_shot_s": 2.82,
+  "median_shot_s": 1.84,
+  "longest_shot_s": 19.66,
+  "cuts_per_min": 20.5,
+  "motion_share": 0.768,
+  "still_2s_runs": 3,
+  "brightness_mean": 0.553,
+  "saturation_mean": 0.377,
+  "palette": [
+   [
+    "#3f354f",
+    0.147
+   ],
+   [
+    "#cea286",
+    0.138
+   ],
+   [
+    "#685166",
+    0.135
+   ],
+   [
+    "#ba9266",
+    0.107
+   ],
+   [
+    "#9b7584",
+    0.097
+   ],
+   [
+    "#927a4e",
+    0.091
+   ],
+   [
+    "#6e6041",
+    0.091
+   ],
+   [
+    "#e8c69f",
+    0.087
+   ],
+   [
+    "#0e0a0d",
+    0.07
+   ],
+   [
+    "#4d332a",
+    0.037
+   ]
+  ],
+  "loud_db_p90": -10.7,
+  "pauses_ge_0_5s": 0,
+  "pause_mean_s": 0,
+  "pause_longest_s": 0,
+  "words": 109,
+  "wpm_overall": 89,
+  "wpm_while_speaking": 196
+ },
+ "duration": 73.335,
+ "size": 16748783
 }

@@ -197,6 +197,8 @@
     ctx.fillStyle = skin; K.rrect(ctx, -0.33 * s, 0.25 * s, 0.66 * s, 1.6 * s, 0.2 * s); ctx.fill();
     ctx.fillStyle = INK; K.rrect(ctx, -0.42 * s - lw, 0.9 * s, 0.84 * s + 2 * lw, 1.2 * s, 0.15 * s); ctx.fill();
     ctx.fillStyle = sleeve; K.rrect(ctx, -0.42 * s, 0.9 * s + lw, 0.84 * s, 1.2 * s, 0.15 * s); ctx.fill();
+    if (o.cuff) { ctx.fillStyle = o.cuff; K.rrect(ctx, -0.42 * s, 0.9 * s + lw, 0.84 * s, 0.2 * s, [0.15 * s, 0.15 * s, 0, 0]); ctx.fill();   // the cuff band (canonical look: flannel / denim)
+      ctx.strokeStyle = K.rgba(INK, 0.55); ctx.lineWidth = lw * 0.6; ctx.beginPath(); ctx.moveTo(-0.42 * s, 1.1 * s + lw); ctx.lineTo(0.42 * s, 1.1 * s + lw); ctx.stroke(); }
     const fpath = p => { ctx.beginPath(); ctx.moveTo(p.x0, p.y0); ctx.lineTo(p.x0 + Math.sin(p.ang) * p.L, p.y0 - Math.cos(p.ang) * p.L); };
     ctx.lineCap = 'round';
     for (const p of parts) { fpath(p); ctx.strokeStyle = INK; ctx.lineWidth = p.w + 2 * lw; ctx.stroke(); }
@@ -245,8 +247,10 @@
     else if (sh > 0.2) { ctx.fillStyle = '#c9b49a'; K.rrect(ctx, bx + bw / 2 - 60, low - 40, 120, 26, 10); ctx.fill(); ctx.stroke(); }
     // the badge flying out
     const u = K.clamp(o.badge || 0); if (u > 0) { const px = K.lerp(bx + 260, 1500, u), py = K.lerp(by + 150, 300, u) - 380 * 4 * u * (1 - u); ctx.save(); ctx.translate(px, py); ctx.rotate(u * 6.5); badge(ctx, 0, 0, 1.3); ctx.restore(); }
-    // Mila's knee (purple overalls) coming in from the left
-    const kk = K.clamp(o.knee || 0); if (kk > 0) { const kx = K.lerp(-420, bx - 30, K.ease.out(kk)); ctx.fillStyle = '#7158b8'; ctx.strokeStyle = INK; ctx.lineWidth = 8; K.rrect(ctx, kx - 420, by + 60, 460, 240, 110); ctx.fill(); ctx.stroke();
+    // Mila's knee coming in from the left (canonical look 2026-10-29: deep-purple leggings #3d2f63, the purple skirt hem on the thigh)
+    const kk = K.clamp(o.knee || 0); if (kk > 0) { const kx = K.lerp(-420, bx - 30, K.ease.out(kk)); ctx.fillStyle = '#3d2f63'; ctx.strokeStyle = INK; ctx.lineWidth = 8; K.rrect(ctx, kx - 420, by + 60, 460, 240, 110); ctx.fill(); ctx.stroke();
+      ctx.save(); K.rrect(ctx, kx - 420, by + 60, 460, 240, 110); ctx.clip(); ctx.fillStyle = '#7158b8'; ctx.beginPath(); ctx.moveTo(kx - 430, by + 40); ctx.lineTo(kx - 250, by + 40); ctx.lineTo(kx - 300, by + 320); ctx.lineTo(kx - 430, by + 320); ctx.fill();
+      ctx.strokeStyle = INK; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(kx - 250, by + 40); ctx.lineTo(kx - 300, by + 320); ctx.stroke(); ctx.restore(); ctx.strokeStyle = INK; ctx.lineWidth = 8; K.rrect(ctx, kx - 420, by + 60, 460, 240, 110); ctx.stroke();
       ctx.strokeStyle = K.rgba('#ffe2a6', 0.6); ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(kx - 60, by + 170, 90, -1.2, -0.2); ctx.stroke(); }
   };
   function badge(ctx, x, y, s) {

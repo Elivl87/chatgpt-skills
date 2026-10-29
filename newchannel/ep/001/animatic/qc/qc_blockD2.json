@@ -13,7 +13,7 @@
   [
    "file size <= 30 MB (chat delivery)",
    "PASS",
-   "16.88 MB"
+   "15.77 MB"
   ],
   [
    "audio AAC 48 kHz",
@@ -23,12 +23,12 @@
   [
    "loudness -14 LUFS (+-1)",
    "PASS",
-   "-14.0 LUFS"
+   "-14.1 LUFS"
   ],
   [
    "true peak <= -1.0 dBTP",
    "PASS",
-   "-2.3 dBTP"
+   "-2.4 dBTP"
   ],
   [
    "no black frames",
@@ -47,9 +47,9 @@
   ]
  ],
  "loudness": {
-  "I": -14.0,
-  "TP": -2.3,
-  "LRA": 11.9
+  "I": -14.1,
+  "TP": -2.4,
+  "LRA": 6.7
  },
  "detect": {
   "black": [],
@@ -59,66 +59,66 @@
  "pacing": {
   "name": "blockD2",
   "source": "/home/user/chatgpt-skills/newchannel/ep/001/animatic/blockD2_review.mp4",
-  "duration_s": 80.8,
-  "shots": 33,
-  "avg_shot_s": 2.45,
-  "median_shot_s": 2.34,
-  "longest_shot_s": 6.16,
-  "cuts_per_min": 23.8,
-  "motion_share": 0.99,
+  "duration_s": 73.8,
+  "shots": 34,
+  "avg_shot_s": 2.17,
+  "median_shot_s": 2.0,
+  "longest_shot_s": 5.83,
+  "cuts_per_min": 26.8,
+  "motion_share": 0.984,
   "still_2s_runs": 0,
-  "brightness_mean": 0.626,
-  "saturation_mean": 0.3,
+  "brightness_mean": 0.625,
+  "saturation_mean": 0.318,
   "palette": [
    [
-    "#7c764a",
-    0.123
+    "#c8b590",
+    0.163
    ],
    [
-    "#cca879",
-    0.122
+    "#958a51",
+    0.13
    ],
    [
-    "#e3c9a0",
+    "#b0a35d",
+    0.128
+   ],
+   [
+    "#decfb7",
     0.117
    ],
    [
-    "#948f76",
-    0.112
+    "#a59c81",
+    0.101
    ],
    [
-    "#545448",
-    0.111
+    "#817375",
+    0.092
    ],
    [
-    "#686470",
-    0.107
+    "#747044",
+    0.088
    ],
    [
-    "#b1ad95",
-    0.104
+    "#685c60",
+    0.075
    ],
    [
-    "#a99655",
-    0.103
+    "#5e4836",
+    0.058
    ],
    [
-    "#392e33",
-    0.052
-   ],
-   [
-    "#d0d0cb",
+    "#35444c",
     0.048
    ]
   ],
-  "loud_db_p90": -11.4,
+  "loud_db_p90": -12.2,
   "pauses_ge_0_5s": 0,
   "pause_mean_s": 0,
   "pause_longest_s": 0,
-  "words": 169,
-  "wpm_overall": 125,
-  "wpm_while_speaking": 176
+  "words": 173,
+  "wpm_overall": 141,
+  "wpm_while_speaking": 190
  },
- "duration": 80.833333,
- "size": 16876964
+ "duration": 73.833333,
+ "size": 15768814
 }

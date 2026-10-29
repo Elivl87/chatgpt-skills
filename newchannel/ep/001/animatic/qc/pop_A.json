@@ -1,14 +1,14 @@
 {
  "block": "A",
- "frames": 1304,
+ "frames": 1413,
  "events": [
   {
    "kind": "step",
-   "frame": 193,
-   "t": 6.433,
+   "frame": 191,
+   "t": 6.367,
    "shot": "A04_pair",
    "cells": 1,
-   "peak": 75.2,
+   "peak": 72.5,
    "bbox": [
     552,
     456,
@@ -18,11 +18,11 @@
   },
   {
    "kind": "step",
-   "frame": 214,
-   "t": 7.133,
+   "frame": 195,
+   "t": 6.5,
    "shot": "A04_pair",
    "cells": 1,
-   "peak": 61.3,
+   "peak": 67.1,
    "bbox": [
     552,
     456,
@@ -32,39 +32,25 @@
   },
   {
    "kind": "step",
-   "frame": 419,
-   "t": 13.967,
-   "shot": "A07_brake",
-   "cells": 5,
-   "peak": 86.1,
-   "bbox": [
-    432,
-    288,
-    504,
-    360
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 428,
-   "t": 14.267,
-   "shot": "A07_brake",
+   "frame": 212,
+   "t": 7.067,
+   "shot": "A04_pair",
    "cells": 1,
-   "peak": 27.2,
+   "peak": 59.2,
    "bbox": [
-    672,
+    552,
     456,
-    696,
+    576,
     480
    ]
   },
   {
    "kind": "step",
-   "frame": 438,
-   "t": 14.6,
+   "frame": 401,
+   "t": 13.367,
    "shot": "A07_brake",
    "cells": 1,
-   "peak": 24.7,
+   "peak": 21.0,
    "bbox": [
     672,
     456,
@@ -74,11 +60,11 @@
   },
   {
    "kind": "flash",
-   "frame": 514,
-   "t": 17.133,
+   "frame": 476,
+   "t": 15.867,
    "shot": "A08_yell",
    "cells": 2,
-   "peak": 13.7,
+   "peak": 8.8,
    "bbox": [
     312,
     456,
@@ -88,81 +74,25 @@
   },
   {
    "kind": "step",
-   "frame": 970,
-   "t": 32.333,
-   "shot": "A14_turn",
+   "frame": 667,
+   "t": 22.233,
+   "shot": "A10_sure",
    "cells": 1,
-   "peak": 12.2,
+   "peak": 14.6,
    "bbox": [
-    480,
-    192,
-    504,
-    216
+    264,
+    384,
+    288,
+    408
    ]
   },
   {
    "kind": "step",
-   "frame": 977,
-   "t": 32.567,
-   "shot": "A14_turn",
-   "cells": 1,
-   "peak": 11.0,
-   "bbox": [
-    480,
-    192,
-    504,
-    216
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 980,
-   "t": 32.667,
-   "shot": "A14_turn",
-   "cells": 4,
-   "peak": 46.4,
-   "bbox": [
-    456,
-    144,
-    504,
-    192
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 981,
-   "t": 32.7,
-   "shot": "A14_turn",
-   "cells": 4,
-   "peak": 12.2,
-   "bbox": [
-    576,
-    168,
-    792,
-    192
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 983,
-   "t": 32.767,
-   "shot": "A14_turn",
-   "cells": 5,
-   "peak": 48.0,
-   "bbox": [
-    456,
-    144,
-    528,
-    192
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1013,
-   "t": 33.767,
+   "frame": 1081,
+   "t": 36.033,
    "shot": "A15_back",
    "cells": 1,
-   "peak": 20.3,
+   "peak": 19.1,
    "bbox": [
     288,
     336,
@@ -172,16 +102,128 @@
   },
   {
    "kind": "step",
-   "frame": 1213,
-   "t": 40.433,
-   "shot": "A19_bonk",
-   "cells": 9,
-   "peak": 39.7,
+   "frame": 1088,
+   "t": 36.267,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 20.5,
    "bbox": [
-    456,
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1094,
+   "t": 36.467,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 20.0,
+   "bbox": [
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1098,
+   "t": 36.6,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 19.3,
+   "bbox": [
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1101,
+   "t": 36.7,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 18.6,
+   "bbox": [
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1103,
+   "t": 36.767,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 19.0,
+   "bbox": [
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1106,
+   "t": 36.867,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 18.1,
+   "bbox": [
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1108,
+   "t": 36.933,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 17.6,
+   "bbox": [
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1111,
+   "t": 37.033,
+   "shot": "A15_back",
+   "cells": 1,
+   "peak": 17.4,
+   "bbox": [
+    288,
+    336,
+    312,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1315,
+   "t": 43.833,
+   "shot": "A19_bonk",
+   "cells": 1,
+   "peak": 42.3,
+   "bbox": [
+    480,
     192,
-    528,
-    288
+    504,
+    216
    ]
   }
  ]

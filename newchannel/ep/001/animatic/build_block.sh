@@ -48,9 +48,9 @@ TTD_TMP="$TMPD" python3 "$HERE/sound_block.py" "$TMPD/events.json" "$NAR" "$TMPD
 # 4 · encode (never write the mp4 in place until it is complete)
 MP4="$HERE/block${B}_${Q}.mp4"; PART="$TMPD/block.part.mp4"
 if [ -f "$TMPD/video.mp4" ] && [ "$CHUNK" -gt 0 -o "${SKIP_FRAMES:-0}" = "1" ]; then
-  ffmpeg -v error -y -i "$TMPD/video.mp4" -i "$TMPD/block.wav" -c:v copy -c:a aac -b:a 160k -ar 48000 -movflags +faststart "$PART"   # no -shortest (it dropped 1-4 end frames to the AAC priming and the episode join drifted)
+  ffmpeg -v error -y -i "$TMPD/video.mp4" -i "$TMPD/block.wav" -c:v copy -c:a aac -b:a 192k -ar 48000 -movflags +faststart "$PART"   # 192k: at 160k the AAC encoder overshot the true peak by ~2 dB on voice transients (D2, E2 2026-10-29). no -shortest (it dropped 1-4 end frames to the AAC priming and the episode join drifted)
 else
-  ffmpeg -v error -y -framerate $FPS -i "$TMPD/frames/f_%05d.png" -i "$TMPD/block.wav" "${VX[@]}" -c:a aac -b:a 160k -ar 48000 -movflags +faststart "$PART"
+  ffmpeg -v error -y -framerate $FPS -i "$TMPD/frames/f_%05d.png" -i "$TMPD/block.wav" "${VX[@]}" -c:a aac -b:a 192k -ar 48000 -movflags +faststart "$PART"
 fi
 mv "$PART" "$MP4"; echo "mp4: $MP4 ($(du -h "$MP4" | cut -f1))"
 # 5 · QC

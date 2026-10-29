@@ -1,11 +1,11 @@
 {
- "duration": 71.305,
- "shots": 24,
- "cuts": 23,
- "cuts_per_min": 19.4,
- "longest_shot": 5.22,
+ "duration": 66.64500000000001,
+ "shots": 25,
+ "cuts": 24,
+ "cuts_per_min": 21.6,
+ "longest_shot": 4.66,
  "longest_id": "E12_avg",
- "avg_shot": 2.97,
- "size_mb": 13.52,
- "contact_kb": 378
+ "avg_shot": 2.67,
+ "size_mb": 13.46,
+ "contact_kb": 361
 }

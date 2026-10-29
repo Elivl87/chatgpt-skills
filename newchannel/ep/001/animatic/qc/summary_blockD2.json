@@ -1,11 +1,11 @@
 {
- "duration": 80.83499999999998,
- "shots": 29,
- "cuts": 28,
- "cuts_per_min": 20.8,
- "longest_shot": 6.19,
+ "duration": 73.82499999999999,
+ "shots": 32,
+ "cuts": 31,
+ "cuts_per_min": 25.2,
+ "longest_shot": 4.75,
  "longest_id": "F19_late",
- "avg_shot": 2.79,
- "size_mb": 16.88,
- "contact_kb": 363
+ "avg_shot": 2.31,
+ "size_mb": 15.77,
+ "contact_kb": 385
 }

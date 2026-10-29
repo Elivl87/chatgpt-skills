@@ -1,42 +1,14 @@
 {
  "block": "B",
- "frames": 1643,
+ "frames": 1676,
  "events": [
   {
    "kind": "step",
-   "frame": 49,
-   "t": 1.633,
-   "shot": "B01_drag",
-   "cells": 1,
-   "peak": 32.2,
-   "bbox": [
-    792,
-    288,
-    816,
-    312
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 90,
-   "t": 3.0,
-   "shot": "B01_drag",
-   "cells": 1,
-   "peak": 24.5,
-   "bbox": [
-    792,
-    288,
-    816,
-    312
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 105,
-   "t": 3.5,
+   "frame": 140,
+   "t": 4.667,
    "shot": "B02_gotit",
    "cells": 1,
-   "peak": 16.1,
+   "peak": 23.0,
    "bbox": [
     336,
     240,
@@ -46,11 +18,11 @@
   },
   {
    "kind": "step",
-   "frame": 125,
-   "t": 4.167,
+   "frame": 145,
+   "t": 4.833,
    "shot": "B02_gotit",
    "cells": 1,
-   "peak": 15.5,
+   "peak": 17.8,
    "bbox": [
     336,
     240,
@@ -60,22 +32,22 @@
   },
   {
    "kind": "step",
-   "frame": 136,
-   "t": 4.533,
+   "frame": 173,
+   "t": 5.767,
    "shot": "B02_gotit",
-   "cells": 1,
-   "peak": 15.3,
+   "cells": 2,
+   "peak": 51.0,
    "bbox": [
-    336,
-    240,
+    312,
+    216,
     360,
-    264
+    240
    ]
   },
   {
    "kind": "step",
-   "frame": 138,
-   "t": 4.6,
+   "frame": 184,
+   "t": 6.133,
    "shot": "B02_gotit",
    "cells": 1,
    "peak": 15.0,
@@ -88,11 +60,11 @@
   },
   {
    "kind": "step",
-   "frame": 160,
-   "t": 5.333,
+   "frame": 189,
+   "t": 6.3,
    "shot": "B02_gotit",
    "cells": 1,
-   "peak": 12.5,
+   "peak": 24.4,
    "bbox": [
     336,
     240,
@@ -102,30 +74,30 @@
   },
   {
    "kind": "step",
-   "frame": 462,
-   "t": 15.4,
+   "frame": 459,
+   "t": 15.3,
    "shot": "B06_finger",
    "cells": 2,
-   "peak": 126.4,
+   "peak": 50.3,
    "bbox": [
     360,
-    336,
-    384,
-    384
+    264,
+    408,
+    360
    ]
   },
   {
    "kind": "step",
-   "frame": 475,
-   "t": 15.833,
+   "frame": 473,
+   "t": 15.767,
    "shot": "B06_finger",
-   "cells": 2,
-   "peak": 34.2,
+   "cells": 5,
+   "peak": 78.9,
    "bbox": [
-    504,
+    336,
     240,
     552,
-    264
+    384
    ]
   },
   {
@@ -133,180 +105,194 @@
    "frame": 495,
    "t": 16.5,
    "shot": "B06_finger",
-   "cells": 5,
-   "peak": 126.2,
+   "cells": 1,
+   "peak": 47.4,
    "bbox": [
     384,
-    312,
-    432,
-    384
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1186,
-   "t": 39.533,
-   "shot": "B15_yell",
-   "cells": 1,
-   "peak": 22.7,
-   "bbox": [
-    600,
-    216,
-    624,
-    240
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1329,
-   "t": 44.3,
-   "shot": "B19_forward",
-   "cells": 4,
-   "peak": 19.0,
-   "bbox": [
-    48,
-    264,
-    144,
-    432
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1551,
-   "t": 51.7,
-   "shot": "B22_bike",
-   "cells": 13,
-   "peak": 52.6,
-   "bbox": [
-    480,
-    264,
-    648,
-    456
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1556,
-   "t": 51.867,
-   "shot": "B22_bike",
-   "cells": 34,
-   "peak": 43.5,
-   "bbox": [
-    480,
-    144,
-    648,
-    480
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1566,
-   "t": 52.2,
-   "shot": "B22_bike",
-   "cells": 2,
-   "peak": 29.5,
-   "bbox": [
-    504,
-    168,
-    528,
+    336,
+    408,
     360
    ]
   },
   {
    "kind": "step",
-   "frame": 1571,
-   "t": 52.367,
-   "shot": "B22_bike",
-   "cells": 43,
-   "peak": 58.2,
-   "bbox": [
-    480,
-    120,
-    648,
-    480
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1584,
-   "t": 52.8,
-   "shot": "B22_bike",
+   "frame": 547,
+   "t": 18.233,
+   "shot": "B06_finger",
    "cells": 1,
-   "peak": 10.1,
+   "peak": 38.2,
    "bbox": [
-    528,
-    264,
-    552,
-    288
+    408,
+    384,
+    432,
+    408
    ]
   },
   {
    "kind": "step",
-   "frame": 1586,
-   "t": 52.867,
-   "shot": "B22_bike",
-   "cells": 48,
-   "peak": 63.4,
+   "frame": 1142,
+   "t": 38.067,
+   "shot": "B15_yell",
+   "cells": 1,
+   "peak": 41.6,
    "bbox": [
-    480,
-    120,
-    648,
+    432,
+    408,
+    456,
+    432
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1318,
+   "t": 43.933,
+   "shot": "B17_eli_shrug",
+   "cells": 8,
+   "peak": 42.5,
+   "bbox": [
+    384,
+    144,
+    456,
+    216
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1419,
+   "t": 47.3,
+   "shot": "B19_forward",
+   "cells": 9,
+   "peak": 26.1,
+   "bbox": [
+    48,
+    264,
+    264,
     480
    ]
   },
   {
    "kind": "step",
-   "frame": 1599,
-   "t": 53.3,
-   "shot": "B22_bike",
-   "cells": 14,
-   "peak": 22.0,
+   "frame": 1434,
+   "t": 47.8,
+   "shot": "B19_forward",
+   "cells": 4,
+   "peak": 19.9,
    "bbox": [
-    480,
-    216,
+    48,
+    288,
+    144,
+    456
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1449,
+   "t": 48.3,
+   "shot": "B19_forward",
+   "cells": 5,
+   "peak": 18.7,
+   "bbox": [
+    48,
+    240,
+    192,
+    360
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1602,
+   "t": 53.4,
+   "shot": "B22_bike",
+   "cells": 23,
+   "peak": 36.3,
+   "bbox": [
+    504,
+    120,
+    672,
+    456
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1604,
+   "t": 53.467,
+   "shot": "B22_bike",
+   "cells": 37,
+   "peak": 60.0,
+   "bbox": [
+    504,
+    120,
+    672,
+    456
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1606,
+   "t": 53.533,
+   "shot": "B22_bike",
+   "cells": 34,
+   "peak": 35.3,
+   "bbox": [
+    504,
+    120,
+    672,
+    456
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1619,
+   "t": 53.967,
+   "shot": "B22_bike",
+   "cells": 15,
+   "peak": 50.6,
+   "bbox": [
+    504,
+    144,
+    672,
+    432
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1621,
+   "t": 54.033,
+   "shot": "B22_bike",
+   "cells": 19,
+   "peak": 36.9,
+   "bbox": [
+    504,
+    72,
+    672,
+    432
+   ]
+  },
+  {
+   "kind": "step",
+   "frame": 1636,
+   "t": 54.533,
+   "shot": "B22_bike",
+   "cells": 20,
+   "peak": 27.4,
+   "bbox": [
+    504,
+    72,
     648,
     456
    ]
   },
   {
    "kind": "step",
-   "frame": 1601,
-   "t": 53.367,
+   "frame": 1651,
+   "t": 55.033,
    "shot": "B22_bike",
-   "cells": 54,
-   "peak": 60.4,
+   "cells": 8,
+   "peak": 17.6,
    "bbox": [
-    480,
-    120,
-    648,
-    480
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1614,
-   "t": 53.8,
-   "shot": "B22_bike",
-   "cells": 28,
-   "peak": 29.1,
-   "bbox": [
-    480,
-    120,
-    648,
-    408
-   ]
-  },
-  {
-   "kind": "step",
-   "frame": 1616,
-   "t": 53.867,
-   "shot": "B22_bike",
-   "cells": 52,
-   "peak": 58.3,
-   "bbox": [
-    480,
-    120,
-    648,
+    504,
+    264,
+    600,
     456
    ]
   }

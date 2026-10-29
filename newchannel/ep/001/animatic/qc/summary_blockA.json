@@ -1,11 +1,11 @@
 {
- "duration": 43.565,
- "shots": 21,
- "cuts": 20,
- "cuts_per_min": 27.5,
- "longest_shot": 4.29,
- "longest_id": "A05_crane",
- "avg_shot": 2.07,
- "size_mb": 9.64,
- "contact_kb": 334
+ "duration": 47.085,
+ "shots": 22,
+ "cuts": 21,
+ "cuts_per_min": 26.8,
+ "longest_shot": 3.74,
+ "longest_id": "A17_backtoback",
+ "avg_shot": 2.14,
+ "size_mb": 9.71,
+ "contact_kb": 357
 }

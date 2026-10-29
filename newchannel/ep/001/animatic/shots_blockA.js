@@ -257,11 +257,11 @@
             c.save(); K.circle(c, lx, ly, r); c.clip();
             c.fillStyle = K.cast.ELI_SKIN; c.fillRect(lx - r, ly - r, 2 * r, 2 * r);
             c.fillStyle = '#fbf7ee'; K.ellipse(c, lx, ly + r * 0.05, r * 0.78, r * 0.7); c.fill(); c.strokeStyle = '#2a1a1e'; c.lineWidth = r * 0.08; c.stroke();
-            c.fillStyle = '#2a1a1e'; K.circle(c, lx + r * 0.05, ly + r * 0.08, r * 0.36); c.fill();
+            c.fillStyle = '#1e1216'; K.circle(c, lx + r * 0.05, ly + r * 0.08, r * 0.4); c.fill();   // eye check: the enlarged pupil reads dark through the glass
             c.fillStyle = '#ffffff'; K.circle(c, lx - r * 0.08, ly - r * 0.06, r * 0.1); c.fill();
             c.strokeStyle = '#1a100e'; c.lineWidth = r * 0.14; c.lineCap = 'round'; c.beginPath(); c.moveTo(lx - r * 0.6, ly - r * 0.82); c.quadraticCurveTo(lx, ly - r * 1.0, lx + r * 0.6, ly - r * 0.78); c.stroke();
             c.restore();
-            c.fillStyle = 'rgba(200,232,255,0.18)'; K.circle(c, lx, ly, r); c.fill();
+            c.fillStyle = 'rgba(200,232,255,0.1)'; K.circle(c, lx, ly, r); c.fill();
             c.strokeStyle = 'rgba(255,255,255,0.85)'; c.lineWidth = r * 0.07; c.beginPath(); c.arc(lx, ly, r * 0.7, -2.6, -1.7); c.stroke();
           }
         },

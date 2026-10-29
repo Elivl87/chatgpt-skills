@@ -1,5 +1,23 @@
 {
  "block": "C2",
- "frames_hit": 0,
- "runs": []
+ "frames_hit": 1,
+ "runs": [
+  {
+   "id": "eli1",
+   "shot": "D01_notfixed",
+   "f0": 51,
+   "f1": 51,
+   "t0": 1.7,
+   "t1": 1.7,
+   "n": 1,
+   "peak": 0.063,
+   "worst": 51,
+   "head": [
+    256,
+    374,
+    17
+   ],
+   "base": 0.0
+  }
+ ]
 }

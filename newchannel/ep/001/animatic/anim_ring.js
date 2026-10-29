@@ -91,12 +91,29 @@
     if (c.chars) c.chars(ctx);
     if (c.front !== false) for (const tf of FS.tufts) K.terrain.tuft(ctx, tf.x, tf.y + 60, tf.h, K.shade(Pf.grass, -0.3), { seed: tf.seed, n: 6, rim: Pf.rim, wind: Math.sin(t * 2 + tf.x) * 0.15 });
     ctx.restore();
+    if (c.lowFG) A.lowFG(ctx, t, c.lowFG);   // art review P1-6: low camera at grass level, out-of-focus flowers in front (screen space, graded with the shot)
     K.light.shafts(ctx, { n: 5, angle: -0.5, alpha: 0.07, color: '#fff0c0', y0: 0, y1: K.H, t, seed: 4 });
     K.sky.wash(ctx, 160, 40, 900, '#ffd9a0', 0.28);
     K.particles.motes(ctx, t, { n: 36, seed: 33, color: '#fff0c8', alpha: 0.5, size: 2.2, vx: 7, vy: -2 });
     K.light.grade(ctx, Pf.grade, 0.2, 'soft-light');
   };
   A.FIELD = { HZ, TRACK_Y, PXM, GROUND: 1010 };
+  // the low-angle foreground (P1-6): grass blades + wild flowers right in front of the lens, painted once at design size and
+  // blurred (a shallow depth of field), swaying a little; o: { h: band height (default 230), side: 'both' | 'left' | 'right' }
+  let LOWFG = null;
+  A.lowFG = function (ctx, t, o = {}) {
+    if (!LOWFG) { const W = K.W + 200, H = 340, L = K.canvas(W, H), B = K.canvas(W, H), r = K.rng(907), g = L.ctx, Pf = E.PAL.field;
+      for (let k = 0; k < 150; k++) { const x = r() * W, h = 110 + r() * 220, bend = (r() - 0.5) * 70, w = 9 + r() * 12;
+        g.fillStyle = K.mix(K.shade(Pf.grass, -0.45), K.shade(Pf.grass, 0.05), r()); g.beginPath(); g.moveTo(x - w, H); g.quadraticCurveTo(x + bend * 0.4, H - h * 0.6, x + bend, H - h); g.quadraticCurveTo(x + bend * 0.4 + w * 0.3, H - h * 0.55, x + w, H); g.fill(); }
+      const FL = ['#f2c230', '#fbf3e4', '#e98aa0', '#c9a0e8', '#ffd08a'];
+      for (let k = 0; k < 26; k++) { const x = r() * W, y = H - 90 - r() * 170, R = 14 + r() * 16; g.fillStyle = FL[(r() * FL.length) | 0];
+        for (let j = 0; j < 5; j++) { const a = j / 5 * K.TAU; K.circle(g, x + Math.cos(a) * R * 0.6, y + Math.sin(a) * R * 0.6, R * 0.55); g.fill(); } g.fillStyle = '#d9822b'; K.circle(g, x, y, R * 0.35); g.fill(); }
+      B.ctx.filter = 'blur(9px)'; B.ctx.drawImage(L.c, 0, 0); B.ctx.filter = 'none'; LOWFG = B; }
+    const h = o.h || 230, sx = Math.sin(t * 0.9) * 18 - 100;
+    ctx.save(); ctx.globalAlpha = 0.96;
+    ctx.drawImage(LOWFG.c, 0, 0, LOWFG.c.width, LOWFG.c.height, sx, K.H - h * 1.25, LOWFG.c.width, h * 1.25 + 4);
+    ctx.restore();
+  };
   A.LIGHT_FIELD = Object.assign({}, K.cast.LIGHT.golden, { ang: -2.45, rim: '#ffd99a', shade: '#3a3358' });
 
   // ------------------------------------------------------------------ Act 1 overlays (screen space, design units)

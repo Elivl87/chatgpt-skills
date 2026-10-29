@@ -6,10 +6,14 @@
   const REC = 'RECREACIÓN ILUSTRADA', SRC = 'Stern et al., Transp. Res. C 2018', AV = 0;
 
   // the badge Eli pins to his chest («¡Mi lema!»): a paper card hanging from one pin; droop 0..1 bends it down
+  const BADGE_Q = 0.03;
   P.badgeCard = function (ctx, head, u, droop = 0, a = 1, high = false) {
     if (a <= 0.01 || !head) return;
     // high: pinned on the upper bib, above crossed arms (Guardian: with the arms crossed the card lay over the forearms)
-    const x = head[0] + u * 0.01, y = head[1] + u * K.lerp(0.24, 0.155, +high)   /* high may be fractional: it follows a pose blend (Guardian v3) */, w = u * 0.11, h = u * 0.075;
+    // canonical look (director 2026-10-29): centred on the yellow tee between the open flannel panels; in 3/4 the tee strip sits
+    // toward the facing side, so the card follows it (it used to land on the near flannel panel)
+    const q3 = head.view === 'q' ? (head.dir || 1) * BADGE_Q : 0;
+    const x = head[0] + u * (0.01 + q3), y = head[1] + u * K.lerp(0.24, 0.155, +high)   /* high may be fractional: it follows a pose blend (Guardian v3) */, w = u * 0.11, h = u * 0.075;
     ctx.save(); ctx.globalAlpha = a; ctx.translate(x - w / 2, y); ctx.rotate(droop * 1.1);
     ctx.fillStyle = '#fbf3e4'; ctx.strokeStyle = '#2a1a1e'; ctx.lineWidth = Math.max(1.5, u * 0.004); K.rrect(ctx, 0, 0, w, h, h * 0.15); ctx.fill(); ctx.stroke();
     // the same card as in the glovebox gag (block E2): its three lines of text when big enough to read, ink bars below that
@@ -60,10 +64,13 @@
       const shots = [];
 
       // ================================================================ BEAT 14
-      shots.push({ id: 'E01_how', start: T0 - 0.05, bg: 'field', focus: [960, 520], push: 0.025, over: c => rec(c, false),
-        draw(c, t, lt) { A.field(c, t, { run: S7(), simT: PRE(t) - 20, frame: { z: 1.35, x: 960, y: 580 }, chars: cx => {
-          K.cast.draw(cx, 'mila1', 1140, G - 6, 600, { view: 'q', dir: -1, pose: 'chin', expr: 'thinking', t, look: [-0.5, -0.6], light: LF, shadow: 0.3 });
-          K.cast.draw(cx, 'eli1', 760, G, 600, { view: 'q', dir: 1, pose: 'think', expr: 'thinking', t, look: [0.6, -0.7], light: LF, shadow: 0.3 }); } }); } });
+      // art review P1-6 (director 2026-10-29): the standing duo by the ring varies its framing; E01 = a walking two-shot (a slow
+      // stroll along the track, the camera tracking with them: the background slides, they stay framed), Eli thinking, Mila beside him
+      shots.push({ id: 'E01_how', start: T0 - 0.05, bg: 'field', focus: [960, 520], push: 0.02, over: c => rec(c, false),
+        draw(c, t, lt) { const k = K.clamp((t - T0) / 2.8), dx = 300 * k, fx = 880 + dx;
+          A.field(c, t, { run: S7(), simT: PRE(t) - 20, frame: { z: 1.4, x: fx, y: 590 }, chars: cx => {
+            K.cast.draw(cx, 'eli1', 700 + dx, G, 600, { view: 'q', dir: 1, pose: 'walk', expr: 'thinking', t: t * 0.75, look: [0.5, -0.6], light: LF, shadow: 0.3 });
+            K.cast.draw(cx, 'mila1', 1040 + dx, G - 6, 600, { view: 'q', dir: 1, pose: 'walk', expr: 'thinking', t: t * 0.75 + 0.45, headTurn: -0.6, look: [-0.7, -0.2], light: LF, shadow: 0.3 }); } }); } });
       // E02 · a rulebook «para todos»: Eli tries to lift it and buckles
       shots.push({ id: 'E02_rulebook', start: tHay - 0.1, bg: 'field_book', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { const k = A.ramp(t, tHay + 0.5, 0.4);
@@ -168,18 +175,22 @@
       // ================================================================ BEAT 16 · the wave melts
       shots.push({ id: 'E14_melt', start: tLa - 0.05, bg: 'ring', label: 'ACELERADO ×4', focus: [960, 540], push: 0.022, pushDir: 1, over: c => { rec(c, true); src(c); },
         draw(c, t, lt) { A.ring(c, t, ringOpts(MELT(t))); } });
-      const gaugeShot = (id, start, text, sub, keyT, bg, gp = [1090, 230]) => shots.push({ id, start, bg, focus: [960, 520], push: 0.03, pushDir: 1, over: c => rec(c, false),
-        draw(c, t, lt) { A.field(c, t, { run: S7(), simT: MELT(t), frame: { z: 1.5, x: 960, y: 580 }, chars: cx => {
-          K.cast.draw(cx, 'mila1', 1300, G - 6 - (t > keyT ? 14 * Math.abs(Math.sin(t * 7)) : 0), 600, { view: 'q', dir: -1, ...A.pz(t, keyT, 'clipboard', 'clasp'), ...A.ez(t, keyT, 'curious', 'happy'), t, light: LF, shadow: 0.3 });
-          const u = 620, r = K.cast.draw(cx, 'eli1', 780, G, u, { view: 'q', dir: 1, ...A.pz(t, fixT, 'crossed', 'point'), expr: droop(t) > 0.3 ? 'sheepish' : 'neutral', t, look: droop(t) > 0.3 ? [0.2, 0.8] : [0.8, 0], light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t, 1 - K.ease.sine(K.clamp((t - (fixT - 0.1)) / 0.2))); } });   // follows the crossed -> point blend
+      // P1-6: the two gauge shots get their own framings: E15 = reverse over-the-shoulder (Mila's back in the foreground, hands on
+      // her hips, Eli facing the lens with the badge), E17 = low angle (camera at grass level, flowers out of focus in front)
+      const gaugeShot = (id, start, text, sub, keyT, bg, gp = [1090, 230], cam = 'two') => shots.push({ id, start, bg, focus: cam === 'ots' ? [820, 480] : [960, 520], push: 0.03, pushDir: 1, over: c => rec(c, false),
+        draw(c, t, lt) { const hop = t > keyT ? 14 * Math.abs(Math.sin(t * 7)) : 0, low = cam === 'low';
+          A.field(c, t, { run: S7(), simT: MELT(t), frame: cam === 'ots' ? { z: 1.55, x: 1010, y: 560 } : low ? { z: 1.6, x: 1000, y: 540 } : { z: 1.5, x: 960, y: 580 }, lowFG: low ? { h: 210 } : null, chars: cx => {
+            const eliD = () => { const u = 620, ex = cam === 'ots' ? 820 : low ? 790 : 780, r = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: 1, ...A.pz(t, fixT, 'crossed', 'point'), expr: 'neutral', exprBlend: { expr: 'sheepish', k: K.ease.sine(K.clamp((droop(t) - 0.1) / 0.4)) }, t, look: (() => { const q = K.ease.sine(K.clamp((droop(t) - 0.1) / 0.4)); return [K.lerp(0.8, 0.2, q), K.lerp(low ? -0.25 : 0, 0.8, q)]; })()   /* pop check: the face used to snap to sheepish at droop 0.3 */, light: LF, shadow: 0.3 }); eliBadge(cx, r, u, t, 1 - K.ease.sine(K.clamp((t - (fixT - 0.1)) / 0.2))); };   // follows the crossed -> point blend
+            if (cam === 'ots') { eliD(); K.cast.draw(cx, 'mila1', 1330, G + 150 - hop, 820, { view: 'backq', dir: -1, pose: 'hips', expr: 'happy', t, light: LF, shadow: 0.3 }); }
+            else { K.cast.draw(cx, 'mila1', low ? 1250 : 1300, G - 6 - hop, 600, { view: 'q', dir: -1, ...A.pz(t, keyT, low ? 'hips' : 'clipboard', 'clasp'), ...A.ez(t, keyT, 'curious', 'happy'), t, look: low ? [-0.8, -0.2] : undefined, light: LF, shadow: 0.3 }); eliD(); } } });
           P.gauge(c, gp[0], gp[1], text, sub, A.ramp(t, keyT - 0.1, 0.25)); },   // Guardian: was (960, 260), touching Eli's beanie
         cues: A => [{ t: keyT, kind: 'gauge' }] });
-      gaugeShot('E15_80', tLos1 - 0.1, '−80 %', 'cambios de velocidad', tOchenta, 'field_g1');
+      gaugeShot('E15_80', tLos1 - 0.1, '−80 %', 'cambios de velocidad', tOchenta, 'field_g1', [900, 150], 'ots');
       shots.push({ id: 'E16_brakes', start: tLos2 - 0.1, bg: 'ring_candles', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: -1, over: (c, t) => { rec(c, true); P.gauge(c, K.W - 470, 240, 'frenazos ≈ 0', null, A.ramp(t, tCasi, 0.25)); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.3, 1.3); c.translate(-960, -620); A.ring(c, t, ringOpts(MELT(t))); c.restore(); } });
       shots.push({ id: 'E17_fuel', start: tEn - 0.1, bg: 'ring_fuel', label: 'ACELERADO ×4', focus: [960, 540], push: 0.025, pushDir: 1, over: (c, t) => { rec(c, true); src(c); },
         draw(c, t, lt) { c.save(); c.translate(960, 540); c.scale(1.12, 1.12); c.translate(-960, -560); A.ring(c, t, ringOpts(MELT(t))); c.restore(); } });
-      gaugeShot('E17_40', tLos3 - 0.1, 'hasta −40 %', 'gasolina', tCuarenta, 'field_g2', [935, 140]);   // Guardian: the wide badge touched Mila's ponytail and Eli's beanie
+      gaugeShot('E17_40', tLos3 - 0.1, 'hasta −40 %', 'gasolina', tCuarenta, 'field_g2', [800, 120], 'low');   // Guardian: the wide badge touched Mila's ponytail and Eli's beanie
       shots.push({ id: 'E18_one', start: tTodo - 0.1, bg: 'ring_one', label: 'ACELERADO ×4', focus: [960, 540], push: 0.03, pushDir: 1, over: (c, t) => { rec(c, true); P.badge(c, K.W - 260, 230, '1 / 21', 90, A.ramp(t, tSolo - 0.1, 0.25)); src(c); },
         draw(c, t, lt) { const ts = MELT(t), S = S7().at(ts), p = A.clampView(A.ringPt(AV, S), 1.9); c.save(); c.translate(960, 540); c.scale(1.9, 1.9); c.translate(-p[0], -p[1]); A.ring(c, t, ringOpts(ts, { extra: { hero: () => true } })); c.restore(); },   // Guardian v4: no Eli / Mila among the observers here (at ×1.9 Mila's head sat on the bottom edge at the block's end)
         cues: A => [{ t: tSolo, kind: 'ding' }] });

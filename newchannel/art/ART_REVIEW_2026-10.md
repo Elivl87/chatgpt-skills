@@ -238,3 +238,38 @@ freno en las caras) y P1-12 (desenfoque de movimiento).
 cuando le da el borde de luz dorado (unos 20 px; el rojo se va hacia el naranja). La regla de ART_BIBLE es «nada bermellón
 salvo el punto de la marca». Opciones: aceptar la gorra como roja (no es el punto de la marca) y excluirla del chequeo, o
 enfriar el tono 1a un pelo (≈ `#c4243a`). Lo decide el Productor/Guardián; no cambié el color elegido.
+
+---
+
+## (f) Render de revisión v5 (2026-10-29): decisiones del director aplicadas
+
+- **Gorra 1a enfriada a `#c4243a`** (oscuro `#8b1a2a`; antes `#c62a2f` / `#8e1a20`) en `hats_v2.js`, `K.cast.CANON_COLORS`,
+  `CHARACTERS.md` §0 y la muestra de `model_sheet.js`; hojas de modelo y de emociones (+ `_small.jpg`) re-renderizadas. Chequeo
+  «vermilion on the character» sin excluir la gorra: con el color viejo salta (720p: A 2, D2 12); con el nuevo, **0 en los 8 bloques**.
+- **B01_drag:** Mila lo arrastra del **cuello de la franela** (tela vinotinto estirada del cuello a su puño), ya no de la correa del delantal.
+- **E1 G06-G09:** mangas Eli `#7a1f2b` puño `#5e1622`; Mila `#4d6ea6` puño `#6f8cc0` (`P.hand` acepta `cuff`).
+- **Gafete:** centrado en la playera amarilla entre los paneles abiertos de la franela; en 3/4 sigue la franja de la playera hacia
+  el lado al que mira (`P.badgeCard`, `BADGE_Q` = 0,03 u; `cast.draw` deja `view`/`dir` en `r.head`). Vale en D1, D2, E1.
+- **D2 tiras `strips()`:** `mood: 'golden'`, `pxm: 30` a escala de mundo (autos ~110 px; F18_behind sigue a pxm 10), conductores con luz dorada.
+- **C2 noche:** D17 y D24 ×1,6 sobre la pareja (la granja sigue en cuadro en D17).
+- **P1-6 dúo junto al anillo:** B02 frontal medio · B06 sobre el hombro de Eli · **E01 plano de dos caminando** (cámara que acompaña) ·
+  **E15 contraplano sobre el hombro de Mila** (de espaldas, manos en la cintura) · **E17 plano bajo** (cámara al ras del pasto, flores
+  desenfocadas delante, `A.field({ lowFG })`) · F19_pat plano cerrado; Mila con poses de base variadas (tablilla, caminar, manos en la
+  cintura F04-F06/E15/E17, brazos cruzados F19). Continuidad: gafete desde «¡Mi lema!», mismas posiciones izquierda/derecha.
+- **B21-B22 (P1-10):** bici ×1,6 apoyada en el pasto; Mila por el borde interior de la pista (−5,4 m; conos a −4,4 m).
+- **E2 guantera:** la rodilla de Mila con leggings `#3d2f63` y el borde de la falda morada.
+- **A16_lens:** la pupila aumentada por la lupa se lee oscura (vidrio 0,10, pupila 0,40 r): el chequeo de ojos marcaba 40 % / 40 %.
+
+**QC v5 (720p, los 8 bloques):** ojos 0 fallos · cuerpo 0 fallos (D2: 34 avisos «PROMEDIO sobre el cuerpo», la pegatina del
+tablero, conocida) · ropa por bloque 0 fallos · bermellón 0 · cuadros de texto 20/20 · anclas `?anchors=1`: 0 errores,
+`linesMissing` [] · ritmo (pacing) PASS en los 8 · loudness −14,1 LUFS y TP ≤ −1,2 dBTP por bloque (AAC a 192k: a 160k el
+codificador pasaba el pico verdadero en ~2 dB sobre transitorios de la voz en D2/E2) · negro: el fundido final de E2 llega
+al 90 % · `face_cross_check.py` ahora reconoce la ropa canónica (gorra/franela de Eli, mezclilla de Mila); quedan solo el
+punto de la marca (A19_bonk, J04_wm, J05_catch, gag declarado) y 4 roces de 1-5 fotogramas en planos abiertos (A01, D01,
+F01_ring), mirados: sin defecto · `pop_check.py`: los pasos en planos nuevos son luces de freno, luciérnagas y la ola (D17/D24
+×1,6), ninguno en un personaje; el cambio brusco a «sheepish» de E15/E17 ahora es un fundido de expresión.
+Kit: `brow_clear --v2 1a` PASS, `extras_clear 1a` PASS, `collar_face` PASS, `clothes_audit` 0 trazos sueltos. **Pendiente:**
+la parte «lab» de `clothes_check.py` sigue calibrada para el look de taller (1301 «parts missing» = colores de delantal /
+gorro / suéter que el look canónico no tiene) y marca 2 «pop» de Mila en el auto (falda `#7158b8`, lap → driveFist/cheer):
+hay que recalibrar sus paletas para el look canónico.
+Episodio: `ep001_piloto_v5_720p.mp4` 485,80 s, 14 574 fotogramas (= suma de bloques), −14,1 LUFS, TP −1,6 dBTP.

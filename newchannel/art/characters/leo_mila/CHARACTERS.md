@@ -13,8 +13,8 @@ history: `alternatives/` (the 5 designs the Producer chose from).
 ## 0 · Canonical look (design LOCKED by the Producer, 2026-10-29)
 
 **Eli** = skin `#d9a66c` + **home outfit 3bB**: wine (`#7a1f2b`) plaid flannel open over a **yellow tee** (`#f2c230`), olive
-cargo pants (`#6f6a48`), brown boots (`#5a3a26`) + **headwear V2 «1a»: red baseball cap worn backwards** (`#c62a2f`, dark
-`#8e1a20`; six panels, top button, snapback strap over the forehead, visor out the back; **no logo**).
+cargo pants (`#6f6a48`), brown boots (`#5a3a26`) + **headwear V2 «1a»: red baseball cap worn backwards** (`#c4243a`, dark
+`#8b1a2a`; cooled 2026-10-29 from `#c62a2f` so its golden-lit side never drifts to the brand vermilion, which stays reserved for the wordmark dot; six panels, top button, snapback strap over the forehead, visor out the back; **no logo**).
 **Mila** = **outfit 2**: denim jacket (`#4d6ea6`) over a white tee with purple stripes, purple pleated skirt (`#7158b8`)
 over deep-purple leggings (`#3d2f63`), green boots (`#2f6b45`); hair, ponytail and earrings unchanged.
 

@@ -27,7 +27,7 @@ def frames(mp4, W, H):
         yield np.frombuffer(b, np.uint8).reshape(H, W, 3)
 
 
-def foreign_mask(rgb):
+def foreign_mask(rgb, cid=None):
     r, g, b = [rgb[..., i].astype(np.float32) / 255 for i in range(3)]
     mx = np.maximum(np.maximum(r, g), b); mn = np.minimum(np.minimum(r, g), b); d = mx - mn + 1e-6
     s = d / (mx + 1e-6); v = mx
@@ -35,6 +35,13 @@ def foreign_mask(rgb):
     teal = (h > 140) & (h < 205) & (s > 0.3) & (v > 0.3)          # flags, teal car, green props
     red = ((h < 14) | (h > 338)) & (s > 0.5) & (v > 0.45)          # popcorn bucket, vermilion
     blue = (h > 205) & (h < 250) & (s > 0.45) & (v > 0.35)         # jeans / blue props (never on a head)
+    # canonical look (2026-10-29): a character's own garments next to the head are not foreign. Eli: crimson cap #c4243a /
+    # wine flannel collar (hue > 338 or < 6 when golden-lit; the vermilion of the wordmark dot and props, hue 6-14, stays foreign);
+    # Mila: denim jacket collar #4d6ea6 (hue 205-235)
+    if cid == 'eli1':
+        red = (h >= 6) & (h < 14) & (s > 0.5) & (v > 0.45)   # the cap's warm-lit side reaches hue ~0-5; the dot #E8553A is hue 9
+    if cid == 'mila1':
+        blue = blue & ~((h > 205) & (h < 235))
     return teal | red | blue
 
 
@@ -85,8 +92,10 @@ def main():
                     continue
                 disc = (xx - cx) ** 2 + (yy - cy) ** 2 <= r * r
                 if fm is None:
-                    fm = foreign_mask(rgb)
-                share = float((fm & disc).sum()) / max(1, disc.sum())
+                    fm = {}
+                if cid not in fm:
+                    fm[cid] = foreign_mask(rgb, cid)
+                share = float((fm[cid] & disc).sum()) / max(1, disc.sum())
                 series.setdefault((shot, cid), []).append({'frame': i, 't': round(t, 3), 'shot': shot, 'id': cid, 'share': round(share, 3), 'head': [round(cx / sx), round(cy / sy), round(r / sx)]})
     # a crossing is TRANSIENT: the share must rise above the shot's own baseline for that head (a teal bus-stop roof or
     # a night sky inside the disc all shot long is background, not a prop) and above FOREIGN in absolute terms

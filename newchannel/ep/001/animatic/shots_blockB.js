@@ -34,7 +34,7 @@
       const shots = [];
 
       // ================================================================ BEAT 6
-      // B01 · Mila drags Eli by the apron strap; his heels plough two furrows
+      // B01 · Mila drags Eli by the flannel collar; his heels plough two furrows
       // v5 #3 «…de verdad. Literalmente.»: the drag is one move over both shots (k from the block clock, not per shot); on
       // «Literalmente» the camera cuts in to follow Eli's heels ploughing the field
       const tLit = w('Literalmente', 1, '06'), tDragEnd = tYa - 0.28;
@@ -48,9 +48,11 @@
               cx.fillStyle = K.rgba('#6a4c38', 0.8); for (let j = 0; j < 14; j++) { const x = ex0 + (ex - ex0) * (j / 14) + Math.sin(j * 7) * 8; K.circle(cx, x, G - 8 + Math.cos(j * 3) * 6, 3 + (j % 3)); cx.fill(); }
               const rM = K.cast.draw(cx, 'mila1', mx, G, u, { view: 'q', dir: 1, pose: 'walk', expr: 'happy', t: t * 0.9, look: [0.9, 0], light: LF, shadow: 0.3, blink: blink(5, t) });
               const rE = K.cast.draw(cx, 'eli1', ex, G, u, { view: 'q', dir: 1, pose: 'surprise', expr: 'annoyed', t, lean: -0.16, look: [0.7, 0.1], light: LF, shadow: 0.3, blink: blink(3, t), extras: ['puff'] });
-              // the strap: from Eli's apron bib to Mila's trailing hand
-              const sx = rE.head[0] + u * 0.03, sy = rE.head[1] + u * 0.2, hx = rM.hands.trail[0], hy = rM.hands.trail[1];
-              cx.strokeStyle = K.cast.INK; cx.lineWidth = 9; cx.beginPath(); cx.moveTo(sx, sy); cx.lineTo(hx, hy); cx.stroke(); cx.strokeStyle = '#3b2a20'; cx.lineWidth = 5; cx.stroke();
+              // director 2026-10-29 (canonical look, no apron): Mila hauls him by the flannel collar, the cloth stretched cartoon-long
+              // from the back of his collar to her trailing fist (wine flannel #7a1f2b, its darker check line along the middle)
+              const hr = rE.head[2], sx = rE.head[0] + hr * 0.42, sy = rE.head[1] + hr * 1.08, hx = rM.hands.trail[0], hy = rM.hands.trail[1];
+              cx.lineCap = 'round'; cx.strokeStyle = K.cast.INK; cx.lineWidth = u * 0.034; cx.beginPath(); cx.moveTo(sx, sy); cx.lineTo(hx, hy); cx.stroke();
+              cx.strokeStyle = '#7a1f2b'; cx.lineWidth = u * 0.022; cx.stroke(); cx.strokeStyle = '#5e1622'; cx.lineWidth = u * 0.005; cx.stroke();
             } });
       };
       shots.push({ id: 'B01_drag', start: T0, bg: 'field', focus: [960, 600], push: 0.025,
@@ -260,7 +262,7 @@
           const aM = A.jamSmooth(ts, 3), aE = A.ringAng(car, S);
           A.ring(c, t, { simT: ts, noBranch: true, carExpr: (i, st) => (st ? 'annoyed' : 'content'),   // Guardian v4 (Qwen timings): the longer shot walks Mila under the foreground branch; no branch here
             over: (cx) => {
-              const pm = A.angPt(aM, 7.5), pe = A.angPt(aE, 7.5), u = 17.5 * 7.2 * 1.6;
+              const pm = A.angPt(aM, -5.4), pe = A.angPt(aE, 7.5), u = 17.5 * 7.2 * 1.6;   // P1-10: Mila walks the inner edge of the track (cones at −4.4 m), never on the asphalt
               K.cast.draw(cx, 'mila1', pm[0], pm[1], u, { view: 'q', dir: Math.cos(aM) > 0 ? -1 : 1, pose: 'walk', expr: 'happy', t: -t, light: LF, shadow: 0.3 });
               K.cast.draw(cx, 'eli1', pe[0], pe[1], u, { view: 'q', dir: Math.cos(aE) > 0 ? 1 : -1, pose: 'walk', expr: 'determined', t, light: LF, shadow: 0.3 });
             },
@@ -272,9 +274,9 @@
         draw(c, t, lt) {
           const ts = C5(t); c.save(); jamCam(c, t, 2.0);
           A.ring(c, t, { simT: ts, carExpr: (i, st) => (st ? 'annoyed' : 'content'), hero: () => true,
-            over: (cx) => { const j = A.jamSmooth(ts, 3), pb = A.angPt(j - 0.02, -10), pm = A.angPt(j + 0.07, -9), u = 17.5 * 7.2 * 1.6;
+            over: (cx) => { const j = A.jamSmooth(ts, 3), pb = A.angPt(j - 0.22, -5.6), pm = A.angPt(j + 0.04, -5.4), u = 17.5 * 7.2 * 1.6;   // P1-10: inner edge of the track, the bike beside her
               K.cast.draw(cx, 'mila1', pm[0], pm[1], u, { view: 'q', dir: Math.cos(j) > 0 ? -1 : 1, pose: 'walk', expr: 'laugh', t: -t, light: LF, shadow: 0.3 });
-              P.bike(cx, pb[0], pb[1] - 18, 46, t * 9, Math.cos(j) > 0 ? -1 : 1, A.pulse(t, tBici + 0.2, 0.05, 0.4, 0.2)); } });
+              P.bike(cx, pb[0], pb[1] - 46 * 1.6 * 0.32, 46 * 1.6, t * 9, Math.cos(j) > 0 ? -1 : 1, A.pulse(t, tBici + 0.2, 0.05, 0.4, 0.2)); } });
           c.restore();
         },
         cues: A => [{ t: tBici + 0.2, kind: 'bell' }] });

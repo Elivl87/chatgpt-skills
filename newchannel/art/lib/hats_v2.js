@@ -97,7 +97,7 @@
     c.restore();
   }
 
-  const RED = '#c62a2f', RED_D = '#8e1a20', RED_C = '#d8233a', RED_CD = '#9a1328', Y = '#f2c230', YD = '#cf9d1f';
+  const RED = '#c4243a', RED_D = '#8b1a2a', RED_C = '#d8233a', RED_CD = '#9a1328', Y = '#f2c230', YD = '#cf9d1f';
   C.ELI_HATS_V2 = {
     '1a': { name: 'gorra roja al revés (lisa)', cost: 'nuevo (gorra estructurada de 6 paneles, cierre trasero a la vista)', layers: () => ({ extraK: 1.5, hat: capRev(RED, RED_D) }) },
     '1b': { name: 'gorra roja al revés con «E» bordada', cost: 'igual que 1a + bordado', layers: () => ({ extraK: 1.5, hat: capRev(RED, RED_D, { emblem: 'E' }) }) },

@@ -13,7 +13,7 @@
   [
    "file size <= 30 MB (chat delivery)",
    "PASS",
-   "12.24 MB"
+   "12.98 MB"
   ],
   [
    "audio AAC 48 kHz",
@@ -28,7 +28,7 @@
   [
    "true peak <= -1.0 dBTP",
    "PASS",
-   "-2.6 dBTP"
+   "-2.2 dBTP"
   ],
   [
    "no black frames",
@@ -48,8 +48,8 @@
  ],
  "loudness": {
   "I": -14.0,
-  "TP": -2.6,
-  "LRA": 4.1
+  "TP": -2.2,
+  "LRA": 4.5
  },
  "detect": {
   "black": [],
@@ -59,66 +59,66 @@
  "pacing": {
   "name": "blockB",
   "source": "/home/user/chatgpt-skills/newchannel/ep/001/animatic/blockB_review.mp4",
-  "duration_s": 54.8,
-  "shots": 22,
-  "avg_shot_s": 2.49,
-  "median_shot_s": 2.42,
-  "longest_shot_s": 4.34,
-  "cuts_per_min": 23.0,
+  "duration_s": 55.8,
+  "shots": 24,
+  "avg_shot_s": 2.33,
+  "median_shot_s": 2.25,
+  "longest_shot_s": 4.5,
+  "cuts_per_min": 24.7,
   "motion_share": 1.0,
   "still_2s_runs": 0,
-  "brightness_mean": 0.622,
+  "brightness_mean": 0.62,
   "saturation_mean": 0.386,
   "palette": [
    [
-    "#aba458",
-    0.172
+    "#a19b53",
+    0.174
    ],
    [
-    "#9a9350",
-    0.172
+    "#90884b",
+    0.156
    ],
    [
-    "#897e46",
-    0.134
+    "#b1a95c",
+    0.113
    ],
    [
-    "#cebb9f",
+    "#7b6e41",
     0.11
    ],
    [
-    "#ebd6b2",
-    0.083
+    "#5c4739",
+    0.099
    ],
    [
-    "#6f6040",
-    0.083
+    "#ccbaa1",
+    0.092
    ],
    [
-    "#ae9f87",
-    0.067
+    "#c3b17b",
+    0.069
    ],
    [
-    "#7d6d6e",
-    0.063
+    "#766668",
+    0.069
    ],
    [
-    "#c2b46b",
-    0.062
+    "#ead4ae",
+    0.068
    ],
    [
-    "#52453c",
-    0.055
+    "#a29381",
+    0.051
    ]
   ],
-  "loud_db_p90": -11.5,
+  "loud_db_p90": -12.1,
   "pauses_ge_0_5s": 0,
   "pause_mean_s": 0,
   "pause_longest_s": 0,
-  "words": 123,
-  "wpm_overall": 135,
-  "wpm_while_speaking": 189
+  "words": 131,
+  "wpm_overall": 141,
+  "wpm_while_speaking": 190
  },
- "duration": 54.85,
- "size": 12236567
+ "duration": 55.866667,
+ "size": 12982279
 }

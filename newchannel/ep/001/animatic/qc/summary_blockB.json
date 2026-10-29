@@ -1,11 +1,11 @@
 {
- "duration": 54.85000000000001,
- "shots": 23,
- "cuts": 22,
- "cuts_per_min": 24.1,
- "longest_shot": 4.3,
+ "duration": 55.85,
+ "shots": 24,
+ "cuts": 23,
+ "cuts_per_min": 24.7,
+ "longest_shot": 4.59,
  "longest_id": "B06_finger",
- "avg_shot": 2.38,
- "size_mb": 12.24,
- "contact_kb": 315
+ "avg_shot": 2.33,
+ "size_mb": 12.98,
+ "contact_kb": 319
 }

@@ -1,12 +1,12 @@
 {
  "block": "C1",
  "tag": "after",
- "samples": 28,
- "faces": 32,
+ "samples": 27,
+ "faces": 31,
  "eyes": {
-  "pass": 60,
+  "pass": 56,
   "fail": 0,
-  "closed": 0,
+  "closed": 2,
   "covered": 0,
   "fading": 0,
   "tiny": 0,

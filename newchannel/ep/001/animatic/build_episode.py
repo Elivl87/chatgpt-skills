@@ -85,7 +85,7 @@ def main():
     video = build / "episode_video.mp4"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lst), "-an", "-c:v", "copy", str(video)], check=True)
     part = out.with_suffix(".part.mp4")
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-i", str(wav), "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-ar", "48000",
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-i", str(wav), "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
                     "-movflags", "+faststart", str(part)], check=True)
     os.replace(part, out)
     m = S.measure_file(out)
@@ -97,7 +97,7 @@ def main():
         small = Path(a.small_out)
         for crf in (27, 29, 31, 33):
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(video), "-i", str(wav), "-vf", "scale=854:480", "-c:v", "libx264", "-preset", "slow",
-                            "-crf", str(crf), "-pix_fmt", "yuv420p", "-profile:v", "high", "-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-movflags", "+faststart", str(part)], check=True)
+                            "-crf", str(crf), "-pix_fmt", "yuv420p", "-profile:v", "high", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart", str(part)], check=True)
             os.replace(part, small)
             ss = small.stat().st_size / 1e6
             print(f"{small}: crf {crf} -> {ss:.2f} MB")

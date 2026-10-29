@@ -157,6 +157,7 @@
     const d1 = function (ctx, id, x, y, u, o = {}) {
       const r = d0.call(this, ctx, id, x, y, u, o);
       const v = String(o.view || 'front');
+      if (r && r.head) { r.head.view = v; r.head.dir = o.dir || 1; }   // the badge card reads them: on the yellow tee between the open flannel panels
       if (A._autoBadge && (id === 'eli1' || id === 'eli') && !o.noBadge && !o.backView && !v.startsWith('back') && v !== 'side' && K.props && K.props.badgeCard && r && r.head && r.head[2] > 0) {
         // the card slides between its two heights with the pose blend (it used to jump at k = 0.5: Guardian v3)
         const hA = HIGH[o.pose || 'stand'] ? 1 : 0, hB = o.blend ? (HIGH[o.blend.pose] ? 1 : 0) : hA;

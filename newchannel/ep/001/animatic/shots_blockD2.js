@@ -71,12 +71,12 @@
         draw(c, t, lt) { A.field(c, t, { run: S8(), simT: K8b(tFueE + 0.3), frame: { z: 1.25, x: 960, y: 600 }, carExpr: () => 'annoyed', chars: cx => {
           K.char.person(cx, 520, G - 20, 62, { t, seed: 4, skin: '#e3a983', hair: '#2b1d1a', hairStyle: 'bun', shirt: '#d8e04a', pose: 'stand', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
           K.char.person(cx, 660, G - 20, 62, { t, seed: 5, skin: '#9a6447', hair: '#2b1d1a', hairStyle: 'cap', capColor: '#5d8a8f', shirt: '#d8e04a', pose: 'clipboard', expr: 'annoyed', look: [0.9, 0], light: { ang: -2.4, rim: '#ffd99a', shade: '#3a3358' } });
-          K.cast.draw(cx, 'mila1', 1050, G - 6, 560, { view: 'q', dir: 1, pose: 'crossed', expr: 'annoyed', t, look: [0.9, 0], light: LF, shadow: 0.3 });
+          K.cast.draw(cx, 'mila1', 1050, G - 6, 560, { view: 'q', dir: 1, pose: 'hips' /* P1-6: Mila's base poses vary (hands on hips F04-F06) */, expr: 'annoyed', t, look: [0.9, 0], light: LF, shadow: 0.3 });
           K.cast.draw(cx, 'eli1', 1420, G, 580, { view: 'front', pose: 'fist', expr: 'sheepish', t, look: [-0.6, 0], light: LF, shadow: 0.3 }); } }); },
         cues: A => [{ t: tFueE + 0.3, kind: 'silence_hit' }] });
       shots.push({ id: 'F05_eli', start: tEliM - 0.2, bg: 'field_mila', focus: [960, 500], push: 0.03, pushDir: 1, over: c => rec(c, false),
         draw(c, t, lt) { const sp = A.talk('mila', t); A.field(c, t, { run: S8(), simT: K8b(t), frame: { z: 1.75, x: 980, y: 505 }, chars: cx =>   /* Guardian v3: ponytail was cut by the top edge */
-          K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'q', dir: 1, pose: 'crossed', expr: 'annoyed', t, look: [-0.3, 0.1], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme }) }); } });
+          K.cast.draw(cx, 'mila1', 980, G, 660, { view: 'q', dir: 1, pose: 'hips', expr: 'annoyed', t, look: [-0.3, 0.1], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme }) }); } });
       // F06 · «…Fue el viento.» — whistling, a leaf crosses very slowly; Mila turns the knob back down with one finger
       shots.push({ id: 'F06_wind', start: Math.max(tFue2 - 0.35, tEliM + 0.55) /* David: Mila's «¿Eli?» slot is 0.3 s; F05 holds until her box has been read (was 0.53 s) */, bg: 'field_leaf', focus: [960, 520], push: 0.025, pushDir: -1, over: c => rec(c, false),
         draw(c, t, lt) { const sp = A.talk('eli', t);
@@ -84,7 +84,7 @@
             K.cast.draw(cx, 'eli1', 820, G, 620, { view: 'q', dir: 1, pose: 'clasp', expr: 'sheepish', t, look: [0.3, -0.8], light: LF, shadow: 0.3, talk: sp.talk, viseme: sp.viseme });
             laptop(cx, 1320, 880, 0.9, knob(t), t);
             // eyes pass: Mila was half out of frame (x 1560 -> screen 1830) and blank; now inside, skeptical at Eli, then smug at the knob
-            K.cast.draw(cx, 'mila1', 1470, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, tVientoE, 'crossed', 'point'), ...A.ez(t, tVientoE, 'annoyed', 'smug'), t, look: t > tVientoE ? [0.5, 0.5] : [0.8, -0.05], light: LF, shadow: 0.3 }); } });
+            K.cast.draw(cx, 'mila1', 1470, G - 6, 600, { view: 'q', dir: -1, ...A.pz(t, tVientoE, 'hips', 'point'), ...A.ez(t, tVientoE, 'annoyed', 'smug'), t, look: t > tVientoE ? [0.5, 0.5] : [0.8, -0.05], light: LF, shadow: 0.3 }); } });
           // the leaf
           const u = K.clamp((t - tFue2) / 2.2), lx = K.lerp(-60, 1980, u), ly = 400 + Math.sin(u * 9) * 40;
           c.save(); c.translate(lx, ly); c.rotate(Math.sin(u * 12) * 0.8); c.fillStyle = '#c99633'; c.strokeStyle = '#2a1a1e'; c.lineWidth = 3; c.beginPath(); c.ellipse(0, 0, 26, 12, 0, 0, K.TAU); c.fill(); c.stroke(); c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke(); c.restore(); },
@@ -135,12 +135,14 @@
       // ================================================================ BEAT 19 · a shock absorber: two timelines
       const runE = () => A.adapter('S3B_ELI'), runM = () => A.adapter('S3B_MILA');
       const strips = (c, t, ts, o = {}) => {
-        const pxm = o.pxm || 17, eliI = 5;
+        // art review P1-4 (director 2026-10-29): golden late-afternoon light like the rest of the pilot, pxm 30 at world scale
+        // (cars ~110 px, Eli / Mila readable at the wheel); the wide F18_behind keeps its own pxm 10 with the enlarged cars
+        const pxm = o.pxm || 30, eliI = 5, carK = pxm >= 30 ? 1 : 2.0, LG = Object.assign({}, K.cast.LIGHT.golden, { ang: -0.45, rim: '#ffd99a', shade: '#3a3358' });
         for (const [k, run, who] of [[0, runE(), 'eli1'], [1, runM(), 'mila1']]) {
           c.save(); c.beginPath(); c.rect(0, k * 540, K.W, 540); c.clip(); c.translate(0, k * 540 - 480 + (o.dy || 0));
           const S = run.at(ts), camS = o.camS ? o.camS(S, k) : S.x[eliI] + 12;
-          A.line(c, t, { run, simT: ts, camS, pxm, carK: 2.0, eliI,
-            eli: (cx, sx, sy, s) => K.cast.crew2(cx, sx, sy, s, { driver: who, t, light: N, u: 2.7 * s, driverO: who === 'eli1' ? { pose: 'drive', expr: 'annoyed', exprBlend: { expr: 'determined', k: K.ease.sine(K.clamp((S.v[eliI] - 0.3) / 0.4)) } } : { pose: 'drive', expr: 'happy' } }),
+          A.line(c, t, { run, simT: ts, camS, pxm, carK, eliI, mood: 'golden',
+            eli: (cx, sx, sy, s) => K.cast.crew2(cx, sx, sy, s, { driver: who, t, light: LG, u: 2.7 * s, driverO: who === 'eli1' ? { pose: 'drive', expr: 'annoyed', exprBlend: { expr: 'determined', k: K.ease.sine(K.clamp((S.v[eliI] - 0.3) / 0.4)) } } : { pose: 'drive', expr: 'happy' } }),
             carOver: (cx, i, x, y, s, S2, b) => { if (k === 1 && i === eliI && o.spring) { const lx = A.LINE.GY; void lx; const xl = (S2.x[i + 1] - S2.x[i]) * pxm; P.spring(cx, [x + 1.7 * s, y - 0.9 * s], [x + xl - 1.7 * s, y - 0.9 * s], o.spring); } } });
           c.restore();
         }

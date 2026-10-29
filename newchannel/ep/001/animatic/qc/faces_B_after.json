@@ -1,30 +1,18 @@
 {
  "block": "B",
  "tag": "after",
- "samples": 77,
- "faces": 132,
+ "samples": 79,
+ "faces": 137,
  "eyes": {
-  "pass": 216,
-  "fail": 1,
-  "closed": 8,
+  "pass": 226,
+  "fail": 0,
+  "closed": 10,
   "covered": 0,
   "fading": 0,
-  "tiny": 17,
-  "offframe": 14
+  "tiny": 18,
+  "offframe": 12
  },
- "failures": 1,
- "fail_list": [
-  {
-   "t": 21.17,
-   "shot": "B08_dial",
-   "why_sample": "start",
-   "id": "mila1",
-   "expr": "thinking",
-   "view": "q",
-   "eye": 0,
-   "problem": "pupil not dark/visible (50% dark, need 55%)",
-   "eye_px": 3.6
-  }
- ],
+ "failures": 0,
+ "fail_list": [],
  "framing_warnings": []
 }

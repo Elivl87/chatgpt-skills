@@ -187,8 +187,10 @@
         K.cast.draw(c, 'eli1', ex, hillY(ex) - 2, 300, { view: 'backq', dir: 1, pose: 'sit', blend: { pose: 'sitPoint', k: fu }, seated: true, legs: true, sitGround: true, t, light: NL, fog: ['#141a3a', 0.2] });
         K.cast.draw(c, 'mila1', mx, hillY(mx) - 2, 300, { view: 'backq', dir: 1, pose: 'sit', seated: true, legs: true, sitGround: true, t, light: NL, fog: ['#141a3a', 0.2] }); };
       const clock6 = (c, ts) => P.clock(c, Math.max(0, ts - sTap6));
-      shots.push({ id: 'D17_hill', start: tAhora - 0.12, bg: 'night', focus: [800, 600], push: 0.025, post: nightPost,
-        draw(c, t, lt) { A.night(c, t, { simT: sTap6 - 4 + (t - tAhora), chars: (cx, hy) => hillChars(cx, t, hy) }); } });
+      // art review P1-5 (director 2026-10-29): the couple was ~40 px tall on the hill: z ×1.6 about the pair (the farm stays in frame)
+      const zPair = (c, z, cx, cy, sx, sy, f) => { c.save(); c.translate(sx, sy); c.scale(z, z); c.translate(-cx, -cy); f(); c.restore(); };
+      shots.push({ id: 'D17_hill', start: tAhora - 0.12, bg: 'night', focus: [560, 640], push: 0.025, post: nightPost,
+        draw(c, t, lt) { zPair(c, 1.6, 440, 745, 520, 660, () => A.night(c, t, { simT: sTap6 - 4 + (t - tAhora), chars: (cx, hy) => hillChars(cx, t, hy) })); } });
       const ruler10 = (c, roadPt, b0, b1, k) => { if (k <= 0) return; const u0 = 1 - (0 - b0) / (b1 - b0), u1 = 1 - (10000 - b0) / (b1 - b0); c.save(); c.strokeStyle = '#e2b04a'; c.lineWidth = 6; c.setLineDash([18, 10]); c.beginPath();
         for (let j = 0; j <= 40 * k; j++) { const p = roadPt(K.lerp(u0, u1, j / 40)); j ? c.lineTo(p[0], p[1] - 40 * p[2] - 14) : c.moveTo(p[0], p[1] - 40 * p[2] - 14); } c.stroke(); c.restore();
         if (k > 0.95) { const p = roadPt(K.lerp(u0, u1, 0.55)); P.badge(c, p[0], p[1] - 40 * p[2] - 95, '10 km', 54, 1); } };   // Guardian: was at the near end, over Eli and Mila on the hill
@@ -211,8 +213,8 @@
       shots.push({ id: 'D23_dinner', start: tSeguro, bg: 'window', focus: [960, 540], push: 0.03, pushDir: 1, post: nightPost,
         draw(c, t, lt) { A.window(c, t, { fork: A.pulse(t, tFork, 0.3, 0.4, 0.3) }); },
         cues: A => [{ t: tFork, kind: 'cutlery' }] });
-      shots.push({ id: 'D24_finger', start: tNinguna - 0.1, bg: 'night_eli', focus: [600, 700], push: 0.03, pushDir: -1, post: nightPost,
-        draw(c, t, lt) { c.save(); c.translate(960, 600); c.scale(1.9, 1.9); c.translate(-460, -720); A.night(c, t, { simT: N6(t), chars: (cx, hy) => hillChars(cx, t, hy) }); c.restore(); } });
+      shots.push({ id: 'D24_finger', start: tNinguna - 0.1, bg: 'night_eli', focus: [960, 600], push: 0.03, pushDir: -1, post: nightPost,
+        draw(c, t, lt) { zPair(c, 1.6, 900, 630, 960, 600, () => { c.save(); c.translate(960, 600); c.scale(1.9, 1.9); c.translate(-460, -720); A.night(c, t, { simT: N6(t), chars: (cx, hy) => hillChars(cx, t, hy) }); c.restore(); }); } });   // P1-5: ×1.6 about the pair
       shots.push({ id: 'D25_bite', start: tRazon2 - 0.2, bg: 'window2', focus: [700, 560] /* art review 2026-10: the diner moved to the left pane */, push: 0.035, pushDir: 1, zBase: 1.12, post: nightPost,
         draw(c, t, lt) { A.window(c, t, { fork: A.ramp(t, tRazon2 + 0.15, 0.35) }); },
         cues: A => [{ t: tCenarE - 0.2, kind: 'cutlery' }] });

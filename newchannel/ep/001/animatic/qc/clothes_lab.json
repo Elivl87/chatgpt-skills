@@ -1,5 +1,6521 @@
 {
- "fail": 0,
- "fails": [],
+ "fail": 1303,
+ "fails": [
+  [
+   "parts",
+   "eli1/stand1/front/stand@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/stand@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/stand@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/stand@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/stand@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/walk@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/walk@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/walk@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/walk@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/walk@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/point@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/point@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/point@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/crossed@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/crossed@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/crossed@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/hips@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/hips@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/hips@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/hips@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/hips@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/scratch@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/scratch@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/scratch@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/scratch@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/scratch@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/fist@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/fist@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/fist@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/fist@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/wave@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/wave@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/wave@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/wave@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/wave@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/clipboard@big",
+   "tee missing (1.5 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/clipboard@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/clipboard@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/clipboard@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/clipboard@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/detective@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/detective@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/detective@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/detective@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/detective@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/visor@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/visor@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/visor@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/front/visor@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/stand@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/stand@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/stand@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/stand@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/stand@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/walk@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/walk@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/walk@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/walk@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/walk@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/point@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/point@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/point@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/crossed@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/crossed@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/crossed@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/hips@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/hips@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/hips@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/hips@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/hips@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/scratch@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/scratch@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/scratch@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/scratch@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/scratch@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/fist@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/fist@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/fist@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/fist@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/wave@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/wave@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/wave@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/wave@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/wave@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/clipboard@big",
+   "tee missing (4.7 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/clipboard@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/clipboard@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/clipboard@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/clipboard@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/detective@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/detective@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/detective@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/detective@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/detective@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/visor@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/visor@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/visor@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/q/visor@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/stand@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/stand@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/stand@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/stand@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/stand@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/walk@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/walk@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/walk@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/walk@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/walk@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/point@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/point@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/point@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/crossed@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/crossed@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/crossed@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/hips@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/hips@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/hips@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/hips@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/hips@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/scratch@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/scratch@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/scratch@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/scratch@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/scratch@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/fist@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/fist@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/fist@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/fist@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/wave@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/wave@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/wave@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/wave@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/wave@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/clipboard@big",
+   "tee missing (2.7 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/clipboard@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/clipboard@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/clipboard@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/clipboard@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/detective@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/detective@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/detective@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/detective@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/detective@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/visor@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/visor@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/visor@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/side/visor@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/stand@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/stand@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/stand@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/stand@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/stand@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/walk@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/walk@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/walk@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/walk@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/walk@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/point@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/point@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/crossed@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/crossed@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/hips@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/hips@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/hips@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/hips@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/hips@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/scratch@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/scratch@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/scratch@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/scratch@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/scratch@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/fist@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/fist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/fist@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/fist@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/wave@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/wave@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/wave@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/wave@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/wave@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/clipboard@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/clipboard@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/clipboard@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/clipboard@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/clipboard@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/detective@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/detective@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/detective@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/detective@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/detective@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/visor@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/visor@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/visor@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/back/visor@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/stand@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/stand@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/stand@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/stand@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/stand@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/stand@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/walk@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/walk@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/walk@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/walk@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/walk@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/walk@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/point@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/point@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/point@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/crossed@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/crossed@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/crossed@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/hips@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/hips@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/hips@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/hips@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/hips@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/hips@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/scratch@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/scratch@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/scratch@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/scratch@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/scratch@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/scratch@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/fist@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/fist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/fist@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/fist@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/fist@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/wave@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/wave@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/wave@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/wave@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/wave@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/wave@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/clipboard@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/clipboard@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/clipboard@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/clipboard@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/clipboard@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/clipboard@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/detective@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/detective@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/detective@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/detective@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/detective@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/detective@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/visor@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/visor@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/visor@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/visor@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand1/backq/visor@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/surprise@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/surprise@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/surprise@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/surprise@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/surprise@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/clasp@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/clasp@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/clasp@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/clasp@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/clasp@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/shrug@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/shrug@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/shrug@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/shrug@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/shrug@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/palm@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/palm@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/palm@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/cheer@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/cheer@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/cheer@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/cheer@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pump@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pump@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pump@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pump@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pump@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/think@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/think@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/think@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/think@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/think@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pointSelf@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pointSelf@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pointSelf@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pointSelf@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/pointSelf@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/open@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/open@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/open@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/open@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/open@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/chin@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/chin@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/chin@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/chin@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/chin@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/belly@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/belly@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/front/belly@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/surprise@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/surprise@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/surprise@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/surprise@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/surprise@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/clasp@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/clasp@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/clasp@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/clasp@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/clasp@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/shrug@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/shrug@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/shrug@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/shrug@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/shrug@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/palm@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/palm@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/palm@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/cheer@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/cheer@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/cheer@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/cheer@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pump@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pump@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pump@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pump@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pump@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/think@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/think@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/think@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/think@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/think@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pointSelf@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pointSelf@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pointSelf@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pointSelf@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/pointSelf@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/open@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/open@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/open@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/open@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/open@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/chin@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/chin@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/chin@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/chin@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/chin@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/belly@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/belly@big",
+   "strap missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/q/belly@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/surprise@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/surprise@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/surprise@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/surprise@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/surprise@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/clasp@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/clasp@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/clasp@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/clasp@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/clasp@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/shrug@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/shrug@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/shrug@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/shrug@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/shrug@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/palm@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/palm@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/palm@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/cheer@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/cheer@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/cheer@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/cheer@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pump@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pump@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pump@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pump@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pump@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/think@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/think@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/think@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/think@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/think@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pointSelf@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pointSelf@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pointSelf@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pointSelf@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/pointSelf@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/open@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/open@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/open@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/open@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/open@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/chin@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/chin@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/chin@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/chin@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/chin@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/belly@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/belly@big",
+   "strap missing (0.0 < 5)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/side/belly@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/surprise@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/surprise@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/surprise@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/surprise@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/surprise@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/clasp@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/clasp@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/clasp@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/clasp@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/clasp@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/shrug@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/shrug@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/shrug@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/shrug@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/shrug@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/palm@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/palm@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/cheer@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/cheer@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/cheer@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/cheer@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pump@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pump@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pump@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pump@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pump@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/think@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/think@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/think@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/think@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/think@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pointSelf@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pointSelf@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pointSelf@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pointSelf@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/pointSelf@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/open@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/open@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/open@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/open@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/open@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/chin@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/chin@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/chin@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/chin@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/chin@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/belly@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/back/belly@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/surprise@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/surprise@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/surprise@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/surprise@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/surprise@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/surprise@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/clasp@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/clasp@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/clasp@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/clasp@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/clasp@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/clasp@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/shrug@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/shrug@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/shrug@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/shrug@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/shrug@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/shrug@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/palm@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/palm@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/palm@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/cheer@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/cheer@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/cheer@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/cheer@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/cheer@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pump@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pump@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pump@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pump@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pump@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pump@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/think@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/think@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/think@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/think@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/think@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/think@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pointSelf@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pointSelf@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pointSelf@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pointSelf@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pointSelf@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/pointSelf@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/open@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/open@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/open@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/open@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/open@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/open@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/chin@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/chin@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/chin@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/chin@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/chin@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/chin@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/belly@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/belly@big",
+   "apron missing (0.0 < 15)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/stand2/backq/belly@big",
+   "jeans missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/drive@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/drive@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/drive@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/drive@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/driveFist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/driveFist@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/driveFist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/driveFist@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lap@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lap@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lap@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lap@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lapPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lapPoint@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lapPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/lapPoint@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/crossed@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/crossed@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/cheer@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/cheer@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/cheer@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/palm@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/palm@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/fist@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/fist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/fist@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/point@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/point@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/visor@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/visor@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/visor@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/belly@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/front/belly@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/drive@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/drive@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/drive@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/drive@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/driveFist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/driveFist@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/driveFist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/driveFist@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lap@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lap@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lap@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lap@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lapPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lapPoint@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lapPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/lapPoint@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/crossed@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/crossed@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/cheer@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/cheer@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/cheer@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/palm@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/palm@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/fist@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/fist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/fist@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/point@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/point@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/visor@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/visor@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/visor@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/belly@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/q/belly@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/drive@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/drive@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/drive@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/drive@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/driveFist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/driveFist@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/driveFist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/driveFist@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lap@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lap@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lap@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lap@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lapPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lapPoint@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lapPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/lapPoint@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/crossed@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/crossed@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/cheer@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/cheer@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/cheer@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/palm@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/palm@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/fist@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/fist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/fist@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/point@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/point@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/visor@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/visor@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/visor@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/belly@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/side/belly@big",
+   "band missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/drive@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/drive@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/drive@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/driveFist@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/driveFist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/driveFist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/lap@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/lap@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/lap@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/lapPoint@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/lapPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/lapPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/crossed@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/cheer@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/cheer@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/palm@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/fist@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/fist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/point@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/visor@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/visor@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/belly@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/back/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/drive@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/drive@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/drive@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/driveFist@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/driveFist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/driveFist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/lap@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/lap@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/lap@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/lapPoint@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/lapPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/lapPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/crossed@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/cheer@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/cheer@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/cheer@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/palm@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/fist@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/fist@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/fist@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/point@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/visor@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/visor@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/visor@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/belly@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/car/backq/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sit@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sit@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sit@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sit@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sit@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sitPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sitPoint@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sitPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sitPoint@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/sitPoint@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/belly@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/belly@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/palm@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/palm@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/crossed@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/crossed@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/point@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/front/point@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sit@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sit@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sit@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sit@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sit@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sitPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sitPoint@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sitPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sitPoint@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/sitPoint@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/belly@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/belly@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/palm@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/palm@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/crossed@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/crossed@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/point@big",
+   "apron missing (0.0 < 100)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/q/point@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sit@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sit@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sit@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sit@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sit@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sitPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sitPoint@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sitPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sitPoint@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/sitPoint@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/belly@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/belly@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/palm@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/palm@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/crossed@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/crossed@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/point@big",
+   "apron missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/side/point@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sit@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sit@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sit@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sit@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sit@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sitPoint@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sitPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sitPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sitPoint@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/sitPoint@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/belly@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/belly@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/palm@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/palm@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/crossed@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/crossed@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/point@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/back/point@big",
+   "jeans missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sit@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sit@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sit@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sit@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sit@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sitPoint@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sitPoint@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sitPoint@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sitPoint@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/sitPoint@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/belly@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/belly@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/belly@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/belly@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/belly@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/palm@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/palm@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/palm@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/palm@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/palm@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/crossed@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/crossed@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/crossed@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/crossed@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/crossed@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/point@big",
+   "beanie missing (0.0 < 8)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/point@big",
+   "tee missing (0.0 < 40)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/point@big",
+   "strap missing (0.0 < 1)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/point@big",
+   "boots missing (0.0 < 10)"
+  ],
+  [
+   "parts",
+   "eli1/ground/backq/point@big",
+   "jeans missing (0.0 < 30)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/stand@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/walk@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/walk@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/point@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/hips@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/hips@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/scratch@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/scratch@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/fist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/fist@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/wave@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/clipboard@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/detective@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/visor@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/front/visor@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/stand@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/stand@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/walk@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/walk@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/point@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/hips@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/hips@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/scratch@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/scratch@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/fist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/fist@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/wave@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/wave@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/clipboard@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/detective@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/visor@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/q/visor@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/stand@big",
+   "sweater missing (77.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/stand@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/walk@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/point@big",
+   "sweater missing (77.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/hips@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/scratch@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/fist@big",
+   "sweater missing (77.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/fist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/wave@big",
+   "sweater missing (76.9 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/wave@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/clipboard@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/detective@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/side/visor@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/stand@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/stand@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/walk@big",
+   "overall missing (0.9 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/walk@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/point@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/point@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/crossed@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/crossed@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/hips@big",
+   "overall missing (0.9 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/hips@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/scratch@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/scratch@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/fist@big",
+   "overall missing (0.9 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/fist@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/wave@big",
+   "overall missing (0.9 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/wave@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/clipboard@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/clipboard@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/detective@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/detective@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/visor@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/back/visor@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/stand@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/stand@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/walk@big",
+   "overall missing (1.1 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/walk@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/point@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/point@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/crossed@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/crossed@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/hips@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/hips@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/scratch@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/scratch@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/fist@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/fist@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/wave@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/wave@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/clipboard@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/clipboard@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/detective@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/detective@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/visor@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand1/backq/visor@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/surprise@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/surprise@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/clasp@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/shrug@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/cheer@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/cheer@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/pump@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/think@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/pointSelf@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/open@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/chin@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/front/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/surprise@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/surprise@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/clasp@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/shrug@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/shrug@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/palm@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/cheer@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/cheer@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/pump@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/think@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/pointSelf@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/open@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/open@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/chin@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/q/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/surprise@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/clasp@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/shrug@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/palm@big",
+   "sweater missing (77.1 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/cheer@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/pump@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/think@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/pointSelf@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/open@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/chin@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/side/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/surprise@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/surprise@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/clasp@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/clasp@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/shrug@big",
+   "overall missing (0.7 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/shrug@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/palm@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/palm@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/cheer@big",
+   "overall missing (0.9 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/cheer@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/pump@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/pump@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/think@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/think@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/pointSelf@big",
+   "overall missing (0.6 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/pointSelf@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/open@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/open@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/chin@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/chin@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/belly@big",
+   "overall missing (0.9 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/back/belly@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/surprise@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/surprise@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/clasp@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/clasp@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/shrug@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/shrug@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/palm@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/palm@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/cheer@big",
+   "overall missing (0.9 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/cheer@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/pump@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/pump@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/think@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/think@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/pointSelf@big",
+   "overall missing (0.8 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/pointSelf@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/open@big",
+   "overall missing (0.7 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/open@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/chin@big",
+   "overall missing (1.1 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/chin@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/belly@big",
+   "overall missing (1.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/stand2/backq/belly@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/drive@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/drive@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/driveFist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/driveFist@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/lap@big",
+   "sweater missing (65.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/lap@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/lap@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/lapPoint@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/cheer@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/cheer@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/palm@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/fist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/fist@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/point@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/visor@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/visor@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/front/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/drive@big",
+   "sweater missing (74.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/drive@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/drive@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/driveFist@big",
+   "sweater missing (74.8 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/driveFist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/driveFist@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/lap@big",
+   "sweater missing (59.4 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/lap@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/lap@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/lapPoint@big",
+   "sweater missing (74.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/lapPoint@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/crossed@big",
+   "sweater missing (74.0 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/cheer@big",
+   "sweater missing (74.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/cheer@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/cheer@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/palm@big",
+   "sweater missing (52.4 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/palm@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/fist@big",
+   "sweater missing (52.8 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/fist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/fist@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/point@big",
+   "sweater missing (52.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/point@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/visor@big",
+   "sweater missing (74.6 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/visor@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/visor@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/belly@big",
+   "sweater missing (74.4 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/q/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/drive@big",
+   "sweater missing (59.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/drive@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/driveFist@big",
+   "sweater missing (59.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/driveFist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/lap@big",
+   "sweater missing (58.7 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/lap@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/lapPoint@big",
+   "sweater missing (58.7 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/lapPoint@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/crossed@big",
+   "sweater missing (59.1 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/cheer@big",
+   "sweater missing (59.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/cheer@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/palm@big",
+   "sweater missing (33.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/fist@big",
+   "sweater missing (33.7 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/fist@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/point@big",
+   "sweater missing (33.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/visor@big",
+   "sweater missing (59.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/visor@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/belly@big",
+   "sweater missing (58.7 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/side/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/drive@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/drive@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/driveFist@big",
+   "overall missing (1.2 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/driveFist@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/lap@big",
+   "overall missing (1.4 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/lap@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/lapPoint@big",
+   "overall missing (1.6 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/lapPoint@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/crossed@big",
+   "overall missing (1.2 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/crossed@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/cheer@big",
+   "overall missing (1.4 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/cheer@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/palm@big",
+   "overall missing (1.4 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/palm@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/fist@big",
+   "overall missing (1.2 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/fist@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/point@big",
+   "overall missing (1.2 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/point@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/visor@big",
+   "overall missing (1.3 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/visor@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/belly@big",
+   "overall missing (1.4 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/back/belly@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/drive@big",
+   "sweater missing (52.4 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/drive@big",
+   "overall missing (1.4 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/drive@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/driveFist@big",
+   "sweater missing (50.7 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/driveFist@big",
+   "overall missing (1.3 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/driveFist@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/lap@big",
+   "sweater missing (52.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/lap@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/lap@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/lapPoint@big",
+   "sweater missing (52.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/lapPoint@big",
+   "overall missing (1.6 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/lapPoint@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/crossed@big",
+   "sweater missing (52.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/crossed@big",
+   "overall missing (1.2 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/crossed@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/cheer@big",
+   "sweater missing (52.7 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/cheer@big",
+   "overall missing (1.3 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/cheer@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/palm@big",
+   "sweater missing (52.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/palm@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/palm@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/fist@big",
+   "sweater missing (51.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/fist@big",
+   "overall missing (1.3 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/fist@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/point@big",
+   "sweater missing (52.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/point@big",
+   "overall missing (1.2 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/point@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/visor@big",
+   "sweater missing (37.4 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/visor@big",
+   "overall missing (1.3 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/visor@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/belly@big",
+   "sweater missing (52.4 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/belly@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/car/backq/belly@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/sit@big",
+   "sweater missing (28.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/sit@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/sit@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/sitPoint@big",
+   "sweater missing (28.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/sitPoint@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/sitPoint@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/belly@big",
+   "sweater missing (28.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/palm@big",
+   "sweater missing (28.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/palm@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/crossed@big",
+   "sweater missing (27.6 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/point@big",
+   "sweater missing (28.3 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/front/point@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/sit@big",
+   "sweater missing (28.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/sit@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/sit@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/sitPoint@big",
+   "sweater missing (28.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/sitPoint@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/sitPoint@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/belly@big",
+   "sweater missing (27.9 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/palm@big",
+   "sweater missing (16.8 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/palm@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/crossed@big",
+   "sweater missing (28.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/point@big",
+   "sweater missing (16.7 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/q/point@big",
+   "button missing (0.0 < 0.08)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/sit@big",
+   "sweater missing (32.6 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/sit@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/sitPoint@big",
+   "sweater missing (32.0 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/sitPoint@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/belly@big",
+   "sweater missing (23.5 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/belly@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/palm@big",
+   "sweater missing (28.9 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/palm@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/crossed@big",
+   "sweater missing (32.0 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/crossed@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/point@big",
+   "sweater missing (28.2 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/side/point@big",
+   "overall missing (0.0 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/sit@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/sit@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/sitPoint@big",
+   "overall missing (1.7 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/sitPoint@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/belly@big",
+   "overall missing (1.7 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/belly@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/palm@big",
+   "overall missing (1.6 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/palm@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/crossed@big",
+   "overall missing (1.6 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/crossed@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/point@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/back/point@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/sit@big",
+   "sweater missing (35.1 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/sit@big",
+   "overall missing (1.6 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/sit@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/sitPoint@big",
+   "sweater missing (34.4 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/sitPoint@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/sitPoint@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/belly@big",
+   "sweater missing (35.1 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/belly@big",
+   "overall missing (1.6 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/belly@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/palm@big",
+   "sweater missing (35.1 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/palm@big",
+   "overall missing (1.7 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/palm@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/crossed@big",
+   "sweater missing (35.1 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/crossed@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/crossed@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/point@big",
+   "sweater missing (35.1 < 80)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/point@big",
+   "overall missing (1.5 < 60)"
+  ],
+  [
+   "parts",
+   "mila1/ground/backq/point@big",
+   "pocket missing (0.0 < 1.5)"
+  ],
+  [
+   "pop",
+   "mila1/car/front/driveFist blend",
+   "sweater 44.8 -> 63.1 at step 1"
+  ],
+  [
+   "pop",
+   "mila1/car/front/cheer blend",
+   "sweater 45.9 -> 72.7 at step 1"
+  ]
+ ],
  "cells": 1170
 }
