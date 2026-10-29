@@ -258,6 +258,7 @@
     c.restore();
   }
   // extraK (Guardian 2026-10-29): the surprise ticks / anger mark sit outside the headwear (they used to cross the crown)
+  C.HAT_KIT = { shortHair, hatLift, hatFrame, curlsBack, curlsFront, goggles, lobedShape, backX, ELI_HAIR, CAP_Y, CAP_D };   // shared with lib/hats_v2.js (round 2)
   C.ELI_HATS = {
     1: { name: 'gorro tejido (actual)', layers: () => ({ hat: C.SPECS.eli1.hat }), cost: 'existe' },
     2: { name: 'rizos cortos, sin gorro', layers: () => ({ extraK: 1.3, hat: curlsFront, hairBack: curlsBack }), cost: 'nuevo (reutiliza el pelo lobulado de Alt 2)' },
