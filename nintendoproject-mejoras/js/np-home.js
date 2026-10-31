@@ -15,8 +15,12 @@ var NP = window.NP;
     (window.NPPlaza && window.NPPlaza.ajax) ||
     (typeof window.npAjax === "string" && window.npAjax) ||
     "/wp-admin/admin-ajax.php";
-  var RM =
-    window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var RM_MQ = window.matchMedia
+    ? matchMedia("(prefers-reduced-motion: reduce)")
+    : null;
+  // Declarado aquí (antes de applyPrefs) para que startPlaza() no se ejecute
+  // dos veces durante el arranque.
+  var plazaOn = !1;
   function $(s, ctx) {
     return (ctx || root).querySelector(s);
   }
@@ -40,10 +44,15 @@ var NP = window.NP;
     s = String(s || "");
     return s.charAt(0) + s.slice(1).toLowerCase();
   }
+  // Solo URLs del propio sitio (mismo origen) o de la carpeta de subidas de WP.
+  var UPLOADS_URL = String(NP.base || location.origin + "/") + "wp-content/uploads/";
   function safeUrl(v) {
+    if (typeof v !== "string" || !v) return "";
     try {
       var u = new URL(v, location.href);
-      return /^https?:$/.test(u.protocol) ? u.href : "";
+      if (!/^https?:$/.test(u.protocol)) return "";
+      if (u.origin === location.origin) return u.href;
+      return u.href.indexOf(UPLOADS_URL) === 0 ? u.href : "";
     } catch (e) {
       return "";
     }
@@ -66,7 +75,7 @@ var NP = window.NP;
   }
   window.NP_FONDOS = window.NP_FONDOS || {
     mario: {
-      url: NP.u("wp-content/uploads/2026/05/FONDOPEACH.mp4"),
+      url: NP.u("wp-content/uploads/2026/04/MARIOBUSCADOR.mp4"),
       label: "Mario",
       img: NP.u("wp-content/uploads/2026/02/975b574d5779b0bb4856b20c468b05ff2c0050ece8a57f1d91a799b999d7bde2.webp"),
       sub: "Castillo Peach",
@@ -139,9 +148,6 @@ var NP = window.NP;
     },
   };
   var FONDOS = window.NP_FONDOS;
-  if (FONDOS.mario)
-    FONDOS.mario.url =
-      NP.u("wp-content/uploads/2026/04/MARIOBUSCADOR.mp4");
   var MOBILE = window.matchMedia
     ? matchMedia("(max-width: 767px)")
     : { matches: !1 };
@@ -183,7 +189,7 @@ var NP = window.NP;
     tiles: "md",
     bgVideo: !0,
     bgLevel: 80,
-    sound: !0,
+    sound: !1,
     anim: !0,
     showPoke: !0,
     showPlaza: !0,
@@ -193,14 +199,21 @@ var NP = window.NP;
       o = {},
       k;
     for (k in DEF) o[k] = DEF[k];
-    if (p && typeof p === "object") for (k in p) o[k] = p[k];
+    if (p && typeof p === "object")
+      for (k in p) if (NP.has(p, k) && k !== "__proto__") o[k] = p[k];
+    // El sonido solo cuenta como activado si el usuario lo encendió a mano
+    // en el panel (antes se guardaba sound:true por defecto).
+    if (o.sound !== !0 || o.soundOptIn !== !0) {
+      o.sound = !1;
+      delete o.soundOptIn;
+    }
     PRESETS.forEach(function (x) {
       if (x.id === o.accent) {
         o.c1 = x.c1;
         o.c2 = x.c2;
       }
     });
-    if (!FONDOS[o.video]) o.video = "mario";
+    if (!NP.has(FONDOS, o.video)) o.video = "mario";
     return o;
   }
   var prefs = loadPrefs();
@@ -280,7 +293,7 @@ var NP = window.NP;
     };
   }
   function sagaAvatars(k) {
-    var d = SAGA_AV[k];
+    var d = NP.has(SAGA_AV, k) ? SAGA_AV[k] : null;
     if (!d) return [];
     if (d.tr != null) {
       var tr = AV_TROFEOS[d.tr];
@@ -311,7 +324,7 @@ var NP = window.NP;
     try {
       localStorage.setItem("np-saga", k);
     } catch (e) {}
-    var list = SAGA_AV[k] ? sagaAvatars(k) : randomAvatars(12);
+    var list = NP.has(SAGA_AV, k) ? sagaAvatars(k) : randomAvatars(12);
     window.NP_INTRO_AV = list;
     try {
       localStorage.setItem("np-intro-av", JSON.stringify(list.slice(0, 12)));
@@ -359,7 +372,16 @@ var NP = window.NP;
       return prefs;
     },
     set: function (patch) {
-      for (var k in patch) prefs[k] = patch[k];
+      for (var k in patch)
+        if (NP.has(patch, k) && k !== "__proto__") prefs[k] = patch[k];
+      if (NP.has(patch, "sound"))
+        if (patch.sound === !0) prefs.soundOptIn = !0;
+        else {
+          prefs.sound = !1;
+          delete prefs.soundOptIn;
+          stopMusic();
+        }
+      if (!NP.has(FONDOS, prefs.video)) prefs.video = "mario";
       savePrefs();
       applyPrefs();
       if (typeof markCfg === "function")
@@ -408,7 +430,8 @@ var NP = window.NP;
   }
   function applyPrefs() {
     root.setAttribute("data-theme", prefs.theme === "light" ? "light" : "dark");
-    root.setAttribute("data-anim", prefs.anim === !1 || RM ? "off" : "on");
+    window.npPrefs = prefs;
+    root.setAttribute("data-anim", NP.motionOn() ? "on" : "off");
     root.setAttribute("data-accent", prefs.accent || "cyan");
     root.setAttribute("data-video", prefs.video || "mario");
     root.classList.toggle("no-poke", prefs.showPoke === !1);
@@ -507,27 +530,98 @@ var NP = window.NP;
     };
     im.src = src;
   }
-  function showVideo(url) {
+  // Fondo: vídeo o imagen. Cada cambio incrementa bgGen; los temporizadores,
+  // intervalos y manejadores canplay/error de cambios anteriores se ignoran.
+  var bgGen = 0,
+    bgWait = 0,
+    bgSafety = 0,
+    BG_FAIL = Object.create(null),
+    BG_SMALL = window.matchMedia
+      ? matchMedia("(max-width: 768px)")
+      : { matches: !1 };
+  function bgVideos() {
+    return bgVid.parentNode
+      ? [].slice.call(bgVid.parentNode.querySelectorAll("video.nph-bg-video"))
+      : [bgVid];
+  }
+  function releaseVideo(v) {
+    v.oncanplay = null;
+    v.onerror = null;
+    try {
+      v.pause();
+    } catch (e) {}
+    if (v.getAttribute("src")) {
+      v.removeAttribute("src");
+      try {
+        v.load();
+      } catch (e) {}
+    }
+  }
+  function clearBgTimers() {
+    clearInterval(bgWait);
+    clearTimeout(bgSafety);
+    clearTimeout(imgUnload);
+    bgWait = bgSafety = imgUnload = 0;
+  }
+  function bgUseImg(f) {
+    return !!(
+      isImg(f.url) ||
+      SAVE_DATA ||
+      BG_SMALL.matches ||
+      !NP.motionOn() ||
+      BG_FAIL[f.url]
+    );
+  }
+  function hideVideos(gen) {
+    var vids = bgVideos();
+    vids.forEach(function (v) {
+      v.classList.remove("on");
+      v.oncanplay = null;
+      v.onerror = null;
+    });
+    clearTimeout(vidUnload);
+    vidUnload = setTimeout(function () {
+      if (gen !== bgGen) return;
+      vids.forEach(function (v) {
+        if (v.classList.contains("on")) return;
+        releaseVideo(v);
+        if (v !== bgVid && v.parentNode) v.parentNode.removeChild(v);
+      });
+    }, BG_FADE);
+  }
+  function showVideo(url, gen) {
     var old = bgVid,
-      wasOn = old.classList.contains("on") && old.getAttribute("src");
-    [].forEach.call(old.parentNode.querySelectorAll("video"), function (v) {
+      parent = old.parentNode;
+    // Suelta los vídeos pendientes (aún sin mostrar) de cambios anteriores.
+    bgVideos().forEach(function (v) {
       if (v !== old && !v.classList.contains("on")) {
-        v.removeAttribute("src");
-        v.parentNode.removeChild(v);
+        releaseVideo(v);
+        if (v.parentNode) v.parentNode.removeChild(v);
       }
     });
+    var wasOn = old.classList.contains("on") && old.getAttribute("src");
     var v = wasOn ? newVideo() : old;
     if (wasOn) {
-      old.parentNode.insertBefore(v, old.nextSibling);
+      parent.insertBefore(v, old.nextSibling);
       bgVid = v;
-    }
+    } else releaseVideo(v);
     v.classList.remove("on");
     v.oncanplay = function () {
+      if (gen !== bgGen || v !== bgVid) return;
       v.oncanplay = null;
       requestAnimationFrame(function () {
-        v.classList.add("on");
+        if (gen === bgGen && v === bgVid) v.classList.add("on");
       });
-      if (wasOn) dropLater(old, !0);
+      bgVideos().forEach(function (o) {
+        if (o !== v) dropLater(o, !0);
+      });
+    };
+    v.onerror = function () {
+      if (gen !== bgGen || v !== bgVid) return;
+      v.onerror = null;
+      v.oncanplay = null;
+      BG_FAIL[url] = 1;
+      applyBg();
     };
     v.src = url;
     var p = v.play();
@@ -535,26 +629,13 @@ var NP = window.NP;
   }
   function applyBg() {
     if (window.NPHomeBgHold) return;
-    var f = FONDOS[prefs.video] || FONDOS.mario;
-    if (isImg(f.url) || SAVE_DATA) {
+    var f = NP.has(FONDOS, prefs.video) ? FONDOS[prefs.video] : FONDOS.mario;
+    if (bgUseImg(f)) {
+      var igen = ++bgGen;
+      clearBgTimers();
       showImg(isImg(f.url) ? f.url : f.img, function () {
-        var nowImg =
-          FONDOS[prefs.video] && (isImg(FONDOS[prefs.video].url) || SAVE_DATA);
-        if (!nowImg) return;
-        bgVid.classList.remove("on");
-        clearTimeout(vidUnload);
-        vidUnload = setTimeout(function () {
-          if (bgVid.classList.contains("on")) return;
-          try {
-            bgVid.pause();
-          } catch (e) {}
-          if (bgVid.getAttribute("src")) {
-            bgVid.removeAttribute("src");
-            try {
-              bgVid.load();
-            } catch (e) {}
-          }
-        }, BG_FADE);
+        if (igen !== bgGen) return;
+        hideVideos(igen);
       });
       return;
     }
@@ -563,24 +644,35 @@ var NP = window.NP;
       return;
     }
     clearTimeout(vidUnload);
-    if (bgVid.getAttribute("src") !== f.url) {
-      showVideo(f.url);
-      clearTimeout(imgUnload);
+    if (
+      bgVid.getAttribute("src") !== f.url ||
+      (!bgVid.classList.contains("on") && !bgVid.oncanplay)
+    ) {
+      var gen = ++bgGen,
+        img = bgImg;
+      clearBgTimers();
+      showVideo(f.url, gen);
       imgUnload = setTimeout(function () {
-        if (bgVid.classList.contains("on")) bgImg.classList.remove("on");
+        if (gen === bgGen && bgVid.classList.contains("on"))
+          img.classList.remove("on");
       }, 200);
-      var waitImg = setInterval(function () {
-        if (bgVid.classList.contains("on")) {
-          bgImg.classList.remove("on");
-          clearInterval(waitImg);
+      var wait = (bgWait = setInterval(function () {
+        if (gen !== bgGen) {
+          clearInterval(wait);
+          return;
         }
-      }, 120);
-      setTimeout(function () {
-        clearInterval(waitImg);
-        bgImg.classList.remove("on");
+        if (bgVid.classList.contains("on")) {
+          img.classList.remove("on");
+          clearInterval(wait);
+        }
+      }, 120));
+      bgSafety = setTimeout(function () {
+        clearInterval(wait);
+        if (gen !== bgGen) return;
+        img.classList.remove("on");
       }, 6000);
     } else {
-      bgImg.classList.remove("on");
+      if (bgVid.classList.contains("on")) bgImg.classList.remove("on");
       var p = bgVid.play();
       if (p && p.catch) p.catch(function () {});
     }
@@ -620,8 +712,13 @@ var NP = window.NP;
     entrySound();
   }
   var AC = null;
+  // Sonido solo si el usuario lo activó explícitamente (prefs.sound === true),
+  // igual que NP.soundOn() pero leyendo siempre el objeto prefs actual.
+  function soundOn() {
+    return prefs.sound === !0;
+  }
   function entrySound() {
-    if (prefs.sound === !1) return;
+    if (!soundOn()) return;
     var Ctx = window.AudioContext || window.webkitAudioContext;
     if (!Ctx) return;
     try {
@@ -806,7 +903,7 @@ var NP = window.NP;
     },
     sfxCache = {};
   function sfx(k, vol) {
-    if (prefs.sound === !1) return;
+    if (!soundOn()) return;
     try {
       var a = sfxCache[k] || (sfxCache[k] = new Audio(SFX[k]));
       a.volume = vol || 0.4;
@@ -914,6 +1011,7 @@ var NP = window.NP;
         if (
           document.hidden ||
           !visible ||
+          !NP.motionOn() ||
           GC.items.length < 2 ||
           !GC.box.isConnected ||
           !GC.box.getAttribute("data-guest")
@@ -942,8 +1040,15 @@ var NP = window.NP;
     return (
       typeof b === "string" &&
       b.length <= 260 &&
-      /^linear-gradient\([0-9a-z#%,.\s()\-]+\)$/i.test(b)
+      /^linear-gradient\([0-9a-z#%,.\s()\-]+\)$/i.test(b) &&
+      !/(url|var|image|image-set|element|cross-fade|paint|attr|env|expression)\s*\(/i.test(
+        b,
+      )
     );
+  }
+  function miiBg(c) {
+    c = String(c || "").toLowerCase();
+    return NP.has(FONDOS_MII, c) ? FONDOS_MII[c] : "";
   }
   function colorOk(c) {
     return (
@@ -980,7 +1085,7 @@ var NP = window.NP;
       ? "none"
       : gradOk(p.background)
         ? p.background
-        : FONDOS_MII[String(p.color || "").toLowerCase()] || "none";
+        : miiBg(p.color) || "none";
     if (img.getAttribute("src") !== src) {
       img.onerror = function () {
         img.onerror = null;
@@ -1226,6 +1331,7 @@ var NP = window.NP;
       if (window.NPHeader && typeof window.NPHeader.nivel === "function")
         nv.nivel = window.NPHeader.nivel() || nv.nivel;
     } catch (e) {}
+    if (!nv || typeof nv !== "object") nv = { nivel: 1, dias: 1, primerDia: "" };
     var max = (window.NPNivel && window.NPNivel.MAX) || 100;
     var lv = $("[data-lv]");
     lv.hidden = !1;
@@ -1233,11 +1339,18 @@ var NP = window.NP;
     $("[data-rank]").hidden = !1;
     paintRank(clamp(Math.floor(num(nv.nivel, 1)), 1, max));
     var since = "";
-    if (nv.primerDia) {
-      var pd = nv.primerDia.split("-");
-      since =
-        "Contigo desde el " +
-        fLong.format(new Date(+pd[0], +pd[1] - 1, +pd[2]));
+    if (
+      typeof nv.primerDia === "string" &&
+      /^\d{4}-\d{2}-\d{2}$/.test(nv.primerDia)
+    ) {
+      var pd = nv.primerDia.split("-"),
+        pdDate = new Date(+pd[0], +pd[1] - 1, +pd[2]);
+      if (
+        isFinite(pdDate.getTime()) &&
+        pdDate.getMonth() === +pd[1] - 1 &&
+        pdDate.getDate() === +pd[2]
+      )
+        since = "Contigo desde el " + fLong.format(pdDate);
     }
     $("[data-prof-sub]").classList.remove("is-guest");
     $("[data-prof-sub]").textContent = since || "Miembro de Nintendo Project";
@@ -1252,7 +1365,7 @@ var NP = window.NP;
         color: colorOk(me.color) ? me.color : "#3b82f6",
         bg: gradOk(me.background)
           ? me.background
-          : FONDOS_MII[String(me.color || "").toLowerCase()] || "",
+          : miiBg(me.color),
         isFull: !!(
           me.full === !0 ||
           me.full === 1 ||
@@ -1919,7 +2032,7 @@ var NP = window.NP;
       ["lgOgerpon", "Ogerpon", 9, 1017, "ogerpon.png", ["PLANTA"]],
       ["lgTerapagos", "Terapagos", 9, 1024, "terapagos.png", ["NORMAL"]],
     ].forEach(function (r) {
-      if (PK[r[0]]) return;
+      if (NP.has(PK, r[0])) return;
       var s = /^https?:/.test(r[4]) ? r[4] : LG + r[4],
         dex = "#" + (r[3] < 1000 ? ("00" + r[3]).slice(-3) : r[3]);
       var up = r[1].toUpperCase();
@@ -2063,9 +2176,16 @@ var NP = window.NP;
     calm: ["está tranquilo", "", ""],
   };
   function pokeValid(S) {
-    return !!(S && typeof S === "object" && S.start && S.key && PK[S.key]);
+    return !!(
+      S &&
+      typeof S === "object" &&
+      S.start &&
+      typeof S.key === "string" &&
+      NP.has(PK, S.key)
+    );
   }
   var POKE = { S: null, owner: "local" };
+  var POKE_MAX_LV = 100;
   var WHO = { list: null, i: 0, timer: 0, imgs: [] };
   function startWho() {
     var box = $("[data-poke-who]");
@@ -2075,7 +2195,7 @@ var NP = window.NP;
       WHO.list = shuffle(
         ["charmander", "bulbasaur", "squirtle", "chimchar", "oshawott"]
           .filter(function (k) {
-            return PK[k];
+            return NP.has(PK, k);
           })
           .map(function (k) {
             var e = PK[k].evo && PK[k].evo[0];
@@ -2121,7 +2241,7 @@ var NP = window.NP;
     }
     show();
     WHO.timer = setInterval(function () {
-      if (!document.hidden && visible) show();
+      if (!document.hidden && visible && NP.motionOn()) show();
     }, 2400);
   }
   function stopWho() {
@@ -2181,7 +2301,14 @@ var NP = window.NP;
   function roomBg(house) {
     var b = $("[data-poke-bg]"),
       url =
-        REC + HOUSES[LOGGED ? (HOUSES[house] ? house : "invierno") : "arbol"];
+        REC +
+        HOUSES[
+          LOGGED
+            ? typeof house === "string" && NP.has(HOUSES, house)
+              ? house
+              : "invierno"
+            : "arbol"
+        ];
     if (b.getAttribute("data-src") === url) return;
     b.setAttribute("data-src", url);
     b.classList.remove("on");
@@ -2244,7 +2371,7 @@ var NP = window.NP;
       stage = clamp(Math.floor(num(S.evoStage)), 0, pk.evo.length - 1),
       form = pk.evo[stage];
     var name = form.t || cap(form.n),
-      lv = clamp(Math.floor(num(S.level, 1)), 1, 100);
+      lv = clamp(Math.floor(num(S.level, 1)), 1, POKE_MAX_LV);
     $("[data-poke-title]").textContent = name;
     paintSex(S);
     lvChip.hidden = !1;
@@ -2300,6 +2427,9 @@ var NP = window.NP;
     daily.appendChild(c1);
     var next = pk.evo[stage + 1],
       c2 = el("span");
+    // Evoluciones por encima del nivel máximo (p. ej. Pikachu de Ash, d:101)
+    // no existen en la práctica.
+    if (next && num(next.d) > POKE_MAX_LV) next = null;
     if (next && !pk.friendshipEvolution && next.d > lv) {
       c2.appendChild(el("small", "", "Evoluciona a " + cap(next.n)));
       c2.appendChild(el("strong", "", "Nv. " + next.d));
@@ -2384,6 +2514,7 @@ var NP = window.NP;
     stopped: !1,
     theme: "dark",
     authRetries: 0,
+    lastAt: 0,
   };
   function plazaApi(action, data) {
     var fd = new FormData();
@@ -2436,7 +2567,9 @@ var NP = window.NP;
       n = new Date();
     if (!isFinite(d.getTime())) return "";
     if (d.toDateString() === n.toDateString()) return fHour.format(d);
-    if (d.toDateString() === new Date(n - 864e5).toDateString()) return "Ayer";
+    var ayer = new Date(n.getTime());
+    ayer.setDate(ayer.getDate() - 1);
+    if (d.toDateString() === ayer.toDateString()) return "Ayer";
     return fDay.format(d).replace(".", "");
   }
   function plazaTitle(parts, sub) {
@@ -3012,155 +3145,8 @@ var NP = window.NP;
     }
     box.appendChild(document.createTextNode(text.slice(pos)));
   }
-  var PZ_CHAT_RANKS = [
-    {
-      min: 1,
-      nombre: "Joven Promesa",
-      a: "#43c943",
-      b: "#b6f28c",
-      icono: U + "2026/09/jovenpromesayoshi.webp",
-    },
-    {
-      min: 5,
-      nombre: "Toad Novato",
-      a: "#ff6b6b",
-      b: "#ffd6d6",
-      icono: U + "2026/09/icontoad.webp",
-    },
-    {
-      min: 10,
-      nombre: "Devorador de Estrellas",
-      a: "#ff8ec2",
-      b: "#ffc2dd",
-      icono: U + "2026/09/projectsskirbyss.webp",
-    },
-    {
-      min: 15,
-      nombre: "Cazador de Estrellas",
-      a: "#ffd54a",
-      b: "#ffb13b",
-      icono: U + "2026/09/Star-icon.png",
-    },
-    {
-      min: 20,
-      nombre: "Vecino Ejemplar de la Isla",
-      a: "#86efac",
-      b: "#10b981",
-      icono: U + "2026/09/ANML.webp",
-    },
-    {
-      min: 25,
-      nombre: "Comandante Pikmin",
-      a: "#ff5a5a",
-      b: "#4d8dff",
-      icono: U + "2026/09/Pc049-1.webp",
-    },
-    {
-      min: 30,
-      nombre: "Entrenador Pokémon",
-      a: "#ffd54a",
-      b: "#ff4d4d",
-      icono: U + "2026/09/charitrofeo.webp",
-    },
-    {
-      min: 35,
-      nombre: "Líder de Gimnasio",
-      a: "#f59e0b",
-      b: "#fde047",
-      icono: U + "2026/09/pokebadge.webp",
-    },
-    {
-      min: 40,
-      nombre: "Capitán de la Flota Toad",
-      a: "#3b82f6",
-      b: "#ff6b6b",
-      icono: U + "2026/09/toadcapi.png",
-    },
-    {
-      min: 45,
-      nombre: "Héroe del Reino Champiñón",
-      a: "#ff4d4d",
-      b: "#ff944d",
-      icono: U + "2026/09/mario-trofeo.webp",
-    },
-    {
-      min: 50,
-      nombre: "Comandante Bowser",
-      a: "#ff7a00",
-      b: "#dc2626",
-      icono: U + "2026/08/ALERTABOWSER.webp",
-    },
-    {
-      min: 55,
-      nombre: "Graffitero Novato",
-      a: "#facc15",
-      b: "#8b5cf6",
-      icono: U + "2026/09/S3c010.webp",
-    },
-    {
-      min: 60,
-      nombre: "Calamar de Élite",
-      a: "#ff3d9a",
-      b: "#a0e60a",
-      icono: U + "2026/09/splatoon-trofeo.webp",
-    },
-    {
-      min: 65,
-      nombre: "Piloto de 200cc",
-      a: "#ef4444",
-      b: "#facc15",
-      icono: U + "2026/09/piloto.webp",
-    },
-    {
-      min: 70,
-      nombre: "Rey Ganondorf",
-      a: "#b91c1c",
-      b: "#f5c542",
-      icono: U + "2026/09/SSBU_Ganondorf_Stock.webp",
-    },
-    {
-      min: 75,
-      nombre: "Héroe de Hyrule",
-      a: "#00a86b",
-      b: "#c9a93b",
-      icono: U + "2026/09/zelda-trofeo.webp",
-    },
-    {
-      min: 80,
-      nombre: "Guardián de la Trifuerza",
-      a: "#f9df7b",
-      b: "#b8860b",
-      icono: U + "2026/09/icons8-trifuerza-96.png",
-    },
-    {
-      min: 85,
-      nombre: "Leyenda del Torneo Smash",
-      a: "#f43f5e",
-      b: "#8b5cf6",
-      icono: U + "2026/09/smash.png",
-    },
-    {
-      min: 90,
-      nombre: "Rey de la Jungla Kong",
-      a: "#c9812f",
-      b: "#e0a559",
-      icono: U + "2026/09/donkey-trofeo.webp",
-    },
-    {
-      min: 95,
-      nombre: "Cazarrecompensas de Élite",
-      a: "#ff6a3d",
-      b: "#22d3ee",
-      icono: U + "2026/09/samus-1.webp",
-    },
-    {
-      min: 100,
-      nombre: "Leyenda de Nintendo Project",
-      a: "#10b981",
-      b: "#8b5cf6",
-      icono: U + "2026/09/samus-trofeo.webp",
-    },
-  ];
+  // Mismos rangos que el perfil (antes era una copia idéntica).
+  var PZ_CHAT_RANKS = RANGOS;
   function livePlazaRank(user) {
     var badge = el("span", "pz-live-rank"),
       level = Math.max(0, Math.min(100, Math.floor(+user.nv || 0)));
@@ -3284,7 +3270,7 @@ var NP = window.NP;
     PL.signature = signature;
     list.textContent = "";
     messages.forEach(function (m) {
-      var user = users[String(m.u)] || {},
+      var user = (NP.has(users, String(m.u)) && users[String(m.u)]) || {},
         li = el("li", "pz-live-row");
       var a = el("a", "pz-live-message");
       a.href = URLS.plaza;
@@ -3299,9 +3285,10 @@ var NP = window.NP;
         time.dateTime = new Date(+m.ts * 1000).toISOString();
       head.appendChild(time);
       body.appendChild(head);
-      var ref = refs[String(m.r)];
+      var ref = NP.has(refs, String(m.r)) ? refs[String(m.r)] : null;
       if (+m.r && ref && !ref.b) {
-        var author = users[String(ref.u)] || {};
+        var author =
+          (NP.has(users, String(ref.u)) && users[String(ref.u)]) || {};
         var reply = el("span", "pz-live-reply");
         reply.appendChild(el("b", "", "↳ " + (author.apodo || "Un Mii")));
         var replyText = el("span");
@@ -3382,6 +3369,9 @@ var NP = window.NP;
       return !0;
     });
   }
+  // Sondeo del chat: cada 20 s con la pestaña visible; nada mientras está oculta.
+  var PLAZA_POLL = 20000,
+    PLAZA_WAKE_GAP = 4000;
   function schedulePlazaRefresh(delay) {
     clearTimeout(PL.timer);
     if (!PL.stopped && plazaOn) PL.timer = setTimeout(refreshMsgs, delay);
@@ -3416,6 +3406,7 @@ var NP = window.NP;
         if (!ok) return;
         return plazaApi("npmp_historial", { antes: "9007199254740991" }).then(
           function (data) {
+            PL.lastAt = Date.now();
             renderLivePlaza(data);
             PL.failures = 0;
             PL.authRetries = 0;
@@ -3443,20 +3434,25 @@ var NP = window.NP;
                   60000,
                   2000 * Math.pow(2, Math.min(PL.failures - 1, 5)),
                 )
-              : 6000,
+              : PLAZA_POLL,
         );
       });
   }
   function wakePlaza() {
-    if (!LOGGED || !plazaOn || document.hidden) return;
+    if (document.hidden) {
+      clearTimeout(PL.timer);
+      return;
+    }
+    if (!LOGGED || !plazaOn) return;
     if (PL.stopped) PL.sessionAt = 0;
     PL.stopped = !1;
-    schedulePlazaRefresh(0);
+    // Una sola recarga al volver (visibilitychange/focus llegan juntos).
+    var since = Date.now() - (PL.lastAt || 0);
+    schedulePlazaRefresh(since >= PLAZA_WAKE_GAP ? 0 : PLAZA_WAKE_GAP - since);
   }
   document.addEventListener("visibilitychange", wakePlaza);
   addEventListener("focus", wakePlaza);
   addEventListener("np-welcome-done", wakePlaza);
-  var POKE_SUM = "";
   function updateSummary() {
     var bits = [];
     if (PLAZA_SUM) bits.push(PLAZA_SUM);
@@ -3478,10 +3474,9 @@ var NP = window.NP;
   function paintPoke() {
     if (!pokeOn()) {
       stopWho();
-      POKE_SUM = "";
       return;
     }
-    POKE_SUM = renderPoke().summary || "";
+    renderPoke();
     updateSummary();
     scheduleFit();
   }
@@ -3668,46 +3663,74 @@ var NP = window.NP;
       if (!b) return;
       row.scrollBy({
         left: +b.getAttribute("data-cs-go") * row.clientWidth * 0.8,
-        behavior: RM ? "auto" : "smooth",
+        behavior: NP.motionOn() ? "smooth" : "auto",
       });
       sfx("click", 0.3);
     });
     row.addEventListener(
       "wheel",
       function (e) {
-        if (!e.deltaX && !e.shiftKey) return;
+        // El desplazamiento horizontal nativo (trackpad, Mayús+rueda) se respeta.
+        if (e.deltaX || e.shiftKey || e.ctrlKey || !e.deltaY) return;
+        var max = row.scrollWidth - row.clientWidth;
+        if (max <= 2) return;
+        var dy =
+          e.deltaMode === 1
+            ? e.deltaY * 16
+            : e.deltaMode === 2
+              ? e.deltaY * row.clientWidth
+              : e.deltaY;
+        var to = clamp(row.scrollLeft + dy, 0, max);
+        // En los extremos dejamos que la página siga desplazándose.
+        if (Math.abs(to - row.scrollLeft) < 1) return;
         e.preventDefault();
-        scrollBy(0, e.deltaY || 0);
+        row.scrollLeft = to;
       },
       { passive: !1 },
     );
     var dg = null,
       moved = !1;
+    function endDrag() {
+      if (!dg) return;
+      var id = dg.id;
+      dg = null;
+      try {
+        if (row.hasPointerCapture && row.hasPointerCapture(id))
+          row.releasePointerCapture(id);
+      } catch (e) {}
+      setTimeout(function () {
+        row.classList.remove("drag");
+      }, 0);
+    }
     row.addEventListener("pointerdown", function (e) {
       if (e.pointerType !== "mouse" || e.button !== 0) return;
-      dg = { x: e.clientX, l: row.scrollLeft };
+      dg = { x: e.clientX, l: row.scrollLeft, id: e.pointerId };
       moved = !1;
     });
     addEventListener(
       "pointermove",
       function (e) {
-        if (!dg) return;
+        if (!dg || e.pointerId !== dg.id) return;
+        if (!(e.buttons & 1)) {
+          endDrag();
+          return;
+        }
         var dx = e.clientX - dg.x;
         if (!moved && Math.abs(dx) > 5) {
           moved = !0;
           row.classList.add("drag");
+          try {
+            row.setPointerCapture(e.pointerId);
+          } catch (err) {}
         }
         if (moved) row.scrollLeft = dg.l - dx;
       },
       { passive: !0 },
     );
-    addEventListener("pointerup", function () {
-      if (!dg) return;
-      dg = null;
-      setTimeout(function () {
-        row.classList.remove("drag");
-      }, 0);
-    });
+    addEventListener("pointerup", endDrag);
+    addEventListener("pointercancel", endDrag);
+    row.addEventListener("lostpointercapture", endDrag);
+    addEventListener("blur", endDrag);
     row.addEventListener("click", function (e) {
       var a = e.target.closest(".nph-cs");
       if (!a) return;
@@ -3769,29 +3792,28 @@ var NP = window.NP;
       r.setAttribute("aria-valuetext", Math.round(v) + " %");
     });
   }
+  function markSel(b, on) {
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-pressed", String(on));
+  }
   function markCfg() {
     markRange();
     $$("[data-seg-theme] button").forEach(function (b) {
-      b.classList.toggle(
-        "active",
+      markSel(
+        b,
         b.getAttribute("data-theme-v") ===
           (prefs.theme === "light" ? "light" : "dark"),
       );
     });
     $$(".np-swatch").forEach(function (b) {
-      b.classList.toggle(
-        "active",
-        b.getAttribute("data-preset") === prefs.accent,
-      );
+      markSel(b, b.getAttribute("data-preset") === prefs.accent);
     });
     $$(".np-vidcard").forEach(function (b) {
-      b.classList.toggle(
-        "active",
-        b.getAttribute("data-video") === prefs.video,
-      );
+      markSel(b, b.getAttribute("data-video") === prefs.video);
     });
     $$(".np-switch").forEach(function (s) {
-      var on = prefs[s.getAttribute("data-sw")] !== !1;
+      var k = s.getAttribute("data-sw"),
+        on = k === "sound" ? soundOn() : prefs[k] !== !1;
       s.classList.toggle("on", on);
       s.setAttribute("aria-checked", String(on));
     });
@@ -3824,18 +3846,43 @@ var NP = window.NP;
     dr.style.bottom = Math.round(H - vb) + "px";
   }
   var lastFocus = null;
+  // Cerrado: inerte y oculto para lectores; abierto: foco atrapado dentro.
+  function drawerHidden(h) {
+    dr.setAttribute("aria-hidden", h ? "true" : "false");
+    dr.inert = h;
+    if (h) dr.setAttribute("inert", "");
+    else dr.removeAttribute("inert");
+  }
+  function drawerFocusables() {
+    return $$(
+      'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',
+      dr,
+    ).filter(function (n) {
+      return n.getClientRects().length > 0 && !n.closest("[hidden]");
+    });
+  }
+  function drawerTrapOn() {
+    return (
+      dr.classList.contains("open") &&
+      !dr.classList.contains("np-suck-close") &&
+      !dr.hasAttribute("inert")
+    );
+  }
+  if (!dr.classList.contains("open")) drawerHidden(!0);
   function openCfg() {
     $$("img.np-vid-thumb[data-src]", dr).forEach(function (im) {
       im.src = im.getAttribute("data-src");
       im.removeAttribute("data-src");
     });
-    lastFocus = document.activeElement;
+    var act = document.activeElement;
+    lastFocus = act && act !== document.body && !dr.contains(act) ? act : cfgBtn;
+    dr.classList.remove("np-suck-close");
     document.documentElement.classList.add("nph-cfg-open");
     markCfg();
     placeDrawer();
     bd.classList.add("open");
     dr.classList.add("open");
-    dr.setAttribute("aria-hidden", "false");
+    drawerHidden(!1);
     cfgBtn.setAttribute("aria-expanded", "true");
     document.body.classList.add("np-panel-open");
     document.documentElement.classList.add("nph-lock");
@@ -3851,29 +3898,33 @@ var NP = window.NP;
     cfgBtn.setAttribute("aria-expanded", "false");
     document.body.classList.remove("np-panel-open");
     document.documentElement.classList.remove("nph-lock");
-    if (lastFocus && lastFocus.focus)
+    var back = lastFocus && lastFocus.isConnected ? lastFocus : cfgBtn;
+    lastFocus = null;
+    if (back && back.focus)
       try {
-        lastFocus.focus({ preventScroll: !0 });
+        back.focus({ preventScroll: !0 });
       } catch (e) {}
   }
   function closeCfg() {
     if (!dr.classList.contains("open")) return;
     dr.classList.remove("open");
-    dr.setAttribute("aria-hidden", "true");
+    drawerHidden(!0);
     finishClose();
     sfx("click", 0.4);
   }
   function suckClose() {
-    if (RM || prefs.anim === !1) {
+    if (!NP.motionOn()) {
       closeCfg();
       return;
     }
-    finishClose();
     dr.classList.add("np-suck-close");
+    drawerHidden(!0);
+    finishClose();
     var done = function () {
-      dr.classList.remove("np-suck-close", "open");
-      dr.setAttribute("aria-hidden", "true");
       dr.removeEventListener("animationend", done);
+      if (!dr.classList.contains("np-suck-close")) return;
+      dr.classList.remove("np-suck-close", "open");
+      drawerHidden(!0);
     };
     dr.addEventListener("animationend", done);
     setTimeout(done, 640);
@@ -3894,10 +3945,36 @@ var NP = window.NP;
       if (e.key === "Escape" && dr.classList.contains("open")) {
         e.stopPropagation();
         closeCfg();
+        return;
+      }
+      if (e.key !== "Tab" || !drawerTrapOn()) return;
+      var f = drawerFocusables(),
+        a = document.activeElement;
+      if (!f.length) {
+        e.preventDefault();
+        return;
+      }
+      var first = f[0],
+        last = f[f.length - 1];
+      if (!dr.contains(a)) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+      } else if (e.shiftKey && a === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && a === last) {
+        e.preventDefault();
+        first.focus();
       }
     },
     !0,
   );
+  document.addEventListener("focusin", function (e) {
+    if (drawerTrapOn() && !dr.contains(e.target)) {
+      var f = drawerFocusables();
+      if (f.length) f[0].focus({ preventScroll: !0 });
+    }
+  });
   addEventListener(
     "resize",
     function () {
@@ -3907,19 +3984,23 @@ var NP = window.NP;
   );
   function toggleSwitch(s) {
     var k = s.getAttribute("data-sw");
-    prefs[k] = prefs[k] === !1;
+    if (k === "sound") {
+      if (soundOn()) {
+        prefs.sound = !1;
+        delete prefs.soundOptIn;
+      } else {
+        prefs.sound = !0;
+        prefs.soundOptIn = !0;
+      }
+    } else prefs[k] = prefs[k] === !1;
     savePrefs();
     applyPrefs();
     markCfg();
     sfx("click", 0.35);
-    var m = window.NPHomeMusic;
     if (k === "sound") {
-      if (prefs.sound === !1) {
-        if (m) {
-          m.dataset.off = "1";
-          m.pause();
-        }
-      } else homeMusicStart();
+      // La música solo arranca aquí: el usuario acaba de activar el sonido.
+      if (soundOn()) homeMusicStart();
+      else stopMusic();
     }
   }
   dr.addEventListener("click", function (e) {
@@ -3934,9 +4015,11 @@ var NP = window.NP;
       prefs.c1 = p.c1;
       prefs.c2 = p.c2;
     } else if ((t = e.target.closest(".np-vidcard"))) {
-      prefs.video = t.getAttribute("data-video");
+      var vk = t.getAttribute("data-video");
+      if (!NP.has(FONDOS, vk)) return;
+      prefs.video = vk;
       var tc =
-        TEMA[prefs.video] &&
+        NP.has(TEMA, prefs.video) &&
         PRESETS.filter(function (x) {
           return x.id === TEMA[prefs.video];
         })[0];
@@ -3958,6 +4041,8 @@ var NP = window.NP;
     } else if (e.target.closest(".np-cfg-reset")) {
       prefs = {};
       for (var d in DEF) prefs[d] = DEF[d];
+      window.npPrefs = prefs;
+      stopMusic();
       setTimeout(function () {
         applySaga(prefs.video);
       }, 0);
@@ -4004,11 +4089,21 @@ var NP = window.NP;
     )
       e.preventDefault();
   });
-  var MUSIC_URL = U + "2026/10/homeprojectsound.mp3",
-    musicWait = !1,
-    MUSIC_EVT = ["pointerdown", "touchend", "keydown"];
+  // Música de fondo: desactivada por defecto. Nunca se engancha al primer
+  // gesto (pointerdown/keydown/touchend) de la página; solo suena si el usuario
+  // activó el sonido en el panel de ajustes (prefs.sound === true).
+  var MUSIC_URL = U + "2026/10/homeprojectsound.mp3";
+  function stopMusic() {
+    var m = window.NPHomeMusic;
+    if (!m) return;
+    m.dataset.off = "1";
+    m.__wasPlaying = !1;
+    try {
+      m.pause();
+    } catch (e) {}
+  }
   function homeMusicStart() {
-    if (prefs.sound === !1) return;
+    if (!soundOn()) return;
     var m = window.NPHomeMusic;
     if (!m) {
       try {
@@ -4021,35 +4116,24 @@ var NP = window.NP;
       m.preload = "auto";
       window.NPHomeMusic = m;
       document.addEventListener("visibilitychange", function () {
-        if (document.hidden) m.pause();
-        else if (
+        if (document.hidden) {
+          m.__wasPlaying = !m.paused;
+          m.pause();
+        } else if (
+          m.__wasPlaying &&
           !m.dataset.off &&
-          prefs.sound !== !1 &&
+          soundOn() &&
           !document.getElementById("npSw2Welcome")
         ) {
           var q = m.play();
-          if (q && q.catch) q.catch(musicOnGesture);
+          if (q && q.catch) q.catch(function () {});
         }
       });
     }
     delete m.dataset.off;
     if (!m.paused) return;
     var p = m.play();
-    if (p && p.catch) p.catch(musicOnGesture);
-  }
-  function musicOnGesture() {
-    if (musicWait) return;
-    musicWait = !0;
-    var go = function () {
-      musicWait = !1;
-      MUSIC_EVT.forEach(function (t) {
-        removeEventListener(t, go, !0);
-      });
-      if (!document.getElementById("npSw2Welcome")) homeMusicStart();
-    };
-    MUSIC_EVT.forEach(function (t) {
-      addEventListener(t, go, !0);
-    });
+    if (p && p.catch) p.catch(function () {});
   }
   window.npHomeMusicStart = homeMusicStart;
   function bootMusic() {
@@ -4095,7 +4179,7 @@ var NP = window.NP;
   var slSoundKey = "me",
     slSoundReady = !1;
   function slPrimeSfx() {
-    if (slSoundReady || prefs.sound === !1) return;
+    if (slSoundReady || !soundOn()) return;
     slSoundReady = !0;
     ["poke", "plaza"].forEach(function (k) {
       try {
@@ -4188,7 +4272,7 @@ var NP = window.NP;
     if (!list.length) return;
     i = clamp(i, 0, list.length - 1);
     slAuto = Date.now() + (smooth ? 750 : 120);
-    slScrollTo(slLeft(list[i]), smooth && !RM && prefs.anim !== !1);
+    slScrollTo(slLeft(list[i]), smooth && NP.motionOn());
     slMark(list, i, user);
   }
   function slReset() {
@@ -4320,14 +4404,14 @@ var NP = window.NP;
     },
     { passive: !0 },
   );
-  applyPrefs();
-  markCfg();
-  renderMe();
+  // Arranque: cada paso aislado para que un fallo no impida los demás.
+  NP.safe(applyPrefs, "applyPrefs");
+  NP.safe(markCfg, "markCfg");
+  NP.safe(renderMe, "renderMe");
   pokeBoot = !0;
-  startPoke();
-  updateSummary();
-  slReset();
-  var plazaOn = !1;
+  NP.safe(startPoke, "startPoke");
+  NP.safe(updateSummary, "updateSummary");
+  NP.safe(slReset, "slReset");
   function startPlaza() {
     if (prefs.showPlaza === !1 || (MOBILE.matches && !SEEN.plaza)) return;
     if (plazaOn) {
@@ -4350,7 +4434,23 @@ var NP = window.NP;
         .catch(function () {});
     }
   }
-  startPlaza();
+  // applyPrefs() ya llamó a startPlaza(); solo se reintenta si no llegó a arrancar.
+  NP.safe(function () {
+    if (!plazaOn) startPlaza();
+  }, "startPlaza");
+  function onRMChange() {
+    NP.safe(applyPrefs, "applyPrefs");
+  }
+  if (RM_MQ) {
+    if (RM_MQ.addEventListener) RM_MQ.addEventListener("change", onRMChange);
+    else if (RM_MQ.addListener) RM_MQ.addListener(onRMChange);
+  }
+  function onBgSizeChange() {
+    NP.safe(applyBg, "applyBg");
+  }
+  if (BG_SMALL.addEventListener)
+    BG_SMALL.addEventListener("change", onBgSizeChange);
+  else if (BG_SMALL.addListener) BG_SMALL.addListener(onBgSizeChange);
   function onMobileChange() {
     startPlaza();
     startPoke();
@@ -4370,6 +4470,8 @@ var NP = window.NP;
     if (!e.key || e.key === "mii-perfil") renderMe();
     if (!e.key || e.key === PREF_KEY) {
       prefs = loadPrefs();
+      window.npPrefs = prefs;
+      if (!soundOn()) stopMusic();
       applyPrefs();
       markCfg();
     }

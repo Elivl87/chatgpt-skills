@@ -13,15 +13,8 @@ var NP = window.NP;
   var LOGO_URL =
     NP.u("wp-content/uploads/2026/05/LOGOMOBILEPROJECT.webp");
   var html = document.documentElement;
-  var reduce =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var animOff = !1;
-  try {
-    var pr = JSON.parse(localStorage.getItem("np-widget-prefs") || "null");
-    animOff = !!(pr && pr.anim === !1);
-  } catch (e) {}
-  var still = reduce || animOff;
+  // Respeta prefers-reduced-motion y la preferencia "anim" del widget.
+  var still = !NP.motionOn();
   function cloneClean(el) {
     var c = el.cloneNode(!0);
     c.removeAttribute("id");
@@ -47,10 +40,26 @@ var NP = window.NP;
   var FULL = isGuest && !seenWithin(FULL_KEY, 12 * HOUR);
   var PRESS = !seenWithin(INTRO_KEY, 24 * HOUR);
   if (!FULL && !PRESS) return;
-  try {
-    if (FULL) localStorage.setItem(FULL_KEY, JSON.stringify({ t: Date.now() }));
-    localStorage.setItem(INTRO_KEY, JSON.stringify({ t: Date.now() }));
-  } catch (e) {}
+  // Se marca como "vista" solo cuando la intro se ha pintado de verdad
+  // (ver mount()), no antes: si algo falla no se pierde la bienvenida.
+  var seenMarked = !1;
+  function markSeen() {
+    if (seenMarked) return;
+    seenMarked = !0;
+    try {
+      if (FULL)
+        localStorage.setItem(FULL_KEY, JSON.stringify({ t: Date.now() }));
+      localStorage.setItem(INTRO_KEY, JSON.stringify({ t: Date.now() }));
+    } catch (e) {}
+  }
+  // Estado de salida (declarado pronto para que la vía de escape funcione
+  // aunque falle algo a mitad de la inicialización).
+  var bailed = !1,
+    finished = !1,
+    closedSent = !1,
+    safetyTimer = 0,
+    lastProgress = 0,
+    gestured = !1;
   var NV = navigator,
     CONN = NV.connection || NV.mozConnection || NV.webkitConnection || {};
   var saveData =
@@ -67,8 +76,9 @@ var NP = window.NP;
   var showIntro = FULL && !still && !saveData;
   var ov = document.createElement("div");
   ov.id = "npSw2Welcome";
-  ov.setAttribute("role", "button");
-  ov.setAttribute("tabindex", "0");
+  ov.setAttribute("role", "dialog");
+  ov.setAttribute("aria-modal", "true");
+  ov.setAttribute("tabindex", "-1");
   if (still) ov.classList.add("nsw-still");
   if (lowEnd) ov.classList.add("nsw-low");
   try {
@@ -128,6 +138,15 @@ var NP = window.NP;
   var STAR_SVG =
     '<svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.9L22 9.6l-5.4 4.7 1.7 7.2L12 17.7 5.7 21.5l1.7-7.2L2 9.6l7.1-.7L12 2z"/></svg>';
   ov.innerHTML =
+    // Solo posicionamiento y reset de <button>; el aspecto lo dan las hojas
+    // compartidas (.np-btn-saltar) y las reglas existentes de .ns-lock-pill.
+    "<style>" +
+    "#npSw2Welcome .nsw-skip-pos{position:absolute;z-index:20;top:max(14px,env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right))}" +
+    "#npSw2Welcome.nsw-exit .nsw-skip-pos{visibility:hidden}" +
+    "#npSw2Welcome :where(button.ns-lock-pill){-webkit-appearance:none;appearance:none;border:0;margin:0;font:inherit;color:inherit;text-align:center}" +
+    "#npSw2Welcome button.ns-lock-pill:focus-visible{outline:3px solid #fff;outline-offset:4px}" +
+    "</style>" +
+    '<button type="button" class="np-btn-saltar nsw-skip-pos">Saltar</button>' +
     '<div class="nsw-bg" aria-hidden="true"></div>' +
     '<div class="nsw-qbg" aria-hidden="true"><i style="--c:31,139,255;--k:0"></i><i style="--c:255,59,48;--k:1"></i><i style="--c:37,226,127;--k:2"></i><i style="--c:255,214,10;--k:3"></i><i style="--c:255,92,168;--k:4"></i><i style="--c:167,104,255;--k:5"></i><i style="--c:255,140,46;--k:6"></i></div>' +
     (showIntro
@@ -165,11 +184,11 @@ var NP = window.NP;
     '<div class="nsw-text"></div>' +
     '<div class="nsw-user">' +
     '<div class="nsw-av" aria-hidden="true"></div>' +
-    '<div class="nsw-press-wrap" aria-hidden="true">' +
-    '<div class="ns-lock-pill">' +
-    '<div class="ns-lock-text">Pulsa 3 veces para entrar</div>' +
-    '<div class="ns-lock-dots"><div class="ns-lock-dot"></div><div class="ns-lock-dot"></div><div class="ns-lock-dot"></div></div>' +
-    "</div>" +
+    '<div class="nsw-press-wrap">' +
+    '<button type="button" class="ns-lock-pill">' +
+    '<span class="ns-lock-text" style="display:block">Pulsa 3 veces para entrar</span>' +
+    '<span class="ns-lock-dots" aria-hidden="true" style="display:flex"><span class="ns-lock-dot" style="display:block"></span><span class="ns-lock-dot" style="display:block"></span><span class="ns-lock-dot" style="display:block"></span></span>' +
+    "</button>" +
     "</div>" +
     "</div>" +
     "</div>";
@@ -248,18 +267,8 @@ var NP = window.NP;
   var bgParent = bgHost ? bgHost.parentNode : null;
   var bgNext = bgHost ? bgHost.nextSibling : null;
   var vid = bgHost ? bgHost.querySelector("video") : null;
-  var vidHidden = !1;
-  if (bgHost) bg.appendChild(bgHost);
-  var holdVid = !1;
-  function onVidPlay() {
-    if (holdVid && vid) {
-      try {
-        vid.pause();
-      } catch (e) {}
-    }
-  }
   function playVid() {
-    if (holdVid || !vid || vidHidden || window.NPHomeBgHold) return;
+    if (!vid || window.NPHomeBgHold) return;
     if (!vid.getAttribute("src")) {
       if (window.NPHomeBg) window.NPHomeBg.play();
       return;
@@ -270,25 +279,6 @@ var NP = window.NP;
       if (p && p.catch) p.catch(function () {});
     } catch (e) {}
   }
-  function releaseVid() {
-    if (!holdVid) return;
-    holdVid = !1;
-    if (vid) vid.removeEventListener("play", onVidPlay);
-    playVid();
-  }
-  if (vid && holdVid) {
-    onVidPlay();
-    vid.addEventListener("play", onVidPlay);
-  }
-  document.body.appendChild(ov);
-  html.classList.add("nsw-on", "nsw-cover");
-  try {
-    window.scrollTo(0, 0);
-  } catch (e) {}
-  playVid();
-  try {
-    ov.focus({ preventScroll: !0 });
-  } catch (e) {}
   var logo = ov.querySelector(".nsw-logo");
   logo.addEventListener("error", function () {
     logo.style.visibility = "hidden";
@@ -351,17 +341,11 @@ var NP = window.NP;
     var ctx = null,
       master = null,
       noiseBuf = null;
-    function enabled() {
-      if (window.npPrefs && window.npPrefs.sound === !1) return !1;
-      try {
-        var p = JSON.parse(localStorage.getItem("np-widget-prefs") || "null");
-        if (p && p.sound === !1) return !1;
-      } catch (e) {}
-      return !0;
-    }
+    // Solo con sonido activado expresamente Y tras un gesto del usuario
+    // (gestured se pone a true en los manejadores de clic/tecla/toque).
     function create() {
       if (ctx) return !0;
-      if (!AC || !enabled()) return !1;
+      if (!AC || !gestured || !NP.soundOn()) return !1;
       try {
         ctx = new AC();
       } catch (e) {
@@ -386,7 +370,7 @@ var NP = window.NP;
       return !0;
     }
     function running() {
-      return !!ctx && ctx.state === "running";
+      return !!ctx && ctx.state === "running" && NP.soundOn();
     }
     function tone(f, t0, dur, type, vol, f2) {
       var o = ctx.createOscillator(),
@@ -432,7 +416,6 @@ var NP = window.NP;
     }
     var CHORD = [1046.5, 1318.5, 1568, 2093];
     return {
-      prime: create,
       unlock: unlock,
       tick: function (speed) {
         if (!running()) return;
@@ -477,7 +460,6 @@ var NP = window.NP;
       },
     };
   })();
-  if (showIntro) Snd.prime();
   var tpTimer = 0;
   [].forEach.call(ov.querySelectorAll(".nsw-tp"), function (a) {
     a.setAttribute("tabindex", "-1");
@@ -507,16 +489,11 @@ var NP = window.NP;
       var hp = window.NPHomePrefs && window.NPHomePrefs.get();
       v = hp && hp.video;
     } catch (e) {}
-    if (!v)
-      try {
-        v = (
-          JSON.parse(localStorage.getItem("np-widget-prefs") || "null") || {}
-        ).video;
-      } catch (e) {}
-    return JINGLES[v] ? v : "mario";
+    if (!v) v = NP.prefs().video;
+    return typeof v === "string" && NP.has(JINGLES, v) ? v : "mario";
   }
   function prepJingle(k) {
-    k = JINGLES[k] ? k : "mario";
+    k = NP.has(JINGLES, k) ? k : "mario";
     if (k === jingleKey && jingle) return;
     jingleKey = k;
     try {
@@ -527,15 +504,14 @@ var NP = window.NP;
       jingle = null;
     }
   }
-  function soundOn() {
-    try {
-      var pr = JSON.parse(localStorage.getItem("np-widget-prefs") || "null");
-      if (pr && pr.sound === !1) return !1;
-    } catch (e) {}
-    return !(window.npPrefs && window.npPrefs.sound === !1);
-  }
+  var soundOn = NP.soundOn;
   function playJingle() {
     if (loggedIn || jingleDone || done || !soundOn()) return;
+    // Nunca suena sin un gesto previo: queda pendiente para el siguiente toque.
+    if (!gestured) {
+      jingleWait = !0;
+      return;
+    }
     if (!jingle) prepJingle(pickedSaga || curUniverse());
     if (!jingle) return;
     var p;
@@ -559,6 +535,7 @@ var NP = window.NP;
     else jingleDone = !0;
   }
   function setPhase(n) {
+    lastProgress = Date.now();
     for (var p = phase + 1; p <= n; p++) ov.classList.add("nsw-p" + p);
     if (n > phase) phase = n;
     if (n >= 3) {
@@ -581,15 +558,16 @@ var NP = window.NP;
   }
   var QUIZ_KEY = "np-quiz-done",
     HP = window.NPHomePrefs;
+  var SAGA_AV = (window.NPSaga && window.NPSaga.map) || {};
   var SAGA_KEY = "np-saga",
     SAGA = (function () {
+      var v = "";
       try {
-        return localStorage.getItem(SAGA_KEY) || "";
-      } catch (e) {
-        return "";
-      }
+        v = localStorage.getItem(SAGA_KEY) || "";
+      } catch (e) {}
+      // Solo sagas conocidas: nada de claves arbitrarias de localStorage.
+      return typeof v === "string" && NP.has(SAGA_AV, v) ? v : "";
     })();
-  var SAGA_AV = window.NPSaga ? window.NPSaga.map : {};
   function sagaList(k) {
     return window.NPSaga ? window.NPSaga.list(k) : [];
   }
@@ -600,9 +578,34 @@ var NP = window.NP;
     pickedSaga = "";
   if (needQuiz) ov.classList.add("nsw-q-nosaga");
   function esc2(t) {
-    return String(t).replace(/[&<>"]/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[c];
     });
+  }
+  // Colores que van a un atributo style: solo hexadecimales.
+  function hexColor(c) {
+    return typeof c === "string" && /^#[0-9a-f]{3,8}$/i.test(c) ? c : "";
+  }
+  function colorVars(n1, c1, n2, c2) {
+    var a = hexColor(c1),
+      b = hexColor(c2);
+    return (a ? ";" + n1 + ":" + a : "") + (b ? ";" + n2 + ":" + b : "");
+  }
+  function presetFor(k) {
+    var tc = HP.tema && HP.tema[k];
+    return (
+      HP.presets.filter(function (x) {
+        return x && x.id === tc;
+      })[0] ||
+      HP.presets[0] ||
+      {}
+    );
   }
   function syncAccent() {
     var rs = root.style,
@@ -626,19 +629,13 @@ var NP = window.NP;
     h +=
       '<div class="nsw-q-step" data-step="1"><h2 class="nsw-q-title">¿Cuál es tu Universo Favorito?</h2><div class="nsw-q-sagas">';
     keys.forEach(function (k, i) {
-      var pc =
-        HP.presets.filter(function (x) {
-          return x.id === HP.tema[k];
-        })[0] || HP.presets[0];
+      var pc = presetFor(k);
       h +=
         '<button type="button" class="nsw-q-saga" data-saga="' +
         esc2(k) +
         '" style="--i:' +
         i +
-        ";--c1:" +
-        pc.c1 +
-        ";--c2:" +
-        pc.c2 +
+        colorVars("--c1", pc.c1, "--c2", pc.c2) +
         '"><span class="nsw-q-ic"><img loading="lazy" src="' +
         esc2(F[k].img) +
         '" alt="" width="84" height="84" decoding="async"></span>' +
@@ -654,12 +651,9 @@ var NP = window.NP;
       h +=
         '<button type="button" class="nsw-q-color" data-color="' +
         esc2(c.id) +
-        '" style="--sw:' +
-        c.c1 +
-        ";--sw2:" +
-        c.c2 +
-        ";--i:" +
+        '" style="--i:' +
         i +
+        colorVars("--sw", c.c1, "--sw2", c.c2) +
         '" aria-label="Color ' +
         (i + 1) +
         '"></button>';
@@ -676,11 +670,19 @@ var NP = window.NP;
       im.src = HP.fondos[k].img;
     });
   }
+  // Cualquier excepción al montar el test sale de la bienvenida (bail).
   function showQuiz() {
+    try {
+      showQuizRaw();
+    } catch (e) {
+      bail(e);
+    }
+  }
+  function showQuizRaw() {
     if (quizActive || quizDone || done) return;
     quizActive = !0;
+    lastProgress = Date.now();
     timers.forEach(clearTimeout);
-    releaseVid();
     buildQuiz();
     var was = logoMove.getBoundingClientRect();
     ov.classList.add("nsw-p0", "nsw-p1", "nsw-q-prep", "nsw-q-nosaga");
@@ -735,18 +737,14 @@ var NP = window.NP;
     logoBox.style.transform = "";
   }
   function pickSaga(k) {
-    if (!HP.fondos[k]) return;
+    if (!NP.has(HP.fondos, k)) return;
     pickedSaga = SAGA = k;
     if (soundOn()) prepJingle(k);
     window.NPHomeBgHold = !1;
     try {
       localStorage.setItem(SAGA_KEY, k);
     } catch (e) {}
-    var tc = HP.tema[k],
-      p =
-        HP.presets.filter(function (x) {
-          return x.id === tc;
-        })[0] || HP.presets[0];
+    var p = presetFor(k);
     HP.set({ video: k, accent: p.id, c1: p.c1, c2: p.c2 });
     ov.classList.remove("nsw-q-nosaga");
     syncAccent();
@@ -776,6 +774,7 @@ var NP = window.NP;
     if (!quizActive) return;
     quizActive = !1;
     quizDone = !0;
+    lastProgress = Date.now();
     if (window.NPHomeBgHold) {
       window.NPHomeBgHold = !1;
       if (window.NPHomeBg) window.NPHomeBg.play();
@@ -833,13 +832,44 @@ var NP = window.NP;
     if (!quizActive) return;
     var t = e.target.closest("[data-saga], [data-color]");
     if (!t) return;
-    Snd.unlock();
-    if (t.hasAttribute("data-saga")) pickSaga(t.getAttribute("data-saga"));
-    else pickColor(t.getAttribute("data-color"));
+    gestured = !0;
+    try {
+      Snd.unlock();
+      if (t.hasAttribute("data-saga")) pickSaga(t.getAttribute("data-saga"));
+      else pickColor(t.getAttribute("data-color"));
+    } catch (err) {
+      bail(err);
+    }
   });
+  // Termina el test con respuestas por defecto (Saltar / Escape / fallo):
+  // conserva lo que el usuario ya tuviera y, si no hay nada, usa el primer universo.
+  function quizDefaults() {
+    if (!needQuiz || quizDone) return;
+    quizActive = !1;
+    quizDone = !0;
+    try {
+      localStorage.setItem(QUIZ_KEY, "1");
+    } catch (e) {}
+    try {
+      if (!pickedSaga) {
+        var cur = (HP.get && HP.get()) || {};
+        if (!(typeof cur.video === "string" && NP.has(HP.fondos, cur.video))) {
+          var k = Object.keys(HP.fondos)[0];
+          if (k) {
+            var p = presetFor(k);
+            HP.set({ video: k, accent: p.id, c1: p.c1, c2: p.c2 });
+          }
+        }
+      }
+      syncAccent();
+    } catch (e) {}
+    if (window.NPHomeBgHold) {
+      window.NPHomeBgHold = !1;
+      if (window.NPHomeBg) window.NPHomeBg.play();
+    }
+  }
   if (!needQuiz && !loggedIn && soundOn()) prepJingle(curUniverse());
   function startLogo() {
-    releaseVid();
     setPhase(1);
     if (needQuiz && !quizDone) {
       preloadQuiz();
@@ -923,6 +953,13 @@ var NP = window.NP;
     if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
   }
   function runIntro() {
+    try {
+      runIntroRaw();
+    } catch (e) {
+      bail(e);
+    }
+  }
+  function runIntroRaw() {
     preloadQuiz();
     var track = intro.querySelector(".nsw-track");
     var slots = [],
@@ -997,6 +1034,13 @@ var NP = window.NP;
       t0 = 0,
       lastTick = 0;
     function frame(now) {
+      try {
+        frameRaw(now);
+      } catch (e) {
+        bail(e);
+      }
+    }
+    function frameRaw(now) {
       introRaf = 0;
       if (introDone) return;
       if (!t0) {
@@ -1148,7 +1192,6 @@ var NP = window.NP;
     if (!introDone && intro) Snd.reveal(!0);
     stopIntro();
     useIntroAvatars();
-    releaseVid();
     ov.classList.add("nsw-skip", "nsw-p0");
     if (needQuiz && !quizDone) {
       setPhase(1);
@@ -1157,21 +1200,6 @@ var NP = window.NP;
     }
     setPhase(3);
   }
-  requestAnimationFrame(function () {
-    syncWidth();
-    centerLogo();
-    requestAnimationFrame(function () {
-      if (done) return;
-      if (still) {
-        releaseVid();
-        if (needQuiz) {
-          setPhase(1);
-          showQuiz();
-        } else setPhase(3);
-      } else if (intro) runIntro();
-      else startLogo();
-    });
-  });
   var count = 0,
     done = !1,
     hapticTimer = 0;
@@ -1214,6 +1242,7 @@ var NP = window.NP;
       window.npHomeMusicStart();
   }
   function press() {
+    gestured = !0;
     if (jingleWait && ready) {
       jingleWait = !1;
       playJingle();
@@ -1239,7 +1268,7 @@ var NP = window.NP;
   function isTp(e) {
     var x = e.target;
     if (!x || !x.closest) return !1;
-    if (x.closest(".nsw-quiz")) return !0;
+    if (x.closest(".nsw-quiz, .np-btn-saltar")) return !0;
     return ov.classList.contains("nsw-tp-ready") && !!x.closest(".nsw-tp");
   }
   var sx = 0,
@@ -1346,14 +1375,44 @@ var NP = window.NP;
     );
     setTimeout(finish, still ? 300 : 1050);
   }
+  // Salida directa (botón "Saltar", Escape): nunca entra en bucles. Si el
+  // test está pendiente o en curso se completa con respuestas por defecto.
+  function skipAll() {
+    if (done) return;
+    gestured = !0;
+    try {
+      quizDefaults();
+    } catch (e) {}
+    try {
+      timers.forEach(clearTimeout);
+      stopIntro();
+    } catch (e) {}
+    startHomeMusic();
+    enter();
+  }
+  var skipBtn = ov.querySelector(".np-btn-saltar");
+  skipBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    skipAll();
+  });
   function onEsc(e) {
-    if (e.key === "Escape" && ov.parentNode && !done) {
-      if (quizActive) return;
-      skipIntro();
-      while (count < 3 && !done) press();
-    }
+    if (e.key !== "Escape" && e.key !== "Esc") return;
+    if (done || !ov.parentNode) return;
+    e.preventDefault();
+    skipAll();
+  }
+  function sendClosed() {
+    if (closedSent) return;
+    closedSent = !0;
+    try {
+      window.dispatchEvent(new Event("np-welcome-closed"));
+    } catch (e) {}
   }
   function finish() {
+    if (finished) return;
+    finished = !0;
+    clearTimeout(safetyTimer);
     clearTimeout(hapticTimer);
     clearInterval(bigTimer);
     timers.forEach(clearTimeout);
@@ -1361,7 +1420,6 @@ var NP = window.NP;
     if (measureRaf) cancelAnimationFrame(measureRaf);
     window.removeEventListener("resize", onResize);
     document.removeEventListener("keydown", onEsc);
-    releaseVid();
     if (bgHost && bgParent)
       bgParent.insertBefore(
         bgHost,
@@ -1376,15 +1434,101 @@ var NP = window.NP;
     if (window.NPHomeBg) window.NPHomeBg.play();
     if (ov.parentNode) ov.parentNode.removeChild(ov);
     html.classList.remove("nsw-on", "nsw-cover");
-    try {
-      window.dispatchEvent(new Event("np-welcome-closed"));
-    } catch (e) {}
-    setTimeout(function () {
-      try {
-        window.dispatchEvent(new Event("np-welcome-closed"));
-      } catch (e) {}
-    }, 1200);
+    sendClosed();
     setTimeout(Snd.close, 1500);
   }
-  document.addEventListener("keydown", onEsc);
+  // Último recurso: quita la capa y nsw-cover pase lo que pase.
+  function hardExit() {
+    finished = !0;
+    clearTimeout(safetyTimer);
+    window.NPHomeBgHold = !1;
+    html.classList.remove("nsw-on", "nsw-cover");
+    try {
+      if (bgHost && bgParent && bgHost.parentNode !== bgParent)
+        bgParent.insertBefore(bgHost, bgParent.firstChild);
+    } catch (e) {}
+    try {
+      if (ov.parentNode) ov.parentNode.removeChild(ov);
+    } catch (e) {}
+    document.removeEventListener("keydown", onEsc);
+    sendClosed();
+  }
+  // Cualquier excepción o bloqueo: completa el test por defecto y entra.
+  function bail(err) {
+    if (err && window.console) console.error("[NP:bienvenida]", err);
+    if (bailed || finished) return;
+    bailed = !0;
+    try {
+      quizDefaults();
+    } catch (e) {}
+    try {
+      if (!done) enter();
+    } catch (e) {}
+    setTimeout(function () {
+      if (finished) return;
+      try {
+        finish();
+      } catch (e) {}
+      hardExit();
+    }, 1500);
+  }
+  // Vigilante: si 15 s después de empezar la intro no es interactiva
+  // (ni pulsable ni en el test) y no avanza, se sale.
+  function watchdog() {
+    if (done || finished) return;
+    if (!ready && !quizActive && Date.now() - lastProgress > 4000) {
+      bail(new Error("intro bloqueada"));
+      return;
+    }
+    safetyTimer = setTimeout(watchdog, 3000);
+  }
+  function begin() {
+    if (done) return;
+    if (still) {
+      if (needQuiz) {
+        setPhase(1);
+        showQuiz();
+      } else setPhase(3);
+    } else if (intro) runIntro();
+    else startLogo();
+  }
+  // Todo lo anterior ya se ha construido sin errores: ahora se monta la capa.
+  function mount() {
+    lastProgress = Date.now();
+    document.addEventListener("keydown", onEsc);
+    if (bgHost) bg.appendChild(bgHost);
+    document.body.appendChild(ov);
+    html.classList.add("nsw-on", "nsw-cover");
+    safetyTimer = setTimeout(watchdog, 15000);
+    try {
+      window.scrollTo(0, 0);
+    } catch (e) {}
+    playVid();
+    try {
+      ov.focus({ preventScroll: !0 });
+    } catch (e) {}
+    requestAnimationFrame(function () {
+      try {
+        syncWidth();
+        centerLogo();
+      } catch (e) {
+        bail(e);
+        return;
+      }
+      requestAnimationFrame(function () {
+        if (done) return;
+        markSeen();
+        try {
+          begin();
+        } catch (e) {
+          bail(e);
+        }
+      });
+    });
+  }
+  try {
+    mount();
+  } catch (e) {
+    bail(e);
+  }
 })();

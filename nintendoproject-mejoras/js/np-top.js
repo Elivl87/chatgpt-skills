@@ -12,6 +12,68 @@ var NP = window.NP;
     root.getAttribute("data-src") ||
     window.NP_TOP_DATA_URL ||
     "/wp-content/uploads/np-top/np-top-data.json";
+  // --- Saneado de los datos externos (JSON) antes de usarlos en href/src/style.
+  // URL: solo http(s) o relativas; se rechaza javascript:, data:, etc.
+  function safeUrl(u) {
+    if (typeof u !== "string") return "";
+    var s = u.trim();
+    if (!s) return "";
+    // Los navegadores ignoran tabs/saltos/controles dentro del esquema.
+    var probe = s.replace(/[\u0000-\u0020\u007f]+/g, "");
+    if (/^https?:/i.test(probe)) return /^https?:\/\//i.test(probe) ? s : "";
+    if (/^[a-z][a-z0-9+.\-]*:/i.test(probe)) return "";
+    return s;
+  }
+  function urlList(a) {
+    return Array.isArray(a) ? a.map(safeUrl).filter(Boolean) : a;
+  }
+  function isColor(c) {
+    return typeof c === "string" && /^#[0-9a-f]{3,8}$/i.test(c);
+  }
+  // Valor CSS para style/background: sin url(), comentarios, ni rupturas.
+  function safeCssVal(v) {
+    return (
+      typeof v === "string" &&
+      v.length < 400 &&
+      !/url\s*\(|expression|@import|\/\*|[<>{}\\;"'`]/i.test(v)
+    );
+  }
+  // c.style: solo propiedades personalizadas (--x: valor) con valores seguros.
+  function safeStyle(st) {
+    if (typeof st !== "string") return "";
+    var out = [];
+    st.split(";").forEach(function (d) {
+      var i = d.indexOf(":");
+      if (i < 0) return;
+      var k = d.slice(0, i).trim(),
+        v = d.slice(i + 1).trim();
+      if (/^--[a-z0-9-]{1,40}$/i.test(k) && v && safeCssVal(v))
+        out.push(k + ":" + v);
+    });
+    return out.join(";");
+  }
+  function safeTheme(th) {
+    return th && typeof th === "object" && safeCssVal(th.bg) ? th : null;
+  }
+  function sanitize(c) {
+    if (!c || typeof c !== "object") return c;
+    ["icon", "url", "char", "card"].forEach(function (f) {
+      if (f in c) c[f] = safeUrl(c[f]);
+    });
+    if (!c.url) c.url = "#";
+    if (Array.isArray(c.stops)) c.stops = c.stops.filter(isColor);
+    c.style = safeStyle(c.style);
+    c.th = safeTheme(c.th);
+    if (Array.isArray(c.games))
+      c.games = c.games.filter(function (g) {
+        if (!g || typeof g !== "object") return !1;
+        g.img = safeUrl(g.img);
+        g.shots = urlList(g.shots);
+        g.shotsMobile = urlList(g.shotsMobile);
+        return !0;
+      });
+    return c;
+  }
   function validConsole(c) {
     return (
       !!c &&
@@ -25,8 +87,10 @@ var NP = window.NP;
   }
   function boot(DATA) {
     if (!DATA || !Array.isArray(DATA.consoles)) return;
-    DATA.intro = DATA.intro || { bg: "#0a0a0c" };
-    DATA.consoles = DATA.consoles.filter(validConsole);
+    DATA.intro = safeTheme(DATA.intro) || { bg: "#0a0a0c" };
+    DATA.consoles = DATA.consoles.filter(function (c) {
+      return validConsole(sanitize(c));
+    });
     if (!DATA.consoles.length) return;
     DATA.consoles.forEach(function (c, i) {
       c.i = i;
@@ -72,10 +136,8 @@ var NP = window.NP;
     io.observe(root);
   }
   function start(DATA) {
-  var LOGO =
-    NP.u("wp-content/uploads/2026/05/LOGOMOBILEPROJECT.webp");
-  var RM =
-    window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Movimiento reducido: prefers-reduced-motion o preferencia "anim" del widget.
+  var RM = !NP.motionOn();
   var CONS = DATA.consoles;
   var ICO = {
     home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7"/><path d="M5 9v11h5v-6h4v6h5V9"/></svg>',
@@ -130,7 +192,7 @@ var NP = window.NP;
   }
   function platLabel(c) {
     var h =
-      '<img loading="lazy" src="' +
+      '<img src="' +
       esc(c.icon) +
       '" alt="" width="22" height="22" loading="lazy" decoding="async" aria-hidden="true">';
     if (c.k === "switch")
@@ -216,7 +278,7 @@ var NP = window.NP;
       esc(g.t) +
       ' en destacado">' +
       '<span class="tg-tile-in">' +
-      '<img loading="lazy" class="tg-tile-img" src="' +
+      '<img class="tg-tile-img" src="' +
       esc(g.img) +
       '" alt="' +
       esc(g.t) +
@@ -269,7 +331,7 @@ var NP = window.NP;
         '" aria-pressed="' +
         (gi === 0) +
         '">' +
-        '<img loading="lazy" src="' +
+        '<img src="' +
         esc(g.img) +
         '" alt="" width="62" height="62" loading="lazy" decoding="async">' +
         "<span><b>#" +
@@ -289,8 +351,8 @@ var NP = window.NP;
       esc(c.k) +
       '" data-ci="' +
       ci +
-      '" style="' +
-      c.style +
+      '" tabindex="-1" style="outline:none;' +
+      esc(c.style) +
       '" aria-label="Top juegos de ' +
       esc(c.name) +
       '">' +
@@ -300,7 +362,7 @@ var NP = window.NP;
       '<div class="tg-wrap">' +
       '<header class="tg-con-head">' +
       '<div class="tg-con-eyebrow" data-a="up">' +
-      '<img loading="lazy" class="tg-con-icon" src="' +
+      '<img class="tg-con-icon" src="' +
       esc(c.icon) +
       '" alt="" width="64" height="64" loading="lazy" decoding="async">' +
       (c.cta
@@ -311,7 +373,7 @@ var NP = window.NP;
         ? ""
         : '<span class="tg-tag ghost">' +
           esc(c.maker) +
-          (c.year ? " · " + c.year : "") +
+          (c.year ? " · " + esc(c.year) : "") +
           "</span>") +
       "</div>" +
       '<h2 class="tg-con-name" data-a="up" style="--d:90ms">' +
@@ -335,7 +397,7 @@ var NP = window.NP;
           " para " +
           esc(c.name) +
           '">' +
-          '<span class="tg-collection-face"><img loading="lazy" class="tg-collection-icon" src="' +
+          '<span class="tg-collection-face"><img class="tg-collection-icon" src="' +
           esc(c.icon) +
           '" alt="" width="28" height="28" loading="lazy" decoding="async" aria-hidden="true">' +
           "<span>" +
@@ -348,7 +410,7 @@ var NP = window.NP;
           ", " +
           esc(c.size) +
           '">' +
-          '<span class="tg-collection-face"><img loading="lazy" class="tg-collection-icon" src="' +
+          '<span class="tg-collection-face"><img class="tg-collection-icon" src="' +
           esc(c.icon) +
           '" alt="" width="28" height="28" loading="lazy" decoding="async" aria-hidden="true">' +
           '<span>VER CATÁLOGO<span class="tg-col-full"> COMPLETO</span> - <span class="tg-collection-size">' +
@@ -373,6 +435,9 @@ var NP = window.NP;
       '<div class="tg-hero-rank"><em>#<span class="tg-rk">1</span></em> EN ' +
       esc(c.short.toUpperCase()) +
       "</div>" +
+      '<button type="button" class="np-autoplay-toggle tg-auto-pos" aria-pressed="' +
+      RM +
+      '">Pausar rotación</button>' +
       '<div class="tg-hero-soon"' +
       (g0.soon ? "" : " hidden") +
       ">" +
@@ -396,7 +461,9 @@ var NP = window.NP;
     );
   }
   var html =
-    "" +
+    // Solo posición del botón de pausa; su aspecto viene de la hoja compartida.
+    "<style>#np-top .tg-auto-pos{position:absolute;z-index:7;top:30px;right:46px}" +
+    "@media (max-width:767px){#np-top .tg-auto-pos{top:22px;right:16px}}</style>" +
     CONS.map(sectionHTML).join("") +
     '<footer class="tg-end">' +
     '<button type="button" class="tg-btn tg-btn-ghost" data-a="up" data-go="-1">Volver arriba ↑</button>' +
@@ -423,7 +490,7 @@ var NP = window.NP;
         i +
         '" aria-label="' +
         esc(c.name) +
-        '"><img loading="lazy" src="' +
+        '"><img src="' +
         esc(c.icon) +
         '" alt="" width="22" height="22" loading="lazy" decoding="async"><span>' +
         esc(c.name) +
@@ -542,8 +609,11 @@ var NP = window.NP;
       });
     }
     s.hero.classList.add("swap");
-    setTimeout(
+    // Un solo temporizador por sección: los clics rápidos cancelan el anterior.
+    clearTimeout(s.swapT);
+    s.swapT = setTimeout(
       function () {
+        s.swapT = 0;
         s.info.innerHTML = heroInfoHTML(c, g, gi);
         s.rk.textContent = gi + 1;
         var soon = s.hero.querySelector(".tg-hero-soon");
@@ -558,10 +628,32 @@ var NP = window.NP;
     setHeroImage(s, g);
     restartProg(s);
   }
+  // Rotación automática: desactivada si el movimiento está reducido; el
+  // usuario puede pausarla/reanudarla con el botón .np-autoplay-toggle.
+  var autoPaused = RM;
   function restartProg(s) {
     s.el.classList.remove("run");
+    if (autoPaused) return;
     void s.el.offsetWidth;
-    if (!RM) s.el.classList.add("run");
+    s.el.classList.add("run");
+  }
+  // hold = ratón encima || foco dentro || toque reciente || pestaña oculta.
+  var docHidden = !!document.hidden;
+  function syncHold(s) {
+    s.el.classList.toggle(
+      "hold",
+      !!(s.hover || s.focus || s.touch || docHidden),
+    );
+  }
+  function setAutoPaused(p) {
+    autoPaused = !!p;
+    [].forEach.call(root.querySelectorAll(".np-autoplay-toggle"), function (b) {
+      b.setAttribute("aria-pressed", String(autoPaused));
+    });
+    S.forEach(function (s) {
+      if (autoPaused) s.el.classList.remove("run");
+      else if (s.vis || !HAS_IO) restartProg(s);
+    });
   }
   root.addEventListener("animationend", function (e) {
     if (e.animationName !== "tg-prog") return;
@@ -572,28 +664,59 @@ var NP = window.NP;
   });
   sections.forEach(function (sec, ci) {
     var s = S[ci];
-    function hold() {
-      s.el.classList.add("hold");
-    }
-    function free() {
-      s.el.classList.remove("hold");
-    }
     var feat = sec.querySelector(".tg-feature");
     feat.addEventListener("pointerenter", function (e) {
-      if (e.pointerType === "mouse") hold();
+      if (e.pointerType === "mouse") {
+        s.hover = !0;
+        syncHold(s);
+      }
     });
     feat.addEventListener("pointerleave", function (e) {
-      if (e.pointerType === "mouse") free();
+      if (e.pointerType === "mouse") {
+        s.hover = !1;
+        syncHold(s);
+      }
     });
-    feat.addEventListener("focusin", hold);
-    feat.addEventListener("focusout", free);
-    feat.addEventListener("touchstart", hold, { passive: !0 });
+    feat.addEventListener("focusin", function () {
+      s.focus = !0;
+      syncHold(s);
+    });
+    feat.addEventListener("focusout", function (e) {
+      if (e.relatedTarget && feat.contains(e.relatedTarget)) return;
+      s.focus = !1;
+      syncHold(s);
+    });
+    // El toque mantiene la pausa mientras dura y un poco después.
+    feat.addEventListener(
+      "touchstart",
+      function () {
+        clearTimeout(s.touchT);
+        s.touch = !0;
+        syncHold(s);
+      },
+      { passive: !0 },
+    );
+    function touchOff() {
+      clearTimeout(s.touchT);
+      s.touchT = setTimeout(function () {
+        s.touch = !1;
+        syncHold(s);
+      }, 1500);
+    }
+    feat.addEventListener("touchend", touchOff, { passive: !0 });
+    feat.addEventListener("touchcancel", touchOff, { passive: !0 });
   });
+  var HAS_IO = "IntersectionObserver" in window;
   var animEls = root.querySelectorAll("[data-a]");
-  if (RM || !("IntersectionObserver" in window)) {
+  if (RM || !HAS_IO) {
     for (var a = 0; a < animEls.length; a++) animEls[a].classList.add("in");
-    S.forEach(hydrate);
+  }
+  if (!HAS_IO) {
+    // Sin IntersectionObserver: solo la primera; el resto se hidrata por
+    // proximidad desde update() (scroll).
+    if (S[0]) hydrate(S[0]);
   } else {
+    if (!RM) {
     var watch = new Map();
     var io = new IntersectionObserver(
       function (entries) {
@@ -619,6 +742,8 @@ var NP = window.NP;
       }
       l.push(el);
     }
+    }
+    // Hidratación por proximidad también con movimiento reducido.
     var near = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (en) {
@@ -966,6 +1091,10 @@ var NP = window.NP;
   })();
   root.addEventListener("click", function (e) {
     var t;
+    if (e.target.closest(".np-autoplay-toggle")) {
+      setAutoPaused(!autoPaused);
+      return;
+    }
     if ((t = e.target.closest("[data-feat]"))) {
       var s = S[+t.closest(".tg-con").getAttribute("data-ci")];
       feature(s, +t.getAttribute("data-feat"), !0);
@@ -983,10 +1112,10 @@ var NP = window.NP;
       goTo(+t.getAttribute("data-go"));
     }
   });
+  // La pestaña oculta pausa sin borrar el estado de ratón/foco/toque.
   document.addEventListener("visibilitychange", function () {
-    S.forEach(function (s) {
-      s.el.classList.toggle("hold", document.hidden);
-    });
+    docHidden = !!document.hidden;
+    S.forEach(syncHold);
   });
   if (location.hash && location.hash.indexOf("#top-") === 0) {
     var k = location.hash.slice(5);
