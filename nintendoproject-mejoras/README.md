@@ -9,7 +9,7 @@ incrustaba en base64 dentro del HTML), más un *mu-plugin* de WordPress que lo i
 wp-content/mu-plugins/
 ├── np-mejoras.php            ← plugin (se activa solo)
 └── np-mejoras/
-    ├── js/                   ← 24 scripts corregidos, legibles y comentados
+    ├── js/                   ← 24 scripts corregidos (np-core.js primero), legibles
     └── css/np-mejoras.css    ← foco visible, movimiento reducido, botones nuevos
 datos/np-top-data.ejemplo.json ← formato de datos para la sección #np-top
 ```
@@ -34,7 +34,8 @@ datos/np-top-data.ejemplo.json ← formato de datos para la sección #np-top
    - encola `np-core.js` y los demás scripts como archivos externos con `defer`
      (cacheables, ~30 % menos peso que en base64);
    - **retira del HTML los 26 scripts antiguos** reconociéndolos por una firma única
-     (probado sobre la portada: 84 → 58 `<script>`, 1,06 MB → 0,67 MB de HTML);
+     (probado sobre la portada tal como sale de WordPress, antes de LiteSpeed:
+     84 → 58 `<script>`, 1,06 MB → 0,67 MB de HTML);
    - quita las precargas duplicadas (19 → 5) y las metas `generator`;
    - envía cabeceras de seguridad, desactiva XML-RPC;
    - en la portada, deja de cargar la suite de Ultimate Member (no hay formularios).
@@ -75,6 +76,37 @@ datos/np-top-data.ejemplo.json ← formato de datos para la sección #np-top
 - **Fuentes**: se cargan 7 familias y Dosis dos veces; deja 2–3.
 - **CSS adicional del Personalizador** (162 KB): pásalo a un archivo del tema hijo.
 - **Imágenes de `#np-top`**: súbelas a tu servidor en WebP en lugar de enlazarlas de terceros.
+- **Breakpoint del menú**: los scripts usan ahora un único corte, `992px` (como `d-lg-none`
+  del botón hamburguesa). Las reglas CSS del menú lateral con `max-width: 768px` deben pasar a
+  `max-width: 991.98px`.
+
+## Cambios de comportamiento que vas a notar
+
+- **Sin sonido por defecto.** Música, jingle de bienvenida, sonido de enlaces y del menú solo
+  suenan si se activa el interruptor de sonido del panel (marca `soundOptIn`). Quien lo tenía
+  guardado con la versión anterior tendrá que activarlo una vez.
+- **Bienvenida**: botón «Saltar» y Esc siempre permiten entrar (el test se completa con valores
+  por defecto). Si algo falla, a los 15 s se sale sola en vez de dejar la página en blanco.
+- **«25 CONSOLAS»** se calcula con los enlaces reales del menú (hoy son 23).
+- **Chat de la Plaza**: se actualiza cada 20 s (antes 6 s) y no consulta con la pestaña oculta.
+- **Avatares de otros dominios** (p. ej. Gravatar): se muestra el avatar por defecto.
+- **Rueda sobre la fila de consolas**: la desplaza en horizontal; en los extremos baja la página.
+- **Panel de personalización**: abre al terminar la animación del menú lateral (~600 ms).
+- **`#np-top`**: botón «Pausar rotación» por sección; con movimiento reducido arranca en pausa.
+
+## Pruebas realizadas
+
+- `node --check` en los 24 scripts y `php -l` en el plugin: sin errores.
+- Filtro del plugin sobre la portada real (sin LiteSpeed): retira los 26 scripts antiguos,
+  el estilo de contraseñas y las metas `generator`; precargas 19 → 5 (se conservan las de
+  móvil/escritorio).
+- Chromium sin red, a 1366 px y 390 px: Esc durante la intro responde al instante y quita
+  `nsw-cover` (antes congelaba la pestaña); `#np-top` se pinta con el JSON de ejemplo y su botón
+  de pausa; queda un solo `#wii-cursor-global` y el puntero no se oculta si la imagen no carga.
+  Los únicos errores son de jQuery/`wp.i18n` y `admin-ajax`, que no cargan sin red.
+- No probado: el cierre real del menú lateral con el JS del tema, y la nav lateral de
+  `#np-top` perdiendo `inert` al hacer scroll (Chromium sin pantalla no ejecutó
+  requestAnimationFrame).
 
 ## Registro de cambios
 
@@ -95,3 +127,52 @@ datos/np-top-data.ejemplo.json ← formato de datos para la sección #np-top
 - **`np-top.js`**: los ~127 KB de datos incrustados se cargan como JSON cuando la sección se acerca
   a la pantalla; se descartan consolas mal formadas en lugar de romper todas.
 - Eliminados: script de contraseñas, redirección muerta (`umlg-redirect-trigger`).
+
+### `np-home.js` (`#npHome`)
+- `renderMe`: `primerDia` validado; el arranque va paso a paso con `NP.safe` (un fallo ya no
+  tumba el widget).
+- `plazaOn` declarado arriba: un solo `npmp_init`. `refreshMsgs`: cada 20 s y en pausa con la
+  pestaña oculta.
+- Sonido: `DEF.sound` apagado, sin arranque de música con la primera tecla/toque; `stopMusic`
+  al apagar o restablecer.
+- `applyBg`/`showVideo`: turno por cambio (`bgGen`), sin temporizadores huérfanos, se libera el
+  vídeo anterior, `onerror` vuelve a la imagen, imagen en ≤768 px o con movimiento reducido.
+- Movimiento reducido en carrusel de avatares, «¿quién será?», vídeo y scroll suave.
+- Rueda horizontal nativa; arrastre con `setPointerCapture` y `pointercancel`.
+- `NP.has` en `PK`, `FONDOS`, `HOUSES`, `SAGA_AV`, `TEMA`, `FONDOS_MII` y el chat;
+  `__proto__` ignorado en preferencias.
+- «Ayer» con `setDate`; evoluciones por encima de Nv. 100 ignoradas.
+- Panel de ajustes: `inert` cerrado, foco atrapado abierto, Esc cierra y devuelve el foco.
+- `gradOk` rechaza `url(`/`var(`/`image(`…; `safeUrl` solo mismo origen o `uploads/`.
+- `aria-pressed` en tema/acento/fondo; `PZ_CHAT_RANKS` reutiliza `RANGOS`; fuera `POKE_SUM`.
+
+### `np-bienvenida.js`
+- **Bucle infinito con Esc eliminado**: `skipAll()` completa el test con `quizDefaults()` y entra.
+- Salvavidas: `try/catch` + `bail()`, `watchdog()` a los 15 s, `hardExit()`; `markSeen()` solo
+  tras pintar.
+- `role="dialog"` + `aria-modal`; botón «Saltar» (`.np-btn-saltar`); «Pulsa 3 veces» es `<button>`.
+- Audio solo con `NP.soundOn()` y tras gesto; preferencias vía `NP.prefs()`.
+- `SAGA` validado; colores saneados (`hexColor`); `esc2` escapa `'`; `np-welcome-closed` una vez.
+
+### `np-top.js` (`#np-top`)
+- `goTo`: se cancela si el usuario hace scroll o salta otra vez; el foco va a la sección.
+- Pausa del autoplay (`syncHold`): ratón, foco, toque (se libera 1,5 s tras soltar) y pestaña
+  oculta por separado; botón `.np-autoplay-toggle` con `aria-pressed`.
+- Hidratación por proximidad también con movimiento reducido; `feature()` sin timers cruzados.
+- Nav lateral con `inert` mientras está oculta.
+- `sanitize()`: URLs solo http(s)/relativas, colores validados, `c.style` limitado a `--variables`.
+- Eliminados manejadores de elementos inexistentes, atajo «a», `LOGO`, `loading` duplicado;
+  `mousemove` por `requestAnimationFrame`.
+
+### Menús
+- **Breakpoint único** (`window.NPMenuBP`, 992 px) en los tres scripts.
+- Sonido `ajustes.mp3`: una sola instancia (`window.NPMenuSound`), creada al primer uso real.
+- `np-menu-movil.js`: avatar con `cloneNode` y firma; fuera el intervalo de 1 s (eventos +
+  respaldo de 15 s solo con el menú abierto); `safeImg()`; `init()` por pasos; Plaza Mii vuelve
+  a su sitio en escritorio.
+- `np-menu-escritorio.js`: sin `stopPropagation()` (el clic llega al resto de oyentes);
+  `countConsoles()`; flechas, Inicio/Fin y Escape en submenús con `aria-expanded`; ciclo de
+  consolas en pausa si no se ve; colores en caché validados.
+- `np-personalizador-menu.js`: devuelve foco y scroll al cerrar en móvil; Espacio en
+  `role="button"`; slider por `requestAnimationFrame`; `inert` para nodos añadidos;
+  `transitionend` en vez de `setTimeout(420)`.
