@@ -52,8 +52,11 @@
   });
 
   // El sonido queda DESACTIVADO por defecto: solo suena si el usuario lo activó.
+  // Versiones anteriores guardaban sound:true por defecto; por eso además se
+  // exige soundOptIn (solo lo pone el interruptor de sonido del panel).
   function soundOn() {
-    return prefs().sound === true;
+    var p = prefs();
+    return p.sound === true && p.soundOptIn === true;
   }
 
   var RM = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;

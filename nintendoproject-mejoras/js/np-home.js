@@ -436,9 +436,10 @@ var NP = window.NP;
     root.setAttribute("data-video", prefs.video || "mario");
     root.classList.toggle("no-poke", prefs.showPoke === !1);
     root.classList.toggle("no-plaza", prefs.showPlaza === !1);
-    if (typeof startPlaza === "function") startPlaza();
-    if (typeof startPoke === "function" && pokeBoot) startPoke();
-    if (typeof slReset === "function" && pokeBoot) slReset();
+    if (typeof startPlaza === "function") NP.safe(startPlaza, "startPlaza");
+    if (typeof startPoke === "function" && pokeBoot)
+      NP.safe(startPoke, "startPoke");
+    if (typeof slReset === "function" && pokeBoot) NP.safe(slReset, "slReset");
     scheduleFit();
     bgApply();
     var mid = prefs.accent === "cyan" ? "#ff8a80" : mixHex(prefs.c1, prefs.c2);
