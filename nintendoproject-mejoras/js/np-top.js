@@ -502,6 +502,21 @@ var NP = window.NP;
   var bgLayers = portal.querySelectorAll(".tg-bg-a, .tg-bg-b");
   var nav = portal.querySelector(".tg-nav");
   var navLinks = nav.querySelectorAll("button");
+  // Oculta (solo opacidad/transform) => inert para que no reciba foco.
+  nav.setAttribute("inert", "");
+  nav.inert = !0;
+  function syncNavInert() {
+    var off = !nav.classList.contains("show") || nav.classList.contains("hide");
+    nav.inert = off;
+    if (off) nav.setAttribute("inert", "");
+    else nav.removeAttribute("inert");
+  }
+  nav.addEventListener("focusin", function () {
+    if (nav.classList.contains("hide")) {
+      nav.classList.remove("hide");
+      syncNavInert();
+    }
+  });
   var home = document.getElementById("npHome");
   var sections = [].slice.call(root.querySelectorAll(".tg-con"));
   document.querySelectorAll("#np-top img").forEach(function (img) {
@@ -717,31 +732,31 @@ var NP = window.NP;
     if (S[0]) hydrate(S[0]);
   } else {
     if (!RM) {
-    var watch = new Map();
-    var io = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          (watch.get(en.target) || []).forEach(function (el) {
-            el.classList.add("in");
+      var watch = new Map();
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            (watch.get(en.target) || []).forEach(function (el) {
+              el.classList.add("in");
+            });
+            watch.delete(en.target);
+            io.unobserve(en.target);
           });
-          watch.delete(en.target);
-          io.unobserve(en.target);
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
-    );
-    for (var b = 0; b < animEls.length; b++) {
-      var el = animEls[b],
-        node = el.getAttribute("data-a") === "mask" ? el.parentNode : el;
-      var l = watch.get(node);
-      if (!l) {
-        l = [];
-        watch.set(node, l);
-        io.observe(node);
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+      );
+      for (var b = 0; b < animEls.length; b++) {
+        var el = animEls[b],
+          node = el.getAttribute("data-a") === "mask" ? el.parentNode : el;
+        var l = watch.get(node);
+        if (!l) {
+          l = [];
+          watch.set(node, l);
+          io.observe(node);
+        }
+        l.push(el);
       }
-      l.push(el);
-    }
     }
     // Hidratación por proximidad también con movimiento reducido.
     var near = new IntersectionObserver(
@@ -844,10 +859,21 @@ var NP = window.NP;
       navShown = showNav;
     }
     if (innerWidth <= 1100) {
-      if (sy > lastY + 6) nav.classList.add("hide");
-      else if (sy < lastY - 6) nav.classList.remove("hide");
+      if (sy > lastY + 6) {
+        // No se esconde mientras tenga el foco del teclado.
+        if (!nav.contains(document.activeElement)) nav.classList.add("hide");
+      } else if (sy < lastY - 6) nav.classList.remove("hide");
     } else nav.classList.remove("hide");
+    syncNavInert();
     lastY = sy;
+    if (!HAS_IO) {
+      // Hidratación por proximidad sin IntersectionObserver.
+      for (var hq = 0; hq < S.length; hq++) {
+        var hs = S[hq];
+        if (!hs.hyd && hs.top < sy + vh * 2 && hs.top + hs.h > sy - vh)
+          hydrate(hs);
+      }
+    }
     if (!JS_PAR) return;
     for (var k = 0; k < S.length; k++) {
       var s = S[k];
@@ -933,83 +959,64 @@ var NP = window.NP;
   function targetY(i) {
     return i < 0 ? 0 : S[i].top - headH() + (innerWidth <= 767 ? 10 : 24);
   }
+  var goCancel = null;
+  var SCROLL_KEYS = /^(Arrow(Up|Down)|Page(Up|Down)|Home|End| |Spacebar)$/;
+  function focusSection(i) {
+    var el = i < 0 ? home : S[i] && S[i].el;
+    if (!el) return;
+    if (!el.hasAttribute("tabindex")) {
+      el.setAttribute("tabindex", "-1");
+      el.style.outline = "none";
+    }
+    try {
+      el.focus({ preventScroll: !0 });
+    } catch (e) {}
+  }
+  // Salto suave a una sección. Un nuevo goTo o cualquier scroll del usuario
+  // (rueda, toque, teclas de desplazamiento) cancela la corrección pendiente.
   function goTo(i) {
+    if (goCancel) goCancel();
     var tok = ++goTok;
     measure();
-    scrollTo({ top: targetY(i), behavior: RM ? "auto" : "smooth" });
-    var fix = function () {
-      if (tok !== goTok) return;
+    var y0 = targetY(i);
+    var HAS_END = "onscrollend" in window;
+    var fixT = 0;
+    var opt = { passive: !0, capture: !0 };
+    function cleanup() {
+      clearTimeout(fixT);
+      if (HAS_END) removeEventListener("scrollend", fix);
+      removeEventListener("wheel", onUser, opt);
+      removeEventListener("touchstart", onUser, opt);
+      removeEventListener("keydown", onUser, opt);
+      if (goCancel === cleanup) goCancel = null;
+    }
+    function onUser(e) {
+      if (e.type === "keydown" && !SCROLL_KEYS.test(e.key)) return;
+      if (tok === goTok) goTok++;
+      cleanup();
+    }
+    function fix() {
+      if (tok !== goTok) return cleanup();
+      cleanup();
       measure();
       var y = targetY(i);
       if (Math.abs((scrollY || pageYOffset) - y) > 6)
         scrollTo({ top: y, behavior: "auto" });
-    };
-    if ("onscrollend" in window)
-      addEventListener("scrollend", fix, { once: !0 });
-    setTimeout(fix, 1400);
+      focusSection(i);
+    }
+    if (Math.abs((scrollY || pageYOffset) - y0) <= 6) {
+      // Ya estamos en destino: no hay scroll ni scrollend que esperar.
+      focusSection(i);
+      return;
+    }
+    goCancel = cleanup;
+    scrollTo({ top: y0, behavior: RM ? "auto" : "smooth" });
+    if (HAS_END) addEventListener("scrollend", fix);
+    addEventListener("wheel", onUser, opt);
+    addEventListener("touchstart", onUser, opt);
+    addEventListener("keydown", onUser, opt);
+    fixT = setTimeout(fix, RM ? 60 : 1400);
   }
-  function baseName(u) {
-    return String(u || "")
-      .split("?")[0]
-      .split("/")
-      .pop()
-      .toLowerCase();
-  }
-  function consoleFromTile(tile) {
-    if (!tile) return -1;
-    var img = tile.querySelector("img"),
-      bn = img ? baseName(img.currentSrc || img.src) : "";
-    for (var i = 0; i < CONS.length; i++)
-      if (bn && baseName(CONS[i].card) === bn) return i;
-    return -1;
-  }
-  function homeJump(fromEl, tile, e) {
-    var wroot = fromEl.closest(".np-wii-root");
-    if (wroot && wroot.classList.contains("np-editing")) return;
-    var sel = tile || (wroot || document).querySelector(".ns2-tile.selected");
-    var i = consoleFromTile(sel);
-    if (i < 0) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    goTo(i);
-  }
-  document.addEventListener(
-    "click",
-    function (e) {
-      var t = e.target;
-      if (!t || !t.closest) return;
-      var start = t.closest("#npStartBtn");
-      if (start) {
-        homeJump(start, null, e);
-        return;
-      }
-      var tile = t.closest(".np-wii-root .ns2-tile");
-      if (tile && tile.classList.contains("selected")) homeJump(tile, tile, e);
-    },
-    !0,
-  );
-  document.addEventListener(
-    "keydown",
-    function (e) {
-      if (e.key !== "Enter" && e.key !== "a" && e.key !== "A") return;
-      var t = e.target;
-      if (
-        window.npTopHomeHidden ||
-        (t &&
-          t.closest &&
-          t.closest(
-            "#np-top, #np-top-portal, input, textarea, select, [contenteditable]",
-          ))
-      )
-        return;
-      var menu = document.getElementById("npMenu");
-      if (!menu || !menu.classList.contains("active")) return;
-      var tile = t && t.closest ? t.closest(".ns2-tile") : null;
-      if (tile && !tile.classList.contains("selected")) return;
-      homeJump(menu, tile, e);
-    },
-    !0,
-  );
   var ALIAS = { "coleccion-de-juegos-para-nintendo-switch": "switch" };
   function slug(u) {
     return String(u || "")
@@ -1051,31 +1058,47 @@ var NP = window.NP;
         curHidden = !1;
       }
     }
-    function onScrollbar(e) {
+    function onScrollbar(x, y, t) {
       var de = document.documentElement;
-      if (e.clientX >= de.clientWidth || e.clientY >= de.clientHeight)
-        return !0;
-      var t = e.target;
+      if (x >= de.clientWidth || y >= de.clientHeight) return !0;
       if (!t || t.nodeType !== 1 || t === de || t === document.body) return !1;
       var cw = t.clientWidth,
         ch = t.clientHeight;
-      return (
-        (cw && t.scrollHeight > ch && e.offsetX > cw) ||
-        (ch && t.scrollWidth > cw && e.offsetY > ch)
-      );
+      var sv = cw && t.scrollHeight > ch,
+        sh = ch && t.scrollWidth > cw;
+      if (!sv && !sh) return !1;
+      // Equivale a offsetX/offsetY (desde el borde de relleno).
+      var r = t.getBoundingClientRect(),
+        ox = x - r.left - t.clientLeft,
+        oy = y - r.top - t.clientTop;
+      return !!((sv && ox > cw) || (sh && oy > ch));
     }
+    // mousemove: como mucho una lectura de layout por frame.
+    var mmRaf = 0,
+      mmX = 0,
+      mmY = 0,
+      mmT = null;
     document.addEventListener(
       "mousemove",
       function (e) {
-        if (onScrollbar(e)) hideCur();
-        else showCur();
+        mmX = e.clientX;
+        mmY = e.clientY;
+        mmT = e.target;
+        if (mmRaf) return;
+        mmRaf = requestAnimationFrame(function () {
+          mmRaf = 0;
+          var t = mmT;
+          mmT = null;
+          if (onScrollbar(mmX, mmY, t)) hideCur();
+          else showCur();
+        });
       },
       { passive: !0, capture: !0 },
     );
     document.addEventListener(
       "mousedown",
       function (e) {
-        if (onScrollbar(e)) hideCur();
+        if (onScrollbar(e.clientX, e.clientY, e.target)) hideCur();
       },
       { passive: !0, capture: !0 },
     );
