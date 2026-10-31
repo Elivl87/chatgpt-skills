@@ -1,13 +1,24 @@
 var NP = window.NP;
 (function () {
   "use strict";
-  var desktop = window.matchMedia("(min-width: 992px)");
+  // Punto de corte único compartido con np-menu-movil y np-menu-escritorio.
+  var BP =
+    window.NPMenuBP ||
+    (window.NPMenuBP = {
+      desktop: "(min-width: 992px)",
+      mobile: "not all and (min-width: 992px)",
+    });
+  var desktop = window.matchMedia(BP.desktop);
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var nav, bar, trigger, panel, box, controls, preference, storageKey;
   var closingTimer,
     closingReturnFocus = !1,
     inertNodes = [],
-    scrollLocks = [];
+    inertObserver = null,
+    scrollLocks = [],
+    opener = null,
+    savedScrollY = null,
+    intensityFrame = 0;
   var paintNodes = [],
     paintTimer,
     clearPaintTimer;
@@ -18,29 +29,33 @@ var NP = window.NP;
     coverEnterTimer;
   var scroller = null,
     scrollbarUpdate = function () {};
-  var OPEN_SOUND =
-    NP.u("wp-content/uploads/2026/07/ajustes.mp3");
-  var openSound = null;
-  function primeSound() {
-    if (openSound) return;
-    try {
-      openSound = new Audio(OPEN_SOUND);
-      openSound.preload = "auto";
-      openSound.volume = 0.6;
-      (window.npAudioReg = window.npAudioReg || []).push(openSound);
-    } catch (e) {
-      openSound = null;
-    }
+  // Sonido compartido con np-menu-movil (window.NPMenuSound, un solo Audio).
+  // Solo suena si el usuario lo activó (NP.soundOn()); se crea en la primera
+  // reproducción real, sin precarga.
+  function menuSound() {
+    var s = window.NPMenuSound;
+    if (s && typeof s.play === "function") return s;
+    var SRC = NP.u("wp-content/uploads/2026/07/ajustes.mp3");
+    var audio = null;
+    s = window.NPMenuSound = {
+      play: function () {
+        if (!NP.soundOn()) return;
+        try {
+          if (!audio) {
+            audio = new Audio(SRC);
+            audio.volume = 0.6;
+            (window.npAudioReg = window.npAudioReg || []).push(audio);
+          }
+          audio.currentTime = 0;
+          var p = audio.play();
+          if (p && p.catch) p.catch(function () {});
+        } catch (e) {}
+      },
+    };
+    return s;
   }
   function playOpenSound() {
-    if (window.npPrefs && window.npPrefs.sound === !1) return;
-    primeSound();
-    if (!openSound) return;
-    try {
-      openSound.currentTime = 0;
-      var p = openSound.play();
-      if (p && p.catch) p.catch(function () {});
-    } catch (e) {}
+    menuSound().play();
   }
   var PALETTE_SVG =
     '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">' +
@@ -420,13 +435,6 @@ var NP = window.NP;
     img.setAttribute("src", url);
     if (img.complete && img.naturalWidth) img.classList.add("is-loaded");
   }
-  function userLevel() {
-    try {
-      if (window.NPHeader && typeof window.NPHeader.nivel === "function")
-        return window.NPHeader.nivel();
-    } catch (e) {}
-    return 0;
-  }
   function renderCovers() {
     if (!controls || !controls.coverOptions) return;
     var key = preference.theme;
@@ -454,11 +462,6 @@ var NP = window.NP;
       );
       if (coverOpen && url) loadInto(button.querySelector("img"), url);
     });
-    var lvl = userLevel();
-    if (controls.coverLevel)
-      controls.coverLevel.textContent = lvl
-        ? "Tu nivel: " + lvl
-        : "Sube de nivel";
   }
   function animateCovers() {
     clearTimeout(coverEnterTimer);
@@ -624,20 +627,34 @@ var NP = window.NP;
     }, 820);
     clearPaintTimer = setTimeout(clearPaint, 1120);
   }
+  function makeInert(node) {
+    if (
+      node.nodeType !== 1 ||
+      node === panel ||
+      /^(SCRIPT|STYLE|LINK)$/.test(node.tagName) ||
+      node.id === "wii-cursor-global" ||
+      node.hasAttribute("inert")
+    )
+      return;
+    node.setAttribute("inert", "");
+    inertNodes.push(node);
+  }
   function lockBackground() {
     inertNodes = [];
     scrollLocks = [];
-    Array.prototype.forEach.call(document.body.children, function (node) {
-      if (
-        node === panel ||
-        /^(SCRIPT|STYLE|LINK)$/.test(node.tagName) ||
-        node.id === "wii-cursor-global" ||
-        node.hasAttribute("inert")
-      )
-        return;
-      node.setAttribute("inert", "");
-      inertNodes.push(node);
-    });
+    Array.prototype.forEach.call(document.body.children, makeInert);
+    // Lo que se añada a <body> mientras el panel está abierto también queda inerte.
+    if (window.MutationObserver) {
+      if (inertObserver) inertObserver.disconnect();
+      inertObserver = new MutationObserver(function (records) {
+        records.forEach(function (r) {
+          Array.prototype.forEach.call(r.addedNodes, function (node) {
+            if (node.parentNode === document.body) makeInert(node);
+          });
+        });
+      });
+      inertObserver.observe(document.body, { childList: !0 });
+    }
     [document.documentElement, document.body].forEach(function (node) {
       if (node.classList.contains("np-menu-scroll-lock")) return;
       node.classList.add("np-menu-scroll-lock");
@@ -645,6 +662,10 @@ var NP = window.NP;
     });
   }
   function unlockBackground() {
+    if (inertObserver) {
+      inertObserver.disconnect();
+      inertObserver = null;
+    }
     inertNodes.forEach(function (node) {
       node.removeAttribute("inert");
     });
@@ -665,9 +686,39 @@ var NP = window.NP;
     panel.classList.remove("np-menu-personalizer-closing");
     if (coverOpen) setCoverOpen(!1);
     unlockBackground();
-    if (closingReturnFocus && desktop.matches && trigger.isConnected)
-      trigger.focus({ preventScroll: !0 });
+    if (savedScrollY !== null) {
+      var y = savedScrollY;
+      savedScrollY = null;
+      if (Math.abs(window.pageYOffset - y) > 1) {
+        try {
+          window.scrollTo({ top: y, left: window.pageXOffset, behavior: "instant" });
+        } catch (e) {
+          window.scrollTo(window.pageXOffset, y);
+        }
+      }
+    }
+    if (closingReturnFocus) {
+      if (desktop.matches) {
+        if (trigger.isConnected) trigger.focus({ preventScroll: !0 });
+      } else {
+        // Móvil: vuelve a quien lo abrió o, si ya no se ve (p. ej. el
+        // enlace del menú lateral cerrado), al botón hamburguesa.
+        var target = focusable(opener)
+          ? opener
+          : document.getElementById("navigation-button") ||
+            document.querySelector(".menu_btn");
+        if (focusable(target)) target.focus({ preventScroll: !0 });
+      }
+    }
+    opener = null;
     closingReturnFocus = !1;
+  }
+  function focusable(el) {
+    if (!el || !el.isConnected || el.closest("[inert]")) return !1;
+    if (el.closest("#sidebar-menu:not(.show_menu)")) return !1;
+    if (!el.getClientRects().length) return !1;
+    var cs = getComputedStyle(el);
+    return cs.visibility !== "hidden" && cs.display !== "none";
   }
   function close(returnFocus, immediately) {
     if (!panel || panel.hidden) return;
@@ -698,8 +749,15 @@ var NP = window.NP;
       Math.max(60, Math.round(bottom + 10)) + "px",
     );
   }
-  function open() {
+  function open(from) {
     if (!panel || !panel.hidden) return;
+    opener =
+      from && from.nodeType === 1
+        ? from
+        : document.activeElement !== document.body
+          ? document.activeElement
+          : null;
+    savedScrollY = window.pageYOffset;
     placeSheet();
     clearTimeout(closingTimer);
     panel.classList.remove("np-menu-personalizer-closing");
@@ -980,7 +1038,7 @@ var NP = window.NP;
         var art = theme.icon
           ? '<img loading="lazy" src="' +
             theme.icon +
-            '" alt="" width="120" height="120" loading="lazy" decoding="async">'
+            '" alt="" width="120" height="120" decoding="async">'
           : '<svg viewBox="-7 -7 38 38" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="#fff" fill-opacity=".55" stroke="#5a7088" stroke-width="2.2"/><path d="M6.2 17.8 17.8 6.2" stroke="#5a7088" stroke-width="2.2" stroke-linecap="round"/></svg>';
         var background =
           ' style="--np-menu-chip-background:radial-gradient(circle at 28% 12%,rgba(255,255,255,.5),transparent 62%),linear-gradient(145deg,' +
@@ -1002,9 +1060,7 @@ var NP = window.NP;
           ";--np-card-drop-delay:" +
           index * 55 +
           'ms"';
-        var artClass =
-          "np-theme-card-art" +
-          (theme.iconCover ? " np-theme-card-art--photo" : "");
+        var artClass = "np-theme-card-art";
         return (
           '<button type="button" class="np-theme-card np-theme-card--' +
           key +
@@ -1067,15 +1123,14 @@ var NP = window.NP;
       coverPreview: panel.querySelector(".np-cover-preview img"),
       coverTheme: panel.querySelector(".np-cover-theme"),
       coverCurrent: panel.querySelector(".np-cover-current"),
-      coverLevel: null,
       coverOptions: Array.prototype.slice.call(
         panel.querySelectorAll(".np-cover-option"),
       ),
     };
     scrollbarUpdate = setupScrollbar();
-    trigger.addEventListener("click", open);
-    trigger.addEventListener("pointerenter", primeSound, { once: !0 });
-    trigger.addEventListener("focus", primeSound, { once: !0 });
+    trigger.addEventListener("click", function () {
+      open(trigger);
+    });
     [
       ".np-personalizer-close",
       ".np-personalizer-done",
@@ -1149,9 +1204,21 @@ var NP = window.NP;
     controls.intensity.addEventListener("input", function () {
       clearPaint();
       preference.intensity = Number(this.value);
-      apply();
+      // Un solo apply() por frame aunque lleguen muchos "input" seguidos.
+      if (!intensityFrame)
+        intensityFrame = requestAnimationFrame(function () {
+          intensityFrame = 0;
+          apply();
+        });
     });
-    controls.intensity.addEventListener("change", persist);
+    controls.intensity.addEventListener("change", function () {
+      if (intensityFrame) {
+        cancelAnimationFrame(intensityFrame);
+        intensityFrame = 0;
+        apply();
+      }
+      persist();
+    });
     controls.paint.addEventListener("click", function () {
       preference.paint = !preference.paint;
       apply();
@@ -1168,9 +1235,6 @@ var NP = window.NP;
         preference = readPreference();
         apply();
       }
-    });
-    window.addEventListener("np:nivel", function () {
-      if (!panel.hidden) renderCovers();
     });
     apply();
     addMobileEntry();
@@ -1200,11 +1264,56 @@ var NP = window.NP;
         );
         if (btn) btn.click();
         else menu.classList.remove("show_menu");
+        afterSidebarClosed(menu, function () {
+          open(a);
+        });
+      } else open(a);
+    });
+    // role="button": también se activa con la barra espaciadora.
+    a.addEventListener("keydown", function (e) {
+      if (e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        a.click();
       }
-      setTimeout(open, wasOpen ? 420 : 0);
     });
     li.appendChild(a);
     list.appendChild(li);
+  }
+  // Espera al final del fundido de cierre del menú lateral (transitionend de
+  // "opacity") con un temporizador de respaldo calculado del propio CSS.
+  function afterSidebarClosed(menu, cb) {
+    var done = !1,
+      timer = 0;
+    function finish(e) {
+      if (e && e.type === "transitionend" && (e.target !== menu || e.propertyName !== "opacity"))
+        return;
+      if (done) return;
+      done = !0;
+      clearTimeout(timer);
+      menu.removeEventListener("transitionend", finish);
+      cb();
+    }
+    var ms = 0;
+    try {
+      var cs = getComputedStyle(menu);
+      var dur = String(cs.transitionDuration || "0s").split(","),
+        del = String(cs.transitionDelay || "0s").split(",");
+      dur.forEach(function (d, i) {
+        var t =
+          (parseFloat(d) || 0) * (/ms\s*$/.test(d) ? 1 : 1000) +
+          (parseFloat(del[i % del.length]) || 0) *
+            (/ms\s*$/.test(del[i % del.length]) ? 1 : 1000);
+        if (t > ms) ms = t;
+      });
+    } catch (err) {
+      ms = 420;
+    }
+    if (!ms) {
+      cb();
+      return;
+    }
+    menu.addEventListener("transitionend", finish);
+    timer = setTimeout(finish, Math.min(ms, 1000) + 50);
   }
   function resize() {
     if (!desktop.matches) {

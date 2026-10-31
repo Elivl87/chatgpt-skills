@@ -1,5 +1,41 @@
 var NP = window.NP;
 (function () {
+  // Punto de corte ÚNICO móvil/escritorio, compartido por np-menu-movil,
+  // np-menu-escritorio y np-personalizador-menu (window.NPMenuBP). Debe
+  // coincidir con el CSS (Bootstrap lg: el botón hamburguesa es d-lg-none).
+  // "mobile" es el complemento exacto de "desktop": sin huecos entre 991 y 992 px.
+  var BP =
+    window.NPMenuBP ||
+    (window.NPMenuBP = {
+      desktop: "(min-width: 992px)",
+      mobile: "not all and (min-width: 992px)",
+    });
+  var MOBILE_MQ = BP.mobile;
+  // Sonido compartido (un único Audio para el menú móvil y el personalizador).
+  // Solo suena si el usuario lo activó (NP.soundOn()); el Audio se crea en la
+  // primera reproducción real, nunca se precarga.
+  function menuSound() {
+    var s = window.NPMenuSound;
+    if (s && typeof s.play === "function") return s;
+    var SRC = NP.u("wp-content/uploads/2026/07/ajustes.mp3");
+    var audio = null;
+    s = window.NPMenuSound = {
+      play: function () {
+        if (!NP.soundOn()) return;
+        try {
+          if (!audio) {
+            audio = new Audio(SRC);
+            audio.volume = 0.6;
+            (window.npAudioReg = window.npAudioReg || []).push(audio);
+          }
+          audio.currentTime = 0;
+          var p = audio.play();
+          if (p && p.catch) p.catch(function () {});
+        } catch (e) {}
+      },
+    };
+    return s;
+  }
   function organizeMobileSections() {
     var list = document.querySelector(
       "#sidebar-menu .mobile_menu_nav .menu_list",
@@ -774,6 +810,17 @@ var NP = window.NP;
       ],
     },
   };
+  // Solo se aceptan imágenes del propio sitio (relativas o mismo origen que NP.base).
+  function safeImg(url) {
+    try {
+      var base = new URL(NP.base, location.href);
+      var u = new URL(String(url), base);
+      if (u.origin !== base.origin || !/^https?:$/.test(u.protocol)) return "";
+      return u.href;
+    } catch (e) {
+      return "";
+    }
+  }
   function readMenuPokemon() {
     try {
       var raw = localStorage.getItem("pkw_v6");
@@ -793,10 +840,13 @@ var NP = window.NP;
           };
         }
       }
+      var lgImg =
+        state && state.npView && state.npView.img
+          ? safeImg(state.npView.img)
+          : "";
       if (
         state &&
-        state.npView &&
-        state.npView.img &&
+        lgImg &&
         !Object.prototype.hasOwnProperty.call(POKEMON_MENU, state.key)
       ) {
         var lgLevel = Math.max(
@@ -812,7 +862,7 @@ var NP = window.NP;
           level: lgLevel,
           form: {
             name: String(state.npView.name || "LEGENDARIO"),
-            img: String(state.npView.img),
+            img: lgImg,
             color: lgColor,
           },
         };
@@ -1099,6 +1149,11 @@ var NP = window.NP;
     var topRowEnd = accountLink ? accountLink.parentElement : item;
     var plaza = list.querySelector(":scope > li.np-menu-plaza-mii");
     if (plaza) {
+      // Marca la posición original para devolverla al pasar a escritorio.
+      if (!plaza.__npHome) {
+        plaza.__npHome = document.createComment("np-plaza-mii");
+        plaza.parentNode.insertBefore(plaza.__npHome, plaza);
+      }
       list.insertBefore(plaza, topRowEnd.nextSibling);
       topRowEnd = plaza;
     }
@@ -1111,7 +1166,7 @@ var NP = window.NP;
   }
   function initRegisteredMobileMenu() {
     if (!document.body.classList.contains("logged-in")) return;
-    var mobile = window.matchMedia("(max-width: 768px)");
+    var mobile = window.matchMedia(MOBILE_MQ);
     function syncLayout() {
       if (mobile.matches) {
         setupPokemonMenu();
@@ -1127,6 +1182,11 @@ var NP = window.NP;
       if (home) home.classList.remove("np-menu-home-inicio");
       if (item) item.remove();
       if (title) title.remove();
+      var plaza = list.querySelector(":scope > li.np-menu-plaza-mii");
+      if (plaza && plaza.__npHome && plaza.__npHome.parentNode) {
+        plaza.__npHome.parentNode.insertBefore(plaza, plaza.__npHome);
+        addPlazaSection();
+      }
       menu.classList.remove("np-has-pokemon-menu");
       menuPokemonSignature = "";
     }
@@ -1140,14 +1200,6 @@ var NP = window.NP;
     if (!link) return;
     var pokemon = readMenuPokemon();
     var status = readMenuCare(pokemon);
-    var signature =
-      (pokemon
-        ? pokemon.key + ":" + pokemon.stage + ":" + pokemon.level
-        : "none") +
-      ":" +
-      status;
-    if (signature === menuPokemonSignature) return;
-    menuPokemonSignature = signature;
     var form = pokemon
       ? pokemon.form
       : {
@@ -1155,6 +1207,14 @@ var NP = window.NP;
           img: NP.u("wp-content/uploads/2026/03/POKEBALL3D.webp"),
           color: "#0ab9e6",
         };
+    var signature = [
+      pokemon ? pokemon.key + ":" + pokemon.stage + ":" + pokemon.level : "none",
+      status,
+      form.img,
+      form.name,
+    ].join("|");
+    if (signature === menuPokemonSignature) return;
+    menuPokemonSignature = signature;
     var box = link.querySelector(".np-menu-pokemon-avatar");
     var badge = box.querySelector(".np-badge");
     var circle = box.querySelector(".np-profile-circle");
@@ -1211,15 +1271,26 @@ var NP = window.NP;
     var menu = document.getElementById("sidebar-menu");
     if (!menu || menu.__npPokemonWatch) return;
     menu.__npPokemonWatch = !0;
-    var timer = null;
+    // Sin sondeo agresivo: se repinta al abrir, con el evento "storage"
+    // (otras pestañas), con "np:pokemon" (esta pestaña) y, solo mientras el
+    // menú está abierto y visible, con un respaldo lento (cada 15 s) para que
+    // el estado de cuidado (suciedad/sueño), que depende del tiempo, avance.
+    var FALLBACK_MS = 15000;
+    var timer = null,
+      active = !1;
+    function fresh() {
+      careMemo.at = 0;
+      renderMenuPokemon();
+    }
     function sync() {
-      if (
+      var on =
         menu.classList.contains("show_menu") &&
         menu.classList.contains("np-has-pokemon-menu") &&
-        !document.hidden
-      ) {
-        renderMenuPokemon();
-        if (!timer) timer = setInterval(renderMenuPokemon, 1000);
+        !document.hidden;
+      if (on && !active) fresh();
+      active = on;
+      if (on) {
+        if (!timer) timer = setInterval(renderMenuPokemon, FALLBACK_MS);
       } else if (timer) {
         clearInterval(timer);
         timer = null;
@@ -1245,7 +1316,7 @@ var NP = window.NP;
     window.addEventListener("pageshow", renderMenuPokemon);
     window.addEventListener("focus", renderMenuPokemon);
     window.addEventListener("load", renderMenuPokemon);
-    window.addEventListener("np:pokemon", renderMenuPokemon);
+    window.addEventListener("np:pokemon", fresh);
     sync();
   }
   function findSource() {
@@ -1273,9 +1344,21 @@ var NP = window.NP;
     box.className =
       (logged ? "np-profile-wrap" : "np-rotating-avatar-wrap") +
       " np-menu-carousel";
-    box.innerHTML = src.innerHTML;
-    var withId = box.querySelectorAll("[id]");
+    // Solo se copia si el avatar de origen cambió (firma = HTML + src de la imagen).
+    var srcImg = src.querySelector("img");
+    var sig =
+      (logged ? "1" : "0") +
+      "|" +
+      (srcImg ? srcImg.currentSrc || srcImg.getAttribute("src") || "" : "") +
+      "|" +
+      src.innerHTML;
+    if (box.__npSig === sig) return;
+    box.__npSig = sig;
+    var copy = src.cloneNode(!0);
+    var withId = copy.querySelectorAll("[id]");
     for (var i = 0; i < withId.length; i++) withId[i].removeAttribute("id");
+    while (box.firstChild) box.removeChild(box.firstChild);
+    while (copy.firstChild) box.appendChild(copy.firstChild);
     link.classList.add("np-has-carousel");
     tint(link, box, logged);
   }
@@ -1379,37 +1462,8 @@ var NP = window.NP;
     var menu = document.getElementById("sidebar-menu");
     if (!menu || menu.__npSnd) return;
     menu.__npSnd = !0;
-    var SRC =
-      NP.u("wp-content/uploads/2026/07/ajustes.mp3");
-    var audio = null,
-      primed = !1;
-    function allowed() {
-      return !(window.npPrefs && window.npPrefs.sound === !1);
-    }
-    function prime() {
-      if (primed) return;
-      primed = !0;
-      try {
-        audio = new Audio(SRC);
-        audio.preload = "auto";
-        audio.volume = 0.6;
-        (window.npAudioReg = window.npAudioReg || []).push(audio);
-      } catch (e) {}
-    }
-    document.addEventListener("pointerdown", prime, {
-      once: !0,
-      passive: !0,
-      capture: !0,
-    });
     function playOpen() {
-      if (!allowed()) return;
-      prime();
-      try {
-        if (!audio) return;
-        audio.currentTime = 0;
-        var p = audio.play();
-        if (p && p.catch) p.catch(function () {});
-      } catch (e) {}
+      menuSound().play();
     }
     var wasOpen = menu.classList.contains("show_menu");
     new MutationObserver(function () {
@@ -1489,16 +1543,22 @@ var NP = window.NP;
     list.appendChild(item);
   }
   function init() {
-    organizeMobileSections();
-    addPlazaSection();
-    addOnlineSection();
-    initRegisteredMobileMenu();
-    addCloseBox();
-    sonidos();
-    pressFX();
-    render();
+    [
+      [organizeMobileSections, "movil:secciones"],
+      [addPlazaSection, "movil:plaza"],
+      [addOnlineSection, "movil:online"],
+      [initRegisteredMobileMenu, "movil:pokemon"],
+      [addCloseBox, "movil:cerrar"],
+      [sonidos, "movil:sonido"],
+      [pressFX, "movil:press"],
+      [render, "movil:avatar"],
+    ].forEach(function (step) {
+      NP.safe(step[0], step[1]);
+    });
     function later() {
-      setTimeout(render, 60);
+      setTimeout(function () {
+        NP.safe(render, "movil:avatar");
+      }, 60);
     }
     window.addEventListener("np:perfil", later);
     window.addEventListener("np:nivel", later);

@@ -1,6 +1,13 @@
 var NP = window.NP;
 (function () {
-  var desktop = window.matchMedia("(min-width: 992px)");
+  // Punto de corte único compartido con np-menu-movil y np-personalizador-menu.
+  var BP =
+    window.NPMenuBP ||
+    (window.NPMenuBP = {
+      desktop: "(min-width: 992px)",
+      mobile: "not all and (min-width: 992px)",
+    });
+  var desktop = window.matchMedia(BP.desktop);
   var root,
     menus = [],
     desktopNames = [],
@@ -45,7 +52,7 @@ var NP = window.NP;
     if (cyCache[src]) return cyCache[src];
     try {
       var saved = window.localStorage.getItem(CY_PREFIX + src);
-      if (saved) return (cyCache[src] = saved);
+      if (saved && /^#[0-9a-f]{6}$/i.test(saved)) return (cyCache[src] = saved);
     } catch (e) {}
     var col = CY_NEUTRAL;
     try {
@@ -214,24 +221,47 @@ var NP = window.NP;
     if (srcs.length < 2) return;
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     var idx = 0,
-      timer = 0;
+      timer = 0,
+      swapFrame = 0,
+      inView = !0;
     var cycleNav = li.closest("#np-nav");
     var cycleHtml = document.documentElement;
+    // Sin reflow forzado (antes: void offsetWidth). La imagen entrante se
+    // "encaja" sin transición en un frame y la transición arranca en el
+    // siguiente (doble requestAnimationFrame), así el navegador calcula los
+    // estilos en su ciclo normal.
     function swap(n) {
-      nxt.classList.add("np-cycle-snap");
-      nxt.classList.remove("is-out", "is-on");
-      void nxt.offsetWidth;
-      nxt.classList.remove("np-cycle-snap");
-      cur.classList.remove("is-on");
-      cur.classList.add("is-out");
-      nxt.classList.add("is-on");
-      paintCycle(li, nxt);
-      var t = cur;
-      cur = nxt;
-      nxt = t;
+      var incoming = nxt,
+        outgoing = cur;
+      incoming.classList.add("np-cycle-snap");
+      incoming.classList.remove("is-out", "is-on");
+      cur = incoming;
+      nxt = outgoing;
       idx = n;
+      cancelAnimationFrame(swapFrame);
+      swapFrame = requestAnimationFrame(function () {
+        swapFrame = requestAnimationFrame(function () {
+          swapFrame = 0;
+          incoming.classList.remove("np-cycle-snap");
+          outgoing.classList.remove("is-on");
+          outgoing.classList.add("is-out");
+          incoming.classList.add("is-on");
+          paintCycle(li, incoming);
+        });
+      });
+    }
+    function stop() {
+      if (timer) {
+        clearInterval(timer);
+        timer = 0;
+      }
+      nxt.onload = nxt.onerror = null;
     }
     function step() {
+      if (document.hidden || !inView) {
+        stop();
+        return;
+      }
       var n = (idx + 1) % srcs.length;
       nxt.onload = nxt.onerror = null;
       if (nxt.getAttribute("src") !== srcs[n]) nxt.src = srcs[n];
@@ -285,14 +315,9 @@ var NP = window.NP;
           }, 900);
         }
       }
+      if (on) inView = !0;
       if (on && !timer) timer = setInterval(step, CYCLE_MS);
-      else if (!on) {
-        if (timer) {
-          clearInterval(timer);
-          timer = 0;
-        }
-        nxt.onload = nxt.onerror = null;
-      }
+      else if (!on) stop();
     }
     document.addEventListener("visibilitychange", sync);
     window.addEventListener("pageshow", sync);
@@ -303,7 +328,11 @@ var NP = window.NP;
     if (desktop.addEventListener) desktop.addEventListener("change", sync);
     else desktop.addListener(sync);
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(sync).observe(li);
+      new IntersectionObserver(function (entries) {
+        var e = entries[entries.length - 1];
+        if (e) inView = e.isIntersecting;
+        sync();
+      }).observe(li);
     }
     if ("MutationObserver" in window) {
       var welcomeState = "";
@@ -706,17 +735,38 @@ var NP = window.NP;
               node;
             while ((node = walker.nextNode())) {
               if (/\b\d+\s+CONSOLAS\b/i.test(node.nodeValue))
-                desktopNames.push({ node: node, original: node.nodeValue });
+                desktopNames.push({
+                  node: node,
+                  original: node.nodeValue,
+                  li: link.parentElement,
+                });
             }
           }
         });
       categoriesReady = !0;
     }
     desktopNames.forEach(function (item) {
-      item.node.nodeValue = desktop.matches
-        ? item.original.replace(/\b\d+\s+CONSOLAS\b/i, "25 CONSOLAS")
+      var n = desktop.matches ? countConsoles(item.li) : 0;
+      item.node.nodeValue = n
+        ? item.original.replace(/\b\d+\s+CONSOLAS\b/i, n + " CONSOLAS")
         : item.original;
     });
+  }
+  // Nº real de consolas del submenú (enlaces visibles en PC, sin "Juegos de PC").
+  // 0 = no se pudo contar → se deja el texto original del menú.
+  function countConsoles(li) {
+    if (!li) return 0;
+    var seen = {},
+      n = 0;
+    li.querySelectorAll(
+      ":scope > .sub-menu > li:not(.np-oculto-pc):not(.np-menu-pc-consolas) > a[href]",
+    ).forEach(function (a) {
+      var href = (a.getAttribute("href") || "").replace(/[?#].*$/, "").replace(/\/+$/, "");
+      if (!href || href === "#" || /juegos-pc/i.test(href) || seen[href]) return;
+      seen[href] = 1;
+      n++;
+    });
+    return n;
   }
   function cleanPanel(panel) {
     if (!panel || !desktop.matches) return;
@@ -793,13 +843,22 @@ var NP = window.NP;
             function (e) {
               if (!desktop.matches) return;
               if (e.target.closest(".sub-menu")) return;
-              e.stopPropagation();
+              // Ya no se corta la propagación: otros oyentes (sonido,
+              // analítica, scripts propios) siguen recibiendo el clic. Lo
+              // único que hacía el tema aquí era desplegar/plegar el panel
+              // con jQuery (slideToggle → estilos inline display/height/
+              // overflow…); cleanPanel lo anula (jQuery.stop + MutationObserver
+              // sobre "style") y se repite tras el resto de oyentes del clic.
               var href = (button.getAttribute("href") || "").trim();
               if (!href || href === "#" || /^javascript:/i.test(href))
                 e.preventDefault();
               li.classList.remove("np-desktop-dismissed");
               cleanPanel(panel);
               state();
+              setTimeout(function () {
+                cleanPanel(panel);
+                state();
+              }, 0);
             },
             !0,
           );
@@ -807,13 +866,42 @@ var NP = window.NP;
             if (desktop.matches) cleanPanel(panel);
           }).observe(panel, { attributes: !0, attributeFilter: ["style"] });
           cleanPanel(panel);
+          function panelLinks() {
+            var all = panel.querySelectorAll("li:not(.np-oculto-pc) > a[href]");
+            var shown = Array.prototype.filter.call(all, function (a) {
+              return a.getClientRects().length > 0;
+            });
+            return shown.length ? shown : Array.prototype.slice.call(all);
+          }
           li.addEventListener("keydown", function (e) {
             if (!desktop.matches) return;
+            var inPanel = panel.contains(e.target);
             if (e.key === "Escape") {
               e.preventDefault();
               li.classList.add("np-desktop-dismissed");
               button.focus();
               button.setAttribute("aria-expanded", "false");
+            } else if (
+              inPanel &&
+              (e.key === "ArrowDown" ||
+                e.key === "ArrowUp" ||
+                e.key === "Home" ||
+                e.key === "End")
+            ) {
+              var links = panelLinks();
+              if (!links.length) return;
+              e.preventDefault();
+              var i = links.indexOf(e.target.closest("a"));
+              if (e.key === "Home") i = 0;
+              else if (e.key === "End") i = links.length - 1;
+              else if (e.key === "ArrowDown") i = (i + 1) % links.length;
+              else if (i <= 0) {
+                // Flecha arriba en el primero: vuelve al enlace padre.
+                button.focus();
+                state();
+                return;
+              } else i--;
+              links[i].focus();
             } else if (
               e.target === button &&
               (e.key === "ArrowDown" ||
@@ -822,9 +910,7 @@ var NP = window.NP;
             ) {
               e.preventDefault();
               li.classList.remove("np-desktop-dismissed");
-              var first = panel.querySelector(
-                "li:not(.np-oculto-pc) > a[href]",
-              );
+              var first = panelLinks()[0];
               if (first) first.focus();
               state();
             }
@@ -833,7 +919,11 @@ var NP = window.NP;
     }
     menus.forEach(function (m) {
       if (desktop.matches) {
-        m.button.setAttribute("tabindex", "0");
+        // tabindex solo hace falta en <a> sin href (no enfocables de serie).
+        if (!m.button.hasAttribute("href"))
+          m.button.setAttribute("tabindex", "0");
+        else if (m.original.tabindex === null)
+          m.button.removeAttribute("tabindex");
         if (!m.button.getAttribute("href"))
           m.button.setAttribute("role", "button");
         m.button.setAttribute("aria-haspopup", "true");
