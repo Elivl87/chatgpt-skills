@@ -1,0 +1,69 @@
+/*!
+ * np-mejoras.css — correcciones de accesibilidad que complementan a los scripts.
+ * Se carga después del CSS del tema.
+ */
+
+/* 1. Foco visible. El CSS del sitio tiene varios "outline:none": se recupera
+      el contorno solo para teclado (:focus-visible), sin afectar al ratón. */
+:where(a, button, [role="button"], [tabindex], input, select, textarea, summary):focus-visible {
+  outline: 3px solid #ffd23f !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* 2. Cursor decorativo: el puntero del sistema solo se oculta si el script
+      confirmó que la imagen del cursor cargó (clase wii-mode-active). Si no hay
+      ratón fino, nunca se oculta. */
+@media (hover: none), (pointer: coarse) {
+  #wii-cursor-global { display: none !important; }
+  body.wii-mode-active, body.wii-mode-active * { cursor: auto !important; }
+}
+
+/* 3. Contenido marcado como inerte (paneles cerrados): fuera del alcance del
+      puntero también, por si el CSS del tema lo deja visible. */
+[inert], [inert] * {
+  pointer-events: none !important;
+}
+
+/* 4. Movimiento reducido: animaciones y transiciones casi instantáneas,
+      sin scroll suave y sin parallax. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 5. Botones añadidos por los scripts corregidos (Saltar intro, pausar autoplay). */
+.np-btn-saltar,
+.np-autoplay-toggle {
+  font: 700 14px/1 Dosis, system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  padding: 10px 16px;
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+}
+.np-btn-saltar:hover,
+.np-autoplay-toggle:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* 6. Texto solo para lectores de pantalla (p. ej. un <h1> oculto visualmente). */
+.np-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

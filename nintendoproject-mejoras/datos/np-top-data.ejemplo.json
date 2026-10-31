@@ -1,0 +1,79 @@
+{
+  "intro": {
+    "bg": "#0a0a0c"
+  },
+  "consoles": [
+    {
+      "k": "consola-a",
+      "stops": [
+        "#00c3e3",
+        "#ff4554"
+      ],
+      "name": "Consola de ejemplo A",
+      "short": "Consola A",
+      "wm": "CONSOLA A",
+      "label": "Consola A",
+      "maker": "Fabricante",
+      "year": 2025,
+      "tag": "Texto de presentación de la sección.",
+      "size": "",
+      "url": "#",
+      "icon": "/wp-content/uploads/np-top/ejemplo/icono-a.webp",
+      "card": "/wp-content/uploads/np-top/ejemplo/tarjeta-a.webp",
+      "char": "/wp-content/uploads/np-top/ejemplo/personaje-a.webp",
+      "th": {
+        "bg": "#0b1d2a"
+      },
+      "games": [
+        {
+          "t": "Juego de ejemplo 1",
+          "y": 2021,
+          "d": "Descripción breve del juego.",
+          "g": "Aventura",
+          "s": "4.5",
+          "img": "/wp-content/uploads/np-top/ejemplo/a-portada-1.webp",
+          "url": "#",
+          "shots": [
+            "/wp-content/uploads/np-top/ejemplo/a-captura-1.webp"
+          ]
+        },
+        {
+          "t": "Juego de ejemplo 2",
+          "y": 2022,
+          "d": "Descripción breve del juego.",
+          "g": "Aventura",
+          "s": "4.5",
+          "img": "/wp-content/uploads/np-top/ejemplo/a-portada-2.webp",
+          "url": "#",
+          "shots": [
+            "/wp-content/uploads/np-top/ejemplo/a-captura-2.webp"
+          ]
+        },
+        {
+          "t": "Juego de ejemplo 3",
+          "y": 2023,
+          "d": "Descripción breve del juego.",
+          "g": "Aventura",
+          "s": "4.5",
+          "img": "/wp-content/uploads/np-top/ejemplo/a-portada-3.webp",
+          "url": "#",
+          "shots": [
+            "/wp-content/uploads/np-top/ejemplo/a-captura-3.webp"
+          ]
+        },
+        {
+          "t": "Juego de ejemplo 4",
+          "y": 2024,
+          "d": "Descripción breve del juego.",
+          "g": "Aventura",
+          "s": "4.5",
+          "img": "/wp-content/uploads/np-top/ejemplo/a-portada-4.webp",
+          "url": "#",
+          "shots": [
+            "/wp-content/uploads/np-top/ejemplo/a-captura-4.webp"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,68 +1,83 @@
+/*!
+ * np-cursor-wii.js — cursor decorativo (une los dos scripts anteriores).
+ * Correcciones:
+ *  - El HTML tenía DOS elementos con id="wii-cursor-global": se usa el primero
+ *    y se eliminan los duplicados.
+ *  - El modo cursor (que oculta el puntero del sistema) solo se activa cuando
+ *    la imagen YA cargó; si falla, el usuario conserva su puntero.
+ *  - El MutationObserver anterior reescribía style.cssText en cada cambio del
+ *    body y borraba el transform (el cursor saltaba a 0,0). Eliminado.
+ *  - Solo en dispositivos con puntero fino y hover; Esc lo desactiva y se
+ *    recuerda durante la sesión.
+ */
 (function () {
   "use strict";
-  function FORCE() {
-    var wii = document.getElementById("wii-cursor-global");
-    var overlay = document.getElementById("nintendoIntro");
-    if (wii && overlay) {
-      wii.style.cssText =
-        "position:fixed;z-index:2147483647;pointer-events:none;display:block;opacity:1";
-    }
-  }
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", FORCE);
-  } else {
-    FORCE();
-  }
-  if ("MutationObserver" in window) {
-    new MutationObserver(FORCE).observe(document.body, {
-      childList: !0,
-      subtree: !1,
-    });
-  }
-})();
-(function () {
-  document.addEventListener("DOMContentLoaded", () => {
-    const cursor = document.getElementById("wii-cursor-global");
-    const body = document.body;
+  var OFF_KEY = "np-wii-cursor-off";
+  function init() {
+    var all = document.querySelectorAll("#wii-cursor-global");
+    var cursor = all[0];
+    for (var i = 1; i < all.length; i++) all[i].parentNode.removeChild(all[i]);
     if (!cursor) return;
-    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    if (isTouch) return;
-    cursor.onerror = function () {
-      console.warn(
-        "Wii Cursor: Error cargando imagen. Revertiendo a cursor normal.",
-      );
+    var fine = window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var off = false;
+    try {
+      off = sessionStorage.getItem(OFF_KEY) === "1";
+    } catch (e) {}
+    if (!fine || off) {
+      cursor.style.display = "none";
+      return;
+    }
+    var body = document.body;
+    var x = -100,
+      y = -100,
+      queued = false,
+      active = false;
+    function disable(remember) {
+      active = false;
       body.classList.remove("wii-mode-active");
       cursor.style.display = "none";
-    };
-    let mouseX = -100;
-    let mouseY = -100;
-    let isMoving = !1;
-    body.classList.add("wii-mode-active");
-    document.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (cursor.style.opacity === "0" || cursor.style.opacity === "") {
-        cursor.style.opacity = "1";
-      }
-      if (!isMoving) {
-        isMoving = !0;
-        requestAnimationFrame(() => {
-          cursor.style.transform = `translate3d(${mouseX - 12}px, ${mouseY - 5}px, 0)`;
-          isMoving = !1;
-        });
-      }
+      if (remember)
+        try {
+          sessionStorage.setItem(OFF_KEY, "1");
+        } catch (e) {}
+    }
+    function enable() {
+      if (active) return;
+      active = true;
+      cursor.style.display = "block";
+      body.classList.add("wii-mode-active");
+    }
+    function paint() {
+      queued = false;
+      cursor.style.transform = "translate3d(" + (x - 12) + "px," + (y - 5) + "px,0)";
+    }
+    cursor.addEventListener("error", function () {
+      disable(false);
     });
-    document.addEventListener("mouseleave", () => {
+    if (cursor.complete && cursor.naturalWidth > 0) enable();
+    else if (cursor.complete) disable(false);
+    else cursor.addEventListener("load", enable, { once: true });
+    document.addEventListener(
+      "mousemove",
+      function (e) {
+        if (!active) return;
+        x = e.clientX;
+        y = e.clientY;
+        cursor.style.opacity = "1";
+        if (!queued) {
+          queued = true;
+          requestAnimationFrame(paint);
+        }
+      },
+      { passive: true },
+    );
+    document.documentElement.addEventListener("mouseleave", function () {
       cursor.style.opacity = "0";
     });
-    document.addEventListener("mouseenter", () => {
-      cursor.style.opacity = "1";
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && active) disable(true);
     });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        body.classList.remove("wii-mode-active");
-        cursor.style.display = "none";
-      }
-    });
-  });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();

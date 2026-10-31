@@ -1,79 +1,10 @@
-(function () {
-  if (window.__npProtect) return;
-  window.__npProtect = !0;
-  var html = document.documentElement;
-  html.classList.add("np-protect");
-  function editable(t) {
-    return !!(
-      t &&
-      t.closest &&
-      t.closest(
-        'input, textarea, select, [contenteditable=""], [contenteditable="true"]',
-      )
-    );
-  }
-  document.addEventListener(
-    "contextmenu",
-    function (e) {
-      if (!editable(e.target)) e.preventDefault();
-    },
-    !0,
-  );
-  document.addEventListener(
-    "dragstart",
-    function (e) {
-      var t = e.target;
-      if (
-        t &&
-        (t.tagName === "IMG" || t.tagName === "VIDEO" || t.tagName === "svg")
-      )
-        e.preventDefault();
-    },
-    !0,
-  );
-  document.addEventListener(
-    "keydown",
-    function (e) {
-      var k = (e.key || "").toLowerCase(),
-        mod = e.ctrlKey || e.metaKey;
-      if (
-        e.key === "F12" ||
-        (mod &&
-          e.shiftKey &&
-          (k === "i" || k === "j" || k === "c" || k === "k")) ||
-        (e.metaKey &&
-          e.altKey &&
-          (k === "i" || k === "j" || k === "c" || k === "u")) ||
-        (mod && !e.shiftKey && (k === "u" || k === "s"))
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    },
-    !0,
-  );
-  function lockVideos(root) {
-    [].forEach.call((root || document).querySelectorAll("video"), function (v) {
-      v.setAttribute(
-        "controlslist",
-        "nodownload noplaybackrate noremoteplayback",
-      );
-      v.setAttribute("disablepictureinpicture", "");
-    });
-  }
-  lockVideos();
-  if ("MutationObserver" in window)
-    new MutationObserver(function (m) {
-      for (var i = 0; i < m.length; i++)
-        for (var j = 0; j < m[i].addedNodes.length; j++) {
-          var n = m[i].addedNodes[j];
-          if (n.nodeType === 1) {
-            if (n.tagName === "VIDEO") lockVideos(n.parentNode);
-            else if (n.querySelector && n.querySelector("video")) lockVideos(n);
-          }
-        }
-    }).observe(document.documentElement, { childList: !0, subtree: !0 });
-})();
+/*!
+ * np-nivel.js — contador de días/nivel del usuario (solo visual).
+ * Eliminado: el bloque "anti-inspección" (bloqueaba F12, Ctrl+U, Ctrl+S, clic
+ * derecho y arrastre en toda la página). No protegía nada y molestaba a los
+ * usuarios. Ojo: este nivel vive en el navegador y es manipulable; no lo uses
+ * para dar ventajas reales.
+ */
 (function () {
   if (window.NPNivel) return;
   var PREFIX = "np-nivel-v1:";
@@ -105,13 +36,24 @@
     }
     return (h >>> 0).toString(36);
   }
+  var FECHA = /^\d{4}-\d{2}-\d{2}$/;
+  // Valida y sanea lo leído de localStorage/cookie: un valor corrupto ya no
+  // puede romper a quien lo use (antes primerDia:"1" tumbaba #npHome).
   function valido(o) {
-    return !!(
-      o &&
-      typeof o.dias === "number" &&
-      o.dias >= 1 &&
-      typeof o.ultimoDia === "string"
-    );
+    if (
+      !o ||
+      typeof o !== "object" ||
+      typeof o.dias !== "number" ||
+      !isFinite(o.dias) ||
+      o.dias < 1 ||
+      typeof o.ultimoDia !== "string" ||
+      !FECHA.test(o.ultimoDia)
+    )
+      return false;
+    o.dias = Math.min(9999, Math.floor(o.dias));
+    if (typeof o.primerDia !== "string" || !FECHA.test(o.primerDia))
+      o.primerDia = o.ultimoDia;
+    return true;
   }
   function leerLS(u) {
     try {
