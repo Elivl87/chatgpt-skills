@@ -1,0 +1,1406 @@
+{
+ "5": {
+  "base": {
+   "PS": 132152.06267267233,
+   "LS": -472796.25624624686,
+   "EC": 490519.3496996984
+  },
+  "rows": [
+   {
+    "variable": "Frecuencia mensual",
+    "clase": "Premisa (5–6)",
+    "base": "5/mes",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 132152.06267267233,
+    "favorable_txt": "6/mes",
+    "desfavorable_txt": "5/mes",
+    "efecto_usd": 389408.4900000002
+   },
+   {
+    "variable": "Frecuencia mensual",
+    "clase": "Premisa (5–6)",
+    "base": "5/mes",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -472796.25624624686,
+    "favorable_txt": "6/mes",
+    "desfavorable_txt": "5/mes",
+    "efecto_usd": 261931.44486486493
+   },
+   {
+    "variable": "Frecuencia mensual",
+    "clase": "Premisa (5–6)",
+    "base": "5/mes",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 490519.3496996984,
+    "favorable_txt": "6/mes",
+    "desfavorable_txt": "5/mes",
+    "efecto_usd": 93966.21891891956
+   },
+   {
+    "variable": "Horas de taladro por movilización",
+    "clase": "Dato Excel vs cotización",
+    "base": "Excel 12/18/24/28",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": -42567.93732732721,
+    "favorable_txt": "Excel 12/18/24/28",
+    "desfavorable_txt": "Petro Star 12/24/36/36",
+    "efecto_usd": 174719.99999999953
+   },
+   {
+    "variable": "Horas de taladro por movilización",
+    "clase": "Dato Excel vs cotización",
+    "base": "Excel 12/18/24/28",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -647516.2562462473,
+    "favorable_txt": "Excel 12/18/24/28",
+    "desfavorable_txt": "Petro Star 12/24/36/36",
+    "efecto_usd": 174720.00000000047
+   },
+   {
+    "variable": "Horas de taladro por movilización",
+    "clase": "Dato Excel vs cotización",
+    "base": "Excel 12/18/24/28",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 315799.3496996979,
+    "favorable_txt": "Excel 12/18/24/28",
+    "desfavorable_txt": "Petro Star 12/24/36/36",
+    "efecto_usd": 174720.00000000047
+   },
+   {
+    "variable": "Sobretiempo en cada movilización (solo taladro)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": -117458.95084084198,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+3,5 h",
+    "efecto_usd": 249611.0135135143
+   },
+   {
+    "variable": "Sobretiempo en cada movilización (solo taladro)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -722407.2697597621,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+3,5 h",
+    "efecto_usd": 249611.01351351524
+   },
+   {
+    "variable": "Sobretiempo en cada movilización (solo taladro)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 240908.33618618548,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+3,5 h",
+    "efecto_usd": 249611.0135135129
+   },
+   {
+    "variable": "Horas por encima del tiempo estipulado (taladro + equipos)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": -239489.28867867962,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+2 h sobre 12/24/36/36",
+    "efecto_usd": 371641.35135135194
+   },
+   {
+    "variable": "Horas por encima del tiempo estipulado (taladro + equipos)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -844437.607597597,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+2 h sobre 12/24/36/36",
+    "efecto_usd": 371641.3513513501
+   },
+   {
+    "variable": "Horas por encima del tiempo estipulado (taladro + equipos)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 118877.99834834784,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+2 h sobre 12/24/36/36",
+    "efecto_usd": 371641.35135135055
+   },
+   {
+    "variable": "Bloqueo social/escolar durante movilizaciones (h por campaña)",
+    "clase": "Medido (OpenWells 2025)",
+    "base": "17,3 h",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 180835.39675675659,
+    "desfavorable_usd": 83468.72858858854,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "34,6 h (el doble)",
+    "efecto_usd": 97366.66816816805
+   },
+   {
+    "variable": "Bloqueo social/escolar durante movilizaciones (h por campaña)",
+    "clase": "Medido (OpenWells 2025)",
+    "base": "17,3 h",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -424112.9221621626,
+    "desfavorable_usd": -521479.59033033065,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "34,6 h (el doble)",
+    "efecto_usd": 97366.66816816805
+   },
+   {
+    "variable": "Bloqueo social/escolar durante movilizaciones (h por campaña)",
+    "clase": "Medido (OpenWells 2025)",
+    "base": "17,3 h",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 539202.6837837826,
+    "desfavorable_usd": 441836.0156156146,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "34,6 h (el doble)",
+    "efecto_usd": 97366.66816816805
+   },
+   {
+    "variable": "Meses bloqueados (contrato vigente)",
+    "clase": "Riesgo operativo",
+    "base": "0",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": -44815.50489489501,
+    "favorable_txt": "0",
+    "desfavorable_txt": "1 mes",
+    "efecto_usd": 176967.56756756734
+   },
+   {
+    "variable": "Meses bloqueados (contrato vigente)",
+    "clase": "Riesgo operativo",
+    "base": "0",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -649763.8238138142,
+    "favorable_txt": "0",
+    "desfavorable_txt": "1 mes",
+    "efecto_usd": 176967.56756756734
+   },
+   {
+    "variable": "Meses bloqueados (contrato vigente)",
+    "clase": "Riesgo operativo",
+    "base": "0",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 247985.610510509,
+    "favorable_txt": "0",
+    "desfavorable_txt": "1 mes",
+    "efecto_usd": 242533.7391891894
+   },
+   {
+    "variable": "Tarifa WO en movilizaciones lentas (bajo el tope)",
+    "clase": "Premisa SierraCol (tope)",
+    "base": "tope",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": -23242.43732732907,
+    "favorable_txt": "tope",
+    "desfavorable_txt": "−5 % al WO",
+    "efecto_usd": 155394.5000000014
+   },
+   {
+    "variable": "Tarifa WO en movilizaciones lentas (bajo el tope)",
+    "clase": "Premisa SierraCol (tope)",
+    "base": "tope",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -628190.7562462483,
+    "favorable_txt": "tope",
+    "desfavorable_txt": "−5 % al WO",
+    "efecto_usd": 155394.5000000014
+   },
+   {
+    "variable": "Tarifa WO en movilizaciones lentas (bajo el tope)",
+    "clase": "Premisa SierraCol (tope)",
+    "base": "tope",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 335124.849699697,
+    "favorable_txt": "tope",
+    "desfavorable_txt": "−5 % al WO",
+    "efecto_usd": 155394.5000000014
+   },
+   {
+    "variable": "NPT de perforación (baja la frecuencia)",
+    "clase": "Sin dato: barrido",
+    "base": "0 %",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": -135092.51921921968,
+    "favorable_txt": "0 %",
+    "desfavorable_txt": "20 %",
+    "efecto_usd": 267244.581891892
+   },
+   {
+    "variable": "NPT de perforación (baja la frecuencia)",
+    "clase": "Sin dato: barrido",
+    "base": "0 %",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -740040.8381381389,
+    "favorable_txt": "0 %",
+    "desfavorable_txt": "20 %",
+    "efecto_usd": 267244.581891892
+   },
+   {
+    "variable": "NPT de perforación (baja la frecuencia)",
+    "clase": "Sin dato: barrido",
+    "base": "0 %",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 5451.871321318671,
+    "favorable_txt": "0 %",
+    "desfavorable_txt": "20 %",
+    "efecto_usd": 485067.4783783797
+   },
+   {
+    "variable": "Tarifa del taladro",
+    "clase": "Medido",
+    "base": "34.944 USD/día",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 213295.7515615616,
+    "desfavorable_usd": 51008.373783785384,
+    "favorable_txt": "−10 %",
+    "desfavorable_txt": "+10 %",
+    "efecto_usd": 162287.37777777622
+   },
+   {
+    "variable": "Tarifa del taladro",
+    "clase": "Medido",
+    "base": "34.944 USD/día",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -391652.5673573562,
+    "desfavorable_usd": -553939.9451351357,
+    "favorable_txt": "−10 %",
+    "desfavorable_txt": "+10 %",
+    "efecto_usd": 162287.37777777947
+   },
+   {
+    "variable": "Tarifa del taladro",
+    "clase": "Medido",
+    "base": "34.944 USD/día",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 571663.03858859,
+    "desfavorable_usd": 409375.6608108119,
+    "favorable_txt": "−10 %",
+    "desfavorable_txt": "+10 %",
+    "efecto_usd": 162287.37777777808
+   },
+   {
+    "variable": "Truck Manager",
+    "clase": "Premisa SierraCol",
+    "base": "60 M COP por mes",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 151070.98159159208,
+    "desfavorable_usd": 132152.06267267233,
+    "favorable_txt": "2.702,70 USD por movilización (Excel)",
+    "desfavorable_txt": "60 M COP por mes",
+    "efecto_usd": 18918.91891891975
+   },
+   {
+    "variable": "Truck Manager",
+    "clase": "Premisa SierraCol",
+    "base": "60 M COP por mes",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -453877.3373273276,
+    "desfavorable_usd": -472796.25624624686,
+    "favorable_txt": "2.702,70 USD por movilización (Excel)",
+    "desfavorable_txt": "60 M COP por mes",
+    "efecto_usd": 18918.918918919284
+   },
+   {
+    "variable": "Truck Manager",
+    "clase": "Premisa SierraCol",
+    "base": "60 M COP por mes",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 509438.26861861907,
+    "desfavorable_usd": 490519.3496996984,
+    "favorable_txt": "2.702,70 USD por movilización (Excel)",
+    "desfavorable_txt": "60 M COP por mes",
+    "efecto_usd": 18918.91891892068
+   },
+   {
+    "variable": "Adicionales: ¿se cancelan entre modelos?",
+    "clase": "Premisa SierraCol",
+    "base": "0 % / 0 %",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": 44005.531659160275,
+    "favorable_txt": "se cancelan",
+    "desfavorable_txt": "+5 % solo en tercerizado",
+    "efecto_usd": 88146.53101351205
+   },
+   {
+    "variable": "Adicionales: ¿se cancelan entre modelos?",
+    "clase": "Premisa SierraCol",
+    "base": "0 % / 0 %",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -591190.2032057061,
+    "favorable_txt": "se cancelan",
+    "desfavorable_txt": "+5 % solo en tercerizado",
+    "efecto_usd": 118393.94695945922
+   },
+   {
+    "variable": "Adicionales: ¿se cancelan entre modelos?",
+    "clase": "Premisa SierraCol",
+    "base": "0 % / 0 %",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 405957.79469969915,
+    "favorable_txt": "se cancelan",
+    "desfavorable_txt": "+5 % solo en tercerizado",
+    "efecto_usd": 84561.55499999924
+   },
+   {
+    "variable": "Recargo de señalizadoras al WO",
+    "clase": "Premisa SierraCol",
+    "base": "se carga",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": 109854.76537537389,
+    "favorable_txt": "se carga",
+    "desfavorable_txt": "no se carga",
+    "efecto_usd": 22297.297297298443
+   },
+   {
+    "variable": "Recargo de señalizadoras al WO",
+    "clase": "Premisa SierraCol",
+    "base": "se carga",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -495093.5535435453,
+    "favorable_txt": "se carga",
+    "desfavorable_txt": "no se carga",
+    "efecto_usd": 22297.297297298443
+   },
+   {
+    "variable": "Recargo de señalizadoras al WO",
+    "clase": "Premisa SierraCol",
+    "base": "se carga",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 468222.05240239995,
+    "favorable_txt": "se carga",
+    "desfavorable_txt": "no se carga",
+    "efecto_usd": 22297.297297298443
+   },
+   {
+    "variable": "Cargo fijo de Petro Star con 5 movs/mes",
+    "clase": "Medido (la cotización dice mínimo 5, pero la tabla p. 4 cobra con 5)",
+    "base": "se cobra (p. 4)",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 418819.829429429,
+    "desfavorable_usd": 132152.06267267233,
+    "favorable_txt": "no se cobra",
+    "desfavorable_txt": "se cobra",
+    "efecto_usd": 286667.7667567567
+   },
+   {
+    "variable": "Cargo fijo de Petro Star con 5 movs/mes",
+    "clase": "Medido (la cotización dice mínimo 5, pero la tabla p. 4 cobra con 5)",
+    "base": "se cobra (p. 4)",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -186128.48948949017,
+    "desfavorable_usd": -472796.25624624686,
+    "favorable_txt": "no se cobra",
+    "desfavorable_txt": "se cobra",
+    "efecto_usd": 286667.7667567567
+   },
+   {
+    "variable": "Cargo fijo de Petro Star con 5 movs/mes",
+    "clase": "Medido (la cotización dice mínimo 5, pero la tabla p. 4 cobra con 5)",
+    "base": "se cobra (p. 4)",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 490519.3496996984,
+    "favorable_txt": "no se cobra",
+    "desfavorable_txt": "se cobra",
+    "efecto_usd": 0.0
+   },
+   {
+    "variable": "Ecotransur 6ª+ en misma localización",
+    "clase": "Supuesto",
+    "base": "equipos 0–5 km",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267233,
+    "desfavorable_usd": 132152.06267267233,
+    "favorable_txt": "equipos 0–5 km",
+    "desfavorable_txt": "tarifa plena",
+    "efecto_usd": 0.0
+   },
+   {
+    "variable": "Ecotransur 6ª+ en misma localización",
+    "clase": "Supuesto",
+    "base": "equipos 0–5 km",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.25624624686,
+    "desfavorable_usd": -472796.25624624686,
+    "favorable_txt": "equipos 0–5 km",
+    "desfavorable_txt": "tarifa plena",
+    "efecto_usd": 0.0
+   },
+   {
+    "variable": "Ecotransur 6ª+ en misma localización",
+    "clase": "Supuesto",
+    "base": "equipos 0–5 km",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 490519.3496996984,
+    "favorable_txt": "equipos 0–5 km",
+    "desfavorable_txt": "tarifa plena",
+    "efecto_usd": 0.0
+   },
+   {
+    "variable": "Orden de los pozos dentro del mes",
+    "clase": "Supuesto",
+    "base": "intercalado",
+    "oferta": "PS",
+    "base_usd": 132152.06267267233,
+    "favorable_usd": 132152.06267267326,
+    "desfavorable_usd": 132152.0626726728,
+    "favorable_txt": "otra loc. primero",
+    "desfavorable_txt": "misma loc. primero",
+    "efecto_usd": 4.656612873077393e-10
+   },
+   {
+    "variable": "Orden de los pozos dentro del mes",
+    "clase": "Supuesto",
+    "base": "intercalado",
+    "oferta": "LS",
+    "base_usd": -472796.25624624686,
+    "favorable_usd": -472796.2562462464,
+    "desfavorable_usd": -472796.25624624686,
+    "favorable_txt": "otra loc. primero",
+    "desfavorable_txt": "misma loc. primero",
+    "efecto_usd": 4.656612873077393e-10
+   },
+   {
+    "variable": "Orden de los pozos dentro del mes",
+    "clase": "Supuesto",
+    "base": "intercalado",
+    "oferta": "EC",
+    "base_usd": 490519.3496996984,
+    "favorable_usd": 490519.3496996984,
+    "desfavorable_usd": 490519.3496996984,
+    "favorable_txt": "misma loc. primero",
+    "desfavorable_txt": "otra loc. primero",
+    "efecto_usd": 0.0
+   }
+  ]
+ },
+ "6": {
+  "base": {
+   "PS": 521560.55267267255,
+   "LS": -210864.81138138194,
+   "EC": 584485.568618618
+  },
+  "rows": [
+   {
+    "variable": "Frecuencia mensual",
+    "clase": "Premisa (5–6)",
+    "base": "6/mes",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 132152.06267267233,
+    "favorable_txt": "6/mes",
+    "desfavorable_txt": "5/mes",
+    "efecto_usd": 389408.4900000002
+   },
+   {
+    "variable": "Frecuencia mensual",
+    "clase": "Premisa (5–6)",
+    "base": "6/mes",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -472796.25624624686,
+    "favorable_txt": "6/mes",
+    "desfavorable_txt": "5/mes",
+    "efecto_usd": 261931.44486486493
+   },
+   {
+    "variable": "Frecuencia mensual",
+    "clase": "Premisa (5–6)",
+    "base": "6/mes",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 490519.3496996984,
+    "favorable_txt": "6/mes",
+    "desfavorable_txt": "5/mes",
+    "efecto_usd": 93966.21891891956
+   },
+   {
+    "variable": "Horas de taladro por movilización",
+    "clase": "Dato Excel vs cotización",
+    "base": "Excel 12/18/24/28",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 346840.552672673,
+    "favorable_txt": "Excel 12/18/24/28",
+    "desfavorable_txt": "Petro Star 12/24/36/36",
+    "efecto_usd": 174719.99999999953
+   },
+   {
+    "variable": "Horas de taladro por movilización",
+    "clase": "Dato Excel vs cotización",
+    "base": "Excel 12/18/24/28",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -385584.8113813824,
+    "favorable_txt": "Excel 12/18/24/28",
+    "desfavorable_txt": "Petro Star 12/24/36/36",
+    "efecto_usd": 174720.00000000047
+   },
+   {
+    "variable": "Horas de taladro por movilización",
+    "clase": "Dato Excel vs cotización",
+    "base": "Excel 12/18/24/28",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 409765.5686186175,
+    "favorable_txt": "Excel 12/18/24/28",
+    "desfavorable_txt": "Petro Star 12/24/36/36",
+    "efecto_usd": 174720.00000000047
+   },
+   {
+    "variable": "Sobretiempo en cada movilización (solo taladro)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 271949.5391591587,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+3,5 h",
+    "efecto_usd": 249611.01351351384
+   },
+   {
+    "variable": "Sobretiempo en cada movilización (solo taladro)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -460475.8248948972,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+3,5 h",
+    "efecto_usd": 249611.01351351524
+   },
+   {
+    "variable": "Sobretiempo en cada movilización (solo taladro)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 334874.5551051046,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+3,5 h",
+    "efecto_usd": 249611.01351351338
+   },
+   {
+    "variable": "Horas por encima del tiempo estipulado (taladro + equipos)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 149919.2013213206,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+2 h sobre 12/24/36/36",
+    "efecto_usd": 371641.35135135194
+   },
+   {
+    "variable": "Horas por encima del tiempo estipulado (taladro + equipos)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -582506.162732732,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+2 h sobre 12/24/36/36",
+    "efecto_usd": 371641.3513513501
+   },
+   {
+    "variable": "Horas por encima del tiempo estipulado (taladro + equipos)",
+    "clase": "Medido (logs)",
+    "base": "0 h",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 212844.21726726647,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "+2 h sobre 12/24/36/36",
+    "efecto_usd": 371641.3513513515
+   },
+   {
+    "variable": "Bloqueo social/escolar durante movilizaciones (h por campaña)",
+    "clase": "Medido (OpenWells 2025)",
+    "base": "17,3 h",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 570243.8867567568,
+    "desfavorable_usd": 472877.21858858876,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "34,6 h (el doble)",
+    "efecto_usd": 97366.66816816805
+   },
+   {
+    "variable": "Bloqueo social/escolar durante movilizaciones (h por campaña)",
+    "clase": "Medido (OpenWells 2025)",
+    "base": "17,3 h",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -162181.47729729768,
+    "desfavorable_usd": -259548.14546546573,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "34,6 h (el doble)",
+    "efecto_usd": 97366.66816816805
+   },
+   {
+    "variable": "Bloqueo social/escolar durante movilizaciones (h por campaña)",
+    "clase": "Medido (OpenWells 2025)",
+    "base": "17,3 h",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 633168.9027027022,
+    "desfavorable_usd": 535802.2345345342,
+    "favorable_txt": "0 h",
+    "desfavorable_txt": "34,6 h (el doble)",
+    "efecto_usd": 97366.66816816805
+   },
+   {
+    "variable": "Meses bloqueados (contrato vigente)",
+    "clase": "Riesgo operativo",
+    "base": "0",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 344592.98510510474,
+    "favorable_txt": "0",
+    "desfavorable_txt": "1 mes",
+    "efecto_usd": 176967.5675675678
+   },
+   {
+    "variable": "Meses bloqueados (contrato vigente)",
+    "clase": "Riesgo operativo",
+    "base": "0",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -387832.3789489493,
+    "favorable_txt": "0",
+    "desfavorable_txt": "1 mes",
+    "efecto_usd": 176967.56756756734
+   },
+   {
+    "variable": "Meses bloqueados (contrato vigente)",
+    "clase": "Riesgo operativo",
+    "base": "0",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 341951.82942942856,
+    "favorable_txt": "0",
+    "desfavorable_txt": "1 mes",
+    "efecto_usd": 242533.7391891894
+   },
+   {
+    "variable": "Tarifa WO en movilizaciones lentas (bajo el tope)",
+    "clase": "Premisa SierraCol (tope)",
+    "base": "tope",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 366166.05267267115,
+    "favorable_txt": "tope",
+    "desfavorable_txt": "−5 % al WO",
+    "efecto_usd": 155394.5000000014
+   },
+   {
+    "variable": "Tarifa WO en movilizaciones lentas (bajo el tope)",
+    "clase": "Premisa SierraCol (tope)",
+    "base": "tope",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -366259.31138138333,
+    "favorable_txt": "tope",
+    "desfavorable_txt": "−5 % al WO",
+    "efecto_usd": 155394.5000000014
+   },
+   {
+    "variable": "Tarifa WO en movilizaciones lentas (bajo el tope)",
+    "clase": "Premisa SierraCol (tope)",
+    "base": "tope",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 429091.06861861655,
+    "favorable_txt": "tope",
+    "desfavorable_txt": "−5 % al WO",
+    "efecto_usd": 155394.5000000014
+   },
+   {
+    "variable": "NPT de perforación (baja la frecuencia)",
+    "clase": "Sin dato: barrido",
+    "base": "0 %",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": -10228.842732733116,
+    "favorable_txt": "0 %",
+    "desfavorable_txt": "20 %",
+    "efecto_usd": 531789.3954054057
+   },
+   {
+    "variable": "NPT de perforación (baja la frecuencia)",
+    "clase": "Sin dato: barrido",
+    "base": "0 %",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -615177.1616516523,
+    "favorable_txt": "0 %",
+    "desfavorable_txt": "20 %",
+    "efecto_usd": 404312.35027027037
+   },
+   {
+    "variable": "NPT de perforación (baja la frecuencia)",
+    "clase": "Sin dato: barrido",
+    "base": "0 %",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 247985.610510509,
+    "favorable_txt": "0 %",
+    "desfavorable_txt": "20 %",
+    "efecto_usd": 336499.95810810896
+   },
+   {
+    "variable": "Tarifa del taladro",
+    "clase": "Medido",
+    "base": "34.944 USD/día",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 602704.2415615618,
+    "desfavorable_usd": 440416.86378378514,
+    "favorable_txt": "−10 %",
+    "desfavorable_txt": "+10 %",
+    "efecto_usd": 162287.37777777668
+   },
+   {
+    "variable": "Tarifa del taladro",
+    "clase": "Medido",
+    "base": "34.944 USD/día",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -129721.12249249127,
+    "desfavorable_usd": -292008.50027027074,
+    "favorable_txt": "−10 %",
+    "desfavorable_txt": "+10 %",
+    "efecto_usd": 162287.37777777947
+   },
+   {
+    "variable": "Tarifa del taladro",
+    "clase": "Medido",
+    "base": "34.944 USD/día",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 665629.2575075091,
+    "desfavorable_usd": 503341.879729731,
+    "favorable_txt": "−10 %",
+    "desfavorable_txt": "+10 %",
+    "efecto_usd": 162287.37777777808
+   },
+   {
+    "variable": "Truck Manager",
+    "clase": "Premisa SierraCol",
+    "base": "60 M COP por mes",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 524263.2553753755,
+    "desfavorable_usd": 521560.55267267255,
+    "favorable_txt": "2.702,70 USD por movilización (Excel)",
+    "desfavorable_txt": "60 M COP por mes",
+    "efecto_usd": 2702.7027027029544
+   },
+   {
+    "variable": "Truck Manager",
+    "clase": "Premisa SierraCol",
+    "base": "60 M COP por mes",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -208162.10867867898,
+    "desfavorable_usd": -210864.81138138194,
+    "favorable_txt": "2.702,70 USD por movilización (Excel)",
+    "desfavorable_txt": "60 M COP por mes",
+    "efecto_usd": 2702.7027027029544
+   },
+   {
+    "variable": "Truck Manager",
+    "clase": "Premisa SierraCol",
+    "base": "60 M COP por mes",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 587188.2713213223,
+    "desfavorable_usd": 584485.568618618,
+    "favorable_txt": "2.702,70 USD por movilización (Excel)",
+    "desfavorable_txt": "60 M COP por mes",
+    "efecto_usd": 2702.7027027043514
+   },
+   {
+    "variable": "Adicionales: ¿se cancelan entre modelos?",
+    "clase": "Premisa SierraCol",
+    "base": "0 % / 0 %",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 439787.8739159168,
+    "favorable_txt": "se cancelan",
+    "desfavorable_txt": "+5 % solo en tercerizado",
+    "efecto_usd": 81772.67875675578
+   },
+   {
+    "variable": "Adicionales: ¿se cancelan entre modelos?",
+    "clase": "Premisa SierraCol",
+    "base": "0 % / 0 %",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -329258.75834084116,
+    "favorable_txt": "se cancelan",
+    "desfavorable_txt": "+5 % solo en tercerizado",
+    "efecto_usd": 118393.94695945922
+   },
+   {
+    "variable": "Adicionales: ¿se cancelan entre modelos?",
+    "clase": "Premisa SierraCol",
+    "base": "0 % / 0 %",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 503811.5137537536,
+    "favorable_txt": "se cancelan",
+    "desfavorable_txt": "+5 % solo en tercerizado",
+    "efecto_usd": 80674.05486486433
+   },
+   {
+    "variable": "Recargo de señalizadoras al WO",
+    "clase": "Premisa SierraCol",
+    "base": "se carga",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 499263.2553753741,
+    "favorable_txt": "se carga",
+    "desfavorable_txt": "no se carga",
+    "efecto_usd": 22297.297297298443
+   },
+   {
+    "variable": "Recargo de señalizadoras al WO",
+    "clase": "Premisa SierraCol",
+    "base": "se carga",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -233162.10867868038,
+    "favorable_txt": "se carga",
+    "desfavorable_txt": "no se carga",
+    "efecto_usd": 22297.297297298443
+   },
+   {
+    "variable": "Recargo de señalizadoras al WO",
+    "clase": "Premisa SierraCol",
+    "base": "se carga",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 562188.2713213195,
+    "favorable_txt": "se carga",
+    "desfavorable_txt": "no se carga",
+    "efecto_usd": 22297.297297298443
+   },
+   {
+    "variable": "Cargo fijo de Petro Star con 5 movs/mes",
+    "clase": "Medido (la cotización dice mínimo 5, pero la tabla p. 4 cobra con 5)",
+    "base": "se cobra (p. 4)",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 562513.0907807807,
+    "desfavorable_usd": 521560.55267267255,
+    "favorable_txt": "no se cobra",
+    "desfavorable_txt": "se cobra",
+    "efecto_usd": 40952.5381081081
+   },
+   {
+    "variable": "Cargo fijo de Petro Star con 5 movs/mes",
+    "clase": "Medido (la cotización dice mínimo 5, pero la tabla p. 4 cobra con 5)",
+    "base": "se cobra (p. 4)",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -169912.27327327384,
+    "desfavorable_usd": -210864.81138138194,
+    "favorable_txt": "no se cobra",
+    "desfavorable_txt": "se cobra",
+    "efecto_usd": 40952.5381081081
+   },
+   {
+    "variable": "Cargo fijo de Petro Star con 5 movs/mes",
+    "clase": "Medido (la cotización dice mínimo 5, pero la tabla p. 4 cobra con 5)",
+    "base": "se cobra (p. 4)",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 584485.568618618,
+    "favorable_txt": "no se cobra",
+    "desfavorable_txt": "se cobra",
+    "efecto_usd": 0.0
+   },
+   {
+    "variable": "Ecotransur 6ª+ en misma localización",
+    "clase": "Supuesto",
+    "base": "equipos 0–5 km",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 521560.55267267255,
+    "desfavorable_usd": 521560.55267267255,
+    "favorable_txt": "equipos 0–5 km",
+    "desfavorable_txt": "tarifa plena",
+    "efecto_usd": 0.0
+   },
+   {
+    "variable": "Ecotransur 6ª+ en misma localización",
+    "clase": "Supuesto",
+    "base": "equipos 0–5 km",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138194,
+    "desfavorable_usd": -210864.81138138194,
+    "favorable_txt": "equipos 0–5 km",
+    "desfavorable_txt": "tarifa plena",
+    "efecto_usd": 0.0
+   },
+   {
+    "variable": "Ecotransur 6ª+ en misma localización",
+    "clase": "Supuesto",
+    "base": "equipos 0–5 km",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 584485.568618618,
+    "desfavorable_usd": 575267.7296996987,
+    "favorable_txt": "equipos 0–5 km",
+    "desfavorable_txt": "tarifa plena",
+    "efecto_usd": 9217.83891891921
+   },
+   {
+    "variable": "Orden de los pozos dentro del mes",
+    "clase": "Supuesto",
+    "base": "intercalado",
+    "oferta": "PS",
+    "base_usd": 521560.55267267255,
+    "favorable_usd": 543308.564294294,
+    "desfavorable_usd": 488938.5352402404,
+    "favorable_txt": "misma loc. primero",
+    "desfavorable_txt": "otra loc. primero",
+    "efecto_usd": 54370.02905405359
+   },
+   {
+    "variable": "Orden de los pozos dentro del mes",
+    "clase": "Supuesto",
+    "base": "intercalado",
+    "oferta": "LS",
+    "base_usd": -210864.81138138194,
+    "favorable_usd": -210864.81138138147,
+    "desfavorable_usd": -210864.81138138194,
+    "favorable_txt": "otra loc. primero",
+    "desfavorable_txt": "misma loc. primero",
+    "efecto_usd": 4.656612873077393e-10
+   },
+   {
+    "variable": "Orden de los pozos dentro del mes",
+    "clase": "Supuesto",
+    "base": "intercalado",
+    "oferta": "EC",
+    "base_usd": 584485.568618618,
+    "favorable_usd": 620955.8388888882,
+    "desfavorable_usd": 529780.163213212,
+    "favorable_txt": "misma loc. primero",
+    "desfavorable_txt": "otra loc. primero",
+    "efecto_usd": 91175.6756756762
+   }
+  ]
+ },
+ "frecuencias": [
+  [
+   4,
+   -135092.51921921968,
+   -740040.8381381389,
+   5451.871321318671,
+   -309812.5192192192,
+   -914760.8381381393,
+   -169268.1286786818
+  ],
+  [
+   4.5,
+   -2580.4416516521014,
+   -607528.7605705713,
+   247985.61051050853,
+   -177300.44165165164,
+   -782248.7605705718,
+   73265.61051050806
+  ],
+  [
+   5,
+   132152.06267267233,
+   -472796.25624624686,
+   490519.3496996984,
+   -42567.93732732721,
+   -647516.2562462473,
+   315799.3496996979
+  ],
+  [
+   5.5,
+   279484.05415915884,
+   -404125.2930030036,
+   405025.86456456315,
+   104764.05415915884,
+   -578845.293003004,
+   230305.86456456315
+  ],
+  [
+   6,
+   521560.55267267255,
+   -210864.81138138194,
+   584485.568618618,
+   346840.552672673,
+   -385584.8113813824,
+   409765.5686186175
+  ],
+  [
+   6.5,
+   541571.4963213219,
+   -239669.8846246251,
+   521411.53348348243,
+   366851.49632132193,
+   -414389.88462462556,
+   346691.53348348243
+  ],
+  [
+   7,
+   695332.3463213216,
+   -153696.0570570575,
+   660216.6524024019,
+   520612.34632132156,
+   -328416.057057058,
+   485496.65240240144
+  ],
+  [
+   8,
+   696138.7634834838,
+   -223453.66840840876,
+   633612.8875375371,
+   521418.7634834843,
+   -398173.6684084092,
+   458892.8875375362
+  ]
+ ],
+ "quiebres": [
+  [
+   5,
+   "Petro Star normal",
+   132152.06267267233,
+   3775.7732192192093,
+   0.0062929553653653485,
+   2.5932508373758307,
+   1.3421811476083543,
+   3.781824137839753,
+   0.7467586546456636,
+   46.976340166292395
+  ],
+  [
+   5,
+   "Ecotransur",
+   490519.3496996984,
+   14014.838562848525,
+   0.02335806427141421,
+   9.625575936022338,
+   4.9818807999596055,
+   14.037298240032577,
+   2.0224788161001683,
+   174.36582799858618
+  ],
+  [
+   6,
+   "Petro Star normal",
+   521560.55267267255,
+   14901.730076362073,
+   0.02483621679393679,
+   10.234704722776149,
+   5.2971457802165185,
+   14.92561105404855,
+   2.9472098183953213,
+   185.40010230757812
+  ],
+  [
+   6,
+   "Ecotransur",
+   584485.568618618,
+   16699.587674817656,
+   0.027832646124696093,
+   11.46949702940773,
+   5.936233573532269,
+   16.72634983455294,
+   2.409914474466945,
+   207.7681750736294
+  ]
+ ],
+ "reales": {
+  "2024": {
+   "excel": {
+    "PS": 1045536.867162168,
+    "LS": -1063638.4694594583,
+    "EC": 906138.4675675696
+   },
+   "reales_sin_equipos": {
+    "PS": 1225935.2671621684,
+    "LS": -883240.069459457,
+    "EC": 1086536.867567569
+   },
+   "reales_con_equipos": {
+    "PS": 1136023.273918924,
+    "LS": -973152.0627026977,
+    "EC": 996624.8743243264
+   },
+   "movs_exceden": 10,
+   "horas_excedidas": 66.25,
+   "equipos_usd": 89911.99324324324,
+   "taladro_usd": 96460.0
+  },
+  "2025": {
+   "excel": {
+    "PS": 160847.4600000009,
+    "LS": -1217009.9548648614,
+    "EC": 152514.3391891881
+   },
+   "reales_sin_equipos": {
+    "PS": 56743.460000001825,
+    "LS": -1321113.9548648614,
+    "EC": 48410.339189188555
+   },
+   "reales_con_equipos": {
+    "PS": -70829.78324324172,
+    "LS": -1448687.198108104,
+    "EC": -79162.90405405313
+   },
+   "movs_exceden": 15,
+   "horas_excedidas": 94.0,
+   "equipos_usd": 127573.24324324324,
+   "taladro_usd": 136864.0
+  }
+ },
+ "pendientes": [
+  {
+   "frec": 5,
+   "base": {
+    "PS": 132152.06267267233,
+    "LS": -472796.25624624686,
+    "EC": 490519.3496996984
+   },
+   "horas_ps": {
+    "PS": -174719.99999999953,
+    "LS": -174720.00000000047,
+    "EC": -174720.00000000047
+   },
+   "LS_pdf": {
+    "PS": 0.0,
+    "LS": 441153.14054054255,
+    "EC": 0.0
+   },
+   "fijo5": {
+    "PS": 286667.7667567567,
+    "LS": 286667.7667567567,
+    "EC": 0.0
+   },
+   "ec_misma": {
+    "PS": 0.0,
+    "LS": 0.0,
+    "EC": 0.0
+   },
+   "tm_pormov": {
+    "PS": 18918.91891891975,
+    "LS": 18918.918918919284,
+    "EC": 18918.91891892068
+   },
+   "adic5": {
+    "PS": -88146.53101351205,
+    "LS": -118393.94695945922,
+    "EC": -84561.55499999924
+   },
+   "senal_no": {
+    "PS": -22297.297297298443,
+    "LS": -22297.297297298443,
+    "EC": -22297.297297298443
+   },
+   "bloqueo": {
+    "PS": -176967.56756756734,
+    "LS": -176967.56756756734,
+    "EC": -242533.7391891894
+   },
+   "bono5": {
+    "PS": 155394.49999999907,
+    "LS": 155394.49999999907,
+    "EC": 155394.49999999907
+   },
+   "npt20": {
+    "PS": -267244.581891892,
+    "LS": -267244.581891892,
+    "EC": -485067.4783783797
+   },
+   "LS_desc": {
+    "PS": 0.0,
+    "LS": 0.0,
+    "EC": 0.0
+   }
+  },
+  {
+   "frec": 6,
+   "base": {
+    "PS": 521560.55267267255,
+    "LS": -210864.81138138194,
+    "EC": 584485.568618618
+   },
+   "horas_ps": {
+    "PS": -174719.99999999953,
+    "LS": -174720.00000000047,
+    "EC": -174720.00000000047
+   },
+   "LS_pdf": {
+    "PS": 0.0,
+    "LS": 441153.14054054255,
+    "EC": 0.0
+   },
+   "fijo5": {
+    "PS": 40952.5381081081,
+    "LS": 40952.5381081081,
+    "EC": 0.0
+   },
+   "ec_misma": {
+    "PS": 0.0,
+    "LS": 0.0,
+    "EC": -9217.83891891921
+   },
+   "tm_pormov": {
+    "PS": 2702.7027027029544,
+    "LS": 2702.7027027029544,
+    "EC": 2702.7027027043514
+   },
+   "adic5": {
+    "PS": -81772.67875675578,
+    "LS": -118393.94695945922,
+    "EC": -80674.05486486433
+   },
+   "senal_no": {
+    "PS": -22297.297297298443,
+    "LS": -22297.297297298443,
+    "EC": -22297.297297298443
+   },
+   "bloqueo": {
+    "PS": -176967.5675675678,
+    "LS": -176967.56756756734,
+    "EC": -242533.7391891894
+   },
+   "bono5": {
+    "PS": 155394.49999999907,
+    "LS": 155394.49999999907,
+    "EC": 155394.49999999907
+   },
+   "npt20": {
+    "PS": -531789.3954054057,
+    "LS": -404312.35027027037,
+    "EC": -336499.95810810896
+   },
+   "LS_desc": {
+    "PS": 0.0,
+    "LS": 171565.11351351393,
+    "EC": 0.0
+   }
+  }
+ ],
+ "mes_bloqueado_usd": {
+  "PS": 176967.56756756757,
+  "EC": 242533.7391891892
+ },
+ "horas_bloqueo": 17.305555555555557,
+ "hora_exceso_usd": {
+  "transportador": 1357.162162162162,
+  "taladro": 1456.0,
+  "total": 2813.162162162162
+ }
+}

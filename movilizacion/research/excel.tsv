@@ -1,0 +1,27 @@
+categoria	repo	url	lenguaje	estrellas	ultima_actividad	licencia	que_hace	como_ayuda	prioridad	nota
+Excel	jmcnamara/XlsxWriter	https://github.com/jmcnamara/XlsxWriter	Python	~4.0k	2025-09-16 (PyPI 3.2.9)	BSD-2-Clause	Crea .xlsx con fórmulas, nombres, validación, formato condicional, gráficos nativos, tablas, protección	Genera el libro desde cero: supuestos con listas, cálculos A vs B con fórmulas vivas, tornado/cascada, semáforos	Alta	
+Excel	openpyxl	https://foss.heptapod.net/openpyxl/openpyxl	Python	n/d	2024-06-28 (PyPI 3.1.5)	MIT	Lee/escribe xlsx con fórmulas, nombres, validación, gráficos; edita libros existentes	Releer y verificar el libro generado; editarlo después; base de recalc.py	Alta	No está en GitHub; confirmado en PyPI
+Excel	vinci1it2000/formulas	https://github.com/vinci1it2000/formulas	Python	~501	2026-03-11 (PyPI 1.3.4)	EUPL-1.1+	Interpreta fórmulas Excel y ejecuta libros completos sin Excel	Recalcular el modelo en Linux y correr escenarios cambiando entradas	Alta	
+Excel	anthropics/skills (xlsx/recalc.py)	https://github.com/anthropics/skills/tree/main/skills/xlsx	Python	~181k (repo)	no visible	Source-available	Recalcula con LibreOffice headless y reporta en JSON los errores de fórmula	QA automático: valores en caché y cero errores antes de entregar	Alta	
+Excel	anthropics/financial-services	https://github.com/anthropics/financial-services	Markdown/YAML/Python	~39.4k	no visible	Apache-2.0	Skills financieras: audit-xls, xlsx-author, DCF/3 estados	Checklist de auditoría y convenciones (insumos vs cálculos, sin valores fijos)	Alta	
+Excel	scanny/python-pptx	https://github.com/scanny/python-pptx	Python	~3.6k	2024-08-07 (PyPI 1.0.2)	MIT	Crea PowerPoint con gráficos nativos, tablas, texto	Presentación con gráficos editables alimentados por el modelo	Alta	También en PowerPoint
+Excel	dgorissen/pycel	https://github.com/dgorissen/pycel	Python	~632	2021-10-13 (PyPI 1.0b30)	GPL-3.0	Compila hojas de Excel a Python; grafo de dependencias	Alternativa a formulas; auditoría por grafo	Media	
+Excel	stephenrauch/pycel	https://github.com/stephenrauch/pycel	Python	~31	2021-10-13	GPL-3.0	Fork activo de pycel publicado en PyPI	Igual que pycel	Baja	
+Excel	bradbase/xlcalculator	https://github.com/bradbase/xlcalculator	Python	~163	2023-02-06 (PyPI 0.5.0)	MIT	Traduce y evalúa fórmulas Excel; nombres definidos	Verificador ligero para pruebas unitarias del modelo	Media	
+Excel	anthill/koala	https://github.com/anthill/koala	Python	~159	2019-06-19	GPL-3.0	Convierte cálculos de Excel a Python	Solo referencia; desactualizado	Baja	
+Excel	xlwings/xlwings	https://github.com/xlwings/xlwings	Python	~3.4k	2026-09-27 (PyPI 0.37.5)	BSD (PRO aparte)	Puente Python-Excel; requiere Excel instalado	Útil en Windows con Excel; poco en Linux	Baja	
+Excel	ironcalc/IronCalc	https://github.com/ironcalc/IronCalc	Rust (+Python)	~4.2k	2026-07-31 (PyPI 0.8.3)	MIT/Apache-2.0	Motor de hojas de cálculo que lee, calcula y escribe xlsx	Tercer motor para validar fórmulas	Media	
+Excel	SALib/SALib	https://github.com/SALib/SALib	Python	~1.0k	2026-09-19 (PyPI 1.6.0)	MIT	Sensibilidad global (Sobol, Morris, FAST)	Qué supuestos pesan más en la diferencia A−B	Media	También en Riesgo
+Excel	scottshambaugh/monaco	https://github.com/scottshambaugh/monaco	Python	~157	2026-06-19 (PyPI 0.21.0)	MIT	Monte Carlo para incertidumbre y sensibilidades	P10/P50/P90 de demoras y sobrecostos de B	Media	También en Riesgo
+Excel	nickderobertis/sensitivity	https://github.com/nickderobertis/sensitivity	Python	~15	2022-10-09	MIT	Sensibilidad por combinaciones de entradas	Tablas 2D (distancia × días) para replicar en Excel	Baja	
+Excel	asemic-horizon/stanton	https://github.com/asemic-horizon/stanton	Python	~24	no visible	MIT	Monte Carlo de tres puntos sobre Excel vía xlwings	Idea de diseño mín/probable/máx; requiere Excel	Baja	
+Excel	DeepSpace2/StyleFrame	https://github.com/DeepSpace2/StyleFrame	Python	~386	2023-11-13	MIT	Estilo a DataFrames exportados a Excel	Anexos con formato; no fórmulas vivas	Baja	
+Excel	rhannay/pyproforma	https://github.com/rhannay/pyproforma	Python	~2	2026-09-13	MIT	Modelado financiero en código	Referencia code-first	Baja	
+Excel	xlwings/git-xl	https://github.com/xlwings/git-xl	Python	~608	no visible	MIT	Diff de VBA en libros Excel	Solo si hay macros	Baja	
+Excel	na-ka-na/ExcelCompare	https://github.com/na-ka-na/ExcelCompare	Java	~860	no visible	MIT	Compara celda por celda dos hojas de cálculo	Regresión entre versiones del modelo	Media	
+Excel	unoconv/unoserver	https://github.com/unoconv/unoserver	Python	~939	no visible	MIT	LibreOffice como servidor de conversión UNO	Recalcular/convertir xlsx→pdf	Media	
+Excel	qax-os/excelize	https://github.com/qax-os/excelize	Go	~21.0k	no visible	BSD-3-Clause	xlsx en Go con motor de cálculo	Solo si se usa Go	Baja	
+Excel	jmcnamara/rust_xlsxwriter	https://github.com/jmcnamara/rust_xlsxwriter	Rust	~595	no visible	MIT/Apache-2.0	XlsxWriter en Rust	Referencia	Baja	
+Excel	exceljs/exceljs	https://github.com/exceljs/exceljs	JS/TS	~15.5k	no visible	MIT	xlsx en Node con fórmulas y validación	Alternativa JS	Baja	
+Excel	SheetJS/sheetjs	https://github.com/SheetJS/sheetjs	JavaScript	~36.3k	no visible	Apache-2.0	Leer/generar hojas en JS	Visor web	Baja	Espejo; repo vivo en git.sheetjs.com
+Excel	handsontable/hyperformula	https://github.com/handsontable/hyperformula	TypeScript	~2.8k	no visible	GPLv3/comercial	Motor de fórmulas headless compatible con Excel	Simulador web interactivo	Baja	
