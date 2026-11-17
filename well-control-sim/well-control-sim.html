@@ -140,6 +140,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
           <canvas id="dialDP" aria-label="Manómetro de tubería"></canvas>
           <canvas id="dialCP" aria-label="Manómetro de revestidor"></canvas>
         </div>
+        <div class="note" id="gNote" style="color:var(--warn)"></div>
         <div class="reads">
           <div class="read" id="rGain"><span class="k">Ganancia tanques</span><span class="v"><span id="vGain">0.0</span><small>bbl</small></span></div>
           <div class="read"><span class="k">Flujo entrada</span><span class="v"><span id="vQin">0.0</span><small>bbl/min</small></span></div>
@@ -341,7 +342,7 @@ function load(cfg,rnd){
     depth:c.tvd,zoneTop:c.tvd+c.ahead*(0.7+rnd()*0.6),pfKick:0,rop:0,
     v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,
     str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
-    pc:0,spp:0,bhp:0,shoe:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
+    pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
     hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[]};
   S.pfKick=0.052*c.kickEMW*S.zoneTop;
   for(let i=0;i<40;i++)step(0.5,true);   // precalienta presiones y flujos sin avanzar el ejercicio
@@ -474,6 +475,12 @@ function step(dt,quiet){
   S.qout+=(Math.max(0,toPit)/dt*60-S.qout)*k; S.qin=q;
   S.pc=Pc;S.bhp=bhp;S.shoe=pShoe;S.pf=exposed?S.pfKick:0.052*c.normEMW*S.depth;
   S.spp=Math.max(0,bhp-swab-Ls.hs+fric);
+  // Manómetros: el de tubería está en el standpipe y siempre ve la sarta. El de revestidor está en el manifold de choke:
+  // solo ve el pozo con la HCR abierta y sin los rams inferiores cerrados por debajo de la salida.
+  S.gDp=S.spp;
+  S.gCpOn=S.v.hcr&&!lower;
+  if(S.gCpOn)S.gCp=Pc;
+  else if((S.v.vr&&S.chR>0)||(S.v.vm&&S.chM>0))S.gCp=Math.max(0,S.gCp-200*dt);   // manifold aislado y abierto aguas abajo: se purga
   S.gasVol=0;for(const s of a)if(s.gas)S.gasVol+=s.v;
   S.maxPc=Math.max(S.maxPc,Pc);
   const wdp=2.67*(c.dpOD**2-c.dpID**2),wdc=2.67*(c.dcOD**2-c.dcID**2);
@@ -497,7 +504,7 @@ function step(dt,quiet){
       banner('Pozo controlado en '+tstr(S.t)+'. Ganancia al cierre: '+fmt(S.gainAtShutIn??0,1)+' bbl · presión máxima de revestidor: '+fmt(S.maxPc)+' psi · '+(F.frac?'hubo pérdidas en la zapata.':'la zapata no se fracturó.'),true);
     }
   }
-  if(S.t-S.lastHist>=10){S.lastHist=S.t;S.hist.push([S.t,S.spp,S.pc,S.gain]);if(S.hist.length>4000)S.hist=S.hist.filter((_,i)=>i%2===0)}
+  if(S.t-S.lastHist>=10){S.lastHist=S.t;S.hist.push([S.t,S.gDp,S.gCp,S.gain]);if(S.hist.length>4000)S.hist=S.hist.filter((_,i)=>i%2===0)}
 }
 function act(a){
   if(!a||S.over)return;
@@ -507,7 +514,7 @@ function act(a){
 function recordScr(){
   const spm=S.spm[0]+S.spm[1];
   if(S.sealed||spm<5){log('Para registrar la SCR circule a tasa lenta con el pozo abierto.','warn');return false}
-  S.scr={spm:Math.round(spm),p:Math.round(S.spp/5)*5};log('SCR registrada: '+fmt(S.scr.p)+' psi a '+S.scr.spm+' spm.');return true;
+  S.scr={spm:Math.round(spm),p:Math.round(S.gDp/5)*5};log('SCR registrada: '+fmt(S.scr.p)+' psi a '+S.scr.spm+' spm.');return true;
 }
 // Hoja de matar: todo lo que se calcula a partir de la geometría, la SCR y la SIDPP.
 function sheet(sidpp){
@@ -891,10 +898,11 @@ function ui(){
   if(S.speed===0&&!S.over&&!S.killed)s=[S.t<1?'Listo para iniciar':'En pausa','warn'];
   const st=$('status');st.textContent=s[0];st.className='pill '+s[1];
   const maasp=(c.lot-S.mwIn)*0.052*c.shoe;$('kMaasp').textContent=fmt(maasp)+' psi';
-  if(K){const tg=K.icp+(K.fcp-K.icp)*clamp(S.strokes/K.stb,0,1);$('kNow').textContent=fmt(tg)+' psi ('+(S.spp-tg>=0?'+':'')+fmt(S.spp-tg)+')'}
+  if(K){const tg=K.icp+(K.fcp-K.icp)*clamp(S.strokes/K.stb,0,1);$('kNow').textContent=fmt(tg)+' psi ('+(S.gDp-tg>=0?'+':'')+fmt(S.gDp-tg)+')'}
   const m0=(c.lot-c.mw)*0.052*c.shoe;
-  drawWell();dial($('dialDP'),S.spp,Math.ceil(c.pmax/1000)*1000,'TUBERÍA');
-  dial($('dialCP'),S.pc,Math.max(2000,Math.ceil(m0*1.5/1000)*1000),'REVESTIDOR',m0);drawChart();drawSpace();drawMani();
+  drawWell();dial($('dialDP'),S.gDp,Math.ceil(c.pmax/1000)*1000,'TUBERÍA');
+  dial($('dialCP'),S.gCp,Math.max(2000,Math.ceil(m0*1.5/1000)*1000),'REVESTIDOR',m0);
+  $('gNote').textContent=S.gCpOn?'':S.sealed?'Manómetro de revestidor aislado del pozo: '+(S.v.hcr?'los rams inferiores cierran por debajo de la salida.':'abra la HCR para leer la presión.'):'';drawChart();drawSpace();drawMani();
 }
 
 // ---- Mandos ----
@@ -919,11 +927,26 @@ $('mani').addEventListener('click',e=>act(hitAt(e)));
 $('mani').addEventListener('mousemove',e=>{$('mani').style.cursor=hitAt(e)?'pointer':'default'});
 for(const a of ['ann','upr','bsr','lpr','hcr','vr','vm','p1','p2']){const b=document.createElement('button');b.dataset.a=a;b.id='mb_'+a;b.onclick=()=>act(a);$('maniBtns').append(b)}
 $('ksDp').oninput=ks;$('ksCp').oninput=ks;
-$('ksRead').onclick=()=>{$('ksDp').value=Math.round(S.spp/5)*5;$('ksCp').value=Math.round(S.pc/5)*5;ks()};
+$('ksRead').onclick=()=>{$('ksDp').value=Math.round(S.gDp/5)*5;$('ksCp').value=Math.round(S.gCp/5)*5;ks();
+  if(!S.gCpOn)log('El manómetro de revestidor está aislado del pozo: abra la HCR para leer la SICP.','warn')};
 $('scrBtn').onclick=()=>{WCS.recordScr();drain();ks()};
 PRESETS.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p.name;$('preset').append(o)});
-$('load').onclick=()=>start(PRESETS[+$('preset').value]);
-$('apply').onclick=e=>{e.preventDefault();const n=readForm();try{localStorage.setItem('wcs-cfg',JSON.stringify(n))}catch(_){}start(n);$('cfgMsg').textContent='Datos aplicados. Ejercicio reiniciado.'};
+// Ejercicio personalizado: se guarda en este navegador al aplicar y se vuelve a ofrecer al abrir la página.
+let custom=null;
+function setCustom(n){
+  custom=n;let o=$('preset').querySelector('[value=custom]');
+  if(!o){o=document.createElement('option');o.value='custom';o.textContent='Ejercicio personalizado (guardado en este navegador)';$('preset').append(o)}
+  $('preset').value='custom';
+}
+function loadSaved(){
+  try{const raw=JSON.parse(localStorage.getItem('wcs-cfg'));
+    if(raw&&typeof raw==='object'){const n=WCS.validate({...BASE,...raw});
+      if(Object.values(n).every(v=>typeof v==='string'||Number.isFinite(v))){n.name='Ejercicio personalizado';return n}}
+  }catch(_){}
+  return null;
+}
+$('load').onclick=()=>{const v=$('preset').value;start(v==='custom'&&custom?custom:PRESETS[+v])};
+$('apply').onclick=e=>{e.preventDefault();const n=readForm();try{localStorage.setItem('wcs-cfg',JSON.stringify(n))}catch(_){}setCustom(n);start(n);$('cfgMsg').textContent='Datos aplicados. Ejercicio reiniciado.'};
 $('cfgForm').onsubmit=e=>e.preventDefault();
 $('snapSave').onclick=()=>{snap=WCS.save();snap.S.speed=0;log('Instante guardado.')};
 $('snapLoad').onclick=()=>{if(!snap)return;WCS.restore(snap);S=WCS.S;c=WCS.c;$('banner').hidden=true;sync();ks();log('Se volvió al instante guardado.');ui()};
@@ -936,7 +959,8 @@ function loop(now){
   if(++fr%4===0){colors();ui()}
   requestAnimationFrame(loop);
 }
-colors();start(BASE);
+colors();
+{const sv=loadSaved();if(sv){setCustom(sv);start(sv)}else start(BASE)}
 window.SIM={get S(){return S},get c(){return c},step:WCS.step,act,ks};
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ui());
 requestAnimationFrame(loop);
