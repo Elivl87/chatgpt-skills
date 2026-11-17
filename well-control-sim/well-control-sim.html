@@ -1157,7 +1157,7 @@ function loop(now){
 colors();
 try{setExam(localStorage.getItem('wcs-exam')==='1')}catch(_){}
 {const sv=loadSaved();if(sv){setCustom(sv);start(sv)}else start(BASE)}
-window.SIM={get S(){return S},get c(){return c},get C(){return C},draws,stepFor,step:dt=>{WCS.step(dt);mark()},act,ks};   // avanzar desde fuera también refresca la pantalla
+window.SIM={get S(){return S},get c(){return c},get C(){return C},draws,stepFor,step:dt=>{WCS.step(dt);drain();mark()},act,ks};   // avanzar desde fuera también refresca la pantalla
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{for(const k in memo)delete memo[k];mark()});
 requestAnimationFrame(loop);
 })();
