@@ -428,6 +428,10 @@ function step(dt,quiet){
   const off0=S.off;S.off=clamp(S.off+S.hoist*dt/60,0,93);
   if(S.off===off0&&S.hoist!==0&&(S.off===0||S.off===93))S.hoist=0;
   const vPipe=(S.off-off0)/dt*60;
+  // Mover la sarta mete o saca acero del pozo: al bajar desplaza lodo, al levantar deja un hueco que hay que llenar.
+  const dSteel=(c.dpOD**2-c.dpID**2)/1029.4*(off0-S.off);
+  if(dSteel>0){if(!S.ann[0].gas)S.ann[0].v+=dSteel;else S.ann.unshift({gas:false,rho:S.str[S.str.length-1].rho,v:dSteel})}
+  else if(dSteel<0){let r=-dSteel;for(const g of S.ann){if(g.gas)continue;const x=Math.min(r,Math.max(0,g.v-1e-6));g.v-=x;r-=x;if(r<1e-12)break}}
   S.rop=0;const exposed=S.depth>=S.zoneTop;
   if(S.off<0.01&&S.wob>0&&S.rpm>0&&!sealed&&S.depth<S.zoneTop+40){
     S.rop=Math.min(260,55*(S.wob/25)*Math.pow(S.rpm/100,0.7)*(exposed?2.1:1));
