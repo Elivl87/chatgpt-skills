@@ -307,6 +307,8 @@ function validate(raw){
   return n;
 }
 
+const GAS_PPG_AT_CHOKE=2;   // al pasar por el choke el gas se trata como un fluido de 2 ppg
+const CHOKE_RATE={R:4,M:2.5};   // recorrido de los chokes, % por segundo: remoto 25 s de cerrado a abierto, manual 40 s
 const LAG_S_PER_KFT=2;   // retardo con que un cambio en el choke llega al manómetro de tubería: 2 s por cada 1000 ft de pozo (baja por el anular y sube por la sarta)
 const COMPRESS=3e-6;   // compresibilidad del sistema (lodo + pozo), 1/psi por barril contenido
 const GAS_GRAD=0.1, PIL=0.02, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
@@ -349,7 +351,7 @@ function load(cfg,rnd){
   const E=()=>({t:0,p:0});
   S={t:0,speed:0,spm:[80,0],spmSet:[80,0],strokes:0,mwIn:c.mw,rpm:100,wob:25,hoist:0,off:0,
     depth:c.tvd,zoneTop:c.tvd+c.ahead*(0.7+rnd()*0.6),pfKick:0,rop:0,
-    v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,
+    v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,chRSet:0,chMSet:0,
     str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
     pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,lost:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
     dly:[],hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[]};
@@ -396,6 +398,8 @@ function step(dt,quiet){
   if(sealed&&!S.sealed&&!quiet){if(S.gainAtShutIn==null&&S.gain>0.5)S.gainAtShutIn=S.gain;log('Pozo cerrado. Ganancia en tanques: '+fmt(S.gain,1)+' bbl.','ok')}
   if(!sealed&&S.sealed&&!quiet)log('Pozo abierto.',S.pc>20?'crit':'');
   S.sealed=sealed;
+  // chokes: la posición real sigue a la consigna a la velocidad del actuador
+  S.chR+=clamp(S.chRSet-S.chR,-CHOKE_RATE.R*dt,CHOKE_RATE.R*dt);S.chM+=clamp(S.chMSet-S.chM,-CHOKE_RATE.M*dt,CHOKE_RATE.M*dt);
   // bombas
   let q=0;
   for(let i=0;i<2;i++){
@@ -444,7 +448,7 @@ function step(dt,quiet){
   const a=S.ann, PI=PIs[c.prod];
   let mudVol=0;const gs=[];
   for(const s of a){if(s.gas)gs.push(s);else mudVol+=s.v}
-  const topS=a[a.length-1], rhoTop=topS.gas?2:topS.rho;
+  const topS=a[a.length-1], rhoTop=topS.gas?GAS_PPG_AT_CHOKE:topS.rho;
   const cA=(upper&&!lower&&S.v.hcr)?KC*((S.v.vr?Math.pow(S.chR/100,1.5):0)+(S.v.vm?Math.pow(S.chM/100,1.5):0)):0;
   const f=Pc=>{
     let g=0;for(const s of gs)g+=s.n/(Pc+s.h+14.7);
@@ -549,7 +553,9 @@ function sheet(sidpp){
   return r;
 }
 const save=()=>({S:structuredClone(S),c:{...c}});
-function restore(sn){c={...sn.c};S=structuredClone(sn.S);STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
+// Instantes guardados con una versión anterior pueden no traer los campos nuevos.
+function migrate(){S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[]}
+function restore(sn){c={...sn.c};S=structuredClone(sn.S);migrate();STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
 return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,save,restore,bitDepth,jointNear,clamp,fmt,tstr,
   get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,CW,annSecs,strSecs,lag:LAG_S_PER_KFT*S.depth/1000}}};
 })();
@@ -596,7 +602,7 @@ function start(cfg){
   buildForm();sync();drain();ks();ui();
 }
 function sync(){
-  $('spm1').value=S.spmSet[0];$('spm2').value=S.spmSet[1];$('rpm').value=S.rpm;$('wob').value=S.wob;$('chR').value=S.chR;$('chM').value=S.chM;$('mw').value=S.mwIn.toFixed(1);
+  $('spm1').value=S.spmSet[0];$('spm2').value=S.spmSet[1];$('rpm').value=S.rpm;$('wob').value=S.wob;$('chR').value=S.chRSet;$('chM').value=S.chMSet;$('mw').value=S.mwIn.toFixed(1);
 }
 let logData=[];   // la bitácora como datos, para poder guardarla y restaurarla con el instante
 function logRow(e){
@@ -913,7 +919,7 @@ function ui(){
   setCls($('rOver'),ov<-5?'crit':ov>400?'warn':'ok');
   setCls($('rShoe'),S.shoe>c.frac?'crit':S.shoe>c.frac-150?'warn':'');
   $('spm1V').textContent=S.spmSet[0];$('spm2V').textContent=S.spmSet[1];$('rpmV').textContent=S.rpm;$('wobV').textContent=S.wob;
-  $('chRV').textContent=fmt(S.chR,1);$('chMV').textContent=fmt(S.chM,1);$('offV').textContent=fmt(S.off,1);
+  $('chRV').textContent=fmt(S.chR,1)+(Math.abs(S.chR-S.chRSet)>0.05?' → '+fmt(S.chRSet,1):'');$('chMV').textContent=fmt(S.chM,1)+(Math.abs(S.chM-S.chMSet)>0.05?' → '+fmt(S.chMSet,1):'');$('offV').textContent=fmt(S.off,1);
   $('hUp').className='wide'+(S.hoist>0?' on':'');$('hDn').className='wide'+(S.hoist<0?' on':'');
   for(const b of $('speeds').children)b.className=(+b.dataset.s===S.speed)?'on':'';
   $('snapLoad').disabled=!snap;
@@ -942,9 +948,9 @@ $('hUp').onclick=()=>{S.hoist=+$('hSpd').value};
 $('hDn').onclick=()=>{S.hoist=-$('hSpd').value};
 $('hStop').onclick=()=>{S.hoist=0};
 $('mw').onchange=e=>{const v=clamp(parseFloat(e.target.value)||c.mw,7,20);S.mwIn=v;e.target.value=v.toFixed(1);log('Densidad de bombeo: '+fmt(v,1)+' ppg.')};
-$('chR').oninput=e=>{S.chR=+e.target.value};
-$('chM').oninput=e=>{S.chM=+e.target.value};
-document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{S.chR=clamp(S.chR+ +b.dataset.c,0,100);$('chR').value=S.chR});
+$('chR').oninput=e=>{S.chRSet=+e.target.value};
+$('chM').oninput=e=>{S.chMSet=+e.target.value};
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{S.chRSet=clamp(S.chRSet+ +b.dataset.c,0,100);$('chR').value=S.chRSet});
 $('speeds').onclick=e=>{const s=e.target.dataset.s;if(s==null||S.over)return;S.speed=+s};
 function act(a){WCS.act(a);drain();ui()}
 const hitAt=e=>{const cv=$('mani'),r=cv.getBoundingClientRect(),k=r.width/MW,px=(e.clientX-r.left)/k,py=(e.clientY-r.top)/k;

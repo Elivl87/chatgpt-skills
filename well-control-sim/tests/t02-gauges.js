@@ -12,9 +12,9 @@ module.exports=(W,{run})=>{
   const before=S.gCp;W.act('lpr');run(W,10);
   res.push(['rams inferiores cerrados: manómetro aislado',S.gCpOn===false]);
   res.push(['aislado con choke cerrado: conserva la presión atrapada',Math.abs(S.gCp-before)<30]);
-  S.chR=20;run(W,10);
+  S.chRSet=20;run(W,10);
   res.push(['aislado con choke abierto: se purga a 0 sin purgar el pozo',S.gCp===0&&S.pc>100]);
-  S.chR=0;W.act('lpr');run(W,10);
+  S.chRSet=0;run(W,10);W.act('lpr');run(W,10);
   res.push(['al abrir los rams inferiores vuelve a leer el pozo',S.gCpOn&&Math.abs(S.gCp-S.pc)<1]);
   return res;
 };
