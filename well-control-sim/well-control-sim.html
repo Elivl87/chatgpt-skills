@@ -659,7 +659,7 @@ let S,c,snap=null;
 const FIELDS=[
   ['Fluido',[['mw','Densidad','ppg',.1],['pv','Viscosidad plástica','cP',1],['yp','Punto cedente','lb/100ft²',1]]],
   ['Pozo',[['tvd','Profundidad del hoyo','ft',10],['shoe','Zapata del revestidor','ft',10],['csgID','ID del revestidor','in',.001],['hole','Diámetro del hoyo','in',.125],['lot','Prueba de integridad (LOT)','ppg',.1]]],
-  ['Formación',[['ahead','Zona de influjo a','ft adelante',1],['kickEMW','Presión de poro de la zona','ppg',.1],['normEMW','Presión de poro normal','ppg',.1],['prod','Productividad (1 a 3)','',1],['migr','Migración de gas (0 o 1)','',1]]],
+  ['Formación',[['ahead','Zona de influjo a','ft adelante',1],['kickEMW','Presión de poro de la zona','ppg',.1],['normEMW','Presión de poro normal','ppg',.1],['prod','Productividad de la zona','',{sel:[[1,'Baja'],[2,'Media'],[3,'Alta']]}],['migr','Migración de gas (1 000 ft/h)','',{chk:1}]]],
   ['Sarta',[['dpOD','OD tubería','in',.125],['dpID','ID tubería','in',.001],['dcOD','OD lastrabarrenas','in',.125],['dcID','ID lastrabarrenas','in',.0625],['dcLen','Longitud lastrabarrenas','ft',10],['noz','Boquillas 3×','/32 in',1],['joint','Longitud de cada tubo','ft',1]]],
   ['Bombas (2 iguales)',[['liner','Camisa','in',.25],['stroke','Carrera','in',1],['eff','Eficiencia','%',1],['pmax','Presión máxima','psi',100]]],
   ['BOP: profundidad bajo la mesa',[['bAnn','Anular','ft',1],['bUpr','Rams superiores','ft',1],['bBsr','Ram ciego/corte','ft',1],['bLpr','Rams inferiores','ft',1]]],
@@ -671,15 +671,18 @@ function buildForm(){
     for(const [k,l,u,st] of fs){
       const d=document.createElement('div');d.className='f';
       const lb=document.createElement('label');lb.htmlFor='c_'+k;lb.textContent=l;
-      const sp=document.createElement('span');const i=document.createElement('input');i.type='number';i.id='c_'+k;i.step=st;i.value=c[k];
-      sp.append(i,document.createTextNode(u));d.append(lb,sp);fd.append(d);
+      const sp=document.createElement('span');let i;
+      if(st.sel){i=document.createElement('select');for(const [v,t] of st.sel){const o=document.createElement('option');o.value=v;o.textContent=t;i.append(o)}i.value=c[k]}
+      else if(st.chk){i=document.createElement('input');i.type='checkbox';i.checked=!!c[k]}
+      else{i=document.createElement('input');i.type='number';i.step=st;i.value=c[k]}
+      i.id='c_'+k;sp.append(i,document.createTextNode(u));d.append(lb,sp);fd.append(d);
     }
     f.append(fd);
   }
 }
 function readForm(){
   const n={...c};
-  for(const [,fs] of FIELDS)for(const [k] of fs){const v=parseFloat($('c_'+k).value);if(isFinite(v))n[k]=v}
+  for(const [,fs] of FIELDS)for(const [k,,,st] of fs){const e=$('c_'+k),v=st.chk?(e.checked?1:0):parseFloat(e.value);if(isFinite(v))n[k]=v}
   const out=WCS.validate(n);out.name='Ejercicio personalizado';return out;
 }
 
