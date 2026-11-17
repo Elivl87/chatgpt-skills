@@ -436,22 +436,22 @@ function step(dt,quiet){
     }
     if(e.p<1)delete S.bad[k];
   }
-  const E=S.el, upper=E.ann.p>=1||(E.upr.p>=1&&!S.bad.upr), lower=E.lpr.p>=1&&!S.bad.lpr, sealed=upper||lower;
+  const els=S.el, upper=els.ann.p>=1||(els.upr.p>=1&&!S.bad.upr), lower=els.lpr.p>=1&&!S.bad.lpr, sealed=upper||lower;
   if(sealed&&!S.sealed&&!quiet){if(S.gainAtShutIn==null&&S.gain>0.5){S.gainAtShutIn=S.gain;S.sc.tShut=S.t}log('Pozo cerrado. Ganancia en tanques: '+fmt(S.gain,1)+' bbl.','ok')}
   if(!sealed&&S.sealed&&!quiet)log('Pozo abierto.',S.pc>20?'crit':'');
   S.sealed=sealed;
   // chokes: la posición real sigue a la consigna a la velocidad del actuador
   S.chR+=clamp(S.chRSet-S.chR,-CHOKE_RATE.R*dt,CHOKE_RATE.R*dt);S.chM+=clamp(S.chMSet-S.chM,-CHOKE_RATE.M*dt,CHOKE_RATE.M*dt);
   // bombas
-  let q=0;
+  let qPump=0;
   for(let i=0;i<2;i++){
     S.spm[i]+=clamp(S.spmSet[i]-S.spm[i],-PUMP_RAMP*dt,PUMP_RAMP*dt);
     if(S.spm[i]>0.5&&!S.v[i?'p2':'p1']&&!quiet){S.spmSet[i]=0;S.spm[i]=0;S.sc.relief++;S.ev.push({sync:1});log('Bomba '+(i+1)+' contra válvula cerrada en el standpipe: saltó la válvula de alivio.','crit')}
-    q+=S.spm[i]*STK;S.strokes+=S.spm[i]*dt/60;
+    qPump+=S.spm[i]*STK;S.strokes+=S.spm[i]*dt/60;
   }
-  const dV=q*dt/60;
+  const dVpump=qPump*dt/60;
   // sarta: movimiento y perforación
-  if(E.upr.p>0.5||E.lpr.p>0.5)S.hoist=0;
+  if(els.upr.p>0.5||els.lpr.p>0.5)S.hoist=0;
   const off0=S.off;S.off=clamp(S.off+S.hoist*dt/60,0,MAX_OFF_BOTTOM);
   if(S.off===off0&&S.hoist!==0&&(S.off===0||S.off===MAX_OFF_BOTTOM))S.hoist=0;
   const vPipe=(S.off-off0)/dt*60;
@@ -471,115 +471,115 @@ function step(dt,quiet){
     log('Se alcanzó la profundidad final del ejercicio ('+fmt(S.depth,0)+' ft): la barrena ya no avanza.','warn')}
   if(exposed&&!S.flags.zone&&!quiet){S.flags.zone=1;S.sc.tZone=S.t;if(c.kickEMW>c.normEMW+0.2)log('Quiebre de perforación: la ROP se duplicó.','warn')}
   // circulación
-  if(dV>0){
+  if(dVpump>0){
     const st=S.str;
-    if(Math.abs(st[0].rho-S.mwIn)<0.005)st[0].v+=dV;else st.unshift({rho:S.mwIn,v:dV});
-    let r=dV;
+    if(Math.abs(st[0].rho-S.mwIn)<0.005)st[0].v+=dVpump;else st.unshift({rho:S.mwIn,v:dVpump});
+    let r=dVpump;
     while(r>1e-12&&st.length){const b=st[st.length-1],x=Math.min(r,b.v);b.v-=x;r-=x;
       const a0=S.ann[0];
       if(a0&&!a0.gas&&Math.abs(a0.rho-b.rho)<0.005)a0.v+=x;else S.ann.unshift({gas:false,rho:b.rho,v:x});
       if(b.v<1e-9)st.pop()}
   }
   if(c.migr){
-    const a=S.ann;
-    for(let i=a.length-2;i>=0;i--){
-      if(!a[i].gas||a[i+1].gas)continue;
-      const up=a[i+1],x=Math.min(up.v,VMIG*annCapAt(a[i].top??S.depth)*dt/60);
-      up.v-=x;a.splice(i,0,{gas:false,rho:up.rho,v:x});i++;
+    const ann=S.ann;
+    for(let i=ann.length-2;i>=0;i--){
+      if(!ann[i].gas||ann[i+1].gas)continue;
+      const up=ann[i+1],x=Math.min(up.v,VMIG*annCapAt(ann[i].top??S.depth)*dt/60);
+      up.v-=x;ann.splice(i,0,{gas:false,rho:up.rho,v:x});i++;
     }
-    norm(a);
+    norm(ann);
   }
-  const L=layAnn(), Ls=layStr(), fa=fricAnn(q), fric=fricStr(q,Ls.rho);
-  const swab=-vPipe*SWAB_K*(c.pv/20)*(S.depth/10000), apl=fa.tot+swab;
-  const a=S.ann, PI=PIs[c.prod];
-  let mudVol=0;const gs=[];
-  for(const s of a){if(s.gas)gs.push(s);else mudVol+=s.v}
-  const topS=a[a.length-1], rhoTop=topS.gas?GAS_PPG_AT_CHOKE:topS.rho;
+  const layA=layAnn(), layS=layStr(), fricA=fricAnn(qPump), fric=fricStr(qPump,layS.rho);
+  const swab=-vPipe*SWAB_K*(c.pv/20)*(S.depth/10000), apl=fricA.tot+swab;
+  const ann=S.ann, prodIdx=PIs[c.prod];
+  let mudVol=0;const gasSlugs=[];
+  for(const s of ann){if(s.gas)gasSlugs.push(s);else mudVol+=s.v}
+  const topS=ann[ann.length-1], rhoTop=topS.gas?GAS_PPG_AT_CHOKE:topS.rho;
   const cA=(upper&&!lower&&S.v.hcr)?KC*((S.v.vr?Math.pow(S.chR/100,1.5):0)+(S.v.vm?Math.pow(S.chM/100,1.5):0)):0;
-  const f=Pc=>{
-    let g=0;for(const s of gs)g+=s.n*s.zt/(Pc+s.h+ATM);
-    const inf=exposed?PI*Math.max(0,S.pfKick-(Pc+L.hs+apl))*dt/60:0;
+  const balance=Pc=>{
+    let g=0;for(const s of gasSlugs)g+=s.n*s.zt/(Pc+s.h+ATM);
+    const inf=exposed?prodIdx*Math.max(0,S.pfKick-(Pc+layA.hs+apl))*dt/60:0;
     const qc=cA*Math.sqrt(Math.max(Pc,0)/rhoTop)*dt/60;
-    const loss=PIL*Math.max(0,Pc+L.hsShoe+fa.above-c.frac)*dt/60;
+    const loss=PIL*Math.max(0,Pc+layA.hsShoe+fricA.above-c.frac)*dt/60;
     return mudVol+g+inf-qc-loss-Va-CW*Pc;
   };
   let Pc=0;
-  if(sealed&&f(0)>0){let lo=0,hi=25000;for(let i=0;i<48;i++){const m=(lo+hi)/2;if(f(m)>0)lo=m;else hi=m}Pc=(lo+hi)/2}
-  const bhp=Pc+L.hs+apl;
-  const inf=exposed?PI*Math.max(0,S.pfKick-bhp)*dt/60:0;
-  for(const s of gs)s.v=s.n*s.zt/(Pc+s.h+ATM);
+  if(sealed&&balance(0)>0){let lo=0,hi=25000;for(let i=0;i<48;i++){const m=(lo+hi)/2;if(balance(m)>0)lo=m;else hi=m}Pc=(lo+hi)/2}
+  const bhp=Pc+layA.hs+apl;
+  const inf=exposed?prodIdx*Math.max(0,S.pfKick-bhp)*dt/60:0;
+  for(const s of gasSlugs)s.v=s.n*s.zt/(Pc+s.h+ATM);
   if(inf>0){
     let tgt=null;
-    for(let i=0;i<Math.min(2,a.length);i++)if(a[i].gas&&a[i].bot>=S.depth-INFLUX_MERGE_FT){tgt=a[i];break}
+    for(let i=0;i<Math.min(2,ann.length);i++)if(ann[i].gas&&ann[i].bot>=S.depth-INFLUX_MERGE_FT){tgt=ann[i];break}
     const Tb=tempR(S.depth),ztB=zFactor(bhp+ATM,Tb)*Tb,dn=inf*(bhp+ATM)/ztB;   // cantidad de gas: n = P·V/(Z·T)
-    if(tgt){tgt.n+=dn;tgt.v+=inf}else a.unshift({gas:true,n:dn,v:inf,h:L.hs,zt:ztB,top:S.depth,bot:S.depth});
+    if(tgt){tgt.n+=dn;tgt.v+=inf}else ann.unshift({gas:true,n:dn,v:inf,h:layA.hs,zt:ztB,top:S.depth,bot:S.depth});
   }
   // Influjo adicional: cuenta una vez estabilizado el pozo cerrado, o antes si se está purgando por el choke.
   // El que entra mientras sube la presión de cierre con todo cerrado es inevitable y no se penaliza.
   if(S.sc.tShut!=null){if(!S.sc.stab&&bhp>=S.pfKick-2)S.sc.stab=true;if(S.sc.stab||cA>0)S.sc.inf2+=inf}
-  const pShoe=Pc+L.hsShoe+fa.above;
+  const pShoe=Pc+layA.hsShoe+fricA.above;
   const loss=PIL*Math.max(0,pShoe-c.frac)*dt/60;
-  let tot=0;for(const s of a)tot+=s.v;
+  let tot=0;for(const s of ann)tot+=s.v;
   let out=tot-(Va+CW*Pc), mudOut=0, gasOut=0, lost=0;
   // Las pérdidas salen del anular a la altura de la zapata, no por superficie.
   if(loss>0&&out>0){
-    let r=Math.min(loss,out), i=a.findIndex(s=>s.top<=c.shoe&&s.bot>=c.shoe);if(i<0)i=a.length-1;
-    for(let j=i,dir=1;r>1e-12&&j>=0&&j<a.length;){
-      const s=a[j],x=Math.min(r,s.v);if(s.gas&&s.v>0)s.n*=Math.max(0,(s.v-x)/s.v);s.v-=x;r-=x;lost+=x;
-      if(r>1e-12){j+=dir;if(j>=a.length){dir=-1;j=i-1}}
+    let r=Math.min(loss,out), i=ann.findIndex(s=>s.top<=c.shoe&&s.bot>=c.shoe);if(i<0)i=ann.length-1;
+    for(let j=i,dir=1;r>1e-12&&j>=0&&j<ann.length;){
+      const s=ann[j],x=Math.min(r,s.v);if(s.gas&&s.v>0)s.n*=Math.max(0,(s.v-x)/s.v);s.v-=x;r-=x;lost+=x;
+      if(r>1e-12){j+=dir;if(j>=ann.length){dir=-1;j=i-1}}
     }
     out-=lost;S.lost+=lost;
   }
   if(out>0){
     let r=out;
-    while(r>1e-12&&(a.length>1||a[0].v>r)){
-      const s=a[a.length-1],x=Math.min(r,s.v);
+    while(r>1e-12&&(ann.length>1||ann[0].v>r)){
+      const s=ann[ann.length-1],x=Math.min(r,s.v);
       if(s.gas){s.n*=Math.max(0,(s.v-x)/s.v);gasOut+=x}else mudOut+=x;
-      s.v-=x;r-=x;if(s.v<1e-9)a.pop();
+      s.v-=x;r-=x;if(s.v<1e-9)ann.pop();
     }
   }else if(out<-1e-9&&Pc<=0){
-    const t=a[a.length-1];
-    if(!t.gas)t.v-=out;else a.push({gas:false,rho:c.mw,v:-out});
+    const t=ann[ann.length-1];
+    if(!t.gas)t.v-=out;else ann.push({gas:false,rho:c.mw,v:-out});
     mudOut=out;
   }
-  norm(a);
+  norm(ann);
   const toPit=mudOut;
-  S.gain+=toPit-dV;
-  const k=Math.min(1,dt/3);
-  S.qout+=(Math.max(0,toPit)/dt*60-S.qout)*k; S.qin=q;
+  S.gain+=toPit-dVpump;
+  const smooth=Math.min(1,dt/3);
+  S.qout+=(Math.max(0,toPit)/dt*60-S.qout)*smooth; S.qin=qPump;
   S.pc=Pc;S.bhp=bhp;S.shoe=pShoe;S.pf=exposed?S.pfKick:PSI_PER_PPG_FT*c.normEMW*S.depth;
-  S.spp=Math.max(0,bhp-swab-Ls.hs+fric);
+  S.spp=Math.max(0,bhp-swab-layS.hs+fric);
   // Manómetros: el de tubería está en el standpipe y siempre ve la sarta. El de revestidor está en el manifold de choke:
   // solo ve el pozo con la HCR abierta y sin los rams inferiores cerrados por debajo de la salida.
   // El lado anular (choke, hidrostática y fricción anular) llega al standpipe con retardo; el lado sarta (bomba) es inmediato.
-  const annSide=bhp-swab, strSide=fric-Ls.hs, lag=LAG_S_PER_KFT*S.depth/1000, D=S.dly;
+  const annSide=bhp-swab, strSide=fric-layS.hs, lag=LAG_S_PER_KFT*S.depth/1000, D=S.dly;
   D.push([S.t,annSide]);
   while(D.length>1&&D[1][0]<=S.t-lag)D.shift();
   S.gDp=Math.max(0,(S.t-D[0][0]>=lag||D.length===1?D[0][1]:annSide)+strSide);
   S.gCpOn=S.v.hcr&&!lower;
   if(S.gCpOn)S.gCp=Pc;
   else if((S.v.vr&&S.chR>0)||(S.v.vm&&S.chM>0))S.gCp=Math.max(0,S.gCp-GAUGE_BLEED*dt);   // manifold aislado y abierto aguas abajo: se purga
-  S.gasVol=0;for(const s of a)if(s.gas)S.gasVol+=s.v;
+  S.gasVol=0;for(const s of ann)if(s.gas)S.gasVol+=s.v;
   S.maxPc=Math.max(S.maxPc,Pc);
   const wdp=2.67*(c.dpOD**2-c.dpID**2),wdc=2.67*(c.dcOD**2-c.dcID**2);
-  S.hook=BLOCK_KLB+(wdp*strSecs[0].len+wdc*strSecs[1].len)*(1-Ls.rho/65.5)/1000-(S.rop>0?S.wob:0);
+  S.hook=BLOCK_KLB+(wdp*strSecs[0].len+wdc*strSecs[1].len)*(1-layS.rho/65.5)/1000-(S.rop>0?S.wob:0);
   if(quiet)return;
-  const F=S.flags;
-  if(S.gain>GAIN_ALARM&&!F.gain){F.gain=1;log('Alarma: ganancia en tanques mayor a '+GAIN_ALARM+' bbl.','crit')}
-  if(S.gasVol>0.05)F.hadGas=1;
-  if(S.spp>c.pmax&&q>0){S.sc.relief++;S.spmSet=[0,0];S.ev.push({sync:1});log('Sobrepresión en el standpipe: saltó la válvula de alivio. Bombas paradas.','crit')}
-  if(lost>0&&!F.frac){F.frac=1;log('La presión en la zapata superó la de fractura: pérdidas a la formación.','crit')}
-  if(sealed&&gasOut>0&&!F.gasSurf){F.gasSurf=1;log('Gas en superficie: el choke necesita ajustes rápidos.','warn')}
-  if(F.hadGas&&S.gasVol<0.01&&!F.gasOutDone){F.gasOutDone=1;log('El influjo salió del pozo.','ok')}
-  if(!sealed&&F.hadGas&&(gasOut>0||S.gain>BLOWOUT_GAIN)&&!S.over){
+  const flags=S.flags;
+  if(S.gain>GAIN_ALARM&&!flags.gain){flags.gain=1;log('Alarma: ganancia en tanques mayor a '+GAIN_ALARM+' bbl.','crit')}
+  if(S.gasVol>0.05)flags.hadGas=1;
+  if(S.spp>c.pmax&&qPump>0){S.sc.relief++;S.spmSet=[0,0];S.ev.push({sync:1});log('Sobrepresión en el standpipe: saltó la válvula de alivio. Bombas paradas.','crit')}
+  if(lost>0&&!flags.frac){flags.frac=1;log('La presión en la zapata superó la de fractura: pérdidas a la formación.','crit')}
+  if(sealed&&gasOut>0&&!flags.gasSurf){flags.gasSurf=1;log('Gas en superficie: el choke necesita ajustes rápidos.','warn')}
+  if(flags.hadGas&&S.gasVol<0.01&&!flags.gasOutDone){flags.gasOutDone=1;log('El influjo salió del pozo.','ok')}
+  if(!sealed&&flags.hadGas&&(gasOut>0||S.gain>BLOWOUT_GAIN)&&!S.over){
     S.over=true;S.speed=0;log('Reventón: el gas llegó a superficie con el pozo abierto.','crit');
     banner('Reventón. El gas llegó a superficie con el pozo abierto. Cargue de nuevo el ejercicio y cierre el pozo antes.',false);
   }
-  if(F.hadGas&&F.gasOutDone&&!S.killed&&!S.over){
+  if(flags.hadGas&&flags.gasOutDone&&!S.killed&&!S.over){
     const need=S.pfKick/(PSI_PER_PPG_FT*S.depth)-0.011;
-    if(a.every(s=>!s.gas&&s.rho>=need)&&S.str.every(s=>s.rho>=need)&&q<0.01&&S.pc<KILL_PC_MAX){
+    if(ann.every(s=>!s.gas&&s.rho>=need)&&S.str.every(s=>s.rho>=need)&&qPump<0.01&&S.pc<KILL_PC_MAX){
       S.killed=true;log('Pozo controlado: lodo de matar en todo el sistema y 0 psi con bomba parada.','ok');
-      banner('Pozo controlado en '+tstr(S.t)+'. Ganancia al cierre: '+fmt(S.gainAtShutIn??0,1)+' bbl · presión máxima de revestidor: '+fmt(S.maxPc)+' psi · '+(F.frac?'hubo pérdidas en la zapata.':'la zapata no se fracturó.'),true);
+      banner('Pozo controlado en '+tstr(S.t)+'. Ganancia al cierre: '+fmt(S.gainAtShutIn??0,1)+' bbl · presión máxima de revestidor: '+fmt(S.maxPc)+' psi · '+(flags.frac?'hubo pérdidas en la zapata.':'la zapata no se fracturó.'),true);
     }
   }
   if(S.t-S.lastHist>=HIST_PERIOD){S.lastHist=S.t;S.hist.push([S.t,S.gDp,S.gCp,S.gain,target()]);if(S.hist.length>HIST_MAX)S.hist=S.hist.filter((_,i)=>i%2===0)}
