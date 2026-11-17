@@ -342,7 +342,7 @@ function load(cfg,rnd){
     depth:c.tvd,zoneTop:c.tvd+c.ahead*(0.7+rnd()*0.6),pfKick:0,rop:0,
     v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,
     str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
-    pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
+    pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,lost:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
     hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[]};
   S.pfKick=0.052*c.kickEMW*S.zoneTop;
   for(let i=0;i<40;i++)step(0.5,true);   // precalienta presiones y flujos sin avanzar el ejercicio
@@ -457,7 +457,16 @@ function step(dt,quiet){
   const pShoe=Pc+L.hsShoe+fa.above;
   const loss=PIL*Math.max(0,pShoe-c.frac)*dt/60;
   let tot=0;for(const s of a)tot+=s.v;
-  let out=tot-(Va+CW*Pc), mudOut=0, gasOut=0;
+  let out=tot-(Va+CW*Pc), mudOut=0, gasOut=0, lost=0;
+  // Las pérdidas salen del anular a la altura de la zapata, no por superficie.
+  if(loss>0&&out>0){
+    let r=Math.min(loss,out), i=a.findIndex(s=>s.top<=c.shoe&&s.bot>=c.shoe);if(i<0)i=a.length-1;
+    for(let j=i,dir=1;r>1e-12&&j>=0&&j<a.length;){
+      const s=a[j],x=Math.min(r,s.v);if(s.gas&&s.v>0)s.n*=Math.max(0,(s.v-x)/s.v);s.v-=x;r-=x;lost+=x;
+      if(r>1e-12){j+=dir;if(j>=a.length){dir=-1;j=i-1}}
+    }
+    out-=lost;S.lost+=lost;
+  }
   if(out>0){
     let r=out;
     while(r>1e-12&&(a.length>1||a[0].v>r)){
@@ -471,7 +480,7 @@ function step(dt,quiet){
     mudOut=out;
   }
   norm(a);
-  const toPit=mudOut-loss;
+  const toPit=mudOut;
   S.gain+=toPit-dV;
   const k=Math.min(1,dt/3);
   S.qout+=(Math.max(0,toPit)/dt*60-S.qout)*k; S.qin=q;
@@ -492,7 +501,7 @@ function step(dt,quiet){
   if(S.gain>5&&!F.gain){F.gain=1;log('Alarma: ganancia en tanques mayor a 5 bbl.','crit')}
   if(S.gasVol>0.05)F.hadGas=1;
   if(S.spp>c.pmax&&q>0){S.spmSet=[0,0];S.ev.push({sync:1});log('Sobrepresión en el standpipe: saltó la válvula de alivio. Bombas paradas.','crit')}
-  if(loss>0&&!F.frac){F.frac=1;log('La presión en la zapata superó la de fractura: pérdidas a la formación.','crit')}
+  if(lost>0&&!F.frac){F.frac=1;log('La presión en la zapata superó la de fractura: pérdidas a la formación.','crit')}
   if(sealed&&gasOut>0&&!F.gasSurf){F.gasSurf=1;log('Gas en superficie: el choke necesita ajustes rápidos.','warn')}
   if(F.hadGas&&S.gasVol<0.01&&!F.gasOutDone){F.gasOutDone=1;log('El influjo salió del pozo.','ok')}
   if(!sealed&&F.hadGas&&(gasOut>0||S.gain>120)&&!S.over){
