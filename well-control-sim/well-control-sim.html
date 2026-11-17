@@ -307,11 +307,14 @@ function validate(raw){
   return n;
 }
 
-const GAS_PPG_AT_CHOKE=2;   // al pasar por el choke el gas se trata como un fluido de 2 ppg
+// Gas real: metano con algo de pesados (gravedad específica 0,65), temperatura lineal con la profundidad.
+const GAS_SG=0.65, T_SURF_R=540, T_GRAD_R_PER_FT=0.012;   // 80 °F en superficie, 1,2 °F por cada 100 ft
+const GAS_TPC=168+325*GAS_SG-12.5*GAS_SG*GAS_SG, GAS_PPC=677+15*GAS_SG-37.5*GAS_SG*GAS_SG;   // pseudocríticas de Standing, °R y psia
+const GAS_PPG_AT_CHOKE=2;   // al pasar por el choke el gas se trata como un fluido de 2 ppg: con su densidad real el caudal sería irreal para este modelo de orificio
 const CHOKE_RATE={R:4,M:2.5};   // recorrido de los chokes, % por segundo: remoto 25 s de cerrado a abierto, manual 40 s
 const LAG_S_PER_KFT=2;   // retardo con que un cambio en el choke llega al manómetro de tubería: 2 s por cada 1000 ft de pozo (baja por el anular y sube por la sarta)
 const COMPRESS=3e-6;   // compresibilidad del sistema (lodo + pozo), 1/psi por barril contenido
-const GAS_GRAD=0.1, PIL=0.02, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
+const PIL=0.02, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
 const TIMES={ann:12,upr:5,bsr:5,lpr:5};
 const NAMES={p1:'Válvula de la bomba 1',p2:'Válvula de la bomba 2',hcr:'HCR de la línea de choke',vr:'Válvula del choke remoto',vm:'Válvula del choke manual'};
 let c,S,strSecs,annSecs,Va,Vs,STK,CW;
@@ -330,7 +333,17 @@ function geom(d){
 }
 function volToLen(secs,v){let L=0;for(const s of secs){const sv=s.len*s.cap;if(v<=sv)return L+v/s.cap;v-=sv;L+=s.len}return L}
 function annCapAt(depth){for(const s of annSecs)if(depth<=s.bot&&depth>=s.top)return s.cap;return annSecs[annSecs.length-1].cap}
-const grad=s=>s.gas?GAS_GRAD:0.052*s.rho;
+const tempR=d=>T_SURF_R+T_GRAD_R_PER_FT*d;
+// Factor de compresibilidad Z por Dranchuk y Abou-Kassem (ajuste de la carta de Standing y Katz), resuelto por bisección.
+function zFactor(Ppsia,TR){
+  const Tr=TR/GAS_TPC,Pr=Math.max(Ppsia,14.7)/GAS_PPC,t2=Tr*Tr,t3=t2*Tr;
+  const c1=0.3265-1.07/Tr-0.5339/t3+0.01569/(t3*Tr)-0.05165/(t3*t2),c2=0.5475-0.7361/Tr+0.1844/t2,c3=0.1056*(-0.7361/Tr+0.1844/t2);
+  const F=Z=>{const r=0.27*Pr/(Z*Tr),r2=r*r;return 1+c1*r+c2*r2-c3*r2*r2*r+0.6134*(1+0.721*r2)*(r2/t3)*Math.exp(-0.721*r2)};
+  let lo=0.2,hi=3;for(let i=0;i<34;i++){const m=(lo+hi)/2;if(m-F(m)<0)lo=m;else hi=m}
+  return (lo+hi)/2;
+}
+// Densidad del gas en ppg: M·P/(Z·R·T) con R = 10,732 psia·ft³/(lbmol·°R) y 7,4805 gal por ft³.
+const gasPpg=(Ppsia,Z,TR)=>28.97*GAS_SG*Ppsia/(Z*10.732*TR)/7.4805;
 function fricStr(q,rho){
   if(q<=0)return 0;const Q=q*42,k=7.7e-5*Math.pow(rho,.8)*Math.pow(Q,1.8)*Math.pow(c.pv,.2);
   let p=0;for(const s of strSecs)p+=k*s.len/Math.pow(s.id,4.8);
@@ -364,7 +377,9 @@ function layAnn(){
   let v=0;const a=S.ann,D=S.depth;
   for(const s of a){s.bot=D-volToLen(annSecs,Math.min(v,Va));v+=s.v;s.top=D-volToLen(annSecs,Math.min(v,Va))}
   let hs=0,hsShoe=0;
-  for(let i=a.length-1;i>=0;i--){const s=a[i],g=grad(s),h=s.bot-s.top;s.h=hs+g*h/2;hs+=g*h;
+  for(let i=a.length-1;i>=0;i--){const s=a[i],h=s.bot-s.top;let g=0.052*s.rho;
+    if(s.gas){const P=S.pc+hs+14.7,T=tempR((s.top+s.bot)/2),Z=zFactor(P,T);s.zt=Z*T;s.ppg=gasPpg(P,Z,T);g=0.052*s.ppg}   // con la presión del paso anterior
+    s.h=hs+g*h/2;hs+=g*h;
     hsShoe+=g*Math.max(0,Math.min(s.bot,c.shoe)-s.top)}
   return {hs,hsShoe};
 }
@@ -451,7 +466,7 @@ function step(dt,quiet){
   const topS=a[a.length-1], rhoTop=topS.gas?GAS_PPG_AT_CHOKE:topS.rho;
   const cA=(upper&&!lower&&S.v.hcr)?KC*((S.v.vr?Math.pow(S.chR/100,1.5):0)+(S.v.vm?Math.pow(S.chM/100,1.5):0)):0;
   const f=Pc=>{
-    let g=0;for(const s of gs)g+=s.n/(Pc+s.h+14.7);
+    let g=0;for(const s of gs)g+=s.n*s.zt/(Pc+s.h+14.7);
     const inf=exposed?PI*Math.max(0,S.pfKick-(Pc+L.hs+apl))*dt/60:0;
     const qc=cA*Math.sqrt(Math.max(Pc,0)/rhoTop)*dt/60;
     const loss=PIL*Math.max(0,Pc+L.hsShoe+fa.above-c.frac)*dt/60;
@@ -461,11 +476,12 @@ function step(dt,quiet){
   if(sealed&&f(0)>0){let lo=0,hi=25000;for(let i=0;i<48;i++){const m=(lo+hi)/2;if(f(m)>0)lo=m;else hi=m}Pc=(lo+hi)/2}
   const bhp=Pc+L.hs+apl;
   const inf=exposed?PI*Math.max(0,S.pfKick-bhp)*dt/60:0;
-  for(const s of gs)s.v=s.n/(Pc+s.h+14.7);
+  for(const s of gs)s.v=s.n*s.zt/(Pc+s.h+14.7);
   if(inf>0){
     let tgt=null;
     for(let i=0;i<Math.min(2,a.length);i++)if(a[i].gas&&a[i].bot>=S.depth-300){tgt=a[i];break}
-    if(tgt){tgt.n+=inf*(bhp+14.7);tgt.v+=inf}else a.unshift({gas:true,n:inf*(bhp+14.7),v:inf,h:L.hs,top:S.depth,bot:S.depth});
+    const Tb=tempR(S.depth),ztB=zFactor(bhp+14.7,Tb)*Tb,dn=inf*(bhp+14.7)/ztB;   // cantidad de gas: n = P·V/(Z·T)
+    if(tgt){tgt.n+=dn;tgt.v+=inf}else a.unshift({gas:true,n:dn,v:inf,h:L.hs,zt:ztB,top:S.depth,bot:S.depth});
   }
   const pShoe=Pc+L.hsShoe+fa.above;
   const loss=PIL*Math.max(0,pShoe-c.frac)*dt/60;
@@ -554,9 +570,11 @@ function sheet(sidpp){
 }
 const save=()=>({S:structuredClone(S),c:{...c}});
 // Instantes guardados con una versión anterior pueden no traer los campos nuevos.
-function migrate(){S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[]}
+function migrate(){
+  for(const g of S.ann)if(g.gas&&g.zt==null){const T=tempR(g.bot??S.depth),P=Math.max(14.7,g.n/Math.max(g.v,1e-9));g.zt=zFactor(P,T)*T;g.n/=g.zt}   // antes n era P·V
+  S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[]}
 function restore(sn){c={...sn.c};S=structuredClone(sn.S);migrate();STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
-return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,save,restore,bitDepth,jointNear,clamp,fmt,tstr,
+return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,save,restore,bitDepth,jointNear,clamp,fmt,tstr,zFactor,gasPpg,tempR,
   get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,CW,annSecs,strSecs,lag:LAG_S_PER_KFT*S.depth/1000}}};
 })();
 if(typeof module!=='undefined')module.exports=WCS;
