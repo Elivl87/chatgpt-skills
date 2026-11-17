@@ -103,7 +103,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
       <div class="sub" id="sub"></div>
     </div>
     <div class="bar">
-      <span class="pill" id="status">Listo</span>
+      <span class="pill" id="status" role="status" aria-live="polite">Listo</span>
       <span class="clock" id="clock">00:00:00</span>
       <span class="bar" id="speeds" role="group" aria-label="Velocidad de simulación">
         <button data-s="0">Pausa</button><button data-s="1">1×</button><button data-s="5">5×</button><button data-s="20">20×</button><button data-s="60">60×</button>
@@ -123,7 +123,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
     </div>
   </div>
 
-  <div id="banner" class="banner" hidden></div>
+  <div id="banner" class="banner" role="alert" hidden></div>
   <div id="report" class="panel" hidden>
     <h2>Calificación</h2>
     <div class="row"><span class="big" id="repTotal"></span><span class="note" id="repNote"></span></div>
@@ -133,7 +133,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
   <div class="grid">
     <div class="panel">
       <h2>Pozo</h2>
-      <canvas id="well" aria-label="Esquema del pozo con los fluidos en sarta y anular"></canvas>
+      <canvas id="well" role="img" aria-label="Esquema del pozo"></canvas>
       <div class="legend">
         <span><i style="background:var(--mud)"></i>Lodo original</span>
         <span><i style="background:var(--kill)"></i>Lodo más pesado</span>
@@ -145,8 +145,8 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
       <div class="panel">
         <h2>Panel del choke</h2>
         <div class="dials">
-          <canvas id="dialDP" aria-label="Manómetro de tubería"></canvas>
-          <canvas id="dialCP" aria-label="Manómetro de revestidor"></canvas>
+          <canvas id="dialDP" role="img" aria-label="Manómetro de tubería"></canvas>
+          <canvas id="dialCP" role="img" aria-label="Manómetro de revestidor"></canvas>
         </div>
         <div class="note" id="gNote" style="color:var(--warn)"></div>
         <div class="reads">
@@ -166,7 +166,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
       </div>
       <div class="panel">
         <h2>Registro</h2>
-        <canvas id="chart" aria-label="Gráfica de presiones y ganancia contra tiempo"></canvas>
+        <canvas id="chart" role="img" aria-label="Registro de presiones y ganancia contra tiempo"></canvas>
         <div class="legend">
           <span><i style="background:var(--accent)"></i>Tubería (psi)</span>
           <span><i style="background:var(--crit)"></i>Revestidor (psi)</span>
@@ -216,13 +216,13 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
   <div class="surf">
     <div class="panel">
       <h2>Equipo de superficie: toque una válvula o un preventor para operarlo</h2>
-      <div class="scroll"><canvas id="mani" aria-label="Manifold de standpipe, conjunto de BOP y manifold de choke"></canvas></div>
+      <div class="scroll"><canvas id="mani" role="img" aria-label="Manifold de standpipe, conjunto de BOP y manifold de choke. Los botones de abajo operan y describen cada elemento."></canvas></div>
       <div class="row" id="maniBtns"></div>
       <p class="note">Toque el dibujo o use los botones. Volante verde: válvula abierta; rojo: cerrada. En los preventores se ve avanzar el empaque o los bloques al cerrar. La salida de la línea de choke está entre el ram ciego y los rams inferiores: si cierra solo los rams inferiores, el choke queda aislado del pozo.</p>
     </div>
     <div class="panel">
       <h2>Espaciado en el BOP</h2>
-      <canvas id="space" aria-label="Posición de las uniones de tubería respecto a los preventores"></canvas>
+      <canvas id="space" role="img" aria-label="Posición de las uniones de tubería respecto a los preventores"></canvas>
       <div id="spaceTxt" class="note"></div>
     </div>
   </div>
@@ -258,7 +258,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
     </div>
     <div class="panel">
       <h2>Bitácora</h2>
-      <ul id="log"></ul>
+      <ul id="log" role="log" aria-live="polite" aria-label="Bitácora del ejercicio"></ul>
       <h2>Procedimiento</h2>
       <ol class="steps">
         <li>Baje la sarta al fondo, arranque bombas y rotaria, aplique peso y perfore. Registre la SCR a tasa lenta.</li>
@@ -1059,6 +1059,12 @@ function ui(){
   const m0=(c.lot-c.mw)*PSI_PER_PPG_FT*c.shoe;
   drawWell();dial($('dialDP'),S.gDp,Math.ceil(c.pmax/1000)*1000,'TUBERÍA');
   dial($('dialCP'),S.gCp,Math.max(2000,Math.ceil(m0*1.5/1000)*1000),'REVESTIDOR',m0);
+  // Lo que los lienzos muestran, también como texto para lectores de pantalla (redondeado para no anunciar cada psi).
+  const aria=(id,t)=>{const e=$(id);if(e.getAttribute('aria-label')!==t)e.setAttribute('aria-label',t)},r5=v=>Math.round(v/5)*5;
+  aria('dialDP','Manómetro de tubería: '+fmt(r5(S.gDp))+' psi');
+  aria('dialCP','Manómetro de revestidor: '+fmt(r5(S.gCp))+' psi'+(S.gCpOn||!S.sealed?'':', aislado del pozo')+'. MAASP '+fmt(r5(m0))+' psi');
+  aria('well','Esquema del pozo: '+(S.sealed?'cerrado':'abierto')+', hoyo a '+fmt(S.depth)+' ft, barrena a '+fmt(bitDepth())+' ft'+(exam?'':', gas en el pozo '+fmt(S.gasVol,1)+' bbl'));
+  aria('chart','Registro: '+fmt(S.t/60)+' minutos; tubería '+fmt(r5(S.gDp))+' psi, revestidor '+fmt(r5(S.gCp))+' psi, ganancia '+fmt(S.gain,1)+' bbl');
   $('gNote').textContent=S.gCpOn?'':S.sealed?'Manómetro de revestidor aislado del pozo: '+(S.v.hcr?'los rams inferiores cierran por debajo de la salida.':'abra la HCR para leer la presión.'):'';drawChart();drawSpace();drawMani();
 }
 
