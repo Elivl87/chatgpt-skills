@@ -271,7 +271,13 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
 const WCS=(function(){
 'use strict';
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-const fmt=(x,d=0)=>x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+// Formato numérico en español: coma decimal y espacio fino de millares a partir de cinco cifras (10 000,5).
+const fmt=(x,d=0)=>{
+  if(!Number.isFinite(x))return '–';
+  const t=Math.abs(x).toFixed(d),[i,f]=t.split('.');
+  const g=i.length>4?i.replace(/\B(?=(\d{3})+$)/g,'\u202f'):i;
+  return (x<0&&+t!==0?'−':'')+g+(f?','+f:'');
+};
 const tstr=t=>[Math.floor(t/3600),Math.floor(t%3600/60),Math.floor(t%60)].map(x=>String(x).padStart(2,'0')).join(':');
 
 const BASE={name:'Hoyo 8½" a 10 000 ft, influjo de 0,5 ppg',mw:10,pv:20,yp:12,
@@ -683,7 +689,7 @@ function drawChart(){
   pm=Math.ceil(pm/500)*500;gm=Math.ceil(gm/10)*10;
   x.font='10px '+FM;x.textBaseline='middle';
   for(let i=0;i<=4;i++){const yy=b-(b-t)*i/4;x.strokeStyle=C.line;x.lineWidth=1;x.beginPath();x.moveTo(l,yy);x.lineTo(r,yy);x.stroke();
-    x.fillStyle=C.muted;x.textAlign='right';x.fillText(String(pm*i/4),l-5,yy);x.textAlign='left';x.fillText(String(gm*i/4),r+5,yy)}
+    x.fillStyle=C.muted;x.textAlign='right';x.fillText(String(pm*i/4),l-5,yy);x.textAlign='left';x.fillText(fmt(gm*i/4,gm%4?1:0),r+5,yy)}
   x.textAlign='center';for(let i=0;i<=4;i++)x.fillText(Math.round(tmax*i/4/60)+' min',l+(r-l)*i/4,h-7);
   const X=v=>l+(r-l)*v/tmax;
   const line=(idx,max,col)=>{x.strokeStyle=col;x.lineWidth=1.8;x.beginPath();
