@@ -275,7 +275,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
   <div class="panel" id="datos">
     <h2>Datos del ejercicio</h2>
     <form id="cfgForm" class="cfg"></form>
-    <div class="row"><button id="apply">Aplicar datos y reiniciar</button><span class="note" id="cfgMsg">Pozo vertical, unidades de campo. Al aplicar se reinicia el ejercicio con estos datos.</span></div>
+    <div class="row"><button id="apply">Aplicar datos y reiniciar</button><span class="note" id="cfgMsg" role="status" aria-live="polite">Pozo vertical, unidades de campo. Al aplicar se reinicia el ejercicio con estos datos.</span></div>
   </div>
 </div>
 
@@ -683,7 +683,10 @@ function buildForm(){
 function readForm(){
   const n={...c};
   for(const [,fs] of FIELDS)for(const [k,,,st] of fs){const e=$('c_'+k),v=st.chk?(e.checked?1:0):parseFloat(e.value);if(isFinite(v))n[k]=v}
-  const out=WCS.validate(n);out.name='Ejercicio personalizado';return out;
+  const out=WCS.validate(n);out.name='Ejercicio personalizado';
+  // Qué valores quedaron distintos de lo escrito, para avisarlo.
+  const adj=[];for(const [,fs] of FIELDS)for(const [k,l,u,st] of fs)if(!st.sel&&!st.chk&&out[k]!==n[k])adj.push(l+': '+fmt(n[k],3).replace(/,?0+$/,'')+' → '+fmt(out[k],3).replace(/,?0+$/,'')+(u?' '+u:''));
+  out._adj=adj;return out;
 }
 
 // ---- Enlace con el núcleo ----
@@ -1112,7 +1115,8 @@ function loadSaved(){
   return null;
 }
 $('load').onclick=()=>{const v=$('preset').value;start(v==='custom'&&custom?custom:PRESETS[+v])};
-$('apply').onclick=e=>{e.preventDefault();const n=readForm();try{localStorage.setItem('wcs-cfg',JSON.stringify(n))}catch(_){}setCustom(n);start(n);$('cfgMsg').textContent='Datos aplicados. Ejercicio reiniciado.'};
+$('apply').onclick=e=>{e.preventDefault();const n=readForm(),adj=n._adj;delete n._adj;try{localStorage.setItem('wcs-cfg',JSON.stringify(n))}catch(_){}setCustom(n);start(n);const m=$('cfgMsg');
+  m.textContent='Datos aplicados. Ejercicio reiniciado.'+(adj.length?' Se ajustaron valores fuera de rango: '+adj.join('; ')+'.':'');m.style.color=adj.length?'var(--warn)':''};
 $('cfgForm').onsubmit=e=>e.preventDefault();
 // Instante: estado del núcleo + bitácora + hoja de matar. Se guarda también en el navegador para sobrevivir a una recarga.
 const bannerState=()=>{const b=$('banner');return b.hidden?null:{t:b.textContent,ok:b.classList.contains('ok')}};
