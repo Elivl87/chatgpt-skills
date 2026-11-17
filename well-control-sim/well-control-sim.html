@@ -301,10 +301,11 @@ function validate(raw){
   return n;
 }
 
-const GAS_GRAD=0.1, PIL=0.02, CW=0.0015, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
+const COMPRESS=3e-6;   // compresibilidad del sistema (lodo + pozo), 1/psi por barril contenido
+const GAS_GRAD=0.1, PIL=0.02, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
 const TIMES={ann:12,upr:5,bsr:5,lpr:5};
 const NAMES={p1:'Válvula de la bomba 1',p2:'Válvula de la bomba 2',hcr:'HCR de la línea de choke',vr:'Válvula del choke remoto',vm:'Válvula del choke manual'};
-let c,S,strSecs,annSecs,Va,Vs,STK;
+let c,S,strSecs,annSecs,Va,Vs,STK,CW;
 const log=(m,cls)=>S.ev.push({m,cls,t:S.t});
 const banner=(m,ok)=>S.ev.push({banner:m,ok});
 function geom(d){
@@ -316,6 +317,7 @@ function geom(d){
     const od=mid>c.shoe?c.hole:c.csgID,id=mid>dcTop?c.dcOD:c.dpOD;
     annSecs.push({bot,top,len:bot-top,od,id,cap:(od*od-id*id)/1029.4})}
   Vs=strSecs.reduce((a,x)=>a+x.len*x.cap,0);Va=annSecs.reduce((a,x)=>a+x.len*x.cap,0);
+  CW=COMPRESS*(Va+Vs);   // bbl que admite el pozo por cada psi
 }
 function volToLen(secs,v){let L=0;for(const s of secs){const sv=s.len*s.cap;if(v<=sv)return L+v/s.cap;v-=sv;L+=s.len}return L}
 function annCapAt(depth){for(const s of annSecs)if(depth<=s.bot&&depth>=s.top)return s.cap;return annSecs[annSecs.length-1].cap}
@@ -538,7 +540,7 @@ function sheet(sidpp){
 const save=()=>({S:structuredClone(S),c:{...c}});
 function restore(sn){c={...sn.c};S=structuredClone(sn.S);STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
 return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,save,restore,bitDepth,jointNear,clamp,fmt,tstr,
-  get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,annSecs,strSecs}}};
+  get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,CW,annSecs,strSecs}}};
 })();
 if(typeof module!=='undefined')module.exports=WCS;
 /*CORE-END*/
