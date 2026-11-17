@@ -24,6 +24,7 @@
   --ok:#3fc27a; --warn:#f0a53a; --crit:#f06a5e; color-scheme:dark }
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
   padding-block:14px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
@@ -116,11 +117,18 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
       <button id="load">Cargar ejercicio</button>
       <button id="snapSave">Guardar instante</button>
       <button id="snapLoad" disabled>Volver al instante</button>
+      <button id="exam" aria-pressed="false">Modo examen</button>
+      <button id="grade">Calificar</button>
       <a href="#datos">Editar datos del ejercicio</a>
     </div>
   </div>
 
   <div id="banner" class="banner" hidden></div>
+  <div id="report" class="panel" hidden>
+    <h2>Calificación</h2>
+    <div class="row"><span class="big" id="repTotal"></span><span class="note" id="repNote"></span></div>
+    <div class="scroll"><table id="repTable"></table></div>
+  </div>
 
   <div class="grid">
     <div class="panel">
@@ -146,8 +154,8 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
           <div class="read"><span class="k">Flujo entrada</span><span class="v"><span id="vQin">0.0</span><small>bbl/min</small></span></div>
           <div class="read" id="rQout"><span class="k">Flujo salida</span><span class="v"><span id="vQout">0.0</span><small>bbl/min</small></span></div>
           <div class="read"><span class="k">Emboladas</span><span class="v"><span id="vStk">0</span><small>stk</small></span></div>
-          <div class="read"><span class="k">Presión de fondo</span><span class="v"><span id="vBhp">0</span><small>psi</small></span></div>
-          <div class="read"><span class="k">Presión formación</span><span class="v"><span id="vPf">0</span><small>psi</small></span></div>
+          <div class="read" id="rBhpBox"><span class="k">Presión de fondo</span><span class="v"><span id="vBhp">0</span><small>psi</small></span></div>
+          <div class="read" id="rPfBox"><span class="k">Presión formación</span><span class="v"><span id="vPf">0</span><small>psi</small></span></div>
           <div class="read" id="rOver"><span class="k">Sobrebalance</span><span class="v"><span id="vOver">0</span><small>psi</small></span></div>
           <div class="read" id="rShoe"><span class="k">Zapata / fractura</span><span class="v"><span id="vShoe">0</span><small id="vFrac">/ 0</small></span></div>
           <div class="read"><span class="k">Prof. hoyo</span><span class="v"><span id="vDepth">0</span><small>ft</small></span></div>
@@ -367,7 +375,8 @@ function load(cfg,rnd){
     v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,chRSet:0,chMSet:0,
     str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
     pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,lost:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
-    dly:[],hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[]};
+    dly:[],hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[],
+    sc:{tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:false}};
   S.pfKick=0.052*c.kickEMW*S.zoneTop;
   for(let i=0;i<40;i++)step(0.5,true);   // precalienta presiones y flujos sin avanzar el ejercicio
   S.t=0;S.strokes=0;S.gain=0;S.dly=[];S.hist=[];S.lastHist=-99;S.depth=c.tvd;geom(c.tvd);S.str=[{rho:c.mw,v:Vs}];S.ann=[{gas:false,rho:c.mw,v:Va}];
@@ -403,14 +412,14 @@ function step(dt,quiet){
   // preventores
   for(const k in S.el){const e=S.el[k],was=e.p;e.p=clamp(e.p+(e.t?1:-1)*dt/TIMES[k],0,1);
     if(e.p>=1&&was<1&&!quiet){
-      if(k==='bsr'){S.over=true;S.speed=0;log('El ram ciego/corte cerró con tubería en el pozo: la sarta quedó cortada.','crit');banner('Sarta cortada. El ram ciego/corte solo se usa sin tubería frente al BOP o como último recurso.',false)}
-      else if(k!=='ann'&&jointNear(c[k==='upr'?'bUpr':'bLpr'])<1.5){S.bad[k]=1;log('Los rams '+(k==='upr'?'superiores':'inferiores')+' cerraron sobre una unión: no sellan. Ábralos y espacie la sarta.','crit')}
+      if(k==='bsr'){S.sc.shear++;S.over=true;S.speed=0;log('El ram ciego/corte cerró con tubería en el pozo: la sarta quedó cortada.','crit');banner('Sarta cortada. El ram ciego/corte solo se usa sin tubería frente al BOP o como último recurso.',false)}
+      else if(k!=='ann'&&jointNear(c[k==='upr'?'bUpr':'bLpr'])<1.5){S.bad[k]=1;S.sc.badRam++;log('Los rams '+(k==='upr'?'superiores':'inferiores')+' cerraron sobre una unión: no sellan. Ábralos y espacie la sarta.','crit')}
       else log((k==='ann'?'Preventor anular':k==='upr'?'Rams superiores':'Rams inferiores')+' cerrado'+(k==='ann'?'.':'s.'));
     }
     if(e.p<1)delete S.bad[k];
   }
   const E=S.el, upper=E.ann.p>=1||(E.upr.p>=1&&!S.bad.upr), lower=E.lpr.p>=1&&!S.bad.lpr, sealed=upper||lower;
-  if(sealed&&!S.sealed&&!quiet){if(S.gainAtShutIn==null&&S.gain>0.5)S.gainAtShutIn=S.gain;log('Pozo cerrado. Ganancia en tanques: '+fmt(S.gain,1)+' bbl.','ok')}
+  if(sealed&&!S.sealed&&!quiet){if(S.gainAtShutIn==null&&S.gain>0.5){S.gainAtShutIn=S.gain;S.sc.tShut=S.t}log('Pozo cerrado. Ganancia en tanques: '+fmt(S.gain,1)+' bbl.','ok')}
   if(!sealed&&S.sealed&&!quiet)log('Pozo abierto.',S.pc>20?'crit':'');
   S.sealed=sealed;
   // chokes: la posición real sigue a la consigna a la velocidad del actuador
@@ -419,7 +428,7 @@ function step(dt,quiet){
   let q=0;
   for(let i=0;i<2;i++){
     S.spm[i]+=clamp(S.spmSet[i]-S.spm[i],-6*dt,6*dt);
-    if(S.spm[i]>0.5&&!S.v[i?'p2':'p1']&&!quiet){S.spmSet[i]=0;S.spm[i]=0;S.ev.push({sync:1});log('Bomba '+(i+1)+' contra válvula cerrada en el standpipe: saltó la válvula de alivio.','crit')}
+    if(S.spm[i]>0.5&&!S.v[i?'p2':'p1']&&!quiet){S.spmSet[i]=0;S.spm[i]=0;S.sc.relief++;S.ev.push({sync:1});log('Bomba '+(i+1)+' contra válvula cerrada en el standpipe: saltó la válvula de alivio.','crit')}
     q+=S.spm[i]*STK;S.strokes+=S.spm[i]*dt/60;
   }
   const dV=q*dt/60;
@@ -442,7 +451,7 @@ function step(dt,quiet){
   }
   if(S.off<0.01&&S.wob>0&&S.rpm>0&&!sealed&&S.depth>=S.zoneTop+40&&!S.flags.tdMax&&!quiet){S.flags.tdMax=1;
     log('Se alcanzó la profundidad final del ejercicio ('+fmt(S.depth,0)+' ft): la barrena ya no avanza.','warn')}
-  if(exposed&&!S.flags.zone&&!quiet){S.flags.zone=1;if(c.kickEMW>c.normEMW+0.2)log('Quiebre de perforación: la ROP se duplicó.','warn')}
+  if(exposed&&!S.flags.zone&&!quiet){S.flags.zone=1;S.sc.tZone=S.t;if(c.kickEMW>c.normEMW+0.2)log('Quiebre de perforación: la ROP se duplicó.','warn')}
   // circulación
   if(dV>0){
     const st=S.str;
@@ -487,6 +496,9 @@ function step(dt,quiet){
     const Tb=tempR(S.depth),ztB=zFactor(bhp+14.7,Tb)*Tb,dn=inf*(bhp+14.7)/ztB;   // cantidad de gas: n = P·V/(Z·T)
     if(tgt){tgt.n+=dn;tgt.v+=inf}else a.unshift({gas:true,n:dn,v:inf,h:L.hs,zt:ztB,top:S.depth,bot:S.depth});
   }
+  // Influjo adicional: cuenta una vez estabilizado el pozo cerrado, o antes si se está purgando por el choke.
+  // El que entra mientras sube la presión de cierre con todo cerrado es inevitable y no se penaliza.
+  if(S.sc.tShut!=null){if(!S.sc.stab&&bhp>=S.pfKick-2)S.sc.stab=true;if(S.sc.stab||cA>0)S.sc.inf2+=inf}
   const pShoe=Pc+L.hsShoe+fa.above;
   const loss=PIL*Math.max(0,pShoe-c.frac)*dt/60;
   let tot=0;for(const s of a)tot+=s.v;
@@ -537,7 +549,7 @@ function step(dt,quiet){
   const F=S.flags;
   if(S.gain>5&&!F.gain){F.gain=1;log('Alarma: ganancia en tanques mayor a 5 bbl.','crit')}
   if(S.gasVol>0.05)F.hadGas=1;
-  if(S.spp>c.pmax&&q>0){S.spmSet=[0,0];S.ev.push({sync:1});log('Sobrepresión en el standpipe: saltó la válvula de alivio. Bombas paradas.','crit')}
+  if(S.spp>c.pmax&&q>0){S.sc.relief++;S.spmSet=[0,0];S.ev.push({sync:1});log('Sobrepresión en el standpipe: saltó la válvula de alivio. Bombas paradas.','crit')}
   if(lost>0&&!F.frac){F.frac=1;log('La presión en la zapata superó la de fractura: pérdidas a la formación.','crit')}
   if(sealed&&gasOut>0&&!F.gasSurf){F.gasSurf=1;log('Gas en superficie: el choke necesita ajustes rápidos.','warn')}
   if(F.hadGas&&S.gasVol<0.01&&!F.gasOutDone){F.gasOutDone=1;log('El influjo salió del pozo.','ok')}
@@ -562,6 +574,7 @@ function act(a){
 function recordScr(){
   const spm=S.spm[0]+S.spm[1];
   if(S.sealed||spm<5){log('Para registrar la SCR circule a tasa lenta con el pozo abierto.','warn');return false}
+  if(!S.flags.hadGas)S.sc.scrBefore=true;
   S.scr={spm:Math.round(spm),p:Math.round(S.gDp/5)*5};log('SCR registrada: '+fmt(S.scr.p)+' psi a '+S.scr.spm+' spm.');return true;
 }
 // Hoja de matar: todo lo que se calcula a partir de la geometría, la SCR y la SIDPP.
@@ -572,13 +585,28 @@ function sheet(sidpp){
     if(S.scr){r.icp=sidpp+S.scr.p;r.fcp=S.scr.p*r.kmw/c.mw}}
   return r;
 }
+// Calificación del ejercicio: cuatro rubros, 100 puntos. Sin pozo controlado la nota queda limitada a 50.
+function score(){
+  const k=S.sc,F=S.flags,items=[],add=(label,detail,pts,max)=>items.push({label,detail,pts,max});
+  const g=S.gainAtShutIn;
+  if(!F.hadGas)add('Detección y cierre','Aún no hubo influjo',0,30);
+  else if(g==null)add('Detección y cierre','El pozo no se cerró',0,30);
+  else add('Detección y cierre','Ganancia al cierre: '+fmt(g,1)+' bbl'+(k.tZone!=null&&k.tShut!=null?' · '+fmt((k.tShut-k.tZone)/60,1)+' min desde el quiebre de perforación':''),g<=6?30:g<=10?22:g<=20?12:4,30);
+  add('Presión de fondo durante el control',k.tShut==null?'Sin cierre':'Influjo adicional después del cierre: '+fmt(k.inf2,1)+' bbl',k.tShut==null?0:k.inf2<0.5?30:k.inf2<2?18:k.inf2<5?8:0,30);
+  add('Integridad de la zapata',S.lost>0?'Pérdidas a la formación: '+fmt(S.lost,1)+' bbl':'Sin pérdidas',S.lost<=0?20:S.lost<5?8:0,20);
+  const errs=[];if(k.badRam)errs.push('rams cerrados sobre una unión ('+k.badRam+')');if(k.relief)errs.push('válvula de alivio disparada ('+k.relief+')');
+  if(k.shear)errs.push('sarta cortada');if(!k.scrBefore)errs.push('sin SCR registrada antes del influjo');if(F.hadGas&&S.over&&!k.shear)errs.push('reventón');
+  add('Procedimiento',errs.length?'Errores: '+errs.join(', '):'Sin errores',Math.max(0,20-7*(k.badRam+k.relief+(k.scrBefore?0:1))-(k.shear||(S.over&&F.hadGas)?20:0)),20);
+  let total=items.reduce((a,i)=>a+i.pts,0);const done=S.killed;if(!done)total=Math.min(total,50);
+  return {total,done,items,time:S.t,maxPc:S.maxPc};
+}
 const save=()=>({S:structuredClone(S),c:{...c}});
 // Instantes guardados con una versión anterior pueden no traer los campos nuevos.
 function migrate(){
   for(const g of S.ann)if(g.gas&&g.zt==null){const T=tempR(g.bot??S.depth),P=Math.max(14.7,g.n/Math.max(g.v,1e-9));g.zt=zFactor(P,T)*T;g.n/=g.zt}   // antes n era P·V
-  S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[]}
+  S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[];S.sc??={tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:!!S.scr}}
 function restore(sn){c={...sn.c};S=structuredClone(sn.S);migrate();STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
-return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,save,restore,bitDepth,jointNear,clamp,fmt,tstr,zFactor,gasPpg,tempR,
+return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,score,save,restore,bitDepth,jointNear,clamp,fmt,tstr,zFactor,gasPpg,tempR,
   get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,CW,annSecs,strSecs,lag:LAG_S_PER_KFT*S.depth/1000}}};
 })();
 if(typeof module!=='undefined')module.exports=WCS;
@@ -619,7 +647,7 @@ function readForm(){
 // ---- Enlace con el núcleo ----
 function start(cfg){
   WCS.load(cfg);S=WCS.S;c=WCS.c;
-  logData=[];$('log').innerHTML='';$('banner').hidden=true;$('ksDp').value='';$('ksCp').value='';
+  logData=[];$('log').innerHTML='';$('banner').hidden=true;$('report').hidden=true;$('ksDp').value='';$('ksCp').value='';
   $('sub').textContent=c.name+' · zapata a '+fmt(c.shoe)+' ft · lodo '+fmt(c.mw,1)+' ppg · BOP de superficie';
   buildForm();sync();drain();ks();ui();
 }
@@ -634,7 +662,7 @@ function logRow(e){
   const ul=$('log');ul.prepend(li);while(ul.children.length>40)ul.lastChild.remove();
 }
 function log(msg,cls,t){const e={m:msg,cls:cls||'',t:t??S.t};logData.push(e);if(logData.length>40)logData.shift();logRow(e)}
-function banner(t,ok){const b=$('banner');b.textContent=t;b.className='banner'+(ok?' ok':'');b.hidden=false}
+function banner(t,ok){const b=$('banner');b.textContent=t;b.className='banner'+(ok?' ok':'');b.hidden=false;showReport()}
 // Pasa a la pantalla los avisos que dejó el núcleo.
 function drain(){
   for(const e of S.ev){if(e.sync)sync();else if(e.banner)banner(e.banner,e.ok);else log(e.m,e.cls,e.t)}
@@ -667,13 +695,13 @@ function fit(cv){const d=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.client
   if(cv.width!==Math.round(w*d)||cv.height!==Math.round(h*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}
   const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);return [x,w,h]}
 const FD='"Barlow Condensed","Arial Narrow",sans-serif', FM='"IBM Plex Mono",ui-monospace,monospace';
-const fcol=s=>s.gas?C.gas:(s.rho>c.mw+0.05?C.kill:C.mud);
+const fcol=s=>exam?C.mud:s.gas?C.gas:(s.rho>c.mw+0.05?C.kill:C.mud);
 function drawWell(){
   const [x,w,h]=fit($('well')),D=S.depth;
   const top=58,bot=h-14,H=bot-top,y=d=>top+clamp(d,0,D)/D*H,LX=46,cx=(LX+w-50)/2;
   const hw=Math.max(24,Math.min(44,(w-50-LX)/2-12)), ho=hw-6, sh=8, dc=14, dcTop=D-c.dcLen;
   x.fillStyle=C.rock;x.fillRect(LX,top,w-LX,H+14);
-  if(D>=S.zoneTop&&c.kickEMW>c.normEMW+0.2){x.globalAlpha=.35;x.fillStyle=C.crit;x.fillRect(LX,y(D)-5,w-LX,19);x.globalAlpha=1}
+  if(!exam&&D>=S.zoneTop&&c.kickEMW>c.normEMW+0.2){x.globalAlpha=.35;x.fillStyle=C.crit;x.fillRect(LX,y(D)-5,w-LX,19);x.globalAlpha=1}
   for(const s of S.ann){
     if(s.top==null)continue;x.fillStyle=fcol(s);
     for(const [a,b,r] of [[s.top,Math.min(s.bot,c.shoe),hw],[Math.max(s.top,c.shoe),s.bot,ho]])if(b>a)x.fillRect(cx-r,y(a),2*r,Math.max(1,y(b)-y(a)));
@@ -928,6 +956,21 @@ function drawMani(){
     b.className=(a in S.el?S.el[a].p>0:!S.v[a])?'on':''}
 }
 function setCls(el,k){el.className='read'+(k?' '+k:'')}
+// Modo examen: oculta lo que un perforador no ve (fondo, formación, zapata, fluidos en el pozo) y califica al final.
+let exam=false;
+function setExam(on){
+  exam=!!on;const b=$('exam');b.className=exam?'on':'';b.setAttribute('aria-pressed',exam);
+  for(const id of ['rBhpBox','rPfBox','rOver','rShoe'])$(id).hidden=exam;
+  try{localStorage.setItem('wcs-exam',exam?'1':'0')}catch(_){}
+}
+function showReport(){
+  const r=WCS.score();$('report').hidden=false;
+  $('repTotal').textContent=r.total+' / 100';
+  $('repNote').textContent=(r.done?'Pozo controlado en '+WCS.tstr(r.time):'Ejercicio sin terminar: la nota queda limitada a 50')+' · presión máxima de revestidor '+fmt(r.maxPc)+' psi';
+  const tb=$('repTable');tb.innerHTML='<tr><th>Rubro</th><th>Resultado</th><th>Puntos</th></tr>';
+  for(const i of r.items){const tr=tb.insertRow();tr.insertCell().textContent=i.label;const d=tr.insertCell();d.textContent=i.detail;d.style.textAlign='left';
+    const p=tr.insertCell();p.className='mono';p.textContent=i.pts+' / '+i.max}
+}
 function ui(){
   const t=S.t,hh=Math.floor(t/3600),mm=Math.floor(t%3600/60),ss=Math.floor(t%60);
   $('clock').textContent=[hh,mm,ss].map(v=>String(v).padStart(2,'0')).join(':');
@@ -1004,6 +1047,8 @@ $('apply').onclick=e=>{e.preventDefault();const n=readForm();try{localStorage.se
 $('cfgForm').onsubmit=e=>e.preventDefault();
 // Instante: estado del núcleo + bitácora + hoja de matar. Se guarda también en el navegador para sobrevivir a una recarga.
 const bannerState=()=>{const b=$('banner');return b.hidden?null:{t:b.textContent,ok:b.classList.contains('ok')}};
+$('exam').onclick=()=>{setExam(!exam);ui()};
+$('grade').onclick=showReport;
 $('snapSave').onclick=()=>{
   log('Instante guardado.');
   snap={core:WCS.save(),log:logData.slice(),ks:{dp:$('ksDp').value,cp:$('ksCp').value},banner:bannerState()};snap.core.S.speed=0;
@@ -1013,7 +1058,7 @@ $('snapLoad').onclick=()=>{
   if(!snap)return;WCS.restore(snap.core);S=WCS.S;c=WCS.c;
   logData=[];$('log').innerHTML='';for(const e of snap.log){logData.push(e);logRow(e)}
   $('ksDp').value=snap.ks.dp;$('ksCp').value=snap.ks.cp;
-  if(snap.banner)banner(snap.banner.t,snap.banner.ok);else $('banner').hidden=true;
+  $('report').hidden=true;if(snap.banner)banner(snap.banner.t,snap.banner.ok);else $('banner').hidden=true;
   $('sub').textContent=c.name+' · zapata a '+fmt(c.shoe)+' ft · lodo '+fmt(c.mw,1)+' ppg · BOP de superficie';
   buildForm();sync();ks();log('Se volvió al instante guardado.');ui();
 };
@@ -1028,6 +1073,7 @@ function loop(now){
   requestAnimationFrame(loop);
 }
 colors();
+try{setExam(localStorage.getItem('wcs-exam')==='1')}catch(_){}
 {const sv=loadSaved();if(sv){setCustom(sv);start(sv)}else start(BASE)}
 window.SIM={get S(){return S},get c(){return c},step:WCS.step,act,ks};
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ui());
