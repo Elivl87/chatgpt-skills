@@ -1049,7 +1049,8 @@ function ui(){
   setCls($('rQout'),S.qout-S.qin>0.25&&!S.sealed?'warn':'');
   setCls($('rOver'),ov<-5?'crit':ov>400?'warn':'ok');
   setCls($('rShoe'),S.shoe>c.frac?'crit':S.shoe>c.frac-150?'warn':'');
-  $('spm1V').textContent=S.spmSet[0];$('spm2V').textContent=S.spmSet[1];$('rpmV').textContent=S.rpm;$('wobV').textContent=S.wob;
+  for(const i of [0,1]){const a=Math.round(S.spm[i]);$('spm'+(i+1)+'V').textContent=a+(a!==S.spmSet[i]?' → '+S.spmSet[i]:'')}   // velocidad real y, si aún no llega, la consigna
+  $('rpmV').textContent=S.rpm;$('wobV').textContent=S.wob;
   $('chRV').textContent=fmt(S.chR,1)+(Math.abs(S.chR-S.chRSet)>0.05?' → '+fmt(S.chRSet,1):'');$('chMV').textContent=fmt(S.chM,1)+(Math.abs(S.chM-S.chMSet)>0.05?' → '+fmt(S.chMSet,1):'');$('offV').textContent=fmt(S.off,1);
   $('hUp').className='wide'+(S.hoist>0?' on':'');$('hDn').className='wide'+(S.hoist<0?' on':'');
   for(const b of $('speeds').children)b.className=(+b.dataset.s===S.speed)?'on':'';
