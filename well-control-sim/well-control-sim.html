@@ -171,6 +171,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
           <span><i style="background:var(--accent)"></i>Tubería (psi)</span>
           <span><i style="background:var(--crit)"></i>Revestidor (psi)</span>
           <span><i style="background:var(--warn)"></i>Ganancia (bbl, eje derecho)</span>
+          <span><i style="background:var(--ink)"></i>Objetivo de tubería (punteada)</span>
         </div>
       </div>
     </div>
@@ -234,7 +235,10 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
         <label for="ksCp">SICP</label><input type="number" id="ksCp" min="0" step="10" placeholder="psi">
         <button id="ksRead">Leer manómetros</button>
       </div>
-      <div class="row"><button id="scrBtn">Registrar presión reducida (SCR) ahora</button><span class="mono" id="scrTxt">sin registrar</span></div>
+      <div class="row"><label for="ksMethod">Método</label>
+        <select id="ksMethod"><option value="ww">Esperar y Densificar</option><option value="dm1">Perforador: 1.ª circulación (sacar el influjo)</option><option value="dm2">Perforador: 2.ª circulación (lodo de matar)</option></select></div>
+      <div class="row"><button id="scrBtn">Registrar presión reducida (SCR) ahora</button></div>
+      <div class="row" id="scrList" role="radiogroup" aria-label="Presiones reducidas registradas"></div>
       <div class="scroll"><table>
         <tr><td>Volumen de sarta / anular</td><td class="mono" id="kVol">–</td></tr>
         <tr><td>Desplazamiento de bomba</td><td class="mono" id="kStk">–</td></tr>
@@ -242,13 +246,15 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
         <tr><td>Emboladas barrena → zapata</td><td class="mono" id="kBts">–</td></tr>
         <tr><td>Emboladas barrena → superficie</td><td class="mono" id="kBtsf">–</td></tr>
         <tr><td>MAASP con el lodo que se bombea</td><td class="mono" id="kMaasp">–</td></tr>
+        <tr><td>MAASP con el lodo de matar</td><td class="mono" id="kMaaspK">–</td></tr>
+        <tr><td>Influjo estimado (altura, gradiente, tipo)</td><td class="mono" id="kInf">–</td></tr>
         <tr><td>Densidad de matar (KMW)</td><td class="mono" id="kKmw">–</td></tr>
         <tr><td>Presión inicial de circulación (ICP)</td><td class="mono" id="kIcp">–</td></tr>
         <tr><td>Presión final de circulación (FCP)</td><td class="mono" id="kFcp">–</td></tr>
         <tr><td>Presión de tubería objetivo ahora</td><td class="mono" id="kNow">–</td></tr>
       </table></div>
       <div class="scroll"><table id="sched"></table></div>
-      <p class="note">Registre la SCR circulando a tasa lenta con el pozo abierto, antes del influjo. El objetivo usa el contador de emboladas: póngalo a cero cuando el lodo de matar empiece a entrar a la sarta.</p>
+      <p class="note">Registre la SCR circulando a tasa lenta con el pozo abierto, antes del influjo; puede guardar hasta cuatro tasas y elegir con cuál matar. El objetivo usa el contador de emboladas: póngalo a cero al iniciar cada circulación. El objetivo se dibuja como línea punteada en el registro.</p>
     </div>
     <div class="panel">
       <h2>Bitácora</h2>
@@ -375,7 +381,7 @@ function load(cfg,rnd){
     v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,chRSet:0,chMSet:0,
     str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
     pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,lost:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
-    dly:[],hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[],
+    dly:[],hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scrs:[],scrSel:-1,plan:null,ev:[],
     sc:{tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:false}};
   S.pfKick=0.052*c.kickEMW*S.zoneTop;
   for(let i=0;i<40;i++)step(0.5,true);   // precalienta presiones y flujos sin avanzar el ejercicio
@@ -564,26 +570,46 @@ function step(dt,quiet){
       banner('Pozo controlado en '+tstr(S.t)+'. Ganancia al cierre: '+fmt(S.gainAtShutIn??0,1)+' bbl · presión máxima de revestidor: '+fmt(S.maxPc)+' psi · '+(F.frac?'hubo pérdidas en la zapata.':'la zapata no se fracturó.'),true);
     }
   }
-  if(S.t-S.lastHist>=10){S.lastHist=S.t;S.hist.push([S.t,S.gDp,S.gCp,S.gain]);if(S.hist.length>4000)S.hist=S.hist.filter((_,i)=>i%2===0)}
+  if(S.t-S.lastHist>=10){S.lastHist=S.t;S.hist.push([S.t,S.gDp,S.gCp,S.gain,target()]);if(S.hist.length>4000)S.hist=S.hist.filter((_,i)=>i%2===0)}
 }
 function act(a){
   if(!a||S.over)return;
   if(a in S.v){S.v[a]=!S.v[a];log(NAMES[a]+(S.v[a]?' abierta.':' cerrada.'))}
   else if(a in S.el){const e=S.el[a];e.t=e.t?0:1;if(!e.t)log((a==='ann'?'Abriendo el anular.':a==='bsr'?'Abriendo el ram ciego/corte.':'Abriendo rams '+(a==='upr'?'superiores.':'inferiores.')))}
 }
+const scrCur=()=>S.scrs[S.scrSel]||null;
+// Registra una presión reducida. Se guardan hasta cuatro tasas distintas, ordenadas; repetir una tasa la reemplaza.
 function recordScr(){
   const spm=S.spm[0]+S.spm[1];
   if(S.sealed||spm<5){log('Para registrar la SCR circule a tasa lenta con el pozo abierto.','warn');return false}
   if(!S.flags.hadGas)S.sc.scrBefore=true;
-  S.scr={spm:Math.round(spm),p:Math.round(S.gDp/5)*5};log('SCR registrada: '+fmt(S.scr.p)+' psi a '+S.scr.spm+' spm.');return true;
+  const e={spm:Math.round(spm),p:Math.round(S.gDp/5)*5},i=S.scrs.findIndex(x=>x.spm===e.spm);
+  if(i>=0)S.scrs[i]=e;else{S.scrs.push(e);if(S.scrs.length>4)S.scrs.shift()}
+  S.scrs.sort((a,b)=>a.spm-b.spm);S.scrSel=S.scrs.indexOf(e);
+  log('SCR registrada: '+fmt(e.p)+' psi a '+e.spm+' spm.');return true;
 }
-// Hoja de matar: todo lo que se calcula a partir de la geometría, la SCR y la SIDPP.
-function sheet(sidpp){
-  let vOH=0;for(const s of annSecs)if(s.top>=c.shoe)vOH+=s.len*s.cap;
-  const r={Vs,Va,stk:STK,stb:Vs/STK,bts:vOH/STK,btsf:Va/STK,maasp:(c.lot-S.mwIn)*0.052*c.shoe,kmw:null,icp:null,fcp:null};
-  if(sidpp>=0){r.kmw=Math.ceil((c.mw+sidpp/(0.052*S.depth))*10-1e-6)/10;
-    if(S.scr){r.icp=sidpp+S.scr.p;r.fcp=S.scr.p*r.kmw/c.mw}}
+// Hoja de matar: todo lo que se calcula a partir de la geometría, la SCR elegida, la SIDPP y la SICP.
+function sheet(sidpp,sicp,opt){
+  opt=opt||{};let vOH=0;for(const s of annSecs)if(s.top>=c.shoe)vOH+=s.len*s.cap;
+  const scr=scrCur(),r={Vs,Va,stk:STK,stb:Vs/STK,bts:vOH/STK,btsf:Va/STK,maasp:(c.lot-S.mwIn)*0.052*c.shoe,scr,
+    kmw:null,icp:null,fcp:null,maaspKill:null,hInf:null,gradInf:null};
+  if(sidpp>=0){r.kmw=Math.ceil((c.mw+sidpp/(0.052*S.depth))*10-1e-6)/10;r.maaspKill=(c.lot-r.kmw)*0.052*c.shoe;
+    if(scr){r.icp=sidpp+scr.p;r.fcp=scr.p*r.kmw/c.mw}
+    // Altura y gradiente del influjo a partir de la ganancia y de la diferencia SICP − SIDPP.
+    const g=opt.gain??S.gainAtShutIn;
+    if(sicp>=0&&g>0){r.hInf=volToLen(annSecs,g);r.gradInf=0.052*c.mw-(sicp-sidpp)/r.hInf}}
   return r;
+}
+// Plan de control: 'ww' Esperar y Densificar, 'dm1' y 'dm2' primera y segunda circulación del Método del Perforador.
+function setPlan(method,sidpp,sicp){
+  const r=sheet(sidpp,sicp);
+  S.plan=r.icp==null?null:{method,icp:r.icp,fcp:r.fcp,stb:r.stb,btsf:r.btsf};
+  return r;
+}
+// Presión de tubería que pide el plan con las emboladas actuales.
+function target(){
+  const p=S.plan;if(!p)return null;
+  return p.method==='dm1'?p.icp:p.icp+(p.fcp-p.icp)*clamp(S.strokes/p.stb,0,1);
 }
 // Calificación del ejercicio: cuatro rubros, 100 puntos. Sin pozo controlado la nota queda limitada a 50.
 function score(){
@@ -604,9 +630,10 @@ const save=()=>({S:structuredClone(S),c:{...c}});
 // Instantes guardados con una versión anterior pueden no traer los campos nuevos.
 function migrate(){
   for(const g of S.ann)if(g.gas&&g.zt==null){const T=tempR(g.bot??S.depth),P=Math.max(14.7,g.n/Math.max(g.v,1e-9));g.zt=zFactor(P,T)*T;g.n/=g.zt}   // antes n era P·V
-  S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[];S.sc??={tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:!!S.scr}}
+  S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[];S.sc??={tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:!!S.scr};
+  S.scrs??=S.scr?[S.scr]:[];S.scrSel??=S.scrs.length-1;S.plan??=null}
 function restore(sn){c={...sn.c};S=structuredClone(sn.S);migrate();STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
-return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,score,save,restore,bitDepth,jointNear,clamp,fmt,tstr,zFactor,gasPpg,tempR,
+return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,setPlan,target,score,save,restore,bitDepth,jointNear,clamp,fmt,tstr,zFactor,gasPpg,tempR,
   get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,CW,annSecs,strSecs,lag:LAG_S_PER_KFT*S.depth/1000}}};
 })();
 if(typeof module!=='undefined')module.exports=WCS;
@@ -647,7 +674,7 @@ function readForm(){
 // ---- Enlace con el núcleo ----
 function start(cfg){
   WCS.load(cfg);S=WCS.S;c=WCS.c;
-  logData=[];$('log').innerHTML='';$('banner').hidden=true;$('report').hidden=true;$('ksDp').value='';$('ksCp').value='';
+  logData=[];$('log').innerHTML='';$('banner').hidden=true;$('report').hidden=true;$('ksDp').value='';$('ksCp').value='';$('ksMethod').value='ww';
   $('sub').textContent=c.name+' · zapata a '+fmt(c.shoe)+' ft · lodo '+fmt(c.mw,1)+' ppg · BOP de superficie';
   buildForm();sync();drain();ks();ui();
 }
@@ -670,20 +697,28 @@ function drain(){
 }
 
 // ---- Hoja de matar ----
-let K=null;
 function ks(){
-  const dp=parseFloat($('ksDp').value),r=WCS.sheet(dp>=0?dp:-1);
+  const dp=parseFloat($('ksDp').value),cp=parseFloat($('ksCp').value),m=$('ksMethod').value;
+  const r=WCS.setPlan(m,dp>=0?dp:-1,cp>=0?cp:-1);
   $('kVol').textContent=fmt(r.Vs,1)+' / '+fmt(r.Va,1)+' bbl';$('kStk').textContent=fmt(r.stk,4)+' bbl/stk';
   $('kStb').textContent=fmt(r.stb)+' stk';$('kBts').textContent=fmt(r.bts)+' stk';$('kBtsf').textContent=fmt(r.btsf)+' stk';
-  $('scrTxt').textContent=S.scr?fmt(S.scr.p)+' psi a '+fmt(S.scr.spm)+' spm':'sin registrar';
-  const tb=$('sched');tb.innerHTML='';K=null;
+  // lista de presiones reducidas registradas: se elige con cuál se va a matar
+  const box=$('scrList');box.innerHTML='';
+  if(!S.scrs.length)box.textContent='Sin presiones reducidas registradas.';
+  S.scrs.forEach((e,i)=>{const id='scr_'+e.spm,lb=document.createElement('label'),rb=document.createElement('input');
+    rb.type='radio';rb.name='scrSel';rb.id=id;rb.checked=i===S.scrSel;rb.onchange=()=>{S.scrSel=i;ks()};
+    lb.htmlFor=id;lb.append(rb,document.createTextNode(' '+fmt(e.p)+' psi a '+e.spm+' spm'));box.append(lb)});
+  const tb=$('sched');tb.innerHTML='';
+  $('kInf').textContent=r.hInf==null?'–':fmt(r.hInf)+' ft · '+fmt(r.gradInf,2)+' psi/ft · '+(r.gradInf<0.2?'gas':r.gradInf<0.4?'mezcla de gas y líquido':'líquido');
+  $('kMaaspK').textContent=r.maaspKill==null?'–':fmt(r.maaspKill)+' psi';
   if(r.kmw==null){['kKmw','kIcp','kFcp','kNow'].forEach(i=>$(i).textContent='–');return}
   $('kKmw').textContent=fmt(r.kmw,1)+' ppg';
   if(r.icp==null){$('kIcp').textContent='registre la SCR';$('kFcp').textContent='–';$('kNow').textContent='–';return}
-  K={icp:r.icp,fcp:r.fcp,stb:r.stb};
   $('kIcp').textContent=fmt(r.icp)+' psi';$('kFcp').textContent=fmt(r.fcp)+' psi';
   let h='<tr><th>Emboladas</th><th>Presión de tubería</th></tr>';
-  for(let i=0;i<=10;i++)h+='<tr><td class="mono">'+fmt(r.stb*i/10)+'</td><td class="mono">'+fmt(r.icp+(r.fcp-r.icp)*i/10)+' psi</td></tr>';
+  if(m==='dm1')h+='<tr><td class="mono">0 a '+fmt(r.btsf)+'</td><td class="mono">'+fmt(r.icp)+' psi constante, con el lodo original</td></tr>';
+  else for(let i=0;i<=10;i++)h+='<tr><td class="mono">'+fmt(r.stb*i/10)+'</td><td class="mono">'+fmt(r.icp+(r.fcp-r.icp)*i/10)+' psi</td></tr>';
+  if(m!=='dm1')h+='<tr><td class="mono">'+fmt(r.stb)+' a '+fmt(r.stb+r.btsf)+'</td><td class="mono">'+fmt(r.fcp)+' psi constante</td></tr>';
   tb.innerHTML=h;
 }
 
@@ -756,6 +791,10 @@ function drawChart(){
   const line=(idx,max,col)=>{x.strokeStyle=col;x.lineWidth=1.8;x.beginPath();
     H.forEach((p,i)=>{const yy=b-(b-t)*clamp(p[idx]/max,0,1);i?x.lineTo(X(p[0]),yy):x.moveTo(X(p[0]),yy)});x.stroke()};
   line(3,gm,C.warn);line(2,pm,C.crit);line(1,pm,C.accent);
+  // objetivo de tubería del plan de control, solo donde hubo plan
+  x.strokeStyle=C.ink;x.lineWidth=1.3;x.setLineDash([5,4]);x.beginPath();let pen=false;
+  for(const p of H){if(p[4]==null){pen=false;continue}const yy=b-(b-t)*clamp(p[4]/pm,0,1);pen?x.lineTo(X(p[0]),yy):x.moveTo(X(p[0]),yy);pen=true}
+  x.stroke();x.setLineDash([]);
 }
 function drawSpace(){
   const [x,w,h]=fit($('space'));const dmax=c.bLpr+10,top=22,y=d=>top+(d+4)/(dmax+4)*(h-top-6),cx=w-56,J=c.joint;
@@ -995,7 +1034,7 @@ function ui(){
   if(S.speed===0&&!S.over&&!S.killed)s=[S.t<1?'Listo para iniciar':'En pausa','warn'];
   const st=$('status');st.textContent=s[0];st.className='pill '+s[1];
   const maasp=(c.lot-S.mwIn)*0.052*c.shoe;$('kMaasp').textContent=fmt(maasp)+' psi';
-  if(K){const tg=K.icp+(K.fcp-K.icp)*clamp(S.strokes/K.stb,0,1);$('kNow').textContent=fmt(tg)+' psi ('+(S.gDp-tg>=0?'+':'')+fmt(S.gDp-tg)+')'}
+  {const tg=WCS.target();if(tg!=null)$('kNow').textContent=fmt(tg)+' psi ('+(S.gDp-tg>=0?'+':'')+fmt(S.gDp-tg)+')'}
   const m0=(c.lot-c.mw)*0.052*c.shoe;
   drawWell();dial($('dialDP'),S.gDp,Math.ceil(c.pmax/1000)*1000,'TUBERÍA');
   dial($('dialCP'),S.gCp,Math.max(2000,Math.ceil(m0*1.5/1000)*1000),'REVESTIDOR',m0);
@@ -1023,7 +1062,7 @@ const hitAt=e=>{const cv=$('mani'),r=cv.getBoundingClientRect(),k=r.width/MW,px=
 $('mani').addEventListener('click',e=>act(hitAt(e)));
 $('mani').addEventListener('mousemove',e=>{$('mani').style.cursor=hitAt(e)?'pointer':'default'});
 for(const a of ['ann','upr','bsr','lpr','hcr','vr','vm','p1','p2']){const b=document.createElement('button');b.dataset.a=a;b.id='mb_'+a;b.onclick=()=>act(a);$('maniBtns').append(b)}
-$('ksDp').oninput=ks;$('ksCp').oninput=ks;
+$('ksDp').oninput=ks;$('ksCp').oninput=ks;$('ksMethod').onchange=ks;
 $('ksRead').onclick=()=>{$('ksDp').value=Math.round(S.gDp/5)*5;$('ksCp').value=Math.round(S.gCp/5)*5;ks();
   if(!S.gCpOn)log('El manómetro de revestidor está aislado del pozo: abra la HCR para leer la SICP.','warn')};
 $('scrBtn').onclick=()=>{WCS.recordScr();drain();ks()};
@@ -1051,13 +1090,13 @@ $('exam').onclick=()=>{setExam(!exam);ui()};
 $('grade').onclick=showReport;
 $('snapSave').onclick=()=>{
   log('Instante guardado.');
-  snap={core:WCS.save(),log:logData.slice(),ks:{dp:$('ksDp').value,cp:$('ksCp').value},banner:bannerState()};snap.core.S.speed=0;
+  snap={core:WCS.save(),log:logData.slice(),ks:{dp:$('ksDp').value,cp:$('ksCp').value,m:$('ksMethod').value},banner:bannerState()};snap.core.S.speed=0;
   try{localStorage.setItem('wcs-snap',JSON.stringify(snap))}catch(_){log('No se pudo guardar el instante en el navegador; seguirá disponible hasta recargar la página.','warn')}
 };
 $('snapLoad').onclick=()=>{
   if(!snap)return;WCS.restore(snap.core);S=WCS.S;c=WCS.c;
   logData=[];$('log').innerHTML='';for(const e of snap.log){logData.push(e);logRow(e)}
-  $('ksDp').value=snap.ks.dp;$('ksCp').value=snap.ks.cp;
+  $('ksDp').value=snap.ks.dp;$('ksCp').value=snap.ks.cp;$('ksMethod').value=snap.ks.m||'ww';
   $('report').hidden=true;if(snap.banner)banner(snap.banner.t,snap.banner.ok);else $('banner').hidden=true;
   $('sub').textContent=c.name+' · zapata a '+fmt(c.shoe)+' ft · lodo '+fmt(c.mw,1)+' ppg · BOP de superficie';
   buildForm();sync();ks();log('Se volvió al instante guardado.');ui();
