@@ -580,19 +580,21 @@ function readForm(){
 // ---- Enlace con el núcleo ----
 function start(cfg){
   WCS.load(cfg);S=WCS.S;c=WCS.c;
-  $('log').innerHTML='';$('banner').hidden=true;$('ksDp').value='';$('ksCp').value='';
+  logData=[];$('log').innerHTML='';$('banner').hidden=true;$('ksDp').value='';$('ksCp').value='';
   $('sub').textContent=c.name+' · zapata a '+fmt(c.shoe)+' ft · lodo '+fmt(c.mw,1)+' ppg · BOP de superficie';
   buildForm();sync();drain();ks();ui();
 }
 function sync(){
   $('spm1').value=S.spmSet[0];$('spm2').value=S.spmSet[1];$('rpm').value=S.rpm;$('wob').value=S.wob;$('chR').value=S.chR;$('chM').value=S.chM;$('mw').value=S.mwIn.toFixed(1);
 }
-function log(msg,cls,t){
-  const li=document.createElement('li');if(cls)li.className=cls;
-  const tm=document.createElement('time');tm.textContent=WCS.tstr(t??S.t);
-  const sp=document.createElement('span');sp.textContent=msg;li.append(tm,sp);
+let logData=[];   // la bitácora como datos, para poder guardarla y restaurarla con el instante
+function logRow(e){
+  const li=document.createElement('li');if(e.cls)li.className=e.cls;
+  const tm=document.createElement('time');tm.textContent=WCS.tstr(e.t);
+  const sp=document.createElement('span');sp.textContent=e.m;li.append(tm,sp);
   const ul=$('log');ul.prepend(li);while(ul.children.length>40)ul.lastChild.remove();
 }
+function log(msg,cls,t){const e={m:msg,cls:cls||'',t:t??S.t};logData.push(e);if(logData.length>40)logData.shift();logRow(e)}
 function banner(t,ok){const b=$('banner');b.textContent=t;b.className='banner'+(ok?' ok':'');b.hidden=false}
 // Pasa a la pantalla los avisos que dejó el núcleo.
 function drain(){
@@ -961,8 +963,22 @@ function loadSaved(){
 $('load').onclick=()=>{const v=$('preset').value;start(v==='custom'&&custom?custom:PRESETS[+v])};
 $('apply').onclick=e=>{e.preventDefault();const n=readForm();try{localStorage.setItem('wcs-cfg',JSON.stringify(n))}catch(_){}setCustom(n);start(n);$('cfgMsg').textContent='Datos aplicados. Ejercicio reiniciado.'};
 $('cfgForm').onsubmit=e=>e.preventDefault();
-$('snapSave').onclick=()=>{snap=WCS.save();snap.S.speed=0;log('Instante guardado.')};
-$('snapLoad').onclick=()=>{if(!snap)return;WCS.restore(snap);S=WCS.S;c=WCS.c;$('banner').hidden=true;sync();ks();log('Se volvió al instante guardado.');ui()};
+// Instante: estado del núcleo + bitácora + hoja de matar. Se guarda también en el navegador para sobrevivir a una recarga.
+const bannerState=()=>{const b=$('banner');return b.hidden?null:{t:b.textContent,ok:b.classList.contains('ok')}};
+$('snapSave').onclick=()=>{
+  log('Instante guardado.');
+  snap={core:WCS.save(),log:logData.slice(),ks:{dp:$('ksDp').value,cp:$('ksCp').value},banner:bannerState()};snap.core.S.speed=0;
+  try{localStorage.setItem('wcs-snap',JSON.stringify(snap))}catch(_){log('No se pudo guardar el instante en el navegador; seguirá disponible hasta recargar la página.','warn')}
+};
+$('snapLoad').onclick=()=>{
+  if(!snap)return;WCS.restore(snap.core);S=WCS.S;c=WCS.c;
+  logData=[];$('log').innerHTML='';for(const e of snap.log){logData.push(e);logRow(e)}
+  $('ksDp').value=snap.ks.dp;$('ksCp').value=snap.ks.cp;
+  if(snap.banner)banner(snap.banner.t,snap.banner.ok);else $('banner').hidden=true;
+  $('sub').textContent=c.name+' · zapata a '+fmt(c.shoe)+' ft · lodo '+fmt(c.mw,1)+' ppg · BOP de superficie';
+  buildForm();sync();ks();log('Se volvió al instante guardado.');ui();
+};
+try{const sn=JSON.parse(localStorage.getItem('wcs-snap'));if(sn&&sn.core&&sn.core.S&&Array.isArray(sn.core.S.ann)&&Array.isArray(sn.log))snap=sn}catch(_){}
 
 const DT=0.5;
 let last=performance.now(),acc=0,fr=0;

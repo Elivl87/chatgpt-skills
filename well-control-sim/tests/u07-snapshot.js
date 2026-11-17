@@ -1,0 +1,31 @@
+// Paso 7: el instante guarda bitácora y hoja de matar, y sobrevive a una recarga.
+module.exports=async p=>{
+  const res=[];
+  await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(300);
+  res.push(['sin instante guardado el botón está deshabilitado',await p.$eval('#snapLoad',b=>b.disabled)]);
+  await p.selectOption('#preset','2');await p.click('#load');
+  await p.evaluate(()=>{for(let i=0;i<240;i++)SIM.step(0.5)});
+  await p.click('#mb_hcr');await p.click('#zero');await p.fill('#ksDp','150');await p.fill('#ksCp','220');
+  await p.click('#snapSave');
+  const saved=await p.evaluate(()=>({t:SIM.S.t,n:document.querySelectorAll('#log li').length,hcr:SIM.S.v.hcr}));
+  await p.evaluate(()=>{for(let i=0;i<600;i++)SIM.step(0.5)});
+  await p.click('#mb_hcr');await p.click('#mb_vm');await p.fill('#ksDp','999');
+  await p.click('#snapLoad');
+  let now=await p.evaluate(()=>({t:SIM.S.t,n:document.querySelectorAll('#log li').length,hcr:SIM.S.v.hcr,dp:document.getElementById('ksDp').value,cp:document.getElementById('ksCp').value,tvd:SIM.c.tvd}));
+  res.push(['restaura el tiempo y las válvulas',now.t===saved.t&&now.hcr===saved.hcr]);
+  res.push(['restaura la bitácora (más el aviso de retorno)',now.n===saved.n+1]);
+  res.push(['restaura la hoja de matar',now.dp==='150'&&now.cp==='220']);
+  await p.reload();await p.waitForTimeout(300);
+  res.push(['tras recargar el botón sigue disponible',!(await p.$eval('#snapLoad',b=>b.disabled))]);
+  await p.click('#snapLoad');
+  now=await p.evaluate(()=>({t:SIM.S.t,tvd:SIM.c.tvd,dp:document.getElementById('ksDp').value,n:document.querySelectorAll('#log li').length,sub:document.getElementById('sub').textContent}));
+  res.push(['tras recargar restaura ejercicio, tiempo y hoja',now.t===saved.t&&now.tvd===4500&&now.dp==='150']);
+  res.push(['tras recargar restaura la bitácora',now.n===saved.n+1]);
+  res.push(['el encabezado corresponde al ejercicio restaurado',now.sub.includes('somero')]);
+  await p.evaluate(()=>{for(let i=0;i<20;i++)SIM.step(0.5)});
+  res.push(['el ejercicio restaurado sigue corriendo',await p.evaluate(()=>Number.isFinite(SIM.S.bhp)&&SIM.S.bhp>0)]);
+  await p.evaluate(()=>localStorage.setItem('wcs-snap','{"core":{"S":{}}}'));await p.reload();await p.waitForTimeout(300);
+  res.push(['un instante dañado se ignora',await p.$eval('#snapLoad',b=>b.disabled)]);
+  await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(300);
+  return res;
+};
