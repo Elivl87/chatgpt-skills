@@ -723,8 +723,11 @@ function ks(){
 }
 
 // ---- Dibujo ----
-let C={};
-function colors(){const cs=getComputedStyle(document.documentElement);
+let C={},themeN=0;
+// Redibujo selectivo: cada lienzo se vuelve a pintar solo si cambió lo que muestra (o el tema o su tamaño).
+const memo={},draws={well:0,dial:0,chart:0,space:0,mani:0,ui:0};
+function changed(key,cv,sig){const k=themeN+'|'+cv.clientWidth+'x'+cv.clientHeight+'|'+sig;if(memo[key]===k)return false;memo[key]=k;draws[key.replace(/\d+$/,'')]++;return true}
+function colors(){themeN++;const cs=getComputedStyle(document.documentElement);
   for(const k of ['bg','panel','inset','ink','muted','line','accent','mud','kill','gas','rock','steel','ok','warn','crit'])C[k]=cs.getPropertyValue('--'+k).trim()}
 function fit(cv){const d=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;
   if(cv.width!==Math.round(w*d)||cv.height!==Math.round(h*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}
@@ -732,6 +735,7 @@ function fit(cv){const d=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.client
 const FD='"Barlow Condensed","Arial Narrow",sans-serif', FM='"IBM Plex Mono",ui-monospace,monospace';
 const fcol=s=>exam?C.mud:s.gas?C.gas:(s.rho>c.mw+0.05?C.kill:C.mud);
 function drawWell(){
+  if(!changed('well',$('well'),[exam,S.sealed,S.depth.toFixed(1),S.off.toFixed(1),S.zoneTop<=S.depth,S.ann.map(s=>(s.gas?'g':s.rho)+':'+s.v.toFixed(1)).join(),S.str.map(s=>s.rho+':'+s.v.toFixed(1)).join()].join('|')))return;
   const [x,w,h]=fit($('well')),D=S.depth;
   const top=58,bot=h-14,H=bot-top,y=d=>top+clamp(d,0,D)/D*H,LX=46,cx=(LX+w-50)/2;
   const hw=Math.max(24,Math.min(44,(w-50-LX)/2-12)), ho=hw-6, sh=8, dc=14, dcTop=D-c.dcLen;
@@ -762,6 +766,7 @@ function drawWell(){
   x.fillText(S.sealed?'RETORNO POR EL CHOKE':'RETORNO POR LÍNEA DE FLUJO',cx,top-40);
 }
 function dial(cv,val,max,label,red){
+  if(!changed(cv.id==='dialDP'?'dial1':'dial2',cv,[Math.round(val*2),max,Math.round(red||0)].join('|')))return;
   const [x,w,h]=fit(cv);const cx=w/2,cy=h*0.54,r=Math.min(w/2-6,h*0.5-4);
   const a0=Math.PI*0.75,a1=Math.PI*2.25,A=v=>a0+(a1-a0)*clamp(v/max,0,1);
   x.fillStyle=C.inset;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();
@@ -779,6 +784,7 @@ function dial(cv,val,max,label,red){
   x.fillStyle=C.muted;x.font='10px '+FM;x.fillText('psi',cx,cy+r*0.5+16);
 }
 function drawChart(){
+  if(!changed('chart',$('chart'),S.hist.length+'|'+(S.hist.length?S.hist[S.hist.length-1][0]:0)+'|'+Math.floor(Math.max(1800,S.t)/60)))return;
   const [x,w,h]=fit($('chart'));const l=44,r=w-34,t=8,b=h-20,H=S.hist;
   const tmax=Math.max(1800,S.t);
   let pm=1000,gm=20;for(const p of H){pm=Math.max(pm,p[1],p[2]);gm=Math.max(gm,p[3])}
@@ -797,6 +803,7 @@ function drawChart(){
   x.stroke();x.setLineDash([]);
 }
 function drawSpace(){
+  if(!changed('space',$('space'),[bitDepth().toFixed(2),Object.values(S.el).map(e=>e.p.toFixed(2)).join(),c.joint,c.bAnn,c.bUpr,c.bBsr,c.bLpr].join('|')))return;
   const [x,w,h]=fit($('space'));const dmax=c.bLpr+10,top=22,y=d=>top+(d+4)/(dmax+4)*(h-top-6),cx=w-56,J=c.joint;
   x.font='11px '+FM;x.textBaseline='middle';
   x.strokeStyle=C.steel;x.lineWidth=2;x.beginPath();x.moveTo(4,y(0));x.lineTo(w-4,y(0));x.stroke();
@@ -958,7 +965,8 @@ function chokeBody(x,vx,vy,pct,label,remote,f,s){
   x.font='600 12px '+FM;x.fillText(fmt(pct,pct%1?1:0)+' %',vx,vy+38);
 }
 function drawMani(){
-  const cv=$('mani'),k=cv.clientWidth/MW;cv.style.height=Math.round(MH*k)+'px';
+  const cv=$('mani'),k=cv.clientWidth/MW,hpx=Math.round(MH*k)+'px';if(cv.style.height!==hpx)cv.style.height=hpx;
+  if(!changed('mani',cv,JSON.stringify([S.v,Object.values(S.el).map(e=>[e.t,e.p.toFixed(2)]),S.bad,Math.round(S.spm[0]),Math.round(S.spm[1]),S.chR.toFixed(1),S.chM.toFixed(1)])))return;
   const [x]=fit(cv);x.scale(k,k);hits=[];
   const BF='#a93226',BS='#6a0000',PF='#6c7a89',PS='#2c3e50',cx=330,cw=70;
   const Y={bell:22,ann:102,ram:202,mx:322,low:358,wh:418},yC=340,yR=262,yM=412;
@@ -1011,6 +1019,7 @@ function showReport(){
     const p=tr.insertCell();p.className='mono';p.textContent=i.pts+' / '+i.max}
 }
 function ui(){
+  draws.ui++;
   const t=S.t,hh=Math.floor(t/3600),mm=Math.floor(t%3600/60),ss=Math.floor(t%60);
   $('clock').textContent=[hh,mm,ss].map(v=>String(v).padStart(2,'0')).join(':');
   $('vGain').textContent=fmt(S.gain,1);$('vQin').textContent=fmt(S.qin,1);$('vQout').textContent=fmt(S.qout,1);
@@ -1103,19 +1112,27 @@ $('snapLoad').onclick=()=>{
 };
 try{const sn=JSON.parse(localStorage.getItem('wcs-snap'));if(sn&&sn.core&&sn.core.S&&Array.isArray(sn.core.S.ann)&&Array.isArray(sn.log))snap=sn}catch(_){}
 
-const DT=0.5;
-let last=performance.now(),acc=0,fr=0;
+// Paso de simulación: fino a baja velocidad para que los instrumentos se muevan suave, grueso a alta velocidad.
+const stepFor=sp=>sp<=5?0.1:0.5;
+let last=performance.now(),acc=0,fr=0,dirty=true;
+const mark=()=>{dirty=true};
+for(const ev of ['input','change','click','keyup'])document.addEventListener(ev,mark,true);
+window.addEventListener('resize',mark);
+// El tema se relee solo cuando cambia (sistema o conmutador de la página), no en cada cuadro.
+const retheme=()=>{colors();mark()};
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme)}catch(_){}
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme','class','style']});
 function loop(now){
-  const dt=Math.min(0.1,(now-last)/1000);last=now;
-  if(S.speed>0&&!S.over){acc+=dt*S.speed;let n=0;while(acc>=DT&&n<400){WCS.step(DT);acc-=DT;n++;if(S.over)break}drain()}
-  if(++fr%4===0){colors();ui()}
+  const dt=Math.min(0.1,(now-last)/1000);last=now;let ran=false;
+  if(S.speed>0&&!S.over){const DT=stepFor(S.speed);acc+=dt*S.speed;let n=0;while(acc>=DT&&n<400){WCS.step(DT);acc-=DT;n++;ran=true;if(S.over)break}if(ran)drain()}
+  if(++fr%4===0&&(ran||dirty||S.speed>0)){ui();dirty=false}   // en pausa y sin cambios no se toca la pantalla
   requestAnimationFrame(loop);
 }
 colors();
 try{setExam(localStorage.getItem('wcs-exam')==='1')}catch(_){}
 {const sv=loadSaved();if(sv){setCustom(sv);start(sv)}else start(BASE)}
-window.SIM={get S(){return S},get c(){return c},step:WCS.step,act,ks};
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ui());
+window.SIM={get S(){return S},get c(){return c},get C(){return C},draws,stepFor,step:WCS.step,act,ks};
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{for(const k in memo)delete memo[k];mark()});
 requestAnimationFrame(loop);
 })();
 </script>
