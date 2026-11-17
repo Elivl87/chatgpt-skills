@@ -1,0 +1,944 @@
+<title>Simulador Well Control</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: consola de perforador. Pozo a la izquierda, instrumentos al centro, mandos a la derecha; debajo equipo de superficie, hoja de matar, bitácora y datos del ejercicio. */
+:root{
+  --bg:#e6ebf0; --panel:#f6f8fa; --inset:#e9eef3; --ink:#15202b; --muted:#536373; --line:#c3cdd7;
+  --accent:#0b6a9c; --accent-ink:#ffffff;
+  --mud:#9a6b3f; --kill:#2b7fd1; --gas:#d9a900; --rock:#c9bfae; --steel:#3b4856;
+  --ok:#1b8349; --warn:#b96d00; --crit:#c22d2d;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f171f; --panel:#17222c; --inset:#111b24; --ink:#e6edf3; --muted:#93a4b4; --line:#2b3a48;
+  --accent:#4db3e6; --accent-ink:#06202e;
+  --mud:#b98654; --kill:#4a9bea; --gas:#f2cb3a; --rock:#453d33; --steel:#aab6c2;
+  --ok:#3fc27a; --warn:#f0a53a; --crit:#f06a5e; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0f171f; --panel:#17222c; --inset:#111b24; --ink:#e6edf3; --muted:#93a4b4; --line:#2b3a48;
+  --accent:#4db3e6; --accent-ink:#06202e;
+  --mud:#b98654; --kill:#4a9bea; --gas:#f2cb3a; --rock:#453d33; --steel:#aab6c2;
+  --ok:#3fc27a; --warn:#f0a53a; --crit:#f06a5e; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-block:14px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance}
+h1{font-size:26px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;line-height:1.1}
+h2{font-size:15px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+h3{font-size:13.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.top .sub{color:var(--muted);font-size:13px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.clock{font-family:var(--f-mono);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.pill{font-family:var(--f-display);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:14px;
+  padding:3px 10px;border-radius:3px;border:1.5px solid currentColor;color:var(--ok)}
+.pill.warn{color:var(--warn)} .pill.crit{color:var(--crit)} .pill.info{color:var(--accent)}
+.grid{display:grid;grid-template-columns:230px minmax(0,1fr) 300px;gap:12px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.mid{display:flex;flex-direction:column;gap:12px;min-width:0}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
+.surf{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:12px;align-items:start}
+canvas{display:block;width:100%}
+#well{height:540px} #dialDP,#dialCP{height:190px} #chart{height:200px} #space{height:250px}
+.dials{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.reads{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.read{background:var(--inset);padding:7px 9px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.read .k{font-family:var(--f-display);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.read .v{font-family:var(--f-mono);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.read .v small{font-size:11px;font-weight:400;color:var(--muted);margin-left:3px}
+.read.ok .v{color:var(--ok)} .read.warn .v{color:var(--warn)} .read.crit .v{color:var(--crit)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;margin-right:5px;vertical-align:-1px;border-radius:2px}
+button{font:inherit;font-family:var(--f-display);font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink);background:var(--inset);border:1px solid var(--line);border-radius:3px;padding:5px 11px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible,svg [tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.wide{flex:1}
+.ctl{display:flex;flex-direction:column;gap:6px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.ctl:last-child{border-bottom:0;padding-bottom:0}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.row.sp{justify-content:space-between}
+label{font-size:13px;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number],select{font:inherit;font-family:var(--f-mono);width:92px;padding:4px 6px;background:var(--inset);color:var(--ink);border:1px solid var(--line);border-radius:3px}
+select{width:auto;max-width:100%;font-family:var(--f-body)}
+.big{font-family:var(--f-mono);font-size:16px;font-weight:600;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;font-size:13px}
+td,th{padding:3px 6px;text-align:right;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-display);font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-size:12.5px}
+td:first-child,th:first-child{text-align:left}
+td.mono{white-space:nowrap}
+.scroll{overflow-x:auto}
+#mani{display:block;width:100%;min-width:640px;cursor:default;background:var(--inset);border:1px solid var(--line);border-radius:3px}
+#maniBtns button{font-size:13px;padding:3px 8px}
+#log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;max-height:230px;overflow-y:auto;font-size:13px}
+#log li{display:flex;gap:8px} #log time{font-family:var(--f-mono);color:var(--muted);flex:none}
+#log li.warn{color:var(--warn)} #log li.crit{color:var(--crit)} #log li.ok{color:var(--ok)}
+ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;max-width:68ch}
+.note{font-size:12.5px;color:var(--muted);margin:0;max-width:72ch}
+.banner{border:1.5px solid var(--crit);color:var(--crit);border-radius:4px;padding:10px 12px;font-weight:500;background:var(--panel)}
+.banner.ok{border-color:var(--ok);color:var(--ok)}
+.cfg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px 22px}
+.cfg fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;min-width:0}
+.cfg legend{font-family:var(--f-display);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13.5px;padding:0;margin-bottom:4px}
+.cfg .f{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cfg .f span{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);flex:none}
+.cfg input[type=number]{width:84px}
+@media (max-width:1040px){ .grid{grid-template-columns:200px minmax(0,1fr)} .right{grid-column:1 / -1} }
+@media (max-width:760px){ .grid,.two,.surf{grid-template-columns:minmax(0,1fr)} #well{height:420px} .reads{grid-template-columns:repeat(2,minmax(0,1fr))} #dialDP,#dialCP{height:160px} }
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Simulador de Well Control</h1>
+      <div class="sub" id="sub"></div>
+    </div>
+    <div class="bar">
+      <span class="pill" id="status">Listo</span>
+      <span class="clock" id="clock">00:00:00</span>
+      <span class="bar" id="speeds" role="group" aria-label="Velocidad de simulación">
+        <button data-s="0">Pausa</button><button data-s="1">1×</button><button data-s="5">5×</button><button data-s="20">20×</button><button data-s="60">60×</button>
+      </span>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="row">
+      <label for="preset">Ejercicio</label>
+      <select id="preset"></select>
+      <button id="load">Cargar ejercicio</button>
+      <button id="snapSave">Guardar instante</button>
+      <button id="snapLoad" disabled>Volver al instante</button>
+      <a href="#datos">Editar datos del ejercicio</a>
+    </div>
+  </div>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Pozo</h2>
+      <canvas id="well" aria-label="Esquema del pozo con los fluidos en sarta y anular"></canvas>
+      <div class="legend">
+        <span><i style="background:var(--mud)"></i>Lodo original</span>
+        <span><i style="background:var(--kill)"></i>Lodo más pesado</span>
+        <span><i style="background:var(--gas)"></i>Gas</span>
+      </div>
+    </div>
+
+    <div class="mid">
+      <div class="panel">
+        <h2>Panel del choke</h2>
+        <div class="dials">
+          <canvas id="dialDP" aria-label="Manómetro de tubería"></canvas>
+          <canvas id="dialCP" aria-label="Manómetro de revestidor"></canvas>
+        </div>
+        <div class="reads">
+          <div class="read" id="rGain"><span class="k">Ganancia tanques</span><span class="v"><span id="vGain">0.0</span><small>bbl</small></span></div>
+          <div class="read"><span class="k">Flujo entrada</span><span class="v"><span id="vQin">0.0</span><small>bbl/min</small></span></div>
+          <div class="read" id="rQout"><span class="k">Flujo salida</span><span class="v"><span id="vQout">0.0</span><small>bbl/min</small></span></div>
+          <div class="read"><span class="k">Emboladas</span><span class="v"><span id="vStk">0</span><small>stk</small></span></div>
+          <div class="read"><span class="k">Presión de fondo</span><span class="v"><span id="vBhp">0</span><small>psi</small></span></div>
+          <div class="read"><span class="k">Presión formación</span><span class="v"><span id="vPf">0</span><small>psi</small></span></div>
+          <div class="read" id="rOver"><span class="k">Sobrebalance</span><span class="v"><span id="vOver">0</span><small>psi</small></span></div>
+          <div class="read" id="rShoe"><span class="k">Zapata / fractura</span><span class="v"><span id="vShoe">0</span><small id="vFrac">/ 0</small></span></div>
+          <div class="read"><span class="k">Prof. hoyo</span><span class="v"><span id="vDepth">0</span><small>ft</small></span></div>
+          <div class="read"><span class="k">Prof. barrena</span><span class="v"><span id="vBit">0</span><small>ft</small></span></div>
+          <div class="read"><span class="k">ROP</span><span class="v"><span id="vRop">0</span><small>ft/h</small></span></div>
+          <div class="read"><span class="k">Peso en gancho</span><span class="v"><span id="vHook">0</span><small>klb</small></span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Registro</h2>
+        <canvas id="chart" aria-label="Gráfica de presiones y ganancia contra tiempo"></canvas>
+        <div class="legend">
+          <span><i style="background:var(--accent)"></i>Tubería (psi)</span>
+          <span><i style="background:var(--crit)"></i>Revestidor (psi)</span>
+          <span><i style="background:var(--warn)"></i>Ganancia (bbl, eje derecho)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel right">
+      <h2>Mandos del perforador</h2>
+      <div class="ctl">
+        <h3>Bombas</h3>
+        <div class="row sp"><label for="spm1">Bomba 1</label><span class="big"><span id="spm1V">0</span> spm</span></div>
+        <input type="range" id="spm1" min="0" max="120" step="1" value="0">
+        <div class="row sp"><label for="spm2">Bomba 2</label><span class="big"><span id="spm2V">0</span> spm</span></div>
+        <input type="range" id="spm2" min="0" max="120" step="1" value="0">
+        <div class="row"><button class="wide" id="pOff">Parar bombas</button><button class="wide" id="zero">Contador a cero</button></div>
+        <div class="row sp"><label for="mw">Densidad que se bombea</label><span><input type="number" id="mw" min="7" max="20" step="0.1" value="10.0"> ppg</span></div>
+      </div>
+      <div class="ctl">
+        <h3>Sarta</h3>
+        <div class="row sp"><label for="rpm">Rotaria</label><span class="big"><span id="rpmV">0</span> rpm</span></div>
+        <input type="range" id="rpm" min="0" max="180" step="5" value="0">
+        <div class="row sp"><label for="wob">Peso sobre barrena</label><span class="big"><span id="wobV">0</span> klb</span></div>
+        <input type="range" id="wob" min="0" max="50" step="1" value="0">
+        <div class="row">
+          <button class="wide" id="hUp">Levantar</button><button class="wide" id="hStop">Freno</button><button class="wide" id="hDn">Bajar</button>
+          <select id="hSpd" aria-label="Velocidad del gancho"><option value="10">10 ft/min</option><option value="30" selected>30 ft/min</option><option value="60">60 ft/min</option><option value="90">90 ft/min</option></select>
+        </div>
+        <div class="row sp"><label>Barrena sobre el fondo</label><span class="big"><span id="offV">0.0</span> ft</span></div>
+      </div>
+      <div class="ctl">
+        <h3>Chokes</h3>
+        <div class="row sp"><label for="chR">Choke remoto</label><span class="big"><span id="chRV">0</span> %</span></div>
+        <input type="range" id="chR" min="0" max="100" step="0.5" value="0">
+        <div class="row">
+          <button class="wide" data-c="-5">−5</button><button class="wide" data-c="-1">−1</button>
+          <button class="wide" data-c="1">+1</button><button class="wide" data-c="5">+5</button>
+        </div>
+        <div class="row sp"><label for="chM">Choke manual</label><span class="big"><span id="chMV">0</span> %</span></div>
+        <input type="range" id="chM" min="0" max="100" step="0.5" value="0">
+      </div>
+    </div>
+  </div>
+
+  <div class="surf">
+    <div class="panel">
+      <h2>Equipo de superficie: toque una válvula o un preventor para operarlo</h2>
+      <div class="scroll"><canvas id="mani" aria-label="Manifold de standpipe, conjunto de BOP y manifold de choke"></canvas></div>
+      <div class="row" id="maniBtns"></div>
+      <p class="note">Toque el dibujo o use los botones. Volante verde: válvula abierta; rojo: cerrada. En los preventores se ve avanzar el empaque o los bloques al cerrar. La salida de la línea de choke está entre el ram ciego y los rams inferiores: si cierra solo los rams inferiores, el choke queda aislado del pozo.</p>
+    </div>
+    <div class="panel">
+      <h2>Espaciado en el BOP</h2>
+      <canvas id="space" aria-label="Posición de las uniones de tubería respecto a los preventores"></canvas>
+      <div id="spaceTxt" class="note"></div>
+    </div>
+  </div>
+
+  <div class="two">
+    <div class="panel">
+      <h2>Hoja de matar</h2>
+      <div class="row">
+        <label for="ksDp">SIDPP</label><input type="number" id="ksDp" min="0" step="10" placeholder="psi">
+        <label for="ksCp">SICP</label><input type="number" id="ksCp" min="0" step="10" placeholder="psi">
+        <button id="ksRead">Leer manómetros</button>
+      </div>
+      <div class="row"><button id="scrBtn">Registrar presión reducida (SCR) ahora</button><span class="mono" id="scrTxt">sin registrar</span></div>
+      <div class="scroll"><table>
+        <tr><td>Volumen de sarta / anular</td><td class="mono" id="kVol">–</td></tr>
+        <tr><td>Desplazamiento de bomba</td><td class="mono" id="kStk">–</td></tr>
+        <tr><td>Emboladas superficie → barrena</td><td class="mono" id="kStb">–</td></tr>
+        <tr><td>Emboladas barrena → zapata</td><td class="mono" id="kBts">–</td></tr>
+        <tr><td>Emboladas barrena → superficie</td><td class="mono" id="kBtsf">–</td></tr>
+        <tr><td>MAASP con el lodo que se bombea</td><td class="mono" id="kMaasp">–</td></tr>
+        <tr><td>Densidad de matar (KMW)</td><td class="mono" id="kKmw">–</td></tr>
+        <tr><td>Presión inicial de circulación (ICP)</td><td class="mono" id="kIcp">–</td></tr>
+        <tr><td>Presión final de circulación (FCP)</td><td class="mono" id="kFcp">–</td></tr>
+        <tr><td>Presión de tubería objetivo ahora</td><td class="mono" id="kNow">–</td></tr>
+      </table></div>
+      <div class="scroll"><table id="sched"></table></div>
+      <p class="note">Registre la SCR circulando a tasa lenta con el pozo abierto, antes del influjo. El objetivo usa el contador de emboladas: póngalo a cero cuando el lodo de matar empiece a entrar a la sarta.</p>
+    </div>
+    <div class="panel">
+      <h2>Bitácora</h2>
+      <ul id="log"></ul>
+      <h2>Procedimiento</h2>
+      <ol class="steps">
+        <li>Baje la sarta al fondo, arranque bombas y rotaria, aplique peso y perfore. Registre la SCR a tasa lenta.</li>
+        <li>Ante un quiebre de perforación, aumento de flujo o ganancia: levante la sarta hasta dejar la unión fuera de los rams, pare rotaria y bombas y verifique si el pozo fluye.</li>
+        <li>Cierre el anular o los rams superiores. Cierre duro: choke cerrado y luego abra la HCR para leer presiones.</li>
+        <li>Espere a que se estabilicen, anote SIDPP, SICP y ganancia, y calcule KMW, ICP y FCP.</li>
+        <li>Suba la bomba a la tasa de matar abriendo el choke para mantener constante la presión del revestidor.</li>
+        <li>Con el choke, lleve la presión de tubería de ICP a FCP mientras el lodo de matar baja por la sarta; luego mantenga FCP hasta que retorne a superficie. Trabaje con 50–100 psi de margen.</li>
+        <li>Pare la bomba, cierre el choke, purgue la presión atrapada y verifique 0 psi antes de abrir el BOP.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="panel" id="datos">
+    <h2>Datos del ejercicio</h2>
+    <form id="cfgForm" class="cfg"></form>
+    <div class="row"><button id="apply">Aplicar datos y reiniciar</button><span class="note" id="cfgMsg">Pozo vertical, unidades de campo. Al aplicar se reinicia el ejercicio con estos datos.</span></div>
+  </div>
+</div>
+
+<script>
+/*CORE-BEGIN*/
+// Núcleo físico del simulador. No toca el DOM: recibe mandos en S, avanza con step() y deja avisos en S.ev.
+const WCS=(function(){
+'use strict';
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const fmt=(x,d=0)=>x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const tstr=t=>[Math.floor(t/3600),Math.floor(t%3600/60),Math.floor(t%60)].map(x=>String(x).padStart(2,'0')).join(':');
+
+const BASE={name:'Hoyo 8½" a 10 000 ft, influjo de 0,5 ppg',mw:10,pv:20,yp:12,
+  tvd:10000,shoe:6000,csgID:8.681,hole:8.5,lot:14,
+  ahead:15,kickEMW:10.5,normEMW:9.2,prod:2,migr:0,
+  dpOD:5,dpID:4.276,dcOD:6.5,dcID:2.8125,dcLen:600,noz:12,joint:31,
+  liner:6,stroke:12,eff:97,pmax:5000,
+  bAnn:12,bUpr:17,bBsr:20,bLpr:24};
+const PRESETS=[
+  BASE,
+  {...BASE,name:'Hoyo 8½" a 10 000 ft, influjo fuerte de 1,0 ppg',kickEMW:11,prod:3},
+  {...BASE,name:'Pozo somero 4 500 ft, margen estrecho en la zapata',mw:9.6,pv:14,yp:9,tvd:4500,shoe:2500,csgID:8.921,lot:12.2,kickEMW:10.1,normEMW:8.9,dcLen:400,ahead:12},
+  {...BASE,name:'Hoyo 6⅛" a 14 000 ft, lodo de 13,5 ppg',mw:13.5,pv:28,yp:16,tvd:14000,shoe:11500,csgID:6.184,hole:6.125,lot:16.4,kickEMW:14.2,normEMW:12.8,
+    dpOD:3.5,dpID:2.764,dcOD:4.75,dcID:2.25,dcLen:450,noz:11,liner:5,pmax:5500,ahead:18},
+  {...BASE,name:'Práctica libre sin influjo (alineación, SCR, espaciado)',kickEMW:9.2,ahead:60},
+];
+function validate(raw){
+  const n={...raw};
+  n.mw=clamp(n.mw,7,19);n.pv=clamp(n.pv,1,80);n.yp=clamp(n.yp,0,60);
+  n.tvd=clamp(n.tvd,1000,25000);n.shoe=clamp(n.shoe,300,n.tvd-200);
+  n.dcLen=clamp(n.dcLen,30,n.tvd-n.shoe>60?Math.min(n.dcLen,n.tvd-100):n.tvd-100);
+  n.dpID=clamp(n.dpID,1,n.dpOD-.3);n.dcID=clamp(n.dcID,1,n.dcOD-.5);
+  n.hole=Math.max(n.hole,n.dcOD+.5);n.csgID=Math.max(n.csgID,n.hole);
+  n.lot=clamp(n.lot,n.mw+.3,22);n.ahead=clamp(n.ahead,3,200);n.prod=clamp(Math.round(n.prod),1,3);n.migr=n.migr?1:0;
+  n.noz=clamp(n.noz,6,32);n.joint=clamp(n.joint,25,45);n.eff=clamp(n.eff,50,100);n.pmax=clamp(n.pmax,1500,10000);
+  n.bAnn=clamp(n.bAnn,5,40);n.bUpr=clamp(n.bUpr,n.bAnn+3,45);n.bBsr=clamp(n.bBsr,n.bUpr+2,50);n.bLpr=clamp(n.bLpr,n.bBsr+3,55);
+  return n;
+}
+
+const GAS_GRAD=0.1, PIL=0.02, CW=0.0015, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
+const TIMES={ann:12,upr:5,bsr:5,lpr:5};
+const NAMES={p1:'Válvula de la bomba 1',p2:'Válvula de la bomba 2',hcr:'HCR de la línea de choke',vr:'Válvula del choke remoto',vm:'Válvula del choke manual'};
+let c,S,strSecs,annSecs,Va,Vs,STK;
+const log=(m,cls)=>S.ev.push({m,cls,t:S.t});
+const banner=(m,ok)=>S.ev.push({banner:m,ok});
+function geom(d){
+  const dcTop=Math.max(0,d-c.dcLen);
+  strSecs=[{len:dcTop,cap:c.dpID**2/1029.4,id:c.dpID},{len:d-dcTop,cap:c.dcID**2/1029.4,id:c.dcID}];
+  const cuts=[...new Set([d,dcTop,c.shoe,0])].filter(x=>x<=d).sort((a,b)=>b-a);
+  annSecs=[];
+  for(let i=0;i<cuts.length-1;i++){const bot=cuts[i],top=cuts[i+1],mid=(bot+top)/2;
+    const od=mid>c.shoe?c.hole:c.csgID,id=mid>dcTop?c.dcOD:c.dpOD;
+    annSecs.push({bot,top,len:bot-top,od,id,cap:(od*od-id*id)/1029.4})}
+  Vs=strSecs.reduce((a,x)=>a+x.len*x.cap,0);Va=annSecs.reduce((a,x)=>a+x.len*x.cap,0);
+}
+function volToLen(secs,v){let L=0;for(const s of secs){const sv=s.len*s.cap;if(v<=sv)return L+v/s.cap;v-=sv;L+=s.len}return L}
+function annCapAt(depth){for(const s of annSecs)if(depth<=s.bot&&depth>=s.top)return s.cap;return annSecs[annSecs.length-1].cap}
+const grad=s=>s.gas?GAS_GRAD:0.052*s.rho;
+function fricStr(q,rho){
+  if(q<=0)return 0;const Q=q*42,k=7.7e-5*Math.pow(rho,.8)*Math.pow(Q,1.8)*Math.pow(c.pv,.2);
+  let p=0;for(const s of strSecs)p+=k*s.len/Math.pow(s.id,4.8);
+  const tfa=3*Math.PI/4*Math.pow(c.noz/32,2);p+=rho*Q*Q/(10858*tfa*tfa);return p*1.06;
+}
+function fricAnn(q){
+  let tot=0,above=0;if(q<=0)return {tot,above};const Q=q*42;
+  for(const s of annSecs){const gap=s.od-s.id,v=Q/(2.448*(s.od*s.od-s.id*s.id));
+    const dp=c.pv*v*s.len/(1000*gap*gap)+0.35*c.yp*s.len/(200*gap)*Math.tanh(v/0.3);
+    tot+=dp;if(s.bot<=c.shoe)above+=dp}
+  return {tot,above};
+}
+function load(cfg,rnd){
+  rnd=rnd||Math.random;
+  c={...cfg};c.frac=0.052*c.lot*c.shoe;
+  STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;
+  geom(c.tvd);
+  const E=()=>({t:0,p:0});
+  S={t:0,speed:0,spm:[80,0],spmSet:[80,0],strokes:0,mwIn:c.mw,rpm:100,wob:25,hoist:0,off:0,
+    depth:c.tvd,zoneTop:c.tvd+c.ahead*(0.7+rnd()*0.6),pfKick:0,rop:0,
+    v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,
+    str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
+    pc:0,spp:0,bhp:0,shoe:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
+    hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[]};
+  S.pfKick=0.052*c.kickEMW*S.zoneTop;
+  for(let i=0;i<40;i++)step(0.5,true);   // precalienta presiones y flujos sin avanzar el ejercicio
+  S.t=0;S.strokes=0;S.gain=0;S.hist=[];S.lastHist=-99;S.depth=c.tvd;geom(c.tvd);S.str=[{rho:c.mw,v:Vs}];S.ann=[{gas:false,rho:c.mw,v:Va}];
+  log('Ejercicio cargado. Perforando con la bomba 1 a 80 spm.');
+}
+function layAnn(){
+  let v=0;const a=S.ann,D=S.depth;
+  for(const s of a){s.bot=D-volToLen(annSecs,Math.min(v,Va));v+=s.v;s.top=D-volToLen(annSecs,Math.min(v,Va))}
+  let hs=0,hsShoe=0;
+  for(let i=a.length-1;i>=0;i--){const s=a[i],g=grad(s),h=s.bot-s.top;s.h=hs+g*h/2;hs+=g*h;
+    hsShoe+=g*Math.max(0,Math.min(s.bot,c.shoe)-s.top)}
+  return {hs,hsShoe};
+}
+function layStr(){
+  let v=0,hs=0,m=0;
+  for(const s of S.str){s.top=volToLen(strSecs,v);v+=s.v;s.bot=volToLen(strSecs,Math.min(v,Vs));hs+=0.052*s.rho*(s.bot-s.top);m+=s.rho*s.v}
+  return {hs,rho:m/Vs};
+}
+function norm(a){
+  for(let i=a.length-1;i>=0;i--){
+    if(a[i].v<1e-7){a.splice(i,1);continue}
+    const n=a[i+1];if(!n)continue;
+    if(a[i].gas&&n.gas){a[i].n+=n.n;a[i].v+=n.v;a.splice(i+1,1)}
+    else if(!a[i].gas&&!n.gas&&Math.abs(a[i].rho-n.rho)<0.005){a[i].v+=n.v;a.splice(i+1,1)}
+  }
+}
+const bitDepth=()=>S.depth-S.off;
+function jointNear(d){const J=c.joint,r=((bitDepth()-d)%J+J)%J;return Math.min(r,J-r)}  // distancia de la unión más cercana a la profundidad d
+function step(dt,quiet){
+  S.t+=dt;
+  // preventores
+  for(const k in S.el){const e=S.el[k],was=e.p;e.p=clamp(e.p+(e.t?1:-1)*dt/TIMES[k],0,1);
+    if(e.p>=1&&was<1&&!quiet){
+      if(k==='bsr'){S.over=true;S.speed=0;log('El ram ciego/corte cerró con tubería en el pozo: la sarta quedó cortada.','crit');banner('Sarta cortada. El ram ciego/corte solo se usa sin tubería frente al BOP o como último recurso.',false)}
+      else if(k!=='ann'&&jointNear(c[k==='upr'?'bUpr':'bLpr'])<1.5){S.bad[k]=1;log('Los rams '+(k==='upr'?'superiores':'inferiores')+' cerraron sobre una unión: no sellan. Ábralos y espacie la sarta.','crit')}
+      else log((k==='ann'?'Preventor anular':k==='upr'?'Rams superiores':'Rams inferiores')+' cerrado'+(k==='ann'?'.':'s.'));
+    }
+    if(e.p<1)delete S.bad[k];
+  }
+  const E=S.el, upper=E.ann.p>=1||(E.upr.p>=1&&!S.bad.upr), lower=E.lpr.p>=1&&!S.bad.lpr, sealed=upper||lower;
+  if(sealed&&!S.sealed&&!quiet){if(S.gainAtShutIn==null&&S.gain>0.5)S.gainAtShutIn=S.gain;log('Pozo cerrado. Ganancia en tanques: '+fmt(S.gain,1)+' bbl.','ok')}
+  if(!sealed&&S.sealed&&!quiet)log('Pozo abierto.',S.pc>20?'crit':'');
+  S.sealed=sealed;
+  // bombas
+  let q=0;
+  for(let i=0;i<2;i++){
+    S.spm[i]+=clamp(S.spmSet[i]-S.spm[i],-6*dt,6*dt);
+    if(S.spm[i]>0.5&&!S.v[i?'p2':'p1']&&!quiet){S.spmSet[i]=0;S.spm[i]=0;S.ev.push({sync:1});log('Bomba '+(i+1)+' contra válvula cerrada en el standpipe: saltó la válvula de alivio.','crit')}
+    q+=S.spm[i]*STK;S.strokes+=S.spm[i]*dt/60;
+  }
+  const dV=q*dt/60;
+  // sarta: movimiento y perforación
+  if(E.upr.p>0.5||E.lpr.p>0.5)S.hoist=0;
+  const off0=S.off;S.off=clamp(S.off+S.hoist*dt/60,0,93);
+  if(S.off===off0&&S.hoist!==0&&(S.off===0||S.off===93))S.hoist=0;
+  const vPipe=(S.off-off0)/dt*60;
+  S.rop=0;const exposed=S.depth>=S.zoneTop;
+  if(S.off<0.01&&S.wob>0&&S.rpm>0&&!sealed&&S.depth<S.zoneTop+40){
+    S.rop=Math.min(260,55*(S.wob/25)*Math.pow(S.rpm/100,0.7)*(exposed?2.1:1));
+    const dd=S.rop*dt/3600,oa=Va,os=Vs;S.depth+=dd;geom(S.depth);
+    const da=Va-oa,ds=Vs-os;S.str[0].v+=ds;
+    if(!S.ann[0].gas)S.ann[0].v+=da;else S.ann.unshift({gas:false,rho:S.str[S.str.length-1].rho,v:da});
+    S.gain-=da+ds;
+  }
+  if(exposed&&!S.flags.zone&&!quiet){S.flags.zone=1;if(c.kickEMW>c.normEMW+0.2)log('Quiebre de perforación: la ROP se duplicó.','warn')}
+  // circulación
+  if(dV>0){
+    const st=S.str;
+    if(Math.abs(st[0].rho-S.mwIn)<0.005)st[0].v+=dV;else st.unshift({rho:S.mwIn,v:dV});
+    let r=dV;
+    while(r>1e-12&&st.length){const b=st[st.length-1],x=Math.min(r,b.v);b.v-=x;r-=x;
+      const a0=S.ann[0];
+      if(a0&&!a0.gas&&Math.abs(a0.rho-b.rho)<0.005)a0.v+=x;else S.ann.unshift({gas:false,rho:b.rho,v:x});
+      if(b.v<1e-9)st.pop()}
+  }
+  if(c.migr){
+    const a=S.ann;
+    for(let i=a.length-2;i>=0;i--){
+      if(!a[i].gas||a[i+1].gas)continue;
+      const up=a[i+1],x=Math.min(up.v,VMIG*annCapAt(a[i].top??S.depth)*dt/60);
+      up.v-=x;a.splice(i,0,{gas:false,rho:up.rho,v:x});i++;
+    }
+    norm(a);
+  }
+  const L=layAnn(), Ls=layStr(), fa=fricAnn(q), fric=fricStr(q,Ls.rho);
+  const swab=-vPipe*1.2*(c.pv/20)*(S.depth/10000), apl=fa.tot+swab;
+  const a=S.ann, PI=PIs[c.prod];
+  let mudVol=0;const gs=[];
+  for(const s of a){if(s.gas)gs.push(s);else mudVol+=s.v}
+  const topS=a[a.length-1], rhoTop=topS.gas?2:topS.rho;
+  const cA=(upper&&!lower&&S.v.hcr)?KC*((S.v.vr?Math.pow(S.chR/100,1.5):0)+(S.v.vm?Math.pow(S.chM/100,1.5):0)):0;
+  const f=Pc=>{
+    let g=0;for(const s of gs)g+=s.n/(Pc+s.h+14.7);
+    const inf=exposed?PI*Math.max(0,S.pfKick-(Pc+L.hs+apl))*dt/60:0;
+    const qc=cA*Math.sqrt(Math.max(Pc,0)/rhoTop)*dt/60;
+    const loss=PIL*Math.max(0,Pc+L.hsShoe+fa.above-c.frac)*dt/60;
+    return mudVol+g+inf-qc-loss-Va-CW*Pc;
+  };
+  let Pc=0;
+  if(sealed&&f(0)>0){let lo=0,hi=25000;for(let i=0;i<48;i++){const m=(lo+hi)/2;if(f(m)>0)lo=m;else hi=m}Pc=(lo+hi)/2}
+  const bhp=Pc+L.hs+apl;
+  const inf=exposed?PI*Math.max(0,S.pfKick-bhp)*dt/60:0;
+  for(const s of gs)s.v=s.n/(Pc+s.h+14.7);
+  if(inf>0){
+    let tgt=null;
+    for(let i=0;i<Math.min(2,a.length);i++)if(a[i].gas&&a[i].bot>=S.depth-300){tgt=a[i];break}
+    if(tgt){tgt.n+=inf*(bhp+14.7);tgt.v+=inf}else a.unshift({gas:true,n:inf*(bhp+14.7),v:inf,h:L.hs,top:S.depth,bot:S.depth});
+  }
+  const pShoe=Pc+L.hsShoe+fa.above;
+  const loss=PIL*Math.max(0,pShoe-c.frac)*dt/60;
+  let tot=0;for(const s of a)tot+=s.v;
+  let out=tot-(Va+CW*Pc), mudOut=0, gasOut=0;
+  if(out>0){
+    let r=out;
+    while(r>1e-12&&(a.length>1||a[0].v>r)){
+      const s=a[a.length-1],x=Math.min(r,s.v);
+      if(s.gas){s.n*=Math.max(0,(s.v-x)/s.v);gasOut+=x}else mudOut+=x;
+      s.v-=x;r-=x;if(s.v<1e-9)a.pop();
+    }
+  }else if(out<-1e-9&&Pc<=0){
+    const t=a[a.length-1];
+    if(!t.gas)t.v-=out;else a.push({gas:false,rho:c.mw,v:-out});
+    mudOut=out;
+  }
+  norm(a);
+  const toPit=mudOut-loss;
+  S.gain+=toPit-dV;
+  const k=Math.min(1,dt/3);
+  S.qout+=(Math.max(0,toPit)/dt*60-S.qout)*k; S.qin=q;
+  S.pc=Pc;S.bhp=bhp;S.shoe=pShoe;S.pf=exposed?S.pfKick:0.052*c.normEMW*S.depth;
+  S.spp=Math.max(0,bhp-swab-Ls.hs+fric);
+  S.gasVol=0;for(const s of a)if(s.gas)S.gasVol+=s.v;
+  S.maxPc=Math.max(S.maxPc,Pc);
+  const wdp=2.67*(c.dpOD**2-c.dpID**2),wdc=2.67*(c.dcOD**2-c.dcID**2);
+  S.hook=40+(wdp*strSecs[0].len+wdc*strSecs[1].len)*(1-Ls.rho/65.5)/1000-(S.rop>0?S.wob:0);
+  if(quiet)return;
+  const F=S.flags;
+  if(S.gain>5&&!F.gain){F.gain=1;log('Alarma: ganancia en tanques mayor a 5 bbl.','crit')}
+  if(S.gasVol>0.05)F.hadGas=1;
+  if(S.spp>c.pmax&&q>0){S.spmSet=[0,0];S.ev.push({sync:1});log('Sobrepresión en el standpipe: saltó la válvula de alivio. Bombas paradas.','crit')}
+  if(loss>0&&!F.frac){F.frac=1;log('La presión en la zapata superó la de fractura: pérdidas a la formación.','crit')}
+  if(sealed&&gasOut>0&&!F.gasSurf){F.gasSurf=1;log('Gas en superficie: el choke necesita ajustes rápidos.','warn')}
+  if(F.hadGas&&S.gasVol<0.01&&!F.gasOutDone){F.gasOutDone=1;log('El influjo salió del pozo.','ok')}
+  if(!sealed&&F.hadGas&&(gasOut>0||S.gain>120)&&!S.over){
+    S.over=true;S.speed=0;log('Reventón: el gas llegó a superficie con el pozo abierto.','crit');
+    banner('Reventón. El gas llegó a superficie con el pozo abierto. Cargue de nuevo el ejercicio y cierre el pozo antes.',false);
+  }
+  if(F.hadGas&&F.gasOutDone&&!S.killed&&!S.over){
+    const need=S.pfKick/(0.052*S.depth)-0.011;
+    if(a.every(s=>!s.gas&&s.rho>=need)&&S.str.every(s=>s.rho>=need)&&q<0.01&&S.pc<15){
+      S.killed=true;log('Pozo controlado: lodo de matar en todo el sistema y 0 psi con bomba parada.','ok');
+      banner('Pozo controlado en '+tstr(S.t)+'. Ganancia al cierre: '+fmt(S.gainAtShutIn??0,1)+' bbl · presión máxima de revestidor: '+fmt(S.maxPc)+' psi · '+(F.frac?'hubo pérdidas en la zapata.':'la zapata no se fracturó.'),true);
+    }
+  }
+  if(S.t-S.lastHist>=10){S.lastHist=S.t;S.hist.push([S.t,S.spp,S.pc,S.gain]);if(S.hist.length>4000)S.hist=S.hist.filter((_,i)=>i%2===0)}
+}
+function act(a){
+  if(!a||S.over)return;
+  if(a in S.v){S.v[a]=!S.v[a];log(NAMES[a]+(S.v[a]?' abierta.':' cerrada.'))}
+  else if(a in S.el){const e=S.el[a];e.t=e.t?0:1;if(!e.t)log((a==='ann'?'Abriendo el anular.':a==='bsr'?'Abriendo el ram ciego/corte.':'Abriendo rams '+(a==='upr'?'superiores.':'inferiores.')))}
+}
+function recordScr(){
+  const spm=S.spm[0]+S.spm[1];
+  if(S.sealed||spm<5){log('Para registrar la SCR circule a tasa lenta con el pozo abierto.','warn');return false}
+  S.scr={spm:Math.round(spm),p:Math.round(S.spp/5)*5};log('SCR registrada: '+fmt(S.scr.p)+' psi a '+S.scr.spm+' spm.');return true;
+}
+// Hoja de matar: todo lo que se calcula a partir de la geometría, la SCR y la SIDPP.
+function sheet(sidpp){
+  let vOH=0;for(const s of annSecs)if(s.top>=c.shoe)vOH+=s.len*s.cap;
+  const r={Vs,Va,stk:STK,stb:Vs/STK,bts:vOH/STK,btsf:Va/STK,maasp:(c.lot-S.mwIn)*0.052*c.shoe,kmw:null,icp:null,fcp:null};
+  if(sidpp>=0){r.kmw=Math.ceil((c.mw+sidpp/(0.052*S.depth))*10-1e-6)/10;
+    if(S.scr){r.icp=sidpp+S.scr.p;r.fcp=S.scr.p*r.kmw/c.mw}}
+  return r;
+}
+const save=()=>({S:structuredClone(S),c:{...c}});
+function restore(sn){c={...sn.c};S=structuredClone(sn.S);STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
+return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,save,restore,bitDepth,jointNear,clamp,fmt,tstr,
+  get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,annSecs,strSecs}}};
+})();
+if(typeof module!=='undefined')module.exports=WCS;
+/*CORE-END*/
+(function(){
+const $=id=>document.getElementById(id);
+const {clamp,fmt,bitDepth,jointNear,PRESETS,BASE}=WCS;
+let S,c,snap=null;
+
+// ---- Datos del ejercicio ----
+const FIELDS=[
+  ['Fluido',[['mw','Densidad','ppg',.1],['pv','Viscosidad plástica','cP',1],['yp','Punto cedente','lb/100ft²',1]]],
+  ['Pozo',[['tvd','Profundidad del hoyo','ft',10],['shoe','Zapata del revestidor','ft',10],['csgID','ID del revestidor','in',.001],['hole','Diámetro del hoyo','in',.125],['lot','Prueba de integridad (LOT)','ppg',.1]]],
+  ['Formación',[['ahead','Zona de influjo a','ft adelante',1],['kickEMW','Presión de poro de la zona','ppg',.1],['normEMW','Presión de poro normal','ppg',.1],['prod','Productividad (1 a 3)','',1],['migr','Migración de gas (0 o 1)','',1]]],
+  ['Sarta',[['dpOD','OD tubería','in',.125],['dpID','ID tubería','in',.001],['dcOD','OD lastrabarrenas','in',.125],['dcID','ID lastrabarrenas','in',.0625],['dcLen','Longitud lastrabarrenas','ft',10],['noz','Boquillas 3×','/32 in',1],['joint','Longitud de cada tubo','ft',1]]],
+  ['Bombas (2 iguales)',[['liner','Camisa','in',.25],['stroke','Carrera','in',1],['eff','Eficiencia','%',1],['pmax','Presión máxima','psi',100]]],
+  ['BOP: profundidad bajo la mesa',[['bAnn','Anular','ft',1],['bUpr','Rams superiores','ft',1],['bBsr','Ram ciego/corte','ft',1],['bLpr','Rams inferiores','ft',1]]],
+];
+function buildForm(){
+  const f=$('cfgForm');f.innerHTML='';
+  for(const [g,fs] of FIELDS){
+    const fd=document.createElement('fieldset');const lg=document.createElement('legend');lg.textContent=g;fd.append(lg);
+    for(const [k,l,u,st] of fs){
+      const d=document.createElement('div');d.className='f';
+      const lb=document.createElement('label');lb.htmlFor='c_'+k;lb.textContent=l;
+      const sp=document.createElement('span');const i=document.createElement('input');i.type='number';i.id='c_'+k;i.step=st;i.value=c[k];
+      sp.append(i,document.createTextNode(u));d.append(lb,sp);fd.append(d);
+    }
+    f.append(fd);
+  }
+}
+function readForm(){
+  const n={...c};
+  for(const [,fs] of FIELDS)for(const [k] of fs){const v=parseFloat($('c_'+k).value);if(isFinite(v))n[k]=v}
+  const out=WCS.validate(n);out.name='Ejercicio personalizado';return out;
+}
+
+// ---- Enlace con el núcleo ----
+function start(cfg){
+  WCS.load(cfg);S=WCS.S;c=WCS.c;
+  $('log').innerHTML='';$('banner').hidden=true;$('ksDp').value='';$('ksCp').value='';
+  $('sub').textContent=c.name+' · zapata a '+fmt(c.shoe)+' ft · lodo '+fmt(c.mw,1)+' ppg · BOP de superficie';
+  buildForm();sync();drain();ks();ui();
+}
+function sync(){
+  $('spm1').value=S.spmSet[0];$('spm2').value=S.spmSet[1];$('rpm').value=S.rpm;$('wob').value=S.wob;$('chR').value=S.chR;$('chM').value=S.chM;$('mw').value=S.mwIn.toFixed(1);
+}
+function log(msg,cls,t){
+  const li=document.createElement('li');if(cls)li.className=cls;
+  const tm=document.createElement('time');tm.textContent=WCS.tstr(t??S.t);
+  const sp=document.createElement('span');sp.textContent=msg;li.append(tm,sp);
+  const ul=$('log');ul.prepend(li);while(ul.children.length>40)ul.lastChild.remove();
+}
+function banner(t,ok){const b=$('banner');b.textContent=t;b.className='banner'+(ok?' ok':'');b.hidden=false}
+// Pasa a la pantalla los avisos que dejó el núcleo.
+function drain(){
+  for(const e of S.ev){if(e.sync)sync();else if(e.banner)banner(e.banner,e.ok);else log(e.m,e.cls,e.t)}
+  S.ev.length=0;
+}
+
+// ---- Hoja de matar ----
+let K=null;
+function ks(){
+  const dp=parseFloat($('ksDp').value),r=WCS.sheet(dp>=0?dp:-1);
+  $('kVol').textContent=fmt(r.Vs,1)+' / '+fmt(r.Va,1)+' bbl';$('kStk').textContent=fmt(r.stk,4)+' bbl/stk';
+  $('kStb').textContent=fmt(r.stb)+' stk';$('kBts').textContent=fmt(r.bts)+' stk';$('kBtsf').textContent=fmt(r.btsf)+' stk';
+  $('scrTxt').textContent=S.scr?fmt(S.scr.p)+' psi a '+fmt(S.scr.spm)+' spm':'sin registrar';
+  const tb=$('sched');tb.innerHTML='';K=null;
+  if(r.kmw==null){['kKmw','kIcp','kFcp','kNow'].forEach(i=>$(i).textContent='–');return}
+  $('kKmw').textContent=fmt(r.kmw,1)+' ppg';
+  if(r.icp==null){$('kIcp').textContent='registre la SCR';$('kFcp').textContent='–';$('kNow').textContent='–';return}
+  K={icp:r.icp,fcp:r.fcp,stb:r.stb};
+  $('kIcp').textContent=fmt(r.icp)+' psi';$('kFcp').textContent=fmt(r.fcp)+' psi';
+  let h='<tr><th>Emboladas</th><th>Presión de tubería</th></tr>';
+  for(let i=0;i<=10;i++)h+='<tr><td class="mono">'+fmt(r.stb*i/10)+'</td><td class="mono">'+fmt(r.icp+(r.fcp-r.icp)*i/10)+' psi</td></tr>';
+  tb.innerHTML=h;
+}
+
+// ---- Dibujo ----
+let C={};
+function colors(){const cs=getComputedStyle(document.documentElement);
+  for(const k of ['bg','panel','inset','ink','muted','line','accent','mud','kill','gas','rock','steel','ok','warn','crit'])C[k]=cs.getPropertyValue('--'+k).trim()}
+function fit(cv){const d=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;
+  if(cv.width!==Math.round(w*d)||cv.height!==Math.round(h*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}
+  const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);return [x,w,h]}
+const FD='"Barlow Condensed","Arial Narrow",sans-serif', FM='"IBM Plex Mono",ui-monospace,monospace';
+const fcol=s=>s.gas?C.gas:(s.rho>c.mw+0.05?C.kill:C.mud);
+function drawWell(){
+  const [x,w,h]=fit($('well')),D=S.depth;
+  const top=58,bot=h-14,H=bot-top,y=d=>top+clamp(d,0,D)/D*H,LX=46,cx=(LX+w-50)/2;
+  const hw=Math.max(24,Math.min(44,(w-50-LX)/2-12)), ho=hw-6, sh=8, dc=14, dcTop=D-c.dcLen;
+  x.fillStyle=C.rock;x.fillRect(LX,top,w-LX,H+14);
+  if(D>=S.zoneTop&&c.kickEMW>c.normEMW+0.2){x.globalAlpha=.35;x.fillStyle=C.crit;x.fillRect(LX,y(D)-5,w-LX,19);x.globalAlpha=1}
+  for(const s of S.ann){
+    if(s.top==null)continue;x.fillStyle=fcol(s);
+    for(const [a,b,r] of [[s.top,Math.min(s.bot,c.shoe),hw],[Math.max(s.top,c.shoe),s.bot,ho]])if(b>a)x.fillRect(cx-r,y(a),2*r,Math.max(1,y(b)-y(a)));
+  }
+  x.strokeStyle=C.steel;x.lineWidth=3;x.beginPath();
+  x.moveTo(cx-hw-1.5,top);x.lineTo(cx-hw-1.5,y(c.shoe));x.moveTo(cx+hw+1.5,top);x.lineTo(cx+hw+1.5,y(c.shoe));x.stroke();
+  x.fillStyle=C.steel;
+  for(const g of [-1,1]){x.beginPath();x.moveTo(cx+g*(hw+3),y(c.shoe));x.lineTo(cx+g*(hw+11),y(c.shoe));x.lineTo(cx+g*(hw+3),y(c.shoe)-12);x.fill()}
+  const lift=Math.min(8,S.off/93*8),yc=y(dcTop)-lift,yb=y(D)-3-lift;
+  x.fillStyle=C.steel;x.fillRect(cx-sh,top-30,2*sh,yc-top+30);x.fillRect(cx-dc,yc,2*dc,yb-yc);
+  for(const s of S.str){
+    if(s.top==null)continue;x.fillStyle=fcol(s);
+    for(const [a,b,r] of [[s.top,Math.min(s.bot,dcTop),sh-3],[Math.max(s.top,dcTop),s.bot,dc-5]])if(b>a)x.fillRect(cx-r,y(a)-(a>=dcTop?lift:0),2*r,Math.max(1,Math.min(y(b)-lift,yb)-y(a)+(a>=dcTop?lift:0)));
+  }
+  x.fillStyle=S.sealed?C.crit:C.ok;x.fillRect(cx-hw-8,top-24,2*hw+16,22);
+  x.fillStyle=C.panel;x.font='600 13px '+FD;x.textAlign='center';x.textBaseline='middle';
+  x.fillText(S.sealed?'POZO CERRADO':'POZO ABIERTO',cx,top-12.5);
+  x.fillStyle=C.muted;x.font='11px '+FM;x.textAlign='right';
+  const stepD=D>12000?4000:D>6000?2000:1000;
+  for(let d=0;d<=D;d+=stepD){x.fillText(fmt(d),LX-6,y(d));x.fillRect(LX-4,y(d),4,1)}
+  x.textAlign='left';x.fillStyle=C.ink;x.font='500 12px '+FD;x.fillText('ZAPATA',cx+hw+13,y(c.shoe)+9);
+  x.textAlign='center';x.fillStyle=C.muted;
+  x.fillText(S.sealed?'RETORNO POR EL CHOKE':'RETORNO POR LÍNEA DE FLUJO',cx,top-40);
+}
+function dial(cv,val,max,label,red){
+  const [x,w,h]=fit(cv);const cx=w/2,cy=h*0.54,r=Math.min(w/2-6,h*0.5-4);
+  const a0=Math.PI*0.75,a1=Math.PI*2.25,A=v=>a0+(a1-a0)*clamp(v/max,0,1);
+  x.fillStyle=C.inset;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();
+  x.strokeStyle=C.steel;x.lineWidth=2.5;x.beginPath();x.arc(cx,cy,r,0,7);x.stroke();
+  if(red!=null&&red<max){x.strokeStyle=C.crit;x.lineWidth=5;x.beginPath();x.arc(cx,cy,r-7,A(red),a1);x.stroke()}
+  x.textAlign='center';x.textBaseline='middle';
+  for(let i=0;i<=40;i++){const v=max*i/40,a=A(v),maj=i%5===0,r1=r-(maj?15:10),r2=r-4;
+    x.strokeStyle=C.ink;x.lineWidth=maj?1.8:.8;x.beginPath();x.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);x.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);x.stroke();
+    if(i%10===0){x.fillStyle=C.muted;x.font='10px '+FM;x.fillText(String(v),cx+Math.cos(a)*(r-26),cy+Math.sin(a)*(r-26))}}
+  x.fillStyle=C.muted;x.font='600 13px '+FD;x.fillText(label,cx,cy-r*0.36);
+  const a=A(val);x.strokeStyle=C.accent;x.lineWidth=3;x.lineCap='round';x.beginPath();
+  x.moveTo(cx-Math.cos(a)*10,cy-Math.sin(a)*10);x.lineTo(cx+Math.cos(a)*(r-18),cy+Math.sin(a)*(r-18));x.stroke();x.lineCap='butt';
+  x.fillStyle=C.steel;x.beginPath();x.arc(cx,cy,5,0,7);x.fill();
+  x.fillStyle=C.ink;x.font='600 20px '+FM;x.fillText(fmt(val),cx,cy+r*0.5);
+  x.fillStyle=C.muted;x.font='10px '+FM;x.fillText('psi',cx,cy+r*0.5+16);
+}
+function drawChart(){
+  const [x,w,h]=fit($('chart'));const l=44,r=w-34,t=8,b=h-20,H=S.hist;
+  const tmax=Math.max(1800,S.t);
+  let pm=1000,gm=20;for(const p of H){pm=Math.max(pm,p[1],p[2]);gm=Math.max(gm,p[3])}
+  pm=Math.ceil(pm/500)*500;gm=Math.ceil(gm/10)*10;
+  x.font='10px '+FM;x.textBaseline='middle';
+  for(let i=0;i<=4;i++){const yy=b-(b-t)*i/4;x.strokeStyle=C.line;x.lineWidth=1;x.beginPath();x.moveTo(l,yy);x.lineTo(r,yy);x.stroke();
+    x.fillStyle=C.muted;x.textAlign='right';x.fillText(String(pm*i/4),l-5,yy);x.textAlign='left';x.fillText(String(gm*i/4),r+5,yy)}
+  x.textAlign='center';for(let i=0;i<=4;i++)x.fillText(Math.round(tmax*i/4/60)+' min',l+(r-l)*i/4,h-7);
+  const X=v=>l+(r-l)*v/tmax;
+  const line=(idx,max,col)=>{x.strokeStyle=col;x.lineWidth=1.8;x.beginPath();
+    H.forEach((p,i)=>{const yy=b-(b-t)*clamp(p[idx]/max,0,1);i?x.lineTo(X(p[0]),yy):x.moveTo(X(p[0]),yy)});x.stroke()};
+  line(3,gm,C.warn);line(2,pm,C.crit);line(1,pm,C.accent);
+}
+function drawSpace(){
+  const [x,w,h]=fit($('space'));const dmax=c.bLpr+10,top=22,y=d=>top+(d+4)/(dmax+4)*(h-top-6),cx=w-56,J=c.joint;
+  x.font='11px '+FM;x.textBaseline='middle';
+  x.strokeStyle=C.steel;x.lineWidth=2;x.beginPath();x.moveTo(4,y(0));x.lineTo(w-4,y(0));x.stroke();
+  x.fillStyle=C.muted;x.textAlign='left';x.font='500 12px '+FD;x.fillText('MESA ROTARIA',4,y(0)-9);
+  const els=[['ann','ANULAR',c.bAnn,3],['upr','RAMS SUP.',c.bUpr,1.5],['bsr','CIEGO',c.bBsr,1.5],['lpr','RAMS INF.',c.bLpr,1.5]];
+  let worst=null;
+  for(const [k,n,d,hh] of els){
+    const e=S.el[k],near=jointNear(d),bad=k!=='ann'&&k!=='bsr'&&near<1.5;
+    x.fillStyle=e.p>=1?C.crit:e.p>0?C.warn:C.ok;
+    const gap=8+18*(1-e.p);
+    x.fillRect(cx-gap-24,y(d-hh/2),24,Math.max(8,y(d+hh/2)-y(d-hh/2)));x.fillRect(cx+gap,y(d-hh/2),24,Math.max(8,y(d+hh/2)-y(d-hh/2)));
+    x.fillStyle=bad?C.crit:C.ink;x.font='500 12px '+FD;x.textAlign='right';x.fillText(n+' · '+d+' ft',cx-54,y(d));
+    if(k==='upr'||k==='lpr'){if(!worst||near<worst[1])worst=[n,near]}
+  }
+  x.fillStyle=C.steel;x.fillRect(cx-5,2,10,h-2);
+  const r=((bitDepth()%J)+J)%J;
+  for(let d=r-J;d<dmax+2;d+=J){x.fillStyle=C.accent;x.fillRect(cx-9,y(d-0.9),18,Math.max(6,y(d+0.9)-y(d-0.9)))}
+  const t=$('spaceTxt');
+  const up=jointNear(c.bUpr),lo=jointNear(c.bLpr);
+  t.textContent='Unión más cercana: a '+fmt(up,1)+' ft de los rams superiores y a '+fmt(lo,1)+' ft de los inferiores. '+(Math.min(up,lo)<1.5?'Hay una unión frente a un ram: levante o baje la sarta.':'Espaciado correcto para cerrar rams.');
+  t.style.color=Math.min(up,lo)<1.5?'var(--crit)':'';
+}
+// esquema de superficie: dibujo en canvas con el estilo de componentes del BOP Stack Builder del usuario
+const MW=790,MH=474;let hits=[];
+function sh(hex,p){let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  r=clamp(r+p,0,255);g=clamp(g+p,0,255);b=clamp(b+p,0,255);return '#'+[r,g,b].map(v=>v.toString(16).padStart(2,'0')).join('')}
+function al(hex,a){return 'rgba('+parseInt(hex.slice(1,3),16)+','+parseInt(hex.slice(3,5),16)+','+parseInt(hex.slice(5,7),16)+','+a+')'}
+function lgrad2(x,px,py,w,f){const g=x.createLinearGradient(px,py,px+w,py);g.addColorStop(0,sh(f,20));g.addColorStop(.25,sh(f,8));g.addColorStop(.75,f);g.addColorStop(1,sh(f,-8));return g}
+function box(x,px,py,w,h,fill,s,sw){x.fillStyle=fill;x.strokeStyle=s;x.lineWidth=sw;x.fillRect(px,py,w,h);x.strokeRect(px,py,w,h)}
+function flangePx(x,cx,y,wpx,t,f,s,sw){const fw=wpx+18,fx=cx-fw/2;box(x,fx,y,fw,t,f,s,sw);x.fillStyle=sh(s,15);
+  const bc=Math.floor(fw/16);for(let i=0;i<bc;i++){x.beginPath();x.arc(fx+(i+.5)*(fw/bc),y+t/2,1.8,0,7);x.fill()}}
+const stTxt=k=>{const e=S.el[k];return e.p>=1?(S.bad[k]?'NO SELLA':'CERRADO'):e.p>0?(e.t?'CERRANDO':'ABRIENDO'):'ABIERTO'};
+function tag(x,cx,y,name,k){x.textAlign='center';x.textBaseline='middle';x.font='600 12px '+FD;x.fillStyle='#ffffff';
+  x.fillText(name+' · '+stTxt(k),cx,y)}
+function drawAnnular(x,cx,y,w,h,f,s,sw){
+  const bonus=Math.max(50,(h-w)*.55),wE=w+bonus,xE=cx-wE/2,connW=w+18,p=S.el.ann.p;
+  const capH=h*.20,studH=h*.10,studBaseH=studH*.62,transH=h*.10,baseH=h*.12,bodyH=h-(capH+studBaseH+transH+baseH);
+  const capW=wE*.70,capX=cx-capW/2,capTopW=capW*.88,capTopX=cx-capTopW/2;let cy=y;
+  x.fillStyle=lgrad2(x,capX,cy,capW,f);x.strokeStyle=s;x.lineWidth=sw;
+  x.beginPath();x.moveTo(capTopX,cy);x.lineTo(capTopX+capTopW,cy);x.lineTo(capX+capW,cy+capH*.72);x.lineTo(capX,cy+capH*.72);x.closePath();x.fill();x.stroke();
+  const barH=capH*.20,barW=capTopW*.88;box(x,cx-barW/2,cy,barW,barH,sh(f,18),s,sw*.85);
+  const lugR=capH*.13,lugY=cy+capH*.40;
+  [capX+capW*.10,capX+capW*.90].forEach(lx=>{x.fillStyle=sh(f,22);x.strokeStyle=s;x.lineWidth=sw;x.beginPath();x.arc(lx,lugY,lugR,0,7);x.fill();x.stroke();
+    x.fillStyle=sh(f,5);x.beginPath();x.arc(lx,lugY,lugR*.38,0,7);x.fill()});
+  x.strokeStyle=s;x.lineWidth=sw*.85;
+  x.beginPath();x.moveTo(capX,cy+capH*.72);x.lineTo(xE+wE*.04,cy+capH);x.stroke();
+  x.beginPath();x.moveTo(capX+capW,cy+capH*.72);x.lineTo(xE+wE*.96,cy+capH);x.stroke();
+  cy+=capH;
+  box(x,xE,cy,wE,studBaseH,sh(f,8),s,sw);
+  const sH=studH*.58,sW=Math.max(7,Math.min(12,wE/17)),nSt=Math.max(10,Math.floor(wE/(sW+5))),sGap=wE/nSt;
+  for(let i=0;i<nSt;i++){const sx=xE+(i+.5)*sGap-sW/2;box(x,sx,cy-sH,sW,sH,sh(f,18),s,sw*.7);box(x,sx-1.2,cy-sH,sW+2.4,sH*.26,sh(f,28),s,sw*.7)}
+  cy+=studBaseH;
+  box(x,xE,cy,wE,bodyH,lgrad2(x,xE,cy,wE,f),s,sw);
+  const divY=cy+bodyH*.44;box(x,xE+2,divY,wE-4,4,sh(f,16),s,sw*.6);
+  const pW=Math.max(8,wE*.055),pH=Math.max(7,wE*.048);
+  [cy+bodyH*.28-pH/2,cy+bodyH*.63-pH/2].forEach(py=>{box(x,xE-pW,py,pW,pH,sh(f,18),s,sw*.8);box(x,xE-pW-5,py-2,5,pH+4,sh(f,30),s,sw*.8)});
+  // elemento de empaque: se cierra hacia el centro
+  const ph=bodyH*.30,pyy=cy+bodyH*.08,gap=5+wE*.20*(1-p);
+  x.fillStyle='#1f2a33';x.strokeStyle='#0d1318';x.lineWidth=1;
+  for(const g of [-1,1]){x.beginPath();x.moveTo(cx+g*wE*.40,pyy);x.lineTo(cx+g*gap,pyy+ph*.2);x.lineTo(cx+g*gap,pyy+ph*.8);x.lineTo(cx+g*wE*.40,pyy+ph);x.closePath();x.fill();x.stroke()}
+  tag(x,cx,cy+bodyH*.76,'ANULAR','ann');
+  cy+=bodyH;
+  const baseW=connW,baseX=cx-baseW/2,midW=baseW+10,midX=cx-midW/2;
+  x.fillStyle=sh(f,10);x.strokeStyle=s;x.lineWidth=sw;
+  x.beginPath();x.moveTo(xE,cy);x.lineTo(xE+wE,cy);x.lineTo(midX+midW,cy+transH*.52);x.lineTo(midX,cy+transH*.52);x.closePath();x.fill();x.stroke();
+  box(x,midX-5,cy+transH*.46,midW+10,transH*.22,sh(f,20),s,sw);box(x,baseX,cy+transH*.68,baseW,transH*.32,sh(f,8),s,sw);
+  cy+=transH;box(x,baseX,cy,baseW,baseH,sh(f,12),s,sw);
+  hits.push({a:'ann',x:xE-12,y,w:wE+24,h});
+}
+function drawRams(x,cx,y,w,h,keys,names,f,s,sw){
+  const n=keys.length,bonus=Math.max(80,w*.80),wE=w+bonus,xE=cx-wE/2,ramH=h/n,connW=w;
+  for(let ri=0;ri<n;ri++){
+    const ry=y+ri*ramH,isFirst=ri===0,isLast=ri===n-1,k=keys[ri],p=S.el[k].p;
+    const dskH=ramH*.11,srdH=ramH*.09,srdbH=ramH*.09,dskbH=ramH*.11;
+    let bdyH=ramH*(n===1?.52:.59);
+    const srdTY=ry+(isFirst?dskH:0),bdyY=isFirst?srdTY:(srdTY+srdH);
+    bdyH+=(isFirst?srdH:0)+(isLast?srdbH:0);if(isLast)bdyH=Math.max(bdyH,ry+ramH-dskbH-bdyY);
+    const srdBY=bdyY+bdyH,cBoreW=connW,cBoreX=cx-cBoreW/2,pistW=wE*.26,pistBH=bdyH*.53,pistBY=bdyY+(bdyH-pistBH)/2,capW=wE*.055,capBH=pistBH*.58,capBY=pistBY+(pistBH-capBH)/2;
+    const pStdW=pistW*.35,ptW=Math.max(2.5,Math.min(4.5,pStdW/5)),ptH=srdH*.55,pnT=Math.max(3,Math.floor(pStdW/(ptW*2.5))),ptSp=pStdW/pnT;
+    for(const g of [-1,1]){
+      const hx=g<0?xE-pistW:xE+wE, rx=g<0?xE-pStdW:xE+wE, cxp=g<0?xE-pistW-capW:xE+wE+pistW;
+      box(x,hx,pistBY,pistW,pistBH,lgrad2(x,hx,pistBY,pistW,sh(f,6)),s,sw);
+      box(x,rx,pistBY-srdH*.28,pStdW,pistBH+srdH*.56,sh(f,20),s,sw*.7);
+      for(let j=0;j<pnT;j++){const tx=rx+(j+.5)*ptSp-ptW/2;box(x,tx,pistBY-ptH-srdH*.28,ptW,ptH,sh(f,30),s,sw*.55);box(x,tx,pistBY+pistBH+srdH*.28,ptW,ptH,sh(f,30),s,sw*.55)}
+      box(x,cxp,capBY,capW,capBH,sh(f,30),s,sw);
+      x.strokeStyle=al(s,.52);x.lineWidth=.75;
+      for(let q=0;q<7;q++){const ky=capBY+(q+.5)*(capBH/7);x.beginPath();x.moveTo(cxp+1.5,ky);x.lineTo(cxp+capW-1.5,ky);x.stroke()}
+    }
+    if(isFirst)flangePx(x,cx,ry,w,dskH,sh(f,14),s,sw);
+    box(x,xE,bdyY,wE,bdyH,lgrad2(x,xE,bdyY,wE,f),s,sw);
+    x.fillStyle=sh(f,22);x.fillRect(cBoreX,bdyY,cBoreW,bdyH);x.strokeStyle=al(s,.6);x.lineWidth=sw*.6;x.strokeRect(cBoreX,bdyY,cBoreW,bdyH);
+    // bloques del ram: avanzan hacia la tubería al cerrar
+    const bh=bdyH*.34,by=bdyY+bdyH*.14,reach=k==='bsr'?cBoreW/2:cBoreW/2-4,bw=7+(reach-7)*p;
+    if(k!=='bsr'){x.fillStyle='#8a949e';x.fillRect(cx-4,bdyY+1,8,bdyH-2)}
+    x.fillStyle='#1f2a33';x.strokeStyle='#0d1318';x.lineWidth=1;
+    x.fillRect(cBoreX,by,bw,bh);x.strokeRect(cBoreX,by,bw,bh);x.fillRect(cBoreX+cBoreW-bw,by,bw,bh);x.strokeRect(cBoreX+cBoreW-bw,by,bw,bh);
+    tag(x,cx,bdyY+bdyH*.74,names[ri],k);
+    if(isLast)flangePx(x,cx,srdBY,w,dskbH,sh(f,14),s,sw);
+    else{const spY=srdBY,spH=(y+(ri+1)*ramH+srdH)-spY,ft=Math.max(3,spH*.24),hw=Math.round(wE*.62),hx=cx-hw/2;
+      box(x,hx,spY+ft,hw,spH-2*ft,lgrad2(x,hx,spY+ft,hw,f),s,sw);box(x,hx,spY,hw,ft,sh(f,14),s,sw);box(x,hx,spY+spH-ft,hw,ft,sh(f,14),s,sw)}
+    hits.push({a:k,x:xE-pistW-capW,y:ry,w:wE+2*(pistW+capW),h:ramH});
+  }
+}
+function drawMudCross(x,cx,y,w,h,f,s,sw){
+  const ft=Math.max(5,Math.round(h*.144)),aH=h*.396,aY=y+(h-aH)/2,px=cx-w/2;
+  box(x,px,y+ft,w,h-2*ft,lgrad2(x,px,y,w,f),s,sw);flangePx(x,cx,y,w,ft,sh(f,14),s,sw);flangePx(x,cx,y+h-ft,w,ft,sh(f,14),s,sw);
+  box(x,px-10,aY,10,aH,sh(f,20),s,sw*.8);box(x,px-14,aY-4,4,aH+8,sh(f,20),s,sw*.8);
+  box(x,px+w,aY,10,aH,sh(f,20),s,sw*.8);box(x,px+w+10,aY-3.5,4,aH+7,sh(f,20),s,sw*.8);
+}
+function drawWellhead(x,cx,y,h,topW0,f,s,sw){
+  const capH=h*.10,topH=h*.26,neckH=h*.14,lowH=h*.22,skH=h*.18,baseH=h-(capH+topH+neckH+lowH+skH),own=110,topW=own*.6,neckW=own*.5,baseW=own*.95;
+  box(x,cx-(topW0+18)/2,y,topW0+18,capH,sh(f,16),s,sw);
+  box(x,cx-topW/2,y+capH,topW,topH,lgrad2(x,cx-topW/2,y,topW,f),s,sw);
+  const ny=y+capH+topH;box(x,cx-neckW/2,ny,neckW,neckH+lowH,lgrad2(x,cx-neckW/2,ny,neckW,f),s,sw);
+  const sy=ny+neckH+lowH;x.fillStyle=lgrad2(x,cx-baseW/2,sy,baseW,f);x.strokeStyle=s;x.lineWidth=sw;
+  x.beginPath();x.moveTo(cx-neckW*.42,sy);x.lineTo(cx+neckW*.42,sy);x.lineTo(cx+baseW*.48,sy+skH);x.lineTo(cx-baseW*.48,sy+skH);x.closePath();x.fill();x.stroke();
+  box(x,cx-baseW/2,sy+skH,baseW,baseH,sh(f,12),s,sw);
+  const stemY=ny+neckH+lowH*.4,stemH=7,stemL=24,r=9;
+  for(const g of [-1,1]){const sx=g<0?cx-neckW/2-stemL:cx+neckW/2;box(x,sx,stemY-stemH/2,stemL,stemH,sh(f,10),s,sw);
+    const wx=g<0?sx:sx+stemL;x.fillStyle=al(f,.25);x.strokeStyle=s;x.lineWidth=sw;x.beginPath();x.arc(wx,stemY,r,0,7);x.fill();x.stroke();
+    x.beginPath();x.arc(wx,stemY,r*.3,0,7);x.stroke();x.beginPath();x.moveTo(wx-r*.7,stemY-r*.7);x.lineTo(wx+r*.7,stemY+r*.7);x.stroke()}
+}
+function drawBell(x,cx,y,h,armTo,f,s,sw){
+  const topW=44,bodyW=50,topH=Math.round(h*.6),transH=Math.round(h*.12),bodyH=h-topH-transH,topX=cx-topW/2,juncY=y+Math.round(topH*.45),outH=20;
+  box(x,topX+topW,juncY-outH/2,armTo-topX-topW,outH,lgrad2(x,topX+topW,juncY,armTo-topX-topW,sh(f,10)),s,sw);
+  box(x,armTo,juncY-outH/2-4,5,outH+8,sh(f,25),s,sw);
+  box(x,topX,y,topW,topH,lgrad2(x,topX,y,topW,f),s,sw);
+  const ty=y+topH;x.fillStyle=lgrad2(x,cx-bodyW/2,ty,bodyW,sh(f,4));x.strokeStyle=s;x.lineWidth=sw;
+  x.beginPath();x.moveTo(topX,ty);x.lineTo(topX+topW,ty);x.lineTo(cx+bodyW/2,ty+transH);x.lineTo(cx-bodyW/2,ty+transH);x.closePath();x.fill();x.stroke();
+  box(x,cx-bodyW/2,ty+transH,bodyW,bodyH,lgrad2(x,cx-bodyW/2,ty,bodyW,f),s,sw);
+  return juncY;
+}
+function gateValve(x,a,vx,vy,open,label,f,s){
+  box(x,vx-11,vy-12,22,24,lgrad2(x,vx-11,vy-12,22,sh(f,22)),s,1.5);
+  x.fillStyle=sh(f,-20);x.fillRect(vx-11,vy-4,22,8);
+  if(!open){x.fillStyle='#14191e';x.fillRect(vx-3.5,vy-8,7,16)}
+  box(x,vx-15,vy-13,4,26,sh(f,26),s,1.5);box(x,vx+11,vy-13,4,26,sh(f,26),s,1.5);
+  x.fillStyle=sh(f,26);x.strokeStyle=s;x.lineWidth=1.5;
+  x.beginPath();x.moveTo(vx-5,vy-12);x.lineTo(vx+5,vy-12);x.lineTo(vx+3.5,vy-23);x.lineTo(vx-3.5,vy-23);x.closePath();x.fill();x.stroke();
+  x.beginPath();x.moveTo(vx,vy-23);x.lineTo(vx,vy-27);x.stroke();
+  const hy=vy-33,r=8;x.fillStyle=open?C.ok:C.crit;x.strokeStyle=s;x.lineWidth=1.2;x.beginPath();x.arc(vx,hy,r,0,7);x.fill();x.stroke();
+  x.fillStyle=sh(f,10);x.beginPath();x.arc(vx,hy,r*.28,0,7);x.fill();x.stroke();
+  x.strokeStyle='#ffffff';x.lineWidth=1.1;
+  [0,60,120].forEach(d=>{const an=d*Math.PI/180+(open?0:.5);x.beginPath();x.moveTo(vx-Math.cos(an)*r*.9,hy-Math.sin(an)*r*.9);x.lineTo(vx+Math.cos(an)*r*.9,hy+Math.sin(an)*r*.9);x.stroke()});
+  x.fillStyle=C.ink;x.font='600 12px '+FD;x.textAlign='center';x.textBaseline='middle';x.fillText(label,vx,vy+24);
+  x.fillStyle=open?C.ok:C.crit;x.font='600 11px '+FD;x.fillText(open?'ABIERTA':'CERRADA',vx,vy+37);
+  hits.push({a,x:vx-24,y:vy-44,w:48,h:88});
+}
+function chokeBody(x,vx,vy,pct,label,remote,f,s){
+  box(x,vx-17,vy-13,34,26,lgrad2(x,vx-17,vy-13,34,sh(f,-12)),s,1.5);
+  box(x,vx-21,vy-14,4,28,sh(f,26),s,1.5);box(x,vx+17,vy-14,4,28,sh(f,26),s,1.5);
+  x.fillStyle=sh(f,-40);x.fillRect(vx-17,vy-4,34,8);
+  const tip=vy-4+8*(1-pct/100);x.fillStyle='#d7dde3';x.strokeStyle=s;x.lineWidth=1;
+  x.beginPath();x.moveTo(vx-5,vy-13);x.lineTo(vx+5,vy-13);x.lineTo(vx,tip+ (pct>=100?-2:4));x.closePath();x.fill();x.stroke();
+  x.strokeStyle=s;x.lineWidth=1.5;x.beginPath();x.moveTo(vx,vy-13);x.lineTo(vx,vy-22);x.stroke();
+  if(remote)box(x,vx-10,vy-36,20,14,sh(f,30),s,1.5);
+  else{x.fillStyle=sh(f,32);x.beginPath();x.arc(vx,vy-29,8,0,7);x.fill();x.stroke();x.beginPath();x.moveTo(vx-7,vy-29);x.lineTo(vx+7,vy-29);x.stroke()}
+  x.fillStyle=C.ink;x.font='600 12px '+FD;x.textAlign='center';x.textBaseline='middle';x.fillText(label,vx,vy+24);
+  x.font='600 12px '+FM;x.fillText(fmt(pct,pct%1?1:0)+' %',vx,vy+38);
+}
+function drawMani(){
+  const cv=$('mani'),k=cv.clientWidth/MW;cv.style.height=Math.round(MH*k)+'px';
+  const [x]=fit(cv);x.scale(k,k);hits=[];
+  const BF='#a93226',BS='#6a0000',PF='#6c7a89',PS='#2c3e50',cx=330,cw=70;
+  const Y={bell:22,ann:102,ram:202,mx:322,low:358,wh:418},yC=340,yR=262,yM=412;
+  // tuberías
+  const pipes=[[92,330,185,330],[92,420,185,420],[185,8,185,420],[185,8,330,8],[330,8,330,24],
+    [cx+cw/2+12,yC,540,yC],[540,yR,540,yM],[540,yR,716,yR],[540,yM,716,yM],[716,yR,716,yM],[716,yC,784,yC]];
+  for(const pass of [0,1])for(const [x1,y1,x2,y2] of pipes){const t=pass?6:9;x.fillStyle=pass?sh(PF,14):PS;
+    if(y1===y2)x.fillRect(Math.min(x1,x2)-t/2,y1-t/2,Math.abs(x2-x1)+t,t);else x.fillRect(x1-t/2,Math.min(y1,y2)-t/2,t,Math.abs(y2-y1)+t)}
+  // bombas
+  for(const [i,py] of [[0,330],[1,420]]){box(x,18,py-20,74,40,lgrad2(x,18,py-20,74,PF),PS,1.5);
+    x.fillStyle='#ffffff';x.font='600 13px '+FD;x.textAlign='center';x.textBaseline='middle';x.fillText('BOMBA '+(i+1),55,py-6);
+    x.font='600 11px '+FM;x.fillText(Math.round(S.spm[i])+' spm',55,py+9)}
+  gateValve(x,'p1',138,330,S.v.p1,'VÁLV. B1',PF,PS);gateValve(x,'p2',138,420,S.v.p2,'VÁLV. B2',PF,PS);
+  x.fillStyle=C.muted;x.font='600 12px '+FD;x.textAlign='left';x.fillText('STANDPIPE → SARTA',196,22);
+  // stack
+  x.fillStyle='#8a949e';x.strokeStyle=PS;x.lineWidth=1.2;x.fillRect(cx-5,2,10,24);x.strokeRect(cx-5,2,10,24);
+  const jy=drawBell(x,cx,Y.bell,Y.ann-Y.bell,468,'#e8a86b','#b86f3d',1.5);
+  x.fillStyle=C.muted;x.font='600 12px '+FD;x.textAlign='left';x.textBaseline='middle';x.fillText('LÍNEA DE FLUJO → TANQUES',482,jy);
+  drawAnnular(x,cx,Y.ann,cw,Y.ram-Y.ann,BF,BS,1.5);
+  drawRams(x,cx,Y.ram,cw,Y.mx-Y.ram,['upr','bsr'],['RAMS SUP.','CIEGO/CORTE'],BF,BS,1.5);
+  drawMudCross(x,cx,Y.mx,cw,Y.low-Y.mx,BF,BS,1.5);
+  drawRams(x,cx,Y.low,cw,Y.wh-Y.low,['lpr'],['RAMS INF.'],BF,BS,1.5);
+  drawWellhead(x,cx,Y.wh,MH-Y.wh-4,cw,'#7B3F00','#3a1800',1.5);
+  x.fillStyle=C.muted;x.font='600 11px '+FD;x.textAlign='right';x.fillText('LÍNEA DE MATAR',cx-cw/2-20,yC-12);x.fillText('(TAPÓN)',cx-cw/2-20,yC+1);
+  // manifold de choke
+  gateValve(x,'hcr',490,yC,S.v.hcr,'HCR',PF,PS);
+  gateValve(x,'vr',596,yR,S.v.vr,'VÁLV. REMOTO',PF,PS);gateValve(x,'vm',596,yM,S.v.vm,'VÁLV. MANUAL',PF,PS);
+  chokeBody(x,676,yR,S.chR,'CHOKE REMOTO',true,PF,PS);chokeBody(x,676,yM,S.chM,'CHOKE MANUAL',false,PF,PS);
+  x.fillStyle=C.muted;x.font='600 12px '+FD;x.textAlign='left';x.fillText('SEPARADOR →',726,yC-13);
+  x.textAlign='left';x.fillText('LÍNEA DE CHOKE',cx+cw/2+26,yC-12);
+  // botones accesibles
+  const names={ann:'Anular',upr:'Rams superiores',bsr:'Ciego/corte',lpr:'Rams inferiores',p1:'Válv. bomba 1',p2:'Válv. bomba 2',hcr:'HCR',vr:'Válv. choke remoto',vm:'Válv. choke manual'};
+  for(const b of $('maniBtns').children){const a=b.dataset.a;b.textContent=names[a]+': '+(a in S.el?stTxt(a).toLowerCase():(S.v[a]?'abierta':'cerrada'));
+    b.className=(a in S.el?S.el[a].p>0:!S.v[a])?'on':''}
+}
+function setCls(el,k){el.className='read'+(k?' '+k:'')}
+function ui(){
+  const t=S.t,hh=Math.floor(t/3600),mm=Math.floor(t%3600/60),ss=Math.floor(t%60);
+  $('clock').textContent=[hh,mm,ss].map(v=>String(v).padStart(2,'0')).join(':');
+  $('vGain').textContent=fmt(S.gain,1);$('vQin').textContent=fmt(S.qin,1);$('vQout').textContent=fmt(S.qout,1);
+  $('vStk').textContent=fmt(Math.floor(S.strokes));$('vBhp').textContent=fmt(S.bhp);$('vPf').textContent=fmt(S.pf);
+  const ov=S.bhp-S.pf;$('vOver').textContent=(ov>=0?'+':'')+fmt(ov);
+  $('vShoe').textContent=fmt(S.shoe);$('vFrac').textContent='/ '+fmt(c.frac);
+  $('vDepth').textContent=fmt(S.depth,1);$('vBit').textContent=fmt(bitDepth(),1);$('vRop').textContent=fmt(S.rop);$('vHook').textContent=fmt(S.hook);
+  setCls($('rGain'),S.gain>5?'crit':S.gain>1.5?'warn':'');
+  setCls($('rQout'),S.qout-S.qin>0.25&&!S.sealed?'warn':'');
+  setCls($('rOver'),ov<-5?'crit':ov>400?'warn':'ok');
+  setCls($('rShoe'),S.shoe>c.frac?'crit':S.shoe>c.frac-150?'warn':'');
+  $('spm1V').textContent=S.spmSet[0];$('spm2V').textContent=S.spmSet[1];$('rpmV').textContent=S.rpm;$('wobV').textContent=S.wob;
+  $('chRV').textContent=fmt(S.chR,1);$('chMV').textContent=fmt(S.chM,1);$('offV').textContent=fmt(S.off,1);
+  $('hUp').className='wide'+(S.hoist>0?' on':'');$('hDn').className='wide'+(S.hoist<0?' on':'');
+  for(const b of $('speeds').children)b.className=(+b.dataset.s===S.speed)?'on':'';
+  $('snapLoad').disabled=!snap;
+  let s=['Circulando',''];
+  if(S.over)s=['Fin del ejercicio','crit'];else if(S.killed)s=['Pozo controlado',''];
+  else if(S.sealed)s=[S.qin>0.05?'Circulando por el choke':'Pozo cerrado','info'];
+  else if(S.gain>5)s=['Influjo','crit'];else if(S.rop>0)s=['Perforando',''];else if(S.qin<0.05)s=['Bombas paradas','warn'];
+  if(S.speed===0&&!S.over&&!S.killed)s=[S.t<1?'Listo para iniciar':'En pausa','warn'];
+  const st=$('status');st.textContent=s[0];st.className='pill '+s[1];
+  const maasp=(c.lot-S.mwIn)*0.052*c.shoe;$('kMaasp').textContent=fmt(maasp)+' psi';
+  if(K){const tg=K.icp+(K.fcp-K.icp)*clamp(S.strokes/K.stb,0,1);$('kNow').textContent=fmt(tg)+' psi ('+(S.spp-tg>=0?'+':'')+fmt(S.spp-tg)+')'}
+  const m0=(c.lot-c.mw)*0.052*c.shoe;
+  drawWell();dial($('dialDP'),S.spp,Math.ceil(c.pmax/1000)*1000,'TUBERÍA');
+  dial($('dialCP'),S.pc,Math.max(2000,Math.ceil(m0*1.5/1000)*1000),'REVESTIDOR',m0);drawChart();drawSpace();drawMani();
+}
+
+// ---- Mandos ----
+$('spm1').oninput=e=>{S.spmSet[0]=+e.target.value};
+$('spm2').oninput=e=>{S.spmSet[1]=+e.target.value};
+$('pOff').onclick=()=>{S.spmSet=[0,0];sync()};
+$('zero').onclick=()=>{S.strokes=0;log('Contador de emboladas a cero.')};
+$('rpm').oninput=e=>{S.rpm=+e.target.value};
+$('wob').oninput=e=>{S.wob=+e.target.value};
+$('hUp').onclick=()=>{S.hoist=+$('hSpd').value};
+$('hDn').onclick=()=>{S.hoist=-$('hSpd').value};
+$('hStop').onclick=()=>{S.hoist=0};
+$('mw').onchange=e=>{const v=clamp(parseFloat(e.target.value)||c.mw,7,20);S.mwIn=v;e.target.value=v.toFixed(1);log('Densidad de bombeo: '+fmt(v,1)+' ppg.')};
+$('chR').oninput=e=>{S.chR=+e.target.value};
+$('chM').oninput=e=>{S.chM=+e.target.value};
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{S.chR=clamp(S.chR+ +b.dataset.c,0,100);$('chR').value=S.chR});
+$('speeds').onclick=e=>{const s=e.target.dataset.s;if(s==null||S.over)return;S.speed=+s};
+function act(a){WCS.act(a);drain();ui()}
+const hitAt=e=>{const cv=$('mani'),r=cv.getBoundingClientRect(),k=r.width/MW,px=(e.clientX-r.left)/k,py=(e.clientY-r.top)/k;
+  for(let i=hits.length-1;i>=0;i--){const h=hits[i];if(px>=h.x&&px<=h.x+h.w&&py>=h.y&&py<=h.y+h.h)return h.a}return null};
+$('mani').addEventListener('click',e=>act(hitAt(e)));
+$('mani').addEventListener('mousemove',e=>{$('mani').style.cursor=hitAt(e)?'pointer':'default'});
+for(const a of ['ann','upr','bsr','lpr','hcr','vr','vm','p1','p2']){const b=document.createElement('button');b.dataset.a=a;b.id='mb_'+a;b.onclick=()=>act(a);$('maniBtns').append(b)}
+$('ksDp').oninput=ks;$('ksCp').oninput=ks;
+$('ksRead').onclick=()=>{$('ksDp').value=Math.round(S.spp/5)*5;$('ksCp').value=Math.round(S.pc/5)*5;ks()};
+$('scrBtn').onclick=()=>{WCS.recordScr();drain();ks()};
+PRESETS.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p.name;$('preset').append(o)});
+$('load').onclick=()=>start(PRESETS[+$('preset').value]);
+$('apply').onclick=e=>{e.preventDefault();const n=readForm();try{localStorage.setItem('wcs-cfg',JSON.stringify(n))}catch(_){}start(n);$('cfgMsg').textContent='Datos aplicados. Ejercicio reiniciado.'};
+$('cfgForm').onsubmit=e=>e.preventDefault();
+$('snapSave').onclick=()=>{snap=WCS.save();snap.S.speed=0;log('Instante guardado.')};
+$('snapLoad').onclick=()=>{if(!snap)return;WCS.restore(snap);S=WCS.S;c=WCS.c;$('banner').hidden=true;sync();ks();log('Se volvió al instante guardado.');ui()};
+
+const DT=0.5;
+let last=performance.now(),acc=0,fr=0;
+function loop(now){
+  const dt=Math.min(0.1,(now-last)/1000);last=now;
+  if(S.speed>0&&!S.over){acc+=dt*S.speed;let n=0;while(acc>=DT&&n<400){WCS.step(DT);acc-=DT;n++;if(S.over)break}drain()}
+  if(++fr%4===0){colors();ui()}
+  requestAnimationFrame(loop);
+}
+colors();start(BASE);
+window.SIM={get S(){return S},get c(){return c},step:WCS.step,act,ks};
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ui());
+requestAnimationFrame(loop);
+})();
+</script>
