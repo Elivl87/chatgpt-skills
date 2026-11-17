@@ -252,7 +252,7 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;m
         <li>Cierre el anular o los rams superiores. Cierre duro: choke cerrado y luego abra la HCR para leer presiones.</li>
         <li>Espere a que se estabilicen, anote SIDPP, SICP y ganancia, y calcule KMW, ICP y FCP.</li>
         <li>Suba la bomba a la tasa de matar abriendo el choke para mantener constante la presión del revestidor.</li>
-        <li>Con el choke, lleve la presión de tubería de ICP a FCP mientras el lodo de matar baja por la sarta; luego mantenga FCP hasta que retorne a superficie. Trabaje con 50–100 psi de margen.</li>
+        <li>Con el choke, lleve la presión de tubería de ICP a FCP mientras el lodo de matar baja por la sarta; luego mantenga FCP hasta que retorne a superficie. Trabaje con 50–100 psi de margen. Tras cada ajuste del choke, el revestidor responde enseguida pero la tubería tarda unos 2 s por cada 1 000 ft: espere antes de volver a corregir.</li>
         <li>Pare la bomba, cierre el choke, purgue la presión atrapada y verifique 0 psi antes de abrir el BOP.</li>
       </ol>
     </div>
@@ -307,6 +307,7 @@ function validate(raw){
   return n;
 }
 
+const LAG_S_PER_KFT=2;   // retardo con que un cambio en el choke llega al manómetro de tubería: 2 s por cada 1000 ft de pozo (baja por el anular y sube por la sarta)
 const COMPRESS=3e-6;   // compresibilidad del sistema (lodo + pozo), 1/psi por barril contenido
 const GAS_GRAD=0.1, PIL=0.02, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
 const TIMES={ann:12,upr:5,bsr:5,lpr:5};
@@ -351,10 +352,10 @@ function load(cfg,rnd){
     v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,
     str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
     pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,lost:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
-    hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[]};
+    dly:[],hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scr:null,ev:[]};
   S.pfKick=0.052*c.kickEMW*S.zoneTop;
   for(let i=0;i<40;i++)step(0.5,true);   // precalienta presiones y flujos sin avanzar el ejercicio
-  S.t=0;S.strokes=0;S.gain=0;S.hist=[];S.lastHist=-99;S.depth=c.tvd;geom(c.tvd);S.str=[{rho:c.mw,v:Vs}];S.ann=[{gas:false,rho:c.mw,v:Va}];
+  S.t=0;S.strokes=0;S.gain=0;S.dly=[];S.hist=[];S.lastHist=-99;S.depth=c.tvd;geom(c.tvd);S.str=[{rho:c.mw,v:Vs}];S.ann=[{gas:false,rho:c.mw,v:Va}];
   log('Ejercicio cargado. Perforando con la bomba 1 a 80 spm.');
 }
 function layAnn(){
@@ -496,7 +497,11 @@ function step(dt,quiet){
   S.spp=Math.max(0,bhp-swab-Ls.hs+fric);
   // Manómetros: el de tubería está en el standpipe y siempre ve la sarta. El de revestidor está en el manifold de choke:
   // solo ve el pozo con la HCR abierta y sin los rams inferiores cerrados por debajo de la salida.
-  S.gDp=S.spp;
+  // El lado anular (choke, hidrostática y fricción anular) llega al standpipe con retardo; el lado sarta (bomba) es inmediato.
+  const annSide=bhp-swab, strSide=fric-Ls.hs, lag=LAG_S_PER_KFT*S.depth/1000, D=S.dly;
+  D.push([S.t,annSide]);
+  while(D.length>1&&D[1][0]<=S.t-lag)D.shift();
+  S.gDp=Math.max(0,(S.t-D[0][0]>=lag||D.length===1?D[0][1]:annSide)+strSide);
   S.gCpOn=S.v.hcr&&!lower;
   if(S.gCpOn)S.gCp=Pc;
   else if((S.v.vr&&S.chR>0)||(S.v.vm&&S.chM>0))S.gCp=Math.max(0,S.gCp-200*dt);   // manifold aislado y abierto aguas abajo: se purga
@@ -546,7 +551,7 @@ function sheet(sidpp){
 const save=()=>({S:structuredClone(S),c:{...c}});
 function restore(sn){c={...sn.c};S=structuredClone(sn.S);STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
 return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,save,restore,bitDepth,jointNear,clamp,fmt,tstr,
-  get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,CW,annSecs,strSecs}}};
+  get S(){return S},get c(){return c},get geo(){return {Va,Vs,STK,CW,annSecs,strSecs,lag:LAG_S_PER_KFT*S.depth/1000}}};
 })();
 if(typeof module!=='undefined')module.exports=WCS;
 /*CORE-END*/

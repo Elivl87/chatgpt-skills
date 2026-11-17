@@ -29,9 +29,13 @@ function killScenario(W,preset,opt={}){
   S.mwIn=sh.kmw;S.strokes=0;S.spmSet=[30,0];
   const setCh=v=>{if('chRSet' in S)S.chRSet=v;else S.chR=v},getCh=()=>('chRSet' in S?S.chRSet:S.chR);
   setCh(30);
-  let n=0;r.minOver=1e9;r.maxOver=-1e9;r.maxShoe=0;const margin=opt.margin??75,every=opt.every??10;
-  const ctl=()=>{const tg=margin+sh.icp+(sh.fcp-sh.icp)*Math.min(1,S.strokes/sh.stb);
-    if(++n%every===0&&S.spm[0]>29){const e=dpGauge(S)-tg;setCh(Math.max(2,Math.min(100,getCh()+Math.max(-1,Math.min(1,e*(opt.gain??0.01))))))}
+  // Perforador automático: juzga la tubería, pero como esta llega con retardo le suma lo que el revestidor
+  // (que responde enseguida) ya cambió durante ese retardo, para no corregir dos veces lo mismo.
+  let n=0;const cpHist=[];r.minOver=1e9;r.maxOver=-1e9;r.maxShoe=0;
+  const margin=opt.margin??75,lag=W.geo.lag??0,every=opt.every??10;
+  const ctl=()=>{n++;cpHist.push([S.t,csgGauge(S)]);while(cpHist.length>1&&cpHist[1][0]<=S.t-lag)cpHist.shift();
+    const tg=margin+sh.icp+(sh.fcp-sh.icp)*Math.min(1,S.strokes/sh.stb);
+    if(n%every===0&&S.spm[0]>29){const e=dpGauge(S)+(csgGauge(S)-cpHist[0][1])-tg;setCh(Math.max(2,Math.min(100,getCh()+Math.max(-1,Math.min(1,e*(opt.gain??0.01))))))}
     if(S.spm[0]>29){r.minOver=Math.min(r.minOver,S.bhp-S.pf);r.maxOver=Math.max(r.maxOver,S.bhp-S.pf)}
     r.maxShoe=Math.max(r.maxShoe,S.shoe)};
   run(W,(sh.stb+sh.btsf)*1.25/30*60,ctl);
