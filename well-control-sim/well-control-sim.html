@@ -408,6 +408,8 @@ function step(dt,quiet){
     if(!S.ann[0].gas)S.ann[0].v+=da;else S.ann.unshift({gas:false,rho:S.str[S.str.length-1].rho,v:da});
     S.gain-=da+ds;
   }
+  if(S.off<0.01&&S.wob>0&&S.rpm>0&&!sealed&&S.depth>=S.zoneTop+40&&!S.flags.tdMax&&!quiet){S.flags.tdMax=1;
+    log('Se alcanzó la profundidad final del ejercicio ('+fmt(S.depth,0)+' ft): la barrena ya no avanza.','warn')}
   if(exposed&&!S.flags.zone&&!quiet){S.flags.zone=1;if(c.kickEMW>c.normEMW+0.2)log('Quiebre de perforación: la ROP se duplicó.','warn')}
   // circulación
   if(dV>0){
