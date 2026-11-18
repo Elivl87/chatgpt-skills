@@ -18,3 +18,11 @@ node tests/ui.test.js            # pantalla, con Chromium (Playwright): pruebas 
 ## Límites conocidos del modelo
 
 Pozos verticales con BOP de superficie; sin viajes ni conexiones (la sarta se mueve hasta 93 ft sobre el fondo); no se bombea por la línea de matar; la densidad del lodo cambia al instante; el gas pasa por el choke como un fluido de 2 ppg.
+
+## Corridas aleatorias
+
+```
+node tests/montecarlo.js 100 1   # 100 pozos y perforadores distintos, semilla 1
+```
+
+Arma pozos al azar (profundidad, zapata, densidades, intensidad y productividad del influjo, margen de fractura, migración) y los controla con el perforador automático de `tests/lib.js`. Resume cuántos quedan controlados y lista las corridas con problema. Los pozos donde la zapata cede con solo cerrar el pozo se cuentan aparte: no tienen tolerancia al influjo y no se pueden matar por circulación convencional.

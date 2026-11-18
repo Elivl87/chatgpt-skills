@@ -336,8 +336,9 @@ const MAX_OFF_BOTTOM=93, PUMP_RAMP=6, BLOCK_KLB=40, JOINT_CLEAR=1.5, SCR_MIN_SPM
 const ROP_BASE=55, ROP_REF_WOB=25, ROP_REF_RPM=100, ROP_RPM_EXP=0.7, ROP_BREAK=2.1, ROP_MAX=260, TD_PAST_ZONE=40;   // ft/h a 25 klb y 100 rpm; el quiebre multiplica la ROP; ft que se puede perforar dentro de la zona
 const SWAB_K=1.2;   // psi de suaveo o pistoneo por cada ft/min de sarta en un pozo de 10 000 ft con PV 20
 // Avisos y fin de ejercicio
-const GAIN_ALARM=5, BLOWOUT_GAIN=120, KILL_PC_MAX=15;   // bbl; bbl; psi máximos en el revestidor para dar el pozo por controlado
+const GAIN_ALARM=5, BLOWOUT_GAIN=120, BLOWOUT_VENT=300, KILL_PC_MAX=15;   // bbl de ganancia; bbl de ganancia o de gas venteado en superficie con el pozo abierto que cuentan como reventón; psi máximos en el revestidor para dar el pozo por controlado
 // Registro y manómetros
+const MAX_SLUGS=60;   // tope de baches en el anular antes de consolidar
 const HIST_PERIOD=10, HIST_MAX=4000, GAUGE_BLEED=200, INFLUX_MERGE_FT=300, PREWARM_STEPS=40;   // s; puntos; psi/s; ft; pasos
 // Formación: PIL = admisión de la zapata fracturada (bbl/min por psi), KC = coeficiente del choke, VMIG = migración (ft/min), PIs = productividad de la zona (bbl/min por psi)
 const PIL=0.02, KC=1.75, VMIG=1000/60, PIs=[0,0.002,0.006,0.015];
@@ -392,7 +393,7 @@ function load(cfg,rnd){
     depth:c.tvd,zoneTop:c.tvd+c.ahead*(0.7+rnd()*0.6),pfKick:0,rop:0,
     v:{p1:true,p2:false,hcr:false,vr:true,vm:false},el:{ann:E(),upr:E(),bsr:E(),lpr:E()},bad:{},chR:0,chM:0,chRSet:0,chMSet:0,
     str:[{rho:c.mw,v:Vs}],ann:[{gas:false,rho:c.mw,v:Va}],
-    pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,lost:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
+    pc:0,spp:0,gDp:0,gCp:0,gCpOn:false,bhp:0,shoe:0,lost:0,ventOpen:0,gain:0,qin:0,qout:0,gasVol:0,sealed:false,hook:0,
     dly:[],hist:[],lastHist:-99,flags:{},over:false,killed:false,maxPc:0,gainAtShutIn:null,scrs:[],scrSel:-1,plan:null,ev:[],
     sc:{tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:false}};
   S.pfKick=PSI_PER_PPG_FT*c.kickEMW*S.zoneTop;
@@ -414,6 +415,17 @@ function layStr(){
   let v=0,hs=0,m=0;
   for(const s of S.str){s.top=volToLen(strSecs,v);v+=s.v;s.bot=volToLen(strSecs,Math.min(v,Vs));hs+=PSI_PER_PPG_FT*s.rho*(s.bot-s.top);m+=s.rho*s.v}
   return {hs,rho:m/Vs};
+}
+// Si el anular se fragmenta demasiado (influjo continuo mientras se bombea), se juntan los dos baches de gas separados
+// por el bache de lodo más chico: el gas se suma y ese lodo pasa abajo. Conserva volúmenes y cantidad de gas.
+function compact(a){
+  while(a.length>MAX_SLUGS){
+    let bi=-1,bv=Infinity;
+    for(let i=1;i<a.length-1;i++)if(!a[i].gas&&a[i-1].gas&&a[i+1].gas&&a[i].v<bv){bv=a[i].v;bi=i}
+    if(bi<0)break;
+    const lo=a[bi-1],mud=a[bi],hi=a[bi+1];hi.n+=lo.n;hi.v+=lo.v;a.splice(bi-1,2,mud);   // queda [lodo, gas unido]
+    norm(a);
+  }
 }
 function norm(a){
   for(let i=a.length-1;i>=0;i--){
@@ -460,6 +472,7 @@ function step(dt,quiet){
   if(dSteel>0){if(!S.ann[0].gas)S.ann[0].v+=dSteel;else S.ann.unshift({gas:false,rho:S.str[S.str.length-1].rho,v:dSteel})}
   else if(dSteel<0){let r=-dSteel;for(const g of S.ann){if(g.gas)continue;const x=Math.min(r,Math.max(0,g.v-1e-6));g.v-=x;r-=x;if(r<1e-12)break}}
   S.rop=0;const exposed=S.depth>=S.zoneTop;
+  S.pfKick=PSI_PER_PPG_FT*c.kickEMW*Math.max(S.depth,S.zoneTop);   // presión de poro de la zona a la profundidad actual del hoyo
   if(S.off<0.01&&S.wob>0&&S.rpm>0&&!sealed&&S.depth<S.zoneTop+TD_PAST_ZONE){
     S.rop=Math.min(ROP_MAX,ROP_BASE*(S.wob/ROP_REF_WOB)*Math.pow(S.rpm/ROP_REF_RPM,ROP_RPM_EXP)*(exposed?ROP_BREAK:1));
     const dd=S.rop*dt/3600,oa=Va,os=Vs;S.depth+=dd;geom(S.depth);
@@ -542,7 +555,7 @@ function step(dt,quiet){
     if(!t.gas)t.v-=out;else ann.push({gas:false,rho:c.mw,v:-out});
     mudOut=out;
   }
-  norm(ann);
+  norm(ann);compact(ann);
   const toPit=mudOut;
   S.gain+=toPit-dVpump;
   const smooth=Math.min(1,dt/3);
@@ -571,7 +584,9 @@ function step(dt,quiet){
   if(lost>0&&!flags.frac){flags.frac=1;log('La presión en la zapata superó la de fractura: pérdidas a la formación.','crit')}
   if(sealed&&gasOut>0&&!flags.gasSurf){flags.gasSurf=1;log('Gas en superficie: el choke necesita ajustes rápidos.','warn')}
   if(flags.hadGas&&S.gasVol<0.01&&!flags.gasOutDone){flags.gasOutDone=1;log('El influjo salió del pozo.','ok')}
-  if(!sealed&&flags.hadGas&&(gasOut>0||S.gain>BLOWOUT_GAIN)&&!S.over){
+  // Un poco de gas en la línea de flujo es lodo cortado con gas, no un reventón: se avisa. Reventón es cuando el pozo abierto se descarga.
+  if(!sealed&&gasOut>0){S.ventOpen+=gasOut;if(!flags.gasOpen){flags.gasOpen=1;log('Gas en la línea de flujo con el pozo abierto: lodo cortado con gas. Pare y cierre el pozo.','crit')}}
+  if(!sealed&&flags.hadGas&&(S.ventOpen>BLOWOUT_VENT||S.gain>BLOWOUT_GAIN)&&!S.over){
     S.over=true;S.speed=0;log('Reventón: el gas llegó a superficie con el pozo abierto.','crit');
     banner('Reventón. El gas llegó a superficie con el pozo abierto. Cargue de nuevo el ejercicio y cierre el pozo antes.',false);
   }
@@ -642,7 +657,7 @@ const save=()=>({S:structuredClone(S),c:{...c}});
 // Instantes guardados con una versión anterior pueden no traer los campos nuevos.
 function migrate(){
   for(const g of S.ann)if(g.gas&&g.zt==null){const T=tempR(g.bot??S.depth),P=Math.max(ATM,g.n/Math.max(g.v,1e-9));g.zt=zFactor(P,T)*T;g.n/=g.zt}   // antes n era P·V
-  S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[];S.sc??={tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:!!S.scr};
+  S.chRSet??=S.chR;S.chMSet??=S.chM;S.dly??=[];S.lost??=0;S.ventOpen??=0;S.gDp??=S.spp;S.gCp??=0;S.gCpOn??=false;S.ev??=[];S.sc??={tZone:null,tShut:null,stab:false,inf2:0,relief:0,badRam:0,shear:0,scrBefore:!!S.scr};
   S.scrs??=S.scr?[S.scr]:[];S.scrSel??=S.scrs.length-1;S.plan??=null}
 function restore(sn){c={...sn.c};S=structuredClone(sn.S);migrate();STK=0.000243*c.liner*c.liner*c.stroke*c.eff/100;geom(S.depth)}
 return {BASE,PRESETS,validate,load,step,act,recordScr,sheet,setPlan,target,score,save,restore,K:{PSI_PER_PPG_FT,JOINT_CLEAR,GAIN_ALARM,TD_PAST_ZONE},bitDepth,jointNear,clamp,fmt,tstr,zFactor,gasPpg,tempR,
